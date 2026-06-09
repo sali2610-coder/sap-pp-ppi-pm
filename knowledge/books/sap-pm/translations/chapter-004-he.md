@@ -1,0 +1,115 @@
+# פרק 4: Configuring the Structure of Technical Systems
+
+<div dir="rtl">
+
+## 4.1 Structuring Elements
+
+רכיבי מבנה (Structuring Elements). S/4HANA Asset Management מספק מגוון רכיבים: מיקומים פונקציונליים, מיקומי ייחוס, ציוד, קישורי אובייקט, נכסים לינאריים, מספרים סידוריים, מכלולי אחזקה, חומרים וסוגי BOM שונים.
+• מיקומים פונקציונליים (Functional Locations) — מבנה נכסים מורכב, רב-שלבי, נייח; מבנה אנכי. דוגמאות: מתקני תהליך בכימיה/פארמה, תחנות כוח, קווי ייצור, מבנים, צנרת, תשתיות, רשתות מחשב.
+• מיקומי ייחוס (Reference) — תבניות בלבד ליצירת מבני מיקום אמיתיים; אינם נושא לתהליכים עסקיים.
+• ציוד (Equipment) — מכלול נייד בודד (Inventory): מכונות, משאבות, מנועים, PRT, אובייקטי צי (רכבים/מלגזות), ציוד IT. ציוד שזז מעט (משאבה) מותקן במיקום; אובייקטי צי לא — בשל תנועתם.
+• קישורי אובייקט (Object Links) — בין אובייקטים טכניים, יוצרים רשת אובייקטים (מבנה אופקי); לתצוגה/מידע בלבד, לא לתהליכים.
+• נכסים לינאריים (Linear Assets) — תשתית לינארית שתכונותיה משתנות לאורך (Dynamic Segmentation): צנרת, כבישים, מסילות, כבלים עיליים.
+• חומר (Material) — קטגוריית אובייקטים (לא פריט בודד); לחלקי חילוף ולציוד/מכלולים הניתנים לאחסון.
+• מכלול אחזקה (Maintenance Assembly) — מבנה עומק למיקום/ציוד (מלגזה: מערכת הרמה, שלדה, בלמים, הינע); ניתן לשייך להודעה/פקודה/תוכנית למיקום נזק.
+• מספר סידורי (Serial Number) — נוצר למספר חומר, מקביל לציוד, מאפשר אחסון. סוגי BOM: BOM ציוד (משויך ישירות לציוד), BOM מיקום (למיקום), BOM חומר (זמין למספר אובייקטים בשיוך עקיף).
+
+## 4.2 Functional Locations and Reference Functional Locations
+
+מיקומים פונקציונליים ומיקומי ייחוס. יצירת מיקום כדאית כאשר: מנהלים נתונים פרטניים (טכניים/ארגוניים), יוצרים הודעות/פקודות/תוכניות, מנהלים מאגר נכסים, חובת תיעוד, איסוף נתונים טכניים (קודי נזק, קריאות), אימות עלויות, או נדרשות פרספקטיבות שונות.
+• מחוון מבנה (Structure Indicator): מספר המיקום מוקצה חיצונית לפי המחוון. נתיב: Master Data ► Technical Objects ► Functional Locations ► Create Structure Indicator. טרנזקציה: OIPK. מגדיר: אורך מספר המיקום, מספר רמות, מספר תווים לכל רמה, וכלל (A אלפבתי, N מספרי, X אלפא-נומרי, S מיוחד+אלפא-נומרי), ותווית מזהה לכל רמה (Ident. Label).
+• פרופילי תצוגה לאובייקטים טכניים (View Profiles): פריסת מסכי האובייקט — מספר לשוניות, אילו קבוצות מסך בכל לשונית, שמות ואייקונים. נתיב: Technical Objects ► General Data ► Set View Profiles for Technical Objects. לשוניות (0010 General, 0020 Location, 0030 Organization, 0050 Structure, 0300 Linear data, 0400 Asset Central, 0500 Spatial editor ועוד); אזורי מסך (005 כללי, 010 ייחוס, 015 ייצור, 020 מיקום, 030 הקצאת חשבון, 035 אחריות, 040 מבנה, 045 ציוד, 098 סיווג, 100 שותף, 110 אחריות, 120 מסמכים ועוד). אפשר לבחור מ-1,000+ אייקונים.
+• הגדרת קטגוריית מיקום (Define Category of Functional Location): מאפיינים לכל קטגוריה — ChangeDocuments, CustObject, Linear Asset, Inspection Level, Status Profile, PartnDet.Proc., MeasPtCategory, View profile, Change Docs During Creation, Object info. (ל-LAM הפעל LOG_EAM_LINEAR_1/2). ניתן לבסס בחירת שדות על הקטגוריה.
+• תצוגה מבנית (Structural Display): פריסת IH01 (Functional Location Structure). טרנזקציה: OIWP. מספור קובע סדר השדות; שדה Invisible לא נבחר ע"י המשתמש.
+• תיוג חלופי (Alternative Labeling): הפעל אם רוצים מספרים מרובים למיקום, מבנים ראשי/משני, או שינוי מספר מיקום. טרנזקציות: OIPU (הפעלה), OIPV (הגדרת מערכות תיוג). מפעיל את טבלאות IFLOS (תוויות, מכילה את המספר הפנימי TPLNR והפניה ל-STRNO הניתן לשינוי) ו-IFLOT (טבלת השורש — מידע בפועל: מפעל תכנון, קבוצת מתכננים, תיאור). בהפעלה רטרואקטיבית הרץ את הדוח RI_IFLOT2IFLOS (יוצר רשומת IFLOS לכל IFLOT). יש לבחור מערכת תיוג ראשית.
+
+## 4.3 Equipment
+
+ציוד (Equipment) — מכלול נייד בודד: מכונות, משאבות ומנועים, PRT, ציוד בדיקה (משקלים/מדים), אובייקטי צי, ציוד IT, רובוטים. יוצרים ציוד כאשר: מתקינים במיקומים ורוצים היסטוריית שימוש, מאחסנים, מנהלים נתונים פרטניים, פותחים הודעות/פקודות/תוכניות, חובת תיעוד, איסוף נתונים, אימות עלויות, שיפוץ, קבלנות משנה, מאגר השאלה, או כיול/בדיקות.
+
+קטגוריית הציוד (Equipment Category) היא לב ה-Customizing. קובעת: הקצאת מספרים, מסמכי שינוי, מידע אובייקט, פריסה (View Profile) ובחירת שדות, אובייקט לינארי, פרופיל סטטוס, האם PRT, נוהל שותפים, ציוד לקוח, יכולת קונפיגורציה, פלחי זמן (Time Segments), והאם מותר התקנה במיקומים.
+• תחזוקת קטגוריית ציוד: נתיב — Technical Objects ► Equipment ► Equipment Categories ► Maintain Equipment Category. עמודות: R (קטגוריית ייחוס — M מכונות [ברירת מחדל], S ציוד לקוח, P PRT; קובעת שדות רלוונטיים-היסטוריה), A (איסור אלפא-נומרי בהקצאה חיצונית), C (מסמכי שינוי), Object info, View profile, CTyp/MatNo (סנכרון מספר חומר↔סוג בנייה), CC (מסמך שינוי ביצירה), Lin (נתונים לינאריים), Insp Level.
+• Define Additional Business Views: לשוניות נוספות לקטגוריה — Production Res/Tools (PRT, לכיול), S (נתוני מכירה), C (קונפיגורציה), SD (נתונים סידוריים — מספר חומר/סידורי/סוג מלאי/אתר אחסון/אצווה, היסטוריית סידורי), Other data, CC (Configuration Control).
+• עדכון היסטוריית שימוש (Usage History): שומר שדות לפני/אחרי + נתונים תלויי-זמן לכל רשומת הציוד. נתיב: ...Equipment ► Equipment Usage Period ► Usage History Update (סמן Time seg.). Define History-Related Fields — טרנזקציה OIEZ; היסטוריה תמיד מתעדכנת בשינוי שדות באזורי Location ו-Structuring (מיקום, מפעל אחזקה, מיקום פונקציונלי, ציוד-על).
+• Define Installation at Functional Location — היתר התקנה פר-קטגוריה.
+• Allow Multilingual Text Maintenance — תחזוקת טקסט רב-לשוני פר-קטגוריה (לארגונים בינלאומיים).
+
+## 4.4 Fleet Management
+
+ניהול צי (Fleet Management). הגדרות מיוחדות לניהול ציוד/מיקומים כאובייקטי צי: פרופילי תצוגה ייעודיים, סוגי דלק/חומרים מתכלים, סוגי מנוע, סוגי שימוש, תמחיר והקצאת צריכת דלק, תחנות דלק.
+• Assign View Profile and Equipment Categories to Fleet Object Types: הבחנה בין סוגי צי (רכב/משאית/מנוף/מלגזה); פרופיל תצוגה וקטגוריות ציוד מותרות לכל סוג. לשוניות פרופיל הצי מוצגות בנוסף ללשוניות פרופיל קטגוריית הציוד.
+• Define Consumable Types — עד שלושה סוגי דלק/חומר מתכלה לכל אובייקט צי.
+• Define Usage Types — סוגי שימוש (עסקי/הובלה).
+• Define Engine Types — סוגי מנוע (דיזל/גז/חשמל).
+• Make Settings for Units of Measurement for Monitoring of Consumption — מדידת צריכה לפי זמן (ליטר/שעה) או מרחק (מייל/גלון); דרישת קדם: Check Units of Measurement.
+• Define Special Measurement Positions — מיקומי מדידה מיוחדים לחישובי צי (צריכה), בסיס לניתוחי PMIS דרך טרנזקציה MCIZ (PMIS: Vehicle Consumption Analysis). דוגמה: שני מונים — DISTANCE (Counter Purpose 1 = מד-מרחק) ו-FUEL (Purpose 3 = מד-דלק).
+• Define Calculation Method for Fleet Consumption Values — שיטת חישוב הצריכה ב-PMIS (Unit text כגון l/100 km, Fuel counter=FUEL, Primary counter=DISTANCE). פונקציות נוספות: Define Tolerance Check, Create Gas Station (תחנות פנימיות לפי מפעל+אתר אחסון, רישום הוצאת סחורה אוטומטי), Assign Auxiliary Materials, Define Key and Cost Object for Updating Material Documents.
+
+## 4.5 Links and Networks
+
+קישורים ורשתות (Links & Networks). מיפוי קישורים בין אובייקטים טכניים (ציוד/מיקומים): בין יחידות ייצור, בין מתקני ייצור למערכות אספקה, ובין אספקה לסילוק. הקישורים יוצרים רשת אובייקטים (מבנה אופקי).
+• Define Object Types: סוגי אובייקט לקישורים (מקביל לקטגוריות ציוד/מיקום). נתיב: Technical Objects ► Object Links ► Define Object Types. שדות: StatProf (פרופיל סטטוס), No alphanumeric nos, ChangeDocuments.
+• Define Media for Object Links: מדיה מותרת (מים, גז, גרגירים). טרנזקציה: OINM. שדות: Medium (מנוהל תחת מספר חומר?), PN-Relev. (רלוונטי לייצור), Color, SM-Relev. (זמין ביצירת שיטת קנה-מידה — למשל שמן לצמיגות), RC-Relev. (רלוונטי לסיווג-מחדש).
+
+## 4.6 Linear Asset Management
+
+ניהול נכסים לינאריים (Linear Asset Management). תשתית לינארית עם תכונות משתנות לאורך (Dynamic Segmentation): צנרת, רשתות כבישים/מסילות, כבלים עיליים — רלוונטי לנפט/גז, חברות שירות, תחזוקת כבישים, רשויות, מפעילי רכבת. נדרש להפעיל LOG_EAM_LINEAR_1 ו-LOG_EAM_LINEAR_2.
+• תנאים: במערכת הסיווג הגדר אזור ארגוני (Maintain Object Types and Class Types — Class Types 002 Linear Equipments, 003 Linear Functional Locations); קטגוריית נקודת מדידה עם מחוון Linear Asset; פרופילי תצוגה עם קבוצות שדות לינאריות; קטגוריות מיקום/ציוד עם מחוון Linear Asset.
+• Define Offset Types — סוגי היסט לאובייקטים לינאריים (היסט אופקי/אנכי מהאובייקט הלינארי). שדות: OTC (קוד דו-ספרתי), Offset Type Desc., UoM, Default Offset, Documentation Object.
+• Define LRP Type (Linear Reference Pattern) — נקודות ייחוס תיאוריות לאובייקטים/מסמכים ("הנזק 10 מייל אחרי תחנת מנוחה X"). מזהה עד 4 תווים.
+• Define Organizational Area for Characteristics with Linear Data — שיוך תצוגה ל-Class Types 002/003.
+• רשתות אובייקטים (Object Networks): עם LOG_EAM_LINEAR_2 — מיפוי נכסים לינאריים כרשתות, נתונים ברמת רשת/אובייקט, תצוגה גרפית. טרנזקציות: IN21 (יצירת רשת), IN24/IN25 (דוחות רב-שלביים). Define Network Types (4 תווים, מסמכי שינוי), Define Network Group (10 תווים, קריטריון בחירה ברשימות — מומלץ כתחליף לשיוך מפעל), Define Network Attribute Categories (תת-פונקציות: Categories עם Lin. Cat., Properties בפורמט תו/מספר ואורך, Allowed Property Values), Assign Network Attribute Categories to Network Types (N:M). בחירת שדות לרשימות: OIUXA/OIUXB/OIUXC ועוד (לטרנזקציות IE07, IL07, IW30, IW40, IH01, IH03, IN24, IN25).
+
+## 4.7 Materials and Assemblies
+
+חומרים ומכלולים (Materials & Assemblies). אב החומר (Material Master) מכיל מידע על חומרים שהחברה מתכננת, רוכשת, מייצרת, מאחסנת ומוכרת, ומשלב נתונים ממחלקות (רכש, חשבונאות). בשונה מציוד/מיקום, רשומת אב חומר מייצגת פריטים דומים רבים (חלקי חילוף, מכלולים, חומרי גלם). מנקודת מבט אחזקה משמש ל: חלקי חילוף מאוחסנים; ציוד המאוחסן כחומר/מספר סידורי; סוגי בנייה (קבוצת ציוד/מיקומים דומים — BOM משותף ורשימות משימות כלליות); מכלולי אחזקה (תת-מבנים); חלקי חילוף שאינם מאוחסנים (Non-stock — יקרים/גדולים/נדירים); משאבי תפעול (כלים/ביגוד מגן).
+
+## 4.7.1 Material Types
+
+סוגי חומר (Material Types). קיבוץ חומרים בעלי מאפיינים בסיסיים זהים לסוג משותף. רלוונטיים לאחזקה: מכלולי אחזקה (אלמנטים לוגיים המחלקים אובייקטים ליחידות); חומרים שאינם במלאי (Non-stock — רכש מיידי, רשומה עם נתוני רכש בלבד); משאבי תפעול (כלים, ציוד בדיקה, ביגוד מגן — נשחקים); חומרים מתכלים (Expendable — שמן, גריז, חשמל); חלקי חילוף (Spare parts — ניתנים לרכש ואחסון); חומרי עזר (Auxiliary — ברגים, דבק).
+
+סוג החומר הוא רכיב הבקרה המרכזי לאב החומר, ומגדיר: תצוגות (רכש, אחסון, MRP, חשבונאות), הקצאת מספר פנימי/חיצוני וטווח, מסכים וסדרם (ראשי/משני), בחירת שדות, עדכון כמות/ערך, בקרת מחיר (תקן/ממוצע נע), סוג רכש (פנימי/חיצוני), הקצאת חשבון לצריכה ומלאי, בדיקת הרשאה, וסטטוסים.
+• Define Attributes of Material Types: נתיב — Logistics – General ► Material Master ► Basic Settings ► Material Types ► Define Attributes of Material Types. דוגמה לחלקי חילוף (ERSA). שדות: Field reference (קישור לבחירת שדות), SRef: material type (קישור לבקרת מסכים), X-Plant Mat.Status (סטטוס התחלתי — נעילה מסוימת עד שחרור), User departments (מחלקות מתחזקות — באחזקה: רכש, MRP, אחסון, חשבונאות, סיווג, מלאי), Internal/external purchase orders (0 אסור / 1 אזהרה / 2 מותר — חומרי אחזקה לרוב חיצוני), Price control (תקן/ממוצע נע; Price Ctrl.Mandatory), Acct cat. reference (הקצאת חשבון אוטומטית — תאם עם חשבונאות), Quantity/value updating (לרוב לפי אזור הערכה=מפעל).
+
+## 4.7.2 Material Master Layout
+
+פריסת אב החומר (Material Master Layout). הפריסה נשענת על גורמים משפיעים: טרנזקציה, סוג חומר, משתמש, וענף (Industry Sector) — הקובעים את רצף המסכים, ולכל רצף: מספר וסוג מסכים ראשיים, תת-מסכים (קבוצות מסך) לכל ראשי, מסכים משניים, וסדרם.
+• Define Structure of Data Screens for Each Screen Sequence: נתיב — Material Master ► Configuring the Material Master ► Define Structure of Data Screens. טרנזקציה: OMT3B. הדרך הקלה — להעתיק ולצמצם את רצף 01 הסטנדרטי. תת-פונקציה Data screens: Screen description, T (סוג: 1=ראשי, 2=משני), SCon (מסך מכל — 6–20 מודולים, ~50 וריאנטים), Maint. status (E רכש, B חשבונאות), GUI status (DATE לראשי, ADD0001 למשני). תת-פונקציה Subscreens: ~300 אזורי מסך (למשל Basic Data: 1002 מספרי חומר, 2001 כללי, 2007 מידות+EAN; Purchasing: 2301–2303; MRP: 2482–2493; Plant/Storage: 2701/2702; Accounting: 2801/2802). אזור 0001 = מציין מקום ריק.
+• Assign Secondary Screens: טרנזקציה OMT3Z — מסך משני כ'נתונים נוספים' (ללא FCode) או כמסך משני ישיר (FCode כגון PB26 לטקסט נתוני בסיס); 29 קודי פונקציה, 38 שגרות עיבוד.
+• Maintain Order of Main and Additional Screens: טרנזקציה OMT3R — סדר תצוגה לפי מספר סטטוס (מומלץ קפיצות של 10).
+• Assign Screen Sequences to User/Material Type/Transaction/Industry Sector: טרנזקציה OMT3E — שיוך רצף לצירוף; ניתן Wildcard (*). כללי עדיפות (Table 4.1): צירוף Transaction/User גובר על Transaction/Material Type.
+
+## 4.7.3 Field Selection
+
+בחירת שדות לאב החומר (Field Selection). שונה לחלוטין מטכניקת בחירת השדות שתוארה בפרק 3 — תלויה בשלושה גורמים: סוג חומר, ענף, מפעל.
+• Assign Fields to Field Selection Groups: שיוך כל שדה לקבוצת בחירה אחת. טרנזקציה: OMSR. SAP שמרה קבוצות 111–120 ו-211–240 לשימושך; ניתן להישאר עם השיוך הסטנדרטי.
+• Define Industry Sectors and Industry Sector-Specific Field Selection: טרנזקציה OMS3 — שיוך Field Reference לענפים.
+• Define Plant-Specific Field Selection and Plant-Specific Screen Selection: טרנזקציה OMSA — Field Reference למפעלים.
+• Maintain Field Selection for Data Screens: טרנזקציה OMS9 — לכל Field Reference: Display / Required / Normal / Hide. בהשפעות מרובות חלים כללי העדיפות (כמו 3.9): 1 Hide, 2 Display, 3 Required, 4 Normal.
+
+## 4.8 Serial Numbers
+
+מספרים סידוריים (Serial Numbers). נוצרים למספר חומר (כמות כרצונך); מספר סידורי הוא פריט בודד המקביל לציוד ומאפשר אחסון. כל הגדרות סעיף 4.3 חלות, פלוס הגדרות ייחודיות (פרופיל מספר סידורי, מאפייני סידור לסוגי תנועה).
+• הכנה: ב-Configuring the Material Master ► Subscreens שייך את תת-המסך SAPLMGD1 5801 (General Plant Data) למסך ברמת מפעל (רכש או Plant/Storage) — הפרופיל תמיד משויך למפעל; מאפשר הזנת Serial Number Profile ו-Serial Number Level. ב-Define Additional Business Views סמן SD (נתונים סידוריים) לקטגוריית הציוד.
+• Define Serial Number Profiles: נתיב — Technical Objects ► Serial Number Management ► Define Serial Number Profiles. טרנזקציה: OIS2. שדות: ExistReq. (המספר חייב להיות קיים מראש), Category (קטגוריית ציוד ביצירה אוטומטית), StkCk (בדיקת מלאי — אזהרה/שגיאה), Warehouse (סנכרון עם EWM). במסך הפרטים — Serializing Procedures (Table 4.2): ADVR, HUSL, JITC, MMSL (קבלה/הוצאת סחורה — החשוב ביותר לאחזקה), PIAU/PIRL (פק"ע תהליכי), POSL/PRSL (הזמנת/דרישת רכש), PPAU/PPRL/PPSF (ייצור), QMSL (מנת בדיקה), SDAU/SDLS/SDRE (מכירות/משלוח). SerUsage: 01 ללא / 02 ניתן / 03 חובה / 04 אוטומטי. EqReq: 01 ללא ציוד (ניתן ליצור מאוחר) / 02 תמיד עם ציוד (מחייב). ב-EWM ניתן לדרוש מספר ברמת מסמך/מחסן/מלאי.
+• Define Serialization Attributes for Movement Types: רק אם השיוך ברמת ה-Serializing Procedure רחב מדי; נתמך MMSL בלבד. טרנזקציות: S_ALR_87000310_1/2. תת-פונקציה Define Flow Type Groups (קבוצת תנועה PM01, SerUsage=03 חובה) ו-Assign Movement Type Groups to Movement Types (למשל תנועה 101 הוצאת סחורה מהזמנת רכש/ייצור).
+
+## 4.9 Bill of Materials
+
+עץ מוצר (Bill of Materials — BOM). רשימה מובנית של כל הרכיבים השייכים למוצר/מכלול; רכיבים יכולים להיות מכלולים בעלי BOM משלהם (מבנה רב-שלבי). באחזקה משמש ל: תיאור מבנה (איתור מיקום נזק/עבודה) והקצאת חלקי חילוף. שלושה סוגים: BOM ציוד, BOM מיקום פונקציונלי, BOM חומר (לסוג בנייה — קבוצת אובייקטים). רבות מפונקציות ה-Customizing אינן נדרשות לאחזקה.
+• Define BOM Status: טרנזקציה OICH. סטטוס בכותרת — נעול/משוחרר; 1 Active, 2 Inactive; פונקציות אחזקה: RelWkSch. (משוחרר לרשימת משימות), Rel ords (משוחרר לפקודה).
+• Define BOM Usages: טרנזקציה OICD. SAP מספקת שימוש 4 (Plant Maintenance) — בדרך-כלל מספיק; בהגדרת שימוש משלך סמן עמודת PM.
+• Define Valid Material Types for BOM Header: טרנזקציה OICG. רק ל-BOM של סוגי בנייה. רשומה ממוסכת מלאה (*/*) = ללא הגבלה; מסך רק שימוש 4 = כל סוגי החומר ל-BOM אחזקה; או רשימת סוגים מותרים (ERSA, FERT, IBAU).
+• Define Item Categories: טרנזקציה OICK. קטגוריות פריט: L (פריט מלאי — מפעיל Reservation בפקודה), N (לא-מלאי — מפעיל דרישת רכש), I (אלמנט מבנה PM — ללא Reservation/רכש), D (פריט מסמך), T (פריט טקסט — כותרות).
+• Define Material Types Allowed for BOM Items: טרנזקציה OICP. אפשרויות מיסוך כמו בכותרת (usage/header/item).
+• Define Priorities for BOM Usage: טרנזקציה OICJ. ב-Asset Management נדרשת עדיפות יחידה לשימוש 4.
+• Define Selection Criteria for Alternative Determination: טרנזקציה OICQ. הגדרת Application (למשל INST) המקצה Selection ID (למשל 03) — משמש בטרנזקציות IH01 (מבנה מיקום), IH03 (מבנה ציוד), IH04 (BOM ציוד), IH05 (BOM חומר), IH12 (BOM מיקום).
+
+## 4.10 Summary
+
+סיכום — רכיבי מבנה. הרכיבים המרכזיים הם מיקום פונקציונלי וציוד. עיקרי הפרק: פונקציית ה-Customizing החשובה ביותר למיקום היא מחוון המבנה (אורך מספר, כללים, מספר רמות, תיוג); חשובה גם הגדרת קטגוריית המיקום (משפיעה על פריסה ופרופיל סטטוס) והפעלת תיוג חלופי (לשינוי שם מיקום). לציוד — קטגוריית הציוד היא המרכזית (טווחי מספרים, פריסה, פרופיל סטטוס, יכולת התקנה במיקומים). נסקרו גם: אובייקטי צי (מסכי צי, סוגי דלק/מנוע), קישורים ורשתות (סוגים ומדיה), נכסים לינאריים (סוגי תבנית/מאפייני רשת), חומר (סוגי חומר, פריסת אב חומר), מספרים סידוריים (פרופיל ו-Serializing Procedures), ו-BOM (שימושים וסוגי חומר מותרים לכותרת ולפריטים).
+
+</div>
+
+---
+מקור: Configuring Plant Maintenance in SAP S/4HANA עמ' 169-248

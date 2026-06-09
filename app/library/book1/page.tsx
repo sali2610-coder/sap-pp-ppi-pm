@@ -3,67 +3,72 @@
 import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, BookOpen, ChevronDown, FileText, Layers } from "lucide-react";
+import { ArrowRight, BookOpen, ChevronDown, FileText, Image as ImageIcon, Layers } from "lucide-react";
 import book1 from "@/data/library/book1-full.json";
+import figuresData from "@/data/library/book1-figures.json";
 import { useI18n } from "@/lib/i18n";
 import { playPing } from "@/lib/sound";
 import { ChapterDiagram } from "@/components/book1-diagrams";
 
 interface Section { id: string; title: string; en: string; he: string }
 interface Chapter { n: number; title: string; pages: number[]; translated?: boolean; sections: Section[] }
+interface Figure { page: number; file: string; w: number; h: number }
 
 const DATA = book1 as { book: string; pages: number; chapters: Chapter[] };
+const FIGS = figuresData as Record<string, Figure[]>;
 
-function SectionRow({ s }: { s: Section }) {
-  const [open, setOpen] = useState(false);
+// One figure rendered across the spread (book-style), bilingual caption.
+function FigurePlate({ fig }: { fig: Figure }) {
   return (
-    <li className="rounded-xl border border-border/60 bg-card/50">
-      <button
-        onClick={() => {
-          playPing();
-          setOpen((v) => !v);
-        }}
-        className="flex w-full items-center gap-3 p-3 text-start transition-colors hover:bg-muted/50"
-      >
-        <span className="tech shrink-0 rounded-md bg-brand/10 px-2 py-0.5 text-xs font-bold text-brand">{s.id}</span>
-        <span className="min-w-0 flex-1 text-sm font-medium">{s.title}</span>
-        <ChevronDown className={`size-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="overflow-hidden"
-          >
-            <div className="grid gap-3 p-3 pt-0 sm:grid-cols-2">
-              <div dir="ltr" className="flex max-h-[28rem] flex-col rounded-lg border border-border/50 bg-background/60 p-3">
-                <p className="mb-1 shrink-0 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Original (SAP manual)</p>
-                <p className="overflow-y-auto whitespace-pre-line text-xs leading-relaxed text-muted-foreground">{s.en}</p>
-              </div>
-              <div dir="rtl" className="flex max-h-[28rem] flex-col rounded-lg border border-brand/20 bg-brand-soft/50 p-3">
-                <p className="mb-1 shrink-0 text-[10px] font-bold uppercase tracking-wide text-brand">תרגום מקצועי לעברית</p>
-                {s.he ? (
-                  <p className="overflow-y-auto whitespace-pre-line text-xs leading-relaxed">{s.he}</p>
-                ) : (
-                  <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                    <span className="size-1.5 rounded-full bg-status-in-analysis" />
-                    תרגום בהכנה — האנגלית חולצה במלואה. בקש &quot;תרגם פרק {s.id.split(".")[0]}&quot; להוספה.
-                  </p>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </li>
+    <figure className="mx-auto my-3 max-w-xl rounded-lg border border-border/60 bg-white p-2 shadow-sm">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={fig.file} alt={`SAP figure p.${fig.page}`} loading="lazy" className="mx-auto h-auto w-full rounded" />
+      <figcaption className="mt-1 flex items-center justify-between px-1 text-[10px] text-muted-foreground">
+        <span dir="ltr">Source p.{fig.page}</span>
+        <span dir="rtl">איור · עמ' {fig.page}</span>
+      </figcaption>
+    </figure>
+  );
+}
+
+// A paired section row — English page (ltr) | Hebrew page (rtl), aligned.
+function SectionSpread({ s }: { s: Section }) {
+  return (
+    <div className="border-t border-border/40 py-4 first:border-t-0">
+      <div className="mb-2 flex items-center gap-2 px-1">
+        <span className="tech rounded-md bg-brand/10 px-2 py-0.5 text-xs font-bold text-brand">{s.id}</span>
+        <span className="text-sm font-semibold">{s.title}</span>
+      </div>
+      <div className="grid gap-0 sm:grid-cols-[1fr_1px_1fr]">
+        {/* English page */}
+        <div dir="ltr" className="px-4 text-start">
+          <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">English (original)</p>
+          <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-slate-700">{s.en}</p>
+        </div>
+        {/* spine */}
+        <div className="book-spine hidden sm:block" aria-hidden />
+        {/* Hebrew page */}
+        <div dir="rtl" className="px-4 text-start">
+          <p className="text-[11px] font-bold uppercase tracking-wide text-brand">עברית · תרגום מקצועי</p>
+          {s.he ? (
+            <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-slate-800">{s.he}</p>
+          ) : (
+            <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
+              <span className="size-1.5 rounded-full bg-status-in-analysis" />
+              תרגום בהכנה — בקש &quot;תרגם פרק {s.id.split(".")[0]}&quot;.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 
 function ChapterBlock({ ch }: { ch: Chapter }) {
+  const { lang } = useI18n();
   const [open, setOpen] = useState(ch.n === 1);
+  const figs = FIGS[String(ch.n)] ?? [];
+
   return (
     <section className="glass overflow-hidden rounded-2xl">
       <button
@@ -80,35 +85,54 @@ function ChapterBlock({ ch }: { ch: Chapter }) {
           <span className="block font-bold">
             {ch.n}. {ch.title}
           </span>
-          <span className="text-xs text-muted-foreground">
-            pp. {ch.pages[0]}–{ch.pages[1]} · {ch.sections.length} sections
+          <span className="flex flex-wrap items-center gap-x-3 text-xs text-muted-foreground">
+            <span>pp. {ch.pages[0]}–{ch.pages[1]}</span>
+            <span>{ch.sections.length} sections</span>
+            <span className="flex items-center gap-1">
+              <ImageIcon className="size-3" />
+              {figs.length} figures
+            </span>
           </span>
         </span>
-        <span
-          className={`shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-bold ${
-            ch.translated ? "bg-status-done/15 text-status-done" : "bg-status-in-analysis/15 text-status-in-analysis"
-          }`}
-        >
+        <span className={`shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-bold ${ch.translated ? "bg-status-done/15 text-status-done" : "bg-status-in-analysis/15 text-status-in-analysis"}`}>
           {ch.translated ? "EN · עברית" : "EN ✓ · עברית בהכנה"}
         </span>
         <ChevronDown className={`size-5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
+
       <AnimatePresence initial={false}>
         {open && (
-          <motion.ul
+          <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="overflow-hidden px-4 pb-4"
+            className="overflow-hidden px-3 pb-4"
           >
             <ChapterDiagram n={ch.n} />
-            <div className="space-y-2">
+
+            {/* the book spread */}
+            <div className="paper relative rounded-xl p-4 sm:p-6">
+              {/* figure plates band */}
+              {figs.length > 0 && (
+                <details className="mb-3 rounded-lg border border-border/50 bg-white/60 p-2">
+                  <summary className="flex cursor-pointer items-center gap-2 text-xs font-semibold text-brand">
+                    <ImageIcon className="size-3.5" />
+                    {lang === "he" ? `איורים מקוריים מהספר (${figs.length})` : `Original figures from the book (${figs.length})`}
+                  </summary>
+                  <div className="mt-2 grid gap-3 sm:grid-cols-2">
+                    {figs.map((f, i) => (
+                      <FigurePlate key={i} fig={f} />
+                    ))}
+                  </div>
+                </details>
+              )}
+
               {ch.sections.map((s) => (
-                <SectionRow key={s.id} s={s} />
+                <SectionSpread key={s.id} s={s} />
               ))}
             </div>
-          </motion.ul>
+          </motion.div>
         )}
       </AnimatePresence>
     </section>
@@ -119,6 +143,7 @@ export default function Book1Page() {
   const { lang } = useI18n();
   const translatedChapters = DATA.chapters.filter((c) => c.translated).length;
   const totalSections = DATA.chapters.reduce((s, c) => s + c.sections.length, 0);
+  const totalFigures = Object.values(FIGS).reduce((s, a) => s + a.length, 0);
   return (
     <div className="space-y-6">
       <Link href="/library/" className="inline-flex items-center gap-1.5 text-sm text-brand hover:underline">
@@ -134,19 +159,19 @@ export default function Book1Page() {
         <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{DATA.book}</h1>
         <p className="mx-auto max-w-2xl text-sm text-muted-foreground">
           {lang === "he"
-            ? "עומק מלא ברמת סעיף: טקסט הקונפיגורציה האנגלי המקורי מתוך המדריך לצד תרגום עברי מקצועי. נבנה פרק-אחר-פרק."
-            : "Full section-level depth: original English configuration text from the manual beside a professional Hebrew translation. Built chapter-by-chapter."}
+            ? "מצג ספר דו-עמודי: עמוד שמאל — אנגלית מקורית עם איורי המדריך; עמוד ימין — תרגום עברי מקצועי, מיושר במקביל."
+            : "Dual-page book spread: left page — original English with the manual's figures; right page — professional Hebrew, aligned in parallel."}
         </p>
         <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
+          <span className="rounded-lg border border-border bg-card px-2.5 py-1">{translatedChapters}/9 {lang === "he" ? "פרקים מתורגמים" : "chapters translated"}</span>
+          <span className="rounded-lg border border-border bg-card px-2.5 py-1">{totalSections} {lang === "he" ? "סעיפים" : "sections"}</span>
           <span className="rounded-lg border border-border bg-card px-2.5 py-1">
-            {translatedChapters}/9 {lang === "he" ? "פרקים מתורגמים" : "chapters translated"}
-          </span>
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">
-            {totalSections} {lang === "he" ? "סעיפים (אנגלית מלאה)" : "sections (full English)"}
+            <ImageIcon className="me-1 inline size-3" />
+            {totalFigures} {lang === "he" ? "איורים שחולצו" : "figures extracted"}
           </span>
           <span className="rounded-lg border border-border bg-card px-2.5 py-1">
             <FileText className="me-1 inline size-3" />
-            {lang === "he" ? "1M תווים חולצו · כל 729 העמודים" : "1M chars extracted · all 729 pages"}
+            {lang === "he" ? "כל 729 העמודים" : "all 729 pages"}
           </span>
         </div>
       </section>
@@ -159,8 +184,8 @@ export default function Book1Page() {
 
       <p className="text-center text-xs text-muted-foreground">
         {lang === "he"
-          ? "כל 729 העמודים חולצו (מאוחסן מודולרית ב-data/library/book1/). פרקים 2–9 ממתינים לתרגום — נוספים לפי בקשה."
-          : "All 729 pages extracted (stored modularly in data/library/book1/). Chapters 2–9 await translation — appended on request."}
+          ? "טקסט ואיורים חולצו מקובץ ה-PDF המקורי (poppler/pdfimages). תרגום עברי מקצועי נכתב עבור CBC."
+          : "Text & figures extracted from the original PDF (poppler/pdfimages). Hebrew professionally translated for CBC."}
       </p>
     </div>
   );

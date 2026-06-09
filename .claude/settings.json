@@ -44,7 +44,9 @@
       "Bash(node -e 'const s=require\\(\"./data/library/book1/ch5.sections.json\"\\);for\\(const x of s.sections\\){console.log\\(\"\\\\n@@@\"+x.id+\" | \"+x.title+\"@@@\"\\);console.log\\(x.text.replace\\(/\\\\s+/g,\" \"\\).trim\\(\\)\\);}')",
       "Bash(node -e 'const fs=require\\(\"fs\"\\);const p=\".claude/settings.json\";const s=JSON.parse\\(fs.readFileSync\\(p,\"utf8\"\\)\\);s.hooks={Stop:[{hooks:[{type:\"command\",command:\"bash /Users/salihalif/Desktop/My-Projects/sap/.claude/hooks/auto-push.sh\",timeout:60,statusMessage:\"Auto-pushing...\"}]}]};fs.writeFileSync\\(p,JSON.stringify\\(s,null,2\\)\\);')",
       "Bash(sed -n '17,60p' /tmp/ch5.txt)",
-      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book1/he/ch5.json\",\"utf8\"\\)\\);console.log\\(\"ch5 json valid, keys:\",Object.keys\\(require\\(\"./data/library/book1/he/ch5.json\"\\)\\).length\\)')"
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book1/he/ch5.json\",\"utf8\"\\)\\);console.log\\(\"ch5 json valid, keys:\",Object.keys\\(require\\(\"./data/library/book1/he/ch5.json\"\\)\\).length\\)')",
+      "Bash(node scripts/extract-book1-figures.mjs)",
+      "Bash(node scripts/build-knowledge.mjs)"
     ]
   }
 }

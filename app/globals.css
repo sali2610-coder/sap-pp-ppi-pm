@@ -160,6 +160,24 @@ pre {
   background-clip: padding-box;
 }
 
+/* ===== Dual-page "book spread" ===== */
+@utility paper {
+  background-color: #fcfbf7;
+  background-image:
+    linear-gradient(90deg, rgba(0,0,0,0.015) 1px, transparent 1px),
+    radial-gradient(circle at 50% 0%, rgba(0,0,0,0.03), transparent 70%);
+  background-size: 100% 100%, 100% 100%;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.8),
+    0 18px 40px -18px rgba(15,23,42,0.35),
+    0 2px 8px -2px rgba(15,23,42,0.12);
+}
+/* central spine between the two pages */
+@utility book-spine {
+  background: linear-gradient(90deg,
+    transparent, rgba(15,23,42,0.06) 35%, rgba(15,23,42,0.14) 50%, rgba(15,23,42,0.06) 65%, transparent);
+}
+
 /* Entry animations */
 @keyframes float-in {
   from { opacity: 0; transform: translateY(8px); }
