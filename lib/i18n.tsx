@@ -72,6 +72,30 @@ const DICT: Dict = {
   "lang.switch": { he: "EN", en: "עב" },
 };
 
+// Topic / sheet titles arrive as Hebrew strings from the xlsx data layer.
+// Map them to English so EN mode shows no Hebrew. Keyed by exact source title.
+const TOPIC_EN: Record<string, string> = {
+  "1. מבנה ארגוני ותשתית": "1. Organizational Structure & Infrastructure",
+  "2. ציוד ונתוני מאסטר": "2. Equipment & Master Data",
+  "3. עצי מוצר של אחזקה (BOM)": "3. Maintenance BOMs",
+  "4. נקודות מדידה ומונים": "4. Measurement Points & Counters",
+  "5. קטלוגים, קודים ופרופילים": "5. Catalogs, Codes & Profiles",
+  "6. הודעות אחזקה (Notifications)": "6. Maintenance Notifications",
+  '7. פקודות עבודה (פק"ע)': "7. Work Orders",
+  "8. ניהול סטטוסים (Status Mgmt)": "8. Status Management",
+  "9. אינטגרציית מלאי ורכש (PM-MM)": "9. Inventory & Procurement Integration (PM-MM)",
+  "10. עלויות והתחשבנות (PM-CO)": "10. Costs & Settlement (PM-CO)",
+  "11. אחזקה מונעת ותוכניות": "11. Preventive Maintenance & Plans",
+  "12. היסטוריה וארכיון": "12. History & Archiving",
+  "1. נתוני אב חומר ויחידות מידה (Material & UoM)": "1. Material Master & Units of Measure",
+  "2. עץ מוצר (BOM)": "2. Bill of Materials (BOM)",
+  "3. מתכון ייצור ופעולות (Master Recipe)": "3. Master Recipe & Operations",
+  "4. גרסאות ייצור (Production Versions - חובה ב-S/4)": "4. Production Versions (mandatory in S/4)",
+  "5. משאבים / מרכזי עבודה (Resources)": "5. Resources / Work Centers",
+  '6. פק"ע ייצור ומתכון בקרה (Process Order)': "6. Process Orders & Control Recipe",
+  "7. קונפיגורציה (Customizing)": "7. Configuration (Customizing)",
+};
+
 interface I18n {
   lang: Lang;
   dir: "rtl" | "ltr";
@@ -79,6 +103,7 @@ interface I18n {
   toggle: () => void;
   t: (key: keyof typeof DICT | string) => string;
   pick: (he: string | undefined, en: string | undefined) => string;
+  topic: (title: string) => string;
 }
 
 const Ctx = createContext<I18n | null>(null);
@@ -113,9 +138,10 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     (he: string | undefined, en: string | undefined) => (lang === "en" ? en || he || "" : he || en || ""),
     [lang],
   );
+  const topic = useCallback((title: string) => (lang === "en" ? TOPIC_EN[title] ?? title : title), [lang]);
 
   return (
-    <Ctx.Provider value={{ lang, dir: lang === "he" ? "rtl" : "ltr", setLang, toggle, t, pick }}>
+    <Ctx.Provider value={{ lang, dir: lang === "he" ? "rtl" : "ltr", setLang, toggle, t, pick, topic }}>
       {children}
     </Ctx.Provider>
   );

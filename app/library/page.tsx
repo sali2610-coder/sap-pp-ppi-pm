@@ -3,9 +3,61 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { BookOpen, ChevronDown, FileText, Library as LibraryIcon } from "lucide-react";
-import { LIBRARY, LIBRARY_STATS, type LibBook } from "@/data/library";
+import { LIBRARY, LIBRARY_STATS, type LibBook, type LibChapter } from "@/data/library";
 import { useI18n } from "@/lib/i18n";
 import { playPing } from "@/lib/sound";
+
+// A single chapter — click to expand the dual-language inner technical text.
+function ChapterRow({ c }: { c: LibChapter }) {
+  const [open, setOpen] = useState(false);
+  const hasBody = Boolean(c.bodyEn || c.bodyHe);
+  return (
+    <li>
+      <button
+        onClick={() => {
+          if (!hasBody) return;
+          playPing();
+          setOpen((v) => !v);
+        }}
+        className={`grid w-full gap-1 px-5 py-3 text-start transition-colors sm:grid-cols-2 sm:gap-4 ${hasBody ? "hover:bg-muted/50" : ""}`}
+      >
+        <div dir="ltr" className="flex items-start gap-2 text-start">
+          <span className="tech mt-0.5 shrink-0 rounded bg-muted px-1.5 text-[11px] font-bold text-muted-foreground">{c.n}</span>
+          <span className="text-sm font-medium">{c.en}</span>
+          {c.page ? <span className="ms-auto shrink-0 text-[11px] text-muted-foreground">p.{c.page}</span> : null}
+        </div>
+        <div dir="rtl" className="flex items-start gap-2 text-start">
+          <FileText className="mt-0.5 size-3.5 shrink-0 text-brand" />
+          <span className="text-sm font-medium">{c.he}</span>
+          {hasBody && <ChevronDown className={`ms-auto size-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />}
+        </div>
+      </button>
+
+      <AnimatePresence initial={false}>
+        {open && hasBody && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden"
+          >
+            <div className="grid gap-3 px-5 pb-4 sm:grid-cols-2 sm:gap-4">
+              <div dir="ltr" className="rounded-xl border border-border/50 bg-background/50 p-3 text-start">
+                <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Original (SAP manual)</p>
+                <p className="text-xs leading-relaxed text-muted-foreground">{c.bodyEn || "—"}</p>
+              </div>
+              <div dir="rtl" className="rounded-xl border border-brand/20 bg-brand-soft/50 p-3 text-start">
+                <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-brand">תרגום מקצועי לעברית</p>
+                <p className="text-xs leading-relaxed">{c.bodyHe || "—"}</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </li>
+  );
+}
 
 const MODULE_TINT: Record<string, string> = {
   PM: "from-rose-500/15",
@@ -74,17 +126,7 @@ function BookCard({ book }: { book: LibBook }) {
           >
             <ul className="divide-y divide-border/50">
               {book.chapters.map((c) => (
-                <li key={c.n} className="grid gap-1 px-5 py-3 sm:grid-cols-2 sm:gap-4">
-                  <div dir="ltr" className="flex items-start gap-2 text-start">
-                    <span className="tech mt-0.5 shrink-0 rounded bg-muted px-1.5 text-[11px] font-bold text-muted-foreground">{c.n}</span>
-                    <span className="text-sm">{c.en}</span>
-                    {c.page ? <span className="ms-auto shrink-0 text-[11px] text-muted-foreground">p.{c.page}</span> : null}
-                  </div>
-                  <div dir="rtl" className="flex items-start gap-2 text-start">
-                    <FileText className="mt-0.5 size-3.5 shrink-0 text-brand" />
-                    <span className="text-sm">{c.he}</span>
-                  </div>
-                </li>
+                <ChapterRow key={c.n} c={c} />
               ))}
             </ul>
           </motion.div>

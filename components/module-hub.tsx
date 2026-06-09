@@ -35,8 +35,15 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
     { key: "guides", label: t("tab.guides"), icon: Wrench },
   ];
 
+  const subtitleKey = module.module === "PM" ? "hub.pm.subtitle" : "hub.ppi.subtitle";
+
   return (
     <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold">{module.title}</h1>
+        <p className="text-sm text-muted-foreground">{t(subtitleKey)}</p>
+      </div>
+
       {/* sticky toolbar */}
       <div className="glass sticky top-[4.5rem] z-30 -mx-2 rounded-2xl px-4 py-3 sm:mx-0">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

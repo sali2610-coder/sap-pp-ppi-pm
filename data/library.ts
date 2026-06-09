@@ -12,6 +12,8 @@ export interface LibChapter {
   en: string;
   he: string;
   page?: number;
+  bodyEn?: string; // verbatim excerpt extracted from the PDF chapter
+  bodyHe?: string; // professional Hebrew translation of the excerpt
 }
 
 export interface LibBook {
@@ -246,6 +248,20 @@ export const LIBRARY: LibBook[] = [
     ],
   },
 ];
+
+// Attach the real extracted English body + authored Hebrew translation to
+// every chapter (deep ingestion — see scripts/extract-book-content.mjs).
+import CONTENT_EN from "./library-content.json";
+import { CONTENT_HE } from "./library-content-he";
+
+for (const book of LIBRARY) {
+  const en = (CONTENT_EN as Record<string, Record<string, string>>)[book.id] ?? {};
+  const he = CONTENT_HE[book.id] ?? {};
+  for (const ch of book.chapters) {
+    ch.bodyEn = en[String(ch.n)] ?? "";
+    ch.bodyHe = he[ch.n] ?? "";
+  }
+}
 
 export const LIBRARY_STATS = {
   books: LIBRARY.length,

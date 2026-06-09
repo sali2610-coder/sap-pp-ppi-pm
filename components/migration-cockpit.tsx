@@ -15,7 +15,7 @@ import { Highlight } from "@/components/highlight";
 import { useI18n } from "@/lib/i18n";
 
 export function MigrationCockpit({ module, query }: { module: SAPModuleData; query: string }) {
-  const { pick, lang } = useI18n();
+  const { pick, lang, topic } = useI18n();
   const q = query.trim().toLowerCase();
   const rows = useMemo(() => {
     const all = module.topics.flatMap((t) => t.tables);
@@ -51,7 +51,7 @@ export function MigrationCockpit({ module, query }: { module: SAPModuleData; que
                 <TableCell>
                   <Highlight text={pick(tb.descriptionHe, tb.descriptionEn)} query={query} />
                 </TableCell>
-                <TableCell className="text-xs text-muted-foreground">{tb.topicTitle}</TableCell>
+                <TableCell className="text-xs text-muted-foreground">{topic(tb.topicTitle)}</TableCell>
                 <TableCell>
                   <StatusSelect id={tb.id} seed={tb.migrationStatus} />
                 </TableCell>
@@ -74,7 +74,7 @@ export function MigrationCockpit({ module, query }: { module: SAPModuleData; que
             <div className="text-sm">
               <Highlight text={pick(tb.descriptionHe, tb.descriptionEn)} query={query} />
             </div>
-            <div className="text-xs text-muted-foreground">{tb.topicTitle}</div>
+            <div className="text-xs text-muted-foreground">{topic(tb.topicTitle)}</div>
           </li>
         ))}
       </ul>

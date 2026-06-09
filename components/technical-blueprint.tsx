@@ -139,7 +139,7 @@ export function TechnicalBlueprint({
   module: SAPModuleData;
   query: string;
 }) {
-  const { t: tr, pick } = useI18n();
+  const { t: tr, pick, topic: topicLabel } = useI18n();
   const [openTopics, setOpenTopics] = useState<string[]>([]);
   const q = query.trim().toLowerCase();
 
@@ -186,7 +186,7 @@ export function TechnicalBlueprint({
           <summary className="flex cursor-pointer items-center justify-between gap-3 p-4 font-semibold marker:content-['']">
             <span className="flex items-center gap-2.5">
               <span className="size-2 rounded-full bg-brand" />
-              {topic.title}
+              {topicLabel(topic.title)}
             </span>
             <Badge className="bg-muted text-muted-foreground">
               {topic.tables.length} {tr("hub.tables")}
