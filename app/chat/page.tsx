@@ -62,7 +62,12 @@ export default function ChatPage() {
   function pickModel(id: ModelId) {
     setModel(id);
     setModelState(id);
+    setErr((e) => (e === "quota" ? null : e)); // changing engine clears the quota card
     playTick();
+  }
+  function changeScope(v: "all" | number) {
+    setScope(v);
+    setErr((e) => (e === "quota" ? null : e)); // changing context scope clears the quota card
   }
 
   function applyKey() {
@@ -152,7 +157,7 @@ export default function ChatPage() {
             </label>
             <select
               value={scope}
-              onChange={(e) => setScope(e.target.value === "all" ? "all" : Number(e.target.value))}
+              onChange={(e) => changeScope(e.target.value === "all" ? "all" : Number(e.target.value))}
               className="w-full rounded-lg border border-input bg-card px-2 py-1.5 text-xs"
             >
               <option value="all">{lang === "he" ? "כל הספר (2M context)" : "Whole book (2M context)"}</option>
