@@ -81,6 +81,12 @@ function ChapterCard({ ch, query }: { ch: PPChapter; query: string }) {
         <p dir="rtl" className="text-sm leading-relaxed text-slate-700">
           <Highlight text={ch.summaryHe} query={query} />
         </p>
+        <Link
+          href={`/library/pp/chapter-${String(ch.n).padStart(2, "0")}/`}
+          className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-brand hover:underline"
+        >
+          עמוד פרק מלא <ArrowLeft className="size-3 rtl:rotate-180" />
+        </Link>
       </div>
 
       <AnimatePresence initial={false}>
@@ -166,9 +172,9 @@ export default function PPLibraryPage() {
         </div>
         <nav className="flex flex-wrap gap-1.5">
           {PP_CHAPTERS.map((c) => (
-            <a key={c.n} href={`#ch${c.n}`} className="rounded-lg bg-muted/60 px-2 py-1 text-[11px] font-medium text-muted-foreground transition-colors hover:bg-brand/10 hover:text-brand">
+            <Link key={c.n} href={`/library/pp/chapter-${String(c.n).padStart(2, "0")}/`} className="rounded-lg bg-muted/60 px-2 py-1 text-[11px] font-medium text-muted-foreground transition-colors hover:bg-brand/10 hover:text-brand">
               {c.n}. {c.he}
-            </a>
+            </Link>
           ))}
         </nav>
       </div>
