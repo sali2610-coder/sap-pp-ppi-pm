@@ -24,5 +24,19 @@
       "Bash(node scripts/extract-book-content.mjs)",
       "Bash(node -e 'const c=require\\(\"./data/library-content.json\"\\);console.log\\(\"config-pm ch5:\\\\n\"+c[\"config-pm\"][\"5\"].slice\\(0,500\\)\\);console.log\\(\"\\\\nqm ch3:\\\\n\"+c[\"quality-management\"][\"3\"].slice\\(0,300\\)\\);')"
     ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/salihalif/Desktop/My-Projects/sap/.claude/hooks/auto-push.sh",
+            "timeout": 60,
+            "statusMessage": "Auto-pushing to GitHub..."
+          }
+        ]
+      }
+    ]
   }
 }
