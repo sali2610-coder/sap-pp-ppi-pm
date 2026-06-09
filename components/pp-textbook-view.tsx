@@ -219,8 +219,9 @@ function NodeCard({ n, lang, nested, isOpen, onToggle }: { n: LearningNode; lang
 export function PPTextbookLessons({ n }: { n: number }) {
   const { lang } = useI18n();
   const tb = PP_TEXTBOOK[String(n)];
-  const [open, setOpen] = useState<Set<string>>(() => new Set(tb ? [tb.subchapters[0].id] : []));
-  if (!tb) return null;
+  const hasContent = Boolean(tb?.subchapters.length);
+  const [open, setOpen] = useState<Set<string>>(() => new Set(hasContent ? [tb!.subchapters[0].id] : []));
+  if (!tb || !hasContent) return null;
 
   const ids = tb.subchapters.map((s) => s.id);
   const toggle = (id: string) =>
@@ -266,5 +267,5 @@ export function PPTextbookLessons({ n }: { n: number }) {
 }
 
 export function hasTextbook(n: number) {
-  return Boolean(PP_TEXTBOOK[String(n)]);
+  return Boolean(PP_TEXTBOOK[String(n)]?.subchapters.length);
 }
