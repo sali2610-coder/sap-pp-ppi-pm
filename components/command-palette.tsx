@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, Table2, Terminal, Boxes, CornerDownLeft, ArrowLeft } from "lucide-react";
+import { Search, Table2, Terminal, Boxes, CornerDownLeft, ArrowLeft, BookText } from "lucide-react";
 import { searchAll } from "@/lib/data";
 import { lookupTCode } from "@/lib/tcode-index";
 import type { Module } from "@/lib/types";
@@ -13,7 +13,7 @@ import { Highlight } from "@/components/highlight";
 import { useI18n } from "@/lib/i18n";
 import { playPing, playTick } from "@/lib/sound";
 
-type FlatItem = { kind: "table" | "tcode" | "bapi"; label: string; sub: string; module: Module; href: string };
+type FlatItem = { kind: "table" | "tcode" | "bapi" | "library"; label: string; sub: string; module: Module; href: string };
 
 function ModuleTag({ m }: { m: Module }) {
   return (
@@ -59,6 +59,7 @@ export function CommandPalette() {
     { kind: "table", title: t("search.tables"), icon: Table2 },
     { kind: "tcode", title: t("search.tcodes"), icon: Terminal },
     { kind: "bapi", title: t("search.bapis"), icon: Boxes },
+    { kind: "library", title: t("search.library"), icon: BookText },
   ] as const;
 
   const flat = useMemo<FlatItem[]>(() => {
@@ -67,6 +68,7 @@ export function CommandPalette() {
       out.push({ kind: "table", label: tb.tableName, sub: pick(tb.descriptionHe, tb.descriptionEn), module: tb.module, href: `/${tb.module === "PM" ? "pm" : "pp-pi"}/?q=${encodeURIComponent(tb.tableName)}` });
     for (const c of results.tcodes) out.push({ kind: "tcode", label: c.code, sub: c.desc, module: c.module, href: c.href });
     for (const b of results.bapis) out.push({ kind: "bapi", label: b.name, sub: `${b.he} · ${b.tableName}`, module: b.module, href: b.href });
+    for (const l of results.library) out.push({ kind: "library", label: l.id, sub: l.title, module: "PM", href: l.href });
     return out;
   }, [results, pick]);
 

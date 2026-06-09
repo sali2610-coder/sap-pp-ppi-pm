@@ -21,6 +21,7 @@ const DICT: Dict = {
   "search.tables": { he: "טבלאות", en: "Tables" },
   "search.tcodes": { he: "טרנזקציות (T-Codes)", en: "T-Codes" },
   "search.bapis": { he: "ממשקים (Interfaces)", en: "Interfaces" },
+  "search.library": { he: "ספרייה — Book 1", en: "Library — Book 1" },
   "search.nav": { he: "ניווט", en: "Navigate" },
   "search.open": { he: "פתח", en: "Open" },
   "tcode.viewTables": { he: "הצג טבלאות משויכות", en: "View Associated Tables" },

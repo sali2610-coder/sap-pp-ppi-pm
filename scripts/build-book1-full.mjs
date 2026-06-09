@@ -30,6 +30,19 @@ for (const ch of manifest.chapters) {
 }
 
 fs.writeFileSync(path.join(ROOT, "data", "library", "book1-full.json"), JSON.stringify(out, null, 2));
+
+// Slim search index (title + id + short snippet) so the Omni-Search can find
+// Book #1 sections without bundling the full 1 MB matrix into every page.
+const index = out.chapters.flatMap((c) =>
+  c.sections.map((s) => ({
+    ch: c.n,
+    id: s.id,
+    title: s.title,
+    snippet: s.en.slice(0, 260),
+    he: Boolean(s.he),
+  })),
+);
+fs.writeFileSync(path.join(ROOT, "data", "library", "book1-index.json"), JSON.stringify(index));
 const secs = out.chapters.reduce((s, c) => s + c.sections.length, 0);
 const translated = out.chapters.reduce((s, c) => s + c.sections.filter((x) => x.he).length, 0);
 console.log(`✓ book1-full.json — ${out.chapters.length} translated chapters, ${secs} sections (${translated} with Hebrew)`);

@@ -71,18 +71,29 @@ export interface BapiHit {
   module: Module;
   href: string;
 }
+export interface LibHit {
+  ch: number;
+  id: string;
+  title: string;
+  href: string;
+}
 export interface GroupedResults {
   tables: SAPTable[];
   tcodes: TCodeHit[];
   bapis: BapiHit[];
+  library: LibHit[];
 }
+
+// Slim Book #1 section index (title + id + snippet) for Omni-Search.
+import BOOK1_INDEX from "@/data/library/book1-index.json";
+const BOOK1 = BOOK1_INDEX as { ch: number; id: string; title: string; snippet: string }[];
 
 const hrefFor = (m: Module, q: string) =>
   `/${m === "PM" ? "pm" : "pp-pi"}/?q=${encodeURIComponent(q)}`;
 
 export function searchAll(query: string, limit = 6): GroupedResults {
   const q = query.trim().toLowerCase();
-  if (!q) return { tables: [], tcodes: [], bapis: [] };
+  if (!q) return { tables: [], tcodes: [], bapis: [], library: [] };
 
   const tables = searchTables(q)
     .slice(0, limit)
@@ -110,5 +121,13 @@ export function searchAll(query: string, limit = 6): GroupedResults {
     if (bapis.length >= limit) break;
   }
 
-  return { tables, tcodes: tcodes.slice(0, limit), bapis: bapis.slice(0, limit) };
+  const library: LibHit[] = [];
+  for (const s of BOOK1) {
+    if (`${s.id} ${s.title} ${s.snippet}`.toLowerCase().includes(q)) {
+      library.push({ ch: s.ch, id: s.id, title: s.title, href: "/library/book1/" });
+    }
+    if (library.length >= limit) break;
+  }
+
+  return { tables, tcodes: tcodes.slice(0, limit), bapis: bapis.slice(0, limit), library };
 }

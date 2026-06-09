@@ -7,6 +7,7 @@ import { ArrowRight, BookOpen, ChevronDown, FileText, Layers } from "lucide-reac
 import book1 from "@/data/library/book1-full.json";
 import { useI18n } from "@/lib/i18n";
 import { playPing } from "@/lib/sound";
+import { ChapterDiagram } from "@/components/book1-diagrams";
 
 interface Section { id: string; title: string; en: string; he: string }
 interface Chapter { n: number; title: string; pages: number[]; translated?: boolean; sections: Section[] }
@@ -99,11 +100,14 @@ function ChapterBlock({ ch }: { ch: Chapter }) {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="space-y-2 overflow-hidden px-4 pb-4"
+            className="overflow-hidden px-4 pb-4"
           >
-            {ch.sections.map((s) => (
-              <SectionRow key={s.id} s={s} />
-            ))}
+            <ChapterDiagram n={ch.n} />
+            <div className="space-y-2">
+              {ch.sections.map((s) => (
+                <SectionRow key={s.id} s={s} />
+              ))}
+            </div>
           </motion.ul>
         )}
       </AnimatePresence>
