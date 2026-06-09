@@ -1,26 +1,107 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+/* ===== Project NEO Cockpit — CBC Israel design tokens =====
+   100% offline: no remote fonts. Segoe UI is native on the Windows SAP
+   clients; clean system fallback elsewhere. */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f6f8;
+  --foreground: #1a1a1a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --muted: #eef0f3;
+  --muted-foreground: #5b6470;
+  --border: #dfe3e8;
+  --input: #dfe3e8;
+  --ring: #d62027;
+
+  /* CBC / Coca-Cola brand */
+  --brand: #d62027;
+  --brand-foreground: #ffffff;
+  --brand-dark: #a3171c;
+
+  /* SAP migration status palette */
+  --status-not-started: #9aa0a6;
+  --status-in-analysis: #f2a900;
+  --status-in-conversion: #1e88e5;
+  --status-tested: #7b1fa2;
+  --status-done: #2e7d32;
+
+  --radius: 0.625rem;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-dark: var(--brand-dark);
+
+  --color-status-not-started: var(--status-not-started);
+  --color-status-in-analysis: var(--status-in-analysis);
+  --color-status-in-conversion: var(--status-in-conversion);
+  --color-status-tested: var(--status-tested);
+  --color-status-done: var(--status-done);
+
+  --font-sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Cascadia Code", "Consolas", "SF Mono", ui-monospace, monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
+
+::selection {
+  background: color-mix(in srgb, var(--brand) 22%, transparent);
+}
+
+/* Monospace SQL / tech-field snippets keep LTR even inside RTL flow */
+.tech,
+code,
+pre {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: var(--font-mono);
+}
+
+/* Thin SAP-ish scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #c4cad2; border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: #aab2bd; }

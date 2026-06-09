@@ -1,65 +1,65 @@
-import Image from "next/image";
+import Link from "next/link";
+import { Wrench, FlaskConical, ArrowLeft } from "lucide-react";
+import { PM_DATA, PPPI_DATA } from "@/lib/data";
+import { ProgressChart } from "@/components/progress-chart";
 
-export default function Home() {
+const HUBS = [
+  {
+    href: "/pm/",
+    data: PM_DATA,
+    icon: Wrench,
+    title: "SAP PM Hub",
+    subtitle: "אחזקת מפעל · Plant Maintenance",
+    desc: "ציוד, מיקומים פונקציונליים, הודעות ופקודות עבודה, אחזקה מונעת.",
+  },
+  {
+    href: "/pp-pi/",
+    data: PPPI_DATA,
+    icon: FlaskConical,
+    title: "SAP PP-PI Hub",
+    subtitle: "תכנון ייצור תהליכי · Process Industries",
+    desc: 'אב חומר, עצי מוצר, מתכוני ייצור, גרסאות ייצור, פק"ע וממשקי Zetes/Daymax.',
+  },
+];
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div className="space-y-10">
+      {/* hero */}
+      <section className="space-y-3 pt-4 text-center">
+        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Project NEO Cockpit</h1>
+        <p className="mx-auto max-w-2xl text-muted-foreground">
+          מקור אמת יחיד למיגרציית <span className="font-semibold">SAP ECC ➔ S/4HANA</span> ב-CBC
+          Israel — ניהול סטטוס מיגרציה ומילון נתונים טכני, במקום אחד, 100% Offline.
+        </p>
+      </section>
+
+      {/* two router cards */}
+      <section className="grid gap-6 md:grid-cols-2">
+        {HUBS.map(({ href, data, icon: Icon, title, subtitle, desc }) => {
+          const tables = data.topics.flatMap((t) => t.tables);
+          return (
+            <Link
+              key={href}
+              href={href}
+              className="group relative overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand hover:shadow-md"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+              <div className="flex items-start justify-between">
+                <div className="flex size-12 items-center justify-center rounded-lg bg-brand text-brand-foreground">
+                  <Icon className="size-6" />
+                </div>
+                <ArrowLeft className="size-5 text-muted-foreground transition-transform group-hover:-translate-x-1 group-hover:text-brand" />
+              </div>
+              <h2 className="mt-4 text-xl font-bold">{title}</h2>
+              <p className="text-sm font-medium text-brand">{subtitle}</p>
+              <p className="mt-2 text-sm text-muted-foreground">{desc}</p>
+              <div className="mt-5 border-t border-border pt-4">
+                <ProgressChart tables={tables} />
+              </div>
+            </Link>
+          );
+        })}
+      </section>
     </div>
   );
 }

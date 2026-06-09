@@ -1,7 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx --yes create-next-app@latest . --ts --tailwind --app --eslint --no-src-dir --import-alias \"@/*\" --use-npm --yes)"
+      "Bash(npx --yes create-next-app@latest . --ts --tailwind --app --eslint --no-src-dir --import-alias \"@/*\" --use-npm --yes)",
+      "Bash(node scripts/extract-data.mjs)",
+      "Bash(node -e ' *)",
+      "Bash(npm run *)",
+      "Bash(gh auth *)",
+      "Bash(gh repo *)",
+      "Bash(git -c user.name=sali2610-coder -c user.email=sali2610@gmail.com commit -q -m ' *)"
     ]
   }
 }
