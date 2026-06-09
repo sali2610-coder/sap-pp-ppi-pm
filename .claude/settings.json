@@ -58,7 +58,10 @@
       "Bash(node -e 'const t=require\\(\"./data/library/pp-toc.json\"\\);for\\(const ch of [\"3\",\"4\"]\\){console.log\\(\"\\\\n=== ch\"+ch+\" \\(\"+t[ch].length+\"\\) ===\"\\);t[ch].forEach\\(s=>console.log\\(s.id+\" — \"+s.title\\)\\)}')",
       "Bash(git commit -q -m 'feat\\(pp\\): Chapter 3 digital textbook — 9 subchapters × 12 sections, process flows, config trees, object links *)",
       "Bash(node -e \"const t=require\\('./data/library/pp-toc.json'\\); console.log\\(JSON.stringify\\(t['3'],null,0\\)\\)\")",
-      "Bash(git commit -q -m 'feat\\(pp\\): Ch3 TOC becomes interactive learning accordion + corrected source hierarchy *)"
+      "Bash(git commit -q -m 'feat\\(pp\\): Ch3 TOC becomes interactive learning accordion + corrected source hierarchy *)",
+      "Bash(node --experimental-strip-types -e \"import\\('./data/library/pp-textbook.ts'\\).then\\(m=>console.log\\(JSON.stringify\\(m.PP_TEXTBOOK_STATS\\)\\)\\)\")",
+      "Bash(node -e \"const t=require\\('typescript'\\);const fs=require\\('fs'\\);const src=fs.readFileSync\\('data/library/pp-textbook.ts','utf8'\\);const js=t.transpileModule\\(src,{compilerOptions:{module:'commonjs',target:'es2020'}}\\).outputText;const m={exports:{}};new Function\\('exports','require','module',js\\)\\(m.exports,require,m\\);console.log\\(JSON.stringify\\(m.exports.PP_TEXTBOOK_STATS\\)\\)\")",
+      "Bash(git commit -q -m 'feat\\(pp\\): Ch3 — every node becomes a full 18-facet learning unit *)"
     ]
   }
 }
