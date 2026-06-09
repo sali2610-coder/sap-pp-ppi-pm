@@ -32,7 +32,8 @@
       "Bash(node -e 'const s=require\\(\"./data/library/book1/ch1.sections.json\"\\);s.sections.forEach\\(x=>console.log\\(x.id+\" — \"+x.title+\" \\(\"+x.chars+\"c\\)\"\\)\\)')",
       "Bash(node -e 'const s=require\\(\"./data/library/book1/ch1.sections.json\"\\);console.log\\(s.sections.length+\" sections\"\\);s.sections.forEach\\(x=>console.log\\(x.id+\" — \"+x.title+\" \\(\"+x.chars+\"c\\)\"\\)\\)')",
       "Bash(sed -n '1,40p' /tmp/book1_ch1.txt)",
-      "Bash(node scripts/build-book1-full.mjs)"
+      "Bash(node scripts/build-book1-full.mjs)",
+      "Bash(node -e 'const d=require\\(\"./data/library/book1-full.json\"\\);console.log\\(\"chapters:\",d.chapters.length,\"sections:\",d.chapters.reduce\\(\\(s,c\\)=>s+c.sections.length,0\\),\"translated chapters:\",d.chapters.filter\\(c=>c.translated\\).length\\);')"
     ]
   }
 }

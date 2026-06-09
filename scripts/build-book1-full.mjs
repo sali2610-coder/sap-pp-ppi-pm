@@ -13,10 +13,12 @@ const DIR = path.join(ROOT, "data", "library", "book1");
 const manifest = JSON.parse(fs.readFileSync(path.join(DIR, "manifest.json"), "utf8"));
 const out = { book: manifest.book, pages: manifest.pages, chapters: [] };
 
+// Include ALL chapters: English is always present (extracted); Hebrew is filled
+// where a he/ch{N}.json translation exists, else "" (UI shows an honest pending
+// marker — never a fake placeholder).
 for (const ch of manifest.chapters) {
   const hePath = path.join(DIR, "he", `ch${ch.n}.json`);
-  if (!fs.existsSync(hePath)) continue; // not translated yet → skip (no placeholder)
-  const he = JSON.parse(fs.readFileSync(hePath, "utf8"));
+  const he = fs.existsSync(hePath) ? JSON.parse(fs.readFileSync(hePath, "utf8")) : {};
   const secFile = JSON.parse(fs.readFileSync(path.join(DIR, `ch${ch.n}.sections.json`), "utf8"));
   const sections = secFile.sections.map((s) => ({
     id: s.id,
@@ -24,7 +26,7 @@ for (const ch of manifest.chapters) {
     en: s.text.replace(/\s+/g, " ").trim(),
     he: he[s.id] ?? "",
   }));
-  out.chapters.push({ n: ch.n, title: ch.title, pages: ch.pages, sections });
+  out.chapters.push({ n: ch.n, title: ch.title, pages: ch.pages, translated: Object.keys(he).length > 0, sections });
 }
 
 fs.writeFileSync(path.join(ROOT, "data", "library", "book1-full.json"), JSON.stringify(out, null, 2));
