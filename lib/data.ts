@@ -56,3 +56,59 @@ export function searchTables(query: string, scope?: Module): SearchResult[] {
   }
   return out;
 }
+
+// ===== Command-palette grouped search =====
+export interface TCodeHit {
+  code: string;
+  desc: string;
+  module: Module;
+  href: string;
+}
+export interface BapiHit {
+  name: string;
+  he: string;
+  tableName: string;
+  module: Module;
+  href: string;
+}
+export interface GroupedResults {
+  tables: SAPTable[];
+  tcodes: TCodeHit[];
+  bapis: BapiHit[];
+}
+
+const hrefFor = (m: Module, q: string) =>
+  `/${m === "PM" ? "pm" : "pp-pi"}/?q=${encodeURIComponent(q)}`;
+
+export function searchAll(query: string, limit = 6): GroupedResults {
+  const q = query.trim().toLowerCase();
+  if (!q) return { tables: [], tcodes: [], bapis: [] };
+
+  const tables = searchTables(q)
+    .slice(0, limit)
+    .map((r) => r.table);
+
+  const tcodes: TCodeHit[] = [];
+  for (const m of MODULES) {
+    for (const row of m.tcodesDir?.rows ?? []) {
+      const code = row[1] ?? row[0] ?? "";
+      const desc = row.slice(2).find((c) => c && c.length > 8) ?? "";
+      if (`${code} ${desc}`.toLowerCase().includes(q)) {
+        tcodes.push({ code, desc, module: m.module, href: hrefFor(m.module, code) });
+      }
+      if (tcodes.length >= limit) break;
+    }
+  }
+
+  const bapis: BapiHit[] = [];
+  for (const t of ALL_TABLES) {
+    for (const [name, he] of t.funcs) {
+      if (name.toLowerCase().includes(q)) {
+        bapis.push({ name, he, tableName: t.tableName, module: t.module, href: hrefFor(t.module, t.tableName) });
+      }
+    }
+    if (bapis.length >= limit) break;
+  }
+
+  return { tables, tcodes: tcodes.slice(0, limit), bapis: bapis.slice(0, limit) };
+}

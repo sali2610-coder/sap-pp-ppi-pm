@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Search, LayoutGrid, BookOpen, Wrench } from "lucide-react";
 import type { SAPModuleData } from "@/lib/types";
 import { Input } from "@/components/ui/input";
@@ -34,7 +35,7 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
   return (
     <div className="space-y-6">
       {/* sticky toolbar */}
-      <div className="sticky top-0 z-30 -mx-4 border-b border-border bg-background/95 px-4 py-3 backdrop-blur sm:mx-0 sm:rounded-lg sm:border">
+      <div className="glass sticky top-[4.5rem] z-30 -mx-2 rounded-2xl px-4 py-3 sm:mx-0">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="relative w-full sm:max-w-md">
             <Search className="pointer-events-none absolute end-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -47,35 +48,52 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
           </div>
           <StatusIO />
         </div>
-        <div className="mt-3 flex gap-1 overflow-x-auto">
+        <div className="mt-3 flex gap-1 overflow-x-auto rounded-xl bg-muted/50 p-1">
           {tabs.map(({ key, label, icon: Icon }) => (
             <button
               key={key}
               onClick={() => setTab(key)}
               className={cn(
-                "flex items-center gap-1.5 whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
-                tab === key ? "bg-brand text-brand-foreground" : "text-muted-foreground hover:bg-muted",
+                "relative flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
+                tab === key ? "text-brand-foreground" : "text-muted-foreground hover:text-foreground",
               )}
             >
-              <Icon className="size-4" />
-              {label}
+              {tab === key && (
+                <motion.span
+                  layoutId="hub-tab"
+                  className="absolute inset-0 rounded-lg bg-gradient-to-br from-brand to-brand-dark shadow-sm shadow-brand/30"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              <Icon className="relative size-4" />
+              <span className="relative">{label}</span>
             </button>
           ))}
         </div>
       </div>
 
-      {tab === "cockpit" && (
-        <div className="space-y-5">
-          <div className="rounded-lg border border-border bg-card p-5">
-            <ProgressChart tables={allTables} title={`התקדמות מיגרציה — ${module.title}`} />
-          </div>
-          <MigrationCockpit module={module} query={query} />
-        </div>
-      )}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={tab}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.2 }}
+        >
+          {tab === "cockpit" && (
+            <div className="space-y-5">
+              <div className="glass rounded-2xl p-5">
+                <ProgressChart tables={allTables} title={`התקדמות מיגרציה — ${module.title}`} />
+              </div>
+              <MigrationCockpit module={module} query={query} />
+            </div>
+          )}
 
-      {tab === "blueprint" && <TechnicalBlueprint module={module} query={query} />}
+          {tab === "blueprint" && <TechnicalBlueprint module={module} query={query} />}
 
-      {tab === "guides" && <ModuleDirectories module={module} />}
+          {tab === "guides" && <ModuleDirectories module={module} />}
+        </motion.div>
+      </AnimatePresence>
 
       <p className="text-center text-xs text-muted-foreground">
         <Badge className="bg-muted text-muted-foreground">{allTables.length} טבלאות</Badge>{" "}

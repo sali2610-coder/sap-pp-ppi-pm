@@ -12,7 +12,9 @@
       "Skill(update-config:*)",
       "Bash(chmod +x .claude/hooks/auto-push.sh)",
       "Bash(bash .claude/hooks/auto-push.sh)",
-      "Bash(echo \"exit:$?\")"
+      "Bash(echo \"exit:$?\")",
+      "Bash(grep -vE \"^https?://\\(a|n|a/c\\)$\")",
+      "Bash(node scripts/extract-xlsx.mjs)"
     ]
   }
 }

@@ -1,38 +1,50 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* ===== Project NEO Cockpit — CBC Israel design tokens =====
-   100% offline: no remote fonts. Segoe UI is native on the Windows SAP
-   clients; clean system fallback elsewhere. */
+/* ===== Project NEO Cockpit — CBC Israel · Enterprise Pro Max ===== =====
+   Apple-grade polish × SAP Fiori efficiency. 100% offline — no remote fonts.
+   Segoe UI native on Windows SAP clients; clean system fallback elsewhere. */
 
 :root {
-  --background: #f5f6f8;
-  --foreground: #1a1a1a;
+  /* Surfaces — zinc-50 ground, layered glass */
+  --background: #f8fafc;
+  --background-2: #eef1f6;
+  --foreground: #0f172a; /* slate-900 */
   --card: #ffffff;
-  --card-foreground: #1a1a1a;
-  --muted: #eef0f3;
-  --muted-foreground: #5b6470;
-  --border: #dfe3e8;
-  --input: #dfe3e8;
+  --card-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b; /* slate-500 */
+  --border: #e2e8f0; /* slate-200 */
+  --input: #e2e8f0;
   --ring: #d62027;
 
-  /* CBC / Coca-Cola brand */
+  /* Glass */
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.18), 0 2px 8px -2px rgba(15, 23, 42, 0.08);
+
+  /* CBC / Coca-Cola brand — accent only */
   --brand: #d62027;
   --brand-foreground: #ffffff;
   --brand-dark: #a3171c;
+  --brand-soft: #fef2f2;
 
   /* SAP migration status palette */
-  --status-not-started: #9aa0a6;
-  --status-in-analysis: #f2a900;
-  --status-in-conversion: #1e88e5;
-  --status-tested: #7b1fa2;
-  --status-done: #2e7d32;
+  --status-not-started: #94a3b8;
+  --status-in-analysis: #f59e0b;
+  --status-in-conversion: #3b82f6;
+  --status-tested: #8b5cf6;
+  --status-done: #10b981;
 
-  --radius: 0.625rem;
+  --radius: 0.75rem;
+
+  /* Dynamic font scaling (UX Settings) */
+  --font-scale: 1;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-2: var(--background-2);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -45,6 +57,7 @@
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
   --color-brand-dark: var(--brand-dark);
+  --color-brand-soft: var(--brand-soft);
 
   --color-status-not-started: var(--status-not-started);
   --color-status-in-analysis: var(--status-in-analysis);
@@ -53,23 +66,25 @@
   --color-status-done: var(--status-done);
 
   --font-sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "Cascadia Code", "Consolas", "SF Mono", ui-monospace, monospace;
+  --font-mono: "Cascadia Code", "JetBrains Mono", "Consolas", "SF Mono", ui-monospace, monospace;
 
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 3px);
   --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 10px);
 
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-accordion-down: accordion-down 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  --animate-accordion-up: accordion-up 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes accordion-down {
-  from { height: 0; }
-  to { height: var(--radix-accordion-content-height); }
+  from { height: 0; opacity: 0; }
+  to { height: var(--radix-accordion-content-height); opacity: 1; }
 }
 @keyframes accordion-up {
-  from { height: var(--radix-accordion-content-height); }
-  to { height: 0; }
+  from { height: var(--radix-accordion-content-height); opacity: 1; }
+  to { height: 0; opacity: 0; }
 }
 
 * {
@@ -78,14 +93,23 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* Dynamic font scaling — scales the whole app via rem */
+  font-size: calc(100% * var(--font-scale));
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Ambient enterprise backdrop: soft brand-tinted aurora over zinc */
+  background-color: var(--background);
+  background-image:
+    radial-gradient(60rem 60rem at 110% -10%, rgba(214, 32, 39, 0.06), transparent 60%),
+    radial-gradient(50rem 50rem at -10% 0%, rgba(59, 130, 246, 0.05), transparent 55%),
+    linear-gradient(180deg, var(--background) 0%, var(--background-2) 100%);
+  background-attachment: fixed;
 }
 
 ::selection {
@@ -101,7 +125,44 @@ pre {
   font-family: var(--font-mono);
 }
 
-/* Thin SAP-ish scrollbar */
+/* ===== Glass utilities ===== */
+@utility glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+@utility glass-dark {
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Neon-ish soft glow per status (driven inline via --glow) */
+@utility glow {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--glow) 35%, transparent),
+    0 0 16px -2px color-mix(in srgb, var(--glow) 45%, transparent);
+}
+
+/* Thin premium scrollbar */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-thumb { background: #c4cad2; border-radius: 8px; }
-::-webkit-scrollbar-thumb:hover { background: #aab2bd; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--muted-foreground) 35%, transparent);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--muted-foreground) 55%, transparent);
+  background-clip: padding-box;
+}
+
+/* Entry animations */
+@keyframes float-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-float-in { animation: float-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }

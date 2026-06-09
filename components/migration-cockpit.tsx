@@ -27,7 +27,7 @@ export function MigrationCockpit({ module, query }: { module: SAPModuleData; que
   }, [module.topics, q]);
 
   return (
-    <div className="rounded-lg border border-border bg-card">
+    <div className="glass overflow-hidden rounded-2xl">
       {/* desktop table */}
       <div className="hidden md:block">
         <Table>

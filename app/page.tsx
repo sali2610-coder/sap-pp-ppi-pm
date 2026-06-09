@@ -1,65 +1,28 @@
-import Link from "next/link";
-import { Wrench, FlaskConical, ArrowLeft } from "lucide-react";
-import { PM_DATA, PPPI_DATA } from "@/lib/data";
-import { ProgressChart } from "@/components/progress-chart";
-
-const HUBS = [
-  {
-    href: "/pm/",
-    data: PM_DATA,
-    icon: Wrench,
-    title: "SAP PM Hub",
-    subtitle: "אחזקת מפעל · Plant Maintenance",
-    desc: "ציוד, מיקומים פונקציונליים, הודעות ופקודות עבודה, אחזקה מונעת.",
-  },
-  {
-    href: "/pp-pi/",
-    data: PPPI_DATA,
-    icon: FlaskConical,
-    title: "SAP PP-PI Hub",
-    subtitle: "תכנון ייצור תהליכי · Process Industries",
-    desc: 'אב חומר, עצי מוצר, מתכוני ייצור, גרסאות ייצור, פק"ע וממשקי Zetes/Daymax.',
-  },
-];
+import { ALL_TABLES } from "@/lib/data";
+import { HubCards } from "@/components/hub-cards";
 
 export default function HomePage() {
   return (
     <div className="space-y-10">
       {/* hero */}
-      <section className="space-y-3 pt-4 text-center">
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Project NEO Cockpit</h1>
-        <p className="mx-auto max-w-2xl text-muted-foreground">
-          מקור אמת יחיד למיגרציית <span className="font-semibold">SAP ECC ➔ S/4HANA</span> ב-CBC
-          Israel — ניהול סטטוס מיגרציה ומילון נתונים טכני, במקום אחד, 100% Offline.
+      <section className="space-y-4 pt-6 text-center animate-float-in">
+        <span className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">
+          <span className="size-1.5 rounded-full bg-brand" />
+          CBC Israel · Project NEO
+        </span>
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">Project NEO Cockpit</h1>
+        <p className="mx-auto max-w-2xl text-balance text-muted-foreground sm:text-lg">
+          מקור אמת יחיד למיגרציית <span className="font-semibold text-foreground">SAP ECC ➔ S/4HANA</span> —
+          ניהול סטטוס מיגרציה ומילון נתונים טכני, במקום אחד, 100% Offline.
         </p>
+        <div className="flex flex-wrap items-center justify-center gap-2 pt-1 text-xs text-muted-foreground">
+          <span className="rounded-lg border border-border bg-card px-2.5 py-1">{ALL_TABLES.length} טבלאות</span>
+          <span className="rounded-lg border border-border bg-card px-2.5 py-1">2 מודולים · PM · PP-PI</span>
+          <span className="rounded-lg border border-border bg-card px-2.5 py-1">⌘K חיפוש מהיר</span>
+        </div>
       </section>
 
-      {/* two router cards */}
-      <section className="grid gap-6 md:grid-cols-2">
-        {HUBS.map(({ href, data, icon: Icon, title, subtitle, desc }) => {
-          const tables = data.topics.flatMap((t) => t.tables);
-          return (
-            <Link
-              key={href}
-              href={href}
-              className="group relative overflow-hidden rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand hover:shadow-md"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex size-12 items-center justify-center rounded-lg bg-brand text-brand-foreground">
-                  <Icon className="size-6" />
-                </div>
-                <ArrowLeft className="size-5 text-muted-foreground transition-transform group-hover:-translate-x-1 group-hover:text-brand" />
-              </div>
-              <h2 className="mt-4 text-xl font-bold">{title}</h2>
-              <p className="text-sm font-medium text-brand">{subtitle}</p>
-              <p className="mt-2 text-sm text-muted-foreground">{desc}</p>
-              <div className="mt-5 border-t border-border pt-4">
-                <ProgressChart tables={tables} />
-              </div>
-            </Link>
-          );
-        })}
-      </section>
+      <HubCards />
     </div>
   );
 }

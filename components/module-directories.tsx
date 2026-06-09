@@ -1,4 +1,4 @@
-import type { SAPModuleData } from "@/lib/types";
+import type { SAPModuleData, SAPSheet } from "@/lib/types";
 import {
   Table,
   TableBody,
@@ -8,29 +8,30 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-// Generic directory table: desktop grid, mobile card-stack. Renders the real
-// positional tuples from the source knowledge base with proper Hebrew headers.
-function DirTable({
-  title,
-  headers,
-  rows,
-}: {
-  title: string;
-  headers: string[];
-  rows: string[][];
-}) {
-  if (!rows?.length) return null;
-  return (
-    <section className="space-y-3 rounded-lg border border-border bg-card p-5">
-      <h3 className="font-semibold text-brand">{title}</h3>
+// Renders a verbatim directory sheet (header + rows): desktop grid, mobile
+// card-stack. Drops the leading "#" column for a cleaner read.
+function DirTable({ sheet }: { sheet?: SAPSheet }) {
+  if (!sheet || !sheet.rows.length) return null;
+  // strip a leading "#" / "מס'" index column if present
+  const drop = /^(#|מס)/.test(sheet.headers[0] ?? "") ? 1 : 0;
+  const headers = sheet.headers.slice(drop);
+  const rows = sheet.rows.map((r) => r.slice(drop));
 
-      {/* desktop */}
+  return (
+    <section className="glass space-y-3 rounded-2xl p-5">
+      <h3 className="flex items-center gap-2 font-semibold text-brand">
+        <span className="size-2 rounded-full bg-brand" />
+        {sheet.title}
+      </h3>
+
       <div className="hidden md:block">
         <Table>
           <TableHeader>
             <TableRow>
-              {headers.map((h) => (
-                <TableHead key={h}>{h}</TableHead>
+              {headers.map((h, i) => (
+                <TableHead key={i} className="whitespace-normal">
+                  {h}
+                </TableHead>
               ))}
             </TableRow>
           </TableHeader>
@@ -38,7 +39,10 @@ function DirTable({
             {rows.map((r, i) => (
               <TableRow key={i}>
                 {headers.map((_, c) => (
-                  <TableCell key={c} className={c === 0 ? "tech font-semibold text-brand align-top" : "align-top"}>
+                  <TableCell
+                    key={c}
+                    className={c === 0 ? "tech align-top font-semibold text-brand" : "align-top"}
+                  >
                     {r[c] ?? ""}
                   </TableCell>
                 ))}
@@ -48,7 +52,6 @@ function DirTable({
         </Table>
       </div>
 
-      {/* mobile */}
       <ul className="space-y-2 md:hidden">
         {rows.map((r, i) => (
           <li key={i} className="rounded-md border border-border bg-muted/40 p-3">
@@ -56,7 +59,7 @@ function DirTable({
             <dl className="space-y-1 text-sm">
               {headers.slice(1).map((h, c) =>
                 r[c + 1] ? (
-                  <div key={h}>
+                  <div key={c}>
                     <dt className="text-xs text-muted-foreground">{h}</dt>
                     <dd>{r[c + 1]}</dd>
                   </div>
@@ -71,46 +74,26 @@ function DirTable({
 }
 
 export function ModuleDirectories({ module }: { module: SAPModuleData }) {
-  const isPM = module.module === "PM";
+  const sheets = [
+    module.tcodesDir,
+    module.tools,
+    module.ppvs,
+    module.simplification,
+    module.config,
+    module.customCode,
+  ].filter(Boolean) as SAPSheet[];
+
+  if (!sheets.length) {
+    return (
+      <p className="py-8 text-center text-sm text-muted-foreground">אין מדריכים זמינים למודול זה.</p>
+    );
+  }
+
   return (
     <div className="space-y-6">
-      <DirTable
-        title="מדריך טרנזקציות (T-Codes Directory)"
-        headers={["טרנזקציה", isPM ? "קטגוריה" : "היקף", "תיאור", "הערת S/4HANA", "אפליקציית Fiori", "Fiori ID", "פירוט"]}
-        rows={module.tcodesDir}
-      />
-
-      {module.tools && (
-        <DirTable
-          title="ארגז כלים למיישם (Implementer Toolkit)"
-          headers={["כלי", "תיאור", "הערת S/4HANA", "אפליקציית Fiori", "Fiori ID", "פירוט"]}
-          rows={module.tools}
-        />
-      )}
-
-      {module.ppvs && (
-        <DirTable
-          title="PP מול PP-PI — השוואה"
-          headers={["היבט", "ייצור בדיד (PP)", "ייצור תהליכי (PP-PI)", "CBC"]}
-          rows={module.ppvs}
-        />
-      )}
-
-      {Array.isArray(module.simplification) && (
-        <DirTable
-          title="S/4HANA Simplification — נקודות שינוי"
-          headers={["תחום", "שינוי", "SAP Note", "סטטוס", "פירוט"]}
-          rows={module.simplification as string[][]}
-        />
-      )}
-
-      {Array.isArray(module.config) && (
-        <DirTable
-          title="קונפיגורציה (Customizing)"
-          headers={["פריט קונפיגורציה", "טרנזקציה", "פירוט"]}
-          rows={module.config as string[][]}
-        />
-      )}
+      {sheets.map((s, i) => (
+        <DirTable key={i} sheet={s} />
+      ))}
     </div>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ExternalLink } from "lucide-react";
 import type { SAPModuleData, SAPTable, SAPTopic } from "@/lib/types";
 import {
   Accordion,
@@ -11,7 +10,8 @@ import {
 } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { FieldsTable } from "@/components/fields-table";
-import { CopyButton } from "@/components/copy-button";
+import { SqlBlock } from "@/components/sql-block";
+import { FioriTransform } from "@/components/fiori-transform";
 import { StatusBadge } from "@/components/status-badge";
 import { StatusSelect } from "@/components/status-select";
 
@@ -26,7 +26,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 function TablePanel({ table, topic }: { table: SAPTable; topic: SAPTopic }) {
   return (
-    <div className="space-y-5 rounded-md bg-muted/30 p-4">
+    <div className="space-y-5 rounded-xl border border-border/60 bg-background/40 p-4">
       {table.guideHe && (
         <Section title="הסבר פונקציונלי">
           <p className="text-sm leading-relaxed">{table.guideHe}</p>
@@ -34,32 +34,59 @@ function TablePanel({ table, topic }: { table: SAPTable; topic: SAPTopic }) {
       )}
 
       <Section title="Mapping · ECC → Fiori / S/4HANA">
-        <dl className="grid gap-2 text-sm sm:grid-cols-2">
-          <div>
-            <dt className="text-xs text-muted-foreground">טרנזקציות (T-Codes)</dt>
-            <dd className="tech">{table.tcodes || "—"}</dd>
-          </div>
-          <div>
-            <dt className="text-xs text-muted-foreground">הערת S/4HANA</dt>
-            <dd>{table.s4Note || "—"}</dd>
-          </div>
-        </dl>
-        {table.helpUrl && (
-          <a
-            href={table.helpUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1 text-xs text-status-in-conversion hover:underline"
-          >
-            <ExternalLink className="size-3" />
-            {table.helpLbl || "SAP Help"}
-          </a>
+        <FioriTransform
+          tcodes={table.tcodes}
+          s4Note={table.s4Note}
+          fioriApp={table.fioriApp}
+          s4AltTable={table.s4AltTable}
+          s4AltTcode={table.s4AltTcode}
+        />
+        {table.sumNote && (
+          <p className="rounded-lg bg-muted/50 p-2 text-xs leading-relaxed text-muted-foreground">
+            <span className="font-semibold text-foreground">SUM: </span>
+            {table.sumNote}
+          </p>
+        )}
+        {table.helpLbl && (
+          <p className="text-xs text-muted-foreground">
+            <span className="font-semibold">SAP Help: </span>
+            {table.helpLbl}
+          </p>
         )}
       </Section>
 
       <Section title="Data Dictionary">
         <FieldsTable fields={table.fields} />
       </Section>
+
+      {table.relations.length > 0 && (
+        <Section title="Relations · קשרי מפתח (PK / FK)">
+          <ul className="space-y-2">
+            {table.relations.map((rel, i) => (
+              <li
+                key={i}
+                className="flex flex-wrap items-center gap-2 rounded-xl border border-border/60 bg-background/50 p-2.5 text-sm"
+              >
+                <span
+                  className={`shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-bold ${
+                    rel.role === "parent"
+                      ? "bg-status-done/15 text-status-done"
+                      : "bg-status-in-conversion/15 text-status-in-conversion"
+                  }`}
+                >
+                  {rel.role === "parent" ? "אב ◄" : "► ילד"}
+                </span>
+                <span className="tech font-bold text-brand">{rel.table}</span>
+                {rel.card && (
+                  <span className="rounded bg-muted px-1.5 text-[11px] text-muted-foreground">{rel.card}</span>
+                )}
+                {rel.join && <code className="tech text-xs text-muted-foreground">{rel.join}</code>}
+                {rel.desc && <span className="w-full text-xs text-muted-foreground">{rel.desc}</span>}
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
 
       {(table.funcs.length > 0 || table.progs.length > 0 || topic.ops.interfaces.length > 0) && (
         <Section title="Interface Layer · BAPIs / IDoc / Programs">
@@ -90,14 +117,7 @@ function TablePanel({ table, topic }: { table: SAPTable; topic: SAPTopic }) {
 
       {table.sqlJoinSnippet && (
         <Section title="Developer SQL Snippet (JOIN)">
-          <div className="relative">
-            <pre className="overflow-x-auto rounded-md border border-border bg-[#1e1e1e] p-3 text-xs text-[#d4d4d4]">
-              {table.sqlJoinSnippet}
-            </pre>
-            <div className="mt-2">
-              <CopyButton text={table.sqlJoinSnippet} label="העתק SQL" />
-            </div>
-          </div>
+          <SqlBlock code={table.sqlJoinSnippet} />
         </Section>
       )}
 
@@ -150,7 +170,7 @@ export function TechnicalBlueprint({
         <details
           key={topic.idx}
           open={Boolean(q) || openTopics.includes(String(topic.idx))}
-          className="group rounded-lg border border-border bg-card"
+          className="group glass overflow-hidden rounded-2xl"
           onToggle={(e) => {
             const id = String(topic.idx);
             const isOpen = (e.currentTarget as HTMLDetailsElement).open;
@@ -160,7 +180,10 @@ export function TechnicalBlueprint({
           }}
         >
           <summary className="flex cursor-pointer items-center justify-between gap-3 p-4 font-semibold marker:content-['']">
-            <span>{topic.title}</span>
+            <span className="flex items-center gap-2.5">
+              <span className="size-2 rounded-full bg-brand" />
+              {topic.title}
+            </span>
             <Badge className="bg-muted text-muted-foreground">{topic.tables.length} טבלאות</Badge>
           </summary>
           <div className="border-t border-border px-4 pb-2">
