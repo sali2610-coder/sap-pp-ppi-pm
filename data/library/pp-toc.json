@@ -1,0 +1,1692 @@
+{
+  "1": [
+    {
+      "id": "1.1",
+      "title": "Production Planning and Control"
+    },
+    {
+      "id": "1.1.1",
+      "title": "Production Planning Overview"
+    },
+    {
+      "id": "1.1.2",
+      "title": "Characteristics of Production Types"
+    },
+    {
+      "id": "1.1.3",
+      "title": "Processes in Production Planning and Control"
+    },
+    {
+      "id": "1.1.4",
+      "title": "Product Cost Controlling"
+    },
+    {
+      "id": "1.2",
+      "title": "Process Manufacturing Flow"
+    },
+    {
+      "id": "1.3",
+      "title": "REM Process Flow"
+    },
+    {
+      "id": "1.4",
+      "title": "SAP Integrated Business Planning for Supply Chain"
+    },
+    {
+      "id": "1.5",
+      "title": "Summary"
+    }
+  ],
+  "2": [
+    {
+      "id": "2.1",
+      "title": "Breaking Down the Structure into Units"
+    },
+    {
+      "id": "2.1.1",
+      "title": "Client"
+    },
+    {
+      "id": "2.1.2",
+      "title": "Company Code"
+    },
+    {
+      "id": "2.1.3",
+      "title": "Plant"
+    },
+    {
+      "id": "2.1.4",
+      "title": "Storage Location"
+    },
+    {
+      "id": "2.1.5",
+      "title": "Material Requirements Planning Controllers"
+    },
+    {
+      "id": "2.1.6",
+      "title": "Capacity Planners"
+    },
+    {
+      "id": "2.1.7",
+      "title": "Production Schedulers"
+    },
+    {
+      "id": "2.2",
+      "title": "Production Planning and Control Organizational Unit"
+    },
+    {
+      "id": "2.2.1",
+      "title": "Public Holidays"
+    },
+    {
+      "id": "2.2.2",
+      "title": "Holiday Calendar"
+    },
+    {
+      "id": "2.2.3",
+      "title": "Factory Calendar"
+    },
+    {
+      "id": "2.3",
+      "title": "Company Code"
+    },
+    {
+      "id": "2.4",
+      "title": "Plant: Change Transaction Screen"
+    },
+    {
+      "id": "2.5",
+      "title": "Assignment of Plant to Company Code"
+    },
+    {
+      "id": "2.6",
+      "title": "Storage Locations"
+    },
+    {
+      "id": "2.7",
+      "title": "Production Scheduler with Production Profile Assignment"
+    },
+    {
+      "id": "2.8",
+      "title": "SAP Calendar"
+    },
+    {
+      "id": "2.9",
+      "title": "Public Holidays"
+    },
+    {
+      "id": "2.10",
+      "title": "Public Holiday Calendar"
+    },
+    {
+      "id": "2.11",
+      "title": "Factory Calendar"
+    }
+  ],
+  "3": [
+    {
+      "id": "3.1",
+      "title": "Material Master"
+    },
+    {
+      "id": "3.2",
+      "title": "Bill of Materials"
+    },
+    {
+      "id": "3.2.1",
+      "title": "Defining Bill of Materials Usages"
+    },
+    {
+      "id": "3.2.2",
+      "title": "Allowed Material Types in the Bill of Materials Header"
+    },
+    {
+      "id": "3.2.3",
+      "title": "Bill of Materials Status"
+    },
+    {
+      "id": "3.2.4",
+      "title": "Bill of Materials with History Requirement"
+    },
+    {
+      "id": "3.2.5",
+      "title": "Item Category in Bill of Materials"
+    },
+    {
+      "id": "3.2.6",
+      "title": "Variable-Size Item Formulas"
+    },
+    {
+      "id": "3.2.7",
+      "title": "Bill of Materials Explosion Types"
+    },
+    {
+      "id": "3.2.8",
+      "title": "Bill of Materials Selection (Order of Priority)"
+    },
+    {
+      "id": "3.3",
+      "title": "Allowed Material Types in BOM Header"
+    },
+    {
+      "id": "3.3.1",
+      "title": "Work Center Category"
+    },
+    {
+      "id": "3.3.2",
+      "title": "Field Selection in the Work Center"
+    },
+    {
+      "id": "3.3.3",
+      "title": "Formulas for the Work Center"
+    },
+    {
+      "id": "3.3.4",
+      "title": "Standard Value Key"
+    },
+    {
+      "id": "3.3.5",
+      "title": "Location Groups"
+    },
+    {
+      "id": "3.3.6",
+      "title": "Control Key for Operations"
+    },
+    {
+      "id": "3.4",
+      "title": "BOM Statuses"
+    },
+    {
+      "id": "3.5",
+      "title": "Variable-Size Item Formulas"
+    },
+    {
+      "id": "3.5.1",
+      "title": "Maintaining Order Types"
+    },
+    {
+      "id": "3.5.2",
+      "title": "Number Ranges"
+    },
+    {
+      "id": "3.6",
+      "title": "Application of Work Center Category"
+    },
+    {
+      "id": "3.6.1",
+      "title": "Planning"
+    },
+    {
+      "id": "3.6.2",
+      "title": "Implementation"
+    },
+    {
+      "id": "3.6.3",
+      "title": "Cost Accounting"
+    },
+    {
+      "id": "3.7",
+      "title": "Modifiable Fields of Basic Data Screen Group"
+    },
+    {
+      "id": "3.8",
+      "title": "Modifiable Field with Influences"
+    },
+    {
+      "id": "3.9",
+      "title": "Formula Definition in Work Center"
+    },
+    {
+      "id": "3.9.1",
+      "title": "Define the Checking Group"
+    },
+    {
+      "id": "3.9.2",
+      "title": "Define the Checking Rule"
+    }
+  ],
+  "4": [
+    {
+      "id": "4.1",
+      "title": "Master Data in Process Industries"
+    },
+    {
+      "id": "4.1.1",
+      "title": "Master Recipe Profile"
+    },
+    {
+      "id": "4.1.2",
+      "title": "Task List Assignment to Material Types"
+    },
+    {
+      "id": "4.1.3",
+      "title": "Task List Status"
+    },
+    {
+      "id": "4.2",
+      "title": "Task List Assignment with Material Type"
+    },
+    {
+      "id": "4.2.1",
+      "title": "Master Data"
+    },
+    {
+      "id": "4.2.2",
+      "title": "Planning"
+    },
+    {
+      "id": "4.2.3",
+      "title": "Implementation"
+    },
+    {
+      "id": "4.2.4",
+      "title": "Cost Accounting"
+    },
+    {
+      "id": "4.3",
+      "title": "Task List Status"
+    },
+    {
+      "id": "4.4",
+      "title": "Order Type–Dependent Parameters: Master Data Tab"
+    },
+    {
+      "id": "4.4.1",
+      "title": "Key Terminology"
+    },
+    {
+      "id": "4.4.2",
+      "title": "Standard Settings and Tools"
+    },
+    {
+      "id": "4.5",
+      "title": "Planning Tab"
+    },
+    {
+      "id": "4.5.1",
+      "title": "Creating a Process Message Characteristic"
+    },
+    {
+      "id": "4.5.2",
+      "title": "Process Message Destination"
+    },
+    {
+      "id": "4.5.3",
+      "title": "Process Message Categories"
+    },
+    {
+      "id": "4.6",
+      "title": "Implementation Tab"
+    },
+    {
+      "id": "4.6.1",
+      "title": "Process Instruction Types"
+    },
+    {
+      "id": "4.6.2",
+      "title": "Using a Wizard or Process Instruction Assistant"
+    },
+    {
+      "id": "4.6.3",
+      "title": "Creating a Self-Defined Process Instruction Category"
+    },
+    {
+      "id": "4.6.4",
+      "title": "Creating a Self-Defined Process Instruction Characteristic"
+    },
+    {
+      "id": "4.7",
+      "title": "Production Scheduling Profile"
+    },
+    {
+      "id": "4.7.1",
+      "title": "Creating a Control Recipe Destination"
+    },
+    {
+      "id": "4.7.2",
+      "title": "Scope of Generation"
+    },
+    {
+      "id": "4.8",
+      "title": "Production Scheduling Profile in Material Master"
+    },
+    {
+      "id": "4.8.1",
+      "title": "Sending Control Recipes"
+    },
+    {
+      "id": "4.8.2",
+      "title": "Sending Process Messages"
+    },
+    {
+      "id": "4.8.3",
+      "title": "Deleting Process Messages"
+    },
+    {
+      "id": "4.9",
+      "title": "Process Management Overview"
+    }
+  ],
+  "5": [
+    {
+      "id": "5.1",
+      "title": "Repetitive Manufacturing Profile"
+    },
+    {
+      "id": "5.1.1",
+      "title": "Repetitive Manufacturing Production Type"
+    },
+    {
+      "id": "5.1.2",
+      "title": "Reporting Points"
+    },
+    {
+      "id": "5.1.3",
+      "title": "Automatic Goods Movements"
+    },
+    {
+      "id": "5.1.4",
+      "title": "Reporting Points: Confirmations and Kanban"
+    },
+    {
+      "id": "5.1.5",
+      "title": "Activity Posting"
+    },
+    {
+      "id": "5.1.6",
+      "title": "Separated Backflush"
+    },
+    {
+      "id": "5.1.7",
+      "title": "Process Control"
+    },
+    {
+      "id": "5.1.8",
+      "title": "Firming Planned Orders"
+    },
+    {
+      "id": "5.1.9",
+      "title": "Automatic Stock Determination"
+    },
+    {
+      "id": "5.1.10",
+      "title": "Batch Determination Procedure"
+    },
+    {
+      "id": "5.1.11",
+      "title": "Reduction in Planned Order Quantities"
+    },
+    {
+      "id": "5.1.12",
+      "title": "Reduction Period"
+    },
+    {
+      "id": "5.1.13",
+      "title": "Creating New Planned Orders on Goods Receipts Reversals"
+    },
+    {
+      "id": "5.1.14",
+      "title": "Online Error Correction"
+    },
+    {
+      "id": "5.1.15",
+      "title": "Error Log Maintenance for Reprocessing"
+    },
+    {
+      "id": "5.1.16",
+      "title": "Movement Types for Stock Postings"
+    },
+    {
+      "id": "5.1.17",
+      "title": "Naming the Repetitive Manufacturing Profile"
+    },
+    {
+      "id": "5.1.18",
+      "title": "Summary of Repetitive Manufacturing Profile Settings"
+    },
+    {
+      "id": "5.2",
+      "title": "Reporting Points"
+    },
+    {
+      "id": "5.3",
+      "title": "Automatic GR"
+    },
+    {
+      "id": "5.3.1",
+      "title": "Entry Parameters for a Planning Table"
+    },
+    {
+      "id": "5.3.2",
+      "title": "Maintaining Row Selection"
+    },
+    {
+      "id": "5.4",
+      "title": "RP Confirmation for Kanban"
+    },
+    {
+      "id": "5.5",
+      "title": "Activities Backflush"
+    },
+    {
+      "id": "5.6",
+      "title": "Automatic GR and GI"
+    },
+    {
+      "id": "5.7",
+      "title": "Process Control in Backflushing"
+    },
+    {
+      "id": "5.8",
+      "title": "Firming Planned Orders in REM"
+    },
+    {
+      "id": "5.9",
+      "title": "Stock Determination"
+    },
+    {
+      "id": "5.10",
+      "title": "Reduction in Planned Order Quantities"
+    }
+  ],
+  "6": [
+    {
+      "id": "6.1",
+      "title": "Process Overview"
+    },
+    {
+      "id": "6.2",
+      "title": "Master Data"
+    },
+    {
+      "id": "6.2.1",
+      "title": "Material Master"
+    },
+    {
+      "id": "6.2.2",
+      "title": "Bill of Materials"
+    },
+    {
+      "id": "6.2.3",
+      "title": "Work Center"
+    },
+    {
+      "id": "6.2.4",
+      "title": "Routing"
+    },
+    {
+      "id": "6.2.5",
+      "title": "Production Versions"
+    },
+    {
+      "id": "6.3",
+      "title": "Selecting View Options in Material Master Creation"
+    },
+    {
+      "id": "6.3.1",
+      "title": "Header Data"
+    },
+    {
+      "id": "6.3.2",
+      "title": "Operation Overview"
+    },
+    {
+      "id": "6.3.3",
+      "title": "Standard Trigger Points"
+    },
+    {
+      "id": "6.3.4",
+      "title": "Components Overview"
+    },
+    {
+      "id": "6.3.5",
+      "title": "Reread Master Data"
+    },
+    {
+      "id": "6.3.6",
+      "title": "Statuses"
+    },
+    {
+      "id": "6.3.7",
+      "title": "Scheduling"
+    },
+    {
+      "id": "6.3.8",
+      "title": "Availability Checks"
+    },
+    {
+      "id": "6.4",
+      "title": "Basic Data View of Material Master"
+    },
+    {
+      "id": "6.4.1",
+      "title": "Automatic Release"
+    },
+    {
+      "id": "6.4.2",
+      "title": "Individual Release"
+    },
+    {
+      "id": "6.4.3",
+      "title": "Collective Release"
+    },
+    {
+      "id": "6.5",
+      "title": "BOM Header"
+    },
+    {
+      "id": "6.6",
+      "title": "BOM Item Overview"
+    },
+    {
+      "id": "6.6.1",
+      "title": "Goods Issuance against the Production Order"
+    },
+    {
+      "id": "6.6.2",
+      "title": "Picking List"
+    },
+    {
+      "id": "6.6.3",
+      "title": "Backflush"
+    },
+    {
+      "id": "6.7",
+      "title": "Detailed View of BOM Item"
+    },
+    {
+      "id": "6.7.1",
+      "title": "Confirmation at the Operations Level"
+    },
+    {
+      "id": "6.7.2",
+      "title": "Progress Confirmation"
+    },
+    {
+      "id": "6.7.3",
+      "title": "Confirmation of an Order"
+    },
+    {
+      "id": "6.7.4",
+      "title": "Confirmation Cancellation"
+    }
+  ],
+  "7": [
+    {
+      "id": "7.1",
+      "title": "Process Manufacturing Overview"
+    },
+    {
+      "id": "7.2",
+      "title": "Master Data in Process Manufacturing"
+    },
+    {
+      "id": "7.2.1",
+      "title": "Material Master"
+    },
+    {
+      "id": "7.2.2",
+      "title": "Bill of Materials"
+    },
+    {
+      "id": "7.2.3",
+      "title": "Resource"
+    },
+    {
+      "id": "7.2.4",
+      "title": "Production Version"
+    },
+    {
+      "id": "7.2.5",
+      "title": "Master Recipe Creation"
+    },
+    {
+      "id": "7.3",
+      "title": "Header Details of Master Recipe"
+    },
+    {
+      "id": "7.4",
+      "title": "Material Quantity Calculation in Master Recipe"
+    },
+    {
+      "id": "7.4.1",
+      "title": "Elements in Process Management"
+    },
+    {
+      "id": "7.4.2",
+      "title": "Integrating Process Management"
+    },
+    {
+      "id": "7.4.3",
+      "title": "Process Instructions"
+    },
+    {
+      "id": "7.4.4",
+      "title": "Process Instruction Sheet"
+    },
+    {
+      "id": "7.5",
+      "title": "Operations Overview in Master Recipe"
+    },
+    {
+      "id": "7.6",
+      "title": "Standard Values in Master Recipe"
+    },
+    {
+      "id": "7.6.1",
+      "title": "Creating and Releasing a Process Order"
+    },
+    {
+      "id": "7.6.2",
+      "title": "Generating a Control Recipe"
+    },
+    {
+      "id": "7.6.3",
+      "title": "Downloading and Sending a Control Recipe"
+    },
+    {
+      "id": "7.6.4",
+      "title": "Maintaining Process Instruction Sheets"
+    },
+    {
+      "id": "7.6.5",
+      "title": "Completing Process Instruction Sheets"
+    },
+    {
+      "id": "7.6.6",
+      "title": "Sending Process Messages"
+    },
+    {
+      "id": "7.7",
+      "title": "Basic Data Screen for Transaction CT04"
+    },
+    {
+      "id": "7.7.1",
+      "title": "Repository for Standard XSteps"
+    },
+    {
+      "id": "7.7.2",
+      "title": "Importing the Standard XSteps Library"
+    },
+    {
+      "id": "7.7.3",
+      "title": "Switching from Process Instructions to XSteps"
+    },
+    {
+      "id": "7.7.4",
+      "title": "General Information"
+    },
+    {
+      "id": "7.7.5",
+      "title": "Parameters"
+    },
+    {
+      "id": "7.7.6",
+      "title": "Valuation"
+    },
+    {
+      "id": "7.7.7",
+      "title": "Control Recipe Destination"
+    },
+    {
+      "id": "7.7.8",
+      "title": "Process Instructions"
+    }
+  ],
+  "8": [
+    {
+      "id": "8.1",
+      "title": "Overview"
+    },
+    {
+      "id": "8.1.1",
+      "title": "Roles of Repetitive Manufacturing in Planning and Production"
+    },
+    {
+      "id": "8.1.2",
+      "title": "Repetitive Manufacturing Process Flow"
+    },
+    {
+      "id": "8.2",
+      "title": "Process Flow in REM"
+    },
+    {
+      "id": "8.2.1",
+      "title": "Material Master"
+    },
+    {
+      "id": "8.2.2",
+      "title": "Bill of Materials"
+    },
+    {
+      "id": "8.2.3",
+      "title": "Work Center (Production Line)"
+    },
+    {
+      "id": "8.2.4",
+      "title": "Rate Routing"
+    },
+    {
+      "id": "8.2.5",
+      "title": "Production Version"
+    },
+    {
+      "id": "8.3",
+      "title": "REM Indicator in MRP 4 View of Material Master"
+    },
+    {
+      "id": "8.4",
+      "title": "Work Center: Basic Data"
+    },
+    {
+      "id": "8.4.1",
+      "title": "Parameters Selection"
+    },
+    {
+      "id": "8.4.2",
+      "title": "Creating a Repetitive Manufacturing Planned Order"
+    },
+    {
+      "id": "8.4.3",
+      "title": "Capacity Planning"
+    },
+    {
+      "id": "8.4.4",
+      "title": "Changes and Evaluations"
+    },
+    {
+      "id": "8.4.5",
+      "title": "Range of Coverage"
+    },
+    {
+      "id": "8.5",
+      "title": "Work Center: Default Values"
+    },
+    {
+      "id": "8.5.1",
+      "title": "Current Situation"
+    },
+    {
+      "id": "8.5.2",
+      "title": "Trigger Replenishment"
+    },
+    {
+      "id": "8.5.3",
+      "title": "Collective Availability Check"
+    },
+    {
+      "id": "8.6",
+      "title": "Work Center Capacities"
+    },
+    {
+      "id": "8.7",
+      "title": "Work Center Capacity Header"
+    },
+    {
+      "id": "8.7.1",
+      "title": "Overview"
+    },
+    {
+      "id": "8.7.2",
+      "title": "Assembly Confirmation"
+    },
+    {
+      "id": "8.7.3",
+      "title": "Component Confirmation"
+    },
+    {
+      "id": "8.7.4",
+      "title": "Activities Confirmation"
+    },
+    {
+      "id": "8.7.5",
+      "title": "Actual Assembly Confirmation"
+    },
+    {
+      "id": "8.7.6",
+      "title": "Separated Backflush"
+    },
+    {
+      "id": "8.7.7",
+      "title": "Postprocessing of Components"
+    },
+    {
+      "id": "8.7.8",
+      "title": "Collective Confirmation"
+    }
+  ],
+  "9": [
+    {
+      "id": "9.1",
+      "title": "Kanban Overview"
+    },
+    {
+      "id": "9.2",
+      "title": "Push-Pull Principle"
+    },
+    {
+      "id": "9.3",
+      "title": "Kanban Replenishment Strategies"
+    },
+    {
+      "id": "9.4",
+      "title": "Configuring Kanban"
+    },
+    {
+      "id": "9.4.1",
+      "title": "Number Range for the Control Cycle"
+    },
+    {
+      "id": "9.4.2",
+      "title": "Number Range for the Kanban Identification Number"
+    },
+    {
+      "id": "9.4.3",
+      "title": "MRP Controllers"
+    },
+    {
+      "id": "9.4.4",
+      "title": "Kanban Storage Location"
+    },
+    {
+      "id": "9.4.5",
+      "title": "Kanban Board"
+    },
+    {
+      "id": "9.4.6",
+      "title": "Production Supply Area"
+    },
+    {
+      "id": "9.4.7",
+      "title": "Configuring Kanban Strategies"
+    },
+    {
+      "id": "9.4.8",
+      "title": "Kanban Statuses"
+    },
+    {
+      "id": "9.4.9",
+      "title": "Kanban Alerts"
+    },
+    {
+      "id": "9.5",
+      "title": "Replenishment Strategy: In-House Production"
+    },
+    {
+      "id": "9.5.1",
+      "title": "Kanban Control Cycle"
+    },
+    {
+      "id": "9.5.2",
+      "title": "Material Master/Production Version"
+    },
+    {
+      "id": "9.5.3",
+      "title": "Bill of Materials"
+    },
+    {
+      "id": "9.6",
+      "title": "Control Types for In-House Production"
+    },
+    {
+      "id": "9.6.1",
+      "title": "Kanban Replenishment via Production"
+    },
+    {
+      "id": "9.6.2",
+      "title": "Kanban Replenishment via Procurement"
+    },
+    {
+      "id": "9.6.3",
+      "title": "Kanban Replenishment via Stock Transfer"
+    },
+    {
+      "id": "9.6.4",
+      "title": "Printing Kanban Cards"
+    },
+    {
+      "id": "9.6.5",
+      "title": "Kanban Error Processing"
+    },
+    {
+      "id": "9.6.6",
+      "title": "Separated Post Goods Receipts"
+    },
+    {
+      "id": "9.6.7",
+      "title": "Kanban Signal: Two-Kanban Process"
+    },
+    {
+      "id": "9.6.8",
+      "title": "Logical Stock and Physical Stock"
+    },
+    {
+      "id": "9.7",
+      "title": "Kanban Print Options for Replenishment Strategy"
+    },
+    {
+      "id": "9.7.1",
+      "title": "Control Cycle and Kanban Evaluation"
+    },
+    {
+      "id": "9.7.2",
+      "title": "Kanban Analysis"
+    },
+    {
+      "id": "9.7.3",
+      "title": "Delayed Replenishment Elements"
+    }
+  ],
+  "10": [
+    {
+      "id": "10.1",
+      "title": "Batch Management Overview"
+    },
+    {
+      "id": "10.2",
+      "title": "Batch Level and Batch Status Management"
+    },
+    {
+      "id": "10.2.1",
+      "title": "Defining the Batch Level"
+    },
+    {
+      "id": "10.2.2",
+      "title": "Assigning a Batch Number"
+    },
+    {
+      "id": "10.2.3",
+      "title": "Creating New Batches in the Production Process"
+    },
+    {
+      "id": "10.2.4",
+      "title": "Creating Batches for Goods Movement"
+    },
+    {
+      "id": "10.3",
+      "title": "Master Data in Batch Management"
+    },
+    {
+      "id": "10.3.1",
+      "title": "Activating Batch Management in the Material Master"
+    },
+    {
+      "id": "10.3.2",
+      "title": "Batch Classification"
+    },
+    {
+      "id": "10.3.3",
+      "title": "Assigning a Classification in the Material Master"
+    },
+    {
+      "id": "10.4",
+      "title": "Characteristic"
+    },
+    {
+      "id": "10.4.1",
+      "title": "Creating a Batch Master Manually"
+    },
+    {
+      "id": "10.4.2",
+      "title": "Changing a Batch"
+    },
+    {
+      "id": "10.4.3",
+      "title": "Deleting a Batch"
+    },
+    {
+      "id": "10.4.4",
+      "title": "Automatic Creation of a Batch in Goods Movement"
+    },
+    {
+      "id": "10.4.5",
+      "title": "Stock Overview"
+    },
+    {
+      "id": "10.5",
+      "title": "Characteristic Values"
+    },
+    {
+      "id": "10.5.1",
+      "title": "Defining Condition Tables"
+    },
+    {
+      "id": "10.5.2",
+      "title": "Defining the Access Sequence"
+    },
+    {
+      "id": "10.5.3",
+      "title": "Defining Strategy Types"
+    },
+    {
+      "id": "10.5.4",
+      "title": "Defining the Batch Search Procedure"
+    },
+    {
+      "id": "10.5.5",
+      "title": "Allocating Batch Search Procedures and Activating Checks"
+    },
+    {
+      "id": "10.5.6",
+      "title": "Batch Search Procedure for Process Orders"
+    },
+    {
+      "id": "10.5.7",
+      "title": "Creating Sort Rules"
+    },
+    {
+      "id": "10.5.8",
+      "title": "Maintaining Condition Records"
+    },
+    {
+      "id": "10.5.9",
+      "title": "Business Process"
+    },
+    {
+      "id": "10.6",
+      "title": "Assignment of Characteristics to Class"
+    },
+    {
+      "id": "10.6.1",
+      "title": "Quality Management Master Data Checklist"
+    },
+    {
+      "id": "10.6.2",
+      "title": "Business Processes"
+    },
+    {
+      "id": "10.7",
+      "title": "Classification View of Material Master"
+    }
+  ],
+  "11": [
+    {
+      "id": "11.1",
+      "title": "Standard Sales and Operations Planning"
+    },
+    {
+      "id": "11.1.1",
+      "title": "Overview"
+    },
+    {
+      "id": "11.1.2",
+      "title": "Information Structures"
+    },
+    {
+      "id": "11.1.3",
+      "title": "Planning Methods"
+    },
+    {
+      "id": "11.1.4",
+      "title": "Planning Types in Standard Sales and Operations Planning"
+    },
+    {
+      "id": "11.1.5",
+      "title": "Distributing Key Figures"
+    },
+    {
+      "id": "11.1.6",
+      "title": "Working with Macros"
+    },
+    {
+      "id": "11.2",
+      "title": "S&OP Objects"
+    },
+    {
+      "id": "11.2.1",
+      "title": "Creating a Self-Defined Information structure"
+    },
+    {
+      "id": "11.2.2",
+      "title": "Planning Hierarchy"
+    },
+    {
+      "id": "11.2.3",
+      "title": "Planning Type"
+    },
+    {
+      "id": "11.2.4",
+      "title": "Working with Self-Defined Macros in Flexible Planning"
+    },
+    {
+      "id": "11.2.5",
+      "title": "Row Attributes in a Planning Type"
+    },
+    {
+      "id": "11.2.6",
+      "title": "Planning in the Planning Table"
+    },
+    {
+      "id": "11.2.7",
+      "title": "Additional Features of Planning Tables"
+    },
+    {
+      "id": "11.3",
+      "title": "Standard S&OP, Flexible Planning, Level-by-Level Planning, and Consiste"
+    },
+    {
+      "id": "11.3.1",
+      "title": "Copying a Version"
+    },
+    {
+      "id": "11.3.2",
+      "title": "Deleting a Version"
+    },
+    {
+      "id": "11.3.3",
+      "title": "Scheduling a Copy Version or a Delete Version"
+    },
+    {
+      "id": "11.4",
+      "title": "Standard SAP Information Structure S076"
+    },
+    {
+      "id": "11.4.1",
+      "title": "Forecasting View in the Material Master"
+    },
+    {
+      "id": "11.4.2",
+      "title": "Forecast Models"
+    },
+    {
+      "id": "11.4.3",
+      "title": "Forecast Profile"
+    },
+    {
+      "id": "11.4.4",
+      "title": "Forecast Strategy"
+    },
+    {
+      "id": "11.4.5",
+      "title": "Using the Forecast Profile"
+    },
+    {
+      "id": "11.4.6",
+      "title": "Weighting Group"
+    },
+    {
+      "id": "11.4.7",
+      "title": "Splitting Indicator"
+    },
+    {
+      "id": "11.5",
+      "title": "Planning Parameters of Information Structure"
+    },
+    {
+      "id": "11.5.1",
+      "title": "Creating a Profile"
+    },
+    {
+      "id": "11.5.2",
+      "title": "Pegged Requirements"
+    }
+  ],
+  "12": [
+    {
+      "id": "12.1",
+      "title": "Elements of Demand Management"
+    },
+    {
+      "id": "12.1.1",
+      "title": "Consumption Modes and Logic"
+    },
+    {
+      "id": "12.1.2",
+      "title": "Determining the Requirements Type"
+    },
+    {
+      "id": "12.1.3",
+      "title": "Availability Check and Total Replenishment Lead Time"
+    },
+    {
+      "id": "12.2",
+      "title": "Configuration Settings for Strategy"
+    },
+    {
+      "id": "12.2.1",
+      "title": "Strategy 40: Planning with Final Assembly"
+    },
+    {
+      "id": "12.2.2",
+      "title": "Strategy 30: Production by Lot Size"
+    },
+    {
+      "id": "12.2.3",
+      "title": "Strategy 10: Net Requirements Planning"
+    },
+    {
+      "id": "12.2.4",
+      "title": "Strategy 11: Gross Requirements Planning"
+    },
+    {
+      "id": "12.2.5",
+      "title": "Strategy 52: Planning with Final Assembly and without Make-to-Order"
+    },
+    {
+      "id": "12.2.6",
+      "title": "Strategy 63: Planning with a Planning Material and without Make-to-Orde"
+    },
+    {
+      "id": "12.3",
+      "title": "Relationships among Requirements Type, Requirements Class, and Planning"
+    },
+    {
+      "id": "12.3.1",
+      "title": "Strategy 20: Make-to-Order Production"
+    },
+    {
+      "id": "12.3.2",
+      "title": "Strategy 60: Planning with a Planning Material"
+    },
+    {
+      "id": "12.3.3",
+      "title": "Strategy 50: Planning Without Final Assembly"
+    },
+    {
+      "id": "12.4",
+      "title": "Strategy 40: MTS"
+    },
+    {
+      "id": "12.4.1",
+      "title": "Strategy 81: Assembly Processing with Planned Orders"
+    },
+    {
+      "id": "12.4.2",
+      "title": "Strategy 82: Assembly Processing with Production Orders"
+    },
+    {
+      "id": "12.5",
+      "title": "Strategy"
+    },
+    {
+      "id": "12.5.1",
+      "title": "Strategy 70: Planning at the Assembly Level"
+    },
+    {
+      "id": "12.5.2",
+      "title": "Strategy 59: Planning at the Phantom Assembly Level"
+    },
+    {
+      "id": "12.6",
+      "title": "Strategy"
+    },
+    {
+      "id": "12.7",
+      "title": "Individual or Collective Options in MRP 4 View"
+    },
+    {
+      "id": "12.7.1",
+      "title": "Copying Standard Requirements Classes"
+    },
+    {
+      "id": "12.7.2",
+      "title": "Creating a Requirements Type and Adding the Requirements Class"
+    },
+    {
+      "id": "12.7.3",
+      "title": "Creating a Planning Strategy"
+    },
+    {
+      "id": "12.7.4",
+      "title": "Creating a Strategy Group and Including the Newly Created Planning"
+    },
+    {
+      "id": "12.7.5",
+      "title": "Assigning a Strategy Group to a Material Requirements Planning Group"
+    },
+    {
+      "id": "12.8",
+      "title": "Strategy"
+    },
+    {
+      "id": "12.8.1",
+      "title": "Planned Independent Requirements"
+    }
+  ],
+  "13": [
+    {
+      "id": "13.1",
+      "title": "Process Overview"
+    },
+    {
+      "id": "13.2",
+      "title": "Production Planning"
+    },
+    {
+      "id": "13.2.1",
+      "title": "Material Requirements Planning Type PD"
+    },
+    {
+      "id": "13.2.2",
+      "title": "Material Requirements Planning Type VB"
+    },
+    {
+      "id": "13.2.3",
+      "title": "Material Requirements Planning Type VM"
+    },
+    {
+      "id": "13.2.4",
+      "title": "Material Requirements Planning Type V1"
+    },
+    {
+      "id": "13.2.5",
+      "title": "Material Requirements Planning Type V2"
+    },
+    {
+      "id": "13.2.6",
+      "title": "Material Requirements Planning Types D1 and D2"
+    },
+    {
+      "id": "13.3",
+      "title": "MRP and Consumption-Based Planning"
+    },
+    {
+      "id": "13.3.1",
+      "title": "Material Requirements Planning Type VV"
+    },
+    {
+      "id": "13.3.2",
+      "title": "Material Requirements Planning Types R1 and R2"
+    },
+    {
+      "id": "13.4",
+      "title": "ABC Analysis Using Transactions MC40 and MC41"
+    },
+    {
+      "id": "13.5",
+      "title": "MRP Type: PD"
+    },
+    {
+      "id": "13.5.1",
+      "title": "Static Lot Sizing Procedures"
+    },
+    {
+      "id": "13.5.2",
+      "title": "Periodic Lot Sizing Procedures"
+    },
+    {
+      "id": "13.5.3",
+      "title": "Optimum Lot Sizing Procedures"
+    },
+    {
+      "id": "13.5.4",
+      "title": "Configuring Lot Size"
+    },
+    {
+      "id": "13.6",
+      "title": "Planning Time Fence"
+    },
+    {
+      "id": "13.7",
+      "title": "Reorder Point Planning"
+    },
+    {
+      "id": "13.7.1",
+      "title": "Assembly Scrap"
+    },
+    {
+      "id": "13.7.2",
+      "title": "Component Scrap"
+    },
+    {
+      "id": "13.7.3",
+      "title": "Operations and Component Scrap in Bill of Materials"
+    },
+    {
+      "id": "13.7.4",
+      "title": "Scrap in Routing"
+    },
+    {
+      "id": "13.8",
+      "title": "MRP Type VB"
+    },
+    {
+      "id": "13.8.1",
+      "title": "Static Safety Stock"
+    },
+    {
+      "id": "13.8.2",
+      "title": "Safety Stock Availability"
+    },
+    {
+      "id": "13.8.3",
+      "title": "Dynamic Safety Stock with Range of Coverage Profile"
+    },
+    {
+      "id": "13.8.4",
+      "title": "Safety Stock and Safety Time"
+    },
+    {
+      "id": "13.8.5",
+      "title": "MRP Safety Stock Method"
+    },
+    {
+      "id": "13.9",
+      "title": "Reorder Point Planning"
+    }
+  ],
+  "14": [
+    {
+      "id": "14.1",
+      "title": "Limitations of Current Materials Planning and"
+    },
+    {
+      "id": "14.2",
+      "title": "Material and Information Flows"
+    },
+    {
+      "id": "14.3",
+      "title": "Demand-Driven Material Requirements Planning Basics and"
+    },
+    {
+      "id": "14.3.1",
+      "title": "Where to Implement Demand-Driven Replenishment"
+    },
+    {
+      "id": "14.3.2",
+      "title": "Demand-Driven Material Requirements Planning Components"
+    },
+    {
+      "id": "14.4",
+      "title": "Five Components of DDMRP (©Demand Driven Institute, Used with Permissio"
+    },
+    {
+      "id": "14.4.1",
+      "title": "Configuration Settings"
+    },
+    {
+      "id": "14.4.2",
+      "title": "Master Data Settings"
+    },
+    {
+      "id": "14.4.3",
+      "title": "Transactions"
+    },
+    {
+      "id": "14.5",
+      "title": "Strategically Placed Buffers (©Demand Driven Institute, Used with Permi"
+    },
+    {
+      "id": "14.5.1",
+      "title": "Protecting Throughput"
+    },
+    {
+      "id": "14.5.2",
+      "title": "Classification"
+    },
+    {
+      "id": "14.5.3",
+      "title": "Buffer Positioning"
+    },
+    {
+      "id": "14.5.4",
+      "title": "Lead Time Classification"
+    },
+    {
+      "id": "14.5.5",
+      "title": "Buffer Level Determination"
+    },
+    {
+      "id": "14.5.6",
+      "title": "Planning and Execution"
+    },
+    {
+      "id": "14.5.7",
+      "title": "Metrics and Analytics"
+    },
+    {
+      "id": "14.6",
+      "title": "Buffer Zones (©Demand Driven Institute, Used with Permission)"
+    },
+    {
+      "id": "14.7",
+      "title": "Buffer Calculation (©Demand Driven Institute, Used with Permission)"
+    },
+    {
+      "id": "14.8",
+      "title": "DDMRP Execution (©Demand Driven Institute, Used with Permission)"
+    },
+    {
+      "id": "14.9",
+      "title": "Standard Buffer Profile"
+    },
+    {
+      "id": "14.10",
+      "title": "Plant-Specific Settings of Buffer Profile"
+    },
+    {
+      "id": "14.11",
+      "title": "Stock/Requirements List for DDR Material"
+    },
+    {
+      "id": "14.12",
+      "title": "Planned Independent Requirements"
+    },
+    {
+      "id": "14.13",
+      "title": "Sales Order"
+    },
+    {
+      "id": "14.14",
+      "title": "Product Classification"
+    },
+    {
+      "id": "14.15",
+      "title": "Scheduling Options"
+    },
+    {
+      "id": "14.16",
+      "title": "Selection Criteria for Products"
+    },
+    {
+      "id": "14.17",
+      "title": "Thresholds Settings"
+    },
+    {
+      "id": "14.18",
+      "title": "Unbuffered Products without Decoupled Lead Time"
+    }
+  ],
+  "15": [
+    {
+      "id": "15.1",
+      "title": "Basics"
+    },
+    {
+      "id": "15.2",
+      "title": "Setup"
+    },
+    {
+      "id": "15.3",
+      "title": "Scheduling pMRP"
+    },
+    {
+      "id": "15.4",
+      "title": "Parameters Selection in pMRP Scheduling, Part"
+    },
+    {
+      "id": "15.5",
+      "title": "Parameters Selection in pMRP Scheduling, Part"
+    },
+    {
+      "id": "15.6",
+      "title": "Application Log"
+    },
+    {
+      "id": "15.7",
+      "title": "Processing pMRP Simulations"
+    },
+    {
+      "id": "15.8",
+      "title": "Copying pMRP Simulation"
+    },
+    {
+      "id": "15.9",
+      "title": "Demand Plan Simulation"
+    },
+    {
+      "id": "15.10",
+      "title": "Capacity Plan Simulation"
+    },
+    {
+      "id": "15.11",
+      "title": "Changing Available Capacity"
+    },
+    {
+      "id": "15.12",
+      "title": "Inspector Panel"
+    },
+    {
+      "id": "15.13",
+      "title": "Simulation Components"
+    },
+    {
+      "id": "15.14",
+      "title": "Multilevel Material Simulation"
+    },
+    {
+      "id": "15.15",
+      "title": "Changing Source of Supply"
+    },
+    {
+      "id": "15.16",
+      "title": "Shifting Top-Level Demand"
+    },
+    {
+      "id": "15.17",
+      "title": "Preproduction or Early Procurement of Components"
+    },
+    {
+      "id": "15.18",
+      "title": "Issue List"
+    },
+    {
+      "id": "15.19",
+      "title": "Delivery Performance Impacted"
+    },
+    {
+      "id": "15.20",
+      "title": "Simulation Summary"
+    },
+    {
+      "id": "15.21",
+      "title": "Releasing pMRP Simulation"
+    },
+    {
+      "id": "15.22",
+      "title": "Processed Simulation Released to Operative MRP"
+    },
+    {
+      "id": "15.23",
+      "title": "Updated Planned Independent Requirements"
+    },
+    {
+      "id": "15.24",
+      "title": "Changes to pMRP in the Mass Maintenance of Work Center Capacities App"
+    },
+    {
+      "id": "15.25",
+      "title": "Flexible Constraint"
+    }
+  ]
+}
