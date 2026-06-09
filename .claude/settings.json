@@ -48,21 +48,9 @@
       "Bash(node scripts/extract-book1-figures.mjs)",
       "Bash(node scripts/build-knowledge.mjs)",
       "Bash(node scripts/extract-book2.mjs)",
-      "Bash(node -e 'const fs=require\\(\"fs\"\\);const p=\".claude/settings.json\";const s=JSON.parse\\(fs.readFileSync\\(p,\"utf8\"\\)\\);s.hooks={Stop:[{hooks:[{type:\"command\",command:\"bash /Users/salihalif/Desktop/My-Projects/sap/.claude/hooks/auto-push.sh\",timeout:120,statusMessage:\"Auto-pushing...\"}]}]};fs.writeFileSync\\(p,JSON.stringify\\(s,null,2\\)\\);')"
-    ]
-  },
-  "hooks": {
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash /Users/salihalif/Desktop/My-Projects/sap/.claude/hooks/auto-push.sh",
-            "timeout": 120,
-            "statusMessage": "Auto-pushing..."
-          }
-        ]
-      }
+      "Bash(node -e 'const fs=require\\(\"fs\"\\);const p=\".claude/settings.json\";const s=JSON.parse\\(fs.readFileSync\\(p,\"utf8\"\\)\\);s.hooks={Stop:[{hooks:[{type:\"command\",command:\"bash /Users/salihalif/Desktop/My-Projects/sap/.claude/hooks/auto-push.sh\",timeout:120,statusMessage:\"Auto-pushing...\"}]}]};fs.writeFileSync\\(p,JSON.stringify\\(s,null,2\\)\\);')",
+      "Bash(sed -i '' 's/\\\\${GEMINI_MODEL}/\\\\${model}/g' app/chat/page.tsx)",
+      "Bash(grep -n \"Google \\\\${model}\" app/chat/page.tsx)"
     ]
   }
 }

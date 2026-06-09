@@ -1,0 +1,1192 @@
+{
+  "book": {
+    "slug": "sap-pm-business-guide",
+    "title": "Plant Maintenance with SAP S/4HANA — Business User Guide",
+    "titleHe": "תחזוקת מפעל (PM) ב-SAP S/4HANA — מדריך למשתמש העסקי",
+    "author": "Karl Liebstückel (SAP PRESS)",
+    "module": "PM",
+    "source": "books/sap-pm-business-guide.pdf pp.1-250",
+    "pagesCovered": [
+      1,
+      250
+    ],
+    "totalPages": 669,
+    "poc": true
+  },
+  "summaryHe": "החלק המכוסה בספר מציג את מודול ה-PM (Plant Maintenance) בתוך SAP S/4HANA Asset Management מנקודת מבט של משתמש עסקי, ומלווה את הקורא משינוי הטרמינולוגיה והאסטרטגיות ועד למבני הנתונים בפועל. הפרק הראשון פורש את מחזור החיים של התחזוקה: ארבע משימות היסוד לפי DIN 31051 (בדיקה, תחזוקה מונעת, תיקון ושיפור), ההתפתחות מתחזוקה תגובתית לתחזוקה מונעת, מבוססת-מצב ומבוססת-אמינות, ותקני ISO 55000 לניהול נכסים. במקביל מתוארת ההיסטוריה הטכנולוגית של הרכיב מ-RM-INST ב-R/2 ועד S/4HANA הרץ אך ורק על מסד נתונים HANA, כולל ריבוי שמות המוצר (EAM, ALM, Intelligent Asset Management) וההבחנה בין on-premise ל-Cloud. נדונים Enhancement Packages והפעלת business functions דרך SFW5, בדגש על LOG_EAM_CI חסר התלויות, וכן שלוש ממשקי המשתמש: SAP GUI, SAP Business Client ו-SAP Fiori על קטגוריות האפליקציות שלה. החלק על מבנה ארגוני מבחין בין planning plant ל-maintenance plant ומגדיר work center, planner group ו-plant section, כולל control keys, נוסחאות SAP004/SAP008 ושיעורי ניצולת קיבולת מציאותיים. עיקר הערך המעשי נמצא בפרק על מבני הנתונים הטכניים: ההבחנה היסודית בין Functional Location (מספור חיצוני לפי structure indicator, סיכום עלויות היררכי) ל-Equipment (מספור פנימי, serialization, היסטוריית שימוש, refurbishment/subcontracting/calibration), לצד Object Links, Equipment Hierarchies ו-Linear Asset Management עם dynamic segmentation לתשתיות לינאריות. הספר מסיים את החלק במבנה ה-Material Master ההיררכי ובתפקיד ה-Material Type. לאורך כל הטקסט שזורות המלצות מעשיות כגון יצירת \"מגרש גרוטאות\" לאובייקטים מיושנים ושימוש בקבוצות מסך לשליטה בשדות חובה.",
+  "keyFindingsHe": [
+    "ארבע משימות התחזוקה לפי DIN 31051 (בדיקה, תחזוקה מונעת, תיקון, שיפור) הן מסגרת היסוד שעליה נשען כל מודול ה-PM; הגרסה המעודכנת 2018 מרחיבה את ההגדרות לעומת 1985.",
+    "S/4HANA Asset Management הוא היורש של ERP 6.0 ורץ אך ורק על מסד נתונים HANA; טכנולוגיית ה-in-memory משלבת אחסון מבוסס-עמודות ושורות לביצועים מהירים יותר.",
+    "קיים ריבוי שמות לאותו מוצר (PM, EAM, ALM, Intelligent Asset Management) ללא אחידות במינוח, מה שמחייב זהירות בתקשורת בין צוותים.",
+    "מומלץ להפעיל את business function בשם LOG_EAM_CI דרך SFW5 כי היא חסרת תלויות ופותחת שיפורי תחזוקה מרכזיים.",
+    "ההבחנה המעשית החשובה ביותר: Equipment תומך ב-serialization, היסטוריית שימוש ובתהליכי refurbishment/subcontracting/calibration; Functional Location תומך ב-labeling ובסיכום עלויות היררכי בלבד.",
+    "Functional Location ממוספר חיצונית לפי structure indicator (עד 30/40 תווים) ולא ניתן למחיקה אלא דרך archiving — ומכאן ההמלצה ל'מגרש גרוטאות' לאובייקטים מיושנים.",
+    "הבחנה ארגונית קריטית בין planning plant (מתכנן) ל-maintenance plant (מבצע); כאשר ה-plants בשטחי controlling שונים עדיף cost center על פני הזמנות רכש/מכירה.",
+    "control key ב-work center קובע costing/scheduling/confirmation/external ויש להגדירו כברירת מחדל; הנוסחאות SAP004 (DAUNO) ו-SAP008 (ARBEI) משרתות חישובי זמן ודרישות.",
+    "שיעור ניצולת קיבולת מעשי הוא 65%-75%, אך הזמנות לא מתוכננות מורידות אותו ל-30%-50%.",
+    "Linear Asset Management עם dynamic segmentation מאפשר תיאור תשתיות לינאריות (כבישים, צנרת) באמצעות Starting/End Point, Length ו-Offset, ודורש customizing ייעודי של view profiles ו-linear reference patterns דרך IK81/IK82/IK83.",
+    "שלוש ממשקי משתמש מקבילות: SAP GUI, SAP Business Client (כולל side panels עם MTTR/MTBR) ו-SAP Fiori; אפליקציות Fiori מסווגות ל-real apps (עם/בלי ערך מוסף) ול-pseudo apps.",
+    "עומק מבנה רב מביא לגידול אקספוננציאלי באובייקטים — מומלץ להתחיל גס ולפרט נקודתית בלבד."
+  ],
+  "topicsHe": [
+    {
+      "he": "מבנה הספר ומבוא ל-PM ב-S/4HANA: טרמינולוגיה חדשה, מערכת S/4HANA ו-HANA DB, סקירת מהדורה וארגון פרקים",
+      "pages": [
+        1,
+        7
+      ]
+    },
+    {
+      "he": "מבני ארגון ב-PM מנקודת מבט תחזוקה: יחידות ארגוניות ומרכזי עבודה",
+      "pages": [
+        7
+      ]
+    },
+    {
+      "he": "מבנה מערכות טכניות: Functional Locations, Equipment, היררכיות, BOM ו-Classification",
+      "pages": [
+        8,
+        9
+      ]
+    },
+    {
+      "he": "מחזור הזמנת עבודה מלא: Notification, Order, תכנון, בקרה, ביצוע וסגירה טכנית/עסקית",
+      "pages": [
+        9,
+        10
+      ]
+    },
+    {
+      "he": "תחזוקה מונעת: Task Lists, תוכניות מבוססות זמן/ביצוע, Multiple-Counter ו-Inspection Rounds",
+      "pages": [
+        10,
+        11
+      ]
+    },
+    {
+      "he": "תהליכים נוספים: תיקונים מיידיים, Shift Notes, Refurbishment, Subcontracting וכיול ציוד בדיקה",
+      "pages": [
+        11,
+        12
+      ]
+    },
+    {
+      "he": "אינטגרציה עם MM, PP, QM, EHS, FI, CO ומערכות SAP/לא-SAP, ובקרת PM ודיווח",
+      "pages": [
+        12,
+        13
+      ]
+    },
+    {
+      "he": "ארבע משימות תחזוקה לפי DIN 31051 והשוואת הגרסאות 1985 מול 2018",
+      "pages": [
+        29,
+        30,
+        31,
+        32
+      ]
+    },
+    {
+      "he": "תקני ISO 55000/55001/55002 לניהול נכסים והרחבתם מעבר ל-PM בלבד",
+      "pages": [
+        32
+      ]
+    },
+    {
+      "he": "התפתחות אסטרטגיות תחזוקה: reactive, preventive, time-based מול performance-based, condition-based (SCADA) ו-reliability-centered עם FMEA",
+      "pages": [
+        33,
+        34,
+        35
+      ]
+    },
+    {
+      "he": "היסטוריית רכיב ה-PM ב-SAP מ-RM-INST ב-R/2 ועד S/4HANA Asset Management, וריבוי שמות המוצר",
+      "pages": [
+        35
+      ]
+    },
+    {
+      "he": "S/4HANA כיורש ל-ERP 6.0 על HANA בלבד; on-premise מול Cloud ומחזורי חדשנות שונים",
+      "pages": [
+        36,
+        37,
+        52
+      ]
+    },
+    {
+      "he": "Enhancement Packages והפעלת business functions דרך SFW5; המלצה ל-LOG_EAM_CI חסר התלויות ורשימת business functions מרכזיות",
+      "pages": [
+        38,
+        39,
+        40,
+        52
+      ]
+    },
+    {
+      "he": "טכנולוגיית in-memory של HANA: שילוב אחסון מבוסס-עמודות ושורות",
+      "pages": [
+        40,
+        41
+      ]
+    },
+    {
+      "he": "שלוש ממשקי משתמש: SAP GUI, SAP Business Client (side panels עם MTTR/MTBR) ו-SAP Fiori, וסיווג אפליקציות Fiori",
+      "pages": [
+        42,
+        43,
+        44,
+        46,
+        48,
+        49,
+        50
+      ]
+    },
+    {
+      "he": "מבנה ארגוני: planning plant מול maintenance plant, planner group, location ו-plant section; תוך-מפעל מול חוצת-מפעלים ושימוש ב-cost center",
+      "pages": [
+        55,
+        56,
+        57,
+        58,
+        59
+      ]
+    },
+    {
+      "he": "work center: איש בודד מול workshop, יצירה ב-IR01, מק\"טים קצרים, usage 004/009 ו-standard value key SAP0",
+      "pages": [
+        59,
+        60,
+        61,
+        62
+      ]
+    },
+    {
+      "he": "control key ונוסחאות: SAP004 ל-DAUNO ו-SAP008 ל-ARBEI; שיעורי ניצולת קיבולת 65%-75% ו-30%-50%",
+      "pages": [
+        62,
+        63,
+        64,
+        65
+      ]
+    },
+    {
+      "he": "משאבי מבנה ועומק מבנה: התחלה גסה ופירוט נקודתי למניעת גידול אקספוננציאלי באובייקטים",
+      "pages": [
+        68,
+        69,
+        70,
+        71,
+        72
+      ]
+    },
+    {
+      "he": "הבדלים Equipment מול Functional Location: מספור פנימי/חיצוני, serialization, refurbishment/subcontracting/calibration רק לציוד; מספור FL חיצוני לפי structure indicator ומחיקה דרך archiving בלבד",
+      "pages": [
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        81,
+        99,
+        100
+      ]
+    },
+    {
+      "he": "יצירת Functional Location ב-IL01, שיוך ידני על מבנה, והמלצה ל'מגרש גרוטאות' לאובייקטים מיושנים",
+      "pages": [
+        83
+      ]
+    },
+    {
+      "he": "קבוצות מסך ל-master record דרך Set View Profiles ו-Define Field Selection; שדה Position בן 4 תווים ומספור 0001",
+      "pages": [
+        84,
+        85,
+        86
+      ]
+    },
+    {
+      "he": "הבחנה בין Work Center (משאב ייצור, CM21) ל-Main Work Center (סדנת תחזוקה)",
+      "pages": [
+        86
+      ]
+    },
+    {
+      "he": "Reference Functional Location כתבנית ו-Alternative Labeling למספור מקביל (לא ניתן לביטול לאחר הפעלה)",
+      "pages": [
+        88,
+        89,
+        90
+      ]
+    },
+    {
+      "he": "התקנה/פירוק ציוד על Functional Location דרך IE02/IL02 והגדרת Define Installation",
+      "pages": [
+        92,
+        93
+      ]
+    },
+    {
+      "he": "אחסון ציוד עם serial number ו-Serial no. profile; תנועות סחורה ב-MIGO/IE4N וסקירת מלאי ב-MMBE",
+      "pages": [
+        94,
+        95,
+        96,
+        97
+      ]
+    },
+    {
+      "he": "Equipment Hierarchies לקבוצות ציוד מורכבות; עדכון היסטוריה על הציוד שצוין בלבד",
+      "pages": [
+        97,
+        98,
+        99
+      ]
+    },
+    {
+      "he": "Object Links ו-Object Networks בין ציודים/מיקומים; תפקיד מינורי בשל אי-שילוב בתהליכים עסקיים",
+      "pages": [
+        101,
+        102
+      ]
+    },
+    {
+      "he": "Linear Asset Management עם dynamic segmentation לתשתיות לינאריות; שדות Starting/End Point, Length, Offset ו-linear reference patterns דרך IK81/IK82/IK83",
+      "pages": [
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108
+      ]
+    },
+    {
+      "he": "Material Master היררכי (client/plant/storage) ו-Material Type הקובע מחלקות, number range, procurement type והנהלת חשבונות",
+      "pages": [
+        109,
+        110
+      ]
+    }
+  ],
+  "glossary": [
+    {
+      "obj": "IL01",
+      "type": "tcode",
+      "he": "יצירת Functional Location חדש (מיקום פונקציונלי)."
+    },
+    {
+      "obj": "IL02",
+      "type": "tcode",
+      "he": "שינוי Functional Location, כולל התקנה/פירוק ציוד."
+    },
+    {
+      "obj": "IL04",
+      "type": "tcode",
+      "he": "יצירת רשימת Functional Locations המוניים לפי structure indicator."
+    },
+    {
+      "obj": "IL05",
+      "type": "tcode",
+      "he": "הצגת רשימת Functional Locations."
+    },
+    {
+      "obj": "IL07",
+      "type": "tcode",
+      "he": "דוח מבני רב-רמתי של Functional Locations."
+    },
+    {
+      "obj": "IE01",
+      "type": "tcode",
+      "he": "יצירת רשומת Equipment חדשה (ציוד)."
+    },
+    {
+      "obj": "IE02",
+      "type": "tcode",
+      "he": "שינוי Equipment, כולל התקנה על מיקום פונקציונלי."
+    },
+    {
+      "obj": "IE03",
+      "type": "tcode",
+      "he": "הצגת Equipment."
+    },
+    {
+      "obj": "IE05",
+      "type": "tcode",
+      "he": "רשימת/בחירת Equipment."
+    },
+    {
+      "obj": "IE07",
+      "type": "tcode",
+      "he": "עיבוד רשימת Equipment המוני."
+    },
+    {
+      "obj": "IE4N",
+      "type": "tcode",
+      "he": "ניהול תנועות מלאי וסידור (serialization) של ציוד מתוחזק."
+    },
+    {
+      "obj": "IR01",
+      "type": "tcode",
+      "he": "יצירת work center (מרכז עבודה) לתחזוקה."
+    },
+    {
+      "obj": "IH01",
+      "type": "tcode",
+      "he": "הצגת מבנה פונקציונלי/ציוד היררכי."
+    },
+    {
+      "obj": "IH03",
+      "type": "tcode",
+      "he": "הצגת מבנה Equipment."
+    },
+    {
+      "obj": "IK81",
+      "type": "tcode",
+      "he": "יצירת linear reference pattern (תבנית ייחוס לינארית)."
+    },
+    {
+      "obj": "IK82",
+      "type": "tcode",
+      "he": "שינוי linear reference pattern."
+    },
+    {
+      "obj": "IK83",
+      "type": "tcode",
+      "he": "הצגת linear reference pattern."
+    },
+    {
+      "obj": "IN02",
+      "type": "tcode",
+      "he": "שינוי point/measuring point (נקודת מדידה)."
+    },
+    {
+      "obj": "IN04",
+      "type": "tcode",
+      "he": "רשימת נקודות מדידה."
+    },
+    {
+      "obj": "IN07",
+      "type": "tcode",
+      "he": "עיבוד נקודות מדידה."
+    },
+    {
+      "obj": "IN15",
+      "type": "tcode",
+      "he": "טרנזקציה מקבוצת ניהול נקודות מדידה/מונים."
+    },
+    {
+      "obj": "IN16",
+      "type": "tcode",
+      "he": "טרנזקציה מקבוצת ניהול נקודות מדידה/מונים."
+    },
+    {
+      "obj": "IN18",
+      "type": "tcode",
+      "he": "טרנזקציה מקבוצת ניהול נקודות מדידה/מונים."
+    },
+    {
+      "obj": "IN19",
+      "type": "tcode",
+      "he": "טרנזקציה מקבוצת ניהול נקודות מדידה/מונים."
+    },
+    {
+      "obj": "IK81/IK82/IK83",
+      "type": "tcode-group",
+      "he": "שלישיית טרנזקציות ליצירה/שינוי/הצגה של linear reference patterns."
+    },
+    {
+      "obj": "CM21",
+      "type": "tcode",
+      "he": "לוח תכנון קיבולת (capacity planning) של work center ייצורי."
+    },
+    {
+      "obj": "MMBE",
+      "type": "tcode",
+      "he": "סקירת מלאי (stock overview) לחומר על פני plants ומחסנים."
+    },
+    {
+      "obj": "MIGO",
+      "type": "tcode",
+      "he": "רישום תנועות סחורה (קבלה/הוצאה) במלאי."
+    },
+    {
+      "obj": "MM02",
+      "type": "tcode",
+      "he": "שינוי רשומת Material Master."
+    },
+    {
+      "obj": "ME51N",
+      "type": "tcode",
+      "he": "יצירת דרישת רכש (purchase requisition)."
+    },
+    {
+      "obj": "MIRO",
+      "type": "tcode",
+      "he": "רישום חשבונית ספק נכנסת."
+    },
+    {
+      "obj": "SFW5",
+      "type": "tcode",
+      "he": "מתג Switch Framework להפעלת business functions במערכת."
+    },
+    {
+      "obj": "LSMW",
+      "type": "tcode",
+      "he": "כלי מיגרציה להעברת נתוני master בכמות (Legacy System Migration Workbench)."
+    },
+    {
+      "obj": "IBIP",
+      "type": "tcode",
+      "he": "כלי קליטת נתוני PM המוניים (batch input) לאובייקטים טכניים."
+    },
+    {
+      "obj": "Functional Location Type",
+      "type": "object",
+      "he": "מאפיין הקובע את התנהגות וקטגוריית המיקום הפונקציונלי."
+    },
+    {
+      "obj": "Equipment Category",
+      "type": "object",
+      "he": "קטגוריית ציוד הקובעת אילו תכונות ומסכים זמינים לרשומת Equipment."
+    },
+    {
+      "obj": "Structure Indicator",
+      "type": "object",
+      "he": "תבנית עריכה הקובעת את פורמט המספור החיצוני ההיררכי של מיקומים פונקציונליים."
+    },
+    {
+      "obj": "Serial Number Profile",
+      "type": "object",
+      "he": "פרופיל הקובע כללי serialization של חומר/ציוד ותנועותיו."
+    },
+    {
+      "obj": "Construction Type",
+      "type": "object",
+      "he": "סוג בנייה המקשר ציוד לחומר ייחוס לצורכי refurbishment ותכנון."
+    },
+    {
+      "obj": "Object Network",
+      "type": "object",
+      "he": "רשת קישורים בין אובייקטים טכניים (Object Links) בעלת תפקיד מינורי בתהליכים."
+    },
+    {
+      "obj": "Linear Asset Management",
+      "type": "object",
+      "he": "ניהול נכסים לינאריים (כבישים, צנרת) עם dynamic segmentation."
+    },
+    {
+      "obj": "Dynamic Segmentation",
+      "type": "object",
+      "he": "מנגנון חלוקת נכס לינארי למקטעים שבהם המאפיינים משתנים לאורך הקו."
+    },
+    {
+      "obj": "Linear Reference Pattern",
+      "type": "object",
+      "he": "תבנית לתיאור נקודות ייחוס יחסיות על אובייקט לינארי."
+    },
+    {
+      "obj": "Maintenance Event Builder",
+      "type": "object",
+      "he": "כלי לתכנון וקיבוץ עבודות תחזוקה מרובות לאירוע מתואם."
+    },
+    {
+      "obj": "Pool Asset Management",
+      "type": "object",
+      "he": "ניהול מאגר נכסים/ציוד משותף לשימוש משתנה."
+    },
+    {
+      "obj": "PRT",
+      "type": "object",
+      "he": "Production Resource/Tool — כלי או אמצעי עזר לתחזוקה/ייצור."
+    },
+    {
+      "obj": "RM-INST",
+      "type": "object",
+      "he": "רכיב התחזוקה ההיסטורי ב-SAP R/2 (1986), אב-טיפוס ל-PM."
+    },
+    {
+      "obj": "SAP R/2",
+      "type": "object",
+      "he": "דור מערכת ה-mainframe המוקדם של SAP."
+    },
+    {
+      "obj": "SAP R/3",
+      "type": "object",
+      "he": "דור client-server של SAP שבו הוצג PM המודרני."
+    },
+    {
+      "obj": "SAP ERP 6.0",
+      "type": "object",
+      "he": "גרסת ה-ERP שלפני S/4HANA, קודמו של S/4HANA."
+    },
+    {
+      "obj": "SAP S/4HANA",
+      "type": "object",
+      "he": "חבילת ה-ERP של SAP הרצה אך ורק על מסד נתונים HANA."
+    },
+    {
+      "obj": "SAP S/4HANA Asset Management",
+      "type": "object",
+      "he": "השם הרשמי למודול ניהול הנכסים/התחזוקה ב-S/4HANA."
+    },
+    {
+      "obj": "SAP HANA",
+      "type": "object",
+      "he": "מסד נתונים in-memory עם אחסון מבוסס-עמודות ושורות."
+    },
+    {
+      "obj": "SAP EAM (Enterprise Asset Management)",
+      "type": "object",
+      "he": "מטריית ניהול נכסים ארגוני הכוללת את PM."
+    },
+    {
+      "obj": "ALM (Asset Lifecycle Management)",
+      "type": "object",
+      "he": "ניהול מחזור חיי הנכס — אחד מכינויי מוצר התחזוקה."
+    },
+    {
+      "obj": "SAP Intelligent Asset Management",
+      "type": "object",
+      "he": "חבילת ענן לניהול נכסים חכם המשלימה את PM."
+    },
+    {
+      "obj": "Asset Central Foundation",
+      "type": "object",
+      "he": "שכבת היסוד הענן המשותפת לפתרונות Intelligent Asset Management."
+    },
+    {
+      "obj": "SAP Asset Intelligence Network",
+      "type": "object",
+      "he": "רשת ענן לשיתוף מידע על נכסים בין יצרנים ומפעילים."
+    },
+    {
+      "obj": "SAP Asset Strategy and Performance Management",
+      "type": "object",
+      "he": "כלי ענן לאסטרטגיית תחזוקה וניתוח ביצועי נכסים."
+    },
+    {
+      "obj": "SAP Predictive Maintenance and Service",
+      "type": "object",
+      "he": "פתרון תחזוקה חזויה מבוססת נתוני חיישנים."
+    },
+    {
+      "obj": "SAP Predictive Engineering Insights",
+      "type": "object",
+      "he": "כלי תובנות הנדסיות חזויות לנכסים."
+    },
+    {
+      "obj": "SAP Asset Manager",
+      "type": "object",
+      "he": "אפליקציית מובייל לביצוע עבודות תחזוקה בשטח."
+    },
+    {
+      "obj": "SAP Work Manager",
+      "type": "object",
+      "he": "אפליקציית מובייל ותיקה לעבודות תחזוקה בשטח."
+    },
+    {
+      "obj": "SAP GUI",
+      "type": "object",
+      "he": "לקוח שולחני קלאסי לגישה לטרנזקציות SAP."
+    },
+    {
+      "obj": "SAP GUI 7.50",
+      "type": "object",
+      "he": "גרסה של לקוח ה-SAP GUI השולחני."
+    },
+    {
+      "obj": "SAP GUI 7.60",
+      "type": "object",
+      "he": "גרסה מאוחרת יותר של לקוח ה-SAP GUI."
+    },
+    {
+      "obj": "SAP Business Client",
+      "type": "object",
+      "he": "מעטפת לקוח עם side panels (כולל MTTR/MTBR) לטרנזקציות וקישורי תפקיד."
+    },
+    {
+      "obj": "SAP Fiori",
+      "type": "fiori",
+      "he": "חוויית משתמש מבוססת-תפקיד ורספונסיבית מעל S/4HANA."
+    },
+    {
+      "obj": "SAP Fiori launchpad",
+      "type": "object",
+      "he": "נקודת הכניסה המרכזית לאריחי אפליקציות Fiori."
+    },
+    {
+      "obj": "SAPUI5",
+      "type": "object",
+      "he": "תשתית פיתוח ה-JavaScript/HTML5 שעליה בנויות אפליקציות Fiori."
+    },
+    {
+      "obj": "SAP Web IDE",
+      "type": "object",
+      "he": "סביבת פיתוח מבוססת ענן לאפליקציות SAPUI5/Fiori."
+    },
+    {
+      "obj": "SAP Screen Personas",
+      "type": "object",
+      "he": "כלי להתאמה אישית ופישוט מסכי SAP GUI."
+    },
+    {
+      "obj": "GuiXT",
+      "type": "object",
+      "he": "כלי צד-שלישי להתאמה ויזואלית של מסכי SAP GUI."
+    },
+    {
+      "obj": "Belize theme",
+      "type": "object",
+      "he": "ערכת עיצוב של Fiori launchpad."
+    },
+    {
+      "obj": "Signature theme",
+      "type": "object",
+      "he": "ערכת עיצוב קלאסית של ממשק SAP."
+    },
+    {
+      "obj": "SAP Cloud Platform",
+      "type": "object",
+      "he": "פלטפורמת הענן של SAP (כיום BTP) לפיתוח והרחבות."
+    },
+    {
+      "obj": "SAP 3D Visual Enterprise Viewer",
+      "type": "object",
+      "he": "כלי הצגת מודלים תלת-ממדיים של נכסים וציוד."
+    },
+    {
+      "obj": "SAP BW/4HANA",
+      "type": "object",
+      "he": "מחסן נתונים של SAP על HANA לדיווח אנליטי."
+    },
+    {
+      "obj": "SAP Business Warehouse",
+      "type": "object",
+      "he": "מחסן הנתונים הקלאסי של SAP לדיווח."
+    },
+    {
+      "obj": "SAP Lumira",
+      "type": "object",
+      "he": "כלי ויזואליזציית נתונים ואנליטיקה של SAP."
+    },
+    {
+      "obj": "SAP Master Data Governance",
+      "type": "object",
+      "he": "פתרון לממשל וניהול איכות נתוני master."
+    },
+    {
+      "obj": "SAP NetWeaver MDM",
+      "type": "object",
+      "he": "כלי ניהול נתוני master ותיק על NetWeaver."
+    },
+    {
+      "obj": "SAP SRM",
+      "type": "object",
+      "he": "פתרון ניהול קשרי ספקים ורכש."
+    },
+    {
+      "obj": "RE-FX",
+      "type": "object",
+      "he": "רכיב ניהול נדל\"ן גמיש (Flexible Real Estate) המשתלב עם נכסים לינאריים."
+    },
+    {
+      "obj": "DIN 31051",
+      "type": "standard",
+      "he": "תקן גרמני המגדיר ארבע משימות תחזוקה: בדיקה, מונעת, תיקון ושיפור."
+    },
+    {
+      "obj": "EN 13306",
+      "type": "standard",
+      "he": "תקן אירופי לטרמינולוגיית תחזוקה."
+    },
+    {
+      "obj": "ISO 55000",
+      "type": "standard",
+      "he": "תקן סקירה ועקרונות לניהול נכסים."
+    },
+    {
+      "obj": "ISO 55001",
+      "type": "standard",
+      "he": "תקן הדרישות למערכת ניהול נכסים."
+    },
+    {
+      "obj": "ISO 55002",
+      "type": "standard",
+      "he": "תקן הנחיות ליישום ISO 55001."
+    },
+    {
+      "obj": "FMEA",
+      "type": "object",
+      "he": "ניתוח אופני כשל והשפעותיהם, בסיס לתחזוקה מבוססת-אמינות."
+    },
+    {
+      "obj": "EA-PLM",
+      "type": "object",
+      "he": "רכיב/הרחבה לניהול מחזור חיי מוצר ונכס."
+    },
+    {
+      "obj": "LOG_EAM_CI_1",
+      "type": "object",
+      "he": "business function משפר תחזוקה (continuous improvement) חסר תלויות, מומלץ להפעלה."
+    },
+    {
+      "obj": "LOG_EAM_CI_2",
+      "type": "object",
+      "he": "business function נוסף בסדרת שיפורי ה-EAM."
+    },
+    {
+      "obj": "LOG_EAM_CI_3",
+      "type": "object",
+      "he": "business function נוסף בסדרת שיפורי ה-EAM."
+    },
+    {
+      "obj": "LOG_EAM_CI_4",
+      "type": "object",
+      "he": "business function נוסף בסדרת שיפורי ה-EAM."
+    },
+    {
+      "obj": "LOG_EAM_CI_5",
+      "type": "object",
+      "he": "business function נוסף בסדרת שיפורי ה-EAM."
+    },
+    {
+      "obj": "LOG_EAM_CI_6",
+      "type": "object",
+      "he": "business function נוסף בסדרת שיפורי ה-EAM."
+    },
+    {
+      "obj": "LOG_EAM_CI_7",
+      "type": "object",
+      "he": "business function נוסף בסדרת שיפורי ה-EAM."
+    },
+    {
+      "obj": "LOG_EAM_CI_8",
+      "type": "object",
+      "he": "business function נוסף בסדרת שיפורי ה-EAM."
+    },
+    {
+      "obj": "LOG_EAM_CI_9",
+      "type": "object",
+      "he": "business function נוסף בסדרת שיפורי ה-EAM."
+    },
+    {
+      "obj": "LOG_EAM_CI_9_ORD_OPER_COMP",
+      "type": "object",
+      "he": "הרחבת CI_9 לרכיבי פעולות בהזמנת תחזוקה."
+    },
+    {
+      "obj": "LOG_EAM_CI_10",
+      "type": "object",
+      "he": "business function נוסף בסדרת שיפורי ה-EAM."
+    },
+    {
+      "obj": "LOG_EAM_CI_11",
+      "type": "object",
+      "he": "business function נוסף בסדרת שיפורי ה-EAM."
+    },
+    {
+      "obj": "LOG_EAM_CI_12",
+      "type": "object",
+      "he": "business function נוסף בסדרת שיפורי ה-EAM."
+    },
+    {
+      "obj": "LOG_EAM_CI_13",
+      "type": "object",
+      "he": "business function נוסף בסדרת שיפורי ה-EAM."
+    },
+    {
+      "obj": "LOG_EAM_CC",
+      "type": "object",
+      "he": "business function בתחום ה-EAM."
+    },
+    {
+      "obj": "LOG_EAM_OLC",
+      "type": "object",
+      "he": "business function ל-Order List/operation account assignment בתחום EAM."
+    },
+    {
+      "obj": "LOG_EAM_OLC_2",
+      "type": "object",
+      "he": "הרחבה של business function ה-OLC."
+    },
+    {
+      "obj": "LOG_EAM_POM",
+      "type": "object",
+      "he": "business function ל-Plant Maintenance order management."
+    },
+    {
+      "obj": "LOG_EAM_POM_2",
+      "type": "object",
+      "he": "הרחבה של business function ה-POM."
+    },
+    {
+      "obj": "LOG_EAM_PAM",
+      "type": "object",
+      "he": "business function בתחום ניהול נכסים (Pool/Performance Asset Management)."
+    },
+    {
+      "obj": "LOG_EAM_ROTSUB",
+      "type": "object",
+      "he": "business function ל-rotable/subcontracting (ציוד מתחלף וקבלנות משנה)."
+    },
+    {
+      "obj": "LOG_EAM_ROTSUB_2",
+      "type": "object",
+      "he": "הרחבה של business function ה-rotable/subcontracting."
+    },
+    {
+      "obj": "LOG_EAM_LINEAR_1",
+      "type": "object",
+      "he": "business function לאפשור Linear Asset Management."
+    },
+    {
+      "obj": "LOG_EAM_LINEAR_2",
+      "type": "object",
+      "he": "הרחבה של Linear Asset Management."
+    },
+    {
+      "obj": "LOG_EAM_SIMPLICITY",
+      "type": "object",
+      "he": "business function לפישוט תהליכי EAM."
+    },
+    {
+      "obj": "LOG_EAM_SIMPLICITY_2",
+      "type": "object",
+      "he": "הרחבה של פישוט תהליכי EAM."
+    },
+    {
+      "obj": "LOG_EAM_SIMP",
+      "type": "object",
+      "he": "business function קצר לפישוט תהליכי EAM."
+    },
+    {
+      "obj": "LOG_EAM_SHIFTFACTORS",
+      "type": "object",
+      "he": "business function למקדמי משמרת (shift factors) בתחזוקה."
+    },
+    {
+      "obj": "LOG_EAM_PRINT",
+      "type": "object",
+      "he": "business function לשיפור הדפסת מסמכי תחזוקה."
+    },
+    {
+      "obj": "LOG_EAM_MPS1",
+      "type": "object",
+      "he": "business function לתכנון תחזוקה (maintenance planning)."
+    },
+    {
+      "obj": "LOG_EAM_OLC_2",
+      "type": "object",
+      "he": "הרחבה של business function ה-OLC."
+    },
+    {
+      "obj": "LOG_EAM_VE_INT",
+      "type": "object",
+      "he": "business function לאינטגרציית Visual Enterprise (תלת-ממד)."
+    },
+    {
+      "obj": "LOG_EAM_MPOINT_MASS_DEACT",
+      "type": "object",
+      "he": "business function להשבתה המונית של נקודות מדידה."
+    },
+    {
+      "obj": "LOG_EAM_QM_CODE_DEACT",
+      "type": "object",
+      "he": "business function להשבתת קודי QM בתחזוקה."
+    },
+    {
+      "obj": "/EAMPLM/LOG_EAM_WS",
+      "type": "object",
+      "he": "business function לסביבת עבודה (web service/workspace) של EAM-PLM."
+    },
+    {
+      "obj": "LOG_MM_SERNO",
+      "type": "object",
+      "he": "business function לטיפול במספרים סידוריים בצד MM."
+    },
+    {
+      "obj": "LOG_PP_SRN_02",
+      "type": "object",
+      "he": "business function לסידור (serialization) בצד PP."
+    },
+    {
+      "obj": "LOG_PP_SRN_CONF",
+      "type": "object",
+      "he": "business function לסידור בדיווח/אישור PP."
+    },
+    {
+      "obj": "Equipment Category",
+      "type": "object",
+      "he": "ראה לעיל — קטגוריית ציוד."
+    },
+    {
+      "obj": "SAP0",
+      "type": "object",
+      "he": "standard value key לתחזוקה הקובע אילו ערכי זמן נשמרים בפעולה."
+    },
+    {
+      "obj": "SAP004",
+      "type": "object",
+      "he": "נוסחה לחישוב משך In-Process (DAUNO) בתזמון פעולות תחזוקה."
+    },
+    {
+      "obj": "SAP008",
+      "type": "object",
+      "he": "נוסחה לחישוב דרישות עבודה (ARBEI) בתכנון קיבולת."
+    },
+    {
+      "obj": "004",
+      "type": "object",
+      "he": "קוד usage של work center המתאים לתחזוקה."
+    },
+    {
+      "obj": "009",
+      "type": "object",
+      "he": "קוד usage של work center המתאים לתחזוקה."
+    },
+    {
+      "obj": "ARBEI",
+      "type": "object",
+      "he": "שדה כמות העבודה (work) המשמש בנוסחת SAP008."
+    },
+    {
+      "obj": "DAUNO",
+      "type": "object",
+      "he": "שדה משך נורמלי (normal duration) המשמש בנוסחת SAP004."
+    },
+    {
+      "obj": "PM (Plant Maintenance)",
+      "type": "object",
+      "he": "מודול תחזוקת מפעל הקלאסי של SAP, ליבת ניהול הנכסים."
+    },
+    {
+      "obj": "Approve Purchase Orders",
+      "type": "fiori",
+      "he": "אפליקציית Fiori לאישור הזמנות רכש."
+    },
+    {
+      "obj": "Create Purchase Requisition",
+      "type": "fiori",
+      "he": "אפליקציית Fiori ליצירת דרישת רכש."
+    },
+    {
+      "obj": "Create Supplier Invoice",
+      "type": "fiori",
+      "he": "אפליקציית Fiori ליצירת חשבונית ספק."
+    },
+    {
+      "obj": "My Purchasing Document Items",
+      "type": "fiori",
+      "he": "אפליקציית Fiori להצגת פריטי מסמכי רכש של המשתמש."
+    },
+    {
+      "obj": "Post Incoming Invoices",
+      "type": "fiori",
+      "he": "אפליקציית Fiori לרישום חשבוניות נכנסות."
+    },
+    {
+      "obj": "Release Maintenance Orders",
+      "type": "fiori",
+      "he": "אפליקציית Fiori לשחרור הזמנות תחזוקה."
+    }
+  ],
+  "runbook": {
+    "titleHe": "מ-Notification ל-Maintenance Order: זרימת תחזוקה תיקונית מקצה לקצה ב-S/4HANA PM",
+    "quickGuideHe": [
+      "שלב 1 — תיעוד תקלה: צור Notification (הודעת תחזוקה) המתארת את התקלה, ושייך אותה ל-Functional Location או ל-Equipment הרלוונטי (מאתרים/בודקים ב-IL03/IE03).",
+      "שלב 2 — אימות האובייקט הטכני: ודא שהציוד מותקן על המיקום הנכון; במידת הצורך בצע התקנה/פירוק דרך IE02 (או IL02) לפי הגדרת Define Installation.",
+      "שלב 3 — יצירת Order: צור Maintenance Order מתוך ה-Notification, בחר order type מתאים ושייך את ה-Main Work Center (סדנת התחזוקה) האחראי.",
+      "שלב 4 — תכנון פעולות: הזן operations עם control key מתאים; המערכת מחשבת משך ודרישות עבודה דרך הנוסחאות SAP004 (DAUNO) ו-SAP008 (ARBEI).",
+      "שלב 5 — תכנון חומרים: הוסף components; לחומרים שאינם במלאי צור דרישת רכש דרך ME51N (או אפליקציית Fiori 'Create Purchase Requisition').",
+      "שלב 6 — שחרור: שחרר את ה-Order (אפליקציית Fiori 'Release Maintenance Orders'); בדוק זמינות חומרים וקיבולת ב-CM21 לפי הצורך.",
+      "שלב 7 — אספקה ורכש חיצוני: אשר הזמנת רכש ('Approve Purchase Orders'), קלוט סחורה ב-MIGO, ובצע משיכת חומרים מהמלאי (בדיקת מלאי ב-MMBE).",
+      "שלב 8 — ביצוע ואישור: בצע את העבודה בשטח (למשל דרך SAP Asset Manager), דווח שעות וצריכת חומרים ב-confirmation.",
+      "שלב 9 — חשבונית ספק: לעבודות חיצוניות, רשום חשבונית ב-MIRO (או Fiori 'Post Incoming Invoices' / 'Create Supplier Invoice').",
+      "שלב 10 — סגירה: בצע סגירה טכנית (TECO) ואז סגירה עסקית (business completion) לאחר זקיפת כל העלויות; ההיסטוריה נשמרת על האובייקט הטכני שצוין."
+    ],
+    "checklistHe": [
+      "ה-Notification משויך לאובייקט טכני נכון (Functional Location או Equipment)",
+      "הציוד מותקן על המיקום הנכון לפני פתיחת ה-Order",
+      "נבחר order type ו-Main Work Center מתאימים",
+      "ל-operations הוזן control key תקין (costing/scheduling/confirmation/external)",
+      "דרישות הרכש לחומרים חסרים נוצרו ושוחררו (ME51N)",
+      "ה-Order שוחרר ונבדקה זמינות קיבולת/חומרים",
+      "קבלת הסחורה נרשמה ב-MIGO ומשיכות החומר תועדו",
+      "שעות העבודה וצריכת החומרים אושרו ב-confirmation",
+      "חשבונית הספק נרשמה ב-MIRO לעבודות חיצוניות",
+      "בוצעו סגירה טכנית (TECO) וסגירה עסקית, וכל העלויות נזקפו"
+    ]
+  },
+  "lessonsHe": [
+    "בחר Equipment כאשר נדרשים serialization, היסטוריית שימוש או תהליכי refurbishment/subcontracting/calibration; בחר Functional Location כשעיקר הצורך הוא labeling וסיכום עלויות היררכי — ההבחנה הזו קובעת את כל מבנה הנתונים בהמשך.",
+    "תכנן את מספור ה-Functional Location מראש לפי structure indicator, כי מיקום פונקציונלי לא ניתן למחיקה אלא דרך archiving; טעות במבנה תישאר במערכת לאורך זמן.",
+    "הקם 'מגרש גרוטאות' (dummy location/parking) לאובייקטים מיושנים מראש — קל יותר להעביר master data לשם מאשר לנסות למחקו.",
+    "התחל מבנה גס ופרט נקודתית בלבד; ריבוי רמות מביא לגידול אקספוננציאלי במספר האובייקטים ולעומס תחזוקה מיותר.",
+    "בארגון רב-מפעלי הבחן בבירור בין planning plant ל-maintenance plant; כשה-plants בשטחי controlling שונים, העבר עלויות דרך cost center במקום הזמנות רכש/מכירה בין-חברתיות.",
+    "הגדר control key כברירת מחדל ב-work center והשתמש ב-standard value key SAP0 ובנוסחאות SAP004/SAP008 כדי שתזמון וחישוב הקיבולת יעבדו כראוי.",
+    "תכנן קיבולת לפי ניצולת מציאותית של 65%-75%, וזכור שעומס הזמנות לא מתוכננות מוריד אותה ל-30%-50%.",
+    "הפעל business functions בזהירות דרך SFW5 — חלק מהן בלתי-הפיכות; LOG_EAM_CI הוא נקודת התחלה בטוחה כי הוא חסר תלויות.",
+    "Alternative Labeling ו-Reference Functional Location הם כלים חזקים אך 'דביקים': הפעלת labeling חלופי אינה ניתנת לביטול, ושינוי בתבנית reference מתפשט לכל המבנים שנגזרו ממנה.",
+    "השתמש בקבוצות מסך (Set View Profiles + Define Field Selection) כדי לאכוף שדות חובה ולהסתיר שדות לא רלוונטיים, במקום להסתמך על משמעת המשתמשים.",
+    "Object Links/Networks הם בעלי ערך תיעודי בלבד ואינם משתלבים בתהליכים העסקיים — אל תבנה עליהם לוגיקה תפעולית.",
+    "ל-Linear Asset Management דרוש customizing מקדים (view profiles, offset, linear reference patterns דרך IK81/IK82/IK83) לפני שניתן לתאר תשתיות לינאריות בפועל."
+  ],
+  "objects": {
+    "tcodes": [
+      "CM21",
+      "IBIP",
+      "IE01",
+      "IE02",
+      "IE03",
+      "IE05",
+      "IE07",
+      "IE4N",
+      "IH01",
+      "IH03",
+      "IK81",
+      "IK82",
+      "IK83",
+      "IL01",
+      "IL02",
+      "IL04",
+      "IL05",
+      "IL07",
+      "IN02",
+      "IN04",
+      "IN07",
+      "IN15",
+      "IN16",
+      "IN18",
+      "IN19",
+      "IR01",
+      "LSMW",
+      "ME51N",
+      "MIGO",
+      "MIRO",
+      "MM02",
+      "MMBE",
+      "SFW5"
+    ],
+    "tables": [],
+    "fiori": [
+      "Approve Purchase Orders",
+      "Create Purchase Requisition",
+      "Create Supplier Invoice",
+      "My Purchasing Document Items",
+      "Post Incoming Invoices",
+      "Release Maintenance Orders",
+      "SAP Fiori"
+    ],
+    "bapis": [],
+    "idocs": [],
+    "objects": [
+      "/EAMPLM/LOG_EAM_WS",
+      "004",
+      "009",
+      "ALM (Asset Lifecycle Management)",
+      "ARBEI",
+      "Asset Central Foundation",
+      "Belize theme",
+      "Construction Type",
+      "DAUNO",
+      "DIN 31051",
+      "Dynamic Segmentation",
+      "EA-PLM",
+      "EN 13306",
+      "Equipment Category",
+      "FMEA",
+      "Functional Location Type",
+      "GuiXT",
+      "ISO 55000",
+      "ISO 55001",
+      "ISO 55002",
+      "LOG_EAM_CC",
+      "LOG_EAM_CI_1",
+      "LOG_EAM_CI_10",
+      "LOG_EAM_CI_11",
+      "LOG_EAM_CI_12",
+      "LOG_EAM_CI_13",
+      "LOG_EAM_CI_2",
+      "LOG_EAM_CI_3",
+      "LOG_EAM_CI_4",
+      "LOG_EAM_CI_5",
+      "LOG_EAM_CI_6",
+      "LOG_EAM_CI_7",
+      "LOG_EAM_CI_8",
+      "LOG_EAM_CI_9",
+      "LOG_EAM_CI_9_ORD_OPER_COMP",
+      "LOG_EAM_LINEAR_1",
+      "LOG_EAM_LINEAR_2",
+      "LOG_EAM_MPOINT_MASS_DEACT",
+      "LOG_EAM_MPS1",
+      "LOG_EAM_OLC",
+      "LOG_EAM_OLC_2",
+      "LOG_EAM_PAM",
+      "LOG_EAM_POM",
+      "LOG_EAM_POM_2",
+      "LOG_EAM_PRINT",
+      "LOG_EAM_QM_CODE_DEACT",
+      "LOG_EAM_ROTSUB",
+      "LOG_EAM_ROTSUB_2",
+      "LOG_EAM_SHIFTFACTORS",
+      "LOG_EAM_SIMP",
+      "LOG_EAM_SIMPLICITY",
+      "LOG_EAM_SIMPLICITY_2",
+      "LOG_EAM_VE_INT",
+      "LOG_MM_SERNO",
+      "LOG_PP_SRN_02",
+      "LOG_PP_SRN_CONF",
+      "Linear Asset Management",
+      "Linear Reference Pattern",
+      "Maintenance Event Builder",
+      "Object Network",
+      "PM (Plant Maintenance)",
+      "PRT",
+      "Pool Asset Management",
+      "RE-FX",
+      "RM-INST",
+      "SAP 3D Visual Enterprise Viewer",
+      "SAP Asset Intelligence Network",
+      "SAP Asset Manager",
+      "SAP Asset Strategy and Performance Management",
+      "SAP BW/4HANA",
+      "SAP Business Client",
+      "SAP Business Warehouse",
+      "SAP Cloud Platform",
+      "SAP EAM (Enterprise Asset Management)",
+      "SAP ERP 6.0",
+      "SAP Fiori launchpad",
+      "SAP GUI",
+      "SAP GUI 7.50",
+      "SAP GUI 7.60",
+      "SAP HANA",
+      "SAP Intelligent Asset Management",
+      "SAP Lumira",
+      "SAP Master Data Governance",
+      "SAP NetWeaver MDM",
+      "SAP Predictive Engineering Insights",
+      "SAP Predictive Maintenance and Service",
+      "SAP R/2",
+      "SAP R/3",
+      "SAP S/4HANA",
+      "SAP S/4HANA Asset Management",
+      "SAP SRM",
+      "SAP Screen Personas",
+      "SAP Web IDE",
+      "SAP Work Manager",
+      "SAP0",
+      "SAP004",
+      "SAP008",
+      "SAPUI5",
+      "Serial Number Profile",
+      "Signature theme",
+      "Structure Indicator"
+    ]
+  }
+}

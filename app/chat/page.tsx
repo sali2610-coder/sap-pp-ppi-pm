@@ -229,8 +229,8 @@ export default function ChatPage() {
 
         <p className="mt-3 text-[10px] leading-relaxed text-muted-foreground">
           {lang === "he"
-            ? `מנוע: Google ${GEMINI_MODEL}. תכונה מקוונת (דורשת אינטרנט). שאר הפורטל נשאר Offline.`
-            : `Engine: Google ${GEMINI_MODEL}. Online-only feature; the rest of the portal stays offline.`}
+            ? `מנוע: Google ${model}. תכונה מקוונת (דורשת אינטרנט). שאר הפורטל נשאר Offline.`
+            : `Engine: Google ${model}. Online-only feature; the rest of the portal stays offline.`}
         </p>
       </aside>
 
