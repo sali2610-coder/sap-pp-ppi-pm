@@ -7,7 +7,12 @@
       "Bash(npm run *)",
       "Bash(gh auth *)",
       "Bash(gh repo *)",
-      "Bash(git -c user.name=sali2610-coder -c user.email=sali2610@gmail.com commit -q -m ' *)"
+      "Bash(git -c user.name=sali2610-coder -c user.email=sali2610@gmail.com commit -q -m ' *)",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "Bash(chmod +x .claude/hooks/auto-push.sh)",
+      "Bash(bash .claude/hooks/auto-push.sh)",
+      "Bash(echo \"exit:$?\")"
     ]
   }
 }
