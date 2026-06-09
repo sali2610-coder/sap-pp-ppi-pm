@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { BookOpen, Bot, Send, Sparkles, User, Library, AlertTriangle, KeyRound } from "lucide-react";
-import { streamGemini, geminiKey, saveGeminiKey, clearGeminiKey, keySource, GEMINI_MODEL, type ChatTurn } from "@/lib/gemini";
+import { streamGemini, geminiKey, saveGeminiKey, clearGeminiKey, keySource, MODELS, getModel, setModel, type ModelId, type ChatTurn } from "@/lib/gemini";
 import { loadBook2, buildContext, type BookText } from "@/components/book-context";
 import { useI18n } from "@/lib/i18n";
 import { playPing, playTick } from "@/lib/sound";
@@ -48,14 +48,22 @@ export default function ChatPage() {
   const [hasKey, setHasKey] = useState(false);
   const [src, setSrc] = useState<"env" | "local" | null>(null);
   const [keyInput, setKeyInput] = useState("");
+  const [model, setModelState] = useState<ModelId>("gemini-2.5-pro");
   const endRef = useRef<HTMLDivElement>(null);
   const idRef = useRef(0);
 
   useEffect(() => {
     setHasKey(Boolean(geminiKey()));
     setSrc(keySource());
+    setModelState(getModel());
     loadBook2().then(setBook).catch(() => setErr("load"));
   }, []);
+
+  function pickModel(id: ModelId) {
+    setModel(id);
+    setModelState(id);
+    playTick();
+  }
 
   function applyKey() {
     const k = keyInput.trim();
@@ -103,7 +111,8 @@ export default function ChatPage() {
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       setMsgs((m) => m.filter((x) => x.id !== bid));
-      setErr(msg === "MISSING_KEY" ? "key" : msg);
+      const isQuota = /\b429\b|quota|RESOURCE_EXHAUSTED|rate.?limit/i.test(msg);
+      setErr(msg === "MISSING_KEY" ? "key" : isQuota ? "quota" : msg);
     } finally {
       setBusy(false);
     }
@@ -155,6 +164,26 @@ export default function ChatPage() {
             </select>
           </div>
         )}
+
+        {/* Model selector */}
+        <div className="mt-4">
+          <label className="mb-1 block text-[11px] font-semibold text-muted-foreground">
+            {lang === "he" ? "מנוע (Model)" : "Engine (model)"}
+          </label>
+          <div className="flex gap-1 rounded-xl bg-muted/50 p-1">
+            {MODELS.map((m) => (
+              <button
+                key={m.id}
+                onClick={() => pickModel(m.id)}
+                className={`flex-1 rounded-lg px-2 py-1.5 text-[11px] font-semibold transition-colors ${
+                  model === m.id ? "bg-gradient-to-br from-brand to-brand-dark text-brand-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* API key — frosted glass fallback (localStorage) */}
         <div className="mt-4 rounded-xl border border-white/20 bg-white/10 p-3 backdrop-blur-md">
@@ -287,7 +316,27 @@ export default function ChatPage() {
             ))}
           </AnimatePresence>
 
-          {err && err !== "key" && (
+          {err === "quota" && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              dir="rtl"
+              className="glow rounded-2xl border border-status-in-analysis/40 bg-status-in-analysis/10 p-4 text-sm"
+              style={{ "--glow": "var(--status-in-analysis)" } as React.CSSProperties}
+            >
+              <p className="flex items-center gap-2 font-bold text-status-in-analysis">
+                <AlertTriangle className="size-4" />
+                מכסת ה-API נחרגה (429)
+              </p>
+              <p className="mt-1.5 leading-relaxed">
+                הקשר הספר גדול מדי עבור המפתח החינמי. אנא שנה את היקף ההקשר ב-Sidebar לפרק ספציפי.
+              </p>
+              <p className="mt-1.5 text-xs text-muted-foreground">
+                טיפ: עבור ל-<b>2.0 Flash</b> ב-Sidebar (מכסה חינמית גבוהה בהרבה) כדי לשאול על מקטעים גדולים יותר.
+              </p>
+            </motion.div>
+          )}
+          {err && err !== "key" && err !== "quota" && err !== "load" && (
             <p className="rounded-lg bg-brand-soft p-2 text-center text-xs text-brand-dark" dir="rtl">
               שגיאה: {err}
             </p>

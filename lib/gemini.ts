@@ -6,8 +6,26 @@
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// 1.5 family is retired on current keys (404 on v1beta). Use 2.5 Pro — current,
-// long context, generateContent-capable.
+// Runtime-selectable model. 1.5 is retired (404). 2.5-pro = best depth but heavy
+// on the free tier; 2.0-flash = large context, far cheaper free-tier quota.
+export const MODELS = [
+  { id: "gemini-2.5-pro", label: "2.5 Pro · עומק מרבי" },
+  { id: "gemini-2.0-flash", label: "2.0 Flash · מהיר/חסכוני" },
+] as const;
+export type ModelId = (typeof MODELS)[number]["id"];
+
+const LS_MODEL = "neo:gemini-model";
+export function getModel(): ModelId {
+  if (typeof window !== "undefined") {
+    const m = window.localStorage.getItem(LS_MODEL);
+    if (m && MODELS.some((x) => x.id === m)) return m as ModelId;
+  }
+  return "gemini-2.5-pro";
+}
+export function setModel(id: ModelId) {
+  if (typeof window !== "undefined") window.localStorage.setItem(LS_MODEL, id);
+}
+// kept for the sidebar label
 export const GEMINI_MODEL = "gemini-2.5-pro";
 
 const LS_KEY = "neo:gemini-key";
@@ -68,7 +86,7 @@ export async function* streamGemini(
 
   const genAI = new GoogleGenerativeAI(key);
   const model = genAI.getGenerativeModel({
-    model: GEMINI_MODEL,
+    model: getModel(),
     systemInstruction: SYSTEM_PROMPT,
     generationConfig: { temperature: 0.2, topP: 0.9, maxOutputTokens: 8192 },
   });
