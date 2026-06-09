@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { BookOpen, Bot, Send, Sparkles, User, Library, AlertTriangle } from "lucide-react";
-import { streamGemini, geminiKey, GEMINI_MODEL, type ChatTurn } from "@/lib/gemini";
+import { BookOpen, Bot, Send, Sparkles, User, Library, AlertTriangle, KeyRound } from "lucide-react";
+import { streamGemini, geminiKey, saveGeminiKey, clearGeminiKey, keySource, GEMINI_MODEL, type ChatTurn } from "@/lib/gemini";
 import { loadBook2, buildContext, type BookText } from "@/components/book-context";
 import { useI18n } from "@/lib/i18n";
 import { playPing, playTick } from "@/lib/sound";
@@ -45,13 +45,33 @@ export default function ChatPage() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
-  const hasKey = typeof window !== "undefined" ? Boolean(geminiKey()) : false;
+  const [hasKey, setHasKey] = useState(false);
+  const [src, setSrc] = useState<"env" | "local" | null>(null);
+  const [keyInput, setKeyInput] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
   const idRef = useRef(0);
 
   useEffect(() => {
+    setHasKey(Boolean(geminiKey()));
+    setSrc(keySource());
     loadBook2().then(setBook).catch(() => setErr("load"));
   }, []);
+
+  function applyKey() {
+    const k = keyInput.trim();
+    if (!k) return;
+    saveGeminiKey(k);
+    setKeyInput("");
+    setHasKey(true);
+    setSrc(keySource());
+    setErr(null);
+    playPing();
+  }
+  function forgetKey() {
+    clearGeminiKey();
+    setHasKey(Boolean(geminiKey()));
+    setSrc(keySource());
+  }
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [msgs]);
@@ -136,7 +156,49 @@ export default function ChatPage() {
           </div>
         )}
 
-        <p className="mt-4 text-[10px] leading-relaxed text-muted-foreground">
+        {/* API key — frosted glass fallback (localStorage) */}
+        <div className="mt-4 rounded-xl border border-white/20 bg-white/10 p-3 backdrop-blur-md">
+          <p className="mb-1.5 flex items-center gap-1.5 text-[11px] font-bold">
+            <KeyRound className="size-3.5 text-brand" />
+            {lang === "he" ? "מפתח Gemini API" : "Gemini API key"}
+            {hasKey && (
+              <span className="ms-auto rounded bg-status-done/15 px-1.5 text-[10px] font-semibold text-status-done">
+                {src === "env" ? "ENV" : lang === "he" ? "מקומי" : "local"} ✓
+              </span>
+            )}
+          </p>
+          {hasKey ? (
+            <button onClick={forgetKey} className="text-[10px] text-muted-foreground underline hover:text-foreground">
+              {lang === "he" ? "החלף / מחק מפתח שמור" : "Replace / clear saved key"}
+            </button>
+          ) : (
+            <>
+              <input
+                type="password"
+                value={keyInput}
+                onChange={(e) => setKeyInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && applyKey()}
+                placeholder="AQ.Ab8…"
+                dir="ltr"
+                className="tech w-full rounded-lg border border-input bg-card/80 px-2 py-1.5 text-xs outline-none focus:border-brand focus:ring-2 focus:ring-brand/30"
+              />
+              <button
+                onClick={applyKey}
+                disabled={!keyInput.trim()}
+                className="mt-2 w-full rounded-lg bg-gradient-to-br from-brand to-brand-dark py-1.5 text-xs font-semibold text-brand-foreground shadow-sm transition-all active:scale-95 disabled:opacity-50"
+              >
+                {lang === "he" ? "שמור והפעל" : "Save & enable"}
+              </button>
+              <p className="mt-1.5 text-[10px] leading-relaxed text-muted-foreground">
+                {lang === "he"
+                  ? "נשמר ב-localStorage בדפדפן זה בלבד. עדיף להגדיר NEXT_PUBLIC_GEMINI_API_KEY ב-.env.local ולהריץ מחדש את dev."
+                  : "Saved to this browser's localStorage only. Preferably set NEXT_PUBLIC_GEMINI_API_KEY in .env.local and restart dev."}
+              </p>
+            </>
+          )}
+        </div>
+
+        <p className="mt-3 text-[10px] leading-relaxed text-muted-foreground">
           {lang === "he"
             ? `מנוע: Google ${GEMINI_MODEL}. תכונה מקוונת (דורשת אינטרנט). שאר הפורטל נשאר Offline.`
             : `Engine: Google ${GEMINI_MODEL}. Online-only feature; the rest of the portal stays offline.`}

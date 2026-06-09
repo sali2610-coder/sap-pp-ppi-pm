@@ -8,9 +8,31 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export const GEMINI_MODEL = "gemini-1.5-pro"; // 2M-token context window
 
+const LS_KEY = "neo:gemini-key";
+
+// Resolve the key: build-time env (NEXT_PUBLIC_ prefix, inlined in the bundle)
+// first, then a user-pasted key saved in localStorage as a fallback.
 export function geminiKey(): string | null {
-  const k = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-  return k && k.trim() ? k.trim() : null;
+  const env = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+  if (env && env.trim()) return env.trim();
+  if (typeof window !== "undefined") {
+    const ls = window.localStorage.getItem(LS_KEY);
+    if (ls && ls.trim()) return ls.trim();
+  }
+  return null;
+}
+
+export function saveGeminiKey(k: string) {
+  if (typeof window !== "undefined") window.localStorage.setItem(LS_KEY, k.trim());
+}
+export function clearGeminiKey() {
+  if (typeof window !== "undefined") window.localStorage.removeItem(LS_KEY);
+}
+export function keySource(): "env" | "local" | null {
+  const env = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+  if (env && env.trim()) return "env";
+  if (typeof window !== "undefined" && window.localStorage.getItem(LS_KEY)) return "local";
+  return null;
 }
 
 const SYSTEM_PROMPT = `Act as the Master SAP Implementer for CBC Israel (Coca-Cola), guiding the S/4HANA migration.
