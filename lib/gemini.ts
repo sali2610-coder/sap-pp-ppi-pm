@@ -6,7 +6,9 @@
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-export const GEMINI_MODEL = "gemini-1.5-pro"; // 2M-token context window
+// `gemini-1.5-pro` (unversioned) 404s on v1beta — use the -latest alias.
+// If the 1.5 family is retired on your key, switch to "gemini-2.5-pro".
+export const GEMINI_MODEL = "gemini-1.5-pro-latest"; // 2M-token context window
 
 const LS_KEY = "neo:gemini-key";
 
