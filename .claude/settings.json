@@ -37,7 +37,10 @@
       "Bash(node -e 'const fs=require\\(\"fs\"\\);const p=\".claude/settings.json\";const s=JSON.parse\\(fs.readFileSync\\(p,\"utf8\"\\)\\);s.hooks={Stop:[{hooks:[{type:\"command\",command:\"bash /Users/salihalif/Desktop/My-Projects/sap/.claude/hooks/auto-push.sh\",timeout:60,statusMessage:\"Auto-pushing to GitHub...\"}]}]};fs.writeFileSync\\(p,JSON.stringify\\(s,null,2\\)\\);console.log\\(\"hook re-added\"\\);')",
       "Bash(node -e 'const s=require\\(\"./data/library/book1/ch2.sections.json\"\\);s.sections.forEach\\(x=>console.log\\(x.id+\" — \"+x.title+\" \\(\"+x.chars+\"c\\)\"\\)\\)')",
       "Bash(node -e 'const s=require\\(\"./data/library/book1/ch3.sections.json\"\\);console.log\\(\"sections:\",s.sections.length\\);s.sections.forEach\\(x=>console.log\\(x.id+\" — \"+x.title+\" \\(\"+x.chars+\"c\\)\"\\)\\)')",
-      "Bash(node -e 'const s=require\\(\"./data/library/book1/ch3.sections.json\"\\);for\\(const x of s.sections\\){console.log\\(\"\\\\n@@@\"+x.id+\" | \"+x.title+\"@@@\"\\);console.log\\(x.text.replace\\(/\\\\s+/g,\" \"\\).trim\\(\\)\\);}')"
+      "Bash(node -e 'const s=require\\(\"./data/library/book1/ch3.sections.json\"\\);for\\(const x of s.sections\\){console.log\\(\"\\\\n@@@\"+x.id+\" | \"+x.title+\"@@@\"\\);console.log\\(x.text.replace\\(/\\\\s+/g,\" \"\\).trim\\(\\)\\);}')",
+      "Bash(node -e 'const s=require\\(\"./data/library/book1/ch4.sections.json\"\\);console.log\\(\"sections:\",s.sections.length\\);s.sections.forEach\\(x=>console.log\\(x.id+\" — \"+x.title+\" \\(\"+x.chars+\"c\\)\"\\)\\)')",
+      "Bash(node -e 'const s=require\\(\"./data/library/book1/ch4.sections.json\"\\);for\\(const x of s.sections\\){console.log\\(\"\\\\n@@@\"+x.id+\" | \"+x.title+\"@@@\"\\);console.log\\(x.text.replace\\(/\\\\s+/g,\" \"\\).trim\\(\\)\\);}')",
+      "Bash(node -e 'const s=require\\(\"./data/library/book1/ch5.sections.json\"\\);console.log\\(s.sections.length+\" sections, total \"+s.sections.reduce\\(\\(a,x\\)=>a+x.chars,0\\)+\" chars\"\\);s.sections.forEach\\(x=>console.log\\(x.id+\" — \"+x.title+\" \\(\"+x.chars+\"c\\)\"\\)\\)')"
     ]
   }
 }
