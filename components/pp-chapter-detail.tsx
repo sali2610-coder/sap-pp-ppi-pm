@@ -12,6 +12,7 @@ import { PP_DEEP, type DeepUnit } from "@/data/library/pp-deep";
 import { slugOf } from "@/lib/pp-object-index";
 import PP_TOC from "@/data/library/pp-toc.json";
 import { PPFlow } from "@/components/pp-flow";
+import { PPTextbookLessons, hasTextbook } from "@/components/pp-textbook-view";
 import { useI18n } from "@/lib/i18n";
 import { ChevronDown, Briefcase } from "lucide-react";
 
@@ -101,12 +102,13 @@ export function PPChapterDetail({ ch }: { ch: PPChapter }) {
   const glossary = PP_GLOSSARY.filter((g) => allCodes.some((code) => g.term.includes(code)));
   const subs = TOC[String(ch.n)] ?? [];
   const deep = PP_DEEP[String(ch.n)] ?? [];
+  const textbook = hasTextbook(ch.n);
 
   // sticky side-nav sections (Learning-Hub style)
   const sideNav = [
     ["overview", lang === "he" ? "סקירה" : "Overview"],
     ["toc", lang === "he" ? "תוכן הפרק" : "Contents"],
-    deep.length && ["learning", lang === "he" ? "תוכן לימודי" : "Learning content"],
+    (textbook || deep.length) && ["learning", lang === "he" ? "תוכן לימודי" : "Learning content"],
     ["flow", lang === "he" ? "תרשים תהליך" : "Process flow"],
     ["objects", lang === "he" ? "אובייקטי SAP" : "SAP objects"],
     ch.configHe?.length && ["config", lang === "he" ? "קונפיגורציה" : "Configuration"],
@@ -153,7 +155,9 @@ export function PPChapterDetail({ ch }: { ch: PPChapter }) {
             </ol>
           </section>
 
-          {deep.length > 0 && (
+          {textbook ? (
+            <PPTextbookLessons n={ch.n} />
+          ) : deep.length > 0 ? (
             <section id="learning" dir="rtl" className="glass scroll-mt-24 rounded-2xl p-5">
               <h2 className="mb-1 flex items-center gap-2 text-sm font-bold text-brand"><Briefcase className="size-4" />{lang === "he" ? "תוכן לימודי מעמיק (רמת SAP Press)" : "Deep learning content"}</h2>
               <p className="mb-3 text-xs text-muted-foreground">{lang === "he" ? "הסבר · תרחיש עסקי · קונפיגורציה · נתוני אב · פתרון תקלות · טיפים · מלכודות · הערות CBC" : "Explanation · scenario · config · master data · troubleshooting · tips · pitfalls · CBC"}</p>
@@ -161,7 +165,7 @@ export function PPChapterDetail({ ch }: { ch: PPChapter }) {
                 {deep.map((u) => <DeepUnitCard key={u.id} u={u} lang={lang} />)}
               </div>
             </section>
-          )}
+          ) : null}
 
           <div id="flow"><PPFlow n={ch.n} /></div>
 
