@@ -7,6 +7,8 @@ import type { SAPModuleData } from "@/lib/types";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
+import { playTick } from "@/lib/sound";
 import { MigrationCockpit } from "@/components/migration-cockpit";
 import { TechnicalBlueprint } from "@/components/technical-blueprint";
 import { ProgressChart } from "@/components/progress-chart";
@@ -21,15 +23,16 @@ function initialQuery() {
 }
 
 export function ModuleHub({ module }: { module: SAPModuleData }) {
+  const { t } = useI18n();
   const [query, setQuery] = useState(initialQuery);
   const [tab, setTab] = useState<Tab>("cockpit");
 
-  const allTables = useMemo(() => module.topics.flatMap((t) => t.tables), [module.topics]);
+  const allTables = useMemo(() => module.topics.flatMap((tp) => tp.tables), [module.topics]);
 
   const tabs: { key: Tab; label: string; icon: typeof LayoutGrid }[] = [
-    { key: "cockpit", label: "קוקפיט מיגרציה", icon: LayoutGrid },
-    { key: "blueprint", label: "Blueprint טכני", icon: BookOpen },
-    { key: "guides", label: "מדריכים וכלים", icon: Wrench },
+    { key: "cockpit", label: t("tab.cockpit"), icon: LayoutGrid },
+    { key: "blueprint", label: t("tab.blueprint"), icon: BookOpen },
+    { key: "guides", label: t("tab.guides"), icon: Wrench },
   ];
 
   return (
@@ -42,7 +45,7 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="חיפוש בתוך המודול…"
+              placeholder={t("hub.searchInModule")}
               className="pe-9"
             />
           </div>
@@ -52,7 +55,10 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
           {tabs.map(({ key, label, icon: Icon }) => (
             <button
               key={key}
-              onClick={() => setTab(key)}
+              onClick={() => {
+                playTick();
+                setTab(key);
+              }}
               className={cn(
                 "relative flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium transition-colors",
                 tab === key ? "text-brand-foreground" : "text-muted-foreground hover:text-foreground",
@@ -83,7 +89,7 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
           {tab === "cockpit" && (
             <div className="space-y-5">
               <div className="glass rounded-2xl p-5">
-                <ProgressChart tables={allTables} title={`התקדמות מיגרציה — ${module.title}`} />
+                <ProgressChart tables={allTables} title={`${t("hub.progress")} — ${module.title}`} />
               </div>
               <MigrationCockpit module={module} query={query} />
             </div>
@@ -96,8 +102,10 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
       </AnimatePresence>
 
       <p className="text-center text-xs text-muted-foreground">
-        <Badge className="bg-muted text-muted-foreground">{allTables.length} טבלאות</Badge>{" "}
-        <span className="ms-2">סטטוס נשמר מקומית בדפדפן (localStorage)</span>
+        <Badge className="bg-muted text-muted-foreground">
+          {allTables.length} {t("hub.tables")}
+        </Badge>{" "}
+        <span className="ms-2">{t("hub.savedLocal")}</span>
       </p>
     </div>
   );

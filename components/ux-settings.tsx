@@ -3,17 +3,19 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Settings2, Type, Check, X } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 const SCALES = [
-  { key: "s", label: "קטן", sample: "Aa", value: 0.9 },
-  { key: "m", label: "רגיל", sample: "Aa", value: 1 },
-  { key: "l", label: "גדול", sample: "Aa", value: 1.12 },
-  { key: "xl", label: "ענק", sample: "Aa", value: 1.25 },
+  { key: "s", he: "קטן", en: "S", value: 0.9 },
+  { key: "m", he: "רגיל", en: "M", value: 1 },
+  { key: "l", he: "גדול", en: "L", value: 1.12 },
+  { key: "xl", he: "ענק", en: "XL", value: 1.25 },
 ] as const;
 
 const KEY = "neo:font-scale";
 
 export function UXSettings() {
+  const { t, lang } = useI18n();
   const [open, setOpen] = useState(false);
   const [scale, setScale] = useState(1);
 
@@ -45,7 +47,7 @@ export function UXSettings() {
             <div className="mb-3 flex items-center justify-between">
               <span className="flex items-center gap-2 text-sm font-semibold">
                 <Type className="size-4 text-brand" />
-                גודל טקסט
+                {t("ux.fontSize")}
               </span>
               <button onClick={() => setOpen(false)} aria-label="סגור" className="text-muted-foreground hover:text-foreground">
                 <X className="size-4" />
@@ -65,17 +67,15 @@ export function UXSettings() {
                     }`}
                   >
                     <span style={{ fontSize: `${s.value}rem` }} className="font-bold leading-none">
-                      {s.sample}
+                      Aa
                     </span>
-                    <span className="text-[10px] text-muted-foreground">{s.label}</span>
+                    <span className="text-[10px] text-muted-foreground">{lang === "he" ? s.he : s.en}</span>
                     {isActive && <Check className="absolute -top-1.5 -end-1.5 size-4 rounded-full bg-brand p-0.5 text-brand-foreground" />}
                   </button>
                 );
               })}
             </div>
-            <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">
-              מתאים לקריאה נוחה ברצפת הייצור. נשמר מקומית בדפדפן.
-            </p>
+            <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground">{t("ux.note")}</p>
           </motion.div>
         )}
       </AnimatePresence>

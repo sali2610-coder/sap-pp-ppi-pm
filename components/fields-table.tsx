@@ -1,5 +1,8 @@
+"use client";
+
 import type { SAPField } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n";
 import {
   Table,
   TableBody,
@@ -18,8 +21,13 @@ function KeyBadge({ k }: { k: string }) {
 // Data Dictionary view: desktop table; on mobile collapses to a stack of cards
 // (shop-floor friendly).
 export function FieldsTable({ fields }: { fields: SAPField[] }) {
+  const { t, lang } = useI18n();
   if (!fields.length) {
-    return <p className="text-sm text-muted-foreground">אין שדות מתועדים לטבלה זו.</p>;
+    return (
+      <p className="text-sm text-muted-foreground">
+        {lang === "he" ? "אין שדות מתועדים לטבלה זו." : "No documented fields for this table."}
+      </p>
+    );
   }
 
   return (
@@ -29,11 +37,11 @@ export function FieldsTable({ fields }: { fields: SAPField[] }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>שדה (Field)</TableHead>
-              <TableHead>תיאור</TableHead>
-              <TableHead>סוג</TableHead>
-              <TableHead>אורך</TableHead>
-              <TableHead>מפתח</TableHead>
+              <TableHead>{t("field.field")}</TableHead>
+              <TableHead>{t("field.desc")}</TableHead>
+              <TableHead>{t("field.type")}</TableHead>
+              <TableHead>{t("field.len")}</TableHead>
+              <TableHead>{t("field.key")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -41,8 +49,8 @@ export function FieldsTable({ fields }: { fields: SAPField[] }) {
               <TableRow key={`${f.tech}-${i}`}>
                 <TableCell className="tech font-semibold">{f.tech}</TableCell>
                 <TableCell>
-                  <div>{f.he}</div>
-                  <div className="text-xs text-muted-foreground">{f.en}</div>
+                  <div>{lang === "en" ? f.en : f.he}</div>
+                  <div className="text-xs text-muted-foreground">{lang === "en" ? f.he : f.en}</div>
                 </TableCell>
                 <TableCell className="tech text-muted-foreground">{f.dt}</TableCell>
                 <TableCell className="tech text-muted-foreground">{f.len}</TableCell>
@@ -63,8 +71,8 @@ export function FieldsTable({ fields }: { fields: SAPField[] }) {
               <span className="tech font-semibold">{f.tech}</span>
               <KeyBadge k={f.key} />
             </div>
-            <div className="mt-1 text-sm">{f.he}</div>
-            <div className="text-xs text-muted-foreground">{f.en}</div>
+            <div className="mt-1 text-sm">{lang === "en" ? f.en : f.he}</div>
+            <div className="text-xs text-muted-foreground">{lang === "en" ? f.he : f.en}</div>
             <div className="mt-1.5 flex gap-3 text-xs text-muted-foreground">
               <span className="tech">{f.dt}</span>
               <span className="tech">len: {f.len}</span>

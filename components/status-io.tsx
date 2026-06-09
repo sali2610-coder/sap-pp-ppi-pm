@@ -5,6 +5,7 @@ import { Download, Upload } from "lucide-react";
 import { exportStatusMap, setStatusMap } from "@/lib/status-store";
 import { MIGRATION_STATUSES, type MigrationStatus } from "@/lib/types";
 import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 
 const VALID = new Set<string>(MIGRATION_STATUSES);
 
@@ -12,6 +13,7 @@ const VALID = new Set<string>(MIGRATION_STATUSES);
 // team back up or share progress across machines (fully offline).
 export function StatusIO() {
   const fileRef = useRef<HTMLInputElement>(null);
+  const { t, lang } = useI18n();
 
   function doExport() {
     const data = exportStatusMap();
@@ -35,7 +37,7 @@ export function StatusIO() {
         }
         setStatusMap(clean);
       } catch {
-        alert("קובץ לא תקין — נדרש JSON של סטטוסים.");
+        alert(lang === "he" ? "קובץ לא תקין — נדרש JSON של סטטוסים." : "Invalid file — a status JSON is required.");
       }
     };
     reader.readAsText(file);
@@ -45,11 +47,11 @@ export function StatusIO() {
     <div className="flex items-center gap-2">
       <Button variant="outline" size="sm" onClick={doExport}>
         <Download />
-        ייצוא סטטוס
+        {t("io.export")}
       </Button>
       <Button variant="outline" size="sm" onClick={() => fileRef.current?.click()}>
         <Upload />
-        ייבוא סטטוס
+        {t("io.import")}
       </Button>
       <input
         ref={fileRef}

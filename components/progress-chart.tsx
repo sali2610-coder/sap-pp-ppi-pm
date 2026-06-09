@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { MIGRATION_STATUSES, type MigrationStatus, type SAPTable } from "@/lib/types";
 import { STATUS_META, statusColor } from "@/lib/status-meta";
 import { useStatusMap } from "@/lib/status-store";
+import { useI18n } from "@/lib/i18n";
 
 function useCounts(tables: SAPTable[]) {
   const map = useStatusMap();
@@ -68,6 +69,7 @@ function Donut({ counts, total }: { counts: Record<MigrationStatus, number>; tot
 export function ProgressChart({ tables, title }: { tables: SAPTable[]; title?: string }) {
   const counts = useCounts(tables);
   const total = tables.length;
+  const { pick } = useI18n();
 
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -91,7 +93,7 @@ export function ProgressChart({ tables, title }: { tables: SAPTable[]; title?: s
           {MIGRATION_STATUSES.map((s) => (
             <li key={s} className="flex items-center gap-1.5">
               <span className="inline-block size-2.5 rounded-sm" style={{ background: statusColor(s) }} />
-              <span className="text-muted-foreground">{STATUS_META[s].he}</span>
+              <span className="text-muted-foreground">{pick(STATUS_META[s].he, STATUS_META[s].en)}</span>
               <span className="font-semibold tabular-nums">{counts[s]}</span>
             </li>
           ))}

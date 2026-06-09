@@ -14,6 +14,8 @@ import { SqlBlock } from "@/components/sql-block";
 import { FioriTransform } from "@/components/fiori-transform";
 import { StatusBadge } from "@/components/status-badge";
 import { StatusSelect } from "@/components/status-select";
+import { Highlight } from "@/components/highlight";
+import { useI18n } from "@/lib/i18n";
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
@@ -25,15 +27,16 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 function TablePanel({ table, topic }: { table: SAPTable; topic: SAPTopic }) {
+  const { t } = useI18n();
   return (
     <div className="space-y-5 rounded-xl border border-border/60 bg-background/40 p-4">
       {table.guideHe && (
-        <Section title="הסבר פונקציונלי">
+        <Section title={t("sec.func")}>
           <p className="text-sm leading-relaxed">{table.guideHe}</p>
         </Section>
       )}
 
-      <Section title="Mapping · ECC → Fiori / S/4HANA">
+      <Section title={t("sec.mapping")}>
         <FioriTransform
           tcodes={table.tcodes}
           s4Note={table.s4Note}
@@ -55,12 +58,12 @@ function TablePanel({ table, topic }: { table: SAPTable; topic: SAPTopic }) {
         )}
       </Section>
 
-      <Section title="Data Dictionary">
+      <Section title={t("sec.dict")}>
         <FieldsTable fields={table.fields} />
       </Section>
 
       {table.relations.length > 0 && (
-        <Section title="Relations · קשרי מפתח (PK / FK)">
+        <Section title={t("sec.relations")}>
           <ul className="space-y-2">
             {table.relations.map((rel, i) => (
               <li
@@ -74,7 +77,7 @@ function TablePanel({ table, topic }: { table: SAPTable; topic: SAPTopic }) {
                       : "bg-status-in-conversion/15 text-status-in-conversion"
                   }`}
                 >
-                  {rel.role === "parent" ? "אב ◄" : "► ילד"}
+                  {rel.role === "parent" ? t("rel.parent") : t("rel.child")}
                 </span>
                 <span className="tech font-bold text-brand">{rel.table}</span>
                 {rel.card && (
@@ -89,7 +92,7 @@ function TablePanel({ table, topic }: { table: SAPTable; topic: SAPTopic }) {
       )}
 
       {(table.funcs.length > 0 || table.progs.length > 0 || topic.ops.interfaces.length > 0) && (
-        <Section title="Interface Layer · BAPIs / IDoc / Programs">
+        <Section title={t("sec.interface")}>
           <div className="grid gap-3 sm:grid-cols-2">
             {table.funcs.length > 0 && (
               <ul className="space-y-1 text-sm">
@@ -116,13 +119,13 @@ function TablePanel({ table, topic }: { table: SAPTable; topic: SAPTopic }) {
       )}
 
       {table.sqlJoinSnippet && (
-        <Section title="Developer SQL Snippet (JOIN)">
+        <Section title={t("sec.sql")}>
           <SqlBlock code={table.sqlJoinSnippet} />
         </Section>
       )}
 
       <div className="flex items-center gap-3 border-t border-border pt-3">
-        <span className="text-xs text-muted-foreground">סטטוס מיגרציה:</span>
+        <span className="text-xs text-muted-foreground">{t("status.label")}</span>
         <StatusSelect id={table.id} seed={table.migrationStatus} />
       </div>
     </div>
@@ -136,6 +139,7 @@ export function TechnicalBlueprint({
   module: SAPModuleData;
   query: string;
 }) {
+  const { t: tr, pick } = useI18n();
   const [openTopics, setOpenTopics] = useState<string[]>([]);
   const q = query.trim().toLowerCase();
 
@@ -159,7 +163,7 @@ export function TechnicalBlueprint({
   if (q && topics.length === 0) {
     return (
       <p className="py-8 text-center text-sm text-muted-foreground">
-        לא נמצאו טבלאות התואמות ל-&quot;{query}&quot;.
+        {tr("search.empty")} — &quot;{query}&quot;
       </p>
     );
   }
@@ -184,7 +188,9 @@ export function TechnicalBlueprint({
               <span className="size-2 rounded-full bg-brand" />
               {topic.title}
             </span>
-            <Badge className="bg-muted text-muted-foreground">{topic.tables.length} טבלאות</Badge>
+            <Badge className="bg-muted text-muted-foreground">
+              {topic.tables.length} {tr("hub.tables")}
+            </Badge>
           </summary>
           <div className="border-t border-border px-4 pb-2">
             <Accordion type="multiple" className="w-full">
@@ -193,8 +199,12 @@ export function TechnicalBlueprint({
                   <AccordionTrigger>
                     <span className="flex flex-1 items-center justify-between gap-3 pe-2">
                       <span className="flex items-center gap-2">
-                        <span className="tech font-bold text-brand">{table.tableName}</span>
-                        <span className="text-muted-foreground">{table.descriptionHe}</span>
+                        <span className="tech font-bold text-brand">
+                          <Highlight text={table.tableName} query={query} />
+                        </span>
+                        <span className="text-muted-foreground">
+                          <Highlight text={pick(table.descriptionHe, table.descriptionEn)} query={query} />
+                        </span>
                       </span>
                       <StatusBadge id={table.id} seed={table.migrationStatus} />
                     </span>

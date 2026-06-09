@@ -14,7 +14,13 @@
       "Bash(bash .claude/hooks/auto-push.sh)",
       "Bash(echo \"exit:$?\")",
       "Bash(grep -vE \"^https?://\\(a|n|a/c\\)$\")",
-      "Bash(node scripts/extract-xlsx.mjs)"
+      "Bash(node scripts/extract-xlsx.mjs)",
+      "Read(//Users/salihalif/**)",
+      "Read(//Users/salihalif/Downloads/**)",
+      "Bash(node -e 'console.log\\(\"pdf-parse:\", require.resolve\\(\"pdf-parse\"\\)?\"ok\":\"no\"\\)')",
+      "Bash(node -e 'const m=require\\(\"pdf-parse\"\\);console.log\\(\"type:\",typeof m,\"keys:\",Object.keys\\(m\\)\\);')",
+      "Bash(node -e 'console.log\\(require\\(\"pdf-parse/package.json\"\\).version\\)')",
+      "Bash(node scripts/extract-books.mjs)"
     ]
   }
 }

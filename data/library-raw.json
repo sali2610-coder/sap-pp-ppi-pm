@@ -1,0 +1,474 @@
+[
+  {
+    "file": "9f320f75348944ad9719a173d724b7b8.pdf",
+    "title": "SAP S/4HANA Bridge Module (Consultant Foundation)",
+    "pages": 193,
+    "chapters": [],
+    "overview": "This e-book is designed as the “Week 0 foundation” for learners who want to move into SAP S/4HANA consulting but need the right conceptual base before starting the main implementation journey. SAP describes SAP S/4HANA as an integrated ERP suite supporting hundreds of business processes across finance, supply chain, project and service management, and HR, while SAP"
+  },
+  {
+    "file": "Configuring Plant Maintenance in SAP S4HANA __ Copy 8c2w-6zg4-uifn-jht9.pdf",
+    "title": "Configuring Plant Maintenance in SAP S4HANA",
+    "pages": 729,
+    "chapters": [
+      {
+        "n": 1,
+        "title": "SAP Projects in Plant Maintenance",
+        "page": 27
+      },
+      {
+        "n": 2,
+        "title": "Configuring Organizational Structures",
+        "page": 79
+      },
+      {
+        "n": 3,
+        "title": "Configuring Generic Functions",
+        "page": 109
+      },
+      {
+        "n": 4,
+        "title": "Configuring the Structure of Technical Systems",
+        "page": 169
+      },
+      {
+        "n": 5,
+        "title": "Configuring the Work Order Cycle",
+        "page": 249
+      },
+      {
+        "n": 6,
+        "title": "Configuring Preventive Maintenance",
+        "page": 415
+      },
+      {
+        "n": 7,
+        "title": "Configuring Additional Business Processes",
+        "page": 433
+      },
+      {
+        "n": 9,
+        "title": "Usability",
+        "page": 623
+      }
+    ],
+    "overview": "SAP PRESS offers a variety of books on technical and business-related topics for the SAP user. For further information, please visit our website: http://www.sap-press.com."
+  },
+  {
+    "file": "Integrating Warehouse Management in SAP S4HANA __ Copy krgw-ebnu-yajz-smv6.pdf",
+    "title": "Integrating Warehouse Management in SAP S4HANA",
+    "pages": 1341,
+    "chapters": [],
+    "overview": "You are reading this e-book in a file format (EPUB or Mobi) that makes the book content adaptable to the display options of your reading device and to your personal needs. That’s a great thing; but unfortunately not every device displays the content in the same way and the rendering of features such as pictures and tables or hyphenation can lead to difficulties. This e-book was optimized for the presentation on as many common reading devices as possible."
+  },
+  {
+    "file": "PP-DS with SAP S4HANA __ Copy kysj-d27q-n3bt-whvm.pdf",
+    "title": "PP-DS with SAP S4HANA",
+    "pages": 639,
+    "chapters": [
+      {
+        "n": 1,
+        "title": "Introduction to PP/DS with SAP S/4HANA",
+        "page": 19
+      },
+      {
+        "n": 2,
+        "title": "Master Data",
+        "page": 43
+      },
+      {
+        "n": 3,
+        "title": "Configuration",
+        "page": 111
+      },
+      {
+        "n": 4,
+        "title": "Data Transfer for Transaction Data",
+        "page": 175
+      },
+      {
+        "n": 5,
+        "title": "Production Planning",
+        "page": 217
+      },
+      {
+        "n": 6,
+        "title": "Detailed Scheduling",
+        "page": 343
+      },
+      {
+        "n": 7,
+        "title": "The Alert Monitor",
+        "page": 449
+      },
+      {
+        "n": 8,
+        "title": "Advanced PP/DS Features",
+        "page": 471
+      },
+      {
+        "n": 10,
+        "title": "Administering PP/DS with SAP S/4HANA",
+        "page": 569
+      },
+      {
+        "n": 11,
+        "title": "Migration to Embedded PP/DS",
+        "page": 603
+      }
+    ],
+    "overview": "SAP PRESS offers a variety of books on technical and business-related topics for the SAP user. For further information, please visit our website: http://www.sap-press.com."
+  },
+  {
+    "file": "Plant Maintenance with SAP S4HANA Business User Guide __ Copy 2n6k-erjm-sqvt-hpay.pdf",
+    "title": "Plant Maintenance with SAP S4HANA Business User Guide",
+    "pages": 669,
+    "chapters": [
+      {
+        "n": 2,
+        "title": "Organizational Structures",
+        "page": 55
+      },
+      {
+        "n": 3,
+        "title": "Structuring of Technical Systems",
+        "page": 67
+      },
+      {
+        "n": 4,
+        "title": "Work Order Cycle",
+        "page": 151
+      },
+      {
+        "n": 5,
+        "title": "Preventive Maintenance",
+        "page": 233
+      },
+      {
+        "n": 6,
+        "title": "Other Business Processes",
+        "page": 297
+      },
+      {
+        "n": 8,
+        "title": "Plant Maintenance Controlling",
+        "page": 437
+      },
+      {
+        "n": 10,
+        "title": "Usability",
+        "page": 569
+      }
+    ],
+    "overview": "SAP PRESS offers a variety of books on technical and business-related topics for the SAP user. For further information, please visit our website: http://www.sap-press.com."
+  },
+  {
+    "file": "Production Planning with SAP S4HANA __ Copy f3hm-kx92-ct8v-7p4y.pdf",
+    "title": "Production Planning with SAP S4HANA",
+    "pages": 1087,
+    "chapters": [
+      {
+        "n": 2,
+        "title": "Heritage Drive, Suite",
+        "page": 305
+      },
+      {
+        "n": 3,
+        "title": "Discrete Manufacturing Configuration",
+        "page": 75
+      },
+      {
+        "n": 4,
+        "title": "Process Manufacturing Configuration",
+        "page": 129
+      },
+      {
+        "n": 5,
+        "title": "Repetitive Manufacturing Configuration",
+        "page": 171
+      },
+      {
+        "n": 6,
+        "title": "Production Planning for Discrete Manufacturing",
+        "page": 193
+      },
+      {
+        "n": 7,
+        "title": "Production Planning for Process Manufacturing",
+        "page": 277
+      },
+      {
+        "n": 8,
+        "title": "Production Planning for Repetitive Manufacturing",
+        "page": 337
+      },
+      {
+        "n": 9,
+        "title": "Kanban",
+        "page": 397
+      },
+      {
+        "n": 10,
+        "title": "Batch Management",
+        "page": 457
+      },
+      {
+        "n": 11,
+        "title": "Sales and Operations Planning",
+        "page": 545
+      },
+      {
+        "n": 12,
+        "title": "Demand Management",
+        "page": 617
+      },
+      {
+        "n": 13,
+        "title": "Material Requirements Planning",
+        "page": 671
+      },
+      {
+        "n": 14,
+        "title": "Demand-Driven Replenishment",
+        "page": 769
+      },
+      {
+        "n": 15,
+        "title": "Predictive Material and Resource Planning",
+        "page": 837
+      }
+    ],
+    "overview": "SAP PRESS offers a variety of books on technical and business-related topics for the SAP user. For further information, please visit our website: http://www.sap-press.com."
+  },
+  {
+    "file": "Quality Management with SAP S4HANA __ Copy bw76-fnz5-dphy-kgxt.pdf",
+    "title": "Quality Management with SAP S4HANA",
+    "pages": 939,
+    "chapters": [
+      {
+        "n": 1,
+        "title": "Quality Management in SAP S/4HANA",
+        "page": 35
+      },
+      {
+        "n": 2,
+        "title": "Quality Planning",
+        "page": 57
+      },
+      {
+        "n": 3,
+        "title": "Quality Inspection",
+        "page": 109
+      },
+      {
+        "n": 4,
+        "title": "Integrating with Materials Management",
+        "page": 237
+      },
+      {
+        "n": 5,
+        "title": "Integrating with Production Planning",
+        "page": 281
+      },
+      {
+        "n": 6,
+        "title": "Integrating with SAP S/4HANA Sales",
+        "page": 309
+      },
+      {
+        "n": 7,
+        "title": "Integrating with Plant Maintenance",
+        "page": 323
+      },
+      {
+        "n": 9,
+        "title": "Batch Management",
+        "page": 389
+      },
+      {
+        "n": 10,
+        "title": "Sample Management",
+        "page": 475
+      },
+      {
+        "n": 11,
+        "title": "Quality Certificates",
+        "page": 501
+      },
+      {
+        "n": 12,
+        "title": "Quality Notification",
+        "page": 523
+      },
+      {
+        "n": 13,
+        "title": "Engineering Change Management",
+        "page": 585
+      },
+      {
+        "n": 14,
+        "title": "Audit Management",
+        "page": 621
+      },
+      {
+        "n": 15,
+        "title": "Stability Study",
+        "page": 649
+      }
+    ],
+    "overview": "SAP PRESS offers a variety of books on technical and business-related topics for the SAP user. For further information, please visit our website: http://www.sap-press.com."
+  },
+  {
+    "file": "SAP Fiori Apps for SAP S4HANA The Quick Reference Guide  __ Copy y2h3-b9ug-zf7r-54nk.pdf",
+    "title": "SAP Fiori Apps for SAP S4HANA The Quick Reference Guide",
+    "pages": 685,
+    "chapters": [
+      {
+        "n": 1,
+        "title": "Financial Accounting",
+        "page": 25
+      },
+      {
+        "n": 2,
+        "title": "Heritage Drive, Suite",
+        "page": 305
+      },
+      {
+        "n": 3,
+        "title": "Sales and Distribution",
+        "page": 289
+      },
+      {
+        "n": 4,
+        "title": "Inventory and Warehouse Management",
+        "page": 369
+      },
+      {
+        "n": 5,
+        "title": "Production Planning and Manufacturing",
+        "page": 397
+      },
+      {
+        "n": 6,
+        "title": "Plant Maintenance",
+        "page": 445
+      },
+      {
+        "n": 7,
+        "title": "Materials Management",
+        "page": 465
+      },
+      {
+        "n": 8,
+        "title": "Quality Management",
+        "page": 555
+      },
+      {
+        "n": 9,
+        "title": "Project System",
+        "page": 569
+      },
+      {
+        "n": 10,
+        "title": "Flexible Real Estate Management",
+        "page": 577
+      },
+      {
+        "n": 11,
+        "title": "Cross-Functional Apps",
+        "page": 585
+      },
+      {
+        "n": 12,
+        "title": "Additional Resources",
+        "page": 605
+      }
+    ],
+    "overview": "SAP PRESS offers a variety of books on technical and business-related topics for the SAP user. For further information, please visit our website: http://www.sap-press.com."
+  },
+  {
+    "file": "Sales and Operations Planning with SAP IBP __ Copy 8u9n-5qxc-frpv-bwy3.pdf",
+    "title": "Sales and Operations Planning with SAP IBP",
+    "pages": 923,
+    "chapters": [],
+    "overview": "For those of us who don’t spend our working day immersed in strategic and tactical planning and who haven’t performed S&OP processes time and time again, the past few years have been enlightening. We’ve all suffered from supply chain problems, whether it was trying to find hand sanitizer in April 2020, attempting to buy home exercise equipment in June 2021, or searching for a particular brand of cat food in late 2022. We’ve come to appreciate the complexities of predicting and aligning supply, demand, and the financial planning that goes along with them."
+  },
+  {
+    "file": "Sourcing and Procurement with SAP S4HANA __ Copy gz38-kvty-7wej-2i9b.pdf",
+    "title": "Sourcing and Procurement with SAP S4HANA",
+    "pages": 709,
+    "chapters": [
+      {
+        "n": 1,
+        "title": "Introduction to Sourcing and Procurement",
+        "page": 31
+      },
+      {
+        "n": 2,
+        "title": "Implementation Options",
+        "page": 51
+      },
+      {
+        "n": 3,
+        "title": "Organizational Structure",
+        "page": 83
+      },
+      {
+        "n": 4,
+        "title": "Master Data",
+        "page": 103
+      },
+      {
+        "n": 5,
+        "title": "Operational Procurement",
+        "page": 139
+      },
+      {
+        "n": 6,
+        "title": "Automated and Direct Procurement",
+        "page": 187
+      },
+      {
+        "n": 7,
+        "title": "Inventory Management",
+        "page": 237
+      },
+      {
+        "n": 9,
+        "title": "Enterprise Contract Management and Assembly",
+        "page": 361
+      },
+      {
+        "n": 10,
+        "title": "External Sourcing",
+        "page": 391
+      },
+      {
+        "n": 11,
+        "title": "Product Sourcing",
+        "page": 419
+      },
+      {
+        "n": 12,
+        "title": "Invoice and Payables Management",
+        "page": 451
+      },
+      {
+        "n": 13,
+        "title": "Supplier Management",
+        "page": 525
+      },
+      {
+        "n": 14,
+        "title": "Centralized Procurement",
+        "page": 547
+      },
+      {
+        "n": 15,
+        "title": "Sourcing and Procurement Analytics",
+        "page": 593
+      }
+    ],
+    "overview": "SAP PRESS offers a variety of books on technical and business-related topics for the SAP user. For further information, please visit our website: http://www.sap-press.com."
+  }
+]
