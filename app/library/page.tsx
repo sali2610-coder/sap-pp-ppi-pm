@@ -43,13 +43,13 @@ function ChapterRow({ c }: { c: LibChapter }) {
             className="overflow-hidden"
           >
             <div className="grid gap-3 px-5 pb-4 sm:grid-cols-2 sm:gap-4">
-              <div dir="ltr" className="rounded-xl border border-border/50 bg-background/50 p-3 text-start">
-                <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Original (SAP manual)</p>
-                <p className="text-xs leading-relaxed text-muted-foreground">{c.bodyEn || "—"}</p>
+              <div dir="ltr" className="flex max-h-96 flex-col rounded-xl border border-border/50 bg-background/50 p-3 text-start">
+                <p className="mb-1 shrink-0 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Original (SAP manual)</p>
+                <p className="overflow-y-auto whitespace-pre-line text-xs leading-relaxed text-muted-foreground">{c.bodyEn || "—"}</p>
               </div>
-              <div dir="rtl" className="rounded-xl border border-brand/20 bg-brand-soft/50 p-3 text-start">
-                <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-brand">תרגום מקצועי לעברית</p>
-                <p className="text-xs leading-relaxed">{c.bodyHe || "—"}</p>
+              <div dir="rtl" className="flex max-h-96 flex-col rounded-xl border border-brand/20 bg-brand-soft/50 p-3 text-start">
+                <p className="mb-1 shrink-0 text-[10px] font-bold uppercase tracking-wide text-brand">תרגום מקצועי לעברית</p>
+                <p className="overflow-y-auto whitespace-pre-line text-xs leading-relaxed">{c.bodyHe || "—"}</p>
               </div>
             </div>
           </motion.div>

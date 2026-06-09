@@ -22,21 +22,12 @@
       "Bash(node -e 'console.log\\(require\\(\"pdf-parse/package.json\"\\).version\\)')",
       "Bash(node scripts/extract-books.mjs)",
       "Bash(node scripts/extract-book-content.mjs)",
-      "Bash(node -e 'const c=require\\(\"./data/library-content.json\"\\);console.log\\(\"config-pm ch5:\\\\n\"+c[\"config-pm\"][\"5\"].slice\\(0,500\\)\\);console.log\\(\"\\\\nqm ch3:\\\\n\"+c[\"quality-management\"][\"3\"].slice\\(0,300\\)\\);')"
-    ]
-  },
-  "hooks": {
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash /Users/salihalif/Desktop/My-Projects/sap/.claude/hooks/auto-push.sh",
-            "timeout": 60,
-            "statusMessage": "Auto-pushing to GitHub..."
-          }
-        ]
-      }
+      "Bash(node -e 'const c=require\\(\"./data/library-content.json\"\\);console.log\\(\"config-pm ch5:\\\\n\"+c[\"config-pm\"][\"5\"].slice\\(0,500\\)\\);console.log\\(\"\\\\nqm ch3:\\\\n\"+c[\"quality-management\"][\"3\"].slice\\(0,300\\)\\);')",
+      "Bash(node scripts/extract-deep.mjs)",
+      "Bash(node -e 'const c=require\\(\"./data/library-content.json\"\\);console.log\\(\"@@@PM-CH5@@@\\\\n\"+c[\"pm-business-user\"][\"5\"]\\);')",
+      "Bash(node -e 'const c=require\\(\"./data/library-content.json\"\\);console.log\\(\"@@@PP-CH4@@@\\\\n\"+c[\"production-planning\"][\"4\"]\\);')",
+      "Bash(node -e 'const c=require\\(\"./data/library-content.json\"\\);console.log\\(\"@@@PP-CH5@@@\\\\n\"+c[\"production-planning\"][\"5\"]\\);')",
+      "Bash(node -e 'const c=require\\(\"./data/library-content.json\"\\);for\\(const[b,n]of[[\"pm-business-user\",4],[\"pm-business-user\",5],[\"production-planning\",4],[\"production-planning\",5]]\\){const t=c[b][n];console.log\\(b+\" ch\"+n+\": peerlyka=\"+\\(t.includes\\(\"peerlyka\"\\)\\)+\" Rheinwerk=\"+\\(t.includes\\(\"Rheinwerk\"\\)\\)+\" pagemark=\"+/\\\\d+ of \\\\d+/.test\\(t\\)\\);}')"
     ]
   }
 }

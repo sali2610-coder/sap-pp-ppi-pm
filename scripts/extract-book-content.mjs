@@ -62,6 +62,13 @@ function clean(text, maxLen = 1400) {
     .replace(/\r/g, "")
     .replace(/[ \t]+/g, " ")
     .replace(/\n{2,}/g, "\n")
+    .replace(/\s+/g, " ")
+    .replace(/Personal Copy for[^@]*@\S+/gi, "") // reader watermark/email (PII)
+    .replace(/\d{4} by Rheinwerk Publishing[^.]*\.?/gi, "")
+    .replace(/,?\s*Boston \(MA\)/gi, "")
+    .replace(/--\s*\d+\s*of\s*\d+\s*--/g, "")
+    .replace(/info@zarantech\.com|CALL\/WHATSAPP|EMAIL|\+1-515-309-7846/gi, "")
+    .replace(/\s{2,}/g, " ")
     .trim();
   // drop a leading "NN Chapter N Title" page-header echo
   t = t.replace(/^\d+\s+Chapter\s+\d+\s+/i, "").replace(/^Chapter\s+\d+\s+/i, "");
