@@ -141,7 +141,8 @@ export function PPChapterDetail({ ch }: { ch: PPChapter }) {
             <p className="text-sm leading-relaxed text-slate-700">{ch.summaryHe}</p>
           </section>
 
-          {/* chapter table of contents — real subchapters */}
+          {/* chapter table of contents — real subchapters (hidden for textbook chapters; the accordion below is the TOC) */}
+          {!textbook && (
           <section id="toc" dir="rtl" className="glass scroll-mt-24 rounded-2xl p-5">
             <h2 className="mb-2 flex items-center gap-2 text-sm font-bold text-brand"><ListTree className="size-4" />{lang === "he" ? "תוכן הפרק (תת-פרקים)" : "Chapter contents"}</h2>
             <ol className="space-y-1 text-sm">
@@ -154,6 +155,7 @@ export function PPChapterDetail({ ch }: { ch: PPChapter }) {
               {subs.length === 0 && <li className="text-xs text-muted-foreground">—</li>}
             </ol>
           </section>
+          )}
 
           {textbook ? (
             <PPTextbookLessons n={ch.n} />
