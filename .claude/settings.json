@@ -52,5 +52,19 @@
       "Bash(sed -i '' 's/\\\\${GEMINI_MODEL}/\\\\${model}/g' app/chat/page.tsx)",
       "Bash(grep -n \"Google \\\\${model}\" app/chat/page.tsx)"
     ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/salihalif/Desktop/My-Projects/sap/.claude/hooks/auto-push.sh",
+            "timeout": 120,
+            "statusMessage": "Auto-pushing..."
+          }
+        ]
+      }
+    ]
   }
 }

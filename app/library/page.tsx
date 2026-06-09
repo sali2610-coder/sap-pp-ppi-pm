@@ -174,6 +174,20 @@ export default function LibraryPage() {
         </div>
       </section>
 
+      <Link
+        href="/library/pm/"
+        className="flex items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/50 px-5 py-4 transition-colors hover:bg-brand-soft"
+      >
+        <span className="flex items-center gap-3">
+          <Layers className="size-5 text-brand" />
+          <span dir="rtl" className="text-start">
+            <span className="block text-sm font-bold">PM · ידע מובנֵה בעברית (PoC)</span>
+            <span className="block text-xs text-muted-foreground">תקצירים · מונחון · Runbook · לקחים — ללא שכפול טקסט מקורי</span>
+          </span>
+        </span>
+        <ArrowLeft className="size-4 shrink-0 text-brand" />
+      </Link>
+
       <div className="grid gap-5">
         {LIBRARY.map((b) => (
           <BookCard key={b.id} book={b} />
