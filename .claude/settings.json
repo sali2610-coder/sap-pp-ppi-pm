@@ -48,5 +48,19 @@
       "Bash(node scripts/extract-book1-figures.mjs)",
       "Bash(node scripts/build-knowledge.mjs)"
     ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/salihalif/Desktop/My-Projects/sap/.claude/hooks/auto-push.sh",
+            "timeout": 120,
+            "statusMessage": "Auto-pushing..."
+          }
+        ]
+      }
+    ]
   }
 }
