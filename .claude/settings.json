@@ -33,7 +33,9 @@
       "Bash(node -e 'const s=require\\(\"./data/library/book1/ch1.sections.json\"\\);console.log\\(s.sections.length+\" sections\"\\);s.sections.forEach\\(x=>console.log\\(x.id+\" — \"+x.title+\" \\(\"+x.chars+\"c\\)\"\\)\\)')",
       "Bash(sed -n '1,40p' /tmp/book1_ch1.txt)",
       "Bash(node scripts/build-book1-full.mjs)",
-      "Bash(node -e 'const d=require\\(\"./data/library/book1-full.json\"\\);console.log\\(\"chapters:\",d.chapters.length,\"sections:\",d.chapters.reduce\\(\\(s,c\\)=>s+c.sections.length,0\\),\"translated chapters:\",d.chapters.filter\\(c=>c.translated\\).length\\);')"
+      "Bash(node -e 'const d=require\\(\"./data/library/book1-full.json\"\\);console.log\\(\"chapters:\",d.chapters.length,\"sections:\",d.chapters.reduce\\(\\(s,c\\)=>s+c.sections.length,0\\),\"translated chapters:\",d.chapters.filter\\(c=>c.translated\\).length\\);')",
+      "Bash(node -e 'const fs=require\\(\"fs\"\\);const p=\".claude/settings.json\";const s=JSON.parse\\(fs.readFileSync\\(p,\"utf8\"\\)\\);s.hooks={Stop:[{hooks:[{type:\"command\",command:\"bash /Users/salihalif/Desktop/My-Projects/sap/.claude/hooks/auto-push.sh\",timeout:60,statusMessage:\"Auto-pushing to GitHub...\"}]}]};fs.writeFileSync\\(p,JSON.stringify\\(s,null,2\\)\\);console.log\\(\"hook re-added\"\\);')",
+      "Bash(node -e 'const s=require\\(\"./data/library/book1/ch2.sections.json\"\\);s.sections.forEach\\(x=>console.log\\(x.id+\" — \"+x.title+\" \\(\"+x.chars+\"c\\)\"\\)\\)')"
     ]
   }
 }
