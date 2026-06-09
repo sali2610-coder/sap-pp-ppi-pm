@@ -1,16 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight, ArrowLeft, Boxes, Settings2, ListChecks, Sparkles, AlertTriangle, Lightbulb,
   Factory, Link2, BookOpen, FileText, ListTree, GraduationCap,
 } from "lucide-react";
 import { PP_CHAPTERS, PP_GLOSSARY, type PPChapter, type SapObjects } from "@/data/library/pp-knowledge";
+import { PP_DEEP, type DeepUnit } from "@/data/library/pp-deep";
 import { slugOf } from "@/lib/pp-object-index";
 import PP_TOC from "@/data/library/pp-toc.json";
 import { PPFlow } from "@/components/pp-flow";
 import { useI18n } from "@/lib/i18n";
+import { ChevronDown, Briefcase } from "lucide-react";
 
 const TOC = PP_TOC as Record<string, { id: string; title: string }[]>;
 const pad = (n: number) => String(n).padStart(2, "0");
@@ -35,6 +38,60 @@ function Block({ id, icon, title, items }: { id: string; icon: React.ReactNode; 
   );
 }
 
+function UnitList({ label, items }: { label: string; items?: string[] }) {
+  if (!items?.length) return null;
+  return (
+    <div>
+      <p className="text-[11px] font-bold text-brand">{label}</p>
+      <ul className="mt-0.5 space-y-1 text-sm">
+        {items.map((x, i) => (
+          <li key={i} className="flex gap-1.5"><span className="mt-1.5 size-1 shrink-0 rounded-full bg-brand/40" /><span className="leading-relaxed">{x}</span></li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function DeepUnitCard({ u, lang }: { u: DeepUnit; lang: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="overflow-hidden rounded-xl border border-border/60 bg-card/40">
+      <button onClick={() => setOpen((v) => !v)} className="flex w-full items-center gap-2 p-3 text-start">
+        <span dir="ltr" className="tech shrink-0 rounded bg-brand/10 px-1.5 py-0.5 text-xs font-bold text-brand">{u.id}</span>
+        <span className="min-w-0 flex-1 text-sm font-semibold">{u.titleHe}</span>
+        <span dir="ltr" className="hidden text-[10px] text-muted-foreground sm:block">{u.titleEn}</span>
+        <ChevronDown className={`size-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22 }} className="overflow-hidden">
+            <div className="space-y-3 border-t border-border/40 p-3">
+              <p className="text-sm leading-relaxed text-slate-700">{u.explanationHe}</p>
+              {u.scenarioHe && (
+                <div className="rounded-lg border border-border/50 bg-muted/30 p-2.5">
+                  <p className="text-[11px] font-bold text-brand">{lang === "he" ? "תרחיש עסקי" : "Business scenario"}</p>
+                  <p className="mt-0.5 text-sm leading-relaxed">{u.scenarioHe}</p>
+                </div>
+              )}
+              <UnitList label={lang === "he" ? "דוגמת קונפיגורציה" : "Configuration example"} items={u.configHe} />
+              <UnitList label={lang === "he" ? "דוגמת נתוני אב" : "Master-data example"} items={u.masterDataHe} />
+              <UnitList label={lang === "he" ? "תרחישי פתרון תקלות" : "Troubleshooting"} items={u.troubleshootHe} />
+              <UnitList label={lang === "he" ? "טיפים למימוש" : "Implementation tips"} items={u.tipsHe} />
+              <UnitList label={lang === "he" ? "מלכודות פרויקט (Consultant pitfalls)" : "Consultant pitfalls"} items={u.pitfallsHe} />
+              {u.cbcHe && (
+                <div className="rounded-lg border border-brand/20 bg-brand-soft/50 p-2.5">
+                  <p className="text-[11px] font-bold text-brand">הערת CBC</p>
+                  <p className="mt-0.5 text-sm leading-relaxed">{u.cbcHe}</p>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export function PPChapterDetail({ ch }: { ch: PPChapter }) {
   const { lang } = useI18n();
   const idx = PP_CHAPTERS.findIndex((c) => c.n === ch.n);
@@ -43,11 +100,13 @@ export function PPChapterDetail({ ch }: { ch: PPChapter }) {
   const allCodes = Object.values(ch.objects).flat();
   const glossary = PP_GLOSSARY.filter((g) => allCodes.some((code) => g.term.includes(code)));
   const subs = TOC[String(ch.n)] ?? [];
+  const deep = PP_DEEP[String(ch.n)] ?? [];
 
   // sticky side-nav sections (Learning-Hub style)
   const sideNav = [
     ["overview", lang === "he" ? "סקירה" : "Overview"],
     ["toc", lang === "he" ? "תוכן הפרק" : "Contents"],
+    deep.length && ["learning", lang === "he" ? "תוכן לימודי" : "Learning content"],
     ["flow", lang === "he" ? "תרשים תהליך" : "Process flow"],
     ["objects", lang === "he" ? "אובייקטי SAP" : "SAP objects"],
     ch.configHe?.length && ["config", lang === "he" ? "קונפיגורציה" : "Configuration"],
@@ -93,6 +152,16 @@ export function PPChapterDetail({ ch }: { ch: PPChapter }) {
               {subs.length === 0 && <li className="text-xs text-muted-foreground">—</li>}
             </ol>
           </section>
+
+          {deep.length > 0 && (
+            <section id="learning" dir="rtl" className="glass scroll-mt-24 rounded-2xl p-5">
+              <h2 className="mb-1 flex items-center gap-2 text-sm font-bold text-brand"><Briefcase className="size-4" />{lang === "he" ? "תוכן לימודי מעמיק (רמת SAP Press)" : "Deep learning content"}</h2>
+              <p className="mb-3 text-xs text-muted-foreground">{lang === "he" ? "הסבר · תרחיש עסקי · קונפיגורציה · נתוני אב · פתרון תקלות · טיפים · מלכודות · הערות CBC" : "Explanation · scenario · config · master data · troubleshooting · tips · pitfalls · CBC"}</p>
+              <div className="space-y-2">
+                {deep.map((u) => <DeepUnitCard key={u.id} u={u} lang={lang} />)}
+              </div>
+            </section>
+          )}
 
           <div id="flow"><PPFlow n={ch.n} /></div>
 
