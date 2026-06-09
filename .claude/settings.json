@@ -27,7 +27,12 @@
       "Bash(node -e 'const c=require\\(\"./data/library-content.json\"\\);console.log\\(\"@@@PM-CH5@@@\\\\n\"+c[\"pm-business-user\"][\"5\"]\\);')",
       "Bash(node -e 'const c=require\\(\"./data/library-content.json\"\\);console.log\\(\"@@@PP-CH4@@@\\\\n\"+c[\"production-planning\"][\"4\"]\\);')",
       "Bash(node -e 'const c=require\\(\"./data/library-content.json\"\\);console.log\\(\"@@@PP-CH5@@@\\\\n\"+c[\"production-planning\"][\"5\"]\\);')",
-      "Bash(node -e 'const c=require\\(\"./data/library-content.json\"\\);for\\(const[b,n]of[[\"pm-business-user\",4],[\"pm-business-user\",5],[\"production-planning\",4],[\"production-planning\",5]]\\){const t=c[b][n];console.log\\(b+\" ch\"+n+\": peerlyka=\"+\\(t.includes\\(\"peerlyka\"\\)\\)+\" Rheinwerk=\"+\\(t.includes\\(\"Rheinwerk\"\\)\\)+\" pagemark=\"+/\\\\d+ of \\\\d+/.test\\(t\\)\\);}')"
+      "Bash(node -e 'const c=require\\(\"./data/library-content.json\"\\);for\\(const[b,n]of[[\"pm-business-user\",4],[\"pm-business-user\",5],[\"production-planning\",4],[\"production-planning\",5]]\\){const t=c[b][n];console.log\\(b+\" ch\"+n+\": peerlyka=\"+\\(t.includes\\(\"peerlyka\"\\)\\)+\" Rheinwerk=\"+\\(t.includes\\(\"Rheinwerk\"\\)\\)+\" pagemark=\"+/\\\\d+ of \\\\d+/.test\\(t\\)\\);}')",
+      "Bash(node scripts/parse-book1-modular.mjs)",
+      "Bash(node -e 'const s=require\\(\"./data/library/book1/ch1.sections.json\"\\);s.sections.forEach\\(x=>console.log\\(x.id+\" — \"+x.title+\" \\(\"+x.chars+\"c\\)\"\\)\\)')",
+      "Bash(node -e 'const s=require\\(\"./data/library/book1/ch1.sections.json\"\\);console.log\\(s.sections.length+\" sections\"\\);s.sections.forEach\\(x=>console.log\\(x.id+\" — \"+x.title+\" \\(\"+x.chars+\"c\\)\"\\)\\)')",
+      "Bash(sed -n '1,40p' /tmp/book1_ch1.txt)",
+      "Bash(node scripts/build-book1-full.mjs)"
     ]
   }
 }

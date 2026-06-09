@@ -1,0 +1,96 @@
+{
+  "book": "Configuring Plant Maintenance in SAP S/4HANA",
+  "pages": 729,
+  "chapters": [
+    {
+      "n": 1,
+      "title": "SAP Projects in Plant Maintenance",
+      "pages": [
+        27,
+        78
+      ],
+      "chars": 85316,
+      "sections": 14
+    },
+    {
+      "n": 2,
+      "title": "Configuring Organizational Structures",
+      "pages": [
+        79,
+        108
+      ],
+      "chars": 36203,
+      "sections": 8
+    },
+    {
+      "n": 3,
+      "title": "Configuring Generic Functions",
+      "pages": [
+        109,
+        168
+      ],
+      "chars": 77709,
+      "sections": 13
+    },
+    {
+      "n": 4,
+      "title": "Configuring the Structure of Technical Systems",
+      "pages": [
+        169,
+        248
+      ],
+      "chars": 104151,
+      "sections": 13
+    },
+    {
+      "n": 5,
+      "title": "Configuring the Work Order Cycle",
+      "pages": [
+        249,
+        414
+      ],
+      "chars": 217766,
+      "sections": 20
+    },
+    {
+      "n": 6,
+      "title": "Configuring Preventive Maintenance",
+      "pages": [
+        415,
+        432
+      ],
+      "chars": 25124,
+      "sections": 3
+    },
+    {
+      "n": 7,
+      "title": "Configuring Additional Business Processes",
+      "pages": [
+        433,
+        580
+      ],
+      "chars": 190760,
+      "sections": 20
+    },
+    {
+      "n": 8,
+      "title": "SAP Fiori Launchpad Configuration",
+      "pages": [
+        581,
+        622
+      ],
+      "chars": 45008,
+      "sections": 25
+    },
+    {
+      "n": 9,
+      "title": "Usability",
+      "pages": [
+        623,
+        729
+      ],
+      "chars": 226151,
+      "sections": 24
+    }
+  ]
+}

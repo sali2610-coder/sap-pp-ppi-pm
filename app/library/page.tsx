@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, ChevronDown, FileText, Library as LibraryIcon } from "lucide-react";
+import { BookOpen, ChevronDown, FileText, Library as LibraryIcon, Layers, ArrowLeft } from "lucide-react";
 import { LIBRARY, LIBRARY_STATS, type LibBook, type LibChapter } from "@/data/library";
 import { useI18n } from "@/lib/i18n";
 import { playPing } from "@/lib/sound";
@@ -114,6 +115,19 @@ function BookCard({ book }: { book: LibBook }) {
           </p>
         </div>
       </button>
+
+      {book.id === "config-pm" && (
+        <Link
+          href="/library/book1/"
+          className="mx-5 mb-3 flex items-center justify-between gap-2 rounded-xl border border-brand/30 bg-brand-soft/60 px-3 py-2 text-sm font-semibold text-brand transition-colors hover:bg-brand/10"
+        >
+          <span className="flex items-center gap-2">
+            <Layers className="size-4" />
+            {lang === "he" ? "עיון עומק מלא — סעיף-אחר-סעיף (אנגלית/עברית)" : "Full deep dive — section-by-section (EN/HE)"}
+          </span>
+          <ArrowLeft className="size-4 rtl:rotate-180" />
+        </Link>
+      )}
 
       <AnimatePresence initial={false}>
         {open && (
