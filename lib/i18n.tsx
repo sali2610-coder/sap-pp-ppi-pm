@@ -15,6 +15,7 @@ const DICT: Dict = {
   "nav.pm": { he: "אחזקה (PM)", en: "Maintenance (PM)" },
   "nav.ppi": { he: "ייצור (PP-PI)", en: "Production (PP-PI)" },
   "nav.library": { he: "ספרייה", en: "Library" },
+  "nav.chat": { he: "צ'אט AI", en: "AI Chat" },
   "search.placeholder": { he: "חיפוש טבלה, T-Code, BAPI…", en: "Search table, T-Code, BAPI…" },
   "search.hint": { he: "הקלד כדי לחפש בכל מסד הנתונים — 126 טבלאות, PM ו-PP-PI.", en: "Type to search the whole database — 126 tables, PM & PP-PI." },
   "search.empty": { he: "לא נמצאו תוצאות", en: "No results found" },

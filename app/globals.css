@@ -178,6 +178,18 @@ pre {
     transparent, rgba(15,23,42,0.06) 35%, rgba(15,23,42,0.14) 50%, rgba(15,23,42,0.06) 65%, transparent);
 }
 
+/* Chat markdown (Gemini answers): tables, headings, code */
+.prose-chat h1, .prose-chat h2, .prose-chat h3 { font-weight: 700; margin: 0.4em 0 0.2em; }
+.prose-chat h2 { color: var(--brand); font-size: 0.95rem; }
+.prose-chat ul, .prose-chat ol { padding-inline-start: 1.2em; list-style: revert; }
+.prose-chat li { margin: 0.15em 0; }
+.prose-chat table { width: 100%; border-collapse: collapse; margin: 0.5em 0; font-size: 0.8em; }
+.prose-chat th, .prose-chat td { border: 1px solid var(--border); padding: 4px 8px; text-align: start; }
+.prose-chat th { background: var(--muted); font-weight: 700; }
+.prose-chat code { background: var(--muted); padding: 0 4px; border-radius: 4px; font-size: 0.85em; }
+.prose-chat strong { font-weight: 700; }
+.prose-chat a { color: var(--brand); text-decoration: underline; }
+
 /* Entry animations */
 @keyframes float-in {
   from { opacity: 0; transform: translateY(8px); }

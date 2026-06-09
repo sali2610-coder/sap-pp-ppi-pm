@@ -46,21 +46,8 @@
       "Bash(sed -n '17,60p' /tmp/ch5.txt)",
       "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book1/he/ch5.json\",\"utf8\"\\)\\);console.log\\(\"ch5 json valid, keys:\",Object.keys\\(require\\(\"./data/library/book1/he/ch5.json\"\\)\\).length\\)')",
       "Bash(node scripts/extract-book1-figures.mjs)",
-      "Bash(node scripts/build-knowledge.mjs)"
-    ]
-  },
-  "hooks": {
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash /Users/salihalif/Desktop/My-Projects/sap/.claude/hooks/auto-push.sh",
-            "timeout": 120,
-            "statusMessage": "Auto-pushing..."
-          }
-        ]
-      }
+      "Bash(node scripts/build-knowledge.mjs)",
+      "Bash(node scripts/extract-book2.mjs)"
     ]
   }
 }

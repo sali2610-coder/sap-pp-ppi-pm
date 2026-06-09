@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Sparkles } from "lucide-react";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SiteLogo } from "@/components/site-logo";
 import { OmniSearch } from "@/components/omni-search";
@@ -35,6 +36,10 @@ function Header() {
           </Link>
           <Link href="/library/" onClick={() => playClick()} className="rounded-lg px-3 py-1.5 transition-colors hover:bg-white/15 active:scale-95">
             {t("nav.library")}
+          </Link>
+          <Link href="/chat/" onClick={() => playClick()} className="flex items-center gap-1 rounded-lg px-3 py-1.5 transition-colors hover:bg-white/15 active:scale-95">
+            <Sparkles className="size-3.5" />
+            {t("nav.chat")}
           </Link>
           <div className="ms-2">
             <LangSwitch />
