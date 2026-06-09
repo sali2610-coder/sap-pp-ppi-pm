@@ -175,14 +175,14 @@ export default function LibraryPage() {
       </section>
 
       <Link
-        href="/library/pm/"
+        href="/library/pp/"
         className="flex items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/50 px-5 py-4 transition-colors hover:bg-brand-soft"
       >
         <span className="flex items-center gap-3">
           <Layers className="size-5 text-brand" />
           <span dir="rtl" className="text-start">
-            <span className="block text-sm font-bold">PM · ידע מובנֵה בעברית (PoC)</span>
-            <span className="block text-xs text-muted-foreground">תקצירים · מונחון · Runbook · לקחים — ללא שכפול טקסט מקורי</span>
+            <span className="block text-sm font-bold">PP · מודול ידע מלא בעברית (Production Planning)</span>
+            <span className="block text-xs text-muted-foreground">15 פרקים · תקצירים · גלוסר · Runbooks · דפוסים · פתרון תקלות · Cross-links — תוכן טרנספורמטיבי</span>
           </span>
         </span>
         <ArrowLeft className="size-4 shrink-0 text-brand" />

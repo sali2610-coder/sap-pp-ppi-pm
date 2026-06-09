@@ -50,21 +50,9 @@
       "Bash(node scripts/extract-book2.mjs)",
       "Bash(node -e 'const fs=require\\(\"fs\"\\);const p=\".claude/settings.json\";const s=JSON.parse\\(fs.readFileSync\\(p,\"utf8\"\\)\\);s.hooks={Stop:[{hooks:[{type:\"command\",command:\"bash /Users/salihalif/Desktop/My-Projects/sap/.claude/hooks/auto-push.sh\",timeout:120,statusMessage:\"Auto-pushing...\"}]}]};fs.writeFileSync\\(p,JSON.stringify\\(s,null,2\\)\\);')",
       "Bash(sed -i '' 's/\\\\${GEMINI_MODEL}/\\\\${model}/g' app/chat/page.tsx)",
-      "Bash(grep -n \"Google \\\\${model}\" app/chat/page.tsx)"
-    ]
-  },
-  "hooks": {
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash /Users/salihalif/Desktop/My-Projects/sap/.claude/hooks/auto-push.sh",
-            "timeout": 120,
-            "statusMessage": "Auto-pushing..."
-          }
-        ]
-      }
+      "Bash(grep -n \"Google \\\\${model}\" app/chat/page.tsx)",
+      "Bash(node scripts/extract-pp-objects.mjs)",
+      "Bash(node -e 'const o=require\\(\"./data/library/pp-objects.json\"\\);const c=o[\"6\"];console.log\\(\"tcodes:\",c.tcodes.slice\\(0,15\\).join\\(\" \"\\)\\);console.log\\(\"tables:\",c.tables.join\\(\" \"\\)\\);console.log\\(\"fiori:\",c.fiori.slice\\(0,10\\).join\\(\" \"\\)\\);console.log\\(\"bapis:\",c.bapis.slice\\(0,6\\).join\\(\" \"\\)\\);console.log\\(\"idocs:\",c.idocs.join\\(\" \"\\)\\)')"
     ]
   }
 }
