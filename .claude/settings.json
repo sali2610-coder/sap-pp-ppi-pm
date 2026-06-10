@@ -71,7 +71,19 @@
       "Bash(echo \"---EXIT:$?---\")",
       "Bash(node --input-type=module -e ' *)",
       "Bash(node --experimental-strip-types --input-type=module -e ' *)",
-      "Bash(npx tsx *)"
+      "Bash(npx tsx *)",
+      "Bash(node -e \"const r=require\\('/tmp/pp-determ.json'\\);for\\(let i=1;i<=15;i++\\){const s=r[i];const f=[];if\\(s.emptyFacets.length\\)f.push\\('EMPTY:'+s.emptyFacets.join\\('|'\\)\\);if\\(s.badObjectLink.length\\)f.push\\('BAD_OBJ_LINKS:'+s.badObjectLink.join\\('|'\\)\\);if\\(s.badChapterLink.length\\)f.push\\('BAD_LINKS:'+s.badChapterLink.join\\('|'\\)\\);if\\(s.badAnchor.length\\)f.push\\('BAD_ANCHOR:'+s.badAnchor.join\\('|'\\)\\);console.log\\(i+'@@@'+\\(f.join\\(' ;; '\\)||'none'\\)\\);}\")",
+      "Bash(node -e \"const t=require\\('./data/library/pp-toc.json'\\); console.log\\(JSON.stringify\\(t['1'],null,1\\)\\)\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('/Users/salihalif/Desktop/My-Projects/sap/data/library/pp-toc.json'\\)\\); print\\(json.dumps\\(d.get\\('1'\\), ensure_ascii=False, indent=1\\)\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('2', d\\), indent=2, ensure_ascii=False\\)\\)\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('data/library/pp-objects.json'\\)\\); print\\(type\\(d\\)\\); k=list\\(d.keys\\(\\)\\) if isinstance\\(d,dict\\) else [x.get\\('name'\\) or x.get\\('table'\\) for x in d][:60]; print\\(k[:80]\\)\")",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 -c \"import json;d=json.load\\(open\\('pp-objects.json'\\)\\);print\\('ch12 tables:',d.get\\('12',{}\\).get\\('tables'\\)\\);print\\('ch12 tcodes:',d.get\\('12',{}\\).get\\('tcodes'\\)\\)\")",
+      "Bash(python3 -c \"import json;d=json.load\\(open\\('pp-objects.json'\\)\\);print\\(json.dumps\\(d['3'],ensure_ascii=False\\)[:400]\\)\")",
+      "Bash(npx --yes tsx -e ' *)",
+      "Bash(grep -o 'F[0-9]\\\\{3,4\\\\}[A-Z]*' data/library/pp-textbook/ch04.ts)",
+      "Bash(grep -oE '\\\\\"[A-Z0-9][A-Z0-9_/]{1,9}\\\\\"' data/library/pp-knowledge.ts)",
+      "Bash(grep -rn \"sub-\\\\|#sub\\\\|id={\\\\`sub\" app/library)"
     ]
   }
 }

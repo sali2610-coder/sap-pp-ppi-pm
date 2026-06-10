@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <rect width="1280" height="720" fill="#13151A"/>
+  <rect x="0" y="0" width="14" height="720" fill="#D62027"/>
+  <g font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+    <text x="90" y="150" font-size="15" font-weight="700" letter-spacing="6" fill="#D62027">EXECUTIVE BRIEFING · 2026</text>
+    <text x="88" y="330" font-size="84" font-weight="800" fill="#FFFFFF">Project NEO Cockpit</text>
+    <rect x="92" y="372" width="120" height="5" fill="#D62027"/>
+    <text x="90" y="440" font-size="30" font-weight="400" fill="#C7CBD4">ECC → S/4HANA Migration, delivered offline.</text>
+    <text x="90" y="650" font-size="16" font-weight="600" fill="#8A909B">CBC Israel</text>
+    <text x="1190" y="650" font-size="16" font-weight="600" fill="#8A909B" text-anchor="end">Web Coding · Sali Halif</text>
+  </g>
+</svg>

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <g font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+    <rect x="80" y="72" width="6" height="44" fill="#D62027"/>
+    <text x="104" y="108" font-size="40" font-weight="800" fill="#13151A">The Mandate</text>
+
+    <g>
+      <rect x="80" y="200" width="360" height="320" rx="10" fill="#F4F5F7"/>
+      <rect x="80" y="200" width="360" height="6" fill="#D62027"/>
+      <text x="112" y="262" font-size="44" font-weight="800" fill="#D62027">01</text>
+      <text x="112" y="320" font-size="22" font-weight="700" fill="#13151A">Retire ECC6</text>
+      <text x="112" y="360" font-size="18" fill="#4B515C">Land PM and PP-PI on</text>
+      <text x="112" y="386" font-size="18" fill="#4B515C">S/4HANA with zero data loss.</text>
+    </g>
+
+    <g>
+      <rect x="460" y="200" width="360" height="320" rx="10" fill="#F4F5F7"/>
+      <rect x="460" y="200" width="360" height="6" fill="#D62027"/>
+      <text x="492" y="262" font-size="44" font-weight="800" fill="#D62027">02</text>
+      <text x="492" y="320" font-size="22" font-weight="700" fill="#13151A">One Cockpit</text>
+      <text x="492" y="360" font-size="18" fill="#4B515C">Migration tracker plus a</text>
+      <text x="492" y="386" font-size="18" fill="#4B515C">technical data dictionary.</text>
+    </g>
+
+    <g>
+      <rect x="840" y="200" width="360" height="320" rx="10" fill="#F4F5F7"/>
+      <rect x="840" y="200" width="360" height="6" fill="#D62027"/>
+      <text x="872" y="262" font-size="44" font-weight="800" fill="#D62027">03</text>
+      <text x="872" y="320" font-size="22" font-weight="700" fill="#13151A">100% Offline</text>
+      <text x="872" y="360" font-size="18" fill="#4B515C">No CDN, no runtime,</text>
+      <text x="872" y="386" font-size="18" fill="#4B515C">static export only.</text>
+    </g>
+
+    <text x="80" y="660" font-size="14" font-weight="600" fill="#9AA0AB">Project NEO Cockpit · CBC Israel</text>
+    <text x="1200" y="660" font-size="14" font-weight="600" fill="#9AA0AB" text-anchor="end">2 / 5</text>
+  </g>
+</svg>

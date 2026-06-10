@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <g font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+    <rect x="80" y="72" width="6" height="44" fill="#D62027"/>
+    <text x="104" y="108" font-size="40" font-weight="800" fill="#13151A">Readiness</text>
+
+    <!-- progress ring (field mapping 100%) -->
+    <circle cx="290" cy="380" r="130" fill="none" stroke="#EDEFF2" stroke-width="28"/>
+    <circle cx="290" cy="380" r="130" fill="none" stroke="#D62027" stroke-width="28" stroke-linecap="round"
+            stroke-dasharray="816 816" stroke-dashoffset="0" transform="rotate(-90 290 380)"/>
+    <text x="290" y="372" font-size="64" font-weight="800" fill="#13151A" text-anchor="middle">100%</text>
+    <text x="290" y="412" font-size="18" fill="#4B515C" text-anchor="middle">field-level mapping</text>
+
+    <!-- checklist -->
+    <g>
+      <circle cx="600" cy="248" r="12" fill="#D62027"/>
+      <text x="592" y="254" font-size="15" font-weight="800" fill="#FFFFFF">✓</text>
+      <text x="630" y="244" font-size="22" font-weight="700" fill="#13151A">Blueprints locked</text>
+      <text x="630" y="276" font-size="18" fill="#4B515C">Field-level mapping complete across both modules.</text>
+    </g>
+    <g>
+      <circle cx="600" cy="360" r="12" fill="#D62027"/>
+      <text x="592" y="366" font-size="15" font-weight="800" fill="#FFFFFF">✓</text>
+      <text x="630" y="356" font-size="22" font-weight="700" fill="#13151A">S/4 guidance attached</text>
+      <text x="630" y="388" font-size="18" fill="#4B515C">Simplification notes + Fiori apps + SUM notes per table.</text>
+    </g>
+    <g>
+      <circle cx="600" cy="472" r="12" fill="#D62027"/>
+      <text x="592" y="478" font-size="15" font-weight="800" fill="#FFFFFF">✓</text>
+      <text x="630" y="468" font-size="22" font-weight="700" fill="#13151A">Sign-off ready</text>
+      <text x="630" y="500" font-size="18" fill="#4B515C">Status persistence with JSON export / import.</text>
+    </g>
+
+    <text x="80" y="660" font-size="14" font-weight="600" fill="#9AA0AB">Project NEO Cockpit · CBC Israel</text>
+    <text x="1200" y="660" font-size="14" font-weight="600" fill="#9AA0AB" text-anchor="end">4 / 5</text>
+  </g>
+</svg>

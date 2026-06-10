@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <rect width="1280" height="720" fill="#13151A"/>
+  <rect x="0" y="0" width="14" height="720" fill="#D62027"/>
+  <g font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+    <text x="90" y="120" font-size="40" font-weight="800" fill="#FFFFFF">Next Steps</text>
+    <rect x="92" y="138" width="100" height="5" fill="#D62027"/>
+
+    <!-- timeline -->
+    <line x1="150" y1="280" x2="1130" y2="280" stroke="#3A3D45" stroke-width="3"/>
+
+    <g text-anchor="middle">
+      <circle cx="270" cy="280" r="20" fill="#D62027"/>
+      <text x="270" y="287" font-size="18" font-weight="800" fill="#FFFFFF">1</text>
+      <text x="270" y="350" font-size="22" font-weight="700" fill="#FFFFFF">Sign-off</text>
+      <text x="270" y="384" font-size="17" fill="#A8AEB9">Functional review of PM</text>
+      <text x="270" y="408" font-size="17" fill="#A8AEB9">and PP-PI dictionaries.</text>
+
+      <circle cx="640" cy="280" r="20" fill="#D62027"/>
+      <text x="640" y="287" font-size="18" font-weight="800" fill="#FFFFFF">2</text>
+      <text x="640" y="350" font-size="22" font-weight="700" fill="#FFFFFF">SUM Dry-Run</text>
+      <text x="640" y="384" font-size="17" fill="#A8AEB9">Conversion rehearsal</text>
+      <text x="640" y="408" font-size="17" fill="#A8AEB9">against sandbox.</text>
+
+      <circle cx="1010" cy="280" r="20" fill="#D62027"/>
+      <text x="1010" y="287" font-size="18" font-weight="800" fill="#FFFFFF">3</text>
+      <text x="1010" y="350" font-size="22" font-weight="700" fill="#FFFFFF">Go-Live</text>
+      <text x="1010" y="384" font-size="17" fill="#A8AEB9">Cutover rehearsal, then</text>
+      <text x="1010" y="408" font-size="17" fill="#A8AEB9">production window.</text>
+    </g>
+
+    <text x="90" y="660" font-size="14" font-weight="600" fill="#8A909B">Project NEO Cockpit · CBC Israel</text>
+    <text x="1190" y="660" font-size="14" font-weight="600" fill="#8A909B" text-anchor="end">Web Coding · Sali Halif · 5 / 5</text>
+  </g>
+</svg>

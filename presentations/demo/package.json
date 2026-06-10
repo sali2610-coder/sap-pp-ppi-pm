@@ -1,0 +1,9 @@
+{
+  "name": "neo-pptx-demo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Demo deck to validate Anthropic pptx skill",
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
+  }
+}
