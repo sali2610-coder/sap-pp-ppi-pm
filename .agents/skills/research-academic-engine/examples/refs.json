@@ -1,0 +1,5 @@
+[
+ {"type":"article","authors":[["Cunha","F."],["Heckman","J. J."]],"year":2007,"title":"The technology of skill formation","container":"American Economic Review","volume":"97","issue":"2","pages":"31-47","doi":"10.1257/aer.97.2.31"},
+ {"type":"article","authors":[["Heckman","J. J."],["Moon","S. H."],["Pinto","R."]],"year":2013,"title":"The rate of return to the HighScope Perry Preschool Program","container":"Journal of Public Economics","volume":"94","issue":"1","pages":"114-128"},
+ {"type":"report","authors":[["Halif","S."]],"year":2026,"title":"Project NEO migration cockpit","publisher":"CBC Israel","url":"https://example.org/neo"}
+]

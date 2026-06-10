@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "pptxgenjs": {
+      "command": "node",
+      "args": [
+        "/Users/salihalif/Desktop/My-Projects/sap/.agents/mcp/pptxgenjs-mcp-server/dist/index.js"
+      ]
+    }
+  }
+}

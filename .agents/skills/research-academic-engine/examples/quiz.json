@@ -1,0 +1,4 @@
+{"title":"Skill formation quiz","items":[
+ {"type":"mcq","tag":"remember","question":"Skill complementarity means…","options":["early skills raise returns to later investment","skills decay without practice","only genetics determine skills","schooling fully mediates earnings"],"answer":0,"rationale":"Early skills raise the productivity of later investment.","source":"Cunha & Heckman 2007"},
+ {"type":"truefalse","tag":"understand","question":"Perry Preschool effects were detectable in adulthood.","answer":true,"rationale":"Earnings/crime outcomes tracked to adulthood.","source":"Heckman et al. 2013"},
+ {"type":"short","tag":"apply","question":"State one policy implication of skill complementarity.","answer":"Invest early; early gains compound.","source":"Cunha & Heckman 2007"}]}

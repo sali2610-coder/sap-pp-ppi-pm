@@ -5,6 +5,7 @@
 
 import { PP_TEXTBOOK, PP_TEXTBOOK_STATS } from "./pp-textbook";
 import { PP_QUALITY, PP_REVALIDATED } from "./pp-quality";
+import { PM_TEXTBOOK, PM_TEXTBOOK_STATS } from "./pm-textbook";
 
 export type BookStatus = "live" | "in-progress" | "planned";
 
@@ -30,6 +31,9 @@ const ppChapters = Object.keys(PP_TEXTBOOK).length;
 const ppNodes = Object.values(PP_TEXTBOOK_STATS).reduce((s, c) => s + c.totalNodes, 0);
 const ppSubs = Object.values(PP_TEXTBOOK).reduce((s, c) => s + c.subchapters.length, 0);
 const ppQuality = Math.round(PP_QUALITY.reduce((s, c) => s + (PP_REVALIDATED[c.n] ?? c.confidence), 0) / PP_QUALITY.length);
+const pmChapters = Object.keys(PM_TEXTBOOK).length;
+const pmNodes = Object.values(PM_TEXTBOOK_STATS).reduce((s, c) => s + c.totalNodes, 0);
+const pmSubs = Object.values(PM_TEXTBOOK).reduce((s, c) => s + c.subchapters.length, 0);
 
 export const ACADEMY_BOOKS: AcademyBook[] = [
   {
@@ -40,8 +44,9 @@ export const ACADEMY_BOOKS: AcademyBook[] = [
   },
   {
     id: "pm", titleHe: "תחזוקת מפעל (Plant Maintenance)", titleEn: "Configuring Plant Maintenance in SAP S/4HANA",
-    module: "PM", status: "planned", chaptersTotal: 0, chaptersDone: 0, subchapters: 0, nodes: 0,
-    validated: false, tintHe: "from-rose-500 to-rose-700",
+    module: "PM", status: "live", chaptersTotal: 9, chaptersDone: pmChapters,
+    subchapters: pmSubs, nodes: pmNodes, validated: false, qualityScore: undefined,
+    href: "/library/pm-academy/", tintHe: "from-rose-500 to-rose-700",
   },
   {
     id: "pp-pi", titleHe: "ייצור תהליכי (PP-PI)", titleEn: "Process Manufacturing with SAP S/4HANA",
