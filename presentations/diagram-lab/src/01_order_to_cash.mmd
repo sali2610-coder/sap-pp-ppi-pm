@@ -1,0 +1,18 @@
+---
+title: SAP Order-to-Cash (OTC)
+---
+flowchart LR
+    A["Inquiry / Quotation<br/>VA11 · VA21"] --> B["Sales Order<br/>VA01 · VBAK/VBAP"]
+    B --> C["Availability Check<br/>ATP"]
+    C --> D["Delivery<br/>VL01N · LIKP/LIPS"]
+    D --> E["Picking + GI<br/>VL02N · WM/MM"]
+    E --> F["Billing<br/>VF01 · VBRK/VBRP"]
+    F --> G["Accounting Doc<br/>FI · BKPF/BSEG"]
+    G --> H["Incoming Payment<br/>F-28 · Clearing"]
+
+    classDef sd fill:#0a6ed1,stroke:#08549f,color:#fff;
+    classDef log fill:#107e3e,stroke:#0b5e2e,color:#fff;
+    classDef fi fill:#d62027,stroke:#a3171c,color:#fff;
+    class A,B,C sd;
+    class D,E log;
+    class F,G,H fi;

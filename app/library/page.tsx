@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, ChevronDown, FileText, Library as LibraryIcon, Layers, ArrowLeft } from "lucide-react";
+import { BookOpen, ChevronDown, FileText, Library as LibraryIcon, Layers, ArrowLeft, GraduationCap } from "lucide-react";
 import { LIBRARY, LIBRARY_STATS, type LibBook, type LibChapter } from "@/data/library";
 import { useI18n } from "@/lib/i18n";
 import { playPing } from "@/lib/sound";
@@ -175,14 +175,28 @@ export default function LibraryPage() {
       </section>
 
       <Link
+        href="/library/academy/"
+        className="flex items-center justify-between gap-3 rounded-2xl border border-brand/40 bg-gradient-to-l from-brand-soft to-brand-soft/40 px-5 py-4 transition-colors hover:from-brand-soft"
+      >
+        <span className="flex items-center gap-3">
+          <GraduationCap className="size-5 text-brand" />
+          <span dir="rtl" className="text-start">
+            <span className="block text-sm font-bold">{lang === "he" ? "אקדמיית SAP אחודה — לוח בקרה" : "Unified SAP Academy — dashboard"}</span>
+            <span className="block text-xs text-muted-foreground">{lang === "he" ? "סטטוס ספרים · פרקים · אימות · ציון איכות · תבנית 18 מקטעים" : "books · chapters · validation · quality · 18-facet template"}</span>
+          </span>
+        </span>
+        <ArrowLeft className="size-4 shrink-0 text-brand" />
+      </Link>
+
+      <Link
         href="/library/pp/"
         className="flex items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/50 px-5 py-4 transition-colors hover:bg-brand-soft"
       >
         <span className="flex items-center gap-3">
           <Layers className="size-5 text-brand" />
           <span dir="rtl" className="text-start">
-            <span className="block text-sm font-bold">PP · מודול ידע מלא בעברית (Production Planning)</span>
-            <span className="block text-xs text-muted-foreground">15 פרקים · תקצירים · גלוסר · Runbooks · דפוסים · פתרון תקלות · Cross-links — תוכן טרנספורמטיבי</span>
+            <span className="block text-sm font-bold">PP · אקדמיה דיגיטלית מלאה (Production Planning)</span>
+            <span className="block text-xs text-muted-foreground">15 פרקים · 407 יחידות לימוד · 18 מקטעים לצומת · דוח איכות — תוכן טרנספורמטיבי</span>
           </span>
         </span>
         <ArrowLeft className="size-4 shrink-0 text-brand" />

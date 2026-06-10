@@ -1,0 +1,35 @@
+---
+title: SAP PP-PI Production Process (Swimlane)
+---
+flowchart LR
+    subgraph PLAN["Planning"]
+        direction TB
+        P1["Planned Order<br/>MD11 · PLAF"] --> P2["MRP Run<br/>MD01 · process scope"]
+    end
+    subgraph PROD["Production / PI"]
+        direction TB
+        O1["Process Order<br/>COR1 · AUFK/AFKO"] --> O2["Order Release<br/>COR2 · status REL"]
+        O2 --> O3["Control Recipe<br/>CO53 · PI sheet"]
+        O3 --> O4["Confirmation<br/>COR6N · AFRU"]
+    end
+    subgraph QM["Quality"]
+        direction TB
+        Q1["Inspection Lot<br/>QA32 · QALS"] --> Q2["Usage Decision<br/>QA11"]
+    end
+    subgraph WH["Warehouse / Costing"]
+        direction TB
+        W1["Goods Receipt<br/>MIGO · 101"] --> W2["Order Settlement<br/>KO88 · CO"]
+    end
+
+    P2 ==> O1
+    O4 ==> Q1
+    Q2 ==> W1
+
+    classDef plan fill:#6a737d,stroke:#4b5258,color:#fff;
+    classDef prod fill:#0a6ed1,stroke:#08549f,color:#fff;
+    classDef qm fill:#107e3e,stroke:#0b5e2e,color:#fff;
+    classDef wh fill:#d62027,stroke:#a3171c,color:#fff;
+    class P1,P2 plan;
+    class O1,O2,O3,O4 prod;
+    class Q1,Q2 qm;
+    class W1,W2 wh;

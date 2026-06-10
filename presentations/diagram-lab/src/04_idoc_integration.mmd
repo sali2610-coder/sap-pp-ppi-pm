@@ -1,0 +1,44 @@
+---
+title: SAP IDOC Integration Architecture
+---
+flowchart LR
+    subgraph EXT["External Partners"]
+        Z["Zetes / Daymax<br/>MES · WMS"]
+        EDI["EDI Partner"]
+    end
+    subgraph MW["Middleware"]
+        PIPO["SAP PI/PO<br/>iFlow · mapping"]
+        PORT["Port / RFC<br/>WE21 · SM59"]
+    end
+    subgraph SAP["SAP ECC / S4"]
+        subgraph ALE["ALE Layer"]
+            PART["Partner Profile<br/>WE20"]
+            MODEL["Distribution Model<br/>BD64"]
+        end
+        subgraph IDOCL["IDoc Processing"]
+            IN["Inbound IDoc<br/>ORDERS05 · WE19"]
+            OUT["Outbound IDoc<br/>ORDRSP · WE02"]
+            FM["Function Module<br/>IDOC_INPUT_*"]
+        end
+        APP["Application Doc<br/>VBAK · EKKO · AUFK"]
+    end
+
+    Z -->|ORDERS| PIPO
+    EDI -->|EDIFACT| PIPO
+    PIPO --> PORT
+    PORT --> PART
+    PART --> MODEL
+    MODEL --> IN
+    IN --> FM
+    FM --> APP
+    APP --> OUT
+    OUT -->|status 03/16| PORT
+
+    classDef ext fill:#107e3e,stroke:#0b5e2e,color:#fff;
+    classDef mw fill:#6a737d,stroke:#4b5258,color:#fff;
+    classDef sap fill:#0a6ed1,stroke:#08549f,color:#fff;
+    classDef app fill:#d62027,stroke:#a3171c,color:#fff;
+    class Z,EDI ext;
+    class PIPO,PORT mw;
+    class PART,MODEL,IN,OUT,FM sap;
+    class APP app;

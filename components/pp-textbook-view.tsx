@@ -72,9 +72,9 @@ function Bullets({ items, tint }: { items?: string[]; tint?: "red" | "green" | "
   if (!items?.length) return <span className="text-xs text-muted-foreground">—</span>;
   const dot = tint === "red" ? "bg-rose-400" : tint === "green" ? "bg-emerald-400" : "bg-brand/40";
   return (
-    <ul className="space-y-1">
+    <ul className="space-y-1.5">
       {items.map((x, i) => (
-        <li key={i} className="flex gap-1.5"><span className={`mt-1.5 size-1 shrink-0 rounded-full ${dot}`} /><span>{x}</span></li>
+        <li key={i} className="flex gap-2"><span className={`mt-2 size-1.5 shrink-0 rounded-full ${dot}`} /><span>{x}</span></li>
       ))}
     </ul>
   );
@@ -82,18 +82,18 @@ function Bullets({ items, tint }: { items?: string[]; tint?: "red" | "green" | "
 
 function Row({ icon, label, children }: { icon: React.ReactNode; label: string; children: React.ReactNode }) {
   return (
-    <div className="grid gap-1 border-t border-border/30 pt-3 first:border-0 first:pt-0 sm:grid-cols-[150px_1fr] sm:gap-3">
-      <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-brand">{icon}{label}</p>
-      <div className="text-sm leading-relaxed text-slate-700">{children}</div>
+    <div className="grid gap-1.5 border-t border-border/30 pt-4 first:border-0 first:pt-0 sm:grid-cols-[160px_1fr] sm:gap-4">
+      <p className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wide text-brand">{icon}{label}</p>
+      <div className="text-[15px] leading-7 text-slate-700">{children}</div>
     </div>
   );
 }
 
 function Explain({ icon, label, tint, children }: { icon: React.ReactNode; label: string; tint: string; children: React.ReactNode }) {
   return (
-    <div className={`rounded-lg border p-2.5 ${tint}`}>
-      <p className="flex items-center gap-1.5 text-[11px] font-bold">{icon}{label}</p>
-      <p className="mt-0.5 text-sm leading-relaxed">{children}</p>
+    <div className={`rounded-xl border p-3.5 ${tint}`}>
+      <p className="flex items-center gap-1.5 text-[12px] font-bold">{icon}{label}</p>
+      <p className="mt-1 text-[15px] leading-7">{children}</p>
     </div>
   );
 }
@@ -103,13 +103,13 @@ function Interview({ items, lang }: { items: QA[]; lang: string }) {
   return (
     <div className="space-y-2">
       {items.map((q, i) => (
-        <details key={i} className="group rounded-lg border border-border/60 bg-card/50 p-2.5">
-          <summary className="flex cursor-pointer items-center gap-1.5 text-sm font-semibold marker:content-['']">
-            <HelpCircle className="size-3.5 shrink-0 text-brand" />
+        <details key={i} className="group rounded-lg border border-border/60 bg-card/50 p-3">
+          <summary className="flex cursor-pointer items-center gap-2 text-[15px] font-semibold marker:content-['']">
+            <HelpCircle className="size-4 shrink-0 text-brand" />
             <span className="flex-1">{q.qHe}</span>
             <ChevronDown className="size-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" />
           </summary>
-          <p className="mt-1.5 border-t border-border/40 pt-1.5 text-sm leading-relaxed text-slate-700">{q.aHe}</p>
+          <p className="mt-2 border-t border-border/40 pt-2 text-[15px] leading-7 text-slate-700">{q.aHe}</p>
         </details>
       ))}
     </div>
@@ -124,9 +124,9 @@ function readMin(n: LearningNode) {
 
 function NodeBody({ n, lang }: { n: LearningNode; lang: string }) {
   return (
-    <div dir="rtl" className="space-y-3 border-t border-border/40 p-4">
+    <div dir="rtl" className="space-y-4 border-t border-border/40 p-5">
       {/* three-level explanations */}
-      <div className="grid gap-2 sm:grid-cols-3">
+      <div className="grid gap-2.5 sm:grid-cols-3">
         <Explain icon={<BookOpen className="size-3.5" />} label={lang === "he" ? "הסבר מנהלים" : "Executive"} tint="border-brand/20 bg-brand-soft/40 text-slate-800">{n.execHe}</Explain>
         <Explain icon={<Brain className="size-3.5" />} label={lang === "he" ? "הסבר למתחילים" : "Beginner"} tint="border-sky-300/40 bg-sky-50/60 text-sky-950">{n.beginnerHe}</Explain>
         <Explain icon={<UserCog className="size-3.5" />} label={lang === "he" ? "הסבר ליועצים" : "Consultant"} tint="border-violet-300/40 bg-violet-50/60 text-violet-950">{n.consultantHe}</Explain>
@@ -192,8 +192,8 @@ function NodeCard({ n, lang, nested, isOpen, onToggle }: { n: LearningNode; lang
       <button onClick={toggle} className={`flex w-full items-center gap-2.5 text-start transition-colors hover:bg-brand/5 ${nested ? "p-2.5" : "p-4"}`}>
         <span dir="ltr" className={`tech shrink-0 rounded-lg font-bold ${nested ? "bg-brand/10 px-1.5 py-0.5 text-[11px] text-brand" : "bg-gradient-to-br from-brand to-brand-dark px-2 py-1 text-xs text-brand-foreground"}`}>{n.id}</span>
         <span className="min-w-0 flex-1">
-          <span className={`block font-bold ${nested ? "text-[13px] leading-tight" : "text-sm"}`}>{n.titleHe}</span>
-          <span dir="ltr" className={`text-muted-foreground ${nested ? "text-[10px]" : "text-[11px]"}`}>{n.titleEn}</span>
+          <span className={`block font-bold ${nested ? "text-sm leading-tight" : "text-base"}`}>{n.titleHe}</span>
+          <span dir="ltr" className={`text-muted-foreground ${nested ? "text-[11px]" : "text-xs"}`}>{n.titleEn}</span>
         </span>
         <span className="hidden shrink-0 items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold text-muted-foreground sm:flex">
           <Clock className="size-3" />{mins} {lang === "he" ? "דק'" : "min"}

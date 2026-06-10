@@ -1,0 +1,18 @@
+---
+title: SAP Procure-to-Pay (PTP)
+---
+flowchart LR
+    A["Purchase Requisition<br/>ME51N · EBAN"] --> B["Source / RFQ<br/>ME41 · EKKO"]
+    B --> C["Purchase Order<br/>ME21N · EKKO/EKPO"]
+    C --> D["Goods Receipt<br/>MIGO · MSEG · 101"]
+    D --> E["Invoice Receipt<br/>MIRO · RBKP/RSEG"]
+    E --> F["3-Way Match<br/>PO · GR · IR"]
+    F --> G["Vendor Liability<br/>FI-AP · BSIK"]
+    G --> H["Payment Run<br/>F110 · Clearing"]
+
+    classDef mm fill:#0a6ed1,stroke:#08549f,color:#fff;
+    classDef inv fill:#107e3e,stroke:#0b5e2e,color:#fff;
+    classDef fi fill:#d62027,stroke:#a3171c,color:#fff;
+    class A,B,C mm;
+    class D,E,F inv;
+    class G,H fi;
