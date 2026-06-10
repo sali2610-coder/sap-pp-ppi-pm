@@ -27,7 +27,7 @@ export const CH8: TextbookChapter = {
       cbcHe:
         "ב-CBC כל קו-מילוי הוא נציג קלאסי של REM: אותו משקה זורם ברציפות, אלפי בקבוקים בשעה. אין פק\"ע לכל אצווה — יש Rate יומי, איזון ב-MF50, ו-MFBF בסוף-משמרת שמוריד תרכיז/סוכר/CO2/אריזה אוטומטית.",
       navHe: [
-        "Production ► Repetitive Manufacturing ► Control Data ► Define Repetitive Manufacturing Profiles (OSPT)",
+        "Production ► Repetitive Manufacturing ► Control Data ► Define Repetitive Manufacturing Profiles (OSP2)",
         "Logistics ► Production ► Repetitive Manufacturing (תפריט-תהליך)",
       ],
       tables: ["MARC", "PLAF", "T399X"],
@@ -196,7 +196,7 @@ export const CH8: TextbookChapter = {
           id: "8.2.1", titleHe: "אב חומר", titleEn: "Material Master",
           execHe: "באב-החומר ל-REM, מעבר לתצוגות הרגילות, נדרשים בתצוגת MRP 4 את REM indicator (SAUFT) ו-REM Profile (SFEPR), ובתצוגת Work Scheduling את Production Storage Location ופרמטרי-תזמון. אלה מפעילים את מסלול-ה-REM לחומר.",
           beginnerHe: "כרטיס-המוצר ל-REM כמעט זהה לרגיל, אבל בתצוגת MRP 4 מסמנים תיבה אחת ('זהו מוצר-REM') ובוחרים פרופיל שקובע איך הדיווח יתנהג.",
-          consultantHe: "MARC-SAUFT מפעיל את REM; MARC-SFEPR קושר ל-REM Profile (OSPT). MARC-ALORT (Production Storage Location) קובע מאיפה Backflush מוריד רכיבים ולאן מתקבל המוגמר. Strategy Group ו-MRP type (לרוב PD) נדרשים גם הם לתכנון תקין.",
+          consultantHe: "MARC-SAUFT מפעיל את REM; MARC-SFEPR קושר ל-REM Profile (OSP2). MARC-ALORT (Production Storage Location) קובע מאיפה Backflush מוריד רכיבים ולאן מתקבל המוגמר. Strategy Group ו-MRP type (לרוב PD) נדרשים גם הם לתכנון תקין.",
           purposeHe: "להפוך חומר רגיל לחומר מנוהל-REM ולהגדיר את התנהגות-הדיווח שלו.",
           processExampleHe: "פותחים FERT, ב-MRP 4 מסמנים REM indicator ובוחרים REM Profile; ב-Work Scheduling קובעים Production Storage Location; כעת MRP מתכנן Run-Schedules.",
           cbcHe: "ב-CBC כל משקה-מוגמר נושא REM indicator ו-REM Profile אחיד; Production Storage Location = מחסן-קו-המילוי.",
@@ -316,15 +316,15 @@ export const CH8: TextbookChapter = {
         "ב-CBC כל FERT שמיוצר על קו-זרימה מקבל REM indicator + REM Profile אחיד; מוצרים מיוחדים/מבצעיים שמיוצרים באצוות עשויים להישאר discrete ללא הסימון.",
       navHe: [
         "Logistics – General ► Material Master ► MRP 4 View ► Repetitive Manufacturing (MM02)",
-        "Production ► Repetitive Manufacturing ► Control Data ► REM Profiles (OSPT)",
+        "Production ► Repetitive Manufacturing ► Control Data ► REM Profiles (OSP2)",
       ],
       tables: ["MARC", "T399X"],
-      tcodes: ["MM02", "MM03", "OSPT", "MD04"],
+      tcodes: ["MM02", "MM03", "OSP2", "MD04"],
       fiori: ["F1602A", "F1422"],
       configHe: [
         "סמן MARC-SAUFT (REM indicator) ובחר REM Profile (SFEPR) ב-MRP 4.",
         "ודא Strategy Group, Production Storage Location ו-MRP type מתאימים.",
-        "REM Profile עצמו מוגדר ב-OSPT (פרק 5).",
+        "REM Profile עצמו מוגדר ב-OSP2 (פרק 5).",
       ],
       flow: [
         { he: "פתח MRP 4", code: "MM02" },
@@ -749,7 +749,7 @@ export const CH8: TextbookChapter = {
         "ב-CBC כל סוף-משמרת = MFBF אחד לכל משקה: הכמות מדווחת, התרכיז/סוכר/CO2/אריזה יורדים אוטומטית, ועלות-המשמרת מצטברת לקולקטור — ללא דיווח-פעולה-פרטני.",
       navHe: [
         "Logistics ► Production ► Repetitive Manufacturing ► Backflush (MFBF)",
-        "Production ► Repetitive Manufacturing ► Control Data ► REM Profiles (OSPT)",
+        "Production ► Repetitive Manufacturing ► Control Data ► REM Profiles (OSP2)",
       ],
       tables: ["PPC_HEAD", "MSEG", "AFRU", "PPC_RECORD"],
       tcodes: ["MFBF", "MF42N", "MF47", "COGI"],
@@ -788,7 +788,7 @@ export const CH8: TextbookChapter = {
       interviewHe: [
         { qHe: "מה מבצע Backflush (MFBF) בצעד-אחד?", aHe: "GR למוצר-מוגמר (131), GI לרכיבי-ה-BOM (261), וזיכוי-Activity לעלות — הכול מחישוב-אחורה מתוך כמות-התפוקה." },
         { qHe: "לאן יורדים כשלי-Backflush?", aHe: "ל-COGI (Postprocessing); מתקנים אותם ב-MF47/COGI לאחר פתרון-הסיבה (חוסר-מלאי/Version)." },
-        { qHe: "מה קובע אילו תנועות יתבצעו אוטומטית?", aHe: "REM Profile (OSPT) — הוא מגדיר GR/GI/Activity אוטומטיים ואת אופן-טיפול-השגיאות." },
+        { qHe: "מה קובע אילו תנועות יתבצעו אוטומטית?", aHe: "REM Profile (OSP2) — הוא מגדיר GR/GI/Activity אוטומטיים ואת אופן-טיפול-השגיאות." },
       ],
       takeawaysHe: [
         "Backflush = דיווח-בדיעבד אחד שסוגר GR+GI+Activity.",
@@ -903,11 +903,11 @@ export const CH8: TextbookChapter = {
           purposeHe: "להפריד עיתוי-GR מעיתוי-GI לקווים-ארוכים ולדיוק-WIP בנקודות-דיווח.",
           processExampleHe: "קו-ערבול-ומילוי: GR-תערובת מדווח ב-Reporting-Point-1, ו-GI-רכיבי-אריזה מדווח ב-Reporting-Point-2 בנפרד.",
           cbcHe: "ב-CBC קו עם ערבול נפרד-ממילוי משתמש ב-Separated Backflush: צריכת-תרכיז מדווחת בערבול, וצריכת-אריזה במילוי.",
-          navHe: ["Production ► REM ► Control Data ► REM Profile — Separated Backflush (OSPT)", "Backflush (MFBF)"],
+          navHe: ["Production ► REM ► Control Data ► REM Profile — Separated Backflush (OSP2)", "Backflush (MFBF)"],
           tables: ["T399X", "PPC_HEAD", "MSEG"],
-          tcodes: ["OSPT", "MFBF"],
+          tcodes: ["OSP2", "MFBF"],
           fiori: ["F1422"],
-          configHe: ["הפעל Separated Backflush ב-REM Profile (OSPT); דווח GR ו-GI בשלבים נפרדים, לרוב ב-Reporting Points."],
+          configHe: ["הפעל Separated Backflush ב-REM Profile (OSP2); דווח GR ו-GI בשלבים נפרדים, לרוב ב-Reporting Points."],
           mistakesHe: ["Separated Backflush ללא Reporting Points מוגדרים.", "שכחת שלב-ה-GI — מלאי-רכיב לא-מתעדכן."],
           troubleshootHe: ["רכיבים לא-נצרכו ➔ שלב-ה-GI הנפרד לא בוצע.", "WIP לא-מאוזן ➔ Reporting Points לא תואמים לשלבי-הדיווח."],
           bestPracticeHe: ["השתמש בו לקווים-ארוכים/רב-שלביים בלבד.", "תאם Reporting Points לשלבי-ה-Backflush."],

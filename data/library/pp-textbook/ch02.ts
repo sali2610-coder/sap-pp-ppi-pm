@@ -144,7 +144,7 @@ export const CH2: TextbookChapter = {
             "Enterprise Structure ► Assignment ► Logistics – General ► Assign plant to company code (OX18)",
           ],
           tables: ["T001W", "T001K", "MARC"],
-          tcodes: ["OX10", "OX18", "OMS2", "MD01", "WB01"],
+          tcodes: ["OX10", "OX18", "OMS2", "MD01", "OX10"],
           fiori: ["F2740", "F1481"],
           configHe: [
             "ב-OX10 הגדר Plant (העתק מ-Template 0001/1010), כתובת ושפה.",
@@ -155,7 +155,7 @@ export const CH2: TextbookChapter = {
             { he: "הגדר/העתק Plant", code: "OX10" },
             { he: "שיוך ל-Company Code", code: "OX18" },
             { he: "Valuation Area", code: "T001K" },
-            { he: "שיוך Factory Calendar", code: "WB01→Plant" },
+            { he: "שיוך Factory Calendar", code: "OX10→Plant" },
             { he: "מוכן ל-MRP/ייצור", code: "MD01" },
           ],
           masterDataHe: [

@@ -1,0 +1,19 @@
+---
+title: NEO Migration — Org Chart
+---
+flowchart TD
+    SP["Program Sponsor<br/>CBC Israel"] --> PM["Project Manager"]
+    PM --> FUN["Functional Lead<br/>PM · PP-PI"]
+    PM --> TEC["Technical Lead<br/>ABAP · Basis"]
+    PM --> DEV["Web Coding<br/>Sali Halif"]
+    FUN --> F1["PM Consultant"]
+    FUN --> F2["PP-PI Consultant"]
+    TEC --> T1["IDoc / PI-PO"]
+    TEC --> T2["SUM / Migration"]
+
+    classDef top fill:#d62027,stroke:#a3171c,color:#fff;
+    classDef mid fill:#0a6ed1,stroke:#08549f,color:#fff;
+    classDef leaf fill:#6a737d,stroke:#4b5258,color:#fff;
+    class SP,PM top;
+    class FUN,TEC,DEV mid;
+    class F1,F2,T1,T2 leaf;

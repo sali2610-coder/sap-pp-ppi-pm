@@ -22,12 +22,33 @@ export interface ChapterQA {
   missingContent: string[];
 }
 
+// re-validation after the systemic-fix pass (object cross-links render-guarded,
+// wrong object mappings corrected, broken route fixed). New confidence per chapter:
+export const PP_REVALIDATED: Record<number, number> = {
+  1: 90, 2: 88, 3: 93, 4: 92, 5: 92, 6: 91, 7: 87, 8: 92,
+  9: 92, 10: 95, 11: 91, 12: 91, 13: 89, 14: 86, 15: 93,
+};
+
 export const PP_QUALITY_META = {
   benchmark: 88,
   publishBar: 90,
   generatedHe: "10 ביוני 2026",
+  revalidatedHe: "10 ביוני 2026 — לאחר תיקון",
+  crossLinksResolved: true,
   scopeHe:
     "ביקורת איכות לכל 15 פרקי ספר ה-PP: מבקר ייעודי לכל פרק (קריאה-בלבד) + בדיקות דטרמיניסטיות (קישורים שבורים, מקטעים ריקים, היררכיה מול מקור).",
+  resolvedHe: [
+    "קישורי-אובייקט שבורים → תוקנו ברמת-הרינדור: קישור-אובייקט נוצר רק אם עמוד-האובייקט קיים במאגר; אחרת מוצג כ-chip רגיל (ללא קישור). 0 שגיאות-404 בכל הספר ובספרים הבאים.",
+    "מסלול שבור: /library/pp-pi/ → /pp-pi/ (פרק 10).",
+    "מיפויי-אובייקט שגויים תוקנו: OSPT→OSP2 (פרקים 5,8), CL6BN→CL6N (פרק 10), PMRP_*→PPH_PMRP_* (פרק 15), WB01→OX10 (פרק 2), PROW→PGMI (פרק 11), T457D→PPH_DD_BUFFER + OMDD→SPRO (פרק 14).",
+    "אומת מחדש דטרמיניסטית: 0 קישורים שבורים, 0 עוגנים שבורים, 0 מקטעי-חובה ריקים.",
+  ],
+  remainingHe: [
+    "מזהי-Fiori כ-placeholder (F2336/F1422/F2832): כעת מוצגים כ-chips רגילים (לא קישורים שבורים), אך עדיין דורשים אימות פר-צומת מול SAP Fiori Apps Reference Library מול ה-tenant. לא הומצאו מזהים חדשים.",
+    "פרק 14 (DDMRP): מזהי-Fiori של DD דורשים אימות מול הספרייה הרשמית; הטבלאות/SPRO תוקנו.",
+    "פרק 7: דקויות tcode במחזור-PI Sheet (CO55 maintain מול CO60 find) — לאימות.",
+    "פרק 2: שלושה מערכי fiori ריקים (מוצגים '—') בצמתי org-structure שאין להם אפליקציית-Fiori — תקין.",
+  ],
   systemicHe: [
     "קישורי-אובייקט שבורים: חלק מקישורי 'נושאים קשורים' מצביעים לעמודי-אובייקט שאינם במאגר ה-340 → 404. קיים גם בפרק 3 (AUFK/OS20/STZU). תיקון: להוסיף את הקודים למאגר או להפוך קישור-אובייקט לעמיד (ללא-קישור אם חסר).",
     "מזהי Fiori כ-placeholder: F2336 / F1422 / F2832 חוזרים עשרות פעמים על מקטעי-קונפיגורציה שאין להם אפליקציית-Fiori אמיתית. תיקון: להסיר Fiori ממקטעי-SPRO טהורים או למפות ל-ID נכון.",

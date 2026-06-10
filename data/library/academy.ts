@@ -4,7 +4,7 @@
 // completion, validation, and quality score per book — feeds the dashboard.
 
 import { PP_TEXTBOOK, PP_TEXTBOOK_STATS } from "./pp-textbook";
-import { PP_QUALITY } from "./pp-quality";
+import { PP_QUALITY, PP_REVALIDATED } from "./pp-quality";
 
 export type BookStatus = "live" | "in-progress" | "planned";
 
@@ -29,7 +29,7 @@ export interface AcademyBook {
 const ppChapters = Object.keys(PP_TEXTBOOK).length;
 const ppNodes = Object.values(PP_TEXTBOOK_STATS).reduce((s, c) => s + c.totalNodes, 0);
 const ppSubs = Object.values(PP_TEXTBOOK).reduce((s, c) => s + c.subchapters.length, 0);
-const ppQuality = Math.round(PP_QUALITY.reduce((s, c) => s + c.confidence, 0) / PP_QUALITY.length);
+const ppQuality = Math.round(PP_QUALITY.reduce((s, c) => s + (PP_REVALIDATED[c.n] ?? c.confidence), 0) / PP_QUALITY.length);
 
 export const ACADEMY_BOOKS: AcademyBook[] = [
   {

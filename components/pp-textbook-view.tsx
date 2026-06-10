@@ -8,9 +8,20 @@ import {
   FolderTree, Database, Boxes, LayoutGrid, Settings2, GitBranch, AlertTriangle, Wrench,
   CheckCircle2, HelpCircle, Sparkles, Link2, ArrowLeft, Maximize2, Minimize2, Clock,
 } from "lucide-react";
-import { PP_TEXTBOOK, nodeWordCount, type LearningNode, type FlowStep, type QA } from "@/data/library/pp-textbook";
-import { slugOf } from "@/lib/pp-object-index";
+import { PP_TEXTBOOK, nodeWordCount, type LearningNode, type FlowStep, type QA, type RelatedLink } from "@/data/library/pp-textbook";
+import { slugOf, PP_OBJECT_SLUGS } from "@/lib/pp-object-index";
 import { useI18n } from "@/lib/i18n";
+
+// valid object-page slugs — links only render when the target page exists (no 404s)
+const OBJ_SLUGS = new Set(PP_OBJECT_SLUGS);
+const hasObjectPage = (code: string) => OBJ_SLUGS.has(slugOf(code));
+// a related link is safe if it's a chapter/anchor link, or an object link whose page exists
+function relatedHref(r: RelatedLink): string | null {
+  const m = r.href.match(/\/library\/pp\/object\/([^/]+)\/?$/);
+  if (m) return OBJ_SLUGS.has(m[1]) ? r.href : null;
+  if (/^\/(library\/pp\/chapter-\d+|pp-pi|pm|library)/.test(r.href)) return r.href;
+  return null;
+}
 
 /* ---------- atoms ---------- */
 
@@ -58,7 +69,7 @@ function Chips({ items, link }: { items?: string[]; link?: boolean }) {
   return (
     <div className="flex flex-wrap gap-1.5">
       {items.map((it) =>
-        link ? (
+        link && hasObjectPage(it) ? (
           <Link key={it} href={`/library/pp/object/${slugOf(it)}/`} dir="ltr" className="tech rounded bg-muted px-1.5 py-0.5 text-[11px] font-semibold transition-colors hover:bg-brand/15 hover:text-brand">{it}</Link>
         ) : (
           <span key={it} dir="ltr" className="tech rounded bg-muted px-1.5 py-0.5 text-[11px] font-semibold">{it}</span>
@@ -162,9 +173,14 @@ function NodeBody({ n, lang }: { n: LearningNode; lang: string }) {
       {n.relatedHe?.length ? (
         <Row icon={<Link2 className="size-3.5" />} label={lang === "he" ? "נושאים קשורים" : "Related"}>
           <div className="flex flex-wrap gap-1.5">
-            {n.relatedHe.map((r, i) => (
-              <Link key={i} href={r.href} className="rounded-lg bg-brand/10 px-2 py-1 text-[11px] font-semibold text-brand transition-opacity hover:opacity-80">{r.labelHe}</Link>
-            ))}
+            {n.relatedHe.map((r, i) => {
+              const href = relatedHref(r);
+              return href ? (
+                <Link key={i} href={href} className="rounded-lg bg-brand/10 px-2 py-1 text-[12px] font-semibold text-brand transition-opacity hover:opacity-80">{r.labelHe}</Link>
+              ) : (
+                <span key={i} className="rounded-lg bg-muted px-2 py-1 text-[12px] font-semibold text-muted-foreground">{r.labelHe}</span>
+              );
+            })}
           </div>
         </Row>
       ) : null}

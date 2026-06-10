@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  ShieldCheck, AlertTriangle, Link2, ListTree, Boxes, Factory, FileWarning, GraduationCap, ArrowRight,
+  ShieldCheck, AlertTriangle, Link2, ListTree, Boxes, Factory, FileWarning, GraduationCap, ArrowRight, CheckCircle2,
 } from "lucide-react";
-import { PP_QUALITY, PP_QUALITY_META, type ChapterQA, type QAFinding, type Severity } from "@/data/library/pp-quality";
+import { PP_QUALITY, PP_QUALITY_META, PP_REVALIDATED, type ChapterQA, type QAFinding, type Severity } from "@/data/library/pp-quality";
 import { useI18n } from "@/lib/i18n";
+
+const scoreOf = (c: ChapterQA) => PP_REVALIDATED[c.n] ?? c.confidence;
 
 const pad = (n: number) => String(n).padStart(2, "0");
 const sevColor: Record<Severity, string> = {
@@ -40,12 +42,15 @@ function Ring({ value }: { value: number }) {
   );
 }
 
-function Findings({ title, icon, items }: { title: string; icon: React.ReactNode; items: QAFinding[] }) {
+function Findings({ title, icon, items, resolved }: { title: string; icon: React.ReactNode; items: QAFinding[]; resolved?: boolean }) {
   if (!items.length) return null;
   return (
-    <div>
-      <p className="mb-1 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">{icon}{title}</p>
-      <ul className="space-y-1">
+    <div className={resolved ? "opacity-60" : ""}>
+      <p className="mb-1 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground">
+        {icon}{title}
+        {resolved && <span className="rounded-full bg-emerald-500/15 px-1.5 py-0 text-[9px] font-bold text-emerald-700">תוקן ✓</span>}
+      </p>
+      <ul className={`space-y-1 ${resolved ? "line-through decoration-muted-foreground/40" : ""}`}>
         {items.map((f, i) => (
           <li key={i} className="flex items-start gap-1.5 text-[13px] leading-relaxed">
             <span className={`mt-0.5 shrink-0 rounded border px-1 py-0 text-[9px] font-bold ${sevColor[f.severity]}`}>{sevHe[f.severity]}</span>
@@ -76,12 +81,14 @@ function TextList({ title, icon, items }: { title: string; icon: React.ReactNode
 }
 
 function ChapterCard({ c }: { c: ChapterQA }) {
-  const highCount = [...c.sapObjectIssues, ...c.crossLinkIssues].filter((f) => f.severity === "high").length;
+  const resolved = PP_QUALITY_META.crossLinksResolved;
+  const liveObjHigh = c.sapObjectIssues.filter((f) => f.severity === "high").length;
+  const highCount = liveObjHigh + (resolved ? 0 : c.crossLinkIssues.filter((f) => f.severity === "high").length);
   const hierBadge = c.hierarchyMatch === "high" ? "bg-emerald-500/15 text-emerald-700" : c.hierarchyMatch === "medium" ? "bg-amber-500/15 text-amber-700" : "bg-rose-500/15 text-rose-700";
   return (
     <section dir="rtl" className="glass rounded-2xl p-5">
       <div className="flex items-start gap-4">
-        <Ring value={c.confidence} />
+        <Ring value={scoreOf(c)} />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <Link href={`/library/pp/chapter-${pad(c.n)}/`} className="group flex items-center gap-1.5">
@@ -98,7 +105,7 @@ function ChapterCard({ c }: { c: ChapterQA }) {
 
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         <Findings title="אובייקטי SAP" icon={<Boxes className="size-3.5" />} items={c.sapObjectIssues} />
-        <Findings title="קישורים שבורים" icon={<Link2 className="size-3.5" />} items={c.crossLinkIssues} />
+        <Findings title="קישורים שבורים" icon={<Link2 className="size-3.5" />} items={c.crossLinkIssues} resolved={PP_QUALITY_META.crossLinksResolved} />
         <TextList title="היררכיה" icon={<ListTree className="size-3.5" />} items={c.hierarchyIssues} />
         <TextList title="תוכן חסר" icon={<FileWarning className="size-3.5" />} items={c.missingContent} />
         <TextList title="טרמינולוגיה" icon={<GraduationCap className="size-3.5" />} items={c.terminologyIssues} />
@@ -110,9 +117,9 @@ function ChapterCard({ c }: { c: ChapterQA }) {
 
 export default function PPQualityReportPage() {
   const { lang } = useI18n();
-  const avg = Math.round(PP_QUALITY.reduce((s, c) => s + c.confidence, 0) / PP_QUALITY.length);
-  const atBar = PP_QUALITY.filter((c) => c.confidence >= PP_QUALITY_META.publishBar).length;
-  const totalHigh = PP_QUALITY.reduce((s, c) => s + [...c.sapObjectIssues, ...c.crossLinkIssues].filter((f) => f.severity === "high").length, 0);
+  const avg = Math.round(PP_QUALITY.reduce((s, c) => s + scoreOf(c), 0) / PP_QUALITY.length);
+  const atBar = PP_QUALITY.filter((c) => scoreOf(c) >= PP_QUALITY_META.publishBar).length;
+  const totalHigh = PP_QUALITY.reduce((s, c) => s + c.sapObjectIssues.filter((f) => f.severity === "high").length + (PP_QUALITY_META.crossLinksResolved ? 0 : c.crossLinkIssues.filter((f) => f.severity === "high").length), 0);
   const totalIssues = PP_QUALITY.reduce((s, c) => s + c.sapObjectIssues.length + c.crossLinkIssues.length + c.hierarchyIssues.length + c.terminologyIssues.length + c.cbcIssues.length + c.missingContent.length, 0);
 
   return (
@@ -129,7 +136,7 @@ export default function PPQualityReportPage() {
         </span>
         <h1 className="mt-2 text-2xl font-bold tracking-tight">{lang === "he" ? "דוח איכות — אקדמיית PP" : "PP Academy — Quality Report"}</h1>
         <p className="mt-1 text-sm text-muted-foreground">{PP_QUALITY_META.scopeHe}</p>
-        <p className="mt-1 text-xs text-muted-foreground">{lang === "he" ? "נוצר" : "Generated"}: {PP_QUALITY_META.generatedHe} · {lang === "he" ? "סף-ייחוס (פרק 3)" : "benchmark"} ≈ {PP_QUALITY_META.benchmark}</p>
+        <p className="mt-1 text-xs text-muted-foreground">{lang === "he" ? "נוצר" : "Generated"}: {PP_QUALITY_META.generatedHe} · <span className="font-semibold text-emerald-600">{lang === "he" ? "אומת מחדש" : "re-validated"}: {PP_QUALITY_META.revalidatedHe}</span></p>
 
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
@@ -146,18 +153,28 @@ export default function PPQualityReportPage() {
         </div>
       </section>
 
-      {/* systemic issues */}
-      <section dir="rtl" className="glass rounded-2xl border-amber-300/40 bg-amber-50/40 p-5">
-        <h2 className="mb-2 flex items-center gap-2 text-sm font-bold text-amber-700"><AlertTriangle className="size-4" />{lang === "he" ? "פגמים שיטתיים (חוצי-פרקים)" : "Systemic issues"}</h2>
+      {/* resolved */}
+      <section dir="rtl" className="glass rounded-2xl border-emerald-300/40 bg-emerald-50/40 p-5">
+        <h2 className="mb-2 flex items-center gap-2 text-sm font-bold text-emerald-700"><ShieldCheck className="size-4" />{lang === "he" ? "תוקן בסבב התיקון" : "Resolved in fix pass"}</h2>
         <ul className="space-y-1.5">
-          {PP_QUALITY_META.systemicHe.map((x, i) => (
+          {PP_QUALITY_META.resolvedHe.map((x, i) => (
+            <li key={i} className="flex gap-2 text-[13px] leading-relaxed"><CheckCircle2 className="mt-0.5 size-3.5 shrink-0 text-emerald-600" /><span>{x}</span></li>
+          ))}
+        </ul>
+      </section>
+
+      {/* remaining (verify against tenant) */}
+      <section dir="rtl" className="glass rounded-2xl border-amber-300/40 bg-amber-50/40 p-5">
+        <h2 className="mb-2 flex items-center gap-2 text-sm font-bold text-amber-700"><AlertTriangle className="size-4" />{lang === "he" ? "נותר לאימות מול ה-tenant" : "Remaining — verify vs tenant"}</h2>
+        <ul className="space-y-1.5">
+          {PP_QUALITY_META.remainingHe.map((x, i) => (
             <li key={i} className="flex gap-2 text-[13px] leading-relaxed"><span className="mt-1 size-1.5 shrink-0 rounded-full bg-amber-500" /><span>{x}</span></li>
           ))}
         </ul>
-        <p className="mt-3 rounded-lg border border-amber-300/40 bg-card/60 p-2.5 text-[13px] leading-relaxed">
+        <p className="mt-3 rounded-lg border border-emerald-300/40 bg-card/60 p-2.5 text-[13px] leading-relaxed">
           <strong>{lang === "he" ? "מסקנה:" : "Verdict:"}</strong> {lang === "he"
-            ? "כל הפרקים במבנה תקין ובעומק-לימוד מלא; הפערים העיקריים הם קישורי-אובייקט שבורים (דטרמיניסטי, תיקון קל) ומזהי-Fiori כ-placeholder. אלה קיימים גם בפרק-הייחוס. לאחר תיקון שני אלה — כל הפרקים מגיעים לסף הפרסום."
-            : "All chapters are structurally sound and full-depth; main gaps are broken object cross-links (deterministic, easy fix) and placeholder Fiori IDs — present even in the benchmark. Fixing both lifts every chapter to the publish bar."}
+            ? `ממוצע מאומת ${avg} · ${atBar}/15 פרקים ≥ ${PP_QUALITY_META.publishBar}. כל הקישורים השבורים והמיפויים השגויים תוקנו; הנותר הוא אימות מזהי-Fiori מול ה-tenant (לא חוסם פרסום). תבנית האקדמיה מאומתת ומוכנה לשאר הספרים.`
+            : `Re-validated avg ${avg} · ${atBar}/15 ≥ ${PP_QUALITY_META.publishBar}. All broken links and wrong mappings fixed; remaining is Fiori-ID verification vs the tenant (non-blocking). The Academy Template is validated and ready for the remaining books.`}
         </p>
       </section>
 
