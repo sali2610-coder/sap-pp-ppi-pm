@@ -151,6 +151,44 @@ export function genExampleRecords(fields: [string, string, string, string][], na
   return { cols, rows };
 }
 
+// Curated "major tables" per module for the ERD / Table layer (cross-module + shared allowed).
+// These names are resolved against the global table set (which already holds rich PM/PP-PI data).
+export const ERD_MODULES: Record<string, string[]> = {
+  PP: ["MARA", "MARC", "MAKT", "MBEW", "STKO", "STPO", "MAST", "MAPL", "PLKO", "PLPO", "CRHD", "CRCA", "AFKO", "AFPO", "AFVC", "AFRU", "AUFK", "RESB", "JEST", "JSTO"],
+  "PP-PI": ["MARA", "MARC", "MAPL", "PLKO", "PLPO", "AFKO", "AFPO", "AFVC", "AFRU", "AUFK", "CRHD", "RESB", "MCH1", "JEST", "JSTO"],
+  PM: ["EQUI", "IFLOT", "AFIH", "AUFK", "AFKO", "AFPO", "AFVC", "AFRU", "QMEL", "QMFE", "STKO", "PLKO", "PLPO", "CRHD", "JEST", "JSTO", "OBJNR"],
+  MM: ["MARA", "MARC", "MARD", "MBEW", "MAKT", "EBAN", "EKKO", "EKPO", "EKET", "EKBE", "MKPF", "MSEG", "MATDOC", "RBKP", "LFA1", "T001W"],
+  SD: ["VBAK", "VBAP", "VBEP", "LIKP", "LIPS", "VBRK", "VBRP", "VBFA", "KONV", "PRCD_ELEMENTS", "KNA1", "MARA"],
+  QM: ["QALS", "QAVE", "QAMV", "QPAM", "MARA", "MCH1", "PLKO", "MAPL"],
+  FI: ["BKPF", "BSEG", "ACDOCA", "BSID", "BSAD", "BSIK", "BSAK", "SKA1", "T001", "KNA1", "LFA1"],
+  CO: ["COEP", "COBK", "CSKS", "ACDOCA", "AUFK", "OBJNR"],
+  CS: ["VIQMEL", "QMEL", "AUFK", "AFIH", "EQUI", "VBAK", "KNA1"],
+  BATCH: ["MCH1", "MCHA", "MCHB", "MCHBH", "MARA", "MARC", "KLAH", "KSSK", "AUSP"],
+  CLASS: ["KLAH", "KSSK", "AUSP", "CABN", "CAWN", "KSML", "MARA"],
+  IDOC: ["EDIDC", "EDIDS", "EDID4", "MARA", "MATDOC"],
+  PIPO: ["EDIDC", "MARA", "VBAK", "AFKO", "LIKP"],
+};
+
+// Technical/audit fields (categorised separately in expanded ERD cards)
+export const TECH_FIELDS = new Set(["AEDAT", "ERDAT", "ERNAM", "AENAM", "LAEDA", "LAEDB", "CPUDT", "CPUTM", "USNAM", "UDATE", "UTIME", "CRTSP", "CHTSP", "ERSDA"]);
+
+// Enriched field lists (top business fields) for key hub tables — depth for detail panel & ERD.
+// [tech, en, he, key]
+export const FIELDS_PLUS: Record<string, [string, string, string, string][]> = {
+  MARA: [["MATNR", "Material", "מספר חומר", "PK"], ["MTART", "Material type", "סוג חומר", "FK"], ["MBRSH", "Industry sector", "ענף", "FK"], ["MATKL", "Material group", "קבוצת חומר", "FK"], ["MEINS", "Base UoM", "יח׳ מידה", "FK"], ["GROES", "Size/dimensions", "גודל", "-"], ["BRGEW", "Gross weight", "משקל ברוטו", "-"], ["NTGEW", "Net weight", "משקל נטו", "-"], ["GEWEI", "Weight unit", "יח׳ משקל", "-"], ["VOLUM", "Volume", "נפח", "-"], ["XCHPF", "Batch mgmt", "ניהול אצווה", "-"], ["MSTAE", "X-plant status", "סטטוס חומר", "-"], ["ERSDA", "Created on", "נוצר בתאריך", "-"], ["ERNAM", "Created by", "נוצר ע״י", "-"], ["LAEDA", "Last change", "שונה לאחרונה", "-"]],
+  AFKO: [["AUFNR", "Order number", "מספר פקודה", "PK"], ["AUART", "Order type", "סוג פקודה", "FK"], ["GLTRP", "Basic finish", "סיום בסיסי", "-"], ["GSTRP", "Basic start", "התחלה בסיסית", "-"], ["GSTRI", "Actual start", "התחלה בפועל", "-"], ["GETRI", "Actual finish", "סיום בפועל", "-"], ["PLNBEZ", "Planned material", "חומר מתוכנן", "FK"], ["GAMNG", "Total order qty", "כמות פקודה", "-"], ["IGMNG", "Confirmed qty", "כמות מדווחת", "-"], ["AUFPL", "Routing no.", "מס׳ מסלול", "FK"], ["OBJNR", "Object number", "מס׳ אובייקט", "FK"], ["FTRMS", "Scheduled release", "שחרור מתוזמן", "-"], ["AEDAT", "Changed on", "שונה", "-"], ["ERNAM", "Created by", "נוצר ע״י", "-"]],
+  AFPO: [["AUFNR", "Order number", "מספר פקודה", "PK"], ["POSNR", "Order item", "פריט פקודה", "PK"], ["MATNR", "Material", "חומר", "FK"], ["MEINS", "UoM", "יח׳ מידה", "FK"], ["PSMNG", "Order item qty", "כמות פריט", "-"], ["WEMNG", "GR quantity", "כמות שהתקבלה", "-"], ["DWERK", "Plant", "מפעל", "FK"], ["CHARG", "Batch", "אצווה", "FK"], ["KDAUF", "Sales order", "הזמנת מכירה", "FK"], ["ELIKZ", "Delivery complete", "אספקה הושלמה", "-"]],
+  EKKO: [["EBELN", "PO number", "מספר הזמנה", "PK"], ["BUKRS", "Company code", "חברה", "FK"], ["BSTYP", "Doc category", "קטגוריה", "-"], ["BSART", "Doc type", "סוג מסמך", "FK"], ["LIFNR", "Vendor", "ספק", "FK"], ["EKORG", "Purch org", "ארגון רכש", "FK"], ["EKGRP", "Purch group", "קבוצת רכש", "FK"], ["WAERS", "Currency", "מטבע", "FK"], ["BEDAT", "Doc date", "תאריך מסמך", "-"], ["AEDAT", "Created on", "נוצר", "-"], ["ERNAM", "Created by", "נוצר ע״י", "-"]],
+  EKPO: [["EBELN", "PO number", "מספר הזמנה", "PK"], ["EBELP", "Item", "פריט", "PK"], ["MATNR", "Material", "חומר", "FK"], ["WERKS", "Plant", "מפעל", "FK"], ["LGORT", "Storage loc", "אחסון", "FK"], ["MENGE", "Quantity", "כמות", "-"], ["MEINS", "UoM", "יח׳ מידה", "FK"], ["NETPR", "Net price", "מחיר נטו", "-"], ["NETWR", "Net value", "ערך נטו", "-"], ["MATKL", "Material group", "קבוצת חומר", "FK"]],
+  VBAK: [["VBELN", "Sales doc", "מסמך מכירה", "PK"], ["AUART", "Doc type", "סוג מסמך", "FK"], ["VKORG", "Sales org", "ארגון מכירות", "FK"], ["VTWEG", "Distrib channel", "ערוץ הפצה", "FK"], ["SPART", "Division", "מגזר", "FK"], ["KUNNR", "Sold-to", "לקוח", "FK"], ["AUDAT", "Doc date", "תאריך", "-"], ["NETWR", "Net value", "ערך נטו", "-"], ["WAERK", "Currency", "מטבע", "FK"], ["VDATU", "Req. deliv date", "תאריך אספקה", "-"]],
+  VBAP: [["VBELN", "Sales doc", "מסמך מכירה", "PK"], ["POSNR", "Item", "פריט", "PK"], ["MATNR", "Material", "חומר", "FK"], ["ARKTX", "Description", "תיאור", "-"], ["KWMENG", "Order qty", "כמות", "-"], ["VRKME", "Sales unit", "יח׳ מכירה", "FK"], ["NETWR", "Net value", "ערך נטו", "-"], ["WERKS", "Plant", "מפעל", "FK"], ["PMATN", "Pricing material", "חומר תמחור", "FK"]],
+  BKPF: [["BUKRS", "Company code", "חברה", "PK"], ["BELNR", "Document no.", "מספר מסמך", "PK"], ["GJAHR", "Fiscal year", "שנת כספים", "PK"], ["BLART", "Doc type", "סוג מסמך", "FK"], ["BLDAT", "Doc date", "תאריך מסמך", "-"], ["BUDAT", "Posting date", "תאריך רישום", "-"], ["WAERS", "Currency", "מטבע", "FK"], ["XBLNR", "Reference", "אסמכתא", "-"], ["TCODE", "Transaction", "טרנזקציה", "-"], ["USNAM", "User", "משתמש", "-"]],
+  BSEG: [["BUKRS", "Company code", "חברה", "PK"], ["BELNR", "Document no.", "מספר מסמך", "PK"], ["GJAHR", "Fiscal year", "שנה", "PK"], ["BUZEI", "Line item", "שורה", "PK"], ["BSCHL", "Posting key", "מפתח רישום", "FK"], ["HKONT", "G/L account", "חשבון ראשי", "FK"], ["DMBTR", "Amount (LC)", "סכום מקומי", "-"], ["WRBTR", "Amount (DC)", "סכום מטבע", "-"], ["KOSTL", "Cost center", "מרכז עלות", "FK"], ["AUFNR", "Order", "פקודה", "FK"]],
+  EQUI: [["EQUNR", "Equipment", "מספר ציוד", "PK"], ["EQTYP", "Equip category", "קטגוריה", "FK"], ["EQART", "Object type", "סוג אובייקט", "FK"], ["HERST", "Manufacturer", "יצרן", "-"], ["TYPBZ", "Model", "דגם", "-"], ["BAUJJ", "Year of constr", "שנת ייצור", "-"], ["OBJNR", "Object number", "מס׳ אובייקט", "FK"], ["ANSWT", "Acquisition val", "ערך רכישה", "-"], ["ERDAT", "Created on", "נוצר", "-"]],
+  QALS: [["PRUEFLOS", "Inspection lot", "מנת בדיקה", "PK"], ["MATNR", "Material", "חומר", "FK"], ["WERK", "Plant", "מפעל", "FK"], ["CHARG", "Batch", "אצווה", "FK"], ["HERKUNFT", "Lot origin", "מקור", "FK"], ["ART", "Inspection type", "סוג בדיקה", "FK"], ["LOSMENGE", "Lot quantity", "כמות", "-"], ["GSAV", "UD made", "החלטה בוצעה", "-"], ["ENSTEHDAT", "Created on", "נוצר", "-"]],
+  MCH1: [["MATNR", "Material", "חומר", "PK"], ["CHARG", "Batch", "אצווה", "PK"], ["ERSDA", "Created on", "נוצר", "-"], ["ERNAM", "Created by", "נוצר ע״י", "-"], ["VFDAT", "Expiry date", "תוקף", "-"], ["HSDAT", "Production date", "תאריך ייצור", "-"], ["LICHA", "Vendor batch", "אצוות ספק", "-"], ["CHARGE_TXT", "Batch desc", "תיאור", "-"]],
+};
+
 // Document detail (Level 3)
 export const DOC_META: Record<string, { tcodes: string; owner: string; purpose: string; inputs: string[]; outputs: string[] }> = {
   "Purchase Requisition": { tcodes: "ME51N · ME52N · ME53N", owner: "MM — רכש", purpose: "בקשה פנימית לרכש חומר או שירות", inputs: ["דרישת חומר מ-PP/PM", "תכנון MRP"], outputs: ["הזמנת רכש"] },
