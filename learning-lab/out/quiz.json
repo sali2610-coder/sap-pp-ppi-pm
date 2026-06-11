@@ -1,0 +1,11 @@
+{"title":"SAP SD — Order-to-Cash quiz","items":[
+ {"type":"mcq","tag":"remember","question":"Which tcode creates a sales order?",
+  "options":["VA01","VA03","VL01N","VF01"],"answer":0,
+  "rationale":"VA01 = create; VA03 = display; VL01N = delivery; VF01 = billing.","source":"Ch.1"},
+ {"type":"mcq","tag":"understand","question":"Which table stores outbound delivery headers?",
+  "options":["LIKP","VBAK","VBRK","BKPF"],"answer":0,
+  "rationale":"LIKP = delivery header; VBAK = order header; VBRK = billing header; BKPF = FI header.","source":"Ch.2"},
+ {"type":"truefalse","tag":"understand","question":"Billing (VF01) creates an FI document.","answer":true,
+  "rationale":"Billing passes revenue to FI, creating BKPF/BSEG entries.","source":"Ch.3"},
+ {"type":"short","tag":"apply","question":"List the three core O2C transactions in order.",
+  "answer":"VA01 (order) → VL01N (delivery) → VF01 (billing).","source":"Ch.1-3"}]}

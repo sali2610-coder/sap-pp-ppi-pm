@@ -1,0 +1,31 @@
+front	back	category
+What does SD stand for in SAP?	Sales and Distribution	General
+What is the full name of the O2C process?	Order-to-Cash	General
+What are the three core documents of Order-to-Cash?	Sales order, Outbound delivery, Billing document	General
+What is a sales order?	A customer request to deliver goods or services	Sales Order
+Transaction code to CREATE a sales order	VA01	Sales Order
+Transaction code to CHANGE a sales order	VA02	Sales Order
+Transaction code to DISPLAY a sales order	VA03	Sales Order
+Which table stores the sales order header?	VBAK	Sales Order
+Which table stores the sales order items?	VBAP	Sales Order
+What is the "sold-to party"?	The customer who places the order	Sales Order
+What does a sales order reference besides the customer?	One or more materials with quantities and prices	Sales Order
+What is the outbound delivery?	The logistics document that triggers picking and goods issue	Delivery
+Transaction code to create an outbound delivery	VL01N	Delivery
+Which table stores the delivery header?	LIKP	Delivery
+Which table stores the delivery items?	LIPS	Delivery
+What two physical activities does the delivery trigger?	Picking and goods issue	Delivery
+What does goods issue post?	A material movement (type 601)	Delivery
+What movement type is used for goods issue in a delivery?	Movement type 601	Delivery
+What is the inventory effect of goods issue?	It reduces inventory (stock decreases)	Delivery
+What does billing create?	The invoice sent to the customer	Billing
+Transaction code to create a billing document	VF01	Billing
+Which table stores the billing header?	VBRK	Billing
+Which table stores the billing items?	VBRP	Billing
+What does billing pass to Financial Accounting?	The revenue	Billing
+What does billing create in FI?	An FI (accounting) document	Billing
+Which tables store the FI document created by billing?	BKPF (header) and BSEG (items)	Billing
+What is the correct order of O2C transactions?	VA01 then VL01N then VF01	General
+Which document links sales to Financial Accounting?	The billing document (VF01)	Billing
+At which step does inventory decrease?	At goods issue during delivery	Delivery
+What does FI stand for?	Financial Accounting	General

@@ -1,0 +1,14 @@
+---
+title: Value Stream Map (template)
+---
+flowchart LR
+    S(["Supplier"]) --> P1["Process 1<br/>C/T 30s · C/O 5m<br/>Uptime 95%"]
+    P1 --> I1["Inventory<br/>2 days"]
+    I1 --> P2["Process 2<br/>C/T 45s · C/O 10m<br/>Uptime 90%"]
+    P2 --> I2["Inventory<br/>1 day"]
+    I2 --> P3["Process 3<br/>C/T 20s"]
+    P3 --> C(["Customer"])
+    classDef proc fill:#2E75B6,stroke:#1F4E79,color:#fff;
+    classDef inv fill:#FEF3C7,stroke:#B45309,color:#111;
+    classDef ext fill:#A7F3D0,stroke:#047857,color:#111;
+    class P1,P2,P3 proc; class I1,I2 inv; class S,C ext;

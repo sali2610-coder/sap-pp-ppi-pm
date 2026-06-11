@@ -1,0 +1,156 @@
+{
+  "book": "Production Planning with SAP S/4HANA",
+  "pages": 1087,
+  "chapters": [
+    {
+      "n": 1,
+      "title": "Introduction to Production Planning in SAP S/4HANA",
+      "pages": [
+        37,
+        58
+      ],
+      "chars": 47890,
+      "sections": 9
+    },
+    {
+      "n": 2,
+      "title": "Organizational Structure in SAP S/4HANA",
+      "pages": [
+        59,
+        74
+      ],
+      "chars": 19725,
+      "sections": 13
+    },
+    {
+      "n": 3,
+      "title": "Discrete Manufacturing Configuration",
+      "pages": [
+        75,
+        128
+      ],
+      "chars": 90246,
+      "sections": 47
+    },
+    {
+      "n": 4,
+      "title": "Process Manufacturing Configuration",
+      "pages": [
+        129,
+        170
+      ],
+      "chars": 71903,
+      "sections": 31
+    },
+    {
+      "n": 5,
+      "title": "Repetitive Manufacturing Configuration",
+      "pages": [
+        171,
+        192
+      ],
+      "chars": 28031,
+      "sections": 27
+    },
+    {
+      "n": 6,
+      "title": "Production Planning for Discrete Manufacturing",
+      "pages": [
+        193,
+        276
+      ],
+      "chars": 139489,
+      "sections": 45
+    },
+    {
+      "n": 7,
+      "title": "Production Planning for Process Manufacturing",
+      "pages": [
+        277,
+        336
+      ],
+      "chars": 91937,
+      "sections": 34
+    },
+    {
+      "n": 8,
+      "title": "Production Planning for Repetitive Manufacturing",
+      "pages": [
+        337,
+        396
+      ],
+      "chars": 98303,
+      "sections": 42
+    },
+    {
+      "n": 9,
+      "title": "Kanban",
+      "pages": [
+        397,
+        456
+      ],
+      "chars": 93901,
+      "sections": 33
+    },
+    {
+      "n": 10,
+      "title": "Batch Management",
+      "pages": [
+        457,
+        544
+      ],
+      "chars": 131032,
+      "sections": 46
+    },
+    {
+      "n": 11,
+      "title": "Sales and Operations Planning",
+      "pages": [
+        545,
+        616
+      ],
+      "chars": 118373,
+      "sections": 39
+    },
+    {
+      "n": 12,
+      "title": "Demand Management",
+      "pages": [
+        617,
+        670
+      ],
+      "chars": 104941,
+      "sections": 36
+    },
+    {
+      "n": 13,
+      "title": "Material Requirements Planning",
+      "pages": [
+        671,
+        768
+      ],
+      "chars": 173586,
+      "sections": 70
+    },
+    {
+      "n": 14,
+      "title": "Demand-Driven Replenishment",
+      "pages": [
+        769,
+        836
+      ],
+      "chars": 131339,
+      "sections": 18
+    },
+    {
+      "n": 15,
+      "title": "Predictive Material and Resource Planning",
+      "pages": [
+        837,
+        1087
+      ],
+      "chars": 459251,
+      "sections": 6
+    }
+  ]
+}

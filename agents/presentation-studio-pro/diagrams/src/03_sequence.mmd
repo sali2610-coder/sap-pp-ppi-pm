@@ -1,0 +1,41 @@
+---
+title: Agent Handoff Sequence
+---
+sequenceDiagram
+    actor User
+    participant D as Studio Director
+    participant SR as Source Researcher
+    participant PA as presentation-architect
+    participant VD as visual-designer
+    participant IG as infographic-designer
+    participant DV as data-storyteller
+    participant AN as animation-director
+    participant AR as academic-reviewer
+    participant EX as Builder + Exporter
+
+    User->>D: request + sources + target formats
+    D->>SR: ingest sources
+    SR-->>D: evidence_ledger.json
+    D->>PA: brief + ledger
+    PA-->>D: outline.json (story structure)
+    D->>User: ⛔ approve outline (ghost-deck)?
+    User-->>D: approved
+    par Produce (parallel)
+        D->>VD: outline + brand
+        VD-->>D: theme.json + layouts
+        D->>IG: structural slides
+        IG-->>D: diagram exhibits
+        D->>DV: data slides
+        DV-->>D: chart/table exhibits
+        D->>AN: deck elements + delivery mode
+        AN-->>D: animation plan
+    end
+    D->>EX: deck_spec + theme + assets
+    EX-->>D: deck.pptx / html / revealjs / frontend
+    D->>AR: deck_spec + ledger + rendered deck
+    AR-->>D: review_report (pass/fail, veto)
+    alt fail
+        AR->>D: route fix to responsible agent
+    else pass
+        D->>User: PPTX · PDF · HTML · RevealJS · Frontend
+    end

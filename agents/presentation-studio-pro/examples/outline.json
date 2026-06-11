@@ -1,0 +1,14 @@
+{
+  "spine": "answer_first",
+  "ghost_deck_pass": true,
+  "slides": [
+    {"n": 1, "role": "title", "action_title": "Gate the S/4HANA cutover on field-mapping completeness", "exhibit": "none"},
+    {"n": 2, "role": "conclusions", "action_title": "Recommendation: block cutover until field mapping is ≥98% complete", "exhibit": "none"},
+    {"n": 3, "role": "motivation", "action_title": "Conversions fail late because table sign-off hides field-level gaps", "exhibit": "none"},
+    {"n": 4, "role": "result", "action_title": "Higher mapping completeness coincides with 14× fewer cutover defects", "exhibit": "chart"},
+    {"n": 5, "role": "discussion", "action_title": "A completeness gate is cheap insurance versus a failed cutover", "exhibit": "none"},
+    {"n": 6, "role": "references", "action_title": "Sources", "exhibit": "none"}
+  ],
+  "appendix": [{"role": "appendix", "action_title": "Defect–completeness data is stable across band definitions"}],
+  "notes": "Answer-first for a senior, time-pressed committee: lead with the recommendation, then support."
+}

@@ -1,0 +1,171 @@
+{
+  "term_count": 19,
+  "terms": {
+    "BKPF": {
+      "term": "BKPF",
+      "definition": "Accounting document header table (FI).",
+      "category": "table",
+      "appears_in": [
+        "sap_sd_basics.md",
+        "sap_mm_basics.md",
+        "sap_fi_basics.md"
+      ]
+    },
+    "BSEG": {
+      "term": "BSEG",
+      "definition": "Accounting document line-item table (FI).",
+      "category": "table",
+      "appears_in": [
+        "sap_sd_basics.md",
+        "sap_fi_basics.md"
+      ]
+    },
+    "EKKO": {
+      "term": "EKKO",
+      "definition": "Purchasing document header table.",
+      "category": "table",
+      "appears_in": [
+        "sap_mm_basics.md"
+      ]
+    },
+    "EKPO": {
+      "term": "EKPO",
+      "definition": "Purchasing document item table (MM).",
+      "category": "table",
+      "appears_in": [
+        "sap_mm_basics.md"
+      ],
+      "source": "auto-extracted"
+    },
+    "LIKP": {
+      "term": "LIKP",
+      "definition": "Outbound delivery header table (SD).",
+      "category": "table",
+      "appears_in": [
+        "sap_sd_basics.md"
+      ],
+      "source": "auto-extracted"
+    },
+    "LIPS": {
+      "term": "LIPS",
+      "definition": "Outbound delivery item table (SD).",
+      "category": "table",
+      "appears_in": [
+        "sap_sd_basics.md"
+      ],
+      "source": "auto-extracted"
+    },
+    "ME21N": {
+      "term": "ME21N",
+      "definition": "Transaction to create a purchase order (MM).",
+      "category": "transaction",
+      "appears_in": [
+        "sap_mm_basics.md"
+      ]
+    },
+    "MIGO": {
+      "term": "MIGO",
+      "definition": "Transaction to post a goods movement (e.g. goods receipt).",
+      "category": "transaction",
+      "appears_in": [
+        "sap_mm_basics.md"
+      ]
+    },
+    "MIRO": {
+      "term": "MIRO",
+      "definition": "Transaction for invoice verification (MM).",
+      "category": "transaction",
+      "appears_in": [
+        "sap_mm_basics.md",
+        "sap_fi_basics.md"
+      ]
+    },
+    "MSEG": {
+      "term": "MSEG",
+      "definition": "Material document segment / line-item table (MM inventory).",
+      "category": "table",
+      "appears_in": [
+        "sap_mm_basics.md"
+      ],
+      "source": "auto-extracted"
+    },
+    "VA01": {
+      "term": "VA01",
+      "definition": "Transaction to create a sales order (SD).",
+      "category": "transaction",
+      "appears_in": [
+        "sap_sd_basics.md"
+      ]
+    },
+    "VA02": {
+      "term": "VA02",
+      "definition": "Transaction to change a sales order (SD).",
+      "category": "transaction",
+      "appears_in": [
+        "sap_sd_basics.md"
+      ],
+      "source": "auto-extracted"
+    },
+    "VA03": {
+      "term": "VA03",
+      "definition": "Transaction to display a sales order (SD).",
+      "category": "transaction",
+      "appears_in": [
+        "sap_sd_basics.md"
+      ],
+      "source": "auto-extracted"
+    },
+    "VBAK": {
+      "term": "VBAK",
+      "definition": "Sales order header table.",
+      "category": "table",
+      "appears_in": [
+        "sap_sd_basics.md"
+      ]
+    },
+    "VBAP": {
+      "term": "VBAP",
+      "definition": "Sales order item table (SD).",
+      "category": "table",
+      "appears_in": [
+        "sap_sd_basics.md"
+      ],
+      "source": "auto-extracted"
+    },
+    "VBRK": {
+      "term": "VBRK",
+      "definition": "Billing document header table (SD).",
+      "category": "table",
+      "appears_in": [
+        "sap_sd_basics.md"
+      ],
+      "source": "auto-extracted"
+    },
+    "VBRP": {
+      "term": "VBRP",
+      "definition": "Billing document item table (SD).",
+      "category": "table",
+      "appears_in": [
+        "sap_sd_basics.md"
+      ],
+      "source": "auto-extracted"
+    },
+    "VF01": {
+      "term": "VF01",
+      "definition": "Transaction to create a billing document (invoice).",
+      "category": "transaction",
+      "appears_in": [
+        "sap_sd_basics.md",
+        "sap_fi_basics.md"
+      ]
+    },
+    "VL01N": {
+      "term": "VL01N",
+      "definition": "Transaction to create an outbound delivery.",
+      "category": "transaction",
+      "appears_in": [
+        "sap_sd_basics.md"
+      ]
+    }
+  }
+}

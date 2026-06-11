@@ -1,0 +1,17 @@
+::Q::Which tcode creates a sales order? {
+  =VA01
+  ~VA03
+  ~VL01N
+  ~VF01
+}
+
+::Q::Which table stores outbound delivery headers? {
+  =LIKP
+  ~VBAK
+  ~VBRK
+  ~BKPF
+}
+
+::Q::Billing (VF01) creates an FI document. {TRUE}
+
+::Q::List the three core O2C transactions in order. {=VA01 (order) → VL01N (delivery) → VF01 (billing).}

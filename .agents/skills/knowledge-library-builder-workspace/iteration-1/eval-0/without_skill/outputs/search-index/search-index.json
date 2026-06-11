@@ -1,0 +1,329 @@
+{
+  "type": "inverted-index + tf-idf",
+  "record_count": 8,
+  "records": {
+    "sd#0": {
+      "doc": "sap_sd_basics.md",
+      "module": "SD",
+      "heading": "Chapter 1 — Sales Orders",
+      "snippet": "A sales order is a customer request to deliver goods or services. Create it with VA01, change with VA02, display with VA03. The header is stored in table VBAK and items in VBAP. The order references a"
+    },
+    "sd#1": {
+      "doc": "sap_sd_basics.md",
+      "module": "SD",
+      "heading": "Chapter 2 — Delivery",
+      "snippet": "The outbound delivery (VL01N) is the logistics document that triggers picking and goods issue. Header table LIKP, items LIPS. Goods issue posts a material movement (type 601) reducing inventory."
+    },
+    "sd#2": {
+      "doc": "sap_sd_basics.md",
+      "module": "SD",
+      "heading": "Chapter 3 — Billing",
+      "snippet": "Billing (VF01) creates the invoice sent to the customer. Header table VBRK, items VBRP. Billing passes the revenue to Financial Accounting, creating an FI document (tables BKPF/BSEG)."
+    },
+    "mm#0": {
+      "doc": "sap_mm_basics.md",
+      "module": "MM",
+      "heading": "Purchase Order",
+      "snippet": "Create with ME21N; header table EKKO, items EKPO."
+    },
+    "mm#1": {
+      "doc": "sap_mm_basics.md",
+      "module": "MM",
+      "heading": "Goods Receipt",
+      "snippet": "Post with MIGO; movement 101 increases stock and writes MSEG."
+    },
+    "mm#2": {
+      "doc": "sap_mm_basics.md",
+      "module": "MM",
+      "heading": "Invoice Verification",
+      "snippet": "Post with MIRO; three-way match against the PO and goods receipt. Creates an FI document (BKPF)."
+    },
+    "fi#0": {
+      "doc": "sap_fi_basics.md",
+      "module": "FI",
+      "heading": "Documents",
+      "snippet": "Every posting creates an FI document; header BKPF, items BSEG."
+    },
+    "fi#1": {
+      "doc": "sap_fi_basics.md",
+      "module": "FI",
+      "heading": "Integration",
+      "snippet": "SD billing (VF01) and MM invoice verification (MIRO) both post FI documents via account determination."
+    }
+  },
+  "idf": {
+    "sales": 2.504077396776274,
+    "deliver": 2.504077396776274,
+    "vbap": 2.504077396776274,
+    "services": 2.504077396776274,
+    "va02": 2.504077396776274,
+    "party": 2.504077396776274,
+    "order": 2.09861228866811,
+    "va03": 2.504077396776274,
+    "chapter": 1.8109302162163288,
+    "vbak": 2.504077396776274,
+    "orders": 2.504077396776274,
+    "sold": 2.504077396776274,
+    "va01": 2.504077396776274,
+    "inventory": 2.504077396776274,
+    "lips": 2.504077396776274,
+    "vl01n": 2.504077396776274,
+    "likp": 2.504077396776274,
+    "triggers": 2.504077396776274,
+    "logistics": 2.504077396776274,
+    "movement": 2.09861228866811,
+    "outbound": 2.504077396776274,
+    "reducing": 2.504077396776274,
+    "issue": 2.504077396776274,
+    "picking": 2.504077396776274,
+    "delivery": 2.504077396776274,
+    "sent": 2.504077396776274,
+    "billing": 2.09861228866811,
+    "vbrk": 2.504077396776274,
+    "vbrp": 2.504077396776274,
+    "invoice": 1.8109302162163288,
+    "fi": 1.587786664902119,
+    "bkpf": 1.8109302162163288,
+    "financial": 2.504077396776274,
+    "passes": 2.504077396776274,
+    "creates": 1.8109302162163288,
+    "vf01": 2.09861228866811,
+    "bseg": 2.09861228866811,
+    "revenue": 2.504077396776274,
+    "creating": 2.504077396776274,
+    "accounting": 2.504077396776274,
+    "ekpo": 2.504077396776274,
+    "ekko": 2.504077396776274,
+    "purchase": 2.504077396776274,
+    "me21n": 2.504077396776274,
+    "stock": 2.504077396776274,
+    "writes": 2.504077396776274,
+    "increases": 2.504077396776274,
+    "receipt": 2.09861228866811,
+    "migo": 2.504077396776274,
+    "mseg": 2.504077396776274,
+    "against": 2.504077396776274,
+    "po": 2.504077396776274,
+    "three": 2.504077396776274,
+    "verification": 2.09861228866811,
+    "way": 2.504077396776274,
+    "match": 2.504077396776274,
+    "miro": 2.09861228866811,
+    "posting": 2.504077396776274,
+    "determination": 2.504077396776274,
+    "integration": 2.504077396776274,
+    "account": 2.504077396776274,
+    "sd": 2.504077396776274,
+    "mm": 2.504077396776274
+  },
+  "postings": {
+    "account": {
+      "fi#1": 1
+    },
+    "accounting": {
+      "sd#2": 1
+    },
+    "against": {
+      "mm#2": 1
+    },
+    "billing": {
+      "sd#2": 3,
+      "fi#1": 1
+    },
+    "bkpf": {
+      "sd#2": 2,
+      "mm#2": 2,
+      "fi#0": 2
+    },
+    "bseg": {
+      "sd#2": 2,
+      "fi#0": 2
+    },
+    "chapter": {
+      "sd#0": 1,
+      "sd#1": 1,
+      "sd#2": 1
+    },
+    "creates": {
+      "sd#2": 1,
+      "mm#2": 1,
+      "fi#0": 1
+    },
+    "creating": {
+      "sd#2": 1
+    },
+    "deliver": {
+      "sd#0": 1
+    },
+    "delivery": {
+      "sd#1": 2
+    },
+    "determination": {
+      "fi#1": 1
+    },
+    "ekko": {
+      "mm#0": 2
+    },
+    "ekpo": {
+      "mm#0": 3
+    },
+    "fi": {
+      "sd#2": 1,
+      "mm#2": 1,
+      "fi#0": 1,
+      "fi#1": 1
+    },
+    "financial": {
+      "sd#2": 1
+    },
+    "increases": {
+      "mm#1": 1
+    },
+    "integration": {
+      "fi#1": 1
+    },
+    "inventory": {
+      "sd#1": 1
+    },
+    "invoice": {
+      "sd#2": 1,
+      "mm#2": 1,
+      "fi#1": 1
+    },
+    "issue": {
+      "sd#1": 2
+    },
+    "likp": {
+      "sd#1": 2
+    },
+    "lips": {
+      "sd#1": 3
+    },
+    "logistics": {
+      "sd#1": 1
+    },
+    "match": {
+      "mm#2": 1
+    },
+    "me21n": {
+      "mm#0": 2
+    },
+    "migo": {
+      "mm#1": 2
+    },
+    "miro": {
+      "mm#2": 2,
+      "fi#1": 2
+    },
+    "mm": {
+      "fi#1": 1
+    },
+    "movement": {
+      "sd#1": 1,
+      "mm#1": 1
+    },
+    "mseg": {
+      "mm#1": 3
+    },
+    "order": {
+      "sd#0": 2,
+      "mm#0": 1
+    },
+    "orders": {
+      "sd#0": 1
+    },
+    "outbound": {
+      "sd#1": 1
+    },
+    "party": {
+      "sd#0": 1
+    },
+    "passes": {
+      "sd#2": 1
+    },
+    "picking": {
+      "sd#1": 1
+    },
+    "po": {
+      "mm#2": 1
+    },
+    "posting": {
+      "fi#0": 1
+    },
+    "purchase": {
+      "mm#0": 1
+    },
+    "receipt": {
+      "mm#1": 1,
+      "mm#2": 1
+    },
+    "reducing": {
+      "sd#1": 1
+    },
+    "revenue": {
+      "sd#2": 1
+    },
+    "sales": {
+      "sd#0": 2
+    },
+    "sd": {
+      "fi#1": 1
+    },
+    "sent": {
+      "sd#2": 1
+    },
+    "services": {
+      "sd#0": 1
+    },
+    "sold": {
+      "sd#0": 1
+    },
+    "stock": {
+      "mm#1": 1
+    },
+    "three": {
+      "mm#2": 1
+    },
+    "triggers": {
+      "sd#1": 1
+    },
+    "va01": {
+      "sd#0": 2
+    },
+    "va02": {
+      "sd#0": 2
+    },
+    "va03": {
+      "sd#0": 2
+    },
+    "vbak": {
+      "sd#0": 2
+    },
+    "vbap": {
+      "sd#0": 3
+    },
+    "vbrk": {
+      "sd#2": 2
+    },
+    "vbrp": {
+      "sd#2": 3
+    },
+    "verification": {
+      "mm#2": 1,
+      "fi#1": 1
+    },
+    "vf01": {
+      "sd#2": 2,
+      "fi#1": 2
+    },
+    "vl01n": {
+      "sd#1": 2
+    },
+    "way": {
+      "mm#2": 1
+    },
+    "writes": {
+      "mm#1": 1
+    }
+  }
+}

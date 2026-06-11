@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "renderers": ["mermaid", "excalidraw", "pptx", "svg", "png"],
+  "note": "Each type lists its primary authoring renderer + template file. Mermaid/SVG templates render to SVG+PNG (out/). PPTX = native-shape recipe in recipes/pptx-recipes.md. Excalidraw = hand-place via excalidraw-diagram skill for free-form variants.",
+  "types": [
+    {"id":"process_flow","label":"Process Flow","primary":"mermaid","template":"mermaid/01_process_flow.mmd","renderers":["mermaid","excalidraw","pptx","svg","png"],"use":"Sequential steps with a decision branch"},
+    {"id":"timeline","label":"Timeline","primary":"mermaid","template":"mermaid/02_timeline.mmd","renderers":["mermaid","pptx","svg","png"],"use":"Events across time"},
+    {"id":"roadmap","label":"Roadmap","primary":"mermaid","template":"mermaid/03_roadmap.mmd","renderers":["mermaid","pptx","svg","png"],"use":"Phased plan with durations/milestones (gantt)"},
+    {"id":"swimlane","label":"Swimlane","primary":"mermaid","template":"mermaid/04_swimlane.mmd","renderers":["mermaid","excalidraw","pptx","svg","png"],"use":"Cross-role/cross-team process"},
+    {"id":"org_chart","label":"Org Chart","primary":"mermaid","template":"mermaid/05_org_chart.mmd","renderers":["mermaid","excalidraw","pptx","svg","png"],"use":"Reporting hierarchy"},
+    {"id":"architecture","label":"Architecture Diagram","primary":"mermaid","template":"mermaid/06_architecture.mmd","renderers":["mermaid","excalidraw","pptx","svg","png"],"use":"Tiered system topology"},
+    {"id":"funnel","label":"Funnel","primary":"svg","template":"svg/07_funnel.svg","renderers":["svg","png","pptx","excalidraw"],"use":"Stage-to-stage conversion drop-off"},
+    {"id":"pyramid","label":"Pyramid","primary":"svg","template":"svg/08_pyramid.svg","renderers":["svg","png","pptx","excalidraw"],"use":"Layered hierarchy (strategy → ops)"},
+    {"id":"kpi_dashboard","label":"KPI Dashboard","primary":"svg","template":"svg/09_kpi_dashboard.svg","renderers":["svg","png","pptx"],"use":"Metric tiles with value + delta"},
+    {"id":"comparison_matrix","label":"Comparison Matrix","primary":"svg","template":"svg/10_comparison_matrix.svg","renderers":["svg","png","pptx"],"use":"Options × criteria with ✓/~/✗"},
+    {"id":"decision_tree","label":"Decision Tree","primary":"mermaid","template":"mermaid/11_decision_tree.mmd","renderers":["mermaid","excalidraw","pptx","svg","png"],"use":"Branching conditions → outcomes"},
+    {"id":"value_stream_map","label":"Value Stream Map","primary":"mermaid","template":"mermaid/12_value_stream_map.mmd","renderers":["mermaid","excalidraw","pptx","svg","png"],"use":"Process + inventory with C/T, C/O, uptime"}
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "VA01": [
+    {
+      "doc": "D3-sap-sd-basics",
+      "title": "SAP SD \u2014 Order-to-Cash Basics (demo source)",
+      "sections": null,
+      "count": 1
+    }
+  ],
+  "VBAK": [
+    {
+      "doc": "D3-sap-sd-basics",
+      "title": "SAP SD \u2014 Order-to-Cash Basics (demo source)",
+      "sections": null,
+      "count": 1
+    }
+  ],
+  "VL01N": [
+    {
+      "doc": "D3-sap-sd-basics",
+      "title": "SAP SD \u2014 Order-to-Cash Basics (demo source)",
+      "sections": null,
+      "count": 1
+    }
+  ],
+  "VF01": [
+    {
+      "doc": "D1-sap-fi-basics",
+      "title": "SAP FI \u2014 Financial Accounting",
+      "sections": null,
+      "count": 1
+    },
+    {
+      "doc": "D3-sap-sd-basics",
+      "title": "SAP SD \u2014 Order-to-Cash Basics (demo source)",
+      "sections": null,
+      "count": 1
+    }
+  ],
+  "ME21N": [
+    {
+      "doc": "D2-sap-mm-basics",
+      "title": "SAP MM \u2014 Procure-to-Pay",
+      "sections": null,
+      "count": 1
+    }
+  ],
+  "EKKO": [
+    {
+      "doc": "D2-sap-mm-basics",
+      "title": "SAP MM \u2014 Procure-to-Pay",
+      "sections": null,
+      "count": 1
+    }
+  ],
+  "MIGO": [
+    {
+      "doc": "D2-sap-mm-basics",
+      "title": "SAP MM \u2014 Procure-to-Pay",
+      "sections": null,
+      "count": 1
+    }
+  ],
+  "MIRO": [
+    {
+      "doc": "D1-sap-fi-basics",
+      "title": "SAP FI \u2014 Financial Accounting",
+      "sections": null,
+      "count": 1
+    },
+    {
+      "doc": "D2-sap-mm-basics",
+      "title": "SAP MM \u2014 Procure-to-Pay",
+      "sections": null,
+      "count": 1
+    }
+  ],
+  "BKPF": [
+    {
+      "doc": "D1-sap-fi-basics",
+      "title": "SAP FI \u2014 Financial Accounting",
+      "sections": null,
+      "count": 1
+    },
+    {
+      "doc": "D2-sap-mm-basics",
+      "title": "SAP MM \u2014 Procure-to-Pay",
+      "sections": null,
+      "count": 1
+    },
+    {
+      "doc": "D3-sap-sd-basics",
+      "title": "SAP SD \u2014 Order-to-Cash Basics (demo source)",
+      "sections": null,
+      "count": 1
+    }
+  ],
+  "BSEG": [
+    {
+      "doc": "D1-sap-fi-basics",
+      "title": "SAP FI \u2014 Financial Accounting",
+      "sections": null,
+      "count": 1
+    },
+    {
+      "doc": "D3-sap-sd-basics",
+      "title": "SAP SD \u2014 Order-to-Cash Basics (demo source)",
+      "sections": null,
+      "count": 1
+    }
+  ]
+}

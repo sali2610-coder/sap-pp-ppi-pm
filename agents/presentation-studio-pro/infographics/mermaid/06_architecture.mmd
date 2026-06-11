@@ -1,0 +1,21 @@
+---
+title: Architecture Diagram (template)
+---
+flowchart LR
+    subgraph EXT["External"]
+        U["Client / Partner"]
+    end
+    subgraph APP["Application Tier"]
+        API["API / Service"]
+        WRK["Worker"]
+    end
+    subgraph DATA["Data Tier"]
+        DB[("Database")]
+        Q[["Queue"]]
+    end
+    U --> API --> DB
+    API --> Q --> WRK --> DB
+    classDef ext fill:#059669,stroke:#047857,color:#fff;
+    classDef app fill:#6366F1,stroke:#4338ca,color:#fff;
+    classDef data fill:#F59E0B,stroke:#b45309,color:#111;
+    class U ext; class API,WRK app; class DB,Q data;

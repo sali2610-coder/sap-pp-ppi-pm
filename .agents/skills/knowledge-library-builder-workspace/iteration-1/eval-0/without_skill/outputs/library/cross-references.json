@@ -1,0 +1,93 @@
+{
+  "by_term": {
+    "BKPF": [
+      "sap_sd_basics.md",
+      "sap_mm_basics.md",
+      "sap_fi_basics.md"
+    ],
+    "BSEG": [
+      "sap_sd_basics.md",
+      "sap_fi_basics.md"
+    ],
+    "MIRO": [
+      "sap_mm_basics.md",
+      "sap_fi_basics.md"
+    ],
+    "VF01": [
+      "sap_sd_basics.md",
+      "sap_fi_basics.md"
+    ]
+  },
+  "by_document_pair": {
+    "sap_sd_basics.md <-> sap_mm_basics.md": [
+      "BKPF"
+    ],
+    "sap_sd_basics.md <-> sap_fi_basics.md": [
+      "BKPF",
+      "BSEG",
+      "VF01"
+    ],
+    "sap_mm_basics.md <-> sap_fi_basics.md": [
+      "BKPF",
+      "MIRO"
+    ]
+  },
+  "edges": [
+    {
+      "source": "sap_sd_basics.md",
+      "target": "sap_mm_basics.md",
+      "shared": [
+        "BKPF"
+      ],
+      "weight": 1
+    },
+    {
+      "source": "sap_sd_basics.md",
+      "target": "sap_fi_basics.md",
+      "shared": [
+        "BKPF",
+        "BSEG",
+        "VF01"
+      ],
+      "weight": 3
+    },
+    {
+      "source": "sap_mm_basics.md",
+      "target": "sap_fi_basics.md",
+      "shared": [
+        "BKPF",
+        "MIRO"
+      ],
+      "weight": 2
+    }
+  ],
+  "integration_flows": [
+    {
+      "from": "SD",
+      "to": "FI",
+      "via": "VF01 billing posts an FI document (BKPF/BSEG) via account determination",
+      "evidence": [
+        "sap_sd_basics.md",
+        "sap_fi_basics.md"
+      ]
+    },
+    {
+      "from": "MM",
+      "to": "FI",
+      "via": "MIRO invoice verification creates an FI document (BKPF)",
+      "evidence": [
+        "sap_mm_basics.md",
+        "sap_fi_basics.md"
+      ]
+    },
+    {
+      "from": "SD",
+      "to": "MM",
+      "via": "Both reduce/increase inventory via material movements (601 / 101) writing MSEG",
+      "evidence": [
+        "sap_sd_basics.md",
+        "sap_mm_basics.md"
+      ]
+    }
+  ]
+}

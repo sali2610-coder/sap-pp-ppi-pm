@@ -1,0 +1,13 @@
+{
+  "objective": "Win steering-committee approval to gate the S/4HANA cutover on field-mapping completeness",
+  "audience": {"who": "Steering committee (CIO, SAP leads)", "expertise": "mixed"},
+  "time_limit_min": 8,
+  "slide_budget": 6,
+  "tone": "confident, decision-oriented",
+  "format": {"aspect": "16:9", "language": "en"},
+  "brand": {"primary": "#1F4E79", "accent": "#2E75B6", "font": "Arial", "logo": null},
+  "must_include": ["the completeness→defect evidence", "a concrete gate threshold"],
+  "must_avoid": ["deep technical config detail"],
+  "sources": ["docs/SAP_PM_ECC6_to_S4_Migration.xlsx", "docs/SAP_PPPI_ECC6_to_S4_Migration.xlsx"],
+  "delivery": ["pptx", "pdf"]
+}

@@ -1,0 +1,120 @@
+{
+  "$schema_note": "Each template extends design-tokens.template.json with layouts, chart, icon, animation. Colors are 6-char hex (no #), consumable by the Builder/visual-designer.",
+  "version": "1.0.0",
+  "templates": {
+    "academic": {
+      "label": "Academic",
+      "use": "Conference talks, thesis defenses, seminars — communication-first, evidence-led",
+      "colors": {"primary": "1F4E79", "accent": "2E75B6", "ink": "2D2D2D", "muted": "777777", "bg": "FFFFFF",
+        "semantic": {"good": "2E7D32", "bad": "B91C1C", "highlight": "FFF2CC"}},
+      "typography": {"face": "Arial", "scale": {"title": 26, "section": 22, "body": 20, "label": 16, "cite": 13}},
+      "layouts": ["title-dark", "action-title+bullets", "figure-left/bullets-right", "two-column", "references", "conclusions-dark"],
+      "chart": {"palette": ["2E75B6", "9DC3E6", "1F4E79"], "axis": "muted", "gridlines": "value-only", "data_labels": "key-only", "style": "flat-minimal"},
+      "icon": {"style": "none", "note": "no decorative icons; typography + whitespace carry hierarchy"},
+      "animation": {"transition": "fade", "build": "per-bullet-on-click", "duration_s": 0.3}
+    },
+    "business": {
+      "label": "Business",
+      "use": "Strategy reviews, proposals, internal decks — clean corporate",
+      "colors": {"primary": "1B3A5B", "accent": "2F80ED", "ink": "263238", "muted": "8A929B", "bg": "FFFFFF",
+        "semantic": {"good": "2E7D32", "bad": "C62828", "highlight": "E8F0FE"}},
+      "typography": {"face": "Calibri", "scale": {"title": 28, "section": 22, "body": 20, "label": 16, "cite": 12}},
+      "layouts": ["title-banner", "agenda", "action-title+bullets", "3-card-row", "kpi-row", "two-column", "closing-cta"],
+      "chart": {"palette": ["2F80ED", "56CCF2", "1B3A5B", "BBD2F0"], "axis": "muted", "gridlines": "value-only", "data_labels": "auto", "style": "clean-rounded"},
+      "icon": {"style": "line", "weight": 1.5, "note": "thin line icons in accent, used sparingly on section headers"},
+      "animation": {"transition": "push", "build": "section-fade", "duration_s": 0.4}
+    },
+    "executive": {
+      "label": "Executive",
+      "use": "Board/steering decks — answer-first, big numbers, minimal text",
+      "colors": {"primary": "0D1B2A", "accent": "C9A227", "ink": "1B263B", "muted": "9AA5B1", "bg": "FFFFFF",
+        "semantic": {"good": "2E7D32", "bad": "B3261E", "highlight": "F4ECCB"}},
+      "typography": {"face": "Helvetica", "scale": {"title": 30, "section": 22, "body": 20, "label": 16, "cite": 12}},
+      "layouts": ["title-dark-gold", "answer-first-statement", "big-number-hero", "1-chart-focus", "decision-box", "next-steps-dark"],
+      "chart": {"palette": ["0D1B2A", "C9A227", "6B7B8C"], "axis": "minimal", "gridlines": "none", "data_labels": "value-large", "style": "spare-high-contrast"},
+      "icon": {"style": "none", "note": "numbers and whitespace are the visual; no icons"},
+      "animation": {"transition": "morph", "build": "appear-whole-slide", "duration_s": 0.3}
+    },
+    "sap": {
+      "label": "SAP",
+      "use": "SAP/Fiori functional & technical decks; ECC→S/4HANA migration",
+      "colors": {"primary": "0A6ED1", "accent": "D62027", "ink": "32363A", "muted": "6A6D70", "bg": "FFFFFF",
+        "semantic": {"good": "107E3E", "bad": "BB0000", "highlight": "FEF7E5", "ecc": "0A6ED1", "s4": "D62027", "middleware": "6A737D"}},
+      "typography": {"face": "Arial", "mono": "Consolas", "scale": {"title": 26, "section": 22, "body": 20, "label": 16, "code": 15, "cite": 13},
+        "note": "render tcodes/tables/IDocs in mono; keep identifiers Latin even in Hebrew decks"},
+      "layouts": ["title-fiori", "process-chain", "tcode-table", "before-after-s4", "architecture-tiers", "swimlane", "conclusions"],
+      "chart": {"palette": ["0A6ED1", "D62027", "6A737D", "107E3E"], "axis": "muted", "gridlines": "value-only", "data_labels": "auto", "style": "fiori-flat"},
+      "icon": {"style": "fiori-line", "weight": 1.5, "note": "SAP-icon-style line glyphs in tier color; modules/tcodes labeled in mono"},
+      "animation": {"transition": "fade", "build": "process-step-sequential", "duration_s": 0.4}
+    },
+    "project_management": {
+      "label": "Project Management",
+      "use": "Status reports, roadmaps, cutover plans — timeline & RAG heavy",
+      "colors": {"primary": "0F766E", "accent": "F59E0B", "ink": "1F2937", "muted": "6B7280", "bg": "FFFFFF",
+        "semantic": {"good": "16A34A", "warn": "F59E0B", "bad": "DC2626", "highlight": "FEF3C7"}},
+      "typography": {"face": "Segoe UI", "scale": {"title": 26, "section": 21, "body": 19, "label": 15, "cite": 12}},
+      "layouts": ["title-banner", "milestone-timeline", "gantt", "rag-status-board", "workstream-swimlane", "raid-table", "next-steps"],
+      "chart": {"palette": ["0F766E", "F59E0B", "DC2626", "16A34A"], "axis": "muted", "gridlines": "both-light", "data_labels": "auto", "style": "gantt+stacked-bar"},
+      "icon": {"style": "line", "weight": 2, "note": "RAG status dots + milestone diamonds; line icons for workstreams"},
+      "animation": {"transition": "wipe", "build": "timeline-left-to-right", "duration_s": 0.4}
+    },
+    "training": {
+      "label": "Training",
+      "use": "Courses, onboarding, workshops — friendly, step-by-step, learner-first",
+      "colors": {"primary": "2563EB", "accent": "F97316", "ink": "111827", "muted": "6B7280", "bg": "FFFFFF",
+        "semantic": {"good": "22C55E", "bad": "EF4444", "highlight": "FFF7ED"}},
+      "typography": {"face": "Verdana", "scale": {"title": 28, "section": 22, "body": 20, "label": 17, "cite": 13}},
+      "layouts": ["title-friendly", "learning-objectives", "concept-with-analogy", "numbered-steps", "exercise-card", "knowledge-check", "recap-takeaways"],
+      "chart": {"palette": ["2563EB", "F97316", "22C55E", "A78BFA"], "axis": "muted", "gridlines": "value-only", "data_labels": "auto", "style": "rounded-friendly"},
+      "icon": {"style": "rounded-filled", "weight": 0, "note": "friendly filled icons in accent circles on step/objective cards"},
+      "animation": {"transition": "fade", "build": "step-reveal-on-click", "duration_s": 0.5}
+    },
+    "data_analytics": {
+      "label": "Data Analytics",
+      "use": "Dashboards, metrics readouts, model results — dense, dark, chart-forward",
+      "colors": {"primary": "0F172A", "accent": "14B8A6", "ink": "E2E8F0", "muted": "94A3B8", "bg": "0B1220",
+        "semantic": {"good": "22C55E", "bad": "F43F5E", "highlight": "1E293B"}},
+      "typography": {"face": "Segoe UI", "mono": "Cascadia Mono", "scale": {"title": 26, "section": 20, "body": 18, "label": 14, "code": 14, "cite": 12}},
+      "layouts": ["title-dark", "kpi-grid-2x2", "dashboard-3up", "1-big-chart", "chart+insight-rail", "table-heatmap", "method-notes"],
+      "chart": {"palette": ["14B8A6", "5EEAD4", "38BDF8", "A78BFA", "F472B6"], "axis": "muted-light", "gridlines": "value-subtle", "data_labels": "on-hover-or-key", "style": "dark-modern"},
+      "icon": {"style": "line", "weight": 1.5, "note": "minimal line icons on KPI tiles; color = metric trend"},
+      "animation": {"transition": "fade", "build": "chart-series-stagger", "duration_s": 0.4}
+    },
+    "financial": {
+      "label": "Financial",
+      "use": "Earnings, budgets, FP&A — conservative, precise, table & waterfall heavy",
+      "colors": {"primary": "14532D", "accent": "1D4ED8", "ink": "1F2937", "muted": "6B7280", "bg": "FFFFFF",
+        "semantic": {"good": "15803D", "bad": "B91C1C", "highlight": "ECFDF5"}},
+      "typography": {"face": "Georgia", "mono": "Consolas", "scale": {"title": 26, "section": 21, "body": 19, "label": 15, "num": 18, "cite": 12},
+        "note": "use mono/tabular figures for aligned numbers"},
+      "layouts": ["title-conservative", "exec-summary-kpis", "pnl-table", "waterfall-bridge", "variance-bar", "trend-line", "assumptions-footnotes"],
+      "chart": {"palette": ["14532D", "1D4ED8", "B91C1C", "9CA3AF"], "axis": "precise", "gridlines": "value-only", "data_labels": "value-exact", "style": "waterfall+grouped-bar"},
+      "icon": {"style": "none", "note": "no icons; numbers, tables, and a single accent for variance carry meaning"},
+      "animation": {"transition": "fade", "build": "appear-whole-slide", "duration_s": 0.3}
+    },
+    "startup_pitch": {
+      "label": "Startup Pitch",
+      "use": "Investor / demo-day decks — bold, narrative, image-forward, high energy",
+      "colors": {"primary": "6D28D9", "accent": "F43F5E", "ink": "0F172A", "muted": "64748B", "bg": "FFFFFF",
+        "semantic": {"good": "10B981", "bad": "EF4444", "highlight": "F5F3FF"}},
+      "typography": {"face": "Montserrat", "scale": {"title": 40, "section": 26, "body": 22, "label": 16, "cite": 12},
+        "note": "oversized titles; one bold statement per slide"},
+      "layouts": ["title-bold-fullbleed", "problem-statement", "solution-hero", "market-size-tam", "traction-metrics", "business-model", "team", "the-ask"],
+      "chart": {"palette": ["6D28D9", "F43F5E", "A78BFA", "FB7185"], "axis": "minimal", "gridlines": "none", "data_labels": "value-large", "style": "bold-minimal"},
+      "icon": {"style": "duotone", "weight": 0, "note": "duotone icons in primary/accent for problem/solution/market beats"},
+      "animation": {"transition": "slide", "build": "statement-then-evidence", "duration_s": 0.5}
+    },
+    "technical_architecture": {
+      "label": "Technical Architecture",
+      "use": "System design, integration, infra decks — diagram-heavy, precise, code-aware",
+      "colors": {"primary": "1E293B", "accent": "6366F1", "ink": "0F172A", "muted": "64748B", "bg": "F8FAFC",
+        "semantic": {"good": "059669", "bad": "DC2626", "highlight": "EEF2FF", "external": "059669", "service": "6366F1", "datastore": "F59E0B"}},
+      "typography": {"face": "Segoe UI", "mono": "JetBrains Mono", "scale": {"title": 26, "section": 20, "body": 18, "label": 14, "code": 14, "cite": 12},
+        "note": "mono for components, endpoints, config keys, commands — preserve exactly"},
+      "layouts": ["title-blueprint", "context-c4", "container-diagram", "sequence-flow", "data-model-er", "deployment-topology", "tradeoffs-table", "decisions-adr"],
+      "chart": {"palette": ["6366F1", "059669", "F59E0B", "64748B"], "axis": "muted", "gridlines": "value-only", "data_labels": "auto", "style": "diagram-first"},
+      "icon": {"style": "line", "weight": 1.5, "note": "node-type glyphs (service/datastore/queue/external) colored by tier; render as vector diagrams"},
+      "animation": {"transition": "fade", "build": "diagram-progressive-reveal", "duration_s": 0.4}
+    }
+  }
+}

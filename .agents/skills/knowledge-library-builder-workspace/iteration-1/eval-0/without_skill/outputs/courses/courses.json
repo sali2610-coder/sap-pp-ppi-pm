@@ -1,0 +1,95 @@
+{
+  "program": "SAP Core Logistics & Finance — Foundations",
+  "generated": "2026-06-11",
+  "modules": [
+    {
+      "order": 1,
+      "code": "M1-SD",
+      "title": "Order-to-Cash (Sales & Distribution)",
+      "doc": "sap_sd_basics.md",
+      "lessons": [
+        "Chapter 1 — Sales Orders",
+        "Chapter 2 — Delivery",
+        "Chapter 3 — Billing"
+      ],
+      "key_transactions": [
+        "VA01",
+        "VA02",
+        "VA03",
+        "VF01",
+        "VL01N"
+      ],
+      "key_tables": [
+        "BKPF",
+        "BSEG",
+        "LIKP",
+        "LIPS",
+        "VBAK",
+        "VBAP",
+        "VBRK",
+        "VBRP"
+      ],
+      "learning_objectives": [
+        "Create, change, and display a sales order (VA01/VA02/VA03)",
+        "Understand delivery, picking and goods issue (VL01N, movement 601)",
+        "Explain how billing (VF01) hands revenue to Financial Accounting"
+      ],
+      "prerequisites": []
+    },
+    {
+      "order": 2,
+      "code": "M2-MM",
+      "title": "Procure-to-Pay (Materials Management)",
+      "doc": "sap_mm_basics.md",
+      "lessons": [
+        "Purchase Order",
+        "Goods Receipt",
+        "Invoice Verification"
+      ],
+      "key_transactions": [
+        "ME21N",
+        "MIGO",
+        "MIRO"
+      ],
+      "key_tables": [
+        "BKPF",
+        "EKKO",
+        "EKPO",
+        "MSEG"
+      ],
+      "learning_objectives": [
+        "Create a purchase order (ME21N; EKKO/EKPO)",
+        "Post a goods receipt (MIGO, movement 101, MSEG)",
+        "Perform three-way-match invoice verification (MIRO)"
+      ],
+      "prerequisites": []
+    },
+    {
+      "order": 3,
+      "code": "M3-FI",
+      "title": "Financial Accounting & Integration",
+      "doc": "sap_fi_basics.md",
+      "lessons": [
+        "Documents",
+        "Integration"
+      ],
+      "key_transactions": [
+        "MIRO",
+        "VF01"
+      ],
+      "key_tables": [
+        "BKPF",
+        "BSEG"
+      ],
+      "learning_objectives": [
+        "Understand the FI document structure (BKPF header / BSEG items)",
+        "Trace how SD billing and MM invoice verification post to FI via account determination"
+      ],
+      "prerequisites": [
+        "M1-SD",
+        "M2-MM"
+      ]
+    }
+  ],
+  "capstone": "Trace a single business transaction end-to-end: sales order (VA01) → delivery (VL01N) → billing (VF01) → FI document (BKPF/BSEG), and the parallel procurement flow ME21N → MIGO → MIRO → FI."
+}

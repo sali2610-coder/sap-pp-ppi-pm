@@ -1,0 +1,25 @@
+---
+title: Pipeline Stage → Agent → Artifact
+---
+flowchart TB
+    subgraph STAGES["9 pipeline stages"]
+        direction TB
+        s1["1 User Request"] --> s2["2 Research"] --> s3["3 Outline"] --> s4["4 Story Structure"]
+        s4 --> s5["5 Visual Design"] --> s6["6 Infographics"] --> s7["7 Data Visualization"]
+        s7 --> s8["8 Animation Planning"] --> s9["9 Final Presentation"]
+    end
+
+    s1 -.-> a0["Studio Director<br/>→ brief.json"]
+    s2 -.-> a1["Source Researcher<br/>→ evidence_ledger.json"]
+    s3 -.-> a2["presentation-architect<br/>→ outline.json"]
+    s4 -.-> a2
+    s5 -.-> a3["visual-designer<br/>→ theme.json + layouts"]
+    s6 -.-> a4["infographic-designer<br/>→ diagram exhibits"]
+    s7 -.-> a5["data-storyteller<br/>→ chart/table exhibits"]
+    s8 -.-> a6["animation-director<br/>→ animation plan"]
+    s9 -.-> a7["Builder + academic-reviewer + Exporter<br/>→ deck.pptx/pdf/html/revealjs/frontend"]
+
+    classDef stage fill:#0a6ed1,stroke:#08549f,color:#fff;
+    classDef agent fill:#f4f5f7,stroke:#6a737d,color:#111;
+    class s1,s2,s3,s4,s5,s6,s7,s8,s9 stage;
+    class a0,a1,a2,a3,a4,a5,a6,a7 agent;

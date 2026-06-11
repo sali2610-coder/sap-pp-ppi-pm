@@ -1,0 +1,14 @@
+---
+title: Process Flow (template)
+---
+flowchart LR
+    A["Step 1<br/>input"] --> B["Step 2<br/>action"]
+    B --> C{"Decision?"}
+    C -->|yes| D["Step 3a"]
+    C -->|no| E["Step 3b"]
+    D --> F["Output"]
+    E --> F
+    classDef s fill:#2E75B6,stroke:#1F4E79,color:#fff;
+    classDef d fill:#FEF3C7,stroke:#B45309,color:#111;
+    classDef o fill:#A7F3D0,stroke:#047857,color:#111;
+    class A,B,D,E s; class C d; class F o;

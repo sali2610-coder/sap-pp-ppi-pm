@@ -1,0 +1,11 @@
+---
+title: Decision Tree (template)
+---
+flowchart TD
+    Q1{"Condition 1?"} -->|yes| Q2{"Condition 2?"}
+    Q1 -->|no| O1["Outcome A"]
+    Q2 -->|yes| O2["Outcome B"]
+    Q2 -->|no| O3["Outcome C"]
+    classDef q fill:#FEF3C7,stroke:#B45309,color:#111;
+    classDef o fill:#A7F3D0,stroke:#047857,color:#111;
+    class Q1,Q2 q; class O1,O2,O3 o;

@@ -1,0 +1,3 @@
+{"skill_name":"learning-content-factory","evals":[
+ {"id":0,"prompt":"Israeli SAP trainee: turn this SD source into chapter summaries, Hebrew notes, beginner + expert explanations, flashcards, a quiz, a glossary, and an O2C runbook.","expected_output":"8 artifacts; Anki TSV + Moodle GIFT via scripts; Hebrew keeps SAP codes Latin; no fabricated tcodes/tables","files":["source.md"],
+  "assertions":["all 8 outputs present","flashcards 3-col Anki TSV via script","quiz GIFT importable","hebrew keeps codes Latin","no fabricated codes"]}]}

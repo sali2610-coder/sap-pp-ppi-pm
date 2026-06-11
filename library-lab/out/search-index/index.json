@@ -1,0 +1,299 @@
+{
+"account": {
+"D1-sap-fi-basics": 1
+},
+"accounting": {
+"D1-sap-fi-basics": 1,
+"D3-sap-sd-basics": 1
+},
+"against": {
+"D2-sap-mm-basics": 1
+},
+"basics": {
+"D3-sap-sd-basics": 1
+},
+"billing": {
+"D1-sap-fi-basics": 1,
+"D3-sap-sd-basics": 3
+},
+"bkpf": {
+"D1-sap-fi-basics": 1,
+"D2-sap-mm-basics": 1,
+"D3-sap-sd-basics": 1
+},
+"both": {
+"D1-sap-fi-basics": 1
+},
+"bseg": {
+"D1-sap-fi-basics": 1,
+"D3-sap-sd-basics": 1
+},
+"cash": {
+"D3-sap-sd-basics": 1
+},
+"change": {
+"D3-sap-sd-basics": 1
+},
+"chapter": {
+"D3-sap-sd-basics": 3
+},
+"create": {
+"D2-sap-mm-basics": 1,
+"D3-sap-sd-basics": 1
+},
+"creates": {
+"D1-sap-fi-basics": 1,
+"D2-sap-mm-basics": 1,
+"D3-sap-sd-basics": 1
+},
+"creating": {
+"D3-sap-sd-basics": 1
+},
+"customer": {
+"D3-sap-sd-basics": 3
+},
+"deliver": {
+"D3-sap-sd-basics": 1
+},
+"delivery": {
+"D3-sap-sd-basics": 2
+},
+"demo": {
+"D3-sap-sd-basics": 1
+},
+"determination": {
+"D1-sap-fi-basics": 1
+},
+"display": {
+"D3-sap-sd-basics": 1
+},
+"document": {
+"D1-sap-fi-basics": 1,
+"D2-sap-mm-basics": 1,
+"D3-sap-sd-basics": 2
+},
+"documents": {
+"D1-sap-fi-basics": 2
+},
+"ekko": {
+"D2-sap-mm-basics": 1
+},
+"ekpo": {
+"D2-sap-mm-basics": 1
+},
+"every": {
+"D1-sap-fi-basics": 1
+},
+"financial": {
+"D1-sap-fi-basics": 1,
+"D3-sap-sd-basics": 1
+},
+"goods": {
+"D2-sap-mm-basics": 2,
+"D3-sap-sd-basics": 3
+},
+"header": {
+"D1-sap-fi-basics": 1,
+"D2-sap-mm-basics": 1,
+"D3-sap-sd-basics": 3
+},
+"increases": {
+"D2-sap-mm-basics": 1
+},
+"integration": {
+"D1-sap-fi-basics": 1
+},
+"inventory": {
+"D3-sap-sd-basics": 1
+},
+"invoice": {
+"D1-sap-fi-basics": 1,
+"D2-sap-mm-basics": 1,
+"D3-sap-sd-basics": 1
+},
+"issue": {
+"D3-sap-sd-basics": 2
+},
+"items": {
+"D1-sap-fi-basics": 1,
+"D2-sap-mm-basics": 1,
+"D3-sap-sd-basics": 3
+},
+"likp": {
+"D3-sap-sd-basics": 1
+},
+"lips": {
+"D3-sap-sd-basics": 1
+},
+"logistics": {
+"D3-sap-sd-basics": 1
+},
+"match": {
+"D2-sap-mm-basics": 1
+},
+"material": {
+"D3-sap-sd-basics": 1
+},
+"materials": {
+"D3-sap-sd-basics": 1
+},
+"me21n": {
+"D2-sap-mm-basics": 1
+},
+"migo": {
+"D2-sap-mm-basics": 1
+},
+"miro": {
+"D1-sap-fi-basics": 1,
+"D2-sap-mm-basics": 1
+},
+"more": {
+"D3-sap-sd-basics": 1
+},
+"movement": {
+"D2-sap-mm-basics": 1,
+"D3-sap-sd-basics": 1
+},
+"mseg": {
+"D2-sap-mm-basics": 1
+},
+"order": {
+"D2-sap-mm-basics": 1,
+"D3-sap-sd-basics": 3
+},
+"orders": {
+"D3-sap-sd-basics": 1
+},
+"outbound": {
+"D3-sap-sd-basics": 1
+},
+"party": {
+"D3-sap-sd-basics": 1
+},
+"passes": {
+"D3-sap-sd-basics": 1
+},
+"pay": {
+"D2-sap-mm-basics": 1
+},
+"picking": {
+"D3-sap-sd-basics": 1
+},
+"post": {
+"D1-sap-fi-basics": 1,
+"D2-sap-mm-basics": 2
+},
+"posting": {
+"D1-sap-fi-basics": 1
+},
+"posts": {
+"D3-sap-sd-basics": 1
+},
+"prices": {
+"D3-sap-sd-basics": 1
+},
+"procure": {
+"D2-sap-mm-basics": 1
+},
+"purchase": {
+"D2-sap-mm-basics": 1
+},
+"quantities": {
+"D3-sap-sd-basics": 1
+},
+"receipt": {
+"D2-sap-mm-basics": 2
+},
+"reducing": {
+"D3-sap-sd-basics": 1
+},
+"references": {
+"D3-sap-sd-basics": 1
+},
+"request": {
+"D3-sap-sd-basics": 1
+},
+"revenue": {
+"D3-sap-sd-basics": 1
+},
+"sales": {
+"D3-sap-sd-basics": 2
+},
+"sap": {
+"D1-sap-fi-basics": 1,
+"D2-sap-mm-basics": 1,
+"D3-sap-sd-basics": 1
+},
+"sent": {
+"D3-sap-sd-basics": 1
+},
+"services": {
+"D3-sap-sd-basics": 1
+},
+"sold": {
+"D3-sap-sd-basics": 1
+},
+"source": {
+"D3-sap-sd-basics": 1
+},
+"stock": {
+"D2-sap-mm-basics": 1
+},
+"stored": {
+"D3-sap-sd-basics": 1
+},
+"table": {
+"D2-sap-mm-basics": 1,
+"D3-sap-sd-basics": 3
+},
+"tables": {
+"D3-sap-sd-basics": 1
+},
+"three": {
+"D2-sap-mm-basics": 1
+},
+"triggers": {
+"D3-sap-sd-basics": 1
+},
+"type": {
+"D3-sap-sd-basics": 1
+},
+"va01": {
+"D3-sap-sd-basics": 1
+},
+"va02": {
+"D3-sap-sd-basics": 1
+},
+"va03": {
+"D3-sap-sd-basics": 1
+},
+"vbak": {
+"D3-sap-sd-basics": 1
+},
+"vbap": {
+"D3-sap-sd-basics": 1
+},
+"vbrk": {
+"D3-sap-sd-basics": 1
+},
+"vbrp": {
+"D3-sap-sd-basics": 1
+},
+"verification": {
+"D1-sap-fi-basics": 1,
+"D2-sap-mm-basics": 1
+},
+"vf01": {
+"D1-sap-fi-basics": 1,
+"D3-sap-sd-basics": 1
+},
+"vl01n": {
+"D3-sap-sd-basics": 1
+},
+"way": {
+"D2-sap-mm-basics": 1
+},
+"writes": {
+"D2-sap-mm-basics": 1
+}
+}

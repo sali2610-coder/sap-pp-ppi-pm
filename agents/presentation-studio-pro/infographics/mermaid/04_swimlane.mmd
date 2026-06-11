@@ -1,0 +1,22 @@
+---
+title: Swimlane (template)
+---
+flowchart LR
+    subgraph LANE1["Role A"]
+        direction TB
+        A1["task"] --> A2["task"]
+    end
+    subgraph LANE2["Role B"]
+        direction TB
+        B1["task"] --> B2["task"]
+    end
+    subgraph LANE3["Role C"]
+        direction TB
+        C1["task"] --> C2["task"]
+    end
+    A2 ==> B1
+    B2 ==> C1
+    classDef l1 fill:#0a6ed1,stroke:#08549f,color:#fff;
+    classDef l2 fill:#107e3e,stroke:#0b5e2e,color:#fff;
+    classDef l3 fill:#d62027,stroke:#a3171c,color:#fff;
+    class A1,A2 l1; class B1,B2 l2; class C1,C2 l3;

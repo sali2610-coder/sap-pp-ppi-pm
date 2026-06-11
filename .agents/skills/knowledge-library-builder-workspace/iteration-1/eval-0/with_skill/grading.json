@@ -1,0 +1,6 @@
+{"run_id":"eval-0-with_skill","expectations":[
+ {"text":"All 5 outputs in standard layout","passed":true,"evidence":"library/search-index/glossary/knowledge-graph/courses all present with documented filenames"},
+ {"text":"Search index queryable + cross-doc","passed":true,"evidence":"search.py 'BKPF' -> all 3 docs; portable (relative path)"},
+ {"text":"Glossary curated from glossary_terms.json","passed":true,"evidence":"10 curated terms, no empty defs"},
+ {"text":"Knowledge graph integrity (no dangling edges)","passed":true,"evidence":"13 nodes/42 edges, 0 dangling; renders via mermaid"},
+ {"text":"Deterministic rebuild","passed":true,"evidence":"byte-identical across PYTHONHASHSEED 1 vs 2"}]}

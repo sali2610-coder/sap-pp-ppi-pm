@@ -6,6 +6,7 @@
 import { PP_TEXTBOOK, PP_TEXTBOOK_STATS } from "./pp-textbook";
 import { PP_QUALITY, PP_REVALIDATED } from "./pp-quality";
 import { PM_TEXTBOOK, PM_TEXTBOOK_STATS } from "./pm-textbook";
+import { QM_TEXTBOOK, QM_TEXTBOOK_STATS } from "./qm-textbook";
 
 export type BookStatus = "live" | "in-progress" | "planned";
 
@@ -34,6 +35,9 @@ const ppQuality = Math.round(PP_QUALITY.reduce((s, c) => s + (PP_REVALIDATED[c.n
 const pmChapters = Object.keys(PM_TEXTBOOK).length;
 const pmNodes = Object.values(PM_TEXTBOOK_STATS).reduce((s, c) => s + c.totalNodes, 0);
 const pmSubs = Object.values(PM_TEXTBOOK).reduce((s, c) => s + c.subchapters.length, 0);
+const qmChapters = Object.keys(QM_TEXTBOOK).length;
+const qmNodes = Object.values(QM_TEXTBOOK_STATS).reduce((s, c) => s + c.totalNodes, 0);
+const qmSubs = Object.values(QM_TEXTBOOK).reduce((s, c) => s + c.subchapters.length, 0);
 
 export const ACADEMY_BOOKS: AcademyBook[] = [
   {
@@ -55,8 +59,9 @@ export const ACADEMY_BOOKS: AcademyBook[] = [
   },
   {
     id: "qm", titleHe: "ניהול איכות (Quality Management)", titleEn: "Quality Management with SAP S/4HANA",
-    module: "QM", status: "planned", chaptersTotal: 0, chaptersDone: 0, subchapters: 0, nodes: 0,
-    validated: false, tintHe: "from-emerald-500 to-emerald-700",
+    module: "QM", status: "live", chaptersTotal: 20, chaptersDone: qmChapters,
+    subchapters: qmSubs, nodes: qmNodes, validated: false,
+    href: "/library/qm-academy/", tintHe: "from-emerald-500 to-emerald-700",
   },
   {
     id: "mm", titleHe: "ניהול חומרים (Materials Management)", titleEn: "Materials Management with SAP S/4HANA",

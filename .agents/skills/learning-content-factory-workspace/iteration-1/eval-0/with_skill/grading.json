@@ -1,0 +1,6 @@
+{"run_id":"eval-0-with_skill","expectations":[
+ {"text":"All 8 requested outputs present","passed":true,"evidence":"summaries/hebrew/beginner/expert/flashcards/quiz/glossary/runbook"},
+ {"text":"Flashcards via script: 3-col Anki TSV","passed":true,"evidence":"17 rows NF=3 + printable flashcards.md"},
+ {"text":"Quiz importable (Moodle GIFT)","passed":true,"evidence":"quiz.gift present (script-generated)"},
+ {"text":"Hebrew keeps SAP codes in Latin","passed":true,"evidence":"1036 heb chars, VA01/VBAK/601 intact"},
+ {"text":"No fabricated tcodes/tables","passed":true,"evidence":"flagged missing reversal tcodes instead of inventing"}]}

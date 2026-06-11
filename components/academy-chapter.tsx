@@ -94,18 +94,18 @@ function Bullets({ items, tint }: { items?: string[]; tint?: "red" | "green" | "
 
 function Row({ icon, label, children }: { icon: React.ReactNode; label: string; children: React.ReactNode }) {
   return (
-    <div className="grid gap-1.5 border-t border-border/30 pt-4 first:border-0 first:pt-0 sm:grid-cols-[160px_1fr] sm:gap-4">
-      <p className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wide text-brand">{icon}{label}</p>
-      <div className="text-[15px] leading-7 text-slate-700">{children}</div>
+    <div className="grid gap-1.5 border-t border-border/30 pt-4 first:border-0 first:pt-0 sm:grid-cols-[170px_1fr] sm:gap-4">
+      <p className="flex items-center gap-1.5 text-[14px] font-bold uppercase tracking-wide text-brand">{icon}{label}</p>
+      <div className="text-[18px] leading-8 text-slate-700">{children}</div>
     </div>
   );
 }
 
 function Explain({ icon, label, tint, children }: { icon: React.ReactNode; label: string; tint: string; children: React.ReactNode }) {
   return (
-    <div className={`rounded-xl border p-3.5 ${tint}`}>
-      <p className="flex items-center gap-1.5 text-[12px] font-bold">{icon}{label}</p>
-      <p className="mt-1 text-[15px] leading-7">{children}</p>
+    <div className={`rounded-xl border p-4 ${tint}`}>
+      <p className="flex items-center gap-1.5 text-[14px] font-bold">{icon}{label}</p>
+      <p className="mt-1 text-[18px] leading-8">{children}</p>
     </div>
   );
 }
@@ -116,12 +116,12 @@ function Interview({ items, lang }: { items: QA[]; lang: string }) {
     <div className="space-y-2">
       {items.map((q, i) => (
         <details key={i} className="group rounded-lg border border-border/60 bg-card/50 p-3">
-          <summary className="flex cursor-pointer items-center gap-2 text-[15px] font-semibold marker:content-['']">
+          <summary className="flex cursor-pointer items-center gap-2 text-[18px] font-semibold marker:content-['']">
             <HelpCircle className="size-4 shrink-0 text-brand" />
             <span className="flex-1">{q.qHe}</span>
             <ChevronDown className="size-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" />
           </summary>
-          <p className="mt-2 border-t border-border/40 pt-2 text-[15px] leading-7 text-slate-700">{q.aHe}</p>
+          <p className="mt-2 border-t border-border/40 pt-2 text-[18px] leading-8 text-slate-700">{q.aHe}</p>
         </details>
       ))}
     </div>
@@ -198,8 +198,8 @@ function NodeCard({ n, lang, nav, nested, isOpen, onToggle }: { n: LearningNode;
       <button onClick={toggle} className={`flex w-full items-center gap-2.5 text-start transition-colors hover:bg-brand/5 ${nested ? "p-2.5" : "p-4"}`}>
         <span dir="ltr" className={`tech shrink-0 rounded-lg font-bold ${nested ? "bg-brand/10 px-1.5 py-0.5 text-[11px] text-brand" : "bg-gradient-to-br from-brand to-brand-dark px-2 py-1 text-xs text-brand-foreground"}`}>{n.id}</span>
         <span className="min-w-0 flex-1">
-          <span className={`block font-bold ${nested ? "text-sm leading-tight" : "text-base"}`}>{n.titleHe}</span>
-          <span dir="ltr" className={`text-muted-foreground ${nested ? "text-[11px]" : "text-xs"}`}>{n.titleEn}</span>
+          <span className={`block font-bold ${nested ? "text-base leading-tight" : "text-lg"}`}>{n.titleHe}</span>
+          <span dir="ltr" className={`text-muted-foreground ${nested ? "text-xs" : "text-sm"}`}>{n.titleEn}</span>
         </span>
         <span className="hidden shrink-0 items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold text-muted-foreground sm:flex"><Clock className="size-3" />{readMin(n)} {lang === "he" ? "דק'" : "min"}</span>
         {n.children?.length ? <span className="hidden shrink-0 rounded-full bg-brand/10 px-2 py-0.5 text-[10px] font-semibold text-brand sm:inline">{n.children.length} {lang === "he" ? "תתי-סעיפים" : "subs"}</span> : null}
@@ -243,7 +243,7 @@ export function AcademyChapter({ chapter, nav }: { chapter: TextbookChapter; nav
 
       <div id="learning" className="space-y-3">
         <section dir="rtl" className="glass rounded-2xl p-5">
-          {chapter.introHe && <p className="text-[15px] leading-7 text-slate-700">{chapter.introHe}</p>}
+          {chapter.introHe && <p className="text-[18px] leading-8 text-slate-700">{chapter.introHe}</p>}
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <button onClick={() => setOpen(new Set(ids))} className="flex items-center gap-1.5 rounded-lg border border-brand/25 bg-brand-soft/50 px-2.5 py-1 text-[11px] font-semibold text-brand transition-colors hover:bg-brand/10"><Maximize2 className="size-3" />{lang === "he" ? "פתח הכל" : "Expand all"}</button>
             <button onClick={() => setOpen(new Set())} className="flex items-center gap-1.5 rounded-lg border border-border bg-card px-2.5 py-1 text-[11px] font-semibold text-muted-foreground transition-colors hover:bg-muted"><Minimize2 className="size-3" />{lang === "he" ? "סגור הכל" : "Collapse all"}</button>

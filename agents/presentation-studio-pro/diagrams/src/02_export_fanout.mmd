@@ -1,0 +1,25 @@
+---
+title: Multi-Format Export Fan-Out
+---
+flowchart LR
+    DS["deck_spec.json<br/>+ theme.json + assets"] --> EX{{"Exporter<br/>format router"}}
+    EX --> P["PPTX<br/>pptxgenjs / ppt-master<br/>native DrawingML"]
+    EX --> H["HTML<br/>static self-contained deck"]
+    EX --> RJ["RevealJS<br/>reveal.js HTML deck"]
+    EX --> FE["Frontend Slides<br/>React / Next components"]
+    P --> PDF["PDF<br/>LibreOffice soffice"]
+
+    P --> QA["validate: opens · slides==pages"]
+    PDF --> QA
+    H --> QA
+    RJ --> QA
+    FE --> QA
+
+    classDef spec fill:#0a6ed1,stroke:#08549f,color:#fff;
+    classDef route fill:#fef3c7,stroke:#b45309,color:#111;
+    classDef fmt fill:#93c5fd,stroke:#1e3a5f,color:#111;
+    classDef chk fill:#a7f3d0,stroke:#047857,color:#111;
+    class DS spec;
+    class EX route;
+    class P,H,RJ,FE,PDF fmt;
+    class QA chk;

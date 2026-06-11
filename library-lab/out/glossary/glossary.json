@@ -1,0 +1,42 @@
+{
+  "VA01": {
+    "definition": "Transaction to create a sales order (SD).",
+    "source": "curated"
+  },
+  "VBAK": {
+    "definition": "Sales order header table.",
+    "source": "curated"
+  },
+  "VL01N": {
+    "definition": "Transaction to create an outbound delivery.",
+    "source": "curated"
+  },
+  "VF01": {
+    "definition": "Transaction to create a billing document (invoice).",
+    "source": "curated"
+  },
+  "ME21N": {
+    "definition": "Transaction to create a purchase order (MM).",
+    "source": "curated"
+  },
+  "EKKO": {
+    "definition": "Purchasing document header table.",
+    "source": "curated"
+  },
+  "MIGO": {
+    "definition": "Transaction to post a goods movement (e.g. goods receipt).",
+    "source": "curated"
+  },
+  "MIRO": {
+    "definition": "Transaction for invoice verification (MM).",
+    "source": "curated"
+  },
+  "BKPF": {
+    "definition": "Accounting document header table (FI).",
+    "source": "curated"
+  },
+  "BSEG": {
+    "definition": "Accounting document line-item table (FI).",
+    "source": "curated"
+  }
+}

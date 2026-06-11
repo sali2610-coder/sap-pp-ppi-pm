@@ -1,0 +1,14 @@
+---
+title: Org Chart (template)
+---
+flowchart TD
+    BOSS["Executive Sponsor"] --> L1["Lead A"]
+    BOSS --> L2["Lead B"]
+    L1 --> A1["Member"]
+    L1 --> A2["Member"]
+    L2 --> B1["Member"]
+    L2 --> B2["Member"]
+    classDef top fill:#d62027,stroke:#a3171c,color:#fff;
+    classDef mid fill:#0a6ed1,stroke:#08549f,color:#fff;
+    classDef leaf fill:#6a737d,stroke:#4b5258,color:#fff;
+    class BOSS top; class L1,L2 mid; class A1,A2,B1,B2 leaf;

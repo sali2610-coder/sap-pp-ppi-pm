@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" font-family="Arial, sans-serif">
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <text x="64" y="64" font-size="30" font-weight="700" fill="#1F4E79">Pyramid (template)</text>
+  <!-- 4 tiers, apex = most strategic. Replace labels. -->
+  <g>
+    <polygon points="640,120 740,250 540,250" fill="#1F4E79"/>
+    <text x="640" y="215" font-size="20" fill="#fff" text-anchor="middle">Vision</text>
+    <polygon points="540,260 740,260 800,390 480,390" fill="#2E75B6"/>
+    <text x="640" y="340" font-size="20" fill="#fff" text-anchor="middle">Strategy</text>
+    <polygon points="480,400 800,400 860,530 420,530" fill="#5B9BD5"/>
+    <text x="640" y="480" font-size="20" fill="#fff" text-anchor="middle">Capabilities</text>
+    <polygon points="420,540 860,540 920,640 360,640" fill="#9DC3E6"/>
+    <text x="640" y="600" font-size="20" fill="#1F2937" text-anchor="middle">Foundation / Operations</text>
+  </g>
+</svg>

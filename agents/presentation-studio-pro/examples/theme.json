@@ -1,0 +1,8 @@
+{
+  "palette": {"primary": "#1F4E79", "accent": "#2E75B6", "ink": "#2D2D2D", "muted": "#777777", "bg": "#FFFFFF",
+    "semantic": {"good": "#2E7D32", "warn": "#B45309", "bad": "#B91C1C", "highlight": "#FFF2CC"}},
+  "type": {"face": "Arial", "title": 26, "section": 22, "body": 20, "label": 16, "cite": 13},
+  "spacing": {"margin_in": 0.5, "gutter_in": 0.3, "grid": 12},
+  "a11y": {"min_contrast": 4.5, "min_body_pt": 20},
+  "layout_defaults": {"results": "figure-left/bullets-right", "aspect": "16:9"}
+}

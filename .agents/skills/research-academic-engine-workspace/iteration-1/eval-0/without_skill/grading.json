@@ -1,0 +1,6 @@
+{"run_id":"eval-0-without_skill","expectations":[
+ {"text":"Abstract 150-250 words","passed":true,"evidence":"185 words"},
+ {"text":"5 flashcards produced","passed":true,"evidence":"5 cards"},
+ {"text":"flashcards.tsv Anki 3-col (front/back/tags)","passed":false,"evidence":"NF=2, no tags column"},
+ {"text":"IEEE ref[2] matches source (no fabrication)","passed":false,"evidence":"FABRICATED: cited AER 103(6) 2052-2086, a different paper than the source's Heckman et al. 2013"},
+ {"text":"Scripts used, outputs non-empty","passed":true,"evidence":"hand-written, non-empty"}]}

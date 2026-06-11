@@ -1,0 +1,6 @@
+{"run_id":"eval-0-without_skill","expectations":[
+ {"text":"All 8 requested outputs present","passed":true,"evidence":"all 8 files written"},
+ {"text":"Flashcards via script: 3-col Anki TSV","passed":true,"evidence":"31-row 3-col TSV (hand-made; no printable MD)"},
+ {"text":"Quiz importable (Moodle GIFT)","passed":false,"evidence":"no quiz.gift — MD only, not importable"},
+ {"text":"Hebrew keeps SAP codes in Latin","passed":true,"evidence":"1240 heb chars, codes intact"},
+ {"text":"No fabricated tcodes/tables","passed":false,"evidence":"expert.md adds SD context 'beyond the source' (framed as commentary, but looser source-anchoring)"}]}

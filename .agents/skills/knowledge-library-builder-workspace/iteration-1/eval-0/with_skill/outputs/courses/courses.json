@@ -1,0 +1,18 @@
+[
+  {
+    "module": "M1",
+    "docs": [
+      "D1-sap-fi-basics",
+      "D2-sap-mm-basics",
+      "D3-sap-sd-basics"
+    ],
+    "doc_titles": [
+      "SAP FI \u2014 Financial Accounting",
+      "SAP MM \u2014 Procure-to-Pay",
+      "SAP SD \u2014 Order-to-Cash Basics (demo source)"
+    ],
+    "key_concepts": [
+      "BKPF"
+    ]
+  }
+]

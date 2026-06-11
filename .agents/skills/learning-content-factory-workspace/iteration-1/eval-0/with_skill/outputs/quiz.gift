@@ -1,0 +1,54 @@
+::Q::Which transaction code creates a sales order? {
+  =VA01
+  ~VA03
+  ~VL01N
+  ~VF01
+}
+
+::Q::Which tables store the sales order header and items? {
+  ~LIKP / LIPS
+  =VBAK / VBAP
+  ~VBRK / VBRP
+  ~BKPF / BSEG
+}
+
+::Q::Which transaction code creates the outbound delivery? {
+  ~VA02
+  =VL01N
+  ~VF01
+  ~VA01
+}
+
+::Q::Which movement type does goods issue post? {
+  ~101
+  ~261
+  =601
+  ~641
+}
+
+::Q::What is the inventory effect of posting goods issue? {
+  ~It increases inventory
+  =It reduces inventory
+  ~It has no inventory effect
+  ~It only reserves inventory
+}
+
+::Q::Which transaction code creates the billing invoice? {
+  =VF01
+  ~VL01N
+  ~VA01
+  ~VA02
+}
+
+::Q::When billing passes revenue to Financial Accounting, which tables hold the resulting FI document? {
+  ~VBRK / VBRP
+  ~VBAK / VBAP
+  ~LIKP / LIPS
+  =BKPF / BSEG
+}
+
+::Q::The outbound delivery (VL01N) triggers picking and goods issue. {TRUE}
+
+::Q::The sales order header is stored in table LIKP. {FALSE}
+
+::Q::List the three Order-to-Cash documents in sequence with their create tcodes. {=Sales order (VA01), outbound delivery (VL01N), billing (VF01).}

@@ -1,0 +1,12 @@
+{
+  "spine": "scr|funnel|answer_first",
+  "ghost_deck_pass": true,
+  "slides": [
+    {"n": 1, "role": "title", "action_title": "<full-sentence takeaway>", "exhibit": "none"},
+    {"n": 2, "role": "motivation", "action_title": "<...>", "exhibit": "none"},
+    {"n": 3, "role": "result", "action_title": "<states the finding, not the topic>", "exhibit": "chart"},
+    {"n": 4, "role": "conclusions", "action_title": "<...>", "exhibit": "none"}
+  ],
+  "appendix": [],
+  "notes": "Read action_titles in order — they must tell the whole argument."
+}

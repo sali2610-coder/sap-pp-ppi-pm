@@ -1,0 +1,13 @@
+{
+  "objective": "<the one outcome this deck must achieve>",
+  "audience": {"who": "<role>", "expertise": "lay|mixed|expert"},
+  "time_limit_min": 0,
+  "slide_budget": 0,
+  "tone": "<e.g. confident, neutral, persuasive>",
+  "format": {"aspect": "16:9", "language": "en|he|bilingual"},
+  "brand": {"primary": "#1F4E79", "accent": "#2E75B6", "font": "Arial", "logo": null},
+  "must_include": [],
+  "must_avoid": [],
+  "sources": ["<file paths / urls / 'none'>"],
+  "delivery": ["pptx", "pdf"]
+}

@@ -1,0 +1,16 @@
+---
+title: Roadmap (template)
+---
+gantt
+    title Product Roadmap
+    dateFormat  YYYY-MM-DD
+    axisFormat  %b
+    section Discovery
+    Research        :done,    r1, 2026-01-01, 30d
+    Define scope    :active,  r2, after r1, 20d
+    section Build
+    MVP             :         b1, after r2, 45d
+    Hardening       :         b2, after b1, 20d
+    section Launch
+    Pilot           :         l1, after b2, 15d
+    GA              :milestone, l2, after l1, 0d

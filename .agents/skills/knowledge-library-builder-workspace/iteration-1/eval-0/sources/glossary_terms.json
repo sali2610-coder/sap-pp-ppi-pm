@@ -1,0 +1,12 @@
+{
+ "VA01":"Transaction to create a sales order (SD).",
+ "VBAK":"Sales order header table.",
+ "VL01N":"Transaction to create an outbound delivery.",
+ "VF01":"Transaction to create a billing document (invoice).",
+ "ME21N":"Transaction to create a purchase order (MM).",
+ "EKKO":"Purchasing document header table.",
+ "MIGO":"Transaction to post a goods movement (e.g. goods receipt).",
+ "MIRO":"Transaction for invoice verification (MM).",
+ "BKPF":"Accounting document header table (FI).",
+ "BSEG":"Accounting document line-item table (FI)."
+}

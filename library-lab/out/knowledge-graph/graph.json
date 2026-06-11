@@ -1,0 +1,308 @@
+{
+  "nodes": [
+    {
+      "id": "D1-sap-fi-basics",
+      "type": "doc",
+      "label": "SAP FI \u2014 Financial Accounting"
+    },
+    {
+      "id": "D2-sap-mm-basics",
+      "type": "doc",
+      "label": "SAP MM \u2014 Procure-to-Pay"
+    },
+    {
+      "id": "D3-sap-sd-basics",
+      "type": "doc",
+      "label": "SAP SD \u2014 Order-to-Cash Basics (demo source)"
+    },
+    {
+      "id": "T:VA01",
+      "type": "term",
+      "label": "VA01"
+    },
+    {
+      "id": "T:VBAK",
+      "type": "term",
+      "label": "VBAK"
+    },
+    {
+      "id": "T:VL01N",
+      "type": "term",
+      "label": "VL01N"
+    },
+    {
+      "id": "T:VF01",
+      "type": "term",
+      "label": "VF01"
+    },
+    {
+      "id": "T:ME21N",
+      "type": "term",
+      "label": "ME21N"
+    },
+    {
+      "id": "T:EKKO",
+      "type": "term",
+      "label": "EKKO"
+    },
+    {
+      "id": "T:MIGO",
+      "type": "term",
+      "label": "MIGO"
+    },
+    {
+      "id": "T:MIRO",
+      "type": "term",
+      "label": "MIRO"
+    },
+    {
+      "id": "T:BKPF",
+      "type": "term",
+      "label": "BKPF"
+    },
+    {
+      "id": "T:BSEG",
+      "type": "term",
+      "label": "BSEG"
+    }
+  ],
+  "edges": [
+    {
+      "src": "D3-sap-sd-basics",
+      "dst": "T:VA01",
+      "rel": "mentions"
+    },
+    {
+      "src": "D3-sap-sd-basics",
+      "dst": "T:VBAK",
+      "rel": "mentions"
+    },
+    {
+      "src": "D3-sap-sd-basics",
+      "dst": "T:VL01N",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-fi-basics",
+      "dst": "T:VF01",
+      "rel": "mentions"
+    },
+    {
+      "src": "D3-sap-sd-basics",
+      "dst": "T:VF01",
+      "rel": "mentions"
+    },
+    {
+      "src": "D2-sap-mm-basics",
+      "dst": "T:ME21N",
+      "rel": "mentions"
+    },
+    {
+      "src": "D2-sap-mm-basics",
+      "dst": "T:EKKO",
+      "rel": "mentions"
+    },
+    {
+      "src": "D2-sap-mm-basics",
+      "dst": "T:MIGO",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-fi-basics",
+      "dst": "T:MIRO",
+      "rel": "mentions"
+    },
+    {
+      "src": "D2-sap-mm-basics",
+      "dst": "T:MIRO",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-fi-basics",
+      "dst": "T:BKPF",
+      "rel": "mentions"
+    },
+    {
+      "src": "D2-sap-mm-basics",
+      "dst": "T:BKPF",
+      "rel": "mentions"
+    },
+    {
+      "src": "D3-sap-sd-basics",
+      "dst": "T:BKPF",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-fi-basics",
+      "dst": "T:BSEG",
+      "rel": "mentions"
+    },
+    {
+      "src": "D3-sap-sd-basics",
+      "dst": "T:BSEG",
+      "rel": "mentions"
+    },
+    {
+      "src": "T:VA01",
+      "dst": "T:VBAK",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA01",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA01",
+      "dst": "T:VF01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA01",
+      "dst": "T:BKPF",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA01",
+      "dst": "T:BSEG",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAK",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAK",
+      "dst": "T:VF01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAK",
+      "dst": "T:BKPF",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAK",
+      "dst": "T:BSEG",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VL01N",
+      "dst": "T:VF01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VL01N",
+      "dst": "T:BKPF",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VL01N",
+      "dst": "T:BSEG",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VF01",
+      "dst": "T:MIRO",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VF01",
+      "dst": "T:BKPF",
+      "rel": "co_occurs",
+      "weight": 2
+    },
+    {
+      "src": "T:VF01",
+      "dst": "T:BSEG",
+      "rel": "co_occurs",
+      "weight": 2
+    },
+    {
+      "src": "T:ME21N",
+      "dst": "T:EKKO",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:ME21N",
+      "dst": "T:MIGO",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:ME21N",
+      "dst": "T:MIRO",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:ME21N",
+      "dst": "T:BKPF",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:EKKO",
+      "dst": "T:MIGO",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:EKKO",
+      "dst": "T:MIRO",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:EKKO",
+      "dst": "T:BKPF",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:MIGO",
+      "dst": "T:MIRO",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:MIGO",
+      "dst": "T:BKPF",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:MIRO",
+      "dst": "T:BKPF",
+      "rel": "co_occurs",
+      "weight": 2
+    },
+    {
+      "src": "T:MIRO",
+      "dst": "T:BSEG",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BKPF",
+      "dst": "T:BSEG",
+      "rel": "co_occurs",
+      "weight": 2
+    }
+  ]
+}

@@ -1,0 +1,382 @@
+{
+  "directed": true,
+  "node_count": 25,
+  "edge_count": 42,
+  "node_types": [
+    "document",
+    "module",
+    "table",
+    "transaction"
+  ],
+  "edge_types": [
+    "belongs_to",
+    "integrates_with",
+    "mentions",
+    "posts",
+    "writes"
+  ],
+  "nodes": [
+    {
+      "id": "module:SD",
+      "type": "module",
+      "label": "Sales & Distribution (Order-to-Cash)"
+    },
+    {
+      "id": "doc:sap_sd_basics.md",
+      "type": "document",
+      "label": "SAP SD — Order-to-Cash Basics (demo source)",
+      "module": "SD"
+    },
+    {
+      "id": "module:MM",
+      "type": "module",
+      "label": "Materials Management (Procure-to-Pay)"
+    },
+    {
+      "id": "doc:sap_mm_basics.md",
+      "type": "document",
+      "label": "SAP MM — Procure-to-Pay",
+      "module": "MM"
+    },
+    {
+      "id": "module:FI",
+      "type": "module",
+      "label": "Financial Accounting"
+    },
+    {
+      "id": "doc:sap_fi_basics.md",
+      "type": "document",
+      "label": "SAP FI — Financial Accounting",
+      "module": "FI"
+    },
+    {
+      "id": "entity:BKPF",
+      "type": "table",
+      "label": "BKPF",
+      "definition": "Accounting document header table (FI)."
+    },
+    {
+      "id": "entity:BSEG",
+      "type": "table",
+      "label": "BSEG",
+      "definition": "Accounting document line-item table (FI)."
+    },
+    {
+      "id": "entity:EKKO",
+      "type": "table",
+      "label": "EKKO",
+      "definition": "Purchasing document header table."
+    },
+    {
+      "id": "entity:EKPO",
+      "type": "table",
+      "label": "EKPO",
+      "definition": "Purchasing document item table (MM)."
+    },
+    {
+      "id": "entity:LIKP",
+      "type": "table",
+      "label": "LIKP",
+      "definition": "Outbound delivery header table (SD)."
+    },
+    {
+      "id": "entity:LIPS",
+      "type": "table",
+      "label": "LIPS",
+      "definition": "Outbound delivery item table (SD)."
+    },
+    {
+      "id": "entity:ME21N",
+      "type": "transaction",
+      "label": "ME21N",
+      "definition": "Transaction to create a purchase order (MM)."
+    },
+    {
+      "id": "entity:MIGO",
+      "type": "transaction",
+      "label": "MIGO",
+      "definition": "Transaction to post a goods movement (e.g. goods receipt)."
+    },
+    {
+      "id": "entity:MIRO",
+      "type": "transaction",
+      "label": "MIRO",
+      "definition": "Transaction for invoice verification (MM)."
+    },
+    {
+      "id": "entity:MSEG",
+      "type": "table",
+      "label": "MSEG",
+      "definition": "Material document segment / line-item table (MM inventory)."
+    },
+    {
+      "id": "entity:VA01",
+      "type": "transaction",
+      "label": "VA01",
+      "definition": "Transaction to create a sales order (SD)."
+    },
+    {
+      "id": "entity:VA02",
+      "type": "transaction",
+      "label": "VA02",
+      "definition": "Transaction to change a sales order (SD)."
+    },
+    {
+      "id": "entity:VA03",
+      "type": "transaction",
+      "label": "VA03",
+      "definition": "Transaction to display a sales order (SD)."
+    },
+    {
+      "id": "entity:VBAK",
+      "type": "table",
+      "label": "VBAK",
+      "definition": "Sales order header table."
+    },
+    {
+      "id": "entity:VBAP",
+      "type": "table",
+      "label": "VBAP",
+      "definition": "Sales order item table (SD)."
+    },
+    {
+      "id": "entity:VBRK",
+      "type": "table",
+      "label": "VBRK",
+      "definition": "Billing document header table (SD)."
+    },
+    {
+      "id": "entity:VBRP",
+      "type": "table",
+      "label": "VBRP",
+      "definition": "Billing document item table (SD)."
+    },
+    {
+      "id": "entity:VF01",
+      "type": "transaction",
+      "label": "VF01",
+      "definition": "Transaction to create a billing document (invoice)."
+    },
+    {
+      "id": "entity:VL01N",
+      "type": "transaction",
+      "label": "VL01N",
+      "definition": "Transaction to create an outbound delivery."
+    }
+  ],
+  "edges": [
+    {
+      "source": "doc:sap_sd_basics.md",
+      "target": "module:SD",
+      "rel": "belongs_to"
+    },
+    {
+      "source": "doc:sap_mm_basics.md",
+      "target": "module:MM",
+      "rel": "belongs_to"
+    },
+    {
+      "source": "doc:sap_fi_basics.md",
+      "target": "module:FI",
+      "rel": "belongs_to"
+    },
+    {
+      "source": "doc:sap_sd_basics.md",
+      "target": "entity:BKPF",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_mm_basics.md",
+      "target": "entity:BKPF",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_fi_basics.md",
+      "target": "entity:BKPF",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_sd_basics.md",
+      "target": "entity:BSEG",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_fi_basics.md",
+      "target": "entity:BSEG",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_mm_basics.md",
+      "target": "entity:EKKO",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_mm_basics.md",
+      "target": "entity:EKPO",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_sd_basics.md",
+      "target": "entity:LIKP",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_sd_basics.md",
+      "target": "entity:LIPS",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_mm_basics.md",
+      "target": "entity:ME21N",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_mm_basics.md",
+      "target": "entity:MIGO",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_mm_basics.md",
+      "target": "entity:MIRO",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_fi_basics.md",
+      "target": "entity:MIRO",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_mm_basics.md",
+      "target": "entity:MSEG",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_sd_basics.md",
+      "target": "entity:VA01",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_sd_basics.md",
+      "target": "entity:VA02",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_sd_basics.md",
+      "target": "entity:VA03",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_sd_basics.md",
+      "target": "entity:VBAK",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_sd_basics.md",
+      "target": "entity:VBAP",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_sd_basics.md",
+      "target": "entity:VBRK",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_sd_basics.md",
+      "target": "entity:VBRP",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_sd_basics.md",
+      "target": "entity:VF01",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_fi_basics.md",
+      "target": "entity:VF01",
+      "rel": "mentions"
+    },
+    {
+      "source": "doc:sap_sd_basics.md",
+      "target": "entity:VL01N",
+      "rel": "mentions"
+    },
+    {
+      "source": "entity:VA01",
+      "target": "entity:VBAK",
+      "rel": "writes"
+    },
+    {
+      "source": "entity:VA01",
+      "target": "entity:VBAP",
+      "rel": "writes"
+    },
+    {
+      "source": "entity:VL01N",
+      "target": "entity:LIKP",
+      "rel": "writes"
+    },
+    {
+      "source": "entity:VL01N",
+      "target": "entity:LIPS",
+      "rel": "writes"
+    },
+    {
+      "source": "entity:VF01",
+      "target": "entity:VBRK",
+      "rel": "writes"
+    },
+    {
+      "source": "entity:VF01",
+      "target": "entity:VBRP",
+      "rel": "writes"
+    },
+    {
+      "source": "entity:VF01",
+      "target": "entity:BKPF",
+      "rel": "posts"
+    },
+    {
+      "source": "entity:VF01",
+      "target": "entity:BSEG",
+      "rel": "posts"
+    },
+    {
+      "source": "entity:ME21N",
+      "target": "entity:EKKO",
+      "rel": "writes"
+    },
+    {
+      "source": "entity:ME21N",
+      "target": "entity:EKPO",
+      "rel": "writes"
+    },
+    {
+      "source": "entity:MIGO",
+      "target": "entity:MSEG",
+      "rel": "writes"
+    },
+    {
+      "source": "entity:MIRO",
+      "target": "entity:BKPF",
+      "rel": "posts"
+    },
+    {
+      "source": "module:SD",
+      "target": "module:FI",
+      "rel": "integrates_with",
+      "via": "VF01 billing posts an FI document (BKPF/BSEG) via account determination"
+    },
+    {
+      "source": "module:MM",
+      "target": "module:FI",
+      "rel": "integrates_with",
+      "via": "MIRO invoice verification creates an FI document (BKPF)"
+    },
+    {
+      "source": "module:SD",
+      "target": "module:MM",
+      "rel": "integrates_with",
+      "via": "Both reduce/increase inventory via material movements (601 / 101) writing MSEG"
+    }
+  ]
+}

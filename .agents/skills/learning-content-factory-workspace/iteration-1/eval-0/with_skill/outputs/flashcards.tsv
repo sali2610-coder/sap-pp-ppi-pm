@@ -1,0 +1,17 @@
+What is a sales order in SAP SD?	A customer request to deliver goods or services.	remember Ch.1
+Which tcode creates a sales order?	VA01.	remember Ch.1
+Which tcode changes a sales order?	VA02.	remember Ch.1
+Which tcode displays a sales order?	VA03.	remember Ch.1
+Which table stores the sales order header?	VBAK.	remember Ch.1
+Which table stores the sales order items?	VBAP.	remember Ch.1
+What customer/partner does a sales order reference?	The sold-to party.	understand Ch.1
+Which tcode creates the outbound delivery?	VL01N.	remember Ch.2
+What does the outbound delivery trigger?	Picking and goods issue.	understand Ch.2
+Which tables store the delivery header and items?	Header LIKP, items LIPS.	remember Ch.2
+Which movement type does goods issue post?	Movement type 601.	remember Ch.2
+What is the inventory effect of goods issue?	It reduces inventory.	understand Ch.2
+Which tcode creates the billing document (invoice)?	VF01.	remember Ch.3
+Which tables store the billing header and items?	Header VBRK, items VBRP.	remember Ch.3
+What does billing pass to Financial Accounting?	The revenue.	understand Ch.3
+What does billing create on the FI side, and in which tables?	An FI document, stored in BKPF/BSEG.	understand Ch.3
+What are the three documents of the Order-to-Cash flow in order?	Sales order (VA01) -> outbound delivery (VL01N) -> billing (VF01).	apply Ch.1-3

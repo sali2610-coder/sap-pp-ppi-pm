@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" font-family="Arial, sans-serif">
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <text x="64" y="64" font-size="30" font-weight="700" fill="#1F4E79">Funnel (template)</text>
+  <!-- 4 stages: each trapezoid narrower. Replace labels/values. -->
+  <g>
+    <polygon points="340,130 940,130 860,230 420,230" fill="#1F4E79"/>
+    <text x="640" y="190" font-size="22" fill="#fff" text-anchor="middle">Stage 1 — Awareness   ·   10,000</text>
+    <polygon points="420,240 860,240 790,340 490,340" fill="#2E75B6"/>
+    <text x="640" y="300" font-size="22" fill="#fff" text-anchor="middle">Stage 2 — Interest   ·   4,000</text>
+    <polygon points="490,350 790,350 720,450 560,450" fill="#5B9BD5"/>
+    <text x="640" y="410" font-size="22" fill="#fff" text-anchor="middle">Stage 3 — Decision   ·   1,200</text>
+    <polygon points="560,460 720,460 660,560 620,560" fill="#9DC3E6"/>
+    <text x="640" y="515" font-size="20" fill="#1F2937" text-anchor="middle">Stage 4 — Action · 300</text>
+  </g>
+  <text x="64" y="690" font-size="14" fill="#777">Conversion % between stages annotated on the right rail in real use.</text>
+</svg>

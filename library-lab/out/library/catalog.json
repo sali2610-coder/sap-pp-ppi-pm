@@ -1,0 +1,37 @@
+[
+  {
+    "id": "D1-sap-fi-basics",
+    "title": "SAP FI \u2014 Financial Accounting",
+    "file": "sap_fi_basics.md",
+    "sections": [
+      "SAP FI \u2014 Financial Accounting",
+      "Documents",
+      "Integration"
+    ],
+    "words": 35
+  },
+  {
+    "id": "D2-sap-mm-basics",
+    "title": "SAP MM \u2014 Procure-to-Pay",
+    "file": "sap_mm_basics.md",
+    "sections": [
+      "SAP MM \u2014 Procure-to-Pay",
+      "Purchase Order",
+      "Goods Receipt",
+      "Invoice Verification"
+    ],
+    "words": 48
+  },
+  {
+    "id": "D3-sap-sd-basics",
+    "title": "SAP SD \u2014 Order-to-Cash Basics (demo source)",
+    "file": "sap_sd_basics.md",
+    "sections": [
+      "SAP SD \u2014 Order-to-Cash Basics (demo source)",
+      "Chapter 1 \u2014 Sales Orders",
+      "Chapter 2 \u2014 Delivery",
+      "Chapter 3 \u2014 Billing"
+    ],
+    "words": 129
+  }
+]

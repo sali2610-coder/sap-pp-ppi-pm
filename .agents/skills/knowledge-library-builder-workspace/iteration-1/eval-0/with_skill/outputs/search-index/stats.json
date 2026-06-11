@@ -1,0 +1,67 @@
+{
+  "documents": 3,
+  "unique_terms": 90,
+  "total_tokens": 141,
+  "top_terms": [
+    [
+      "goods",
+      5
+    ],
+    [
+      "header",
+      5
+    ],
+    [
+      "items",
+      5
+    ],
+    [
+      "billing",
+      4
+    ],
+    [
+      "document",
+      4
+    ],
+    [
+      "order",
+      4
+    ],
+    [
+      "table",
+      4
+    ],
+    [
+      "bkpf",
+      3
+    ],
+    [
+      "chapter",
+      3
+    ],
+    [
+      "creates",
+      3
+    ],
+    [
+      "customer",
+      3
+    ],
+    [
+      "invoice",
+      3
+    ],
+    [
+      "post",
+      3
+    ],
+    [
+      "sap",
+      3
+    ],
+    [
+      "accounting",
+      2
+    ]
+  ]
+}

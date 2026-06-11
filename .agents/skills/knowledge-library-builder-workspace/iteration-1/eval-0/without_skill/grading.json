@@ -1,0 +1,6 @@
+{"run_id":"eval-0-without_skill","expectations":[
+ {"text":"All 5 outputs in standard layout","passed":false,"evidence":"ad-hoc schema: search-index.json/knowledge-graph.json/cross-references.json (under library/) — different filenames each run, no stable contract"},
+ {"text":"Search index queryable + cross-doc","passed":true,"evidence":"query.py 'BKPF' -> 3 hits (TF-IDF); portable"},
+ {"text":"Glossary curated from glossary_terms.json","passed":true,"evidence":"19 terms (10 curated + 9 auto)"},
+ {"text":"Knowledge graph integrity (no dangling edges)","passed":true,"evidence":"25 nodes/42 edges, richer relations (not verified deterministic)"},
+ {"text":"Deterministic rebuild","passed":false,"evidence":"one-off custom code; determinism not guaranteed/verified"}]}

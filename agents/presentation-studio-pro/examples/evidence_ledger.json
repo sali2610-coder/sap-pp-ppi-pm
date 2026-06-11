@@ -1,0 +1,10 @@
+{
+  "sources": [
+    {"cite_key": "NEO2026", "type": "report", "title": "Project NEO Migration Blueprints (PM, PP-PI)", "authors": [["Halif","S."]], "year": 2026, "locator_file": "neo_blueprints.md"}
+  ],
+  "claims": [
+    {"id": 1, "claim": "Table-level sign-off hides field-level gaps that surface at cutover", "evidence": "606 fields across 126 tables", "locator": "neo_blueprints.md §scope", "cite_key": "NEO2026", "confidence": "reported"},
+    {"id": 2, "claim": "Defect rate falls sharply as mapping completeness rises", "evidence": "14 → 1 defects/100 fields across completeness bands", "locator": "neo_blueprints.md §defects", "cite_key": "NEO2026", "confidence": "reported"}
+  ],
+  "flags": []
+}

@@ -1,0 +1,6 @@
+{"deck":"SAP SD — Order-to-Cash","cards":[
+ {"q":"Which tcode creates a sales order?","a":"VA01.","tag":"remember","source":"Ch.1"},
+ {"q":"Which tables hold sales order header and items?","a":"VBAK (header), VBAP (items).","tag":"remember","source":"Ch.1"},
+ {"q":"What document triggers picking and goods issue?","a":"The outbound delivery (VL01N).","tag":"understand","source":"Ch.2"},
+ {"q":"What movement type does goods issue post?","a":"601 (reduces inventory).","tag":"remember","source":"Ch.2"},
+ {"q":"What does billing (VF01) create downstream in FI?","a":"An FI accounting document (BKPF/BSEG) recording revenue.","tag":"analyze","source":"Ch.3"}]}

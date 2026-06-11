@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" font-family="Arial, sans-serif">
+  <rect width="1280" height="720" fill="#0B1220"/>
+  <text x="64" y="70" font-size="30" font-weight="700" fill="#E2E8F0">KPI Dashboard (template)</text>
+  <!-- 2x2 KPI tiles. Replace metric/value/delta. -->
+  <g font-family="Arial">
+    <rect x="64"  y="110" width="540" height="240" rx="12" fill="#0F172A" stroke="#1E293B"/>
+    <text x="96" y="160" font-size="18" fill="#94A3B8">Metric A</text>
+    <text x="96" y="240" font-size="64" font-weight="800" fill="#14B8A6">98.2%</text>
+    <text x="96" y="290" font-size="18" fill="#22C55E">▲ +2.1 vs prior</text>
+    <rect x="640" y="110" width="540" height="240" rx="12" fill="#0F172A" stroke="#1E293B"/>
+    <text x="672" y="160" font-size="18" fill="#94A3B8">Metric B</text>
+    <text x="672" y="240" font-size="64" font-weight="800" fill="#38BDF8">1,240</text>
+    <text x="672" y="290" font-size="18" fill="#F43F5E">▼ -3.4 vs prior</text>
+    <rect x="64"  y="380" width="540" height="240" rx="12" fill="#0F172A" stroke="#1E293B"/>
+    <text x="96" y="430" font-size="18" fill="#94A3B8">Metric C</text>
+    <text x="96" y="510" font-size="64" font-weight="800" fill="#A78BFA">0.7%</text>
+    <text x="96" y="560" font-size="18" fill="#22C55E">▲ within target</text>
+    <rect x="640" y="380" width="540" height="240" rx="12" fill="#0F172A" stroke="#1E293B"/>
+    <text x="672" y="430" font-size="18" fill="#94A3B8">Metric D</text>
+    <text x="672" y="510" font-size="64" font-weight="800" fill="#F472B6">88.0%</text>
+    <text x="672" y="560" font-size="18" fill="#94A3B8">— flat</text>
+  </g>
+</svg>

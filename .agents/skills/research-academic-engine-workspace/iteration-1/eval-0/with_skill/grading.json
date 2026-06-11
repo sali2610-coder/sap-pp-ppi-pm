@@ -1,0 +1,6 @@
+{"run_id":"eval-0-with_skill","expectations":[
+ {"text":"Abstract 150-250 words","passed":true,"evidence":"171 words"},
+ {"text":"5 flashcards produced","passed":true,"evidence":"5 cards in tsv+md"},
+ {"text":"flashcards.tsv Anki 3-col (front/back/tags)","passed":true,"evidence":"NF=3"},
+ {"text":"IEEE ref[2] matches source (no fabrication)","passed":true,"evidence":"J. Public Economics 94(1) 114-128 = source"},
+ {"text":"Scripts used, outputs non-empty","passed":true,"evidence":"ingest/cite/make_flashcards exit 0"}]}

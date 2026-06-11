@@ -1,0 +1,10 @@
+{
+  "sources": [
+    {"cite_key": "Cunha2007", "type": "article", "title": "...", "authors": [["Cunha","F."]], "year": 2007, "locator_file": "paper.md"}
+  ],
+  "claims": [
+    {"id": 1, "claim": "<what a source asserts>", "evidence": "<number/quote/figure>",
+     "locator": "paper.md §2", "cite_key": "Cunha2007", "confidence": "reported|inferred"}
+  ],
+  "flags": ["<e.g. 'scanned PDF page 4 needs OCR'>"]
+}
