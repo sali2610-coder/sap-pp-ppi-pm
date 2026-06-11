@@ -109,6 +109,48 @@ export const MOD_FLOW: Record<string, { he: string; en: string; doc?: string }[]
   ],
 };
 
+// Main reports per module (Level: technical / side panel)
+export const MOD_REPORTS: Record<string, string[]> = {
+  MM: ["ME2M", "ME80FN", "MB52", "MB51", "MMBE"],
+  PP: ["COOIS", "CO24", "MD04", "MDBT"],
+  "PP-PI": ["COOISPI", "COR3", "CO24", "MD04"],
+  PM: ["IW38", "IW29", "IW39", "IH08"],
+  QM: ["QA32", "QGC1", "QM10", "QGA3"],
+  CS: ["IW58", "IW59", "VA05"],
+  SD: ["VA05", "VF05", "VL06O", "V.15"],
+  FI: ["FBL3N", "FAGLL03", "FS10N", "F.01"],
+  CO: ["KSB1", "S_ALR_87013611", "KOB1"],
+  BATCH: ["MSC3N", "MB56", "MMBE"],
+  CLASS: ["CL30N", "CL6O", "CL6BN"],
+  IDOC: ["WE02", "WE05", "BD87"],
+  PIPO: ["SXMB_MONI"],
+};
+
+// Sample values for synthetic example records (looks like real SAP data)
+const SAMPLE: Record<string, string[]> = {
+  MATNR: ["100023", "FG-COLA-330"], MTART: ["FERT", "ROH"], MATKL: ["00107", "00203"], MEINS: ["EA", "L"],
+  WERKS: ["1010", "1010"], LGORT: ["0001", "0002"], CHARG: ["0000004711", "0000004712"], MENGE: ["1.500", "200"],
+  EBELN: ["4500000123", "4500000124"], EBELP: ["10", "20"], BANFN: ["10000455", "10000456"], LIFNR: ["0000100021", "0000100099"],
+  AUFNR: ["000010004567", "000010004568"], VBELN: ["0000012345", "0000012346"], POSNR: ["10", "20"], KUNNR: ["0000020045", "0000020099"],
+  MBLNR: ["4900001122", "4900001123"], MJAHR: ["2026", "2026"], BWART: ["101", "261"], BUKRS: ["1000", "1000"],
+  BELNR: ["1900000045", "1900000046"], GJAHR: ["2026", "2026"], HKONT: ["0000400000", "0000113100"], DMBTR: ["12,400.00", "980.50"],
+  EQUNR: ["000000010045", "000000010046"], QMNUM: ["010000345", "010000346"], PRUEFLOS: ["010000000789", "010000000790"],
+  KOSTL: ["0000041010", "0000041020"], KOKRS: ["1000", "1000"], OBJNR: ["OR000010004567", "QM010000345"],
+  KTOPL: ["CACO", "CACO"], SAKNR: ["0000400000", "0000113100"], CLINT: ["0000001234", "0000001235"], ATINN: ["0000000891", "0000000892"],
+};
+function sampleFor(tech: string, t: string, i: number): string {
+  if (SAMPLE[tech]) return SAMPLE[tech][i % 2];
+  if (/DATUM|DATE|ERSDA|BUDAT|BLDAT|EDATU/.test(tech)) return ["2026-05-14", "2026-06-02"][i % 2];
+  if (/MENGE|WERT|BTR|HSL|NETWR|PREIS/.test(tech)) return ["1,250.00", "640.75"][i % 2];
+  if (/NAME|TXT|MAKTX|BUTXT/.test(tech)) return ["דוגמה / Sample", "ערך / Value"][i % 2];
+  return (i % 2 === 0 ? "A100" : "B200") + tech.slice(0, 2);
+}
+export function genExampleRecords(fields: [string, string, string, string][], name: string) {
+  const cols = fields.slice(0, 5).map((f) => f[0]);
+  const rows = [0, 1].map((i) => cols.map((c) => sampleFor(c, name, i)));
+  return { cols, rows };
+}
+
 // Document detail (Level 3)
 export const DOC_META: Record<string, { tcodes: string; owner: string; purpose: string; inputs: string[]; outputs: string[] }> = {
   "Purchase Requisition": { tcodes: "ME51N · ME52N · ME53N", owner: "MM — רכש", purpose: "בקשה פנימית לרכש חומר או שירות", inputs: ["דרישת חומר מ-PP/PM", "תכנון MRP"], outputs: ["הזמנת רכש"] },
