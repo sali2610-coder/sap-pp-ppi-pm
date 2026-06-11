@@ -34,6 +34,9 @@ function Header() {
           <Link href="/pp-pi/" onClick={() => playClick()} className="rounded-lg px-3 py-1.5 transition-colors hover:bg-white/15 active:scale-95">
             {t("nav.ppi")}
           </Link>
+          <Link href="/sap-infrastructure/" onClick={() => playClick()} className="rounded-lg px-3 py-1.5 transition-colors hover:bg-white/15 active:scale-95">
+            {t("nav.infra")}
+          </Link>
           <Link href="/library/" onClick={() => playClick()} className="rounded-lg px-3 py-1.5 transition-colors hover:bg-white/15 active:scale-95">
             {t("nav.library")}
           </Link>

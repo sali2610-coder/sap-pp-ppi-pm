@@ -14,6 +14,7 @@ const DICT: Dict = {
   "nav.home": { he: "ראשי", en: "Home" },
   "nav.pm": { he: "אחזקה (PM)", en: "Maintenance (PM)" },
   "nav.ppi": { he: "ייצור (PP-PI)", en: "Production (PP-PI)" },
+  "nav.infra": { he: "תשתית SAP", en: "SAP Infrastructure" },
   "nav.library": { he: "ספרייה", en: "Library" },
   "nav.chat": { he: "צ'אט AI", en: "AI Chat" },
   "search.placeholder": { he: "חיפוש טבלה, T-Code, BAPI…", en: "Search table, T-Code, BAPI…" },

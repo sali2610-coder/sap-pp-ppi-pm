@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8"/>
+<style>
+:root{--bg:#070b11;--accent:#d62027;--gold:#f2c14e;--txt:#eaf0f7;--mut:#90a0b3;--line:#1d2a38;
+ --MM:#2f81f7;--PP:#9b5de5;--PPPI:#6d28d9;--PM:#f97316;--CS:#14b8a6;--SD:#22c55e;--FI:#ef4444;--CO:#991b1b;--QM:#eab308;
+ --font:'Segoe UI',system-ui,Tahoma,Arial,sans-serif;--mono:ui-monospace,'Cascadia Code',Consolas,monospace}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);font-family:var(--font);color:var(--txt)}
+.poster{width:1600px;min-height:2262px;position:relative;padding:56px 60px 40px;
+ background:radial-gradient(1400px 900px at 78% -6%,#15212f 0%,transparent 55%),radial-gradient(900px 700px at 4% 104%,#17121a 0%,transparent 50%),linear-gradient(0deg,#070b11,#0b1118);
+ background-image:linear-gradient(#0f1a26 1px,transparent 1px),linear-gradient(90deg,#0f1a26 1px,transparent 1px),radial-gradient(1400px 900px at 78% -6%,#15212f 0%,transparent 55%);background-size:42px 42px,42px 42px,auto;}
+.hd{display:flex;align-items:center;gap:18px;border-bottom:1px solid var(--line);padding-bottom:22px;position:relative}
+.hd::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+.mark{width:62px;height:62px;border-radius:15px;background:linear-gradient(135deg,var(--accent),#7c0f13);display:grid;place-items:center;font:800 22px var(--font);color:#fff;box-shadow:0 0 30px rgba(214,32,39,.5)}
+.hd h1{font-size:30px;letter-spacing:.3px}
+.hd p{color:var(--mut);font-size:14px;margin-top:4px}
+.chips{margin-inline-start:auto;display:flex;gap:12px}
+.chip{background:#0e1620;border:1px solid var(--line);border-radius:12px;padding:10px 16px;text-align:center;min-width:92px}
+.chip b{display:block;font:800 26px var(--mono);line-height:1;color:#fff}
+.chip span{font:600 10px var(--mono);color:var(--mut);letter-spacing:1px;text-transform:uppercase}
+.body{display:grid;grid-template-columns:1010px 1fr;gap:26px;margin-top:26px}
+.diagram{background:#0a121bcc;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.col{display:flex;flex-direction:column;gap:18px}
+.panel{background:#0c1420dd;border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.panel h3{font-size:13px;letter-spacing:1.4px;color:var(--gold);text-transform:uppercase;margin-bottom:12px;font-weight:800}
+.htbl{width:100%;border-collapse:collapse;font:12.5px var(--mono)}
+.htbl th{color:var(--mut);font-weight:700;text-align:start;padding:5px 6px;border-bottom:1px solid var(--line);font-size:10.5px;letter-spacing:.5px}
+.htbl td{padding:6px 6px;border-bottom:1px solid #14202e}
+.htbl .nm{color:var(--gold);font-weight:800}
+.bar{height:7px;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--gold))}
+.plist .pi{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #14202e}
+.plist .pi b{font-size:14px}.plist .pi span{color:var(--mut);font:11px var(--mono);margin-inline-start:auto}
+.dot{width:12px;height:12px;border-radius:3px}
+.s4row{display:flex;align-items:center;gap:8px;font:11.5px var(--mono);padding:6px 0;border-bottom:1px solid #14202e}
+.s4row .e{color:#ff8a8a}.s4row .a{color:var(--gold)}.s4row .n{color:#5be08a;font-weight:700}
+.lgwrap{display:flex;flex-wrap:wrap;gap:10px}
+.lg{display:flex;align-items:center;gap:6px;font:11px var(--mono);color:var(--mut)}
+.lg i{width:11px;height:11px;border-radius:50%}
+.ft{margin-top:30px;border-top:1px solid var(--line);padding-top:16px;display:flex;justify-content:space-between;color:var(--mut);font-size:12.5px}
+.ft b{color:var(--accent)}
+.he-note{color:#c7d3e0;font-size:12.5px;line-height:1.6;margin-top:6px}
+</style></head>
+<body>
+<div class="poster">
+  <div class="hd">
+    <div class="mark">NEO</div>
+    <div><h1>מפת ארכיטקטורת SAP — נוף מלא</h1>
+      <p>ECC6 → S/4HANA · PM · PP-PI · MM · SD · FI · CO · QM · CS · אינטגרציה · CBC Israel</p></div>
+    <div class="chips" id="chips"></div>
+  </div>
+  <div class="body">
+    <div class="diagram"><svg id="dia" width="1010" height="1560"></svg></div>
+    <div class="col">
+      <div class="panel"><h3>צמתים מרכזיים · Shared Core Hubs</h3>
+        <table class="htbl" id="hubs"><thead><tr><th>טבלה</th><th>קשרים</th><th>צפיפות</th><th>מודולים</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div class="panel"><h3>תהליכים עסקיים · End-to-End</h3><div class="plist" id="procs"></div></div>
+      <div class="panel"><h3>מעבר S/4HANA · שינויי ליבה</h3><div id="s4"></div></div>
+      <div class="panel"><h3>אינטגרציה · Zetes / Daymax</h3><div id="integ" style="font:12px var(--mono);color:#c7d3e0"></div></div>
+      <div class="panel"><h3>מקרא מודולים</h3><div class="lgwrap" id="legend"></div></div>
+    </div>
+  </div>
+  <div class="ft"><span>מקור: data/sapData.ts (PM+PP-PI אמיתי) + מודל SAP קנוני · 134 טבלאות · 140 קשרים · 100% אופליין</span>
+    <span>נבנה ע״י <b>Sali Halif — Web Coding</b> · NEO Cockpit · 2026</span></div>
+</div>
+<script>/*__D3__*/</script>
+<script>
+const DATA=/*__DATA__*/;
+const color=m=>DATA.palette[m]||'#8493a6';
+const c=DATA.meta.counts;
+document.getElementById('chips').innerHTML=[['טבלאות',c.tables],['מודולים',c.modules],['קשרים',c.edges],['חוצי-מודול',c.crossEdges],['צמתים',c.shared]]
+  .map(([k,v])=>`<div class="chip"><b>${v}</b><span>${k}</span></div>`).join('');
+// hubs table
+const hubs=[...DATA.shared].filter(s=>s.degree!=null).sort((a,b)=>b.degree-a.degree).concat(DATA.shared.filter(s=>s.degree==null));
+const maxd=Math.max(...DATA.shared.map(s=>s.degree||0));
+document.querySelector('#hubs tbody').innerHTML=hubs.map(s=>`<tr><td class="nm">${s.name}</td>
+  <td>${s.degree??'—'}</td><td>${s.density??'land'}</td>
+  <td style="color:#9fb0c2">${s.span} <span style="color:#5d7088">(${s.mods.slice(0,4).join(',')})</span></td></tr>`).join('');
+// processes
+document.getElementById('procs').innerHTML=DATA.processes.map(p=>`<div class="pi"><span class="dot" style="background:${p.color}"></span><b>${p.name}</b> <span>${p.he} · ${p.mods.join('·')}</span></div>`).join('');
+// s4
+document.getElementById('s4').innerHTML=DATA.s4deltas.map(d=>`<div class="s4row"><span class="e">${d.ecc}</span> <span class="a">→</span> <span class="n">${d.s4}</span></div>`).join('');
+// integ
+document.getElementById('integ').innerHTML=DATA.integrationFlows.map(f=>`<div style="padding:5px 0;border-bottom:1px solid #14202e"><b style="color:var(--gold)">${f.idoc}</b> · ${f.he} <span style="color:#5d7088">(${f.from}→${f.to})</span></div>`).join('');
+// legend
+document.getElementById('legend').innerHTML=DATA.modules.map(m=>`<span class="lg"><i style="background:${color(m.code)}"></i>${m.code} · ${m.he}</span>`).join('');
+
+// ---- vertical 5-layer diagram ----
+const svg=d3.select('#dia'),W=1010,pad=40,iw=W-pad*2;
+const yProc=70,yMod=300,yShared=760,yDoc=1140,yTab=1380;
+function band(y,h,cap,center){svg.append('rect').attr('x',pad-22).attr('y',y).attr('width',iw+44).attr('height',h).attr('rx',14)
+  .attr('fill',center?'rgba(242,193,78,.05)':'rgba(255,255,255,.015)').attr('stroke',center?'rgba(242,193,78,.4)':'#1d2a38').attr('stroke-dasharray',center?'0':'5 6');
+  svg.append('text').attr('x',pad-14).attr('y',y+20).attr('font','800 12px var(--font)').attr('fill',center?'var(--gold)':'#5d6f84').attr('letter-spacing','2px').text(cap);}
+band(yProc-40,150,'שכבה 1 · תהליכים עסקיים',0);
+band(yMod-40,160,'שכבה 2 · מודולי SAP',0);
+band(yShared-150,300,'שכבה 5 · אובייקטים משותפים (מרכז)',1);
+band(yDoc-40,150,'שכבה 3 · מסמכים עסקיים',0);
+band(yTab-34,150,'שכבה 4 · טבלאות מסד',0);
+
+const mods=DATA.modules,mgap=iw/mods.length,modPos={};
+mods.forEach((m,i)=>modPos[m.code]={x:pad+mgap*i+mgap/2,y:yMod+46});
+const shown=DATA.shared,sgap=iw/shown.length,hubPos={};
+shown.forEach((s,i)=>hubPos[s.name]={x:pad+sgap*i+sgap/2,y:yShared+(i%2?52:-52)});
+// links shared->modules
+const links=[];shown.forEach(s=>s.mods.forEach(mc=>{if(modPos[mc])links.push({s:hubPos[s.name],t:modPos[mc],cross:s.span>=5})}));
+svg.append('g').selectAll('path').data(links).join('path').attr('fill','none')
+  .attr('stroke',d=>d.cross?'var(--gold)':'#33485d').attr('stroke-opacity',d=>d.cross?.28:.12).attr('stroke-width',d=>d.cross?1.3:.7)
+  .attr('d',d=>{const my=(d.s.y+d.t.y)/2;return `M${d.s.x},${d.s.y} C${d.s.x},${my} ${d.t.x},${my} ${d.t.x},${d.t.y}`});
+// processes
+const pr=DATA.processes,pgap=iw/pr.length;
+pr.forEach((p,i)=>{const x=pad+pgap*i+12,bw=pgap-24;const g=svg.append('g').attr('transform',`translate(${x},${yProc})`);
+  g.append('rect').attr('width',bw).attr('height',92).attr('rx',12).attr('fill','#0f1822').attr('stroke',p.color).attr('stroke-width',1.6);
+  g.append('rect').attr('width',bw).attr('height',5).attr('fill',p.color);
+  g.append('text').attr('x',bw/2).attr('y',40).attr('text-anchor','middle').attr('font','800 15px var(--font)').attr('fill','#fff').text(p.name);
+  g.append('text').attr('x',bw/2).attr('y',62).attr('text-anchor','middle').attr('font','600 12px var(--font)').attr('fill','#aebccd').text(p.he);
+  g.append('text').attr('x',bw/2).attr('y',82).attr('text-anchor','middle').attr('font','600 9px var(--mono)').attr('fill','#7088a0').text(p.mods.join(' · '));});
+// modules
+mods.forEach(m=>{const cnt=DATA.tables.filter(t=>t.mod===m.code).length;const x=modPos[m.code].x,g=svg.append('g').attr('transform',`translate(${x-72},${yMod})`);
+  g.append('rect').attr('width',144).attr('height',84).attr('rx',12).attr('fill','#101a25').attr('stroke',color(m.code)).attr('stroke-width',1.6);
+  g.append('rect').attr('width',6).attr('height',84).attr('fill',color(m.code));
+  g.append('text').attr('x',16).attr('y',28).attr('font','800 16px var(--mono)').attr('fill','#fff').text(m.code);
+  g.append('text').attr('x',16).attr('y',48).attr('font','600 11px var(--font)').attr('fill','#9fb0c2').text(m.he);
+  g.append('text').attr('x',16).attr('y',70).attr('font','700 11px var(--mono)').attr('fill',color(m.code)).text(`${cnt} טבלאות`);});
+// shared hubs
+shown.forEach(s=>{const x=hubPos[s.name].x,y=hubPos[s.name].y,r=18+Math.sqrt(s.degree||s.span*2)*6;
+  const g=svg.append('g').attr('transform',`translate(${x},${y})`);
+  g.append('circle').attr('r',r).attr('fill','#12100a').attr('stroke','var(--gold)').attr('stroke-width',s.degree>=10?3.5:2);
+  g.append('text').attr('text-anchor','middle').attr('dy',3).attr('font','800 12px var(--mono)').attr('fill','#fff').text(s.name);
+  g.append('text').attr('text-anchor','middle').attr('dy',r+13).attr('font','700 9px var(--mono)').attr('fill','var(--gold)').text(s.degree!=null?`deg ${s.degree}`:`span ${s.span}`);});
+// documents
+const docs=DATA.documents,dgap=iw/docs.length;
+docs.forEach((d,i)=>{const x=pad+dgap*i+dgap/2,g=svg.append('g').attr('transform',`translate(${x-58},${yDoc})`);
+  g.append('rect').attr('width',116).attr('height',62).attr('rx',10).attr('fill','#0f1822').attr('stroke',color(d.mod)).attr('stroke-width',1.3).attr('stroke-dasharray','3 3');
+  g.append('text').attr('x',58).attr('y',26).attr('text-anchor','middle').attr('font','700 11px var(--mono)').attr('fill','#fff').text(d.id.length>13?d.id.slice(0,12)+'…':d.id);
+  g.append('text').attr('x',58).attr('y',45).attr('text-anchor','middle').attr('font','600 11px var(--font)').attr('fill','#aebccd').text(d.he);});
+// tables dots clustered by module
+const byMod={};DATA.tables.forEach(t=>(byMod[t.mod]=byMod[t.mod]||[]).push(t));
+mods.forEach((m,ci)=>{const list=byMod[m.code]||[],cx=pad+mgap*ci+14,perRow=Math.max(4,Math.floor((mgap-28)/15));
+  list.forEach((t,i)=>{svg.append('circle').attr('cx',cx+(i%perRow)*15+6).attr('cy',yTab+18+Math.floor(i/perRow)*15)
+    .attr('r',t.isHub?5:3.3).attr('fill',color(t.mod)).attr('opacity',t.real?.95:.5)
+    .attr('stroke',DATA.shared.some(s=>s.name===t.name)?'var(--gold)':'none').attr('stroke-width',1.4);});});
+document.body.setAttribute('data-ready','1');
+</script>
+</body></html>
