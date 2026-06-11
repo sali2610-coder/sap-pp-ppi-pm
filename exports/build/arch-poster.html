@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8"/>
+<style>
+  :root{--bg:#eef2f7;--ink:#15202e;--mut:#5b6b7d;--line:#d4dde7;--gold:#caa23a;--goldbg:#fff8e6;--accent:#d62027;
+    --font:'Segoe UI',system-ui,Tahoma,Arial,sans-serif;--mono:ui-monospace,'Cascadia Code',Consolas,monospace}
+  *{margin:0;box-sizing:border-box}
+  html,body{background:var(--bg)}
+  .poster{width:3600px;height:2546px;position:relative;background:
+     linear-gradient(180deg,#f4f7fb,#e9eef4);}
+  svg{position:absolute;inset:0;width:100%;height:100%}
+</style></head>
+<body>
+<div class="poster"><svg id="p" viewBox="0 0 3600 2546"></svg></div>
+<script>/*__D3__*/</script>
+<script>
+const D=/*__DATA__*/;
+const color=m=>D.palette[m]||'#64748b';
+const svg=d3.select('#p');
+const W=3600,H=2546;
+// shadow + arrow defs
+const defs=svg.append('defs');
+defs.append('filter').attr('id','sh').attr('x','-20%').attr('y','-20%').attr('width','140%').attr('height','140%')
+  .html('<feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#1a2a3a" flood-opacity="0.16"/>');
+['flow','soft','fin'].forEach(k=>{const c=k==='flow'?'#2f5d8a':k==='fin'?'#b8862a':'#9fb0c2';
+  defs.append('marker').attr('id','a-'+k).attr('viewBox','0 0 10 10').attr('refX',8).attr('refY',5).attr('markerWidth',8).attr('markerHeight',8).attr('orient','auto-start-reverse')
+   .append('path').attr('d','M0,0L10,5L0,10z').attr('fill',c);});
+function rrect(p,x,y,w,h,r,fill,stroke,sw,sh){const e=p.append('rect').attr('x',x).attr('y',y).attr('width',w).attr('height',h).attr('rx',r).attr('fill',fill);
+  if(stroke){e.attr('stroke',stroke).attr('stroke-width',sw||1.5);} if(sh)e.attr('filter','url(#sh)'); return e;}
+function txt(p,x,y,s,col,sz,w,anc){return p.append('text').attr('x',x).attr('y',y).attr('font',`${w||600} ${sz}px var(--font)`).attr('fill',col).attr('text-anchor',anc||'start').text(s);}
+function wraplines(s,n){const out=[];let line='';s.split(' ').forEach(wd=>{if((line+' '+wd).trim().length>n){out.push(line.trim());line=wd;}else line+=' '+wd;});if(line.trim())out.push(line.trim());return out;}
+
+// ===== TITLE =====
+rrect(svg,0,0,W,150,0,'#0f1d2e');
+rrect(svg,64,38,86,86,20,'var(--accent)');
+txt(svg,107,98,'NEO','#fff',38,800,'middle');
+txt(svg,3536,82,'בלוטפרינט ארכיטקטורת SAP — מבט-על ארגוני','#fff',46,800,'end');
+txt(svg,3536,128,'איך מודולים, תהליכים, מסמכים וטבלאות עובדים יחד · ECC6 → S/4HANA · CBC Israel','#9fb6cf',24,600,'end');
+
+// ===== BAND A — VALUE STREAM (hero) =====
+let y=200;
+txt(svg,3536,y+6,'① זרימת הערך מקצה-לקצה · END-TO-END VALUE STREAM','#1d3a57',30,800,'end');
+const vs=D.valueStream, vx0=70, vw=W-140, n=vs.length, gap=24, boxW=(vw-(n-1)*gap)/n, vy=y+34, boxH=170;
+vs.forEach((s,i)=>{
+  const x=vx0+i*(boxW+gap);
+  const fin=s.mod==='FI', fill=s.ext?'#e7edf4':(fin?'var(--goldbg)':'#ffffff');
+  const col=s.ext?'#7286a0':color(s.mod);
+  rrect(svg,x,vy,boxW,boxH,18,fill,fin?'var(--gold)':col,fin?4:3,true);
+  rrect(svg,x,vy,boxW,9,4,fin?'var(--gold)':col);
+  txt(svg,x+boxW/2,vy+58,s.he,'#15202e',30,800,'middle');
+  txt(svg,x+boxW/2,vy+96,s.ext?'חיצוני':s.mod,col,22,800,'middle');
+  txt(svg,x+boxW/2,vy+132,s.doc,'#5b6b7d',18,600,'middle');
+  if(i<n-1){const ax=x+boxW+gap/2; svg.append('path').attr('d',`M${x+boxW+3},${vy+boxH/2} L${x+boxW+gap-3},${vy+boxH/2}`)
+    .attr('stroke','#2f5d8a').attr('stroke-width',5).attr('marker-end','url(#a-flow)');}
+});
+txt(svg,W/2,vy+boxH+34,'כל אירוע עסקי בזרימה הופך בסופו לרישום פיננסי ב-ACDOCA','#2f5d8a',22,700,'middle');
+
+// ===== BAND B — 5 BUSINESS PROCESSES =====
+y=vy+boxH+70;
+txt(svg,3536,y+6,'② תהליכים עסקיים · BUSINESS PROCESSES','#1d3a57',30,800,'end');
+const pr=D.processes, pby=y+30, plw=(W-140-4*22)/5, plh=190;
+pr.forEach((p,i)=>{
+  const x=70+i*(plw+22);
+  rrect(svg,x,pby,plw,plh,16,'#ffffff',p.color,3,true);
+  rrect(svg,x,pby,8,plh,4,p.color);
+  txt(svg,x+plw-20,pby+40,p.name,'#15202e',26,800,'end');
+  txt(svg,x+plw-20,pby+70,p.he,p.color,20,700,'end');
+  // doc chain
+  const docs=p.docs.slice(0,4), cw=(plw-40)/docs.length;
+  docs.forEach((d,j)=>{const cx=x+20+ (docs.length-1-j)*cw; // RTL: first doc on right
+    rrect(svg,cx+4,pby+92,cw-8,46,9,'#f1f5fa','#cdd9e6',1.2);
+    const lbl=d.length>14?d.slice(0,13)+'…':d;
+    txt(svg,cx+cw/2,pby+120,lbl,'#33485d',15.5,700,'middle');
+    if(j<docs.length-1){svg.append('path').attr('d',`M${cx+4},${pby+115} L${cx-4},${pby+115}`).attr('stroke','#9fb0c2').attr('stroke-width',3).attr('marker-end','url(#a-soft)');}
+  });
+  txt(svg,x+plw-20,pby+170,'מודולים: '+p.mods.join(' · '),'#5b6b7d',16,600,'end');
+});
+
+// ===== BAND C — MODULE BLUEPRINTS =====
+y=pby+plh+58;
+txt(svg,3536,y+6,'③ בלוטפרינט מודולים · MODULE BLUEPRINTS','#1d3a57',30,800,'end');
+const bps=D.blueprints, mby=y+30, mcols=9, mgap=18, mcw=(W-140-(mcols-1)*mgap)/mcols, mch=860;
+bps.forEach((bp,i)=>{
+  const x=70+(mcols-1-i)*(mcw+mgap); // RTL order
+  const col=color(bp.code);
+  rrect(svg,x,mby,mcw,mch,18,'#ffffff','#dbe4ee',1.5,true);
+  rrect(svg,x,mby,mcw,64,18,col);
+  rrect(svg,x,mby+40,mcw,24,0,col);
+  txt(svg,x+mcw/2,mby+44,bp.code,'#fff',30,800,'middle');
+  let yy=mby+96;
+  // purpose
+  wraplines(bp.purpose,22).slice(0,3).forEach(ln=>{txt(svg,x+mcw-16,yy,ln,'#33485d',16.5,600,'end');yy+=24;});
+  yy+=10;
+  const section=(title)=>{txt(svg,x+mcw-16,yy,title,col,16,800,'end');yy+=8; svg.append('line').attr('x1',x+16).attr('x2',x+mcw-16).attr('y1',yy).attr('y2',yy).attr('stroke','#e6edf4').attr('stroke-width',1.5);yy+=22;};
+  const chips=(arr,bg,fg,bd)=>{arr.forEach(v=>{const lbl=v.length>20?v.slice(0,19)+'…':v;
+    rrect(svg,x+16,yy-18,mcw-32,30,7,bg,bd,1).attr('opacity',.96);
+    txt(svg,x+mcw-26,yy+3,lbl,fg,16,700,'end');yy+=38;});};
+  section('מסמכים · Documents'); chips(bp.docs,'#eef3f9','#2c4660','#d3deea');
+  section('טבלאות · Tables'); chips(bp.tables,'#f3f6fa',col,'#dde7f0');
+  yy+=4; section('קלט · Inputs');
+  bp.inputs.forEach(v=>{wraplines('• '+v,24).forEach(ln=>{txt(svg,x+mcw-16,yy,ln,'#4a5d72',15,600,'end');yy+=22;});});
+  yy+=6; section('פלט · Outputs');
+  bp.outputs.forEach(v=>{wraplines('• '+v,24).forEach(ln=>{txt(svg,x+mcw-16,yy,ln,'#4a5d72',15,600,'end');yy+=22;});});
+  yy=mby+mch-44; svg.append('line').attr('x1',x+16).attr('x2',x+mcw-16).attr('y1',yy-14).attr('y2',yy-14).attr('stroke','#e6edf4').attr('stroke-width',1.5);
+  txt(svg,x+mcw-16,yy+8,'מחובר ל: '+bp.connects.join(' · '),col,15.5,800,'end');
+});
+
+// ===== BAND D — SHARED SAP CORE (Layer 5) =====
+y=mby+mch+50;
+const coreH=300, coreY=y+30;
+txt(svg,3536,y+6,'④ ליבת SAP המשותפת · SHARED SAP CORE','#1d3a57',30,800,'end');
+rrect(svg,70,coreY,W-140,coreH,22,'var(--goldbg)','var(--gold)',5,true);
+txt(svg,W-100,coreY+56,'SAP CORE — אובייקטים משותפים שכל המודולים נשענים עליהם','#7a5e15',30,800,'end');
+txt(svg,W-100,coreY+90,'נתוני אב · סטטוס · מסמכי תנועה · רישום פיננסי — מקור אמת אחד','#9a7a20',20,600,'end');
+const coreGroups=[
+ {t:'נתוני אב',items:['MARA','CRHD','KNA1','LFA1','T001','T001W']},
+ {t:'סטטוס',items:['JEST','JSTO','OBJNR']},
+ {t:'תנועה',items:['MATDOC','AUFK']},
+ {t:'שינויים',items:['CDHDR','CDPOS']},
+ {t:'כספים',items:['ACDOCA']},
+];
+let cx0=100, cgY=coreY+130;
+const coreList=['MARA','AUFK','JEST','MATDOC','ACDOCA','CRHD','OBJNR','CDHDR','CDPOS','KNA1','LFA1','T001','T001W','JSTO'];
+// lay pills in groups left->right (RTL so start right)
+let gx=W-100;
+coreGroups.forEach(g=>{
+  const groupW=g.items.length*168+40;
+  gx-=groupW;
+  txt(svg,gx+groupW-20,cgY-12,g.t,'#7a5e15',18,800,'end');
+  g.items.forEach((nm,j)=>{
+    const px=gx+groupW-40-(j*168)-150;
+    rrect(svg,px,cgY,150,64,14,'#fff','var(--gold)',2.5);
+    txt(svg,px+75,cgY+40,nm,'#15202e',24,800,'middle');
+  });
+  gx-=28;
+});
+
+// ===== BAND E — FINANCE CONVERGENCE + cross-module note =====
+y=coreY+coreH+44;
+txt(svg,3536,y+2,'⑤ התכנסות פיננסית + אינטראקציה בין מודולים','#1d3a57',28,800,'end');
+const fy=y+24;
+// convergence chain: Logistics event -> postings -> ACDOCA -> FI/CO
+const conv=[['אירוע לוגיסטי','תנועת חומר / ייצור / מכירה','#2f81f7'],['רישום','כל תנועה יוצרת מסמך','#9b5de5'],['ACDOCA','יומן אוניברסלי','var(--gold)'],['FI / CO','דוחות ובקרת עלות','#ef4444']];
+const cw2=560, cgap=90;
+conv.forEach((c,i)=>{const x=W-100-cw2 - i*(cw2+cgap);
+  rrect(svg,x,fy,cw2,120,16,'#ffffff',c[2],3,true);
+  txt(svg,x+cw2-22,fy+50,c[0],'#15202e',26,800,'end');
+  txt(svg,x+cw2-22,fy+86,c[1],'#5b6b7d',18,600,'end');
+  if(i<conv.length-1){const ax=x-cgap/2;svg.append('path').attr('d',`M${x-6},${fy+60} L${x-cgap+6},${fy+60}`).attr('stroke','#b8862a').attr('stroke-width',5).attr('marker-end','url(#a-fin)');}
+});
+// cross-module mini legend (left side)
+const cmX=70, cmW=1180, cmY=fy-4;
+rrect(svg,cmX,cmY,cmW,150,16,'#0f1d2e',null,0,true);
+txt(svg,cmX+cmW-24,cmY+38,'אינטראקציה בין מודולים · CROSS-MODULE','#cfe0f2',22,800,'end');
+const cm=D.crossModule.slice(0,8);
+cm.forEach((c,i)=>{const r=Math.floor(i/2),cc=i%2;const xx=cmX+24+cc*(cmW/2-24);const yy=cmY+74+r*32;
+  txt(svg,xx+ (cmW/2-40),yy,`${c.from} → ${c.to}`,'#7fb0e6',16,800,'end');
+});
+
+// ===== FOOTER =====
+txt(svg,W/2,H-30,'נבנה ע״י Sali Halif — Web Coding · NEO Cockpit · CBC Israel · 2026 · מקור אמת יחיד: sap-infrastructure-data.json','#5b6b7d',20,600,'middle');
+document.body.setAttribute('data-ready','1');
+</script>
+</body></html>

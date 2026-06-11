@@ -1,78 +1,41 @@
-# SAP Infrastructure Map — Version 3 (Enterprise)
+# SAP Enterprise Architecture Blueprint — תשתית SAP
 
-מפת תשתית SAP מלאה ל-CBC Israel: פוסטר להדפסה + טאב אתר אינטראקטיבי.
-**מקור אמת יחיד:** `sap-infrastructure-data.json` (הפוסטר והאתר נטענים ממנו — אין גרסאות כפולות).
+מבט-על ארגוני: איך מודולי SAP עובדים יחד, איך זורם המידע, איך מסמכים הופכים לרישומים פיננסיים.
+**מקור אמת יחיד:** `sap-infrastructure-data.json`. ארכיטקטורה קודם, טבלאות אחרי.
 
----
-
-## 1. Where the files live
-
-### Deliverables (`exports/`)
+## Deliverables
 | File | What |
 |---|---|
-| `sap-infrastructure-data.json` | **Source of truth** — 155 tables, 175 relationships, 12 modules, 5 zones, 14 shared objects, 6 interfaces |
-| `sap-infrastructure-map.html` | Self-contained interactive map (offline, d3 vendored) |
-| `sap-infrastructure-poster-A0.pdf` | Print poster, A0 landscape ratio |
-| `sap-infrastructure-poster-A0.png` | Hi-res raster (≈5600×3968) |
-| `sap-infrastructure-poster-A0.svg` | Vector poster (scalable, standalone) |
-| `README.md` | This file |
-| `build/` | Reproducible generators (see §4) |
+| `SAP-Enterprise-Architecture-A0.pdf` | פוסטר בלוטפרינט A0 landscape — להדפסה על קיר |
+| `SAP-Enterprise-Architecture-A0.png` | תמונה (3600×2546 @1.5×) |
+| `SAP-Enterprise-Architecture-A0.svg` | וקטורי standalone |
+| `sap-infrastructure-data.json` | מקור אמת — modules, blueprints, valueStream, processes, documents, tables, shared, crossModule |
+| `build/` | מחוללים (01-dataset.mjs · arch-poster.html) |
 
-### Website (served by the Next.js app)
-| Path | What |
-|---|---|
-| `app/sap-infrastructure/page.tsx` | The **תשתית SAP** page (route `/sap-infrastructure/`) |
-| `public/sap-infrastructure/map.html` | Interactive map embedded by the page |
-| `public/sap-infrastructure/sap-infrastructure-poster-A0.{pdf,png,svg}` | Download targets |
-| `public/sap-infrastructure/dataset.json` | Download target (= source of truth) |
-| `components/app-shell.tsx` | Nav menu — link `תשתית SAP` added |
-| `lib/i18n.tsx` | `nav.infra` label (he/en) |
+## Poster structure (top → bottom layered blueprint)
+1. **זרימת ערך מקצה-לקצה** — Vendor → MM → GR → Inventory → PP-PI → QM → Finished Goods → SD → Billing → FI
+2. **תהליכים עסקיים** — P2P · Plan2Produce · M2O · S2C · O2C (doc chains)
+3. **בלוטפרינט מודולים** — 9 module cards (purpose · objects · documents · tables · inputs · outputs · connected modules)
+4. **ליבת SAP משותפת** — MARA AUFK JEST MATDOC ACDOCA CRHD OBJNR CDHDR CDPOS + master/status/finance
+5. **התכנסות פיננסית** — אירוע לוגיסטי → רישום → ACDOCA → FI/CO + אינטראקציה בין מודולים
 
----
+Light theme, big type, rectangular boxes, few meaningful arrows — Signavio / solution-blueprint style. No network graph.
 
-## 2. How to use
+## Website — תשתית SAP  (route `/sap-infrastructure/`)
+Native React page (**no iframe, no nested shell, no 404**), 7 views:
+1. סקירה (value stream)  2. תהליכים עסקיים  3. מודולים (click → blueprint panel)
+4. טכני (zones)  5. טבלאות (search + module filter → table panel)  6. אינטגרציה  7. מרכז הורדות
+- Click module → purpose, objects, documents, tables, inputs/outputs, connected modules.
+- Click table → explanation, key fields, parent/child tables, related modules, transactions, Fiori, BAPIs, ECC↔S/4.
+- Mobile responsive (cards stack, tabs wrap). Downloads link to poster PDF/PNG/SVG + JSON.
 
-### Website tab
-1. `npm run dev` (or `npm run build` → serve `out/`).
-2. Open the app → top nav → **תשתית SAP** (`/sap-infrastructure/`).
-3. The page shows download buttons + the embedded interactive map.
+Files served from `public/sap-infrastructure/` (poster + dataset.json + map.html explorer). Nav link in `components/app-shell.tsx` (`nav.infra`).
 
-Interactive map features:
-- **7 view lenses + Zones**: נוף מלא · אזורים · עסקית · פונקציונלית · טכנית · מסד נתונים · אינטגרציה · S/4HANA
-- **Zoom presets** (רמת תצוגה): עסקי / פונקציונלי / טכני / ארגוני
-- **Search** table by name · **filter** by module · **reset filters** (↺) · **fit** (⊕)
-- **Click table** → side panel (module, Hebrew explanation, key fields, parent/child tables, transactions, Fiori, BAPIs, CDS, ECC↔S/4, business impact)
-- **Hover** node/edge → relationship tooltip
-- **Presentation mode** (▶ הצג ארכיטקטורה) — animated Hebrew walkthrough
-- **Downloads** menu (⬇) — PDF / PNG / SVG poster + JSON
-- **Mobile**: filters collapse into a drawer (☰ מסננים)
-
-### Poster
-- Print `sap-infrastructure-poster-A0.pdf` at A0 landscape for the office wall.
-- Center = golden **SAP Core** hub (14 shared objects). Around it: 13 module zones with their main tables. Gold arrows = cross-module flow. Two legends (line meaning + module colors).
-
----
-
-## 3. Coverage (gap analysis fixed)
-- **Modules (12):** MM · SD · PP · PP-PI · PM · CS · QM · Batch · Classification · FI · CO · IDOC (+ PI/PO pod on poster)
-- **Zones (5):** Master Data · Transaction Data · Integration Layer · Finance Layer · Shared SAP Objects
-- **Added tables:** MCH1/MCHA/MCHB/MCHBH · KLAH/KSSK/AUSP/CABN/CAWN/KSML · QALS/QAVE/QAMV/QPAM · VBEP/KONV/PRCD_ELEMENTS · EKET/EKBE · BSID/BSAD/BSIK/BSAK · EDIDC/EDIDS/EDID4
-- **Added relationships:** MATDOC→ACDOCA · VBAP→KONV/PRCD_ELEMENTS · Classification↔Material · Batch↔Material · Batch→Production/Process Orders · QM→Batch · PM→CO · CS→PM · CS→SD · SD Billing→FI · Goods Movement→FI/CO
-- Mobile drawer, rail-overlap, hub readability, Hebraized chrome, fit/reset/clear, KPI bar — all addressed.
-
-> Honesty note: PM + PP-PI tables are **real** (from `data/sapData.ts`). MM/SD/FI/CO/QM/CS/Batch/Classification/IDOC tables are **canonical models** (flagged `real:false`, shown dashed). To make them real, extract those blueprints into `sapData.ts` and regenerate.
-
----
-
-## 4. Rebuild from source (one command chain)
+## Rebuild
 ```bash
-# 1. dataset (source of truth)
-node exports/build/01-dataset.mjs            # -> exports/sap-infrastructure-data.json
-
-# 2. interactive map + poster are generated from that JSON by injecting d3 + data
-#    into exports/build/{tpl-v3.html + app-v3.js} and exports/build/poster-v3.html
-#    (see the inject one-liners used to produce sap-infrastructure-map.html and the poster).
+node exports/build/01-dataset.mjs           # -> sap-infrastructure-data.json (+ public copy)
+# poster: inject d3+data into exports/build/arch-poster.html, render via headless Chrome -> PDF/PNG/SVG
 ```
-Everything is **100% offline** — d3 v7 is vendored inline, no CDN, no remote fetch.
+100% offline. Real data = PM + PP-PI (from data/sapData.ts); MM/SD/FI/CO/QM/CS/Batch/Classification/IDOC = canonical SAP model.
 
 *Built by Sali Halif — Web Coding · NEO Cockpit · CBC Israel · 2026*

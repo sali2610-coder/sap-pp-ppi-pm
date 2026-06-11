@@ -402,6 +402,68 @@ const s4deltas=[
  {ecc:'MARD / MCHB (aggregates)',s4:'חישוב On-the-fly מ-MATDOC',he:'טבלאות צבירת מלאי בוטלו.'},
 ];
 
+// ---------- module blueprints (architecture, manager-readable) ----------
+const topTables=(mod,k=5)=>tables.filter(t=>t.mod===mod).sort((a,b)=>b.degree-a.degree).slice(0,k).map(t=>t.name);
+const docsOf=mod=>documents.filter(d=>d.mod===mod).map(d=>d.id);
+const blueprints=[
+ {code:'MM',purpose:'רכש וניהול מלאי — מזין חומרים לכל שרשרת הערך',objects:['אב חומר','ספק','הזמנת רכש'],
+  docs:['Purchase Requisition','Purchase Order','Goods Receipt'],tables:['MARA','EKKO','EKPO','MSEG','MATDOC'],
+  inputs:['דרישות חומר מ-PP / PM','תחזית ביקוש'],outputs:['מלאי זמין','רישום חשבונאי (חשבונית ספק)'],connects:['PP','PM','QM','FI','CO']},
+ {code:'PP',purpose:'תכנון וביצוע ייצור דיסקרטי',objects:['הזמנת ייצור','עץ מוצר (BOM)','מסלול ייצור'],
+  docs:['Production Order','Goods Issue','Goods Receipt'],tables:['AFKO','AFPO','RESB','STKO','MAST'],
+  inputs:['דרישות מכירה / תחזית','זמינות חומרים מ-MM'],outputs:['מוצרים מוגמרים','עלויות ייצור ל-CO'],connects:['MM','QM','CO','SD']},
+ {code:'PP-PI',purpose:'ייצור תהליכי — מתכונים ואצוות (ליבת הייצור ב-CBC)',objects:['הזמנת תהליך','מתכון מאסטר','אצווה'],
+  docs:['Process Order','Goods Issue'],tables:['AFKO','AFPO','AFRU','RESB'],
+  inputs:['תוכנית ייצור','חומרי גלם מ-MM'],outputs:['אצוות מוגמרות','דיווח ייצור מ-MES (Daymax)'],connects:['MM','QM','BATCH','CO']},
+ {code:'PM',purpose:'תחזוקת ציוד ומתקנים — זמינות תפעולית',objects:['ציוד','מיקום פונקציונלי','הזמנת תחזוקה'],
+  docs:['Notification','Maintenance Order'],tables:['EQUI','IFLOT','AFIH','AUFK','QMEL'],
+  inputs:['תקלות / תחזוקה מונעת'],outputs:['צריכת חלקים מ-MM','עלויות תחזוקה ל-CO'],connects:['MM','CO','CS']},
+ {code:'CS',purpose:'שירות לקוחות, תיקונים וחוזי שירות',objects:['הודעת שירות','הזמנת שירות','חוזה שירות'],
+  docs:['Notification','Service Order'],tables:['VIQMEL','QMEL','AUFK','AFIH'],
+  inputs:['פניות לקוח'],outputs:['חיוב שירות ל-SD','עבודות תחזוקה ל-PM'],connects:['PM','SD','FI']},
+ {code:'SD',purpose:'מכירות, משלוח וחיוב — הכנסות הארגון',objects:['הזמנת מכירה','משלוח','חשבונית'],
+  docs:['Sales Order','Delivery','Billing'],tables:['VBAK','VBAP','LIKP','LIPS','VBRK'],
+  inputs:['הזמנות לקוח'],outputs:['ניכוי מלאי','רישום הכנסה ל-FI'],connects:['MM','FI','CO','CS']},
+ {code:'QM',purpose:'ניהול איכות לאורך הרכש, הייצור והאצוות',objects:['מנת בדיקה','החלטת שימוש'],
+  docs:['Inspection Lot'],tables:['QALS','QAVE','QAMV','QPAM'],
+  inputs:['קבלות טובין','אצוות ייצור'],outputs:['שחרור / חסימת אצווה'],connects:['MM','PP','BATCH']},
+ {code:'FI',purpose:'הנהלת חשבונות — מקור האמת הפיננסי',objects:['מסמך חשבונאי','חשבון ראשי','ספק/לקוח'],
+  docs:['Accounting Document'],tables:['ACDOCA','BKPF','BSEG','BSID','BSIK'],
+  inputs:['כל אירוע עסקי לוגיסטי'],outputs:['דוחות כספיים','מאזן ורווח/הפסד'],connects:['MM','SD','CO']},
+ {code:'CO',purpose:'בקרת עלויות, מרכזי עלות ורווחיות',objects:['מרכז עלות','הזמנה פנימית'],
+  docs:['CO Document'],tables:['COEP','COBK','CSKS'],
+  inputs:['עלויות מ-PP / PM / MM'],outputs:['ניתוח רווחיות ועלות מוצר'],connects:['PP','PM','FI']},
+];
+
+// ---------- end-to-end value stream (the manager hero flow) ----------
+const valueStream=[
+ {he:'ספק',en:'Vendor',mod:null,doc:'גורם חיצוני',ext:true},
+ {he:'רכש',en:'Procurement',mod:'MM',doc:'PO · הזמנת רכש',table:'EKKO'},
+ {he:'קבלת טובין',en:'Goods Receipt',mod:'MM',doc:'GR · MATDOC',table:'MATDOC'},
+ {he:'מלאי',en:'Inventory',mod:'MM',doc:'מלאי / אצווה',table:'MCHB'},
+ {he:'ייצור',en:'Production',mod:'PP-PI',doc:'הזמנת תהליך',table:'AFKO'},
+ {he:'בקרת איכות',en:'Quality',mod:'QM',doc:'מנת בדיקה',table:'QALS'},
+ {he:'מוצר מוגמר',en:'Finished Goods',mod:'PP',doc:'GR לייצור',table:'AFPO'},
+ {he:'מכירה',en:'Sales',mod:'SD',doc:'הזמנת מכירה',table:'VBAK'},
+ {he:'משלוח וחיוב',en:'Delivery & Billing',mod:'SD',doc:'חשבונית',table:'VBRK'},
+ {he:'הנהלת חשבונות',en:'Finance',mod:'FI',doc:'מסמך חשבונאי · ACDOCA',table:'ACDOCA'},
+];
+
+// ---------- cross-module interactions (architecture, not table-level) ----------
+const crossModule=[
+ {from:'MM',to:'PP',he:'MM מספק חומרי גלם להזמנות ייצור'},
+ {from:'PP',to:'MM',he:'PP מנפיק דרישות והזמנות רכש דרך MRP'},
+ {from:'PP',to:'CO',he:'עלויות ייצור נצברות להזמנה ומסולקות ל-CO'},
+ {from:'PM',to:'MM',he:'תחזוקה צורכת חלקי חילוף מהמלאי'},
+ {from:'PM',to:'CO',he:'עלויות תחזוקה מסולקות למרכז עלות'},
+ {from:'CS',to:'PM',he:'שירות פותח הזמנת תחזוקה לציוד לקוח'},
+ {from:'CS',to:'SD',he:'שירות מחייב את הלקוח דרך SD'},
+ {from:'SD',to:'FI',he:'חיוב מכירה יוצר רישום הכנסה ב-FI'},
+ {from:'QM',to:'MM',he:'בדיקת איכות בקבלת טובין משחררת מלאי'},
+ {from:'QM',to:'PP',he:'בדיקות בתהליך הייצור ושחרור אצווה'},
+ {from:'IDOC',to:'SAP',he:'IDOC/ALE/PI-PO מחברים מערכות חיצוניות (Zetes/Daymax)'},
+];
+
 const zoneCounts={}; tables.forEach(t=>zoneCounts[t.zone]=(zoneCounts[t.zone]||0)+1);
 const out = {
   meta:{project:'NEO Cockpit — CBC Israel',title:'SAP Landscape Control Room',version:'v3',
@@ -411,10 +473,10 @@ const out = {
       edges:edges.length, crossEdges:edges.filter(e=>e.cross).length, modules:modules.length,
       documents:documents.length, processes:processes.length, shared:shared.length,
       interfaces:integrationFlows.length, zones:ZONES.length}},
-  palette, zones:ZONES, zoneCounts, processes, modules, integration, documents, tables, shared, edges, integrationFlows, s4deltas
+  palette, zones:ZONES, zoneCounts, processes, modules, integration, documents, tables, shared, edges, integrationFlows, s4deltas,
+  blueprints, valueStream, crossModule
 };
 fs.writeFileSync('exports/sap-infrastructure-data.json',JSON.stringify(out,null,2));
-fs.writeFileSync('exports/sap-architecture-data.json',JSON.stringify(out,null,2)); // back-compat alias
 const byMod={}; tables.forEach(t=>byMod[t.mod]=(byMod[t.mod]||0)+1);
 console.log('WROTE sap-infrastructure-data.json (v3 — one source of truth)');
 console.log('tables',tables.length,'(real',out.meta.counts.real,'modeled',out.meta.counts.modeled,')');
