@@ -1,0 +1,4 @@
+source,target,value
+Lead,Trial,100
+Trial,Paid,30
+Paid,Renew,20

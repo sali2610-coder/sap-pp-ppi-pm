@@ -1,0 +1,666 @@
+[
+  {
+    "slide": 1,
+    "category": "fade",
+    "revealjs": {
+      "slide_transition": "fade",
+      "fragments": [
+        {
+          "element": "title",
+          "class": "fragment fade-in",
+          "data-fragment-index": 0,
+          "data-autoslide": null
+        },
+        {
+          "element": "subtitle",
+          "class": "fragment fade-in",
+          "data-fragment-index": 1,
+          "data-autoslide": null
+        }
+      ]
+    },
+    "frontend": {
+      "effect": "fade",
+      "transition": {
+        "duration": 0.3,
+        "ease": "easeOut"
+      },
+      "stagger_children_s": 0.15,
+      "trigger": "mount-sequence",
+      "variant": {
+        "initial": {
+          "opacity": 0
+        },
+        "animate": {
+          "opacity": 1
+        }
+      },
+      "elements": [
+        "title",
+        "subtitle"
+      ]
+    },
+    "pptx": {
+      "slide_transition": "fade",
+      "auto_advance_s": null,
+      "steps": [
+        {
+          "element": "title",
+          "effect": "fade",
+          "trigger": "on-click",
+          "duration_s": 0.3,
+          "order": 0
+        },
+        {
+          "element": "subtitle",
+          "effect": "fade",
+          "trigger": "on-click",
+          "duration_s": 0.3,
+          "order": 1
+        }
+      ],
+      "tool": "ppt-master scripts/pptx_animations.py / pptxgenjs slide transition"
+    }
+  },
+  {
+    "slide": 2,
+    "category": "zoom",
+    "revealjs": {
+      "slide_transition": "fade",
+      "fragments": [
+        {
+          "element": "hero_image",
+          "class": "fragment zoom-in",
+          "data-fragment-index": 0,
+          "data-autoslide": null
+        }
+      ],
+      "auto_animate": true
+    },
+    "frontend": {
+      "effect": "scale",
+      "transition": {
+        "duration": 0.4,
+        "ease": "easeOut"
+      },
+      "stagger_children_s": 0.2,
+      "trigger": "mount-sequence",
+      "variant": {
+        "initial": {
+          "opacity": 0,
+          "scale": 0.92
+        },
+        "animate": {
+          "opacity": 1,
+          "scale": 1
+        }
+      },
+      "elements": [
+        "hero_image"
+      ]
+    },
+    "pptx": {
+      "slide_transition": "morph",
+      "auto_advance_s": null,
+      "steps": [
+        {
+          "element": "hero_image",
+          "effect": "zoom",
+          "trigger": "on-click",
+          "duration_s": 0.4,
+          "order": 0
+        }
+      ],
+      "tool": "ppt-master scripts/pptx_animations.py / pptxgenjs slide transition"
+    }
+  },
+  {
+    "slide": 3,
+    "category": "progressive_reveal",
+    "revealjs": {
+      "slide_transition": "fade",
+      "fragments": [
+        {
+          "element": "b1",
+          "class": "fragment fade-in",
+          "data-fragment-index": 0,
+          "data-autoslide": null
+        },
+        {
+          "element": "b2",
+          "class": "fragment fade-in",
+          "data-fragment-index": 1,
+          "data-autoslide": null
+        },
+        {
+          "element": "b3",
+          "class": "fragment fade-in",
+          "data-fragment-index": 2,
+          "data-autoslide": null
+        }
+      ]
+    },
+    "frontend": {
+      "effect": "fade",
+      "transition": {
+        "duration": 0.3,
+        "ease": "easeOut"
+      },
+      "stagger_children_s": 0.15,
+      "trigger": "mount-sequence",
+      "variant": {
+        "initial": {
+          "opacity": 0
+        },
+        "animate": {
+          "opacity": 1
+        }
+      },
+      "elements": [
+        "b1",
+        "b2",
+        "b3"
+      ]
+    },
+    "pptx": {
+      "slide_transition": "fade",
+      "auto_advance_s": null,
+      "steps": [
+        {
+          "element": "b1",
+          "effect": "appear",
+          "trigger": "on-click",
+          "duration_s": 0.3,
+          "order": 0
+        },
+        {
+          "element": "b2",
+          "effect": "appear",
+          "trigger": "on-click",
+          "duration_s": 0.3,
+          "order": 1
+        },
+        {
+          "element": "b3",
+          "effect": "appear",
+          "trigger": "on-click",
+          "duration_s": 0.3,
+          "order": 2
+        }
+      ],
+      "tool": "ppt-master scripts/pptx_animations.py / pptxgenjs slide transition"
+    }
+  },
+  {
+    "slide": 4,
+    "category": "scroll_driven",
+    "revealjs": {
+      "slide_transition": "fade",
+      "fragments": [
+        {
+          "element": "sec1",
+          "class": "fragment fade-in",
+          "data-fragment-index": 0,
+          "data-autoslide": 500
+        },
+        {
+          "element": "sec2",
+          "class": "fragment fade-in",
+          "data-fragment-index": 1,
+          "data-autoslide": 500
+        },
+        {
+          "element": "sec3",
+          "class": "fragment fade-in",
+          "data-fragment-index": 2,
+          "data-autoslide": 500
+        }
+      ],
+      "scroll_mode": true,
+      "note": "use Reveal scroll view; each element gets .fragment revealed as it scrolls into view"
+    },
+    "frontend": {
+      "effect": "scroll-fade",
+      "transition": {
+        "duration": 0.5,
+        "ease": "easeOut"
+      },
+      "stagger_children_s": 0.25,
+      "trigger": "in-view",
+      "variant": {
+        "initial": {
+          "opacity": 0,
+          "y": 24
+        },
+        "whileInView": {
+          "opacity": 1,
+          "y": 0
+        }
+      },
+      "elements": [
+        "sec1",
+        "sec2",
+        "sec3"
+      ],
+      "observer": "IntersectionObserver(threshold:0.3)"
+    },
+    "pptx": {
+      "slide_transition": "fade",
+      "auto_advance_s": 1.5,
+      "steps": [
+        {
+          "element": "sec1",
+          "effect": "fade",
+          "trigger": "after-previous",
+          "duration_s": 0.5,
+          "order": 0
+        },
+        {
+          "element": "sec2",
+          "effect": "fade",
+          "trigger": "after-previous",
+          "duration_s": 0.5,
+          "order": 1
+        },
+        {
+          "element": "sec3",
+          "effect": "fade",
+          "trigger": "after-previous",
+          "duration_s": 0.5,
+          "order": 2
+        }
+      ],
+      "tool": "ppt-master scripts/pptx_animations.py / pptxgenjs slide transition",
+      "degraded": "no scroll in PPTX \u2192 timed progressive build instead"
+    }
+  },
+  {
+    "slide": 5,
+    "category": "kpi_build_up",
+    "revealjs": {
+      "slide_transition": "fade",
+      "fragments": [
+        {
+          "element": "tileA",
+          "class": "fragment fade-up",
+          "data-fragment-index": 0,
+          "data-autoslide": null
+        },
+        {
+          "element": "tileB",
+          "class": "fragment fade-up",
+          "data-fragment-index": 1,
+          "data-autoslide": null
+        },
+        {
+          "element": "tileC",
+          "class": "fragment fade-up",
+          "data-fragment-index": 2,
+          "data-autoslide": null
+        },
+        {
+          "element": "tileD",
+          "class": "fragment fade-up",
+          "data-fragment-index": 3,
+          "data-autoslide": null
+        }
+      ]
+    },
+    "frontend": {
+      "effect": "count-up",
+      "transition": {
+        "duration": 0.4,
+        "ease": "easeOut"
+      },
+      "stagger_children_s": 0.2,
+      "trigger": "mount-sequence",
+      "variant": {
+        "initial": {
+          "opacity": 0
+        },
+        "animate": {
+          "opacity": 1
+        },
+        "counter": true
+      },
+      "elements": [
+        "tileA",
+        "tileB",
+        "tileC",
+        "tileD"
+      ],
+      "counter": {
+        "from": 0,
+        "to": "<value>",
+        "duration_s": 0.8
+      }
+    },
+    "pptx": {
+      "slide_transition": "fade",
+      "auto_advance_s": null,
+      "steps": [
+        {
+          "element": "tileA",
+          "effect": "wipe",
+          "trigger": "on-click",
+          "duration_s": 0.4,
+          "order": 0
+        },
+        {
+          "element": "tileB",
+          "effect": "wipe",
+          "trigger": "on-click",
+          "duration_s": 0.4,
+          "order": 1
+        },
+        {
+          "element": "tileC",
+          "effect": "wipe",
+          "trigger": "on-click",
+          "duration_s": 0.4,
+          "order": 2
+        },
+        {
+          "element": "tileD",
+          "effect": "wipe",
+          "trigger": "on-click",
+          "duration_s": 0.4,
+          "order": 3
+        }
+      ],
+      "tool": "ppt-master scripts/pptx_animations.py / pptxgenjs slide transition"
+    }
+  },
+  {
+    "slide": 6,
+    "category": "timeline_animation",
+    "revealjs": {
+      "slide_transition": "slide",
+      "fragments": [
+        {
+          "element": "t1",
+          "class": "fragment fade-right",
+          "data-fragment-index": 0,
+          "data-autoslide": 400
+        },
+        {
+          "element": "t2",
+          "class": "fragment fade-right",
+          "data-fragment-index": 1,
+          "data-autoslide": 400
+        },
+        {
+          "element": "t3",
+          "class": "fragment fade-right",
+          "data-fragment-index": 2,
+          "data-autoslide": 400
+        },
+        {
+          "element": "t4",
+          "class": "fragment fade-right",
+          "data-fragment-index": 3,
+          "data-autoslide": 400
+        }
+      ]
+    },
+    "frontend": {
+      "effect": "slide-x",
+      "transition": {
+        "duration": 0.4,
+        "ease": "easeOut"
+      },
+      "stagger_children_s": 0.2,
+      "trigger": "mount-sequence",
+      "variant": {
+        "initial": {
+          "opacity": 0,
+          "x": -24
+        },
+        "animate": {
+          "opacity": 1,
+          "x": 0
+        }
+      },
+      "elements": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ]
+    },
+    "pptx": {
+      "slide_transition": "push",
+      "auto_advance_s": 1.5,
+      "steps": [
+        {
+          "element": "t1",
+          "effect": "wipe",
+          "trigger": "after-previous",
+          "duration_s": 0.4,
+          "order": 0
+        },
+        {
+          "element": "t2",
+          "effect": "wipe",
+          "trigger": "after-previous",
+          "duration_s": 0.4,
+          "order": 1
+        },
+        {
+          "element": "t3",
+          "effect": "wipe",
+          "trigger": "after-previous",
+          "duration_s": 0.4,
+          "order": 2
+        },
+        {
+          "element": "t4",
+          "effect": "wipe",
+          "trigger": "after-previous",
+          "duration_s": 0.4,
+          "order": 3
+        }
+      ],
+      "tool": "ppt-master scripts/pptx_animations.py / pptxgenjs slide transition"
+    }
+  },
+  {
+    "slide": 7,
+    "category": "process_walkthrough",
+    "revealjs": {
+      "slide_transition": "fade",
+      "fragments": [
+        {
+          "element": "step1",
+          "class": "fragment fade-in",
+          "data-fragment-index": 0,
+          "data-autoslide": null
+        },
+        {
+          "element": "arrow1",
+          "class": "fragment fade-in",
+          "data-fragment-index": 1,
+          "data-autoslide": null
+        },
+        {
+          "element": "step2",
+          "class": "fragment fade-in",
+          "data-fragment-index": 2,
+          "data-autoslide": null
+        },
+        {
+          "element": "arrow2",
+          "class": "fragment fade-in",
+          "data-fragment-index": 3,
+          "data-autoslide": null
+        },
+        {
+          "element": "step3",
+          "class": "fragment fade-in",
+          "data-fragment-index": 4,
+          "data-autoslide": null
+        }
+      ]
+    },
+    "frontend": {
+      "effect": "step-glow",
+      "transition": {
+        "duration": 0.4,
+        "ease": "easeOut"
+      },
+      "stagger_children_s": 0.2,
+      "trigger": "mount-sequence",
+      "variant": {
+        "initial": {
+          "opacity": 0.4
+        },
+        "animate": {
+          "opacity": 1
+        },
+        "highlight": true
+      },
+      "elements": [
+        "step1",
+        "arrow1",
+        "step2",
+        "arrow2",
+        "step3"
+      ]
+    },
+    "pptx": {
+      "slide_transition": "fade",
+      "auto_advance_s": null,
+      "steps": [
+        {
+          "element": "step1",
+          "effect": "appear",
+          "trigger": "on-click",
+          "duration_s": 0.4,
+          "order": 0
+        },
+        {
+          "element": "arrow1",
+          "effect": "appear",
+          "trigger": "on-click",
+          "duration_s": 0.4,
+          "order": 1
+        },
+        {
+          "element": "step2",
+          "effect": "appear",
+          "trigger": "on-click",
+          "duration_s": 0.4,
+          "order": 2
+        },
+        {
+          "element": "arrow2",
+          "effect": "appear",
+          "trigger": "on-click",
+          "duration_s": 0.4,
+          "order": 3
+        },
+        {
+          "element": "step3",
+          "effect": "appear",
+          "trigger": "on-click",
+          "duration_s": 0.4,
+          "order": 4
+        }
+      ],
+      "tool": "ppt-master scripts/pptx_animations.py / pptxgenjs slide transition"
+    }
+  },
+  {
+    "slide": 8,
+    "category": "dashboard_animation",
+    "revealjs": {
+      "slide_transition": "fade",
+      "fragments": [
+        {
+          "element": "panel1",
+          "class": "fragment fade-in",
+          "data-fragment-index": 0,
+          "data-autoslide": 400
+        },
+        {
+          "element": "panel2",
+          "class": "fragment fade-in",
+          "data-fragment-index": 1,
+          "data-autoslide": 400
+        },
+        {
+          "element": "panel3",
+          "class": "fragment fade-in",
+          "data-fragment-index": 2,
+          "data-autoslide": 400
+        },
+        {
+          "element": "panel4",
+          "class": "fragment fade-in",
+          "data-fragment-index": 3,
+          "data-autoslide": 400
+        }
+      ]
+    },
+    "frontend": {
+      "effect": "stagger",
+      "transition": {
+        "duration": 0.4,
+        "ease": "easeOut"
+      },
+      "stagger_children_s": 0.2,
+      "trigger": "mount-sequence",
+      "variant": {
+        "initial": {
+          "opacity": 0,
+          "y": 12
+        },
+        "animate": {
+          "opacity": 1,
+          "y": 0
+        }
+      },
+      "elements": [
+        "panel1",
+        "panel2",
+        "panel3",
+        "panel4"
+      ]
+    },
+    "pptx": {
+      "slide_transition": "fade",
+      "auto_advance_s": 1.5,
+      "steps": [
+        {
+          "element": "panel1",
+          "effect": "fade",
+          "trigger": "after-previous",
+          "duration_s": 0.4,
+          "order": 0
+        },
+        {
+          "element": "panel2",
+          "effect": "fade",
+          "trigger": "after-previous",
+          "duration_s": 0.4,
+          "order": 1
+        },
+        {
+          "element": "panel3",
+          "effect": "fade",
+          "trigger": "after-previous",
+          "duration_s": 0.4,
+          "order": 2
+        },
+        {
+          "element": "panel4",
+          "effect": "fade",
+          "trigger": "after-previous",
+          "duration_s": 0.4,
+          "order": 3
+        }
+      ],
+      "tool": "ppt-master scripts/pptx_animations.py / pptxgenjs slide transition"
+    }
+  }
+]

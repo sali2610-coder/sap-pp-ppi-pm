@@ -1,0 +1,10 @@
+[
+ {"slide":1,"category":"fade","elements":["title","subtitle"],"delivery":"live","duration_s":0.3},
+ {"slide":2,"category":"zoom","elements":["hero_image"],"delivery":"live","duration_s":0.4},
+ {"slide":3,"category":"progressive_reveal","elements":["b1","b2","b3"],"delivery":"live","duration_s":0.3},
+ {"slide":4,"category":"scroll_driven","elements":["sec1","sec2","sec3"],"delivery":"web","duration_s":0.5},
+ {"slide":5,"category":"kpi_build_up","elements":["tileA","tileB","tileC","tileD"],"delivery":"live","duration_s":0.4},
+ {"slide":6,"category":"timeline_animation","elements":["t1","t2","t3","t4"],"delivery":"recorded","duration_s":0.4},
+ {"slide":7,"category":"process_walkthrough","elements":["step1","arrow1","step2","arrow2","step3"],"delivery":"live","duration_s":0.4},
+ {"slide":8,"category":"dashboard_animation","elements":["panel1","panel2","panel3","panel4"],"delivery":"web","duration_s":0.4}
+]
