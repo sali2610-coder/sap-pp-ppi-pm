@@ -90,7 +90,7 @@ export default function Page() {
         {nav.level === "universe" && <Universe data={data} color={color} onModule={openModule} />}
         {nav.level === "module" && nav.module && <Workspace data={data} color={color} code={nav.module} tab={nav.tab || "erd"} focus={nav.focus} byName={byName}
           setTab={(t) => setNav({ level: "module", module: nav.module, tab: t })} openErd={(focus) => setNav({ level: "module", module: nav.module, tab: "erd", focus })}
-          onTable={setInspect} onField={(table, f) => { setInspect(null); setField({ table, field: f }); }} onModule={openModule} inspector={inspector} />}
+          onTable={setInspect} onField={(table, f) => { setInspect(null); setField({ table, field: f }); }} onModule={openModule} onHome={() => setNav({ level: "universe" })} inspector={inspector} />}
       </div>
       {nav.tab !== "erd" && inspector}
       <div className="flex flex-wrap items-center gap-2 border-t border-slate-200 bg-white p-2.5">
@@ -155,7 +155,7 @@ function Universe({ data, color, onModule }: { data: Data; color: (m?: string | 
 }
 
 /* ===================== WORKSPACE ===================== */
-function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onTable, onField, onModule, inspector }: { data: Data; color: (m?: string | null) => string; code: string; tab: string; focus?: string[]; byName: Record<string, Tbl>; setTab: (t: string) => void; openErd: (f?: string[]) => void; onTable: (t: string) => void; onField: (table: string, field: string) => void; onModule: (m: string) => void; inspector: React.ReactNode }) {
+function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onTable, onField, onModule, onHome, inspector }: { data: Data; color: (m?: string | null) => string; code: string; tab: string; focus?: string[]; byName: Record<string, Tbl>; setTab: (t: string) => void; openErd: (f?: string[]) => void; onTable: (t: string) => void; onField: (table: string, field: string) => void; onModule: (m: string) => void; onHome: () => void; inspector: React.ReactNode }) {
   const c = color(code); const bp = data.blueprints.find((b) => b.code === code); const purpose = bp?.purpose || MOD_PURPOSE[code] || "";
   return (
     <div className="space-y-4" style={{ animation: "fadeUp .35s ease both" }}>
@@ -167,7 +167,7 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
       </div>
       {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} onTable={onTable} />}
       {tab === "process" && <ProcessFlow color={color} code={code} />}
-      {tab === "erd" && <Erd data={data} color={color} code={code} byName={byName} focus={focus} onTable={onTable} onField={onField} inspector={inspector} />}
+      {tab === "erd" && <Erd data={data} color={color} code={code} byName={byName} focus={focus} onTable={onTable} onField={onField} onHome={onHome} inspector={inspector} />}
       {tab === "technical" && <TechList data={data} color={color} code={code} onTable={onTable} />}
     </div>
   );
@@ -247,7 +247,7 @@ function usePZ() {
     ctrl: { zoomIn: () => setT((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) })), zoomOut: () => setT((p) => ({ ...p, k: Math.max(0.3, p.k / 1.2) })) } };
 }
 
-function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; focus?: string[]; onTable: (t: string) => void; onField: (table: string, field: string) => void; inspector: React.ReactNode }) {
+function Erd({ data, color, code, byName, focus, onTable, onField, onHome, inspector }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; focus?: string[]; onTable: (t: string) => void; onField: (table: string, field: string) => void; onHome: () => void; inspector: React.ReactNode }) {
   const [selMods, setSelMods] = useState<Set<string>>(() => new Set([code]));
   useEffect(() => { setSelMods(new Set([code])); }, [code]);
   const ordered = UNIVERSE.filter((m) => selMods.has(m));
@@ -292,10 +292,8 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
   const active = sel ? neigh(sel) : null;
   const fit = () => { const vw = wrapRef.current?.clientWidth || 1100, vh = wrapRef.current?.clientHeight || 600; const k = Math.max(0.3, Math.min(vw / vbW, vh / vbH, 1.15)); setTr({ k, x: (vw - vbW * k) / 2, y: Math.max(14, (vh - vbH * k) / 2) }); };
   const fullscreen = () => { const el = wrapRef.current; if (!el) return; document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); };
-  const centerOn = (nm: string) => { const pp = pos[nm]; if (!pp) return; const vw = wrapRef.current?.clientWidth || 1100, vh = wrapRef.current?.clientHeight || 600; const k = Math.max(tr.k, 0.85); setTr({ k, x: vw / 2 - (pp.x + W / 2) * k, y: vh / 2 - (pp.y + H / 2) * k }); };
   useEffect(() => { const id = setTimeout(fit, 90); return () => clearTimeout(id); /* eslint-disable-next-line */ }, [code, [...selMods].sort().join(",")]);
   const toggleMod = (m: string) => setSelMods((s) => { const n = new Set(s); if (n.has(m)) { if (n.size > 1) n.delete(m); } else n.add(m); return n; });
-  const miniK = Math.min(168 / vbW, 110 / vbH);
 
   return (
     <div className="space-y-2">
@@ -311,7 +309,7 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
         <div className="flex items-center gap-2">
           <div className="flex flex-wrap gap-1.5">{ordered.map((m) => <span key={m} className="flex items-center gap-1 text-[10px] font-bold" style={{ color: color(m) }}><i className="size-2 rounded-full" style={{ background: color(m) }} />{m}</span>)}</div>
           <div className="flex items-center gap-1">
-            {[[<ZoomIn key="zi" className="size-3.5" />, () => setTr((p) => ({ ...p, k: Math.min(2.4, p.k * 1.2) }))], [<ZoomOut key="zo" className="size-3.5" />, () => setTr((p) => ({ ...p, k: Math.max(0.3, p.k / 1.2) }))], [<Scan key="f" className="size-3.5" />, fit], [<Maximize2 key="m" className="size-3.5" />, fullscreen]].map((b, i) => <button key={i} onClick={b[1] as () => void} className="rounded-md border border-slate-200 bg-white p-1.5 text-slate-600 hover:border-slate-300">{b[0] as React.ReactNode}</button>)}
+            {[[<Home key="h" className="size-3.5" />, onHome], [<ArrowLeft key="u" className="size-3.5 rotate-90" />, () => window.scrollTo({ top: 0, behavior: "smooth" })], [<ZoomIn key="zi" className="size-3.5" />, () => setTr((p) => ({ ...p, k: Math.min(2.4, p.k * 1.2) }))], [<ZoomOut key="zo" className="size-3.5" />, () => setTr((p) => ({ ...p, k: Math.max(0.3, p.k / 1.2) }))], [<Scan key="f" className="size-3.5" />, fit], [<Maximize2 key="m" className="size-3.5" />, fullscreen]].map((b, i) => <button key={i} onClick={b[1] as () => void} className="rounded-md border border-slate-200 bg-white p-1.5 text-slate-600 hover:border-slate-300">{b[0] as React.ReactNode}</button>)}
           </div>
         </div>
       </div>
@@ -333,28 +331,31 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
                   <rect x={mx - 16} y={(ay + by) / 2 - 8} width={32} height={16} rx={5} fill={emph ? lc : "#94a3b8"} opacity={dim ? 0.4 : 1} /><text x={mx} y={(ay + by) / 2 + 4} textAnchor="middle" style={{ font: "700 9px ui-monospace" }} fill="#fff">{cardKind(l.card)}</text>
                 </g>; })}
             </svg>
-            {shown.map((t, gi) => { const p = pos[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const dim = active && !active.has(t.name); const isSel = sel === t.name; const isExp = exp === t.name;
-              const tf = fieldsOf(t); const top = [...tf.filter((f) => f[3] === "PK"), ...tf.filter((f) => f[3] === "FK"), ...tf.filter((f) => f[3] !== "PK" && f[3] !== "FK")].slice(0, 7);
+            {shown.map((t, gi) => { const p = pos[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const dim = active && !active.has(t.name); const isSel = sel === t.name; const isExp = exp === t.name; const tf = fieldsOf(t);
               return (
-                <div key={t.name} data-card onClick={() => { setSel(t.name); setExp(isExp ? null : t.name); centerOn(t.name); }} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
+                <div key={t.name} data-card onClick={() => { setSel(t.name); setExp(isExp ? null : t.name); }} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
                   className="absolute select-none overflow-hidden rounded-xl border bg-white shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md"
-                  style={{ left: p.x, top: p.y, width: W, minHeight: H, borderColor: isSel ? "#d62027" : "#e5e7eb", borderWidth: isSel ? 2 : 1, boxShadow: isExp ? `0 14px 34px ${c}40` : isSel ? `0 8px 20px ${c}33` : undefined, opacity: dim ? 0.3 : 1, zIndex: isExp ? 40 : isSel ? 30 : 2, cursor: "pointer" }}>
+                  style={{ left: p.x, top: p.y, width: W, height: H, borderColor: isSel ? "#d62027" : "#e5e7eb", borderWidth: isSel ? 2 : 1, boxShadow: isSel ? `0 8px 20px ${c}33` : undefined, opacity: dim ? 0.3 : 1, zIndex: isSel ? 30 : 2, cursor: "pointer" }}>
                   <div className="h-1" style={{ background: c }} />
                   <div className="px-3 py-2">
                     <div className="flex items-center gap-1.5"><span className="size-2 shrink-0 rounded-full" style={{ background: c }} /><span className="truncate font-mono text-[15px] font-extrabold text-slate-900" dir="ltr">{t.name}</span></div>
                     <div className="mt-0.5 flex items-center justify-between gap-2"><span className="truncate text-[10px] text-slate-500">{t.he || t.en}</span><span className="shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-bold" style={{ background: c + "1a", color: c }}>{tf.length} {isExp ? "▲" : "▼"}</span></div>
                   </div>
-                  {isExp && <div className="space-y-1 border-t border-dashed border-slate-200 px-2 pb-2 pt-1.5" style={{ animation: "pop .18s ease both" }}>
-                    {top.map((f) => <button key={f[0]} onClick={(e) => { e.stopPropagation(); onField(t.name, f[0]); }} className="flex w-full items-center justify-between gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 transition hover:border-slate-300 hover:bg-slate-50">
-                      <span className={`font-mono text-[11px] font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`} dir="ltr">{f[0]}</span>
-                      {f[3] !== "-" ? <span className="rounded px-1 text-[8px] font-extrabold" style={{ background: f[3] === "PK" ? "#fef3c7" : "#dbeafe", color: f[3] === "PK" ? "#b45309" : "#1d4ed8" }}>{f[3]}</span> : <span className="truncate text-[9px] text-slate-400">{f[2]}</span>}
-                    </button>)}
-                    <button onClick={(e) => { e.stopPropagation(); onTable(t.name); }} className="w-full pt-0.5 text-center text-[10px] font-bold text-[#d62027] hover:underline">פרטים מלאים ↗</button>
-                  </div>}
                 </div>); })}
-          </div>
-          <div className="absolute bottom-2 left-2 z-20 rounded-md border border-slate-200 bg-white/95 p-1 shadow-sm">
-            <svg width={170} height={112} className="block"><g transform={`scale(${miniK})`}>{shown.map((t) => { const p = pos[t.name]; if (!p) return null; return <rect key={t.name} x={p.x} y={p.y} width={W} height={H} rx={6} fill={color(own[t.name] || t.mod)} opacity={0.6} />; })}<rect x={-tr.x / tr.k} y={-tr.y / tr.k} width={(wrapRef.current?.clientWidth || 1100) / tr.k} height={(wrapRef.current?.clientHeight || 600) / tr.k} fill="none" stroke="#d62027" strokeWidth={6 / miniK} /></g></svg>
+            {/* dynamic popover below the selected card (does not move the map) */}
+            {exp && pos[exp] && byName[exp] && (() => { const t = byName[exp]; const p = pos[exp]; const c = color(own[exp] || t.mod); const tf = fieldsOf(t); const top = [...tf.filter((f) => f[3] === "PK"), ...tf.filter((f) => f[3] === "FK"), ...tf.filter((f) => f[3] !== "PK" && f[3] !== "FK")].slice(0, 8);
+              return (
+                <div className="absolute z-50 rounded-2xl border-2 bg-white p-3 shadow-2xl" style={{ left: p.x - 18, top: p.y + H + 12, width: W + 36, borderColor: c, animation: "pop .18s ease both" }}>
+                  <div className="mb-2 flex items-center justify-between">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">שדות מובילים</span>
+                    <span className="font-mono text-sm font-extrabold" style={{ color: c }} dir="ltr">{t.name}</span>
+                  </div>
+                  <div className="space-y-1">{top.map((f) => <button key={f[0]} onClick={(e) => { e.stopPropagation(); onField(t.name, f[0]); }} className="flex w-full items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 transition hover:border-slate-300 hover:bg-slate-50">
+                    <span className={`font-mono text-[12px] font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`} dir="ltr">{f[0]}</span>
+                    {f[3] !== "-" ? <span className="rounded px-1.5 py-0.5 text-[9px] font-extrabold" style={{ background: f[3] === "PK" ? "#fef3c7" : "#dbeafe", color: f[3] === "PK" ? "#b45309" : "#1d4ed8" }}>{f[3]}</span> : <span className="truncate text-[10px] text-slate-400">{f[2]}</span>}
+                  </button>)}</div>
+                  <button onClick={(e) => { e.stopPropagation(); onTable(t.name); }} className="mt-2 w-full rounded-lg py-1.5 text-center text-[11px] font-bold text-white" style={{ background: c }}>פרטים מלאים ↗</button>
+                </div>); })()}
           </div>
           {inspector}
         </div>
