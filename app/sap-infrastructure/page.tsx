@@ -251,7 +251,7 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
   const [selMods, setSelMods] = useState<Set<string>>(() => new Set([code]));
   useEffect(() => { setSelMods(new Set([code])); }, [code]);
   const ordered = UNIVERSE.filter((m) => selMods.has(m));
-  const W = 264;
+  const W = 244;
   const groups = (t: Tbl) => { const f = fieldsOf(t); const pk = f.filter((x) => x[3] === "PK"), fk = f.filter((x) => x[3] === "FK"); const tech = f.filter((x) => x[3] !== "PK" && x[3] !== "FK" && TECH_FIELDS.has(x[0])).slice(0, 3); const biz = f.filter((x) => x[3] !== "PK" && x[3] !== "FK" && !TECH_FIELDS.has(x[0])).slice(0, 8); return { pk, fk, biz, tech }; };
 
   const { shown, regions, init, own } = useMemo(() => {
@@ -285,7 +285,7 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
   useEffect(() => { const h = () => setFs(!!document.fullscreenElement); document.addEventListener("fullscreenchange", h); return () => document.removeEventListener("fullscreenchange", h); }, []);
 
   const names = new Set(shown.map((t) => t.name));
-  const cardH = (t: Tbl) => { if (!exp.has(t.name)) return 116; const g = groups(t); let h = 124; [g.pk, g.fk, g.biz, g.tech].forEach((a) => { if (a.length) h += 22 + a.length * 24 + 6; }); return h; };
+  const cardH = (t: Tbl) => { if (!exp.has(t.name)) return 134; const g = groups(t); let h = 134 + 14; [g.pk, g.fk, g.biz, g.tech].forEach((a) => { if (a.length) h += 20 + a.length * 34 + 8; }); return h; };
   const links: { a: string; b: string; card: string }[] = [];
   shown.forEach((t) => t.rel.forEach((r) => { if (names.has(r.table)) { const a = r.role === "parent" ? t.name : r.table, b = r.role === "parent" ? r.table : t.name; if (!links.find((l) => l.a === a && l.b === b)) links.push({ a, b, card: r.card || "1:N" }); } }));
   const neigh = (nm: string) => { const s = new Set([nm]); links.forEach((l) => { if (l.a === nm) s.add(l.b); if (l.b === nm) s.add(l.a); }); return s; };
@@ -345,35 +345,30 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
                 </g>; })}
             </svg>
             {/* cards (HTML) */}
-            {shown.map((t) => { const p = posns[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const isExp = exp.has(t.name); const g = groups(t); const dim = active && !active.has(t.name); const isSel = sel === t.name;
+            {shown.map((t, gi) => { const p = posns[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const isExp = exp.has(t.name); const g = groups(t); const dim = active && !active.has(t.name); const isSel = sel === t.name;
               const toggle = () => setExp((s) => { const n = new Set(s); n.has(t.name) ? n.delete(t.name) : n.add(t.name); return n; });
-              const Sec = ({ label, arr, cls, badge }: { label: string; arr: Field[]; cls: string; badge?: string }) => arr.length ? (
-                <div><div className="mb-0.5 text-[9px] font-bold uppercase tracking-wide text-slate-400">{label}</div>
-                  {arr.map((f) => <button key={f[0]} onClick={(e) => { e.stopPropagation(); onField(t.name, f[0]); }} onPointerDown={(e) => e.stopPropagation()} className="flex w-full items-center justify-between gap-2 rounded-md px-1.5 py-0.5 text-right hover:bg-slate-50">
-                    <span className={`font-mono text-[12.5px] ${cls} ${badge === "PK" ? "font-bold underline" : "font-medium"}`} dir="ltr">{f[0]}</span>
-                    {badge ? <span className={`text-[9px] font-bold ${cls}`}>{badge}</span> : <span className="truncate text-[10px] text-slate-400">{f[2]}</span>}
-                  </button>)}</div>) : null;
+              const Sec = ({ label, arr, cls, badge, bg }: { label: string; arr: Field[]; cls: string; badge?: string; bg: string }) => arr.length ? (
+                <div><div className="mb-1 text-[9px] font-bold uppercase tracking-wider text-slate-400">{label}</div>
+                  <div className="space-y-1">{arr.map((f) => <button key={f[0]} onClick={(e) => { e.stopPropagation(); onField(t.name, f[0]); }} onPointerDown={(e) => e.stopPropagation()} className="flex w-full items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-right transition hover:border-slate-300 hover:bg-slate-50">
+                    <span className={`font-mono text-[13px] font-bold ${cls}`} dir="ltr">{f[0]}</span>
+                    {badge ? <span className="rounded px-1.5 py-0.5 text-[9px] font-extrabold" style={{ background: bg, color: cls.includes("amber") ? "#b45309" : "#1d4ed8" }}>{badge}</span> : <span className="truncate text-[10px] text-slate-400">{f[2]}</span>}
+                  </button>)}</div></div>) : null;
               return (
                 <div key={t.name} data-card onPointerDown={(e) => cardDown(e, t.name)} onClick={() => { if (drag.current?.moved) return; setSel(t.name); toggle(); centerOn(t.name); }} onDoubleClick={() => onTable(t.name)}
-                  className="absolute select-none rounded-2xl border bg-white shadow-sm transition-shadow duration-200 hover:shadow-md"
-                  style={{ left: p.x, top: p.y, width: W, borderColor: isSel ? c : "#e5e7eb", boxShadow: isSel ? `0 8px 20px ${c}30` : undefined, opacity: dim ? 0.28 : 1, zIndex: isSel ? 30 : 2, cursor: "grab" }}>
-                  <div className="h-1.5 rounded-t-2xl" style={{ background: c }} />
-                  <div className="px-4 pt-2.5">
-                    <div className="flex items-start justify-between">
-                      <div className="min-w-0 flex items-center gap-2"><span className="size-2.5 rounded-full" style={{ background: c }} /><div className="font-mono text-xl font-extrabold leading-tight text-slate-900" dir="ltr">{t.name}</div></div>
-                      <button onClick={(e) => { e.stopPropagation(); toggle(); }} onPointerDown={(e) => e.stopPropagation()} className="grid size-6 shrink-0 place-items-center rounded-lg text-sm font-extrabold text-white hover:brightness-110" style={{ background: c }}>{isExp ? "−" : "+"}</button>
-                    </div>
-                    <div className="truncate pt-0.5 text-xs font-medium text-slate-500">{t.he || t.en}</div>
-                    <div className="flex items-center justify-between pb-2.5 pt-1.5">
-                      <span className="font-mono text-[11px] text-slate-400" dir="ltr">{t.en.slice(0, 22)}</span>
-                      <span className="rounded-full px-2 py-0.5 text-[11px] font-bold" style={{ background: c + "1a", color: c }}>{fieldsOf(t).length} שדות</span>
-                    </div>
+                  className="absolute select-none rounded-2xl border-2 bg-white p-5 text-right shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+                  style={{ left: p.x, top: p.y, width: W, borderColor: isSel ? "#d62027" : c, boxShadow: isSel ? `0 12px 30px ${c}33` : undefined, opacity: dim ? 0.28 : 1, zIndex: isSel ? 30 : 2, cursor: "grab" }}>
+                  <div className="flex items-start justify-between">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">{String(gi + 1).padStart(2, "0")}</span>
+                    <span className="size-2.5 rounded-full" style={{ background: c }} />
                   </div>
-                  {isExp && <div className="space-y-2 px-3 py-2.5" style={{ animation: "pop .2s ease both" }}>
-                    <Sec label="PRIMARY KEY" arr={g.pk} cls="text-amber-600" badge="PK" />
-                    <Sec label="FOREIGN KEYS" arr={g.fk} cls="text-blue-600" badge="FK" />
-                    <Sec label="BUSINESS" arr={g.biz} cls="text-slate-700" />
-                    <Sec label="TECHNICAL" arr={g.tech} cls="text-slate-400" />
+                  <div className="mt-1 font-mono text-2xl font-extrabold leading-tight text-slate-900" dir="ltr">{t.name}</div>
+                  <div className="truncate text-xs font-medium text-slate-500">{t.he || t.en}</div>
+                  <button onClick={(e) => { e.stopPropagation(); setSel(t.name); toggle(); }} onPointerDown={(e) => e.stopPropagation()} className="mt-3 inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold transition hover:brightness-95" style={{ background: c + "1a", color: c }}>{fieldsOf(t).length} שדות {isExp ? "▲" : "▼"}</button>
+                  {isExp && <div className="mt-3 space-y-2.5 border-t border-dashed border-slate-200 pt-3" style={{ animation: "pop .2s ease both" }}>
+                    <Sec label="PRIMARY KEY" arr={g.pk} cls="text-amber-600" badge="PK" bg="#fef3c7" />
+                    <Sec label="FOREIGN KEYS" arr={g.fk} cls="text-blue-600" badge="FK" bg="#dbeafe" />
+                    <Sec label="BUSINESS" arr={g.biz} cls="text-slate-700" bg="#f1f5f9" />
+                    <Sec label="TECHNICAL" arr={g.tech} cls="text-slate-400" bg="#f1f5f9" />
                   </div>}
                 </div>); })}
           </div>
