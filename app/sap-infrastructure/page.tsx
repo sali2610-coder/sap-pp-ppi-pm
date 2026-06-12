@@ -15,7 +15,7 @@ type Data = { meta: { counts: Record<string, number> }; palette: Record<string, 
 const fieldsOf = (t: { name: string; fields: Field[] }) => (FIELDS_PLUS[t.name] || t.fields) as Field[];
 const UNIVERSE = ["MM", "SD", "PP", "PP-PI", "PM", "QM", "CS", "FI", "CO", "BATCH", "CLASS", "IDOC", "PIPO"];
 const MOD_NAME_HE: Record<string, string> = { MM: "ניהול חומרים", SD: "מכירות והפצה", PP: "תכנון ייצור", "PP-PI": "ייצור תהליכי", PM: "תחזוקת מפעל", QM: "ניהול איכות", CS: "שירות לקוחות", FI: "הנהלת חשבונות", CO: "בקרת עלויות", BATCH: "ניהול אצוות", CLASS: "מערכת סיווג", IDOC: "מסגרת IDOC/ALE", PIPO: "ממשקי PI/PO" };
-const TABS = [["objects", "אובייקטים"], ["process", "תהליך"], ["erd", "ERD מלא"], ["technical", "טכני"]] as const;
+const TABS = [["objects", "אובייקטים"], ["process", "תהליך"], ["erd", "מודל נתונים"], ["technical", "טכני"]] as const;
 const erdMembers = (data: Data, code: string): Tbl[] => { const byName = Object.fromEntries(data.tables.map((t) => [t.name, t])); const list = (ERD_MODULES[code] || []).map((n) => byName[n]).filter(Boolean) as Tbl[]; return list.length ? list : data.tables.filter((t) => t.mod === code).sort((a, b) => b.degree - a.degree).slice(0, 16); };
 
 const ANIM = `@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}@keyframes erdflow{to{stroke-dashoffset:-200}}.flowline{stroke-dasharray:7 6;animation:erdflow 3s linear infinite}.flowline.fast{animation-duration:1s}@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}@keyframes countpulse{0%{opacity:.4}100%{opacity:1}}`;
@@ -202,7 +202,7 @@ function ObjectsView({ data, color, code, byName, onObjectErd, onTable }: { data
           </div>
         ))}
       </div>
-      <button onClick={() => onObjectErd(undefined)} className="inline-flex items-center gap-2 rounded-xl bg-[#d62027] px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:brightness-110"><Maximize2 className="size-4" /> פתח ERD מלא של {code}</button>
+      <button onClick={() => onObjectErd(undefined)} className="inline-flex items-center gap-2 rounded-xl bg-[#d62027] px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:brightness-110"><Maximize2 className="size-4" /> פתח מודל נתונים (ERD) של {code}</button>
     </div>
   );
 }
@@ -290,7 +290,7 @@ function Erd({ data, color, code, byName, focus, onTable, onField, onHome, inspe
 
   const neigh = (nm: string) => { const s = new Set([nm]); links.forEach((l) => { if (l.a === nm) s.add(l.b); if (l.b === nm) s.add(l.a); }); return s; };
   const active = sel ? neigh(sel) : null;
-  const fit = () => { const vw = wrapRef.current?.clientWidth || 1100, vh = wrapRef.current?.clientHeight || 600; const k = Math.max(0.3, Math.min(vw / vbW, vh / vbH, 1.15)); setTr({ k, x: (vw - vbW * k) / 2, y: Math.max(14, (vh - vbH * k) / 2) }); };
+  const fit = () => { const vw = wrapRef.current?.clientWidth || 1100, vh = wrapRef.current?.clientHeight || 600; const k = Math.max(0.28, Math.min((vw - 40) / vbW, (vh - 40) / vbH, 1.7)); setTr({ k, x: (vw - vbW * k) / 2, y: Math.max(16, (vh - vbH * k) / 2) }); };
   const fullscreen = () => { const el = wrapRef.current; if (!el) return; document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); };
   useEffect(() => { const id = setTimeout(fit, 90); return () => clearTimeout(id); /* eslint-disable-next-line */ }, [code, [...selMods].sort().join(",")]);
   const toggleMod = (m: string) => setSelMods((s) => { const n = new Set(s); if (n.has(m)) { if (n.size > 1) n.delete(m); } else n.add(m); return n; });
@@ -305,7 +305,7 @@ function Erd({ data, color, code, byName, focus, onTable, onField, onHome, inspe
           </button>); })}
       </div>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-sm font-bold text-slate-700">תרשים היררכי · {ordered.join(" + ")} · {shown.length} טבלאות</h3>
+        <h3 className="text-sm font-bold text-slate-700">מודל נתונים (ERD) · {ordered.join(" + ")} · {shown.length} טבלאות</h3>
         <div className="flex items-center gap-2">
           <div className="flex flex-wrap gap-1.5">{ordered.map((m) => <span key={m} className="flex items-center gap-1 text-[10px] font-bold" style={{ color: color(m) }}><i className="size-2 rounded-full" style={{ background: color(m) }} />{m}</span>)}</div>
           <div className="flex items-center gap-1">
@@ -318,7 +318,7 @@ function Erd({ data, color, code, byName, focus, onTable, onField, onHome, inspe
           {[["🔑 PK", "#d97706"], ["FK", "#2563eb"], ["חוצה-מודול", "#7c3aed"]].map(([k, v]) => (<span key={k} className="flex items-center gap-1 rounded-md bg-white/95 px-2 py-0.5 ring-1 ring-slate-200"><i className="size-2 rounded-full" style={{ background: v }} /><span style={{ color: v }}>{k}</span></span>))}
         </div>
         <div className={`relative ${fs ? "h-screen bg-white" : "h-[74vh] min-h-[560px]"}`}>
-          <div className="absolute left-0 top-0 origin-top-left" style={{ transform: `translate(${tr.x}px,${tr.y}px) scale(${tr.k})`, width: vbW, height: vbH }}>
+          <div className="absolute left-0 top-0 origin-top-left" style={{ transform: `translate(${tr.x}px,${tr.y}px) scale(${tr.k})`, width: vbW, height: vbH, transition: "transform .45s cubic-bezier(.2,.7,.2,1)" }}>
             <svg className="pointer-events-none absolute left-0 top-0" width={vbW} height={vbH} style={{ overflow: "visible" }}>
               {links.map((l, i) => { const A = pos[l.a], B = pos[l.b], TA = byName[l.a], TB = byName[l.b]; if (!A || !B || !TA || !TB) return null;
                 const fwd = A.x <= B.x; const ax = (fwd ? A.x + W : A.x), ay = A.y + H / 2, bx = (fwd ? B.x : B.x + W), by = B.y + H / 2; const mx = (ax + bx) / 2;
@@ -360,7 +360,7 @@ function Erd({ data, color, code, byName, focus, onTable, onField, onHome, inspe
           {inspector}
         </div>
       </div>
-      <p className="text-[11px] text-slate-500">פריסה היררכית קבועה משמאל→ימין (master → transaction → posting) · צבע = מודול · לחיצה על קוביה = פאנל מלא + הדגשת קשרים · גלגלת/כפתורים = זום · מסך מלא</p>
+      <p className="text-[11px] text-slate-500">מודל נתונים — פריסה היררכית משמאל→ימין (master → transaction → posting) · צבע = מודול · לחיצה על קוביה = פאנל מלא + הדגשת קשרים · גלגלת/כפתורים = זום · מסך מלא</p>
     </div>
   );
 }
