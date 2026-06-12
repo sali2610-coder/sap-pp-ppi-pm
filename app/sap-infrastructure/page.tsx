@@ -264,7 +264,7 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
     let cx = 48;
     ordered.forEach((m) => {
       const tbls = allNames.filter((n) => owner[n] === m).map((n) => byName[n]).filter(Boolean) as Tbl[];
-      const ncol = tbls.length > 8 ? 3 : 2; const w = ncol * W + (ncol - 1) * 40;
+      const ncol = Math.min(5, Math.max(3, Math.ceil(Math.sqrt(tbls.length * 1.8)))); const w = ncol * W + (ncol - 1) * 40;
       tbls.forEach((t, i) => { const r = Math.floor(i / ncol), c = i % ncol; pos[t.name] = { x: cx + c * (W + 40), y: 128 + r * 312 }; });
       const rows = Math.max(1, Math.ceil(tbls.length / ncol));
       regs.push({ m, x: cx - 24, y: 56, w: w + 48, h: 92 + rows * 312 });
@@ -328,7 +328,7 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
           <div className="absolute left-0 top-0 origin-top-left" style={{ transform: `translate(${tr.x}px,${tr.y}px) scale(${tr.k})`, width: vbW, height: vbH }}>
             {/* module regions */}
             {regions.map((rg) => { const c = color(rg.m); return (
-              <div key={rg.m} className="absolute rounded-3xl border-2 border-dashed" style={{ left: rg.x, top: rg.y, width: rg.w, height: rg.h, borderColor: c + "55", background: c + "0a" }}>
+              <div key={rg.m} className="absolute rounded-3xl border-2 border-dashed" style={{ left: rg.x, top: rg.y, width: rg.w, height: rg.h, borderColor: c + "40", background: c + "07" }}>
                 <span className="absolute right-4 top-3 rounded-full px-2.5 py-1 text-xs font-extrabold" style={{ background: c + "1f", color: c }}>{rg.m} · {MOD_NAME_HE[rg.m]}</span>
               </div>); })}
             {/* links */}
@@ -355,17 +355,18 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
                   </button>)}</div>) : null;
               return (
                 <div key={t.name} data-card onPointerDown={(e) => cardDown(e, t.name)} onClick={() => { if (drag.current?.moved) return; setSel(t.name); toggle(); centerOn(t.name); }} onDoubleClick={() => onTable(t.name)}
-                  className="absolute select-none rounded-2xl border-2 bg-white shadow-md transition-shadow duration-200 hover:shadow-xl"
-                  style={{ left: p.x, top: p.y, width: W, borderColor: isSel ? "#d62027" : c, boxShadow: isSel ? `0 14px 34px ${c}45` : undefined, opacity: dim ? 0.25 : 1, zIndex: isSel ? 30 : 2, cursor: "grab" }}>
-                  <div className="rounded-t-2xl px-4 pt-3" style={{ background: `linear-gradient(135deg,${c},${c}cc)` }}>
+                  className="absolute select-none rounded-2xl border bg-white shadow-sm transition-shadow duration-200 hover:shadow-md"
+                  style={{ left: p.x, top: p.y, width: W, borderColor: isSel ? c : "#e5e7eb", boxShadow: isSel ? `0 8px 20px ${c}30` : undefined, opacity: dim ? 0.28 : 1, zIndex: isSel ? 30 : 2, cursor: "grab" }}>
+                  <div className="h-1.5 rounded-t-2xl" style={{ background: c }} />
+                  <div className="px-4 pt-2.5">
                     <div className="flex items-start justify-between">
-                      <div className="min-w-0"><div className="font-mono text-xl font-extrabold leading-tight text-white" dir="ltr">{t.name}</div>
-                        <div className="truncate text-xs font-medium text-white/85">{t.he || t.en}</div></div>
-                      <button onClick={(e) => { e.stopPropagation(); toggle(); }} onPointerDown={(e) => e.stopPropagation()} className="grid size-6 shrink-0 place-items-center rounded-lg bg-white/25 text-sm font-extrabold text-white hover:bg-white/35">{isExp ? "−" : "+"}</button>
+                      <div className="min-w-0 flex items-center gap-2"><span className="size-2.5 rounded-full" style={{ background: c }} /><div className="font-mono text-xl font-extrabold leading-tight text-slate-900" dir="ltr">{t.name}</div></div>
+                      <button onClick={(e) => { e.stopPropagation(); toggle(); }} onPointerDown={(e) => e.stopPropagation()} className="grid size-6 shrink-0 place-items-center rounded-lg text-sm font-extrabold text-white hover:brightness-110" style={{ background: c }}>{isExp ? "−" : "+"}</button>
                     </div>
+                    <div className="truncate pt-0.5 text-xs font-medium text-slate-500">{t.he || t.en}</div>
                     <div className="flex items-center justify-between pb-2.5 pt-1.5">
-                      <span className="font-mono text-[11px] text-white/70" dir="ltr">{t.en.slice(0, 22)}</span>
-                      <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-bold text-white">{fieldsOf(t).length} שדות</span>
+                      <span className="font-mono text-[11px] text-slate-400" dir="ltr">{t.en.slice(0, 22)}</span>
+                      <span className="rounded-full px-2 py-0.5 text-[11px] font-bold" style={{ background: c + "1a", color: c }}>{fieldsOf(t).length} שדות</span>
                     </div>
                   </div>
                   {isExp && <div className="space-y-2 px-3 py-2.5" style={{ animation: "pop .2s ease both" }}>
