@@ -251,7 +251,7 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
   const [selMods, setSelMods] = useState<Set<string>>(() => new Set([code]));
   useEffect(() => { setSelMods(new Set([code])); }, [code]);
   const ordered = UNIVERSE.filter((m) => selMods.has(m));
-  const cardW = 200, headH = 36, rowH = 19, secH = 17;
+  const cardW = 268, headH = 50, rowH = 22, secH = 18;
 
   // assemble tables across selected modules, assign each unique table to one owning cluster
   const { shown, regions, init, own } = useMemo(() => {
@@ -264,10 +264,10 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
     let cx = 44;
     ordered.forEach((m) => {
       const tbls = allNames.filter((n) => owner[n] === m).map((n) => byName[n]).filter(Boolean) as Tbl[];
-      const ncol = tbls.length > 8 ? 3 : 2; const w = ncol * cardW + (ncol - 1) * 26;
-      tbls.forEach((t, i) => { const r = Math.floor(i / ncol), c = i % ncol; pos[t.name] = { x: cx + c * (cardW + 26), y: 104 + r * 248 }; });
+      const ncol = tbls.length > 8 ? 3 : 2; const w = ncol * cardW + (ncol - 1) * 34;
+      tbls.forEach((t, i) => { const r = Math.floor(i / ncol), c = i % ncol; pos[t.name] = { x: cx + c * (cardW + 34), y: 120 + r * 286 }; });
       const rows = Math.max(1, Math.ceil(tbls.length / ncol));
-      regs.push({ m, x: cx - 20, y: 50, w: w + 40, h: 64 + rows * 248 });
+      regs.push({ m, x: cx - 22, y: 50, w: w + 44, h: 80 + rows * 286 });
       cx += w + 96;
     });
     return { shown: sh, regions: regs, init: pos, own: owner };
@@ -278,7 +278,7 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
   const [sel, setSel] = useState<string | null>(focus && focus[0] ? focus[0] : null);
   const [hv, setHv] = useState<string | null>(null);
   const [fs, setFs] = useState(false);
-  const { t: zt, bg, setT } = usePZ();
+  const { t: zt, bg, setT, ctrl } = usePZ();
   const wrapRef = useRef<HTMLDivElement>(null);
   const drag = useRef<{ name: string; x: number; y: number; ox: number; oy: number; moved: boolean } | null>(null);
   useEffect(() => { setPos(init); /* eslint-disable-next-line */ }, [init]);
@@ -287,7 +287,7 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
 
   const names = new Set(shown.map((t) => t.name));
   const groups = (t: Tbl) => { const f = fieldsOf(t); const pk = f.filter((x) => x[3] === "PK"), fk = f.filter((x) => x[3] === "FK"); const tech = f.filter((x) => x[3] !== "PK" && x[3] !== "FK" && TECH_FIELDS.has(x[0])).slice(0, 3); const biz = f.filter((x) => x[3] !== "PK" && x[3] !== "FK" && !TECH_FIELDS.has(x[0])).slice(0, 8); return { pk, fk, biz, tech }; };
-  const cardH = (t: Tbl) => { if (!exp.has(t.name)) return 74; const g = groups(t); let h = headH + 8; [g.pk, g.fk, g.biz, g.tech].forEach((a) => { if (a.length) h += secH + a.length * rowH + 4; }); return h + 6; };
+  const cardH = (t: Tbl) => { if (!exp.has(t.name)) return 116; const g = groups(t); let h = headH + 8; [g.pk, g.fk, g.biz, g.tech].forEach((a) => { if (a.length) h += secH + a.length * rowH + 4; }); return h + 6; };
   const links: { a: string; b: string; card: string }[] = [];
   shown.forEach((t) => t.rel.forEach((r) => { if (names.has(r.table)) { const a = r.role === "parent" ? t.name : r.table, b = r.role === "parent" ? r.table : t.name; if (!links.find((l) => l.a === a && l.b === b)) links.push({ a, b, card: r.card || "1:N" }); } }));
   const neigh = (nm: string) => { const s = new Set([nm]); links.forEach((l) => { if (l.a === nm) s.add(l.b); if (l.b === nm) s.add(l.a); }); return s; };
@@ -317,7 +317,7 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-sm font-bold text-slate-700">תרשים מודולים · {ordered.join(" + ")} · {shown.length} טבלאות</h3>
         <div className="flex items-center gap-1">
-          {[[<Expand key="e" className="size-3" />, "הרחב", () => setExp(new Set(shown.map((t) => t.name)))], [<Shrink key="s" className="size-3" />, "כווץ", () => setExp(new Set())], [<Scan key="f" className="size-3" />, "התאם", fit], [<Maximize2 key="m" className="size-3" />, "מסך מלא", fullscreen]].map((b, i) => <button key={i} onClick={b[2] as () => void} className="flex items-center gap-1 rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-bold text-slate-600 hover:border-slate-300">{b[0] as React.ReactNode}{b[1] as string}</button>)}
+          {[[<ZoomIn key="zi" className="size-3" />, "", ctrl.zoomIn], [<ZoomOut key="zo" className="size-3" />, "", ctrl.zoomOut], [<Scan key="f" className="size-3" />, "התאם", fit], [<Expand key="e" className="size-3" />, "הרחב", () => setExp(new Set(shown.map((t) => t.name)))], [<Shrink key="s" className="size-3" />, "כווץ", () => setExp(new Set())], [<Maximize2 key="m" className="size-3" />, "מסך", fullscreen]].map((b, i) => <button key={i} onClick={b[2] as () => void} className="flex items-center gap-1 rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-bold text-slate-600 hover:border-slate-300">{b[0] as React.ReactNode}{b[1] as string}</button>)}
         </div>
       </div>
       <div ref={wrapRef} className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white" style={{ backgroundImage: "radial-gradient(#e2e8f0 1px,transparent 1px)", backgroundSize: "22px 22px" }}>
@@ -347,24 +347,24 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
             {/* nodes */}
             {shown.map((t) => { const p = posns[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const ch = cardH(t); const isExp = exp.has(t.name); const g = groups(t); const dim = active && !active.has(t.name); const isSel = sel === t.name; let yy = headH + 8;
               const section = (label: string, arr: Field[], cls: string, badge?: string) => { if (!arr.length) return null; const sy = yy; yy += secH; const ry0 = yy; yy += arr.length * rowH + 4;
-                return <g key={label}><text x={cardW - 10} y={sy + 12} textAnchor="end" style={{ font: "700 9px sans-serif" }} className="fill-slate-400">{label}</text>
+                return <g key={label}><text x={cardW - 12} y={sy + 13} textAnchor="end" style={{ font: "700 10px sans-serif" }} className="fill-slate-400">{label}</text>
                   {arr.map((f, j) => { const ry = ry0 + j * rowH; return <g key={f[0]} transform={`translate(0,${ry})`} className="cursor-pointer" onPointerDown={(e) => e.stopPropagation()} onClick={(e) => { e.stopPropagation(); onField(t.name, f[0]); }}>
                     <rect x={1} width={cardW - 2} height={rowH} fill={j % 2 ? "#f8fafc" : "#fff"} />
-                    <text x={10} y={14} direction="ltr" style={{ font: `${badge === "PK" ? 700 : 500} 11px ui-monospace`, textDecoration: badge === "PK" ? "underline" : "none" }} className={cls}>{f[0]}</text>
-                    {badge ? <text x={cardW - 9} y={14} textAnchor="end" style={{ font: "700 8px ui-monospace" }} className={cls}>{badge}</text> : (f[2] && <text x={cardW - 9} y={14} textAnchor="end" style={{ font: "500 9px sans-serif" }} className="fill-slate-400">{f[2].length > 13 ? f[2].slice(0, 12) + "…" : f[2]}</text>)}
+                    <text x={12} y={15} direction="ltr" style={{ font: `${badge === "PK" ? 700 : 500} 12.5px ui-monospace`, textDecoration: badge === "PK" ? "underline" : "none" }} className={cls}>{f[0]}</text>
+                    {badge ? <text x={cardW - 11} y={15} textAnchor="end" style={{ font: "700 9px ui-monospace" }} className={cls}>{badge}</text> : (f[2] && <text x={cardW - 11} y={15} textAnchor="end" style={{ font: "500 10px sans-serif" }} className="fill-slate-400">{f[2].length > 14 ? f[2].slice(0, 13) + "…" : f[2]}</text>)}
                   </g>; })}</g>; };
               const sc = isSel ? 1.03 : 1; const sx = p.x - (cardW * (sc - 1)) / 2, sy2 = p.y - (ch * (sc - 1)) / 2; const toggle = () => setExp((s) => { const n = new Set(s); n.has(t.name) ? n.delete(t.name) : n.add(t.name); return n; });
               return <g key={t.name} data-card transform={`translate(${sx},${sy2}) scale(${sc})`} opacity={dim ? 0.2 : 1} className="cursor-pointer"
                 onPointerDown={(e) => onCardDown(e, t.name)} onClick={() => { if (drag.current?.moved) return; setSel(t.name); toggle(); centerOn(t.name); }} onDoubleClick={() => onTable(t.name)} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}>
                 <rect width={cardW} height={ch} rx={12} fill="#fff" stroke={isSel ? c : "#e2e8f0"} strokeWidth={isSel ? 2.5 : 1.2} style={{ filter: isSel ? `drop-shadow(0 10px 26px ${c}55)` : "drop-shadow(0 4px 14px rgba(15,23,42,.13))", transition: "filter .2s" }} />
                 <path d={`M0,12 a12,12 0 0 1 12,-12 h${cardW - 24} a12,12 0 0 1 12,12 v${headH - 12} h-${cardW} z`} fill={c} />
-                <text x={14} y={headH / 2 + 5} style={{ font: "800 15px ui-monospace" }} className="fill-white" direction="ltr">{t.name}</text>
-                <text x={cardW - 34} y={headH / 2 + 4} textAnchor="end" style={{ font: "600 9px sans-serif" }} className="fill-white/80">{t.mod}</text>
+                <text x={16} y={24} style={{ font: "800 20px ui-monospace" }} className="fill-white" direction="ltr">{t.name}</text>
+                <text x={16} y={41} style={{ font: "600 11.5px sans-serif" }} className="fill-white/90">{(t.he || t.en).slice(0, 26)}</text>
                 <g onPointerDown={(e) => e.stopPropagation()} onClick={(e) => { e.stopPropagation(); toggle(); }}>
-                  <rect x={cardW - 30} y={(headH - 20) / 2} width={20} height={20} rx={6} fill="#ffffff30" /><text x={cardW - 20} y={(headH - 20) / 2 + 14} textAnchor="middle" style={{ font: "800 14px sans-serif" }} className="fill-white">{isExp ? "−" : "+"}</text></g>
-                <line x1={12} x2={cardW - 12} y1={headH + 5} y2={headH + 5} stroke="#e2e8f0" strokeWidth={1} strokeDasharray="3 3" />
-                {!isExp && <><text x={16} y={headH + 26} style={{ font: "600 11px sans-serif" }} className="fill-slate-600">{(t.he || t.en).slice(0, 22)}</text>
-                  <text x={cardW - 12} y={headH + 26} textAnchor="end" style={{ font: "700 10px ui-monospace" }} fill={c}>{fieldsOf(t).length} שדות</text></>}
+                  <rect x={cardW - 34} y={15} width={22} height={22} rx={7} fill="#ffffff30" /><text x={cardW - 23} y={31} textAnchor="middle" style={{ font: "800 16px sans-serif" }} className="fill-white">{isExp ? "−" : "+"}</text></g>
+                <line x1={14} x2={cardW - 14} y1={headH + 8} y2={headH + 8} stroke="#e2e8f0" strokeWidth={1.2} strokeDasharray="3 3" />
+                {!isExp && <><text x={18} y={headH + 36} style={{ font: "600 14px ui-monospace" }} className="fill-slate-500" direction="ltr">{t.en.slice(0, 24)}</text>
+                  <text x={cardW - 16} y={headH + 36} textAnchor="end" style={{ font: "800 14px ui-monospace" }} fill={c}>{fieldsOf(t).length} שדות</text></>}
                 {isExp && <g style={{ animation: "pop .22s ease both" }}>{section("PRIMARY KEY", g.pk, "fill-amber-600", "PK")}{section("FOREIGN KEYS", g.fk, "fill-blue-600", "FK")}{section("BUSINESS", g.biz, "fill-slate-700")}{section("TECHNICAL", g.tech, "fill-slate-400")}</g>}
               </g>; })}
           </g>
