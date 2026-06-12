@@ -290,7 +290,6 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
 
   const neigh = (nm: string) => { const s = new Set([nm]); links.forEach((l) => { if (l.a === nm) s.add(l.b); if (l.b === nm) s.add(l.a); }); return s; };
   const active = sel ? neigh(sel) : null;
-  const onWheel = (e: React.WheelEvent) => { const f = e.deltaY < 0 ? 1.12 : 1 / 1.12; setTr((p) => ({ ...p, k: Math.min(2.4, Math.max(0.3, p.k * f)) })); };
   const fit = () => { const vw = wrapRef.current?.clientWidth || 1100, vh = wrapRef.current?.clientHeight || 600; const k = Math.max(0.3, Math.min(vw / vbW, vh / vbH, 1.15)); setTr({ k, x: (vw - vbW * k) / 2, y: Math.max(14, (vh - vbH * k) / 2) }); };
   const fullscreen = () => { const el = wrapRef.current; if (!el) return; document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); };
   const centerOn = (nm: string) => { const pp = pos[nm]; if (!pp) return; const vw = wrapRef.current?.clientWidth || 1100, vh = wrapRef.current?.clientHeight || 600; const k = Math.max(tr.k, 0.85); setTr({ k, x: vw / 2 - (pp.x + W / 2) * k, y: vh / 2 - (pp.y + H / 2) * k }); };
@@ -320,7 +319,7 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
         <div className="pointer-events-none absolute right-2 top-2 z-20 flex flex-wrap gap-1.5 text-[10px] font-bold">
           {[["🔑 PK", "#d97706"], ["FK", "#2563eb"], ["חוצה-מודול", "#7c3aed"]].map(([k, v]) => (<span key={k} className="flex items-center gap-1 rounded-md bg-white/95 px-2 py-0.5 ring-1 ring-slate-200"><i className="size-2 rounded-full" style={{ background: v }} /><span style={{ color: v }}>{k}</span></span>))}
         </div>
-        <div className={`relative ${fs ? "h-screen bg-white" : "h-[74vh] min-h-[560px]"}`} onWheel={onWheel}>
+        <div className={`relative ${fs ? "h-screen bg-white" : "h-[74vh] min-h-[560px]"}`}>
           <div className="absolute left-0 top-0 origin-top-left" style={{ transform: `translate(${tr.x}px,${tr.y}px) scale(${tr.k})`, width: vbW, height: vbH }}>
             <svg className="pointer-events-none absolute left-0 top-0" width={vbW} height={vbH} style={{ overflow: "visible" }}>
               {links.map((l, i) => { const A = pos[l.a], B = pos[l.b], TA = byName[l.a], TB = byName[l.b]; if (!A || !B || !TA || !TB) return null;
