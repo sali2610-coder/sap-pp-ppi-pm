@@ -251,7 +251,7 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
   const [selMods, setSelMods] = useState<Set<string>>(() => new Set([code]));
   useEffect(() => { setSelMods(new Set([code])); }, [code]);
   const ordered = UNIVERSE.filter((m) => selMods.has(m));
-  const W = 168, H = 58, colW = 244, rowH = 92;
+  const W = 196, H = 58, colW = 272, rowH = 104;
 
   // hierarchical left→right layout by dependency depth (SAP master → transaction → posting)
   const { shown, pos, own, links, vbW, vbH } = useMemo(() => {
@@ -280,21 +280,18 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
   }, [code, [...selMods].sort().join(",")]);
 
   const [sel, setSel] = useState<string | null>(focus && focus[0] ? focus[0] : null);
+  const [exp, setExp] = useState<string | null>(focus && focus[0] ? focus[0] : null);
   const [hv, setHv] = useState<string | null>(null);
   const [tr, setTr] = useState({ x: 0, y: 0, k: 1 });
   const [fs, setFs] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
-  const pan = useRef<{ x: number; y: number; ox: number; oy: number } | null>(null);
-  useEffect(() => { setSel(focus && focus[0] ? focus[0] : null); }, [code, focus]);
+  useEffect(() => { setSel(focus && focus[0] ? focus[0] : null); setExp(focus && focus[0] ? focus[0] : null); }, [code, focus]);
   useEffect(() => { const h = () => setFs(!!document.fullscreenElement); document.addEventListener("fullscreenchange", h); return () => document.removeEventListener("fullscreenchange", h); }, []);
 
   const neigh = (nm: string) => { const s = new Set([nm]); links.forEach((l) => { if (l.a === nm) s.add(l.b); if (l.b === nm) s.add(l.a); }); return s; };
   const active = sel ? neigh(sel) : null;
   const onWheel = (e: React.WheelEvent) => { const f = e.deltaY < 0 ? 1.12 : 1 / 1.12; setTr((p) => ({ ...p, k: Math.min(2.4, Math.max(0.3, p.k * f)) })); };
-  const down = (e: React.PointerEvent) => { if ((e.target as Element).closest("[data-card]")) return; pan.current = { x: e.clientX, y: e.clientY, ox: tr.x, oy: tr.y }; };
-  const move = (e: React.PointerEvent) => { if (pan.current) setTr((p) => ({ ...p, x: pan.current!.ox + (e.clientX - pan.current!.x), y: pan.current!.oy + (e.clientY - pan.current!.y) })); };
-  const up = () => { pan.current = null; };
-  const fit = () => { const vw = wrapRef.current?.clientWidth || 1100, vh = wrapRef.current?.clientHeight || 600; const k = Math.max(0.3, Math.min(vw / vbW, vh / vbH, 1.1)); setTr({ k, x: (vw - vbW * k) / 2, y: 14 }); };
+  const fit = () => { const vw = wrapRef.current?.clientWidth || 1100, vh = wrapRef.current?.clientHeight || 600; const k = Math.max(0.3, Math.min(vw / vbW, vh / vbH, 1.15)); setTr({ k, x: (vw - vbW * k) / 2, y: Math.max(14, (vh - vbH * k) / 2) }); };
   const fullscreen = () => { const el = wrapRef.current; if (!el) return; document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); };
   const centerOn = (nm: string) => { const pp = pos[nm]; if (!pp) return; const vw = wrapRef.current?.clientWidth || 1100, vh = wrapRef.current?.clientHeight || 600; const k = Math.max(tr.k, 0.85); setTr({ k, x: vw / 2 - (pp.x + W / 2) * k, y: vh / 2 - (pp.y + H / 2) * k }); };
   useEffect(() => { const id = setTimeout(fit, 90); return () => clearTimeout(id); /* eslint-disable-next-line */ }, [code, [...selMods].sort().join(",")]);
@@ -319,11 +316,11 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
           </div>
         </div>
       </div>
-      <div ref={wrapRef} className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white" style={{ backgroundImage: "radial-gradient(#e2e8f0 1px,transparent 1px)", backgroundSize: "24px 24px" }}>
+      <div ref={wrapRef} className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/40">
         <div className="pointer-events-none absolute right-2 top-2 z-20 flex flex-wrap gap-1.5 text-[10px] font-bold">
           {[["🔑 PK", "#d97706"], ["FK", "#2563eb"], ["חוצה-מודול", "#7c3aed"]].map(([k, v]) => (<span key={k} className="flex items-center gap-1 rounded-md bg-white/95 px-2 py-0.5 ring-1 ring-slate-200"><i className="size-2 rounded-full" style={{ background: v }} /><span style={{ color: v }}>{k}</span></span>))}
         </div>
-        <div className={`relative ${fs ? "h-screen" : "h-[72vh] min-h-[560px]"} cursor-grab active:cursor-grabbing`} onWheel={onWheel} onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerLeave={up}>
+        <div className={`relative ${fs ? "h-screen bg-white" : "h-[74vh] min-h-[560px]"}`} onWheel={onWheel}>
           <div className="absolute left-0 top-0 origin-top-left" style={{ transform: `translate(${tr.x}px,${tr.y}px) scale(${tr.k})`, width: vbW, height: vbH }}>
             <svg className="pointer-events-none absolute left-0 top-0" width={vbW} height={vbH} style={{ overflow: "visible" }}>
               {links.map((l, i) => { const A = pos[l.a], B = pos[l.b], TA = byName[l.a], TB = byName[l.b]; if (!A || !B || !TA || !TB) return null;
@@ -337,16 +334,24 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
                   <rect x={mx - 16} y={(ay + by) / 2 - 8} width={32} height={16} rx={5} fill={emph ? lc : "#94a3b8"} opacity={dim ? 0.4 : 1} /><text x={mx} y={(ay + by) / 2 + 4} textAnchor="middle" style={{ font: "700 9px ui-monospace" }} fill="#fff">{cardKind(l.card)}</text>
                 </g>; })}
             </svg>
-            {shown.map((t, gi) => { const p = pos[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const dim = active && !active.has(t.name); const isSel = sel === t.name;
+            {shown.map((t, gi) => { const p = pos[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const dim = active && !active.has(t.name); const isSel = sel === t.name; const isExp = exp === t.name;
+              const tf = fieldsOf(t); const top = [...tf.filter((f) => f[3] === "PK"), ...tf.filter((f) => f[3] === "FK"), ...tf.filter((f) => f[3] !== "PK" && f[3] !== "FK")].slice(0, 7);
               return (
-                <div key={t.name} data-card onClick={() => { setSel(t.name); centerOn(t.name); onTable(t.name); }} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
+                <div key={t.name} data-card onClick={() => { setSel(t.name); setExp(isExp ? null : t.name); centerOn(t.name); }} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
                   className="absolute select-none overflow-hidden rounded-xl border bg-white shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md"
-                  style={{ left: p.x, top: p.y, width: W, height: H, borderColor: isSel ? "#d62027" : "#e5e7eb", borderWidth: isSel ? 2 : 1, boxShadow: isSel ? `0 8px 20px ${c}33` : undefined, opacity: dim ? 0.3 : 1, zIndex: isSel ? 30 : 2, cursor: "pointer" }}>
+                  style={{ left: p.x, top: p.y, width: W, minHeight: H, borderColor: isSel ? "#d62027" : "#e5e7eb", borderWidth: isSel ? 2 : 1, boxShadow: isExp ? `0 14px 34px ${c}40` : isSel ? `0 8px 20px ${c}33` : undefined, opacity: dim ? 0.3 : 1, zIndex: isExp ? 40 : isSel ? 30 : 2, cursor: "pointer" }}>
                   <div className="h-1" style={{ background: c }} />
-                  <div className="px-3 py-1.5">
+                  <div className="px-3 py-2">
                     <div className="flex items-center gap-1.5"><span className="size-2 shrink-0 rounded-full" style={{ background: c }} /><span className="truncate font-mono text-[15px] font-extrabold text-slate-900" dir="ltr">{t.name}</span></div>
-                    <div className="mt-0.5 flex items-center justify-between"><span className="truncate text-[10px] text-slate-500">{t.he || t.en}</span><span className="shrink-0 font-mono text-[9px] font-bold" style={{ color: c }}>{fieldsOf(t).length}f</span></div>
+                    <div className="mt-0.5 flex items-center justify-between gap-2"><span className="truncate text-[10px] text-slate-500">{t.he || t.en}</span><span className="shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-bold" style={{ background: c + "1a", color: c }}>{tf.length} {isExp ? "▲" : "▼"}</span></div>
                   </div>
+                  {isExp && <div className="space-y-1 border-t border-dashed border-slate-200 px-2 pb-2 pt-1.5" style={{ animation: "pop .18s ease both" }}>
+                    {top.map((f) => <button key={f[0]} onClick={(e) => { e.stopPropagation(); onField(t.name, f[0]); }} className="flex w-full items-center justify-between gap-2 rounded-md border border-slate-200 bg-white px-2 py-1 transition hover:border-slate-300 hover:bg-slate-50">
+                      <span className={`font-mono text-[11px] font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`} dir="ltr">{f[0]}</span>
+                      {f[3] !== "-" ? <span className="rounded px-1 text-[8px] font-extrabold" style={{ background: f[3] === "PK" ? "#fef3c7" : "#dbeafe", color: f[3] === "PK" ? "#b45309" : "#1d4ed8" }}>{f[3]}</span> : <span className="truncate text-[9px] text-slate-400">{f[2]}</span>}
+                    </button>)}
+                    <button onClick={(e) => { e.stopPropagation(); onTable(t.name); }} className="w-full pt-0.5 text-center text-[10px] font-bold text-[#d62027] hover:underline">פרטים מלאים ↗</button>
+                  </div>}
                 </div>); })}
           </div>
           <div className="absolute bottom-2 left-2 z-20 rounded-md border border-slate-200 bg-white/95 p-1 shadow-sm">
