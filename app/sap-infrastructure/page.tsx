@@ -248,89 +248,118 @@ function usePZ() {
 }
 
 function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; focus?: string[]; onTable: (t: string) => void; onField: (table: string, field: string) => void; inspector: React.ReactNode }) {
-  const base = erdMembers(data, code);
-  const shown = useMemo(() => {
-    if (focus && focus.length) { const set = new Set(focus); base.forEach((t) => { if (set.has(t.name)) t.rel.forEach((r) => byName[r.table] && set.add(r.table)); }); return [...set].map((n) => byName[n]).filter(Boolean) as Tbl[]; }
-    return base;
-  }, [code, focus]);
-  const names = new Set(shown.map((t) => t.name));
-  const cardW = 220, headH = 38, rowH = 19, secH = 17;
-  const cols = Math.min(4, Math.max(2, Math.ceil(Math.sqrt(shown.length))));
-  const slotW = cardW + 90, slotH = 250;
-  const mkInit = () => { const o: Record<string, { x: number; y: number }> = {}; shown.forEach((t, i) => { const r = Math.floor(i / cols), cc = i % cols; o[t.name] = { x: 40 + cc * slotW, y: 40 + r * slotH }; }); return o; };
-  const [posns, setPos] = useState(mkInit);
+  const [selMods, setSelMods] = useState<Set<string>>(() => new Set([code]));
+  useEffect(() => { setSelMods(new Set([code])); }, [code]);
+  const ordered = UNIVERSE.filter((m) => selMods.has(m));
+  const cardW = 200, headH = 36, rowH = 19, secH = 17;
+
+  // assemble tables across selected modules, assign each unique table to one owning cluster
+  const { shown, regions, init, own } = useMemo(() => {
+    const memberMap: Record<string, Tbl[]> = {}; ordered.forEach((m) => { memberMap[m] = erdMembers(data, m); });
+    const allNames = [...new Set(ordered.flatMap((m) => memberMap[m].map((t) => t.name)))];
+    const owner: Record<string, string> = {};
+    allNames.forEach((n) => { const t = byName[n]; owner[n] = t && selMods.has(t.mod) ? t.mod : ordered.find((m) => memberMap[m].some((x) => x.name === n)) || ordered[0]; });
+    const sh = allNames.map((n) => byName[n]).filter(Boolean) as Tbl[];
+    const pos: Record<string, { x: number; y: number }> = {}; const regs: { m: string; x: number; y: number; w: number; h: number }[] = [];
+    let cx = 44;
+    ordered.forEach((m) => {
+      const tbls = allNames.filter((n) => owner[n] === m).map((n) => byName[n]).filter(Boolean) as Tbl[];
+      const ncol = tbls.length > 8 ? 3 : 2; const w = ncol * cardW + (ncol - 1) * 26;
+      tbls.forEach((t, i) => { const r = Math.floor(i / ncol), c = i % ncol; pos[t.name] = { x: cx + c * (cardW + 26), y: 104 + r * 248 }; });
+      const rows = Math.max(1, Math.ceil(tbls.length / ncol));
+      regs.push({ m, x: cx - 20, y: 50, w: w + 40, h: 64 + rows * 248 });
+      cx += w + 96;
+    });
+    return { shown: sh, regions: regs, init: pos, own: owner };
+  }, [code, [...selMods].sort().join(",")]);
+
+  const [posns, setPos] = useState(init);
   const [exp, setExp] = useState<Set<string>>(() => new Set(focus && focus[0] ? [focus[0]] : []));
   const [sel, setSel] = useState<string | null>(focus && focus[0] ? focus[0] : null);
   const [hv, setHv] = useState<string | null>(null);
   const [fs, setFs] = useState(false);
-  const { t: zt, bg, setT, ctrl } = usePZ();
+  const { t: zt, bg, setT } = usePZ();
   const wrapRef = useRef<HTMLDivElement>(null);
   const drag = useRef<{ name: string; x: number; y: number; ox: number; oy: number; moved: boolean } | null>(null);
-  useEffect(() => { setPos(mkInit()); setExp(new Set(focus && focus[0] ? [focus[0]] : [])); setSel(focus && focus[0] ? focus[0] : null); /* eslint-disable-next-line */ }, [code, focus]);
+  useEffect(() => { setPos(init); /* eslint-disable-next-line */ }, [init]);
+  useEffect(() => { setExp(new Set(focus && focus[0] ? [focus[0]] : [])); setSel(focus && focus[0] ? focus[0] : null); /* eslint-disable-next-line */ }, [code, focus]);
   useEffect(() => { const h = () => setFs(!!document.fullscreenElement); document.addEventListener("fullscreenchange", h); return () => document.removeEventListener("fullscreenchange", h); }, []);
+
+  const names = new Set(shown.map((t) => t.name));
   const groups = (t: Tbl) => { const f = fieldsOf(t); const pk = f.filter((x) => x[3] === "PK"), fk = f.filter((x) => x[3] === "FK"); const tech = f.filter((x) => x[3] !== "PK" && x[3] !== "FK" && TECH_FIELDS.has(x[0])).slice(0, 3); const biz = f.filter((x) => x[3] !== "PK" && x[3] !== "FK" && !TECH_FIELDS.has(x[0])).slice(0, 8); return { pk, fk, biz, tech }; };
   const cardH = (t: Tbl) => { if (!exp.has(t.name)) return 74; const g = groups(t); let h = headH + 8; [g.pk, g.fk, g.biz, g.tech].forEach((a) => { if (a.length) h += secH + a.length * rowH + 4; }); return h + 6; };
   const links: { a: string; b: string; card: string }[] = [];
   shown.forEach((t) => t.rel.forEach((r) => { if (names.has(r.table)) { const a = r.role === "parent" ? t.name : r.table, b = r.role === "parent" ? r.table : t.name; if (!links.find((l) => l.a === a && l.b === b)) links.push({ a, b, card: r.card || "1:N" }); } }));
   const neigh = (nm: string) => { const s = new Set([nm]); links.forEach((l) => { if (l.a === nm) s.add(l.b); if (l.b === nm) s.add(l.a); }); return s; };
   const active = sel ? neigh(sel) : null;
-  const rows = Math.ceil(shown.length / cols);
-  const vbW = Math.max(80 + cols * slotW, 900), vbH = Math.max(80 + rows * slotH, 520);
-  const onCardDown = (e: React.PointerEvent, nm: string) => { e.stopPropagation(); const p = posns[nm]; drag.current = { name: nm, x: e.clientX, y: e.clientY, ox: p.x, oy: p.y, moved: false }; };
+  const allX = shown.map((t) => (posns[t.name] || init[t.name] || { x: 0 }).x);
+  const vbW = Math.max((Math.max(0, ...allX) + cardW + 60), 1000), vbH = Math.max(...regions.map((r) => r.y + r.h + 40), 560);
+  const onCardDown = (e: React.PointerEvent, nm: string) => { e.stopPropagation(); const p = posns[nm]; if (!p) return; drag.current = { name: nm, x: e.clientX, y: e.clientY, ox: p.x, oy: p.y, moved: false }; };
   const onMove = (e: React.PointerEvent) => { if (!drag.current) { bg.onPointerMove(e); return; } const d = drag.current; if (Math.abs(e.clientX - d.x) + Math.abs(e.clientY - d.y) > 3) d.moved = true; setPos((p) => ({ ...p, [d.name]: { x: d.ox + (e.clientX - d.x) / zt.k, y: d.oy + (e.clientY - d.y) / zt.k } })); };
   const onUp = () => { drag.current = null; bg.onPointerUp(); };
-  const fit = () => { const xs = shown.map((t) => posns[t.name].x), x1s = shown.map((t) => posns[t.name].x + cardW), ys = shown.map((t) => posns[t.name].y), y1s = shown.map((t) => posns[t.name].y + cardH(t)); const x0 = Math.min(...xs) - 40, y0 = Math.min(...ys) - 30, x1 = Math.max(...x1s) + 40, y1 = Math.max(...y1s) + 30; const k = Math.max(0.66, Math.min(vbW / (x1 - x0), vbH / (y1 - y0), 1.2)); setT({ k, x: -x0 * k + (vbW - (x1 - x0) * k) / 2, y: -y0 * k + 24 }); };
+  const fit = () => { const k = Math.max(0.5, Math.min((1000) / vbW, 1.1)); setT({ k: Math.min(1.1, Math.max(0.5, 1100 / vbW)), x: 0, y: 16 }); };
   const fullscreen = () => { const el = wrapRef.current; if (!el) return; document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); };
   const centerOn = (nm: string) => { const p = posns[nm]; if (!p) return; const k = Math.max(zt.k, 0.95); setT({ k, x: vbW / 2 - (p.x + cardW / 2) * k, y: vbH / 2.4 - (p.y + 40) * k }); };
   const vx = -zt.x / zt.k, vy = -zt.y / zt.k, vw = vbW / zt.k, vh = vbH / zt.k, miniK = Math.min(168 / vbW, 112 / vbH);
-  useEffect(() => { const id = setTimeout(fit, 80); return () => clearTimeout(id); /* eslint-disable-next-line */ }, [code, focus]);
+  useEffect(() => { const id = setTimeout(fit, 90); return () => clearTimeout(id); /* eslint-disable-next-line */ }, [code, [...selMods].sort().join(",")]);
+  const toggleMod = (m: string) => setSelMods((s) => { const n = new Set(s); if (n.has(m)) { if (n.size > 1) n.delete(m); } else n.add(m); return n; });
 
   return (
     <div className="space-y-2">
+      {/* module composer checkboxes */}
+      <div className="flex flex-wrap items-center gap-1.5 rounded-xl border border-slate-200 bg-white p-2">
+        <span className="px-1 text-xs font-bold text-slate-500">הרכב מודולים:</span>
+        {UNIVERSE.map((m) => { const on = selMods.has(m); const c = color(m); return (
+          <button key={m} onClick={() => toggleMod(m)} className="flex items-center gap-1.5 rounded-lg border px-2 py-1 text-xs font-bold transition" style={{ borderColor: on ? c : "#e2e8f0", background: on ? c : "#fff", color: on ? "#fff" : "#64748b" }}>
+            <span className="grid size-3.5 place-items-center rounded-[4px] text-[9px]" style={{ background: on ? "#ffffff35" : "#f1f5f9", color: on ? "#fff" : "transparent" }}>✓</span>{m}
+          </button>); })}
+      </div>
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-sm font-bold text-slate-700">ERD · {code} · {shown.length} טבלאות{focus && focus.length ? " (ממוקד)" : ""}</h3>
+        <h3 className="text-sm font-bold text-slate-700">תרשים מודולים · {ordered.join(" + ")} · {shown.length} טבלאות</h3>
         <div className="flex items-center gap-1">
-          {[[<Expand key="e" className="size-3" />, "הרחב", () => setExp(new Set(shown.map((t) => t.name)))], [<Shrink key="s" className="size-3" />, "כווץ", () => setExp(new Set())], [<Scan key="f" className="size-3" />, "התאם", fit], [<ZoomIn key="zi" className="size-3" />, "", ctrl.zoomIn], [<ZoomOut key="zo" className="size-3" />, "", ctrl.zoomOut], [<Maximize2 key="m" className="size-3" />, "מסך מלא", fullscreen]].map((b, i) => <button key={i} onClick={b[2] as () => void} className="flex items-center gap-1 rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-bold text-slate-600 hover:border-slate-300">{b[0] as React.ReactNode}{b[1] as string}</button>)}
+          {[[<Expand key="e" className="size-3" />, "הרחב", () => setExp(new Set(shown.map((t) => t.name)))], [<Shrink key="s" className="size-3" />, "כווץ", () => setExp(new Set())], [<Scan key="f" className="size-3" />, "התאם", fit], [<Maximize2 key="m" className="size-3" />, "מסך מלא", fullscreen]].map((b, i) => <button key={i} onClick={b[2] as () => void} className="flex items-center gap-1 rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-bold text-slate-600 hover:border-slate-300">{b[0] as React.ReactNode}{b[1] as string}</button>)}
         </div>
       </div>
       <div ref={wrapRef} className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white" style={{ backgroundImage: "radial-gradient(#e2e8f0 1px,transparent 1px)", backgroundSize: "22px 22px" }}>
         <div className="absolute right-2 top-2 z-10 flex flex-wrap gap-1.5 text-[10px] font-bold">
-          {[["🔑 PK", "#d97706"], ["FK", "#2563eb"], ["חוצה-מודול", "#7c3aed"], ["תהליך", "#16a34a"], ["S/4", "#ea580c"]].map(([k, v]) => (
-            <span key={k} className="flex items-center gap-1 rounded-md bg-white/95 px-2 py-0.5 ring-1 ring-slate-200"><i className="size-2 rounded-full" style={{ background: v }} /><span style={{ color: v }}>{k}</span></span>
-          ))}
+          {[["🔑 PK", "#d97706"], ["FK", "#2563eb"], ["חוצה-מודול", "#7c3aed"]].map(([k, v]) => (<span key={k} className="flex items-center gap-1 rounded-md bg-white/95 px-2 py-0.5 ring-1 ring-slate-200"><i className="size-2 rounded-full" style={{ background: v }} /><span style={{ color: v }}>{k}</span></span>))}
         </div>
-        <svg viewBox={`0 0 ${vbW} ${vbH}`} className={`w-full touch-none ${fs ? "h-screen bg-white" : "h-[70vh] min-h-[520px]"}`} onWheel={bg.onWheel} onPointerDown={(e) => { bg.onPointerDown(e); if (!(e.target as Element).closest("[data-card]")) setSel(null); }} onPointerMove={onMove} onPointerUp={onUp} onPointerLeave={onUp}>
-          <defs><linearGradient id="redHdr" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor="#e0242b" /><stop offset="100%" stopColor="#b81920" /></linearGradient></defs>
+        <svg viewBox={`0 0 ${vbW} ${vbH}`} className={`w-full touch-none ${fs ? "h-screen bg-white" : "h-[72vh] min-h-[540px]"}`} onWheel={bg.onWheel} onPointerDown={(e) => { bg.onPointerDown(e); if (!(e.target as Element).closest("[data-card]")) setSel(null); }} onPointerMove={onMove} onPointerUp={onUp} onPointerLeave={onUp}>
           <g transform={`translate(${zt.x},${zt.y}) scale(${zt.k})`}>
+            {/* module region backgrounds */}
+            {regions.map((rg) => { const c = color(rg.m); return <g key={rg.m}>
+              <rect x={rg.x} y={rg.y} width={rg.w} height={rg.h} rx={18} fill={c} fillOpacity={0.05} stroke={c} strokeOpacity={0.35} strokeDasharray="6 6" />
+              <rect x={rg.x} y={rg.y} width={rg.w} height={30} rx={10} fill={c} fillOpacity={0.14} />
+              <text x={rg.x + 14} y={rg.y + 20} style={{ font: "800 14px ui-monospace" }} fill={c}>{rg.m}</text>
+              <text x={rg.x + rg.w - 14} y={rg.y + 20} textAnchor="end" style={{ font: "600 11px sans-serif" }} fill={c}>{MOD_NAME_HE[rg.m] || ""}</text>
+            </g>; })}
+            {/* links */}
             {links.map((l, i) => { const A = posns[l.a], B = posns[l.b], TA = byName[l.a], TB = byName[l.b]; if (!A || !B || !TA || !TB) return null;
               const ax = A.x + cardW / 2, ay = A.y + cardH(TA), bx = B.x + cardW / 2, by = B.y, my = (ay + by) / 2;
-              const kind = cardKind(l.card);
-              const isCross = TA.mod !== TB.mod; const lc = isCross ? "#7c3aed" : "#2563eb";
+              const isCross = (own[l.a]||TA.mod) !== (own[l.b]||TB.mod); const lc = isCross ? "#7c3aed" : color(own[l.a]||TA.mod);
               const onSel = active ? (active.has(l.a) && active.has(l.b) && (l.a === sel || l.b === sel)) : false, onHv = hv ? (l.a === hv || l.b === hv) : false, dim = active && !onSel, emph = onSel || onHv;
-              const stroke = dim ? "#cbd5e1" : lc, w = emph ? 2.6 : 1.5;
-              return <g key={i} opacity={dim ? 0.18 : 1}>
-                <path d={`M${ax},${ay} C${ax},${my} ${bx},${my} ${bx},${by}`} fill="none" stroke={stroke} strokeWidth={w} strokeOpacity={emph ? 1 : 0.7} className={`flowline${emph ? " fast" : ""}`} />
-                <line x1={ax - 7} y1={ay + 4} x2={ax + 7} y2={ay + 4} stroke={stroke} strokeWidth={w} />
+              const stroke = dim ? "#cbd5e1" : lc, w = emph ? 2.6 : (isCross ? 1.8 : 1.4);
+              return <g key={i} opacity={dim ? 0.16 : 1}>
+                <path d={`M${ax},${ay} C${ax},${my} ${bx},${my} ${bx},${by}`} fill="none" stroke={stroke} strokeWidth={w} strokeOpacity={emph ? 1 : 0.75} className={`flowline${emph ? " fast" : ""}`} />
                 <path d={`M${bx - 6},${by - 9} L${bx},${by} M${bx + 6},${by - 9} L${bx},${by} M${bx},${by - 11} L${bx},${by}`} stroke={stroke} strokeWidth={w} fill="none" />
-                <rect x={(ax + bx) / 2 - 17} y={my - 9} width={34} height={18} rx={5} fill={emph ? lc : "#64748b"} opacity={dim ? 0.4 : 1} /><text x={(ax + bx) / 2} y={my + 4} textAnchor="middle" style={{ font: "700 10px ui-monospace" }} className="fill-white">{kind}</text>
+                <rect x={(ax + bx) / 2 - 17} y={my - 9} width={34} height={18} rx={5} fill={emph ? lc : "#64748b"} opacity={dim ? 0.4 : 1} /><text x={(ax + bx) / 2} y={my + 4} textAnchor="middle" style={{ font: "700 10px ui-monospace" }} className="fill-white">{cardKind(l.card)}</text>
               </g>; })}
-            {shown.map((t) => { const p = posns[t.name]; const c = color(t.mod); const ch = cardH(t); const isExp = exp.has(t.name); const g = groups(t); const dim = active && !active.has(t.name); const isSel = sel === t.name; let yy = headH + 8;
+            {/* nodes */}
+            {shown.map((t) => { const p = posns[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const ch = cardH(t); const isExp = exp.has(t.name); const g = groups(t); const dim = active && !active.has(t.name); const isSel = sel === t.name; let yy = headH + 8;
               const section = (label: string, arr: Field[], cls: string, badge?: string) => { if (!arr.length) return null; const sy = yy; yy += secH; const ry0 = yy; yy += arr.length * rowH + 4;
                 return <g key={label}><text x={cardW - 10} y={sy + 12} textAnchor="end" style={{ font: "700 9px sans-serif" }} className="fill-slate-400">{label}</text>
                   {arr.map((f, j) => { const ry = ry0 + j * rowH; return <g key={f[0]} transform={`translate(0,${ry})`} className="cursor-pointer" onPointerDown={(e) => e.stopPropagation()} onClick={(e) => { e.stopPropagation(); onField(t.name, f[0]); }}>
-                    <rect x={1} width={cardW - 2} height={rowH} fill={j % 2 ? "#f8fafc" : "#fff"} className="hover:!fill-[#fff3f3]" />
+                    <rect x={1} width={cardW - 2} height={rowH} fill={j % 2 ? "#f8fafc" : "#fff"} />
                     <text x={10} y={14} direction="ltr" style={{ font: `${badge === "PK" ? 700 : 500} 11px ui-monospace`, textDecoration: badge === "PK" ? "underline" : "none" }} className={cls}>{f[0]}</text>
                     {badge ? <text x={cardW - 9} y={14} textAnchor="end" style={{ font: "700 8px ui-monospace" }} className={cls}>{badge}</text> : (f[2] && <text x={cardW - 9} y={14} textAnchor="end" style={{ font: "500 9px sans-serif" }} className="fill-slate-400">{f[2].length > 13 ? f[2].slice(0, 12) + "…" : f[2]}</text>)}
                   </g>; })}</g>; };
-              const toggle = () => setExp((s) => { const n = new Set(s); n.has(t.name) ? n.delete(t.name) : n.add(t.name); return n; });
-              const sc = isSel ? 1.03 : 1; const sx = p.x - (cardW * (sc - 1)) / 2, sy = p.y - (ch * (sc - 1)) / 2;
-              return <g key={t.name} data-card transform={`translate(${sx},${sy}) scale(${sc})`} opacity={dim ? 0.2 : 1} className="cursor-pointer"
+              const sc = isSel ? 1.03 : 1; const sx = p.x - (cardW * (sc - 1)) / 2, sy2 = p.y - (ch * (sc - 1)) / 2; const toggle = () => setExp((s) => { const n = new Set(s); n.has(t.name) ? n.delete(t.name) : n.add(t.name); return n; });
+              return <g key={t.name} data-card transform={`translate(${sx},${sy2}) scale(${sc})`} opacity={dim ? 0.2 : 1} className="cursor-pointer"
                 onPointerDown={(e) => onCardDown(e, t.name)} onClick={() => { if (drag.current?.moved) return; setSel(t.name); toggle(); centerOn(t.name); }} onDoubleClick={() => onTable(t.name)} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}>
-                <rect width={cardW} height={ch} rx={12} fill="#fff" stroke={isSel ? "#d62027" : "#e2e8f0"} strokeWidth={isSel ? 2.5 : 1.2} style={{ filter: isSel ? "drop-shadow(0 10px 26px rgba(214,32,39,.30))" : "drop-shadow(0 4px 14px rgba(15,23,42,.13))", transition: "filter .2s" }} />
-                <path d={`M0,12 a12,12 0 0 1 12,-12 h${cardW - 24} a12,12 0 0 1 12,12 v${headH - 12} h-${cardW} z`} fill="url(#redHdr)" />
-                <circle cx={18} cy={headH / 2} r={5} fill={c} stroke="#ffffff" strokeWidth={1.5} />
-                <text x={34} y={headH / 2 + 5} style={{ font: "800 15px ui-monospace" }} className="fill-white" direction="ltr">{t.name}</text>
-                <text x={cardW - 38} y={headH / 2 + 4} textAnchor="end" style={{ font: "600 9px sans-serif" }} className="fill-white/75">{t.mod}</text>
+                <rect width={cardW} height={ch} rx={12} fill="#fff" stroke={isSel ? c : "#e2e8f0"} strokeWidth={isSel ? 2.5 : 1.2} style={{ filter: isSel ? `drop-shadow(0 10px 26px ${c}55)` : "drop-shadow(0 4px 14px rgba(15,23,42,.13))", transition: "filter .2s" }} />
+                <path d={`M0,12 a12,12 0 0 1 12,-12 h${cardW - 24} a12,12 0 0 1 12,12 v${headH - 12} h-${cardW} z`} fill={c} />
+                <text x={14} y={headH / 2 + 5} style={{ font: "800 15px ui-monospace" }} className="fill-white" direction="ltr">{t.name}</text>
+                <text x={cardW - 34} y={headH / 2 + 4} textAnchor="end" style={{ font: "600 9px sans-serif" }} className="fill-white/80">{t.mod}</text>
                 <g onPointerDown={(e) => e.stopPropagation()} onClick={(e) => { e.stopPropagation(); toggle(); }}>
                   <rect x={cardW - 30} y={(headH - 20) / 2} width={20} height={20} rx={6} fill="#ffffff30" /><text x={cardW - 20} y={(headH - 20) / 2 + 14} textAnchor="middle" style={{ font: "800 14px sans-serif" }} className="fill-white">{isExp ? "−" : "+"}</text></g>
                 <line x1={12} x2={cardW - 12} y1={headH + 5} y2={headH + 5} stroke="#e2e8f0" strokeWidth={1} strokeDasharray="3 3" />
@@ -341,11 +370,11 @@ function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: 
           </g>
         </svg>
         <div className="absolute bottom-2 left-2 z-10 rounded-md border border-slate-200 bg-white/95 p-1 shadow-sm">
-          <svg width={172} height={116} className="block"><g transform={`scale(${miniK})`}>{shown.map((t) => { const p = posns[t.name]; return <rect key={t.name} x={p.x} y={p.y} width={cardW} height={cardH(t)} rx={6} fill={color(t.mod)} opacity={0.5} />; })}<rect x={vx} y={vy} width={vw} height={vh} fill="none" stroke="#d62027" strokeWidth={6 / miniK} /></g></svg>
+          <svg width={172} height={116} className="block"><g transform={`scale(${miniK})`}>{shown.map((t) => { const p = posns[t.name]; if (!p) return null; return <rect key={t.name} x={p.x} y={p.y} width={cardW} height={cardH(t)} rx={6} fill={color(own[t.name]||t.mod)} opacity={0.55} />; })}<rect x={vx} y={vy} width={vw} height={vh} fill="none" stroke="#d62027" strokeWidth={6 / miniK} /></g></svg>
         </div>
         {inspector}
       </div>
-      <p className="text-[11px] text-slate-500">לחיצה = בחירה (מדגיש שרשרת) · דאבל-קליק = מפרט צף · גרירה · + / − הרחבה · גלגלת = זום · מסך מלא</p>
+      <p className="text-[11px] text-slate-500">סמן מודולים להרכבת תרשים משולב · לחיצה על קוביה = פתיחת שדות + הדגשת קשרים · לחיצה על שדה = מפרט · דאבל-קליק = טבלה מלאה · גרירה · גלגלת = זום</p>
     </div>
   );
 }
