@@ -24,11 +24,12 @@ export default function Page() {
   const [data, setData] = useState<Data | null>(null);
   const [nav, setNav] = useState<{ level: "universe" | "module"; module?: string; tab?: string; focus?: string[] }>({ level: "universe" });
   const [inspect, setInspect] = useState<string | null>(null);
+  const [field, setField] = useState<{ table: string; field: string } | null>(null);
   const [q, setQ] = useState("");
   useEffect(() => { fetch(`${BASE}/dataset.json`).then((r) => r.json()).then(setData).catch(() => {}); }, []);
   const color = useCallback((m?: string | null) => (data && m && data.palette[m]) || "#64748b", [data]);
   const byName = useMemo(() => (data ? Object.fromEntries(data.tables.map((t) => [t.name, t])) : {}) as Record<string, Tbl>, [data]);
-  const openModule = (m: string, tab = "objects") => { setNav({ level: "module", module: m, tab }); setInspect(null); };
+  const openModule = (m: string, tab = "erd") => { setNav({ level: "module", module: m, tab }); setInspect(null); setField(null); };
 
   const results = useMemo(() => {
     if (!data || !q.trim()) return [] as { type: string; label: string; sub: string; go: () => void }[];
@@ -43,7 +44,11 @@ export default function Page() {
   }, [q, data]);
 
   if (!data) return <div className="flex h-[60vh] items-center justify-center text-slate-400" dir="rtl">טוען את ה-Explorer…</div>;
-  const inspector = inspect && byName[inspect] ? <Inspector data={data} color={color} t={byName[inspect]} byName={byName} onClose={() => setInspect(null)} onGo={setInspect} /> : null;
+  const inspector = field && byName[field.table]
+    ? <FieldInspector data={data} color={color} t={byName[field.table]} field={field.field} byName={byName} onClose={() => setField(null)} onGo={(n) => { setField(null); setInspect(n); }} />
+    : inspect && byName[inspect]
+    ? <Inspector data={data} color={color} t={byName[inspect]} byName={byName} onClose={() => setInspect(null)} onGo={setInspect} />
+    : null;
 
   return (
     <div dir="rtl" className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-900 shadow-sm">
@@ -78,9 +83,9 @@ export default function Page() {
 
       <div className="bg-slate-50/40 p-4">
         {nav.level === "universe" && <Universe data={data} color={color} onModule={openModule} />}
-        {nav.level === "module" && nav.module && <Workspace data={data} color={color} code={nav.module} tab={nav.tab || "objects"} focus={nav.focus} byName={byName}
+        {nav.level === "module" && nav.module && <Workspace data={data} color={color} code={nav.module} tab={nav.tab || "erd"} focus={nav.focus} byName={byName}
           setTab={(t) => setNav({ level: "module", module: nav.module, tab: t })} openErd={(focus) => setNav({ level: "module", module: nav.module, tab: "erd", focus })}
-          onTable={setInspect} onModule={openModule} inspector={inspector} />}
+          onTable={setInspect} onField={(table, f) => { setInspect(null); setField({ table, field: f }); }} onModule={openModule} inspector={inspector} />}
       </div>
       {nav.tab !== "erd" && inspector}
       <div className="flex flex-wrap items-center gap-2 border-t border-slate-200 bg-white p-2.5">
@@ -145,7 +150,7 @@ function Universe({ data, color, onModule }: { data: Data; color: (m?: string | 
 }
 
 /* ===================== WORKSPACE ===================== */
-function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onTable, onModule, inspector }: { data: Data; color: (m?: string | null) => string; code: string; tab: string; focus?: string[]; byName: Record<string, Tbl>; setTab: (t: string) => void; openErd: (f?: string[]) => void; onTable: (t: string) => void; onModule: (m: string) => void; inspector: React.ReactNode }) {
+function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onTable, onField, onModule, inspector }: { data: Data; color: (m?: string | null) => string; code: string; tab: string; focus?: string[]; byName: Record<string, Tbl>; setTab: (t: string) => void; openErd: (f?: string[]) => void; onTable: (t: string) => void; onField: (table: string, field: string) => void; onModule: (m: string) => void; inspector: React.ReactNode }) {
   const c = color(code); const bp = data.blueprints.find((b) => b.code === code); const purpose = bp?.purpose || MOD_PURPOSE[code] || "";
   return (
     <div className="space-y-4" style={{ animation: "fadeUp .35s ease both" }}>
@@ -157,7 +162,7 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
       </div>
       {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} onTable={onTable} />}
       {tab === "process" && <ProcessFlow color={color} code={code} />}
-      {tab === "erd" && <Erd data={data} color={color} code={code} byName={byName} focus={focus} onTable={onTable} inspector={inspector} />}
+      {tab === "erd" && <Erd data={data} color={color} code={code} byName={byName} focus={focus} onTable={onTable} onField={onField} inspector={inspector} />}
       {tab === "technical" && <TechList data={data} color={color} code={code} onTable={onTable} />}
     </div>
   );
@@ -238,7 +243,7 @@ function usePZ() {
     ctrl: { zoomIn: () => setT((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) })), zoomOut: () => setT((p) => ({ ...p, k: Math.max(0.3, p.k / 1.2) })) } };
 }
 
-function Erd({ data, color, code, byName, focus, onTable, inspector }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; focus?: string[]; onTable: (t: string) => void; inspector: React.ReactNode }) {
+function Erd({ data, color, code, byName, focus, onTable, onField, inspector }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; focus?: string[]; onTable: (t: string) => void; onField: (table: string, field: string) => void; inspector: React.ReactNode }) {
   const base = erdMembers(data, code);
   const shown = useMemo(() => {
     if (focus && focus.length) { const set = new Set(focus); base.forEach((t) => { if (set.has(t.name)) t.rel.forEach((r) => byName[r.table] && set.add(r.table)); }); return [...set].map((n) => byName[n]).filter(Boolean) as Tbl[]; }
@@ -247,20 +252,20 @@ function Erd({ data, color, code, byName, focus, onTable, inspector }: { data: D
   const names = new Set(shown.map((t) => t.name));
   const cardW = 220, headH = 38, rowH = 19, secH = 17;
   const cols = Math.min(4, Math.max(2, Math.ceil(Math.sqrt(shown.length))));
-  const slotW = cardW + 100, slotH = 360;
+  const slotW = cardW + 90, slotH = 250;
   const mkInit = () => { const o: Record<string, { x: number; y: number }> = {}; shown.forEach((t, i) => { const r = Math.floor(i / cols), cc = i % cols; o[t.name] = { x: 40 + cc * slotW, y: 40 + r * slotH }; }); return o; };
   const [posns, setPos] = useState(mkInit);
-  const [exp, setExp] = useState<Set<string>>(() => new Set(shown.slice(0, 4).map((t) => t.name)));
+  const [exp, setExp] = useState<Set<string>>(() => new Set(focus && focus[0] ? [focus[0]] : []));
   const [sel, setSel] = useState<string | null>(focus && focus[0] ? focus[0] : null);
   const [hv, setHv] = useState<string | null>(null);
   const [fs, setFs] = useState(false);
   const { t: zt, bg, setT, ctrl } = usePZ();
   const wrapRef = useRef<HTMLDivElement>(null);
   const drag = useRef<{ name: string; x: number; y: number; ox: number; oy: number; moved: boolean } | null>(null);
-  useEffect(() => { setPos(mkInit()); setExp(new Set(shown.slice(0, 4).map((t) => t.name))); setSel(focus && focus[0] ? focus[0] : null); /* eslint-disable-next-line */ }, [code, focus]);
+  useEffect(() => { setPos(mkInit()); setExp(new Set(focus && focus[0] ? [focus[0]] : [])); setSel(focus && focus[0] ? focus[0] : null); /* eslint-disable-next-line */ }, [code, focus]);
   useEffect(() => { const h = () => setFs(!!document.fullscreenElement); document.addEventListener("fullscreenchange", h); return () => document.removeEventListener("fullscreenchange", h); }, []);
   const groups = (t: Tbl) => { const f = fieldsOf(t); const pk = f.filter((x) => x[3] === "PK"), fk = f.filter((x) => x[3] === "FK"); const tech = f.filter((x) => x[3] !== "PK" && x[3] !== "FK" && TECH_FIELDS.has(x[0])).slice(0, 3); const biz = f.filter((x) => x[3] !== "PK" && x[3] !== "FK" && !TECH_FIELDS.has(x[0])).slice(0, 8); return { pk, fk, biz, tech }; };
-  const cardH = (t: Tbl) => { if (!exp.has(t.name)) return 56; const g = groups(t); let h = headH + 8; [g.pk, g.fk, g.biz, g.tech].forEach((a) => { if (a.length) h += secH + a.length * rowH + 4; }); return h + 6; };
+  const cardH = (t: Tbl) => { if (!exp.has(t.name)) return 74; const g = groups(t); let h = headH + 8; [g.pk, g.fk, g.biz, g.tech].forEach((a) => { if (a.length) h += secH + a.length * rowH + 4; }); return h + 6; };
   const links: { a: string; b: string; card: string }[] = [];
   shown.forEach((t) => t.rel.forEach((r) => { if (names.has(r.table)) { const a = r.role === "parent" ? t.name : r.table, b = r.role === "parent" ? r.table : t.name; if (!links.find((l) => l.a === a && l.b === b)) links.push({ a, b, card: r.card || "1:N" }); } }));
   const neigh = (nm: string) => { const s = new Set([nm]); links.forEach((l) => { if (l.a === nm) s.add(l.b); if (l.b === nm) s.add(l.a); }); return s; };
@@ -273,6 +278,7 @@ function Erd({ data, color, code, byName, focus, onTable, inspector }: { data: D
   const fit = () => { const xs = shown.map((t) => posns[t.name].x), x1s = shown.map((t) => posns[t.name].x + cardW), ys = shown.map((t) => posns[t.name].y), y1s = shown.map((t) => posns[t.name].y + cardH(t)); const x0 = Math.min(...xs) - 30, y0 = Math.min(...ys) - 30, x1 = Math.max(...x1s) + 30, y1 = Math.max(...y1s) + 30; const k = Math.min(vbW / (x1 - x0), vbH / (y1 - y0), 1.4); setT({ k, x: -x0 * k + (vbW - (x1 - x0) * k) / 2, y: -y0 * k }); };
   const fullscreen = () => { const el = wrapRef.current; if (!el) return; document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); };
   const vx = -zt.x / zt.k, vy = -zt.y / zt.k, vw = vbW / zt.k, vh = vbH / zt.k, miniK = Math.min(168 / vbW, 112 / vbH);
+  useEffect(() => { const id = setTimeout(fit, 80); return () => clearTimeout(id); /* eslint-disable-next-line */ }, [code, focus]);
 
   return (
     <div className="space-y-2">
@@ -299,20 +305,24 @@ function Erd({ data, color, code, byName, focus, onTable, inspector }: { data: D
             {shown.map((t) => { const p = posns[t.name]; const c = color(t.mod); const ch = cardH(t); const isExp = exp.has(t.name); const g = groups(t); const dim = active && !active.has(t.name); const isSel = sel === t.name; let yy = headH + 8;
               const section = (label: string, arr: Field[], cls: string, badge?: string) => { if (!arr.length) return null; const sy = yy; yy += secH; const ry0 = yy; yy += arr.length * rowH + 4;
                 return <g key={label}><text x={cardW - 10} y={sy + 12} textAnchor="end" style={{ font: "700 9px sans-serif" }} className="fill-slate-400">{label}</text>
-                  {arr.map((f, j) => { const ry = ry0 + j * rowH; return <g key={f[0]} transform={`translate(0,${ry})`}><rect x={1} width={cardW - 2} height={rowH} fill={j % 2 ? "#f8fafc" : "#fff"} />
+                  {arr.map((f, j) => { const ry = ry0 + j * rowH; return <g key={f[0]} transform={`translate(0,${ry})`} className="cursor-pointer" onPointerDown={(e) => e.stopPropagation()} onClick={(e) => { e.stopPropagation(); onField(t.name, f[0]); }}>
+                    <rect x={1} width={cardW - 2} height={rowH} fill={j % 2 ? "#f8fafc" : "#fff"} className="hover:!fill-[#fff3f3]" />
                     <text x={10} y={14} direction="ltr" style={{ font: `${badge === "PK" ? 700 : 500} 11px ui-monospace`, textDecoration: badge === "PK" ? "underline" : "none" }} className={cls}>{f[0]}</text>
                     {badge ? <text x={cardW - 9} y={14} textAnchor="end" style={{ font: "700 8px ui-monospace" }} className={cls}>{badge}</text> : (f[2] && <text x={cardW - 9} y={14} textAnchor="end" style={{ font: "500 9px sans-serif" }} className="fill-slate-400">{f[2].length > 13 ? f[2].slice(0, 12) + "…" : f[2]}</text>)}
                   </g>; })}</g>; };
+              const toggle = () => setExp((s) => { const n = new Set(s); n.has(t.name) ? n.delete(t.name) : n.add(t.name); return n; });
               return <g key={t.name} data-card transform={`translate(${p.x},${p.y})`} opacity={dim ? 0.2 : 1} className="cursor-pointer"
-                onPointerDown={(e) => onCardDown(e, t.name)} onClick={() => { if (drag.current?.moved) return; setSel(t.name); }} onDoubleClick={() => onTable(t.name)} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}>
-                <rect width={cardW} height={ch} rx={10} fill="#fff" stroke={isSel ? "#d62027" : c} strokeWidth={isSel ? 2.5 : 1.3} style={{ filter: isSel ? "drop-shadow(0 6px 16px rgba(214,32,39,.22))" : "drop-shadow(0 3px 8px rgba(15,23,42,.12))" }} />
-                <path d={`M0,10 a10,10 0 0 1 10,-10 h${cardW - 20} a10,10 0 0 1 10,10 v${headH - 10} h-${cardW} z`} fill={c} />
-                <text x={11} y={18} style={{ font: "800 13px ui-monospace" }} className="fill-white" direction="ltr">{t.name}</text>
-                <text x={11} y={31} style={{ font: "500 9px sans-serif" }} className="fill-white/90">{(t.he || t.en).slice(0, 26)}</text>
-                <g onPointerDown={(e) => e.stopPropagation()} onClick={(e) => { e.stopPropagation(); setExp((s) => { const n = new Set(s); n.has(t.name) ? n.delete(t.name) : n.add(t.name); return n; }); }}>
-                  <rect x={cardW - 27} y={9} width={18} height={18} rx={4} fill="#ffffff45" /><text x={cardW - 18} y={22} textAnchor="middle" style={{ font: "800 13px sans-serif" }} className="fill-white">{isExp ? "−" : "+"}</text></g>
-                {!isExp && <text x={cardW / 2} y={48} textAnchor="middle" style={{ font: "600 10px ui-monospace" }} className="fill-slate-500">{g.pk.length} PK · {g.fk.length} FK · {fieldsOf(t).length} fld</text>}
-                {isExp && <>{section("PRIMARY KEY", g.pk, "fill-amber-600", "PK")}{section("FOREIGN KEYS", g.fk, "fill-blue-600", "FK")}{section("BUSINESS", g.biz, "fill-slate-700")}{section("TECHNICAL", g.tech, "fill-slate-400")}</>}
+                onPointerDown={(e) => onCardDown(e, t.name)} onClick={() => { if (drag.current?.moved) return; setSel(t.name); toggle(); }} onDoubleClick={() => onTable(t.name)} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}>
+                <defs><linearGradient id={`hg-${t.name}`} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={c} /><stop offset="100%" stopColor={c} stopOpacity={0.82} /></linearGradient></defs>
+                <rect width={cardW} height={ch} rx={12} fill="#fff" stroke={isSel ? "#d62027" : c} strokeWidth={isSel ? 2.5 : 1.4} style={{ filter: isSel ? `drop-shadow(0 8px 22px ${c}55)` : "drop-shadow(0 4px 12px rgba(15,23,42,.14))", transition: "filter .2s" }} />
+                <path d={`M0,12 a12,12 0 0 1 12,-12 h${cardW - 24} a12,12 0 0 1 12,12 v${headH - 12} h-${cardW} z`} fill={`url(#hg-${t.name})`} />
+                <circle cx={18} cy={headH / 2} r={4} fill="#fff" opacity={0.9} />
+                <text x={32} y={headH / 2 + 5} style={{ font: "800 15px ui-monospace" }} className="fill-white" direction="ltr">{t.name}</text>
+                <g onPointerDown={(e) => e.stopPropagation()} onClick={(e) => { e.stopPropagation(); toggle(); }}>
+                  <rect x={cardW - 30} y={(headH - 20) / 2} width={20} height={20} rx={6} fill="#ffffff35" /><text x={cardW - 20} y={(headH - 20) / 2 + 14} textAnchor="middle" style={{ font: "800 14px sans-serif" }} className="fill-white">{isExp ? "−" : "+"}</text></g>
+                {!isExp && <><text x={16} y={headH + 24} style={{ font: "600 11px sans-serif" }} className="fill-slate-600">{(t.he || t.en).slice(0, 22)}</text>
+                  <text x={cardW - 12} y={headH + 24} textAnchor="end" style={{ font: "600 10px ui-monospace" }} fill={c}>{fieldsOf(t).length} שדות</text></>}
+                {isExp && <g style={{ animation: "pop .22s ease both" }}>{section("PRIMARY KEY", g.pk, "fill-amber-600", "PK")}{section("FOREIGN KEYS", g.fk, "fill-blue-600", "FK")}{section("BUSINESS", g.biz, "fill-slate-700")}{section("TECHNICAL", g.tech, "fill-slate-400")}</g>}
               </g>; })}
           </g>
         </svg>
@@ -322,6 +332,45 @@ function Erd({ data, color, code, byName, focus, onTable, inspector }: { data: D
         {inspector}
       </div>
       <p className="text-[11px] text-slate-500">לחיצה = בחירה (מדגיש שרשרת) · דאבל-קליק = מפרט צף · גרירה · + / − הרחבה · גלגלת = זום · מסך מלא</p>
+    </div>
+  );
+}
+
+/* ===================== FIELD INSPECTOR (field-centric, floating) ===================== */
+function FieldInspector({ data, color, t, field, byName, onClose, onGo }: { data: Data; color: (m?: string | null) => string; t: Tbl; field: string; byName: Record<string, Tbl>; onClose: () => void; onGo: (n: string) => void }) {
+  const [p, setP] = useState({ x: 0, y: 0 });
+  const drag = useRef<{ x: number; y: number; ox: number; oy: number } | null>(null);
+  const c = color(t.mod);
+  const f = fieldsOf(t).find((x) => x[0] === field) || [field, "", "", "-"] as Field;
+  const key = f[3];
+  const parents = [...new Set(t.rel.filter((r) => r.role === "child").map((r) => r.table))];
+  const whereUsed = [...new Set(data.tables.filter((x) => x.rel.some((r) => r.table === t.name)).map((x) => x.name))];
+  const connects = key === "FK" ? parents : key === "PK" ? whereUsed : [...new Set([...parents, ...t.rel.filter((r) => r.role === "parent").map((r) => r.table)])];
+  const bp = data.blueprints.find((b) => b.code === t.mod);
+  const objs = (OBJECTS[t.mod] || []).filter((o) => o.tables.includes(t.name)).map((o) => o.he);
+  const importance = key === "PK" ? "מפתח ראשי (Primary Key) — מזהה ייחודי של כל רשומה בטבלה. כל הקשרים והשליפות נשענים עליו." : key === "FK" ? "מפתח זר (Foreign Key) — מקשר את הרשומה לטבלה אחרת ומאפשר join ושלמות נתונים." : "שדה נתונים — נתון עסקי או טכני של הרשומה.";
+  const onDown = (e: React.PointerEvent) => { drag.current = { x: e.clientX, y: e.clientY, ox: p.x, oy: p.y }; (e.target as Element).setPointerCapture?.(e.pointerId); };
+  const onMove = (e: React.PointerEvent) => { if (drag.current) setP({ x: drag.current.ox + (e.clientX - drag.current.x), y: drag.current.oy + (e.clientY - drag.current.y) }); };
+  const S = ({ title, children }: { title: string; children: React.ReactNode }) => <div className="border-t border-slate-100 px-3.5 py-2.5"><h4 className="mb-1.5 text-[10px] font-bold uppercase tracking-wide" style={{ color: c }}>{title}</h4>{children}</div>;
+  const Pills = ({ a }: { a: string[] }) => a.length ? <div className="flex flex-wrap gap-1">{a.map((x) => byName[x] ? <button key={x} onClick={() => onGo(x)} className="rounded border px-1.5 py-0.5 font-mono text-[11px] font-bold hover:bg-slate-50" style={{ borderColor: c, color: c }}>{x}</button> : <span key={x} className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600">{x}</span>)}</div> : <span className="text-[11px] italic text-slate-400">—</span>;
+  return (
+    <div className="absolute z-40 max-h-[88%] w-[340px] overflow-auto rounded-2xl border border-slate-200 bg-white/95 shadow-2xl backdrop-blur-md" style={{ insetInlineStart: 12 + p.x, top: 12 + p.y, animation: "pop .25s ease both" }} dir="rtl">
+      <div className="sticky top-0 z-10 cursor-grab border-b border-slate-200 px-3.5 py-3 active:cursor-grabbing" style={{ background: `linear-gradient(135deg,${c},${c}cc)` }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={() => (drag.current = null)}>
+        <div className="flex items-start justify-between">
+          <div className="min-w-0"><div className="flex items-center gap-2"><GripVertical className="size-3.5 text-white/70" /><span className="font-mono text-xl font-extrabold text-white" dir="ltr">{f[0]}</span>{key !== "-" && <span className="rounded bg-white/25 px-1.5 py-0.5 text-[10px] font-bold text-white">{key}</span>}</div>
+            <p className="mt-1 text-xs text-white/90">{f[2] || f[1]}</p></div>
+          <button onClick={onClose} className="rounded p-1 text-white/80 hover:bg-white/20"><X className="size-4" /></button>
+        </div>
+        <button onClick={() => onGo(t.name)} className="mt-2 inline-flex items-center gap-1 rounded-lg bg-white/15 px-2 py-1 text-[11px] font-bold text-white hover:bg-white/25"><span className="font-mono">{t.name}</span> · {t.he || t.en} ↗</button>
+      </div>
+      <S title="חשיבות"><p className="text-xs leading-relaxed text-slate-600">{importance}</p></S>
+      <div className="grid grid-cols-2"><S title="שם טכני"><span className="font-mono text-sm font-bold text-slate-800" dir="ltr">{f[0]}</span></S><S title="תפקיד"><span className="text-sm font-bold" style={{ color: key === "PK" ? "#d97706" : key === "FK" ? "#2563eb" : "#475569" }}>{key === "PK" ? "מפתח ראשי" : key === "FK" ? "מפתח זר" : "שדה"}</span></S></div>
+      <S title={key === "PK" ? "מופנה מטבלאות (Where-Used)" : key === "FK" ? "מחובר אל" : "טבלאות קשורות"}><Pills a={connects} /></S>
+      <S title="הטבלה"><div className="flex items-center justify-between"><button onClick={() => onGo(t.name)} className="font-mono text-sm font-bold" style={{ color: c }}>{t.name}</button><span className="text-xs text-slate-500">{t.mod} · {MOD_NAME_HE[t.mod] || ""}</span></div><p className="mt-1 text-xs text-slate-600">{bp?.purpose || t.he || t.en}</p></S>
+      {objs.length > 0 && <S title="אובייקטים עסקיים"><div className="flex flex-wrap gap-1">{objs.map((o) => <span key={o} className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600">{o}</span>)}</div></S>}
+      <S title="פונקציות / BAPIs"><Pills a={(t.funcs || []).slice(0, 6)} /></S>
+      <S title="טרנזקציות"><span className="font-mono text-xs text-slate-700">{t.tcodes || "—"}</span></S>
+      <S title="ECC → S/4HANA"><p className="text-xs text-slate-600">{t.s4 || "אין שינוי מהותי."}</p></S>
     </div>
   );
 }
