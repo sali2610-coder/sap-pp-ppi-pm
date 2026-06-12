@@ -151,6 +151,102 @@ export function genExampleRecords(fields: [string, string, string, string][], na
   return { cols, rows };
 }
 
+// Business Objects per module (Level 2 — progressive disclosure). Each object maps to its core tables.
+export const OBJECTS: Record<string, { he: string; en: string; tables: string[] }[]> = {
+  PP: [
+    { he: "חומר", en: "Material", tables: ["MARA", "MARC", "MAKT", "MBEW"] },
+    { he: "עץ מוצר", en: "Bill of Materials", tables: ["STKO", "STPO", "MAST"] },
+    { he: "מסלול ייצור", en: "Routing", tables: ["PLKO", "PLPO", "MAPL", "CRHD", "CRCA"] },
+    { he: "הזמנת ייצור", en: "Production Order", tables: ["AFKO", "AFPO"] },
+    { he: "פעולות", en: "Operations", tables: ["AFVC"] },
+    { he: "דיווח ביצוע", en: "Confirmation", tables: ["AFRU"] },
+    { he: "תנועת מלאי", en: "Goods Movement", tables: ["RESB"] },
+    { he: "סטטוס", en: "Status", tables: ["JEST", "JSTO"] },
+  ],
+  "PP-PI": [
+    { he: "חומר", en: "Material", tables: ["MARA", "MARC"] },
+    { he: "מתכון", en: "Master Recipe", tables: ["PLKO", "PLPO", "MAPL"] },
+    { he: "הזמנת תהליך", en: "Process Order", tables: ["AFKO", "AFPO"] },
+    { he: "פעולות", en: "Operations", tables: ["AFVC", "CRHD"] },
+    { he: "דיווח", en: "Confirmation", tables: ["AFRU"] },
+    { he: "אצווה", en: "Batch", tables: ["MCH1"] },
+    { he: "סטטוס", en: "Status", tables: ["JEST", "JSTO"] },
+  ],
+  PM: [
+    { he: "ציוד", en: "Equipment", tables: ["EQUI"] },
+    { he: "מיקום פונקציונלי", en: "Functional Location", tables: ["IFLOT"] },
+    { he: "הודעה", en: "Notification", tables: ["QMEL", "QMFE"] },
+    { he: "הזמנת תחזוקה", en: "Maintenance Order", tables: ["AUFK", "AFIH", "AFKO", "AFPO"] },
+    { he: "פעולות", en: "Operations", tables: ["AFVC"] },
+    { he: "דיווח", en: "Confirmation", tables: ["AFRU"] },
+    { he: "סטטוס", en: "Status", tables: ["JEST", "JSTO", "OBJNR"] },
+  ],
+  MM: [
+    { he: "חומר", en: "Material", tables: ["MARA", "MARC", "MARD", "MBEW", "MAKT"] },
+    { he: "דרישת רכש", en: "Purchase Requisition", tables: ["EBAN"] },
+    { he: "הזמנת רכש", en: "Purchase Order", tables: ["EKKO", "EKPO", "EKET"] },
+    { he: "קבלת טובין", en: "Goods Receipt", tables: ["MKPF", "MSEG", "MATDOC"] },
+    { he: "חשבונית ספק", en: "Invoice", tables: ["RBKP", "EKBE"] },
+    { he: "ספק", en: "Vendor", tables: ["LFA1"] },
+  ],
+  SD: [
+    { he: "לקוח", en: "Customer", tables: ["KNA1"] },
+    { he: "הזמנת מכירה", en: "Sales Order", tables: ["VBAK", "VBAP", "VBEP"] },
+    { he: "תמחור", en: "Pricing", tables: ["KONV", "PRCD_ELEMENTS"] },
+    { he: "משלוח", en: "Delivery", tables: ["LIKP", "LIPS"] },
+    { he: "חיוב", en: "Billing", tables: ["VBRK", "VBRP"] },
+    { he: "זרימת מסמכים", en: "Document Flow", tables: ["VBFA"] },
+  ],
+  QM: [
+    { he: "מנת בדיקה", en: "Inspection Lot", tables: ["QALS"] },
+    { he: "מאפייני בדיקה", en: "Characteristics", tables: ["QAMV"] },
+    { he: "החלטת שימוש", en: "Usage Decision", tables: ["QAVE"] },
+    { he: "קטלוג", en: "Catalog", tables: ["QPAM"] },
+    { he: "חומר", en: "Material", tables: ["MARA"] },
+  ],
+  FI: [
+    { he: "מסמך חשבונאי", en: "Accounting Document", tables: ["BKPF", "BSEG"] },
+    { he: "יומן אוניברסלי", en: "Universal Journal", tables: ["ACDOCA"] },
+    { he: "חייבים", en: "Receivables", tables: ["BSID", "BSAD"] },
+    { he: "זכאים", en: "Payables", tables: ["BSIK", "BSAK"] },
+    { he: "חשבון ראשי", en: "G/L Account", tables: ["SKA1"] },
+  ],
+  CO: [
+    { he: "מסמך CO", en: "CO Document", tables: ["COBK", "COEP"] },
+    { he: "מרכז עלות", en: "Cost Center", tables: ["CSKS"] },
+    { he: "יומן אוניברסלי", en: "Universal Journal", tables: ["ACDOCA"] },
+    { he: "הזמנה", en: "Order", tables: ["AUFK"] },
+  ],
+  CS: [
+    { he: "הודעת שירות", en: "Service Notification", tables: ["VIQMEL", "QMEL"] },
+    { he: "הזמנת שירות", en: "Service Order", tables: ["AUFK", "AFIH"] },
+    { he: "ציוד", en: "Equipment", tables: ["EQUI"] },
+    { he: "לקוח", en: "Customer", tables: ["KNA1"] },
+  ],
+  BATCH: [
+    { he: "אצווה", en: "Batch", tables: ["MCH1", "MCHA"] },
+    { he: "מלאי אצווה", en: "Batch Stock", tables: ["MCHB", "MCHBH"] },
+    { he: "חומר", en: "Material", tables: ["MARA", "MARC"] },
+    { he: "סיווג", en: "Classification", tables: ["KLAH", "KSSK", "AUSP"] },
+  ],
+  CLASS: [
+    { he: "מאפיין", en: "Characteristic", tables: ["CABN", "CAWN"] },
+    { he: "מחלקה", en: "Class", tables: ["KLAH", "KSML"] },
+    { he: "שיוך", en: "Assignment", tables: ["KSSK", "AUSP"] },
+    { he: "חומר", en: "Material", tables: ["MARA"] },
+  ],
+  IDOC: [
+    { he: "בקרת IDoc", en: "IDoc Control", tables: ["EDIDC"] },
+    { he: "סטטוס", en: "Status", tables: ["EDIDS"] },
+    { he: "מקטעי נתונים", en: "Data Segments", tables: ["EDID4"] },
+  ],
+  PIPO: [
+    { he: "הודעה", en: "Message", tables: ["EDIDC"] },
+    { he: "חומר", en: "Material", tables: ["MARA"] },
+    { he: "מכירה", en: "Sales", tables: ["VBAK"] },
+  ],
+};
+
 // Curated "major tables" per module for the ERD / Table layer (cross-module + shared allowed).
 // These names are resolved against the global table set (which already holds rich PM/PP-PI data).
 export const ERD_MODULES: Record<string, string[]> = {
