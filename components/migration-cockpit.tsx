@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
+import Link from "next/link";
 import type { SAPModuleData } from "@/lib/types";
 import {
   Table,
@@ -12,6 +13,7 @@ import {
 } from "@/components/ui/table";
 import { StatusSelect } from "@/components/status-select";
 import { Highlight } from "@/components/highlight";
+import { EmptyState } from "@/components/ui/empty-state";
 import { useI18n } from "@/lib/i18n";
 
 export function MigrationCockpit({ module, query }: { module: SAPModuleData; query: string }) {
@@ -25,9 +27,23 @@ export function MigrationCockpit({ module, query }: { module: SAPModuleData; que
         tb.tableName.toLowerCase().includes(q) ||
         tb.descriptionHe.toLowerCase().includes(q) ||
         tb.descriptionEn.toLowerCase().includes(q) ||
-        tb.tcodes.toLowerCase().includes(q),
+        tb.tcodes.toLowerCase().includes(q) ||
+        tb.topicTitle.toLowerCase().includes(q),
     );
   }, [module.topics, q]);
+
+  // Deep-link arrival: when the query matches exactly one table, scroll to it and flash.
+  useEffect(() => {
+    const exact = rows.find((r) => r.tableName.toLowerCase() === q);
+    if (!exact || rows.length > 6) return;
+    const id = setTimeout(() => {
+      document.querySelectorAll<HTMLElement>(`[data-row="${exact.tableName}"]`).forEach((el) => {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.classList.remove("flash-row"); void el.offsetWidth; el.classList.add("flash-row");
+      });
+    }, 350);
+    return () => clearTimeout(id);
+  }, [q, rows]);
 
   return (
     <div className="glass overflow-hidden rounded-2xl">
@@ -44,9 +60,11 @@ export function MigrationCockpit({ module, query }: { module: SAPModuleData; que
           </TableHeader>
           <TableBody>
             {rows.map((tb) => (
-              <TableRow key={tb.id}>
+              <TableRow key={tb.id} data-row={tb.tableName}>
                 <TableCell className="tech font-bold text-brand">
-                  <Highlight text={tb.tableName} query={query} />
+                  <Link href={`/object/${encodeURIComponent(tb.tableName)}`} className="inline-flex items-center gap-1 hover:underline">
+                    <Highlight text={tb.tableName} query={query} />
+                  </Link>
                 </TableCell>
                 <TableCell>
                   <Highlight text={pick(tb.descriptionHe, tb.descriptionEn)} query={query} />
@@ -64,11 +82,11 @@ export function MigrationCockpit({ module, query }: { module: SAPModuleData; que
       {/* mobile card stack */}
       <ul className="divide-y divide-border md:hidden">
         {rows.map((tb) => (
-          <li key={tb.id} className="space-y-2 p-3">
+          <li key={tb.id} data-row={tb.tableName} className="space-y-2 p-3">
             <div className="flex items-center justify-between gap-2">
-              <span className="tech font-bold text-brand">
+              <Link href={`/object/${encodeURIComponent(tb.tableName)}`} className="tech font-bold text-brand hover:underline">
                 <Highlight text={tb.tableName} query={query} />
-              </span>
+              </Link>
               <StatusSelect id={tb.id} seed={tb.migrationStatus} />
             </div>
             <div className="text-sm">
@@ -80,7 +98,7 @@ export function MigrationCockpit({ module, query }: { module: SAPModuleData; que
       </ul>
 
       {rows.length === 0 && (
-        <p className="p-6 text-center text-sm text-muted-foreground">{lang === "he" ? "אין תוצאות." : "No results."}</p>
+        <EmptyState title={lang === "he" ? "אין תוצאות" : "No results"} hint={lang === "he" ? "נסה מונח חיפוש אחר" : "Try a different search term"} />
       )}
     </div>
   );

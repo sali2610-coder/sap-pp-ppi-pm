@@ -55,8 +55,9 @@ function getSnapshot(): StatusMap {
   return snapshot;
 }
 
+const EMPTY: StatusMap = {};
 function getServerSnapshot(): StatusMap {
-  return {};
+  return EMPTY;
 }
 
 function write(next: StatusMap) {
