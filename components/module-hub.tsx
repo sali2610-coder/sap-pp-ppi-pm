@@ -14,6 +14,7 @@ import { TechnicalBlueprint } from "@/components/technical-blueprint";
 import { ProgressChart } from "@/components/progress-chart";
 import { StatusIO } from "@/components/status-io";
 import { ModuleDirectories } from "@/components/module-directories";
+import { HubZones } from "@/components/hub-zones";
 
 type Tab = "cockpit" | "blueprint" | "guides";
 
@@ -37,12 +38,26 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
 
   const subtitleKey = module.module === "PM" ? "hub.pm.subtitle" : "hub.ppi.subtitle";
 
+  const accent = module.module === "PM" ? "#f97316" : "#6d28d9";
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">{module.title}</h1>
-        <p className="text-sm text-muted-foreground">{t(subtitleKey)}</p>
-      </div>
+      <header className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-md">
+        <span className="absolute inset-y-0 end-0 w-1.5" style={{ background: accent }} />
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <span className="grid size-14 place-items-center rounded-2xl text-lg font-extrabold text-white shadow-lg" style={{ background: accent, boxShadow: `0 8px 22px ${accent}55` }}>{module.module}</span>
+            <div>
+              <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">{module.title}</h1>
+              <p className="mt-0.5 text-sm font-medium" style={{ color: accent }}>{t(subtitleKey)}</p>
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <span className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2 text-center"><span className="block text-xl font-extrabold text-slate-900">{allTables.length}</span><span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">טבלאות</span></span>
+            <span className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-2 text-center"><span className="block text-xl font-extrabold text-slate-900">{module.topics.length}</span><span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">נושאים</span></span>
+          </div>
+        </div>
+      </header>
 
       {/* sticky toolbar */}
       <div className="glass sticky top-[4.5rem] z-30 -mx-2 rounded-2xl px-4 py-3 sm:mx-0">
@@ -95,6 +110,7 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
         >
           {tab === "cockpit" && (
             <div className="space-y-5">
+              <HubZones module={module} accent={accent} />
               <div className="glass rounded-2xl p-5">
                 <ProgressChart tables={allTables} title={`${t("hub.progress")} — ${module.title}`} />
               </div>

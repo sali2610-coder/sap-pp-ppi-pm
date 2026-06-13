@@ -3,8 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, Table2, Terminal, Boxes, CornerDownLeft, ArrowLeft, BookText } from "lucide-react";
-import { searchAll } from "@/lib/data";
+import { Search, Table2, Terminal, Boxes, CornerDownLeft, ArrowLeft, BookText, GitBranch, BookMarked, Workflow, MapPin, Cable, FileCode, Network } from "lucide-react";
+import { searchAll, objectIntel } from "@/lib/data";
+import { searchObjects } from "@/lib/object-intel";
 import { lookupTCode } from "@/lib/tcode-index";
 import type { Module } from "@/lib/types";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -13,11 +14,20 @@ import { Highlight } from "@/components/highlight";
 import { useI18n } from "@/lib/i18n";
 import { playPing, playTick } from "@/lib/sound";
 
-type FlatItem = { kind: "table" | "tcode" | "bapi" | "library"; label: string; sub: string; module: Module; href: string };
+type FlatItem = { kind: "table" | "tcode" | "bapi" | "idoc" | "fm" | "cds" | "domain" | "process" | "library"; label: string; sub: string; module: Module; href: string };
 
 function ModuleTag({ m }: { m: Module }) {
   return (
     <span className="shrink-0 rounded-md bg-muted px-1.5 py-0.5 text-[10px] font-bold text-muted-foreground">{m}</span>
+  );
+}
+
+function IntelRow({ icon, label, children }: { icon: React.ReactNode; label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex flex-wrap items-center gap-1.5">
+      <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">{icon}{label}</span>
+      {children}
+    </div>
   );
 }
 
@@ -53,24 +63,30 @@ export function CommandPalette() {
   }, [open]);
 
   const results = useMemo(() => searchAll(q), [q]);
+  const intel = useMemo(() => (q.trim().length >= 2 ? objectIntel(q) : null), [q]);
   const tcode = useMemo(() => lookupTCode(q), [q]);
 
+  const obj = useMemo(() => searchObjects(q), [q]);
+
   const GROUPS = [
-    { kind: "table", title: t("search.tables"), icon: Table2 },
-    { kind: "tcode", title: t("search.tcodes"), icon: Terminal },
-    { kind: "bapi", title: t("search.bapis"), icon: Boxes },
+    { kind: "table", title: "טבלאות", icon: Table2 },
+    { kind: "tcode", title: "T-Codes", icon: Terminal },
+    { kind: "bapi", title: "BAPIs", icon: Boxes },
+    { kind: "idoc", title: "IDocs", icon: Cable },
+    { kind: "fm", title: "Function Modules", icon: FileCode },
+    { kind: "cds", title: "CDS Views", icon: FileCode },
+    { kind: "domain", title: "תחומים", icon: Workflow },
+    { kind: "process", title: "תהליכים", icon: Network },
     { kind: "library", title: t("search.library"), icon: BookText },
   ] as const;
 
   const flat = useMemo<FlatItem[]>(() => {
     const out: FlatItem[] = [];
-    for (const tb of results.tables)
-      out.push({ kind: "table", label: tb.tableName, sub: pick(tb.descriptionHe, tb.descriptionEn), module: tb.module, href: `/${tb.module === "PM" ? "pm" : "pp-pi"}/?q=${encodeURIComponent(tb.tableName)}` });
-    for (const c of results.tcodes) out.push({ kind: "tcode", label: c.code, sub: c.desc, module: c.module, href: c.href });
-    for (const b of results.bapis) out.push({ kind: "bapi", label: b.name, sub: `${b.he} · ${b.tableName}`, module: b.module, href: b.href });
+    const add = (k: FlatItem["kind"], arr: typeof obj.table) => arr.forEach((h) => out.push({ kind: k, label: h.label, sub: h.sub, module: (h.module || "PM") as Module, href: h.href }));
+    add("table", obj.table); add("tcode", obj.tcode); add("bapi", obj.bapi); add("idoc", obj.idoc); add("fm", obj.fm); add("cds", obj.cds); add("domain", obj.domain); add("process", obj.process);
     for (const l of results.library) out.push({ kind: "library", label: l.id, sub: l.title, module: "PM", href: l.href });
     return out;
-  }, [results, pick]);
+  }, [obj, results.library]);
 
   useEffect(() => setActive(0), [q]);
 
@@ -120,9 +136,66 @@ export function CommandPalette() {
           <kbd className="hidden shrink-0 rounded-md border border-border bg-muted/70 px-1.5 py-0.5 text-[11px] font-medium text-muted-foreground sm:block">ESC</kbd>
         </div>
 
+        {/* Object Intelligence card — search as navigation engine */}
+        <AnimatePresence>
+          {intel && (
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="border-b border-border/60 bg-gradient-to-bl from-brand-soft/70 to-transparent">
+              <div className="space-y-3 p-4" dir="rtl">
+                {/* header */}
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="tech rounded-lg bg-brand px-2.5 py-1 text-base font-extrabold text-brand-foreground" dir="ltr">{intel.table.tableName}</span>
+                    <div className="leading-tight">
+                      <div className="text-[11px] font-bold text-slate-500">{intel.type} · <ModuleTag m={intel.table.module} /></div>
+                      <div className="text-xs text-slate-600">{pick(intel.table.descriptionHe, intel.table.descriptionEn)}</div>
+                    </div>
+                  </div>
+                  <button onClick={() => go(`/object/${encodeURIComponent(intel.table.tableName)}`)} className="flex shrink-0 items-center gap-1.5 rounded-xl bg-brand px-3 py-2 text-xs font-bold text-brand-foreground shadow-lg shadow-brand/30 transition hover:bg-brand-dark active:scale-95"><Workflow className="size-3.5" /> סביבת עבודה</button>
+                </div>
+                {/* counts strip */}
+                <div className="grid grid-cols-4 gap-1.5">
+                  {[["הפניות", intel.counts.references], ["תהליכים", intel.counts.processes], ["ספרים", intel.counts.books], ["מקושרים", intel.counts.related]].map(([l, n]) => (
+                    <div key={l as string} className="rounded-lg border border-border/60 bg-white/70 px-2 py-1.5 text-center">
+                      <div className="font-mono text-lg font-extrabold text-brand">{n as number}</div>
+                      <div className="eyebrow text-slate-400">{l as string}</div>
+                    </div>
+                  ))}
+                </div>
+                {/* found in */}
+                <IntelRow icon={<MapPin className="size-3" />} label="נמצא ב">
+                  {intel.foundIn.map((f) => <button key={f.label} onClick={() => go(f.href)} className="rounded-md bg-white px-2 py-0.5 text-[11px] font-bold text-slate-700 ring-1 ring-slate-200 transition hover:ring-brand">✓ {f.label}</button>)}
+                </IntelRow>
+                {intel.related.length > 0 && (
+                  <IntelRow icon={<GitBranch className="size-3" />} label="אובייקטים קשורים">
+                    {intel.related.slice(0, 8).map((r) => <button key={r} onClick={() => setQ(r)} className="tech rounded-md bg-white px-2 py-0.5 text-[11px] font-bold text-brand ring-1 ring-slate-200 transition hover:ring-brand" dir="ltr">{r}</button>)}
+                  </IntelRow>
+                )}
+                {intel.tcodes.length > 0 && (
+                  <IntelRow icon={<Terminal className="size-3" />} label="T-Codes">
+                    {intel.tcodes.map((c) => <span key={c} className="tech rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600" dir="ltr">{c}</span>)}
+                  </IntelRow>
+                )}
+                {intel.bapis.length > 0 && (
+                  <IntelRow icon={<Boxes className="size-3" />} label="BAPIs / FM">
+                    {intel.bapis.map((c) => <span key={c} className="tech rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600" dir="ltr">{c}</span>)}
+                  </IntelRow>
+                )}
+                <IntelRow icon={<Workflow className="size-3" />} label="תהליך">
+                  <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-600">{intel.process}</span>
+                </IntelRow>
+                {intel.books.length > 0 && (
+                  <IntelRow icon={<BookMarked className="size-3" />} label="ספרים">
+                    {intel.books.map((bk) => <button key={bk} onClick={() => go("/library/book1/")} className="rounded-md bg-white px-2 py-0.5 text-[11px] font-bold text-slate-700 ring-1 ring-slate-200 hover:ring-brand">{bk}</button>)}
+                  </IntelRow>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* T-Code intelligence pop-up card */}
         <AnimatePresence>
-          {tcode && (
+          {tcode && !intel && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}

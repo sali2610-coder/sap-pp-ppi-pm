@@ -11,6 +11,7 @@ import { PP_CHAPTERS, PP_EXEC_HE, PP_GLOSSARY, PP_STATS, type PPChapter, type Sa
 import { useI18n } from "@/lib/i18n";
 import { playPing } from "@/lib/sound";
 import { Highlight } from "@/components/highlight";
+import { EmptyState } from "@/components/ui/empty-state";
 
 const OBJ_LABELS: { key: keyof SapObjects; he: string }[] = [
   { key: "tcodes", he: "T-Codes" },
@@ -181,7 +182,7 @@ export default function PPLibraryPage() {
 
       <div className="space-y-4">
         {chapters.map((c) => <ChapterCard key={c.n} ch={c} query={query} />)}
-        {chapters.length === 0 && <p className="py-8 text-center text-sm text-muted-foreground">{lang === "he" ? "אין תוצאות" : "No results"} — &quot;{q}&quot;</p>}
+        {chapters.length === 0 && <EmptyState title={lang === "he" ? "אין תוצאות" : "No results"} hint={`"${q}"`} />}
       </div>
 
       {/* glossary */}
