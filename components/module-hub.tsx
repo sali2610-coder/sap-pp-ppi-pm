@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Search, LayoutGrid, BookOpen, Wrench } from "lucide-react";
 import type { SAPModuleData } from "@/lib/types";
@@ -18,15 +18,16 @@ import { HubZones } from "@/components/hub-zones";
 
 type Tab = "cockpit" | "blueprint" | "guides";
 
-function initialQuery() {
-  if (typeof window === "undefined") return "";
-  return new URLSearchParams(window.location.search).get("q") ?? "";
-}
-
 export function ModuleHub({ module }: { module: SAPModuleData }) {
   const { t } = useI18n();
-  const [query, setQuery] = useState(initialQuery);
+  // start empty so server + client first render match (avoids hydration mismatch → blank subtree);
+  // read ?q= deep-link only after mount.
+  const [query, setQuery] = useState("");
   const [tab, setTab] = useState<Tab>("cockpit");
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get("q");
+    if (q) setQuery(q);
+  }, []);
 
   const allTables = useMemo(() => module.topics.flatMap((tp) => tp.tables), [module.topics]);
 
