@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, BookOpen, ChevronDown, FileText, Image as ImageIcon, Layers } from "lucide-react";
+import { ArrowRight, BookOpen, ChevronDown, FileText, Image as ImageIcon, Layers, ZoomIn, Download, X } from "lucide-react";
 import book1 from "@/data/library/book1-full.json";
 import figuresData from "@/data/library/book1-figures.json";
 import { useI18n } from "@/lib/i18n";
 import { playPing } from "@/lib/sound";
 import { ChapterDiagram } from "@/components/book1-diagrams";
+import { BookReader } from "@/components/book-reader";
 
 interface Section { id: string; title: string; en: string; he: string }
 interface Chapter { n: number; title: string; pages: number[]; translated?: boolean; sections: Section[] }
@@ -18,16 +19,41 @@ const DATA = book1 as { book: string; pages: number; chapters: Chapter[] };
 const FIGS = figuresData as Record<string, Figure[]>;
 
 // One figure rendered across the spread (book-style), bilingual caption.
-function FigurePlate({ fig }: { fig: Figure }) {
+// aspectRatio reserves the box so lazy images load + never collapse to 0-height.
+function FigurePlate({ fig, onZoom }: { fig: Figure; onZoom: (f: Figure) => void }) {
   return (
-    <figure className="mx-auto my-3 max-w-xl rounded-lg border border-border/60 bg-white p-2 shadow-sm">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={fig.file} alt={`SAP figure p.${fig.page}`} loading="lazy" className="mx-auto h-auto w-full rounded" />
+    <figure className="group mx-auto my-3 max-w-xl overflow-hidden rounded-xl border border-border/60 bg-white p-2 shadow-sm transition-shadow hover:shadow-md">
+      <button onClick={() => onZoom(fig)} className="relative block w-full overflow-hidden rounded-lg" style={{ aspectRatio: `${fig.w} / ${fig.h}` }} aria-label="הגדל איור">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={fig.file} alt={`SAP figure p.${fig.page}`} loading="lazy" width={fig.w} height={fig.h} className="absolute inset-0 size-full object-contain transition-transform duration-500 group-hover:scale-[1.03]" />
+        <span className="absolute inset-0 flex items-center justify-center bg-slate-900/0 opacity-0 transition group-hover:bg-slate-900/15 group-hover:opacity-100">
+          <span className="grid size-9 place-items-center rounded-full bg-white/90 text-slate-700 shadow-lg"><ZoomIn className="size-4" /></span>
+        </span>
+      </button>
       <figcaption className="mt-1 flex items-center justify-between px-1 text-[10px] text-muted-foreground">
         <span dir="ltr">Source p.{fig.page}</span>
+        <a href={fig.file} download className="flex items-center gap-1 rounded px-1 py-0.5 font-semibold text-brand hover:bg-brand-soft"><Download className="size-3" /> הורד</a>
         <span dir="rtl">איור · עמ' {fig.page}</span>
       </figcaption>
     </figure>
+  );
+}
+
+// Full-screen image lightbox (zoom / download / close).
+function Lightbox({ fig, onClose }: { fig: Figure; onClose: () => void }) {
+  useEffect(() => { const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); }; window.addEventListener("keydown", h); return () => window.removeEventListener("keydown", h); }, [onClose]);
+  return (
+    <div onClick={onClose} className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-3 bg-slate-950/85 p-4 backdrop-blur-sm" style={{ animation: "fadeUp .2s ease both" }}>
+      <div className="flex w-full max-w-5xl items-center justify-between text-white">
+        <span className="text-xs font-semibold" dir="ltr">SAP figure · page {fig.page}</span>
+        <div className="flex items-center gap-2">
+          <a href={fig.file} download onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-3 py-1.5 text-xs font-bold hover:bg-white/25"><Download className="size-4" /> הורד</a>
+          <button onClick={onClose} className="inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-3 py-1.5 text-xs font-bold hover:bg-white/25"><X className="size-4" /> סגור</button>
+        </div>
+      </div>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={fig.file} alt={`SAP figure p.${fig.page}`} onClick={(e) => e.stopPropagation()} className="max-h-[82vh] max-w-full rounded-xl bg-white object-contain shadow-2xl" />
+    </div>
   );
 }
 
@@ -64,13 +90,20 @@ function SectionSpread({ s }: { s: Section }) {
   );
 }
 
-function ChapterBlock({ ch }: { ch: Chapter }) {
+function ChapterBlock({ ch, onZoom }: { ch: Chapter; onZoom: (f: Figure) => void }) {
   const { lang } = useI18n();
   const [open, setOpen] = useState(ch.n === 1);
   const figs = FIGS[String(ch.n)] ?? [];
 
+  useEffect(() => {
+    const openIfHash = () => { if (typeof window !== "undefined" && window.location.hash === `#ch-${ch.n}`) setOpen(true); };
+    openIfHash();
+    window.addEventListener("hashchange", openIfHash);
+    return () => window.removeEventListener("hashchange", openIfHash);
+  }, [ch.n]);
+
   return (
-    <section className="glass overflow-hidden rounded-2xl">
+    <section id={`ch-${ch.n}`} data-chapter={ch.n} className="glass scroll-mt-24 overflow-hidden rounded-2xl">
       <button
         onClick={() => {
           playPing();
@@ -115,14 +148,14 @@ function ChapterBlock({ ch }: { ch: Chapter }) {
             <div className="paper relative rounded-xl p-4 sm:p-6">
               {/* figure plates band */}
               {figs.length > 0 && (
-                <details className="mb-3 rounded-lg border border-border/50 bg-white/60 p-2">
+                <details open className="mb-3 rounded-lg border border-border/50 bg-white/60 p-2">
                   <summary className="flex cursor-pointer items-center gap-2 text-xs font-semibold text-brand">
                     <ImageIcon className="size-3.5" />
                     {lang === "he" ? `איורים מקוריים מהספר (${figs.length})` : `Original figures from the book (${figs.length})`}
                   </summary>
                   <div className="mt-2 grid gap-3 sm:grid-cols-2">
                     {figs.map((f, i) => (
-                      <FigurePlate key={i} fig={f} />
+                      <FigurePlate key={i} fig={f} onZoom={onZoom} />
                     ))}
                   </div>
                 </details>
@@ -141,6 +174,7 @@ function ChapterBlock({ ch }: { ch: Chapter }) {
 
 export default function Book1Page() {
   const { lang } = useI18n();
+  const [lb, setLb] = useState<Figure | null>(null);
   const translatedChapters = DATA.chapters.filter((c) => c.translated).length;
   const totalSections = DATA.chapters.reduce((s, c) => s + c.sections.length, 0);
   const totalFigures = Object.values(FIGS).reduce((s, a) => s + a.length, 0);
@@ -176,11 +210,15 @@ export default function Book1Page() {
         </div>
       </section>
 
-      <div className="space-y-4">
-        {DATA.chapters.map((ch) => (
-          <ChapterBlock key={ch.n} ch={ch} />
-        ))}
-      </div>
+      <BookReader bookId="book1" title={DATA.book} subtitle="PM · 729 pages" chapters={DATA.chapters.map((c) => ({ n: c.n, title: c.title }))}>
+        <div className="space-y-4">
+          {DATA.chapters.map((ch) => (
+            <ChapterBlock key={ch.n} ch={ch} onZoom={setLb} />
+          ))}
+        </div>
+      </BookReader>
+
+      {lb && <Lightbox fig={lb} onClose={() => setLb(null)} />}
 
       <p className="text-center text-xs text-muted-foreground">
         {lang === "he"

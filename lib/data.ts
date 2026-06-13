@@ -91,6 +91,50 @@ const BOOK1 = BOOK1_INDEX as { ch: number; id: string; title: string; snippet: s
 const hrefFor = (m: Module, q: string) =>
   `/${m === "PM" ? "pm" : "pp-pi"}/?q=${encodeURIComponent(q)}`;
 
+// ===== Object Intelligence (search = navigation engine) =====
+export interface FoundIn { label: string; href: string }
+export interface ObjectIntel {
+  table: SAPTable;
+  type: string;
+  related: string[];     // related table names (relations + reverse refs)
+  tcodes: string[];
+  bapis: string[];
+  process: string;       // owning topic / process
+  books: string[];       // book labels referencing it
+  foundIn: FoundIn[];
+  counts: { references: number; processes: number; books: number; related: number };
+}
+
+const splitTc = (s: string) => (s || "").split(/[^A-Za-z0-9_]+/).map((c) => c.trim()).filter((c) => c.length >= 2 && /^[A-Z][A-Z0-9_]*$/i.test(c));
+
+export function objectIntel(name: string): ObjectIntel | null {
+  const key = (name || "").trim().toLowerCase();
+  if (!key) return null;
+  const t = ALL_TABLES.find((x) => x.tableName.toLowerCase() === key)
+    || ALL_TABLES.find((x) => x.tableName.toLowerCase().startsWith(key) && key.length >= 3);
+  if (!t) return null;
+  const fwd = t.relations.map((r) => r.table);
+  const rev = ALL_TABLES.filter((x) => x.relations.some((r) => r.table === t.tableName)).map((x) => x.tableName);
+  const related = [...new Set([...fwd, ...rev])].filter((x) => x && x !== t.tableName);
+  const tcodes = [...new Set(splitTc(t.tcodes))].slice(0, 8);
+  const bapis = [...new Set(t.funcs.map((f) => f[0]).filter(Boolean))].slice(0, 6);
+  const nm = t.tableName.toLowerCase();
+  const books: string[] = [];
+  if (BOOK1.some((s) => `${s.id} ${s.title} ${s.snippet}`.toLowerCase().includes(nm))) books.push("Book 1");
+  const hubLabel = t.module === "PM" ? "PM Hub" : "PP-PI Hub";
+  const hubHref = `/${t.module === "PM" ? "pm" : "pp-pi"}/?q=${encodeURIComponent(t.tableName)}`;
+  const foundIn: FoundIn[] = [
+    { label: hubLabel, href: hubHref },
+    { label: "SAP Architecture", href: "/sap-infrastructure/" },
+  ];
+  if (t.module === "PM") foundIn.push({ label: "Academy", href: "/library/pm-academy/" });
+  books.forEach((b) => foundIn.push({ label: b, href: "/library/book1/" }));
+  return {
+    table: t, type: "Table", related, tcodes, bapis, process: t.topicTitle, books, foundIn,
+    counts: { references: rev.length + 1, processes: 1, books: books.length, related: related.length },
+  };
+}
+
 export function searchAll(query: string, limit = 6): GroupedResults {
   const q = query.trim().toLowerCase();
   if (!q) return { tables: [], tcodes: [], bapis: [], library: [] };

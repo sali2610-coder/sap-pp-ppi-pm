@@ -34,7 +34,7 @@ export function UXSettings() {
   }
 
   return (
-    <div className="fixed bottom-5 end-5 z-40 flex flex-col items-end gap-3">
+    <div className="no-print fixed bottom-5 end-5 z-40 flex flex-col items-end gap-3">
       <AnimatePresence>
         {open && (
           <motion.div

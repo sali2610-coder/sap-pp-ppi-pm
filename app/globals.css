@@ -190,9 +190,134 @@ pre {
 .prose-chat strong { font-weight: 700; }
 .prose-chat a { color: var(--brand); text-decoration: underline; }
 
+/* ===== Typography scale (enterprise) ===== */
+/* Base: headings get tighter tracking + balanced wrap; size still controlled per-component */
+h1, h2, h3 {
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+/* Reusable opt-in type ramp */
+@utility text-display {
+  font-size: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+}
+@utility text-h1 {
+  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+}
+@utility text-h2 {
+  font-size: clamp(1.125rem, 0.95rem + 0.8vw, 1.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+}
+@utility text-eyebrow {
+  font-size: 0.6875rem;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+@utility text-caption {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--muted-foreground);
+}
+
 /* Entry animations */
 @keyframes float-in {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .animate-float-in { animation: float-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* ===== Accessibility ===== */
+/* Keyboard focus ring — brand-tinted, visible only for keyboard users */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+/* On the red header, switch ring to white for contrast */
+header :focus-visible {
+  outline-color: #fff;
+}
+
+/* Respect OS "reduce motion" — kill non-essential animation/transition */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ===== CBC Design System — motion + surface tokens ===== */
+:root {
+  --ease-premium: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --shadow-card: 0 10px 30px -18px rgba(15, 23, 42, 0.4), 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-lift: 0 24px 50px -20px rgba(15, 23, 42, 0.45);
+}
+
+/* Premium card surface — one consistent enclosure across the platform */
+@utility card-premium {
+  background: #fff;
+  border: 1px solid rgb(226 232 240);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.4s var(--ease-premium), box-shadow 0.4s var(--ease-premium);
+}
+/* Hover lift — GPU-only transform */
+@utility lift {
+  transition: transform 0.35s var(--ease-premium), box-shadow 0.35s var(--ease-premium);
+}
+.lift:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
+/* Tactile press */
+@utility tap { transition: transform 0.12s var(--ease-premium); }
+.tap:active { transform: scale(0.97); }
+
+/* Eyebrow label — microscopic tracked uppercase tag */
+@utility eyebrow {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* Staggered entry helper (set --i inline for delay) */
+@utility rise {
+  animation: fadeUpSoft 0.6s var(--ease-soft) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+@keyframes fadeUpSoft { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+
+/* ===== Presentation / PowerPoint-export print layout ===== */
+@media print {
+  /* hide chrome */
+  header, footer, .no-print, [data-ux], .ux-settings { display: none !important; }
+  body { background: #fff !important; }
+  main { max-width: none !important; padding: 0 !important; }
+  /* each presentation slide = one page, 16:9 framing */
+  .slide-print { break-inside: avoid; page-break-inside: avoid; page-break-after: always; padding: 28px 36px; }
+  .slide-print:last-child { page-break-after: auto; }
+  .print-hide { display: none !important; }
+  .print-block { display: block !important; }
+  /* keep brand color in print */
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  @page { size: A4 landscape; margin: 12mm; }
+}
+.print-block { display: none; }
+
+/* Deep-link arrival flash — yellow SAP pulse on the targeted row */
+@keyframes flashRow {
+  0%, 100% { background-color: transparent; box-shadow: none; }
+  20% { background-color: rgba(250, 204, 21, 0.4); box-shadow: inset 0 0 0 2px rgba(234, 179, 8, 0.7); }
+}
+.flash-row { animation: flashRow 1.8s var(--ease-soft); }

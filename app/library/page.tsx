@@ -1,52 +1,67 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, ChevronDown, FileText, Library as LibraryIcon, Layers, ArrowLeft, GraduationCap } from "lucide-react";
+import { BookOpen, ChevronDown, FileText, Library as LibraryIcon, Layers, ArrowLeft, GraduationCap, Search, X, Clock, CheckCircle2, Star, Languages, BookMarked } from "lucide-react";
 import { LIBRARY, LIBRARY_STATS, type LibBook, type LibChapter } from "@/data/library";
+import { ACADEMY_BOOKS, ACADEMY_META, type AcademyBook } from "@/data/library/academy";
 import { useI18n } from "@/lib/i18n";
 import { playPing } from "@/lib/sound";
 
-// A single chapter — click to expand the dual-language inner technical text.
+/* ---- module identity palette (soft, enterprise) ---- */
+const MOD_COLOR: Record<string, string> = {
+  PP: "#d62027", PM: "#f97316", "PP-PI": "#6d28d9", QM: "#059669",
+  MM: "#d97706", WM: "#7c3aed", IBP: "#0891b2", Fiori: "#db2777", Foundation: "#475569",
+};
+const mc = (m: string) => MOD_COLOR[m] || "#64748b";
+
+/* ---- deep-reader routes for reference manuals that have full text ---- */
+const READER: Record<string, string> = { "config-pm": "/library/book1/", "production-planning": "/library/book2/" };
+
+/* ====== recently-opened (localStorage, SSR-safe) ====== */
+type Recent = { id: string; title: string; module: string; href: string };
+function useRecent() {
+  const [recent, setRecent] = useState<Recent[]>([]);
+  useEffect(() => {
+    try { const r = JSON.parse(localStorage.getItem("neo:lib:recent") || "[]"); if (Array.isArray(r)) setRecent(r.slice(0, 6)); } catch { /* noop */ }
+  }, []);
+  const push = (item: Recent) => {
+    try {
+      const cur: Recent[] = JSON.parse(localStorage.getItem("neo:lib:recent") || "[]");
+      const next = [item, ...cur.filter((x) => x.id !== item.id)].slice(0, 6);
+      localStorage.setItem("neo:lib:recent", JSON.stringify(next)); setRecent(next);
+    } catch { /* noop */ }
+  };
+  return { recent, push };
+}
+
+/* ====== chapter row (reference manual inline index) ====== */
 function ChapterRow({ c }: { c: LibChapter }) {
   const [open, setOpen] = useState(false);
   const hasBody = Boolean(c.bodyEn || c.bodyHe);
   return (
     <li>
-      <button
-        onClick={() => {
-          if (!hasBody) return;
-          playPing();
-          setOpen((v) => !v);
-        }}
-        className={`grid w-full gap-1 px-5 py-3 text-start transition-colors sm:grid-cols-2 sm:gap-4 ${hasBody ? "hover:bg-muted/50" : ""}`}
-      >
+      <button onClick={() => { if (!hasBody) return; playPing(); setOpen((v) => !v); }}
+        className={`grid w-full gap-1 px-5 py-3 text-start transition-colors sm:grid-cols-2 sm:gap-4 ${hasBody ? "hover:bg-slate-50" : ""}`}>
         <div dir="ltr" className="flex items-start gap-2 text-start">
-          <span className="tech mt-0.5 shrink-0 rounded bg-muted px-1.5 text-[11px] font-bold text-muted-foreground">{c.n}</span>
+          <span className="tech mt-0.5 shrink-0 rounded bg-slate-100 px-1.5 text-[11px] font-bold text-slate-500">{c.n}</span>
           <span className="text-sm font-medium">{c.en}</span>
-          {c.page ? <span className="ms-auto shrink-0 text-[11px] text-muted-foreground">p.{c.page}</span> : null}
+          {c.page ? <span className="ms-auto shrink-0 text-[11px] text-slate-400">p.{c.page}</span> : null}
         </div>
         <div dir="rtl" className="flex items-start gap-2 text-start">
           <FileText className="mt-0.5 size-3.5 shrink-0 text-brand" />
           <span className="text-sm font-medium">{c.he}</span>
-          {hasBody && <ChevronDown className={`ms-auto size-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />}
+          {hasBody && <ChevronDown className={`ms-auto size-4 shrink-0 text-slate-400 transition-transform ${open ? "rotate-180" : ""}`} />}
         </div>
       </button>
-
       <AnimatePresence initial={false}>
         {open && hasBody && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="overflow-hidden"
-          >
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden">
             <div className="grid gap-3 px-5 pb-4 sm:grid-cols-2 sm:gap-4">
-              <div dir="ltr" className="flex max-h-96 flex-col rounded-xl border border-border/50 bg-background/50 p-3 text-start">
-                <p className="mb-1 shrink-0 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">Original (SAP manual)</p>
-                <p className="overflow-y-auto whitespace-pre-line text-xs leading-relaxed text-muted-foreground">{c.bodyEn || "—"}</p>
+              <div dir="ltr" className="flex max-h-96 flex-col rounded-xl border border-slate-200/70 bg-slate-50/60 p-3 text-start">
+                <p className="mb-1 shrink-0 text-[10px] font-bold uppercase tracking-wide text-slate-400">Original (SAP manual)</p>
+                <p className="overflow-y-auto whitespace-pre-line text-xs leading-relaxed text-slate-500">{c.bodyEn || "—"}</p>
               </div>
               <div dir="rtl" className="flex max-h-96 flex-col rounded-xl border border-brand/20 bg-brand-soft/50 p-3 text-start">
                 <p className="mb-1 shrink-0 text-[10px] font-bold uppercase tracking-wide text-brand">תרגום מקצועי לעברית</p>
@@ -60,89 +75,104 @@ function ChapterRow({ c }: { c: LibChapter }) {
   );
 }
 
-const MODULE_TINT: Record<string, string> = {
-  PM: "from-rose-500/15",
-  "PP-PI": "from-blue-500/15",
-  PP: "from-blue-500/15",
-  QM: "from-violet-500/15",
-  MM: "from-amber-500/15",
-  WM: "from-emerald-500/15",
-  IBP: "from-cyan-500/15",
-  Fiori: "from-fuchsia-500/15",
-  Foundation: "from-slate-500/15",
-};
+/* ====== language / quality / status chips ====== */
+function Chip({ children, tone = "slate" }: { children: React.ReactNode; tone?: "slate" | "green" | "amber" | "brand" }) {
+  const t = { slate: "bg-slate-100 text-slate-600", green: "bg-emerald-50 text-emerald-700", amber: "bg-amber-50 text-amber-700", brand: "bg-brand-soft text-brand" }[tone];
+  return <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold ${t}`}>{children}</span>;
+}
 
-function BookCard({ book }: { book: LibBook }) {
+/* ====== ACADEMY learning-path card (cover style) ====== */
+function AcademyCard({ b, onOpen }: { b: AcademyBook; onOpen: (r: Recent) => void }) {
+  const c = mc(b.module);
+  const pct = b.chaptersTotal ? Math.round((b.chaptersDone / b.chaptersTotal) * 100) : 0;
+  const live = b.status === "live" && b.href;
+  const inner = (
+    <div className="group relative flex h-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_10px_30px_-18px_rgba(15,23,42,0.4)] transition-all duration-500 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-1.5 hover:shadow-[0_24px_50px_-20px_rgba(15,23,42,0.45)]">
+      {/* book spine */}
+      <div className="relative w-3 shrink-0" style={{ background: `linear-gradient(180deg, ${c}, ${c}99)` }}>
+        <span className="absolute inset-y-0 left-0 w-px bg-white/40" />
+      </div>
+      <span className="pointer-events-none absolute -right-12 -top-12 size-32 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-20" style={{ background: c }} />
+      <div className="relative flex flex-1 flex-col p-5">
+        <div className="flex items-start justify-between gap-2">
+          <span className="grid size-11 place-items-center rounded-xl text-white shadow-lg" style={{ background: c, boxShadow: `0 8px 20px ${c}55` }}><GraduationCap className="size-5" /></span>
+          <div className="flex flex-col items-end gap-1">
+            <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{b.module}</span>
+            {b.status === "live" ? <Chip tone="green"><CheckCircle2 className="size-3" /> פעיל</Chip> : <Chip tone="amber"><Clock className="size-3" /> בתכנון</Chip>}
+          </div>
+        </div>
+        <h3 className="mt-3 text-lg font-extrabold leading-tight tracking-tight text-slate-900">{b.titleHe}</h3>
+        <p className="mt-0.5 line-clamp-1 text-xs text-slate-400" dir="ltr">{b.titleEn}</p>
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          <Chip><Languages className="size-3" /> EN · HE</Chip>
+          {b.qualityScore != null && <Chip tone="brand"><Star className="size-3" /> איכות {b.qualityScore}</Chip>}
+          {b.validated && <Chip tone="green"><CheckCircle2 className="size-3" /> מאומת</Chip>}
+        </div>
+        {/* progress */}
+        <div className="mt-auto pt-4">
+          <div className="mb-1 flex items-center justify-between text-[11px] font-semibold text-slate-500">
+            <span>{b.chaptersDone}/{b.chaptersTotal || "—"} פרקים · {b.nodes} יחידות</span>
+            <span style={{ color: c }}>{pct}%</span>
+          </div>
+          <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+            <div className="h-full rounded-full transition-all duration-700" style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${c}, ${c}aa)` }} />
+          </div>
+          <div className={`mt-3 flex items-center justify-between rounded-xl px-3.5 py-2 text-sm font-bold transition ${live ? "text-white" : "bg-slate-100 text-slate-400"}`} style={live ? { background: c } : undefined}>
+            {live ? "פתח מסלול" : "בקרוב"}
+            {live && <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover:translate-x-0.5"><ArrowLeft className="size-3.5" /></span>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+  return live ? <Link href={b.href!} onClick={() => { playPing(); onOpen({ id: "ac-" + b.id, title: b.titleHe, module: b.module, href: b.href! }); }} className="block h-full">{inner}</Link> : <div className="h-full cursor-not-allowed opacity-80">{inner}</div>;
+}
+
+/* ====== REFERENCE manual card (cover style + inline index) ====== */
+function ReferenceCard({ book, onOpen }: { book: LibBook; onOpen: (r: Recent) => void }) {
   const { lang, pick } = useI18n();
   const [open, setOpen] = useState(false);
-
+  const c = mc(book.module);
+  const reader = READER[book.id];
   return (
-    <motion.div
-      whileHover={{ scale: open ? 1 : 1.02 }}
-      className={`glass overflow-hidden rounded-2xl shadow-xl transition-shadow hover:shadow-2xl`}
-    >
-      <button
-        onClick={() => {
-          playPing();
-          setOpen((v) => !v);
-        }}
-        className="relative block w-full p-5 text-start"
-      >
-        <div className={`pointer-events-none absolute inset-0 bg-gradient-to-bl ${MODULE_TINT[book.module] ?? "from-slate-500/10"} to-transparent opacity-70`} />
-        <div className="relative flex items-start gap-4">
-          <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-brand-dark text-brand-foreground shadow-lg shadow-brand/30 ring-1 ring-white/20">
-            <BookOpen className="size-6" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2">
-              <span className="rounded-md bg-brand/10 px-1.5 py-0.5 text-[10px] font-bold text-brand">{book.module}</span>
-              <span className="text-[11px] text-muted-foreground">{book.publisher}</span>
-              <span className="text-[11px] text-muted-foreground">· {book.pages} pages</span>
+    <motion.div layout className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_10px_30px_-18px_rgba(15,23,42,0.4)] transition-shadow hover:shadow-[0_24px_50px_-20px_rgba(15,23,42,0.45)]">
+      <div className="group relative flex">
+        <div className="relative w-3 shrink-0" style={{ background: `linear-gradient(180deg, ${c}, ${c}99)` }}><span className="absolute inset-y-0 left-0 w-px bg-white/40" /></div>
+        <div className="relative flex-1 p-5">
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex size-11 shrink-0 items-center justify-center rounded-xl text-white shadow-lg" style={{ background: c, boxShadow: `0 8px 20px ${c}55` }}><BookOpen className="size-5" /></div>
+            <div className="flex flex-col items-end gap-1">
+              <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{book.module}</span>
+              <span className="text-[10px] text-slate-400">{book.publisher}</span>
             </div>
-            <h3 className="mt-1 font-bold leading-tight">{pick(book.titleHe, book.title)}</h3>
-            <p className="mt-0.5 text-xs text-muted-foreground">{lang === "he" ? book.title : book.titleHe}</p>
           </div>
-          <ChevronDown className={`size-5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
+          <h3 className="mt-3 text-base font-extrabold leading-tight tracking-tight text-slate-900">{pick(book.titleHe, book.title)}</h3>
+          <p className="mt-0.5 line-clamp-1 text-xs text-slate-400" dir={lang === "he" ? "ltr" : "rtl"}>{lang === "he" ? book.title : book.titleHe}</p>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            <Chip><Languages className="size-3" /> EN · HE</Chip>
+            <Chip><FileText className="size-3" /> {book.pages} עמ׳</Chip>
+            <Chip tone="brand"><BookMarked className="size-3" /> {book.chapters.length} פרקים</Chip>
+            {reader && <Chip tone="green"><CheckCircle2 className="size-3" /> טקסט מלא</Chip>}
+          </div>
+          <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-slate-500">{book.summaryHe}</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <button onClick={() => { playPing(); setOpen((v) => !v); }} className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 px-3.5 py-2 text-sm font-bold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 active:scale-95">
+              <Layers className="size-4" /> תוכן הספר {open ? "▲" : "▼"}
+            </button>
+            {reader && (
+              <Link href={reader} onClick={() => { playPing(); onOpen({ id: book.id, title: pick(book.titleHe, book.title), module: book.module, href: reader }); }}
+                className="group/btn inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
+                קרא ספר
+                <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover/btn:translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
+              </Link>
+            )}
+          </div>
         </div>
-
-        {/* summary split */}
-        <div className="relative mt-3 grid gap-2 sm:grid-cols-2">
-          <p dir="ltr" className="rounded-lg border border-border/50 bg-background/40 p-2 text-start text-xs leading-relaxed text-muted-foreground">
-            {book.summaryEn}
-          </p>
-          <p dir="rtl" className="rounded-lg border border-brand/20 bg-brand-soft/50 p-2 text-start text-xs leading-relaxed">
-            {book.summaryHe}
-          </p>
-        </div>
-      </button>
-
-      {book.id === "config-pm" && (
-        <Link
-          href="/library/book1/"
-          className="mx-5 mb-3 flex items-center justify-between gap-2 rounded-xl border border-brand/30 bg-brand-soft/60 px-3 py-2 text-sm font-semibold text-brand transition-colors hover:bg-brand/10"
-        >
-          <span className="flex items-center gap-2">
-            <Layers className="size-4" />
-            {lang === "he" ? "עיון עומק מלא — סעיף-אחר-סעיף (אנגלית/עברית)" : "Full deep dive — section-by-section (EN/HE)"}
-          </span>
-          <ArrowLeft className="size-4 rtl:rotate-180" />
-        </Link>
-      )}
-
+      </div>
       <AnimatePresence initial={false}>
         {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="overflow-hidden border-t border-border/60"
-          >
-            <ul className="divide-y divide-border/50">
-              {book.chapters.map((c) => (
-                <ChapterRow key={c.n} c={c} />
-              ))}
-            </ul>
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden border-t border-slate-100">
+            <ul className="max-h-[28rem] divide-y divide-slate-100 overflow-auto">{book.chapters.map((ch) => <ChapterRow key={ch.n} c={ch} />)}</ul>
           </motion.div>
         )}
       </AnimatePresence>
@@ -150,68 +180,125 @@ function BookCard({ book }: { book: LibBook }) {
   );
 }
 
+/* ====== animated counter ====== */
+function Count({ n }: { n: number }) {
+  const [v, setV] = useState(0);
+  useEffect(() => { let raf = 0; const t0 = performance.now(); const step = (t: number) => { const p = Math.min(1, (t - t0) / 1100); setV(Math.round((1 - Math.pow(1 - p, 3)) * n)); if (p < 1) raf = requestAnimationFrame(step); }; raf = requestAnimationFrame(step); return () => cancelAnimationFrame(raf); }, [n]);
+  return <>{v.toLocaleString()}</>;
+}
+
 export default function LibraryPage() {
-  const { t, lang } = useI18n();
+  const { lang } = useI18n();
+  const { recent, push } = useRecent();
+  const [q, setQ] = useState("");
+  const [mod, setMod] = useState<string | null>(null);
+  const ac = ACADEMY_META.totals();
+
+  // module filter universe (present across both systems), ordered per request
+  const ORDER = ["PM", "PP", "PP-PI", "MM", "QM", "WM", "Fiori", "Foundation"];
+  const mods = useMemo(() => {
+    const set = new Set<string>([...ACADEMY_BOOKS.map((b) => b.module), ...LIBRARY.map((b) => b.module)]);
+    return ORDER.filter((m) => set.has(m)).concat([...set].filter((m) => !ORDER.includes(m)));
+  }, []);
+
+  const match = (hay: string[]) => { const s = q.trim().toLowerCase(); return !s || hay.some((h) => (h || "").toLowerCase().includes(s)); };
+  const academy = ACADEMY_BOOKS.filter((b) => (!mod || b.module === mod) && match([b.titleHe, b.titleEn, b.module]));
+  const reference = LIBRARY.filter((b) => (!mod || b.module === mod) && match([b.title, b.titleHe, b.module, b.publisher]));
+
   return (
     <div className="space-y-8">
-      <section className="space-y-3 pt-2 text-center animate-float-in">
-        <span className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">
-          <LibraryIcon className="size-3.5" />
-          {lang === "he" ? "ספריית SAP הדיגיטלית" : "SAP Digital Library"}
-        </span>
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          {lang === "he" ? "ספריית SAP הדיגיטלית" : "SAP Digital Library"}
-        </h1>
-        <p className="mx-auto max-w-2xl text-muted-foreground">
-          {lang === "he"
-            ? "אינדקס דו-לשוני של 10 מדריכי SAP S/4HANA רשמיים — מבנה הפרקים והקונפיגורציה, אנגלית מקורית לצד תרגום עברי מקצועי ל-CBC."
-            : "A bilingual index of 10 official SAP S/4HANA manuals — chapter & configuration structure, original English alongside a professional Hebrew translation for CBC."}
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-2 pt-1 text-xs text-muted-foreground">
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">{LIBRARY_STATS.books} {lang === "he" ? "ספרים" : "books"}</span>
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">{LIBRARY_STATS.pages.toLocaleString()} {lang === "he" ? "עמודים" : "pages"}</span>
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">{LIBRARY_STATS.chapters} {lang === "he" ? "פרקים מתורגמים" : "translated chapters"}</span>
+      {/* ===== premium hero ===== */}
+      <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-bl from-[#0e7490] via-[#0891b2] to-[#155e75] p-7 text-white shadow-2xl animate-float-in sm:p-9">
+        <div className="pointer-events-none absolute inset-0 opacity-[0.07]" style={{ backgroundImage: "linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)", backgroundSize: "40px 40px" }} />
+        <div className="pointer-events-none absolute -right-20 -top-20 size-64 rounded-full bg-white/10 blur-3xl" />
+        <div className="relative">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/90">
+            <LibraryIcon className="size-3.5" /> SAP Digital Library
+          </span>
+          <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-5xl">ספריית SAP הדיגיטלית</h1>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/85 sm:text-base">
+            מדף ספרים דיגיטלי אחוד — מסלולי למידה אינטראקטיביים ({ac.booksLive} פעילים) לצד {LIBRARY_STATS.books} מדריכי SAP S/4HANA רשמיים. אנגלית מקורית לצד תרגום עברי מקצועי ל-CBC.
+          </p>
+          <div className="mt-5 grid grid-cols-3 gap-2.5 sm:max-w-xl sm:grid-cols-4">
+            {[
+              [ACADEMY_BOOKS.length + LIBRARY_STATS.books, "ספרים"],
+              [ac.chapters + LIBRARY_STATS.chapters, "פרקים"],
+              [ac.nodes, "יחידות לימוד"],
+              [LIBRARY_STATS.pages, "עמודים"],
+            ].map(([v, l]) => (
+              <div key={l} className="flex flex-col items-center rounded-2xl border border-white/15 bg-white/10 px-3 py-3 backdrop-blur-sm">
+                <span className="font-mono text-2xl font-extrabold tabular-nums sm:text-3xl"><Count n={v as number} /></span>
+                <span className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/70">{l as string}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <Link
-        href="/library/academy/"
-        className="flex items-center justify-between gap-3 rounded-2xl border border-brand/40 bg-gradient-to-l from-brand-soft to-brand-soft/40 px-5 py-4 transition-colors hover:from-brand-soft"
-      >
-        <span className="flex items-center gap-3">
-          <GraduationCap className="size-5 text-brand" />
-          <span dir="rtl" className="text-start">
-            <span className="block text-sm font-bold">{lang === "he" ? "אקדמיית SAP אחודה — לוח בקרה" : "Unified SAP Academy — dashboard"}</span>
-            <span className="block text-xs text-muted-foreground">{lang === "he" ? "סטטוס ספרים · פרקים · אימות · ציון איכות · תבנית 18 מקטעים" : "books · chapters · validation · quality · 18-facet template"}</span>
-          </span>
-        </span>
-        <ArrowLeft className="size-4 shrink-0 text-brand" />
-      </Link>
-
-      <Link
-        href="/library/pp/"
-        className="flex items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/50 px-5 py-4 transition-colors hover:bg-brand-soft"
-      >
-        <span className="flex items-center gap-3">
-          <Layers className="size-5 text-brand" />
-          <span dir="rtl" className="text-start">
-            <span className="block text-sm font-bold">PP · אקדמיה דיגיטלית מלאה (Production Planning)</span>
-            <span className="block text-xs text-muted-foreground">15 פרקים · 407 יחידות לימוד · 18 מקטעים לצומת · דוח איכות — תוכן טרנספורמטיבי</span>
-          </span>
-        </span>
-        <ArrowLeft className="size-4 shrink-0 text-brand" />
-      </Link>
-
-      <div className="grid gap-5">
-        {LIBRARY.map((b) => (
-          <BookCard key={b.id} book={b} />
-        ))}
+      {/* ===== search + module filter ===== */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="relative flex-1">
+          <Search className="pointer-events-none absolute inset-y-0 right-3 my-auto size-4 text-slate-400" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש ספר · מודול · מו״ל…"
+            className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pe-3 ps-10 text-sm shadow-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
+          {q && <button onClick={() => setQ("")} className="absolute inset-y-0 left-3 my-auto"><X className="size-4 text-slate-400" /></button>}
+        </div>
+        <div className="flex flex-wrap gap-1.5 overflow-x-auto pb-1">
+          <button onClick={() => setMod(null)} className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-bold transition ${!mod ? "bg-slate-900 text-white" : "border border-slate-200 bg-white text-slate-500 hover:bg-slate-50"}`}>הכל</button>
+          {mods.map((m) => { const on = mod === m; const c = mc(m); return (
+            <button key={m} onClick={() => setMod(on ? null : m)} className="shrink-0 rounded-full border px-3 py-1.5 text-xs font-bold transition active:scale-95" style={{ borderColor: on ? c : "#e2e8f0", background: on ? c : "#fff", color: on ? "#fff" : "#64748b" }}>{m}</button>); })}
+        </div>
       </div>
 
-      <p className="text-center text-xs text-muted-foreground">
-        {lang === "he"
-          ? "האינדקס חולץ אוטומטית מתוכן העניינים של קובצי ה-PDF המקוריים ב-docs/. תרגום עברי מקצועי נכתב עבור CBC."
-          : "Index auto-extracted from the original PDF tables of contents in docs/. Hebrew professionally translated for CBC."}
+      {/* ===== recently opened ===== */}
+      {recent.length > 0 && (
+        <section className="space-y-2.5">
+          <h2 className="flex items-center gap-2 text-sm font-extrabold tracking-tight text-slate-900"><Clock className="size-4 text-slate-400" /> נפתחו לאחרונה</h2>
+          <div className="flex flex-wrap gap-2">
+            {recent.map((r) => (
+              <Link key={r.id} href={r.href} className="group inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                <span className="size-2.5 rounded-full" style={{ background: mc(r.module) }} />
+                <span className="font-semibold text-slate-700">{r.title}</span>
+                <ArrowLeft className="size-3.5 text-slate-300 transition group-hover:text-slate-500" />
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ===== learning paths (Academy) ===== */}
+      {academy.length > 0 && (
+        <section className="space-y-4">
+          <div className="flex items-baseline justify-between">
+            <h2 className="flex items-center gap-2 text-lg font-extrabold tracking-tight text-slate-900"><GraduationCap className="size-5 text-brand" /> מסלולי למידה · Academy</h2>
+            <Link href="/library/academy/" className="inline-flex items-center gap-1 text-xs font-bold text-brand hover:underline">לוח בקרה <ArrowLeft className="size-3.5" /></Link>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {academy.map((b) => <AcademyCard key={b.id} b={b} onOpen={push} />)}
+          </div>
+        </section>
+      )}
+
+      {/* ===== reference manuals ===== */}
+      {reference.length > 0 && (
+        <section className="space-y-4">
+          <h2 className="flex items-center gap-2 text-lg font-extrabold tracking-tight text-slate-900"><BookOpen className="size-5 text-brand" /> ספרי עיון · מדריכי SAP S/4HANA</h2>
+          <div className="grid gap-5 md:grid-cols-2">
+            {reference.map((b) => <ReferenceCard key={b.id} book={b} onOpen={push} />)}
+          </div>
+        </section>
+      )}
+
+      {academy.length === 0 && reference.length === 0 && (
+        <div className="flex flex-col items-center gap-3 py-16 text-center">
+          <span className="grid size-14 place-items-center rounded-2xl bg-slate-100 text-slate-400"><Search className="size-7" /></span>
+          <p className="text-sm font-bold text-slate-700">לא נמצאו ספרים</p>
+          <p className="text-xs text-slate-400">נסה מונח אחר או נקה את הסינון</p>
+        </div>
+      )}
+
+      <p className="text-center text-xs text-slate-400">
+        מסלולי הלמידה נבנו לפי תבנית 18 המקטעים של NEO Academy · מדריכי העיון מאונדקסים מתוכן העניינים של קובצי ה-PDF המקוריים. תרגום עברי מקצועי נכתב עבור CBC.
       </p>
     </div>
   );

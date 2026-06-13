@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, Download, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft } from "lucide-react";
+import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, Download, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand } from "lucide-react";
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
 
 const BASE = "/sap-infrastructure";
-const RED = "#d62027";
 type Field = [string, string, string, string];
 type Rel = { role: "parent" | "child"; table: string; card: string; desc: string };
 type Tbl = { name: string; mod: string; real: boolean; he: string; en: string; tcodes: string; fiori: string; s4: string; s4alt: string; pk: string[]; fields: Field[]; funcs: string[]; cds: string[]; rel: Rel[]; degree: number; zone: string };
@@ -18,7 +17,7 @@ const MOD_NAME_HE: Record<string, string> = { MM: "ניהול חומרים", SD:
 const TABS = [["objects", "אובייקטים"], ["process", "תהליך"], ["erd", "מודל נתונים"], ["technical", "טכני"]] as const;
 const erdMembers = (data: Data, code: string): Tbl[] => { const byName = Object.fromEntries(data.tables.map((t) => [t.name, t])); const list = (ERD_MODULES[code] || []).map((n) => byName[n]).filter(Boolean) as Tbl[]; return list.length ? list : data.tables.filter((t) => t.mod === code).sort((a, b) => b.degree - a.degree).slice(0, 16); };
 
-const ANIM = `@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}@keyframes erdflow{to{stroke-dashoffset:-200}}.flowline{stroke-dasharray:7 6;animation:erdflow 3s linear infinite}.flowline.fast{animation-duration:1s}@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}@keyframes countpulse{0%{opacity:.4}100%{opacity:1}}`;
+const ANIM = `@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}@keyframes erdflow{to{stroke-dashoffset:-200}}.flowline{stroke-dasharray:7 6;animation:erdflow 3s linear infinite}.flowline.fast{animation-duration:1s}@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}@keyframes countpulse{0%{opacity:.4}100%{opacity:1}}@keyframes drawerIn{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}@keyframes haze{0%,100%{opacity:.35}50%{opacity:.7}}@media (prefers-reduced-motion:reduce){.flowline{animation:none!important}}`;
 function Count({ n, ms = 900 }: { n: number; ms?: number }) {
   const [v, setV] = useState(0);
   useEffect(() => { let raf = 0; const t0 = performance.now(); const step = (t: number) => { const p = Math.min(1, (t - t0) / ms); setV(Math.round((1 - Math.pow(1 - p, 3)) * n)); if (p < 1) raf = requestAnimationFrame(step); }; raf = requestAnimationFrame(step); return () => cancelAnimationFrame(raf); }, [n, ms]);
@@ -56,7 +55,7 @@ export default function Page() {
     : null;
 
   return (
-    <div dir="rtl" className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-900 shadow-sm">
+    <div dir="rtl" className="relative mx-[calc(50%-50vw)] -my-8 w-screen max-w-[100vw] overflow-hidden border-y border-slate-200 bg-white text-slate-900">
       <style>{ANIM}</style>
       {/* top bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-gradient-to-l from-white to-slate-50 px-4 py-3">
@@ -90,7 +89,7 @@ export default function Page() {
         {nav.level === "universe" && <Universe data={data} color={color} onModule={openModule} />}
         {nav.level === "module" && nav.module && <Workspace data={data} color={color} code={nav.module} tab={nav.tab || "erd"} focus={nav.focus} byName={byName}
           setTab={(t) => setNav({ level: "module", module: nav.module, tab: t })} openErd={(focus) => setNav({ level: "module", module: nav.module, tab: "erd", focus })}
-          onTable={setInspect} onField={(table, f) => { setInspect(null); setField({ table, field: f }); }} onModule={openModule} onHome={() => setNav({ level: "universe" })} inspector={inspector} />}
+          onTable={setInspect} onField={(table, f) => { setInspect(null); setField({ table, field: f }); }} onModule={openModule} onHome={() => setNav({ level: "universe" })} />}
       </div>
       {nav.tab !== "erd" && inspector}
       <div className="flex flex-wrap items-center gap-2 border-t border-slate-200 bg-white p-2.5">
@@ -155,7 +154,7 @@ function Universe({ data, color, onModule }: { data: Data; color: (m?: string | 
 }
 
 /* ===================== WORKSPACE ===================== */
-function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onTable, onField, onModule, onHome, inspector }: { data: Data; color: (m?: string | null) => string; code: string; tab: string; focus?: string[]; byName: Record<string, Tbl>; setTab: (t: string) => void; openErd: (f?: string[]) => void; onTable: (t: string) => void; onField: (table: string, field: string) => void; onModule: (m: string) => void; onHome: () => void; inspector: React.ReactNode }) {
+function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onTable, onField, onModule, onHome }: { data: Data; color: (m?: string | null) => string; code: string; tab: string; focus?: string[]; byName: Record<string, Tbl>; setTab: (t: string) => void; openErd: (f?: string[]) => void; onTable: (t: string) => void; onField: (table: string, field: string) => void; onModule: (m: string) => void; onHome: () => void }) {
   const c = color(code); const bp = data.blueprints.find((b) => b.code === code); const purpose = bp?.purpose || MOD_PURPOSE[code] || "";
   return (
     <div className="space-y-4" style={{ animation: "fadeUp .35s ease both" }}>
@@ -167,7 +166,7 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
       </div>
       {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} onTable={onTable} />}
       {tab === "process" && <ProcessFlow color={color} code={code} />}
-      {tab === "erd" && <Erd data={data} color={color} code={code} byName={byName} focus={focus} onTable={onTable} onField={onField} onHome={onHome} inspector={inspector} />}
+      {tab === "erd" && <Erd data={data} color={color} code={code} byName={byName} focus={focus} onField={onField} onHome={onHome} onModule={onModule} />}
       {tab === "technical" && <TechList data={data} color={color} code={code} onTable={onTable} />}
     </div>
   );
@@ -247,11 +246,15 @@ function usePZ() {
     ctrl: { zoomIn: () => setT((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) })), zoomOut: () => setT((p) => ({ ...p, k: Math.max(0.3, p.k / 1.2) })) } };
 }
 
-function Erd({ data, color, code, byName, focus, onTable, onField, onHome, inspector }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; focus?: string[]; onTable: (t: string) => void; onField: (table: string, field: string) => void; onHome: () => void; inspector: React.ReactNode }) {
+const MODES = [["focus", "מיקוד", "Focus"], ["dep", "תלויות", "Dependency"], ["lineage", "שושלת", "Lineage"], ["impact", "השפעה", "Impact"], ["flow", "זרימה עסקית", "Business Flow"]] as const;
+type Mode = typeof MODES[number][0];
+const orderFields = (tf: Field[]) => [...tf.filter((f) => f[3] === "PK"), ...tf.filter((f) => f[3] === "FK"), ...tf.filter((f) => f[3] !== "PK" && f[3] !== "FK")];
+
+function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; focus?: string[]; onField: (table: string, field: string) => void; onHome: () => void; onModule: (m: string) => void }) {
   const [selMods, setSelMods] = useState<Set<string>>(() => new Set([code]));
   useEffect(() => { setSelMods(new Set([code])); }, [code]);
   const ordered = UNIVERSE.filter((m) => selMods.has(m));
-  const W = 196, H = 58, colW = 272, rowH = 104;
+  const W = 348, H = 280, colW = 452, rowH = 340;
 
   // hierarchical left→right layout by dependency depth (SAP master → transaction → posting)
   const { shown, pos, own, links, vbW, vbH } = useMemo(() => {
@@ -263,7 +266,6 @@ function Erd({ data, color, code, byName, focus, onTable, onField, onHome, inspe
     const nameset = new Set(sh.map((t) => t.name));
     const lk: { a: string; b: string; card: string }[] = [];
     sh.forEach((t) => t.rel.forEach((r) => { if (nameset.has(r.table)) { const a = r.role === "parent" ? t.name : r.table, b = r.role === "parent" ? r.table : t.name; if (a !== b && !lk.find((l) => l.a === a && l.b === b)) lk.push({ a, b, card: r.card || "1:N" }); } }));
-    // level = longest dependency path (parents = referenced masters)
     const parents: Record<string, string[]> = {}; sh.forEach((t) => (parents[t.name] = []));
     lk.forEach((l) => { if (parents[l.b]) parents[l.b].push(l.a); });
     const memo: Record<string, number> = {};
@@ -275,93 +277,201 @@ function Erd({ data, color, code, byName, focus, onTable, onField, onHome, inspe
     const p: Record<string, { x: number; y: number }> = {};
     const levels = Object.keys(byLevel).map(Number).sort((a, b) => a - b);
     let maxRows = 1;
-    levels.forEach((L) => { byLevel[L].forEach((t, i) => { p[t.name] = { x: 48 + L * colW, y: 56 + i * rowH }; }); maxRows = Math.max(maxRows, byLevel[L].length); });
-    return { shown: sh, pos: p, own: owner, links: lk, vbW: 96 + (levels.length) * colW, vbH: 80 + maxRows * rowH };
+    levels.forEach((L) => { byLevel[L].forEach((t, i) => { p[t.name] = { x: 64 + L * colW, y: 64 + i * rowH }; }); maxRows = Math.max(maxRows, byLevel[L].length); });
+    return { shown: sh, pos: p, own: owner, links: lk, vbW: 128 + levels.length * colW, vbH: 96 + maxRows * rowH, level: memo };
   }, [code, [...selMods].sort().join(",")]);
 
   const [sel, setSel] = useState<string | null>(focus && focus[0] ? focus[0] : null);
-  const [exp, setExp] = useState<string | null>(focus && focus[0] ? focus[0] : null);
+  const [drawer, setDrawer] = useState<string | null>(focus && focus[0] ? focus[0] : null);
   const [hv, setHv] = useState<string | null>(null);
+  const [mode, setMode] = useState<Mode>("focus");
   const [tr, setTr] = useState({ x: 0, y: 0, k: 1 });
   const [fs, setFs] = useState(false);
+  const [panMode, setPanMode] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
-  useEffect(() => { setSel(focus && focus[0] ? focus[0] : null); setExp(focus && focus[0] ? focus[0] : null); }, [code, focus]);
+  const pan = useRef<{ x: number; y: number; ox: number; oy: number } | null>(null);
+  useEffect(() => { setSel(focus && focus[0] ? focus[0] : null); setDrawer(focus && focus[0] ? focus[0] : null); }, [code, focus]);
   useEffect(() => { const h = () => setFs(!!document.fullscreenElement); document.addEventListener("fullscreenchange", h); return () => document.removeEventListener("fullscreenchange", h); }, []);
 
-  const neigh = (nm: string) => { const s = new Set([nm]); links.forEach((l) => { if (l.a === nm) s.add(l.b); if (l.b === nm) s.add(l.a); }); return s; };
-  const active = sel ? neigh(sel) : null;
-  const fit = () => { const vw = wrapRef.current?.clientWidth || 1100, vh = wrapRef.current?.clientHeight || 600; const k = Math.max(0.28, Math.min((vw - 40) / vbW, (vh - 40) / vbH, 1.7)); setTr({ k, x: (vw - vbW * k) / 2, y: Math.max(16, (vh - vbH * k) / 2) }); };
+  // graph helpers
+  const neigh = useCallback((nm: string) => { const s = new Set([nm]); links.forEach((l) => { if (l.a === nm) s.add(l.b); if (l.b === nm) s.add(l.a); }); return s; }, [links]);
+  const trace = useCallback((nm: string, dir: "up" | "down" | "both") => {
+    const up = new Set<string>(), down = new Set<string>();
+    const goUp = (n: string) => links.forEach((l) => { if (l.b === n && !up.has(l.a)) { up.add(l.a); goUp(l.a); } });
+    const goDn = (n: string) => links.forEach((l) => { if (l.a === n && !down.has(l.b)) { down.add(l.b); goDn(l.b); } });
+    if (dir !== "down") goUp(nm); if (dir !== "up") goDn(nm);
+    return new Set([nm, ...(dir !== "down" ? up : []), ...(dir !== "up" ? down : [])]);
+  }, [links]);
+  const active = sel ? (mode === "dep" ? trace(sel, "both") : mode === "lineage" ? trace(sel, "up") : mode === "impact" ? trace(sel, "down") : mode === "focus" ? neigh(sel) : null) : null;
+  const linkEmph = (a: string, b: string) => {
+    if (mode === "flow") return (pos[a]?.x ?? 0) <= (pos[b]?.x ?? 0);
+    if (!active) return false;
+    if (mode === "focus") return active.has(a) && active.has(b) && (a === sel || b === sel);
+    return active.has(a) && active.has(b);
+  };
+
+  // fit-all (button) — shows the whole model
+  const fit = useCallback(() => {
+    const el = wrapRef.current; if (!el) return;
+    const vw = el.clientWidth || 1200, vh = el.clientHeight || 720, pad = 72;
+    const k = Math.max(0.2, Math.min((vw - pad) / vbW, (vh - pad) / vbH, 2.6));
+    setTr({ k, x: (vw - vbW * k) / 2, y: Math.max(16, (vh - vbH * k) / 2) });
+  }, [vbW, vbH]);
+  // default open — comfortable: large readable cards (fewer per screen), centered, pannable for the rest
+  const openComfort = useCallback(() => {
+    const el = wrapRef.current; if (!el) return;
+    const vw = el.clientWidth || 1200, vh = el.clientHeight || 720;
+    const fitK = Math.min((vw - 72) / vbW, (vh - 72) / vbH);
+    const k = Math.min(1.05, Math.max(0.78, fitK * 1.7)); // bias toward big cards
+    setTr({ k, x: (vw - vbW * k) / 2, y: 28 });
+  }, [vbW, vbH]);
   const fullscreen = () => { const el = wrapRef.current; if (!el) return; document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); };
-  useEffect(() => { const id = setTimeout(fit, 90); return () => clearTimeout(id); /* eslint-disable-next-line */ }, [code, [...selMods].sort().join(",")]);
+  // auto-fit on mount/data-change + on resize (ultrawide/large monitors) + on fullscreen toggle
+  useEffect(() => { const id = setTimeout(openComfort, 90); return () => clearTimeout(id); }, [openComfort, fs]);
+  useEffect(() => {
+    const el = wrapRef.current; if (!el || typeof ResizeObserver === "undefined") return;
+    let raf = 0; const ro = new ResizeObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(openComfort); });
+    ro.observe(el); return () => { ro.disconnect(); cancelAnimationFrame(raf); };
+  }, [openComfort]);
+  // trackpad: pinch (ctrl/meta+wheel) = zoom-to-cursor · two-finger = pan. Native non-passive listener.
+  useEffect(() => {
+    const el = wrapRef.current; if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      // zoom only on pinch/ctrl/meta (trackpad-controlled, to cursor). Plain scroll bubbles → page scroll (stable, no graph "escape").
+      if (!(e.ctrlKey || e.metaKey)) return;
+      e.preventDefault();
+      const r = el.getBoundingClientRect(); const mx = e.clientX - r.left, my = e.clientY - r.top;
+      setTr((p) => { const nk = Math.min(2.6, Math.max(0.2, p.k * (e.deltaY < 0 ? 1.08 : 1 / 1.08))); const ratio = nk / p.k; return { k: nk, x: mx - (mx - p.x) * ratio, y: my - (my - p.y) * ratio }; });
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
   const toggleMod = (m: string) => setSelMods((s) => { const n = new Set(s); if (n.has(m)) { if (n.size > 1) n.delete(m); } else n.add(m); return n; });
+  const dt = drawer ? byName[drawer] : null;
 
   return (
-    <div className="space-y-2">
-      <div className="flex flex-wrap items-center gap-1.5 rounded-xl border border-slate-200 bg-white p-2">
-        <span className="px-1 text-xs font-bold text-slate-500">הרכב מודולים:</span>
-        {UNIVERSE.map((m) => { const on = selMods.has(m); const c = color(m); return (
-          <button key={m} onClick={() => toggleMod(m)} className="flex items-center gap-1.5 rounded-lg border px-2 py-1 text-xs font-bold transition" style={{ borderColor: on ? c : "#e2e8f0", background: on ? c : "#fff", color: on ? "#fff" : "#64748b" }}>
-            <span className="grid size-3.5 place-items-center rounded-[4px] text-[9px]" style={{ background: on ? "#ffffff35" : "#f1f5f9", color: on ? "#fff" : "transparent" }}>✓</span>{m}
-          </button>); })}
-      </div>
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-sm font-bold text-slate-700">מודל נתונים (ERD) · {ordered.join(" + ")} · {shown.length} טבלאות</h3>
-        <div className="flex items-center gap-2">
-          <div className="flex flex-wrap gap-1.5">{ordered.map((m) => <span key={m} className="flex items-center gap-1 text-[10px] font-bold" style={{ color: color(m) }}><i className="size-2 rounded-full" style={{ background: color(m) }} />{m}</span>)}</div>
-          <div className="flex items-center gap-1">
-            {[[<Home key="h" className="size-3.5" />, onHome], [<ArrowLeft key="u" className="size-3.5 rotate-90" />, () => window.scrollTo({ top: 0, behavior: "smooth" })], [<ZoomIn key="zi" className="size-3.5" />, () => setTr((p) => ({ ...p, k: Math.min(2.4, p.k * 1.2) }))], [<ZoomOut key="zo" className="size-3.5" />, () => setTr((p) => ({ ...p, k: Math.max(0.3, p.k / 1.2) }))], [<Scan key="f" className="size-3.5" />, fit], [<Maximize2 key="m" className="size-3.5" />, fullscreen]].map((b, i) => <button key={i} onClick={b[1] as () => void} className="rounded-md border border-slate-200 bg-white p-1.5 text-slate-600 hover:border-slate-300">{b[0] as React.ReactNode}</button>)}
+    <div className="rounded-[1.4rem] bg-slate-100/60 p-1 ring-1 ring-black/[0.04]">
+      <div ref={wrapRef} className={`relative overflow-hidden rounded-[1.1rem] border border-slate-200/80 ${fs ? "h-screen bg-slate-50" : "h-[calc(100vh-10.5rem)] min-h-[600px]"}`}
+        style={{ backgroundImage: "radial-gradient(circle at 1px 1px,#d7deea 1px,transparent 0)", backgroundSize: "30px 30px" }}>
+        {/* floating: mode selector (top-center) */}
+        <div className="absolute left-1/2 top-3 z-30 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-white/60 bg-white/85 p-1 shadow-lg shadow-black/5 backdrop-blur-md">
+          {MODES.map(([id, he, en]) => <button key={id} onClick={() => setMode(id)} title={en} className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>{he}</button>)}
+        </div>
+        {/* floating: title + filters (top-left) */}
+        <div className="absolute left-3 top-3 z-20 flex max-w-[58%] flex-col gap-1.5">
+          <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-1.5 shadow-sm backdrop-blur-sm">
+            <span className="grid size-7 shrink-0 place-items-center rounded-lg text-[10px] font-extrabold text-white" style={{ background: color(code) }}>{code === "PP-PI" ? "PP" : code}</span>
+            <div><div className="text-sm font-extrabold leading-tight text-slate-900">{MOD_NAME_HE[code] || code}</div><div className="text-[10px] font-semibold text-slate-400">{shown.length} טבלאות · {links.length} קשרים</div></div>
+          </div>
+          <div className="flex flex-wrap items-center gap-1 rounded-xl border border-slate-200 bg-white/85 px-2 py-1 shadow-sm backdrop-blur-sm">
+            {UNIVERSE.map((m) => { const on = selMods.has(m); const cc = color(m); return <button key={m} onClick={() => toggleMod(m)} className="rounded-md border px-1.5 py-0.5 text-[10px] font-bold transition active:scale-95" style={{ borderColor: on ? cc : "#e2e8f0", background: on ? cc : "#fff", color: on ? "#fff" : "#94a3b8" }}>{m}</button>; })}
           </div>
         </div>
-      </div>
-      <div ref={wrapRef} className="relative overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/40">
-        <div className="pointer-events-none absolute right-2 top-2 z-20 flex flex-wrap gap-1.5 text-[10px] font-bold">
-          {[["🔑 PK", "#d97706"], ["FK", "#2563eb"], ["חוצה-מודול", "#7c3aed"]].map(([k, v]) => (<span key={k} className="flex items-center gap-1 rounded-md bg-white/95 px-2 py-0.5 ring-1 ring-slate-200"><i className="size-2 rounded-full" style={{ background: v }} /><span style={{ color: v }}>{k}</span></span>))}
+        {/* legend (top-right) */}
+        <div className="pointer-events-none absolute right-3 top-3 z-20 flex flex-wrap gap-1.5 text-[10px] font-bold">
+          {[["🔑 PK", "#d97706"], ["FK", "#2563eb"], ["חוצה-מודול", "#7c3aed"]].map(([k, v]) => (<span key={k} className="flex items-center gap-1 rounded-lg bg-white/90 px-2 py-1 shadow-sm ring-1 ring-slate-200 backdrop-blur-sm"><i className="size-2 rounded-full" style={{ background: v }} /><span style={{ color: v }}>{k}</span></span>))}
         </div>
-        <div className={`relative ${fs ? "h-screen bg-white" : "h-[74vh] min-h-[560px]"}`}>
-          <div className="absolute left-0 top-0 origin-top-left" style={{ transform: `translate(${tr.x}px,${tr.y}px) scale(${tr.k})`, width: vbW, height: vbH, transition: "transform .45s cubic-bezier(.2,.7,.2,1)" }}>
-            <svg className="pointer-events-none absolute left-0 top-0" width={vbW} height={vbH} style={{ overflow: "visible" }}>
-              {links.map((l, i) => { const A = pos[l.a], B = pos[l.b], TA = byName[l.a], TB = byName[l.b]; if (!A || !B || !TA || !TB) return null;
-                const fwd = A.x <= B.x; const ax = (fwd ? A.x + W : A.x), ay = A.y + H / 2, bx = (fwd ? B.x : B.x + W), by = B.y + H / 2; const mx = (ax + bx) / 2;
-                const isCross = (own[l.a] || TA.mod) !== (own[l.b] || TB.mod); const lc = isCross ? "#7c3aed" : color(own[l.a] || TA.mod);
-                const onSel = active ? (active.has(l.a) && active.has(l.b) && (l.a === sel || l.b === sel)) : false, onHv = hv ? (l.a === hv || l.b === hv) : false, dim = active && !onSel, emph = onSel || onHv;
-                const stroke = dim ? "#cbd5e1" : lc, w = emph ? 2.6 : (isCross ? 1.8 : 1.4);
-                return <g key={i} opacity={dim ? 0.14 : 1}>
-                  <path d={`M${ax},${ay} C${mx},${ay} ${mx},${by} ${bx},${by}`} fill="none" stroke={stroke} strokeWidth={w} strokeOpacity={emph ? 1 : 0.72} className={`flowline${emph ? " fast" : ""}`} />
-                  <path d={`M${bx + (fwd ? -9 : 9)},${by - 6} L${bx},${by} M${bx + (fwd ? -9 : 9)},${by + 6} L${bx},${by}`} stroke={stroke} strokeWidth={w} fill="none" />
-                  <rect x={mx - 16} y={(ay + by) / 2 - 8} width={32} height={16} rx={5} fill={emph ? lc : "#94a3b8"} opacity={dim ? 0.4 : 1} /><text x={mx} y={(ay + by) / 2 + 4} textAnchor="middle" style={{ font: "700 9px ui-monospace" }} fill="#fff">{cardKind(l.card)}</text>
-                </g>; })}
-            </svg>
-            {shown.map((t, gi) => { const p = pos[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const dim = active && !active.has(t.name); const isSel = sel === t.name; const isExp = exp === t.name; const tf = fieldsOf(t);
+        {/* floating: control dock (bottom-center) */}
+        <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-1 rounded-2xl border border-white/60 bg-white/90 p-1.5 shadow-xl shadow-black/10 backdrop-blur-md">
+          <button onClick={() => setPanMode((v) => !v)} title="מצב גרירה" className={`grid size-9 place-items-center rounded-xl transition active:scale-90 ${panMode ? "bg-[#d62027] text-white" : "text-slate-600 hover:bg-slate-100"}`}><Hand className="size-4" /></button>
+          <span className="mx-0.5 h-5 w-px bg-slate-200" />
+          {[[<ZoomOut key="zo" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.max(0.2, p.k / 1.2) })), "הקטן"], [<Scan key="f" className="size-4" />, fit, "התאם"], [<ZoomIn key="zi" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) })), "הגדל"], [fs ? <Shrink key="s" className="size-4" /> : <Expand key="e" className="size-4" />, fullscreen, "מסך מלא"], [<Home key="h" className="size-4" />, onHome, "בית"]].map((b, i) => <button key={i} title={b[2] as string} onClick={b[1] as () => void} className="grid size-9 place-items-center rounded-xl text-slate-600 transition hover:bg-[#d62027] hover:text-white active:scale-90">{b[0] as React.ReactNode}</button>)}
+          <span className="px-2 font-mono text-xs font-bold tabular-nums text-slate-400">{Math.round(tr.k * 100)}%</span>
+        </div>
+        {panMode && <div className="pointer-events-none absolute bottom-[4.5rem] left-1/2 z-20 -translate-x-1/2 rounded-full bg-[#d62027] px-3 py-1 text-[11px] font-bold text-white shadow-lg">מצב גרירה פעיל — גרור להזזה</div>}
+          <div className="absolute inset-0"
+            onPointerDown={(e) => { if (!panMode || (e.target as Element).closest("[data-card],[data-drawer]")) return; pan.current = { x: e.clientX, y: e.clientY, ox: tr.x, oy: tr.y }; }}
+            onPointerMove={(e) => { if (pan.current) setTr((p) => ({ ...p, x: pan.current!.ox + (e.clientX - pan.current!.x), y: pan.current!.oy + (e.clientY - pan.current!.y) })); }}
+            onPointerUp={() => (pan.current = null)} onPointerLeave={() => (pan.current = null)}
+            style={{ cursor: panMode ? (pan.current ? "grabbing" : "grab") : "default" }}>
+            <div className="absolute left-0 top-0 origin-top-left" style={{ transform: `translate(${tr.x}px,${tr.y}px) scale(${tr.k})`, width: vbW, height: vbH, transition: pan.current ? "none" : "transform .5s cubic-bezier(.32,.72,0,1)" }}>
+              <svg className="pointer-events-none absolute left-0 top-0" width={vbW} height={vbH} style={{ overflow: "visible" }}>
+                <defs>
+                  <filter id="archglow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+                </defs>
+                {links.map((l, i) => { const A = pos[l.a], B = pos[l.b], TA = byName[l.a], TB = byName[l.b]; if (!A || !B || !TA || !TB) return null;
+                  const fwd = A.x <= B.x; const ax = (fwd ? A.x + W : A.x), ay = A.y + H / 2, bx = (fwd ? B.x : B.x + W), by = B.y + H / 2; const mx = (ax + bx) / 2;
+                  const isCross = (own[l.a] || TA.mod) !== (own[l.b] || TB.mod); const lc = isCross ? "#7c3aed" : color(own[l.a] || TA.mod);
+                  const onHv = hv ? (l.a === hv || l.b === hv) : false; const emph = linkEmph(l.a, l.b) || onHv;
+                  const anyActive = active || mode === "flow"; const dim = !!anyActive && !emph;
+                  const stroke = dim ? "#cbd5e1" : lc, w = emph ? 3 : (isCross ? 1.8 : 1.4);
+                  const d = `M${ax},${ay} C${mx},${ay} ${mx},${by} ${bx},${by}`;
+                  return <g key={i} opacity={dim ? 0.12 : 1}>
+                    <path id={`lp${i}`} d={d} fill="none" stroke={stroke} strokeWidth={w} strokeOpacity={emph ? 1 : 0.66} className={`flowline${emph ? " fast" : ""}`} filter={emph ? "url(#archglow)" : undefined} />
+                    <path d={`M${bx + (fwd ? -10 : 10)},${by - 6} L${bx},${by} M${bx + (fwd ? -10 : 10)},${by + 6} L${bx},${by}`} stroke={stroke} strokeWidth={w} fill="none" />
+                    {emph && !dim && <circle r={4} fill={lc} filter="url(#archglow)"><animateMotion dur={`${mode === "flow" ? 2.4 : 1.8}s`} repeatCount="indefinite" rotate="auto"><mpath href={`#lp${i}`} /></animateMotion></circle>}
+                    <g opacity={dim ? 0.4 : 1}><rect x={mx - 17} y={(ay + by) / 2 - 8} width={34} height={16} rx={6} fill={emph ? lc : "#94a3b8"} /><text x={mx} y={(ay + by) / 2 + 4} textAnchor="middle" style={{ font: "700 9px ui-monospace" }} fill="#fff">{cardKind(l.card)}</text></g>
+                  </g>; })}
+              </svg>
+              {shown.map((t, gi) => { const p = pos[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const dim = active && !active.has(t.name); const isSel = sel === t.name; const tf = orderFields(fieldsOf(t)); const top = tf.slice(0, 7); const pkN = tf.filter((f) => f[3] === "PK").length, fkN = tf.filter((f) => f[3] === "FK").length;
+                return (
+                  <div key={t.name} data-card onClick={() => { setSel(t.name); setDrawer(t.name); }} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
+                    className="group absolute select-none overflow-hidden rounded-2xl bg-white transition-[transform,box-shadow,opacity] duration-300 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-1.5"
+                    style={{ left: p.x, top: p.y, width: W, height: H, opacity: dim ? 0.24 : 1, zIndex: isSel ? 30 : 2, cursor: "pointer", boxShadow: isSel ? `0 28px 60px -18px ${c}77, 0 0 0 2.5px ${c}` : "0 14px 34px -18px rgba(15,23,42,.4), 0 2px 4px rgba(15,23,42,.06)", animation: `pop .42s cubic-bezier(.32,.72,0,1) ${Math.min(gi * 22, 520)}ms both` }}>
+                    {/* CBC red enterprise header */}
+                    <div className="relative flex items-center justify-between gap-2 px-3.5 py-2.5 text-white" style={{ background: "linear-gradient(135deg,#d62027,#a3171c)" }}>
+                      <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: c }} />
+                      <span className="truncate font-mono text-lg font-extrabold tracking-tight" dir="ltr">{t.name}</span>
+                      <span className="shrink-0 rounded-md bg-white/20 px-2 py-0.5 text-[10px] font-bold backdrop-blur-sm">{own[t.name] || t.mod}</span>
+                    </div>
+                    {/* white body — ordered fields */}
+                    <div className="px-3 py-2">
+                      <div className="mb-1.5 truncate text-xs font-semibold text-slate-400">{t.he || t.en}</div>
+                      <div className="space-y-1">
+                        {top.map((f) => <div key={f[0]} className="flex items-center gap-2">
+                          <span className={`grid size-4 shrink-0 place-items-center rounded text-[8px] font-extrabold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : f[3] === "FK" ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-400"}`}>{f[3] === "PK" ? "PK" : f[3] === "FK" ? "FK" : "·"}</span>
+                          <span className={`truncate font-mono text-[12.5px] font-bold ${f[3] === "PK" ? "text-amber-700" : f[3] === "FK" ? "text-blue-700" : "text-slate-700"}`} dir="ltr">{f[0]}</span>
+                        </div>)}
+                      </div>
+                    </div>
+                    {/* footer */}
+                    <div className="absolute inset-x-0 bottom-0 flex items-center justify-between border-t border-slate-100 bg-slate-50/80 px-3 py-1.5 text-[10px] font-bold">
+                      <span className="text-slate-400">{tf.length} שדות · {pkN}🔑 {fkN}FK</span>
+                      {t.tcodes && <span className="truncate font-mono text-slate-500" dir="ltr">{t.tcodes.split(/[,\s]+/)[0]}</span>}
+                    </div>
+                  </div>); })}
+            </div>
+
+            {/* right enterprise drawer */}
+            {dt && (() => { const t = dt; const c = color(t.mod); const tf = orderFields(fieldsOf(t)); const pk = tf.filter((f) => f[3] === "PK"), fk = tf.filter((f) => f[3] === "FK");
+              const parents = [...new Set(t.rel.filter((r) => r.role === "child").map((r) => r.table))];
+              const children = [...new Set(t.rel.filter((r) => r.role === "parent").map((r) => r.table))];
+              const whereUsed = [...new Set(data.tables.filter((x) => x.rel.some((r) => r.table === t.name)).map((x) => x.name))];
+              const bp = data.blueprints.find((b) => b.code === t.mod);
+              const Sec = ({ title, icon, children: ch }: { title: string; icon?: React.ReactNode; children: React.ReactNode }) => <div className="border-t border-slate-100 px-4 py-3"><h4 className="mb-1.5 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: c }}>{icon}{title}</h4>{ch}</div>;
+              const Pills = ({ a, nav }: { a: string[]; nav?: boolean }) => a.length ? <div className="flex flex-wrap gap-1">{a.map((x) => nav && byName[x] ? <button key={x} onClick={() => { const tt = byName[x]; if (tt && tt.mod !== t.mod && !selMods.has(tt.mod)) toggleMod(tt.mod); setSel(x); setDrawer(x); }} className="rounded-md border px-1.5 py-0.5 font-mono text-[11px] font-bold transition hover:bg-slate-50" style={{ borderColor: byName[x] ? color(byName[x].mod) : c, color: byName[x] ? color(byName[x].mod) : c }}>{x}</button> : <span key={x} className="rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600">{x}</span>)}</div> : <span className="text-[11px] italic text-slate-300">—</span>;
               return (
-                <div key={t.name} data-card onClick={() => { setSel(t.name); setExp(isExp ? null : t.name); }} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
-                  className="absolute select-none overflow-hidden rounded-xl border bg-white shadow-sm transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md"
-                  style={{ left: p.x, top: p.y, width: W, height: H, borderColor: isSel ? "#d62027" : "#e5e7eb", borderWidth: isSel ? 2 : 1, boxShadow: isSel ? `0 8px 20px ${c}33` : undefined, opacity: dim ? 0.3 : 1, zIndex: isSel ? 30 : 2, cursor: "pointer" }}>
-                  <div className="h-1" style={{ background: c }} />
-                  <div className="px-3 py-2">
-                    <div className="flex items-center gap-1.5"><span className="size-2 shrink-0 rounded-full" style={{ background: c }} /><span className="truncate font-mono text-[15px] font-extrabold text-slate-900" dir="ltr">{t.name}</span></div>
-                    <div className="mt-0.5 flex items-center justify-between gap-2"><span className="truncate text-[10px] text-slate-500">{t.he || t.en}</span><span className="shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-bold" style={{ background: c + "1a", color: c }}>{tf.length} {isExp ? "▲" : "▼"}</span></div>
+                <div data-drawer dir="rtl" className="absolute inset-y-0 right-0 z-40 flex w-[360px] max-w-[88%] flex-col overflow-hidden border-s border-slate-200 bg-white shadow-2xl" style={{ animation: "drawerIn .35s cubic-bezier(.32,.72,0,1) both" }} onPointerDown={(e) => e.stopPropagation()}>
+                  <div className="relative shrink-0 px-4 py-3.5 text-white" style={{ background: "linear-gradient(135deg,#d62027,#8f1318)" }}>
+                    <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: c }} />
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0"><div className="flex items-center gap-2"><span className="font-mono text-2xl font-extrabold" dir="ltr">{t.name}</span><span className="rounded-md bg-white/20 px-1.5 py-0.5 text-[10px] font-bold">{t.mod}</span></div><p className="mt-0.5 truncate text-xs text-white/80">{t.he || t.en}</p></div>
+                      <button onClick={() => { setDrawer(null); }} className="rounded-lg p-1 text-white/80 hover:bg-white/15"><X className="size-4" /></button>
+                    </div>
                   </div>
-                </div>); })}
-            {/* dynamic popover below the selected card (does not move the map) */}
-            {exp && pos[exp] && byName[exp] && (() => { const t = byName[exp]; const p = pos[exp]; const c = color(own[exp] || t.mod); const tf = fieldsOf(t); const top = [...tf.filter((f) => f[3] === "PK"), ...tf.filter((f) => f[3] === "FK"), ...tf.filter((f) => f[3] !== "PK" && f[3] !== "FK")].slice(0, 8);
-              return (
-                <div className="absolute z-50 rounded-2xl border-2 bg-white p-3 shadow-2xl" style={{ left: p.x - 18, top: p.y + H + 12, width: W + 36, borderColor: c, animation: "pop .18s ease both" }}>
-                  <div className="mb-2 flex items-center justify-between">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">שדות מובילים</span>
-                    <span className="font-mono text-sm font-extrabold" style={{ color: c }} dir="ltr">{t.name}</span>
+                  <div className="min-h-0 flex-1 overflow-auto">
+                    <Sec title="תיעוד · מטרה עסקית">
+                      <p className="text-xs leading-relaxed text-slate-600">{bp?.purpose || `טבלת ${t.mod} — ${t.he || t.en}`}</p>
+                      {t.s4 && <p className="mt-1.5 rounded-lg bg-slate-50 p-2 text-[11px] text-slate-500">ECC → S/4HANA: {t.s4}{t.s4alt ? ` · חלופה: ${t.s4alt}` : ""}</p>}
+                    </Sec>
+                    <div className="grid grid-cols-2"><Sec title="PK" icon={<KeyRound className="size-3 text-amber-500" />}><Pills a={pk.map((f) => f[0])} /></Sec><Sec title="FK" icon={<Link2 className="size-3 text-blue-500" />}><Pills a={fk.map((f) => f[0])} /></Sec></div>
+                    <Sec title={`שדות · ${tf.length}`}>
+                      <div className="overflow-hidden rounded-lg border border-slate-100"><table className="w-full text-right font-mono text-[11px]" dir="ltr"><tbody>{tf.slice(0, 28).map((f) => <tr key={f[0]} onClick={() => onField(t.name, f[0])} className="cursor-pointer border-b border-slate-50 last:border-0 hover:bg-slate-50"><td className={`px-2 py-1 font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`}>{f[0]}</td><td className="px-2 py-1 text-slate-400">{f[1]}</td><td className="px-2 py-1 text-left">{f[3] !== "-" && <span className={`rounded px-1 text-[9px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></div>
+                    </Sec>
+                    <Sec title="טרנזקציות (T-Codes)"><span className="font-mono text-xs text-slate-700" dir="ltr">{t.tcodes || "—"}</span></Sec>
+                    <Sec title="BAPIs / Function Modules"><Pills a={(t.funcs || []).slice(0, 8)} /></Sec>
+                    <Sec title="CDS Views"><Pills a={t.cds || []} /></Sec>
+                    {t.fiori && <Sec title="Fiori Apps"><span className="text-xs text-slate-700">{t.fiori}</span></Sec>}
+                    <Sec title="דוחות"><Pills a={MOD_REPORTS[t.mod] || []} /></Sec>
+                    <Sec title="אובייקטים קשורים · אב"><Pills a={parents} nav /></Sec>
+                    <Sec title="אובייקטים קשורים · צאצא"><Pills a={children} nav /></Sec>
+                    <Sec title="Where-Used"><Pills a={whereUsed} nav /></Sec>
+                    <div className="px-4 py-3"><button onClick={() => onModule(t.mod)} className="w-full rounded-xl py-2 text-center text-xs font-bold text-white shadow-sm transition hover:brightness-110" style={{ background: c }}>פתח מודול {t.mod} ↗</button></div>
                   </div>
-                  <div className="space-y-1">{top.map((f) => <button key={f[0]} onClick={(e) => { e.stopPropagation(); onField(t.name, f[0]); }} className="flex w-full items-center justify-between gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 transition hover:border-slate-300 hover:bg-slate-50">
-                    <span className={`font-mono text-[12px] font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`} dir="ltr">{f[0]}</span>
-                    {f[3] !== "-" ? <span className="rounded px-1.5 py-0.5 text-[9px] font-extrabold" style={{ background: f[3] === "PK" ? "#fef3c7" : "#dbeafe", color: f[3] === "PK" ? "#b45309" : "#1d4ed8" }}>{f[3]}</span> : <span className="truncate text-[10px] text-slate-400">{f[2]}</span>}
-                  </button>)}</div>
-                  <button onClick={(e) => { e.stopPropagation(); onTable(t.name); }} className="mt-2 w-full rounded-lg py-1.5 text-center text-[11px] font-bold text-white" style={{ background: c }}>פרטים מלאים ↗</button>
                 </div>); })()}
           </div>
-          {inspector}
         </div>
       </div>
-      <p className="text-[11px] text-slate-500">מודל נתונים — פריסה היררכית משמאל→ימין (master → transaction → posting) · צבע = מודול · לחיצה על קוביה = פאנל מלא + הדגשת קשרים · גלגלת/כפתורים = זום · מסך מלא</p>
-    </div>
   );
 }
 
@@ -419,7 +529,8 @@ function Inspector({ data, color, t, byName, onClose, onGo }: { data: Data; colo
   const Pills = ({ a, click }: { a: string[]; click?: boolean }) => a.length ? <div className="flex flex-wrap gap-1">{a.map((x) => click && byName[x] ? <button key={x} onClick={() => onGo(x)} className="rounded border px-1.5 py-0.5 font-mono text-[11px] font-bold hover:bg-slate-50" style={{ borderColor: c, color: c }}>{x}</button> : <span key={x} className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600">{x}</span>)}</div> : <span className="text-[11px] italic text-slate-400">—</span>;
   return (
     <div className="absolute z-40 max-h-[88%] w-[340px] overflow-auto rounded-2xl border border-slate-200 bg-white/95 shadow-2xl backdrop-blur-md" style={{ insetInlineStart: 12 + p.x, top: 12 + p.y, animation: "pop .25s ease both" }} dir="rtl">
-      <div className="sticky top-0 z-10 flex cursor-grab items-start justify-between gap-2 border-b border-slate-200 bg-white px-3.5 py-2.5 active:cursor-grabbing" onPointerDown={onDown} onPointerMove={onMove} onPointerUp={() => (drag.current = null)}>
+      <div className="sticky top-0 z-10 h-1" style={{ background: c }} />
+      <div className="sticky top-1 z-10 flex cursor-grab items-start justify-between gap-2 border-b border-slate-200 px-3.5 py-2.5 active:cursor-grabbing" style={{ background: `linear-gradient(180deg, ${c}12, #fff)` }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={() => (drag.current = null)}>
         <div className="min-w-0"><div className="flex items-center gap-2"><GripVertical className="size-3.5 text-slate-400" /><span className="font-mono text-lg font-extrabold text-slate-900" dir="ltr">{t.name}</span><span className="rounded px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: c }}>{t.mod}</span></div><p className="mt-0.5 truncate text-xs text-slate-500">{t.he || t.en}</p></div>
         <button onClick={onClose} className="rounded p-1 text-slate-400 hover:bg-slate-100"><X className="size-4" /></button>
       </div>
