@@ -31,13 +31,15 @@ export default async function Page({ params }: { params: Promise<{ code: string 
   return (
     <div>
       <Crumb trail={[{ href: "/knowledge/", label: "מרכז הידע" }, { href: "/transactions/", label: "מרכז הטרנזקציות" }, { label: t.code }]} />
-      <CenterHeader eyebrow={`טרנזקציה · ${t.module}`} title={`${t.code} · ${t.title}`} sub={t.purpose} accent={c} />
+      <CenterHeader eyebrow={`טרנזקציה · ${t.module} · ${t.topic}`} title={`${t.code} · ${t.title}`} sub={t.purpose} accent={c} />
+
+      <div className="mb-4"><Block title="תהליך עסקי (Business Process)" accent={c}>{t.process}</Block></div>
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Block title="מתי משתמשים" accent={c}>{t.whenToUse}</Block>
         <Block title="מי משתמש" accent={c}>{t.who}</Block>
-        <Block title="שלב בתהליך" accent={c}>{t.step}</Block>
-        {t.fiori && <Block title="חלופת Fiori" accent="#7c3aed">{t.fiori}</Block>}
+        <Block title="קלט (Input)" accent="#0891b2">{t.input}</Block>
+        <Block title="פלט (Output)" accent="#16a34a">{t.output}</Block>
       </div>
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
@@ -49,7 +51,12 @@ export default async function Page({ params }: { params: Promise<{ code: string 
             <ChipRow title="User Exits / BAdIs" items={t.exits} />
           </div>
         </Block>
-        <Block title="שגיאות נפוצות ואבחון" accent="#dc2626"><Bullets items={t.errors || []} /></Block>
+        <Block title="שגיאות נפוצות ואבחון (Troubleshooting)" accent="#dc2626"><Bullets items={t.errors || []} /></Block>
+      </div>
+
+      <div className="mt-4 grid gap-4 lg:grid-cols-2">
+        {t.qa && <Block title="QA / תרחישי בדיקה" accent="#be185d">{t.qa}</Block>}
+        {t.fiori && <Block title="חלופת Fiori" accent="#7c3aed">{t.fiori}</Block>}
       </div>
 
       <div className="mt-4">

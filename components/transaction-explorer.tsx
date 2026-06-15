@@ -64,7 +64,7 @@ export function TransactionExplorer() {
           <tbody className="divide-y divide-slate-100">
             {rows.map((t) => (
               <tr key={t.code} className="group hover:bg-slate-50/60">
-                <td className="p-3 align-top"><Link href={`/transactions/${encodeURIComponent(t.code)}/`} className="tech font-extrabold text-brand hover:underline" dir="ltr">{t.code}</Link><div className="text-[11px] font-semibold text-slate-500">{t.title}</div></td>
+                <td className="p-3 align-top"><Link href={`/transactions/${encodeURIComponent(t.code)}/`} className="tech font-extrabold text-brand hover:underline" dir="ltr">{t.code}</Link><div className="text-[11px] font-semibold text-slate-500">{t.title}</div><div className="text-[10px] font-bold text-slate-400">{t.topic}</div></td>
                 <td className="p-3 align-top text-[12px] leading-snug text-slate-600">{t.purpose}</td>
                 <td className="p-3 align-top text-[12px] leading-snug text-slate-500">{t.whenToUse}</td>
                 <td className="p-3 text-center align-top"><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: MOD_COLOR[t.module] }}>{t.module}</span></td>
