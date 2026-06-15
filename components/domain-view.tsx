@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, ArrowLeft, Database, Terminal, Boxes, Workflow, GraduationCap, AlertTriangle, Presentation, Network } from "lucide-react";
+import { ArrowRight, ArrowLeft, Database, Terminal, Boxes, Workflow, GraduationCap, AlertTriangle, Presentation, Network, Target, ShieldAlert, ClipboardCheck, Factory, LayoutGrid, Cable } from "lucide-react";
 import type { Domain } from "@/data/domains";
+import { domainDetail } from "@/data/domain-detail";
+import { EccS4Block } from "@/components/ecc-s4-block";
 import { tableByName } from "@/lib/knowledge-graph";
 import { listTcodes, listFuncs, cleanFunc, funcHref } from "@/lib/object-intel";
 
@@ -30,6 +32,7 @@ function Card({ title, icon, children }: { title: string; icon: React.ReactNode;
 
 export function DomainView({ d }: { d: Domain }) {
   const c = accentFor(d.module);
+  const det = domainDetail(d.slug);
   return (
     <div className="space-y-5">
       <div className="no-print flex items-center gap-1.5 text-xs text-slate-400">
@@ -89,6 +92,45 @@ export function DomainView({ d }: { d: Domain }) {
             <span className="mt-1 block text-slate-600">↳ {t.fix}</span>
           </li>))}</ul>
       </Card>
+
+      {det && (
+        <>
+          <Card title="מטרה עסקית" icon={<Target className="size-4" />}><p className="text-sm leading-relaxed text-slate-700">{det.purpose}</p></Card>
+
+          <Card title="תרשים תהליך · End-to-End" icon={<Workflow className="size-4" />}>
+            <div className="flex flex-wrap items-center gap-2">
+              {det.diagram.map((s, i) => (
+                <span key={i} className="flex items-center gap-2">
+                  <span className="rounded-xl border px-3 py-2 text-xs font-bold text-slate-700" style={{ borderColor: c + "55" }}>{s}</span>
+                  {i < det.diagram.length - 1 && <ArrowLeft className="size-4 shrink-0 rotate-180 text-slate-300" />}
+                </span>
+              ))}
+            </div>
+          </Card>
+
+          <div className="grid gap-5 lg:grid-cols-2">
+            <Card title="נתוני אב (Master Data)" icon={<Database className="size-4" />}><div className="flex flex-wrap gap-1.5">{det.masterData.map((m) => <Chip key={m} text={m} tone={c} />)}</div></Card>
+            <Card title="אובייקטים עסקיים" icon={<LayoutGrid className="size-4" />}><div className="flex flex-wrap gap-1.5">{det.objects.map((o) => <Chip key={o} text={o} tone={c} />)}</div></Card>
+            <Card title="BAPIs / Function Modules" icon={<Boxes className="size-4" />}><div className="flex flex-wrap gap-1.5">{det.funcs.map((f) => <Chip key={f} text={f} href={FN.has(cleanFunc(f)) ? funcHref(f) : undefined} tone={c} />)}</div></Card>
+            <Card title="User Exits / BAdIs" icon={<Cable className="size-4" />}><div className="space-y-2"><div><p className="eyebrow mb-1 text-slate-400">User Exits</p><div className="flex flex-wrap gap-1.5">{det.exits.map((e) => <Chip key={e} text={e} tone={c} />)}</div></div><div><p className="eyebrow mb-1 text-slate-400">BAdIs</p><div className="flex flex-wrap gap-1.5">{det.badis.map((b) => <Chip key={b} text={b} tone={c} />)}</div></div></div></Card>
+          </div>
+
+          <div className="grid gap-5 lg:grid-cols-2">
+            <Card title="QA · תרחישי בדיקה" icon={<ClipboardCheck className="size-4 text-fuchsia-600" />}>
+              <ul className="space-y-1.5">{det.qa.map((q, i) => <li key={i} className="flex gap-2 text-sm text-slate-700"><span className="mt-0.5 size-1.5 shrink-0 rounded-full bg-fuchsia-500" />{q}</li>)}</ul>
+            </Card>
+            <Card title="תקלות נפוצות · Incidents" icon={<ShieldAlert className="size-4 text-red-500" />}>
+              <ul className="space-y-1.5">{det.incidents.map((q, i) => <li key={i} className="flex gap-2 text-sm text-slate-700"><span className="mt-0.5 size-1.5 shrink-0 rounded-full bg-red-500" />{q}</li>)}</ul>
+            </Card>
+          </div>
+
+          <Card title="דוגמת ייצור — CBC" icon={<Factory className="size-4 text-brand" />}><p className="text-sm leading-relaxed text-slate-700">{det.cbc}</p></Card>
+
+          {det.fiori.length > 0 && <Card title="אפליקציות Fiori" icon={<LayoutGrid className="size-4 text-violet-600" />}><div className="flex flex-wrap gap-1.5">{det.fiori.map((f) => <Chip key={f} text={f} tone={c} />)}</div></Card>}
+
+          <EccS4Block data={det.eccS4} title={`ECC6 → S/4HANA · ${d.he}`} />
+        </>
+      )}
 
       <Link href="/sap-infrastructure/" className="no-print inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:underline"><Network className="size-4" /> חקור קשרים באקספלורר</Link>
     </div>

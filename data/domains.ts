@@ -21,6 +21,67 @@ export interface Domain {
 }
 
 export const DOMAINS: Domain[] = [
+  /* ========================= PM (added Wave 2) ========================= */
+  {
+    slug: "pm-task-lists", module: "PM", title: "Task Lists", he: "רשימות פעולות (Task Lists)",
+    summary: "רשימת פעולות (Task List) היא תבנית סטנדרטית של פעולות אחזקה — מרכזי עבודה, זמנים, חומרים והוראות — לשימוש חוזר בפקודות ובתכניות אחזקה מונעת. סוגים: כללית (A), לציוד (E), למיקום פונקציונלי (T).",
+    flow: [{ step: "Create", he: "יצירת רשימה (IA05/IA01)" }, { step: "Operations", he: "הגדרת פעולות + מרכזי עבודה" }, { step: "Components", he: "שיוך חומרים (PRT/חלפים)" }, { step: "Assign", he: "שיוך לתכנית/פקודה" }, { step: "Reuse", he: "שימוש חוזר בפקודות" }],
+    tables: ["PLKO", "PLPO", "PLAS", "PLMZ", "PLFH"],
+    tcodes: ["IA05", "IA06", "IA01", "IA02", "IA03", "IA08"],
+    bapis: ["BAPI_TASKLIST_CREATE", "CARO_TASKLIST_READ", "CP_DI_OPERATION_READ"],
+    learning: ["רשימת פעולות = תבנית פעולות לשימוש חוזר", "PLKO כותרת, PLPO פעולות, PLAS שיוך, PLMZ הקצאת חומר", "סוגים: A כללית, E לציוד, T למיקום", "מקושרת לתכנית אחזקה דרך פריט (MPOS)"],
+    trouble: [{ issue: "רשימה לא נמצאת בתכנית", fix: "בדוק סוג+קבוצה+מונה רשימה ותוקף ב-IA08" }, { issue: "מרכז עבודה לא תקף", fix: "ודא מרכז עבודה/מפעל פעילים לתאריך (IR03)" }],
+  },
+  {
+    slug: "pm-confirmation", module: "PM", title: "Maintenance Confirmation", he: "אישורי אחזקה (Confirmation)",
+    summary: "אישור אחזקה (Confirmation) מדווח את הביצוע בפועל של פעולות הפקודה — שעות עבודה, חומרים, מדידות וסטטוס. מעדכן עלויות בפועל, צריכת מלאי וזמינות, ומאפשר סגירה טכנית (TECO).",
+    flow: [{ step: "Release", he: "פקודה משוחררת (REL)" }, { step: "Execute", he: "ביצוע בשטח" }, { step: "Confirm", he: "אישור שעות (IW41/IW42)" }, { step: "Goods", he: "תנועות חומר (GI)" }, { step: "TECO", he: "סגירה טכנית" }],
+    tables: ["AFRU", "AFVC", "AFKO", "AUFK"],
+    tcodes: ["IW41", "IW42", "IW44", "IW45", "IW48"],
+    bapis: ["BAPI_ALM_CONF_CREATE", "STATUS_CHANGE_INTERN"],
+    learning: ["אישור מעדכן עלות בפועל וצריכת מלאי", "AFRU = רשומות אישור", "אישור חלקי מול סופי (Final)", "תנועות תקועות → טיפול נפרד; סגירה טכנית = TECO"],
+    trouble: [{ issue: "לא ניתן לאשר", fix: "ודא שהפקודה משוחררת (REL) ותקופת הרישום פתוחה" }, { issue: "עלות לא נרשמה", fix: "בדוק שיוך מרכז עלות במרכז העבודה (CRCO)" }, { issue: "תנועת חומר נכשלה", fix: "בדוק זמינות מלאי ותקופת רישום" }],
+  },
+  {
+    slug: "pm-settlement", module: "PM", title: "Order Settlement", he: "התחשבנות פקודה (Settlement)",
+    summary: "התחשבנות (Settlement) מעבירה את העלויות שנצברו בפקודת האחזקה ליעד הסופי — מרכז עלות, נכס, או הזמנה. כוללת כלל התחשבנות (Settlement Rule) ומבוצעת ב-KO88 (בודד) או CO88 (מרוכז).",
+    flow: [{ step: "Costs", he: "צבירת עלויות בפקודה" }, { step: "Rule", he: "כלל התחשבנות (Settlement Rule)" }, { step: "Settle", he: "התחשבנות (KO88)" }, { step: "Receiver", he: "העברה ליעד (מרכז עלות/נכס)" }, { step: "Close", he: "סגירה עסקית (CLSD)" }],
+    tables: ["AUFK", "COBRB", "COSS", "COSP"],
+    tcodes: ["KO88", "CO88", "KO8G", "IW32"],
+    bapis: ["K_ORDER_SETTLEMENT", "K_SETTLEMENT_RULE_READ", "K_COSTS_READ"],
+    learning: ["התחשבנות = העברת עלות פקודה ליעד", "COBRB = כללי התחשבנות", "ב-S/4 עלויות זורמות ל-ACDOCA (Universal Journal)", "סגירה עסקית (CLSD) לאחר התחשבנות מלאה"],
+    trouble: [{ issue: "כלל התחשבנות חסר", fix: "הגדר Settlement Rule בפקודה (IW32 → Settlement rule)" }, { issue: "תקופה סגורה", fix: "פתח תקופת רישום CO/FI או התחשבן בתקופה פתוחה" }, { issue: "סטטוס לא מאפשר", fix: "ודא פקודה ב-REL/TECO ולא CLSD/LKD" }],
+  },
+  {
+    slug: "pm-breakdown", module: "PM", title: "Breakdown Maintenance", he: "אחזקת שבר (Breakdown)",
+    summary: "אחזקת שבר (Breakdown Maintenance) מטפלת בתקלות בלתי-מתוכננות הדורשות תגובה מהירה להחזרת ציוד לפעולה. מתחילה בהודעת תקלה עם סימון Breakdown, ממשיכה לפקודה דחופה, ומודדת זמני השבתה (MTTR/MTBF).",
+    flow: [{ step: "Breakdown", he: "תקלה — השבתת ציוד" }, { step: "Notification", he: "הודעת תקלה + Breakdown flag" }, { step: "Order", he: "פקודה דחופה (IW31)" }, { step: "Repair", he: "תיקון + אישור" }, { step: "Analyze", he: "ניתוח MTTR/MTBF" }],
+    tables: ["QMEL", "QMIH", "AUFK", "AFIH"],
+    tcodes: ["IW21", "IW31", "IW41", "IW28", "MCI7"],
+    bapis: ["BAPI_ALM_NOTIF_CREATE", "BAPI_ALM_ORDER_MAINTAIN"],
+    learning: ["סימון Breakdown בהודעה (QMIH) מזין מדדי זמינות", "Malfunction Start/End → זמן השבתה", "MTTR (זמן תיקון ממוצע), MTBF (זמן בין תקלות)", "עדיפות גבוהה → זמני יעד קצרים"],
+    trouble: [{ issue: "זמני השבתה לא מחושבים", fix: "ודא Malfunction Start/End והסימון Breakdown בהודעה (QMIH)" }, { issue: "מדדי MTBF שגויים", fix: "בדוק עקביות תאריכי תקלה והיסטוריית ציוד (PMIS/MCI7)" }],
+  },
+  {
+    slug: "pm-calibration", module: "PM", title: "Calibration (PM-QM)", he: "כיול (Calibration)",
+    summary: "כיול (Calibration) משלב PM ו-QM לבדיקת מכשירי מדידה מול תקן. הזמנת אחזקה עם מפתח בקרה לבדיקה (Inspection) יוצרת מנת בדיקה (Inspection Lot), רושמים תוצאות (Results Recording) ומקבלים החלטת שימוש (Usage Decision).",
+    flow: [{ step: "Plan", he: "תכנית אחזקה לכיול + רשימת פעולות QM" }, { step: "Order", he: "פקודה עם מפתח בקרה Inspection" }, { step: "Lot", he: "מנת בדיקה (Inspection Lot)" }, { step: "Results", he: "רישום תוצאות (QE11)" }, { step: "UD", he: "החלטת שימוש (QA11)" }],
+    tables: ["QALS", "QAMR", "QAVE", "PLKO", "PLPO", "PLMK"],
+    tcodes: ["IP01", "IW31", "QE11", "QA11", "QGA2"],
+    bapis: ["QPK1_INSPCHAR_READ"],
+    learning: ["כיול = PM (פקודה) + QM (מנת בדיקה)", "מפתח בקרה PM03 מפעיל בדיקת QM", "מאפייני בדיקה (PLMK) מול תקן", "החלטת שימוש קובעת תקין/לא תקין למכשיר"],
+    trouble: [{ issue: "מנת בדיקה לא נוצרה", fix: "ודא מפתח בקרה עם סימון Inspection ברשימת הפעולות" }, { issue: "אין מאפייני בדיקה", fix: "הוסף Inspection Characteristics (PLMK) לפעולה" }],
+  },
+  {
+    slug: "pm-permits", module: "PM", title: "Permits", he: "היתרים (Permits)",
+    summary: "היתרים (Permits) הם אישורי בטיחות/תהליך הנדרשים לפני ביצוע עבודת אחזקה (למשל עבודה חמה, כניסה למתחם, ניתוק חשמל). היתר יכול לחסום שחרור או אישור פקודה עד שיינתן.",
+    flow: [{ step: "Define", he: "הגדרת היתרים (Customizing)" }, { step: "Assign", he: "שיוך היתר לפקודה/אובייקט" }, { step: "Block", he: "חסימת שחרור עד אישור" }, { step: "Grant", he: "מתן היתר (Issue)" }, { step: "Release", he: "שחרור פקודה" }],
+    tables: ["AUFK", "IHPA", "T357G"],
+    tcodes: ["IW31", "IW32", "OIPM"],
+    bapis: ["BAPI_ALM_ORDER_MAINTAIN"],
+    learning: ["היתר חוסם שחרור/אישור עד מתן (Grant)", "היתר אוטומטי לפי סיווג אובייקט/פקודה", "סוגי היתר: רלוונטי-לשחרור או רלוונטי-לסיום", "ניהול ב-Customizing (T357G)"],
+    trouble: [{ issue: "לא ניתן לשחרר פקודה", fix: "בדוק היתרים פתוחים בפקודה (IW32 → Permits) ותן היתר" }, { issue: "היתר לא משויך אוטומטית", fix: "בדוק קביעת היתר לפי סיווג/מחוון אובייקט בהגדרות" }],
+  },
   /* ========================= PM ========================= */
   {
     slug: "pm-work-centers", module: "PM", title: "Work Centers", he: "מרכזי עבודה",
