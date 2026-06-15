@@ -158,11 +158,12 @@ export function buildProfile(rawName: string, kindHint?: ProfileKind): ObjProfil
   const di = funcIntel(c);        // dataset-derived owners
   if (di) p.module = di.modules.join(" · ");
   if (fi) {
+    const ok = !fi.inferred;
     p.module = fi.module;
-    p.what = { text: fi.what, verified: true };
-    p.why = { text: fi.why, verified: true };
+    p.what = { text: fi.what, verified: ok };
+    p.why = { text: fi.why, verified: ok };
     if (fi.flow) p.lifecycle = `${fi.flow} · ${tpl.lifecycle}`;
-    p.eccS4 = { text: `ECC: ${fi.ecc} · S/4: ${fi.s4}`, verified: true };
+    p.eccS4 = { text: `ECC: ${fi.ecc} · S/4: ${fi.s4}`, verified: ok };
     if (fi.qa?.deps?.length) p.dependencies = fi.qa.deps;
     if (fi.qa?.failures?.length) p.troubleshooting = [...fi.qa.failures, ...tpl.troubleshooting].slice(0, 7);
     p.related = dedupeRelated([

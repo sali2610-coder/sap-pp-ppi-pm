@@ -38,6 +38,7 @@ const Missing = () => (
 );
 const Verified = () => <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700"><BadgeCheck className="size-3" /> אומת ידנית</span>;
 const Unverified = () => <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-bold text-amber-700"><Info className="size-3" /> לא מאומת</span>;
+const NeedsCheck = () => <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-bold text-amber-700"><Info className="size-3" /> נדרש אימות (תלוי גרסה)</span>;
 
 const dirMeta: Record<FnParam["dir"], { he: string; cls: string }> = {
   import: { he: "Import", cls: "bg-blue-50 text-blue-700" },
@@ -60,7 +61,7 @@ export function FunctionIntelligence({ name }: { name: string }) {
   return (
     <div className="space-y-4">
       {/* 1 · Executive summary */}
-      <Card icon={<Sparkles className="size-4" />} title="Function Intelligence" accent="#d62027" tag={intel ? <Verified /> : <Unverified />}>
+      <Card icon={<Sparkles className="size-4" />} title="Function Intelligence" accent="#d62027" tag={intel && !intel.inferred ? <Verified /> : intel ? <NeedsCheck /> : <Unverified />}>
         <div className="flex flex-wrap items-center gap-2">
           <span className="tech rounded-lg bg-[#d62027] px-2.5 py-1 text-sm font-extrabold text-white" dir="ltr">{name}</span>
           <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600">{kindLabel}</span>
