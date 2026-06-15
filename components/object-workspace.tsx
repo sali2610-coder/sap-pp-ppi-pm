@@ -7,8 +7,9 @@ import { motion } from "framer-motion";
 import {
   ArrowRight, ArrowLeft, KeyRound, Link2, Terminal, Boxes, FileCode, AppWindow,
   GitBranch, Workflow, BookOpen, Wrench, StickyNote, LayoutGrid, Database, AlertTriangle, MapPin, TrendingUp, Cable,
-  Presentation, FileCode2,
+  Presentation, FileCode2, BrainCircuit,
 } from "lucide-react";
+import { ObjectIntelligence } from "@/components/object-intelligence";
 import { objectIntel } from "@/lib/data";
 import { classifyFunc, cleanFunc, funcHref } from "@/lib/object-intel";
 import { cdsForTable } from "@/data/cds-map";
@@ -24,6 +25,7 @@ const RED = "#d62027";
 
 const TABS = [
   ["overview", "סקירה", LayoutGrid],
+  ["intel", "תבונת אובייקט", BrainCircuit],
   ["relations", "קשרים", GitBranch],
   ["flow", "זרימה עסקית", Workflow],
   ["technical", "טכני", Database],
@@ -162,7 +164,7 @@ export function ObjectWorkspace({ name }: { name: string }) {
     const onKey = (e: KeyboardEvent) => {
       const el = e.target as HTMLElement;
       if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable)) return;
-      if (/^[1-7]$/.test(e.key)) { const tb = TABS[Number(e.key) - 1]; if (tb) { playTick(); setTab(tb[0]); } }
+      if (/^[1-8]$/.test(e.key)) { const tb = TABS[Number(e.key) - 1]; if (tb) { playTick(); setTab(tb[0]); } }
       else if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
         const i = TABS.findIndex((x) => x[0] === tab); const d = e.key === "ArrowLeft" ? 1 : -1;
         const ni = (i + d + TABS.length) % TABS.length; playTick(); setTab(TABS[ni][0]);
@@ -291,6 +293,8 @@ export function ObjectWorkspace({ name }: { name: string }) {
             </div>
           </>
         )}
+
+        {tab === "intel" && <ObjectIntelligence name={name} kind="table" />}
 
         {tab === "relations" && (
           <>

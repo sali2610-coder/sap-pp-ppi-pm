@@ -273,7 +273,7 @@ export default function LibraryPage() {
             <h2 className="flex items-center gap-2 text-lg font-extrabold tracking-tight text-slate-900"><GraduationCap className="size-5 text-brand" /> מסלולי למידה · Academy</h2>
             <Link href="/library/academy/" className="inline-flex items-center gap-1 text-xs font-bold text-brand hover:underline">לוח בקרה <ArrowLeft className="size-3.5" /></Link>
           </div>
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
             {academy.map((b) => <AcademyCard key={b.id} b={b} onOpen={push} />)}
           </div>
         </section>
@@ -283,7 +283,7 @@ export default function LibraryPage() {
       {reference.length > 0 && (
         <section className="space-y-4">
           <h2 className="flex items-center gap-2 text-lg font-extrabold tracking-tight text-slate-900"><BookOpen className="size-5 text-brand" /> ספרי עיון · מדריכי SAP S/4HANA</h2>
-          <div className="grid gap-5 md:grid-cols-2">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {reference.map((b) => <ReferenceCard key={b.id} book={b} onOpen={push} />)}
           </div>
         </section>

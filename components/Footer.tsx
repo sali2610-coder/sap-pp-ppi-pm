@@ -7,7 +7,7 @@ export function Footer() {
   const { t } = useI18n();
   return (
     <footer className="glass mt-6 border-x-0 border-b-0">
-      <div className="mx-auto flex max-w-7xl flex-col items-center gap-2 px-4 py-6 text-center sm:flex-row sm:justify-between sm:text-start">
+      <div className="container-app flex flex-col items-center gap-2 py-6 text-center sm:flex-row sm:justify-between sm:text-start">
         <p className="text-sm text-muted-foreground">
           הערת פיתוח: האתר נבנה עבור המפתח ב-
           <span className="font-semibold text-foreground">Web Coding</span>, סאלי חליף.

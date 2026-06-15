@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Sparkles } from "lucide-react";
+import { Sparkles, BrainCircuit } from "lucide-react";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SiteLogo } from "@/components/site-logo";
 import { OmniSearch } from "@/components/omni-search";
@@ -28,7 +28,7 @@ function Header() {
   const { t } = useI18n();
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-gradient-to-l from-brand-dark via-brand to-brand text-brand-foreground shadow-lg shadow-brand/20">
-      <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 lg:flex-row lg:items-center lg:justify-between">
+      <div className="container-app flex flex-col gap-3 py-3 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-center justify-between gap-3">
           <Link href="/" className="shrink-0 transition-transform hover:scale-[1.02]" onClick={() => playClick()}>
             <SiteLogo />
@@ -46,6 +46,7 @@ function Header() {
           <NavLink href="/pp-pi/">{t("nav.ppi")}</NavLink>
           <NavLink href="/sap-infrastructure/">{t("nav.infra")}</NavLink>
           <NavLink href="/library/">{t("nav.library")}</NavLink>
+          <NavLink href="/knowledge/"><BrainCircuit className="size-3.5" />{t("nav.knowledge")}</NavLink>
           <NavLink href="/chat/"><Sparkles className="size-3.5" />{t("nav.chat")}</NavLink>
           <div className="ms-2">
             <LangSwitch />
@@ -58,6 +59,7 @@ function Header() {
         <NavLink href="/pp-pi/">{t("nav.ppi")}</NavLink>
         <NavLink href="/sap-infrastructure/">{t("nav.infra")}</NavLink>
         <NavLink href="/library/">{t("nav.library")}</NavLink>
+        <NavLink href="/knowledge/"><BrainCircuit className="size-3.5" />{t("nav.knowledge")}</NavLink>
         <NavLink href="/chat/"><Sparkles className="size-3.5" />{t("nav.chat")}</NavLink>
       </nav>
     </header>
@@ -67,9 +69,9 @@ function Header() {
 function PageTransition({ children }: { children: React.ReactNode }) {
   const path = usePathname();
   const reduce = useReducedMotion();
-  if (reduce) return <main id="main" className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">{children}</main>;
+  if (reduce) return <main id="main" className="container-app flex-1 py-8">{children}</main>;
   return (
-    <main id="main" className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">
+    <main id="main" className="container-app flex-1 py-8">
       <AnimatePresence mode="wait">
         <motion.div key={path} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}>

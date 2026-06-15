@@ -50,12 +50,15 @@ function ChipRow({ icon, label, accent, children }: { icon: React.ReactNode; lab
 }
 
 /* one table → rich card with expand-to-fields */
-function TableCardRich({ t, query, accent }: { t: SAPTable; query: string; accent: string }) {
+function TableCardRich({ t, query, accent, idx = 0 }: { t: SAPTable; query: string; accent: string; idx?: number }) {
   const { pick } = useI18n();
   const [open, setOpen] = useState(false);
   const pk = t.fields.filter((f) => f.key === "PK"), fk = t.fields.filter((f) => f.key === "FK");
   return (
-    <motion.div layout className="lift overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_8px_22px_-16px_rgba(15,23,42,.4)]">
+    <motion.div layout
+      initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: Math.min(idx * 0.035, 0.4), duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
+      className="lift overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_8px_22px_-16px_rgba(15,23,42,.4)]">
       <div className="p-4">
         <div className="flex items-start justify-between gap-2">
           <Link href={`/object/${encodeURIComponent(t.tableName)}`} className="tech rounded-lg px-2 py-0.5 text-sm font-extrabold text-white" style={{ background: accent }} dir="ltr">
@@ -147,7 +150,7 @@ function BlueprintSection({ topic, code, query, open, onToggle }: { topic: SAPTo
                     {domain.flow.map((s, i) => (
                       <motion.div key={i} initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }} className="flex items-stretch gap-2">
                         <div className="flex w-36 flex-col rounded-xl border bg-white p-2.5" style={{ borderColor: `${accent}55` }}>
-                          <span className="font-mono text-base font-extrabold text-slate-200">{String(i + 1).padStart(2, "0")}</span>
+                          <span className="font-mono text-xl font-black leading-none" style={{ color: `${accent}2e` }}>{String(i + 1).padStart(2, "0")}</span>
                           <span className="text-xs font-bold text-slate-800">{s.he}</span>
                           <span className="text-[10px] text-slate-400" dir="ltr">{s.step}</span>
                         </div>
@@ -160,8 +163,8 @@ function BlueprintSection({ topic, code, query, open, onToggle }: { topic: SAPTo
 
               {/* Core objects — tables as cards */}
               <Block title={`אובייקטי ליבה · טבלאות (${topic.tables.length})`} icon={<Database className="size-4" />} accent={accent}>
-                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                  {topic.tables.map((t) => <TableCardRich key={t.id} t={t} query={query} accent={accent} />)}
+                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                  {topic.tables.map((t, i) => <TableCardRich key={t.id} t={t} query={query} accent={accent} idx={i} />)}
                 </div>
               </Block>
 
