@@ -50,8 +50,8 @@ export function CommandCenter() {
     <div className="space-y-9">
       {/* Search affordance */}
       <button onClick={() => window.dispatchEvent(new Event("neo:open-palette"))}
-        className="lift flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 text-start shadow-sm">
-        <Search className="size-5 text-brand" />
+        className="lift group flex w-full items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-start shadow-sm transition-colors hover:border-brand/30">
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand/10 text-brand transition-transform duration-300 group-hover:scale-105"><Search className="size-5" /></span>
         <span className="flex-1 text-sm font-medium text-slate-400">חיפוש טבלה · T-Code · BAPI · אובייקט · תהליך…</span>
         <kbd className="hidden rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 text-[11px] font-semibold text-slate-400 sm:block">⌘K</kbd>
       </button>
@@ -69,8 +69,12 @@ export function CommandCenter() {
             { href: "/evolution/", he: "אבולוציה ECC→S/4", sub: "מיגרציה" },
             { href: "/architect/", he: "לוח ארכיטקט", sub: "כיסוי + פערים" },
           ].map((q) => (
-            <Link key={q.href} href={q.href} className="lift rounded-xl border border-slate-200 bg-white px-3.5 py-3 shadow-sm">
-              <div className="text-sm font-extrabold text-slate-800">{q.he}</div>
+            <Link key={q.href} href={q.href} className="lift group relative overflow-hidden rounded-xl border border-slate-200 bg-white px-3.5 py-3 shadow-sm transition-colors hover:border-brand/30">
+              <span aria-hidden className="absolute inset-y-0 end-0 w-0.5 origin-top scale-y-0 bg-brand transition-transform duration-300 group-hover:scale-y-100" />
+              <div className="flex items-center justify-between gap-1">
+                <div className="text-sm font-extrabold text-slate-800">{q.he}</div>
+                <ArrowLeft className="size-3.5 shrink-0 text-slate-300 transition-all duration-300 group-hover:-translate-x-0.5 group-hover:text-brand" />
+              </div>
               <div className="text-[11px] font-medium text-slate-400">{q.sub}</div>
             </Link>
           ))}

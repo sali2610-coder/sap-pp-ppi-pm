@@ -25,17 +25,22 @@ function Stat({ label, value }: { label: string; value: number }) {
   const reduce = useReducedMotion();
   const v = useCount(value, 1100, !!reduce);
   return (
-    <div className="flex flex-col items-center rounded-2xl border border-white/15 bg-white/10 px-3 py-3 backdrop-blur-sm sm:px-5">
+    <motion.div
+      whileHover={reduce ? undefined : { y: -3, scale: 1.025 }}
+      transition={{ type: "spring", stiffness: 320, damping: 20 }}
+      className="group relative flex flex-col items-center overflow-hidden rounded-2xl border border-white/15 bg-white/10 px-3 py-3.5 backdrop-blur-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] sm:px-5"
+    >
+      <span aria-hidden className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-l from-transparent via-white/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       <span className="font-mono text-2xl font-extrabold tabular-nums text-white sm:text-3xl">{v.toLocaleString()}</span>
       <span className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/70 sm:text-xs">{label}</span>
-    </div>
+    </motion.div>
   );
 }
 
 export function HomeHero({ stats }: { stats: HeroStats }) {
   const reduce = useReducedMotion();
   return (
-    <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-bl from-[#d62027] via-[#b81920] to-[#7c0f13] p-7 text-white shadow-2xl sm:p-10">
+    <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-bl from-[#d62027] via-[#b81920] to-[#7c0f13] p-7 text-white shadow-[0_34px_70px_-24px_rgba(124,15,19,0.6)] ring-1 ring-white/10 sm:p-10">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <motion.div className="absolute -right-24 -top-24 size-72 rounded-full bg-white/10 blur-3xl"
           animate={reduce ? undefined : { scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }} transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }} />
@@ -45,8 +50,12 @@ export function HomeHero({ stats }: { stats: HeroStats }) {
       </div>
 
       <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }} className="relative">
-        <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-xs font-semibold text-white/90">
-          <Sparkles className="size-3.5" /> SAP Enterprise Command Center
+        <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-xs font-semibold text-white/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
+          <span className="relative flex size-2">
+            <span className={`absolute inline-flex h-full w-full rounded-full bg-emerald-300 ${reduce ? "" : "animate-ping"} opacity-75`} />
+            <span className="relative inline-flex size-2 rounded-full bg-emerald-400" />
+          </span>
+          SAP Enterprise Command Center
         </span>
         <h1 className="mt-4 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">Project NEO Cockpit</h1>
         <p className="mt-3 max-w-2xl text-balance text-sm leading-relaxed text-white/85 sm:text-lg">
