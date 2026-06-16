@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, Table2, Terminal, Boxes, CornerDownLeft, ArrowLeft, BookText, GitBranch, BookMarked, Workflow, MapPin, Cable, FileCode, Network, Clock, Sparkles, Compass, Home, Wrench, FlaskConical, BrainCircuit, Library, AlertTriangle, Route } from "lucide-react";
+import { Search, Table2, Terminal, Boxes, CornerDownLeft, ArrowLeft, BookText, GitBranch, BookMarked, Workflow, MapPin, Cable, FileCode, Network, Clock, Sparkles, Compass, Home, Wrench, FlaskConical, BrainCircuit, Library, AlertTriangle, Route, Server } from "lucide-react";
 import { searchAll, objectIntel } from "@/lib/data";
 import { searchObjects } from "@/lib/object-intel";
 import { lookupTCode } from "@/lib/tcode-index";
@@ -23,7 +23,8 @@ const PAGES: Page[] = [
   { he: "ראשי", en: "Home", sub: "קוקפיט מיגרציה", href: "/", kw: "home cockpit ראשי דף בית", Icon: Home },
   { he: "אחזקה — PM", en: "Maintenance", sub: "Plant Maintenance · 58 טבלאות", href: "/pm/", kw: "pm maintenance אחזקה ציוד equipment", Icon: Wrench },
   { he: "ייצור — PP-PI", en: "Production", sub: "Process Industries · 68 טבלאות", href: "/pp-pi/", kw: "pp pi production ייצור אצווה batch recipe", Icon: FlaskConical },
-  { he: "תשתית SAP", en: "SAP Infrastructure", sub: "ארכיטקטורה · ERD", href: "/sap-infrastructure/", kw: "infra architecture ארכיטקטורה erd", Icon: Network },
+  { he: "מודל נתונים · ERD", en: "Data Model / ERD", sub: "ארכיטקטורת טבלאות", href: "/sap-infrastructure/", kw: "infra architecture ארכיטקטורה erd data model", Icon: Network },
+  { he: "תשתית ופלטפורמה", en: "SAP Platform & Infrastructure", sub: "Fiori · OData · HANA · הרשאות · תעבורות", href: "/platform/", kw: "platform infrastructure תשתית fiori odata gateway cds rfc bapi idoc cpi hana auth roles workflow transport monitoring", Icon: Server },
   { he: "מרכז ידע", en: "Knowledge Center", sub: "38 מרכזים · חיפוש-תחילה", href: "/knowledge/", kw: "knowledge ידע מרכז centers", Icon: BrainCircuit },
   { he: "ספריית SAP", en: "Library", sub: "ספרים · אקדמיה", href: "/library/", kw: "library ספרייה ספרים books academy", Icon: Library },
   { he: "פתרון תקלות", en: "Troubleshooting", sub: "151 תקלות", href: "/troubleshooting/", kw: "trouble תקלות error שגיאה fix", Icon: AlertTriangle },

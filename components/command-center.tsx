@@ -69,6 +69,7 @@ export function CommandCenter() {
             { href: "/troubleshooting/", he: "פתרון תקלות", sub: "151 תקלות" },
             { href: "/oic/", he: "תבונת אובייקטים", sub: "גרף תלויות" },
             { href: "/lineage/", he: "שושלת נתונים", sub: "מקור→אובייקט→צרכן" },
+            { href: "/platform/", he: "תשתית ופלטפורמה", sub: "Fiori·OData·HANA·הרשאות" },
             { href: "/evolution/", he: "אבולוציה ECC→S/4", sub: "מיגרציה" },
             { href: "/architect/", he: "לוח ארכיטקט", sub: "כיסוי + פערים" },
           ].map((q) => (

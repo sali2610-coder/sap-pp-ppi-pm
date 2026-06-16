@@ -51,6 +51,7 @@ function Header() {
           <NavLink href="/" exact group="d">{t("nav.home")}</NavLink>
           <NavLink href="/pm/" group="d">{t("nav.pm")}</NavLink>
           <NavLink href="/pp-pi/" group="d">{t("nav.ppi")}</NavLink>
+          <NavLink href="/platform/" group="d">{t("nav.platform")}</NavLink>
           <NavLink href="/sap-infrastructure/" group="d">{t("nav.infra")}</NavLink>
           <NavLink href="/library/" group="d">{t("nav.library")}</NavLink>
           <NavLink href="/knowledge/" group="d"><BrainCircuit className="size-3.5" />{t("nav.knowledge")}</NavLink>
@@ -64,6 +65,7 @@ function Header() {
         <NavLink href="/" exact group="m">{t("nav.home")}</NavLink>
         <NavLink href="/pm/" group="m">{t("nav.pm")}</NavLink>
         <NavLink href="/pp-pi/" group="m">{t("nav.ppi")}</NavLink>
+        <NavLink href="/platform/" group="m">{t("nav.platform")}</NavLink>
         <NavLink href="/sap-infrastructure/" group="m">{t("nav.infra")}</NavLink>
         <NavLink href="/library/" group="m">{t("nav.library")}</NavLink>
         <NavLink href="/knowledge/" group="m"><BrainCircuit className="size-3.5" />{t("nav.knowledge")}</NavLink>
