@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, Download, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand } from "lucide-react";
+import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, Download, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand, ChevronDown, Database, GitBranch, Workflow } from "lucide-react";
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
+import { Highlight } from "@/components/highlight";
 
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];
@@ -91,7 +92,7 @@ export default function Page() {
           setTab={(t) => setNav({ level: "module", module: nav.module, tab: t })} openErd={(focus) => setNav({ level: "module", module: nav.module, tab: "erd", focus })}
           onTable={setInspect} onField={(table, f) => { setInspect(null); setField({ table, field: f }); }} onModule={openModule} onHome={() => setNav({ level: "universe" })} />}
       </div>
-      {nav.tab !== "erd" && inspector}
+      {inspector}
       <div className="flex flex-wrap items-center gap-2 border-t border-slate-200 bg-white p-2.5">
         <span className="flex items-center gap-1 px-1 text-xs font-bold text-slate-500"><Download className="size-3.5" /> הורדות:</span>
         {[["SAP-Enterprise-Architecture-A0.pdf", "PDF"], ["SAP-Enterprise-Architecture-A0.png", "PNG"], ["SAP-Enterprise-Architecture-A0.svg", "SVG"], ["dataset.json", "JSON"]].map(([f, l]) => <a key={f} href={`${BASE}/${f}`} download className="rounded-md border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600 hover:border-[#d62027] hover:text-[#d62027]">{l}</a>)}
@@ -159,6 +160,8 @@ function Universe({ data, color, onModule }: { data: Data; color: (m?: string | 
 /* ===================== WORKSPACE ===================== */
 function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onTable, onField, onModule, onHome }: { data: Data; color: (m?: string | null) => string; code: string; tab: string; focus?: string[]; byName: Record<string, Tbl>; setTab: (t: string) => void; openErd: (f?: string[]) => void; onTable: (t: string) => void; onField: (table: string, field: string) => void; onModule: (m: string) => void; onHome: () => void }) {
   const c = color(code); const bp = data.blueprints.find((b) => b.code === code); const purpose = bp?.purpose || MOD_PURPOSE[code] || "";
+  const [erdMode, setErdMode] = useState<"cards" | "graph">("cards");
+  useEffect(() => { setErdMode("cards"); }, [code]);
   return (
     <div className="space-y-4" style={{ animation: "fadeUp .35s ease both" }}>
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm" style={{ borderInlineStartColor: c, borderInlineStartWidth: 5 }}>
@@ -169,7 +172,20 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
       </div>
       {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} onTable={onTable} />}
       {tab === "process" && <ProcessFlow color={color} code={code} />}
-      {tab === "erd" && <Erd data={data} color={color} code={code} byName={byName} focus={focus} onField={onField} onHome={onHome} onModule={onModule} />}
+      {tab === "erd" && (
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <div className="inline-flex rounded-xl border border-slate-200 bg-slate-50 p-0.5">
+              <button onClick={() => setErdMode("cards")} className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${erdMode === "cards" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>סייר טבלאות</button>
+              <button onClick={() => setErdMode("graph")} className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${erdMode === "graph" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>גרף ERD (אופציונלי)</button>
+            </div>
+            <span className="text-[11px] font-medium text-slate-400">{erdMode === "cards" ? "כרטיס → סיכום → סביבת עבודה מלאה" : "תצוגת גרף קשרים מלאה"}</span>
+          </div>
+          {erdMode === "cards"
+            ? <DataModelExplorer data={data} color={color} code={code} byName={byName} onTable={onTable} />
+            : <Erd data={data} color={color} code={code} byName={byName} focus={focus} onField={onField} onHome={onHome} onModule={onModule} />}
+        </div>
+      )}
       {tab === "technical" && <TechList data={data} color={color} code={code} onTable={onTable} />}
     </div>
   );
@@ -252,6 +268,84 @@ function usePZ() {
 const MODES = [["focus", "מיקוד", "Focus"], ["dep", "תלויות", "Dependency"], ["lineage", "שושלת", "Lineage"], ["impact", "השפעה", "Impact"], ["flow", "זרימה עסקית", "Business Flow"]] as const;
 type Mode = typeof MODES[number][0];
 const orderFields = (tf: Field[]) => [...tf.filter((f) => f[3] === "PK"), ...tf.filter((f) => f[3] === "FK"), ...tf.filter((f) => f[3] !== "PK" && f[3] !== "FK")];
+
+/* ===================== DATA MODEL — Table Explorer Premium (L1→L2→L3) ===================== */
+function DataModelExplorer({ data, color, code, byName, onTable }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; onTable: (t: string) => void }) {
+  const c = color(code);
+  const [q, setQ] = useState("");
+  const [open, setOpen] = useState<string | null>(null);
+  const all = useMemo(() => erdMembers(data, code).sort((a, b) => b.degree - a.degree), [data, code]);
+  const s = q.trim().toLowerCase();
+  const rows = useMemo(() => (s ? all.filter((t) => t.name.toLowerCase().includes(s) || (t.he || "").includes(q) || (t.en || "").toLowerCase().includes(s) || (t.tcodes || "").toLowerCase().includes(s)) : all), [all, s, q]);
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 shadow-sm focus-within:border-[#d62027]/40">
+        <Search className="size-4 shrink-0 text-[#d62027]" />
+        <input value={q} onChange={(e) => { setQ(e.target.value); setOpen(null); }} placeholder="חפש טבלה במודל הנתונים…" className="h-6 w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
+        {q && <span className="shrink-0 rounded-lg bg-[#d62027]/10 px-2 py-0.5 text-xs font-extrabold text-[#d62027]">{rows.length} טבלאות</span>}
+      </div>
+      <div className="grid gap-3 lg:grid-cols-2 xl:grid-cols-3">
+        {rows.map((t) => {
+          const isOpen = open === t.name;
+          const pk = t.fields.filter((f) => f[3] === "PK"), fk = t.fields.filter((f) => f[3] === "FK");
+          const rels = t.rel || [];
+          return (
+            <div key={t.name} className={`group relative overflow-hidden rounded-2xl border bg-white shadow-sm transition-all ${isOpen ? "border-transparent shadow-xl ring-1 ring-[#d62027]/30 xl:col-span-2" : "border-slate-200 hover:-translate-y-1 hover:shadow-xl"}`}>
+              {/* L1 — red table card */}
+              <button onClick={() => setOpen(isOpen ? null : t.name)} className="block w-full text-start">
+                <div className="relative px-4 py-3 text-white" style={{ background: "linear-gradient(135deg,#d62027,#8f1318)" }}>
+                  <span className="absolute inset-x-0 top-0 h-1" style={{ background: c }} />
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2"><Database className="size-4 opacity-80" /><span className="font-mono text-lg font-extrabold" dir="ltr"><Highlight text={t.name} query={q} /></span><span className="rounded bg-white/20 px-1.5 py-0.5 text-[10px] font-bold">{t.mod}</span></div>
+                    <ChevronDown className={`size-4 shrink-0 text-white/80 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                  </div>
+                  <p className="mt-0.5 truncate text-xs text-white/85"><Highlight text={t.he || t.en} query={q} /></p>
+                </div>
+                {!isOpen && (
+                  <div className="flex flex-wrap items-center gap-1.5 px-4 py-2.5">
+                    <Tag icon={<KeyRound className="size-3" />} t={`${pk.length} PK · ${fk.length} FK`} tone="#0891b2" />
+                    <Tag icon={<GitBranch className="size-3" />} t={`${rels.length} קשרים`} tone={c} />
+                    <Tag icon={<Database className="size-3" />} t={`${t.fields.length} שדות`} tone="#64748b" />
+                  </div>
+                )}
+              </button>
+
+              {/* L2 — inline summary */}
+              {isOpen && (
+                <div className="space-y-3 p-4" style={{ animation: "fadeUp .3s ease both" }}>
+                  <p className="text-sm leading-relaxed text-slate-600"><Highlight text={t.he || t.en} query={q} /></p>
+                  <div className="grid grid-cols-2 gap-2">
+                    <Field2 label="PK" tone="#d97706">{pk.length ? pk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
+                    <Field2 label="FK" tone="#0891b2">{fk.length ? fk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
+                  </div>
+                  <Field2 label="שדות עיקריים" tone="#475569">{t.fields.slice(0, 8).map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>)}</Field2>
+                  <Field2 label="קשרים" tone={c}>{rels.length ? rels.slice(0, 8).map((r) => (
+                    <button key={r.role + r.table} onClick={() => byName[r.table] && onTable(r.table)} className="tech rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] font-bold text-slate-600 transition hover:text-[#d62027]" dir="ltr">{r.role === "parent" ? "↓" : "↑"} <Highlight text={r.table} query={q} /> <span className="text-slate-400">{r.card}</span></button>
+                  )) : <Dash />}</Field2>
+                  {t.s4 && <p className="rounded-lg bg-amber-50 px-2.5 py-1.5 text-[12px] font-medium text-amber-900"><span className="font-bold">ECC → S/4: </span><Highlight text={t.s4} query={q} />{t.s4alt ? ` · חלופה: ${t.s4alt}` : ""}</p>}
+                  <button onClick={() => onTable(t.name)} className="lift inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold text-white shadow-lg" style={{ background: c, boxShadow: `0 8px 18px ${c}55` }}>
+                    <Workflow className="size-3.5" />סביבת עבודה מלאה<ArrowLeft className="size-3.5" />
+                  </button>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+function Tag({ icon, t, tone }: { icon: React.ReactNode; t: string; tone: string }) {
+  return <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold tabular-nums" style={{ background: tone + "14", color: tone }}>{icon}{t}</span>;
+}
+function Field2({ label, tone, children }: { label: string; tone: string; children: React.ReactNode }) {
+  return <div><p className="mb-1 text-[10px] font-bold uppercase tracking-wide" style={{ color: tone }}>{label}</p><div className="flex flex-wrap gap-1.5">{children}</div></div>;
+}
+function Chip2({ children, q }: { children: string; q: string }) {
+  return <span className="tech rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600" dir="ltr"><Highlight text={children} query={q} /></span>;
+}
+function Dash() { return <span className="text-[11px] italic text-slate-300">—</span>; }
 
 function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; focus?: string[]; onField: (table: string, field: string) => void; onHome: () => void; onModule: (m: string) => void }) {
   const [selMods, setSelMods] = useState<Set<string>>(() => new Set([code]));
