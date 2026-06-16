@@ -15,6 +15,7 @@ export interface Incident {
   tables: string[];
   debugEntry: string[];
   exits: string[];
+  funcs?: string[];       // related FM / BAPI
   fix: string[];
   prevention?: string[];  // guards: monitoring / validation / scheduled job / governance
   notes?: string[];       // SAP Note search keywords (NOT numbers), optionally component
@@ -52,6 +53,8 @@ const INCIDENTS_BASE: Incident[] = [
 ];
 
 import { INCIDENTS_EXT } from "./troubleshooting-ext";
-export const INCIDENTS: Incident[] = [...INCIDENTS_BASE, ...INCIDENTS_EXT];
+import { INCIDENTS_EXT2 } from "./troubleshooting-ext2";
+import { INCIDENTS_EXT3 } from "./troubleshooting-ext3";
+export const INCIDENTS: Incident[] = [...INCIDENTS_BASE, ...INCIDENTS_EXT, ...INCIDENTS_EXT2, ...INCIDENTS_EXT3];
 
 export const incidentBySlug = (s: string) => INCIDENTS.find((i) => i.slug === s);
