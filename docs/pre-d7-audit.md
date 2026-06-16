@@ -79,9 +79,28 @@ D6 = yellow `Highlight` / deep-link / search).
 
 ---
 
-## Gate
-PM / PP-PI counts are **verified correct**. Two action items surfaced:
-1. **Count fix:** home hero "12 מודולים" → 2 (or relabel).
-2. **Visual gap:** bring **Migration Cockpit** tab to D4/D5 parity (it already has D6).
+## PINPOINTED: the "PP = 1 / module summary card" screen
+Confirmed root cause = the **SAP Infrastructure module cards** (`/sap-infrastructure/`,
+`Universe` grid). The card counted **owned** tables only —
+`data.tables.filter(t => t.mod === code)` — and `dataset.json` tags only **3** tables as
+`mod:"PP"` (PP-PI = 51, PM = 58). But the module **drill-down** lists `ERD_MODULES.PP` =
+**20** tables (incl. shared core: MARA, AFKO, AUFK…). So the summary card said ~3 while the
+content showed 20 → the inconsistency the reviewer spotted.
 
-Recommend resolving both **before** D7, then proceeding to the Executive Wow Layer.
+**Counting rule clarified:** a table is *owned* by exactly one module in `dataset.json`
+(primary owner) but *participates* in many. The card was showing ownership; the content
+shows participation.
+
+## Fixes applied (this wave)
+| # | Fix | File | Before → After |
+|---|---|---|---|
+| 1 | Module card count now matches drill-down content (participation via `erdMembers`) | `app/sap-infrastructure/page.tsx` | PP card **3 → 20 טבלאות** |
+| 2 | Home hero modules stat corrected | `app/page.tsx` | **12 → 2 מודולים** (PM, PP-PI) |
+| 3 | Migration Cockpit tab brought to D4/D5 parity | `components/migration-cockpit.tsx` + `app/globals.css` | flat/motionless → premium surface + executive header bar + staggered `row-in` entrance + hover lift; D6 highlight retained |
+
+Build clean · **0 console errors · 0 external requests** · counts verified in-browser
+(PP card = 20, home = 2). No data hand-edited — `dataset.json`/`sapData.ts` untouched;
+only the *display* logic was corrected.
+
+## Gate
+Counts verified, both fixes shipped. Awaiting approval to start **D7 — Executive Wow Layer**.

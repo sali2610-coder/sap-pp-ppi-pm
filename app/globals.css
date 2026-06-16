@@ -402,6 +402,11 @@ header :focus-visible {
 }
 .flash-row { animation: flashRow 1.8s var(--ease-soft); }
 
+/* D5-parity · staggered row entrance (CSS, GPU, reduced-motion safe) */
+@keyframes rowIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.row-in { animation: rowIn 0.4s var(--ease-out-expo) both; }
+@media (prefers-reduced-motion: reduce) { .row-in { animation: none; } }
+
 /* D6 · Search "jump to match" — bright yellow pulse on the located element */
 @keyframes findFlash {
   0% { background-color: rgba(250, 204, 21, 0.85); box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.95), 0 0 0 8px rgba(250, 204, 21, 0.35); }

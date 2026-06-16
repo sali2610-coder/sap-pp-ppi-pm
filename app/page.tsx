@@ -12,7 +12,7 @@ export default function HomePage() {
 
   return (
     <div className="space-y-9">
-      <HomeHero stats={{ modules: 12, tables, relations, tcodes, bapis, books: 2 }} />
+      <HomeHero stats={{ modules: 2, tables, relations, tcodes, bapis, books: 2 }} />
       <CommandCenter />
     </div>
   );

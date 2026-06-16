@@ -103,7 +103,10 @@ export default function Page() {
 
 /* ===================== UNIVERSE (light, branded, animated grid) ===================== */
 function Universe({ data, color, onModule }: { data: Data; color: (m?: string | null) => string; onModule: (m: string) => void }) {
-  const tc = (m: string) => data.tables.filter((x) => x.mod === m).length, pc = (m: string) => data.processes.filter((p) => p.mods.includes(m)).length;
+  // Card table count MUST match what the module drill-down actually shows
+  // (erdMembers = ERD_MODULES membership incl. shared core tables), otherwise the
+  // summary card (owned-only) disagrees with the content (e.g. PP: 3 owned vs 20 shown).
+  const tc = (m: string) => erdMembers(data, m).length, pc = (m: string) => data.processes.filter((p) => p.mods.includes(m)).length;
   return (
     <div className="space-y-5">
       {/* SAP CORE hero */}
