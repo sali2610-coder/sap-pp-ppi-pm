@@ -8,7 +8,9 @@ import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SiteLogo } from "@/components/site-logo";
 import { OmniSearch } from "@/components/omni-search";
 import { CommandPalette } from "@/components/command-palette";
+import { FindHighlighter } from "@/components/find-highlighter";
 import { UXSettings } from "@/components/ux-settings";
+import { Search } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { LangSwitch } from "@/components/lang-switch";
 import { playClick } from "@/lib/sound";
@@ -87,6 +89,21 @@ function PageTransition({ children }: { children: React.ReactNode }) {
   );
 }
 
+// Omnipresent search trigger — opens ⌘K palette from any page (bottom-start,
+// opposite the UX-settings dock). Reinforces search as the portal entry point.
+function SearchFab() {
+  return (
+    <button
+      onClick={() => window.dispatchEvent(new Event("neo:open-palette"))}
+      aria-label="חיפוש (⌘K)"
+      className="no-print group fixed bottom-5 start-5 z-40 flex items-center gap-2 rounded-full bg-brand px-4 py-3 text-sm font-bold text-brand-foreground shadow-xl shadow-brand/35 transition-transform hover:scale-105 active:scale-95">
+      <Search className="size-5" />
+      <span className="hidden sm:inline">חיפוש</span>
+      <kbd className="hidden rounded border border-white/30 bg-white/15 px-1.5 py-0.5 text-[11px] font-semibold sm:inline">⌘K</kbd>
+    </button>
+  );
+}
+
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <I18nProvider>
@@ -94,7 +111,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <Header />
       <PageTransition>{children}</PageTransition>
       <Footer />
+      <SearchFab />
       <CommandPalette />
+      <FindHighlighter />
       <UXSettings />
     </I18nProvider>
   );

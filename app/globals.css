@@ -402,6 +402,20 @@ header :focus-visible {
 }
 .flash-row { animation: flashRow 1.8s var(--ease-soft); }
 
+/* D6 · Search "jump to match" — bright yellow pulse on the located element */
+@keyframes findFlash {
+  0% { background-color: rgba(250, 204, 21, 0.85); box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.95), 0 0 0 8px rgba(250, 204, 21, 0.35); }
+  100% { background-color: rgba(250, 204, 21, 0); box-shadow: 0 0 0 3px rgba(234, 179, 8, 0), 0 0 0 8px rgba(250, 204, 21, 0); }
+}
+.find-flash {
+  border-radius: 0.5rem;
+  animation: findFlash 2.4s var(--ease-soft) forwards;
+  scroll-margin-top: 6rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .find-flash { animation: none; background-color: rgba(250, 204, 21, 0.55); box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.9); }
+}
+
 /* ===== D5 · Loading skeleton (shimmer) ===== */
 .skeleton {
   position: relative;

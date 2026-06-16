@@ -24,3 +24,28 @@ grouped object results) preserved.
 Build clean · **0 console errors · 0 page errors · 0 external requests (offline intact)** · responsive 1440 + 390 ✓ (launcher collapses to single column) · recent-search persistence verified via navigate→reopen. Screenshots: `d6-launcher`, `d6-results`, `d6-pages`, `d6-empty`, `d6-recent`, `d6-mobile`. CBC brand + footer + functionality unchanged.
 
 Next: **D7 Executive Wow Layer** — pending approval.
+
+---
+
+## D6.2 — Enterprise search expansion (per follow-up spec)
+
+| Requirement | Implementation | Status |
+|---|---|---|
+| Search reachable everywhere | Header `OmniSearch` + global ⌘K + new **floating search FAB** (`SearchFab` in `app-shell.tsx`, every page, opposite the UX dock) | ✓ |
+| Instant results while typing | `useMemo` over each keystroke (already) | ✓ |
+| Synonyms / fuzzy / SAP awareness | `lib/search-intel.ts` — `planQuery()` maps natural language → canonical SAP tokens (Process Order→COR, Batch→MCH1/MCHA, Material Master→MARA, IDoc→MATMAS, MRP, BOM…), strips trailing numbers ("IDOC 51"), `within()` Levenshtein≤1 helper | ✓ |
+| Bright-yellow + bold highlight | `Highlight` `<mark bg-yellow-400 font-bold text-black>` across labels **and** descriptions; alias term highlighted too (`plan.highlight`) | ✓ |
+| Match counts | Sticky **"נמצאו N תוצאות"** bar (spring-pops on change) + per-category `· N` (counts result rows + intel/T-Code cards) | ✓ |
+| Jump to exact location + auto-scroll | Results navigate with `?find=<term>`; `FindHighlighter` (in `app-shell.tsx`) locates the tightest element containing the term, `scrollIntoView({block:"center"})`, flashes `.find-flash` (bright-yellow pulse). Event + URL-param paths, render-poll retry | ✓ |
+| Synonym hint | Yellow "→" chip ("פק\"ע ייצור → COR") shows when a query is expanded | ✓ |
+
+### Spec query smoke test (count of matches returned)
+`MARA` 3 · `MRP` 3 · `Process Order` 13 · `COR6N` 1 (T-Code card) · `IDOC 51` 1 · `Batch Management` 3 · `PP-PI` 13 — all return ≥1.
+
+### Honest notes
+- **No fabricated data**: synonyms only re-point queries at tokens that already exist in the real dataset. `COR6N` has no owning table, so it surfaces as the derived **T-Code intelligence card** (count = 1), not a table row.
+- **Jump flash visibility**: flashes the tightest element containing the term. On heavily-styled headers (e.g. a red H1) the yellow pulse is subtler than on body rows; the in-result yellow highlight remains the primary "impossible to miss" surface. Element-level only — no text-node surgery → zero React/hydration risk.
+- **Fuzzy** is intentionally light (Levenshtein≤1 helper) — not a full fuzzy engine. Substring + synonym expansion carries the listed queries.
+
+### Verification (D6.2)
+Build clean · **0 console errors · 0 page errors · 0 external requests (offline intact)** · deep-link `.find-flash` confirmed present on destination · FAB on every page, no overlap with UX dock · RTL + bilingual. CBC brand + footer + functionality unchanged.

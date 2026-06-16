@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, Table2, Terminal, Boxes, CornerDownLeft, ArrowLeft, BookText, GitBranch, BookMarked, Workflow, MapPin, Cable, FileCode, Network, Clock, Sparkles, X, Compass, Home, Wrench, FlaskConical, BrainCircuit, Library, AlertTriangle, Route } from "lucide-react";
+import { Search, Table2, Terminal, Boxes, CornerDownLeft, ArrowLeft, BookText, GitBranch, BookMarked, Workflow, MapPin, Cable, FileCode, Network, Clock, Sparkles, Compass, Home, Wrench, FlaskConical, BrainCircuit, Library, AlertTriangle, Route } from "lucide-react";
 import { searchAll, objectIntel } from "@/lib/data";
 import { searchObjects } from "@/lib/object-intel";
 import { lookupTCode } from "@/lib/tcode-index";
@@ -13,6 +13,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Highlight } from "@/components/highlight";
 import { useI18n } from "@/lib/i18n";
 import { playPing, playTick } from "@/lib/sound";
+import { planQuery } from "@/lib/search-intel";
 
 type FlatItem = { kind: "page" | "table" | "tcode" | "bapi" | "idoc" | "fm" | "cds" | "domain" | "process" | "library"; label: string; sub: string; module: Module; href: string };
 
@@ -91,11 +92,15 @@ export function CommandPalette() {
     }
   }, [open]);
 
-  const results = useMemo(() => searchAll(q), [q]);
-  const intel = useMemo(() => (q.trim().length >= 2 ? objectIntel(q) : null), [q]);
-  const tcode = useMemo(() => lookupTCode(q), [q]);
+  const plan = useMemo(() => planQuery(q), [q]);
+  const sq = plan.search;          // effective search term (synonym-expanded)
+  const hl = plan.highlight;       // terms to highlight (typed + alias)
 
-  const obj = useMemo(() => searchObjects(q), [q]);
+  const results = useMemo(() => searchAll(sq), [sq]);
+  const intel = useMemo(() => (sq.trim().length >= 2 ? objectIntel(sq) : null), [sq]);
+  const tcode = useMemo(() => lookupTCode(sq), [sq]);
+
+  const obj = useMemo(() => searchObjects(sq), [sq]);
 
   const pageHits = useMemo<Page[]>(() => {
     const s = q.trim().toLowerCase();
@@ -127,11 +132,14 @@ export function CommandPalette() {
 
   useEffect(() => setActive(0), [q]);
 
-  function go(href: string) {
+  function go(href: string, term?: string) {
     playPing();
     pushRecent(q);
     setOpen(false);
-    router.push(href);
+    const find = (term || sq || q).trim();
+    const dest = find.length >= 2 && !href.includes("?") ? `${href}${href.includes("?") ? "&" : "?"}find=${encodeURIComponent(find)}` : href;
+    router.push(dest);
+    if (find.length >= 2) setTimeout(() => window.dispatchEvent(new CustomEvent("neo:find", { detail: find })), 60);
   }
 
   function onInputKey(e: React.KeyboardEvent) {
@@ -145,7 +153,8 @@ export function CommandPalette() {
       playTick();
     } else if (e.key === "Enter" && flat[active]) {
       e.preventDefault();
-      go(flat[active].href);
+      const it = flat[active];
+      go(it.href, it.kind === "page" ? undefined : it.label);
     }
   }
 
@@ -188,7 +197,7 @@ export function CommandPalette() {
                       <div className="text-xs text-slate-600">{pick(intel.table.descriptionHe, intel.table.descriptionEn)}</div>
                     </div>
                   </div>
-                  <button onClick={() => go(`/object/${encodeURIComponent(intel.table.tableName)}`)} className="flex shrink-0 items-center gap-1.5 rounded-xl bg-brand px-3 py-2 text-xs font-bold text-brand-foreground shadow-lg shadow-brand/30 transition hover:bg-brand-dark active:scale-95"><Workflow className="size-3.5" /> סביבת עבודה</button>
+                  <button onClick={() => go(`/object/${encodeURIComponent(intel.table.tableName)}`, intel.table.tableName)} className="flex shrink-0 items-center gap-1.5 rounded-xl bg-brand px-3 py-2 text-xs font-bold text-brand-foreground shadow-lg shadow-brand/30 transition hover:bg-brand-dark active:scale-95"><Workflow className="size-3.5" /> סביבת עבודה</button>
                 </div>
                 {/* counts strip */}
                 <div className="grid grid-cols-4 gap-1.5">
@@ -256,7 +265,7 @@ export function CommandPalette() {
                 </div>
                 {tcode.tables.length > 0 && (
                   <button
-                    onClick={() => go(tcode.href)}
+                    onClick={() => go(tcode.href, tcode.code)}
                     className="flex shrink-0 items-center gap-1.5 rounded-xl bg-brand px-3 py-2 text-sm font-semibold text-brand-foreground shadow-lg shadow-brand/30 transition-all hover:bg-brand-dark active:scale-95"
                   >
                     {t("tcode.viewTables")}
@@ -314,7 +323,7 @@ export function CommandPalette() {
                   </div>
                 </div>
               </motion.div>
-            ) : flat.length === 0 ? (
+            ) : flat.length === 0 && !intel && !tcode ? (
               <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-3 px-4 py-10 text-center">
                 <span className="grid size-12 place-items-center rounded-2xl bg-muted/60 text-slate-300"><Search className="size-6" /></span>
                 <p className="text-sm text-muted-foreground">{t("search.empty")} — <span className="font-bold text-slate-600" dir="auto">&quot;{q}&quot;</span></p>
@@ -326,6 +335,13 @@ export function CommandPalette() {
               </motion.div>
             ) : (
               <motion.div key="list" initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}>
+                <div className="sticky top-0 z-10 mb-1 flex flex-wrap items-center gap-2 border-b border-border/50 bg-white/80 px-3 py-2 backdrop-blur-sm">
+                  <motion.span key={flat.length} initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 500, damping: 24 }}
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-brand/10 px-2.5 py-1 text-xs font-extrabold text-brand">
+                    <Search className="size-3.5" />נמצאו {flat.length + (intel ? 1 : 0) + (tcode && !intel ? 1 : 0)} תוצאות
+                  </motion.span>
+                  {plan.note && <span className="inline-flex items-center gap-1 rounded-lg bg-yellow-100 px-2 py-1 text-[11px] font-bold text-yellow-800"><Sparkles className="size-3" />{plan.note}</span>}
+                </div>
                 {GROUPS.map(({ kind, title, icon: Icon }) => {
                   const items = flat.filter((f) => f.kind === kind);
                   if (!items.length) return null;
@@ -344,15 +360,15 @@ export function CommandPalette() {
                           <button
                             key={`${item.kind}-${item.label}-${idx}`}
                             onMouseEnter={() => setActive(idx)}
-                            onClick={() => go(item.href)}
+                            onClick={() => go(item.href, item.kind === "page" ? undefined : item.label)}
                             className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start transition-colors ${isActive ? "bg-brand/10" : "hover:bg-muted/70"}`}
                           >
                             {item.kind === "page" && <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-brand/10 text-brand"><Compass className="size-3.5" /></span>}
                             <span className={item.kind === "page" ? "shrink-0 text-sm font-bold text-foreground" : `tech shrink-0 text-sm font-bold ${item.kind === "table" ? "text-brand" : "text-foreground"}`}>
-                              <Highlight text={item.label} query={q} />
+                              <Highlight text={item.label} query={hl} />
                             </span>
                             <span className="min-w-0 flex-1 truncate text-sm text-muted-foreground">
-                              <Highlight text={item.sub} query={q} />
+                              <Highlight text={item.sub} query={hl} />
                             </span>
                             {item.kind === "page" ? <ArrowLeft className="size-3.5 shrink-0 text-slate-300" /> : <ModuleTag m={item.module} />}
                             {isActive && <CornerDownLeft className="size-3.5 shrink-0 text-brand" />}
