@@ -3,6 +3,7 @@ import { Database, Terminal, Boxes, Cable, FileCode2, ShieldAlert, BookText, Bug
 import type { ObjectGraph, LinkRef } from "@/lib/cross-links";
 import type { OICObject } from "@/lib/cross-links";
 import { EccS4Block } from "@/components/ecc-s4-block";
+import { DepGraph } from "@/components/dep-graph";
 
 function Facet({ title, icon, tone, refs }: { title: string; icon: React.ReactNode; tone: string; refs: LinkRef[] }) {
   return (
@@ -34,10 +35,17 @@ export function ObjectIntelView({ obj, graph }: { obj: OICObject; graph: ObjectG
         <div className="flex flex-wrap items-center gap-2">
           <span className="rounded-full px-2.5 py-0.5 text-[11px] font-bold text-white" style={{ background: c }}>{obj.module}</span>
           <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">{obj.he} · <span className="tech" dir="ltr">{obj.title}</span></h1>
-          <Link href={`/object/${encodeURIComponent(graph.name)}/`} className="ms-auto tech rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-bold text-brand hover:bg-slate-200" dir="ltr">{graph.name} ↗</Link>
+          {graph.exists
+            ? <Link href={`/object/${encodeURIComponent(graph.name)}/`} className="ms-auto tech rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-bold text-brand hover:bg-slate-200" dir="ltr">{graph.name} ↗</Link>
+            : <span className="ms-auto tech rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-400" dir="ltr">{graph.name}</span>}
         </div>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-500">{obj.description}</p>
       </header>
+
+      <div className="mb-4">
+        <h2 className="mb-2 flex items-center gap-2 text-sm font-extrabold tracking-tight text-slate-900"><GitBranch className="size-4 text-indigo-600" />גרף תלויות חזותי <span className="text-[11px] font-bold text-slate-400">(לחיצה על צומת = ניווט)</span></h2>
+        <DepGraph graph={graph} />
+      </div>
 
       <div className="grid gap-3 lg:grid-cols-2">
         <Facet title="טבלאות קשורות" icon={<Database className="size-4 text-cyan-600" />} tone="#0891b2" refs={graph.relatedTables} />

@@ -7,7 +7,7 @@ export const dynamicParams = false;
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const obj = oicBySlug(decodeURIComponent(slug));
-  const graph = obj ? objectGraph(obj.table) : null;
+  const graph = obj ? objectGraph(obj.table, { he: obj.he, module: obj.module }) : null;
   if (!obj || !graph) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">אובייקט לא נמצא.</div>;
   return <ObjectIntelView obj={obj} graph={graph} />;
 }
