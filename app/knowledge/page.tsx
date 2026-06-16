@@ -1,5 +1,5 @@
-import { CenterHeader, CardGrid, IndexCard } from "@/components/knowledge";
-import { KnowledgeFinder } from "@/components/knowledge-finder";
+import { CenterHeader } from "@/components/knowledge";
+import { KnowledgeExplorer } from "@/components/knowledge-explorer";
 import { CONCEPTS } from "@/data/concepts";
 import { ENHANCEMENTS } from "@/data/enhancements";
 import { AUTH_ITEMS } from "@/data/authorizations";
@@ -104,29 +104,7 @@ export default function Page() {
     <div>
       <CenterHeader eyebrow="NEO · שכבת ידע SAP" title="מרכז הידע" sub="שכבת הידע המקצועית של NEO — מאורגנת לפי מה שאתה צריך לעשות, לא לפי סוג טכני. התחל בחיפוש, או בחר מסע." accent="#d62027" />
 
-      {/* Search-first entry */}
-      <KnowledgeFinder groups={GROUPS.map((g) => ({ slug: g.slug, he: g.he, accent: g.accent }))} />
-
-      {/* Task journeys */}
-      <div className="mt-8 space-y-10">
-        {GROUPS.map((g) => {
-          const cards = centers.filter((c) => c.group === g.slug);
-          return (
-            <section key={g.slug} id={`j-${g.slug}`} className="scroll-mt-24" dir="rtl">
-              <div className="mb-3.5 flex items-baseline gap-3">
-                <span className="inline-block size-2.5 shrink-0 rounded-full" style={{ background: g.accent }} />
-                <h2 className="text-xl font-extrabold tracking-tight text-slate-900">{g.he}</h2>
-                <span className="tech text-xs font-bold text-slate-400" dir="ltr">{g.en}</span>
-                <span className="ms-auto rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-bold text-slate-500">{cards.length}</span>
-              </div>
-              <p className="mb-4 text-sm leading-relaxed text-slate-500">{g.intent}</p>
-              <CardGrid>
-                {cards.map(({ group: _g, ...rest }) => <IndexCard key={rest.href} {...rest} />)}
-              </CardGrid>
-            </section>
-          );
-        })}
-      </div>
+      <KnowledgeExplorer centers={centers} groups={GROUPS.map((g) => ({ ...g }))} />
 
       <a href="/knowledge/coverage/" className="lift mt-10 flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm" dir="rtl">
         <span className="text-sm font-bold text-slate-700">📊 דוח כיסוי ידע — סך ישויות, מאומת מול כללי, פערים גלויים וציון איכות לפי תחום</span>
