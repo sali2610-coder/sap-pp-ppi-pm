@@ -1,0 +1,30 @@
+<svg viewBox="0 0 130 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Coca-Cola classic bottle">
+ <defs>
+  <linearGradient id="glass" x1="0" y1="0" x2="1" y2="0">
+   <stop offset="0" stop-color="#5a2a0c"/><stop offset=".22" stop-color="#9a5320"/><stop offset=".5" stop-color="#c9842f"/>
+   <stop offset=".74" stop-color="#7a3c14"/><stop offset="1" stop-color="#3c1c08"/>
+  </linearGradient>
+  <linearGradient id="cap" x1="0" y1="0" x2="0" y2="1">
+   <stop offset="0" stop-color="#E1121D"/><stop offset="1" stop-color="#A50E16"/>
+  </linearGradient>
+ </defs>
+ <!-- glass silhouette -->
+ <path d="M50 26 L50 52 C50 66 40 74 38 96 C35 118 33 128 36 150 C38 168 34 182 34 206
+  C34 232 30 250 30 300 C30 322 30 332 40 338 L90 338 C100 332 100 322 100 300
+  C100 250 96 232 96 206 C96 182 92 168 94 150 C97 128 95 118 92 96
+  C90 74 80 66 80 52 L80 26 Z"
+  fill="url(#glass)" stroke="#fff" stroke-width="2" stroke-opacity=".92"/>
+ <!-- left highlight -->
+ <path d="M46 60 C44 96 42 150 44 230 C45 280 44 310 50 330 C40 326 40 316 40 300
+  C40 250 40 230 41 206 C42 176 43 150 41 128 C40 100 42 80 46 60 Z" fill="#fff" opacity=".26"/>
+ <!-- crown cap -->
+ <rect x="47" y="2" width="36" height="25" rx="4" fill="url(#cap)"/>
+ <g stroke="#7d0a10" stroke-width="1" opacity=".55">
+  <line x1="53" y1="3" x2="53" y2="26"/><line x1="59" y1="3" x2="59" y2="26"/>
+  <line x1="65" y1="3" x2="65" y2="26"/><line x1="71" y1="3" x2="71" y2="26"/><line x1="77" y1="3" x2="77" y2="26"/>
+ </g>
+ <!-- red label band -->
+ <path d="M28 197 C28 195 30 194 32 194 L98 194 C100 194 102 195 102 197 L102 235 C102 237 100 238 98 238 L32 238 C30 238 28 237 28 235 Z" fill="#D8121C"/>
+ <text x="65" y="220" text-anchor="middle" fill="#fff" font-family="Georgia,'Times New Roman',serif" font-style="italic" font-weight="700" font-size="14.5">Coca-Cola</text>
+ <text x="65" y="231" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-weight="700" font-size="5" letter-spacing="2.4" opacity=".9">CLASSIC</text>
+</svg>

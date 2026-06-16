@@ -1,0 +1,33 @@
+{
+  "wpm": 130,
+  "target_min": 10.0,
+  "estimated_min": 2.88,
+  "verdict": "UNDER by 7.1 min \u2014 add depth or Q&A",
+  "per_slide": [
+    {
+      "slide": 1,
+      "title": "Operational analytics: throughput holds above targ",
+      "minutes": 0.55
+    },
+    {
+      "slide": 2,
+      "title": "Data flows ingest \u2192 model \u2192 dashboard before any m",
+      "minutes": 0.52
+    },
+    {
+      "slide": 3,
+      "title": "Throughput trended up; mix stayed PM-heavy",
+      "minutes": 0.52
+    },
+    {
+      "slide": 4,
+      "title": "Summary dashboard: four KPIs, trend, and mix at a ",
+      "minutes": 0.51
+    },
+    {
+      "slide": 5,
+      "title": "Action",
+      "minutes": 0.78
+    }
+  ]
+}

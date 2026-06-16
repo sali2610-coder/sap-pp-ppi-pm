@@ -1,0 +1,5 @@
+{"profile":"Financial","body_word_target":40,"min_body_pt":18,
+ "weights":{"executive_quality":0.12,"academic_quality":0.06,"storytelling":0.10,"visual_design":0.08,
+  "data_visualization":0.22,"infographics":0.10,"animation_usage":0.04,"accessibility":0.08,
+  "audience_fit":0.08,"decision_readiness":0.12},
+ "notes":"Data visualization (charts/tables, exact figures) weighted highest; decision readiness matters."}

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" font-family="'Segoe UI', Arial, sans-serif">
+  <rect width="1280" height="720" fill="#0B1220"/>
+  <text x="48" y="56" font-size="26" font-weight="700" fill="#E2E8F0">Analytics Dashboard (layout)</text>
+  <!-- KPI strip -->
+  <g>
+    <rect x="48" y="90" width="280" height="120" rx="10" fill="#0F172A" stroke="#1E293B"/>
+    <text x="72" y="128" font-size="14" fill="#94A3B8">Throughput</text><text x="72" y="180" font-size="40" font-weight="800" fill="#14B8A6">98.2%</text>
+    <rect x="344" y="90" width="280" height="120" rx="10" fill="#0F172A" stroke="#1E293B"/>
+    <text x="368" y="128" font-size="14" fill="#94A3B8">Defects</text><text x="368" y="180" font-size="40" font-weight="800" fill="#22C55E">0.7%</text>
+    <rect x="640" y="90" width="280" height="120" rx="10" fill="#0F172A" stroke="#1E293B"/>
+    <text x="664" y="128" font-size="14" fill="#94A3B8">On-time</text><text x="664" y="180" font-size="40" font-weight="800" fill="#38BDF8">96.5%</text>
+    <rect x="936" y="90" width="296" height="120" rx="10" fill="#0F172A" stroke="#1E293B"/>
+    <text x="960" y="128" font-size="14" fill="#94A3B8">Utilization</text><text x="960" y="180" font-size="40" font-weight="800" fill="#A78BFA">88%</text>
+  </g>
+  <!-- chart areas -->
+  <rect x="48" y="230" width="760" height="430" rx="10" fill="#0F172A" stroke="#1E293B"/>
+  <text x="72" y="266" font-size="15" fill="#94A3B8">Trend</text>
+  <polyline points="80,560 200,540 320,520 440,535 560,500 700,470" fill="none" stroke="#14B8A6" stroke-width="4"/>
+  <rect x="824" y="230" width="408" height="430" rx="10" fill="#0F172A" stroke="#1E293B"/>
+  <text x="848" y="266" font-size="15" fill="#94A3B8">Mix</text>
+  <circle cx="1028" cy="460" r="120" fill="none" stroke="#1E293B" stroke-width="40"/>
+  <circle cx="1028" cy="460" r="120" fill="none" stroke="#38BDF8" stroke-width="40" stroke-dasharray="450 754" transform="rotate(-90 1028 460)"/>
+</svg>

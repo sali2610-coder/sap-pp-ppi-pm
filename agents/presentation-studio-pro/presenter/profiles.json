@@ -1,0 +1,22 @@
+{
+  "academic": {"wpm": 130, "tone": "precise, hedged, evidence-led", "summary_words": 180,
+    "qa_focus": ["validity threats", "method choices", "generalizability", "alternative explanations", "limitations"],
+    "objections": ["sample too small / single-case", "correlation not causation", "measure validity", "missing controls"],
+    "notes_style": "state claim, cite evidence, flag the limitation"},
+  "sap": {"wpm": 135, "tone": "concrete, transaction-accurate", "summary_words": 150,
+    "qa_focus": ["which tcode/table", "S/4 simplification impact", "cutover risk", "auth/roles", "data migration"],
+    "objections": ["effort/timeline underestimated", "custom code (CBO) impact", "downtime window", "training load"],
+    "notes_style": "name the tcode/table, show the step, state the business effect"},
+  "executive": {"wpm": 120, "tone": "answer-first, decisive, minimal", "summary_words": 120,
+    "qa_focus": ["cost / ROI", "risk if we don't", "what do you need from us", "timeline", "alternatives considered"],
+    "objections": ["too expensive", "why now", "what's the downside", "who owns it"],
+    "notes_style": "lead with the recommendation, then one supporting number, then the ask"},
+  "training": {"wpm": 125, "tone": "friendly, step-by-step, checks-for-understanding", "summary_words": 140,
+    "qa_focus": ["how do I do X", "what if it errors", "where is this in the system", "common mistakes", "practice"],
+    "objections": ["too fast / too much", "not enough hands-on", "unclear prerequisites", "real-world relevance"],
+    "notes_style": "explain why it matters, demo the step, pause for a knowledge check"},
+  "financial": {"wpm": 130, "tone": "precise, conservative, number-anchored", "summary_words": 150,
+    "qa_focus": ["assumptions", "sensitivity / downside case", "data source", "variance drivers", "what changed"],
+    "objections": ["optimistic assumptions", "one-off vs recurring", "FX / timing", "comparability to prior"],
+    "notes_style": "state the number, name the driver, flag the assumption"}
+}

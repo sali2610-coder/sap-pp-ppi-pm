@@ -1,0 +1,33 @@
+{
+  "wpm": 125,
+  "target_min": 30.0,
+  "estimated_min": 3.06,
+  "verdict": "UNDER by 26.9 min \u2014 add depth or Q&A",
+  "per_slide": [
+    {
+      "slide": 1,
+      "title": "FY2026 forecast: revenue up 14%, margin expanding",
+      "minutes": 0.55
+    },
+    {
+      "slide": 2,
+      "title": "The forecast runs assumptions \u2192 model \u2192 bridge bef",
+      "minutes": 0.52
+    },
+    {
+      "slide": 3,
+      "title": "Revenue is forecast to grow from 14.1M to 16.1M (+",
+      "minutes": 0.73
+    },
+    {
+      "slide": 4,
+      "title": "Summary bridge: volume adds, churn subtracts, marg",
+      "minutes": 0.5
+    },
+    {
+      "slide": 5,
+      "title": "Action",
+      "minutes": 0.76
+    }
+  ]
+}

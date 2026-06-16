@@ -1,0 +1,1510 @@
+<!doctype html><html lang="he" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CBC ישראל · אסטרטגיית CRM</title>
+<style>
+:root{
+ --red:#E30613;--red2:#F11622;--redd:#C20510;--ink:#1A1417;--ink2:#3A3338;--mut:#6A646A;
+ --bg:#FFFFFF;--soft:#F5F6F8;--soft2:#ECEDF1;--line:#E4E5EA;--gold:#C9A24B;
+ --face:Arial,'Arial Hebrew','Helvetica Neue',sans-serif;--black:'Arial Black',Arial,sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#000;font-family:var(--face);overflow:hidden;color:var(--ink)}
+#stage{position:fixed;inset:0}
+.num,.tech{direction:ltr;unicode-bidi:isolate;text-align:start}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+ background:var(--bg);opacity:0;visibility:hidden;transform:scale(1.015);
+ transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1),visibility .5s;
+ padding:9vh 7vw;direction:rtl;text-align:center;overflow:hidden}
+.slide.on{opacity:1;visibility:visible;transform:none}
+/* hero · bright CBC red (no burgundy/black) */
+.slide.hero{background:#E30613;color:#fff}
+/* chrome */
+.kick{position:absolute;top:5.5vh;right:7vw;color:var(--red);font-weight:bold;font-size:1.1vw;letter-spacing:.16em}
+.hero .kick{color:#FFE2E4}
+.rule{position:absolute;top:5.4vh;right:7vw;width:3vw;height:.42vh;background:var(--red);border-radius:2px;transform:translateY(2.7vh)}
+.foot{position:absolute;bottom:3.4vh;right:7vw;color:#9A949A;font-size:.95vw}
+.src{position:absolute;bottom:3.4vh;left:7vw;color:#A8A2A8;font-size:.95vw;direction:rtl}
+.hero .src,.hero .foot{color:#F2C7Ca}
+.pg{position:absolute;bottom:3.4vh;left:50%;transform:translateX(-50%);color:#B7B2B8;font-size:.95vw;direction:ltr}
+.hero .pg{color:#F2C7Ca}
+.b{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.on .b.show{opacity:1;transform:none}
+h1{font-size:5.6vw;font-weight:bold;line-height:1.08}
+.ttl{font-size:3.95vw;font-weight:bold;line-height:1.12;margin-bottom:.6vh}
+.subt{font-size:1.55vw;color:var(--mut);margin-top:1.2vh;line-height:1.45;max-width:74vw}
+.sub{font-size:1.7vw;color:var(--mut);margin-top:2vh;line-height:1.5}
+.hero .sub,.hero .subt{color:#FBE3E5}
+.red{color:var(--red)}.hero .red{color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,.55);text-underline-offset:7px}
+.big{font-family:var(--black);color:var(--red);line-height:.9}
+/* split layout: photo + text */
+.split{display:flex;width:100%;height:100%;direction:rtl}
+.split .tx{flex:1;display:flex;flex-direction:column;justify-content:center;padding:9vh 5vw;text-align:right}
+.split .ph{width:42vw;background-size:cover;background-position:center;position:relative}
+.split .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,0) 62%,rgba(0,0,0,.06))}
+.split .tx h2{font-size:3vw;font-weight:bold;line-height:1.12}
+.split .tx p{font-size:1.45vw;color:var(--mut);margin-top:2.2vh;line-height:1.6;max-width:36vw}
+.kickL{color:var(--red);font-weight:bold;font-size:1.1vw;letter-spacing:.16em;margin-bottom:1.6vh}
+/* KPI cards */
+.kpis{display:flex;gap:1.5vw;margin-top:2.4vh;flex-wrap:wrap;justify-content:center}
+.kpi{background:var(--soft);border:1px solid var(--line);border-top:.45vh solid var(--red);border-radius:18px;padding:3vh 2vw;min-width:15vw}
+.kpi .n{font-family:var(--black);font-size:3.8vw;color:var(--red);line-height:1}
+.kpi .t{color:var(--ink2);font-size:1.18vw;margin-top:1.1vh;font-weight:600;line-height:1.35}
+.kpiW{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);border-top-color:#fff}.kpiW .n{color:#fff}.kpiW .t{color:#FBE3E5}
+/* ownership cards */
+.own{display:flex;gap:2vw;margin-top:3vh}
+.ocard{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:3vh 2.4vw;min-width:22vw;border-top:.5vh solid var(--red)}
+.ocard .pc{font-family:var(--black);font-size:4.6vw;color:var(--red);line-height:1}
+.ocard .nm{font-size:1.8vw;font-weight:bold;color:var(--ink);margin-top:1vh}
+.ocard .rl{font-size:1.2vw;color:var(--mut);margin-top:.6vh}
+/* brand wall */
+.wall{display:flex;flex-wrap:wrap;gap:.95vw;justify-content:center;max-width:74vw;margin-top:2.6vh}
+.chip{background:#fff;color:#15100f;border:1px solid var(--line);border-radius:12px;padding:1.15vh 1.5vw;font-weight:bold;font-size:1.35vw;box-shadow:0 8px 26px rgba(20,10,12,.10)}
+.chip.r{background:var(--red);color:#fff;border:none}.chip.k{background:#15100f;color:#fff}
+/* category / generic cards grid */
+.grid{display:grid;gap:1.3vw;margin-top:2.6vh}
+.gc{background:var(--soft);border:1px solid var(--line);border-top:.42vh solid var(--red);border-radius:16px;padding:2.4vh 1.6vw;text-align:right}
+.gc h4{font-size:1.5vw;color:var(--ink);line-height:1.2}.gc p{color:var(--mut);font-size:1.12vw;margin-top:.9vh;line-height:1.5}
+.gc .gi{font-family:var(--black);font-size:1.9vw;color:var(--red);float:left;opacity:.9}
+.note{background:var(--soft);border:1px solid var(--line);border-right:.45vh solid var(--red);border-radius:14px;padding:2vh 2vw;font-size:1.35vw;color:var(--ink2);max-width:74vw;margin-top:2.8vh;line-height:1.55;text-align:right}
+.note b{color:var(--red)}
+.hero .note{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.28);color:#fff}.hero .note b{color:#fff;font-weight:bold}
+/* bars */
+.bars{width:62vw;margin-top:3vh;display:flex;flex-direction:column;gap:2.2vh}
+.brow{display:flex;align-items:center;gap:1.4vw}
+.brow .lbl{width:22vw;text-align:right;font-size:1.5vw;color:var(--ink);font-weight:600}
+.brow .track{flex:1;height:2.8vh;background:var(--soft2);border-radius:1vw;overflow:hidden}
+.brow .fill{height:100%;width:0;border-radius:1vw;background:linear-gradient(90deg,var(--redd),var(--red2));transition:width 1.1s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.on .bars.show .fill{width:var(--w)}
+.brow .pct{width:6vw;font-family:var(--black);color:var(--red);font-size:1.9vw}
+/* horizontal timeline */
+.tline{position:relative;display:flex;justify-content:space-between;gap:1.6vw;width:80vw;margin-top:5.5vh;direction:rtl}
+.tline::before{content:"";position:absolute;top:.95vw;inset-inline:8vw;height:.3vw;background:linear-gradient(90deg,var(--red2),var(--red));border-radius:2px}
+.tev{flex:1;text-align:center;position:relative;padding-top:3.2vw}
+.tev .tdot{position:absolute;top:0;inset-inline-start:calc(50% - 1.15vw);width:2.3vw;height:2.3vw;border-radius:50%;background:var(--red);border:.32vw solid #fff;box-shadow:0 0 0 .34vw #fde7e8,0 8px 20px rgba(227,6,19,.3)}
+.tev .ty{font-family:var(--black);color:var(--red);font-size:3.6vw;line-height:1}
+.tev .tamt{font-family:var(--black);color:var(--red);font-size:4.6vw;margin-top:.4vh;line-height:.95;direction:ltr;unicode-bidi:isolate}
+.tev .td{color:var(--mut);font-size:1.08vw;margin-top:1.2vh;line-height:1.5;max-width:21vw;margin-inline:auto}
+/* anchors */
+.anchors{display:flex;gap:1.3vw;margin-top:3.4vh;flex-wrap:wrap;justify-content:center}
+.anc{background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:2.6vh 1.2vw;width:14.5vw;text-align:center;border-top:.42vh solid var(--red)}
+.anc .ic{width:3.6vw;height:3.6vw;margin:0 auto 1.4vh;border-radius:50%;background:#fde7e8;display:grid;place-items:center}
+.anc .ic svg{width:2vw;height:2vw;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.anc h4{font-size:1.22vw;color:var(--ink);line-height:1.25}
+/* findings list */
+.finds{display:flex;flex-direction:column;gap:1.5vh;margin-top:3vh;width:72vw}
+.find{display:flex;align-items:center;gap:1.4vw;background:var(--soft);border:1px solid var(--line);border-right:.45vh solid var(--red);border-radius:14px;padding:2.1vh 2vw;text-align:right}
+.find .fn{font-family:var(--black);font-size:1.7vw;color:var(--red);flex:0 0 auto}
+.find .ft{font-size:1.42vw;color:var(--ink);line-height:1.4}
+/* quote */
+.quote{font-size:3vw;font-weight:bold;line-height:1.3;max-width:80vw}
+/* cover */
+.cvbig{font-family:var(--black);color:var(--red);font-size:12vw;letter-spacing:.03em;line-height:.9}
+.wallband{position:absolute;left:0;right:0;bottom:0;height:28vh;background:center bottom/contain no-repeat;opacity:0;transition:opacity .9s ease .4s}
+.on .wallband.show{opacity:1}
+.dots{position:fixed;bottom:1.5vh;left:50%;transform:translateX(-50%);display:flex;gap:.42vw;z-index:5}
+.dots i{width:.5vw;height:.5vw;border-radius:50%;background:#cfd0d6;transition:.3s}.dots i.a{background:var(--red);width:1.5vw;border-radius:1vw}
+.hint{position:fixed;bottom:.6vh;left:50%;transform:translateX(-50%);color:#bdbdc4;font-size:.78vw;z-index:5}
+/* product rail */
+.prail{position:absolute;left:0;right:0;bottom:0;height:13vh;background:url(assets/product_wall.png) repeat-x center bottom/auto 165%;opacity:0;transition:opacity 1s ease .35s;pointer-events:none;z-index:0}
+.prail::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.6) 42%,rgba(255,255,255,0) 100%)}
+.on .prail.show{opacity:.97}
+.slide>:not(.prail):not(.bgwall):not(.wallband):not(.kick):not(.rule):not(.src):not(.pg):not(.foot):not(.dtop):not(.cooler){position:relative;z-index:1}
+.bgwall{position:absolute;left:0;right:0;bottom:0;height:46vh;background:url(assets/product_wall.png) repeat-x center bottom/auto 120%;opacity:.06;pointer-events:none;z-index:0}
+.cvbig2{font-family:var(--black);color:var(--red);font-size:9vw;letter-spacing:.03em;line-height:.9}
+/* permanent CBC heart signature · every slide, same spot */
+/* real uploaded files take priority; SVG is graceful fallback until PNGs dropped in /assets */
+#sig{position:fixed;top:2.6vh;left:3.3vw;width:11vw;height:6.6vh;z-index:8;
+ background-color:transparent;
+ background-image:url(assets/cbc_logo.png),url(assets/cbc_logo.svg);
+ background-repeat:no-repeat;background-position:left center;background-size:contain;
+ filter:drop-shadow(0 0 2px rgba(255,255,255,.95)) drop-shadow(0 0 5px rgba(255,255,255,.65)) drop-shadow(0 1px 2px rgba(0,0,0,.10));pointer-events:none}
+body.onhero #sig{background-image:url(assets/cbc_logo_w.png),url(assets/cbc_logo_w.svg);filter:drop-shadow(0 1px 3px rgba(0,0,0,.22))}
+.cooler{position:absolute;z-index:0;filter:drop-shadow(0 14px 26px rgba(0,0,0,.24));pointer-events:none}
+/* round2: site grid, KPI dashboard, pillars, competitor cards */
+.sitegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6vw;width:80vw;margin-top:3vh}
+.sitecard{background:var(--soft);border:1px solid var(--line);border-top:.55vh solid var(--red);border-radius:18px;padding:2.8vh 1.4vw;text-align:center;box-shadow:0 12px 30px rgba(20,10,12,.07)}
+.sitecard .ic{width:3.8vw;height:3.8vw;border-radius:50%;background:#fde7e8;display:grid;place-items:center;margin:0 auto 1.4vh}
+.sitecard .ic svg{width:2.1vw;height:2.1vw;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sitecard .city{font-family:var(--black);font-size:1.95vw;color:var(--ink);line-height:1}
+.sitecard .prod{font-size:1.25vw;color:var(--red);font-weight:bold;margin-top:.7vh}
+.mkpi .mi{width:2.6vw;height:2.6vw;margin:0 auto .8vh;display:grid;place-items:center}
+.mkpi .mi svg{width:2.4vw;height:2.4vw;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* KPI dashboard tiles */
+.kpidash{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8vw;width:82vw;margin-top:3.4vh}
+.kpitile{background:#fff;border:1px solid #E7E8EE;border-radius:20px;padding:3vh 1.8vw 2.4vh;text-align:right;box-shadow:0 20px 48px rgba(20,22,40,.12);position:relative;overflow:hidden}
+.kpitile::before{content:"";position:absolute;top:0;right:0;left:0;height:.55vh;background:var(--red)}
+.kpitile .top{display:flex;align-items:center;justify-content:space-between}
+.kpitile .kic{width:3.4vw;height:3.4vw;border-radius:14px;background:#fde7e8;display:grid;place-items:center}
+.kpitile .kic svg{width:2vw;height:2vw;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.kpitile .trend{display:flex;align-items:center;gap:.3vw;background:#e7f7ee;color:#0a7a3d;font-weight:bold;font-size:1.05vw;border-radius:8px;padding:.5vh .8vw}
+.kpitile .trend::before{content:"▲";font-size:.85vw}
+.kpitile .klabel{font-size:1.6vw;font-weight:bold;color:var(--ink);margin-top:1.8vh}
+.kpitile .kdesc{font-size:1.05vw;color:var(--mut);margin-top:.5vh;line-height:1.45}
+.kpitile .spark{width:100%;height:5vh;margin-top:1.6vh;display:block}
+/* 5-pillar framework */
+.pillars{display:flex;gap:1.2vw;width:84vw;margin-top:4.5vh;align-items:stretch}
+.pillar{flex:1;background:var(--soft);border:1px solid var(--line);border-top:.55vh solid var(--red);border-radius:18px;padding:3.4vh 1vw 2.6vh;text-align:center;position:relative;box-shadow:0 12px 30px rgba(20,10,12,.07)}
+.pillar .pnum{position:absolute;top:-1.7vh;left:50%;transform:translateX(-50%);width:3.4vw;height:3.4vw;border-radius:50%;background:var(--red);color:#fff;font-family:var(--black);font-size:1.6vw;display:grid;place-items:center;box-shadow:0 8px 20px rgba(227,6,19,.42)}
+.pillar .ic{margin:1.4vh auto 1.2vh;width:3.4vw;height:3.4vw;border-radius:50%;background:#fde7e8;display:grid;place-items:center}
+.pillar .ic svg{width:1.9vw;height:1.9vw;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pillar h4{font-size:1.3vw;color:var(--ink);line-height:1.25}
+/* failed-competitor cards */
+.fails{display:flex;gap:2.4vw;margin-top:3.4vh}
+.failcard{flex:1;max-width:30vw;background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:3vh 2vw;text-align:center;opacity:.92}
+.failcard .fx{width:3.4vw;height:3.4vw;margin:0 auto 1.4vh;display:grid;place-items:center}
+.failcard .fx svg{width:3.4vw;height:3.4vw;stroke:#9A949A;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.failcard .fname{font-family:var(--black);font-size:1.9vw;color:var(--ink2)}
+.failcard .fstat{font-size:1.3vw;color:var(--mut);margin-top:1vh;line-height:1.5}
+.failcard .fpct{font-family:var(--black);font-size:2.6vw;color:#9A949A;margin-top:1vh}
+.verdict{font-family:var(--black);font-size:3.2vw;color:var(--red);margin-top:4vh;text-align:center}
+/* empire ecosystem map */
+.ecomap{position:relative;width:84vw;height:72vh;margin-top:.5vh}
+.ecomap svg.web{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.ecomap .ehub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:18vh;height:18vh;border-radius:50%;background:radial-gradient(circle at 38% 32%,#FF2A36,#C20510);color:#fff;display:grid;place-items:center;text-align:center;font-family:var(--black);line-height:1.05;box-shadow:0 0 0 1.4vh rgba(227,6,19,.10),0 20px 48px rgba(227,6,19,.42);z-index:4}
+.ecomap .ehub .e1{font-size:2.6vw}.ecomap .ehub .e2{font-family:var(--face);font-weight:bold;font-size:.95vw;opacity:.95;margin-top:.3vh;letter-spacing:.04em}
+.ecomap .kpod{position:absolute;transform:translate(-50%,-50%);width:13.5vw;background:#fff;border:1px solid var(--line);border-top:.55vh solid var(--red);border-radius:16px;padding:1.7vh 1vw;text-align:center;box-shadow:0 16px 36px rgba(20,10,12,.14);z-index:3}
+.ecomap .kpod .ic{width:2.6vw;height:2.6vw;margin:0 auto .6vh;display:grid;place-items:center}
+.ecomap .kpod .ic svg{width:2.4vw;height:2.4vw;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ecomap .kpod .n{font-family:var(--black);font-size:2.7vw;color:var(--red);line-height:1;direction:ltr;unicode-bidi:isolate}
+.ecomap .kpod .t{font-size:1.0vw;color:var(--ink2);font-weight:600;margin-top:.4vh;line-height:1.2}
+.ecomap .brand{position:absolute;transform:translate(-50%,-50%);background:#fff;border:1px solid var(--line);border-radius:22px;padding:.6vh 1.05vw;font-size:1vw;font-weight:bold;color:#15100f;box-shadow:0 8px 20px rgba(20,10,12,.12);white-space:nowrap;z-index:2}
+.ecomap .brand.r{background:var(--red);color:#fff;border:none}.ecomap .brand.k{background:#15100f;color:#fff}
+/* service-ecosystem cards */
+.scards{display:grid;grid-template-columns:repeat(4,1fr);gap:1.3vw;width:84vw;margin-top:3vh}
+.scard{background:var(--soft);border:1px solid var(--line);border-top:.55vh solid var(--red);border-radius:18px;padding:2.8vh 1.4vw;text-align:right}
+.scard .ic{width:3.6vw;height:3.6vw;border-radius:50%;background:#fde7e8;display:grid;place-items:center;margin-bottom:1.6vh}
+.scard .ic svg{width:2vw;height:2vw;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.scard h4{font-size:1.45vw;color:var(--ink);line-height:1.2}
+.scard ul{list-style:none;margin-top:1.2vh}
+.scard li{font-size:1.06vw;color:var(--mut);line-height:1.55;padding-inline-start:1.2vw;position:relative;margin-top:.5vh}
+.scard li::before{content:"";position:absolute;inset-inline-start:0;top:.85vh;width:.5vw;height:.5vw;border-radius:50%;background:var(--red)}
+.kbanner{display:flex;justify-content:center;align-items:center;gap:6vw;background:var(--red);color:#fff;border-radius:16px;padding:2.6vh 3vw;margin-top:3vh;width:82vw;box-shadow:0 16px 40px rgba(227,6,19,.28)}
+.kbanner .ki{text-align:center}
+.kbanner .kn{display:block;font-family:var(--black);font-size:3vw;line-height:1;direction:ltr;unicode-bidi:isolate}
+.kbanner .kl{font-size:1.15vw;opacity:.96;margin-top:.6vh;font-weight:600}
+#bottle{position:fixed;top:1.8vh;right:2.6vw;width:3.3vw;height:14vh;z-index:8;
+ background-image:url(assets/coke_bottle.png),url(assets/coke_bottle.svg);
+ background-repeat:no-repeat;background-position:center top;background-size:contain;
+ filter:drop-shadow(0 5px 11px rgba(0,0,0,.28)) drop-shadow(0 0 2px rgba(255,255,255,.82));pointer-events:none}
+/* chapter dividers */
+.divider{justify-content:center}
+.divider .bigheart{position:absolute;width:54vh;height:54vh;background:url(assets/cbc_heart_w.svg) center/contain no-repeat;opacity:.14;pointer-events:none}
+.chnum{color:#FFE2E4;font-weight:bold;letter-spacing:.26em;font-size:1.45vw;margin-bottom:1.3vh}
+.divider h1{font-size:5.2vw;line-height:1.1}
+.divider .dsub{color:#FBE3E5;font-size:1.7vw;margin-top:2.2vh;max-width:70vw;line-height:1.45}
+.dline{width:7vw;height:.5vh;background:#fff;border-radius:3px;margin:3vh auto 0;opacity:.85}
+.divider .dtop{position:absolute;top:15vh;left:0;right:0;text-align:center;color:#fff;font-family:var(--black);font-weight:900;font-size:3.8vw;line-height:1.05}
+.divider .dtop span{display:block;font-family:var(--face);font-weight:bold;font-size:1.35vw;letter-spacing:.26em;opacity:.85;margin-bottom:1.2vh}
+/* cinematic divider */
+.divider .deye{color:#FFD9DC;font-weight:bold;letter-spacing:.38em;font-size:1.5vw;margin-bottom:2.4vh}
+.divider .dbig{font-family:var(--black);font-weight:900;color:#fff;line-height:.86;letter-spacing:-.012em}
+/* hero KPI */
+.herokpi{font-family:var(--black);color:var(--red);font-size:21vw;line-height:.78;direction:ltr;unicode-bidi:isolate;margin-top:1vh}
+.herolbl{font-size:2.5vw;font-weight:bold;color:var(--ink);margin-top:.4vh}
+.substats{display:flex;gap:7vw;margin-top:4vh;justify-content:center}
+.substat .sn{font-family:var(--black);font-size:5.6vw;color:var(--ink2);line-height:1;direction:ltr;unicode-bidi:isolate}
+.substat .sl{font-size:1.5vw;color:var(--mut);font-weight:600;margin-top:.5vh}
+/* pipeline chevrons */
+.pipe{display:flex;direction:rtl;width:85vw;margin-top:4vh;gap:.35vw}
+.pstage{flex:1;position:relative;padding:3.6vh 1.3vw;color:#fff;text-align:center;clip-path:polygon(1.5vw 0,100% 0,calc(100% - 1.5vw) 50%,100% 100%,1.5vw 100%,0 50%)}
+.pstage:first-child{clip-path:polygon(0 0,100% 0,calc(100% - 1.5vw) 50%,100% 100%,0 100%)}
+.pstage .pst{font-family:var(--black);font-size:1.25vw;opacity:.85;letter-spacing:.08em}
+.pstage .pnm{font-size:1.12vw;font-weight:bold;margin-top:.9vh;line-height:1.25}
+.pstage .pp{font-family:var(--black);font-size:2.2vw;margin-top:1.1vh;direction:ltr;unicode-bidi:isolate}
+.pstage.s1{background:#F2949A}.pstage.s2{background:#EA5B65}.pstage.s3{background:#E30613}.pstage.s4{background:#B0050F}
+/* SAP convergence ecosystem */
+.sapeco{display:flex;flex-direction:column;align-items:center;width:84vw;margin-top:2.6vh}
+.sapeco .chans{display:grid;grid-template-columns:repeat(4,1fr);gap:1.3vw;width:100%}
+.sapcore{margin-top:3.2vh;background:linear-gradient(90deg,var(--redd),var(--red));color:#fff;border-radius:16px;padding:2.8vh 2vw;width:60vw;text-align:center;box-shadow:0 16px 40px rgba(227,6,19,.3);position:relative}
+.sapcore::before{content:"";position:absolute;top:-2.6vh;left:50%;transform:translateX(-50%);border-left:1.2vw solid transparent;border-right:1.2vw solid transparent;border-top:1.8vh solid var(--red)}
+.sapcore .sc1{font-family:var(--black);font-size:2.6vw;direction:ltr;unicode-bidi:isolate}.sapcore .sc2{font-size:1.25vw;opacity:.96;margin-top:.5vh}
+/* service horizontal flow */
+.sflow{display:flex;direction:rtl;width:84vw;margin-top:3.4vh}
+.sstep{flex:1;background:var(--soft);border:1px solid var(--line);border-top:.42vh solid var(--red);border-radius:14px;padding:2.6vh 1.1vw;text-align:center;position:relative;margin-inline:1.5vw}
+.sstep .si{font-family:var(--black);font-size:1.8vw;color:var(--red)}
+.sstep h5{font-size:1.12vw;margin-top:.5vh;color:var(--ink);line-height:1.25}
+.sstep p{font-size:.92vw;color:var(--mut);margin-top:.5vh;line-height:1.4}
+.sstep::after{content:"";position:absolute;inset-inline-start:-2.1vw;top:50%;width:1.3vw;height:1.3vw;border-top:.3vw solid var(--red);border-left:.3vw solid var(--red);transform:translateY(-50%) rotate(-45deg)}
+.sstep:last-child::after{display:none}
+/* ownership ecosystem (radial hub) */
+.eco{position:relative;width:52vh;height:52vh;margin-top:2.5vh}
+.eco svg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.eco .ecore{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:16vh;height:16vh;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;text-align:center;font-family:var(--black);font-size:1.6vw;line-height:1.05;box-shadow:0 14px 36px rgba(227,6,19,.42);z-index:2}
+.eco .enode{position:absolute;width:15vh;height:15vh;border-radius:50%;background:#fff;border:1px solid var(--line);border-top:.55vh solid var(--red);display:grid;place-items:center;font-weight:bold;font-size:1.55vw;color:var(--ink);box-shadow:0 10px 26px rgba(20,10,12,.12);z-index:1}
+.eco .n-top{left:50%;top:0;transform:translateX(-50%)}
+.eco .n-bot{left:50%;bottom:0;transform:translateX(-50%)}
+.eco .n-left{left:0;top:50%;transform:translateY(-50%)}
+.eco .n-right{right:0;top:50%;transform:translateY(-50%)}
+/* slide 31 symmetric cross (scoped, doesn't affect fridge .eco) */
+.crosseco{width:38vh!important;height:38vh!important}
+.crosseco .ecore{width:12vh;height:12vh}
+.crosseco .enode{width:11vh;height:11vh}
+/* service model hub */
+.svc{position:relative;width:66vh;height:35vh;margin-top:1.5vh}
+.svc svg.lines{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.svc .conn{stroke:var(--red);stroke-width:2.4;fill:none;stroke-dasharray:6 7;opacity:.6;animation:svcdash 1.1s linear infinite}
+@keyframes svcdash{to{stroke-dashoffset:-26}}
+.svc .hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:17vh;height:17vh;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;text-align:center;font-family:var(--black);font-size:1.25vw;line-height:1.12;box-shadow:0 14px 34px rgba(227,6,19,.42);z-index:2;padding:0 .8vw}
+.svc .seg{position:absolute;width:19vh;background:#fff;border:1px solid var(--line);border-top:.5vh solid var(--red);border-radius:14px;padding:1.5vh .8vw;text-align:center;box-shadow:0 10px 24px rgba(20,10,12,.1);z-index:1}
+.svc .seg .si svg{height:2.3vw;width:2.3vw;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.svc .seg h5{font-size:1.22vw;margin-top:.4vh;color:var(--ink)}
+.svc .s-top{left:50%;top:0;transform:translateX(-50%)}
+.svc .s-bl{left:1vh;bottom:0}
+.svc .s-br{right:1vh;bottom:0}
+/* PM vs CS comparison */
+.cmp{display:flex;gap:2.5vw;width:82vw;margin-top:3vh}
+.cmp .side{flex:1;background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:3vh 2vw;text-align:center}
+.cmp .side.cs{background:#fff;border-top:.65vh solid var(--red);box-shadow:0 16px 40px rgba(227,6,19,.12)}
+.cmp .side .tag{font-family:var(--black);font-size:2.6vw;color:var(--mut);line-height:1}
+.cmp .side.cs .tag{color:var(--red)}
+.cmp .side .tag span{display:block;font-family:var(--face);font-weight:bold;font-size:1.1vw;color:var(--mut);margin-top:.5vh}
+.cmp .side .it{display:flex;align-items:center;justify-content:center;gap:.8vw;font-size:1.45vw;font-weight:600;color:var(--ink);margin-top:1.7vh}
+.cmp .side .it svg{width:1.9vw;height:1.9vw;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cmp .side .cap{font-size:1.18vw;color:var(--mut);margin-top:2.2vh}
+.banner{background:var(--red);color:#fff;border-radius:14px;padding:2.2vh 2vw;font-family:var(--black);font-size:1.7vw;text-align:center;margin-top:3vh;max-width:84vw;box-shadow:0 16px 40px rgba(227,6,19,.28)}
+.chk{display:flex;gap:1.2vw;flex-wrap:wrap;justify-content:center;margin-top:2.4vh}
+.chk .ci{background:#fde7e8;color:var(--redd);font-weight:bold;font-size:1.15vw;border-radius:10px;padding:1.1vh 1.4vw}
+.chk .ci::before{content:"✓";color:var(--red);font-weight:900;margin-inline-end:.5vw}
+.sstep .si svg{width:2vw;height:2vw;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sflow.seven{width:86vw}.sflow.seven .sstep{margin-inline:.3vw;padding:2.4vh .45vw}.sflow.seven .sstep h5{font-size:1.0vw}.sflow.seven .sstep::after{inset-inline-start:-1.3vw;width:1vw;height:1vw}
+/* user request: clean · remove logo, bottle, product strips, corner + heart decorations from every slide */
+#bottle,.prail,.bgwall,.wallband,.pwall,.pcut,.bigheart{display:none!important}
+/* ===== IMPACT LAYER: gauges, columns, mega-KPIs, product walls ===== */
+.gauges{display:flex;gap:4.5vw;margin-top:4vh;justify-content:center;align-items:flex-start}
+.gauge{width:23vw;text-align:center}
+.gring{width:19.5vw;height:19.5vw;border-radius:50%;margin:0 auto;position:relative;background:conic-gradient(var(--soft2) 0 100%)}
+.gring::before{content:"";position:absolute;inset:15%;background:#fff;border-radius:50%;box-shadow:inset 0 4px 18px rgba(0,0,0,.08)}
+.gval{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--black);font-size:5.4vw;color:var(--red);direction:ltr;unicode-bidi:isolate}
+.glabel{font-size:1.95vw;font-weight:bold;margin-top:2.2vh;color:var(--ink)}
+.cols{display:flex;align-items:flex-end;justify-content:center;gap:7vw;height:42vh;margin-top:3.5vh}
+.col{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.col .cv{font-family:var(--black);font-size:3.6vw;color:var(--red);margin-bottom:1vh;direction:ltr;unicode-bidi:isolate}
+.col .cbar{width:13vw;border-radius:12px 12px 0 0;background:linear-gradient(var(--red2),var(--redd));height:0;box-shadow:0 16px 40px rgba(227,6,19,.28);transition:height 1.2s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.col.gray .cv{color:var(--ink2)}.col.gray .cbar{background:linear-gradient(#c9ccd6,#a7abb8);box-shadow:0 14px 34px rgba(0,0,0,.14)}
+.on .cols.show .cbar{height:var(--h)}
+.col .cy{font-size:1.7vw;color:var(--ink2);margin-top:1.6vh;font-weight:bold;direction:ltr;unicode-bidi:isolate}
+.mega{display:flex;gap:1.5vw;margin-top:3vh;justify-content:center;flex-wrap:nowrap;width:82vw}
+.mkpi{flex:1;min-width:0;background:linear-gradient(165deg,#fff,#fbf2f3);border:1px solid var(--line);border-top:.7vh solid var(--red);border-radius:24px;padding:4vh 1vw;box-shadow:0 20px 52px rgba(20,10,12,.11)}
+.mkpi .n{font-family:var(--black);font-size:6.6vw;color:var(--red);line-height:.86;direction:ltr;unicode-bidi:isolate}
+.mkpi .t{font-size:1.5vw;color:var(--ink2);font-weight:600;margin-top:1.8vh;line-height:1.3}
+.hero .mkpi{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);border-top-color:#fff}
+.hero .mkpi .n{color:#fff}.hero .mkpi .t{color:#FBE3E5}
+.pwall{position:absolute;left:0;right:0;height:32vh;background:url(assets/product_wall.png) center/contain no-repeat;opacity:0;transition:opacity 1s ease .3s}
+.on .pwall.show{opacity:1}
+.pcut{position:absolute;bottom:0;background-position:center bottom;background-repeat:no-repeat;background-size:contain;opacity:0;transition:opacity .9s ease .25s,transform .9s cubic-bezier(.2,.7,.2,1) .25s;transform:translateY(6vh);filter:drop-shadow(0 18px 36px rgba(0,0,0,.32))}
+.on .pcut.show{opacity:1;transform:none}
+.brandrow{display:flex;gap:1.2vw;justify-content:center;align-items:flex-end;margin-top:2.4vh;flex-wrap:wrap}
+.brandrow .bcut{height:15vh;width:7.5vw;background:center bottom/contain no-repeat;filter:drop-shadow(0 12px 24px rgba(0,0,0,.20))}
+
+/* STATIC */
+html,body{overflow:auto!important;height:auto!important;background:#fff!important}#stage{position:static!important}
+.slide{position:relative!important;inset:auto!important;opacity:1!important;visibility:visible!important;transform:none!important;width:100vw!important;height:100vh!important;border-bottom:4px solid #e4e5ea}
+.b{opacity:1!important;transform:none!important}.bars .fill{width:var(--w)!important}.col .cbar{height:var(--h)!important}.dots,.hint{display:none!important}
+*,*::before,*::after{transition:none!important;animation:none!important}
+</style><style>
+
+/* ===== BRAIN DECK · EDIT MODE UI v2 (additive) ===== */
+#ed-fab{position:fixed;bottom:24px;right:24px;z-index:9998;background:linear-gradient(135deg,#5f3698,#8f4fd7);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:50px;padding:13px 24px;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 14px 40px rgba(143,79,215,.45);font-family:'Futurism',sans-serif;transition:transform .15s;}
+#ed-fab:hover{transform:translateY(-2px);}
+#ed-toolbar{position:fixed;top:14px;right:14px;z-index:9999;display:none;flex-direction:column;gap:7px;background:rgba(13,15,36,.96);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:9px 11px;box-shadow:0 18px 50px rgba(0,0,0,.6);font-family:'Futurism',sans-serif;direction:rtl;max-width:96vw;}
+#ed-toolbar.on{display:flex;}
+#ed-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap;}
+#ed-ctx{display:none;gap:7px;align-items:center;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.1);padding-top:8px;}
+.ed-ctx-lbl{font-size:13px;color:#9a9ba6;font-weight:700;}
+.ed-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#dfe0e6;border-radius:10px;padding:9px 13px;font-size:14px;font-weight:700;cursor:pointer;transition:all .14s;white-space:nowrap;font-family:inherit;}
+.ed-btn:hover{background:rgba(98,170,191,.18);border-color:rgba(98,170,191,.5);color:#fff;}
+.ed-btn.primary{background:linear-gradient(135deg,#5f3698,#8f4fd7);border-color:rgba(143,79,215,.5);color:#fff;}
+.ed-btn.danger:hover{background:rgba(239,68,68,.2);border-color:rgba(239,68,68,.5);color:#fff;}
+.ed-sep{width:1px;height:24px;background:rgba(255,255,255,.14);margin:0 3px;}
+.ed-dot{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.25);cursor:pointer;padding:0;transition:transform .12s;}
+.ed-dot:hover{transform:scale(1.18);border-color:#fff;}
+.ed-dot.grad-dot{background:linear-gradient(135deg,#71b9c3,#549cbc,#2d70aa,#6556d0,#9c4ed7);}
+#ed-hint{position:fixed;bottom:24px;left:24px;z-index:9998;background:rgba(13,15,36,.92);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 16px;font-size:13px;color:#9a9ba6;font-family:'Futurism',sans-serif;display:none;direction:rtl;max-width:46vw;}
+body.ed-on #ed-hint{display:block;}
+#ed-toast{position:fixed;bottom:78px;left:50%;transform:translateX(-50%) translateY(12px);z-index:9999;background:rgba(143,79,215,.95);color:#fff;padding:11px 22px;border-radius:10px;font-size:15px;font-weight:700;font-family:'Futurism',sans-serif;opacity:0;pointer-events:none;transition:all .25s;box-shadow:0 12px 34px rgba(0,0,0,.5);direction:rtl;}
+#ed-toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+#ed-restore{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:10000;display:flex;gap:10px;align-items:center;background:rgba(13,15,36,.97);border:1px solid rgba(143,79,215,.5);border-radius:12px;padding:10px 18px;font-family:'Futurism',sans-serif;font-size:14px;color:#dfe0e6;direction:rtl;box-shadow:0 18px 50px rgba(0,0,0,.6);}
+#ed-guide-v{position:absolute;left:959px;top:0;width:2px;height:1080px;background:rgba(98,170,191,.85);z-index:9990;display:none;pointer-events:none;box-shadow:0 0 10px rgba(98,170,191,.7);}
+#ed-guide-h{position:absolute;top:539px;left:0;height:2px;width:1920px;background:rgba(98,170,191,.85);z-index:9990;display:none;pointer-events:none;box-shadow:0 0 10px rgba(98,170,191,.7);}
+body.ed-on .ed-hover{outline:1.5px dashed rgba(98,170,191,.6) !important;outline-offset:3px;cursor:move;}
+body.ed-on .ed-selected{outline:2px solid #8f4fd7 !important;outline-offset:3px;}
+[contenteditable=true]{cursor:text !important;outline:2px solid #62aabf !important;outline-offset:3px;user-select:text !important;-webkit-user-select:text !important;}
+.ed-img,.ed-blur,.ed-shape,.ed-textbox,.ed-clone{position:absolute;z-index:50;}
+.ed-img img{width:100%;height:100%;display:block;object-fit:cover;border-radius:6px;pointer-events:none;}
+.ed-blur{backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);background:rgba(20,22,48,.16);border-radius:10px;}
+.ed-blur.ed-opaque{background:#14163a !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;border:1px solid rgba(255,255,255,.06);}
+.ed-shape{background:rgba(143,79,215,.22);border:2px solid rgba(143,79,215,.6);border-radius:12px;}
+.ed-textbox{font-family:'Futurism',sans-serif;font-weight:900;font-size:40px;color:#fff;min-width:60px;line-height:1.1;}
+body.ed-on .ed-img,body.ed-on .ed-blur,body.ed-on .ed-shape,body.ed-on .ed-textbox,body.ed-on .ed-clone{cursor:move;}
+.ed-handle{position:absolute;z-index:60;width:20px;height:20px;border-radius:50%;background:#8f4fd7;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.5);}
+.ed-handle.br{cursor:nwse-resize;right:-10px;bottom:-10px;}
+.ed-del{position:absolute;z-index:61;top:-15px;right:-15px;width:28px;height:28px;border-radius:50%;background:#ef4444;color:#fff;border:2px solid #fff;font-size:17px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;}
+
+</style>
+</head><body>
+<div id="stage">
+<div id="sig" title="CBC ISRAEL"></div>
+<div id="bottle" title="Coca-Cola"></div>
+
+<!-- 1 COVER -->
+<section class="slide" style="justify-content:flex-start;padding-top:7vh">
+ <div class="rule"></div><div class="kick">CBC ISRAEL · אסטרטגיית CRM</div>
+ <div class="cvbig b" data-d="0" style="font-size:10vw">CBC</div>
+ <h2 class="b" data-d="1" style="font-size:2.2vw;line-height:1.4;max-width:82vw;margin-top:1vh">חברה פרטית אחת שולטת כמעט בכל מה שאתם שותים,<br><span class="red">ומחזיקה את כל מקרר המשקאות שלכם.</span></h2>
+ <img class="b" data-d="2" src="assets/brand_grid.jpeg" alt="מותגי CBC" style="margin-top:2.4vh;max-width:74vw;max-height:34vh;width:auto;border-radius:14px;box-shadow:0 16px 44px rgba(20,10,12,.12)">
+ <div class="b" data-d="3" style="margin-top:2vh;color:var(--ink2);font-size:1.25vw;font-weight:600">מגישים: סאלי חליף · ירדן רום · נתנאל יברקן</div>
+ <div class="b" data-d="3" style="margin-top:.7vh;color:var(--mut);font-size:1.1vw">אסטרטגיית CRM בארגונים עסקיים ו-<span class="tech">Salesforce</span> · מרצה: רונן בנבניסטי</div>
+</section>
+
+<!-- DIVIDER · PART 01 -->
+<section class="slide hero divider"><div class="rule" style="background:#fff"></div><div class="kick">PART 01</div>
+ <div class="deye b" data-d="0">חלק 01</div>
+ <h1 class="dbig b" data-d="1" style="font-size:16vw">האימפריה</h1>
+ <div class="dsub b" data-d="2">מי היא CBC, איך היא נבנתה, וכמה היא שולטת</div>
+ <div class="dline b" data-d="3"></div>
+ <div class="pg"></div>
+</section>
+
+<!-- IMAGE SLIDE: הסיפור שלנו · כך נבנתה האימפריה -->
+<section class="slide" style="padding:0;background:#fff">
+ <img src="assets/story_timeline.png" alt="הסיפור שלנו · כך נבנתה האימפריה" style="width:100vw;height:100vh;object-fit:contain" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+ <div style="display:none;position:absolute;inset:0;place-items:center;color:var(--mut);font-size:1.5vw;text-align:center;line-height:1.6">שקופית תמונה · שמור את הקובץ:<br><b style="color:var(--red)">assets/story_timeline.png</b></div>
+ <div class="pg"></div>
+</section>
+
+<!-- IMAGE SLIDE: CBC · צמיחה, חדשנות ופורטפוליו -->
+<section class="slide" style="padding:0;background:#fff">
+ <img src="assets/growth_portfolio.png" alt="CBC · צמיחה, חדשנות ופורטפוליו" style="width:100vw;height:100vh;object-fit:contain" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+ <div style="display:none;position:absolute;inset:0;place-items:center;color:var(--mut);font-size:1.5vw;text-align:center;line-height:1.6">שקופית תמונה · שמור את הקובץ:<br><b style="color:var(--red)">assets/growth_portfolio.png</b></div>
+ <div class="pg"></div>
+</section>
+
+<!-- 3 THE FRIDGE -->
+<section class="slide"><div class="rule"></div><div class="kick">THE FRIDGE</div>
+ <div class="ttl b" data-d="0" style="font-size:3.4vw;max-width:82vw">הכול במקרר הזה שייך ל<span class="red">חברה אחת</span>.</div>
+ <div class="eco b" data-d="1">
+  <svg viewBox="0 0 100 100" preserveAspectRatio="none"><g stroke="var(--line)" stroke-width="1.4"><line x1="50" y1="50" x2="50" y2="12"/><line x1="50" y1="50" x2="88" y2="50"/><line x1="50" y1="50" x2="50" y2="88"/><line x1="50" y1="50" x2="12" y2="50"/></g></svg>
+  <div class="ecore">חברה<br>אחת</div>
+  <div class="enode n-top">המשקה</div>
+  <div class="enode n-right">המקרר</div>
+  <div class="enode n-bot">השלט</div>
+  <div class="enode n-left">התפריט</div>
+ </div>
+ <div class="big b" data-d="4" style="font-size:2.6vw;margin-top:2vh;max-width:78vw;line-height:1.3">ואת המקרר, ששווה אלפי שקלים, היא נתנה בחינם. <span class="red">זו לא נדיבות. זו אסטרטגיה.</span></div>
+ <img class="cooler" src="assets/cooler_vertical.png" alt="" style="right:1.4vw;top:29vh;height:37vh;transform:rotate(3deg)">
+<img class="cooler" src="assets/cooler_horizontal.png" alt="" style="left:1.6vw;bottom:7vh;height:19vh;transform:rotate(-2.5deg)">
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="pg"></div>
+</section>
+
+<!-- 4 THE STORY -->
+<section class="slide"><div class="rule"></div><div class="kick">THE STORY</div>
+ <div class="ttl b" data-d="0">הסיפור: סוכן מוסד שקנה את קוקה-קולה</div>
+ <div class="subt b" data-d="1">איך עורך דין יליד ירושלים הפך את הזיכיון לאימפריה</div>
+ <div class="tline">
+  <div class="tev b" data-d="2"><div class="tdot"></div><div class="ty">1967</div><div class="td">מוזי ורטהיים, עורך דין יליד ירושלים ואיש מוסד לשעבר, זכה יחד עם המשקיע אברהם פיינברג בזיכיון הבלעדי לייצור <span class="tech">Coca-Cola</span> בישראל.</div></div>
+  <div class="tev b" data-d="4"><div class="tdot"></div><div class="ty">2001</div><div class="td">ורטהיים רכש את חלקו של פיינברג והפך לבעלים היחיד של החברה.</div></div>
+ </div>
+ <div class="note b" data-d="6">רווחי הקולה מימנו <b>אימפריה עסקית שלמה</b>.</div>
+ <div class="bgwall"></div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">עובדה ציבורית מאומתת</div><div class="pg"></div>
+</section>
+
+<!-- 5 FAMILY -->
+<section class="slide"><div class="rule"></div><div class="kick">OWNERSHIP</div>
+ <div class="ttl b" data-d="0">מאימפריה אישית לקבוצה משפחתית</div>
+ <div class="subt b" data-d="1">ב-<span class="num">2013</span> העביר ורטהיים את השליטה לילדיו, עוד בחייו</div>
+ <div class="own">
+  <div class="ocard b" data-d="2"><div class="pc">63%</div><div class="nm">דויד ורטהיים</div><div class="rl">יושב ראש החברה, מנהל אותה כיום</div></div>
+  <div class="ocard b" data-d="3"><div class="pc">37%</div><div class="nm">דרורית ורטהיים</div><div class="rl">דירקטורית בחברה</div></div>
+ </div>
+ <div class="note b" data-d="4">מעבר לקוקה-קולה, ורטהיים בנה אימפריה: כ-<span class="num">22%</span> מבנק מזרחי-טפחות, כ-<span class="num">51%</span> מזכיינית קשת <span class="num">12</span>, ואחזקות נדל"ן. עד היום החברה נותרה <b>פרטית ובבעלות מלאה</b> של משפחת ורטהיים.</div>
+ <div class="prail"></div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">עובדה ציבורית מאומתת</div><div class="pg"></div>
+</section>
+
+<!-- NATIONAL MANUFACTURING POWER -->
+<section class="slide"><div class="rule"></div><div class="kick">NATIONAL MANUFACTURING POWER</div>
+ <div class="ttl b" data-d="0">כוח ייצור ארצי · 6 אתרי ייצור</div>
+ <div class="subt b" data-d="1">קבוצת מזון ומשקאות מלאה, מצפון הארץ ועד דרומה</div>
+ <div class="sitegrid">
+  <div class="sitecard b" data-d="2"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 20V10l5 3V10l5 3V6l6 3v11Z M3 20h18"/></svg></div><div class="city">בני ברק</div><div class="prod">משקאות קלים</div></div>
+  <div class="sitecard b" data-d="3"><div class="ic"><svg viewBox="0 0 24 24"><path d="M6 8h9v11a2 2 0 01-2 2H8a2 2 0 01-2-2Z M15 10h2.5a1.5 1.5 0 011.5 1.5v4a1.5 1.5 0 01-1.5 1.5H15 M8 5.5c0-1 1-1.5 2-1.5s1.5 1 2.5 1 2-.5 2 1"/></svg></div><div class="city">אשקלון</div><div class="prod">בירה</div></div>
+  <div class="sitecard b" data-d="4"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3s6 7 6 11a6 6 0 01-12 0c0-4 6-11 6-11Z"/></svg></div><div class="city">קריית שמונה</div><div class="prod">נביעות</div></div>
+  <div class="sitecard b" data-d="5"><div class="ic"><svg viewBox="0 0 24 24"><path d="M8 3h8l-1 4v13a1 1 0 01-1 1H10a1 1 0 01-1-1V7Z M9 9h6"/></svg></div><div class="city">נתיבות</div><div class="prod">טרה</div></div>
+  <div class="sitecard b" data-d="6"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 5c0-1.5 1-2.5 2.5-2.5 M12 13l3-3"/></svg></div><div class="city">גבעת חיים</div><div class="prod">פריגת</div></div>
+  <div class="sitecard b" data-d="7"><div class="ic"><svg viewBox="0 0 24 24"><path d="M7 3h10c0 4-1.5 8-5 8S7 7 7 3Z M12 11v7 M8.5 21h7"/></svg></div><div class="city">כפר תבור</div><div class="prod">יקב תבור</div></div>
+ </div>
+ <div class="banner b" data-d="8" style="font-size:1.7vw">6 אתרי ייצור פרוסים מצפון לדרום · <b>תשתית ייצור ארצית</b></div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">אתר CBC · cbccom.com</div><div class="pg"></div>
+</section>
+
+<!-- 6 EMPIRE TODAY -->
+<section class="slide"><div class="rule"></div><div class="kick">THE EMPIRE TODAY</div>
+ <div class="ttl b" data-d="0">האימפריה היום</div>
+ <div class="subt b" data-d="1">אחת ממערכות המשקאות הגדולות בישראל</div>
+ <div class="ecomap">
+  <svg class="web" viewBox="0 0 100 100" preserveAspectRatio="none"><g stroke="var(--line)" stroke-width=".5" fill="none"><line x1="50" y1="50" x2="50" y2="14"/><line x1="50" y1="50" x2="84" y2="50"/><line x1="50" y1="50" x2="50" y2="86"/><line x1="50" y1="50" x2="16" y2="50"/></g><ellipse cx="50" cy="50" rx="47" ry="44.5" fill="none" stroke="var(--line)" stroke-width=".4" stroke-dasharray="1.2 1.4"/></svg>
+  <div class="ehub"><div class="e1">CBC</div><div class="e2">מערכת המשקאות<br>של ישראל</div></div>
+  <div class="kpod b" data-d="2" style="left:50%;top:12%"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4Z M3 7v10l9 4 M21 7v10l-9 4 M3 7l9 4 9-4"/></svg></div><div class="n">1M+</div><div class="t">אריזות משקה ביום</div></div>
+  <div class="kpod b" data-d="3" style="left:85%;top:50%"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 20V10l5 3V10l5 3V6l6 3v11Z M3 20h18"/></svg></div><div class="n"><span class="num" data-to="6">6</span></div><div class="t">אתרי ייצור ברחבי הארץ</div></div>
+  <div class="kpod b" data-d="4" style="left:50%;top:88%"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div><div class="n"><span class="num" data-to="9">9</span></div><div class="t">קטגוריות מוצרים</div></div>
+  <div class="kpod b" data-d="5" style="left:15%;top:50%"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5 M16 7a3 3 0 010 6 M17 14.5c2.5.4 4 2.3 4 5"/></svg></div><div class="n">~<span class="num" data-to="4700">4,700</span></div><div class="t">עובדים בישראל</div></div>
+  <div class="brand r b" data-d="6" style="left:38.8%;top:6.8%">Coca-Cola</div>
+  <div class="brand b" data-d="7" style="left:61.3%;top:6.8%">Sprite</div>
+  <div class="brand b" data-d="8" style="left:81.2%;top:16.7%">Fanta</div>
+  <div class="brand b" data-d="6" style="left:94.0%;top:34.3%">Fuze Tea</div>
+  <div class="brand b" data-d="7" style="left:96.7%;top:55.4%">פריגת</div>
+  <div class="brand b" data-d="8" style="left:88.7%;top:75.3%">נביעות</div>
+  <div class="brand b" data-d="6" style="left:71.8%;top:89.4%">טרה</div>
+  <div class="brand k b" data-d="7" style="left:50.0%;top:94.5%">Carlsberg</div>
+  <div class="brand k b" data-d="8" style="left:28.1%;top:89.4%">Tuborg</div>
+  <div class="brand k b" data-d="6" style="left:11.3%;top:75.2%">Monster</div>
+  <div class="brand b" data-d="7" style="left:3.3%;top:55.3%">Gat Foods</div>
+  <div class="brand b" data-d="8" style="left:6.1%;top:34.2%">יקב תבור</div>
+  <div class="brand r b" data-d="6" style="left:18.9%;top:16.7%">נורדיק מיסט</div>
+ </div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">עובדה ציבורית מאומתת</div><div class="pg"></div>
+</section>
+
+<!-- 7 MARKET CONTROL -->
+<section class="slide"><div class="rule"></div><div class="kick">MARKET CONTROL</div>
+ <div class="ttl b" data-d="0">מי שולט בשוק?</div>
+ <div class="herokpi b" data-d="1" style="font-size:17vw">~<span class="num" data-to="90">90</span>%</div>
+ <div class="herolbl b" data-d="2">משוק הקולה בישראל</div>
+ <div class="bars" style="width:64vw;margin-top:3.5vh;gap:2.6vh">
+  <div class="brow b" data-d="3"><div class="lbl">שוק התה הקר</div><div class="track"><div class="fill" style="--w:75%;--d:.2s"></div></div><div class="pct">~75%</div></div>
+  <div class="brow b" data-d="4"><div class="lbl">שוק המשקאות הקלים</div><div class="track"><div class="fill" style="--w:66%;--d:.35s"></div></div><div class="pct">~⅔</div></div>
+ </div>
+ <div class="note b" data-d="5" style="text-align:center;max-width:80vw">וגם כ-<span class="num">40%</span> מכלל שוק המשקאות, וכ-<span class="num">40%</span> משוק הבירה. זו לא חברה שמתחרה בשוק · זו <b>החברה שהיא השוק</b>.</div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">הערכה (חברה / עיתונות)</div><div class="pg"></div>
+</section>
+
+<!-- 8 THE MOAT -->
+<section class="slide"><div class="rule"></div><div class="kick">THE MOAT</div>
+ <div class="ttl b" data-d="0">החפיר: למה אי אפשר לתקוף את הליבה</div>
+ <div class="subt b" data-d="1">כל מי שניסה לתקוף את שוק הקולה · נכשל</div>
+ <div class="fails">
+  <div class="failcard b" data-d="2"><div class="fx"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6 M15 9l-6 6"/></svg></div><div class="fname"><span class="tech">RC Cola</span></div><div class="fpct">~3%</div><div class="fstat">של יפאורה · תקועה ולא זזה.</div></div>
+  <div class="failcard b" data-d="3"><div class="fx"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6 M15 9l-6 6"/></svg></div><div class="fname">"שוופס <span class="num">22</span>"</div><div class="fpct">1.8% → 0.1%</div><div class="fstat">צנחה והורדה מהמדף תוך שנה.</div></div>
+ </div>
+ <div class="verdict b" data-d="4">בקטגוריה הזו אין באמת תחרות.</div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">עובדה ציבורית מאומתת</div><div class="pg"></div>
+</section>
+
+<!-- 9 ABUSE -->
+<section class="slide"><div class="rule"></div><div class="kick">THE PRICE OF CONTROL</div>
+ <div class="ttl b" data-d="0">מחיר השליטה: מה הם עשו</div>
+ <div class="subt b" data-d="1">רשות התחרות קבעה שהחברה ניצלה את מעמדה המונופוליסטי לרעה</div>
+ <div class="grid" style="grid-template-columns:repeat(4,1fr);width:84vw">
+  <div class="gc b" data-d="2"><h4>המקרר ככלי לחץ</h4><p>מתן מקרר ממותג, או איום בהוצאתו מנקודת המכירה.</p></div>
+  <div class="gc b" data-d="3"><h4>קשירת הנחות</h4><p>הנחה גדולה יותר על <span class="tech">Coca-Cola</span> למי שרכש גם נביעות.</p></div>
+  <div class="gc b" data-d="4"><h4>הסכמי בלעדיות</h4><p>הטבות בתמורה לרכישה בלעדית של משקאות מהחברה.</p></div>
+  <div class="gc b" data-d="5"><h4>סירוב לספק</h4><p>סירוב בלתי-סביר לספק את המוצר במקרים מסוימים.</p></div>
+ </div>
+ <div class="note b" data-d="6">המקרר החינמי שפתחנו בו הוא בדיוק הכלי שהרגולטור סימן כ<b>ניצול לרעה של מעמד</b>.</div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">עובדה ציבורית מאומתת</div><div class="pg"></div>
+</section>
+
+<!-- DIVIDER · PART 02 -->
+<section class="slide hero divider"><div class="rule" style="background:#fff"></div><div class="kick">PART 02</div>
+ <div class="deye b" data-d="0">חלק 02</div>
+ <h1 class="dbig b" data-d="1" style="font-size:10.5vw">האסטרטגיה<br>והתפעול</h1>
+ <div class="dsub b" data-d="2">המודל העסקי, מצוינות תפעולית, לוגיסטיקה, מערכות ומנוע הלידים</div>
+ <div class="dline b" data-d="3"></div>
+ <div class="pg"></div>
+</section>
+
+<!-- SEGMENTATION (B2B) -->
+<section class="slide"><div class="rule"></div><div class="kick">B2B SEGMENTATION</div>
+ <div class="ttl b" data-d="0">למי CBC מוכרת? סגמנטציית לקוחות <span class="tech">B2B</span></div>
+ <div class="subt b" data-d="1">פילוח לפי סוג עסק קובע את ערוץ המכירה, התמחור והצבת הציוד</div>
+ <div class="grid" style="grid-template-columns:1fr 1fr;width:80vw">
+  <div class="gc b" data-d="2"><h4>רשתות שיווק וקמעונאות מאורגנת</h4><p>נפח עתק, מרווח נמוך וכוח מיקוח גבוה; תמחור רשת לפי הסכמי מסגרת.</p></div>
+  <div class="gc b" data-d="3"><h4>חנויות נוחות, מכולות ופיצוציות</h4><p>הלקוח האידאלי (<span class="tech">General Trade</span>): שליטה מלאה במקרר, מרווח גבוה.</p></div>
+  <div class="gc b" data-d="4"><h4><span class="tech">Horeca</span>: מסעדות, בתי קפה, ברים ומלונות</h4><p>בלעדיות מותג, ברזי מזיגה ומיתוג נקודת הצריכה; רגישות לחוויה.</p></div>
+  <div class="gc b" data-d="5"><h4>מוסדי, תעשייתי ומכרזים</h4><p>מוסדות, חברות וגופים ציבוריים; נרכש דרך מכרזים והסכמי מסגרת.</p></div>
+ </div>
+ <div class="note b" data-d="6">הלקוח האידאלי הוא עסק <span class="tech">GT</span> קטן שבו CBC שולטת בכל המקרר. מכאן נגזר <b>תמחור דיפרנציאלי לפי ערוץ</b>: אותו בקבוק זול ברשת ויקר משמעותית בחנות נוחות.</div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">ניתוח שלנו · מבוסס מטלה 1</div><div class="pg"></div>
+</section>
+
+<!-- TOTAL BEVERAGE -->
+<section class="slide"><div class="rule"></div><div class="kick">THE STRATEGY</div>
+ <div class="ttl b" data-d="0">האסטרטגיה: <span class="tech">Total Beverage Company</span></div>
+ <div class="subt b" data-d="1">לא למכור משקה, אלא להחזיק את כל מקרר המשקאות של הלקוח</div>
+ <div class="grid" style="grid-template-columns:repeat(3,1fr);width:80vw">
+  <div class="gc b" data-d="2"><h4>זיכיון בלעדי</h4><p>מותגים מובילים שאין לאף מתחרה בישראל.</p></div>
+  <div class="gc b" data-d="3"><h4>סל מלא מבית אחד</h4><p>קולה, מים, מיצים, חלב, בירה ויין.</p></div>
+  <div class="gc b" data-d="4"><h4>שליטה בנקודת המכירה</h4><p>המקרר, המדף והשילוט בעסק.</p></div>
+ </div>
+ <div class="note b" data-d="5">ספק אחד שממלא לבעל העסק את כל המקרר ממשאית אחת. זה מה ש<b>אף מתחרה ישראלי לא יכול להציע</b>.</div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">עובדה מאומתת + ניתוח שלנו</div><div class="pg"></div>
+</section>
+
+<!-- OPERATIONAL EXCELLENCE -->
+<section class="slide"><div class="rule"></div><div class="kick">OPERATIONAL EXCELLENCE</div>
+ <div class="ttl b" data-d="0">מצוינות תפעולית: מהמפעל למדף</div>
+ <div class="subt b" data-d="1">אינטגרציה אנכית מלאה, בקנה מידה עולמי</div>
+ <div class="mega" style="width:74vw">
+  <div class="mkpi b" data-d="2"><div class="n">1M+</div><div class="t">אריזות משקה ביום,<br>משני מפעלים</div></div>
+  <div class="mkpi b" data-d="3"><div class="n">Top 10</div><div class="t">מפעל בני ברק · מ-<span class="tech">10</span> מפעלי הבקבוק<br>הגדולים של <span class="tech">Coca-Cola</span> בעולם</div></div>
+ </div>
+ <div class="grid" style="grid-template-columns:1fr 1fr;width:74vw;margin-top:2.4vh">
+  <div class="gc b" data-d="4"><h4>שרשרת קור</h4><p>לחלב ולמוצרים רגישים, מהמחלבה עד הבית.</p></div>
+  <div class="gc b" data-d="5"><h4>אינטגרציה אנכית</h4><p>ייצור, אריזה, אחסון והפצה תחת קבוצה אחת.</p></div>
+ </div>
+ <div class="note b" data-d="6">זוכת <b>הפרס הלאומי לאיכות ומצוינות</b> במגזר העסקי, ע"ש יצחק רבין.</div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">עובדה ציבורית מאומתת</div><div class="pg"></div>
+</section>
+
+<!-- LOGISTICS & DISTRIBUTION -->
+<section class="slide" style="padding:0"><div class="split">
+ <div class="mapwrap b" data-d="2" style="flex:0 0 38vw;display:flex;align-items:center;justify-content:center;background:var(--soft);height:100%">
+  <svg viewBox="0 0 260 470" style="height:82vh;width:auto" xmlns="http://www.w3.org/2000/svg">
+   <defs>
+    <linearGradient id="land" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#FCE3E5"/></linearGradient>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#E30613" flood-opacity="0.16"/></filter>
+   </defs>
+   <path d="M150 8 L150 14 L140 60 L150 96 L158 140 L150 196 L138 232 L110 300 L96 360 L86 410 L80 452 L74 430 L78 360 L70 300 L60 258 L70 246 L52 240 L46 210 L52 168 L58 120 L74 74 L100 40 L128 14 Z" fill="url(#land)" stroke="#E30613" stroke-width="2.4" stroke-linejoin="round" filter="url(#sh)"/>
+   <polyline points="92,84 78,138 72,176 112,186 92,232 86,402" fill="none" stroke="#E30613" stroke-width="2" stroke-dasharray="5 5" opacity="0.7"/>
+   <g><g transform="translate(92,84)"><circle r="8.5" fill="#fff" stroke="#E30613" stroke-width="3"/><circle r="3.4" fill="#E30613"/></g><g transform="translate(78,138)"><circle r="8.5" fill="#fff" stroke="#E30613" stroke-width="3"/><circle r="3.4" fill="#E30613"/></g><g transform="translate(72,176)"><circle r="8.5" fill="#fff" stroke="#E30613" stroke-width="3"/><circle r="3.4" fill="#E30613"/></g><g transform="translate(112,186)"><circle r="8.5" fill="#fff" stroke="#E30613" stroke-width="3"/><circle r="3.4" fill="#E30613"/></g><g transform="translate(92,232)"><circle r="8.5" fill="#fff" stroke="#E30613" stroke-width="3"/><circle r="3.4" fill="#E30613"/></g><g transform="translate(86,402)"><circle r="8.5" fill="#fff" stroke="#E30613" stroke-width="3"/><circle r="3.4" fill="#E30613"/></g></g>
+   <g font-family="Arial,sans-serif" font-size="13" font-weight="bold" fill="#1A1417"><text x="80" y="88" text-anchor="end">חיפה</text><text x="66" y="142" text-anchor="end">הוד השרון</text><text x="60" y="180" text-anchor="end">שורק</text><text x="124" y="190" text-anchor="start">ירושלים</text><text x="104" y="236" text-anchor="start">באר שבע</text><text x="98" y="406" text-anchor="start">אילת</text></g>
+  </svg>
+ </div>
+ <div class="tx"><div class="kickL b" data-d="0">NATIONAL LOGISTICS</div>
+  <h2 class="b" data-d="1">לוגיסטיקה ארצית<br>ומערך הפצה</h2>
+  <p class="b" data-d="2" style="max-width:42vw">חברת מכירות והפצה ייעודית, שמגדירה את עצמה כספק השירות המוביל בישראל.</p>
+  <div class="mega" style="width:42vw;justify-content:flex-start;margin-top:2.4vh">
+   <div class="mkpi b" data-d="3"><div class="n"><span class="num" data-to="6">6</span></div><div class="t">מרחבי הפצה ארציים</div></div>
+   <div class="mkpi b" data-d="4"><div class="n">3</div><div class="t">קהלים שמשרת המערך<br>קמעונאים · קונים · מותגים</div></div>
+  </div>
+  <div class="note b" data-d="5" style="max-width:42vw">הפצה ישירה לנקודות המכירה (<span class="tech">Direct Store Delivery</span>) ושליטה במדף. <b>אלפי מקררים ממותגים</b> בכל הארץ · נכס לוגיסטי שמבטיח את השליטה במדף הקר.</div>
+ </div>
+</div><div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">עובדה ציבורית מאומתת</div><div class="pg"></div>
+</section>
+
+<!-- SERVICE & ROUTE-TO-MARKET (hub infographic) -->
+<section class="slide"><div class="rule"></div><div class="kick">SERVICE & ROUTE-TO-MARKET</div>
+ <div class="ttl b" data-d="0">מודל השירות וההפצה</div>
+ <div class="subt b" data-d="1">ספק השירות המוביל בישראל · שירות מקצה לקצה לכל סוג עסק</div>
+ <div class="svc b" data-d="2">
+  <svg class="lines" viewBox="0 0 100 100" preserveAspectRatio="none"><line class="conn" x1="50" y1="50" x2="50" y2="13"/><line class="conn" x1="50" y1="50" x2="15" y2="86"/><line class="conn" x1="50" y1="50" x2="85" y2="86"/></svg>
+  <div class="hub">מרכז השירות<br>CBC</div>
+  <div class="seg s-top"><span class="si"><svg viewBox="0 0 24 24"><path d="M4 9l1-4h14l1 4 M4 9h16v10H4z M9 19v-5h6v5"/></svg></span><h5>חנויות נוחות</h5></div>
+  <div class="seg s-bl"><span class="si"><svg viewBox="0 0 24 24"><path d="M5 8h14l-1 4H6Z M6 12v8 M18 12v8 M6 20h12 M9 14h6v6H9z"/></svg></span><h5>שוק מסורתי</h5></div>
+  <div class="seg s-br"><span class="si"><svg viewBox="0 0 24 24"><path d="M4 20V7l8-4 8 4v13 M9 20v-5h6v5 M8 10h2 M14 10h2"/></svg></span><h5>רשתות מאורגנות</h5></div>
+ </div>
+ <div class="anchors" style="margin-top:2.4vh">
+  <div class="anc b" data-d="3"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 7h11v8H3z M14 10h4l3 3v2h-7 M6.5 18a1.6 1.6 0 100-3.2 1.6 1.6 0 000 3.2 M17.5 18a1.6 1.6 0 100-3.2 1.6 1.6 0 000 3.2"/></svg></div><h4>הפצה ישירה (<span class="tech">DSD</span>)</h4></div>
+  <div class="anc b" data-d="4"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg></div><h4>אנשי מכירות ייעודיים</h4></div>
+  <div class="anc b" data-d="5"><div class="ic"><svg viewBox="0 0 24 24"><path d="M15 6.5a4 4 0 01-5.2 5.2L5 16.5 7.5 19l4.8-4.8A4 4 0 0017.5 9z"/></svg></div><h4>טכנאי שירות ארציים</h4></div>
+  <div class="anc b" data-d="6"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 016 6c0 4.5-6 12-6 12S6 13.5 6 9a6 6 0 016-6Z M12 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3Z"/></svg></div><h4>כיסוי וניהול מדף ארצי</h4></div>
+ </div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">עובדה מאומתת + ניתוח שלנו</div><div class="pg"></div>
+</section>
+
+<!-- SYSTEMS & DATA -->
+<section class="slide"><div class="rule"></div><div class="kick">SYSTEMS & DATA</div>
+ <div class="ttl b" data-d="0">המערכות והדאטה</div>
+ <div class="subt b" data-d="1">כך החברה מנהלת לקוחות, ספקים ושטח</div>
+ <div class="sapeco">
+  <div class="chans">
+   <div class="gc b" data-d="2"><h4>מוקד שירות רב-ערוצי</h4><p>טלפון, מייל ורשתות חברתיות.</p></div>
+   <div class="gc b" data-d="3"><h4>אפליקציית צרכן</h4><p>מועדון נאמנות וצבירת פקקים.</p></div>
+   <div class="gc b" data-d="4"><h4>פורטל ספקים</h4><p>ניהול שרשרת אספקה (<span class="tech">StoreNext</span>).</p></div>
+   <div class="gc b" data-d="5"><h4>מערך שטח</h4><p>מסופונים מעל ליבת <span class="tech">SAP</span>.</p></div>
+  </div>
+  <div class="sapcore b" data-d="6"><div class="sc1">SAP</div><div class="sc2">כל הערוצים מזינים בסיס נתונים אחד על הלקוח</div></div>
+ </div>
+ <div class="note b" data-d="7">פרטי <span class="tech">SAP</span> והמסופון הם מתשאול שטח, ולא מפרסום רשמי.</div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">עובדה מאומתת + ניתוח שלנו</div><div class="pg"></div>
+</section>
+
+<!-- LEAD ENGINE -->
+<section class="slide"><div class="rule"></div><div class="kick">THE LEAD ENGINE</div>
+ <div class="ttl b" data-d="0">מנוע הלידים: מאיפה מגיעים לקוחות</div>
+ <div class="subt b" data-d="1">כמובילת שוק, החברה כמעט לא יוצאת לחיפוש יזום · הלידים נכנסים אליה</div>
+ <div class="big b" data-d="2" style="font-size:5.5vw;margin-top:5vh">בלי <span class="tech">Prospecting</span></div>
+ <div class="note b" data-d="3" style="text-align:center;max-width:74vw;font-size:1.6vw">מובילת שוק לא רודפת אחרי לקוחות. מרבית הלידים מגיעים דרך <b>טופס דיגיטלי מאוחד אחד</b>.</div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">הערכה (חברה / עיתונות)</div><div class="pg"></div>
+</section>
+
+<!-- SALES PIPELINE -->
+<section class="slide"><div class="rule"></div><div class="kick">SALESFORCE PIPELINE</div>
+ <div class="ttl b" data-d="0">תהליך המכירה: שלבי <span class="tech">Pipeline</span> ב-<span class="tech">Salesforce</span></div>
+ <div class="subt b" data-d="1">מבוסס על מודל 7 שלבי המכירה מהקורס, מותאם ל-<span class="tech">FMCG</span>; כל שלב = ערך בשדה <span class="tech">Stage</span> והסתברות לזכייה</div>
+ <div class="pipe b" data-d="2">
+  <div class="pstage s1"><div class="pst">שלב 1</div><div class="pnm">יצירת קשר ומיפוי</div><div class="pp">10–35%</div></div>
+  <div class="pstage s2"><div class="pst">שלב 2</div><div class="pnm">הסמכה והשלמת מסמכים</div><div class="pp">50%</div></div>
+  <div class="pstage s3"><div class="pst">שלב 3</div><div class="pnm">הצעה, <span class="tech">Special Bid</span> ומו״מ</div><div class="pp">60–85%</div></div>
+  <div class="pstage s4"><div class="pst">שלב 4</div><div class="pnm"><span class="tech">Closed Won</span> והתקנת ציוד</div><div class="pp">100%</div></div>
+ </div>
+ <div class="note b" data-d="6"><b><span class="tech">Prospecting</span> (שלב 1) לא רלוונטי ל-CBC</b> · כמובילת שוק החברה לא יוזמת איתור לקוחות, והתהליך מתחיל מ-<span class="tech">Make Contact</span>. <b>שלב ייחודי ל-CBC: התקנת ציוד</b> · ההזדמנות לא נסגרת עד שהמקרר/ברז פועל בנקודת המכירה, שלב לוגיסטי-טכני שאין למתחרים.</div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">עובדה מאומתת + ניתוח שלנו</div><div class="pg"></div>
+</section>
+
+<!-- KPIs -->
+<section class="slide"><div class="rule"></div><div class="kick">SUCCESS METRICS</div>
+ <div class="ttl b" data-d="0">מדדי הצלחה (<span class="tech">KPIs</span>) במערך המכירות</div>
+ <div class="subt b" data-d="1">כחברה פרטית CBC לא חושפת ערכים מספריים · אלה מדדי-העל שמנוהלים בפועל</div>
+ <div class="kpidash">
+  <div class="kpitile b" data-d="2"><div class="top"><div class="kic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5 M16 7a3 3 0 010 6 M17 14.5c2.5.4 4 2.3 4 5"/></svg></div><div class="trend">מגמת עלייה</div></div><div class="klabel">לקוחות פעילים</div><div class="kdesc">נקודות מכירה פעילות · גיוס ושימור</div><svg class="spark" viewBox="0 0 100 34" preserveAspectRatio="none"><polyline points="2,28 16,24 30,26 44,16 58,19 72,9 86,11 98,4" fill="none" stroke="var(--red)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="kpitile b" data-d="3"><div class="top"><div class="kic"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4Z M3 7v10l9 4 M21 7v10l-9 4 M3 7l9 4 9-4"/></svg></div><div class="trend">מגמת עלייה</div></div><div class="klabel"><span class="tech">Box Volume</span></div><div class="kdesc">ארגזי משקה · מדד הליבה התפעולי</div><svg class="spark" viewBox="0 0 100 34" preserveAspectRatio="none"><polyline points="2,28 16,24 30,26 44,16 58,19 72,9 86,11 98,4" fill="none" stroke="var(--red)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  <div class="kpitile b" data-d="4"><div class="top"><div class="kic"><svg viewBox="0 0 24 24"><ellipse cx="9" cy="7" rx="6" ry="3"/><path d="M3 7v5c0 1.7 2.7 3 6 3 M15 11.5a6 3 0 11.01 0 M9 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"/></svg></div><div class="trend">מגמת עלייה</div></div><div class="klabel">היקף מכירות</div><div class="kdesc">הכנסות לפי לקוח ואזור</div><svg class="spark" viewBox="0 0 100 34" preserveAspectRatio="none"><polyline points="2,28 16,24 30,26 44,16 58,19 72,9 86,11 98,4" fill="none" stroke="var(--red)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+ </div>
+ <div class="note b" data-d="5">המדידה מנוהלת לפי סגמנט ואזור והיא <b>דינמית</b>: החברה משנה תהליך מכירה או יעד מדידה במהירות לפי תנאי השוק. מדדי שירות משלימים (מודל מוצע): זמן תגובה לתקלת מקרר ו-<span class="tech">CSAT</span> של בעלי עסקים.</div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">ניתוח שלנו · מטלה 2</div><div class="pg"></div>
+</section>
+
+<!-- DIVIDER · PART 03 -->
+<section class="slide hero divider"><div class="rule" style="background:#fff"></div><div class="kick">PART 03</div>
+ <div class="deye b" data-d="0">חלק 03</div>
+ <h1 class="dbig b" data-d="1" style="font-size:17vw">הבידול</h1>
+ <div class="dsub b" data-d="2">חמשת העוגנים, הזירה האחת שלא מנצחים בה, והחדשנות</div>
+ <div class="dline b" data-d="3"></div>
+ <div class="pg"></div>
+</section>
+
+<!-- SERVICE MODULE -->
+<section class="slide"><div class="rule"></div><div class="kick">SERVICE MODULE</div>
+ <div class="ttl b" data-d="0">מודול השירות: מקרר מושבת = מכירה אבודה</div>
+ <div class="subt b" data-d="1">השירות הוא כלי שימור ורווחיות, לא מרכז עלות; כל תקלה נפתחת כקריאה (<span class="tech">Case</span>)</div>
+ <div class="sflow b" data-d="2">
+  <div class="sstep"><div class="si">1</div><h5>פתיחת קריאה רב-ערוצית</h5><p>מוקד, אפליקציה ופורטל; כל פנייה נפתחת כ-<span class="tech">Case</span> ומתועדת ב-<span class="tech">SAP</span>.</p></div>
+  <div class="sstep"><div class="si">2</div><h5>ניתוב לנהג-טכנאי קבוע</h5><p>נהג-טכנאי קבוע לכל לקוח, עם קווים ונקודות קבועים ומסופון <span class="tech">SAP</span>.</p></div>
+  <div class="sstep"><div class="si">3</div><h5>מערך השירות (מש״א) בשורק</h5><p>התקנות, תיקונים, סניטציות וחלפים; כל חלק נסרק ומנוהל ב-<span class="tech">SAP</span>.</p></div>
+  <div class="sstep"><div class="si">4</div><h5><span class="tech">SLA</span> לפי השפעה עסקית</h5><p>תיעדוף לפי נזק: מקרר מושבת לפני בעיה אסתטית (מודל מוצע · CBC לא חשפה ערכים).</p></div>
+ </div>
+ <div class="note b" data-d="6">מקרר מושבת הוא מדף שמפסיק למכור · ללקוח ול-CBC. לכן השירות מנוהל ב-<span class="tech">SAP</span> בסטנדרט מכירות, והוא <b>חלק בלתי-נפרד מהבידול ומההזדמנות</b>.</div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">ניתוח שלנו · מטלה 3 (מודול שירות)</div><div class="pg"></div>
+</section>
+
+<!-- FIVE ANCHORS -->
+<section class="slide"><div class="rule"></div><div class="kick">THE FIVE ANCHORS</div>
+ <div class="ttl b" data-d="0">למה CBC מנצחת · חמשת עוגני הבידול</div>
+ <div class="subt b" data-d="1">חמישה גורמים שמתכנסים ליתרון תחרותי אחד בלתי-עביר</div>
+ <div class="pillars">
+  <div class="pillar b" data-d="2"><div class="pnum">1</div><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 6.3 6.8.5-5.2 4.4 1.6 6.6L12 17.8 6.2 21.3 7.8 14.7 2.6 10.3l6.8-.5Z"/></svg></div><h4>מותגים חזקים</h4></div>
+  <div class="pillar b" data-d="3"><div class="pnum">2</div><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 7h11v8H3z M14 10h4l3 3v2h-7 M6.5 18a1.6 1.6 0 100-3.2 1.6 1.6 0 000 3.2 M17.5 18a1.6 1.6 0 100-3.2 1.6 1.6 0 000 3.2"/></svg></div><h4>מערך הפצה ארצי</h4></div>
+  <div class="pillar b" data-d="4"><div class="pnum">3</div><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l4 2"/></svg></div><h4>זמינות גבוהה</h4></div>
+  <div class="pillar b" data-d="5"><div class="pnum">4</div><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 13v-1a8 8 0 0116 0v1 M4 13h2.5a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1Z M20 13h-2.5a1 1 0 00-1 1v4a1 1 0 001 1H19 M17 19a4 4 0 01-4 3h-1"/></svg></div><h4>שירות לקוחות</h4></div>
+  <div class="pillar b" data-d="6"><div class="pnum">5</div><div class="ic"><svg viewBox="0 0 24 24"><path d="M9 18h6 M10 21h4 M12 3a6 6 0 014 10.5c-.8.8-1 1.5-1 2.5H9c0-1-.2-1.7-1-2.5A6 6 0 0112 3Z"/></svg></div><h4>חדשנות ופורטפוליו רחב</h4></div>
+ </div>
+ <div class="banner b" data-d="7" style="font-size:1.7vw">ספק אחד. כל המקרר. <b>יתרון שאף מתחרה ישראלי לא יכול להציע.</b></div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">עובדה מאומתת + ניתוח שלנו</div><div class="pg"></div>
+</section>
+
+<!-- MILK -->
+<section class="slide"><div class="rule"></div><div class="kick">THE ONE ARENA THEY DON'T WIN</div>
+ <div class="ttl b" data-d="0">הזירה האחת שלא מנצחים בה: <span class="red">שוק החלב</span></div>
+ <div class="subt b" data-d="1">הקטגוריה היחידה שבה CBC היא דווקא השחקן הקטן · ומגמת טרה יורדת</div>
+ <div class="cols">
+  <div class="col gray b" data-d="2"><div class="cv">~13%</div><div class="cbar" style="--h:100%;--d:.1s"></div><div class="cy">2017</div></div>
+  <div class="col b" data-d="3"><div class="cv">~9.6%</div><div class="cbar" style="--h:74%;--d:.35s"></div><div class="cy">2025</div></div>
+ </div>
+ <div class="note b" data-d="4" style="text-align:center;max-width:78vw">טרה: ~9.6% בלבד. בשוק החלב תנובה ושטראוס שולטות, וזו הקטגוריה היחידה שבה CBC היא השחקן הקטן. מציאות תחרותית שמזכירה ש<b>אפילו ענק לא מנצח בכל זירה</b>.</div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">הערכה (חברה / עיתונות)</div><div class="pg"></div>
+</section>
+
+<!-- INNOVATION -->
+<section class="slide"><div class="rule"></div><div class="kick">INNOVATION AS DIFFERENTIATION</div>
+ <div class="ttl b" data-d="0">חדשנות כבידול</div>
+ <div class="subt b" data-d="1">לא רק לשמר את ההובלה, אלא לתקוף קטגוריות חדשות</div>
+ <div class="grid" style="grid-template-columns:1fr 1fr;width:74vw">
+  <div class="gc b" data-d="2"><h4><span class="tech">Brevel</span></h4><p>שיתוף פעולה מ-<span class="num">2025</span> לפיתוח חלבון ממיקרו-אצות, לתחליפי חלב ומשקאות פונקציונליים. צעד אל מעבר למשקאות הקלאסיים.</p></div>
+  <div class="gc b" data-d="3"><h4>נורדיק מיסט</h4><p>הושק ב-<span class="num">2022</span> כמתחרה ל-<span class="tech">Schweppes</span>, הורחב ב-<span class="num">2024</span> לכלל הקמעונאות עם גרסת <span class="tech">Zero</span> ואריזה משפחתית, באריזות <span class="tech">rPET</span> ממוחזרות.</p></div>
+ </div>
+ <div class="note b" data-d="4">חדשנות מוצרית היא חלק מהבידול: היא שומרת על ההובלה היום, ובונה את <b>הקטגוריות של מחר</b>.</div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">עובדה ציבורית מאומתת</div><div class="pg"></div>
+</section>
+
+<!-- SVC CHAPTER · A COVER -->
+<section class="slide hero divider"><div class="rule" style="background:#fff"></div><div class="kick">SERVICE · SAP CS</div>
+ <div class="deye b" data-d="0">פרק השירות</div>
+ <h1 class="dbig b" data-d="1" style="font-size:6.2vw">מש״א · מרכז השירות הארצי</h1>
+ <div class="dsub b" data-d="2"><span class="tech">SAP CS</span> · כשהשירות פוגש את הלקוח</div>
+ <div class="b" data-d="3" style="display:flex;gap:3vw;margin-top:3.4vh"><svg style="stroke:#fff;fill:none;stroke-width:2;width:3vw;height:3vw" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M6 10h12 M9 6v1.6 M9 13v3"/></svg><svg style="stroke:#fff;fill:none;stroke-width:2;width:3vw;height:3vw" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg><svg style="stroke:#fff;fill:none;stroke-width:2;width:3vw;height:3vw" viewBox="0 0 24 24"><path d="M6 3h5l2 5-2.5 1.5a11 11 0 005 5L18 11l5 2v5a2 2 0 01-2 2A16 16 0 014 5a2 2 0 012-2Z"/></svg></div>
+ <div class="b" data-d="4" style="margin-top:2.6vh;color:#FBE3E5;font-size:1.6vw;font-weight:bold">מעולם המכירות אל עולם השירות</div>
+ <div class="pg"></div>
+</section>
+
+<!-- SVC CHAPTER · B  PM vs CS -->
+<section class="slide"><div class="rule"></div><div class="kick">CS vs PM</div>
+ <div class="ttl b" data-d="0">מודול <span class="tech">CS</span> · הלב של מערך השירות</div>
+ <div class="cmp">
+  <div class="side b" data-d="1"><div class="tag">PM<span>Plant Maintenance</span></div>
+   <div class="it"><svg viewBox="0 0 24 24"><path d="M3 20V10l5 3V10l5 3V6l6 3v11Z M3 20h18"/></svg>מפעל</div><div class="it"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3 M12 18v3 M3 12h3 M18 12h3 M5.5 5.5l2 2 M16.5 16.5l2 2 M18.5 5.5l-2 2 M7.5 16.5l-2 2"/></svg>ציוד</div><div class="it"><svg viewBox="0 0 24 24"><path d="M15 6.5a4 4 0 01-5.2 5.2L5 16.5 7.5 19l4.8-4.8A4 4 0 0017.5 9z"/></svg>תחזוקה</div>
+   <div class="cap">מבט פנימה אל נכסי החברה</div></div>
+  <div class="side cs b" data-d="2"><div class="tag">CS<span>Customer Service</span></div>
+   <div class="it"><svg viewBox="0 0 24 24"><path d="M4 9l1-4h14l1 4 M4 9h16v10H4z M9 19v-5h6v5"/></svg>נקודת מכירה</div><div class="it"><svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M6 10h12 M9 6v1.6 M9 13v3"/></svg>מקרר</div><div class="it"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>טכנאי</div>
+   <div class="cap">מבט החוצה אל הלקוח</div></div>
+ </div>
+ <div class="banner b" data-d="3"><span class="tech">CS</span> מחבר בין השירות, הלקוח והפעילות העסקית</div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">ניתוח שלנו · מטלה 3 (מודול שירות)</div><div class="pg"></div>
+</section>
+
+<!-- SVC CHAPTER · C  JOURNEY -->
+<section class="slide"><div class="rule"></div><div class="kick">SERVICE JOURNEY</div>
+ <div class="ttl b" data-d="0">מסע של קריאת שירות אחת</div>
+ <div class="subt b" data-d="1">מהתקלה ועד הסגירה · אוטומטי, מקצה לקצה</div>
+ <div class="sflow seven b" data-d="2">
+  <div class="sstep"><div class="si"><svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M6 10h12 M9 6v1.6 M9 13v3"/></svg></div><h5>תקלה במקרר</h5></div>
+  <div class="sstep"><div class="si"><svg viewBox="0 0 24 24"><path d="M6 3h5l2 5-2.5 1.5a11 11 0 005 5L18 11l5 2v5a2 2 0 01-2 2A16 16 0 014 5a2 2 0 012-2Z"/></svg></div><h5>פתיחת קריאה</h5></div>
+  <div class="sstep"><div class="si"><svg viewBox="0 0 24 24"><rect x="5" y="8" width="14" height="11" rx="2"/><path d="M12 4.5v3.5 M9 13h.01 M15 13h.01 M9.5 16h5"/><circle cx="12" cy="4" r="1.3"/></svg></div><h5>בוט מש״א</h5></div>
+  <div class="sstep"><div class="si"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></div><h5>חישוב <span class="tech">SLA</span></h5></div>
+  <div class="sstep"><div class="si"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg></div><h5>שיגור לטכנאי</h5></div>
+  <div class="sstep"><div class="si"><svg viewBox="0 0 24 24"><path d="M3 7h11v8H3z M14 10h4l3 3v2h-7 M6.5 18a1.6 1.6 0 100-3.2 1.6 1.6 0 000 3.2 M17.5 18a1.6 1.6 0 100-3.2 1.6 1.6 0 000 3.2"/></svg></div><h5>טיפול בשטח</h5></div>
+  <div class="sstep"><div class="si"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5 5-5.5"/></svg></div><h5>סגירת קריאה</h5></div>
+ </div>
+ <div class="chk b" data-d="3"><span class="ci">זיהוי טכנאי</span><span class="ci">סיווג תקלה</span><span class="ci">חישוב <span class="tech">SLA</span></span><span class="ci">שיגור אוטומטי</span></div>
+ <div class="banner b" data-d="4" style="font-size:1.55vw">המערכת מנתבת את הקריאה אוטומטית · <b>ללא מגע יד אדם</b></div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">ניתוח שלנו · מטלה 3 (מש״א)</div><div class="pg"></div>
+</section>
+
+<!-- SVC CHAPTER · D  CRM VALUE -->
+<section class="slide"><div class="rule"></div><div class="kick">SERVICE → CRM VALUE</div>
+ <div class="ttl b" data-d="0">איך השירות מייצר ערך ל-<span class="tech">CRM</span></div>
+ <div class="eco crosseco b" data-d="1" style="margin-top:1.5vh">
+  <svg class="lines" viewBox="0 0 100 100" preserveAspectRatio="none"><g stroke="var(--line)" stroke-width="1.4"><line x1="50" y1="50" x2="50" y2="12"/><line x1="50" y1="50" x2="88" y2="50"/><line x1="50" y1="50" x2="50" y2="88"/><line x1="50" y1="50" x2="12" y2="50"/></g></svg>
+  <div class="ecore" style="font-size:1.3vw">SAP CS</div>
+  <div class="enode n-top" style="font-size:1.15vw">CRM</div>
+  <div class="enode n-right" style="font-size:1.1vw">מוקד שירות</div>
+  <div class="enode n-bot" style="font-size:1.05vw">בוט מש״א</div>
+  <div class="enode n-left" style="font-size:1.15vw">AMODAT</div>
+ </div>
+ <div class="anchors" style="margin-top:1.6vh">
+  <div class="anc b" data-d="2"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg></div><h4>מקור אמת אחד ללקוח</h4></div>
+  <div class="anc b" data-d="3"><div class="ic"><svg viewBox="0 0 24 24"><path d="M13 3 5.5 13H11l-1 8 8.5-10.5H13Z"/></svg></div><h4>שירות מהיר ועקבי</h4></div>
+  <div class="anc b" data-d="4"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7.5v9 M9.7 10a2 2 0 012-1.8h.8a1.7 1.7 0 010 3.4h-1a1.7 1.7 0 000 3.4h.8A2 2 0 0014.3 16"/></svg></div><h4>שירות שניתן לחייב</h4></div>
+  <div class="anc b" data-d="5"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 20V4 M4 20h16 M8 16v-4 M12 16V8 M16 16v-7"/></svg></div><h4>נתונים לשיפור שימור ומכירה</h4></div>
+ </div>
+ <div class="banner b" data-d="6" style="font-size:1.55vw">מש״א אינו רק מרכז שירות · הוא חלק מ<b>אסטרטגיית ה-CRM</b> של CBC</div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">ניתוח שלנו · מטלה 3 (מש״א)</div><div class="pg"></div>
+</section>
+
+<!-- SERVICE AS COMPETITIVE ADVANTAGE -->
+<section class="slide"><div class="rule"></div><div class="kick">SERVICE = STRATEGIC ADVANTAGE</div>
+ <div class="ttl b" data-d="0">מערך השירות הארצי · יתרון תחרותי של CBC</div>
+ <div class="subt b" data-d="1">CBC לא רק מוכרת מוצרים · היא מספקת מערכת שירות שלמה</div>
+ <div class="scards">
+  <div class="scard b" data-d="2"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 016 6c0 4.5-6 12-6 12S6 13.5 6 9a6 6 0 016-6Z M12 9.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3Z"/></svg></div><h4>פריסה ארצית</h4><ul><li>6 מרחבי הפצה</li><li>מקרית שמונה ועד אילת</li><li>נהג-טכנאי בכל אזור</li></ul></div>
+  <div class="scard b" data-d="3"><div class="ic"><svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M6 10h12 M9 6v1.6 M9 13v3"/></svg></div><h4>ציוד קירור ומזיגה</h4><ul><li>מקררים ממותגים</li><li>ברזי מזיגה בעסק</li><li>התקנה ותחזוקה שוטפת</li></ul></div>
+  <div class="scard b" data-d="4"><div class="ic"><svg viewBox="0 0 24 24"><path d="M15 6.5a4 4 0 01-5.2 5.2L5 16.5 7.5 19l4.8-4.8A4 4 0 0017.5 9z"/></svg></div><h4>שירות טכני מקצועי</h4><ul><li>מסופון <span class="tech">SAP</span> בשטח</li><li><span class="tech">SLA</span> לפי השפעה עסקית</li><li>טיפול ותיקון מהיר</li></ul></div>
+  <div class="scard b" data-d="5"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="2.6"/><circle cx="16" cy="9" r="2.6"/><path d="M3.5 19c0-2.8 2-4.6 4.5-4.6s4.5 1.8 4.5 4.6 M12 18.6c.5-2 2.1-3.3 4-3.3 2.2 0 4 1.7 4 3.8"/></svg></div><h4>שותפות עם הלקוח</h4><ul><li>מקור אמת אחד ב-<span class="tech">CRM</span></li><li>חוויית שירות רציפה</li><li>שימור והגדלת מכירה</li></ul></div>
+ </div>
+ <div class="kbanner b" data-d="6">
+  <div class="ki"><span class="kn">6</span><span class="kl">מרחבי הפצה ארציים</span></div>
+  <div class="ki"><span class="kn">אלפי</span><span class="kl">מקררים ממותגים בשטח</span></div>
+  <div class="ki"><span class="kn">ארצי</span><span class="kl">שירות מקצה לקצה</span></div>
+ </div>
+ <div class="foot">CBC · קוקה-קולה ישראל</div><div class="src">עובדה מאומתת + ניתוח שלנו</div><div class="pg"></div>
+</section>
+
+<!-- CONCLUSION (hero) -->
+<section class="slide hero"><div class="rule" style="background:#fff"></div><div class="kick">IN SUMMARY</div>
+ <h1 class="b" data-d="0" style="font-size:3.2vw;line-height:1.3;max-width:80vw">חברה פרטית אחת, בבעלות משפחה אחת,<br>שולטת כמעט בכל מה שאתם שותים.</h1>
+ <div class="sub b" data-d="2" style="max-width:78vw;font-size:1.9vw;color:#FBE3E5;margin-top:3vh">מותגים בלעדיים, מצוינות תפעולית ושליטה בנקודת המכירה ·<br>הם שהופכים את <b style="color:#fff">CBC לבלתי-מנוצחת</b>.</div>
+ <div class="pg"></div>
+</section>
+
+<!-- THANKS (hero) -->
+<section class="slide hero" style="justify-content:center"><div class="rule" style="background:#fff"></div><div class="kick">THANK YOU</div>
+ <div class="cvbig2 b" data-d="0" style="color:#fff">תודה רבה</div>
+ <div class="sub b" data-d="1" style="font-size:2vw;color:#FBE3E5;margin-top:1vh">נשמח לשאלות</div>
+ <div class="b" data-d="3" style="margin-top:4vh;color:#fff;font-size:1.4vw;font-weight:600">סאלי חליף · ירדן רום · נתנאל יברקן</div>
+ <div class="b" data-d="4" style="margin-top:1vh;color:#FBE3E5;font-size:1.15vw">אסטרטגיית CRM בארגונים עסקיים ו-<span class="tech">Salesforce</span> · מרצה: רונן בנבניסטי</div>
+ <div class="pg"></div>
+</section>
+</div>
+<script>
+/* ===== BRAIN DECK · EDIT MODE v2 (additive, self-contained) =====
+   v2 adds: clipboard image paste (Cmd+V) + file drag-drop, internal element
+   copy/paste (Cmd+C/Cmd+V), brand color swatches (whole element OR selected
+   word while editing), center snap-guides while dragging, arrow-key nudge,
+   z-order, center buttons, redo, autosave to localStorage with restore bar,
+   blur intensity/opaque controls, proportional image resize, Cmd+S save. */
+(function(){
+  if(window.__brainEdInit) return; window.__brainEdInit=true;
+  var deck=document.getElementById('stage');
+  if(!deck) return;
+  var edOn=false, selected=null, undoStack=[], redoStack=[], editState=null;
+  var clipInternal=null, pasteCount=0, zTop=60, lastNudge={el:null,t:0};
+  var touched={}, persistTimer=null, persistWarned=false;
+  var LS_KEY='brainEd:'+(location.pathname.split('/').pop()||'deck');
+  var MARKER='__brain-ed-copy__';
+
+  var ADDED='.ed-img,.ed-blur,.ed-shape,.ed-textbox,.ed-clone';
+  /* DENY = full-bleed backgrounds, slide-filling wrappers, deck chrome, editor UI */
+  var DENY='#stage,.slide,#sig,#bottle,.prail,.bgwall,.wallband,.pwall,.pcut,.bigheart,.rule,.kick,.src,.foot,.pg,.dots,.hint,.tline,.bars,.brow,.track,.fill,.dline,.divider,.gauges,.gring,.cols,.col,.cbar,.pipe,.pstage,.sapeco,.sapcore,.chans,.sflow,.sstep,.svc,.seg,.hub,.conn,.cmp,.side,.scards,.scard,.kbanner,.ki,.sitegrid,.sitecard,.kpidash,.kpitile,.pillars,.pillar,.fails,.failcard,.verdict,.ecomap,.crosseco,.ehub,.kpod,.brand,.web,.city,.prod,.klabel,.kdesc,.pnum,.cooler,.banner,.chk,.ci,.it,.eco,.ecore,.enode,.mapwrap,.herokpi,.substats,.substat,svg,#nav,.nav-btn,#slide-counter,#btn-fs,#progress-bar,#ed-toolbar,#ed-fab,#ed-hint,#ed-toast,#ed-ctx,#ed-restore,#ed-guide-v,#ed-guide-h,.wrap,.div-wrap,.show-wrap,.bs-wrap,.applayer,.hero-image-content,.hero-image-vignette,.lay-side,.lay-wrap,.tower,.tower-inner,.hero-image,.hero-ring,.hero-ring2,.loop-wrap,.loop-content';
+  /* TEXTY = elements that may be inline-edited on double-click */
+  var TEXTY='h1,h2,h3,h4,h5,h6,p,li,span,.ttl,.subt,.sub,.note,.chnum,.dsub,.dtop,.quote,.nm,.rl,.td,.ty,.tamt,.lbl,.t,.n,.ft,.fn,.gi,.glabel,.cy,.cv,.mkpi,.pst,.pnm,.pp,.sc1,.sc2,.si,.herolbl,.sn,.sl,.deye,.dbig,.cvbig,.cvbig2,.div-word,.s-title,.eyebrow,.bp-text,.bs-context,.hero-title,.hero-sub,.div-sub,.div-eyebrow,.ed-textbox,.vl-name,.vl-val,.lay-tx,.pl-tx,.card,.chip,.engine,.step-name,.price-num,.vt-num,.hbar-lbl,.hbar-val,.vs-name,.vs-item,.bs-number,.bs-label';
+
+  function scale(){ var r=deck.getBoundingClientRect(); return 1; }
+  function activeSlide(){ return document.querySelector('.slide.on')||document.querySelector('.slide'); }
+  function slideIndex(s){ return [].slice.call(document.querySelectorAll('.slide')).indexOf(s); }
+  function matches(el,sel){ return el && el.matches && el.matches(sel); }
+  function deckXY(cx,cy){ var d=deck.getBoundingClientRect(), s=scale(); return {x:(cx-d.left)/s, y:(cy-d.top)/s}; }
+
+  /* Permissive: deepest element under the cursor that is NOT a denied wrapper.
+     Clicking inside an ADDED element (image/clone/...) grabs the whole unit. */
+  function eligible(el){
+    if(el && el.closest){ var ad=el.closest(ADDED); if(ad) return ad; }
+    var cur=el;
+    while(cur && cur!==deck){
+      if(matches(cur,ADDED)) return cur;
+      if(cur.classList && cur.classList.contains('slide')) return null;
+      if(matches(cur,DENY)){ cur=cur.parentElement; continue; }
+      if(cur.closest && cur.closest('.slide')) return cur;
+      cur=cur.parentElement;
+    }
+    return null;
+  }
+  /* For double-click text editing: deepest texty element (also inside clones) */
+  function eligibleText(el){
+    var cur=el;
+    while(cur && cur!==deck){
+      if(matches(cur,'.ed-textbox')) return cur;
+      if(cur.classList && cur.classList.contains('slide')) return null;
+      if(!matches(cur,DENY) && matches(cur,TEXTY) && cur.closest && cur.closest('.slide')) return cur;
+      cur=cur.parentElement;
+    }
+    return null;
+  }
+  function selectParent(){
+    if(!selected){ toast('בחר אלמנט קודם'); return; }
+    var p=selected.parentElement;
+    while(p && p!==deck){
+      if(p.classList && p.classList.contains('slide')) break;
+      if(!matches(p,DENY) && p.closest('.slide')){ select(p); toast('נבחרה המסגרת'); return; }
+      p=p.parentElement;
+    }
+    toast('אין מסגרת אב');
+  }
+
+  /* ---------- undo / redo (per-slide innerHTML snapshots) ---------- */
+  function snap(){
+    var s=activeSlide(); if(!s) return;
+    var idx=slideIndex(s);
+    undoStack.push({slide:s, idx:idx, html:s.innerHTML});
+    if(undoStack.length>80) undoStack.shift();
+    redoStack.length=0;
+    touched[idx]=1; schedulePersist();
+    toast('');
+  }
+  function undo(){
+    var last=undoStack.pop(); if(!last){ toast('אין מה לבטל'); return; }
+    deselect();
+    if(last.slide!==activeSlide() && last.idx>=0 && typeof show==='function'){ show(last.idx); }
+    redoStack.push({slide:last.slide, idx:last.idx, html:last.slide.innerHTML});
+    last.slide.innerHTML=last.html;
+    touched[last.idx]=1; schedulePersist();
+    toast('בוטל');
+  }
+  function redo(){
+    var nx=redoStack.pop(); if(!nx){ toast('אין מה להחזיר'); return; }
+    deselect();
+    if(nx.slide!==activeSlide() && nx.idx>=0 && typeof show==='function'){ show(nx.idx); }
+    undoStack.push({slide:nx.slide, idx:nx.idx, html:nx.slide.innerHTML});
+    nx.slide.innerHTML=nx.html;
+    touched[nx.idx]=1; schedulePersist();
+    toast('הוחזר');
+  }
+
+  /* ---------- autosave (localStorage, debounced, normalized compare) ---------- */
+  function cleanSlideHTML(slide){
+    var c=slide.cloneNode(true), i, n;
+    n=c.querySelectorAll('.ed-runtime,.ed-handle,.ed-del'); for(i=0;i<n.length;i++) n[i].remove();
+    n=c.querySelectorAll('.ed-hover,.ed-selected'); for(i=0;i<n.length;i++){ n[i].classList.remove('ed-hover'); n[i].classList.remove('ed-selected'); }
+    n=c.querySelectorAll('[contenteditable]'); for(i=0;i<n.length;i++) n[i].removeAttribute('contenteditable');
+    n=c.querySelectorAll('.on'); for(i=0;i<n.length;i++) n[i].classList.remove('on');
+    n=c.querySelectorAll('.anim'); for(i=0;i<n.length;i++) n[i].style.animationDelay='';
+    n=c.querySelectorAll('[data-w]'); for(i=0;i<n.length;i++) n[i].style.width='';
+    var fmt; try{ fmt=new Intl.NumberFormat('he-IL'); }catch(e){ fmt=null; }
+    n=c.querySelectorAll('[data-count]');
+    for(i=0;i<n.length;i++){ var v=parseInt(n[i].getAttribute('data-count'),10); if(isNaN(v)) continue;
+      var out=n[i].querySelector('.cval')||n[i]; out.textContent= fmt?fmt.format(v):(''+v); }
+    n=c.querySelectorAll('[style=""]'); for(i=0;i<n.length;i++) n[i].removeAttribute('style');
+    return c.innerHTML;
+  }
+  function persist(){
+    try{
+      var data; try{ data=JSON.parse(localStorage.getItem(LS_KEY)||'{}'); }catch(e){ data={}; }
+      data.ts=Date.now(); data.slides=data.slides||{};
+      var list=document.querySelectorAll('.slide');
+      for(var k in touched){ if(list[k]) data.slides[k]=cleanSlideHTML(list[k]); }
+      localStorage.setItem(LS_KEY,JSON.stringify(data));
+    }catch(err){
+      if(!persistWarned){ persistWarned=true; toast('גיבוי אוטומטי נכשל - הקובץ גדול, שמור ידנית'); }
+    }
+  }
+  function schedulePersist(){ clearTimeout(persistTimer); persistTimer=setTimeout(persist,800); }
+  function checkRestore(){
+    var data; try{ data=JSON.parse(localStorage.getItem(LS_KEY)||'null'); }catch(e){ return; }
+    if(!data || !data.slides) return;
+    var list=document.querySelectorAll('.slide'), diff=[];
+    for(var k in data.slides){ var i=+k; if(list[i] && cleanSlideHTML(list[i])!==data.slides[k]) diff.push(i); }
+    if(!diff.length) return;
+    var bar=document.createElement('div'); bar.id='ed-restore';
+    var when=new Date(data.ts||Date.now());
+    var hh=('0'+when.getHours()).slice(-2)+':'+('0'+when.getMinutes()).slice(-2);
+    var lbl=document.createElement('span'); lbl.textContent='🕘 נמצאו שינויים לא שמורים ('+hh+') - '+diff.length+' שקפים';
+    var b1=document.createElement('button'); b1.className='ed-btn primary'; b1.textContent='שחזר';
+    var b2=document.createElement('button'); b2.className='ed-btn'; b2.textContent='התעלם ומחק';
+    b1.onclick=function(){
+      for(var j=0;j<diff.length;j++){ list[diff[j]].innerHTML=data.slides[diff[j]]; touched[diff[j]]=1; }
+      var cur=slideIndex(activeSlide());
+      if(typeof activate==='function' && cur>=0) activate(cur);
+      bar.remove(); toast('שוחזר ✓');
+    };
+    b2.onclick=function(){ try{ localStorage.removeItem(LS_KEY); }catch(e){} bar.remove(); };
+    bar.appendChild(lbl); bar.appendChild(b1); bar.appendChild(b2);
+    document.body.appendChild(bar);
+  }
+
+  /* ---------- selection + handles ---------- */
+  function deselect(){
+    if(selected){
+      selected.classList.remove('ed-selected');
+      if(selected.__edRel && !selected.style.zIndex){ selected.style.position=''; selected.__edRel=false; }
+    }
+    var rt=document.querySelectorAll('.ed-runtime'); for(var i=0;i<rt.length;i++) rt[i].remove();
+    selected=null; refreshTb();
+  }
+  function select(el){
+    deselect();
+    selected=el; el.classList.add('ed-selected');
+    if(!matches(el,ADDED) && getComputedStyle(el).position==='static'){ el.style.position='relative'; el.__edRel=true; }
+    var del=document.createElement('div'); del.className='ed-del ed-runtime'; del.textContent='×';
+    del.addEventListener('mousedown',function(e){ e.stopPropagation(); e.preventDefault(); });
+    del.addEventListener('click',function(e){ e.stopPropagation(); snap(); var t=selected; deselect(); if(t) t.remove(); schedulePersist(); });
+    el.appendChild(del);
+    if(matches(el,ADDED)){
+      var h=document.createElement('div'); h.className='ed-handle br ed-runtime';
+      h.addEventListener('mousedown',function(e){ startResize(e,el); });
+      el.appendChild(h);
+    }
+    refreshTb();
+  }
+
+  /* ---------- generic move helper (nudge/center share it) ---------- */
+  function moveBy(el,dx,dy){
+    if(matches(el,ADDED)){
+      el.style.left=((parseFloat(el.style.left)||el.offsetLeft)+dx)+'px';
+      el.style.top=((parseFloat(el.style.top)||el.offsetTop)+dy)+'px';
+    }else{
+      el.style.animation='none';
+      var m=(el.style.transform||'').match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
+      var tx=m?parseFloat(m[1]):0, ty=m?parseFloat(m[2]):0;
+      var base=(el.style.transform||'').replace(/translate\([^)]*\)/,'').trim();
+      el.style.transform=(base+' translate('+(tx+dx)+'px,'+(ty+dy)+'px)').trim();
+    }
+  }
+
+  /* ---------- drag move with center snap-guides ---------- */
+  var drag=null, gV=null, gH=null;
+  function hideGuides(){ if(gV) gV.style.display='none'; if(gH) gH.style.display='none'; }
+  function onDown(e){
+    if(!edOn) return;
+    if(e.target.closest && e.target.closest('#ed-toolbar,#ed-fab,#ed-hint,#ed-toast,#ed-restore')) return;
+    if(e.target.classList && (e.target.classList.contains('ed-handle')||e.target.classList.contains('ed-del'))) return;
+    var el;
+    if(selected && selected.contains(e.target)){
+      /* clicking within the current selection drags THAT element (e.g. a group
+         you escalated to with "⤴ מסגרת"), instead of re-grabbing a child */
+      el=selected;
+    } else {
+      el=eligible(e.target);
+      if(!el){ deselect(); return; }
+      if(el.isContentEditable) return;
+      select(el);
+    }
+    var s=scale(), d=deck.getBoundingClientRect();
+    drag={el:el,x:e.clientX,y:e.clientY,moved:false,added:matches(el,ADDED),s:s};
+    var r0=el.getBoundingClientRect();
+    if(drag.added){
+      drag.l=parseFloat(el.style.left)||el.offsetLeft; drag.t=parseFloat(el.style.top)||el.offsetTop;
+      drag.w2=el.offsetWidth/2; drag.h2=el.offsetHeight/2;
+    }else{
+      var m=(el.style.transform||'').match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
+      drag.tx=m?parseFloat(m[1]):0; drag.ty=m?parseFloat(m[2]):0;
+      drag.base=(el.style.transform||'').replace(/translate\([^)]*\)/,'').trim();
+      /* element center in deck coords EXCLUDING current translate (for snapping) */
+      drag.cx0=((r0.left-d.left)+r0.width/2)/s - drag.tx;
+      drag.cy0=((r0.top-d.top)+r0.height/2)/s - drag.ty;
+    }
+    e.preventDefault();
+    window.addEventListener('mousemove',onMove);
+    window.addEventListener('mouseup',onUp);
+  }
+  function onMove(e){
+    if(!drag) return;
+    var dx=(e.clientX-drag.x)/drag.s, dy=(e.clientY-drag.y)/drag.s;
+    if(!drag.moved){ if((Math.abs(dx)+Math.abs(dy))>2){ drag.moved=true; snap();
+        /* neutralise the entry animation (fadeUp, fill:both) which otherwise
+           pins `transform` and blocks our inline translate */
+        if(!drag.added) drag.el.style.animation='none';
+      } else return; }
+    var SN=7, offX=null, offY=null;
+    if(drag.added){
+      var lx=drag.l+dx, ty=drag.t+dy;
+      if(!e.altKey){
+        var cx=lx+drag.w2, cy=ty+drag.h2;
+        if(Math.abs(960-cx)<SN){ lx+=(960-cx); offX=true; }
+        if(Math.abs(540-cy)<SN){ ty+=(540-cy); offY=true; }
+      }
+      drag.el.style.left=lx+'px'; drag.el.style.top=ty+'px';
+    }else{
+      var txr=drag.tx+dx, tyr=drag.ty+dy;
+      if(!e.altKey){
+        var ecx=drag.cx0+txr, ecy=drag.cy0+tyr;
+        if(Math.abs(960-ecx)<SN){ txr+=(960-ecx); offX=true; }
+        if(Math.abs(540-ecy)<SN){ tyr+=(540-ecy); offY=true; }
+      }
+      drag.el.style.transform=(drag.base+' translate('+txr+'px,'+tyr+'px)').trim();
+    }
+    if(gV) gV.style.display=offX?'block':'none';
+    if(gH) gH.style.display=offY?'block':'none';
+  }
+  function onUp(){
+    window.removeEventListener('mousemove',onMove); window.removeEventListener('mouseup',onUp);
+    hideGuides(); if(drag&&drag.moved) schedulePersist(); drag=null;
+  }
+
+  /* ---------- resize (images keep aspect ratio; Shift = free) ---------- */
+  function startResize(e,el){
+    e.preventDefault(); e.stopPropagation();
+    var s=scale(), w=el.offsetWidth, h=el.offsetHeight, x=e.clientX, y=e.clientY, moved=false;
+    var isImg=matches(el,'.ed-img'), ratio=(h/w)||1;
+    function mv(ev){ var dx=(ev.clientX-x)/s, dy=(ev.clientY-y)/s; if(!moved){moved=true;snap();}
+      var nw=Math.max(40,w+dx), nh=Math.max(28,h+dy);
+      if(isImg && !ev.shiftKey) nh=Math.max(28,Math.round(nw*ratio));
+      el.style.width=nw+'px'; el.style.height=nh+'px'; }
+    function up(){ window.removeEventListener('mousemove',mv); window.removeEventListener('mouseup',up); schedulePersist(); }
+    window.addEventListener('mousemove',mv); window.addEventListener('mouseup',up);
+  }
+
+  /* ---------- inline text edit ---------- */
+  /* if an edited element drives a [data-count] counter, sync the attribute so the
+     deck's re-animation (activate()) lands on the NEW number instead of reverting */
+  function bakeCountFromEdit(el){
+    var dc=el.closest ? el.closest('[data-count]') : null;
+    if(!dc) return;
+    var cv=dc.querySelector('.cval')||dc;
+    var n=parseInt((cv.textContent||'').replace(/[^0-9]/g,''),10);
+    if(!isNaN(n)) dc.setAttribute('data-count', n);
+  }
+  function onDbl(e){
+    if(!edOn) return;
+    var el=eligibleText(e.target)||eligible(e.target);
+    if(!el) return;
+    if(matches(el,ADDED) && !matches(el,'.ed-textbox')) return;
+    if(!matches(el,TEXTY)){ toast('האלמנט הזה לא טקסט לעריכה'); return; }
+    deselect(); snap();
+    editState={el:el, orig:el.innerHTML, cancelled:false};
+    refreshTb();
+    el.setAttribute('contenteditable','true'); el.focus();
+    el.addEventListener('blur',function h(){
+      el.removeAttribute('contenteditable'); el.removeEventListener('blur',h);
+      if(!(editState && editState.cancelled)) bakeCountFromEdit(el);
+      if(editState && editState.el===el) editState=null;
+      refreshTb(); schedulePersist();
+    });
+    e.preventDefault();
+  }
+
+  /* ---------- add elements ---------- */
+  function insertImageFile(f, pos){
+    if(!f || !/^image\//.test(f.type)) return;
+    var rd=new FileReader();
+    rd.onload=function(){ var im=new Image(); im.onload=function(){
+      snap(); var s=activeSlide();
+      var w=560, h=Math.round(560*im.naturalHeight/im.naturalWidth);
+      if(h>820){ h=820; w=Math.round(820*im.naturalWidth/im.naturalHeight); }
+      var box=document.createElement('div'); box.className='ed-img';
+      var lx=pos? Math.round(pos.x-w/2) : Math.round(960-w/2);
+      var ly=pos? Math.round(pos.y-h/2) : Math.round(540-h/2);
+      box.style.left=lx+'px'; box.style.top=ly+'px'; box.style.width=w+'px'; box.style.height=h+'px';
+      var img=document.createElement('img'); img.src=rd.result; box.appendChild(img);
+      s.appendChild(box); select(box); toast('תמונה נוספה'); schedulePersist();
+    }; im.src=rd.result; };
+    rd.readAsDataURL(f);
+  }
+  function addImage(){
+    var inp=document.createElement('input'); inp.type='file'; inp.accept='image/*';
+    inp.onchange=function(){ insertImageFile(inp.files[0], null); };
+    inp.click();
+  }
+  function addBlur(){ snap(); var s=activeSlide(); var b=document.createElement('div'); b.className='ed-blur'; b.style.cssText='left:760px;top:460px;width:400px;height:150px;'; s.appendChild(b); select(b); toast('טשטוש - גרור מעל נתון'); schedulePersist(); }
+  function addShape(){ snap(); var s=activeSlide(); var b=document.createElement('div'); b.className='ed-shape'; b.style.cssText='left:760px;top:450px;width:420px;height:200px;'; s.appendChild(b); select(b); schedulePersist(); }
+  function mkTextbox(text,x,y){
+    var s=activeSlide(); var t=document.createElement('div'); t.className='ed-textbox';
+    t.style.left=(x!=null?x:720)+'px'; t.style.top=(y!=null?y:480)+'px';
+    t.textContent=text||'טקסט חדש'; s.appendChild(t); select(t); return t;
+  }
+  function addText(){ snap(); mkTextbox('טקסט חדש'); toast('לחץ פעמיים לעריכה'); schedulePersist(); }
+
+  /* ---------- copy / paste (Cmd+C / Cmd+V) ---------- */
+  function cleanOuter(el){
+    var c=el.cloneNode(true), i, n;
+    n=c.querySelectorAll('.ed-runtime,.ed-handle,.ed-del'); for(i=0;i<n.length;i++) n[i].remove();
+    c.classList.remove('ed-selected'); c.classList.remove('ed-hover');
+    c.removeAttribute('contenteditable');
+    n=c.querySelectorAll('[contenteditable]'); for(i=0;i<n.length;i++) n[i].removeAttribute('contenteditable');
+    /* strip our positioning so the stored copy is pristine */
+    if(c.style && c.style.transform) c.style.transform=c.style.transform.replace(/translate\([^)]*\)/,'').trim()||'';
+    if(el.__edRel) c.style.position='';
+    return c.outerHTML;
+  }
+  function copySel(){
+    if(!selected) return false;
+    var d=deck.getBoundingClientRect(), s=scale(), r=selected.getBoundingClientRect();
+    clipInternal={
+      html:cleanOuter(selected),
+      added:matches(selected,ADDED),
+      left:(r.left-d.left)/s, top:(r.top-d.top)/s, width:r.width/s
+    };
+    pasteCount=0;
+    try{ navigator.clipboard.writeText(MARKER).catch(function(){}); }catch(e){}
+    toast('הועתק ✓ (Cmd+V להדבקה)');
+    return true;
+  }
+  function pasteInternal(){
+    if(!clipInternal) return;
+    snap(); pasteCount++;
+    var off=24*pasteCount, s=activeSlide(), el;
+    var tmp=document.createElement('div'); tmp.innerHTML=clipInternal.html;
+    var src=tmp.firstElementChild; if(!src) return;
+    if(clipInternal.added){
+      el=src;
+      el.style.left=Math.round((parseFloat(el.style.left)||clipInternal.left)+off)+'px';
+      el.style.top=Math.round((parseFloat(el.style.top)||clipInternal.top)+off)+'px';
+    }else{
+      el=document.createElement('div'); el.className='ed-clone';
+      el.style.left=Math.round(clipInternal.left+off)+'px';
+      el.style.top=Math.round(clipInternal.top+off)+'px';
+      el.style.width=Math.round(clipInternal.width)+'px';
+      el.appendChild(src);
+    }
+    s.appendChild(el); select(el); toast('הודבק'); schedulePersist();
+  }
+  document.addEventListener('paste',function(e){
+    if(!edOn) return;
+    var ae=document.activeElement;
+    if(ae && ae.isContentEditable) return; /* normal paste inside a text edit */
+    var items=(e.clipboardData&&e.clipboardData.items)||[];
+    for(var i=0;i<items.length;i++){
+      if(items[i].type && items[i].type.indexOf('image')===0){
+        var f=items[i].getAsFile();
+        if(f){ e.preventDefault(); insertImageFile(f,null); return; }
+      }
+    }
+    var txt=''; try{ txt=e.clipboardData.getData('text/plain')||''; }catch(err){}
+    if(clipInternal && (txt===MARKER || txt==='')){ e.preventDefault(); pasteInternal(); return; }
+    if(txt){ e.preventDefault(); snap(); mkTextbox(txt); toast('טקסט הודבק כתיבה חדשה'); schedulePersist(); }
+  });
+  /* drag & drop image files from Finder/desktop */
+  deck.addEventListener('dragover',function(e){ if(edOn){ e.preventDefault(); } });
+  deck.addEventListener('drop',function(e){
+    if(!edOn) return; e.preventDefault();
+    var fs=e.dataTransfer && e.dataTransfer.files;
+    if(!fs || !fs.length) return;
+    for(var i=0;i<fs.length;i++){
+      if(/^image\//.test(fs[i].type)){ insertImageFile(fs[i], deckXY(e.clientX,e.clientY)); return; }
+    }
+  });
+
+  /* ---------- colors (whole element, or selected word while editing) ---------- */
+  var GRAD='linear-gradient(135deg,#71b9c3,#549cbc,#2d70aa,#6556d0,#9c4ed7)';
+  var COLORS=[['לבן','#ffffff'],['טורקיז','#62aabf'],['סגול','#8f4fd7'],['אדום','#ef4444'],['ירוק','#22c55e'],['אפור','#8f8f9b']];
+  function applyColor(c){
+    var ae=document.activeElement, sel=window.getSelection();
+    if(ae && ae.isContentEditable && sel && !sel.isCollapsed){
+      document.execCommand('styleWithCSS',false,true);
+      document.execCommand('foreColor',false,c);
+      return;
+    }
+    if(!selected){ toast('בחר אלמנט או סמן מילה'); return; }
+    snap();
+    if(matches(selected,'.ed-shape')){
+      selected.style.background=c+'33'; selected.style.borderColor=c; schedulePersist(); return;
+    }
+    selected.style.background='none';
+    selected.style.webkitBackgroundClip=''; selected.style.backgroundClip='';
+    selected.style.webkitTextFillColor=c; selected.style.color=c;
+    schedulePersist();
+  }
+  function applyGradient(){
+    var ae=document.activeElement, sel=window.getSelection();
+    if(ae && ae.isContentEditable && sel && !sel.isCollapsed){
+      var t=sel.toString();
+      document.execCommand('insertHTML',false,'<span class="grad">'+t.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</span>');
+      return;
+    }
+    if(!selected){ toast('בחר אלמנט או סמן מילה'); return; }
+    snap();
+    selected.style.background=GRAD;
+    selected.style.webkitBackgroundClip='text'; selected.style.backgroundClip='text';
+    selected.style.webkitTextFillColor='transparent'; selected.style.color='';
+    schedulePersist();
+  }
+
+  /* ---------- z-order / center / nudge / blur controls ---------- */
+  function zOrder(front){
+    if(!selected){ toast('בחר אלמנט קודם'); return; }
+    snap();
+    if(getComputedStyle(selected).position==='static'){ selected.style.position='relative'; selected.__edRel=true; }
+    selected.style.zIndex= front? (++zTop) : 0;
+    toast(front?'הובא לקדמה':'נשלח לאחור'); schedulePersist();
+  }
+  function centerSel(axis){
+    if(!selected){ toast('בחר אלמנט קודם'); return; }
+    snap();
+    var d=deck.getBoundingClientRect(), s=scale(), r=selected.getBoundingClientRect();
+    var cx=((r.left-d.left)+r.width/2)/s, cy=((r.top-d.top)+r.height/2)/s;
+    if(axis==='h') moveBy(selected, 960-cx, 0); else moveBy(selected, 0, 540-cy);
+    schedulePersist();
+  }
+  function nudge(dx,dy){
+    if(!selected) return false;
+    var now=Date.now();
+    if(lastNudge.el!==selected || now-lastNudge.t>1200) snap();
+    lastNudge={el:selected,t:now};
+    moveBy(selected,dx,dy); schedulePersist();
+    return true;
+  }
+  function blurDelta(d){
+    if(!selected || !matches(selected,'.ed-blur')) return;
+    snap();
+    var cur=parseFloat(((selected.style.backdropFilter||'').match(/[\d.]+/)||[15])[0])||15;
+    var v=Math.min(40,Math.max(2,cur+d));
+    selected.style.backdropFilter='blur('+v+'px)'; selected.style.webkitBackdropFilter='blur('+v+'px)';
+    toast('עוצמת טשטוש: '+v); schedulePersist();
+  }
+  function toggleOpaque(){
+    if(!selected || !matches(selected,'.ed-blur')) return;
+    snap(); selected.classList.toggle('ed-opaque');
+    toast(selected.classList.contains('ed-opaque')?'אטום (מסתיר לגמרי)':'טשטוש שקוף'); schedulePersist();
+  }
+  function imgCorners(){
+    if(!selected || !matches(selected,'.ed-img')) return;
+    snap(); var img=selected.querySelector('img'); if(!img) return;
+    img.style.borderRadius=(img.style.borderRadius==='18px')?'0px':'18px'; schedulePersist();
+  }
+  function cycleOpacity(){
+    if(!selected){ toast('בחר אלמנט קודם'); return; }
+    snap();
+    var cur=parseFloat(selected.style.opacity||'1');
+    var next= cur>0.85?0.75 : cur>0.6?0.5 : cur>0.35?0.25 : 1;
+    selected.style.opacity=(next===1)?'':String(next);
+    toast('שקיפות: '+Math.round(next*100)+'%'); schedulePersist();
+  }
+
+  function fontDelta(d){ if(!selected){ toast('בחר טקסט קודם'); return; } snap();
+    var cs=parseFloat(getComputedStyle(selected).fontSize)||30; selected.style.fontSize=Math.max(10,cs+d)+'px'; schedulePersist(); }
+  function deleteSel(){ if(!selected){ toast('בחר אלמנט קודם'); return; } snap(); var el=selected; deselect(); el.remove(); schedulePersist(); }
+
+  /* ---------- navigation (reuse deck) ---------- */
+  function go(dir){
+    deselect();
+    var list=[].slice.call(document.querySelectorAll('.slide'));
+    var i=list.indexOf(activeSlide());
+    var n=Math.max(0,Math.min(list.length-1,i+dir));
+    if(typeof show==='function') show(n);
+    else { list[i].classList.remove('active'); list[n].classList.add('active'); }
+  }
+
+  /* ---------- export ---------- */
+  /* rewrite every relative url (img src, font/href, css url()) to an absolute
+     file:// path so the saved file keeps its background + fonts from any folder */
+  function absolutizeURLs(root){
+    var base=location.href, keep=/^(data:|https?:|file:|blob:|#)/i;
+    function abs(u){ try{ return new URL(u, base).href; }catch(e){ return u; } }
+    function fixCss(t){ return t.replace(/url\((['"]?)([^'")]+)\1\)/g,function(m,q,u){ return keep.test(u)?m:('url('+q+abs(u)+q+')'); }); }
+    var s=root.querySelectorAll('[src]'); for(var i=0;i<s.length;i++){ var v=s[i].getAttribute('src'); if(v&&!keep.test(v)) s[i].setAttribute('src',abs(v)); }
+    var h=root.querySelectorAll('[href]'); for(var j=0;j<h.length;j++){ var w=h[j].getAttribute('href'); if(w&&!keep.test(w)) h[j].setAttribute('href',abs(w)); }
+    var st=root.querySelectorAll('style'); for(var k=0;k<st.length;k++){ st[k].textContent=fixCss(st[k].textContent); }
+    var il=root.querySelectorAll('[style]'); for(var l=0;l<il.length;l++){ var sv=il[l].getAttribute('style'); if(sv&&sv.indexOf('url(')>-1) il[l].setAttribute('style',fixCss(sv)); }
+  }
+  /* bake every [data-count] to its final formatted number so un-visited stat
+     slides aren't frozen at 0 in the saved file */
+  function bakeCounters(root){
+    var fmt; try{ fmt=new Intl.NumberFormat('he-IL'); }catch(e){ fmt=null; }
+    var n=root.querySelectorAll('[data-count]');
+    for(var i=0;i<n.length;i++){ var v=parseInt(n[i].getAttribute('data-count'),10); if(isNaN(v)) continue;
+      var out=n[i].querySelector('.cval')||n[i]; out.textContent= fmt?fmt.format(v):(''+v); }
+  }
+  function exportHTML(){
+    deselect(); var was=edOn; setEdit(false);
+    var clone=document.documentElement.cloneNode(true);
+    var kill=clone.querySelectorAll('#ed-toolbar,#ed-fab,#ed-hint,#ed-toast,#ed-restore,#ed-guide-v,#ed-guide-h,.ed-runtime,.ed-handle,.ed-del');
+    for(var i=0;i<kill.length;i++) kill[i].remove();
+    var cl=clone.querySelectorAll('.ed-hover,.ed-selected'); for(var j=0;j<cl.length;j++){ cl[j].classList.remove('ed-hover'); cl[j].classList.remove('ed-selected'); }
+    var ce=clone.querySelectorAll('[contenteditable]'); for(var k=0;k<ce.length;k++) ce[k].removeAttribute('contenteditable');
+    var sl=clone.querySelectorAll('.slide'); for(var m=0;m<sl.length;m++){ if(m===0) sl[m].classList.add('active'); else sl[m].classList.remove('active'); }
+    var b=clone.querySelector('body'); if(b) b.classList.remove('ed-on');
+    absolutizeURLs(clone);
+    bakeCounters(clone);
+    var html='<!DOCTYPE html>\n'+clone.outerHTML;
+    var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    var fname=(location.pathname.split('/').pop()||'deck.html').replace(/\.html?$/i,'');
+    try{ fname=decodeURIComponent(fname); }catch(e){}
+    a.download=fname+'-edited.html'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); },3000);
+    if(was) setEdit(true);
+    toast('נשמר! החלף את הקובץ המקורי בקובץ שירד');
+  }
+
+  /* ---------- toolbar UI ---------- */
+  var fab=document.createElement('button'); fab.id='ed-fab'; fab.type='button'; fab.textContent='✏️ עריכה';
+  fab.addEventListener('click',function(){ setEdit(true); });
+  document.body.appendChild(fab);
+
+  var tb=document.createElement('div'); tb.id='ed-toolbar';
+  var toast_el, ctx;
+  function mkBtn(label,fn,cls){ var b=document.createElement('button'); b.type='button'; b.className='ed-btn'+(cls?(' '+cls):''); b.textContent=label;
+    b.addEventListener('mousedown',function(e){e.preventDefault();}); b.addEventListener('click',function(e){e.stopPropagation();fn();}); return b; }
+  function mkSep(){ var s=document.createElement('span'); s.className='ed-sep'; return s; }
+  function mkDot(name,color){ var d=document.createElement('button'); d.type='button'; d.className='ed-dot'; d.title=name; d.style.background=color;
+    d.addEventListener('mousedown',function(e){e.preventDefault();}); d.addEventListener('click',function(e){e.stopPropagation();applyColor(color);}); return d; }
+
+  var row=document.createElement('div'); row.id='ed-row';
+  row.appendChild(mkBtn('› הקודם',function(){go(-1);}));
+  row.appendChild(mkBtn('הבא ‹',function(){go(1);}));
+  row.appendChild(mkSep());
+  row.appendChild(mkBtn('🖼️ תמונה',addImage));
+  row.appendChild(mkBtn('🌫️ טשטוש',addBlur));
+  row.appendChild(mkBtn('▭ צורה',addShape));
+  row.appendChild(mkBtn('🔤 טקסט',addText));
+  row.appendChild(mkSep());
+  row.appendChild(mkBtn('⤴ מסגרת',selectParent));
+  row.appendChild(mkBtn('⬆ קדימה',function(){zOrder(true);}));
+  row.appendChild(mkBtn('⬇ אחורה',function(){zOrder(false);}));
+  row.appendChild(mkBtn('↔ מרכז',function(){centerSel('h');}));
+  row.appendChild(mkBtn('↕ מרכז',function(){centerSel('v');}));
+  row.appendChild(mkSep());
+  row.appendChild(mkBtn('A+',function(){fontDelta(4);}));
+  row.appendChild(mkBtn('A−',function(){fontDelta(-4);}));
+  row.appendChild(mkBtn('🗑️ מחק',deleteSel,'danger'));
+  row.appendChild(mkBtn('↶ ביטול',undo));
+  row.appendChild(mkBtn('↷ חזרה',redo));
+  row.appendChild(mkSep());
+  row.appendChild(mkBtn('💾 שמור',exportHTML,'primary'));
+  row.appendChild(mkBtn('✖ סגור',function(){ setEdit(false); }));
+  tb.appendChild(row);
+
+  ctx=document.createElement('div'); ctx.id='ed-ctx'; tb.appendChild(ctx);
+  document.body.appendChild(tb);
+
+  function buildColors(forShape){
+    var lbl=document.createElement('span'); lbl.className='ed-ctx-lbl'; lbl.textContent= forShape?'צבע צורה:':'צבע:';
+    ctx.appendChild(lbl);
+    if(!forShape){
+      var g=document.createElement('button'); g.type='button'; g.className='ed-dot grad-dot'; g.title='גרדיאנט';
+      g.addEventListener('mousedown',function(e){e.preventDefault();});
+      g.addEventListener('click',function(e){e.stopPropagation();applyGradient();});
+      ctx.appendChild(g);
+    }
+    for(var i=0;i<COLORS.length;i++) ctx.appendChild(mkDot(COLORS[i][0],COLORS[i][1]));
+    if(!forShape && editState){
+      var tip=document.createElement('span'); tip.className='ed-ctx-lbl'; tip.textContent='(סמן מילה כדי לצבוע רק אותה)';
+      ctx.appendChild(tip);
+    }
+  }
+  function refreshTb(){
+    if(!ctx) return;
+    ctx.innerHTML='';
+    var show=false;
+    if(editState){ buildColors(); show=true; }
+    else if(selected){
+      if(matches(selected,'.ed-blur')){
+        ctx.appendChild(mkBtn('עוצמה −',function(){blurDelta(-5);}));
+        ctx.appendChild(mkBtn('עוצמה +',function(){blurDelta(5);}));
+        ctx.appendChild(mkBtn('אטום ◼',toggleOpaque));
+        show=true;
+      } else if(matches(selected,'.ed-img')){
+        ctx.appendChild(mkBtn('פינות ◰',imgCorners));
+        ctx.appendChild(mkBtn('שקיפות 👻',cycleOpacity));
+        show=true;
+      } else if(matches(selected,'.ed-shape')){
+        buildColors(true);
+        ctx.appendChild(mkBtn('שקיפות 👻',cycleOpacity));
+        show=true;
+      } else {
+        buildColors();
+        show=true;
+      }
+    }
+    ctx.style.display=show?'flex':'none';
+  }
+
+  var hint=document.createElement('div'); hint.id='ed-hint';
+  hint.innerHTML='לחיצה = בחירה · גרירה = הזזה (Alt = בלי הצמדה) · לחיצה כפולה = עריכת טקסט · חצים = הזזה עדינה (Shift=10) · Cmd+C/V = העתק/הדבק · Cmd+S = שמור';
+  document.body.appendChild(hint);
+
+  toast_el=document.createElement('div'); toast_el.id='ed-toast'; document.body.appendChild(toast_el);
+  var toastTimer;
+  function toast(msg){ if(!toast_el) return; toast_el.textContent=msg||''; toast_el.classList.toggle('on',!!msg);
+    clearTimeout(toastTimer); if(msg) toastTimer=setTimeout(function(){ toast_el.classList.remove('on'); },2600); }
+
+  /* center snap guide lines (live inside #deck so they scale with it) */
+  gV=document.createElement('div'); gV.id='ed-guide-v'; deck.appendChild(gV);
+  gH=document.createElement('div'); gH.id='ed-guide-h'; deck.appendChild(gH);
+
+  function setEdit(on){
+    edOn=on; document.body.classList.toggle('ed-on',on);
+    tb.classList.toggle('on',on); fab.style.display=on?'none':'block';
+    hideGuides();
+    if(!on){ deselect(); toast(''); }
+    else toast('מצב עריכה פעיל');
+  }
+
+  /* ---------- hover outline ---------- */
+  document.addEventListener('mouseover',function(e){ if(!edOn) return; var el=eligible(e.target);
+    var hv=document.querySelectorAll('.ed-hover'); for(var i=0;i<hv.length;i++){ if(hv[i]!==el) hv[i].classList.remove('ed-hover'); }
+    if(el && el!==selected) el.classList.add('ed-hover'); });
+  document.addEventListener('mouseout',function(e){ if(!edOn) return; var el=eligible(e.target); if(el) el.classList.remove('ed-hover'); });
+
+  /* ---------- bind ---------- */
+  deck.addEventListener('mousedown',onDown);
+  deck.addEventListener('dblclick',onDbl);
+
+  document.addEventListener('keydown',function(e){
+    if(!edOn) return;
+    var editing=document.activeElement && document.activeElement.isContentEditable;
+    var meta=e.metaKey||e.ctrlKey;
+    if(e.key==='ArrowLeft'||e.key==='ArrowRight'||e.key==='ArrowUp'||e.key==='ArrowDown'){
+      if(!editing && selected){
+        e.preventDefault();
+        var st=e.shiftKey?10:1;
+        nudge(e.key==='ArrowLeft'?-st:e.key==='ArrowRight'?st:0, e.key==='ArrowUp'?-st:e.key==='ArrowDown'?st:0);
+      }
+      e.stopImmediatePropagation(); return;
+    }
+    if(meta && (e.key==='z'||e.key==='Z')){
+      e.preventDefault(); e.stopImmediatePropagation();
+      if(e.shiftKey) redo(); else undo();
+      return;
+    }
+    if(meta && (e.key==='s'||e.key==='S')){ e.preventDefault(); e.stopImmediatePropagation(); exportHTML(); return; }
+    if(meta && (e.key==='c'||e.key==='C') && !editing && selected){ copySel(); return; }
+    if(meta && (e.key==='d'||e.key==='D') && !editing && selected){ e.preventDefault(); e.stopImmediatePropagation(); if(copySel()) pasteInternal(); return; }
+    if((e.key==='Delete'||e.key==='Backspace') && !editing){
+      if(selected){ e.preventDefault(); deleteSel(); }
+      return;
+    }
+    if(e.key==='Escape'){
+      if(editing){
+        if(editState && editState.el){ editState.cancelled=true; editState.el.innerHTML=editState.orig; if(undoStack.length) undoStack.pop(); editState.el.blur(); }
+        else document.activeElement.blur();
+      } else deselect();
+    }
+  },true);
+
+  /* optional: auto-enter for screenshot testing via ?edtest */
+  if(location.search.indexOf('edtest')>-1){ setEdit(true); }
+  /* offer to restore unsaved work (after deck init settles) */
+  setTimeout(checkRestore,400);
+})();
+
+</script>
+</body></html>

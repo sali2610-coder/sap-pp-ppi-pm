@@ -1,0 +1,5 @@
+Which transaction: "Create it with VA01, change with VA02, display with VA03."?	VA01.	remember Sales_Orders
+Which transaction: "The outbound delivery is created with VL01N."?	VL01N.	remember Delivery
+Which transaction: "Billing is created with VF01."?	VF01.	remember Billing
+Which transaction: "A return order uses VA01 with order type RE."?	VA01.	remember Returns
+Which transaction: "Credit memo processing follows with VF01."?	VF01.	remember Returns

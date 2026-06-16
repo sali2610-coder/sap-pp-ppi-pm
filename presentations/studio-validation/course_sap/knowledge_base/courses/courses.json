@@ -1,0 +1,21 @@
+[
+  {
+    "module": "M1",
+    "docs": [
+      "D1-sap-o2c-book"
+    ],
+    "doc_titles": [
+      "SAP Order-to-Cash \u2014 Course Book"
+    ],
+    "key_concepts": [
+      "BKPF",
+      "BSEG",
+      "FI",
+      "LIKP",
+      "LIPS",
+      "RE",
+      "SAP",
+      "VA01"
+    ]
+  }
+]

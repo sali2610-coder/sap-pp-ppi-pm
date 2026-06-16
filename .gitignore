@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 /books/
 /processing/
+
+# design advisor reference (read-only, do not commit)
+.design-ref/

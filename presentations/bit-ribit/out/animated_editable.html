@@ -1,0 +1,1034 @@
+<!doctype html><html lang="he" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ביט (bit) · ריביט — מצגת מונפשת</title>
+<style>
+:root{--panel:#18242F;--line:#2C3B48;--wt:#F4F8FC;--mut:#B8C7D4;--faint:#8696A4;
+ --cy:#2DD8EC;--cyd:#1490B2;--navy:#1B4A6A;--grn:#49E2AE;--amb:#F6C45C;--red:#FF8580;
+ --face:Arial,'Arial Hebrew','Helvetica Neue',sans-serif;--black:'Arial Black',Arial,sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#05080c;font-family:var(--face);overflow:hidden;color:var(--wt)}
+#fx{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4}
+#confetti{position:fixed;inset:0;z-index:6;pointer-events:none}
+#stage{position:fixed;inset:0;z-index:1}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+ background:radial-gradient(125% 120% at 72% 14%,#163a55 0%,#101f2c 54%,#0a121c 100%);
+ opacity:0;visibility:hidden;transform:scale(1.03);
+ transition:opacity .55s ease,transform .65s cubic-bezier(.2,.7,.2,1),visibility .55s;
+ padding:7vh 7vw;direction:rtl;text-align:center}
+.slide.on{opacity:1;visibility:visible;transform:none}
+.bar{position:absolute;top:4.6vh;left:5.3vw;width:.5vw;height:5.2vh;border-radius:1vw;background:linear-gradient(var(--cy),var(--cyd))}
+.kick{position:absolute;top:5vh;left:7vw;color:var(--cy);font-weight:bold;font-size:1.2vw;letter-spacing:.25em}
+.ttl{position:absolute;top:6.4vh;right:7vw;font-size:2.75vw;font-weight:bold}
+.b{opacity:0;transform:translateY(28px);filter:blur(7px);transition:opacity .7s ease,transform .75s cubic-bezier(.2,.7,.2,1),filter .7s}
+.on .b.show{opacity:1;transform:none;filter:none}
+h1{font-size:6vw;font-weight:bold;line-height:1.08}
+.cy{color:var(--cy);text-shadow:0 0 40px rgba(45,216,236,.6)}
+.sub{color:var(--mut);font-size:1.9vw;margin-top:2.2vh}
+.tiny{color:var(--faint);font-size:1.18vw;margin-top:1.2vh}
+.big{font-family:var(--black);color:var(--cy);text-shadow:0 0 65px rgba(45,216,236,.55);line-height:.9}
+@keyframes pulse{0%,100%{filter:drop-shadow(0 0 16px rgba(45,216,236,.5))}50%{filter:drop-shadow(0 0 40px rgba(45,216,236,.95))}}
+.pulse{animation:pulse 2.6s ease-in-out infinite}
+.draw{stroke-dasharray:var(--len);stroke-dashoffset:var(--len);transition:stroke-dashoffset 1.15s ease .25s}
+.on .draw.show{stroke-dashoffset:var(--off,0)}
+/* row-reverse keeps Hebrew RTL text but places big number on LEFT like the deck */
+.row{display:flex;align-items:center;justify-content:center;gap:4vw;flex-direction:row-reverse}
+.col{display:flex;flex-direction:column;align-items:center}
+.cards{display:flex;flex-direction:column;gap:1.4vh;width:40vw}
+.card{background:var(--panel);border:1px solid var(--line);border-right:.32vw solid var(--cy);border-radius:14px;padding:1.5vh 1.5vw;display:flex;align-items:center;gap:1vw}
+.card .v{color:var(--wt);font-weight:bold;font-size:2vw}.card .l{color:var(--mut);font-size:1.32vw}
+.card .ic{min-width:3.2vw;width:3.2vw;height:3.2vw;border-radius:50%;background:#173745;display:grid;place-items:center}
+.card .ic svg{width:1.8vw;height:1.8vw;stroke:var(--cy);fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.pill{background:var(--panel);border:1px solid var(--cyd);border-radius:12px;padding:1.3vh 1.6vw;font-size:1.55vw}.pill b{color:var(--cy)}
+.triad{display:flex;gap:1.1vw;margin-top:3vh}
+.note{background:var(--panel);border:1px solid var(--cyd);border-right:.3vw solid var(--cy);border-radius:12px;padding:1.6vh 1.8vw;font-size:1.4vw;color:var(--mut);max-width:74vw;margin-top:3vh}.note b{color:var(--cy)}
+.comp{display:flex;gap:1.3vw;align-items:flex-end}
+.comp .c{background:var(--panel);border:1px solid var(--line);border-radius:16px;width:19vw;padding:2.6vh 1.7vw;text-align:right}
+.comp .c.hi{background:linear-gradient(160deg,#1B4A6A,#0E2030);border:2px solid var(--cy)}
+.comp .nm{font-size:1.9vw;font-weight:bold}.comp .hi .nm{color:var(--cy)}
+.comp .y{font-family:var(--black);font-size:3.9vw;margin:.5vh 0;direction:ltr;unicode-bidi:isolate;white-space:nowrap}.comp .hi .y{color:var(--cy)}
+.comp .cd{font-size:1.3vw;color:var(--mut)}
+.meter{height:.5vw;background:#16242F;border-radius:1vw;margin:1.4vh 0;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyd),var(--cy));transition:width 1.1s cubic-bezier(.2,.7,.2,1) .3s}
+.on .meter.show i{width:var(--w)}
+.eq{display:flex;gap:2.6vw;align-items:flex-end;height:52vh}
+.eq .barw{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.eq .bv{width:6.4vw;border-radius:10px;height:0;transition:height 1.05s cubic-bezier(.2,.7,.2,1) .2s}
+.on .eq .bv.show{height:var(--h)}
+.eq .nm{color:var(--mut);font-size:1.25vw;margin-top:1.2vh}
+.bv.s{background:var(--red);box-shadow:0 0 28px rgba(255,133,128,.6)}.bv.m{background:var(--amb)}.bv.l{background:#3E5B73}
+.ringwrap{display:flex;gap:3.4vw}.ringcol{display:flex;flex-direction:column;align-items:center}
+.ringcol svg{width:14vw;height:14vw}
+.ringcol .pc{font-family:var(--black);font-size:3.2vw;margin-top:-7.5vw}
+.ringcol .kl{color:var(--cy);font-weight:bold;font-size:1.55vw;margin-top:3.2vw}.ringcol .kd{color:var(--mut);font-size:1.2vw}
+.vpc{display:flex;gap:1.4vw}
+.vcol{width:34vw;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:2.2vh 1.8vw;text-align:right}
+.vcol.g{background:linear-gradient(160deg,#1B4A6A,#0E2030);border:1.6px solid var(--cy)}
+.vcol h3{font-size:1.85vw;margin-bottom:1.4vh}.vcol .pain{color:var(--red)}.vcol .gain{color:var(--cy)}
+.vcol p{color:var(--wt);font-size:1.38vw;margin:1.1vh 0}
+.airow{display:flex;align-items:center;gap:1.2vw;background:var(--panel);border:1px solid var(--line);border-right:.32vw solid var(--grn);border-radius:14px;padding:1.8vh 1.6vw;margin-bottom:1.5vh;text-align:right}
+.airow.warn{background:linear-gradient(160deg,#1B4A6A,#0E2030);border-right-color:var(--amb)}
+.airow .t{font-size:1.7vw}.airow.warn .t{color:var(--amb);font-weight:bold}.airow .d{color:var(--wt);font-size:1.32vw}
+.airow .mk{min-width:3vw;width:3vw;height:3vw;border-radius:50%;display:grid;place-items:center}
+.airow .mk.ok{background:#16352A}.airow .mk.wn{background:#3A2E14}
+.airow .mk svg{width:1.8vw;height:1.8vw;fill:none;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
+.bridge{display:flex;align-items:center;gap:1vw}
+.bnode{width:3.8vw;height:3.8vw;border-radius:50%;background:radial-gradient(#173F5B,#0C1622);border:2px solid var(--cy);display:grid;place-items:center;color:var(--cy);font-size:1vw;font-weight:bold}
+/* WOW cover */
+.wordmark{font-family:var(--black);font-size:3.6vw;opacity:0}
+.on .wordmark{animation:popIn 1s .15s cubic-bezier(.18,.9,.2,1.15) forwards}
+@keyframes popIn{0%{opacity:0;transform:scale(.55);filter:blur(10px)}100%{opacity:1;transform:none;filter:none}}
+.eyebrow{color:var(--faint);font-size:1.1vw;margin-top:1vh}
+.cvtitle{position:relative;margin-top:4vh;line-height:1.05}
+.cvtitle .ln{display:block;font-weight:bold;font-size:6.6vw}.cvtitle .ln2{color:var(--cy);font-size:7.2vw;text-shadow:0 0 55px rgba(45,216,236,.6)}
+.accent{height:.55vh;width:0;background:linear-gradient(90deg,var(--cyd),var(--cy));border-radius:1vw;margin:1.4vh auto 0;box-shadow:0 0 24px rgba(45,216,236,.7)}
+.on .accent.show{width:15vw;transition:width 1s cubic-bezier(.2,.7,.2,1)}
+.sweep{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.sweep::after{content:"";position:absolute;top:-20%;left:-40%;width:30%;height:140%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.2),transparent);transform:skewX(-18deg);opacity:0}
+.on .sweep.show::after{animation:shine 1.5s ease forwards}@keyframes shine{0%{left:-40%;opacity:0}20%{opacity:1}100%{left:130%;opacity:0}}
+.emblem{position:relative;margin-top:5vh;width:14vw;height:14vw;display:grid;place-items:center}
+.emblem .disc{width:9vw;height:9vw;border-radius:50%;background:radial-gradient(#1B4A6A,#0c1c2a);border:.22vw solid var(--cy);display:grid;place-items:center;box-shadow:0 0 40px rgba(45,216,236,.5)}
+.on .emblem.show .disc{animation:pulse 2.6s ease-in-out infinite}
+.emblem svg{width:3.6vw;height:3.6vw;stroke:var(--cy);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:60;stroke-dashoffset:60}
+.on .emblem.show svg{animation:draw2 1s .3s forwards}@keyframes draw2{to{stroke-dashoffset:0}}
+.emblem .lbl{position:absolute;bottom:-3.6vh;color:var(--cy);font-weight:bold;font-size:1.6vw}
+.ring{position:absolute;border:.12vw solid var(--cy);border-radius:50%;width:9vw;height:9vw;opacity:0}
+.on .emblem.show .ring{animation:ripple 2.4s ease-out infinite}.on .emblem.show .ring.r2{animation-delay:1.2s}
+@keyframes ripple{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(2.1)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 26px rgba(45,216,236,.5)}50%{box-shadow:0 0 58px rgba(45,216,236,.95)}}
+.names{position:absolute;bottom:5vh;color:var(--faint);font-size:1.15vw}
+/* WOW closing */
+.cl1{color:var(--mut);font-size:5vw;font-weight:bold}
+.cl2{font-family:var(--black);color:var(--cy);font-size:10vw;line-height:.95;text-shadow:0 0 75px rgba(45,216,236,.75);opacity:0}
+.on .cl2.show{animation:bigBurst 1.1s cubic-bezier(.16,.9,.18,1.1) forwards}
+@keyframes bigBurst{0%{opacity:0;transform:scale(1.5);filter:blur(24px)}100%{opacity:1;transform:none;filter:none}}
+.flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(45,216,236,.5),transparent 45%);opacity:0;pointer-events:none}
+.on .flash.show{animation:flash 1.1s ease forwards}@keyframes flash{0%{opacity:0}25%{opacity:.9}100%{opacity:0}}
+.spine2{color:var(--cy);font-size:1.7vw;margin-top:4vh;font-weight:bold;letter-spacing:.04em}
+.src{position:absolute;bottom:4vh;color:var(--faint);font-size:.95vw}
+.dots{position:fixed;bottom:1.6vh;left:50%;transform:translateX(-50%);display:flex;gap:.5vw;z-index:3}
+.dots i{width:.55vw;height:.55vw;border-radius:50%;background:#2c3b48;transition:.3s}.dots i.a{background:var(--cy);width:1.6vw;border-radius:1vw}
+.hint{position:fixed;bottom:.7vh;left:50%;transform:translateX(-50%);color:#39495a;font-size:.78vw;z-index:3}
+
+/* ===== BRAIN DECK · EDIT MODE UI v2 (additive) ===== */
+#ed-fab{position:fixed;bottom:24px;right:24px;z-index:9998;background:linear-gradient(135deg,#5f3698,#8f4fd7);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:50px;padding:13px 24px;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 14px 40px rgba(143,79,215,.45);font-family:'Futurism',sans-serif;transition:transform .15s;}
+#ed-fab:hover{transform:translateY(-2px);}
+#ed-toolbar{position:fixed;top:14px;right:14px;z-index:9999;display:none;flex-direction:column;gap:7px;background:rgba(13,15,36,.96);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:9px 11px;box-shadow:0 18px 50px rgba(0,0,0,.6);font-family:'Futurism',sans-serif;direction:rtl;max-width:96vw;}
+#ed-toolbar.on{display:flex;}
+#ed-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap;}
+#ed-ctx{display:none;gap:7px;align-items:center;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.1);padding-top:8px;}
+.ed-ctx-lbl{font-size:13px;color:#9a9ba6;font-weight:700;}
+.ed-btn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#dfe0e6;border-radius:10px;padding:9px 13px;font-size:14px;font-weight:700;cursor:pointer;transition:all .14s;white-space:nowrap;font-family:inherit;}
+.ed-btn:hover{background:rgba(98,170,191,.18);border-color:rgba(98,170,191,.5);color:#fff;}
+.ed-btn.primary{background:linear-gradient(135deg,#5f3698,#8f4fd7);border-color:rgba(143,79,215,.5);color:#fff;}
+.ed-btn.danger:hover{background:rgba(239,68,68,.2);border-color:rgba(239,68,68,.5);color:#fff;}
+.ed-sep{width:1px;height:24px;background:rgba(255,255,255,.14);margin:0 3px;}
+.ed-dot{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,.25);cursor:pointer;padding:0;transition:transform .12s;}
+.ed-dot:hover{transform:scale(1.18);border-color:#fff;}
+.ed-dot.grad-dot{background:linear-gradient(135deg,#71b9c3,#549cbc,#2d70aa,#6556d0,#9c4ed7);}
+#ed-hint{position:fixed;bottom:24px;left:24px;z-index:9998;background:rgba(13,15,36,.92);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:10px 16px;font-size:13px;color:#9a9ba6;font-family:'Futurism',sans-serif;display:none;direction:rtl;max-width:46vw;}
+body.ed-on #ed-hint{display:block;}
+#ed-toast{position:fixed;bottom:78px;left:50%;transform:translateX(-50%) translateY(12px);z-index:9999;background:rgba(143,79,215,.95);color:#fff;padding:11px 22px;border-radius:10px;font-size:15px;font-weight:700;font-family:'Futurism',sans-serif;opacity:0;pointer-events:none;transition:all .25s;box-shadow:0 12px 34px rgba(0,0,0,.5);direction:rtl;}
+#ed-toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+#ed-restore{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:10000;display:flex;gap:10px;align-items:center;background:rgba(13,15,36,.97);border:1px solid rgba(143,79,215,.5);border-radius:12px;padding:10px 18px;font-family:'Futurism',sans-serif;font-size:14px;color:#dfe0e6;direction:rtl;box-shadow:0 18px 50px rgba(0,0,0,.6);}
+#ed-guide-v{position:absolute;left:959px;top:0;width:2px;height:1080px;background:rgba(98,170,191,.85);z-index:9990;display:none;pointer-events:none;box-shadow:0 0 10px rgba(98,170,191,.7);}
+#ed-guide-h{position:absolute;top:539px;left:0;height:2px;width:1920px;background:rgba(98,170,191,.85);z-index:9990;display:none;pointer-events:none;box-shadow:0 0 10px rgba(98,170,191,.7);}
+body.ed-on .ed-hover{outline:1.5px dashed rgba(98,170,191,.6) !important;outline-offset:3px;cursor:move;}
+body.ed-on .ed-selected{outline:2px solid #8f4fd7 !important;outline-offset:3px;}
+[contenteditable=true]{cursor:text !important;outline:2px solid #62aabf !important;outline-offset:3px;user-select:text !important;-webkit-user-select:text !important;}
+.ed-img,.ed-blur,.ed-shape,.ed-textbox,.ed-clone{position:absolute;z-index:50;}
+.ed-img img{width:100%;height:100%;display:block;object-fit:cover;border-radius:6px;pointer-events:none;}
+.ed-blur{backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);background:rgba(20,22,48,.16);border-radius:10px;}
+.ed-blur.ed-opaque{background:#14163a !important;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;border:1px solid rgba(255,255,255,.06);}
+.ed-shape{background:rgba(143,79,215,.22);border:2px solid rgba(143,79,215,.6);border-radius:12px;}
+.ed-textbox{font-family:'Futurism',sans-serif;font-weight:900;font-size:40px;color:#fff;min-width:60px;line-height:1.1;}
+body.ed-on .ed-img,body.ed-on .ed-blur,body.ed-on .ed-shape,body.ed-on .ed-textbox,body.ed-on .ed-clone{cursor:move;}
+.ed-handle{position:absolute;z-index:60;width:20px;height:20px;border-radius:50%;background:#8f4fd7;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.5);}
+.ed-handle.br{cursor:nwse-resize;right:-10px;bottom:-10px;}
+.ed-del{position:absolute;z-index:61;top:-15px;right:-15px;width:28px;height:28px;border-radius:50%;background:#ef4444;color:#fff;border:2px solid #fff;font-size:17px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;}
+
+</style></head><body>
+<canvas id="fx"></canvas><canvas id="confetti"></canvas>
+<div id="stage">
+
+<!-- 1 COVER -->
+<section class="slide" data-fx="1"><div class="bar"></div><div class="kick">BIT · RIBIT</div>
+ <div class="wordmark">bit</div>
+ <div class="eyebrow b" data-d="2">עבודת סיום · ניהול מוצר טכנולוגי 4060 · מרצה: יעל רובינשטיין זיו</div>
+ <div class="cvtitle"><div class="sweep"></div>
+   <span class="ln b" data-d="3">מצינור תשלומים</span><span class="ln ln2 b" data-d="4">לפלטפורמה פיננסית.</span>
+   <div class="accent"></div></div>
+ <div class="emblem"><div class="ring"></div><div class="ring r2"></div>
+   <div class="disc"><svg viewBox="0 0 24 24"><path d="M13 3 5.5 13H11l-1 8 8.5-10.5H13Z"/></svg></div><div class="lbl">ריביט</div></div>
+ <div class="sub b" data-d="7">השקת ”ריביט” — פיקדון נושא ריבית, נובמבר 2025.</div>
+ <div class="names b" data-d="8">סאלי חליף · נתנאל יברקן · ליהי שניידר · נעה מונטל פברמן · יוני 2026</div>
+</section>
+
+<!-- 2 PROBLEM -->
+<section class="slide"><div class="bar"></div><div class="kick">THE PROBLEM</div><div class="ttl">הכסף הגדול בישראל — לא עובד.</div>
+ <div class="row" style="margin-top:5vh"><div class="col"><div class="big" style="font-size:19vw">0%</div><div class="sub b" data-d="1">תשואה על הכסף הרדום</div></div>
+  <div class="cards"><div class="card b" data-d="2" style="border-right-color:var(--amb)"><div><div class="v">מאות מיליארדי ₪</div><div class="l">שוכבים בעו”ש ובארנקים — בזמן שפיקדונות קצרים מניבים 3%–4%</div></div></div>
+   <div class="card b" data-d="3"><div><div class="v">הכסף כבר אצל המשתמשים</div><div class="l">חסר רק סיבה אחת להשאיר אותו — ולתת לו לעבוד</div></div></div></div></div>
+ <div class="note b" data-d="4"><b>כך הגענו למסקנה</b> — ניתוח מאקרו · Benchmark מול המתחרים · ניתוח התנהגות משתמשי ביט.</div>
+</section>
+
+<!-- 3 THE MOVE -->
+<section class="slide"><div class="bar"></div><div class="kick">THE MOVE</div><div class="ttl">המהלך — במשפט אחד.</div>
+ <svg class="b" data-d="1" width="1150" height="310" viewBox="0 0 900 240" style="margin-top:3vh">
+  <path class="draw" style="--len:680" d="M790 120 L110 120" stroke="url(#gc)" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <text x="640" y="66" fill="#2DD8EC" font-size="16" text-anchor="middle">מוסיף שכבת חיסכון</text><text x="260" y="66" fill="#2DD8EC" font-size="16" text-anchor="middle">נפתח לעולם פיננסי</text>
+  <g><circle cx="790" cy="120" r="50" fill="#18242F" stroke="#3C4F5C" stroke-width="2"/><text x="790" y="200" fill="#F4F8FC" font-size="22" text-anchor="middle" font-weight="bold">תשלומים</text></g>
+  <g><circle cx="450" cy="120" r="58" fill="url(#gn)" stroke="#2DD8EC" stroke-width="3" class="pulse"/><text x="450" y="128" fill="#2DD8EC" font-size="24" text-anchor="middle" font-weight="bold">ריביט</text><text x="450" y="206" fill="#B8C7D4" font-size="15" text-anchor="middle">הפיצ’ר שמחבר</text></g>
+  <g><circle cx="110" cy="120" r="50" fill="#18242F" stroke="#F4F8FC" stroke-width="2"/><text x="110" y="200" fill="#F4F8FC" font-size="22" text-anchor="middle" font-weight="bold">פלטפורמה</text></g></svg>
+ <div class="sub b" data-d="3">ריביט הפך את ביט מאפליקציית תשלומים — לפלטפורמה שגם חוסכת.</div>
+</section>
+
+<!-- 4 RIBIT -->
+<section class="slide"><div class="bar"></div><div class="kick">THE PRODUCT</div><div class="ttl">הכירו את ריביט.</div>
+ <div class="row" style="margin-top:4vh"><div class="col"><div class="big" style="font-size:21vw"><span class="num" data-to="4" data-suf="%">0%</span></div><div class="sub b" data-d="1">ריבית שנתית על כסף שיושב בארנק</div></div>
+  <div class="cards">
+   <div class="card b" data-d="2"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 5.6L19.5 9l-4.4 3.2L16.6 18 12 14.7 7.4 18l1.5-5.8L4.5 9l5.6-.4Z"/></svg></div><div><div class="v">נובמבר 2025</div><div class="l">מועד ההשקה</div></div></div>
+   <div class="card b" data-d="3"><div class="ic"><svg viewBox="0 0 24 24"><path d="M13 3 5.5 13H11l-1 8 8.5-10.5H13Z"/></svg></div><div><div class="v">4% · 3 חודשים</div><div class="l">המסלול בהשקה</div></div></div>
+   <div class="card b" data-d="4"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 7c0-1.6 3.1-2.8 7-2.8S18 5.4 18 7v10c0 1.6-3.1 2.8-7 2.8S4 18.6 4 17Z"/></svg></div><div><div class="v">10–20,000 ₪</div><div class="l">סכום ההפקדה</div></div></div>
+   <div class="card b" data-d="5"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 8.5C3 7 4 6 5.5 6H18v3.5H5.5A2.5 2.5 0 0 1 3 8.5Z M3 8.5V17a2 2 0 0 0 2 2h13v-9.5"/></svg></div><div><div class="v">נזיל או נעול</div><div class="l">מסלולי משיכה</div></div></div></div></div>
+</section>
+
+<!-- 5 BASE -->
+<section class="slide"><div class="bar"></div><div class="kick">THE BASE</div><div class="ttl">הפלטפורמה כבר בכיס.</div>
+ <div class="row" style="margin-top:5vh"><div class="col"><div class="big" style="font-size:16vw"><span class="num" data-to="3.5" data-suf="M" data-dec="1">0M</span></div>
+   <div class="sub b" data-d="1">משתמשי ביט פעילים — השוק הנגיש (SAM)</div><div class="tiny b" data-d="2" style="color:var(--cy);font-size:1.1vw">יעד שנה 1 (SOM): ~525K · כ-15% מהפעילים</div></div>
+  <div class="cards"><div class="card b" data-d="3"><div><div class="v"><span class="num" data-to="29.4" data-suf="B ₪" data-dec="1">0</span></div><div class="l">עוברים דרך ביט בכל שנה</div></div></div>
+   <div class="card b" data-d="4" style="border-right-color:var(--grn)"><div><div class="v" style="color:var(--grn)">בלי לגייס אף אחד</div><div class="l">הלקוח כבר כאן — רק צריך להציע לו</div></div></div></div></div>
+</section>
+
+<!-- 6 COMPETITORS -->
+<section class="slide"><div class="bar"></div><div class="kick">THE MARKET GAP</div><div class="ttl">התשואה הגבוהה — בלי חיכוך.</div>
+ <div class="comp" style="margin-top:6vh">
+  <div class="c hi b" data-d="0"><div class="nm">ביט</div><div class="y">4%</div><div class="meter" style="--w:66%"><i></i></div><div class="cd">עד 4% · בתוך האפליקציה · 10–20K ₪</div></div>
+  <div class="c b" data-d="1"><div class="nm">PayBox</div><div class="y">2.5–6%</div><div class="meter" style="--w:100%"><i></i></div><div class="cd">מותנה בשימוש בכרטיס</div></div>
+  <div class="c b" data-d="2"><div class="nm">Max</div><div class="y">~3%</div><div class="meter" style="--w:50%"><i></i></div><div class="cd">יתרה נזילה עד ~500K ₪</div></div></div>
+ <div class="note b" data-d="3">ריביט = התשואה הגבוהה ביותר ללא תנאי כרטיס — כניסה הגנתית והתקפית כאחד.</div>
+</section>
+
+<!-- 7 CHANGE -->
+<section class="slide"><div class="bar"></div><div class="kick">STRATEGIC ANALYSIS</div><div class="ttl">איזה סוג מהלך זה?</div>
+ <div class="b" data-d="0" style="margin-top:6vh"><span class="big" style="font-size:5.6vw">עיבוי יכולות</span><div class="sub" style="margin-top:.5vh">Product Intensification — עיבוי המוצר הקיים</div></div>
+ <div class="cards" style="width:58vw;margin-top:3vh">
+  <div class="card b" data-d="1"><div class="ic"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L20 6.5"/></svg></div><div class="v">מוסיף שכבת חיסכון מעל אפליקציית התשלומים</div></div>
+  <div class="card b" data-d="2"><div class="ic"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L20 6.5"/></svg></div><div class="v">ממנף 3.5M משתמשים ו-29.4B ₪ העברות בשנה</div></div>
+  <div class="card b" data-d="3"><div class="ic"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L20 6.5"/></svg></div><div class="v">בלי לפנות לקהל יעד חדש או טריטוריה חדשה</div></div></div>
+ <div class="note b" data-d="4"><b>ובמקביל — Me-too:</b> יישור קו עם פייבוקס, שהציעה ריבית על יתרה עוד לפני ביט.</div>
+</section>
+
+<!-- 8 VISION -->
+<section class="slide"><div class="bar"></div><div class="kick">VISION & MISSION</div><div class="ttl">מהחזון של הבנק — אל הביצוע של ריביט.</div>
+ <div class="bridge" style="margin-top:6vh">
+  <div class="vcol g b" data-d="3"><h3 class="gain">הביצוע — ריביט</h3><p>✓ חיסכון דיגיטלי בקליק, בלי פיקדון מסורתי</p><p>✓ בלי חשבון ובלי סניף — באפליקציה המוכרת</p><p>✓ תשואה מעל הממוצע, שקופה, עם גב בנקאי</p></div>
+  <div class="bnode b" data-d="2">מבצע</div>
+  <div class="vcol b" data-d="0"><h3 style="color:var(--faint)">החזון</h3><p style="font-size:1.75vw">”מחויבים לצמיחה באמצעות <span class="cy">בנקאות מתחדשת והוגנת</span> ללקוחותינו.”</p><div class="tiny" style="text-align:right">בנק הפועלים · חזון הבנק</div></div></div>
+</section>
+
+<!-- 9 PORTER -->
+<section class="slide"><div class="bar"></div><div class="kick">PORTER · FIVE FORCES</div><div class="ttl">מאזן העוצמה.</div>
+ <div class="row" style="margin-top:5vh;gap:6vw"><div class="col"><div class="big" style="font-size:16vw">2</div><div class="sub b" data-d="0">כוחות מכריעים מתוך חמישה</div>
+   <div class="note b" data-d="1" style="margin-top:2vh"><b>ריביט → חסם נטישה</b> · מהמאוים לתחליף עצמו</div></div>
+  <div class="eq"><div class="barw"><div class="bv s" style="--h:100%"></div><div class="nm">לקוחות</div></div>
+   <div class="barw"><div class="bv s" style="--h:100%"></div><div class="nm">תחליפים</div></div>
+   <div class="barw"><div class="bv m" style="--h:60%"></div><div class="nm">תחרותיות</div></div>
+   <div class="barw"><div class="bv m" style="--h:60%"></div><div class="nm">מתחרים</div></div>
+   <div class="barw"><div class="bv l" style="--h:40%"></div><div class="nm">ספקים</div></div></div></div>
+</section>
+
+<!-- 10 TROJAN -->
+<section class="slide"><div class="bar"></div><div class="kick">THE STRATEGIC HOOK</div><div class="ttl">הסוס הטרויאני.</div>
+ <div class="big" style="font-size:16vw;margin-top:4vh">⅔</div>
+ <div class="sub b" data-d="1">ממשתמשי ביט אינם לקוחות בנק הפועלים</div>
+ <div class="triad"><div class="pill b" data-d="2"><b>יותר נזילות</b></div><div class="pill b" data-d="3"><b>יותר דאטה</b></div><div class="pill b" data-d="4"><b>Cross-Sell עתידי</b></div></div>
+ <div class="note b" data-d="5">ביט עוברת ממוצר הפסדי למשפך גיוס — ראש גשר ”עוקף-בנק” עבור בנק הפועלים.</div>
+</section>
+
+<!-- 11 VPC -->
+<section class="slide"><div class="bar"></div><div class="kick">CUSTOMER VALUE</div><div class="ttl">הערך ללקוח — תשואה בקליק.</div>
+ <div class="vpc" style="margin-top:5vh">
+  <div class="vcol b" data-d="0"><h3 class="pain">הכאב (Pains)</h3><p>כסף בעו”ש/ביט כמעט ללא ריבית</p><p>מתחרים מפרסמים 2.5%–6% — ”פספוס תשואה”</p><p>פיקדון בנקאי = חיכוך, סניף, בירוקרטיה</p></div>
+  <div class="vcol g b" data-d="1"><h3 class="gain">הרווח (Gains)</h3><p>תשואה אוטומטית — בלחיצה אחת</p><p>שקיפות מלאה + גב בנקאי אמין</p><p>חוויית כיסי-יעד יומיומית באפליקציה</p></div></div>
+ <div class="note b" data-d="2"><b>Fit:</b> ריביט ממנף משתמשים מזוהים (KYC) ומסיר חיכוך — יתרון על הבנקים, לא רק התשואה.</div>
+</section>
+
+<!-- 12 OKR -->
+<section class="slide"><div class="bar"></div><div class="kick">OBJECTIVES & KEY RESULTS</div><div class="ttl">מדידת הצלחה — שלוש תוצאות מפתח.</div>
+ <div class="ringwrap" style="margin-top:6vh" id="rings"></div>
+ <div class="tiny b" data-d="6" style="font-size:1.1vw">מטרה 2 · ביסוס ביט כארנק דיגיטלי לחיסכון יומיומי</div>
+</section>
+
+<!-- 13 VALUE ENGINE -->
+<section class="slide"><div class="bar"></div><div class="kick">TRIPLE-WIN ENGINE</div><div class="ttl">מנוע הערך — גלגל התנופה.</div>
+ <div class="row" style="margin-top:3vh;gap:5vw">
+  <svg class="b" data-d="0" width="420" height="420" viewBox="0 0 300 300">
+   <path class="draw" style="--len:230" d="M150 40 A110 110 0 0 1 245.3 205" stroke="#2DD8EC" stroke-width="26" fill="none" stroke-linecap="round"/>
+   <path class="draw" style="--len:230" d="M245.3 205 A110 110 0 0 1 54.7 205" stroke="#49E2AE" stroke-width="26" fill="none" stroke-linecap="round"/>
+   <path class="draw" style="--len:230" d="M54.7 205 A110 110 0 0 1 150 40" stroke="#1490B2" stroke-width="26" fill="none" stroke-linecap="round"/>
+   <circle cx="150" cy="150" r="42" fill="url(#gn)" stroke="#2DD8EC" stroke-width="2.5" class="pulse"/><text x="150" y="156" fill="#fff" font-size="20" text-anchor="middle" font-weight="bold">ריביט</text></svg>
+  <div class="cards" style="width:38vw">
+   <div class="card b" data-d="2"><div><div class="v" style="color:var(--cy)">המוצר (ביט)</div><div class="l">חסם נטישה · מצינור לפלטפורמה</div></div></div>
+   <div class="card b" data-d="3" style="border-right-color:var(--grn)"><div><div class="v" style="color:var(--grn)">הבנק (הפועלים)</div><div class="l">נזילות זולה · דאטה · Cross-Sell</div></div></div>
+   <div class="card b" data-d="4"><div><div class="v">הלקוח</div><div class="l">תגמול על כסף רדום · אפס מאמץ</div></div></div></div></div>
+ <div class="tiny b" data-d="5">כל סיבוב מזין את הבא — ערך מצטבר, לא חד-פעמי.</div>
+</section>
+
+<!-- 14 AI -->
+<section class="slide"><div class="bar"></div><div class="kick">AI · CRITICAL REVIEW</div><div class="ttl">מה למדנו מהבינה המלאכותית.</div>
+ <div style="width:66vw;margin-top:5vh">
+  <div class="airow b" data-d="0"><div class="mk ok"><svg viewBox="0 0 24 24" stroke="#49E2AE"><path d="M5 12.5l4.5 4.5L20 6.5"/></svg></div><div class="t">זיהתה נכון את מגמת הריבית והלחץ התחרותי</div></div>
+  <div class="airow b" data-d="1"><div class="mk ok"><svg viewBox="0 0 24 24" stroke="#49E2AE"><path d="M5 12.5l4.5 4.5L20 6.5"/></svg></div><div class="t">סייעה בכימות ההזדמנות ובניתוח השוק</div></div>
+  <div class="airow warn b" data-d="2"><div class="mk wn"><svg viewBox="0 0 24 24" stroke="#F6C45C"><path d="M12 4 L21 19 H3 Z M12 10v4.5 M12 17h.01"/></svg></div><div><div class="t">פספסה את המנוע האסטרטגי המרכזי</div><div class="d">נזילות · שימור לקוחות · מודל ”הסוס הטרויאני”</div></div></div></div>
+ <div class="tiny b" data-d="3" style="font-size:1.1vw">מסקנה: ה-AI מצוין למחקר ראשוני — אך ה”למה” העסקי דורש שיקול דעת אנושי.</div>
+</section>
+
+<!-- 15 CLOSING -->
+<section class="slide" data-fx="1"><div class="bar"></div><div class="kick">THE TAKEAWAY</div><div class="flash"></div>
+ <div class="cl1 b" data-d="0">הכסף הרדום</div>
+ <div class="cl2">התחיל לעבוד.</div>
+ <div class="sub b" data-d="3">ריביט הפך את ביט מאפליקציית תשלומים — לפלטפורמה פיננסית.</div>
+ <div class="spine2 b" data-d="4">כסף רדום &nbsp;→&nbsp; ריביט &nbsp;→&nbsp; פלטפורמה</div>
+ <div class="src b" data-d="6">מקורות: בנק הפועלים (3.11.2025) · גיקטיים · כלכליסט (×2) · אייס · חזון הבנק · צילום אפליקציית ביט (2026)</div>
+</section>
+
+</div>
+<svg width="0" height="0"><defs>
+ <linearGradient id="gc" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#3C4F5C"/><stop offset=".5" stop-color="#2DD8EC"/><stop offset="1" stop-color="#F4F8FC"/></linearGradient>
+ <radialGradient id="gn"><stop offset="0" stop-color="#1B4A6A"/><stop offset="1" stop-color="#0E2030"/></radialGradient>
+</defs></svg>
+<div class="dots" id="dots"></div><div class="hint">← → / רווח / קליק · F11 מסך מלא</div>
+<script>
+(()=>{const data=[["KR3 · שימור",20,.8,"#1B4A6A","בתדירות הכניסות"],["KR2 · עומק",10,.4,"#2FB6D6","יוחזק בכיסי ריבית"],["KR1 · אימוץ",15,.6,"#2DD8EC","יפתחו כיס ריבית"]];
+ const C=2*Math.PI*70;let h="";data.forEach((d,k)=>{const off=(C*(1-d[2])).toFixed(0);
+  h+=`<div class="ringcol"><svg width="170" height="170" viewBox="0 0 170 170"><circle cx="85" cy="85" r="70" fill="none" stroke="#16242F" stroke-width="16"/><circle class="draw" style="--len:${C.toFixed(0)};--off:${off}" cx="85" cy="85" r="70" fill="none" stroke="${d[3]}" stroke-width="16" stroke-linecap="round" transform="rotate(-90 85 85)"/></svg><div class="pc"><span class="num" data-to="${d[1]}" data-suf="%">0%</span></div><div class="kl b" data-d="${2+k}">${d[0]}</div><div class="kd b" data-d="${2+k}">${d[4]}</div></div>`;});
+ document.getElementById('rings').innerHTML=h;})();
+const slides=[...document.querySelectorAll('.slide')];let i=0;
+const dots=document.getElementById('dots');slides.forEach(()=>dots.insertAdjacentHTML('beforeend','<i></i>'));const di=[...dots.children];
+function ease(t){return 1-Math.pow(1-t,3)}
+function countUp(el){const to=parseFloat(el.dataset.to),dec=+(el.dataset.dec||0),suf=el.dataset.suf||'';const t0=performance.now(),dur=1150;
+ function step(now){let p=Math.min(1,(now-t0)/dur),v=ease(p)*to;el.textContent=(dec?v.toFixed(dec):Math.round(v))+suf;if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+function show(n){slides.forEach((s,k)=>s.classList.toggle('on',k===n));di.forEach((d,k)=>d.classList.toggle('a',k===n));
+ const s=slides[n];
+ s.querySelectorAll('.b,.draw,.meter,.bv,.accent,.sweep,.emblem,.cl2,.flash').forEach(e=>e.classList.remove('show'));
+ s.querySelectorAll('.num').forEach(e=>e.textContent='0'+(/M/.test(e.dataset.suf||'')?'M':''));
+ s.querySelectorAll('.b').forEach(e=>{const d=+(e.dataset.d||0);setTimeout(()=>e.classList.add('show'),140+d*150);});
+ s.querySelectorAll('.draw').forEach((e,k)=>setTimeout(()=>e.classList.add('show'),420+k*260));
+ s.querySelectorAll('.meter').forEach(e=>setTimeout(()=>e.classList.add('show'),520));
+ s.querySelectorAll('.bv').forEach((e,k)=>setTimeout(()=>e.classList.add('show'),420+k*170));
+ s.querySelectorAll('.num').forEach(e=>setTimeout(()=>countUp(e),480));
+ s.querySelectorAll('.accent,.sweep').forEach(e=>setTimeout(()=>e.classList.add('show'),1900));
+ s.querySelectorAll('.emblem').forEach(e=>setTimeout(()=>e.classList.add('show'),2050));
+ s.querySelectorAll('.cl2,.flash').forEach(e=>setTimeout(()=>e.classList.add('show'),950));
+ if(s.querySelector('.cl2')){confOn=true;setTimeout(fireworks,1050);}else confOn=false;
+ document.getElementById('fx').style.opacity=(s.dataset.fx)?'.85':'.4';}
+function go(d){let n=Math.max(0,Math.min(slides.length-1,i+d));if(n!==i){i=n;show(i);}}
+addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();go(1);}if(['ArrowLeft','ArrowUp'].includes(e.key))go(-1);if(e.key==='Home'){i=0;show(0);}});
+addEventListener('click',e=>{if(e.clientX<innerWidth*0.16)go(-1);else go(1);});
+const cv=document.getElementById('fx'),cx=cv.getContext('2d');let W,H,ps=[];
+const cf=document.getElementById('confetti'),cc=cf.getContext('2d');
+function rs(){W=cv.width=cf.width=innerWidth;H=cv.height=cf.height=innerHeight;ps=Array.from({length:80},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2+.4,s:Math.random()*.4+.1,o:Math.random()*.5+.15}));}
+function loop(){cx.clearRect(0,0,W,H);for(const p of ps){p.y-=p.s;if(p.y<-5){p.y=H+5;p.x=Math.random()*W;}cx.beginPath();cx.arc(p.x,p.y,p.r,0,7);cx.fillStyle='rgba(45,216,236,'+p.o+')';cx.fill();}requestAnimationFrame(loop);}
+let conf=[],confOn=false;const COLZ=['#2DD8EC','#F4F8FC','#F6C45C','#49E2AE'];
+function burst(x,y,n){for(let k=0;k<n;k++){const a=Math.random()*6.283,sp=Math.random()*7.5+2;conf.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-2,g:.12,life:1,c:COLZ[k%4],sz:Math.random()*4+2,rot:Math.random()*6,vr:(Math.random()-.5)*.3});}}
+function fireworks(){conf=[];burst(W*0.5,H*0.4,150);setTimeout(()=>{if(confOn)burst(W*0.28,H*0.34,100)},350);setTimeout(()=>{if(confOn)burst(W*0.72,H*0.36,100)},650);setTimeout(()=>{if(confOn)burst(W*0.5,H*0.45,120)},1050);
+ for(let k=0;k<130;k++)conf.push({x:Math.random()*W,y:-Math.random()*H*0.4,vx:(Math.random()-.5)*1.5,vy:Math.random()*2+1.5,g:.05,life:1,c:COLZ[k%4],sz:Math.random()*5+3,rot:Math.random()*6,vr:(Math.random()-.5)*.4,fall:1});
+ const t0=performance.now();function run(now){cc.clearRect(0,0,W,H);if(!confOn)return;let al=false;
+  for(const p of conf){p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;if(!p.fall)p.life-=.008;else if(p.y>H+20)p.life=0;
+   if(p.life>0){al=true;cc.save();cc.globalAlpha=Math.max(0,p.life);cc.translate(p.x,p.y);cc.rotate(p.rot);cc.fillStyle=p.c;cc.fillRect(-p.sz/2,-p.sz/2,p.sz,p.sz*.62);cc.restore();}}
+  if(al&&now-t0<7000)requestAnimationFrame(run);else cc.clearRect(0,0,W,H);}requestAnimationFrame(run);}
+addEventListener('resize',rs);rs();loop();show(0);
+</script><script>
+/* ===== BRAIN DECK · EDIT MODE v2 (additive, self-contained) =====
+   v2 adds: clipboard image paste (Cmd+V) + file drag-drop, internal element
+   copy/paste (Cmd+C/Cmd+V), brand color swatches (whole element OR selected
+   word while editing), center snap-guides while dragging, arrow-key nudge,
+   z-order, center buttons, redo, autosave to localStorage with restore bar,
+   blur intensity/opaque controls, proportional image resize, Cmd+S save. */
+(function(){
+  if(window.__brainEdInit) return; window.__brainEdInit=true;
+  var deck=document.getElementById('stage');
+  if(!deck) return;
+  var edOn=false, selected=null, undoStack=[], redoStack=[], editState=null;
+  var clipInternal=null, pasteCount=0, zTop=60, lastNudge={el:null,t:0};
+  var touched={}, persistTimer=null, persistWarned=false;
+  var LS_KEY='brainEd:'+(location.pathname.split('/').pop()||'deck');
+  var MARKER='__brain-ed-copy__';
+
+  var ADDED='.ed-img,.ed-blur,.ed-shape,.ed-textbox,.ed-clone';
+  /* DENY = full-bleed backgrounds, slide-filling wrappers, deck chrome, editor UI */
+  var DENY='#deck,#stage,.slide,#fx,#confetti,.dots,.hint,.bar,.kick,.frame,.kb,.scan,.bg-img,.foot,.pg,#nav,.nav-btn,#slide-counter,#btn-fs,#progress-bar,#ed-toolbar,#ed-fab,#ed-hint,#ed-toast,#ed-ctx,#ed-restore,#ed-guide-v,#ed-guide-h,.wrap,.div-wrap,.show-wrap,.bs-wrap,.applayer,.hero-image-content,.hero-image-vignette,.lay-side,.lay-wrap,.tower,.tower-inner,.hero-image,.hero-ring,.hero-ring2,.loop-wrap,.loop-content';
+  /* TEXTY = elements that may be inline-edited on double-click */
+  var TEXTY='h1,h2,h3,h4,h5,h6,p,li,span,.ttl,.sub,.tiny,.note,.card .v,.card .l,.nm,.y,.cd,.pill,.cl1,.cl2,.spine2,.names,.kl,.kd,.t,.d,.lbl,.eyebrow,.div-word,.s-title,.eyebrow,.bp-text,.bs-context,.hero-title,.hero-sub,.div-sub,.div-eyebrow,.ed-textbox,.vl-name,.vl-val,.lay-tx,.pl-tx,.card,.chip,.engine,.step-name,.price-num,.vt-num,.hbar-lbl,.hbar-val,.vs-name,.vs-item,.bs-number,.bs-label';
+
+  function scale(){ var r=deck.getBoundingClientRect(); return 1; }
+  function activeSlide(){ return document.querySelector('.slide.on')||document.querySelector('.slide'); }
+  function slideIndex(s){ return [].slice.call(document.querySelectorAll('.slide')).indexOf(s); }
+  function matches(el,sel){ return el && el.matches && el.matches(sel); }
+  function deckXY(cx,cy){ var d=deck.getBoundingClientRect(), s=scale(); return {x:(cx-d.left)/s, y:(cy-d.top)/s}; }
+
+  /* Permissive: deepest element under the cursor that is NOT a denied wrapper.
+     Clicking inside an ADDED element (image/clone/...) grabs the whole unit. */
+  function eligible(el){
+    if(el && el.closest){ var ad=el.closest(ADDED); if(ad) return ad; }
+    var cur=el;
+    while(cur && cur!==deck){
+      if(matches(cur,ADDED)) return cur;
+      if(cur.classList && cur.classList.contains('slide')) return null;
+      if(matches(cur,DENY)){ cur=cur.parentElement; continue; }
+      if(cur.closest && cur.closest('.slide')) return cur;
+      cur=cur.parentElement;
+    }
+    return null;
+  }
+  /* For double-click text editing: deepest texty element (also inside clones) */
+  function eligibleText(el){
+    var cur=el;
+    while(cur && cur!==deck){
+      if(matches(cur,'.ed-textbox')) return cur;
+      if(cur.classList && cur.classList.contains('slide')) return null;
+      if(!matches(cur,DENY) && matches(cur,TEXTY) && cur.closest && cur.closest('.slide')) return cur;
+      cur=cur.parentElement;
+    }
+    return null;
+  }
+  function selectParent(){
+    if(!selected){ toast('בחר אלמנט קודם'); return; }
+    var p=selected.parentElement;
+    while(p && p!==deck){
+      if(p.classList && p.classList.contains('slide')) break;
+      if(!matches(p,DENY) && p.closest('.slide')){ select(p); toast('נבחרה המסגרת'); return; }
+      p=p.parentElement;
+    }
+    toast('אין מסגרת אב');
+  }
+
+  /* ---------- undo / redo (per-slide innerHTML snapshots) ---------- */
+  function snap(){
+    var s=activeSlide(); if(!s) return;
+    var idx=slideIndex(s);
+    undoStack.push({slide:s, idx:idx, html:s.innerHTML});
+    if(undoStack.length>80) undoStack.shift();
+    redoStack.length=0;
+    touched[idx]=1; schedulePersist();
+    toast('');
+  }
+  function undo(){
+    var last=undoStack.pop(); if(!last){ toast('אין מה לבטל'); return; }
+    deselect();
+    if(last.slide!==activeSlide() && last.idx>=0 && typeof show==='function'){ show(last.idx); }
+    redoStack.push({slide:last.slide, idx:last.idx, html:last.slide.innerHTML});
+    last.slide.innerHTML=last.html;
+    touched[last.idx]=1; schedulePersist();
+    toast('בוטל');
+  }
+  function redo(){
+    var nx=redoStack.pop(); if(!nx){ toast('אין מה להחזיר'); return; }
+    deselect();
+    if(nx.slide!==activeSlide() && nx.idx>=0 && typeof show==='function'){ show(nx.idx); }
+    undoStack.push({slide:nx.slide, idx:nx.idx, html:nx.slide.innerHTML});
+    nx.slide.innerHTML=nx.html;
+    touched[nx.idx]=1; schedulePersist();
+    toast('הוחזר');
+  }
+
+  /* ---------- autosave (localStorage, debounced, normalized compare) ---------- */
+  function cleanSlideHTML(slide){
+    var c=slide.cloneNode(true), i, n;
+    n=c.querySelectorAll('.ed-runtime,.ed-handle,.ed-del'); for(i=0;i<n.length;i++) n[i].remove();
+    n=c.querySelectorAll('.ed-hover,.ed-selected'); for(i=0;i<n.length;i++){ n[i].classList.remove('ed-hover'); n[i].classList.remove('ed-selected'); }
+    n=c.querySelectorAll('[contenteditable]'); for(i=0;i<n.length;i++) n[i].removeAttribute('contenteditable');
+    n=c.querySelectorAll('.on'); for(i=0;i<n.length;i++) n[i].classList.remove('on');
+    n=c.querySelectorAll('.anim'); for(i=0;i<n.length;i++) n[i].style.animationDelay='';
+    n=c.querySelectorAll('[data-w]'); for(i=0;i<n.length;i++) n[i].style.width='';
+    var fmt; try{ fmt=new Intl.NumberFormat('he-IL'); }catch(e){ fmt=null; }
+    n=c.querySelectorAll('[data-count]');
+    for(i=0;i<n.length;i++){ var v=parseInt(n[i].getAttribute('data-count'),10); if(isNaN(v)) continue;
+      var out=n[i].querySelector('.cval')||n[i]; out.textContent= fmt?fmt.format(v):(''+v); }
+    n=c.querySelectorAll('[style=""]'); for(i=0;i<n.length;i++) n[i].removeAttribute('style');
+    return c.innerHTML;
+  }
+  function persist(){
+    try{
+      var data; try{ data=JSON.parse(localStorage.getItem(LS_KEY)||'{}'); }catch(e){ data={}; }
+      data.ts=Date.now(); data.slides=data.slides||{};
+      var list=document.querySelectorAll('.slide');
+      for(var k in touched){ if(list[k]) data.slides[k]=cleanSlideHTML(list[k]); }
+      localStorage.setItem(LS_KEY,JSON.stringify(data));
+    }catch(err){
+      if(!persistWarned){ persistWarned=true; toast('גיבוי אוטומטי נכשל - הקובץ גדול, שמור ידנית'); }
+    }
+  }
+  function schedulePersist(){ clearTimeout(persistTimer); persistTimer=setTimeout(persist,800); }
+  function checkRestore(){
+    var data; try{ data=JSON.parse(localStorage.getItem(LS_KEY)||'null'); }catch(e){ return; }
+    if(!data || !data.slides) return;
+    var list=document.querySelectorAll('.slide'), diff=[];
+    for(var k in data.slides){ var i=+k; if(list[i] && cleanSlideHTML(list[i])!==data.slides[k]) diff.push(i); }
+    if(!diff.length) return;
+    var bar=document.createElement('div'); bar.id='ed-restore';
+    var when=new Date(data.ts||Date.now());
+    var hh=('0'+when.getHours()).slice(-2)+':'+('0'+when.getMinutes()).slice(-2);
+    var lbl=document.createElement('span'); lbl.textContent='🕘 נמצאו שינויים לא שמורים ('+hh+') - '+diff.length+' שקפים';
+    var b1=document.createElement('button'); b1.className='ed-btn primary'; b1.textContent='שחזר';
+    var b2=document.createElement('button'); b2.className='ed-btn'; b2.textContent='התעלם ומחק';
+    b1.onclick=function(){
+      for(var j=0;j<diff.length;j++){ list[diff[j]].innerHTML=data.slides[diff[j]]; touched[diff[j]]=1; }
+      var cur=slideIndex(activeSlide());
+      if(typeof activate==='function' && cur>=0) activate(cur);
+      bar.remove(); toast('שוחזר ✓');
+    };
+    b2.onclick=function(){ try{ localStorage.removeItem(LS_KEY); }catch(e){} bar.remove(); };
+    bar.appendChild(lbl); bar.appendChild(b1); bar.appendChild(b2);
+    document.body.appendChild(bar);
+  }
+
+  /* ---------- selection + handles ---------- */
+  function deselect(){
+    if(selected){
+      selected.classList.remove('ed-selected');
+      if(selected.__edRel && !selected.style.zIndex){ selected.style.position=''; selected.__edRel=false; }
+    }
+    var rt=document.querySelectorAll('.ed-runtime'); for(var i=0;i<rt.length;i++) rt[i].remove();
+    selected=null; refreshTb();
+  }
+  function select(el){
+    deselect();
+    selected=el; el.classList.add('ed-selected');
+    if(!matches(el,ADDED) && getComputedStyle(el).position==='static'){ el.style.position='relative'; el.__edRel=true; }
+    var del=document.createElement('div'); del.className='ed-del ed-runtime'; del.textContent='×';
+    del.addEventListener('mousedown',function(e){ e.stopPropagation(); e.preventDefault(); });
+    del.addEventListener('click',function(e){ e.stopPropagation(); snap(); var t=selected; deselect(); if(t) t.remove(); schedulePersist(); });
+    el.appendChild(del);
+    if(matches(el,ADDED)){
+      var h=document.createElement('div'); h.className='ed-handle br ed-runtime';
+      h.addEventListener('mousedown',function(e){ startResize(e,el); });
+      el.appendChild(h);
+    }
+    refreshTb();
+  }
+
+  /* ---------- generic move helper (nudge/center share it) ---------- */
+  function moveBy(el,dx,dy){
+    if(matches(el,ADDED)){
+      el.style.left=((parseFloat(el.style.left)||el.offsetLeft)+dx)+'px';
+      el.style.top=((parseFloat(el.style.top)||el.offsetTop)+dy)+'px';
+    }else{
+      el.style.animation='none';
+      var m=(el.style.transform||'').match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
+      var tx=m?parseFloat(m[1]):0, ty=m?parseFloat(m[2]):0;
+      var base=(el.style.transform||'').replace(/translate\([^)]*\)/,'').trim();
+      el.style.transform=(base+' translate('+(tx+dx)+'px,'+(ty+dy)+'px)').trim();
+    }
+  }
+
+  /* ---------- drag move with center snap-guides ---------- */
+  var drag=null, gV=null, gH=null;
+  function hideGuides(){ if(gV) gV.style.display='none'; if(gH) gH.style.display='none'; }
+  function onDown(e){
+    if(!edOn) return;
+    if(e.target.closest && e.target.closest('#ed-toolbar,#ed-fab,#ed-hint,#ed-toast,#ed-restore')) return;
+    if(e.target.classList && (e.target.classList.contains('ed-handle')||e.target.classList.contains('ed-del'))) return;
+    var el;
+    if(selected && selected.contains(e.target)){
+      /* clicking within the current selection drags THAT element (e.g. a group
+         you escalated to with "⤴ מסגרת"), instead of re-grabbing a child */
+      el=selected;
+    } else {
+      el=eligible(e.target);
+      if(!el){ deselect(); return; }
+      if(el.isContentEditable) return;
+      select(el);
+    }
+    var s=scale(), d=deck.getBoundingClientRect();
+    drag={el:el,x:e.clientX,y:e.clientY,moved:false,added:matches(el,ADDED),s:s};
+    var r0=el.getBoundingClientRect();
+    if(drag.added){
+      drag.l=parseFloat(el.style.left)||el.offsetLeft; drag.t=parseFloat(el.style.top)||el.offsetTop;
+      drag.w2=el.offsetWidth/2; drag.h2=el.offsetHeight/2;
+    }else{
+      var m=(el.style.transform||'').match(/translate\(([-\d.]+)px,\s*([-\d.]+)px\)/);
+      drag.tx=m?parseFloat(m[1]):0; drag.ty=m?parseFloat(m[2]):0;
+      drag.base=(el.style.transform||'').replace(/translate\([^)]*\)/,'').trim();
+      /* element center in deck coords EXCLUDING current translate (for snapping) */
+      drag.cx0=((r0.left-d.left)+r0.width/2)/s - drag.tx;
+      drag.cy0=((r0.top-d.top)+r0.height/2)/s - drag.ty;
+    }
+    e.preventDefault();
+    window.addEventListener('mousemove',onMove);
+    window.addEventListener('mouseup',onUp);
+  }
+  function onMove(e){
+    if(!drag) return;
+    var dx=(e.clientX-drag.x)/drag.s, dy=(e.clientY-drag.y)/drag.s;
+    if(!drag.moved){ if((Math.abs(dx)+Math.abs(dy))>2){ drag.moved=true; snap();
+        /* neutralise the entry animation (fadeUp, fill:both) which otherwise
+           pins `transform` and blocks our inline translate */
+        if(!drag.added) drag.el.style.animation='none';
+      } else return; }
+    var SN=7, offX=null, offY=null;
+    if(drag.added){
+      var lx=drag.l+dx, ty=drag.t+dy;
+      if(!e.altKey){
+        var cx=lx+drag.w2, cy=ty+drag.h2;
+        if(Math.abs(960-cx)<SN){ lx+=(960-cx); offX=true; }
+        if(Math.abs(540-cy)<SN){ ty+=(540-cy); offY=true; }
+      }
+      drag.el.style.left=lx+'px'; drag.el.style.top=ty+'px';
+    }else{
+      var txr=drag.tx+dx, tyr=drag.ty+dy;
+      if(!e.altKey){
+        var ecx=drag.cx0+txr, ecy=drag.cy0+tyr;
+        if(Math.abs(960-ecx)<SN){ txr+=(960-ecx); offX=true; }
+        if(Math.abs(540-ecy)<SN){ tyr+=(540-ecy); offY=true; }
+      }
+      drag.el.style.transform=(drag.base+' translate('+txr+'px,'+tyr+'px)').trim();
+    }
+    if(gV) gV.style.display=offX?'block':'none';
+    if(gH) gH.style.display=offY?'block':'none';
+  }
+  function onUp(){
+    window.removeEventListener('mousemove',onMove); window.removeEventListener('mouseup',onUp);
+    hideGuides(); if(drag&&drag.moved) schedulePersist(); drag=null;
+  }
+
+  /* ---------- resize (images keep aspect ratio; Shift = free) ---------- */
+  function startResize(e,el){
+    e.preventDefault(); e.stopPropagation();
+    var s=scale(), w=el.offsetWidth, h=el.offsetHeight, x=e.clientX, y=e.clientY, moved=false;
+    var isImg=matches(el,'.ed-img'), ratio=(h/w)||1;
+    function mv(ev){ var dx=(ev.clientX-x)/s, dy=(ev.clientY-y)/s; if(!moved){moved=true;snap();}
+      var nw=Math.max(40,w+dx), nh=Math.max(28,h+dy);
+      if(isImg && !ev.shiftKey) nh=Math.max(28,Math.round(nw*ratio));
+      el.style.width=nw+'px'; el.style.height=nh+'px'; }
+    function up(){ window.removeEventListener('mousemove',mv); window.removeEventListener('mouseup',up); schedulePersist(); }
+    window.addEventListener('mousemove',mv); window.addEventListener('mouseup',up);
+  }
+
+  /* ---------- inline text edit ---------- */
+  /* if an edited element drives a [data-count] counter, sync the attribute so the
+     deck's re-animation (activate()) lands on the NEW number instead of reverting */
+  function bakeCountFromEdit(el){
+    var dc=el.closest ? el.closest('[data-count]') : null;
+    if(!dc) return;
+    var cv=dc.querySelector('.cval')||dc;
+    var n=parseInt((cv.textContent||'').replace(/[^0-9]/g,''),10);
+    if(!isNaN(n)) dc.setAttribute('data-count', n);
+  }
+  function onDbl(e){
+    if(!edOn) return;
+    var el=eligibleText(e.target)||eligible(e.target);
+    if(!el) return;
+    if(matches(el,ADDED) && !matches(el,'.ed-textbox')) return;
+    if(!matches(el,TEXTY)){ toast('האלמנט הזה לא טקסט לעריכה'); return; }
+    deselect(); snap();
+    editState={el:el, orig:el.innerHTML, cancelled:false};
+    refreshTb();
+    el.setAttribute('contenteditable','true'); el.focus();
+    el.addEventListener('blur',function h(){
+      el.removeAttribute('contenteditable'); el.removeEventListener('blur',h);
+      if(!(editState && editState.cancelled)) bakeCountFromEdit(el);
+      if(editState && editState.el===el) editState=null;
+      refreshTb(); schedulePersist();
+    });
+    e.preventDefault();
+  }
+
+  /* ---------- add elements ---------- */
+  function insertImageFile(f, pos){
+    if(!f || !/^image\//.test(f.type)) return;
+    var rd=new FileReader();
+    rd.onload=function(){ var im=new Image(); im.onload=function(){
+      snap(); var s=activeSlide();
+      var w=560, h=Math.round(560*im.naturalHeight/im.naturalWidth);
+      if(h>820){ h=820; w=Math.round(820*im.naturalWidth/im.naturalHeight); }
+      var box=document.createElement('div'); box.className='ed-img';
+      var lx=pos? Math.round(pos.x-w/2) : Math.round(960-w/2);
+      var ly=pos? Math.round(pos.y-h/2) : Math.round(540-h/2);
+      box.style.left=lx+'px'; box.style.top=ly+'px'; box.style.width=w+'px'; box.style.height=h+'px';
+      var img=document.createElement('img'); img.src=rd.result; box.appendChild(img);
+      s.appendChild(box); select(box); toast('תמונה נוספה'); schedulePersist();
+    }; im.src=rd.result; };
+    rd.readAsDataURL(f);
+  }
+  function addImage(){
+    var inp=document.createElement('input'); inp.type='file'; inp.accept='image/*';
+    inp.onchange=function(){ insertImageFile(inp.files[0], null); };
+    inp.click();
+  }
+  function addBlur(){ snap(); var s=activeSlide(); var b=document.createElement('div'); b.className='ed-blur'; b.style.cssText='left:760px;top:460px;width:400px;height:150px;'; s.appendChild(b); select(b); toast('טשטוש - גרור מעל נתון'); schedulePersist(); }
+  function addShape(){ snap(); var s=activeSlide(); var b=document.createElement('div'); b.className='ed-shape'; b.style.cssText='left:760px;top:450px;width:420px;height:200px;'; s.appendChild(b); select(b); schedulePersist(); }
+  function mkTextbox(text,x,y){
+    var s=activeSlide(); var t=document.createElement('div'); t.className='ed-textbox';
+    t.style.left=(x!=null?x:720)+'px'; t.style.top=(y!=null?y:480)+'px';
+    t.textContent=text||'טקסט חדש'; s.appendChild(t); select(t); return t;
+  }
+  function addText(){ snap(); mkTextbox('טקסט חדש'); toast('לחץ פעמיים לעריכה'); schedulePersist(); }
+
+  /* ---------- copy / paste (Cmd+C / Cmd+V) ---------- */
+  function cleanOuter(el){
+    var c=el.cloneNode(true), i, n;
+    n=c.querySelectorAll('.ed-runtime,.ed-handle,.ed-del'); for(i=0;i<n.length;i++) n[i].remove();
+    c.classList.remove('ed-selected'); c.classList.remove('ed-hover');
+    c.removeAttribute('contenteditable');
+    n=c.querySelectorAll('[contenteditable]'); for(i=0;i<n.length;i++) n[i].removeAttribute('contenteditable');
+    /* strip our positioning so the stored copy is pristine */
+    if(c.style && c.style.transform) c.style.transform=c.style.transform.replace(/translate\([^)]*\)/,'').trim()||'';
+    if(el.__edRel) c.style.position='';
+    return c.outerHTML;
+  }
+  function copySel(){
+    if(!selected) return false;
+    var d=deck.getBoundingClientRect(), s=scale(), r=selected.getBoundingClientRect();
+    clipInternal={
+      html:cleanOuter(selected),
+      added:matches(selected,ADDED),
+      left:(r.left-d.left)/s, top:(r.top-d.top)/s, width:r.width/s
+    };
+    pasteCount=0;
+    try{ navigator.clipboard.writeText(MARKER).catch(function(){}); }catch(e){}
+    toast('הועתק ✓ (Cmd+V להדבקה)');
+    return true;
+  }
+  function pasteInternal(){
+    if(!clipInternal) return;
+    snap(); pasteCount++;
+    var off=24*pasteCount, s=activeSlide(), el;
+    var tmp=document.createElement('div'); tmp.innerHTML=clipInternal.html;
+    var src=tmp.firstElementChild; if(!src) return;
+    if(clipInternal.added){
+      el=src;
+      el.style.left=Math.round((parseFloat(el.style.left)||clipInternal.left)+off)+'px';
+      el.style.top=Math.round((parseFloat(el.style.top)||clipInternal.top)+off)+'px';
+    }else{
+      el=document.createElement('div'); el.className='ed-clone';
+      el.style.left=Math.round(clipInternal.left+off)+'px';
+      el.style.top=Math.round(clipInternal.top+off)+'px';
+      el.style.width=Math.round(clipInternal.width)+'px';
+      el.appendChild(src);
+    }
+    s.appendChild(el); select(el); toast('הודבק'); schedulePersist();
+  }
+  document.addEventListener('paste',function(e){
+    if(!edOn) return;
+    var ae=document.activeElement;
+    if(ae && ae.isContentEditable) return; /* normal paste inside a text edit */
+    var items=(e.clipboardData&&e.clipboardData.items)||[];
+    for(var i=0;i<items.length;i++){
+      if(items[i].type && items[i].type.indexOf('image')===0){
+        var f=items[i].getAsFile();
+        if(f){ e.preventDefault(); insertImageFile(f,null); return; }
+      }
+    }
+    var txt=''; try{ txt=e.clipboardData.getData('text/plain')||''; }catch(err){}
+    if(clipInternal && (txt===MARKER || txt==='')){ e.preventDefault(); pasteInternal(); return; }
+    if(txt){ e.preventDefault(); snap(); mkTextbox(txt); toast('טקסט הודבק כתיבה חדשה'); schedulePersist(); }
+  });
+  /* drag & drop image files from Finder/desktop */
+  deck.addEventListener('dragover',function(e){ if(edOn){ e.preventDefault(); } });
+  deck.addEventListener('drop',function(e){
+    if(!edOn) return; e.preventDefault();
+    var fs=e.dataTransfer && e.dataTransfer.files;
+    if(!fs || !fs.length) return;
+    for(var i=0;i<fs.length;i++){
+      if(/^image\//.test(fs[i].type)){ insertImageFile(fs[i], deckXY(e.clientX,e.clientY)); return; }
+    }
+  });
+
+  /* ---------- colors (whole element, or selected word while editing) ---------- */
+  var GRAD='linear-gradient(135deg,#71b9c3,#549cbc,#2d70aa,#6556d0,#9c4ed7)';
+  var COLORS=[['לבן','#ffffff'],['טורקיז','#62aabf'],['סגול','#8f4fd7'],['אדום','#ef4444'],['ירוק','#22c55e'],['אפור','#8f8f9b']];
+  function applyColor(c){
+    var ae=document.activeElement, sel=window.getSelection();
+    if(ae && ae.isContentEditable && sel && !sel.isCollapsed){
+      document.execCommand('styleWithCSS',false,true);
+      document.execCommand('foreColor',false,c);
+      return;
+    }
+    if(!selected){ toast('בחר אלמנט או סמן מילה'); return; }
+    snap();
+    if(matches(selected,'.ed-shape')){
+      selected.style.background=c+'33'; selected.style.borderColor=c; schedulePersist(); return;
+    }
+    selected.style.background='none';
+    selected.style.webkitBackgroundClip=''; selected.style.backgroundClip='';
+    selected.style.webkitTextFillColor=c; selected.style.color=c;
+    schedulePersist();
+  }
+  function applyGradient(){
+    var ae=document.activeElement, sel=window.getSelection();
+    if(ae && ae.isContentEditable && sel && !sel.isCollapsed){
+      var t=sel.toString();
+      document.execCommand('insertHTML',false,'<span class="grad">'+t.replace(/&/g,'&amp;').replace(/</g,'&lt;')+'</span>');
+      return;
+    }
+    if(!selected){ toast('בחר אלמנט או סמן מילה'); return; }
+    snap();
+    selected.style.background=GRAD;
+    selected.style.webkitBackgroundClip='text'; selected.style.backgroundClip='text';
+    selected.style.webkitTextFillColor='transparent'; selected.style.color='';
+    schedulePersist();
+  }
+
+  /* ---------- z-order / center / nudge / blur controls ---------- */
+  function zOrder(front){
+    if(!selected){ toast('בחר אלמנט קודם'); return; }
+    snap();
+    if(getComputedStyle(selected).position==='static'){ selected.style.position='relative'; selected.__edRel=true; }
+    selected.style.zIndex= front? (++zTop) : 0;
+    toast(front?'הובא לקדמה':'נשלח לאחור'); schedulePersist();
+  }
+  function centerSel(axis){
+    if(!selected){ toast('בחר אלמנט קודם'); return; }
+    snap();
+    var d=deck.getBoundingClientRect(), s=scale(), r=selected.getBoundingClientRect();
+    var cx=((r.left-d.left)+r.width/2)/s, cy=((r.top-d.top)+r.height/2)/s;
+    if(axis==='h') moveBy(selected, 960-cx, 0); else moveBy(selected, 0, 540-cy);
+    schedulePersist();
+  }
+  function nudge(dx,dy){
+    if(!selected) return false;
+    var now=Date.now();
+    if(lastNudge.el!==selected || now-lastNudge.t>1200) snap();
+    lastNudge={el:selected,t:now};
+    moveBy(selected,dx,dy); schedulePersist();
+    return true;
+  }
+  function blurDelta(d){
+    if(!selected || !matches(selected,'.ed-blur')) return;
+    snap();
+    var cur=parseFloat(((selected.style.backdropFilter||'').match(/[\d.]+/)||[15])[0])||15;
+    var v=Math.min(40,Math.max(2,cur+d));
+    selected.style.backdropFilter='blur('+v+'px)'; selected.style.webkitBackdropFilter='blur('+v+'px)';
+    toast('עוצמת טשטוש: '+v); schedulePersist();
+  }
+  function toggleOpaque(){
+    if(!selected || !matches(selected,'.ed-blur')) return;
+    snap(); selected.classList.toggle('ed-opaque');
+    toast(selected.classList.contains('ed-opaque')?'אטום (מסתיר לגמרי)':'טשטוש שקוף'); schedulePersist();
+  }
+  function imgCorners(){
+    if(!selected || !matches(selected,'.ed-img')) return;
+    snap(); var img=selected.querySelector('img'); if(!img) return;
+    img.style.borderRadius=(img.style.borderRadius==='18px')?'0px':'18px'; schedulePersist();
+  }
+  function cycleOpacity(){
+    if(!selected){ toast('בחר אלמנט קודם'); return; }
+    snap();
+    var cur=parseFloat(selected.style.opacity||'1');
+    var next= cur>0.85?0.75 : cur>0.6?0.5 : cur>0.35?0.25 : 1;
+    selected.style.opacity=(next===1)?'':String(next);
+    toast('שקיפות: '+Math.round(next*100)+'%'); schedulePersist();
+  }
+
+  function fontDelta(d){ if(!selected){ toast('בחר טקסט קודם'); return; } snap();
+    var cs=parseFloat(getComputedStyle(selected).fontSize)||30; selected.style.fontSize=Math.max(10,cs+d)+'px'; schedulePersist(); }
+  function deleteSel(){ if(!selected){ toast('בחר אלמנט קודם'); return; } snap(); var el=selected; deselect(); el.remove(); schedulePersist(); }
+
+  /* ---------- navigation (reuse deck) ---------- */
+  function go(dir){
+    deselect();
+    var list=[].slice.call(document.querySelectorAll('.slide'));
+    var i=list.indexOf(activeSlide());
+    var n=Math.max(0,Math.min(list.length-1,i+dir));
+    if(typeof show==='function') show(n);
+    else { list[i].classList.remove('active'); list[n].classList.add('active'); }
+  }
+
+  /* ---------- export ---------- */
+  /* rewrite every relative url (img src, font/href, css url()) to an absolute
+     file:// path so the saved file keeps its background + fonts from any folder */
+  function absolutizeURLs(root){
+    var base=location.href, keep=/^(data:|https?:|file:|blob:|#)/i;
+    function abs(u){ try{ return new URL(u, base).href; }catch(e){ return u; } }
+    function fixCss(t){ return t.replace(/url\((['"]?)([^'")]+)\1\)/g,function(m,q,u){ return keep.test(u)?m:('url('+q+abs(u)+q+')'); }); }
+    var s=root.querySelectorAll('[src]'); for(var i=0;i<s.length;i++){ var v=s[i].getAttribute('src'); if(v&&!keep.test(v)) s[i].setAttribute('src',abs(v)); }
+    var h=root.querySelectorAll('[href]'); for(var j=0;j<h.length;j++){ var w=h[j].getAttribute('href'); if(w&&!keep.test(w)) h[j].setAttribute('href',abs(w)); }
+    var st=root.querySelectorAll('style'); for(var k=0;k<st.length;k++){ st[k].textContent=fixCss(st[k].textContent); }
+    var il=root.querySelectorAll('[style]'); for(var l=0;l<il.length;l++){ var sv=il[l].getAttribute('style'); if(sv&&sv.indexOf('url(')>-1) il[l].setAttribute('style',fixCss(sv)); }
+  }
+  /* bake every [data-count] to its final formatted number so un-visited stat
+     slides aren't frozen at 0 in the saved file */
+  function bakeCounters(root){
+    var fmt; try{ fmt=new Intl.NumberFormat('he-IL'); }catch(e){ fmt=null; }
+    var n=root.querySelectorAll('[data-count]');
+    for(var i=0;i<n.length;i++){ var v=parseInt(n[i].getAttribute('data-count'),10); if(isNaN(v)) continue;
+      var out=n[i].querySelector('.cval')||n[i]; out.textContent= fmt?fmt.format(v):(''+v); }
+  }
+  function exportHTML(){
+    deselect(); var was=edOn; setEdit(false);
+    var clone=document.documentElement.cloneNode(true);
+    var kill=clone.querySelectorAll('#ed-toolbar,#ed-fab,#ed-hint,#ed-toast,#ed-restore,#ed-guide-v,#ed-guide-h,.ed-runtime,.ed-handle,.ed-del');
+    for(var i=0;i<kill.length;i++) kill[i].remove();
+    var cl=clone.querySelectorAll('.ed-hover,.ed-selected'); for(var j=0;j<cl.length;j++){ cl[j].classList.remove('ed-hover'); cl[j].classList.remove('ed-selected'); }
+    var ce=clone.querySelectorAll('[contenteditable]'); for(var k=0;k<ce.length;k++) ce[k].removeAttribute('contenteditable');
+    var sl=clone.querySelectorAll('.slide'); for(var m=0;m<sl.length;m++){ if(m===0) sl[m].classList.add('active'); else sl[m].classList.remove('active'); }
+    var b=clone.querySelector('body'); if(b) b.classList.remove('ed-on');
+    absolutizeURLs(clone);
+    bakeCounters(clone);
+    var html='<!DOCTYPE html>\n'+clone.outerHTML;
+    var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+    var a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    var fname=(location.pathname.split('/').pop()||'deck.html').replace(/\.html?$/i,'');
+    try{ fname=decodeURIComponent(fname); }catch(e){}
+    a.download=fname+'-edited.html'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); },3000);
+    if(was) setEdit(true);
+    toast('נשמר! החלף את הקובץ המקורי בקובץ שירד');
+  }
+
+  /* ---------- toolbar UI ---------- */
+  var fab=document.createElement('button'); fab.id='ed-fab'; fab.type='button'; fab.textContent='✏️ עריכה';
+  fab.addEventListener('click',function(){ setEdit(true); });
+  document.body.appendChild(fab);
+
+  var tb=document.createElement('div'); tb.id='ed-toolbar';
+  var toast_el, ctx;
+  function mkBtn(label,fn,cls){ var b=document.createElement('button'); b.type='button'; b.className='ed-btn'+(cls?(' '+cls):''); b.textContent=label;
+    b.addEventListener('mousedown',function(e){e.preventDefault();}); b.addEventListener('click',function(e){e.stopPropagation();fn();}); return b; }
+  function mkSep(){ var s=document.createElement('span'); s.className='ed-sep'; return s; }
+  function mkDot(name,color){ var d=document.createElement('button'); d.type='button'; d.className='ed-dot'; d.title=name; d.style.background=color;
+    d.addEventListener('mousedown',function(e){e.preventDefault();}); d.addEventListener('click',function(e){e.stopPropagation();applyColor(color);}); return d; }
+
+  var row=document.createElement('div'); row.id='ed-row';
+  row.appendChild(mkBtn('› הקודם',function(){go(-1);}));
+  row.appendChild(mkBtn('הבא ‹',function(){go(1);}));
+  row.appendChild(mkSep());
+  row.appendChild(mkBtn('🖼️ תמונה',addImage));
+  row.appendChild(mkBtn('🌫️ טשטוש',addBlur));
+  row.appendChild(mkBtn('▭ צורה',addShape));
+  row.appendChild(mkBtn('🔤 טקסט',addText));
+  row.appendChild(mkSep());
+  row.appendChild(mkBtn('⤴ מסגרת',selectParent));
+  row.appendChild(mkBtn('⬆ קדימה',function(){zOrder(true);}));
+  row.appendChild(mkBtn('⬇ אחורה',function(){zOrder(false);}));
+  row.appendChild(mkBtn('↔ מרכז',function(){centerSel('h');}));
+  row.appendChild(mkBtn('↕ מרכז',function(){centerSel('v');}));
+  row.appendChild(mkSep());
+  row.appendChild(mkBtn('A+',function(){fontDelta(4);}));
+  row.appendChild(mkBtn('A−',function(){fontDelta(-4);}));
+  row.appendChild(mkBtn('🗑️ מחק',deleteSel,'danger'));
+  row.appendChild(mkBtn('↶ ביטול',undo));
+  row.appendChild(mkBtn('↷ חזרה',redo));
+  row.appendChild(mkSep());
+  row.appendChild(mkBtn('💾 שמור',exportHTML,'primary'));
+  row.appendChild(mkBtn('✖ סגור',function(){ setEdit(false); }));
+  tb.appendChild(row);
+
+  ctx=document.createElement('div'); ctx.id='ed-ctx'; tb.appendChild(ctx);
+  document.body.appendChild(tb);
+
+  function buildColors(forShape){
+    var lbl=document.createElement('span'); lbl.className='ed-ctx-lbl'; lbl.textContent= forShape?'צבע צורה:':'צבע:';
+    ctx.appendChild(lbl);
+    if(!forShape){
+      var g=document.createElement('button'); g.type='button'; g.className='ed-dot grad-dot'; g.title='גרדיאנט';
+      g.addEventListener('mousedown',function(e){e.preventDefault();});
+      g.addEventListener('click',function(e){e.stopPropagation();applyGradient();});
+      ctx.appendChild(g);
+    }
+    for(var i=0;i<COLORS.length;i++) ctx.appendChild(mkDot(COLORS[i][0],COLORS[i][1]));
+    if(!forShape && editState){
+      var tip=document.createElement('span'); tip.className='ed-ctx-lbl'; tip.textContent='(סמן מילה כדי לצבוע רק אותה)';
+      ctx.appendChild(tip);
+    }
+  }
+  function refreshTb(){
+    if(!ctx) return;
+    ctx.innerHTML='';
+    var show=false;
+    if(editState){ buildColors(); show=true; }
+    else if(selected){
+      if(matches(selected,'.ed-blur')){
+        ctx.appendChild(mkBtn('עוצמה −',function(){blurDelta(-5);}));
+        ctx.appendChild(mkBtn('עוצמה +',function(){blurDelta(5);}));
+        ctx.appendChild(mkBtn('אטום ◼',toggleOpaque));
+        show=true;
+      } else if(matches(selected,'.ed-img')){
+        ctx.appendChild(mkBtn('פינות ◰',imgCorners));
+        ctx.appendChild(mkBtn('שקיפות 👻',cycleOpacity));
+        show=true;
+      } else if(matches(selected,'.ed-shape')){
+        buildColors(true);
+        ctx.appendChild(mkBtn('שקיפות 👻',cycleOpacity));
+        show=true;
+      } else {
+        buildColors();
+        show=true;
+      }
+    }
+    ctx.style.display=show?'flex':'none';
+  }
+
+  var hint=document.createElement('div'); hint.id='ed-hint';
+  hint.innerHTML='לחיצה = בחירה · גרירה = הזזה (Alt = בלי הצמדה) · לחיצה כפולה = עריכת טקסט · חצים = הזזה עדינה (Shift=10) · Cmd+C/V = העתק/הדבק · Cmd+S = שמור';
+  document.body.appendChild(hint);
+
+  toast_el=document.createElement('div'); toast_el.id='ed-toast'; document.body.appendChild(toast_el);
+  var toastTimer;
+  function toast(msg){ if(!toast_el) return; toast_el.textContent=msg||''; toast_el.classList.toggle('on',!!msg);
+    clearTimeout(toastTimer); if(msg) toastTimer=setTimeout(function(){ toast_el.classList.remove('on'); },2600); }
+
+  /* center snap guide lines (live inside #deck so they scale with it) */
+  gV=document.createElement('div'); gV.id='ed-guide-v'; deck.appendChild(gV);
+  gH=document.createElement('div'); gH.id='ed-guide-h'; deck.appendChild(gH);
+
+  function setEdit(on){
+    edOn=on; document.body.classList.toggle('ed-on',on);
+    tb.classList.toggle('on',on); fab.style.display=on?'none':'block';
+    hideGuides();
+    if(!on){ deselect(); toast(''); }
+    else toast('מצב עריכה פעיל');
+  }
+
+  /* ---------- hover outline ---------- */
+  document.addEventListener('mouseover',function(e){ if(!edOn) return; var el=eligible(e.target);
+    var hv=document.querySelectorAll('.ed-hover'); for(var i=0;i<hv.length;i++){ if(hv[i]!==el) hv[i].classList.remove('ed-hover'); }
+    if(el && el!==selected) el.classList.add('ed-hover'); });
+  document.addEventListener('mouseout',function(e){ if(!edOn) return; var el=eligible(e.target); if(el) el.classList.remove('ed-hover'); });
+
+  /* ---------- bind ---------- */
+  deck.addEventListener('mousedown',onDown);
+  deck.addEventListener('dblclick',onDbl);
+
+  document.addEventListener('keydown',function(e){
+    if(!edOn) return;
+    var editing=document.activeElement && document.activeElement.isContentEditable;
+    var meta=e.metaKey||e.ctrlKey;
+    if(e.key==='ArrowLeft'||e.key==='ArrowRight'||e.key==='ArrowUp'||e.key==='ArrowDown'){
+      if(!editing && selected){
+        e.preventDefault();
+        var st=e.shiftKey?10:1;
+        nudge(e.key==='ArrowLeft'?-st:e.key==='ArrowRight'?st:0, e.key==='ArrowUp'?-st:e.key==='ArrowDown'?st:0);
+      }
+      e.stopImmediatePropagation(); return;
+    }
+    if(meta && (e.key==='z'||e.key==='Z')){
+      e.preventDefault(); e.stopImmediatePropagation();
+      if(e.shiftKey) redo(); else undo();
+      return;
+    }
+    if(meta && (e.key==='s'||e.key==='S')){ e.preventDefault(); e.stopImmediatePropagation(); exportHTML(); return; }
+    if(meta && (e.key==='c'||e.key==='C') && !editing && selected){ copySel(); return; }
+    if(meta && (e.key==='d'||e.key==='D') && !editing && selected){ e.preventDefault(); e.stopImmediatePropagation(); if(copySel()) pasteInternal(); return; }
+    if((e.key==='Delete'||e.key==='Backspace') && !editing){
+      if(selected){ e.preventDefault(); deleteSel(); }
+      return;
+    }
+    if(e.key==='Escape'){
+      if(editing){
+        if(editState && editState.el){ editState.cancelled=true; editState.el.innerHTML=editState.orig; if(undoStack.length) undoStack.pop(); editState.el.blur(); }
+        else document.activeElement.blur();
+      } else deselect();
+    }
+  },true);
+
+  /* optional: auto-enter for screenshot testing via ?edtest */
+  if(location.search.indexOf('edtest')>-1){ setEdit(true); }
+  /* offer to restore unsaved work (after deck init settles) */
+  setTimeout(checkRestore,400);
+})();
+
+</script>
+</body></html>

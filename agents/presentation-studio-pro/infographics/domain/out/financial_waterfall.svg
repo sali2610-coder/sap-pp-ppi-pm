@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" font-family="Georgia, serif">
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <text x="64" y="60" font-size="28" font-weight="700" fill="#14532D">Revenue Bridge FY25 → FY26F (M)</text>
+  <!-- waterfall: base offsets make floating bars -->
+  <g font-family="Arial">
+    <!-- FY25 14.1 -->
+    <rect x="120" y="360" width="150" height="240" fill="#14532D"/>
+    <text x="195" y="630" font-size="18" fill="#1F2937" text-anchor="middle">FY25</text>
+    <text x="195" y="345" font-size="18" fill="#14532D" text-anchor="middle">14.1</text>
+    <!-- +New 1.6 (float at 14.1) -->
+    <rect x="320" y="333" width="150" height="27" fill="#1D4ED8"/>
+    <text x="395" y="630" font-size="18" fill="#1F2937" text-anchor="middle">+New</text>
+    <text x="395" y="322" font-size="16" fill="#1D4ED8" text-anchor="middle">+1.6</text>
+    <!-- +Expansion 0.9 (float at 15.7) -->
+    <rect x="520" y="318" width="150" height="15" fill="#1D4ED8"/>
+    <text x="595" y="630" font-size="18" fill="#1F2937" text-anchor="middle">+Exp</text>
+    <text x="595" y="308" font-size="16" fill="#1D4ED8" text-anchor="middle">+0.9</text>
+    <!-- -Churn 0.5 (float, drop) -->
+    <rect x="720" y="318" width="150" height="9" fill="#B91C1C"/>
+    <text x="795" y="630" font-size="18" fill="#1F2937" text-anchor="middle">-Churn</text>
+    <text x="795" y="308" font-size="16" fill="#B91C1C" text-anchor="middle">-0.5</text>
+    <!-- FY26F 16.1 -->
+    <rect x="920" y="327" width="150" height="273" fill="#14532D"/>
+    <text x="995" y="630" font-size="18" fill="#1F2937" text-anchor="middle">FY26F</text>
+    <text x="995" y="312" font-size="18" fill="#14532D" text-anchor="middle">16.1</text>
+    <!-- connectors -->
+    <line x1="270" y1="360" x2="320" y2="360" stroke="#9CA3AF" stroke-dasharray="4"/>
+    <line x1="470" y1="333" x2="520" y2="333" stroke="#9CA3AF" stroke-dasharray="4"/>
+    <line x1="670" y1="318" x2="720" y2="318" stroke="#9CA3AF" stroke-dasharray="4"/>
+    <line x1="870" y1="327" x2="920" y2="327" stroke="#9CA3AF" stroke-dasharray="4"/>
+  </g>
+  <text x="64" y="690" font-size="13" fill="#6B7280">Waterfall infographic · start → +/- steps → end</text>
+</svg>

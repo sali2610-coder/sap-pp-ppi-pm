@@ -1,0 +1,528 @@
+<!doctype html><html lang="he" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CBC ישראל — אסטרטגיית CRM</title>
+<style>
+:root{
+ --red:#E1121D;--red2:#FF2A36;--redd:#A50E16;--ink:#1A1417;--ink2:#3A3338;--mut:#615A60;
+ --bg:#FFFFFF;--soft:#F4F5F7;--soft2:#ECEDF1;--line:#E1E2E7;--gold:#C9A24B;
+ --face:Arial,'Arial Hebrew','Helvetica Neue',sans-serif;--black:'Arial Black',Arial,sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#000;font-family:var(--face);overflow:hidden;color:var(--ink)}
+#stage{position:fixed;inset:0}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+ background:var(--bg);opacity:0;visibility:hidden;transform:scale(1.015);
+ transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1),visibility .5s;
+ padding:8vh 7vw;direction:rtl;text-align:center;overflow:hidden}
+.slide.on{opacity:1;visibility:visible;transform:none}
+/* hero (dark red) slides */
+.slide.hero{background:radial-gradient(130% 130% at 75% 15%,#E1121D 0%,#A50E16 45%,#5c0a10 100%);color:#fff}
+.slide.dark{background:linear-gradient(160deg,#201418,#120a0c);color:#fff}
+/* chrome */
+.kick{position:absolute;top:5.5vh;right:7vw;color:var(--red);font-weight:bold;font-size:1.15vw;letter-spacing:.16em}
+.hero .kick,.dark .kick{color:#FFD0D3}
+.rule{position:absolute;top:5.4vh;right:7vw;width:3vw;height:.42vh;background:var(--red);border-radius:2px;transform:translateY(2.6vh)}
+.foot{position:absolute;bottom:3.4vh;right:7vw;color:#9A949A;font-size:1vw}
+.src{position:absolute;bottom:3.4vh;left:7vw;color:#A8A2A8;font-size:1vw;direction:rtl}
+.hero .src,.dark .src{color:#E7B9Bd}
+.pg{position:absolute;bottom:3.4vh;left:50%;transform:translateX(-50%);color:#B7B2B8;font-size:1vw;direction:ltr}
+.b{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.on .b.show{opacity:1;transform:none}
+h1{font-size:5.4vw;font-weight:bold;line-height:1.1}
+.ttl{font-size:3.1vw;font-weight:bold;margin-bottom:1vh}
+.sub{font-size:1.55vw;color:var(--mut);margin-top:2vh;line-height:1.5}
+.hero .sub,.dark .sub{color:#FBE3E5}
+.red{color:var(--red)}.hero .red{color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,.5);text-underline-offset:6px}
+.big{font-family:var(--black);color:var(--red);line-height:.9}
+/* split layout: photo + text */
+.split{display:flex;width:100%;height:100%;direction:rtl}
+.split .tx{flex:1;display:flex;flex-direction:column;justify-content:center;padding:9vh 5vw;text-align:right}
+.split .ph{width:42vw;background-size:cover;background-position:center;position:relative}
+.split .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,0) 60%,rgba(0,0,0,.06))}
+.split .tx h2{font-size:2.9vw;font-weight:bold;line-height:1.12}
+.split .tx p{font-size:1.5vw;color:var(--mut);margin-top:2.4vh;line-height:1.55;max-width:34vw}
+.kickL{color:var(--red);font-weight:bold;font-size:1.15vw;letter-spacing:.16em;margin-bottom:1.6vh}
+/* KPI cards (light) */
+.kpis{display:flex;gap:1.6vw;margin-top:2vh;flex-wrap:wrap;justify-content:center}
+.kpi{background:var(--soft);border:1px solid var(--line);border-radius:18px;padding:3vh 2vw;min-width:15vw}
+.kpi .n{font-family:var(--black);font-size:3.8vw;color:var(--red)}
+.kpi .t{color:var(--ink2);font-size:1.2vw;margin-top:1vh;font-weight:600}
+.kpiW .n{color:#fff}.kpiW{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25)}.kpiW .t{color:#FBE3E5}
+/* brand wall */
+.wall{display:flex;flex-wrap:wrap;gap:1vw;justify-content:center;max-width:62vw;margin-top:3vh}
+.chip{background:#fff;color:#15100f;border:1px solid var(--line);border-radius:12px;padding:1.3vh 1.7vw;font-weight:bold;font-size:1.45vw;box-shadow:0 8px 26px rgba(20,10,12,.10)}
+.chip.r{background:var(--red);color:#fff;border:none}.chip.k{background:#15100f;color:#fff}
+/* category cards grid */
+.grid{display:grid;gap:1.4vw;margin-top:2.5vh}
+.gc{background:var(--soft);border:1px solid var(--line);border-top:.4vh solid var(--red);border-radius:16px;padding:2.4vh 1.6vw;text-align:right}
+.gc h4{font-size:1.55vw;color:var(--ink)}.gc p{color:var(--mut);font-size:1.18vw;margin-top:.8vh;line-height:1.45}
+.note{background:var(--soft);border:1px solid var(--line);border-right:.4vh solid var(--red);border-radius:14px;padding:2vh 2vw;font-size:1.4vw;color:var(--ink2);max-width:72vw;margin-top:3vh;line-height:1.5}
+.note b{color:var(--red)}
+.hero .note,.dark .note{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);color:#fff}.hero .note b{color:#fff;font-weight:bold}
+/* bars */
+.bars{width:60vw;margin-top:3vh;display:flex;flex-direction:column;gap:2vh}
+.brow{display:flex;align-items:center;gap:1.4vw}
+.brow .lbl{width:22vw;text-align:right;font-size:1.5vw;color:var(--ink)}
+.brow .track{flex:1;height:2.6vh;background:var(--soft2);border-radius:1vw;overflow:hidden}
+.brow .fill{height:100%;width:0;border-radius:1vw;background:linear-gradient(90deg,var(--redd),var(--red2));transition:width 1.1s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.on .bars.show .fill{width:var(--w)}
+.brow .pct{width:5vw;font-family:var(--black);color:var(--red);font-size:1.7vw}
+/* ladder */
+.ladder{display:flex;align-items:flex-end;gap:1.1vw;height:42vh;margin-top:3vh}
+.st{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;width:8.5vw}
+.st .bv{width:100%;border-radius:8px 8px 0 0;height:0;background:linear-gradient(var(--red2),var(--redd));transition:height 1s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.on .ladder.show .bv{height:var(--h)}
+.st .p{font-family:var(--black);font-size:1.4vw;color:var(--red);margin-bottom:.5vh}
+.st .nm{color:var(--ink2);font-size:.95vw;margin-top:1vh;text-align:center;line-height:1.2;font-weight:600}
+/* flow */
+.flow{display:flex;align-items:center;justify-content:center;gap:.6vw;flex-wrap:wrap;margin-top:4vh;max-width:84vw}
+.fstep{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:1.8vh 1.4vw;font-size:1.3vw;font-weight:bold;color:var(--ink)}
+.fstep.win{background:var(--red);color:#fff;border:none}
+.farr{color:var(--red);font-size:1.8vw;font-weight:bold}
+/* anchors */
+.anchors{display:flex;gap:1.4vw;margin-top:3vh}
+.anc{background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:2.6vh 1.3vw;width:14vw;text-align:center}
+.anc .ic{width:3.6vw;height:3.6vw;margin:0 auto 1.4vh;border-radius:50%;background:#fde7e8;display:grid;place-items:center}
+.anc .ic svg{width:2vw;height:2vw;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.anc h4{font-size:1.25vw;color:var(--ink)}.anc p{color:var(--mut);font-size:1.02vw;margin-top:.6vh}
+/* vision quote */
+.quote{font-size:3.2vw;font-weight:bold;line-height:1.3;max-width:78vw}
+/* cover */
+.cvlogo{font-family:var(--black);font-size:3vw;color:#fff;letter-spacing:.05em}
+.dots{position:fixed;bottom:1.5vh;left:50%;transform:translateX(-50%);display:flex;gap:.42vw;z-index:5}
+.dots i{width:.5vw;height:.5vw;border-radius:50%;background:#cfd0d6;transition:.3s}.dots i.a{background:var(--red);width:1.5vw;border-radius:1vw}
+.hint{position:fixed;bottom:.6vh;left:50%;transform:translateX(-50%);color:#bdbdc4;font-size:.78vw;z-index:5}
+.imgcard{border-radius:18px;background-size:cover;background-position:center;box-shadow:0 20px 50px rgba(20,10,12,.25)}
+
+.wallband{position:absolute;left:0;right:0;bottom:0;height:30vh;background:center bottom/contain no-repeat;opacity:0;transition:opacity .9s ease .4s}
+.on .wallband.show{opacity:1}
+.wallband2{width:86vw;height:32vh;background:center/contain no-repeat;margin:2vh 0;opacity:0;transition:opacity .8s ease}
+.on .wallband2.show{opacity:1}
+.cvbig{font-family:var(--black);color:var(--red);font-size:12vw;letter-spacing:.03em;line-height:.9}
+/* product rail — real CBC products ground every card slide */
+.prail{position:absolute;left:0;right:0;bottom:0;height:14vh;background:url(assets/product_wall.png) repeat-x center bottom/auto 165%;opacity:0;transition:opacity 1s ease .35s;pointer-events:none;z-index:0}
+.prail::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.6) 42%,rgba(255,255,255,0) 100%)}
+.on .prail.show{opacity:.97}
+.slide>:not(.prail):not(.bgwall):not(.wallband):not(.wallband2):not(.kick):not(.rule):not(.src):not(.pg):not(.foot){position:relative;z-index:1}
+.bgwall{position:absolute;left:0;right:0;bottom:0;height:46vh;background:url(assets/product_wall.png) repeat-x center bottom/auto 120%;opacity:.06;pointer-events:none;z-index:0}
+/* Salesforce Lightning chrome (authentic blue) */
+.sf{width:86vw;background:#F3F4F6;border:1px solid #D6DBE3;border-radius:14px;box-shadow:0 26px 64px rgba(8,22,46,.20);overflow:hidden;text-align:right}
+.sftop{display:flex;align-items:center;gap:.7vw;background:linear-gradient(90deg,#0176D3,#0a5bab);color:#fff;padding:1.25vh 1.4vw;font-size:1.12vw}
+.sftop .cloud{width:1.9vw;height:1.25vw;background:#fff;border-radius:1vw 1vw .3vw .3vw;flex:0 0 auto;box-shadow:inset 0 -.25vh 0 #cfe4f7}
+.sftop .tab{margin-inline-start:auto;opacity:.9;font-size:.95vw;font-weight:600}
+.sftabs{display:flex;gap:1.5vw;background:#fff;border-bottom:1px solid #E5E7EC;padding:1.1vh 1.6vw;font-size:1.02vw;color:#5C6B7A}
+.sftabs span{padding-bottom:.7vh}
+.sftabs .at{color:#0176D3;font-weight:bold;border-bottom:.4vh solid #0176D3}
+.sfbody{background:#fff;padding:2.4vh 1.8vw}
+/* SF opportunity path chevrons */
+.sfpath{display:flex;direction:ltr;gap:.22vw;width:88vw;margin-top:3.4vh}
+.sfp{flex:1;background:#E9ECF1;color:#42505F;font-size:.9vw;font-weight:bold;text-align:center;padding:1.7vh .2vw;clip-path:polygon(0 0,calc(100% - 1.05vw) 0,100% 50%,calc(100% - 1.05vw) 100%,0 100%,1.05vw 50%)}
+.sfp:first-child{clip-path:polygon(0 0,calc(100% - 1.05vw) 0,100% 50%,calc(100% - 1.05vw) 100%,0 100%)}
+.sfp.done{background:#C9E7D6;color:#0a6b3a}
+.sfp.cur{background:#0176D3;color:#fff}
+.sfp small{display:block;font-size:.74vw;font-weight:700;opacity:.9;margin-top:.3vh}
+/* SF dashboard tiles */
+.sfgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:1vw}
+.sfcard{background:#fff;border:1px solid #E1E5EB;border-top:.5vh solid #0176D3;border-radius:10px;padding:1.7vh 1vw;text-align:right;min-height:15vh}
+.sfcard h5{color:#0176D3;font-size:1.05vw;font-weight:bold}.sfcard p{color:#5C6B7A;font-size:.88vw;margin-top:.7vh;line-height:1.4}
+.sfcard.case{border-top-color:var(--red)}.sfcard.case h5{color:var(--red)}
+/* permanent CBC heart signature — every slide, same spot */
+#sig{position:fixed;top:3.7vh;left:5vw;width:2.5vw;height:2.5vw;z-index:7;
+ background:url(assets/cbc_heart.svg) center/contain no-repeat;
+ filter:drop-shadow(0 0 3px rgba(255,255,255,.95)) drop-shadow(0 1px 2px rgba(0,0,0,.18));opacity:.92;pointer-events:none}
+/* chapter dividers */
+.divider{justify-content:center}
+.divider .bigheart{position:absolute;width:54vh;height:54vh;background:url(assets/cbc_heart_w.svg) center/contain no-repeat;opacity:.13;pointer-events:none}
+.chnum{color:#FFD0D3;font-weight:bold;letter-spacing:.26em;font-size:1.4vw;margin-bottom:1.3vh}
+.divider h1{font-size:4.8vw;line-height:1.12}
+.divider .dsub{color:#FBE3E5;font-size:1.65vw;margin-top:2.2vh}
+.dline{width:7vw;height:.5vh;background:#fff;border-radius:3px;margin:3vh auto 0;opacity:.85}
+/* customer-journey timeline (Magic pattern → vanilla RTL, no text-arrow glyphs) */
+.journey{position:relative;display:flex;justify-content:space-between;width:86vw;margin-top:6vh;direction:rtl}
+.journey .jline{position:absolute;top:1.55vw;inset-inline:1.6vw;height:.32vw;background:var(--line);border-radius:2px}
+.journey .jfill{position:absolute;top:1.55vw;inset-inline-start:1.6vw;height:.32vw;width:0;background:linear-gradient(90deg,var(--red2),var(--red));border-radius:2px;transition:width 1.3s cubic-bezier(.2,.7,.2,1) .35s}
+.on .journey.show .jfill{width:calc(100% - 3.2vw)}
+.jstep{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:10vw}
+.jdot{width:3.1vw;height:3.1vw;border-radius:50%;background:#fff;border:.28vw solid var(--line);display:grid;place-items:center;font-family:var(--black);font-size:1.15vw;color:var(--mut)}
+.jstep.done .jdot{border-color:var(--red);color:var(--red)}
+.jstep.win .jdot{background:var(--red);border-color:var(--red);color:#fff;box-shadow:0 10px 24px rgba(225,18,29,.42)}
+.jlabel{margin-top:1.3vh;font-size:1.02vw;font-weight:bold;color:var(--ink);text-align:center;line-height:1.2}
+</style></head><body>
+<div id="stage">
+<div id="sig" title="CBC"></div>
+
+<!-- 1 COVER -->
+<section class="slide" style="justify-content:flex-start;padding-top:11vh">
+ <div class="rule"></div><div class="kick">CBC ISRAEL · אסטרטגיית CRM</div>
+ <div class="cvbig b" data-d="0">CBC</div>
+ <h2 class="b" data-d="1" style="font-size:2.5vw;line-height:1.35;max-width:80vw;margin-top:1.5vh">רוב הישראלים מכירים את המותגים.<br><span class="red">מעטים יודעים שכולם שייכים לאותה חברה.</span></h2>
+ <div class="b" data-d="3" style="margin-top:2vh;color:var(--mut);font-size:1.2vw">סאלי חליף · ירדן רום · נתנאל יברקן&nbsp;·&nbsp;מרצה: רונן בנבניסטי · יוני 2026</div>
+ <div class="wallband b" data-d="2" style="background-image:url(assets/product_wall.png)"></div>
+</section>
+
+<!-- 2 BRAND REVEAL -->
+<section class="slide"><div class="rule"></div><div class="kick">THE REVEAL</div>
+ <div class="ttl b" data-d="0">כל אלה — חברה אחת.</div>
+ <div class="wall">
+  <span class="chip r b" data-d="1">Coca-Cola</span><span class="chip b" data-d="1">ספרייט</span><span class="chip b" data-d="1">פאנטה</span><span class="chip b" data-d="2">Fuze Tea</span><span class="chip b" data-d="2">קינלי</span>
+  <span class="chip r b" data-d="2">נורדיק מיסט</span><span class="chip b" data-d="3">פריגת</span><span class="chip b" data-d="3">נביעות</span><span class="chip b" data-d="3">Gat Foods</span>
+  <span class="chip b" data-d="4">טרה</span><span class="chip b" data-d="4">מולר</span><span class="chip b" data-d="4">משק צוריאל</span>
+  <span class="chip k b" data-d="5">Carlsberg</span><span class="chip k b" data-d="5">Tuborg</span><span class="chip k b" data-d="5">שיקמה</span><span class="chip k b" data-d="6">Monster</span><span class="chip b" data-d="6">יקב תבור</span>
+ </div>
+ <div class="note b" data-d="7">פורטפוליו אחד · עשרות מותגים · רובם לא מזוהים כאותה חברה. זו <b>CBC ישראל</b>.</div>
+ <div class="bgwall"></div><div class="prail"></div>
+ <div class="src">מצגת CBC הרשמית</div><div class="pg">2 / 23</div>
+</section>
+
+<!-- DIVIDER · CH1 -->
+<section class="slide hero divider"><div class="rule" style="background:#fff"></div><div class="kick">CHAPTER 01</div>
+ <div class="bigheart"></div>
+ <div class="chnum b" data-d="0">פרק ראשון</div>
+ <h1 class="b" data-d="1">מי אנחנו — CBC ישראל</h1>
+ <div class="dsub b" data-d="2">האימפריה שמאחורי המותגים</div>
+ <div class="dline b" data-d="3"></div>
+ <div class="pg"></div>
+</section>
+
+<!-- 3 WHO -->
+<section class="slide" style="padding:0"><div class="split">
+ <div class="tx"><div class="kickL b" data-d="0">WHO WE ARE</div>
+  <h2 class="b" data-d="1">מי זו CBC ישראל?</h2>
+  <p class="b" data-d="2">קונצרן מזון ומשקאות פרטי בבעלות משפחת ורטהיים — מ-1968, זיכיון Coca-Cola הבלעדי בישראל.</p>
+  <div class="kpis" style="justify-content:flex-start;margin-top:3vh">
+   <div class="kpi b" data-d="3"><div class="n">1968</div><div class="t">שנת הזיכיון</div></div>
+   <div class="kpi b" data-d="4"><div class="n">~<span class="num" data-to="4350">0</span></div><div class="t">עובדים בישראל</div></div>
+   <div class="kpi b" data-d="5"><div class="n"><span class="num" data-to="6">0</span></div><div class="t">מפעלי ייצור</div></div>
+  </div>
+  <div class="b" data-d="6" style="margin-top:2vh;color:var(--mut);font-size:1.25vw">1M+ אריזות משקה ביום · 9 קטגוריות מוצרים</div>
+ </div>
+ <div class="ph" style="background-image:url(assets/img142.jpeg)"></div>
+</div><div class="src">CBC · cbccom.com</div><div class="pg">3 / 23</div></section>
+
+<!-- 4 MARKET POWER -->
+<section class="slide" style="padding:0"><div class="split">
+ <div class="ph" style="background-image:url(assets/img163.jpeg)"></div>
+ <div class="tx"><div class="kickL b" data-d="0">MARKET POWER</div>
+  <h2 class="b" data-d="1">היא לא מתחרה בשוק —<br><span class="red">היא השוק.</span></h2>
+  <div class="kpis" style="justify-content:flex-start;margin-top:3vh">
+   <div class="kpi b" data-d="2"><div class="n"><span class="num" data-to="90" data-suf="%">0%</span></div><div class="t">שוק הקולה</div></div>
+   <div class="kpi b" data-d="3"><div class="n"><span class="num" data-to="66" data-suf="%">0%</span></div><div class="t">משקאות קלים</div></div>
+   <div class="kpi b" data-d="4"><div class="n"><span class="num" data-to="75" data-suf="%">0%</span></div><div class="t">תה קר</div></div>
+   <div class="kpi b" data-d="5"><div class="n"><span class="num" data-to="40" data-suf="%">0%</span></div><div class="t">בירה</div></div>
+  </div>
+ </div>
+</div><div class="src">הערכת שוק (חברה / עיתונות)</div><div class="pg">4 / 23</div></section>
+
+<!-- 5 TRANSITION (hero) -->
+<section class="slide hero"><div class="rule" style="background:#fff"></div><div class="kick">THE REAL CHALLENGE</div>
+ <h1 class="b" data-d="0">עשרות אלפי לקוחות.</h1>
+ <div class="sub b" data-d="2" style="max-width:74vw;font-size:1.9vw">פורטפוליו ענק, ערוצים מרובים וחברות-בת — האתגר אינו לייצר משקה, אלא <b style="color:#fff">לנהל את הקשר</b> עם כל לקוח לאורך זמן.</div>
+ <div class="note b" data-d="4">כאן נכנסת מערכת ה-CRM.</div>
+ <div class="pg">5 / 23</div>
+</section>
+
+<!-- DIVIDER · CH2 -->
+<section class="slide hero divider"><div class="rule" style="background:#fff"></div><div class="kick">CHAPTER 02</div>
+ <div class="bigheart"></div>
+ <div class="chnum b" data-d="0">פרק שני</div>
+ <h1 class="b" data-d="1">אסטרטגיית CRM</h1>
+ <div class="dsub b" data-d="2">מדומיננטיות בשוק — לקשר עם כל לקוח</div>
+ <div class="dline b" data-d="3"></div>
+ <div class="pg"></div>
+</section>
+
+<!-- 6 PROBLEMS -->
+<section class="slide"><div class="rule"></div><div class="kick">WHY CRM</div>
+ <div class="ttl b" data-d="0">שלוש בעיות שה-CRM פותר.</div>
+ <div class="grid" style="grid-template-columns:repeat(3,1fr);width:80vw">
+  <div class="gc b" data-d="1"><h4>Data Silos</h4><p>נתוני לקוח מפוזרים בין חברות-בת וערוצים — אין תמונת לקוח אחודה.</p></div>
+  <div class="gc b" data-d="2"><h4>הזמנות ידניות</h4><p>שיחות ופורטל מיושן — עומס, טעויות ועיכובים בהזנת נתונים.</p></div>
+  <div class="gc b" data-d="3"><h4>זיהוי נטישה</h4><p>קושי לזהות בזמן אמת לקוח שמפחית קנייה או עובר למתחרה.</p></div>
+ </div>
+ <div class="note b" data-d="4">המטרה: <b>Customer 360</b> — תמונת לקוח אחת חוצת-ארגון, מעל ליבת SAP.</div>
+ <div class="prail"></div><div class="src">מטלה 1 · יעדי מערכת CRM</div><div class="pg">6 / 23</div>
+</section>
+
+<!-- 7 CRM USERS -->
+<section class="slide"><div class="rule"></div><div class="kick">CRM USERS</div>
+ <div class="ttl b" data-d="0">מי משתמש ב-CRM?</div>
+ <div class="grid" style="grid-template-columns:repeat(5,1fr);width:86vw">
+  <div class="gc b" data-d="1"><h4>מכירות ושטח</h4><p>ביקורים, הזמנות, יעדים</p></div>
+  <div class="gc b" data-d="2"><h4>שיווק</h4><p>סגמנטציה, מסעות, נאמנות</p></div>
+  <div class="gc b" data-d="3"><h4>שירות</h4><p>Cases, SLA, שירות טכני</p></div>
+  <div class="gc b" data-d="4"><h4>הנהלה / BI</h4><p>דוחות, חיזוי, רווחיות</p></div>
+  <div class="gc b" data-d="5"><h4>IT ודאטה</h4><p>אינטגרציה ל-SAP, אבטחה</p></div>
+ </div>
+ <div class="note b" data-d="6">ה-CRM הוא <b>שכבה חוצת-ארגון</b> — לא כלי של מחלקה אחת.</div>
+ <div class="prail"></div><div class="src">מטלה 1 · משתמשי המערכת</div><div class="pg">7 / 23</div>
+</section>
+
+<!-- 8 STRATEGY (hero) -->
+<section class="slide hero"><div class="rule" style="background:#fff"></div><div class="kick">CRM STRATEGY</div>
+ <h1 class="b" data-d="0">לא למכור משקה —</h1>
+ <h1 class="b" data-d="1" style="font-size:6vw">להחזיק את כל המקרר.</h1>
+ <div class="sub b" data-d="3" style="max-width:74vw;font-size:1.8vw">אסטרטגיית <b style="color:#fff">Total Beverage</b>: ספק אחד שממלא ללקוח את כל סל המשקאות והחלב, ושולט בנקודת המכירה — מקרר, מדף ושילוט.</div>
+ <div class="src">מטלה 1 · אסטרטגיית שירות הלקוחות</div><div class="pg">8 / 23</div>
+</section>
+
+<!-- 9 PORTFOLIO -->
+<section class="slide"><div class="rule"></div><div class="kick">WHAT WE SELL</div>
+ <div class="ttl b" data-d="0">פורטפוליו אחד · עשרות מותגים.</div>
+ <div class="wallband2 b" data-d="1" style="background-image:url(assets/product_wall.png)"></div>
+ <div class="wall" style="max-width:80vw">
+  <span class="chip r b" data-d="2">מוגזים</span><span class="chip b" data-d="2">מים</span><span class="chip b" data-d="3">מיצים</span>
+  <span class="chip b" data-d="3">חלב</span><span class="chip k b" data-d="4">בירה</span><span class="chip k b" data-d="4">יין</span><span class="chip k b" data-d="5">ספיריט</span><span class="chip r b" data-d="5">אנרגיה</span>
+ </div>
+ <div class="src">מטלה 1 · פורטפוליו המוצרים · נכסי CBC</div><div class="pg">9 / 23</div>
+</section>
+
+<!-- 10 SEGMENTATION -->
+<section class="slide"><div class="rule"></div><div class="kick">WHO WE SELL TO</div>
+ <div class="ttl b" data-d="0">למי נמכור — סגמנטציה.</div>
+ <div class="grid" style="grid-template-columns:1fr 1fr;width:74vw">
+  <div class="gc b" data-d="1"><h4>B2B — לקוחות עסקיים</h4><p>Modern Trade (רשתות) · General Trade (מכולות ונוחות) · Horeca (מסעדות/ברים/מלונות) · מוסדי · תעשייתי</p></div>
+  <div class="gc b" data-d="2"><h4>B2C — צרכני קצה</h4><p>לפי גיל ומשפחה · בריאות ותזונה (זירו) · קטגוריה ונאמנות מותג · מודעות סביבתית</p></div>
+ </div>
+ <div class="note b" data-d="3">סגמנטציה לפי ערוץ, גודל לקוח ופרופיל צריכה — בסיס למיקסום <b>ערך הלקוח לאורך זמן (CLV)</b>.</div>
+ <div class="prail"></div><div class="src">מטלה 1 · סגמנטציית לקוחות</div><div class="pg">10 / 23</div>
+</section>
+
+<!-- 11 PRICING -->
+<section class="slide"><div class="rule"></div><div class="kick">PRICE</div>
+ <div class="ttl b" data-d="0">תמחור דיפרנציאלי — אותו מוצר, מחיר שונה.</div>
+ <div class="sub b" data-d="1" style="font-size:1.5vw">קוקה-קולה 1.5 ליטר — מחיר לצרכן לפי ערוץ:</div>
+ <div class="kpis" style="margin-top:3vh">
+  <div class="kpi b" data-d="2"><div class="n">₪<span class="num" data-to="7.9" data-dec="1">0</span></div><div class="t">רשת סטוק / אונליין</div></div>
+  <div class="kpi b" data-d="3"><div class="n">₪<span class="num" data-to="9.9" data-dec="1">0</span></div><div class="t">סופר שכונתי</div></div>
+  <div class="kpi b" data-d="4"><div class="n">₪<span class="num" data-to="15.9" data-dec="1">0</span></div><div class="t">חנות נוחות / דלק</div></div>
+ </div>
+ <div class="note b" data-d="5">המחיר אינו מספר על מדף — אלא כלי לניהול <b>רווחיות, נאמנות ומיצוב</b> לפי כוח המיקוח. (רכש לקמעונאי גדול ~6–6.6₪)</div>
+ <div class="prail"></div><div class="src">מטלה 1 · מדיניות תמחור</div><div class="pg">11 / 23</div>
+</section>
+
+<!-- 12 OMNICHANNEL -->
+<section class="slide" style="padding:0"><div class="split">
+ <div class="ph" style="background-image:url(assets/cbc_truck.svg);background-size:contain;background-repeat:no-repeat;background-color:#fff"></div>
+ <div class="tx"><div class="kickL b" data-d="0">CHANNELS</div>
+  <h2 class="b" data-d="1">ערוץ אחד לכל לקוח — Omni-Channel.</h2>
+  <div class="grid" style="grid-template-columns:1fr 1fr;width:42vw;margin-top:2.5vh">
+   <div class="gc b" data-d="2"><h4>שטח · DSD</h4><p>הפצה ישירה, נראות מדף</p></div>
+   <div class="gc b" data-d="2"><h4>פורטל / אפליקציה</h4><p>הזמנה עצמית 24/7</p></div>
+   <div class="gc b" data-d="3"><h4>מוקד טלפוני</h4><p>Telesales, רדומים</p></div>
+   <div class="gc b" data-d="3"><h4>משקר · מכונות</h4><p>מכירה ישירה לצרכן</p></div>
+  </div>
+  <div class="b" data-d="4" style="margin-top:2vh;color:var(--mut);font-size:1.2vw">כל הערוצים מחוברים ל-CRM אחד → Customer 360.</div>
+ </div>
+</div><div class="src">מטלה 1 · ערוצי מכירה</div><div class="pg">12 / 23</div></section>
+
+<!-- 13 SALES FORCE -->
+<section class="slide" style="padding:0"><div class="split">
+ <div class="tx"><div class="kickL b" data-d="0">BY WHOM</div>
+  <h2 class="b" data-d="1">ע"י מי נמכור — מערך המכירות.</h2>
+  <div class="grid" style="grid-template-columns:1fr 1fr;width:42vw;margin-top:2.5vh">
+   <div class="gc b" data-d="2"><h4>אנשי שטח</h4><p>ניהול תיק, הגדלת סל</p></div>
+   <div class="gc b" data-d="2"><h4>Lead Hunters</h4><p>גיוס נקודות מכירה</p></div>
+   <div class="gc b" data-d="3"><h4>Key Account Mgrs</h4><p>רשתות · הסכמי סחר</p></div>
+   <div class="gc b" data-d="3"><h4>Trade Marketing</h4><p>מקדמי מדף · מבצעים</p></div>
+   <div class="gc b" data-d="4"><h4>Inside Sales</h4><p>מוקד מכירות ושירות</p></div>
+   <div class="gc b" data-d="4"><h4>שירות טכני</h4><p>טכנאי מקררים וברזים</p></div>
+  </div></div>
+ <div class="ph" style="background-image:url(assets/img154.jpeg)"></div>
+</div><div class="src">מטלה 1 · מערך המכירות</div><div class="pg">13 / 23</div></section>
+
+<!-- 14 CUSTOMER 360 -->
+<section class="slide" style="padding:0"><div class="split">
+ <div class="ph" style="background-image:url(assets/img157.jpeg)"></div>
+ <div class="tx"><div class="kickL b" data-d="0">CRM ECOSYSTEM</div>
+  <h2 class="b" data-d="1">Customer 360 — שכבה אחת מעל הכל.</h2>
+  <div class="grid" style="grid-template-columns:1fr;width:40vw;margin-top:2.5vh">
+   <div class="gc b" data-d="2"><h4>מכירות · שירות · שיווק</h4><p>תמונת לקוח אחת חוצת-מחלקות</p></div>
+   <div class="gc b" data-d="3"><h4>אינטגרציה ל-SAP + פורטל B2B</h4><p>הזמנות, מלאי ותנאי סחר בזמן אמת</p></div>
+   <div class="gc b" data-d="4"><h4>דיגיטל · WhatsApp · מוקד</h4><p>כל נקודת מגע מזינה את אותה תמונה</p></div>
+  </div></div>
+</div><div class="src">מטלה 1 · ארכיטקטורת CRM</div><div class="pg">14 / 23</div></section>
+
+<!-- DIVIDER · CH3 -->
+<section class="slide hero divider"><div class="rule" style="background:#fff"></div><div class="kick">CHAPTER 03</div>
+ <div class="bigheart"></div>
+ <div class="chnum b" data-d="0">פרק שלישי</div>
+ <h1 class="b" data-d="1">Salesforce — יישום בפועל</h1>
+ <div class="dsub b" data-d="2">מהאסטרטגיה אל המסך: לידים, הזדמנויות ושירות</div>
+ <div class="dline b" data-d="3"></div>
+ <div class="pg"></div>
+</section>
+
+<!-- 15 LEAD SOURCES -->
+<section class="slide"><div class="rule"></div><div class="kick">SALESFORCE · LEAD MANAGEMENT</div>
+ <div class="ttl b" data-d="0">מאיפה מגיעים הלידים?</div>
+ <div class="sf b" data-d="1" style="width:80vw">
+  <div class="sftop"><span class="cloud"></span><b>Salesforce</b> · Leads<span class="tab">Lead Source — by Count ▾</span></div>
+  <div class="sftabs"><span class="at">Report</span><span>Chart</span><span>Filters (1)</span><span>Subscribe</span></div>
+  <div class="sfbody"><div class="bars" style="width:100%;margin-top:0;gap:1.7vh">
+   <div class="brow b" data-d="2"><div class="lbl">פורטל / טופס ראשוני</div><div class="track"><div class="fill" style="--w:100%;--d:.2s"></div></div><div class="pct">50%</div></div>
+   <div class="brow b" data-d="3"><div class="lbl">ביקור יזום · Lead Hunter</div><div class="track"><div class="fill" style="--w:60%;--d:.35s"></div></div><div class="pct">30%</div></div>
+   <div class="brow b" data-d="4"><div class="lbl">הפניות מלקוחות</div><div class="track"><div class="fill" style="--w:20%;--d:.5s"></div></div><div class="pct">10%</div></div>
+   <div class="brow b" data-d="5"><div class="lbl">תערוכות וכנסים</div><div class="track"><div class="fill" style="--w:12%;--d:.65s"></div></div><div class="pct">6%</div></div>
+   <div class="brow b" data-d="6"><div class="lbl">מכרזים מוסדיים</div><div class="track"><div class="fill" style="--w:8%;--d:.8s"></div></div><div class="pct">4%</div></div>
+  </div></div>
+ </div>
+ <div class="note b" data-d="7">כמנהיגת שוק, CBC <b>נמשכת</b> ולא רודפת — מבנה לידים ממוקד ו-Inbound.</div>
+ <div class="src">מטלה 2 · מקורות לידים</div><div class="pg">15 / 23</div>
+</section>
+
+<!-- 16 SALES STAGES -->
+<section class="slide"><div class="rule"></div><div class="kick">SALESFORCE · OPPORTUNITY PATH</div>
+ <div class="ttl b" data-d="0">תהליך המכירה — מהסתברות להזדמנות.</div>
+ <div class="sfpath b" data-d="1">
+  <div class="sfp done">Make Contact<small>10%</small></div>
+  <div class="sfp done">בירור צרכים<small>25%</small></div>
+  <div class="sfp done">Qualify<small>35%</small></div>
+  <div class="sfp done">מסמכי לקוח<small>50%</small></div>
+  <div class="sfp done">הצעת מחיר<small>60%</small></div>
+  <div class="sfp done">Special Bid<small>70%</small></div>
+  <div class="sfp done">מו"מ וסגירה<small>85%</small></div>
+  <div class="sfp cur">Closed Won<small>100%</small></div>
+ </div>
+ <div class="ladder" style="height:30vh;margin-top:2vh">
+  <div class="st"><div class="p">10%</div><div class="bv" style="--h:14%;--d:.1s"></div><div class="nm">Make Contact</div></div>
+  <div class="st"><div class="p">25%</div><div class="bv" style="--h:28%;--d:.2s"></div><div class="nm">בירור צרכים</div></div>
+  <div class="st"><div class="p">35%</div><div class="bv" style="--h:38%;--d:.3s"></div><div class="nm">Qualify</div></div>
+  <div class="st"><div class="p">50%</div><div class="bv" style="--h:53%;--d:.4s"></div><div class="nm">מסמכי לקוח</div></div>
+  <div class="st"><div class="p">60%</div><div class="bv" style="--h:63%;--d:.5s"></div><div class="nm">הצעת מחיר</div></div>
+  <div class="st"><div class="p">70%</div><div class="bv" style="--h:73%;--d:.6s"></div><div class="nm">Special Bid</div></div>
+  <div class="st"><div class="p">85%</div><div class="bv" style="--h:88%;--d:.7s"></div><div class="nm">מו"מ וסגירה</div></div>
+  <div class="st"><div class="p">100%</div><div class="bv" style="--h:100%;--d:.8s"></div><div class="nm">Closed Won</div></div>
+ </div>
+ <div class="note b" data-d="9"><b>Prospecting</b> אינו רלוונטי — מנהיגת שוק. שלב 10: תיאום אספקה והתקנת ציוד.</div>
+ <div class="src">מטלה 2 · שלבי מכירה</div><div class="pg">16 / 23</div>
+</section>
+
+<!-- 17 PROCESS -->
+<section class="slide"><div class="rule"></div><div class="kick">PROCESS</div>
+ <div class="ttl b" data-d="0">תרשים תהליך המכירה.</div>
+ <div class="journey b" data-d="1">
+  <div class="jline"></div><div class="jfill"></div>
+  <div class="jstep done"><div class="jdot">1</div><div class="jlabel">ליד</div></div>
+  <div class="jstep done"><div class="jdot">2</div><div class="jlabel">בירור צרכים</div></div>
+  <div class="jstep done"><div class="jdot">3</div><div class="jlabel" dir="ltr">Qualify</div></div>
+  <div class="jstep done"><div class="jdot">4</div><div class="jlabel">מסמכים</div></div>
+  <div class="jstep done"><div class="jdot">5</div><div class="jlabel">הצעה</div></div>
+  <div class="jstep done"><div class="jdot">6</div><div class="jlabel">מו"מ</div></div>
+  <div class="jstep win"><div class="jdot">7</div><div class="jlabel">זכייה</div></div>
+  <div class="jstep done"><div class="jdot">8</div><div class="jlabel">אספקה + ציוד</div></div>
+ </div>
+ <div class="note b" data-d="8">ייחוד CBC: ההזדמנות אינה נסגרת עד ש<b>הציוד פועל בנקודת המכירה</b>.</div>
+ <div class="src">מטלה 2 · תרשים תהליך</div><div class="pg">17 / 23</div>
+</section>
+
+<!-- 18 EQUIPMENT (split) -->
+<section class="slide" style="padding:0"><div class="split">
+ <div class="tx"><div class="kickL b" data-d="0">EQUIPMENT AS A MOAT</div>
+  <h2 class="b" data-d="1">המקרר הוא הנשק.</h2>
+  <div class="big b" data-d="2" style="font-size:6vw;margin:1.5vh 0">עשרות אלפים</div>
+  <p class="b" data-d="3">מקררים וברזי מזיגה ממותגים אצל הלקוחות — Klimasan · Carlsberg · Guinness. מתוחזקים ע"י <b style="color:var(--red)">מערך שירות טכני ארצי בצריפין</b> (נהג-טכנאי + מסופון ל-SAP).</p>
+ </div>
+ <div class="ph" style="background-image:url(assets/fridges.png)"></div>
+</div><div class="src">מטלה 2 · cbcsales.co.il</div><div class="pg">18 / 23</div></section>
+
+<!-- 19 KPIs -->
+<section class="slide"><div class="rule"></div><div class="kick">KPIs</div>
+ <div class="ttl b" data-d="0">איך מודדים הצלחה?</div>
+ <div class="kpis" style="margin-top:4vh">
+  <div class="kpi b" data-d="1" style="min-width:19vw"><div class="n" style="font-size:2.4vw">לקוחות פעילים</div><div class="t" style="font-weight:400">רוחב כיסוי · גיוס ושימור · אינדיקציית נטישה</div></div>
+  <div class="kpi b" data-d="2" style="min-width:19vw"><div class="n" style="font-size:2.4vw">Case Volume</div><div class="t" style="font-weight:400">כמות תיבות — מדד הליבה התפעולי</div></div>
+  <div class="kpi b" data-d="3" style="min-width:19vw"><div class="n" style="font-size:2.4vw">היקף מכירות</div><div class="t" style="font-weight:400">הכנסות לפי לקוח, אזור וקטגוריה</div></div>
+ </div>
+ <div class="note b" data-d="4">כחברה פרטית — מנוהל בגמישות, ללא חשיפת יעדים מספריים. המדידה דינמית לפי תנאי שוק.</div>
+ <div class="prail"></div><div class="src">מטלה 2 · KPIs</div><div class="pg">19 / 23</div>
+</section>
+
+<!-- 20 SALESFORCE -->
+<section class="slide"><div class="rule"></div><div class="kick">SALESFORCE · SALES CLOUD</div>
+ <div class="ttl b" data-d="0">המערכת בפועל.</div>
+ <div class="sf b" data-d="1">
+  <div class="sftop"><span class="cloud"></span><b>Salesforce</b> · Sales Cloud<span class="tab">CBC Israel ▾</span></div>
+  <div class="sftabs"><span class="at">Customer 360</span><span>Leads</span><span>Opportunities</span><span>Cases</span><span>Dashboards</span></div>
+  <div class="sfbody"><div class="sfgrid">
+   <div class="sfcard"><h5>Customer 360</h5><p>חשבון, אנשי קשר, היסטוריית הזמנות וציוד מותקן — תמונת לקוח אחת.</p></div>
+   <div class="sfcard"><h5>Lead &amp; Opportunity</h5><p>≥10 שדות: לקוח, איש קשר, מוצר, Stage, הסתברות, סכום משוקלל, חודש סגירה.</p></div>
+   <div class="sfcard"><h5>Reports</h5><p>Lead Report · Pipeline — ≥20 רשומות, פילטרים, יצוא Excel מעוצב.</p></div>
+   <div class="sfcard case"><h5>Cases</h5><p>פניות שירות, SLA ושירות טכני למקררים וברזים.</p></div>
+   <div class="sfcard"><h5>Dashboards</h5><p>Pipeline · מקורות לידים · נפח Case · ביצועי נציג.</p></div>
+  </div></div>
+ </div>
+ <div class="sub b" data-d="3" style="font-size:1.4vw;margin-top:2.2vh">3 Validation Rules עסקיות:</div>
+ <div class="grid" style="grid-template-columns:repeat(3,1fr);width:74vw;margin-top:1.5vh">
+  <div class="gc b" data-d="4"><h4 style="font-size:1.3vw">מחיר מיוחד</h4><p>חייב אישור לפני שמירה</p></div>
+  <div class="gc b" data-d="5"><h4 style="font-size:1.3vw">סוג ציוד</h4><p>חובה להגדיר ציוד בהזדמנות</p></div>
+  <div class="gc b" data-d="6"><h4 style="font-size:1.3vw">תאריך סגירה</h4><p>לא יכול להיות בעבר</p></div>
+ </div>
+ <div class="src">מטלה 2 · יישום Salesforce</div><div class="pg">20 / 23</div>
+</section>
+
+<!-- DIVIDER · CH4 -->
+<section class="slide hero divider"><div class="rule" style="background:#fff"></div><div class="kick">CHAPTER 04</div>
+ <div class="bigheart"></div>
+ <div class="chnum b" data-d="0">פרק רביעי</div>
+ <h1 class="b" data-d="1">מסקנות והמלצות</h1>
+ <div class="dsub b" data-d="2">בידול, חזון והדרך קדימה</div>
+ <div class="dline b" data-d="3"></div>
+ <div class="pg"></div>
+</section>
+
+<!-- 21 DIFFERENTIATION -->
+<section class="slide"><div class="rule"></div><div class="kick">THE MOAT</div>
+ <div class="ttl b" data-d="0">חמשת עוגני הבידול.</div>
+ <div class="anchors">
+  <div class="anc b" data-d="1"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l1.9 5.6L19.5 9l-4.4 3.2L16.6 18 12 14.7 7.4 18l1.5-5.8L4.5 9l5.6-.4Z"/></svg></div><h4>זיכיון Coca-Cola</h4><p>מותגים בלעדיים</p></div>
+  <div class="anc b" data-d="2"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 7c0-1.6 3.1-2.8 7-2.8S18 5.4 18 7v10c0 1.6-3.1 2.8-7 2.8S4 18.6 4 17Z"/></svg></div><h4>פתרון 360°</h4><p>סל מלא מבית אחד</p></div>
+  <div class="anc b" data-d="3"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 9.5 12 4l9 5.5 M5 10v8 M19 10v8 M3.5 20.5h17"/></svg></div><h4>לוגיסטיקה ארצית</h4><p>DSD · זמינות מלאה</p></div>
+  <div class="anc b" data-d="4"><div class="ic"><svg viewBox="0 0 24 24"><path d="M13 3 5.5 13H11l-1 8 8.5-10.5H13Z"/></svg></div><h4>חדשנות</h4><p>Gat Foods · נורדיק</p></div>
+  <div class="anc b" data-d="5"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l7.5 2.8v5.4c0 4.7-3.2 7.6-7.5 9.3-4.3-1.7-7.5-4.6-7.5-9.3V5.8Z M8.8 12l2.2 2.2 4.4-4.4"/></svg></div><h4>איכות ואמון</h4><p>סטנדרט עקבי</p></div>
+ </div>
+ <div class="note b" data-d="6">יושרה אנליטית — קטגוריה אחת שבה CBC <b>אינה</b> המובילה: שוק החלב (טרה ~10%, מאחורי תנובה ושטראוס).</div>
+ <div class="prail"></div><div class="src">מטלה 1 · בידול ותחרות</div><div class="pg">21 / 23</div>
+</section>
+
+<!-- 22 VISION (hero) -->
+<section class="slide hero"><div class="rule" style="background:#fff"></div><div class="kick">VISION ALIGNMENT</div>
+ <div class="quote b" data-d="0">”מובילות באמצעות מפגשים של <span class="red">חווית שירות, הנאה וערך</span>.”</div>
+ <div class="sub b" data-d="2" style="font-size:1.3vw">חזון CBC ישראל</div>
+ <div class="kpis" style="margin-top:4vh">
+  <div class="kpi kpiW b" data-d="3"><div class="n" style="font-size:2vw">חווית שירות</div><div class="t">רב-ערוצי · Service Recovery</div></div>
+  <div class="kpi kpiW b" data-d="4"><div class="n" style="font-size:2vw">הנאה</div><div class="t">מותגים אהובים · נאמנות</div></div>
+  <div class="kpi kpiW b" data-d="5"><div class="n" style="font-size:2vw">ערך</div><div class="t">פתרון 360 · CLV</div></div>
+ </div>
+ <div class="src">מצגת CBC הרשמית · מטלה 1</div><div class="pg">22 / 23</div>
+</section>
+
+<!-- 23 CONCLUSION (hero) -->
+<section class="slide hero"><div class="rule" style="background:#fff"></div><div class="kick">THE TAKEAWAY</div>
+ <h1 class="b" data-d="0" style="font-size:3.4vw">ספק אחד. כל המקרר.</h1>
+ <h1 class="b" data-d="1" style="font-size:5.6vw">קשר לקוח מקצה לקצה.</h1>
+ <div class="sub b" data-d="3" style="max-width:76vw;font-size:1.7vw">CRM הופך את הדומיננטיות בשוק ליתרון בר-קיימא: יעילות תפעולית, ערך לקוח (CLV) ושליטה בנקודת המכירה.</div>
+ <div class="b" data-d="5" style="margin-top:4vh;color:#FBE3E5;font-size:1.3vw">סאלי חליף · ירדן רום · נתנאל יברקן&nbsp;&nbsp;—&nbsp;&nbsp;תודה, נשמח לשאלות</div>
+ <div class="wallband b" data-d="6" style="background-image:url(assets/product_wall.png);height:22vh;opacity:.96"></div><div class="src">מקורות: CBC · cbccom.com · cbcsales.co.il · רשות התחרות · עיתונות · ראיון שטח</div><div class="pg">23 / 23</div>
+</section>
+
+</div>
+<div class="dots" id="dots"></div><div class="hint">← → / רווח / קליק · F11 מסך מלא</div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];let i=0;
+slides.forEach((s,k)=>{const p=s.querySelector('.pg');if(p)p.textContent=(k+1)+' / '+slides.length;});
+const dots=document.getElementById('dots');slides.forEach(()=>dots.insertAdjacentHTML('beforeend','<i></i>'));const di=[...dots.children];
+function ease(t){return 1-Math.pow(1-t,3)}
+function countUp(el){const to=parseFloat(el.dataset.to),dec=+(el.dataset.dec||0),suf=el.dataset.suf||'';const t0=performance.now(),dur=1100;
+ function step(now){let p=Math.min(1,(now-t0)/dur),v=ease(p)*to;el.textContent=(dec?v.toFixed(dec):Math.round(v).toLocaleString())+suf;if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);}
+function show(n){slides.forEach((s,k)=>s.classList.toggle('on',k===n));di.forEach((d,k)=>d.classList.toggle('a',k===n));
+ const s=slides[n];
+ s.querySelectorAll('.b,.bars,.ladder,.journey,.wallband,.wallband2,.prail').forEach(e=>e.classList.remove('show'));
+ s.querySelectorAll('.num').forEach(e=>e.textContent='0'+(e.dataset.suf||''));
+ s.querySelectorAll('.b').forEach(e=>{const d=+(e.dataset.d||0);setTimeout(()=>e.classList.add('show'),120+d*120);});
+ s.querySelectorAll('.bars,.ladder,.journey').forEach(e=>setTimeout(()=>e.classList.add('show'),450));
+ s.querySelectorAll('.wallband,.wallband2,.prail').forEach(e=>setTimeout(()=>e.classList.add('show'),420));
+ s.querySelectorAll('.num').forEach(e=>setTimeout(()=>countUp(e),420));}
+function go(d){let n=Math.max(0,Math.min(slides.length-1,i+d));if(n!==i){i=n;show(i);}}
+addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();go(1);}if(['ArrowLeft','ArrowUp'].includes(e.key))go(-1);if(e.key==='Home'){i=0;show(0);}});
+addEventListener('click',e=>{if(e.clientX<innerWidth*0.16)go(-1);else go(1);});
+show(0);
+</script></body></html>

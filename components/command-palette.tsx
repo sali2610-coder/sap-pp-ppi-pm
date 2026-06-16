@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, Table2, Terminal, Boxes, CornerDownLeft, ArrowLeft, BookText, GitBranch, BookMarked, Workflow, MapPin, Cable, FileCode, Network } from "lucide-react";
+import { Search, Table2, Terminal, Boxes, CornerDownLeft, ArrowLeft, BookText, GitBranch, BookMarked, Workflow, MapPin, Cable, FileCode, Network, Clock, Sparkles, X, Compass, Home, Wrench, FlaskConical, BrainCircuit, Library, AlertTriangle, Route } from "lucide-react";
 import { searchAll, objectIntel } from "@/lib/data";
 import { searchObjects } from "@/lib/object-intel";
 import { lookupTCode } from "@/lib/tcode-index";
@@ -14,7 +14,27 @@ import { Highlight } from "@/components/highlight";
 import { useI18n } from "@/lib/i18n";
 import { playPing, playTick } from "@/lib/sound";
 
-type FlatItem = { kind: "table" | "tcode" | "bapi" | "idoc" | "fm" | "cds" | "domain" | "process" | "library"; label: string; sub: string; module: Module; href: string };
+type FlatItem = { kind: "page" | "table" | "tcode" | "bapi" | "idoc" | "fm" | "cds" | "domain" | "process" | "library"; label: string; sub: string; module: Module; href: string };
+
+/* Launcher destinations — palette doubles as a Raycast-style navigator. */
+type Page = { he: string; en: string; sub: string; href: string; kw: string; Icon: typeof Home };
+const PAGES: Page[] = [
+  { he: "ראשי", en: "Home", sub: "קוקפיט מיגרציה", href: "/", kw: "home cockpit ראשי דף בית", Icon: Home },
+  { he: "אחזקה — PM", en: "Maintenance", sub: "Plant Maintenance · 58 טבלאות", href: "/pm/", kw: "pm maintenance אחזקה ציוד equipment", Icon: Wrench },
+  { he: "ייצור — PP-PI", en: "Production", sub: "Process Industries · 68 טבלאות", href: "/pp-pi/", kw: "pp pi production ייצור אצווה batch recipe", Icon: FlaskConical },
+  { he: "תשתית SAP", en: "SAP Infrastructure", sub: "ארכיטקטורה · ERD", href: "/sap-infrastructure/", kw: "infra architecture ארכיטקטורה erd", Icon: Network },
+  { he: "מרכז ידע", en: "Knowledge Center", sub: "38 מרכזים · חיפוש-תחילה", href: "/knowledge/", kw: "knowledge ידע מרכז centers", Icon: BrainCircuit },
+  { he: "ספריית SAP", en: "Library", sub: "ספרים · אקדמיה", href: "/library/", kw: "library ספרייה ספרים books academy", Icon: Library },
+  { he: "פתרון תקלות", en: "Troubleshooting", sub: "151 תקלות", href: "/troubleshooting/", kw: "trouble תקלות error שגיאה fix", Icon: AlertTriangle },
+  { he: "תהליכי E2E", en: "Process Explorer", sub: "P2P · O2C · QM", href: "/process-explorer/", kw: "process תהליך e2e p2p o2c", Icon: Route },
+  { he: "אבולוציה ECC→S/4", en: "Evolution", sub: "מיגרציה", href: "/evolution/", kw: "evolution ecc s4 מיגרציה migration", Icon: GitBranch },
+  { he: "Copilot", en: "Copilot", sub: "שאל את NEO", href: "/copilot/", kw: "copilot chat ai צ'אט שאל", Icon: Sparkles },
+];
+
+/* Curated entry prompts for first-time / empty state. */
+const SUGGESTIONS = ["EQUI", "AUFK", "MRP", "אצווה", "IW31", "Fiori", "תקלה", "ECC"];
+
+const RECENT_KEY = "neo:search:recent";
 
 function ModuleTag({ m }: { m: Module }) {
   return (
@@ -37,6 +57,15 @@ export function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
   const [active, setActive] = useState(0);
+  const [recent, setRecent] = useState<string[]>([]);
+
+  const loadRecent = () => { try { const r = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]"); if (Array.isArray(r)) setRecent(r.slice(0, 6)); } catch { /* noop */ } };
+  const pushRecent = (term: string) => {
+    const v = term.trim();
+    if (v.length < 2) return;
+    setRecent((cur) => { const next = [v, ...cur.filter((x) => x.toLowerCase() !== v.toLowerCase())].slice(0, 6); try { localStorage.setItem(RECENT_KEY, JSON.stringify(next)); } catch { /* noop */ } return next; });
+  };
+  const clearRecent = () => { setRecent([]); try { localStorage.removeItem(RECENT_KEY); } catch { /* noop */ } };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -55,7 +84,7 @@ export function CommandPalette() {
   }, []);
 
   useEffect(() => {
-    if (open) playPing();
+    if (open) { playPing(); loadRecent(); }
     else {
       setQ("");
       setActive(0);
@@ -68,7 +97,14 @@ export function CommandPalette() {
 
   const obj = useMemo(() => searchObjects(q), [q]);
 
+  const pageHits = useMemo<Page[]>(() => {
+    const s = q.trim().toLowerCase();
+    if (s.length < 1) return [];
+    return PAGES.filter((p) => `${p.he} ${p.en} ${p.sub} ${p.kw}`.toLowerCase().includes(s)).slice(0, 5);
+  }, [q]);
+
   const GROUPS = [
+    { kind: "page", title: t("search.pages"), icon: Compass },
     { kind: "table", title: "טבלאות", icon: Table2 },
     { kind: "tcode", title: "T-Codes", icon: Terminal },
     { kind: "bapi", title: "BAPIs", icon: Boxes },
@@ -82,16 +118,18 @@ export function CommandPalette() {
 
   const flat = useMemo<FlatItem[]>(() => {
     const out: FlatItem[] = [];
+    for (const p of pageHits) out.push({ kind: "page", label: pick(p.he, p.en), sub: p.sub, module: "PM", href: p.href });
     const add = (k: FlatItem["kind"], arr: typeof obj.table) => arr.forEach((h) => out.push({ kind: k, label: h.label, sub: h.sub, module: (h.module || "PM") as Module, href: h.href }));
     add("table", obj.table); add("tcode", obj.tcode); add("bapi", obj.bapi); add("idoc", obj.idoc); add("fm", obj.fm); add("cds", obj.cds); add("domain", obj.domain); add("process", obj.process);
     for (const l of results.library) out.push({ kind: "library", label: l.id, sub: l.title, module: "PM", href: l.href });
     return out;
-  }, [obj, results.library]);
+  }, [obj, results.library, pageHits, pick]);
 
   useEffect(() => setActive(0), [q]);
 
   function go(href: string) {
     playPing();
+    pushRecent(q);
     setOpen(false);
     router.push(href);
   }
@@ -234,13 +272,58 @@ export function CommandPalette() {
         <div className="max-h-[50vh] overflow-y-auto p-2">
           <AnimatePresence mode="wait">
             {q.trim() === "" ? (
-              <motion.p key="hint" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="px-4 py-10 text-center text-sm text-muted-foreground">
-                {t("search.hint")}
-              </motion.p>
+              <motion.div key="zero" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4 p-2" dir="rtl">
+                {recent.length > 0 && (
+                  <div>
+                    <div className="flex items-center justify-between px-3 py-1.5">
+                      <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground"><Clock className="size-3.5" />{t("search.recent")}</span>
+                      <button onClick={clearRecent} className="rounded-md px-1.5 py-0.5 text-[11px] font-semibold text-slate-400 transition-colors hover:bg-muted/70 hover:text-brand">{t("search.recent.clear")}</button>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 px-3">
+                      {recent.map((r) => (
+                        <button key={r} onClick={() => setQ(r)} className="inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-muted/40 px-2.5 py-1 text-xs font-medium text-slate-600 transition-colors hover:border-brand/30 hover:text-brand">
+                          <Clock className="size-3 opacity-50" /><span dir="auto">{r}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div>
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground"><Sparkles className="size-3.5" />{t("search.suggested")}</div>
+                  <div className="flex flex-wrap gap-1.5 px-3">
+                    {SUGGESTIONS.map((s) => (
+                      <button key={s} onClick={() => setQ(s)} className="rounded-lg border border-border/60 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 shadow-sm transition-all hover:-translate-y-px hover:border-brand/40 hover:text-brand" dir="auto">{s}</button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground"><Compass className="size-3.5" />{t("search.jump")}</div>
+                  <div className="grid grid-cols-1 gap-1.5 px-3 sm:grid-cols-2">
+                    {PAGES.slice(0, 6).map((p) => (
+                      <button key={p.href} onClick={() => go(p.href)} className="group flex items-center gap-3 rounded-xl border border-border/60 bg-white px-3 py-2.5 text-start shadow-sm transition-all hover:-translate-y-px hover:border-brand/30">
+                        <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand/10 text-brand transition-transform duration-300 group-hover:scale-105"><p.Icon className="size-4" /></span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate text-sm font-bold text-slate-800">{pick(p.he, p.en)}</span>
+                          <span className="block truncate text-[11px] font-medium text-slate-400">{p.sub}</span>
+                        </span>
+                        <ArrowLeft className="size-3.5 shrink-0 text-slate-300 transition-all duration-300 group-hover:-translate-x-0.5 group-hover:text-brand" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
             ) : flat.length === 0 ? (
-              <motion.p key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="px-4 py-10 text-center text-sm text-muted-foreground">
-                {t("search.empty")} — &quot;{q}&quot;
-              </motion.p>
+              <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-3 px-4 py-10 text-center">
+                <span className="grid size-12 place-items-center rounded-2xl bg-muted/60 text-slate-300"><Search className="size-6" /></span>
+                <p className="text-sm text-muted-foreground">{t("search.empty")} — <span className="font-bold text-slate-600" dir="auto">&quot;{q}&quot;</span></p>
+                <div className="flex flex-wrap justify-center gap-1.5">
+                  {SUGGESTIONS.slice(0, 5).map((s) => (
+                    <button key={s} onClick={() => setQ(s)} className="rounded-lg border border-border/60 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 shadow-sm transition-all hover:-translate-y-px hover:border-brand/40 hover:text-brand" dir="auto">{s}</button>
+                  ))}
+                </div>
+              </motion.div>
             ) : (
               <motion.div key="list" initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}>
                 {GROUPS.map(({ kind, title, icon: Icon }) => {
@@ -264,13 +347,14 @@ export function CommandPalette() {
                             onClick={() => go(item.href)}
                             className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start transition-colors ${isActive ? "bg-brand/10" : "hover:bg-muted/70"}`}
                           >
-                            <span className={`tech shrink-0 text-sm font-bold ${item.kind === "table" ? "text-brand" : "text-foreground"}`}>
+                            {item.kind === "page" && <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-brand/10 text-brand"><Compass className="size-3.5" /></span>}
+                            <span className={item.kind === "page" ? "shrink-0 text-sm font-bold text-foreground" : `tech shrink-0 text-sm font-bold ${item.kind === "table" ? "text-brand" : "text-foreground"}`}>
                               <Highlight text={item.label} query={q} />
                             </span>
                             <span className="min-w-0 flex-1 truncate text-sm text-muted-foreground">
                               <Highlight text={item.sub} query={q} />
                             </span>
-                            <ModuleTag m={item.module} />
+                            {item.kind === "page" ? <ArrowLeft className="size-3.5 shrink-0 text-slate-300" /> : <ModuleTag m={item.module} />}
                             {isActive && <CornerDownLeft className="size-3.5 shrink-0 text-brand" />}
                           </button>
                         );

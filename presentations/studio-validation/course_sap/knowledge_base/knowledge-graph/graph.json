@@ -1,0 +1,891 @@
+{
+  "nodes": [
+    {
+      "id": "D1-sap-o2c-book",
+      "type": "doc",
+      "label": "SAP Order-to-Cash \u2014 Course Book"
+    },
+    {
+      "id": "T:VBRK",
+      "type": "term",
+      "label": "VBRK"
+    },
+    {
+      "id": "T:VA03",
+      "type": "term",
+      "label": "VA03"
+    },
+    {
+      "id": "T:BSEG",
+      "type": "term",
+      "label": "BSEG"
+    },
+    {
+      "id": "T:BKPF",
+      "type": "term",
+      "label": "BKPF"
+    },
+    {
+      "id": "T:LIPS",
+      "type": "term",
+      "label": "LIPS"
+    },
+    {
+      "id": "T:VBRP",
+      "type": "term",
+      "label": "VBRP"
+    },
+    {
+      "id": "T:VA02",
+      "type": "term",
+      "label": "VA02"
+    },
+    {
+      "id": "T:VF01",
+      "type": "term",
+      "label": "VF01"
+    },
+    {
+      "id": "T:VBAK",
+      "type": "term",
+      "label": "VBAK"
+    },
+    {
+      "id": "T:VBAP",
+      "type": "term",
+      "label": "VBAP"
+    },
+    {
+      "id": "T:RE",
+      "type": "term",
+      "label": "RE"
+    },
+    {
+      "id": "T:FI",
+      "type": "term",
+      "label": "FI"
+    },
+    {
+      "id": "T:VA01",
+      "type": "term",
+      "label": "VA01"
+    },
+    {
+      "id": "T:LIKP",
+      "type": "term",
+      "label": "LIKP"
+    },
+    {
+      "id": "T:VL01N",
+      "type": "term",
+      "label": "VL01N"
+    },
+    {
+      "id": "T:SAP",
+      "type": "term",
+      "label": "SAP"
+    }
+  ],
+  "edges": [
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:VBRK",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:VA03",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:BSEG",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:BKPF",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:LIPS",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:VBRP",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:VA02",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:VF01",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:VBAK",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:VBAP",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:RE",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:FI",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:VA01",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:LIKP",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:VL01N",
+      "rel": "mentions"
+    },
+    {
+      "src": "D1-sap-o2c-book",
+      "dst": "T:SAP",
+      "rel": "mentions"
+    },
+    {
+      "src": "T:VBRK",
+      "dst": "T:VA03",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRK",
+      "dst": "T:BSEG",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRK",
+      "dst": "T:BKPF",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRK",
+      "dst": "T:LIPS",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRK",
+      "dst": "T:VBRP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRK",
+      "dst": "T:VA02",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRK",
+      "dst": "T:VF01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRK",
+      "dst": "T:VBAK",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRK",
+      "dst": "T:VBAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRK",
+      "dst": "T:RE",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRK",
+      "dst": "T:FI",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRK",
+      "dst": "T:VA01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRK",
+      "dst": "T:LIKP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRK",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRK",
+      "dst": "T:SAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA03",
+      "dst": "T:BSEG",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA03",
+      "dst": "T:BKPF",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA03",
+      "dst": "T:LIPS",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA03",
+      "dst": "T:VBRP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA03",
+      "dst": "T:VA02",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA03",
+      "dst": "T:VF01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA03",
+      "dst": "T:VBAK",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA03",
+      "dst": "T:VBAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA03",
+      "dst": "T:RE",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA03",
+      "dst": "T:FI",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA03",
+      "dst": "T:VA01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA03",
+      "dst": "T:LIKP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA03",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA03",
+      "dst": "T:SAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BSEG",
+      "dst": "T:BKPF",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BSEG",
+      "dst": "T:LIPS",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BSEG",
+      "dst": "T:VBRP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BSEG",
+      "dst": "T:VA02",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BSEG",
+      "dst": "T:VF01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BSEG",
+      "dst": "T:VBAK",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BSEG",
+      "dst": "T:VBAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BSEG",
+      "dst": "T:RE",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BSEG",
+      "dst": "T:FI",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BSEG",
+      "dst": "T:VA01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BSEG",
+      "dst": "T:LIKP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BSEG",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BSEG",
+      "dst": "T:SAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BKPF",
+      "dst": "T:LIPS",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BKPF",
+      "dst": "T:VBRP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BKPF",
+      "dst": "T:VA02",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BKPF",
+      "dst": "T:VF01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BKPF",
+      "dst": "T:VBAK",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BKPF",
+      "dst": "T:VBAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BKPF",
+      "dst": "T:RE",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BKPF",
+      "dst": "T:FI",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BKPF",
+      "dst": "T:VA01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BKPF",
+      "dst": "T:LIKP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BKPF",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:BKPF",
+      "dst": "T:SAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:LIPS",
+      "dst": "T:VBRP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:LIPS",
+      "dst": "T:VA02",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:LIPS",
+      "dst": "T:VF01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:LIPS",
+      "dst": "T:VBAK",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:LIPS",
+      "dst": "T:VBAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:LIPS",
+      "dst": "T:RE",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:LIPS",
+      "dst": "T:FI",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:LIPS",
+      "dst": "T:VA01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:LIPS",
+      "dst": "T:LIKP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:LIPS",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:LIPS",
+      "dst": "T:SAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRP",
+      "dst": "T:VA02",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRP",
+      "dst": "T:VF01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRP",
+      "dst": "T:VBAK",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRP",
+      "dst": "T:VBAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRP",
+      "dst": "T:RE",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRP",
+      "dst": "T:FI",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRP",
+      "dst": "T:VA01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRP",
+      "dst": "T:LIKP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRP",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBRP",
+      "dst": "T:SAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA02",
+      "dst": "T:VF01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA02",
+      "dst": "T:VBAK",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA02",
+      "dst": "T:VBAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA02",
+      "dst": "T:RE",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA02",
+      "dst": "T:FI",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA02",
+      "dst": "T:VA01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA02",
+      "dst": "T:LIKP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA02",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA02",
+      "dst": "T:SAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VF01",
+      "dst": "T:VBAK",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VF01",
+      "dst": "T:VBAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VF01",
+      "dst": "T:RE",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VF01",
+      "dst": "T:FI",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VF01",
+      "dst": "T:VA01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VF01",
+      "dst": "T:LIKP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VF01",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VF01",
+      "dst": "T:SAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAK",
+      "dst": "T:VBAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAK",
+      "dst": "T:RE",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAK",
+      "dst": "T:FI",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAK",
+      "dst": "T:VA01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAK",
+      "dst": "T:LIKP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAK",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAK",
+      "dst": "T:SAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAP",
+      "dst": "T:RE",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAP",
+      "dst": "T:FI",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAP",
+      "dst": "T:VA01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAP",
+      "dst": "T:LIKP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAP",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VBAP",
+      "dst": "T:SAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:RE",
+      "dst": "T:FI",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:RE",
+      "dst": "T:VA01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:RE",
+      "dst": "T:LIKP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:RE",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:RE",
+      "dst": "T:SAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:FI",
+      "dst": "T:VA01",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:FI",
+      "dst": "T:LIKP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:FI",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:FI",
+      "dst": "T:SAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA01",
+      "dst": "T:LIKP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA01",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VA01",
+      "dst": "T:SAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:LIKP",
+      "dst": "T:VL01N",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:LIKP",
+      "dst": "T:SAP",
+      "rel": "co_occurs",
+      "weight": 1
+    },
+    {
+      "src": "T:VL01N",
+      "dst": "T:SAP",
+      "rel": "co_occurs",
+      "weight": 1
+    }
+  ]
+}

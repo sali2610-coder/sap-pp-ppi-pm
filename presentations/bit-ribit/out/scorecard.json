@@ -1,0 +1,31 @@
+{
+  "deck": "presentations/bit-ribit/out/Bit_Ribit_Strategic.pptx",
+  "template": "University",
+  "overall_weighted": 2.94,
+  "dimensions": {
+    "executive_quality": 4,
+    "academic_quality": 4,
+    "storytelling": 2,
+    "visual_design": 2,
+    "data_visualization": 2,
+    "infographics": 5,
+    "animation_usage": 2,
+    "accessibility": 2,
+    "audience_fit": 4,
+    "decision_readiness": 2
+  },
+  "facts": {
+    "slides": 12,
+    "charts": 0,
+    "tables": 1,
+    "infographic_images": 8,
+    "avg_words": 18.2,
+    "citations": 1,
+    "references_slide": false,
+    "action_title_ratio": 0.0,
+    "decision_slide": false,
+    "timing_slides": 0,
+    "transition_slides": 0,
+    "min_body_pt": 13
+  }
+}

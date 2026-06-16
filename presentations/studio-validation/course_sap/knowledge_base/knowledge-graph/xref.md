@@ -1,0 +1,18 @@
+# SAP Order-to-Cash — Cross-Reference
+
+- **BKPF** → SAP Order-to-Cash — Course Book (×1)
+- **BSEG** → SAP Order-to-Cash — Course Book (×1)
+- **FI** → SAP Order-to-Cash — Course Book (×1)
+- **LIKP** → SAP Order-to-Cash — Course Book (×1)
+- **LIPS** → SAP Order-to-Cash — Course Book (×1)
+- **RE** → SAP Order-to-Cash — Course Book (×1)
+- **SAP** → SAP Order-to-Cash — Course Book (×1)
+- **VA01** → SAP Order-to-Cash — Course Book (×2)
+- **VA02** → SAP Order-to-Cash — Course Book (×1)
+- **VA03** → SAP Order-to-Cash — Course Book (×1)
+- **VBAK** → SAP Order-to-Cash — Course Book (×1)
+- **VBAP** → SAP Order-to-Cash — Course Book (×1)
+- **VBRK** → SAP Order-to-Cash — Course Book (×1)
+- **VBRP** → SAP Order-to-Cash — Course Book (×1)
+- **VF01** → SAP Order-to-Cash — Course Book (×2)
+- **VL01N** → SAP Order-to-Cash — Course Book (×1)

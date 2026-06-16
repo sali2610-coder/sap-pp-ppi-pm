@@ -1,0 +1,27 @@
+[
+  {
+    "slide": 1,
+    "category": "fade",
+    "elements": [
+      "title"
+    ]
+  },
+  {
+    "slide": 2,
+    "category": "dashboard_animation",
+    "elements": [
+      "t1",
+      "t2",
+      "t3",
+      "t4"
+    ]
+  },
+  {
+    "slide": 3,
+    "category": "dashboard_animation",
+    "elements": [
+      "line",
+      "doughnut"
+    ]
+  }
+]

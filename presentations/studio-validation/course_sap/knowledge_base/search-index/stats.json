@@ -1,0 +1,67 @@
+{
+  "documents": 1,
+  "unique_terms": 51,
+  "total_tokens": 69,
+  "top_terms": [
+    [
+      "order",
+      4
+    ],
+    [
+      "billing",
+      3
+    ],
+    [
+      "header",
+      3
+    ],
+    [
+      "items",
+      3
+    ],
+    [
+      "table",
+      3
+    ],
+    [
+      "created",
+      2
+    ],
+    [
+      "delivery",
+      2
+    ],
+    [
+      "goods",
+      2
+    ],
+    [
+      "sales",
+      2
+    ],
+    [
+      "type",
+      2
+    ],
+    [
+      "va01",
+      2
+    ],
+    [
+      "vf01",
+      2
+    ],
+    [
+      "bkpf",
+      1
+    ],
+    [
+      "book",
+      1
+    ],
+    [
+      "bseg",
+      1
+    ]
+  ]
+}
