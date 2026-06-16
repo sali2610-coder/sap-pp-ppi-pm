@@ -22,10 +22,18 @@ import { ALL_TABLES } from "@/data/sapData";
 import { WORKBENCHES } from "@/data/workbenches";
 import { OIC_OBJECTS } from "@/lib/cross-links";
 import { SOLUTIONS } from "@/data/solutions";
+import { PROCESS_MAPS } from "@/data/processes";
+import { PLAYBOOKS } from "@/data/centers/playbooks";
 
 export default function Page() {
   const centers = [
-    { href: "/solutions/", he: "מאתר פתרונות SAP", title: "SAP Solution Finder", tag: `${SOLUTIONS.length}`, tagColor: "#b45309", desc: "חיפוש לפי דרישה עסקית (לא T-Code) — תהליך, פתרון SAP, ECC, חלופת S/4, Fiori, טבלאות, CDS, APIs, BAPIs, Exits, תקלות ומורכבות יישום." },
+    { href: "/copilot/", he: "קופיילוט יועץ", title: "Consultant Copilot", tag: "Q&A", tagColor: "#d62027", desc: "שאל שאלה — NEO עונה ממאגר הידע בלבד (lifecycle, פתרונות, טבלאות, תקלות), לא מזיכרון AI כללי." },
+    { href: "/solutions/", he: "מאתר פתרונות SAP", title: "SAP Solution Finder", tag: `${SOLUTIONS.length}`, tagColor: "#b45309", desc: "חיפוש לפי דרישה עסקית (גם בעברית: 'קליטת סחורה', 'ניהול אצווה') — תהליך, ECC, S/4, Fiori, טבלאות, CDS, APIs, BAPIs, Exits, תקלות, מורכבות." },
+    { href: "/process-explorer/", he: "סייר תהליכים E2E", title: "Process Explorer", tag: `${PROCESS_MAPS.length}`, tagColor: "#4338ca", desc: "מפות תהליך מקצה-לקצה (P2P/O2C/Plan-to-Produce/QM/אחזקה) — כל שלב חושף T-Codes, טבלאות, Fiori, ממשקים, תקלות ובדיקות." },
+    { href: "/impact/", he: "מנתח השפעה", title: "Impact Analyzer", tag: "Graph", tagColor: "#9333ea", desc: "מה יושפע אם תשנה טבלה/אובייקט — גרף תלויות מלא + Object Intelligence." },
+    { href: "/playbooks/", he: "מדריכי יישום", title: "Implementation Playbooks", tag: `${PLAYBOOKS.length}`, tagColor: "#7c2d12", desc: "מטרה עסקית, קונפיגורציה, נתוני אב, בדיקות וסיכוני Go-Live — Batch, QM, אחזקה מונעת, גרסת ייצור." },
+    { href: "/architect/", he: "לוח ארכיטקט", title: "Architect Dashboard", tag: "KPI", tagColor: "#1e293b", desc: "כיסוי ידע, ECC↔S/4, טרנזקציות, Fiori, תקלות, CBC — עם זיהוי פערים אוטומטי." },
+    { href: "/connector/", he: "מחבר SAP (ארכיטקטורה)", title: "Live SAP Connector", tag: "Prep", tagColor: "#0e7490", desc: "ארכיטקטורה וממשקים למחבר read-only עתידי (TSTC/DD02L/DD03L/SE93/CDS/Fiori). ללא חיבור חי." },
     { href: "/oic/", he: "תבונת אובייקטים", title: "Object Intelligence Center", tag: `${OIC_OBJECTS.length}`, tagColor: "#4338ca", desc: "תצוגה מאוחדת לכל אובייקט ליבה — טבלאות, T-Codes, BAPIs/FMs, BAdIs/Exits, CDS, תקלות, SAP Notes, Debug ו-CBC, עם קישורים צולבים בין כולם." },
     { href: "/resolution/", he: "מנוע נתיב פתרון", title: "Resolution Path Engine", tag: "Detect→Prevent", tagColor: "#0e7490", desc: "נתיב פתרון מובנה לכל תקלה — זיהוי→בידוד→אבחון→תיקון→מניעה, עם קישור לאובייקטים, Notes ו-Debug." },
     { href: "/notes-graph/", he: "גרף SAP Notes", title: "SAP Notes Graph", tag: "Graph", tagColor: "#b45309", desc: "גרף המקשר Note ↔ תקלה ↔ אובייקט ↔ רכיב SAP + מילות חיפוש OSS. ללא מספרי Note מומצאים." },
