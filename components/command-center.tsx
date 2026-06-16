@@ -56,6 +56,27 @@ export function CommandCenter() {
         <kbd className="hidden rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 text-[11px] font-semibold text-slate-400 sm:block">⌘K</kbd>
       </button>
 
+      {/* Consultant quick access */}
+      <Section icon={<Search className="size-5 text-brand" />} title="גישה מהירה — יועץ SAP">
+        <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4">
+          {[
+            { href: "/copilot/", he: "Copilot", sub: "שאל את NEO" },
+            { href: "/solutions/", he: "מאתר פתרונות", sub: "לפי דרישה עסקית" },
+            { href: "/transactions/", he: "טרנזקציות", sub: "253 · חיפוש חכם" },
+            { href: "/process-explorer/", he: "תהליכי E2E", sub: "P2P/O2C/QM…" },
+            { href: "/troubleshooting/", he: "פתרון תקלות", sub: "151 תקלות" },
+            { href: "/oic/", he: "תבונת אובייקטים", sub: "גרף תלויות" },
+            { href: "/evolution/", he: "אבולוציה ECC→S/4", sub: "מיגרציה" },
+            { href: "/architect/", he: "לוח ארכיטקט", sub: "כיסוי + פערים" },
+          ].map((q) => (
+            <Link key={q.href} href={q.href} className="lift rounded-xl border border-slate-200 bg-white px-3.5 py-3 shadow-sm">
+              <div className="text-sm font-extrabold text-slate-800">{q.he}</div>
+              <div className="text-[11px] font-medium text-slate-400">{q.sub}</div>
+            </Link>
+          ))}
+        </div>
+      </Section>
+
       {/* Favorites */}
       <Section icon={<Star className="size-5 text-brand" />} title="מועדפים" action={<span className="text-xs font-medium text-slate-400">★ לסימון</span>}>
         <motion.div variants={container} initial="hidden" animate="show" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">

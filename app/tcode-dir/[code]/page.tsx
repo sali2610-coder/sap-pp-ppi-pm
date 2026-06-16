@@ -4,6 +4,9 @@ import { tcodeDirLinks } from "@/lib/tcode-search";
 import { Crumb, CenterHeader, Block } from "@/components/knowledge";
 import { EccS4Block } from "@/components/ecc-s4-block";
 import { LifecycleBlock } from "@/components/lifecycle-block";
+import { TrustBadge } from "@/components/trust-badge";
+import { trustTcode } from "@/lib/trust";
+import { lifecycle } from "@/data/lifecycle";
 
 export function generateStaticParams() { return TCODE_DIRECTORY.map((t) => ({ code: dirSlug(t.code) })); }
 export const dynamicParams = false;
@@ -25,6 +28,7 @@ export default async function Page({ params }: { params: Promise<{ code: string 
     <div dir="rtl">
       <Crumb trail={[{ href: "/knowledge/", label: "מרכז הידע" }, { href: "/transactions/", label: "מרכז הטרנזקציות" }, { label: t.code }]} />
       <CenterHeader eyebrow={`טרנזקציה · ${t.domain}`} title={`${t.code} · ${t.he}`} sub={t.purpose} accent={c} />
+      <div className="mb-4"><TrustBadge trust={trustTcode(lifecycle(t.code).status !== "Active")} /></div>
       <div className="grid gap-4 lg:grid-cols-2">
         <Block title="שימוש עסקי / הקשר" accent={c}>{t.purpose} (תחום {t.domain}).</Block>
         <Block title="מילות מפתח / חיפוש" accent="#0891b2"><div className="flex flex-wrap gap-1.5">{t.keywords.map((k) => <span key={k} className="tech rounded bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-500" dir="ltr">{k}</span>)}</div></Block>

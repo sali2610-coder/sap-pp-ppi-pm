@@ -2,6 +2,8 @@ import Link from "next/link";
 import { INCIDENTS, incidentBySlug } from "@/data/troubleshooting";
 import { Crumb, CenterHeader, Block, Bullets } from "@/components/knowledge";
 import { SapTip } from "@/components/sap-tip";
+import { TrustBadge } from "@/components/trust-badge";
+import { trustDomain } from "@/lib/trust";
 
 export function generateStaticParams() { return INCIDENTS.map((i) => ({ slug: i.slug })); }
 export const dynamicParams = false;
@@ -21,6 +23,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     <div dir="rtl">
       <Crumb trail={[{ href: "/knowledge/", label: "מרכז הידע" }, { href: "/troubleshooting/", label: "פתרון תקלות" }, { label: i.he }]} />
       <CenterHeader eyebrow={`תקלה · ${i.module}`} title={i.he} sub={i.symptom} accent={c} />
+      <div className="mb-4"><TrustBadge trust={trustDomain()} /></div>
       {i.error && i.error !== "—" && <div className="mb-4 tech rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm font-bold text-red-700" dir="ltr">{i.error}</div>}
       {i.impact && <div className="mb-4 inline-flex items-center gap-2 rounded-xl border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-bold text-amber-800"><span className="size-2 rounded-full bg-amber-500" />השפעה עסקית: {i.impact}</div>}
       <div className="grid gap-4 lg:grid-cols-2">

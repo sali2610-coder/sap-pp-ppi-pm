@@ -3,6 +3,8 @@ import { SAP_NOTES, noteBySlug } from "@/data/sap-notes";
 import { INCIDENTS } from "@/data/troubleshooting";
 import { OIC_OBJECTS } from "@/lib/cross-links";
 import { Crumb, CenterHeader, Block, Bullets } from "@/components/knowledge";
+import { TrustBadge } from "@/components/trust-badge";
+import { trustNote } from "@/lib/trust";
 
 export function generateStaticParams() { return SAP_NOTES.map((n) => ({ slug: n.slug })); }
 export const dynamicParams = false;
@@ -19,6 +21,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     <div dir="rtl">
       <Crumb trail={[{ href: "/knowledge/", label: "מרכז הידע" }, { href: "/sap-notes/", label: "SAP Notes" }, { label: n.he }]} />
       <CenterHeader eyebrow={`SAP Note · ${n.component}`} title={n.he} sub={n.title} accent={c} />
+      <div className="mb-4"><TrustBadge trust={trustNote(!!n.noteRef)} /></div>
       {n.noteRef && <div className="mb-4 tech rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-bold text-amber-700" dir="ltr">SAP Note: {n.noteRef}</div>}
       <div className="grid gap-4 lg:grid-cols-2">
         <Block title="מתי חל (Symptom)" accent={c}>{n.symptom}</Block>

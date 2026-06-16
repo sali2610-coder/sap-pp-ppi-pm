@@ -3,6 +3,8 @@ import { EXITS, exitBySlug, exitSlug } from "@/data/exits";
 import { Crumb, CenterHeader, Block } from "@/components/knowledge";
 import { EccS4Block } from "@/components/ecc-s4-block";
 import { SapTip } from "@/components/sap-tip";
+import { TrustBadge } from "@/components/trust-badge";
+import { trustExit } from "@/lib/trust";
 
 export function generateStaticParams() { return EXITS.map((e) => ({ slug: exitSlug(e.name) })); }
 export const dynamicParams = false;
@@ -18,6 +20,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     <div>
       <Crumb trail={[{ href: "/knowledge/", label: "מרכז הידע" }, { href: "/exits/", label: "מרכז ההרחבות" }, { label: e.name }]} />
       <CenterHeader eyebrow={`${e.kind} · ${e.module}`} title={e.name} sub={e.purpose} accent={c} />
+      <div className="mb-4"><TrustBadge trust={trustExit(e.inferred)} /></div>
       <div className="grid gap-4 lg:grid-cols-2">
         <Block title="נקודת הפעלה (Trigger)" accent={c}>{e.trigger}</Block>
         <Block title="אובייקט טכני" accent={c}><span className="tech" dir="ltr">{e.object}</span></Block>

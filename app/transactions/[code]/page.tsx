@@ -3,6 +3,9 @@ import { TRANSACTIONS, tcodeByCode } from "@/data/transactions";
 import { Crumb, CenterHeader, Block, Bullets } from "@/components/knowledge";
 import { EccS4Block } from "@/components/ecc-s4-block";
 import { LifecycleBlock } from "@/components/lifecycle-block";
+import { TrustBadge } from "@/components/trust-badge";
+import { trustTcode } from "@/lib/trust";
+import { lifecycle } from "@/data/lifecycle";
 import { SapTip } from "@/components/sap-tip";
 
 export function generateStaticParams() { return TRANSACTIONS.map((t) => ({ code: t.code })); }
@@ -33,6 +36,7 @@ export default async function Page({ params }: { params: Promise<{ code: string 
     <div>
       <Crumb trail={[{ href: "/knowledge/", label: "מרכז הידע" }, { href: "/transactions/", label: "מרכז הטרנזקציות" }, { label: t.code }]} />
       <CenterHeader eyebrow={`טרנזקציה · ${t.module} · ${t.topic}`} title={`${t.code} · ${t.title}`} sub={t.purpose} accent={c} />
+      <div className="mb-4"><TrustBadge trust={trustTcode(lifecycle(t.code).status !== "Active")} /></div>
 
       <div className="mb-4"><Block title="תהליך עסקי (Business Process)" accent={c}>{t.process}</Block></div>
 

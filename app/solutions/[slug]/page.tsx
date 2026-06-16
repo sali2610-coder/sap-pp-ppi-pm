@@ -43,7 +43,10 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         <Block title="BAPIs / FMs" accent="#2563eb"><L items={s.bapis} hrefFn={bapiHref} /></Block>
         <Block title="User Exits / BAdIs" accent="#7c3aed"><L items={s.exits} /></Block>
         <Block title="תקלות נפוצות" accent="#dc2626"><L items={s.incidents} hrefFn={incHref} /></Block>
+        <Block title="הרשאות (Authorization)" accent="#dc2626"><Link href="/authorizations/" className="text-sm font-bold text-brand hover:underline">אובייקטי הרשאה + אבחון SU53→PFCG →</Link></Block>
+        <Block title="מקרי בדיקה (QA)" accent="#be185d"><span className="text-[13px] text-slate-600">תרחישי Positive/Negative/Integration → </span><Link href="/qa-testing/" className="text-sm font-bold text-brand hover:underline">QA Center</Link><span className="text-[13px] text-slate-600"> · התקלות לעיל = תרחישי כשל (Negative).</span></Block>
       </div>
+      <div className="mt-4"><Block title="הערות מיגרציה (ECC → S/4HANA)" accent="#2563eb">{s.s4Alt} מורכבות יישום: {s.complexity}. ראה lifecycle לכל T-Code + מרכז המיגרציה.</Block></div>
       <Link href="/solutions/" className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:underline">→ חזרה למאתר הפתרונות</Link>
     </div>
   );

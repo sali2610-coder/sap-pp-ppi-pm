@@ -4,6 +4,8 @@ import type { ObjectGraph, LinkRef } from "@/lib/cross-links";
 import type { OICObject } from "@/lib/cross-links";
 import { EccS4Block } from "@/components/ecc-s4-block";
 import { DepGraph } from "@/components/dep-graph";
+import { TrustBadge } from "@/components/trust-badge";
+import { trustTable, trustDomain } from "@/lib/trust";
 
 function Facet({ title, icon, tone, refs }: { title: string; icon: React.ReactNode; tone: string; refs: LinkRef[] }) {
   return (
@@ -40,6 +42,7 @@ export function ObjectIntelView({ obj, graph }: { obj: OICObject; graph: ObjectG
             : <span className="ms-auto tech rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-400" dir="ltr">{graph.name}</span>}
         </div>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-500">{obj.description}</p>
+        <div className="mt-3"><TrustBadge trust={graph.exists ? trustTable() : trustDomain()} /></div>
       </header>
 
       <div className="mb-4">
