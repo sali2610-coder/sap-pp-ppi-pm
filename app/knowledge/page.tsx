@@ -7,15 +7,37 @@ import { TRANSACTIONS } from "@/data/transactions";
 import { EXITS } from "@/data/exits";
 import { PROCESS_GUIDES } from "@/data/process-guides";
 import { INCIDENTS } from "@/data/troubleshooting";
+import { SAP_NOTES } from "@/data/sap-notes";
 import { QA_PACKS } from "@/data/qa-center";
+import { BLUEPRINTS } from "@/data/centers/blueprints";
+import { CONFIG_TOPICS } from "@/data/centers/config";
+import { FIORI_APPS } from "@/data/centers/fiori";
+import { INTEGRATIONS } from "@/data/centers/integration";
+import { MIGRATIONS } from "@/data/centers/migration";
+import { DEBUGGINGS } from "@/data/centers/debugging";
+import { CBC_SCENARIOS } from "@/data/centers/cbc";
+import { TOOLKIT } from "@/data/centers/toolkit";
+import { PROCESS_AUTH } from "@/data/centers/process-auth";
+import { ALL_TABLES } from "@/data/sapData";
 
 export default function Page() {
   const centers = [
+    { href: "/blueprints/", he: "מרכז בלופרינטים", title: "Business Blueprints", tag: `${BLUEPRINTS.length}`, tagColor: "#0369a1", desc: "בלופרינטים עסקיים PM/PP-PI — היקף, גורמים, קלט/פלט, תלויות, אינטגרציה, נתוני אב, תרשים E2E." },
+    { href: "/config/", he: "קונפיגורציה (SPRO)", title: "Configuration Center", tag: `${CONFIG_TOPICS.length}`, tagColor: "#0d9488", desc: "נתיב SPRO, טבלאות הגדרה, הגדרות מפתח, טעויות, Impact, Transport, ECC↔S/4 — סוגי הודעה/פקודה, MRP, אסטרטגיות, מתכונים, אצוות." },
+    { href: "/tables/", he: "חוקר טבלאות מתקדם", title: "Advanced Tables Explorer", tag: `${ALL_TABLES.length}`, tagColor: "#0891b2", desc: "כל הטבלאות — תיאור, קשרים, CDS, ECC↔S/4 ומפת קשרים מלאה (שדות/מפתחות/גרף)." },
+    { href: "/fiori/", he: "מרכז Fiori", title: "Fiori Center", tag: `${FIORI_APPS.length}`, tagColor: "#7c3aed", desc: "מיפוי טרנזקציה → Fiori — App ID, Business Catalog, Role, OData, CDS ו-Launchpad setup." },
+    { href: "/integration/", he: "מרכז אינטגרציה", title: "Integration Center", tag: `${INTEGRATIONS.length}`, tagColor: "#0891b2", desc: "IDoc/ALE/RFC/BAPI/OData/CPI — זרימת הודעה, קודי סטטוס, כשלים נפוצים וטרנזקציות ניטור." },
+    { href: "/migration/", he: "מרכז מיגרציה S/4HANA", title: "Migration Center", tag: `${MIGRATIONS.length}`, tagColor: "#2563eb", desc: "נשאר/משתנה/הוסר, Fiori/CDS/API חדשים, סיכוני מיגרציה ו-QA Validation Checklist לכל נושא." },
+    { href: "/debugging/", he: "מרכז Debugging", title: "Debugging Center", tag: `${DEBUGGINGS.length}`, tagColor: "#be185d", desc: "לכל תהליך — Exits/BAdIs, FMs, Breakpoints, נתיב Debug ו-Call Stack." },
+    { href: "/cbc/", he: "מרכז תרחישי CBC", title: "CBC Manufacturing", tag: `${CBC_SCENARIOS.length}`, tagColor: "#d62027", desc: "תרחישי ייצור אמיתיים — משקה, תרכיז, אצוות, CIP, אריזה, מחזורי פקודה." },
+    { href: "/authorizations/", he: "הרשאות לתהליכים", title: "Authorization Center", tag: `${PROCESS_AUTH.length}`, tagColor: "#dc2626", desc: "לכל תהליך — אובייקטי הרשאה, כשלים נפוצים ונתיב אבחון SU53→PFCG." },
+    { href: "/toolkit/", he: "ערכת היועץ", title: "Consultant Toolkit", tag: `${TOOLKIT.length}`, tagColor: "#475569", desc: "תבניות מוכנות — ראיון, סדנה, בלופרינט, QA, Cutover, Hypercare, Go-Live, ניתוח תקלה." },
     { href: "/transactions/", he: "מרכז הטרנזקציות", title: "Transaction Center", tag: `${TRANSACTIONS.length} T-Codes`, tagColor: "#0f766e", desc: "קטלוג T-Codes ל-PM/PP/PP-PI — מטרה, מתי/מי, אובייקטים/טבלאות/BAPIs, User Exits, שגיאות, בלוק ECC↔S/4 ו-Fiori. טבלת עזר + חיפוש." },
     { href: "/mrp/", he: "מרכז MRP / MPS", title: "MRP / MPS Center", tag: "Planning", tagColor: "#1d4ed8", desc: "מדריך תכנון מעמיק — MRP Live מול קלאסי, MPS, PIR/תחזית, אסטרטגיות 10/11/20/40/50/70, Net-Change, MRP Areas, Lot-Sizing וגרסת ייצור." },
     { href: "/exits/", he: "מרכז Exits / BAdIs", title: "User Exit / BAdI Center", tag: `${EXITS.length} הרחבות`, tagColor: "#7c3aed", desc: "קטלוג Exits/BAdIs בשמות — IWO10009, PPCO0001, WORKORDER_UPDATE ועוד. נקודת הפעלה, אובייקט, דוגמה, שיטת Debug ו-ECC↔S/4." },
     { href: "/guides/", he: "מדריכי תהליך מעמיקים", title: "Deep Process Guides", tag: `${PROCESS_GUIDES.length} תהליכים`, tagColor: "#0369a1", desc: "תהליכי PM/PP-PI מקצה-לקצה — זרימה, ביצוע שלב-אחר-שלב, טעויות נפוצות, זרימת אבחון, נתיב Debug, Exits/BAdIs, ECC↔S/4 ו-CBC." },
     { href: "/troubleshooting/", he: "מרכז פתרון תקלות", title: "Troubleshooting Center", tag: `${INCIDENTS.length} תקלות`, tagColor: "#dc2626", desc: "קטלוג תקלות — תסמין, קוד שגיאה, גורמי שורש, T-Codes לאבחון, טבלאות, נקודות Debug, Exits/BAdIs ושלבי תיקון." },
+    { href: "/sap-notes/", he: "מרכז SAP Notes", title: "SAP Notes Center", tag: `${SAP_NOTES.length} נושאים`, tagColor: "#b45309", desc: "נתיבי פתרון לפי רכיב SAP (Application Component) + מילות חיפוש מאומתות ל-OSS — תסמין, שורש, ECC↔S/4 וקישור לתקלות. ללא מספרי Note מומצאים." },
     { href: "/qa-testing/", he: "מרכז בדיקות QA", title: "QA Testing Center", tag: `${QA_PACKS.length} חבילות`, tagColor: "#be185d", desc: "תרחישי בדיקה — Positive/Negative/Regression/Integration + ולידציית נתוני אב, מחזור פקודה, אצוות, MRP והתחשבנות." },
     { href: "/concepts/", he: "מרכז מושגי SAP", title: "SAP Concepts Center", tag: `${CONCEPTS.length} מושגים`, tagColor: "#0891b2", desc: "אובייקט, טבלה, מבנה, דומיין, FM, BAPI, IDoc, CDS, BAdI, מרכז עבודה, ציוד, פקודות — הסבר עסקי + טכני + ECC/S4." },
     { href: "/ecc-s4/", he: "ECC מול S/4HANA", title: "ECC vs S/4 Engine", tag: `${ECC_S4_TOPICS.length} נושאים`, tagColor: "#2563eb", desc: "MATDOC, ACDOCA, MRP Live, PP-DS, aATP, Fiori/CDS, אחזקה, הודעות — מה השתנה, מה הוחלף, והשפעת המיגרציה." },
