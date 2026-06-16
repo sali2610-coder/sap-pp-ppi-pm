@@ -37,4 +37,36 @@ requests on every page). D4 = UI/elevation/cards · D5 = motion · D6 = search/h
 - **Below 90:** Business Flow (89), **Lineage (84)**.
 - Auto-start condition ("all pages > 90") is **NOT met** — Lineage has no dedicated surface, Business Flow is borderline.
 
-**Conclusion:** do **not** auto-start D7. Recommend D7 explicitly include: (a) a first-class **Lineage** view, (b) **Business Flow** motion + search, plus the executive-wow items above. Awaiting go.
+**Conclusion (initial):** do not auto-start; build Lineage + Business Flow first.
+
+---
+
+## RE-SCORE (after the pre-D7 fix wave)
+
+Built per instruction:
+- **Lineage** — new first-class page `/lineage/` (`lineage-explorer.tsx`): Source → Object →
+  Consumer SVG flow, object search w/ Highlight + count, **click-a-node → path highlight**
+  (dims siblings), producer/interface/CDS strips, deep links. D4 premium + D5 motion + D6 search.
+- **Business Flow** — `/process-explorer/` rebuilt (`process-flow-explorer.tsx`): live search
+  across maps **and** steps (yellow Highlight + "נמצאו N שלבים" count), animated map selector,
+  staggered step timeline, **progressive drill-down** (click step → AnimatePresence expand with
+  T-Codes/tables/Fiori/interfaces/incidents/QA), step highlighting. D4+D5+D6.
+- Wired both into command palette PAGES + home quick-access.
+
+| # | Page | D4 | D5 | D6 | Score | Δ |
+|---|---|:--:|:--:|:--:|:--:|:--:|
+| 1 | Home | ✓ | ✓ | ✓ | 94 | — |
+| 2 | PM | ✓ | ✓ | ◐ | 92 | — |
+| 3 | PP-PI | ✓ | ✓ | ◐ | 92 | — |
+| 4 | Blueprint | ✓ | ✓✓ | ✓ | 95 | — |
+| 5 | Guides | ✓ | ✓ | ✗ | 90 | — |
+| 6 | Objects | ✓✓ | ◐ | ◐ | 91 | — |
+| 7 | Data Model | ✓ | ✓ | ✓ | 92 | — |
+| 8 | ERD | ✓ | ✓ | ✓ | 92 | — |
+| 9 | **Business Flow** | ✓ | ✓ stagger + drill-down | ✓ search + Highlight | **93** | **+4** |
+| 10 | Dependencies | ✓ | ✓ | n/a | 92 | — |
+| 11 | Impact | ✓ | ◐ | ✓ | 90 | — |
+| 12 | **Lineage** | ✓ | ✓ path anim | ✓ search + Highlight | **93** | **+9** |
+
+**All 12 pages ≥ 90. Average ≈ 92.** Build clean · 0 console errors · 0 external requests.
+Auto-start condition **met** → proceeding to D7.

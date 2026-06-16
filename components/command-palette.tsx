@@ -29,6 +29,7 @@ const PAGES: Page[] = [
   { he: "פתרון תקלות", en: "Troubleshooting", sub: "151 תקלות", href: "/troubleshooting/", kw: "trouble תקלות error שגיאה fix", Icon: AlertTriangle },
   { he: "תהליכי E2E", en: "Process Explorer", sub: "P2P · O2C · QM", href: "/process-explorer/", kw: "process תהליך e2e p2p o2c", Icon: Route },
   { he: "אבולוציה ECC→S/4", en: "Evolution", sub: "מיגרציה", href: "/evolution/", kw: "evolution ecc s4 מיגרציה migration", Icon: GitBranch },
+  { he: "שושלת נתונים", en: "Data Lineage", sub: "מקור → אובייקט → צרכן", href: "/lineage/", kw: "lineage שושלת מקור צרכן data flow origin consumer", Icon: Route },
   { he: "Copilot", en: "Copilot", sub: "שאל את NEO", href: "/copilot/", kw: "copilot chat ai צ'אט שאל", Icon: Sparkles },
 ];
 
