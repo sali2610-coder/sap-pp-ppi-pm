@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { Wrench, FlaskConical, Network, BookOpen, ArrowLeft, Star, Clock, Search } from "lucide-react";
 import { PM_DATA, PPPI_DATA } from "@/lib/data";
+import { Reveal } from "@/components/reveal";
 
 /* module registry (used by Favorites) */
 const MODULES = [
@@ -24,13 +25,13 @@ function useList(key: string) {
 
 function Section({ icon, title, children, action }: { icon: React.ReactNode; title: string; children: React.ReactNode; action?: React.ReactNode }) {
   return (
-    <section className="space-y-3">
+    <Reveal className="space-y-3">
       <div className="flex items-baseline justify-between">
         <h2 className="flex items-center gap-2 text-lg font-extrabold tracking-tight text-slate-900">{icon}{title}</h2>
         {action}
       </div>
       {children}
-    </section>
+    </Reveal>
   );
 }
 
@@ -39,7 +40,8 @@ export function CommandCenter() {
   const fav = useList("neo:home:fav");
   const recentPages = useList("neo:home:recent");
   const [recentObj, setRecentObj] = useState<string[]>([]);
-  useEffect(() => { try { const r = JSON.parse(localStorage.getItem("neo:obj:recent") || "[]"); if (Array.isArray(r)) setRecentObj(r.slice(0, 8)); } catch { /* noop */ } }, []);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { try { const r = JSON.parse(localStorage.getItem("neo:obj:recent") || "[]"); if (Array.isArray(r)) setRecentObj(r.slice(0, 8)); } catch { /* noop */ } setMounted(true); }, []);
 
   const ordered = [...MODULES].sort((a, b) => Number(fav.list.includes(b.key)) - Number(fav.list.includes(a.key)));
   const container = { hidden: {}, show: { transition: { staggerChildren: reduce ? 0 : 0.06 } } };
@@ -104,8 +106,15 @@ export function CommandCenter() {
         </motion.div>
       </Section>
 
-      {/* Recent Activity */}
-      {hasRecent && (
+      {/* Recent Activity — skeleton while client store hydrates */}
+      {!mounted && (
+        <Section icon={<Clock className="size-5 text-brand" />} title="פעילות אחרונה">
+          <div className="flex flex-wrap gap-2">
+            {[64, 88, 52, 76, 60].map((w, i) => <div key={i} className="skeleton h-9 rounded-xl" style={{ width: w }} />)}
+          </div>
+        </Section>
+      )}
+      {mounted && hasRecent && (
         <Section icon={<Clock className="size-5 text-brand" />} title="פעילות אחרונה">
           <div className="flex flex-wrap gap-2">
             {recentObj.map((n) => (

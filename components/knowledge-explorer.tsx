@@ -32,7 +32,12 @@ function Card({ c, q, accent }: { c: Center; q: string; accent: string }) {
   return (
     <Link
       href={c.href}
-      className="lift group relative block overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm outline-none transition-shadow focus-visible:shadow-[var(--ring-soft)]"
+      onPointerMove={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
+      }}
+      className="spotlight lift group relative block overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm outline-none transition-shadow focus-visible:shadow-[var(--ring-soft)]"
       dir="rtl"
     >
       <span aria-hidden className="absolute inset-y-0 end-0 w-1 origin-top scale-y-0 transition-transform duration-300 group-hover:scale-y-100" style={{ background: accent }} />
@@ -129,7 +134,9 @@ export function KnowledgeExplorer({ centers, groups }: { centers: Center[]; grou
                 </button>
               )}
               {query
-                ? <span className="rounded-full bg-brand/10 px-2.5 py-1 text-xs font-bold text-brand">{results?.length ?? 0} תוצאות</span>
+                ? <span className="rounded-full bg-brand/10 px-2.5 py-1 text-xs font-bold text-brand">
+                    <motion.span key={results?.length ?? 0} initial={reduce ? false : { scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 500, damping: 24 }} className="inline-block tabular-nums">{results?.length ?? 0}</motion.span> תוצאות
+                  </span>
                 : <kbd className="hidden items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-[10px] font-bold text-slate-400 sm:flex"><CornerDownLeft className="size-3" />פתח</kbd>}
             </div>
           </div>
