@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Search, ArrowLeft, GitBranch, Database, Activity, ShieldAlert } from "lucide-react";
 import { EmptyState } from "@/components/ui/empty-state";
+import { Highlight } from "@/components/highlight";
 
 export interface TableRow { name: string; module: string; he: string; s4: string; rel: number; tc: number; cds?: string }
 
@@ -55,8 +56,8 @@ export function TablesExplorer({ rows }: { rows: TableRow[] }) {
           <tbody className="divide-y divide-slate-100">
             {list.map((r) => (
               <tr key={r.name} className="group hover:bg-slate-50/60">
-                <td className="p-3 align-top"><Link href={`/object/${encodeURIComponent(r.name)}/`} className="tech font-extrabold text-brand hover:underline" dir="ltr">{r.name}</Link>{r.cds && <div className="tech text-[10px] font-bold text-green-600" dir="ltr">CDS: {r.cds}</div>}</td>
-                <td className="p-3 align-top text-[12px] leading-snug text-slate-600">{r.he}</td>
+                <td className="p-3 align-top"><Link href={`/object/${encodeURIComponent(r.name)}/`} className="tech font-extrabold text-brand hover:underline" dir="ltr"><Highlight text={r.name} query={q} /></Link>{r.cds && <div className="tech text-[10px] font-bold text-green-600" dir="ltr">CDS: <Highlight text={r.cds} query={q} /></div>}</td>
+                <td className="p-3 align-top text-[12px] leading-snug text-slate-600"><Highlight text={r.he} query={q} /></td>
                 <td className="p-3 text-center align-top"><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: MOD_COLOR[r.module] || "#64748b" }}>{r.module}</span></td>
                 <td className="p-3 text-center align-top"><span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold ${r.rel >= 6 ? "bg-amber-100 text-amber-700" : "text-slate-500"}`}>{r.rel >= 6 && "★"}<GitBranch className="size-3" />{r.rel}</span></td>
                 <td className="p-3 align-top text-[11px] leading-snug text-slate-500">{r.s4 || "ללא שינוי מהותי"}</td>

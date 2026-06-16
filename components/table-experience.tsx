@@ -76,7 +76,7 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
                   <motion.div initial={reduce ? false : { height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={reduce ? undefined : { height: 0, opacity: 0 }} transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}>
                     <div className="space-y-3 border-t border-slate-100 p-4">
                       <div className="grid gap-3 sm:grid-cols-2">
-                        <Cell label="מטרה עסקית">{pick(tb.descriptionHe, tb.descriptionEn)}{tb.guideHe ? <span className="mt-1 block text-xs leading-relaxed text-slate-400">{tb.guideHe.slice(0, 160)}{tb.guideHe.length > 160 ? "…" : ""}</span> : null}</Cell>
+                        <Cell label="מטרה עסקית"><Highlight text={pick(tb.descriptionHe, tb.descriptionEn)} query={query} />{tb.guideHe ? <span className="mt-1 block text-xs leading-relaxed text-slate-400"><Highlight text={tb.guideHe.slice(0, 160) + (tb.guideHe.length > 160 ? "…" : "")} query={query} /></span> : null}</Cell>
                         <div className="grid grid-cols-3 gap-2">
                           <Metric n={pk} label="PK" icon={<KeyRound className="size-3.5 text-amber-500" />} />
                           <Metric n={fk} label="FK" icon={<Link2 className="size-3.5 text-cyan-500" />} />
@@ -89,7 +89,7 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
                           <div className="flex flex-wrap gap-1.5">
                             {rels.slice(0, 8).map((r, i) => (
                               <span key={r.table + i} className="tech inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] font-bold text-slate-600" dir="ltr">
-                                <span className="text-slate-400">{r.role === "parent" ? "→" : "←"}</span>{r.table}{r.card ? <span className="font-mono text-[9px] text-slate-400">{r.card}</span> : null}
+                                <span className="text-slate-400">{r.role === "parent" ? "→" : "←"}</span><Highlight text={r.table} query={query} />{r.card ? <span className="font-mono text-[9px] text-slate-400">{r.card}</span> : null}
                               </span>
                             ))}
                           </div>
@@ -122,7 +122,7 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
             <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-500 shadow-sm ring-1 ring-slate-200"><Maximize2 className="size-3.5 text-brand" />צלילה לעומק</span>
             <button onClick={() => setDeep(null)} aria-label="סגור" className="tap grid size-9 place-items-center rounded-xl bg-white text-slate-500 shadow-sm ring-1 ring-slate-200 transition hover:text-brand"><X className="size-4" /></button>
           </div>
-          {deep && <ObjectWorkspace name={deep} />}
+          {deep && <ObjectWorkspace name={deep} highlight={query} />}
         </DialogContent>
       </Dialog>
     </>
