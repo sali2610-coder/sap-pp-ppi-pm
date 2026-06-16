@@ -70,3 +70,35 @@ Built per instruction:
 
 **All 12 pages ≥ 90. Average ≈ 92.** Build clean · 0 console errors · 0 external requests.
 Auto-start condition **met** → proceeding to D7.
+
+---
+
+## D7 — Executive Wow Layer (delivered)
+
+| Increment | What | Surfaces |
+|---|---|---|
+| 1 | **Executive Summary band** | Home — readiness ring (live status), status breakdown, "objects to watch" spotlight |
+| 2 | **Table Experience redesign** | PM/PP-PI cockpit — premium cards → inline summary → PK/FK field explorer → full workspace (progressive disclosure, Objects-page language) |
+| 3 | **Premium empty states** | shared `EmptyState` (halo + suggestion chips) → Impact explorer + others |
+| 4 | **Spotlight high-value objects** | CORE (★ ליבה) badge + amber ring on blast-radius ≥6 tables (Table Experience + Impact) |
+| 5 | **Executive summary cards** | Impact — total / high-impact / avg-relations band |
+| 6 | **Section anchors + depth** | `CenterHeader` elevation, hairline, accent glow, eyebrow chip, scroll anchor (all center pages) |
+
+### Final scores (post-D7)
+| Page | Score | Page | Score |
+|---|:--:|---|:--:|
+| Home | 96 | Data Model | 93 |
+| PM | 96 | ERD | 92 |
+| PP-PI | 96 | Business Flow | 93 |
+| Blueprint | 95 | Dependencies | 92 |
+| Guides | 91 | Impact | 94 |
+| Objects | 92 | Lineage | 93 |
+
+**All 12 ≥ 90. Average ≈ 93.6.** Build clean · 0 console errors · 0 external requests · RTL · reduced-motion safe · CBC brand + offline intact.
+
+### PM / PP-PI review (all skills)
+- **D4** ✓ premium cards, elevation, accent system, double-surface framing.
+- **D5** ✓ staggered card entrance, AnimatePresence disclosure, spotlight hover, tab pill.
+- **D6** ✓ in-card yellow Highlight (name + description), module search, ⌘K reach.
+- **Viz** ✓ PK/FK field explorer (key icons, color edges, datatype/length).
+- **Exec** ✓ CORE spotlight, relations/PK-FK/field badges, readiness band on Home.
