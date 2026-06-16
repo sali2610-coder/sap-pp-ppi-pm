@@ -42,9 +42,10 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
         const showFields = fields === tb.tableName;
         const pk = tb.fields.filter((f) => f.key === "PK").length;
         const fk = tb.fields.filter((f) => f.key === "FK").length;
+        const core = (tb.relations?.length || 0) >= 6; // high blast-radius → core object
         return (
           <motion.div key={tb.id} variants={item} layout={!reduce}
-            className={`spotlight group relative overflow-hidden rounded-2xl border bg-white shadow-sm transition-all ${isOpen ? "border-transparent shadow-[var(--elev-2)] ring-1 xl:col-span-2" : "border-slate-200 hover:-translate-y-1 hover:shadow-[var(--elev-2)]"}`}
+            className={`spotlight group relative overflow-hidden rounded-2xl border bg-white shadow-sm transition-all ${isOpen ? "border-transparent shadow-[var(--elev-2)] ring-1 xl:col-span-2" : core ? "border-amber-200/70 ring-1 ring-amber-100 hover:-translate-y-1 hover:shadow-[var(--elev-2)]" : "border-slate-200 hover:-translate-y-1 hover:shadow-[var(--elev-2)]"}`}
             style={isOpen ? ({ ["--tw-ring-color"]: accent } as React.CSSProperties) : undefined}
             onPointerMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`); e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`); }}>
             <span className="absolute inset-x-0 top-0 h-1" style={{ background: accent }} />
@@ -55,7 +56,10 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
                 <div className="flex items-center gap-2.5">
                   <span className="grid size-10 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: accent }}><Database className="size-5" /></span>
                   <div>
-                    <div className="tech text-base font-extrabold text-slate-900" dir="ltr"><Highlight text={tb.tableName} query={query} /></div>
+                    <div className="flex items-center gap-1.5">
+                      <span className="tech text-base font-extrabold text-slate-900" dir="ltr"><Highlight text={tb.tableName} query={query} /></span>
+                      {core && <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wide text-amber-700 ring-1 ring-amber-300/60">★ ליבה</span>}
+                    </div>
                     <div className="flex items-center gap-1 text-[11px] font-semibold text-slate-400"><Layers className="size-3" />{topic(tb.topicTitle)}</div>
                   </div>
                 </div>
