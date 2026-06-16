@@ -19,9 +19,15 @@ import { CBC_SCENARIOS } from "@/data/centers/cbc";
 import { TOOLKIT } from "@/data/centers/toolkit";
 import { PROCESS_AUTH } from "@/data/centers/process-auth";
 import { ALL_TABLES } from "@/data/sapData";
+import { WORKBENCHES } from "@/data/workbenches";
+import { OIC_OBJECTS } from "@/lib/cross-links";
 
 export default function Page() {
   const centers = [
+    { href: "/oic/", he: "תבונת אובייקטים", title: "Object Intelligence Center", tag: `${OIC_OBJECTS.length}`, tagColor: "#4338ca", desc: "תצוגה מאוחדת לכל אובייקט ליבה — טבלאות, T-Codes, BAPIs/FMs, BAdIs/Exits, CDS, תקלות, SAP Notes, Debug ו-CBC, עם קישורים צולבים בין כולם." },
+    { href: "/resolution/", he: "מנוע נתיב פתרון", title: "Resolution Path Engine", tag: "Detect→Prevent", tagColor: "#0e7490", desc: "נתיב פתרון מובנה לכל תקלה — זיהוי→בידוד→אבחון→תיקון→מניעה, עם קישור לאובייקטים, Notes ו-Debug." },
+    { href: "/notes-graph/", he: "גרף SAP Notes", title: "SAP Notes Graph", tag: "Graph", tagColor: "#b45309", desc: "גרף המקשר Note ↔ תקלה ↔ אובייקט ↔ רכיב SAP + מילות חיפוש OSS. ללא מספרי Note מומצאים." },
+    { href: "/workbench/", he: "שולחנות עבודה ליועץ", title: "Consultant Workbenches", tag: `${WORKBENCHES.length} שולחנות`, tagColor: "#be185d", desc: "שולחנות עבודה ברמת יועץ בכיר — Debugging, QM, PM מתקדם, PP-PI מתקדם. לכל אחד 12 מקטעים: מושגים, ארכיטקטורה, זרימה, טבלאות, טרנזקציות, FMs, BAdIs, Exits, תקלות, נקודות Debug, ECC↔S/4 ו-CBC." },
     { href: "/blueprints/", he: "מרכז בלופרינטים", title: "Business Blueprints", tag: `${BLUEPRINTS.length}`, tagColor: "#0369a1", desc: "בלופרינטים עסקיים PM/PP-PI — היקף, גורמים, קלט/פלט, תלויות, אינטגרציה, נתוני אב, תרשים E2E." },
     { href: "/config/", he: "קונפיגורציה (SPRO)", title: "Configuration Center", tag: `${CONFIG_TOPICS.length}`, tagColor: "#0d9488", desc: "נתיב SPRO, טבלאות הגדרה, הגדרות מפתח, טעויות, Impact, Transport, ECC↔S/4 — סוגי הודעה/פקודה, MRP, אסטרטגיות, מתכונים, אצוות." },
     { href: "/tables/", he: "חוקר טבלאות מתקדם", title: "Advanced Tables Explorer", tag: `${ALL_TABLES.length}`, tagColor: "#0891b2", desc: "כל הטבלאות — תיאור, קשרים, CDS, ECC↔S/4 ומפת קשרים מלאה (שדות/מפתחות/גרף)." },
