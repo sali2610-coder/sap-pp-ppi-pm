@@ -3,24 +3,25 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Database, KeyRound, Link2, GitBranch, Layers, ArrowLeft, ChevronDown, Terminal, Boxes, Workflow } from "lucide-react";
-import type { SAPModuleData, SAPTable, SAPField } from "@/lib/types";
-import { StatusSelect } from "@/components/status-select";
+import { Database, KeyRound, Link2, GitBranch, ArrowLeft, ChevronDown, Maximize2, X, Layers } from "lucide-react";
+import type { SAPModuleData } from "@/lib/types";
 import { Highlight } from "@/components/highlight";
 import { EmptyState } from "@/components/ui/empty-state";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { ObjectWorkspace } from "@/components/object-workspace";
 import { useI18n } from "@/lib/i18n";
 
 const accentFor = (m: string) => (m === "PM" ? "#f97316" : "#6d28d9");
-const splitTc = (s: string) => [...new Set((s || "").split(/[^A-Za-z0-9_]+/).map((c) => c.trim()).filter((c) => c.length >= 2))];
 
-// D7 · Table Experience — progressive disclosure for module tables.
-// L1 premium card → (click) L2 inline summary → (click) L3 PK/FK field explorer
-// → full workspace. Same design language as the Objects pages.
+// D7 · Table Experience — Browse → Expand → Deep Dive (progressive disclosure).
+// L1 clean executive card (name + business title) → L2 inline summary accordion
+// → L3 full Object Workspace in a side drawer. Objects-page design language.
 export function TableExperience({ module, query }: { module: SAPModuleData; query: string }) {
   const { pick, lang, topic } = useI18n();
   const reduce = useReducedMotion();
-  const [open, setOpen] = useState<string | null>(null);   // L2 expanded card
-  const [fields, setFields] = useState<string | null>(null); // L3 field explorer
+  const [open, setOpen] = useState<string | null>(null);   // expanded card (L2)
+  const [deep, setDeep] = useState<string | null>(null);   // drawer target (L3)
   const accent = accentFor(module.module);
 
   const q = query.trim().toLowerCase();
@@ -30,126 +31,107 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
     return all.filter((tb) => tb.tableName.toLowerCase().includes(q) || tb.descriptionHe.toLowerCase().includes(q) || tb.descriptionEn.toLowerCase().includes(q) || tb.tcodes.toLowerCase().includes(q) || tb.topicTitle.toLowerCase().includes(q));
   }, [module.topics, q]);
 
-  const container = { hidden: {}, show: { transition: { staggerChildren: reduce ? 0 : 0.04 } } };
-  const item = { hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : 16 }, show: { opacity: 1, y: 0, transition: reduce ? { duration: 0 } : { type: "spring" as const, stiffness: 240, damping: 24 } } };
+  const container = { hidden: {}, show: { transition: { staggerChildren: reduce ? 0 : 0.035 } } };
+  const item = { hidden: { opacity: reduce ? 1 : 0, y: reduce ? 0 : 14 }, show: { opacity: 1, y: 0, transition: reduce ? { duration: 0 } : { type: "spring" as const, stiffness: 240, damping: 24 } } };
 
   if (rows.length === 0) return <EmptyState title={lang === "he" ? "אין תוצאות" : "No results"} hint={lang === "he" ? "נסה מונח חיפוש אחר" : "Try another term"} />;
 
   return (
-    <motion.div variants={container} initial="hidden" animate="show" className="grid gap-3 lg:grid-cols-2 xl:grid-cols-3">
-      {rows.map((tb) => {
-        const isOpen = open === tb.tableName;
-        const showFields = fields === tb.tableName;
-        const pk = tb.fields.filter((f) => f.key === "PK").length;
-        const fk = tb.fields.filter((f) => f.key === "FK").length;
-        const core = (tb.relations?.length || 0) >= 6; // high blast-radius → core object
-        return (
-          <motion.div key={tb.id} variants={item} layout={!reduce}
-            className={`spotlight group relative overflow-hidden rounded-2xl border bg-white shadow-sm transition-all ${isOpen ? "border-transparent shadow-[var(--elev-2)] ring-1 xl:col-span-2" : core ? "border-amber-200/70 ring-1 ring-amber-100 hover:-translate-y-1 hover:shadow-[var(--elev-2)]" : "border-slate-200 hover:-translate-y-1 hover:shadow-[var(--elev-2)]"}`}
-            style={isOpen ? ({ ["--tw-ring-color"]: accent } as React.CSSProperties) : undefined}
-            onPointerMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`); e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`); }}>
-            <span className="absolute inset-x-0 top-0 h-1" style={{ background: accent }} />
-
-            {/* L1 card head — click toggles L2 */}
-            <button onClick={() => { setOpen(isOpen ? null : tb.tableName); if (isOpen) setFields(null); }} className="block w-full p-4 text-start">
-              <div className="flex items-start justify-between gap-2">
-                <div className="flex items-center gap-2.5">
-                  <span className="grid size-10 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: accent }}><Database className="size-5" /></span>
-                  <div>
-                    <div className="flex items-center gap-1.5">
-                      <span className="tech text-base font-extrabold text-slate-900" dir="ltr"><Highlight text={tb.tableName} query={query} /></span>
-                      {core && <span className="inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wide text-amber-700 ring-1 ring-amber-300/60">★ ליבה</span>}
-                    </div>
-                    <div className="flex items-center gap-1 text-[11px] font-semibold text-slate-400"><Layers className="size-3" />{topic(tb.topicTitle)}</div>
-                  </div>
-                </div>
-                <ChevronDown className={`size-4 shrink-0 text-slate-300 transition-transform ${isOpen ? "rotate-180" : ""}`} />
-              </div>
-              <p className="mt-2 line-clamp-2 text-sm text-slate-600"><Highlight text={pick(tb.descriptionHe, tb.descriptionEn)} query={query} /></p>
-              <div className="mt-3 flex flex-wrap items-center gap-1.5">
-                <Badge icon={<GitBranch className="size-3" />} label={`${tb.relations?.length || 0} קשרים`} tone={accent} />
-                <Badge icon={<KeyRound className="size-3" />} label={`${pk} PK · ${fk} FK`} tone="#0891b2" />
-                <Badge icon={<Layers className="size-3" />} label={`${tb.fields.length} שדות`} tone="#64748b" />
-              </div>
-            </button>
-
-            {/* L2 inline summary */}
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div initial={reduce ? false : { height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={reduce ? undefined : { height: 0, opacity: 0 }} transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}>
-                  <div className="space-y-3 border-t border-slate-100 p-4">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="eyebrow text-slate-400">סטטוס מיגרציה</span>
-                      <StatusSelect id={tb.id} seed={tb.migrationStatus} />
-                    </div>
-                    {tb.s4Note && <p className="rounded-lg bg-amber-50 px-2.5 py-1.5 text-[11px] font-medium text-amber-900"><span className="font-bold">S/4: </span><Highlight text={tb.s4Note} query={query} /></p>}
-                    {splitTc(tb.tcodes).length > 0 && <Row icon={<Terminal className="size-3" />} label="T-Codes">{splitTc(tb.tcodes).slice(0, 8).map((c) => <Chip key={c} href={`/tcode/${encodeURIComponent(c)}/`}>{c}</Chip>)}</Row>}
-                    {(tb.funcs || []).length > 0 && <Row icon={<Boxes className="size-3" />} label="ממשקים">{tb.funcs.slice(0, 4).map((f) => <Chip key={f[0]}>{f[0]}</Chip>)}</Row>}
-
-                    <div className="flex flex-wrap gap-2 pt-1">
-                      <button onClick={() => setFields(showFields ? null : tb.tableName)} className="tap inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-700 transition hover:border-brand/40 hover:text-brand">
-                        <KeyRound className="size-3.5" />{showFields ? "הסתר שדות" : "סייר שדות (PK/FK)"}
-                      </button>
-                      <Link href={`/object/${encodeURIComponent(tb.tableName)}/`} className="lift inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold text-white shadow-lg" style={{ background: accent, boxShadow: `0 8px 18px ${accent}55` }}>
-                        <Workflow className="size-3.5" />סביבת עבודה מלאה<ArrowLeft className="size-3.5" />
-                      </Link>
-                    </div>
-
-                    {/* L3 field explorer with PK/FK visualization */}
-                    <AnimatePresence initial={false}>
-                      {showFields && (
-                        <motion.div initial={reduce ? false : { height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={reduce ? undefined : { height: 0, opacity: 0 }} transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}>
-                          <FieldExplorer fields={tb.fields} query={query} />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        );
-      })}
-    </motion.div>
-  );
-}
-
-function FieldExplorer({ fields, query }: { fields: SAPField[]; query: string }) {
-  const pk = fields.filter((f) => f.key === "PK").length, fk = fields.filter((f) => f.key === "FK").length;
-  return (
-    <div className="mt-1 overflow-hidden rounded-xl border border-slate-200">
-      <div className="flex items-center gap-3 border-b border-slate-100 bg-slate-50 px-3 py-2 text-[11px] font-bold">
-        <span className="flex items-center gap-1 text-amber-600"><KeyRound className="size-3.5" />{pk} מפתח ראשי</span>
-        <span className="flex items-center gap-1 text-cyan-600"><Link2 className="size-3.5" />{fk} מפתח זר</span>
-        <span className="ms-auto text-slate-400">{fields.length} שדות</span>
-      </div>
-      <ul className="max-h-72 divide-y divide-slate-50 overflow-y-auto">
-        {fields.map((f, i) => {
-          const isPK = f.key === "PK", isFK = f.key === "FK";
-          const edge = isPK ? "#f59e0b" : isFK ? "#0891b2" : "transparent";
+    <>
+      <motion.div variants={container} initial="hidden" animate="show" className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        {rows.map((tb) => {
+          const isOpen = open === tb.tableName;
+          const pk = tb.fields.filter((f) => f.key === "PK").length;
+          const fk = tb.fields.filter((f) => f.key === "FK").length;
+          const core = (tb.relations?.length || 0) >= 6;
+          const rels = tb.relations || [];
           return (
-            <li key={f.tech + i} className="flex items-center gap-2.5 px-3 py-1.5 text-sm" style={{ boxShadow: `inset 3px 0 0 ${edge}` }}>
-              <span className="grid size-5 shrink-0 place-items-center">
-                {isPK ? <KeyRound className="size-3.5 text-amber-500" /> : isFK ? <Link2 className="size-3.5 text-cyan-500" /> : <span className="size-1.5 rounded-full bg-slate-300" />}
-              </span>
-              <span className="tech w-32 shrink-0 font-bold text-slate-800" dir="ltr"><Highlight text={f.tech} query={query} /></span>
-              <span className="min-w-0 flex-1 truncate text-xs text-slate-500"><Highlight text={f.he || f.en} query={query} /></span>
-              <span className="shrink-0 font-mono text-[10px] font-bold text-slate-400">{f.dt}{f.len ? ` ${f.len}` : ""}</span>
-            </li>
+            <motion.div key={tb.id} variants={item} layout={!reduce}
+              className={`spotlight group relative overflow-hidden rounded-2xl border bg-white shadow-sm transition-all ${isOpen ? "border-transparent shadow-[var(--elev-2)] ring-1 sm:col-span-2 xl:col-span-3" : core ? "border-amber-200/70 ring-1 ring-amber-100 hover:-translate-y-1 hover:shadow-[var(--elev-2)]" : "border-slate-200 hover:-translate-y-1 hover:shadow-[var(--elev-2)]"}`}
+              style={isOpen ? ({ ["--tw-ring-color"]: accent } as React.CSSProperties) : undefined}
+              onPointerMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`); e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`); }}>
+              <span className="absolute inset-x-0 top-0 h-1" style={{ background: accent }} />
+
+              {/* L1 — clean executive card: click expands; click again deep-dives */}
+              <div className="flex items-center gap-3 p-4">
+                <button onClick={() => (isOpen ? setDeep(tb.tableName) : setOpen(tb.tableName))} className="flex flex-1 items-center gap-3 text-start">
+                  <span className="grid size-11 shrink-0 place-items-center rounded-xl text-white shadow-sm transition-transform group-hover:scale-105" style={{ background: accent }}><Database className="size-5" /></span>
+                  <span className="min-w-0">
+                    <span className="flex items-center gap-1.5">
+                      <span className="tech text-base font-extrabold text-slate-900" dir="ltr"><Highlight text={tb.tableName} query={query} /></span>
+                      {core && <span className="rounded-full bg-amber-100 px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wide text-amber-700 ring-1 ring-amber-300/60">★ ליבה</span>}
+                    </span>
+                    <span className="mt-0.5 block truncate text-sm font-semibold text-slate-500"><Highlight text={pick(tb.descriptionHe, tb.descriptionEn)} query={query} /></span>
+                  </span>
+                </button>
+                <button onClick={() => { if (isOpen) { setOpen(null); } else setOpen(tb.tableName); }} aria-label={isOpen ? "כווץ" : "הרחב"}
+                  className="tap grid size-8 shrink-0 place-items-center rounded-lg text-slate-300 transition hover:bg-slate-50 hover:text-slate-500">
+                  <ChevronDown className={`size-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                </button>
+              </div>
+
+              {/* L2 — inline summary accordion */}
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div initial={reduce ? false : { height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={reduce ? undefined : { height: 0, opacity: 0 }} transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}>
+                    <div className="space-y-3 border-t border-slate-100 p-4">
+                      <div className="grid gap-3 sm:grid-cols-2">
+                        <Cell label="מטרה עסקית">{pick(tb.descriptionHe, tb.descriptionEn)}{tb.guideHe ? <span className="mt-1 block text-xs leading-relaxed text-slate-400">{tb.guideHe.slice(0, 160)}{tb.guideHe.length > 160 ? "…" : ""}</span> : null}</Cell>
+                        <div className="grid grid-cols-3 gap-2">
+                          <Metric n={pk} label="PK" icon={<KeyRound className="size-3.5 text-amber-500" />} />
+                          <Metric n={fk} label="FK" icon={<Link2 className="size-3.5 text-cyan-500" />} />
+                          <Metric n={tb.fields.length} label="שדות" icon={<Layers className="size-3.5 text-slate-400" />} />
+                        </div>
+                      </div>
+                      {rels.length > 0 && (
+                        <div>
+                          <p className="eyebrow mb-1 flex items-center gap-1 text-slate-400"><GitBranch className="size-3" />קשרים עיקריים · {rels.length}</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {rels.slice(0, 8).map((r, i) => (
+                              <span key={r.table + i} className="tech inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] font-bold text-slate-600" dir="ltr">
+                                <span className="text-slate-400">{r.role === "parent" ? "→" : "←"}</span>{r.table}{r.card ? <span className="font-mono text-[9px] text-slate-400">{r.card}</span> : null}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {(tb.s4Note || tb.s4AltTable) && (
+                        <p className="rounded-lg bg-amber-50 px-2.5 py-1.5 text-[11px] font-medium text-amber-900"><span className="font-extrabold">ECC ↔ S/4: </span>{tb.s4Note || `חלופה: ${tb.s4AltTable}`}{tb.s4AltTable && tb.s4Note ? ` · → ${tb.s4AltTable}` : ""}</p>
+                      )}
+                      <div className="flex flex-wrap gap-2 pt-0.5">
+                        <button onClick={() => setDeep(tb.tableName)} className="lift inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold text-white shadow-lg" style={{ background: accent, boxShadow: `0 8px 18px ${accent}55` }}>
+                          <Maximize2 className="size-3.5" />צלילה לעומק — סביבת עבודה
+                        </button>
+                        <Link href={`/object/${encodeURIComponent(tb.tableName)}/`} className="tap inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand">עמוד מלא<ArrowLeft className="size-3.5" /></Link>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
           );
         })}
-      </ul>
-    </div>
+      </motion.div>
+
+      {/* L3 — full Object Workspace in a side drawer */}
+      <Dialog open={!!deep} onOpenChange={(o) => !o && setDeep(null)}>
+        <DialogContent className="start-auto end-0 top-0 left-auto right-auto h-[100dvh] max-h-[100dvh] w-[min(96vw,960px)] max-w-none translate-x-0 overflow-y-auto rounded-none rounded-s-3xl border-s border-slate-200 bg-slate-50 p-5 shadow-2xl data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:rounded-s-3xl"
+          overlayClassName="bg-slate-900/50">
+          <VisuallyHidden><DialogTitle>{deep}</DialogTitle></VisuallyHidden>
+          <div className="mb-3 flex items-center justify-between">
+            <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-500 shadow-sm ring-1 ring-slate-200"><Maximize2 className="size-3.5 text-brand" />צלילה לעומק</span>
+            <button onClick={() => setDeep(null)} aria-label="סגור" className="tap grid size-9 place-items-center rounded-xl bg-white text-slate-500 shadow-sm ring-1 ring-slate-200 transition hover:text-brand"><X className="size-4" /></button>
+          </div>
+          {deep && <ObjectWorkspace name={deep} />}
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
 
-function Badge({ icon, label, tone }: { icon: React.ReactNode; label: string; tone: string }) {
-  return <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold tabular-nums" style={{ background: tone + "14", color: tone }}>{icon}{label}</span>;
+function Cell({ label, children }: { label: string; children: React.ReactNode }) {
+  return <div><p className="eyebrow mb-1 text-slate-400">{label}</p><div className="text-sm font-medium text-slate-700">{children}</div></div>;
 }
-function Row({ icon, label, children }: { icon: React.ReactNode; label: string; children: React.ReactNode }) {
-  return <div className="flex flex-wrap items-center gap-1.5"><span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">{icon}{label}</span>{children}</div>;
-}
-function Chip({ children, href }: { children: React.ReactNode; href?: string }) {
-  const cls = "tech rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] font-bold text-slate-600 transition hover:text-brand";
-  return href ? <Link href={href} className={cls} dir="ltr">{children}</Link> : <span className={`${cls} border-dashed`} dir="ltr">{children}</span>;
+function Metric({ n, label, icon }: { n: number; label: string; icon: React.ReactNode }) {
+  return <div className="rounded-xl border border-slate-200 bg-slate-50 p-2 text-center"><div className="flex items-center justify-center gap-1 text-lg font-extrabold tabular-nums text-slate-900">{icon}{n}</div><div className="eyebrow text-slate-400">{label}</div></div>;
 }
