@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Search, Terminal, Database, ShieldAlert, Boxes } from "lucide-react";
+import { Search, Terminal, Database, ShieldAlert, Boxes, FileCode2, LayoutGrid } from "lucide-react";
 import type { SearchHit } from "@/lib/tcode-search";
 
 const KIND = {
@@ -10,8 +10,10 @@ const KIND = {
   table: { he: "טבלאות", icon: Database, color: "#0891b2" },
   error: { he: "שגיאות / תקלות", icon: ShieldAlert, color: "#dc2626" },
   object: { he: "אובייקטים", icon: Boxes, color: "#4338ca" },
+  cds: { he: "CDS Views", icon: FileCode2, color: "#16a34a" },
+  fiori: { he: "Fiori Apps", icon: LayoutGrid, color: "#7c3aed" },
 } as const;
-const ORDER: (keyof typeof KIND)[] = ["tcode", "table", "error", "object"];
+const ORDER: (keyof typeof KIND)[] = ["tcode", "fiori", "table", "cds", "error", "object"];
 
 export function TxSearch({ index }: { index: SearchHit[] }) {
   const [q, setQ] = useState("");
@@ -20,7 +22,7 @@ export function TxSearch({ index }: { index: SearchHit[] }) {
     if (!t) return null;
     const terms = t.split(/\s+/);
     const hits = index.filter((h) => terms.every((tm) => h.terms.includes(tm)));
-    const g: Record<string, SearchHit[]> = { tcode: [], table: [], error: [], object: [] };
+    const g: Record<string, SearchHit[]> = { tcode: [], table: [], error: [], object: [], cds: [], fiori: [] };
     for (const h of hits) { if (g[h.kind].length < 24) g[h.kind].push(h); }
     return g;
   }, [q, index]);

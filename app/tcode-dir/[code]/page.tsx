@@ -3,6 +3,7 @@ import { TCODE_DIRECTORY, tcodeDirBySlug, dirSlug } from "@/data/tcode-directory
 import { tcodeDirLinks } from "@/lib/tcode-search";
 import { Crumb, CenterHeader, Block } from "@/components/knowledge";
 import { EccS4Block } from "@/components/ecc-s4-block";
+import { LifecycleBlock } from "@/components/lifecycle-block";
 
 export function generateStaticParams() { return TCODE_DIRECTORY.map((t) => ({ code: dirSlug(t.code) })); }
 export const dynamicParams = false;
@@ -32,7 +33,7 @@ export default async function Page({ params }: { params: Promise<{ code: string 
         <Block title="טבלאות קשורות" accent="#0891b2"><Chips items={links.tables} /></Block>
         <Block title={`T-Codes נוספים · ${t.domain}`} accent={c}><Chips items={links.related} /></Block>
       </div>
-      <div className="mt-4"><EccS4Block data={{ unchanged: `${t.code} נתמכת ב-S/4HANA (SAP GUI).`, changed: "ל-UX מודרני בדוק אפליקציית Fiori מקבילה.", migration: `QA: ודא ${t.code} זמינה/מוחלפת ב-Fiori לאחר המרה.` }} title={`ECC6 → S/4HANA · ${t.code}`} /></div>
+      <div className="mt-4"><LifecycleBlock code={t.code} /></div>
       <p className="mt-4 text-xs text-slate-400">רמת מדריך (Directory). לפירוט מלא (Input/Output/QA) ראה את ה-T-Codes המורחבים במרכז הטרנזקציות.</p>
       <Link href="/transactions/" className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:underline">→ חזרה למרכז הטרנזקציות</Link>
     </div>

@@ -21,9 +21,11 @@ import { PROCESS_AUTH } from "@/data/centers/process-auth";
 import { ALL_TABLES } from "@/data/sapData";
 import { WORKBENCHES } from "@/data/workbenches";
 import { OIC_OBJECTS } from "@/lib/cross-links";
+import { SOLUTIONS } from "@/data/solutions";
 
 export default function Page() {
   const centers = [
+    { href: "/solutions/", he: "מאתר פתרונות SAP", title: "SAP Solution Finder", tag: `${SOLUTIONS.length}`, tagColor: "#b45309", desc: "חיפוש לפי דרישה עסקית (לא T-Code) — תהליך, פתרון SAP, ECC, חלופת S/4, Fiori, טבלאות, CDS, APIs, BAPIs, Exits, תקלות ומורכבות יישום." },
     { href: "/oic/", he: "תבונת אובייקטים", title: "Object Intelligence Center", tag: `${OIC_OBJECTS.length}`, tagColor: "#4338ca", desc: "תצוגה מאוחדת לכל אובייקט ליבה — טבלאות, T-Codes, BAPIs/FMs, BAdIs/Exits, CDS, תקלות, SAP Notes, Debug ו-CBC, עם קישורים צולבים בין כולם." },
     { href: "/resolution/", he: "מנוע נתיב פתרון", title: "Resolution Path Engine", tag: "Detect→Prevent", tagColor: "#0e7490", desc: "נתיב פתרון מובנה לכל תקלה — זיהוי→בידוד→אבחון→תיקון→מניעה, עם קישור לאובייקטים, Notes ו-Debug." },
     { href: "/notes-graph/", he: "גרף SAP Notes", title: "SAP Notes Graph", tag: "Graph", tagColor: "#b45309", desc: "גרף המקשר Note ↔ תקלה ↔ אובייקט ↔ רכיב SAP + מילות חיפוש OSS. ללא מספרי Note מומצאים." },

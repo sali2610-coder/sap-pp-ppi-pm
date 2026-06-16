@@ -8,12 +8,15 @@ import { ALL_TABLES } from "@/data/sapData";
 import { INCIDENTS } from "@/data/troubleshooting";
 import { EXITS } from "@/data/exits";
 import { OIC_OBJECTS } from "@/lib/cross-links";
+import { CDS_VIEWS } from "@/data/cds-map";
+import { FIORI_APPS } from "@/data/centers/fiori";
 
-export interface SearchHit { kind: "tcode" | "table" | "error" | "object"; code: string; label: string; sub: string; href: string; terms: string }
+export interface SearchHit { kind: "tcode" | "table" | "error" | "object" | "cds" | "fiori"; code: string; label: string; sub: string; href: string; terms: string }
 export interface SlimTcode { code: string; domain: string; he: string; purpose: string; deep: boolean; href: string }
 
 const deepCodes = new Set(TRANSACTIONS.map((t) => t.code.toUpperCase()));
-export const tcodeHref = (code: string) => deepCodes.has(code.toUpperCase()) ? `/transactions/${encodeURIComponent(code)}/` : `/tcode-dir/${dirSlug(code)}/`;
+const dirCodes = new Set(TCODE_DIRECTORY.map((t) => t.code.toUpperCase()));
+export const tcodeHref = (code: string) => { const c = code.toUpperCase(); return deepCodes.has(c) ? `/transactions/${encodeURIComponent(code)}/` : dirCodes.has(c) ? `/tcode-dir/${dirSlug(code)}/` : ""; };
 
 // merged unique T-Code list
 export function allTcodesMerged(): SlimTcode[] {
@@ -35,6 +38,10 @@ export function buildSearchIndex(): SearchHit[] {
   for (const i of INCIDENTS) out.push({ kind: "error", code: i.slug, label: i.he, sub: (i.error && i.error !== "—" ? i.error : i.module), href: `/troubleshooting/${i.slug}/`, terms: `${i.he} ${i.symptom} ${i.error || ""} ${i.analyzeTcodes.join(" ")} ${i.tables.join(" ")} ${(i.notes || []).join(" ")}`.toLowerCase() });
   // Objects (OIC)
   for (const o of OIC_OBJECTS) out.push({ kind: "object", code: o.slug, label: o.he, sub: `${o.title} · ${o.module}`, href: `/oic/${o.slug}/`, terms: `${o.he} ${o.title} ${o.table} ${o.description}`.toLowerCase() });
+  // CDS Views
+  for (const v of CDS_VIEWS) out.push({ kind: "cds", code: v.view, label: v.view, sub: `${v.he} · ${v.tables.join(", ")}`, href: `/cds/${encodeURIComponent(v.view)}/`, terms: `${v.view} ${v.he} ${v.tables.join(" ")} cds`.toLowerCase() });
+  // Fiori apps
+  for (const f of FIORI_APPS) out.push({ kind: "fiori", code: f.slug, label: f.title, sub: f.he, href: `/fiori/${f.slug}/`, terms: `${f.title} ${f.he} ${f.sub} fiori`.toLowerCase() });
   return out;
 }
 

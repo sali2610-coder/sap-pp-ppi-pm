@@ -2,6 +2,7 @@ import Link from "next/link";
 import { TRANSACTIONS, tcodeByCode } from "@/data/transactions";
 import { Crumb, CenterHeader, Block, Bullets } from "@/components/knowledge";
 import { EccS4Block } from "@/components/ecc-s4-block";
+import { LifecycleBlock } from "@/components/lifecycle-block";
 import { SapTip } from "@/components/sap-tip";
 
 export function generateStaticParams() { return TRANSACTIONS.map((t) => ({ code: t.code })); }
@@ -58,6 +59,8 @@ export default async function Page({ params }: { params: Promise<{ code: string 
         {t.qa && <Block title="QA / תרחישי בדיקה" accent="#be185d">{t.qa}</Block>}
         {t.fiori && <Block title="חלופת Fiori" accent="#7c3aed">{t.fiori}</Block>}
       </div>
+
+      <div className="mt-4"><LifecycleBlock code={t.code} /></div>
 
       <div className="mt-4">
         <EccS4Block data={t.eccS4} title={`ECC6 → S/4HANA · ${t.code}`} />
