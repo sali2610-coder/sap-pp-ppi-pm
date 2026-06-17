@@ -283,6 +283,8 @@ function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErd
   const [open, setOpen] = useState<string | null>(null);
   const [hover, setHover] = useState<string | null>(null);
   const [lines, setLines] = useState<Line[]>([]);
+  const [allLines, setAllLines] = useState<Line[]>([]);
+  const [tick, setTick] = useState(0);
   const wrapRef = useRef<HTMLDivElement | null>(null);
   const cardRef = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -305,6 +307,31 @@ function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErd
     setLines(out);
   }, [hover, open, relatedOf, rows]);
 
+  // persistent data-model connectors — every related pair, recomputed on layout
+  useEffect(() => {
+    const compute = () => {
+      const wrap = wrapRef.current; if (!wrap) return;
+      const wr = wrap.getBoundingClientRect();
+      const ctr = (n: string) => { const el = cardRef.current[n]; if (!el) return null; const r = el.getBoundingClientRect(); return { x: r.left - wr.left + r.width / 2, y: r.top - wr.top + r.height / 2 }; };
+      const seen = new Set<string>(); const out: Line[] = [];
+      rows.forEach((t) => relatedOf(t.name).forEach((n) => {
+        const key = [t.name, n].sort().join("|"); if (seen.has(key)) return; seen.add(key);
+        const a = ctr(t.name), b = ctr(n); if (a && b) out.push({ x1: a.x, y1: a.y, x2: b.x, y2: b.y });
+      }));
+      setAllLines(out);
+    };
+    const id = setTimeout(compute, 60); // wait for layout/fonts
+    return () => clearTimeout(id);
+  }, [rows, open, relatedOf, tick]);
+
+  // recompute connectors on resize
+  useEffect(() => {
+    const wrap = wrapRef.current; if (!wrap || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => setTick((x) => x + 1));
+    ro.observe(wrap); window.addEventListener("resize", () => setTick((x) => x + 1));
+    return () => ro.disconnect();
+  }, []);
+
   const related = hover && !open ? relatedOf(hover) : null;
 
   return (
@@ -325,10 +352,15 @@ function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErd
 
       <div ref={wrapRef} className="relative">
         {/* relationship overlay — business object map (core feature) */}
+        {/* persistent data-model map (under cards) */}
+        <svg className="pointer-events-none absolute inset-0 z-0 size-full overflow-visible" aria-hidden style={{ opacity: hover ? 0.18 : 0.4, transition: "opacity .2s" }}>
+          {allLines.map((l, i) => <line key={i} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke={c} strokeWidth={1.5} strokeLinecap="round" />)}
+        </svg>
+        {/* hover emphasis (over cards) */}
         <svg className="pointer-events-none absolute inset-0 z-20 size-full overflow-visible" aria-hidden>
           {lines.map((l, i) => (
             <g key={i}>
-              <line x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke={c} strokeWidth={2} strokeOpacity={0.55} strokeDasharray="5 4" strokeLinecap="round" />
+              <line x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke={c} strokeWidth={2.5} strokeOpacity={0.7} strokeDasharray="5 4" strokeLinecap="round" />
               <circle cx={l.x2} cy={l.y2} r={3.5} fill={c} />
             </g>
           ))}
@@ -348,18 +380,18 @@ function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErd
                 {/* L1 — square card, 1:1 with Objects page */}
                 <button onClick={() => { setOpen(isOpen ? null : t.name); setHover(null); }}
                   style={{ borderColor: c, ...((isOpen || isRel) ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : {}) }}
-                  className={`group flex h-44 w-56 flex-col rounded-2xl border bg-white p-5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${isOpen || isRel ? "ring-2" : ""}`}>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">{String(idx + 1).padStart(2, "0")} · {t.mod}</span>
-                  <span className="mt-1 line-clamp-2 text-2xl font-extrabold leading-tight text-slate-900"><Highlight text={t.he || t.en} query={q} /></span>
-                  <span className="tech text-xs text-slate-400" dir="ltr"><Highlight text={t.name} query={q} /></span>
-                  <span className="mt-auto inline-flex items-center gap-1.5 self-start rounded-full px-2.5 py-1 text-[11px] font-bold" style={{ background: c + "1a", color: c }}>
+                  className={`group flex h-36 w-44 flex-col rounded-2xl border bg-white p-3.5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${isOpen || isRel ? "ring-2" : ""}`}>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{String(idx + 1).padStart(2, "0")} · {t.mod}</span>
+                  <span className="mt-0.5 line-clamp-2 text-lg font-extrabold leading-tight text-slate-900"><Highlight text={t.he || t.en} query={q} /></span>
+                  <span className="tech text-[11px] text-slate-400" dir="ltr"><Highlight text={t.name} query={q} /></span>
+                  <span className="mt-auto inline-flex items-center gap-1 self-start rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: c + "1a", color: c }}>
                     {rels.length} קשרים · {t.fields.length} שדות {isOpen ? "▲" : "▼"}
                   </span>
                 </button>
 
                 {/* L2 — w-56 panel below the card, 1:1 with Objects open behavior */}
                 {isOpen && (
-                  <div className="mt-2 w-56 space-y-2 rounded-xl border border-slate-200 bg-white p-3 shadow-sm" style={{ animation: "fadeUp .3s ease both" }}>
+                  <div className="mt-2 w-44 space-y-2 rounded-xl border border-slate-200 bg-white p-3 shadow-sm" style={{ animation: "fadeUp .3s ease both" }}>
                     <Field2 label="מפתח ראשי (PK)" tone="#d97706">{pk.length ? pk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
                     <Field2 label="מפתח זר (FK)" tone="#0891b2">{fk.length ? fk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
                     <Field2 label="שדות עיקריים" tone="#475569">{t.fields.slice(0, 6).map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>)}</Field2>
