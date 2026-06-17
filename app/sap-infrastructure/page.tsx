@@ -178,19 +178,18 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
       </div>
       {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} onTable={onTable} />}
       {tab === "process" && <ProcessFlow color={color} code={code} />}
-      {tab === "erd" && (
-        <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <div className="inline-flex rounded-xl border border-slate-200 bg-slate-50 p-0.5">
-              <button onClick={() => setErdMode("cards")} className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${erdMode === "cards" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>סייר טבלאות</button>
-              <button onClick={() => setErdMode("graph")} className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${erdMode === "graph" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>גרף ERD (אופציונלי)</button>
+      {tab === "erd" && (erdMode === "cards"
+        ? <DataModelExplorer data={data} color={color} code={code} byName={byName} onTable={onTable} erdMode={erdMode} setErdMode={setErdMode} />
+        : <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="inline-flex shrink-0 rounded-lg border border-slate-200 bg-slate-50 p-0.5">
+                <button onClick={() => setErdMode("cards")} className="rounded-md px-3 py-1.5 text-xs font-bold text-slate-500 transition hover:text-slate-900">סייר טבלאות</button>
+                <button onClick={() => setErdMode("graph")} className="rounded-md bg-[#d62027] px-3 py-1.5 text-xs font-bold text-white shadow-sm">גרף ERD</button>
+              </div>
+              <ExportBar />
             </div>
-            <span className="text-[11px] font-medium text-slate-400">{erdMode === "cards" ? "כרטיס → סיכום → סביבת עבודה מלאה" : "תצוגת גרף קשרים מלאה"}</span>
+            <Erd data={data} color={color} code={code} byName={byName} focus={focus} onField={onField} onHome={onHome} onModule={onModule} />
           </div>
-          {erdMode === "cards"
-            ? <DataModelExplorer data={data} color={color} code={code} byName={byName} onTable={onTable} />
-            : <Erd data={data} color={color} code={code} byName={byName} focus={focus} onField={onField} onHome={onHome} onModule={onModule} />}
-        </div>
       )}
       {tab === "technical" && <TechList data={data} color={color} code={code} onTable={onTable} />}
     </div>
@@ -277,7 +276,7 @@ const orderFields = (tf: Field[]) => [...tf.filter((f) => f[3] === "PK"), ...tf.
 
 /* ===================== DATA MODEL — Object Explorer (square cards + relationship map) ===================== */
 type Line = { x1: number; y1: number; x2: number; y2: number };
-function DataModelExplorer({ data, color, code, byName, onTable }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; onTable: (t: string) => void }) {
+function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErdMode }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; onTable: (t: string) => void; erdMode: string; setErdMode: (m: "cards" | "graph") => void }) {
   const c = color(code);
   const [q, setQ] = useState("");
   const [open, setOpen] = useState<string | null>(null);
@@ -309,9 +308,13 @@ function DataModelExplorer({ data, color, code, byName, onTable }: { data: Data;
 
   return (
     <div className="space-y-2.5">
-      {/* search + compact export toolbar */}
-      <div className="flex items-center gap-2">
-        <div className="flex flex-1 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm focus-within:border-[#d62027]/40">
+      {/* single unified toolbar: mode toggle · search · exports */}
+      <div className="flex flex-wrap items-center gap-2">
+        <div className="inline-flex shrink-0 rounded-lg border border-slate-200 bg-slate-50 p-0.5">
+          <button onClick={() => setErdMode("cards")} className={`rounded-md px-3 py-1.5 text-xs font-bold transition ${erdMode === "cards" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>סייר טבלאות</button>
+          <button onClick={() => setErdMode("graph")} className={`rounded-md px-3 py-1.5 text-xs font-bold transition ${(erdMode as string) === "graph" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>גרף ERD</button>
+        </div>
+        <div className="flex min-w-[200px] flex-1 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 shadow-sm focus-within:border-[#d62027]/40">
           <Search className="size-4 shrink-0 text-[#d62027]" />
           <input value={q} onChange={(e) => { setQ(e.target.value); setOpen(null); }} placeholder="חפש אובייקט/טבלה…" className="h-5 w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
           {q && <span className="shrink-0 rounded-md bg-[#d62027]/10 px-1.5 text-xs font-extrabold text-[#d62027]">{rows.length}</span>}
@@ -330,8 +333,8 @@ function DataModelExplorer({ data, color, code, byName, onTable }: { data: Data;
           ))}
         </svg>
 
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {rows.map((t) => {
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {rows.map((t, idx) => {
             const isOpen = open === t.name;
             const pk = t.fields.filter((f) => f[3] === "PK"), fk = t.fields.filter((f) => f[3] === "FK");
             const rels = t.rel || [];
@@ -341,23 +344,16 @@ function DataModelExplorer({ data, color, code, byName, onTable }: { data: Data;
               <div key={t.name} ref={(el) => { cardRef.current[t.name] = el; }}
                 onMouseEnter={() => !open && setHover(t.name)} onMouseLeave={() => setHover((h) => (h === t.name ? null : h))}
                 className={`relative ${isOpen ? "z-30" : "z-10"} transition-opacity duration-200 ${dim ? "opacity-40" : "opacity-100"}`}>
-                {/* L1 — clean white Object-style card */}
+                {/* L1 — Object-style card (1:1 with Objects page) */}
                 <button onClick={() => { setOpen(isOpen ? null : t.name); setHover(null); }}
-                  className={`group flex h-32 w-full flex-col justify-between rounded-2xl border bg-white p-4 text-right shadow-sm transition-all ${isOpen || isRel ? "ring-2 -translate-y-0.5 border-transparent" : "border-slate-200 hover:-translate-y-1 hover:shadow-lg"}`}
-                  style={(isOpen || isRel) ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : undefined} dir="rtl">
-                  <span className="absolute inset-x-0 top-0 h-1 rounded-t-2xl" style={{ background: c }} />
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="min-w-0">
-                      <h3 className="truncate text-base font-extrabold tracking-tight text-slate-900"><Highlight text={t.he || t.en} query={q} /></h3>
-                      <p className="tech truncate text-xs font-bold text-slate-400" dir="ltr"><Highlight text={t.name} query={q} /></p>
-                    </div>
-                    <span className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: c }}>{t.mod}</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-500">{rels.length} קשרים</span>
-                    <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-500">{t.fields.length} שדות</span>
-                    <span className="ms-auto inline-flex items-center gap-0.5 text-[10px] font-bold text-slate-300 transition group-hover:text-[#d62027]">{isOpen ? "סגור" : "פתח"}<ChevronDown className={`size-3 transition-transform ${isOpen ? "rotate-180" : ""}`} /></span>
-                  </div>
+                  style={{ borderColor: c, ...((isOpen || isRel) ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : {}) }}
+                  className={`group flex h-40 w-full flex-col rounded-2xl border bg-white p-5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${isOpen || isRel ? "ring-2" : ""}`}>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">{String(idx + 1).padStart(2, "0")} · {t.mod}</span>
+                  <span className="mt-1 line-clamp-2 text-xl font-extrabold leading-tight text-slate-900"><Highlight text={t.he || t.en} query={q} /></span>
+                  <span className="tech text-xs text-slate-400" dir="ltr"><Highlight text={t.name} query={q} /></span>
+                  <span className="mt-auto inline-flex items-center gap-1.5 self-start rounded-full px-2.5 py-1 text-[11px] font-bold" style={{ background: c + "1a", color: c }}>
+                    {rels.length} קשרים · {t.fields.length} שדות {isOpen ? "▲" : "▼"}
+                  </span>
                 </button>
 
                 {/* L2 — small elegant popover panel (no layout reflow) */}
