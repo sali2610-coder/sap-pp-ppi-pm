@@ -1,0 +1,33 @@
+{
+  "wpm": 120,
+  "target_min": 8.0,
+  "estimated_min": 3.33,
+  "verdict": "UNDER by 4.7 min \u2014 add depth or Q&A",
+  "per_slide": [
+    {
+      "slide": 1,
+      "title": "PM Migration: ready to gate cutover on data comple",
+      "minutes": 0.56
+    },
+    {
+      "slide": 2,
+      "title": "PM follows a measurable maintenance lifecycle thro",
+      "minutes": 0.51
+    },
+    {
+      "slide": 3,
+      "title": "Mapping completeness is 96% overall \u2014 PM at 93% is",
+      "minutes": 0.74
+    },
+    {
+      "slide": 4,
+      "title": "Summary: one gap to close before cutover",
+      "minutes": 0.77
+    },
+    {
+      "slide": 5,
+      "title": "Decision",
+      "minutes": 0.75
+    }
+  ]
+}

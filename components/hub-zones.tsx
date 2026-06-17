@@ -101,7 +101,7 @@ export function HubZones({ module, accent }: { module: SAPModuleData; accent: st
       </div>
 
       <motion.div variants={container} initial="hidden" animate="show"
-        className={isFlow ? "flex gap-3 overflow-x-auto pb-2" : "grid gap-3 sm:grid-cols-2 lg:grid-cols-3"}>
+        className={isFlow ? "flex gap-3 overflow-x-auto pb-2" : "grid gap-3 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"}>
         {topics.map((tp, i) => {
           const Icon = iconFor(tp.title);
           const st = zoneStats(tp, statusMap);
@@ -140,7 +140,7 @@ export function HubZones({ module, accent }: { module: SAPModuleData; accent: st
             <h4 className="text-sm font-extrabold tracking-tight text-slate-900">תחומים מקצועיים · SAP {module.module} Domains</h4>
             <span className="text-xs font-medium text-slate-400">{domains.length} תחומים</span>
           </div>
-          <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             {domains.map((d) => (
               <Link key={d.slug} href={`/domain/${d.slug}`} className="lift tap group flex items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 shadow-sm">
                 <span className="min-w-0"><span className="block truncate text-sm font-bold text-slate-900">{d.he}</span><span className="block truncate text-[11px] text-slate-400" dir="ltr">{d.title}</span></span>

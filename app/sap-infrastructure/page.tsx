@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, Download, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand } from "lucide-react";
+import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand, ChevronDown, Database, GitBranch, Workflow } from "lucide-react";
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
+import { Highlight } from "@/components/highlight";
 
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];
@@ -57,16 +58,19 @@ export default function Page() {
   return (
     <div dir="rtl" className="relative mx-[calc(50%-50vw)] -my-8 w-screen max-w-[100vw] overflow-hidden border-y border-slate-200 bg-white text-slate-900">
       <style>{ANIM}</style>
-      {/* top bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-gradient-to-l from-white to-slate-50 px-4 py-3">
-        <div className="flex items-center gap-3">
-          <span className="rounded-md bg-[#d62027] px-2 py-1 font-mono text-[11px] font-bold text-white">NEO</span>
-          <div><div className="text-base font-extrabold text-slate-900">SAP Architecture Explorer · תשתית SAP</div><div className="text-[11px] text-slate-500">ECC6 → S/4HANA · לומדים תהליך → אובייקטים → טבלאות</div></div>
-        </div>
-        <div className="relative w-full max-w-md">
-          <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-1.5 shadow-sm">
-            <Search className="size-4 text-slate-400" />
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש מודול · טבלה · T-Code · BAPI" className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
+      {/* unified slim header: brand · breadcrumb · compact search */}
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-slate-200 bg-gradient-to-l from-white to-slate-50 px-4 py-1.5">
+        <span className="rounded-md bg-[#d62027] px-1.5 py-0.5 font-mono text-[10px] font-bold text-white">NEO</span>
+        <span className="text-sm font-extrabold text-slate-900">SAP Architecture Explorer</span>
+        <nav className="flex items-center gap-1 text-[11px]">
+          <button onClick={() => setNav({ level: "universe" })} className="flex items-center gap-1 rounded px-1 py-0.5 font-semibold text-slate-400 hover:bg-slate-100 hover:text-slate-700"><Home className="size-3" />Universe</button>
+          {nav.module && <><ChevronLeft className="size-3 text-slate-300" /><span className="font-bold text-slate-700">{nav.module}</span></>}
+          {nav.module && nav.tab && <><ChevronLeft className="size-3 text-slate-300" /><span className="font-semibold text-[#d62027]">{(TABS.find((x) => x[0] === nav.tab) || ["", nav.tab])[1]}</span></>}
+        </nav>
+        <div className="relative ms-auto w-full max-w-xs">
+          <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1 shadow-sm">
+            <Search className="size-3.5 text-slate-400" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש מהיר · מודול · טבלה" className="w-full bg-transparent text-[13px] outline-none placeholder:text-slate-400" />
             {q && <button onClick={() => setQ("")}><X className="size-3.5 text-slate-400" /></button>}
           </div>
           {results.length > 0 && (
@@ -78,32 +82,35 @@ export default function Page() {
           )}
         </div>
       </div>
-      {/* breadcrumb */}
-      <div className="flex items-center gap-1 border-b border-slate-200 bg-slate-50/60 px-4 py-2 text-xs">
-        <button onClick={() => setNav({ level: "universe" })} className="flex items-center gap-1 rounded px-1.5 py-0.5 font-semibold text-slate-500 hover:bg-slate-100"><Home className="size-3" /> Universe</button>
-        {nav.module && <><ChevronLeft className="size-3 text-slate-300" /><span className="rounded px-1.5 py-0.5 font-bold text-slate-800">{nav.module} · {MOD_NAME_HE[nav.module]}</span></>}
-        {nav.module && nav.tab && <><ChevronLeft className="size-3 text-slate-300" /><span className="rounded px-1.5 py-0.5 font-semibold text-[#d62027]">{(TABS.find((x) => x[0] === nav.tab) || ["", nav.tab])[1]}</span></>}
-      </div>
 
-      <div className="bg-slate-50/40 p-4">
+      <div className="bg-slate-50/40 px-4 py-2">
         {nav.level === "universe" && <Universe data={data} color={color} onModule={openModule} />}
         {nav.level === "module" && nav.module && <Workspace data={data} color={color} code={nav.module} tab={nav.tab || "erd"} focus={nav.focus} byName={byName}
           setTab={(t) => setNav({ level: "module", module: nav.module, tab: t })} openErd={(focus) => setNav({ level: "module", module: nav.module, tab: "erd", focus })}
           onTable={setInspect} onField={(table, f) => { setInspect(null); setField({ table, field: f }); }} onModule={openModule} onHome={() => setNav({ level: "universe" })} />}
       </div>
-      {nav.tab !== "erd" && inspector}
-      <div className="flex flex-wrap items-center gap-2 border-t border-slate-200 bg-white p-2.5">
-        <span className="flex items-center gap-1 px-1 text-xs font-bold text-slate-500"><Download className="size-3.5" /> הורדות:</span>
-        {[["SAP-Enterprise-Architecture-A0.pdf", "PDF"], ["SAP-Enterprise-Architecture-A0.png", "PNG"], ["SAP-Enterprise-Architecture-A0.svg", "SVG"], ["dataset.json", "JSON"]].map(([f, l]) => <a key={f} href={`${BASE}/${f}`} download className="rounded-md border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600 hover:border-[#d62027] hover:text-[#d62027]">{l}</a>)}
-        <span className="ms-auto px-1 text-[11px] text-slate-400">Sali Halif — Web Coding · NEO Cockpit · 2026</span>
-      </div>
+      {inspector}
+    </div>
+  );
+}
+
+// compact export toolbar (replaces the old permanent footer)
+function ExportBar() {
+  return (
+    <div className="flex shrink-0 items-center gap-1">
+      {[["SAP-Enterprise-Architecture-A0.pdf", "PDF"], ["SAP-Enterprise-Architecture-A0.png", "PNG"], ["SAP-Enterprise-Architecture-A0.svg", "SVG"], ["dataset.json", "JSON"]].map(([f, l]) => (
+        <a key={f} href={`${BASE}/${f}`} download title={`הורד ${l}`} className="rounded-md border border-slate-200 bg-white px-2 py-1 text-[10px] font-bold text-slate-500 transition hover:border-[#d62027] hover:text-[#d62027]">{l}</a>
+      ))}
     </div>
   );
 }
 
 /* ===================== UNIVERSE (light, branded, animated grid) ===================== */
 function Universe({ data, color, onModule }: { data: Data; color: (m?: string | null) => string; onModule: (m: string) => void }) {
-  const tc = (m: string) => data.tables.filter((x) => x.mod === m).length, pc = (m: string) => data.processes.filter((p) => p.mods.includes(m)).length;
+  // Card table count MUST match what the module drill-down actually shows
+  // (erdMembers = ERD_MODULES membership incl. shared core tables), otherwise the
+  // summary card (owned-only) disagrees with the content (e.g. PP: 3 owned vs 20 shown).
+  const tc = (m: string) => erdMembers(data, m).length, pc = (m: string) => data.processes.filter((p) => p.mods.includes(m)).length;
   return (
     <div className="space-y-5">
       {/* SAP CORE hero */}
@@ -156,17 +163,35 @@ function Universe({ data, color, onModule }: { data: Data; color: (m?: string | 
 /* ===================== WORKSPACE ===================== */
 function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onTable, onField, onModule, onHome }: { data: Data; color: (m?: string | null) => string; code: string; tab: string; focus?: string[]; byName: Record<string, Tbl>; setTab: (t: string) => void; openErd: (f?: string[]) => void; onTable: (t: string) => void; onField: (table: string, field: string) => void; onModule: (m: string) => void; onHome: () => void }) {
   const c = color(code); const bp = data.blueprints.find((b) => b.code === code); const purpose = bp?.purpose || MOD_PURPOSE[code] || "";
+  const [erdMode, setErdMode] = useState<"cards" | "graph">("cards");
+  useEffect(() => { setErdMode("cards"); }, [code]);
   return (
-    <div className="space-y-4" style={{ animation: "fadeUp .35s ease both" }}>
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm" style={{ borderInlineStartColor: c, borderInlineStartWidth: 5 }}>
-        <div><div className="flex items-center gap-2"><span className="font-mono text-2xl font-extrabold text-slate-900">{code}</span><span className="font-semibold text-slate-600">{MOD_NAME_HE[code]}</span></div><p className="mt-0.5 max-w-3xl text-xs text-slate-500">{purpose}</p></div>
-        <div className="flex rounded-xl border border-slate-200 bg-slate-50 p-0.5">
-          {TABS.map(([id, label]) => <button key={id} onClick={() => setTab(id)} className={`rounded-lg px-3.5 py-1.5 text-sm font-bold transition ${tab === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>{label}</button>)}
+    <div className="space-y-2.5" style={{ animation: "fadeUp .35s ease both" }}>
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 shadow-sm" style={{ borderInlineStartColor: c, borderInlineStartWidth: 4 }}>
+        <div className="flex min-w-0 items-baseline gap-2">
+          <span className="font-mono text-lg font-extrabold text-slate-900">{code}</span>
+          <span className="text-sm font-bold text-slate-600">{MOD_NAME_HE[code]}</span>
+          <span className="hidden truncate text-[11px] text-slate-400 lg:inline">· {purpose}</span>
+        </div>
+        <div className="flex rounded-lg border border-slate-200 bg-slate-50 p-0.5">
+          {TABS.map(([id, label]) => <button key={id} onClick={() => setTab(id)} className={`rounded-md px-3 py-1 text-[13px] font-bold transition ${tab === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>{label}</button>)}
         </div>
       </div>
       {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} onTable={onTable} />}
       {tab === "process" && <ProcessFlow color={color} code={code} />}
-      {tab === "erd" && <Erd data={data} color={color} code={code} byName={byName} focus={focus} onField={onField} onHome={onHome} onModule={onModule} />}
+      {tab === "erd" && (erdMode === "cards"
+        ? <DataModelExplorer data={data} color={color} code={code} byName={byName} onTable={onTable} erdMode={erdMode} setErdMode={setErdMode} />
+        : <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="inline-flex shrink-0 rounded-lg border border-slate-200 bg-slate-50 p-0.5">
+                <button onClick={() => setErdMode("cards")} className="rounded-md px-3 py-1.5 text-xs font-bold text-slate-500 transition hover:text-slate-900">סייר טבלאות</button>
+                <button onClick={() => setErdMode("graph")} className="rounded-md bg-[#d62027] px-3 py-1.5 text-xs font-bold text-white shadow-sm">גרף ERD</button>
+              </div>
+              <ExportBar />
+            </div>
+            <Erd data={data} color={color} code={code} byName={byName} focus={focus} onField={onField} onHome={onHome} onModule={onModule} />
+          </div>
+      )}
       {tab === "technical" && <TechList data={data} color={color} code={code} onTable={onTable} />}
     </div>
   );
@@ -249,6 +274,151 @@ function usePZ() {
 const MODES = [["focus", "מיקוד", "Focus"], ["dep", "תלויות", "Dependency"], ["lineage", "שושלת", "Lineage"], ["impact", "השפעה", "Impact"], ["flow", "זרימה עסקית", "Business Flow"]] as const;
 type Mode = typeof MODES[number][0];
 const orderFields = (tf: Field[]) => [...tf.filter((f) => f[3] === "PK"), ...tf.filter((f) => f[3] === "FK"), ...tf.filter((f) => f[3] !== "PK" && f[3] !== "FK")];
+
+/* ===================== DATA MODEL — Object Explorer (square cards + relationship map) ===================== */
+type Line = { x1: number; y1: number; x2: number; y2: number };
+function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErdMode }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; onTable: (t: string) => void; erdMode: string; setErdMode: (m: "cards" | "graph") => void }) {
+  const c = color(code);
+  const [q, setQ] = useState("");
+  const [open, setOpen] = useState<string | null>(null);
+  const [hover, setHover] = useState<string | null>(null);
+  const [lines, setLines] = useState<Line[]>([]);
+  const [allLines, setAllLines] = useState<Line[]>([]);
+  const [tick, setTick] = useState(0);
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const cardRef = useRef<Record<string, HTMLDivElement | null>>({});
+
+  const all = useMemo(() => erdMembers(data, code).sort((a, b) => b.degree - a.degree), [data, code]);
+  const s = q.trim().toLowerCase();
+  const rows = useMemo(() => (s ? all.filter((t) => t.name.toLowerCase().includes(s) || (t.he || "").includes(q) || (t.en || "").toLowerCase().includes(s) || (t.tcodes || "").toLowerCase().includes(s)) : all), [all, s, q]);
+  const present = useMemo(() => new Set(rows.map((t) => t.name)), [rows]);
+  const relatedOf = useCallback((name: string) => { const t = byName[name]; return new Set((t?.rel || []).map((r) => r.table).filter((n) => present.has(n))); }, [byName, present]);
+
+  // draw connector lines from hovered card to its related cards (centers, relative to wrapper)
+  useEffect(() => {
+    if (!hover || open) { setLines([]); return; }
+    const wrap = wrapRef.current; const from = cardRef.current[hover];
+    if (!wrap || !from) { setLines([]); return; }
+    const wr = wrap.getBoundingClientRect();
+    const fr = from.getBoundingClientRect();
+    const cx = fr.left - wr.left + fr.width / 2, cy = fr.top - wr.top + fr.height / 2;
+    const out: Line[] = [];
+    relatedOf(hover).forEach((n) => { const el = cardRef.current[n]; if (!el) return; const r = el.getBoundingClientRect(); out.push({ x1: cx, y1: cy, x2: r.left - wr.left + r.width / 2, y2: r.top - wr.top + r.height / 2 }); });
+    setLines(out);
+  }, [hover, open, relatedOf, rows]);
+
+  // persistent data-model connectors — every related pair, recomputed on layout
+  useEffect(() => {
+    const compute = () => {
+      const wrap = wrapRef.current; if (!wrap) return;
+      const wr = wrap.getBoundingClientRect();
+      const ctr = (n: string) => { const el = cardRef.current[n]; if (!el) return null; const r = el.getBoundingClientRect(); return { x: r.left - wr.left + r.width / 2, y: r.top - wr.top + r.height / 2 }; };
+      const seen = new Set<string>(); const out: Line[] = [];
+      rows.forEach((t) => relatedOf(t.name).forEach((n) => {
+        const key = [t.name, n].sort().join("|"); if (seen.has(key)) return; seen.add(key);
+        const a = ctr(t.name), b = ctr(n); if (a && b) out.push({ x1: a.x, y1: a.y, x2: b.x, y2: b.y });
+      }));
+      setAllLines(out);
+    };
+    const id = setTimeout(compute, 60); // wait for layout/fonts
+    return () => clearTimeout(id);
+  }, [rows, open, relatedOf, tick]);
+
+  // recompute connectors on resize
+  useEffect(() => {
+    const wrap = wrapRef.current; if (!wrap || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => setTick((x) => x + 1));
+    ro.observe(wrap); window.addEventListener("resize", () => setTick((x) => x + 1));
+    return () => ro.disconnect();
+  }, []);
+
+  const related = hover && !open ? relatedOf(hover) : null;
+
+  return (
+    <div className="space-y-2.5">
+      {/* single unified toolbar: mode toggle · search · exports */}
+      <div className="flex flex-wrap items-center gap-2">
+        <div className="inline-flex shrink-0 rounded-lg border border-slate-200 bg-slate-50 p-0.5">
+          <button onClick={() => setErdMode("cards")} className={`rounded-md px-3 py-1.5 text-xs font-bold transition ${erdMode === "cards" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>סייר טבלאות</button>
+          <button onClick={() => setErdMode("graph")} className={`rounded-md px-3 py-1.5 text-xs font-bold transition ${(erdMode as string) === "graph" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>גרף ERD</button>
+        </div>
+        <div className="flex min-w-[200px] flex-1 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 shadow-sm focus-within:border-[#d62027]/40">
+          <Search className="size-4 shrink-0 text-[#d62027]" />
+          <input value={q} onChange={(e) => { setQ(e.target.value); setOpen(null); }} placeholder="חפש אובייקט/טבלה…" className="h-5 w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
+          {q && <span className="shrink-0 rounded-md bg-[#d62027]/10 px-1.5 text-xs font-extrabold text-[#d62027]">{rows.length}</span>}
+        </div>
+        <ExportBar />
+      </div>
+
+      <div ref={wrapRef} className="relative">
+        {/* relationship overlay — business object map (core feature) */}
+        {/* persistent data-model map (under cards) */}
+        <svg className="pointer-events-none absolute inset-0 z-0 size-full overflow-visible" aria-hidden style={{ opacity: hover ? 0.18 : 0.4, transition: "opacity .2s" }}>
+          {allLines.map((l, i) => <line key={i} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke={c} strokeWidth={1.5} strokeLinecap="round" />)}
+        </svg>
+        {/* hover emphasis (over cards) */}
+        <svg className="pointer-events-none absolute inset-0 z-20 size-full overflow-visible" aria-hidden>
+          {lines.map((l, i) => (
+            <g key={i}>
+              <line x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke={c} strokeWidth={2.5} strokeOpacity={0.7} strokeDasharray="5 4" strokeLinecap="round" />
+              <circle cx={l.x2} cy={l.y2} r={3.5} fill={c} />
+            </g>
+          ))}
+        </svg>
+
+        <div className="flex flex-wrap gap-3">
+          {rows.map((t, idx) => {
+            const isOpen = open === t.name;
+            const pk = t.fields.filter((f) => f[3] === "PK"), fk = t.fields.filter((f) => f[3] === "FK");
+            const rels = t.rel || [];
+            const isRel = related?.has(t.name);
+            const dim = related && !isRel && t.name !== hover;
+            return (
+              <div key={t.name} ref={(el) => { cardRef.current[t.name] = el; }}
+                onMouseEnter={() => !open && setHover(t.name)} onMouseLeave={() => setHover((h) => (h === t.name ? null : h))}
+                className={`relative ${isOpen ? "z-30" : "z-10"} transition-opacity duration-200 ${dim ? "opacity-40" : "opacity-100"}`}>
+                {/* L1 — square card, 1:1 with Objects page */}
+                <button onClick={() => { setOpen(isOpen ? null : t.name); setHover(null); }}
+                  style={{ borderColor: c, ...((isOpen || isRel) ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : {}) }}
+                  className={`group flex h-36 w-44 flex-col rounded-2xl border bg-white p-3.5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${isOpen || isRel ? "ring-2" : ""}`}>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{String(idx + 1).padStart(2, "0")} · {t.mod}</span>
+                  <span className="mt-0.5 line-clamp-2 text-lg font-extrabold leading-tight text-slate-900"><Highlight text={t.he || t.en} query={q} /></span>
+                  <span className="tech text-[11px] text-slate-400" dir="ltr"><Highlight text={t.name} query={q} /></span>
+                  <span className="mt-auto inline-flex items-center gap-1 self-start rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: c + "1a", color: c }}>
+                    {rels.length} קשרים · {t.fields.length} שדות {isOpen ? "▲" : "▼"}
+                  </span>
+                </button>
+
+                {/* L2 — w-56 panel below the card, 1:1 with Objects open behavior */}
+                {isOpen && (
+                  <div className="mt-2 w-44 space-y-2 rounded-xl border border-slate-200 bg-white p-3 shadow-sm" style={{ animation: "fadeUp .3s ease both" }}>
+                    <Field2 label="מפתח ראשי (PK)" tone="#d97706">{pk.length ? pk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
+                    <Field2 label="מפתח זר (FK)" tone="#0891b2">{fk.length ? fk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
+                    <Field2 label="שדות עיקריים" tone="#475569">{t.fields.slice(0, 6).map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>)}</Field2>
+                    <Field2 label="קשרים" tone={c}>{rels.length ? rels.slice(0, 6).map((r) => (
+                      <button key={r.role + r.table} onClick={() => byName[r.table] && onTable(r.table)} className="tech rounded border border-slate-200 bg-slate-50 px-1.5 text-[10px] font-bold text-slate-600 transition hover:text-[#d62027]" dir="ltr">{r.role === "parent" ? "↓" : "↑"}<Highlight text={r.table} query={q} /></button>
+                    )) : <Dash />}</Field2>
+                    {t.s4 && <p className="line-clamp-2 rounded bg-amber-50 px-2 py-1 text-[10px] font-medium text-amber-900"><span className="font-bold">S/4: </span><Highlight text={t.s4} query={q} /></p>}
+                    <button onClick={() => onTable(t.name)} className="tap inline-flex w-full items-center justify-center gap-1 rounded-lg px-2.5 py-1.5 text-[11px] font-bold text-white shadow" style={{ background: c }}>
+                      <Workflow className="size-3" />סביבת עבודה מלאה<ArrowLeft className="size-3" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+function Field2({ label, tone, children }: { label: string; tone: string; children: React.ReactNode }) {
+  return <div><p className="mb-1 text-[10px] font-bold uppercase tracking-wide" style={{ color: tone }}>{label}</p><div className="flex flex-wrap gap-1.5">{children}</div></div>;
+}
+function Chip2({ children, q }: { children: string; q: string }) {
+  return <span className="tech rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600" dir="ltr"><Highlight text={children} query={q} /></span>;
+}
+function Dash() { return <span className="text-[11px] italic text-slate-300">—</span>; }
 
 function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; focus?: string[]; onField: (table: string, field: string) => void; onHome: () => void; onModule: (m: string) => void }) {
   const [selMods, setSelMods] = useState<Set<string>>(() => new Set([code]));

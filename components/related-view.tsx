@@ -4,6 +4,11 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowLeft, Database, Terminal, Boxes, Network, Workflow, Cable, FileCode2 } from "lucide-react";
 import type { TableRef } from "@/lib/object-intel";
+import { SapTip } from "@/components/sap-tip";
+import { ObjectIntelligence } from "@/components/object-intelligence";
+import type { ProfileKind } from "@/data/kind-intel";
+
+const PROFILE_KIND: Partial<Record<string, ProfileKind>> = { "T-Code": "tcode", BAPI: "bapi", FM: "fm", IDoc: "idoc", CDS: "cds" };
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9" };
 const mc = (m: string) => MOD_COLOR[m] || "#64748b";
@@ -23,16 +28,17 @@ function TableChip({ t }: { t: TableRef }) {
   return (
     <Link href={`/object/${encodeURIComponent(t.name)}`} className="lift tap group flex items-center gap-2 rounded-xl border bg-white px-3 py-2 shadow-sm" style={{ borderColor: c + "44" }}>
       <span className="size-2 shrink-0 rounded-full" style={{ background: c }} />
-      <span className="tech text-sm font-bold" style={{ color: c }} dir="ltr">{t.name}</span>
+      <SapTip name={t.name} linkless><span className="tech text-sm font-bold" style={{ color: c }} dir="ltr">{t.name}</span></SapTip>
       <span className="min-w-0 flex-1 truncate text-xs text-slate-400">{t.he}</span>
       <ArrowLeft className="size-3.5 shrink-0 text-slate-300 transition group-hover:-translate-x-0.5 group-hover:text-slate-600" />
     </Link>
   );
 }
 
-export function RelatedView({ kind, code, accent, tables, chips, backHref = "/sap-infrastructure/", backLabel = "ארכיטקטורה" }: {
+export function RelatedView({ kind, code, accent, tables, chips, before, backHref = "/sap-infrastructure/", backLabel = "ארכיטקטורה" }: {
   kind: keyof typeof KIND_META; code: string; accent?: string; tables: TableRef[];
   chips?: { label: string; items: { text: string; href?: string }[]; icon?: "tcode" | "bapi" | "process" }[];
+  before?: React.ReactNode;
   backHref?: string; backLabel?: string;
 }) {
   const meta = KIND_META[kind];
@@ -63,6 +69,10 @@ export function RelatedView({ kind, code, accent, tables, chips, backHref = "/sa
         </div>
       </header>
 
+      {PROFILE_KIND[kind] && <ObjectIntelligence name={code} kind={PROFILE_KIND[kind]} />}
+
+      {before}
+
       <section className="card-premium p-5">
         <h3 className="mb-3 flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide text-slate-500"><Database className="size-4" /> טבלאות מקושרות · {tables.length}</h3>
         {tables.length ? (
@@ -79,8 +89,8 @@ export function RelatedView({ kind, code, accent, tables, chips, backHref = "/sa
           </h3>
           <div className="flex flex-wrap gap-1.5">
             {grp.items.map((it) => it.href
-              ? <Link key={it.text} href={it.href} className="tech tap rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-600 transition hover:border-brand hover:text-brand" dir="ltr">{it.text}</Link>
-              : <span key={it.text} className="tech rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600" dir="ltr">{it.text}</span>)}
+              ? <Link key={it.text} href={it.href} className="tech tap rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-600 transition hover:border-brand hover:text-brand" dir="ltr"><SapTip name={it.text} linkless>{it.text}</SapTip></Link>
+              : <SapTip key={it.text} name={it.text}><span className="tech rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600" dir="ltr">{it.text}</span></SapTip>)}
           </div>
         </section>
       ))}

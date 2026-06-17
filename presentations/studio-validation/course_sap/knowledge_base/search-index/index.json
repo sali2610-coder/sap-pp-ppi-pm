@@ -1,0 +1,155 @@
+{
+"billing": {
+"D1-sap-o2c-book": 3
+},
+"bkpf": {
+"D1-sap-o2c-book": 1
+},
+"book": {
+"D1-sap-o2c-book": 1
+},
+"bseg": {
+"D1-sap-o2c-book": 1
+},
+"cash": {
+"D1-sap-o2c-book": 1
+},
+"change": {
+"D1-sap-o2c-book": 1
+},
+"course": {
+"D1-sap-o2c-book": 1
+},
+"create": {
+"D1-sap-o2c-book": 1
+},
+"created": {
+"D1-sap-o2c-book": 2
+},
+"creates": {
+"D1-sap-o2c-book": 1
+},
+"credit": {
+"D1-sap-o2c-book": 1
+},
+"customer": {
+"D1-sap-o2c-book": 1
+},
+"deliver": {
+"D1-sap-o2c-book": 1
+},
+"delivery": {
+"D1-sap-o2c-book": 2
+},
+"display": {
+"D1-sap-o2c-book": 1
+},
+"document": {
+"D1-sap-o2c-book": 1
+},
+"follows": {
+"D1-sap-o2c-book": 1
+},
+"goods": {
+"D1-sap-o2c-book": 2
+},
+"header": {
+"D1-sap-o2c-book": 3
+},
+"inventory": {
+"D1-sap-o2c-book": 1
+},
+"issue": {
+"D1-sap-o2c-book": 1
+},
+"items": {
+"D1-sap-o2c-book": 3
+},
+"likp": {
+"D1-sap-o2c-book": 1
+},
+"lips": {
+"D1-sap-o2c-book": 1
+},
+"memo": {
+"D1-sap-o2c-book": 1
+},
+"movement": {
+"D1-sap-o2c-book": 1
+},
+"order": {
+"D1-sap-o2c-book": 4
+},
+"orders": {
+"D1-sap-o2c-book": 1
+},
+"outbound": {
+"D1-sap-o2c-book": 1
+},
+"posts": {
+"D1-sap-o2c-book": 1
+},
+"processing": {
+"D1-sap-o2c-book": 1
+},
+"reduces": {
+"D1-sap-o2c-book": 1
+},
+"request": {
+"D1-sap-o2c-book": 1
+},
+"return": {
+"D1-sap-o2c-book": 1
+},
+"returns": {
+"D1-sap-o2c-book": 1
+},
+"sales": {
+"D1-sap-o2c-book": 2
+},
+"sap": {
+"D1-sap-o2c-book": 1
+},
+"stored": {
+"D1-sap-o2c-book": 1
+},
+"table": {
+"D1-sap-o2c-book": 3
+},
+"tables": {
+"D1-sap-o2c-book": 1
+},
+"type": {
+"D1-sap-o2c-book": 2
+},
+"uses": {
+"D1-sap-o2c-book": 1
+},
+"va01": {
+"D1-sap-o2c-book": 2
+},
+"va02": {
+"D1-sap-o2c-book": 1
+},
+"va03": {
+"D1-sap-o2c-book": 1
+},
+"vbak": {
+"D1-sap-o2c-book": 1
+},
+"vbap": {
+"D1-sap-o2c-book": 1
+},
+"vbrk": {
+"D1-sap-o2c-book": 1
+},
+"vbrp": {
+"D1-sap-o2c-book": 1
+},
+"vf01": {
+"D1-sap-o2c-book": 2
+},
+"vl01n": {
+"D1-sap-o2c-book": 1
+}
+}

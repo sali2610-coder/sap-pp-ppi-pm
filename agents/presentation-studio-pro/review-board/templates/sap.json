@@ -1,0 +1,5 @@
+{"profile":"SAP","body_word_target":40,"min_body_pt":18,
+ "weights":{"executive_quality":0.08,"academic_quality":0.05,"storytelling":0.12,"visual_design":0.10,
+  "data_visualization":0.12,"infographics":0.18,"animation_usage":0.08,"accessibility":0.10,
+  "audience_fit":0.10,"decision_readiness":0.07},
+ "notes":"SAP decks lean on process infographics + correct tcodes/tables; infographics weighted highest."}

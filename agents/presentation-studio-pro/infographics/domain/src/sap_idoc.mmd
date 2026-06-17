@@ -1,0 +1,22 @@
+---
+title: SAP IDoc Integration Landscape
+---
+flowchart LR
+  subgraph EXT["External"]
+    Z["Zetes / Daymax"]
+  end
+  subgraph MW["Middleware"]
+    PI["PI/PO"]
+  end
+  subgraph S4["SAP ECC/S4"]
+    AL["ALE WE20/BD64"]
+    ID["IDoc WE19/WE02<br/>ORDERS05"]
+    AP["App Doc VBAK/EKKO"]
+  end
+  Z -->|ORDERS| PI --> AL --> ID --> AP
+  AP -->|status 03/16| PI
+  classDef e fill:#107E3E,stroke:#0b5e2e,color:#fff;
+  classDef m fill:#6A737D,stroke:#4b5258,color:#fff;
+  classDef s fill:#0A6ED1,stroke:#08549f,color:#fff;
+  classDef a fill:#D62027,stroke:#a3171c,color:#fff;
+  class Z e; class PI m; class AL,ID s; class AP a;

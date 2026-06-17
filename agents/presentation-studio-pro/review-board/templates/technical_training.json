@@ -1,0 +1,5 @@
+{"profile":"Technical Training","body_word_target":50,"min_body_pt":18,
+ "weights":{"executive_quality":0.05,"academic_quality":0.06,"storytelling":0.12,"visual_design":0.10,
+  "data_visualization":0.10,"infographics":0.20,"animation_usage":0.10,"accessibility":0.12,
+  "audience_fit":0.10,"decision_readiness":0.05},
+ "notes":"Process infographics + step clarity + accessibility (learners) weighted high; animation aids walkthroughs."}

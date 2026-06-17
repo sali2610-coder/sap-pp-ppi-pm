@@ -1,0 +1,13 @@
+---
+title: SAP PP-PI Process Order Flow
+---
+flowchart LR
+  A["Process Order<br/>COR1 · AUFK/AFKO"] --> B["Release<br/>COR2 · REL"]
+  B --> C["Control Recipe<br/>CO53 · PI sheet"]
+  C --> D["Confirmation<br/>COR6N · AFRU"]
+  D --> E["Goods Receipt<br/>MIGO · 101"]
+  E --> F["Settlement<br/>KO88 · CO"]
+  classDef p fill:#0A6ED1,stroke:#08549f,color:#fff;
+  classDef q fill:#107E3E,stroke:#0b5e2e,color:#fff;
+  classDef f fill:#D62027,stroke:#a3171c,color:#fff;
+  class A,B,C,D p; class E q; class F f;

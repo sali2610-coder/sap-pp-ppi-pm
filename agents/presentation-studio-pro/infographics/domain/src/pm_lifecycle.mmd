@@ -1,0 +1,14 @@
+---
+title: SAP PM Maintenance Lifecycle
+---
+flowchart LR
+  N["Notification<br/>IW21 · QMEL"] --> O["Order<br/>IW31 · AUFK/AFIH"]
+  O --> P["Plan + Release<br/>IW32 · REL"]
+  P --> X["Execution<br/>IW41 · confirm"]
+  X --> T["Tech Complete<br/>IW32 · TECO"]
+  T --> S["Settlement<br/>KO88 · CO"]
+  S -. history .-> N
+  classDef a fill:#0A6ED1,stroke:#08549f,color:#fff;
+  classDef b fill:#107E3E,stroke:#0b5e2e,color:#fff;
+  classDef c fill:#D62027,stroke:#a3171c,color:#fff;
+  class N,O,P a; class X,T b; class S c;

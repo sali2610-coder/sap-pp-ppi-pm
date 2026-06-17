@@ -7,8 +7,9 @@ import { motion } from "framer-motion";
 import {
   ArrowRight, ArrowLeft, KeyRound, Link2, Terminal, Boxes, FileCode, AppWindow,
   GitBranch, Workflow, BookOpen, Wrench, StickyNote, LayoutGrid, Database, AlertTriangle, MapPin, TrendingUp, Cable,
-  Presentation, FileCode2,
+  Presentation, FileCode2, BrainCircuit,
 } from "lucide-react";
+import { ObjectIntelligence } from "@/components/object-intelligence";
 import { objectIntel } from "@/lib/data";
 import { classifyFunc, cleanFunc, funcHref } from "@/lib/object-intel";
 import { cdsForTable } from "@/data/cds-map";
@@ -17,6 +18,7 @@ import { useStatusMap } from "@/lib/status-store";
 import { STATUS_META, statusColor } from "@/lib/status-meta";
 import type { MigrationStatus } from "@/lib/types";
 import { playClick, playTick } from "@/lib/sound";
+import { Highlight } from "@/components/highlight";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9" };
 const mc = (m: string) => MOD_COLOR[m] || "#64748b";
@@ -24,6 +26,7 @@ const RED = "#d62027";
 
 const TABS = [
   ["overview", "סקירה", LayoutGrid],
+  ["intel", "תבונת אובייקט", BrainCircuit],
   ["relations", "קשרים", GitBranch],
   ["flow", "זרימה עסקית", Workflow],
   ["technical", "טכני", Database],
@@ -41,11 +44,11 @@ const TROUBLE: Record<string, string[]> = {
   CRHD: ["מרכז עבודה לא נמצא בפקודה — בדוק קישור CRHD↔PLPO ושיוך מרכז עלות.", "קיבולת — בדוק CRCA/KAKO.", "מרכז עבודה חסום → CR02."],
 };
 
-function NodeChip({ name, module, exists, onGo }: { name: string; module: string; exists: boolean; onGo: (n: string) => void }) {
+function NodeChip({ name, module, exists, onGo, q = "" }: { name: string; module: string; exists: boolean; onGo: (n: string) => void; q?: string }) {
   const c = mc(module);
   return exists ? (
     <button onClick={() => onGo(name)} className="tech tap inline-flex items-center gap-1.5 rounded-lg border bg-white px-2.5 py-1 text-xs font-bold transition hover:shadow-sm" style={{ borderColor: c, color: c }} dir="ltr">
-      <span className="size-1.5 rounded-full" style={{ background: c }} />{name}
+      <span className="size-1.5 rounded-full" style={{ background: c }} /><Highlight text={name} query={q} />
     </button>
   ) : (
     <span className="tech inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-bold text-slate-400" dir="ltr">{name}</span>
@@ -126,10 +129,12 @@ function Section({ title, icon, children }: { title: string; icon: React.ReactNo
   );
 }
 
-export function ObjectWorkspace({ name }: { name: string }) {
+export function ObjectWorkspace({ name, highlight }: { name: string; highlight?: string }) {
   const router = useRouter();
   const [tab, setTab] = useState<Tab>("overview");
   const [note, setNote] = useState("");
+  const [hl, setHl] = useState(highlight || "");
+  useEffect(() => { if (highlight !== undefined) { setHl(highlight); return; } try { setHl(new URLSearchParams(window.location.search).get("find") || ""); } catch { /* noop */ } }, [highlight, name]);
   const intel = useMemo(() => objectIntel(name), [name]);
   const g = useMemo(() => kgraph(name), [name]);
   const t = tableByName(name);
@@ -162,7 +167,7 @@ export function ObjectWorkspace({ name }: { name: string }) {
     const onKey = (e: KeyboardEvent) => {
       const el = e.target as HTMLElement;
       if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable)) return;
-      if (/^[1-7]$/.test(e.key)) { const tb = TABS[Number(e.key) - 1]; if (tb) { playTick(); setTab(tb[0]); } }
+      if (/^[1-8]$/.test(e.key)) { const tb = TABS[Number(e.key) - 1]; if (tb) { playTick(); setTab(tb[0]); } }
       else if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
         const i = TABS.findIndex((x) => x[0] === tab); const d = e.key === "ArrowLeft" ? 1 : -1;
         const ni = (i + d + TABS.length) % TABS.length; playTick(); setTab(TABS[ni][0]);
@@ -292,15 +297,17 @@ export function ObjectWorkspace({ name }: { name: string }) {
           </>
         )}
 
+        {tab === "intel" && <ObjectIntelligence name={name} kind="table" />}
+
         {tab === "relations" && (
           <>
             <Section title="גרף קשרים אינטראקטיבי" icon={<GitBranch className="size-4" />}><Graph name={name} onGo={go} /></Section>
             <div className="grid gap-5 sm:grid-cols-2">
               <Section title={`תלויות מעלה · ${g?.upstream.length || 0} (האובייקט תלוי ב)`} icon={<ArrowLeft className="size-4 rotate-45" />}>
-                <div className="flex flex-wrap gap-1.5">{g?.upstream.length ? g.upstream.map((n) => <NodeChip key={n} name={n} module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} onGo={go} />) : <span className="text-xs italic text-slate-400">אין תלויות מעלה</span>}</div>
+                <div className="flex flex-wrap gap-1.5">{g?.upstream.length ? g.upstream.map((n) => <NodeChip key={n} name={n} module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} onGo={go} q={hl} />) : <span className="text-xs italic text-slate-400">אין תלויות מעלה</span>}</div>
               </Section>
               <Section title={`השפעה מטה · ${g?.downstream.length || 0} (תלויים באובייקט)`} icon={<TrendingUp className="size-4" />}>
-                <div className="flex flex-wrap gap-1.5">{g?.downstream.length ? g.downstream.map((n) => <NodeChip key={n} name={n} module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} onGo={go} />) : <span className="text-xs italic text-slate-400">אין השפעה מטה</span>}</div>
+                <div className="flex flex-wrap gap-1.5">{g?.downstream.length ? g.downstream.map((n) => <NodeChip key={n} name={n} module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} onGo={go} q={hl} />) : <span className="text-xs italic text-slate-400">אין השפעה מטה</span>}</div>
               </Section>
             </div>
           </>
@@ -334,24 +341,24 @@ export function ObjectWorkspace({ name }: { name: string }) {
               <div className="overflow-auto rounded-xl border border-slate-100"><table className="w-full text-right font-mono text-xs" dir="ltr">
                 <thead className="bg-slate-50 text-[10px] uppercase text-slate-400"><tr><th className="px-3 py-2">Field</th><th className="px-3 py-2">Type</th><th className="px-3 py-2">Len</th><th className="px-3 py-2">Key</th><th className="px-3 py-2 text-right">תיאור</th></tr></thead>
                 <tbody>{fields.slice(0, 40).map((f, i) => <tr key={i} className="border-t border-slate-50">
-                  <td className={`px-3 py-1.5 font-bold ${f.key === "PK" ? "text-amber-600" : f.key === "FK" ? "text-blue-600" : "text-slate-700"}`}>{f.tech}</td>
+                  <td className={`px-3 py-1.5 font-bold ${f.key === "PK" ? "text-amber-600" : f.key === "FK" ? "text-blue-600" : "text-slate-700"}`}><Highlight text={f.tech} query={hl} /></td>
                   <td className="px-3 py-1.5 text-slate-400">{f.dt}</td><td className="px-3 py-1.5 text-slate-400">{f.len}</td>
                   <td className="px-3 py-1.5">{f.key && f.key !== "-" && <span className={`rounded px-1 text-[9px] font-bold ${f.key === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f.key}</span>}</td>
-                  <td className="px-3 py-1.5 text-right text-slate-500" dir="rtl">{f.he}</td></tr>)}</tbody>
+                  <td className="px-3 py-1.5 text-right text-slate-500" dir="rtl"><Highlight text={f.he} query={hl} /></td></tr>)}</tbody>
               </table></div>
             </Section>
             <div className="grid gap-5 sm:grid-cols-2">
               <Section title="טרנזקציות + BAPIs" icon={<Terminal className="size-4" />}>
                 <div className="space-y-2.5">
-                  <div className="flex flex-wrap gap-1.5">{intel?.tcodes.map((tc) => <Link key={tc} href={`/tcode/${encodeURIComponent(tc)}`} className="tech rounded bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-600 transition hover:bg-brand-soft hover:text-brand" dir="ltr">{tc}</Link>) || "—"}</div>
-                  <div className="flex flex-wrap gap-1.5">{[...new Set(t.funcs.map(([n]) => cleanFunc(n)))].slice(0, 8).map((n) => { const k = classifyFunc(n); return <Link key={n} href={funcHref(n)} className={`tech rounded px-2 py-0.5 text-xs font-bold transition hover:brightness-95 ${k === "IDoc" ? "bg-violet-50 text-violet-700" : k === "FM" ? "bg-slate-100 text-slate-600" : "bg-blue-50 text-blue-700"}`} dir="ltr">{k === "IDoc" ? <Cable className="me-1 inline size-3" /> : <Boxes className="me-1 inline size-3" />}{n}</Link>; })}</div>
+                  <div className="flex flex-wrap gap-1.5">{intel?.tcodes.map((tc) => <Link key={tc} href={`/tcode/${encodeURIComponent(tc)}`} className="tech rounded bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-600 transition hover:bg-brand-soft hover:text-brand" dir="ltr"><Highlight text={tc} query={hl} /></Link>) || "—"}</div>
+                  <div className="flex flex-wrap gap-1.5">{[...new Set(t.funcs.map(([n]) => cleanFunc(n)))].slice(0, 8).map((n) => { const k = classifyFunc(n); return <Link key={n} href={funcHref(n)} className={`tech rounded px-2 py-0.5 text-xs font-bold transition hover:brightness-95 ${k === "IDoc" ? "bg-violet-50 text-violet-700" : k === "FM" ? "bg-slate-100 text-slate-600" : "bg-blue-50 text-blue-700"}`} dir="ltr">{k === "IDoc" ? <Cable className="me-1 inline size-3" /> : <Boxes className="me-1 inline size-3" />}<Highlight text={n} query={hl} /></Link>; })}</div>
                   {t.progs?.length > 0 && <div className="flex flex-wrap gap-1.5">{t.progs.slice(0, 6).map(([n]) => <span key={n} className="tech rounded bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-600" dir="ltr"><FileCode className="me-1 inline size-3" />{n}</span>)}</div>}
                 </div>
               </Section>
               <Section title="S/4HANA + Fiori" icon={<AppWindow className="size-4" />}>
                 <p className="text-sm text-slate-600">{t.s4Note || "אין שינוי מהותי ב-S/4HANA."}</p>
                 {t.s4AltTable && <p className="mt-1 text-xs text-slate-500">חלופה: <span className="tech font-bold text-slate-700">{t.s4AltTable}</span></p>}
-                {cds.length > 0 && <div className="mt-2"><p className="eyebrow mb-1 text-slate-400">CDS Views</p><div className="flex flex-wrap gap-1.5">{cds.map((v) => <Link key={v.view} href={`/cds/${encodeURIComponent(v.view)}`} className="tech tap rounded bg-teal-50 px-2 py-0.5 text-xs font-bold text-teal-700 transition hover:brightness-95" dir="ltr"><FileCode className="me-1 inline size-3" />{v.view}</Link>)}</div></div>}
+                {cds.length > 0 && <div className="mt-2"><p className="eyebrow mb-1 text-slate-400">CDS Views</p><div className="flex flex-wrap gap-1.5">{cds.map((v) => <Link key={v.view} href={`/cds/${encodeURIComponent(v.view)}`} className="tech tap rounded bg-teal-50 px-2 py-0.5 text-xs font-bold text-teal-700 transition hover:brightness-95" dir="ltr"><FileCode className="me-1 inline size-3" /><Highlight text={v.view} query={hl} /></Link>)}</div></div>}
                 {t.fioriApp && <p className="mt-2 flex items-center gap-1.5 text-sm text-slate-600"><AppWindow className="size-4 text-brand" />{t.fioriApp}</p>}
                 {t.sqlJoinSnippet && <pre className="mt-2 overflow-auto rounded-lg bg-slate-900 p-2.5 text-[11px] leading-relaxed text-slate-100" dir="ltr">{t.sqlJoinSnippet}</pre>}
               </Section>

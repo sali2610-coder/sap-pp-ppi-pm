@@ -1,5 +1,6 @@
 import { ALL_TABLES } from "@/lib/data";
 import { HomeHero } from "@/components/home-hero";
+import { ExecutiveSummary } from "@/components/executive-summary";
 import { CommandCenter } from "@/components/command-center";
 
 export default function HomePage() {
@@ -12,7 +13,8 @@ export default function HomePage() {
 
   return (
     <div className="space-y-9">
-      <HomeHero stats={{ modules: 12, tables, relations, tcodes, bapis, books: 2 }} />
+      <HomeHero stats={{ modules: 2, tables, relations, tcodes, bapis, books: 2 }} />
+      <ExecutiveSummary />
       <CommandCenter />
     </div>
   );

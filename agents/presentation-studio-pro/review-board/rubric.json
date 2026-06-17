@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "scale": "1-5 (1 fail · 3 acceptable · 5 excellent)",
+  "dimensions": {
+    "executive_quality": {"what": "Answer-first, decision-led, low text density, scannable in seconds",
+      "signals": ["decision/action slide in first half", "<=40 words body/slide", "big-number or KPI present"]},
+    "academic_quality": {"what": "Evidence sourced, citations + references, hedged claims",
+      "signals": ["in-slide citations", "References slide", "no fabricated numbers"]},
+    "storytelling": {"what": "Action titles form an argument (ghost-deck), clear arc",
+      "signals": ["sentence-style action titles", "motivation + conclusion present", "one idea/slide"]},
+    "visual_design": {"what": "Consistent theme, hierarchy, whitespace, not text-only",
+      "signals": ["no text-only slides", "title sizes consistent", "images/charts used"]},
+    "data_visualization": {"what": "Right chart per data slide, key finding annotated, native (editable)",
+      "signals": ["charts present", "native charts not images", "source lines"]},
+    "infographics": {"what": "Structural content shown as a process/relationship visual",
+      "signals": ["diagram/infographic images", ">=1 process visual", "summary visual"]},
+    "animation_usage": {"what": "Motion serves pacing; native PPTX timing / interactive HTML",
+      "signals": ["<p:timing> on slides", "<p:transition>", "restraint (no excess)"]},
+    "accessibility": {"what": "Readable from the back; contrast; alt text; reduced-motion",
+      "signals": ["body font >=18pt", "title >=24pt", "image alt text"]},
+    "audience_fit": {"what": "Density, depth, and tone match the audience profile",
+      "signals": ["text density vs audience target", "depth vs expertise"]},
+    "decision_readiness": {"what": "A clear recommendation/next-step the audience can act on",
+      "signals": ["explicit decision/action slide", "recommendation language", "ends on conclusions"]}
+  },
+  "anchors": {
+    "1": "absent / wrong for the genre",
+    "3": "present but generic; would pass but not impress",
+    "5": "exemplary; a reviewer would hold it up as a model"
+  }
+}

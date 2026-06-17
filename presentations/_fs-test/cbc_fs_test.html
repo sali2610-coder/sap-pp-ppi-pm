@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CBC · Frontend-Slides Test</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;800;900&display=swap">
+<style>
+:root{
+ --red:#E1121D;--red2:#FF2A36;--redd:#C20E18;--ink:#16121A;--mut:#6A6470;
+ --bg:#FFFFFF;--soft:#F4F5F7;--line:#E3E4E9;
+ --font:'Heebo',sans-serif;
+ --ease:cubic-bezier(.16,1,.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+/* ---- viewport-base.css (full) ---- */
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:var(--stage-bg,#1a0608)}
+.deck-viewport{position:fixed;inset:0;overflow:hidden;background:var(--stage-bg,#1a0608)}
+.deck-stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;transform-origin:0 0;background:var(--slide-bg,#fff)}
+.slide{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;display:block;visibility:hidden;opacity:0;pointer-events:none;background:var(--slide-bg,#fff)}
+.slide.active,.slide.visible{visibility:visible;opacity:1;pointer-events:auto;z-index:1}
+img,video,canvas,svg{max-width:100%;max-height:100%}
+.deck-controls{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:1000}
+@media print{html,body{width:1920px;height:auto;overflow:visible;background:#fff}.deck-viewport{position:static;overflow:visible}.deck-stage{position:static;width:auto;height:auto;transform:none!important}.slide{position:relative;display:block!important;visibility:visible!important;opacity:1!important;width:1920px;height:1080px;break-after:page;page-break-after:always}.slide:last-child{break-after:auto}.deck-controls{display:none!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.2s!important}}
+/* ---- deck theme ---- */
+.slide{font-family:var(--font);direction:rtl;color:var(--ink);padding:120px 130px;display:flex;flex-direction:column;justify-content:center}
+.eyebrow{color:var(--red);font-weight:800;letter-spacing:.18em;font-size:26px}
+h1{font-size:96px;font-weight:900;line-height:1.05;margin-top:18px}
+h2{font-size:72px;font-weight:900;line-height:1.08}
+.lead{font-size:34px;color:var(--mut);margin-top:24px;max-width:1200px;line-height:1.5}
+.red{color:var(--red)}
+/* reveal */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.slide.visible .reveal{opacity:1;transform:none}
+.slide.visible .reveal:nth-child(1){transition-delay:.08s}
+.slide.visible .reveal:nth-child(2){transition-delay:.18s}
+.slide.visible .reveal:nth-child(3){transition-delay:.28s}
+.slide.visible .reveal:nth-child(4){transition-delay:.38s}
+.slide.visible .reveal:nth-child(5){transition-delay:.48s}
+/* product wall */
+.wall{display:flex;gap:22px;flex-wrap:wrap;margin-top:50px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px 38px;font-size:34px;font-weight:800;box-shadow:0 14px 40px rgba(20,10,12,.10)}
+.chip.r{background:var(--red);color:#fff;border:none}.chip.k{background:#15100f;color:#fff}
+/* CRM cards */
+.row{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:54px}
+.card{background:var(--soft);border:1px solid var(--line);border-top:7px solid var(--red);border-radius:22px;padding:44px}
+.card h3{font-size:40px;font-weight:900}.card p{font-size:27px;color:var(--mut);margin-top:14px;line-height:1.5}
+.card .num{direction:ltr;unicode-bidi:isolate;font-size:78px;font-weight:900;color:var(--red);line-height:1}
+/* dashboard */
+.dash{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-top:50px}
+.kpi{background:linear-gradient(160deg,#fff,#fbf2f3);border:1px solid var(--line);border-radius:22px;padding:40px}
+.kpi .n{direction:ltr;unicode-bidi:isolate;font-size:84px;font-weight:900;color:var(--red);line-height:1}
+.kpi .t{font-size:26px;color:var(--mut);margin-top:14px;font-weight:600}
+.bars{margin-top:48px;display:flex;flex-direction:column;gap:26px;max-width:1300px}
+.brow{display:flex;align-items:center;gap:28px}
+.brow .l{width:300px;font-size:30px;font-weight:600}
+.brow .tk{flex:1;height:34px;background:#EFEff3;border-radius:20px;overflow:hidden}
+.brow .fl{height:100%;width:0;border-radius:20px;background:linear-gradient(90deg,var(--redd),var(--red2));transition:width 1.2s var(--ease) .3s}
+.slide.visible .brow .fl{width:var(--w)}
+.brow .p{direction:ltr;unicode-bidi:isolate;width:120px;font-size:36px;font-weight:900;color:var(--red)}
+.tag{position:absolute;top:64px;left:90px;font-size:24px;font-weight:800;color:var(--red);letter-spacing:.1em}
+.bgheart{position:absolute;left:0;bottom:0;width:560px;height:520px;background:radial-gradient(circle at 30% 70%,rgba(225,18,29,.10),transparent 60%);pointer-events:none}
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+ <main class="deck-stage" id="deckStage">
+
+  <!-- 1 PRODUCT WALL -->
+  <section class="slide title-slide active">
+   <div class="bgheart"></div><div class="tag">CBC ISRAEL</div>
+   <div class="eyebrow reveal">פורטפוליו המותגים</div>
+   <h1 class="reveal">מותג אחד מאחורי<br><span class="red">כל מקרר בישראל.</span></h1>
+   <div class="wall reveal">
+    <span class="chip r">Coca-Cola</span><span class="chip">Sprite</span><span class="chip">Fuze Tea</span>
+    <span class="chip">נביעות</span><span class="chip">פריגת</span><span class="chip k">Carlsberg</span><span class="chip k">Monster</span>
+   </div>
+  </section>
+
+  <!-- 2 CRM -->
+  <section class="slide">
+   <div class="tag">CBC ISRAEL</div>
+   <div class="eyebrow reveal">אסטרטגיית CRM</div>
+   <h2 class="reveal">Customer 360 — תמונת לקוח אחת</h2>
+   <div class="row">
+    <div class="card reveal"><div class="num">360°</div><h3>תצוגת לקוח</h3><p>חשבון, אנשי קשר, היסטוריית הזמנות וציוד מותקן במקום אחד.</p></div>
+    <div class="card reveal"><div class="num">B2B</div><h3>ערוצים מחוברים</h3><p>מוקד, אתר ואפליקציה מתנקזים לתהליך מכירה אחד.</p></div>
+    <div class="card reveal"><div class="num">SAP</div><h3>אינטגרציה</h3><p>הזמנות, מלאי ותנאי סחר בזמן אמת מעל ליבת SAP.</p></div>
+   </div>
+  </section>
+
+  <!-- 3 DASHBOARD -->
+  <section class="slide">
+   <div class="tag">CBC ISRAEL</div>
+   <div class="eyebrow reveal">לוח בקרה · KPIs</div>
+   <h2 class="reveal">ביצועי מכירות ושירות</h2>
+   <div class="dash reveal">
+    <div class="kpi"><div class="n">~90%</div><div class="t">נתח שוק הקולה</div></div>
+    <div class="kpi"><div class="n">6</div><div class="t">מרחבי הפצה</div></div>
+    <div class="kpi"><div class="n">1M+</div><div class="t">אריזות ביום</div></div>
+    <div class="kpi"><div class="n">~4,700</div><div class="t">עובדים</div></div>
+   </div>
+   <div class="bars reveal">
+    <div class="brow"><div class="l">שוק הקולה</div><div class="tk"><div class="fl" style="--w:90%"></div></div><div class="p">~90%</div></div>
+    <div class="brow"><div class="l">תה קר</div><div class="tk"><div class="fl" style="--w:75%"></div></div><div class="p">~75%</div></div>
+    <div class="brow"><div class="l">משקאות קלים</div><div class="tk"><div class="fl" style="--w:66%"></div></div><div class="p">~⅔</div></div>
+   </div>
+  </section>
+
+ </main>
+</div>
+<script>
+class Deck{
+ constructor(){this.s=[...document.querySelectorAll('.slide')];this.i=0;this.stage=document.getElementById('deckStage');
+  this.scale();addEventListener('resize',()=>this.scale());
+  addEventListener('keydown',e=>{if(['ArrowRight','ArrowDown',' '].includes(e.key)){e.preventDefault();this.go(1)}if(['ArrowLeft','ArrowUp'].includes(e.key))this.go(-1)});
+  addEventListener('click',e=>this.go(e.clientX<innerWidth*.18?-1:1));this.show(0)}
+ scale(){const f=Math.min(innerWidth/1920,innerHeight/1080);this.stage.style.transform=`translate(${(innerWidth-1920*f)/2}px,${(innerHeight-1080*f)/2}px) scale(${f})`}
+ show(n){this.s.forEach((s,k)=>{s.classList.toggle('active',k===n);s.classList.toggle('visible',k===n)})}
+ go(d){const n=Math.max(0,Math.min(this.s.length-1,this.i+d));if(n!==this.i){this.i=n;this.show(n)}}
+}
+new Deck();
+</script>
+</body></html>

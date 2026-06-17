@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
 import { playTick } from "@/lib/sound";
-import { MigrationCockpit } from "@/components/migration-cockpit";
+import { TableExperience } from "@/components/table-experience";
 import { TechnicalBlueprint } from "@/components/technical-blueprint";
 import { ProgressChart } from "@/components/progress-chart";
 import { StatusIO } from "@/components/status-io";
@@ -115,7 +115,7 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
               <div className="glass rounded-2xl p-5">
                 <ProgressChart tables={allTables} title={`${t("hub.progress")} — ${module.title}`} />
               </div>
-              <MigrationCockpit module={module} query={query} />
+              <TableExperience module={module} query={query} />
             </div>
           )}
 

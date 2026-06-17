@@ -14,7 +14,11 @@ import {
 import { StatusSelect } from "@/components/status-select";
 import { Highlight } from "@/components/highlight";
 import { EmptyState } from "@/components/ui/empty-state";
+import { Reveal } from "@/components/reveal";
+import { Database } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+
+const rowDelay = (i: number) => ({ animationDelay: `${Math.min(i, 12) * 30}ms` });
 
 export function MigrationCockpit({ module, query }: { module: SAPModuleData; query: string }) {
   const { pick, lang, topic } = useI18n();
@@ -46,7 +50,16 @@ export function MigrationCockpit({ module, query }: { module: SAPModuleData; que
   }, [q, rows]);
 
   return (
-    <div className="glass overflow-hidden rounded-2xl">
+    <Reveal className="surface overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[var(--elev-1)]">
+      {/* executive header bar (D4) */}
+      <div className="flex items-center justify-between gap-3 border-b border-slate-100 bg-gradient-to-l from-slate-50 to-white px-4 py-3">
+        <h3 className="flex items-center gap-2 text-sm font-extrabold tracking-tight text-slate-900">
+          <span className="grid size-7 place-items-center rounded-lg bg-brand/10 text-brand"><Database className="size-4" /></span>
+          {lang === "he" ? "מצב מיגרציה — טבלאות" : "Migration status — tables"}
+        </h3>
+        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-500 tabular-nums">{rows.length} {lang === "he" ? "טבלאות" : "tables"}</span>
+      </div>
+
       {/* desktop table */}
       <div className="hidden md:block">
         <Table>
@@ -59,8 +72,8 @@ export function MigrationCockpit({ module, query }: { module: SAPModuleData; que
             </TableRow>
           </TableHeader>
           <TableBody>
-            {rows.map((tb) => (
-              <TableRow key={tb.id} data-row={tb.tableName}>
+            {rows.map((tb, i) => (
+              <TableRow key={tb.id} data-row={tb.tableName} className="row-in transition-colors hover:bg-brand/[0.04]" style={rowDelay(i)}>
                 <TableCell className="tech font-bold text-brand">
                   <Link href={`/object/${encodeURIComponent(tb.tableName)}`} className="inline-flex items-center gap-1 hover:underline">
                     <Highlight text={tb.tableName} query={query} />
@@ -81,8 +94,8 @@ export function MigrationCockpit({ module, query }: { module: SAPModuleData; que
 
       {/* mobile card stack */}
       <ul className="divide-y divide-border md:hidden">
-        {rows.map((tb) => (
-          <li key={tb.id} data-row={tb.tableName} className="space-y-2 p-3">
+        {rows.map((tb, i) => (
+          <li key={tb.id} data-row={tb.tableName} className="row-in space-y-2 p-3 transition-colors hover:bg-brand/[0.04]" style={rowDelay(i)}>
             <div className="flex items-center justify-between gap-2">
               <Link href={`/object/${encodeURIComponent(tb.tableName)}`} className="tech font-bold text-brand hover:underline">
                 <Highlight text={tb.tableName} query={query} />
@@ -100,6 +113,6 @@ export function MigrationCockpit({ module, query }: { module: SAPModuleData; que
       {rows.length === 0 && (
         <EmptyState title={lang === "he" ? "אין תוצאות" : "No results"} hint={lang === "he" ? "נסה מונח חיפוש אחר" : "Try a different search term"} />
       )}
-    </div>
+    </Reveal>
   );
 }

@@ -1,0 +1,31 @@
+[
+  {
+    "slide": 1,
+    "category": "fade",
+    "elements": [
+      "title"
+    ]
+  },
+  {
+    "slide": 2,
+    "category": "kpi_build_up",
+    "elements": [
+      "chart",
+      "bullets"
+    ]
+  },
+  {
+    "slide": 3,
+    "category": "timeline_animation",
+    "elements": [
+      "bridge"
+    ]
+  },
+  {
+    "slide": 4,
+    "category": "progressive_reveal",
+    "elements": [
+      "table"
+    ]
+  }
+]

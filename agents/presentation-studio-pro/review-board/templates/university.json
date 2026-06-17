@@ -1,0 +1,5 @@
+{"profile":"University","body_word_target":55,"min_body_pt":18,
+ "weights":{"executive_quality":0.05,"academic_quality":0.20,"storytelling":0.15,"visual_design":0.08,
+  "data_visualization":0.12,"infographics":0.08,"animation_usage":0.05,"accessibility":0.10,
+  "audience_fit":0.10,"decision_readiness":0.07},
+ "notes":"Academic rigor + storytelling dominate; citations and References required."}

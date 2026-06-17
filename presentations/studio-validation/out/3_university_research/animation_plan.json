@@ -1,0 +1,41 @@
+[
+  {
+    "slide": 1,
+    "category": "fade",
+    "elements": [
+      "title"
+    ]
+  },
+  {
+    "slide": 2,
+    "category": "progressive_reveal",
+    "elements": [
+      "b1",
+      "b2",
+      "b3"
+    ]
+  },
+  {
+    "slide": 3,
+    "category": "kpi_build_up",
+    "elements": [
+      "chart",
+      "takeaways"
+    ]
+  },
+  {
+    "slide": 4,
+    "category": "progressive_reveal",
+    "elements": [
+      "i1",
+      "i2"
+    ]
+  },
+  {
+    "slide": 5,
+    "category": "fade",
+    "elements": [
+      "refs"
+    ]
+  }
+]

@@ -1,0 +1,5 @@
+{"profile":"Executive Management","body_word_target":30,"min_body_pt":20,
+ "weights":{"executive_quality":0.20,"academic_quality":0.04,"storytelling":0.12,"visual_design":0.10,
+  "data_visualization":0.10,"infographics":0.08,"animation_usage":0.04,"accessibility":0.08,
+  "audience_fit":0.08,"decision_readiness":0.16},
+ "notes":"Answer-first + decision readiness dominate; minimal text, big numbers."}

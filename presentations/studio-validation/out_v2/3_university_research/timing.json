@@ -1,0 +1,33 @@
+{
+  "wpm": 130,
+  "target_min": 12.0,
+  "estimated_min": 3.26,
+  "verdict": "UNDER by 8.7 min \u2014 add depth or Q&A",
+  "per_slide": [
+    {
+      "slide": 1,
+      "title": "Field-mapping completeness predicts ERP conversion",
+      "minutes": 0.55
+    },
+    {
+      "slide": 2,
+      "title": "The study runs from question to conclusion through",
+      "minutes": 0.72
+    },
+    {
+      "slide": 3,
+      "title": "Higher completeness coincides with 14\u00d7 fewer defec",
+      "minutes": 0.69
+    },
+    {
+      "slide": 4,
+      "title": "Summary: a strong, monotonic completeness\u2192defect g",
+      "minutes": 0.55
+    },
+    {
+      "slide": 5,
+      "title": "Conclusion",
+      "minutes": 0.75
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "wpm": 135,
+  "target_min": 20.0,
+  "estimated_min": 3.15,
+  "verdict": "UNDER by 16.9 min \u2014 add depth or Q&A",
+  "per_slide": [
+    {
+      "slide": 1,
+      "title": "SAP PP-PI: Process Order Lifecycle",
+      "minutes": 0.51
+    },
+    {
+      "slide": 2,
+      "title": "The process order moves through five stages \u2014 COR1",
+      "minutes": 0.71
+    },
+    {
+      "slide": 3,
+      "title": "PP-PI carries more tables and fields than PM \u2014 pla",
+      "minutes": 0.53
+    },
+    {
+      "slide": 4,
+      "title": "Summary: five stages, three documents to remember",
+      "minutes": 0.56
+    },
+    {
+      "slide": 5,
+      "title": "Action",
+      "minutes": 0.84
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+[
+  {
+    "slide": 1,
+    "category": "fade",
+    "elements": [
+      "title"
+    ]
+  },
+  {
+    "slide": 2,
+    "category": "zoom",
+    "elements": [
+      "callout"
+    ]
+  },
+  {
+    "slide": 3,
+    "category": "kpi_build_up",
+    "elements": [
+      "bignum",
+      "chart"
+    ]
+  },
+  {
+    "slide": 4,
+    "category": "fade",
+    "elements": [
+      "decision"
+    ]
+  }
+]

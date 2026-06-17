@@ -1,0 +1,66 @@
+{
+  "VBRK": {
+    "definition": "Header table VBRK, items VBRP",
+    "source": "auto"
+  },
+  "VA03": {
+    "definition": "Create it with VA01, change with VA02, display with VA03",
+    "source": "auto"
+  },
+  "BSEG": {
+    "definition": "Billing creates an FI document in tables BKPF and BSEG",
+    "source": "auto"
+  },
+  "BKPF": {
+    "definition": "Billing creates an FI document in tables BKPF and BSEG",
+    "source": "auto"
+  },
+  "LIPS": {
+    "definition": "Header table LIKP, items LIPS",
+    "source": "auto"
+  },
+  "VBRP": {
+    "definition": "Header table VBRK, items VBRP",
+    "source": "auto"
+  },
+  "VA02": {
+    "definition": "Create it with VA01, change with VA02, display with VA03",
+    "source": "auto"
+  },
+  "VF01": {
+    "definition": "Billing is created with VF01",
+    "source": "auto"
+  },
+  "VBAK": {
+    "definition": "The header is stored in table VBAK and items in VBAP",
+    "source": "auto"
+  },
+  "VBAP": {
+    "definition": "The header is stored in table VBAK and items in VBAP",
+    "source": "auto"
+  },
+  "RE": {
+    "definition": "A return order uses VA01 with order type RE",
+    "source": "auto"
+  },
+  "FI": {
+    "definition": "Billing creates an FI document in tables BKPF and BSEG",
+    "source": "auto"
+  },
+  "VA01": {
+    "definition": "Create it with VA01, change with VA02, display with VA03",
+    "source": "auto"
+  },
+  "LIKP": {
+    "definition": "Header table LIKP, items LIPS",
+    "source": "auto"
+  },
+  "VL01N": {
+    "definition": "The outbound delivery is created with VL01N",
+    "source": "auto"
+  },
+  "SAP": {
+    "definition": "# SAP Order-to-Cash \u2014 Course Book",
+    "source": "auto"
+  }
+}

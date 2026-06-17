@@ -1,0 +1,15 @@
+[
+  {
+    "id": "D1-sap-o2c-book",
+    "title": "SAP Order-to-Cash \u2014 Course Book",
+    "file": "sap_o2c_book.md",
+    "sections": [
+      "SAP Order-to-Cash \u2014 Course Book",
+      "Sales Orders",
+      "Delivery",
+      "Billing",
+      "Returns"
+    ],
+    "words": 102
+  }
+]

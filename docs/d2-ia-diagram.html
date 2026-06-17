@@ -1,0 +1,54 @@
+<!doctype html><html dir="rtl" lang="he"><head><meta charset="utf-8">
+<style>
+  *{box-sizing:border-box;margin:0;font-family:'Segoe UI',system-ui,sans-serif}
+  body{background:#f8fafc;padding:28px;color:#0f172a}
+  .wrap{display:grid;grid-template-columns:1fr 1fr;gap:22px;max-width:1500px;margin:auto}
+  .panel{background:#fff;border:1px solid #e2e8f0;border-radius:24px;padding:22px;box-shadow:0 2px 4px -2px rgba(15,23,42,.1),0 4px 12px -4px rgba(15,23,42,.06)}
+  .ey{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:800}
+  h2{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:4px 0 2px}
+  .sub{font-size:13px;color:#64748b;margin-bottom:16px}
+  .flat{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font-size:11px;font-weight:700;padding:5px 9px;border-radius:8px;border:1px solid #e2e8f0;background:#f8fafc;color:#475569;direction:ltr}
+  .root{display:inline-block;background:#d62027;color:#fff;font-weight:800;font-size:13px;padding:7px 16px;border-radius:999px;margin-bottom:14px}
+  .grp{margin:0 0 11px;padding-inline-start:14px;border-inline-start:3px solid var(--a)}
+  .gh{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14px}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--a)}
+  .cnt{margin-inline-start:auto;background:#f1f5f9;color:#64748b;font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px}
+  .en{font-size:10px;color:#94a3b8;direction:ltr;font-weight:700}
+  .items{font-size:11px;color:#64748b;margin-top:3px;line-height:1.5;direction:ltr}
+  .note{font-size:11px;color:#94a3b8;margin-top:6px}
+  .bad{color:#dc2626}.good{color:#16a34a}
+  .metric{display:flex;gap:18px;margin-top:14px;font-size:12px;font-weight:700}
+  .metric span b{display:block;font-size:20px}
+</style></head><body>
+<div class="wrap">
+  <div class="panel">
+    <p class="ey bad">BEFORE</p>
+    <h2>רשת שטוחה — 38 מרכזים</h2>
+    <p class="sub">כל המרכזים באותה רמה, ללא קיבוץ. המשתמש סורק 38 כרטיסים ומחליט לבד מה רלוונטי.</p>
+    <div class="flat">
+      <span class="chip">Consultant Copilot</span><span class="chip">Solution Finder</span><span class="chip">Process Explorer</span><span class="chip">Impact Analyzer</span><span class="chip">Playbooks</span><span class="chip">Architect</span><span class="chip">Connector</span><span class="chip">Transaction Evolution</span><span class="chip">ABAP Center</span><span class="chip">Quality Audit</span><span class="chip">Import Engine</span><span class="chip">CBC Domain Model</span><span class="chip">Object Intelligence</span><span class="chip">Resolution Path</span><span class="chip">Notes Graph</span><span class="chip">Workbenches</span><span class="chip">Blueprints</span><span class="chip">Configuration</span><span class="chip">Tables Explorer</span><span class="chip">Fiori Center</span><span class="chip">Integration</span><span class="chip">Migration Center</span><span class="chip">Debugging</span><span class="chip">CBC Manufacturing</span><span class="chip">Authorizations</span><span class="chip">Toolkit</span><span class="chip">Transaction Center</span><span class="chip">MRP / MPS</span><span class="chip">Exits / BAdIs</span><span class="chip">Process Guides</span><span class="chip">Troubleshooting</span><span class="chip">SAP Notes</span><span class="chip">QA Testing</span><span class="chip">Concepts</span><span class="chip">ECC vs S/4</span><span class="chip">Enhancements</span><span class="chip">Security</span><span class="chip">Coverage</span>
+    </div>
+    <div class="metric">
+      <span class="bad"><b>1</b>קבוצה</span><span class="bad"><b>38</b>פריטים לסריקה</span><span class="bad"><b>0</b>נתיב לפי משימה</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <p class="ey good">AFTER · D2</p>
+    <h2>7 מסעות לפי משימה + שכבת ניהול</h2>
+    <p class="sub">חיפוש תחילה, ואז קיבוץ לפי מה שהיועץ צריך לעשות. סריקה של ~5 כרטיסים בכל פעם.</p>
+    <div class="root">🔍 חיפוש תחילה — Copilot · Solution Finder</div>
+    <div class="grp" style="--a:#d62027"><div class="gh"><span class="dot"></span>שאל ומצא <span class="en">Ask &amp; Find</span><span class="cnt">3</span></div><div class="items">Copilot · Solution Finder · Object Intelligence</div></div>
+    <div class="grp" style="--a:#4338ca"><div class="gh"><span class="dot"></span>הבן תהליך <span class="en">Understand the Process</span><span class="cnt">5</span></div><div class="items">Process Explorer · Guides · Blueprints · Concepts · MRP/MPS</div></div>
+    <div class="grp" style="--a:#0d9488"><div class="gh"><span class="dot"></span>בנה והגדר <span class="en">Build &amp; Configure</span><span class="cnt">6</span></div><div class="items">Playbooks · Config · ABAP · Enhancements · Exits/BAdIs · Integration</div></div>
+    <div class="grp" style="--a:#dc2626"><div class="gh"><span class="dot"></span>פתור תקלה <span class="en">Troubleshoot &amp; Resolve</span><span class="cnt">6</span></div><div class="items">Resolution · Troubleshooting · SAP Notes · Notes Graph · Debugging · QA</div></div>
+    <div class="grp" style="--a:#2563eb"><div class="gh"><span class="dot"></span>נדוד ל-S/4HANA <span class="en">Migrate</span><span class="cnt">5</span></div><div class="items">Migration · ECC vs S/4 · Transaction Evolution · Fiori · Impact</div></div>
+    <div class="grp" style="--a:#0891b2"><div class="gh"><span class="dot"></span>נתונים והפניות <span class="en">Reference &amp; Data</span><span class="cnt">5</span></div><div class="items">Transactions · Tables · Security · Authorizations · Workbenches</div></div>
+    <div class="grp" style="--a:#be185d"><div class="gh"><span class="dot"></span>הקשר CBC <span class="en">CBC Context</span><span class="cnt">2</span></div><div class="items">CBC Domain Model · CBC Manufacturing</div></div>
+    <div class="grp" style="--a:#475569"><div class="gh"><span class="dot"></span>ממשל ומערכת <span class="en">Governance &amp; System</span><span class="cnt">6</span></div><div class="items">Architect · Verification · Quality Audit · Connector · Import · Toolkit</div></div>
+    <div class="metric">
+      <span class="good"><b>7+1</b>מסעות</span><span class="good"><b>~5</b>כרטיסים למסע</span><span class="good"><b>2</b>שערי חיפוש מובילים</span>
+    </div>
+  </div>
+</div></body></html>

@@ -1,0 +1,96 @@
+{
+  "title": "SAP Order-to-Cash quiz",
+  "items": [
+    {
+      "type": "mcq",
+      "tag": "remember",
+      "question": "Which transaction fits: \"Create it with VA01, change with VA02, display with VA03.\"?",
+      "options": [
+        "VA01",
+        "VF01",
+        "VL01N",
+        "N/A"
+      ],
+      "answer": 0,
+      "rationale": "VA01 per the source.",
+      "source": "Sales Orders"
+    },
+    {
+      "type": "mcq",
+      "tag": "remember",
+      "question": "Which transaction fits: \"The outbound delivery is created with VL01N.\"?",
+      "options": [
+        "VL01N",
+        "VA01",
+        "VF01",
+        "N/A"
+      ],
+      "answer": 0,
+      "rationale": "VL01N per the source.",
+      "source": "Delivery"
+    },
+    {
+      "type": "mcq",
+      "tag": "remember",
+      "question": "Which transaction fits: \"Billing is created with VF01.\"?",
+      "options": [
+        "VF01",
+        "VA01",
+        "VL01N",
+        "N/A"
+      ],
+      "answer": 0,
+      "rationale": "VF01 per the source.",
+      "source": "Billing"
+    },
+    {
+      "type": "mcq",
+      "tag": "remember",
+      "question": "Which transaction fits: \"A return order uses VA01 with order type RE.\"?",
+      "options": [
+        "VA01",
+        "VF01",
+        "VL01N",
+        "N/A"
+      ],
+      "answer": 0,
+      "rationale": "VA01 per the source.",
+      "source": "Returns"
+    },
+    {
+      "type": "mcq",
+      "tag": "remember",
+      "question": "Which transaction fits: \"Credit memo processing follows with VF01.\"?",
+      "options": [
+        "VF01",
+        "VA01",
+        "VL01N",
+        "N/A"
+      ],
+      "answer": 0,
+      "rationale": "VF01 per the source.",
+      "source": "Returns"
+    },
+    {
+      "type": "short",
+      "tag": "understand",
+      "question": "In one line, what does 'Sales Orders' cover?",
+      "answer": "A sales order is a customer request to deliver goods. Create it with VA01, change with VA02, display with VA03. The head",
+      "source": "Sales Orders"
+    },
+    {
+      "type": "short",
+      "tag": "understand",
+      "question": "In one line, what does 'Delivery' cover?",
+      "answer": "The outbound delivery is created with VL01N. Header table LIKP, items LIPS. Goods issue posts movement type 601 and redu",
+      "source": "Delivery"
+    },
+    {
+      "type": "short",
+      "tag": "understand",
+      "question": "In one line, what does 'Billing' cover?",
+      "answer": "Billing is created with VF01. Header table VBRK, items VBRP. Billing creates an FI document in tables BKPF and BSEG.",
+      "source": "Billing"
+    }
+  ]
+}
