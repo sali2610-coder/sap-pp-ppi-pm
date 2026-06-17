@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand, ChevronDown, Database, GitBranch, Workflow } from "lucide-react";
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
 import { Highlight } from "@/components/highlight";
+import dagre from "dagre";
 
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];
@@ -278,42 +279,28 @@ const orderFields = (tf: Field[]) => [...tf.filter((f) => f[3] === "PK"), ...tf.
 /* ===================== DATA MODEL — Object Explorer (square cards + relationship map) ===================== */
 type Line = { x1: number; y1: number; x2: number; y2: number };
 const CARDW = 176, CARDH = 144; // w-44 h-36
-// deterministic force-directed ERD layout (FK edges; hubs gravitate to centre)
-function erdLayout(nodes: string[], edges: [string, string][]) {
-  const n = nodes.length || 1;
-  const idx: Record<string, number> = {}; nodes.forEach((x, i) => (idx[x] = i));
-  const W = Math.max(1100, Math.ceil(Math.sqrt(n)) * 360), H = Math.max(640, Math.ceil(Math.sqrt(n)) * 280);
-  const R = Math.min(W, H) * 0.36;
-  const pos = nodes.map((_, i) => ({ x: W / 2 + Math.cos((2 * Math.PI * i) / n) * R, y: H / 2 + Math.sin((2 * Math.PI * i) / n) * R }));
-  const deg = nodes.map(() => 0); edges.forEach(([a, b]) => { if (idx[a] != null) deg[idx[a]]++; if (idx[b] != null) deg[idx[b]]++; });
-  const k = Math.sqrt((W * H) / n) * 0.9;
-  for (let it = 0; it < 320; it++) {
-    const disp = pos.map(() => ({ x: 0, y: 0 }));
-    for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
-      let dx = pos[i].x - pos[j].x, dy = pos[i].y - pos[j].y; const d = Math.hypot(dx, dy) || 0.01;
-      const f = (k * k) / d; dx /= d; dy /= d; disp[i].x += dx * f; disp[i].y += dy * f; disp[j].x -= dx * f; disp[j].y -= dy * f;
-    }
-    edges.forEach(([a, b]) => { const i = idx[a], j = idx[b]; if (i == null || j == null) return; let dx = pos[i].x - pos[j].x, dy = pos[i].y - pos[j].y; const d = Math.hypot(dx, dy) || 0.01; const f = (d * d) / k; dx /= d; dy /= d; disp[i].x -= dx * f; disp[i].y -= dy * f; disp[j].x += dx * f; disp[j].y += dy * f; });
-    for (let i = 0; i < n; i++) { const g = 0.03 * (1 + deg[i] * 0.6); disp[i].x += (W / 2 - pos[i].x) * g; disp[i].y += (H / 2 - pos[i].y) * g; }
-    const temp = Math.max(4, (W / 8) * (1 - it / 320));
-    for (let i = 0; i < n; i++) {
-      const dl = Math.hypot(disp[i].x, disp[i].y) || 0.01;
-      pos[i].x += (disp[i].x / dl) * Math.min(dl, temp); pos[i].y += (disp[i].y / dl) * Math.min(dl, temp);
-      pos[i].x = Math.max(CARDW, Math.min(W - CARDW, pos[i].x)); pos[i].y = Math.max(CARDH, Math.min(H - CARDH, pos[i].y));
-    }
-  }
-  // overlap removal (card-sized)
-  const GX = CARDW + 34, GY = CARDH + 34;
-  for (let it = 0; it < 90; it++) for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
-    const dx = pos[i].x - pos[j].x, dy = pos[i].y - pos[j].y; const ox = GX - Math.abs(dx), oy = GY - Math.abs(dy);
-    if (ox > 0 && oy > 0) { if (ox < oy) { const s = ((dx < 0 ? -1 : 1) * ox) / 2; pos[i].x += s; pos[j].x -= s; } else { const s = ((dy < 0 ? -1 : 1) * oy) / 2; pos[i].y += s; pos[j].y -= s; } }
-  }
-  const pad = 40;
-  const minX = Math.min(...pos.map((p) => p.x)) - CARDW / 2 - pad, minY = Math.min(...pos.map((p) => p.y)) - CARDH / 2 - pad;
-  const maxX = Math.max(...pos.map((p) => p.x)) + CARDW / 2 + pad, maxY = Math.max(...pos.map((p) => p.y)) + CARDH / 2 + pad;
-  const map: Record<string, { x: number; y: number }> = {};
-  nodes.forEach((nm, i) => (map[nm] = { x: pos[i].x - minX, y: pos[i].y - minY }));
-  return { pos: map, w: Math.ceil(maxX - minX), h: Math.ceil(maxY - minY) };
+type ErdEdge = { a: string; b: string; points: { x: number; y: number }[]; label: string };
+// professional layered ERD layout via dagre (parent→child, crossing-minimised, orthogonal routing)
+function erdLayout(nodes: string[], rels: { a: string; b: string; label: string }[]) {
+  const g = new dagre.graphlib.Graph();
+  g.setGraph({ rankdir: "LR", nodesep: 34, ranksep: 110, marginx: 40, marginy: 40, ranker: "network-simplex" });
+  g.setDefaultEdgeLabel(() => ({}));
+  nodes.forEach((n) => g.setNode(n, { width: CARDW, height: CARDH }));
+  const seen = new Set<string>(); const meta: Record<string, string> = {};
+  rels.forEach(({ a, b, label }) => { if (a === b || !g.hasNode(a) || !g.hasNode(b)) return; const k = a + "" + b; if (seen.has(k)) return; seen.add(k); meta[k] = label; g.setEdge(a, b); });
+  dagre.layout(g);
+  const pos: Record<string, { x: number; y: number }> = {};
+  nodes.forEach((n) => { const nd = g.node(n); if (nd) pos[n] = { x: nd.x - CARDW / 2, y: nd.y - CARDH / 2 }; });
+  const gg = g.graph();
+  const edges: ErdEdge[] = g.edges().map((e) => { const ed = g.edge(e); return { a: e.v, b: e.w, points: (ed.points || []) as { x: number; y: number }[], label: meta[e.v + "" + e.w] || "" }; });
+  return { pos, w: Math.ceil(gg.width || 800) + 20, h: Math.ceil(gg.height || 600) + 20, edges };
+}
+// orthogonal (step) path through dagre waypoints — ERWin/PowerDesigner look
+function orthoPath(pts: { x: number; y: number }[]) {
+  if (pts.length < 2) return "";
+  let d = `M${pts[0].x},${pts[0].y}`;
+  for (let i = 1; i < pts.length; i++) { const p = pts[i - 1], q = pts[i]; const mx = (p.x + q.x) / 2; d += ` L${mx},${p.y} L${mx},${q.y} L${q.x},${q.y}`; }
+  return d;
 }
 
 function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErdMode }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; onTable: (t: string) => void; erdMode: string; setErdMode: (m: "cards" | "graph") => void }) {
@@ -328,15 +315,21 @@ function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErd
   const present = useMemo(() => new Set(rows.map((t) => t.name)), [rows]);
   const relatedOf = useCallback((name: string) => { const t = byName[name]; return new Set((t?.rel || []).map((r) => r.table).filter((n) => present.has(n))); }, [byName, present]);
 
-  // FK edges (deduped) + auto ERD layout
-  const edges = useMemo<[string, string][]>(() => {
-    const seen = new Set<string>(); const out: [string, string][] = [];
-    rows.forEach((t) => (t.rel || []).forEach((r) => { if (!present.has(r.table)) return; const key = [t.name, r.table].sort().join("|"); if (seen.has(key)) return; seen.add(key); out.push([t.name, r.table]); }));
+  // directed FK relations (parent→child) with cardinality labels
+  const rels = useMemo(() => {
+    const out: { a: string; b: string; label: string }[] = [];
+    rows.forEach((t) => (t.rel || []).forEach((r) => {
+      if (!present.has(r.table)) return;
+      const a = r.role === "parent" ? t.name : r.table; const b = r.role === "parent" ? r.table : t.name;
+      out.push({ a, b, label: cardKind(r.card || "1:N") });
+    }));
     return out;
   }, [rows, present]);
-  const layout = useMemo(() => erdLayout(rows.map((t) => t.name), edges), [rows, edges]);
-  const ctr = (nm: string) => { const p = layout.pos[nm]; return p ? { x: p.x + CARDW / 2, y: p.y + CARDH / 2 } : { x: 0, y: 0 }; };
-  const related = hover && !open ? relatedOf(hover) : null;
+  const layout = useMemo(() => erdLayout(rows.map((t) => t.name), rels), [rows, rels]);
+  // focus mode: clicking (open) or hovering a table highlights first-level neighbours only
+  const focusName = open || hover;
+  const focusSet = focusName ? new Set<string>([focusName, ...relatedOf(focusName)]) : null;
+  const related = focusName ? relatedOf(focusName) : null;
 
   return (
     <div className="space-y-2.5">
@@ -357,15 +350,23 @@ function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErd
       {/* ERD canvas — auto graph layout */}
       <div className="overflow-auto rounded-2xl border border-slate-200 bg-[radial-gradient(circle_at_1px_1px,#e2e8f0_1px,transparent_0)] [background-size:22px_22px]" style={{ maxHeight: "74vh" }}>
         <div className="relative" style={{ width: layout.w, height: layout.h, minWidth: "100%" }}>
-          {/* FK connectors */}
+          {/* FK connectors — orthogonal routing + cardinality labels */}
           <svg className="pointer-events-none absolute inset-0" width={layout.w} height={layout.h} aria-hidden>
-            {edges.map(([a, b], i) => {
-              const p = ctr(a), o = ctr(b);
-              const on = !related || (related.has(a) && (b === hover)) || (related.has(b) && (a === hover)) || a === hover || b === hover;
-              const cx1 = p.x + (o.x - p.x) * 0.4, cx2 = o.x - (o.x - p.x) * 0.4;
-              return <path key={i} d={`M${p.x},${p.y} C${cx1},${p.y} ${cx2},${o.y} ${o.x},${o.y}`} fill="none" stroke={c} strokeWidth={on ? 2 : 1.3} strokeOpacity={related ? (on ? 0.85 : 0.08) : 0.4} strokeLinecap="round" />;
+            {layout.edges.map((e, i) => {
+              const pts = e.points; if (pts.length < 2) return null;
+              const on = focusName ? (e.a === focusName || e.b === focusName) : true;
+              const end = pts[pts.length - 1], prev = pts[pts.length - 2];
+              const ang = Math.atan2(end.y - prev.y, end.x - prev.x);
+              const mid = pts[Math.floor(pts.length / 2)];
+              return (
+                <g key={i} opacity={focusName ? (on ? 1 : 0.1) : 0.9}>
+                  <path d={orthoPath(pts)} fill="none" stroke={c} strokeWidth={on ? 2 : 1.3} strokeOpacity={on ? 0.75 : 0.5} strokeLinejoin="round" strokeLinecap="round" />
+                  {/* crow's-foot-ish arrow at child end */}
+                  <path d={`M${end.x},${end.y} L${end.x - 9 * Math.cos(ang - 0.45)},${end.y - 9 * Math.sin(ang - 0.45)} M${end.x},${end.y} L${end.x - 9 * Math.cos(ang + 0.45)},${end.y - 9 * Math.sin(ang + 0.45)}`} stroke={c} strokeWidth={on ? 2 : 1.3} fill="none" strokeLinecap="round" />
+                  {e.label && (on || !focusName) && <g><rect x={mid.x - 13} y={mid.y - 8} width={26} height={15} rx={4} fill="#fff" stroke={c} strokeOpacity={0.35} /><text x={mid.x} y={mid.y + 3} textAnchor="middle" style={{ font: "700 9px ui-monospace", fill: c }}>{e.label}</text></g>}
+                </g>
+              );
             })}
-            {edges.map(([a, b], i) => { const o = ctr(b), p = ctr(a); return <g key={"d" + i}><circle cx={o.x} cy={o.y} r={2.5} fill={c} fillOpacity={related ? 0.7 : 0.45} /><circle cx={p.x} cy={p.y} r={2.5} fill={c} fillOpacity={related ? 0.7 : 0.45} /></g>; })}
           </svg>
 
           {rows.map((t, idx) => {
@@ -374,7 +375,7 @@ function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErd
             const pk = t.fields.filter((f) => f[3] === "PK"), fk = t.fields.filter((f) => f[3] === "FK");
             const rels = t.rel || [];
             const isRel = related?.has(t.name);
-            const dim = related && !isRel && t.name !== hover;
+            const dim = focusSet && !focusSet.has(t.name);
             return (
               <div key={t.name} style={{ position: "absolute", left: pos.x, top: pos.y, width: CARDW }}
                 onMouseEnter={() => !open && setHover(t.name)} onMouseLeave={() => setHover((h) => (h === t.name ? null : h))}
