@@ -277,16 +277,50 @@ const orderFields = (tf: Field[]) => [...tf.filter((f) => f[3] === "PK"), ...tf.
 
 /* ===================== DATA MODEL — Object Explorer (square cards + relationship map) ===================== */
 type Line = { x1: number; y1: number; x2: number; y2: number };
+const CARDW = 176, CARDH = 144; // w-44 h-36
+// deterministic force-directed ERD layout (FK edges; hubs gravitate to centre)
+function erdLayout(nodes: string[], edges: [string, string][]) {
+  const n = nodes.length || 1;
+  const idx: Record<string, number> = {}; nodes.forEach((x, i) => (idx[x] = i));
+  const W = Math.max(1100, Math.ceil(Math.sqrt(n)) * 360), H = Math.max(640, Math.ceil(Math.sqrt(n)) * 280);
+  const R = Math.min(W, H) * 0.36;
+  const pos = nodes.map((_, i) => ({ x: W / 2 + Math.cos((2 * Math.PI * i) / n) * R, y: H / 2 + Math.sin((2 * Math.PI * i) / n) * R }));
+  const deg = nodes.map(() => 0); edges.forEach(([a, b]) => { if (idx[a] != null) deg[idx[a]]++; if (idx[b] != null) deg[idx[b]]++; });
+  const k = Math.sqrt((W * H) / n) * 0.9;
+  for (let it = 0; it < 320; it++) {
+    const disp = pos.map(() => ({ x: 0, y: 0 }));
+    for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
+      let dx = pos[i].x - pos[j].x, dy = pos[i].y - pos[j].y; const d = Math.hypot(dx, dy) || 0.01;
+      const f = (k * k) / d; dx /= d; dy /= d; disp[i].x += dx * f; disp[i].y += dy * f; disp[j].x -= dx * f; disp[j].y -= dy * f;
+    }
+    edges.forEach(([a, b]) => { const i = idx[a], j = idx[b]; if (i == null || j == null) return; let dx = pos[i].x - pos[j].x, dy = pos[i].y - pos[j].y; const d = Math.hypot(dx, dy) || 0.01; const f = (d * d) / k; dx /= d; dy /= d; disp[i].x -= dx * f; disp[i].y -= dy * f; disp[j].x += dx * f; disp[j].y += dy * f; });
+    for (let i = 0; i < n; i++) { const g = 0.03 * (1 + deg[i] * 0.6); disp[i].x += (W / 2 - pos[i].x) * g; disp[i].y += (H / 2 - pos[i].y) * g; }
+    const temp = Math.max(4, (W / 8) * (1 - it / 320));
+    for (let i = 0; i < n; i++) {
+      const dl = Math.hypot(disp[i].x, disp[i].y) || 0.01;
+      pos[i].x += (disp[i].x / dl) * Math.min(dl, temp); pos[i].y += (disp[i].y / dl) * Math.min(dl, temp);
+      pos[i].x = Math.max(CARDW, Math.min(W - CARDW, pos[i].x)); pos[i].y = Math.max(CARDH, Math.min(H - CARDH, pos[i].y));
+    }
+  }
+  // overlap removal (card-sized)
+  const GX = CARDW + 34, GY = CARDH + 34;
+  for (let it = 0; it < 90; it++) for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
+    const dx = pos[i].x - pos[j].x, dy = pos[i].y - pos[j].y; const ox = GX - Math.abs(dx), oy = GY - Math.abs(dy);
+    if (ox > 0 && oy > 0) { if (ox < oy) { const s = ((dx < 0 ? -1 : 1) * ox) / 2; pos[i].x += s; pos[j].x -= s; } else { const s = ((dy < 0 ? -1 : 1) * oy) / 2; pos[i].y += s; pos[j].y -= s; } }
+  }
+  const pad = 40;
+  const minX = Math.min(...pos.map((p) => p.x)) - CARDW / 2 - pad, minY = Math.min(...pos.map((p) => p.y)) - CARDH / 2 - pad;
+  const maxX = Math.max(...pos.map((p) => p.x)) + CARDW / 2 + pad, maxY = Math.max(...pos.map((p) => p.y)) + CARDH / 2 + pad;
+  const map: Record<string, { x: number; y: number }> = {};
+  nodes.forEach((nm, i) => (map[nm] = { x: pos[i].x - minX, y: pos[i].y - minY }));
+  return { pos: map, w: Math.ceil(maxX - minX), h: Math.ceil(maxY - minY) };
+}
+
 function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErdMode }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; onTable: (t: string) => void; erdMode: string; setErdMode: (m: "cards" | "graph") => void }) {
   const c = color(code);
   const [q, setQ] = useState("");
   const [open, setOpen] = useState<string | null>(null);
   const [hover, setHover] = useState<string | null>(null);
-  const [lines, setLines] = useState<Line[]>([]);
-  const [allLines, setAllLines] = useState<Line[]>([]);
-  const [tick, setTick] = useState(0);
-  const wrapRef = useRef<HTMLDivElement | null>(null);
-  const cardRef = useRef<Record<string, HTMLDivElement | null>>({});
 
   const all = useMemo(() => erdMembers(data, code).sort((a, b) => b.degree - a.degree), [data, code]);
   const s = q.trim().toLowerCase();
@@ -294,44 +328,14 @@ function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErd
   const present = useMemo(() => new Set(rows.map((t) => t.name)), [rows]);
   const relatedOf = useCallback((name: string) => { const t = byName[name]; return new Set((t?.rel || []).map((r) => r.table).filter((n) => present.has(n))); }, [byName, present]);
 
-  // draw connector lines from hovered card to its related cards (centers, relative to wrapper)
-  useEffect(() => {
-    if (!hover || open) { setLines([]); return; }
-    const wrap = wrapRef.current; const from = cardRef.current[hover];
-    if (!wrap || !from) { setLines([]); return; }
-    const wr = wrap.getBoundingClientRect();
-    const fr = from.getBoundingClientRect();
-    const cx = fr.left - wr.left + fr.width / 2, cy = fr.top - wr.top + fr.height / 2;
-    const out: Line[] = [];
-    relatedOf(hover).forEach((n) => { const el = cardRef.current[n]; if (!el) return; const r = el.getBoundingClientRect(); out.push({ x1: cx, y1: cy, x2: r.left - wr.left + r.width / 2, y2: r.top - wr.top + r.height / 2 }); });
-    setLines(out);
-  }, [hover, open, relatedOf, rows]);
-
-  // persistent data-model connectors — every related pair, recomputed on layout
-  useEffect(() => {
-    const compute = () => {
-      const wrap = wrapRef.current; if (!wrap) return;
-      const wr = wrap.getBoundingClientRect();
-      const ctr = (n: string) => { const el = cardRef.current[n]; if (!el) return null; const r = el.getBoundingClientRect(); return { x: r.left - wr.left + r.width / 2, y: r.top - wr.top + r.height / 2 }; };
-      const seen = new Set<string>(); const out: Line[] = [];
-      rows.forEach((t) => relatedOf(t.name).forEach((n) => {
-        const key = [t.name, n].sort().join("|"); if (seen.has(key)) return; seen.add(key);
-        const a = ctr(t.name), b = ctr(n); if (a && b) out.push({ x1: a.x, y1: a.y, x2: b.x, y2: b.y });
-      }));
-      setAllLines(out);
-    };
-    const id = setTimeout(compute, 60); // wait for layout/fonts
-    return () => clearTimeout(id);
-  }, [rows, open, relatedOf, tick]);
-
-  // recompute connectors on resize
-  useEffect(() => {
-    const wrap = wrapRef.current; if (!wrap || typeof ResizeObserver === "undefined") return;
-    const ro = new ResizeObserver(() => setTick((x) => x + 1));
-    ro.observe(wrap); window.addEventListener("resize", () => setTick((x) => x + 1));
-    return () => ro.disconnect();
-  }, []);
-
+  // FK edges (deduped) + auto ERD layout
+  const edges = useMemo<[string, string][]>(() => {
+    const seen = new Set<string>(); const out: [string, string][] = [];
+    rows.forEach((t) => (t.rel || []).forEach((r) => { if (!present.has(r.table)) return; const key = [t.name, r.table].sort().join("|"); if (seen.has(key)) return; seen.add(key); out.push([t.name, r.table]); }));
+    return out;
+  }, [rows, present]);
+  const layout = useMemo(() => erdLayout(rows.map((t) => t.name), edges), [rows, edges]);
+  const ctr = (nm: string) => { const p = layout.pos[nm]; return p ? { x: p.x + CARDW / 2, y: p.y + CARDH / 2 } : { x: 0, y: 0 }; };
   const related = hover && !open ? relatedOf(hover) : null;
 
   return (
@@ -339,8 +343,8 @@ function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErd
       {/* single unified toolbar: mode toggle · search · exports */}
       <div className="flex flex-wrap items-center gap-2">
         <div className="inline-flex shrink-0 rounded-lg border border-slate-200 bg-slate-50 p-0.5">
-          <button onClick={() => setErdMode("cards")} className={`rounded-md px-3 py-1.5 text-xs font-bold transition ${erdMode === "cards" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>סייר טבלאות</button>
-          <button onClick={() => setErdMode("graph")} className={`rounded-md px-3 py-1.5 text-xs font-bold transition ${(erdMode as string) === "graph" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>גרף ERD</button>
+          <button onClick={() => setErdMode("cards")} className={`rounded-md px-3 py-1.5 text-xs font-bold transition ${erdMode === "cards" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>מודל נתונים</button>
+          <button onClick={() => setErdMode("graph")} className={`rounded-md px-3 py-1.5 text-xs font-bold transition ${(erdMode as string) === "graph" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>גרף סכמטי</button>
         </div>
         <div className="flex min-w-[200px] flex-1 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 shadow-sm focus-within:border-[#d62027]/40">
           <Search className="size-4 shrink-0 text-[#d62027]" />
@@ -350,34 +354,32 @@ function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErd
         <ExportBar />
       </div>
 
-      <div ref={wrapRef} className="relative">
-        {/* relationship overlay — business object map (core feature) */}
-        {/* persistent data-model map (under cards) */}
-        <svg className="pointer-events-none absolute inset-0 z-0 size-full overflow-visible" aria-hidden style={{ opacity: hover ? 0.18 : 0.4, transition: "opacity .2s" }}>
-          {allLines.map((l, i) => <line key={i} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke={c} strokeWidth={1.5} strokeLinecap="round" />)}
-        </svg>
-        {/* hover emphasis (over cards) */}
-        <svg className="pointer-events-none absolute inset-0 z-20 size-full overflow-visible" aria-hidden>
-          {lines.map((l, i) => (
-            <g key={i}>
-              <line x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke={c} strokeWidth={2.5} strokeOpacity={0.7} strokeDasharray="5 4" strokeLinecap="round" />
-              <circle cx={l.x2} cy={l.y2} r={3.5} fill={c} />
-            </g>
-          ))}
-        </svg>
+      {/* ERD canvas — auto graph layout */}
+      <div className="overflow-auto rounded-2xl border border-slate-200 bg-[radial-gradient(circle_at_1px_1px,#e2e8f0_1px,transparent_0)] [background-size:22px_22px]" style={{ maxHeight: "74vh" }}>
+        <div className="relative" style={{ width: layout.w, height: layout.h, minWidth: "100%" }}>
+          {/* FK connectors */}
+          <svg className="pointer-events-none absolute inset-0" width={layout.w} height={layout.h} aria-hidden>
+            {edges.map(([a, b], i) => {
+              const p = ctr(a), o = ctr(b);
+              const on = !related || (related.has(a) && (b === hover)) || (related.has(b) && (a === hover)) || a === hover || b === hover;
+              const cx1 = p.x + (o.x - p.x) * 0.4, cx2 = o.x - (o.x - p.x) * 0.4;
+              return <path key={i} d={`M${p.x},${p.y} C${cx1},${p.y} ${cx2},${o.y} ${o.x},${o.y}`} fill="none" stroke={c} strokeWidth={on ? 2 : 1.3} strokeOpacity={related ? (on ? 0.85 : 0.08) : 0.4} strokeLinecap="round" />;
+            })}
+            {edges.map(([a, b], i) => { const o = ctr(b), p = ctr(a); return <g key={"d" + i}><circle cx={o.x} cy={o.y} r={2.5} fill={c} fillOpacity={related ? 0.7 : 0.45} /><circle cx={p.x} cy={p.y} r={2.5} fill={c} fillOpacity={related ? 0.7 : 0.45} /></g>; })}
+          </svg>
 
-        <div className="flex flex-wrap gap-3">
           {rows.map((t, idx) => {
+            const pos = layout.pos[t.name]; if (!pos) return null;
             const isOpen = open === t.name;
             const pk = t.fields.filter((f) => f[3] === "PK"), fk = t.fields.filter((f) => f[3] === "FK");
             const rels = t.rel || [];
             const isRel = related?.has(t.name);
             const dim = related && !isRel && t.name !== hover;
             return (
-              <div key={t.name} ref={(el) => { cardRef.current[t.name] = el; }}
+              <div key={t.name} style={{ position: "absolute", left: pos.x, top: pos.y, width: CARDW }}
                 onMouseEnter={() => !open && setHover(t.name)} onMouseLeave={() => setHover((h) => (h === t.name ? null : h))}
-                className={`relative ${isOpen ? "z-30" : "z-10"} transition-opacity duration-200 ${dim ? "opacity-40" : "opacity-100"}`}>
-                {/* L1 — square card, 1:1 with Objects page */}
+                className={`${isOpen ? "z-30" : isRel ? "z-20" : "z-10"} transition-opacity duration-200 ${dim ? "opacity-40" : "opacity-100"}`}>
+                {/* L1 — card (design unchanged) */}
                 <button onClick={() => { setOpen(isOpen ? null : t.name); setHover(null); }}
                   style={{ borderColor: c, ...((isOpen || isRel) ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : {}) }}
                   className={`group flex h-36 w-44 flex-col rounded-2xl border bg-white p-3.5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${isOpen || isRel ? "ring-2" : ""}`}>
@@ -389,9 +391,9 @@ function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErd
                   </span>
                 </button>
 
-                {/* L2 — w-56 panel below the card, 1:1 with Objects open behavior */}
+                {/* L2 — panel below card (design unchanged) */}
                 {isOpen && (
-                  <div className="mt-2 w-44 space-y-2 rounded-xl border border-slate-200 bg-white p-3 shadow-sm" style={{ animation: "fadeUp .3s ease both" }}>
+                  <div className="absolute start-0 top-full z-40 mt-2 w-44 space-y-2 rounded-xl border border-slate-200 bg-white p-3 shadow-xl" style={{ animation: "fadeUp .3s ease both" }}>
                     <Field2 label="מפתח ראשי (PK)" tone="#d97706">{pk.length ? pk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
                     <Field2 label="מפתח זר (FK)" tone="#0891b2">{fk.length ? fk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
                     <Field2 label="שדות עיקריים" tone="#475569">{t.fields.slice(0, 6).map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>)}</Field2>
