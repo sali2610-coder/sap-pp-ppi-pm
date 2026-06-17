@@ -59,7 +59,7 @@ export default function Page() {
     <div dir="rtl" className="relative mx-[calc(50%-50vw)] -my-8 w-screen max-w-[100vw] overflow-hidden border-y border-slate-200 bg-white text-slate-900">
       <style>{ANIM}</style>
       {/* top bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-gradient-to-l from-white to-slate-50 px-4 py-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-gradient-to-l from-white to-slate-50 px-4 py-2">
         <div className="flex items-center gap-3">
           <span className="rounded-md bg-[#d62027] px-2 py-1 font-mono text-[11px] font-bold text-white">NEO</span>
           <div><div className="text-base font-extrabold text-slate-900">SAP Architecture Explorer · תשתית SAP</div><div className="text-[11px] text-slate-500">ECC6 → S/4HANA · לומדים תהליך → אובייקטים → טבלאות</div></div>
@@ -80,13 +80,13 @@ export default function Page() {
         </div>
       </div>
       {/* breadcrumb */}
-      <div className="flex items-center gap-1 border-b border-slate-200 bg-slate-50/60 px-4 py-2 text-xs">
+      <div className="flex items-center gap-1 border-b border-slate-200 bg-slate-50/60 px-4 py-1 text-xs">
         <button onClick={() => setNav({ level: "universe" })} className="flex items-center gap-1 rounded px-1.5 py-0.5 font-semibold text-slate-500 hover:bg-slate-100"><Home className="size-3" /> Universe</button>
         {nav.module && <><ChevronLeft className="size-3 text-slate-300" /><span className="rounded px-1.5 py-0.5 font-bold text-slate-800">{nav.module} · {MOD_NAME_HE[nav.module]}</span></>}
         {nav.module && nav.tab && <><ChevronLeft className="size-3 text-slate-300" /><span className="rounded px-1.5 py-0.5 font-semibold text-[#d62027]">{(TABS.find((x) => x[0] === nav.tab) || ["", nav.tab])[1]}</span></>}
       </div>
 
-      <div className="bg-slate-50/40 p-4">
+      <div className="bg-slate-50/40 px-4 py-2.5">
         {nav.level === "universe" && <Universe data={data} color={color} onModule={openModule} />}
         {nav.level === "module" && nav.module && <Workspace data={data} color={color} code={nav.module} tab={nav.tab || "erd"} focus={nav.focus} byName={byName}
           setTab={(t) => setNav({ level: "module", module: nav.module, tab: t })} openErd={(focus) => setNav({ level: "module", module: nav.module, tab: "erd", focus })}
@@ -163,8 +163,8 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
   const [erdMode, setErdMode] = useState<"cards" | "graph">("cards");
   useEffect(() => { setErdMode("cards"); }, [code]);
   return (
-    <div className="space-y-4" style={{ animation: "fadeUp .35s ease both" }}>
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm" style={{ borderInlineStartColor: c, borderInlineStartWidth: 5 }}>
+    <div className="space-y-2.5" style={{ animation: "fadeUp .35s ease both" }}>
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 shadow-sm" style={{ borderInlineStartColor: c, borderInlineStartWidth: 5 }}>
         <div><div className="flex items-center gap-2"><span className="font-mono text-2xl font-extrabold text-slate-900">{code}</span><span className="font-semibold text-slate-600">{MOD_NAME_HE[code]}</span></div><p className="mt-0.5 max-w-3xl text-xs text-slate-500">{purpose}</p></div>
         <div className="flex rounded-xl border border-slate-200 bg-slate-50 p-0.5">
           {TABS.map(([id, label]) => <button key={id} onClick={() => setTab(id)} className={`rounded-lg px-3.5 py-1.5 text-sm font-bold transition ${tab === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>{label}</button>)}
@@ -173,7 +173,7 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
       {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} onTable={onTable} />}
       {tab === "process" && <ProcessFlow color={color} code={code} />}
       {tab === "erd" && (
-        <div className="space-y-3">
+        <div className="space-y-2">
           <div className="flex items-center gap-2">
             <div className="inline-flex rounded-xl border border-slate-200 bg-slate-50 p-0.5">
               <button onClick={() => setErdMode("cards")} className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${erdMode === "cards" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>סייר טבלאות</button>
@@ -302,7 +302,7 @@ function DataModelExplorer({ data, color, code, byName, onTable }: { data: Data;
   const related = hover && !open ? relatedOf(hover) : null;
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 shadow-sm focus-within:border-[#d62027]/40">
         <Search className="size-4 shrink-0 text-[#d62027]" />
         <input value={q} onChange={(e) => { setQ(e.target.value); setOpen(null); }} placeholder="חפש אובייקט/טבלה במפת הנתונים…" className="h-6 w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
@@ -332,45 +332,46 @@ function DataModelExplorer({ data, color, code, byName, onTable }: { data: Data;
               <div key={t.name} ref={(el) => { cardRef.current[t.name] = el; }}
                 onMouseEnter={() => !open && setHover(t.name)} onMouseLeave={() => setHover((h) => (h === t.name ? null : h))}
                 className={`relative z-10 transition-all duration-200 ${isOpen ? "col-span-2 sm:col-span-3 lg:col-span-4 xl:col-span-6" : ""} ${dim ? "opacity-40" : "opacity-100"}`}>
-                {/* L1 — square red card */}
+                {/* L1 — compact red card */}
                 <button onClick={() => { setOpen(isOpen ? null : t.name); setHover(null); }}
-                  className={`flex w-full flex-col overflow-hidden rounded-2xl border text-start shadow-sm transition-all ${isOpen ? "border-transparent ring-2" : isRel ? "border-transparent ring-2 -translate-y-0.5" : "border-slate-200 hover:-translate-y-1 hover:shadow-xl"} ${isOpen ? "" : "h-36"}`}
+                  className={`flex w-full flex-col overflow-hidden rounded-xl border text-start shadow-sm transition-all ${isOpen ? "border-transparent ring-2" : isRel ? "border-transparent ring-2 -translate-y-0.5" : "border-slate-200 hover:-translate-y-0.5 hover:shadow-lg"} ${isOpen ? "" : "h-[78px]"}`}
                   style={(isOpen || isRel) ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : undefined}>
-                  <div className="relative px-3 py-2.5 text-white" style={{ background: "linear-gradient(135deg,#d62027,#8f1318)" }}>
-                    <span className="absolute inset-x-0 top-0 h-1" style={{ background: c }} />
-                    <div className="flex items-center justify-between gap-1">
-                      <span className="font-mono text-base font-extrabold" dir="ltr"><Highlight text={t.name} query={q} /></span>
-                      <span className="rounded bg-white/20 px-1 py-0.5 text-[9px] font-bold">{t.mod}</span>
-                    </div>
+                  <div className="relative flex items-center justify-between gap-1 px-2.5 py-1.5 text-white" style={{ background: "linear-gradient(135deg,#d62027,#8f1318)" }}>
+                    <span className="absolute inset-x-0 top-0 h-0.5" style={{ background: c }} />
+                    <span className="font-mono text-sm font-extrabold" dir="ltr"><Highlight text={t.name} query={q} /></span>
+                    <span className="rounded bg-white/20 px-1 text-[8px] font-bold">{t.mod}</span>
                   </div>
-                  {!isOpen && (
-                    <div className="flex flex-1 flex-col justify-between p-3">
-                      <p className="line-clamp-2 text-xs font-semibold leading-snug text-slate-700"><Highlight text={t.he || t.en} query={q} /></p>
-                      <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400">
+                  {!isOpen ? (
+                    <div className="flex flex-1 flex-col justify-between px-2.5 py-1.5">
+                      <p className="line-clamp-1 text-[11px] font-semibold text-slate-700"><Highlight text={t.he || t.en} query={q} /></p>
+                      <div className="flex items-center gap-2 text-[9px] font-bold text-slate-400">
                         <span className="flex items-center gap-0.5"><KeyRound className="size-2.5 text-amber-500" />{pk.length}</span>
                         <span className="flex items-center gap-0.5"><Link2 className="size-2.5 text-cyan-500" />{fk.length}</span>
                         <span className="flex items-center gap-0.5"><GitBranch className="size-2.5" />{rels.length}</span>
                       </div>
                     </div>
+                  ) : (
+                    <div className="px-2.5 py-1 text-[11px] font-semibold text-slate-600"><Highlight text={t.he || t.en} query={q} /></div>
                   )}
-                  {isOpen && <div className="px-3 pb-1 pt-2 text-sm font-semibold text-slate-700"><Highlight text={t.he || t.en} query={q} /></div>}
                 </button>
 
-                {/* L2 — inline expand under the card */}
+                {/* L2 — compact inline summary */}
                 {isOpen && (
-                  <div className="mt-2 space-y-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl" style={{ animation: "fadeUp .3s ease both" }}>
-                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                      <Field2 label="מפתח ראשי (PK)" tone="#d97706">{pk.length ? pk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
-                      <Field2 label="מפתח זר (FK)" tone="#0891b2">{fk.length ? fk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
-                      <Field2 label="שדות עיקריים" tone="#475569">{t.fields.slice(0, 8).map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>)}</Field2>
-                      <Field2 label="קשרים" tone={c}>{rels.length ? rels.slice(0, 8).map((r) => (
-                        <button key={r.role + r.table} onClick={() => byName[r.table] && onTable(r.table)} className="tech rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] font-bold text-slate-600 transition hover:text-[#d62027]" dir="ltr">{r.role === "parent" ? "↓" : "↑"} <Highlight text={r.table} query={q} /> <span className="text-slate-400">{r.card}</span></button>
+                  <div className="mt-1.5 space-y-2 rounded-xl border border-slate-200 bg-white p-2.5 shadow-lg" style={{ animation: "fadeUp .25s ease both" }}>
+                    <div className="grid gap-x-3 gap-y-1.5 sm:grid-cols-2 lg:grid-cols-4">
+                      <Field2 label="PK" tone="#d97706">{pk.length ? pk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
+                      <Field2 label="FK" tone="#0891b2">{fk.length ? fk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
+                      <Field2 label="שדות" tone="#475569">{t.fields.slice(0, 6).map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>)}</Field2>
+                      <Field2 label="קשרים" tone={c}>{rels.length ? rels.slice(0, 6).map((r) => (
+                        <button key={r.role + r.table} onClick={() => byName[r.table] && onTable(r.table)} className="tech rounded border border-slate-200 bg-slate-50 px-1.5 text-[10px] font-bold text-slate-600 transition hover:text-[#d62027]" dir="ltr">{r.role === "parent" ? "↓" : "↑"}<Highlight text={r.table} query={q} /></button>
                       )) : <Dash />}</Field2>
                     </div>
-                    {t.s4 && <p className="rounded-lg bg-amber-50 px-2.5 py-1.5 text-[12px] font-medium text-amber-900"><span className="font-bold">ECC → S/4: </span><Highlight text={t.s4} query={q} />{t.s4alt ? ` · חלופה: ${t.s4alt}` : ""}</p>}
-                    <button onClick={() => onTable(t.name)} className="lift inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold text-white shadow-lg" style={{ background: c, boxShadow: `0 8px 18px ${c}55` }}>
-                      <Workflow className="size-3.5" />סביבת עבודה מלאה<ArrowLeft className="size-3.5" />
-                    </button>
+                    <div className="flex items-center justify-between gap-2">
+                      {t.s4 ? <p className="line-clamp-1 flex-1 rounded bg-amber-50 px-2 py-1 text-[10px] font-medium text-amber-900"><span className="font-bold">S/4: </span><Highlight text={t.s4} query={q} /></p> : <span />}
+                      <button onClick={() => onTable(t.name)} className="tap inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-bold text-white shadow" style={{ background: c }}>
+                        <Workflow className="size-3" />סביבת עבודה<ArrowLeft className="size-3" />
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
