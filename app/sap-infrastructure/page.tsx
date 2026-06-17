@@ -269,75 +269,117 @@ const MODES = [["focus", "מיקוד", "Focus"], ["dep", "תלויות", "Depend
 type Mode = typeof MODES[number][0];
 const orderFields = (tf: Field[]) => [...tf.filter((f) => f[3] === "PK"), ...tf.filter((f) => f[3] === "FK"), ...tf.filter((f) => f[3] !== "PK" && f[3] !== "FK")];
 
-/* ===================== DATA MODEL — Table Explorer Premium (L1→L2→L3) ===================== */
+/* ===================== DATA MODEL — Object Explorer (square cards + relationship map) ===================== */
+type Line = { x1: number; y1: number; x2: number; y2: number };
 function DataModelExplorer({ data, color, code, byName, onTable }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; onTable: (t: string) => void }) {
   const c = color(code);
   const [q, setQ] = useState("");
   const [open, setOpen] = useState<string | null>(null);
+  const [hover, setHover] = useState<string | null>(null);
+  const [lines, setLines] = useState<Line[]>([]);
+  const wrapRef = useRef<HTMLDivElement | null>(null);
+  const cardRef = useRef<Record<string, HTMLDivElement | null>>({});
+
   const all = useMemo(() => erdMembers(data, code).sort((a, b) => b.degree - a.degree), [data, code]);
   const s = q.trim().toLowerCase();
   const rows = useMemo(() => (s ? all.filter((t) => t.name.toLowerCase().includes(s) || (t.he || "").includes(q) || (t.en || "").toLowerCase().includes(s) || (t.tcodes || "").toLowerCase().includes(s)) : all), [all, s, q]);
+  const present = useMemo(() => new Set(rows.map((t) => t.name)), [rows]);
+  const relatedOf = useCallback((name: string) => { const t = byName[name]; return new Set((t?.rel || []).map((r) => r.table).filter((n) => present.has(n))); }, [byName, present]);
+
+  // draw connector lines from hovered card to its related cards (centers, relative to wrapper)
+  useEffect(() => {
+    if (!hover || open) { setLines([]); return; }
+    const wrap = wrapRef.current; const from = cardRef.current[hover];
+    if (!wrap || !from) { setLines([]); return; }
+    const wr = wrap.getBoundingClientRect();
+    const fr = from.getBoundingClientRect();
+    const cx = fr.left - wr.left + fr.width / 2, cy = fr.top - wr.top + fr.height / 2;
+    const out: Line[] = [];
+    relatedOf(hover).forEach((n) => { const el = cardRef.current[n]; if (!el) return; const r = el.getBoundingClientRect(); out.push({ x1: cx, y1: cy, x2: r.left - wr.left + r.width / 2, y2: r.top - wr.top + r.height / 2 }); });
+    setLines(out);
+  }, [hover, open, relatedOf, rows]);
+
+  const related = hover && !open ? relatedOf(hover) : null;
 
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 shadow-sm focus-within:border-[#d62027]/40">
         <Search className="size-4 shrink-0 text-[#d62027]" />
-        <input value={q} onChange={(e) => { setQ(e.target.value); setOpen(null); }} placeholder="חפש טבלה במודל הנתונים…" className="h-6 w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
-        {q && <span className="shrink-0 rounded-lg bg-[#d62027]/10 px-2 py-0.5 text-xs font-extrabold text-[#d62027]">{rows.length} טבלאות</span>}
+        <input value={q} onChange={(e) => { setQ(e.target.value); setOpen(null); }} placeholder="חפש אובייקט/טבלה במפת הנתונים…" className="h-6 w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
+        <span className="hidden shrink-0 text-[11px] font-medium text-slate-400 sm:block">רחף לראות קשרים · לחץ להרחבה</span>
+        {q && <span className="shrink-0 rounded-lg bg-[#d62027]/10 px-2 py-0.5 text-xs font-extrabold text-[#d62027]">{rows.length}</span>}
       </div>
-      <div className="grid gap-3 lg:grid-cols-2 xl:grid-cols-3">
-        {rows.map((t) => {
-          const isOpen = open === t.name;
-          const pk = t.fields.filter((f) => f[3] === "PK"), fk = t.fields.filter((f) => f[3] === "FK");
-          const rels = t.rel || [];
-          return (
-            <div key={t.name} className={`group relative overflow-hidden rounded-2xl border bg-white shadow-sm transition-all ${isOpen ? "border-transparent shadow-xl ring-1 ring-[#d62027]/30 xl:col-span-2" : "border-slate-200 hover:-translate-y-1 hover:shadow-xl"}`}>
-              {/* L1 — red table card */}
-              <button onClick={() => setOpen(isOpen ? null : t.name)} className="block w-full text-start">
-                <div className="relative px-4 py-3 text-white" style={{ background: "linear-gradient(135deg,#d62027,#8f1318)" }}>
-                  <span className="absolute inset-x-0 top-0 h-1" style={{ background: c }} />
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2"><Database className="size-4 opacity-80" /><span className="font-mono text-lg font-extrabold" dir="ltr"><Highlight text={t.name} query={q} /></span><span className="rounded bg-white/20 px-1.5 py-0.5 text-[10px] font-bold">{t.mod}</span></div>
-                    <ChevronDown className={`size-4 shrink-0 text-white/80 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+
+      <div ref={wrapRef} className="relative">
+        {/* relationship overlay (business object map) */}
+        <svg className="pointer-events-none absolute inset-0 z-20 size-full overflow-visible" aria-hidden>
+          {lines.map((l, i) => (
+            <g key={i}>
+              <line x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke={c} strokeWidth={2} strokeOpacity={0.55} strokeDasharray="5 4" strokeLinecap="round" />
+              <circle cx={l.x2} cy={l.y2} r={3.5} fill={c} />
+            </g>
+          ))}
+        </svg>
+
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+          {rows.map((t) => {
+            const isOpen = open === t.name;
+            const pk = t.fields.filter((f) => f[3] === "PK"), fk = t.fields.filter((f) => f[3] === "FK");
+            const rels = t.rel || [];
+            const isRel = related?.has(t.name);
+            const dim = related && !isRel && t.name !== hover;
+            return (
+              <div key={t.name} ref={(el) => { cardRef.current[t.name] = el; }}
+                onMouseEnter={() => !open && setHover(t.name)} onMouseLeave={() => setHover((h) => (h === t.name ? null : h))}
+                className={`relative z-10 transition-all duration-200 ${isOpen ? "col-span-2 sm:col-span-3 lg:col-span-4 xl:col-span-6" : ""} ${dim ? "opacity-40" : "opacity-100"}`}>
+                {/* L1 — square red card */}
+                <button onClick={() => { setOpen(isOpen ? null : t.name); setHover(null); }}
+                  className={`flex w-full flex-col overflow-hidden rounded-2xl border text-start shadow-sm transition-all ${isOpen ? "border-transparent ring-2" : isRel ? "border-transparent ring-2 -translate-y-0.5" : "border-slate-200 hover:-translate-y-1 hover:shadow-xl"} ${isOpen ? "" : "h-36"}`}
+                  style={(isOpen || isRel) ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : undefined}>
+                  <div className="relative px-3 py-2.5 text-white" style={{ background: "linear-gradient(135deg,#d62027,#8f1318)" }}>
+                    <span className="absolute inset-x-0 top-0 h-1" style={{ background: c }} />
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="font-mono text-base font-extrabold" dir="ltr"><Highlight text={t.name} query={q} /></span>
+                      <span className="rounded bg-white/20 px-1 py-0.5 text-[9px] font-bold">{t.mod}</span>
+                    </div>
                   </div>
-                  <p className="mt-0.5 truncate text-xs text-white/85"><Highlight text={t.he || t.en} query={q} /></p>
-                </div>
-                {!isOpen && (
-                  <div className="flex flex-wrap items-center gap-1.5 px-4 py-2.5">
-                    <Tag icon={<KeyRound className="size-3" />} t={`${pk.length} PK · ${fk.length} FK`} tone="#0891b2" />
-                    <Tag icon={<GitBranch className="size-3" />} t={`${rels.length} קשרים`} tone={c} />
-                    <Tag icon={<Database className="size-3" />} t={`${t.fields.length} שדות`} tone="#64748b" />
+                  {!isOpen && (
+                    <div className="flex flex-1 flex-col justify-between p-3">
+                      <p className="line-clamp-2 text-xs font-semibold leading-snug text-slate-700"><Highlight text={t.he || t.en} query={q} /></p>
+                      <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400">
+                        <span className="flex items-center gap-0.5"><KeyRound className="size-2.5 text-amber-500" />{pk.length}</span>
+                        <span className="flex items-center gap-0.5"><Link2 className="size-2.5 text-cyan-500" />{fk.length}</span>
+                        <span className="flex items-center gap-0.5"><GitBranch className="size-2.5" />{rels.length}</span>
+                      </div>
+                    </div>
+                  )}
+                  {isOpen && <div className="px-3 pb-1 pt-2 text-sm font-semibold text-slate-700"><Highlight text={t.he || t.en} query={q} /></div>}
+                </button>
+
+                {/* L2 — inline expand under the card */}
+                {isOpen && (
+                  <div className="mt-2 space-y-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-xl" style={{ animation: "fadeUp .3s ease both" }}>
+                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                      <Field2 label="מפתח ראשי (PK)" tone="#d97706">{pk.length ? pk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
+                      <Field2 label="מפתח זר (FK)" tone="#0891b2">{fk.length ? fk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
+                      <Field2 label="שדות עיקריים" tone="#475569">{t.fields.slice(0, 8).map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>)}</Field2>
+                      <Field2 label="קשרים" tone={c}>{rels.length ? rels.slice(0, 8).map((r) => (
+                        <button key={r.role + r.table} onClick={() => byName[r.table] && onTable(r.table)} className="tech rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] font-bold text-slate-600 transition hover:text-[#d62027]" dir="ltr">{r.role === "parent" ? "↓" : "↑"} <Highlight text={r.table} query={q} /> <span className="text-slate-400">{r.card}</span></button>
+                      )) : <Dash />}</Field2>
+                    </div>
+                    {t.s4 && <p className="rounded-lg bg-amber-50 px-2.5 py-1.5 text-[12px] font-medium text-amber-900"><span className="font-bold">ECC → S/4: </span><Highlight text={t.s4} query={q} />{t.s4alt ? ` · חלופה: ${t.s4alt}` : ""}</p>}
+                    <button onClick={() => onTable(t.name)} className="lift inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold text-white shadow-lg" style={{ background: c, boxShadow: `0 8px 18px ${c}55` }}>
+                      <Workflow className="size-3.5" />סביבת עבודה מלאה<ArrowLeft className="size-3.5" />
+                    </button>
                   </div>
                 )}
-              </button>
-
-              {/* L2 — inline summary */}
-              {isOpen && (
-                <div className="space-y-3 p-4" style={{ animation: "fadeUp .3s ease both" }}>
-                  <p className="text-sm leading-relaxed text-slate-600"><Highlight text={t.he || t.en} query={q} /></p>
-                  <div className="grid grid-cols-2 gap-2">
-                    <Field2 label="PK" tone="#d97706">{pk.length ? pk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
-                    <Field2 label="FK" tone="#0891b2">{fk.length ? fk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
-                  </div>
-                  <Field2 label="שדות עיקריים" tone="#475569">{t.fields.slice(0, 8).map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>)}</Field2>
-                  <Field2 label="קשרים" tone={c}>{rels.length ? rels.slice(0, 8).map((r) => (
-                    <button key={r.role + r.table} onClick={() => byName[r.table] && onTable(r.table)} className="tech rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] font-bold text-slate-600 transition hover:text-[#d62027]" dir="ltr">{r.role === "parent" ? "↓" : "↑"} <Highlight text={r.table} query={q} /> <span className="text-slate-400">{r.card}</span></button>
-                  )) : <Dash />}</Field2>
-                  {t.s4 && <p className="rounded-lg bg-amber-50 px-2.5 py-1.5 text-[12px] font-medium text-amber-900"><span className="font-bold">ECC → S/4: </span><Highlight text={t.s4} query={q} />{t.s4alt ? ` · חלופה: ${t.s4alt}` : ""}</p>}
-                  <button onClick={() => onTable(t.name)} className="lift inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold text-white shadow-lg" style={{ background: c, boxShadow: `0 8px 18px ${c}55` }}>
-                    <Workflow className="size-3.5" />סביבת עבודה מלאה<ArrowLeft className="size-3.5" />
-                  </button>
-                </div>
-              )}
-            </div>
-          );
-        })}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
-}
-function Tag({ icon, t, tone }: { icon: React.ReactNode; t: string; tone: string }) {
-  return <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold tabular-nums" style={{ background: tone + "14", color: tone }}>{icon}{t}</span>;
 }
 function Field2({ label, tone, children }: { label: string; tone: string; children: React.ReactNode }) {
   return <div><p className="mb-1 text-[10px] font-bold uppercase tracking-wide" style={{ color: tone }}>{label}</p><div className="flex flex-wrap gap-1.5">{children}</div></div>;
