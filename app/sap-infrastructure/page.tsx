@@ -334,7 +334,7 @@ function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErd
           ))}
         </svg>
 
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="flex flex-wrap gap-3">
           {rows.map((t, idx) => {
             const isOpen = open === t.name;
             const pk = t.fields.filter((f) => f[3] === "PK"), fk = t.fields.filter((f) => f[3] === "FK");
@@ -345,25 +345,23 @@ function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErd
               <div key={t.name} ref={(el) => { cardRef.current[t.name] = el; }}
                 onMouseEnter={() => !open && setHover(t.name)} onMouseLeave={() => setHover((h) => (h === t.name ? null : h))}
                 className={`relative ${isOpen ? "z-30" : "z-10"} transition-opacity duration-200 ${dim ? "opacity-40" : "opacity-100"}`}>
-                {/* L1 — Object-style card (1:1 with Objects page) */}
+                {/* L1 — square card, 1:1 with Objects page */}
                 <button onClick={() => { setOpen(isOpen ? null : t.name); setHover(null); }}
                   style={{ borderColor: c, ...((isOpen || isRel) ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : {}) }}
-                  className={`group flex h-40 w-full flex-col rounded-2xl border bg-white p-5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${isOpen || isRel ? "ring-2" : ""}`}>
+                  className={`group flex h-44 w-56 flex-col rounded-2xl border bg-white p-5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${isOpen || isRel ? "ring-2" : ""}`}>
                   <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">{String(idx + 1).padStart(2, "0")} · {t.mod}</span>
-                  <span className="mt-1 line-clamp-2 text-xl font-extrabold leading-tight text-slate-900"><Highlight text={t.he || t.en} query={q} /></span>
+                  <span className="mt-1 line-clamp-2 text-2xl font-extrabold leading-tight text-slate-900"><Highlight text={t.he || t.en} query={q} /></span>
                   <span className="tech text-xs text-slate-400" dir="ltr"><Highlight text={t.name} query={q} /></span>
                   <span className="mt-auto inline-flex items-center gap-1.5 self-start rounded-full px-2.5 py-1 text-[11px] font-bold" style={{ background: c + "1a", color: c }}>
                     {rels.length} קשרים · {t.fields.length} שדות {isOpen ? "▲" : "▼"}
                   </span>
                 </button>
 
-                {/* L2 — small elegant popover panel (no layout reflow) */}
+                {/* L2 — w-56 panel below the card, 1:1 with Objects open behavior */}
                 {isOpen && (
-                  <div className="absolute start-0 top-full z-40 mt-1.5 w-[320px] max-w-[88vw] space-y-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl" style={{ animation: "fadeUp .22s ease both" }}>
-                    <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
-                      <Field2 label="PK" tone="#d97706">{pk.length ? pk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
-                      <Field2 label="FK" tone="#0891b2">{fk.length ? fk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
-                    </div>
+                  <div className="mt-2 w-56 space-y-2 rounded-xl border border-slate-200 bg-white p-3 shadow-sm" style={{ animation: "fadeUp .3s ease both" }}>
+                    <Field2 label="מפתח ראשי (PK)" tone="#d97706">{pk.length ? pk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
+                    <Field2 label="מפתח זר (FK)" tone="#0891b2">{fk.length ? fk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
                     <Field2 label="שדות עיקריים" tone="#475569">{t.fields.slice(0, 6).map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>)}</Field2>
                     <Field2 label="קשרים" tone={c}>{rels.length ? rels.slice(0, 6).map((r) => (
                       <button key={r.role + r.table} onClick={() => byName[r.table] && onTable(r.table)} className="tech rounded border border-slate-200 bg-slate-50 px-1.5 text-[10px] font-bold text-slate-600 transition hover:text-[#d62027]" dir="ltr">{r.role === "parent" ? "↓" : "↑"}<Highlight text={r.table} query={q} /></button>
