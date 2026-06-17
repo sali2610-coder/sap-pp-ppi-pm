@@ -44,3 +44,6 @@ next-env.d.ts
 
 # design advisor reference (read-only, do not commit)
 .design-ref/
+
+# presentation build artifacts (large)
+presentations/**/out/
