@@ -58,16 +58,19 @@ export default function Page() {
   return (
     <div dir="rtl" className="relative mx-[calc(50%-50vw)] -my-8 w-screen max-w-[100vw] overflow-hidden border-y border-slate-200 bg-white text-slate-900">
       <style>{ANIM}</style>
-      {/* top bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-gradient-to-l from-white to-slate-50 px-4 py-2">
-        <div className="flex items-center gap-3">
-          <span className="rounded-md bg-[#d62027] px-2 py-1 font-mono text-[11px] font-bold text-white">NEO</span>
-          <div><div className="text-base font-extrabold text-slate-900">SAP Architecture Explorer · תשתית SAP</div><div className="text-[11px] text-slate-500">ECC6 → S/4HANA · לומדים תהליך → אובייקטים → טבלאות</div></div>
-        </div>
-        <div className="relative w-full max-w-md">
-          <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-1.5 shadow-sm">
-            <Search className="size-4 text-slate-400" />
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש מודול · טבלה · T-Code · BAPI" className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
+      {/* unified slim header: brand · breadcrumb · compact search */}
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-slate-200 bg-gradient-to-l from-white to-slate-50 px-4 py-1.5">
+        <span className="rounded-md bg-[#d62027] px-1.5 py-0.5 font-mono text-[10px] font-bold text-white">NEO</span>
+        <span className="text-sm font-extrabold text-slate-900">SAP Architecture Explorer</span>
+        <nav className="flex items-center gap-1 text-[11px]">
+          <button onClick={() => setNav({ level: "universe" })} className="flex items-center gap-1 rounded px-1 py-0.5 font-semibold text-slate-400 hover:bg-slate-100 hover:text-slate-700"><Home className="size-3" />Universe</button>
+          {nav.module && <><ChevronLeft className="size-3 text-slate-300" /><span className="font-bold text-slate-700">{nav.module}</span></>}
+          {nav.module && nav.tab && <><ChevronLeft className="size-3 text-slate-300" /><span className="font-semibold text-[#d62027]">{(TABS.find((x) => x[0] === nav.tab) || ["", nav.tab])[1]}</span></>}
+        </nav>
+        <div className="relative ms-auto w-full max-w-xs">
+          <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1 shadow-sm">
+            <Search className="size-3.5 text-slate-400" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש מהיר · מודול · טבלה" className="w-full bg-transparent text-[13px] outline-none placeholder:text-slate-400" />
             {q && <button onClick={() => setQ("")}><X className="size-3.5 text-slate-400" /></button>}
           </div>
           {results.length > 0 && (
@@ -79,14 +82,8 @@ export default function Page() {
           )}
         </div>
       </div>
-      {/* breadcrumb */}
-      <div className="flex items-center gap-1 border-b border-slate-200 bg-slate-50/60 px-4 py-1 text-xs">
-        <button onClick={() => setNav({ level: "universe" })} className="flex items-center gap-1 rounded px-1.5 py-0.5 font-semibold text-slate-500 hover:bg-slate-100"><Home className="size-3" /> Universe</button>
-        {nav.module && <><ChevronLeft className="size-3 text-slate-300" /><span className="rounded px-1.5 py-0.5 font-bold text-slate-800">{nav.module} · {MOD_NAME_HE[nav.module]}</span></>}
-        {nav.module && nav.tab && <><ChevronLeft className="size-3 text-slate-300" /><span className="rounded px-1.5 py-0.5 font-semibold text-[#d62027]">{(TABS.find((x) => x[0] === nav.tab) || ["", nav.tab])[1]}</span></>}
-      </div>
 
-      <div className="bg-slate-50/40 px-4 py-2.5">
+      <div className="bg-slate-50/40 px-4 py-2">
         {nav.level === "universe" && <Universe data={data} color={color} onModule={openModule} />}
         {nav.level === "module" && nav.module && <Workspace data={data} color={color} code={nav.module} tab={nav.tab || "erd"} focus={nav.focus} byName={byName}
           setTab={(t) => setNav({ level: "module", module: nav.module, tab: t })} openErd={(focus) => setNav({ level: "module", module: nav.module, tab: "erd", focus })}
@@ -170,10 +167,14 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
   useEffect(() => { setErdMode("cards"); }, [code]);
   return (
     <div className="space-y-2.5" style={{ animation: "fadeUp .35s ease both" }}>
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 shadow-sm" style={{ borderInlineStartColor: c, borderInlineStartWidth: 5 }}>
-        <div><div className="flex items-center gap-2"><span className="font-mono text-2xl font-extrabold text-slate-900">{code}</span><span className="font-semibold text-slate-600">{MOD_NAME_HE[code]}</span></div><p className="mt-0.5 max-w-3xl text-xs text-slate-500">{purpose}</p></div>
-        <div className="flex rounded-xl border border-slate-200 bg-slate-50 p-0.5">
-          {TABS.map(([id, label]) => <button key={id} onClick={() => setTab(id)} className={`rounded-lg px-3.5 py-1.5 text-sm font-bold transition ${tab === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>{label}</button>)}
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 shadow-sm" style={{ borderInlineStartColor: c, borderInlineStartWidth: 4 }}>
+        <div className="flex min-w-0 items-baseline gap-2">
+          <span className="font-mono text-lg font-extrabold text-slate-900">{code}</span>
+          <span className="text-sm font-bold text-slate-600">{MOD_NAME_HE[code]}</span>
+          <span className="hidden truncate text-[11px] text-slate-400 lg:inline">· {purpose}</span>
+        </div>
+        <div className="flex rounded-lg border border-slate-200 bg-slate-50 p-0.5">
+          {TABS.map(([id, label]) => <button key={id} onClick={() => setTab(id)} className={`rounded-md px-3 py-1 text-[13px] font-bold transition ${tab === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>{label}</button>)}
         </div>
       </div>
       {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} onTable={onTable} />}
