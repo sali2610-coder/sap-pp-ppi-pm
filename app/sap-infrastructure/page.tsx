@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, Download, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand, ChevronDown, Database, GitBranch, Workflow } from "lucide-react";
+import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand, ChevronDown, Database, GitBranch, Workflow } from "lucide-react";
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
 import { Highlight } from "@/components/highlight";
 
@@ -93,11 +93,17 @@ export default function Page() {
           onTable={setInspect} onField={(table, f) => { setInspect(null); setField({ table, field: f }); }} onModule={openModule} onHome={() => setNav({ level: "universe" })} />}
       </div>
       {inspector}
-      <div className="flex flex-wrap items-center gap-2 border-t border-slate-200 bg-white p-2.5">
-        <span className="flex items-center gap-1 px-1 text-xs font-bold text-slate-500"><Download className="size-3.5" /> הורדות:</span>
-        {[["SAP-Enterprise-Architecture-A0.pdf", "PDF"], ["SAP-Enterprise-Architecture-A0.png", "PNG"], ["SAP-Enterprise-Architecture-A0.svg", "SVG"], ["dataset.json", "JSON"]].map(([f, l]) => <a key={f} href={`${BASE}/${f}`} download className="rounded-md border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600 hover:border-[#d62027] hover:text-[#d62027]">{l}</a>)}
-        <span className="ms-auto px-1 text-[11px] text-slate-400">Sali Halif — Web Coding · NEO Cockpit · 2026</span>
-      </div>
+    </div>
+  );
+}
+
+// compact export toolbar (replaces the old permanent footer)
+function ExportBar() {
+  return (
+    <div className="flex shrink-0 items-center gap-1">
+      {[["SAP-Enterprise-Architecture-A0.pdf", "PDF"], ["SAP-Enterprise-Architecture-A0.png", "PNG"], ["SAP-Enterprise-Architecture-A0.svg", "SVG"], ["dataset.json", "JSON"]].map(([f, l]) => (
+        <a key={f} href={`${BASE}/${f}`} download title={`הורד ${l}`} className="rounded-md border border-slate-200 bg-white px-2 py-1 text-[10px] font-bold text-slate-500 transition hover:border-[#d62027] hover:text-[#d62027]">{l}</a>
+      ))}
     </div>
   );
 }
@@ -302,16 +308,19 @@ function DataModelExplorer({ data, color, code, byName, onTable }: { data: Data;
   const related = hover && !open ? relatedOf(hover) : null;
 
   return (
-    <div className="space-y-2">
-      <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 shadow-sm focus-within:border-[#d62027]/40">
-        <Search className="size-4 shrink-0 text-[#d62027]" />
-        <input value={q} onChange={(e) => { setQ(e.target.value); setOpen(null); }} placeholder="חפש אובייקט/טבלה במפת הנתונים…" className="h-6 w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
-        <span className="hidden shrink-0 text-[11px] font-medium text-slate-400 sm:block">רחף לראות קשרים · לחץ להרחבה</span>
-        {q && <span className="shrink-0 rounded-lg bg-[#d62027]/10 px-2 py-0.5 text-xs font-extrabold text-[#d62027]">{rows.length}</span>}
+    <div className="space-y-2.5">
+      {/* search + compact export toolbar */}
+      <div className="flex items-center gap-2">
+        <div className="flex flex-1 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm focus-within:border-[#d62027]/40">
+          <Search className="size-4 shrink-0 text-[#d62027]" />
+          <input value={q} onChange={(e) => { setQ(e.target.value); setOpen(null); }} placeholder="חפש אובייקט/טבלה…" className="h-5 w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
+          {q && <span className="shrink-0 rounded-md bg-[#d62027]/10 px-1.5 text-xs font-extrabold text-[#d62027]">{rows.length}</span>}
+        </div>
+        <ExportBar />
       </div>
 
       <div ref={wrapRef} className="relative">
-        {/* relationship overlay (business object map) */}
+        {/* relationship overlay — business object map (core feature) */}
         <svg className="pointer-events-none absolute inset-0 z-20 size-full overflow-visible" aria-hidden>
           {lines.map((l, i) => (
             <g key={i}>
@@ -321,7 +330,7 @@ function DataModelExplorer({ data, color, code, byName, onTable }: { data: Data;
           ))}
         </svg>
 
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {rows.map((t) => {
             const isOpen = open === t.name;
             const pk = t.fields.filter((f) => f[3] === "PK"), fk = t.fields.filter((f) => f[3] === "FK");
@@ -331,47 +340,41 @@ function DataModelExplorer({ data, color, code, byName, onTable }: { data: Data;
             return (
               <div key={t.name} ref={(el) => { cardRef.current[t.name] = el; }}
                 onMouseEnter={() => !open && setHover(t.name)} onMouseLeave={() => setHover((h) => (h === t.name ? null : h))}
-                className={`relative z-10 transition-all duration-200 ${isOpen ? "col-span-2 sm:col-span-3 lg:col-span-4 xl:col-span-6" : ""} ${dim ? "opacity-40" : "opacity-100"}`}>
-                {/* L1 — compact red card */}
+                className={`relative ${isOpen ? "z-30" : "z-10"} transition-opacity duration-200 ${dim ? "opacity-40" : "opacity-100"}`}>
+                {/* L1 — clean white Object-style card */}
                 <button onClick={() => { setOpen(isOpen ? null : t.name); setHover(null); }}
-                  className={`flex w-full flex-col overflow-hidden rounded-xl border text-start shadow-sm transition-all ${isOpen ? "border-transparent ring-2" : isRel ? "border-transparent ring-2 -translate-y-0.5" : "border-slate-200 hover:-translate-y-0.5 hover:shadow-lg"} ${isOpen ? "" : "h-[78px]"}`}
-                  style={(isOpen || isRel) ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : undefined}>
-                  <div className="relative flex items-center justify-between gap-1 px-2.5 py-1.5 text-white" style={{ background: "linear-gradient(135deg,#d62027,#8f1318)" }}>
-                    <span className="absolute inset-x-0 top-0 h-0.5" style={{ background: c }} />
-                    <span className="font-mono text-sm font-extrabold" dir="ltr"><Highlight text={t.name} query={q} /></span>
-                    <span className="rounded bg-white/20 px-1 text-[8px] font-bold">{t.mod}</span>
-                  </div>
-                  {!isOpen ? (
-                    <div className="flex flex-1 flex-col justify-between px-2.5 py-1.5">
-                      <p className="line-clamp-1 text-[11px] font-semibold text-slate-700"><Highlight text={t.he || t.en} query={q} /></p>
-                      <div className="flex items-center gap-2 text-[9px] font-bold text-slate-400">
-                        <span className="flex items-center gap-0.5"><KeyRound className="size-2.5 text-amber-500" />{pk.length}</span>
-                        <span className="flex items-center gap-0.5"><Link2 className="size-2.5 text-cyan-500" />{fk.length}</span>
-                        <span className="flex items-center gap-0.5"><GitBranch className="size-2.5" />{rels.length}</span>
-                      </div>
+                  className={`group flex h-32 w-full flex-col justify-between rounded-2xl border bg-white p-4 text-right shadow-sm transition-all ${isOpen || isRel ? "ring-2 -translate-y-0.5 border-transparent" : "border-slate-200 hover:-translate-y-1 hover:shadow-lg"}`}
+                  style={(isOpen || isRel) ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : undefined} dir="rtl">
+                  <span className="absolute inset-x-0 top-0 h-1 rounded-t-2xl" style={{ background: c }} />
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <h3 className="truncate text-base font-extrabold tracking-tight text-slate-900"><Highlight text={t.he || t.en} query={q} /></h3>
+                      <p className="tech truncate text-xs font-bold text-slate-400" dir="ltr"><Highlight text={t.name} query={q} /></p>
                     </div>
-                  ) : (
-                    <div className="px-2.5 py-1 text-[11px] font-semibold text-slate-600"><Highlight text={t.he || t.en} query={q} /></div>
-                  )}
+                    <span className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: c }}>{t.mod}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-500">{rels.length} קשרים</span>
+                    <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-500">{t.fields.length} שדות</span>
+                    <span className="ms-auto inline-flex items-center gap-0.5 text-[10px] font-bold text-slate-300 transition group-hover:text-[#d62027]">{isOpen ? "סגור" : "פתח"}<ChevronDown className={`size-3 transition-transform ${isOpen ? "rotate-180" : ""}`} /></span>
+                  </div>
                 </button>
 
-                {/* L2 — compact inline summary */}
+                {/* L2 — small elegant popover panel (no layout reflow) */}
                 {isOpen && (
-                  <div className="mt-1.5 space-y-2 rounded-xl border border-slate-200 bg-white p-2.5 shadow-lg" style={{ animation: "fadeUp .25s ease both" }}>
-                    <div className="grid gap-x-3 gap-y-1.5 sm:grid-cols-2 lg:grid-cols-4">
+                  <div className="absolute start-0 top-full z-40 mt-1.5 w-[320px] max-w-[88vw] space-y-2 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl" style={{ animation: "fadeUp .22s ease both" }}>
+                    <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
                       <Field2 label="PK" tone="#d97706">{pk.length ? pk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
                       <Field2 label="FK" tone="#0891b2">{fk.length ? fk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
-                      <Field2 label="שדות" tone="#475569">{t.fields.slice(0, 6).map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>)}</Field2>
-                      <Field2 label="קשרים" tone={c}>{rels.length ? rels.slice(0, 6).map((r) => (
-                        <button key={r.role + r.table} onClick={() => byName[r.table] && onTable(r.table)} className="tech rounded border border-slate-200 bg-slate-50 px-1.5 text-[10px] font-bold text-slate-600 transition hover:text-[#d62027]" dir="ltr">{r.role === "parent" ? "↓" : "↑"}<Highlight text={r.table} query={q} /></button>
-                      )) : <Dash />}</Field2>
                     </div>
-                    <div className="flex items-center justify-between gap-2">
-                      {t.s4 ? <p className="line-clamp-1 flex-1 rounded bg-amber-50 px-2 py-1 text-[10px] font-medium text-amber-900"><span className="font-bold">S/4: </span><Highlight text={t.s4} query={q} /></p> : <span />}
-                      <button onClick={() => onTable(t.name)} className="tap inline-flex shrink-0 items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-bold text-white shadow" style={{ background: c }}>
-                        <Workflow className="size-3" />סביבת עבודה<ArrowLeft className="size-3" />
-                      </button>
-                    </div>
+                    <Field2 label="שדות עיקריים" tone="#475569">{t.fields.slice(0, 6).map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>)}</Field2>
+                    <Field2 label="קשרים" tone={c}>{rels.length ? rels.slice(0, 6).map((r) => (
+                      <button key={r.role + r.table} onClick={() => byName[r.table] && onTable(r.table)} className="tech rounded border border-slate-200 bg-slate-50 px-1.5 text-[10px] font-bold text-slate-600 transition hover:text-[#d62027]" dir="ltr">{r.role === "parent" ? "↓" : "↑"}<Highlight text={r.table} query={q} /></button>
+                    )) : <Dash />}</Field2>
+                    {t.s4 && <p className="line-clamp-2 rounded bg-amber-50 px-2 py-1 text-[10px] font-medium text-amber-900"><span className="font-bold">S/4: </span><Highlight text={t.s4} query={q} /></p>}
+                    <button onClick={() => onTable(t.name)} className="tap inline-flex w-full items-center justify-center gap-1 rounded-lg px-2.5 py-1.5 text-[11px] font-bold text-white shadow" style={{ background: c }}>
+                      <Workflow className="size-3" />סביבת עבודה מלאה<ArrowLeft className="size-3" />
+                    </button>
                   </div>
                 )}
               </div>
