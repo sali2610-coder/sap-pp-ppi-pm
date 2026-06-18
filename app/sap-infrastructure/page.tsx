@@ -4,7 +4,6 @@ import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand, ChevronDown, Database, GitBranch, Workflow } from "lucide-react";
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
 import { Highlight } from "@/components/highlight";
-import { RelationshipGraph } from "@/components/relationship-graph";
 
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];
@@ -164,8 +163,6 @@ function Universe({ data, color, onModule }: { data: Data; color: (m?: string | 
 /* ===================== WORKSPACE ===================== */
 function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onTable, onField, onModule, onHome }: { data: Data; color: (m?: string | null) => string; code: string; tab: string; focus?: string[]; byName: Record<string, Tbl>; setTab: (t: string) => void; openErd: (f?: string[]) => void; onTable: (t: string) => void; onField: (table: string, field: string) => void; onModule: (m: string) => void; onHome: () => void }) {
   const c = color(code); const bp = data.blueprints.find((b) => b.code === code); const purpose = bp?.purpose || MOD_PURPOSE[code] || "";
-  const [erdMode, setErdMode] = useState<"cards" | "graph">("cards");
-  useEffect(() => { setErdMode("cards"); }, [code]);
   return (
     <div className="space-y-2.5" style={{ animation: "fadeUp .35s ease both" }}>
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 shadow-sm" style={{ borderInlineStartColor: c, borderInlineStartWidth: 4 }}>
@@ -180,19 +177,7 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
       </div>
       {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} onTable={onTable} />}
       {tab === "process" && <ProcessFlow color={color} code={code} />}
-      {tab === "erd" && (erdMode === "cards"
-        ? <DataModelExplorer data={data} color={color} code={code} byName={byName} onTable={onTable} erdMode={erdMode} setErdMode={setErdMode} />
-        : <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <div className="inline-flex shrink-0 rounded-lg border border-slate-200 bg-slate-50 p-0.5">
-                <button onClick={() => setErdMode("cards")} className="rounded-md px-3 py-1.5 text-xs font-bold text-slate-500 transition hover:text-slate-900">סייר טבלאות</button>
-                <button onClick={() => setErdMode("graph")} className="rounded-md bg-[#d62027] px-3 py-1.5 text-xs font-bold text-white shadow-sm">גרף ERD</button>
-              </div>
-              <ExportBar />
-            </div>
-            <Erd data={data} color={color} code={code} byName={byName} focus={focus} onField={onField} onHome={onHome} onModule={onModule} />
-          </div>
-      )}
+      {tab === "erd" && <Erd data={data} color={color} code={code} byName={byName} focus={focus} onField={onField} onHome={onHome} onModule={onModule} />}
       {tab === "technical" && <TechList data={data} color={color} code={code} onTable={onTable} />}
     </div>
   );
@@ -276,104 +261,6 @@ const MODES = [["focus", "מיקוד", "Focus"], ["dep", "תלויות", "Depend
 type Mode = typeof MODES[number][0];
 const orderFields = (tf: Field[]) => [...tf.filter((f) => f[3] === "PK"), ...tf.filter((f) => f[3] === "FK"), ...tf.filter((f) => f[3] !== "PK" && f[3] !== "FK")];
 
-/* ===================== DATA MODEL — Object Explorer (square cards + relationship map) ===================== */
-const CARDW = 176; // w-44
-
-function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErdMode }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; onTable: (t: string) => void; erdMode: string; setErdMode: (m: "cards" | "graph") => void }) {
-  const c = color(code);
-  const [q, setQ] = useState("");
-  const all = useMemo(() => erdMembers(data, code).sort((a, b) => b.degree - a.degree), [data, code]);
-  const s = q.trim().toLowerCase();
-  const rows = useMemo(() => (s ? all.filter((t) => t.name.toLowerCase().includes(s) || (t.he || "").includes(q) || (t.en || "").toLowerCase().includes(s) || (t.tcodes || "").toLowerCase().includes(s)) : all), [all, s, q]);
-  const present = useMemo(() => new Set(rows.map((t) => t.name)), [rows]);
-  const relatedOf = useCallback((name: string) => { const t = byName[name]; return new Set((t?.rel || []).map((r) => r.table).filter((n) => present.has(n))); }, [byName, present]);
-  const [sel, setSel] = useState<string>(all[0]?.name || "");
-  useEffect(() => { if (!rows.find((t) => t.name === sel)) setSel(rows[0]?.name || ""); }, [rows, sel]);
-
-  const selT = byName[sel];
-  const rel = sel ? relatedOf(sel) : new Set<string>();
-  const pk = selT ? selT.fields.filter((f) => f[3] === "PK") : [];
-  const fk = selT ? selT.fields.filter((f) => f[3] === "FK") : [];
-
-  return (
-    <div className="space-y-3">
-      {/* unified toolbar: mode toggle · search · exports */}
-      <div className="flex flex-wrap items-center gap-2">
-        <div className="inline-flex shrink-0 rounded-lg border border-slate-200 bg-slate-50 p-0.5">
-          <button onClick={() => setErdMode("cards")} className={`rounded-md px-3 py-1.5 text-xs font-bold transition ${erdMode === "cards" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>מודל נתונים</button>
-          <button onClick={() => setErdMode("graph")} className={`rounded-md px-3 py-1.5 text-xs font-bold transition ${(erdMode as string) === "graph" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>גרף מלא</button>
-        </div>
-        <div className="flex min-w-[200px] flex-1 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 shadow-sm focus-within:border-[#d62027]/40">
-          <Search className="size-4 shrink-0 text-[#d62027]" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש אובייקט/טבלה…" className="h-5 w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
-          {q && <span className="shrink-0 rounded-md bg-[#d62027]/10 px-1.5 text-xs font-extrabold text-[#d62027]">{rows.length}</span>}
-        </div>
-        <ExportBar />
-      </div>
-
-      {/* FOCUS PANEL — Object-page quality relationship map for the selected table */}
-      {selT && (
-        <div className="space-y-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm" style={{ animation: "fadeUp .3s ease both" }}>
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <span className="grid size-11 place-items-center rounded-xl text-white shadow-lg" style={{ background: c, boxShadow: `0 8px 20px ${c}55` }}><Database className="size-5" /></span>
-              <div>
-                <div className="flex items-center gap-2"><span className="tech text-xl font-extrabold text-slate-900" dir="ltr">{sel}</span><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: c }}>{selT.mod}</span></div>
-                <p className="text-xs text-slate-500"><Highlight text={selT.he || selT.en} query={q} /></p>
-              </div>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-500">{rel.size} קשרים</span>
-              <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-500">{selT.fields.length} שדות</span>
-              <button onClick={() => onTable(sel)} className="lift inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold text-white shadow-lg" style={{ background: c, boxShadow: `0 8px 18px ${c}55` }}><Workflow className="size-3.5" />סביבת עבודה מלאה<ArrowLeft className="size-3.5" /></button>
-            </div>
-          </div>
-
-          <RelationshipGraph name={sel} onGo={setSel} />
-
-          <div className="grid gap-3 lg:grid-cols-4">
-            <Field2 label="מטרה עסקית" tone="#475569"><span className="text-[11px] font-medium text-slate-600">{selT.he || selT.en}</span></Field2>
-            <Field2 label="מפתח ראשי (PK)" tone="#d97706">{pk.length ? pk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
-            <Field2 label="מפתח זר (FK)" tone="#0891b2">{fk.length ? fk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
-            <Field2 label="טבלאות קשורות" tone={c}>{rel.size ? [...rel].slice(0, 8).map((n) => (
-              <button key={n} onClick={() => setSel(n)} className="tech rounded border border-slate-200 bg-slate-50 px-1.5 text-[10px] font-bold text-slate-600 transition hover:text-[#d62027]" dir="ltr">{n}</button>
-            )) : <Dash />}</Field2>
-          </div>
-          {selT.s4 && <p className="rounded-lg bg-amber-50 px-2.5 py-1.5 text-[11px] font-medium text-amber-900"><span className="font-bold">ECC → S/4: </span><Highlight text={selT.s4} query={q} /></p>}
-        </div>
-      )}
-
-      {/* TABLE PICKER — premium Object-style cards; selected + related highlighted, rest dimmed */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {rows.map((t, idx) => {
-          const isSel = t.name === sel;
-          const isRel = rel.has(t.name);
-          const dim = sel && !isSel && !isRel;
-          const rc = t.rel || [];
-          return (
-            <button key={t.name} onClick={() => (isSel ? onTable(t.name) : setSel(t.name))}
-              style={{ borderColor: c, ...((isSel || isRel) ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : {}) }}
-              className={`group flex h-36 w-full flex-col rounded-2xl border bg-white p-3.5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${isSel || isRel ? "ring-2" : ""} ${dim ? "opacity-45" : "opacity-100"}`}>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{String(idx + 1).padStart(2, "0")} · {t.mod}</span>
-              <span className="mt-0.5 line-clamp-2 text-lg font-extrabold leading-tight text-slate-900"><Highlight text={t.he || t.en} query={q} /></span>
-              <span className="tech text-[11px] text-slate-400" dir="ltr"><Highlight text={t.name} query={q} /></span>
-              <span className="mt-auto inline-flex items-center gap-1 self-start rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: c + "1a", color: c }}>
-                {rc.length} קשרים · {t.fields.length} שדות {isSel ? "● נבחר" : ""}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-function Field2({ label, tone, children }: { label: string; tone: string; children: React.ReactNode }) {
-  return <div><p className="mb-1 text-[10px] font-bold uppercase tracking-wide" style={{ color: tone }}>{label}</p><div className="flex flex-wrap gap-1.5">{children}</div></div>;
-}
-function Chip2({ children, q }: { children: string; q: string }) {
-  return <span className="tech rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600" dir="ltr"><Highlight text={children} query={q} /></span>;
-}
-function Dash() { return <span className="text-[11px] italic text-slate-300">—</span>; }
 
 function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; focus?: string[]; onField: (table: string, field: string) => void; onHome: () => void; onModule: (m: string) => void }) {
   const [selMods, setSelMods] = useState<Set<string>>(() => new Set([code]));
@@ -530,7 +417,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
               </svg>
               {shown.map((t, gi) => { const p = pos[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const dim = active && !active.has(t.name); const isSel = sel === t.name; const tf = orderFields(fieldsOf(t)); const top = tf.slice(0, 7); const pkN = tf.filter((f) => f[3] === "PK").length, fkN = tf.filter((f) => f[3] === "FK").length;
                 return (
-                  <div key={t.name} data-card onClick={() => { setSel(t.name); setDrawer(t.name); }} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
+                  <div key={t.name} data-card onClick={() => { if (sel === t.name) setDrawer(t.name); else { setSel(t.name); setDrawer(null); } }} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
                     className="group absolute select-none overflow-hidden rounded-2xl bg-white transition-[transform,box-shadow,opacity] duration-300 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-1.5"
                     style={{ left: p.x, top: p.y, width: W, height: H, opacity: dim ? 0.24 : 1, zIndex: isSel ? 30 : 2, cursor: "pointer", boxShadow: isSel ? `0 28px 60px -18px ${c}77, 0 0 0 2.5px ${c}` : "0 14px 34px -18px rgba(15,23,42,.4), 0 2px 4px rgba(15,23,42,.06)", animation: `pop .42s cubic-bezier(.32,.72,0,1) ${Math.min(gi * 22, 520)}ms both` }}>
                     {/* CBC red enterprise header */}
