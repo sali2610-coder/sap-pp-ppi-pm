@@ -9,6 +9,8 @@ import { SiteLogo } from "@/components/site-logo";
 import { OmniSearch } from "@/components/omni-search";
 import { CommandPalette } from "@/components/command-palette";
 import { FindHighlighter } from "@/components/find-highlighter";
+import { OnboardingDrawer } from "@/components/onboarding-drawer";
+import { PageHelp } from "@/components/page-help";
 import { UXSettings } from "@/components/ux-settings";
 import { Search } from "lucide-react";
 import { Footer } from "@/components/Footer";
@@ -114,6 +116,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <SearchFab />
       <CommandPalette />
       <FindHighlighter />
+      <PageHelp />
+      <OnboardingDrawer />
       <UXSettings />
     </I18nProvider>
   );

@@ -7,11 +7,13 @@ import { countNodes, nodeWordCount } from "./pp-textbook/types";
 import { PP_TEXTBOOK } from "./pp-textbook";
 import { PM_TEXTBOOK } from "./pm-textbook";
 import { QM_TEXTBOOK } from "./qm-textbook";
+import { MM_TEXTBOOK } from "./mm-textbook";
 import PM_TOC from "./pm-toc.json";
 import QM_TOC from "./qm-toc.json";
+import MM_TOC from "./mm-toc.json";
 
 const TOCS: Record<string, Record<string, { id: string; title: string }[]>> = {
-  pm: PM_TOC as any, qm: QM_TOC as any,
+  pm: PM_TOC as any, qm: QM_TOC as any, mm: MM_TOC as any,
 };
 
 export type ValidationKind = "reviewed" | "structural";
@@ -42,6 +44,9 @@ export const BOOKS: BookDef[] = [
   { id: "qm", module: "QM", titleHe: "ניהול איכות", titleEn: "Quality Management",
     base: "/library/qm-academy", data: QM_TEXTBOOK, status: "live", validationKind: "structural", score: 90,
     lastUpdated: "2026-06-11", reportHref: "/library/qm-quality-report/", referenceHref: "/library/academy/reference/qm/", tint: "from-emerald-500 to-emerald-700" },
+  { id: "mm", module: "MM", titleHe: "רכש ואספקה", titleEn: "Sourcing & Procurement",
+    base: "/library/mm-academy", data: MM_TEXTBOOK, status: "live", validationKind: "structural", score: 90,
+    lastUpdated: "2026-06-18", reportHref: "/library/mm-quality-report/", referenceHref: "/library/academy/reference/mm/", tint: "from-amber-500 to-amber-700" },
 ];
 
 export const bookById = (id: string) => BOOKS.find((b) => b.id === id);
@@ -200,9 +205,10 @@ export const ACADEMY_TOTALS = (() => {
   const inProgress = BOOKS.filter((b) => b.status === "in-progress").length;
   let chapters = 0, nodes = 0, words = 0;
   for (const b of BOOKS) { const s = bookStats(b.id); chapters += s.chapters; nodes += s.nodes; words += s.words; }
+  const plannedHe = ["WM/EWM", "PP-DS", "S&OP/IBP"];
   return {
-    totalBooks: BOOKS.length + 3, // PP/PM/QM live + planned MM/WM/PP-DS (sources exist)
+    totalBooks: BOOKS.length + plannedHe.length,
     completed, inProgress, chapters, nodes, words, readMin: Math.round(words / 180),
-    plannedHe: ["MM (Sourcing & Procurement)", "WM/EWM", "PP-DS", "S&OP/IBP"],
+    plannedHe,
   };
 })();
