@@ -46,8 +46,8 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
           const core = (tb.relations?.length || 0) >= 6;
           const rels = tb.relations || [];
           return (
-            <motion.div key={tb.id} variants={item} layout={!reduce}
-              className={`spotlight group relative overflow-hidden rounded-2xl border bg-white shadow-sm transition-all ${isOpen ? "border-transparent shadow-[var(--elev-2)] ring-1 sm:col-span-2 xl:col-span-3" : core ? "border-amber-200/70 ring-1 ring-amber-100 hover:-translate-y-1 hover:shadow-[var(--elev-2)]" : "border-slate-200 hover:-translate-y-1 hover:shadow-[var(--elev-2)]"}`}
+            <motion.div key={tb.id} variants={item}
+              className={`spotlight group relative overflow-hidden rounded-2xl border bg-white shadow-sm transition-[box-shadow,border-color,transform] duration-200 ${isOpen ? "border-transparent shadow-[var(--elev-2)] ring-1 sm:col-span-2 xl:col-span-3" : core ? "border-amber-200/70 ring-1 ring-amber-100 hover:-translate-y-1 hover:shadow-[var(--elev-2)]" : "border-slate-200 hover:-translate-y-1 hover:shadow-[var(--elev-2)]"}`}
               style={isOpen ? ({ ["--tw-ring-color"]: accent } as React.CSSProperties) : undefined}
               onPointerMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`); e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`); }}>
               <span className="absolute inset-x-0 top-0 h-1" style={{ background: accent }} />
@@ -73,7 +73,7 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
               {/* L2 — inline summary accordion */}
               <AnimatePresence initial={false}>
                 {isOpen && (
-                  <motion.div initial={reduce ? false : { height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={reduce ? undefined : { height: 0, opacity: 0 }} transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}>
+                  <motion.div initial={reduce ? false : { height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={reduce ? undefined : { height: 0, opacity: 0 }} transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}>
                     <div className="space-y-3 border-t border-slate-100 p-4">
                       <div className="grid gap-3 sm:grid-cols-2">
                         <Cell label="מטרה עסקית"><Highlight text={pick(tb.descriptionHe, tb.descriptionEn)} query={query} />{tb.guideHe ? <span className="mt-1 block text-xs leading-relaxed text-slate-400"><Highlight text={tb.guideHe.slice(0, 160) + (tb.guideHe.length > 160 ? "…" : "")} query={query} /></span> : null}</Cell>
