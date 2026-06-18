@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand, ChevronDown, Database, GitBranch, Workflow } from "lucide-react";
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
 import { Highlight } from "@/components/highlight";
-import dagre from "dagre";
+import { RelationshipGraph } from "@/components/relationship-graph";
 
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];
@@ -277,140 +277,92 @@ type Mode = typeof MODES[number][0];
 const orderFields = (tf: Field[]) => [...tf.filter((f) => f[3] === "PK"), ...tf.filter((f) => f[3] === "FK"), ...tf.filter((f) => f[3] !== "PK" && f[3] !== "FK")];
 
 /* ===================== DATA MODEL — Object Explorer (square cards + relationship map) ===================== */
-type Line = { x1: number; y1: number; x2: number; y2: number };
-const CARDW = 176, CARDH = 144; // w-44 h-36
-type ErdEdge = { a: string; b: string; points: { x: number; y: number }[]; label: string };
-// professional layered ERD layout via dagre (parent→child, crossing-minimised, orthogonal routing)
-function erdLayout(nodes: string[], rels: { a: string; b: string; label: string }[]) {
-  const g = new dagre.graphlib.Graph();
-  g.setGraph({ rankdir: "LR", nodesep: 34, ranksep: 110, marginx: 40, marginy: 40, ranker: "network-simplex" });
-  g.setDefaultEdgeLabel(() => ({}));
-  nodes.forEach((n) => g.setNode(n, { width: CARDW, height: CARDH }));
-  const seen = new Set<string>(); const meta: Record<string, string> = {};
-  rels.forEach(({ a, b, label }) => { if (a === b || !g.hasNode(a) || !g.hasNode(b)) return; const k = a + "" + b; if (seen.has(k)) return; seen.add(k); meta[k] = label; g.setEdge(a, b); });
-  dagre.layout(g);
-  const pos: Record<string, { x: number; y: number }> = {};
-  nodes.forEach((n) => { const nd = g.node(n); if (nd) pos[n] = { x: nd.x - CARDW / 2, y: nd.y - CARDH / 2 }; });
-  const gg = g.graph();
-  const edges: ErdEdge[] = g.edges().map((e) => { const ed = g.edge(e); return { a: e.v, b: e.w, points: (ed.points || []) as { x: number; y: number }[], label: meta[e.v + "" + e.w] || "" }; });
-  return { pos, w: Math.ceil(gg.width || 800) + 20, h: Math.ceil(gg.height || 600) + 20, edges };
-}
-// orthogonal (step) path through dagre waypoints — ERWin/PowerDesigner look
-function orthoPath(pts: { x: number; y: number }[]) {
-  if (pts.length < 2) return "";
-  let d = `M${pts[0].x},${pts[0].y}`;
-  for (let i = 1; i < pts.length; i++) { const p = pts[i - 1], q = pts[i]; const mx = (p.x + q.x) / 2; d += ` L${mx},${p.y} L${mx},${q.y} L${q.x},${q.y}`; }
-  return d;
-}
+const CARDW = 176; // w-44
 
 function DataModelExplorer({ data, color, code, byName, onTable, erdMode, setErdMode }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; onTable: (t: string) => void; erdMode: string; setErdMode: (m: "cards" | "graph") => void }) {
   const c = color(code);
   const [q, setQ] = useState("");
-  const [open, setOpen] = useState<string | null>(null);
-  const [hover, setHover] = useState<string | null>(null);
-
   const all = useMemo(() => erdMembers(data, code).sort((a, b) => b.degree - a.degree), [data, code]);
   const s = q.trim().toLowerCase();
   const rows = useMemo(() => (s ? all.filter((t) => t.name.toLowerCase().includes(s) || (t.he || "").includes(q) || (t.en || "").toLowerCase().includes(s) || (t.tcodes || "").toLowerCase().includes(s)) : all), [all, s, q]);
   const present = useMemo(() => new Set(rows.map((t) => t.name)), [rows]);
   const relatedOf = useCallback((name: string) => { const t = byName[name]; return new Set((t?.rel || []).map((r) => r.table).filter((n) => present.has(n))); }, [byName, present]);
+  const [sel, setSel] = useState<string>(all[0]?.name || "");
+  useEffect(() => { if (!rows.find((t) => t.name === sel)) setSel(rows[0]?.name || ""); }, [rows, sel]);
 
-  // directed FK relations (parent→child) with cardinality labels
-  const rels = useMemo(() => {
-    const out: { a: string; b: string; label: string }[] = [];
-    rows.forEach((t) => (t.rel || []).forEach((r) => {
-      if (!present.has(r.table)) return;
-      const a = r.role === "parent" ? t.name : r.table; const b = r.role === "parent" ? r.table : t.name;
-      out.push({ a, b, label: cardKind(r.card || "1:N") });
-    }));
-    return out;
-  }, [rows, present]);
-  const layout = useMemo(() => erdLayout(rows.map((t) => t.name), rels), [rows, rels]);
-  // focus mode: clicking (open) or hovering a table highlights first-level neighbours only
-  const focusName = open || hover;
-  const focusSet = focusName ? new Set<string>([focusName, ...relatedOf(focusName)]) : null;
-  const related = focusName ? relatedOf(focusName) : null;
+  const selT = byName[sel];
+  const rel = sel ? relatedOf(sel) : new Set<string>();
+  const pk = selT ? selT.fields.filter((f) => f[3] === "PK") : [];
+  const fk = selT ? selT.fields.filter((f) => f[3] === "FK") : [];
 
   return (
-    <div className="space-y-2.5">
-      {/* single unified toolbar: mode toggle · search · exports */}
+    <div className="space-y-3">
+      {/* unified toolbar: mode toggle · search · exports */}
       <div className="flex flex-wrap items-center gap-2">
         <div className="inline-flex shrink-0 rounded-lg border border-slate-200 bg-slate-50 p-0.5">
           <button onClick={() => setErdMode("cards")} className={`rounded-md px-3 py-1.5 text-xs font-bold transition ${erdMode === "cards" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>מודל נתונים</button>
-          <button onClick={() => setErdMode("graph")} className={`rounded-md px-3 py-1.5 text-xs font-bold transition ${(erdMode as string) === "graph" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>גרף סכמטי</button>
+          <button onClick={() => setErdMode("graph")} className={`rounded-md px-3 py-1.5 text-xs font-bold transition ${(erdMode as string) === "graph" ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>גרף מלא</button>
         </div>
         <div className="flex min-w-[200px] flex-1 items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-1.5 shadow-sm focus-within:border-[#d62027]/40">
           <Search className="size-4 shrink-0 text-[#d62027]" />
-          <input value={q} onChange={(e) => { setQ(e.target.value); setOpen(null); }} placeholder="חפש אובייקט/טבלה…" className="h-5 w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש אובייקט/טבלה…" className="h-5 w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
           {q && <span className="shrink-0 rounded-md bg-[#d62027]/10 px-1.5 text-xs font-extrabold text-[#d62027]">{rows.length}</span>}
         </div>
         <ExportBar />
       </div>
 
-      {/* ERD canvas — auto graph layout */}
-      <div className="overflow-auto rounded-2xl border border-slate-200 bg-[radial-gradient(circle_at_1px_1px,#e2e8f0_1px,transparent_0)] [background-size:22px_22px]" style={{ maxHeight: "74vh" }}>
-        <div className="relative" style={{ width: layout.w, height: layout.h, minWidth: "100%" }}>
-          {/* FK connectors — orthogonal routing + cardinality labels */}
-          <svg className="pointer-events-none absolute inset-0" width={layout.w} height={layout.h} aria-hidden>
-            {layout.edges.map((e, i) => {
-              const pts = e.points; if (pts.length < 2) return null;
-              const on = focusName ? (e.a === focusName || e.b === focusName) : true;
-              const end = pts[pts.length - 1], prev = pts[pts.length - 2];
-              const ang = Math.atan2(end.y - prev.y, end.x - prev.x);
-              const mid = pts[Math.floor(pts.length / 2)];
-              return (
-                <g key={i} opacity={focusName ? (on ? 1 : 0.1) : 0.9}>
-                  <path d={orthoPath(pts)} fill="none" stroke={c} strokeWidth={on ? 2 : 1.3} strokeOpacity={on ? 0.75 : 0.5} strokeLinejoin="round" strokeLinecap="round" />
-                  {/* crow's-foot-ish arrow at child end */}
-                  <path d={`M${end.x},${end.y} L${end.x - 9 * Math.cos(ang - 0.45)},${end.y - 9 * Math.sin(ang - 0.45)} M${end.x},${end.y} L${end.x - 9 * Math.cos(ang + 0.45)},${end.y - 9 * Math.sin(ang + 0.45)}`} stroke={c} strokeWidth={on ? 2 : 1.3} fill="none" strokeLinecap="round" />
-                  {e.label && (on || !focusName) && <g><rect x={mid.x - 13} y={mid.y - 8} width={26} height={15} rx={4} fill="#fff" stroke={c} strokeOpacity={0.35} /><text x={mid.x} y={mid.y + 3} textAnchor="middle" style={{ font: "700 9px ui-monospace", fill: c }}>{e.label}</text></g>}
-                </g>
-              );
-            })}
-          </svg>
-
-          {rows.map((t, idx) => {
-            const pos = layout.pos[t.name]; if (!pos) return null;
-            const isOpen = open === t.name;
-            const pk = t.fields.filter((f) => f[3] === "PK"), fk = t.fields.filter((f) => f[3] === "FK");
-            const rels = t.rel || [];
-            const isRel = related?.has(t.name);
-            const dim = focusSet && !focusSet.has(t.name);
-            return (
-              <div key={t.name} style={{ position: "absolute", left: pos.x, top: pos.y, width: CARDW }}
-                onMouseEnter={() => !open && setHover(t.name)} onMouseLeave={() => setHover((h) => (h === t.name ? null : h))}
-                className={`${isOpen ? "z-30" : isRel ? "z-20" : "z-10"} transition-opacity duration-200 ${dim ? "opacity-40" : "opacity-100"}`}>
-                {/* L1 — card (design unchanged) */}
-                <button onClick={() => { setOpen(isOpen ? null : t.name); setHover(null); }}
-                  style={{ borderColor: c, ...((isOpen || isRel) ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : {}) }}
-                  className={`group flex h-36 w-44 flex-col rounded-2xl border bg-white p-3.5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${isOpen || isRel ? "ring-2" : ""}`}>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{String(idx + 1).padStart(2, "0")} · {t.mod}</span>
-                  <span className="mt-0.5 line-clamp-2 text-lg font-extrabold leading-tight text-slate-900"><Highlight text={t.he || t.en} query={q} /></span>
-                  <span className="tech text-[11px] text-slate-400" dir="ltr"><Highlight text={t.name} query={q} /></span>
-                  <span className="mt-auto inline-flex items-center gap-1 self-start rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: c + "1a", color: c }}>
-                    {rels.length} קשרים · {t.fields.length} שדות {isOpen ? "▲" : "▼"}
-                  </span>
-                </button>
-
-                {/* L2 — panel below card (design unchanged) */}
-                {isOpen && (
-                  <div className="absolute start-0 top-full z-40 mt-2 w-44 space-y-2 rounded-xl border border-slate-200 bg-white p-3 shadow-xl" style={{ animation: "fadeUp .3s ease both" }}>
-                    <Field2 label="מפתח ראשי (PK)" tone="#d97706">{pk.length ? pk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
-                    <Field2 label="מפתח זר (FK)" tone="#0891b2">{fk.length ? fk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
-                    <Field2 label="שדות עיקריים" tone="#475569">{t.fields.slice(0, 6).map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>)}</Field2>
-                    <Field2 label="קשרים" tone={c}>{rels.length ? rels.slice(0, 6).map((r) => (
-                      <button key={r.role + r.table} onClick={() => byName[r.table] && onTable(r.table)} className="tech rounded border border-slate-200 bg-slate-50 px-1.5 text-[10px] font-bold text-slate-600 transition hover:text-[#d62027]" dir="ltr">{r.role === "parent" ? "↓" : "↑"}<Highlight text={r.table} query={q} /></button>
-                    )) : <Dash />}</Field2>
-                    {t.s4 && <p className="line-clamp-2 rounded bg-amber-50 px-2 py-1 text-[10px] font-medium text-amber-900"><span className="font-bold">S/4: </span><Highlight text={t.s4} query={q} /></p>}
-                    <button onClick={() => onTable(t.name)} className="tap inline-flex w-full items-center justify-center gap-1 rounded-lg px-2.5 py-1.5 text-[11px] font-bold text-white shadow" style={{ background: c }}>
-                      <Workflow className="size-3" />סביבת עבודה מלאה<ArrowLeft className="size-3" />
-                    </button>
-                  </div>
-                )}
+      {/* FOCUS PANEL — Object-page quality relationship map for the selected table */}
+      {selT && (
+        <div className="space-y-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm" style={{ animation: "fadeUp .3s ease both" }}>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <span className="grid size-11 place-items-center rounded-xl text-white shadow-lg" style={{ background: c, boxShadow: `0 8px 20px ${c}55` }}><Database className="size-5" /></span>
+              <div>
+                <div className="flex items-center gap-2"><span className="tech text-xl font-extrabold text-slate-900" dir="ltr">{sel}</span><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: c }}>{selT.mod}</span></div>
+                <p className="text-xs text-slate-500"><Highlight text={selT.he || selT.en} query={q} /></p>
               </div>
-            );
-          })}
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-500">{rel.size} קשרים</span>
+              <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-500">{selT.fields.length} שדות</span>
+              <button onClick={() => onTable(sel)} className="lift inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-bold text-white shadow-lg" style={{ background: c, boxShadow: `0 8px 18px ${c}55` }}><Workflow className="size-3.5" />סביבת עבודה מלאה<ArrowLeft className="size-3.5" /></button>
+            </div>
+          </div>
+
+          <RelationshipGraph name={sel} onGo={setSel} />
+
+          <div className="grid gap-3 lg:grid-cols-4">
+            <Field2 label="מטרה עסקית" tone="#475569"><span className="text-[11px] font-medium text-slate-600">{selT.he || selT.en}</span></Field2>
+            <Field2 label="מפתח ראשי (PK)" tone="#d97706">{pk.length ? pk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
+            <Field2 label="מפתח זר (FK)" tone="#0891b2">{fk.length ? fk.map((f) => <Chip2 key={f[0]} q={q}>{f[0]}</Chip2>) : <Dash />}</Field2>
+            <Field2 label="טבלאות קשורות" tone={c}>{rel.size ? [...rel].slice(0, 8).map((n) => (
+              <button key={n} onClick={() => setSel(n)} className="tech rounded border border-slate-200 bg-slate-50 px-1.5 text-[10px] font-bold text-slate-600 transition hover:text-[#d62027]" dir="ltr">{n}</button>
+            )) : <Dash />}</Field2>
+          </div>
+          {selT.s4 && <p className="rounded-lg bg-amber-50 px-2.5 py-1.5 text-[11px] font-medium text-amber-900"><span className="font-bold">ECC → S/4: </span><Highlight text={selT.s4} query={q} /></p>}
         </div>
+      )}
+
+      {/* TABLE PICKER — premium Object-style cards; selected + related highlighted, rest dimmed */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        {rows.map((t, idx) => {
+          const isSel = t.name === sel;
+          const isRel = rel.has(t.name);
+          const dim = sel && !isSel && !isRel;
+          const rc = t.rel || [];
+          return (
+            <button key={t.name} onClick={() => (isSel ? onTable(t.name) : setSel(t.name))}
+              style={{ borderColor: c, ...((isSel || isRel) ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : {}) }}
+              className={`group flex h-36 w-full flex-col rounded-2xl border bg-white p-3.5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${isSel || isRel ? "ring-2" : ""} ${dim ? "opacity-45" : "opacity-100"}`}>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{String(idx + 1).padStart(2, "0")} · {t.mod}</span>
+              <span className="mt-0.5 line-clamp-2 text-lg font-extrabold leading-tight text-slate-900"><Highlight text={t.he || t.en} query={q} /></span>
+              <span className="tech text-[11px] text-slate-400" dir="ltr"><Highlight text={t.name} query={q} /></span>
+              <span className="mt-auto inline-flex items-center gap-1 self-start rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: c + "1a", color: c }}>
+                {rc.length} קשרים · {t.fields.length} שדות {isSel ? "● נבחר" : ""}
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
