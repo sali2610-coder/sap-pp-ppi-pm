@@ -100,7 +100,7 @@ export function HubZones({ module, accent }: { module: SAPModuleData; accent: st
         ))}
       </div>
 
-      <motion.div variants={container} initial="hidden" animate="show"
+      <motion.div variants={container} initial={false} animate="show"
         className={isFlow ? "flex gap-3 overflow-x-auto pb-2" : "grid gap-3 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4"}>
         {topics.map((tp, i) => {
           const Icon = iconFor(tp.title);

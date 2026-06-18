@@ -86,7 +86,7 @@ export function CommandCenter() {
 
       {/* Favorites */}
       <Section icon={<Star className="size-5 text-brand" />} title="מועדפים" action={<span className="text-xs font-medium text-slate-400">★ לסימון</span>}>
-        <motion.div variants={container} initial="hidden" animate="show" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <motion.div variants={container} initial={false} animate="show" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {ordered.map((m) => {
             const c = m.data ? { tables: m.data.topics.flatMap((tp) => tp.tables).length, topics: m.data.topics.length } : null;
             const isFav = fav.list.includes(m.key);

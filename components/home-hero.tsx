@@ -49,7 +49,7 @@ export function HomeHero({ stats }: { stats: HeroStats }) {
         <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: "linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)", backgroundSize: "40px 40px" }} />
       </div>
 
-      <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }} className="relative">
+      <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }} className="relative">
         <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-xs font-semibold text-white/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
           <span className="relative flex size-2">
             <span className={`absolute inline-flex h-full w-full rounded-full bg-emerald-300 ${reduce ? "" : "animate-ping"} opacity-75`} />

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
@@ -78,11 +79,16 @@ function Header() {
 function PageTransition({ children }: { children: React.ReactNode }) {
   const path = usePathname();
   const reduce = useReducedMotion();
+  // First paint (SSR/hydration) must be VISIBLE — never ship content at opacity:0
+  // behind a JS-gated reveal, or slow/failed hydration = permanent white screen.
+  // Animate the fade only on client-side route changes (after mount).
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   if (reduce) return <main id="main" className="container-app flex-1 py-8">{children}</main>;
   return (
     <main id="main" className="container-app flex-1 py-8">
       <AnimatePresence mode="wait">
-        <motion.div key={path} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
+        <motion.div key={path} initial={mounted ? { opacity: 0, y: 12 } : false} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}>
           {children}
         </motion.div>

@@ -38,7 +38,7 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
 
   return (
     <>
-      <motion.div variants={container} initial="hidden" animate="show" className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+      <motion.div variants={container} initial={false} animate="show" className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {rows.map((tb) => {
           const isOpen = open === tb.tableName;
           const pk = tb.fields.filter((f) => f.key === "PK").length;
@@ -54,7 +54,7 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
 
               {/* L1 — clean executive card: click expands; click again deep-dives */}
               <div className="flex items-center gap-3 p-4">
-                <button onClick={() => (isOpen ? setDeep(tb.tableName) : setOpen(tb.tableName))} className="flex flex-1 items-center gap-3 text-start">
+                <button onClick={() => setOpen(isOpen ? null : tb.tableName)} className="flex flex-1 items-center gap-3 text-start">
                   <span className="grid size-11 shrink-0 place-items-center rounded-xl text-white shadow-sm transition-transform group-hover:scale-105" style={{ background: accent }}><Database className="size-5" /></span>
                   <span className="min-w-0">
                     <span className="flex items-center gap-1.5">
@@ -113,16 +113,18 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
         })}
       </motion.div>
 
-      {/* L3 — full Object Workspace in a side drawer */}
+      {/* L3 — full Object Workspace, full-screen */}
       <Dialog open={!!deep} onOpenChange={(o) => !o && setDeep(null)}>
-        <DialogContent className="start-auto end-0 top-0 left-auto right-auto h-[100dvh] max-h-[100dvh] w-[min(96vw,960px)] max-w-none translate-x-0 overflow-y-auto rounded-none rounded-s-3xl border-s border-slate-200 bg-slate-50 p-5 shadow-2xl data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:rounded-s-3xl"
-          overlayClassName="bg-slate-900/50">
+        <DialogContent className="inset-0 start-0 end-0 top-0 bottom-0 left-0 right-0 m-0 h-[100dvh] max-h-[100dvh] w-screen max-w-none translate-x-0 rtl:translate-x-0 overflow-y-auto rounded-none border-0 bg-slate-50 p-0 shadow-2xl data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=open]:zoom-in-100 data-[state=closed]:zoom-out-100"
+          overlayClassName="bg-slate-900/60">
           <VisuallyHidden><DialogTitle>{deep}</DialogTitle></VisuallyHidden>
-          <div className="mb-3 flex items-center justify-between">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-500 shadow-sm ring-1 ring-slate-200"><Maximize2 className="size-3.5 text-brand" />צלילה לעומק</span>
-            <button onClick={() => setDeep(null)} aria-label="סגור" className="tap grid size-9 place-items-center rounded-xl bg-white text-slate-500 shadow-sm ring-1 ring-slate-200 transition hover:text-brand"><X className="size-4" /></button>
+          <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white/90 px-5 py-3 backdrop-blur-md">
+            <span className="inline-flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1 text-xs font-bold text-slate-500 ring-1 ring-slate-200"><Maximize2 className="size-3.5 text-brand" />צלילה לעומק — <span className="tech font-extrabold text-slate-900" dir="ltr">{deep}</span></span>
+            <button onClick={() => setDeep(null)} aria-label="סגור" className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-3.5 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-brand-dark"><X className="size-4" />סגור</button>
           </div>
-          {deep && <ObjectWorkspace name={deep} highlight={query} />}
+          <div className="mx-auto w-full max-w-6xl p-5">
+            {deep && <ObjectWorkspace name={deep} highlight={query} />}
+          </div>
         </DialogContent>
       </Dialog>
     </>
