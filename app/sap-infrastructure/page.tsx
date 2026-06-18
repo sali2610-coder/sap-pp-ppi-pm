@@ -392,7 +392,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
           {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>{he}</button>)}
         </div>
         {/* mode explainer popup — helps new users understand each mode */}
-        {(modeInfo || (MODE_DESC[mode].needsSel && !sel)) && (() => { const m = modeInfo || mode; const need = MODE_DESC[m].needsSel && !sel; return (
+        {modeInfo && (() => { const m = modeInfo; const need = MODE_DESC[m].needsSel && !sel; return (
           <div className="absolute left-1/2 top-[6rem] z-40 w-[330px] max-w-[88%] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white p-3 shadow-xl" style={{ animation: "fadeUp .25s ease both" }}>
             <div className="absolute -top-1.5 left-1/2 size-3 -translate-x-1/2 rotate-45 border-l border-t border-slate-200 bg-white" />
             <div className="flex items-center justify-between gap-2">
