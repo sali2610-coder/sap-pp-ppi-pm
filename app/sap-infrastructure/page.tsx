@@ -266,7 +266,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
   const [selMods, setSelMods] = useState<Set<string>>(() => new Set([code]));
   useEffect(() => { setSelMods(new Set([code])); }, [code]);
   const ordered = UNIVERSE.filter((m) => selMods.has(m));
-  const W = 348, H = 280, colW = 452, rowH = 340;
+  const W = 268, H = 116, colW = 348, rowH = 184; // collapsed cube size + spacing
 
   // hierarchical left→right layout by dependency depth (SAP master → transaction → posting)
   const { shown, pos, own, links, vbW, vbH } = useMemo(() => {
@@ -415,32 +415,40 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                     <g opacity={dim ? 0.4 : 1}><rect x={mx - 17} y={(ay + by) / 2 - 8} width={34} height={16} rx={6} fill={emph ? lc : "#94a3b8"} /><text x={mx} y={(ay + by) / 2 + 4} textAnchor="middle" style={{ font: "700 9px ui-monospace" }} fill="#fff">{cardKind(l.card)}</text></g>
                   </g>; })}
               </svg>
-              {shown.map((t, gi) => { const p = pos[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const dim = active && !active.has(t.name); const isSel = sel === t.name; const tf = orderFields(fieldsOf(t)); const top = tf.slice(0, 7); const pkN = tf.filter((f) => f[3] === "PK").length, fkN = tf.filter((f) => f[3] === "FK").length;
+              {shown.map((t, gi) => { const p = pos[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const dim = active && !active.has(t.name); const isSel = sel === t.name; const tf = orderFields(fieldsOf(t)); const top = tf.slice(0, 8); const pkN = tf.filter((f) => f[3] === "PK").length, fkN = tf.filter((f) => f[3] === "FK").length;
                 return (
                   <div key={t.name} data-card onClick={() => { if (sel === t.name) setDrawer(t.name); else { setSel(t.name); setDrawer(null); } }} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
-                    className="group absolute select-none overflow-hidden rounded-2xl bg-white transition-[transform,box-shadow,opacity] duration-300 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-1.5"
-                    style={{ left: p.x, top: p.y, width: W, height: H, opacity: dim ? 0.24 : 1, zIndex: isSel ? 30 : 2, cursor: "pointer", boxShadow: isSel ? `0 28px 60px -18px ${c}77, 0 0 0 2.5px ${c}` : "0 14px 34px -18px rgba(15,23,42,.4), 0 2px 4px rgba(15,23,42,.06)", animation: `pop .42s cubic-bezier(.32,.72,0,1) ${Math.min(gi * 22, 520)}ms both` }}>
-                    {/* CBC red enterprise header */}
-                    <div className="relative flex items-center justify-between gap-2 px-3.5 py-2.5 text-white" style={{ background: "linear-gradient(135deg,#d62027,#a3171c)" }}>
-                      <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: c }} />
-                      <span className="truncate font-mono text-lg font-extrabold tracking-tight" dir="ltr">{t.name}</span>
-                      <span className="shrink-0 rounded-md bg-white/20 px-2 py-0.5 text-[10px] font-bold backdrop-blur-sm">{own[t.name] || t.mod}</span>
-                    </div>
-                    {/* white body — ordered fields */}
-                    <div className="px-3 py-2">
-                      <div className="mb-1.5 truncate text-xs font-semibold text-slate-400">{t.he || t.en}</div>
-                      <div className="space-y-1">
-                        {top.map((f) => <div key={f[0]} className="flex items-center gap-2">
-                          <span className={`grid size-4 shrink-0 place-items-center rounded text-[8px] font-extrabold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : f[3] === "FK" ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-400"}`}>{f[3] === "PK" ? "PK" : f[3] === "FK" ? "FK" : "·"}</span>
-                          <span className={`truncate font-mono text-[12.5px] font-bold ${f[3] === "PK" ? "text-amber-700" : f[3] === "FK" ? "text-blue-700" : "text-slate-700"}`} dir="ltr">{f[0]}</span>
-                        </div>)}
+                    className="group absolute select-none overflow-hidden rounded-2xl bg-white transition-[transform,box-shadow,opacity] duration-300 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-1"
+                    style={{ left: p.x, top: p.y, width: W, opacity: dim ? 0.28 : 1, zIndex: isSel ? 30 : 2, cursor: "pointer", border: `1.5px solid ${isSel ? c : "#e2e8f0"}`, boxShadow: isSel ? `0 26px 56px -18px ${c}66, 0 0 0 2px ${c}` : "0 10px 26px -16px rgba(15,23,42,.28)", animation: `pop .42s cubic-bezier(.32,.72,0,1) ${Math.min(gi * 20, 480)}ms both` }}>
+                    {/* collapsed: title only (table code + business name) */}
+                    <div className="relative px-3.5 pb-2.5 pt-3">
+                      <span className="absolute inset-x-0 top-0 h-1.5 rounded-t-2xl" style={{ background: c }} />
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="truncate font-mono text-xl font-extrabold tracking-tight text-slate-900" dir="ltr">{t.name}</span>
+                        <span className="shrink-0 rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: c }}>{own[t.name] || t.mod}</span>
+                      </div>
+                      <div className="truncate text-[13px] font-bold text-slate-600">{t.he || t.en}</div>
+                      <div className="mt-1 flex items-center gap-2 text-[10px] font-bold text-slate-400">
+                        <span>{tf.length} שדות</span><span className="text-amber-500">{pkN} PK</span><span className="text-blue-500">{fkN} FK</span>
+                        {!isSel && <span className="ms-auto text-slate-300 transition group-hover:text-[#d62027]">לחץ ↡</span>}
                       </div>
                     </div>
-                    {/* footer */}
-                    <div className="absolute inset-x-0 bottom-0 flex items-center justify-between border-t border-slate-100 bg-slate-50/80 px-3 py-1.5 text-[10px] font-bold">
-                      <span className="text-slate-400">{tf.length} שדות · {pkN}🔑 {fkN}FK</span>
-                      {t.tcodes && <span className="truncate font-mono text-slate-500" dir="ltr">{t.tcodes.split(/[,\s]+/)[0]}</span>}
-                    </div>
+                    {/* expanded (1st click): reveal fields */}
+                    {isSel && (
+                      <div style={{ animation: "fadeUp .28s ease both" }}>
+                        <div className="space-y-0.5 border-t border-slate-100 px-3 py-2">
+                          {top.map((f) => <div key={f[0]} className="flex items-center gap-2">
+                            <span className={`grid size-4 shrink-0 place-items-center rounded text-[8px] font-extrabold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : f[3] === "FK" ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-400"}`}>{f[3] === "PK" ? "PK" : f[3] === "FK" ? "FK" : "·"}</span>
+                            <span className={`truncate font-mono text-[12.5px] font-bold ${f[3] === "PK" ? "text-amber-700" : f[3] === "FK" ? "text-blue-700" : "text-slate-700"}`} dir="ltr">{f[0]}</span>
+                            <span className="ms-auto truncate text-[10px] text-slate-400">{f[2] || f[1]}</span>
+                          </div>)}
+                        </div>
+                        <div className="flex items-center justify-between gap-2 border-t border-slate-100 bg-[#d62027]/5 px-3 py-1.5 text-[10px] font-bold">
+                          {t.tcodes && <span className="truncate font-mono text-slate-500" dir="ltr">{t.tcodes.split(/[,\s]+/)[0]}</span>}
+                          <span className="ms-auto text-[#d62027]">לחץ שוב → פרטים מלאים ↩</span>
+                        </div>
+                      </div>
+                    )}
                   </div>); })}
             </div>
 
