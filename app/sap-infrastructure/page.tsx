@@ -288,9 +288,19 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
     Object.values(byLevel).forEach((col) => col.sort((a, b) => (ord[owner[a.name]] - ord[owner[b.name]]) || a.name.localeCompare(b.name)));
     const p: Record<string, { x: number; y: number }> = {};
     const levels = Object.keys(byLevel).map(Number).sort((a, b) => a - b);
-    let maxRows = 1;
-    levels.forEach((L) => { byLevel[L].forEach((t, i) => { p[t.name] = { x: 64 + L * colW, y: 64 + i * rowH }; }); maxRows = Math.max(maxRows, byLevel[L].length); });
-    return { shown: sh, pos: p, own: owner, links: lk, vbW: 128 + levels.length * colW, vbH: 96 + maxRows * rowH, level: memo };
+    // wide left→right packing: keep dependency order (parents first) but wrap tall
+    // levels into extra columns so the model spreads horizontally, not just down.
+    const MAXROWS = 5;
+    let col = 0, row = 0, maxCols = 1;
+    levels.forEach((L) => {
+      if (row !== 0) { col++; row = 0; } // each dependency level starts a fresh column band
+      byLevel[L].forEach((t) => {
+        if (row >= MAXROWS) { col++; row = 0; }
+        p[t.name] = { x: 64 + col * colW, y: 64 + row * rowH }; row++;
+      });
+      maxCols = Math.max(maxCols, col + 1);
+    });
+    return { shown: sh, pos: p, own: owner, links: lk, vbW: 128 + maxCols * colW, vbH: 96 + MAXROWS * rowH, level: memo };
   }, [code, [...selMods].sort().join(",")]);
 
   const [sel, setSel] = useState<string | null>(focus && focus[0] ? focus[0] : null);
