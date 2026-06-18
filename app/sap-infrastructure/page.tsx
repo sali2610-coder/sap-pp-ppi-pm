@@ -260,6 +260,13 @@ function usePZ() {
 
 const MODES = [["focus", "מיקוד", "Focus"], ["dep", "תלויות", "Dependency"], ["lineage", "שושלת", "Lineage"], ["impact", "השפעה", "Impact"], ["flow", "זרימה עסקית", "Business Flow"]] as const;
 type Mode = typeof MODES[number][0];
+const MODE_DESC: Record<Mode, { d: string; needsSel: boolean }> = {
+  focus: { d: "מדגיש את הטבלה שנבחרה ואת שכנותיה הישירים (אב + צאצא), ומעמעם את השאר.", needsSel: true },
+  dep: { d: "מציג את כל שרשרת התלויות של הטבלה — מעלה ומטה — לאורך המודל כולו.", needsSel: true },
+  lineage: { d: "שושלת נתונים: מאיפה הנתונים מגיעים — כל המקורות במעלה הזרם.", needsSel: true },
+  impact: { d: "ניתוח השפעה: מה יושפע אם תשנה את הטבלה — הכל במורד הזרם.", needsSel: true },
+  flow: { d: "כיוון הזרימה בין כל הטבלאות במודל (אב → צאצא). פעיל גם ללא בחירת טבלה.", needsSel: false },
+};
 const orderFields = (tf: Field[]) => [...tf.filter((f) => f[3] === "PK"), ...tf.filter((f) => f[3] === "FK"), ...tf.filter((f) => f[3] !== "PK" && f[3] !== "FK")];
 
 
@@ -308,6 +315,8 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
   const [drawer, setDrawer] = useState<string | null>(focus && focus[0] ? focus[0] : null);
   const [hv, setHv] = useState<string | null>(null);
   const [mode, setMode] = useState<Mode>("focus");
+  const [modeInfo, setModeInfo] = useState<Mode | null>("focus");
+  useEffect(() => { if (!modeInfo) return; const id = setTimeout(() => setModeInfo(null), 5500); return () => clearTimeout(id); }, [modeInfo]);
   const [s4Filter, setS4Filter] = useState<"all" | "impacted" | "verified" | "needs" | "high">("all");
   const s4ok = (name: string) => {
     if (s4Filter === "all") return true;
@@ -380,8 +389,20 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
         style={{ backgroundImage: "radial-gradient(circle at 1px 1px,#d7deea 1px,transparent 0)", backgroundSize: "30px 30px" }}>
         {/* floating: mode selector (top-center) */}
         <div className="absolute left-1/2 top-3 z-30 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-white/60 bg-white/85 p-1 shadow-lg shadow-black/5 backdrop-blur-md">
-          {MODES.map(([id, he, en]) => <button key={id} onClick={() => setMode(id)} title={en} className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>{he}</button>)}
+          {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>{he}</button>)}
         </div>
+        {/* mode explainer popup — helps new users understand each mode */}
+        {(modeInfo || (MODE_DESC[mode].needsSel && !sel)) && (() => { const m = modeInfo || mode; const need = MODE_DESC[m].needsSel && !sel; return (
+          <div className="absolute left-1/2 top-[6rem] z-40 w-[330px] max-w-[88%] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white p-3 shadow-xl" style={{ animation: "fadeUp .25s ease both" }}>
+            <div className="absolute -top-1.5 left-1/2 size-3 -translate-x-1/2 rotate-45 border-l border-t border-slate-200 bg-white" />
+            <div className="flex items-center justify-between gap-2">
+              <span className="flex items-center gap-1.5 text-sm font-extrabold text-slate-900"><span className="size-2 rounded-full bg-[#d62027]" />מצב {MODES.find((x) => x[0] === m)?.[1]}</span>
+              <button onClick={() => setModeInfo(null)} className="rounded p-0.5 text-slate-400 hover:bg-slate-100"><X className="size-3.5" /></button>
+            </div>
+            <p className="mt-1 text-[12px] leading-relaxed text-slate-600">{MODE_DESC[m].d}</p>
+            {need && <p className="mt-1.5 rounded-lg bg-amber-50 px-2 py-1 text-[11px] font-bold text-amber-800">↳ בחר טבלה בגרף כדי להפעיל מצב זה.</p>}
+          </div>
+        ); })()}
         {/* floating: S/4HANA impact filter (top-center, below modes) */}
         <div className="absolute left-1/2 top-[3.4rem] z-30 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-amber-200/70 bg-white/90 p-0.5 shadow-md backdrop-blur-md">
           {([["all", "הכל"], ["impacted", "מושפע S/4"], ["high", "סיכון גבוה"], ["verified", "מאומת"], ["needs", "נדרש אימות"]] as const).map(([id, he]) => (
