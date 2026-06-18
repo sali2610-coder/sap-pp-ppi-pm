@@ -83,7 +83,8 @@
       "Bash(npx --yes tsx -e ' *)",
       "Bash(grep -o 'F[0-9]\\\\{3,4\\\\}[A-Z]*' data/library/pp-textbook/ch04.ts)",
       "Bash(grep -oE '\\\\\"[A-Z0-9][A-Z0-9_/]{1,9}\\\\\"' data/library/pp-knowledge.ts)",
-      "Bash(grep -rn \"sub-\\\\|#sub\\\\|id={\\\\`sub\" app/library)"
+      "Bash(grep -rn \"sub-\\\\|#sub\\\\|id={\\\\`sub\" app/library)",
+      "Bash(git commit -q -m 'feat\\(academy\\): WM/EWM book live — Warehouse Management \\(10 chapters\\) *)"
     ]
   }
 }

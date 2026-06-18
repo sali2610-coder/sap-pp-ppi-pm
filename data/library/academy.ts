@@ -8,6 +8,7 @@ import { PP_QUALITY, PP_REVALIDATED } from "./pp-quality";
 import { PM_TEXTBOOK, PM_TEXTBOOK_STATS } from "./pm-textbook";
 import { QM_TEXTBOOK, QM_TEXTBOOK_STATS } from "./qm-textbook";
 import { MM_TEXTBOOK, MM_TEXTBOOK_STATS } from "./mm-textbook";
+import { WM_TEXTBOOK, WM_TEXTBOOK_STATS } from "./wm-textbook";
 
 export type BookStatus = "live" | "in-progress" | "planned";
 
@@ -42,6 +43,9 @@ const qmSubs = Object.values(QM_TEXTBOOK).reduce((s, c) => s + c.subchapters.len
 const mmChapters = Object.keys(MM_TEXTBOOK).length;
 const mmNodes = Object.values(MM_TEXTBOOK_STATS).reduce((s, c) => s + c.totalNodes, 0);
 const mmSubs = Object.values(MM_TEXTBOOK).reduce((s, c) => s + c.subchapters.length, 0);
+const wmChapters = Object.keys(WM_TEXTBOOK).length;
+const wmNodes = Object.values(WM_TEXTBOOK_STATS).reduce((s, c) => s + c.totalNodes, 0);
+const wmSubs = Object.values(WM_TEXTBOOK).reduce((s, c) => s + c.subchapters.length, 0);
 
 export const ACADEMY_BOOKS: AcademyBook[] = [
   {
@@ -74,9 +78,10 @@ export const ACADEMY_BOOKS: AcademyBook[] = [
     href: "/library/mm-academy/", reportHref: "/library/mm-quality-report/", tintHe: "from-amber-500 to-amber-700",
   },
   {
-    id: "wm", titleHe: "ניהול מחסן (Warehouse / EWM)", titleEn: "Warehouse Management with SAP S/4HANA",
-    module: "WM", status: "planned", chaptersTotal: 0, chaptersDone: 0, subchapters: 0, nodes: 0,
-    validated: false, tintHe: "from-violet-500 to-violet-700",
+    id: "wm", titleHe: "ניהול מחסן (EWM)", titleEn: "Integrating Warehouse Management in SAP S/4HANA",
+    module: "WM", status: "live", chaptersTotal: 10, chaptersDone: wmChapters,
+    subchapters: wmSubs, nodes: wmNodes, validated: false, qualityScore: 90,
+    href: "/library/wm-academy/", reportHref: "/library/wm-quality-report/", tintHe: "from-violet-500 to-violet-700",
   },
 ];
 
