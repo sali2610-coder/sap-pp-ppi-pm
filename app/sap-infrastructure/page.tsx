@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand, ChevronDown, Database, GitBranch, Workflow } from "lucide-react";
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
 import { Highlight } from "@/components/highlight";
+import { s4For, TRUST_HE, RISK_HE, RISK_COLOR } from "@/lib/s4";
 
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];
@@ -307,6 +308,16 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
   const [drawer, setDrawer] = useState<string | null>(focus && focus[0] ? focus[0] : null);
   const [hv, setHv] = useState<string | null>(null);
   const [mode, setMode] = useState<Mode>("focus");
+  const [s4Filter, setS4Filter] = useState<"all" | "impacted" | "verified" | "needs" | "high">("all");
+  const s4ok = (name: string) => {
+    if (s4Filter === "all") return true;
+    const st = s4For(name, byName[name]?.s4, byName[name]?.s4alt);
+    if (s4Filter === "impacted") return st.impacted;
+    if (s4Filter === "high") return st.risk === "high";
+    if (s4Filter === "verified") return st.trust === "verified";
+    if (s4Filter === "needs") return st.needs || st.trust === "partial";
+    return true;
+  };
   const [tr, setTr] = useState({ x: 0, y: 0, k: 1 });
   const [fs, setFs] = useState(false);
   const [panMode, setPanMode] = useState(false);
@@ -371,6 +382,12 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
         <div className="absolute left-1/2 top-3 z-30 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-white/60 bg-white/85 p-1 shadow-lg shadow-black/5 backdrop-blur-md">
           {MODES.map(([id, he, en]) => <button key={id} onClick={() => setMode(id)} title={en} className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>{he}</button>)}
         </div>
+        {/* floating: S/4HANA impact filter (top-center, below modes) */}
+        <div className="absolute left-1/2 top-[3.4rem] z-30 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-amber-200/70 bg-white/90 p-0.5 shadow-md backdrop-blur-md">
+          {([["all", "הכל"], ["impacted", "מושפע S/4"], ["high", "סיכון גבוה"], ["verified", "מאומת"], ["needs", "נדרש אימות"]] as const).map(([id, he]) => (
+            <button key={id} onClick={() => setS4Filter(id)} className={`rounded-full px-2.5 py-1 text-[11px] font-bold transition ${s4Filter === id ? "bg-amber-400 text-amber-950 shadow-sm" : "text-slate-500 hover:bg-amber-50"}`}>{he}</button>
+          ))}
+        </div>
         {/* floating: title + filters (top-left) */}
         <div className="absolute left-3 top-3 z-20 flex max-w-[58%] flex-col gap-1.5">
           <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-1.5 shadow-sm backdrop-blur-sm">
@@ -417,17 +434,25 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                     <g opacity={dim ? 0.4 : 1}><rect x={mx - 17} y={(ay + by) / 2 - 8} width={34} height={16} rx={6} fill={emph ? lc : "#94a3b8"} /><text x={mx} y={(ay + by) / 2 + 4} textAnchor="middle" style={{ font: "700 9px ui-monospace" }} fill="#fff">{cardKind(l.card)}</text></g>
                   </g>; })}
               </svg>
-              {shown.map((t, gi) => { const p = pos[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const dim = active && !active.has(t.name); const isSel = sel === t.name; const tf = orderFields(fieldsOf(t)); const top = tf.slice(0, 8); const pkN = tf.filter((f) => f[3] === "PK").length, fkN = tf.filter((f) => f[3] === "FK").length;
+              {shown.map((t, gi) => { const p = pos[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const isSel = sel === t.name; const tf = orderFields(fieldsOf(t)); const top = tf.slice(0, 8); const pkN = tf.filter((f) => f[3] === "PK").length, fkN = tf.filter((f) => f[3] === "FK").length;
+                const st = s4For(t.name, t.s4, t.s4alt); const impFields = new Set((st.impact?.fields || []).map((f) => f.field));
+                const fade = !s4ok(t.name); const dim = (active && !active.has(t.name)) || fade;
+                const baseShadow = isSel ? `0 26px 56px -18px ${c}66, 0 0 0 2px ${c}` : "0 10px 26px -16px rgba(15,23,42,.28)";
+                const glow = st.impacted ? ", 0 0 0 2px #f59e0b, 0 0 16px 1px rgba(245,158,11,.5)" : "";
                 return (
                   <div key={t.name} data-card onClick={() => { setSel(sel === t.name ? null : t.name); setDrawer(null); }} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
                     className="group absolute select-none overflow-hidden rounded-2xl bg-white transition-[transform,box-shadow,opacity] duration-300 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-1"
-                    style={{ left: p.x, top: p.y, width: W, opacity: dim ? 0.28 : 1, zIndex: isSel ? 30 : 2, cursor: "pointer", border: `1.5px solid ${isSel ? c : "#e2e8f0"}`, boxShadow: isSel ? `0 26px 56px -18px ${c}66, 0 0 0 2px ${c}` : "0 10px 26px -16px rgba(15,23,42,.28)", animation: `pop .42s cubic-bezier(.32,.72,0,1) ${Math.min(gi * 20, 480)}ms both` }}>
+                    style={{ left: p.x, top: p.y, width: W, opacity: fade ? 0.12 : dim ? 0.28 : 1, zIndex: isSel ? 30 : st.impacted ? 5 : 2, cursor: "pointer", border: `1.5px solid ${isSel ? c : st.impacted ? "#f59e0b" : "#e2e8f0"}`, boxShadow: baseShadow + glow, animation: `pop .42s cubic-bezier(.32,.72,0,1) ${Math.min(gi * 20, 480)}ms both` }}>
                     {/* collapsed: title only (table code + business name) */}
                     <div className="relative px-3.5 pb-2.5 pt-3">
                       <span className="absolute inset-x-0 top-0 h-1.5 rounded-t-2xl" style={{ background: c }} />
                       <div className="flex items-center justify-between gap-2">
                         <span className="truncate font-mono text-xl font-extrabold tracking-tight text-slate-900" dir="ltr">{t.name}</span>
-                        <span className="shrink-0 rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: c }}>{own[t.name] || t.mod}</span>
+                        <span className="flex shrink-0 items-center gap-1">
+                          {st.impacted && <span className="rounded-md bg-amber-400 px-1.5 py-0.5 text-[8px] font-extrabold text-amber-950">S/4</span>}
+                          {!st.impact && <span title="נדרש אימות SAP" className="rounded-md bg-slate-200 px-1 py-0.5 text-[8px] font-extrabold text-slate-500">?</span>}
+                          <span className="rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: c }}>{own[t.name] || t.mod}</span>
+                        </span>
                       </div>
                       <div className="truncate text-[13px] font-bold text-slate-600">{t.he || t.en}</div>
                       <div className="mt-1 flex items-center gap-2 text-[10px] font-bold text-slate-400">
@@ -438,12 +463,14 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                     {/* expanded (1st click): reveal fields */}
                     {isSel && (
                       <div style={{ animation: "fadeUp .28s ease both" }}>
+                        {st.impacted && <div className="flex items-center gap-1.5 border-t border-amber-200 bg-amber-50 px-3 py-1.5 text-[10px] font-bold text-amber-800"><span className="size-1.5 rounded-full" style={{ background: RISK_COLOR[st.risk] }} />S/4HANA Impact · {RISK_HE[st.risk]} · {TRUST_HE[st.trust]}</div>}
                         <div className="space-y-0.5 border-t border-slate-100 px-3 py-2">
-                          {top.map((f) => <div key={f[0]} className="flex items-center gap-2">
+                          {top.map((f) => { const fi = impFields.has(f[0]); return <div key={f[0]} className={`flex items-center gap-2 ${fi ? "-mx-1 rounded bg-amber-100/70 px-1" : ""}`}>
                             <span className={`grid size-4 shrink-0 place-items-center rounded text-[8px] font-extrabold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : f[3] === "FK" ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-400"}`}>{f[3] === "PK" ? "PK" : f[3] === "FK" ? "FK" : "·"}</span>
-                            <span className={`truncate font-mono text-[12.5px] font-bold ${f[3] === "PK" ? "text-amber-700" : f[3] === "FK" ? "text-blue-700" : "text-slate-700"}`} dir="ltr">{f[0]}</span>
+                            <span className={`truncate font-mono text-[12.5px] font-bold ${fi ? "text-amber-800" : f[3] === "PK" ? "text-amber-700" : f[3] === "FK" ? "text-blue-700" : "text-slate-700"}`} dir="ltr">{f[0]}</span>
+                            {fi && <span title="הושפע מ-S/4HANA" className="text-[10px] text-amber-600">ⓘ</span>}
                             <span className="ms-auto truncate text-[10px] text-slate-400">{f[2] || f[1]}</span>
-                          </div>)}
+                          </div>; })}
                         </div>
                         <div className="flex items-center justify-between gap-2 border-t border-slate-100 bg-slate-50/70 px-3 py-1.5 text-[10px] font-bold">
                           {t.tcodes && <span className="truncate font-mono text-slate-500" dir="ltr">{t.tcodes.split(/[,\s]+/)[0]}</span>}
@@ -462,6 +489,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
               const bp = data.blueprints.find((b) => b.code === t.mod);
               const Sec = ({ title, icon, children: ch }: { title: string; icon?: React.ReactNode; children: React.ReactNode }) => <div className="border-t border-slate-100 px-4 py-3"><h4 className="mb-1.5 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: c }}>{icon}{title}</h4>{ch}</div>;
               const Pills = ({ a, nav }: { a: string[]; nav?: boolean }) => a.length ? <div className="flex flex-wrap gap-1">{a.map((x) => nav && byName[x] ? <button key={x} onClick={() => { const tt = byName[x]; if (tt && tt.mod !== t.mod && !selMods.has(tt.mod)) toggleMod(tt.mod); setSel(x); setDrawer(x); }} className="rounded-md border px-1.5 py-0.5 font-mono text-[11px] font-bold transition hover:bg-slate-50" style={{ borderColor: byName[x] ? color(byName[x].mod) : c, color: byName[x] ? color(byName[x].mod) : c }}>{x}</button> : <span key={x} className="rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600">{x}</span>)}</div> : <span className="text-[11px] italic text-slate-300">—</span>;
+              const s4 = s4For(t.name, t.s4, t.s4alt); const imp = s4.impact;
               return (
                 <div data-drawer dir="rtl" className="absolute inset-y-0 right-0 z-40 flex w-[360px] max-w-[88%] flex-col overflow-hidden border-s border-slate-200 bg-white shadow-2xl" style={{ animation: "drawerIn .35s cubic-bezier(.32,.72,0,1) both" }} onPointerDown={(e) => e.stopPropagation()}>
                   <div className="relative shrink-0 px-4 py-3.5 text-white" style={{ background: "linear-gradient(135deg,#d62027,#8f1318)" }}>
@@ -472,9 +500,30 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                     </div>
                   </div>
                   <div className="min-h-0 flex-1 overflow-auto">
+                    {/* S/4HANA Impact — top section */}
+                    <div className={`px-4 py-3 ${imp && s4.impacted ? "bg-amber-50/80" : "bg-slate-50/60"}`} style={imp && s4.impacted ? { boxShadow: "inset 0 0 0 1px #fbbf24" } : undefined}>
+                      <div className="mb-1.5 flex items-center justify-between">
+                        <h4 className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-[0.12em] text-amber-700">S/4HANA Impact</h4>
+                        <div className="flex items-center gap-1">
+                          <span className="rounded-full px-2 py-0.5 text-[9px] font-extrabold text-white" style={{ background: RISK_COLOR[s4.risk] }}>{RISK_HE[s4.risk]}</span>
+                          <span className={`rounded-full px-2 py-0.5 text-[9px] font-extrabold ${s4.trust === "verified" ? "bg-green-100 text-green-700" : s4.trust === "partial" ? "bg-amber-100 text-amber-700" : "bg-slate-200 text-slate-500"}`}>{TRUST_HE[s4.trust]}</span>
+                        </div>
+                      </div>
+                      {imp ? (
+                        <div className="space-y-2 text-[12px] leading-relaxed text-slate-700">
+                          <p><span className="font-bold text-slate-900">מה השתנה: </span>{imp.changed}</p>
+                          {imp.why && <p><span className="font-bold text-slate-900">למה זה חשוב: </span>{imp.why}</p>}
+                          {imp.note && <p className="text-[10px] font-bold text-amber-700">📎 {imp.note}</p>}
+                          {imp.fields?.length ? <div><p className="mb-1 text-[10px] font-bold uppercase text-slate-400">שדות מושפעים</p><div className="flex flex-wrap gap-1">{imp.fields.map((f) => <span key={f.field} className="rounded-md bg-amber-100 px-1.5 py-0.5 font-mono text-[10px] font-bold text-amber-800">{f.field}</span>)}</div></div> : null}
+                          {(imp.tcodes?.length || imp.funcs?.length || imp.cds?.length) ? <div><p className="mb-1 text-[10px] font-bold uppercase text-slate-400">אובייקטים קשורים</p><div className="flex flex-wrap gap-1">{[...(imp.tcodes || []), ...(imp.funcs || []), ...(imp.cds || [])].map((x) => <span key={x} className="rounded-md bg-white px-1.5 py-0.5 font-mono text-[10px] font-bold text-slate-600 ring-1 ring-slate-200" dir="ltr">{x}</span>)}</div></div> : null}
+                          {imp.qa?.length ? <div><p className="mb-1 text-[10px] font-bold uppercase text-slate-400">בדיקות QA מומלצות</p><ul className="space-y-0.5">{imp.qa.map((q, i) => <li key={i} className="flex gap-1.5 text-[11px]"><span className="text-amber-500">✓</span>{q}</li>)}</ul></div> : null}
+                        </div>
+                      ) : (
+                        <p className="text-[12px] text-slate-500">אין נתון S/4 מאומת לטבלה זו — <span className="font-bold text-slate-600">נדרש אימות SAP</span> (Simplification List / OSS).</p>
+                      )}
+                    </div>
                     <Sec title="תיעוד · מטרה עסקית">
                       <p className="text-xs leading-relaxed text-slate-600">{bp?.purpose || `טבלת ${t.mod} — ${t.he || t.en}`}</p>
-                      {t.s4 && <p className="mt-1.5 rounded-lg bg-slate-50 p-2 text-[11px] text-slate-500">ECC → S/4HANA: {t.s4}{t.s4alt ? ` · חלופה: ${t.s4alt}` : ""}</p>}
                     </Sec>
                     <div className="grid grid-cols-2"><Sec title="PK" icon={<KeyRound className="size-3 text-amber-500" />}><Pills a={pk.map((f) => f[0])} /></Sec><Sec title="FK" icon={<Link2 className="size-3 text-blue-500" />}><Pills a={fk.map((f) => f[0])} /></Sec></div>
                     <Sec title={`שדות · ${tf.length}`}>
@@ -531,7 +580,16 @@ function FieldInspector({ data, color, t, field, byName, onClose, onGo }: { data
       {objs.length > 0 && <S title="אובייקטים עסקיים"><div className="flex flex-wrap gap-1">{objs.map((o) => <span key={o} className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600">{o}</span>)}</div></S>}
       <S title="פונקציות / BAPIs"><Pills a={(t.funcs || []).slice(0, 6)} /></S>
       <S title="טרנזקציות"><span className="font-mono text-xs text-slate-700">{t.tcodes || "—"}</span></S>
-      <S title="ECC → S/4HANA"><p className="text-xs text-slate-600">{t.s4 || "אין שינוי מהותי."}</p></S>
+      {(() => { const fi = s4For(t.name, t.s4, t.s4alt).impact?.fields?.find((x) => x.field === field); return (
+        <S title="S/4HANA — התנהגות השדה">{fi ? (
+          <div className="space-y-1 text-xs text-slate-600">
+            <p><span className="font-bold text-slate-800">ECC:</span> {fi.ecc}</p>
+            <p><span className="font-bold text-slate-800">S/4HANA:</span> {fi.s4}</p>
+            <p><span className="font-bold text-slate-800">מה השתנה:</span> {fi.changed}</p>
+            <p className="rounded bg-amber-50 px-2 py-1 text-amber-800"><span className="font-bold">לבדוק:</span> {fi.test}</p>
+          </div>
+        ) : <p className="text-xs text-slate-600">{t.s4 || "אין שינוי מהותי ברמת הטבלה."} <span className="text-[10px] font-bold text-slate-400">· ברמת השדה: נדרש אימות SAP</span></p>}</S>
+      ); })()}
     </div>
   );
 }
