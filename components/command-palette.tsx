@@ -13,7 +13,7 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Highlight } from "@/components/highlight";
 import { useI18n } from "@/lib/i18n";
 import { playPing, playTick } from "@/lib/sound";
-import { planQuery } from "@/lib/search-intel";
+import { planQuery, beginnerIntent } from "@/lib/search-intel";
 
 type FlatItem = { kind: "page" | "table" | "tcode" | "bapi" | "idoc" | "fm" | "cds" | "domain" | "process" | "library"; label: string; sub: string; module: Module; href: string };
 
@@ -93,6 +93,7 @@ export function CommandPalette() {
   }, [open]);
 
   const plan = useMemo(() => planQuery(q), [q]);
+  const intent = useMemo(() => beginnerIntent(q), [q]);
   const sq = plan.search;          // effective search term (synonym-expanded)
   const hl = plan.highlight;       // terms to highlight (typed + alias)
 
@@ -276,6 +277,20 @@ export function CommandPalette() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* beginner-intent card — natural-language question → explanation + next action */}
+        {intent && (
+          <div className="mx-3 mt-2 flex items-start gap-3 rounded-xl border border-amber-300 bg-amber-50 p-3" dir="rtl">
+            <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-amber-400 text-amber-950"><Sparkles className="size-4" /></span>
+            <div className="min-w-0 flex-1">
+              <p className="text-[12px] font-medium leading-relaxed text-amber-900">{intent.he}</p>
+              <button onClick={() => { if (intent.href) go(intent.href); else { setOpen(false); window.dispatchEvent(new Event("neo:open-guide")); } }}
+                className="mt-1.5 inline-flex items-center gap-1 rounded-lg bg-amber-500 px-2.5 py-1 text-[11px] font-extrabold text-white shadow-sm transition hover:bg-amber-600">
+                {intent.action}<CornerDownLeft className="size-3" />
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* results */}
         <div className="max-h-[50vh] overflow-y-auto p-2">

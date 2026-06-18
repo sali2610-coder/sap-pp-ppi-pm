@@ -54,6 +54,24 @@ export function planQuery(raw: string): QueryPlan {
   return { raw, search: trimmed, highlight: trimmed };
 }
 
+// Beginner-language intents — natural questions → a short explanation + a routed
+// next action. Surfaced as a card above the normal search results.
+export interface BeginnerIntent { keys: string[]; he: string; action: string; href: string }
+export const BEGINNER_INTENTS: BeginnerIntent[] = [
+  { keys: ["איך מתחילים pm", "התחל pm", "מתחילים pm", "start pm", "מאיפה מתחילים אחזקה"], he: "מסלול PM: הבנת התהליך → אובייקטים טכניים (EQUI) → הודעות (QMEL) → פקודות (AUFK) → אישורים (AFRU).", action: "פתח מרכז PM", href: "/pm/" },
+  { keys: ["איך מתחילים pp", "התחל pp", "מתחילים ייצור", "start pp", "מאיפה מתחילים ייצור"], he: "מסלול PP-PI: אב חומר (MARA) → מתכון (PLPO) → פקודת תהליך (AFKO) → אצווה (MCH1) → אישור (AFRU).", action: "פתח מרכז PP-PI", href: "/pp-pi/" },
+  { keys: ["מה משתנה ב-s/4", "מה משתנה בs4", "מה משתנה ב s4", "s/4 impact", "השפעת s4", "מה השתנה s4", "מיגרציה s4"], he: "השפעת S/4HANA מסומנת בצהוב על הטבלאות במודל הנתונים — MATDOC, ACDOCA, Business Partner ועוד.", action: "מודל נתונים · פילטר S/4", href: "/sap-infrastructure/" },
+  { keys: ["טבלאות של פקודת אחזקה", "טבלאות פקודת אחזקה", "טבלאות aufk", "פקודת אחזקה טבלאות"], he: "פקודת אחזקה: AUFK (כותרת) ↔ AFIH ↔ AFKO/AFPO/AFVC ↔ AFRU (אישור).", action: "פתח AUFK", href: "/object/AUFK/" },
+  { keys: ["טבלאות של פקודת ייצור", "טבלאות פקודת תהליך", "טבלאות afko", "פקודת ייצור טבלאות"], he: "פקודת תהליך: AFKO (כותרת) ↔ AFPO (פריט) ↔ AFVC (פעולה) ↔ AFRU (אישור).", action: "פתח AFKO", href: "/object/AFKO/" },
+  { keys: ["בדיקות qa", "תרחישי בדיקה", "qa לאישור", "בדיקות לאישור פקודה", "בדיקות לתהליך אישור"], he: "תרחישי בדיקה לפי תהליך — אישור, Backflush, COGI תקוע, סטטוס פקודה.", action: "פתח תרחישי QA", href: "/qa-testing/" },
+  { keys: ["מה זה neo", "איך משתמשים", "עזרה", "מדריך", "help", "onboarding"], he: "NEO = קוקפיט הידע ל-PM/PP-PI ומיגרציית S/4HANA. התחל מהמדריך או בחר מסלול.", action: "פתח מדריך", href: "" },
+];
+export function beginnerIntent(raw: string): BeginnerIntent | null {
+  const s = raw.trim().toLowerCase();
+  if (s.length < 4) return null;
+  return BEGINNER_INTENTS.find((i) => i.keys.some((k) => s.includes(k) || k.includes(s))) || null;
+}
+
 // Light fuzzy: Levenshtein distance ≤ max (used only as a fallback when a
 // query yields no exact substring hits). Kept small + bounded for perf.
 export function within(a: string, b: string, max = 1): boolean {

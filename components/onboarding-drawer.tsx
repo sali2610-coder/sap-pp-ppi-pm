@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X, Sparkles, ArrowLeft, GraduationCap, Compass, PlayCircle } from "lucide-react";
-import { ROLES, GLOSSARY, PM_PATH, PPPI_PATH, WORKFLOWS, DEMO_PM, DEMO_PPPI, type RoleId } from "@/data/onboarding";
+import { ROLES, GLOSSARY, PM_PATH, PPPI_PATH, WORKFLOWS, DEMO_PM, DEMO_PPPI, ROLE_TASKS, type RoleId } from "@/data/onboarding";
 import { useRole, setRole, hasOnboarded, markOnboarded } from "@/lib/role";
 
 export function OnboardingDrawer() {
@@ -56,6 +56,13 @@ export function OnboardingDrawer() {
                 ))}
               </div>
               <p className="mt-1.5 text-[11px] text-slate-500">{ROLES.find((r) => r.id === role)?.sub}</p>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {ROLE_TASKS[role].map((t) => (
+                  <Link key={t.he} href={t.href} onClick={close} className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-[11px] font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand">
+                    {t.he}<ArrowLeft className="size-3 text-slate-300" />
+                  </Link>
+                ))}
+              </div>
             </div>
 
             <div className="flex shrink-0 gap-1 border-b border-slate-100 px-5 py-2">

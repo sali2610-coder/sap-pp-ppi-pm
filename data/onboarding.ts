@@ -43,6 +43,35 @@ export const PPPI_PATH: PathStep[] = [
   { n: 9, title: "תרחישי בדיקה (QA)", desc: "בדיקות מומלצות לתהליך.", href: "/qa-testing/" },
 ];
 
+// 3 example tasks per role (real hrefs) — shown in the onboarding drawer per selected role
+export const ROLE_TASKS: Record<RoleId, { he: string; href: string }[]> = {
+  new: [
+    { he: "למד זרימת פקודת אחזקה", href: "/object/AUFK/" },
+    { he: "הבן AUFK / AFKO / AFPO / JEST", href: "/sap-infrastructure/" },
+    { he: "בנה צ'קליסט QA ראשון", href: "/qa-testing/" },
+  ],
+  experienced: [
+    { he: "נווט ישר למודל הנתונים", href: "/sap-infrastructure/" },
+    { he: "פתח אובייקט ליבה (AFKO)", href: "/object/AFKO/" },
+    { he: "מפות תהליך מקצה-לקצה", href: "/process-explorer/" },
+  ],
+  senior: [
+    { he: "בדוק תלויות אובייקט (lineage)", href: "/lineage/" },
+    { he: "סקור סיכוני הרחבות (BAdI/Exit)", href: "/sap-infrastructure/" },
+    { he: "סקור השפעת S/4HANA", href: "/sap-infrastructure/" },
+  ],
+  qa: [
+    { he: "תרחישי בדיקה לאישור פקודה", href: "/qa-testing/" },
+    { he: "תקלות נפוצות ופתרון", href: "/troubleshooting/" },
+    { he: "בדיקות מול פערי S/4", href: "/sap-infrastructure/" },
+  ],
+  migration: [
+    { he: "מה משתנה ב-S/4 (MATDOC/ACDOCA)", href: "/sap-infrastructure/" },
+    { he: "שושלת נתונים מקור→צרכן", href: "/lineage/" },
+    { he: "אובייקטים שדורשים אימות", href: "/sap-infrastructure/" },
+  ],
+};
+
 export interface WorkflowCard { he: string; sub: string; href: string }
 export const WORKFLOWS: WorkflowCard[] = [
   { he: "להבין תהליך", sub: "מפות תהליך מקצה-לקצה", href: "/process-explorer/" },
