@@ -329,22 +329,14 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
     const k = Math.max(0.2, Math.min((vw - pad) / vbW, (vh - pad) / vbH, 2.6));
     setTr({ k, x: (vw - vbW * k) / 2, y: Math.max(16, (vh - vbH * k) / 2) });
   }, [vbW, vbH]);
-  // default open — comfortable: large readable cards (fewer per screen), centered, pannable for the rest
-  const openComfort = useCallback(() => {
-    const el = wrapRef.current; if (!el) return;
-    const vw = el.clientWidth || 1200, vh = el.clientHeight || 720;
-    const fitK = Math.min((vw - 72) / vbW, (vh - 72) / vbH);
-    const k = Math.min(1.05, Math.max(0.78, fitK * 1.7)); // bias toward big cards
-    setTr({ k, x: (vw - vbW * k) / 2, y: 28 });
-  }, [vbW, vbH]);
   const fullscreen = () => { const el = wrapRef.current; if (!el) return; document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); };
-  // auto-fit on mount/data-change + on resize (ultrawide/large monitors) + on fullscreen toggle
-  useEffect(() => { const id = setTimeout(openComfort, 90); return () => clearTimeout(id); }, [openComfort, fs]);
+  // auto fit-to-screen on module open / data change / resize / fullscreen — whole landscape always visible
+  useEffect(() => { const id = setTimeout(fit, 90); return () => clearTimeout(id); }, [fit, fs]);
   useEffect(() => {
     const el = wrapRef.current; if (!el || typeof ResizeObserver === "undefined") return;
-    let raf = 0; const ro = new ResizeObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(openComfort); });
+    let raf = 0; const ro = new ResizeObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(fit); });
     ro.observe(el); return () => { ro.disconnect(); cancelAnimationFrame(raf); };
-  }, [openComfort]);
+  }, [fit]);
   // trackpad: pinch (ctrl/meta+wheel) = zoom-to-cursor · two-finger = pan. Native non-passive listener.
   useEffect(() => {
     const el = wrapRef.current; if (!el) return;
@@ -417,7 +409,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
               </svg>
               {shown.map((t, gi) => { const p = pos[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const dim = active && !active.has(t.name); const isSel = sel === t.name; const tf = orderFields(fieldsOf(t)); const top = tf.slice(0, 8); const pkN = tf.filter((f) => f[3] === "PK").length, fkN = tf.filter((f) => f[3] === "FK").length;
                 return (
-                  <div key={t.name} data-card onClick={() => { if (sel === t.name) setDrawer(t.name); else { setSel(t.name); setDrawer(null); } }} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
+                  <div key={t.name} data-card onClick={() => { setSel(sel === t.name ? null : t.name); setDrawer(null); }} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
                     className="group absolute select-none overflow-hidden rounded-2xl bg-white transition-[transform,box-shadow,opacity] duration-300 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-1"
                     style={{ left: p.x, top: p.y, width: W, opacity: dim ? 0.28 : 1, zIndex: isSel ? 30 : 2, cursor: "pointer", border: `1.5px solid ${isSel ? c : "#e2e8f0"}`, boxShadow: isSel ? `0 26px 56px -18px ${c}66, 0 0 0 2px ${c}` : "0 10px 26px -16px rgba(15,23,42,.28)", animation: `pop .42s cubic-bezier(.32,.72,0,1) ${Math.min(gi * 20, 480)}ms both` }}>
                     {/* collapsed: title only (table code + business name) */}
@@ -443,9 +435,9 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                             <span className="ms-auto truncate text-[10px] text-slate-400">{f[2] || f[1]}</span>
                           </div>)}
                         </div>
-                        <div className="flex items-center justify-between gap-2 border-t border-slate-100 bg-[#d62027]/5 px-3 py-1.5 text-[10px] font-bold">
+                        <div className="flex items-center justify-between gap-2 border-t border-slate-100 bg-slate-50/70 px-3 py-1.5 text-[10px] font-bold">
                           {t.tcodes && <span className="truncate font-mono text-slate-500" dir="ltr">{t.tcodes.split(/[,\s]+/)[0]}</span>}
-                          <span className="ms-auto text-[#d62027]">לחץ שוב → פרטים מלאים ↩</span>
+                          <button onClick={(e) => { e.stopPropagation(); setDrawer(t.name); }} className="ms-auto inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-white shadow-sm transition active:scale-95" style={{ background: c }}><Maximize2 className="size-3" />פרטים מלאים</button>
                         </div>
                       </div>
                     )}
