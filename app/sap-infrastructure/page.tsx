@@ -404,11 +404,33 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
           </div>
         ); })()}
         {/* floating: S/4HANA impact filter (top-center, below modes) */}
-        <div className="absolute left-1/2 top-[3.4rem] z-30 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-amber-200/70 bg-white/90 p-0.5 shadow-md backdrop-blur-md">
-          {([["all", "הכל"], ["impacted", "מושפע S/4"], ["high", "סיכון גבוה"], ["verified", "מאומת"], ["needs", "נדרש אימות"]] as const).map(([id, he]) => (
-            <button key={id} onClick={() => setS4Filter(id)} className={`rounded-full px-2.5 py-1 text-[11px] font-bold transition ${s4Filter === id ? "bg-amber-400 text-amber-950 shadow-sm" : "text-slate-500 hover:bg-amber-50"}`}>{he}</button>
-          ))}
-        </div>
+        {(() => {
+          const FILTERS = [
+            ["all", "הכל", "כל הטבלאות במודול"],
+            ["impacted", "מושפע S/4", "טבלאות שמושפעות ממיגרציית S/4HANA (Simplification)"],
+            ["high", "סיכון גבוה", "טבלאות עם סיכון מיגרציה גבוה"],
+            ["verified", "מאומת", "השפעת S/4 מאומתת מול Simplification List / OSS"],
+            ["needs", "נדרש אימות", "טרם אומת מול SAP — דורש בדיקת Simplification List / OSS"],
+          ] as const;
+          const matchCount = s4Filter === "all" ? shown.length : shown.filter((t) => s4ok(t.name)).length;
+          const activeDesc = FILTERS.find((f) => f[0] === s4Filter)?.[2];
+          return (
+            <div className="absolute left-1/2 top-[3.4rem] z-30 flex -translate-x-1/2 flex-col items-center gap-1">
+              <div className="flex items-center gap-0.5 rounded-full border border-amber-200/70 bg-white/90 p-0.5 shadow-md backdrop-blur-md">
+                {FILTERS.map(([id, he, desc]) => (
+                  <button key={id} title={desc} onClick={() => setS4Filter(id)} className={`rounded-full px-2.5 py-1 text-[11px] font-bold transition ${s4Filter === id ? "bg-amber-400 text-amber-950 shadow-sm" : "text-slate-500 hover:bg-amber-50"}`}>{he}</button>
+                ))}
+              </div>
+              {s4Filter !== "all" && (
+                <div className={`max-w-[22rem] rounded-lg px-2.5 py-1 text-center text-[11px] font-bold shadow-sm backdrop-blur-md ${matchCount === 0 ? "bg-slate-800/90 text-white" : "bg-amber-400/95 text-amber-950"}`}>
+                  {matchCount === 0
+                    ? <>אין טבלאות בקטגוריה זו במודול — {activeDesc}</>
+                    : <>מציג {matchCount} מתוך {shown.length} טבלאות · {activeDesc}</>}
+                </div>
+              )}
+            </div>
+          );
+        })()}
         {/* floating: title + filters (top-left) */}
         <div className="absolute left-3 top-3 z-20 flex max-w-[58%] flex-col gap-1.5">
           <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-1.5 shadow-sm backdrop-blur-sm">
