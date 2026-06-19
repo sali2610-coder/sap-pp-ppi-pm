@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand, ChevronDown, Database, GitBranch, Workflow } from "lucide-react";
+import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand, ChevronDown, Database, GitBranch, Workflow, Clock } from "lucide-react";
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
 import { Highlight } from "@/components/highlight";
 import { s4For, TRUST_HE, RISK_HE, RISK_COLOR } from "@/lib/s4";
+import { loadGraphMemory, saveGraphMemory } from "@/lib/prefs";
 
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];
@@ -112,8 +113,16 @@ function Universe({ data, color, onModule }: { data: Data; color: (m?: string | 
   // (erdMembers = ERD_MODULES membership incl. shared core tables), otherwise the
   // summary card (owned-only) disagrees with the content (e.g. PP: 3 owned vs 20 shown).
   const tc = (m: string) => erdMembers(data, m).length, pc = (m: string) => data.processes.filter((p) => p.mods.includes(m)).length;
+  const [lastMod, setLastMod] = useState<string | null>(null);
+  useEffect(() => { const m = loadGraphMemory(); if (m.mod && UNIVERSE.includes(m.mod)) setLastMod(m.mod); }, []);
   return (
     <div className="space-y-5">
+      {lastMod && (
+        <button onClick={() => onModule(lastMod)} className="flex w-full items-center justify-between gap-3 rounded-2xl border border-[#d62027]/20 bg-[#d62027]/5 px-4 py-2.5 text-right shadow-sm transition hover:border-[#d62027]/40 hover:bg-[#d62027]/10 active:scale-[.99]" style={{ animation: "fadeUp .4s ease both" }}>
+          <span className="inline-flex items-center gap-2 text-sm font-bold text-[#d62027]"><Clock className="size-4" />המשך מהיכן שעצרת — {MOD_NAME_HE[lastMod] || lastMod}</span>
+          <ArrowLeft className="size-4 text-[#d62027]" />
+        </button>
+      )}
       {/* SAP CORE hero */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-l from-[#d62027] via-[#c01c22] to-[#9a1419] p-7 text-white shadow-lg" style={{ animation: "fadeUp .5s ease both" }}>
         <div className="absolute -left-16 -top-16 size-56 rounded-full bg-white/10 blur-2xl" />
@@ -334,6 +343,30 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
   const pan = useRef<{ x: number; y: number; ox: number; oy: number } | null>(null);
   useEffect(() => { setSel(focus && focus[0] ? focus[0] : null); setDrawer(focus && focus[0] ? focus[0] : null); }, [code, focus]);
   useEffect(() => { const h = () => setFs(!!document.fullscreenElement); document.addEventListener("fullscreenchange", h); return () => document.removeEventListener("fullscreenchange", h); }, []);
+  const [help, setHelp] = useState(false);
+  // memory: restore last graph mode on mount; persist mode/module/zoom
+  useEffect(() => { const m = loadGraphMemory(); if (m.mode && MODES.some((x) => x[0] === m.mode)) setMode(m.mode as Mode); }, []);
+  useEffect(() => { saveGraphMemory({ mode, mod: code }); }, [mode, code]);
+  useEffect(() => { saveGraphMemory({ k: tr.k }); }, [tr.k]);
+  // power-user keyboard shortcuts (Phase 7): F focus · R relationships · L lineage · S S/4 · T details · / search · Esc close · ? help
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement | null;
+      if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable)) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const k = e.key.toLowerCase();
+      if (k === "escape") { if (drawer) setDrawer(null); else if (sel) setSel(null); else if (help) setHelp(false); return; }
+      if (e.key === "?" || (e.shiftKey && k === "/")) { e.preventDefault(); setHelp((v) => !v); return; }
+      if (k === "/") { e.preventDefault(); window.dispatchEvent(new Event("neo:open-palette")); return; }
+      if (k === "f") { setMode("focus"); setModeInfo("focus"); }
+      else if (k === "r") { setMode("dep"); setModeInfo("dep"); }
+      else if (k === "l") { setMode("lineage"); setModeInfo("lineage"); }
+      else if (k === "s") { setS4Filter((v) => (v === "impacted" ? "all" : "impacted")); }
+      else if (k === "t") { if (sel) setDrawer(sel); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [drawer, sel, help]);
 
   // graph helpers
   const neigh = useCallback((nm: string) => { const s = new Set([nm]); links.forEach((l) => { if (l.a === nm) s.add(l.b); if (l.b === nm) s.add(l.a); }); return s; }, [links]);
@@ -452,6 +485,19 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
             {UNIVERSE.map((m) => { const on = selMods.has(m); const cc = color(m); return <button key={m} onClick={() => toggleMod(m)} className="rounded-md border px-1.5 py-0.5 text-[10px] font-bold transition active:scale-95" style={{ borderColor: on ? cc : "#e2e8f0", background: on ? cc : "#fff", color: on ? "#fff" : "#94a3b8" }}>{m}</button>; })}
           </div>
         </div>
+        {/* keyboard help trigger (bottom-left) */}
+        <button onClick={() => setHelp((v) => !v)} title="קיצורי מקלדת (?)" aria-label="קיצורי מקלדת"
+          className="absolute bottom-3 left-3 z-20 grid size-9 place-items-center rounded-xl border border-slate-200 bg-white/90 text-sm font-extrabold text-slate-500 shadow-sm backdrop-blur-sm transition hover:bg-[#d62027] hover:text-white active:scale-90">?</button>
+        {help && (
+          <div className="absolute bottom-14 left-3 z-30 w-64 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-xl backdrop-blur-md" dir="rtl">
+            <div className="mb-2 flex items-center justify-between"><span className="text-xs font-extrabold text-slate-900">קיצורי מקלדת</span><button onClick={() => setHelp(false)} className="rounded p-0.5 text-slate-400 hover:bg-slate-100"><X className="size-3.5" /></button></div>
+            <ul className="space-y-1.5 text-[12px] text-slate-600">
+              {[["F", "מצב מיקוד"], ["R", "קשרים / תלויות"], ["L", "שושלת מלאה"], ["S", "סינון השפעת S/4"], ["T", "פרטי טבלה נבחרת"], ["/", "חיפוש מהיר"], ["Esc", "סגור / נקה בחירה"], ["?", "עזרה זו"]].map(([k, d]) => (
+                <li key={k} className="flex items-center justify-between gap-2"><span>{d}</span><kbd className="rounded-md border border-slate-300 bg-slate-50 px-1.5 py-0.5 font-mono text-[10px] font-bold text-slate-700">{k}</kbd></li>
+              ))}
+            </ul>
+          </div>
+        )}
         {/* legend (top-right) */}
         <div className="pointer-events-none absolute right-3 top-3 z-20 flex flex-wrap gap-1.5 text-[10px] font-bold">
           {[["🔑 PK", "#d97706"], ["FK", "#2563eb"], ["חוצה-מודול", "#7c3aed"]].map(([k, v]) => (<span key={k} className="flex items-center gap-1 rounded-lg bg-white/90 px-2 py-1 shadow-sm ring-1 ring-slate-200 backdrop-blur-sm"><i className="size-2 rounded-full" style={{ background: v }} /><span style={{ color: v }}>{k}</span></span>))}

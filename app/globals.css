@@ -362,6 +362,13 @@ header :focus-visible {
 @utility tap { transition: transform 0.12s var(--ease-premium); }
 .tap:active { transform: scale(0.97); }
 
+/* Premium feel: no blue tap-flash on touch; interactive elements get an
+   instant, GPU-only press response so every click reads as intentional. */
+button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: transparent; }
+@media (hover: none) {
+  button:active, a:active, [role="button"]:active { transform: scale(0.98); }
+}
+
 /* Eyebrow label — microscopic tracked uppercase tag */
 @utility eyebrow {
   font-size: 0.625rem;

@@ -14,6 +14,8 @@ import { Highlight } from "@/components/highlight";
 import { useI18n } from "@/lib/i18n";
 import { playPing, playTick } from "@/lib/sound";
 import { planQuery, beginnerIntent } from "@/lib/search-intel";
+import { useFavorites, getRecentObjects } from "@/lib/prefs";
+import { Star } from "lucide-react";
 
 type FlatItem = { kind: "page" | "table" | "tcode" | "bapi" | "idoc" | "fm" | "cds" | "domain" | "process" | "library"; label: string; sub: string; module: Module; href: string };
 
@@ -94,6 +96,8 @@ export function CommandPalette() {
 
   const plan = useMemo(() => planQuery(q), [q]);
   const intent = useMemo(() => beginnerIntent(q), [q]);
+  const favs = useFavorites();
+  const recentObj = useMemo(() => (open ? getRecentObjects() : []), [open]);
   const sq = plan.search;          // effective search term (synonym-expanded)
   const hl = plan.highlight;       // terms to highlight (typed + alias)
   // Defer the expensive dataset queries so typing stays responsive (React 19
@@ -300,6 +304,30 @@ export function CommandPalette() {
           <AnimatePresence mode="wait">
             {q.trim() === "" ? (
               <motion.div key="zero" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4 p-2" dir="rtl">
+                {favs.length > 0 && (
+                  <div>
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-amber-600"><Star className="size-3.5 fill-amber-400 text-amber-500" />מועדפים</div>
+                    <div className="flex flex-wrap gap-1.5 px-3">
+                      {favs.slice(0, 12).map((n) => (
+                        <button key={n} onClick={() => go(`/object/${encodeURIComponent(n)}`, n)} className="tech inline-flex items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-900 transition-all hover:-translate-y-px hover:border-amber-400 active:scale-95" dir="ltr">
+                          <Star className="size-3 fill-amber-400 text-amber-500" />{n}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {recentObj.length > 0 && (
+                  <div>
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground"><Boxes className="size-3.5" />אובייקטים אחרונים</div>
+                    <div className="flex flex-wrap gap-1.5 px-3">
+                      {recentObj.slice(0, 10).map((n) => (
+                        <button key={n} onClick={() => go(`/object/${encodeURIComponent(n)}`, n)} className="tech inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 shadow-sm transition-all hover:-translate-y-px hover:border-brand/40 hover:text-brand active:scale-95" dir="ltr">
+                          <Boxes className="size-3 opacity-50" />{n}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 {recent.length > 0 && (
                   <div>
                     <div className="flex items-center justify-between px-3 py-1.5">

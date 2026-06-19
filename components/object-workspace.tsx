@@ -19,6 +19,8 @@ import { STATUS_META, statusColor } from "@/lib/status-meta";
 import type { MigrationStatus } from "@/lib/types";
 import { playClick, playTick } from "@/lib/sound";
 import { Highlight } from "@/components/highlight";
+import { useIsFavorite, toggleFavorite } from "@/lib/prefs";
+import { Star } from "lucide-react";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9" };
 const mc = (m: string) => MOD_COLOR[m] || "#64748b";
@@ -234,6 +236,7 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
             <div className="mt-1 flex items-center gap-3">
               <h1 className="font-mono text-4xl font-extrabold tracking-tight" dir="ltr">{t.tableName}</h1>
               <span className="rounded-lg bg-white/20 px-2 py-1 text-xs font-bold backdrop-blur-sm">Table · {t.module}</span>
+              <FavStar name={t.tableName} />
             </div>
             <p className="mt-1.5 max-w-2xl text-sm text-white/85">{t.descriptionHe || t.descriptionEn}</p>
           </div>
@@ -398,5 +401,15 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
         )}
       </motion.div>
     </div>
+  );
+}
+
+function FavStar({ name }: { name: string }) {
+  const fav = useIsFavorite(name);
+  return (
+    <button onClick={() => { playTick(); toggleFavorite(name); }} aria-pressed={fav} title={fav ? "הסר ממועדפים" : "הוסף למועדפים"}
+      className={`tap inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold backdrop-blur-sm transition active:scale-90 ${fav ? "bg-amber-400 text-amber-950 shadow-sm" : "bg-white/20 text-white hover:bg-white/30"}`}>
+      <Star className={`size-3.5 transition-transform ${fav ? "scale-110 fill-amber-950" : ""}`} />{fav ? "במועדפים" : "מועדף"}
+    </button>
   );
 }
