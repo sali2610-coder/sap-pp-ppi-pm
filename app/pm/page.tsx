@@ -1,4 +1,4 @@
-import { PM_DATA } from "@/lib/data";
+import { PM_DATA } from "@/data/sapData.pm";
 import { ModuleHub } from "@/components/module-hub";
 
 export const metadata = { title: "SAP PM Hub · Project NEO" };

@@ -9,7 +9,23 @@ import { Highlight } from "@/components/highlight";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { ObjectWorkspace } from "@/components/object-workspace";
+import dynamic from "next/dynamic";
+// Deep-dive workspace pulls the full cross-module intelligence (lib/data →
+// ALL_TABLES). Load it only when a drawer opens, so a module page's initial
+// bundle stays on its own data slice.
+const ObjectWorkspace = dynamic(() => import("@/components/object-workspace").then((m) => m.ObjectWorkspace), {
+  ssr: false,
+  loading: () => (
+    <div className="space-y-3 p-2">
+      <div className="h-28 animate-pulse rounded-3xl bg-slate-200/70" />
+      <div className="h-10 w-2/3 animate-pulse rounded-xl bg-slate-200/60" />
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div className="h-40 animate-pulse rounded-2xl bg-slate-200/50" />
+        <div className="h-40 animate-pulse rounded-2xl bg-slate-200/50" />
+      </div>
+    </div>
+  ),
+});
 import { useI18n } from "@/lib/i18n";
 
 const accentFor = (m: string) => (m === "PM" ? "#f97316" : "#6d28d9");
