@@ -67,7 +67,7 @@ export function getRecentObjects(): string[] {
 }
 
 // ---- graph memory (last module / mode / zoom) ------------------------------
-export interface GraphMemory { mod?: string; mode?: string; k?: number; x?: number; y?: number }
+export interface GraphMemory { mod?: string; mode?: string; k?: number; x?: number; y?: number; sel?: string | null }
 const GRAPH_KEY = "neo:graph:state";
 
 export function loadGraphMemory(): GraphMemory {

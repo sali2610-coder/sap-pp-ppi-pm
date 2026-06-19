@@ -344,10 +344,15 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
   useEffect(() => { setSel(focus && focus[0] ? focus[0] : null); setDrawer(focus && focus[0] ? focus[0] : null); }, [code, focus]);
   useEffect(() => { const h = () => setFs(!!document.fullscreenElement); document.addEventListener("fullscreenchange", h); return () => document.removeEventListener("fullscreenchange", h); }, []);
   const [help, setHelp] = useState(false);
-  // memory: restore last graph mode on mount; persist mode/module/zoom
-  useEffect(() => { const m = loadGraphMemory(); if (m.mode && MODES.some((x) => x[0] === m.mode)) setMode(m.mode as Mode); }, []);
+  // memory: restore last graph mode + selected node on mount; persist state
+  useEffect(() => {
+    const m = loadGraphMemory();
+    if (m.mode && MODES.some((x) => x[0] === m.mode)) setMode(m.mode as Mode);
+    if (!(focus && focus[0]) && m.sel && byName[m.sel]) setSel(m.sel);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { saveGraphMemory({ mode, mod: code }); }, [mode, code]);
   useEffect(() => { saveGraphMemory({ k: tr.k }); }, [tr.k]);
+  useEffect(() => { saveGraphMemory({ sel }); }, [sel]);
   // power-user keyboard shortcuts (Phase 7): F focus · R relationships · L lineage · S S/4 · T details · / search · Esc close · ? help
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -403,6 +408,12 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
     const k = Math.max(0.2, Math.min((vw - pad) / vbW, (vh - pad) / vbH, 2.6));
     setTr({ k, x: (vw - vbW * k) / 2, y: Math.max(16, (vh - vbH * k) / 2) });
   }, [vbW, vbH]);
+  // smooth pan to center a node (CSS transition on the canvas transform animates it)
+  const centerOn = useCallback((name: string) => {
+    const el = wrapRef.current; const p = pos[name]; if (!el || !p) return;
+    const vw = el.clientWidth || 1200, vh = el.clientHeight || 720;
+    setTr((cur) => { const k = Math.max(cur.k, 0.6); return { k, x: vw / 2 - (p.x + W / 2) * k, y: vh / 2 - (p.y + H / 2) * k }; });
+  }, [pos]);
   const fullscreen = () => { const el = wrapRef.current; if (!el) return; document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); };
   // auto fit-to-screen on module open / data change / resize / fullscreen — whole landscape always visible
   useEffect(() => { const id = setTimeout(fit, 90); return () => clearTimeout(id); }, [fit, fs]);
@@ -540,7 +551,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                 const baseShadow = isSel ? `0 26px 56px -18px ${c}66, 0 0 0 2px ${c}` : "0 10px 26px -16px rgba(15,23,42,.28)";
                 const glow = st.impacted ? ", 0 0 0 2px #f59e0b, 0 0 16px 1px rgba(245,158,11,.5)" : "";
                 return (
-                  <div key={t.name} data-card onClick={() => { setSel(sel === t.name ? null : t.name); setDrawer(null); }} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
+                  <div key={t.name} data-card onClick={() => { const willSel = sel !== t.name; setSel(willSel ? t.name : null); setDrawer(null); if (willSel) centerOn(t.name); }} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
                     className="group absolute select-none overflow-hidden rounded-2xl bg-white transition-[transform,box-shadow,opacity] duration-300 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-1"
                     style={{ left: p.x, top: p.y, width: W, opacity: fade ? 0.12 : dim ? 0.28 : 1, zIndex: isSel ? 30 : st.impacted ? 5 : 2, cursor: "pointer", border: `1.5px solid ${isSel ? c : st.impacted ? "#f59e0b" : "#e2e8f0"}`, boxShadow: baseShadow + glow, animation: `pop .42s cubic-bezier(.32,.72,0,1) ${Math.min(gi * 20, 480)}ms both` }}>
                     {/* collapsed: title only (table code + business name) */}
