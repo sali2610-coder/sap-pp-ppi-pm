@@ -9,6 +9,7 @@ import { PM_TEXTBOOK, PM_TEXTBOOK_STATS } from "./pm-textbook";
 import { QM_TEXTBOOK, QM_TEXTBOOK_STATS } from "./qm-textbook";
 import { MM_TEXTBOOK, MM_TEXTBOOK_STATS } from "./mm-textbook";
 import { WM_TEXTBOOK, WM_TEXTBOOK_STATS } from "./wm-textbook";
+import { PPDS_TEXTBOOK, PPDS_TEXTBOOK_STATS } from "./ppds-textbook";
 
 export type BookStatus = "live" | "in-progress" | "planned";
 
@@ -46,6 +47,9 @@ const mmSubs = Object.values(MM_TEXTBOOK).reduce((s, c) => s + c.subchapters.len
 const wmChapters = Object.keys(WM_TEXTBOOK).length;
 const wmNodes = Object.values(WM_TEXTBOOK_STATS).reduce((s, c) => s + c.totalNodes, 0);
 const wmSubs = Object.values(WM_TEXTBOOK).reduce((s, c) => s + c.subchapters.length, 0);
+const ppdsChapters = Object.keys(PPDS_TEXTBOOK).length;
+const ppdsNodes = Object.values(PPDS_TEXTBOOK_STATS).reduce((s, c) => s + c.totalNodes, 0);
+const ppdsSubs = Object.values(PPDS_TEXTBOOK).reduce((s, c) => s + c.subchapters.length, 0);
 
 export const ACADEMY_BOOKS: AcademyBook[] = [
   {
@@ -82,6 +86,12 @@ export const ACADEMY_BOOKS: AcademyBook[] = [
     module: "WM", status: "live", chaptersTotal: 10, chaptersDone: wmChapters,
     subchapters: wmSubs, nodes: wmNodes, validated: false, qualityScore: 90,
     href: "/library/wm-academy/", reportHref: "/library/wm-quality-report/", tintHe: "from-violet-500 to-violet-700",
+  },
+  {
+    id: "ppds", titleHe: "תכנון מתקדם (PP/DS)", titleEn: "PP/DS with SAP S/4HANA",
+    module: "PP-PI", status: "live", chaptersTotal: 11, chaptersDone: ppdsChapters,
+    subchapters: ppdsSubs, nodes: ppdsNodes, validated: false, qualityScore: 90,
+    href: "/library/ppds-academy/", reportHref: "/library/ppds-quality-report/", tintHe: "from-cyan-500 to-cyan-700",
   },
 ];
 

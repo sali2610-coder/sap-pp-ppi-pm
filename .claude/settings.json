@@ -91,10 +91,29 @@
       "Bash(grep -E '^5\\(\\\\.[0-9]+\\)*$')",
       "Bash(awk 'length<=6')",
       "Bash(node -e \"const t=require\\('./data/library/ppds-toc.json'\\);for\\(const n of [7,8]\\){console.log\\(n+'@@@'+\\(t[n]||[]\\).map\\(e=>e.id+' '+e.title\\).join\\(' | '\\)\\);}\")",
-      "Bash(node -e 'const j=require\\(\"./data/library/book2/ch7.sections.json\"\\); const ids=[\"7.3\",\"7.4\",\"7.4.1\",\"7.4.2\",\"7.4.3\",\"7.4.4\"]; for\\(const id of ids\\){const s=j.sections.find\\(x=>x.id===id\\); console.log\\(\"\\\\n\\\\n===== \"+id+\" \"+s.title+\" \\(\"+s.text.length+\"\\) =====\\\\n\"\\); process.stdout.write\\(s.text\\);}')",
-      "Bash(node /tmp/b2-ch7b.mjs)",
-      "Bash(node -e 'const j=require\\(\"./data/library/book2/he/ch7.json\"\\); console.log\\(\"ch7 he sections present:\",Object.keys\\(j\\).length\\);')",
-      "Bash(node -e 'const j=require\\(\"./data/library/book2/ch7.sections.json\"\\); const ids=[\"7.5\",\"7.6\",\"7.6.1\",\"7.6.2\",\"7.6.3\",\"7.6.4\",\"7.6.5\",\"7.6.6\"]; for\\(const id of ids\\){const s=j.sections.find\\(x=>x.id===id\\); console.log\\(\"\\\\n\\\\n===== \"+id+\" \"+s.title+\" \\(\"+s.text.length+\"\\) =====\\\\n\"\\); process.stdout.write\\(s.text\\);}')"
+      "Bash(node -e \"const t=require\\('./data/library/ppds-toc.json'\\);for\\(const n of [9,10,11]\\){console.log\\(n+'@@@'+\\(t[n]||[]\\).map\\(e=>e.id+' '+e.title\\).join\\(' | '\\)\\);}\")",
+      "Bash(awk '/^===== 9\\\\.1 /{p=1} /^===== 9\\\\.4\\\\.7 /{p=0} p' /tmp/b2-ch9-all.txt)",
+      "Bash(node /tmp/b2-ch9a.mjs)",
+      "Bash(awk '/^===== 9\\\\.4\\\\.7 /{p=1} /^===== 9\\\\.6\\\\.1 /{p=0} p' /tmp/b2-ch9-all.txt)",
+      "Bash(sed -i '' 's/רישום G2 ידני/רישום GR ידני/' /tmp/b2-ch9b.mjs)",
+      "Bash(node /tmp/b2-ch9b.mjs)",
+      "Bash(awk '/^===== 9\\\\.6\\\\.1 /{p=1} p' /tmp/b2-ch9-all.txt)",
+      "Bash(node /tmp/b2-ch9c.mjs)",
+      "Bash(awk '/^===== 10\\\\.1 /{p=1} /^===== 10\\\\.5 /{p=0} p' /tmp/b2-ch10-all.txt)",
+      "Bash(node /tmp/b2-ch10a.mjs)",
+      "Bash(awk '/^===== 10\\\\.5 /{p=1} /^===== 10\\\\.7 /{p=0} p' /tmp/b2-ch10-all.txt)",
+      "Bash(node /tmp/b2-ch10b.mjs)",
+      "Bash(awk '/^===== 10\\\\.7 /{p=1} /^===== 10\\\\.9 /{p=0} p' /tmp/b2-ch10-all.txt)",
+      "Bash(node /tmp/b2-ch10c.mjs)",
+      "Bash(awk '/^===== 10\\\\.9 /{p=1} p' /tmp/b2-ch10-all.txt)",
+      "Bash(node /tmp/b2-ch10d.mjs)",
+      "Bash(awk '/^===== 11\\\\.1 /{p=1} /^===== 11\\\\.2 /{p=0} p' /tmp/b2-ch11-all.txt)",
+      "Bash(node /tmp/b2-ch11a.mjs)",
+      "Bash(awk '/^===== 11\\\\.2 /{p=1} /^===== 11\\\\.3\\\\.1 /{p=0} p' /tmp/b2-ch11-all.txt)",
+      "Bash(node /tmp/b2-ch11b.mjs)",
+      "Bash(awk '/^===== 11\\\\.3\\\\.1 /{p=1} /^===== 11\\\\.5 /{p=0} p' /tmp/b2-ch11-all.txt)",
+      "Bash(node /tmp/b2-ch11c.mjs)",
+      "Bash(awk '/^===== 11\\\\.5 /{p=1} p' /tmp/b2-ch11-all.txt)"
     ]
   }
 }
