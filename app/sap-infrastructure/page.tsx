@@ -345,6 +345,17 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
     return new Set([nm, ...(dir !== "down" ? up : []), ...(dir !== "up" ? down : [])]);
   }, [links]);
   const active = sel ? (mode === "dep" ? trace(sel, "both") : mode === "lineage" ? trace(sel, "up") : mode === "impact" ? trace(sel, "down") : mode === "focus" ? neigh(sel) : null) : null;
+  // Precompute per-node field/S4 data once per layout — avoids recomputing
+  // orderFields/fieldsOf/s4For/Set for all nodes on every hover re-render.
+  const nodeData = useMemo(() => {
+    const m: Record<string, { tf: Field[]; top: Field[]; pkN: number; fkN: number; st: ReturnType<typeof s4For>; impFields: Set<string> }> = {};
+    for (const t of shown) {
+      const tf = orderFields(fieldsOf(t));
+      const st = s4For(t.name, t.s4, t.s4alt);
+      m[t.name] = { tf, top: tf.slice(0, 8), pkN: tf.filter((f) => f[3] === "PK").length, fkN: tf.filter((f) => f[3] === "FK").length, st, impFields: new Set((st.impact?.fields || []).map((f) => f.field)) };
+    }
+    return m;
+  }, [shown]);
   const linkEmph = (a: string, b: string) => {
     if (mode === "flow") return (pos[a]?.x ?? 0) <= (pos[b]?.x ?? 0);
     if (!active) return false;
@@ -477,8 +488,8 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                     <g opacity={dim ? 0.4 : 1}><rect x={mx - 17} y={(ay + by) / 2 - 8} width={34} height={16} rx={6} fill={emph ? lc : "#94a3b8"} /><text x={mx} y={(ay + by) / 2 + 4} textAnchor="middle" style={{ font: "700 9px ui-monospace" }} fill="#fff">{cardKind(l.card)}</text></g>
                   </g>; })}
               </svg>
-              {shown.map((t, gi) => { const p = pos[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const isSel = sel === t.name; const tf = orderFields(fieldsOf(t)); const top = tf.slice(0, 8); const pkN = tf.filter((f) => f[3] === "PK").length, fkN = tf.filter((f) => f[3] === "FK").length;
-                const st = s4For(t.name, t.s4, t.s4alt); const impFields = new Set((st.impact?.fields || []).map((f) => f.field));
+              {shown.map((t, gi) => { const p = pos[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const isSel = sel === t.name; const nd = nodeData[t.name]; const tf = nd.tf, top = nd.top, pkN = nd.pkN, fkN = nd.fkN;
+                const st = nd.st; const impFields = nd.impFields;
                 const fade = !s4ok(t.name); const dim = (active && !active.has(t.name)) || fade;
                 const baseShadow = isSel ? `0 26px 56px -18px ${c}66, 0 0 0 2px ${c}` : "0 10px 26px -16px rgba(15,23,42,.28)";
                 const glow = st.impacted ? ", 0 0 0 2px #f59e0b, 0 0 16px 1px rgba(245,158,11,.5)" : "";

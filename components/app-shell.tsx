@@ -6,12 +6,17 @@ import { motion } from "framer-motion";
 import { Sparkles, BrainCircuit } from "lucide-react";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SiteLogo } from "@/components/site-logo";
+import dynamic from "next/dynamic";
 import { OmniSearch } from "@/components/omni-search";
-import { CommandPalette } from "@/components/command-palette";
-import { FindHighlighter } from "@/components/find-highlighter";
-import { OnboardingDrawer } from "@/components/onboarding-drawer";
-import { PageHelp } from "@/components/page-help";
-import { UXSettings } from "@/components/ux-settings";
+// Non-critical shell UI — deferred so the dataset + search engine (pulled by the
+// command palette) and floating helpers stay out of the shared layout chunk and
+// off the first-paint / hydration path on every page. ssr:false: none render on
+// first paint, all are interaction- or effect-triggered.
+const CommandPalette = dynamic(() => import("@/components/command-palette").then((m) => m.CommandPalette), { ssr: false });
+const FindHighlighter = dynamic(() => import("@/components/find-highlighter").then((m) => m.FindHighlighter), { ssr: false });
+const OnboardingDrawer = dynamic(() => import("@/components/onboarding-drawer").then((m) => m.OnboardingDrawer), { ssr: false });
+const PageHelp = dynamic(() => import("@/components/page-help").then((m) => m.PageHelp), { ssr: false });
+const UXSettings = dynamic(() => import("@/components/ux-settings").then((m) => m.UXSettings), { ssr: false });
 import { Search } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { LangSwitch } from "@/components/lang-switch";

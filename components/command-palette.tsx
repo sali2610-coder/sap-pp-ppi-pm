@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useDeferredValue } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Search, Table2, Terminal, Boxes, CornerDownLeft, ArrowLeft, BookText, GitBranch, BookMarked, Workflow, MapPin, Cable, FileCode, Network, Clock, Sparkles, Compass, Home, Wrench, FlaskConical, BrainCircuit, Library, AlertTriangle, Route } from "lucide-react";
@@ -96,12 +96,15 @@ export function CommandPalette() {
   const intent = useMemo(() => beginnerIntent(q), [q]);
   const sq = plan.search;          // effective search term (synonym-expanded)
   const hl = plan.highlight;       // terms to highlight (typed + alias)
+  // Defer the expensive dataset queries so typing stays responsive (React 19
+  // concurrent: input updates commit immediately, results catch up).
+  const dsq = useDeferredValue(sq);
 
-  const results = useMemo(() => searchAll(sq), [sq]);
-  const intel = useMemo(() => (sq.trim().length >= 2 ? objectIntel(sq) : null), [sq]);
-  const tcode = useMemo(() => lookupTCode(sq), [sq]);
+  const results = useMemo(() => searchAll(dsq), [dsq]);
+  const intel = useMemo(() => (dsq.trim().length >= 2 ? objectIntel(dsq) : null), [dsq]);
+  const tcode = useMemo(() => lookupTCode(dsq), [dsq]);
 
-  const obj = useMemo(() => searchObjects(sq), [sq]);
+  const obj = useMemo(() => searchObjects(dsq), [dsq]);
 
   const pageHits = useMemo<Page[]>(() => {
     const s = q.trim().toLowerCase();
