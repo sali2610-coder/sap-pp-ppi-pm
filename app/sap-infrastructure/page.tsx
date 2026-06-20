@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand, ChevronDown, Database, GitBranch, Workflow, Clock } from "lucide-react";
+import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand, ChevronDown, Database, GitBranch, Workflow, Clock, RotateCcw } from "lucide-react";
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
 import { Highlight } from "@/components/highlight";
 import { s4For, TRUST_HE, RISK_HE, RISK_COLOR } from "@/lib/s4";
 import { loadGraphMemory, saveGraphMemory } from "@/lib/prefs";
+import dagre from "dagre";
 
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];
@@ -283,9 +284,11 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
   const [selMods, setSelMods] = useState<Set<string>>(() => new Set([code]));
   useEffect(() => { setSelMods(new Set([code])); }, [code]);
   const ordered = UNIVERSE.filter((m) => selMods.has(m));
-  const W = 268, H = 116, colW = 348, rowH = 184; // collapsed cube size + spacing
+  const W = 268, H = 116; // collapsed cube size
 
-  // hierarchical left→right layout by dependency depth (SAP master → transaction → posting)
+  // Auto-layout via dagre: real hierarchical ranking + crossing reduction
+  // (left→right = SAP master → transaction → posting flow). Enterprise engine,
+  // not manual placement.
   const { shown, pos, own, links, vbW, vbH } = useMemo(() => {
     const memberMap: Record<string, Tbl[]> = {}; ordered.forEach((m) => { memberMap[m] = erdMembers(data, m); });
     const allNames = [...new Set(ordered.flatMap((m) => memberMap[m].map((t) => t.name)))];
@@ -295,29 +298,16 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
     const nameset = new Set(sh.map((t) => t.name));
     const lk: { a: string; b: string; card: string }[] = [];
     sh.forEach((t) => t.rel.forEach((r) => { if (nameset.has(r.table)) { const a = r.role === "parent" ? t.name : r.table, b = r.role === "parent" ? r.table : t.name; if (a !== b && !lk.find((l) => l.a === a && l.b === b)) lk.push({ a, b, card: r.card || "1:N" }); } }));
-    const parents: Record<string, string[]> = {}; sh.forEach((t) => (parents[t.name] = []));
-    lk.forEach((l) => { if (parents[l.b]) parents[l.b].push(l.a); });
-    const memo: Record<string, number> = {};
-    const lvl = (n: string, seen: Set<string>): number => { if (memo[n] != null) return memo[n]; if (seen.has(n)) return 0; seen.add(n); const ps = parents[n] || []; const v = ps.length ? 1 + Math.max(...ps.map((p) => lvl(p, seen))) : 0; seen.delete(n); memo[n] = v; return v; };
-    sh.forEach((t) => lvl(t.name, new Set()));
-    const byLevel: Record<number, Tbl[]> = {}; sh.forEach((t) => { const L = memo[t.name] || 0; (byLevel[L] = byLevel[L] || []).push(t); });
-    const ord = UNIVERSE.reduce((a, m, i) => ((a[m] = i), a), {} as Record<string, number>);
-    Object.values(byLevel).forEach((col) => col.sort((a, b) => (ord[owner[a.name]] - ord[owner[b.name]]) || a.name.localeCompare(b.name)));
+    const gg = new dagre.graphlib.Graph({ multigraph: false });
+    gg.setGraph({ rankdir: "LR", nodesep: 44, ranksep: 130, edgesep: 24, marginx: 72, marginy: 72, ranker: "tight-tree" });
+    gg.setDefaultEdgeLabel(() => ({}));
+    sh.forEach((t) => gg.setNode(t.name, { width: W, height: H }));
+    lk.forEach((l) => { if (gg.hasNode(l.a) && gg.hasNode(l.b)) gg.setEdge(l.a, l.b); });
+    try { dagre.layout(gg); } catch { /* layout best-effort */ }
     const p: Record<string, { x: number; y: number }> = {};
-    const levels = Object.keys(byLevel).map(Number).sort((a, b) => a - b);
-    // wide left→right packing: keep dependency order (parents first) but wrap tall
-    // levels into extra columns so the model spreads horizontally, not just down.
-    const MAXROWS = 5;
-    let col = 0, row = 0, maxCols = 1;
-    levels.forEach((L) => {
-      if (row !== 0) { col++; row = 0; } // each dependency level starts a fresh column band
-      byLevel[L].forEach((t) => {
-        if (row >= MAXROWS) { col++; row = 0; }
-        p[t.name] = { x: 64 + col * colW, y: 64 + row * rowH }; row++;
-      });
-      maxCols = Math.max(maxCols, col + 1);
-    });
-    return { shown: sh, pos: p, own: owner, links: lk, vbW: 128 + maxCols * colW, vbH: 96 + MAXROWS * rowH, level: memo };
+    sh.forEach((t, i) => { const nd = gg.node(t.name); p[t.name] = nd ? { x: nd.x - W / 2, y: nd.y - H / 2 } : { x: 72, y: 72 + i * (H + 40) }; });
+    const gr = gg.graph();
+    return { shown: sh, pos: p, own: owner, links: lk, vbW: (gr.width || 1200) + 144, vbH: (gr.height || 720) + 144 };
   }, [code, [...selMods].sort().join(",")]);
 
   const [sel, setSel] = useState<string | null>(focus && focus[0] ? focus[0] : null);
@@ -341,6 +331,11 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
   const [panMode, setPanMode] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const pan = useRef<{ x: number; y: number; ox: number; oy: number } | null>(null);
+  // draggable nodes: manual position overrides on top of the auto-layout
+  const [dragPos, setDragPos] = useState<Record<string, { x: number; y: number }>>({});
+  const nodeDrag = useRef<{ name: string; sx: number; sy: number; ox: number; oy: number; moved: boolean } | null>(null);
+  useEffect(() => { setDragPos({}); }, [pos]); // reset overrides whenever auto-layout recomputes
+  const P = useCallback((n: string) => dragPos[n] || pos[n], [dragPos, pos]);
   useEffect(() => { setSel(focus && focus[0] ? focus[0] : null); setDrawer(focus && focus[0] ? focus[0] : null); }, [code, focus]);
   useEffect(() => { const h = () => setFs(!!document.fullscreenElement); document.addEventListener("fullscreenchange", h); return () => document.removeEventListener("fullscreenchange", h); }, []);
   const [help, setHelp] = useState(false);
@@ -410,10 +405,10 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
   }, [vbW, vbH]);
   // smooth pan to center a node (CSS transition on the canvas transform animates it)
   const centerOn = useCallback((name: string) => {
-    const el = wrapRef.current; const p = pos[name]; if (!el || !p) return;
+    const el = wrapRef.current; const p = P(name); if (!el || !p) return;
     const vw = el.clientWidth || 1200, vh = el.clientHeight || 720;
     setTr((cur) => { const k = Math.max(cur.k, 0.6); return { k, x: vw / 2 - (p.x + W / 2) * k, y: vh / 2 - (p.y + H / 2) * k }; });
-  }, [pos]);
+  }, [P]);
   const fullscreen = () => { const el = wrapRef.current; if (!el) return; document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); };
   // auto fit-to-screen on module open / data change / resize / fullscreen — whole landscape always visible
   useEffect(() => { const id = setTimeout(fit, 90); return () => clearTimeout(id); }, [fit, fs]);
@@ -517,7 +512,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
         <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-1 rounded-2xl border border-white/60 bg-white/90 p-1.5 shadow-xl shadow-black/10 backdrop-blur-md">
           <button onClick={() => setPanMode((v) => !v)} title="מצב גרירה" className={`grid size-9 place-items-center rounded-xl transition active:scale-90 ${panMode ? "bg-[#d62027] text-white" : "text-slate-600 hover:bg-slate-100"}`}><Hand className="size-4" /></button>
           <span className="mx-0.5 h-5 w-px bg-slate-200" />
-          {[[<ZoomOut key="zo" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.max(0.2, p.k / 1.2) })), "הקטן"], [<Scan key="f" className="size-4" />, fit, "התאם"], [<ZoomIn key="zi" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) })), "הגדל"], [fs ? <Shrink key="s" className="size-4" /> : <Expand key="e" className="size-4" />, fullscreen, "מסך מלא"], [<Home key="h" className="size-4" />, onHome, "בית"]].map((b, i) => <button key={i} title={b[2] as string} onClick={b[1] as () => void} className="grid size-9 place-items-center rounded-xl text-slate-600 transition hover:bg-[#d62027] hover:text-white active:scale-90">{b[0] as React.ReactNode}</button>)}
+          {[[<ZoomOut key="zo" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.max(0.2, p.k / 1.2) })), "הקטן"], [<Scan key="f" className="size-4" />, fit, "התאם"], [<ZoomIn key="zi" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) })), "הגדל"], [<RotateCcw key="rl" className="size-4" />, () => { setDragPos({}); fit(); }, "אפס פריסה"], [fs ? <Shrink key="s" className="size-4" /> : <Expand key="e" className="size-4" />, fullscreen, "מסך מלא"], [<Home key="h" className="size-4" />, onHome, "בית"]].map((b, i) => <button key={i} title={b[2] as string} onClick={b[1] as () => void} className="grid size-9 place-items-center rounded-xl text-slate-600 transition hover:bg-[#d62027] hover:text-white active:scale-90">{b[0] as React.ReactNode}</button>)}
           <span className="px-2 font-mono text-xs font-bold tabular-nums text-slate-400">{Math.round(tr.k * 100)}%</span>
         </div>
         {panMode && <div className="pointer-events-none absolute bottom-[4.5rem] left-1/2 z-20 -translate-x-1/2 rounded-full bg-[#d62027] px-3 py-1 text-[11px] font-bold text-white shadow-lg">מצב גרירה פעיל — גרור להזזה</div>}
@@ -531,7 +526,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                 <defs>
                   <filter id="archglow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
                 </defs>
-                {links.map((l, i) => { const A = pos[l.a], B = pos[l.b], TA = byName[l.a], TB = byName[l.b]; if (!A || !B || !TA || !TB) return null;
+                {links.map((l, i) => { const A = P(l.a), B = P(l.b), TA = byName[l.a], TB = byName[l.b]; if (!A || !B || !TA || !TB) return null;
                   const fwd = A.x <= B.x; const ax = (fwd ? A.x + W : A.x), ay = A.y + H / 2, bx = (fwd ? B.x : B.x + W), by = B.y + H / 2; const mx = (ax + bx) / 2;
                   const isCross = (own[l.a] || TA.mod) !== (own[l.b] || TB.mod); const lc = isCross ? "#7c3aed" : color(own[l.a] || TA.mod);
                   const onHv = hv ? (l.a === hv || l.b === hv) : false; const emph = linkEmph(l.a, l.b) || onHv;
@@ -545,15 +540,20 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                     <g opacity={dim ? 0.4 : 1}><rect x={mx - 17} y={(ay + by) / 2 - 8} width={34} height={16} rx={6} fill={emph ? lc : "#94a3b8"} /><text x={mx} y={(ay + by) / 2 + 4} textAnchor="middle" style={{ font: "700 9px ui-monospace" }} fill="#fff">{cardKind(l.card)}</text></g>
                   </g>; })}
               </svg>
-              {shown.map((t, gi) => { const p = pos[t.name]; if (!p) return null; const c = color(own[t.name] || t.mod); const isSel = sel === t.name; const nd = nodeData[t.name]; const tf = nd.tf, top = nd.top, pkN = nd.pkN, fkN = nd.fkN;
+              {shown.map((t, gi) => { const p = P(t.name); if (!p) return null; const c = color(own[t.name] || t.mod); const isSel = sel === t.name; const nd = nodeData[t.name]; const tf = nd.tf, top = nd.top, pkN = nd.pkN, fkN = nd.fkN;
                 const st = nd.st; const impFields = nd.impFields;
                 const fade = !s4ok(t.name); const dim = (active && !active.has(t.name)) || fade;
+                const dragging = nodeDrag.current?.name === t.name;
                 const baseShadow = isSel ? `0 26px 56px -18px ${c}66, 0 0 0 2px ${c}` : "0 10px 26px -16px rgba(15,23,42,.28)";
                 const glow = st.impacted ? ", 0 0 0 2px #f59e0b, 0 0 16px 1px rgba(245,158,11,.5)" : "";
                 return (
-                  <div key={t.name} data-card onClick={() => { const willSel = sel !== t.name; setSel(willSel ? t.name : null); setDrawer(null); if (willSel) centerOn(t.name); }} onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
-                    className="group absolute select-none overflow-hidden rounded-2xl bg-white transition-[transform,box-shadow,opacity] duration-300 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-1"
-                    style={{ left: p.x, top: p.y, width: W, opacity: fade ? 0.12 : dim ? 0.28 : 1, zIndex: isSel ? 30 : st.impacted ? 5 : 2, cursor: "pointer", border: `1.5px solid ${isSel ? c : st.impacted ? "#f59e0b" : "#e2e8f0"}`, boxShadow: baseShadow + glow, animation: `pop .42s cubic-bezier(.32,.72,0,1) ${Math.min(gi * 20, 480)}ms both` }}>
+                  <div key={t.name} data-card
+                    onPointerDown={(e) => { if ((e.target as Element).closest("[data-nodrag]")) return; e.stopPropagation(); (e.currentTarget as Element).setPointerCapture?.(e.pointerId); const cur = P(t.name) || { x: 0, y: 0 }; nodeDrag.current = { name: t.name, sx: e.clientX, sy: e.clientY, ox: cur.x, oy: cur.y, moved: false }; }}
+                    onPointerMove={(e) => { const d = nodeDrag.current; if (!d || d.name !== t.name) return; if (Math.abs(e.clientX - d.sx) + Math.abs(e.clientY - d.sy) > 4) d.moved = true; if (d.moved) { const nx = d.ox + (e.clientX - d.sx) / tr.k, ny = d.oy + (e.clientY - d.sy) / tr.k; setDragPos((m) => ({ ...m, [t.name]: { x: nx, y: ny } })); } }}
+                    onPointerUp={() => { const d = nodeDrag.current; nodeDrag.current = null; if (d && !d.moved) { const willSel = sel !== t.name; setSel(willSel ? t.name : null); setDrawer(null); if (willSel) centerOn(t.name); } }}
+                    onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
+                    className="group absolute select-none overflow-hidden rounded-2xl bg-white transition-[box-shadow,opacity] duration-200 ease-[cubic-bezier(.32,.72,0,1)]"
+                    style={{ left: p.x, top: p.y, width: W, opacity: fade ? 0.12 : dim ? 0.28 : 1, zIndex: dragging ? 40 : isSel ? 30 : st.impacted ? 5 : 2, cursor: dragging ? "grabbing" : "grab", border: `1.5px solid ${isSel ? c : st.impacted ? "#f59e0b" : "#e2e8f0"}`, boxShadow: baseShadow + glow, touchAction: "none", animation: Object.keys(dragPos).length ? undefined : `pop .42s cubic-bezier(.32,.72,0,1) ${Math.min(gi * 20, 480)}ms both` }}>
                     {/* collapsed: title only (table code + business name) */}
                     <div className="relative px-3.5 pb-2.5 pt-3">
                       <span className="absolute inset-x-0 top-0 h-1.5 rounded-t-2xl" style={{ background: c }} />
@@ -573,7 +573,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                     </div>
                     {/* expanded (1st click): reveal fields */}
                     {isSel && (
-                      <div style={{ animation: "fadeUp .28s ease both" }}>
+                      <div data-nodrag style={{ animation: "fadeUp .28s ease both" }}>
                         {st.impacted && <div className="flex items-center gap-1.5 border-t border-amber-200 bg-amber-50 px-3 py-1.5 text-[10px] font-bold text-amber-800"><span className="size-1.5 rounded-full" style={{ background: RISK_COLOR[st.risk] }} />S/4HANA Impact · {RISK_HE[st.risk]} · {TRUST_HE[st.trust]}</div>}
                         <div className="space-y-0.5 border-t border-slate-100 px-3 py-2">
                           {top.map((f) => { const fi = impFields.has(f[0]); return <div key={f[0]} className={`flex items-center gap-2 ${fi ? "-mx-1 rounded bg-amber-100/70 px-1" : ""}`}>
