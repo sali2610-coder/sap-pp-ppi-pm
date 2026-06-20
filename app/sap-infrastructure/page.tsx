@@ -313,6 +313,9 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
   const [sel, setSel] = useState<string | null>(focus && focus[0] ? focus[0] : null);
   const [drawer, setDrawer] = useState<string | null>(focus && focus[0] ? focus[0] : null);
   const [hv, setHv] = useState<string | null>(null);
+  const [multi, setMulti] = useState<Set<string>>(new Set()); // shift+click selection
+  useEffect(() => { setMulti(new Set()); }, [code]);
+  const multiActive = multi.size >= 2;
   const [mode, setMode] = useState<Mode>("focus");
   const [modeInfo, setModeInfo] = useState<Mode | null>("focus");
   useEffect(() => { if (!modeInfo) return; const id = setTimeout(() => setModeInfo(null), 5500); return () => clearTimeout(id); }, [modeInfo]);
@@ -333,7 +336,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
   const pan = useRef<{ x: number; y: number; ox: number; oy: number } | null>(null);
   // draggable nodes: manual position overrides on top of the auto-layout
   const [dragPos, setDragPos] = useState<Record<string, { x: number; y: number }>>({});
-  const nodeDrag = useRef<{ name: string; sx: number; sy: number; ox: number; oy: number; moved: boolean } | null>(null);
+  const nodeDrag = useRef<{ name: string; sx: number; sy: number; ox: number; oy: number; moved: boolean; shift: boolean } | null>(null);
   // restore saved custom layout for this module (else clear) when auto-layout changes
   useEffect(() => { setDragPos(loadLayout(code)); }, [pos, code]);
   const P = useCallback((n: string) => dragPos[n] || pos[n], [dragPos, pos]);
@@ -356,7 +359,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
       if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable)) return;
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       const k = e.key.toLowerCase();
-      if (k === "escape") { if (drawer) setDrawer(null); else if (sel) setSel(null); else if (help) setHelp(false); return; }
+      if (k === "escape") { if (drawer) setDrawer(null); else if (multi.size) setMulti(new Set()); else if (sel) setSel(null); else if (help) setHelp(false); return; }
       if (e.key === "?" || (e.shiftKey && k === "/")) { e.preventDefault(); setHelp((v) => !v); return; }
       if (k === "/") { e.preventDefault(); window.dispatchEvent(new Event("neo:open-palette")); return; }
       if (k === "f") { setMode("focus"); setModeInfo("focus"); }
@@ -367,7 +370,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [drawer, sel, help]);
+  }, [drawer, sel, help, multi]);
 
   // graph helpers
   const neigh = useCallback((nm: string) => { const s = new Set([nm]); links.forEach((l) => { if (l.a === nm) s.add(l.b); if (l.b === nm) s.add(l.a); }); return s; }, [links]);
@@ -505,10 +508,47 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
             </ul>
           </div>
         )}
+        {/* process path (multi-select, #6) — ordered business flow of chosen tables */}
+        {multiActive && (() => {
+          const seq = [...multi].filter((n) => byName[n]).sort((a, b) => ((P(a)?.x ?? 0) - (P(b)?.x ?? 0)));
+          return (
+            <div className="absolute bottom-3 left-1/2 z-30 w-[min(680px,92%)] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white/95 px-3 py-2 shadow-xl backdrop-blur-md" dir="rtl">
+              <div className="mb-1.5 flex items-center justify-between">
+                <span className="flex items-center gap-1.5 text-[11px] font-extrabold text-slate-900"><Workflow className="size-3.5 text-[#d62027]" />מסלול תהליך · {seq.length} טבלאות</span>
+                <button onClick={() => setMulti(new Set())} className="rounded-md px-1.5 py-0.5 text-[11px] font-bold text-slate-400 transition hover:bg-slate-100 hover:text-[#d62027]">נקה</button>
+              </div>
+              <div className="flex items-center gap-1 overflow-x-auto pb-1">
+                {seq.map((n, i) => { const tt = byName[n]; const cc = color(own[n] || tt.mod); return (
+                  <span key={n} className="flex shrink-0 items-center gap-1">
+                    <button onClick={() => { setMulti(new Set()); setSel(n); setDrawer(null); centerOn(n); }} className="flex flex-col items-start rounded-lg border bg-white px-2 py-1 text-right transition hover:shadow-sm active:scale-95" style={{ borderColor: cc }}>
+                      <span className="font-mono text-[12px] font-extrabold" style={{ color: cc }} dir="ltr">{n}</span>
+                      <span className="max-w-[120px] truncate text-[9px] font-semibold text-slate-400">{tt.he || tt.en}</span>
+                    </button>
+                    {i < seq.length - 1 && <ArrowLeft className="size-3.5 shrink-0 text-slate-300" />}
+                  </span>); })}
+              </div>
+              <p className="mt-0.5 text-[9px] text-slate-400">סדר לפי תלות במודל הנתונים (Shift+קליק להוספה/הסרה)</p>
+            </div>
+          );
+        })()}
         {/* legend (top-right) */}
         <div className="pointer-events-none absolute right-3 top-3 z-20 flex flex-wrap gap-1.5 text-[10px] font-bold">
           {[["🔑 PK", "#d97706"], ["FK", "#2563eb"], ["חוצה-מודול", "#7c3aed"]].map(([k, v]) => (<span key={k} className="flex items-center gap-1 rounded-lg bg-white/90 px-2 py-1 shadow-sm ring-1 ring-slate-200 backdrop-blur-sm"><i className="size-2 rounded-full" style={{ background: v }} /><span style={{ color: v }}>{k}</span></span>))}
         </div>
+        {/* minimap (#2) — scaled overview + draggable viewport, click to jump */}
+        {(() => {
+          const el = wrapRef.current; const vw = el?.clientWidth || 1200, vh = el?.clientHeight || 720;
+          const MMW = 184; const s = MMW / Math.max(vbW, 1); const MMH = Math.max(64, Math.min(168, vbH * s));
+          const jump = (e: React.PointerEvent) => { const r = (e.currentTarget as HTMLElement).getBoundingClientRect(); const gx = (e.clientX - r.left) / s, gy = (e.clientY - r.top) / s; setTr((cur) => ({ k: cur.k, x: vw / 2 - gx * cur.k, y: vh / 2 - gy * cur.k })); };
+          return (
+            <div className="absolute right-3 top-12 z-20 cursor-pointer overflow-hidden rounded-xl border border-slate-200 bg-white/95 shadow-lg backdrop-blur-md" style={{ width: MMW, height: MMH }} title="מפת ניווט — לחץ לקפיצה" onPointerDown={jump}>
+              <svg width={MMW} height={MMH}>
+                {shown.map((t) => { const p = P(t.name); if (!p) return null; const cc = color(own[t.name] || t.mod); const on = multi.has(t.name) || sel === t.name; return <rect key={t.name} x={p.x * s} y={p.y * s} width={Math.max(3, W * s)} height={Math.max(2, H * s)} rx={1.5} fill={on ? cc : cc + "66"} />; })}
+                <rect x={(-tr.x / tr.k) * s} y={(-tr.y / tr.k) * s} width={(vw / tr.k) * s} height={(vh / tr.k) * s} fill="rgba(214,32,39,.10)" stroke="#d62027" strokeWidth={1.5} rx={2} />
+              </svg>
+            </div>
+          );
+        })()}
         {/* floating: control dock (bottom-center) */}
         <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-1 rounded-2xl border border-white/60 bg-white/90 p-1.5 shadow-xl shadow-black/10 backdrop-blur-md">
           <button onClick={() => setPanMode((v) => !v)} title="מצב גרירה" className={`grid size-9 place-items-center rounded-xl transition active:scale-90 ${panMode ? "bg-[#d62027] text-white" : "text-slate-600 hover:bg-slate-100"}`}><Hand className="size-4" /></button>
@@ -530,8 +570,9 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                 {links.map((l, i) => { const A = P(l.a), B = P(l.b), TA = byName[l.a], TB = byName[l.b]; if (!A || !B || !TA || !TB) return null;
                   const fwd = A.x <= B.x; const ax = (fwd ? A.x + W : A.x), ay = A.y + H / 2, bx = (fwd ? B.x : B.x + W), by = B.y + H / 2; const mx = (ax + bx) / 2;
                   const isCross = (own[l.a] || TA.mod) !== (own[l.b] || TB.mod); const lc = isCross ? "#7c3aed" : color(own[l.a] || TA.mod);
-                  const onHv = hv ? (l.a === hv || l.b === hv) : false; const emph = linkEmph(l.a, l.b) || onHv;
-                  const anyActive = active || mode === "flow"; const dim = !!anyActive && !emph;
+                  const onHv = hv ? (l.a === hv || l.b === hv) : false;
+                  const emph = (multiActive ? (multi.has(l.a) && multi.has(l.b)) : linkEmph(l.a, l.b)) || onHv;
+                  const anyActive = active || mode === "flow" || multiActive; const dim = !!anyActive && !emph;
                   const stroke = dim ? "#cbd5e1" : lc, w = emph ? 3 : (isCross ? 1.8 : 1.4);
                   // orthogonal (Manhattan) routing with rounded corners; vertical run
                   // sits in the inter-rank gap (midX) so it clears node columns.
@@ -548,15 +589,16 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
               </svg>
               {shown.map((t, gi) => { const p = P(t.name); if (!p) return null; const c = color(own[t.name] || t.mod); const isSel = sel === t.name; const nd = nodeData[t.name]; const tf = nd.tf, top = nd.top, pkN = nd.pkN, fkN = nd.fkN;
                 const st = nd.st; const impFields = nd.impFields;
-                const fade = !s4ok(t.name); const dim = (active && !active.has(t.name)) || fade;
+                const inMulti = multi.has(t.name);
+                const fade = !s4ok(t.name); const dim = (multiActive ? !inMulti : (active && !active.has(t.name))) || fade;
                 const dragging = nodeDrag.current?.name === t.name;
-                const baseShadow = isSel ? `0 26px 56px -18px ${c}66, 0 0 0 2px ${c}` : "0 10px 26px -16px rgba(15,23,42,.28)";
+                const baseShadow = isSel ? `0 26px 56px -18px ${c}66, 0 0 0 2px ${c}` : inMulti ? `0 14px 30px -16px ${c}77, 0 0 0 2.5px ${c}` : "0 10px 26px -16px rgba(15,23,42,.28)";
                 const glow = st.impacted ? ", 0 0 0 2px #f59e0b, 0 0 16px 1px rgba(245,158,11,.5)" : "";
                 return (
                   <div key={t.name} data-card
-                    onPointerDown={(e) => { if ((e.target as Element).closest("[data-nodrag]")) return; e.stopPropagation(); (e.currentTarget as Element).setPointerCapture?.(e.pointerId); const cur = P(t.name) || { x: 0, y: 0 }; nodeDrag.current = { name: t.name, sx: e.clientX, sy: e.clientY, ox: cur.x, oy: cur.y, moved: false }; }}
+                    onPointerDown={(e) => { if ((e.target as Element).closest("[data-nodrag]")) return; e.stopPropagation(); (e.currentTarget as Element).setPointerCapture?.(e.pointerId); const cur = P(t.name) || { x: 0, y: 0 }; nodeDrag.current = { name: t.name, sx: e.clientX, sy: e.clientY, ox: cur.x, oy: cur.y, moved: false, shift: e.shiftKey }; }}
                     onPointerMove={(e) => { const d = nodeDrag.current; if (!d || d.name !== t.name) return; if (Math.abs(e.clientX - d.sx) + Math.abs(e.clientY - d.sy) > 4) d.moved = true; if (d.moved) { const nx = d.ox + (e.clientX - d.sx) / tr.k, ny = d.oy + (e.clientY - d.sy) / tr.k; setDragPos((m) => ({ ...m, [t.name]: { x: nx, y: ny } })); } }}
-                    onPointerUp={() => { const d = nodeDrag.current; nodeDrag.current = null; if (d && !d.moved) { const willSel = sel !== t.name; setSel(willSel ? t.name : null); setDrawer(null); if (willSel) centerOn(t.name); } else if (d && d.moved) { setDragPos((m) => { saveLayout(code, m); return m; }); } }}
+                    onPointerUp={() => { const d = nodeDrag.current; nodeDrag.current = null; if (d && !d.moved) { if (d.shift) { setMulti((s) => { const n = new Set(s); if (n.size === 0 && sel) n.add(sel); n.has(t.name) ? n.delete(t.name) : n.add(t.name); return n; }); } else { setMulti(new Set()); const willSel = sel !== t.name; setSel(willSel ? t.name : null); setDrawer(null); if (willSel) centerOn(t.name); } } else if (d && d.moved) { setDragPos((m) => { saveLayout(code, m); return m; }); } }}
                     onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
                     className="group absolute select-none overflow-hidden rounded-2xl bg-white transition-[box-shadow,opacity] duration-200 ease-[cubic-bezier(.32,.72,0,1)]"
                     style={{ left: p.x, top: p.y, width: W, opacity: fade ? 0.12 : dim ? 0.28 : 1, zIndex: dragging ? 40 : isSel ? 30 : st.impacted ? 5 : 2, cursor: dragging ? "grabbing" : "grab", border: `1.5px solid ${isSel ? c : st.impacted ? "#f59e0b" : "#e2e8f0"}`, boxShadow: baseShadow + glow, touchAction: "none", animation: Object.keys(dragPos).length ? undefined : `pop .42s cubic-bezier(.32,.72,0,1) ${Math.min(gi * 20, 480)}ms both` }}>
