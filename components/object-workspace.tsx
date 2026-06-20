@@ -20,7 +20,9 @@ import type { MigrationStatus } from "@/lib/types";
 import { playClick, playTick } from "@/lib/sound";
 import { Highlight } from "@/components/highlight";
 import { useIsFavorite, toggleFavorite } from "@/lib/prefs";
-import { Star } from "lucide-react";
+import { Star, GraduationCap, Lightbulb, Clock4, ArrowRightLeft } from "lucide-react";
+import { PM_KNOWLEDGE } from "@/data/knowledge/pm-objects";
+import { IMPORTANCE_HE, IMPORTANCE_COLOR, TRUST_NOTE } from "@/lib/knowledge";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9" };
 const mc = (m: string) => MOD_COLOR[m] || "#64748b";
@@ -276,6 +278,7 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
               <p className="mt-2 text-sm leading-relaxed text-slate-700">{execSummary}</p>
               <p className="mt-1 text-[10px] text-slate-400">תקציר נגזר אוטומטית מהמאגר · לא תוכן מאומת ידנית</p>
             </section>
+            <ExplainCard name={t.tableName} accent={c} tcodes={intel?.tcodes || []} bapis={intel?.bapis || []} cds={cds} related={intel?.related || []} />
             {/* consultant insights */}
             <div className="grid gap-3 sm:grid-cols-2">
               {insights.map((ins, i) => { const tone = { red: "#d62027", blue: "#2563eb", amber: "#d97706", green: "#059669" }[ins.tone]; return (
@@ -411,5 +414,43 @@ function FavStar({ name }: { name: string }) {
       className={`tap inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold backdrop-blur-sm transition active:scale-90 ${fav ? "bg-amber-400 text-amber-950 shadow-sm" : "bg-white/20 text-white hover:bg-white/30"}`}>
       <Star className={`size-3.5 transition-transform ${fav ? "scale-110 fill-amber-950" : ""}`} />{fav ? "במועדפים" : "מועדף"}
     </button>
+  );
+}
+
+// SAP Learning layer (Phase A) — "Explain this object": curated role/why/when +
+// importance + S/4 delta, with DERIVED interfaces (T-Codes, BAPIs, CDS, related)
+// pulled from the live dataset. Renders only for objects we have curated.
+function ExplainCard({ name, accent, tcodes, bapis, cds, related }: { name: string; accent: string; tcodes: string[]; bapis: string[]; cds: { view: string }[]; related: string[] }) {
+  const k = PM_KNOWLEDGE[name];
+  if (!k) return null;
+  const ic = IMPORTANCE_COLOR[k.importance];
+  const Group = ({ label, items }: { label: string; items: string[] }) => items.length ? (
+    <div>
+      <div className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">{label}</div>
+      <div className="flex flex-wrap gap-1">{items.slice(0, 8).map((x) => <span key={x} className="tech rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600" dir="ltr">{x}</span>)}</div>
+    </div>
+  ) : null;
+  return (
+    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" dir="rtl">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <h3 className="flex items-center gap-2 text-sm font-extrabold text-slate-900"><GraduationCap className="size-4" style={{ color: accent }} />הסבר — מה זה {name}?</h3>
+        <div className="flex items-center gap-1.5">
+          {k.step && <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-500">{k.step}</span>}
+          <span className="rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: ic }}>{IMPORTANCE_HE[k.importance]}</span>
+        </div>
+      </div>
+      <div className="mt-3 space-y-2.5">
+        <div className="flex gap-2"><Lightbulb className="mt-0.5 size-4 shrink-0 text-amber-500" /><div><span className="text-sm font-bold text-slate-800">{k.role}</span><p className="text-sm leading-relaxed text-slate-600">{k.why}</p></div></div>
+        <div className="flex gap-2"><Clock4 className="mt-0.5 size-4 shrink-0 text-slate-400" /><p className="text-sm leading-relaxed text-slate-600"><span className="font-bold text-slate-700">מתי משתמשים: </span>{k.whenUsed}</p></div>
+        {k.s4 && <div className="flex gap-2 rounded-xl bg-amber-50 p-2.5"><ArrowRightLeft className="mt-0.5 size-4 shrink-0 text-amber-600" /><p className="text-[13px] leading-relaxed text-amber-900"><span className="font-extrabold">ECC ↔ S/4: </span>{k.s4}</p></div>}
+      </div>
+      <div className="mt-3 grid gap-3 border-t border-slate-100 pt-3 sm:grid-cols-2">
+        <Group label="טרנזקציות" items={tcodes} />
+        <Group label="BAPIs / FM" items={bapis} />
+        <Group label="CDS Views" items={cds.map((v) => v.view)} />
+        <Group label="טבלאות מקושרות" items={related} />
+      </div>
+      <p className="mt-2 text-[10px] text-slate-400">הסבר: {TRUST_NOTE[k.trust]} · ממשקים נגזרים מהמאגר (כתיבה/קריאה תלוית-הקשר)</p>
+    </section>
   );
 }
