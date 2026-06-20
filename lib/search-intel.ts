@@ -58,8 +58,8 @@ export function planQuery(raw: string): QueryPlan {
 // next action. Surfaced as a card above the normal search results.
 export interface BeginnerIntent { keys: string[]; he: string; action: string; href: string }
 export const BEGINNER_INTENTS: BeginnerIntent[] = [
-  { keys: ["איך מתחילים pm", "התחל pm", "מתחילים pm", "start pm", "מאיפה מתחילים אחזקה"], he: "מסלול PM: הבנת התהליך → אובייקטים טכניים (EQUI) → הודעות (QMEL) → פקודות (AUFK) → אישורים (AFRU).", action: "פתח מרכז PM", href: "/pm/" },
-  { keys: ["איך מתחילים pp", "התחל pp", "מתחילים ייצור", "start pp", "מאיפה מתחילים ייצור"], he: "מסלול PP-PI: אב חומר (MARA) → מתכון (PLPO) → פקודת תהליך (AFKO) → אצווה (MCH1) → אישור (AFRU).", action: "פתח מרכז PP-PI", href: "/pp-pi/" },
+  { keys: ["איך מתחילים pm", "התחל pm", "מתחילים pm", "start pm", "מאיפה מתחילים אחזקה"], he: "מסלול למידה PM: מיקום פונקציונלי → ציוד → הודעה → צו אחזקה → פעולות → אישור.", action: "התחל מסלול PM", href: "/learn/pm/" },
+  { keys: ["איך מתחילים pp", "התחל pp", "מתחילים ייצור", "start pp", "מאיפה מתחילים ייצור", "מאיפה מתחילים pp-pi"], he: "מסלול למידה ייצור: יסודות PP (אב חומר, עץ מוצר, מרכז עבודה) → PP-PI (מתכון, פקודת תהליך, אצווה).", action: "התחל מסלול ייצור", href: "/learn/pp/" },
   { keys: ["מה משתנה ב-s/4", "מה משתנה בs4", "מה משתנה ב s4", "s/4 impact", "השפעת s4", "מה השתנה s4", "מיגרציה s4"], he: "השפעת S/4HANA מסומנת בצהוב על הטבלאות במודל הנתונים — MATDOC, ACDOCA, Business Partner ועוד.", action: "מודל נתונים · פילטר S/4", href: "/sap-infrastructure/" },
   { keys: ["טבלאות של פקודת אחזקה", "טבלאות פקודת אחזקה", "טבלאות aufk", "פקודת אחזקה טבלאות"], he: "פקודת אחזקה: AUFK (כותרת) ↔ AFIH ↔ AFKO/AFPO/AFVC ↔ AFRU (אישור).", action: "פתח AUFK", href: "/object/AUFK/" },
   { keys: ["טבלאות של פקודת ייצור", "טבלאות פקודת תהליך", "טבלאות afko", "פקודת ייצור טבלאות"], he: "פקודת תהליך: AFKO (כותרת) ↔ AFPO (פריט) ↔ AFVC (פעולה) ↔ AFRU (אישור).", action: "פתח AFKO", href: "/object/AFKO/" },

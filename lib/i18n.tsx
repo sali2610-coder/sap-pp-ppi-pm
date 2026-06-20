@@ -17,6 +17,7 @@ const DICT: Dict = {
   "nav.infra": { he: "מודל נתונים", en: "Data Model" },
   "nav.platform": { he: "תשתית SAP", en: "SAP Platform" },
   "nav.library": { he: "ספרייה", en: "Library" },
+  "nav.learn": { he: "למידה", en: "Learn" },
   "nav.knowledge": { he: "מרכז ידע", en: "Knowledge" },
   "nav.chat": { he: "צ'אט AI", en: "AI Chat" },
   "search.placeholder": { he: "חיפוש טבלה, T-Code, BAPI…", en: "Search table, T-Code, BAPI…" },

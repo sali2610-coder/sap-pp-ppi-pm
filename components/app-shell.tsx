@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { Sparkles, BrainCircuit } from "lucide-react";
+import { Sparkles, BrainCircuit, GraduationCap } from "lucide-react";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SiteLogo } from "@/components/site-logo";
 import dynamic from "next/dynamic";
@@ -56,6 +56,7 @@ function Header() {
         </div>
         <nav aria-label="ניווט ראשי" className="hidden shrink-0 items-center gap-1 text-sm font-medium lg:flex">
           <NavLink href="/" exact group="d">{t("nav.home")}</NavLink>
+          <NavLink href="/learn/" group="d"><GraduationCap className="size-3.5" />{t("nav.learn")}</NavLink>
           <NavLink href="/pm/" group="d">{t("nav.pm")}</NavLink>
           <NavLink href="/pp-pi/" group="d">{t("nav.ppi")}</NavLink>
           <NavLink href="/sap-infrastructure/" group="d">{t("nav.infra")}</NavLink>
@@ -69,6 +70,7 @@ function Header() {
       </div>
       <nav aria-label="ניווט נייד" className="flex items-center gap-1.5 overflow-x-auto px-4 pb-2.5 text-sm font-medium lg:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <NavLink href="/" exact group="m">{t("nav.home")}</NavLink>
+        <NavLink href="/learn/" group="m"><GraduationCap className="size-3.5" />{t("nav.learn")}</NavLink>
         <NavLink href="/pm/" group="m">{t("nav.pm")}</NavLink>
         <NavLink href="/pp-pi/" group="m">{t("nav.ppi")}</NavLink>
         <NavLink href="/sap-infrastructure/" group="m">{t("nav.infra")}</NavLink>

@@ -72,6 +72,11 @@ export function OnboardingDrawer() {
             <div className="min-h-0 flex-1 overflow-auto p-5">
               {tab === "welcome" && (
                 <div className="space-y-3">
+                  <Link href="/learn/" onClick={close} className="lift flex items-center gap-3 rounded-2xl bg-gradient-to-l from-brand to-brand-dark p-4 text-white shadow-lg">
+                    <GraduationCap className="size-7 shrink-0" />
+                    <span className="min-w-0 flex-1"><span className="block text-base font-extrabold">חדש ב-SAP? התחל כאן</span><span className="block text-xs text-white/85">מסלול למידה מודרך — צעד אחרי צעד, מהאובייקט הראשון ועד התהליך המלא.</span></span>
+                    <ArrowLeft className="size-5 shrink-0" />
+                  </Link>
                   <p className="text-sm font-bold text-slate-700">למי זה מיועד: מיישמי PM/PP-PI, יועצי SAP, צוותי QA ומיגרציה.</p>
                   <div className="space-y-2">
                     {GLOSSARY.map((g) => (
