@@ -81,3 +81,22 @@ export function saveGraphMemory(patch: GraphMemory) {
     localStorage.setItem(GRAPH_KEY, JSON.stringify({ ...cur, ...patch }));
   } catch { /* noop */ }
 }
+
+// ---- per-module custom node layouts (dragged positions) --------------------
+type NodePos = Record<string, { x: number; y: number }>;
+const LAYOUT_KEY = "neo:graph:layouts";
+function readLayouts(): Record<string, NodePos> {
+  if (typeof window === "undefined") return {};
+  try { return JSON.parse(localStorage.getItem(LAYOUT_KEY) || "{}") || {}; } catch { return {}; }
+}
+export function loadLayout(mod: string): NodePos {
+  return readLayouts()[mod] || {};
+}
+export function saveLayout(mod: string, pos: NodePos) {
+  if (typeof window === "undefined") return;
+  try {
+    const all = readLayouts();
+    if (pos && Object.keys(pos).length) all[mod] = pos; else delete all[mod];
+    localStorage.setItem(LAYOUT_KEY, JSON.stringify(all));
+  } catch { /* noop */ }
+}

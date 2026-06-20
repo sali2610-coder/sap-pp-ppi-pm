@@ -5,7 +5,7 @@ import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand,
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
 import { Highlight } from "@/components/highlight";
 import { s4For, TRUST_HE, RISK_HE, RISK_COLOR } from "@/lib/s4";
-import { loadGraphMemory, saveGraphMemory } from "@/lib/prefs";
+import { loadGraphMemory, saveGraphMemory, loadLayout, saveLayout } from "@/lib/prefs";
 import dagre from "dagre";
 
 const BASE = "/sap-infrastructure";
@@ -334,7 +334,8 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
   // draggable nodes: manual position overrides on top of the auto-layout
   const [dragPos, setDragPos] = useState<Record<string, { x: number; y: number }>>({});
   const nodeDrag = useRef<{ name: string; sx: number; sy: number; ox: number; oy: number; moved: boolean } | null>(null);
-  useEffect(() => { setDragPos({}); }, [pos]); // reset overrides whenever auto-layout recomputes
+  // restore saved custom layout for this module (else clear) when auto-layout changes
+  useEffect(() => { setDragPos(loadLayout(code)); }, [pos, code]);
   const P = useCallback((n: string) => dragPos[n] || pos[n], [dragPos, pos]);
   useEffect(() => { setSel(focus && focus[0] ? focus[0] : null); setDrawer(focus && focus[0] ? focus[0] : null); }, [code, focus]);
   useEffect(() => { const h = () => setFs(!!document.fullscreenElement); document.addEventListener("fullscreenchange", h); return () => document.removeEventListener("fullscreenchange", h); }, []);
@@ -512,7 +513,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
         <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-1 rounded-2xl border border-white/60 bg-white/90 p-1.5 shadow-xl shadow-black/10 backdrop-blur-md">
           <button onClick={() => setPanMode((v) => !v)} title="מצב גרירה" className={`grid size-9 place-items-center rounded-xl transition active:scale-90 ${panMode ? "bg-[#d62027] text-white" : "text-slate-600 hover:bg-slate-100"}`}><Hand className="size-4" /></button>
           <span className="mx-0.5 h-5 w-px bg-slate-200" />
-          {[[<ZoomOut key="zo" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.max(0.2, p.k / 1.2) })), "הקטן"], [<Scan key="f" className="size-4" />, fit, "התאם"], [<ZoomIn key="zi" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) })), "הגדל"], [<RotateCcw key="rl" className="size-4" />, () => { setDragPos({}); fit(); }, "אפס פריסה"], [fs ? <Shrink key="s" className="size-4" /> : <Expand key="e" className="size-4" />, fullscreen, "מסך מלא"], [<Home key="h" className="size-4" />, onHome, "בית"]].map((b, i) => <button key={i} title={b[2] as string} onClick={b[1] as () => void} className="grid size-9 place-items-center rounded-xl text-slate-600 transition hover:bg-[#d62027] hover:text-white active:scale-90">{b[0] as React.ReactNode}</button>)}
+          {[[<ZoomOut key="zo" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.max(0.2, p.k / 1.2) })), "הקטן"], [<Scan key="f" className="size-4" />, fit, "התאם"], [<ZoomIn key="zi" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) })), "הגדל"], [<RotateCcw key="rl" className="size-4" />, () => { setDragPos({}); saveLayout(code, {}); fit(); }, "אפס פריסה"], [fs ? <Shrink key="s" className="size-4" /> : <Expand key="e" className="size-4" />, fullscreen, "מסך מלא"], [<Home key="h" className="size-4" />, onHome, "בית"]].map((b, i) => <button key={i} title={b[2] as string} onClick={b[1] as () => void} className="grid size-9 place-items-center rounded-xl text-slate-600 transition hover:bg-[#d62027] hover:text-white active:scale-90">{b[0] as React.ReactNode}</button>)}
           <span className="px-2 font-mono text-xs font-bold tabular-nums text-slate-400">{Math.round(tr.k * 100)}%</span>
         </div>
         {panMode && <div className="pointer-events-none absolute bottom-[4.5rem] left-1/2 z-20 -translate-x-1/2 rounded-full bg-[#d62027] px-3 py-1 text-[11px] font-bold text-white shadow-lg">מצב גרירה פעיל — גרור להזזה</div>}
@@ -532,7 +533,12 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                   const onHv = hv ? (l.a === hv || l.b === hv) : false; const emph = linkEmph(l.a, l.b) || onHv;
                   const anyActive = active || mode === "flow"; const dim = !!anyActive && !emph;
                   const stroke = dim ? "#cbd5e1" : lc, w = emph ? 3 : (isCross ? 1.8 : 1.4);
-                  const d = `M${ax},${ay} C${mx},${ay} ${mx},${by} ${bx},${by}`;
+                  // orthogonal (Manhattan) routing with rounded corners; vertical run
+                  // sits in the inter-rank gap (midX) so it clears node columns.
+                  const r = 12; const hOut = mx > ax ? 1 : -1, hIn = bx > mx ? 1 : -1, vd = by > ay ? 1 : -1;
+                  const d = Math.abs(ay - by) < 2
+                    ? `M${ax},${ay} L${bx},${by}`
+                    : `M${ax},${ay} L${mx - r * hOut},${ay} Q${mx},${ay} ${mx},${ay + r * vd} L${mx},${by - r * vd} Q${mx},${by} ${mx + r * hIn},${by} L${bx},${by}`;
                   return <g key={i} opacity={dim ? 0.12 : 1}>
                     <path id={`lp${i}`} d={d} fill="none" stroke={stroke} strokeWidth={w} strokeOpacity={emph ? 1 : 0.66} className={`flowline${emph ? " fast" : ""}`} filter={emph ? "url(#archglow)" : undefined} />
                     <path d={`M${bx + (fwd ? -10 : 10)},${by - 6} L${bx},${by} M${bx + (fwd ? -10 : 10)},${by + 6} L${bx},${by}`} stroke={stroke} strokeWidth={w} fill="none" />
@@ -550,7 +556,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                   <div key={t.name} data-card
                     onPointerDown={(e) => { if ((e.target as Element).closest("[data-nodrag]")) return; e.stopPropagation(); (e.currentTarget as Element).setPointerCapture?.(e.pointerId); const cur = P(t.name) || { x: 0, y: 0 }; nodeDrag.current = { name: t.name, sx: e.clientX, sy: e.clientY, ox: cur.x, oy: cur.y, moved: false }; }}
                     onPointerMove={(e) => { const d = nodeDrag.current; if (!d || d.name !== t.name) return; if (Math.abs(e.clientX - d.sx) + Math.abs(e.clientY - d.sy) > 4) d.moved = true; if (d.moved) { const nx = d.ox + (e.clientX - d.sx) / tr.k, ny = d.oy + (e.clientY - d.sy) / tr.k; setDragPos((m) => ({ ...m, [t.name]: { x: nx, y: ny } })); } }}
-                    onPointerUp={() => { const d = nodeDrag.current; nodeDrag.current = null; if (d && !d.moved) { const willSel = sel !== t.name; setSel(willSel ? t.name : null); setDrawer(null); if (willSel) centerOn(t.name); } }}
+                    onPointerUp={() => { const d = nodeDrag.current; nodeDrag.current = null; if (d && !d.moved) { const willSel = sel !== t.name; setSel(willSel ? t.name : null); setDrawer(null); if (willSel) centerOn(t.name); } else if (d && d.moved) { setDragPos((m) => { saveLayout(code, m); return m; }); } }}
                     onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
                     className="group absolute select-none overflow-hidden rounded-2xl bg-white transition-[box-shadow,opacity] duration-200 ease-[cubic-bezier(.32,.72,0,1)]"
                     style={{ left: p.x, top: p.y, width: W, opacity: fade ? 0.12 : dim ? 0.28 : 1, zIndex: dragging ? 40 : isSel ? 30 : st.impacted ? 5 : 2, cursor: dragging ? "grabbing" : "grab", border: `1.5px solid ${isSel ? c : st.impacted ? "#f59e0b" : "#e2e8f0"}`, boxShadow: baseShadow + glow, touchAction: "none", animation: Object.keys(dragPos).length ? undefined : `pop .42s cubic-bezier(.32,.72,0,1) ${Math.min(gi * 20, 480)}ms both` }}>
