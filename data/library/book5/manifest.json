@@ -1,0 +1,206 @@
+{
+  "book": "Quality Management with SAP S/4HANA",
+  "pages": 939,
+  "chapters": [
+    {
+      "n": 1,
+      "title": "Quality Management in SAP S/4HANA",
+      "pages": [
+        35,
+        56
+      ],
+      "chars": 52452,
+      "sections": 20
+    },
+    {
+      "n": 2,
+      "title": "Quality Planning",
+      "pages": [
+        57,
+        108
+      ],
+      "chars": 88206,
+      "sections": 32
+    },
+    {
+      "n": 3,
+      "title": "Quality Inspection",
+      "pages": [
+        109,
+        236
+      ],
+      "chars": 191992,
+      "sections": 32
+    },
+    {
+      "n": 4,
+      "title": "Integrating with Materials Management",
+      "pages": [
+        237,
+        280
+      ],
+      "chars": 55136,
+      "sections": 26
+    },
+    {
+      "n": 5,
+      "title": "Integrating with Production Planning",
+      "pages": [
+        281,
+        308
+      ],
+      "chars": 40404,
+      "sections": 12
+    },
+    {
+      "n": 6,
+      "title": "Integrating with SAP S/4HANA Sales",
+      "pages": [
+        309,
+        322
+      ],
+      "chars": 16034,
+      "sections": 8
+    },
+    {
+      "n": 7,
+      "title": "Integrating with Plant Maintenance",
+      "pages": [
+        323,
+        362
+      ],
+      "chars": 63236,
+      "sections": 32
+    },
+    {
+      "n": 8,
+      "title": "Integrating with Embedded Extended Warehouse Management",
+      "pages": [
+        363,
+        388
+      ],
+      "chars": 28293,
+      "sections": 18
+    },
+    {
+      "n": 9,
+      "title": "Batch Management",
+      "pages": [
+        389,
+        474
+      ],
+      "chars": 127541,
+      "sections": 46
+    },
+    {
+      "n": 10,
+      "title": "Sample Management",
+      "pages": [
+        475,
+        500
+      ],
+      "chars": 40235,
+      "sections": 23
+    },
+    {
+      "n": 11,
+      "title": "Quality Certificates",
+      "pages": [
+        501,
+        522
+      ],
+      "chars": 34540,
+      "sections": 13
+    },
+    {
+      "n": 12,
+      "title": "Quality Notification",
+      "pages": [
+        523,
+        584
+      ],
+      "chars": 97041,
+      "sections": 36
+    },
+    {
+      "n": 13,
+      "title": "Engineering Change Management",
+      "pages": [
+        585,
+        620
+      ],
+      "chars": 35674,
+      "sections": 13
+    },
+    {
+      "n": 14,
+      "title": "Audit Management",
+      "pages": [
+        621,
+        648
+      ],
+      "chars": 40636,
+      "sections": 23
+    },
+    {
+      "n": 15,
+      "title": "Stability Study",
+      "pages": [
+        649,
+        688
+      ],
+      "chars": 51842,
+      "sections": 31
+    },
+    {
+      "n": 16,
+      "title": "Failure Mode and Effects Analysis and Control Plan",
+      "pages": [
+        689,
+        754
+      ],
+      "chars": 77906,
+      "sections": 38
+    },
+    {
+      "n": 17,
+      "title": "Early Warning System",
+      "pages": [
+        755,
+        770
+      ],
+      "chars": 21063,
+      "sections": 9
+    },
+    {
+      "n": 18,
+      "title": "Reporting in SAP S/4HANA",
+      "pages": [
+        771,
+        824
+      ],
+      "chars": 69329,
+      "sections": 44
+    },
+    {
+      "n": 19,
+      "title": "Quality Control",
+      "pages": [
+        825,
+        854
+      ],
+      "chars": 48450,
+      "sections": 17
+    },
+    {
+      "n": 20,
+      "title": "Document Management System",
+      "pages": [
+        855,
+        908
+      ],
+      "chars": 88697,
+      "sections": 29
+    }
+  ]
+}

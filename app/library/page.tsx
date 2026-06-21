@@ -17,7 +17,7 @@ const MOD_COLOR: Record<string, string> = {
 const mc = (m: string) => MOD_COLOR[m] || "#64748b";
 
 /* ---- deep-reader routes for reference manuals that have full text ---- */
-const READER: Record<string, string> = { "config-pm": "/library/book1/", "production-planning": "/library/book2/" };
+const READER: Record<string, string> = { "config-pm": "/library/book1/", "production-planning": "/library/book2/", "quality-management": "/library/book5/" };
 
 /* ====== recently-opened (localStorage, SSR-safe) ====== */
 type Recent = { id: string; title: string; module: string; href: string };
