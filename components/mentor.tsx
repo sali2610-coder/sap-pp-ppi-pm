@@ -43,21 +43,13 @@ export function Mentor() {
         {open && (
           <>
             <motion.div className="fixed inset-0 z-[70] bg-slate-900/40 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setOpen(false)} />
-            <motion.aside dir="rtl" className="fixed inset-y-0 end-0 z-[71] flex w-[460px] max-w-[94vw] flex-col bg-white shadow-2xl"
+            <motion.aside dir="rtl" className="fixed inset-y-0 end-0 z-[71] flex w-full flex-col bg-white shadow-2xl sm:w-[460px] sm:max-w-[94vw]"
               initial={reduce ? false : { x: "100%" }} animate={{ x: 0 }} exit={reduce ? undefined : { x: "100%" }} transition={{ type: "spring", stiffness: 320, damping: 34 }}>
               <div className="relative shrink-0 bg-gradient-to-l from-slate-900 to-slate-800 px-5 py-4 text-white">
                 <button onClick={() => setOpen(false)} className="absolute start-4 top-4 rounded-lg p-1 text-white/80 hover:bg-white/15"><X className="size-5" /></button>
                 <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-white/60"><BrainCircuit className="size-3.5" />SAP Mentor</div>
                 <h2 className="mt-1 text-xl font-extrabold">שאל את המנטור</h2>
                 <p className="mt-0.5 text-xs text-white/70">תשובות מבוססות מאגר וידע SAP בלבד — ללא המצאות.</p>
-              </div>
-
-              <div className="shrink-0 border-b border-slate-100 p-3">
-                <div className="relative">
-                  <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && q.trim()) remember(q.trim()); }}
-                    placeholder="למה AUFK קשורה ל-AFKO? · מה זה JEST?" className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pe-3 ps-9 text-sm font-medium outline-none focus:border-brand/40 focus:bg-white" />
-                  <CornerDownLeft className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-slate-300" />
-                </div>
               </div>
 
               <div className="min-h-0 flex-1 overflow-auto p-4">
@@ -93,7 +85,15 @@ export function Mentor() {
                   </div>
                 ) : null}
               </div>
-              <div className="shrink-0 border-t border-slate-100 px-4 py-2 text-center text-[10px] text-slate-400">תשובות נבנות ממאגר הקשרים, שכבת הידע ושכבת ה-S/4 · ⌘J לפתיחה</div>
+              {/* chat-style input pinned to bottom (sits above the keyboard on phones) */}
+              <div className="shrink-0 border-t border-slate-100 p-3 pb-[max(env(safe-area-inset-bottom),0.75rem)]">
+                <div className="relative">
+                  <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter" && q.trim()) remember(q.trim()); }}
+                    placeholder="למה AUFK קשורה ל-AFKO? · מה זה JEST?" className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pe-3 ps-9 text-sm font-medium outline-none focus:border-brand/40 focus:bg-white" />
+                  <CornerDownLeft className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-slate-300" />
+                </div>
+              </div>
+              <div className="shrink-0 border-t border-slate-100 px-4 py-2 text-center text-[10px] text-slate-400">תשובות מבוססות מאגר/ידע SAP · ⌘J</div>
             </motion.aside>
           </>
         )}
