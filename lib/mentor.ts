@@ -4,7 +4,7 @@
 
 import { ALL_TABLES, objectIntel } from "@/lib/data";
 import { tableByName, kgraph } from "@/lib/knowledge-graph";
-import { PM_KNOWLEDGE } from "@/data/knowledge/pm-objects";
+import { knowledgeFor } from "@/lib/knowledge";
 import { s4For } from "@/lib/s4";
 import { LEARN_PATHS } from "@/data/learn/paths";
 import { INCIDENTS } from "@/data/troubleshooting";
@@ -122,7 +122,7 @@ export function mentorAnswer(raw: string): MentorAnswer | null {
     const t = tableByName(n);
     const intel = objectIntel(n);
     const g = kgraph(n);
-    const k = PM_KNOWLEDGE[n];
+    const k = knowledgeFor(n);
     const st = t ? s4For(n, t.s4Note, t.s4AltTable) : null;
 
     // S/4

@@ -28,6 +28,14 @@ export interface ObjectKnowledge {
   trust: Trust;
 }
 
+// Combined curated knowledge across modules (PM + PP-PI). Single lookup used by
+// the Explain Card, Mentor, and Impact Center.
+import { PM_KNOWLEDGE } from "@/data/knowledge/pm-objects";
+import { PPPI_KNOWLEDGE } from "@/data/knowledge/pppi-objects";
+export function knowledgeFor(name: string): ObjectKnowledge | undefined {
+  return PM_KNOWLEDGE[name] || PPPI_KNOWLEDGE[name];
+}
+
 export const IMPORTANCE_HE: Record<Importance, string> = {
   core: "ליבה — חובה ללמוד",
   supporting: "תומך — חשוב",

@@ -7,7 +7,7 @@ import { ALL_TABLES, objectIntel } from "@/lib/data";
 import { tableByName, kgraph } from "@/lib/knowledge-graph";
 import { cdsForTable } from "@/data/cds-map";
 import { s4For } from "@/lib/s4";
-import { PM_KNOWLEDGE } from "@/data/knowledge/pm-objects";
+import { knowledgeFor } from "@/lib/knowledge";
 import { INCIDENTS } from "@/data/troubleshooting";
 
 export interface ScoreFactor { label: string; points: number; detail: string }
@@ -49,7 +49,7 @@ export function impactReport(name: string): ImpactReport | null {
   const bapis = intel?.bapis || [];
   const cds = cdsForTable(name).map((v) => v.view);
   const incidents = INCIDENTS.filter((i) => i.tables.includes(name)).map((i) => ({ slug: i.slug, he: i.he, symptom: i.symptom }));
-  const k = PM_KNOWLEDGE[name];
+  const k = knowledgeFor(name);
 
   // ---- transparent impact score ----
   const factors: ScoreFactor[] = [];

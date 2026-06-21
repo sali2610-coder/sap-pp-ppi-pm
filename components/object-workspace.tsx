@@ -21,8 +21,7 @@ import { playClick, playTick } from "@/lib/sound";
 import { Highlight } from "@/components/highlight";
 import { useIsFavorite, toggleFavorite } from "@/lib/prefs";
 import { Star, GraduationCap, Lightbulb, Clock4, ArrowRightLeft } from "lucide-react";
-import { PM_KNOWLEDGE } from "@/data/knowledge/pm-objects";
-import { IMPORTANCE_HE, IMPORTANCE_COLOR, TRUST_NOTE } from "@/lib/knowledge";
+import { knowledgeFor, IMPORTANCE_HE, IMPORTANCE_COLOR, TRUST_NOTE } from "@/lib/knowledge";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9" };
 const mc = (m: string) => MOD_COLOR[m] || "#64748b";
@@ -423,7 +422,7 @@ function FavStar({ name }: { name: string }) {
 // importance + S/4 delta, with DERIVED interfaces (T-Codes, BAPIs, CDS, related)
 // pulled from the live dataset. Renders only for objects we have curated.
 function ExplainCard({ name, accent, tcodes, bapis, cds, related }: { name: string; accent: string; tcodes: string[]; bapis: string[]; cds: { view: string }[]; related: string[] }) {
-  const k = PM_KNOWLEDGE[name];
+  const k = knowledgeFor(name);
   if (!k) return null;
   const ic = IMPORTANCE_COLOR[k.importance];
   const Group = ({ label, items }: { label: string; items: string[] }) => items.length ? (
