@@ -7,6 +7,7 @@ import { Highlight } from "@/components/highlight";
 import { s4For, TRUST_HE, RISK_HE, RISK_COLOR } from "@/lib/s4";
 import { loadGraphMemory, saveGraphMemory, loadLayout, saveLayout } from "@/lib/prefs";
 import dagre from "dagre";
+import { ProcessWorkspace } from "@/components/process-workspace";
 
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];
@@ -197,7 +198,7 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
         </div>
       </div>
       {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} onTable={onTable} />}
-      {tab === "process" && <ProcessFlow color={color} code={code} />}
+      {tab === "process" && <ProcessWorkspace code={code} byName={byName} color={color} />}
       {tab === "erd" && <Erd data={data} color={color} code={code} byName={byName} focus={focus} onField={onField} onHome={onHome} onModule={onModule} />}
       {tab === "technical" && <TechList data={data} color={color} code={code} onTable={onTable} />}
     </div>
