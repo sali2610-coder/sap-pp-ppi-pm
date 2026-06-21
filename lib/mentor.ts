@@ -133,7 +133,7 @@ export function mentorAnswer(raw: string): MentorAnswer | null {
       if (t?.s4AltTable) blocks.push({ label: "חלופה ב-S/4", text: t.s4AltTable });
       if (st?.impact?.cds?.length) blocks.push({ label: "החלפת CDS", chips: chips(st.impact.cds) });
       if (!blocks.length) blocks.push({ text: `אין הערת S/4 מפורשת ל-${n} במאגר. ברמת השדה — נדרש אימות מול Simplification List / OSS.` });
-      return { title: `מה משתנה ב-S/4HANA עבור ${n}`, intent: "s4", trust: k?.s4 ? "mixed" : "dataset", blocks, actions: [{ label: "מודל נתונים · פילטר S/4", href: `/sap-infrastructure/?focus=${encodeURIComponent(n)}` }, { label: `כרטיס ${n}`, href: objHref(n) }] };
+        return { title: `מה משתנה ב-S/4HANA עבור ${n}`, intent: "s4", trust: k?.s4 ? "mixed" : "dataset", blocks, actions: [{ label: "ניתוח השפעה", href: `/impact/${encodeURIComponent(n)}/` }, { label: "מודל נתונים · פילטר S/4", href: `/sap-infrastructure/?focus=${encodeURIComponent(n)}` }, { label: `כרטיס ${n}`, href: objHref(n) }] };
     }
     // T-Codes
     if (/t-?code|טרנזקצי|transaction/.test(lc)) {
@@ -148,7 +148,7 @@ export function mentorAnswer(raw: string): MentorAnswer | null {
       if (g?.upstream.length) blocks.push({ label: "מעלה (האובייקט תלוי ב)", chips: chips(g.upstream, objHref) });
       if (g?.downstream.length) blocks.push({ label: "מטה (תלויים באובייקט)", chips: chips(g.downstream, objHref) });
       if (!blocks.length) blocks.push({ text: `לא נמצאו תלויות ישירות ל-${n} במאגר.` });
-      return { title: `תלויות של ${n}`, intent: "deps", trust: "dataset", blocks, actions: [{ label: `הדגש בגרף`, href: `/sap-infrastructure/?focus=${encodeURIComponent(n)}` }, { label: `כרטיס ${n}`, href: objHref(n) }] };
+      return { title: `תלויות של ${n}`, intent: "deps", trust: "dataset", blocks, actions: [{ label: "ניתוח השפעה", href: `/impact/${encodeURIComponent(n)}/` }, { label: `הדגש בגרף`, href: `/sap-infrastructure/?focus=${encodeURIComponent(n)}` }, { label: `כרטיס ${n}`, href: objHref(n) }] };
     }
     // default: what is / used for
     const blocks: MentorBlock[] = [];
@@ -158,7 +158,7 @@ export function mentorAnswer(raw: string): MentorAnswer | null {
     if (tc.length) blocks.push({ label: "T-Codes", chips: chips(tc) });
     if (g?.upstream.length || g?.downstream.length) blocks.push({ label: "קשרים", chips: chips([...(g?.upstream || []), ...(g?.downstream || [])].slice(0, 8), objHref) });
     if (st?.impacted && (k?.s4 || t?.s4Note)) blocks.push({ label: "S/4", text: k?.s4 || t!.s4Note });
-    return { title: `מה זה ${n}?`, intent: "explain", trust: k ? "mixed" : "dataset", blocks, actions: [{ label: `כרטיס מלא ${n}`, href: objHref(n) }, { label: "הדגש בגרף", href: `/sap-infrastructure/?focus=${encodeURIComponent(n)}` }] };
+    return { title: `מה זה ${n}?`, intent: "explain", trust: k ? "mixed" : "dataset", blocks, actions: [{ label: `כרטיס מלא ${n}`, href: objHref(n) }, { label: "ניתוח השפעה", href: `/impact/${encodeURIComponent(n)}/` }, { label: "הדגש בגרף", href: `/sap-infrastructure/?focus=${encodeURIComponent(n)}` }] };
   }
 
   // ---- general S/4 (no entity)

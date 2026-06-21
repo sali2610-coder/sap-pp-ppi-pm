@@ -239,6 +239,7 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
               <h1 className="font-mono text-4xl font-extrabold tracking-tight" dir="ltr">{t.tableName}</h1>
               <span className="rounded-lg bg-white/20 px-2 py-1 text-xs font-bold backdrop-blur-sm">Table · {t.module}</span>
               <FavStar name={t.tableName} />
+              <Link href={`/impact/${encodeURIComponent(t.tableName)}/`} className="tap inline-flex items-center gap-1 rounded-lg bg-white/20 px-2 py-1 text-xs font-bold text-white backdrop-blur-sm transition hover:bg-white/30 active:scale-90"><TrendingUp className="size-3.5" />ניתוח השפעה</Link>
             </div>
             <p className="mt-1.5 max-w-2xl text-sm text-white/85">{t.descriptionHe || t.descriptionEn}</p>
           </div>
