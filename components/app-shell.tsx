@@ -17,6 +17,7 @@ const FindHighlighter = dynamic(() => import("@/components/find-highlighter").th
 const OnboardingDrawer = dynamic(() => import("@/components/onboarding-drawer").then((m) => m.OnboardingDrawer), { ssr: false });
 const PageHelp = dynamic(() => import("@/components/page-help").then((m) => m.PageHelp), { ssr: false });
 const UXSettings = dynamic(() => import("@/components/ux-settings").then((m) => m.UXSettings), { ssr: false });
+const Mentor = dynamic(() => import("@/components/mentor").then((m) => m.Mentor), { ssr: false });
 import { Search } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { LangSwitch } from "@/components/lang-switch";
@@ -119,6 +120,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <PageHelp />
       <OnboardingDrawer />
       <UXSettings />
+      <Mentor />
     </I18nProvider>
   );
 }
