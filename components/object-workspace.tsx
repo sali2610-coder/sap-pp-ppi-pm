@@ -289,8 +289,8 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
                 </div>); })}
             </div>
             <div className="grid gap-5 lg:grid-cols-3">
-              <div className="lg:col-span-2"><Section title="גרף קשרים" icon={<GitBranch className="size-4" />}><Graph name={name} onGo={go} /></Section></div>
-              <div className="space-y-5">
+              <div className="min-w-0 lg:col-span-2"><Section title="גרף קשרים" icon={<GitBranch className="size-4" />}><Graph name={name} onGo={go} /></Section></div>
+              <div className="min-w-0 space-y-5">
                 <Section title="מהות" icon={<LayoutGrid className="size-4" />}><p className="text-sm leading-relaxed text-slate-600">{t.guideHe || t.descriptionHe || t.descriptionEn}</p></Section>
                 <Section title="נמצא ב" icon={<MapPin className="size-4" />}>
                   <div className="flex flex-wrap gap-1.5">{intel?.foundIn.map((f) => <Link key={f.label} href={f.href} className="rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600 hover:bg-slate-200">✓ {f.label}</Link>)}</div>

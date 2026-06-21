@@ -96,6 +96,10 @@ html {
   /* Dynamic font scaling — scales the whole app via rem */
   font-size: calc(100% * var(--font-scale));
   scroll-behavior: smooth;
+  /* Mobile safety net: never let a stray wide child create page-level
+     horizontal scroll. Real wide content (graphs/tables) uses its own
+     overflow-x-auto container. Sticky descendants keep working. */
+  overflow-x: hidden;
 }
 
 body {
