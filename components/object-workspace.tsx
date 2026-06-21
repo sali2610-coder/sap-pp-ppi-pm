@@ -243,9 +243,9 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
             </div>
             <p className="mt-1.5 max-w-2xl text-sm text-white/85">{t.descriptionHe || t.descriptionEn}</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-2">
             {[["שדות", fields.length], ["מעלה", g?.upstream.length || 0], ["מטה", g?.downstream.length || 0]].map(([l, n]) => (
-              <div key={l as string} className="rounded-2xl border border-white/15 bg-white/10 px-3.5 py-2 text-center backdrop-blur-sm">
+              <div key={l as string} className="min-w-[64px] flex-1 rounded-2xl border border-white/15 bg-white/10 px-3.5 py-2 text-center backdrop-blur-sm sm:flex-none">
                 <div className="font-mono text-xl font-extrabold">{n as number}</div><div className="eyebrow text-white/70">{l as string}</div>
               </div>
             ))}
@@ -254,14 +254,14 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
       </header>
 
       {/* tabs + presentation export */}
-      <div className="no-print sticky top-[4.5rem] z-30 flex items-center gap-1 overflow-x-auto rounded-2xl border border-slate-200 bg-white/90 p-1 shadow-sm backdrop-blur">
+      <div className="no-print sticky top-[4.25rem] z-30 flex snap-x items-center gap-1 overflow-x-auto rounded-2xl border border-slate-200 bg-white/90 p-1 shadow-sm backdrop-blur [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {TABS.map(([id, label, Icon], i) => (
           <button key={id} onClick={() => { playTick(); setTab(id); }} title={`${i + 1}`}
-            className={`flex shrink-0 items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold transition ${tab === id ? "bg-brand text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>
+            className={`flex min-h-[44px] shrink-0 snap-start items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold transition active:scale-95 ${tab === id ? "bg-brand text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>
             <Icon className="size-4" />{label}
           </button>
         ))}
-        <button onClick={() => window.print()} title="ייצוא מצגת / PDF (P)" className="tap ms-auto flex shrink-0 items-center gap-1.5 rounded-xl border border-slate-200 px-3.5 py-2 text-sm font-bold text-slate-600 transition hover:border-brand hover:text-brand">
+        <button onClick={() => window.print()} title="ייצוא מצגת / PDF (P)" className="tap ms-auto flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-xl border border-slate-200 px-3.5 py-2 text-sm font-bold text-slate-600 transition hover:border-brand hover:text-brand">
           <Presentation className="size-4" /> מצגת
         </button>
       </div>
