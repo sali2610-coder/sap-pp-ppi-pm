@@ -37,6 +37,16 @@ export default function Page() {
   useEffect(() => { fetch(`${BASE}/dataset.json`).then((r) => r.json()).then(setData).catch(() => {}); }, []);
   const color = useCallback((m?: string | null) => (data && m && data.palette[m]) || "#64748b", [data]);
   const byName = useMemo(() => (data ? Object.fromEntries(data.tables.map((t) => [t.name, t])) : {}) as Record<string, Tbl>, [data]);
+  // Deep-link: /sap-infrastructure/?focus=<table>[&m=<module>] — opens the module
+  // ERD focused on a table (used by Story Mode). Additive; reuses the existing
+  // `focus` prop path, engine logic unchanged.
+  useEffect(() => {
+    if (!data) return;
+    const sp = new URLSearchParams(window.location.search);
+    const f = sp.get("focus");
+    const m = sp.get("m") || (f ? byName[f]?.mod : undefined);
+    if (f && m && byName[f]) setNav({ level: "module", module: m, tab: "erd", focus: [f] });
+  }, [data, byName]);
   const openModule = (m: string, tab = "erd") => { setNav({ level: "module", module: m, tab }); setInspect(null); setField(null); };
 
   const results = useMemo(() => {

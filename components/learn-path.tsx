@@ -14,7 +14,7 @@ export function LearnPathView({ module }: { module: string }) {
   const st = pathState(done, ids);
   const accent = p.accent;
   // Story Mode routes (Phase D). Only link to processes that actually exist.
-  const STORY: Record<string, string> = {}; // filled in Phase D
+  const STORY: Record<string, string> = { pm: "/story/pm-maintenance/", "pp-pi": "/story/pppi-process-order/" };
   const storyHref = STORY[module] || null;
 
   return (

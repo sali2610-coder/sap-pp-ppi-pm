@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Wrench, Factory, ArrowLeft, GraduationCap, CheckCircle2 } from "lucide-react";
+import { Wrench, Factory, ArrowLeft, GraduationCap, CheckCircle2, Workflow } from "lucide-react";
 import { LEARN_AREAS, LEARN_PATHS } from "@/data/learn/paths";
 import { useDoneSet, pathState } from "@/lib/learn-store";
 
@@ -70,6 +70,11 @@ export function LearnHome() {
           );
         })}
       </div>
+      <Link href="/story/" className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md active:scale-[.99]">
+        <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-slate-900 text-white shadow-sm"><Workflow className="size-5" /></span>
+        <span className="min-w-0 flex-1"><span className="block text-sm font-extrabold text-slate-900">סיור מודרך בתהליך · Story Mode</span><span className="block text-xs text-slate-500">תהליך אחזקה ופקודת תהליך — מקצה לקצה, שלב אחרי שלב</span></span>
+        <ArrowLeft className="size-4 shrink-0 text-slate-300 transition group-hover:text-brand" />
+      </Link>
       <p className="text-center text-xs text-slate-400">לא בטוח מה ההבדל בין PP ל-PP-PI? התחל ב-PP Fundamentals — המסלול מתפצל כשצריך.</p>
     </div>
   );
