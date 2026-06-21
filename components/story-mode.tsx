@@ -74,10 +74,16 @@ export function StoryMode({ id }: { id: string }) {
         </div>
       </header>
 
-      {/* step card */}
+      {/* animated progress bar */}
+      <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+        <motion.span className="block h-full rounded-full" style={{ background: accent }} animate={{ width: `${((i + 1) / total) * 100}%` }} transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 180, damping: 28 }} />
+      </div>
+
+      {/* step card — swipeable on touch (RTL: swipe left = next) */}
       <AnimatePresence mode="wait">
         <motion.section key={s.id} initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={reduce ? undefined : { opacity: 0, y: -8 }} transition={{ duration: 0.22 }}
-          className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+          drag={reduce ? false : "x"} dragConstraints={{ left: 0, right: 0 }} dragElastic={0.18} onDragEnd={(_e, info) => { if (info.offset.x < -80) go(1); else if (info.offset.x > 80) go(-1); }}
+          className="touch-pan-y rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full px-2.5 py-0.5 text-[10px] font-extrabold text-white" style={{ background: accent }}>{s.phaseHe}</span>
             <h2 className="text-lg font-extrabold text-slate-900">{s.title}</h2>
