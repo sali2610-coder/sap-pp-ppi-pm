@@ -41,7 +41,7 @@ export function MobileTabBar() {
   return (
     <>
       <nav aria-label="ניווט תחתון" dir="rtl"
-        className="no-print fixed inset-x-0 bottom-0 z-50 grid grid-cols-5 border-t border-slate-200 bg-white/90 pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_20px_-8px_rgba(15,23,42,0.15)] backdrop-blur-xl lg:hidden">
+        className="no-print fixed inset-x-0 bottom-0 z-50 grid grid-cols-5 border-t border-slate-200 bg-white/90 pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_20px_-8px_rgba(15,23,42,0.15)] backdrop-blur-xl xl:hidden">
         {TABS.map((t) => <Item key={t.href} active={t.match(path)} icon={t.icon} label={t.label} href={t.href} />)}
         <Item active={false} icon={BrainCircuit} label="מנטור" onClick={() => fire("neo:open-mentor")} />
         <Item active={more} icon={Menu} label="עוד" onClick={() => setMore(true)} />
@@ -50,8 +50,8 @@ export function MobileTabBar() {
       <AnimatePresence>
         {more && (
           <>
-            <motion.div className="fixed inset-0 z-[70] bg-slate-900/40 backdrop-blur-sm lg:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMore(false)} />
-            <motion.div dir="rtl" className="fixed inset-x-0 bottom-0 z-[71] rounded-t-3xl bg-white pb-[max(env(safe-area-inset-bottom),1rem)] shadow-2xl lg:hidden"
+            <motion.div className="fixed inset-0 z-[70] bg-slate-900/40 backdrop-blur-sm xl:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMore(false)} />
+            <motion.div dir="rtl" className="fixed inset-x-0 bottom-0 z-[71] rounded-t-3xl bg-white pb-[max(env(safe-area-inset-bottom),1rem)] shadow-2xl xl:hidden"
               initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }} transition={{ type: "spring", stiffness: 340, damping: 34 }}>
               <div className="mx-auto mt-2 h-1 w-10 rounded-full bg-slate-200" />
               <div className="flex items-center justify-between px-5 py-3">

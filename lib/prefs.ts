@@ -44,11 +44,12 @@ export function toggleFavorite(name: string) {
   emitFav();
 }
 
+const EMPTY_FAV: string[] = []; // stable ref for SSR snapshot (avoids infinite-loop warning)
 export function useFavorites(): string[] {
   return useSyncExternalStore(
     (cb) => { ensureFav(); favSubs.add(cb); return () => favSubs.delete(cb); },
     () => { ensureFav(); return favCache; },
-    () => [],
+    () => EMPTY_FAV,
   );
 }
 

@@ -44,19 +44,19 @@ function Header() {
   const { t } = useI18n();
   return (
     <header className="sticky top-0 z-50 border-b border-black/10 bg-gradient-to-l from-brand-dark via-brand to-brand text-brand-foreground shadow-lg shadow-brand/25 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-white/25">
-      <div className="container-app flex flex-col gap-3 py-3 lg:flex-row lg:items-center lg:justify-between">
+      <div className="container-app flex flex-col gap-3 py-3 xl:flex-row xl:items-center xl:justify-between">
         <div className="flex items-center justify-between gap-3">
           <Link href="/" className="shrink-0 transition-transform hover:scale-[1.02]" onClick={() => playClick()}>
             <SiteLogo />
           </Link>
-          <div className="lg:hidden">
+          <div className="xl:hidden">
             <LangSwitch />
           </div>
         </div>
-        <div className="lg:flex lg:flex-1 lg:justify-center">
+        <div className="xl:flex xl:flex-1 xl:justify-center">
           <OmniSearch />
         </div>
-        <nav aria-label="ניווט ראשי" className="hidden shrink-0 items-center gap-1 text-sm font-medium lg:flex">
+        <nav aria-label="ניווט ראשי" className="hidden shrink-0 items-center gap-1 text-sm font-medium xl:flex">
           <NavLink href="/" exact group="d">{t("nav.home")}</NavLink>
           <NavLink href="/learn/" group="d"><GraduationCap className="size-3.5" />{t("nav.learn")}</NavLink>
           <NavLink href="/pm/" group="d">{t("nav.pm")}</NavLink>
@@ -81,7 +81,7 @@ function PageTransition({ children }: { children: React.ReactNode }) {
   // browser BACK navigation → permanent white screen. Content must always
   // render visible. Per-page entrance polish lives inside each page, never
   // as a global reveal gate.
-  return <main id="main" className="container-app flex-1 pt-6 pb-24 sm:py-8 lg:pb-8">{children}</main>;
+  return <main id="main" className="container-app flex-1 pt-6 pb-24 sm:pt-8 xl:pb-8">{children}</main>;
 }
 
 // Omnipresent search trigger — opens ⌘K palette from any page (bottom-start,
@@ -107,7 +107,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <PageTransition>{children}</PageTransition>
       <Footer />
       {/* secondary floating actions — desktop only; on phone/tablet they live in the bottom tab bar / "עוד" sheet */}
-      <div className="max-lg:hidden">
+      <div className="max-xl:hidden">
         <SearchFab />
         <PageHelp />
         <UXSettings />
