@@ -35,7 +35,7 @@ export function Mentor() {
   return (
     <>
       <button onClick={() => setOpen(true)} aria-label="שאל מנטור SAP" title="שאל מנטור · ⌘J"
-        className="no-print group fixed bottom-20 end-5 z-40 flex items-center gap-2 rounded-full bg-slate-900 px-4 py-3 text-sm font-bold text-white shadow-xl shadow-slate-900/30 transition-transform hover:scale-105 active:scale-95">
+        className="no-print group fixed bottom-20 end-5 z-40 hidden items-center gap-2 rounded-full bg-slate-900 px-4 py-3 text-sm font-bold text-white shadow-xl shadow-slate-900/30 transition-transform hover:scale-105 active:scale-95 lg:flex">
         <BrainCircuit className="size-5" /><span className="hidden sm:inline">שאל מנטור</span>
       </button>
 

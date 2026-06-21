@@ -18,6 +18,7 @@ const OnboardingDrawer = dynamic(() => import("@/components/onboarding-drawer").
 const PageHelp = dynamic(() => import("@/components/page-help").then((m) => m.PageHelp), { ssr: false });
 const UXSettings = dynamic(() => import("@/components/ux-settings").then((m) => m.UXSettings), { ssr: false });
 const Mentor = dynamic(() => import("@/components/mentor").then((m) => m.Mentor), { ssr: false });
+import { MobileTabBar } from "@/components/mobile-tab-bar";
 import { Search } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { LangSwitch } from "@/components/lang-switch";
@@ -69,16 +70,7 @@ function Header() {
           </div>
         </nav>
       </div>
-      <nav aria-label="ניווט נייד" className="flex items-center gap-1.5 overflow-x-auto px-4 pb-2.5 text-sm font-medium lg:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <NavLink href="/" exact group="m">{t("nav.home")}</NavLink>
-        <NavLink href="/learn/" group="m"><GraduationCap className="size-3.5" />{t("nav.learn")}</NavLink>
-        <NavLink href="/pm/" group="m">{t("nav.pm")}</NavLink>
-        <NavLink href="/pp-pi/" group="m">{t("nav.ppi")}</NavLink>
-        <NavLink href="/sap-infrastructure/" group="m">{t("nav.infra")}</NavLink>
-        <NavLink href="/library/" group="m">{t("nav.library")}</NavLink>
-        <NavLink href="/knowledge/" group="m"><BrainCircuit className="size-3.5" />{t("nav.knowledge")}</NavLink>
-        <NavLink href="/chat/" group="m"><Sparkles className="size-3.5" />{t("nav.chat")}</NavLink>
-      </nav>
+      {/* mobile/tablet navigation now lives in the bottom tab bar (thumb-reachable) */}
     </header>
   );
 }
@@ -89,7 +81,7 @@ function PageTransition({ children }: { children: React.ReactNode }) {
   // browser BACK navigation → permanent white screen. Content must always
   // render visible. Per-page entrance polish lives inside each page, never
   // as a global reveal gate.
-  return <main id="main" className="container-app flex-1 py-8">{children}</main>;
+  return <main id="main" className="container-app flex-1 pt-6 pb-24 sm:py-8 lg:pb-8">{children}</main>;
 }
 
 // Omnipresent search trigger — opens ⌘K palette from any page (bottom-start,
@@ -114,13 +106,18 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <Header />
       <PageTransition>{children}</PageTransition>
       <Footer />
-      <SearchFab />
+      {/* secondary floating actions — desktop only; on phone/tablet they live in the bottom tab bar / "עוד" sheet */}
+      <div className="max-lg:hidden">
+        <SearchFab />
+        <PageHelp />
+        <UXSettings />
+      </div>
+      {/* always-mounted (modal/effect; opened via events from the tab bar on mobile) */}
       <CommandPalette />
       <FindHighlighter />
-      <PageHelp />
       <OnboardingDrawer />
-      <UXSettings />
       <Mentor />
+      <MobileTabBar />
     </I18nProvider>
   );
 }
