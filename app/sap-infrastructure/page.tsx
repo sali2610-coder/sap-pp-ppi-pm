@@ -344,6 +344,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
   const [panMode, setPanMode] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const pan = useRef<{ x: number; y: number; ox: number; oy: number } | null>(null);
+  const trRef = useRef(tr); trRef.current = tr; // live tr for native touch listeners
   // draggable nodes: manual position overrides on top of the auto-layout
   const [dragPos, setDragPos] = useState<Record<string, { x: number; y: number }>>({});
   const nodeDrag = useRef<{ name: string; sx: number; sy: number; ox: number; oy: number; moved: boolean; shift: boolean } | null>(null);
@@ -442,7 +443,24 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
       setTr((p) => { const nk = Math.min(2.6, Math.max(0.2, p.k * (e.deltaY < 0 ? 1.08 : 1 / 1.08))); const ratio = nk / p.k; return { k: nk, x: mx - (mx - p.x) * ratio, y: my - (my - p.y) * ratio }; });
     };
     el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
+    // touch: pinch-to-zoom (2 fingers) + one-finger pan (empty canvas). Native
+    // non-passive so preventDefault works and gestures don't scroll the page.
+    let pd = 0, pk = 1, pcx = 0, pcy = 0, pan1 = false, sx = 0, sy = 0, ox = 0, oy = 0;
+    const dist = (t: TouchList) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+    const onTS = (e: TouchEvent) => {
+      const r = el.getBoundingClientRect();
+      if (e.touches.length === 2) { pan1 = false; pd = dist(e.touches) || 1; pk = trRef.current.k; pcx = (e.touches[0].clientX + e.touches[1].clientX) / 2 - r.left; pcy = (e.touches[0].clientY + e.touches[1].clientY) / 2 - r.top; }
+      else if (e.touches.length === 1) { const t = e.touches[0]; if ((t.target as Element)?.closest?.("[data-card],[data-drawer]")) { pan1 = false; return; } pan1 = true; sx = t.clientX; sy = t.clientY; ox = trRef.current.x; oy = trRef.current.y; }
+    };
+    const onTM = (e: TouchEvent) => {
+      if (e.touches.length === 2) { e.preventDefault(); const nk = Math.min(2.6, Math.max(0.2, pk * (dist(e.touches) / pd))); setTr((p) => { const ratio = nk / p.k; return { k: nk, x: pcx - (pcx - p.x) * ratio, y: pcy - (pcy - p.y) * ratio }; }); }
+      else if (pan1 && e.touches.length === 1) { e.preventDefault(); const t = e.touches[0]; setTr((p) => ({ ...p, x: ox + (t.clientX - sx), y: oy + (t.clientY - sy) })); }
+    };
+    const onTE = (e: TouchEvent) => { if (e.touches.length === 0) pan1 = false; };
+    el.addEventListener("touchstart", onTS, { passive: false });
+    el.addEventListener("touchmove", onTM, { passive: false });
+    el.addEventListener("touchend", onTE);
+    return () => { el.removeEventListener("wheel", onWheel); el.removeEventListener("touchstart", onTS); el.removeEventListener("touchmove", onTM); el.removeEventListener("touchend", onTE); };
   }, []);
   const toggleMod = (m: string) => setSelMods((s) => { const n = new Set(s); if (n.has(m)) { if (n.size > 1) n.delete(m); } else n.add(m); return n; });
   const dt = drawer ? byName[drawer] : null;
@@ -551,7 +569,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
           const MMW = 184; const s = MMW / Math.max(vbW, 1); const MMH = Math.max(64, Math.min(168, vbH * s));
           const jump = (e: React.PointerEvent) => { const r = (e.currentTarget as HTMLElement).getBoundingClientRect(); const gx = (e.clientX - r.left) / s, gy = (e.clientY - r.top) / s; setTr((cur) => ({ k: cur.k, x: vw / 2 - gx * cur.k, y: vh / 2 - gy * cur.k })); };
           return (
-            <div className="absolute right-3 top-12 z-20 cursor-pointer overflow-hidden rounded-xl border border-slate-200 bg-white/95 shadow-lg backdrop-blur-md" style={{ width: MMW, height: MMH }} title="מפת ניווט — לחץ לקפיצה" onPointerDown={jump}>
+            <div className="absolute right-3 top-12 z-20 hidden cursor-pointer overflow-hidden rounded-xl border border-slate-200 bg-white/95 shadow-lg backdrop-blur-md sm:block" style={{ width: MMW, height: MMH }} title="מפת ניווט — לחץ לקפיצה" onPointerDown={jump}>
               <svg width={MMW} height={MMH}>
                 {shown.map((t) => { const p = P(t.name); if (!p) return null; const cc = color(own[t.name] || t.mod); const on = multi.has(t.name) || sel === t.name; return <rect key={t.name} x={p.x * s} y={p.y * s} width={Math.max(3, W * s)} height={Math.max(2, H * s)} rx={1.5} fill={on ? cc : cc + "66"} />; })}
                 <rect x={(-tr.x / tr.k) * s} y={(-tr.y / tr.k) * s} width={(vw / tr.k) * s} height={(vh / tr.k) * s} fill="rgba(214,32,39,.10)" stroke="#d62027" strokeWidth={1.5} rx={2} />
@@ -568,10 +586,10 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
         </div>
         {panMode && <div className="pointer-events-none absolute bottom-[4.5rem] left-1/2 z-20 -translate-x-1/2 rounded-full bg-[#d62027] px-3 py-1 text-[11px] font-bold text-white shadow-lg">מצב גרירה פעיל — גרור להזזה</div>}
           <div className="absolute inset-0"
-            onPointerDown={(e) => { if (!panMode || (e.target as Element).closest("[data-card],[data-drawer]")) return; pan.current = { x: e.clientX, y: e.clientY, ox: tr.x, oy: tr.y }; }}
-            onPointerMove={(e) => { if (pan.current) setTr((p) => ({ ...p, x: pan.current!.ox + (e.clientX - pan.current!.x), y: pan.current!.oy + (e.clientY - pan.current!.y) })); }}
+            onPointerDown={(e) => { if (e.pointerType === "touch") return; if (!panMode || (e.target as Element).closest("[data-card],[data-drawer]")) return; pan.current = { x: e.clientX, y: e.clientY, ox: tr.x, oy: tr.y }; }}
+            onPointerMove={(e) => { if (e.pointerType === "touch" || !pan.current) return; setTr((p) => ({ ...p, x: pan.current!.ox + (e.clientX - pan.current!.x), y: pan.current!.oy + (e.clientY - pan.current!.y) })); }}
             onPointerUp={() => (pan.current = null)} onPointerLeave={() => (pan.current = null)}
-            style={{ cursor: panMode ? (pan.current ? "grabbing" : "grab") : "default" }}>
+            style={{ cursor: panMode ? (pan.current ? "grabbing" : "grab") : "default", touchAction: "none" }}>
             <div className="absolute left-0 top-0 origin-top-left" style={{ transform: `translate(${tr.x}px,${tr.y}px) scale(${tr.k})`, width: vbW, height: vbH, transition: pan.current ? "none" : "transform .5s cubic-bezier(.32,.72,0,1)" }}>
               <svg className="pointer-events-none absolute left-0 top-0" width={vbW} height={vbH} style={{ overflow: "visible" }}>
                 <defs>

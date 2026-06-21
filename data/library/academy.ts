@@ -10,6 +10,7 @@ import { QM_TEXTBOOK, QM_TEXTBOOK_STATS } from "./qm-textbook";
 import { MM_TEXTBOOK, MM_TEXTBOOK_STATS } from "./mm-textbook";
 import { WM_TEXTBOOK, WM_TEXTBOOK_STATS } from "./wm-textbook";
 import { PPDS_TEXTBOOK, PPDS_TEXTBOOK_STATS } from "./ppds-textbook";
+import { SOP_TEXTBOOK, SOP_TEXTBOOK_STATS } from "./sop-textbook";
 
 export type BookStatus = "live" | "in-progress" | "planned";
 
@@ -50,6 +51,9 @@ const wmSubs = Object.values(WM_TEXTBOOK).reduce((s, c) => s + c.subchapters.len
 const ppdsChapters = Object.keys(PPDS_TEXTBOOK).length;
 const ppdsNodes = Object.values(PPDS_TEXTBOOK_STATS).reduce((s, c) => s + c.totalNodes, 0);
 const ppdsSubs = Object.values(PPDS_TEXTBOOK).reduce((s, c) => s + c.subchapters.length, 0);
+const sopChapters = Object.keys(SOP_TEXTBOOK).length;
+const sopNodes = Object.values(SOP_TEXTBOOK_STATS).reduce((s, c) => s + c.totalNodes, 0);
+const sopSubs = Object.values(SOP_TEXTBOOK).reduce((s, c) => s + c.subchapters.length, 0);
 
 export const ACADEMY_BOOKS: AcademyBook[] = [
   {
@@ -92,6 +96,12 @@ export const ACADEMY_BOOKS: AcademyBook[] = [
     module: "PP-PI", status: "live", chaptersTotal: 11, chaptersDone: ppdsChapters,
     subchapters: ppdsSubs, nodes: ppdsNodes, validated: false, qualityScore: 90,
     href: "/library/ppds-academy/", reportHref: "/library/ppds-quality-report/", tintHe: "from-cyan-500 to-cyan-700",
+  },
+  {
+    id: "sop", titleHe: "תכנון מכירות ותפעול (IBP)", titleEn: "Sales & Operations Planning with SAP IBP",
+    module: "IBP", status: "live", chaptersTotal: 15, chaptersDone: sopChapters,
+    subchapters: sopSubs, nodes: sopNodes, validated: false, qualityScore: 90,
+    href: "/library/sop-academy/", reportHref: "/library/sop-quality-report/", tintHe: "from-teal-500 to-teal-700",
   },
 ];
 

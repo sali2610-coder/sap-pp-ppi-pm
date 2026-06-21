@@ -10,14 +10,16 @@ import { QM_TEXTBOOK } from "./qm-textbook";
 import { MM_TEXTBOOK } from "./mm-textbook";
 import { WM_TEXTBOOK } from "./wm-textbook";
 import { PPDS_TEXTBOOK } from "./ppds-textbook";
+import { SOP_TEXTBOOK } from "./sop-textbook";
 import PM_TOC from "./pm-toc.json";
 import QM_TOC from "./qm-toc.json";
 import MM_TOC from "./mm-toc.json";
 import WM_TOC from "./wm-toc.json";
 import PPDS_TOC from "./ppds-toc.json";
+import SOP_TOC from "./sop-toc.json";
 
 const TOCS: Record<string, Record<string, { id: string; title: string }[]>> = {
-  pm: PM_TOC as any, qm: QM_TOC as any, mm: MM_TOC as any, wm: WM_TOC as any, ppds: PPDS_TOC as any,
+  pm: PM_TOC as any, qm: QM_TOC as any, mm: MM_TOC as any, wm: WM_TOC as any, ppds: PPDS_TOC as any, sop: SOP_TOC as any,
 };
 
 export type ValidationKind = "reviewed" | "structural";
@@ -57,6 +59,9 @@ export const BOOKS: BookDef[] = [
   { id: "ppds", module: "PP/DS", titleHe: "תכנון מתקדם (PP/DS)", titleEn: "Production Planning & Detailed Scheduling",
     base: "/library/ppds-academy", data: PPDS_TEXTBOOK, status: "live", validationKind: "structural", score: 90,
     lastUpdated: "2026-06-19", reportHref: "/library/ppds-quality-report/", referenceHref: "/library/academy/reference/ppds/", tint: "from-cyan-500 to-cyan-700" },
+  { id: "sop", module: "S&OP", titleHe: "תכנון מכירות ותפעול (IBP)", titleEn: "Sales & Operations Planning with SAP IBP",
+    base: "/library/sop-academy", data: SOP_TEXTBOOK, status: "live", validationKind: "structural", score: 90,
+    lastUpdated: "2026-06-21", reportHref: "/library/sop-quality-report/", referenceHref: "/library/academy/reference/sop/", tint: "from-teal-500 to-teal-700" },
 ];
 
 export const bookById = (id: string) => BOOKS.find((b) => b.id === id);
@@ -215,7 +220,7 @@ export const ACADEMY_TOTALS = (() => {
   const inProgress = BOOKS.filter((b) => b.status === "in-progress").length;
   let chapters = 0, nodes = 0, words = 0;
   for (const b of BOOKS) { const s = bookStats(b.id); chapters += s.chapters; nodes += s.nodes; words += s.words; }
-  const plannedHe = ["S&OP/IBP"];
+  const plannedHe: string[] = [];
   return {
     totalBooks: BOOKS.length + plannedHe.length,
     completed, inProgress, chapters, nodes, words, readMin: Math.round(words / 180),
