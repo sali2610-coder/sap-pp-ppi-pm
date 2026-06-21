@@ -151,21 +151,8 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
 
   const go = (n: string) => { playClick(); router.push(`/object/${encodeURIComponent(n)}`); };
 
-  if (!t) return (
-    <div className="flex flex-col items-center gap-3 py-20 text-center">
-      <span className="grid size-14 place-items-center rounded-2xl bg-slate-100 text-slate-400"><Database className="size-7" /></span>
-      <p className="text-sm font-bold text-slate-700">האובייקט “{name}” לא נמצא</p>
-      <Link href="/sap-infrastructure/" className="text-sm font-bold text-brand hover:underline">חזרה לארכיטקטורה</Link>
-    </div>
-  );
-
-  const c = mc(t.module);
-  const cds = cdsForTable(t.tableName);
-  const fields = t.fields;
+  // Hooks must run on every render — keep them above the early return.
   const statusMap = useStatusMap();
-  const status = (statusMap[t.id] ?? t.migrationStatus) as MigrationStatus;
-  const blast = (g?.upstream.length || 0) + (g?.downstream.length || 0);
-
   // keyboard navigation: 1-7 tabs · ←/→ cycle · p = present
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -180,6 +167,20 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [tab]);
+
+  if (!t) return (
+    <div className="flex flex-col items-center gap-3 py-20 text-center">
+      <span className="grid size-14 place-items-center rounded-2xl bg-slate-100 text-slate-400"><Database className="size-7" /></span>
+      <p className="text-sm font-bold text-slate-700">האובייקט “{name}” לא נמצא</p>
+      <Link href="/sap-infrastructure/" className="text-sm font-bold text-brand hover:underline">חזרה לארכיטקטורה</Link>
+    </div>
+  );
+
+  const c = mc(t.module);
+  const cds = cdsForTable(t.tableName);
+  const fields = t.fields;
+  const status = (statusMap[t.id] ?? t.migrationStatus) as MigrationStatus;
+  const blast = (g?.upstream.length || 0) + (g?.downstream.length || 0);
 
   // consultant insights — derived from real data, no fabrication
   const s4Impact = cds.length ? `S/4HANA: נקרא דרך CDS ${cds.map((v) => v.view).join(", ")}` : t.s4AltTable ? `S/4HANA: הוחלף ב-${t.s4AltTable}` : "S/4HANA: נשמר ללא שינוי מהותי";
