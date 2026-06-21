@@ -79,7 +79,7 @@ export function Mentor() {
                     {ans.blocks.map((b, i) => (
                       <div key={i} className="rounded-xl border border-slate-100 bg-slate-50/70 p-3">
                         {b.label && <div className="mb-1 text-[11px] font-bold uppercase tracking-wide text-slate-400">{b.label}</div>}
-                        {b.text && <p className="text-sm leading-relaxed text-slate-700">{b.text}</p>}
+                        {b.text && <p className="whitespace-pre-line text-sm leading-relaxed text-slate-700">{b.text}</p>}
                         {b.chips && b.chips.length > 0 && <div className="mt-1 flex flex-wrap gap-1.5">{b.chips.map((c, j) => c.href
                           ? <Link key={j} href={c.href} onClick={() => setOpen(false)} className="tech rounded-md border border-slate-200 bg-white px-1.5 py-0.5 font-mono text-[11px] font-bold text-brand transition hover:border-brand/40" dir="ltr">{c.label}</Link>
                           : <span key={j} className="tech rounded-md border border-slate-200 bg-white px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600" dir="ltr">{c.label}</span>)}</div>}

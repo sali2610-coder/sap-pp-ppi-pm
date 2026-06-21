@@ -7,6 +7,7 @@ import { tableByName, kgraph } from "@/lib/knowledge-graph";
 import { PM_KNOWLEDGE } from "@/data/knowledge/pm-objects";
 import { s4For } from "@/lib/s4";
 import { LEARN_PATHS } from "@/data/learn/paths";
+import { INCIDENTS } from "@/data/troubleshooting";
 
 export type Trust = "dataset" | "curated" | "mixed" | "none";
 export interface MentorChip { label: string; href?: string }
@@ -25,7 +26,22 @@ function entities(q: string): string[] {
   return out;
 }
 const objHref = (n: string) => `/object/${encodeURIComponent(n)}/`;
-const chips = (arr: string[], hrefFn?: (n: string) => string): MentorChip[] => arr.map((x) => ({ label: x, href: hrefFn?.(x) }));
+const objHrefIf = (n: string) => (NAME_SET.has(n.toUpperCase()) ? objHref(n) : undefined);
+const chips = (arr: string[], hrefFn?: (n: string) => string | undefined): MentorChip[] => arr.map((x) => ({ label: x, href: hrefFn?.(x) }));
+
+// best-match incident from the curated troubleshooting KB (152 incidents)
+function findIncident(q: string, ents: string[]) {
+  const terms = q.toLowerCase().split(/\s+/).filter((t) => t.length >= 3);
+  let best: typeof INCIDENTS[number] | null = null, score = 0;
+  for (const inc of INCIDENTS) {
+    const hay = `${inc.he} ${inc.symptom} ${inc.error || ""} ${inc.rootCauses.join(" ")} ${inc.tables.join(" ")} ${inc.analyzeTcodes.join(" ")}`.toLowerCase();
+    let s = 0;
+    for (const t of terms) if (hay.includes(t)) s++;
+    for (const e of ents) if (inc.tables.includes(e) || inc.analyzeTcodes.includes(e) || inc.he.includes(e)) s += 2;
+    if (s > score) { score = s; best = inc; }
+  }
+  return score >= 2 ? best : null;
+}
 
 const SUGGESTIONS = [
   "למה AUFK קשורה ל-AFKO?",
@@ -34,6 +50,7 @@ const SUGGESTIONS = [
   "מה השתנה ב-S/4 עבור AFKO?",
   "אילו T-Codes משתמשים ב-QMEL?",
   "מה נמצא מעלה ומטה מ-EQUI?",
+  "COGI תקוע — מה לעשות?",
 ];
 
 export function mentorSuggestions() { return SUGGESTIONS; }
@@ -59,6 +76,22 @@ export function mentorAnswer(raw: string): MentorAnswer | null {
       };
     }
     return { title: "מאיפה מתחילים?", intent: "learn", trust: "curated", blocks: [{ text: "בחר תחום ללמידה מודרכת — PM (אחזקה) או Manufacturing (PP / PP-PI)." }], actions: [{ label: "פתח מרכז הלמידה", href: "/learn/" }] };
+  }
+
+  // ---- troubleshooting (symptom → root cause → resolution)
+  if (/תקוע|נכשל|לא (נסגר|משתחרר|נוצר|עובד|מתעדכן)|חסום|שגיאה|נדחה|תקלה|fail|error|stuck|block|cannot|can'?t|won'?t|ru-?505|status ?5[0-9]|\b51\b|\b64\b/.test(lc)) {
+    const inc = findIncident(q, ents);
+    if (inc) {
+      const blocks: MentorBlock[] = [{ label: "תסמין", text: inc.symptom }];
+      if (inc.error && inc.error !== "—") blocks.push({ label: "קוד שגיאה", text: inc.error });
+      blocks.push({ label: "גורמי שורש", text: inc.rootCauses.map((r) => `• ${r}`).join("\n") });
+      if (inc.tables?.length) blocks.push({ label: "טבלאות לבדיקה", chips: chips(inc.tables, objHrefIf) });
+      if (inc.analyzeTcodes?.length) blocks.push({ label: "T-Codes לאבחון", chips: chips(inc.analyzeTcodes) });
+      blocks.push({ label: "תיקון", text: inc.fix.map((f) => `• ${f}`).join("\n") });
+      if (inc.cbc) blocks.push({ label: "דוגמה מ-CBC", text: inc.cbc });
+      return { title: inc.he, intent: "troubleshoot", trust: "curated", blocks, actions: [{ label: "פתח תקלה מלאה", href: `/troubleshooting/${inc.slug}/` }, { label: "מרכז תקלות", href: "/troubleshooting/" }] };
+    }
+    return { title: "פתרון תקלות", intent: "troubleshoot", trust: "curated", blocks: [{ text: "תאר את התסמין עם שם טבלה/T-Code (למשל 'COGI תקוע' או 'פקודה לא משתחררת')." }], actions: [{ label: "מרכז פתרון תקלות", href: "/troubleshooting/" }] };
   }
 
   // ---- relation between two entities ("why X related to Y")
