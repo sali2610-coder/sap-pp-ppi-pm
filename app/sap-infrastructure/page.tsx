@@ -21,7 +21,7 @@ const MOD_NAME_HE: Record<string, string> = { MM: "ניהול חומרים", SD:
 const TABS = [["objects", "אובייקטים"], ["process", "תהליך"], ["erd", "מודל נתונים"], ["technical", "טכני"]] as const;
 const erdMembers = (data: Data, code: string): Tbl[] => { const byName = Object.fromEntries(data.tables.map((t) => [t.name, t])); const list = (ERD_MODULES[code] || []).map((n) => byName[n]).filter(Boolean) as Tbl[]; return list.length ? list : data.tables.filter((t) => t.mod === code).sort((a, b) => b.degree - a.degree).slice(0, 16); };
 
-const ANIM = `@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}@keyframes erdflow{to{stroke-dashoffset:-200}}.flowline{stroke-dasharray:7 6;animation:erdflow 3s linear infinite}.flowline.fast{animation-duration:1s}@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}@keyframes countpulse{0%{opacity:.4}100%{opacity:1}}@keyframes drawerIn{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}@keyframes haze{0%,100%{opacity:.35}50%{opacity:.7}}@media (prefers-reduced-motion:reduce){.flowline{animation:none!important}}`;
+const ANIM = `@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}@keyframes erdflow{to{stroke-dashoffset:-200}}.flowline{stroke-dasharray:7 6;animation:erdflow 3s linear infinite}.flowline.fast{animation-duration:1s}@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}@keyframes countpulse{0%{opacity:.4}100%{opacity:1}}@keyframes drawerIn{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}@keyframes sheetUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes haze{0%,100%{opacity:.35}50%{opacity:.7}}.drawer-anim{animation:sheetUp .34s cubic-bezier(.32,.72,0,1) both}@media (min-width:640px){.drawer-anim{animation:drawerIn .34s cubic-bezier(.32,.72,0,1) both}}@media (prefers-reduced-motion:reduce){.flowline,.drawer-anim{animation:none!important}}`;
 function Count({ n, ms = 900 }: { n: number; ms?: number }) {
   const [v, setV] = useState(0);
   useEffect(() => { let raf = 0; const t0 = performance.now(); const step = (t: number) => { const p = Math.min(1, (t - t0) / ms); setV(Math.round((1 - Math.pow(1 - p, 3)) * n)); if (p < 1) raf = requestAnimationFrame(step); }; raf = requestAnimationFrame(step); return () => cancelAnimationFrame(raf); }, [n, ms]);
@@ -317,7 +317,10 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
     const p: Record<string, { x: number; y: number }> = {};
     sh.forEach((t, i) => { const nd = gg.node(t.name); p[t.name] = nd ? { x: nd.x - W / 2, y: nd.y - H / 2 } : { x: 72, y: 72 + i * (H + 40) }; });
     const gr = gg.graph();
-    return { shown: sh, pos: p, own: owner, links: lk, vbW: (gr.width || 1200) + 144, vbH: (gr.height || 720) + 144 };
+    // guard against dagre returning -Infinity/NaN when there are no nodes (empty workspace)
+    const gw = Number.isFinite(gr.width) && (gr.width as number) > 0 ? (gr.width as number) : 1200;
+    const gh = Number.isFinite(gr.height) && (gr.height as number) > 0 ? (gr.height as number) : 720;
+    return { shown: sh, pos: p, own: owner, links: lk, vbW: gw + 144, vbH: gh + 144 };
   }, [code, [...selMods].sort().join(",")]);
 
   const [sel, setSel] = useState<string | null>(focus && focus[0] ? focus[0] : null);
@@ -462,7 +465,8 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
     el.addEventListener("touchend", onTE);
     return () => { el.removeEventListener("wheel", onWheel); el.removeEventListener("touchstart", onTS); el.removeEventListener("touchmove", onTM); el.removeEventListener("touchend", onTE); };
   }, []);
-  const toggleMod = (m: string) => setSelMods((s) => { const n = new Set(s); if (n.has(m)) { if (n.size > 1) n.delete(m); } else n.add(m); return n; });
+  // allow clearing the workspace fully (deselect the last module → empty state)
+  const toggleMod = (m: string) => setSelMods((s) => { const n = new Set(s); n.has(m) ? n.delete(m) : n.add(m); return n; });
   const dt = drawer ? byName[drawer] : null;
 
   return (
@@ -584,7 +588,24 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
           {[[<ZoomOut key="zo" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.max(0.2, p.k / 1.2) })), "הקטן"], [<Scan key="f" className="size-4" />, fit, "התאם"], [<ZoomIn key="zi" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) })), "הגדל"], [<RotateCcw key="rl" className="size-4" />, () => { setDragPos({}); saveLayout(code, {}); fit(); }, "אפס פריסה"], [fs ? <Shrink key="s" className="size-4" /> : <Expand key="e" className="size-4" />, fullscreen, "מסך מלא"], [<Home key="h" className="size-4" />, onHome, "בית"]].map((b, i) => <button key={i} title={b[2] as string} onClick={b[1] as () => void} className="grid size-9 place-items-center rounded-xl text-slate-600 transition hover:bg-[#d62027] hover:text-white active:scale-90">{b[0] as React.ReactNode}</button>)}
           <span className="px-2 font-mono text-xs font-bold tabular-nums text-slate-400">{Math.round(tr.k * 100)}%</span>
         </div>
-        {panMode && <div className="pointer-events-none absolute bottom-[4.5rem] left-1/2 z-20 -translate-x-1/2 rounded-full bg-[#d62027] px-3 py-1 text-[11px] font-bold text-white shadow-lg">מצב גרירה פעיל — גרור להזזה</div>}
+        {panMode && <div className="pointer-events-none absolute bottom-[4.25rem] left-1/2 z-20 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-[#d62027] px-2.5 py-0.5 text-[10px] font-bold text-white shadow-md"><Hand className="size-3" />מצב גרירה</div>}
+        {/* empty workspace — no module selected: clean canvas + centered module picker */}
+        {selMods.size === 0 && (
+          <div className="pointer-events-none absolute inset-0 z-30 grid place-items-center p-5" style={{ animation: "fadeIn .3s ease both" }}>
+            <div className="pointer-events-auto w-full max-w-md rounded-3xl border border-slate-200 bg-white/95 p-6 text-center shadow-xl backdrop-blur-md sm:p-8" dir="rtl">
+              <div className="mx-auto mb-3 grid size-12 place-items-center rounded-2xl bg-slate-900 text-white"><GitBranch className="size-6" /></div>
+              <h3 className="text-xl font-extrabold text-slate-900">בחר מודול לחקירה</h3>
+              <p className="mx-auto mt-1.5 max-w-xs text-sm text-slate-500">בחר PM, PP-PI, MM, SD או מודול אחר כדי לטעון את מודל הנתונים — טבלאות, קשרים והשפעת S/4.</p>
+              <div className="mt-5 grid grid-cols-3 gap-2.5">
+                {["PM", "PP-PI", "MM", "SD", "FI", "CS"].map((m) => { const cc = color(m); return (
+                  <button key={m} onClick={() => toggleMod(m)} className="tap flex flex-col items-center gap-1 rounded-2xl border-2 bg-white px-2 py-3.5 font-extrabold transition hover:-translate-y-0.5 hover:shadow-md active:scale-95" style={{ borderColor: cc + "44", color: cc }}>
+                    <span className="grid size-7 place-items-center rounded-lg text-[11px] text-white" style={{ background: cc }}>{m === "PP-PI" ? "PP" : m}</span>
+                    <span className="text-sm">{m}</span>
+                  </button>); })}
+              </div>
+            </div>
+          </div>
+        )}
           <div className="absolute inset-0"
             onPointerDown={(e) => { if (e.pointerType === "touch") return; if (!panMode || (e.target as Element).closest("[data-card],[data-drawer]")) return; pan.current = { x: e.clientX, y: e.clientY, ox: tr.x, oy: tr.y }; }}
             onPointerMove={(e) => { if (e.pointerType === "touch" || !pan.current) return; setTr((p) => ({ ...p, x: pan.current!.ox + (e.clientX - pan.current!.x), y: pan.current!.oy + (e.clientY - pan.current!.y) })); }}
@@ -674,16 +695,21 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
               const children = [...new Set(t.rel.filter((r) => r.role === "parent").map((r) => r.table))];
               const whereUsed = [...new Set(data.tables.filter((x) => x.rel.some((r) => r.table === t.name)).map((x) => x.name))];
               const bp = data.blueprints.find((b) => b.code === t.mod);
-              const Sec = ({ title, icon, children: ch }: { title: string; icon?: React.ReactNode; children: React.ReactNode }) => <div className="border-t border-slate-100 px-4 py-3"><h4 className="mb-1.5 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: c }}>{icon}{title}</h4>{ch}</div>;
+              const Sec = ({ title, icon, children: ch }: { title: string; icon?: React.ReactNode; children: React.ReactNode }) => <div className="border-t border-slate-100 px-5 py-3.5"><h4 className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em]" style={{ color: c }}>{icon}{title}</h4>{ch}</div>;
               const Pills = ({ a, nav }: { a: string[]; nav?: boolean }) => a.length ? <div className="flex flex-wrap gap-1">{a.map((x) => nav && byName[x] ? <button key={x} onClick={() => { const tt = byName[x]; if (tt && tt.mod !== t.mod && !selMods.has(tt.mod)) toggleMod(tt.mod); setSel(x); setDrawer(x); }} className="rounded-md border px-1.5 py-0.5 font-mono text-[11px] font-bold transition hover:bg-slate-50" style={{ borderColor: byName[x] ? color(byName[x].mod) : c, color: byName[x] ? color(byName[x].mod) : c }}>{x}</button> : <span key={x} className="rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600">{x}</span>)}</div> : <span className="text-[11px] italic text-slate-300">—</span>;
               const s4 = s4For(t.name, t.s4, t.s4alt); const imp = s4.impact;
               return (
-                <div data-drawer dir="rtl" className="absolute inset-y-0 right-0 z-40 flex w-[360px] max-w-[88%] flex-col overflow-hidden border-s border-slate-200 bg-white shadow-2xl" style={{ animation: "drawerIn .35s cubic-bezier(.32,.72,0,1) both" }} onPointerDown={(e) => e.stopPropagation()}>
-                  <div className="relative shrink-0 px-4 py-3.5 text-white" style={{ background: "linear-gradient(135deg,#d62027,#8f1318)" }}>
+                <>
+                  {/* dim + soft blur behind the drawer; click to close */}
+                  <div className="absolute inset-0 z-30 bg-slate-900/30 backdrop-blur-[2px]" style={{ animation: "fadeIn .25s ease both" }} onPointerDown={(e) => { e.stopPropagation(); setDrawer(null); }} />
+                <div data-drawer dir="rtl" className="drawer-anim absolute inset-x-0 bottom-0 top-auto z-40 flex max-h-[84%] flex-col overflow-hidden rounded-t-3xl border-s border-slate-200 bg-white shadow-2xl sm:inset-y-0 sm:bottom-0 sm:left-auto sm:right-0 sm:top-0 sm:max-h-none sm:w-[440px] sm:rounded-t-none lg:w-[540px]" onPointerDown={(e) => e.stopPropagation()}>
+                  {/* mobile grab handle */}
+                  <div className="mx-auto mt-2 h-1 w-10 shrink-0 rounded-full bg-white/40 sm:hidden" />
+                  <div className="relative shrink-0 px-5 py-4 text-white" style={{ background: "linear-gradient(135deg,#d62027,#8f1318)" }}>
                     <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: c }} />
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="min-w-0"><div className="flex items-center gap-2"><span className="font-mono text-2xl font-extrabold" dir="ltr">{t.name}</span><span className="rounded-md bg-white/20 px-1.5 py-0.5 text-[10px] font-bold">{t.mod}</span></div><p className="mt-0.5 truncate text-xs text-white/80">{t.he || t.en}</p></div>
-                      <button onClick={() => { setDrawer(null); }} className="rounded-lg p-1 text-white/80 hover:bg-white/15"><X className="size-4" /></button>
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0"><div className="flex items-center gap-2"><span className="font-mono text-3xl font-extrabold" dir="ltr">{t.name}</span><span className="rounded-md bg-white/20 px-2 py-0.5 text-[11px] font-bold">{t.mod}</span></div><p className="mt-1 truncate text-sm text-white/85">{t.he || t.en}</p></div>
+                      <button onClick={() => { setDrawer(null); }} aria-label="סגור" className="tap grid size-9 shrink-0 place-items-center rounded-xl bg-white/15 text-white ring-1 ring-white/25 transition hover:bg-white/25 active:scale-90"><X className="size-5" /></button>
                     </div>
                   </div>
                   <div className="min-h-0 flex-1 overflow-auto">
@@ -714,7 +740,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                     </Sec>
                     <div className="grid grid-cols-2"><Sec title="PK" icon={<KeyRound className="size-3 text-amber-500" />}><Pills a={pk.map((f) => f[0])} /></Sec><Sec title="FK" icon={<Link2 className="size-3 text-blue-500" />}><Pills a={fk.map((f) => f[0])} /></Sec></div>
                     <Sec title={`שדות · ${tf.length}`}>
-                      <div className="overflow-hidden rounded-lg border border-slate-100"><table className="w-full text-right font-mono text-[11px]" dir="ltr"><tbody>{tf.slice(0, 28).map((f) => <tr key={f[0]} onClick={() => onField(t.name, f[0])} className="cursor-pointer border-b border-slate-50 last:border-0 hover:bg-slate-50"><td className={`px-2 py-1 font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`}>{f[0]}</td><td className="px-2 py-1 text-slate-400">{f[1]}</td><td className="px-2 py-1 text-left">{f[3] !== "-" && <span className={`rounded px-1 text-[9px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></div>
+                      <div className="overflow-hidden rounded-xl border border-slate-100"><table className="w-full text-right font-mono text-xs" dir="ltr"><tbody>{tf.slice(0, 28).map((f) => <tr key={f[0]} onClick={() => onField(t.name, f[0])} className="cursor-pointer border-b border-slate-50 last:border-0 transition hover:bg-slate-50"><td className={`px-2.5 py-1.5 font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`}>{f[0]}</td><td className="px-2 py-1.5 text-slate-400">{f[1]}</td><td className="px-2 py-1.5 text-left">{f[3] !== "-" && <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></div>
                     </Sec>
                     <Sec title="טרנזקציות (T-Codes)"><span className="font-mono text-xs text-slate-700" dir="ltr">{t.tcodes || "—"}</span></Sec>
                     <Sec title="BAPIs / Function Modules"><Pills a={(t.funcs || []).slice(0, 8)} /></Sec>
@@ -726,7 +752,8 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                     <Sec title="Where-Used"><Pills a={whereUsed} nav /></Sec>
                     <div className="px-4 py-3"><button onClick={() => onModule(t.mod)} className="w-full rounded-xl py-2 text-center text-xs font-bold text-white shadow-sm transition hover:brightness-110" style={{ background: c }}>פתח מודול {t.mod} ↗</button></div>
                   </div>
-                </div>); })()}
+                </div>
+                </>); })()}
           </div>
         </div>
       </div>
