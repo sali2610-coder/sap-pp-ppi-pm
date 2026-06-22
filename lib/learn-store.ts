@@ -65,6 +65,24 @@ export function useAllProgress(): Progress {
   );
 }
 
+/** daily learning streak — real usage signal. Bumps once per day; resets if a
+ *  day is skipped. SSR-safe (no-op on server, returns 0). */
+const STREAK_KEY = "neo:learn:streak";
+export function bumpStreak(): number {
+  if (typeof window === "undefined") return 0;
+  try {
+    const today = new Date().toISOString().slice(0, 10);
+    const raw = JSON.parse(localStorage.getItem(STREAK_KEY) || "{}");
+    let days: number = typeof raw.days === "number" ? raw.days : 0;
+    const last: string | undefined = raw.last;
+    if (last === today) return days || 1;
+    const yest = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+    days = last === yest ? days + 1 : 1;
+    localStorage.setItem(STREAK_KEY, JSON.stringify({ last: today, days }));
+    return days;
+  } catch { return 0; }
+}
+
 /** completion %, current (you-are-here) index, next index */
 export function pathState(doneSet: Set<string>, stepIds: string[]) {
   const doneCount = stepIds.filter((id) => doneSet.has(id)).length;
