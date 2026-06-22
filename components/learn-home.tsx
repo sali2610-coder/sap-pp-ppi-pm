@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Wrench, Factory, ShieldCheck, Compass, ArrowLeft, GraduationCap, CheckCircle2, Workflow, Clock } from "lucide-react";
 import { LEARN_CATEGORIES, LEARN_PATHS } from "@/data/learn/paths";
 import { useDoneSet, pathState } from "@/lib/learn-store";
+import { LearnMetrics } from "@/components/learn-metrics";
 
 const ICON = { pm: Wrench, factory: Factory, qa: ShieldCheck, onboard: Compass } as const;
 
@@ -45,6 +46,8 @@ export function LearnHome() {
           <p className="mt-1.5 max-w-xl text-sm text-white/85">{totalTracks} מסלולי למידה — PM, PP-PI, QA וקליטת יועץ. למד תהליך שלם מקצה לקצה, שלב אחרי שלב, בלי לצאת מהפלטפורמה.</p>
         </div>
       </header>
+
+      <LearnMetrics />
 
       <div className="space-y-3">
         {LEARN_CATEGORIES.map((cat) => {

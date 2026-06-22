@@ -54,6 +54,16 @@ export function useDoneSet(pathId: string): Set<string> {
   return new Set(arr);
 }
 const EMPTY: string[] = [];
+const EMPTY_MAP: Progress = {};
+
+/** all per-path done sets (reactive) — for the learning metrics dashboard */
+export function useAllProgress(): Progress {
+  return useSyncExternalStore(
+    (cb) => { ensure(); subs.add(cb); return () => subs.delete(cb); },
+    () => { ensure(); return cache; },
+    () => EMPTY_MAP,
+  );
+}
 
 /** completion %, current (you-are-here) index, next index */
 export function pathState(doneSet: Set<string>, stepIds: string[]) {
