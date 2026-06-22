@@ -18,7 +18,8 @@ export function PageHelp() {
 
   return (
     <>
-      <div className="no-print fixed bottom-5 left-1/2 z-40 flex -translate-x-1/2 items-center gap-2">
+      {/* off-center (above the search FAB at the start corner) — keeps the graph canvas center clean */}
+      <div className="no-print fixed bottom-[5.25rem] start-5 z-40 flex items-center gap-2">
         <button onClick={() => setOpen(true)} className="lift inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3.5 py-2 text-sm font-bold text-slate-700 shadow-lg transition hover:border-brand/40 hover:text-brand">
           <HelpCircle className="size-4 text-brand" />מה אני רואה כאן?
         </button>

@@ -416,8 +416,8 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
     allNames.forEach((n) => { const t = byName[n]; owner[n] = t && selMods.has(t.mod) ? t.mod : ordered.find((m) => memberMap[m].some((x) => x.name === n)) || ordered[0]; });
     const sh = allNames.map((n) => byName[n]).filter(Boolean) as Tbl[];
     const nameset = new Set(sh.map((t) => t.name));
-    const lk: { a: string; b: string; card: string }[] = [];
-    sh.forEach((t) => t.rel.forEach((r) => { if (nameset.has(r.table)) { const a = r.role === "parent" ? t.name : r.table, b = r.role === "parent" ? r.table : t.name; if (a !== b && !lk.find((l) => l.a === a && l.b === b)) lk.push({ a, b, card: r.card || "1:N" }); } }));
+    const lk: { a: string; b: string; card: string; desc?: string }[] = [];
+    sh.forEach((t) => t.rel.forEach((r) => { if (nameset.has(r.table)) { const a = r.role === "parent" ? t.name : r.table, b = r.role === "parent" ? r.table : t.name; if (a !== b && !lk.find((l) => l.a === a && l.b === b)) lk.push({ a, b, card: r.card || "1:N", desc: r.desc }); } }));
     const gg = new dagre.graphlib.Graph({ multigraph: false });
     gg.setGraph({ rankdir: "LR", nodesep: 44, ranksep: 130, edgesep: 24, marginx: 72, marginy: 72, ranker: "tight-tree" });
     gg.setDefaultEdgeLabel(() => ({}));
@@ -775,6 +775,9 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                     ? `M${ax},${ay} L${bx},${by}`
                     : `M${ax},${ay} L${mx - r * hOut},${ay} Q${mx},${ay} ${mx},${ay + r * vd} L${mx},${by - r * vd} Q${mx},${by} ${mx + r * hIn},${by} L${bx},${by}`;
                   return <g key={i} opacity={dim ? 0.12 : 1}>
+                    <title>{`${l.a} → ${l.b} · ${l.card}${l.desc ? ` — ${l.desc}` : ""}`}</title>
+                    {/* invisible wide hit-area so the relationship tooltip is easy to hover */}
+                    <path d={d} fill="none" stroke="transparent" strokeWidth={14} style={{ pointerEvents: "stroke" }} />
                     <path id={`lp${i}`} d={d} fill="none" stroke={stroke} strokeWidth={w} strokeOpacity={emph ? 1 : 0.66} className={`flowline${emph ? " fast" : ""}`} filter={emph ? "url(#archglow)" : undefined} />
                     <path d={`M${bx + (fwd ? -10 : 10)},${by - 6} L${bx},${by} M${bx + (fwd ? -10 : 10)},${by + 6} L${bx},${by}`} stroke={stroke} strokeWidth={w} fill="none" />
                     {emph && !dim && <circle r={4} fill={lc} filter="url(#archglow)"><animateMotion dur={`${mode === "flow" ? 2.4 : 1.8}s`} repeatCount="indefinite" rotate="auto"><mpath href={`#lp${i}`} /></animateMotion></circle>}
