@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { GitBranch, BrainCircuit, Gauge, AlertTriangle, Terminal, Boxes, FileCode, Network, Lightbulb, HelpCircle, Clock4, Briefcase, ArrowLeft, GraduationCap, ShieldCheck, ArrowRightLeft } from "lucide-react";
+import { GitBranch, BrainCircuit, Gauge, AlertTriangle, Terminal, Boxes, FileCode, Network, Lightbulb, HelpCircle, Clock4, Briefcase, ArrowLeft, GraduationCap, ShieldCheck, ArrowRightLeft, StickyNote, Check } from "lucide-react";
 import { PROCESS, STEP_CBC } from "@/data/process/process-data";
 import { knowledgeFor } from "@/lib/knowledge";
 import { s4For, RISK_HE, RISK_COLOR, TRUST_HE } from "@/lib/s4";
@@ -125,6 +125,9 @@ export function ProcessWorkspace({ code, byName, color }: { code: string; byName
           </div>
         </div>
 
+        {/* consultant notes — persisted locally per step */}
+        <ConsultantNotes stepId={s.id} accent={accent} />
+
         {/* action row */}
         {s.object && (
           <div className="flex flex-wrap gap-2">
@@ -135,6 +138,29 @@ export function ProcessWorkspace({ code, byName, color }: { code: string; byName
           </div>
         )}
       </section>
+    </div>
+  );
+}
+
+// Consultant notes — free-text per process step, saved locally (no backend).
+function ConsultantNotes({ stepId, accent }: { stepId: string; accent: string }) {
+  const [val, setVal] = useState("");
+  const [saved, setSaved] = useState(false);
+  const key = `neo:process:notes:${stepId}`;
+  useEffect(() => { try { setVal(localStorage.getItem(key) || ""); } catch { /* noop */ } setSaved(false); }, [key]);
+  useEffect(() => {
+    const id = setTimeout(() => { try { localStorage.setItem(key, val); setSaved(true); } catch { /* noop */ } }, 500);
+    return () => clearTimeout(id);
+  }, [val, key]);
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+      <div className="mb-2 flex items-center justify-between">
+        <h3 className="flex items-center gap-1.5 text-sm font-extrabold text-slate-900"><StickyNote className="size-4" style={{ color: accent }} />הערות יועץ</h3>
+        {saved && val && <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600"><Check className="size-3.5" />נשמר</span>}
+      </div>
+      <textarea value={val} onChange={(e) => { setVal(e.target.value); setSaved(false); }} dir="rtl" rows={3}
+        placeholder="רשום תובנות, gotchas, או צעדים לזכור לשלב זה… (נשמר מקומית)"
+        className="w-full resize-y rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm leading-relaxed text-slate-700 outline-none transition focus:border-brand/40 focus:bg-white" />
     </div>
   );
 }
