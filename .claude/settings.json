@@ -128,7 +128,21 @@
       "Bash(node /tmp/b3-ch2b.mjs)",
       "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch2.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')",
       "Bash(node /tmp/b3-ch3.mjs)",
-      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch3.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')"
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch3.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')",
+      "Bash(node /tmp/b3-ch4a.mjs)",
+      "Bash(node /tmp/b3-ch4b.mjs)",
+      "Bash(node /tmp/b3-ch4c.mjs)",
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch4.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')",
+      "Bash(node /tmp/b3-ch5a.mjs)",
+      "Bash(node /tmp/b3-ch5b.mjs)",
+      "Bash(node /tmp/b3-ch5c.mjs)",
+      "Bash(node /tmp/b3-ch5d.mjs)",
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch5.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')",
+      "Bash(node /tmp/b3-ch6a.mjs)",
+      "Bash(node /tmp/b3-ch6b.mjs)",
+      "Bash(node /tmp/b3-ch6c.mjs)",
+      "Bash(node /tmp/b3-ch6d.mjs)",
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch6.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')"
     ],
     "additionalDirectories": [
       "/Users/salihalif/Desktop/My-Projects/sap/scripts"
