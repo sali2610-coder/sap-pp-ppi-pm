@@ -849,26 +849,34 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
               const children = [...new Set(t.rel.filter((r) => r.role === "parent").map((r) => r.table))];
               const whereUsed = [...new Set(data.tables.filter((x) => x.rel.some((r) => r.table === t.name)).map((x) => x.name))];
               const bp = data.blueprints.find((b) => b.code === t.mod);
-              const Sec = ({ title, icon, children: ch }: { title: string; icon?: React.ReactNode; children: React.ReactNode }) => <div className="border-t border-slate-100 px-5 py-3.5"><h4 className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em]" style={{ color: c }}>{icon}{title}</h4>{ch}</div>;
+              const Sec = ({ title, icon, children: ch }: { title: string; icon?: React.ReactNode; children: React.ReactNode }) => <div className="break-inside-avoid border-t border-slate-100 px-5 py-3.5"><h4 className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em]" style={{ color: c }}>{icon}{title}</h4>{ch}</div>;
               const Pills = ({ a, nav }: { a: string[]; nav?: boolean }) => a.length ? <div className="flex flex-wrap gap-1">{a.map((x) => nav && byName[x] ? <button key={x} onClick={() => { const tt = byName[x]; if (tt && tt.mod !== t.mod && !selMods.has(tt.mod)) toggleMod(tt.mod); setSel(x); setDrawer(x); }} className="rounded-md border px-1.5 py-0.5 font-mono text-[11px] font-bold transition hover:bg-slate-50" style={{ borderColor: byName[x] ? color(byName[x].mod) : c, color: byName[x] ? color(byName[x].mod) : c }}>{x}</button> : <span key={x} className="rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600">{x}</span>)}</div> : <span className="text-[11px] italic text-slate-300">—</span>;
               const s4 = s4For(t.name, t.s4, t.s4alt); const imp = s4.impact;
               return (
                 <>
                   {/* dim + soft blur behind the drawer; click to close */}
                   <div className="absolute inset-0 z-30 bg-slate-900/30 backdrop-blur-[2px]" style={{ animation: "fadeIn .25s ease both" }} onPointerDown={(e) => { e.stopPropagation(); setDrawer(null); }} />
-                <div data-drawer dir="rtl" className="drawer-anim absolute inset-x-0 bottom-0 top-auto z-40 flex max-h-[84%] flex-col overflow-hidden rounded-t-3xl border-s border-slate-200 bg-white shadow-2xl sm:inset-y-0 sm:bottom-0 sm:left-auto sm:right-0 sm:top-0 sm:max-h-none sm:w-[440px] sm:rounded-t-none lg:w-[540px]" onPointerDown={(e) => e.stopPropagation()}>
-                  {/* mobile grab handle */}
-                  <div className="mx-auto mt-2 h-1 w-10 shrink-0 rounded-full bg-white/40 sm:hidden" />
-                  <div className="relative shrink-0 px-5 py-4 text-white" style={{ background: "linear-gradient(135deg,#d62027,#8f1318)" }}>
+                <div data-drawer dir="rtl" className="drawer-anim absolute inset-x-0 bottom-0 top-auto z-40 flex max-h-[86%] flex-col overflow-hidden rounded-t-3xl border-t border-slate-200 bg-white shadow-2xl sm:max-h-[74%] lg:h-[48vh] lg:max-h-none" onPointerDown={(e) => e.stopPropagation()}>
+                  {/* grab handle */}
+                  <div className="mx-auto mt-2 h-1 w-10 shrink-0 rounded-full bg-slate-300 lg:hidden" />
+                  <div className="relative shrink-0 px-5 py-3.5 text-white" style={{ background: "linear-gradient(135deg,#d62027,#8f1318)" }}>
                     <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: c }} />
                     <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0"><div className="flex items-center gap-2"><span className="font-mono text-3xl font-extrabold" dir="ltr">{t.name}</span><span className="rounded-md bg-white/20 px-2 py-0.5 text-[11px] font-bold">{t.mod}</span></div><p className="mt-1 truncate text-sm text-white/85">{t.he || t.en}</p></div>
+                      <div className="min-w-0"><div className="flex items-center gap-2"><span className="font-mono text-3xl font-extrabold" dir="ltr">{t.name}</span><span className="rounded-md bg-white/20 px-2 py-0.5 text-[11px] font-bold">{t.mod}</span></div><p className="mt-0.5 truncate text-sm text-white/85">{t.he || t.en}</p></div>
                       <button onClick={() => { setDrawer(null); }} aria-label="סגור" className="tap grid size-9 shrink-0 place-items-center rounded-xl bg-white/15 text-white ring-1 ring-white/25 transition hover:bg-white/25 active:scale-90"><X className="size-5" /></button>
                     </div>
+                    {/* promoted critical actions — always visible, no scroll */}
+                    <div className="mt-2.5 flex flex-wrap gap-1.5">
+                      <button onClick={() => { setDrawer(null); enterFocus(t.name); }} className="tap inline-flex items-center gap-1 rounded-lg bg-white px-2.5 py-1.5 text-xs font-extrabold text-[#d62027] transition hover:bg-white/90 active:scale-95"><GitBranch className="size-3.5" />ERD</button>
+                      <Link href={`/object/${encodeURIComponent(t.name)}/`} className="tap inline-flex items-center gap-1 rounded-lg bg-white/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-white/25"><Database className="size-3.5" />ידע</Link>
+                      <button onClick={() => window.dispatchEvent(new Event("neo:open-mentor"))} className="tap inline-flex items-center gap-1 rounded-lg bg-white/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-white/25"><BrainCircuit className="size-3.5" />מנטור</button>
+                      <Link href="/troubleshooting/" className="tap inline-flex items-center gap-1 rounded-lg bg-white/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-white/25"><AlertTriangle className="size-3.5" />תקלות</Link>
+                      <Link href={`/impact/${encodeURIComponent(t.name)}/`} className="tap inline-flex items-center gap-1 rounded-lg bg-white/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-white/25"><Gauge className="size-3.5" />S/4</Link>
+                    </div>
                   </div>
-                  <div className="min-h-0 flex-1 overflow-auto">
+                  <div className="min-h-0 flex-1 overflow-auto lg:columns-2 lg:gap-x-0 xl:columns-3">
                     {/* S/4HANA Impact — top section */}
-                    <div className={`px-4 py-3 ${imp && s4.impacted ? "bg-amber-50/80" : "bg-slate-50/60"}`} style={imp && s4.impacted ? { boxShadow: "inset 0 0 0 1px #fbbf24" } : undefined}>
+                    <div className={`break-inside-avoid px-4 py-3 ${imp && s4.impacted ? "bg-amber-50/80" : "bg-slate-50/60"}`} style={imp && s4.impacted ? { boxShadow: "inset 0 0 0 1px #fbbf24" } : undefined}>
                       <div className="mb-1.5 flex items-center justify-between">
                         <h4 className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-[0.12em] text-amber-700">S/4HANA Impact</h4>
                         <div className="flex items-center gap-1">
@@ -892,7 +900,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                     <Sec title="תיעוד · מטרה עסקית">
                       <p className="text-xs leading-relaxed text-slate-600">{bp?.purpose || `טבלת ${t.mod} — ${t.he || t.en}`}</p>
                     </Sec>
-                    <div className="grid grid-cols-2"><Sec title="PK" icon={<KeyRound className="size-3 text-amber-500" />}><Pills a={pk.map((f) => f[0])} /></Sec><Sec title="FK" icon={<Link2 className="size-3 text-blue-500" />}><Pills a={fk.map((f) => f[0])} /></Sec></div>
+                    <div className="grid break-inside-avoid grid-cols-2"><Sec title="PK" icon={<KeyRound className="size-3 text-amber-500" />}><Pills a={pk.map((f) => f[0])} /></Sec><Sec title="FK" icon={<Link2 className="size-3 text-blue-500" />}><Pills a={fk.map((f) => f[0])} /></Sec></div>
                     <Sec title={`שדות · ${tf.length}`}>
                       <div className="overflow-hidden rounded-xl border border-slate-100"><table className="w-full text-right font-mono text-xs" dir="ltr"><tbody>{tf.slice(0, 28).map((f) => <tr key={f[0]} onClick={() => onField(t.name, f[0])} className="cursor-pointer border-b border-slate-50 last:border-0 transition hover:bg-slate-50"><td className={`px-2.5 py-1.5 font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`}>{f[0]}</td><td className="px-2 py-1.5 text-slate-400">{f[1]}</td><td className="px-2 py-1.5 text-left">{f[3] !== "-" && <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></div>
                     </Sec>
@@ -904,7 +912,6 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                     <Sec title="אובייקטים קשורים · אב"><Pills a={parents} nav /></Sec>
                     <Sec title="אובייקטים קשורים · צאצא"><Pills a={children} nav /></Sec>
                     <Sec title="Where-Used"><Pills a={whereUsed} nav /></Sec>
-                    <div className="px-4 py-3"><button onClick={() => onModule(t.mod)} className="w-full rounded-xl py-2 text-center text-xs font-bold text-white shadow-sm transition hover:brightness-110" style={{ background: c }}>פתח מודול {t.mod} ↗</button></div>
                   </div>
                 </div>
                 </>); })()}

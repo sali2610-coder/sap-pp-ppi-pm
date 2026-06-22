@@ -115,7 +115,13 @@
       "Bash(node scripts/probe-mm5.mjs)",
       "Bash(node scripts/probe-mm6.mjs)",
       "Bash(node scripts/probe-mm7.mjs)",
-      "Bash(node scripts/parse-book3-modular.mjs)"
+      "Bash(node scripts/parse-book3-modular.mjs)",
+      "Bash(node scripts/extract-book3-figures.mjs)",
+      "Bash(echo \"FIGURES DONE exit:$?\")",
+      "Bash(node /tmp/b3-ch1a.mjs)",
+      "Bash(node /tmp/b3-ch1b.mjs)",
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch1.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')",
+      "Bash(node scripts/build-book3-full.mjs)"
     ],
     "additionalDirectories": [
       "/Users/salihalif/Desktop/My-Projects/sap/scripts"
