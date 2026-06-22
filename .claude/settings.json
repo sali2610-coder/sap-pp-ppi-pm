@@ -121,7 +121,9 @@
       "Bash(node /tmp/b3-ch1a.mjs)",
       "Bash(node /tmp/b3-ch1b.mjs)",
       "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch1.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')",
-      "Bash(node scripts/build-book3-full.mjs)"
+      "Bash(node scripts/build-book3-full.mjs)",
+      "Bash(node -e 'const j=JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(0\\)\\);console.log\\(\"ch1 he sections committed:\",Object.keys\\(j\\).length\\)')",
+      "Bash(node -e 'const j=JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(0\\)\\);const t=j.chapters.reduce\\(\\(s,c\\)=>s+c.sections.length,0\\);const tr=j.chapters.filter\\(c=>c.translated\\).length;console.log\\(`book3-full committed: ${j.chapters.length} ch, ${t} sections, ${tr} translated, ${j.pages}pp`\\)')"
     ],
     "additionalDirectories": [
       "/Users/salihalif/Desktop/My-Projects/sap/scripts"
