@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { GitBranch, BrainCircuit, Gauge, AlertTriangle, Terminal, Boxes, FileCode, Network, Lightbulb, HelpCircle, Clock4, Briefcase, ArrowLeft, GraduationCap, ShieldCheck, ArrowRightLeft } from "lucide-react";
-import { PROCESS } from "@/data/process/process-data";
+import { PROCESS, STEP_CBC } from "@/data/process/process-data";
 import { knowledgeFor } from "@/lib/knowledge";
 import { s4For, RISK_HE, RISK_COLOR, TRUST_HE } from "@/lib/s4";
 import { INCIDENTS } from "@/data/troubleshooting";
@@ -13,19 +13,21 @@ type Tbl = { name: string; mod: string; he: string; en: string; tcodes: string; 
 const splitTc = (s: string) => [...new Set((s || "").split(/[^A-Za-z0-9_]+/).map((x) => x.trim()).filter((x) => x.length >= 2 && /^[A-Z][A-Z0-9_/]*$/i.test(x)))].slice(0, 8);
 
 export function ProcessWorkspace({ code, byName, color }: { code: string; byName: Record<string, Tbl>; color: (m?: string | null) => string }) {
-  const def = PROCESS[code] || PROCESS["PM"];
+  const def = PROCESS[code] || PROCESS[code === "PP" ? "PP-PI" : "PM"] || PROCESS["PM"];
   const [i, setI] = useState(0);
   const accent = color(code);
   const s = def.steps[Math.min(i, def.steps.length - 1)];
   const t = s.object ? byName[s.object] : undefined;
   const k = s.object ? knowledgeFor(s.object) : undefined;
 
-  const tcodes = t ? splitTc(t.tcodes) : [];
   const funcs = t ? (t.funcs || []).slice(0, 8) : [];
   const cds = s.object ? cdsForTable(s.object).map((v) => v.view) : (t?.cds || []);
   const parents = t ? [...new Set(t.rel.filter((r) => r.role === "child").map((r) => r.table))] : [];
   const children = t ? [...new Set(t.rel.filter((r) => r.role === "parent").map((r) => r.table))] : [];
   const incidents = s.object ? INCIDENTS.filter((inc) => inc.tables.includes(s.object!)) : [];
+  // T-Codes from the table + enriched with diagnosis T-Codes from the incident KB
+  const tcodes = [...new Set([...(t ? splitTc(t.tcodes) : []), ...incidents.flatMap((inc) => inc.analyzeTcodes || [])])].slice(0, 10);
+  const cbcExamples = [STEP_CBC[s.id], ...incidents.map((inc) => inc.cbc).filter(Boolean) as string[]].filter(Boolean).slice(0, 3) as string[];
   const s4 = t ? s4For(s.object!, t.s4, t.s4alt) : null;
   const objHref = (n: string) => `/object/${encodeURIComponent(n)}/`;
 
@@ -90,6 +92,14 @@ export function ProcessWorkspace({ code, byName, color }: { code: string; byName
           <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
             <div className="mb-1.5 flex items-center gap-2"><ArrowRightLeft className="size-4 text-amber-600" /><h3 className="text-sm font-extrabold text-amber-800">ECC ↔ S/4HANA</h3><span className="rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: RISK_COLOR[s4.risk] }}>{RISK_HE[s4.risk]}</span><span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-bold text-slate-500">{TRUST_HE[s4.trust]}</span></div>
             <p className="text-[13px] leading-relaxed text-amber-900">{k?.s4 || s4.impact?.changed || t?.s4 || "אין הערת S/4 ברמת הטבלה — נדרש אימות מול Simplification List / OSS."}</p>
+          </div>
+        )}
+
+        {/* CBC examples — concrete plant-floor scenarios */}
+        {cbcExamples.length > 0 && (
+          <div className="rounded-2xl border border-[#d62027]/20 bg-[#d62027]/[0.04] p-4">
+            <h3 className="mb-2 flex items-center gap-1.5 text-sm font-extrabold text-[#d62027]"><Briefcase className="size-4" />דוגמאות מ-CBC</h3>
+            <ul className="space-y-2">{cbcExamples.map((ex, idx) => <li key={idx} className="flex gap-2 text-[13px] leading-relaxed text-slate-700"><span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-[#d62027]" />{ex}</li>)}</ul>
           </div>
         )}
 
