@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand, ChevronDown, Database, GitBranch, Workflow, Clock, RotateCcw } from "lucide-react";
+import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand, ChevronDown, Database, GitBranch, Workflow, Clock, RotateCcw, Copy, Check, Gauge, BrainCircuit, Terminal, AlertTriangle, ArrowRightLeft, Network, Boxes } from "lucide-react";
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
 import { Highlight } from "@/components/highlight";
 import { s4For, TRUST_HE, RISK_HE, RISK_COLOR } from "@/lib/s4";
+import { knowledgeFor } from "@/lib/knowledge";
+import { INCIDENTS } from "@/data/troubleshooting";
+import Link from "next/link";
 import { loadGraphMemory, saveGraphMemory, loadLayout, saveLayout } from "@/lib/prefs";
 import dagre from "dagre";
 import { ProcessWorkspace } from "@/components/process-workspace";
@@ -251,16 +254,122 @@ function ProcessFlow({ color, code }: { color: (m?: string | null) => string; co
   );
 }
 
+const TECH_MASTER = new Set(["MARA", "MARC", "EQUI", "EQKT", "IFLOT", "IFLOS", "ILOA", "CRHD", "CRTX", "MCH1", "MCHA", "STKO", "STPO", "MAST", "OBJK", "MKAL", "MAPL", "BUT000"]);
+const TECH_TXN = new Set(["AUFK", "AFKO", "AFPO", "AFVC", "AFIH", "AFRU", "QMEL", "QMFE", "QMMA", "QMUR", "QMSM", "QMFE", "RESB", "MSEG", "MKPF", "EBAN", "EBKN", "COBRA", "COBRB", "COSP", "COSS", "JEST", "JSTO"]);
+type TechCat = "master" | "transaction" | "config" | "core" | "cross";
+const TECH_CAT: Record<TechCat, { he: string; c: string }> = {
+  master: { he: "אב נתונים", c: "#2563eb" }, transaction: { he: "תנועה", c: "#d97706" },
+  config: { he: "קונפיגורציה", c: "#64748b" }, core: { he: "ליבה", c: "#d62027" }, cross: { he: "חוצה-מודול", c: "#7c3aed" },
+};
+function techCat(t: Tbl): TechCat {
+  if (/^T\d/.test(t.name) || /^T\w*\d/.test(t.name) || /Customizing|הגדרת|קונפיג/.test(t.he || "")) return "config";
+  if (TECH_MASTER.has(t.name)) return "master";
+  if (TECH_TXN.has(t.name)) return "transaction";
+  if (t.degree >= 6) return "core";
+  return "cross";
+}
+const splitTcodes = (s: string) => [...new Set((s || "").split(/[^A-Za-z0-9_/]+/).map((x) => x.trim()).filter((x) => x.length >= 2 && /^[A-Z][A-Z0-9_/]*$/i.test(x)))];
+
 function TechList({ data, color, code, onTable }: { data: Data; color: (m?: string | null) => string; code: string; onTable: (t: string) => void }) {
   const list = erdMembers(data, code);
+  const [q, setQ] = useState("");
+  const [cat, setCat] = useState<"all" | TechCat>("all");
+  const [open, setOpen] = useState<string | null>(null);
+  const [copied, setCopied] = useState<string | null>(null);
+  const copy = (n: string) => { try { navigator.clipboard?.writeText(n); setCopied(n); setTimeout(() => setCopied((c) => (c === n ? null : c)), 1200); } catch { /* noop */ } };
+
+  const rows = list.map((t) => ({ t, cat: techCat(t) }));
+  const counts = rows.reduce((a, r) => ((a[r.cat] = (a[r.cat] || 0) + 1), a), {} as Record<string, number>);
+  const lc = q.trim().toLowerCase();
+  const shown = rows.filter((r) => (cat === "all" || r.cat === cat) && (!lc || r.t.name.toLowerCase().includes(lc) || (r.t.he || "").toLowerCase().includes(lc) || (r.t.tcodes || "").toLowerCase().includes(lc)));
+
+  const Act = ({ icon, label, onClick, href }: { icon: React.ReactNode; label: string; onClick?: (e: React.MouseEvent) => void; href?: string }) => {
+    const cls = "tap grid size-8 place-items-center rounded-lg border border-slate-200 bg-white text-slate-500 transition hover:border-brand/40 hover:text-brand active:scale-90";
+    return href ? <Link href={href} title={label} aria-label={label} onClick={(e) => e.stopPropagation()} className={cls}>{icon}</Link>
+      : <button title={label} aria-label={label} onClick={(e) => { e.stopPropagation(); onClick?.(e); }} className={cls}>{icon}</button>;
+  };
+
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <table className="w-full text-right text-sm">
-        <thead className="bg-slate-50 text-[11px] uppercase text-slate-400"><tr><th className="px-3 py-2 font-semibold">טבלה</th><th className="px-3 py-2 font-semibold">תיאור</th><th className="px-3 py-2 font-semibold">PK</th><th className="px-3 py-2 font-semibold">קשרים</th><th className="px-3 py-2 font-semibold">T-Codes</th></tr></thead>
-        <tbody>{list.map((t) => (<tr key={t.name} onClick={() => onTable(t.name)} className="cursor-pointer border-t border-slate-100 hover:bg-slate-50">
-          <td className="px-3 py-2 font-mono font-bold" style={{ color: color(t.mod) }}>{t.name}</td><td className="px-3 py-2 text-slate-600">{t.he || t.en}</td>
-          <td className="px-3 py-2 font-mono text-xs text-amber-600">{t.pk.join(", ") || "—"}</td><td className="px-3 py-2 text-slate-500">{t.degree}</td><td className="px-3 py-2 font-mono text-xs text-slate-500">{t.tcodes || "—"}</td></tr>))}</tbody>
-      </table>
+    <div className="space-y-3" dir="rtl">
+      {/* search + filter */}
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+        <div className="relative flex-1">
+          <Search className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-slate-300" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש טבלה, תיאור או T-Code…" className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pe-3 ps-9 text-sm font-medium outline-none focus:border-brand/40" />
+        </div>
+        <div className="flex flex-wrap gap-1.5">
+          {([["all", "הכל"], ["master", TECH_CAT.master.he], ["transaction", TECH_CAT.transaction.he], ["config", TECH_CAT.config.he], ["core", TECH_CAT.core.he], ["cross", TECH_CAT.cross.he]] as const).map(([id, label]) => {
+            const active = cat === id; const cc = id === "all" ? "#0f172a" : TECH_CAT[id as TechCat].c;
+            return <button key={id} onClick={() => setCat(id)} className={`rounded-full px-2.5 py-1 text-[11px] font-bold transition active:scale-95 ${active ? "text-white shadow-sm" : "bg-white text-slate-500 ring-1 ring-slate-200 hover:ring-brand/40"}`} style={active ? { background: cc } : undefined}>{label}{id !== "all" && counts[id] ? ` ${counts[id]}` : ""}</button>;
+          })}
+        </div>
+      </div>
+      <p className="text-[11px] font-bold text-slate-400">{shown.length} טבלאות</p>
+
+      {/* card rows */}
+      <div className="space-y-2">
+        {shown.map(({ t, cat: tc }) => {
+          const c = color(t.mod); const cm = TECH_CAT[tc]; const isOpen = open === t.name;
+          const tcodes = splitTcodes(t.tcodes).slice(0, 6);
+          const k = knowledgeFor(t.name); const s4 = s4For(t.name, t.s4, t.s4alt);
+          const parents = [...new Set(t.rel.filter((r) => r.role === "child").map((r) => r.table))];
+          const children = [...new Set(t.rel.filter((r) => r.role === "parent").map((r) => r.table))];
+          const inc = INCIDENTS.filter((i) => i.tables.includes(t.name));
+          const topFields = (FIELDS_PLUS[t.name] || t.fields || []).slice(0, 12);
+          return (
+            <div key={t.name} className={`overflow-hidden rounded-2xl border bg-white shadow-sm transition ${isOpen ? "border-transparent ring-1" : "border-slate-200 hover:border-brand/30"}`} style={isOpen ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : undefined}>
+              <div className="flex cursor-pointer items-center gap-3 p-3.5" onClick={() => setOpen(isOpen ? null : t.name)}>
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: c }}><Database className="size-5" /></span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="tech font-mono text-base font-extrabold text-slate-900" dir="ltr">{t.name}</span>
+                    <span className="rounded-full px-1.5 py-0.5 text-[9px] font-extrabold text-white" style={{ background: cm.c }}>{cm.he}</span>
+                    <span className="rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: c }}>{t.mod}</span>
+                    {s4.impacted && <span className="rounded-md bg-amber-400 px-1.5 py-0.5 text-[9px] font-extrabold text-amber-950">S/4</span>}
+                  </div>
+                  <p className="mt-0.5 truncate text-sm font-medium text-slate-500">{t.he || t.en}</p>
+                  <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-bold text-slate-400">
+                    {t.pk.length > 0 && <span className="flex items-center gap-1"><KeyRound className="size-3 text-amber-500" />{t.pk.join(", ")}</span>}
+                    {tcodes.length > 0 && <span className="flex items-center gap-1" dir="ltr"><Terminal className="size-3" />{tcodes.slice(0, 3).join(", ")}</span>}
+                    <span className="flex items-center gap-1"><Network className="size-3" />{t.degree} קשרים</span>
+                  </div>
+                </div>
+                <ChevronDown className={`size-4 shrink-0 text-slate-300 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+              </div>
+              {/* quick actions */}
+              <div className="flex items-center gap-1.5 border-t border-slate-100 px-3.5 py-2">
+                <button onClick={(e) => { e.stopPropagation(); onTable(t.name); }} className="tap inline-flex items-center gap-1.5 rounded-lg bg-brand px-3 py-1.5 text-xs font-bold text-white transition hover:bg-brand-dark active:scale-95"><Maximize2 className="size-3.5" />פתח אובייקט</button>
+                <Act icon={<GitBranch className="size-4" />} label="פתח בגרף" href={`/sap-infrastructure/?focus=${encodeURIComponent(t.name)}`} />
+                <Act icon={<Gauge className="size-4" />} label="ניתוח השפעה" href={`/impact/${encodeURIComponent(t.name)}/`} />
+                <Act icon={<BrainCircuit className="size-4" />} label="שאל מנטור" onClick={() => window.dispatchEvent(new Event("neo:open-mentor"))} />
+                <Act icon={copied === t.name ? <Check className="size-4 text-emerald-600" /> : <Copy className="size-4" />} label="העתק שם טבלה" onClick={() => copy(t.name)} />
+              </div>
+              {/* expandable details */}
+              {isOpen && (
+                <div className="space-y-3 border-t border-slate-100 bg-slate-50/50 p-4" style={{ animation: "fadeUp .2s ease both" }}>
+                  {(k || data.blueprints.find((b) => b.code === t.mod)) && <div><div className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">מטרה עסקית</div><p className="text-sm leading-relaxed text-slate-700">{k?.why || data.blueprints.find((b) => b.code === t.mod)?.purpose || t.he}</p></div>}
+                  {topFields.length > 0 && (
+                    <div><div className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">שדות עיקריים</div>
+                      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white"><table className="w-full text-right font-mono text-xs" dir="ltr"><tbody>{topFields.map((f) => <tr key={f[0]} className="border-b border-slate-50 last:border-0"><td className={`px-2.5 py-1.5 font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`}>{f[0]}</td><td className="px-2 py-1.5 text-slate-400">{f[1]}</td><td className="px-2 py-1.5 text-left">{f[3] !== "-" && <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></div></div>
+                  )}
+                  {(parents.length > 0 || children.length > 0) && (
+                    <div className="grid gap-2 sm:grid-cols-2">
+                      <div><div className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">אובייקטים קשורים · אב</div><div className="flex flex-wrap gap-1">{parents.length ? parents.map((x) => <span key={x} className="tech rounded-md border border-slate-200 bg-white px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600" dir="ltr">{x}</span>) : <span className="text-[11px] italic text-slate-300">—</span>}</div></div>
+                      <div><div className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">צאצא</div><div className="flex flex-wrap gap-1">{children.length ? children.map((x) => <span key={x} className="tech rounded-md border border-slate-200 bg-white px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600" dir="ltr">{x}</span>) : <span className="text-[11px] italic text-slate-300">—</span>}</div></div>
+                    </div>
+                  )}
+                  <div className="rounded-xl bg-amber-50 p-2.5"><div className="mb-0.5 flex items-center gap-1.5 text-[11px] font-extrabold text-amber-800"><ArrowRightLeft className="size-3.5" />ECC ↔ S/4 <span className="rounded-full px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: RISK_COLOR[s4.risk] }}>{RISK_HE[s4.risk]}</span></div><p className="text-[12px] leading-relaxed text-amber-900">{k?.s4 || s4.impact?.changed || t.s4 || "אין הערת S/4 ברמת הטבלה — נדרש אימות מול Simplification List / OSS."}</p></div>
+                  {inc.length > 0 && (
+                    <div><div className="mb-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400"><AlertTriangle className="size-3.5 text-amber-500" />תקלות נפוצות · {inc.length}</div>
+                      <div className="space-y-1">{inc.slice(0, 3).map((i) => <Link key={i.slug} href={`/troubleshooting/${i.slug}/`} onClick={(e) => e.stopPropagation()} className="block rounded-lg border border-slate-100 bg-white px-2.5 py-1.5 text-[12px] font-bold text-slate-700 transition hover:border-amber-300 hover:bg-amber-50">{i.he}</Link>)}</div></div>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })}
+        {shown.length === 0 && <p className="py-10 text-center text-sm text-slate-400">לא נמצאו טבלאות.</p>}
+      </div>
     </div>
   );
 }
