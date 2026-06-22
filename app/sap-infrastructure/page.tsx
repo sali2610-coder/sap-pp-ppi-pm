@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, ArrowRight, Hand, ChevronDown, Database, GitBranch, Workflow, Clock, RotateCcw, Copy, Check, Gauge, BrainCircuit, Terminal, AlertTriangle, ArrowRightLeft, Network, Boxes } from "lucide-react";
+import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, ArrowRight, Hand, ChevronDown, Database, GitBranch, Workflow, Clock, RotateCcw, Copy, Check, Gauge, BrainCircuit, Terminal, AlertTriangle, ArrowRightLeft, Network, Boxes, BookOpen, GraduationCap, Wrench, Cpu, Bug, Lightbulb, ArrowUpRight } from "lucide-react";
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
 import { Highlight } from "@/components/highlight";
 import { s4For, TRUST_HE, RISK_HE, RISK_COLOR } from "@/lib/s4";
-import { knowledgeFor } from "@/lib/knowledge";
+import { knowledgeFor, IMPORTANCE_HE, IMPORTANCE_COLOR } from "@/lib/knowledge";
+import { interviewFor, type Level } from "@/data/knowledge/interview";
 import { INCIDENTS } from "@/data/troubleshooting";
 import Link from "next/link";
 import { loadGraphMemory, saveGraphMemory, loadLayout, saveLayout } from "@/lib/prefs";
@@ -203,7 +204,7 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
       {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} onTable={onTable} />}
       {tab === "process" && <ProcessWorkspace code={code} byName={byName} color={color} />}
       {tab === "erd" && <Erd data={data} color={color} code={code} byName={byName} focus={focus} onField={onField} onHome={onHome} onModule={onModule} />}
-      {tab === "technical" && <TechList data={data} color={color} code={code} onTable={onTable} />}
+      {tab === "technical" && <TechCenter data={data} color={color} code={code} byName={byName} onTable={onTable} />}
     </div>
   );
 }
@@ -270,27 +271,251 @@ function techCat(t: Tbl): TechCat {
 }
 const splitTcodes = (s: string) => [...new Set((s || "").split(/[^A-Za-z0-9_/]+/).map((x) => x.trim()).filter((x) => x.length >= 2 && /^[A-Z][A-Z0-9_/]*$/i.test(x)))];
 
-function TechList({ data, color, code, onTable }: { data: Data; color: (m?: string | null) => string; code: string; onTable: (t: string) => void }) {
+/* ===== SAP Technical Knowledge Center ===== */
+const relsOf = (t: Tbl) => ({
+  parents: [...new Set(t.rel.filter((r) => r.role === "child").map((r) => r.table))],
+  children: [...new Set(t.rel.filter((r) => r.role === "parent").map((r) => r.table))],
+});
+const KSECTIONS = [
+  { id: "overview", he: "סקירה", icon: BookOpen },
+  { id: "fields", he: "שדות מפתח", icon: KeyRound },
+  { id: "relations", he: "קשרים", icon: Network },
+  { id: "usage", he: "שימוש ב-SAP", icon: Terminal },
+  { id: "trouble", he: "פתרון תקלות", icon: Wrench },
+  { id: "s4", he: "ECC מול S/4", icon: ArrowRightLeft },
+  { id: "interview", he: "הכנה לראיון", icon: GraduationCap },
+] as const;
+const LEVEL_HE: Record<Level, { he: string; c: string }> = { junior: { he: "זוטר", c: "#0891b2" }, senior: { he: "בכיר", c: "#d97706" }, architect: { he: "ארכיטקט", c: "#7c3aed" } };
+
+/* relationship hub diagram — parents above, object in center, children below */
+function MiniRel({ t, color, byName, onOpen }: { t: Tbl; color: (m?: string | null) => string; byName: Record<string, Tbl>; onOpen: (n: string) => void }) {
+  const { parents, children } = relsOf(t);
+  const ps = parents.slice(0, 6), cs = children.slice(0, 6);
+  const W = 760, rowY = { p: 46, c: 234 }, midY = 140, H = 280;
+  const xs = (n: number, i: number) => n <= 1 ? W / 2 : 70 + (i * (W - 140)) / (n - 1);
+  const cardMod = (n: string) => byName[n]?.mod;
+  const Node = ({ n, x, y, center }: { n: string; x: number; y: number; center?: boolean }) => {
+    const known = !!byName[n]; const cc = center ? "#0f172a" : color(cardMod(n)); const w = center ? 130 : 104; const h = center ? 46 : 36;
+    return (
+      <g transform={`translate(${x - w / 2},${y - h / 2})`} className={known && !center ? "cursor-pointer" : ""} onClick={() => known && !center && onOpen(n)}>
+        <rect width={w} height={h} rx={center ? 12 : 9} fill={center ? "#0f172a" : "#fff"} stroke={cc} strokeWidth={center ? 0 : 1.6} className="transition" style={center ? undefined : { filter: "drop-shadow(0 1px 2px rgba(15,23,42,.08))" }} />
+        <text x={w / 2} y={h / 2 + (center ? 5 : 4)} textAnchor="middle" fontSize={center ? 18 : 13} fontWeight={800} fill={center ? "#fff" : "#0f172a"} fontFamily="ui-monospace,monospace">{n}</text>
+      </g>
+    );
+  };
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ maxHeight: 300 }}>
+      {ps.map((n, i) => <line key={`pl${n}`} x1={xs(ps.length, i)} y1={rowY.p + 18} x2={W / 2} y2={midY - 24} stroke="#cbd5e1" strokeWidth={1.4} className="flowline" />)}
+      {cs.map((n, i) => <line key={`cl${n}`} x1={W / 2} y1={midY + 24} x2={xs(cs.length, i)} y2={rowY.c - 18} stroke="#cbd5e1" strokeWidth={1.4} className="flowline" />)}
+      {ps.length > 0 && <text x={W / 2} y={16} textAnchor="middle" fontSize={11} fontWeight={700} fill="#94a3b8">טבלאות אב ↑</text>}
+      {cs.length > 0 && <text x={W / 2} y={H - 4} textAnchor="middle" fontSize={11} fontWeight={700} fill="#94a3b8">↓ טבלאות צאצא</text>}
+      {ps.map((n, i) => <Node key={`p${n}`} n={n} x={xs(ps.length, i)} y={rowY.p} />)}
+      {cs.map((n, i) => <Node key={`c${n}`} n={n} x={xs(cs.length, i)} y={rowY.c} />)}
+      <Node n={t.name} x={W / 2} y={midY} center />
+    </svg>
+  );
+}
+
+function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: { name: string; data: Data; color: (m?: string | null) => string; byName: Record<string, Tbl>; onTable: (t: string) => void; onClose: () => void; onOpen: (n: string) => void }) {
+  const t = byName[name];
+  const [active, setActive] = useState<string>("overview");
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const secRef = useRef<Record<string, HTMLElement | null>>({});
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => { document.body.style.overflow = ""; window.removeEventListener("keydown", onKey); };
+  }, [onClose]);
+
+  const k = t ? knowledgeFor(t.name) : undefined;
+  const s4 = t ? s4For(t.name, t.s4, t.s4alt) : null;
+  const fields = t ? fieldsOf(t) : [];
+  const pk = fields.filter((f) => f[3] === "PK");
+  const fk = fields.filter((f) => f[3] === "FK");
+  const tcodes = t ? splitTcodes(t.tcodes) : [];
+  const incidents = t ? INCIDENTS.filter((i) => i.tables.includes(t.name)) : [];
+  const iqs = t ? interviewFor(t.name) : [];
+  const mistakes = [...new Set(incidents.flatMap((i) => i.rootCauses))].slice(0, 8);
+  const debugSteps = [...new Set(incidents.flatMap((i) => i.debugEntry))].slice(0, 6);
+  const debugTx = [...new Set(incidents.flatMap((i) => [...i.analyzeTcodes, ...i.exits]))].slice(0, 14);
+
+  const has: Record<string, boolean> = {
+    overview: true, fields: fields.length > 0, relations: !!t && (relsOf(t).parents.length + relsOf(t).children.length > 0),
+    usage: tcodes.length > 0 || !!t?.funcs?.length || !!t?.cds?.length || !!t?.fiori, trouble: incidents.length > 0, s4: true, interview: iqs.length > 0,
+  };
+  const secs = KSECTIONS.filter((s) => has[s.id]);
+
+  useEffect(() => {
+    const root = scrollRef.current; if (!root) return;
+    const io = new IntersectionObserver((es) => { es.forEach((e) => { if (e.isIntersecting) setActive((e.target as HTMLElement).id); }); }, { root, rootMargin: "-20% 0px -65% 0px", threshold: 0 });
+    secs.forEach((s) => { const el = secRef.current[s.id]; if (el) io.observe(el); });
+    return () => io.disconnect();
+  }, [name]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (!t) return null;
+  const c = color(t.mod); const cm = TECH_CAT[techCat(t)];
+  const go = (id: string) => secRef.current[id]?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const importantFields = fields.filter((f) => f[3] === "-").slice(0, 18);
+
+  const Card = ({ id, title, icon, accent, children: ch, sub }: { id: string; title: string; icon: React.ReactNode; accent?: string; sub?: string; children: React.ReactNode }) => (
+    <section id={id} ref={(el) => { secRef.current[id] = el; }} className="scroll-mt-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+      <div className="mb-3 flex items-center gap-2.5">
+        <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: accent || c }}>{icon}</span>
+        <div><h3 className="text-lg font-extrabold text-slate-900">{title}</h3>{sub && <p className="text-xs font-medium text-slate-400">{sub}</p>}</div>
+      </div>
+      {ch}
+    </section>
+  );
+  const Chips = ({ a, dir: d, mono }: { a: string[]; dir?: string; mono?: boolean }) => a.length ? <div className="flex flex-wrap gap-1.5" dir={d}>{a.map((x) => <span key={x} className={`rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-[12px] font-bold text-slate-700 ${mono ? "tech font-mono" : ""}`}>{x}</span>)}</div> : <span className="text-sm italic text-slate-300">—</span>;
+  const Lbl = ({ children: ch }: { children: React.ReactNode }) => <div className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-slate-400">{ch}</div>;
+  const FieldTable = ({ rows: fr }: { rows: Field[] }) => (
+    <div className="overflow-hidden rounded-xl border border-slate-200"><table className="w-full text-right font-mono text-[13px]" dir="ltr"><tbody>{fr.map((f) => <tr key={f[0]} className="border-b border-slate-50 last:border-0 odd:bg-slate-50/40"><td className={`px-3 py-1.5 font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`}>{f[0]}</td><td className="px-2 py-1.5 text-slate-400">{f[1]}</td><td className="px-2 py-1.5 text-left">{f[3] !== "-" && <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></div>
+  );
+
+  return (
+    <div className="fixed inset-0 z-[60] flex flex-col bg-slate-50" dir="rtl" style={{ animation: "fadeIn .2s ease both" }}>
+      {/* header */}
+      <header className="shrink-0 border-b border-slate-200 bg-white/95 backdrop-blur">
+        <div className="mx-auto flex max-w-[1500px] items-center gap-3 px-4 py-3 lg:px-8">
+          <button onClick={onClose} className="tap inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand active:scale-95"><ArrowRight className="size-4" />חזרה</button>
+          <span className="grid size-11 shrink-0 place-items-center rounded-2xl text-white shadow-sm" style={{ background: c }}><Database className="size-5" /></span>
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="tech font-mono text-2xl font-extrabold text-slate-900" dir="ltr">{t.name}</span>
+              <span className="rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: cm.c }}>{cm.he}</span>
+              <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: c }}>{t.mod}</span>
+              {k && <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: IMPORTANCE_COLOR[k.importance] }}>{IMPORTANCE_HE[k.importance]}</span>}
+              {s4?.impacted && <span className="rounded-md bg-amber-400 px-2 py-0.5 text-[10px] font-extrabold text-amber-950">S/4 שינוי</span>}
+            </div>
+            <p className="truncate text-sm font-medium text-slate-500">{t.he || t.en}</p>
+          </div>
+          <div className="hidden items-center gap-1.5 sm:flex">
+            <button onClick={() => onTable(t.name)} className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-3 py-2 text-sm font-bold text-white transition hover:bg-brand-dark active:scale-95"><Maximize2 className="size-4" />דף אובייקט</button>
+            <Link href={`/sap-infrastructure/?focus=${encodeURIComponent(t.name)}`} title="פתח בגרף ERD" className="tap grid size-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-brand/40 hover:text-brand"><GitBranch className="size-4" /></Link>
+            <Link href={`/impact/${encodeURIComponent(t.name)}/`} title="ניתוח השפעה S/4" className="tap grid size-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-brand/40 hover:text-brand"><Gauge className="size-4" /></Link>
+            <button onClick={() => window.dispatchEvent(new Event("neo:open-mentor"))} title="שאל מנטור" className="tap grid size-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-brand/40 hover:text-brand"><BrainCircuit className="size-4" /></button>
+          </div>
+        </div>
+        {/* section tabs (mobile + scroll) */}
+        <div className="mx-auto flex max-w-[1500px] gap-1 overflow-x-auto px-4 pb-2 lg:hidden">
+          {secs.map((s) => <button key={s.id} onClick={() => go(s.id)} className={`shrink-0 rounded-full px-3 py-1 text-[12px] font-bold transition ${active === s.id ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-500"}`}>{s.he}</button>)}
+        </div>
+      </header>
+
+      {/* body */}
+      <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
+        <div className="mx-auto grid max-w-[1500px] gap-6 px-4 py-6 lg:grid-cols-[212px_1fr] lg:px-8">
+          {/* rail */}
+          <nav className="hidden lg:block">
+            <div className="sticky top-4 space-y-1">
+              {secs.map((s) => { const Ic = s.icon; const on = active === s.id; return (
+                <button key={s.id} onClick={() => go(s.id)} className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-right text-sm font-bold transition ${on ? "bg-white text-slate-900 shadow-sm ring-1 ring-slate-200" : "text-slate-500 hover:bg-white/70 hover:text-slate-900"}`}>
+                  <Ic className="size-4 shrink-0" style={on ? { color: c } : undefined} />{s.he}
+                </button>
+              ); })}
+              <div className="!mt-3 rounded-xl border border-slate-200 bg-white p-3 text-center"><div className="text-[10px] font-bold uppercase text-slate-400">דרגת חשיבות</div><div className="mt-0.5 text-sm font-extrabold" style={{ color: k ? IMPORTANCE_COLOR[k.importance] : "#64748b" }}>{k ? IMPORTANCE_HE[k.importance] : "כללי"}</div></div>
+            </div>
+          </nav>
+
+          {/* content */}
+          <div className="min-w-0 space-y-5">
+            <Card id="overview" title="סקירה" icon={<BookOpen className="size-4" />} sub="מה האובייקט, למה הוא קיים ומתי משתמשים בו">
+              <div className="grid gap-4 lg:grid-cols-3">
+                <div className="rounded-2xl bg-slate-50 p-4"><Lbl>מה זה</Lbl><p className="text-sm leading-relaxed text-slate-700">{k?.role || `${cm.he} במודול ${t.mod} — ${t.he || t.en}.`}</p></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><Lbl>מטרה עסקית</Lbl><p className="text-sm leading-relaxed text-slate-700">{k?.why || data.blueprints.find((b) => b.code === t.mod)?.purpose || "נדרש אימות — מטרת הטבלה לא תועדה במאגר."}</p></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><Lbl>מתי משתמשים</Lbl><p className="text-sm leading-relaxed text-slate-700">{k?.whenUsed || "—"}</p>{k?.step && <span className="mt-2 inline-block rounded-md bg-white px-2 py-0.5 text-[11px] font-bold text-slate-600 ring-1 ring-slate-200">{k.step}</span>}</div>
+              </div>
+              {!k && <p className="mt-3 text-[11px] font-bold text-amber-600">⚠ חלק מהטקסט נגזר מהמודול — אובייקט זה טרם תויג ידנית.</p>}
+            </Card>
+
+            {has.fields && <Card id="fields" title="שדות מפתח" icon={<KeyRound className="size-4" />} sub={`${fields.length} שדות · ${pk.length} PK · ${fk.length} FK`}>
+              <div className="grid gap-4 lg:grid-cols-2">
+                <div><Lbl>מפתח ראשי (PK)</Lbl>{pk.length ? <FieldTable rows={pk} /> : <span className="text-sm italic text-slate-300">—</span>}</div>
+                <div><Lbl>מפתח זר (FK)</Lbl>{fk.length ? <FieldTable rows={fk} /> : <span className="text-sm italic text-slate-300">—</span>}</div>
+              </div>
+              {importantFields.length > 0 && <div className="mt-4"><Lbl>שדות חשובים נוספים</Lbl><div className="lg:columns-2 lg:gap-4">{[importantFields].map((r, i) => <div key={i} className="break-inside-avoid"><FieldTable rows={r} /></div>)}</div></div>}
+            </Card>}
+
+            {has.relations && <Card id="relations" title="קשרים" icon={<Network className="size-4" />} sub="טבלאות אב, צאצא והדמיה גרפית — לחיצה על אובייקט פותחת אותו">
+              <div className="rounded-2xl border border-slate-100 bg-slate-50/50 p-2"><MiniRel t={t} color={color} byName={byName} onOpen={onOpen} /></div>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <div><Lbl>טבלאות אב</Lbl><Chips a={relsOf(t).parents} dir="ltr" mono /></div>
+                <div><Lbl>טבלאות צאצא</Lbl><Chips a={relsOf(t).children} dir="ltr" mono /></div>
+              </div>
+            </Card>}
+
+            {has.usage && <Card id="usage" title="שימוש ב-SAP" icon={<Terminal className="size-4" />} sub="טרנזקציות, תוכניות, BAPIs, CDS ו-Fiori" accent="#334155">
+              <div className="grid gap-4 lg:grid-cols-2">
+                <div><Lbl><span className="inline-flex items-center gap-1"><Terminal className="size-3" />T-Codes</span></Lbl><Chips a={tcodes} dir="ltr" mono /></div>
+                <div><Lbl><span className="inline-flex items-center gap-1"><Cpu className="size-3" />BAPIs / Function Modules</span></Lbl><Chips a={t.funcs || []} dir="ltr" mono /></div>
+                <div><Lbl>CDS Views</Lbl><Chips a={t.cds || []} dir="ltr" mono /></div>
+                <div><Lbl>Fiori Apps</Lbl>{t.fiori ? <p className="text-sm font-medium text-slate-700">{t.fiori}</p> : <span className="text-sm italic text-slate-300">—</span>}</div>
+              </div>
+            </Card>}
+
+            {has.trouble && <Card id="trouble" title="פתרון תקלות" icon={<Wrench className="size-4" />} sub={`${incidents.length} תקלות נפוצות הקשורות לאובייקט`} accent="#dc2626">
+              <div className="grid gap-4 lg:grid-cols-2">
+                <div><Lbl><span className="inline-flex items-center gap-1"><AlertTriangle className="size-3 text-amber-500" />תקלות נפוצות</span></Lbl>
+                  <div className="space-y-1.5">{incidents.slice(0, 6).map((i) => <Link key={i.slug} href={`/troubleshooting/${i.slug}/`} className="flex items-center justify-between gap-2 rounded-xl border border-slate-100 bg-white px-3 py-2 text-[13px] font-bold text-slate-700 transition hover:border-red-300 hover:bg-red-50"><span className="min-w-0 truncate">{i.he}</span><ArrowUpRight className="size-3.5 shrink-0 text-slate-300" /></Link>)}</div>
+                </div>
+                <div className="space-y-4">
+                  {mistakes.length > 0 && <div><Lbl><span className="inline-flex items-center gap-1"><Lightbulb className="size-3 text-amber-500" />טעויות נפוצות</span></Lbl><ul className="space-y-1">{mistakes.map((m, i) => <li key={i} className="flex gap-2 text-[13px] leading-relaxed text-slate-600"><span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-amber-400" />{m}</li>)}</ul></div>}
+                  {(debugSteps.length > 0 || debugTx.length > 0) && <div><Lbl><span className="inline-flex items-center gap-1"><Bug className="size-3 text-rose-500" />נקודות דיבוג</span></Lbl>{debugSteps.length > 0 && <ul className="mb-2 space-y-1">{debugSteps.map((d, i) => <li key={i} className="rounded-lg bg-slate-900 px-2.5 py-1.5 font-mono text-[11px] text-emerald-300" dir="ltr">{d}</li>)}</ul>}<Chips a={debugTx} dir="ltr" mono /></div>}
+                </div>
+              </div>
+            </Card>}
+
+            <Card id="s4" title="ECC מול S/4HANA" icon={<ArrowRightLeft className="size-4" />} sub="מה השתנה, מה נשאר ושיקולי הגירה" accent="#d97706">
+              <div className="grid gap-4 lg:grid-cols-3">
+                <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4"><div className="mb-1 flex items-center justify-between"><Lbl>מה השתנה</Lbl><span className="rounded-full px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: RISK_COLOR[s4!.risk] }}>{RISK_HE[s4!.risk]}</span></div><p className="text-[13px] leading-relaxed text-amber-900">{k?.s4 || s4!.impact?.changed || t.s4 || "אין הערת S/4 ברמת הטבלה — נדרש אימות מול Simplification List / OSS."}</p></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><Lbl>מה נשאר</Lbl><p className="text-[13px] leading-relaxed text-slate-700">{s4!.impacted ? "מבנה המפתח והקשרים הלוגיים נשמרים ברוב המקרים; קוד מותאם הקורא ישירות לטבלה דורש בדיקה." : "הטבלה נשמרת ב-S/4 ללא שינוי מבני מהותי הידוע במאגר."}</p></div>
+                <div className="rounded-2xl bg-slate-50 p-4"><Lbl>שיקולי הגירה</Lbl><p className="text-[13px] leading-relaxed text-slate-700">{s4!.impact?.note || (s4!.impacted ? "בדוק גישות ישירות בקוד Z, CDS חלופי ו-Compatibility Views לפני העלייה." : "אין פעולה ייעודית ידועה — אמת מול תוכנית ההגירה הספציפית.")}</p>{t.s4alt && <span className="mt-2 inline-block rounded-md bg-white px-2 py-0.5 font-mono text-[11px] font-bold text-slate-600 ring-1 ring-slate-200" dir="ltr">חלופה: {t.s4alt}</span>}</div>
+              </div>
+            </Card>
+
+            {has.interview && <Card id="interview" title="הכנה לראיון" icon={<GraduationCap className="size-4" />} sub={`${iqs.length} שאלות לפי רמת בכירות · ידע SAP מתוקף`} accent="#7c3aed">
+              <div className="space-y-2.5">{iqs.map((iq, i) => (
+                <details key={i} className="group rounded-2xl border border-slate-200 bg-white p-0 [&_summary]:list-none">
+                  <summary className="flex cursor-pointer items-start gap-2.5 p-4">
+                    <span className="mt-0.5 shrink-0 rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: LEVEL_HE[iq.level].c }}>{LEVEL_HE[iq.level].he}</span>
+                    <span className="flex-1 text-[14px] font-bold text-slate-800">{iq.q}</span>
+                    {iq.aHe && <ChevronDown className="size-4 shrink-0 text-slate-300 transition-transform group-open:rotate-180" />}
+                  </summary>
+                  {iq.aHe && <p className="border-t border-slate-100 px-4 py-3 text-[13px] leading-relaxed text-slate-600">{iq.aHe}</p>}
+                </details>
+              ))}</div>
+            </Card>}
+            <div className="h-4" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TechCenter({ data, color, code, byName, onTable }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; onTable: (t: string) => void }) {
   const list = erdMembers(data, code);
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<"all" | TechCat>("all");
-  const [open, setOpen] = useState<string | null>(null);
-  const [copied, setCopied] = useState<string | null>(null);
-  const copy = (n: string) => { try { navigator.clipboard?.writeText(n); setCopied(n); setTimeout(() => setCopied((c) => (c === n ? null : c)), 1200); } catch { /* noop */ } };
+  const [sel, setSel] = useState<string | null>(null);
 
   const rows = list.map((t) => ({ t, cat: techCat(t) }));
   const counts = rows.reduce((a, r) => ((a[r.cat] = (a[r.cat] || 0) + 1), a), {} as Record<string, number>);
   const lc = q.trim().toLowerCase();
   const shown = rows.filter((r) => (cat === "all" || r.cat === cat) && (!lc || r.t.name.toLowerCase().includes(lc) || (r.t.he || "").toLowerCase().includes(lc) || (r.t.tcodes || "").toLowerCase().includes(lc)));
 
-  const Act = ({ icon, label, onClick, href }: { icon: React.ReactNode; label: string; onClick?: (e: React.MouseEvent) => void; href?: string }) => {
-    const cls = "tap grid size-8 place-items-center rounded-lg border border-slate-200 bg-white text-slate-500 transition hover:border-brand/40 hover:text-brand active:scale-90";
-    return href ? <Link href={href} title={label} aria-label={label} onClick={(e) => e.stopPropagation()} className={cls}>{icon}</Link>
-      : <button title={label} aria-label={label} onClick={(e) => { e.stopPropagation(); onClick?.(e); }} className={cls}>{icon}</button>;
-  };
-
   return (
-    <div className="space-y-3" dir="rtl">
+    <div className="space-y-4" dir="rtl">
+      {/* intro */}
+      <div className="flex flex-wrap items-end justify-between gap-3 rounded-2xl border border-slate-200 bg-gradient-to-l from-slate-900 to-slate-800 px-5 py-4 text-white">
+        <div><div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-white/60"><Boxes className="size-4" />Technical Knowledge Center</div>
+          <h3 className="mt-0.5 text-xl font-extrabold">מרכז ידע טכני · {MOD_NAME_HE[code] || code}</h3>
+          <p className="text-xs text-white/70">לחץ על אובייקט לפתיחת תצוגת ידע מלאה — מבנה, קשרים, שימוש, תקלות, S/4 והכנה לראיון.</p></div>
+        <div className="text-left"><div className="text-3xl font-extrabold tabular-nums">{rows.length}</div><div className="text-[11px] font-bold text-white/60">אובייקטים</div></div>
+      </div>
+
       {/* search + filter */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <div className="relative flex-1">
@@ -304,72 +529,42 @@ function TechList({ data, color, code, onTable }: { data: Data; color: (m?: stri
           })}
         </div>
       </div>
-      <p className="text-[11px] font-bold text-slate-400">{shown.length} טבלאות</p>
 
-      {/* card rows */}
-      <div className="space-y-2">
+      {/* full-width knowledge grid */}
+      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {shown.map(({ t, cat: tc }) => {
-          const c = color(t.mod); const cm = TECH_CAT[tc]; const isOpen = open === t.name;
-          const tcodes = splitTcodes(t.tcodes).slice(0, 6);
+          const c = color(t.mod); const cm = TECH_CAT[tc];
           const k = knowledgeFor(t.name); const s4 = s4For(t.name, t.s4, t.s4alt);
-          const parents = [...new Set(t.rel.filter((r) => r.role === "child").map((r) => r.table))];
-          const children = [...new Set(t.rel.filter((r) => r.role === "parent").map((r) => r.table))];
-          const inc = INCIDENTS.filter((i) => i.tables.includes(t.name));
-          const topFields = (FIELDS_PLUS[t.name] || t.fields || []).slice(0, 12);
+          const incN = INCIDENTS.filter((i) => i.tables.includes(t.name)).length;
+          const iqN = interviewFor(t.name).length;
           return (
-            <div key={t.name} className={`overflow-hidden rounded-2xl border bg-white shadow-sm transition ${isOpen ? "border-transparent ring-1" : "border-slate-200 hover:border-brand/30"}`} style={isOpen ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : undefined}>
-              <div className="flex cursor-pointer items-center gap-3 p-3.5" onClick={() => setOpen(isOpen ? null : t.name)}>
-                <span className="grid size-10 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: c }}><Database className="size-5" /></span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="tech font-mono text-base font-extrabold text-slate-900" dir="ltr">{t.name}</span>
-                    <span className="rounded-full px-1.5 py-0.5 text-[9px] font-extrabold text-white" style={{ background: cm.c }}>{cm.he}</span>
-                    <span className="rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: c }}>{t.mod}</span>
-                    {s4.impacted && <span className="rounded-md bg-amber-400 px-1.5 py-0.5 text-[9px] font-extrabold text-amber-950">S/4</span>}
-                  </div>
-                  <p className="mt-0.5 truncate text-sm font-medium text-slate-500">{t.he || t.en}</p>
-                  <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] font-bold text-slate-400">
-                    {t.pk.length > 0 && <span className="flex items-center gap-1"><KeyRound className="size-3 text-amber-500" />{t.pk.join(", ")}</span>}
-                    {tcodes.length > 0 && <span className="flex items-center gap-1" dir="ltr"><Terminal className="size-3" />{tcodes.slice(0, 3).join(", ")}</span>}
-                    <span className="flex items-center gap-1"><Network className="size-3" />{t.degree} קשרים</span>
-                  </div>
-                </div>
-                <ChevronDown className={`size-4 shrink-0 text-slate-300 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+            <button key={t.name} onClick={() => setSel(t.name)} style={{ animation: "fadeUp .35s ease both" }}
+              className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-3.5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg active:scale-[.98]">
+              <span className="absolute inset-x-0 top-0 h-1" style={{ background: c }} />
+              <div className="flex items-start justify-between gap-2">
+                <span className="tech font-mono text-lg font-extrabold text-slate-900" dir="ltr">{t.name}</span>
+                <span className="size-2.5 shrink-0 rounded-full" style={{ background: cm.c }} title={cm.he} />
               </div>
-              {/* quick actions */}
-              <div className="flex items-center gap-1.5 border-t border-slate-100 px-3.5 py-2">
-                <button onClick={(e) => { e.stopPropagation(); onTable(t.name); }} className="tap inline-flex items-center gap-1.5 rounded-lg bg-brand px-3 py-1.5 text-xs font-bold text-white transition hover:bg-brand-dark active:scale-95"><Maximize2 className="size-3.5" />פתח אובייקט</button>
-                <Act icon={<GitBranch className="size-4" />} label="פתח בגרף" href={`/sap-infrastructure/?focus=${encodeURIComponent(t.name)}`} />
-                <Act icon={<Gauge className="size-4" />} label="ניתוח השפעה" href={`/impact/${encodeURIComponent(t.name)}/`} />
-                <Act icon={<BrainCircuit className="size-4" />} label="שאל מנטור" onClick={() => window.dispatchEvent(new Event("neo:open-mentor"))} />
-                <Act icon={copied === t.name ? <Check className="size-4 text-emerald-600" /> : <Copy className="size-4" />} label="העתק שם טבלה" onClick={() => copy(t.name)} />
+              <p className="mt-0.5 line-clamp-2 min-h-[2.2em] text-[12px] font-medium leading-tight text-slate-500">{t.he || t.en}</p>
+              <div className="mt-2 flex flex-wrap items-center gap-1">
+                <span className="rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: c }}>{t.mod}</span>
+                {s4.impacted && <span className="rounded-md bg-amber-400 px-1.5 py-0.5 text-[9px] font-extrabold text-amber-950">S/4</span>}
+                {k && <span className="rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: IMPORTANCE_COLOR[k.importance] }}>{k.importance === "core" ? "ליבה" : k.importance === "supporting" ? "תומך" : "מתקדם"}</span>}
               </div>
-              {/* expandable details */}
-              {isOpen && (
-                <div className="space-y-3 border-t border-slate-100 bg-slate-50/50 p-4" style={{ animation: "fadeUp .2s ease both" }}>
-                  {(k || data.blueprints.find((b) => b.code === t.mod)) && <div><div className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">מטרה עסקית</div><p className="text-sm leading-relaxed text-slate-700">{k?.why || data.blueprints.find((b) => b.code === t.mod)?.purpose || t.he}</p></div>}
-                  {topFields.length > 0 && (
-                    <div><div className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">שדות עיקריים</div>
-                      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white"><table className="w-full text-right font-mono text-xs" dir="ltr"><tbody>{topFields.map((f) => <tr key={f[0]} className="border-b border-slate-50 last:border-0"><td className={`px-2.5 py-1.5 font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`}>{f[0]}</td><td className="px-2 py-1.5 text-slate-400">{f[1]}</td><td className="px-2 py-1.5 text-left">{f[3] !== "-" && <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></div></div>
-                  )}
-                  {(parents.length > 0 || children.length > 0) && (
-                    <div className="grid gap-2 sm:grid-cols-2">
-                      <div><div className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">אובייקטים קשורים · אב</div><div className="flex flex-wrap gap-1">{parents.length ? parents.map((x) => <span key={x} className="tech rounded-md border border-slate-200 bg-white px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600" dir="ltr">{x}</span>) : <span className="text-[11px] italic text-slate-300">—</span>}</div></div>
-                      <div><div className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">צאצא</div><div className="flex flex-wrap gap-1">{children.length ? children.map((x) => <span key={x} className="tech rounded-md border border-slate-200 bg-white px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600" dir="ltr">{x}</span>) : <span className="text-[11px] italic text-slate-300">—</span>}</div></div>
-                    </div>
-                  )}
-                  <div className="rounded-xl bg-amber-50 p-2.5"><div className="mb-0.5 flex items-center gap-1.5 text-[11px] font-extrabold text-amber-800"><ArrowRightLeft className="size-3.5" />ECC ↔ S/4 <span className="rounded-full px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: RISK_COLOR[s4.risk] }}>{RISK_HE[s4.risk]}</span></div><p className="text-[12px] leading-relaxed text-amber-900">{k?.s4 || s4.impact?.changed || t.s4 || "אין הערת S/4 ברמת הטבלה — נדרש אימות מול Simplification List / OSS."}</p></div>
-                  {inc.length > 0 && (
-                    <div><div className="mb-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400"><AlertTriangle className="size-3.5 text-amber-500" />תקלות נפוצות · {inc.length}</div>
-                      <div className="space-y-1">{inc.slice(0, 3).map((i) => <Link key={i.slug} href={`/troubleshooting/${i.slug}/`} onClick={(e) => e.stopPropagation()} className="block rounded-lg border border-slate-100 bg-white px-2.5 py-1.5 text-[12px] font-bold text-slate-700 transition hover:border-amber-300 hover:bg-amber-50">{i.he}</Link>)}</div></div>
-                  )}
-                </div>
-              )}
-            </div>
+              <div className="mt-2.5 flex items-center gap-2.5 border-t border-slate-100 pt-2 text-[10px] font-bold text-slate-400">
+                {t.pk.length > 0 && <span className="flex items-center gap-0.5" title="מפתח ראשי"><KeyRound className="size-3 text-amber-500" />{t.pk.length}</span>}
+                <span className="flex items-center gap-0.5" title="קשרים"><Network className="size-3" />{t.degree}</span>
+                {incN > 0 && <span className="flex items-center gap-0.5 text-rose-400" title="תקלות"><AlertTriangle className="size-3" />{incN}</span>}
+                {iqN > 0 && <span className="flex items-center gap-0.5 text-violet-400" title="שאלות ראיון"><GraduationCap className="size-3" />{iqN}</span>}
+                <ArrowUpRight className="ms-auto size-3.5 text-slate-300 transition group-hover:text-brand" />
+              </div>
+            </button>
           );
         })}
-        {shown.length === 0 && <p className="py-10 text-center text-sm text-slate-400">לא נמצאו טבלאות.</p>}
       </div>
+      {shown.length === 0 && <p className="py-10 text-center text-sm text-slate-400">לא נמצאו טבלאות.</p>}
+
+      {sel && <KnowledgeView name={sel} data={data} color={color} byName={byName} onTable={onTable} onClose={() => setSel(null)} onOpen={(n) => setSel(n)} />}
     </div>
   );
 }
