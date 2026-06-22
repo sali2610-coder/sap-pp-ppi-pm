@@ -799,15 +799,35 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
   const dt = drawer ? byName[drawer] : null;
 
   return (
-    <div className="rounded-[1.4rem] bg-slate-100/60 p-1 ring-1 ring-black/[0.04]">
-      <div ref={wrapRef} className={`relative overflow-hidden rounded-[1.1rem] border border-slate-200/80 ${fs ? "h-screen bg-slate-50" : "h-[calc(100vh-10.5rem)] min-h-[600px]"}`}
-        style={{ backgroundImage: "radial-gradient(circle at 1px 1px,#d7deea 1px,transparent 0)", backgroundSize: "30px 30px" }}>
-        {/* floating: mode selector (top-center) */}
-        <div className={`absolute left-1/2 z-30 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-white/60 bg-white/85 p-1 shadow-lg shadow-black/5 backdrop-blur-md transition-all ${sel ? "top-14" : "top-3"}`}>
-          {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>{he}</button>)}
+    <div className="space-y-2">
+      {/* sticky analysis toolbar — above the canvas, never overlaps tables */}
+      {!fs && selMods.size > 0 && (
+        <div className="sticky top-2 z-30">
+          <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200 bg-white/95 px-2.5 py-1.5 shadow-sm backdrop-blur">
+            <span className="hidden items-center gap-1.5 px-1 text-[11px] font-bold uppercase tracking-wide text-slate-400 sm:inline-flex"><Network className="size-3.5" />מצב ניתוח</span>
+            <div className="flex flex-wrap items-center gap-1">
+              {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(modeInfo === id ? null : id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>{he}</button>)}
+            </div>
+            {modeInfo && (() => { const m = modeInfo; const need = MODE_DESC[m].needsSel && !sel; return (
+              <div className="flex w-full items-center gap-2 rounded-xl bg-slate-50 px-3 py-1.5 ring-1 ring-slate-200 sm:ms-auto sm:w-auto sm:max-w-[48%]" style={{ animation: "fadeIn .2s ease both" }}>
+                <span className="size-2 shrink-0 rounded-full bg-[#d62027]" />
+                <span className="flex-1 text-[12px] leading-snug text-slate-600">{MODE_DESC[m].d}</span>
+                {need && <span className="shrink-0 rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-800">בחר טבלה</span>}
+                <button onClick={() => setModeInfo(null)} className="shrink-0 rounded p-0.5 text-slate-400 hover:bg-slate-200"><X className="size-3.5" /></button>
+              </div>
+            ); })()}
+          </div>
         </div>
-        {/* mode explainer popup — helps new users understand each mode */}
-        {modeInfo && (() => { const m = modeInfo; const need = MODE_DESC[m].needsSel && !sel; return (
+      )}
+    <div className="rounded-[1.4rem] bg-slate-100/60 p-1 ring-1 ring-black/[0.04]">
+      <div ref={wrapRef} className={`relative overflow-hidden rounded-[1.1rem] border border-slate-200/80 ${fs ? "h-screen bg-slate-50" : "h-[calc(100vh-13rem)] min-h-[560px]"}`}
+        style={{ backgroundImage: "radial-gradient(circle at 1px 1px,#d7deea 1px,transparent 0)", backgroundSize: "30px 30px" }}>
+        {/* fullscreen-only floating mode selector (canvas is the fullscreen layer) */}
+        {fs && <div className={`absolute left-1/2 z-30 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-white/60 bg-white/85 p-1 shadow-lg shadow-black/5 backdrop-blur-md transition-all ${sel ? "top-14" : "top-3"}`}>
+          {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>{he}</button>)}
+        </div>}
+        {/* mode explainer popup (fullscreen) */}
+        {fs && modeInfo && (() => { const m = modeInfo; const need = MODE_DESC[m].needsSel && !sel; return (
           <div className="absolute left-1/2 top-[6rem] z-40 w-[330px] max-w-[88%] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white p-3 shadow-xl" style={{ animation: "fadeUp .25s ease both" }}>
             <div className="absolute -top-1.5 left-1/2 size-3 -translate-x-1/2 rotate-45 border-l border-t border-slate-200 bg-white" />
             <div className="flex items-center justify-between gap-2">
@@ -830,7 +850,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
           const matchCount = s4Filter === "all" ? shown.length : shown.filter((t) => s4ok(t.name)).length;
           const activeDesc = FILTERS.find((f) => f[0] === s4Filter)?.[2];
           return (
-            <div className={`absolute left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-1 transition-all ${sel ? "top-[6.5rem]" : "top-[3.4rem]"}`}>
+            <div className={`absolute left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-1 transition-all ${fs ? (sel ? "top-[6.5rem]" : "top-[3.4rem]") : (sel ? "top-14" : "top-3")}`}>
               <div className="flex items-center gap-0.5 rounded-full border border-amber-200/70 bg-white/90 p-0.5 shadow-md backdrop-blur-md">
                 {FILTERS.map(([id, he, desc]) => (
                   <button key={id} title={desc} onClick={() => setS4Filter(id)} className={`rounded-full px-2.5 py-1 text-[11px] font-bold transition ${s4Filter === id ? "bg-amber-400 text-amber-950 shadow-sm" : "text-slate-500 hover:bg-amber-50"}`}>{he}</button>
@@ -1113,6 +1133,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
           </div>
         </div>
       </div>
+    </div>
   );
 }
 
