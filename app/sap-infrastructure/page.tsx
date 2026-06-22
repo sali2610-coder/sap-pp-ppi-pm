@@ -804,12 +804,13 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
       {!fs && selMods.size > 0 && (
         <div className="sticky top-2 z-30">
           <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200 bg-white/95 px-2.5 py-1.5 shadow-sm backdrop-blur">
-            <span className="hidden items-center gap-1.5 px-1 text-[11px] font-bold uppercase tracking-wide text-slate-400 sm:inline-flex"><Network className="size-3.5" />מצב ניתוח</span>
-            <div className="flex flex-wrap items-center gap-1">
-              {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(modeInfo === id ? null : id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>{he}</button>)}
+            <span className="hidden items-center gap-1.5 px-1 text-[11px] font-bold uppercase tracking-wide text-slate-400 min-[1400px]:inline-flex"><Network className="size-3.5" />מצב ניתוח</span>
+            {/* below 1400px: single-row horizontal scroll strip (never wraps / covers graph) */}
+            <div className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[1400px]:flex-none min-[1400px]:flex-wrap min-[1400px]:overflow-visible min-[1400px]:pb-0">
+              {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(modeInfo === id ? null : id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>{he}</button>)}
             </div>
             {modeInfo && (() => { const m = modeInfo; const need = MODE_DESC[m].needsSel && !sel; return (
-              <div className="flex w-full items-center gap-2 rounded-xl bg-slate-50 px-3 py-1.5 ring-1 ring-slate-200 sm:ms-auto sm:w-auto sm:max-w-[48%]" style={{ animation: "fadeIn .2s ease both" }}>
+              <div className="flex w-full items-center gap-2 rounded-xl bg-slate-50 px-3 py-1.5 ring-1 ring-slate-200 min-[1400px]:ms-auto min-[1400px]:w-auto min-[1400px]:max-w-[48%]" style={{ animation: "fadeIn .2s ease both" }}>
                 <span className="size-2 shrink-0 rounded-full bg-[#d62027]" />
                 <span className="flex-1 text-[12px] leading-snug text-slate-600">{MODE_DESC[m].d}</span>
                 {need && <span className="shrink-0 rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-800">בחר טבלה</span>}
