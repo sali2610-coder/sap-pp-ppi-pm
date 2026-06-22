@@ -20,6 +20,7 @@ import type { MigrationStatus } from "@/lib/types";
 import { playClick, playTick } from "@/lib/sound";
 import { Highlight } from "@/components/highlight";
 import { useIsFavorite, toggleFavorite } from "@/lib/prefs";
+import { interviewFor } from "@/data/knowledge/interview";
 import { Star, GraduationCap, Lightbulb, Clock4, ArrowRightLeft } from "lucide-react";
 import { knowledgeFor, IMPORTANCE_HE, IMPORTANCE_COLOR, TRUST_NOTE } from "@/lib/knowledge";
 
@@ -373,7 +374,23 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
           </>
         )}
 
-        {tab === "learning" && (
+        {tab === "learning" && (<>
+          {interviewFor(t.tableName).length > 0 && (
+            <Section title="שאלות ראיון" icon={<GraduationCap className="size-4" />}>
+              <div className="space-y-2">
+                {interviewFor(t.tableName).map((iq, i) => {
+                  const lc = iq.level === "junior" ? "bg-blue-100 text-blue-700" : iq.level === "senior" ? "bg-violet-100 text-violet-700" : "bg-rose-100 text-rose-700";
+                  const ll = iq.level === "junior" ? "Junior" : iq.level === "senior" ? "Senior" : "Architect";
+                  return (
+                    <div key={i} className="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
+                      <p className="text-sm font-bold text-slate-800"><span className={`me-1.5 rounded px-1.5 py-0.5 text-[9px] font-extrabold ${lc}`}>{ll}</span>{iq.q}</p>
+                      {iq.aHe && <p className="mt-1 text-[12px] leading-relaxed text-slate-500">{iq.aHe}</p>}
+                    </div>
+                  );
+                })}
+              </div>
+            </Section>
+          )}
           <Section title="למידה קשורה" icon={<BookOpen className="size-4" />}>
             <div className="space-y-3">
               {intel?.books.length ? <div><p className="eyebrow mb-1.5 text-slate-400">ספרים</p><div className="flex flex-wrap gap-2">{intel.books.map((b) => <Link key={b} href="/library/book1/" className="lift inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-700"><BookOpen className="size-4 text-brand" />{b}</Link>)}</div></div> : null}
@@ -384,7 +401,7 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
               <Link href={`/sap-infrastructure/`} className="inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:underline"><GitBranch className="size-4" /> חקור באקספלורר הארכיטקטורה</Link>
             </div>
           </Section>
-        )}
+        </>)}
 
         {tab === "trouble" && (
           <Section title="פתרון תקלות · Troubleshooting" icon={<AlertTriangle className="size-4 text-amber-500" />}>
