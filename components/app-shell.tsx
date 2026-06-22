@@ -19,6 +19,7 @@ const PageHelp = dynamic(() => import("@/components/page-help").then((m) => m.Pa
 const UXSettings = dynamic(() => import("@/components/ux-settings").then((m) => m.UXSettings), { ssr: false });
 const Mentor = dynamic(() => import("@/components/mentor").then((m) => m.Mentor), { ssr: false });
 import { MobileTabBar } from "@/components/mobile-tab-bar";
+import { WowToast } from "@/components/wow-toast";
 import { Search } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { LangSwitch } from "@/components/lang-switch";
@@ -117,6 +118,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <FindHighlighter />
       <OnboardingDrawer />
       <Mentor />
+      <WowToast />
       <MobileTabBar />
     </I18nProvider>
   );

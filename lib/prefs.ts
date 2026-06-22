@@ -39,8 +39,10 @@ export function isFavorite(name: string): boolean {
 
 export function toggleFavorite(name: string) {
   ensureFav();
-  favCache = favCache.includes(name) ? favCache.filter((x) => x !== name) : [name, ...favCache].slice(0, 50);
+  const adding = !favCache.includes(name);
+  favCache = adding ? [name, ...favCache].slice(0, 50) : favCache.filter((x) => x !== name);
   try { localStorage.setItem(FAV_KEY, JSON.stringify(favCache)); } catch { /* noop */ }
+  if (adding && typeof window !== "undefined") window.dispatchEvent(new CustomEvent("neo:wow", { detail: { title: "נוסף למועדפים ⭐", sub: name } }));
   emitFav();
 }
 

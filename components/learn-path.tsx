@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check, GraduationCap, MapPin, BookOpen, Workflow, RotateCcw, CheckCircle2 } from "lucide-react";
 import { LEARN_PATHS } from "@/data/learn/paths";
@@ -9,6 +10,14 @@ import { useDoneSet, markDone, resetPath, pathState } from "@/lib/learn-store";
 export function LearnPathView({ module }: { module: string }) {
   const p = LEARN_PATHS[module];
   const done = useDoneSet(module);
+  // milestone toast on path completion (hooks must run before any early return)
+  const celebrated = useRef(false);
+  useEffect(() => {
+    const pp = LEARN_PATHS[module]; if (!pp) return;
+    const s = pathState(done, pp.steps.map((x) => x.id));
+    if (s.complete && s.total > 0 && !celebrated.current) { celebrated.current = true; window.dispatchEvent(new CustomEvent("neo:wow", { detail: { title: "סיימת מסלול! 🎓", sub: pp.he } })); }
+    if (!s.complete) celebrated.current = false;
+  }, [done, module]);
   if (!p) return <p className="p-8 text-center text-slate-500">מסלול לא נמצא.</p>;
   const ids = p.steps.map((s) => s.id);
   const st = pathState(done, ids);
