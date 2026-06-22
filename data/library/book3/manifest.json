@@ -1,0 +1,186 @@
+{
+  "book": "Sourcing and Procurement with SAP S/4HANA",
+  "pages": 709,
+  "chapters": [
+    {
+      "n": 1,
+      "title": "Introduction to Sourcing and Procurement",
+      "pages": [
+        31,
+        50
+      ],
+      "chars": 51429,
+      "sections": 14
+    },
+    {
+      "n": 2,
+      "title": "Implementation Options",
+      "pages": [
+        51,
+        82
+      ],
+      "chars": 73073,
+      "sections": 23
+    },
+    {
+      "n": 3,
+      "title": "Organizational Structure",
+      "pages": [
+        83,
+        102
+      ],
+      "chars": 31181,
+      "sections": 10
+    },
+    {
+      "n": 4,
+      "title": "Master Data",
+      "pages": [
+        103,
+        138
+      ],
+      "chars": 64833,
+      "sections": 17
+    },
+    {
+      "n": 5,
+      "title": "Operational Procurement",
+      "pages": [
+        139,
+        186
+      ],
+      "chars": 86668,
+      "sections": 21
+    },
+    {
+      "n": 6,
+      "title": "Automated and Direct Procurement",
+      "pages": [
+        187,
+        236
+      ],
+      "chars": 86959,
+      "sections": 35
+    },
+    {
+      "n": 7,
+      "title": "Inventory Management",
+      "pages": [
+        237,
+        326
+      ],
+      "chars": 124814,
+      "sections": 34
+    },
+    {
+      "n": 8,
+      "title": "Contract and Scheduling Agreement Management",
+      "pages": [
+        327,
+        360
+      ],
+      "chars": 49216,
+      "sections": 28
+    },
+    {
+      "n": 9,
+      "title": "Enterprise Contract Management and Assembly",
+      "pages": [
+        361,
+        390
+      ],
+      "chars": 39437,
+      "sections": 24
+    },
+    {
+      "n": 10,
+      "title": "External Sourcing",
+      "pages": [
+        391,
+        418
+      ],
+      "chars": 40733,
+      "sections": 35
+    },
+    {
+      "n": 11,
+      "title": "Product Sourcing",
+      "pages": [
+        419,
+        450
+      ],
+      "chars": 53408,
+      "sections": 18
+    },
+    {
+      "n": 12,
+      "title": "Invoice and Payables Management",
+      "pages": [
+        451,
+        524
+      ],
+      "chars": 99492,
+      "sections": 33
+    },
+    {
+      "n": 13,
+      "title": "Supplier Management",
+      "pages": [
+        525,
+        546
+      ],
+      "chars": 33451,
+      "sections": 21
+    },
+    {
+      "n": 14,
+      "title": "Centralized Procurement",
+      "pages": [
+        547,
+        592
+      ],
+      "chars": 84982,
+      "sections": 14
+    },
+    {
+      "n": 15,
+      "title": "Sourcing and Procurement Analytics",
+      "pages": [
+        593,
+        617
+      ],
+      "chars": 42411,
+      "sections": 16
+    },
+    {
+      "n": 16,
+      "title": "Integrating SAP S/4HANA with SAP Signavio, SAP Ariba, SAP Business Network, and SAP Fieldglass",
+      "pages": [
+        618,
+        660
+      ],
+      "chars": 75803,
+      "sections": 18
+    },
+    {
+      "n": 17,
+      "title": "Customizing the User Interface",
+      "pages": [
+        661,
+        684
+      ],
+      "chars": 33322,
+      "sections": 11
+    },
+    {
+      "n": 18,
+      "title": "Conclusion",
+      "pages": [
+        685,
+        690
+      ],
+      "chars": 16342,
+      "sections": 2
+    }
+  ]
+}
