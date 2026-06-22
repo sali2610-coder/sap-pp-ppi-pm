@@ -3,8 +3,21 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { BrainCircuit, X, CornerDownLeft, Sparkles, ArrowLeft } from "lucide-react";
+import { BrainCircuit, X, CornerDownLeft, Sparkles, ArrowLeft, ArrowRight, Home, ChevronLeft } from "lucide-react";
 import { mentorAnswer, mentorSuggestions, type Trust } from "@/lib/mentor";
+
+const INTENT_HE: Record<string, string> = {
+  relation: "קשרים", explain: "אובייקט", s4: "S/4HANA", "s4-general": "S/4HANA",
+  tcodes: "T-Codes", deps: "תלויות", learn: "למידה", troubleshoot: "פתרון תקלות", fallback: "חיפוש",
+};
+const MENTOR_CATS: { label: string; seed: string; c: string }[] = [
+  { label: "אחזקה · PM", seed: "מה זה IFLOT?", c: "#f97316" },
+  { label: "ייצור · PP-PI", seed: "מה זה AFKO?", c: "#6d28d9" },
+  { label: "פקודות תהליך", seed: "מה נמצא מעלה ומטה מ-AFKO?", c: "#6d28d9" },
+  { label: "S/4HANA", seed: "מה השתנה ב-S/4 עבור MSEG?", c: "#d97706" },
+  { label: "פתרון תקלות", seed: "COGI תקוע — מה לעשות?", c: "#dc2626" },
+  { label: "איך מתחילים", seed: "איך מתחילים ללמוד PM?", c: "#0891b2" },
+];
 
 const RECENT_KEY = "neo:mentor:recent";
 const TRUST_LABEL: Record<Trust, string> = { dataset: "מבוסס מאגר", curated: "ידע SAP", mixed: "מאגר + ידע SAP", none: "" };
@@ -46,15 +59,36 @@ export function Mentor() {
             <motion.aside dir="rtl" className="fixed inset-y-0 end-0 z-[71] flex w-full flex-col bg-white shadow-2xl sm:w-[460px] sm:max-w-[94vw]"
               initial={reduce ? false : { x: "100%" }} animate={{ x: 0 }} exit={reduce ? undefined : { x: "100%" }} transition={{ type: "spring", stiffness: 320, damping: 34 }}>
               <div className="relative shrink-0 bg-gradient-to-l from-slate-900 to-slate-800 px-5 py-4 text-white">
-                <button onClick={() => setOpen(false)} className="absolute start-4 top-4 rounded-lg p-1 text-white/80 hover:bg-white/15"><X className="size-5" /></button>
+                <div className="absolute start-4 top-4 flex items-center gap-1">
+                  <button onClick={() => setOpen(false)} aria-label="סגור" className="rounded-lg p-1 text-white/80 hover:bg-white/15"><X className="size-5" /></button>
+                  {q.trim() && <button onClick={() => setQ("")} aria-label="מרכז המנטור" title="מרכז המנטור" className="rounded-lg p-1 text-white/80 hover:bg-white/15"><Home className="size-5" /></button>}
+                </div>
                 <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-white/60"><BrainCircuit className="size-3.5" />SAP Mentor</div>
                 <h2 className="mt-1 text-xl font-extrabold">שאל את המנטור</h2>
-                <p className="mt-0.5 text-xs text-white/70">תשובות מבוססות מאגר וידע SAP בלבד — ללא המצאות.</p>
+                {/* breadcrumb */}
+                {q.trim() && ans ? (
+                  <div className="mt-1.5 flex flex-wrap items-center gap-1 text-[11px] font-bold text-white/75">
+                    <button onClick={() => setQ("")} className="hover:text-white">מרכז ידע</button><ChevronLeft className="size-3" />
+                    <button onClick={() => setQ("")} className="hover:text-white">מנטור</button><ChevronLeft className="size-3" />
+                    <span className="rounded bg-white/15 px-1.5 py-0.5">{INTENT_HE[ans.intent] || "תשובה"}</span><ChevronLeft className="size-3" />
+                    <span className="max-w-[150px] truncate text-white/90">{q.trim()}</span>
+                  </div>
+                ) : <p className="mt-0.5 text-xs text-white/70">תשובות מבוססות מאגר וידע SAP בלבד — ללא המצאות.</p>}
               </div>
+
+              {/* persistent back-to-home — never trapped in an answer */}
+              {q.trim() && (
+                <button onClick={() => setQ("")} className="tap flex shrink-0 items-center gap-1.5 border-b border-slate-100 bg-slate-50 px-4 py-2 text-xs font-bold text-slate-600 transition hover:text-brand">
+                  <ArrowRight className="size-4" />חזרה למרכז הידע
+                </button>
+              )}
 
               <div className="min-h-0 flex-1 overflow-auto p-4">
                 {!q.trim() ? (
                   <div className="space-y-4">
+                    {/* categories */}
+                    <div><div className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-slate-400">קטגוריות</div>
+                      <div className="grid grid-cols-2 gap-1.5">{MENTOR_CATS.map((cat) => <button key={cat.label} onClick={() => { setQ(cat.seed); remember(cat.seed); }} className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-right text-sm font-bold text-slate-700 transition hover:-translate-y-px hover:border-brand/40 hover:text-brand"><span className="size-2 shrink-0 rounded-full" style={{ background: cat.c }} />{cat.label}</button>)}</div></div>
                     {recent.length > 0 && (
                       <div><div className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-slate-400">שאלות אחרונות</div>
                         <div className="flex flex-wrap gap-1.5">{recent.map((r) => <button key={r} onClick={() => setQ(r)} className="rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-600 transition hover:border-brand/40 hover:text-brand">{r}</button>)}</div></div>
