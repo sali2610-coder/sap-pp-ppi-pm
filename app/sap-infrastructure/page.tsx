@@ -12,6 +12,7 @@ import Link from "next/link";
 import { loadGraphMemory, saveGraphMemory, loadLayout, saveLayout } from "@/lib/prefs";
 import dagre from "dagre";
 import { ProcessWorkspace } from "@/components/process-workspace";
+import TABLE_TITLES from "@/data/table-titles.json";
 
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];
@@ -39,7 +40,12 @@ export default function Page() {
   const [inspect, setInspect] = useState<string | null>(null);
   const [field, setField] = useState<{ table: string; field: string } | null>(null);
   const [q, setQ] = useState("");
-  useEffect(() => { fetch(`${BASE}/dataset.json`).then((r) => r.json()).then(setData).catch(() => {}); }, []);
+  useEffect(() => { fetch(`${BASE}/dataset.json`).then((r) => r.json()).then((d: Data) => {
+    // apply curated business-purpose titles (override the key-field label baked into the static dataset)
+    const T = TABLE_TITLES as Record<string, string>;
+    d.tables?.forEach((t) => { if (T[t.name]) t.he = T[t.name]; });
+    setData(d);
+  }).catch(() => {}); }, []);
   const color = useCallback((m?: string | null) => (data && m && data.palette[m]) || "#64748b", [data]);
   const byName = useMemo(() => (data ? Object.fromEntries(data.tables.map((t) => [t.name, t])) : {}) as Record<string, Tbl>, [data]);
   // Deep-link: /sap-infrastructure/?focus=<table>[&m=<module>] — opens the module

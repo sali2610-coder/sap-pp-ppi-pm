@@ -17,6 +17,12 @@ const DOCS = path.join(ROOT, "docs");
 const PM_FILE = path.join(DOCS, "SAP_PM_ECC6_to_S4_Migration.xlsx");
 const PPPI_FILE = path.join(DOCS, "SAP_PPPI_ECC6_to_S4_Migration.xlsx");
 
+// Curated BUSINESS-PURPOSE titles. The workbook title column holds the key-field
+// label (e.g. MARA/MARC/MBEW all "מספר חומר"), which is educationally confusing.
+// Override with the real business purpose where curated; else fall back to source.
+const TITLE_HE = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "table-titles.json"), "utf8"));
+const titleFor = (table, fallback) => TITLE_HE[table] || fallback;
+
 const S = (v) => (v == null ? "" : String(v).trim());
 const TYPE_RE = /^(CHAR|NUMC|DEC|QUAN|UNIT|DATS|TIMS|LANG|CURR|CUKY|INT[1248]|RAW|RAWSTRING|CLNT|FLTP|STRG|SSTR|D16R|DF16|DF34|NUMC)$/i;
 const KEY_SET = new Set(["PK", "FK", "PK/FK", "-"]);
@@ -76,7 +82,7 @@ function parsePM(wb) {
         const name = m ? m[1] : (c0.match(/טבלה\s+([^\s]+)/)?.[1] ?? "");
         cur = {
           tableName: name,
-          descriptionHe: m ? m[2].trim() : "",
+          descriptionHe: titleFor(name, m ? m[2].trim() : ""),
           descriptionEn: m ? m[3].trim() : "",
           tcodes: "",
           fioriApp: "",
@@ -156,7 +162,7 @@ function parsePPPI(wb) {
         // new table — flush pending sub-blocks into it
         cur = {
           tableName: table,
-          descriptionHe: S(r[7]) || table,
+          descriptionHe: titleFor(table, S(r[7]) || table),
           descriptionEn: S(r[6]),
           tcodes: "",
           fioriApp: pendingFiori.join("; "),

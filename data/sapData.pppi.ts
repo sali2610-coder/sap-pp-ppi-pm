@@ -12,7 +12,7 @@ export const PPPI_DATA = {
       "tables": [
         {
           "tableName": "MARA",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "נתוני חומר כלליים",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -214,7 +214,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "MAKT",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "טקסטים לתיאור חומר",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -295,7 +295,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "MARC",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "נתוני חומר ברמת מפעל",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -453,7 +453,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "MARD",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "מלאי חומר ברמת אחסון",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -542,7 +542,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "MARM",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "יחידות מידה לחומר",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -639,7 +639,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "MEAN",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "מספרי EAN / ברקוד לחומר",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -728,7 +728,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "MBEW",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "הערכת שווי חומר",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -821,7 +821,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "MVKE",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "נתוני מכירה לחומר",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -902,7 +902,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "MLAN",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "נתוני מס מכירה לחומר",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -975,7 +975,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "MLGN",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "נתוני חומר ברמת מספר מחסן (WM)",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -1065,7 +1065,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "MLGT",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "נתוני חומר לסוג אחסון (WM)",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -1146,7 +1146,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "MDMA",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "נתוני MRP לאזור MRP",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -1227,7 +1227,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "QMAT",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "הגדרת בדיקת איכות לחומר",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -1308,7 +1308,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "MCH1",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "נתוני אצווה לחומר (חוצה-מפעל)",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -1422,7 +1422,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "MCHA",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "נתוני אצווה ברמת מפעל",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -1599,7 +1599,7 @@ export const PPPI_DATA = {
       "tables": [
         {
           "tableName": "MAST",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "שיוך עץ מוצר (BOM) לחומר",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -1714,7 +1714,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "STKO",
-          "descriptionHe": "קטגוריית עץ מוצר",
+          "descriptionHe": "כותרת עץ מוצר (BOM)",
           "descriptionEn": "BOM category",
           "tcodes": "",
           "fioriApp": "",
@@ -1838,7 +1838,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "STPO",
-          "descriptionHe": "קטגוריית עץ מוצר",
+          "descriptionHe": "פריטי עץ מוצר (BOM)",
           "descriptionEn": "BOM category",
           "tcodes": "",
           "fioriApp": "",
@@ -1968,7 +1968,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "STAS",
-          "descriptionHe": "קטגוריית עץ מוצר",
+          "descriptionHe": "שיוך פריטי עץ מוצר",
           "descriptionEn": "BOM category",
           "tcodes": "",
           "fioriApp": "",
@@ -2057,7 +2057,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "STZU",
-          "descriptionHe": "קטגוריית עץ מוצר",
+          "descriptionHe": "ניהול והיסטוריית עץ מוצר",
           "descriptionEn": "BOM category",
           "tcodes": "",
           "fioriApp": "",
@@ -2303,7 +2303,7 @@ export const PPPI_DATA = {
       "tables": [
         {
           "tableName": "PLKO",
-          "descriptionHe": "סוג רשימה",
+          "descriptionHe": "כותרת רשימת פעולות (Routing)",
           "descriptionEn": "Task list type (2=recipe)",
           "tcodes": "",
           "fioriApp": "",
@@ -2443,7 +2443,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "PLPO",
-          "descriptionHe": "סוג רשימה",
+          "descriptionHe": "פעולות ברשימת הפעולות",
           "descriptionEn": "Task list type",
           "tcodes": "",
           "fioriApp": "",
@@ -2587,7 +2587,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "PLAS",
-          "descriptionHe": "סוג רשימה",
+          "descriptionHe": "שיוך פעולות לרשימת פעולות",
           "descriptionEn": "Task list type",
           "tcodes": "",
           "fioriApp": "",
@@ -2689,7 +2689,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "PLFL",
-          "descriptionHe": "סוג רשימה",
+          "descriptionHe": "רצפים ברשימת פעולות",
           "descriptionEn": "Task list type",
           "tcodes": "",
           "fioriApp": "",
@@ -2766,7 +2766,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "PLMZ",
-          "descriptionHe": "סוג רשימה",
+          "descriptionHe": "הקצאת רכיבי BOM לפעולות",
           "descriptionEn": "Task list type",
           "tcodes": "",
           "fioriApp": "",
@@ -2851,7 +2851,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "PLMK",
-          "descriptionHe": "סוג רשימה",
+          "descriptionHe": "מאפייני בדיקה ברשימת פעולות",
           "descriptionEn": "Task list type",
           "tcodes": "",
           "fioriApp": "",
@@ -2944,7 +2944,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "MAPL",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "שיוך רשימת פעולות לחומר",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -3038,7 +3038,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "FHMI",
-          "descriptionHe": "סוג רשימה",
+          "descriptionHe": "אב אמצעי ייצור (PRT) — מבוסס חומר",
           "descriptionEn": "Task list type",
           "tcodes": "",
           "fioriApp": "",
@@ -3115,7 +3115,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "PLZU",
-          "descriptionHe": "סוג רשימה",
+          "descriptionHe": "ניהול שינויים לרשימת פעולות",
           "descriptionEn": "Task list type",
           "tcodes": "",
           "fioriApp": "",
@@ -3333,7 +3333,7 @@ export const PPPI_DATA = {
       "tables": [
         {
           "tableName": "MKAL",
-          "descriptionHe": "מספר חומר",
+          "descriptionHe": "גרסאות ייצור לחומר",
           "descriptionEn": "Material number",
           "tcodes": "",
           "fioriApp": "",
@@ -3513,7 +3513,7 @@ export const PPPI_DATA = {
       "tables": [
         {
           "tableName": "CRHD",
-          "descriptionHe": "סוג אובייקט",
+          "descriptionHe": "כותרת מרכז עבודה / משאב",
           "descriptionEn": "Object type (A=work center)",
           "tcodes": "",
           "fioriApp": "",
@@ -3649,7 +3649,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "CRTX",
-          "descriptionHe": "סוג אובייקט",
+          "descriptionHe": "טקסטים למרכז עבודה",
           "descriptionEn": "Object type",
           "tcodes": "",
           "fioriApp": "",
@@ -3730,7 +3730,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "CRCO",
-          "descriptionHe": "סוג אובייקט",
+          "descriptionHe": "הקצאת מרכז עלות למרכז עבודה",
           "descriptionEn": "Object type",
           "tcodes": "",
           "fioriApp": "",
@@ -3832,7 +3832,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "CRCA",
-          "descriptionHe": "סוג אובייקט",
+          "descriptionHe": "הקצאות קיבולת למרכז עבודה",
           "descriptionEn": "Object type",
           "tcodes": "",
           "fioriApp": "",
@@ -3922,7 +3922,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "KAKO",
-          "descriptionHe": "מזהה קיבולת",
+          "descriptionHe": "קטגוריית קיבולת (כותרת)",
           "descriptionEn": "Capacity ID",
           "tcodes": "",
           "fioriApp": "",
@@ -4008,7 +4008,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "CRFH",
-          "descriptionHe": "סוג אובייקט",
+          "descriptionHe": "אב אמצעי ייצור (PRT) — מבוסס מרכז עבודה",
           "descriptionEn": "Object type (F=PRT)",
           "tcodes": "",
           "fioriApp": "",
@@ -4089,7 +4089,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "CRVD_A",
-          "descriptionHe": "סוג אובייקט",
+          "descriptionHe": "קשרי ברירת מחדל למרכז עבודה",
           "descriptionEn": "Object type",
           "tcodes": "",
           "fioriApp": "",
@@ -4235,7 +4235,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "KAZT",
-          "descriptionHe": "מזהה קיבולת",
+          "descriptionHe": "מרווחי זמן ומשמרות לקיבולת",
           "descriptionEn": "Capacity ID",
           "tcodes": "",
           "fioriApp": "",
@@ -4343,7 +4343,7 @@ export const PPPI_DATA = {
       "tables": [
         {
           "tableName": "AUFK",
-          "descriptionHe": "מספר פק\"ע",
+          "descriptionHe": "נתוני אב של פקודה (כותרת ארגונית)",
           "descriptionEn": "Order number",
           "tcodes": "",
           "fioriApp": "",
@@ -4462,7 +4462,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "AFKO",
-          "descriptionHe": "מספר פק\"ע",
+          "descriptionHe": "נתוני כותרת פקודת ייצור / תהליך",
           "descriptionEn": "Order number",
           "tcodes": "",
           "fioriApp": "",
@@ -4609,7 +4609,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "AFPO",
-          "descriptionHe": "מספר פק\"ע",
+          "descriptionHe": "פריטי פקודת ייצור",
           "descriptionEn": "Order number",
           "tcodes": "",
           "fioriApp": "",
@@ -4694,7 +4694,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "AFVC",
-          "descriptionHe": "מספר תוכנית פעולות",
+          "descriptionHe": "פעולות הפקודה",
           "descriptionEn": "Routing number of operations",
           "tcodes": "",
           "fioriApp": "",
@@ -4965,7 +4965,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "AFFH",
-          "descriptionHe": "מספר תוכנית פעולות",
+          "descriptionHe": "הקצאת PRT לפעולת פקודה",
           "descriptionEn": "Routing number",
           "tcodes": "",
           "fioriApp": "",
@@ -5034,7 +5034,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "AFFL",
-          "descriptionHe": "מספר תוכנית פעולות",
+          "descriptionHe": "רצף פעולות בפקודה",
           "descriptionEn": "Routing number of operations",
           "tcodes": "",
           "fioriApp": "",
@@ -5122,7 +5122,7 @@ export const PPPI_DATA = {
       "tables": [
         {
           "tableName": "T134",
-          "descriptionHe": "סוג חומר",
+          "descriptionHe": "סוגי חומר (הגדרה)",
           "descriptionEn": "Material type",
           "tcodes": "",
           "fioriApp": "",
@@ -5208,7 +5208,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "T134T",
-          "descriptionHe": "סוג חומר",
+          "descriptionHe": "טקסטים לסוג חומר",
           "descriptionEn": "Material type",
           "tcodes": "",
           "fioriApp": "",
@@ -5277,7 +5277,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "T023",
-          "descriptionHe": "קבוצת חומר",
+          "descriptionHe": "קבוצות חומר (הגדרה)",
           "descriptionEn": "Material group",
           "tcodes": "",
           "fioriApp": "",
@@ -5347,7 +5347,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "T023T",
-          "descriptionHe": "קבוצת חומר",
+          "descriptionHe": "טקסטים לקבוצת חומר",
           "descriptionEn": "Material group",
           "tcodes": "",
           "fioriApp": "",
@@ -5416,7 +5416,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "T399X",
-          "descriptionHe": "מפעל",
+          "descriptionHe": "פרמטרי בקרת MRP למפעל",
           "descriptionEn": "Plant",
           "tcodes": "",
           "fioriApp": "",
@@ -5623,7 +5623,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "T003O",
-          "descriptionHe": "סוג פק\"ע",
+          "descriptionHe": "סוגי פקודה (הגדרה)",
           "descriptionEn": "Order type",
           "tcodes": "",
           "fioriApp": "",
@@ -5782,7 +5782,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "TJ30",
-          "descriptionHe": "פרופיל סטטוס",
+          "descriptionHe": "סטטוסי משתמש (הגדרה)",
           "descriptionEn": "Status profile",
           "tcodes": "",
           "fioriApp": "",
@@ -5868,7 +5868,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "TJ30T",
-          "descriptionHe": "פרופיל סטטוס",
+          "descriptionHe": "טקסטים לסטטוס משתמש",
           "descriptionEn": "Status profile",
           "tcodes": "",
           "fioriApp": "",
@@ -5953,7 +5953,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "BUT000",
-          "descriptionHe": "מספר שותף עסקי",
+          "descriptionHe": "נתוני אב שותף עסקי",
           "descriptionEn": "Business partner number",
           "tcodes": "",
           "fioriApp": "",
@@ -6119,7 +6119,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "JEST",
-          "descriptionHe": "מפתח אובייקט",
+          "descriptionHe": "סטטוסי אובייקט פעילים",
           "descriptionEn": "Object number",
           "tcodes": "",
           "fioriApp": "",
@@ -6200,7 +6200,7 @@ export const PPPI_DATA = {
         },
         {
           "tableName": "JSTO",
-          "descriptionHe": "מפתח אובייקט",
+          "descriptionHe": "פרופיל סטטוס לאובייקט",
           "descriptionEn": "Object number",
           "tcodes": "",
           "fioriApp": "",
