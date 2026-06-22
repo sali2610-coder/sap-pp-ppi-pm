@@ -120,7 +120,31 @@
       "Bash(awk '/^===== 7\\\\.4\\\\.5 /{p=1} /^===== 7\\\\.6 /{p=0} p' /tmp/b5-ch7.txt)",
       "Bash(sed -n '1,280p' /tmp/b5-7b.txt)",
       "Bash(node /tmp/b5-ch7b.mjs)",
-      "Bash(awk '/^===== 7\\\\.6 /{p=1} p' /tmp/b5-ch7.txt)"
+      "Bash(awk '/^===== 7\\\\.6 /{p=1} p' /tmp/b5-ch7.txt)",
+      "Bash(awk '/^===== 8\\\\.1 /{p=1} /^===== 8\\\\.3 /{p=0} p' /tmp/b5-ch8.txt)",
+      "Bash(node /tmp/b5-ch8b.mjs)",
+      "Bash(awk '/^===== 9\\\\.1 /{p=1} /^===== 9\\\\.5 /{p=0} p' /tmp/b5-ch9.txt)",
+      "Bash(sed -n '1,230p' /tmp/b5-9a.txt)",
+      "Bash(grep -oE \"[^\\\\\"]{0,18}10\\\\.[0-9]+[^\\\\\"]{0,12}\" /tmp/ch9-remap.json)",
+      "Bash(grep -oE \"[^\\\\\"]{0,14}10\\\\.[0-9]\" /tmp/ch9-remap.json)",
+      "Bash(grep -oE \".{30}9, 10\\\\.3.{20}\" /tmp/ch9-remap.json)",
+      "Bash(grep -oE \"YB0001|PS Profile[^\\\\\"]{0,30}|פרופיל תזמון[^\\\\\"]{0,40}\" /tmp/ch9-remap.json)",
+      "Bash(node -e 'const j=require\\(\"/tmp/ch9-remap.json\"\\); console.log\\(j[\"9.12\"]\\)')",
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book5/he/ch9.json\",\"utf8\"\\)\\); console.log\\(\"ch9.json valid\"\\)')",
+      "Bash(awk '/^===== 10\\\\.1 /{p=1} /^===== 10\\\\.4 /{p=0} p' /tmp/b5-ch10.txt)",
+      "Bash(sed -n '1,260p' /tmp/b5-10a.txt)",
+      "Bash(node /tmp/b5-ch10a.mjs)",
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book5/he/ch10.json\",\"utf8\"\\)\\);console.log\\(\"ch10 JSON valid\"\\)')",
+      "Bash(node /tmp/b5-ch11a.mjs)",
+      "Bash(node /tmp/b5-ch11b.mjs)",
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book5/he/ch11.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')",
+      "Bash(node /tmp/b5-ch12b.mjs)",
+      "Bash(node /tmp/b5-ch12c.mjs)",
+      "Bash(node /tmp/b5-ch12d.mjs)",
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book5/he/ch12.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')",
+      "Bash(node /tmp/b5-ch13a.mjs)",
+      "Bash(node /tmp/b5-ch13b.mjs)",
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book5/he/ch13.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')"
     ]
   }
 }

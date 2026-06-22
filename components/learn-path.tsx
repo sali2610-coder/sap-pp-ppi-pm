@@ -75,9 +75,9 @@ export function LearnPathView({ module }: { module: string }) {
                   </div>
                   <p className="mt-1 text-sm leading-relaxed text-slate-600">{s.whyHe}</p>
                   <div className="mt-2 flex flex-wrap gap-2">
-                    {s.object
-                      ? <Link href={`/object/${encodeURIComponent(s.object)}/`} className="tap inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand"><BookOpen className="size-3.5" />למד אובייקט זה<ArrowLeft className="size-3.5" /></Link>
-                      : <span className="inline-flex items-center gap-1.5 rounded-lg bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-400">שלב מושגי — אין טבלה בודדת</span>}
+                    {s.object && <Link href={`/object/${encodeURIComponent(s.object)}/`} className="tap inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand"><BookOpen className="size-3.5" />למד אובייקט זה<ArrowLeft className="size-3.5" /></Link>}
+                    {s.href && <Link href={s.href} className="tap inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand">{s.linkLabel || "פתח"}<ArrowLeft className="size-3.5" /></Link>}
+                    {!s.object && !s.href && <span className="inline-flex items-center gap-1.5 rounded-lg bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-400">שלב מושגי</span>}
                   </div>
                 </div>
               </div>
