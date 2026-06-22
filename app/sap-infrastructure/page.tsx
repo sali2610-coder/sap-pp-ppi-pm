@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, Hand, ChevronDown, Database, GitBranch, Workflow, Clock, RotateCcw, Copy, Check, Gauge, BrainCircuit, Terminal, AlertTriangle, ArrowRightLeft, Network, Boxes } from "lucide-react";
+import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, ArrowRight, Hand, ChevronDown, Database, GitBranch, Workflow, Clock, RotateCcw, Copy, Check, Gauge, BrainCircuit, Terminal, AlertTriangle, ArrowRightLeft, Network, Boxes } from "lucide-react";
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
 import { Highlight } from "@/components/highlight";
 import { s4For, TRUST_HE, RISK_HE, RISK_COLOR } from "@/lib/s4";
@@ -608,7 +608,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
       <div ref={wrapRef} className={`relative overflow-hidden rounded-[1.1rem] border border-slate-200/80 ${fs ? "h-screen bg-slate-50" : "h-[calc(100vh-10.5rem)] min-h-[600px]"}`}
         style={{ backgroundImage: "radial-gradient(circle at 1px 1px,#d7deea 1px,transparent 0)", backgroundSize: "30px 30px" }}>
         {/* floating: mode selector (top-center) */}
-        <div className="absolute left-1/2 top-3 z-30 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-white/60 bg-white/85 p-1 shadow-lg shadow-black/5 backdrop-blur-md">
+        <div className={`absolute left-1/2 z-30 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-white/60 bg-white/85 p-1 shadow-lg shadow-black/5 backdrop-blur-md transition-all ${sel ? "top-14" : "top-3"}`}>
           {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>{he}</button>)}
         </div>
         {/* mode explainer popup — helps new users understand each mode */}
@@ -635,7 +635,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
           const matchCount = s4Filter === "all" ? shown.length : shown.filter((t) => s4ok(t.name)).length;
           const activeDesc = FILTERS.find((f) => f[0] === s4Filter)?.[2];
           return (
-            <div className="absolute left-1/2 top-[3.4rem] z-30 flex -translate-x-1/2 flex-col items-center gap-1">
+            <div className={`absolute left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-1 transition-all ${sel ? "top-[6.5rem]" : "top-[3.4rem]"}`}>
               <div className="flex items-center gap-0.5 rounded-full border border-amber-200/70 bg-white/90 p-0.5 shadow-md backdrop-blur-md">
                 {FILTERS.map(([id, he, desc]) => (
                   <button key={id} title={desc} onClick={() => setS4Filter(id)} className={`rounded-full px-2.5 py-1 text-[11px] font-bold transition ${s4Filter === id ? "bg-amber-400 text-amber-950 shadow-sm" : "text-slate-500 hover:bg-amber-50"}`}>{he}</button>
@@ -652,7 +652,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
           );
         })()}
         {/* floating: title + filters (top-left) */}
-        <div className="absolute left-3 top-3 z-20 flex max-w-[58%] flex-col gap-1.5">
+        <div className={`absolute left-3 z-20 flex max-w-[58%] flex-col gap-1.5 transition-all ${sel ? "top-14" : "top-3"}`}>
           <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-1.5 shadow-sm backdrop-blur-sm">
             <span className="grid size-7 shrink-0 place-items-center rounded-lg text-[10px] font-extrabold text-white" style={{ background: color(code) }}>{code === "PP-PI" ? "PP" : code}</span>
             <div><div className="text-sm font-extrabold leading-tight text-slate-900">{MOD_NAME_HE[code] || code}</div><div className="text-[10px] font-semibold text-slate-400">{shown.length} טבלאות · {links.length} קשרים</div></div>
@@ -698,7 +698,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
           );
         })()}
         {/* legend (top-right) */}
-        <div className="pointer-events-none absolute right-3 top-3 z-20 flex flex-wrap gap-1.5 text-[10px] font-bold">
+        <div className={`pointer-events-none absolute right-3 z-20 flex flex-wrap gap-1.5 text-[10px] font-bold transition-all ${sel ? "top-14" : "top-3"}`}>
           {[["🔑 PK", "#d97706"], ["FK", "#2563eb"], ["חוצה-מודול", "#7c3aed"]].map(([k, v]) => (<span key={k} className="flex items-center gap-1 rounded-lg bg-white/90 px-2 py-1 shadow-sm ring-1 ring-slate-200 backdrop-blur-sm"><i className="size-2 rounded-full" style={{ background: v }} /><span style={{ color: v }}>{k}</span></span>))}
         </div>
         {/* minimap (#2) — scaled overview + draggable viewport, click to jump */}
@@ -707,7 +707,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
           const MMW = 184; const s = MMW / Math.max(vbW, 1); const MMH = Math.max(64, Math.min(168, vbH * s));
           const jump = (e: React.PointerEvent) => { const r = (e.currentTarget as HTMLElement).getBoundingClientRect(); const gx = (e.clientX - r.left) / s, gy = (e.clientY - r.top) / s; setTr((cur) => ({ k: cur.k, x: vw / 2 - gx * cur.k, y: vh / 2 - gy * cur.k })); };
           return (
-            <div className="absolute right-3 top-12 z-20 hidden cursor-pointer overflow-hidden rounded-xl border border-slate-200 bg-white/95 shadow-lg backdrop-blur-md sm:block" style={{ width: MMW, height: MMH }} title="מפת ניווט — לחץ לקפיצה" onPointerDown={jump}>
+            <div className={`absolute right-3 z-20 hidden cursor-pointer overflow-hidden rounded-xl border border-slate-200 bg-white/95 shadow-lg backdrop-blur-md transition-all sm:block ${sel ? "top-[7rem]" : "top-12"}`} style={{ width: MMW, height: MMH }} title="מפת ניווט — לחץ לקפיצה" onPointerDown={jump}>
               <svg width={MMW} height={MMH}>
                 {shown.map((t) => { const p = P(t.name); if (!p) return null; const cc = color(own[t.name] || t.mod); const on = multi.has(t.name) || sel === t.name; return <rect key={t.name} x={p.x * s} y={p.y * s} width={Math.max(3, W * s)} height={Math.max(2, H * s)} rx={1.5} fill={on ? cc : cc + "66"} />; })}
                 <rect x={(-tr.x / tr.k) * s} y={(-tr.y / tr.k) * s} width={(vw / tr.k) * s} height={(vh / tr.k) * s} fill="rgba(214,32,39,.10)" stroke="#d62027" strokeWidth={1.5} rx={2} />
@@ -723,15 +723,21 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
           <span className="px-2 font-mono text-xs font-bold tabular-nums text-slate-400">{Math.round(tr.k * 100)}%</span>
         </div>
         {panMode && <div className="pointer-events-none absolute bottom-[4.25rem] left-1/2 z-20 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-[#d62027] px-2.5 py-0.5 text-[10px] font-bold text-white shadow-md"><Hand className="size-3" />מצב גרירה</div>}
-        {/* Focus Mode toolbar — appears when a node is focused (Figma/Miro-style) */}
+        {/* Focus Mode header — full-width sub-view bar (Figma/Miro style). Sits above
+            the analysis toolbar (which shifts down while focused), never overlaps. */}
         {sel && (
-          <div className="absolute left-1/2 top-3 z-40 flex -translate-x-1/2 items-center gap-1 rounded-2xl border border-slate-200 bg-white/95 p-1.5 shadow-xl shadow-black/10 backdrop-blur-md" style={{ animation: "fadeUp .25s ease both" }} dir="rtl">
-            <button onClick={exitFocus} className="tap inline-flex items-center gap-1.5 rounded-xl bg-[#d62027] px-3 py-1.5 text-xs font-bold text-white transition hover:brightness-110 active:scale-95"><ChevronLeft className="size-4" />חזרה לגרף</button>
-            <span className="mx-0.5 hidden h-5 w-px bg-slate-200 sm:block" />
-            <span className="hidden max-w-[140px] truncate px-1 font-mono text-xs font-bold text-slate-500 sm:block" dir="ltr">{sel}</span>
-            <button onClick={() => setTr((p) => ({ ...p, k: Math.max(0.2, p.k / 1.2) }))} title="הקטן" className="grid size-8 place-items-center rounded-xl text-slate-600 transition hover:bg-slate-100 active:scale-90"><ZoomOut className="size-4" /></button>
-            <button onClick={() => setTr((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) }))} title="הגדל" className="grid size-8 place-items-center rounded-xl text-slate-600 transition hover:bg-slate-100 active:scale-90"><ZoomIn className="size-4" /></button>
-            <button onClick={fitSelection} title="התאם לבחירה" className="grid size-8 place-items-center rounded-xl text-slate-600 transition hover:bg-slate-100 active:scale-90"><Scan className="size-4" /></button>
+          <div className="absolute inset-x-0 top-0 z-50 flex items-center justify-between gap-2 border-b border-white/15 bg-gradient-to-l from-[#d62027] to-[#8f1318] px-3 py-2 text-white shadow-lg" style={{ animation: "fadeUp .25s ease both" }} dir="rtl">
+            <span className="flex min-w-0 items-center gap-2 text-sm font-bold">
+              <Search className="size-4 shrink-0 opacity-90" />
+              <span className="shrink-0 opacity-90">מצב מיקוד:</span>
+              <span className="tech truncate rounded-md bg-white/20 px-2 py-0.5 font-mono font-extrabold ring-1 ring-white/25" dir="ltr">{sel}</span>
+            </span>
+            <div className="flex shrink-0 items-center gap-1">
+              <button onClick={fitSelection} title="התאם לבחירה" className="grid size-8 place-items-center rounded-lg text-white/80 transition hover:bg-white/15"><Scan className="size-4" /></button>
+              <button onClick={() => setTr((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) }))} title="הגדל" className="grid size-8 place-items-center rounded-lg text-white/80 transition hover:bg-white/15"><ZoomIn className="size-4" /></button>
+              <button onClick={() => setTr((p) => ({ ...p, k: Math.max(0.2, p.k / 1.2) }))} title="הקטן" className="grid size-8 place-items-center rounded-lg text-white/80 transition hover:bg-white/15"><ZoomOut className="size-4" /></button>
+              <button onClick={exitFocus} className="tap inline-flex items-center gap-1.5 rounded-xl bg-white px-3.5 py-2 text-sm font-extrabold text-[#d62027] shadow-sm transition hover:bg-white/90 active:scale-95"><ArrowRight className="size-4" />חזרה למפת הקשרים</button>
+            </div>
           </div>
         )}
         {/* empty workspace — no module selected: clean canvas + centered module picker */}
