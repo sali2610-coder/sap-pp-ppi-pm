@@ -367,25 +367,6 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
   useEffect(() => { saveGraphMemory({ mode, mod: code }); }, [mode, code]);
   useEffect(() => { saveGraphMemory({ k: tr.k }); }, [tr.k]);
   useEffect(() => { saveGraphMemory({ sel }); }, [sel]);
-  // power-user keyboard shortcuts (Phase 7): F focus · R relationships · L lineage · S S/4 · T details · / search · Esc close · ? help
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      const el = e.target as HTMLElement | null;
-      if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable)) return;
-      if (e.metaKey || e.ctrlKey || e.altKey) return;
-      const k = e.key.toLowerCase();
-      if (k === "escape") { if (drawer) setDrawer(null); else if (multi.size) setMulti(new Set()); else if (sel) setSel(null); else if (help) setHelp(false); return; }
-      if (e.key === "?" || (e.shiftKey && k === "/")) { e.preventDefault(); setHelp((v) => !v); return; }
-      if (k === "/") { e.preventDefault(); window.dispatchEvent(new Event("neo:open-palette")); return; }
-      if (k === "f") { setMode("focus"); setModeInfo("focus"); }
-      else if (k === "r") { setMode("dep"); setModeInfo("dep"); }
-      else if (k === "l") { setMode("lineage"); setModeInfo("lineage"); }
-      else if (k === "s") { setS4Filter((v) => (v === "impacted" ? "all" : "impacted")); }
-      else if (k === "t") { if (sel) setDrawer(sel); }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [drawer, sel, help, multi]);
 
   // graph helpers
   const neigh = useCallback((nm: string) => { const s = new Set([nm]); links.forEach((l) => { if (l.a === nm) s.add(l.b); if (l.b === nm) s.add(l.a); }); return s; }, [links]);
@@ -428,7 +409,50 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
     const vw = el.clientWidth || 1200, vh = el.clientHeight || 720;
     setTr((cur) => { const k = Math.max(cur.k, 0.6); return { k, x: vw / 2 - (p.x + W / 2) * k, y: vh / 2 - (p.y + H / 2) * k }; });
   }, [P]);
+  // ---- Focus Mode: enter a node (save viewport + zoom in), exit (restore exactly) ----
+  const prevView = useRef<{ x: number; y: number; k: number } | null>(null);
+  const enterFocus = useCallback((name: string) => {
+    if (!sel) prevView.current = { ...trRef.current }; // remember overview only when entering from it
+    setSel(name); setDrawer(null);
+    const el = wrapRef.current; const p = P(name); if (!el || !p) return;
+    const vw = el.clientWidth || 1200, vh = el.clientHeight || 720;
+    setTr(() => { const k = 0.95; return { k, x: vw / 2 - (p.x + W / 2) * k, y: vh / 2 - (p.y + H / 2) * k }; }); // smooth (CSS transition) zoom-in to the node
+  }, [sel, P]);
+  const exitFocus = useCallback(() => {
+    setSel(null); setDrawer(null);
+    if (prevView.current) { setTr(prevView.current); prevView.current = null; } else fit();
+  }, [fit]);
+  const fitSelection = useCallback(() => {
+    if (!sel) return; const el = wrapRef.current; if (!el) return;
+    const ps = [...neigh(sel)].map((n) => P(n)).filter(Boolean) as { x: number; y: number }[];
+    if (!ps.length) return;
+    const minx = Math.min(...ps.map((p) => p.x)), maxx = Math.max(...ps.map((p) => p.x + W));
+    const miny = Math.min(...ps.map((p) => p.y)), maxy = Math.max(...ps.map((p) => p.y + H));
+    const bw = Math.max(1, maxx - minx), bh = Math.max(1, maxy - miny);
+    const vw = el.clientWidth || 1200, vh = el.clientHeight || 720, pad = 140;
+    const k = Math.max(0.2, Math.min((vw - pad) / bw, (vh - pad) / bh, 1.6));
+    setTr({ k, x: vw / 2 - (minx + bw / 2) * k, y: vh / 2 - (miny + bh / 2) * k });
+  }, [sel, neigh, P]);
   const fullscreen = () => { const el = wrapRef.current; if (!el) return; document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); };
+  // power-user keyboard shortcuts: F focus · R relationships · L lineage · S S/4 · T details · / search · Esc exit · ? help
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement | null;
+      if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable)) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const k = e.key.toLowerCase();
+      if (k === "escape") { if (drawer) setDrawer(null); else if (multi.size) setMulti(new Set()); else if (sel) exitFocus(); else if (help) setHelp(false); return; }
+      if (e.key === "?" || (e.shiftKey && k === "/")) { e.preventDefault(); setHelp((v) => !v); return; }
+      if (k === "/") { e.preventDefault(); window.dispatchEvent(new Event("neo:open-palette")); return; }
+      if (k === "f") { setMode("focus"); setModeInfo("focus"); }
+      else if (k === "r") { setMode("dep"); setModeInfo("dep"); }
+      else if (k === "l") { setMode("lineage"); setModeInfo("lineage"); }
+      else if (k === "s") { setS4Filter((v) => (v === "impacted" ? "all" : "impacted")); }
+      else if (k === "t") { if (sel) setDrawer(sel); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [drawer, sel, help, multi, exitFocus]);
   // auto fit-to-screen on module open / data change / resize / fullscreen — whole landscape always visible
   useEffect(() => { const id = setTimeout(fit, 90); return () => clearTimeout(id); }, [fit, fs]);
   useEffect(() => {
@@ -590,6 +614,17 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
           <span className="px-2 font-mono text-xs font-bold tabular-nums text-slate-400">{Math.round(tr.k * 100)}%</span>
         </div>
         {panMode && <div className="pointer-events-none absolute bottom-[4.25rem] left-1/2 z-20 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-[#d62027] px-2.5 py-0.5 text-[10px] font-bold text-white shadow-md"><Hand className="size-3" />מצב גרירה</div>}
+        {/* Focus Mode toolbar — appears when a node is focused (Figma/Miro-style) */}
+        {sel && (
+          <div className="absolute left-1/2 top-3 z-40 flex -translate-x-1/2 items-center gap-1 rounded-2xl border border-slate-200 bg-white/95 p-1.5 shadow-xl shadow-black/10 backdrop-blur-md" style={{ animation: "fadeUp .25s ease both" }} dir="rtl">
+            <button onClick={exitFocus} className="tap inline-flex items-center gap-1.5 rounded-xl bg-[#d62027] px-3 py-1.5 text-xs font-bold text-white transition hover:brightness-110 active:scale-95"><ChevronLeft className="size-4" />חזרה לגרף</button>
+            <span className="mx-0.5 hidden h-5 w-px bg-slate-200 sm:block" />
+            <span className="hidden max-w-[140px] truncate px-1 font-mono text-xs font-bold text-slate-500 sm:block" dir="ltr">{sel}</span>
+            <button onClick={() => setTr((p) => ({ ...p, k: Math.max(0.2, p.k / 1.2) }))} title="הקטן" className="grid size-8 place-items-center rounded-xl text-slate-600 transition hover:bg-slate-100 active:scale-90"><ZoomOut className="size-4" /></button>
+            <button onClick={() => setTr((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) }))} title="הגדל" className="grid size-8 place-items-center rounded-xl text-slate-600 transition hover:bg-slate-100 active:scale-90"><ZoomIn className="size-4" /></button>
+            <button onClick={fitSelection} title="התאם לבחירה" className="grid size-8 place-items-center rounded-xl text-slate-600 transition hover:bg-slate-100 active:scale-90"><Scan className="size-4" /></button>
+          </div>
+        )}
         {/* empty workspace — no module selected: clean canvas + centered module picker */}
         {selMods.size === 0 && (
           <div className="pointer-events-none absolute inset-0 z-30 grid place-items-center p-5" style={{ animation: "fadeIn .3s ease both" }}>
@@ -646,9 +681,9 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                 const glow = st.impacted ? ", 0 0 0 2px #f59e0b, 0 0 16px 1px rgba(245,158,11,.5)" : "";
                 return (
                   <div key={t.name} data-card
-                    onPointerDown={(e) => { if ((e.target as Element).closest("[data-nodrag]")) return; e.stopPropagation(); (e.currentTarget as Element).setPointerCapture?.(e.pointerId); const cur = P(t.name) || { x: 0, y: 0 }; nodeDrag.current = { name: t.name, sx: e.clientX, sy: e.clientY, ox: cur.x, oy: cur.y, moved: false, shift: e.shiftKey }; }}
+                    onPointerDown={(e) => { if ((e.target as Element).closest("[data-nodrag]")) return; e.stopPropagation(); try { (e.currentTarget as Element).setPointerCapture?.(e.pointerId); } catch { /* synthetic events */ } const cur = P(t.name) || { x: 0, y: 0 }; nodeDrag.current = { name: t.name, sx: e.clientX, sy: e.clientY, ox: cur.x, oy: cur.y, moved: false, shift: e.shiftKey }; }}
                     onPointerMove={(e) => { const d = nodeDrag.current; if (!d || d.name !== t.name) return; if (Math.abs(e.clientX - d.sx) + Math.abs(e.clientY - d.sy) > 4) d.moved = true; if (d.moved) { const nx = d.ox + (e.clientX - d.sx) / tr.k, ny = d.oy + (e.clientY - d.sy) / tr.k; setDragPos((m) => ({ ...m, [t.name]: { x: nx, y: ny } })); } }}
-                    onPointerUp={() => { const d = nodeDrag.current; nodeDrag.current = null; if (d && !d.moved) { if (d.shift) { setMulti((s) => { const n = new Set(s); if (n.size === 0 && sel) n.add(sel); n.has(t.name) ? n.delete(t.name) : n.add(t.name); return n; }); } else { setMulti(new Set()); const willSel = sel !== t.name; setSel(willSel ? t.name : null); setDrawer(null); if (willSel) centerOn(t.name); } } else if (d && d.moved) { setDragPos((m) => { saveLayout(code, m); return m; }); } }}
+                    onPointerUp={() => { const d = nodeDrag.current; nodeDrag.current = null; if (d && !d.moved) { if (d.shift) { setMulti((s) => { const n = new Set(s); if (n.size === 0 && sel) n.add(sel); n.has(t.name) ? n.delete(t.name) : n.add(t.name); return n; }); } else { setMulti(new Set()); if (sel !== t.name) enterFocus(t.name); else exitFocus(); } } else if (d && d.moved) { setDragPos((m) => { saveLayout(code, m); return m; }); } }}
                     onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
                     className="group absolute select-none overflow-hidden rounded-2xl bg-white transition-[box-shadow,opacity] duration-200 ease-[cubic-bezier(.32,.72,0,1)]"
                     style={{ left: p.x, top: p.y, width: W, opacity: fade ? 0.12 : dim ? 0.28 : 1, zIndex: dragging ? 40 : isSel ? 30 : st.impacted ? 5 : 2, cursor: dragging ? "grabbing" : "grab", border: `1.5px solid ${isSel ? c : st.impacted ? "#f59e0b" : "#e2e8f0"}`, boxShadow: baseShadow + glow, touchAction: "none", animation: Object.keys(dragPos).length ? undefined : `pop .42s cubic-bezier(.32,.72,0,1) ${Math.min(gi * 20, 480)}ms both` }}>
