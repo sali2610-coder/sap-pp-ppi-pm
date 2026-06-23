@@ -97,7 +97,7 @@ export function S4Transformation() {
               <Ic className="size-4 shrink-0" style={on ? { color: "#2563eb" } : undefined} />{s.he}
             </button>
           ); })}
-          <Link href="/migration/" className="mt-2 flex items-center gap-2 rounded-xl bg-slate-900 px-3 py-2 text-sm font-bold text-white"><Database className="size-4" />Migration Cockpit</Link>
+          <Link href="/migration-cockpit/" className="mt-2 flex items-center gap-2 rounded-xl bg-slate-900 px-3 py-2 text-sm font-bold text-white"><Database className="size-4" />Migration Cockpit</Link>
           <button onClick={() => window.dispatchEvent(new Event("neo:open-mentor"))} className="flex w-full items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-right text-sm font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand"><BrainCircuit className="size-4" />שאל מנטור S/4</button>
         </nav></aside>
 
