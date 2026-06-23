@@ -177,7 +177,10 @@
       "Bash(node /tmp/b3-ch14b.mjs)",
       "Bash(node /tmp/b3-ch14c.mjs)",
       "Bash(node /tmp/b3-ch14d.mjs)",
-      "Bash(node /tmp/b3-ch14e.mjs)"
+      "Bash(node /tmp/b3-ch14e.mjs)",
+      "Bash(node /tmp/b3-ch15a.mjs)",
+      "Bash(node /tmp/b3-ch15b.mjs)",
+      "Bash(node /tmp/b3-ch16a.mjs)"
     ],
     "additionalDirectories": [
       "/Users/salihalif/Desktop/My-Projects/sap/scripts"

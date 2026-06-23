@@ -89,9 +89,14 @@ export default function AcademyDashboard() {
           ))}
         </div>
 
-        <Link href="/library/academy/search/" className="mt-4 inline-flex items-center gap-2 rounded-xl bg-gradient-to-l from-brand to-brand-dark px-4 py-2 text-sm font-bold text-brand-foreground transition-opacity hover:opacity-90">
-          <Search className="size-4" />{lang === "he" ? "חיפוש מאוחד בכל הספרים" : "Unified search across all books"}
-        </Link>
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+          <Link href="/library/academy/search/" className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-l from-brand to-brand-dark px-4 py-2 text-sm font-bold text-brand-foreground transition-opacity hover:opacity-90">
+            <Search className="size-4" />{lang === "he" ? "חיפוש מאוחד" : "Unified search"}
+          </Link>
+          <Link href="/library/academy/fiori/" className="inline-flex items-center gap-2 rounded-xl border border-brand/30 bg-card px-4 py-2 text-sm font-bold text-brand transition-colors hover:bg-brand-soft">
+            <Layers className="size-4" />{lang === "he" ? "אינדקס Fiori (1,450)" : "Fiori index (1,450)"}
+          </Link>
+        </div>
       </section>
 
       <div className="grid gap-4 sm:grid-cols-2">
