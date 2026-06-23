@@ -119,9 +119,31 @@ export function LearnHome() {
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {agg.cats.map(({ cat, pct, total, hours, lvl, tracks, done }) => {
             const Icon = ICON[cat.icon]; const active = open === cat.id;
+            const onboard = cat.id === "onboarding";
+            const inner = (<>
+                <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: cat.accent }} />
+                <span className="pointer-events-none absolute -left-10 -top-10 size-28 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-20" style={{ background: cat.accent }} />
+                <div className="flex items-start justify-between gap-3">
+                  <span className="grid size-14 shrink-0 place-items-center rounded-2xl text-white shadow-sm" style={{ background: cat.accent }}><Icon className="size-7" /></span>
+                  <Ring pct={pct} color={cat.accent} size={56} sw={5}>
+                    <span className="text-sm font-extrabold tabular-nums" style={{ color: cat.accent }}>{pct}%</span>
+                  </Ring>
+                </div>
+                <div className="mt-3 flex items-center gap-2 text-lg font-extrabold text-slate-900">{cat.he}{onboard && <span className="rounded-full bg-brand/10 px-2 py-0.5 text-[10px] font-bold text-brand">התחל כאן</span>}</div>
+                <div className="text-[13px] leading-snug text-slate-500">{cat.sub}</div>
+                <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] font-bold text-slate-400">
+                  <span className="flex items-center gap-1"><BookOpen className="size-3.5" />{tracks} מסלולים</span>
+                  <span className="flex items-center gap-1"><Layers className="size-3.5" />{done}/{total} יחידות</span>
+                  {hours > 0 && <span className="flex items-center gap-1"><Clock className="size-3.5" />~{hours} שעות</span>}
+                  <span className="rounded-full px-2 py-0.5 text-white" style={{ background: cat.accent }}>{lvl}</span>
+                </div>
+                <span className="mt-3 flex items-center gap-1 text-[12px] font-bold text-slate-400 transition group-hover:text-brand">{onboard ? "פתח את מסע הקליטה" : active ? "הסתר מסלולים" : "הצג מסלולים"}<ChevronLeft className={`size-4 transition-transform ${active && !onboard ? "-rotate-90" : ""}`} /></span>
+            </>);
+            const cardCls = `group relative overflow-hidden rounded-3xl border bg-white p-5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${active && !onboard ? "border-transparent ring-2" : "border-slate-200"}`;
+            if (onboard) return <Link key={cat.id} href="/onboarding/" className={cardCls}>{inner}</Link>;
             return (
               <button key={cat.id} onClick={() => setOpen(active ? null : cat.id)}
-                className={`group relative overflow-hidden rounded-3xl border bg-white p-5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${active ? "border-transparent ring-2" : "border-slate-200"}`}
+                className={cardCls}
                 style={active ? ({ ["--tw-ring-color"]: cat.accent } as React.CSSProperties) : undefined}>
                 <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: cat.accent }} />
                 <span className="pointer-events-none absolute -left-10 -top-10 size-28 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-20" style={{ background: cat.accent }} />

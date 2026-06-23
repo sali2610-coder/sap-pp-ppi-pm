@@ -142,7 +142,14 @@
       "Bash(node /tmp/b3-ch6b.mjs)",
       "Bash(node /tmp/b3-ch6c.mjs)",
       "Bash(node /tmp/b3-ch6d.mjs)",
-      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch6.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')"
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch6.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')",
+      "Bash(node /tmp/b3-ch7a.mjs)",
+      "Bash(node /tmp/b3-ch7b.mjs)",
+      "Bash(node /tmp/b3-ch7c.mjs)",
+      "Bash(node /tmp/b3-ch7e.mjs)",
+      "Bash(node /tmp/b3-ch7f.mjs)",
+      "Bash(node /tmp/b3-ch7g.mjs)",
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch7.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')"
     ],
     "additionalDirectories": [
       "/Users/salihalif/Desktop/My-Projects/sap/scripts"
