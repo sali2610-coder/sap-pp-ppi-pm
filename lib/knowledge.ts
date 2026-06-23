@@ -32,8 +32,10 @@ export interface ObjectKnowledge {
 // the Explain Card, Mentor, and Impact Center.
 import { PM_KNOWLEDGE } from "@/data/knowledge/pm-objects";
 import { PPPI_KNOWLEDGE } from "@/data/knowledge/pppi-objects";
+import { PM_KNOWLEDGE_EXT } from "@/data/knowledge/pm-objects-ext";
+import { PPPI_KNOWLEDGE_EXT } from "@/data/knowledge/pppi-objects-ext";
 export function knowledgeFor(name: string): ObjectKnowledge | undefined {
-  return PM_KNOWLEDGE[name] || PPPI_KNOWLEDGE[name];
+  return PM_KNOWLEDGE[name] || PPPI_KNOWLEDGE[name] || PM_KNOWLEDGE_EXT[name] || PPPI_KNOWLEDGE_EXT[name];
 }
 
 export const IMPORTANCE_HE: Record<Importance, string> = {

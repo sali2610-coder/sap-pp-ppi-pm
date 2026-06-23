@@ -367,7 +367,13 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
               <Section title="S/4HANA + Fiori" icon={<AppWindow className="size-4" />}>
                 <p className="text-sm text-slate-600">{t.s4Note || "אין שינוי מהותי ב-S/4HANA."}</p>
                 {t.s4AltTable && <p className="mt-1 text-xs text-slate-500">חלופה: <span className="tech font-bold text-slate-700">{t.s4AltTable}</span></p>}
-                {cds.length > 0 && <div className="mt-2"><p className="eyebrow mb-1 text-slate-400">CDS Views</p><div className="flex flex-wrap gap-1.5">{cds.map((v) => <Link key={v.view} href={`/cds/${encodeURIComponent(v.view)}`} className="tech tap rounded bg-teal-50 px-2 py-0.5 text-xs font-bold text-teal-700 transition hover:brightness-95" dir="ltr"><FileCode className="me-1 inline size-3" /><Highlight text={v.view} query={hl} /></Link>)}</div></div>}
+                {cds.length > 0 && <div className="mt-2"><p className="eyebrow mb-1 text-slate-400">CDS · Table → CDS → Consumption → Fiori</p><div className="space-y-1">{cds.map((v) => (
+                  <div key={v.view} className="flex flex-wrap items-center gap-1.5 text-xs" dir="ltr">
+                    <Link href={`/cds/${encodeURIComponent(v.view)}`} className="tech tap rounded bg-teal-50 px-2 py-0.5 font-bold text-teal-700 transition hover:brightness-95"><FileCode className="me-1 inline size-3" /><Highlight text={v.view} query={hl} /></Link>
+                    {v.consumption && <><span className="text-slate-300">→</span><span className="tech rounded bg-cyan-50 px-2 py-0.5 font-bold text-cyan-700">{v.consumption}</span></>}
+                    {v.fiori && <><span className="text-slate-300">→</span><span className="rounded bg-blue-50 px-2 py-0.5 font-bold text-blue-700"><AppWindow className="me-1 inline size-3" />{v.fiori}</span></>}
+                  </div>
+                ))}</div></div>}
                 {t.fioriApp && <p className="mt-2 flex items-center gap-1.5 text-sm text-slate-600"><AppWindow className="size-4 text-brand" />{t.fioriApp}</p>}
                 {t.sqlJoinSnippet && <pre className="mt-2 overflow-auto rounded-lg bg-slate-900 p-2.5 text-[11px] leading-relaxed text-slate-100" dir="ltr">{t.sqlJoinSnippet}</pre>}
               </Section>
