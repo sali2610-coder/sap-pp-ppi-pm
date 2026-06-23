@@ -9,11 +9,13 @@ import type { CertModule } from "@/lib/cert/generate";
 
 const KEY = "neo:cert";
 export interface ModuleStat { seen: number; correct: number; best: number; attempts: number; passed: boolean }
+export interface ExamLog { m: string; score: number; pass: boolean; at: number; mode: "exam" | "daily" }
 export interface CertState {
   mods: Record<string, ModuleStat>;
   daily: { date: string; streak: number; bestStreak: number; doneToday: boolean };
+  log: ExamLog[];
 }
-const EMPTY: CertState = { mods: {}, daily: { date: "", streak: 0, bestStreak: 0, doneToday: false } };
+const EMPTY: CertState = { mods: {}, daily: { date: "", streak: 0, bestStreak: 0, doneToday: false }, log: [] };
 
 let cache: CertState = EMPTY;
 let loaded = false;
@@ -21,7 +23,7 @@ const subs = new Set<() => void>();
 const emit = () => subs.forEach((f) => f());
 
 function read(): CertState {
-  try { const r = JSON.parse(localStorage.getItem(KEY) || "null"); return r && typeof r === "object" ? { ...EMPTY, ...r, daily: { ...EMPTY.daily, ...(r.daily || {}) } } : EMPTY; } catch { return EMPTY; }
+  try { const r = JSON.parse(localStorage.getItem(KEY) || "null"); return r && typeof r === "object" ? { ...EMPTY, ...r, daily: { ...EMPTY.daily, ...(r.daily || {}) }, log: Array.isArray(r.log) ? r.log : [] } : EMPTY; } catch { return EMPTY; }
 }
 function ensure() {
   if (loaded || typeof window === "undefined") return;
@@ -44,7 +46,8 @@ export function recordExam(module: CertModule, score: number, seen: number, corr
     attempts: s.attempts + 1,
     passed: s.passed || score >= 80,
   };
-  cache = { ...cache, mods: { ...cache.mods, [module]: next } };
+  const log: ExamLog[] = [{ m: module, score, pass: score >= 80, at: Date.now(), mode: "exam" as const }, ...cache.log].slice(0, 12);
+  cache = { ...cache, mods: { ...cache.mods, [module]: next }, log };
   persist(); emit();
 }
 
