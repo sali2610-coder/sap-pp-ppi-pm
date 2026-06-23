@@ -16,17 +16,18 @@ import TABLE_TITLES from "@/data/table-titles.json";
 import TABLE_TCODES from "@/data/table-tcodes.json";
 import TABLE_FIORI from "@/data/table-fiori.json";
 import TABLE_EN from "@/data/table-en.json";
+import { HR_TABLES, HR_OBJECTS, HR_FLOW, HR_ACCENT, HR_META, LANDSCAPE_META, type Landscape } from "@/data/hr-module";
 
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];
 type Rel = { role: "parent" | "child"; table: string; card: string; desc: string };
-type Tbl = { name: string; mod: string; real: boolean; he: string; en: string; tcodes: string; fiori: string; s4: string; s4alt: string; pk: string[]; fields: Field[]; funcs: string[]; cds: string[]; rel: Rel[]; degree: number; zone: string };
+type Tbl = { name: string; mod: string; real: boolean; he: string; en: string; tcodes: string; fiori: string; s4: string; s4alt: string; pk: string[]; fields: Field[]; funcs: string[]; cds: string[]; rel: Rel[]; degree: number; zone: string; landscape?: Landscape };
 type Bp = { code: string; purpose: string; objects: string[]; docs: string[]; tables: string[]; inputs: string[]; outputs: string[]; connects: string[] };
 type Data = { meta: { counts: Record<string, number> }; palette: Record<string, string>; modules: { code: string; name: string; he: string }[]; blueprints: Bp[]; processes: { id: string; name: string; he: string; mods: string[]; docs: string[]; color: string }[]; documents: { id: string; he: string; mod: string; tables: string[] }[]; tables: Tbl[]; shared: { name: string; he: string }[]; crossModule: { from: string; to: string; he: string }[] };
 
 const fieldsOf = (t: { name: string; fields: Field[] }) => (FIELDS_PLUS[t.name] || t.fields) as Field[];
-const UNIVERSE = ["MM", "SD", "PP", "PP-PI", "PM", "QM", "CS", "FI", "CO", "BATCH", "CLASS", "IDOC", "PIPO"];
-const MOD_NAME_HE: Record<string, string> = { MM: "ניהול חומרים", SD: "מכירות והפצה", PP: "תכנון ייצור", "PP-PI": "ייצור תהליכי", PM: "תחזוקת מפעל", QM: "ניהול איכות", CS: "שירות לקוחות", FI: "הנהלת חשבונות", CO: "בקרת עלויות", BATCH: "ניהול אצוות", CLASS: "מערכת סיווג", IDOC: "מסגרת IDOC/ALE", PIPO: "ממשקי PI/PO" };
+const UNIVERSE = ["MM", "SD", "PP", "PP-PI", "PM", "QM", "HR", "CS", "FI", "CO", "BATCH", "CLASS", "IDOC", "PIPO"];
+const MOD_NAME_HE: Record<string, string> = { MM: "ניהול חומרים", SD: "מכירות והפצה", PP: "תכנון ייצור", "PP-PI": "ייצור תהליכי", PM: "תחזוקת מפעל", QM: "ניהול איכות", HR: "משאבי אנוש · HCM/SF", CS: "שירות לקוחות", FI: "הנהלת חשבונות", CO: "בקרת עלויות", BATCH: "ניהול אצוות", CLASS: "מערכת סיווג", IDOC: "מסגרת IDOC/ALE", PIPO: "ממשקי PI/PO" };
 const TABS = [["objects", "אובייקטים"], ["process", "תהליך"], ["erd", "מודל נתונים"], ["technical", "טכני"]] as const;
 const erdMembers = (data: Data, code: string): Tbl[] => { const byName = Object.fromEntries(data.tables.map((t) => [t.name, t])); const list = (ERD_MODULES[code] || []).map((n) => byName[n]).filter(Boolean) as Tbl[]; return list.length ? list : data.tables.filter((t) => t.mod === code).sort((a, b) => b.degree - a.degree).slice(0, 16); };
 
@@ -56,6 +57,8 @@ export default function Page() {
       if (!t.fiori && FI[t.name]) t.fiori = FI[t.name];
       if (!t.en && EN[t.name]) t.en = EN[t.name];
     });
+    // merge the HR / HCM / SuccessFactors module (separate landscape, not in the S/4 blueprints)
+    if (d.tables && !d.tables.some((t) => t.mod === "HR")) { d.tables = [...d.tables, ...(HR_TABLES as unknown as Tbl[])]; d.palette = { ...d.palette, HR: HR_ACCENT }; }
     setData(d);
   }).catch(() => {}); }, []);
   const color = useCallback((m?: string | null) => (data && m && data.palette[m]) || "#64748b", [data]);
@@ -147,7 +150,7 @@ function Universe({ data, color, onModule }: { data: Data; color: (m?: string | 
   // Card table count MUST match what the module drill-down actually shows
   // (erdMembers = ERD_MODULES membership incl. shared core tables), otherwise the
   // summary card (owned-only) disagrees with the content (e.g. PP: 3 owned vs 20 shown).
-  const tc = (m: string) => erdMembers(data, m).length, pc = (m: string) => data.processes.filter((p) => p.mods.includes(m)).length;
+  const tc = (m: string) => m === "HR" ? HR_META.tables : erdMembers(data, m).length, pc = (m: string) => m === "HR" ? HR_META.flow : data.processes.filter((p) => p.mods.includes(m)).length;
   const [lastMod, setLastMod] = useState<string | null>(null);
   useEffect(() => { const m = loadGraphMemory(); if (m.mod && UNIVERSE.includes(m.mod)) setLastMod(m.mod); }, []);
   return (
@@ -221,7 +224,14 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
         </div>
       </div>
       {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} onTable={onTable} />}
-      {tab === "process" && <ProcessWorkspace code={code} byName={byName} color={color} />}
+      {tab === "process" && (code === "HR" ? (
+        <div className="rounded-2xl border border-teal-200 bg-teal-50/50 p-6 text-center" dir="rtl">
+          <Workflow className="mx-auto size-8 text-teal-600" />
+          <h3 className="mt-2 text-lg font-extrabold text-slate-900">מחזור חיי העובד · Employee Lifecycle</h3>
+          <p className="mx-auto mt-1 max-w-xl text-sm text-slate-500">תהליך ה-HR המלא (גיוס → קבלה → קליטה → הכשרה → הערכה → פיתוח → קידום → פרישה) מוצג בלשונית <b>אובייקטים</b> כרצף אינטראקטיבי. מודול HR משלב ECC HCM ו-SuccessFactors — ללא ערבוב, עם תיוג landscape לכל אובייקט.</p>
+          <button onClick={() => setTab("objects")} className="tap mt-3 inline-flex items-center gap-1.5 rounded-xl bg-teal-600 px-4 py-2 text-sm font-bold text-white shadow-sm transition active:scale-95"><Boxes className="size-4" />פתח את מחזור חיי העובד</button>
+        </div>
+      ) : <ProcessWorkspace code={code} byName={byName} color={color} />)}
       {tab === "erd" && <Erd data={data} color={color} code={code} byName={byName} focus={focus} onField={onField} onHome={onHome} onModule={onModule} />}
       {tab === "technical" && <TechCenter data={data} color={color} code={code} byName={byName} onTable={onTable} />}
     </div>
@@ -230,10 +240,23 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
 
 /* ===================== L2 OBJECTS ===================== */
 function ObjectsView({ data, color, code, byName, onObjectErd, onTable }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; onObjectErd: (tables?: string[]) => void; onTable: (t: string) => void }) {
-  const objs = OBJECTS[code] || []; const [open, setOpen] = useState<number | null>(null); const c = color(code);
+  const objs = code === "HR" ? HR_OBJECTS : (OBJECTS[code] || []); const [open, setOpen] = useState<number | null>(null); const c = color(code);
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between"><h3 className="text-base font-bold text-slate-800">אובייקטים עסקיים · {code}</h3><span className="text-xs text-slate-500">לחץ אובייקט → טבלאות הליבה</span></div>
+      {code === "HR" && (
+        <div className="rounded-2xl border border-teal-200 bg-teal-50/60 p-4">
+          <div className="mb-2 flex flex-wrap items-center gap-2 text-[12px] font-bold text-teal-800"><Workflow className="size-4" />מחזור חיי העובד · Employee Lifecycle
+            <span className="flex flex-wrap gap-1">{(["ECC", "S4", "SF", "Hybrid"] as Landscape[]).map((l) => <span key={l} className="rounded-full px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: LANDSCAPE_META[l].c }}>{LANDSCAPE_META[l].he}</span>)}</span>
+          </div>
+          <div className="flex flex-wrap items-center gap-1.5">{HR_FLOW.map((s, i) => (
+            <span key={s.en} className="flex items-center gap-1.5">
+              <button onClick={() => onObjectErd(s.tables.filter((t) => byName[t]))} className="rounded-xl border border-teal-300 bg-white px-2.5 py-1.5 text-right transition hover:shadow-sm active:scale-95">
+                <span className="block text-[12px] font-extrabold text-slate-800">{s.he}</span><span className="block font-mono text-[9px] text-teal-600">{s.en}</span>
+              </button>{i < HR_FLOW.length - 1 && <ArrowLeft className="size-4 shrink-0 text-teal-300" />}
+            </span>))}</div>
+        </div>
+      )}
       <div className="flex flex-wrap items-stretch gap-3">
         {objs.map((o, i) => { const real = o.tables.filter((tn) => byName[tn]); return (
           <div key={i} className="flex items-stretch gap-3">
@@ -249,7 +272,8 @@ function ObjectsView({ data, color, code, byName, onObjectErd, onTable }: { data
                 <div className="mt-2 w-56 rounded-xl border border-slate-200 bg-white p-3 shadow-sm" style={{ animation: "fadeUp .3s ease both" }}>
                   <div className="mb-2 flex items-center justify-between"><span className="text-[10px] font-bold uppercase text-slate-400">טבלאות ליבה</span><button onClick={() => onObjectErd(real)} className="rounded-md px-2 py-0.5 text-[11px] font-bold text-white" style={{ background: c }}>ERD →</button></div>
                   <div className="space-y-1.5">{real.map((tn) => { const t = byName[tn]; return <button key={tn} onClick={() => onTable(tn)} className="flex w-full items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-right hover:border-slate-300">
-                    <span className="font-mono text-sm font-bold" style={{ color: color(t!.mod) }}>{tn}</span><span className="truncate text-[10px] text-slate-400">{t!.he || ""}</span></button>; })}</div>
+                    <span className="flex min-w-0 items-center gap-1.5"><span className="font-mono text-sm font-bold" style={{ color: color(t!.mod) }}>{tn}</span><span className="truncate text-[10px] text-slate-400">{t!.he || ""}</span></span>
+                    {t!.landscape && <span className="shrink-0 rounded px-1 py-0.5 text-[8px] font-bold text-white" style={{ background: LANDSCAPE_META[t!.landscape].c }}>{LANDSCAPE_META[t!.landscape].he}</span>}</button>; })}</div>
                 </div>
               )}
             </div>
@@ -406,6 +430,7 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
               <span className="rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: cm.c }}>{cm.he}</span>
               <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: c }}>{t.mod}</span>
               {k && <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: IMPORTANCE_COLOR[k.importance] }}>{IMPORTANCE_HE[k.importance]}</span>}
+              {t.landscape && <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: LANDSCAPE_META[t.landscape].c }}>{LANDSCAPE_META[t.landscape].he}</span>}
               {s4?.impacted && <span className="rounded-md bg-amber-400 px-2 py-0.5 text-[10px] font-extrabold text-amber-950">S/4 שינוי</span>}
             </div>
             <p className="truncate text-sm font-medium text-slate-500">{t.he || t.en}</p>
@@ -1222,7 +1247,7 @@ function Inspector({ data, color, t, byName, onClose, onGo, onFull }: { data: Da
     <div className="absolute z-40 max-h-[88%] w-[340px] overflow-auto rounded-2xl border border-slate-200 bg-white/95 shadow-2xl backdrop-blur-md" style={{ insetInlineStart: 12 + p.x, top: 12 + p.y, animation: "pop .25s ease both" }} dir="rtl">
       <div className="sticky top-0 z-10 h-1" style={{ background: c }} />
       <div className="sticky top-1 z-10 flex cursor-grab items-start justify-between gap-2 border-b border-slate-200 px-3.5 py-2.5 active:cursor-grabbing" style={{ background: `linear-gradient(180deg, ${c}12, #fff)` }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={() => (drag.current = null)}>
-        <div className="min-w-0"><div className="flex items-center gap-2"><GripVertical className="size-3.5 text-slate-400" /><span className="font-mono text-lg font-extrabold text-slate-900" dir="ltr">{t.name}</span><span className="rounded px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: c }}>{t.mod}</span></div><p className="mt-0.5 truncate text-xs text-slate-500">{t.he || t.en}</p></div>
+        <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><GripVertical className="size-3.5 text-slate-400" /><span className="font-mono text-lg font-extrabold text-slate-900" dir="ltr">{t.name}</span><span className="rounded px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: c }}>{t.mod}</span>{t.landscape && <span className="rounded px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: LANDSCAPE_META[t.landscape].c }}>{LANDSCAPE_META[t.landscape].he}</span>}</div><p className="mt-0.5 truncate text-xs text-slate-500">{t.he || t.en}</p></div>
         <div className="flex shrink-0 items-center gap-1">
           <button onClick={() => onFull(t.name)} title="פתח תצוגה מלאה" className="tap inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-extrabold text-white shadow-sm transition active:scale-95" style={{ background: c }}><Maximize2 className="size-3.5" />פתח מלא</button>
           <button onClick={onClose} className="rounded p-1 text-slate-400 hover:bg-slate-100"><X className="size-4" /></button>
