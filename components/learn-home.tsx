@@ -176,6 +176,21 @@ export function LearnHome() {
         ); })()}
       </section>
 
+      {/* certification center */}
+      <Link href="/certification/" className="group relative flex flex-wrap items-center gap-4 overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-l from-slate-900 to-slate-800 p-5 text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
+        <span className="pointer-events-none absolute -left-10 -top-10 size-32 rounded-full bg-brand/30 blur-3xl" />
+        <span className="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-brand text-white shadow-sm"><Award className="size-6" /></span>
+        <span className="relative min-w-0 flex-1">
+          <span className="block font-extrabold">🎓 מרכז ההסמכה · NEO Certification</span>
+          <span className="block text-sm text-white/75">מבחני ידע טכני אקראיים (PM · PP-PI · PP) · ציון מעבר 80 · תג יועץ מוסמך</span>
+        </span>
+        <span className="relative flex shrink-0 items-center gap-4 text-center">
+          <span><span className="block text-xl font-extrabold tabular-nums">{certs}</span><span className="text-[10px] font-bold uppercase tracking-wide text-white/60">תעודות</span></span>
+          <span><span className="block text-xl font-extrabold tabular-nums">{score || "—"}</span><span className="text-[10px] font-bold uppercase tracking-wide text-white/60">ציון</span></span>
+          <ArrowLeft className="size-5 text-white/50 transition group-hover:text-white" />
+        </span>
+      </Link>
+
       {/* story mode */}
       <Link href="/story/" className="group flex items-center gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md">
         <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-slate-900 text-white shadow-sm"><Workflow className="size-6" /></span>

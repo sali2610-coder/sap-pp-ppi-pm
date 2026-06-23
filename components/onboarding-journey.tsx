@@ -38,6 +38,12 @@ export function OnboardingJourney() {
     try { const r = JSON.parse(localStorage.getItem("neo:mentor:recent") || "[]"); setMentorAsked(Array.isArray(r) && r.length > 0); } catch { /* noop */ }
   }, [done]);
 
+  // auto-complete the exam stage once the consultant actually sat a certification exam
+  useEffect(() => {
+    const attempted = Object.values(cert.mods).some((m) => m.attempts > 0);
+    if (attempted && !done.includes("exam")) markStage("exam");
+  }, [cert, done]);
+
   const doneSet = new Set(done);
   const doneCount = STAGES.filter((s) => doneSet.has(s.id)).length;
   const pct = Math.round((doneCount / TOTAL) * 100);
