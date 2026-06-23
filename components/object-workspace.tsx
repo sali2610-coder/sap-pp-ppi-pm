@@ -24,6 +24,9 @@ import { interviewFor } from "@/data/knowledge/interview";
 import { Star, GraduationCap, Lightbulb, Clock4, ArrowRightLeft } from "lucide-react";
 import { knowledgeFor, IMPORTANCE_HE, IMPORTANCE_COLOR, TRUST_NOTE } from "@/lib/knowledge";
 import { objectConnections } from "@/lib/object-graph";
+import { CONSULTANT_NOTES } from "@/data/consultant-notes";
+import { INCIDENTS } from "@/data/troubleshooting";
+import { s4For } from "@/lib/s4";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9" };
 const mc = (m: string) => MOD_COLOR[m] || "#64748b";
@@ -31,6 +34,7 @@ const RED = "#d62027";
 
 const TABS = [
   ["overview", "סקירה", LayoutGrid],
+  ["consultant", "מצב יועץ", Lightbulb],
   ["intel", "תבונת אובייקט", BrainCircuit],
   ["relations", "קשרים", GitBranch],
   ["flow", "זרימה עסקית", Workflow],
@@ -306,6 +310,54 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
           </>
         )}
 
+        {tab === "consultant" && (() => {
+          const k = knowledgeFor(t.tableName);
+          const cn = CONSULTANT_NOTES[t.tableName];
+          const inc = INCIDENTS.filter((i) => i.tables.includes(t.tableName));
+          const s4 = s4For(t.tableName, t.s4Note, t.s4AltTable);
+          const iqs = interviewFor(t.tableName);
+          const conn = objectConnections(t.tableName);
+          const mistakes = [...new Set([...(cn?.mistakes || []), ...inc.flatMap((i) => i.rootCauses)])].slice(0, 6);
+          const debug = [...new Set([...(cn?.debug || []), ...inc.flatMap((i) => i.debugEntry)])].slice(0, 5);
+          const integ = [...new Set([...(cn?.integration || []), ...inc.flatMap((i) => i.exits || [])])].slice(0, 6);
+          const verify = cn?.trust === "needs-verification";
+          const Block = ({ title, icon, color, items }: { title: string; icon: React.ReactNode; color: string; items: string[] }) => items.length ? (
+            <div className="rounded-2xl border border-slate-200 bg-white p-4" style={{ borderInlineStartColor: color, borderInlineStartWidth: 3 }}>
+              <h4 className="mb-1.5 flex items-center gap-1.5 text-[12px] font-extrabold uppercase tracking-wide" style={{ color }}>{icon}{title}</h4>
+              <ul className="space-y-1">{items.map((x, i) => <li key={i} className="flex gap-1.5 text-[13px] leading-relaxed text-slate-700"><span className="mt-1.5 size-1.5 shrink-0 rounded-full" style={{ background: color }} />{x}</li>)}</ul>
+            </div>
+          ) : null;
+          return (
+            <div className="space-y-3">
+              <div className="flex flex-wrap items-center gap-2 rounded-2xl bg-gradient-to-l from-slate-900 to-slate-800 px-4 py-3 text-white">
+                <Lightbulb className="size-5 text-amber-300" />
+                <div className="min-w-0 flex-1"><div className="text-sm font-extrabold">מצב יועץ · {t.tableName}</div><div className="text-[11px] text-white/70">תקציר יועץ SAP בכיר — מטרה, טעויות, דיבוג, אינטגרציה ו-ECC↔S/4 במבט אחד.</div></div>
+                {verify && <span className="rounded bg-amber-300 px-1.5 py-0.5 text-[9px] font-bold text-amber-950">needs verification</span>}
+              </div>
+              {k && <Section title="מה זה · מתי משתמשים" icon={<LayoutGrid className="size-4" />}><p className="text-sm leading-relaxed text-slate-700">{k.role} {k.why}</p>{k.whenUsed && <p className="mt-1 text-sm text-slate-500">מתי: {k.whenUsed}</p>}</Section>}
+              <div className="grid gap-3 lg:grid-cols-2">
+                <Block title="טעויות נפוצות" icon={<AlertTriangle className="size-3.5" />} color="#dc2626" items={mistakes} />
+                <Block title="גישת דיבוג" icon={<Wrench className="size-3.5" />} color="#7c3aed" items={debug} />
+                <Block title="הערות יועץ פונקציונלי" icon={<Lightbulb className="size-3.5" />} color="#d97706" items={cn?.fnNotes || []} />
+                <Block title="הערות יועץ טכני / ABAP" icon={<Database className="size-3.5" />} color="#2563eb" items={cn?.techNotes || []} />
+                <Block title="נקודות אינטגרציה" icon={<GitBranch className="size-3.5" />} color="#0891b2" items={integ} />
+                <div className="rounded-2xl border border-slate-200 bg-white p-4" style={{ borderInlineStartColor: "#ea580c", borderInlineStartWidth: 3 }}>
+                  <h4 className="mb-1.5 flex items-center gap-1.5 text-[12px] font-extrabold uppercase tracking-wide text-orange-600"><ArrowRightLeft className="size-3.5" />ECC ↔ S/4HANA</h4>
+                  <p className="text-[13px] leading-relaxed text-slate-700">{k?.s4 || s4.impact?.changed || t.s4Note || "אין שינוי מהותי ידוע — נדרש אימות מול Simplification List."}</p>
+                  {conn.s4 && <Link href={conn.s4.href!} className="mt-1.5 inline-block text-[11px] font-bold text-blue-600">{conn.s4.label} ↗</Link>}
+                </div>
+              </div>
+              {inc.length > 0 && <Section title={`תקלות ייצור · ${inc.length}`} icon={<Wrench className="size-4" />}><div className="space-y-1.5">{inc.slice(0, 5).map((i) => <Link key={i.slug} href={`/troubleshooting/${i.slug}/`} className="block rounded-lg border border-slate-100 bg-slate-50/60 px-3 py-2 transition hover:border-rose-300 hover:bg-rose-50"><div className="text-[13px] font-bold text-slate-800">{i.he}</div>{i.cbc && <div className="mt-0.5 text-[11px] text-emerald-700">CBC: {i.cbc}</div>}</Link>)}</div></Section>}
+              {iqs.length > 0 && <Section title={`שאלות ראיון · ${iqs.length}`} icon={<GraduationCap className="size-4" />}><div className="space-y-1.5">{iqs.map((iq, i) => <div key={i} className="rounded-lg bg-slate-50 px-3 py-2 text-[13px]"><span className="font-bold text-slate-800">{iq.q}</span>{iq.aHe && <span className="mt-0.5 block text-slate-600">{iq.aHe}</span>}</div>)}</div></Section>}
+              <div className="flex flex-wrap gap-1.5">
+                {cds.length > 0 && <span className="rounded-lg bg-teal-50 px-2.5 py-1 text-[11px] font-bold text-teal-700">CDS: {cds.length}</span>}
+                {(intel?.bapis?.length || 0) > 0 && <span className="rounded-lg bg-blue-50 px-2.5 py-1 text-[11px] font-bold text-blue-700">BAPIs: {intel!.bapis.length}</span>}
+                {t.fioriApp && <span className="rounded-lg bg-sky-50 px-2.5 py-1 text-[11px] font-bold text-sky-700">Fiori: {t.fioriApp}</span>}
+                <Link href={`/graph/?node=${encodeURIComponent(t.tableName)}`} className="rounded-lg bg-slate-900 px-2.5 py-1 text-[11px] font-bold text-white">צפה בגרף</Link>
+              </div>
+            </div>
+          );
+        })()}
         {tab === "intel" && <ObjectIntelligence name={name} kind="table" />}
 
         {tab === "relations" && (
