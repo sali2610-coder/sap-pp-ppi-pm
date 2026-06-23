@@ -7,6 +7,7 @@ import { ECC_S4_TOPICS, STATUS_HE, STATUS_COLOR, type ChangeStatus } from "@/dat
 import { S4_IMPACT } from "@/data/s4-impact";
 import { TRANSACTIONS } from "@/data/transactions";
 import { CUSTOM_CODE, CUSTOM_CODE_NOTE, INTEGRATION, TESTING, CUTOVER, LESSONS, EXEC_NARRATIVE } from "@/data/s4-transformation";
+import { ARCH, ARCH_STATUS } from "@/data/s4-architecture";
 
 const RISK_C = { high: "#dc2626", medium: "#d97706", low: "#16a34a" } as const;
 const RISK_HE = { high: "סיכון גבוה", medium: "בינוני", low: "נמוך" } as const;
@@ -14,6 +15,7 @@ const AREA_HE: Record<string, string> = { Data: "מודל נתונים", PP: "י
 
 const SECTIONS = [
   { id: "exec", he: "סקירת הנהלה", icon: TrendingUp },
+  { id: "arch", he: "מפות ארכיטקטורה", icon: GitCompare },
   { id: "modules", he: "השפעה לפי מודול", icon: LayoutGrid },
   { id: "data", he: "טרנספורמציית מודל נתונים", icon: Database },
   { id: "simpl", he: "Simplification Items", icon: FileSearch },
@@ -27,6 +29,7 @@ const SECTIONS = [
 
 export function S4Transformation() {
   const [active, setActive] = useState("exec");
+  const [archSel, setArchSel] = useState(ARCH[0].id);
   const [q, setQ] = useState("");
   const [areaFilter, setAreaFilter] = useState<string>("all");
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -104,6 +107,45 @@ export function S4Transformation() {
                 </div>
               ))}
             </div>
+          </Card>
+
+          <Card id="arch" title="מפות ארכיטקטורה · ECC מול S/4HANA" icon={<GitCompare className="size-4" />} sub="Landscape לפני / אחרי · לחיצה על רכיב פותחת מה השתנה" accent="#2563eb">
+            {(() => { const sel = ARCH.find((a) => a.id === archSel) || ARCH[0]; return (
+              <div className="grid gap-4 lg:grid-cols-[1fr_360px]">
+                {/* interactive landscape map: ECC (right) → S/4 (left) */}
+                <div className="space-y-1.5">
+                  <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-1 pb-1 text-[11px] font-extrabold uppercase tracking-wide">
+                    <span className="text-center text-slate-500">ECC 6</span><span /><span className="text-center text-blue-600">S/4HANA</span>
+                  </div>
+                  {ARCH.map((a) => { const on = a.id === archSel; const sc = ARCH_STATUS[a.status]; return (
+                    <button key={a.id} onClick={() => setArchSel(a.id)} className={`grid w-full grid-cols-[1fr_auto_1fr] items-stretch gap-2 rounded-2xl border p-1.5 text-right transition ${on ? "border-blue-400 bg-blue-50/40 ring-1 ring-blue-300" : "border-slate-200 bg-white hover:border-slate-300"}`}>
+                      <span className="rounded-xl bg-slate-100 px-3 py-2"><span className="block text-[9px] font-bold uppercase text-slate-400">{a.layerHe}</span><span className="block text-[13px] font-extrabold text-slate-700" dir="ltr">{a.ecc}</span></span>
+                      <span className="flex flex-col items-center justify-center px-0.5"><ArrowLeft className="size-4" style={{ color: sc.c }} /><span className="rounded-full px-1 text-[8px] font-bold text-white" style={{ background: sc.c }}>{sc.he}</span></span>
+                      <span className="rounded-xl px-3 py-2 text-white" style={{ background: a.status === "New" ? "#16a34a" : "#1e3a8a" }}><span className="block text-[9px] font-bold uppercase text-white/60">{a.layerHe}</span><span className="block text-[13px] font-extrabold" dir="ltr">{a.s4}</span></span>
+                    </button>
+                  ); })}
+                </div>
+                {/* detail panel for selected component */}
+                <div className="lg:sticky lg:top-2 lg:self-start">
+                  <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm" style={{ animation: "fadeUp .2s ease both" }} key={sel.id}>
+                    <div className="px-4 py-3 text-white" style={{ background: "linear-gradient(135deg,#1e3a8a,#2563eb)" }}>
+                      <div className="flex items-center justify-between gap-2"><span className="text-[11px] font-bold uppercase tracking-wide text-white/70">{sel.layerHe}</span><span className="rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: "rgba(255,255,255,.92)", color: ARCH_STATUS[sel.status].c }}>{ARCH_STATUS[sel.status].he}</span></div>
+                      <div className="mt-1 flex items-center gap-2 text-sm font-extrabold" dir="ltr"><span className="text-white/70">{sel.ecc}</span><ArrowLeft className="size-3.5 shrink-0" /><span>{sel.s4}</span></div>
+                    </div>
+                    <div className="space-y-2.5 p-4 text-[12px] leading-relaxed">
+                      <div><div className="text-[10px] font-bold uppercase text-slate-400">ב-ECC</div><p className="text-slate-600">{sel.eccDesc}</p></div>
+                      <div><div className="text-[10px] font-bold uppercase text-blue-600">ב-S/4HANA</div><p className="font-medium text-slate-700">{sel.s4Desc}</p></div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div className="rounded-lg bg-emerald-50 p-2"><div className="text-[10px] font-bold text-emerald-700">מה נשאר</div><p className="text-[11px] text-emerald-900">{sel.stays}</p></div>
+                        <div className="rounded-lg bg-rose-50 p-2"><div className="text-[10px] font-bold text-rose-700">מה נעלם</div><p className="text-[11px] text-rose-900">{sel.gone}</p></div>
+                      </div>
+                      <div className="flex items-center justify-between rounded-lg bg-amber-50 px-2.5 py-1.5"><span className="text-[11px] font-bold text-amber-800">סיכון מיגרציה</span><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: RISK_C[sel.risk] }}>{RISK_HE[sel.risk]}</span></div>
+                      <div className="flex flex-wrap gap-1.5 pt-0.5">{sel.links.map((l) => l.href.startsWith("/s4hana#") || l.href.includes("#") ? <button key={l.label} onClick={() => go(l.href.split("#")[1])} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">{l.label}</button> : <Link key={l.label} href={l.href} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">{l.label}</Link>)}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ); })()}
           </Card>
 
           <Card id="modules" title="השפעה לפי מודול / תחום" icon={<LayoutGrid className="size-4" />} sub="היקף השינוי לכל תחום (מתוך נושאי ה-ECC↔S/4 המאומתים)">
