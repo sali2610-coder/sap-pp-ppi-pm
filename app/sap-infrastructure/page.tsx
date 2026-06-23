@@ -777,6 +777,9 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
   useEffect(() => { setSel(focus && focus[0] ? focus[0] : null); setDrawer(focus && focus[0] ? focus[0] : null); }, [code, focus]);
   useEffect(() => { const h = () => setFs(!!document.fullscreenElement); document.addEventListener("fullscreenchange", h); return () => document.removeEventListener("fullscreenchange", h); }, []);
   const [help, setHelp] = useState(false);
+  const [ctrlFocus, setCtrlFocus] = useState(false); // collapse control bar → graph fills screen
+  const [modOpen, setModOpen] = useState(false); // module selector dropdown
+  const [filtOpen, setFiltOpen] = useState(false); // S/4 filter dropdown
   // memory: restore last graph mode + selected node on mount; persist state
   useEffect(() => {
     const m = loadGraphMemory();
@@ -915,26 +918,56 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
 
   return (
     <div className="space-y-2">
-      {/* sticky analysis toolbar — above the canvas, never overlaps tables */}
-      {!fs && selMods.size > 0 && (
+      {/* unified slim control bar — module · analysis modes · S/4 filter · focus. Lets the graph own the screen. */}
+      {!fs && selMods.size > 0 && (() => {
+        const FILTERS = [["all", "הכל"], ["impacted", "מושפע S/4"], ["high", "סיכון גבוה"], ["verified", "מאומת"], ["needs", "נדרש אימות"]] as const;
+        const modLabel = selMods.size === 1 ? [...selMods][0] : `${selMods.size} מודולים`;
+        const filtLabel = FILTERS.find((f) => f[0] === s4Filter)?.[1] || "הכל";
+        return (
         <div className="sticky top-2 z-30">
-          <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200 bg-white/95 px-2.5 py-1.5 shadow-sm backdrop-blur">
-            <span className="hidden items-center gap-1.5 px-1 text-[11px] font-bold uppercase tracking-wide text-slate-400 min-[1400px]:inline-flex"><Network className="size-3.5" />מצב ניתוח</span>
-            {/* below 1400px: single-row horizontal scroll strip (never wraps / covers graph) */}
-            <div className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[1400px]:flex-none min-[1400px]:flex-wrap min-[1400px]:overflow-visible min-[1400px]:pb-0">
-              {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(modeInfo === id ? null : id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`shrink-0 whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>{he}</button>)}
+          <div className="flex flex-wrap items-center gap-1.5 rounded-2xl border border-slate-200 bg-white/95 px-2 py-1.5 shadow-sm backdrop-blur">
+            {/* module dropdown */}
+            <div className="relative">
+              <button onClick={() => { setModOpen((v) => !v); setFiltOpen(false); }} className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-700 transition hover:border-slate-300">
+                <span className="grid size-5 shrink-0 place-items-center rounded text-[9px] font-extrabold text-white" style={{ background: color(code) }}>{(code === "PP-PI" ? "PP" : code).slice(0, 2)}</span>
+                <span className="text-slate-400">מודול:</span><span>{modLabel}</span><ChevronDown className={`size-3.5 text-slate-400 transition ${modOpen ? "rotate-180" : ""}`} />
+              </button>
+              {modOpen && <div className="absolute z-50 mt-1 grid w-56 grid-cols-3 gap-1 rounded-xl border border-slate-200 bg-white p-2 shadow-xl" style={{ animation: "fadeUp .15s ease both" }}>
+                {UNIVERSE.map((m) => { const on = selMods.has(m); const cc = color(m); return <button key={m} onClick={() => toggleMod(m)} className="rounded-md border px-1 py-1 text-[10px] font-bold transition active:scale-95" style={{ borderColor: on ? cc : "#e2e8f0", background: on ? cc : "#fff", color: on ? "#fff" : "#94a3b8" }}>{m}</button>; })}
+              </div>}
             </div>
-            {modeInfo && (() => { const m = modeInfo; const need = MODE_DESC[m].needsSel && !sel; return (
-              <div className="flex w-full items-center gap-2 rounded-xl bg-slate-50 px-3 py-1.5 ring-1 ring-slate-200 min-[1400px]:ms-auto min-[1400px]:w-auto min-[1400px]:max-w-[48%]" style={{ animation: "fadeIn .2s ease both" }}>
-                <span className="size-2 shrink-0 rounded-full bg-[#d62027]" />
-                <span className="flex-1 text-[12px] leading-snug text-slate-600">{MODE_DESC[m].d}</span>
-                {need && <span className="shrink-0 rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-800">בחר טבלה</span>}
-                <button onClick={() => setModeInfo(null)} className="shrink-0 rounded p-0.5 text-slate-400 hover:bg-slate-200"><X className="size-3.5" /></button>
+            <span className="hidden text-[11px] font-semibold text-slate-400 sm:inline">{shown.length} טבלאות · {links.length} קשרים</span>
+
+            {!ctrlFocus && <>
+              <span className="mx-0.5 h-5 w-px bg-slate-200" />
+              {/* analysis modes — horizontal scroll strip below 1400px */}
+              <div className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[1400px]:flex-none min-[1400px]:overflow-visible">
+                {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(modeInfo === id ? null : id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`shrink-0 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-bold transition ${mode === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>{he}</button>)}
               </div>
-            ); })()}
+              {/* S/4 filter dropdown */}
+              <div className="relative">
+                <button onClick={() => { setFiltOpen((v) => !v); setModOpen(false); }} className={`flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-xs font-bold transition ${s4Filter !== "all" ? "border-amber-300 bg-amber-50 text-amber-800" : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"}`}>
+                  <span className="text-slate-400">מצב:</span><span>{filtLabel}</span><ChevronDown className={`size-3.5 transition ${filtOpen ? "rotate-180" : ""}`} />
+                </button>
+                {filtOpen && <div className="absolute end-0 z-50 mt-1 w-44 rounded-xl border border-slate-200 bg-white p-1 shadow-xl" style={{ animation: "fadeUp .15s ease both" }}>
+                  {FILTERS.map(([id, he]) => <button key={id} onClick={() => { setS4Filter(id); setFiltOpen(false); }} className={`block w-full rounded-lg px-2.5 py-1.5 text-right text-xs font-bold transition ${s4Filter === id ? "bg-amber-100 text-amber-800" : "text-slate-600 hover:bg-slate-50"}`}>{he}</button>)}
+                </div>}
+              </div>
+            </>}
+
+            <button onClick={() => { setCtrlFocus((v) => !v); setModOpen(false); setFiltOpen(false); }} title="מצב מיקוד — הסתר פקדים" className={`ms-auto flex shrink-0 items-center gap-1 rounded-xl px-2.5 py-1.5 text-xs font-bold transition active:scale-95 ${ctrlFocus ? "bg-[#d62027] text-white" : "border border-slate-200 bg-white text-slate-600 hover:border-brand/40 hover:text-brand"}`}>
+              {ctrlFocus ? <Shrink className="size-3.5" /> : <Expand className="size-3.5" />}{ctrlFocus ? "צא ממיקוד" : "מצב מיקוד"}
+            </button>
           </div>
+          {!ctrlFocus && modeInfo && (() => { const m = modeInfo; const need = MODE_DESC[m].needsSel && !sel; return (
+            <div className="mt-1 flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-1.5 ring-1 ring-slate-200" style={{ animation: "fadeIn .2s ease both" }}>
+              <span className="size-2 shrink-0 rounded-full bg-[#d62027]" /><span className="flex-1 text-[12px] leading-snug text-slate-600">{MODE_DESC[m].d}</span>
+              {need && <span className="shrink-0 rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-800">בחר טבלה</span>}
+              <button onClick={() => setModeInfo(null)} className="shrink-0 rounded p-0.5 text-slate-400 hover:bg-slate-200"><X className="size-3.5" /></button>
+            </div>
+          ); })()}
         </div>
-      )}
+      ); })()}
     <div className="rounded-[1.4rem] bg-slate-100/60 p-1 ring-1 ring-black/[0.04]">
       <div ref={wrapRef} className={`relative overflow-hidden rounded-[1.1rem] border border-slate-200/80 ${fs ? "h-screen bg-slate-50" : "h-[calc(100vh-13rem)] min-h-[560px]"}`}
         style={{ backgroundImage: "radial-gradient(circle at 1px 1px,#d7deea 1px,transparent 0)", backgroundSize: "30px 30px" }}>

@@ -166,7 +166,11 @@
       "Bash(node /tmp/b3-ch11b.mjs)",
       "Bash(node /tmp/b3-ch11c.mjs)",
       "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch11.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')",
-      "Bash(node /tmp/b3-ch12a.mjs)"
+      "Bash(node /tmp/b3-ch12a.mjs)",
+      "Bash(node /tmp/b3-ch12b.mjs)",
+      "Bash(node /tmp/b3-ch12c.mjs)",
+      "Bash(node /tmp/b3-ch12d.mjs)",
+      "Bash(node /tmp/b3-ch12e.mjs)"
     ],
     "additionalDirectories": [
       "/Users/salihalif/Desktop/My-Projects/sap/scripts"
