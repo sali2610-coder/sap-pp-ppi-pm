@@ -184,7 +184,20 @@
       "Bash(node /tmp/b3-ch16b.mjs)",
       "Bash(node /tmp/b3-ch16c.mjs)",
       "Bash(node /tmp/b3-ch17.mjs)",
-      "Bash(node /tmp/b3-ch18.mjs)"
+      "Bash(node /tmp/b3-ch18.mjs)",
+      "Bash(node scripts/parse-book4-modular.mjs)",
+      "Bash(sed -e 's/book3/book4/g' scripts/build-book3-full.mjs)",
+      "Bash(sed -e s/book3/book4/g -e 's#Sourcing and Procurement with SAP S4HANA __ Copy gz38-kvty-7wej-2i9b.pdf#PP-DS with SAP S4HANA __ Copy kysj-d27q-n3bt-whvm.pdf#g' scripts/extract-book3-figures.mjs)",
+      "Bash(node scripts/extract-book4-figures.mjs)",
+      "Bash(node scripts/build-book4-full.mjs)",
+      "Bash(node /tmp/b4-ch1.mjs)",
+      "Bash(node /tmp/b4-ch2a.mjs)",
+      "Bash(node /tmp/b4-ch2b.mjs)",
+      "Bash(node /tmp/b4-ch3a.mjs)",
+      "Bash(node /tmp/b4-ch4a.mjs)",
+      "Bash(node /tmp/b4-ch5a.mjs)",
+      "Bash(node /tmp/b4-ch5b.mjs)",
+      "Bash(node /tmp/b4-ch5c.mjs)"
     ],
     "additionalDirectories": [
       "/Users/salihalif/Desktop/My-Projects/sap/scripts"

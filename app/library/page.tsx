@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { BookOpen, ChevronDown, FileText, Library as LibraryIcon, Layers, ArrowLeft, GraduationCap, Search, X, Clock, CheckCircle2, Star, Languages, BookMarked } from "lucide-react";
+import { BookOpen, ChevronDown, FileText, Library as LibraryIcon, Layers, ArrowLeft, GraduationCap, Search, X, Clock, CheckCircle2, Star, Languages, BookMarked, LayoutGrid } from "lucide-react";
 import { LIBRARY, LIBRARY_STATS, type LibBook, type LibChapter } from "@/data/library";
 import { ACADEMY_BOOKS, ACADEMY_META, type AcademyBook } from "@/data/library/academy";
 import { useI18n } from "@/lib/i18n";
@@ -271,7 +271,11 @@ export default function LibraryPage() {
         <section className="space-y-4">
           <div className="flex items-baseline justify-between">
             <h2 className="flex items-center gap-2 text-lg font-extrabold tracking-tight text-slate-900"><GraduationCap className="size-5 text-brand" /> מסלולי למידה · Academy</h2>
-            <Link href="/library/academy/" className="inline-flex items-center gap-1 text-xs font-bold text-brand hover:underline">לוח בקרה <ArrowLeft className="size-3.5" /></Link>
+            <div className="flex items-center gap-3">
+              <Link href="/library/academy/search/" className="inline-flex items-center gap-1 text-xs font-bold text-brand hover:underline"><Search className="size-3.5" /> חיפוש מאוחד</Link>
+              <Link href="/library/academy/fiori/" className="inline-flex items-center gap-1 text-xs font-bold text-brand hover:underline"><LayoutGrid className="size-3.5" /> אינדקס Fiori</Link>
+              <Link href="/library/academy/" className="inline-flex items-center gap-1 text-xs font-bold text-brand hover:underline">לוח בקרה <ArrowLeft className="size-3.5" /></Link>
+            </div>
           </div>
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
             {academy.map((b) => <AcademyCard key={b.id} b={b} onOpen={push} />)}

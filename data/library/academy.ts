@@ -73,11 +73,6 @@ export const ACADEMY_BOOKS: AcademyBook[] = [
     href: "/library/pm-academy/", tintHe: "from-rose-500 to-rose-700",
   },
   {
-    id: "pp-pi", titleHe: "ייצור תהליכי (PP-PI)", titleEn: "Process Manufacturing with SAP S/4HANA",
-    module: "PP-PI", status: "planned", chaptersTotal: 0, chaptersDone: 0, subchapters: 0, nodes: 0,
-    validated: false, tintHe: "from-blue-500 to-blue-700",
-  },
-  {
     id: "qm", titleHe: "ניהול איכות (Quality Management)", titleEn: "Quality Management with SAP S/4HANA",
     module: "QM", status: "live", chaptersTotal: 20, chaptersDone: qmChapters,
     subchapters: qmSubs, nodes: qmNodes, validated: false,
