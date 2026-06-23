@@ -969,7 +969,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
         </div>
       ); })()}
     <div className="rounded-[1.4rem] bg-slate-100/60 p-1 ring-1 ring-black/[0.04]">
-      <div ref={wrapRef} className={`relative overflow-hidden rounded-[1.1rem] border border-slate-200/80 ${fs ? "h-screen bg-slate-50" : "h-[calc(100vh-13rem)] min-h-[560px]"}`}
+      <div ref={wrapRef} className={`relative overflow-hidden rounded-[1.1rem] border border-slate-200/80 ${fs ? "h-screen bg-slate-50" : ctrlFocus ? "h-[calc(100vh-9rem)] min-h-[600px]" : "h-[calc(100vh-11rem)] min-h-[560px]"}`}
         style={{ backgroundImage: "radial-gradient(circle at 1px 1px,#d7deea 1px,transparent 0)", backgroundSize: "30px 30px" }}>
         {/* fullscreen-only floating mode selector (canvas is the fullscreen layer) */}
         {fs && <div className={`absolute left-1/2 z-30 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-white/60 bg-white/85 p-1 shadow-lg shadow-black/5 backdrop-blur-md transition-all ${sel ? "top-14" : "top-3"}`}>
@@ -987,44 +987,6 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
             {need && <p className="mt-1.5 rounded-lg bg-amber-50 px-2 py-1 text-[11px] font-bold text-amber-800">↳ בחר טבלה בגרף כדי להפעיל מצב זה.</p>}
           </div>
         ); })()}
-        {/* floating: S/4HANA impact filter (top-center, below modes) */}
-        {(() => {
-          const FILTERS = [
-            ["all", "הכל", "כל הטבלאות במודול"],
-            ["impacted", "מושפע S/4", "טבלאות שמושפעות ממיגרציית S/4HANA (Simplification)"],
-            ["high", "סיכון גבוה", "טבלאות עם סיכון מיגרציה גבוה"],
-            ["verified", "מאומת", "השפעת S/4 מאומתת מול Simplification List / OSS"],
-            ["needs", "נדרש אימות", "טרם אומת מול SAP — דורש בדיקת Simplification List / OSS"],
-          ] as const;
-          const matchCount = s4Filter === "all" ? shown.length : shown.filter((t) => s4ok(t.name)).length;
-          const activeDesc = FILTERS.find((f) => f[0] === s4Filter)?.[2];
-          return (
-            <div className={`absolute left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-1 transition-all ${fs ? (sel ? "top-[6.5rem]" : "top-[3.4rem]") : (sel ? "top-14" : "top-3")}`}>
-              <div className="flex items-center gap-0.5 rounded-full border border-amber-200/70 bg-white/90 p-0.5 shadow-md backdrop-blur-md">
-                {FILTERS.map(([id, he, desc]) => (
-                  <button key={id} title={desc} onClick={() => setS4Filter(id)} className={`rounded-full px-2.5 py-1 text-[11px] font-bold transition ${s4Filter === id ? "bg-amber-400 text-amber-950 shadow-sm" : "text-slate-500 hover:bg-amber-50"}`}>{he}</button>
-                ))}
-              </div>
-              {s4Filter !== "all" && (
-                <div className={`max-w-[22rem] rounded-lg px-2.5 py-1 text-center text-[11px] font-bold shadow-sm backdrop-blur-md ${matchCount === 0 ? "bg-slate-800/90 text-white" : "bg-amber-400/95 text-amber-950"}`}>
-                  {matchCount === 0
-                    ? <>אין טבלאות בקטגוריה זו במודול — {activeDesc}</>
-                    : <>מציג {matchCount} מתוך {shown.length} טבלאות · {activeDesc}</>}
-                </div>
-              )}
-            </div>
-          );
-        })()}
-        {/* floating: title + filters (top-left) */}
-        <div className={`absolute left-3 z-20 flex max-w-[58%] flex-col gap-1.5 transition-all ${sel ? "top-14" : "top-3"}`}>
-          <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-1.5 shadow-sm backdrop-blur-sm">
-            <span className="grid size-7 shrink-0 place-items-center rounded-lg text-[10px] font-extrabold text-white" style={{ background: color(code) }}>{code === "PP-PI" ? "PP" : code}</span>
-            <div><div className="text-sm font-extrabold leading-tight text-slate-900">{MOD_NAME_HE[code] || code}</div><div className="text-[10px] font-semibold text-slate-400">{shown.length} טבלאות · {links.length} קשרים</div></div>
-          </div>
-          <div className="flex flex-wrap items-center gap-1 rounded-xl border border-slate-200 bg-white/85 px-2 py-1 shadow-sm backdrop-blur-sm">
-            {UNIVERSE.map((m) => { const on = selMods.has(m); const cc = color(m); return <button key={m} onClick={() => toggleMod(m)} className="rounded-md border px-1.5 py-0.5 text-[10px] font-bold transition active:scale-95" style={{ borderColor: on ? cc : "#e2e8f0", background: on ? cc : "#fff", color: on ? "#fff" : "#94a3b8" }}>{m}</button>; })}
-          </div>
-        </div>
         {/* keyboard help trigger (bottom-left) */}
         <button onClick={() => setHelp((v) => !v)} title="קיצורי מקלדת (?)" aria-label="קיצורי מקלדת"
           className="absolute bottom-3 left-3 z-20 grid size-9 place-items-center rounded-xl border border-slate-200 bg-white/90 text-sm font-extrabold text-slate-500 shadow-sm backdrop-blur-sm transition hover:bg-[#d62027] hover:text-white active:scale-90">?</button>
