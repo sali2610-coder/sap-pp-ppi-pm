@@ -1,0 +1,116 @@
+{
+  "book": "PP/DS with SAP S/4HANA",
+  "pages": 639,
+  "chapters": [
+    {
+      "n": 1,
+      "title": "Introduction to PP/DS with SAP S/4HANA",
+      "pages": [
+        19,
+        42
+      ],
+      "chars": 57565,
+      "sections": 9
+    },
+    {
+      "n": 2,
+      "title": "Master Data",
+      "pages": [
+        43,
+        110
+      ],
+      "chars": 107252,
+      "sections": 23
+    },
+    {
+      "n": 3,
+      "title": "Configuration",
+      "pages": [
+        111,
+        174
+      ],
+      "chars": 102258,
+      "sections": 23
+    },
+    {
+      "n": 4,
+      "title": "Data Transfer for Transaction Data",
+      "pages": [
+        175,
+        216
+      ],
+      "chars": 62477,
+      "sections": 13
+    },
+    {
+      "n": 5,
+      "title": "Production Planning",
+      "pages": [
+        217,
+        342
+      ],
+      "chars": 221651,
+      "sections": 42
+    },
+    {
+      "n": 6,
+      "title": "Detailed Scheduling",
+      "pages": [
+        343,
+        448
+      ],
+      "chars": 179800,
+      "sections": 23
+    },
+    {
+      "n": 7,
+      "title": "The Alert Monitor",
+      "pages": [
+        449,
+        470
+      ],
+      "chars": 31770,
+      "sections": 10
+    },
+    {
+      "n": 8,
+      "title": "Advanced PP/DS Features",
+      "pages": [
+        471,
+        546
+      ],
+      "chars": 118053,
+      "sections": 26
+    },
+    {
+      "n": 9,
+      "title": "SAP Digital Supply Chain Management, edition for SAP S/4HANA",
+      "pages": [
+        547,
+        568
+      ],
+      "chars": 43136,
+      "sections": 9
+    },
+    {
+      "n": 10,
+      "title": "Administering PP/DS with SAP S/4HANA",
+      "pages": [
+        569,
+        602
+      ],
+      "chars": 58838,
+      "sections": 13
+    },
+    {
+      "n": 11,
+      "title": "Migration to Embedded PP/DS",
+      "pages": [
+        603,
+        610
+      ],
+      "chars": 18904,
+      "sections": 4
+    }
+  ]
+}
