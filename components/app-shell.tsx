@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { Sparkles, BrainCircuit, GraduationCap, Award, ArrowRightLeft, Network, Wrench, Compass, Cable, Boxes, ChevronDown, ShieldCheck, Orbit } from "lucide-react";
+import { Sparkles, BrainCircuit, GraduationCap, Award, ArrowRightLeft, Network, Wrench, Compass, Cable, Boxes, ChevronDown, ShieldCheck, Orbit, LayoutDashboard } from "lucide-react";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SiteLogo } from "@/components/site-logo";
 import dynamic from "next/dynamic";
@@ -53,6 +53,7 @@ function CentersMenu() {
     { href: "/integration/", label: "אינטגרציה", Icon: Cable },
     { href: "/security/", label: "אבטחה והרשאות", Icon: ShieldCheck },
     { href: "/alm/", label: "ALM", Icon: Orbit },
+    { href: "/fiori/", label: "Fiori / UX", Icon: LayoutDashboard },
   ];
   const active = items.some((i) => path.startsWith(i.href));
   return (
