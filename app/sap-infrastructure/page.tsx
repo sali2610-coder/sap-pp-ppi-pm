@@ -21,7 +21,7 @@ import { HR_TABLES, HR_OBJECTS, HR_FLOW, HR_ACCENT, HR_META, LANDSCAPE_META, typ
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];
 type Rel = { role: "parent" | "child"; table: string; card: string; desc: string };
-type Tbl = { name: string; mod: string; real: boolean; he: string; en: string; tcodes: string; fiori: string; s4: string; s4alt: string; pk: string[]; fields: Field[]; funcs: string[]; cds: string[]; rel: Rel[]; degree: number; zone: string; landscape?: Landscape };
+type Tbl = { name: string; mod: string; real: boolean; he: string; en: string; tcodes: string; fiori: string; s4: string; s4alt: string; pk: string[]; fields: Field[]; funcs: string[]; cds: string[]; rel: Rel[]; degree: number; zone: string; landscape?: Landscape; guideHe?: string };
 type Bp = { code: string; purpose: string; objects: string[]; docs: string[]; tables: string[]; inputs: string[]; outputs: string[]; connects: string[] };
 type Data = { meta: { counts: Record<string, number> }; palette: Record<string, string>; modules: { code: string; name: string; he: string }[]; blueprints: Bp[]; processes: { id: string; name: string; he: string; mods: string[]; docs: string[]; color: string }[]; documents: { id: string; he: string; mod: string; tables: string[] }[]; tables: Tbl[]; shared: { name: string; he: string }[]; crossModule: { from: string; to: string; he: string }[] };
 
@@ -223,7 +223,7 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
           {TABS.map(([id, label]) => <button key={id} onClick={() => setTab(id)} className={`rounded-md px-3 py-1 text-[13px] font-bold transition ${tab === id ? "bg-[#d62027] text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>{label}</button>)}
         </div>
       </div>
-      {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} onTable={onTable} />}
+      {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} />}
       {tab === "process" && (code === "HR" ? (
         <div className="rounded-2xl border border-teal-200 bg-teal-50/50 p-6 text-center" dir="rtl">
           <Workflow className="mx-auto size-8 text-teal-600" />
@@ -239,8 +239,60 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
 }
 
 /* ===================== L2 OBJECTS ===================== */
-function ObjectsView({ data, color, code, byName, onObjectErd, onTable }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; onObjectErd: (tables?: string[]) => void; onTable: (t: string) => void }) {
-  const objs = code === "HR" ? HR_OBJECTS : (OBJECTS[code] || []); const [open, setOpen] = useState<number | null>(null); const c = color(code);
+/* Full-width detail panel — opens BELOW the process/objects, never a side drawer.
+   Desktop: inline full-width card. Mobile: fixed bottom-sheet. Slides up. */
+function ObjectDetailPanel({ name, data, color, byName, onClose, onOpen }: { name: string; data: Data; color: (m?: string | null) => string; byName: Record<string, Tbl>; onClose: () => void; onOpen: (n: string) => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => { ref.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }); const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); }; window.addEventListener("keydown", onKey); return () => window.removeEventListener("keydown", onKey); }, [name, onClose]);
+  const t = byName[name]; if (!t) return null;
+  const c = color(t.mod); const flds = fieldsOf(t);
+  const pk = flds.filter((f) => f[3] === "PK"), fk = flds.filter((f) => f[3] === "FK");
+  const parents = [...new Set(t.rel.filter((r) => r.role === "child").map((r) => r.table))];
+  const children = [...new Set(t.rel.filter((r) => r.role === "parent").map((r) => r.table))];
+  const whereUsed = [...new Set(data.tables.filter((x) => x.rel.some((r) => r.table === t.name)).map((x) => x.name))];
+  const tcodes = splitTcodes(t.tcodes);
+  const bp = data.blueprints.find((b) => b.code === t.mod);
+  const Lbl = ({ children: ch }: { children: React.ReactNode }) => <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400">{ch}</div>;
+  const Pills = ({ a }: { a: string[] }) => a.length ? <div className="flex flex-wrap gap-1" dir="ltr">{a.map((x) => byName[x] ? <button key={x} onClick={() => onOpen(x)} className="tech rounded-md border bg-white px-1.5 py-0.5 font-mono text-[11px] font-bold transition hover:bg-slate-50" style={{ borderColor: color(byName[x].mod), color: color(byName[x].mod) }}>{x}</button> : <span key={x} className="tech rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600">{x}</span>)}</div> : <span className="text-[11px] italic text-slate-300">—</span>;
+  return (
+    <div ref={ref} dir="rtl" className="z-40 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl max-lg:fixed max-lg:inset-x-0 max-lg:bottom-0 max-lg:z-[55] max-lg:max-h-[85%] max-lg:overflow-auto max-lg:rounded-b-none"
+      style={{ animation: "sheetUp .34s cubic-bezier(.32,.72,0,1) both" }}>
+      {/* header */}
+      <div className="relative px-5 py-4 text-white" style={{ background: `linear-gradient(135deg, ${c}, ${c}cc)` }}>
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="tech font-mono text-2xl font-extrabold" dir="ltr">{t.name}</span>
+              <span className="rounded-md bg-white/20 px-2 py-0.5 text-[11px] font-bold ring-1 ring-white/25">{t.mod}</span>
+              {t.landscape && <span className="rounded-md px-2 py-0.5 text-[10px] font-bold" style={{ background: "rgba(255,255,255,.92)", color: LANDSCAPE_META[t.landscape].c }}>{LANDSCAPE_META[t.landscape].he}</span>}
+            </div>
+            <p className="mt-0.5 text-sm font-medium text-white/85">{t.he || t.en}{t.en && t.he ? ` · ${t.en}` : ""}</p>
+          </div>
+          <div className="flex shrink-0 items-center gap-1.5">
+            <Link href={`/object/${encodeURIComponent(t.name)}/`} className="tap inline-flex items-center gap-1 rounded-xl bg-white/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-white/25"><Maximize2 className="size-3.5" />דף ידע מלא</Link>
+            <button onClick={onClose} className="tap inline-flex items-center gap-1 rounded-xl bg-white px-3 py-1.5 text-xs font-extrabold shadow-sm transition active:scale-95" style={{ color: c }}><X className="size-4" />סגור</button>
+          </div>
+        </div>
+      </div>
+      {/* body — full width multi-column */}
+      <div className="grid gap-x-6 gap-y-4 p-5 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="lg:col-span-2 xl:col-span-2"><Lbl>מטרה עסקית</Lbl><p className="text-sm leading-relaxed text-slate-700">{t.guideHe || knowledgeFor(t.name)?.why || bp?.purpose || `${t.mod} — ${t.he || t.en}`}</p></div>
+        <div><Lbl>מפתח ראשי (PK)</Lbl><Pills a={pk.map((f) => f[0])} /></div>
+        <div><Lbl>מפתח זר (FK)</Lbl><Pills a={fk.map((f) => f[0])} /></div>
+        <div className="lg:col-span-3 xl:col-span-2"><Lbl>שדות · {flds.length}</Lbl>
+          <div className="overflow-hidden rounded-xl border border-slate-200"><table className="w-full text-right font-mono text-[12px]" dir="ltr"><tbody>{flds.slice(0, 14).map((f) => <tr key={f[0]} className="border-b border-slate-50 last:border-0 odd:bg-slate-50/40"><td className={`px-3 py-1.5 font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`}>{f[0]}</td><td className="px-2 py-1.5 text-slate-400">{f[1]}</td><td className="px-2 py-1.5 text-left">{f[3] !== "-" && <span className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></div>
+        </div>
+        <div><Lbl>טבלאות אב</Lbl><Pills a={parents} /></div>
+        <div><Lbl>טבלאות צאצא</Lbl><Pills a={children} /></div>
+        <div><Lbl>T-Codes</Lbl>{tcodes.length ? <div className="flex flex-wrap gap-1" dir="ltr">{tcodes.map((x) => <span key={x} className="tech rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600">{x}</span>)}</div> : <span className="text-[11px] italic text-slate-300">—</span>}</div>
+        <div><Lbl>Where-Used</Lbl><Pills a={whereUsed} /></div>
+      </div>
+    </div>
+  );
+}
+
+function ObjectsView({ data, color, code, byName, onObjectErd }: { data: Data; color: (m?: string | null) => string; code: string; byName: Record<string, Tbl>; onObjectErd: (tables?: string[]) => void }) {
+  const objs = code === "HR" ? HR_OBJECTS : (OBJECTS[code] || []); const [open, setOpen] = useState<number | null>(null); const [detail, setDetail] = useState<string | null>(null); const c = color(code);
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between"><h3 className="text-base font-bold text-slate-800">אובייקטים עסקיים · {code}</h3><span className="text-xs text-slate-500">לחץ אובייקט → טבלאות הליבה</span></div>
@@ -271,7 +323,7 @@ function ObjectsView({ data, color, code, byName, onObjectErd, onTable }: { data
               {open === i && (
                 <div className="mt-2 w-56 rounded-xl border border-slate-200 bg-white p-3 shadow-sm" style={{ animation: "fadeUp .3s ease both" }}>
                   <div className="mb-2 flex items-center justify-between"><span className="text-[10px] font-bold uppercase text-slate-400">טבלאות ליבה</span><button onClick={() => onObjectErd(real)} className="rounded-md px-2 py-0.5 text-[11px] font-bold text-white" style={{ background: c }}>ERD →</button></div>
-                  <div className="space-y-1.5">{real.map((tn) => { const t = byName[tn]; return <button key={tn} onClick={() => onTable(tn)} className="flex w-full items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-right hover:border-slate-300">
+                  <div className="space-y-1.5">{real.map((tn) => { const t = byName[tn]; return <button key={tn} onClick={() => setDetail(tn)} className={`flex w-full items-center justify-between gap-2 rounded-lg border bg-slate-50 px-2.5 py-1.5 text-right hover:border-slate-300 ${detail === tn ? "border-slate-400 ring-1 ring-slate-300" : "border-slate-200"}`}>
                     <span className="flex min-w-0 items-center gap-1.5"><span className="font-mono text-sm font-bold" style={{ color: color(t!.mod) }}>{tn}</span><span className="truncate text-[10px] text-slate-400">{t!.he || ""}</span></span>
                     {t!.landscape && <span className="shrink-0 rounded px-1 py-0.5 text-[8px] font-bold text-white" style={{ background: LANDSCAPE_META[t!.landscape].c }}>{LANDSCAPE_META[t!.landscape].he}</span>}</button>; })}</div>
                 </div>
@@ -282,6 +334,14 @@ function ObjectsView({ data, color, code, byName, onObjectErd, onTable }: { data
         ); })}
       </div>
       <button onClick={() => onObjectErd(undefined)} className="inline-flex items-center gap-2 rounded-xl bg-[#d62027] px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:brightness-110"><Maximize2 className="size-4" /> פתח מודל נתונים (ERD) של {code}</button>
+
+      {/* full-width detail panel — below the process, fills the empty space */}
+      {detail && byName[detail] && (
+        <>
+          <div className="hidden max-lg:fixed max-lg:inset-0 max-lg:z-50 max-lg:block max-lg:bg-slate-900/40 max-lg:backdrop-blur-sm" style={{ animation: "fadeIn .2s ease both" }} onClick={() => setDetail(null)} />
+          <ObjectDetailPanel name={detail} data={data} color={color} byName={byName} onClose={() => setDetail(null)} onOpen={setDetail} />
+        </>
+      )}
     </div>
   );
 }
