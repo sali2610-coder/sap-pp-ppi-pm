@@ -24,6 +24,14 @@ const TITLE_HE = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "table-title
 const titleFor = (table, fallback) => TITLE_HE[table] || fallback;
 // Curated real-SAP T-Codes per table — fills tcodes ONLY where the workbook left it empty.
 const TCODES = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "table-tcodes.json"), "utf8"));
+// Curated Fiori apps (PP-PI sheet has none) + English names (PM separator gaps), filled only when empty.
+const FIORI = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "table-fiori.json"), "utf8"));
+const EN_NAME = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "table-en.json"), "utf8"));
+// Primary-key corrections — promote these fields to PK where the workbook missed composite/empty keys (standard SAP DDIC).
+const PK_FIX = {
+  AFKO: ["AUFPL"], MARC: ["MATNR", "WERKS"], MARD: ["MATNR", "WERKS", "LGORT"], JEST: ["OBJNR", "STAT"],
+  AFPO: ["AUFNR", "POSNR"], AFVC: ["AUFPL", "APLZL"], PLPO: ["PLNTY", "PLNNR", "PLNKN"], MAPL: ["MATNR", "PLNTY", "PLNNR", "PLNAL"],
+};
 
 const S = (v) => (v == null ? "" : String(v).trim());
 const TYPE_RE = /^(CHAR|NUMC|DEC|QUAN|UNIT|DATS|TIMS|LANG|CURR|CUKY|INT[1248]|RAW|RAWSTRING|CLNT|FLTP|STRG|SSTR|D16R|DF16|DF34|NUMC)$/i;
@@ -265,6 +273,12 @@ function buildModule(module, title, topics, rels, extras) {
       tb.topicIdx = t.idx;
       tb.topicTitle = t.title;
       tb.tcodes = tb.tcodes || TCODES[tb.tableName] || "";
+      tb.fioriApp = tb.fioriApp || FIORI[tb.tableName] || "";
+      tb.descriptionEn = tb.descriptionEn || EN_NAME[tb.tableName] || "";
+      if (PK_FIX[tb.tableName] && Array.isArray(tb.fields)) {
+        const pk = new Set(PK_FIX[tb.tableName]);
+        tb.fields.forEach((f) => { if (pk.has(f.tech)) f.key = "PK"; });
+      }
       tb.sqlJoinSnippet = tb.sqlJoinSnippet ?? "";
       tb.guideHe = tb.guideHe ?? "";
       tb.s4Note = tb.s4Note ?? "";

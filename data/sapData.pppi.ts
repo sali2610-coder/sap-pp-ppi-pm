@@ -15,7 +15,7 @@ export const PPPI_DATA = {
           "descriptionHe": "נתוני חומר כלליים",
           "descriptionEn": "Material number",
           "tcodes": "MM01, MM02, MM03",
-          "fioriApp": "",
+          "fioriApp": "Manage Product Master Data",
           "s4Note": "MATNR מורחב 18->40 (SAP Note 2267140); בדוק ממשקים, ברקודים והמרות EAN.",
           "guideHe": "טבלת הליבה של כל חומר ב-CBC (חומרי גלם, תרכיזים, חומרי אריזה, מוצרים מוגמרים). מפתח MATNR מורחב מ-18 ל-40 תווים ב-S/4HANA - קריטי לממשקי IDoc ל-Zetes/Daymax ולברקודים. כל פעולת ייצור (COR1/COR2) נשענת על רשומת חומר תקינה.",
           "helpLbl": "SAP Help - Material Master",
@@ -217,7 +217,7 @@ export const PPPI_DATA = {
           "descriptionHe": "טקסטים לתיאור חומר",
           "descriptionEn": "Material number",
           "tcodes": "MM01, MM02, MM03",
-          "fioriApp": "",
+          "fioriApp": "Manage Product Master Data",
           "s4Note": "ללא שינוי; MATNR מורחב משפיע על המפתח.",
           "guideHe": "תיאורי החומר הרב-לשוניים (עברית/אנגלית) המוצגים בפק\"ע, בתעודות ובממשקי הלוגיסטיקה. חיוני לתצוגה דו-לשונית במסופי Zetes.",
           "helpLbl": "SAP Help - Material Master",
@@ -298,7 +298,7 @@ export const PPPI_DATA = {
           "descriptionHe": "נתוני חומר ברמת מפעל",
           "descriptionEn": "Material number",
           "tcodes": "MM01, MM02, MM03, MD04",
-          "fioriApp": "",
+          "fioriApp": "Manage Product Master Data — Plant",
           "s4Note": "MRP Live מחליף MRP קלאסי; שדות תכנון נשמרים אך הביצוע ב-MATDOC/ACDOCA.",
           "guideHe": "פרמטרי התכנון והייצור של החומר במפעל CBC הספציפי: סוג רכש, MRP, אופק תכנון, גרסת ייצור ברירת מחדל. שדה SBDKZ/SFCPF שולט בזרימת הייצור (Process Order).",
           "helpLbl": "SAP Help - Plant Data",
@@ -330,7 +330,7 @@ export const PPPI_DATA = {
               "he": "מספר חומר",
               "dt": "CHAR",
               "len": "18->40",
-              "key": "PK/FK"
+              "key": "PK"
             },
             {
               "tech": "WERKS",
@@ -456,7 +456,7 @@ export const PPPI_DATA = {
           "descriptionHe": "מלאי חומר ברמת אחסון",
           "descriptionEn": "Material number",
           "tcodes": "MM03, MMBE, MB52",
-          "fioriApp": "",
+          "fioriApp": "Manage Stock",
           "s4Note": "מלאי מנוהל ב-MATDOC; MARD הופך ל-Aggregate/View.",
           "guideHe": "מלאי החומר לפי מחסן במפעל. בסיס לפליטת חומרי גלם לפק\"ע ולקליטת מוצר מוגמר; מסונכרן עם מסופי Zetes/Daymax בזמן אמת.",
           "helpLbl": "SAP Help - Inventory",
@@ -488,7 +488,7 @@ export const PPPI_DATA = {
               "he": "מספר חומר",
               "dt": "CHAR",
               "len": "18->40",
-              "key": "PK/FK"
+              "key": "PK"
             },
             {
               "tech": "WERKS",
@@ -496,7 +496,7 @@ export const PPPI_DATA = {
               "he": "מפעל",
               "dt": "CHAR",
               "len": "4",
-              "key": "PK/FK"
+              "key": "PK"
             },
             {
               "tech": "LGORT",
@@ -545,7 +545,7 @@ export const PPPI_DATA = {
           "descriptionHe": "יחידות מידה לחומר",
           "descriptionEn": "Material number",
           "tcodes": "MM01, MM02, MM03",
-          "fioriApp": "",
+          "fioriApp": "Manage Product Master Data",
           "s4Note": "ללא שינוי מבני; אמת מקדמי עיגול (rounding) למניעת סטיות מלאי.",
           "guideHe": "מקדמי המרה בין יחידות (UMREZ מונה / UMREN מכנה) - לדוגמה ארגז=24 בקבוקים, משטח=ארגזים. קריטי לבקרת פחת ייצור של 1%: עיגול שגוי במקדם גורם לסטיית מלאי. EAN11 לברקוד.",
           "helpLbl": "SAP Help - Units of Measure",
@@ -731,7 +731,7 @@ export const PPPI_DATA = {
           "descriptionHe": "הערכת שווי חומר",
           "descriptionEn": "Material number",
           "tcodes": "MM03, CK11N, CK24, MR21",
-          "fioriApp": "",
+          "fioriApp": "Manage Material Valuation",
           "s4Note": "Material Ledger חובה ב-S/4HANA; הערכה ב-ACDOCA/ACDOCC.",
           "guideHe": "מחיר התקן/ממוצע נע של החומר לתמחיר ייצור והתחשבנות פק\"ע. ב-CBC משמש לחישוב עלות תרכיז/מוצר מוגמר.",
           "helpLbl": "SAP Note - Material Ledger",
@@ -824,7 +824,7 @@ export const PPPI_DATA = {
           "descriptionHe": "נתוני מכירה לחומר",
           "descriptionEn": "Material number",
           "tcodes": "MM01, MM02, MM03, VK11",
-          "fioriApp": "",
+          "fioriApp": "Manage Product Master Data — Sales",
           "s4Note": "ללא שינוי; לקוחות דרך Business Partner.",
           "guideHe": "נתוני מכירה של מוצר מוגמר (ארגון מכירות, ערוץ הפצה) - מחבר את הייצור לשרשרת ההפצה של CBC.",
           "helpLbl": "SAP Help - Sales Data",
@@ -1149,7 +1149,7 @@ export const PPPI_DATA = {
           "descriptionHe": "נתוני MRP לאזור MRP",
           "descriptionEn": "Material number",
           "tcodes": "MM02, MD04, MD61",
-          "fioriApp": "",
+          "fioriApp": "Monitor Material Coverage",
           "s4Note": "אזורי MRP פעילים כברירת מחדל ב-MRP Live.",
           "guideHe": "הפרדת תכנון לאזורי MRP (קו ייצור/מחסן) בתוך המפעל - מאפשר תכנון נפרד לקו בקבוק מול קו פחית.",
           "helpLbl": "SAP Help - MRP Areas",
@@ -1311,7 +1311,7 @@ export const PPPI_DATA = {
           "descriptionHe": "נתוני אצווה לחומר (חוצה-מפעל)",
           "descriptionEn": "Material number",
           "tcodes": "MSC1N, MSC2N, MSC3N",
-          "fioriApp": "",
+          "fioriApp": "Manage Batches",
           "s4Note": "ללא שינוי מבני; MATNR מורחב 18->40 במפתח.",
           "guideHe": "רשומות האצווה של החומר - קריטי במשקאות לניהול תאריך תפוגה (VFDAT/BBD), תאריך ייצור ומעקב גנאלוגיה (Track & Trace). כל פליטה/קליטה בקו מנוהלת לפי אצווה ומסונכרנת עם Zetes.",
           "helpLbl": "SAP Help - Batch Management",
@@ -1425,7 +1425,7 @@ export const PPPI_DATA = {
           "descriptionHe": "נתוני אצווה ברמת מפעל",
           "descriptionEn": "Material number",
           "tcodes": "MSC1N, MSC2N, MSC3N",
-          "fioriApp": "",
+          "fioriApp": "Manage Batches",
           "s4Note": "ללא שינוי.",
           "guideHe": "נתוני האצווה הספציפיים למפעל (סטטוס שחרור, מאפייני סיווג). מאפשר שחרור/חסימת אצווה לפי תוצאות בדיקת איכות לפני משלוח.",
           "helpLbl": "SAP Help - Batch at Plant",
@@ -1602,7 +1602,7 @@ export const PPPI_DATA = {
           "descriptionHe": "שיוך עץ מוצר (BOM) לחומר",
           "descriptionEn": "Material number",
           "tcodes": "CS01, CS02, CS03",
-          "fioriApp": "",
+          "fioriApp": "Manage Bills of Material",
           "s4Note": "ללא שינוי; MATNR מורחב משפיע על המפתח ועל IDNRK.",
           "guideHe": "מקשר בין חומר/מפעל לבין עץ המוצר (Recipe BOM). מפתח ההצטרפות לכל פיצוץ רכיבים בפק\"ע. עץ מוצר = 'עץ מוצר' / Bill of Material.",
           "helpLbl": "SAP Help - Bill of Material",
@@ -1717,7 +1717,7 @@ export const PPPI_DATA = {
           "descriptionHe": "כותרת עץ מוצר (BOM)",
           "descriptionEn": "BOM category",
           "tcodes": "CS01, CS02, CS03, CS11",
-          "fioriApp": "",
+          "fioriApp": "Manage Bills of Material",
           "s4Note": "ללא שינוי.",
           "guideHe": "כותרת עץ המוצר: כמות בסיס, יחידה, סטטוס ותוקף. כמות הבסיס (BMENG) קובעת את יחס הרכיבים - קריטי לדיוק מתכון/פחת.",
           "helpLbl": "SAP Help - BOM Header",
@@ -1841,7 +1841,7 @@ export const PPPI_DATA = {
           "descriptionHe": "פריטי עץ מוצר (BOM)",
           "descriptionEn": "BOM category",
           "tcodes": "CS01, CS02, CS03, CS12",
-          "fioriApp": "",
+          "fioriApp": "Manage Bills of Material",
           "s4Note": "ללא שינוי; IDNRK מורחב 18->40.",
           "guideHe": "רכיבי עץ המוצר: כל חומר גלם/אריזה, כמותו (MENGE) וסוג הפריט. כאן מוגדר פחת רכיב (AUSCH %) לבקרת 1% פחת ייצור.",
           "helpLbl": "SAP Help - BOM Item",
@@ -2306,7 +2306,7 @@ export const PPPI_DATA = {
           "descriptionHe": "כותרת רשימת פעולות (Routing)",
           "descriptionEn": "Task list type (2=recipe)",
           "tcodes": "C201, C202, C203, CA01",
-          "fioriApp": "",
+          "fioriApp": "Manage Master Recipes",
           "s4Note": "ללא שינוי מבני; Fiori 'Manage Master Recipes'.",
           "guideHe": "כותרת מתכון הייצור (Master Recipe, PLNTY='2'). מגדיר אצווה תקנית, סטטוס ושימוש. 'מתכון ייצור' = Master Recipe. ב-CBC כל משקה מיוצר לפי מתכון מאושר.",
           "helpLbl": "SAP Help - Master Recipe",
@@ -2446,7 +2446,7 @@ export const PPPI_DATA = {
           "descriptionHe": "פעולות ברשימת הפעולות",
           "descriptionEn": "Task list type",
           "tcodes": "C201, C202, C203, CA02",
-          "fioriApp": "",
+          "fioriApp": "Manage Master Recipes",
           "s4Note": "ללא שינוי; ביצוע דרך Control Recipe / PI sheet.",
           "guideHe": "פעולות ופאזות הייצור (ערבוב, פסטור, מילוי). מפתח בקרה (STEUS) קובע אם הפעולה פנימית/קבלן, ומפעיל הוראות תהליך (Process Instructions) ל-PI sheet ולבקרים. ARBPL=משאב.",
           "helpLbl": "SAP Help - Recipe Operations",
@@ -2474,7 +2474,7 @@ export const PPPI_DATA = {
               "he": "סוג רשימה",
               "dt": "CHAR",
               "len": "1",
-              "key": "PK/FK"
+              "key": "PK"
             },
             {
               "tech": "PLNNR",
@@ -2482,7 +2482,7 @@ export const PPPI_DATA = {
               "he": "קבוצת רשימה",
               "dt": "CHAR",
               "len": "8",
-              "key": "PK/FK"
+              "key": "PK"
             },
             {
               "tech": "PLNKN",
@@ -2590,7 +2590,7 @@ export const PPPI_DATA = {
           "descriptionHe": "שיוך פעולות לרשימת פעולות",
           "descriptionEn": "Task list type",
           "tcodes": "C202, C203",
-          "fioriApp": "",
+          "fioriApp": "Manage Master Recipes",
           "s4Note": "ללא שינוי.",
           "guideHe": "מקשר פעולות (PLPO) לכותרת ולרצף, ושולט בתוקף לפי שינוי הנדסי. שכבת הבחירה של הפעולות התקפות.",
           "helpLbl": "SAP Help - Operation Selection",
@@ -2946,8 +2946,8 @@ export const PPPI_DATA = {
           "tableName": "MAPL",
           "descriptionHe": "שיוך רשימת פעולות לחומר",
           "descriptionEn": "Material number",
-          "tcodes": "",
-          "fioriApp": "",
+          "tcodes": "CA01, CA02, CA03, C201",
+          "fioriApp": "Manage Routings / Recipes",
           "s4Note": "ללא שינוי.",
           "guideHe": "מקשר בין חומר (מוצר) למתכון הייצור שלו במפעל. נקודת ההצטרפות שגרסת הייצור (MKAL) מצביעה אליה.",
           "helpLbl": "SAP Help - Material Assignment",
@@ -2975,7 +2975,7 @@ export const PPPI_DATA = {
               "he": "מספר חומר",
               "dt": "CHAR",
               "len": "18->40",
-              "key": "PK/FK"
+              "key": "PK"
             },
             {
               "tech": "WERKS",
@@ -2991,7 +2991,7 @@ export const PPPI_DATA = {
               "he": "סוג רשימה",
               "dt": "CHAR",
               "len": "1",
-              "key": "FK"
+              "key": "PK"
             },
             {
               "tech": "PLNNR",
@@ -2999,7 +2999,7 @@ export const PPPI_DATA = {
               "he": "קבוצת רשימה",
               "dt": "CHAR",
               "len": "8",
-              "key": "FK"
+              "key": "PK"
             },
             {
               "tech": "PLNAL",
@@ -3007,7 +3007,7 @@ export const PPPI_DATA = {
               "he": "מונה קבוצה",
               "dt": "CHAR",
               "len": "2",
-              "key": "FK"
+              "key": "PK"
             }
           ],
           "relations": [
@@ -3336,7 +3336,7 @@ export const PPPI_DATA = {
           "descriptionHe": "גרסאות ייצור לחומר",
           "descriptionEn": "Material number",
           "tcodes": "C223, MM02",
-          "fioriApp": "",
+          "fioriApp": "Manage Production Versions",
           "s4Note": "חובה 100% ב-S/4HANA - הרץ C223 ובדוק תוקף/עקביות לכל חומר מיוצר לפני ההמרה (Pre-check קריטי).",
           "guideHe": "'גרסת ייצור' (Production Version) מקשרת חומר -> עץ מוצר (STLAL) + מתכון (PLNNR) + קו ייצור. ב-S/4HANA היא חובה מוחלטת (100%) לכל ביצוע ייצור - מחליפה את לוגיקת בחירת BOM/Routing האוטומטית של ECC. ב-CBC כל שילוב מוצר/קו = גרסה. ללא PV תקפה הפק\"ע (COR1) לא תיווצר.",
           "helpLbl": "SAP Note - Production Versions Mandatory",
@@ -3516,7 +3516,7 @@ export const PPPI_DATA = {
           "descriptionHe": "כותרת מרכז עבודה / משאב",
           "descriptionEn": "Object type (A=work center)",
           "tcodes": "CR01, CR02, CR03, CRC1",
-          "fioriApp": "",
+          "fioriApp": "Manage Work Centers / Resources",
           "s4Note": "ללא שינוי מבני; Fiori 'Manage Work Centers'.",
           "guideHe": "המשאב (קו מילוי, ערבל, פסטרייזר) שעליו מתבצעות פעולות המתכון. OBJTY='A'. מקושר לקיבולת ולמרכז עלות. ב-CBC כל קו ייצור = משאב עם קיבולת מתוזמנת.",
           "helpLbl": "SAP Help - Work Center",
@@ -3652,7 +3652,7 @@ export const PPPI_DATA = {
           "descriptionHe": "טקסטים למרכז עבודה",
           "descriptionEn": "Object type",
           "tcodes": "CR01, CR02, CR03",
-          "fioriApp": "",
+          "fioriApp": "Manage Work Centers / Resources",
           "s4Note": "ללא שינוי.",
           "guideHe": "תיאורי המשאב הרב-לשוניים המוצגים בפעולות ובלוח התזמון.",
           "helpLbl": "SAP Help - Work Center",
@@ -4346,7 +4346,7 @@ export const PPPI_DATA = {
           "descriptionHe": "נתוני אב של פקודה (כותרת ארגונית)",
           "descriptionEn": "Order number",
           "tcodes": "COR1, COR2, COR3, CO01, KO04",
-          "fioriApp": "",
+          "fioriApp": "Manage Process Orders",
           "s4Note": "מודל מותאם; עלויות ב-ACDOCA.",
           "guideHe": "כותרת פק\"ע הייצור (Process Order). נוצרת מגרסת ייצור (MKAL) + מתכון. שחרור הפק\"ע מייצר Control Recipe ושולח הוראות תהליך לקו דרך IDoc. מעקב ב-COR2/COIO.",
           "helpLbl": "SAP Help - Process Order",
@@ -4465,7 +4465,7 @@ export const PPPI_DATA = {
           "descriptionHe": "נתוני כותרת פקודת ייצור / תהליך",
           "descriptionEn": "Order number",
           "tcodes": "COR1, COR2, COR3, COR6N, COHVPI",
-          "fioriApp": "",
+          "fioriApp": "Manage Process Orders",
           "s4Note": "מותאם (תואם).",
           "guideHe": "נתוני הייצור של הפק\"ע: כמות, מועדים, גרסת ייצור (VERID), מתכון. AUFPL מקשר לפעולות. בסיס לתזמון ולפליטת חומרים.",
           "helpLbl": "SAP Help - Order Header",
@@ -4525,7 +4525,7 @@ export const PPPI_DATA = {
               "he": "מספר תוכנית פעולות",
               "dt": "NUMC",
               "len": "10",
-              "key": "FK"
+              "key": "PK"
             },
             {
               "tech": "GLTRP",
@@ -4612,7 +4612,7 @@ export const PPPI_DATA = {
           "descriptionHe": "פריטי פקודת ייצור",
           "descriptionEn": "Order number",
           "tcodes": "COR2, COR3, COHVPI",
-          "fioriApp": "",
+          "fioriApp": "Manage Process Orders",
           "s4Note": "מותאם (תואם).",
           "guideHe": "פריט הפק\"ע: החומר המיוצר, כמות, מחסן קליטה, אצווה. נקודת קליטת המוצר המוגמר למלאי.",
           "helpLbl": "SAP Help - Order Item",
@@ -4640,7 +4640,7 @@ export const PPPI_DATA = {
               "he": "מספר פק\"ע",
               "dt": "CHAR",
               "len": "12",
-              "key": "PK/FK"
+              "key": "PK"
             },
             {
               "tech": "POSNR",
@@ -4697,7 +4697,7 @@ export const PPPI_DATA = {
           "descriptionHe": "פעולות הפקודה",
           "descriptionEn": "Routing number of operations",
           "tcodes": "COR2, COR3, CA02",
-          "fioriApp": "",
+          "fioriApp": "Manage Process Orders",
           "s4Note": "מותאם (תואם).",
           "guideHe": "פעולות/פאזות הפק\"ע (מועתקות מהמתכון). מפתח בקרה קובע דיווח/הוראות תהליך. בסיס לדיווח ביצוע (CORK) ולתמחיר.",
           "helpLbl": "SAP Help - Order Operations",
@@ -4725,7 +4725,7 @@ export const PPPI_DATA = {
               "he": "מספר תוכנית פעולות",
               "dt": "NUMC",
               "len": "10",
-              "key": "PK/FK"
+              "key": "PK"
             },
             {
               "tech": "APLZL",
@@ -4790,7 +4790,7 @@ export const PPPI_DATA = {
           "descriptionHe": "מספר הזמנה",
           "descriptionEn": "Reservation number",
           "tcodes": "COR3, MB21, MB22, CO27",
-          "fioriApp": "",
+          "fioriApp": "Manage Reservations",
           "s4Note": "ללא שינוי; תנועת מלאי ב-MATDOC.",
           "guideHe": "הזמנות חומרי הגלם/האריזה לפק\"ע (מפיצוץ עץ המוצר). כל פליטת חומר (261) מעדכנת RESB. סנכרון עם מסופי Zetes בפליטה.",
           "helpLbl": "SAP Help - Reservation",
@@ -4883,7 +4883,7 @@ export const PPPI_DATA = {
           "descriptionHe": "מספר דיווח",
           "descriptionEn": "Confirmation number",
           "tcodes": "CORK, COR6N, CO11N, CO15",
-          "fioriApp": "",
+          "fioriApp": "Confirm Production Operation",
           "s4Note": "ללא שינוי; עלויות ב-ACDOCA.",
           "guideHe": "דיווחי הביצוע על פעולות הפק\"ע: כמות שיוצרה, פחת, זמני מכונה/אדם. מקור הנתונים מהקו (PI sheet/MES) ובסיס לעלות ולניתוח פחת מול 1% היעד.",
           "helpLbl": "SAP Help - Confirmation",
@@ -6154,7 +6154,7 @@ export const PPPI_DATA = {
               "he": "מפתח אובייקט",
               "dt": "CHAR",
               "len": "22",
-              "key": "PK/FK"
+              "key": "PK"
             },
             {
               "tech": "STAT",

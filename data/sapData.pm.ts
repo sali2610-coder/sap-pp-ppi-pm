@@ -174,7 +174,7 @@ export const PM_DATA = {
         {
           "tableName": "IFLOS",
           "descriptionHe": "תוויות מבנה למיקום פונקציונלי",
-          "descriptionEn": "",
+          "descriptionEn": "Functional Location Label",
           "tcodes": "IL01/IL02/IL03; IH06",
           "fioriApp": "Manage Technical Objects (F2079)",
           "s4Note": "ללא שינוי (תואם)",
@@ -1206,7 +1206,7 @@ export const PM_DATA = {
         {
           "tableName": "STPO",
           "descriptionHe": "פריטי עץ מוצר (BOM)",
-          "descriptionEn": "",
+          "descriptionEn": "BOM Item",
           "tcodes": "IB02/CS02; CS11, CS15",
           "fioriApp": "Manage Bills of Material (אמת ID)",
           "s4Note": "ללא שינוי (תואם)",
@@ -1847,7 +1847,7 @@ export const PM_DATA = {
         {
           "tableName": "QPGR",
           "descriptionHe": "קבוצות קודים לאיכות",
-          "descriptionEn": "",
+          "descriptionEn": "Code Group (Quality)",
           "tcodes": "QS51; QS61",
           "fioriApp": "אין Fiori ייעודי (Customizing)",
           "s4Note": "ללא שינוי (תואם)",
@@ -2185,7 +2185,7 @@ export const PM_DATA = {
         {
           "tableName": "QMFE",
           "descriptionHe": "פריטי הודעת איכות (נזק / גורם)",
-          "descriptionEn": "",
+          "descriptionEn": "Quality Notification Item",
           "tcodes": "IW22; IW66",
           "fioriApp": "Find Maintenance Notification (אמת ID)",
           "s4Note": "ללא שינוי (תואם)",
@@ -2372,7 +2372,7 @@ export const PM_DATA = {
         {
           "tableName": "QMMA",
           "descriptionHe": "פעולות / אמצעים בהודעת איכות",
-          "descriptionEn": "",
+          "descriptionEn": "Notification Activity",
           "tcodes": "IW22; IW67",
           "fioriApp": "Report Malfunction (F2215)",
           "s4Note": "ללא שינוי (תואם)",
@@ -2447,7 +2447,7 @@ export const PM_DATA = {
         {
           "tableName": "QMSM",
           "descriptionHe": "משימות בהודעת איכות",
-          "descriptionEn": "",
+          "descriptionEn": "Notification Task",
           "tcodes": "IW22; IW66",
           "fioriApp": "Find Maintenance Notification (אמת ID)",
           "s4Note": "ללא שינוי (תואם)",
@@ -2534,7 +2534,7 @@ export const PM_DATA = {
         {
           "tableName": "TQ80",
           "descriptionHe": "סוגי הודעה (הגדרה)",
-          "descriptionEn": "",
+          "descriptionEn": "Notification Type (Customizing)",
           "tcodes": "OIAL (פריסת מסך); SPRO, QCC0",
           "fioriApp": "אין Fiori ייעודי (Customizing)",
           "s4Note": "ללא שינוי (Customizing תואם)",
@@ -2758,7 +2758,7 @@ export const PM_DATA = {
               "he": "מספר תוכנית פעולות",
               "dt": "",
               "len": "",
-              "key": "FK"
+              "key": "PK"
             },
             {
               "tech": "GLTRP",
@@ -2815,7 +2815,7 @@ export const PM_DATA = {
         {
           "tableName": "AFVC",
           "descriptionHe": "פעולות הפקודה",
-          "descriptionEn": "",
+          "descriptionEn": "Order Operation",
           "tcodes": "IW31/IW32/IW33; IW37N, CM01",
           "fioriApp": "Find Maintenance Order (F2393)",
           "s4Note": "מותאם (תואם)",
@@ -2846,7 +2846,7 @@ export const PM_DATA = {
               "he": "מספר תוכנית פעולות - מצטרף ל-AFKO",
               "dt": "",
               "len": "",
-              "key": "PK/FK"
+              "key": "PK"
             },
             {
               "tech": "APLZL",
@@ -2946,7 +2946,7 @@ export const PM_DATA = {
               "he": "מספר פק\"ע",
               "dt": "",
               "len": "",
-              "key": "PK/FK"
+              "key": "PK"
             },
             {
               "tech": "POSNR",
@@ -2994,7 +2994,7 @@ export const PM_DATA = {
         {
           "tableName": "AFIH",
           "descriptionHe": "כותרת פקודת אחזקה (PM)",
-          "descriptionEn": "",
+          "descriptionEn": "Maintenance Order Header",
           "tcodes": "IW32; IW33",
           "fioriApp": "Find Maintenance Order (F2393)",
           "s4Note": "מותאם (תואם)",
@@ -3168,7 +3168,7 @@ export const PM_DATA = {
         {
           "tableName": "T003O",
           "descriptionHe": "סוגי פקודה (הגדרה)",
-          "descriptionEn": "",
+          "descriptionEn": "Order Types (Customizing)",
           "tcodes": "SPRO; OIOA, KOT2_OPA",
           "fioriApp": "אין Fiori ייעודי (Customizing)",
           "s4Note": "ללא שינוי (Customizing תואם)",
@@ -3311,7 +3311,7 @@ export const PM_DATA = {
               "he": "מפתח אובייקט",
               "dt": "",
               "len": "",
-              "key": "PK/FK"
+              "key": "PK"
             },
             {
               "tech": "STAT",
@@ -3621,7 +3621,7 @@ export const PM_DATA = {
         {
           "tableName": "TJ30",
           "descriptionHe": "סטטוסי משתמש (הגדרה)",
-          "descriptionEn": "",
+          "descriptionEn": "User Status (Customizing)",
           "tcodes": "BS02/BS03; OIBS",
           "fioriApp": "מוטמע באפליקציות PM (אין ייעודי)",
           "s4Note": "ללא שינוי (תואם)",
@@ -4202,7 +4202,7 @@ export const PM_DATA = {
         {
           "tableName": "BUT000",
           "descriptionHe": "נתוני אב שותף עסקי",
-          "descriptionEn": "",
+          "descriptionEn": "Business Partner — General Data",
           "tcodes": "BP; (ECC: XK01/MK01 לספקים)",
           "fioriApp": "Manage Business Partner Master Data (אמת ID)",
           "s4Note": "הוחלף - Business Partner מחליף ספקים/לקוחות (CVI חובה)",
@@ -5563,7 +5563,7 @@ export const PM_DATA = {
         {
           "tableName": "ADMI_RUN",
           "descriptionHe": "ריצות ניהול ארכוב (Archiving)",
-          "descriptionEn": "",
+          "descriptionEn": "Archiving Run",
           "tcodes": "SARA; AOBJ, DB15",
           "fioriApp": "Data Archiving (אמת ID)",
           "s4Note": "ללא שינוי; ILM אופציונלי ב-S/4",

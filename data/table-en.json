@@ -1,0 +1,16 @@
+{
+  "_comment": "English table names where the PM workbook separator left descriptionEn empty. Standard SAP DDIC names. trust: curated.",
+  "IFLOS": "Functional Location Label",
+  "STPO": "BOM Item",
+  "QPGR": "Code Group (Quality)",
+  "QMFE": "Quality Notification Item",
+  "QMMA": "Notification Activity",
+  "QMSM": "Notification Task",
+  "TQ80": "Notification Type (Customizing)",
+  "AFVC": "Order Operation",
+  "AFIH": "Maintenance Order Header",
+  "T003O": "Order Types (Customizing)",
+  "TJ30": "User Status (Customizing)",
+  "BUT000": "Business Partner — General Data",
+  "ADMI_RUN": "Archiving Run"
+}

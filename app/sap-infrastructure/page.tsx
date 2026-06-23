@@ -14,6 +14,8 @@ import dagre from "dagre";
 import { ProcessWorkspace } from "@/components/process-workspace";
 import TABLE_TITLES from "@/data/table-titles.json";
 import TABLE_TCODES from "@/data/table-tcodes.json";
+import TABLE_FIORI from "@/data/table-fiori.json";
+import TABLE_EN from "@/data/table-en.json";
 
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];
@@ -45,7 +47,14 @@ export default function Page() {
     // apply curated business-purpose titles (override the key-field label baked into the static dataset)
     const T = TABLE_TITLES as Record<string, string>;
     const TC = TABLE_TCODES as Record<string, string>;
-    d.tables?.forEach((t) => { if (T[t.name]) t.he = T[t.name]; if (!t.tcodes && TC[t.name]) t.tcodes = TC[t.name]; });
+    const FI = TABLE_FIORI as Record<string, string>;
+    const EN = TABLE_EN as Record<string, string>;
+    d.tables?.forEach((t) => {
+      if (T[t.name]) t.he = T[t.name];
+      if (!t.tcodes && TC[t.name]) t.tcodes = TC[t.name];
+      if (!t.fiori && FI[t.name]) t.fiori = FI[t.name];
+      if (!t.en && EN[t.name]) t.en = EN[t.name];
+    });
     setData(d);
   }).catch(() => {}); }, []);
   const color = useCallback((m?: string | null) => (data && m && data.palette[m]) || "#64748b", [data]);
