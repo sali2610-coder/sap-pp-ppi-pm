@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { Sparkles, BrainCircuit, GraduationCap, Award, ArrowRightLeft, Network, Wrench, Compass, Cable, Boxes, ChevronDown } from "lucide-react";
+import { Sparkles, BrainCircuit, GraduationCap, Award, ArrowRightLeft, Network, Wrench, Compass, Cable, Boxes, ChevronDown, ShieldCheck } from "lucide-react";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SiteLogo } from "@/components/site-logo";
 import dynamic from "next/dynamic";
@@ -51,6 +51,7 @@ function CentersMenu() {
     { href: "/s4hana/", label: "S/4HANA", Icon: ArrowRightLeft },
     { href: "/delivery/", label: "ניהול פרויקט", Icon: Compass },
     { href: "/integration/", label: "אינטגרציה", Icon: Cable },
+    { href: "/security/", label: "אבטחה והרשאות", Icon: ShieldCheck },
   ];
   const active = items.some((i) => path.startsWith(i.href));
   return (
