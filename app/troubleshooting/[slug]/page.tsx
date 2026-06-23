@@ -26,6 +26,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       <div className="mb-4"><TrustBadge trust={trustDomain()} /></div>
       {i.error && i.error !== "—" && <div className="mb-4 tech rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm font-bold text-red-700" dir="ltr">{i.error}</div>}
       {i.impact && <div className="mb-4 inline-flex items-center gap-2 rounded-xl border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-bold text-amber-800"><span className="size-2 rounded-full bg-amber-500" />השפעה עסקית: {i.impact}</div>}
+      {i.techCause && <div className="mb-4"><Block title="גורם שורש טכני" accent="#7c3aed">{i.techCause}</Block></div>}
       <div className="grid gap-4 lg:grid-cols-2">
         <Block title="גורמי שורש אפשריים" accent="#dc2626"><Bullets items={i.rootCauses} /></Block>
         <Block title="שלבי תיקון" accent="#16a34a"><Bullets items={i.fix} /></Block>
@@ -36,7 +37,13 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         {i.funcs && i.funcs.length > 0 && <Block title="FM / BAPI קשורים" accent="#0d9488"><Chips items={i.funcs} /></Block>}
         {i.prevention && i.prevention.length > 0 && <Block title="מניעה (Prevention)" accent="#0d9488"><Bullets items={i.prevention} /></Block>}
         {i.notes && i.notes.length > 0 && <Block title="SAP Notes — מילות חיפוש" accent="#b45309"><div className="flex flex-wrap gap-1.5">{i.notes.map((n) => <span key={n} className="tech rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700" dir="ltr">{n}</span>)}</div></Block>}
+        {i.breakpoints && i.breakpoints.length > 0 && <Block title="Breakpoints" accent="#be185d"><div className="flex flex-wrap gap-1.5">{i.breakpoints.map((bp) => <span key={bp} className="tech rounded-lg border border-pink-200 bg-pink-50 px-2.5 py-1 text-xs font-semibold text-pink-700" dir="ltr">{bp}</span>)}</div></Block>}
+        {i.oss && i.oss.length > 0 && <Block title="OSS / SAP Notes — הפניות" accent="#b45309"><div className="flex flex-wrap gap-1.5">{i.oss.map((n) => <span key={n} className="tech rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700" dir="ltr">{n}</span>)}</div></Block>}
       </div>
+      {(i.ecc || i.s4) && <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        {i.ecc && <Block title="התנהגות ב-ECC" accent="#64748b">{i.ecc}</Block>}
+        {i.s4 && <Block title="התנהגות ב-S/4HANA" accent="#2563eb">{i.s4}</Block>}
+      </div>}
       {i.cbc && <div className="mt-4"><Block title="דוגמה — CBC" accent="#d62027">{i.cbc}</Block></div>}
       <Link href="/troubleshooting/" className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:underline">→ חזרה למרכז פתרון תקלות</Link>
     </div>

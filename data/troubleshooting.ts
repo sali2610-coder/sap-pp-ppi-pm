@@ -20,6 +20,11 @@ export interface Incident {
   prevention?: string[];  // guards: monitoring / validation / scheduled job / governance
   notes?: string[];       // SAP Note search keywords (NOT numbers), optionally component
   cbc?: string;
+  techCause?: string;     // technical root cause (one line)
+  breakpoints?: string[]; // concrete breakpoint locations (FM / include / form)
+  oss?: string[];         // OSS / SAP Note search references (keywords + component, no fabricated numbers)
+  ecc?: string;           // behaviour in ECC
+  s4?: string;            // behaviour in S/4HANA
 }
 
 const INCIDENTS_BASE: Incident[] = [
@@ -55,6 +60,7 @@ const INCIDENTS_BASE: Incident[] = [
 import { INCIDENTS_EXT } from "./troubleshooting-ext";
 import { INCIDENTS_EXT2 } from "./troubleshooting-ext2";
 import { INCIDENTS_EXT3 } from "./troubleshooting-ext3";
-export const INCIDENTS: Incident[] = [...INCIDENTS_BASE, ...INCIDENTS_EXT, ...INCIDENTS_EXT2, ...INCIDENTS_EXT3];
+import { INCIDENTS_EXT4 } from "./troubleshooting-ext4";
+export const INCIDENTS: Incident[] = [...INCIDENTS_BASE, ...INCIDENTS_EXT, ...INCIDENTS_EXT2, ...INCIDENTS_EXT3, ...INCIDENTS_EXT4];
 
 export const incidentBySlug = (s: string) => INCIDENTS.find((i) => i.slug === s);

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { Sparkles, BrainCircuit, GraduationCap, Award, ArrowRightLeft, Network } from "lucide-react";
+import { Sparkles, BrainCircuit, GraduationCap, Award, ArrowRightLeft, Network, Wrench } from "lucide-react";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SiteLogo } from "@/components/site-logo";
 import dynamic from "next/dynamic";
@@ -68,6 +68,7 @@ function Header() {
           <NavLink href="/s4hana/" group="d"><ArrowRightLeft className="size-3.5" />S/4HANA</NavLink>
           <NavLink href="/library/" group="d">{t("nav.library")}</NavLink>
           <NavLink href="/knowledge/" group="d"><BrainCircuit className="size-3.5" />{t("nav.knowledge")}</NavLink>
+          <NavLink href="/incidents/" group="d"><Wrench className="size-3.5" />תקלות</NavLink>
           <NavLink href="/chat/" group="d"><Sparkles className="size-3.5" />{t("nav.chat")}</NavLink>
           <div className="ms-2">
             <LangSwitch />
