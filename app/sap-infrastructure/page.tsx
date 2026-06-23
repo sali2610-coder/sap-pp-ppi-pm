@@ -13,6 +13,7 @@ import { loadGraphMemory, saveGraphMemory, loadLayout, saveLayout } from "@/lib/
 import dagre from "dagre";
 import { ProcessWorkspace } from "@/components/process-workspace";
 import TABLE_TITLES from "@/data/table-titles.json";
+import TABLE_TCODES from "@/data/table-tcodes.json";
 
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];
@@ -43,7 +44,8 @@ export default function Page() {
   useEffect(() => { fetch(`${BASE}/dataset.json`).then((r) => r.json()).then((d: Data) => {
     // apply curated business-purpose titles (override the key-field label baked into the static dataset)
     const T = TABLE_TITLES as Record<string, string>;
-    d.tables?.forEach((t) => { if (T[t.name]) t.he = T[t.name]; });
+    const TC = TABLE_TCODES as Record<string, string>;
+    d.tables?.forEach((t) => { if (T[t.name]) t.he = T[t.name]; if (!t.tcodes && TC[t.name]) t.tcodes = TC[t.name]; });
     setData(d);
   }).catch(() => {}); }, []);
   const color = useCallback((m?: string | null) => (data && m && data.palette[m]) || "#64748b", [data]);

@@ -22,6 +22,8 @@ const PPPI_FILE = path.join(DOCS, "SAP_PPPI_ECC6_to_S4_Migration.xlsx");
 // Override with the real business purpose where curated; else fall back to source.
 const TITLE_HE = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "table-titles.json"), "utf8"));
 const titleFor = (table, fallback) => TITLE_HE[table] || fallback;
+// Curated real-SAP T-Codes per table — fills tcodes ONLY where the workbook left it empty.
+const TCODES = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "table-tcodes.json"), "utf8"));
 
 const S = (v) => (v == null ? "" : String(v).trim());
 const TYPE_RE = /^(CHAR|NUMC|DEC|QUAN|UNIT|DATS|TIMS|LANG|CURR|CUKY|INT[1248]|RAW|RAWSTRING|CLNT|FLTP|STRG|SSTR|D16R|DF16|DF34|NUMC)$/i;
@@ -262,7 +264,7 @@ function buildModule(module, title, topics, rels, extras) {
       tb.module = module;
       tb.topicIdx = t.idx;
       tb.topicTitle = t.title;
-      tb.tcodes = tb.tcodes ?? "";
+      tb.tcodes = tb.tcodes || TCODES[tb.tableName] || "";
       tb.sqlJoinSnippet = tb.sqlJoinSnippet ?? "";
       tb.guideHe = tb.guideHe ?? "";
       tb.s4Note = tb.s4Note ?? "";
