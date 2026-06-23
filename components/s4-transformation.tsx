@@ -8,6 +8,9 @@ import { S4_IMPACT } from "@/data/s4-impact";
 import { TRANSACTIONS } from "@/data/transactions";
 import { CUSTOM_CODE, CUSTOM_CODE_NOTE, INTEGRATION, TESTING, CUTOVER, LESSONS, EXEC_NARRATIVE } from "@/data/s4-transformation";
 import { ARCH, ARCH_STATUS } from "@/data/s4-architecture";
+import { S4STATUS_META } from "@/data/s4-objects";
+import { searchCatalog, catalogByName, catalogStats } from "@/lib/s4-catalog";
+import { BookOpen } from "lucide-react";
 
 const RISK_C = { high: "#dc2626", medium: "#d97706", low: "#16a34a" } as const;
 const RISK_HE = { high: "סיכון גבוה", medium: "בינוני", low: "נמוך" } as const;
@@ -16,6 +19,7 @@ const AREA_HE: Record<string, string> = { Data: "מודל נתונים", PP: "י
 const SECTIONS = [
   { id: "exec", he: "סקירת הנהלה", icon: TrendingUp },
   { id: "arch", he: "מפות ארכיטקטורה", icon: GitCompare },
+  { id: "explorer", he: "S/4 Object Explorer", icon: BookOpen },
   { id: "modules", he: "השפעה לפי מודול", icon: LayoutGrid },
   { id: "data", he: "טרנספורמציית מודל נתונים", icon: Database },
   { id: "simpl", he: "Simplification Items", icon: FileSearch },
@@ -30,6 +34,8 @@ const SECTIONS = [
 export function S4Transformation() {
   const [active, setActive] = useState("exec");
   const [archSel, setArchSel] = useState(ARCH[0].id);
+  const [expQ, setExpQ] = useState("");
+  const [expSel, setExpSel] = useState("MSEG");
   const [q, setQ] = useState("");
   const [areaFilter, setAreaFilter] = useState<string>("all");
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -146,6 +152,73 @@ export function S4Transformation() {
                 </div>
               </div>
             ); })()}
+          </Card>
+
+          <Card id="explorer" title="S/4 Object Explorer" icon={<BookOpen className="size-4" />} sub={`${catalogStats().total}+ אובייקטים — חפש כל אובייקט ECC וקבל מה קרה לו ב-S/4`} accent="#7c3aed">
+            {(() => {
+              const results = searchCatalog(expQ, 30);
+              const o = catalogByName(expSel) || results[0];
+              const st = o ? S4STATUS_META[o.status] : null;
+              return (
+                <div className="grid gap-4 lg:grid-cols-[300px_minmax(0,1fr)]">
+                  {/* search + result list */}
+                  <div className="flex max-h-[460px] flex-col">
+                    <div className="relative mb-2"><Search className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-slate-300" /><input value={expQ} onChange={(e) => setExpQ(e.target.value)} placeholder="MSEG · MATDOC · MATNR · AFKO · BAPI…" className="w-full rounded-xl border border-slate-200 bg-white py-2 pe-3 ps-9 text-sm outline-none focus:border-violet-400" dir="ltr" /></div>
+                    <div className="min-h-0 flex-1 space-y-1 overflow-y-auto pe-1">{results.map((r) => { const rs = S4STATUS_META[r.status]; const on = o && r.name === o.name; return (
+                      <button key={r.name + r.kind} onClick={() => setExpSel(r.name)} className={`flex w-full items-center gap-2 rounded-lg border px-2.5 py-1.5 text-right transition ${on ? "border-violet-300 bg-violet-50" : "border-slate-100 bg-white hover:border-slate-300"}`}>
+                        <span className="size-2 shrink-0 rounded-full" style={{ background: rs.c }} />
+                        <span className="tech min-w-0 flex-1 truncate font-mono text-[12px] font-bold text-slate-800" dir="ltr">{r.name}</span>
+                        <span className="shrink-0 rounded bg-slate-100 px-1 py-0.5 text-[8px] font-bold text-slate-500">{r.kind}</span>
+                      </button>
+                    ); })}{results.length === 0 && <p className="py-6 text-center text-sm text-slate-400">לא נמצא.</p>}</div>
+                  </div>
+                  {/* object detail — Wikipedia card */}
+                  {o && st && (
+                    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm" key={o.name} style={{ animation: "fadeUp .2s ease both" }}>
+                      <div className="px-5 py-3.5 text-white" style={{ background: `linear-gradient(135deg,${st.c},${st.c}cc)` }}>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="tech font-mono text-2xl font-extrabold" dir="ltr">{o.name}</span>
+                          <span className="rounded-md bg-white/20 px-2 py-0.5 text-[10px] font-bold ring-1 ring-white/25">{o.kind}</span>
+                          <span className="rounded-full bg-white px-2 py-0.5 text-[10px] font-extrabold" style={{ color: st.c }}>{st.he}</span>
+                          {o.trust === "needs-verification" && <span className="rounded-md bg-amber-300 px-2 py-0.5 text-[9px] font-bold text-amber-950">needs verification</span>}
+                          {o.release && <span className="rounded-md bg-white/15 px-2 py-0.5 text-[10px] font-bold">{o.release}</span>}
+                        </div>
+                        <p className="mt-0.5 text-sm font-medium text-white/85">{o.he}</p>
+                      </div>
+                      <div className="space-y-3 p-5">
+                        {/* before / after */}
+                        <div className="grid items-stretch gap-2 sm:grid-cols-[1fr_auto_1fr]">
+                          <div className="rounded-xl bg-slate-100 p-3"><div className="text-[10px] font-bold uppercase text-slate-400">ECC</div><p className="text-[13px] text-slate-600">{o.ecc || "—"}</p></div>
+                          <div className="flex items-center justify-center"><ArrowLeft className="size-5" style={{ color: st.c }} /></div>
+                          <div className="rounded-xl p-3 text-white" style={{ background: "#1e3a8a" }}><div className="text-[10px] font-bold uppercase text-white/60">S/4HANA</div><p className="text-[13px] font-medium">{o.s4}</p></div>
+                        </div>
+                        {o.replaces?.length ? <div className="rounded-lg bg-blue-50 px-3 py-1.5 text-[12px] text-blue-900"><b>מאחד/מחליף:</b> <span className="tech font-mono" dir="ltr">{o.replaces.join(", ")}</span></div> : null}
+                        {o.why && <p className="text-[13px] leading-relaxed text-slate-600"><b className="text-slate-800">למה: </b>{o.why}</p>}
+
+                        <div className="grid gap-3 sm:grid-cols-2">
+                          <div><div className="mb-1 text-[10px] font-bold uppercase text-slate-400">מודולים מושפעים</div><div className="flex flex-wrap gap-1">{o.modules.map((m) => <span key={m} className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[11px] font-bold text-slate-600">{m}</span>)}</div></div>
+                          <div><div className="mb-1 text-[10px] font-bold uppercase text-slate-400">סיכון מיגרציה</div><span className="rounded-full px-2.5 py-0.5 text-[11px] font-bold text-white" style={{ background: RISK_C[o.risk] }}>{RISK_HE[o.risk]}</span></div>
+                        </div>
+
+                        {o.related.length > 0 && <div><div className="mb-1 text-[10px] font-bold uppercase text-slate-400">אובייקטים קשורים</div><div className="flex flex-wrap gap-1.5" dir="ltr">{o.related.map((r) => catalogByName(r) ? <button key={r} onClick={() => setExpSel(r)} className="tech rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-700 transition hover:border-violet-400 hover:text-violet-700">{r}</button> : <span key={r} className="tech rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-500">{r}</span>)}</div></div>}
+
+                        {o.abap?.length ? <div><div className="mb-1 flex items-center gap-1.5 text-[10px] font-bold uppercase text-violet-600"><Code2 className="size-3.5" />השפעת ABAP</div><div className="space-y-1.5">{o.abap.map((a, i) => <div key={i} className="rounded-lg border border-slate-100 bg-slate-50/60 p-2"><div className="text-[12px]"><span className="rounded bg-violet-100 px-1.5 py-0.5 text-[10px] font-bold text-violet-700">{a.k}</span> <span className="text-slate-600">{a.note}</span></div>{a.code && <pre className="mt-1 overflow-x-auto rounded bg-slate-900 px-2 py-1 font-mono text-[10.5px] text-emerald-300" dir="ltr">{a.code}</pre>}</div>)}</div></div> : null}
+
+                        {o.checklist?.length ? <div><div className="mb-1 flex items-center gap-1.5 text-[10px] font-bold uppercase text-slate-400"><ClipboardCheck className="size-3.5" />Checklist לפרויקט</div><ul className="space-y-0.5">{o.checklist.map((c, i) => <li key={i} className="flex gap-1.5 text-[12px] text-slate-600"><span className="text-emerald-500">✔</span>{c}</li>)}</ul></div> : null}
+
+                        <div className="flex flex-wrap gap-1.5 border-t border-slate-100 pt-3">
+                          {o.kind === "Table" && <Link href={`/impact/${encodeURIComponent(o.name)}/`} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">ניתוח השפעה</Link>}
+                          {o.kind === "Tcode" && <Link href={`/tcode/${encodeURIComponent(o.name)}/`} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">פרטי טרנזקציה</Link>}
+                          <button onClick={() => go("arch")} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">מפת ארכיטקטורה</button>
+                          <Link href="/sap-infrastructure/" className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">מודל נתונים</Link>
+                          <button onClick={() => window.dispatchEvent(new Event("neo:open-mentor"))} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">שאל מנטור</button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </Card>
 
           <Card id="modules" title="השפעה לפי מודול / תחום" icon={<LayoutGrid className="size-4" />} sub="היקף השינוי לכל תחום (מתוך נושאי ה-ECC↔S/4 המאומתים)">
