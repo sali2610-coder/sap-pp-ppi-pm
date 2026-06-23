@@ -12,12 +12,8 @@ import Link from "next/link";
 import { loadGraphMemory, saveGraphMemory, loadLayout, saveLayout } from "@/lib/prefs";
 import dagre from "dagre";
 import { ProcessWorkspace } from "@/components/process-workspace";
-import TABLE_TITLES from "@/data/table-titles.json";
-import TABLE_TCODES from "@/data/table-tcodes.json";
-import TABLE_FIORI from "@/data/table-fiori.json";
-import TABLE_EN from "@/data/table-en.json";
-import { HR_TABLES, HR_OBJECTS, HR_FLOW, HR_ACCENT, HR_META, LANDSCAPE_META } from "@/data/hr-module";
-import { BW_TABLES, BW_OBJECTS, BW_FLOW, BW_ACCENT, BW_META, BW_LANDSCAPE_META } from "@/data/bw-module";
+import { HR_OBJECTS, HR_FLOW, HR_ACCENT, HR_META, LANDSCAPE_META } from "@/data/hr-module";
+import { BW_OBJECTS, BW_FLOW, BW_ACCENT, BW_META, BW_LANDSCAPE_META } from "@/data/bw-module";
 
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];

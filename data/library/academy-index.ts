@@ -11,15 +11,17 @@ import { MM_TEXTBOOK } from "./mm-textbook";
 import { WM_TEXTBOOK } from "./wm-textbook";
 import { PPDS_TEXTBOOK } from "./ppds-textbook";
 import { SOP_TEXTBOOK } from "./sop-textbook";
+import { PMU_TEXTBOOK } from "./pmu-textbook";
 import PM_TOC from "./pm-toc.json";
 import QM_TOC from "./qm-toc.json";
 import MM_TOC from "./mm-toc.json";
 import WM_TOC from "./wm-toc.json";
 import PPDS_TOC from "./ppds-toc.json";
 import SOP_TOC from "./sop-toc.json";
+import PMU_TOC from "./pmbug-toc.json";
 
 const TOCS: Record<string, Record<string, { id: string; title: string }[]>> = {
-  pm: PM_TOC as any, qm: QM_TOC as any, mm: MM_TOC as any, wm: WM_TOC as any, ppds: PPDS_TOC as any, sop: SOP_TOC as any,
+  pm: PM_TOC as any, qm: QM_TOC as any, mm: MM_TOC as any, wm: WM_TOC as any, ppds: PPDS_TOC as any, sop: SOP_TOC as any, pmu: PMU_TOC as any,
 };
 
 export type ValidationKind = "reviewed" | "structural";
@@ -62,6 +64,9 @@ export const BOOKS: BookDef[] = [
   { id: "sop", module: "S&OP", titleHe: "תכנון מכירות ותפעול (IBP)", titleEn: "Sales & Operations Planning with SAP IBP",
     base: "/library/sop-academy", data: SOP_TEXTBOOK, status: "live", validationKind: "structural", score: 90,
     lastUpdated: "2026-06-21", reportHref: "/library/sop-quality-report/", referenceHref: "/library/academy/reference/sop/", tint: "from-teal-500 to-teal-700" },
+  { id: "pmu", module: "PM-User", titleHe: "תחזוקת מפעל — מדריך משתמש", titleEn: "Plant Maintenance Business User Guide",
+    base: "/library/pmu-academy", data: PMU_TEXTBOOK, status: "live", validationKind: "structural", score: 90,
+    lastUpdated: "2026-06-23", reportHref: "/library/pmu-quality-report/", referenceHref: "/library/academy/reference/pmu/", tint: "from-orange-500 to-orange-700" },
 ];
 
 export const bookById = (id: string) => BOOKS.find((b) => b.id === id);

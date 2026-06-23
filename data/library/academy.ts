@@ -11,6 +11,7 @@ import { MM_TEXTBOOK, MM_TEXTBOOK_STATS } from "./mm-textbook";
 import { WM_TEXTBOOK, WM_TEXTBOOK_STATS } from "./wm-textbook";
 import { PPDS_TEXTBOOK, PPDS_TEXTBOOK_STATS } from "./ppds-textbook";
 import { SOP_TEXTBOOK, SOP_TEXTBOOK_STATS } from "./sop-textbook";
+import { PMU_TEXTBOOK, PMU_TEXTBOOK_STATS } from "./pmu-textbook";
 
 export type BookStatus = "live" | "in-progress" | "planned";
 
@@ -54,6 +55,9 @@ const ppdsSubs = Object.values(PPDS_TEXTBOOK).reduce((s, c) => s + c.subchapters
 const sopChapters = Object.keys(SOP_TEXTBOOK).length;
 const sopNodes = Object.values(SOP_TEXTBOOK_STATS).reduce((s, c) => s + c.totalNodes, 0);
 const sopSubs = Object.values(SOP_TEXTBOOK).reduce((s, c) => s + c.subchapters.length, 0);
+const pmuChapters = Object.keys(PMU_TEXTBOOK).length;
+const pmuNodes = Object.values(PMU_TEXTBOOK_STATS).reduce((s, c) => s + c.totalNodes, 0);
+const pmuSubs = Object.values(PMU_TEXTBOOK).reduce((s, c) => s + c.subchapters.length, 0);
 
 export const ACADEMY_BOOKS: AcademyBook[] = [
   {
@@ -102,6 +106,12 @@ export const ACADEMY_BOOKS: AcademyBook[] = [
     module: "IBP", status: "live", chaptersTotal: 15, chaptersDone: sopChapters,
     subchapters: sopSubs, nodes: sopNodes, validated: false, qualityScore: 90,
     href: "/library/sop-academy/", reportHref: "/library/sop-quality-report/", tintHe: "from-teal-500 to-teal-700",
+  },
+  {
+    id: "pmu", titleHe: "תחזוקת מפעל — מדריך משתמש", titleEn: "Plant Maintenance Business User Guide",
+    module: "PM", status: "live", chaptersTotal: 10, chaptersDone: pmuChapters,
+    subchapters: pmuSubs, nodes: pmuNodes, validated: false, qualityScore: 90,
+    href: "/library/pmu-academy/", reportHref: "/library/pmu-quality-report/", tintHe: "from-orange-500 to-orange-700",
   },
 ];
 
