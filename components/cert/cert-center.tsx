@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { GraduationCap, Wrench, Factory, FlaskConical, ShieldCheck, Flame, Trophy, Play, Calendar, CheckCircle2, Star, Zap, Crown, BarChart3, Activity, Target, TrendingUp, AlertTriangle, Award, ArrowLeft, Medal } from "lucide-react";
 import { Exam } from "@/components/cert/exam";
@@ -17,6 +17,8 @@ const RANKS = [[0, "מתלמד"], [400, "יועץ זוטר"], [1000, "יועץ �
 
 export function CertCenter() {
   const st = useCertState();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const [run, setRun] = useState<{ module: CertModule; level: Level; mode: "exam" | "daily"; qs: ReturnType<typeof pickExam> } | null>(null);
   const [level, setLevel] = useState<Level>(2);
   const bankSizes = useMemo(() => ({ PM: buildBank("PM").length, "PP-PI": buildBank("PP-PI").length, PP: buildBank("PP").length }) as Record<CertModule, number>, []);
@@ -25,6 +27,8 @@ export function CertCenter() {
   const startDaily = () => setRun({ module: "PP-PI", level, mode: "daily", qs: [...pickExam("PM", level, 2), ...pickExam("PP-PI", level, 2), ...pickExam("PP", level, 1)].slice(0, 5) });
 
   if (run) return <div className="py-2"><Exam questions={run.qs} module={run.module} level={run.level} mode={run.mode} onExit={() => setRun(null)} /></div>;
+  // first paint = static SSR; defer the localStorage-driven dashboard one tick to avoid hydration text mismatch
+  if (!mounted) return <div className="mx-auto max-w-[1700px] space-y-6" dir="rtl"><div className="h-48 animate-pulse rounded-[1.75rem] bg-slate-100" /><div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{[0, 1, 2, 3].map((i) => <div key={i} className="h-64 animate-pulse rounded-3xl bg-slate-100" />)}</div></div>;
 
   // ── analytics from real store ──
   const mods = MODS.map((m) => ({ ...m, s: st.mods[m.id], mastery: masteryPct(st.mods[m.id]) }));
