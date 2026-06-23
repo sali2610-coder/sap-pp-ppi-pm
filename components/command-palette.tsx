@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Search, Table2, Terminal, Boxes, CornerDownLeft, ArrowLeft, BookText, GitBranch, BookMarked, Workflow, MapPin, Cable, FileCode, Network, Clock, Sparkles, Compass, Home, Wrench, FlaskConical, BrainCircuit, Library, AlertTriangle, Route } from "lucide-react";
 import { searchAll, objectIntel } from "@/lib/data";
+import { HR_TABLES } from "@/data/hr-module";
+import { BW_TABLES } from "@/data/bw-module";
+import { MIG_OBJECTS } from "@/data/migration-cockpit";
 import { searchObjects } from "@/lib/object-intel";
 import { lookupTCode } from "@/lib/tcode-index";
 import type { Module } from "@/lib/types";
@@ -17,7 +20,7 @@ import { planQuery, beginnerIntent } from "@/lib/search-intel";
 import { useFavorites, getRecentObjects } from "@/lib/prefs";
 import { Star } from "lucide-react";
 
-type FlatItem = { kind: "page" | "table" | "tcode" | "bapi" | "idoc" | "fm" | "cds" | "domain" | "process" | "library"; label: string; sub: string; module: Module; href: string };
+type FlatItem = { kind: "page" | "table" | "tcode" | "bapi" | "idoc" | "fm" | "cds" | "domain" | "process" | "library" | "ext"; label: string; sub: string; module: Module; href: string };
 
 /* Launcher destinations — palette doubles as a Raycast-style navigator. */
 type Page = { he: string; en: string; sub: string; href: string; kw: string; Icon: typeof Home };
@@ -129,17 +132,28 @@ export function CommandPalette() {
     { kind: "cds", title: "CDS Views", icon: FileCode },
     { kind: "domain", title: "תחומים", icon: Workflow },
     { kind: "process", title: "תהליכים", icon: Network },
+    { kind: "ext", title: "HR · BW · הגירה", icon: Boxes },
     { kind: "library", title: t("search.library"), icon: BookText },
   ] as const;
+
+  const extHits = useMemo<FlatItem[]>(() => {
+    const s = dsq.trim().toLowerCase(); if (s.length < 2) return [];
+    const out: FlatItem[] = [];
+    HR_TABLES.filter((t) => `${t.name} ${t.he}`.toLowerCase().includes(s)).slice(0, 5).forEach((t) => out.push({ kind: "ext", label: t.name, sub: `HR · ${t.he}`, module: "PM", href: "/sap-infrastructure/" }));
+    BW_TABLES.filter((t) => `${t.name} ${t.he}`.toLowerCase().includes(s)).slice(0, 5).forEach((t) => out.push({ kind: "ext", label: t.name, sub: `BW · ${t.he}`, module: "PM", href: "/sap-infrastructure/" }));
+    MIG_OBJECTS.filter((m) => `${m.name} ${m.he}`.toLowerCase().includes(s)).slice(0, 5).forEach((m) => out.push({ kind: "ext", label: m.name, sub: `הגירה · ${m.he}`, module: "PM", href: "/migration-cockpit/" }));
+    return out;
+  }, [dsq]);
 
   const flat = useMemo<FlatItem[]>(() => {
     const out: FlatItem[] = [];
     for (const p of pageHits) out.push({ kind: "page", label: pick(p.he, p.en), sub: p.sub, module: "PM", href: p.href });
     const add = (k: FlatItem["kind"], arr: typeof obj.table) => arr.forEach((h) => out.push({ kind: k, label: h.label, sub: h.sub, module: (h.module || "PM") as Module, href: h.href }));
     add("table", obj.table); add("tcode", obj.tcode); add("bapi", obj.bapi); add("idoc", obj.idoc); add("fm", obj.fm); add("cds", obj.cds); add("domain", obj.domain); add("process", obj.process);
+    out.push(...extHits);
     for (const l of results.library) out.push({ kind: "library", label: l.id, sub: l.title, module: "PM", href: l.href });
     return out;
-  }, [obj, results.library, pageHits, pick]);
+  }, [obj, results.library, pageHits, pick, extHits]);
 
   useEffect(() => setActive(0), [q]);
 

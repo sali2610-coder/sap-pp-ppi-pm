@@ -51,23 +51,9 @@ export default function Page() {
   const [full, setFull] = useState<string | null>(null);
   const [field, setField] = useState<{ table: string; field: string } | null>(null);
   const [q, setQ] = useState("");
-  useEffect(() => { fetch(`${BASE}/dataset.json`).then((r) => r.json()).then((d: Data) => {
-    // apply curated business-purpose titles (override the key-field label baked into the static dataset)
-    const T = TABLE_TITLES as Record<string, string>;
-    const TC = TABLE_TCODES as Record<string, string>;
-    const FI = TABLE_FIORI as Record<string, string>;
-    const EN = TABLE_EN as Record<string, string>;
-    d.tables?.forEach((t) => {
-      if (T[t.name]) t.he = T[t.name];
-      if (!t.tcodes && TC[t.name]) t.tcodes = TC[t.name];
-      if (!t.fiori && FI[t.name]) t.fiori = FI[t.name];
-      if (!t.en && EN[t.name]) t.en = EN[t.name];
-    });
-    // merge extension modules (separate landscapes, not in the S/4 blueprints)
-    if (d.tables && !d.tables.some((t) => t.mod === "HR")) { d.tables = [...d.tables, ...(HR_TABLES as unknown as Tbl[])]; d.palette = { ...d.palette, HR: HR_ACCENT }; }
-    if (d.tables && !d.tables.some((t) => t.mod === "BW")) { d.tables = [...d.tables, ...(BW_TABLES as unknown as Tbl[])]; d.palette = { ...d.palette, BW: BW_ACCENT }; }
-    setData(d);
-  }).catch(() => {}); }, []);
+  // canonical dataset.json (built by scripts/build-dataset.mjs) — already includes
+  // the curated fixes + HR/BW; no runtime patching.
+  useEffect(() => { fetch(`${BASE}/dataset.json`).then((r) => r.json()).then(setData).catch(() => {}); }, []);
   const color = useCallback((m?: string | null) => (data && m && data.palette[m]) || "#64748b", [data]);
   const byName = useMemo(() => (data ? Object.fromEntries(data.tables.map((t) => [t.name, t])) : {}) as Record<string, Tbl>, [data]);
   // Deep-link: /sap-infrastructure/?focus=<table>[&m=<module>] — opens the module

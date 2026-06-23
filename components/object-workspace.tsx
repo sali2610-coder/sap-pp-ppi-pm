@@ -23,6 +23,7 @@ import { useIsFavorite, toggleFavorite } from "@/lib/prefs";
 import { interviewFor } from "@/data/knowledge/interview";
 import { Star, GraduationCap, Lightbulb, Clock4, ArrowRightLeft } from "lucide-react";
 import { knowledgeFor, IMPORTANCE_HE, IMPORTANCE_COLOR, TRUST_NOTE } from "@/lib/knowledge";
+import { objectConnections } from "@/lib/object-graph";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9" };
 const mc = (m: string) => MOD_COLOR[m] || "#64748b";
@@ -369,6 +370,24 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
                 {cds.length > 0 && <div className="mt-2"><p className="eyebrow mb-1 text-slate-400">CDS Views</p><div className="flex flex-wrap gap-1.5">{cds.map((v) => <Link key={v.view} href={`/cds/${encodeURIComponent(v.view)}`} className="tech tap rounded bg-teal-50 px-2 py-0.5 text-xs font-bold text-teal-700 transition hover:brightness-95" dir="ltr"><FileCode className="me-1 inline size-3" /><Highlight text={v.view} query={hl} /></Link>)}</div></div>}
                 {t.fioriApp && <p className="mt-2 flex items-center gap-1.5 text-sm text-slate-600"><AppWindow className="size-4 text-brand" />{t.fioriApp}</p>}
                 {t.sqlJoinSnippet && <pre className="mt-2 overflow-auto rounded-lg bg-slate-900 p-2.5 text-[11px] leading-relaxed text-slate-100" dir="ltr">{t.sqlJoinSnippet}</pre>}
+              </Section>
+              {/* Connected Object — links every object to the platform centers (no isolated cards) */}
+              <Section title="אובייקט מקושר · S/4 · הגירה · BW" icon={<Boxes className="size-4" />}>
+                {(() => { const c = objectConnections(name); return (
+                  <div className="space-y-2.5 text-sm">
+                    {c.s4 && <Link href={c.s4.href!} className="block rounded-lg border border-blue-200 bg-blue-50/60 px-3 py-2 transition hover:bg-blue-50"><span className="font-extrabold text-blue-800">{c.s4.label}</span>{c.s4.sub && <span className="block text-[12px] text-slate-600">{c.s4.sub}</span>}</Link>}
+                    {c.migration.length > 0 && <div><p className="eyebrow mb-1 text-slate-400">אובייקטי הגירה</p><div className="flex flex-wrap gap-1.5">{c.migration.map((m, i) => <Link key={i} href={m.href!} className="rounded-md bg-cyan-50 px-2 py-0.5 text-xs font-bold text-cyan-700 transition hover:brightness-95" title={m.sub}>{m.label}</Link>)}</div></div>}
+                    {c.bw.length > 0 && <div><p className="eyebrow mb-1 text-slate-400">אובייקטי BW</p><div className="flex flex-wrap gap-1.5">{c.bw.map((m, i) => <Link key={i} href={m.href!} className="rounded-md bg-indigo-50 px-2 py-0.5 text-xs font-bold text-indigo-700 transition hover:brightness-95" title={m.sub}>{m.label}</Link>)}</div></div>}
+                    {c.interfaces.length > 0 && <div><p className="eyebrow mb-1 text-slate-400">ממשקים</p><div className="flex flex-wrap gap-1.5">{c.interfaces.map((m, i) => <span key={i} className="rounded-md bg-violet-50 px-2 py-0.5 text-xs font-bold text-violet-700" title={m.sub}>{m.label}</span>)}</div></div>}
+                    <div className="flex flex-wrap gap-1.5 border-t border-slate-100 pt-2.5">
+                      <Link href={`/impact/${encodeURIComponent(name)}/`} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">ניתוח השפעה</Link>
+                      <Link href="/s4hana/" className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">S/4 Object Explorer</Link>
+                      <Link href="/ecc-s4/" className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">ECC ↔ S/4</Link>
+                      <Link href="/migration-cockpit/" className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">Migration Cockpit</Link>
+                      <Link href="/sap-infrastructure/" className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">מודל נתונים</Link>
+                    </div>
+                  </div>
+                ); })()}
               </Section>
             </div>
           </>
