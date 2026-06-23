@@ -41,6 +41,7 @@ export default function Page() {
   const [data, setData] = useState<Data | null>(null);
   const [nav, setNav] = useState<{ level: "universe" | "module"; module?: string; tab?: string; focus?: string[] }>({ level: "universe" });
   const [inspect, setInspect] = useState<string | null>(null);
+  const [full, setFull] = useState<string | null>(null);
   const [field, setField] = useState<{ table: string; field: string } | null>(null);
   const [q, setQ] = useState("");
   useEffect(() => { fetch(`${BASE}/dataset.json`).then((r) => r.json()).then((d: Data) => {
@@ -87,7 +88,7 @@ export default function Page() {
   const inspector = field && byName[field.table]
     ? <FieldInspector data={data} color={color} t={byName[field.table]} field={field.field} byName={byName} onClose={() => setField(null)} onGo={(n) => { setField(null); setInspect(n); }} />
     : inspect && byName[inspect]
-    ? <Inspector data={data} color={color} t={byName[inspect]} byName={byName} onClose={() => setInspect(null)} onGo={setInspect} />
+    ? <Inspector data={data} color={color} t={byName[inspect]} byName={byName} onClose={() => setInspect(null)} onGo={setInspect} onFull={(n) => { setInspect(null); setFull(n); }} />
     : null;
 
   return (
@@ -125,6 +126,7 @@ export default function Page() {
           onTable={setInspect} onField={(table, f) => { setInspect(null); setField({ table, field: f }); }} onModule={openModule} onHome={() => setNav({ level: "universe" })} />}
       </div>
       {inspector}
+      {full && byName[full] && <KnowledgeView name={full} data={data} color={color} byName={byName} onTable={(n) => { setFull(null); setInspect(n); }} onClose={() => setFull(null)} onOpen={setFull} />}
     </div>
   );
 }
@@ -233,7 +235,7 @@ function ObjectsView({ data, color, code, byName, onObjectErd, onTable }: { data
     <div className="space-y-4">
       <div className="flex items-center justify-between"><h3 className="text-base font-bold text-slate-800">אובייקטים עסקיים · {code}</h3><span className="text-xs text-slate-500">לחץ אובייקט → טבלאות הליבה</span></div>
       <div className="flex flex-wrap items-stretch gap-3">
-        {objs.map((o, i) => (
+        {objs.map((o, i) => { const real = o.tables.filter((tn) => byName[tn]); return (
           <div key={i} className="flex items-stretch gap-3">
             <div>
               <button onClick={() => setOpen(open === i ? null : i)} style={{ animation: `fadeUp .4s ease ${i * 55}ms both`, borderColor: c }}
@@ -241,19 +243,19 @@ function ObjectsView({ data, color, code, byName, onObjectErd, onTable }: { data
                 <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">{String(i + 1).padStart(2, "0")}</span>
                 <span className="mt-1 text-2xl font-extrabold leading-tight text-slate-900">{o.he}</span>
                 <span className="font-mono text-xs text-slate-400">{o.en}</span>
-                <span className="mt-3 inline-flex items-center gap-1.5 self-start rounded-full px-2.5 py-1 text-[11px] font-bold" style={{ background: c + "1a", color: c }}>{o.tables.length} טבלאות {open === i ? "▲" : "▼"}</span>
+                <span className="mt-3 inline-flex items-center gap-1.5 self-start rounded-full px-2.5 py-1 text-[11px] font-bold" style={{ background: c + "1a", color: c }}>{real.length} טבלאות {open === i ? "▲" : "▼"}</span>
               </button>
               {open === i && (
                 <div className="mt-2 w-56 rounded-xl border border-slate-200 bg-white p-3 shadow-sm" style={{ animation: "fadeUp .3s ease both" }}>
-                  <div className="mb-2 flex items-center justify-between"><span className="text-[10px] font-bold uppercase text-slate-400">טבלאות ליבה</span><button onClick={() => onObjectErd(o.tables)} className="rounded-md px-2 py-0.5 text-[11px] font-bold text-white" style={{ background: c }}>ERD →</button></div>
-                  <div className="space-y-1.5">{o.tables.map((tn) => { const t = byName[tn]; return <button key={tn} onClick={() => onTable(tn)} disabled={!t} className="flex w-full items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-right hover:border-slate-300 disabled:opacity-40">
-                    <span className="font-mono text-sm font-bold" style={{ color: t ? color(t.mod) : "#94a3b8" }}>{tn}</span><span className="truncate text-[10px] text-slate-400">{t?.he || ""}</span></button>; })}</div>
+                  <div className="mb-2 flex items-center justify-between"><span className="text-[10px] font-bold uppercase text-slate-400">טבלאות ליבה</span><button onClick={() => onObjectErd(real)} className="rounded-md px-2 py-0.5 text-[11px] font-bold text-white" style={{ background: c }}>ERD →</button></div>
+                  <div className="space-y-1.5">{real.map((tn) => { const t = byName[tn]; return <button key={tn} onClick={() => onTable(tn)} className="flex w-full items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-right hover:border-slate-300">
+                    <span className="font-mono text-sm font-bold" style={{ color: color(t!.mod) }}>{tn}</span><span className="truncate text-[10px] text-slate-400">{t!.he || ""}</span></button>; })}</div>
                 </div>
               )}
             </div>
             {i < objs.length - 1 && <ArrowLeft className="size-6 shrink-0 self-center text-slate-300" />}
           </div>
-        ))}
+        ); })}
       </div>
       <button onClick={() => onObjectErd(undefined)} className="inline-flex items-center gap-2 rounded-xl bg-[#d62027] px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:brightness-110"><Maximize2 className="size-4" /> פתח מודל נתונים (ERD) של {code}</button>
     </div>
@@ -396,7 +398,7 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
       {/* header */}
       <header className="shrink-0 border-b border-slate-200 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-[1500px] items-center gap-3 px-4 py-3 lg:px-8">
-          <button onClick={onClose} className="tap inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand active:scale-95"><ArrowRight className="size-4" />חזרה</button>
+          <button onClick={onClose} className="tap inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand active:scale-95"><ArrowRight className="size-4" />סגור וחזור</button>
           <span className="grid size-11 shrink-0 place-items-center rounded-2xl text-white shadow-sm" style={{ background: c }}><Database className="size-5" /></span>
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
@@ -1204,7 +1206,7 @@ function FieldInspector({ data, color, t, field, byName, onClose, onGo }: { data
 }
 
 /* ===================== FLOATING INSPECTOR (light) ===================== */
-function Inspector({ data, color, t, byName, onClose, onGo }: { data: Data; color: (m?: string | null) => string; t: Tbl; byName: Record<string, Tbl>; onClose: () => void; onGo: (n: string) => void }) {
+function Inspector({ data, color, t, byName, onClose, onGo, onFull }: { data: Data; color: (m?: string | null) => string; t: Tbl; byName: Record<string, Tbl>; onClose: () => void; onGo: (n: string) => void; onFull: (n: string) => void }) {
   const [p, setP] = useState({ x: 0, y: 0 });
   const drag = useRef<{ x: number; y: number; ox: number; oy: number } | null>(null);
   const c = color(t.mod); const flds = fieldsOf(t);
@@ -1221,7 +1223,10 @@ function Inspector({ data, color, t, byName, onClose, onGo }: { data: Data; colo
       <div className="sticky top-0 z-10 h-1" style={{ background: c }} />
       <div className="sticky top-1 z-10 flex cursor-grab items-start justify-between gap-2 border-b border-slate-200 px-3.5 py-2.5 active:cursor-grabbing" style={{ background: `linear-gradient(180deg, ${c}12, #fff)` }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={() => (drag.current = null)}>
         <div className="min-w-0"><div className="flex items-center gap-2"><GripVertical className="size-3.5 text-slate-400" /><span className="font-mono text-lg font-extrabold text-slate-900" dir="ltr">{t.name}</span><span className="rounded px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: c }}>{t.mod}</span></div><p className="mt-0.5 truncate text-xs text-slate-500">{t.he || t.en}</p></div>
-        <button onClick={onClose} className="rounded p-1 text-slate-400 hover:bg-slate-100"><X className="size-4" /></button>
+        <div className="flex shrink-0 items-center gap-1">
+          <button onClick={() => onFull(t.name)} title="פתח תצוגה מלאה" className="tap inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-extrabold text-white shadow-sm transition active:scale-95" style={{ background: c }}><Maximize2 className="size-3.5" />פתח מלא</button>
+          <button onClick={onClose} className="rounded p-1 text-slate-400 hover:bg-slate-100"><X className="size-4" /></button>
+        </div>
       </div>
       <S title="מטרה עסקית"><p className="text-xs leading-relaxed text-slate-600">{bp?.purpose || `טבלת ${t.mod} — ${t.he || t.en}`}</p></S>
       <div className="grid grid-cols-2"><S title="PK"><div className="flex items-center gap-1"><KeyRound className="size-3 text-amber-500" /><Pills a={pk} /></div></S><S title="FK"><div className="flex items-center gap-1"><Link2 className="size-3 text-blue-500" /><Pills a={fk} /></div></S></div>
