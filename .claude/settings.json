@@ -157,7 +157,16 @@
       "Bash(node /tmp/b3-ch9a.mjs)",
       "Bash(node /tmp/b3-ch9b.mjs)",
       "Bash(node /tmp/b3-ch9c.mjs)",
-      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch9.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')"
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch9.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')",
+      "Bash(node /tmp/b3-ch10a.mjs)",
+      "Bash(node /tmp/b3-ch10b.mjs)",
+      "Bash(node /tmp/b3-ch10c.mjs)",
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch10.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')",
+      "Bash(node /tmp/b3-ch11a.mjs)",
+      "Bash(node /tmp/b3-ch11b.mjs)",
+      "Bash(node /tmp/b3-ch11c.mjs)",
+      "Bash(node -e 'JSON.parse\\(require\\(\"fs\"\\).readFileSync\\(\"data/library/book3/he/ch11.json\",\"utf8\"\\)\\);console.log\\(\"valid\"\\)')",
+      "Bash(node /tmp/b3-ch12a.mjs)"
     ],
     "additionalDirectories": [
       "/Users/salihalif/Desktop/My-Projects/sap/scripts"
