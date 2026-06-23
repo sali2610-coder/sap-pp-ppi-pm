@@ -180,7 +180,11 @@
       "Bash(node /tmp/b3-ch14e.mjs)",
       "Bash(node /tmp/b3-ch15a.mjs)",
       "Bash(node /tmp/b3-ch15b.mjs)",
-      "Bash(node /tmp/b3-ch16a.mjs)"
+      "Bash(node /tmp/b3-ch16a.mjs)",
+      "Bash(node /tmp/b3-ch16b.mjs)",
+      "Bash(node /tmp/b3-ch16c.mjs)",
+      "Bash(node /tmp/b3-ch17.mjs)",
+      "Bash(node /tmp/b3-ch18.mjs)"
     ],
     "additionalDirectories": [
       "/Users/salihalif/Desktop/My-Projects/sap/scripts"
