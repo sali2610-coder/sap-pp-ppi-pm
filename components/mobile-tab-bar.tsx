@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Home, GraduationCap, GitBranch, BrainCircuit, Menu, X, Search, Gauge, Library, Workflow, Sparkles, BookOpen, HelpCircle, Wrench, Boxes } from "lucide-react";
+import { CENTERS } from "@/lib/centers";
 
 const TABS = [
   { href: "/", icon: Home, label: "בית", match: (p: string) => p === "/" },
@@ -14,6 +15,8 @@ const TABS = [
 const MORE = [
   { href: "/pm/", icon: Wrench, label: "אחזקה (PM)" },
   { href: "/pp-pi/", icon: Boxes, label: "ייצור (PP-PI)" },
+  // Platform centers (Phase 5–9) — full parity with desktop nav, no hidden routes
+  ...CENTERS.map((c) => ({ href: c.href, icon: c.Icon, label: c.he })),
   { href: "/impact/", icon: Gauge, label: "השפעה ותלויות" },
   { href: "/story/", icon: Workflow, label: "סיורים מודרכים" },
   { href: "/library/", icon: Library, label: "ספרייה" },

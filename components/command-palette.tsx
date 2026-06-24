@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState, useDeferredValue } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, Table2, Terminal, Boxes, CornerDownLeft, ArrowLeft, BookText, GitBranch, BookMarked, Workflow, MapPin, Cable, FileCode, Network, Clock, Sparkles, Compass, Home, Wrench, FlaskConical, BrainCircuit, Library, AlertTriangle, Route } from "lucide-react";
+import { Search, Table2, Terminal, Boxes, CornerDownLeft, ArrowLeft, BookText, GitBranch, BookMarked, Workflow, MapPin, Cable, FileCode, Network, Clock, Sparkles, Compass, Home, Wrench, FlaskConical, BrainCircuit, Library, AlertTriangle, Route, ShieldCheck, Orbit, LayoutDashboard } from "lucide-react";
 import { searchAll, objectIntel } from "@/lib/data";
 import { HR_TABLES } from "@/data/hr-module";
 import { BW_TABLES } from "@/data/bw-module";
@@ -31,7 +31,14 @@ const PAGES: Page[] = [
   { he: "אקדמיית למידה", en: "Learning Academy", sub: "19 מסלולים · PM/PP-PI/QA", href: "/learn/", kw: "learn academy מסלול למידה אקדמיה course track", Icon: Compass },
   { he: "סיורים מודרכים", en: "Story Mode", sub: "תהליך מקצה לקצה", href: "/story/", kw: "story סיור מודרך process walkthrough guided", Icon: Workflow },
   { he: "מרכז השפעה", en: "Impact Center", sub: "ניתוח השפעה ומיגרציה", href: "/impact/", kw: "impact השפעה dependency blast radius מיגרציה", Icon: Route },
-  { he: "מודל נתונים · ERD", en: "Data Model / ERD", sub: "ארכיטקטורת טבלאות", href: "/sap-infrastructure/", kw: "infra architecture ארכיטקטורה erd data model", Icon: Network },  { he: "מרכז ידע", en: "Knowledge Center", sub: "38 מרכזים · חיפוש-תחילה", href: "/knowledge/", kw: "knowledge ידע מרכז centers", Icon: BrainCircuit },
+  { he: "מודל נתונים · ERD", en: "Data Model / ERD", sub: "ארכיטקטורת טבלאות", href: "/sap-infrastructure/", kw: "infra architecture ארכיטקטורה erd data model", Icon: Network },
+  // Platform centers (Phase 5–9) — indexed so PFCG/SU53/ChaRM/CPI/RAP/etc resolve to their center
+  { he: "מרכז ניהול פרויקט", en: "Project Delivery", sub: "SAP Activate · Cutover · בדיקות", href: "/delivery/", kw: "delivery מסירה פרויקט project sap activate discover prepare explore realize deploy run cutover blueprint workshop fit-to-standard wave defect", Icon: Compass },
+  { he: "מרכז אינטגרציה", en: "Integration Center", sub: "IDoc · RFC · CPI · OData · Event Mesh", href: "/integration/", kw: "integration אינטגרציה ממשק interface idoc ale rfc trfc qrfc pi po cpi cloud integration integration suite odata api event mesh sxmb_moni smq", Icon: Cable },
+  { he: "מרכז אבטחה והרשאות", en: "Security & Authorizations", sub: "PFCG · SU53 · STAUTHTRACE · IAM", href: "/security/", kw: "security אבטחה הרשאות authorization pfcg su01 su53 stauthtrace suim role profile sap_all s_rfc s_tcode s_service derived composite single role business role iam", Icon: ShieldCheck },
+  { he: "מרכז ALM", en: "ALM Center", sub: "Solution Manager · Focused Build · Cloud ALM", href: "/alm/", kw: "alm application lifecycle solution manager solman focused build cloud alm charm itsm transport stms cts retrofit bpmon rca earlywatch work package release monitoring", Icon: Orbit },
+  { he: "מרכז Fiori ו-UX", en: "Fiori & UX", sub: "UI5 · OData · RAP · Fiori Elements", href: "/fiori/", kw: "fiori ux ui5 odata rap cds mvc gateway segw iwfnd iwbep launchpad fact sheet analytical transactional metadata entity set service binding behavior definition fiori elements", Icon: LayoutDashboard },
+  { he: "מרכז ידע", en: "Knowledge Center", sub: "38 מרכזים · חיפוש-תחילה", href: "/knowledge/", kw: "knowledge ידע מרכז centers", Icon: BrainCircuit },
   { he: "ספריית SAP", en: "Library", sub: "ספרים · אקדמיה", href: "/library/", kw: "library ספרייה ספרים books academy", Icon: Library },
   { he: "פתרון תקלות", en: "Troubleshooting", sub: "151 תקלות", href: "/troubleshooting/", kw: "trouble תקלות error שגיאה fix", Icon: AlertTriangle },
   { he: "תהליכי E2E", en: "Process Explorer", sub: "P2P · O2C · QM", href: "/process-explorer/", kw: "process תהליך e2e p2p o2c", Icon: Route },

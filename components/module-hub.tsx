@@ -15,6 +15,7 @@ import { ProgressChart } from "@/components/progress-chart";
 import { StatusIO } from "@/components/status-io";
 import { ModuleDirectories } from "@/components/module-directories";
 import { HubZones } from "@/components/hub-zones";
+import { RelatedCenters } from "@/components/related-centers";
 
 type Tab = "cockpit" | "blueprint" | "guides";
 
@@ -131,6 +132,8 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
         </Badge>{" "}
         <span className="ms-2">{t("hub.savedLocal")}</span>
       </p>
+
+      <RelatedCenters />
     </div>
   );
 }

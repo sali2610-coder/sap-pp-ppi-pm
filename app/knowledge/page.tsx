@@ -2,7 +2,6 @@ import { CenterHeader } from "@/components/knowledge";
 import { KnowledgeExplorer } from "@/components/knowledge-explorer";
 import { CONCEPTS } from "@/data/concepts";
 import { ENHANCEMENTS } from "@/data/enhancements";
-import { AUTH_ITEMS } from "@/data/authorizations";
 import { ECC_S4_TOPICS } from "@/data/ecc-s4";
 import { TRANSACTIONS } from "@/data/transactions";
 import { EXITS } from "@/data/exits";
@@ -12,8 +11,6 @@ import { SAP_NOTES } from "@/data/sap-notes";
 import { QA_PACKS } from "@/data/qa-center";
 import { BLUEPRINTS } from "@/data/centers/blueprints";
 import { CONFIG_TOPICS } from "@/data/centers/config";
-import { FIORI_APPS } from "@/data/centers/fiori";
-import { INTEGRATIONS } from "@/data/centers/integration";
 import { MIGRATIONS } from "@/data/centers/migration";
 import { DEBUGGINGS } from "@/data/centers/debugging";
 import { CBC_SCENARIOS } from "@/data/centers/cbc";
@@ -63,7 +60,8 @@ export default function Page() {
     { group: "build", href: "/abap/", he: "מרכז מפתח ABAP", title: "ABAP Developer Center", tag: "Dev", tagColor: "#7c3aed", desc: "SE80/SE38/SE37/SE24/SE11/SE84/SAT/ST05/ST12/SCI/ATC — מטרה, דוגמאות, שימוש Debug, טבלאות ואובייקטים." },
     { group: "build", href: "/enhancements/", he: "מרכז הרחבות", title: "Enhancement Center", tag: `${ENHANCEMENTS.length} טכניקות`, tagColor: "#7c3aed", desc: "User Exit, Customer Exit, BAdI (קלאסי/חדש), Implicit/Explicit, BTE — איך, מתי, ודוגמאות PM/PP." },
     { group: "build", href: "/exits/", he: "מרכז Exits / BAdIs", title: "User Exit / BAdI Center", tag: `${EXITS.length} הרחבות`, tagColor: "#7c3aed", desc: "קטלוג Exits/BAdIs בשמות — IWO10009, PPCO0001, WORKORDER_UPDATE ועוד. נקודת הפעלה, אובייקט, דוגמה, שיטת Debug ו-ECC↔S/4." },
-    { group: "build", href: "/integration/", he: "מרכז אינטגרציה", title: "Integration Center", tag: `${INTEGRATIONS.length}`, tagColor: "#0891b2", desc: "IDoc/ALE/RFC/BAPI/OData/CPI — זרימת הודעה, קודי סטטוס, כשלים נפוצים וטרנזקציות ניטור." },
+    { group: "build", href: "/integration/", he: "מרכז אינטגרציה", title: "Integration Center", tag: "11 טכנולוגיות", tagColor: "#0891b2", desc: "IDoc/ALE/RFC/tRFC/qRFC, PI/PO, CPI, Integration Suite, OData, APIs, Event Mesh — ארכיטקטורה, דיאגרמות זרימה, ניטור, תקלות ו-Root Cause." },
+    { group: "build", href: "/delivery/", he: "מרכז ניהול פרויקט", title: "Project Delivery", tag: "SAP Activate", tagColor: "#4f46e5", desc: "6 שלבי SAP Activate (Discover→Run), Cutover, Test Management, Defect Management, סדנאות Fit-to-Standard ו-Blueprint." },
 
     // ── פתור תקלה · Troubleshoot & Resolve ──
     { group: "fix", href: "/resolution/", he: "מנוע נתיב פתרון", title: "Resolution Path Engine", tag: "Detect→Prevent", tagColor: "#0e7490", desc: "נתיב פתרון מובנה לכל תקלה — זיהוי→בידוד→אבחון→תיקון→מניעה, עם קישור לאובייקטים, Notes ו-Debug." },
@@ -77,13 +75,13 @@ export default function Page() {
     { group: "migrate", href: "/migration/", he: "מרכז מיגרציה S/4HANA", title: "Migration Center", tag: `${MIGRATIONS.length}`, tagColor: "#2563eb", desc: "נשאר/משתנה/הוסר, Fiori/CDS/API חדשים, סיכוני מיגרציה ו-QA Validation Checklist לכל נושא." },
     { group: "migrate", href: "/ecc-s4/", he: "ECC מול S/4HANA", title: "ECC vs S/4 Engine", tag: `${ECC_S4_TOPICS.length} נושאים`, tagColor: "#2563eb", desc: "MATDOC, ACDOCA, MRP Live, PP-DS, aATP, Fiori/CDS, אחזקה, הודעות — מה השתנה, מה הוחלף, והשפעת המיגרציה." },
     { group: "migrate", href: "/evolution/", he: "מרכז אבולוציית T-Codes", title: "Transaction Evolution", tag: "ECC→S/4", tagColor: "#2563eb", desc: "טבלת מיגרציה — T-Codes שהוסרו/לא-אסטרטגיים ב-S/4 + חלופה (MB1A/B/C→MIGO, XK01→BP, MD01→MD01N) + Fiori + השפעה." },
-    { group: "migrate", href: "/fiori/", he: "מרכז Fiori", title: "Fiori Center", tag: `${FIORI_APPS.length}`, tagColor: "#7c3aed", desc: "מיפוי טרנזקציה → Fiori — App ID, Business Catalog, Role, OData, CDS ו-Launchpad setup." },
+    { group: "migrate", href: "/fiori/", he: "מרכז Fiori ו-UX", title: "Fiori & UX Center", tag: "UI5 · OData · RAP", tagColor: "#7c3aed", desc: "ארכיטקטורת Fiori (FLP/Gateway/OData), סוגי אפליקציות, SEGW/IWFND/IWBEP, UI5 (MVC), RAP (CDS/Behavior/Service Binding), תקלות וזרימת Debug." },
     { group: "migrate", href: "/impact/", he: "מנתח השפעה", title: "Impact Analyzer", tag: "Graph", tagColor: "#9333ea", desc: "מה יושפע אם תשנה טבלה/אובייקט — גרף תלויות מלא + Object Intelligence." },
 
     // ── נתונים והפניות · Reference & Data ──
     { group: "data", href: "/transactions/", he: "מרכז הטרנזקציות", title: "Transaction Center", tag: `${TRANSACTIONS.length} T-Codes`, tagColor: "#0f766e", desc: "קטלוג T-Codes ל-PM/PP/PP-PI — מטרה, מתי/מי, אובייקטים/טבלאות/BAPIs, User Exits, שגיאות, בלוק ECC↔S/4 ו-Fiori. טבלת עזר + חיפוש." },
     { group: "data", href: "/tables/", he: "חוקר טבלאות מתקדם", title: "Advanced Tables Explorer", tag: `${ALL_TABLES.length}`, tagColor: "#0891b2", desc: "כל הטבלאות — תיאור, קשרים, CDS, ECC↔S/4 ומפת קשרים מלאה (שדות/מפתחות/גרף)." },
-    { group: "data", href: "/security/", he: "מרכז הרשאות ואבטחה", title: "Security Center", tag: `${AUTH_ITEMS.length} פריטים`, tagColor: "#dc2626", desc: "SU01, PFCG, SU53, SUIM, SU24, אובייקטי הרשאה, ACTVT, פרופילים, Trace — כולל אבחון כשלים ודוגמאות PM/PP." },
+    { group: "data", href: "/security/", he: "מרכז הרשאות ואבטחה", title: "Security & Authorizations", tag: "12 תחומים", tagColor: "#dc2626", desc: "SU01, PFCG, SU53, STAUTHTRACE, SUIM, אובייקטי הרשאה, פרופילים, תפקידים (single/composite/derived) ומודל Fiori/IAM — ארכיטקטורה, זרימת אבחון ושאלות ראיון." },
     { group: "data", href: "/authorizations/", he: "הרשאות לתהליכים", title: "Authorization Center", tag: `${PROCESS_AUTH.length}`, tagColor: "#dc2626", desc: "לכל תהליך — אובייקטי הרשאה, כשלים נפוצים ונתיב אבחון SU53→PFCG." },
     { group: "data", href: "/workbench/", he: "שולחנות עבודה ליועץ", title: "Consultant Workbenches", tag: `${WORKBENCHES.length} שולחנות`, tagColor: "#be185d", desc: "שולחנות עבודה ברמת יועץ בכיר — Debugging, QM, PM מתקדם, PP-PI מתקדם. לכל אחד 12 מקטעים: מושגים, ארכיטקטורה, זרימה, טבלאות, טרנזקציות, FMs, BAdIs, Exits, תקלות, נקודות Debug, ECC↔S/4 ו-CBC." },
 
@@ -92,6 +90,7 @@ export default function Page() {
     { group: "cbc", href: "/cbc/", he: "מרכז תרחישי CBC", title: "CBC Manufacturing", tag: `${CBC_SCENARIOS.length}`, tagColor: "#d62027", desc: "תרחישי ייצור אמיתיים — משקה, תרכיז, אצוות, CIP, אריזה, מחזורי פקודה." },
 
     // ── ממשל ומערכת · Governance & System ──
+    { group: "system", href: "/alm/", he: "מרכז ALM", title: "Application Lifecycle Management", tag: "SolMan · Cloud ALM", tagColor: "#2563eb", desc: "Solution Manager, Focused Build ו-Cloud ALM — מחזור חיים E2E, ניהול טרנספורטים (CTS/STMS/Retrofit), שינויים ותקלות, בדיקות וניטור." },
     { group: "system", href: "/architect/", he: "לוח ארכיטקט", title: "Architect Dashboard", tag: "KPI", tagColor: "#1e293b", desc: "כיסוי ידע, ECC↔S/4, טרנזקציות, Fiori, תקלות, CBC — עם זיהוי פערים אוטומטי." },
     { group: "system", href: "/verification/", he: "לוח אימות מאגר", title: "Verification Dashboard", tag: "Audit", tagColor: "#0f766e", desc: "סיווג כל ישות Verified/Partially/Needs + קישורים מומצאים, מיפויים חלשים, כפילויות ומיפויי FM/BAdI חשודים." },
     { group: "system", href: "/quality-audit/", he: "ביקורת איכות ידע", title: "Knowledge Quality Audit", tag: "Audit", tagColor: "#0f766e", desc: "סריקה סטטית — כפילויות, הפניות יתומות, קישורים שבורים, לוח איכות." },

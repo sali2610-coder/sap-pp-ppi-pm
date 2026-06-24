@@ -10,6 +10,7 @@ import { CUSTOM_CODE, CUSTOM_CODE_NOTE, INTEGRATION, TESTING, CUTOVER, LESSONS, 
 import { ARCH, ARCH_STATUS } from "@/data/s4-architecture";
 import { S4STATUS_META } from "@/data/s4-objects";
 import { searchCatalog, catalogByName, catalogStats } from "@/lib/s4-catalog";
+import { RelatedCenters } from "@/components/related-centers";
 import { BookOpen } from "lucide-react";
 
 const RISK_C = { high: "#dc2626", medium: "#d97706", low: "#16a34a" } as const;
@@ -319,6 +320,7 @@ export function S4Transformation() {
               </div>
             ))}</div>
           </Card>
+          <RelatedCenters />
           <p className="pb-4 text-center text-[11px] text-slate-400">נתוני ECC↔S/4 נגזרים מנושאים מאומתים · מתודולוגיה (קוד/אינטגרציה/בדיקות/Cutover) = ידע SAP סטנדרטי, מסומן curated. לא להמציא — אמת מול גרסת היעד וה-Readiness Check.</p>
         </div>
       </div>

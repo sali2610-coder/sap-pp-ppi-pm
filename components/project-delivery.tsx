@@ -52,7 +52,7 @@ export function ProjectDelivery() {
       <div className="mt-4 grid gap-5 lg:grid-cols-[200px_minmax(0,1fr)]">
         <aside className="hidden lg:block"><nav className="sticky top-4 space-y-1">
           {SECTIONS.map((s) => { const Ic = s.icon; const on = active === s.id; return <button key={s.id} onClick={() => go(s.id)} className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-right text-sm font-bold transition ${on ? "bg-white text-slate-900 shadow-sm ring-1 ring-slate-200" : "text-slate-500 hover:bg-white/70 hover:text-slate-900"}`}><Ic className="size-4 shrink-0" style={on ? { color: "#4f46e5" } : undefined} />{s.he}</button>; })}
-          <div className="!mt-3 space-y-1 border-t border-slate-200 pt-3">{[["מרכז S/4", "/s4hana/"], ["Readiness", "/s4-readiness/"], ["Migration", "/migration-cockpit/"]].map(([l, h]) => <Link key={h} href={h} className="flex items-center gap-2 rounded-xl px-3 py-1.5 text-[13px] font-bold text-slate-500 transition hover:text-brand"><ArrowLeft className="size-3.5" />{l}</Link>)}</div>
+          <div className="!mt-3 space-y-1 border-t border-slate-200 pt-3">{[["אינטגרציה", "/integration/"], ["אבטחה", "/security/"], ["ALM", "/alm/"], ["Fiori / UX", "/fiori/"], ["מרכז S/4", "/s4hana/"], ["Migration", "/migration-cockpit/"]].map(([l, h]) => <Link key={h} href={h} className="flex items-center gap-2 rounded-xl px-3 py-1.5 text-[13px] font-bold text-slate-500 transition hover:text-brand"><ArrowLeft className="size-3.5" />{l}</Link>)}</div>
         </nav></aside>
 
         <div ref={scrollRef} className="min-w-0 max-h-[calc(100vh-2rem)] space-y-5 overflow-y-auto lg:pe-1">

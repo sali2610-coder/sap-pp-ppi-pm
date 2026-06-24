@@ -4,6 +4,7 @@ import { useMemo, useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { Database, Boxes, Network, Gauge, ShieldCheck, AlertTriangle, Play, ArrowLeft, Search, Layers, CheckCircle2, ListChecks, FileStack, GitCompare } from "lucide-react";
 import { APPROACHES, MIG_OBJECTS, MIG_ERRORS, QUALITY_DIMS, READINESS, MIG_CHECKLIST, MIG_LOAD_LAYERS, MIG_META, type MigObj, type MigCat } from "@/data/migration-cockpit";
+import { RelatedCenters } from "@/components/related-centers";
 
 const RISK_C = { high: "#dc2626", medium: "#d97706", low: "#16a34a" } as const;
 const RISK_HE = { high: "סיכון גבוה", medium: "בינוני", low: "נמוך" } as const;
@@ -198,6 +199,7 @@ export function MigrationCockpit() {
             ); })}</div>
             <div className="mt-3 flex flex-wrap gap-1.5 border-t border-slate-100 pt-3">{[["מרכז S/4", "/s4hana/"], ["מודל נתונים", "/sap-infrastructure/"], ["ניתוח השפעה", "/impact/"]].map(([l, h]) => <Link key={l} href={h} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">{l}</Link>)}<button onClick={() => window.dispatchEvent(new Event("neo:open-mentor"))} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">שאל מנטור</button></div>
           </Card>
+          <RelatedCenters />
           <p className="pb-4 text-center text-[11px] text-slate-400">תוכן מבוסס SAP S/4HANA Migration Cockpit (LTMC/LTMOM) · trust: curated · פריטים לא ודאיים: needs-verification · לא להמציא — אמת מול גרסת היעד ו-SAP Notes.</p>
         </div>
       </div>
