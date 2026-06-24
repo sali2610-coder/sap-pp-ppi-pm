@@ -146,8 +146,8 @@ export function CommandPalette() {
   const extHits = useMemo<FlatItem[]>(() => {
     const s = dsq.trim().toLowerCase(); if (s.length < 2) return [];
     const out: FlatItem[] = [];
-    HR_TABLES.filter((t) => `${t.name} ${t.he}`.toLowerCase().includes(s)).slice(0, 5).forEach((t) => out.push({ kind: "ext", label: t.name, sub: `HR · ${t.he}`, module: "PM", href: "/sap-infrastructure/" }));
-    BW_TABLES.filter((t) => `${t.name} ${t.he}`.toLowerCase().includes(s)).slice(0, 5).forEach((t) => out.push({ kind: "ext", label: t.name, sub: `BW · ${t.he}`, module: "PM", href: "/sap-infrastructure/" }));
+    HR_TABLES.filter((t) => `${t.name} ${t.he}`.toLowerCase().includes(s)).slice(0, 5).forEach((t) => out.push({ kind: "ext", label: t.name, sub: `HR · ${t.he}`, module: "PM", href: `/object/${encodeURIComponent(t.name)}` }));
+    BW_TABLES.filter((t) => `${t.name} ${t.he}`.toLowerCase().includes(s)).slice(0, 5).forEach((t) => out.push({ kind: "ext", label: t.name, sub: `BW · ${t.he}`, module: "PM", href: `/object/${encodeURIComponent(t.name)}` }));
     MIG_OBJECTS.filter((m) => `${m.name} ${m.he}`.toLowerCase().includes(s)).slice(0, 5).forEach((m) => out.push({ kind: "ext", label: m.name, sub: `הגירה · ${m.he}`, module: "PM", href: "/migration-cockpit/" }));
     return out;
   }, [dsq]);

@@ -1,8 +1,9 @@
 import { ALL_TABLES } from "@/lib/data";
+import { HR_BW_NAMES } from "@/lib/hr-bw-adapter";
 import { ObjectWorkspace } from "@/components/object-workspace";
 
 export function generateStaticParams() {
-  return ALL_TABLES.map((t) => ({ name: t.tableName }));
+  return [...ALL_TABLES.map((t) => t.tableName), ...HR_BW_NAMES].map((name) => ({ name }));
 }
 
 export const dynamicParams = false;

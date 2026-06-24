@@ -4,9 +4,12 @@
 
 import { ALL_TABLES } from "@/data/sapData";
 import type { SAPTable } from "@/lib/types";
+import { hrBwTableByName } from "@/lib/hr-bw-adapter";
 
 const byName = new Map(ALL_TABLES.map((t) => [t.tableName, t]));
-export const tableByName = (n: string): SAPTable | undefined => byName.get(n);
+// Core dataset first; fall back to the HR/BW adapter so those objects also
+// resolve to a full object page (knowledge + consultant mode).
+export const tableByName = (n: string): SAPTable | undefined => byName.get(n) || hrBwTableByName(n);
 
 export type GRole = "center" | "upstream" | "downstream";
 export interface GNode { name: string; module: string; he: string; role: GRole; exists: boolean }
