@@ -1,0 +1,106 @@
+{
+  "book": "Integrating Warehouse Management in SAP S/4HANA",
+  "pages": 1341,
+  "chapters": [
+    {
+      "n": 1,
+      "title": "Introduction to Extended Warehouse Management",
+      "pages": [
+        19,
+        56
+      ],
+      "chars": 60846,
+      "sections": 15
+    },
+    {
+      "n": 2,
+      "title": "Production Planning",
+      "pages": [
+        57,
+        150
+      ],
+      "chars": 102854,
+      "sections": 16
+    },
+    {
+      "n": 3,
+      "title": "Quality Management",
+      "pages": [
+        151,
+        228
+      ],
+      "chars": 86738,
+      "sections": 10
+    },
+    {
+      "n": 4,
+      "title": "Transportation Management",
+      "pages": [
+        229,
+        319
+      ],
+      "chars": 106554,
+      "sections": 12
+    },
+    {
+      "n": 5,
+      "title": "Dock Appointment Scheduling",
+      "pages": [
+        320,
+        361
+      ],
+      "chars": 55493,
+      "sections": 5
+    },
+    {
+      "n": 6,
+      "title": "Warehouse Automation Systems",
+      "pages": [
+        362,
+        418
+      ],
+      "chars": 69861,
+      "sections": 10
+    },
+    {
+      "n": 7,
+      "title": "Yard Logistics",
+      "pages": [
+        419,
+        460
+      ],
+      "chars": 45208,
+      "sections": 5
+    },
+    {
+      "n": 8,
+      "title": "Environmental Health and Safety",
+      "pages": [
+        461,
+        486
+      ],
+      "chars": 33593,
+      "sections": 5
+    },
+    {
+      "n": 9,
+      "title": "Plant Maintenance",
+      "pages": [
+        487,
+        521
+      ],
+      "chars": 40635,
+      "sections": 5
+    },
+    {
+      "n": 10,
+      "title": "SAP Advanced Track and Trace for Pharmaceuticals",
+      "pages": [
+        522,
+        549
+      ],
+      "chars": 35161,
+      "sections": 5
+    }
+  ]
+}
