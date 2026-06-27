@@ -1,0 +1,755 @@
+{
+  "n": 4,
+  "title": "Inventory and Warehouse Management",
+  "sections": [
+    {
+      "id": "F7366",
+      "title": "Advanced Shipping and Receiving Cockpit",
+      "appType": "Transactional",
+      "chars": 734,
+      "text": "Advanced Shipping and Receiving\nCockpit (F7366)\nApplication Type: Transactional\nThis app allows you to monitor freight orders\nand loading/unloading points in the warehouse.\nThe app is flexible enough to handle deliveries\ngenerated in extended warehouse management\n(EWM) and in inventory management. Multiple\nselection options to determine the data to dis-\nplay are available, including freight order, ware-\nhouse number, loading/unloading point, ware-\nhouse door, warehouse door status, loading/\nunloading completed, carrier, transportation\nplanning on/at, execution status, and lifecycle\nstatus. You can click one of the listed freight\norders to navigate to the related Web Dynpro\napp, Load or Unload Freight Orders (/SCMTMS/\nASR())."
+    },
+    {
+      "id": "F2745",
+      "title": "Allocation – ALP",
+      "appType": "Analytical",
+      "chars": 581,
+      "text": "Allocation – ALP (F2745)\nApplication Type: Analytical\nThis app provides KPIs in an analytical list page\n(ALP). The list of KPIs shows the weight, volume,\nand value of the transportation allocation. Each\nunit of measure can show total and average uti-\nlization. The KPIs are displayed in a chart, with\noptions to change the type of chart displayed,\nand the data is displayed for the current and the\nprevious month so that you can identify key\ntrends. The data can be viewed by carrier, allow-\ning you to identify the total weight, volume, and\ncontainer utilization for each carrier."
+    },
+    {
+      "id": "F2673",
+      "title": "Allocation Compliance",
+      "appType": "Analytical",
+      "chars": 691,
+      "text": "Allocation Compliance (F2673)\nApplication Type: Analytical\nThis overview page offers an alternative view of\nthe transport allocation in a single hub. The list\nof KPIs shows the weight, volume, and value of\nPersonal Copy for \n\n4 Inventory and Warehouse Management\n370\nthe transportation allocation. The data is\nretrieved by selecting one of the following cards\nfrom the overview page:\n▪ Tradelane Weight Load Analysis\n▪ Tradelane Volume Load Analysis\n▪ Tradelane Container Load Analysis\n▪ Transportation Mode Category Analysis\n▪ Overall Weight Utilization Distribution\n▪ Overall Container Utilization Distribution\nTechnically, this page retrieves data using CDS\nview C_TranspAllocComplianceQ."
+    },
+    {
+      "id": "F0870A",
+      "title": "Analyze Delivery Logs",
+      "appType": "Transactional",
+      "chars": 518,
+      "text": "Analyze Delivery Logs (F0870A)\nApplication Type: Transactional\nCollective background jobs for the creation of\ndeliveries (outbound and inbound) can be ana-\nlyzed using this app. Selection options such as\nlog number, created by, created on, shipping\npoint, and log status are available. A list of back-\nground jobs and log numbers is displayed in a\ntable format. Clicking an entry will take you to a\nmore detailed screen, on which you can see the\ndetails of the collected messages and the full list\nof delivery numbers."
+    },
+    {
+      "id": "F6185",
+      "title": "Analyze Stock in Date Range",
+      "appType": "Transactional",
+      "chars": 1217,
+      "text": "Analyze Stock in Date Range (F6185)\nApplication Type: Transactional\nThis app can be used by inventory managers to\nanalyze goods movements for specific materials\nor ranges of materials within a given date range.\nThere are standard SAP use cases provided for\nfilters, as follows:\n▪ Standard: Displays the most vital stock quan-\ntity and value fields for the material\n▪ Stock quantity: Displays net receipt quantity\nand net goods issue quantity\n▪ Supplier consignment stock: Displays the\nsupplier consignment (K) special stock type\nIt’s also possible to create your own filter view.\nThe results are organized into two separate page\nviews: the Main page and the Detail page. The\nMain page displays a list of all the materials with\nstock counts and an option to navigate directly\nto the detail page. The Detail page displays a\nmicrochart showing all relevant stock details for\nthe material selected.\nYou can also define background jobs for inven-\ntory movement from this app.\nTip\nAuthorizations are key for this app and could\nlead to zeros being displayed for certain attri-\nbutes in the results table. These attributes can\nbe hidden, or the authorizations can be ana-\nlyzed to assess what is missing from the user\nrecord."
+    },
+    {
+      "id": "F5123",
+      "title": "Analyze Warehouse Task",
+      "appType": "Analytical",
+      "chars": 461,
+      "text": "Analyze Warehouse Task (F5123)\nApplication Type: Analytical\nThis app can be used to analyze all tasks\nassigned as part of extended warehouse man-\nagement (EWM). These tasks include picks, put-\naways, internal goods movements, posting\nchanges, goods receipt postings, and goods issue\npostings. You can create warehouse tasks with\nreference to a warehouse request. You can also\ncreate warehouse tasks without a reference—for\nexample, for internal goods movements."
+    },
+    {
+      "id": "F5122",
+      "title": "Analyzer Warehouse Order",
+      "appType": "Analytical",
+      "chars": 758,
+      "text": "Analyzer Warehouse Order (F5122)\nApplication Type: Analytical\nWarehouse tasks have specific KPIs assigned to\nthem, and this app allows you to view these KPIs\nin more detail. Navigation to drilldown reports\nis supported. Various selection filters are avail-\nable such as warehouse order queue, warehouse,\nwarehouse order, activity area, and warehouse\n© \n\n371\n4 Inventory and Warehouse Management\norder status. The results are displayed in a table,\nwith variants available for configuration. Each\nwarehouse order has a separate row, and users\ncan see the status, activity area, queue, ware-\nhouse order creation rule, and process type. This\nanalytical overview app is relevant for the ware-\nhouse clerk role in SAP Fiori and was introduced\nin SAP S/4HANA 2021."
+    },
+    {
+      "id": "F4961",
+      "title": "Application Log for Just-In-Time Supply to Customer",
+      "appType": "Transactional",
+      "chars": 560,
+      "text": "Application Log for Just-In-Time Supply\nto Customer (F4961)\nApplication Type: Transactional\nJust-in-time (JIT) call processing jobs create\napplication logs in SAP. This app can be used by\nshipping specialists to identify issues to resolve\nin a centralized hub. Multiple options for select-\ning the data to display are available, including\nseverity, from and to dates, category, subcate-\ngory, and external reference.\nTip\nWhen creating a JIT log, add a sales order ID as\nan external reference. As a result, you can fil-\nter all logs related to that sales order."
+    },
+    {
+      "id": "F5189",
+      "title": "Application Logs for Manufacturing Logistics",
+      "appType": "Transactional",
+      "chars": 612,
+      "text": "Application Logs for Manufacturing\nLogistics (F5189)\nApplication Type: Transactional\nManufacturing logistics processes create pro-\ncessing jobs with application logs in SAP. This\napp can be used by warehouse clerks to identify\nissues to resolve in a centralized hub. Multiple\noptions for selecting the data to display are\navailable, including severity, from and to dates,\ncategory, subcategory, and external reference.\nThe data is displayed in a table along with the\ndescription of the subcategory it refers to, such\nas logistical reevaluation, route, warehouse task,\nwarehouse request, warehouse order, or tour."
+    },
+    {
+      "id": "F5485",
+      "title": "Block Bulk Bins from Putaway",
+      "appType": "Transactional",
+      "chars": 786,
+      "text": "Block Bulk Bins from Putaway (F5485)\nApplication Type: Transactional\nThis app allows warehouse clerks to block the\nputaway of goods into storage bins in the bulk\narea. This exercise can be done in the fore-\nground (immediate) or in the background as a\nscheduled job. With the app, scheduled jobs can\nbe created as copies of existing jobs. In addition,\njobs can be viewed, monitored, or canceled. Mul-\ntiple selection options are available for the cre-\nation of the job, including template selection\nparameters such as job template (select from\ndropdown list) and job name (free text), as well\nas scheduling options such as the Start Immedi-\nately flag, recurrence pattern (single run or\nrecurring), and start date and time. Parameter\noptions related to the putaway task are avail-\nable."
+    },
+    {
+      "id": "F2674",
+      "title": "Business Share",
+      "appType": "Analytical",
+      "chars": 1824,
+      "text": "Business Share (F2674)\nApplication Type: Analytical\nThis overview page related to transportation\nmanagement (TM) in SAP S/4HANA allows man-\nagers to get real-time insight into the KPIs\nrequired to manage transportation of products\nby carriers to customers. The intention is to pro-\nvide a centralized hub for all insight into a busi-\nness’s dealings with carriers. The overview page\nis organized into the following cards, which pro-\nvide individual KPIs for analysis:\n▪ Weight Fulfillment Ratio\nThis card shows how carriers have performed\nagainst their allotted weight for transporta-\ntion (e.g., they may have shipped 151,250 kg\nout of a total allocation of 208,210 kg). This\nfulfillment ratio can also be shown as a per-\ncentage.\n▪ Volume Fulfillment Ratio\nThis card shows how carriers have performed\nagainst their allotted volume for transporta-\ntion (e.g., they may have shipped 1000 m3 out\nof a total allocation of 2500 m3). This fulfill-\nment ratio can also be shown as a percentage.\nPersonal Copy for \n\n4 Inventory and Warehouse Management\n372\n▪ Road Fulfillment Ratio\nThis card shows, in graphical format, the vol-\nume of goods transported by road for the\nactual booked quantity against the target\nquantity.\n▪ Sea Fulfillment Ratio\nThis card shows, in graphical format, the vol-\nume of goods transported by sea for the\nactual booked quantity against the target\nquantity.\n▪ Air Fulfillment Ratio\nThis card shows, in graphical format, the vol-\nume of goods transported by air for the actual\nbooked quantity against the target quantity.\n▪ Trade Lane Fulfillment\nThis card shows how each trade lane performs\nagainst its allotted share. The units can be\nweight or volume.\nYou can navigate from the app to the Business\nShare – ALP app (F2746), where you can get ana-\nlytical information related to your carrier busi-\nness."
+    },
+    {
+      "id": "F2746",
+      "title": "Business Share – ALP",
+      "appType": "Analytical",
+      "chars": 499,
+      "text": "Business Share – ALP (F2746)\nApplication Type: Analytical\nThis very useful SAP Fiori app gives you a much\nmore detailed level of information regarding\ncarrier business. Information available in the\nBusiness Share app (F2674) can be displayed in\nthis app as well, with graphical and table over-\nviews for each category. Navigation between\nthis app and related apps in the transportation\nmanagement (TM) function are supported, such\nas Freight Booking Execution (F2677) and other\nfreight-related apps."
+    },
+    {
+      "id": "F1706",
+      "title": "Change Inbound Delivery",
+      "appType": "Transactional",
+      "chars": 949,
+      "text": "Change Inbound Delivery (F1706)\nApplication Type: Transactional\nWith this app, you can change an inbound deliv-\nery to carry out tasks such as changing the deliv-\nery quantity, deleting items, entering batch\ninformation, creating or changing handling\nunits, and posting goods receipt. It is also possi-\nble to upload and delete attachments, such as\nphotographs or documents in various formats.\nYou can navigate to the related Create Inbound\nDelivery (F1705) and Process Warehouse Tasks\n(F4595) apps.\nTip\nWhen a delivery arrives at the goods-in loca-\ntion, use this app to cross-reference the deliv-\nery note from the driver against the expected\ndelivery and make changes in SAP accordingly.\nIt’s also possible to add items to an open\ninbound delivery, in case the delivery from the\ndriver contains items belonging to a different\npurchase order.\nTransaction Code\nThe associated transaction in SAP GUI is\nTransaction VL32N (Change Inbound Deliv-\nery)."
+    },
+    {
+      "id": "F5162",
+      "title": "Change Inbound Delivery – Production",
+      "appType": "Transactional",
+      "chars": 781,
+      "text": "Change Inbound Delivery –\nProduction (F5162)\nApplication Type: Transactional\nInbound deliveries can be from external sources\nbut also can be related to items arriving in the\nwarehouse location from the production lines.\nThis app allows you to compare the inbound\ndelivery in SAP with the physical goods arriving\nfrom production. The available tasks include\nchanging the delivery quantity, deleting deliv-\nery items, entering batch information, creating\nor changing handling units, and posting or\nreversing goods receipts. It is also possible to\nupload and delete attachments, such as photo-\ngraphs or documents in various formats.\nYou can navigate to the related Change Inbound\nDelivery (F1706) and Process Warehouse Tasks\n(F4595) apps.\n© \n\n373\n4 Inventory and Warehouse Management"
+    },
+    {
+      "id": "F4741",
+      "title": "Check-Out/In Differences",
+      "appType": "Transactional",
+      "chars": 486,
+      "text": "Check-Out/In Differences (F4741)\nApplication Type: Transactional\nRoutes have planned quantities that can be\ntracked against actual quantities by using this\napp. The app tracks planned and actual check-out\nquantities for the route against expected and\nactual check-in quantities. This is useful for ana-\nlyzing the efficiency of the execution of the route.\nYou can navigate to the related Outbound Deliv-\nery (F0233A), Return Delivery (F1996), and Track\nSales Order Details (F2981) apps."
+    },
+    {
+      "id": "F7151",
+      "title": "Classify Products – Commodity Codes for Transportation",
+      "appType": "Transactional",
+      "chars": 691,
+      "text": "Classify Products – Commodity Codes for\nTransportation (F7151)\nApplication Type: Transactional\nAs part of the SAP S/4HANA for international\ntrade functionality, this app can be used to clas-\nsify materials to a specific commodity code,\nusing a specific numbering scheme. From\nwithin the search features of the app, you can\nfind unclassified products based on product\nnumber, product description, material type,\nmaterial group, and division. The app presents a\nlist of products based upon the selection criteria\nused, and you can select single or multiple\nentries to classify them. Commodity code classi-\nfications can be set using validity dates, and\nremarks can be added during the process."
+    },
+    {
+      "id": "F6439",
+      "title": "Configure Activity Attributes",
+      "appType": "Transactional",
+      "chars": 926,
+      "text": "Configure Activity Attributes (F6439)\nApplication Type: Transactional\nWith this app, you can use business process\nscheduling (BPS) flexibly to configure the dura-\ntions of logistics activities and define the neces-\nsary working times for scheduling them. These\ndurations and working times are based on attri-\nbutes in the sales documents. Available activi-\nties in the app include the following:\n▪ Creation of accesses that contain characteris-\ntic value combinations based on scheduling\nactivity\n▪ Assigning values to each characteristic value\ncombination\n▪ Changing the sequencing priority of the\naccess\n▪ Changing the status of the accesses to one of\nthe available statuses: active, inactive, or\nobsolete\n▪ Controlling the use of characteristic value\ncombinations based on authorization groups\nTip\nAfter manually changing any activity attri-\nbutes, it is recommended to run rescheduling\nfor the sales documents in question."
+    },
+    {
+      "id": "F5354",
+      "title": "Configure Alternative Determination",
+      "appType": "Transactional",
+      "chars": 781,
+      "text": "Configure Alternative Determination\n(F5354)\nApplication Type: Transactional\nAs a part of the advanced available-to-promise\n(ATP) solution, this app allows you to define\nalternative determinations for sales order\nrequirements. It is possible to define rating attri-\nbutes and hard constraints within the app. Tem-\nplates can also be defined that contain precon-\nfigured alternative determinations for\nconfirming requirements fully, on time, or ear-\nlier than on time but with as large a quantity as\nis possible. Rating attributes to drive the alterna-\ntive determination, such as minimum delay,\nminimum number of plants, and minimum\nnumber of storage locations, can be configured,\nas can hard constraints to limit the alternative\ndetermination, such as maximum confirma-\ntion ratio."
+    },
+    {
+      "id": "F4569",
+      "title": "Configure Supply Protection",
+      "appType": "Transactional",
+      "chars": 932,
+      "text": "Configure Supply Protection (F4569)\nApplication Type: Transactional\nThis useful app can be used to protect the quan-\ntities of a given material in a plant against other\ndemand. There are two approaches to providing\nthis protection:\nPersonal Copy for \n\n4 Inventory and Warehouse Management\n374\n▪ Horizontal protection: Complete groups are\nprotected against each other.\n▪ Vertical protection: Priority is assigned to\ngroups, so with vertical protection, every\ngroup is only protected against demands\noriginating from groups with a lower priority.\nQuantities that are protected are defined by a\ncombination of a material and a plant, with other\ncharacteristics available as well. Supply protec-\ntion objects also can be defined, such as sales\norders, stock transport orders, and so on. In addi-\ntion, protection can be defined by validity dates.\nSupply protection integrates natively with back-\norder processing and product allocation."
+    },
+    {
+      "id": "F5694",
+      "title": "Confirm Freight Orders",
+      "appType": "Transactional",
+      "chars": 492,
+      "text": "Confirm Freight Orders (F5694)\nApplication Type: Transactional\nThis app can be used to respond to freight\norders sent by the shipper. In this app, you can\nreview freight orders that require confirmation\nand view their details, such as source and desti-\nnation, transportation, cargo, dangerous goods,\ndriver, stops, notes, and attachments. You can\nalso update the freight order with the driver and\nregistration, and initiate changes to the con-\nfirmed end date/time, price limit, or currency."
+    },
+    {
+      "id": "F3340",
+      "title": "Count Physical Inventory",
+      "appType": "Transactional",
+      "chars": 628,
+      "text": "Count Physical Inventory (F3340)\nApplication Type: Transactional\nMany physical inventory counting processes are\nstill carried out using paper. With this app, you\ncan count the results of the physical inventory\ndocuments after the warehouse operator has\nmanually recorded the count results on the\nphysical inventory documents. The app allows\nyou to make various changes to physical inven-\ntory documents, such as activating/deactivating\nthe documents, printing documents and defin-\ning the layout of the printouts, assigning prod-\nucts and handling units as well as serial num-\nbers, and assigning a count reference to the\nitems."
+    },
+    {
+      "id": "F1705",
+      "title": "Create Inbound Delivery",
+      "appType": "Transactional",
+      "chars": 529,
+      "text": "Create Inbound Delivery (F1705)\nApplication Type: Transactional\nWith this app, you can create an inbound deliv-\nery to carry out tasks such as adding the delivery\nquantity, entering batch information, creating\nhandling units, and posting goods receipt. It is\nalso possible to upload attachments, such as\nphotographs or documents in various formats.\nNavigation to the related Change Inbound Deliv-\nery app (F1706) is supported.\nTransaction Code\nThe associated transaction in SAP GUI is\nTransaction VL31N (Create Inbound Delivery)."
+    },
+    {
+      "id": "F5001",
+      "title": "Create JIT Delivery Schedule (In Background)",
+      "appType": "Transactional",
+      "chars": 759,
+      "text": "Create JIT Delivery Schedule\n(In Background) (F5001)\nApplication Type: Transactional\nWith this app, just-in-time (JIT) delivery sched-\nules can be created with reference to scheduling\nagreements as a background job. The schedule is\nbased on JIT calls received from customers. Mul-\ntiple selection options are available for the cre-\nation of the job, including template selection\nparameters such as job template (select from\ndropdown list) and job name (free text), as well\nas scheduling options such as the Start Immedi-\nately flag, recurrence pattern (single run or\nrecurring), and start date and time. Parameter\noptions related to the JIT delivery schedule\ninclude till specific date, till date, call compo-\nnents, external status, plant, and sold-to party."
+    },
+    {
+      "id": "F3897",
+      "title": "Create Outbound Deliveries from Sequenced JIT Calls",
+      "appType": "Transactional",
+      "chars": 1001,
+      "text": "Create Outbound Deliveries from\nSequenced JIT Calls (F3897)\nApplication Type: Transactional\nWith this app, you can create outbound deliver-\nies from sequenced just-in-time (JIT) calls on a\npackage unit, according to specific shipping\n© \n\n375\n4 Inventory and Warehouse Management\npoints. It is possible to split the delivery docu-\nment based upon the criteria maintained in the\nManage JIT Customer Data app (F3011). Selection\ncriteria for finding package groups include the\njust-in-sequence (JIS) packaging unit ID. Often\nused in the automotive industry, JIS comes into\nplay when parts need to arrive not only just in\ntime, but also in the correct sequence required\nfor the efficient operation of the production\nline. Other selection criteria include component\ngroup material, ship-to party, unloading point,\nshipping point, requirement date and time,\nplanned shipping date and time, and planned\ndelivery date. From the list of package groups\ndisplayed, you can create outbound deliveries or\nview logs."
+    },
+    {
+      "id": "F3922",
+      "title": "Create Outbound Deliveries from Summarized JIT Calls",
+      "appType": "Transactional",
+      "chars": 541,
+      "text": "Create Outbound Deliveries from\nSummarized JIT Calls (F3922)\nApplication Type: Transactional\nWith this app, you can create outbound deliver-\nies from summarized just-in-time (JIT) calls on\ncomponent groups. Selection criteria for finding\npackage groups include ship-to party, shipping\npoint, planned creation date, delivery date and\ntime, planned goods issue date and time,\nunloading point, external JIT call number, and\nrequirement date and time. From the list of\npackage groups displayed, you can create out-\nbound deliveries or view logs."
+    },
+    {
+      "id": "F3197",
+      "title": "Create Physical Inventory Documents",
+      "appType": "Transactional",
+      "chars": 709,
+      "text": "Create Physical Inventory Documents\n(F3197)\nApplication Type: Transactional\nInventory managers can use this app to create\nphysical inventory documents for materials or\ngroups of materials. This is part of the cycle\ncount preparation, and the app assists with find-\ning materials to be counted. Selection options\nfor filtering include the plant, storage location,\nand not-counted-since date. The list of materials\nin the table is sorted by stock type (unrestricted\nstock, blocked stock, quality inspection stock,\netc.). There are options to export the data to a\nspreadsheet or to attach documents.\nTransaction Code\nThe associated transaction in SAP GUI is\nTransaction MI01 (Create Physical Inventory\nDocument)."
+    },
+    {
+      "id": "F5553",
+      "title": "Display Freight Quotations",
+      "appType": "Transactional",
+      "chars": 551,
+      "text": "Display Freight Quotations (F5553)\nApplication Type: Transactional\nAccepting freight requests for quotation (RFQs)\ncreates freight quotations in SAP to send to the\nshipper. These quotations can be viewed using\nthis app. The app displays all the freight quota-\ntions that have been awarded or rejected by the\nshipper as well as those that are still in pending\nstatus. You can view more information for the\nfreight quotation as well, such as its source, des-\ntination transportation, cargo, dangerous goods,\ntransportation stops, notes, and attachments."
+    },
+    {
+      "id": "F5147",
+      "title": "Display Serial Numbers",
+      "appType": "Analytical",
+      "chars": 605,
+      "text": "Display Serial Numbers (F5147)\nApplication Type: Analytical\nEmployees such as warehouse clerks and inven-\ntory managers can use this app to display a list\nof serial numbers associated with a specific\nmaterial. The list displayed is fully up to date\naccording to the last goods movement for the\nserial number. Frequently, this app is accessed\nfrom the related Stock – Single Material (F1076)\nand Stock – Multiple Materials (F1595) apps.\nTransaction Code\nThe associated transaction in SAP GUI is\nTransaction IQ09 (Display Material Serial\nNumber).\nPersonal Copy for \n\n4 Inventory and Warehouse Management\n376"
+    },
+    {
+      "id": "F3298",
+      "title": "Expected Goods Receipt",
+      "appType": "Transactional",
+      "chars": 903,
+      "text": "Expected Goods Receipt (F3298)\nApplication Type: Transactional\nThis app allows you to create background jobs\nfor the transfer of expected goods receipts for\npurchase orders and production orders to\nextended warehouse management (EWM). You\nalso can view the log for all jobs and cancel or\nrestart jobs. Multiple selection options are avail-\nable for the creation of a job, including template\nselection parameters such as job template\n(select from dropdown list) and job name (free\ntext), as well as scheduling options such as the\nStart Immediately flag, recurrence pattern (sin-\ngle run or recurring), and start date and time.\nParameter options related to the just-in-time\n(JIT) delivery schedule include the warehouse\nnumber, selection start date, selection end date,\nsupplier, purchasing document type, confirma-\ntion control, material, purchasing document,\nproduction order type, and production order."
+    },
+    {
+      "id": "F4976",
+      "title": "Explain Scheduling Results",
+      "appType": "Transactional",
+      "chars": 561,
+      "text": "Explain Scheduling Results (F4976)\nApplication Type: Transactional\nThis app is part of the transportation manage-\nment (TM) suite of apps and is used to analyze\nscheduling results. The results are displayed in a\ntable format with information such as the plan-\nning profile, scheduling settings, planning hori-\nzon, scheduling direction, scheduling strategy,\nstatus, and action. Each item can be selected to\nopen more detailed information, such as solu-\ntion steps. Each activity in the detailed informa-\ntion area can be viewed chronologically in a\nGantt chart."
+    },
+    {
+      "id": "F2677",
+      "title": "Freight Booking Execution",
+      "appType": "Analytical",
+      "chars": 2652,
+      "text": "Freight Booking Execution (F2677)\nApplication Type: Analytical\nThis overview page holds individual cards that\nshow information related to transportation\nmanagement (TM) freight bookings. The follow-\ning cards are available:\n▪ Lifecycle Status Analysis\nThis card shows the number of bookings,\ngrouped by lifecycle status. The statuses avail-\nable are draft (status 00), new (status 01), and\nin process (status 02).\n▪ Freight Bookings in Transit\nThis card shows the number of freight book-\nings that are currently in transit. Drilldown\noptions here allow you to view details of the\nfreight bookings.\n▪ Carrier On-Time Performance\nThis card shows the percentage of freight\nbookings that are delivered on time, split by\ncarrier. Note that a freight booking is only\nclassed as on time if all of its events are\nclassed as on time.\n▪ Location Delay Analysis\nThis card shows the number of delayed\nfreight bookings for each location, with an\nanalysis of which events are delayed.\n▪ Execution Block Analysis\nThis card shows all freight bookings that have\nan execution block, grouped by execution\nblock reason.\n▪ Delayed Freight Bookings in Transit\nThis card shows all freight bookings that are\ndelayed in transit. The delay here represents\nthe difference between the actual and\nexpected dates. Drilldown options are avail-\nable to view details of the freight bookings.\n▪ Location On-Time Performance\nThis card displays, as a percentage, the on-\ntime freight bookings for each location. The\ndelays also are displayed with numbers (e.g.,\n10/12 events on time).\n▪ Planning Block Analysis\nThis card shows all freight bookings with an\nassociated planning block, grouped by plan-\nning block reason.\n▪ Blocking Discrepancies\nThis card shows freight bookings with dis-\ncrepancy types associated with them, such as\ndelivery of item or delay.\n▪ Activity On-Time Performance\nThis card shows the on-time performance for\nindividual events within the freight booking,\n© \n\n377\n4 Inventory and Warehouse Management\nsuch as loading and unloading, thus allowing\nyou to identify bottlenecks in the process.\n▪ Unexpected Events\nThis card allows you to monitor unexpected\nevents related to freight bookings, such as\naccidents or delays.\n▪ Non-Blocking Discrepancies\nThis card shows freight bookings with dis-\ncrepancy types associated with them that did\nnot result in a block.\n▪ Carrier Delay Analysis\nThis card shows an analysis of the delays in\nfreight bookings for each carrier. This can be\nused to evaluate carrier performance in order\nto identify areas of concern.\nThe app uses two CDS views for the retrieval of\ndata: C_FRTBKGEXECUTIONSTSQ_CDS and C_FRTBK-\nGEXECUTIONQUERY_CDS."
+    },
+    {
+      "id": "F2747",
+      "title": "Freight Booking Execution – ALP",
+      "appType": "Analytical",
+      "chars": 506,
+      "text": "Freight Booking Execution – ALP (F2747)\nApplication Type: Analytical\nThis very useful app gives you a much more\ndetailed level of information about your carri-\ners. Information available in the Freight Booking\nExecution app (F2677) can be displayed in this\napp as well, with graphical and table overviews\nfor each category. Navigation between this app\nand related apps in the transportation manage-\nment (TM) function are supported, such as\nFreight Booking Execution (F2677) and other\nfreight-related apps."
+    },
+    {
+      "id": "F2748",
+      "title": "Freight Booking Execution Status – ALP",
+      "appType": "Analytical",
+      "chars": 603,
+      "text": "Freight Booking Execution Status –\nALP (F2748)\nApplication Type: Analytical\nThis app allows you to view transports that are\nblocked in planning or in execution, grouped\ntogether by the block reason. The information is\nprovided in both graphical and tabular format.\nSelection options for filtering include event\non-time ratio by carrier, event on-time ratio\nby location, event on-time ratio by event, and\nnumber of events by no block. For the listed\nfreight bookings, you can perform quick actions\nby selecting Change Freight Booking.\nNavigation to the Freight Booking Execution\napp (F2677) is supported."
+    },
+    {
+      "id": "F2749",
+      "title": "Freight Booking Quantities – ALP",
+      "appType": "Analytical",
+      "chars": 537,
+      "text": "Freight Booking Quantities – ALP (F2749)\nApplication Type: Analytical\nThis app allows you to view transport quantities\nin freight booking, grouped together by various\nselection options. The information is provided\nin both graphical and tabular format. Selection\noptions for filtering include the carrier and the\ntransportation category. For the listed freight\nbookings, you can perform quick actions by\nselecting Change Freight Booking.\nNavigation to the Freight Booking: Quantity-\nDriven Operational Business app (F2678) is sup-\nported."
+    },
+    {
+      "id": "F2678",
+      "title": "Freight Booking: Quantity-Driven Operational Business",
+      "appType": "Analytical",
+      "chars": 2102,
+      "text": "Freight Booking: Quantity-Driven\nOperational Business (F2678)\nApplication Type: Analytical\nThis overview page holds individual cards that\nshow information related to quantities and vol-\numes in transportation management (TM) freight\nbookings. The following cards are available:\n▪ Gross Weight Distribution\nThis card shows the change in gross weight\nacross all weeks in the current and previous\nmonths for all completed freight bookings in\na graphical format.\n▪ Gross Volume Distribution\nThis card shows the change in gross volume\ndistribution across all weeks in the current\nand previous months for all completed\nfreight bookings in a graphical format.\n▪ Quantity Distribution\nThis card shows the change in quantity distri-\nbution across all weeks in the current and pre-\nvious months for all completed freight book-\ning, in a graphical format.\nPersonal Copy for \n\n4 Inventory and Warehouse Management\n378\n▪ Transportation Mode Category Analysis\nThis card displays a chart with the total num-\nber of freight bookings for each transporta-\ntion mode category, by gross weight and\ngross volume.\n▪ Logistics Network Analysis\nThis card shows geographical locations with\nthe total weight for completed freight book-\nings.\n▪ Carrier Quantity Analysis\nThis card shows completed freight bookings\nby carrier, with gross weight, gross volume,\nand container count.\n▪ Shipper Quantity Analysis\nThis card shows completed freight bookings\nby shipper, with gross weight, gross volume,\nand container count.\n▪ Ship-to Party Quantity Analysis\nThis card shows completed freight bookings\nby ship-to party, with gross weight, gross vol-\nume, and container count.\n▪ Utilization Distribution\nThis card shows the lowest percentage utiliza-\ntion by carriers for completed freight book-\ning.\n▪ Quantity Analysis\nThis card shows the transportation mode cat-\negory (road, air, sea, etc.) alongside the gross\nvolume and gross weight for completed\nfreight bookings.\n▪ Distance Analysis\nThis card shows the transportation mode cat-\negory (road, air, sea, etc.) alongside the total\ndistance and duration for completed freight\nbookings."
+    },
+    {
+      "id": "F6215",
+      "title": "Freight Cost Allocation Document",
+      "appType": "Fact Sheet",
+      "chars": 483,
+      "text": "Freight Cost Allocation Document\n(F6215)\nApplication Type: Fact Sheet\nThis app provides a centralized hub where you\ncan view all freight cost allocations in one place.\nThe details in the app allow you to view account\nassignment information for the freight costs,\nnavigate to pertinent related apps such as\nManage Freight Cost Allocation Documents\n(F5514), and get more detailed information about\nfreight cost allocation documents, such as pric-\ning information and the document flow."
+    },
+    {
+      "id": "F2675",
+      "title": "Freight Order Execution",
+      "appType": "Analytical",
+      "chars": 2031,
+      "text": "Freight Order Execution (F2675)\nApplication Type: Analytical\nThis overview page holds individual cards that\nshow information related to transportation\nmanagement (TM) freight orders. The following\ncards are available:\n▪ Lifecycle Status Analysis\nThis card shows the number of orders\ngrouped by lifecycle status: draft (status 00),\nnew (status 01), or in process (status 02).\n▪ Execution Block Analysis\nThis card shows all freight orders with an exe-\ncution block, grouped by execution block rea-\nson.\n▪ Planning Block Analysis\nThis card shows all freight orders with a plan-\nning block, grouped by planning block rea-\nson.\n▪ Delayed Freight Orders in Transit\nThis card shows all freight orders that are\ndelayed in transit. The delay here represents\nthe difference between the actual and\nexpected dates. Drilldown options are avail-\nable to view the details of the freight orders.\n▪ Blocking Discrepancies\nThis card shows freight orders with discrep-\nancy types associated with them, such as\ndelivery of item or delay.\n▪ Non-Blocking Discrepancies\nThis card shows freight orders with discrep-\nancy types associated with them that did not\nresult in a block.\n▪ Carrier On-Time Performance\nThis card shows the percentage of freight\norders delivered on time, split by carrier. Note\nthat a freight order is only classed as on time\nif all of its events are classed as on time.\n▪ Location On-Time Performance\nThis card displays the on-time freight orders\n© \n\n379\n4 Inventory and Warehouse Management\nfor each location as a percentage. The delays\nalso are displayed with numbers (e.g., 10/12\nevents on-time).\n▪ Activity On-Time Performance\nThis card shows the on-time performance for\nindividual events within the freight order,\nsuch as loading and unloading, allowing you\nto identify bottlenecks in the process.\n▪ Unexpected Events\nThis card allows you to monitor unexpected\nevents related to freight orders, such as acci-\ndents or delays.\nThe app uses two CDS views to retrieve the data:\nC_FrtOrdExecutionStsQ and C_FrtOrdExecution-\nQuery."
+    },
+    {
+      "id": "F2750",
+      "title": "Freight Order Execution – ALP",
+      "appType": "Analytical",
+      "chars": 521,
+      "text": "Freight Order Execution – ALP (F2750)\nApplication Type: Analytical\nThis app allows you to see a detailed view of\nfreight order execution, grouped together by\nvarious selection options. The information is\npresented in both graphical and tabular format.\nSelection options for filtering include event on-\ntime ratio by carrier, event on-time ratio by\nlocation, event on-time ratio by event, and\nnumber of events by no block. For the listed\nfreight bookings, you can perform quick actions\nby selecting Change Freight Booking."
+    },
+    {
+      "id": "F2751",
+      "title": "Freight Order Execution Status – ALP",
+      "appType": "Analytical",
+      "chars": 535,
+      "text": "Freight Order Execution Status –\nALP (F2751)\nApplication Type: Analytical\nThis app allows you to view freight orders that\nare blocked in planning or in execution,\ngrouped together by block reason. The informa-\ntion is presented in both graphical and tabular\nformat. Selection options for filtering include\nthe number of freight orders by lifecycle and\nnumber of planning blocked freight orders by\ntransportation management (TM) category. For\nthe listed freight bookings, you can perform\nquick actions by selecting Change Freight Order."
+    },
+    {
+      "id": "F2752",
+      "title": "Freight Order Quantities – ALP",
+      "appType": "Analytical",
+      "chars": 474,
+      "text": "Freight Order Quantities – ALP (F2752)\nApplication Type: Analytical\nThis app allows you to view freight order quanti-\nties, grouped together by various filter options.\nThe information is presented in graphical and\ntabular format. Selection options for filtering\ninclude gross weight by carrier and number of\nblocked freight orders by transportation man-\nagement (TM) category. For the listed freight\nbookings, you can perform quick actions by\nselecting Change Freight Order."
+    },
+    {
+      "id": "F2676",
+      "title": "Freight Order: Quantity-Driven Operational Business",
+      "appType": "Analytical",
+      "chars": 2136,
+      "text": "Freight Order: Quantity-Driven\nOperational Business (F2676)\nApplication Type: Analytical\nThis overview page holds individual cards show-\ning information related to quantity analysis for\ntransportation management (TM) freight\norders. The following cards are available:\n▪ Gross Weight Distribution\nThis card shows the change in gross weight\nacross all weeks in the current and previous\nmonths for all completed freight orders in\ngraphical format.\n▪ Gross Volume Distribution\nThis card shows the change in gross volume\ndistribution across all weeks in the current\nand previous months for all completed\nfreight orders in graphical format.\n▪ Quantity Distribution\nThis card shows the change in quantity distri-\nbution across all weeks in the current and pre-\nvious months for all completed freight orders\nin graphical format.\n▪ Transportation Mode Category Analysis\nThis card displays a chart with the total num-\nber of freight orders for each transportation\nmode category, by gross weight and gross vol-\nume.\n▪ Logistics Network Analysis\nThis card shows geographical locations with\nthe total weight for completed freight orders.\nPersonal Copy for \n\n4 Inventory and Warehouse Management\n380\n▪ Carrier Quantity Analysis\nThis card shows completed freight orders by\ncarrier, with gross weight, gross volume, and\ncontainer count.\n▪ Shipper Quantity Analysis\nThis card shows completed freight bookings\nby shipper, with gross weight, gross volume,\nand container count.\n▪ Ship-to Party Quantity Analysis\nThis card shows completed freight orders by\nship-to party, with gross weight, gross vol-\nume, and container count.\n▪ Utilization Distribution\nThis card shows the lowest percentage utiliza-\ntion by carriers for completed freight orders.\n▪ Quantity Analysis\nThis card shows the transportation mode cat-\negory (road, air, sea, etc.) alongside the gross\nvolume and gross weight for completed\nfreight orders.\n▪ Distance Analysis\nThis card shows the transportation mode cat-\negory (road, air, sea, etc.) alongside the total\ndistance and duration for completed freight\norders.\nNavigation to the Freight Order Quantities – ALP\napp (F2752) is supported."
+    },
+    {
+      "id": "F0232A",
+      "title": "Inbound Delivery (S/4HANA)",
+      "appType": "Fact Sheet",
+      "chars": 972,
+      "text": "Inbound Delivery (S/4HANA) (F0232A)\nApplication Type: Fact Sheet\nThis app offers information about inbound\ndeliveries. For example, header data like gross\nweight and net weight, volume, number of pack-\nages, document date, planned goods movement\ndate, and actual goods movement date are avail-\nable on the initial screen, as are the various sta-\ntuses: putaway status, putaway confirmation\nstatus, warehouse management status, and\noverall goods movement status. Additional\ninformation related to item-level data and busi-\nness partners is also available, as are process\nflows.\nThis app, like many fact sheet apps, is best\naccessed from the enterprise search results. The\napp provides a detailed overview of an inbound\ndelivery, and you can navigate to several related\napps, such as Material Master (F0338A), Pur-\nchase Order (Version 2) (F0348A), and Supplier\n(F0354).\nTransaction Code\nThe associated transaction in SAP GUI is\nTransaction VL33N (Display Inbound Delivery)."
+    },
+    {
+      "id": "F3749",
+      "title": "Inventory KPI Analysis",
+      "appType": "Analytical",
+      "chars": 1255,
+      "text": "Inventory KPI Analysis (F3749)\nApplication Type: Analytical\nInventory analysts can use this app to monitor\nan organization’s KPIs effectively, thus ensuring\naccurate forecasting. The standard KPI filters are\nas follows:\n▪ Stock changes\nDisplays stock value changes for the selected\nmaterials in the currency of the company\ncode over a given time period.\n▪ Consumption changes\nThe consumption value is the result of the\nconsumption multiplied by the current price.\nThis option displays the changes in consump-\ntion for materials in the currency of the com-\npany code over a given time period.\n▪ Inventory aging changes\nThis option can be defined as a percentage\nrelationship between the average stock quan-\ntity and consumption quantity for the\nselected materials over a given time period.\n▪ Inventory turnover changes\nThis option can be defined as a relationship\nbetween the average stock quantity and con-\nsumption quantity for the selected materials\nover a given time period.\n▪ Range of coverage changes\nThis option can be defined as a relationship\nbetween the current stock quantity and the\nrelationship between consumption and a\nspecified number of days for the selected\nmaterials over a given time period.\n© \n\n381\n4 Inventory and Warehouse Management"
+    },
+    {
+      "id": "F7104",
+      "title": "Manage Charges for Freight Orders",
+      "appType": "Transactional",
+      "chars": 720,
+      "text": "Manage Charges for Freight Orders\n(F7104)\nApplication Type: Transactional\nCarriers can use this app to view, update, and\napprove freight charges. The freight orders in\nflight can be viewed in the app, with the option\nto list them by status. From the list of freight\norders generated per your selection criteria, you\ncan view information such as transportation\ndetails, source and destination details, cargo\ndetails, transportation stages, charges, notes,\nand attachments. You also can edit a freight\norder to add or update a charge. As this app is\nnormally used by carriers, the function for col-\nlaboration with carriers must be configured\nfirst. This needs to be done in the Maintain Col-\nlaboration Users app (F4911)."
+    },
+    {
+      "id": "F7150",
+      "title": "Manage Commodity Codes for Transportation",
+      "appType": "Transactional",
+      "chars": 393,
+      "text": "Manage Commodity Codes for\nTransportation (F7150)\nApplication Type: Transactional\nAs part of the SAP S/4HANA for international\ntrade functionality, this very simple app allows\nyou to add, edit, and display commodity codes\nfor use in transportation. Commodity codes can\nhave a description as well as a validity date\nrange. You also can add a custom unit of mea-\nsure against the commodity code."
+    },
+    {
+      "id": "F6013",
+      "title": "Manage Execution of Freight Orders",
+      "appType": "Transactional",
+      "chars": 706,
+      "text": "Manage Execution of Freight Orders\n(F6013)\nApplication Type: Transactional\nThis app is available to carriers or service pro-\nviders to monitor and manage freight orders\nthat have been sent by a shipper and are in the\nprocess of execution. You can search using a\nselection of parameters and display a list in tab-\nular format of all freight orders that currently\nhave the in execution status. You also can view\ndetails of transportation stops as well as report\na planned or unplanned event during a trans-\nportation stop. As this app is normally used by\ncarriers, the function for collaboration with car-\nriers must be configured first. This needs to be\ndone in the Maintain Collaboration Users app\n(F4911)."
+    },
+    {
+      "id": "F5395",
+      "title": "Manage Freight Agreement RFQ Masters",
+      "appType": "Transactional",
+      "chars": 868,
+      "text": "Manage Freight Agreement RFQ Masters\n(F5395)\nApplication Type: Transactional\nShipper transportation requirements are often\ndetailed in freight agreement request for quota-\ntion (RFQ) documents. The RFQ document is\nused in the selection process to select a carrier\nor carriers to fulfill transportation require-\nments. It is possible to use this app to create new\nfreight agreement RFQs as well as edit and dis-\nplay existing freight agreement RFQs. It is also\npossible to create a freight agreement RFQ using\nan industry-standard template.\nTip\nTemplates for freight agreement RFQs can be\ncustomized in the IMG, using the path Trans-\nportation Management • Master Data •\nAgreement RFQs and Quotations • Define\nFreight Agreement RFQ Master Templates.\nFrom within this IMG activity, templates can\nbe created with RFQ items as standard and\ncommodity codes can be assigned."
+    },
+    {
+      "id": "F4916",
+      "title": "Manage Freight Agreement RFQs",
+      "appType": "Transactional",
+      "chars": 659,
+      "text": "Manage Freight Agreement RFQs (F4916)\nApplication Type: Transactional\nThis app can be used to monitor and negotiate\nrates with shippers. The carriers themselves can\naccess this app to respond to freight agreement\nrequests for quotation (RFQs). It is possible to\nuse a spreadsheet to enter rate details and attach\nfiles to the RFQ, and it is also possible to reject\nthe RFQ and thus choose not to participate. As\nPersonal Copy for \n\n4 Inventory and Warehouse Management\n382\nthis app is normally used by carriers, the func-\ntion for collaboration with carriers must be con-\nfigured first. This needs to be done in the Main-\ntain Collaboration Users app (F4911)."
+    },
+    {
+      "id": "F5514",
+      "title": "Manage Freight Cost Allocation Documents",
+      "appType": "Transactional",
+      "chars": 735,
+      "text": "Manage Freight Cost Allocation\nDocuments (F5514)\nApplication Type: Transactional\nThis app is used to manage freight cost alloca-\ntion documents. You can release the documents\nusing the Release quick action in the app. The\ndata is viewed in tabular format, and filters such\nas editing status, freight cost allocation docu-\nment, settlement document type, posting sta-\ntus, sales organization, purchasing organization,\nand posting date can be applied. The details\nscreen for each freight cost allocation document\ncan be accessed by clicking the document’s line\nfrom the table view. In the details, you can view\nthe administration data, journal entry data, pric-\ning elements, and items, as well as a visualiza-\ntion of the document flow."
+    },
+    {
+      "id": "F7106",
+      "title": "Manage Freight Invoices",
+      "appType": "Transactional",
+      "chars": 890,
+      "text": "Manage Freight Invoices (F7106)\nApplication Type: Transactional\nCarriers can use this app to manage the freight\ninvoices that have been sent to a shipper. The\nstatus of each invoice determines what actions\nare available for it, as follows:\n▪ Submitted\nSubmitted by the shipper; you can create a\ncredit memo to reverse the invoice.\n▪ Not Submitted\nCreated but not submitted by the shipper;\nyou can edit all areas in full and submit.\n▪ For Approval\nInvoices awaiting approval for changes pro-\nposed by the shipper; you can view and edit\nthe invoice, accept the shipper’s proposal, or\nedit and propose new changes.\n▪ Rejected/Canceled\nCanceled or rejected internally or by the ship-\nper; you can view details.\nAs this app is normally used by carriers, the\nfunction for collaboration with carriers must be\nconfigured first. This needs to be done in the\nMaintain Collaboration Users app (F4911)."
+    },
+    {
+      "id": "F7732",
+      "title": "Manage Freight Orders for Invoicing",
+      "appType": "Transactional",
+      "chars": 722,
+      "text": "Manage Freight Orders for Invoicing\n(F7732)\nApplication Type: Transactional\nA carrier can use this app to manage the creation\nand amendment of invoices for freight orders.\nThe results of searches are displayed in tabular\nformat, and fields such as source location, desti-\nnation location, and means of transport can be\nused as filters. The results can be viewed by sta-\ntus (Not Invoiced, Partially Invoiced, or Com-\npletely Invoiced). New invoices can be raised\nusing this app for orders in the Not Invoiced or\nPartially Invoiced status.\nAs this app is normally used by carriers, the\nfunction for collaboration with carriers must be\nconfigured first. This needs to be done in the\nMaintain Collaboration Users app (F4911)."
+    },
+    {
+      "id": "F5552",
+      "title": "Manage Freight RFQs",
+      "appType": "Transactional",
+      "chars": 625,
+      "text": "Manage Freight RFQs (F5552)\nApplication Type: Transactional\nThis app can be used to manage and respond to\nrequests for quotation (RFQs) from shippers.\nThe carriers themselves can access this app to\nmanage their response. It is possible to accept\nthe RFQ without making any changes; propose\nchanges to the price, currency, or validity dates;\nor reject the RFQ and thus choose not to partici-\npate. As this app is normally used by carriers, the\nfunction for collaboration with carriers must be\nconfigured first. This needs to be done in the\nMaintain Collaboration Users app (F4911).\n© \n\n383\n4 Inventory and Warehouse Management"
+    },
+    {
+      "id": "F6681",
+      "title": "Manage Loading Lanes",
+      "appType": "Transactional",
+      "chars": 444,
+      "text": "Manage Loading Lanes (F6681)\nApplication Type: Transactional\nThis app is used by warehousing clerks to man-\nage loading lanes and assign them to a given\nroute. Selection options include route ID, ware-\nhouse, route type, lifecycle status, start storage\ntype, and route parameter group. From the\nselected criteria, a list of routes is generated,\nfrom which loading lanes can be assigned. You\nalso can view changes that have been made in\nthe app."
+    },
+    {
+      "id": "F3896",
+      "title": "Manage Packing Group Specification for Sequenced JIT Calls",
+      "appType": "Transactional",
+      "chars": 612,
+      "text": "Manage Packing Group Specification for\nSequenced JIT Calls (F3896)\nApplication Type: Transactional\nMultiple just-in-time (JIT) calls can be packed\ntogether. This app can be used to manage the\npacking specifications for JIT calls. Each compo-\nnent group can be packed in different ways\ndepending upon a variety of attributes, such as\ncustomer or destination. Packaging specifica-\ntions can be created, edited, and deleted using\nthis app. Selection options can be used to bring\nup a full list of packaging specifications that\nincludes data such as the description, packaging\nmaterials, number of slots, and status."
+    },
+    {
+      "id": "F5340",
+      "title": "Manage Physical Stock – Products",
+      "appType": "Transactional",
+      "chars": 495,
+      "text": "Manage Physical Stock –\nProducts (F5340)\nApplication Type: Transactional\nThis app is a useful way of identifying inventory\nin storage bins. You can search via a variety of\nselection fields, such as warehouse number,\nproduct, storage bin, handling unit, and stock\ntype, to bring up a list of products that meet\nyour criteria. From within the app, you also can\nuse the Consume and Scrap quick actions to post\nunplanned goods issues. This can be done for a\nsingle stock item or for several at once."
+    },
+    {
+      "id": "F4745",
+      "title": "Manage Reload Requests",
+      "appType": "Transactional",
+      "chars": 668,
+      "text": "Manage Reload Requests (F4745)\nApplication Type: Transactional\nProducts that are to be loaded as part of cus-\ntomer deliveries can be amended to add prod-\nucts or deliveries via reload requests. The reload\nrequests list can be generated by using fields\nsuch as editing status, route ID, reload location,\nand created on. Detailed information is shown\nwhen you click one of the resulting reload IDs,\nsuch as information about the sales area, route\ninformation such as stops and locations, admin-\nistrative data such as dates created and changed,\nand information about products in the reload ID\nand any logs. You can use this app to view, edit,\nor delete reload requests."
+    },
+    {
+      "id": "F4243",
+      "title": "Manage Resource Groups",
+      "appType": "Transactional",
+      "chars": 518,
+      "text": "Manage Resource Groups (F4243)\nApplication Type: Transactional\nThis app is used by warehousing clerks to man-\nage resource groups within warehouses. A\nresource group is a selection of resources, such\nas vehicles, that can be assigned together in a\ngroup. You can use the app to make settings for\nthe resource group that are relevant to actions\nsuch as processing using radio frequency (RF)\nguns. You also can use the app to create new\nresource groups, edit existing resource groups,\nor delete existing resource groups."
+    },
+    {
+      "id": "F4533",
+      "title": "Manage Route Groups",
+      "appType": "Transactional",
+      "chars": 540,
+      "text": "Manage Route Groups (F4533)\nApplication Type: Transactional\nThis app can be used to create groups of routes\nfor a specific warehouse. Route groups can be\ndisplayed, edited, created, or deleted from\nwithin the app. Descriptions, languages,\nassigned routes, and assigned users can all be\nmanaged in the app. Routes also can be unas-\nsigned. Selection options such as route group ID,\nwarehouse, and route ID are available for filter-\ning the results, which appear in tabular format.\nPersonal Copy for \n\n4 Inventory and Warehouse Management\n384"
+    },
+    {
+      "id": "F5958",
+      "title": "Manage Route Parameter Groups",
+      "appType": "Transactional",
+      "chars": 423,
+      "text": "Manage Route Parameter Groups\n(F5958)\nApplication Type: Transactional\nRoute parameter groups are groups of specific\nparameters that can be assigned to multiple\nroutes. This app is used to manage the assign-\nment of parameters to a route parameter group.\nSelection options such as route parameter\ngroup, warehouse number, and cycle selection\nparameter are available for filtering the results,\nwhich appear in tabular format."
+    },
+    {
+      "id": "F6022",
+      "title": "Manage Route Version Proposals",
+      "appType": "Transactional",
+      "chars": 592,
+      "text": "Manage Route Version Proposals (F6022)\nApplication Type: Transactional\nWith this app, you can create condition records\nfor the management of routes for route deter-\nmination. There are several functions available\nin the app—for example, create new route ver-\nsion proposals, check existing route version pro-\nposals, block/unblock/accept route version pro-\nposals, and update route version proposals.\nSelection options are available for filtering the\ndata, based upon fields such as route version\nproposal ID, warehouse number, route ID, valid\nfrom, proposal is blocked, and lifecycle status."
+    },
+    {
+      "id": "F4390",
+      "title": "Manage Routes",
+      "appType": "Transactional",
+      "chars": 621,
+      "text": "Manage Routes (F4390)\nApplication Type: Transactional\nWith this app, you can create routes with start\nand end points and defined stops as well as\ndefine route versions. There are several func-\ntions available in the app—for example, create\nnew routes with route versions and stops; copy\nroutes and route versions; create new versions\nfor an existing route; block, deactivate, or delete\nactive route versions; and add attachments to\nroutes. Selection options are available for filter-\ning the data, based upon fields such as route ID,\nwarehouse, route type, lifecycle status, start\nstorage type, and route parameter group."
+    },
+    {
+      "id": "F5143",
+      "title": "Manage Selection Variants",
+      "appType": "Transactional",
+      "chars": 487,
+      "text": "Manage Selection Variants (F5143)\nApplication Type: Transactional\nAs part of the extended warehouse manage-\nment (EWM) suite of apps, this app is used to\ndefine and maintain selection variants for the\nexecution of warehouse tasks. The selection\nvariant has predefined field values that are used\nduring the warehouse process for execution of\ntasks such as wave preparation execution. Selec-\ntion options for filters are available for fields\nsuch as editing status, name, status, and type."
+    },
+    {
+      "id": "F4532",
+      "title": "Manage Stops",
+      "appType": "Transactional",
+      "chars": 634,
+      "text": "Manage Stops (F4532)\nApplication Type: Transactional\nStops are assigned to route versions, and this\napp allows you to maintain those stops through\nfunctions such as creating, copying, and delet-\ning transfer points. Single stops or stop groups\ncan be managed in this way. Maintenance\noptions in the app are listed as quick action but-\ntons as follows: Edit, Copy, New Transfer Point,\nNew Storage Bin Stop, New PSA Group, and\nDelete. You can change the route header data by\nselecting a route ID from the list or change a ver-\nsion by selecting Route Version. You also can\nview the where-used list to see which routes\nstops are used in."
+    },
+    {
+      "id": "F4600",
+      "title": "Manage Tours",
+      "appType": "Transactional",
+      "chars": 570,
+      "text": "Manage Tours (F4600)\nApplication Type: Transactional\nWarehouse operators can manage and maintain\ntours using this app. The app can be used not\nonly to create tours for use in warehouse man-\nagement but also to assign loading employees\nto a tour. Tours can be listed in the app with\ntheir assigned route, planned loading start time,\nand planned departure time, as well as resource\nand driver. Handling unit data also is available\nwith statuses, as well as rack data, which is avail-\nable as a microchart embedded in the table.\n© \n\n385\n4 Inventory and Warehouse Management"
+    },
+    {
+      "id": "F4244",
+      "title": "Manage Users",
+      "appType": "Transactional",
+      "chars": 423,
+      "text": "Manage Users (F4244)\nApplication Type: Transactional\nRadio frequency (RF) frameworks are used often\nin warehouse management to conduct tasks in\nthe warehouse processes. This app is used to\ndefine and maintain users for working within\nthe RF framework. Activity profiles, such as pick-\ning and loading, are assigned to users, as are\nroute group IDs. This app allows this user data to\nbe created, edited, copied, and deleted."
+    },
+    {
+      "id": "F5341",
+      "title": "Manage Warehouse Documents",
+      "appType": "Transactional",
+      "chars": 838,
+      "text": "Manage Warehouse Documents (F5341)\nApplication Type: Transactional\nAs part of the extended warehouse manage-\nment (EWM) suite of SAP Fiori apps, this app is\nused to search for, display, and edit warehouse\ndocuments (i.e., documents for goods move-\nments like receipts and issues). Key features of\nthe app include the ability to view full details of\nthe warehouse documents, including the serial\nnumbers of the items; change the documents to\nenter a reason for movement or a short text;\nand cancel warehouse documents (or individual\nitems on the document) for which the status is\nConfirmed or Partially Canceled. Selection filters\nare available for fields such as warehouse num-\nber, warehouse document, warehouse process\ncategory, product, storage bin, created by, cre-\nated on, account assignment category, and\naccount assignment object."
+    },
+    {
+      "id": "F5513",
+      "title": "Monitor Freight Cost Allocation Document Items",
+      "appType": "Transactional",
+      "chars": 569,
+      "text": "Monitor Freight Cost Allocation\nDocument Items (F5513)\nApplication Type: Transactional\nFreight cost allocation document items can be\nsearched for and analyzed effectively using this\napp. These freight cost allocation document\nitems can be displayed in graphical format and\nlisted by plant or by product, with their associ-\nated value. The selection items can be viewed\ngraphically or in raw format. You also can check\nthe overall status of the freight cost allocation\ndocument item and navigate to the correspond-\ning document to perform any necessary follow-\nup tasks."
+    },
+    {
+      "id": "F5503",
+      "title": "Monitor Periodic Supply Protection Maintenance",
+      "appType": "Transactional",
+      "chars": 509,
+      "text": "Monitor Periodic Supply Protection\nMaintenance (F5503)\nApplication Type: Transactional\nAs part of the advanced available-to-promise\n(ATP) solution, this app can be used to check and\nreview the log messages for the automatic acti-\nvation of supply protection items. Selection\nobjects are available to refine and filter the data\nretrieved, such as severity, from date and to\ndate, category, subcategory, and external refer-\nence.\nNavigation to the related Configure Supply Pro-\ntection app (F4569) is supported."
+    },
+    {
+      "id": "F4553",
+      "title": "My Tours",
+      "appType": "Transactional",
+      "chars": 639,
+      "text": "My Tours (F4553)\nApplication Type: Transactional\nThis app is a very useful way for a warehouse\noperative to get a visual map of and guidance for\nthe unloading process defined within a specific\nsingle tour. The app provides all the detailed\ninformation necessary to view the status of not-\nyet-completed tours, along with the details of\nthe handling units yet to be unloaded. Although\nthis is a display-only app, it is extremely useful\nfor understanding the full process of the specific\ntour, seeing the loading positions for each han-\ndling unit, reviewing the planned departure and\narrival dates, and examining route and stop\ninformation."
+    },
+    {
+      "id": "F2769",
+      "title": "Overview Inventory Management",
+      "appType": "Analytical",
+      "chars": 2252,
+      "text": "Overview Inventory Management\n(F2769)\nApplication type: Analytical\nThis app provides a snapshot of the most\nimportant and timely information and tasks rel-\nevant to the business case. Presented through a\nset of actionable cards, it allows users to quickly\nPersonal Copy for \n\n4 Inventory and Warehouse Management\n386\nidentify priorities, make faster decisions, and\ntake immediate action. The following cards are\navailable:\n▪ Recent Material Documents\nProvides detailed information for each\nselected item. It also offers the option to\nreverse a material document if needed, help-\ning you manage and correct inventory trans-\nactions efficiently. It redirects to the Material\nDocuments Overview app (F1077) when the\ncard is selected.\n▪ Overdue Materials – GR Blocked Stock\nDisplays overdue materials for which a goods\nreceipt (GR) has been posted into the nonval-\nuated GR blocked stock, helping you identify\nitems that may require further action or\ninvestigation. Redirects to the Overdue Mate-\nrials – GR Blocked Stock app (F2347).\n▪ Stock Value by Stock Type\nProvides an overview of material stock val-\nues, organized by different stock types. Redi-\nrects to the Stock – Multiple Materials app\n(F1595).\n▪ Stock Value by Special Stock Type\nGives an overview of your material stock val-\nues, categorized by special stock types.\n▪ Warehouse Throughput History\nProvides a clear view of all goods movements\nwithin a company. This allows you to explore\nvarious dimensions and key figures and lets\nyou drill down to specific material document\nitems to find detailed information quickly\nand easily. Redirects to the Goods Movement\nAnalysis app (W0055).\n▪ Monitor Purchase Order Items\nWith the view switch, you can easily toggle\nbetween viewing overdue items and items\nthat are currently awaiting approval, allowing\nfor better tracking and prioritization of tasks.\nRedirects to the Monitor Purchase Order\nItems app (F2358).\n▪ Overdue Materials – Stock in Transit\nPresents the top 10 stock transport order\nitems experiencing the longest delays for\nwhich the goods receipt process is still pend-\ning. This helps identify critical bottlenecks in\nstock transfers that require immediate atten-\ntion. Redirects to the Overdue Materials –\nStock in Transit app (F2139)."
+    },
+    {
+      "id": "F2416",
+      "title": "Overview Inventory Processing",
+      "appType": "Analytical",
+      "chars": 3008,
+      "text": "Overview Inventory Processing (F2416)\nApplication type: Analytical\nThis app provides a centralized and real-time\nsnapshot of key inventory-related information\nand tasks, displayed through a set of actionable\ncards. These cards highlight the most relevant\nand urgent matters, allowing you to focus on\nwhat needs immediate attention, make faster\ndecisions, and take prompt action. You can filter\nthe entire overview page by parameters such as\nplant or storage location, which dynamically\nupdates the displayed cards to reflect only rele-\nvant data, including overdue materials, out-\nbound deliveries, and warehouse throughput.\nSelecting a card header typically navigates to the\ncorresponding app, while clicking an item lets\nyou drill down into specific details. The follow-\ning cards are available:\n▪ Recent Inventory Counts\nGives detailed item-level information about\nspecific material to help you make informed\ndecisions for different physical inventory\nstrategies, like annual, continuous, or cycle\ncounting.\n▪ Overdue Materials – Stock in Transit\nPresents the top 10 stock transport order\nitems experiencing the longest delays for\nwhich the goods receipt process is still pend-\ning. This helps identify critical bottlenecks in\nstock transfers that require immediate atten-\ntion.\n▪ Inbound Delivery List\nDisplays both completed and open inbound\ndeliveries, offering a comprehensive list\nresulting from collective delivery processing.\nThis is used to access key information related\nto general shipping activities and helps track\nthe status of inbound goods.\n© \n\n387\n4 Inventory and Warehouse Management\n▪ Outbound Delivery List\nProvides a list of outbound deliveries, includ-\ning those that are completed and those still\nopen. This reflects the outcome of collective\ndelivery processing and serves as a source of\ninformation for monitoring and managing\ngeneral shipping activities.\n▪ Overdue Materials – GR Blocked Stock\nDisplays overdue materials for which a goods\nreceipt has been posted into the nonvaluated\ngoods receipt–blocked stock, helping you\nidentify items that may require further action\nor investigation.\n▪ Monitor Purchase Order Items\nWith the view switch, you can easily toggle\nbetween viewing overdue items and items\nthat are currently awaiting approval, allowing\nfor better tracking and prioritization of tasks.\n▪ Recent Material Documents\nDisplays a list of material document items\nand provides detailed information for each\nselected item. You can also reverse a material\ndocument if needed, helping you manage and\ncorrect inventory transactions efficiently.\n▪ Warehouse Throughput History\nProvides a clear view of all goods movements\nwithin a company. This allows you to explore\nvarious dimensions and key figures and lets\nyou drill down to specific material document\nitems to find detailed information quickly\nand easily.\nTip\nIf the cards are not displayed by default, make\nsure that the Plant key field is populated in\norder to display the SAP Fiori cards with met-\nrics from the system."
+    },
+    {
+      "id": "F3193",
+      "title": "Pack Outbound Deliveries",
+      "appType": "Transactional",
+      "chars": 759,
+      "text": "Pack Outbound Deliveries (F3193)\nApplication Type: Transactional\nThe follow-up process to picking is often pack-\ning, and this app can be used by warehouse\noperators to pack outbound deliveries. The\nfunctions available in the app are reasonably\ncomprehensive, including packing using\nadvanced or basic packing modes, creating and\nchanging shipping handling units, packing in\nthe background, excluding exceptions from\npacking, and using favorite packaging materials.\nYou can also connect externally to a scale to\ntransfer the recorded weight to the app. Packing\ncan be handled in the app for a handling unit, a\nstorage bin, or an outbound delivery order.\nTransaction Code\nThe associated transaction in SAP GUI is\nTransaction VL02N (Change Outbound Deliv-\nery)."
+    },
+    {
+      "id": "F3738",
+      "title": "Pack Warehouse Stock",
+      "appType": "Transactional",
+      "chars": 613,
+      "text": "Pack Warehouse Stock (F3738)\nApplication Type: Transactional\nAs part of the extended warehouse manage-\nment (EWM) suite of SAP Fiori apps, stock in the\nwarehouse that exists in a specific handling unit\nor storage bin can be transferred to another han-\ndling unit or storage bin using this app. With\nthis app, you can create and change handling\nunits, pack in the background, exclude excep-\ntions from packing, and use favorite packaging\nmaterials. You can also connect externally to a\nscale to transfer the recorded weight to the app.\nPacking can be handled in the app for either a\nhandling unit or a storage bin."
+    },
+    {
+      "id": "F2793",
+      "title": "Pick by Cart",
+      "appType": "Transactional",
+      "chars": 900,
+      "text": "Pick by Cart (F2793)\nApplication Type: Transactional\nThis app can be used by a warehouse operator to\npick multiple orders in a single trip. This is use-\nful for improving the productivity and effi-\nciency of the warehouse operations. Handling\nunits can be displayed in graphical format,\nshowing their logical positions on a pick cart.\nThe process follows three steps:\n1. Preparation: Operators place handling units\nin the correct logical positions in the pick cart.\nPersonal Copy for \n\n4 Inventory and Warehouse Management\n388\n2. Picking: The warehouse operator picks the\nproducts for the destination handling units.\nThe tasks in the picking step are grouped\ntogether by logical attributes such as storage\nbin.\n3. Unloading: Operators unload the handling\nunits at their destinations. Again, this step\ncan contain multiple handling units based\nupon logical attributes such as a common\ndestination bin."
+    },
+    {
+      "id": "F0868",
+      "title": "Pick Outbound Delivery",
+      "appType": "Transactional",
+      "chars": 580,
+      "text": "Pick Outbound Delivery (F0868)\nApplication Type: Transactional\nPicking is the process of removing goods from\nstorage bins and transferring them to a staging\narea in preparation for final loading and ship-\nment. This app, used in inventory-managed\nwarehouses, allows you to update the picking\nquantity for individual items on the outbound\ndelivery. Once the picking is complete (and the\npicking status is updated to Completely Pro-\ncessed), you can then post the goods issue.\nTransaction Code\nThe associated transaction in SAP GUI is Trans-\naction VL02N (Change Outbound Delivery)."
+    },
+    {
+      "id": "F3434",
+      "title": "Planograph",
+      "appType": "Analytical",
+      "chars": 532,
+      "text": "Planograph (F3434)\nApplication Type: Analytical\nThis app allows warehouse clerks to see a full\noverview of storage locations used to store\nexplosive materials. The app covers the full life-\ncycle of the explosive materials in the ware-\nhouse, including viewing all stock in the storage\nlocation, viewing the compatibility status of the\nmaterials, performing quality inspections, print-\ning the grid view of the planograph (the visual\nlayout of the materials in the location), and sav-\ning your selections in a custom SAP Fiori tile."
+    },
+    {
+      "id": "F2502",
+      "title": "Post Goods Receipt for Inbound Delivery",
+      "appType": "Transactional",
+      "chars": 1511,
+      "text": "Post Goods Receipt for Inbound Delivery\n(F2502)\nApplication Type: Transactional\nThis app allows you to post goods receipts with\nreference to an inbound delivery, making it an\nessential tool for receiving specialists in daily\nwarehouse operations. It provides a list of rele-\nvant inbound deliveries from suppliers, sup-\nporting stock procurement, direct consumption\n(with single or multiple account assignments),\nand vendor consignment stock. The app dis-\nplays account assignment details but doesn’t\nrecalculate quantities in partial receipts. It also\nenables shelf-life checks when required fields\nare maintained in the material master and sup-\nports the entry of production or expiration\ndates. You can record reasons for goods move-\nments and manage batch creation and editing if\nthe appropriate roles are assigned. For materials\nwith split valuation, the app can assign or dis-\nplay valuation types, though consistency across\ndocuments requires manual input beforehand.\nIn subcontracting scenarios, it provides a com-\nponent view showing related materials and sup-\nports adjustments to component quantities or\nunits. It also handles serial numbers at both the\nheader and component levels. Barcode scanning\nis supported by using internal or external\ndevices, with options for simple or GS1-standard\nbarcodes, and manual entry is available. The app\ncan print slips and labels, display detailed stor-\nage-level data, and adjust stock values using the\ncurrent material price regardless of the report-\ning date."
+    },
+    {
+      "id": "F6352",
+      "title": "Post Goods Receipt for Process Order",
+      "appType": "Transactional",
+      "chars": 1011,
+      "text": "Post Goods Receipt for Process Order\n(F6352)\nApplication Type: Transactional\nThis app allows you to post goods receipts spe-\ncifically tied to process orders. On the initial\nscreen, you can either enter a production order\nmanually or use the scan function to retrieve\nan order. The app includes multiple tabs for\neasier navigation. The General Information tab\ncaptures key fields such as printing options,\n© \n\n389\n4 Inventory and Warehouse Management\nnotes, delivery note, document date, and post-\ning date. The Items tab displays details like\nmaterial, open quantity, plant, storage location,\nand stock type (e.g., unrestricted use, quality\ninspection, or blocked). A Split Item (+) func-\ntion within the Distribution column allows you\nto split a material and enter the necessary\ndetails for each split. The Attachments tab\nenables uploading supporting documents or\nadding links. This app simplifies the goods\nreceipt process by listing all relevant process\norders and associated materials ready for post-\ning."
+    },
+    {
+      "id": "F3110",
+      "title": "Post Goods Receipt for Production Order",
+      "appType": "Transactional",
+      "chars": 977,
+      "text": "Post Goods Receipt for Production Order\n(F3110)\nApplication Type: Transactional\nThis app allows you to post goods receipts spe-\ncifically tied to production orders. On the initial\nscreen, you can either enter a production order\nmanually or use the scan function to retrieve an\norder. The app includes multiple tabs for easier\nnavigation. The General Information tab cap-\ntures key fields such as printing options, notes,\ndelivery note, document date, and posting date.\nThe Items tab displays details like material, open\nquantity, plant, storage location, and stock type\n(e.g., unrestricted use, quality inspection, or\nblocked). A Split Item (+) function within the Dis-\ntribution column allows users to split a material\nand enter the necessary details for each split.\nThe Attachments tab enables uploading sup-\nporting documents or adding links. This app\nsimplifies the goods receipt process by listing all\nrelevant production orders and associated\nmaterials ready for posting."
+    },
+    {
+      "id": "F0843",
+      "title": "Post Goods Receipt for Purchasing Document",
+      "appType": "Transactional",
+      "chars": 1266,
+      "text": "Post Goods Receipt for Purchasing\nDocument (F0843)\nApplication Type: Transactional\nThis app allows you to post goods receipts with\nreference to various types of purchasing docu-\nments, such as purchase orders or scheduling\nagreements. When goods are delivered for a spe-\ncific purchasing document, referencing it during\nthe goods receipt process is essential to ensure\nthat all relevant departments are aligned. This\nlinkage automatically updates inventory levels\nand triggers the necessary financial postings as\nsoon as the receipt is posted. The app includes\nseveral functional tabs. The General Information\ntab captures key details such as delivery note,\ndocument date, posting date, and print options\n(no print, individual slip, individual slip with\ninspection text, or collective slip). The Items tab\nprovides a searchable list of materials, display-\ning information such as open quantity, deliv-\nered quantity, plant, storage location, and stock\ntype (e.g., unrestricted use, quality inspection,\nblocked, or goods receipt blocked stock). The\nAttachments tab allows you to upload relevant\ndocuments or include helpful links to support\nthe receipt process.\nTip\nThe app supports the scanning functionality\nthrough the Scan option on the initial screen\nof the app."
+    },
+    {
+      "id": "F3244",
+      "title": "Post Goods Receipt Without Reference",
+      "appType": "Transactional",
+      "chars": 1020,
+      "text": "Post Goods Receipt Without Reference\n(F3244)\nApplication Type: Transactional\nThis app allows you to post goods receipts with-\nout needing a prior purchase order or document\nreference, making it especially valuable for\nwarehouse clerks handling day-to-day opera-\ntions. It streamlines the process of recording\nincoming goods directly into the system, help-\ning maintain accurate and up-to-date inventory\nrecords. The app is organized into several tabs.\nThe General Information tab includes fields such\nas printing options (no print, individual slip,\nindividual slip with inspection text, or collective\nslip), note, delivery note, document date, and\nposting date. The Items tab lets you enter item\ndetails like the ID, material, quantity, plant, and\nstorage location, with options to create, copy, or\nPersonal Copy for \n\n4 Inventory and Warehouse Management\n390\ndelete entries. The Attachments tab allows you\nto upload supporting documents or insert rele-\nvant links, ensuring complete and traceable\ngoods receipt entries."
+    },
+    {
+      "id": "F1955",
+      "title": "Process E-Commerce Returns",
+      "appType": "Transactional",
+      "chars": 688,
+      "text": "Process E-Commerce Returns (F1955)\nApplication Type: Transactional\nThis app is related to the processing of customer\nreturns for decentralized extended warehouse\nmanagement (EWM) systems, which can be con-\nnected to SAP S/4HANA or SAP ERP 6.0. From\nwithin the app, it is possible to identify returns\ndeliveries and manage the returns through the\nend-to-end returns process. Handling units,\nproduct barcodes in GS1 format, EAN and GTIN\nnumbers, serial-managed products, and batch-\nmanaged products are all handled in the app.\nTip\nBe aware that the app has some limitations.\nFor example, you cannot use it to process\nreturns for items that are bundled together in\na bill of materials (BOM)."
+    },
+    {
+      "id": "F4595",
+      "title": "Process Warehouse Tasks",
+      "appType": "Transactional",
+      "chars": 614,
+      "text": "Process Warehouse Tasks (F4595)\nApplication Type: Transactional\nAs part of the extended warehouse manage-\nment (EWM) suite of SAP Fiori apps, individual\nwarehouse tasks such as picking, putaway, and\ninternal movements can be managed using this\napp. Single or multiple warehouse tasks can be\nprocessed simultaneously. Selection filters are\navailable based on fields such as warehouse\nnumber, warehouse order, warehouse task,\nwarehouse task status, and warehouse process\ncategory. The Confirm, Cancel, and Print quick\nactions are available.\nNavigation to the related Manage Product Mas-\nter app (F1602) is supported."
+    },
+    {
+      "id": "F4289",
+      "title": "Process Warehouse Tasks – Internal Movements",
+      "appType": "Transactional",
+      "chars": 576,
+      "text": "Process Warehouse Tasks –\nInternal Movements (F4289)\nApplication Type: Transactional\nAs part of the extended warehouse manage-\nment (EWM) suite of SAP Fiori apps, individual\nwarehouse internal movements can be man-\naged using this app. Single or multiple internal\nmovements can be processed simultaneously.\nSelection filters are available based on fields\nsuch as warehouse number, warehouse order,\nwarehouse task, and warehouse task status. The\nConfirm, Cancel, and Print quick actions are\navailable.\nNavigation to the related Manage Product Mas-\nter app (F1602) is supported."
+    },
+    {
+      "id": "F3880",
+      "title": "Process Warehouse Tasks – Picking",
+      "appType": "Transactional",
+      "chars": 608,
+      "text": "Process Warehouse Tasks –\nPicking (F3880)\nApplication Type: Transactional\nAs part of the extended warehouse manage-\nment (EWM) suite of SAP Fiori apps, individual\nwarehouse picking can be managed using this\napp. Single or multiple picks can be processed\nsimultaneously. Selection filters are available\nbased on fields such as warehouse number,\nwarehouse order, warehouse task, warehouse\ntask status, warehouse process category, and\nproduct or handling unit warehouse task. The\nConfirm, Cancel, and Print quick actions are\navailable.\nNavigation to the related Manage Product Mas-\nter app (F1602) is supported."
+    },
+    {
+      "id": "F4150",
+      "title": "Process Warehouse Tasks – Putaway",
+      "appType": "Transactional",
+      "chars": 660,
+      "text": "Process Warehouse Tasks –\nPutaway (F4150)\nApplication Type: Transactional\nAs part of the extended warehouse manage-\nment (EWM) suite of SAP Fiori apps, individual\nwarehouse putaway can be managed using this\n© \n\n391\n4 Inventory and Warehouse Management\napp. Single or multiple putaways can be pro-\ncessed simultaneously. Selection filters are\navailable based on fields such as warehouse\nnumber, warehouse order, warehouse task,\nwarehouse task status, warehouse process cate-\ngory, and product or handling unit warehouse\ntask. The Confirm, Cancel, and Print quick\nactions are available.\nNavigation to the related Manage Product Mas-\nter app (F1602) is supported."
+    },
+    {
+      "id": "F7275",
+      "title": "Review Scheduling Result – SAPGUI Adapter",
+      "appType": "Transactional",
+      "chars": 647,
+      "text": "Review Scheduling Result –\nSAPGUI Adapter (F7275)\nApplication Type: Transactional\nAs part of the advanced available-to-promise\n(ATP) solution, this app can be used to review\nthe results of the scheduling process for sales\norders processed using Transactions VA01 and\nVA02 in SAP GUI. Features of the app include the\nability to display scheduled dates and activities,\ntogether with total and net durations, and dis-\nplay determined attributes and values, together\nwith the sources of the determination. You can\nalso show nonworking days and times, as well as\nany information regarding backward or forward\nscheduling that has determined the results."
+    },
+    {
+      "id": "F1704",
+      "title": "Run Outbound Process – Deliveries",
+      "appType": "Transactional",
+      "chars": 826,
+      "text": "Run Outbound Process –\nDeliveries (F1704)\nApplication Type: Transactional\nAs part of the extended warehouse manage-\nment (EWM) suite of SAP Fiori apps, this app\nprovides a way to monitor the entire outbound\ndelivery process. The overview initial screen\noffers a visualization of all the deliveries sched-\nuled for the date range specified. Selection\noptions are available based on fields such as\nwarehouse number, carrier, departure date/time\nfor route, and the Include Completed Deliveries\ncheckbox. Quick actions are available to carry\nout the following tasks: print loading list, create\ntasks, goods issue, reverse goods issue, and edit.\nNavigation to the Process Warehouse Tasks app\n(F4595) is supported.\nTip\nThis app is best used for small and medium\nwarehouses. It is not optimized for outbound\nprocesses that use waves."
+    },
+    {
+      "id": "F5164",
+      "title": "Run Outbound Process – Production",
+      "appType": "Transactional",
+      "chars": 749,
+      "text": "Run Outbound Process –\nProduction (F5164)\nApplication Type: Transactional\nAs part of the extended warehouse manage-\nment (EWM) suite of SAP Fiori apps, this app\nprovides a way to monitor the entire outbound\ndelivery process for outbound deliveries for pro-\nduction. The initial overview screen offers a\nvisualization of all the deliveries scheduled for\nthe date range specified. Selection options are\navailable based on fields such as warehouse\nnumber, carrier, departure date/time for route,\nand the Include Completed Deliveries checkbox.\nQuick actions are available to carry out the fol-\nlowing tasks: print loading list, create tasks,\ngoods issue, reverse goods issue, and edit.\nNavigation to the Process Warehouse Tasks app\n(F4595) is supported."
+    },
+    {
+      "id": "F1703",
+      "title": "Run Outbound Process – Transportation Unit",
+      "appType": "Transactional",
+      "chars": 760,
+      "text": "Run Outbound Process –\nTransportation Unit (F1703)\nApplication Type: Transactional\nAs part of the extended warehouse manage-\nment (EWM) suite of SAP Fiori apps, this app\nprovides a way to monitor the entire outbound\ndelivery process for transportation units. The\noverview initial screen offers a visualization of\nall the transportation units scheduled for the\ndate range specified. Selection options are avail-\nable based on fields such as carrier and planned\ndeparture date. The following quick action\noptions are available: Create Tasks, Goods Issue,\nand Edit.\nPersonal Copy for \n\n4 Inventory and Warehouse Management\n392\nTip\nThis app is best used for small and medium\nwarehouses. This is because it is not opti-\nmized for outbound processes which use\nwaves."
+    },
+    {
+      "id": "F3214",
+      "title": "Scenario Builder",
+      "appType": "Transactional",
+      "chars": 411,
+      "text": "Scenario Builder (F3214)\nApplication Type: Transactional\nThis app allows transportation managers to cre-\nate transportation management (TM) data\nquickly for the purposes of testing and training.\nScenario templates can be created that include\nall the scenario data required in order to execute\na TM process. These scenarios can then be used\nover and over again for creation of test scripts\nand training sessions."
+    },
+    {
+      "id": "F2776",
+      "title": "Schedule Goods Receipt for Inbound Deliveries",
+      "appType": "Transactional",
+      "chars": 915,
+      "text": "Schedule Goods Receipt for Inbound\nDeliveries (F2776)\nApplication Type: Transactional\nThis app can be used to create background jobs\nto create goods receipts for inbound deliveries.\nMultiple selection options are available for the\ncreation of the job, including template selection\nparameters such as job template (select from\ndropdown list) and description (free text), as\nwell as scheduling options such as the Start\nImmediately flag, recurrence pattern (single run\nor recurring), and start date and time. Parameter\noptions include shipping/receiving point, pur-\nchasing document, item, created on, created by,\nwarehouse number, storage location, supplier,\nexternal delivery ID, and inbound delivery.\nYou can use this app to perform a number of\nfunctions, such as the creation of periodic back-\nground jobs, receiving notifications for failed\njobs, and monitoring and displaying informa-\ntion about scheduled jobs."
+    },
+    {
+      "id": "F2798",
+      "title": "Schedule Inbound Delivery Creation",
+      "appType": "Transactional",
+      "chars": 844,
+      "text": "Schedule Inbound Delivery Creation\n(F2798)\nApplication Type: Transactional\nThis app can be used to create background jobs\nthat can create inbound deliveries for purchase\norders. Multiple selection options are available\nfor the creation of the job, including template\nselection parameters such as job template\n(select from dropdown list) and description (free\ntext), as well as scheduling options such as the\nStart Immediately flag, recurrence pattern (sin-\ngle run or recurring), and start date and time.\nParameter options include the document num-\nber, item number, plant, storage location, ware-\nhouse number, and delivery date.\nYou can use this app to perform a number of\nfunctions, such as the creation of periodic back-\nground jobs, receiving notifications for failed\njobs, and monitoring and displaying informa-\ntion about scheduled jobs."
+    },
+    {
+      "id": "F4962",
+      "title": "Schedule Outbound Delivery Creation for Sequenced JIT Calls",
+      "appType": "Transactional",
+      "chars": 1161,
+      "text": "Schedule Outbound Delivery Creation for\nSequenced JIT Calls (F4962)\nApplication Type: Transactional\nThis app can be used to create background jobs\nto create outbound deliveries for sequenced\njust-in-time (JIT) calls from customers. Multiple\nselection options are available for the creation\nof the job, including template selection parame-\nters such as job template (select from dropdown\nlist) and description (free text) as well as sched-\nuling options such as the Start Immediately flag,\nrecurrence pattern (single run or recurring), and\nstart date and time. Parameter options include\ncomponent group material, customer supply\narea, distribution channel, delivery creation\ndate, division, internal processing status, sales\norganization, shipping point, ship-to party,\nplanned shipping date from and to, planned\nshipping time from and to, requirement date\nfrom and to, and requirement time from and to.\n© \n\n393\n4 Inventory and Warehouse Management\nYou can use this app to perform a number of\nfunctions, such as the creation of periodic back-\nground jobs, receiving notifications for failed\njobs, and monitoring and displaying informa-\ntion about scheduled jobs."
+    },
+    {
+      "id": "F4963",
+      "title": "Schedule Outbound Delivery Creation for Summarized JIT Calls",
+      "appType": "Transactional",
+      "chars": 1131,
+      "text": "Schedule Outbound Delivery Creation for\nSummarized JIT Calls (F4963)\nApplication Type: Transactional\nThis app can be used to create background jobs\nthat can create outbound deliveries for summa-\nrized just-in-time (JIT) calls from customers.\nMultiple selection options are available for the\ncreation of the job, including template selection\nparameters such as job template (select from\ndropdown list) and description (free text) as well\nas scheduling options such as the Start Immedi-\nately flag, recurrence pattern (single run or\nrecurring), and start date and time. Parameter\noptions include component group material, cus-\ntomer supply area, distribution channel, deliv-\nery creation date, division, internal processing\nstatus, sales organization, shipping point, ship-\nto party, planned shipping date from and to,\nplanned shipping time from and to, require-\nment date from and to, and requirement time\nfrom and to.\nYou can use this app to perform a number of\nfunctions, such as the creation of periodic back-\nground jobs, receiving notifications for failed\njobs, and monitoring and displaying informa-\ntion about scheduled jobs."
+    },
+    {
+      "id": "F5166",
+      "title": "Schedule Tour Creation",
+      "appType": "Transactional",
+      "chars": 832,
+      "text": "Schedule Tour Creation (F5166)\nApplication Type: Transactional\nThis app can be used to create background jobs\nthat can create tours of scheduled routes. Multi-\nple selection options are available for the cre-\nation of the job, including template selection\nparameters such as job template (select from\ndropdown list) and description (free text) as well\nas scheduling options such as the Start Immedi-\nately flag, recurrence pattern (single run or\nrecurring), and start date and time. Parameter\noptions include warehouse number, selection\nvariant, route ID, route type, route parameter\ngroup, and calculation start date.\nYou can use this app to perform a number of\nfunctions, such as the creation of periodic back-\nground jobs, receiving notifications for failed\njobs, and monitoring and displaying informa-\ntion about scheduled jobs."
+    },
+    {
+      "id": "F5355",
+      "title": "Schedule Wave Preparation",
+      "appType": "Transactional",
+      "chars": 917,
+      "text": "Schedule Wave Preparation (F5355)\nApplication Type: Transactional\nThis app can be used to create background jobs\nto create wave preparations. Multiple selection\noptions are available for the creation of the job,\nincluding template selection parameters such as\njob template (select from dropdown list) and\ndescription (free text) as well as scheduling\noptions such as the Start Immediately flag,\nrecurrence pattern (single run or recurring), and\nstart date and time. Parameter options include\nwarehouse number, warehouse document cate-\ngory, document type, delivery priority, route ID,\nselection variant, provision date (begin), provi-\nsion time (begin), provision date (end), and pro-\nvision time (end).\nYou can use this app to perform a number of\nfunctions, such as the creation of periodic back-\nground jobs, receiving notifications for failed\njobs, and monitoring and displaying informa-\ntion about scheduled jobs."
+    },
+    {
+      "id": "F1595",
+      "title": "Stock – Multiple Materials",
+      "appType": "Analytical",
+      "chars": 1502,
+      "text": "Stock – Multiple Materials (F1595)\nApplication Type: Analytical\nThis app provides a comprehensive view of\nmaterial stocks across various plants and stor-\nage locations, helping inventory managers track\nand manage inventory efficiently. You can filter\ndata by material, plant, storage location, base\nunit, and reporting date, with the option to\nadapt filters as needed. The app displays key\ndetails such as material ID, description, plant,\nPersonal Copy for \n\n4 Inventory and Warehouse Management\n394\nspecial stock type, and stock levels (unrestricted,\nquality inspection, and blocked). Selecting a\nmaterial ID hyperlink enables navigation to\nrelated apps, including the Product app (F2773),\nwhich offers in-depth product details like type,\ngroup, category, unit of measure, related plants,\npurchasing data, and sales order information.\nStock data can be presented in tabular format,\nand additional insights include stock values,\nstorage location data, and carbon footprint met-\nrics, supporting organizations focused on sus-\ntainability through integration with SAP Sus-\ntainability Footprint Management. The app also\nfeatures advanced search capabilities to filter for\nactive materials or those without deletion indi-\ncators, and it calculates stock values using cur-\nrent or historical prices. You can export results\nto spreadsheets, send material details via email,\nand collaborate using Microsoft Teams, making\nthe app a powerful tool for real-time inventory\nanalysis and strategic decision-making."
+    },
+    {
+      "id": "F6266",
+      "title": "Stock Reporting Overview",
+      "appType": "Transactional",
+      "chars": 706,
+      "text": "Stock Reporting Overview (F6266)\nApplication Type: Transactional\nThis app enables a real-time view of stock\nreports, making it easier to monitor inventory\nlevels across different materials and locations.\nYou can drill down into individual reports for\ndetailed insights into inventory status and his-\ntory and navigate directly to related material\ndocuments for a deeper review of specific stock\nmovements. The app supports customizable fil-\nters such as stock report number, report year,\nsupplier, and processing date through the Adapt\nFilters option. Additional functions include\ndeleting, duplicating, triggering output, copy-\ning stock reports, and adjusting settings for a\nmore personalized experience."
+    },
+    {
+      "id": "F1076",
+      "title": "Stock – Single Material",
+      "appType": "Analytical",
+      "chars": 1226,
+      "text": "Stock – Single Material (F1076)\nApplication Type: Analytical\nThis app provides a detailed and interactive\nview of material stock across various plants and\nstorage locations, helping inventory managers\neffectively monitor and analyze stock levels.\nYou can view stock by plant or storage location\nand filter by reporting date. It displays various\nstock types, including unrestricted use, blocked,\nquality inspection, restricted use, returns, stock\nin transit, tied empties, transfer stock (both\nplant and storage location), and valuated goods\nreceipt blocked stock. The app supports both\ntabular and chart formats, offering a clear com-\nparison of stock type quantities. Additional fea-\ntures include barcode scanning for accurate data\ncapture and the ability to pin the header for eas-\nier navigation. The app also allows you to use\nthe Open In option to jump to related apps for\ndeeper stock analysis and operational tasks\n(more than 50 possible apps, as listed in Define\nLink List).\nYou can navigate to the following apps: Manage\nStock (F1062), Transfer Stock – In Plant (F1061),\nTransfer Stock – Cross-Plant (F1957), Material\nDocument Overview (F1077), Stock – Multiple\nMaterials (F1595), and Display Serial Numbers\n(F5147)."
+    },
+    {
+      "id": "F2679",
+      "title": "Tendering",
+      "appType": "Analytical",
+      "chars": 1158,
+      "text": "Tendering (F2679)\nApplication Type: Analytical\nThis app can give a tendering manager KPIs to\nmanage the tendering business. The overview\npage will give the tendering manager KPIs for\nthe current and previous month. The following\ncards are available on the overview page:\n▪ Acceptance Analysis\nReview the proportion of freight request for\nquotations (RFQs) for which a response has\nbeen received from a carrier.\n▪ Discrepant Selected Carrier\nReview carriers deviating from the tendering-\nawarded carrier.\n▪ Tendering Cycle Time Analysis\nReview the average cycle time by carrier.\n▪ Response Acceptance Comparison\nReview the number of positive and negative\nresponses from carriers to RFQs.\n© \n\n395\n4 Inventory and Warehouse Management\n▪ Tendering Ratio\nReview which tendering types are the most\nsuccessful for each carrier.\n▪ Open, Overdue Requests\nReview number of open and overdue RFQs.\n▪ Open, Non-Overdue Requests\nReview number of open and non-overdue\nRFQs.\n▪ Tendering Peer-to-Peer Cycle Analysis\nReview the number of peer-to-peer requests\nto which a carrier has responded with a quo-\ntation.\nThe data is retrieved from SAP using CDS view\nC_TenderingQuery."
+    },
+    {
+      "id": "F2753",
+      "title": "Tendering – ALP",
+      "appType": "Analytical",
+      "chars": 404,
+      "text": "Tendering – ALP (F2753)\nApplication Type: Analytical\nThis app can give a tendering manager KPIs in\norder to manage the tendering business. Cycle\ntimes and carriers can be used in the filter crite-\nria, and the results are shown in graphical as well\nas tabular format. A Change Tendering quick\naction is available for the selected documents.\nNavigation to the Tendering overview page\n(F2679) is available."
+    },
+    {
+      "id": "F2672",
+      "title": "Transportation Costs",
+      "appType": "Analytical",
+      "chars": 1127,
+      "text": "Transportation Costs (F2672)\nApplication Type: Analytical\nAs part of the transportation management (TM)\nfunctionality in SAP S/4HANA, this app can give\na transportation manager KPIs in order to man-\nage their costs. The overview page will give the\nmanager KPIs for the current and previous\nmonth. The following cards are available on the\noverview page:\n▪ Trade Lane Weight Load Analysis\nReview the weights listed by carrier in order\nto identify the best trade lane.\n▪ Trade Lane Volume Load Analysis\nView aggregation of current, minimum, and\nmaximum volumes transported by carriers.\n▪ Trade Lane Container Load Analysis\nView aggregation of current, minimum, and\nmaximum container counts transported by\ncarriers.\n▪ Transportation Mode Category Analysis\nView the weight, volume, and quantities for\neach transportation mode category (air, sea,\nland).\n▪ Overall Weight Utilization Distribution\nView the total weight each carrier transports\nby month.\n▪ Overall Container Utilization Distribution\nView the total container count each carrier\ntransports by month.\nThe data is retrieved from SAP using CDS view\nC_TranspAllocComplianceQ."
+    },
+    {
+      "id": "F2754",
+      "title": "Transportation Costs – ALP",
+      "appType": "Analytical",
+      "chars": 587,
+      "text": "Transportation Costs – ALP (F2754)\nApplication Type: Analytical\nThis analytical list page gives transportation\nmanagers an overview of all the transportation\ncosts in a single view. The data is structured in\ntabular and graphical format and shows useful\ninformation like costs per week; invoiced\namount per week; and metrics split by carrier,\nsuch as gross weight per week, volume per week,\ncontainers per week, stage distance traveled per\nweek, and destination countries. The page relies\nupon data extracted from two CDS views: C_\nFreightSettlementCostQ and C_TranspOrdInvcg-\nBlockStsQ."
+    },
+    {
+      "id": "F2755",
+      "title": "Transportation Invoice Blocked – ALP",
+      "appType": "Analytical",
+      "chars": 722,
+      "text": "Transportation Invoice Blocked –\nALP (F2755)\nApplication Type: Analytical\nAs part of the transportation management (TM)\nfunction in SAP, this app can give a transporta-\ntion manager KPIs to manage transportation\norders that are blocked for invoicing. The data is\nstructured in tabular and graphical format and\nshows useful information such as a summary\ngraph of costs per week and a table showing all\nPersonal Copy for \n\n4 Inventory and Warehouse Management\n396\ndocuments that are blocked, the block reason\nand category, the transportation management\ncategory (sea, rail, air, etc.), the document num-\nber and document category, and the cost\namount. The view uses CDS view C_TranspOrd-\nInvcgBlockStsQ to retrieve the data."
+    },
+    {
+      "id": "F4024",
+      "title": "Warehouse KPIs – Operations",
+      "appType": "Analytical",
+      "chars": 1900,
+      "text": "Warehouse KPIs – Operations (F4024)\nApplication Type: Analytical\nAs a part of the extended warehouse manage-\nment (EWM) suite in SAP, warehouse clerks can\nuse this app to get an overview of relevant ware-\nhouse operations. The following cards are avail-\nable on the overview page:\n▪ ODO Items by GI Status\nDisplays the outbound delivery order items\ngrouped by goods issue status (not relevant,\ncompletely processed, partially processed,\nopen).\n▪ ODO Items Without GI by Ship-To Party\nDisplays the outbound delivery order items\nthat have not yet progressed to goods issue,\ngrouped by ship-to party.\n▪ ODO Items Without GI by Planned GI Time\nDisplays the outbound delivery order items\nthat have not yet progressed to goods issue,\ngrouped by planned goods issue time.\n▪ ODO Items Without Pick Warehouse Tasks by\nPlanned GI Time\nDisplays the outbound delivery order items\nthat have not yet progressed to picking,\ngrouped by planned goods issue time.\n▪ Open Warehouse Tasks by Warehouse Pro-\ncess Type\nShows the open warehouse tasks (picking,\npacking, etc.), grouped by warehouse process\ntype.\n▪ Open Warehouse Tasks by Activity Area\nShows the open warehouse tasks (picking,\npacking, etc.), grouped by activity type.\n▪ Open Warehouse Tasks (Overdue) by Overdue\nTime in Hours\nShows the open and overdue warehouse tasks\n(picking, packing, etc.), displayed in chrono-\nlogical order by overdue time in hours.\n▪ Open Pick Warehouse Tasks by Activity Area\nShows the open picking warehouse tasks,\ngrouped by activity area.\nSelection options are available, such as ware-\nhouse, activity area, warehouse process type,\ncreation date of warehouse task, type of out-\nbound delivery order, planned goods issue date,\nand actual goods issue date.\nYou can navigate to related apps such as Run\nOutbound Process – Deliveries (F1704), Process\nWarehouse Tasks – Picking (F3880), and Process\nWarehouse Tasks – Putaway (F4150)."
+    },
+    {
+      "id": "F4969",
+      "title": "Warehouse Outbound Delivery Orders",
+      "appType": "Analytical",
+      "chars": 446,
+      "text": "Warehouse Outbound Delivery Orders\n(F4969)\nApplication Type: Analytical\nAs a part of the extended warehouse manage-\nment (EWM) suite in SAP, warehouse clerks can\nuse this app to view a more granular level of\ndetail around outbound delivery orders. Selec-\ntion options such as warehouse, warehouse\norder queue, and warehouse order status are\navailable.\nNavigation to related apps such as Run Out-\nbound Process – Deliveries (F1704) is supported.\n©"
+    }
+  ]
+}

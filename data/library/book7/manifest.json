@@ -1,0 +1,126 @@
+{
+  "book": "SAP Fiori Apps for SAP S/4HANA: The Quick Reference Guide",
+  "pages": 685,
+  "chapters": [
+    {
+      "n": 1,
+      "title": "Financial Accounting",
+      "pages": [
+        25,
+        240
+      ],
+      "chars": 707924,
+      "sections": 593
+    },
+    {
+      "n": 2,
+      "title": "Controlling",
+      "pages": [
+        241,
+        288
+      ],
+      "chars": 150826,
+      "sections": 128
+    },
+    {
+      "n": 3,
+      "title": "Sales and Distribution",
+      "pages": [
+        289,
+        368
+      ],
+      "chars": 258768,
+      "sections": 290
+    },
+    {
+      "n": 4,
+      "title": "Inventory and Warehouse Management",
+      "pages": [
+        369,
+        396
+      ],
+      "chars": 90503,
+      "sections": 107
+    },
+    {
+      "n": 5,
+      "title": "Production Planning and Manufacturing",
+      "pages": [
+        397,
+        444
+      ],
+      "chars": 165737,
+      "sections": 132
+    },
+    {
+      "n": 6,
+      "title": "Plant Maintenance",
+      "pages": [
+        445,
+        464
+      ],
+      "chars": 70032,
+      "sections": 45
+    },
+    {
+      "n": 7,
+      "title": "Materials Management",
+      "pages": [
+        465,
+        554
+      ],
+      "chars": 308446,
+      "sections": 235
+    },
+    {
+      "n": 8,
+      "title": "Quality Management",
+      "pages": [
+        555,
+        568
+      ],
+      "chars": 45085,
+      "sections": 34
+    },
+    {
+      "n": 9,
+      "title": "Project System",
+      "pages": [
+        569,
+        576
+      ],
+      "chars": 22476,
+      "sections": 25
+    },
+    {
+      "n": 10,
+      "title": "Flexible Real Estate Management",
+      "pages": [
+        577,
+        584
+      ],
+      "chars": 22463,
+      "sections": 24
+    },
+    {
+      "n": 11,
+      "title": "Cross-Functional Apps",
+      "pages": [
+        585,
+        604
+      ],
+      "chars": 59953,
+      "sections": 76
+    },
+    {
+      "n": 12,
+      "title": "Additional Resources",
+      "pages": [
+        605,
+        608
+      ],
+      "chars": 8936,
+      "sections": 0
+    }
+  ]
+}
