@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { Sparkles, BrainCircuit, GraduationCap, Award, ArrowRightLeft, Network, Wrench, Compass, Cable, Boxes, ChevronDown, ShieldCheck, Orbit, LayoutDashboard } from "lucide-react";
+import { Sparkles, BrainCircuit, GraduationCap, Award, Wrench } from "lucide-react";
+import { CentersMegaMenu } from "@/components/centers-mega-menu";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SiteLogo } from "@/components/site-logo";
 import dynamic from "next/dynamic";
@@ -41,35 +42,8 @@ function NavLink({ href, children, exact, group }: { href: string; children: Rea
   );
 }
 
-// "Centers" family collapsed into one dropdown — keeps the top nav from
-// overflowing the header row as the platform grows. Hover + focus-within
-// (keyboard) reveal; trigger highlights when any center route is active.
-function CentersMenu() {
-  const path = usePathname() || "/";
-  const items = [
-    { href: "/graph/", label: "גרף ידע", Icon: Network },
-    { href: "/s4hana/", label: "S/4HANA", Icon: ArrowRightLeft },
-    { href: "/delivery/", label: "ניהול פרויקט", Icon: Compass },
-    { href: "/integration/", label: "אינטגרציה", Icon: Cable },
-    { href: "/security/", label: "אבטחה והרשאות", Icon: ShieldCheck },
-    { href: "/alm/", label: "ALM", Icon: Orbit },
-    { href: "/fiori/", label: "Fiori / UX", Icon: LayoutDashboard },
-  ];
-  const active = items.some((i) => path.startsWith(i.href));
-  return (
-    <div className="group/c relative">
-      <button type="button" aria-haspopup="true" className={`relative flex shrink-0 items-center gap-1 whitespace-nowrap rounded-lg px-2.5 py-1.5 transition-colors 2xl:px-3 ${active ? "bg-white text-brand shadow-[0_2px_8px_-2px_rgba(0,0,0,0.25)]" : "text-white/90 hover:bg-white/15 hover:text-white"}`}>
-        <Boxes className="size-3.5" />מרכזים<ChevronDown className="size-3 transition-transform group-hover/c:rotate-180" />
-      </button>
-      <div className="invisible absolute end-0 top-full z-50 mt-1 min-w-44 rounded-xl border border-slate-200 bg-white p-1 opacity-0 shadow-xl transition group-hover/c:visible group-hover/c:opacity-100 group-focus-within/c:visible group-focus-within/c:opacity-100">
-        {items.map(({ href, label, Icon }) => {
-          const on = path.startsWith(href);
-          return <Link key={href} href={href} onClick={() => playClick()} aria-current={on ? "page" : undefined} className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-bold transition ${on ? "bg-brand/10 text-brand" : "text-slate-600 hover:bg-slate-100"}`}><Icon className="size-4" />{label}</Link>;
-        })}
-      </div>
-    </div>
-  );
-}
+// Centers Command Hub (full-width mega panel) replaces the old dropdown —
+// see components/centers-mega-menu.tsx.
 
 function Header() {
   const { t } = useI18n();
@@ -94,7 +68,7 @@ function Header() {
           <NavLink href="/pm/" group="d">{t("nav.pm")}</NavLink>
           <NavLink href="/pp-pi/" group="d">{t("nav.ppi")}</NavLink>
           <NavLink href="/sap-infrastructure/" group="d">{t("nav.infra")}</NavLink>
-          <CentersMenu />
+          <CentersMegaMenu />
           <NavLink href="/library/" group="d">{t("nav.library")}</NavLink>
           <NavLink href="/knowledge/" group="d"><BrainCircuit className="size-3.5" />{t("nav.knowledge")}</NavLink>
           <NavLink href="/incidents/" group="d"><Wrench className="size-3.5" />תקלות</NavLink>

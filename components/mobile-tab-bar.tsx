@@ -4,8 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Home, GraduationCap, GitBranch, BrainCircuit, Menu, X, Search, Gauge, Library, Workflow, Sparkles, BookOpen, HelpCircle, Wrench, Boxes } from "lucide-react";
-import { CENTERS } from "@/lib/centers";
+import { Home, GraduationCap, GitBranch, BrainCircuit, Menu, X, Search, Gauge, Library, Workflow, Sparkles, BookOpen, HelpCircle, Wrench, Boxes, Compass } from "lucide-react";
+import { CentersSheet } from "@/components/centers-sheet";
 
 const TABS = [
   { href: "/", icon: Home, label: "בית", match: (p: string) => p === "/" },
@@ -15,8 +15,6 @@ const TABS = [
 const MORE = [
   { href: "/pm/", icon: Wrench, label: "אחזקה (PM)" },
   { href: "/pp-pi/", icon: Boxes, label: "ייצור (PP-PI)" },
-  // Platform centers (Phase 5–9) — full parity with desktop nav, no hidden routes
-  ...CENTERS.map((c) => ({ href: c.href, icon: c.Icon, label: c.he })),
   { href: "/impact/", icon: Gauge, label: "השפעה ותלויות" },
   { href: "/story/", icon: Workflow, label: "סיורים מודרכים" },
   { href: "/library/", icon: Library, label: "ספרייה" },
@@ -27,6 +25,7 @@ const MORE = [
 export function MobileTabBar() {
   const path = usePathname() || "/";
   const [more, setMore] = useState(false);
+  const [centers, setCenters] = useState(false);
   const fire = (ev: string) => window.dispatchEvent(new Event(ev));
 
   const Item = ({ active, icon: Icon, label, onClick, href }: { active: boolean; icon: typeof Home; label: string; onClick?: () => void; href?: string }) => {
@@ -61,6 +60,13 @@ export function MobileTabBar() {
                 <span className="text-sm font-extrabold text-slate-900">ניווט</span>
                 <button onClick={() => setMore(false)} className="rounded-lg p-1 text-slate-400 hover:bg-slate-100"><X className="size-5" /></button>
               </div>
+              {/* Centers Command Hub launcher — opens the premium centers sheet */}
+              <div className="px-4 pb-2">
+                <button onClick={() => { setMore(false); setCenters(true); }} className="tap flex w-full items-center gap-3 rounded-2xl border border-brand/30 bg-gradient-to-l from-brand/10 to-transparent p-3 text-right active:scale-[0.98]">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white shadow-sm"><Compass className="size-5" /></span>
+                  <span className="min-w-0 flex-1"><span className="block text-sm font-extrabold text-slate-900">מרכזי ייעוץ · Command Hub</span><span className="block text-[11px] text-slate-500">5 מרכזים — מסירה · אינטגרציה · אבטחה · ALM · Fiori</span></span>
+                </button>
+              </div>
               <div className="grid grid-cols-2 gap-2 px-4 pb-2">
                 {MORE.map((m) => (
                   <Link key={m.href} href={m.href} onClick={() => setMore(false)} className="tap flex items-center gap-2.5 rounded-2xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 transition active:scale-95">
@@ -77,6 +83,8 @@ export function MobileTabBar() {
           </>
         )}
       </AnimatePresence>
+
+      <CentersSheet open={centers} onClose={() => setCenters(false)} />
     </>
   );
 }
