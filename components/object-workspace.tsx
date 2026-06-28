@@ -29,6 +29,7 @@ import { INCIDENTS } from "@/data/troubleshooting";
 import { s4For } from "@/lib/s4";
 import { objectIntelExt, deriveActors } from "@/lib/object-intel-ext";
 import { ScrollText, Users, Sparkles, Route } from "lucide-react";
+import { ProcessTimeline, type TimelineStep } from "@/components/process-timeline";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9" };
 const mc = (m: string) => MOD_COLOR[m] || "#64748b";
@@ -302,6 +303,13 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
             <ul className="space-y-1">{items.map((x, i) => <li key={i} className="flex gap-1.5 text-[13px] leading-relaxed text-slate-700"><span className="mt-1.5 size-1.5 shrink-0 rounded-full" style={{ background: color }} />{x}</li>)}</ul>
           );
           const path = ix?.learningPath?.length ? ix.learningPath : [...[...upPath].reverse(), ...downPath.slice(1)];
+          // learning-path progress: locate the current object in the chain → ✔ before / ▶ current / ○ after
+          let curIdx = path.findIndex((s) => s === name || s.includes(name) || s === t.descriptionHe);
+          if (curIdx < 0) curIdx = path.findIndex((s) => s.includes(t.descriptionHe?.slice(0, 6) || " "));
+          const timelineSteps: TimelineStep[] = path.map((s, i) => {
+            const tok = (s.match(/\b[A-Z][A-Z0-9_]{2,}\b/) || [])[0];
+            return { label: s, code: tok, href: tok && tableByName(tok) ? `/object/${encodeURIComponent(tok)}/` : undefined, state: curIdx < 0 ? "todo" : i < curIdx ? "done" : i === curIdx ? "current" : "todo" };
+          });
           return (
             <div className="space-y-5">
               {/* in-page wiki nav */}
@@ -329,9 +337,10 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
                 </div>
               </Section></div>
 
-              {/* E2E path */}
-              <div id="w-path"><Section title="מיקום בתהליך מקצה-לקצה" icon={<Route className="size-4" style={{ color: c }} />}>
-                <div className="flex flex-wrap items-center gap-1.5">{path.map((s, i, a) => { const cur = s === name || s === t.descriptionHe; return <span key={s + i} className="flex items-center gap-1.5"><span className={`rounded-lg px-2.5 py-1 text-[12px] font-bold ${cur ? "text-white" : "bg-slate-100 text-slate-600"}`} style={cur ? { background: c } : undefined} dir={/[A-Z]/.test(s[0]) ? "ltr" : undefined}>{s}</span>{i < a.length - 1 && <ArrowLeft className="size-3.5 shrink-0 text-slate-300" />}</span>; })}</div>
+              {/* E2E path / learning-path progress */}
+              <div id="w-path"><Section title="מיקום בתהליך · מסלול למידה" icon={<Route className="size-4" style={{ color: c }} />}>
+                <p className="mb-2 text-[11px] font-bold text-slate-400">✔ הושלם · ▶ אתה כאן · ○ בהמשך</p>
+                <ProcessTimeline steps={timelineSteps} accent={c} dense />
                 <Link href={`/process/${encodeURIComponent(`${t.module}-${t.topicIdx}`)}`} className="mt-2 inline-flex items-center gap-1 text-[12px] font-bold text-brand hover:underline">{t.topicTitle} ↗</Link>
               </Section></div>
 
