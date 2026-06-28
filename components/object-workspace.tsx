@@ -30,6 +30,7 @@ import { s4For } from "@/lib/s4";
 import { objectIntelExt, deriveActors } from "@/lib/object-intel-ext";
 import { ScrollText, Users, Sparkles, Route } from "lucide-react";
 import { ProcessTimeline, type TimelineStep } from "@/components/process-timeline";
+import { SapTip } from "@/components/sap-tip";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9" };
 const mc = (m: string) => MOD_COLOR[m] || "#64748b";
@@ -353,7 +354,7 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
               {/* related grid */}
               <div id="w-related"><Section title="אובייקטים וממשקים קשורים" icon={<GitBranch className="size-4" style={{ color: c }} />}>
                 <div className="grid gap-3 sm:grid-cols-2">
-                  {relatedObjs.length > 0 && <div><div className="eyebrow mb-1 text-slate-400">טבלאות מקושרות</div><div className="flex flex-wrap gap-1.5">{relatedObjs.map((n) => <button key={n} onClick={() => go(n)} className="tech rounded-lg bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600 hover:bg-brand/10 hover:text-brand" dir="ltr">{n}</button>)}</div></div>}
+                  {relatedObjs.length > 0 && <div><div className="eyebrow mb-1 text-slate-400">טבלאות מקושרות</div><div className="flex flex-wrap gap-1.5">{relatedObjs.map((n) => <SapTip key={n} name={n} bare><button onClick={() => go(n)} className="tech rounded-lg bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600 hover:bg-brand/10 hover:text-brand" dir="ltr">{n}</button></SapTip>)}</div></div>}
                   {cds.length > 0 && <div><div className="eyebrow mb-1 text-slate-400">CDS Views</div><Chips items={cds.map((v) => v.view)} color="#0d9488" ltr /></div>}
                   {intel?.bapis?.length ? <div><div className="eyebrow mb-1 text-slate-400">BAPIs / FM</div><Chips items={intel.bapis} color="#2563eb" ltr /></div> : null}
                   {intel?.tcodes?.length ? <div><div className="eyebrow mb-1 text-slate-400">טרנזקציות</div><div className="flex flex-wrap gap-1.5">{intel.tcodes.map((tc) => <Link key={tc} href={`/tcode/${encodeURIComponent(tc)}/`} className="tech rounded-lg bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600 hover:text-brand" dir="ltr">{tc}</Link>)}</div></div> : null}

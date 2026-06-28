@@ -5,8 +5,14 @@
 
 import { tableByName } from "@/lib/knowledge-graph";
 import { listTcodes, tcodeIntel, classifyFunc, cleanFunc, funcHref } from "@/lib/object-intel";
+import { objectIntel } from "@/lib/data";
 import { cdsByView } from "@/data/cds-map";
 import { fnIntel } from "@/data/function-intel";
+import { knowledgeFor } from "@/lib/knowledge";
+import { CONSULTANT_NOTES } from "@/data/consultant-notes";
+import { objectIntelExt } from "@/lib/object-intel-ext";
+import { txIntel } from "@/lib/tx-intel";
+import { registryTx } from "@/lib/tx-registry";
 
 export type TipKind = "table" | "tcode" | "bapi" | "idoc" | "fm" | "cds";
 
@@ -14,12 +20,20 @@ export interface EntityTip {
   name: string;
   kind: TipKind;
   kindHe: string;
-  he: string;        // short "what"
+  he: string;        // short "what" — simple explanation
   module?: string;
   ecc?: string;
   s4?: string;
   href: string;
   verified: boolean; // true = curated authored detail, false = inferred from dataset
+  // ── mini-mentor fields (Hover Intelligence) ──
+  purpose?: string;       // business purpose / problem it solves
+  consultantTip?: string; // what a consultant does
+  mistake?: string;       // common beginner mistake
+  related?: string[];     // related objects (clickable)
+  relatedKind?: "object" | "tcode";
+  where?: string;         // where it appears in real projects
+  graphHref?: string;
 }
 
 const KIND_HE: Record<TipKind, string> = {
@@ -34,18 +48,37 @@ export function lookupEntity(raw: string): EntityTip | null {
   const name = raw.trim();
   if (!name) return null;
 
-  // 1) Table (exact, by transparent-table name)
+  // 1) Table / object (exact, by name) — enriched into a mini-mentor
   const t = tableByName(name);
   if (t) {
-    return { name, kind: "table", kindHe: KIND_HE.table, he: t.descriptionHe || "", module: t.module, href: `/object/${encodeURIComponent(name)}`, verified: true };
+    const k = knowledgeFor(name);
+    const cn = CONSULTANT_NOTES[name];
+    const ix = objectIntelExt(name);
+    const oi = objectIntel(name);
+    return {
+      name, kind: "table", kindHe: KIND_HE.table, he: k?.role || t.descriptionHe || "", module: t.module,
+      href: `/object/${encodeURIComponent(name)}`, graphHref: `/graph/?node=${encodeURIComponent(name)}`, verified: true,
+      purpose: k?.why, consultantTip: cn?.fnNotes?.[0] || ix?.bestPractices?.[0], mistake: cn?.mistakes?.[0],
+      related: (oi?.related || []).slice(0, 6), relatedKind: "object", where: ix?.scenarios?.[0],
+    };
   }
 
-  // 2) T-Code
+  // 2) T-Code — enriched from the Transaction Intelligence catalog
   const up = name.toUpperCase();
-  if (tcodeSet().has(up)) {
+  if (tcodeSet().has(up) || txIntel(up) || registryTx(up)) {
+    const tx = txIntel(up);
     const ti = tcodeIntel(up);
-    const mods = ti?.modules.join(" · ");
-    return { name: up, kind: "tcode", kindHe: KIND_HE.tcode, he: ti && ti.tables.length ? `טרנזקציה — ${ti.tables.length} טבלאות משויכות` : "טרנזקציה", module: mods, href: `/tcode/${encodeURIComponent(up)}`, verified: true };
+    if (tx) {
+      return {
+        name: up, kind: "tcode", kindHe: KIND_HE.tcode, he: tx.beginner || tx.descHe, module: tx.module,
+        href: `/tcode/${encodeURIComponent(up)}`, graphHref: `/graph/?node=${encodeURIComponent(up)}`, verified: true,
+        purpose: tx.descHe, consultantTip: tx.consultant, mistake: tx.mistakes?.[0],
+        related: [...new Set([...(tx.after || []), ...(tx.together || [])])].slice(0, 6), relatedKind: "tcode", where: `${tx.area} · ${tx.process}`.slice(0, 80),
+      };
+    }
+    const rt = registryTx(up);
+    const mods = ti?.modules.join(" · ") || rt?.module;
+    return { name: up, kind: "tcode", kindHe: KIND_HE.tcode, he: rt?.he || (ti && ti.tables.length ? `טרנזקציה — ${ti.tables.length} טבלאות` : "טרנזקציה"), module: mods, href: `/tcode/${encodeURIComponent(up)}`, graphHref: `/graph/?node=${encodeURIComponent(up)}`, verified: true, related: ti ? ti.tables.map((x) => x.name).slice(0, 6) : undefined, relatedKind: "object" };
   }
 
   // 3) CDS View
