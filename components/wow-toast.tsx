@@ -27,7 +27,7 @@ export function WowToast() {
   }, []);
 
   return (
-    <div className="no-print pointer-events-none fixed inset-x-0 top-[5.5rem] z-[80] flex flex-col items-center gap-2" dir="rtl">
+    <div className="no-print pointer-events-none fixed inset-x-0 top-[5.5rem] z-[80] flex flex-col items-center gap-2 overflow-x-clip px-3" dir="rtl">
       <AnimatePresence>
         {toasts.map((t) => (
           <motion.div key={t.id}

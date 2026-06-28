@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { LayoutDashboard, Search, AppWindow, ArrowRightLeft, ChevronDown } from "lucide-react";
 import { FIORI_APPS } from "@/data/centers/fiori";
+import { EmptyState } from "@/components/ui/empty-state";
 
 const SEC_TONE = (t?: string) => t || "#7c3aed";
 // flat search string per app (title/he/appId/role/catalog/odata/cds/gui/module)
@@ -66,7 +67,7 @@ export function FioriAppsCenter() {
           </div>
         ); })}
       </div>
-      {list.length === 0 && <div className="mt-6 rounded-2xl border border-dashed border-slate-200 py-12 text-center text-sm text-slate-400">אין תוצאות</div>}
+      {list.length === 0 && <div className="mt-6"><EmptyState title="לא נמצאו אפליקציות" hint="נסה שם אפליקציה, App ID, Business Role, Catalog או טרנזקציית GUI" suggestions={[{ label: "נקה חיפוש", onClick: () => { setQ(""); setMod(""); } }]} /></div>}
       <p className="mt-4 pb-6 text-center text-[11px] text-slate-400">מיפוי טרנזקציה → Fiori מאומת · App ID/Catalog/Role/OData/CDS אמיתיים. <Link href="/fiori/" className="font-bold text-brand">קורס Fiori & UX</Link></p>
     </div>
   );

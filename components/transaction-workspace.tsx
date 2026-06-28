@@ -7,6 +7,7 @@ import { TX_INTEL } from "@/data/tx-intel";
 import { txRegistry, registryStats } from "@/lib/tx-registry";
 import { txMostPopular, txPopularity } from "@/lib/tx-intel";
 import { useTxFavorites, useRecentTx, toggleTxFavorite } from "@/lib/tx-prefs";
+import { EmptyState } from "@/components/ui/empty-state";
 
 const MOD_COLOR: Record<string, string> = {
   PP: "#6d28d9", "PP-PI": "#6d28d9", PM: "#f97316", QM: "#0d9488", MM: "#2563eb",
@@ -76,7 +77,7 @@ export function TransactionWorkspace() {
       </div>
 
       {list.length === 0 ? (
-        <div className="rounded-2xl border border-dashed border-slate-200 py-12 text-center text-sm text-slate-400">{view === "fav" ? "אין מועדפים עדיין — סמן כוכב בעמוד טרנזקציה" : view === "recent" ? "לא נצפו טרנזקציות עדיין" : "אין תוצאות"}</div>
+        <EmptyState title={view === "fav" ? "אין מועדפים עדיין" : view === "recent" ? "לא נצפו טרנזקציות עדיין" : "אין תוצאות"} hint={view === "fav" ? "סמן כוכב בעמוד טרנזקציה כדי להוסיף למועדפים" : view === "recent" ? "טרנזקציות שתפתח יופיעו כאן" : "נסה קוד, אזור או מודול אחר"} suggestions={view === "all" ? [{ label: "הצג הכול", onClick: () => { setQ(""); setMod(""); setFlag(""); } }] : undefined} />
       ) : (
         <div className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3">
           {list.map((t) => { const col = mc(t.module); const isFav = favs.includes(t.code); const deep = t.depth === "deep"; const d = TX_INTEL[t.code]; const pop = txPopularity(t.code); return (
