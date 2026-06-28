@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { Sparkles, BrainCircuit, GraduationCap, Award, Wrench } from "lucide-react";
 import { CentersMegaMenu } from "@/components/centers-mega-menu";
+import { GlobalBack } from "@/components/global-back";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SiteLogo } from "@/components/site-logo";
 import dynamic from "next/dynamic";
@@ -89,7 +90,7 @@ function PageTransition({ children }: { children: React.ReactNode }) {
   // browser BACK navigation → permanent white screen. Content must always
   // render visible. Per-page entrance polish lives inside each page, never
   // as a global reveal gate.
-  return <main id="main" className="container-app flex-1 pt-6 pb-24 sm:pt-8 xl:pb-8">{children}</main>;
+  return <main id="main" className="container-app flex-1 pt-6 pb-24 sm:pt-8 xl:pb-8"><GlobalBack />{children}</main>;
 }
 
 // Omnipresent search trigger — opens ⌘K palette from any page (bottom-start,
