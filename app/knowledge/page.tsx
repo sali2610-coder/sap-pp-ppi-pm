@@ -76,6 +76,7 @@ export default function Page() {
     { group: "migrate", href: "/ecc-s4/", he: "ECC מול S/4HANA", title: "ECC vs S/4 Engine", tag: `${ECC_S4_TOPICS.length} נושאים`, tagColor: "#2563eb", desc: "MATDOC, ACDOCA, MRP Live, PP-DS, aATP, Fiori/CDS, אחזקה, הודעות — מה השתנה, מה הוחלף, והשפעת המיגרציה." },
     { group: "migrate", href: "/evolution/", he: "מרכז אבולוציית T-Codes", title: "Transaction Evolution", tag: "ECC→S/4", tagColor: "#2563eb", desc: "טבלת מיגרציה — T-Codes שהוסרו/לא-אסטרטגיים ב-S/4 + חלופה (MB1A/B/C→MIGO, XK01→BP, MD01→MD01N) + Fiori + השפעה." },
     { group: "migrate", href: "/fiori/", he: "מרכז Fiori ו-UX", title: "Fiori & UX Center", tag: "UI5 · OData · RAP", tagColor: "#7c3aed", desc: "ארכיטקטורת Fiori (FLP/Gateway/OData), סוגי אפליקציות, SEGW/IWFND/IWBEP, UI5 (MVC), RAP (CDS/Behavior/Service Binding), תקלות וזרימת Debug." },
+    { group: "migrate", href: "/fiori-apps/", he: "מרכז אפליקציות Fiori", title: "Fiori Apps Center", tag: "S/4HANA", tagColor: "#16a34a", desc: "ספריית אפליקציות Fiori של S/4HANA — חיפוש לפי App Name, App ID, Business Role, Catalog, OData, CDS, טרנזקציית GUI ומידע הגירה ECC↔S/4." },
     { group: "migrate", href: "/impact/", he: "מנתח השפעה", title: "Impact Analyzer", tag: "Graph", tagColor: "#9333ea", desc: "מה יושפע אם תשנה טבלה/אובייקט — גרף תלויות מלא + Object Intelligence." },
 
     // ── נתונים והפניות · Reference & Data ──
