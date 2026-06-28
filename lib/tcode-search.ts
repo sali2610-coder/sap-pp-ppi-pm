@@ -5,6 +5,7 @@
 import { TRANSACTIONS } from "@/data/transactions";
 import { TCODE_DIRECTORY, tcodeDirByCode, dirSlug } from "@/data/tcode-directory";
 import { TX_INTEL } from "@/data/tx-intel";
+import { TCODE_CATALOG } from "@/data/tcode-catalog";
 import { ALL_TABLES } from "@/data/sapData";
 import { INCIDENTS } from "@/data/troubleshooting";
 import { EXITS } from "@/data/exits";
@@ -37,6 +38,7 @@ export function buildSearchIndex(): SearchHit[] {
   for (const c of Object.keys(txCat)) { const t = txCat[c]; seen.add(c); out.push({ kind: "tcode", code: t.code, label: t.code, sub: `${t.area} · ${t.module}`, href: `/tcode/${encodeURIComponent(c)}/`, terms: `${t.code} ${t.area} ${t.descHe} ${t.process} ${(t.users || []).join(" ")} ${(t.tables || []).join(" ")} ${t.module}`.toLowerCase() }); }
   for (const t of TRANSACTIONS) { const k = t.code.toUpperCase(); if (seen.has(k)) continue; seen.add(k); out.push({ kind: "tcode", code: t.code, label: t.code, sub: `${t.title} · ${t.module}`, href: `/transactions/${encodeURIComponent(t.code)}/`, terms: `${t.code} ${t.title} ${t.purpose} ${t.topic} ${(t.objects || []).join(" ")} ${(t.tables || []).join(" ")}`.toLowerCase() }); }
   for (const t of TCODE_DIRECTORY) { const k = t.code.toUpperCase(); if (seen.has(k)) continue; seen.add(k); out.push({ kind: "tcode", code: t.code, label: t.code, sub: `${t.he} · ${t.domain}`, href: `/tcode-dir/${dirSlug(t.code)}/`, terms: `${t.code} ${t.he} ${t.purpose} ${t.keywords.join(" ")} ${t.domain}`.toLowerCase() }); }
+  for (const t of TCODE_CATALOG) { const k = t.code.toUpperCase(); if (seen.has(k)) continue; seen.add(k); out.push({ kind: "tcode", code: t.code, label: t.code, sub: `${t.he} · ${t.module}`, href: `/tcode/${encodeURIComponent(k)}/`, terms: `${t.code} ${t.he} ${t.en} ${t.area} ${t.module}`.toLowerCase() }); }
   // Tables
   for (const t of ALL_TABLES) out.push({ kind: "table", code: t.tableName, label: t.tableName, sub: t.descriptionHe || t.descriptionEn || "", href: `/object/${encodeURIComponent(t.tableName)}/`, terms: `${t.tableName} ${t.descriptionHe} ${t.descriptionEn}`.toLowerCase() });
   // Errors (incidents)

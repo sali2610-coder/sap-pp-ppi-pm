@@ -3,16 +3,18 @@ import { TransactionExplorer } from "@/components/transaction-explorer";
 import { TransactionWorkspace } from "@/components/transaction-workspace";
 import { TxSearch } from "@/components/tx-search";
 import { buildSearchIndex, allTcodesMerged } from "@/lib/tcode-search";
+import { registryStats } from "@/lib/tx-registry";
 
 export const metadata = { title: "מרכז הטרנזקציות · Transaction Intelligence · NEO" };
 
 export default function Page() {
   const merged = allTcodesMerged();
   const index = buildSearchIndex();
+  const reg = registryStats();
   const byDomain = (d: string) => merged.filter((t) => t.domain === d).length;
   return (
     <div>
-      <CenterHeader eyebrow="מרכז הידע · Transaction Intelligence" title="מרכז הטרנזקציות" sub={`${merged.length} T-Codes על פני התחומים (PP/PP-PI/PM/QM/MM/SD/FI/CO/WM/Basis/ABAP/Security/Integration) · ${merged.filter((t) => t.deep).length} מתועדים לעומק כעמודי Wiki מלאים. סביבת עבודה ליועץ — מועדפים, נצפו לאחרונה, פופולרי, חיפוש ומסננים.`} accent="#0f766e" />
+      <CenterHeader eyebrow="מרכז הידע · Transaction Intelligence" title="מרכז הטרנזקציות" sub={`רישום קנוני אחד — ${reg.total} טרנזקציות SAP מאומתות, מתוכן ${reg.deep} מתועדות לעומק כעמודי Wiki מלאים. סביבת עבודה ליועץ — מועדפים, נצפו לאחרונה, פופולרי, חיפוש ומסננים.`} accent="#0f766e" />
       <TransactionWorkspace />
       <details className="mt-8 rounded-2xl border border-slate-200 bg-white p-2" dir="rtl">
         <summary className="cursor-pointer px-3 py-2 text-sm font-bold text-slate-600">חיפוש חכם מורחב (טבלה · שגיאה · תהליך · אובייקט)</summary>
