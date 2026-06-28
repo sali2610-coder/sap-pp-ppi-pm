@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Search, ZoomIn, ZoomOut, Maximize2, Crosshair, ArrowLeft, ExternalLink, Target, Briefcase, AlertTriangle, GitBranch, X, Plus, RotateCcw } from "lucide-react";
-import { buildHetero, layoutSubset, FLOWS, MODES, KIND_META, S4_COLOR, type SHetero, type SKind } from "@/lib/studio-graph";
+import { buildHetero, layoutSubset, layoutZoned, FLOWS, MODES, KIND_META, S4_COLOR, type SHetero, type SKind, type ZoneBand } from "@/lib/studio-graph";
 import { lookupEntity } from "@/lib/entity-lookup";
 import type { Module } from "@/lib/types";
 
@@ -40,7 +40,7 @@ export function ArchitectureStudio() {
     return revealed;
   }, [mode, h, revealed]);
 
-  const layout = useMemo(() => layoutSubset(visible, h), [visible, h]);
+  const layout = useMemo(() => (mode.behavior === "full" ? layoutZoned(visible, h) : { ...layoutSubset(visible, h), bands: [] as ZoneBand[] }), [visible, h, mode.behavior]);
 
   // reset on mode/module change
   useEffect(() => {
@@ -130,6 +130,12 @@ export function ArchitectureStudio() {
             style={{ backgroundImage: "radial-gradient(circle at 1px 1px,#d7deea 1px,transparent 0)", backgroundSize: "26px 26px" }}
             onWheel={onWheel} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={() => (drag.current = null)} onPointerLeave={() => { drag.current = null; setHover(null); }}>
             <div style={{ transform: `translate(${tr.x}px,${tr.y}px) scale(${tr.k})`, transformOrigin: "0 0", width: layout.width, height: layout.height, position: "absolute" }}>
+              {/* swimlane zone bands — the blueprint regions */}
+              {layout.bands.map((z) => (
+                <div key={z.id} className="absolute top-0 border-x border-dashed" style={{ left: z.x, width: z.w, height: layout.height, background: z.c + "07", borderColor: z.c + "22" }}>
+                  <div className="sticky top-2 mx-2 mt-2 rounded-lg px-2 py-1 text-center text-[12px] font-extrabold text-white shadow-sm" style={{ background: z.c }}>{z.he}</div>
+                </div>
+              ))}
               <svg width={layout.width} height={layout.height} className="absolute inset-0 overflow-visible">
                 {layout.edges.map((e) => { const hot = active != null && (e.from === active || e.to === active); const pts = e.points.length >= 2 ? e.points : []; const d = pts.length ? pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ") : ""; return d ? <path key={e.id} d={d} fill="none" stroke={hot ? accent : "#cbd5e1"} strokeWidth={hot ? 2.4 : 1.1} strokeOpacity={active && !hot ? 0.15 : hot ? 0.95 : 0.55} className="transition-all duration-300" /> : null; })}
               </svg>
