@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { Search, LayoutGrid, BookOpen, Wrench } from "lucide-react";
+import { Search, LayoutGrid, BookOpen, Wrench, Network, ArrowLeft } from "lucide-react";
 import type { SAPModuleData } from "@/lib/types";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -60,6 +61,13 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
           </div>
         </div>
       </header>
+
+      {/* Architecture Studio CTA — the living ER map for this module */}
+      <Link href="/studio/" className="group mt-3 flex items-center gap-3 overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-l from-slate-900 to-slate-800 p-4 text-white shadow-md transition hover:shadow-lg">
+        <span className="grid size-11 shrink-0 place-items-center rounded-2xl text-white shadow-sm" style={{ background: accent }}><Network className="size-5" /></span>
+        <span className="min-w-0 flex-1"><span className="block text-[15px] font-extrabold">SAP Architecture Studio — מפת הקשרים החיה</span><span className="block text-[12px] text-white/70">חקור את כל טבלאות {module.module} כמפה אינטראקטיבית: זום, רחף, לחץ — והדגש מיד את כל מה שמחובר.</span></span>
+        <ArrowLeft className="size-5 shrink-0 text-white/60 transition-transform group-hover:-translate-x-1" />
+      </Link>
 
       {/* sticky toolbar */}
       <div className="glass sticky top-[4.5rem] z-30 -mx-2 rounded-2xl px-4 py-3 sm:mx-0">

@@ -147,6 +147,7 @@ export function CentersMegaMenu() {
                 {/* footer */}
                 <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-slate-100 pt-4 text-[12px] font-bold text-slate-500">
                   <Link href="/knowledge/" onClick={() => setOpen(false)} className="flex items-center gap-1 transition hover:text-brand">כל המרכזים<ArrowLeft className="size-3.5" /></Link>
+                  <Link href="/studio/" onClick={() => setOpen(false)} className="flex items-center gap-1 font-extrabold text-brand transition hover:underline">Architecture Studio<ArrowLeft className="size-3.5" /></Link>
                   <Link href="/graph/" onClick={() => setOpen(false)} className="flex items-center gap-1 transition hover:text-brand">גרף ידע<ArrowLeft className="size-3.5" /></Link>
                   <Link href="/s4hana/" onClick={() => setOpen(false)} className="flex items-center gap-1 transition hover:text-brand">מרכז S/4<ArrowLeft className="size-3.5" /></Link>
                 </div>
