@@ -131,6 +131,22 @@ body {
   background: color-mix(in srgb, var(--brand) 22%, transparent);
 }
 
+/* ── Architecture Studio V2 — living graph motion primitives ──────────────── */
+/* Flowing relationship line: dashed overlay marching along the path =
+   "electricity flowing through SAP". Applied only to active/hot edges. */
+@keyframes studio-flow { to { stroke-dashoffset: -240; } }
+.studio-flow { stroke-dasharray: 4 10; animation: studio-flow 1.05s linear infinite; }
+/* Selected-node halo pulse */
+@keyframes studio-halo { 0%,100% { opacity: .35; transform: scale(1); } 50% { opacity: .9; transform: scale(1.06); } }
+.studio-halo { animation: studio-halo 2.4s ease-in-out infinite; }
+/* Soft node-appear (progressive discovery) handled by framer-motion; this is the
+   ambient idle drift for the canvas backdrop dots — barely perceptible. */
+@keyframes studio-breathe { 0%,100% { opacity: .55; } 50% { opacity: .8; } }
+.studio-breathe { animation: studio-breathe 6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .studio-flow, .studio-halo, .studio-breathe { animation: none; }
+}
+
 /* Monospace SQL / tech-field snippets keep LTR even inside RTL flow */
 .tech,
 code,
