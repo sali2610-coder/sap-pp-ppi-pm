@@ -47,3 +47,6 @@ next-env.d.ts
 
 # presentation build artifacts (large)
 presentations/**/out/
+
+# sc4sap plugin local logs/inventory (not project code)
+.sc4sap/
