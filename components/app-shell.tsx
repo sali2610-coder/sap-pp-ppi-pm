@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Sparkles, BrainCircuit, GraduationCap, Award, Wrench } from "lucide-react";
 import { CentersMegaMenu } from "@/components/centers-mega-menu";
 import { GlobalBack } from "@/components/global-back";
+import { WorkspaceInspector } from "@/components/workspace-inspector";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SiteLogo } from "@/components/site-logo";
 import dynamic from "next/dynamic";
@@ -128,6 +129,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <Mentor />
       <WowToast />
       <MobileTabBar />
+      <WorkspaceInspector />
     </I18nProvider>
   );
 }

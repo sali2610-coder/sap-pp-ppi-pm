@@ -2,8 +2,9 @@
 
 import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2, AlertTriangle, Lightbulb, Target, Briefcase, GitBranch, Network, MapPin } from "lucide-react";
+import { ArrowLeft, CheckCircle2, AlertTriangle, Lightbulb, Target, Briefcase, GitBranch, Network, MapPin, PanelRight } from "lucide-react";
 import { lookupEntity, type TipKind } from "@/lib/entity-lookup";
+import { inspectEntity } from "@/lib/workspace";
 
 const KIND_COLOR: Record<TipKind, string> = {
   table: "#0891b2", tcode: "#475569", bapi: "#2563eb", idoc: "#7c3aed", fm: "#0d9488", cds: "#16a34a",
@@ -76,6 +77,7 @@ export function SapTip({ name, children, linkless, bare }: { name: string; child
               ? <span className="inline-flex items-center gap-1 text-[10px] font-bold text-green-600"><CheckCircle2 className="size-3" />מאומת</span>
               : <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-600"><AlertTriangle className="size-3" />לא מאומת</span>}
             <span className="flex items-center gap-2.5">
+              <button type="button" onClick={(e) => { e.preventDefault(); inspectEntity(tip.name); }} className="inline-flex items-center gap-0.5 text-[11px] font-bold text-slate-500 hover:text-brand" aria-label="שלח למפקח"><PanelRight className="size-3" />מפקח</button>
               {tip.graphHref && <Link href={tip.graphHref} className="inline-flex items-center gap-0.5 text-[11px] font-bold text-slate-500 hover:text-brand"><Network className="size-3" />גרף</Link>}
               {linkless
                 ? <span className="inline-flex items-center gap-1 text-[11px] font-bold text-brand"><Lightbulb className="size-3" />פירוט מלא</span>

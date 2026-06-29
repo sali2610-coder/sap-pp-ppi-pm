@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Search, ZoomIn, ZoomOut, Maximize2, Crosshair, ArrowLeft, ExternalLink, Target, Briefcase, AlertTriangle, GitBranch, X, Plus, Minus, RotateCcw, Layers as LayersIcon } from "lucide-react";
 import { buildHetero, layoutSubset, layoutZoned, FLOWS, MODES, KIND_META, S4_COLOR, ZONES, zoneOf, type SHetero, type SKind, type ZoneBand, type Zone } from "@/lib/studio-graph";
 import { lookupEntity } from "@/lib/entity-lookup";
+import { setActiveEntity } from "@/lib/workspace";
 import type { Module } from "@/lib/types";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9" };
@@ -75,6 +76,9 @@ export function ArchitectureStudio() {
   const onMove = (e: React.PointerEvent) => { if (drag.current) setTr((p) => ({ ...p, x: drag.current!.ox + (e.clientX - drag.current!.x), y: drag.current!.oy + (e.clientY - drag.current!.y) })); };
   const zoom = (d: number) => { const el = wrapRef.current; if (!el) return; const cw = el.clientWidth / 2, ch = el.clientHeight / 2; const nk = Math.min(2.6, Math.max(0.14, tr.k * d)); const f = nk / tr.k; setTr({ k: nk, x: cw - (cw - tr.x) * f, y: ch - (ch - tr.y) * f }); };
   const centerOn = (id: string) => { const n = layout.nodes.find((x) => x.id === id); const el = wrapRef.current; if (!n || !el) return; const k = Math.max(tr.k, 0.85); setTr({ k, x: el.clientWidth / 2 - n.x * k, y: el.clientHeight / 2 - n.y * k }); setSel(id); };
+
+  // selecting a node makes it the workspace-wide active context
+  useEffect(() => { if (sel) setActiveEntity(h.nodes.get(sel)?.label || sel); }, [sel, h]);
 
   const expand = (id: string) => setRevealed((r) => new Set([...r, ...scopeNbrs(id)]));
   const collapse = (id: string) => setRevealed((r) => { const next = new Set(r); const keep = new Set([DEFAULT_FOCUS[module]]); for (const b of scopeNbrs(id)) { if (keep.has(b)) continue; const deg = [...(h.adj.get(b) || [])].filter((x) => next.has(x) && inScope(x)).length; if (deg <= 1) next.delete(b); } return next; });
