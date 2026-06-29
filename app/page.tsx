@@ -16,11 +16,11 @@ export default function HomePage() {
   const txTotal = registryStats().total;
 
   return (
-    <div className="space-y-9">
+    <div className="space-y-10 sm:space-y-12">
       <HomeHero stats={{ modules: 2, tables, relations, tcodes, bapis, books: 2 }} />
       <QuickAccess counts={{ transactions: txTotal, apps: FIORI_APPS.length, tables }} />
-      <ExecutiveSummary />
       <CommandCenter />
+      <ExecutiveSummary />
     </div>
   );
 }
