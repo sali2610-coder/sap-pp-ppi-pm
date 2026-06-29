@@ -130,6 +130,6 @@ export function buildFioriCourseData() {
     ladder,
     topics: SPECS.map(topic),
     defaultTopic: "arch",
-    crossLinks: [{ label: "אבטחה", href: "/security/" }, { label: "אינטגרציה", href: "/integration/" }, { label: "מרכז תקלות", href: "/incidents/" }, { label: "ALM", href: "/alm/" }, { label: "מרכז S/4", href: "/s4hana/" }],
+    crossLinks: [{ label: "חוקר CDS", href: "/cds/" }, { label: "אבטחה", href: "/security/" }, { label: "אינטגרציה", href: "/integration/" }, { label: "מרכז תקלות", href: "/incidents/" }, { label: "ALM", href: "/alm/" }, { label: "מרכז S/4", href: "/s4hana/" }],
   };
 }

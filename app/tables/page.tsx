@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { Sigma, ArrowLeft } from "lucide-react";
 import { CenterHeader } from "@/components/knowledge";
 import { TablesExplorer, type TableRow } from "@/components/tables-explorer";
 import { ALL_TABLES } from "@/data/sapData";
@@ -34,6 +36,10 @@ export default function Page() {
   return (
     <div>
       <CenterHeader eyebrow="מרכז הידע · Advanced Tables Explorer" title="חוקר הטבלאות המתקדם" sub={`${rows.length} טבלאות PM/PP-PI — תיאור עסקי, קשרים, CDS ו-ECC↔S/4. לחיצה פותחת מפת קשרים מלאה (שדות, מפתחות, גרף).`} accent="#0891b2" />
+      <Link href="/cds/" dir="rtl" className="mb-4 flex items-center gap-2 rounded-2xl border border-emerald-200 bg-emerald-50/60 px-4 py-2.5 text-[13px] font-bold text-emerald-700 transition hover:bg-emerald-50">
+        <Sigma className="size-4" />עוברים ל-S/4HANA? גלה כיצד הטבלאות הופכות לתצוגות CDS — חוקר ה-CDS
+        <ArrowLeft className="ms-auto size-4" />
+      </Link>
       <TablesExplorer rows={rows} />
     </div>
   );
