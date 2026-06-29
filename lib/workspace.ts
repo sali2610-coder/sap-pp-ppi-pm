@@ -42,9 +42,10 @@ function snapOpen(): boolean {
 export function setInspectorOpen(v: boolean) { try { localStorage.setItem(OPEN_KEY, v ? "1" : "0"); } catch { /* noop */ } openCache = { raw: v ? "1" : "0", v }; emitOpen(); }
 export const useInspectorOpen = (): boolean => useSyncExternalStore(subOpen, snapOpen, () => false);
 
-// Derive the active entity name from a route when nothing is explicitly set
-// (so /object/<n>, /tcode/<n>, /cds/<n> auto-populate the Inspector).
+// Derive the active entity name from a route when nothing is explicitly set, so
+// every entity page (/object, /tcode, /cds, /bapi, /idoc, /transactions/<code>)
+// auto-populates the Inspector — the unified-workspace sync across all centers.
 export function entityFromPath(path: string): string | null {
-  const m = path.match(/^\/(object|tcode|cds)\/([^/]+)/);
+  const m = path.match(/^\/(object|tcode|cds|bapi|idoc|transactions)\/([^/]+)/);
   return m ? decodeURIComponent(m[2]) : null;
 }
