@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -9,27 +9,48 @@ import { useActiveEntity, setActiveEntity, useInspectorOpen, setInspectorOpen, e
 import { lookupEntity, type TipKind } from "@/lib/entity-lookup";
 
 const KIND_C: Record<TipKind, string> = { table: "#0891b2", tcode: "#475569", bapi: "#2563eb", idoc: "#7c3aed", fm: "#0d9488", cds: "#16a34a" };
+const W_KEY = "neo:inspector:w";
+const MINW = 300, MAXW = 560;
 
-// Persistent Workspace Inspector — one reusable right panel for every entity
+// Persistent Workspace Inspector — one reusable panel for every entity
 // (table/object · tcode · BAPI/FM/IDoc · CDS · Fiori). Reflects the global
-// active context (explicit selection, else derived from the route). Related
-// chips switch context in-place (no navigation) — opening related content feels
-// like opening another file in the same IDE.
+// active context. Desktop (≥xl): docked + resizable, PUSHES content (no modal
+// feel) — VS Code / SAP BAS style. Smaller: slide-over sheet. Related chips
+// switch context in-place (no navigation).
 export function WorkspaceInspector() {
   const path = usePathname() || "/";
   const explicit = useActiveEntity();
   const open = useInspectorOpen();
+  const [wide, setWide] = useState(false);
+  const [width, setWidth] = useState(360);
+  const resizing = useRef(false);
   const name = explicit || entityFromPath(path);
   const tip = useMemo(() => (name ? lookupEntity(name) : null), [name]);
 
-  // a "pin" event (from a chip's inspector action) opens the panel
+  useEffect(() => { try { const w = parseInt(localStorage.getItem(W_KEY) || "360", 10); if (w >= MINW && w <= MAXW) setWidth(w); } catch { /* noop */ } }, []);
+  useEffect(() => { const mq = window.matchMedia("(min-width: 1280px)"); const on = () => setWide(mq.matches); on(); mq.addEventListener("change", on); return () => mq.removeEventListener("change", on); }, []);
   useEffect(() => { const onPin = () => setInspectorOpen(true); window.addEventListener("neo:inspect", onPin); return () => window.removeEventListener("neo:inspect", onPin); }, []);
+
+  // docked mode pushes the main content (sets a CSS var + body flag)
+  useEffect(() => {
+    const docked = open && wide;
+    document.body.dataset.inspector = docked ? "1" : "0";
+    document.documentElement.style.setProperty("--inspector-w", `${width}px`);
+    return () => { document.body.dataset.inspector = "0"; };
+  }, [open, wide, width]);
+
+  // resize (physical-right edge of the left-docked panel)
+  useEffect(() => {
+    const move = (e: PointerEvent) => { if (!resizing.current) return; const w = Math.min(MAXW, Math.max(MINW, e.clientX)); setWidth(w); };
+    const up = () => { if (resizing.current) { resizing.current = false; try { localStorage.setItem(W_KEY, String(width)); } catch { /* noop */ } document.body.style.userSelect = ""; } };
+    window.addEventListener("pointermove", move); window.addEventListener("pointerup", up);
+    return () => { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); };
+  }, [width]);
+
   const accent = tip ? KIND_C[tip.kind] : "#475569";
-  const relBase = tip?.relatedKind === "tcode" ? "/tcode/" : "/object/";
 
   return (
     <>
-      {/* toggle — left edge (RTL: opposite the search FAB), shows active context */}
       <button onClick={() => setInspectorOpen(!open)} aria-label="מפקח סביבת עבודה" aria-expanded={open}
         className="no-print group fixed bottom-5 left-5 z-40 hidden items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-3 text-sm font-bold text-slate-600 shadow-xl transition hover:-translate-y-0.5 hover:text-brand xl:flex">
         <PanelRight className="size-5" />
@@ -40,10 +61,11 @@ export function WorkspaceInspector() {
       <AnimatePresence>
         {open && (
           <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[60] bg-slate-950/30 backdrop-blur-sm xl:bg-transparent xl:backdrop-blur-0" onClick={() => setInspectorOpen(false)} />
+            {!wide && <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[60] bg-slate-950/35 backdrop-blur-sm" onClick={() => setInspectorOpen(false)} />}
             <motion.aside dir="rtl" role="complementary" aria-label="מפקח"
-              initial={{ x: "-100%", opacity: 0.6 }} animate={{ x: 0, opacity: 1 }} exit={{ x: "-100%", opacity: 0.6 }} transition={{ type: "spring", stiffness: 360, damping: 36 }}
-              className="fixed bottom-0 left-0 top-[4.5rem] z-[61] flex w-[360px] max-w-[90vw] flex-col border-e border-slate-200 bg-white shadow-2xl">
+              initial={{ x: "-100%" }} animate={{ x: 0 }} exit={{ x: "-100%" }} transition={{ type: "spring", stiffness: 380, damping: 38 }}
+              className="fixed bottom-0 left-0 top-[4.25rem] z-[61] flex flex-col border-e border-slate-200 bg-white shadow-2xl xl:shadow-[8px_0_24px_-12px_rgba(15,23,42,0.18)]"
+              style={{ width: wide ? width : undefined }}>
               <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
                 <span className="flex items-center gap-2 text-[12px] font-extrabold uppercase tracking-wide text-slate-400"><PanelRight className="size-4 text-brand" />מפקח · Inspector</span>
                 <button onClick={() => setInspectorOpen(false)} className="rounded-lg p-1 text-slate-400 hover:bg-slate-100"><X className="size-4" /></button>
@@ -76,10 +98,13 @@ export function WorkspaceInspector() {
 
               {tip && (
                 <div className="flex gap-2 border-t border-slate-100 p-3">
-                  <Link href={tip.href} onClick={() => setInspectorOpen(false)} className="flex flex-1 items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-[13px] font-extrabold text-white shadow-sm transition active:scale-95" style={{ background: accent }}><ExternalLink className="size-4" />פתח עמוד מלא</Link>
-                  {tip.graphHref && <Link href={tip.graphHref} onClick={() => setInspectorOpen(false)} className="flex items-center justify-center gap-1.5 rounded-xl border-2 border-slate-200 px-3 py-2.5 text-[12px] font-bold text-slate-500 transition hover:border-brand/40 hover:text-brand"><Network className="size-4" />גרף</Link>}
+                  <Link href={tip.href} onClick={() => !wide && setInspectorOpen(false)} className="flex flex-1 items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-[13px] font-extrabold text-white shadow-sm transition active:scale-95" style={{ background: accent }}><ExternalLink className="size-4" />פתח עמוד מלא</Link>
+                  {tip.graphHref && <Link href={tip.graphHref} onClick={() => !wide && setInspectorOpen(false)} className="flex items-center justify-center gap-1.5 rounded-xl border-2 border-slate-200 px-3 py-2.5 text-[12px] font-bold text-slate-500 transition hover:border-brand/40 hover:text-brand"><Network className="size-4" />גרף</Link>}
                 </div>
               )}
+
+              {/* resize handle (docked desktop) */}
+              {wide && <div onPointerDown={(e) => { resizing.current = true; document.body.style.userSelect = "none"; e.preventDefault(); }} className="absolute inset-y-0 right-0 z-10 w-1.5 cursor-col-resize bg-transparent transition hover:bg-brand/30" aria-hidden />}
             </motion.aside>
           </>
         )}

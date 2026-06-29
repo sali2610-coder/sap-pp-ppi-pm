@@ -102,6 +102,13 @@ html {
   overflow-x: hidden;
 }
 
+/* Unified workspace — docked Inspector pushes content (desktop only),
+   VS-Code style, instead of overlaying it. Smooth, no layout jump. */
+@media (min-width: 1280px) {
+  body[data-inspector="1"] #main { padding-inline-end: var(--inspector-w, 360px); }
+  #main { transition: padding-inline-end 0.22s var(--ease-out-expo, ease); }
+}
+
 body {
   color: var(--foreground);
   font-family: var(--font-sans);
