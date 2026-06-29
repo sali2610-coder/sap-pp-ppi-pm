@@ -56,12 +56,16 @@ export function WorkspaceInspector() {
 
   return (
     <>
-      <button onClick={() => setInspectorOpen(!open)} aria-label="מפקח סביבת עבודה" aria-expanded={open}
-        className="no-print group fixed bottom-5 left-5 z-40 hidden items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-3 text-sm font-bold text-slate-600 shadow-xl transition hover:-translate-y-0.5 hover:text-brand xl:flex">
-        <PanelRight className="size-5" />
-        {tip ? <span className="tech font-mono text-[13px] font-extrabold" style={{ color: accent }} dir="ltr">{tip.name}</span> : <span>מפקח</span>}
-        {tip && <span className="size-2 rounded-full" style={{ background: accent }} />}
-      </button>
+      {/* Toggle appears ONLY when a context exists — never an empty Inspector.
+         Stacked ABOVE the accessibility gear (bottom-5) so the two don't collide. */}
+      {tip && !open && (
+        <button onClick={() => setInspectorOpen(true)} aria-label="פתח מפקח סביבת עבודה" aria-expanded={open}
+          className="no-print group fixed bottom-[5.5rem] left-5 z-40 hidden items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-3 text-sm font-bold text-slate-600 shadow-xl transition hover:-translate-y-0.5 hover:text-brand xl:flex">
+          <PanelRight className="size-5" />
+          <span className="tech font-mono text-[13px] font-extrabold" style={{ color: accent }} dir="ltr">{tip.name}</span>
+          <span className="size-2 rounded-full" style={{ background: accent }} />
+        </button>
+      )}
 
       <AnimatePresence>
         {open && (
