@@ -8,6 +8,7 @@ import { txRegistry, registryStats } from "@/lib/tx-registry";
 import { txMostPopular, txPopularity } from "@/lib/tx-intel";
 import { useTxFavorites, useRecentTx, toggleTxFavorite } from "@/lib/tx-prefs";
 import { EmptyState } from "@/components/ui/empty-state";
+import { setActiveEntity } from "@/lib/workspace";
 
 const MOD_COLOR: Record<string, string> = {
   PP: "#6d28d9", "PP-PI": "#6d28d9", PM: "#f97316", QM: "#0d9488", MM: "#2563eb",
@@ -81,7 +82,7 @@ export function TransactionWorkspace() {
       ) : (
         <div className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3">
           {list.map((t) => { const col = mc(t.module); const isFav = favs.includes(t.code); const deep = t.depth === "deep"; const d = TX_INTEL[t.code]; const pop = txPopularity(t.code); return (
-            <div key={t.code} className="group relative min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white p-3.5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md">
+            <div key={t.code} onMouseEnter={() => setActiveEntity(t.code)} className="group relative min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white p-3.5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md">
               <button onClick={() => toggleTxFavorite(t.code)} aria-label="מועדף" className="absolute left-2.5 top-2.5 z-10 rounded-lg p-1 text-slate-300 transition hover:bg-amber-50 hover:text-amber-500"><Star className={`size-4 ${isFav ? "fill-amber-400 text-amber-500" : ""}`} /></button>
               <Link href={t.href} className="block">
                 <div className="flex items-center gap-2.5">
