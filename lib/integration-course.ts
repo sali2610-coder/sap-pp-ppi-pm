@@ -69,6 +69,6 @@ export function buildIntegrationCourseData() {
     ladder,
     topics: MODULES.map(topic),
     defaultTopic: "idoc",
-    crossLinks: [{ label: "מרכז תקלות", href: "/incidents/" }, { label: "PP-PI", href: "/pp-pi/" }, { label: "אבטחה", href: "/security/" }, { label: "ALM", href: "/alm/" }, { label: "מרכז S/4", href: "/s4hana/" }],
+    crossLinks: [{ label: "חוקר IDoc", href: "/idoc/" }, { label: "מרכז תקלות", href: "/incidents/" }, { label: "PP-PI", href: "/pp-pi/" }, { label: "אבטחה", href: "/security/" }, { label: "ALM", href: "/alm/" }, { label: "מרכז S/4", href: "/s4hana/" }],
   };
 }

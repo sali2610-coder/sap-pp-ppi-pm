@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, Terminal, LayoutDashboard, Network, Database, Cable, ArrowLeft } from "lucide-react";
+import { BookOpen, Terminal, LayoutDashboard, Network, Database, Cable, FileSearch, ArrowLeft } from "lucide-react";
 import { playClick } from "@/lib/sound";
 
 // Quick Access Launchpad — the platform's primary entry, BTP-Launchpad style.
@@ -17,6 +17,7 @@ export function QuickAccess({ counts = {} }: { counts?: Record<string, number> }
     { href: "/studio/", he: "Architecture Studio", en: "Architecture Studio", sub: "מפת הקשרים החיה — זום · רחף · הדגש", tag: "Live", color: "#d62027", Icon: Network },
     { href: "/tables/", he: "חוקר טבלאות", en: "Table Explorer", sub: "כל הטבלאות · קשרים · CDS · ECC↔S/4", tag: "Data", color: "#7c3aed", Icon: Database, count: counts.tables },
     { href: "/integration/", he: "מרכז אינטגרציה", en: "Integration Center", sub: "IDoc · ALE · RFC · PI/PO · CPI · OData", tag: "Integration", color: "#6d28d9", Icon: Cable },
+    { href: "/idoc/", he: "חוקר IDoc", en: "IDoc Explorer", sub: "אנטומיה · קודי סטטוס · ניטור · אבחון", tag: "Diagnose", color: "#0e7490", Icon: FileSearch },
   ];
   return (
     <section dir="rtl">
