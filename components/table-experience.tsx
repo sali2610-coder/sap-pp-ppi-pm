@@ -142,7 +142,7 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
               <button onClick={() => setDeep(null)} aria-label="סגור" className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-3.5 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-brand-dark"><X className="size-4" />סגור</button>
             </div>
           </div>
-          <div className="mx-auto w-full max-w-6xl p-5">
+          <div className="mx-auto w-full max-w-[1600px] p-5 sm:p-6">
             {deep && <ObjectWorkspace name={deep} highlight={query} />}
           </div>
         </DialogContent>

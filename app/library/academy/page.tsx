@@ -63,7 +63,7 @@ export default function AcademyDashboard() {
   const cross = crossBookObjects().slice(0, 40);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-5xl space-y-5 p-4">
+    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
       <nav className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/library/" className="text-brand hover:underline">{lang === "he" ? "ספרייה" : "Library"}</Link><span>/</span>
         <span>{lang === "he" ? "אקדמיה" : "Academy"}</span>
@@ -99,7 +99,7 @@ export default function AcademyDashboard() {
         </div>
       </section>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {BOOKS.map((b) => <BookCard key={b.id} b={b} />)}
         {/* queued */}
         <div dir="rtl" className="glass rounded-2xl border-dashed p-5 opacity-80">

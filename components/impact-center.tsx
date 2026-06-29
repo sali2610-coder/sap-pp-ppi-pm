@@ -29,7 +29,7 @@ export function ImpactCenter({ name }: { name: string }) {
   const tier = TIER[r.tier];
 
   return (
-    <div className="mx-auto max-w-5xl space-y-4" dir="rtl">
+    <div className="space-y-4" dir="rtl">
       <Link href={`/object/${encodeURIComponent(r.name)}/`} className="inline-flex items-center gap-1.5 text-sm font-bold text-slate-500 transition hover:text-brand"><ArrowRight className="size-4" />כרטיס האובייקט</Link>
 
       {/* header + score */}

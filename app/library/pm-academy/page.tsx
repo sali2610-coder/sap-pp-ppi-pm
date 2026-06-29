@@ -15,7 +15,7 @@ export default function PMAcademyIndex() {
   const totMin = Object.values(PM_TEXTBOOK_STATS).reduce((s, c) => s + c.readMin, 0);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-4xl space-y-5 p-4">
+    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
       <nav className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/library/" className="text-brand hover:underline">{lang === "he" ? "ספרייה" : "Library"}</Link><span>/</span>
         <Link href="/library/academy/" className="text-brand hover:underline">{lang === "he" ? "אקדמיה" : "Academy"}</Link><span>/</span>
@@ -35,7 +35,7 @@ export default function PMAcademyIndex() {
         </div>
       </section>
 
-      <div className="grid gap-3">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {keys.map((n) => {
           const ch = PM_TEXTBOOK[String(n)];
           const st = PM_TEXTBOOK_STATS[String(n)];

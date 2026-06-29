@@ -39,7 +39,7 @@ export default function FioriIndex() {
   }, [q, type]);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-4xl space-y-5 p-4">
+    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
       <nav className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/library/academy/" className="text-brand hover:underline">{lang === "he" ? "אקדמיה" : "Academy"}</Link><span>/</span>
         <span>{lang === "he" ? "אינדקס Fiori" : "Fiori index"}</span>
@@ -63,7 +63,7 @@ export default function FioriIndex() {
 
       <p dir="rtl" className="text-center text-xs text-muted-foreground">{results.length}{results.length >= 400 ? "+" : ""} {lang === "he" ? "תוצאות" : "results"}</p>
 
-      <div className="grid gap-2 sm:grid-cols-2">
+      <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
         {results.map((a) => {
           const refs = REFS[a.id]?.slice(0, 3) ?? [];
           return (

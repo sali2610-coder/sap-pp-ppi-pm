@@ -226,7 +226,7 @@ export function AcademyChapter({ chapter, nav }: { chapter: TextbookChapter; nav
   const pct = ids.length ? Math.round((readCount / ids.length) * 100) : 0;
 
   return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-5xl space-y-5 p-4">
+    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-6xl space-y-5 p-4">
       <nav className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href={nav.libraryHref ?? "/library/"} className="text-brand hover:underline">{lang === "he" ? "ספרייה" : "Library"}</Link><span>/</span>
         <Link href={`${nav.base}/`} className="text-brand hover:underline">{nav.bookLabel}</Link><span>/</span>

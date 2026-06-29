@@ -243,7 +243,13 @@
       "Bash(node /tmp/b7-ch3-b6.mjs)",
       "Bash(node /tmp/b7-ch4-b1.mjs)",
       "Bash(node /tmp/b7-ch4-b2.mjs)",
-      "Bash(node /tmp/b7-ch4-b3.mjs)"
+      "Bash(node /tmp/b7-ch4-b3.mjs)",
+      "Bash(node /tmp/b7-ch5-b1.mjs)",
+      "Bash(node /tmp/b7-ch5-b2.mjs)",
+      "Bash(node /tmp/b7-ch5-b3.mjs)",
+      "Bash(node /tmp/b7-ch6.mjs)",
+      "Bash(node /tmp/b7-ch7-b1.mjs)",
+      "Bash(node /tmp/b7-ch7-b2.mjs)"
     ],
     "additionalDirectories": [
       "/Users/salihalif/Desktop/My-Projects/sap/scripts"

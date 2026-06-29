@@ -13,7 +13,7 @@ export function PPObjectDetail({ obj }: { obj: PPObject }) {
   const chapters = obj.chapters.map((n) => PP_CHAPTERS.find((c) => c.n === n)).filter(Boolean) as typeof PP_CHAPTERS;
 
   return (
-    <div className="mx-auto max-w-3xl space-y-5">
+    <div className="mx-auto max-w-5xl space-y-5">
       <nav className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/library/pp/" className="inline-flex items-center gap-1 text-brand hover:underline">
           <ArrowRight className="size-4 rtl:rotate-180" /> PP

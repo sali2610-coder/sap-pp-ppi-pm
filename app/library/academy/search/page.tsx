@@ -42,7 +42,7 @@ export default function AcademySearch() {
   const href = (d: typeof SEARCH_DOCS[number]) => `${d.base}/chapter-${pad(d.ch)}/#sub-${d.id}`;
 
   return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-3xl space-y-5 p-4">
+    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-5xl space-y-5">
       <nav className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/library/academy/" className="text-brand hover:underline">{lang === "he" ? "אקדמיה" : "Academy"}</Link><span>/</span>
         <span>{lang === "he" ? "חיפוש מאוחד" : "Unified search"}</span>

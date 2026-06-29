@@ -103,7 +103,7 @@ function ChapterCard({ c }: { c: ChapterQA }) {
         </div>
       </div>
 
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+      <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <Findings title="אובייקטי SAP" icon={<Boxes className="size-3.5" />} items={c.sapObjectIssues} />
         <Findings title="קישורים שבורים" icon={<Link2 className="size-3.5" />} items={c.crossLinkIssues} resolved={PP_QUALITY_META.crossLinksResolved} />
         <TextList title="היררכיה" icon={<ListTree className="size-3.5" />} items={c.hierarchyIssues} />
@@ -123,7 +123,7 @@ export default function PPQualityReportPage() {
   const totalIssues = PP_QUALITY.reduce((s, c) => s + c.sapObjectIssues.length + c.crossLinkIssues.length + c.hierarchyIssues.length + c.terminologyIssues.length + c.cbcIssues.length + c.missingContent.length, 0);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-5xl space-y-5 p-4">
+    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
       <nav className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/library/" className="text-brand hover:underline">{lang === "he" ? "ספרייה" : "Library"}</Link><span>/</span>
         <Link href="/library/pp/" className="text-brand hover:underline">PP</Link><span>/</span>

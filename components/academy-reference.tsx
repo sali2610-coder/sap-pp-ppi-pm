@@ -33,7 +33,7 @@ export function AcademyReference({ bookId }: { bookId: string }) {
   const list = tab === "glossary" ? null : (ref[tab] as IndexEntry[]).filter(filterEntry);
 
   return (
-    <div className="mx-auto max-w-4xl space-y-5 p-4">
+    <div className="mx-auto max-w-6xl space-y-5">
       <nav className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/library/academy/" className="text-brand hover:underline">{lang === "he" ? "אקדמיה" : "Academy"}</Link><span>/</span>
         <span>{b.module} · {lang === "he" ? "אינדקסים" : "Indexes"}</span>
