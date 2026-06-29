@@ -121,6 +121,10 @@ body {
     radial-gradient(50rem 50rem at -10% 0%, rgba(59, 130, 246, 0.05), transparent 55%),
     linear-gradient(180deg, var(--background) 0%, var(--background-2) 100%);
   background-attachment: fixed;
+  /* Belt-and-suspenders with html{overflow-x:hidden}: clip stray RTL decorative
+     bleed (negative-offset glow blobs) so no page reports phantom horizontal
+     overflow. `clip` keeps position:sticky working (unlike `hidden`). */
+  overflow-x: clip;
 }
 
 ::selection {
