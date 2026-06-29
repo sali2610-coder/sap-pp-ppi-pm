@@ -30,6 +30,11 @@ export function WorkspaceInspector() {
   useEffect(() => { try { const w = parseInt(localStorage.getItem(W_KEY) || "360", 10); if (w >= MINW && w <= MAXW) setWidth(w); } catch { /* noop */ } }, []);
   useEffect(() => { const mq = window.matchMedia("(min-width: 1280px)"); const on = () => setWide(mq.matches); on(); mq.addEventListener("change", on); return () => mq.removeEventListener("change", on); }, []);
   useEffect(() => { const onPin = () => setInspectorOpen(true); window.addEventListener("neo:inspect", onPin); return () => window.removeEventListener("neo:inspect", onPin); }, []);
+  // Escape closes the slide-over sheet (mobile/tablet); docked desktop panel stays.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape" && open && !wide) setInspectorOpen(false); };
+    window.addEventListener("keydown", onKey); return () => window.removeEventListener("keydown", onKey);
+  }, [open, wide]);
 
   // docked mode pushes the main content (sets a CSS var + body flag)
   useEffect(() => {
