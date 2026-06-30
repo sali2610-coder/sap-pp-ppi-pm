@@ -22,6 +22,7 @@ import { OIC_OBJECTS } from "@/lib/cross-links";
 import { SOLUTIONS } from "@/data/solutions";
 import { PROCESS_MAPS } from "@/data/processes";
 import { PLAYBOOKS } from "@/data/centers/playbooks";
+import { CDS_VIEWS } from "@/data/cds-map";
 
 // ── D2 Information Architecture ───────────────────────────────────────────
 // Centers reorganized around CONSULTANT TASKS (journeys), not technical type.
@@ -61,6 +62,7 @@ export default function Page() {
     { group: "build", href: "/enhancements/", he: "מרכז הרחבות", title: "Enhancement Center", tag: `${ENHANCEMENTS.length} טכניקות`, tagColor: "#7c3aed", desc: "User Exit, Customer Exit, BAdI (קלאסי/חדש), Implicit/Explicit, BTE — איך, מתי, ודוגמאות PM/PP." },
     { group: "build", href: "/exits/", he: "מרכז Exits / BAdIs", title: "User Exit / BAdI Center", tag: `${EXITS.length} הרחבות`, tagColor: "#7c3aed", desc: "קטלוג Exits/BAdIs בשמות — IWO10009, PPCO0001, WORKORDER_UPDATE ועוד. נקודת הפעלה, אובייקט, דוגמה, שיטת Debug ו-ECC↔S/4." },
     { group: "build", href: "/integration/", he: "מרכז אינטגרציה", title: "Integration Center", tag: "11 טכנולוגיות", tagColor: "#0891b2", desc: "IDoc/ALE/RFC/tRFC/qRFC, PI/PO, CPI, Integration Suite, OData, APIs, Event Mesh — ארכיטקטורה, דיאגרמות זרימה, ניטור, תקלות ו-Root Cause." },
+    { group: "build", href: "/idoc/", he: "חוקר IDoc", title: "IDoc Explorer", tag: "Diagnose", tagColor: "#0e7490", desc: "אנטומיית IDoc (EDIDC/EDID4/EDIDS), זרימת נתונים, מדריך קודי סטטוס (51/64/68…), כלי ניטור (WE02/BD87/WE19) וסוגי הודעה — כלי אבחון." },
     { group: "build", href: "/delivery/", he: "מרכז ניהול פרויקט", title: "Project Delivery", tag: "SAP Activate", tagColor: "#4f46e5", desc: "6 שלבי SAP Activate (Discover→Run), Cutover, Test Management, Defect Management, סדנאות Fit-to-Standard ו-Blueprint." },
 
     // ── פתור תקלה · Troubleshoot & Resolve ──
@@ -77,6 +79,7 @@ export default function Page() {
     { group: "migrate", href: "/evolution/", he: "מרכז אבולוציית T-Codes", title: "Transaction Evolution", tag: "ECC→S/4", tagColor: "#2563eb", desc: "טבלת מיגרציה — T-Codes שהוסרו/לא-אסטרטגיים ב-S/4 + חלופה (MB1A/B/C→MIGO, XK01→BP, MD01→MD01N) + Fiori + השפעה." },
     { group: "migrate", href: "/fiori/", he: "מרכז Fiori ו-UX", title: "Fiori & UX Center", tag: "UI5 · OData · RAP", tagColor: "#7c3aed", desc: "ארכיטקטורת Fiori (FLP/Gateway/OData), סוגי אפליקציות, SEGW/IWFND/IWBEP, UI5 (MVC), RAP (CDS/Behavior/Service Binding), תקלות וזרימת Debug." },
     { group: "migrate", href: "/fiori-apps/", he: "מרכז אפליקציות Fiori", title: "Fiori Apps Center", tag: "S/4HANA", tagColor: "#16a34a", desc: "ספריית אפליקציות Fiori של S/4HANA — חיפוש לפי App Name, App ID, Business Role, Catalog, OData, CDS, טרנזקציית GUI ומידע הגירה ECC↔S/4." },
+    { group: "migrate", href: "/cds/", he: "חוקר תצוגות CDS", title: "CDS Explorer", tag: `${CDS_VIEWS.length}`, tagColor: "#16a34a", desc: "מודל הנתונים הווירטואלי של S/4HANA — שרשרת טבלת ECC → Interface (I_) → Consumption (C_) → Fiori, עם הטבלאות שכל תצוגה ממירה." },
     { group: "migrate", href: "/impact/", he: "מנתח השפעה", title: "Impact Analyzer", tag: "Graph", tagColor: "#9333ea", desc: "מה יושפע אם תשנה טבלה/אובייקט — גרף תלויות מלא + Object Intelligence." },
 
     // ── נתונים והפניות · Reference & Data ──
