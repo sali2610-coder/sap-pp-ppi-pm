@@ -1,0 +1,106 @@
+{
+  "book": "Plant Maintenance with SAP S/4HANA: Business User Guide",
+  "pages": 669,
+  "chapters": [
+    {
+      "n": 1,
+      "title": "Introduction to Plant Maintenance",
+      "pages": [
+        27,
+        54
+      ],
+      "chars": 45953,
+      "sections": 13
+    },
+    {
+      "n": 2,
+      "title": "Organizational Structures",
+      "pages": [
+        55,
+        66
+      ],
+      "chars": 19181,
+      "sections": 7
+    },
+    {
+      "n": 3,
+      "title": "Structuring of Technical Systems",
+      "pages": [
+        67,
+        150
+      ],
+      "chars": 120485,
+      "sections": 39
+    },
+    {
+      "n": 4,
+      "title": "Work Order Cycle",
+      "pages": [
+        151,
+        232
+      ],
+      "chars": 126895,
+      "sections": 57
+    },
+    {
+      "n": 5,
+      "title": "Preventive Maintenance",
+      "pages": [
+        233,
+        296
+      ],
+      "chars": 87994,
+      "sections": 22
+    },
+    {
+      "n": 6,
+      "title": "Other Business Processes",
+      "pages": [
+        297,
+        374
+      ],
+      "chars": 101655,
+      "sections": 48
+    },
+    {
+      "n": 7,
+      "title": "Integrating Applications from Other Departments",
+      "pages": [
+        375,
+        436
+      ],
+      "chars": 93910,
+      "sections": 21
+    },
+    {
+      "n": 8,
+      "title": "Plant Maintenance Controlling",
+      "pages": [
+        437,
+        494
+      ],
+      "chars": 83467,
+      "sections": 14
+    },
+    {
+      "n": 9,
+      "title": "New Information Technologies",
+      "pages": [
+        495,
+        568
+      ],
+      "chars": 90030,
+      "sections": 16
+    },
+    {
+      "n": 10,
+      "title": "Usability",
+      "pages": [
+        569,
+        630
+      ],
+      "chars": 98664,
+      "sections": 34
+    }
+  ]
+}

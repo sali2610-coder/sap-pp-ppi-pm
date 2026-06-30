@@ -17,7 +17,7 @@ const MOD_COLOR: Record<string, string> = {
 const mc = (m: string) => MOD_COLOR[m] || "#64748b";
 
 /* ---- deep-reader routes for reference manuals that have full text ---- */
-const READER: Record<string, string> = { "config-pm": "/library/book1/", "production-planning": "/library/book2/", "quality-management": "/library/book5/", "sourcing-procurement": "/library/book3/", "pp-ds": "/library/book4/", "warehouse-management": "/library/book6/", "fiori-apps": "/library/book7/", "pm-business-user": "/library/book8/" };
+const READER: Record<string, string> = { "config-pm": "/library/book1/", "production-planning": "/library/book2/", "quality-management": "/library/book5/", "sourcing-procurement": "/library/book3/", "pp-ds": "/library/book4/", "warehouse-management": "/library/book6/", "fiori-apps": "/library/book7/", "pm-business-user": "/library/book9/" };
 
 /* ====== recently-opened (localStorage, SSR-safe) ====== */
 type Recent = { id: string; title: string; module: string; href: string };
