@@ -400,6 +400,24 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
   button:active, a:active, [role="button"]:active { transform: scale(0.98); }
 }
 
+/* ── Mobile Flagship — native-iOS feel (phones only; desktop untouched) ──────── */
+@media (max-width: 640px) {
+  /* iOS auto-zooms any input under 16px on focus — pin to 16px to stop the jump */
+  input, textarea, select { font-size: 16px; }
+  /* momentum scrolling everywhere + no scroll-chaining flash to the page behind */
+  html { -webkit-overflow-scrolling: touch; }
+  body { overscroll-behavior-y: none; }
+  /* scrollable panes feel native (inertia + contained bounce) */
+  .overflow-auto, .overflow-y-auto, .overflow-x-auto { -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+  /* horizontal chip rails: snap + hide scrollbar for a clean native scroller */
+  .chip-rail { scroll-snap-type: x proximity; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .chip-rail::-webkit-scrollbar { display: none; }
+  .chip-rail > * { scroll-snap-align: start; }
+}
+/* safe-area helpers (usable anywhere) */
+@utility pb-safe { padding-bottom: max(env(safe-area-inset-bottom), 0px); }
+@utility pt-safe { padding-top: max(env(safe-area-inset-top), 0px); }
+
 /* Eyebrow label — microscopic tracked uppercase tag */
 @utility eyebrow {
   font-size: 0.625rem;
