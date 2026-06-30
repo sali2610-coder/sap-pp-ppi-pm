@@ -144,273 +144,273 @@
     "id": "3.1",
     "title": "Actions before Mapping Your Technical Systems",
     "snippet": "3.1 Actions before Mapping Your Technical Systems in the SAP System In this section, we’ll first outline the questions that you should answer before you start structuring your technical systems, and then we’ll provide tips on how to answer the questions. When ",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.1.1",
     "title": "Question 1: Which Structuring Resources Should Be Used?",
     "snippet": "3.1.1 Question 1: Which Structuring Resources Should Be Used? SAP S/4HANA Asset Management provides you with a broad range of potential struc- turing resources: functional locations, reference functional locations, equipment, object links, serial numbers, main",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.1.2",
     "title": "Question 2: How Deep Should the Structure Be?",
     "snippet": "3.1.2 Question 2: How Deep Should the Structure Be? In concrete terms, several questions concern the depth of the structure: How many structure levels do you form in SAP S/4HANA Asset Management for your technical systems? Do you prefer a detailed structure fo",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.1.3",
     "title": "Question 3: Which Criteria Should Be Applied to the Structuring of",
     "snippet": "3.1.3 Question 3: Which Criteria Should Be Applied to the Structuring of Technical Systems? Once again, there is no clear-cut answer to this question. Answering this question depends on your requirements, especially in relation to manageability, reporting, and",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.1.4",
     "title": "Question 4: On Which Structure Level Should a Particular Resource",
     "snippet": "3.1.4 Question 4: On Which Structure Level Should a Particular Resource Be Used? In practice, the most frequently used structuring sequence is functional location → equipment → bill of materials (see Figure 3.1). The question “At which structure level should a",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.1.5",
     "title": "Question 5: How Are Numbers Assigned?",
     "snippet": "3.1.5 Question 5: How Are Numbers Assigned? Essentially, two types of number assignment exist for IT systems: \u0002 Internal number assignment You determine a number range interval, and when required, the SAP system assigns the next available number. \u0002 External nu",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.1.6",
     "title": "Question 6: Which Information Should You Store?",
     "snippet": "3.1.6 Question 6: Which Information Should You Store? The master records of the technical objects have predefined, allocated data. You can dif- ferentiate between the following data types: \u0002 Data that you want or have to store because of your requirements \u0002 Da",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.1.7",
     "title": "Question 7: How Is the Master Data Incorporated into the SAP System?",
     "snippet": "3.1.7 Question 7: How Is the Master Data Incorporated into the SAP System? Two options for incorporating master data into the SAP system are always available: manual or automatic. If you switch from another maintenance planning and control system to SAP S/4HAN",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.1.8",
     "title": "Question 8: Is It Easy to Delete Data Records?",
     "snippet": "3.1.8 Question 8: Is It Easy to Delete Data Records? SAP archiving is the only way to remove functional locations or pieces of equipment that have been set up once they are in the system. Complex and onerous requirements have to be fulfilled in order to delete",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.1.9",
     "title": "Question 9: Which of the Available Functions Should Be Used?",
     "snippet": "3.1.9 Question 9: Which of the Available Functions Should Be Used? SAP S/4HANA Asset Management provides you with a range of functions within each structuring resource that you will not find in such scope and scale in any other mainte- nance planning and contr",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.1.10",
     "title": "Question 10: Which Strategy Should You Pursue When Recording",
     "snippet": "3.1.10 Question 10: Which Strategy Should You Pursue When Recording Master Data? The tenth and final question applies to the strategy for recording master data, that is, the steps or scope in which the master data should be transferred to the system: all maste",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.2",
     "title": "Functional Locations and Reference Functional Locations",
     "snippet": "3.2 Functional Locations and Reference Functional Locations The previous section provided a general definition of functional locations: Functional locations represent a complex, generally multilevel, immovable asset structure. There- fore, functional locations",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.2.1",
     "title": "Creating Functional Locations: Single Entry",
     "snippet": "3.2.1 Creating Functional Locations: Single Entry If you want to create only one new functional location, call Transaction IL01. Then, choose a suitable structure indicator and assign a new number. Functional location numbers can have a maximum of 30 character",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.2.2",
     "title": "Creating Functional Locations: Collective Entry",
     "snippet": "3.2.2 Creating Functional Locations: Collective Entry If you want to record several functional locations at once or if you want to copy a func- tional location structure that you created previously, use Transaction IL04 (Create Functional Location – List Entry",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.2.3",
     "title": "Reference Functional Locations",
     "snippet": "3.2.3 Reference Functional Locations Reference functional locations do not represent technical systems that actually exist but solely serve the purpose of acting as a template for real functional locations. As a result, you can copy functional location structu",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.2.4",
     "title": "Alternative Labeling",
     "snippet": "3.2.4 Alternative Labeling Alternative labeling systems can be used for different purposes. You can assign several numbers to a functional location structure or each individual location within the struc- ture for different perspectives (as shown in Figure 3.12",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.3",
     "title": "Equipment and Serial Numbers",
     "snippet": "3.3 Equipment and Serial Numbers 3.3 Equipment and Serial Numbers Equipment represents movable, individual aggregates (inventories). For example, equipment could include the following: \u0002 Machines \u0002 Means of production (pumps and engines) \u0002 Production resources",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.3.1",
     "title": "Installing Equipment on Functional Locations/Dismantling Equipment",
     "snippet": "3.3.1 Installing Equipment on Functional Locations/Dismantling Equipment from Functional Locations On the one hand, some equipment categories have, from their design perspective, a layout that enables them to be installed at functional locations, which applies",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.3.2",
     "title": "Placing Equipment in Storage/Removing Equipment from Storage",
     "snippet": "3.3.2 Placing Equipment in Storage/Removing Equipment from Storage If you want to use the function for placing equipment in storage or removing it from storage, certain prerequisites must be fulfilled. You must add the material/serial number segment to the equ",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.3.3",
     "title": "Equipment Hierarchies",
     "snippet": "3.3.3 Equipment Hierarchies In addition to the cases where a single piece of equipment is installed on a functional location or removed from a functional location, in practice, you may have a case where, not just one piece of equipment, but rather an entire eq",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.3.4",
     "title": "Functional Comparison between Pieces of Equipment and",
     "snippet": "3.3.4 Functional Comparison between Pieces of Equipment and Functional Locations In this section, we’ll recapitulate the differences between a piece of equipment and a functional location. A piece of equipment provides the following options: \u0002 You can serializ",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.4",
     "title": "Links and Object Networks",
     "snippet": "3.4 Links and Object Networks For the sake of completeness, we should also mention that SAP S/4HANA Asset Management functions are available to map links between different technical objects or systems (pieces of equipment or functional locations). Such links e",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.5",
     "title": "Linear Asset Management",
     "snippet": "3.5 Linear Asset Management Linear assets (linear asset management) are technical systems with a linear infrastruc- ture, whose condition and properties can change from section to section (dynamic seg- mentation). Examples of linear assets include the followin",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.6",
     "title": "Material and PM Assemblies",
     "snippet": "3.6 Material and PM Assemblies 3.6 Material and PM Assemblies The material master contains information about materials that a company designs, procures, produces, and stores and then sells and integrates data from the various areas of a company, for example, p",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.7",
     "title": "Bills of Materials",
     "snippet": "3.7 Bills of Materials Furthermore, the screen templates contain only fields that you can actually use and which provide information (see Figure 3.41). Figure 3.41 Transaction MM02 Material Master: Layout Adjusting the Layout of the Material Master Record You ",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.8",
     "title": "Classification",
     "snippet": "3.8 Classification In the SAP system, a class represents a group of similar objects that are described based on the characteristics that they have in common. From a maintenance perspective, a class system offers you the following options: \u0002 Using classes, you ",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.9",
     "title": "Product Structure Browser",
     "snippet": "3.9 Product Structure Browser \u0002 Transactions IL05 (Functional Location List Change) and IH06 (Functional Location List Display), which enable you to create the same list for functional locations \u0002 Transaction IQ08 (Serial Number List Change), which enables you",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.10",
     "title": "Asset Viewer",
     "snippet": "3.10 Asset Viewer With the Asset Viewer, SAP Business Client provides a similar function as the structural display or product structure browser (see Figure 3.54). The Asset Viewer enables you to display information in addition to the mere structure of the tech",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.11",
     "title": "Generic Functions",
     "snippet": "3.11 Generic Functions Figure 3.54 Asset Viewer To use the Asset Viewer comprehensively, you must activate the business functions LOG_EAM_SIMP and LOG_EAM_SIMPLICITY*. Useful Additional Information in the Asset Viewer in SAP Business Client You can use the Ass",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.11.1",
     "title": "Data Transfers",
     "snippet": "3.11.1 Data Transfers Data is automatically transferred within structures or across objects. If you use refer- ence functional locations, functional locations, and pieces of equipment to structure 3 Structuring of Technical Systems 126 your technical systems, ",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.11.2",
     "title": "Mass Change of Pieces of Equipment and Functional Locations",
     "snippet": "3.11.2 Mass Change of Pieces of Equipment and Functional Locations In addition to data transfer, you can also change specific field contents in a targeted manner in several pieces of equipment or functional locations. To do this, use the rele- vant list change",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.11.3",
     "title": "Measuring Points and Counters",
     "snippet": "3.11.3 Measuring Points and Counters Three scenarios exist where recording measurement documents and counter readings makes sense: \u0002 State of a technical object Here, the aim is to document the state of a technical object at any given time, which is important ",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.11.4",
     "title": "Documents",
     "snippet": "3.11.4 Documents In your company, you may want to link the technical objects to documents, for exam- ple: \u0002 Design drawings \u0002 Work instructions \u0002 Checklists \u0002 Images \u0002 Inspection instructions \u0002 Exploded drawings \u0002 Measuring and control technology profiles \u0002 3-",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.11.5",
     "title": "Address Management",
     "snippet": "3.11.5 Address Management The SAP system deploys uniform address management, which also integrates the objects in plant maintenance (see Figure 3.73): \u0002 Functional locations \u0002 Equipment \u0002 Notifications \u0002 Orders \u0002 Purchase requisitions for non-stock materials I",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.11.6",
     "title": "Warranties",
     "snippet": "3.11.6 Warranties A warranty is a commitment from a manufacturer, vendor, or salesperson to a cus- tomer that services are guaranteed for a particular period of time, without the cus- tomer being billed. A warranty always refers to a technical object (function",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.11.7",
     "title": "Partners",
     "snippet": "3.11.7 Partners SAP S/4HANA Asset Management knows by default only a few organizational objects that you can assign to a technical object. Essentially, these organization objects are the maintenance planner group and the main work center. By defining partners,",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.11.8",
     "title": "Permits",
     "snippet": "3.11.8 Permits For some technical objects, certain regulations or conditions must be taken into account when using them or when performing maintenance work. You can define these regulations for a technical object as permits. Important permits in plant mainte- ",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.11.9",
     "title": "System Status and User Status",
     "snippet": "3.11.9 System Status and User Status The technical objects and the complete processing with notification and order are linked to SAP’s general status management. Here, you have to distinguish between the system status and the user status. 3 Structuring of Tech",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.12",
     "title": "Summary",
     "snippet": "3.12 Summary Figure 3.85 Transaction Analysis 3.12 Summary SAP S/4HANA Asset Management provides a broad range of potential structuring ele- ments. In this chapter you learned about their most important functions and how to use them. But before you map your te",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
