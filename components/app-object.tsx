@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { SapTip } from "@/components/sap-tip";
 import { criticality, type AppObject } from "@/lib/apps-intel";
+import { PracticalLayer } from "@/components/app-practical";
 
 const MOD_C: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9", QM: "#0d9488", MM: "#2563eb", FI: "#16a34a", CO: "#d97706", SD: "#0891b2", PS: "#be185d" };
 const mc = (m: string) => MOD_C[m] || MOD_C[(m || "").split(/[ /-]/)[0]] || "#475569";
@@ -87,7 +88,9 @@ export function AppObjectPage({ o }: { o: AppObject }) {
   // section anchors present (for sticky nav)
   const anchors = [
     ["identity", "זהות"], (fiori || t.fiori) && ["successor", "יורש"], ["purpose", "מטרה"], flow.length && ["flow", "תהליך"],
-    NAV.length && ["nav", "ניווט"], (t.tables || t.cds || t.bapis || t.classes) && ["tech", "טכני"], fiori && ["fiori", "Fiori"],
+    NAV.length && ["nav", "ניווט"],
+    ["screens", "מסכים"], flow.length && ["flowprev", "זרימה"], ["paths", "נתיבים"], ["wheremap", "איפה אני"], ["tips", "טיפים"],
+    (t.tables || t.cds || t.bapis || t.classes) && ["tech", "טכני"], fiori && ["fiori", "Fiori"],
     t.authObjects?.length && ["auth", "הרשאות"], ["testing", "בדיקות"], t.commonErrors?.length && ["errors", "שגיאות"],
     ["migration", "מיגרציה"], NAV.length && ["related", "קשרים"], fiori && ["compare", "השוואה"], ["ai", "עוזר"],
   ].filter(Boolean) as [string, string][];
@@ -168,6 +171,9 @@ export function AppObjectPage({ o }: { o: AppObject }) {
           <div className="space-y-2">{NAV.map((n) => <ChipRow key={n.label} icon={<ArrowDown className="size-3" />} label={n.label} items={n.items} kind="tcode" color={n.c} />)}</div>
         </Section>
       )}
+
+      {/* ── Practical learning layer (screens · flow · paths · where-am-I · tips) ── */}
+      <PracticalLayer o={o} accent={c} />
 
       {/* ── SECTION 6 · Technical ── */}
       {(t.tables?.length || o.cdsViews.length || t.bapis?.length || t.classes?.length || t.badis?.length || t.userExits?.length || t.enhancements?.length) ? (

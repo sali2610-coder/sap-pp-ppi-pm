@@ -43,6 +43,7 @@ export interface AppObject {
 }
 
 export const appCodes = (): string[] => Object.keys(TX_INTEL);
+export const hasApp = (code: string): boolean => !!TX_INTEL[(code || "").toUpperCase()];
 
 export function appObject(code: string): AppObject | null {
   const key = code.toUpperCase();
