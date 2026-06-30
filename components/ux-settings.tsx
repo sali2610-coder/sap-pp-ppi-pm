@@ -21,7 +21,8 @@ export function UXSettings() {
 
   // Hydrate + apply persisted scale
   useEffect(() => {
-    const saved = Number(localStorage.getItem(KEY));
+    let saved = NaN;
+    try { saved = Number(localStorage.getItem(KEY)); } catch { /* private-mode / denied storage */ }
     const v = SCALES.some((s) => s.value === saved) ? saved : 1;
     setScale(v);
     document.documentElement.style.setProperty("--font-scale", String(v));
@@ -30,7 +31,7 @@ export function UXSettings() {
   function apply(v: number) {
     setScale(v);
     document.documentElement.style.setProperty("--font-scale", String(v));
-    localStorage.setItem(KEY, String(v));
+    try { localStorage.setItem(KEY, String(v)); } catch { /* noop */ }
   }
 
   return (

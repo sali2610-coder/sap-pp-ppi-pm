@@ -78,7 +78,10 @@ export function ArchitectureStudio() {
 
   // ── saved state: restore once, then persist (debounced) ──
   useEffect(() => {
-    try { const s = JSON.parse(localStorage.getItem(SKEY) || "null"); if (s && s.module) { setModule(s.module); setModeId(s.modeId || "tables"); setZoneFilter(new Set(s.zoneFilter || [])); setKindFilter(new Set(s.kindFilter || [])); if (s.revealed) setRevealed(new Set(s.revealed)); if (s.sel) setSel(s.sel); if (s.tr) setTr(s.tr); restored.current = true; } } catch { /* noop */ }
+    // NOTE: camera transform (tr) is intentionally NOT restored — a transform
+    // saved at a different viewport/layout placed the graph off-screen. We always
+    // fit-to-view on load instead. Module/mode/filters/selection still persist.
+    try { const s = JSON.parse(localStorage.getItem(SKEY) || "null"); if (s && s.module) { setModule(s.module); setModeId(s.modeId || "tables"); setZoneFilter(new Set(s.zoneFilter || [])); setKindFilter(new Set(s.kindFilter || [])); if (s.revealed) setRevealed(new Set(s.revealed)); if (s.sel) setSel(s.sel); restored.current = true; } } catch { /* noop */ }
     try { if (!localStorage.getItem(COACH_KEY)) setCoach(true); } catch { /* noop */ }
   }, []);
   const saveT = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -95,18 +98,54 @@ export function ArchitectureStudio() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modeId, module]);
 
-  const measure = () => { const el = wrapRef.current; if (el) setWrapSize({ w: el.clientWidth, h: el.clientHeight }); };
-  const fit = () => { const el = wrapRef.current; if (!el || !layout.width) return; measure(); const k = Math.min(el.clientWidth / (layout.width + 50), el.clientHeight / (layout.height + 50), 1.5); setTr({ k, x: (el.clientWidth - layout.width * k) / 2, y: (el.clientHeight - layout.height * k) / 2 }); };
-  useEffect(() => { const id = setTimeout(() => { measure(); }, 30); window.addEventListener("resize", measure); return () => { clearTimeout(id); window.removeEventListener("resize", measure); }; }, []);
-  useEffect(() => { const id = setTimeout(fit, 40); return () => clearTimeout(id); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [layout.width, layout.height, module]);
+  const measure = () => { const el = wrapRef.current; if (el && el.clientWidth > 0) setWrapSize({ w: el.clientWidth, h: el.clientHeight }); };
+  // Tight bounding box of the actual NODES (swimlane layouts have wide empty
+  // band padding — clamping to that would let an empty sliver count as "in view").
+  const bbox = useMemo(() => {
+    const ns = layout.nodes;
+    if (!ns.length) return { x: 0, y: 0, w: layout.width || 1, h: layout.height || 1 };
+    let a = Infinity, b = Infinity, c = -Infinity, d = -Infinity;
+    for (const n of ns) { a = Math.min(a, n.x - n.w / 2); b = Math.min(b, n.y - n.h / 2); c = Math.max(c, n.x + n.w / 2); d = Math.max(d, n.y + n.h / 2); }
+    return { x: a, y: b, w: Math.max(1, c - a), h: Math.max(1, d - b) };
+  }, [layout]);
+  // Bounds guard: keep ≥ MARGIN px of the NODE region inside the viewport on
+  // every axis — the canvas can NEVER drift to blank after any interaction.
+  const clampTr = (t: { x: number; y: number; k: number }) => {
+    const el = wrapRef.current;
+    const W = el?.clientWidth || wrapSize.w || 800;
+    const H = el?.clientHeight || wrapSize.h || 560;
+    const k = Number.isFinite(t.k) && t.k > 0 ? t.k : 1;
+    // node region screen span = [x + bbox.x*k, x + (bbox.x+bbox.w)*k]
+    const left = bbox.x * k, right = (bbox.x + bbox.w) * k;
+    const top = bbox.y * k, bot = (bbox.y + bbox.h) * k;
+    const Mx = Math.min(140, (right - left) * 0.6 + 1, W * 0.5);
+    const My = Math.min(140, (bot - top) * 0.6 + 1, H * 0.5);
+    const x = Math.min(W - Mx - left, Math.max(Mx - right, t.x));
+    const y = Math.min(H - My - top, Math.max(My - bot, t.y));
+    return { k, x: Number.isFinite(x) ? x : 0, y: Number.isFinite(y) ? y : 0 };
+  };
+  const fit = () => { const el = wrapRef.current; if (!el || !el.clientWidth || !layout.width) return; measure(); const k = Math.min(el.clientWidth / (layout.width + 50), el.clientHeight / (layout.height + 50), 1.5); const kk = Number.isFinite(k) && k > 0 ? k : 1; setTr({ k: kk, x: (el.clientWidth - layout.width * kk) / 2, y: (el.clientHeight - layout.height * kk) / 2 }); };
+  // ResizeObserver (catches container resize from inspector toggle / mobile
+  // chrome / orientation, not just window) → re-measure + clamp current camera.
+  useEffect(() => {
+    const el = wrapRef.current; if (!el) return;
+    const onResize = () => { measure(); setTr((p) => clampTr(p)); };
+    let ro: ResizeObserver | null = null;
+    try { ro = new ResizeObserver(onResize); ro.observe(el); } catch { /* noop */ }
+    window.addEventListener("resize", onResize);
+    window.addEventListener("orientationchange", onResize);
+    return () => { ro?.disconnect(); window.removeEventListener("resize", onResize); window.removeEventListener("orientationchange", onResize); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [layout.width, layout.height, wrapSize.w, wrapSize.h]);
+  useEffect(() => { const id = setTimeout(fit, 50); return () => clearTimeout(id); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [layout.width, layout.height, module]);
 
-  const onWheel = (e: React.WheelEvent) => { const el = wrapRef.current; if (!el) return; const r = el.getBoundingClientRect(); const px = e.clientX - r.left, py = e.clientY - r.top; const nk = Math.min(2.6, Math.max(0.14, tr.k * (1 - e.deltaY * 0.0014))); const f = nk / tr.k; setTr({ k: nk, x: px - (px - tr.x) * f, y: py - (py - tr.y) * f }); };
+  const onWheel = (e: React.WheelEvent) => { const el = wrapRef.current; if (!el) return; const r = el.getBoundingClientRect(); const px = e.clientX - r.left, py = e.clientY - r.top; const nk = Math.min(2.6, Math.max(0.14, tr.k * (1 - e.deltaY * 0.0014))); const f = nk / tr.k; setTr(clampTr({ k: nk, x: px - (px - tr.x) * f, y: py - (py - tr.y) * f })); };
   const onDown = (e: React.PointerEvent) => { if ((e.target as Element).closest("[data-node]")) return; drag.current = { x: e.clientX, y: e.clientY, ox: tr.x, oy: tr.y, moved: false }; };
-  const onMove = (e: React.PointerEvent) => { if (drag.current) { if (Math.abs(e.clientX - drag.current.x) + Math.abs(e.clientY - drag.current.y) > 3) drag.current.moved = true; setTr((p) => ({ ...p, x: drag.current!.ox + (e.clientX - drag.current!.x), y: drag.current!.oy + (e.clientY - drag.current!.y) })); } };
+  const onMove = (e: React.PointerEvent) => { if (drag.current) { if (Math.abs(e.clientX - drag.current.x) + Math.abs(e.clientY - drag.current.y) > 3) drag.current.moved = true; setTr((p) => clampTr({ ...p, x: drag.current!.ox + (e.clientX - drag.current!.x), y: drag.current!.oy + (e.clientY - drag.current!.y) })); } };
   const onUp = () => { if (drag.current && !drag.current.moved) setSel(null); drag.current = null; };
-  const zoom = (d: number) => { const el = wrapRef.current; if (!el) return; const cw = el.clientWidth / 2, ch = el.clientHeight / 2; const nk = Math.min(2.6, Math.max(0.14, tr.k * d)); const f = nk / tr.k; setTr({ k: nk, x: cw - (cw - tr.x) * f, y: ch - (ch - tr.y) * f }); };
+  const zoom = (d: number) => { const el = wrapRef.current; if (!el) return; const cw = el.clientWidth / 2, ch = el.clientHeight / 2; const nk = Math.min(2.6, Math.max(0.14, tr.k * d)); const f = nk / tr.k; setTr(clampTr({ k: nk, x: cw - (cw - tr.x) * f, y: ch - (ch - tr.y) * f })); };
   // soft camera — center + gentle zoom-in toward the object (Figma/Miro feel)
-  const focusOn = (id: string) => { const n = layout.nodes.find((x) => x.id === id); const el = wrapRef.current; if (!n || !el) return; const k = Math.min(1.35, Math.max(tr.k, 0.95)); setTr({ k, x: el.clientWidth / 2 - n.x * k, y: el.clientHeight / 2 - n.y * k }); };
+  const focusOn = (id: string) => { const n = layout.nodes.find((x) => x.id === id); const el = wrapRef.current; if (!n || !el) return; const k = Math.min(1.35, Math.max(tr.k, 0.95)); setTr(clampTr({ k, x: el.clientWidth / 2 - n.x * k, y: el.clientHeight / 2 - n.y * k })); };
   const centerOn = (id: string) => { setSel(id); setTimeout(() => focusOn(id), 20); };
 
   // selecting a node makes it the workspace-wide active context
@@ -159,7 +198,7 @@ export function ArchitectureStudio() {
   const mmK = Math.min(MM_W / (layout.width || 1), MM_H / (layout.height || 1)) || 0.001;
   const f0 = (v: number, d = 0) => (Number.isFinite(v) ? v : d);
   const vp = { x: f0((-tr.x / tr.k) * mmK), y: f0((-tr.y / tr.k) * mmK), w: f0((wrapSize.w / tr.k) * mmK, MM_W), h: f0((wrapSize.h / tr.k) * mmK, MM_H) };
-  const miniClick = (e: React.MouseEvent) => { const r = (e.currentTarget as HTMLElement).getBoundingClientRect(); const gx = (e.clientX - r.left) / mmK, gy = (e.clientY - r.top) / mmK; const el = wrapRef.current; if (!el) return; setTr((p) => ({ ...p, x: el.clientWidth / 2 - gx * p.k, y: el.clientHeight / 2 - gy * p.k })); };
+  const miniClick = (e: React.MouseEvent) => { const r = (e.currentTarget as HTMLElement).getBoundingClientRect(); const gx = (e.clientX - r.left) / mmK, gy = (e.clientY - r.top) / mmK; const el = wrapRef.current; if (!el) return; setTr((p) => clampTr({ ...p, x: el.clientWidth / 2 - gx * p.k, y: el.clientHeight / 2 - gy * p.k })); };
 
   // keyboard: Space center · Esc deselect · +/- zoom (ignored while typing)
   useEffect(() => {
@@ -277,7 +316,7 @@ export function ArchitectureStudio() {
           <div ref={wrapRef} className="relative h-[calc(100vh-17rem)] min-h-[480px] cursor-grab touch-none overflow-hidden rounded-3xl border border-slate-200 bg-slate-50/70 active:cursor-grabbing"
             style={{ backgroundImage: "radial-gradient(circle at 1px 1px,#d7deea 1px,transparent 0)", backgroundSize: "26px 26px" }}
             onWheel={onWheel} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerLeave={() => { drag.current = null; setHover(null); }}>
-            <div style={{ transform: `translate(${tr.x}px,${tr.y}px) scale(${tr.k})`, transformOrigin: "0 0", width: layout.width, height: layout.height, position: "absolute", transition: drag.current ? "none" : "transform .42s cubic-bezier(0.22,0.61,0.18,1)" }}>
+            <div dir="ltr" style={{ transform: `translate(${tr.x}px,${tr.y}px) scale(${tr.k})`, transformOrigin: "0 0", width: layout.width, height: layout.height, position: "absolute", left: 0, top: 0, right: "auto", transition: drag.current ? "none" : "transform .42s cubic-bezier(0.22,0.61,0.18,1)" }}>
               {/* swimlane bands */}
               {layout.bands.map((z) => (
                 <div key={z.id} className="absolute top-0 border-x border-dashed" style={{ left: z.x, width: z.w, height: layout.height, background: z.c + "07", borderColor: z.c + "22" }}>
