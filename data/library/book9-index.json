@@ -95,49 +95,49 @@
     "id": "2.1",
     "title": "SAP Organizational Units",
     "snippet": "2.1 SAP Organizational Units Organizational units form the basis of all master data and business processes in SAP ERP. In the following sections, you’ll learn about the most important organizational units from a maintenance perspective. Organizational Units in",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.1.1",
     "title": "The Plant from a Maintenance Perspective",
     "snippet": "2.1.1 The Plant from a Maintenance Perspective The plant is, without doubt, the most important organizational unit for plant mainte- nance. A plant fulfills several maintenance functions: \u0002 A plant is responsible for planning maintenance activities. In this co",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.1.2",
     "title": "Maintenance-Specific Organizational Units",
     "snippet": "2.1.2 Maintenance-Specific Organizational Units Additional maintenance-specific organizational units (either maintenance plant-specific or planning plant-specific) play an important role within a plant (see Figure 2.1). Figure 2.1 Maintenance Plant and Plannin",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.1.3",
     "title": "Other General Organizational Units",
     "snippet": "2.1.3 Other General Organizational Units In addition to the maintenance-specific organizational units, other general organiza- tional units are also relevant for SAP S/4HANA Asset Management. You assign a company code to the plant (see Figure 2.2). The company",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.1.4",
     "title": "Plant-Specific and Cross-Plant Maintenance",
     "snippet": "2.1.4 Plant-Specific and Cross-Plant Maintenance For business processes in plant maintenance, you need to differentiate between order planning and execution in the same plant and order planning and execution in differ- ent plants, both of which we’ll cover in ",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.2",
     "title": "Work Centers",
     "snippet": "2.2 Work Centers Cross-Plant Maintenance In contrast to plant-specific maintenance, other situations may involve more than one plant, for example: \u0002 You may have a plant (for example, plant 1200) where an asset is maintained (the maintenance plant) but all oth",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.3",
     "title": "Summary",
     "snippet": "2.3 Summary Following are the major features of SAP S/4HANA Asset Management organizational structures: \u0002 With organizational units, you define your enterprise’s organizational structure in general and your plant maintenance structures in particular. They prov",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
