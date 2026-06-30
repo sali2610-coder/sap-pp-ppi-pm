@@ -190,15 +190,15 @@ export function ArchitectureStudio() {
         </div>
       </div>
 
-      {/* exploration modes — segmented, each self-explanatory on hover */}
-      <div className="mb-2 flex flex-wrap gap-1.5">
-        {MODES.map((m) => <button key={m.id} onClick={() => setModeId(m.id)} title={MODE_HINT[m.id]} className={`${btn} rounded-xl px-3 py-1.5 text-[12.5px] font-bold ${modeId === m.id ? "text-white shadow-sm" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`} style={modeId === m.id ? { background: accent } : undefined}>{m.he}</button>)}
+      {/* exploration modes — segmented; horizontal chip-rail on mobile, wrap on desktop */}
+      <div className="chip-rail mb-2 flex flex-nowrap gap-1.5 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0">
+        {MODES.map((m) => <button key={m.id} onClick={() => setModeId(m.id)} title={MODE_HINT[m.id]} className={`${btn} shrink-0 rounded-xl px-3 py-1.5 text-[12.5px] font-bold ${modeId === m.id ? "text-white shadow-sm" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`} style={modeId === m.id ? { background: accent } : undefined}>{m.he}</button>)}
       </div>
 
-      {/* business-flow rail */}
-      <div className="mb-2 flex flex-wrap items-center gap-1.5 rounded-2xl border border-slate-200 bg-white p-2.5">
-        <span className="px-1 text-[11px] font-extrabold text-slate-400">זרימה עסקית:</span>
-        {(FLOWS[module] || []).map((s, i, arr) => { const on = sel === s.code; return <span key={s.code} className="flex items-center gap-1.5">
+      {/* business-flow rail — horizontal scroll on mobile */}
+      <div className="chip-rail mb-2 flex flex-nowrap items-center gap-1.5 overflow-x-auto rounded-2xl border border-slate-200 bg-white p-2.5 sm:flex-wrap sm:overflow-visible">
+        <span className="shrink-0 px-1 text-[11px] font-extrabold text-slate-400">זרימה עסקית:</span>
+        {(FLOWS[module] || []).map((s, i, arr) => { const on = sel === s.code; return <span key={s.code} className="flex shrink-0 items-center gap-1.5">
           <button onClick={() => pickSearch(s.code)} title={`מקד ב-${s.label} (${s.code})`} className={`${btn} rounded-lg px-2.5 py-1 text-[11.5px] font-bold ${on ? "text-white shadow-sm" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`} style={on ? { background: accent } : undefined}>{s.label}<span className="ms-1 font-mono text-[9px] opacity-70" dir="ltr">{s.code}</span></button>
           {i < arr.length - 1 && <ArrowLeft className="size-3.5 shrink-0 text-slate-300" />}</span>; })}
       </div>
