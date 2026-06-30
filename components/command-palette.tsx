@@ -194,11 +194,14 @@ export function CommandPalette() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="overflow-hidden rounded-2xl p-0 glass shadow-2xl">
+      <DialogContent className="glass overflow-hidden p-0 shadow-2xl bottom-0 inset-x-0 top-auto start-0 w-full max-w-full translate-x-0 rtl:translate-x-0 rounded-2xl rounded-b-none pb-[env(safe-area-inset-bottom)] data-[state=open]:slide-in-from-bottom-4 sm:bottom-auto sm:inset-x-auto sm:top-[12vh] sm:start-1/2 sm:w-[92vw] sm:max-w-2xl sm:-translate-x-1/2 sm:rtl:translate-x-1/2 sm:rounded-2xl sm:pb-0">
         <VisuallyHidden>
           <DialogTitle>Search</DialogTitle>
           <DialogDescription>Tables, T-Codes, Interfaces</DialogDescription>
         </VisuallyHidden>
+
+        {/* mobile grip handle */}
+        <div className="mx-auto mt-2 h-1.5 w-11 shrink-0 rounded-full bg-slate-200 sm:hidden" />
 
         {/* input */}
         <div className="flex items-center gap-3 border-b border-border/60 px-5">
