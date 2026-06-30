@@ -1,0 +1,67 @@
+{
+  "book": "Plant Maintenance with SAP S/4HANA — Business User Guide",
+  "titleHe": "אחזקת מפעל ב-SAP S/4HANA — מדריך למשתמש העסקי",
+  "module": "PM",
+  "chapters": [
+    {
+      "n": 1,
+      "titleHe": "מבוא לתחזוקת מפעל (מדריך משתמש)",
+      "titleEn": "Introduction to Plant Maintenance",
+      "sections": 13
+    },
+    {
+      "n": 2,
+      "titleHe": "מבנים ארגוניים",
+      "titleEn": "Organizational Structures",
+      "sections": 7
+    },
+    {
+      "n": 3,
+      "titleHe": "מבנה מערכות טכניות",
+      "titleEn": "Structuring of Technical Systems",
+      "sections": 39
+    },
+    {
+      "n": 4,
+      "titleHe": "מחזור פקודת-העבודה",
+      "titleEn": "Work Order Cycle",
+      "sections": 57
+    },
+    {
+      "n": 5,
+      "titleHe": "תחזוקה מונעת",
+      "titleEn": "Preventive Maintenance",
+      "sections": 22
+    },
+    {
+      "n": 6,
+      "titleHe": "תהליכים עסקיים נוספים",
+      "titleEn": "Other Business Processes",
+      "sections": 48
+    },
+    {
+      "n": 7,
+      "titleHe": "שילוב יישומים",
+      "titleEn": "Integrating Applications",
+      "sections": 21
+    },
+    {
+      "n": 8,
+      "titleHe": "בקרת תחזוקת מפעל (Controlling)",
+      "titleEn": "Plant Maintenance Controlling",
+      "sections": 14
+    },
+    {
+      "n": 9,
+      "titleHe": "טכנולוגיות מידע חדשות",
+      "titleEn": "New Information Technologies",
+      "sections": 16
+    },
+    {
+      "n": 10,
+      "titleHe": "שמישות (Usability)",
+      "titleEn": "Usability",
+      "sections": 34
+    }
+  ]
+}

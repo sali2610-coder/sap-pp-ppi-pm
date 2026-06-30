@@ -1,0 +1,4827 @@
+[
+  {
+    "ch": 1,
+    "id": "1.1",
+    "titleHe": "תחזוקת מפעל כיום: רעיונות חדשים זקוקים למרחב חדש",
+    "titleEn": "Plant Maintenance Today: New Ideas Need New Space",
+    "codes": [
+      "IW21",
+      "IW31",
+      "IL01",
+      "IE01",
+      "VIQMEL",
+      "AUFK",
+      "EQUI",
+      "IFLOT",
+      "F2913",
+      "F4072",
+      "F2929"
+    ],
+    "snippet": "תחזוקת-מפעל (Plant Maintenance) חדלה מלהיות 'מחלקת-תיקונים' והפכה למנוע זמינות-נכסים שמשפיע ישירות על תפוקה, איכות, בטיחות ועלות. רעיונות חדשים — תחזוקה-מונעת, תחזוקה-מבוססת-מצב, חיישנים ו-IoT, ניהול-נכסי-מפעל (EAM) — דורשים פלטפורמה שתומכת בנתונים בזמן-אמת וב"
+  },
+  {
+    "ch": 1,
+    "id": "1.2",
+    "titleHe": "מינוח חדש בתחזוקת מפעל",
+    "titleEn": "New Plant Maintenance Terminology",
+    "codes": [
+      "IE03",
+      "IL03",
+      "IW23",
+      "IW33",
+      "EQUI",
+      "IFLOT",
+      "VIQMEL",
+      "AUFK",
+      "F2929",
+      "F4072"
+    ],
+    "snippet": "המעבר ל-SAP S/4HANA הביא עמו מונחים מעודכנים. השם הרשמי של התחום הורחב מ-Plant Maintenance (PM) ל-Enterprise Asset Management (EAM); 'הזמנת-עבודה' נקראת Maintenance Order, ו'הודעה' היא Maintenance Notification. למשתמש-העסקי חשוב להכיר את המונחים הן בכינויָם הי"
+  },
+  {
+    "ch": 1,
+    "id": "1.3",
+    "titleHe": "אסטרטגיות תחזוקה לאורך זמן",
+    "titleEn": "Maintenance Strategies over Time",
+    "codes": [
+      "IP41",
+      "IP42",
+      "IP10",
+      "IK01",
+      "IK11",
+      "MPLA",
+      "MPOS",
+      "MMPT",
+      "IMPTT",
+      "IMRG",
+      "F4178",
+      "F2962"
+    ],
+    "snippet": "אסטרטגיות-תחזוקה התפתחו בארבעה דורות: (1) תחזוקת-שבר (Breakdown / Reactive) — מתקנים אחרי שמתקלקל; (2) תחזוקה-מונעת (Preventive) — לפי לוח-זמנים/מונה; (3) תחזוקה-מבוססת-מצב (Condition-Based) — לפי מדידות וחיישנים; (4) תחזוקה-חזויה (Predictive) — מודלים שחוזים "
+  },
+  {
+    "ch": 1,
+    "id": "1.4",
+    "titleHe": "תחזוקת מפעל לאורך זמן ב-SAP",
+    "titleEn": "Plant Maintenance over Time in SAP",
+    "codes": [
+      "IW31",
+      "IW21",
+      "IL01",
+      "IE01",
+      "SPRO",
+      "AUFK",
+      "AFKO",
+      "VIQMEL",
+      "EQUI",
+      "IFLOT",
+      "F2913",
+      "F2929"
+    ],
+    "snippet": "ב-SAP התחום עבר מסע: מ-SAP R/2 ל-SAP R/3 (שם התגבש מודול PM הקלאסי), דרך SAP ECC 6.0 עם Enhancement Packages, ועד SAP S/4HANA שבו PM הורחב ל-EAM על בסיס SAP HANA וחוויית SAP Fiori. כל דור הוסיף יכולות — ממיכון בסיסי של הזמנות-עבודה ועד ניהול-נכסים אסטרטגי ונית"
+  },
+  {
+    "ch": 1,
+    "id": "1.5",
+    "titleHe": "מערכת היישומים SAP S/4HANA",
+    "titleEn": "SAP S/4HANA Application System",
+    "codes": [
+      "SPRO",
+      "IW31",
+      "IE03",
+      "ACDOCA",
+      "AUFK",
+      "EQUI",
+      "IFLOT",
+      "F2913",
+      "F0842"
+    ],
+    "snippet": "SAP S/4HANA היא חבילת-ה-ERP הדור-הבא של SAP, הבנויה על בסיס-הנתונים SAP HANA (in-memory) ועל חוויית-המשתמש SAP Fiori. עבור Plant Maintenance/EAM היא הפלטפורמה שעליה רצים כל התהליכים — מהקמת-נכסים ועד דיווח-וניתוח. המשתמש-העסקי לא 'מתקין' אותה אך עובד בתוכה מדי"
+  },
+  {
+    "ch": 1,
+    "id": "1.5.1",
+    "titleHe": "סקירת SAP S/4HANA",
+    "titleEn": "SAP S/4HANA Overview",
+    "codes": [
+      "SPRO",
+      "IW33",
+      "ACDOCA",
+      "AUFK",
+      "EQUI",
+      "F0842",
+      "F2913"
+    ],
+    "snippet": "SAP S/4HANA מאחדת תהליכים עסקיים (Finance, Logistics, Manufacturing, Asset Management) במערכת אחת על SAP HANA. עיקרון-העל: 'Simplification' — פחות טבלאות-עזר, חישוב בזמן-אמת, וחוויית-משתמש מודרנית. למשתמש-תחזוקה זו הסיבה שדוחות רצים מיד וש-מסכי-Fiori תפקידיים."
+  },
+  {
+    "ch": 1,
+    "id": "1.5.2",
+    "titleHe": "Enhancement Packages",
+    "titleEn": "Enhancement Packages",
+    "codes": [
+      "SFW5",
+      "SFW1",
+      "TPFET",
+      "TPFHT"
+    ],
+    "snippet": "Enhancement Packages (EHP) הם מנגנון שבו SAP סיפקה פונקציונליות חדשה ל-SAP ECC 6.0 בלי שדרוג-ליבה — הלקוח הפעיל סלקטיבית רק את מה שצריך (Switch Framework). הם רלוונטיים בעיקר להבנת ה'מורשת': ב-S/4HANA המודל השתנה לעדכונים תקופתיים (Feature Pack Stacks / Releas"
+  },
+  {
+    "ch": 1,
+    "id": "1.6",
+    "titleHe": "בסיס הנתונים SAP HANA",
+    "titleEn": "SAP HANA Database",
+    "codes": [
+      "IW28",
+      "IW38",
+      "IK17",
+      "IMRG",
+      "VIQMEL",
+      "AUFK",
+      "EQUI",
+      "F2962",
+      "F0842"
+    ],
+    "snippet": "SAP HANA הוא בסיס-הנתונים ה-in-memory שעליו רצה SAP S/4HANA. במקום לקרוא נתונים מדיסק, הם יושבים בזיכרון ומאוחסנים לפי-עמודות (columnar) — מה שמאיץ דרמטית שאילתות וניתוחים. עבור תחזוקת-מפעל זו הסיבה שדוחות-היסטוריה, ניתוחי-תקלות ולוחות-מחוונים מתקבלים בזמן-אמת"
+  },
+  {
+    "ch": 1,
+    "id": "1.7",
+    "titleHe": "ממשקי משתמש",
+    "titleEn": "User Interfaces",
+    "codes": [
+      "SU01",
+      "PFCG",
+      "/UI2/FLP",
+      "AGR_1251",
+      "USOBT",
+      "F2913",
+      "F2929"
+    ],
+    "snippet": "ב-SAP S/4HANA יש שלוש דרכים עיקריות לעבוד מול המערכת: SAP GUI (הקלאסי, עתיר-מסכים), SAP Business Client (מעטפת שמאחדת GUI ו-Web), ו-SAP Fiori (המודרני, מבוסס-תפקיד וריצת-דפדפן). המשתמש-העסקי בתחזוקה ייתקל בכולם, ויעדיף לרוב את SAP Fiori לפעולות-שטח ואת SAP GUI"
+  },
+  {
+    "ch": 1,
+    "id": "1.7.1",
+    "titleHe": "SAP GUI",
+    "titleEn": "SAP GUI",
+    "codes": [
+      "SU01",
+      "PFCG",
+      "IA01",
+      "SU53",
+      "TSTC",
+      "AGR_1251"
+    ],
+    "snippet": "SAP GUI (Graphical User Interface) הוא הממשק הקלאסי של SAP — תוכנת-שולחן (SAP Logon) המציגה את מסכי-העסקאות (Dynpro) המוכרים מ-ECC. הוא נותן גישה מלאה לכל פונקציה ולכל שדה, ולכן מועדף למשימות-עומק ולקונפיגורציה, גם ב-S/4HANA."
+  },
+  {
+    "ch": 1,
+    "id": "1.7.2",
+    "titleHe": "SAP Business Client",
+    "titleEn": "SAP Business Client",
+    "codes": [
+      "PFCG",
+      "SU01",
+      "AGR_1251",
+      "AGR_HIER"
+    ],
+    "snippet": "SAP Business Client (לשעבר NWBC) הוא מעטפת-שולחן (shell) המאחדת תחת חלון אחד גם עסקאות SAP GUI וגם תוכן-Web (Web Dynpro / SAP Fiori), עם תפריט-ניווט מבוסס-תפקיד (PFCG). הוא מגשר בין העולם הקלאסי למודרני, ושימושי במיוחד בתקופות-מעבר."
+  },
+  {
+    "ch": 1,
+    "id": "1.7.3",
+    "titleHe": "SAP Fiori",
+    "titleEn": "SAP Fiori",
+    "codes": [
+      "/UI2/FLP",
+      "/UI2/FLPD_CUST",
+      "VIQMEL",
+      "AUFK",
+      "EQUI",
+      "IFLOT",
+      "F2913",
+      "F2929",
+      "F4072",
+      "F2962"
+    ],
+    "snippet": "SAP Fiori הוא ה-UX המודרני של SAP S/4HANA: אוסף אפליקציות מבוססות-תפקיד (role-based), נקיות ו-responsive, הרצות בדפדפן ובנייד דרך Fiori Launchpad. הוא מתמקד במשימה הספציפית של המשתמש — מעט שדות, הרבה הקשר — ולכן אידיאלי לדיווח-תחזוקה מהיר מהשטח."
+  },
+  {
+    "ch": 1,
+    "id": "1.8",
+    "titleHe": "סיכום",
+    "titleEn": "Summary",
+    "codes": [
+      "IW21",
+      "IW31",
+      "IE03",
+      "IL03",
+      "EQUI",
+      "IFLOT",
+      "VIQMEL",
+      "AUFK",
+      "F2913",
+      "F2929"
+    ],
+    "snippet": "פרק זה הניח את התשתית המושגית למדריך-המשתמש של Plant Maintenance: מדוע תחזוקה מודרנית דורשת פלטפורמה חדשה, מהו המינוח העדכני (PM → EAM, Notification, Order, Functional Location, Equipment), כיצד התפתחו אסטרטגיות-התחזוקה, ועל אילו רכיבים טכנולוגיים — SAP S/4HAN"
+  },
+  {
+    "ch": 2,
+    "id": "2.1",
+    "titleHe": "יחידות ארגוניות ב-SAP",
+    "titleEn": "SAP Organizational Units",
+    "codes": [
+      "OX10",
+      "OX18",
+      "SPRO",
+      "IL01",
+      "IE01",
+      "T001W",
+      "T399I",
+      "T024I",
+      "CRHD",
+      "TVKO",
+      "F2730",
+      "F1582"
+    ],
+    "snippet": "היחידות הארגוניות הן השלד שעליו נבנה כל תהליך-אחזקה. הן קובעות היכן הציוד מותקן (Maintenance Plant), מי מתכנן את העבודה (Maintenance Planning Plant), מי אחראי על הביצוע (Planner Group, Work Center), ולאיזה ספר-עלויות נזקפת התחזוקה. הגדרה נכונה כאן = דיווח, תכנ"
+  },
+  {
+    "ch": 2,
+    "id": "2.1.1",
+    "titleHe": "המפעל מנקודת מבט של אחזקה",
+    "titleEn": "The Plant from a Maintenance Perspective",
+    "codes": [
+      "OX10",
+      "OX18",
+      "IE01",
+      "IL01",
+      "T001W",
+      "ILOA",
+      "EQUI",
+      "IFLOT",
+      "F2730"
+    ],
+    "snippet": "ב-PM ל-Plant יש משמעות כפולה: הוא גם ה-Maintenance Plant (האתר הפיזי שבו הציוד עומד) וגם — אם הוגדר כך — ה-Maintenance Planning Plant (האתר שמתכנן את האחזקה). הבנת שני התפקידים היא הבסיס לכל החלטת-מבנה ב-PM."
+  },
+  {
+    "ch": 2,
+    "id": "2.1.2",
+    "titleHe": "יחידות ארגוניות ייעודיות לאחזקה",
+    "titleEn": "Maintenance-Specific Organizational Units",
+    "codes": [
+      "SPRO",
+      "OIAS",
+      "IE02",
+      "IL02",
+      "T399I",
+      "T024I",
+      "T357",
+      "ILOA",
+      "F1582"
+    ],
+    "snippet": "מעבר ל-Plant הכללי, ל-PM יש יחידות ארגוניות ייחודיות: Maintenance Planning Plant, Maintenance Planner Group ו-Plant Section. הן קובעות מי מתכנן, מי אחראי, ולאיזה אזור-תפעול שייכת העבודה."
+  },
+  {
+    "ch": 2,
+    "id": "2.1.3",
+    "titleHe": "יחידות ארגוניות כלליות נוספות",
+    "titleEn": "Other General Organizational Units",
+    "codes": [
+      "OX02",
+      "OKKP",
+      "OX09",
+      "KS01",
+      "OVXB",
+      "T001",
+      "TKA01",
+      "CSKS",
+      "T001L",
+      "TVKO",
+      "F0750",
+      "F1582"
+    ],
+    "snippet": "התחזוקה אינה חיה לבדה: היא נשענת על יחידות-על כלליות מ-FI/CO ומלוגיסטיקה — Company Code, Controlling Area, Cost Center, Storage Location ו-Sales Organization (ב-CS). הן קובעות לאיזה ספר נזקפת העלות ומאיזה מחסן נמשכים חלפים."
+  },
+  {
+    "ch": 2,
+    "id": "2.1.4",
+    "titleHe": "אחזקה ייחודית-למפעל ואחזקה חוצת-מפעלים",
+    "titleEn": "Plant-Specific and Cross-Plant Maintenance",
+    "codes": [
+      "SPRO",
+      "IE03",
+      "IL03",
+      "IW38",
+      "T399I",
+      "T001W",
+      "ILOA",
+      "F1582",
+      "F2730"
+    ],
+    "snippet": "שתי תפיסות-תכנון מנוגדות: אחזקה ייחודית-למפעל (Plant-Specific) — כל Plant מתכנן את עצמו; ואחזקה חוצת-מפעלים (Cross-Plant / מרכזית) — Maintenance Planning Plant אחד מתכנן כמה Maintenance Plants. הבחירה ביניהן נקבעת כולה דרך T399I והיא החלטת-העל של מבנה-PM."
+  },
+  {
+    "ch": 2,
+    "id": "2.2",
+    "titleHe": "מרכזי עבודה (Work Centers)",
+    "titleEn": "Work Centers",
+    "codes": [
+      "IR01",
+      "IR02",
+      "IR03",
+      "CR05",
+      "KP26",
+      "CRHD",
+      "CRTX",
+      "CRCO",
+      "CRCA",
+      "KAKO",
+      "F2336",
+      "F4006"
+    ],
+    "snippet": "מרכז-העבודה (Work Center) הוא היחידה הארגונית שמייצגת 'מי מבצע את העבודה' — צוות-אחזקה, סדנה או מכונה. הוא מחבר את הזמנת-העבודה לשלוש יכולות: תזמון (Scheduling), קיבולת (Capacity) ועלות (Costing). ב-PM הוא Work Center של תחזוקה (Maintenance Work Center) — נקוד"
+  },
+  {
+    "ch": 2,
+    "id": "2.3",
+    "titleHe": "סיכום",
+    "titleEn": "Summary",
+    "codes": [
+      "OX10",
+      "T399I",
+      "T024I",
+      "IR01",
+      "KS01",
+      "T001W",
+      "T399I",
+      "T024I",
+      "CRHD",
+      "CSKS",
+      "F1582",
+      "F2336"
+    ],
+    "snippet": "המבנה הארגוני של PM הוא התשתית שעליה נשען כל תהליך-אחזקה. הוא עונה על ארבע שאלות: היכן הציוד (Maintenance Plant), מי מתכנן (Maintenance Planning Plant + Planner Group), מי מבצע (Work Center), ולחשבון מי (Cost Center). שליטה במבנה זה היא תנאי-סף לכל מה שיבוא בפ"
+  },
+  {
+    "ch": 3,
+    "id": "3.1",
+    "titleHe": "פעולות לפני מיפוי המערכות הטכניות שלך",
+    "titleEn": "Actions before Mapping Your Technical Systems",
+    "codes": [
+      "IL12",
+      "OIBS",
+      "IL01",
+      "IE01",
+      "IFLOT",
+      "EQUI",
+      "T370F",
+      "T370U",
+      "F2218",
+      "F2219"
+    ],
+    "snippet": "לפני שיוצרים אובייקט-תחזוקה אחד במערכת, יש לקבל סדרת החלטות-יסוד: באילו אובייקטים מבניים להשתמש, כמה עמוק לרדת, לפי אילו קריטריונים לחתוך את המבנה, וכיצד למספר. החלטות אלו קובעות את כל איכות נתוני-ה-PM לשנים הבאות. שגיאת-תכנון כאן יקרה לתיקון בדיעבד, כי כל היס"
+  },
+  {
+    "ch": 3,
+    "id": "3.1.1",
+    "titleHe": "שאלה 1 — באילו משאבי-מבנה להשתמש",
+    "titleEn": "Q1 Which Structuring Resources",
+    "codes": [
+      "IL01",
+      "IE01",
+      "IFLOT",
+      "EQUI",
+      "F2218"
+    ],
+    "snippet": "ההחלטה הראשונה: באילו אובייקטים מבניים להשתמש — Functional Location, Equipment, Assembly, או שילוב. הבחירה קובעת אם המבנה משקף מקומות קבועים, פריטים ניידים, או שניהם."
+  },
+  {
+    "ch": 3,
+    "id": "3.1.2",
+    "titleHe": "שאלה 2 — כמה עמוק צריך להיות המבנה",
+    "titleEn": "Q2 How Deep Should the Structure Be",
+    "codes": [
+      "IL12",
+      "IL03",
+      "IFLOT",
+      "T370F",
+      "F2219"
+    ],
+    "snippet": "עומק-המבנה נקבע לפי רמת-הניתוח הנדרשת. כל רמה נוספת מוסיפה דיוק אך גם תחזוקת-נתונים. הכלל: רד עד הרמה שבה אתה זקוק להיסטוריה/עלות/תכנון נפרדים."
+  },
+  {
+    "ch": 3,
+    "id": "3.1.3",
+    "titleHe": "שאלה 3 — אילו קריטריונים למבנה",
+    "titleEn": "Q3 Which Criteria for Structuring",
+    "codes": [
+      "IL12",
+      "IFLOT",
+      "T370F",
+      "F2219"
+    ],
+    "snippet": "ניתן לחתוך את המבנה לפי תהליך (process), מיקום-פיזי (spatial), טכנולוגיה, או שילוב. הקריטריון חייב להיות עקבי בכל המפעל כדי לאפשר השוואה."
+  },
+  {
+    "ch": 3,
+    "id": "3.1.4",
+    "titleHe": "שאלה 4 — באיזו רמת-מבנה",
+    "titleEn": "Q4 On Which Structure Level",
+    "codes": [
+      "IW21",
+      "IW31",
+      "IFLOT",
+      "EQUI",
+      "QMEL",
+      "AUFK",
+      "F2218"
+    ],
+    "snippet": "באיזו רמה תולים פעולות-תחזוקה, עלויות והיסטוריה — ברמת-ה-FL הגבוהה, ברמת-תחנה, או ברמת-Equipment? הרמה הזו היא 'נקודת-הצבירה' של ה-PM."
+  },
+  {
+    "ch": 3,
+    "id": "3.1.5",
+    "titleHe": "שאלה 5 — כיצד מוקצים מספרים",
+    "titleEn": "Q5 How Are Numbers Assigned",
+    "codes": [
+      "IL12",
+      "OIEN",
+      "OIIN",
+      "IFLOT",
+      "T370F",
+      "EQUI",
+      "F2219"
+    ],
+    "snippet": "מספור אובייקטים יכול להיות פנימי (אוטומטי) או חיצוני (ידני, משמעותי). מספור-חיצוני היררכי מאפשר 'לקרוא' את המיקום מתוך המספר; פנימי פשוט אך חסר-משמעות."
+  },
+  {
+    "ch": 3,
+    "id": "3.1.6",
+    "titleHe": "שאלה 6 — איזה מידע לאחסן",
+    "titleEn": "Q6 Which Information to Store",
+    "codes": [
+      "OIBS",
+      "IL02",
+      "IE02",
+      "IFLOT",
+      "EQUI",
+      "ILOA",
+      "F2218"
+    ],
+    "snippet": "לכל אובייקט יש שדות-אב רבים; השאלה היא אילו למלא בחובה. מילוי-יתר מכביד על ההזנה; מילוי-חסר פוגע בניתוח. Field Selection מגדיר את האיזון."
+  },
+  {
+    "ch": 3,
+    "id": "3.1.7",
+    "titleHe": "שאלה 7 — כיצד משולבים נתוני-אב",
+    "titleEn": "Q7 How Is Master Data Incorporated",
+    "codes": [
+      "IE02",
+      "IL02",
+      "IK01",
+      "IB01",
+      "CV01N",
+      "EQUI",
+      "IFLOT",
+      "IMPTT",
+      "KSSK",
+      "STPO",
+      "F2218",
+      "F2219"
+    ],
+    "snippet": "נתוני-אב נוספים (Class, BOM, Measuring Points, Documents, Partners) משולבים באובייקט. ההחלטה: אילו מהם רלוונטיים ומתי לשייכם — בהעלאה הראשונית או בהדרגה."
+  },
+  {
+    "ch": 3,
+    "id": "3.1.8",
+    "titleHe": "שאלה 8 — האם קל למחוק רשומות",
+    "titleEn": "Q8 Is It Easy to Delete Records",
+    "codes": [
+      "IE02",
+      "IL02",
+      "SARA",
+      "EQUI",
+      "IFLOT",
+      "JEST",
+      "F2218"
+    ],
+    "snippet": "אובייקטים טכניים נושאים היסטוריה, ולכן אינם נמחקים בקלות. SAP משתמש בדגלי-מחיקה (Deletion Flag) ובארכוב במקום מחיקה-פיזית. תכנון-המבנה חייב להביא זאת בחשבון."
+  },
+  {
+    "ch": 3,
+    "id": "3.1.9",
+    "titleHe": "שאלה 9 — באילו פונקציות להשתמש",
+    "titleEn": "Q9 Which Functions to Use",
+    "codes": [
+      "IL11",
+      "IL01",
+      "IN01",
+      "IFLOT",
+      "IFLOTX",
+      "EQUZ",
+      "F2219"
+    ],
+    "snippet": "SAP מספק פונקציות-עזר רבות (Reference FL, Alternative Labeling, Object Networks, LAM, Mass Change). ההחלטה: אילו פונקציות נדרשות לארגון לפני ההעלאה."
+  },
+  {
+    "ch": 3,
+    "id": "3.1.10",
+    "titleHe": "שאלה 10 — איזו אסטרטגיה לנקוט",
+    "titleEn": "Q10 Which Strategy to Pursue",
+    "codes": [
+      "IL12",
+      "OIBS",
+      "LSMW",
+      "IFLOT",
+      "EQUI",
+      "ILOA",
+      "F2218",
+      "F2219"
+    ],
+    "snippet": "ההחלטה המסכמת: אסטרטגיית-המבנה הכוללת — FL-מוביל, Equipment-מוביל, או היברידי — ותוכנית-העלאה (הדרגתי מול Big-Bang). זו מסגרת-העל לכל ההחלטות הקודמות."
+  },
+  {
+    "ch": 3,
+    "id": "3.2",
+    "titleHe": "מיקומים פונקציונליים ומיקומי-ייחוס",
+    "titleEn": "Functional Locations and Reference Functional Locations",
+    "codes": [
+      "IL01",
+      "IL02",
+      "IL03",
+      "IL11",
+      "IL12",
+      "IH01",
+      "IFLOT",
+      "ILOA",
+      "IFLOTX",
+      "IFLOS",
+      "T370F",
+      "F2219",
+      "F2218"
+    ],
+    "snippet": "Functional Location (מיקום פונקציונלי) הוא אובייקט המייצג מקום קבוע במפעל שבו מתבצעת פונקציה — תחנה, קו, אזור. הוא השלד ההיררכי של ה-PM. Reference Functional Location הוא תבנית לסטנדרטיזציה של מבנים חוזרים. יחד הם מאפשרים לבנות מבנה גדול, עקבי וניתן-לניתוח במה"
+  },
+  {
+    "ch": 3,
+    "id": "3.2.1",
+    "titleHe": "יצירת מיקומים פונקציונליים — הזנה בודדת",
+    "titleEn": "Creating Functional Locations: Single Entry",
+    "codes": [
+      "IL01",
+      "IL02",
+      "IL03",
+      "IFLOT",
+      "ILOA",
+      "IFLOTX",
+      "F2219"
+    ],
+    "snippet": "הזנה-בודדת (IL01) יוצרת FL אחד בכל פעם, עם מילוי-ידני של נתוניו ושיוכו לאב. מתאימה לאובייקטים ייחודיים או למבנה ראשוני קטן."
+  },
+  {
+    "ch": 3,
+    "id": "3.2.2",
+    "titleHe": "יצירת מיקומים פונקציונליים — הזנה קבוצתית",
+    "titleEn": "Creating Functional Locations: Collective Entry",
+    "codes": [
+      "IL01",
+      "IL11",
+      "LSMW",
+      "IFLOT",
+      "ILOA",
+      "IFLOS",
+      "F2219"
+    ],
+    "snippet": "הזנה-קבוצתית מאפשרת יצירת FL רבים בבת-אחת — דרך תבנית, רשימה או ירושה מ-Reference FL. חיונית להעלאת-מבנה גדול במהירות ובעקביות."
+  },
+  {
+    "ch": 3,
+    "id": "3.2.3",
+    "titleHe": "מיקומים פונקציונליים של ייחוס",
+    "titleEn": "Reference Functional Locations",
+    "codes": [
+      "IL11",
+      "IL12",
+      "IL13",
+      "IFLOT",
+      "IFLOS",
+      "IFLOTX",
+      "F2219"
+    ],
+    "snippet": "Reference Functional Location היא תבנית לא-פיזית המגדירה מבנה ונתונים סטנדרטיים, שממנה נגזרים FL פיזיים רבים. עדכון בתבנית מתפשט בירושה לכל הנגזרים — סטנדרטיזציה אמיתית."
+  },
+  {
+    "ch": 3,
+    "id": "3.2.4",
+    "titleHe": "תיוג חלופי",
+    "titleEn": "Alternative Labeling",
+    "codes": [
+      "IL12",
+      "IL02",
+      "IFLOS",
+      "IFLOT",
+      "T370F",
+      "F2219"
+    ],
+    "snippet": "Alternative Labeling מאפשר לאותו Functional Location לשאת יותר ממערכת-מספור אחת — למשל מספור-ישן (legacy) לצד מספור-חדש — כדי לתמוך במעבר או בנקודות-מבט שונות של מחלקות."
+  },
+  {
+    "ch": 3,
+    "id": "3.3",
+    "titleHe": "ציוד ומספרים סידוריים",
+    "titleEn": "Equipment and Serial Numbers",
+    "codes": [
+      "IE01",
+      "IE02",
+      "IE03",
+      "IE4N",
+      "IQ01",
+      "IH08",
+      "EQUI",
+      "EQUZ",
+      "EQKT",
+      "ILOA",
+      "SER01",
+      "OBJK",
+      "F2218",
+      "F2730"
+    ],
+    "snippet": "Equipment (פריט-ציוד) הוא אובייקט-תחזוקה עצמאי בעל היסטוריה — מכונה, רכב, מכשיר. בניגוד ל-FL הקבוע, Equipment נייד וניתן להתקנה/פירוק בין מיקומים. מספרים-סידוריים (Serial Numbers) מקשרים בין חומר-מלאי לבין אובייקט-Equipment ייחודי, ומאפשרים מעקב פר-יחידה."
+  },
+  {
+    "ch": 3,
+    "id": "3.3.1",
+    "titleHe": "התקנה/פירוק ציוד על מיקומים פונקציונליים",
+    "titleEn": "Installing/Dismantling Equipment on Functional Locations",
+    "codes": [
+      "IE4N",
+      "IE02",
+      "IE03",
+      "EQUZ",
+      "EQUI",
+      "ILOA",
+      "F2218"
+    ],
+    "snippet": "התקנה (Install) קושרת Equipment ל-FL החל מתאריך; פירוק (Dismantle) מנתק. כל פעולה פותחת/סוגרת Usage Period, כך שתמיד ידוע היכן היה כל פריט בכל זמן — בסיס להיסטוריה ולעלות."
+  },
+  {
+    "ch": 3,
+    "id": "3.3.2",
+    "titleHe": "הכנסת ציוד למחסן / הוצאה",
+    "titleEn": "Placing Equipment in Storage/Removing",
+    "codes": [
+      "IE02",
+      "IE03",
+      "EQUI",
+      "JEST",
+      "EQUZ",
+      "F2218"
+    ],
+    "snippet": "כאשר Equipment אינו בשימוש פעיל, ניתן 'להכניסו למחסן' — סטטוס-מערכת המסמן שהפריט מאוחסן ואינו מותקן. הוצאה-מהמחסן מחזירה אותו לזמינות-להתקנה. כך מנוהל מלאי-הציוד הרזרבי."
+  },
+  {
+    "ch": 3,
+    "id": "3.3.3",
+    "titleHe": "היררכיות ציוד",
+    "titleEn": "Equipment Hierarchies",
+    "codes": [
+      "IE4N",
+      "IE03",
+      "IH03",
+      "EQUI",
+      "EQUZ",
+      "F2218"
+    ],
+    "snippet": "Equipment ניתן להתקנה על Equipment אחר, ויוצר היררכיה (Equipment-BOM-like). כך מכונה-ראשית מכילה תת-מכלולים שכולם פריטי-ציוד עצמאיים עם היסטוריה, אך מקושרים מבנית."
+  },
+  {
+    "ch": 3,
+    "id": "3.3.4",
+    "titleHe": "השוואה פונקציונלית — ציוד מול מיקומים פונקציונליים",
+    "titleEn": "Functional Comparison Equipment vs Functional Locations",
+    "codes": [
+      "IL03",
+      "IE03",
+      "IH01",
+      "IH08",
+      "IFLOT",
+      "EQUI",
+      "EQUZ",
+      "ILOA",
+      "F2218",
+      "F2219"
+    ],
+    "snippet": "ההחלטה FL מול Equipment היא מרכזית. FL = מקום קבוע, היסטוריה צמודת-מקום. Equipment = פריט נייד, היסטוריה צמודת-פריט. רבים משלבים: FL לשלד, Equipment למכונות המותקנות בו."
+  },
+  {
+    "ch": 3,
+    "id": "3.4",
+    "titleHe": "קישורים ורשתות-אובייקטים",
+    "titleEn": "Links and Object Networks",
+    "codes": [
+      "IN01",
+      "IN02",
+      "IN05",
+      "IN07",
+      "IFLOT",
+      "EQUI",
+      "NET",
+      "IFLOTX",
+      "F2219"
+    ],
+    "snippet": "רשתות-אובייקטים (Object Networks) מתארות קשרים שאינם היררכיים בין אובייקטים-טכניים — למשל זרימת-נוזל בין תחנות או חיבור-חשמלי. בעוד ההיררכיה היא 'מי-בתוך-מי', הרשת היא 'מי-מחובר-למי' — חיונית לניתוח-תקלות-שרשרת ולתשתיות-ליניאריות."
+  },
+  {
+    "ch": 3,
+    "id": "3.5",
+    "titleHe": "ניהול נכסים ליניארי (Linear Asset Management)",
+    "titleEn": "Linear Asset Management",
+    "codes": [
+      "IL02",
+      "IE02",
+      "IA01",
+      "IFLOT",
+      "EQUI",
+      "GEOLOC",
+      "ILOA",
+      "F2219",
+      "F2218"
+    ],
+    "snippet": "Linear Asset Management (LAM) מרחיב את ה-PM לנכסים-ליניאריים — צנרת, כבישים, מסילות, כבלים — שבהם המיקום נמדד לאורך קו (Linear Reference) ולא כנקודה. הוא מאפשר לתעד תחזוקה במקטע מדויק (מ-ק\"מ X עד Y) במקום על אובייקט-נקודתי."
+  },
+  {
+    "ch": 3,
+    "id": "3.6",
+    "titleHe": "חומר ומכלולי-PM (Assemblies)",
+    "titleEn": "Material and PM Assemblies",
+    "codes": [
+      "IE02",
+      "IB01",
+      "IW21",
+      "MM03",
+      "EQUI",
+      "MARA",
+      "STPO",
+      "MAST",
+      "RIWO00",
+      "F2218"
+    ],
+    "snippet": "מכלול-PM (Assembly) הוא רכיב לוגי המייצג חלק ממבנה-אובייקט לצורך הודעות-תחזוקה — מאפשר לדווח 'איזה מכלול נכשל' בלי לנהל כל חלק כ-Equipment. החומר (Material) מקשר את האובייקט-הטכני לעולם-המלאי (חלפים, מספרים-סידוריים)."
+  },
+  {
+    "ch": 3,
+    "id": "3.7",
+    "titleHe": "עצי-מוצר (Bills of Materials)",
+    "titleEn": "Bills of Materials",
+    "codes": [
+      "IB01",
+      "IB02",
+      "IB11",
+      "CS01",
+      "CS03",
+      "STKO",
+      "STPO",
+      "MAST",
+      "EQST",
+      "TPST",
+      "F1813",
+      "F2218"
+    ],
+    "snippet": "PM-BOM (עץ-מוצר לתחזוקה) מפרט את חלקי-החילוף והרכיבים של אובייקט-טכני. בניגוד ל-BOM-ייצור (כיצד מייצרים), ה-PM-BOM משרת תכנון-תחזוקה: אילו חלפים נדרשים לעבודה, מה לשרזב, ולאיזה רכיב לשייך תקלה. זהו עמוד-שדרה לתכנון-חומרים בתחזוקה."
+  },
+  {
+    "ch": 3,
+    "id": "3.8",
+    "titleHe": "סיווג (Classification)",
+    "titleEn": "Classification",
+    "codes": [
+      "CL01",
+      "CL02",
+      "CT04",
+      "CL30N",
+      "IE02",
+      "IL02",
+      "KLAH",
+      "KSSK",
+      "AUSP",
+      "CABN",
+      "EQUI",
+      "F2218",
+      "F2219"
+    ],
+    "snippet": "סיווג (Classification) מאפשר לתאר אובייקטים-טכניים בתכונות (Characteristics) — הספק, מתח, יצרן, מהירות — מעבר לשדות-הסטנדרט. הוא הופך אלפי אובייקטים לניתנים-לחיפוש ולסינון לפי מאפיינים, ומאפשר השוואת-אובייקטים ותחזוקה-מבוססת-תכונות."
+  },
+  {
+    "ch": 3,
+    "id": "3.9",
+    "titleHe": "דפדפן מבנה-מוצר (Product Structure Browser)",
+    "titleEn": "Product Structure Browser",
+    "codes": [
+      "CC04",
+      "IE03",
+      "IL03",
+      "STKO",
+      "STPO",
+      "EQUI",
+      "DRAW",
+      "KSSK",
+      "F2218"
+    ],
+    "snippet": "Product Structure Browser הוא כלי-תצוגה גרפי המציג אובייקט-טכני עם כל אובייקטי-המשנה המקושרים אליו — היררכיה, BOM, מסמכים, מחלקות, מדידות — במבט-עץ אחד. הוא מאפשר ניווט-מהיר בין כל ההקשרים של אובייקט בלי לעבור בין טרנזקציות."
+  },
+  {
+    "ch": 3,
+    "id": "3.10",
+    "titleHe": "מציג-נכסים (Asset Viewer)",
+    "titleEn": "Asset Viewer",
+    "codes": [
+      "IE03",
+      "IL03",
+      "IH01",
+      "EQUI",
+      "IFLOT",
+      "GEOLOC",
+      "QMEL",
+      "AUFK",
+      "F2218",
+      "F2219",
+      "F2730"
+    ],
+    "snippet": "Asset Viewer הוא כלי-תצוגה ויזואלי (ב-S/4HANA / Fiori) המציג נכסים-טכניים בהקשר גרפי/תלת-ממדי או על-גבי מפה/תרשים, ומקשר ביניהם לנתוני-התחזוקה. הוא מקרב את המשתמש-העסקי לאובייקט הפיזי ומשפר ניווט ואיתור."
+  },
+  {
+    "ch": 3,
+    "id": "3.11",
+    "titleHe": "פונקציות גנריות",
+    "titleEn": "Generic Functions",
+    "codes": [
+      "LSMW",
+      "MASS",
+      "IK01",
+      "CV01N",
+      "IE02",
+      "EQUI",
+      "IFLOT",
+      "IMPTT",
+      "IHPA",
+      "ADRC",
+      "JEST",
+      "F2218",
+      "F2219"
+    ],
+    "snippet": "מעבר לאובייקטי-הליבה (FL/Equipment), PM מספק סדרת פונקציות-גנריות החלות על כל האובייקטים: העברת-נתונים, שינוי-המוני, נקודות-מדידה ומונים, מסמכים, ניהול-כתובות, אחריות, שותפים, היתרים, וסטטוסים. הן 'כלי-העבודה הרוחביים' של ניהול נתוני-האב."
+  },
+  {
+    "ch": 3,
+    "id": "3.11.1",
+    "titleHe": "העברות נתונים",
+    "titleEn": "Data Transfers",
+    "codes": [
+      "LSMW",
+      "LTMC",
+      "LTMOM",
+      "IFLOT",
+      "EQUI",
+      "ILOA",
+      "F2218"
+    ],
+    "snippet": "העברת-נתונים מאפשרת העלאה המונית של אובייקטים-טכניים ממערכת-קודמת או מקובץ — דרך LSMW או Migration Cockpit (S/4HANA) — תוך שמירה על מבנה, מספור ושיוכים. זהו ליבת-המיגרציה."
+  },
+  {
+    "ch": 3,
+    "id": "3.11.2",
+    "titleHe": "שינוי המוני של ציוד ומיקומים פונקציונליים",
+    "titleEn": "Mass Change of Equipment and Functional Locations",
+    "codes": [
+      "IL05",
+      "IE05",
+      "MASS",
+      "IL02",
+      "IE02",
+      "EQUI",
+      "IFLOT",
+      "ILOA",
+      "F2218",
+      "F2219"
+    ],
+    "snippet": "שינוי-המוני מעדכן שדה אחד או יותר בהרבה אובייקטים בבת-אחת — למשל החלפת Planner Group או Cost Center לכל מכונות-קו. חוסך עדכון-ידני וממנע סטיות."
+  },
+  {
+    "ch": 3,
+    "id": "3.11.3",
+    "titleHe": "נקודות-מדידה ומונים",
+    "titleEn": "Measuring Points and Counters",
+    "codes": [
+      "IK01",
+      "IK02",
+      "IK11",
+      "IK13",
+      "IK17",
+      "IMPTT",
+      "IMRG",
+      "EQUI",
+      "IFLOT",
+      "F2218",
+      "F2730"
+    ],
+    "snippet": "נקודת-מדידה (Measuring Point) מתעדת ערך פיזי באובייקט (טמפ', לחץ); מונה (Counter) מודד צבירה (שעות-מנוע, בקבוקים-ממולאים). שניהם בסיס לתחזוקה-מבוססת-מצב (CBM) ולתחזוקה-מבוססת-ביצועים."
+  },
+  {
+    "ch": 3,
+    "id": "3.11.4",
+    "titleHe": "מסמכים",
+    "titleEn": "Documents",
+    "codes": [
+      "CV01N",
+      "CV02N",
+      "CV03N",
+      "IE02",
+      "DRAW",
+      "DRAD",
+      "EQUI",
+      "IFLOT",
+      "F2218"
+    ],
+    "snippet": "ניהול-מסמכים (DMS) מקשר שרטוטים, מדריכים ותעודות לאובייקט-טכני דרך Document Info Record (DIR). כך כל תיעוד-המכונה זמין במקום-אחד ומבוקר-גרסאות — חיוני לתחזוקה ולרגולציה."
+  },
+  {
+    "ch": 3,
+    "id": "3.11.5",
+    "titleHe": "ניהול כתובות",
+    "titleEn": "Address Management",
+    "codes": [
+      "IE02",
+      "IL02",
+      "ADRC",
+      "ILOA",
+      "EQUI",
+      "IFLOT",
+      "F2218",
+      "F2219"
+    ],
+    "snippet": "ניהול-כתובות משייך כתובת פיזית לאובייקט-טכני (מיקום, אתר) ולשותפים. הכתובת נשמרת מרכזית (ADRC) ומשמשת לניווט-שטח, למשלוח-חלפים ולתיאום-שירות."
+  },
+  {
+    "ch": 3,
+    "id": "3.11.6",
+    "titleHe": "אחריות (Warranties)",
+    "titleEn": "Warranties",
+    "codes": [
+      "BGM1",
+      "BGM2",
+      "IE02",
+      "IL02",
+      "BGMK",
+      "EQUI",
+      "IFLOT",
+      "F2218"
+    ],
+    "snippet": "ניהול-אחריות מתעד תקופות-אחריות (ספק-נכנסת / לקוח-יוצאת) על אובייקט-טכני, ומתריע אם תקלה מתרחשת בתוך-אחריות — כדי לדרוש כיסוי מהספק ולמנוע תשלום-מיותר."
+  },
+  {
+    "ch": 3,
+    "id": "3.11.7",
+    "titleHe": "שותפים (Partners)",
+    "titleEn": "Partners",
+    "codes": [
+      "IE02",
+      "IL02",
+      "BP",
+      "IHPA",
+      "EQUI",
+      "IFLOT",
+      "TPAR",
+      "F2218"
+    ],
+    "snippet": "שותפים (Partners) מקשרים תפקידים אנושיים/ארגוניים לאובייקט — אחראי-תחזוקה, יצרן, ספק, מחלקה. הם מנותבים דרך Partner Determination ומאפשרים אחריות, ניתוב והתראות מדויקות."
+  },
+  {
+    "ch": 3,
+    "id": "3.11.8",
+    "titleHe": "היתרים (Permits)",
+    "titleEn": "Permits",
+    "codes": [
+      "IE02",
+      "IL02",
+      "IW31",
+      "IW32",
+      "EQUI",
+      "IFLOT",
+      "T357",
+      "AUFK",
+      "F2218"
+    ],
+    "snippet": "היתרים (Permits) מבטיחים שעבודת-תחזוקה לא תבוצע ללא אישור נדרש — היתר-עבודה-בחום, היתר-כניסה-למרחב-מוקף. הם מקושרים לאובייקט וחוסמים/מתריעים בהזמנת-העבודה עד שניתן ההיתר."
+  },
+  {
+    "ch": 3,
+    "id": "3.11.9",
+    "titleHe": "סטטוס-מערכת וסטטוס-משתמש",
+    "titleEn": "System Status and User Status",
+    "codes": [
+      "BS02",
+      "OIBS",
+      "IE02",
+      "IL02",
+      "JEST",
+      "TJ02",
+      "TJ30",
+      "JCDS",
+      "F2218"
+    ],
+    "snippet": "סטטוס-מערכת (System Status) נקבע ע\"י SAP ומשקף מצב-אובייקט (CRTD, INST, DLFL); סטטוס-משתמש (User Status) מוגדר ע\"י הארגון דרך Status Profile לשליטה בתהליך. יחד הם שולטים אילו עסקאות מותרות על האובייקט."
+  },
+  {
+    "ch": 3,
+    "id": "3.12",
+    "titleHe": "סיכום",
+    "titleEn": "Summary",
+    "codes": [
+      "IL01",
+      "IE01",
+      "IB01",
+      "IK01",
+      "IE4N",
+      "IFLOT",
+      "EQUI",
+      "EQUZ",
+      "ILOA",
+      "IMPTT",
+      "IHPA",
+      "F2218",
+      "F2219",
+      "F2730"
+    ],
+    "snippet": "פרק זה הקים את שלד-נתוני-האב של ה-PM: Functional Locations (מקום קבוע, היררכי) ו-Equipment (פריט נייד בעל-היסטוריה), עם Reference FL לסטנדרטיזציה, מספרים-סידוריים למעקב פר-יחידה, ושלל פונקציות-תומכות (BOM, סיווג, רשתות, LAM, מדידות, מסמכים, שותפים, היתרים, סטט"
+  },
+  {
+    "ch": 4,
+    "id": "4.1",
+    "titleHe": "פעולות לפני מיפוי מחזור פקודת-העבודה",
+    "titleEn": "Actions before Mapping the Work Order Cycle",
+    "codes": [
+      "IW21",
+      "IW31",
+      "IW38",
+      "SPRO",
+      "VIQMEL",
+      "AUFK",
+      "T356",
+      "T003O",
+      "F2161",
+      "F2078"
+    ],
+    "snippet": "לפני שמגדירים את מחזור-פק\"ע במערכת, יש להכריע שש שאלות-יסוד עסקיות: אילו פונקציות נדרשות, האם משתמשים בהודעה ו/או בהזמנה, איזה מידע לאחסן, כיצד להבטיח אימוץ-משתמשים, מהו תפקיד מידול-התהליכים, ומתי לשתף משתמשים נוספים. הכרעות אלה קובעות את כל המבנה — סוגי-הודעה"
+  },
+  {
+    "ch": 4,
+    "id": "4.1.1",
+    "titleHe": "שאלה 1 — אילו פונקציות",
+    "titleEn": "Q1 Which Functions",
+    "codes": [
+      "IW31",
+      "OIOA",
+      "T003O",
+      "AUFK",
+      "F2078"
+    ],
+    "snippet": "השאלה הראשונה: אילו פונקציות-תחזוקה הארגון מבצע — מתקנת (Breakdown), מונעת (Preventive), חזויה (Predictive), שיפורית (Refurbishment) — וכיצד כל אחת ממופה למחזור-פק\"ע. התשובה קובעת אילו סוגי-הזמנה והודעה נדרשים."
+  },
+  {
+    "ch": 4,
+    "id": "4.1.2",
+    "titleHe": "שאלה 2 — הודעה ו/או הזמנה",
+    "titleEn": "Q2 Notification and/or Order",
+    "codes": [
+      "IW21",
+      "IW31",
+      "IW34",
+      "VIQMEL",
+      "AUFK",
+      "QMEL",
+      "F2161",
+      "F2078"
+    ],
+    "snippet": "ההכרעה המכרעת: האם התהליך מבוסס-הודעה (Notification-based), מבוסס-הזמנה (Order-based) או משולב. הודעה מתעדת 'מה קרה'; הזמנה מנהלת 'מה עושים בנידון' (עלות, חומרים, שעות). השילוב הנפוץ: הודעה ← הזמנה."
+  },
+  {
+    "ch": 4,
+    "id": "4.1.3",
+    "titleHe": "שאלה 3 — איזה מידע לאחסן",
+    "titleEn": "Q3 Which Information to Store",
+    "codes": [
+      "IW21",
+      "QS41",
+      "OIM4",
+      "QMFE",
+      "QMUR",
+      "QMMA",
+      "QPCT",
+      "F2161"
+    ],
+    "snippet": "אילו נתונים לתעד בכל אירוע-תחזוקה: אובייקט-ייחוס, קוד-נזק, סיבה, פעילות-תיקון, זמני-השבתה, חלקים. ההחלטה קובעת את הקטלוגים, פרופיל-הקטלוג ו-Field Selection — ומכאן את עומק ניתוח-האמינות העתידי."
+  },
+  {
+    "ch": 4,
+    "id": "4.1.4",
+    "titleHe": "שאלה 4 — הבטחת אימוץ-משתמשים",
+    "titleEn": "Q4 Ensure User Acceptance",
+    "codes": [
+      "IW21",
+      "SHD0",
+      "VIQMEL",
+      "T356",
+      "F2161",
+      "F1511"
+    ],
+    "snippet": "מערכת-תחזוקה מצליחה רק אם הטכנאים והמתכננים משתמשים בה. השאלה: כיצד מבטיחים אימוץ — מסכים פשוטים, שדות-חובה מינימליים, הדרכה, ושיתוף-משתמשים בעיצוב. ללא אימוץ, הנתונים חלקיים וכל הניתוח קורס."
+  },
+  {
+    "ch": 4,
+    "id": "4.1.5",
+    "titleHe": "שאלה 5 — תפקיד מידול התהליכים העסקיים",
+    "titleEn": "Q5 Role of Business Process Modeling",
+    "codes": [
+      "IW21",
+      "IW31",
+      "IW38",
+      "VIQMEL",
+      "AUFK",
+      "JEST",
+      "F2161",
+      "F2078"
+    ],
+    "snippet": "מידול-תהליכים (BPM) מתעד את זרימת-העבודה הרצויה — מי עושה מה ומתי — לפני המימוש. הוא מתרגם את ההכרעות (הודעה/הזמנה/מידע) לדיאגרמת-תהליך ברורה המשמשת לעיצוב, הדרכה ובדיקות."
+  },
+  {
+    "ch": 4,
+    "id": "4.1.6",
+    "titleHe": "שאלה 6 — מתי לשתף משתמשים נוספים",
+    "titleEn": "Q6 When to Include Other Users",
+    "codes": [
+      "IW31",
+      "KO88",
+      "ME57",
+      "AUFK",
+      "RESB",
+      "EBAN",
+      "COBRB",
+      "F2078",
+      "F0794"
+    ],
+    "snippet": "מחזור-תחזוקה נוגע ביותר ממחלקת-PM: רכש (חלקים), מלאי, כספים (עלויות), ייצור (השבתות) ובטיחות. השאלה: מתי ואיך לשתף את בעלי-העניין האלה כדי שהתהליך יהיה אינטגרטיבי ולא 'אי-מבודד'."
+  },
+  {
+    "ch": 4,
+    "id": "4.2",
+    "titleHe": "הודעה",
+    "titleEn": "Notification",
+    "codes": [
+      "IW21",
+      "IW22",
+      "IW23",
+      "IW24",
+      "IW25",
+      "IW28",
+      "IW29",
+      "VIQMEL",
+      "QMEL",
+      "QMFE",
+      "QMUR",
+      "QMSM",
+      "QMMA",
+      "F2161",
+      "F1511"
+    ],
+    "snippet": "ההודעה (Notification) היא נקודת-הכניסה של מחזור-הפק\"ע: מסמך המתעד אירוע-תחזוקה — תקלה, בקשה או פעילות. היא לוכדת את ה'מה קרה' (אובייקט, נזק, סיבה) עוד לפני שמתחילים לתכנן עבודה. ההודעה נשמרת ב-VIQMEL (תצוגת-עיבוד) / QMEL והיא בסיס היסטוריית-התחזוקה וניתוח-האמי"
+  },
+  {
+    "ch": 4,
+    "id": "4.2.1",
+    "titleHe": "יצירת הודעה",
+    "titleEn": "Creating a Notification",
+    "codes": [
+      "IW21",
+      "IW24",
+      "IW25",
+      "IW26",
+      "VIQMEL",
+      "QMEL",
+      "JEST",
+      "F2161"
+    ],
+    "snippet": "יצירת-הודעה (IW21, או דרך Fiori) היא הצעד הראשון: בוחרים סוג-הודעה, מזינים אובייקט-ייחוס, תיאור-קצר ופרטי-תקלה. הסטטוס ההתחלתי הוא OSNO (Outstanding). זוהי הפעולה הנפוצה ביותר של משתמש-קצה ב-PM."
+  },
+  {
+    "ch": 4,
+    "id": "4.2.2",
+    "titleHe": "סוגי הודעה",
+    "titleEn": "Notification Types",
+    "codes": [
+      "OIM2",
+      "IW21",
+      "TQ80",
+      "T356",
+      "VIQMEL",
+      "F2161"
+    ],
+    "snippet": "סוג-ההודעה (QMART) מסווג את האירוע: M1 (Malfunction Report), M2 (Maintenance Request), M3 (Activity Report) — ובקטגוריית-QM סוגים אחרים. הסוג שולט בקטלוג, ב-Field Selection, ב-Partner Determination ובמספור."
+  },
+  {
+    "ch": 4,
+    "id": "4.2.3",
+    "titleHe": "תוכן ההודעה",
+    "titleEn": "Notification Content",
+    "codes": [
+      "IW21",
+      "IW22",
+      "VIQMEL",
+      "QMFE",
+      "QMUR",
+      "QMMA",
+      "QMSM",
+      "F2161"
+    ],
+    "snippet": "תוכן-ההודעה כולל: כותרת (אובייקט, תאריכים, עדיפות), תיאור-קצר וארוך, פריטים (מה ניזוק), סיבות, פעילויות, משימות, שותפים וזמני-השבתה (Malfunction Start/End, Breakdown Duration). זהו מאגר-הנתונים שעליו נשען ניתוח-האמינות."
+  },
+  {
+    "ch": 4,
+    "id": "4.2.4",
+    "titleHe": "אובייקטי ייחוס גמישים",
+    "titleEn": "Flexible Reference Objects",
+    "codes": [
+      "IW21",
+      "IL03",
+      "IE03",
+      "VIQMEL",
+      "EQUI",
+      "IFLOT",
+      "ILOA",
+      "F2161",
+      "F2147"
+    ],
+    "snippet": "הודעה יכולה להתייחס לאובייקטים שונים: Equipment, Functional Location, Assembly, Material/Serial, או Maintenance Object גנרי. הגמישות מאפשרת לדווח על תקלה בכל רמת-היררכיה — מהקו כולו ועד רכיב בודד."
+  },
+  {
+    "ch": 4,
+    "id": "4.2.5",
+    "titleHe": "מידע אובייקט",
+    "titleEn": "Object Information",
+    "codes": [
+      "OIOI",
+      "IW21",
+      "VIQMEL",
+      "T357",
+      "EQUI",
+      "F2161"
+    ],
+    "snippet": "חלון Object Information (כפתור 'i') מציג למתכנן תמונת-מצב של האובייקט בעת פתיחת/עיבוד ההודעה: הודעות פתוחות, הזמנות פתוחות, חוזי-שירות, אחריות, ונתוני-מחזור — הקשר מיידי לקבלת-החלטה."
+  },
+  {
+    "ch": 4,
+    "id": "4.2.6",
+    "titleHe": "פריטי הודעה",
+    "titleEn": "Notification Items",
+    "codes": [
+      "IW21",
+      "IW22",
+      "QS41",
+      "QMFE",
+      "QPCT",
+      "QPGT",
+      "F2161"
+    ],
+    "snippet": "פריט-הודעה (Item) מתאר רכיב-ספציפי שניזוק: Object Part + Damage Code, ולעיתים גם Cause ו-Activity ברמת-הפריט. הודעה יכולה לשאת מספר פריטים — תקלה מורכבת עם כמה נזקים."
+  },
+  {
+    "ch": 4,
+    "id": "4.2.7",
+    "titleHe": "קטלוגים ופרופילי קטלוג",
+    "titleEn": "Catalogs and Catalog Profiles",
+    "codes": [
+      "QS41",
+      "QS51",
+      "OIM4",
+      "QS61",
+      "QPCT",
+      "QPGT",
+      "QPCD",
+      "T350",
+      "TQ85",
+      "F2161"
+    ],
+    "snippet": "קטלוגים הם רשימות-קודים מובנות: Damage (B/5), Cause (C), Activity (A), Object Part (B), Tasks (2), Coding (D). פרופיל-הקטלוג מאגד אותם ומקשר לסוג-ההודעה, וכך מגדיר אילו קודים זמינים — הבסיס לכל ניתוח-תקלות."
+  },
+  {
+    "ch": 4,
+    "id": "4.2.8",
+    "titleHe": "סיווג",
+    "titleEn": "Classification",
+    "codes": [
+      "CL02",
+      "CT04",
+      "CL30N",
+      "IW21",
+      "AUSP",
+      "KSSK",
+      "KLAH",
+      "CABN",
+      "F2161"
+    ],
+    "snippet": "סיווג (Classification) מאפשר לצרף להודעה מאפיינים (Characteristics) מעבר לשדות-הסטנדרט — דרך Class Type מתאים. שימושי ללכידת נתונים ספציפיים-לתעשייה ולחיפוש/ניתוח לפי מאפיין."
+  },
+  {
+    "ch": 4,
+    "id": "4.2.9",
+    "titleHe": "שותפים",
+    "titleEn": "Partners",
+    "codes": [
+      "IW21",
+      "BP",
+      "OIPF",
+      "IHPA",
+      "TPAR",
+      "BUT000",
+      "F2161"
+    ],
+    "snippet": "שותפים (Partners) הם הגורמים המעורבים בהודעה: מבקש (Requester), אחראי (Responsible), מתכנן, ספק, מחלקה. Partner Determination Procedure קובע אילו תפקידי-שותף נדרשים — ומאפשר ניתוב, אחריות ותקשורת."
+  },
+  {
+    "ch": 4,
+    "id": "4.2.10",
+    "titleHe": "כתובות",
+    "titleEn": "Addresses",
+    "codes": [
+      "IW21",
+      "IL02",
+      "IE02",
+      "ADRC",
+      "ILOA",
+      "VIQMEL",
+      "F2161"
+    ],
+    "snippet": "כתובות מקשרות את ההודעה למיקום פיזי או לכתובת-שותף — היכן נמצא האובייקט או מי איש-הקשר. רלוונטי במיוחד לשירות-לקוחות (Customer Service) ולתחזוקה מבוזרת על-פני אתרים."
+  },
+  {
+    "ch": 4,
+    "id": "4.2.11",
+    "titleHe": "מסמכים",
+    "titleEn": "Documents",
+    "codes": [
+      "IW22",
+      "CV01N",
+      "CV03N",
+      "DRAW",
+      "DRAD",
+      "SRGBTBREL",
+      "TOA01",
+      "F2161"
+    ],
+    "snippet": "ניתן לצרף מסמכים להודעה: תמונות, סרטוני-תקלה, שרטוטים, מפרטים — דרך DMS (Document Management) או GOS (Generic Object Services). תיעוד-ויזואלי משפר את הבנת-התקלה ואת איכות-התכנון."
+  },
+  {
+    "ch": 4,
+    "id": "4.2.12",
+    "titleHe": "הדפסה",
+    "titleEn": "Printing",
+    "codes": [
+      "IW22",
+      "IW3D",
+      "T390",
+      "T390P",
+      "VIQMEL",
+      "F2161"
+    ],
+    "snippet": "ניתן להדפיס הודעה (Notification print / Shop paper) למסירה לטכנאי או לתיעוד. ההדפסה נשלטת דרך Print Control — אילו טפסים, למי, ובאיזה אירוע. ב-S/4HANA מועדף PDF/Adobe Forms."
+  },
+  {
+    "ch": 4,
+    "id": "4.2.13",
+    "titleHe": "סטטוסי מערכת ומשתמש",
+    "titleEn": "System and User Statuses",
+    "codes": [
+      "BS02",
+      "IW22",
+      "BS22",
+      "JEST",
+      "JSTO",
+      "TJ30",
+      "TJ02T",
+      "F2161"
+    ],
+    "snippet": "סטטוסים מנהלים את מחזור-חיי-ההודעה. System Statuses קבועים (OSNO Outstanding, NOPR In Process, NOCO Completed); User Statuses מוגדרים-ארגונית דרך Status Profile (BS02) ויכולים לחסום/לאפשר פעולות (Business Transactions)."
+  },
+  {
+    "ch": 4,
+    "id": "4.3",
+    "titleHe": "תכנון",
+    "titleEn": "Planning",
+    "codes": [
+      "IW31",
+      "IW32",
+      "IW33",
+      "IW36",
+      "IW37N",
+      "AUFK",
+      "AFKO",
+      "AFVC",
+      "AFVV",
+      "AFIH",
+      "RESB",
+      "F2078",
+      "F2173"
+    ],
+    "snippet": "שלב-התכנון ממיר את הצורך (הודעה) לתכנית-עבודה מבוצעת: הזמנת-תחזוקה (Maintenance Order). ההזמנה מגדירה אילו פעולות לבצע, באילו מרכזי-עבודה, אילו חומרים, כלים ומסמכים נדרשים, ומה העלות-המתוכננת. ההזמנה נשמרת ב-AUFK (כותרת), AFKO (כותרת-ייצור), AFVC (פעולות). זהו"
+  },
+  {
+    "ch": 4,
+    "id": "4.3.1",
+    "titleHe": "יצירת הזמנה",
+    "titleEn": "Creating an Order",
+    "codes": [
+      "IW31",
+      "IW34",
+      "IW32",
+      "AUFK",
+      "AFKO",
+      "AFIH",
+      "JEST",
+      "F2078"
+    ],
+    "snippet": "יצירת-הזמנה (IW31, או המרה מהודעה ב-IW34) פותחת את מסמך-העבודה: בוחרים סוג-הזמנה, אובייקט-ייחוס ומרכז-תכנון. הסטטוס ההתחלתי הוא CRTD (Created). זהו הצעד הפותח את שלב-התכנון."
+  },
+  {
+    "ch": 4,
+    "id": "4.3.2",
+    "titleHe": "סוגי הזמנה",
+    "titleEn": "Order Types",
+    "codes": [
+      "OIOA",
+      "KOT2_OPA",
+      "CO82",
+      "T003O",
+      "AUFK",
+      "TCO41",
+      "F2078"
+    ],
+    "snippet": "סוג-ההזמנה (AUART) מסווג ושולט בהזמנה: PM01 (תקלה), PM02 (מונעת/מתוכננת), PM03 (Refurbishment/פרויקט), PM04 (כיול/אחר). הסוג קובע Number Range, Settlement Profile, Costing Variant, Status Profile ו-Default values."
+  },
+  {
+    "ch": 4,
+    "id": "4.3.3",
+    "titleHe": "תוכן ההזמנות",
+    "titleEn": "Content of Orders",
+    "codes": [
+      "IW31",
+      "IW32",
+      "AUFK",
+      "AFKO",
+      "AFVC",
+      "RESB",
+      "AFIH",
+      "F2078"
+    ],
+    "snippet": "הזמנה מכילה: כותרת (אובייקט, תאריכים, עדיפות, מרכז-עבודה ראשי), פעולות (Operations), רכיבים (Materials), PRTs, Object List, נתוני-עלות, ושותפים. כל אלה יחד מהווים את תכנית-העבודה השלמה והמתומחרת."
+  },
+  {
+    "ch": 4,
+    "id": "4.3.4",
+    "titleHe": "פעולות בהזמנה",
+    "titleEn": "Order Operations",
+    "codes": [
+      "IW31",
+      "IW32",
+      "OP00",
+      "AFVC",
+      "AFVV",
+      "AFVU",
+      "TC30",
+      "F2078",
+      "F2173"
+    ],
+    "snippet": "פעולה (Operation) היא צעד-עבודה בהזמנה: תיאור, מרכז-עבודה, Control Key, משך/ערכי-תקן, מספר-עובדים. הפעולות הן יחידת-הביצוע, התזמון, הקיבולת והדיווח — לכל פעולה משוייכים חומרים, PRT ודיווחי-גמר."
+  },
+  {
+    "ch": 4,
+    "id": "4.3.5",
+    "titleHe": "אחריות",
+    "titleEn": "Responsibilities",
+    "codes": [
+      "IW31",
+      "IW32",
+      "IW38",
+      "OIH7",
+      "AUFK",
+      "IHPA",
+      "CRHD",
+      "T024I",
+      "F2078",
+      "F2173"
+    ],
+    "snippet": "ההזמנה מתעדת אחריות דרך: Main Work Center (מי מבצע), Planner Group (מי מתכנן), Person Responsible, ו-Partners. שדות אלה מנתבים עבודה, מאפשרים worklists אישיים ו-reporting לפי-אחראי."
+  },
+  {
+    "ch": 4,
+    "id": "4.3.6",
+    "titleHe": "תזמון",
+    "titleEn": "Scheduling",
+    "codes": [
+      "IW31",
+      "IW32",
+      "OPU7",
+      "AFKO",
+      "AFVV",
+      "AFVC",
+      "T399A",
+      "F2078"
+    ],
+    "snippet": "תזמון (Scheduling) מחשב את תאריכי-ההתחלה והסיום של ההזמנה ופעולותיה, על-בסיס ערכי-התקן, מרכזי-העבודה והיומנים. הוא קובע מתי העבודה תתבצע ומזין את תכנון-הקיבולת. Scheduling Type קובע קדימה/אחורה."
+  },
+  {
+    "ch": 4,
+    "id": "4.3.7",
+    "titleHe": "תכנון חומרים",
+    "titleEn": "Material Planning",
+    "codes": [
+      "IW31",
+      "IW32",
+      "MD04",
+      "ME57",
+      "RESB",
+      "EBAN",
+      "AFKO",
+      "MARC",
+      "F2078",
+      "F0794"
+    ],
+    "snippet": "תכנון-חומרים בהזמנה מגדיר אילו רכיבים נדרשים: פריטי-מלאי (Stock — Reservation) או פריטים-לא-מלאי (Non-stock — Purchase Requisition). זה מבטיח זמינות-חלקים לביצוע ומחבר את PM ל-MM."
+  },
+  {
+    "ch": 4,
+    "id": "4.3.8",
+    "titleHe": "קטלוגי חלקים אלקטרוניים",
+    "titleEn": "Electronic Parts Catalogs",
+    "codes": [
+      "IW31",
+      "CV03N",
+      "IB03",
+      "STPO",
+      "DRAW",
+      "RESB",
+      "EQST",
+      "F2078"
+    ],
+    "snippet": "קטלוג-חלקים-אלקטרוני (EPC/iPPE-like, או Spare Parts Catalog) מאפשר לבחור רכיבים ויזואלית מתוך שרטוט-מתפוצץ (exploded view) ולהוסיפם להזמנה. משפר דיוק-בחירת-חלקים ומפחית טעויות-הזמנה."
+  },
+  {
+    "ch": 4,
+    "id": "4.3.9",
+    "titleHe": "אמצעי-ייצור/כלים (PRT)",
+    "titleEn": "Production Resources/Tools",
+    "codes": [
+      "IW31",
+      "IW32",
+      "CF01",
+      "CF02",
+      "AFFH",
+      "CRVD_A",
+      "TC60",
+      "F2078"
+    ],
+    "snippet": "PRT (Production Resources/Tools) הם משאבים-נדרשים שאינם נצרכים: כלים, מכשירי-מדידה, מנופים, תבניות. משייכים PRT לפעולות לצורך תזמון-זמינות, תיעוד ובקרת-שימוש. אינם רכיב-מלאי-נצרך."
+  },
+  {
+    "ch": 4,
+    "id": "4.3.10",
+    "titleHe": "מסמכים",
+    "titleEn": "Documents",
+    "codes": [
+      "IW32",
+      "CV01N",
+      "CF01",
+      "DRAW",
+      "AFFH",
+      "SRGBTBREL",
+      "F2078"
+    ],
+    "snippet": "כמו בהודעה, ניתן לצרף מסמכים להזמנה ולפעולותיה: הוראות-עבודה, שרטוטים, נהלי-בטיחות, מפרטים — דרך DMS או GOS. תיעוד-נלווה משפר ביצוע-נכון ובטוח של העבודה."
+  },
+  {
+    "ch": 4,
+    "id": "4.3.11",
+    "titleHe": "רשימת אובייקטים",
+    "titleEn": "Object List",
+    "codes": [
+      "IW31",
+      "IW32",
+      "AUFK",
+      "OBJK",
+      "AFIH",
+      "VIQMEL",
+      "F2078"
+    ],
+    "snippet": "Object List מאפשרת לשייך מספר אובייקטים (Equipments/FLs/Notifications/Serial) להזמנה אחת — לעבודה הנוגעת בכמה יחידות. שימושי לעבודות-קבוצתיות, סבבי-תחזוקה ועבודות רב-ציודיות."
+  },
+  {
+    "ch": 4,
+    "id": "4.3.12",
+    "titleHe": "תמחיר ועלויות משוערות",
+    "titleEn": "Costing and Estimated Costs",
+    "codes": [
+      "IW31",
+      "IW32",
+      "KKS2",
+      "S_ALR_87013533",
+      "AUFK",
+      "COSS",
+      "COSP",
+      "AFVV",
+      "F2078",
+      "F0794"
+    ],
+    "snippet": "ההזמנה מחשבת עלות-מתוכננת (Planned costs) מפעולות (עבודה×תעריף) ורכיבים (חומרים), לצד עלות-בפועל (Actual) הנצברת בביצוע. ניתן גם להזין Estimated costs ידנית. זהו בסיס בקרת-התקציב והחיוב."
+  },
+  {
+    "ch": 4,
+    "id": "4.3.13",
+    "titleHe": "היררכיית הזמנות",
+    "titleEn": "Order Hierarchy",
+    "codes": [
+      "IW31",
+      "IW32",
+      "IW38",
+      "AUFK",
+      "AFKO",
+      "COSS",
+      "F2078"
+    ],
+    "snippet": "היררכיית-הזמנות מקשרת הזמנה-ראשית (Leading/Header order) להזמנות-משנה (Sub-orders) — לעבודות-גדולות המתפצלות לחבילות. מאפשרת תכנון ובקרה מצרפיים תוך ביצוע נפרד של כל חבילה."
+  },
+  {
+    "ch": 4,
+    "id": "4.3.14",
+    "titleHe": "שירותי אובייקט",
+    "titleEn": "Object Services",
+    "codes": [
+      "IW32",
+      "IW33",
+      "SRGBTBREL",
+      "CDHDR",
+      "CDPOS",
+      "AUFK",
+      "F2078"
+    ],
+    "snippet": "Object Services (GOS) הם שירותים-גנריים הזמינים על ההזמנה: צירוף-קבצים, יצירת-קישורים, שליחת-מייל, רשימת-תיעוד-שינויים (Change documents) ו-Workflow. הם מעשירים את ההזמנה בלי קונפיגורציה ייעודית."
+  },
+  {
+    "ch": 4,
+    "id": "4.3.15",
+    "titleHe": "אל תבצע הזמנות",
+    "titleEn": "Do Not Execute Orders",
+    "codes": [
+      "IW32",
+      "BS02",
+      "JEST",
+      "TJ30",
+      "AUFK",
+      "F2078"
+    ],
+    "snippet": "ניתן לסמן הזמנה כ-'אל תבצע' (Do not execute / DNEX user status, או לחסום-ביצוע) — כדי לשמור תכנית-עבודה מבלי לאפשר שחרור/ביצוע. שימושי לתכניות-עתידיות, להמתנה-לאישור או להזמנות-תבנית."
+  },
+  {
+    "ch": 4,
+    "id": "4.3.16",
+    "titleHe": "להדפסה לפני שחרור ההזמנה",
+    "titleEn": "To Be Printed Before Order Is Released",
+    "codes": [
+      "IW32",
+      "IW3D",
+      "T390",
+      "T390P",
+      "AUFK",
+      "F2078"
+    ],
+    "snippet": "ניתן להגדיר אילו Shop Papers/טפסים מודפסים עוד לפני שחרור-ההזמנה — למשל הצעת-עבודה לאישור, או רשימת-חומרים להזמנה-מראש. נשלט דרך Print Control לפי אירוע (Creation/Release)."
+  },
+  {
+    "ch": 4,
+    "id": "4.4",
+    "titleHe": "בקרה",
+    "titleEn": "Controlling",
+    "codes": [
+      "IW32",
+      "IW38",
+      "IW37N",
+      "CM01",
+      "CM21",
+      "AUFK",
+      "AFKO",
+      "JEST",
+      "RESB",
+      "KBED",
+      "F2078",
+      "F2173"
+    ],
+    "snippet": "שלב-הבקרה מבטיח שההזמנה מוכנה-לביצוע: שינויים-המוניים, תכנון-קיבולת, בדיקות-זמינות (חומרים, PRT), שחרור (Release) והדפסת-Shop-Paper. השחרור (REL) הוא נקודת-המעבר מתכנון לביצוע — מרגעו ניתן לדווח שעות, למשוך-חומרים ולהזיז-מלאי."
+  },
+  {
+    "ch": 4,
+    "id": "4.4.1",
+    "titleHe": "שינוי המוני של הזמנות ופעולות",
+    "titleEn": "Mass Change of Orders and Operations",
+    "codes": [
+      "IW38",
+      "IW37N",
+      "IW32",
+      "AUFK",
+      "AFVC",
+      "AFKO",
+      "F2173"
+    ],
+    "snippet": "שינוי-המוני (IW37N/IW38 mass change) מאפשר לעדכן שדות רבים בהזמנות ופעולות בבת-אחת: מרכז-עבודה, Planner Group, תאריכים, Control Key. חוסך זמן בעדכוני-מדיניות ובארגון-מחדש."
+  },
+  {
+    "ch": 4,
+    "id": "4.4.2",
+    "titleHe": "תכנון דרישות קיבולת",
+    "titleEn": "Capacity Requirements Planning",
+    "codes": [
+      "CM01",
+      "CM07",
+      "CM21",
+      "CM25",
+      "CM50",
+      "KBED",
+      "KAKO",
+      "CRHD",
+      "AFVV",
+      "F2173"
+    ],
+    "snippet": "תכנון-קיבולת (CRP) משווה את עומס-העבודה (Capacity requirements מהפעולות) לזמינות מרכזי-העבודה, מזהה עומסי-יתר ומאפשר איזון (Leveling). מבטיח שהצוותים לא מוצפים ושהעבודה מתבצעת בזמן."
+  },
+  {
+    "ch": 4,
+    "id": "4.4.3",
+    "titleHe": "בדיקות זמינות באופן כללי",
+    "titleEn": "Availability Checks in General",
+    "codes": [
+      "IW32",
+      "OPJK",
+      "CO24",
+      "AUFK",
+      "RESB",
+      "T441R",
+      "TMVF",
+      "F2078"
+    ],
+    "snippet": "בדיקת-זמינות (Availability Check) מאמתת שהמשאבים הנדרשים — חומרים, PRT, קיבולת — זמינים לפני/בעת שחרור-ההזמנה. נשלטת דרך Checking Control: מתי לבדוק, לפי איזה Checking Rule, ומה ההשפעה (Warning/Block)."
+  },
+  {
+    "ch": 4,
+    "id": "4.4.4",
+    "titleHe": "בדיקת זמינות PRT",
+    "titleEn": "PRT Availability Check",
+    "codes": [
+      "IW32",
+      "CF01",
+      "OPJK",
+      "AFFH",
+      "CRVD_A",
+      "AUFK",
+      "F2078"
+    ],
+    "snippet": "בדיקת-זמינות-PRT מאמתת שהכלים/המשאבים-הנדרשים (מנוף, מכשיר-מדידה) פנויים בתאריך-הביצוע, ואינם תפוסים ע\"י הזמנה אחרת. מונעת התנגשות-כלים והשבתת-עבודה בשטח."
+  },
+  {
+    "ch": 4,
+    "id": "4.4.5",
+    "titleHe": "בדיקת זמינות חומרים",
+    "titleEn": "Material Availability Check",
+    "codes": [
+      "IW32",
+      "CO24",
+      "OPJK",
+      "OVZ2",
+      "RESB",
+      "MARC",
+      "T441R",
+      "MDVM",
+      "F2078",
+      "F0794"
+    ],
+    "snippet": "בדיקת-זמינות-חומרים (Material ATP) מאמתת שהרכיבים הנדרשים (Stock items) זמינים בתאריך-הדרישה. מציגה Missing Parts list ויכולה לחסום/להתריע בשחרור. הבדיקה הקריטית ביותר למניעת עיכובי-תיקון מחוסר-חלקים."
+  },
+  {
+    "ch": 4,
+    "id": "4.4.6",
+    "titleHe": "שחרור הזמנה",
+    "titleEn": "Order Release",
+    "codes": [
+      "IW32",
+      "IW38",
+      "IW3D",
+      "AUFK",
+      "JEST",
+      "RESB",
+      "F2078",
+      "F2173"
+    ],
+    "snippet": "שחרור (Release) הוא נקודת-המעבר מתכנון לביצוע: Status CRTD ➔ REL. מרגעו מתאפשרים דיווחי-גמר (Confirmations), משיכות-חומר (Goods Issue), הדפסת Shop Papers ואישור-PReqs/POs. ניתן שחרור ידני, אוטומטי או המוני."
+  },
+  {
+    "ch": 4,
+    "id": "4.4.7",
+    "titleHe": "הדפסת ניירת-רצפה",
+    "titleEn": "Shop Paper Printing",
+    "codes": [
+      "IW3D",
+      "IW32",
+      "OIDP",
+      "T390",
+      "T390P",
+      "T399I",
+      "F2078"
+    ],
+    "snippet": "Shop Papers הם הטפסים המודפסים לטכנאי בעת-שחרור: Job ticket, Operation list, Material pick list, Object list, Time ticket. נשלטים דרך Print Control לפי Order Type, ומספקים לטכנאי את כל המידע לביצוע."
+  },
+  {
+    "ch": 4,
+    "id": "4.4.8",
+    "titleHe": "זימון (Paging)",
+    "titleEn": "Paging",
+    "codes": [
+      "SWDD",
+      "IW21",
+      "OIX1",
+      "VIQMEL",
+      "SWWWIHEAD",
+      "TQ80",
+      "F2161"
+    ],
+    "snippet": "Paging הוא מנגנון-התראה אוטומטי המודיע לבעלי-תפקיד (טכנאי-תורן, מנהל) על אירוע-תחזוקה דחוף — דרך מייל, SMS או workflow. מקצר זמן-תגובה לתקלות-קריטיות ומחבר את ה-PM להתראות-אונליין."
+  },
+  {
+    "ch": 4,
+    "id": "4.5",
+    "titleHe": "ביצוע",
+    "titleEn": "Processing",
+    "codes": [
+      "MIGO",
+      "MB1A",
+      "IW41",
+      "ML81N",
+      "IW3M",
+      "RESB",
+      "MSEG",
+      "AUFK",
+      "COSP",
+      "AFVV",
+      "F2173",
+      "F1602"
+    ],
+    "snippet": "שלב-הביצוע (Processing) הוא העבודה-בפועל לאחר שחרור-ההזמנה: הטכנאי מושך-חומרים (Goods Issue 261), מבצע את הפעולות, ומדווח התקדמות. בשלב זה נצברות העלויות-בפועל (שעות-עבודה, חומרים, שירותי-חוץ) ומתעדכן מצב-העבודה בשטח. זהו הגשר בין התכנון (4.3) לדיווח-הגמר (4.6"
+  },
+  {
+    "ch": 4,
+    "id": "4.6",
+    "titleHe": "השלמה",
+    "titleEn": "Completion",
+    "codes": [
+      "IW41",
+      "IW42",
+      "IW32",
+      "KO88",
+      "IW45",
+      "AFRU",
+      "AUFK",
+      "JEST",
+      "COBRB",
+      "CDHDR",
+      "F2173",
+      "F0794"
+    ],
+    "snippet": "שלב-ההשלמה סוגר את מחזור-הפק\"ע: דיווחי-גמר (Confirmations — שעות-עבודה, התקדמות), השלמה-טכנית (TECO — סיום-העבודה הפיזית), הדפסה-לאחר-TECO, השלמה-עסקית (Settlement+CLSD — סגירת-החשבונאות), וכן תיעוד (Document Flow, Action Log). זוהי נקודת-הסגירה שבה העלויות מת"
+  },
+  {
+    "ch": 4,
+    "id": "4.6.1",
+    "titleHe": "דיווחי גמר",
+    "titleEn": "Completion Confirmations",
+    "codes": [
+      "IW41",
+      "IW42",
+      "IW44",
+      "CO11",
+      "AFRU",
+      "AFVV",
+      "COSS",
+      "F2173"
+    ],
+    "snippet": "דיווח-גמר (Confirmation, IW41) מתעד את העבודה-שבוצעה בפעולה: שעות-בפועל, אחוז-התקדמות, סטטוס (Partial/Final). הוא צובר עלות-עבודה-בפועל, מעדכן קיבולת ויכול להפעיל תנועות-מלאי אוטומטיות."
+  },
+  {
+    "ch": 4,
+    "id": "4.6.2",
+    "titleHe": "דיווחי גמר טכניים",
+    "titleEn": "Technical Completion Confirmations",
+    "codes": [
+      "IW41",
+      "IK11",
+      "IW42",
+      "AFRU",
+      "IMRG",
+      "QMMA",
+      "QMFE",
+      "F2173"
+    ],
+    "snippet": "דיווח-גמר-טכני מוסיף לדיווח-השעות מידע-טכני: תוצאות-מדידה (Measurement readings), קודי-פעילות שבוצעו, סטטוס-תקלה, ופרטי-נזק שהתגלו תוך-כדי. מעשיר את ההיסטוריה-הטכנית מעבר לזמן בלבד."
+  },
+  {
+    "ch": 4,
+    "id": "4.6.3",
+    "titleHe": "השלמה טכנית",
+    "titleEn": "Technical Completion",
+    "codes": [
+      "IW32",
+      "IW42",
+      "IW45",
+      "AUFK",
+      "JEST",
+      "RESB",
+      "AFIH",
+      "F2078",
+      "F2173"
+    ],
+    "snippet": "השלמה-טכנית (TECO) מסמנת שהעבודה-הפיזית הסתיימה: Status TECO. היא נועלת שינויים-לוגיסטיים, סוגרת Reservations ו-PReqs פתוחות, קובעת Reference date להיסטוריה, ומשלימה הודעות-משוייכות. צעד-המפתח בסגירת-המחזור."
+  },
+  {
+    "ch": 4,
+    "id": "4.6.4",
+    "titleHe": "הדפסת הזמנה לאחר השלמה טכנית",
+    "titleEn": "Order Printing after Technical Completion",
+    "codes": [
+      "IW3D",
+      "IW32",
+      "T390",
+      "T390P",
+      "AUFK",
+      "F2078"
+    ],
+    "snippet": "לאחר TECO ניתן להדפיס מסמכי-סיכום: Completion confirmation report, History record, או טופס-תיעוד-לארכיון. ההדפסה לאחר-TECO משמשת תיעוד-פיזי, מסירה-ללקוח (ב-CS) או דרישות-ביקורת/רגולציה."
+  },
+  {
+    "ch": 4,
+    "id": "4.6.5",
+    "titleHe": "השלמה עסקית",
+    "titleEn": "Business Completion",
+    "codes": [
+      "IW32",
+      "KO88",
+      "CO88",
+      "AUFK",
+      "JEST",
+      "COBRB",
+      "COSS",
+      "F2078",
+      "F0794"
+    ],
+    "snippet": "השלמה-עסקית (Business Completion, CLSD) היא הנעילה הסופית: כל העלויות התחשבנו (Settlement הושלם, יתרה=0), ולא ניתן עוד לרשום עליה דבר. מסמן Status CLSD. רק לאחר Settlement מלא אפשר לבצעה."
+  },
+  {
+    "ch": 4,
+    "id": "4.6.6",
+    "titleHe": "זרימת מסמכים",
+    "titleEn": "Document Flow",
+    "codes": [
+      "IW33",
+      "IW3M",
+      "ME2K",
+      "RESB",
+      "MSEG",
+      "AFRU",
+      "COBRB",
+      "EKPO",
+      "F2078"
+    ],
+    "snippet": "Document Flow מציג את שרשרת-המסמכים המקושרת להזמנה: הודעה ← הזמנה ← Reservations ← Goods movements ← Confirmations ← Settlement ← חשבוניות. מאפשר מעקב מקצה-לקצה (traceability) של כל מחזור-הפק\"ע במבט-אחד."
+  },
+  {
+    "ch": 4,
+    "id": "4.6.7",
+    "titleHe": "יומן פעולות",
+    "titleEn": "Action Log",
+    "codes": [
+      "IW33",
+      "IW32",
+      "CDHDR",
+      "CDPOS",
+      "JCDS",
+      "F2078"
+    ],
+    "snippet": "Action Log (יומן-פעולות / Change documents) מתעד מי שינה מה ומתי בהזמנה: שינויי-שדות, שינויי-סטטוס, שינויי-תאריך. מספק שקיפות, אחריותיות ובסיס-ביקורת לכל שינוי לאורך מחזור-החיים."
+  },
+  {
+    "ch": 4,
+    "id": "4.7",
+    "titleHe": "סיכום",
+    "titleEn": "Summary",
+    "codes": [
+      "IW21",
+      "IW31",
+      "IW32",
+      "IW41",
+      "IW42",
+      "KO88",
+      "VIQMEL",
+      "AUFK",
+      "AFKO",
+      "AFVC",
+      "AFRU",
+      "JEST",
+      "F2161",
+      "F2078",
+      "F2173"
+    ],
+    "snippet": "מחזור-הפק\"ע הוא עמוד-השדרה של PM: הודעה (תיעוד-אירוע) ← תכנון (הזמנה: פעולות, חומרים, PRT, עלות) ← בקרה (זמינות, קיבולת, שחרור) ← ביצוע (משיכה+עבודה) ← דיווח-גמר ← השלמה-טכנית (TECO) ← השלמה-עסקית (CLSD). כל שלב נשען על ההכרעות-העסקיות שנעשו ב-4.1 וממופה לסטטו"
+  },
+  {
+    "ch": 5,
+    "id": "5.1",
+    "titleHe": "עקרונות יסוד של תחזוקה מונעת",
+    "titleEn": "Basic Principles of Preventive Maintenance",
+    "codes": [
+      "IP10",
+      "IP30",
+      "IW38",
+      "IP24",
+      "OIBS",
+      "MPLA",
+      "MPOS",
+      "MHIS",
+      "PLKO",
+      "PLPO",
+      "MHIO",
+      "F2773",
+      "F4439"
+    ],
+    "snippet": "תחזוקה מונעת היא תחזוקה מתוכננת מראש שמטרתה למנוע תקלות לפני שיקרו, להאריך חיי-נכס ולהבטיח זמינות-ייצור. במקום להגיב לשבר (תחזוקת-שבר), מבצעים אותה לפי לוח-זמנים קבוע (זמן) או לפי שחיקה בפועל (ביצוע). זהו שינוי-תרבות מ'כיבוי-שריפות' לניהול-נכסים פרואקטיבי — שמ"
+  },
+  {
+    "ch": 5,
+    "id": "5.2",
+    "titleHe": "אובייקטי תחזוקה מונעת",
+    "titleEn": "Preventive Maintenance Objects",
+    "codes": [
+      "IA05",
+      "IA06",
+      "IP41",
+      "IP42",
+      "IP10",
+      "IA08",
+      "PLKO",
+      "PLPO",
+      "PLMZ",
+      "MPLA",
+      "MPOS",
+      "T351",
+      "T351P",
+      "F2773",
+      "F4439"
+    ],
+    "snippet": "תחזוקה מונעת בנויה ממערכת-אובייקטים מקושרים: רשימת-משימות (Task List) מתארת את העבודה; תוכנית-תחזוקה (Maintenance Plan) קובעת את מחזוריות-הביצוע; פריט-תחזוקה (Maintenance Item) מחבר את העבודה לאובייקט-הטכני; ואסטרטגיה (Strategy) מספקת חבילת-מחזורים לשימוש-חוזר"
+  },
+  {
+    "ch": 5,
+    "id": "5.3",
+    "titleHe": "רשימות משימות תחזוקה",
+    "titleEn": "Maintenance Task Lists",
+    "codes": [
+      "IA05",
+      "IA06",
+      "IA01",
+      "IA11",
+      "IA08",
+      "IA09",
+      "PLKO",
+      "PLPO",
+      "PLMZ",
+      "PLFH",
+      "PLAS",
+      "F2773"
+    ],
+    "snippet": "רשימת-משימות (Maintenance Task List) היא התיאור המובנה של עבודת-תחזוקה: רצף פעולות, מרכזי-עבודה, זמני-תקן, חלפים (BOM) וכלי-עזר (PRT). היא ה'הוראת-העבודה' הסטנדרטית — נכתבת פעם אחת ומשמשת אינסוף פק\"ע. שלושה סוגים: General (IA05), Equipment (IA01) ו-Functional "
+  },
+  {
+    "ch": 5,
+    "id": "5.3.1",
+    "titleHe": "יסודות רשימות משימות תחזוקה",
+    "titleEn": "Basics of Maintenance Task Lists",
+    "codes": [
+      "IA05",
+      "IA06",
+      "IA09",
+      "IA08",
+      "PLKO",
+      "PLPO",
+      "F2773"
+    ],
+    "snippet": "היסודות: רשימת-משימות מזוהה ב-Group + Group Counter; מכילה כותרת (PLKO) ופעולות (PLPO); נושאת Usage, Status ולעיתים Strategy. הבנת מבנה-הזיהוי וההיררכיה היא הבסיס לכל עבודה עם רשימות."
+  },
+  {
+    "ch": 5,
+    "id": "5.3.2",
+    "titleHe": "פקודת עבודה ורשימת משימות",
+    "titleEn": "Order and Task List",
+    "codes": [
+      "IW31",
+      "IW32",
+      "IW38",
+      "IP10",
+      "IW41",
+      "AUFK",
+      "AFKO",
+      "AFVC",
+      "RESB",
+      "PLPO",
+      "F2773",
+      "F4439"
+    ],
+    "snippet": "כאשר נוצרת פק\"ע (Maintenance Order) מתוכנית-תחזוקה, היא 'יורשת' את פעולות רשימת-המשימות. הקשר הזה הוא שמעביר את הסטנדרט מהתכנון לביצוע: הפק\"ע מקבלת אוטומטית פעולות, חלפים, זמני-תקן ועלות."
+  },
+  {
+    "ch": 5,
+    "id": "5.3.3",
+    "titleHe": "יומן פעולות",
+    "titleEn": "Action Log",
+    "codes": [
+      "IA06",
+      "IA08",
+      "AUT10",
+      "CDHDR",
+      "CDPOS",
+      "PLKO",
+      "PLPO",
+      "F2773"
+    ],
+    "snippet": "יומן-הפעולות (Action Log) מתעד כל שינוי ברשימת-המשימות: מי, מה, מתי. הוא כלי-ביקורת ומעקב-תצורה (Change Documentation) המאפשר לעקוב אחרי היסטוריית-עריכות ולתחקר 'מי שינה את הזמן/הפעולה'."
+  },
+  {
+    "ch": 5,
+    "id": "5.3.4",
+    "titleHe": "תמחור רשימת משימות",
+    "titleEn": "Task List Costing",
+    "codes": [
+      "IA16",
+      "IA17",
+      "KP26",
+      "OKP1",
+      "PLPO",
+      "PLMZ",
+      "CRCO",
+      "MBEW",
+      "AFVC",
+      "F2773"
+    ],
+    "snippet": "תמחור רשימת-המשימות מחשב את עלות-התחזוקה המתוכננת מתוך הפעולות: זמני-תקן × תעריפי-Activity (עבודה) + עלות-חלפים (BOM) + שירותים-חיצוניים. זה נותן אומדן-עלות לפני-ביצוע ובסיס לתקצוב-תחזוקה."
+  },
+  {
+    "ch": 5,
+    "id": "5.3.5",
+    "titleHe": "שינויים מרובים",
+    "titleEn": "Mass Changes",
+    "codes": [
+      "IA08",
+      "CA85",
+      "CA95",
+      "IA05",
+      "PLKO",
+      "PLPO",
+      "PLFH",
+      "CDHDR",
+      "F2773"
+    ],
+    "snippet": "שינויים-מרובים (Mass Changes) מאפשרים לעדכן שדות ברשימות-משימות רבות בבת-אחת — למשל החלפת Work Center, עדכון זמני-תקן או שינוי Control Key על-פני מאות פעולות. כלי-יעילות קריטי לתחזוקת-נתוני-אב בקנה-מידה."
+  },
+  {
+    "ch": 5,
+    "id": "5.4",
+    "titleHe": "תוכניות תחזוקה מבוססות זמן",
+    "titleEn": "Time-Based Maintenance Plans",
+    "codes": [
+      "IP41",
+      "IP42",
+      "IP10",
+      "IP24",
+      "IP30",
+      "MPLA",
+      "MPOS",
+      "MHIS",
+      "MHIO",
+      "T351",
+      "F2773",
+      "F4439"
+    ],
+    "snippet": "תוכנית-תחזוקה מבוססת-זמן מתזמנת תחזוקה לפי לוח-זמנים קלנדרי קבוע — כל X ימים/שבועות/חודשים — ללא תלות בשימוש-בפועל. זהו הסוג הנפוץ והפשוט ביותר, מתאים לעבודות-תחזוקה התלויות בזמן (סיכה, ביקורת, החלפה-תקופתית)."
+  },
+  {
+    "ch": 5,
+    "id": "5.4.1",
+    "titleHe": "תוכנית מחזור יחיד מבוססת זמן",
+    "titleEn": "Time-Based Single-Cycle Plan",
+    "codes": [
+      "IP41",
+      "IP10",
+      "IP24",
+      "MPLA",
+      "MPOS",
+      "MHIS",
+      "F2773"
+    ],
+    "snippet": "תוכנית מחזור-יחיד מבוססת-זמן (Single Cycle) היא הסוג הפשוט ביותר: מחזור-זמן אחד (למשל כל 30 יום) עם רשימת-משימות אחת. נוצרת ב-IP41 ללא צורך באסטרטגיה — אידיאלית לעבודה-תקופתית בודדת."
+  },
+  {
+    "ch": 5,
+    "id": "5.4.2",
+    "titleHe": "תוכנית אסטרטגיה מבוססת זמן",
+    "titleEn": "Time-Based Strategy Plan",
+    "codes": [
+      "IP11",
+      "IP42",
+      "IP10",
+      "IP24",
+      "T351",
+      "T351P",
+      "MPLA",
+      "MPOS",
+      "PLPO",
+      "F2773"
+    ],
+    "snippet": "תוכנית-אסטרטגיה מבוססת-זמן משלבת מספר מחזורי-זמן (Packages) בתוכנית אחת — חודשי, רבעוני, שנתי — כך שבכל מועד מתבצעות רק הפעולות הרלוונטיות לאותו מחזור. זה ה'דפוס-תחזוקה' המתוחכם שחוסך פק\"ע נפרדות."
+  },
+  {
+    "ch": 5,
+    "id": "5.5",
+    "titleHe": "תוכניות תחזוקה מבוססות ביצוע",
+    "titleEn": "Performance-Based Maintenance Plans",
+    "codes": [
+      "IK01",
+      "IK11",
+      "IP41",
+      "IP42",
+      "IP10",
+      "IMPTT",
+      "IMRG",
+      "MPLA",
+      "MPOS",
+      "MHIS",
+      "F2773",
+      "F4439"
+    ],
+    "snippet": "תוכנית-תחזוקה מבוססת-ביצוע מתזמנת תחזוקה לפי שחיקה-בפועל — קריאות-מונה (Counter): כל 10,000 שע'-פעולה, כל 50,000 ק\"מ, כל 1,000,000 יחידות. במקום לוח-זמנים, התחזוקה מונעת מהשימוש-האמיתי בנכס, מה שמדויק יותר לציוד עם עומס-משתנה."
+  },
+  {
+    "ch": 5,
+    "id": "5.5.1",
+    "titleHe": "תוכנית מחזור יחיד מבוססת ביצוע",
+    "titleEn": "Performance-Based Single-Cycle Plan",
+    "codes": [
+      "IK01",
+      "IP41",
+      "IK11",
+      "IP10",
+      "MPLA",
+      "MPOS",
+      "IMPTT",
+      "IMRG",
+      "F2773"
+    ],
+    "snippet": "תוכנית מחזור-יחיד מבוססת-ביצוע: מחזור-מונה אחד (למשל כל 1,000 שע') עם רשימת-משימות אחת, מקושרת ל-Counter יחיד. הפשוט ביותר מבין מבוססות-הביצוע."
+  },
+  {
+    "ch": 5,
+    "id": "5.5.2",
+    "titleHe": "תוכנית אסטרטגיה מבוססת ביצוע",
+    "titleEn": "Performance-Based Strategy Plan",
+    "codes": [
+      "IP11",
+      "IK01",
+      "IP42",
+      "IK11",
+      "IP10",
+      "T351",
+      "T351P",
+      "MPLA",
+      "IMPTT",
+      "IMRG",
+      "F2773"
+    ],
+    "snippet": "תוכנית-אסטרטגיה מבוססת-ביצוע משלבת מספר מחזורי-מונה (Packages בערכי-מונה) בתוכנית אחת — כל 1,000 שע' בדיקה, כל 5,000 שע' שירות, כל 20,000 שע' Overhaul — כולם על אותו Counter עם Hierarchy."
+  },
+  {
+    "ch": 5,
+    "id": "5.6",
+    "titleHe": "תוכניות מרובות מונים",
+    "titleEn": "Multiple-Counter Plans",
+    "codes": [
+      "IP43",
+      "IK01",
+      "IP10",
+      "IP24",
+      "MPLA",
+      "MMPT",
+      "MPOS",
+      "IMPTT",
+      "MHIS",
+      "F2773",
+      "F4439"
+    ],
+    "snippet": "תוכנית מרובת-מונים (Multiple Counter Plan) משלבת מספר מחזורים — מזמן וממונים שונים — בקישור-לוגי OR או AND. למשל: 'כל 6 חודשים או כל 10,000 ק\"מ — מה שמגיע ראשון' (OR). זהו הסוג הגמיש ביותר, החיוני לציוד שבו גם זמן וגם שימוש קובעים שחיקה."
+  },
+  {
+    "ch": 5,
+    "id": "5.6.1",
+    "titleHe": "תוכנית מרובת מונים בסיסית",
+    "titleEn": "Basic Multiple-Counter Plan",
+    "codes": [
+      "IP43",
+      "IK01",
+      "IK11",
+      "IP10",
+      "MPLA",
+      "MMPT",
+      "IMPTT",
+      "F2773"
+    ],
+    "snippet": "תוכנית מרובת-מונים בסיסית: שני מחזורים (למשל זמן + מונה) עם Link OR — הפק\"ע נוצרת ברגע שאחד מהם מגיע. הצורה הקלאסית של 'מה-שמגיע-ראשון'."
+  },
+  {
+    "ch": 5,
+    "id": "5.6.2",
+    "titleHe": "תוכנית מרובת מונים מורחבת",
+    "titleEn": "Enhanced Multiple-Counter Plan",
+    "codes": [
+      "IP43",
+      "IK01",
+      "IP10",
+      "IP24",
+      "MPLA",
+      "MMPT",
+      "MPOS",
+      "IMPTT",
+      "F2773"
+    ],
+    "snippet": "תוכנית מרובת-מונים מורחבת: יותר משני מחזורים, שילוב OR ו-AND, ו-Cycle Sets/Modification Factors — לדפוסי-תחזוקה מורכבים שבהם כמה צירים ותנאים-לוגיים פועלים יחד."
+  },
+  {
+    "ch": 5,
+    "id": "5.7",
+    "titleHe": "סבבי בדיקה",
+    "titleEn": "Inspection Rounds",
+    "codes": [
+      "IA05",
+      "IP42",
+      "IP10",
+      "IW38",
+      "MPLA",
+      "MPOS",
+      "PLPO",
+      "AFVC",
+      "OBJK",
+      "F2773",
+      "F4439"
+    ],
+    "snippet": "סבב-בדיקה (Inspection Round) הוא תחזוקה מונעת המכסה אובייקטים-טכניים רבים בפק\"ע אחת — סבב-מפקח שעובר על שורת-ציוד (משאבות, ברזים, מנועים) ומבצע בדיקה קצרה בכל אחד. במקום פק\"ע נפרדת לכל נכס, פק\"ע-אחת מקיפה. שתי גישות: Object List (פשוטה) ו-Task List מורחבת."
+  },
+  {
+    "ch": 5,
+    "id": "5.7.1",
+    "titleHe": "סבבי בדיקה בסיסיים באמצעות רשימת האובייקטים",
+    "titleEn": "Basic Inspection Rounds Using the Object List",
+    "codes": [
+      "IP42",
+      "IP10",
+      "IW38",
+      "MPOS",
+      "OBJK",
+      "AUFK",
+      "F2773"
+    ],
+    "snippet": "בשיטת ה-Object List, פק\"ע-הסבב נושאת רשימת-אובייקטים (Object List) ופעולה-גנרית אחת המתבצעת על כולם. פשוט ומהיר להגדרה — אך הדיווח הוא ברמת-הפק\"ע, לא לכל אובייקט בנפרד."
+  },
+  {
+    "ch": 5,
+    "id": "5.7.2",
+    "titleHe": "סבבי בדיקה מורחבים באמצעות רשימת המשימות",
+    "titleEn": "Enhanced Inspection Rounds Using the Maintenance Task List",
+    "codes": [
+      "IA05",
+      "IA06",
+      "IP42",
+      "IP10",
+      "IW38",
+      "PLPO",
+      "AFVC",
+      "OBJK",
+      "ILOA",
+      "F2773"
+    ],
+    "snippet": "בשיטה המורחבת, כל פעולה ברשימת-המשימות מקבלת Reference Object משלה — כך פק\"ע-הסבב מצמידה בדיקה ספציפית לכל אובייקט, ומספקת נראות והיסטוריית-תחזוקה פרטנית לכל נכס. עומס-נמוך עם דיוק-גבוה."
+  },
+  {
+    "ch": 5,
+    "id": "5.8",
+    "titleHe": "תחזוקה מבוססת מצב",
+    "titleEn": "Condition-Based Maintenance",
+    "codes": [
+      "IK01",
+      "IK11",
+      "IK17",
+      "IW21",
+      "IW28",
+      "IMPTT",
+      "IMRG",
+      "IMRC",
+      "QMEL",
+      "AUFK",
+      "F2929",
+      "F4439"
+    ],
+    "snippet": "תחזוקה מבוססת-מצב (Condition-Based Maintenance — CBM) מפעילה תחזוקה לפי מדידת-מצב-בפועל (רטט, טמפ', לחץ) ולא לפי לוח-זמנים או מונה. כשערך-מדידה חוצה סף-מוגדר, נוצרת אוטומטית הודעה/פק\"ע. זו הגישה המתקדמת ביותר — תחזוקה רק-כשבאמת-צריך, על-בסיס נתוני-חיישנים."
+  },
+  {
+    "ch": 5,
+    "id": "5.9",
+    "titleHe": "סיכום",
+    "titleEn": "Summary",
+    "codes": [
+      "IP41",
+      "IP42",
+      "IP43",
+      "IP10",
+      "IP24",
+      "IA05",
+      "MPLA",
+      "MPOS",
+      "PLKO",
+      "PLPO",
+      "T351",
+      "IMPTT",
+      "MHIS",
+      "F2773",
+      "F4439",
+      "F2929"
+    ],
+    "snippet": "פרק זה כיסה את מלוא ספקטרום התחזוקה המונעת ב-SAP PM: מהעקרונות (מתוכנן מול שבר), דרך אובייקטי-היסוד (Task List, Maintenance Plan, Maintenance Item, Strategy), אל ארבעת דפוסי-התזמון — מבוסס-זמן, מבוסס-ביצוע, מרובה-מונים ומבוסס-מצב — וכן סבבי-בדיקה. המסר: התאם א"
+  },
+  {
+    "ch": 6,
+    "id": "6.1",
+    "titleHe": "תיקונים מיידיים",
+    "titleEn": "Immediate Repairs",
+    "codes": [
+      "IW31",
+      "IW21",
+      "IW41",
+      "IW42",
+      "IW32",
+      "IW3D",
+      "AUFK",
+      "AFIH",
+      "QMEL",
+      "AFKO",
+      "AFVC",
+      "AFRU",
+      "F2849",
+      "F2823",
+      "F4072"
+    ],
+    "snippet": "תיקון-מיידי הוא תרחיש התחזוקה הדחוף ביותר: ציוד נכשל, הייצור עוצר, ואין זמן למחזור-התכנון המלא של Notification→Planning→Approval→Execution. SAP נותן מסלול-מקוצר שבו פק\"ע (Order) נפתחת ומבוצעת כמעט מיידית, לעיתים תוך כדי-תנועה, והרישום-הפורמלי משלים בדיעבד. השל"
+  },
+  {
+    "ch": 6,
+    "id": "6.1.1",
+    "titleHe": "יצירת הזמנות (עם הודעה) וסגירה",
+    "titleEn": "Creating Orders (with Notification) and Completion",
+    "codes": [
+      "IW31",
+      "IW32",
+      "IW21",
+      "IW41",
+      "IW42",
+      "AUFK",
+      "AFIH",
+      "QMEL",
+      "JEST",
+      "AFRU",
+      "F2849",
+      "F2823"
+    ],
+    "snippet": "התרחיש הנפוץ ביותר בתיקון-מיידי: יצירת פק\"ע יחד עם Notification במהלך אחד, ביצוע, ולאחר מכן סגירה דו-שלבית — TECO (Technical Completion) ואחריו Business Completion (CLSD). שילוב Order+Notification נותן גם לכידת-עלות וגם תיעוד-תקלה במהלך אחד."
+  },
+  {
+    "ch": 6,
+    "id": "6.1.2",
+    "titleHe": "מקרה מיוחד: רישום לאחר-מעשה",
+    "titleEn": "Special Case: After-Event Recording",
+    "codes": [
+      "IW41",
+      "IW42",
+      "IW21",
+      "MIGO",
+      "IW32",
+      "AFRU",
+      "QMIH",
+      "AFIH",
+      "VIQMEL",
+      "F2823",
+      "F4072"
+    ],
+    "snippet": "After-Event Recording (תיעוד-בדיעבד) הוא המקרה שבו התיקון כבר בוצע פיזית — לעיתים בלי שום מסמך — והרישום ב-SAP נעשה כולו בדיעבד: פק\"ע, דיווח-זמן, תנועות-חומר ו-Notification, כולם עם תאריכים רטרואקטיביים. זהו תרחיש לגיטימי אך מסוכן: הוא חיוני להשלמת-תיעוד אך על"
+  },
+  {
+    "ch": 6,
+    "id": "6.2",
+    "titleHe": "פתקי-משמרת ודוחות-משמרת",
+    "titleEn": "Shift Notes and Shift Reports",
+    "codes": [
+      "SHRP",
+      "SHN1",
+      "IE07",
+      "/PLMB/SRT_NOTE",
+      "/PLMB/SHIFTNOTE",
+      "AFIH",
+      "EQUI",
+      "F2929",
+      "F2930",
+      "F2657"
+    ],
+    "snippet": "פתקי-משמרת (Shift Notes) ודוחות-משמרת (Shift Reports) הם הכלי של PM ללכידת-הידע התפעולי שמתחלף בין משמרות: מה קרה, מה נדרש, ומה לא הספיקו. במקום 'מחברת-משמרת' ידנית, SAP מספק אובייקטים מובנים שניתן לקשר ל-Equipment/Functional Location, להפוך ל-Notification או "
+  },
+  {
+    "ch": 6,
+    "id": "6.2.1",
+    "titleHe": "פתקי-משמרת",
+    "titleEn": "Shift Notes",
+    "codes": [
+      "SHN1",
+      "SHRP",
+      "/PLMB/SHIFTNOTE",
+      "EQUI",
+      "F2929"
+    ],
+    "snippet": "פתק-משמרת הוא יחידת-התיעוד הבסיסית: רישום קצר, מקוטלג, מקושר-ציוד, של תצפית/אירוע/בקשה במהלך המשמרת. הוא הזרע שממנו צומחים Notification ו-Order."
+  },
+  {
+    "ch": 6,
+    "id": "6.2.2",
+    "titleHe": "דוחות-משמרת",
+    "titleEn": "Shift Reports",
+    "codes": [
+      "SHRP",
+      "/PLMB/SRT_NOTE",
+      "AFIH",
+      "F2930"
+    ],
+    "snippet": "דוח-משמרת מאגד את כל הפתקים, המדידות, האירועים והפעילויות של תקופת-משמרת מוגדרת לכדי מסמך-מסירה אחד — מקור-האמת לסיכום-המשמרת ולמסירה למשמרת-הבאה."
+  },
+  {
+    "ch": 6,
+    "id": "6.3",
+    "titleHe": "מתן-עבודה לגורם-חוץ",
+    "titleEn": "External Assignment",
+    "codes": [
+      "IW31",
+      "IW32",
+      "ME21N",
+      "ME57",
+      "ML81N",
+      "MIGO",
+      "AFVC",
+      "EBAN",
+      "EKKO",
+      "EKPO",
+      "ESLL",
+      "ESSR",
+      "F2849",
+      "F0842",
+      "F1982"
+    ],
+    "snippet": "מתן-עבודה לגורם-חוץ (External Assignment / External Processing) הוא התרחיש שבו חלק מעבודת-התחזוקה מבוצע ע\"י קבלן חיצוני ולא ע\"י כוח-אדם פנימי. PM משלב את הרכש (MM-Purchasing) לתוך הפק\"ע: פעולה (Operation) מסומנת כ-external, נוצרת Purchase Requisition ואז Purch"
+  },
+  {
+    "ch": 6,
+    "id": "6.3.1",
+    "titleHe": "עקרונות-יסוד של מתן-עבודה לגורם-חוץ",
+    "titleEn": "Basic Principles of External Assignment",
+    "codes": [
+      "IW31",
+      "OPJB",
+      "AFVC",
+      "EBAN",
+      "T399X",
+      "F2849"
+    ],
+    "snippet": "עקרונות-היסוד מגדירים מתי וכיצד עבודה עוברת לגורם-חוץ: סימון פעולה כ-external דרך Control Key, יצירת מסמכי-רכש, ונקודות-החיבור PM↔MM. הבנת העקרונות חוסכת בלבול בין ארבעת התרחישים (single PO, external work center, service specs)."
+  },
+  {
+    "ch": 6,
+    "id": "6.3.2",
+    "titleHe": "עיבוד-חיצוני כהזמנת-רכש בודדת",
+    "titleEn": "External Processing as a Single Purchase Order",
+    "codes": [
+      "IW31",
+      "ME21N",
+      "MIGO",
+      "AFVC",
+      "EBAN",
+      "EKPO",
+      "F2849",
+      "F0842"
+    ],
+    "snippet": "התרחיש הפשוט ביותר: פעולה אחת בפק\"ע מתומחרת כשירות בודד, וה-PR/PO הוא single PO. מתאים לעבודות חד-פעמיות עם מחיר-קבוע. Control Key PM02."
+  },
+  {
+    "ch": 6,
+    "id": "6.3.3",
+    "titleHe": "שירותים-חיצוניים עם מרכזי-עבודה חיצוניים",
+    "titleEn": "External Services with External Work Centers",
+    "codes": [
+      "CR01",
+      "CR02",
+      "IW31",
+      "CRHD",
+      "CRCO",
+      "AFVC",
+      "F2336",
+      "F2849"
+    ],
+    "snippet": "כאשר עבודה-חיצונית חוזרת ודורשת תזמון-קיבולת, מגדירים External Work Center — מרכז-עבודה המייצג קבלן/משאב-חיצוני, עם Cost Center ו-Activity, שמאפשר תזמון ועלות כמו מרכז-פנימי אך מבוצע חיצונית."
+  },
+  {
+    "ch": 6,
+    "id": "6.3.4",
+    "titleHe": "עיבוד-חיצוני עם מפרטי-שירות",
+    "titleEn": "External Processing with Service Specifications",
+    "codes": [
+      "IW31",
+      "ML81N",
+      "ME21N",
+      "AC03",
+      "ESLL",
+      "ESSR",
+      "ASMD",
+      "EKPO",
+      "F2849",
+      "F1982"
+    ],
+    "snippet": "התרחיש המתקדם: External Services Management (Control Key PM03) עם Service Specifications — פירוט-שירותים היררכי, value/quantity limits, ו-Service Entry Sheet (ML81N) לאישור. מתאים לחוזי-שירות מורכבים."
+  },
+  {
+    "ch": 6,
+    "id": "6.4",
+    "titleHe": "שיפוץ (Refurbishment)",
+    "titleEn": "Refurbishment",
+    "codes": [
+      "IW81",
+      "IW82",
+      "IW8W",
+      "OMWC",
+      "MMBE",
+      "MB1A",
+      "AUFK",
+      "AFIH",
+      "MBEW",
+      "MARC",
+      "RESB",
+      "SER01",
+      "F2849",
+      "F1421"
+    ],
+    "snippet": "שיפוץ (Refurbishment) הוא תהליך השבת חלק-חילוף-פגום למצב-שמיש במקום לזרוק אותו ולקנות חדש. ב-SAP זהו תהליך ייחודי המשלב PM, MM ו-CO סביב חומר מנוהל-מצב (split valuation לפי Valuation Type: C1/C2/C3 — חדש/לשיפוץ/משופץ). פק\"ע-שיפוץ (Refurbishment Order) מוציאה ח"
+  },
+  {
+    "ch": 6,
+    "id": "6.4.1",
+    "titleHe": "דרישות-קדם",
+    "titleEn": "Prerequisites",
+    "codes": [
+      "OMWC",
+      "MM01",
+      "OIS2",
+      "MBEW",
+      "T149",
+      "AUFK",
+      "F1602A"
+    ],
+    "snippet": "לפני ביצוע-שיפוץ נדרשים: חומר עם Split Valuation (Valuation Category + Types), Order Type מסומן ל-refurbishment, מחירים פר-Valuation Type, ואופציונלית Serial Number Profile. בלעדיהם התהליך לא יעבוד."
+  },
+  {
+    "ch": 6,
+    "id": "6.4.2",
+    "titleHe": "הודעת-שיפוץ",
+    "titleEn": "Refurbishment Notification",
+    "codes": [
+      "IW21",
+      "IW22",
+      "IW24",
+      "QMEL",
+      "QMFE",
+      "QMUR",
+      "SER01",
+      "F4072"
+    ],
+    "snippet": "Notification-שיפוץ מתעד את הצורך לשפץ חלק: מה התקלקל, מדוע, ומה נדרש — לפני/לצד פתיחת פק\"ע-השיפוץ. הוא מספק את ההקשר והקודים לניתוח-אמינות של חלקים."
+  },
+  {
+    "ch": 6,
+    "id": "6.4.3",
+    "titleHe": "תכנון-דרישות-חומר",
+    "titleEn": "Material Requirements Planning",
+    "codes": [
+      "MD04",
+      "MD02",
+      "IW81",
+      "MARC",
+      "RESB",
+      "PLAF",
+      "F1421"
+    ],
+    "snippet": "MRP בשיפוץ מתכנן את זמינות החלקים-לשיפוץ ואת חלקי-המשנה הנדרשים לתהליך-השיפוץ עצמו. ה-Valuation Type 'לשיפוץ' נכנס לתכנון, ו-MRP יכול ליזום פק\"עות-שיפוץ לפי-מלאי."
+  },
+  {
+    "ch": 6,
+    "id": "6.4.4",
+    "titleHe": "פק\"ע-שיפוץ",
+    "titleEn": "Refurbishment Order",
+    "codes": [
+      "IW81",
+      "IW82",
+      "IW8W",
+      "IW41",
+      "AUFK",
+      "AFKO",
+      "AFVC",
+      "RESB",
+      "F2849"
+    ],
+    "snippet": "פק\"ע-השיפוץ היא הליבה התהליכית: היא נושאת Material, Quantity, From/To Valuation Type, ופעולות-שיפוץ. היא מנהלת את GI/GR של מצבי-החלק ואת צבירת-עלות-השיפוץ פר-יחידה."
+  },
+  {
+    "ch": 6,
+    "id": "6.4.5",
+    "titleHe": "ניפוק-חומר (Goods Issue)",
+    "titleEn": "Goods Issue",
+    "codes": [
+      "MB1A",
+      "MIGO",
+      "IW8W",
+      "RESB",
+      "MSEG",
+      "SER01",
+      "F1421"
+    ],
+    "snippet": "ה-Goods Issue בשיפוץ (תנועה 261) מוציא את החלק-הפגום מהמלאי ב-Valuation Type 'לשיפוץ' אל הפק\"ע. זהו הצעד שמתחיל את צבירת-העלות וההפחתה מהמלאי-לשיפוץ."
+  },
+  {
+    "ch": 6,
+    "id": "6.4.6",
+    "titleHe": "קבלת-טובין (Goods Receipt)",
+    "titleEn": "Goods Receipt",
+    "codes": [
+      "MIGO",
+      "IW8W",
+      "MSEG",
+      "MBEW",
+      "SER01",
+      "F1421"
+    ],
+    "snippet": "ה-Goods Receipt בשיפוץ (תנועה 101) מחזיר את החלק-המשופץ למלאי ב-Valuation Type 'משופץ'. זהו הצעד שסוגר את מעגל-המצב ומעדכן את מלאי-המשופצים."
+  },
+  {
+    "ch": 6,
+    "id": "6.4.7",
+    "titleHe": "תמחיר (Costing)",
+    "titleEn": "Costing",
+    "codes": [
+      "KO88",
+      "KOB1",
+      "IW82",
+      "AUFK",
+      "COEP",
+      "MBEW",
+      "F0961"
+    ],
+    "snippet": "Costing בשיפוץ מחשב ומיישב את עלות-השיפוץ פר-יחידה: עבודה + חלקי-משנה + שירותים-חיצוניים, מול ערך-המלאי-המשופץ. הוא הבסיס להחלטת 'repair vs replace' ולשקיפות-עלויות."
+  },
+  {
+    "ch": 6,
+    "id": "6.5",
+    "titleHe": "קבלנות-משנה (Subcontracting)",
+    "titleEn": "Subcontracting",
+    "codes": [
+      "ME21N",
+      "ME2O",
+      "MIGO",
+      "IW81",
+      "MBLB",
+      "EKPO",
+      "EKKO",
+      "MSLB",
+      "RESB",
+      "SER01",
+      "F0842",
+      "F1982"
+    ],
+    "snippet": "קבלנות-משנה (Subcontracting) בשיפוץ היא התרחיש שבו החלק-הפגום נשלח לשיפוץ אצל ספק-חיצוני, אך הבעלות על-החומר נשארת שלך. בניגוד ל-external processing (שירות בלבד), כאן יש תנועת-חומר אל הספק: אתה מספק לו את החלק-הפגום (ואולי חלקי-משנה), הוא משפץ, ומחזיר חלק-משופ"
+  },
+  {
+    "ch": 6,
+    "id": "6.5.1",
+    "titleHe": "הזמנת-קבלנות-משנה",
+    "titleEn": "Subcontracting Order",
+    "codes": [
+      "ME21N",
+      "ME22N",
+      "EKPO",
+      "EKKO",
+      "F0842"
+    ],
+    "snippet": "ה-subcontracting PO (Item Category L) הוא המסמך המרכזי: הוא מגדיר את החלק-לשיפוץ, את החלקים-המסופקים (BOM), ואת מחיר-השירות. הוא מקשר את הרכש לפק\"ע-השיפוץ ולספק."
+  },
+  {
+    "ch": 6,
+    "id": "6.5.2",
+    "titleHe": "דרישת-רכש",
+    "titleEn": "Purchase Requisition",
+    "codes": [
+      "ME57",
+      "ME58",
+      "ME51N",
+      "EBAN",
+      "EKPO",
+      "F1643"
+    ],
+    "snippet": "ה-Purchase Requisition (PR) ל-subcontracting נוצרת לרוב אוטומטית מפק\"ע-השיפוץ (פעולה/רכיב מסומן subcontracting), והרכש ממיר אותה ל-subcontracting PO. היא נקודת-החיבור בין PM לרכש."
+  },
+  {
+    "ch": 6,
+    "id": "6.5.3",
+    "titleHe": "מוניטור-קבלנות-משנה",
+    "titleEn": "Subcontracting Monitor",
+    "codes": [
+      "ME2O",
+      "MBLB",
+      "MSLB",
+      "EKPO",
+      "F1982"
+    ],
+    "snippet": "Subcontracting Monitor (ME2O) הוא כלי-הבקרה המרכזי: הוא מציג היכן נמצא כל חומר-מסופק-לספק, מה סטטוס-ה-PO, ומה עדיין לא חזר. הוא מונע 'אובדן-חלקים' אצל ספקים."
+  },
+  {
+    "ch": 6,
+    "id": "6.5.4",
+    "titleHe": "מספרים-סידוריים",
+    "titleEn": "Serial Numbers",
+    "codes": [
+      "IQ01",
+      "IQ02",
+      "OIS2",
+      "SER01",
+      "OBJK",
+      "EQUI",
+      "F2657"
+    ],
+    "snippet": "Serial Numbers ב-subcontracting מבטיחים עקיבות פר-יחידה לאורך כל המסע: יציאה לספק (541), שהייה אצלו, וחזרה משופצת (101). הם מקשרים את היחידה הפיזית להיסטוריית-השיפוצים ולכל פק\"ע."
+  },
+  {
+    "ch": 6,
+    "id": "6.6",
+    "titleHe": "כיול ציוד-מדידה",
+    "titleEn": "Test Equipment Calibration",
+    "codes": [
+      "IP01",
+      "IP10",
+      "IP30",
+      "QGA2",
+      "QE51N",
+      "QA11",
+      "EQUI",
+      "QPMK",
+      "PLPO",
+      "MPLA",
+      "MPOS",
+      "QALS",
+      "F2657",
+      "F2360",
+      "F3082"
+    ],
+    "snippet": "כיול ציוד-מדידה (Test Equipment Calibration) הוא תהליך-ההצלבה הקלאסי בין PM ל-QM: ציוד-מדידה (מאזניים, מדי-לחץ, מכשירי-מעבדה) חייב להיבדק תקופתית מול תקן, אחרת מדידותיו אינן מהימנות. ב-SAP זהו תהליך-משולב — Maintenance Plan (PM) שמייצר פק\"ע + Inspection Lot (Q"
+  },
+  {
+    "ch": 6,
+    "id": "6.6.1",
+    "titleHe": "ציוד (Equipment)",
+    "titleEn": "Equipment",
+    "codes": [
+      "IE01",
+      "IE02",
+      "IE03",
+      "EQUI",
+      "EQUZ",
+      "ILOA",
+      "F2657"
+    ],
+    "snippet": "ה-Equipment של ציוד-המדידה הוא נקודת-ההתחלה: הוא חייב QM view עם inspection type 14, נתוני-כיול, ולעיתים Serial/Measuring Points. בלי הגדרה נכונה — אין כיול מובנה."
+  },
+  {
+    "ch": 6,
+    "id": "6.6.2",
+    "titleHe": "מאפייני-בדיקה",
+    "titleEn": "Inspection Characteristics",
+    "codes": [
+      "QS21",
+      "QS23",
+      "QGA2",
+      "QS31",
+      "QPMK",
+      "QPMT",
+      "QMTB",
+      "F3082"
+    ],
+    "snippet": "Master Inspection Characteristics (MIC) מגדירים מה בדיוק נמדד בכיול ומהן הסבולות: ערך-נומינלי, גבול-עליון/תחתון, שיטת-בדיקה ויחידת-מידה. הם הבסיס להחלטת accept/reject."
+  },
+  {
+    "ch": 6,
+    "id": "6.6.3",
+    "titleHe": "רשימת-משימות (Task List)",
+    "titleEn": "Task List",
+    "codes": [
+      "IA01",
+      "IA02",
+      "IA05",
+      "IA06",
+      "PLKO",
+      "PLPO",
+      "PLMK",
+      "F2360"
+    ],
+    "snippet": "ה-Task List לכיול קושר את ה-MIC לפעולות-הבדיקה, ומשמש כתבנית החוזרת בכל כיול. הוא המקור שממנו ה-Maintenance Plan והפק\"ע שואבים את הפעולות ואת מאפייני-הבדיקה."
+  },
+  {
+    "ch": 6,
+    "id": "6.6.4",
+    "titleHe": "תוכנית-תחזוקה",
+    "titleEn": "Maintenance Plan",
+    "codes": [
+      "IP01",
+      "IP02",
+      "IP10",
+      "IP30",
+      "MPLA",
+      "MPOS",
+      "MHIS",
+      "F4178"
+    ],
+    "snippet": "ה-Maintenance Plan מתזמן את הכיול התקופתי אוטומטית: הוא מקשר Equipment + Task List + מחזור-זמן, וה-deadline monitoring (IP30) מייצר פק\"ע + Inspection Lot במועד. הוא המנוע שמבטיח 'אף כיול לא נשכח'."
+  },
+  {
+    "ch": 6,
+    "id": "6.6.5",
+    "titleHe": "פק\"ע ומגרש-בדיקה",
+    "titleEn": "Order and Inspection Lot",
+    "codes": [
+      "QA03",
+      "IW32",
+      "QGA1",
+      "QALS",
+      "AUFK",
+      "AFKO",
+      "F2849"
+    ],
+    "snippet": "ההרצה מייצרת בו-זמנית פק\"ע (PM) ו-Inspection Lot (QM, origin 14) הקשורים זה-לזה: הפק\"ע מנהלת עבודה ועלות, וה-Inspection Lot מנהל את מאפייני-הבדיקה והתוצאות. שניהם חיוניים לתהליך-הכיול."
+  },
+  {
+    "ch": 6,
+    "id": "6.6.6",
+    "titleHe": "רישום-תוצאות",
+    "titleEn": "Results Recording",
+    "codes": [
+      "QE51N",
+      "QE11",
+      "QE01",
+      "QASR",
+      "QAMR",
+      "QALS",
+      "F3082"
+    ],
+    "snippet": "Results Recording (QE51N/QE11) הוא רישום המדידות-בפועל מול ה-MIC: לכל מאפיין נרשם הערך-הנמדד, וה-system משווה לסבולות וקובע valuation (בתוך/מחוץ-לתחום). זהו לב-התיעוד של הכיול."
+  },
+  {
+    "ch": 6,
+    "id": "6.6.7",
+    "titleHe": "החלטת-שימוש",
+    "titleEn": "Usage Decision",
+    "codes": [
+      "QA11",
+      "QA12",
+      "QA13",
+      "QAVE",
+      "QALS",
+      "QAMV",
+      "F2360"
+    ],
+    "snippet": "Usage Decision (QA11) היא ההחלטה-הסופית על ה-Inspection Lot: accept (המכשיר מכויל-ותקין) או reject (נכשל). היא סוגרת את ה-lot ומפעילה את ה-Follow-Up Actions."
+  },
+  {
+    "ch": 6,
+    "id": "6.6.8",
+    "titleHe": "פעולות-המשך",
+    "titleEn": "Follow-Up Actions",
+    "codes": [
+      "QA11",
+      "OQB1",
+      "TQ77",
+      "QAVE",
+      "EQUI",
+      "F2360"
+    ],
+    "snippet": "Follow-Up Actions הן האוטומציה שמופעלת ע\"י ה-Usage Decision: עדכון סטטוס/usage של ה-Equipment, נעילת-מכשיר-כושל, יצירת Notification לתיקון, או עדכון מועד-כיול-הבא. הן סוגרות את הלולאה ומבטיחות פעולה-נגזרת."
+  },
+  {
+    "ch": 6,
+    "id": "6.7",
+    "titleHe": "הזמנת-המשך",
+    "titleEn": "Follow-On Order",
+    "codes": [
+      "IW32",
+      "IW22",
+      "IW31",
+      "IW21",
+      "AUFK",
+      "AFIH",
+      "QMEL",
+      "AFKO",
+      "F2849",
+      "F4072"
+    ],
+    "snippet": "הזמנת-המשך (Follow-On Order) היא פק\"ע חדשה שנוצרת מתוך פק\"ע/Notification קיימת, כשמתגלה עבודה-נוספת תוך-כדי-ביצוע. דוגמה: בזמן תיקון מתגלה תקלה-נוספת שלא ניתן/לא-כדאי לבצע באותה פק\"ע. SAP מאפשר יצירה ישירה (מתוך הפק\"ע) או עקיפה (דרך Notification חדש), תוך שמיר"
+  },
+  {
+    "ch": 6,
+    "id": "6.7.1",
+    "titleHe": "יצירה-ישירה",
+    "titleEn": "Direct Creating",
+    "codes": [
+      "IW32",
+      "AUFK",
+      "AFIH",
+      "F2849"
+    ],
+    "snippet": "יצירה-ישירה: מתוך הפק\"ע-הפעילה (IW32) בוחרים 'Create Follow-On Order' — נוצרת פק\"ע חדשה עם הפניה-ישירה למקור, באותו אובייקט-טכני. המסלול המהיר והמקושר-ביותר."
+  },
+  {
+    "ch": 6,
+    "id": "6.7.2",
+    "titleHe": "יצירה-עקיפה",
+    "titleEn": "Indirect Creating",
+    "codes": [
+      "IW21",
+      "IW31",
+      "QMEL",
+      "QMFE",
+      "AUFK",
+      "F4072",
+      "F2849"
+    ],
+    "snippet": "יצירה-עקיפה: במקום ישירות מהפק\"ע, פותחים Notification חדש (IW21) על-האובייקט המתעד את הממצא, וממנו יוצרים פק\"ע. מסלול ארוך-יותר אך מתעד את הממצא כ-Notification נפרד."
+  },
+  {
+    "ch": 6,
+    "id": "6.8",
+    "titleHe": "ניהול מאגר-ציוד",
+    "titleEn": "Pool Asset Management",
+    "codes": [
+      "IE03",
+      "IW31",
+      "CM01",
+      "IW41",
+      "EQUI",
+      "AUFK",
+      "VBAK",
+      "RESB",
+      "F2657",
+      "F4178"
+    ],
+    "snippet": "ניהול מאגר-ציוד (Pool Asset Management, PAM) מנהל ציוד-משותף ('בריכת-נכסים') המושאל בין משתמשים/מחלקות — כלים, מכשירים, רכבים, ציוד-נייד. במקום שכל מחלקה תחזיק ציוד-משלה, מאגר-מרכזי מנוהל דרך בקשות, תזמון (Planning Board), ניפוק (Issue), החזרה (Return) ויישוב-"
+  },
+  {
+    "ch": 6,
+    "id": "6.8.1",
+    "titleHe": "בקשה",
+    "titleEn": "Request",
+    "codes": [
+      "IW31",
+      "CM01",
+      "EQUI",
+      "VBAK",
+      "F4178"
+    ],
+    "snippet": "ה-Request הוא נקודת-הפתיחה: משתמש/מחלקה מבקש pool asset לתקופה-מוגדרת. הבקשה נושאת מבקש, נכס/סוג-נכס, ותאריכי-שימוש, ונכנסת לתור-התזמון."
+  },
+  {
+    "ch": 6,
+    "id": "6.8.2",
+    "titleHe": "תזמון דרך לוח-תכנון",
+    "titleEn": "Scheduling via Planning Board",
+    "codes": [
+      "CM01",
+      "CM21",
+      "EQUI",
+      "RESB",
+      "F4178"
+    ],
+    "snippet": "ה-Planning Board (Gantt) משבץ בקשות לנכסים פנויים, מונע חפיפות, ומראה זמינות חזותית. הוא הכלי-המרכזי של PAM לקבלת-החלטות-הקצאה."
+  },
+  {
+    "ch": 6,
+    "id": "6.8.3",
+    "titleHe": "אישור",
+    "titleEn": "Confirmation",
+    "codes": [
+      "CM01",
+      "IW32",
+      "EQUI",
+      "JEST",
+      "F4178"
+    ],
+    "snippet": "ה-Confirmation מאשר את ההקצאה-המתוזמנת: הופך 'הצעת-שיבוץ' ל'הקצאה-מאושרת', מקבע את חלון-הזמן והנכס למבקש, ופותח את הדרך ל-Issue."
+  },
+  {
+    "ch": 6,
+    "id": "6.8.4",
+    "titleHe": "ניפוק",
+    "titleEn": "Issue",
+    "codes": [
+      "IW32",
+      "IK11",
+      "EQUI",
+      "JEST",
+      "IMRG",
+      "F4178"
+    ],
+    "snippet": "ה-Issue הוא המסירה-הפיזית של הנכס למבקש בתחילת-התקופה: רישום היציאה מהמאגר, תיעוד-מצב, ולעיתים קריאות-מונה. מרגע זה הנכס 'אצל-המבקש'."
+  },
+  {
+    "ch": 6,
+    "id": "6.8.5",
+    "titleHe": "החזרה",
+    "titleEn": "Return",
+    "codes": [
+      "IW32",
+      "IK11",
+      "IW21",
+      "EQUI",
+      "JEST",
+      "IMRG",
+      "QMEL",
+      "F4178"
+    ],
+    "snippet": "ה-Return הוא קבלת-הנכס בחזרה למאגר בתום-התקופה: רישום ההחזרה, בדיקת-מצב מול ה-Issue, קריאות-מונה-סופיות, וזיהוי-נזקים. מרגע זה הנכס פנוי-להקצאה-מחדש."
+  },
+  {
+    "ch": 6,
+    "id": "6.8.6",
+    "titleHe": "יישוב",
+    "titleEn": "Settlement",
+    "codes": [
+      "KO88",
+      "IW32",
+      "AUFK",
+      "COEP",
+      "EQUI",
+      "F0961"
+    ],
+    "snippet": "ה-Settlement מחייב את המבקש על-השימוש: עלות (לפי-זמן/שימוש) מיושבת ל-Cost Center של מחלקת-המבקש. הוא הופך את המאגר ל'שירות-פנימי-מתומחר' ומצדיק את רכש-הציוד-המשותף."
+  },
+  {
+    "ch": 6,
+    "id": "6.8.7",
+    "titleHe": "דרישות-קדם",
+    "titleEn": "Prerequisites",
+    "codes": [
+      "IE01",
+      "CM01",
+      "EQUI",
+      "AUFK",
+      "ILOA",
+      "F2657"
+    ],
+    "snippet": "דרישות-הקדם ל-PAM: הגדרת pool assets (Equipment), Pool Asset Types, Planning Board Profile, Request/Confirmation/Issue/Return profiles, ו-Billing/Settlement rules. בלעדיהן המחזור לא יעבוד מקצה-לקצה."
+  },
+  {
+    "ch": 6,
+    "id": "6.9",
+    "titleHe": "תחזוקה מבוססת-פרויקט",
+    "titleEn": "Project-Based Maintenance",
+    "codes": [
+      "WPS1",
+      "IPMD",
+      "CJ20N",
+      "CN41",
+      "IW32",
+      "PRPS",
+      "PROJ",
+      "AUFK",
+      "AFIH",
+      "T350",
+      "F2849",
+      "F3263"
+    ],
+    "snippet": "תחזוקה מבוססת-פרויקט מצליבה PM עם PS (Project System) כדי לנהל אירועי-תחזוקה גדולים ומורכבים — Turnarounds, Shutdowns, Overhauls — שבהם עשרות/מאות פק\"עות מנוהלות יחד תחת מבנה-פרויקט (WBS). ה-Maintenance Event Builder (MEB, תנועה WPS/IPMD) הוא הכלי שמקשר פק\"עות"
+  },
+  {
+    "ch": 6,
+    "id": "6.9.1",
+    "titleHe": "מערכת-פרויקטים",
+    "titleEn": "Project System",
+    "codes": [
+      "CJ20N",
+      "CJ40",
+      "CN41",
+      "PROJ",
+      "PRPS",
+      "PRTE",
+      "F3263"
+    ],
+    "snippet": "Project System (PS) מספק את מבנה-העל לתחזוקה-מבוססת-פרויקט: WBS Elements לתקצוב-ובקרת-עלות, ו-Networks לתזמון. פק\"עות-PM מוקצות ל-WBS לצורך roll-up של עלות ותכנון מאוחד."
+  },
+  {
+    "ch": 6,
+    "id": "6.9.2",
+    "titleHe": "בונה-אירועי-תחזוקה",
+    "titleEn": "Maintenance Event Builder",
+    "codes": [
+      "IPMD",
+      "WPS1",
+      "IW32",
+      "AFIH",
+      "QMEL",
+      "PRPS",
+      "T350",
+      "F2849"
+    ],
+    "snippet": "ה-Maintenance Event Builder (MEB, IPMD/WPS) הוא ה-cockpit שמתרגם צרכי-תחזוקה (Notifications) לאירוע-מובנה: שיוך ל-WBS, יצירת-פק\"עות, קיבוץ ל-Revision (חלון-Shutdown), ותכנון-מאוחד. הוא הגשר התפעולי בין PM ל-PS."
+  },
+  {
+    "ch": 6,
+    "id": "6.10",
+    "titleHe": "סיכום",
+    "titleEn": "Summary",
+    "codes": [
+      "IW31",
+      "IW81",
+      "IP30",
+      "ME2O",
+      "IPMD",
+      "KO88",
+      "AUFK",
+      "AFIH",
+      "QMEL",
+      "MBEW",
+      "QALS",
+      "PRPS",
+      "F2849",
+      "F4178",
+      "F2360"
+    ],
+    "snippet": "פרק 6 השלים את התמונה התפעולית של PM מעבר לתהליך-הבסיסי. למדנו תשעה תהליכים-עסקיים שכל מפעל-ייצור נתקל בהם: תיקונים-מיידיים (מהירות מול תיעוד), פתקי/דוחות-משמרת (רציפות-ידע), מתן-עבודה-לחוץ (שילוב הרכש), שיפוץ (Split Valuation ומחזור-חלקים), קבלנות-משנה (שיפוץ"
+  },
+  {
+    "ch": 7,
+    "id": "7.1",
+    "titleHe": "שילוב בתוך SAP S/4HANA",
+    "titleEn": "Integration within SAP S/4HANA",
+    "codes": [
+      "IW31",
+      "IW32",
+      "IW41",
+      "KO88",
+      "MIGO",
+      "CN22",
+      "AUFK",
+      "AFKO",
+      "AFVC",
+      "RESB",
+      "QALS",
+      "COBRB",
+      "ACDOCA",
+      "F2972",
+      "F2971",
+      "F4072A"
+    ],
+    "snippet": "בתוך SAP S/4HANA, PM אינו רכיב עצמאי אלא צומת המחבר לוגיסטיקה, ייצור, איכות, בטיחות וכספים סביב מסמך-מפתח אחד: הזמנת-התחזוקה (Maintenance Order). מרגע פתיחתה היא מושכת חלקי-חילוף מ-MM, תופסת קיבולת לצד PP, מפעילה בדיקות QM, נושאת היבטי EHS, ומזרימה עלויות אל C"
+  },
+  {
+    "ch": 7,
+    "id": "7.1.1",
+    "titleHe": "ניהול חומרים (Materials Management)",
+    "titleEn": "Materials Management",
+    "codes": [
+      "IW31",
+      "MIGO",
+      "MB21",
+      "ME51N",
+      "IW3L",
+      "RESB",
+      "EBAN",
+      "MARC",
+      "MBEW",
+      "MSEG",
+      "F2972",
+      "F0842",
+      "F1990"
+    ],
+    "snippet": "MM הוא שותף-האינטגרציה ההדוק ביותר של PM: כל חלק-חילוף שמותקן בהזמנת-תחזוקה נמשך מהמלאי או נרכש דרך MM. הקשר נע משני כיוונים — PM צורך מלאי (Goods Issue 261) ומפיק דרישות-רכש (Purchase Requisition) לחלקים חסרים."
+  },
+  {
+    "ch": 7,
+    "id": "7.1.2",
+    "titleHe": "תכנון ובקרת ייצור (Production Planning and Control)",
+    "titleEn": "Production Planning and Control",
+    "codes": [
+      "IR01",
+      "CM01",
+      "CM21",
+      "IP10",
+      "CR03",
+      "CRHD",
+      "KAKO",
+      "AFVC",
+      "PLPO",
+      "F2336",
+      "F2297"
+    ],
+    "snippet": "PM ו-PP חולקים את אותם משאבי-ייצור: מרכזי-עבודה (Work Centers) וקיבולת. עצירת-תחזוקה תופסת קיבולת שאחרת הייתה משמשת לייצור, ולכן תכנון-התחזוקה חייב להיות מתואם עם תכנית-הייצור כדי שלא יתנגשו על אותו קו."
+  },
+  {
+    "ch": 7,
+    "id": "7.1.3",
+    "titleHe": "ייצור-עצמי של חלקי-חילוף למלאי",
+    "titleEn": "In-House Production of Spare Parts for Stock",
+    "codes": [
+      "CO01",
+      "MIGO",
+      "IW31",
+      "MB1A",
+      "AFKO",
+      "AFPO",
+      "MARC",
+      "RESB",
+      "MSEG",
+      "F2336",
+      "F2972"
+    ],
+    "snippet": "לעיתים זול ומהיר יותר לייצר חלק-חילוף בבית-המלאכה הפנימי במקום לרכוש מספק. כאן PM ו-PP נפגשים הפוך: הייצור (PP) מייצר חלף שנכנס למלאי (MM) ומשמש מאוחר יותר את התחזוקה (PM)."
+  },
+  {
+    "ch": 7,
+    "id": "7.1.4",
+    "titleHe": "ניהול איכות (Quality Management)",
+    "titleEn": "Quality Management",
+    "codes": [
+      "IP01",
+      "QE11",
+      "QA11",
+      "IK01",
+      "QGA1",
+      "QALS",
+      "QPMK",
+      "QAMR",
+      "PLPO",
+      "EQUI",
+      "F2972",
+      "F3019"
+    ],
+    "snippet": "QM משתלב ב-PM בעיקר בשני מישורים: כיול ציוד-מדידה (Calibration) ובדיקת חלקי-חילוף נכנסים. כיול הוא תהליך-תחזוקה שמפיק Inspection Lot ב-QM ומתעד תוצאות-מדידה — קריטי לרגולציה ולמהימנות-מכשירים."
+  },
+  {
+    "ch": 7,
+    "id": "7.1.5",
+    "titleHe": "סביבה, בריאות ובטיחות (Environment, Health, and Safety)",
+    "titleEn": "Environment, Health, and Safety",
+    "codes": [
+      "WCAA",
+      "WCAB",
+      "IW31",
+      "IW32",
+      "WCAA",
+      "WCAS",
+      "AUFK",
+      "EQUI",
+      "F2972",
+      "F4072A"
+    ],
+    "snippet": "EHS משתלב ב-PM כדי להבטיח שעבודות-תחזוקה מסוכנות מתבצעות בבטחה: היתרי-עבודה (Work Clearance/Permits), נעילה-ותיוג (LOTO), והערכות-סיכון משולבות בהזמנת-התחזוקה לפני שחרורה."
+  },
+  {
+    "ch": 7,
+    "id": "7.1.6",
+    "titleHe": "הנהלת-חשבונות פיננסית (Financial Accounting)",
+    "titleEn": "Financial Accounting",
+    "codes": [
+      "KO88",
+      "MIGO",
+      "MIRO",
+      "FB03",
+      "FAGLL03",
+      "ACDOCA",
+      "BSEG",
+      "BKPF",
+      "MSEG",
+      "T030",
+      "F0717",
+      "F2218"
+    ],
+    "snippet": "כל עלות בהזמנת-תחזוקה — חומר, עבודה, שירות-חוץ — מייצרת בסופו-של-דבר רישום ב-FI. ב-S/4HANA הרישומים מאוחדים ב-Universal Journal (ACDOCA), כך שתנועות-PM נראות מיד במאזן ובדוח-רווח-והפסד."
+  },
+  {
+    "ch": 7,
+    "id": "7.1.7",
+    "titleHe": "הנהלת-חשבונות נכסים (Asset Accounting)",
+    "titleEn": "Asset Accounting",
+    "codes": [
+      "AS03",
+      "KO88",
+      "IE03",
+      "AW01N",
+      "ANLA",
+      "ANLC",
+      "EQUI",
+      "AUFK",
+      "COBRB",
+      "F0936",
+      "F2972"
+    ],
+    "snippet": "ציוד-PM הוא לרוב גם נכס-קבוע (Fixed Asset) ב-AA. כאשר תחזוקה משביחה ציוד (Capital improvement), העלות מסולקת אל ה-Asset ולא להוצאה שוטפת — מבחנה קריטית בין הוצאה (Expense) להשקעה (Capitalization)."
+  },
+  {
+    "ch": 7,
+    "id": "7.1.8",
+    "titleHe": "בקרת-עלויות (Controlling)",
+    "titleEn": "Controlling",
+    "codes": [
+      "KO88",
+      "KP26",
+      "S_ALR_87013611",
+      "KOB1",
+      "AUFK",
+      "COEP",
+      "COBRB",
+      "ACDOCA",
+      "COSP",
+      "F2972",
+      "F0961"
+    ],
+    "snippet": "CO הוא היעד העיקרי של עלויות-התחזוקה. הזמנת-ה-PM היא Cost Object זמני הצובר עלויות-תכנון מול עלויות-בפועל, ובסופה מסולקת (Settlement) אל מרכז-עלות, פרויקט או נכס — שם מנותחות ההפרשים והבקרה."
+  },
+  {
+    "ch": 7,
+    "id": "7.1.9",
+    "titleHe": "ניהול נדל\"ן (Real Estate Management)",
+    "titleEn": "Real Estate Management",
+    "codes": [
+      "IL03",
+      "REBDBU",
+      "RECN",
+      "IW31",
+      "IFLOT",
+      "VIBDAO",
+      "VICNCN",
+      "AUFK",
+      "F1990",
+      "F2972"
+    ],
+    "snippet": "כאשר אובייקטי-התחזוקה הם מבנים, חללים או תשתיות, RE-FX (Real Estate) מספק את ההקשר הנדל\"ני. Functional Locations של מבנים יכולים להיות מקושרים לאובייקטי-נדל\"ן (Architectural/Usage objects), כך שתחזוקת-מבנים מתואמת עם ניהול-החללים והחוזים."
+  },
+  {
+    "ch": 7,
+    "id": "7.1.10",
+    "titleHe": "ניהול הון אנושי (Human Capital Management)",
+    "titleEn": "Human Capital Management",
+    "codes": [
+      "CAT2",
+      "PA20",
+      "IW41",
+      "CR03",
+      "PA0001",
+      "CRHD",
+      "CATSDB",
+      "AFVC",
+      "F2972",
+      "F1823"
+    ],
+    "snippet": "אנשי-התחזוקה הם משאב מרכזי. HCM מספק את נתוני-העובד, הכישורים (Qualifications) וזמן-העבודה (Time Recording). שיוך טכנאים להזמנות נשען על נתוני-HCM, ושעות-העבודה יכולות לזרום בין PM ל-Time Management."
+  },
+  {
+    "ch": 7,
+    "id": "7.1.11",
+    "titleHe": "שירות ומכירות (Service and Sales)",
+    "titleEn": "Service and Sales",
+    "codes": [
+      "IW51",
+      "IW52",
+      "DP90",
+      "DP91",
+      "VF01",
+      "AUFK",
+      "VBAK",
+      "VBAP",
+      "VBRK",
+      "COEP",
+      "F2972",
+      "F0018"
+    ],
+    "snippet": "כאשר תחזוקה מבוצעת עבור לקוח חיצוני (Customer Service), PM משתלב עם SD ועם Customer Service. Service Order מחייבת את הלקוח (Billing) על חלקים ועבודה, וגוזרת חוזה-שירות (Service Contract) ותמחור-מכירה."
+  },
+  {
+    "ch": 7,
+    "id": "7.2",
+    "titleHe": "שילוב עם מערכות SAP אחרות",
+    "titleEn": "Integration with Other SAP Systems",
+    "codes": [
+      "MDGIMG",
+      "BD64",
+      "WE20",
+      "SOAMANAGER",
+      "MARA",
+      "LFA1",
+      "EQUI",
+      "EDIDC",
+      "F1990"
+    ],
+    "snippet": "מעבר ל-S/4HANA הליבה, PM מתכתב עם מערכות-SAP נוספות המתמחות בנתוני-אב ובמערכות-עקיף: SAP NetWeaver MDM ו-SAP MDG לאיכות-ושליטה בנתוני-אב (חומרים, ספקים, אובייקטים-טכניים), ו-SAP SRM לרכש-עקיף של חלקים ושירותים. שילוב זה מבטיח שנתוני-האב של PM עקביים בכל הנוף-ה"
+  },
+  {
+    "ch": 7,
+    "id": "7.2.1",
+    "titleHe": "SAP NetWeaver Master Data Management",
+    "titleEn": "SAP NetWeaver Master Data Management",
+    "codes": [
+      "BD64",
+      "WE20",
+      "SXMB_MONI",
+      "MARA",
+      "LFA1",
+      "EDIDC"
+    ],
+    "snippet": "SAP NetWeaver MDM היא הפלטפורמה ההיסטורית לאיחוד, ניקוי והפצה של נתוני-אב על-פני נוף-מערכתי הטרוגני. עבור PM היא הבטיחה שחומרי-חלפים, ספקים ואובייקטים-טכניים יהיו אחידים בין מערכות מרובות."
+  },
+  {
+    "ch": 7,
+    "id": "7.2.2",
+    "titleHe": "SAP Master Data Governance",
+    "titleEn": "SAP Master Data Governance",
+    "codes": [
+      "MDGIMG",
+      "MDG_BS_MAT_OG",
+      "DRFOUT",
+      "NWBC",
+      "MARA",
+      "LFA1",
+      "EQUI",
+      "USMD110C",
+      "F1990"
+    ],
+    "snippet": "SAP MDG הוא היורש המודרני, המשולב ב-S/4HANA, לשליטה בנתוני-אב. הוא מוסיף תהליכי-אישור (governance workflow), בקרת-איכות והפצה לנתוני חומרים, ספקים ואובייקטים-טכניים — קריטי לחלפי-PM ולנתוני-ציוד."
+  },
+  {
+    "ch": 7,
+    "id": "7.2.3",
+    "titleHe": "SAP Supplier Relationship Management",
+    "titleEn": "SAP Supplier Relationship Management",
+    "codes": [
+      "ME51N",
+      "ME21N",
+      "BBP_PD",
+      "ME57",
+      "EBAN",
+      "EKKO",
+      "LFA1",
+      "BBP_PDIGP",
+      "F0842",
+      "F1990"
+    ],
+    "snippet": "SAP SRM ניהל את רכש-העקיף ואת מחזור-חיי-הספקים: קטלוגים, self-service procurement, מכרזים וניהול-חוזים. עבור PM הוא ייעל את רכש חלקי-החילוף והשירותים שאינם-מלאי, ולעיתים הזין ישירות דרישות-רכש להזמנות-תחזוקה."
+  },
+  {
+    "ch": 7,
+    "id": "7.3",
+    "titleHe": "שילוב עם מערכות שאינן SAP",
+    "titleEn": "Integration with Non-SAP Systems",
+    "codes": [
+      "IK01",
+      "IK11",
+      "ML81N",
+      "SOAMANAGER",
+      "WE20",
+      "IMPTT",
+      "IMRG",
+      "ESSR",
+      "EDIDC",
+      "F2972",
+      "F1643"
+    ],
+    "snippet": "מפעל מודרני מחובר לעולם החיצוני: מערכות-ניטור-תפעול (SCADA/DCS/IoT) מזרימות נתוני-מצב-ציוד בזמן-אמת, מערכות-מידע-תפעוליות מספקות תובנות-ביצוע, ומפרטי-שירות חיצוניים מנהלים שירותים מורכבים. PM משתלב איתן דרך ממשקים (IDoc, OData/REST, PI/PO, BTP Integration Suit"
+  },
+  {
+    "ch": 7,
+    "id": "7.3.1",
+    "titleHe": "מערכות ניטור-תפעול",
+    "titleEn": "Operations Monitoring Systems",
+    "codes": [
+      "IK01",
+      "IK11",
+      "IK17",
+      "IW21",
+      "IMPTT",
+      "IMRG",
+      "EQUI",
+      "QMEL",
+      "F2972",
+      "F1643"
+    ],
+    "snippet": "מערכות-ניטור-תפעול (SCADA, DCS, PLC, IoT platforms) מנטרות את מצב-הציוד בזמן-אמת. שילובן ב-PM מאפשר תחזוקה מבוססת-מצב (Condition-Based) ותחזוקה-חזויה (Predictive): נתוני-חיישן הופכים אוטומטית להזמנות-תחזוקה לפני שמתרחש כשל."
+  },
+  {
+    "ch": 7,
+    "id": "7.3.2",
+    "titleHe": "מערכות מידע תפעוליות",
+    "titleEn": "Operations Information Systems",
+    "codes": [
+      "MCI1",
+      "MCI3",
+      "MCI7",
+      "MCJB",
+      "S061",
+      "S065",
+      "S070",
+      "QMEL",
+      "AUFK",
+      "F2972",
+      "F3211"
+    ],
+    "snippet": "מערכות-מידע-תפעוליות (MES, Historians, BI/Analytics, SAP Analytics Cloud) צוברות ומנתחות נתוני-ביצוע — זמינות-ציוד, MTBF/MTTR, OEE. שילובן עם PM הופך נתוני-תחזוקה גולמיים לתובנות-ניהול ול-KPIs להחלטות-תחזוקה."
+  },
+  {
+    "ch": 7,
+    "id": "7.3.3",
+    "titleHe": "מפרטי-שירות ורישום שירותים שבוצעו",
+    "titleEn": "Service Specifications and Entry of Services Performed",
+    "codes": [
+      "AC03",
+      "ME21N",
+      "ML81N",
+      "ME2S",
+      "ESLL",
+      "ESSR",
+      "ASMD",
+      "EKPO",
+      "EBAN",
+      "F1643",
+      "F2972"
+    ],
+    "snippet": "כאשר תחזוקה דורשת שירותי-חוץ מורכבים (קבלני-משנה, כיול-מעבדה, ניקוי-תעשייתי), External Services Management מנהל אותם דרך Service Specifications (מה הוזמן) ו-Service Entry Sheets (מה בוצע בפועל) — בקרה מלאה על שירות ותשלום."
+  },
+  {
+    "ch": 7,
+    "id": "7.4",
+    "titleHe": "סיכום",
+    "titleEn": "Summary",
+    "codes": [
+      "IW31",
+      "KO88",
+      "MIGO",
+      "ML81N",
+      "IK11",
+      "AUFK",
+      "RESB",
+      "QALS",
+      "COBRB",
+      "ACDOCA",
+      "IMRG",
+      "ESSR",
+      "F2972",
+      "F0717",
+      "F1643"
+    ],
+    "snippet": "פרק זה הציג את PM כצומת-אינטגרציה בלב ה-ERP. בתוך S/4HANA הוא מתחבר ל-MM (חלפים), PP/PP-PI (קיבולת), QM (כיול), EHS (בטיחות), FI/AA/CO (עלויות), RE (מבנים), HCM (כוח-אדם) ו-Service/SD (תחזוקה-מסחרית). מעבר לכך הוא נשען על MDM/MDG (נתוני-אב נקיים) ועל SRM/Ariba"
+  },
+  {
+    "ch": 8,
+    "id": "8.1",
+    "titleHe": "מהי בקרת תחזוקת מפעל",
+    "titleEn": "What Plant Maintenance Controlling Involves",
+    "codes": [
+      "IW31",
+      "IW41",
+      "KO88",
+      "S_ALR_87013533",
+      "IW38",
+      "KOB1",
+      "AUFK",
+      "COEP",
+      "COVP",
+      "ACDOCA",
+      "RESB",
+      "JEST",
+      "F2929",
+      "F0967",
+      "F0811"
+    ],
+    "snippet": "בקרת-תחזוקה היא המשמעת הניהולית של תכנון, מדידה והשוואה של עלויות-התחזוקה מול תקציב ומול תוצרת. כל פעולת-תחזוקה ב-SAP — מהודעה (Notification), דרך פקודת-תחזוקה (Maintenance Order) ועד אישור (Confirmation) — מייצרת עלות. בקרת-התחזוקה דואגת שהעלויות נאספות לאובי"
+  },
+  {
+    "ch": 8,
+    "id": "8.2",
+    "titleHe": "כלי SAP להפקת מידע",
+    "titleEn": "SAP Tools for Obtaining Information",
+    "codes": [
+      "IW38",
+      "IW39",
+      "SQVI",
+      "MCI1",
+      "MCI3",
+      "MCI8",
+      "AUFK",
+      "COEP",
+      "QMEL",
+      "S061",
+      "S065",
+      "MCIS",
+      "F2929",
+      "F0967",
+      "F2691"
+    ],
+    "snippet": "אחרי שעלויות-התחזוקה נאספו, צריך להפיק מהן מידע. SAP מציע סולם-כלים מהפשוט למתוחכם: SAP List Viewer (ALV) לדוחות-תפעוליים מובנים, QuickViewer (SQVI) לשאילתות-אד-הוק, Logistics Information System (LIS) לאנליזה-תקופתית, ו-SAP BW/4HANA + SAP Lumira לבינה-עסקית אר"
+  },
+  {
+    "ch": 8,
+    "id": "8.2.1",
+    "titleHe": "SAP List Viewer (ALV)",
+    "titleEn": "SAP List Viewer",
+    "codes": [
+      "IW38",
+      "IW39",
+      "IW28",
+      "IW29",
+      "LTDX",
+      "AUFK",
+      "AFIH",
+      "F2929",
+      "F0967"
+    ],
+    "snippet": "SAP List Viewer (ALV) הוא מנוע-התצוגה הסטנדרטי של רשימות ב-SAP — הטבלה האינטראקטיבית מאחורי כמעט כל דוח-תחזוקה (IW38/IW39). הוא מאפשר מיון, סינון, סיכום-ביניים, פריסות (Layouts) וייצוא — הכל ללא תכנות. זהו הכלי הראשון והנפוץ ביותר להפקת-מידע-תחזוקה."
+  },
+  {
+    "ch": 8,
+    "id": "8.2.2",
+    "titleHe": "QuickViewer (SQVI)",
+    "titleEn": "QuickViewer",
+    "codes": [
+      "SQVI",
+      "SQ01",
+      "SQ02",
+      "SQ03",
+      "AUFK",
+      "COEP",
+      "EQUI",
+      "AFIH",
+      "QMEL"
+    ],
+    "snippet": "QuickViewer (SQVI) הוא כלי לבניית-שאילתות-אד-הוק בלי תכנות. המשתמש בוחר טבלאות, מגדיר Join או Logical Database, בוחר שדות-יציאה ושדות-בחירה — ומקבל דוח-ALV. הוא אישי (single-user) אך ניתן להמרה ל-SAP Query (SQ01) לשיתוף. כלי-זהב לשאלות-עלות-תחזוקה שאין להן דוח"
+  },
+  {
+    "ch": 8,
+    "id": "8.2.3",
+    "titleHe": "מערכת מידע לוגיסטית (LIS)",
+    "titleEn": "Logistics Information System",
+    "codes": [
+      "MCI1",
+      "MCI3",
+      "MCI4",
+      "MCI8",
+      "MCSI",
+      "OMOY",
+      "S061",
+      "S062",
+      "S063",
+      "S065",
+      "MCIS",
+      "TMC4",
+      "F2691"
+    ],
+    "snippet": "Logistics Information System (LIS) הוא מחסן-נתונים-תפעולי מובנה בתוך ECC, האוסף נתוני-תחזוקה ל-Information Structures (S061-S065) המתעדכנות אוטומטית מאירועים. הוא מאפשר Standard ו-Flexible Analyses — ניתוחי-מגמה תקופתיים של עלות, זמן-השבתה ותדירות-תקלות, ללא ה"
+  },
+  {
+    "ch": 8,
+    "id": "8.2.4",
+    "titleHe": "SAP Business Warehouse ו-SAP BW/4HANA",
+    "titleEn": "SAP Business Warehouse and SAP BW/4HANA",
+    "codes": [
+      "RSA1",
+      "RSA5",
+      "RSA6",
+      "SBIW",
+      "RSPC",
+      "RSDCUBE",
+      "RSDODSO",
+      "ROOSOURCE",
+      "RSDS"
+    ],
+    "snippet": "SAP Business Warehouse (BW) ו-יורשו SAP BW/4HANA הם מחסן-נתונים-ארגוני (EDW) נפרד מה-ECC, המאחד נתוני-תחזוקה ממקורות-רבים לדיווח-אסטרטגי. הם מספקים מודלים-רב-ממדיים, היסטוריה-עמוקה, ו-drill-down חוצה-מערכות — לדשבורדים ול-KPIs ארגוניים שמעבר ליכולות LIS."
+  },
+  {
+    "ch": 8,
+    "id": "8.2.5",
+    "titleHe": "SAP Lumira, Discovery Edition",
+    "titleEn": "SAP Lumira, Discovery Edition",
+    "codes": [],
+    "snippet": "SAP Lumira, Discovery Edition הוא כלי self-service לויזואליזציה וגילוי-נתונים. הוא מאפשר למשתמש-עסקי (לא-מתכנת) לחבר מקור-נתונים — BW, HANA או קובץ — ולבנות גרפים, מפות ודשבורדים אינטראקטיביים של עלויות-ותקלות-תחזוקה, בגרירה-ושחרור."
+  },
+  {
+    "ch": 8,
+    "id": "8.3",
+    "titleHe": "כלי SAP לתקצוב",
+    "titleEn": "SAP Tools for Budgeting",
+    "codes": [
+      "KO22",
+      "KO24",
+      "KP06",
+      "IM52",
+      "CJ30",
+      "CJ31",
+      "BPGE",
+      "BPJA",
+      "COSP",
+      "IMPR",
+      "PRPS",
+      "F0967",
+      "F2929"
+    ],
+    "snippet": "תקצוב הוא הצד-המקדים של בקרת-התחזוקה: קביעת תקרת-הוצאה לפני הביצוע, ומעקב שהביצוע-בפועל לא חורג. SAP מציע חמש דרכים לתקצב תחזוקה: Order budgeting (תקציב לפקודה-בודדת), Cost-center budgeting (תקציב למרכז-עלות), Investment Management (תקציב-השקעות-הון), WBS budg"
+  },
+  {
+    "ch": 8,
+    "id": "8.3.1",
+    "titleHe": "תקצוב פקודות (Order Budgeting)",
+    "titleEn": "Order Budgeting",
+    "codes": [
+      "KO22",
+      "KO24",
+      "KO30",
+      "KO31",
+      "BPGE",
+      "BPJA",
+      "AUFK",
+      "COSP",
+      "F0967"
+    ],
+    "snippet": "Order budgeting מקצה תקציב לפקודה-פנימית-בודדת (לרבות Maintenance Order דרך מבנה-עלות), עם Availability Control הבודק כל מחויבות מול התקציב. זו הדרך הישירה ביותר לבקר עלות-עבודה-תחזוקתית-בודדת, ולעצור חריגה ברגע-ההזמנה."
+  },
+  {
+    "ch": 8,
+    "id": "8.3.2",
+    "titleHe": "תקצוב מרכז עלות (Cost Center Budgeting)",
+    "titleEn": "Cost Center Budgeting",
+    "codes": [
+      "KP06",
+      "KP07",
+      "KP26",
+      "S_ALR_87013611",
+      "COSP",
+      "COSS",
+      "CSKS",
+      "ACDOCP",
+      "F0967",
+      "F2764"
+    ],
+    "snippet": "Cost-center budgeting מקצה תקציב לאזור-אחריות-תחזוקתי (קו, אזור, Planner-Group) ברמת-Cost-Center. בעולם ה-CO-OM הקלאסי זהו Plan (KP06) ללא AVAC-חוסם; לבקרה-חוסמת משתמשים ב-Commitment-Management או מפנים ל-Order/WBS. עדיין, זהו הבסיס לדיווח Plan/Actual תקופתי ש"
+  },
+  {
+    "ch": 8,
+    "id": "8.3.3",
+    "titleHe": "תקצוב באמצעות תוכניות ניהול-השקעות (Investment Management)",
+    "titleEn": "Budgeting by Using Investment Management Programs",
+    "codes": [
+      "IM01",
+      "IM22",
+      "IM52",
+      "IMA11",
+      "KO88",
+      "IMPR",
+      "IMAV",
+      "BPGE",
+      "BPJA",
+      "ANLC",
+      "F2929"
+    ],
+    "snippet": "Investment Management (IM) מנהל תקציבי-השקעות-הון בהיררכיית-תוכנית מלמעלה-למטה. Investment Program מחולק ל-Program-Positions, ותקציב מחולק (distributed) ל-Measures — Orders או WBS-Elements. זהו הכלי לתקצב פרויקטי-תחזוקה-הוניים גדולים (החלפת-קו, שדרוג-מתקן) עם "
+  },
+  {
+    "ch": 8,
+    "id": "8.3.4",
+    "titleHe": "תקצוב באמצעות אלמנטי WBS",
+    "titleEn": "Budgeting Using WBS Elements",
+    "codes": [
+      "CJ20N",
+      "CJ30",
+      "CJ31",
+      "CJ33",
+      "CN41N",
+      "PRPS",
+      "PROJ",
+      "BPGE",
+      "BPJA",
+      "COSP",
+      "F2929",
+      "F0967"
+    ],
+    "snippet": "WBS budgeting מתקצב פרויקטי-תחזוקה דרך Work Breakdown Structure (WBS) ב-PS. כל WBS-Element נושא תקציב עם Availability-Control משלו, ו-Maintenance-Orders משויכים אליו כ-account-assignment. מתאים לעצירות-תחזוקה-מתוכננות (Shutdowns/Turnarounds) רב-עבודתיות הדורשו"
+  },
+  {
+    "ch": 8,
+    "id": "8.3.5",
+    "titleHe": "תקצוב עלות תחזוקה (Maintenance Cost Budgeting)",
+    "titleEn": "Maintenance Cost Budgeting",
+    "codes": [
+      "IW38",
+      "IP30",
+      "KO22",
+      "S_ALR_87013533",
+      "MCI3",
+      "AUFK",
+      "ILOA",
+      "AFIH",
+      "COVP",
+      "BPJA",
+      "F2929",
+      "F0967"
+    ],
+    "snippet": "Maintenance Cost Budgeting הוא כלי-PM-ייעודי המתקצב עלות-תחזוקה ברמת-אובייקט-תחזוקתי — Functional-Location, Equipment או Planner-Group — לתקופה, ומשווה מול עלות-הפקודות-בפועל. הוא ממלא את הפער בין תקצוב-CO-גנרי לבין שפת-התחזוקה היומיומית, ומאפשר תכנון-תקציב 'ב"
+  },
+  {
+    "ch": 8,
+    "id": "8.4",
+    "titleHe": "סיכום",
+    "titleEn": "Summary",
+    "codes": [
+      "IW38",
+      "KO88",
+      "KO22",
+      "MCI8",
+      "S_ALR_87013533",
+      "AUFK",
+      "COEP",
+      "ACDOCA",
+      "BPJA",
+      "ILOA",
+      "F2929",
+      "F0967",
+      "F2691"
+    ],
+    "snippet": "בקרת-תחזוקה היא מעגל-שלם: לתכנן תקציב, לאסוף עלות על ה-Maintenance-Order, להפיק מידע בכלי-המתאים, ולהשוות Plan/Actual לקבלת-החלטות. הפרק כיסה את שני העמודים — הפקת-מידע (ALV→SQVI→LIS→BW/4HANA→Lumira) ותקצוב (Order/Cost-Center/IM/WBS/Maintenance-Cost-Budgeting)"
+  },
+  {
+    "ch": 9,
+    "id": "9.1",
+    "titleHe": "טכנולוגיות חדשות בממשק-המשתמש",
+    "titleEn": "New Technologies in the User Interface",
+    "codes": [
+      "/UI2/FLP",
+      "/UI2/FLPD",
+      "SICF",
+      "PFCG",
+      "CV01N",
+      "EQUI",
+      "IFLOT",
+      "DRAW",
+      "DRAD",
+      "/UI2/*",
+      "F2949",
+      "F2972",
+      "F1827"
+    ],
+    "snippet": "ממשק-המשתמש של אחזקת-המפעל עבר מהפכה: מ-SAP GUI הקלאסי (מסכים אפורים, קוד-עסקה, שדות צפופים) למחווית-עבודה מבוססת-תפקיד עם SAP Fiori, להמחשה תלת-ממדית של נכסים עם SAP 3D Visual Enterprise, ולתצוגות-עבודה מהירות (Quick Views) המרכזות מידע לטכנאי. המטרה העסקית: "
+  },
+  {
+    "ch": 9,
+    "id": "9.1.1",
+    "titleHe": "SAP 3D Visual Enterprise Viewer",
+    "titleEn": "SAP 3D Visual Enterprise Viewer",
+    "codes": [
+      "CV01N",
+      "CV03N",
+      "IE03",
+      "DRAW",
+      "DRAD",
+      "EQUI",
+      "TDWA",
+      "F1827"
+    ],
+    "snippet": "SAP 3D Visual Enterprise Viewer מאפשר לאנשי-אחזקה לצפות במודל תלת-ממדי אינטראקטיבי של ציוד ישירות מתוך אובייקט-ה-PM, לסובב, להגדיל, לפרק-להרכיב (exploded view) ולזהות חלקים ויזואלית — במקום להסתמך על שרטוטים דו-ממדיים בלבד."
+  },
+  {
+    "ch": 9,
+    "id": "9.1.2",
+    "titleHe": "SAP Fiori",
+    "titleEn": "SAP Fiori",
+    "codes": [
+      "/UI2/FLPD",
+      "/IWFND/MAINT_SERVICE",
+      "PFCG",
+      "STC01",
+      "/UI2/*",
+      "/IWFND/*",
+      "AGR_USERS",
+      "F2949",
+      "F2174",
+      "F1511"
+    ],
+    "snippet": "SAP Fiori הוא חוויית-המשתמש הסטנדרטית של S/4HANA: אוסף אפליקציות מבוססות-תפקיד, רספונסיביות ומבוססות-OData, המאורגנות ב-Launchpad. עבור PM הוא מספק אפליקציות למתכנן, למפקח ולטכנאי המחליפות עשרות מסכי-GUI בזרימות-עבודה ממוקדות-משימה."
+  },
+  {
+    "ch": 9,
+    "id": "9.1.3",
+    "titleHe": "תצוגות מהירות",
+    "titleEn": "Quick Views",
+    "codes": [
+      "IE03",
+      "IL03",
+      "IK13",
+      "EQUI",
+      "IFLOT",
+      "IMRG",
+      "JEST",
+      "F2949",
+      "F1827",
+      "F2972"
+    ],
+    "snippet": "Quick Views הן תצוגות-עבודה מרוכזות המציגות לטכנאי או למתכנן את כל המידע הקריטי על אובייקט-PM (מצב, היסטוריה, חלקים, מדדים) בעמוד אחד — ללא ניווט בין מסכים. הן ממומשות כ-Object Pages / Overview Pages ב-Fiori."
+  },
+  {
+    "ch": 9,
+    "id": "9.2",
+    "titleHe": "אחזקה ניידת",
+    "titleEn": "Mobile Maintenance",
+    "codes": [
+      "IW31",
+      "IW32",
+      "IW41",
+      "IK11",
+      "CO11N",
+      "AUFK",
+      "AFKO",
+      "AFVC",
+      "AFRU",
+      "IMRG",
+      "F2949",
+      "F1511"
+    ],
+    "snippet": "אחזקה ניידת (Mobile Maintenance) מעבירה את עבודת-האחזקה מהמשרד אל השטח: הטכנאי מקבל פק\"ע, מבצע, מדווח-זמן, מתעד-מדידות ומאשר — מהטאבלט או הטלפון, גם ללא קליטה (offline). SAP מציעה שתי דורות-מוצר עיקריים — SAP Work Manager (הדור הקודם, מבוסס SAP Mobile Platform"
+  },
+  {
+    "ch": 9,
+    "id": "9.2.1",
+    "titleHe": "יסודות אחזקה ניידת",
+    "titleEn": "Fundamentals of Mobile Maintenance",
+    "codes": [
+      "IW31",
+      "IW41",
+      "IK11",
+      "AUFK",
+      "AFVC",
+      "EQUI",
+      "QMEL",
+      "F2949"
+    ],
+    "snippet": "יסודות האחזקה-הניידת הם המושגים המשותפים לכל פתרון-נייד: עבודה offline/online, סנכרון-דלתא, מאגר-נתונים מקומי, זרימת order→confirmation, וזיהוי-נכס. הבנתם נדרשת לבחירה ולמימוש נכון של כל מוצר-נייד."
+  },
+  {
+    "ch": 9,
+    "id": "9.2.2",
+    "titleHe": "SAP Work Manager",
+    "titleEn": "SAP Work Manager",
+    "codes": [
+      "IW32",
+      "IW41",
+      "AUFK",
+      "AFKO",
+      "AFRU"
+    ],
+    "snippet": "SAP Work Manager הוא פתרון האחזקה-הניידת מהדור-הקודם, מבוסס SAP Mobile Platform ומנוע Agentry. הוא תומך בזרימת-אחזקה מלאה offline אך נמצא בדעיכה לטובת SAP Asset Manager — ולכן רלוונטי בעיקר ללקוחות-קיימים ולהבנת מסלול-ההגירה."
+  },
+  {
+    "ch": 9,
+    "id": "9.2.3",
+    "titleHe": "SAP Asset Manager",
+    "titleEn": "SAP Asset Manager",
+    "codes": [
+      "IW31",
+      "IW41",
+      "IK11",
+      "CO11N",
+      "AUFK",
+      "AFVC",
+      "AFRU",
+      "IMRG",
+      "EQUI",
+      "F2949"
+    ],
+    "snippet": "SAP Asset Manager הוא פתרון האחזקה-הניידת הנוכחי של SAP: אפליקציה native (iOS/Android) מבוססת SAP Mobile Development Kit, עם backend ב-SAP BTP ו-OData offline אל S/4HANA Asset Management. הוא הסטנדרט לפרויקטים-חדשים, ותומך באחזקה, מלאי, מדידות וגיאו-מיקום."
+  },
+  {
+    "ch": 9,
+    "id": "9.2.4",
+    "titleHe": "RFID",
+    "titleEn": "RFID",
+    "codes": [
+      "IE03",
+      "IE02",
+      "IK11",
+      "EQUI",
+      "EQBS",
+      "OBJK",
+      "F2949"
+    ],
+    "snippet": "RFID (Radio-Frequency Identification) מאפשר זיהוי-נכס אוטומטי בקריאת תג אלחוטי, ללא קו-ראייה. ב-PM הוא מקשר תג פיזי ל-Equipment, מאיץ זיהוי בשטח, מונע דיווח על נכס-שגוי, ומשמש למעקב-נכסים ולספירת-מלאי-חלפים."
+  },
+  {
+    "ch": 9,
+    "id": "9.3",
+    "titleHe": "SAP Intelligent Asset Management",
+    "titleEn": "SAP Intelligent Asset Management",
+    "codes": [
+      "IE03",
+      "IK01",
+      "IL03",
+      "EQUI",
+      "IFLOT",
+      "IMPTT",
+      "IMRG",
+      "F2949",
+      "F2972"
+    ],
+    "snippet": "SAP Intelligent Asset Management (IAM) הוא חבילת-פתרונות ענניים (SAP BTP) ההופכת אחזקה מ-'תיקון תקלות' ל-'ניהול-נכס חכם ומבוסס-נתונים': יסוד-נתונים משותף (Asset Central Foundation), רשת-נכסים שיתופית (SAP Asset Intelligence Network — AIN), אסטרטגיה וביצועים (S"
+  },
+  {
+    "ch": 9,
+    "id": "9.3.1",
+    "titleHe": "Asset Central Foundation",
+    "titleEn": "Asset Central Foundation",
+    "codes": [
+      "IE03",
+      "IL03",
+      "IK01",
+      "EQUI",
+      "IFLOT",
+      "IMPTT",
+      "F2949"
+    ],
+    "snippet": "Asset Central Foundation (ACF) הוא יסוד-הנתונים המשותף של SAP Intelligent Asset Management: מודל-נכס אחיד (Equipment, Model, Location, Indicator, Document) ב-SAP BTP, המסונכרן עם S/4HANA. כל רכיבי-IAM (AIN, ASPM, PdMS, PEI) נשענים עליו."
+  },
+  {
+    "ch": 9,
+    "id": "9.3.2",
+    "titleHe": "SAP Asset Intelligence Network",
+    "titleEn": "SAP Asset Intelligence Network",
+    "codes": [
+      "IE03",
+      "EQUI",
+      "DRAW",
+      "F2949"
+    ],
+    "snippet": "SAP Asset Intelligence Network (AIN) הוא רשת-נכסים שיתופית בענן המחברת מפעילים, יצרנים וספקי-שירות סביב 'דיגיטל-טווין' משותף של ציוד: מפרטים, מסמכים, הוראות-אחזקה והיסטוריה משותפים בין הצדדים — מקור-אמת אחד לכל מחזור-חיי-הנכס."
+  },
+  {
+    "ch": 9,
+    "id": "9.3.3",
+    "titleHe": "SAP Asset Strategy and Performance Management",
+    "titleEn": "SAP Asset Strategy and Performance Management",
+    "codes": [
+      "IP01",
+      "IP10",
+      "IA05",
+      "EQUI",
+      "MPLA",
+      "MHIS",
+      "F2972"
+    ],
+    "snippet": "SAP Asset Strategy and Performance Management (ASPM) מנהל את אסטרטגיית-האחזקה מבוססת-הסיכון: כלי RCM/FMEA לזיהוי אופני-כשל והשלכותיהם, קביעת-קריטיות, גזירת מדיניות-אחזקה (Maintenance Strategy) ומדידת-ביצועים (RAMS/KPIs) — כדי שכל נכס יקבל את האחזקה הנכונה לרמת"
+  },
+  {
+    "ch": 9,
+    "id": "9.3.4",
+    "titleHe": "SAP Predictive Maintenance and Service",
+    "titleEn": "SAP Predictive Maintenance and Service",
+    "codes": [
+      "IK01",
+      "IK11",
+      "IW21",
+      "IW31",
+      "IMPTT",
+      "IMRG",
+      "QMEL",
+      "AUFK",
+      "F2949",
+      "F2972"
+    ],
+    "snippet": "SAP Predictive Maintenance and Service (PdMS) הופך נתוני-חיישנים לתובנות-פעולה: זיהוי-חריגות (anomaly detection), חישוב health-score, ומודלים חזויים על indicators/IoT data — שמהם נוצרות אוטומטית Notification/Order ב-S/4HANA לפני שהכשל קורה. זה הלב ה-Predictive"
+  },
+  {
+    "ch": 9,
+    "id": "9.3.5",
+    "titleHe": "SAP Predictive Engineering Insights",
+    "titleEn": "SAP Predictive Engineering Insights",
+    "codes": [
+      "IE03",
+      "IK01",
+      "EQUI",
+      "IMPTT",
+      "F2972"
+    ],
+    "snippet": "SAP Predictive Engineering Insights (PEI) מוסיף שכבת-הנדסה מתקדמת ל-IAM: שילוב מודלים-הנדסיים (physics-based / simulation / engineering analytics) עם נתוני-תפעול, לחיזוי-ביצועים ו-remaining-useful-life ברמת-מהנדס — מעבר ל-anomaly detection בלבד."
+  },
+  {
+    "ch": 9,
+    "id": "9.4",
+    "titleHe": "סיכום",
+    "titleEn": "Summary",
+    "codes": [
+      "/UI2/FLP",
+      "IW31",
+      "IK01",
+      "IW21",
+      "EQUI",
+      "IFLOT",
+      "AUFK",
+      "IMPTT",
+      "QMEL",
+      "F2949",
+      "F2972",
+      "F1827"
+    ],
+    "snippet": "פרק 9 הראה כיצד שלושה גלי-טכנולוגיה משנים את אחזקת-המפעל: ממשק-משתמש חדש (SAP Fiori, SAP 3D Visual Enterprise, Quick Views), אחזקה ניידת (SAP Work Manager → SAP Asset Manager, RFID), ואחזקה-חכמה מבוססת-נתונים (SAP Intelligent Asset Management — Asset Central F"
+  },
+  {
+    "ch": 10,
+    "id": "10.1",
+    "titleHe": "יסודות",
+    "titleEn": "Basics",
+    "codes": [
+      "IW51",
+      "IW21",
+      "IW31",
+      "SU3",
+      "USR01",
+      "TSTC",
+      "AGR_USERS",
+      "F2071",
+      "F2929"
+    ],
+    "snippet": "שמישות (Usability) היא המידה שבה משתמש יכול להשיג את מטרתו במערכת ביעילות, באפקטיביות ובשביעות-רצון. בהקשר PM זה מתבטא בכמה לחיצות נדרשות ליצירת הודעת-תקלה, באיתור הזמנת-עבודה ברשימה, ובדיווח-גמר. שכבת-היסודות מגדירה את המושג, כיצד מעריכים אותו, מדוע הוא נבדל "
+  },
+  {
+    "ch": 10,
+    "id": "10.1.1",
+    "titleHe": "מה הכוונה בשמישות?",
+    "titleEn": "What Is Meant by Usability?",
+    "codes": [
+      "IW21",
+      "IW31",
+      "IW32",
+      "TSTC",
+      "USR01",
+      "F2071"
+    ],
+    "snippet": "שמישות מתארת כמה קל, מהיר ונעים למשתמש להשיג את מטרתו בממשק. היא נמדדת באפקטיביות (האם הושגה המטרה), ביעילות (במאמץ/זמן כמה) ובשביעות-רצון (התחושה הסובייקטיבית). זו תכונה של הממשק בהקשר-שימוש, לא של המשתמש."
+  },
+  {
+    "ch": 10,
+    "id": "10.1.2",
+    "titleHe": "הערכת שמישות",
+    "titleEn": "Assessing Usability",
+    "codes": [
+      "ST03N",
+      "SM20",
+      "TSTC",
+      "SWNCMONI",
+      "F2929"
+    ],
+    "snippet": "הערכת-שמישות היא מדידה שיטתית של הממשק בשלוש שיטות עיקריות: בדיקות-משתמש (Usability Testing) שבהן צופים במשתמש מבצע משימה, סקירת-מומחה (Heuristic Evaluation) לפי כללי-אצבע, ומדדים-כמותיים (זמן, לחיצות, שגיאות, ציון SUS). השילוב נותן תמונה אמינה."
+  },
+  {
+    "ch": 10,
+    "id": "10.1.3",
+    "titleHe": "מדוע שמישות אינה אומרת קבלת-משתמשים",
+    "titleEn": "Why Usability Does Not Mean User Acceptance",
+    "codes": [
+      "SU3",
+      "AGR_USERS",
+      "USR01",
+      "F2071"
+    ],
+    "snippet": "ממשק יכול להיות שמיש אובייקטיבית ועדיין לא להתקבל על המשתמשים, ולהפך. קבלה מושפעת מאמון, הרגל, תהליך-ההטמעה, תפיסת-התועלת ופוליטיקה-ארגונית — גורמים שמעבר לטיב-הממשק. הטיית-שמישות בלבד מבלי לטפל בקבלה מובילה לכישלון-הטמעה."
+  },
+  {
+    "ch": 10,
+    "id": "10.1.4",
+    "titleHe": "מדוע קבלת-המשתמשים כה חשובה",
+    "titleEn": "Why Is User Acceptance so Important",
+    "codes": [
+      "IW51",
+      "IW41",
+      "IW47",
+      "AUFK",
+      "QMEL",
+      "AFRU",
+      "F2071",
+      "F2929"
+    ],
+    "snippet": "קבלת-משתמשים היא הגורם הקובע אם ההשקעה במערכת-PM תניב תועלת. ללא קבלה המשתמשים לא ידווחו, ידווחו חלקית או יעקפו את המערכת — וכך כל נתוני-התחזוקה, ה-KPI וההחלטות-עליהם מתערערים. קבלה גבוהה = נתונים מלאים = החזר-השקעה."
+  },
+  {
+    "ch": 10,
+    "id": "10.1.5",
+    "titleHe": "אפשרויות מערכת-SAP לשיפור שמישות",
+    "titleEn": "SAP System Options to Improve Usability",
+    "codes": [
+      "SU3",
+      "SHD0",
+      "PFCG",
+      "SPRO",
+      "USR01",
+      "TSTC",
+      "TSTCV",
+      "AGR_DEFINE",
+      "F2071"
+    ],
+    "snippet": "SAP מספקת מגוון-כלים לשיפור-שמישות בשלוש שכבות: אפשרויות-המשתמש (SU3, תפקידים, וריאנטים), אפשרויות-IT ללא-תכנות (Transaction Variants ב-SHD0, Customizing, Action Box, SAP Business Client, Fiori, GuiXT, SAP Screen Personas), ואפשרויות-תכנות (BAPI, Web, Customer"
+  },
+  {
+    "ch": 10,
+    "id": "10.2",
+    "titleHe": "אפשרויות המשתמש לשיפור שמישות",
+    "titleEn": "User's Options to Improve Usability",
+    "codes": [
+      "SU3",
+      "IW38",
+      "IW39",
+      "IL05",
+      "USR01",
+      "USR05",
+      "AGR_USERS",
+      "LTDX",
+      "F2071"
+    ],
+    "snippet": "השכבה הזולה והבטוחה ביותר היא מה שהמשתמש עצמו יכול לשנות — ללא IT, ללא Transport. כוללת: פרמטרי-משתמש כלליים ב-SU3 (מספרי-ברירת-מחדל, שדות-קלט מוקדם-ממולאים), פרמטרים ספציפיים-לתחזוקה, תפקידים (Roles) ומועדפים (Favorites) לקיצור-ניווט, וריאנטי-רשימה (List Vari"
+  },
+  {
+    "ch": 10,
+    "id": "10.2.1",
+    "titleHe": "פרמטרי משתמש כלליים",
+    "titleEn": "General User Parameters",
+    "codes": [
+      "SU3",
+      "USR05",
+      "USR01",
+      "F2071"
+    ],
+    "snippet": "פרמטרי-משתמש כלליים (SU3 → Parameters) ממלאים אוטומטית שדות-קלט שחוזרים על-עצמם — מפעל, ארגון-מכירות, שפה — דרך זוגות Parameter-ID↔Value. הם חוסכים הקלדה-חוזרת ומפחיתים שגיאות-הקלדה בכל מסך שמשתמש באותו Parameter-ID."
+  },
+  {
+    "ch": 10,
+    "id": "10.2.2",
+    "titleHe": "פרמטרי משתמש ספציפיים-לתחזוקה",
+    "titleEn": "Maintenance-Specific User Parameters",
+    "codes": [
+      "SU3",
+      "IW31",
+      "IW51",
+      "USR05",
+      "T024I",
+      "T024F",
+      "F2071"
+    ],
+    "snippet": "בנוסף לפרמטרים הכלליים, PM מספק Parameter-IDs ייעודיים לתחזוקה הממלאים שדות שכיחים: Planning Plant, Maintenance Planner Group, Work Center, Maintenance Plant. הזנתם ב-SU3 הופכת את מסכי-ההודעה/הזמנה למוכנים-מראש לתפקיד-התחזוקה."
+  },
+  {
+    "ch": 10,
+    "id": "10.2.3",
+    "titleHe": "תפקידים ומועדפים",
+    "titleEn": "Roles and Favorites",
+    "codes": [
+      "PFCG",
+      "SU01",
+      "SESSION_MANAGER",
+      "AGR_DEFINE",
+      "AGR_USERS",
+      "AGR_HIER",
+      "SMEN_BUFFC",
+      "F2071",
+      "F1311"
+    ],
+    "snippet": "תפקידים (Roles) מספקים תפריט-משתמש מותאם הכולל רק את הטרנזקציות/הדוחות הרלוונטיים לתפקיד; מועדפים (Favorites) הם קיצורים אישיים שהמשתמש מוסיף בעצמו. שניהם מקצרים ניווט דרמטית — המשתמש מגיע למשימותיו בלחיצה אחת במקום בחיפוש בעץ."
+  },
+  {
+    "ch": 10,
+    "id": "10.2.4",
+    "titleHe": "וריאנטי רשימה",
+    "titleEn": "List Variants",
+    "codes": [
+      "IW38",
+      "IW28",
+      "IW68",
+      "IW39",
+      "LTDX",
+      "VARI",
+      "VARID",
+      "F2929",
+      "F1311"
+    ],
+    "snippet": "וריאנטי-רשימה (List/Layout Variants ב-ALV) שומרים את בחירת-העמודות, הסדר, המיון, הסינון והקיבוצים של דוחות-PM כמו IW38/IW28/IW68. במקום להתאים את הרשימה כל פעם, המשתמש שומר Layout פעם-אחת ומסמנו כ-Default — והרשימה נפתחת מוכנה."
+  },
+  {
+    "ch": 10,
+    "id": "10.2.5",
+    "titleHe": "התאמת עזרי-קלט",
+    "titleEn": "Customizing Input Help",
+    "codes": [
+      "SE11",
+      "QS41",
+      "IW51",
+      "DD30S",
+      "T370",
+      "QPCT",
+      "TQ80",
+      "F2071"
+    ],
+    "snippet": "עזרי-הקלט (F4 / Input Help / Search Help) מאפשרים בחירת-ערך מתוך רשימה במקום שינון. המשתמש יכול להתאים אותם אישית: לקבוע Personal Value List (היסטוריית-ערכים), לסדר עמודות בחלון-ה-F4, ולשמור ערכים-מועדפים — מה שמאיץ דרמטית בחירת-ציוד/קוד-תקלה/חומר."
+  },
+  {
+    "ch": 10,
+    "id": "10.2.6",
+    "titleHe": "כפתורים וצירופי-מקשים",
+    "titleEn": "Buttons and Key Combinations",
+    "codes": [
+      "SHD0",
+      "IW32",
+      "TSTC",
+      "EUFUNC",
+      "F2071"
+    ],
+    "snippet": "סרגלי-הכלים, הכפתורים וצירופי-המקשים (Shortcuts כמו Ctrl+S לשמירה, F8 להרצה) מאיצים פעולות-נפוצות. המשתמש יכול להתאים את ה-Toolbar, ללמוד את ה-Shortcuts הסטנדרטיים, ולהשתמש ב-Quick Info — כך מצמצמים תנועות-עכבר ומאיצים תהליכים-חוזרים."
+  },
+  {
+    "ch": 10,
+    "id": "10.2.7",
+    "titleHe": "Table Controls",
+    "titleEn": "Table Controls",
+    "codes": [
+      "SHD0",
+      "IW32",
+      "IW51",
+      "TSTCV",
+      "TCDOB",
+      "F2071"
+    ],
+    "snippet": "Table Control הוא רכיב-הטבלה במסכי-SAP (למשל רשימת-פעולות בהזמנה, רכיבים, אובייקטים בהודעה). המשתמש יכול להתאים אותו אישית: לבחור עמודות, לסדר ולרוחב, להקפיא עמודות, ולשמור את התצורה — כך הטבלה במסך-העבודה מציגה את מה שחשוב למשתמש."
+  },
+  {
+    "ch": 10,
+    "id": "10.3",
+    "titleHe": "אפשרויות שאינן-תכנותיות ב-IT",
+    "titleEn": "Non-Programmer's Options in IT",
+    "codes": [
+      "SHD0",
+      "SPRO",
+      "DWP1",
+      "/UI2/FLPD_CUST",
+      "TSTCV",
+      "TSTCP",
+      "T365",
+      "T366",
+      "F2071",
+      "F2929"
+    ],
+    "snippet": "השכבה האמצעית: שיפורים שאנשי-IT מבצעים ללא ABAP. כוללת Transaction Variants (SHD0) להסתרת-שדות/קיבוע-ערכים, Customizing (SPRO) להתאמת-תהליך, Action Box (פעילויות-המשך מהודעה), SAP Business Client כ-Shell מאוחד, פתרונות-מובייל לטכנאי-שטח, SAP Fiori כממשק-Web מו"
+  },
+  {
+    "ch": 10,
+    "id": "10.3.1",
+    "titleHe": "וריאנטי-טרנזקציה",
+    "titleEn": "Transaction Variants",
+    "codes": [
+      "SHD0",
+      "SE93",
+      "IW31",
+      "IW51",
+      "TSTCV",
+      "TSTCP",
+      "TSTC",
+      "F2071"
+    ],
+    "snippet": "Transaction Variant (SHD0) מאפשר להתאים טרנזקציה תקנית ללא קוד: להסתיר/לקבע שדות, לקבוע ברירות-מחדל, לדלג על מסכים ולהפוך שדות לקריאה-בלבד. מוקצה דרך Variant Transaction (SE93) או Role — וכך כל קבוצת-משתמשים מקבלת מסך-מותאם לתפקידה."
+  },
+  {
+    "ch": 10,
+    "id": "10.3.2",
+    "titleHe": "התאמה (Customizing)",
+    "titleEn": "Customizing",
+    "codes": [
+      "SPRO",
+      "OIM0",
+      "OIBS",
+      "T365",
+      "T356",
+      "T350",
+      "T399I",
+      "F2071"
+    ],
+    "snippet": "Customizing (SPRO) מתאים את התנהגות-המערכת לתהליך-הארגון ללא תכנות — Order Types, Notification Types, Catalogs, Field Selection, Priorities, סטטוסים. התאמה נכונה משפרת שמישות בכך שהמסכים מציגים בדיוק את מה שהתהליך דורש, עם ברירות-מחדל הגיוניות."
+  },
+  {
+    "ch": 10,
+    "id": "10.3.3",
+    "titleHe": "Action Box",
+    "titleEn": "Action Box",
+    "codes": [
+      "SPRO",
+      "IW51",
+      "IW52",
+      "T365",
+      "T366",
+      "TQ80",
+      "F2071"
+    ],
+    "snippet": "ה-Action Box הוא אזור בהודעת-PM המציג פעילויות-המשך (Follow-up functions) שאפשר להפעיל בלחיצה: יצירת-הזמנה, משימה, פעילות, או קריאת-טרנזקציה/תוכנית. הוא הופך רצף-פעולות מרובות-מסכים לכפתור-יחיד מתוך ההודעה — שיפור-שמישות משמעותי בעיבוד-הודעות."
+  },
+  {
+    "ch": 10,
+    "id": "10.3.4",
+    "titleHe": "SAP Business Client",
+    "titleEn": "SAP Business Client",
+    "codes": [
+      "PFCG",
+      "NWBC",
+      "AGR_DEFINE",
+      "AGR_HIER",
+      "AGR_USERS",
+      "F1311"
+    ],
+    "snippet": "SAP Business Client (NWBC) הוא קליינט-Shell מאוחד המציג תחת חלון-אחד הן טרנזקציות-GUI קלאסיות והן תוכן-Web/Fiori, עם ניווט Role-based אחיד וחזותי-מודרני. הוא משפר שמישות דרך חוויית-משתמש עקבית וניווט-מבוסס-תפקיד, גם כשהתשתית מערבת GUI ו-Web."
+  },
+  {
+    "ch": 10,
+    "id": "10.3.5",
+    "titleHe": "פתרונות מובייל",
+    "titleEn": "Mobile Solutions",
+    "codes": [
+      "IW41",
+      "IW51",
+      "IW32",
+      "AFRU",
+      "AUFK",
+      "QMEL",
+      "JEST",
+      "F2929",
+      "F2071"
+    ],
+    "snippet": "פתרונות-מובייל (SAP Asset Manager, ה-Work Manager הקודם) מביאים את עיבוד-ההודעות-וההזמנות לטכנאי בשטח על טאבלט/טלפון, כולל עבודה-לא-מקוונת (offline), סריקת-QR/ברקוד, וצילום. הם משפרים שמישות דרמטית לטכנאי-השטח: דיווח בנקודת-העבודה, בזמן-אמת, ללא חזרה למסוף."
+  },
+  {
+    "ch": 10,
+    "id": "10.3.6",
+    "titleHe": "SAP Fiori",
+    "titleEn": "SAP Fiori",
+    "codes": [
+      "/UI2/FLPD_CUST",
+      "/IWFND/MAINT_SERVICE",
+      "PFCG",
+      "AGR_DEFINE",
+      "/IWFND/*",
+      "AUFK",
+      "QMEL",
+      "F2071",
+      "F2929",
+      "F1311"
+    ],
+    "snippet": "SAP Fiori הוא ממשק-המשתמש המודרני של SAP — אפליקציות-Web Role-based, רספונסיביות (Desktop/Tablet/Phone), המבוססות OData ומאורגנות ב-Fiori Launchpad. ב-S/4HANA Fiori הוא ה-UX הראשי, ולתחזוקה יש קטלוג עשיר (Manage Notifications, Find Maintenance Orders, Maintena"
+  },
+  {
+    "ch": 10,
+    "id": "10.3.7",
+    "titleHe": "GuiXT",
+    "titleEn": "GuiXT",
+    "codes": [
+      "SHD0",
+      "IW31",
+      "TSTC",
+      "TSTCV"
+    ],
+    "snippet": "GuiXT (של Synactive) הוא כלי-צד-לקוח המשכתב מסכי SAP GUI באמצעות קבצי-סקריפט: הסתרת-שדות, הוספת-טקסט/תמונות/כפתורים, מיזוג-מסכים ואוטומציה — ללא ABAP וללא שינוי-Dynpro תקני. הוא מאפשר התאמה-ויזואלית עמוקה למסכי-GUI שאינה אפשרית ב-SHD0 לבדו."
+  },
+  {
+    "ch": 10,
+    "id": "10.3.8",
+    "titleHe": "SAP Screen Personas",
+    "titleEn": "SAP Screen Personas",
+    "codes": [
+      "SHD0",
+      "IW41",
+      "IW32",
+      "TSTC",
+      "TSTCV",
+      "AGR_USERS",
+      "F1311"
+    ],
+    "snippet": "SAP Screen Personas מאפשר לעצב-מחדש מסכי SAP GUI/Web ב-WYSIWYG ללא קוד: יצירת 'Flavors' לפי תפקיד — הסתרת-שדות, מיזוג-מסכים, הוספת-כפתורים, סקריפטי-אוטומציה (Slipstream/JavaScript) ומיתוג. בניגוד ל-GuiXT, הוא פועל בצד-השרת ומשתלב עם Fiori — שיפור-שמישות עמוק ל"
+  },
+  {
+    "ch": 10,
+    "id": "10.4",
+    "titleHe": "אפשרויות המתכנת ב-IT",
+    "titleEn": "Programmer's Options in IT",
+    "codes": [
+      "SE80",
+      "SE37",
+      "SE18",
+      "SE19",
+      "CMOD",
+      "SMOD",
+      "BAPI",
+      "TFDIR",
+      "ENLFDIR",
+      "MODSAP",
+      "SXC_EXIT"
+    ],
+    "snippet": "השכבה העליונה: שיפורי-שמישות הדורשים פיתוח-ABAP. כוללת Upstream Transactions (טרנזקציה-מקדימה שאוספת קלט ומפעילה את התקנית), BAPI (ממשק-תכנותי יציב לאובייקטי-PM), Web Interface (ממשק-Web/OData מותאם), Customer Exits (נקודות-הרחבה מאושרות-SAP), וטכניקות-תכנות נ"
+  },
+  {
+    "ch": 10,
+    "id": "10.4.1",
+    "titleHe": "טרנזקציות-מקדימות (Upstream)",
+    "titleEn": "Upstream Transactions",
+    "codes": [
+      "SE80",
+      "SE93",
+      "SE37",
+      "TSTC",
+      "TFDIR",
+      "QMEL"
+    ],
+    "snippet": "Upstream Transaction היא טרנזקציה/מסך מותאם הממוקם 'לפני' הטרנזקציה התקנית: הוא אוסף את הקלט בפורמט-פשוט ופר-תפקיד, ואז מפעיל את התקנית (Call Transaction/BDC/BAPI) עם הערכים. כך המשתמש רואה מסך-מינימלי ייעודי, בעוד הלוגיקה התקנית רצה מאחורי-הקלעים."
+  },
+  {
+    "ch": 10,
+    "id": "10.4.2",
+    "titleHe": "BAPI",
+    "titleEn": "BAPI",
+    "codes": [
+      "BAPI",
+      "SE37",
+      "SWO1",
+      "TFDIR",
+      "QMEL",
+      "AUFK",
+      "AFRU"
+    ],
+    "snippet": "BAPI (Business Application Programming Interface) הוא ממשק-תכנותי יציב ו-Released, חשוף כמתודה של Business Object ו-RFC-enabled, ליצירה/שינוי/קריאה של אובייקטי-PM. הוא מאפשר אינטגרציה ו-Upstream מבלי לגעת במסכים, עם חוזה-נתונים מוגדר — בסיס בטוח לשיפורי-שמישות"
+  },
+  {
+    "ch": 10,
+    "id": "10.4.3",
+    "titleHe": "ממשק-Web",
+    "titleEn": "Web Interface",
+    "codes": [
+      "SE80",
+      "/IWFND/MAINT_SERVICE",
+      "SEGW",
+      "/IWFND/*",
+      "QMEL",
+      "AUFK",
+      "F2929"
+    ],
+    "snippet": "ממשק-Web מותאם (SAPUI5/Fiori מותאם, Web Dynpro, או שירות-OData ייעודי) חושף תהליכי-PM בדפדפן בצורה מותאמת-לארגון — מעבר לאפליקציות-Fiori התקניות. הוא משלב פיתוח-Frontend (UI5) עם Backend (OData/CDS/BAPI) ומאפשר חוויות-Web ייחודיות לתפקיד או ללקוח-חיצוני."
+  },
+  {
+    "ch": 10,
+    "id": "10.4.4",
+    "titleHe": "Customer Exits",
+    "titleEn": "Customer Exits",
+    "codes": [
+      "CMOD",
+      "SMOD",
+      "SE18",
+      "SE19",
+      "SE84",
+      "MODSAP",
+      "MODACT",
+      "SXC_EXIT",
+      "SXS_ATTR"
+    ],
+    "snippet": "Customer Exits הם נקודות-הרחבה מאושרות-SAP (SMOD/CMOD) המאפשרות להוסיף לוגיקה (Function-module exits), שדות-מסך (Screen exits) ותפריטים (Menu exits) מבלי לשנות קוד-תקני — מה שמשפר שמישות (שדות/בדיקות מותאמים) תוך שמירה על יכולת-שדרוג."
+  },
+  {
+    "ch": 10,
+    "id": "10.4.5",
+    "titleHe": "טכניקות-תכנות נוספות",
+    "titleEn": "Other Programming Techniques",
+    "codes": [
+      "SE18",
+      "SE19",
+      "SWDD",
+      "FIBF",
+      "SWETYPV",
+      "SXC_EXIT",
+      "TBE01",
+      "SWWWIHEAD"
+    ],
+    "snippet": "מעבר ל-Upstream/BAPI/Web/Exits קיימות טכניקות-תכנות נוספות לשיפור-שמישות: BAdI (OO, מרובה-מימושים), Enhancement Framework (Implicit/Explicit Enhancement-points), BTE (Business Transaction Events), Workflow (SAP Business Workflow), והרחבות-RAP/CDS ב-S/4HANA. כל"
+  },
+  {
+    "ch": 10,
+    "id": "10.5",
+    "titleHe": "מחקרי שמישות",
+    "titleEn": "Usability Studies",
+    "codes": [
+      "ST03N",
+      "SHD0",
+      "SWNCMONI",
+      "TSTC",
+      "F2929"
+    ],
+    "snippet": "מחקר-שמישות (Usability Study) הוא תהליך-מובנה למדידת חוויית-המשתמש: הכנה (הגדרת-מטרות, משימות, משתתפים, מדדים), ביצוע (משימות אמיתיות תוך-תצפית), וניתוח-תוצאות (זיהוי-חיכוך, תעדוף-שיפורים). מעבדת-בדיקה עם SAP Screen Personas מאפשרת לבחון Flavors-חלופיים לפני-מ"
+  },
+  {
+    "ch": 10,
+    "id": "10.5.1",
+    "titleHe": "הכנה וביצוע",
+    "titleEn": "Preparation and Execution",
+    "codes": [
+      "ST03N",
+      "SWNCMONI",
+      "F2929"
+    ],
+    "snippet": "ההכנה מגדירה את שלד-המחקר: מטרות, Personas/משתתפים מייצגים, תרחישי-משימה אמיתיים, מדדים (Task Completion, Time-on-Task, Errors, SUS) וסביבה (מעבדה/שדה/מרחוק). הביצוע מריץ את המשימות תוך-תצפית, Think-Aloud והקלטה — באופן Moderated או Unmoderated. הכנה-טובה קובע"
+  },
+  {
+    "ch": 10,
+    "id": "10.5.2",
+    "titleHe": "תוצאות",
+    "titleEn": "Results",
+    "codes": [
+      "ST03N",
+      "SWNCMONI",
+      "F2929"
+    ],
+    "snippet": "ניתוח-התוצאות הופך תצפיות ומדדים לתובנות-מעשיות: זיהוי Pain-points ודירוגם לפי חומרה×תדירות, חישוב מדדים (Completion/Time/Errors/SUS), והפקת רשימת-המלצות מתועדפת. התוצאה היא מפת-דרכים לשיפור מבוססת-נתונים, לא רשימת-דעות."
+  },
+  {
+    "ch": 10,
+    "id": "10.5.3",
+    "titleHe": "בדיקת-מעבדה עם SAP Screen Personas",
+    "titleEn": "Laboratory Test with SAP Screen Personas",
+    "codes": [
+      "SHD0",
+      "ST03N",
+      "IW41",
+      "SWNCMONI",
+      "TSTC",
+      "F1311"
+    ],
+    "snippet": "בדיקת-מעבדה עם SAP Screen Personas מאפשרת לבנות Flavors-חלופיים של מסך-PM ולבחון אותם A/B עם משתמשים-אמיתיים לפני-מימוש — לדוגמה GUI-תקני מול Flavor-מאוחד. כך החלטת-העיצוב מבוססת על מדדים-אמיתיים (זמן/שגיאות/SUS) ולא על הנחות."
+  },
+  {
+    "ch": 10,
+    "id": "10.6",
+    "titleHe": "סיכום",
+    "titleEn": "Summary",
+    "codes": [
+      "SU3",
+      "SHD0",
+      "SPRO",
+      "BAPI",
+      "USR05",
+      "TSTCV",
+      "AUFK",
+      "QMEL",
+      "F2071",
+      "F2929",
+      "F1311"
+    ],
+    "snippet": "שמישות היא מנוף-נתונים מרכזי ב-PM: ככל שהדיווח קל ומדויק, כך נתוני-התחזוקה אמינים וה-KPI שעליהם נשענים ההחלטות נכונים. הפרק הגדיר שמישות (ISO 9241-11: אפקטיביות/יעילות/שביעות-רצון), הבחין בינה לבין קבלת-משתמשים, והציג סולם-כלים בן שלוש-שכבות: משתמש (SU3/תפקידי"
+  }
+]
