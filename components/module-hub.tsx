@@ -83,7 +83,7 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
           </div>
           <StatusIO />
         </div>
-        <div className="mt-3 flex gap-1 overflow-x-auto rounded-xl bg-muted/50 p-1">
+        <div className="mt-3 flex gap-1 chip-rail overflow-x-auto rounded-xl bg-muted/50 p-1">
           {tabs.map(({ key, label, icon: Icon }) => (
             <button
               key={key}

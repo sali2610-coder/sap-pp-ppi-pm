@@ -122,7 +122,7 @@ export function AppObjectPage({ o }: { o: AppObject }) {
       </section>
 
       {/* sticky section nav */}
-      <div className="sticky top-[4.25rem] z-20 -mx-1 overflow-x-auto rounded-2xl border border-slate-200 bg-white/90 px-2 py-1.5 shadow-sm backdrop-blur">
+      <div className="chip-rail sticky top-[4.25rem] z-20 -mx-1 overflow-x-auto rounded-2xl border border-slate-200 bg-white/90 px-2 py-1.5 shadow-sm backdrop-blur">
         <div className="flex gap-1">
           {anchors.map(([id, he]) => <a key={id} href={`#${id}`} className="shrink-0 rounded-lg px-2.5 py-1 text-[11.5px] font-bold text-slate-500 transition hover:bg-slate-100 hover:text-brand">{he}</a>)}
         </div>

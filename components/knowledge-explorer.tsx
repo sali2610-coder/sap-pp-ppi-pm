@@ -162,7 +162,7 @@ export function KnowledgeExplorer({ centers, groups }: { centers: Center[]; grou
           <motion.nav
             initial={reduce ? false : { opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={reduce ? undefined : { opacity: 0, y: -8 }}
             dir="rtl" aria-label="ניווט מודרך"
-            className="sticky top-3 z-20 mt-5 flex items-center gap-2 overflow-x-auto rounded-2xl border border-slate-200 bg-white/85 p-2 shadow-sm backdrop-blur-md"
+            className="sticky top-3 z-20 mt-5 flex items-center gap-2 chip-rail overflow-x-auto rounded-2xl border border-slate-200 bg-white/85 p-2 shadow-sm backdrop-blur-md"
           >
             <Compass className="ms-1 size-4 shrink-0 text-slate-400" />
             {groups.map((g) => {
