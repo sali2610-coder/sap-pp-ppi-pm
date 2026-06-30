@@ -5,6 +5,7 @@ import { CommandCenter } from "@/components/command-center";
 import { QuickAccess } from "@/components/quick-access";
 import { registryStats } from "@/lib/tx-registry";
 import { FIORI_APPS } from "@/data/centers/fiori";
+import { appCodes } from "@/lib/apps-intel";
 
 export default function HomePage() {
   const tables = ALL_TABLES.length;
@@ -18,7 +19,7 @@ export default function HomePage() {
   return (
     <div className="space-y-10 sm:space-y-12">
       <HomeHero stats={{ modules: 2, tables, relations, tcodes, bapis, books: 2 }} />
-      <QuickAccess counts={{ transactions: txTotal, apps: FIORI_APPS.length, tables }} />
+      <QuickAccess counts={{ transactions: txTotal, apps: FIORI_APPS.length, apps2: appCodes().length, tables }} />
       <CommandCenter />
       <ExecutiveSummary />
     </div>

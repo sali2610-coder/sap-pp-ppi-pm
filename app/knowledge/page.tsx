@@ -23,6 +23,7 @@ import { SOLUTIONS } from "@/data/solutions";
 import { PROCESS_MAPS } from "@/data/processes";
 import { PLAYBOOKS } from "@/data/centers/playbooks";
 import { CDS_VIEWS } from "@/data/cds-map";
+import { appCodes } from "@/lib/apps-intel";
 
 // ── D2 Information Architecture ───────────────────────────────────────────
 // Centers reorganized around CONSULTANT TASKS (journeys), not technical type.
@@ -44,6 +45,7 @@ const GROUPS = [
 export default function Page() {
   const centers: Center[] = [
     // ── שאל ומצא · Ask & Find ──
+    { group: "find", href: "/apps/", he: "אפליקציות וטרנזקציות", title: "Apps & Transactions Center", tag: `${appCodes().length}`, tagColor: "#0f172a", desc: "שולחן העבודה היומי — חיפוש אחד שמחבר ECC⇄S/4⇄Fiori⇄תהליך⇄טבלאות⇄CDS⇄BAPIs⇄הרשאות⇄מיגרציה⇄בדיקות. עמוד אובייקט פרימיום לכל טרנזקציה + מצב השוואה ECC↔Fiori." },
     { group: "find", href: "/copilot/", he: "קופיילוט יועץ", title: "Consultant Copilot", tag: "Q&A", tagColor: "#d62027", desc: "שאל שאלה — NEO עונה ממאגר הידע בלבד (lifecycle, פתרונות, טבלאות, תקלות), לא מזיכרון AI כללי." },
     { group: "find", href: "/solutions/", he: "מאתר פתרונות SAP", title: "SAP Solution Finder", tag: `${SOLUTIONS.length}`, tagColor: "#b45309", desc: "חיפוש לפי דרישה עסקית (גם בעברית: 'קליטת סחורה', 'ניהול אצווה') — תהליך, ECC, S/4, Fiori, טבלאות, CDS, APIs, BAPIs, Exits, תקלות, מורכבות." },
     { group: "find", href: "/oic/", he: "תבונת אובייקטים", title: "Object Intelligence Center", tag: `${OIC_OBJECTS.length}`, tagColor: "#4338ca", desc: "תצוגה מאוחדת לכל אובייקט ליבה — טבלאות, T-Codes, BAPIs/FMs, BAdIs/Exits, CDS, תקלות, SAP Notes, Debug ו-CBC, עם קישורים צולבים בין כולם." },

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { BookOpen, Terminal, LayoutDashboard, Network, Database, Cable, Wrench, FlaskConical, ArrowLeft } from "lucide-react";
+import { BookOpen, Terminal, LayoutDashboard, Network, Database, Cable, Wrench, FlaskConical, Boxes, ArrowLeft } from "lucide-react";
 import { playClick } from "@/lib/sound";
 
 // Command Center — the platform's primary entry. Clear hierarchy: three HERO
@@ -13,16 +13,16 @@ interface Tile { href: string; he: string; en: string; sub: string; color: strin
 export function QuickAccess({ counts = {} }: { counts?: Record<string, number> }) {
   const reduce = useReducedMotion();
   const heroes: Tile[] = [
+    { href: "/apps/", he: "אפליקציות וטרנזקציות", en: "Daily Workspace", sub: "ECC ⇄ S/4 ⇄ Fiori ⇄ תהליך ⇄ טבלאות ⇄ בדיקות — חיפוש אחד", color: "#0f172a", Icon: Boxes, count: counts.apps2 },
     { href: "/studio/", he: "Architecture Studio", en: "Living Graph", sub: "חקור את נוף ה-SAP — גרף קשרים חי, אינטראקטיבי", color: "#d62027", Icon: Network },
     { href: "/library/", he: "ספריית SAP", en: "Learn", sub: "ספרים · אקדמיה · מסלולי למידה", color: "#0891b2", Icon: BookOpen },
-    { href: "/transactions/", he: "מרכז טרנזקציות", en: "ECC Reference", sub: "T-Codes · חיפוש לפי קוד / מודול / אובייקט", color: "#2563eb", Icon: Terminal, count: counts.transactions },
   ];
   const more: Tile[] = [
+    { href: "/transactions/", he: "מרכז טרנזקציות", en: "ECC Catalog", sub: "", color: "#2563eb", Icon: Terminal, count: counts.transactions },
     { href: "/pm/", he: "SAP PM", en: "תחזוקת מפעל", sub: "", color: "#f97316", Icon: Wrench },
     { href: "/pp-pi/", he: "SAP PP-PI", en: "ייצור תהליכי", sub: "", color: "#6d28d9", Icon: FlaskConical },
     { href: "/tables/", he: "חוקר טבלאות", en: "Table Explorer", sub: "", color: "#7c3aed", Icon: Database, count: counts.tables },
     { href: "/fiori-apps/", he: "Fiori Apps", en: "S/4HANA", sub: "", color: "#16a34a", Icon: LayoutDashboard, count: counts.apps },
-    { href: "/integration/", he: "אינטגרציה", en: "IDoc · CPI · OData", sub: "", color: "#0e7490", Icon: Cable },
   ];
 
   const grid = { hidden: {}, show: { transition: { staggerChildren: reduce ? 0 : 0.06 } } };
