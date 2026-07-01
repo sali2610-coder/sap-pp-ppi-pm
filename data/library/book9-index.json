@@ -417,203 +417,203 @@
     "id": "4.1",
     "title": "Actions to be Taken before Mapping the Work Order Cycle in",
     "snippet": "4.1 Actions to be Taken before Mapping the Work Order Cycle in SAP S/4HANA Similar to the structuring of technical systems, the following principle should also apply in your search for all answers for business processes: “as much as is necessary, but as little",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.1.1",
     "title": "Question 1: Which Functions Should You Use?",
     "snippet": "4.1.1 Question 1: Which Functions Should You Use? Appendix B, Section B.2 includes an overview of SAP S/4HANA Asset Management functions that you can use to process your work order cycle. Later, this chapter will dis- cuss in detail what the keywords specifica",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.1.2",
     "title": "Question 2: Should You Use a Notification and/or an Order?",
     "snippet": "4.1.2 Question 2: Should You Use a Notification and/or an Order? You can and must decide which of the following objects you want to use to support your business processes: \u0002 Only the notification \u0002 Only the order \u0002 Both the notification and the order The answe",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.1.3",
     "title": "Question 3: Which Information Should You Store?",
     "snippet": "4.1.3 Question 3: Which Information Should You Store? The third question applies to the following types of business information that you store in the system: \u0002 Information that you absolutely must store to actually be able to process a notifica- tion or an ord",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.1.4",
     "title": "Question 4: How Can You Ensure That Users Accept the System?",
     "snippet": "4.1.4 Question 4: How Can You Ensure That Users Accept the System? Although this question also applies essentially to the structuring of technical systems, the topics user acceptance and usability are much more important in relation to main- tenance processing",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.1.5",
     "title": "Question 5: What Role Does Business Process Modeling Play?",
     "snippet": "4.1.5 Question 5: What Role Does Business Process Modeling Play? Business process modeling (e.g., with BPML [Business Process Modeling Language] or EPC [event-driven process chains]) plays an important role when SAP systems are being implemented—regardless of ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.1.6",
     "title": "Question 6: When Should You Include the Other User Departments?",
     "snippet": "4.1.6 Question 6: When Should You Include the Other User Departments? You should include other user departments in the company as soon as possible. If you choose order processing, numerous questions will arise that affect the business pro- cesses and require p",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2",
     "title": "Notification",
     "snippet": "4.2 Notification handled and the condition of the asset are also entered here. In a final step, the order is settled by controlling. The information is updated in the history. Figure 4.3 Work Order Cycle: Steps The following sections go through these five step",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2.1",
     "title": "Creating a Notification",
     "snippet": "4.2.1 Creating a Notification Notifications are either entered directly by the relevant requester (for example, a pro- duction employee) or transferred to plant maintenance using the usual means of com- munication (for example, by telephone or form) and entere",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2.2",
     "title": "Notification Types",
     "snippet": "4.2.2 Notification Types In earlier releases, SAP offered three predefined notification types in the standard sys- tem: \u0002 Activity report For documenting performed actions \u0002 Malfunction report For information about malfunctions and problems that occur \u0002 Mainte",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2.3",
     "title": "Notification Content",
     "snippet": "4.2.3 Notification Content The following screen groups or tabs are available as possible notification content: \u0002 Reference objects (equipment, functional location, assembly, material serial num- ber) \u0002 Responsibilities (planner group, main work center) \u0002 Items",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2.4",
     "title": "Flexible Reference Objects",
     "snippet": "4.2.4 Flexible Reference Objects You can enter notifications as reference objects for all technical objects, thus for func- tional locations, pieces of equipment, assemblies, or material serial numbers. If you assign a lower-level object to a notification, the",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2.5",
     "title": "Object Information",
     "snippet": "4.2.5 Object Information You can display concise information relating to the reference object, that is, object information, in a dialog box (see Figure 4.8). This information involves the following: \u0002 Structure data (for example, object hierarchy) \u0002 Technical ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2.6",
     "title": "Notification Items",
     "snippet": "4.2.6 Notification Items You would generally use notification items to specify the information of the notifica- tion header in more detail, for example, specifying several locations of damage where damage has occurred (notification header: forklift truck; noti",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2.7",
     "title": "Catalogs and Catalog Profiles",
     "snippet": "4.2.7 Catalogs and Catalog Profiles In addition to organizational information (such as deadlines, responsibilities, or cost centers), you can also store technical information about problems, malfunctions, dam- age, causes, and solutions or troubleshooting in a",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2.8",
     "title": "Classification",
     "snippet": "4.2.8 Classification Earlier in this section we discussed the various options you can use to store informa- tion in a notification. If these options are not sufficient or if you require different infor- mation, you can also classify notifications. Chapter 3, S",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2.9",
     "title": "Partners",
     "snippet": "4.2.9 Partners The same process that is described for master data in Chapter 3, Section 3.11.7, also applies for notifications. You can assign and define as many partners as freely as you wish to a notification. For example, partner information could include t",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2.10",
     "title": "Addresses",
     "snippet": "4.2.10 Addresses If you have stored an address for the reference object, this address is transferred to the notification. However, if the notification processing does not take place at this address (i.e., because the reference object was brought to a central w",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2.11",
     "title": "Documents",
     "snippet": "4.2.11 Documents You can assign related documents during the processing of maintenance notifications (see Figure 4.16). You can create new documents, assign existing documents, and change or cancel document assignments. You can navigate to the view of the resp",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2.12",
     "title": "Printing",
     "snippet": "4.2.12 Printing The SAP system enables you to output notifications on different media in different lay- outs. The following notification papers, for example, can be printed: \u0002 Notification overview A notification overview is a complete printout of a notificati",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2.13",
     "title": "System and User Statuses",
     "snippet": "4.2.13 System and User Statuses Like for master data, for notifications, you can assign a user status to them, and a sys- tem status can be set by the system, depending on the functions performed. You must have defined a status profile for the notification obj",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3",
     "title": "Planning",
     "snippet": "4.3 Planning Figure 4.17 Notification: System and User Status 4.3 Planning Many of the functions we discussed for notifications (refer to Section 4.2) are also avail- able for processing orders, as follows: \u0002 Flexible reference object You can also assign techn",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.1",
     "title": "Creating an Order",
     "snippet": "4.3.1 Creating an Order Six options are available for you to create an order (see Figure 4.18): 1 Automatically generating an order from a maintenance plan In this scenario, you have defined a maintenance plan that automatically generates an order at periodic ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.2",
     "title": "Order Types",
     "snippet": "4.3.2 Order Types You can define order types as you wish to meet your own requirements. You should define the order types based on the functions where these differ in customizing. You can define settings for each order type in customizing, such as: © 179 4.3 P",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.3",
     "title": "Content of Orders",
     "snippet": "4.3.3 Content of Orders You define the layout of the orders in customizing using the customizing function Define View Profiles or Assign View Profiles to Order Types. 4 Work Order Cycle 180 Designing Your Own Layouts for Orders Design suitable screen layouts f",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.4",
     "title": "Order Operations",
     "snippet": "4.3.4 Order Operations In the order operations (see Figure 4.23), you describe the maintenance activities to be performed. If the short text is not sufficient for your description, a separate long text is available for every operation. In addition to the descr",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.5",
     "title": "Responsibilities",
     "snippet": "4.3.5 Responsibilities Different options allow you to define the people responsible at both the header level (see Figure 4.24) and the operation level in the order: \u0002 Planner group You can define a planner group at the order header level (Planner Grp field). A",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.6",
     "title": "Scheduling",
     "snippet": "4.3.6 Scheduling Scheduling involves calculating the scheduled dates at the operation level and the header level, based on the basic dates manually defined in the order and taking into account the durations at the operation level. When Scheduling Does Not Make",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.7",
     "title": "Material Planning",
     "snippet": "4.3.7 Material Planning When planning the required material, you must determine whether the material is stock material or non-stock material. The planning process for the stock material takes place as follows (see Figure 4.31): The stock materials (item catego",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
