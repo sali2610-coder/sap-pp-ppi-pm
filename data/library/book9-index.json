@@ -1138,168 +1138,168 @@
     "id": "6.6",
     "title": "Test Equipment Calibration",
     "snippet": "6.6 Test Equipment Calibration In many companies, test equipment such as scales, gauges, calipers, or similar is used for quality inspections in the intermediate and final checking of products and for checking equipment. To ensure that specified performance cr",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.6.1",
     "title": "Equipment",
     "snippet": "6.6.1 Equipment You can manage the test equipment itself as equipment master records (see Figure 6.48). Test equipment has its own tab on which the specific data relating to the produc- tion resources/tools is to be maintained. The task list usage is important",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.6.2",
     "title": "Inspection Characteristics",
     "snippet": "6.6.2 Inspection Characteristics If inspection characteristics are often required, you can record them as master records and then use them in inspection plans. Master inspection characteristics are managed by means of Transactions QS21 through QS23 (see Figure",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.6.3",
     "title": "Task List",
     "snippet": "6.6.3 Task List In a maintenance task list, you describe the inspections to be subsequently carried out. You can create this either as a general task list (Transaction IA05, see Figure 6.50) or as an equipment task list (Transaction IA01). © 347 6.6 Test Equip",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.6.4",
     "title": "Maintenance Plan",
     "snippet": "6.6.4 Maintenance Plan Now, you can include the inspection plan in a maintenance plan (for example, as a sin- gle cycle plan) and define the frequency of the inspections in the form of the cycle (see Figure 6.56). The details you enter in the maintenance plan ",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.6.5",
     "title": "Order and Inspection Lot",
     "snippet": "6.6.5 Order and Inspection Lot The calibration order created only differs from “normal” maintenance orders in two areas (see Figure 6.57): \u0002 The calibration order has the status ILAS (inspection lot assigned), and thus, you can select according to this status,",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.6.6",
     "title": "Results Recording",
     "snippet": "6.6.6 Results Recording You can now either enter the recorded results in Transaction QE17 for a single inspec- tion lot (see Figure 6.59) or enter all results in Transaction QE51N for several inspection lots. If the entered results are within the tolerance lim",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.6.7",
     "title": "Usage Decision",
     "snippet": "6.6.7 Usage Decision When you save the recorded results, you can also make a usage decision at the same time. Alternatively, however, you can also use the special Transaction QA11 (Record Usage Decision) for this purpose. Figure 6.61 shows the window for the u",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.6.8",
     "title": "Follow-Up Actions",
     "snippet": "6.6.8 Follow-Up Actions You can have follow-up actions automatically triggered with the usage decision: \u0002 Indicating equipment as no longer ready for use \u0002 Technical completion of the order \u0002 Changing the cycle modification factor in the maintenance plan You c",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.7",
     "title": "Follow-On Order",
     "snippet": "6.7 Follow-On Order The NPRT status (PRT not ready for use) is thus set in the equipment master, thereby locking the equipment from further use (see Figure 6.63). However, you can use a main- tenance task, for example, to set the equipment to an operational st",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.7.1",
     "title": "Direct Creating",
     "snippet": "6.7.1 Direct Creating When creating an order (Transaction IW31), you can select the Create Follow-On Order indicator and define the order for which you want to create a follow-up order (see Figure 6.65). With this approach, you can specify which data you want ",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.7.2",
     "title": "Indirect Creating",
     "snippet": "6.7.2 Indirect Creating You can also create follow-on orders for processed or confirmed orders in an indirect way. For this purpose, the new Create Follow-On Order button is available for order pro- cessing in the operations list (Transactions IW32/33) and con",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.8",
     "title": "Pool Asset Management",
     "snippet": "6.8 Pool Asset Management Figure 6.66 Follow-On Order: Indirect Creating Figure 6.67 Preceding and Follow-On Order 6.8 Pool Asset Management You can use pool asset management to manage objects that are contained in a pool, from which objects can be borrowed fo",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.8.1",
     "title": "Request",
     "snippet": "6.8.1 Request As with any other maintenance notification, you use Transaction IW21 to create a requirement notification for a pool asset (see Figure 6.69). Separate Notification Types for Pool Asset Management We recommend using a separate notification type fo",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.8.2",
     "title": "Scheduling via Planning Board",
     "snippet": "6.8.2 Scheduling via Planning Board Requirement notifications are sent to the planning board for pool asset management (Transaction PAM03). Here, the vehicle scheduler can use drag-and-drop requirements 6 Other Business Processes 360 to vehicles (see Figure 6.",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.8.3",
     "title": "Confirmation",
     "snippet": "6.8.3 Confirmation Once the reservation is created, an email is automatically sent to the employee who requested the vehicle to confirm that it has been reserved (see Figure 6.73). Figure 6.73 Pool Asset Management: Reservation Confirmation 6 Other Business Pr",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.8.4",
     "title": "Issue",
     "snippet": "6.8.4 Issue If you double-click on the bar that indicates a reserved asset and then click the Issue button, the vehicle is shown in the dialog box, with the current counter reading and the date recorded (see Figure 6.74). Figure 6.74 Pool Asset Management: Iss",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.8.5",
     "title": "Return",
     "snippet": "6.8.5 Return Similarly, you can double-click on the relevant bar and, in the dialog box that opens, click the Return button to enter the return of the vehicle, together with the current data (date of return, current counter reading) in the planning board (see ",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.8.6",
     "title": "Settlement",
     "snippet": "6.8.6 Settlement Based on the current data (number of days, number of miles driven, free miles), the costs are settled to the cost center or to a settlement order. To execute the settlement function, click again on the relevant bar and click the Settle button.",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.8.7",
     "title": "Prerequisites",
     "snippet": "6.8.7 Prerequisites To use the pool asset management business process, you must ensure that certain pre- requisites are met: \u0002 First, you must use the customizing function Basic Settings for Pool Asset Manage- ment to implement basic settings (for example, a c",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.9",
     "title": "Project-Based Maintenance",
     "snippet": "6.9 Project-Based Maintenance One of the following two situations occurs in most companies: \u0002 Individual maintenance tasks accumulate within the framework of a higher-level project. For example, this situation occurs for new construction of technical systems o",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.9.1",
     "title": "Project System",
     "snippet": "6.9.1 Project System When you use the project system (PS) for project-based maintenance, you perform the higher-level planning in PS and the order planning in SAP S/4HANA Asset Manage- ment. This section will walk you through PS objects, manual and automatic a",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.9.2",
     "title": "Maintenance Event Builder",
     "snippet": "6.9.2 Maintenance Event Builder The Maintenance Event Builder was initially a component of the SAP for Aerospace and Defense industry solution and was made available for all user companies later on. You can use the Maintenance Event Builder to plan smaller mai",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.10",
     "title": "Summary",
     "snippet": "6.10 Summary \u0002 The Maintenance Event Builder enables you to plan smaller maintenance projects (maintenance events). \u0002 You can use the Maintenance Event Builder to perform the majority of required planning steps from a single transaction. \u0002 In agreement with th",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
