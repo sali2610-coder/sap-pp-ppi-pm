@@ -1453,98 +1453,98 @@
     "id": "8.1",
     "title": "What Plant Maintenance Controlling Involves",
     "snippet": "8.1 What Plant Maintenance Controlling Involves Depending on the time period and scope involved, different levels of plant mainte- nance controlling may occur (see Figure 8.1): \u0002 Operational controlling (level 3) Operational plant maintenance controlling is a ",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.2",
     "title": "SAP Tools for Obtaining Information",
     "snippet": "8.2 SAP Tools for Obtaining Information 8.2 SAP Tools for Obtaining Information The tools listed in this section do not affect business processes and their mapping in the SAP system. Their task is, rather, to provide you with the necessary information so that ",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.2.1",
     "title": "SAP List Viewer",
     "snippet": "8.2.1 SAP List Viewer SAP List Viewer does not present information to you as a rigid list, allowing you instead to adapt lists flexibly to meet your own information requirements. All SAP S/4HANA Asset Management lists are available with SAP List Viewer technol",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.2.2",
     "title": "QuickViewer",
     "snippet": "8.2.2 QuickViewer QuickViewer (Transaction SQVI or menu path More • System • Services • Quick Viewer) starts where SAP List Viewer reaches its limits and provides options for exceeding those limits: \u0002 QuickViewer allows you to display any database field in a l",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.2.3",
     "title": "Logistics Information System",
     "snippet": "8.2.3 Logistics Information System The logistics information system (LIS) is used for logistics applications in SAP S/4HANA and has specific variant names like the purchase information system, inventory con- trol, and so on. In plant maintenance, the PMIS (pla",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.2.4",
     "title": "SAP Business Warehouse and SAP BW/4HANA",
     "snippet": "8.2.4 SAP Business Warehouse and SAP BW/4HANA In the first sections of this chapter, you learned about some tools that you can use to provide maintenance-specific information. Why do we need SAP Business Warehouse (SAP BW) or SAP BW/4HANA as another technical ",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.2.5",
     "title": "SAP Lumira, Discovery Edition",
     "snippet": "8.2.5 SAP Lumira, Discovery Edition SAP Lumira, discovery edition, is an application with which you can visualize data and create presentations of results. You can import, edit, and format data and enrich with it with formulas to obtain new data. You can creat",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.3",
     "title": "SAP Tools for Budgeting",
     "snippet": "8.3 SAP Tools for Budgeting Figure 8.32 SAP Lumira: Data Presentation 8.3 SAP Tools for Budgeting Depending on which functions and applications are active in your company, you have various options for managing budgets for your plant maintenance tasks: order bu",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.3.1",
     "title": "Order Budgeting",
     "snippet": "8.3.1 Order Budgeting The simplest, but at the same time most limited, type of budgeting is order budgeting, with which you can assign a budget to a single order. An order budget is assigned with Transaction KO22, either as a total budget or distributed over s",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.3.2",
     "title": "Cost Center Budgeting",
     "snippet": "8.3.2 Cost Center Budgeting Cost Center Budgeting Is Actually Cost Center Planning A quick note right at the start: Cost center budgeting does not involve budgets with the option of active availability control. Rather, this process is cost center planning with",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.3.3",
     "title": "Budgeting by Using Investment Management Programs",
     "snippet": "8.3.3 Budgeting by Using Investment Management Programs Investment management is an area within SAP S/4HANA that supports you in carrying out investments in the true sense (purchasing assets, investing in research and devel- opment) but also in plant maintenan",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.3.4",
     "title": "Budgeting Using WBS Elements",
     "snippet": "8.3.4 Budgeting Using WBS Elements WBS elements were already discussed in the context of project-oriented plant mainte- nance in Chapter 6, Section 6.9.1, as part of the project system (PS) in SAP S/4HANA. WBS elements are normally used to define the construct",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.3.5",
     "title": "Maintenance Cost Budgeting",
     "snippet": "8.3.5 Maintenance Cost Budgeting Maintenance cost budgeting (MCB) is a process developed by SAP especially for plant maintenance and its budgeting requirements. However, MCB is not integrated into SAP S/4HANA, which instead uses the SAP Business Warehouse Busi",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.4",
     "title": "Summary",
     "snippet": "8.4 Summary In this chapter, SAP tools were discussed concerning how to obtain information and for budgeting. For obtaining information on your plant maintenance activities you have the following options: \u0002 SAP List Viewer, where a lot of standard reports are ",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
