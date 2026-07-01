@@ -1306,147 +1306,147 @@
     "id": "7.1",
     "title": "Integration within SAP S/4HANA",
     "snippet": "7.1 Integration within SAP S/4HANA SAP S/4HANA is a highly integrated system. Just like the pieces of a puzzle, the individ- ual parts of SAP S/4HANA fit together exactly to create a whole (see Figure 7.1). Figure 7.1 Integration within SAP S/4HANA This sectio",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.1.1",
     "title": "Materials Management",
     "snippet": "7.1.1 Materials Management In previous chapters, we presented the following points of contact of SAP S/4HANA Asset Management and materials management with SAP S/4HANA, but let’s summa- rize them briefly now: \u0002 Reservations Chapter 4, Section 4.3, illustrates ",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.1.2",
     "title": "Production Planning and Control",
     "snippet": "7.1.2 Production Planning and Control The integration of SAP S/4HANA Asset Management with production planning and control in SAP S/4HANA involves four elements: \u0002 You can use the master data of technical objects to create a cross-reference to the work center ",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.1.3",
     "title": "Digression: In-House Production of Spare Parts for Stock",
     "snippet": "7.1.3 Digression: In-House Production of Spare Parts for Stock To implement the in-house production of spare parts in stock, you can choose from two completely different approaches: \u0002 Via a production order \u0002 Via a refurbishment order Let’s explore these two o",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.1.4",
     "title": "Quality Management",
     "snippet": "7.1.4 Quality Management In terms of quality management, the following integration aspects are important: \u0002 You can manage the test and measurement equipment used in quality management as equipment master records. \u0002 The inspections performed with this test and",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.1.5",
     "title": "Environment, Health, and Safety",
     "snippet": "7.1.5 Environment, Health, and Safety The SAP Environment, Health, and Safety Management (SAP EHS Management) solu- tion has the following main functions: \u0002 Product safety Product safety contains functions that are required for hazardous substance man- agement",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.1.6",
     "title": "Financial Accounting",
     "snippet": "7.1.6 Financial Accounting This section will discuss another important aspect of integration, the connection between financial accounting and plant maintenance. © 397 7.1 Integration within SAP S/4HANA General Ledger Accounts as the Basis of all Business Proce",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.1.7",
     "title": "Asset Accounting",
     "snippet": "7.1.7 Asset Accounting SAP S/4HANA Asset Management has the following integration points with asset accounting: \u0002 You can assign an asset master record to your technical objects. \u0002 You can automatically generate equipment when you create asset master records. ",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.1.8",
     "title": "Controlling",
     "snippet": "7.1.8 Controlling The following factors influence the integration of plant maintenance with controlling: \u0002 To enable integration between SAP S/4HANA Asset Management and controlling in SAP S/4HANA Finance, make sure that all required cost elements are availabl",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.1.9",
     "title": "Real Estate Management",
     "snippet": "7.1.9 Real Estate Management Flexible Real Estate Management (RE-FX) with SAP S/4HANA offer functions that you need when managing real estate, for example: \u0002 Managing various types of real estate objects: business entities, properties, build- ings, rental unit",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.1.10",
     "title": "Human Capital Management",
     "snippet": "7.1.10 Human Capital Management SAP Human Capital Management for SAP S/4HANA offers functions related to human resources: \u0002 Personnel management (recruitment, remuneration, vacation, organization, per- sonnel development, retirement provisions, and so on) \u0002 Pa",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.1.11",
     "title": "Service and Sales",
     "snippet": "7.1.11 Service and Sales If you have distinctive customer service, we recommend that you implement customer service with SAP S/4HANA, which is a sister functional area to SAP S/4HANA Asset Management that has functions and business processes oriented to custom",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.2",
     "title": "Integration with Other SAP Systems",
     "snippet": "7.2 Integration with Other SAP Systems Figure 7.42 Cost Analysis Customer Order Customer Service Discontinued in 2027 In 2012, SAP announced the termination of maintenance service for SAP ERP by the end of 2025; however, since then, that date has been postpone",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.2.1",
     "title": "SAP NetWeaver Master Data Management",
     "snippet": "7.2.1 SAP NetWeaver Master Data Management Because master data forms the basis for business processes in most enterprises, data quality plays a major role. Master data provides information that is used in business processes, other data (e.g., transaction data)",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.2.2",
     "title": "SAP Master Data Governance",
     "snippet": "7.2.2 SAP Master Data Governance SAP Master Data Governance is the newer and in the future exclusive software, which is supposed to support you in ensuring the quality of your master data. You can use it in two different scenarios (see Figure 7.44): Consolidat",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.2.3",
     "title": "SAP Supplier Relationship Management",
     "snippet": "7.2.3 SAP Supplier Relationship Management SAP Supplier Relationship Management is an alternative purchasing system from SAP that can be used instead of or parallel to the purchasing component in SAP S/4HANA. SAP Supplier Relationship Management includes the f",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.3",
     "title": "Integration with Non-SAP Systems",
     "snippet": "7.3 Integration with Non-SAP Systems In the enhanced classic scenario, the subsequent processing occurs in SAP Supplier Relationship Management, but the documents arising from goods receipts and invoice receipts are still stored in SAP S/4HANA. Setting Classic",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.3.1",
     "title": "Operations Monitoring Systems",
     "snippet": "7.3.1 Operations Monitoring Systems Operations monitoring systems monitor, control, regulate, and optimize operations events online and nearly in real time. Depending on the industry and purpose, the fol- lowing systems are used: 7 Integrating Applications fro",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.3.2",
     "title": "Operations Information Systems",
     "snippet": "7.3.2 Operations Information Systems Essentially, operations information systems involve CAD systems (computer-aided design) and GIS systems (geographical information systems). CAD systems are used, for example, in the following areas: \u0002 In asset construction ",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.3.3",
     "title": "Service Specifications and Entry of Services Performed",
     "snippet": "7.3.3 Service Specifications and Entry of Services Performed When you deal with business processes on the basis of service specifications with ven- dors (see Chapter 6, Section 6.3.4), you have two ways of exchanging data with your vendors. Exchanging Data ove",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.4",
     "title": "Summary",
     "snippet": "7.4 Summary In this chapter, integration with SAP S/4HANA was discussed, as well as integration with other SAP systems and with non-SAP systems. Integration within SAP S/4HANA includes the following functionality: \u0002 Materials management concerning reservations",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
