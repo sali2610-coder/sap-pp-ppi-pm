@@ -816,154 +816,154 @@
     "id": "5.1",
     "title": "Basic Principles of Preventive Maintenance",
     "snippet": "5.1 Basic Principles of Preventive Maintenance Preventive maintenance is always associated with effort only—both in its planning and execution. Nevertheless, you must or should perform preventive maintenance in your company for many reasons, as follows: \u0002 Lega",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.2",
     "title": "Preventive Maintenance Objects",
     "snippet": "5.2 Preventive Maintenance Objects When performing preventive maintenance business processes, several objects are used in SAP S/4HANA Asset Management, whose significance and interrelationships are briefly explained in the following list (see Figure 5.3): \u0002 Ma",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.3",
     "title": "Maintenance Task Lists",
     "snippet": "5.3 Maintenance Task Lists \u0002 Select Inspection Lot as the maintenance call object if you want to perform a calibra- tion inspection of test equipment. (For more information, refer to Chapter 6, Section 6.6). \u0002 Select Service entry sheet as the maintenance call",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.3.1",
     "title": "Basics of Maintenance Task Lists",
     "snippet": "5.3.1 Basics of Maintenance Task Lists In plant maintenance, maintenance task lists are primarily used for the following two purposes: \u0002 Preventive maintenance In the area of preventive maintenance, in particular, maintenance task lists are widely used to map ",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.3.2",
     "title": "Order and Task List",
     "snippet": "5.3.2 Order and Task List The most common use of maintenance task lists will be discussed later in this chapter: the use of task lists and maintenance plans in preventive maintenance. However, you can also use maintenance task lists in connection with maintena",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.3.3",
     "title": "Action Log",
     "snippet": "5.3.3 Action Log Change documentation can now be used for maintenance task lists. To use this feature, choose More • Extras • Action Log in a maintenance task list to display the changes or start Transaction IA21 (Display Task List Change Documents) (see Figur",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.3.4",
     "title": "Task List Costing",
     "snippet": "5.3.4 Task List Costing Using Transaction IA16 (Task List Costing), you can also perform costings for mainte- nance task lists without having to create an order. The transaction thus answers the question as to what this maintenance task list would cost if exec",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.3.5",
     "title": "Mass Changes",
     "snippet": "5.3.5 Mass Changes You can use two transactions to make mass changes to maintenance task lists: \u0002 Transaction CA87 to replace work centers (see Figure 5.14) \u0002 Transaction CA77 to replace PRTs Figure 5.14 Task List: Mass Change 5 Preventive Maintenance 248 In b",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.4",
     "title": "Time-Based Maintenance Plans",
     "snippet": "5.4 Time-Based Maintenance Plans For time-based maintenance, the maintenance dates are calculated solely via the calen- dar (for example, every 6 months). Performance-based values (such as, for example, operation hours) have no effect. This section will cover ",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.4.1",
     "title": "Time-Based Single-Cycle Plan",
     "snippet": "5.4.1 Time-Based Single-Cycle Plan You should create time-based single-cycle plans if you have to perform the same main- tenance activities in full at regular intervals. This section will first cover the initial steps of creating and scheduling a single-cycle ",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.4.2",
     "title": "Time-Based Strategy Plan",
     "snippet": "5.4.2 Time-Based Strategy Plan You create time-based strategy plans if you have to perform maintenance activities that are based on each other or supersede each other; for example, if you have a service manual from the manufacturer that contains activities wit",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.5",
     "title": "Performance-Based Maintenance Plans",
     "snippet": "5.5 Performance-Based Maintenance Plans For performance-based maintenance, the maintenance dates are calculated solely via performance-based values (such as operation hours, kilometers, or produced quanti- ties). Calendar cycles (for example, a 6-month cycle),",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.5.1",
     "title": "Performance-Based Single-Cycle Plan",
     "snippet": "5.5.1 Performance-Based Single-Cycle Plan A maintenance plan for a performance-based single-cycle plan has a maintenance cycle (for example, every 2,000 operation hours), and the maintenance dates are called based on counter readings. An order is always create",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.5.2",
     "title": "Performance-Based Strategy Plan",
     "snippet": "5.5.2 Performance-Based Strategy Plan You create time-based strategy plans if you have to perform maintenance activities that are based on each other or supersede each other; for example, if you have a service manual from the manufacturer that contains activit",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.6",
     "title": "Multiple-Counter Plans",
     "snippet": "5.6 Multiple-Counter Plans Figure 5.45 Completion Counter Reading The SAP system then calculates the next packages due, the next planned date, and the associated call date based on the maintenance strategy, current counter reading, annual estimate, completion ",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.6.1",
     "title": "Basic Multiple-Counter Plan",
     "snippet": "5.6.1 Basic Multiple-Counter Plan You can define maintenance cycles with different dimensions when using multiple- counter plans. Multiple-counter plans enable you to integrate performance and time dimensions into a maintenance plan, that is, every 1,000 opera",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.6.2",
     "title": "Enhanced Multiple-Counter Plan",
     "snippet": "5.6.2 Enhanced Multiple-Counter Plan Unlike the basic multiple-counter plan, enhanced multiple-counter plans enable you to define several cycles that are based on each other, as the following examples show: \u0002 Cycle 1 for small inspection (A): every 1,000 OPH o",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.7",
     "title": "Inspection Rounds",
     "snippet": "5.7 Inspection Rounds How do the functions for inspection rounds differ from those for maintenance plan- ning described in the previous sections? Maintenance planning usually involves a sin- gle object for which a series of activities, some rather complex, is ",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.7.1",
     "title": "Basic Inspection Rounds Using the Object List",
     "snippet": "5.7.1 Basic Inspection Rounds Using the Object List If you always perform the same activities on the objects on the inspection round (for example, the lubrication condition of all objects must be checked and relubricated if necessary), use the following (see F",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.7.2",
     "title": "Enhanced Inspection Rounds Using the Maintenance Task List",
     "snippet": "5.7.2 Enhanced Inspection Rounds Using the Maintenance Task List You can use the enhanced inspection round via a maintenance task list if you perform different activities on the objects of the inspection round; these activities could include, for example: \u0002 Ob",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.8",
     "title": "Condition-Based Maintenance",
     "snippet": "5.8 Condition-Based Maintenance Figure 5.64 Enhanced Inspection Rounds: Confirmation The LOG_EAM_CI_3 and LOG_EAM_CI_4 business functions must be activated so you can use inspection rounds completely. Overall Completion Confirmation with Layout for Advanced In",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.9",
     "title": "Summary",
     "snippet": "5.9 Summary SAP S/4HANA Asset Management provides a wide range of functionality for preventive maintenance. In this chapter, you learned about the most important functions of maintenance task lists and maintenance plans as well as how to use them. Section 5.3 ",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
