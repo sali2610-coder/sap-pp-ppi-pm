@@ -970,168 +970,168 @@
     "id": "6.1",
     "title": "Immediate Repairs",
     "snippet": "6.1 Immediate Repairs The business process for an immediate repair is characterized by the facts that imme- diate repairs are never known in advance and the necessary resources (work centers, materials, external companies, and so on) cannot be planned. You can",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.1.1",
     "title": "Creating Orders (with Notification) and Completion",
     "snippet": "6.1.1 Creating Orders (with Notification) and Completion For this business process, it’s important to set up the repair order and print out the required shop papers as quickly as possible to enable the technician to start the repair work. The following section",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.1.2",
     "title": "Special Case: After-Event Recording",
     "snippet": "6.1.2 Special Case: After-Event Recording The after-event recording business process is a modification of the immediate repair business process. After-event recording is characterized by the fact that, when you 6 Other Business Processes 302 enter the order in",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.2",
     "title": "Shift Notes and Shift Reports",
     "snippet": "6.2 Shift Notes and Shift Reports You can use shift notes and reports to document events that occur during a shift. In a shift note, you enter information about an event, such as comments, times, or objects. A shift report is a PDF generated at the end of a sh",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.2.1",
     "title": "Shift Notes",
     "snippet": "6.2.1 Shift Notes Shift notes can, for example, contain the following information: \u0002 General notes (for example, shift interruptions, power outages) \u0002 Breakdown documentation (for example, a turning machine breakdown from/to) \u0002 Suggestions for improvement (for",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.2.2",
     "title": "Shift Reports",
     "snippet": "6.2.2 Shift Reports A shift report is a PDF document generated at the end of a shift by the person responsi- ble for the shift and is intended to facilitate the handover to the next shift. A shift report may include the following elements: \u0002 Shift notes \u0002 Prod",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.3",
     "title": "External Assignment",
     "snippet": "6.3 External Assignment You must perform the following steps in Customizing: \u0002 Create a shift report type (for example, SR) via the customizing function Define Shift Report Types. Here, you can specify, for example, whether the sequence of shift reports is to ",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.3.1",
     "title": "Basic Principles of External Assignment",
     "snippet": "6.3.1 Basic Principles of External Assignment External assignment is extremely important in plant maintenance, considerably more so than in production, for example. A non-representative short survey of SAP user companies in the German-speaking SAP user group s",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.3.2",
     "title": "External Processing as a Single Purchase Order",
     "snippet": "6.3.2 External Processing as a Single Purchase Order If you want to assign external services as a single purchase order, the procedure is gen- erally the following (see Figure 6.15): 1. When you plan external processing in an order, a purchase requisition is a",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.3.3",
     "title": "External Services with External Work Centers",
     "snippet": "6.3.3 External Services with External Work Centers Many companies work with service companies permanently or for smaller tasks. These external companies provide staff and perhaps even have their own offices on the prem- ises. They work “on call” and process ma",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.3.4",
     "title": "External Processing with Service Specifications",
     "snippet": "6.3.4 External Processing with Service Specifications The external services with service specifications business process differs from the exter- nal services with individual purchase order business process in that the services to be rendered by the external co",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.4",
     "title": "Refurbishment",
     "snippet": "6.4 Refurbishment The refurbishment business process is characterized by spare parts being held as reserves in the warehouse (for example, for ensuring system availability). Different sta- tuses exist for spare parts (for example, new, operational, faulty). Fa",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.4.1",
     "title": "Prerequisites",
     "snippet": "6.4.1 Prerequisites To enable you to initiate and process the business process for refurbishing spare parts, you must first fulfill some prerequisites. You need your own order type. In customizing, you set this up for the refurbishment process using Indicate O",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.4.2",
     "title": "Refurbishment Notification",
     "snippet": "6.4.2 Refurbishment Notification Figure 6.31 shows a notification that can be used to request a refurbishment process. The notification has its own notification type (here, M4) and, as an object type, has been assigned a material number, serial number, and equ",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.4.3",
     "title": "Material Requirements Planning",
     "snippet": "6.4.3 Material Requirements Planning You can now also generate refurbishment orders in material requirements planning, see the results in the stock/requirements list, and convert them into a refurbishment order. The business logic behind this function is that ",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.4.4",
     "title": "Refurbishment Order",
     "snippet": "6.4.4 Refurbishment Order Setting up a refurbishment order differs from setting up a “standard” maintenance order in the following ways (see Figure 6.35): \u0002 You use the specific Transaction IW81 (Create Refurbishment Order). \u0002 You use a specific order type (fo",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.4.5",
     "title": "Goods Issue",
     "snippet": "6.4.5 Goods Issue When you created the refurbishment order, a reservation for the withdrawal of materi- als to be refurbished was automatically created. You can then book this out using © 335 6.4 Refurbishment Transaction MIGO (Goods Issue) (movement type 261)",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.4.6",
     "title": "Goods Receipt",
     "snippet": "6.4.6 Goods Receipt When you created the refurbishment order, a reservation for the goods receipt of mate- rials to be refurbished was automatically created. You can then book a goods receipt by using standard Transaction MIGO (movement type 101) with referenc",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.4.7",
     "title": "Costing",
     "snippet": "6.4.7 Costing After you have entered the goods issues, time confirmations, and goods receipts and after you have settled the order, the cost situation of the refurbishment order is now represented as follows (see Figure 6.38): \u0002 Cost element 720000 represents ",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.5",
     "title": "Subcontracting",
     "snippet": "6.5 Subcontracting Figure 6.38 Refurbishment Order Cost Elements The cost burden through goods issues and labor hours as well as the cost relief through the goods receipt are also shown in the cost overview (see Figure 6.39). Figure 6.39 Refurbishment Order Co",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.5.1",
     "title": "Subcontracting Order",
     "snippet": "6.5.1 Subcontracting Order You create a maintenance order using Transaction IW31 (Create Order). Note the follow- ing differences between this order and a “standard” maintenance order. You set up an external processing operation in which you select the Subcont",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.5.2",
     "title": "Purchase Requisition",
     "snippet": "6.5.2 Purchase Requisition A purchase requisition is automatically generated in the background when you save the order. This purchase requisition differs from a “standard” purchase requisition in the following ways (see Figure 6.43): \u0002 The purchase requisition",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.5.3",
     "title": "Subcontracting Monitor",
     "snippet": "6.5.3 Subcontracting Monitor You can execute steps 3, 4, 5, 7, and 8 in the subcontracting monitor (Transaction ADSUBCON, see Figure 6.44). You can use the monitor to create an overview of all sub- contracting items or to perform targeted searches for specific",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.5.4",
     "title": "Serial Numbers",
     "snippet": "6.5.4 Serial Numbers For the process to work with serial numbers, you must fulfill the following prerequi- sites: \u0002 You have to activate business function LOG_MM_SERNO. \u0002 You must assign a serial number profile to the material master on the General Plant Data/",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
