@@ -620,196 +620,196 @@
     "id": "4.3.8",
     "title": "Electronic Parts Catalogs",
     "snippet": "4.3.8 Electronic Parts Catalogs In the following, you will see how you can use the technology of electronic parts cata- logs for the procurement of spare parts—directly from the planning of the mainte- nance order. © 193 4.3 Planning Link Catalogs Directly to ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.9",
     "title": "Production Resources/Tools",
     "snippet": "4.3.9 Production Resources/Tools In contrast to components, PRT, such as protective clothing, hand pallet trucks, draw- ings, and so on, are not used when the order is being executed but are, instead, required for processing the order and are returned (to stoc",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.10",
     "title": "Documents",
     "snippet": "4.3.10 Documents You can assign related documents during the processing of maintenance orders (see Figure 4.39). Figure 4.39 Order: Documents 4 Work Order Cycle 196 Other options available to you are as follows: \u0002 You can create new documents, assign existing ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.11",
     "title": "Object List",
     "snippet": "4.3.11 Object List An object list is used when you must perform certain activities not only on one object, but on a whole range of objects (i.e., an inspection round) or when you have several notifications that you want to process as part of a single order. Yo",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.12",
     "title": "Costing and Estimated Costs",
     "snippet": "4.3.12 Costing and Estimated Costs In costing, costs are automatically calculated based on the allocation records that you stored in the system and on the amounts specified in the resource planning. The planned costs (and also the actual costs that subsequentl",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.13",
     "title": "Order Hierarchy",
     "snippet": "4.3.13 Order Hierarchy When one or more suborders are created for an order, you have an order hierarchy. An order hierarchy is a multilevel structure of orders and suborders to separate compre- hensive orders or combine several orders. You can create a suborde",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.14",
     "title": "Object Services",
     "snippet": "4.3.14 Object Services Chapter 3, Section 3.11.4, explained the options available as part of object services when discussing the special functions for technical objects. Of course, object services are also available for orders. However, note the following aspe",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.15",
     "title": "Do Not Execute Orders",
     "snippet": "4.3.15 Do Not Execute Orders At the end of the planning phase, you might decide that you do not want to execute an order, for example, because your colleagues from production think that the costs are too high or because the problem has already been solved or b",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.16",
     "title": "To Be Printed Before Order Is Released",
     "snippet": "4.3.16 To Be Printed Before Order Is Released For a long time, in the SAP system, orders could not be printed until they were released. However, you might need to print individual order documents or even an entire order before the order is ready to be released",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.4",
     "title": "Controlling",
     "snippet": "4.4 Controlling We can leave the subject of planning the order now and move on to the SAP system options that you would normally use when the actual order processing is immediately imminent: controlling. 4.4 Controlling Controlling is comprised of the function",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.4.1",
     "title": "Mass Change of Orders and Operations",
     "snippet": "4.4.1 Mass Change of Orders and Operations As part of your daily business, you’ll certainly encounter scenarios in which you need to assign the same information to several orders. This duplicated information is neces- sary, for example, in the following cases:",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.4.2",
     "title": "Capacity Requirements Planning",
     "snippet": "4.4.2 Capacity Requirements Planning In capacity requirements planning, you compare the available capacity with the capac- ity requirement. You maintain the available capacity in the work center (see Chapter 2, Section 2.2), and the capacity requirement is det",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.4.3",
     "title": "Availability Checks in General",
     "snippet": "4.4.3 Availability Checks in General An availability check means that you let the system check whether the resources you plan for the requirements date are available in sufficient quantities or numbers. You can perform an availability check for materials, avai",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.4.4",
     "title": "PRT Availability Check",
     "snippet": "4.4.4 PRT Availability Check Where a check of PRT is concerned, you can control whether only the status or also the inventory is checked. You can only check the inventory, however, if you list the PRT as material master. You cannot check equipment or documents",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.4.5",
     "title": "Material Availability Check",
     "snippet": "4.4.5 Material Availability Check Three types of availability checks exist: static, dynamic, and global: \u0002 During a static availability check, the system checks whether the relevant material is available in sufficient quantities at the plant on the current dat",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.4.6",
     "title": "Order Release",
     "snippet": "4.4.6 Order Release As long as the order still has the CRTD (created) status, you cannot print shop papers, withdraw material, or confirm times. You cannot post a goods receipt for ordered spare 4 Work Order Cycle 214 parts either. This status changes when the",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.4.7",
     "title": "Shop Paper Printing",
     "snippet": "4.4.7 Shop Paper Printing Generally, when notifications and orders are used, only the order is printed. Freedom of Choice with Shop Paper Printing You have considerable freedom of choice in relation to the following: \u0002 How many shop papers you want to print ou",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.4.8",
     "title": "Paging",
     "snippet": "4.4.8 Paging Another function of the order (and also the notification) is paging. This means that you can send short messages to one or more partners by using the button. These short 4 Work Order Cycle 218 messages can either be predefined standard texts or te",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.5",
     "title": "Processing",
     "snippet": "4.5 Processing \u0002 The partner role paging partner is filled in the order (e.g., by transferring the contact person from the reference object). \u0002 The communication data of the person concerned is maintained in the user master record (Transaction SU3 [Maintain Us",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.6",
     "title": "Completion",
     "snippet": "4.6 Completion Figure 4.62 Order: List of Goods Movements 4.6 Completion Now, enter the times that were required for processing the order (time completion con- firmations) and then store the technical information such as the causes of damage or actions, for ex",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.6.1",
     "title": "Completion Confirmations",
     "snippet": "4.6.1 Completion Confirmations You perform time confirmations at the operation level in SAP S/4HANA Asset Manage- ment. Simplifying Confirmation If you find it too laborious or time-consuming to confirm each operation individually, create a final completion co",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.6.2",
     "title": "Technical Completion Confirmations",
     "snippet": "4.6.2 Technical Completion Confirmations You perform technical completion confirmations at the notification level and enter information such as the damage code, cause of damage, downtimes, actions, tasks, or system availability. Figure 4.68 displays an overvie",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.6.3",
     "title": "Technical Completion",
     "snippet": "4.6.3 Technical Completion When you have processed the order, you have technically completed it, which has the following consequences: \u0002 The status of the order is set to TECO (technically completed). \u0002 Purchase requisitions that were not yet converted into pu",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.6.4",
     "title": "Order Printing after Technical Completion",
     "snippet": "4.6.4 Order Printing after Technical Completion For a long time, in the SAP system, orders could not be printed after the technical com- pletion. However, you may need to print individual order documents or the entire order after the technical completion of th",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.6.5",
     "title": "Business Completion",
     "snippet": "4.6.5 Business Completion Similar to the technical completion, business completion takes place by setting a status (CLSD, closed). When you have performed the business completion, no further costs can be posted to the order. The following prerequisites must be",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.6.6",
     "title": "Document Flow",
     "snippet": "4.6.6 Document Flow The document flow is an important tool which many users like to use. The document flow shows all documents that were created during notification and order processing (see Figure 4.69), including the following: © 229 4.6 Completion \u0002 Notific",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.6.7",
     "title": "Action Log",
     "snippet": "4.6.7 Action Log Another function that many users really like is the action log. You can use the action log to display all changes (see Figure 4.70) that you have made in the following objects: 4 Work Order Cycle 230 \u0002 Order headers \u0002 Statuses \u0002 Operations \u0002 M",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.7",
     "title": "Summary",
     "snippet": "4.7 Summary SAP S/4HANA Asset Management provides a wide range of work order cycle function- alities. In this chapter, you learned about the most important functions of notifications and orders as well as how to use them. Nonetheless, before you map your work ",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
