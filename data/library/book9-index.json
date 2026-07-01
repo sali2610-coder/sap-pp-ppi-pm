@@ -1551,112 +1551,112 @@
     "id": "9.1",
     "title": "New Technologies in the User Interface",
     "snippet": "9.1 New Technologies in the User Interface On the following pages, some new SAP technologies for the user interface are intro- duced. Chapter 9 provides additional options for designing your own user interfaces, such as GuiXT and SAP Screen Personas. This sect",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.1.1",
     "title": "SAP 3D Visual Enterprise Viewer",
     "snippet": "9.1.1 SAP 3D Visual Enterprise Viewer With SAP 3D Visual Enterprise Viewer, visualization functions for technical objects, spare parts, and instructions are available in SAP Business Client as well as on mobile devices (such as tablets or smart phones). 2D and",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.1.2",
     "title": "SAP Fiori",
     "snippet": "9.1.2 SAP Fiori In Chapter 1, Section 1.7.3, SAP Fiori was introduced as the new SAP user interface tech- nology which enables users to access SAP systems. SAP Fiori can be used across multi- ple devices; that is, not only can you access SAP systems via your d",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.1.3",
     "title": "Quick Views",
     "snippet": "9.1.3 Quick Views Quick views enable you to display critical information on assigned equipment, func- tional locations, material, and long texts in orders, notifications, task lists, and mainte- nance plans on the SAP web user interface (for example, SAP Busin",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.2",
     "title": "Mobile Maintenance",
     "snippet": "9.2 Mobile Maintenance \u0002 Maintenance plan – Quick view for the maintenance plan in the General Data of the maintenance item – Quick view for the technical object in the General Data of the maintenance item – Quick view for the assigned task list in the General",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.2.1",
     "title": "Fundamentals of Mobile Maintenance",
     "snippet": "9.2.1 Fundamentals of Mobile Maintenance This section presents some of the fundamentals of mobile maintenance: What does mobile maintenance mean, and what do business processes supported this way look like? It also provides some application cases and highlight",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.2.2",
     "title": "SAP Work Manager",
     "snippet": "9.2.2 SAP Work Manager SAP now offers a wide range of mobile solutions (see Figure 9.30), starting with SAP Cloud for Customer for the management of customer information such as leads or opportunities, SAP Inventory Manager for recording goods issues and goods",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.2.3",
     "title": "SAP Asset Manager",
     "snippet": "9.2.3 SAP Asset Manager In contrast, SAP Asset Manager is the newest SAP solution for mobile maintenance. This was initially developed specifically for iOS devices to implement a more user- friendly native interface for the frontend and so that the end user ca",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.2.4",
     "title": "RFID",
     "snippet": "9.2.4 RFID RFID stands for radio frequency identification, which is a procedure for automatically identifying an object, animal, or person. In addition to allowing for the identification of objects without contact, RFID is also used to automatically enter and ",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.3",
     "title": "SAP Intelligent Asset Management",
     "snippet": "9.3 SAP Intelligent Asset Management SAP Intelligent Asset Management is the solution package for a number of SAP offer- ings regarding the plant maintenance area. This includes the ERP systems (SAP ERP, SAP S/4HANA) as well as the mobile solutions (SAP Asset ",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.3.1",
     "title": "Asset Central Foundation",
     "snippet": "9.3.1 Asset Central Foundation Asset central foundation offers a joint database for SAP applications, a couple of inte- grations to the SAP backend (SAP S/4HANA, SAP ERP) as well as to the IoT solutions, and basic functionality for structuring and administrati",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.3.2",
     "title": "SAP Asset Intelligence Network",
     "snippet": "9.3.2 SAP Asset Intelligence Network SAP Asset Intelligence Network is also an IoT application and is integrated into SAP Cloud Platform. The intent of SAP Asset Intelligence Network is to support the exchange of information between manufacturers, service prov",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.3.3",
     "title": "SAP Asset Strategy and Performance Management",
     "snippet": "9.3.3 SAP Asset Strategy and Performance Management SAP Asset Strategy and Performance Management is a cloud solution that allows you to assess your asset reliability as well as assigning the assets with the help of evaluation tools like FMEA (failure mode and",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.3.4",
     "title": "SAP Predictive Maintenance and Service",
     "snippet": "9.3.4 SAP Predictive Maintenance and Service SAP Predictive Maintenance and Service is an IoT application (Internet of Things) in the cloud, but is also has an on-premise version. SAP Predictive Maintenance and Service is based on an SAP HANA database. This se",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.3.5",
     "title": "SAP Predictive Engineering Insights",
     "snippet": "9.3.5 SAP Predictive Engineering Insights SAP Predictive Engineering Insights is a cloud IoT application and is built on an SAP HANA database. The purpose of the application is as follows: \u0002 To get a real-time overview of equipment (location, alerts, key metri",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.4",
     "title": "Summary",
     "snippet": "9.4 Summary This chapter introduced some new information and communication technologies for plant maintenance purposes. SAP 3D Visual Enterprise Viewer offers visualization functions for technical objects, spare parts, and instructions that are available in SA",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
