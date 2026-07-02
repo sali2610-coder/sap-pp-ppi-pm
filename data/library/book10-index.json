@@ -137,105 +137,105 @@
     "id": "2.1",
     "title": "SAP Integrated Business Planning",
     "snippet": "2.1 SAP Integrated Business Planning Architecture In this section, we’ll cover the high-level solution architecture of SAP IBP. Figure 2.1 illustrates the high-level solution architecture of SAP Integrated Business Planning for sales and operations. On the rig",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.2",
     "title": "Planning Model",
     "snippet": "2.2 Planning Model When a company implements SAP IBP, the first task is to define and configure the planning model based on business requirements and populate it with data. Then, based on the planning model, planners and analysts can create planning views so t",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.2.1",
     "title": "Attributes",
     "snippet": "2.2.1 Attributes Attributes are the fundamental elements that carry information about a business entity. A logical grouping of attributes is used to model master data types, which represent supply chain or business entities. Attributes describe the characteris",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.2.2",
     "title": "Master Data Types",
     "snippet": "2.2.2 Master Data Types Master data contains main categories of information related to the supply chain network entities. Master data is used to segment and organize planning information. For example, customer, location, product, and resource are some of the m",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.2.3",
     "title": "Time Profiles",
     "snippet": "2.2.3 Time Profiles A time profile is the time component of the dimensions; it defines the various time levels (days, weeks, months, quarters, years) of time buckets, each with a unique number, in which data can be managed. Each level is made up of periods, wh",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.2.4",
     "title": "Planning Areas",
     "snippet": "2.2.4 Planning Areas A planning area describes the structure of an SAP Integrated Business Planning for sales and operations plan and is the foundation of the planning model. It’s a planning model entity defined by a set of other planning model elements that i",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.2.5",
     "title": "Planning Levels",
     "snippet": "2.2.5 Planning Levels It’s very important in the SAP IBP or S&OP process to slice, dice, and analyze data by different dimensions. A planning level is based on any set of attributes that is a function of dimensions (e.g., product, customer, or location). A pla",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.2.6",
     "title": "Key Figures",
     "snippet": "2.2.6 Key Figures Key figures are measures that hold transaction data. They are a series of numbers over time, and each number corresponds to a time period value. Key figures are associated with a key (of the planning level), which is a combination of attribut",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.2.7",
     "title": "Versions and User-Defined Scenarios",
     "snippet": "2.2.7 Versions and User-Defined Scenarios Versions let you maintain alternate global plans. Planning areas can contain many plan data sets: one baseline data set and alternate plan data sets. Versions let you perform what-if analysis on different versions of d",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.2.8",
     "title": "Multilanguage Support for Modeling Objects",
     "snippet": "2.2.8 Multilanguage Support for Modeling Objects Multilanguage support helps in handling the supported modeling objects in multiple languages. Once this multilanguage support is set up, it displays the supported modeling object properties in logon language of ",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.3",
     "title": "Navigating the Planning Model",
     "snippet": "2.3 Navigating the Planning Model The ability to navigate through SAP IBP is one of the most important aspects getting the best out of SAP IBP. In this section, we’ll walk through how various participants, including business users, administrators, and configur",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.3.1",
     "title": "Excel User Interface",
     "snippet": "2.3.1 Excel User Interface The primary way for participants to access, analyze, modify, and simulate plans is via the Excel interface. SAP Integrated Business Planning, add-in for Microsoft Excel, provides a tab in the Excel ribbon for viewing and changing pla",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.3.2",
     "title": "Web-Based SAP Fiori Applications",
     "snippet": "2.3.2 Web-Based SAP Fiori Applications In addition to the Excel interface, SAP IBP offers a web UI for web-based SAP Fiori apps. SAP Fiori apps are supported for desktop and tablets. The SAP Fiori launchpad is the access point for all web-based applications fo",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.3.3",
     "title": "Social Collaboration",
     "snippet": "2.3.3 Social Collaboration The social collaboration aspect of the S&OP process is enabled by two different tools, SAP Build Work Zone and SAP Jam. Based on your SAP IBP system license, you’ll have access to one of these tools. As you plan and respond, you migh",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.4",
     "title": "Summary",
     "snippet": "2.4 Summary In this chapter, we covered the key concepts that enable planning processes across SAP IBP applications. We focused on the building blocks used to construct the planning models, such as attributes, time profiles, planning areas, planning levels, ke",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
