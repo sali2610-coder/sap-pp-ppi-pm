@@ -9,6 +9,7 @@ import { GlobalBack } from "@/components/global-back";
 import { WorkspaceInspector } from "@/components/workspace-inspector";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import { SiteLogo } from "@/components/site-logo";
+import { CreatorCredit } from "@/components/creator-credit";
 import dynamic from "next/dynamic";
 import { OmniSearch } from "@/components/omni-search";
 // Non-critical shell UI — deferred so the dataset + search engine (pulled by the
@@ -52,9 +53,13 @@ function Header() {
     <header className="sticky top-0 z-50 border-b border-black/10 bg-gradient-to-l from-brand-dark via-brand to-brand text-brand-foreground shadow-lg shadow-brand/25 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-white/25">
       <div className="container-app flex flex-col gap-3 py-3 xl:flex-row xl:items-center xl:justify-between">
         <div className="flex items-center justify-between gap-3">
-          <Link href="/" className="shrink-0 transition-transform hover:scale-[1.02]" onClick={() => playClick()}>
-            <SiteLogo />
-          </Link>
+          <div className="flex items-center gap-2.5">
+            <Link href="/" className="shrink-0 transition-transform hover:scale-[1.02]" onClick={() => playClick()}>
+              <SiteLogo />
+            </Link>
+            <span className="h-5 w-px bg-white/20" aria-hidden />
+            <CreatorCredit />
+          </div>
           <div className="xl:hidden">
             <LangSwitch />
           </div>

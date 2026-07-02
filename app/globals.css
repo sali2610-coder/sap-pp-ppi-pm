@@ -147,6 +147,14 @@ body {
   .studio-flow, .studio-halo, .studio-breathe { animation: none; }
 }
 
+/* Creator signature — one faint glow every 20s. No blink, no bounce. */
+@keyframes credit-glow {
+  0%, 88%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+  94% { box-shadow: 0 0 14px 1px rgba(255,255,255,0.35), inset 0 0 6px rgba(255,255,255,0.12); }
+}
+.credit-glow { animation: credit-glow 20s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .credit-glow { animation: none; } }
+
 /* Monospace SQL / tech-field snippets keep LTR even inside RTL flow */
 .tech,
 code,
