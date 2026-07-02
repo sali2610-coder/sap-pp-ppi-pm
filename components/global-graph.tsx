@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Search, ZoomIn, ZoomOut, Scan, X, Network, Boxes, Flame, Trophy, AlertTriangle, GitBranch, ArrowLeft, BrainCircuit } from "lucide-react";
+import { Search, ZoomIn, ZoomOut, Scan, X, Network, Boxes, Flame, Trophy, AlertTriangle, GitBranch, ArrowLeft } from "lucide-react";
 import { buildGraph, neighbors, degree, graphStats, KIND_META, type GraphIndex, type GNode, type RawTable } from "@/lib/knowledge-graph-global";
 import { knowledgeFor } from "@/lib/knowledge";
 import { s4For } from "@/lib/s4";
@@ -111,7 +111,7 @@ export function GlobalGraph() {
                     {isTable && <Link href={`/object/${encodeURIComponent(nm)}/`} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 hover:bg-slate-200">דף אובייקט</Link>}
                     {isTable && <Link href={`/impact/${encodeURIComponent(nm)}/`} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 hover:bg-slate-200">השפעה</Link>}
                     {cNode.kind === "tcode" && <Link href={`/tcode/${encodeURIComponent(nm)}/`} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 hover:bg-slate-200">טרנזקציה</Link>}
-                    <button onClick={() => window.dispatchEvent(new Event("neo:open-mentor"))} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 hover:bg-slate-200"><BrainCircuit className="me-1 inline size-3" />מנטור</button>
+                    
                   </div>
                 </div>
               </div>

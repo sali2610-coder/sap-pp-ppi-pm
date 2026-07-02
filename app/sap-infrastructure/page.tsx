@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, ArrowRight, Hand, ChevronDown, Database, GitBranch, Workflow, Clock, RotateCcw, Copy, Check, Gauge, BrainCircuit, Terminal, AlertTriangle, ArrowRightLeft, Network, Boxes, BookOpen, GraduationCap, Wrench, Cpu, Bug, Lightbulb, ArrowUpRight } from "lucide-react";
+import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, ArrowRight, Hand, ChevronDown, Database, GitBranch, Workflow, Clock, RotateCcw, Copy, Check, Gauge, Terminal, AlertTriangle, ArrowRightLeft, Network, Boxes, BookOpen, GraduationCap, Wrench, Cpu, Bug, Lightbulb, ArrowUpRight } from "lucide-react";
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
 import { Highlight } from "@/components/highlight";
 import { s4For, TRUST_HE, RISK_HE, RISK_COLOR } from "@/lib/s4";
@@ -496,7 +496,7 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
             <button onClick={() => onTable(t.name)} className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-3 py-2 text-sm font-bold text-white transition hover:bg-brand-dark active:scale-95"><Maximize2 className="size-4" />דף אובייקט</button>
             <Link href={`/sap-infrastructure/?focus=${encodeURIComponent(t.name)}`} title="פתח בגרף ERD" className="tap grid size-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-brand/40 hover:text-brand"><GitBranch className="size-4" /></Link>
             <Link href={`/impact/${encodeURIComponent(t.name)}/`} title="ניתוח השפעה S/4" className="tap grid size-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-brand/40 hover:text-brand"><Gauge className="size-4" /></Link>
-            <button onClick={() => window.dispatchEvent(new Event("neo:open-mentor"))} title="שאל מנטור" className="tap grid size-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-brand/40 hover:text-brand"><BrainCircuit className="size-4" /></button>
+            
           </div>
         </div>
         {/* section tabs (mobile + scroll) */}
@@ -1181,7 +1181,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                     <div className="mt-2.5 flex flex-wrap gap-1.5">
                       <button onClick={() => { setDrawer(null); enterFocus(t.name); }} className="tap inline-flex items-center gap-1 rounded-lg bg-white px-2.5 py-1.5 text-xs font-extrabold text-brand transition hover:bg-white/90 active:scale-95"><GitBranch className="size-3.5" />ERD</button>
                       <Link href={`/object/${encodeURIComponent(t.name)}/`} className="tap inline-flex items-center gap-1 rounded-lg bg-white/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-white/25"><Database className="size-3.5" />ידע</Link>
-                      <button onClick={() => window.dispatchEvent(new Event("neo:open-mentor"))} className="tap inline-flex items-center gap-1 rounded-lg bg-white/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-white/25"><BrainCircuit className="size-3.5" />מנטור</button>
+                      
                       <Link href="/troubleshooting/" className="tap inline-flex items-center gap-1 rounded-lg bg-white/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-white/25"><AlertTriangle className="size-3.5" />תקלות</Link>
                       <Link href={`/impact/${encodeURIComponent(t.name)}/`} className="tap inline-flex items-center gap-1 rounded-lg bg-white/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-white/25"><Gauge className="size-3.5" />S/4</Link>
                     </div>

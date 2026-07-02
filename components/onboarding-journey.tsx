@@ -58,7 +58,7 @@ export function OnboardingJourney() {
   const score = Math.max(0, ...Object.values(cert.mods).map((m) => m.best), ...Object.values(cert.mods).map((m) => masteryPct(m)));
   const tier = complete ? "יועץ SAP מוסמך" : pct >= 60 ? "יועץ בהכשרה" : "יועץ זוטר · בתחילת הדרך";
 
-  const go = (s: Stage) => { markStage(s.id); if (s.mentor) window.dispatchEvent(new Event("neo:open-mentor")); if (s.final && doneCount + 1 >= TOTAL) { setCelebrate(true); setTimeout(() => setCelebrate(false), 4000); } };
+  const go = (s: Stage) => { markStage(s.id); if (s.final && doneCount + 1 >= TOTAL) { setCelebrate(true); setTimeout(() => setCelebrate(false), 4000); } };
 
   const ACH = [
     { id: "login", he: "כניסה ראשונה", icon: Zap, earned: true },

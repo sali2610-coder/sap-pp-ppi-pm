@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { Layers, GitCompare, Database, Boxes, Plug, ShieldCheck, LayoutGrid, FileSearch, Rocket, FlaskConical, ClipboardCheck, Lightbulb, ArrowLeft, Search, BrainCircuit, TrendingUp, AlertTriangle, Code2, ArrowRightLeft } from "lucide-react";
+import { Layers, GitCompare, Database, Boxes, Plug, ShieldCheck, LayoutGrid, FileSearch, Rocket, FlaskConical, ClipboardCheck, Lightbulb, ArrowLeft, Search, TrendingUp, AlertTriangle, Code2, ArrowRightLeft } from "lucide-react";
 import { ECC_S4_TOPICS, STATUS_HE, STATUS_COLOR, type ChangeStatus } from "@/data/ecc-s4";
 import { S4_IMPACT } from "@/data/s4-impact";
 import { TRANSACTIONS } from "@/data/transactions";
@@ -100,7 +100,7 @@ export function S4Transformation() {
           ); })}
           <Link href="/s4-readiness/" className="mt-2 flex items-center gap-2 rounded-xl bg-emerald-600 px-3 py-2 text-sm font-bold text-white"><TrendingUp className="size-4" />Readiness Center</Link>
           <Link href="/migration-cockpit/" className="mt-1 flex items-center gap-2 rounded-xl bg-slate-900 px-3 py-2 text-sm font-bold text-white"><Database className="size-4" />Migration Cockpit</Link>
-          <button onClick={() => window.dispatchEvent(new Event("neo:open-mentor"))} className="flex w-full items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-right text-sm font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand"><BrainCircuit className="size-4" />שאל מנטור S/4</button>
+          
         </nav></aside>
 
         {/* content */}
@@ -213,7 +213,7 @@ export function S4Transformation() {
                           {o.kind === "Tcode" && <Link href={`/tcode/${encodeURIComponent(o.name)}/`} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">פרטי טרנזקציה</Link>}
                           <button onClick={() => go("arch")} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">מפת ארכיטקטורה</button>
                           <Link href="/sap-infrastructure/" className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">מודל נתונים</Link>
-                          <button onClick={() => window.dispatchEvent(new Event("neo:open-mentor"))} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">שאל מנטור</button>
+                          
                         </div>
                       </div>
                     </div>

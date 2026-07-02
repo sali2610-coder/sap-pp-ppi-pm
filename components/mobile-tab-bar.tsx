@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Home, GraduationCap, GitBranch, BrainCircuit, Menu, X, Search, Gauge, Library, Workflow, Sparkles, BookOpen, HelpCircle, Wrench, Boxes, Compass } from "lucide-react";
+import { Home, GraduationCap, GitBranch, Menu, X, Search, Gauge, Library, Workflow, Sparkles, BookOpen, HelpCircle, Wrench, Boxes, Compass } from "lucide-react";
 import { CentersSheet } from "@/components/centers-sheet";
 
 // light haptic where supported (Android/Chrome); no-op on iOS Safari — harmless.
@@ -12,8 +12,9 @@ const haptic = () => { try { navigator.vibrate?.(8); } catch { /* noop */ } };
 
 const TABS = [
   { href: "/", icon: Home, label: "בית", match: (p: string) => p === "/" },
-  { href: "/learn/", icon: GraduationCap, label: "למידה", match: (p: string) => p.startsWith("/learn") },
+  { href: "/apps/", icon: Boxes, label: "אפליקציות", match: (p: string) => p.startsWith("/apps") },
   { href: "/sap-infrastructure/", icon: GitBranch, label: "גרף", match: (p: string) => p.startsWith("/sap-infrastructure") },
+  { href: "/learn/", icon: GraduationCap, label: "למידה", match: (p: string) => p.startsWith("/learn") },
 ];
 const MORE = [
   { href: "/pm/", icon: Wrench, label: "אחזקה (PM)" },
@@ -54,7 +55,6 @@ export function MobileTabBar() {
         <nav aria-label="ניווט תחתון" dir="rtl"
           className="pointer-events-auto mx-auto grid h-16 max-w-md grid-cols-5 rounded-[1.75rem] border border-white/50 bg-white/75 shadow-[0_10px_34px_-8px_rgba(15,23,42,0.28)] backdrop-blur-2xl">
           {TABS.map((t) => <Tab key={t.href} active={t.match(path)} icon={t.icon} label={t.label} href={t.href} />)}
-          <Tab active={false} icon={BrainCircuit} label="מנטור" onClick={() => fire("neo:open-mentor")} />
           <Tab active={more} icon={Menu} label="עוד" onClick={() => setMore(true)} />
         </nav>
       </div>
@@ -85,10 +85,9 @@ export function MobileTabBar() {
                   </Link>
                 ))}
               </div>
-              <div className="grid grid-cols-3 gap-2 border-t border-slate-100 px-4 pt-3">
+              <div className="grid grid-cols-2 gap-2 border-t border-slate-100 px-4 pt-3">
                 <button onClick={() => { setMore(false); fire("neo:open-palette"); }} className="tap flex min-h-[60px] flex-col items-center justify-center gap-1 rounded-2xl bg-slate-50 p-3 text-xs font-bold text-slate-600 active:scale-95"><Search className="size-5" />חיפוש</button>
                 <button onClick={() => { setMore(false); fire("neo:open-guide"); }} className="tap flex min-h-[60px] flex-col items-center justify-center gap-1 rounded-2xl bg-slate-50 p-3 text-xs font-bold text-slate-600 active:scale-95"><HelpCircle className="size-5" />מדריך</button>
-                <button onClick={() => { setMore(false); fire("neo:open-mentor"); }} className="tap flex min-h-[60px] flex-col items-center justify-center gap-1 rounded-2xl bg-slate-50 p-3 text-xs font-bold text-slate-600 active:scale-95"><BrainCircuit className="size-5" />מנטור</button>
               </div>
             </motion.div>
           </>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ArrowLeft, GitBranch, TrendingUp, Terminal, Boxes, FileCode, ArrowRightLeft, Workflow, AlertTriangle, BrainCircuit, BookOpen, Gauge } from "lucide-react";
+import { ArrowRight, ArrowLeft, GitBranch, TrendingUp, Terminal, Boxes, FileCode, ArrowRightLeft, Workflow, AlertTriangle, BookOpen, Gauge } from "lucide-react";
 import { impactReport } from "@/lib/impact";
 import { RISK_HE, RISK_COLOR, TRUST_HE } from "@/lib/s4";
 
@@ -16,8 +16,9 @@ function Sec({ icon, title, count, accent, children }: { icon: React.ReactNode; 
   );
 }
 function Chips({ items, link }: { items: string[]; link?: boolean }) {
-  if (!items.length) return <span className="text-[11px] italic text-slate-300">—</span>;
-  return <div className="flex flex-wrap gap-1.5">{items.map((x) => link
+  const uniq = [...new Set(items)];
+  if (!uniq.length) return <span className="text-[11px] italic text-slate-300">—</span>;
+  return <div className="flex flex-wrap gap-1.5">{uniq.map((x) => link
     ? <Link key={x} href={objHref(x)} className="tech rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 font-mono text-[11px] font-bold text-brand transition hover:border-brand/40" dir="ltr">{x}</Link>
     : <span key={x} className="tech rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600" dir="ltr">{x}</span>)}</div>;
 }

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { GitBranch, BrainCircuit, Gauge, AlertTriangle, Terminal, Boxes, FileCode, Network, Lightbulb, HelpCircle, Clock4, Briefcase, ArrowLeft, GraduationCap, ShieldCheck, ArrowRightLeft, StickyNote, Check } from "lucide-react";
+import { GitBranch, Gauge, AlertTriangle, Terminal, Boxes, FileCode, Network, Lightbulb, HelpCircle, Clock4, Briefcase, ArrowLeft, GraduationCap, ShieldCheck, ArrowRightLeft, StickyNote, Check } from "lucide-react";
 import { PROCESS, STEP_CBC } from "@/data/process/process-data";
 import { knowledgeFor } from "@/lib/knowledge";
 import { s4For, RISK_HE, RISK_COLOR, TRUST_HE } from "@/lib/s4";
@@ -133,7 +133,7 @@ export function ProcessWorkspace({ code, byName, color }: { code: string; byName
           <div className="flex flex-wrap gap-2">
             <Link href={`/sap-infrastructure/?focus=${encodeURIComponent(s.object)}`} className="tap inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2.5 text-xs font-bold text-white shadow-sm" style={{ background: accent }}><GitBranch className="size-4" />פתח בגרף</Link>
             <Link href={`/impact/${encodeURIComponent(s.object)}/`} className="tap inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand"><Gauge className="size-4" />ניתוח השפעה</Link>
-            <button onClick={() => window.dispatchEvent(new Event("neo:open-mentor"))} className="tap inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand"><BrainCircuit className="size-4" />שאל מנטור</button>
+            
             {incidents[0] && <Link href={`/troubleshooting/${incidents[0].slug}/`} className="tap inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-xs font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand"><AlertTriangle className="size-4" />פתרון תקלות</Link>}
           </div>
         )}

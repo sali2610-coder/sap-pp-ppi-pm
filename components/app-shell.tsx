@@ -20,7 +20,6 @@ const FindHighlighter = dynamic(() => import("@/components/find-highlighter").th
 const OnboardingDrawer = dynamic(() => import("@/components/onboarding-drawer").then((m) => m.OnboardingDrawer), { ssr: false });
 const PageHelp = dynamic(() => import("@/components/page-help").then((m) => m.PageHelp), { ssr: false });
 const UXSettings = dynamic(() => import("@/components/ux-settings").then((m) => m.UXSettings), { ssr: false });
-const Mentor = dynamic(() => import("@/components/mentor").then((m) => m.Mentor), { ssr: false });
 import { MobileTabBar } from "@/components/mobile-tab-bar";
 import { WowToast } from "@/components/wow-toast";
 import { Search } from "lucide-react";
@@ -126,7 +125,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <CommandPalette />
       <FindHighlighter />
       <OnboardingDrawer />
-      <Mentor />
       <WowToast />
       <MobileTabBar />
       <WorkspaceInspector />

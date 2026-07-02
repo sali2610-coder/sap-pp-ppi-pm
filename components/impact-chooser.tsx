@@ -12,7 +12,10 @@ export function ImpactChooser() {
   const [q, setQ] = useState("");
   const rows = useMemo(() => {
     const s = q.trim().toLowerCase();
-    const list = ALL_TABLES.map((t) => ({ name: t.tableName, module: t.module, he: t.descriptionHe || t.descriptionEn }));
+    // ALL_TABLES has 20 tables shared by PM ∩ PP-PI — dedupe by name so keys are unique.
+    const byName = new Map<string, { name: string; module: string; he: string }>();
+    for (const t of ALL_TABLES) if (!byName.has(t.tableName)) byName.set(t.tableName, { name: t.tableName, module: t.module, he: t.descriptionHe || t.descriptionEn });
+    const list = [...byName.values()];
     if (!s) return list.filter((r) => CORE.includes(r.name));
     return list.filter((r) => r.name.toLowerCase().includes(s) || r.he.toLowerCase().includes(s)).slice(0, 40);
   }, [q]);

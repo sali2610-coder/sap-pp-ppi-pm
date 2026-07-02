@@ -1,0 +1,96 @@
+{
+  "book": "Prerequisites for SAP S/4HANA End-to-End Implementation Training",
+  "pages": 193,
+  "chapters": [
+    {
+      "n": 1,
+      "title": "Understanding Modern Enterprises and Business Functions",
+      "pages": [
+        3,
+        24
+      ],
+      "chars": 13849,
+      "sections": 13
+    },
+    {
+      "n": 2,
+      "title": "From Functions to Business Processes",
+      "pages": [
+        25,
+        43
+      ],
+      "chars": 10622,
+      "sections": 9
+    },
+    {
+      "n": 3,
+      "title": "Why ERP Exists and What Problems It Solves",
+      "pages": [
+        44,
+        59
+      ],
+      "chars": 9295,
+      "sections": 7
+    },
+    {
+      "n": 4,
+      "title": "ERP Concepts and the SAP Ecosystem",
+      "pages": [
+        60,
+        82
+      ],
+      "chars": 11772,
+      "sections": 8
+    },
+    {
+      "n": 5,
+      "title": "System Landscapes, Clients, and Project Roles",
+      "pages": [
+        83,
+        104
+      ],
+      "chars": 10640,
+      "sections": 7
+    },
+    {
+      "n": 6,
+      "title": "SAP GUI and SAP Fiori – Navigating the SAP World",
+      "pages": [
+        105,
+        124
+      ],
+      "chars": 11402,
+      "sections": 7
+    },
+    {
+      "n": 7,
+      "title": "SAP Terminology and Structures for New Consultants",
+      "pages": [
+        125,
+        147
+      ],
+      "chars": 11259,
+      "sections": 8
+    },
+    {
+      "n": 8,
+      "title": "From End User to Implementation Consultant",
+      "pages": [
+        148,
+        164
+      ],
+      "chars": 10034,
+      "sections": 11
+    },
+    {
+      "n": 9,
+      "title": "Learning Strategy, Readiness Check, and Next Steps",
+      "pages": [
+        165,
+        193
+      ],
+      "chars": 18152,
+      "sections": 8
+    }
+  ]
+}

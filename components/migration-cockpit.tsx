@@ -197,7 +197,7 @@ export function MigrationCockpit() {
                 <span className={`flex-1 text-[13px] font-bold ${on ? "text-slate-400 line-through" : "text-slate-700"}`}>{i + 1}. {c}</span>
               </button>
             ); })}</div>
-            <div className="mt-3 flex flex-wrap gap-1.5 border-t border-slate-100 pt-3">{[["מרכז S/4", "/s4hana/"], ["מודל נתונים", "/sap-infrastructure/"], ["ניתוח השפעה", "/impact/"]].map(([l, h]) => <Link key={l} href={h} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">{l}</Link>)}<button onClick={() => window.dispatchEvent(new Event("neo:open-mentor"))} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">שאל מנטור</button></div>
+            <div className="mt-3 flex flex-wrap gap-1.5 border-t border-slate-100 pt-3">{[["מרכז S/4", "/s4hana/"], ["מודל נתונים", "/sap-infrastructure/"], ["ניתוח השפעה", "/impact/"]].map(([l, h]) => <Link key={l} href={h} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">{l}</Link>)}</div>
           </Card>
           <RelatedCenters />
           <p className="pb-4 text-center text-[11px] text-slate-400">תוכן מבוסס SAP S/4HANA Migration Cockpit (LTMC/LTMOM) · trust: curated · פריטים לא ודאיים: needs-verification · לא להמציא — אמת מול גרסת היעד ו-SAP Notes.</p>
