@@ -409,7 +409,9 @@ export function CommandPalette() {
             ) : flat.length === 0 && !intel && !tcode ? (
               <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-3 px-4 py-10 text-center">
                 <span className="grid size-12 place-items-center rounded-2xl bg-muted/60 text-slate-300"><Search className="size-6" /></span>
-                <p className="text-sm text-muted-foreground">{t("search.empty")} — <span className="font-bold text-slate-600" dir="auto">&quot;{q}&quot;</span></p>
+                {/^[A-Za-z][A-Za-z0-9_/]{2,}$/.test(q.trim())
+                  ? <p className="max-w-sm text-sm text-slate-500">אין מטא-דאטה מאומת עדיין ל-<span className="tech font-bold text-slate-700" dir="ltr">{q.trim().toUpperCase()}</span>. ייתכן שהאובייקט קיים ב-SAP אך טרם תועד כאן — <b>לא ממציאים נתונים</b>. נסה שם עסקי, כינוי או אובייקט מהרשימה:</p>
+                  : <p className="text-sm text-muted-foreground">{t("search.empty")} — <span className="font-bold text-slate-600" dir="auto">&quot;{q}&quot;</span></p>}
                 <div className="flex flex-wrap justify-center gap-1.5">
                   {SUGGESTIONS.slice(0, 5).map((s) => (
                     <button key={s} onClick={() => setQ(s)} className="rounded-lg border border-border/60 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 shadow-sm transition-all hover:-translate-y-px hover:border-brand/40 hover:text-brand" dir="auto">{s}</button>
