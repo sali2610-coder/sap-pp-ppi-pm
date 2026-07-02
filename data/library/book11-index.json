@@ -93,65 +93,65 @@
   {
     "ch": 2,
     "id": "2.1",
-    "title": "Before learners can appreciate SAP S/4HANA as an end-to-end ERP suite, they",
+    "title": "Shifting from Departments to Processes",
     "snippet": "must shift from thinking in “departments” to thinking in “processes.” SAP itself presents SAP S/4HANA in terms of integrated processes such as procure-to-pay, order-to-cash, and record-to-report, not just modules or transaction codes. This chapter builds that ",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.2",
     "title": "What is a Business Process?",
     "snippet": "A business process is a repeatable sequence of activities that takes an input, applies work to it, and produces a meaningful business outcome. Key characteristics of a process: For example, “Pay a vendor” is not just a finance task. It is the final step of a b",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.3",
     "title": "Functions vs Processes: Why the difference matters",
     "snippet": "ERP systems like SAP S/4HANA are designed around such processes. SAP describes SAP S/4HANA as supporting end-to-end business operations across finance, supply chain, sales, and other areas in one integrated system, which makes process thinking essential for co",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.4",
     "title": "The Procure‑to‑Pay (P2P) Story",
     "snippet": "Business scenario Imagine a manufacturing company that needs raw materials to produce finished goods. The P2P process covers everything from identifying that need to paying the supplier and recording the final accounting impact. SAP positions sourcing and proc",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.5",
     "title": "Cross-functional nature of P2P",
     "snippet": "The user / requesting department initiates the need. Procurement manages vendor selection and PO creation. Warehouse/stores handle goods receipt and inventory updates. Finance handles invoice verification and payment. In SAP S/4HANA, this process connects MM (",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.6",
     "title": "The Order‑to‑Cash (O2C) Story",
     "snippet": "Business scenario Now consider the sales side: a customer wants to buy a product or service. The O2C process starts when the customer expresses interest and ends when payment is received and recorded. SAP explicitly lists order-to-cash as one of the core busin",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.7",
     "title": "The Record‑to‑Report (R2R) Story",
     "snippet": "Business scenario Record-to-report covers how financial information is captured, consolidated, and presented to stakeholders. It is the link between daily operations and the financial statements that management, investors, and regulators rely on. SAP’s finance",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.8",
     "title": "Process Thinking vs “Button-click” Thinking",
     "snippet": "Many new learners approach SAP as a set of screens and codes: “Which transaction creates a PO?” or “Which app shows customer balances?” That approach leads to shallow understanding and interview difficulty. Process thinking looks like this: SAP itself structur",
-    "he": false
+    "he": true
   },
   {
     "ch": 2,
     "id": "2.9",
-    "title": "Connects",
+    "title": "Simple Cross-process Example: How Everything Connects",
     "snippet": "Consider a full cycle that touches all three processes: Simple Cross-process Example: How Everything If any step in P2P or O2C is incorrect (wrong quantities, wrong prices, wrong accounts), the R2R process produces misleading financial statements. This is why ",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,

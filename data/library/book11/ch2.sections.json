@@ -4,7 +4,7 @@
   "sections": [
     {
       "id": "2.1",
-      "title": "Before learners can appreciate SAP S/4HANA as an end-to-end ERP suite, they",
+      "title": "Shifting from Departments to Processes",
       "chars": 326,
       "text": "must shift from thinking in “departments” to thinking in “processes.” SAP itself\npresents SAP S/4HANA in terms of integrated processes such as procure-to-pay,\norder-to-cash, and record-to-report, not just modules or transaction codes. This\nchapter builds that process mindset.\n\nChapter 2 - From Functions to Business\nProcesses"
     },
@@ -52,7 +52,7 @@
     },
     {
       "id": "2.9",
-      "title": "Connects",
+      "title": "Simple Cross-process Example: How Everything Connects",
       "chars": 630,
       "text": "Consider a full cycle that touches all three processes:\nSimple Cross-process Example: How Everything\n\nIf any step in P2P or O2C is incorrect (wrong quantities, wrong prices, wrong\naccounts), the R2R process produces misleading financial statements. This is why\nSAP S/4HANA emphasizes integrated, real-time transaction and analytics in one\nenvironment, leveraging SAP HANA and embedded analytics capabilities.\nThe company buys raw materials through\nP2P.\nThe finished goods are sold through O2C.\nThose materials are used in production to\ncreate finished goods.\nAll purchasing and sales activities are\nrecorded and summarized in R2R."
     }
