@@ -11,6 +11,7 @@ import { fnIntel } from "@/data/function-intel";
 import { knowledgeFor } from "@/lib/knowledge";
 import { CONSULTANT_NOTES } from "@/data/consultant-notes";
 import { primaryModule } from "@/lib/primary-module";
+import { verifiedObject } from "@/data/verified-objects";
 import { objectIntelExt } from "@/lib/object-intel-ext";
 import { txIntel } from "@/lib/tx-intel";
 import { registryTx } from "@/lib/tx-registry";
@@ -80,6 +81,17 @@ export function lookupEntity(raw: string): EntityTip | null {
     const rt = registryTx(up);
     const mods = ti?.modules.join(" · ") || rt?.module;
     return { name: up, kind: "tcode", kindHe: KIND_HE.tcode, he: rt?.he || (ti && ti.tables.length ? `טרנזקציה — ${ti.tables.length} טבלאות` : "טרנזקציה"), module: mods, href: `/tcode/${encodeURIComponent(up)}`, graphHref: `/graph/?node=${encodeURIComponent(up)}`, verified: true, related: ti ? ti.tables.map((x) => x.name).slice(0, 6) : undefined, relatedKind: "object" };
+  }
+
+  // 2.5) Verified supplemental object (LO-HU / cross-module: VEKP, VEPO, LIKP…)
+  const vo = verifiedObject(name);
+  if (vo) {
+    return {
+      name: vo.name, kind: "table", kindHe: KIND_HE.table, he: vo.he, module: vo.primary,
+      href: `/object/${encodeURIComponent(vo.name)}/`, verified: true,
+      purpose: vo.ppPi || vo.en, consultantTip: vo.useCases?.[0], where: vo.area,
+      related: vo.related.slice(0, 6), relatedKind: "object",
+    };
   }
 
   // 3) CDS View

@@ -52,7 +52,22 @@ export function buildHetero(module: Module): SHetero {
     if (t.fioriApp) { const id = `A:${t.fioriApp}`; add({ id, kind: "fiori", label: t.fioriApp, he: "" }); link(t.tableName, id); }
   }
 
-  return { nodes, adj, tables: tables.map((t) => t.tableName), master: new Set((MASTER[module] || []).filter((x) => tset.has(x))) };
+  // ── LO-HU · Handling Unit Management — an INTEGRATED logistics layer, not a
+  // PP-PI table. Rendered in the logistics swimlane and linked to the process-
+  // order output area (HU packs finished goods at process-order GR). Verified.
+  const extraTables: string[] = [];
+  if (module === "PP-PI") {
+    const HU: { name: string; he: string }[] = [
+      { name: "VEKP", he: "LO-HU · כותרת יחידה מטפלת (Handling Unit)" },
+      { name: "VEPO", he: "LO-HU · תכולת יחידה מטפלת (HU Item)" },
+    ];
+    for (const h of HU) { add({ id: h.name, kind: "table", label: h.name, he: h.he, href: `/object/${encodeURIComponent(h.name)}/` }); extraTables.push(h.name); }
+    link("VEKP", "VEPO");
+    // anchor the HU into the real PP-PI flow (first available verified anchor)
+    for (const anchor of ["AFKO", "AFPO", "MSEG", "MKPF", "MCHA", "MARA"]) { if (tset.has(anchor)) { link("VEKP", anchor); break; } }
+  }
+
+  return { nodes, adj, tables: [...tables.map((t) => t.tableName), ...extraTables], master: new Set((MASTER[module] || []).filter((x) => tset.has(x))) };
 }
 
 // dagre layout for a VISIBLE subset → positioned nodes + edges.
@@ -92,7 +107,7 @@ export const ZONES: { id: Zone; he: string; c: string }[] = [
 ];
 const Z_PLANNING = new Set(["PLKO", "PLAS", "PLPO", "PLFH", "PLMZ", "PLMK", "PLZU", "MAPL", "MPLA", "MPOS", "MHIS", "MHIO", "T351", "MD04"]);
 const Z_EXEC = new Set(["AUFK", "AFIH", "AFKO", "AFVC", "AFVV", "AFPO", "AFRU", "AFFH", "AFFL", "AFWI", "AUFM", "RESB", "AFAB", "AFFW", "COGI"]);
-const Z_LOGI = new Set(["EBAN", "EBKN", "MSEG", "MKPF", "COSP", "COSS", "COBRA", "COBRB", "ADRC", "SER02"]);
+const Z_LOGI = new Set(["EBAN", "EBKN", "MSEG", "MKPF", "COSP", "COSS", "COBRA", "COBRB", "ADRC", "SER02", "VEKP", "VEPO"]);
 const Z_MASTER = new Set(["EQUI", "EQKT", "EQUZ", "EQST", "IFLOT", "IFLOTX", "IFLOS", "ILOA", "OBJK", "HRP1000", "IHPA", "TPST", "TAPL", "EAPL", "MARA", "MARC", "MAST", "MAKT", "MARD", "MARM", "MBEW", "MVKE", "MLAN", "MEAN", "MDMA", "MCH1", "MCHA", "MCHB", "STKO", "STPO", "STAS", "STZU", "KDST", "FHMI", "CRHD", "CRTX", "CRCA", "CRCO", "CRFH", "CRVD_A", "CSLA", "KAKO", "KAZT", "KLAH", "KLAT", "KSML", "AUSP", "CABN", "CABNT", "CAWN", "CAWNT", "INOB", "MPGD", "MKAL"]);
 
 export function zoneOf(name: string): Zone {
