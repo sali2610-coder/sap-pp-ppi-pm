@@ -263,49 +263,49 @@
     "id": "5.1",
     "title": "What is an SAP System?",
     "snippet": "In everyday language, people often say “the SAP system” as if there is just one. In real projects, there are multiple systems, each serving a different purpose. An SAP system is a technical environment where SAP software is installed and runs, with its own dat",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.2",
     "title": "Typical SAP System Landscape for Projects",
     "snippet": "Most SAP implementations follow a multi-system landscape. The details vary by customer, but a common pattern looks like this: DEV (Development system) Purpose: Configuration, customization, and unit testing. Who uses it: Functional consultants, technical consu",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.3",
     "title": "Why multiple systems are necessary",
     "snippet": "A single “all-in-one” system would be dangerous. Imagine making configuration changes directly in the live environment and discovering they break a critical process. To avoid this, SAP landscapes are separated so that changes are: Designed and configured in DE",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.4",
     "title": "The concept of Client",
     "snippet": "When logging into SAP, users typically enter: Many beginners confuse client with system. In SAP terminology, a client is a logical partition within a single system. You can think of it as: Separate “logical companies” within one technical installation. Separat",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.5",
     "title": "User Types and Roles in SAP Projects",
     "snippet": "SAP projects involve many roles. Understanding who does what helps you see where you fit and what skills you should build. SAP end user Focus: Using SAP to perform daily business tasks. Examples: Accounts payable clerk, sales order processor, warehouse operato",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.6",
     "title": "Where this program positions the Learner",
     "snippet": "Your bridge module and the subsequent 12‑week implementation program are designed to position the learner as an aspiring functional consultant in either Finance or Supply Chain. That means: You are not being trained to be an end user who only posts documents. ",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.7",
     "title": "Basics of Access, Login, and Security",
     "snippet": "Even though detailed security design is handled by specialized teams, every consultant should understand basic concepts about access. Login elements When logging into an SAP system, you typically provide: Client – which logical environment in the system you ar",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
