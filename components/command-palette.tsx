@@ -9,6 +9,7 @@ import { HR_TABLES } from "@/data/hr-module";
 import { BW_TABLES } from "@/data/bw-module";
 import { MIG_OBJECTS } from "@/data/migration-cockpit";
 import { searchObjects } from "@/lib/object-intel";
+import { searchVerified } from "@/data/verified-objects";
 import { lookupTCode } from "@/lib/tcode-index";
 import type { Module } from "@/lib/types";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -152,15 +153,24 @@ export function CommandPalette() {
     return out;
   }, [dsq]);
 
+  // verified supplemental registry — real cross-module/LE/HU objects outside the
+  // PM/PP-PI blueprint (VEKP/Handling Unit, deliveries, WM, SD, FI…), searchable
+  // by technical name · business name · abbreviation · jargon · he/en alias.
+  const verifiedHits = useMemo<FlatItem[]>(() => {
+    const s = dsq.trim(); if (s.length < 2) return [];
+    return searchVerified(s).slice(0, 8).map((o) => ({ kind: "table" as const, label: o.name, sub: `${o.primary} · ${o.he}`, module: o.primary as Module, href: `/object/${encodeURIComponent(o.name)}` }));
+  }, [dsq]);
+
   const flat = useMemo<FlatItem[]>(() => {
     const out: FlatItem[] = [];
     for (const p of pageHits) out.push({ kind: "page", label: pick(p.he, p.en), sub: p.sub, module: "PM", href: p.href });
     const add = (k: FlatItem["kind"], arr: typeof obj.table) => arr.forEach((h) => out.push({ kind: k, label: h.label, sub: h.sub, module: (h.module || "PM") as Module, href: h.href }));
     add("table", obj.table); add("tcode", obj.tcode); add("bapi", obj.bapi); add("idoc", obj.idoc); add("fm", obj.fm); add("cds", obj.cds); add("domain", obj.domain); add("process", obj.process);
+    for (const v of verifiedHits) if (!out.some((o) => o.kind === "table" && o.label === v.label)) out.push(v);
     out.push(...extHits);
     for (const l of results.library) out.push({ kind: "library", label: l.id, sub: l.title, module: "PM", href: l.href });
     return out;
-  }, [obj, results.library, pageHits, pick, extHits]);
+  }, [obj, results.library, pageHits, pick, extHits, verifiedHits]);
 
   useEffect(() => setActive(0), [q]);
 
