@@ -886,77 +886,77 @@
     "id": "7.1",
     "title": "Collaboration Using SAP Build Work Zone",
     "snippet": "7.1 Collaboration Using SAP Build Work Zone SAP Build Work Zone is a new-generation collaboration tool that is easy to use and provides a better user experience. It provides access to different applications, processes, and information in one place, which incre",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.1.1",
     "title": "Navigation",
     "snippet": "7.1.1 Navigation The SAP Build Work Zone page is divided into two sections—the header, which lets you search information, access notifications, and perform user settings, and the menu bar, the area most widely used by planners in day-to-day operations. It’s fu",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.1.2",
     "title": "SAP Integrated Business Planning Integration",
     "snippet": "7.1.2 SAP Integrated Business Planning Integration Now that we’ve discussed the SAP Build Work Zone collaboration pages and how they function, let’s get into the details of how SAP IBP integrates with it. There are various integration points between SAP IBP da",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.1.3",
     "title": "Excel Planning View Integration",
     "snippet": "7.1.3 Excel Planning View Integration Excel planning views can be integrated with SAP Build Work Zone collaboration. When a change is made to the planning data in an Excel planning view, it can be shared with the collaboration groups in the form of hashtags. T",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.2",
     "title": "Custom Alerts",
     "snippet": "7.2 Custom Alerts Alert monitoring and analysis has been part of the daily cycle of demand and supply planners since the creation of systematic supply chain planning solutions. Several business situations need users to identify and report exceptions. Managing ",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.2.1",
     "title": "SAP Fiori Applications",
     "snippet": "7.2.1 SAP Fiori Applications Custom alerts in SAP IBP are managed via three distinct SAP Fiori apps: Define and Subscribe to Custom Alerts, Custom Alerts Overview, and Monitor Custom Alerts (see Figure 7.10). Figure 7.10 Custom Alert Apps Define and Subscribe ",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.2.2",
     "title": "Using Custom Alerts",
     "snippet": "7.2.2 Using Custom Alerts Planning key figures within SAP IBP store the data values relevant for planning processes. The key figure values represent the overall health of the supply chain; any exceptions or outliers in these values must be captured and reporte",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.2.3",
     "title": "Configuring Custom Alerts",
     "snippet": "7.2.3 Configuring Custom Alerts For custom alert configuration, use the Define and Subscribe to Custom Alerts apps to set up the alerts in SAP IBP. On the new alert creation screen, specify the parameters relevant for the alert by navigating to each tab in the",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.3",
     "title": "Case Management",
     "snippet": "7.3 Case Management As discussed in earlier sections, monitoring exceptions and acting on them in a timely manner is critical to ensure that supply chain processes are running efficiently and uninterrupted. Most of the alerts generated within a supply chain ar",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.4",
     "title": "Tasks",
     "snippet": "7.4 Tasks Process management in SAP IBP is driven by defining tasks while modeling planning processes and assigning responsibilities to users to accomplish these tasks. This helps streamline the process flow from one business function or area to another and en",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.5",
     "title": "Summary",
     "snippet": "7.5 Summary Collaboration is the heart of an efficient S&OP process. SAP IBP provides efficient end-to-end collaboration involving different parties in the S&OP process. Collaboration application is further fortified by integrating information sharing with the",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
