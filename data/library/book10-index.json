@@ -242,98 +242,98 @@
     "id": "3.1",
     "title": "Demand Planning at a Glance",
     "snippet": "3.1 Demand Planning at a Glance Through demand forecasting, an organization predicts the future demand of its customers. Based on the industry type of the organization, this demand can be for products or services. Irrespective of the industry segment, size, pr",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.1.1",
     "title": "Demand Forecasting Approach",
     "snippet": "3.1.1 Demand Forecasting Approach The demand forecasting approach is used to adopt a methodology and follow the required steps to generate the demand plan. Different organizations adopt different approaches for forecasting customer demand. These approaches can",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.1.2",
     "title": "Demand Planning Strategy",
     "snippet": "3.1.2 Demand Planning Strategy A planning strategy determines the approach of the organization to fulfill customer demand. There are mainly two varieties of planning strategy: make-to- stock (MTS) and make-to-order (MTO). In the MTS strategy, demand is predict",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.1.3",
     "title": "Demand Planning Process",
     "snippet": "3.1.3 Demand Planning Process Most companies practice a quantitative approach to generate and finalize a demand plan. For new products, a quantitative application can be used by referencing an existing similar product. If a qualitative forecast provides extra ",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.2",
     "title": "Forecasting Input with Historical Data",
     "snippet": "3.2 Forecasting Input with Historical Data Most mature organizations use a quantitative forecasting approach for most finished materials to predict customer demand. SAP Integrated Business Planning for sales and operations supports a time series statistical mo",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.3",
     "title": "Forecast Generation through Statistical",
     "snippet": "3.3 Forecast Generation through Statistical Modeling Statistical models are used to predict future demand by modeling past data. In SAP Integrated Business Planning for sales and operations, five statistical models are available to use, from which one or more ",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.3.1",
     "title": "Statistical Models",
     "snippet": "3.3.1 Statistical Models As summarized in Table 3.1, there are five models available in SAP Integrated Business Planning for sales and operations to generate a demand forecast. Model properties and their application are discussed in the following subsections. ",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.3.2",
     "title": "Configuring and Executing Forecasting Models",
     "snippet": "3.3.2 Configuring and Executing Forecasting Models For SAP Integrated Business Planning for sales and operations, the Manage Forecast Models and Assign Forecast Models apps in the Demand Planner group are used for demand planning model configuration. The Manag",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.4",
     "title": "Driver-Based Planning",
     "snippet": "3.4 Driver-Based Planning Driver-based planning is application-based planning that can be used for providing commercial intelligence for consensus demand planning. The typical use case of driver-based planning is the creation of risk and opportunity drivers wh",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.5",
     "title": "Collaborative Financial Modeling of Demand",
     "snippet": "3.5 Collaborative Financial Modeling of Demand Forecast Financial alignment and collaboration are the essential elements of a mature S&OP process. SAP Integrated Business Planning for sales and operations fills the gap of previous SAP planning solutions and pr",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.5.1",
     "title": "Income Statement Financial Model in SAP IBP",
     "snippet": "3.5.1 Income Statement Financial Model in SAP IBP The inherent consistency of the SAP IBP solution provides the ability to use the cost or price data at the lowest level (e.g., SKU level) and then generate the financial models at different levels (product cate",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.5.2",
     "title": "Financial Ratios and Analytics in SAP IBP",
     "snippet": "3.5.2 Financial Ratios and Analytics in SAP IBP Further higher-level financial modeling can be performed in SAP IBP by using financial ratios. The following margins at the product-location level can be used by calculating the average values in a high-level cal",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.6",
     "title": "Review, Collaboration, and Finalization of the",
     "snippet": "3.6 Review, Collaboration, and Finalization of the Demand Plan The demand planning process in the demand review cycle starts with the statistical forecast as the output of the statistical model, which is reviewed and cleaned to produce the baseline forecast. T",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.7",
     "title": "Summary",
     "snippet": "3.7 Summary Demand planning and forecasting is the first step of supply chain planning and S&OP. The efficiency of the supply chain processes and subsequent processes of production, purchase, inventory storage, and material transfer are highly dependent on for",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
