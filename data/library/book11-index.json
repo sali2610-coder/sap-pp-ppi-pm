@@ -207,56 +207,56 @@
     "id": "4.1",
     "title": "ERP in one page",
     "snippet": "Enterprise Resource Planning (ERP) is a category of business software that integrates core processes across an organization into a single, coherent system. Instead of each department running its own application and maintaining its own data, ERP centralizes or ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2",
     "title": "Major ERP vendors and SAP’s Place",
     "snippet": "The ERP market includes several major vendors. While details vary, a simplified view includes: SAP – Very strong in large and mid-sized enterprises, with deep process coverage across industries. Oracle – Strong ERP presence, especially in finance and large org",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3",
     "title": "SAP as a Company and Product Family",
     "snippet": "SAP started as an ERP software company and has grown into a large ecosystem covering: Core ERP (SAP ERP, SAP ECC in the past, SAP S/4HANA now). Integration and middleware tools. Analytics and reporting platforms. Industry-specific solutions. Cloud solutions fo",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.4",
     "title": "Introducing SAP S/4HANA",
     "snippet": "SAP S/4HANA is SAP’s flagship ERP suite for modern enterprises. Conceptually, it is: The system where core business processes run – from finance, procurement, and sales to manufacturing, supply chain, and more. Built on SAP HANA, an in-memory database that sup",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.5",
     "title": "SAP HANA explained for Non-technical Learners",
     "snippet": "SAP HANA is the database and platform underneath SAP S/4HANA. While a full technical explanation is not required for functional consultants at an early stage, some simple concepts are useful. SAP HANA is the database and platform underneath SAP S/4HANA. While ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.6",
     "title": "SAP S/4HANA vs SAP ECC",
     "snippet": "Learners often hear “ECC vs S/4HANA” discussed in projects and interviews. While there are many deep technical and functional differences, this bridge module focuses on the high-level, conceptual changes that matter for a beginner. Platform and Data Model Buil",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.7",
     "title": "S/4HANA Modules and Business Coverage",
     "snippet": "SAP S/4HANA is not one big “block.” It is composed of various application components or “modules,” each supporting specific business areas. However, these modules are tightly integrated and share master data and process flows. Below are some of the main functi",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.8",
     "title": "ERP, SAP S/4HANA, and Careers",
     "snippet": "Understanding ERP and SAP S/4HANA conceptually is not just an academic exercise. It has direct career implications: Employers look for consultants who can talk about how ERP supports the business, not only which transactions they know. Interviewers often ask q",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
