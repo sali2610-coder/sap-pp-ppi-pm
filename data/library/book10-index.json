@@ -641,140 +641,140 @@
     "id": "5.1",
     "title": "Constrained Supply Planning at a Glance",
     "snippet": "5.1 Constrained Supply Planning at a Glance As covered in Chapter 4, supply planning is a crucial step to determine the feasibility of unconstrained demand—that is, how much of what we could sell versus how much will be available considering the resources (mac",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.2",
     "title": "Sales and Operations Planning Optimizer",
     "snippet": "5.2 Sales and Operations Planning Optimizer In this section, we’ll explain the time-series-based optimizer algorithm, delivered as part of SAP Integrated Business Planning for response and supply. As the name suggests, this algorithm utilizes mathematical opti",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.3",
     "title": "Optimization Constraints",
     "snippet": "5.3 Optimization Constraints The optimizer generates a cost-optimized constrained supply plan subject to a set of constraints. There are three categories of constraints. In this section, we’ll review the different types of constraints.",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.3.1",
     "title": "Hard Constraints",
     "snippet": "5.3.1 Hard Constraints The following constraints must be adhered to or satisfied; otherwise, a solution isn’t possible, meaning the optimizer is unable to generate a supply plan: Available or finite capacities of production resources Production resources can b",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.3.2",
     "title": "Pseudo-Hard Constraints",
     "snippet": "5.3.2 Pseudo-Hard Constraints Pseudo-hard constraints incur very high penalty costs if they aren’t adhered to. The time-series-based optimizer will always try not to violate pseudo-hard constraints to generate a supply plan. However, in certain cases, the opti",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.3.3",
     "title": "Soft Constraints",
     "snippet": "5.3.3 Soft Constraints These are constraints that should be satisfied and are considered in the objective function. Any violations are penalized by the optimizer. Time-series- based supply planning currently offers two types of soft constraints, as follows: Va",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.4",
     "title": "Financial Modeling of the Supply Chain",
     "snippet": "5.4 Financial Modeling of the Supply Chain As explained in previous sections, the goal of the time-series-based optimizer is to minimize the total costs of the supply chain. This goal is achieved by minimizing the financials aspects of the supply chain specifi",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.4.1",
     "title": "Financial or Cost Key Figures",
     "snippet": "5.4.1 Financial or Cost Key Figures The financial key figures in this section represent costs defined in the supply chain network, such as nondelivery costs, transportation costs, inventory holding costs, production costs, raw material procurement costs, and s",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.4.2",
     "title": "Optimizer Parameters",
     "snippet": "5.4.2 Optimizer Parameters When you configure the S&OP supply planning operator profile for algorithm type Optimizer, you need to set optimizer parameters. The settings in the Optimizer Parameters section influence the goal of the optimization and set the para",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.5",
     "title": "Advanced Optimizer Features",
     "snippet": "5.5 Advanced Optimizer Features There are industry-specific planning requirements that require advanced capability to model in a planning application. In this section, we’ll cover features for the time-series-based optimizer that allow you to model such advanc",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.5.1",
     "title": "Late-Demand Fulfillment",
     "snippet": "5.5.1 Late-Demand Fulfillment The default behavior of the time-series-based optimizer is to fulfill the customer demand and independent demand in the requested time period. This means the optimizer will try to generate a supply plan so that customer receipts a",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.5.2",
     "title": "Minimum Resource Consumption",
     "snippet": "5.5.2 Minimum Resource Consumption In certain businesses or industries, it’s required to have production resources utilized above a certain minimum threshold even if there isn’t sufficient customer or independent demand. This may be due to financial reasons su",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.5.3",
     "title": "Fair-Share Distribution",
     "snippet": "5.5.3 Fair-Share Distribution Fair-share distribution allows the time-series-based optimizer to distribute constrained supply in a fair-share manner when the quantities requested by different customers or locations can’t be fulfilled completely. Distribution i",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.5.4",
     "title": "Aggregate Constraints",
     "snippet": "5.5.4 Aggregate Constraints All the constraints (soft, pseudo-hard, and hard) described in this chapter until now were defined at the lowest level—that is, at the product, location, customer, or source ID attribute level. However, aggregate constraints, as the",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.5.5",
     "title": "Multiple Demand Category",
     "snippet": "5.5.5 Multiple Demand Category Sometimes, you’ll need to categorize and prioritize one demand over another— for example, to prioritize the base forecast over promotional forecast or prioritize sales orders over the forecast. The demand category feature lets th",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.5.6",
     "title": "Product Substitution",
     "snippet": "5.5.6 Product Substitution The product substitution functionality is applicable when a company offers alternative products that have similar characteristics as the substitutable product and are equivalent or interchangeable from a customer’s perspective. © 235",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.5.7",
     "title": "Subnetworks",
     "snippet": "5.5.7 Subnetworks As described in previous chapters, a subnetwork is a portion of the entire supply chain network for which you want to plan a separate planning run (e.g., all location products in a region or product brand). Subnetworks are typically used for ",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.5.8",
     "title": "Optimizer Explanation",
     "snippet": "5.5.8 Optimizer Explanation The time-series-based optimizer is a MILP solver, and sometimes it isn’t easy to understand why a certain requirement was fulfilled and another not. This can occur even for a simple supply chain network. Comprehending the results ca",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.6",
     "title": "Finite Heuristic",
     "snippet": "5.6 Finite Heuristic In this section, we’ll explain the time-series-based finite heuristic algorithm, delivered as part of SAP Integrated Business Planning for response and supply. The time-series-based supply planning finite heuristic computes a feasible dema",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
     "id": "5.7",
     "title": "Summary",
     "snippet": "5.7 Summary In this chapter, we covered the details of the time-series-based optimizer and how it allows planners to build a feasible production, distribution, and procurement plan. We explained the different optimization modes, various types of constraints, t",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
