@@ -963,105 +963,105 @@
     "id": "8.1",
     "title": "Simulation Planning at a Glance",
     "snippet": "8.1 Simulation Planning at a Glance The performance of a supply chain network is based on the business decisions made by the supply chain and associated professionals. With simulation planning, supply chain professionals compare, validate, and analyze the pote",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.1.1",
     "title": "Demand Factors",
     "snippet": "8.1.1 Demand Factors Some of the important factors that have enhanced the requirements of performing simulation or what-if analysis when making S&OP decisions are as follows: Short product lifecycle With the growth of technical capabilities and relatively fast",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.1.2",
     "title": "Supply Feasibility Factors",
     "snippet": "8.1.2 Supply Feasibility Factors The factors that make it feasible to supply the planning simulation expectations through SAP IBP are as follows: Hardware technological advancement In the past decade, hardware advancements for both end-user machines and data s",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.1.3",
     "title": "Simulation Examples",
     "snippet": "8.1.3 Simulation Examples The goal of simulation planning is to prepare a strategy proposal that helps in making effective decisions in the S&OP process. Uncertainty can arise from both the demand and supply sides of the business. Fluctuation in demand can be ",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.2",
     "title": "Simulations",
     "snippet": "8.2 Simulations Supply chain planners face different situations that contribute to the fluctuation of the demand or supply plan. The situation could be an opportunity or a risk, and it’s important to assess the impact of the situation before it occurs. Typical",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.3",
     "title": "Versions",
     "snippet": "8.3 Versions A version is the simulation tool that SAP IBP provides to help create and compare alternate plans for what-if scenario planning. A version can be created as a copy of the base version, which is the data integration and base planning version. Chang",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.3.1",
     "title": "Manage Versions",
     "snippet": "8.3.1 Manage Versions Figure 8.6 shows the selection screen that pops up after you click the Manage button. There are two options available: Copy and Delete. The copy functionality lets you choose versions to copy data From and To. In Figure 8.6, we’re copying",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.3.2",
     "title": "Version Comparison",
     "snippet": "8.3.2 Version Comparison Once the version is copied, you can compare the base version and simulation version in the same Excel planning view. Figure 8.8 shows the Excel planning view definition, in which you must select the base version and simulation version ",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.3.3",
     "title": "Version Configuration",
     "snippet": "8.3.3 Version Configuration Versions must be configured in a planning area and are available for all planners with the necessary authorization to use them. Version configuration can be accessed by launching the Configuration app available under the Model Confi",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.4",
     "title": "Scenarios",
     "snippet": "8.4 Scenarios Scenario planning is a functionality provided in SAP IBP that’s used to perform simulation planning locally and share the results with a group or other users and collaborate on the scenarios. This is a flexible tool via which you can create multi",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.4.1",
     "title": "Scenario Creation",
     "snippet": "8.4.1 Scenario Creation The Scenarios group is available in the SAP IBP tab of the Excel ribbon. There are two options available to create and manage scenarios, as shown in Figure 8.12. You can create a new scenario by clicking on the Create button, which open",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.4.2",
     "title": "Scenario Comparison",
     "snippet": "8.4.2 Scenario Comparison Once the scenario is created, you can make changes to the plan for the available alternatives. Just like versions, scenarios also can be viewed in a single Excel planning view for comparison. In edit mode in the Excel planning view, a",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.4.3",
     "title": "Manage Scenario",
     "snippet": "8.4.3 Manage Scenario Clicking the Manage Scenarios button opens a popup window in which the following options are available for the scenarios created, as shown in Figure 8.15: Promote This option promotes/copies the changes made in the scenario to the baselin",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.4.4",
     "title": "Version and Scenario Comparison",
     "snippet": "8.4.4 Version and Scenario Comparison You’ve now seen several tools that SAP IBP provides for simulation planning. Each of these has various merits and meets the simulation needs of different demand and supply situations. Version and scenario functionalities a",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.5",
     "title": "Summary",
     "snippet": "8.5 Summary Simulation planning is an important functionality required for supply chain planners to deal with a fluctuating market situation. Various alternative solutions can be built by leveraging the simulation functionalities provided by SAP IBP, and a dec",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
