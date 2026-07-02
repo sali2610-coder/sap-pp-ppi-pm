@@ -63,7 +63,7 @@ export function FunctionIntelligence({ name }: { name: string }) {
       {/* 1 · Executive summary */}
       <Card icon={<Sparkles className="size-4" />} title="Function Intelligence" accent="#d62027" tag={intel && !intel.inferred ? <Verified /> : intel ? <NeedsCheck /> : <Unverified />}>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="tech rounded-lg bg-[#d62027] px-2.5 py-1 text-sm font-extrabold text-white" dir="ltr">{name}</span>
+          <span className="tech rounded-lg bg-brand px-2.5 py-1 text-sm font-extrabold text-white" dir="ltr">{name}</span>
           <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600">{kindLabel}</span>
           {(intel?.module || ds?.modules?.[0]) && <span className="rounded-md px-2 py-0.5 text-[11px] font-bold text-white" style={{ background: accent }}>{intel?.module || ds?.modules?.[0]}</span>}
         </div>
@@ -96,7 +96,7 @@ export function FunctionIntelligence({ name }: { name: string }) {
               <thead className="bg-slate-50 text-[10px] uppercase text-slate-400"><tr><th className="px-3 py-2 text-left">Parameter</th><th className="px-3 py-2">Dir</th><th className="px-3 py-2 text-right">תיאור</th></tr></thead>
               <tbody>{params.map((p) => (
                 <tr key={p.name} className="border-t border-slate-50" title={p.he}>
-                  <td className="px-3 py-1.5 font-mono font-bold text-slate-800">{p.name}{p.req && <span className="text-[#d62027]"> *</span>}</td>
+                  <td className="px-3 py-1.5 font-mono font-bold text-slate-800">{p.name}{p.req && <span className="text-brand"> *</span>}</td>
                   <td className="px-3 py-1.5"><span className={`rounded px-1.5 py-0.5 text-[9px] font-bold ${dirMeta[p.dir].cls}`}>{dirMeta[p.dir].he}</span></td>
                   <td className="px-3 py-1.5 text-right text-slate-600" dir="rtl">{p.he}</td>
                 </tr>))}</tbody>

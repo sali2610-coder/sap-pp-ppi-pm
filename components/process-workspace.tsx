@@ -97,9 +97,9 @@ export function ProcessWorkspace({ code, byName, color }: { code: string; byName
 
         {/* CBC examples — concrete plant-floor scenarios */}
         {cbcExamples.length > 0 && (
-          <div className="rounded-2xl border border-[#d62027]/20 bg-[#d62027]/[0.04] p-4">
-            <h3 className="mb-2 flex items-center gap-1.5 text-sm font-extrabold text-[#d62027]"><Briefcase className="size-4" />דוגמאות מ-CBC</h3>
-            <ul className="space-y-2">{cbcExamples.map((ex, idx) => <li key={idx} className="flex gap-2 text-[13px] leading-relaxed text-slate-700"><span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-[#d62027]" />{ex}</li>)}</ul>
+          <div className="rounded-2xl border border-brand/20 bg-brand/[0.04] p-4">
+            <h3 className="mb-2 flex items-center gap-1.5 text-sm font-extrabold text-brand"><Briefcase className="size-4" />דוגמאות מ-CBC</h3>
+            <ul className="space-y-2">{cbcExamples.map((ex, idx) => <li key={idx} className="flex gap-2 text-[13px] leading-relaxed text-slate-700"><span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-brand" />{ex}</li>)}</ul>
           </div>
         )}
 
