@@ -11,6 +11,7 @@ import { MIG_OBJECTS } from "@/data/migration-cockpit";
 import { searchObjects } from "@/lib/object-intel";
 import { searchVerified } from "@/data/verified-objects";
 import { actionsFor, type ActionKind } from "@/lib/universal-actions";
+import { searchFields, searchFioriApps } from "@/lib/extra-search";
 import { lookupTCode } from "@/lib/tcode-index";
 import type { Module } from "@/lib/types";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -22,7 +23,7 @@ import { planQuery, beginnerIntent } from "@/lib/search-intel";
 import { useFavorites, getRecentObjects } from "@/lib/prefs";
 import { Star } from "lucide-react";
 
-type FlatItem = { kind: "page" | "table" | "tcode" | "bapi" | "idoc" | "fm" | "cds" | "domain" | "process" | "library" | "ext"; label: string; sub: string; module: Module; href: string };
+type FlatItem = { kind: "page" | "table" | "tcode" | "bapi" | "idoc" | "fm" | "cds" | "domain" | "process" | "library" | "ext" | "field" | "fiori"; label: string; sub: string; module: Module; href: string };
 
 /* Launcher destinations — palette doubles as a Raycast-style navigator. */
 type Page = { he: string; en: string; sub: string; href: string; kw: string; Icon: typeof Home };
@@ -134,7 +135,9 @@ export function CommandPalette() {
   const GROUPS = [
     { kind: "page", title: t("search.pages"), icon: Compass },
     { kind: "table", title: "טבלאות", icon: Table2 },
+    { kind: "field", title: "שדות · Data Dictionary", icon: FileCode },
     { kind: "tcode", title: "T-Codes", icon: Terminal },
+    { kind: "fiori", title: "אפליקציות Fiori", icon: LayoutDashboard },
     { kind: "bapi", title: "BAPIs", icon: Boxes },
     { kind: "idoc", title: "IDocs", icon: Cable },
     { kind: "fm", title: "Function Modules", icon: FileCode },
@@ -162,16 +165,20 @@ export function CommandPalette() {
     return searchVerified(s).slice(0, 8).map((o) => ({ kind: "table" as const, label: o.name, sub: `${o.primary} · ${o.he}`, module: o.primary as Module, href: `/object/${encodeURIComponent(o.name)}` }));
   }, [dsq]);
 
+  // fields (Data Dictionary) + full Fiori Apps index
+  const fieldHits = useMemo<FlatItem[]>(() => searchFields(dsq).map((f) => ({ kind: "field" as const, label: f.field, sub: `${f.he || f.en} · טבלה ${f.table}`, module: f.module as Module, href: `/object/${encodeURIComponent(f.table)}/` })), [dsq]);
+  const fioriHits = useMemo<FlatItem[]>(() => searchFioriApps(dsq).map((a) => ({ kind: "fiori" as const, label: a.id, sub: `${a.name} · ${a.type}`, module: "PP-PI" as Module, href: `/library/academy/fiori/` })), [dsq]);
+
   const flat = useMemo<FlatItem[]>(() => {
     const out: FlatItem[] = [];
     for (const p of pageHits) out.push({ kind: "page", label: pick(p.he, p.en), sub: p.sub, module: "PM", href: p.href });
     const add = (k: FlatItem["kind"], arr: typeof obj.table) => arr.forEach((h) => out.push({ kind: k, label: h.label, sub: h.sub, module: (h.module || "PM") as Module, href: h.href }));
     add("table", obj.table); add("tcode", obj.tcode); add("bapi", obj.bapi); add("idoc", obj.idoc); add("fm", obj.fm); add("cds", obj.cds); add("domain", obj.domain); add("process", obj.process);
     for (const v of verifiedHits) if (!out.some((o) => o.kind === "table" && o.label === v.label)) out.push(v);
-    out.push(...extHits);
+    out.push(...fieldHits, ...fioriHits, ...extHits);
     for (const l of results.library) out.push({ kind: "library", label: l.id, sub: l.title, module: "PM", href: l.href });
     return out;
-  }, [obj, results.library, pageHits, pick, extHits, verifiedHits]);
+  }, [obj, results.library, pageHits, pick, extHits, verifiedHits, fieldHits, fioriHits]);
 
   useEffect(() => setActive(0), [q]);
 
