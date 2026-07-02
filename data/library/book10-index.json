@@ -1215,147 +1215,147 @@
     "id": "10.1",
     "title": "Planning Areas and Time Profiles",
     "snippet": "10.1 Planning Areas and Time Profiles The Model Configuration group in the SAP Fiori Launchpad for SAP IBP (see Figure 10.2) provides the SAP Fiori apps for viewing, configuring, and maintaining SAP IBP models. The main apps in Model Configuration include Attr",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.1.1",
     "title": "Planning Areas",
     "snippet": "10.1.1 Planning Areas A planning area consists of configurable objects that define the business model, such as planning attributes, master data types, key figures, time profiles, planning levels, planning operators, and so on. Using the configuration user inte",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.1.2",
     "title": "Time Profile",
     "snippet": "10.1.2 Time Profile In SAP IBP, several planning processes run at different time granularities and have different planning horizons. For example, S&OP is a monthly process and includes key figures that can be maintained and viewed at different time levels, 360",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.2",
     "title": "Attributes and Master Data Types",
     "snippet": "10.2 Attributes and Master Data Types In addition to the predelivered attributes and master data types, SAP IBP allows you to define custom attributes and master data types that are specific to your business model. There are different types of master data type",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.2.1",
     "title": "Attributes",
     "snippet": "10.2.1 Attributes Every planning dimension of a planning model—for example, customer or product—contains one or more planning attributes, which represent the characteristics of the planning dimensions. For example, PRDID is a key attribute of a product and rep",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.2.2",
     "title": "Master Data Types",
     "snippet": "10.2.2 Master Data Types Master data types in SAP IBP are planning dimensions representing the primary business data entities—for example, product, customer, location, resource, sales organization, and so on. Master data types contain one or more planning attr",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.3",
     "title": "Planning Levels",
     "snippet": "10.3 Planning Levels Planning levels are the hierarchical levels at which the data for the key figures is stored or key figure calculations are defined. A base planning level represents the storage level of stored key figures. The planning levels in SAP IBP ar",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.4",
     "title": "Key Figures",
     "snippet": "10.4 Key Figures In SAP IBP, customers can define custom calculations and disaggregation rules using key figures. Key figures are measures of data over time—for example, sales forecast quantity, production quantity, and so on—which have values for characterist",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.4.1",
     "title": "What Are Key Figures?",
     "snippet": "10.4.1 What Are Key Figures? Key figures are the foundation for all planning and analytical functions of SAP IBP. Key figures are defined for a planning area and can be used later in all areas of SAP IBP. Key figures calculation definitions are highly flexible",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.4.2",
     "title": "Creating Key Figures",
     "snippet": "10.4.2 Creating Key Figures You create a new key figure in SAP IBP from the Configuration app. Click the Key Figure tab, choose a planning area, and click New to create a new key figure. Provide a Key Figure ID and Base Planning Level. Every key figure definit",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.4.3",
     "title": "Key Figure Types",
     "snippet": "10.4.3 Key Figure Types There are several types of key figures in SAP IBP providing high flexibility in modeling the storage and calculations of key figures. In this section, we’ll cover the different classification of key figures such as stored key figures, a",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.4.4",
     "title": "Key Figure Aggregations",
     "snippet": "10.4.4 Key Figure Aggregations Aggregation mode describes how the key figures should be aggregated. The supported aggregation modes are as follows: SUM (default) MIN MAX AVG CUSTOM The request-level calculation of the key figure contains the aggregation mode i",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.4.5",
     "title": "Disaggregation",
     "snippet": "10.4.5 Disaggregation SAP IBP supports disaggregation for stored and editable key figures. Disaggregation in SAP IBP is supported by SAP Integrated Business Planning, add-in for Microsoft Excel, when a planner makes changes to key figures at any aggregated lev",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.4.6",
     "title": "Key Figure Calculations",
     "snippet": "10.4.6 Key Figure Calculations SAP IBP model configuration allows for free-form definition of key figure calculations. Every key figure has one or more calculations, of which the request-level calculation is the most important because it decides how the key fi",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.5",
     "title": "Planning Operators",
     "snippet": "10.5 Planning Operators For large volumes of data computations, SAP IBP provides planning operators. These operators have specialized functions and run operations such as planning algorithms or mass copy of data or data lifecycle management, to give just a few",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.5.1",
     "title": "Creating a Copy Operator",
     "snippet": "10.5.1 Creating a Copy Operator SAP IBP provides dedicated SAP Fiori apps to manage planning operators such as the Copy Operator Profiles, Manage Forecast Models, Time Series Based Supply Planning Profiles, and so on. For example, if you want to create a new c",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.5.2",
     "title": "Data Lifecycle Management",
     "snippet": "10.5.2 Data Lifecycle Management To manage the growth of data over time and remove unused/unwanted data, SAP IBP provides several data lifecycle management functions. These are delivered as application job templates and can be run in the Manage Application Job",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.6",
     "title": "History Report",
     "snippet": "10.6 History Report The change history function in SAP IBP allows for tracking changes to the stored key figure values and any calculated key figures that depend on them. This helps determine which user made what changes to planning data and the reason behind ",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.7",
     "title": "Advanced Configuration",
     "snippet": "10.7 Advanced Configuration In addition to the key figure calculations capability in SAP IBP model configuration, some more advanced modeling capabilities are provided to meet complex calculation requirements and help provide a degree of flexibility in modelin",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.8",
     "title": "System Performance Recommendations",
     "snippet": "10.8 System Performance Recommendations No matter how large you size your system, you can always model your application in a way that the hardware will be brought to its limits. The high flexibility of SAP IBP is a major advantage when it comes to adjusting it",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
     "id": "10.9",
     "title": "Summary",
     "snippet": "10.9 Summary In this chapter, we covered the most essential aspects of planning area configuration and its core planning elements, such as attributes, key figures, master data types, time profiles, versions, and planning operators. We covered these core concep",
-    "he": false
+    "he": true
   },
   {
     "ch": 11,
