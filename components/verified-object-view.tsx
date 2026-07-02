@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRightLeft, Terminal, GitBranch, ShieldCheck, Tag, Layers, CircleAlert } from "lucide-react";
+import { ArrowLeft, ArrowRightLeft, Terminal, GitBranch, ShieldCheck, Tag, Layers, CircleAlert, FlaskConical, Lightbulb, Network } from "lucide-react";
 import { hasApp } from "@/lib/apps-intel";
-import { verifiedObject, type VerifiedObject } from "@/data/verified-objects";
+import { verifiedObject, dataDomain, type VerifiedObject } from "@/data/verified-objects";
 
-const MOD_C: Record<string, string> = { "LE-HU": "#0e7490", LE: "#0e7490", WM: "#7c3aed", EWM: "#7c3aed", SD: "#0891b2", MM: "#2563eb", FI: "#16a34a", CO: "#d97706", PP: "#6d28d9", "PP-PI": "#6d28d9", PM: "#f97316", QM: "#0d9488" };
+const MOD_C: Record<string, string> = { "LO-HU": "#0e7490", "LE-HU": "#0e7490", LE: "#0e7490", WM: "#7c3aed", EWM: "#7c3aed", SD: "#0891b2", MM: "#2563eb", "MM-IM": "#2563eb", FI: "#16a34a", CO: "#d97706", PP: "#6d28d9", "PP-PI": "#6d28d9", PM: "#f97316", QM: "#0d9488" };
 const mc = (m: string) => MOD_C[m] || "#475569";
 const STATUS_HE: Record<string, string> = { verified: "מאומת", "needs-review": "בבדיקה", "cross-module": "חוצה-מודולים", "s4-only": "S/4 בלבד", "ecc-only": "ECC בלבד" };
 const STATUS_C: Record<string, string> = { verified: "#16a34a", "needs-review": "#d97706", "cross-module": "#0891b2", "s4-only": "#7c3aed", "ecc-only": "#64748b" };
@@ -23,6 +23,7 @@ function Section({ icon, title, accent, children }: { icon: React.ReactNode; tit
 export function VerifiedObjectView({ o }: { o: VerifiedObject }) {
   const c = mc(o.primary);
   const secondary = o.modules.filter((m) => m !== o.primary);
+  const domain = dataDomain(o.domain);
   const tcodeChip = (code: string) => hasApp(code)
     ? <Link key={code} href={`/apps/${encodeURIComponent(code)}/`} className="tech rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600 transition hover:bg-brand/10 hover:text-brand" dir="ltr">{code}</Link>
     : <Link key={code} href={`/tcode/${encodeURIComponent(code)}/`} className="tech rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600 transition hover:bg-brand/10 hover:text-brand" dir="ltr">{code}</Link>;
@@ -50,6 +51,41 @@ export function VerifiedObjectView({ o }: { o: VerifiedObject }) {
           </div>
         </motion.div>
       </section>
+
+      {/* Connection to PP-PI production/process flow (emphasized) */}
+      {o.ppPi && (
+        <Section icon={<FlaskConical className="size-5" />} title="חיבור לזרימת PP-PI (ייצור תהליכי)" accent="#6d28d9">
+          <p className="text-[13.5px] leading-relaxed text-slate-700">{o.ppPi}</p>
+          <div className="mt-3 flex flex-wrap items-center gap-2 text-[12px]">
+            <Link href="/pp-pi/" className="inline-flex items-center gap-1 rounded-lg bg-[#6d28d9]/10 px-2.5 py-1 font-bold text-[#6d28d9] transition hover:bg-[#6d28d9]/15">מרכז PP-PI<ArrowLeft className="size-3.5" /></Link>
+            <Link href="/studio/" className="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-2.5 py-1 font-bold text-slate-600 transition hover:text-brand">מפת הקשרים · Studio<ArrowLeft className="size-3.5" /></Link>
+          </div>
+        </Section>
+      )}
+
+      {/* Integrated logistics domain (LO-HU) — cross-module, not a PP-PI table group */}
+      {domain && (
+        <Section icon={<Network className="size-5" />} title={`שכבת לוגיסטיקה משולבת · ${domain.he} (${domain.id})`} accent="#0e7490">
+          <p className="text-[13px] leading-relaxed text-slate-600">{domain.summary}</p>
+          <p className="mt-1.5 text-[11px] font-bold text-slate-400">רכיב SAP: {domain.component}</p>
+          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+            {domain.connections.map((cn) => (
+              <div key={cn.module} className="rounded-2xl border border-slate-200 bg-slate-50/60 p-3">
+                <div className="mb-0.5 inline-flex items-center gap-1.5"><span className="rounded-md px-1.5 py-0.5 text-[10px] font-extrabold text-white" style={{ background: mc(cn.module) }}>{cn.module}</span></div>
+                <p className="text-[12px] leading-relaxed text-slate-600">{cn.he}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-3 text-[11px] text-slate-400">LO-HU שייך ל-Logistics General — מוצג כשכבה משולבת, לא כטבלת PP-PI מזויפת.</p>
+        </Section>
+      )}
+
+      {/* Consultant use cases */}
+      {o.useCases && o.useCases.length > 0 && (
+        <Section icon={<Lightbulb className="size-5" />} title="שימושי יועץ נפוצים" accent="#d97706">
+          <ul className="space-y-1.5">{o.useCases.map((u, i) => <li key={i} className="flex gap-2 text-[13px] leading-relaxed text-slate-700"><span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-amber-500" />{u}</li>)}</ul>
+        </Section>
+      )}
 
       {/* ECC ↔ S/4 */}
       <Section icon={<ArrowRightLeft className="size-5" />} title="ECC ↔ S/4HANA" accent="#2563eb">

@@ -26,29 +26,74 @@ export interface VerifiedObject {
   related: string[];       // related technical objects
   tcodes?: string[];       // common transactions (verified)
   status: VStatus;
+  domain?: string;         // data domain id (e.g. "LO-HU")
+  ppPi?: string;           // how it connects to the PP-PI production/process flow
+  useCases?: string[];     // common consultant use cases (verified, real-world)
 }
 
+// A first-class logistics data domain — not forced into any single module.
+export interface DataDomain {
+  id: string;
+  he: string;              // Hebrew name
+  en: string;              // English name
+  component: string;       // SAP application component
+  summary: string;         // what the domain is
+  members: string[];       // core tables in the domain
+  connections: { module: string; he: string }[]; // verified integration points
+}
+
+// LO-HU · Handling Unit Management — belongs to Logistics General (LO), NOT to
+// PP-PI. It is an integrated logistics LAYER used across PP-PI, MM, WM/EWM and SD.
+export const LO_HU_DOMAIN: DataDomain = {
+  id: "LO-HU",
+  he: "ניהול יחידות מטפלות",
+  en: "Handling Unit Management",
+  component: "LO-HU (Logistics — Handling Unit Management, תחת Logistics General)",
+  summary:
+    "שכבת לוגיסטיקה חוצת-מודולים לניהול יחידות מטפלות (HU) — אריזות, משטחים ומכלים. יחידה מטפלת עוטפת חומר+כמות+אצווה ומקבלת מזהה ייחודי (SSCC/Barcode) לצורך מעקב, אחסון, העברה ומשלוח. אינה שייכת ל-PP-PI, אך משולבת עמוקות בזרימת הייצור.",
+  members: ["VEKP", "VEPO"],
+  connections: [
+    { module: "PP-PI", he: "אריזת מוצר מוגמר/חצי-מוגמר מפקודת תהליך ל-HU בזמן קליטה (GR), ו-staging של חומרי גלם ל-HU בקו הייצור." },
+    { module: "MM-IM", he: "כל תנועת מלאי במיקום מנוהל-HU מחייבת HU; ה-HU מקושר למסמך החומר (MKPF/MSEG)." },
+    { module: "WM / EWM", he: "אחסון, ליקוט והעברה של HU בין תאים/מחסנים; ב-EWM ה-HU הוא אובייקט ליבה." },
+    { module: "SD / LE", he: "אריזת משלוח יוצא ל-HU (קישור VEKP↔VBELN של LIKP), הדפסת תוויות ומעקב שילוח." },
+  ],
+};
+
 export const VERIFIED_OBJECTS: VerifiedObject[] = [
-  // ── Handling Units (LE-HU) — the reported gap ──
+  // ── LO-HU · Handling Unit Management (Logistics General) — integrated with PP-PI ──
   {
-    name: "VEKP", primary: "LE-HU", modules: ["LE", "WM", "MM", "SD", "PP", "EWM"],
-    area: "לוגיסטיקה — יחידות מטפלות (Handling Units)",
-    he: "כותרת יחידה מטפלת (Handling Unit) — מזהה, אריזה, משקל/נפח, סטטוס וקישור לחומר/משלוח.",
+    name: "VEKP", primary: "LO-HU", modules: ["LO-HU", "PP-PI", "MM", "WM", "EWM", "SD", "LE"], domain: "LO-HU",
+    area: "לוגיסטיקה כללית — ניהול יחידות מטפלות (LO-HU)",
+    he: "כותרת יחידה מטפלת (Handling Unit) — מזהה ייחודי (SSCC/ברקוד), חומר אריזה, משקל/נפח ברוטו/נטו, סטטוס, וקישור לחומר, לאצווה, למסמך חומר ולמשלוח.",
     en: "Handling Unit Header",
-    ecc: "קיים ב-ECC (LE-HU).", s4: "קיים ב-S/4HANA (LE-HU נשמר; ב-EWM נעשה שימוש במבנה HU של EWM).",
-    aliases: ["Handling Unit", "HU", "HU Header", "handling unit header", "packaging", "pallet", "unit load", "shipment unit", "יחידה מטפלת", "יחידת מטפלת", "אריזה", "משטח", "יחידת שילוח"],
-    keywords: ["logistics", "logistics execution", "warehouse", "shipping", "HU management", "packing", "packaging", "לוגיסטיקה", "מחסן", "משלוח", "אריזה"],
-    related: ["VEPO"], tcodes: ["HU02", "HU03", "VL02N"], status: "cross-module",
+    ecc: "קיים ב-ECC (LO-HU).", s4: "קיים ב-S/4HANA (LO-HU נשמר; ב-EWM נעשה שימוש במבנה ה-HU של EWM).",
+    aliases: ["Handling Unit", "HU", "HU Header", "handling unit header", "HUMO", "HU Monitor", "packaging", "pallet", "unit load", "shipment unit", "SSCC", "יחידה מטפלת", "יחידת מטפלת", "אריזה", "משטח", "יחידת שילוח", "מכל"],
+    keywords: ["LO-HU", "handling unit management", "logistics", "warehouse", "shipping", "production packing", "finished goods", "staging", "HU management", "packing", "packaging", "לוגיסטיקה", "מחסן", "משלוח", "אריזה", "מוצר מוגמר", "ייצור", "PP-PI"],
+    related: ["VEPO", "MKPF", "MSEG", "LIKP", "MCHA"], tcodes: ["HU02", "HU03", "HUMO", "VLMOVE", "VL02N"], status: "cross-module",
+    ppPi: "בזרימת PP-PI: המוצר המוגמר/חצי-מוגמר של פקודת תהליך נארז ל-HU בזמן קליטת הייצור (GR) — ה-HU נרשם כמלאי מנוהל-HU ומקושר לתנועת המלאי (MSEG). כמו כן חומרי גלם עוברים staging ל-HU לפני פליטה לקו. במפעל משקאות/מזון ה-HU (משטח) הוא יחידת המעקב הפיזית בין הייצור למחסן ולמשלוח.",
+    useCases: [
+      "אריזת מוצר מוגמר מפקודת תהליך ל-HU/משטח בזמן GR — למעקב מלאי, אצווה ומשלוח.",
+      "ניהול מלאי במיקום אחסון מנוהל-HU (חובה HU לכל תנועה) — שילוב עם WM/EWM.",
+      "Staging של חומרי גלם ב-HU לקו הייצור לפני backflush/פליטה.",
+      "מעקב Track & Trace / גנאלוגיה: HU ⇄ אצווה ⇄ מוצר מוגמר לאורך השרשרת.",
+      "אריזת משלוח יוצא ל-HU + הדפסת תווית SSCC ל-EDI/לקוח.",
+    ],
   },
   {
-    name: "VEPO", primary: "LE-HU", modules: ["LE", "WM", "MM", "SD", "EWM"],
-    area: "לוגיסטיקה — יחידות מטפלות (Handling Units)",
-    he: "פריט/תכולת יחידה מטפלת — מה ארוז בתוך ה-HU (חומר, כמות, אצווה, HU מקונן).",
+    name: "VEPO", primary: "LO-HU", modules: ["LO-HU", "PP-PI", "MM", "WM", "EWM", "SD"], domain: "LO-HU",
+    area: "לוגיסטיקה כללית — ניהול יחידות מטפלות (LO-HU)",
+    he: "פריט/תכולת יחידה מטפלת — מה ארוז בתוך ה-HU: חומר, כמות, אצווה, ו-HU מקונן (nested HU). כל שורה מייצגת פריט בתוך המשטח/מכל.",
     en: "Handling Unit Item (Content)",
-    ecc: "קיים ב-ECC (LE-HU).", s4: "קיים ב-S/4HANA.",
-    aliases: ["HU Item", "HU Content", "handling unit item", "handling unit content", "תכולת HU", "פריט יחידה מטפלת", "content"],
-    keywords: ["handling unit", "packing", "nested HU", "אריזה", "תכולה"],
-    related: ["VEKP"], tcodes: ["HU02", "HU03"], status: "cross-module",
+    ecc: "קיים ב-ECC (LO-HU).", s4: "קיים ב-S/4HANA.",
+    aliases: ["HU Item", "HU Content", "handling unit item", "handling unit content", "nested HU", "תכולת HU", "פריט יחידה מטפלת", "content"],
+    keywords: ["LO-HU", "handling unit", "packing", "nested HU", "finished goods", "batch", "אריזה", "תכולה", "אצווה", "PP-PI"],
+    related: ["VEKP", "MCHA"], tcodes: ["HU02", "HU03", "HUMO"], status: "cross-module",
+    ppPi: "התכולה שנארזה ב-HU בקליטת פקודת התהליך — קושרת בין המוצר המוגמר, האצווה שיוצרה, וה-HU הפיזי (משטח). מאפשרת גנאלוגיה מלאה מהאצווה ל-HU למשלוח.",
+    useCases: [
+      "פירוט תכולת משטח מוצר מוגמר (חומר + אצווה + כמות) שנארז מפקודת תהליך.",
+      "מבנה HU מקונן: קרטונים בתוך משטח — למעקב עד רמת יחידת האריזה.",
+    ],
   },
   // ── Logistics Execution · Deliveries ──
   {
@@ -201,6 +246,9 @@ export const VERIFIED_OBJECTS: VerifiedObject[] = [
 const _byName = new Map(VERIFIED_OBJECTS.map((o) => [o.name.toUpperCase(), o]));
 export const verifiedObject = (name: string): VerifiedObject | undefined => _byName.get((name || "").toUpperCase());
 export const verifiedNames = (): string[] => VERIFIED_OBJECTS.map((o) => o.name);
+
+const DOMAINS: Record<string, DataDomain> = { "LO-HU": LO_HU_DOMAIN };
+export const dataDomain = (id?: string): DataDomain | undefined => (id ? DOMAINS[id] : undefined);
 
 /** search these objects by technical name, business name, alias, jargon, he/en. */
 export function searchVerified(q: string): VerifiedObject[] {
