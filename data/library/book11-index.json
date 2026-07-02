@@ -361,56 +361,56 @@
     "id": "7.1",
     "title": "Master Data vs Transaction Data",
     "snippet": "One of the most important distinctions in SAP is between master data and transaction data. If learners understand this clearly early on, many later topics become easier. What is master data? Master data is relatively stable, reference-type information that des",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.2",
     "title": "What is transaction data?",
     "snippet": "Transaction data records specific business events that happen at a point in time. It is created as part of running the business: buying something, selling something, moving stock, paying an invoice. Examples: A payment document clearing open items. A journal e",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.3",
-    "title": "Think of transaction data as the “history of what actually happened” in the",
+    "title": "Characteristics of Transaction Data",
     "snippet": "Key characteristics of transaction data: It is time-stamped and often linked to a period (posting date, document date). It depends on master data (materials, customers, vendors, G/L accounts). It forms the basis for operational tracking and financial reporting",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.4",
-    "title": "Data migration projects often split work into master data migration and open",
+    "title": "Why the Master Data vs Transaction Data Distinction Matters",
     "snippet": "Why this distinction matters For consultants, the distinction matters because: Many configuration and design decisions affect which data belongs in master data vs what is captured in each transaction. When troubleshooting, you must know whether an issue is due",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.5",
     "title": "Organizational Structure in SAP",
     "snippet": "SAP represents a company’s structure using various organizational units. These are not just labels; they control how processes behave and how data is separated and reported. At bridge-module level, the goal is to understand the concept, not detailed configurat",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.6",
     "title": "Document Flow Thinking",
     "snippet": "SAP is a document-driven system. Each major step in a process usually creates a document. Document flow is the way SAP links these documents into an understandable chain that reflects the business story from start to finish. Example: P2P document flow A simple",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.7",
     "title": "Essential SAP Terms for beginners",
     "snippet": "This section summarizes key terminology every bridge-module learner should know. These terms will appear repeatedly in configuration, testing, and project discussions. Transaction / transaction code (T-code) A transaction in SAP is a function you execute (for ",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
     "id": "7.8",
     "title": "How this chapter supports your implementation",
     "snippet": "This terminology and structural understanding is not just for passing a quiz. It directly influences how you think and speak as a consultant: When a business user describes a problem, you can recognize whether it relates to master data, transaction data, organ",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,

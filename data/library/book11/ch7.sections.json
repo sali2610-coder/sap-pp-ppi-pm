@@ -16,13 +16,13 @@
     },
     {
       "id": "7.3",
-      "title": "Think of transaction data as the “history of what actually happened” in the",
+      "title": "Characteristics of Transaction Data",
       "chars": 419,
       "text": "Key characteristics of transaction data:\nIt is time-stamped and often linked to a period (posting date, document date).\nIt depends on master data (materials, customers, vendors, G/L accounts).\nIt forms the basis for operational tracking and financial reporting.\nOnce posted, it is typically not editable in a free-form way; corrections usually\nrequire follow-up transactions.\n\nbusiness.\n\nMaster Data vs Transaction Data"
     },
     {
       "id": "7.4",
-      "title": "Data migration projects often split work into master data migration and open",
+      "title": "Why the Master Data vs Transaction Data Distinction Matters",
       "chars": 556,
       "text": "Why this distinction matters\nFor consultants, the distinction matters because:\nMany configuration and design decisions affect which data belongs in master\ndata vs what is captured in each transaction.\nWhen troubleshooting, you must know whether an issue is due to wrong\nmaster data (for example, wrong tax code on the customer master) or due to\nincorrect transactional entry.\n\ntransaction migration.\nA simple way to phrase it:\n“Master data describes the entities involved; transaction data records what those\nentities did.”\n\nMaster Data vs Transaction Data"
     },
