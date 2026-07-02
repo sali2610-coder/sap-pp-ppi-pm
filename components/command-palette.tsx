@@ -10,6 +10,7 @@ import { BW_TABLES } from "@/data/bw-module";
 import { MIG_OBJECTS } from "@/data/migration-cockpit";
 import { searchObjects } from "@/lib/object-intel";
 import { searchVerified } from "@/data/verified-objects";
+import { actionsFor, type ActionKind } from "@/lib/universal-actions";
 import { lookupTCode } from "@/lib/tcode-index";
 import type { Module } from "@/lib/types";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -179,7 +180,7 @@ export function CommandPalette() {
     pushRecent(q);
     setOpen(false);
     const find = (term || sq || q).trim();
-    const dest = find.length >= 2 && !href.includes("?") ? `${href}${href.includes("?") ? "&" : "?"}find=${encodeURIComponent(find)}` : href;
+    const dest = find.length >= 2 && !href.includes("?") && !href.includes("#") ? `${href}?find=${encodeURIComponent(find)}` : href;
     router.push(dest);
     if (find.length >= 2) setTimeout(() => window.dispatchEvent(new CustomEvent("neo:find", { detail: find })), 60);
   }
@@ -441,23 +442,35 @@ export function CommandPalette() {
                         runningIndex++;
                         const idx = runningIndex;
                         const isActive = idx === active;
+                        const acts = isActive ? actionsFor(item.kind as ActionKind, item.label, item.module) : [];
                         return (
-                          <button
-                            key={`${item.kind}-${item.label}-${idx}`}
-                            onMouseEnter={() => setActive(idx)}
-                            onClick={() => go(item.href, item.kind === "page" ? undefined : item.label)}
-                            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start transition-colors ${isActive ? "bg-brand/10" : "hover:bg-muted/70"}`}
-                          >
-                            {item.kind === "page" && <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-brand/10 text-brand"><Compass className="size-3.5" /></span>}
-                            <span className={item.kind === "page" ? "shrink-0 text-sm font-bold text-foreground" : `tech shrink-0 text-sm font-bold ${item.kind === "table" ? "text-brand" : "text-foreground"}`}>
-                              <Highlight text={item.label} query={hl} />
-                            </span>
-                            <span className="min-w-0 flex-1 truncate text-sm text-muted-foreground">
-                              <Highlight text={item.sub} query={hl} />
-                            </span>
-                            {item.kind === "page" ? <ArrowLeft className="size-3.5 shrink-0 text-slate-300" /> : <ModuleTag m={item.module} />}
-                            {isActive && <CornerDownLeft className="size-3.5 shrink-0 text-brand" />}
-                          </button>
+                          <div key={`${item.kind}-${item.label}-${idx}`} className={`rounded-xl transition-colors ${isActive ? "bg-brand/10" : "hover:bg-muted/70"}`}>
+                            <button
+                              onMouseEnter={() => setActive(idx)}
+                              onClick={() => go(item.href, item.kind === "page" ? undefined : item.label)}
+                              className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start"
+                            >
+                              {item.kind === "page" && <span className="grid size-7 shrink-0 place-items-center rounded-lg bg-brand/10 text-brand"><Compass className="size-3.5" /></span>}
+                              <span className={item.kind === "page" ? "shrink-0 text-sm font-bold text-foreground" : `tech shrink-0 text-sm font-bold ${item.kind === "table" ? "text-brand" : "text-foreground"}`}>
+                                <Highlight text={item.label} query={hl} />
+                              </span>
+                              <span className="min-w-0 flex-1 truncate text-sm text-muted-foreground">
+                                <Highlight text={item.sub} query={hl} />
+                              </span>
+                              {item.kind === "page" ? <ArrowLeft className="size-3.5 shrink-0 text-slate-300" /> : <ModuleTag m={item.module} />}
+                              {isActive && <CornerDownLeft className="size-3.5 shrink-0 text-brand" />}
+                            </button>
+                            {/* Universal Actions — direct routes for the active result */}
+                            {acts.length > 0 && (
+                              <div className="flex flex-wrap gap-1 px-3 pb-2.5 pt-0.5">
+                                {acts.map((a) => { const AIcon = a.icon; return (
+                                  <button key={a.label} onClick={() => go(a.href, item.label)} className="tap inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-[11px] font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand">
+                                    <AIcon className="size-3" />{a.label}
+                                  </button>
+                                ); })}
+                              </div>
+                            )}
+                          </div>
                         );
                       })}
                     </div>
