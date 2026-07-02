@@ -14,6 +14,7 @@ import dagre from "dagre";
 import { ProcessWorkspace } from "@/components/process-workspace";
 import { HR_OBJECTS, HR_FLOW, HR_ACCENT, HR_META, LANDSCAPE_META } from "@/data/hr-module";
 import { BW_OBJECTS, BW_FLOW, BW_ACCENT, BW_META, BW_LANDSCAPE_META } from "@/data/bw-module";
+import { moduleContext } from "@/lib/primary-module";
 
 const BASE = "/sap-infrastructure";
 type Field = [string, string, string, string];
@@ -73,7 +74,7 @@ export default function Page() {
     const s = q.trim().toUpperCase(); const out: { type: string; label: string; sub: string; go: () => void }[] = [];
     UNIVERSE.forEach((m) => { if (m.includes(s) || MOD_NAME_HE[m]?.includes(q)) out.push({ type: "מודול", label: m, sub: MOD_NAME_HE[m], go: () => openModule(m) }); });
     data.tables.forEach((t) => {
-      if (t.name.includes(s) || (t.he || "").includes(q)) out.push({ type: "טבלה", label: t.name, sub: `${t.mod} · ${t.he || t.en}`, go: () => { setNav({ level: "module", module: t.mod, tab: "erd", focus: [t.name] }); setTimeout(() => setInspect(t.name), 80); } });
+      if (t.name.includes(s) || (t.he || "").includes(q)) out.push({ type: "טבלה", label: t.name, sub: `${t.mod} · ${t.he || t.en}`, go: () => { setInspect(null); setNav({ level: "module", module: t.mod, tab: "erd", focus: [t.name] }); } });
       else if ((t.tcodes || "").toUpperCase().includes(s)) out.push({ type: "T-Code", label: t.tcodes, sub: t.name, go: () => { openModule(t.mod, "technical"); setTimeout(() => setInspect(t.name), 80); } });
       else if ((t.funcs || []).some((f) => f.toUpperCase().includes(s))) out.push({ type: "BAPI", label: (t.funcs || []).find((f) => f.toUpperCase().includes(s))!, sub: t.name, go: () => { openModule(t.mod, "technical"); setTimeout(() => setInspect(t.name), 80); } });
     });
@@ -81,7 +82,10 @@ export default function Page() {
   }, [q, data]);
 
   if (!data) return <div className="flex h-[60vh] items-center justify-center text-slate-400" dir="rtl">טוען את ה-Explorer…</div>;
-  const inspector = field && byName[field.table]
+  // Single-surface rule: when a table is focused in a module, the Workspace's own
+  // bottom drawer owns the detail — never float the page Inspector over it.
+  const drawerActive = nav.level === "module" && !!nav.focus?.length;
+  const inspector = drawerActive ? null : field && byName[field.table]
     ? <FieldInspector data={data} color={color} t={byName[field.table]} field={field.field} byName={byName} onClose={() => setField(null)} onGo={(n) => { setField(null); setInspect(n); }} />
     : inspect && byName[inspect]
     ? <Inspector data={data} color={color} t={byName[inspect]} byName={byName} onClose={() => setInspect(null)} onGo={setInspect} onFull={(n) => { setInspect(null); setFull(n); }} />
@@ -1152,11 +1156,11 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
             </div>
 
             {/* right enterprise drawer */}
-            {dt && (() => { const t = dt; const c = color(t.mod); const tf = orderFields(fieldsOf(t)); const pk = tf.filter((f) => f[3] === "PK"), fk = tf.filter((f) => f[3] === "FK");
+            {dt && (() => { const t = dt; const mctx = moduleContext(t.name, t.mod); const ownMod = mctx.primary; const c = color(ownMod); const tf = orderFields(fieldsOf(t)); const pk = tf.filter((f) => f[3] === "PK"), fk = tf.filter((f) => f[3] === "FK");
               const parents = [...new Set(t.rel.filter((r) => r.role === "child").map((r) => r.table))];
               const children = [...new Set(t.rel.filter((r) => r.role === "parent").map((r) => r.table))];
               const whereUsed = [...new Set(data.tables.filter((x) => x.rel.some((r) => r.table === t.name)).map((x) => x.name))];
-              const bp = data.blueprints.find((b) => b.code === t.mod);
+              const bp = data.blueprints.find((b) => b.code === ownMod);
               const Sec = ({ title, icon, children: ch }: { title: string; icon?: React.ReactNode; children: React.ReactNode }) => <div className="break-inside-avoid border-t border-slate-100 px-5 py-3.5"><h4 className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em]" style={{ color: c }}>{icon}{title}</h4>{ch}</div>;
               const Pills = ({ a, nav }: { a: string[]; nav?: boolean }) => a.length ? <div className="flex flex-wrap gap-1">{a.map((x) => nav && byName[x] ? <button key={x} onClick={() => { const tt = byName[x]; if (tt && tt.mod !== t.mod && !selMods.has(tt.mod)) toggleMod(tt.mod); setSel(x); setDrawer(x); }} className="rounded-md border px-1.5 py-0.5 font-mono text-[11px] font-bold transition hover:bg-slate-50" style={{ borderColor: byName[x] ? color(byName[x].mod) : c, color: byName[x] ? color(byName[x].mod) : c }}>{x}</button> : <span key={x} className="rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600">{x}</span>)}</div> : <span className="text-[11px] italic text-slate-300">—</span>;
               const s4 = s4For(t.name, t.s4, t.s4alt); const imp = s4.impact;
@@ -1170,7 +1174,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                   <div className="relative shrink-0 px-5 py-3.5 text-white" style={{ background: "linear-gradient(135deg,#d62027,#8f1318)" }}>
                     <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: c }} />
                     <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0"><div className="flex items-center gap-2"><span className="font-mono text-3xl font-extrabold" dir="ltr">{t.name}</span><span className="rounded-md bg-white/20 px-2 py-0.5 text-[11px] font-bold">{t.mod}</span></div><p className="mt-0.5 truncate text-sm text-white/85">{t.he || t.en}</p></div>
+                      <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><span className="font-mono text-3xl font-extrabold" dir="ltr">{t.name}</span><span className="rounded-md bg-white/20 px-2 py-0.5 text-[11px] font-bold" title={mctx.primaryHe}>{ownMod}</span>{mctx.related.length > 0 && <span className="rounded-md bg-white/10 px-1.5 py-0.5 text-[10px] font-bold text-white/80">קשור ל-{mctx.related.join(" · ")}</span>}</div><p className="mt-0.5 truncate text-sm text-white/85">{t.he || t.en}</p></div>
                       <button onClick={() => { setDrawer(null); }} aria-label="סגור" className="tap grid size-9 shrink-0 place-items-center rounded-xl bg-white/15 text-white ring-1 ring-white/25 transition hover:bg-white/25 active:scale-90"><X className="size-5" /></button>
                     </div>
                     {/* promoted critical actions — always visible, no scroll */}
@@ -1216,7 +1220,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                     <Sec title="BAPIs / Function Modules"><Pills a={(t.funcs || []).slice(0, 8)} /></Sec>
                     <Sec title="CDS Views"><Pills a={t.cds || []} /></Sec>
                     {t.fiori && <Sec title="Fiori Apps"><span className="text-xs text-slate-700">{t.fiori}</span></Sec>}
-                    <Sec title="דוחות"><Pills a={MOD_REPORTS[t.mod] || []} /></Sec>
+                    <Sec title="דוחות"><Pills a={MOD_REPORTS[ownMod] || []} /></Sec>
                     <Sec title="אובייקטים קשורים · אב"><Pills a={parents} nav /></Sec>
                     <Sec title="אובייקטים קשורים · צאצא"><Pills a={children} nav /></Sec>
                     <Sec title="Where-Used"><Pills a={whereUsed} nav /></Sec>
@@ -1282,11 +1286,14 @@ function FieldInspector({ data, color, t, field, byName, onClose, onGo }: { data
 function Inspector({ data, color, t, byName, onClose, onGo, onFull }: { data: Data; color: (m?: string | null) => string; t: Tbl; byName: Record<string, Tbl>; onClose: () => void; onGo: (n: string) => void; onFull: (n: string) => void }) {
   const [p, setP] = useState({ x: 0, y: 0 });
   const drag = useRef<{ x: number; y: number; ox: number; oy: number } | null>(null);
-  const c = color(t.mod); const flds = fieldsOf(t);
+  // honest module ownership — never force the entry-context module onto the object
+  const mctx = moduleContext(t.name, t.mod);
+  const ownMod = mctx.primary;
+  const c = color(ownMod); const flds = fieldsOf(t);
   const pk = flds.filter((f) => f[3] === "PK").map((f) => f[0]), fk = flds.filter((f) => f[3] === "FK").map((f) => f[0]);
   const parents = [...new Set(t.rel.filter((r) => r.role === "child").map((r) => r.table))], children = [...new Set(t.rel.filter((r) => r.role === "parent").map((r) => r.table))];
   const whereUsed = [...new Set(data.tables.filter((x) => x.rel.some((r) => r.table === t.name)).map((x) => x.name))];
-  const ex = genExampleRecords(flds, t.name); const bp = data.blueprints.find((b) => b.code === t.mod);
+  const ex = genExampleRecords(flds, t.name); const bp = data.blueprints.find((b) => b.code === ownMod);
   const onDown = (e: React.PointerEvent) => { drag.current = { x: e.clientX, y: e.clientY, ox: p.x, oy: p.y }; (e.target as Element).setPointerCapture?.(e.pointerId); };
   const onMove = (e: React.PointerEvent) => { if (drag.current) setP({ x: drag.current.ox + (e.clientX - drag.current.x), y: drag.current.oy + (e.clientY - drag.current.y) }); };
   const S = ({ title, children }: { title: string; children: React.ReactNode }) => <div className="border-t border-slate-100 px-3.5 py-2.5"><h4 className="mb-1.5 text-[10px] font-bold uppercase tracking-wide" style={{ color: c }}>{title}</h4>{children}</div>;
@@ -1295,20 +1302,20 @@ function Inspector({ data, color, t, byName, onClose, onGo, onFull }: { data: Da
     <div className="absolute z-40 max-h-[88%] w-[340px] overflow-auto rounded-2xl border border-slate-200 bg-white/95 shadow-2xl backdrop-blur-md" style={{ insetInlineStart: 12 + p.x, top: 12 + p.y, animation: "pop .25s ease both" }} dir="rtl">
       <div className="sticky top-0 z-10 h-1" style={{ background: c }} />
       <div className="sticky top-1 z-10 flex cursor-grab items-start justify-between gap-2 border-b border-slate-200 px-3.5 py-2.5 active:cursor-grabbing" style={{ background: `linear-gradient(180deg, ${c}12, #fff)` }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={() => (drag.current = null)}>
-        <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><GripVertical className="size-3.5 text-slate-400" /><span className="font-mono text-lg font-extrabold text-slate-900" dir="ltr">{t.name}</span><span className="rounded px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: c }}>{t.mod}</span>{t.landscape && <span className="rounded px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: LAND_META[t.landscape]?.c }}>{LAND_META[t.landscape]?.he}</span>}</div><p className="mt-0.5 truncate text-xs text-slate-500">{t.he || t.en}</p></div>
+        <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><GripVertical className="size-3.5 text-slate-400" /><span className="font-mono text-lg font-extrabold text-slate-900" dir="ltr">{t.name}</span><span className="rounded px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: c }} title={mctx.primaryHe}>{ownMod}</span>{mctx.related.length > 0 && <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[9px] font-bold text-slate-500">קשור ל-{mctx.related.join(" · ")}</span>}{t.landscape && <span className="rounded px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: LAND_META[t.landscape]?.c }}>{LAND_META[t.landscape]?.he}</span>}</div><p className="mt-0.5 truncate text-xs text-slate-500">{t.he || t.en}</p></div>
         <div className="flex shrink-0 items-center gap-1">
           <button onClick={() => onFull(t.name)} title="פתח תצוגה מלאה" className="tap inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-extrabold text-white shadow-sm transition active:scale-95" style={{ background: c }}><Maximize2 className="size-3.5" />פתח מלא</button>
           <button onClick={onClose} className="rounded p-1 text-slate-400 hover:bg-slate-100"><X className="size-4" /></button>
         </div>
       </div>
-      <S title="מטרה עסקית"><p className="text-xs leading-relaxed text-slate-600">{bp?.purpose || `טבלת ${t.mod} — ${t.he || t.en}`}</p></S>
+      <S title="מטרה עסקית"><p className="text-xs leading-relaxed text-slate-600">{bp?.purpose || `טבלת ${mctx.primaryHe} — ${t.he || t.en}`}</p></S>
       <div className="grid grid-cols-2"><S title="PK"><div className="flex items-center gap-1"><KeyRound className="size-3 text-amber-500" /><Pills a={pk} /></div></S><S title="FK"><div className="flex items-center gap-1"><Link2 className="size-3 text-blue-500" /><Pills a={fk} /></div></S></div>
       <S title={`שדות (${flds.length})`}><table className="w-full text-right font-mono text-[11px]" dir="ltr"><tbody>{flds.slice(0, 20).map((f) => <tr key={f[0]} className="border-b border-slate-50 last:border-0"><td className={`py-0.5 ${f[3] === "PK" ? "font-bold text-amber-600 underline" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`}>{f[0]}</td><td className="py-0.5 text-slate-400">{f[1]}</td><td className="py-0.5 text-left">{f[3] !== "-" && <span className={`rounded px-1 text-[9px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></S>
       <S title="טבלאות אב"><Pills a={parents} click /></S>
       <S title="טבלאות צאצא"><Pills a={children} click /></S>
       <S title="Where-Used"><Pills a={whereUsed} click /></S>
       <S title="טרנזקציות"><span className="font-mono text-xs text-slate-700">{t.tcodes || "—"}</span></S>
-      <S title="דוחות"><Pills a={MOD_REPORTS[t.mod] || []} /></S>
+      <S title="דוחות"><Pills a={MOD_REPORTS[ownMod] || []} /></S>
       <S title="BAPIs / FM"><Pills a={(t.funcs || []).slice(0, 6)} /></S>
       <S title="CDS Views"><Pills a={t.cds || []} /></S>
       {t.fiori && <S title="Fiori"><span className="text-xs text-slate-700">{t.fiori}</span></S>}
