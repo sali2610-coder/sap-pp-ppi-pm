@@ -158,49 +158,49 @@
     "id": "3.1",
     "title": "Life without ERP: Islands of Information",
     "snippet": "When companies rely on disconnected tools, information becomes fragmented. Each department runs its own system: On paper, this looks manageable. In practice, it creates islands of information. Data about the same vendor, customer, material, or transaction is d",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.2",
     "title": "Operational Pain: Manual Work and Avoidable Errors",
     "snippet": "Without a central ERP, operational teams typically depend on manual effort for activities that should be automated or system-driven. Common operational pain points include: Duplication of effort Inconsistency and errors Slow transactions Lack of standardizatio",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.3",
     "title": "Financial Pain: Weak Closing and Poor Control",
     "snippet": "Finance teams suffer significantly in non-ERP environments. Because operational data is scattered, finance often receives incomplete or late information. Typical financial pain points: Slow period-end closing High reconciliation workload Limited transparency i",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.4",
     "title": "Managerial Pain: Lack of Real-time Visibility",
     "snippet": "For line managers and executives, the greatest problem in a non-ERP environment is not knowing the truth in time. Decisions get delayed because people are unsure whether inventory figures, sales numbers, or cost data are up to date and consistent. Common manag",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.5",
     "title": "What ERP brings to the table",
     "snippet": "ERP systems, at their core, exist to answer three central needs: Integration of processes Centralized or harmonized data Standardization and control As an organization grows in size, locations, product lines, or regulatory requirements, these islands become a ",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.6",
     "title": "Why SAP S/4HANA is a modern ERP Answer",
     "snippet": "Even among ERP systems, SAP S/4HANA represents a newer generation of technology and design. While classic ERP systems also integrate processes and data, they may rely on older database technologies and user interfaces. SAP S/4HANA improves on this by combining",
-    "he": false
+    "he": true
   },
   {
     "ch": 3,
     "id": "3.7",
     "title": "Why this chapter matters for aspiring Consultants",
     "snippet": "Aspiring SAP S/4HANA functional consultants will be asked questions such as: “What pain points does SAP solve for businesses?” “Why does a company need ERP?” “What benefits does S/4HANA bring compared with older or non-integrated systems?” Without a clear conc",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
