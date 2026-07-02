@@ -10,6 +10,7 @@ import { cdsByView } from "@/data/cds-map";
 import { fnIntel } from "@/data/function-intel";
 import { knowledgeFor } from "@/lib/knowledge";
 import { CONSULTANT_NOTES } from "@/data/consultant-notes";
+import { primaryModule } from "@/lib/primary-module";
 import { objectIntelExt } from "@/lib/object-intel-ext";
 import { txIntel } from "@/lib/tx-intel";
 import { registryTx } from "@/lib/tx-registry";
@@ -56,7 +57,7 @@ export function lookupEntity(raw: string): EntityTip | null {
     const ix = objectIntelExt(name);
     const oi = objectIntel(name);
     return {
-      name, kind: "table", kindHe: KIND_HE.table, he: k?.role || t.descriptionHe || "", module: t.module,
+      name, kind: "table", kindHe: KIND_HE.table, he: k?.role || t.descriptionHe || "", module: primaryModule(name, t.module),
       href: `/object/${encodeURIComponent(name)}`, graphHref: `/graph/?node=${encodeURIComponent(name)}`, verified: true,
       purpose: k?.why, consultantTip: cn?.fnNotes?.[0] || ix?.bestPractices?.[0], mistake: cn?.mistakes?.[0],
       related: (oi?.related || []).slice(0, 6), relatedKind: "object", where: ix?.scenarios?.[0],
