@@ -340,154 +340,154 @@
     "id": "4.1",
     "title": "Unconstrained Planning at a Glance",
     "snippet": "4.1 Unconstrained Planning at a Glance The supply planning process starts from the consensus demand plan validated by the product and demand review process steps. The objective of the supply planning process is to agree on a feasible supply plan that meets as ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.2",
     "title": "The Sales and Operations Planning Heuristic",
     "snippet": "4.2 The Sales and Operations Planning Heuristic The SAP Integrated Business Planning (SAP IBP) solution delivers two time series–based algorithms to propagate the consensus demand plan through the network. In this chapter, we’ll explain the operations of the S",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3",
     "title": "Supply Network Design",
     "snippet": "4.3 Supply Network Design The supply network is the core structure used by the S&OP heuristic. It depicts the key entities relevant for supply planning, such as customers, locations (distribution centers, production facilities, and suppliers), and BOMs. As not",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.1",
     "title": "Products, Locations, and Customers",
     "snippet": "4.3.1 Products, Locations, and Customers The supply network in the SAP IBP solution is a very flexible concept: it can be extended easily and can be arbitrarily deep. The supply network consists of master data elements and doesn’t require any configuration cha",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.2",
     "title": "Sourcing Rules",
     "snippet": "4.3.2 Sourcing Rules The relationships among the various aspects of the supply network are defined by sourcing rules. At each location, sourcing rules answer the question, “Where does this product come from?” There are three types of sourcing rules in the stan",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.3",
     "title": "Supply Network Accuracy and Check Mode",
     "snippet": "4.3.3 Supply Network Accuracy and Check Mode To compute supply plan accurately, the supply network needs to be consistent. A consistent network can be defined with the following two important characteristics: © 155 For every product at each customer or locatio",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.3.4",
     "title": "Subnetworks",
     "snippet": "4.3.4 Subnetworks Using subnetworks, it’s possible to limit the run of the S&OP operators to only a limited set of data. Because supply operators are intended as network planning algorithms, they always plan a complete network, independent of what’s selected i",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.4",
     "title": "Forecast Consumption",
     "snippet": "4.4 Forecast Consumption Before we proceed with the next step of demand and supply propagation by the S&OP operator, it’s important to understand the concept of forecast consumption and the capabilities available in this area. When customer or independent dema",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.4.1",
     "title": "Forecast Consumption Methods",
     "snippet": "4.4.1 Forecast Consumption Methods Multiple strategies are available to specify how a forecast can be consumed by the sales orders. The strategy is defined by the forecast consumption mode. The forecast consumption mode consists of the following: Direction in ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.4.2",
     "title": "Forecast Consumption Profile",
     "snippet": "4.4.2 Forecast Consumption Profile The Forecast Consumption Profiles app in the TS Supply Planning Configuration section of the SAP Fiori launchpad enables the forecast consumption process. By creating a forecast consumption profile, you can define the way in ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.5",
     "title": "Propagating Demand",
     "snippet": "4.5 Propagating Demand With the supply network established, the heuristic can be run to populate demand and supply plans. In general, demand propagation starts at the customer level and uses the sourcing rules framework to propagate the demand through the supp",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.5.1",
     "title": "Sample Supply Network",
     "snippet": "4.5.1 Sample Supply Network To cover all the key figures that play a role in the S&OP heuristic, the sample network shown in Figure 4.2 will be used in this chapter. Figure 4.2 Sample Network The minimal network to explain all the flows in the heuristic can be",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.5.2",
     "title": "Consensus Demand",
     "snippet": "4.5.2 Consensus Demand Consensus demand represents the starting point for a heuristic-based planning process. The consensus demand is an outcome of the demand review process, which was discussed in Chapter 3. Consensus demand (CONSENSUSDEMAND) is a node-based ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.5.3",
     "title": "Customer Sourcing",
     "snippet": "4.5.3 Customer Sourcing The information that allows a heuristic to propagate demand further lies in the source customer table, which defines the customer sourcing. It’s at this point that the heuristic identifies all connected locations for a customer, along w",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.5.4",
     "title": "Net Demand Calculation",
     "snippet": "4.5.4 Net Demand Calculation The next step in the calculation chain zooms in on the distribution center fulfilling customer demand. At the distribution center, the complete fulfillment model is calculated with the following key figures: Dependent demand (DEPEN",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.5.5",
     "title": "Location Sourcing",
     "snippet": "4.5.5 Location Sourcing Location sourcing applies to locations with a location sourcing rule applied. Location sourcing rules provide information about the sourcing ratio and the lead time to transport products from one location to another. In the sample netwo",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.5.6",
     "title": "Production Sourcing",
     "snippet": "4.5.6 Production Sourcing At the factory, the same net demand calculation will be performed as documented previously for the distribution center, as shown in Figure 4.9. For the factory, the dependent demand is the sum of the dependent customer demand (30 in F",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.5.7",
     "title": "Lot Sizes",
     "snippet": "4.5.7 Lot Sizes Before closing the section on demand propagation, it’s important to provide more background on the lot-sizing approach. Currently, in all the provided examples, we’ve considered lot-for-lot planning. However, in many realistic business scenario",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.6",
     "title": "Propagating Supply",
     "snippet": "4.6 Propagating Supply In demand propagation, all the requirements throughout the supply network have been propagated, resulting in the dependent demand and net demand calculations at every level. In the sample network, this results in a net demand for the raw",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.6.1",
     "title": "External Receipts",
     "snippet": "4.6.1 External Receipts The demand propagation ends when the raw material demand has been raised against the undefined production rule, marking the edge of the supply network. This is where supply propagation starts, providing external receipts for those deman",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.6.2",
     "title": "Production Component",
     "snippet": "4.6.2 Production Component With the external receipts providing the raw materials, the dependent production demand (and dependent production demand) key figures can be fulfilled. Their fulfillment counterparts are as follows: © 181 Component supply (PRODUCTION",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.6.3",
     "title": "Production Receipts",
     "snippet": "4.6.3 Production Receipts After the external receipts provide the input products for the production process, the requirements of the finished product now can be confirmed. This is done via the production receipts (PRODUCTION) key figure, a node-based key figur",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
