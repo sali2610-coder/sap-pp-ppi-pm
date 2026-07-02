@@ -312,49 +312,49 @@
     "id": "6.1",
     "title": "Why learners see two interfaces",
     "snippet": "In many projects and training systems you will encounter two main ways of accessing SAP:. SAP GUI – the classic, desktop-style interface used for decades, especially in on-premise and ECC environments, and still heavily used with S/4HANA for certain transactio",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.2",
     "title": "SAP GUI Fundamentals",
     "snippet": "What is SAP GUI? SAP GUI (Graphical User Interface) is the classic front-end program installed on a user’s computer (or available via certain web options) that allows access to SAP systems. It presents screens built in traditional SAP technology and is driven ",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.3",
     "title": "SAP Fiori Fundamentals",
     "snippet": "What is SAP Fiori? SAP Fiori is the design system and user experience approach that SAP uses to provide modern, role-based apps across devices (desktop, tablet, mobile). Instead of relying solely on transaction codes, Fiori presents users with tiles and apps o",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.4",
     "title": "Types of Fiori Apps",
     "snippet": "From a beginner’s perspective, it is useful to distinguish: Transactional apps Used to perform business activities such as creating or changing documents. Examples: Create Sales Order, Post Incoming Payments, and Manage Purchase Orders. Think of these as the F",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.5",
     "title": "Basic Fiori Navigation Scenarios",
     "snippet": "To become comfortable with Fiori before deep training, learners should practice a few simple, guided tasks. These can be done in a training or demo system, if available. Scenario 1: Logging in and adjusting user settings Open the Fiori launchpad URL in a brows",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.6",
     "title": "Working with Data in Screens (GUI and Fiori)",
     "snippet": "Regardless of whether you use SAP GUI or Fiori, the same data concepts appear in business documents. Header vs item Most transactional documents have: Header data – information that applies to the entire document. Examples: Document date, posting date. Company",
-    "he": false
+    "he": true
   },
   {
     "ch": 6,
     "id": "6.7",
     "title": "SAP GUI vs SAP Fiori: How to explain the difference",
     "snippet": "As a future consultant, you will often need to explain the two interfaces in simple terms to business stakeholders. A clear explanation could be: “SAP GUI is the classic desktop client, heavily transaction-code driven and used for many administrative and confi",
-    "he": false
+    "he": true
   },
   {
     "ch": 7,
