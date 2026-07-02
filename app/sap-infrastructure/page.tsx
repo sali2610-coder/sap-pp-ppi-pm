@@ -1167,8 +1167,8 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
               return (
                 <>
                   {/* dim + soft blur behind the drawer; click to close */}
-                  <div className="absolute inset-0 z-30 bg-slate-900/30 backdrop-blur-[2px]" style={{ animation: "fadeIn .25s ease both" }} onPointerDown={(e) => { e.stopPropagation(); setDrawer(null); }} />
-                <div data-drawer dir="rtl" className="drawer-anim absolute inset-x-0 bottom-0 top-auto z-40 flex max-h-[86%] flex-col overflow-hidden rounded-t-3xl border-t border-slate-200 bg-white shadow-2xl sm:max-h-[74%] lg:h-[48vh] lg:max-h-none" onPointerDown={(e) => e.stopPropagation()}>
+                  <div className="absolute inset-0 z-30 bg-slate-900/30 backdrop-blur-[2px] lg:fixed lg:top-[4.25rem] lg:z-[55] lg:bg-slate-900/20" style={{ animation: "fadeIn .25s ease both" }} onPointerDown={(e) => { e.stopPropagation(); setDrawer(null); }} />
+                <div data-drawer dir="rtl" className="drawer-anim absolute z-40 flex flex-col overflow-hidden bg-white shadow-2xl inset-x-0 bottom-0 top-auto max-h-[86%] rounded-t-3xl border-t border-slate-200 sm:max-h-[74%] lg:fixed lg:top-[4.25rem] lg:bottom-0 lg:left-auto lg:right-0 lg:h-auto lg:max-h-none lg:w-[440px] lg:max-w-[40vw] lg:rounded-none lg:rounded-s-[1.75rem] lg:border-s lg:border-t-0 lg:z-[60]" onPointerDown={(e) => e.stopPropagation()}>
                   {/* grab handle */}
                   <div className="mx-auto mt-2 h-1 w-10 shrink-0 rounded-full bg-slate-300 lg:hidden" />
                   <div className="relative shrink-0 px-5 py-3.5 text-white" style={{ background: "linear-gradient(135deg,#d62027,#8f1318)" }}>
@@ -1186,7 +1186,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                       <Link href={`/impact/${encodeURIComponent(t.name)}/`} className="tap inline-flex items-center gap-1 rounded-lg bg-white/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-white/25"><Gauge className="size-3.5" />S/4</Link>
                     </div>
                   </div>
-                  <div className="min-h-0 flex-1 overflow-auto lg:columns-2 lg:gap-x-0 xl:columns-3">
+                  <div className="min-h-0 flex-1 overflow-auto">
                     {/* S/4HANA Impact — top section */}
                     <div className={`break-inside-avoid px-4 py-3 ${imp && s4.impacted ? "bg-amber-50/80" : "bg-slate-50/60"}`} style={imp && s4.impacted ? { boxShadow: "inset 0 0 0 1px #fbbf24" } : undefined}>
                       <div className="mb-1.5 flex items-center justify-between">
