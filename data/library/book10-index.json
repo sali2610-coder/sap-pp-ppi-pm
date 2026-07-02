@@ -494,147 +494,147 @@
     "id": "4.6.4",
     "title": "Transport Receipts",
     "snippet": "4.6.4 Transport Receipts From the proposed production key figure, which confirms the receipt of the supply of the finished product, the next step to be fulfilled is the transport receipts. In the baseline work of the S&OP heuristic, the following transport key",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.6.5",
     "title": "Constrained Demand",
     "snippet": "4.6.5 Constrained Demand The constrained demand, though still an unconstrained key figure in the context of the S&OP heuristic, is the final step in the supply propagation logic. The key figures involved in this step are as follows: Customer supply (CONSTRAINE",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.6.6",
     "title": "Minimum and Adjusted Key Figures",
     "snippet": "4.6.6 Minimum and Adjusted Key Figures SAP Integrated Business Planning for sales and operations accepts planning elements from external systems. This is quite useful, particularly because SAP Integrated Business Planning for sales and operations isn’t a detai",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.7",
     "title": "Rough-Cut Capacity Planning",
     "snippet": "4.7 Rough-Cut Capacity Planning In Section 4.6 on supply propagation, we pointed to the unconstrained behavior of the heuristic, showing that, in most cases, the supply confirmation is equal to the propagated demand. Although the heuristic is unconstrained in ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.7.1",
     "title": "Production Resources",
     "snippet": "4.7.1 Production Resources Production resources are used to manage capacities as they relate to the actual production process. The actual production process constitutes producing new products based on a BOM, thus consuming the components in that BOM. In this c",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.7.2",
     "title": "Handling and Storage Resources",
     "snippet": "4.7.2 Handling and Storage Resources Handling resources allow modeling capacity utilization for resources that don’t perform product transformation. In this case, there is no BOM, and the capacity load is calculated by products merely passing this node in the ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.7.3",
     "title": "Capacity Key Figures",
     "snippet": "4.7.3 Capacity Key Figures As mentioned, while defining master data types for resources, the available capacity and the capacity consumption both can be defined either in the master data types or as key figures by setting the master data time series attribute ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.8",
     "title": "Parameters of the Heuristic",
     "snippet": "4.8 Parameters of the Heuristic The heuristic comes with a set of parameters to more finely control the exact calculations. In this section, those parameters will be covered together with the altering behavior they produce on the previously explained calculati",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.8.1",
     "title": "Processing Mode",
     "snippet": "4.8.1 Processing Mode The heuristic can be set up to run interactively in the planning view, in batch mode, or both. If the interactive run is allowed, the heuristic operator setup will become available in the Simulate dropdown in the data input pane of the SA",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.8.2",
     "title": "Heuristic Type",
     "snippet": "4.8.2 Heuristic Type In the previous sections of this chapter, we covered the infinite heuristic without shortages extensively, but it has traditionally been very challenging for users of this heuristic to construct a feasible plan. The heuristic following the",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.8.3",
     "title": "Planning Level of the Heuristic",
     "snippet": "4.8.3 Planning Level of the Heuristic In Chapter 2, the time profile and the corresponding planning granularity were introduced. When running the heuristic, it’s possible to select a planning granularity that allows you to specify at which level the heuristic ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.8.4",
     "title": "Quota Check Parameters",
     "snippet": "4.8.4 Quota Check Parameters In Section 4.3.2, we covered establishing the sourcing rules of the supply network. We noted that in a consistent supply network, the sources of supply add up to 100%. When the planner runs the S&OP heuristic, as a first step, the ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.8.5",
     "title": "Carryforward Negative Projected Inventory",
     "snippet": "4.8.5 Carryforward Negative Projected Inventory In the operation of the heuristic, it’s possible that the projected inventory shows negative. This means that if for some reason it’s impossible for the heuristic to fulfill all demands in a particular bucket, th",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.8.6",
     "title": "Balanced Receipts",
     "snippet": "4.8.6 Balanced Receipts In Section 4.5 on demand propagation, we covered the fact that the heuristic generally starts with the consensus demand and sources it to a location. From that location, the source of supply is based on the production sourcing or locati",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.8.7",
     "title": "Initialize Lead Time Horizon",
     "snippet": "4.8.7 Initialize Lead Time Horizon In the standard behavior, when running the heuristic, the algorithm starts by clearing all the key figures out of the planning horizon specified. This means all the key figures the heuristic writes as an output will be initia",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.8.8",
     "title": "Compute Expected Supply",
     "snippet": "4.8.8 Compute Expected Supply Using the Compute Expected Supply parameter can influence planning with subnetworks. In Section 4.3.4, we covered how subnetworks allow for separating the planning network into smaller units, to distinguish, for example, between b",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.8.9",
     "title": "Use of Validity Dates",
     "snippet": "4.8.9 Use of Validity Dates Since SAP IBP release 1705, it’s been possible for the heuristic to directly consider validity dates in the sourcing rules. Although time-series-based sourcing ratios allow for maximum flexibility, setting the Source of Supply Valid",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.9",
     "title": "Shelf-Life Planning",
     "snippet": "4.9 Shelf-Life Planning Companies in industries such as dairy, food, and beverages carry products that are perishable. These products have limited shelf life with expiration dates. After a certain time, such products are no longer allowed to be sold to custome",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.9.1",
     "title": "Shelf-Life Planning Infinite Heuristic",
     "snippet": "4.9.1 Shelf-Life Planning Infinite Heuristic The shelf-life planning infinite heuristic is similar to the time-series supply planning heuristic as described in Section 4.2. It generates an infinite demand and supply plan with no shortages. However, it does so ",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.9.2",
     "title": "Shelf-Life Distribution Planning Heuristic",
     "snippet": "4.9.2 Shelf-Life Distribution Planning Heuristic The time-series shelf-life distribution planning heuristic computes the supply plan for the distribution network by considering the available supply that has the minimum required shelf life downstream through th",
-    "he": false
+    "he": true
   },
   {
     "ch": 4,
     "id": "4.10",
     "title": "Summary",
     "snippet": "4.10 Summary In this chapter, we covered the details of the S&OP heuristic and how it allows planners to build a feasible supply plan. We’ve defined the S&OP heuristic as a rule-based, unconstrained decision support algorithm that leverages the supply network ",
-    "he": false
+    "he": true
   },
   {
     "ch": 5,
