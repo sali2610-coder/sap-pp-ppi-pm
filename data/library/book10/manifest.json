@@ -1,0 +1,116 @@
+{
+  "book": "Sales and Operations Planning with SAP IBP",
+  "pages": 923,
+  "chapters": [
+    {
+      "n": 1,
+      "title": "Introduction to Sales and Operations Planning",
+      "pages": [
+        28,
+        73
+      ],
+      "chars": 79193,
+      "sections": 19
+    },
+    {
+      "n": 2,
+      "title": "SAP IBP Model and Navigation",
+      "pages": [
+        74,
+        105
+      ],
+      "chars": 39919,
+      "sections": 15
+    },
+    {
+      "n": 3,
+      "title": "Demand Planning",
+      "pages": [
+        106,
+        141
+      ],
+      "chars": 52430,
+      "sections": 14
+    },
+    {
+      "n": 4,
+      "title": "Unconstrained Supply Planning",
+      "pages": [
+        142,
+        209
+      ],
+      "chars": 118057,
+      "sections": 43
+    },
+    {
+      "n": 5,
+      "title": "Constrained Supply Planning",
+      "pages": [
+        210,
+        244
+      ],
+      "chars": 55307,
+      "sections": 20
+    },
+    {
+      "n": 6,
+      "title": "Consolidation",
+      "pages": [
+        245,
+        269
+      ],
+      "chars": 34196,
+      "sections": 15
+    },
+    {
+      "n": 7,
+      "title": "Collaboration and Management by Exception",
+      "pages": [
+        270,
+        298
+      ],
+      "chars": 37858,
+      "sections": 11
+    },
+    {
+      "n": 8,
+      "title": "Planning Simulations",
+      "pages": [
+        299,
+        320
+      ],
+      "chars": 30052,
+      "sections": 15
+    },
+    {
+      "n": 9,
+      "title": "Process Management",
+      "pages": [
+        321,
+        353
+      ],
+      "chars": 49287,
+      "sections": 21
+    },
+    {
+      "n": 10,
+      "title": "Configuring SAP IBP for Sales and Operations",
+      "pages": [
+        354,
+        404
+      ],
+      "chars": 63154,
+      "sections": 21
+    },
+    {
+      "n": 11,
+      "title": "Building Planning Views",
+      "pages": [
+        405,
+        533
+      ],
+      "chars": 171260,
+      "sections": 17
+    }
+  ]
+}

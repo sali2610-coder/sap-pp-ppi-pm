@@ -1,0 +1,1479 @@
+[
+  {
+    "ch": 1,
+    "id": "1.1",
+    "title": "Market Drivers",
+    "snippet": "1.1 Market Drivers Companies operate in a constantly evolving world. In this first section, we’ll discuss the market trends that drive companies to rethink their supply chain processes. This will provide the foundation for defining the S&OP process as a key to",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.1.1",
+    "title": "Supply Chain Disruptions",
+    "snippet": "1.1.1 Supply Chain Disruptions One regular trend for the past few years is the business disruptions caused by supply chain issues. Whether stemmed by political differences, inter-country war, extreme weather, or a pandemic, the resulting impacts on supply chai",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.1.2",
+    "title": "Globalization",
+    "snippet": "1.1.2 Globalization Over the past decades, the business environment in which companies are operating has continuously become more global. Facilitated by evolutions in communications, technology, and infrastructure, globalization has impacted all aspects of bus",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.1.3",
+    "title": "Market Volatility",
+    "snippet": "1.1.3 Market Volatility The phrase “change is the only constant” has long been a cliché when talking about markets. Volatility is the new normal under which supply chains must operate. The traditional approach of looking at a supply chain in a static way, spen",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.2",
+    "title": "Process Drivers",
+    "snippet": "1.2 Process Drivers Although S&OP is a well-documented process in managing complex supply chains, many companies still don’t use it effectively. Even companies that have been running an established S&OP process for years often don’t reap the full benefits. Thi",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.2.1",
+    "title": "Sales and Operations Planning: Process Definition",
+    "snippet": "1.2.1 Sales and Operations Planning: Process Definition S&OP processes have always been at the core of companies’ planning processes. APICS Dictionary (14th ed.) defines S&OP as follows: A process to develop tactical plans that provide management the ability t",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.2.2",
+    "title": "Planning Horizons",
+    "snippet": "1.2.2 Planning Horizons It’s important to understand S&OP in the context of various planning functions in the organization, as depicted in Figure 1.1. Traditionally, planning processes in an organization are organized into three planning horizons: Strategic pl",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.2.3",
+    "title": "Sales and Operations Planning: Process Decomposition",
+    "snippet": "1.2.3 Sales and Operations Planning: Process Decomposition A typical S&OP process follows the steps depicted in Figure 1.2. The remainder of this section will provide more background on each of these steps. Figure 1.2 S&OP Process Product Review The S&OP proce",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.3",
+    "title": "Technology Drivers",
+    "snippet": "1.3 Technology Drivers Traditionally, companies have managed their S&OP processes by manually combining information from various sources. Data from the various domains involved in the S&OP process—demand, supply, finance, sales—typically is stored in separate ",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.3.1",
+    "title": "Interactive Planning with In-Memory Computing",
+    "snippet": "1.3.1 Interactive Planning with In-Memory Computing The latest generation of supply chain planning solutions has been characterized by improvements in advanced planning algorithms. Planning solutions have always had planning algorithms, such as statistical for",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.3.2",
+    "title": "Data Visualization",
+    "snippet": "1.3.2 Data Visualization The S&OP process involves users across various levels in the organization. Different users, however, use reporting capabilities slightly differently. We can distinguish between operational reporting, which is used by planners in their ",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.3.3",
+    "title": "Collaboration",
+    "snippet": "1.3.3 Collaboration Collaboration is a central component of the sales and operations process. Both internal collaboration (having the different functions involved in the S&OP cycle © 45 communicate effectively) and external collaboration (working with supplier",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.4",
+    "title": "SAP Integrated Business Planning",
+    "snippet": "1.4 SAP Integrated Business Planning SAP IBP provides tools that give S&OP a technology foundation and help companies be successful. In this section, we’ll show how SAP IBP delivers an innovative technology platform for companies to respond to market, process,",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.4.1",
+    "title": "An Integrated Approach",
+    "snippet": "1.4.1 An Integrated Approach The key to a successful S&OP process is to deliver an integrated platform. In the previous section, we touched on the need to deliver a solution that brings together information from various domains in an organization. In the follo",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.4.2",
+    "title": "Better Algorithms",
+    "snippet": "1.4.2 Better Algorithms In Section 1.3, we touched on how in-memory computing makes it possible to start planning in real time, leverage scenarios, and speed the S&OP cycle. In this subsection, we’ll give an overview of the different algorithms SAP IBP brings ",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.4.3",
+    "title": "User Experience",
+    "snippet": "1.4.3 User Experience Although SAP IBP offers an integrated approach and an impressive array of algorithms, perhaps the biggest plus is its UX. Traditional SAP advanced © 59 planning solutions have focused strongly on power and performance in the planning cycl",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.4.4",
+    "title": "More Agility",
+    "snippet": "1.4.4 More Agility To lighten implementation complexity and make advanced planning solutions more accessible, more and more solutions have been deployed by leveraging a cloud-based infrastructure. SAP IBP has been offered via a cloud-based subscription model s",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.4.5",
+    "title": "SAP Integrated Business Planning Modules",
+    "snippet": "1.4.5 SAP Integrated Business Planning Modules Until now, we haven’t talked about SAP IBP modules, which make up the licensing of SAP IBP. We explicitly chose to focus on the business processes facilitated by the solution rather than starting from a licensing ",
+    "he": true
+  },
+  {
+    "ch": 1,
+    "id": "1.5",
+    "title": "Summary",
+    "snippet": "1.5 Summary In this ever-changing world, in which market volatility and globalization dominate the organizational agenda, the need for an integrated S&OP process has never been more important. In this chapter, we covered the market, process, and technology dri",
+    "he": true
+  },
+  {
+    "ch": 2,
+    "id": "2.1",
+    "title": "SAP Integrated Business Planning",
+    "snippet": "2.1 SAP Integrated Business Planning Architecture In this section, we’ll cover the high-level solution architecture of SAP IBP. Figure 2.1 illustrates the high-level solution architecture of SAP Integrated Business Planning for sales and operations. On the rig",
+    "he": false
+  },
+  {
+    "ch": 2,
+    "id": "2.2",
+    "title": "Planning Model",
+    "snippet": "2.2 Planning Model When a company implements SAP IBP, the first task is to define and configure the planning model based on business requirements and populate it with data. Then, based on the planning model, planners and analysts can create planning views so t",
+    "he": false
+  },
+  {
+    "ch": 2,
+    "id": "2.2.1",
+    "title": "Attributes",
+    "snippet": "2.2.1 Attributes Attributes are the fundamental elements that carry information about a business entity. A logical grouping of attributes is used to model master data types, which represent supply chain or business entities. Attributes describe the characteris",
+    "he": false
+  },
+  {
+    "ch": 2,
+    "id": "2.2.2",
+    "title": "Master Data Types",
+    "snippet": "2.2.2 Master Data Types Master data contains main categories of information related to the supply chain network entities. Master data is used to segment and organize planning information. For example, customer, location, product, and resource are some of the m",
+    "he": false
+  },
+  {
+    "ch": 2,
+    "id": "2.2.3",
+    "title": "Time Profiles",
+    "snippet": "2.2.3 Time Profiles A time profile is the time component of the dimensions; it defines the various time levels (days, weeks, months, quarters, years) of time buckets, each with a unique number, in which data can be managed. Each level is made up of periods, wh",
+    "he": false
+  },
+  {
+    "ch": 2,
+    "id": "2.2.4",
+    "title": "Planning Areas",
+    "snippet": "2.2.4 Planning Areas A planning area describes the structure of an SAP Integrated Business Planning for sales and operations plan and is the foundation of the planning model. It’s a planning model entity defined by a set of other planning model elements that i",
+    "he": false
+  },
+  {
+    "ch": 2,
+    "id": "2.2.5",
+    "title": "Planning Levels",
+    "snippet": "2.2.5 Planning Levels It’s very important in the SAP IBP or S&OP process to slice, dice, and analyze data by different dimensions. A planning level is based on any set of attributes that is a function of dimensions (e.g., product, customer, or location). A pla",
+    "he": false
+  },
+  {
+    "ch": 2,
+    "id": "2.2.6",
+    "title": "Key Figures",
+    "snippet": "2.2.6 Key Figures Key figures are measures that hold transaction data. They are a series of numbers over time, and each number corresponds to a time period value. Key figures are associated with a key (of the planning level), which is a combination of attribut",
+    "he": false
+  },
+  {
+    "ch": 2,
+    "id": "2.2.7",
+    "title": "Versions and User-Defined Scenarios",
+    "snippet": "2.2.7 Versions and User-Defined Scenarios Versions let you maintain alternate global plans. Planning areas can contain many plan data sets: one baseline data set and alternate plan data sets. Versions let you perform what-if analysis on different versions of d",
+    "he": false
+  },
+  {
+    "ch": 2,
+    "id": "2.2.8",
+    "title": "Multilanguage Support for Modeling Objects",
+    "snippet": "2.2.8 Multilanguage Support for Modeling Objects Multilanguage support helps in handling the supported modeling objects in multiple languages. Once this multilanguage support is set up, it displays the supported modeling object properties in logon language of ",
+    "he": false
+  },
+  {
+    "ch": 2,
+    "id": "2.3",
+    "title": "Navigating the Planning Model",
+    "snippet": "2.3 Navigating the Planning Model The ability to navigate through SAP IBP is one of the most important aspects getting the best out of SAP IBP. In this section, we’ll walk through how various participants, including business users, administrators, and configur",
+    "he": false
+  },
+  {
+    "ch": 2,
+    "id": "2.3.1",
+    "title": "Excel User Interface",
+    "snippet": "2.3.1 Excel User Interface The primary way for participants to access, analyze, modify, and simulate plans is via the Excel interface. SAP Integrated Business Planning, add-in for Microsoft Excel, provides a tab in the Excel ribbon for viewing and changing pla",
+    "he": false
+  },
+  {
+    "ch": 2,
+    "id": "2.3.2",
+    "title": "Web-Based SAP Fiori Applications",
+    "snippet": "2.3.2 Web-Based SAP Fiori Applications In addition to the Excel interface, SAP IBP offers a web UI for web-based SAP Fiori apps. SAP Fiori apps are supported for desktop and tablets. The SAP Fiori launchpad is the access point for all web-based applications fo",
+    "he": false
+  },
+  {
+    "ch": 2,
+    "id": "2.3.3",
+    "title": "Social Collaboration",
+    "snippet": "2.3.3 Social Collaboration The social collaboration aspect of the S&OP process is enabled by two different tools, SAP Build Work Zone and SAP Jam. Based on your SAP IBP system license, you’ll have access to one of these tools. As you plan and respond, you migh",
+    "he": false
+  },
+  {
+    "ch": 2,
+    "id": "2.4",
+    "title": "Summary",
+    "snippet": "2.4 Summary In this chapter, we covered the key concepts that enable planning processes across SAP IBP applications. We focused on the building blocks used to construct the planning models, such as attributes, time profiles, planning areas, planning levels, ke",
+    "he": false
+  },
+  {
+    "ch": 3,
+    "id": "3.1",
+    "title": "Demand Planning at a Glance",
+    "snippet": "3.1 Demand Planning at a Glance Through demand forecasting, an organization predicts the future demand of its customers. Based on the industry type of the organization, this demand can be for products or services. Irrespective of the industry segment, size, pr",
+    "he": false
+  },
+  {
+    "ch": 3,
+    "id": "3.1.1",
+    "title": "Demand Forecasting Approach",
+    "snippet": "3.1.1 Demand Forecasting Approach The demand forecasting approach is used to adopt a methodology and follow the required steps to generate the demand plan. Different organizations adopt different approaches for forecasting customer demand. These approaches can",
+    "he": false
+  },
+  {
+    "ch": 3,
+    "id": "3.1.2",
+    "title": "Demand Planning Strategy",
+    "snippet": "3.1.2 Demand Planning Strategy A planning strategy determines the approach of the organization to fulfill customer demand. There are mainly two varieties of planning strategy: make-to- stock (MTS) and make-to-order (MTO). In the MTS strategy, demand is predict",
+    "he": false
+  },
+  {
+    "ch": 3,
+    "id": "3.1.3",
+    "title": "Demand Planning Process",
+    "snippet": "3.1.3 Demand Planning Process Most companies practice a quantitative approach to generate and finalize a demand plan. For new products, a quantitative application can be used by referencing an existing similar product. If a qualitative forecast provides extra ",
+    "he": false
+  },
+  {
+    "ch": 3,
+    "id": "3.2",
+    "title": "Forecasting Input with Historical Data",
+    "snippet": "3.2 Forecasting Input with Historical Data Most mature organizations use a quantitative forecasting approach for most finished materials to predict customer demand. SAP Integrated Business Planning for sales and operations supports a time series statistical mo",
+    "he": false
+  },
+  {
+    "ch": 3,
+    "id": "3.3",
+    "title": "Forecast Generation through Statistical",
+    "snippet": "3.3 Forecast Generation through Statistical Modeling Statistical models are used to predict future demand by modeling past data. In SAP Integrated Business Planning for sales and operations, five statistical models are available to use, from which one or more ",
+    "he": false
+  },
+  {
+    "ch": 3,
+    "id": "3.3.1",
+    "title": "Statistical Models",
+    "snippet": "3.3.1 Statistical Models As summarized in Table 3.1, there are five models available in SAP Integrated Business Planning for sales and operations to generate a demand forecast. Model properties and their application are discussed in the following subsections. ",
+    "he": false
+  },
+  {
+    "ch": 3,
+    "id": "3.3.2",
+    "title": "Configuring and Executing Forecasting Models",
+    "snippet": "3.3.2 Configuring and Executing Forecasting Models For SAP Integrated Business Planning for sales and operations, the Manage Forecast Models and Assign Forecast Models apps in the Demand Planner group are used for demand planning model configuration. The Manag",
+    "he": false
+  },
+  {
+    "ch": 3,
+    "id": "3.4",
+    "title": "Driver-Based Planning",
+    "snippet": "3.4 Driver-Based Planning Driver-based planning is application-based planning that can be used for providing commercial intelligence for consensus demand planning. The typical use case of driver-based planning is the creation of risk and opportunity drivers wh",
+    "he": false
+  },
+  {
+    "ch": 3,
+    "id": "3.5",
+    "title": "Collaborative Financial Modeling of Demand",
+    "snippet": "3.5 Collaborative Financial Modeling of Demand Forecast Financial alignment and collaboration are the essential elements of a mature S&OP process. SAP Integrated Business Planning for sales and operations fills the gap of previous SAP planning solutions and pr",
+    "he": false
+  },
+  {
+    "ch": 3,
+    "id": "3.5.1",
+    "title": "Income Statement Financial Model in SAP IBP",
+    "snippet": "3.5.1 Income Statement Financial Model in SAP IBP The inherent consistency of the SAP IBP solution provides the ability to use the cost or price data at the lowest level (e.g., SKU level) and then generate the financial models at different levels (product cate",
+    "he": false
+  },
+  {
+    "ch": 3,
+    "id": "3.5.2",
+    "title": "Financial Ratios and Analytics in SAP IBP",
+    "snippet": "3.5.2 Financial Ratios and Analytics in SAP IBP Further higher-level financial modeling can be performed in SAP IBP by using financial ratios. The following margins at the product-location level can be used by calculating the average values in a high-level cal",
+    "he": false
+  },
+  {
+    "ch": 3,
+    "id": "3.6",
+    "title": "Review, Collaboration, and Finalization of the",
+    "snippet": "3.6 Review, Collaboration, and Finalization of the Demand Plan The demand planning process in the demand review cycle starts with the statistical forecast as the output of the statistical model, which is reviewed and cleaned to produce the baseline forecast. T",
+    "he": false
+  },
+  {
+    "ch": 3,
+    "id": "3.7",
+    "title": "Summary",
+    "snippet": "3.7 Summary Demand planning and forecasting is the first step of supply chain planning and S&OP. The efficiency of the supply chain processes and subsequent processes of production, purchase, inventory storage, and material transfer are highly dependent on for",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.1",
+    "title": "Unconstrained Planning at a Glance",
+    "snippet": "4.1 Unconstrained Planning at a Glance The supply planning process starts from the consensus demand plan validated by the product and demand review process steps. The objective of the supply planning process is to agree on a feasible supply plan that meets as ",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.2",
+    "title": "The Sales and Operations Planning Heuristic",
+    "snippet": "4.2 The Sales and Operations Planning Heuristic The SAP Integrated Business Planning (SAP IBP) solution delivers two time series–based algorithms to propagate the consensus demand plan through the network. In this chapter, we’ll explain the operations of the S",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.3",
+    "title": "Supply Network Design",
+    "snippet": "4.3 Supply Network Design The supply network is the core structure used by the S&OP heuristic. It depicts the key entities relevant for supply planning, such as customers, locations (distribution centers, production facilities, and suppliers), and BOMs. As not",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.3.1",
+    "title": "Products, Locations, and Customers",
+    "snippet": "4.3.1 Products, Locations, and Customers The supply network in the SAP IBP solution is a very flexible concept: it can be extended easily and can be arbitrarily deep. The supply network consists of master data elements and doesn’t require any configuration cha",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.3.2",
+    "title": "Sourcing Rules",
+    "snippet": "4.3.2 Sourcing Rules The relationships among the various aspects of the supply network are defined by sourcing rules. At each location, sourcing rules answer the question, “Where does this product come from?” There are three types of sourcing rules in the stan",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.3.3",
+    "title": "Supply Network Accuracy and Check Mode",
+    "snippet": "4.3.3 Supply Network Accuracy and Check Mode To compute supply plan accurately, the supply network needs to be consistent. A consistent network can be defined with the following two important characteristics: © 155 For every product at each customer or locatio",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.3.4",
+    "title": "Subnetworks",
+    "snippet": "4.3.4 Subnetworks Using subnetworks, it’s possible to limit the run of the S&OP operators to only a limited set of data. Because supply operators are intended as network planning algorithms, they always plan a complete network, independent of what’s selected i",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.4",
+    "title": "Forecast Consumption",
+    "snippet": "4.4 Forecast Consumption Before we proceed with the next step of demand and supply propagation by the S&OP operator, it’s important to understand the concept of forecast consumption and the capabilities available in this area. When customer or independent dema",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.4.1",
+    "title": "Forecast Consumption Methods",
+    "snippet": "4.4.1 Forecast Consumption Methods Multiple strategies are available to specify how a forecast can be consumed by the sales orders. The strategy is defined by the forecast consumption mode. The forecast consumption mode consists of the following: Direction in ",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.4.2",
+    "title": "Forecast Consumption Profile",
+    "snippet": "4.4.2 Forecast Consumption Profile The Forecast Consumption Profiles app in the TS Supply Planning Configuration section of the SAP Fiori launchpad enables the forecast consumption process. By creating a forecast consumption profile, you can define the way in ",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.5",
+    "title": "Propagating Demand",
+    "snippet": "4.5 Propagating Demand With the supply network established, the heuristic can be run to populate demand and supply plans. In general, demand propagation starts at the customer level and uses the sourcing rules framework to propagate the demand through the supp",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.5.1",
+    "title": "Sample Supply Network",
+    "snippet": "4.5.1 Sample Supply Network To cover all the key figures that play a role in the S&OP heuristic, the sample network shown in Figure 4.2 will be used in this chapter. Figure 4.2 Sample Network The minimal network to explain all the flows in the heuristic can be",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.5.2",
+    "title": "Consensus Demand",
+    "snippet": "4.5.2 Consensus Demand Consensus demand represents the starting point for a heuristic-based planning process. The consensus demand is an outcome of the demand review process, which was discussed in Chapter 3. Consensus demand (CONSENSUSDEMAND) is a node-based ",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.5.3",
+    "title": "Customer Sourcing",
+    "snippet": "4.5.3 Customer Sourcing The information that allows a heuristic to propagate demand further lies in the source customer table, which defines the customer sourcing. It’s at this point that the heuristic identifies all connected locations for a customer, along w",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.5.4",
+    "title": "Net Demand Calculation",
+    "snippet": "4.5.4 Net Demand Calculation The next step in the calculation chain zooms in on the distribution center fulfilling customer demand. At the distribution center, the complete fulfillment model is calculated with the following key figures: Dependent demand (DEPEN",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.5.5",
+    "title": "Location Sourcing",
+    "snippet": "4.5.5 Location Sourcing Location sourcing applies to locations with a location sourcing rule applied. Location sourcing rules provide information about the sourcing ratio and the lead time to transport products from one location to another. In the sample netwo",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.5.6",
+    "title": "Production Sourcing",
+    "snippet": "4.5.6 Production Sourcing At the factory, the same net demand calculation will be performed as documented previously for the distribution center, as shown in Figure 4.9. For the factory, the dependent demand is the sum of the dependent customer demand (30 in F",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.5.7",
+    "title": "Lot Sizes",
+    "snippet": "4.5.7 Lot Sizes Before closing the section on demand propagation, it’s important to provide more background on the lot-sizing approach. Currently, in all the provided examples, we’ve considered lot-for-lot planning. However, in many realistic business scenario",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.6",
+    "title": "Propagating Supply",
+    "snippet": "4.6 Propagating Supply In demand propagation, all the requirements throughout the supply network have been propagated, resulting in the dependent demand and net demand calculations at every level. In the sample network, this results in a net demand for the raw",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.6.1",
+    "title": "External Receipts",
+    "snippet": "4.6.1 External Receipts The demand propagation ends when the raw material demand has been raised against the undefined production rule, marking the edge of the supply network. This is where supply propagation starts, providing external receipts for those deman",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.6.2",
+    "title": "Production Component",
+    "snippet": "4.6.2 Production Component With the external receipts providing the raw materials, the dependent production demand (and dependent production demand) key figures can be fulfilled. Their fulfillment counterparts are as follows: © 181 Component supply (PRODUCTION",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.6.3",
+    "title": "Production Receipts",
+    "snippet": "4.6.3 Production Receipts After the external receipts provide the input products for the production process, the requirements of the finished product now can be confirmed. This is done via the production receipts (PRODUCTION) key figure, a node-based key figur",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.6.4",
+    "title": "Transport Receipts",
+    "snippet": "4.6.4 Transport Receipts From the proposed production key figure, which confirms the receipt of the supply of the finished product, the next step to be fulfilled is the transport receipts. In the baseline work of the S&OP heuristic, the following transport key",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.6.5",
+    "title": "Constrained Demand",
+    "snippet": "4.6.5 Constrained Demand The constrained demand, though still an unconstrained key figure in the context of the S&OP heuristic, is the final step in the supply propagation logic. The key figures involved in this step are as follows: Customer supply (CONSTRAINE",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.6.6",
+    "title": "Minimum and Adjusted Key Figures",
+    "snippet": "4.6.6 Minimum and Adjusted Key Figures SAP Integrated Business Planning for sales and operations accepts planning elements from external systems. This is quite useful, particularly because SAP Integrated Business Planning for sales and operations isn’t a detai",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.7",
+    "title": "Rough-Cut Capacity Planning",
+    "snippet": "4.7 Rough-Cut Capacity Planning In Section 4.6 on supply propagation, we pointed to the unconstrained behavior of the heuristic, showing that, in most cases, the supply confirmation is equal to the propagated demand. Although the heuristic is unconstrained in ",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.7.1",
+    "title": "Production Resources",
+    "snippet": "4.7.1 Production Resources Production resources are used to manage capacities as they relate to the actual production process. The actual production process constitutes producing new products based on a BOM, thus consuming the components in that BOM. In this c",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.7.2",
+    "title": "Handling and Storage Resources",
+    "snippet": "4.7.2 Handling and Storage Resources Handling resources allow modeling capacity utilization for resources that don’t perform product transformation. In this case, there is no BOM, and the capacity load is calculated by products merely passing this node in the ",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.7.3",
+    "title": "Capacity Key Figures",
+    "snippet": "4.7.3 Capacity Key Figures As mentioned, while defining master data types for resources, the available capacity and the capacity consumption both can be defined either in the master data types or as key figures by setting the master data time series attribute ",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.8",
+    "title": "Parameters of the Heuristic",
+    "snippet": "4.8 Parameters of the Heuristic The heuristic comes with a set of parameters to more finely control the exact calculations. In this section, those parameters will be covered together with the altering behavior they produce on the previously explained calculati",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.8.1",
+    "title": "Processing Mode",
+    "snippet": "4.8.1 Processing Mode The heuristic can be set up to run interactively in the planning view, in batch mode, or both. If the interactive run is allowed, the heuristic operator setup will become available in the Simulate dropdown in the data input pane of the SA",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.8.2",
+    "title": "Heuristic Type",
+    "snippet": "4.8.2 Heuristic Type In the previous sections of this chapter, we covered the infinite heuristic without shortages extensively, but it has traditionally been very challenging for users of this heuristic to construct a feasible plan. The heuristic following the",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.8.3",
+    "title": "Planning Level of the Heuristic",
+    "snippet": "4.8.3 Planning Level of the Heuristic In Chapter 2, the time profile and the corresponding planning granularity were introduced. When running the heuristic, it’s possible to select a planning granularity that allows you to specify at which level the heuristic ",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.8.4",
+    "title": "Quota Check Parameters",
+    "snippet": "4.8.4 Quota Check Parameters In Section 4.3.2, we covered establishing the sourcing rules of the supply network. We noted that in a consistent supply network, the sources of supply add up to 100%. When the planner runs the S&OP heuristic, as a first step, the ",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.8.5",
+    "title": "Carryforward Negative Projected Inventory",
+    "snippet": "4.8.5 Carryforward Negative Projected Inventory In the operation of the heuristic, it’s possible that the projected inventory shows negative. This means that if for some reason it’s impossible for the heuristic to fulfill all demands in a particular bucket, th",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.8.6",
+    "title": "Balanced Receipts",
+    "snippet": "4.8.6 Balanced Receipts In Section 4.5 on demand propagation, we covered the fact that the heuristic generally starts with the consensus demand and sources it to a location. From that location, the source of supply is based on the production sourcing or locati",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.8.7",
+    "title": "Initialize Lead Time Horizon",
+    "snippet": "4.8.7 Initialize Lead Time Horizon In the standard behavior, when running the heuristic, the algorithm starts by clearing all the key figures out of the planning horizon specified. This means all the key figures the heuristic writes as an output will be initia",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.8.8",
+    "title": "Compute Expected Supply",
+    "snippet": "4.8.8 Compute Expected Supply Using the Compute Expected Supply parameter can influence planning with subnetworks. In Section 4.3.4, we covered how subnetworks allow for separating the planning network into smaller units, to distinguish, for example, between b",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.8.9",
+    "title": "Use of Validity Dates",
+    "snippet": "4.8.9 Use of Validity Dates Since SAP IBP release 1705, it’s been possible for the heuristic to directly consider validity dates in the sourcing rules. Although time-series-based sourcing ratios allow for maximum flexibility, setting the Source of Supply Valid",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.9",
+    "title": "Shelf-Life Planning",
+    "snippet": "4.9 Shelf-Life Planning Companies in industries such as dairy, food, and beverages carry products that are perishable. These products have limited shelf life with expiration dates. After a certain time, such products are no longer allowed to be sold to custome",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.9.1",
+    "title": "Shelf-Life Planning Infinite Heuristic",
+    "snippet": "4.9.1 Shelf-Life Planning Infinite Heuristic The shelf-life planning infinite heuristic is similar to the time-series supply planning heuristic as described in Section 4.2. It generates an infinite demand and supply plan with no shortages. However, it does so ",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.9.2",
+    "title": "Shelf-Life Distribution Planning Heuristic",
+    "snippet": "4.9.2 Shelf-Life Distribution Planning Heuristic The time-series shelf-life distribution planning heuristic computes the supply plan for the distribution network by considering the available supply that has the minimum required shelf life downstream through th",
+    "he": false
+  },
+  {
+    "ch": 4,
+    "id": "4.10",
+    "title": "Summary",
+    "snippet": "4.10 Summary In this chapter, we covered the details of the S&OP heuristic and how it allows planners to build a feasible supply plan. We’ve defined the S&OP heuristic as a rule-based, unconstrained decision support algorithm that leverages the supply network ",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.1",
+    "title": "Constrained Supply Planning at a Glance",
+    "snippet": "5.1 Constrained Supply Planning at a Glance As covered in Chapter 4, supply planning is a crucial step to determine the feasibility of unconstrained demand—that is, how much of what we could sell versus how much will be available considering the resources (mac",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.2",
+    "title": "Sales and Operations Planning Optimizer",
+    "snippet": "5.2 Sales and Operations Planning Optimizer In this section, we’ll explain the time-series-based optimizer algorithm, delivered as part of SAP Integrated Business Planning for response and supply. As the name suggests, this algorithm utilizes mathematical opti",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.3",
+    "title": "Optimization Constraints",
+    "snippet": "5.3 Optimization Constraints The optimizer generates a cost-optimized constrained supply plan subject to a set of constraints. There are three categories of constraints. In this section, we’ll review the different types of constraints.",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.3.1",
+    "title": "Hard Constraints",
+    "snippet": "5.3.1 Hard Constraints The following constraints must be adhered to or satisfied; otherwise, a solution isn’t possible, meaning the optimizer is unable to generate a supply plan: Available or finite capacities of production resources Production resources can b",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.3.2",
+    "title": "Pseudo-Hard Constraints",
+    "snippet": "5.3.2 Pseudo-Hard Constraints Pseudo-hard constraints incur very high penalty costs if they aren’t adhered to. The time-series-based optimizer will always try not to violate pseudo-hard constraints to generate a supply plan. However, in certain cases, the opti",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.3.3",
+    "title": "Soft Constraints",
+    "snippet": "5.3.3 Soft Constraints These are constraints that should be satisfied and are considered in the objective function. Any violations are penalized by the optimizer. Time-series- based supply planning currently offers two types of soft constraints, as follows: Va",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.4",
+    "title": "Financial Modeling of the Supply Chain",
+    "snippet": "5.4 Financial Modeling of the Supply Chain As explained in previous sections, the goal of the time-series-based optimizer is to minimize the total costs of the supply chain. This goal is achieved by minimizing the financials aspects of the supply chain specifi",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.4.1",
+    "title": "Financial or Cost Key Figures",
+    "snippet": "5.4.1 Financial or Cost Key Figures The financial key figures in this section represent costs defined in the supply chain network, such as nondelivery costs, transportation costs, inventory holding costs, production costs, raw material procurement costs, and s",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.4.2",
+    "title": "Optimizer Parameters",
+    "snippet": "5.4.2 Optimizer Parameters When you configure the S&OP supply planning operator profile for algorithm type Optimizer, you need to set optimizer parameters. The settings in the Optimizer Parameters section influence the goal of the optimization and set the para",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.5",
+    "title": "Advanced Optimizer Features",
+    "snippet": "5.5 Advanced Optimizer Features There are industry-specific planning requirements that require advanced capability to model in a planning application. In this section, we’ll cover features for the time-series-based optimizer that allow you to model such advanc",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.5.1",
+    "title": "Late-Demand Fulfillment",
+    "snippet": "5.5.1 Late-Demand Fulfillment The default behavior of the time-series-based optimizer is to fulfill the customer demand and independent demand in the requested time period. This means the optimizer will try to generate a supply plan so that customer receipts a",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.5.2",
+    "title": "Minimum Resource Consumption",
+    "snippet": "5.5.2 Minimum Resource Consumption In certain businesses or industries, it’s required to have production resources utilized above a certain minimum threshold even if there isn’t sufficient customer or independent demand. This may be due to financial reasons su",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.5.3",
+    "title": "Fair-Share Distribution",
+    "snippet": "5.5.3 Fair-Share Distribution Fair-share distribution allows the time-series-based optimizer to distribute constrained supply in a fair-share manner when the quantities requested by different customers or locations can’t be fulfilled completely. Distribution i",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.5.4",
+    "title": "Aggregate Constraints",
+    "snippet": "5.5.4 Aggregate Constraints All the constraints (soft, pseudo-hard, and hard) described in this chapter until now were defined at the lowest level—that is, at the product, location, customer, or source ID attribute level. However, aggregate constraints, as the",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.5.5",
+    "title": "Multiple Demand Category",
+    "snippet": "5.5.5 Multiple Demand Category Sometimes, you’ll need to categorize and prioritize one demand over another— for example, to prioritize the base forecast over promotional forecast or prioritize sales orders over the forecast. The demand category feature lets th",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.5.6",
+    "title": "Product Substitution",
+    "snippet": "5.5.6 Product Substitution The product substitution functionality is applicable when a company offers alternative products that have similar characteristics as the substitutable product and are equivalent or interchangeable from a customer’s perspective. © 235",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.5.7",
+    "title": "Subnetworks",
+    "snippet": "5.5.7 Subnetworks As described in previous chapters, a subnetwork is a portion of the entire supply chain network for which you want to plan a separate planning run (e.g., all location products in a region or product brand). Subnetworks are typically used for ",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.5.8",
+    "title": "Optimizer Explanation",
+    "snippet": "5.5.8 Optimizer Explanation The time-series-based optimizer is a MILP solver, and sometimes it isn’t easy to understand why a certain requirement was fulfilled and another not. This can occur even for a simple supply chain network. Comprehending the results ca",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.6",
+    "title": "Finite Heuristic",
+    "snippet": "5.6 Finite Heuristic In this section, we’ll explain the time-series-based finite heuristic algorithm, delivered as part of SAP Integrated Business Planning for response and supply. The time-series-based supply planning finite heuristic computes a feasible dema",
+    "he": false
+  },
+  {
+    "ch": 5,
+    "id": "5.7",
+    "title": "Summary",
+    "snippet": "5.7 Summary In this chapter, we covered the details of the time-series-based optimizer and how it allows planners to build a feasible production, distribution, and procurement plan. We explained the different optimization modes, various types of constraints, t",
+    "he": false
+  },
+  {
+    "ch": 6,
+    "id": "6.1",
+    "title": "Consolidation at a Glance",
+    "snippet": "6.1 Consolidation at a Glance Demand and supply review cycles of S&OP are focused on the unconstrained forecast generation and then constraining the demand while considering the supply element. In the integrated reconciliation and executive review phase, holis",
+    "he": false
+  },
+  {
+    "ch": 6,
+    "id": "6.1.1",
+    "title": "Integrated Reconciliation Review",
+    "snippet": "6.1.1 Integrated Reconciliation Review During the reconciliation review of the monthly cycle, the representatives from sales, finance, marketing, production, and demand planning discuss deviations between constrained demand and consensus demand, agree on execu",
+    "he": false
+  },
+  {
+    "ch": 6,
+    "id": "6.1.2",
+    "title": "Executive Review",
+    "snippet": "6.1.2 Executive Review During executive review or management business review, the executive management of the involved business units determines if the presented proposal aligns with the company’s financial targets and KPIs. Management assesses and makes decis",
+    "he": false
+  },
+  {
+    "ch": 6,
+    "id": "6.1.3",
+    "title": "Operationalize the Approved Constrained Plan",
+    "snippet": "6.1.3 Operationalize the Approved Constrained Plan Once the plan is finalized in the executive review meeting, it needs to become operational. Therefore, the constrained plan from S&OP needs to be sent to other operational processes and to SAP ERP or SAP S/4HA",
+    "he": false
+  },
+  {
+    "ch": 6,
+    "id": "6.2",
+    "title": "Financial Projections and Review",
+    "snippet": "6.2 Financial Projections and Review In the following sections, we’ll go deeper into what financial information is modeled in SAP IBP, how the integrated reconciliation review phase is carried out, and finally how the executive review phase is executed.",
+    "he": false
+  },
+  {
+    "ch": 6,
+    "id": "6.2.1",
+    "title": "Financial Projections of the Plan",
+    "snippet": "6.2.1 Financial Projections of the Plan Every stage of the S&OP process includes financial elements such as revenue, margin, costs, and price calculations for the valuation of plans, in addition to plan volumes. During the integrated reconciliation review phas",
+    "he": false
+  },
+  {
+    "ch": 6,
+    "id": "6.2.2",
+    "title": "Integrated Reconciliation Review",
+    "snippet": "6.2.2 Integrated Reconciliation Review After the demand review and supply review phases of the S&OP process, the integrated reconciliation phase lasts for about two to five days and is attended by representatives of middle management and experts from the areas",
+    "he": false
+  },
+  {
+    "ch": 6,
+    "id": "6.2.3",
+    "title": "Management Business Review",
+    "snippet": "6.2.3 Management Business Review All the prior steps of the S&OP process culminate in the executive review meeting, in which management decisions are made and a plan is approved to be operationalized. The executive review is typically held as a one- to two-hou",
+    "he": false
+  },
+  {
+    "ch": 6,
+    "id": "6.3",
+    "title": "Operationalizing the Plan",
+    "snippet": "6.3 Operationalizing the Plan After the final tactical sales and operations constrained plan is agreed upon and approved, it needs to be operationalized by providing the constrained plan to downstream operational and execution processes. For customers running ",
+    "he": false
+  },
+  {
+    "ch": 6,
+    "id": "6.3.1",
+    "title": "Plan Integration Overview",
+    "snippet": "6.3.1 Plan Integration Overview In SAP IBP, the planning processes are integrated within one unified data model with a clean handover of processes and data across several SAP IBP application modules. The planning foundation offers core functionalities, such as",
+    "he": false
+  },
+  {
+    "ch": 6,
+    "id": "6.3.2",
+    "title": "Integration between SAP IBP for Sales and Operations and SAP IBP for",
+    "snippet": "6.3.2 Integration between SAP IBP for Sales and Operations and SAP IBP for Demand SAP Integrated Business Planning for sales and operations integrates with SAP Integrated Business Planning for demand as follows: The input for the S&OP process is the weekly dem",
+    "he": false
+  },
+  {
+    "ch": 6,
+    "id": "6.3.3",
+    "title": "Integration between SAP IBP for Sales and Operations and SAP IBP for",
+    "snippet": "6.3.3 Integration between SAP IBP for Sales and Operations and SAP IBP for Inventory SAP Integrated Business Planning for inventory is typically executed as an operational weekly process to provide an operational inventory target to SAP ERP. This frequency can",
+    "he": false
+  },
+  {
+    "ch": 6,
+    "id": "6.3.4",
+    "title": "Integration between Tactical Time-Series-Based and Order-Based Plans",
+    "snippet": "6.3.4 Integration between Tactical Time-Series-Based and Order-Based Plans A system rich in planning functionality is underserved if the plan can’t be executed. SAP IBP provides an end-to-end planning process so that plans can be actionable. This requires inte",
+    "he": false
+  },
+  {
+    "ch": 6,
+    "id": "6.3.5",
+    "title": "Integration between Tactical Sales and Operations Planning with",
+    "snippet": "6.3.5 Integration between Tactical Sales and Operations Planning with Financial Planning Extended planning and analysis (xP&A) is the next-generation extension of financial planning and analysis (FP&A) solutions to include enterprise-wide budgeting, planning, ",
+    "he": false
+  },
+  {
+    "ch": 6,
+    "id": "6.4",
+    "title": "Summary",
+    "snippet": "6.4 Summary In this chapter, we covered how financial key figures are calculated in SAP IBP in depth based on the demand and supply plans across different versions and scenarios. We then explained how these financial elements are used in consolidation of integ",
+    "he": false
+  },
+  {
+    "ch": 7,
+    "id": "7.1",
+    "title": "Collaboration Using SAP Build Work Zone",
+    "snippet": "7.1 Collaboration Using SAP Build Work Zone SAP Build Work Zone is a new-generation collaboration tool that is easy to use and provides a better user experience. It provides access to different applications, processes, and information in one place, which incre",
+    "he": false
+  },
+  {
+    "ch": 7,
+    "id": "7.1.1",
+    "title": "Navigation",
+    "snippet": "7.1.1 Navigation The SAP Build Work Zone page is divided into two sections—the header, which lets you search information, access notifications, and perform user settings, and the menu bar, the area most widely used by planners in day-to-day operations. It’s fu",
+    "he": false
+  },
+  {
+    "ch": 7,
+    "id": "7.1.2",
+    "title": "SAP Integrated Business Planning Integration",
+    "snippet": "7.1.2 SAP Integrated Business Planning Integration Now that we’ve discussed the SAP Build Work Zone collaboration pages and how they function, let’s get into the details of how SAP IBP integrates with it. There are various integration points between SAP IBP da",
+    "he": false
+  },
+  {
+    "ch": 7,
+    "id": "7.1.3",
+    "title": "Excel Planning View Integration",
+    "snippet": "7.1.3 Excel Planning View Integration Excel planning views can be integrated with SAP Build Work Zone collaboration. When a change is made to the planning data in an Excel planning view, it can be shared with the collaboration groups in the form of hashtags. T",
+    "he": false
+  },
+  {
+    "ch": 7,
+    "id": "7.2",
+    "title": "Custom Alerts",
+    "snippet": "7.2 Custom Alerts Alert monitoring and analysis has been part of the daily cycle of demand and supply planners since the creation of systematic supply chain planning solutions. Several business situations need users to identify and report exceptions. Managing ",
+    "he": false
+  },
+  {
+    "ch": 7,
+    "id": "7.2.1",
+    "title": "SAP Fiori Applications",
+    "snippet": "7.2.1 SAP Fiori Applications Custom alerts in SAP IBP are managed via three distinct SAP Fiori apps: Define and Subscribe to Custom Alerts, Custom Alerts Overview, and Monitor Custom Alerts (see Figure 7.10). Figure 7.10 Custom Alert Apps Define and Subscribe ",
+    "he": false
+  },
+  {
+    "ch": 7,
+    "id": "7.2.2",
+    "title": "Using Custom Alerts",
+    "snippet": "7.2.2 Using Custom Alerts Planning key figures within SAP IBP store the data values relevant for planning processes. The key figure values represent the overall health of the supply chain; any exceptions or outliers in these values must be captured and reporte",
+    "he": false
+  },
+  {
+    "ch": 7,
+    "id": "7.2.3",
+    "title": "Configuring Custom Alerts",
+    "snippet": "7.2.3 Configuring Custom Alerts For custom alert configuration, use the Define and Subscribe to Custom Alerts apps to set up the alerts in SAP IBP. On the new alert creation screen, specify the parameters relevant for the alert by navigating to each tab in the",
+    "he": false
+  },
+  {
+    "ch": 7,
+    "id": "7.3",
+    "title": "Case Management",
+    "snippet": "7.3 Case Management As discussed in earlier sections, monitoring exceptions and acting on them in a timely manner is critical to ensure that supply chain processes are running efficiently and uninterrupted. Most of the alerts generated within a supply chain ar",
+    "he": false
+  },
+  {
+    "ch": 7,
+    "id": "7.4",
+    "title": "Tasks",
+    "snippet": "7.4 Tasks Process management in SAP IBP is driven by defining tasks while modeling planning processes and assigning responsibilities to users to accomplish these tasks. This helps streamline the process flow from one business function or area to another and en",
+    "he": false
+  },
+  {
+    "ch": 7,
+    "id": "7.5",
+    "title": "Summary",
+    "snippet": "7.5 Summary Collaboration is the heart of an efficient S&OP process. SAP IBP provides efficient end-to-end collaboration involving different parties in the S&OP process. Collaboration application is further fortified by integrating information sharing with the",
+    "he": false
+  },
+  {
+    "ch": 8,
+    "id": "8.1",
+    "title": "Simulation Planning at a Glance",
+    "snippet": "8.1 Simulation Planning at a Glance The performance of a supply chain network is based on the business decisions made by the supply chain and associated professionals. With simulation planning, supply chain professionals compare, validate, and analyze the pote",
+    "he": false
+  },
+  {
+    "ch": 8,
+    "id": "8.1.1",
+    "title": "Demand Factors",
+    "snippet": "8.1.1 Demand Factors Some of the important factors that have enhanced the requirements of performing simulation or what-if analysis when making S&OP decisions are as follows: Short product lifecycle With the growth of technical capabilities and relatively fast",
+    "he": false
+  },
+  {
+    "ch": 8,
+    "id": "8.1.2",
+    "title": "Supply Feasibility Factors",
+    "snippet": "8.1.2 Supply Feasibility Factors The factors that make it feasible to supply the planning simulation expectations through SAP IBP are as follows: Hardware technological advancement In the past decade, hardware advancements for both end-user machines and data s",
+    "he": false
+  },
+  {
+    "ch": 8,
+    "id": "8.1.3",
+    "title": "Simulation Examples",
+    "snippet": "8.1.3 Simulation Examples The goal of simulation planning is to prepare a strategy proposal that helps in making effective decisions in the S&OP process. Uncertainty can arise from both the demand and supply sides of the business. Fluctuation in demand can be ",
+    "he": false
+  },
+  {
+    "ch": 8,
+    "id": "8.2",
+    "title": "Simulations",
+    "snippet": "8.2 Simulations Supply chain planners face different situations that contribute to the fluctuation of the demand or supply plan. The situation could be an opportunity or a risk, and it’s important to assess the impact of the situation before it occurs. Typical",
+    "he": false
+  },
+  {
+    "ch": 8,
+    "id": "8.3",
+    "title": "Versions",
+    "snippet": "8.3 Versions A version is the simulation tool that SAP IBP provides to help create and compare alternate plans for what-if scenario planning. A version can be created as a copy of the base version, which is the data integration and base planning version. Chang",
+    "he": false
+  },
+  {
+    "ch": 8,
+    "id": "8.3.1",
+    "title": "Manage Versions",
+    "snippet": "8.3.1 Manage Versions Figure 8.6 shows the selection screen that pops up after you click the Manage button. There are two options available: Copy and Delete. The copy functionality lets you choose versions to copy data From and To. In Figure 8.6, we’re copying",
+    "he": false
+  },
+  {
+    "ch": 8,
+    "id": "8.3.2",
+    "title": "Version Comparison",
+    "snippet": "8.3.2 Version Comparison Once the version is copied, you can compare the base version and simulation version in the same Excel planning view. Figure 8.8 shows the Excel planning view definition, in which you must select the base version and simulation version ",
+    "he": false
+  },
+  {
+    "ch": 8,
+    "id": "8.3.3",
+    "title": "Version Configuration",
+    "snippet": "8.3.3 Version Configuration Versions must be configured in a planning area and are available for all planners with the necessary authorization to use them. Version configuration can be accessed by launching the Configuration app available under the Model Confi",
+    "he": false
+  },
+  {
+    "ch": 8,
+    "id": "8.4",
+    "title": "Scenarios",
+    "snippet": "8.4 Scenarios Scenario planning is a functionality provided in SAP IBP that’s used to perform simulation planning locally and share the results with a group or other users and collaborate on the scenarios. This is a flexible tool via which you can create multi",
+    "he": false
+  },
+  {
+    "ch": 8,
+    "id": "8.4.1",
+    "title": "Scenario Creation",
+    "snippet": "8.4.1 Scenario Creation The Scenarios group is available in the SAP IBP tab of the Excel ribbon. There are two options available to create and manage scenarios, as shown in Figure 8.12. You can create a new scenario by clicking on the Create button, which open",
+    "he": false
+  },
+  {
+    "ch": 8,
+    "id": "8.4.2",
+    "title": "Scenario Comparison",
+    "snippet": "8.4.2 Scenario Comparison Once the scenario is created, you can make changes to the plan for the available alternatives. Just like versions, scenarios also can be viewed in a single Excel planning view for comparison. In edit mode in the Excel planning view, a",
+    "he": false
+  },
+  {
+    "ch": 8,
+    "id": "8.4.3",
+    "title": "Manage Scenario",
+    "snippet": "8.4.3 Manage Scenario Clicking the Manage Scenarios button opens a popup window in which the following options are available for the scenarios created, as shown in Figure 8.15: Promote This option promotes/copies the changes made in the scenario to the baselin",
+    "he": false
+  },
+  {
+    "ch": 8,
+    "id": "8.4.4",
+    "title": "Version and Scenario Comparison",
+    "snippet": "8.4.4 Version and Scenario Comparison You’ve now seen several tools that SAP IBP provides for simulation planning. Each of these has various merits and meets the simulation needs of different demand and supply situations. Version and scenario functionalities a",
+    "he": false
+  },
+  {
+    "ch": 8,
+    "id": "8.5",
+    "title": "Summary",
+    "snippet": "8.5 Summary Simulation planning is an important functionality required for supply chain planners to deal with a fluctuating market situation. Various alternative solutions can be built by leveraging the simulation functionalities provided by SAP IBP, and a dec",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.1",
+    "title": "Process Management in Practice",
+    "snippet": "9.1 Process Management in Practice In an SAP IBP process, the three main pillars are people, processes, and tools. SAP IBP bridges these three aspects with the process management capabilities connecting the S&OP process, user participation and collaboration, a",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.2",
+    "title": "Setting Up Process Templates and",
+    "snippet": "9.2 Setting Up Process Templates and Automations The Manage Process Templates app shows a list of all available templates created, as shown in Figure 9.2. For example, the US, Canada, Mexico, and Eastern and Northwestern S&OP templates are visible in this list",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.2.1",
+    "title": "Process Roles",
+    "snippet": "9.2.1 Process Roles As shown previously in Figure 9.3, process templates also show the process owners, participant groups, and reviewers associated with each process step. Because SAP IBP manages collaboration across various functional groups, it’s important t",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.2.2",
+    "title": "Time Zone, Workday, and Duration Settings for Process",
+    "snippet": "9.2.2 Time Zone, Workday, and Duration Settings for Process Steps When the S&OP process is managed globally with several regional- and country- specific processes, the time zones and local times are considered by SAP IBP process management. This ensures that t",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.2.3",
+    "title": "Tasks Assignment",
+    "snippet": "9.2.3 Tasks Assignment A set of template tasks can be defined for each planning step. Usually in a planning process step, different activities are happening, and the participant users are responsible for the timely completion of those activities. Figure 9.5 sh",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.2.4",
+    "title": "Process Steps Automation",
+    "snippet": "9.2.4 Process Steps Automation As shown previously in Figure 9.6, the process template owner can assign automation criteria for how the steps should start and end. In the example, the demand review step starts when the previous step, product and portfolio revi",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.2.5",
+    "title": "Process Orchestration of Application Jobs",
+    "snippet": "9.2.5 Process Orchestration of Application Jobs As part of a monthly process cycle, there can be many batch jobs that need to run. For example, when the step starts, you may want to clear the key figures to be ready for planning. When the demand review step be",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.2.6",
+    "title": "Gantt Chart View of Sequential and Parallel Processes",
+    "snippet": "9.2.6 Gantt Chart View of Sequential and Parallel Processes Gantt charts provide process owners with a good visual overview of the automation associated with each step. Here, a process step with no automation will have no directional arrows. In Figure 9.8, the",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.3",
+    "title": "Manage Processes",
+    "snippet": "9.3 Manage Processes The Manage Processes app provides process monitoring, visualization, and lifecycle management for S&OP processes. Based on their assigned user role, a user can be an owner, participant, or reviewer of a process step. There are three import",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.3.1",
+    "title": "What Is a Process?",
+    "snippet": "9.3.1 What Is a Process? A process is an instance of a process template that runs every recurring period. For example, for the US S&OP template, there can be one process for each month: January 2022 US S&OP process, February 2022 US S&OP Process, and so on. As",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.3.2",
+    "title": "Creating a Process",
+    "snippet": "9.3.2 Creating a Process In the Manage Processes app, processes can be created for each process template. The only information that needs to be provided is the process name, start date of the process, and any adjustments to the dates. For the sample template, ",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.3.3",
+    "title": "Managing Process Lifecycle",
+    "snippet": "9.3.3 Managing Process Lifecycle After the processes have been created from a process instance, they’re automatically run when automation criteria are defined for the steps. You can also manually run the process steps for steps that don’t have automation defin",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.3.4",
+    "title": "Monitoring Process Status",
+    "snippet": "9.3.4 Monitoring Process Status The Manage Processes app provides nice visualizations and better usability to quickly get to the information that is most relevant for finding bottlenecks in the process. The visualization and monitoring aspects of the process i",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.3.5",
+    "title": "Process Dashboards",
+    "snippet": "9.3.5 Process Dashboards In addition to the list view in the Manage Processes app, where multiple processes can be viewed together, the Dashboard app in SAP IBP provides the functionality to add process-related charts together with other analytical charts, the",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.4",
+    "title": "Task Management",
+    "snippet": "9.4 Task Management To manage workflow of tasks, SAP IBP process management provides the necessary functionality to create task templates, task assignments, notifications, completions from the web UI and Excel UI, and task monitoring. SAP IBP tasks are realize",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.4.1",
+    "title": "Tasks Assignments and Completions",
+    "snippet": "9.4.1 Tasks Assignments and Completions Tasks are created for each process step in a process template with assignments to process step participant groups and/or users, as follows: 346 1. When a step is set to In Progress, SAP Build Work Zone tasks are created ",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.4.2",
+    "title": "Tasks Completion from SAP Integrated Business Planning,",
+    "snippet": "9.4.2 Tasks Completion from SAP Integrated Business Planning, Add-In for Microsoft Excel SAP Integrated Business Planning, add-in for Microsoft Excel, provides the functionality to view and complete tasks from Excel. When a user is participating in an S&OP pro",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.4.3",
+    "title": "Process Progress Based on Tasks Completion",
+    "snippet": "9.4.3 Process Progress Based on Tasks Completion When the demand planner completes this task from Excel or the Manage Tasks app, and when all tasks associated with the process step are completed, the Demand Review process step immediately goes to Completed sta",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.5",
+    "title": "Process Management with SAP Build Work",
+    "snippet": "9.5 Process Management with SAP Build Work Zone SAP IBP uses SAP Build Work Zone as a collaboration platform to facilitate collaboration across cross-functional teams. SAP Build Work Zone provides a customizable digital workplace solution for users and is a un",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.6",
+    "title": "Application Programming Interfaces for",
+    "snippet": "9.6 Application Programming Interfaces for Process Management SAP IBP provides the following APIs for reporting and triggering process management externally: APIs for external reporting of process status, tasks completions, process improvements over time APIs ",
+    "he": false
+  },
+  {
+    "ch": 9,
+    "id": "9.7",
+    "title": "Summary",
+    "snippet": "9.7 Summary In this chapter, we covered details of how to create and run an S&OP process using process management capabilities in SAP Integrated Business Planning for sales and operations. We also detailed setting up process templates with process step roles, ",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.1",
+    "title": "Planning Areas and Time Profiles",
+    "snippet": "10.1 Planning Areas and Time Profiles The Model Configuration group in the SAP Fiori Launchpad for SAP IBP (see Figure 10.2) provides the SAP Fiori apps for viewing, configuring, and maintaining SAP IBP models. The main apps in Model Configuration include Attr",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.1.1",
+    "title": "Planning Areas",
+    "snippet": "10.1.1 Planning Areas A planning area consists of configurable objects that define the business model, such as planning attributes, master data types, key figures, time profiles, planning levels, planning operators, and so on. Using the configuration user inte",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.1.2",
+    "title": "Time Profile",
+    "snippet": "10.1.2 Time Profile In SAP IBP, several planning processes run at different time granularities and have different planning horizons. For example, S&OP is a monthly process and includes key figures that can be maintained and viewed at different time levels, 360",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.2",
+    "title": "Attributes and Master Data Types",
+    "snippet": "10.2 Attributes and Master Data Types In addition to the predelivered attributes and master data types, SAP IBP allows you to define custom attributes and master data types that are specific to your business model. There are different types of master data type",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.2.1",
+    "title": "Attributes",
+    "snippet": "10.2.1 Attributes Every planning dimension of a planning model—for example, customer or product—contains one or more planning attributes, which represent the characteristics of the planning dimensions. For example, PRDID is a key attribute of a product and rep",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.2.2",
+    "title": "Master Data Types",
+    "snippet": "10.2.2 Master Data Types Master data types in SAP IBP are planning dimensions representing the primary business data entities—for example, product, customer, location, resource, sales organization, and so on. Master data types contain one or more planning attr",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.3",
+    "title": "Planning Levels",
+    "snippet": "10.3 Planning Levels Planning levels are the hierarchical levels at which the data for the key figures is stored or key figure calculations are defined. A base planning level represents the storage level of stored key figures. The planning levels in SAP IBP ar",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.4",
+    "title": "Key Figures",
+    "snippet": "10.4 Key Figures In SAP IBP, customers can define custom calculations and disaggregation rules using key figures. Key figures are measures of data over time—for example, sales forecast quantity, production quantity, and so on—which have values for characterist",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.4.1",
+    "title": "What Are Key Figures?",
+    "snippet": "10.4.1 What Are Key Figures? Key figures are the foundation for all planning and analytical functions of SAP IBP. Key figures are defined for a planning area and can be used later in all areas of SAP IBP. Key figures calculation definitions are highly flexible",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.4.2",
+    "title": "Creating Key Figures",
+    "snippet": "10.4.2 Creating Key Figures You create a new key figure in SAP IBP from the Configuration app. Click the Key Figure tab, choose a planning area, and click New to create a new key figure. Provide a Key Figure ID and Base Planning Level. Every key figure definit",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.4.3",
+    "title": "Key Figure Types",
+    "snippet": "10.4.3 Key Figure Types There are several types of key figures in SAP IBP providing high flexibility in modeling the storage and calculations of key figures. In this section, we’ll cover the different classification of key figures such as stored key figures, a",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.4.4",
+    "title": "Key Figure Aggregations",
+    "snippet": "10.4.4 Key Figure Aggregations Aggregation mode describes how the key figures should be aggregated. The supported aggregation modes are as follows: SUM (default) MIN MAX AVG CUSTOM The request-level calculation of the key figure contains the aggregation mode i",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.4.5",
+    "title": "Disaggregation",
+    "snippet": "10.4.5 Disaggregation SAP IBP supports disaggregation for stored and editable key figures. Disaggregation in SAP IBP is supported by SAP Integrated Business Planning, add-in for Microsoft Excel, when a planner makes changes to key figures at any aggregated lev",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.4.6",
+    "title": "Key Figure Calculations",
+    "snippet": "10.4.6 Key Figure Calculations SAP IBP model configuration allows for free-form definition of key figure calculations. Every key figure has one or more calculations, of which the request-level calculation is the most important because it decides how the key fi",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.5",
+    "title": "Planning Operators",
+    "snippet": "10.5 Planning Operators For large volumes of data computations, SAP IBP provides planning operators. These operators have specialized functions and run operations such as planning algorithms or mass copy of data or data lifecycle management, to give just a few",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.5.1",
+    "title": "Creating a Copy Operator",
+    "snippet": "10.5.1 Creating a Copy Operator SAP IBP provides dedicated SAP Fiori apps to manage planning operators such as the Copy Operator Profiles, Manage Forecast Models, Time Series Based Supply Planning Profiles, and so on. For example, if you want to create a new c",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.5.2",
+    "title": "Data Lifecycle Management",
+    "snippet": "10.5.2 Data Lifecycle Management To manage the growth of data over time and remove unused/unwanted data, SAP IBP provides several data lifecycle management functions. These are delivered as application job templates and can be run in the Manage Application Job",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.6",
+    "title": "History Report",
+    "snippet": "10.6 History Report The change history function in SAP IBP allows for tracking changes to the stored key figure values and any calculated key figures that depend on them. This helps determine which user made what changes to planning data and the reason behind ",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.7",
+    "title": "Advanced Configuration",
+    "snippet": "10.7 Advanced Configuration In addition to the key figure calculations capability in SAP IBP model configuration, some more advanced modeling capabilities are provided to meet complex calculation requirements and help provide a degree of flexibility in modelin",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.8",
+    "title": "System Performance Recommendations",
+    "snippet": "10.8 System Performance Recommendations No matter how large you size your system, you can always model your application in a way that the hardware will be brought to its limits. The high flexibility of SAP IBP is a major advantage when it comes to adjusting it",
+    "he": false
+  },
+  {
+    "ch": 10,
+    "id": "10.9",
+    "title": "Summary",
+    "snippet": "10.9 Summary In this chapter, we covered the most essential aspects of planning area configuration and its core planning elements, such as attributes, key figures, master data types, time profiles, versions, and planning operators. We covered these core concep",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.1",
+    "title": "Planning Views, Templates, and Favorites",
+    "snippet": "11.1 Planning Views, Templates, and Favorites with Excel An Excel planning view is a user-defined, Excel-based data report that allows you to view, edit, and share data from SAP IBP. Excel planning views can be created from scratch in a standard Excel workbook",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.1.1",
+    "title": "Planning View Creation",
+    "snippet": "11.1.1 Planning View Creation Excel planning views are made of five elements that can be managed during creation or editing of the planning view. Creating or changing an Excel planning view can be done from the SAP IBP tab in the Excel ribbon. Figure 11.1 show",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.1.2",
+    "title": "Templates and Favorites",
+    "snippet": "11.1.2 Templates and Favorites Once a planning view has been created, it can be stored. Some planning views are meant to be used widely in a planning organization and therefore can be considered templates. In most organizations, power users are granted the rol",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.2",
+    "title": "Planning Views, Custom Alerts, and",
+    "snippet": "11.2 Planning Views, Custom Alerts, and Analytics Charts with Planner Workspaces A planner workspace is a user-defined, web-based data report that allows you to view, edit, and share data with mobile devices apps. Planner workspaces provide user a single place",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.3",
+    "title": "Formatting Planning Views",
+    "snippet": "11.3 Formatting Planning Views A good planning view will have to be formatted in a way that makes it easy to use. Moreover, planning views can become actual reports used in meetings or shared with stakeholders. Therefore, it’s imperative to make them look func",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.3.1",
+    "title": "Basic Layout Tips",
+    "snippet": "11.3.1 Basic Layout Tips When crafting the formatting of a new Excel planning view, there are a couple of tips that can fundamentally improve the layout of the workbook. First, the most important is to start from a good baseline. SAP Note 1790530 provides a li",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.3.2",
+    "title": "Sheet Options and Local Members",
+    "snippet": "11.3.2 Sheet Options and Local Members To modify the content displayed in the data table, which is generated by SAP IBP, use the sheet options that can be selected from the Edit View dropdown in the Planning View group. Basic formatting options can be selected",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.3.3",
+    "title": "SAP Integrated Business Planning: Formatting Sheet",
+    "snippet": "11.3.3 SAP Integrated Business Planning: Formatting Sheet Different fields in the planning view might have different requirements for visualizing the data content; for example, some fields might be percentages or currencies, whereas others are expected to be p",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.4",
+    "title": "Using Charts",
+    "snippet": "11.4 Using Charts Charts are the most foundational capability planners want to use with Excel as a UI for the SAP IBP system. It’s possible to create Excel-based charts that leverage normal Excel capabilities. However, with the flexibility to create and change",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.5",
+    "title": "Master Data Worksheets",
+    "snippet": "11.5 Master Data Worksheets Although most of the planning view usage in SAP IBP is typically centered on the planning functions described thus far in this chapter, SAP Integrated Business Planning, add-in for Microsoft Excel, lets you maintain master data en m",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.5.1",
+    "title": "Master Data Workbooks",
+    "snippet": "11.5.1 Master Data Workbooks Master data workbooks let you visualize and maintain master data en mass in an SAP IBP system using SAP Integrated Business Planning, add-in for Microsoft Excel. Although planning views are commonly used by all users, master data w",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.5.2",
+    "title": "Planning Object Creation",
+    "snippet": "11.5.2 Planning Object Creation Planning objects are the planning level elements that contain data. For example, if a consensus demand key figure is maintained on the product-customer level, every combination of customer and product represents a planning objec",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.5.3",
+    "title": "Master Data App",
+    "snippet": "11.5.3 Master Data App You can open the master data now through a web UI application where you can filter, mass-edit, copy, and delete the master data from the web application itself. This will be useful for those who want to make changes on the go and want to",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.6",
+    "title": "Using Microsoft Visual Basic for Applications",
+    "snippet": "11.6 Using Microsoft Visual Basic for Applications Section 11.5 on using charts in SAP IBP Excel planning views gives a first glimpse of the possibilities Microsoft Excel delivers to control data visualization in planning views. Although the possibilities of u",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.6.1",
+    "title": "VBA for Formulas in Local Members",
+    "snippet": "11.6.1 VBA for Formulas in Local Members In Section 11.3.2, we introduced the concept of local members, planning view elements that can use a formula to calculate key figures based on other elements available in the planning view. Although this is a very effic",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.6.2",
+    "title": "Visual Basic for Applications: Hooks",
+    "snippet": "11.6.2 Visual Basic for Applications: Hooks The other opportunity to influence the behavior of SAP IBP with VBA is by enabling VBA hooks. VBA hooks let you implement code on specific events. As of version 1802, there are four planning view hooks available and ",
+    "he": false
+  },
+  {
+    "ch": 11,
+    "id": "11.7",
+    "title": "Summary",
+    "snippet": "11.7 Summary In this chapter, we covered the main functionality available in the Excel planning views, which are the main UI for the SAP IBP system. Starting with a detailed overview of building and changing existing planning views allowed us to go deeper into",
+    "he": false
+  }
+]

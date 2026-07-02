@@ -208,6 +208,11 @@ export const LIBRARY: LibBook[] = [
       { n: 4, en: "Unconstrained Supply Planning", he: "תכנון אספקה בלתי-חסום", page: 137 },
       { n: 5, en: "Constrained Supply Planning", he: "תכנון אספקה חסום", page: 181 },
       { n: 6, en: "Consolidation", he: "קונסולידציה", page: 225 },
+      { n: 7, en: "Collaboration and Management by Exception", he: "שיתוף פעולה וניהול לפי חריגות", page: 249 },
+      { n: 8, en: "Planning Simulations", he: "סימולציות תכנון", page: 279 },
+      { n: 9, en: "Process Management", he: "ניהול תהליכים (Process Management)", page: 301 },
+      { n: 10, en: "Configuring SAP IBP for Sales and Operations", he: "הגדרת SAP IBP ל-S&OP", page: 335 },
+      { n: 11, en: "Building Planning Views", he: "בניית Planning Views", page: 387 },
     ],
   },
   {
