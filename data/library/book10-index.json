@@ -1068,147 +1068,147 @@
     "id": "9.1",
     "title": "Process Management in Practice",
     "snippet": "9.1 Process Management in Practice In an SAP IBP process, the three main pillars are people, processes, and tools. SAP IBP bridges these three aspects with the process management capabilities connecting the S&OP process, user participation and collaboration, a",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.2",
     "title": "Setting Up Process Templates and",
     "snippet": "9.2 Setting Up Process Templates and Automations The Manage Process Templates app shows a list of all available templates created, as shown in Figure 9.2. For example, the US, Canada, Mexico, and Eastern and Northwestern S&OP templates are visible in this list",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.2.1",
     "title": "Process Roles",
     "snippet": "9.2.1 Process Roles As shown previously in Figure 9.3, process templates also show the process owners, participant groups, and reviewers associated with each process step. Because SAP IBP manages collaboration across various functional groups, it’s important t",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.2.2",
     "title": "Time Zone, Workday, and Duration Settings for Process",
     "snippet": "9.2.2 Time Zone, Workday, and Duration Settings for Process Steps When the S&OP process is managed globally with several regional- and country- specific processes, the time zones and local times are considered by SAP IBP process management. This ensures that t",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.2.3",
     "title": "Tasks Assignment",
     "snippet": "9.2.3 Tasks Assignment A set of template tasks can be defined for each planning step. Usually in a planning process step, different activities are happening, and the participant users are responsible for the timely completion of those activities. Figure 9.5 sh",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.2.4",
     "title": "Process Steps Automation",
     "snippet": "9.2.4 Process Steps Automation As shown previously in Figure 9.6, the process template owner can assign automation criteria for how the steps should start and end. In the example, the demand review step starts when the previous step, product and portfolio revi",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.2.5",
     "title": "Process Orchestration of Application Jobs",
     "snippet": "9.2.5 Process Orchestration of Application Jobs As part of a monthly process cycle, there can be many batch jobs that need to run. For example, when the step starts, you may want to clear the key figures to be ready for planning. When the demand review step be",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.2.6",
     "title": "Gantt Chart View of Sequential and Parallel Processes",
     "snippet": "9.2.6 Gantt Chart View of Sequential and Parallel Processes Gantt charts provide process owners with a good visual overview of the automation associated with each step. Here, a process step with no automation will have no directional arrows. In Figure 9.8, the",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.3",
     "title": "Manage Processes",
     "snippet": "9.3 Manage Processes The Manage Processes app provides process monitoring, visualization, and lifecycle management for S&OP processes. Based on their assigned user role, a user can be an owner, participant, or reviewer of a process step. There are three import",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.3.1",
     "title": "What Is a Process?",
     "snippet": "9.3.1 What Is a Process? A process is an instance of a process template that runs every recurring period. For example, for the US S&OP template, there can be one process for each month: January 2022 US S&OP process, February 2022 US S&OP Process, and so on. As",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.3.2",
     "title": "Creating a Process",
     "snippet": "9.3.2 Creating a Process In the Manage Processes app, processes can be created for each process template. The only information that needs to be provided is the process name, start date of the process, and any adjustments to the dates. For the sample template, ",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.3.3",
     "title": "Managing Process Lifecycle",
     "snippet": "9.3.3 Managing Process Lifecycle After the processes have been created from a process instance, they’re automatically run when automation criteria are defined for the steps. You can also manually run the process steps for steps that don’t have automation defin",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.3.4",
     "title": "Monitoring Process Status",
     "snippet": "9.3.4 Monitoring Process Status The Manage Processes app provides nice visualizations and better usability to quickly get to the information that is most relevant for finding bottlenecks in the process. The visualization and monitoring aspects of the process i",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.3.5",
     "title": "Process Dashboards",
     "snippet": "9.3.5 Process Dashboards In addition to the list view in the Manage Processes app, where multiple processes can be viewed together, the Dashboard app in SAP IBP provides the functionality to add process-related charts together with other analytical charts, the",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.4",
     "title": "Task Management",
     "snippet": "9.4 Task Management To manage workflow of tasks, SAP IBP process management provides the necessary functionality to create task templates, task assignments, notifications, completions from the web UI and Excel UI, and task monitoring. SAP IBP tasks are realize",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.4.1",
     "title": "Tasks Assignments and Completions",
     "snippet": "9.4.1 Tasks Assignments and Completions Tasks are created for each process step in a process template with assignments to process step participant groups and/or users, as follows: 346 1. When a step is set to In Progress, SAP Build Work Zone tasks are created ",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.4.2",
     "title": "Tasks Completion from SAP Integrated Business Planning,",
     "snippet": "9.4.2 Tasks Completion from SAP Integrated Business Planning, Add-In for Microsoft Excel SAP Integrated Business Planning, add-in for Microsoft Excel, provides the functionality to view and complete tasks from Excel. When a user is participating in an S&OP pro",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.4.3",
     "title": "Process Progress Based on Tasks Completion",
     "snippet": "9.4.3 Process Progress Based on Tasks Completion When the demand planner completes this task from Excel or the Manage Tasks app, and when all tasks associated with the process step are completed, the Demand Review process step immediately goes to Completed sta",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.5",
     "title": "Process Management with SAP Build Work",
     "snippet": "9.5 Process Management with SAP Build Work Zone SAP IBP uses SAP Build Work Zone as a collaboration platform to facilitate collaboration across cross-functional teams. SAP Build Work Zone provides a customizable digital workplace solution for users and is a un",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.6",
     "title": "Application Programming Interfaces for",
     "snippet": "9.6 Application Programming Interfaces for Process Management SAP IBP provides the following APIs for reporting and triggering process management externally: APIs for external reporting of process status, tasks completions, process improvements over time APIs ",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.7",
     "title": "Summary",
     "snippet": "9.7 Summary In this chapter, we covered details of how to create and run an S&OP process using process management capabilities in SAP Integrated Business Planning for sales and operations. We also detailed setting up process templates with process step roles, ",
-    "he": false
+    "he": true
   },
   {
     "ch": 10,
