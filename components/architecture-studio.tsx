@@ -60,6 +60,7 @@ export function ArchitectureStudio() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; y: number; ox: number; oy: number; moved: boolean } | null>(null);
   const restored = useRef(false);
+  const camHist = useRef<{ x: number; y: number; k: number }[]>([]); // §18 camera history — ESC returns to previous view
   const accent = MOD_COLOR[module];
   const flowSet = useMemo(() => new Set((FLOWS[module] || []).map((s) => s.code)), [module]);
 
@@ -164,9 +165,14 @@ export function ArchitectureStudio() {
   const onMove = (e: React.PointerEvent) => { if (drag.current) { if (Math.abs(e.clientX - drag.current.x) + Math.abs(e.clientY - drag.current.y) > 3) drag.current.moved = true; setTr((p) => clampTr({ ...p, x: drag.current!.ox + (e.clientX - drag.current!.x), y: drag.current!.oy + (e.clientY - drag.current!.y) })); } };
   const onUp = () => { if (drag.current && !drag.current.moved) setSel(null); drag.current = null; };
   const zoom = (d: number) => { const el = wrapRef.current; if (!el) return; const cw = el.clientWidth / 2, ch = el.clientHeight / 2; const nk = Math.min(2.6, Math.max(0.14, tr.k * d)); const f = nk / tr.k; setTr(clampTr({ k: nk, x: cw - (cw - tr.x) * f, y: ch - (ch - tr.y) * f })); };
+  // §18 camera history — snapshot before a deliberate move so ESC can rewind
+  const pushCam = () => { camHist.current.push(tr); if (camHist.current.length > 24) camHist.current.shift(); };
+  const popCam = () => { const prev = camHist.current.pop(); if (!prev) return false; setTr(clampTr(prev)); return true; };
   // soft camera — center + gentle zoom-in toward the object (Figma/Miro feel)
   const focusOn = (id: string) => { const n = layout.nodes.find((x) => x.id === id); const el = wrapRef.current; if (!n || !el) return; const k = Math.min(1.35, Math.max(tr.k, 0.95)); setTr(clampTr({ k, x: el.clientWidth / 2 - n.x * k, y: el.clientHeight / 2 - n.y * k })); };
-  const centerOn = (id: string) => { setSel(id); setTimeout(() => focusOn(id), 20); };
+  const centerOn = (id: string) => { pushCam(); setSel(id); setTimeout(() => focusOn(id), 20); };
+  // §18 double-click = cinematic zoom INTO the object / business area
+  const zoomInto = (id: string) => { const n = layout.nodes.find((x) => x.id === id); const el = wrapRef.current; if (!n || !el) return; pushCam(); setSel(id); const k = Math.min(2.2, Math.max(1.7, tr.k * 1.5)); setTr(clampTr({ k, x: el.clientWidth / 2 - n.x * k, y: el.clientHeight / 2 - n.y * k })); };
 
   // selecting a node makes it the workspace-wide active context
   useEffect(() => { if (sel) setActiveEntity(h.nodes.get(sel)?.label || sel); }, [sel, h]);
@@ -229,7 +235,7 @@ export function ArchitectureStudio() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement; if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) return;
-      if (e.key === "Escape") { if (present) setPresent(false); else if (sel) setSel(null); }
+      if (e.key === "Escape") { if (present) setPresent(false); else if (popCam()) { /* returned to previous view */ } else if (sel) setSel(null); }
       else if (e.code === "Space" && sel) { e.preventDefault(); focusOn(sel); }
       else if (e.key === "+" || e.key === "=") zoom(1.25);
       else if (e.key === "-") zoom(0.8);
@@ -390,7 +396,8 @@ export function ArchitectureStudio() {
                     initial={reduce ? false : { scale: 0.4, opacity: 0 }}
                     animate={{ scale: 1, opacity: op }}
                     transition={{ scale: { type: "spring", stiffness: 420, damping: 26, delay: reduce ? 0 : Math.min(i, 22) * 0.022 }, opacity: { duration: 0.25 } }}
-                    onMouseEnter={() => setHover(n.id)} onMouseLeave={() => setHover(null)} onClick={() => onNodeClick(n.id)}
+                    whileHover={reduce ? undefined : { scale: 1.045 }} whileTap={reduce ? undefined : { scale: 0.97 }}
+                    onMouseEnter={() => setHover(n.id)} onMouseLeave={() => setHover(null)} onClick={() => onNodeClick(n.id)} onDoubleClick={() => zoomInto(n.id)}
                     className="group absolute flex flex-col items-start justify-center rounded-xl border-2 bg-white/95 px-2 text-right shadow-sm backdrop-blur-sm transition-[box-shadow,border-color,left,top] duration-300 hover:z-10 hover:shadow-xl"
                     style={{ left: n.x - n.w / 2, top: n.y - n.h / 2, width: n.w, height: n.h, borderColor: on || isHover ? col : col + "44", boxShadow: on ? `0 8px 26px -8px ${col}88, 0 0 0 4px ${col}1f` : isHover ? `0 10px 24px -10px ${col}66` : restShadow, background: on ? `linear-gradient(135deg,#fff, ${col}0c)` : undefined }}>
                     {/* halo for the selected node */}
@@ -590,7 +597,7 @@ export function ArchitectureStudio() {
             <motion.div initial={{ scale: 0.94, y: 10 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.94, opacity: 0 }} onClick={(e) => e.stopPropagation()} dir="rtl" className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl">
               <div className="mb-3 flex items-center gap-2 text-sm font-extrabold text-slate-800"><Keyboard className="size-4" style={{ color: accent }} />קיצורי מקלדת</div>
               <div className="space-y-1.5 text-[13px]">
-                {[["לחיצה על צומת", "מיקוד + הדגשת שכנים"], ["Space", "מרכז את האובייקט הנבחר"], ["Esc", "בטל בחירה"], ["+ / −", "זום פנימה / החוצה"], ["גלגלת", "זום אל הסמן"], ["גרירה", "הזזת הקנבס"]].map(([k, v]) => (
+                {[["לחיצה על צומת", "מיקוד + הדגשת שכנים"], ["דאבל-קליק", "זום קולנועי אל האובייקט"], ["Space", "מרכז את האובייקט הנבחר"], ["Esc", "חזרה לתצוגה הקודמת / ביטול / יציאת מצגת"], ["+ / −", "זום פנימה / החוצה"], ["גלגלת", "זום אל הסמן"], ["גרירה", "הזזת הקנבס"]].map(([k, v]) => (
                   <div key={k} className="flex items-center justify-between gap-3 rounded-lg bg-slate-50 px-3 py-1.5"><span className="text-slate-600">{v}</span><kbd className="rounded bg-white px-2 py-0.5 font-mono text-[11px] font-bold text-slate-700 shadow-sm">{k}</kbd></div>
                 ))}
               </div>
