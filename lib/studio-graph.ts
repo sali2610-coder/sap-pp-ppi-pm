@@ -75,6 +75,23 @@ export interface LNode extends SNode { x: number; y: number; w: number; h: numbe
 export interface LEdge { id: string; from: string; to: string; points: { x: number; y: number }[] }
 const SIZE: Record<SKind, [number, number]> = { table: [150, 46], tcode: [96, 34], bapi: [150, 34], fm: [140, 34], idoc: [150, 34], cds: [150, 34], fiori: [150, 34] };
 
+// §17 visual hierarchy — size expresses importance, NOT colour. Master-data /
+// highly-connected business tables render large; mid-degree medium; leaf/
+// technical tables small; non-table objects keep their compact kind size.
+export type Tier = "core" | "major" | "leaf";
+export function nodeTier(n: SNode, h: SHetero): Tier {
+  if (n.kind !== "table") return "leaf";
+  const deg = h.adj.get(n.id)?.size || 0;
+  if (h.master.has(n.id) || deg >= 9) return "core";
+  if (deg >= 4) return "major";
+  return "leaf";
+}
+export function nodeSize(n: SNode, h: SHetero): [number, number] {
+  if (n.kind !== "table") return SIZE[n.kind];
+  const tier = nodeTier(n, h);
+  return tier === "core" ? [176, 54] : tier === "major" ? [152, 44] : [130, 38];
+}
+
 export function layoutSubset(visible: Set<string>, h: SHetero): { nodes: LNode[]; edges: LEdge[]; width: number; height: number } {
   // Only lay out ids that actually exist in THIS graph. On a module switch the
   // caller's `visible`/`revealed` set can still hold ids from the previous
@@ -86,12 +103,12 @@ export function layoutSubset(visible: Set<string>, h: SHetero): { nodes: LNode[]
   const g = new dagre.graphlib.Graph();
   g.setGraph({ rankdir: "TB", nodesep: 22, ranksep: 56, marginx: 24, marginy: 24 });
   g.setDefaultEdgeLabel(() => ({}));
-  for (const id of present) { const n = h.nodes.get(id)!; const [w, hh] = SIZE[n.kind]; g.setNode(id, { width: w, height: hh }); }
+  for (const id of present) { const n = h.nodes.get(id)!; const [w, hh] = nodeSize(n, h); g.setNode(id, { width: w, height: hh }); }
   const pairs = new Map<string, [string, string]>();
   for (const id of present) for (const b of h.adj.get(id) || []) if (pset.has(b)) { const k = id < b ? `${id}|${b}` : `${b}|${id}`; pairs.set(k, id < b ? [id, b] : [b, id]); }
   for (const [, [a, b]] of pairs) g.setEdge(a, b);
   dagre.layout(g);
-  const nodes: LNode[] = present.map((id) => { const n = h.nodes.get(id)!; const p = g.node(id); const [w, hh] = SIZE[n.kind]; return { ...n, x: p.x, y: p.y, w, h: hh }; });
+  const nodes: LNode[] = present.map((id) => { const n = h.nodes.get(id)!; const p = g.node(id); const [w, hh] = nodeSize(n, h); return { ...n, x: p.x, y: p.y, w, h: hh }; });
   const edges: LEdge[] = [...pairs].map(([k, [a, b]]) => { const e = g.edge(a, b); return { id: k, from: a, to: b, points: (e?.points || []) as { x: number; y: number }[] }; });
   const gg = g.graph();
   const fin = (v: number | undefined, d: number) => (Number.isFinite(v) && (v as number) > 0 ? (v as number) : d);
@@ -145,7 +162,7 @@ export function layoutZoned(visible: Set<string>, hh: SHetero): { nodes: LNode[]
   for (const z of used) {
     const list = (byZone.get(z.id) || []).sort();
     maxRows = Math.max(maxRows, list.length);
-    list.forEach((id, i) => { const n = hh.nodes.get(id)!; nodes.push({ ...n, w: 150, h: 40, x: colX.get(z.id)! + COLW / 2, y: HDR + 14 + i * (NH + GAP) + 20 }); });
+    list.forEach((id, i) => { const n = hh.nodes.get(id)!; const [w, nh] = nodeSize(n, hh); nodes.push({ ...n, w, h: nh, x: colX.get(z.id)! + COLW / 2, y: HDR + 14 + i * (NH + GAP) + 20 }); });
   }
   const pos = new Map(nodes.map((n) => [n.id, n]));
   const pairs = new Map<string, [string, string]>();

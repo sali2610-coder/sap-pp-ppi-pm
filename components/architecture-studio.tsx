@@ -382,6 +382,9 @@ export function ArchitectureStudio() {
               {layout.nodes.map((n, i) => {
                 const col = nodeColor(n.kind, n.s4); const on = n.id === sel; const isHover = n.id === hover; const op = dimNode(n.id);
                 const Ic = KIND_ICON[n.kind]; const deg = degAll(n.id);
+                // §17 tier by size — drives typography + resting elevation (hierarchy, not colour)
+                const core = n.w >= 176, leaf = n.w <= 130;
+                const restShadow = core && !on && !isHover ? `0 10px 22px -14px ${col}55` : undefined;
                 return (
                   <motion.button key={n.id} data-node
                     initial={reduce ? false : { scale: 0.4, opacity: 0 }}
@@ -389,12 +392,12 @@ export function ArchitectureStudio() {
                     transition={{ scale: { type: "spring", stiffness: 420, damping: 26, delay: reduce ? 0 : Math.min(i, 22) * 0.022 }, opacity: { duration: 0.25 } }}
                     onMouseEnter={() => setHover(n.id)} onMouseLeave={() => setHover(null)} onClick={() => onNodeClick(n.id)}
                     className="group absolute flex flex-col items-start justify-center rounded-xl border-2 bg-white/95 px-2 text-right shadow-sm backdrop-blur-sm transition-[box-shadow,border-color,left,top] duration-300 hover:z-10 hover:shadow-xl"
-                    style={{ left: n.x - n.w / 2, top: n.y - n.h / 2, width: n.w, height: n.h, borderColor: on || isHover ? col : col + "44", boxShadow: on ? `0 8px 26px -8px ${col}88, 0 0 0 4px ${col}1f` : isHover ? `0 10px 24px -10px ${col}66` : undefined, background: on ? `linear-gradient(135deg,#fff, ${col}0c)` : undefined }}>
+                    style={{ left: n.x - n.w / 2, top: n.y - n.h / 2, width: n.w, height: n.h, borderColor: on || isHover ? col : col + "44", boxShadow: on ? `0 8px 26px -8px ${col}88, 0 0 0 4px ${col}1f` : isHover ? `0 10px 24px -10px ${col}66` : restShadow, background: on ? `linear-gradient(135deg,#fff, ${col}0c)` : undefined }}>
                     {/* halo for the selected node */}
                     {on && !reduce && <span className="studio-halo pointer-events-none absolute -inset-1 -z-10 rounded-2xl" style={{ background: `radial-gradient(closest-side, ${col}33, transparent)` }} />}
                     <span className="flex w-full items-center gap-1">
-                      <Ic className="size-3 shrink-0" style={{ color: col }} />
-                      <span className="tech truncate font-mono text-[12px] font-extrabold text-slate-900" dir="ltr">{n.label}</span>
+                      <Ic className={`shrink-0 ${core ? "size-3.5" : "size-3"}`} style={{ color: col }} />
+                      <span className={`tech truncate font-mono font-extrabold text-slate-900 ${core ? "text-[13px]" : leaf ? "text-[11px]" : "text-[12px]"}`} dir="ltr">{n.label}</span>
                       {hasHidden(n.id)
                         ? <span className="ms-auto grid size-4 shrink-0 place-items-center rounded-full text-white shadow-sm" style={{ background: col }} title="לחץ לחשיפת שכנים"><Plus className="size-2.5" /></span>
                         : deg > 0 && <span className="ms-auto shrink-0 rounded-full px-1 text-[8.5px] font-extrabold tabular-nums" style={{ background: col + "1f", color: col }} title={`${deg} קשרים`}>{deg}</span>}
