@@ -7,6 +7,7 @@ import {
   Search, ZoomIn, ZoomOut, Maximize2, Crosshair, ArrowLeft, ExternalLink, Target, Briefcase,
   AlertTriangle, GitBranch, X, Plus, Minus, RotateCcw, SlidersHorizontal, Sparkles, Keyboard,
   Database, Terminal, Plug, FunctionSquare, Cable, Sigma, LayoutGrid, Compass, MousePointerClick,
+  BookOpen, MapPin, ArrowLeftRight, Info,
 } from "lucide-react";
 import { buildHetero, layoutSubset, layoutZoned, FLOWS, MODES, KIND_META, S4_COLOR, ZONES, zoneOf, type SHetero, type SKind, type ZoneBand, type Zone } from "@/lib/studio-graph";
 import { lookupEntity } from "@/lib/entity-lookup";
@@ -494,10 +495,46 @@ export function ArchitectureStudio() {
                     ))}
                   </div>
 
-                  {(tip?.he || tipNode?.he) && <p className="text-[13px] font-semibold leading-relaxed text-slate-700">{tip?.he || tipNode?.he}</p>}
-                  {tip?.purpose && <p className="mt-2 flex gap-1.5 text-[12.5px] leading-relaxed text-slate-600"><Target className="mt-0.5 size-3.5 shrink-0 text-blue-500" />{tip.purpose}</p>}
-                  {tip?.consultantTip && <p className="mt-2 flex gap-1.5 text-[12.5px] leading-relaxed text-slate-600"><Briefcase className="mt-0.5 size-3.5 shrink-0 text-violet-500" />{tip.consultantTip}</p>}
-                  {tip?.mistake && <p className="mt-2 flex gap-1.5 text-[12.5px] leading-relaxed text-slate-600"><AlertTriangle className="mt-0.5 size-3.5 shrink-0 text-rose-500" />{tip.mistake}</p>}
+                  {/* §16 Learning Mode — structured, in-page. Verified data only;
+                      an honest gap line when nothing beyond the name is confirmed. */}
+                  {(() => {
+                    const flow = FLOWS[module] || [];
+                    const fi = flow.findIndex((s) => s.code === tipNode!.label);
+                    const prev = fi > 0 ? flow[fi - 1] : null;
+                    const next = fi >= 0 && fi < flow.length - 1 ? flow[fi + 1] : null;
+                    const s4he = tipNode!.kind === "table" && tipNode!.s4 ? ({ kept: "נשמר ב-S/4HANA", replaced: "הוחלף / טבלה חלופית ב-S/4", removed: "הוסר / בוטל ב-S/4" } as Record<string, string>)[tipNode!.s4] : null;
+                    const what = tip?.he || tipNode!.he;
+                    const rows: { icon: typeof BookOpen; c: string; l: string; body: React.ReactNode }[] = [];
+                    if (what) rows.push({ icon: BookOpen, c: "#0891b2", l: "מה זה", body: what });
+                    if (tip?.purpose) rows.push({ icon: Target, c: "#2563eb", l: "למה קיים", body: tip.purpose });
+                    if (tip?.where) rows.push({ icon: MapPin, c: "#0d9488", l: "איפה בפרויקט", body: tip.where });
+                    if (s4he) rows.push({ icon: ArrowLeftRight, c: S4_COLOR[tipNode!.s4!], l: "ECC ↔ S/4HANA", body: s4he });
+                    if (tip?.consultantTip) rows.push({ icon: Briefcase, c: "#7c3aed", l: "טיפ יועץ", body: tip.consultantTip });
+                    if (tip?.mistake) rows.push({ icon: AlertTriangle, c: "#e11d48", l: "טעות נפוצה", body: tip.mistake });
+                    return (
+                      <div className="space-y-2">
+                        {rows.map((r) => { const Ic = r.icon; return (
+                          <div key={r.l} className="rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
+                            <div className="mb-1 flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wide" style={{ color: r.c }}><Ic className="size-3.5" />{r.l}</div>
+                            <p className="text-[12.5px] font-medium leading-relaxed text-slate-700">{r.body}</p>
+                          </div>
+                        ); })}
+                        {(prev || next) && (
+                          <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
+                            <div className="mb-1.5 flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wide text-slate-500"><GitBranch className="size-3.5" />לפני / אחרי בתהליך</div>
+                            <div className="flex items-center gap-1.5">
+                              {prev ? <button onClick={() => pickSearch(prev.code)} title={`שלב קודם: ${prev.label}`} className="tech rounded-md bg-white px-2 py-1 text-[11px] font-bold text-slate-600 shadow-sm hover:text-brand" dir="ltr">← {prev.code}</button> : <span className="text-[11px] text-slate-300">התחלה</span>}
+                              <span className="text-[10px] font-bold text-slate-400">{tipNode!.label}</span>
+                              {next ? <button onClick={() => pickSearch(next.code)} title={`שלב הבא: ${next.label}`} className="tech rounded-md bg-white px-2 py-1 text-[11px] font-bold text-slate-600 shadow-sm hover:text-brand" dir="ltr">{next.code} →</button> : <span className="text-[11px] text-slate-300">סיום</span>}
+                            </div>
+                          </div>
+                        )}
+                        {rows.length <= 1 && (
+                          <p className="flex items-center gap-1.5 rounded-xl bg-amber-50 px-2.5 py-2 text-[11.5px] font-medium text-amber-700"><Info className="size-3.5 shrink-0" />מטא-דאטה מורחבת לאובייקט זה לא אומתה עדיין — הקשרים בגרף אמיתיים.</p>
+                        )}
+                      </div>
+                    );
+                  })()}
 
                   {/* expand/collapse */}
                   {mode.behavior === "expand" && tipNode && (
