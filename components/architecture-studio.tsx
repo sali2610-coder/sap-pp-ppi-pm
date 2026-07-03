@@ -49,6 +49,7 @@ export function ArchitectureStudio() {
   const [showFilters, setShowFilters] = useState(false);
   const [showKeys, setShowKeys] = useState(false);
   const [coach, setCoach] = useState(false);
+  const [present, setPresent] = useState(false); // §12 presentation mode — chrome off, graph fills the viewport
   const [tr, setTr] = useState({ x: 0, y: 0, k: 1 });
   const [sel, setSel] = useState<string | null>(null);
   const [hover, setHover] = useState<string | null>(null);
@@ -138,6 +139,8 @@ export function ArchitectureStudio() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [layout.width, layout.height, wrapSize.w, wrapSize.h]);
   useEffect(() => { const id = setTimeout(fit, 50); return () => clearTimeout(id); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [layout.width, layout.height, module]);
+  // entering/leaving presentation mode changes the canvas size → re-measure + fit
+  useEffect(() => { const id = setTimeout(() => { measure(); fit(); }, 60); return () => clearTimeout(id); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [present]);
 
   const onWheel = (e: React.WheelEvent) => { const el = wrapRef.current; if (!el) return; const r = el.getBoundingClientRect(); const px = e.clientX - r.left, py = e.clientY - r.top; const nk = Math.min(2.6, Math.max(0.14, tr.k * (1 - e.deltaY * 0.0014))); const f = nk / tr.k; setTr(clampTr({ k: nk, x: px - (px - tr.x) * f, y: py - (py - tr.y) * f })); };
   const onDown = (e: React.PointerEvent) => { if ((e.target as Element).closest("[data-node]")) return; drag.current = { x: e.clientX, y: e.clientY, ox: tr.x, oy: tr.y, moved: false }; };
@@ -209,24 +212,26 @@ export function ArchitectureStudio() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement; if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) return;
-      if (e.key === "Escape") setSel(null);
+      if (e.key === "Escape") { if (present) setPresent(false); else if (sel) setSel(null); }
       else if (e.code === "Space" && sel) { e.preventDefault(); focusOn(sel); }
       else if (e.key === "+" || e.key === "=") zoom(1.25);
       else if (e.key === "-") zoom(0.8);
     };
     window.addEventListener("keydown", onKey); return () => window.removeEventListener("keydown", onKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sel, layout, tr]);
+  }, [sel, layout, tr, present]);
 
   const dismissCoach = () => { setCoach(false); try { localStorage.setItem(COACH_KEY, "1"); } catch { /* noop */ } };
   const btn = "tap transition active:scale-95";
 
   return (
     <div className="mx-auto max-w-[1800px]" dir="rtl">
+      {!present && (<>
       {/* header */}
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2 text-xs text-slate-400"><Link href="/" className="hover:text-slate-700">בית</Link><ArrowLeft className="size-3" /><span className="flex items-center gap-1.5 font-bold text-slate-700"><Compass className="size-4" style={{ color: accent }} />SAP Architecture Studio</span></div>
         <div className="flex items-center gap-2">
+          <button onClick={() => { setPresent(true); dismissCoach(); }} title="מצב מצגת — הגרף על מלוא המסך (Esc ליציאה)" aria-label="מצב מצגת" className={`${btn} flex h-9 items-center gap-1.5 rounded-xl px-3 text-[12.5px] font-extrabold text-white shadow-sm`} style={{ background: accent }}><Maximize2 className="size-4" />מצגת</button>
           <button onClick={() => setShowKeys((v) => !v)} title="קיצורי מקלדת" aria-label="קיצורי מקלדת" className={`${btn} grid size-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 hover:text-brand`}><Keyboard className="size-4" /></button>
           <div className="flex items-center gap-1.5 rounded-xl bg-slate-100 p-1">
             {(["PM", "PP-PI"] as Module[]).map((m) => <button key={m} onClick={() => setModule(m)} className={`${btn} rounded-lg px-3 py-1.5 text-[13px] font-extrabold ${module === m ? "text-white shadow-sm" : "text-slate-500 hover:text-slate-700"}`} style={module === m ? { background: MOD_COLOR[m] } : undefined}>{m}</button>)}
@@ -278,12 +283,25 @@ export function ArchitectureStudio() {
           )}
         </AnimatePresence>
       </div>
+      </>)}
 
-      {/* split view: graph left, inspector right */}
-      <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_360px]">
-        <div className="relative">
-          {/* search */}
-          <div className="absolute right-3 top-3 z-30 w-64 max-w-[70%]">
+      {/* split view: graph left, inspector right (single column in presentation mode) */}
+      <div className={`grid gap-3 ${present ? "" : "lg:grid-cols-[minmax(0,1fr)_360px]"}`}>
+        <div className={present ? "fixed inset-0 z-[55] bg-slate-50 p-3" : "relative"}>
+          {/* presentation-mode floating control bar — exit + module + mode selector */}
+          {present && (
+            <div className="absolute left-3 top-3 z-40 flex max-w-[calc(100%-1.5rem)] flex-wrap items-center gap-2">
+              <button onClick={() => setPresent(false)} title="צא ממצב מצגת (Esc)" className={`${btn} flex items-center gap-1.5 rounded-xl bg-slate-900 px-3 py-2 text-[12.5px] font-extrabold text-white shadow-lg`}><X className="size-4" />צא ממצגת</button>
+              <div className="flex items-center gap-1 rounded-xl border border-slate-200 bg-white/95 p-1 shadow-sm backdrop-blur">
+                {(["PM", "PP-PI"] as Module[]).map((m) => <button key={m} onClick={() => setModule(m)} className={`${btn} rounded-lg px-2.5 py-1 text-[12px] font-extrabold ${module === m ? "text-white shadow-sm" : "text-slate-500 hover:text-slate-700"}`} style={module === m ? { background: MOD_COLOR[m] } : undefined}>{m}</button>)}
+              </div>
+              <div className="chip-rail flex max-w-[46vw] items-center gap-1 overflow-x-auto rounded-xl border border-slate-200 bg-white/95 p-1 shadow-sm backdrop-blur">
+                {MODES.map((m) => <button key={m.id} onClick={() => setModeId(m.id)} title={MODE_HINT[m.id]} className={`${btn} shrink-0 rounded-lg px-2.5 py-1 text-[11.5px] font-bold ${modeId === m.id ? "text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`} style={modeId === m.id ? { background: accent } : undefined}>{m.he}</button>)}
+              </div>
+            </div>
+          )}
+          {/* search — hidden in presentation mode to keep the stage clean */}
+          <div className={`absolute right-3 top-3 z-30 w-64 max-w-[70%] ${present ? "hidden" : ""}`}>
             <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white/95 px-3 py-2 shadow-sm backdrop-blur"><Search className="size-4 shrink-0 text-slate-400" /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש אובייקט…" className="w-full bg-transparent text-sm outline-none placeholder:text-slate-300" dir="ltr" /></div>
             <AnimatePresence>{hits.length > 0 && <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-1 max-h-64 overflow-auto rounded-xl border border-slate-200 bg-white p-1 shadow-2xl">{hits.map((n) => { const Ic = KIND_ICON[n.kind]; return <button key={n.id} onClick={() => pickSearch(n.id)} className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-right hover:bg-slate-50"><Ic className="size-3.5 shrink-0" style={{ color: KIND_META[n.kind].c }} /><span className="tech flex-1 truncate font-mono text-sm font-bold text-slate-800" dir="ltr">{n.label}</span><span className="rounded bg-slate-100 px-1.5 text-[9px] font-bold text-slate-500">{KIND_META[n.kind].he}</span></button>; })}</motion.div>}</AnimatePresence>
           </div>
@@ -318,7 +336,7 @@ export function ArchitectureStudio() {
           )}
 
           {/* canvas */}
-          <div ref={wrapRef} className="relative h-[calc(100vh-17rem)] min-h-[480px] cursor-grab touch-none overflow-hidden rounded-3xl border border-slate-200 bg-slate-50/70 active:cursor-grabbing"
+          <div ref={wrapRef} className={`relative cursor-grab touch-none overflow-hidden border border-slate-200 bg-slate-50/70 active:cursor-grabbing ${present ? "h-full rounded-2xl" : "h-[calc(100vh-17rem)] min-h-[480px] rounded-3xl"}`}
             style={{ backgroundImage: "radial-gradient(circle at 1px 1px,#d7deea 1px,transparent 0)", backgroundSize: "26px 26px" }}
             onWheel={onWheel} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerLeave={() => { drag.current = null; setHover(null); }}>
             <div dir="ltr" style={{ transform: `translate(${tr.x}px,${tr.y}px) scale(${tr.k})`, transformOrigin: "0 0", width: layout.width, height: layout.height, position: "absolute", left: 0, top: 0, right: "auto", transition: drag.current ? "none" : "transform .42s cubic-bezier(0.22,0.61,0.18,1)" }}>
@@ -407,7 +425,8 @@ export function ArchitectureStudio() {
           </div>
         </div>
 
-        {/* inspector */}
+        {/* inspector — hidden in presentation mode (the graph is the stage) */}
+        {!present && (
         <aside className="rounded-3xl border border-slate-200 bg-white shadow-sm lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-hidden">
           <AnimatePresence mode="wait">
             {tipNode ? (
@@ -485,6 +504,7 @@ export function ArchitectureStudio() {
             )}
           </AnimatePresence>
         </aside>
+        )}
       </div>
 
       {/* keyboard sheet */}
