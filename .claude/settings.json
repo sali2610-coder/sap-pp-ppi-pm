@@ -308,7 +308,22 @@
       "Bash(sed -e 's/book10/book11/g' -e 's/book9/book10/g' scripts/build-book10-full.mjs)",
       "Bash(sed -e s/book10/book11/g -e 's/Book #10 · IBP · 923 pages/Book #11 · Foundation · 193 pages/' -e 's/subtitle=\"IBP · 923 pages\"/subtitle=\"Foundation · 193 pages\"/' -e 's/IBP · 923 pages/Foundation · 193 pages/g' -e 's/כל 923 העמודים/כל 193 העמודים/g' -e 's/all 923 pages/all 193 pages/g' -e 's/function Book9Page/function Book11Page/' app/library/book10/page.tsx)",
       "Bash(node /tmp/b11-ch1.mjs)",
-      "Bash(node scripts/build-book11-full.mjs)"
+      "Bash(node scripts/build-book11-full.mjs)",
+      "Bash(node -e 'let d=\"\";process.stdin.on\\(\"data\",c=>d+=c\\).on\\(\"end\",\\(\\)=>{const j=JSON.parse\\(d\\);const c1=j.chapters[0];const he=c1.sections.filter\\(s=>s.he\\).length;console.log\\(`book: ${j.book.slice\\(0,40\\)}... | chapters:${j.chapters.length} | ch1 sections:${c1.sections.length} he:${he}`\\);}\\)')",
+      "Bash(node /tmp/b11-ch2.mjs)",
+      "Bash(node -e 'let d=\"\";process.stdin.on\\(\"data\",c=>d+=c\\).on\\(\"end\",\\(\\)=>{const j=JSON.parse\\(d\\);const c2=j.chapters[1];console.log\\(\"ch2 he:\",c2.sections.filter\\(s=>s.he\\).length+\"/\"+c2.sections.length\\)}\\)')",
+      "Bash(node /tmp/b11-ch3.mjs)",
+      "Bash(node /tmp/b11-ch4.mjs)",
+      "Bash(node -e 'let d=\"\";process.stdin.on\\(\"data\",c=>d+=c\\).on\\(\"end\",\\(\\)=>{const j=JSON.parse\\(d\\);for\\(const n of [2,3]\\){const c=j.chapters[n];console.log\\(\"ch\"+c.n+\" he:\",c.sections.filter\\(s=>s.he\\).length+\"/\"+c.sections.length\\)}}\\)')",
+      "Bash(node /tmp/b11-ch5.mjs)",
+      "Bash(node /tmp/b11-ch6.mjs)",
+      "Bash(node /tmp/b11-ch7.mjs)",
+      "Bash(node /tmp/b11-ch8.mjs)",
+      "Bash(node /tmp/b11-ch9.mjs)",
+      "Bash(node -e 'let d=\"\";process.stdin.on\\(\"data\",c=>d+=c\\).on\\(\"end\",\\(\\)=>{const j=JSON.parse\\(d\\);const tot=j.chapters.reduce\\(\\(n,c\\)=>n+c.sections.length,0\\);const he=j.chapters.reduce\\(\\(n,c\\)=>n+c.sections.filter\\(s=>s.he\\).length,0\\);const tr=j.chapters.filter\\(c=>c.sections.some\\(s=>s.he\\)\\).length;console.log\\(\"SEALED: \"+j.chapters.length+\" ch, \"+tot+\" sections, \"+he+\" he, \"+tr+\" translated\"\\)}\\)')",
+      "Bash(echo \"build exit: $?\")",
+      "Bash(curl -s \"https://sap-pp-ppi-pm.vercel.app/library/\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"https://sap-pp-ppi-pm.vercel.app/library/book11/\")"
     ],
     "additionalDirectories": [
       "/Users/salihalif/Desktop/My-Projects/sap/scripts"
