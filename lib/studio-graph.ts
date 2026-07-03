@@ -76,16 +76,22 @@ export interface LEdge { id: string; from: string; to: string; points: { x: numb
 const SIZE: Record<SKind, [number, number]> = { table: [150, 46], tcode: [96, 34], bapi: [150, 34], fm: [140, 34], idoc: [150, 34], cds: [150, 34], fiori: [150, 34] };
 
 export function layoutSubset(visible: Set<string>, h: SHetero): { nodes: LNode[]; edges: LEdge[]; width: number; height: number } {
-  if (visible.size === 0) return { nodes: [], edges: [], width: 200, height: 200 };
+  // Only lay out ids that actually exist in THIS graph. On a module switch the
+  // caller's `visible`/`revealed` set can still hold ids from the previous
+  // module (before the reset effect fires); dereferencing a missing node would
+  // crash the whole page. Filter first — never trust the incoming id set.
+  const present = [...visible].filter((id) => h.nodes.has(id));
+  if (present.length === 0) return { nodes: [], edges: [], width: 200, height: 200 };
+  const pset = new Set(present);
   const g = new dagre.graphlib.Graph();
   g.setGraph({ rankdir: "TB", nodesep: 22, ranksep: 56, marginx: 24, marginy: 24 });
   g.setDefaultEdgeLabel(() => ({}));
-  for (const id of visible) { const n = h.nodes.get(id); if (!n) continue; const [w, hh] = SIZE[n.kind]; g.setNode(id, { width: w, height: hh }); }
+  for (const id of present) { const n = h.nodes.get(id)!; const [w, hh] = SIZE[n.kind]; g.setNode(id, { width: w, height: hh }); }
   const pairs = new Map<string, [string, string]>();
-  for (const id of visible) for (const b of h.adj.get(id) || []) if (visible.has(b)) { const k = id < b ? `${id}|${b}` : `${b}|${id}`; pairs.set(k, id < b ? [id, b] : [b, id]); }
+  for (const id of present) for (const b of h.adj.get(id) || []) if (pset.has(b)) { const k = id < b ? `${id}|${b}` : `${b}|${id}`; pairs.set(k, id < b ? [id, b] : [b, id]); }
   for (const [, [a, b]] of pairs) g.setEdge(a, b);
   dagre.layout(g);
-  const nodes: LNode[] = [...visible].map((id) => { const n = h.nodes.get(id)!; const p = g.node(id); const [w, hh] = SIZE[n.kind]; return { ...n, x: p.x, y: p.y, w, h: hh }; });
+  const nodes: LNode[] = present.map((id) => { const n = h.nodes.get(id)!; const p = g.node(id); const [w, hh] = SIZE[n.kind]; return { ...n, x: p.x, y: p.y, w, h: hh }; });
   const edges: LEdge[] = [...pairs].map(([k, [a, b]]) => { const e = g.edge(a, b); return { id: k, from: a, to: b, points: (e?.points || []) as { x: number; y: number }[] }; });
   const gg = g.graph();
   const fin = (v: number | undefined, d: number) => (Number.isFinite(v) && (v as number) > 0 ? (v as number) : d);
@@ -127,10 +133,13 @@ export interface ZoneBand { id: Zone; he: string; c: string; x: number; w: numbe
 // stacked within their zone. Deterministic ⇒ the blueprint never reshuffles.
 export function layoutZoned(visible: Set<string>, hh: SHetero): { nodes: LNode[]; edges: LEdge[]; bands: ZoneBand[]; width: number; height: number } {
   const COLW = 196, HDR = 44, NH = 46, GAP = 16;
-  const used = ZONES.filter((z) => [...visible].some((id) => zoneOf(id) === z.id));
+  // Guard against stale ids (module-switch race) — only place nodes present in
+  // this graph so a leftover id from the previous module can't crash layout.
+  const present = new Set([...visible].filter((id) => hh.nodes.has(id)));
+  const used = ZONES.filter((z) => [...present].some((id) => zoneOf(id) === z.id));
   const colX = new Map<Zone, number>(); used.forEach((z, i) => colX.set(z.id, i * COLW));
   const byZone = new Map<Zone, string[]>();
-  for (const id of visible) { const z = zoneOf(id); if (!byZone.has(z)) byZone.set(z, []); byZone.get(z)!.push(id); }
+  for (const id of present) { const z = zoneOf(id); if (!byZone.has(z)) byZone.set(z, []); byZone.get(z)!.push(id); }
   let maxRows = 0;
   const nodes: LNode[] = [];
   for (const z of used) {
@@ -140,7 +149,7 @@ export function layoutZoned(visible: Set<string>, hh: SHetero): { nodes: LNode[]
   }
   const pos = new Map(nodes.map((n) => [n.id, n]));
   const pairs = new Map<string, [string, string]>();
-  for (const id of visible) for (const b of hh.adj.get(id) || []) if (visible.has(b)) { const k = id < b ? `${id}|${b}` : `${b}|${id}`; pairs.set(k, id < b ? [id, b] : [b, id]); }
+  for (const id of present) for (const b of hh.adj.get(id) || []) if (present.has(b)) { const k = id < b ? `${id}|${b}` : `${b}|${id}`; pairs.set(k, id < b ? [id, b] : [b, id]); }
   const edges: LEdge[] = [...pairs].map(([k, [a, b]]) => { const na = pos.get(a)!, nb = pos.get(b)!; return { id: k, from: a, to: b, points: [{ x: na.x, y: na.y }, { x: nb.x, y: nb.y }] }; });
   const bands: ZoneBand[] = used.map((z) => ({ id: z.id, he: z.he, c: z.c, x: colX.get(z.id)!, w: COLW }));
   return { nodes, edges, bands, width: used.length * COLW || 200, height: HDR + 14 + maxRows * (NH + GAP) + 60 };

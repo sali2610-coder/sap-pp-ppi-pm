@@ -156,7 +156,12 @@ export function ArchitectureStudio() {
   const onNodeClick = (id: string) => { if (mode.behavior === "expand") { expand(id); setSel(id); setTimeout(() => focusOn(id), 60); } else { const next = sel === id ? null : id; setSel(next); if (next) setTimeout(() => focusOn(next), 20); } };
   const hasHidden = (id: string) => mode.behavior === "expand" && scopeNbrs(id).some((b) => !visible.has(b));
 
-  const active = sel || hover;
+  // Guard against a STALE selection/hover: on module switch `h` recomputes but
+  // `sel`/`hover` may still hold an id from the previous module's graph. Treat
+  // `active` as valid ONLY if the node exists in the current graph — otherwise
+  // the inspector would dereference an undefined node and crash the whole page.
+  const activeId = sel || hover;
+  const active = activeId && h.nodes.has(activeId) ? activeId : null;
   const activeNbr = active ? new Set([...(h.adj.get(active) || [])].filter((b) => visible.has(b))) : new Set<string>();
   const dimNode = (id: string) => {
     if (lifeOnly && !flowSet.has(id) && id !== active && !activeNbr.has(id)) return 0.1;
@@ -405,7 +410,7 @@ export function ArchitectureStudio() {
         {/* inspector */}
         <aside className="rounded-3xl border border-slate-200 bg-white shadow-sm lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-hidden">
           <AnimatePresence mode="wait">
-            {tip || tipNode ? (
+            {tipNode ? (
               <motion.div key={tipNode!.id} initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -8 }} transition={{ duration: 0.22, ease: [0.2, 0.7, 0.2, 1] }} className="flex max-h-[calc(100vh-2rem)] flex-col">
                 {/* sticky header */}
                 <div className="sticky top-0 z-10 flex items-center justify-between gap-2 border-b border-slate-100 bg-white/95 p-4 backdrop-blur">
