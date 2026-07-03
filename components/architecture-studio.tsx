@@ -288,7 +288,7 @@ export function ArchitectureStudio() {
   const btn = "tap transition active:scale-95";
 
   return (
-    <div className="mx-auto max-w-[1800px]" dir="rtl">
+    <motion.div initial={reduce ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.2, 0.7, 0.2, 1] }} className="mx-auto max-w-[1800px]" dir="rtl">
       {!present && (<>
       {/* header */}
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
@@ -477,6 +477,13 @@ export function ArchitectureStudio() {
                     <g key={e.id}>
                       <path d={d} fill="none" stroke={hot ? accent : "#cbd5e1"} strokeWidth={hot ? 2.6 : 1.1} strokeOpacity={active && !hot ? 0.1 : hot ? 0.9 : 0.5} className="transition-all duration-300" />
                       {hot && !reduce && <path d={d} fill="none" stroke="#fff" strokeWidth={1.6} strokeOpacity={0.85} className="studio-flow" />}
+                      {/* §23 particle flowing along the active connector (cinematic) */}
+                      {hot && !reduce && (
+                        <circle r={demo ? 4 : 3} fill={accent} opacity={0.95}>
+                          <animateMotion dur={demo ? "1.5s" : "1.9s"} repeatCount="indefinite" path={d} rotate="auto" />
+                          <animate attributeName="opacity" values="0;1;1;0" dur={demo ? "1.5s" : "1.9s"} repeatCount="indefinite" />
+                        </circle>
+                      )}
                     </g>
                   );
                 })}
@@ -711,6 +718,6 @@ export function ArchitectureStudio() {
       </AnimatePresence>
 
       <p className="mt-3 pb-4 text-center text-[11px] text-slate-400">קשרים אמיתיים מתוך מודל הנתונים — ללא המצאה · המצב נשמר אוטומטית. <Link href={module === "PM" ? "/pm/" : "/pp-pi/"} className="font-bold text-brand">חזרה למרכז {module}</Link></p>
-    </div>
+    </motion.div>
   );
 }
