@@ -84,7 +84,7 @@ function Header() {
       </div>
       {/* creator credit — sits on a white strip directly under the red bar, glowing red */}
       <div className="border-t border-black/10 bg-white">
-        <div className="container-app flex justify-start py-1.5">
+        <div className="container-app flex justify-center py-1.5">
           <CreatorCredit />
         </div>
       </div>

@@ -18,9 +18,9 @@ export function CreatorCredit() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3, ease: [0.2, 0.7, 0.2, 1] }}
         aria-label="נבנה על ידי סאלי חליף · Web Coding"
-        style={{ color: "#d62027" }}
-        className={`${reduce ? "" : "credit-red-glow"} group flex items-center gap-1.5 rounded-full border border-[#d62027]/25 bg-white px-3 py-1 text-[12px] font-bold leading-none shadow-sm ring-1 ring-[#d62027]/10 transition-colors hover:bg-[#d62027]/5`}>
-        <Code2 className="size-3.5 shrink-0" style={{ color: "#d62027" }} />
+        style={{ color: "#d62027", borderColor: "#d62027" }}
+        className={`${reduce ? "" : "credit-red-glow"} group flex items-center gap-2 rounded-full border-2 bg-white py-1 pe-3 ps-1 text-[12px] font-bold leading-none shadow-sm transition-colors hover:bg-[#d62027]/[0.04]`}>
+        <span className="grid size-6 shrink-0 place-items-center rounded-full text-white shadow-sm" style={{ background: "#d62027" }}><Code2 className="size-3.5" /></span>
         <span className="whitespace-nowrap">
           <span className="hidden opacity-70 sm:inline">Built by </span>
           <b className="font-extrabold tracking-tight" style={{ color: "#d62027" }}>Sali Khalif</b>
