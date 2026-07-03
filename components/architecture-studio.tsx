@@ -50,6 +50,7 @@ export function ArchitectureStudio() {
   const [showKeys, setShowKeys] = useState(false);
   const [coach, setCoach] = useState(false);
   const [present, setPresent] = useState(false); // §12 presentation mode — chrome off, graph fills the viewport
+  const [booting, setBooting] = useState(true); // §25 wow-in-10s — skeleton until first fit settles, then fade in
   const [tr, setTr] = useState({ x: 0, y: 0, k: 1 });
   const [sel, setSel] = useState<string | null>(null);
   const [hover, setHover] = useState<string | null>(null);
@@ -141,6 +142,21 @@ export function ArchitectureStudio() {
   useEffect(() => { const id = setTimeout(fit, 50); return () => clearTimeout(id); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [layout.width, layout.height, module]);
   // entering/leaving presentation mode changes the canvas size → re-measure + fit
   useEffect(() => { const id = setTimeout(() => { measure(); fit(); }, 60); return () => clearTimeout(id); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [present]);
+
+  // §25 "wow in the first 10 seconds" — one-time boot sequence: hold a premium
+  // skeleton while the first layout + fit settle (no flicker / layout shift),
+  // fade the workspace in, then gently highlight the primary business flow for a
+  // couple of seconds so the eye lands on the story before releasing to explore.
+  const introDone = useRef(false);
+  useEffect(() => {
+    if (introDone.current) return; introDone.current = true;
+    const t1 = setTimeout(() => { measure(); fit(); }, 140);
+    const t2 = setTimeout(() => setBooting(false), 760);
+    const t3 = setTimeout(() => setLifeOnly(true), 820);
+    const t4 = setTimeout(() => setLifeOnly(false), 3100);
+    return () => [t1, t2, t3, t4].forEach(clearTimeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onWheel = (e: React.WheelEvent) => { const el = wrapRef.current; if (!el) return; const r = el.getBoundingClientRect(); const px = e.clientX - r.left, py = e.clientY - r.top; const nk = Math.min(2.6, Math.max(0.14, tr.k * (1 - e.deltaY * 0.0014))); const f = nk / tr.k; setTr(clampTr({ k: nk, x: px - (px - tr.x) * f, y: py - (py - tr.y) * f })); };
   const onDown = (e: React.PointerEvent) => { if ((e.target as Element).closest("[data-node]")) return; drag.current = { x: e.clientX, y: e.clientY, ox: tr.x, oy: tr.y, moved: false }; };
@@ -389,8 +405,28 @@ export function ArchitectureStudio() {
               })}
             </div>
 
+            {/* §25 premium boot skeleton — swimlane placeholders, shimmering,
+                fades out once the first fit settles (no flicker, no layout shift) */}
+            <AnimatePresence>
+              {booting && (
+                <motion.div initial={{ opacity: 1 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.55, ease: [0.2, 0.7, 0.2, 1] }}
+                  className="pointer-events-none absolute inset-0 z-[15] grid grid-flow-col place-content-center gap-5 p-8"
+                  style={{ background: "linear-gradient(180deg,rgba(248,250,252,.72),rgba(248,250,252,.5))" }}>
+                  {Array.from({ length: 5 }).map((_, c) => (
+                    <div key={c} className="flex w-[140px] flex-col gap-3">
+                      <div className="skeleton h-6 w-full" />
+                      {Array.from({ length: 4 - (c % 2) }).map((_, r) => <div key={r} className="skeleton h-10 w-full" style={{ opacity: 1 - r * 0.14 }} />)}
+                    </div>
+                  ))}
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }} className="pointer-events-none absolute inset-x-0 bottom-6 flex items-center justify-center gap-2 text-[12px] font-bold text-slate-400">
+                    <Compass className="size-4 animate-pulse" style={{ color: accent }} />בונה את מפת ה-SAP…
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* educational empty state */}
-            {visible.size === 0 && (
+            {visible.size === 0 && !booting && (
               <div className="absolute inset-0 grid place-items-center p-6">
                 <div className="max-w-sm text-center">
                   <div className="relative mx-auto mb-4 grid size-16 place-items-center">
