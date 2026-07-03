@@ -494,55 +494,48 @@
     "id": "9.1",
     "title": "How to study SAP effectively",
     "snippet": "Many learners try to memorize screens, T‑codes, and interview questions. That approach fails quickly. A more effective SAP learning strategy is built on three pillars: process first, practice repeatedly, and reflect deliberately. Process first, screen second F",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.2",
     "title": "Structuring your notes like a consultant",
     "snippet": "Your notes should look less like “random screenshots” and more like mini–project documentation. For each process you study, capture: 1. Business scenario Example: “Buy raw material for production” or “Sell finished goods to a customer.” 2. End‑to‑end steps (bu",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.3",
     "title": "Common mistakes new SAP learners make",
     "snippet": "Being aware of common pitfalls helps you avoid them. Memorizing T‑codes without process context Memorizing codes like FB60, VA01, or ME21N without knowing how they fit into P2P, O2C, or R2R leads to: Confusion in interviews. Inability to design or understand e",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.4",
     "title": "Week 0 self-assessment (conceptual question bank)",
     "snippet": "At the end of this bridge module, learners should test themselves honestly. This is a readiness check, not an exam. You can create a small questionnaire with sections like: Business and process understanding Sample questions: What is the difference between a d",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.5",
     "title": "System navigation readiness checklist",
     "snippet": "If learners have access to a training or demo system, a basic navigation readiness check can be used: I can log in using client, user, password, and language. I can recognize whether I am in GUI or Fiori. In GUI: I can enter a transaction code in the command f",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.6",
-    "title": "Connecting the bridge module to your implementation",
+    "title": "Connecting the bridge module to your implementation program",
     "snippet": "program To position this e-book and bridge module as a gateway to your 12‑week End‑to‑End SAP S/4HANA Implementation Program, make the connection explicit. You can present a simple roadmap: 1. Bridge Module (this e-book + Week 0 activities) Focus: Business, pr",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
     "id": "9.7",
     "title": "Final message to the learner",
     "snippet": "By completing this bridge module and working through this e-book, a learner should: Understand how enterprises operate and why ERP is essential. Explain P2P, O2C, and R2R confidently in business language. Describe what SAP S/4HANA is and why organizations are ",
-    "he": false
-  },
-  {
-    "ch": 9,
-    "id": "9.8",
-    "title": "Karnataka 560071",
-    "snippet": "REACH US AT Corporate Office 5550 Wild Rose Lane, Suite 400, West Des Moines, IA 50266 Office: +1 (515) 309-7846 Offshore Office 170 Arun Arcade, Amarjyoti Layout, Domlur, Bengaluru,",
-    "he": false
+    "he": true
   }
 ]
