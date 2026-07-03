@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { buildHetero, layoutSubset, layoutZoned, FLOWS, MODES, KIND_META, S4_COLOR, ZONES, zoneOf, type SHetero, type SKind, type ZoneBand, type Zone } from "@/lib/studio-graph";
 import { lookupEntity } from "@/lib/entity-lookup";
+import { tableByName } from "@/lib/knowledge-graph";
 import { setActiveEntity } from "@/lib/workspace";
 import type { Module } from "@/lib/types";
 
@@ -61,6 +62,8 @@ export function ArchitectureStudio() {
   const [demo, setDemo] = useState(false); // §23 live demo — animated node-by-node walkthrough of the business flow
   const [demoStep, setDemoStep] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [captions, setCaptions] = useState(false); // §23 narration — voice-ready captions (+ optional local TTS)
+  const [compare, setCompare] = useState(false); // §23 ECC ↔ S/4 side-by-side for the current step
   const [tr, setTr] = useState({ x: 0, y: 0, k: 1 });
   const [sel, setSel] = useState<string | null>(null);
   const [hover, setHover] = useState<string | null>(null);
@@ -186,6 +189,16 @@ export function ArchitectureStudio() {
     const iv = setInterval(() => setDemoStep((s) => { if (s >= demoFlow.length - 1) { setPlaying(false); return s; } return s + 1; }), 3600);
     return () => clearInterval(iv);
   }, [demo, playing, demoFlow.length]);
+  // §23 narration — speak the current step's caption when captions are enabled
+  useEffect(() => {
+    if (!demo || !captions || !demoFlow.length) return;
+    const step = demoFlow[Math.min(demoStep, demoFlow.length - 1)];
+    const t = lookupEntity(step.code)?.he || h.nodes.get(step.code)?.he || `${step.label} — ${step.code}`;
+    const id = setTimeout(() => speak(`${step.label}. ${t}`), 120);
+    return () => clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [demo, captions, demoStep, demoFlow]);
+  useEffect(() => { if (!captions) stopSpeak(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [captions]);
 
   const onWheel = (e: React.WheelEvent) => { const el = wrapRef.current; if (!el) return; const r = el.getBoundingClientRect(); const px = e.clientX - r.left, py = e.clientY - r.top; const nk = Math.min(2.6, Math.max(0.14, tr.k * (1 - e.deltaY * 0.0014))); const f = nk / tr.k; setTr(clampTr({ k: nk, x: px - (px - tr.x) * f, y: py - (py - tr.y) * f })); };
   const onDown = (e: React.PointerEvent) => { if ((e.target as Element).closest("[data-node]")) return; drag.current = { x: e.clientX, y: e.clientY, ox: tr.x, oy: tr.y, moved: false }; };
@@ -202,8 +215,18 @@ export function ArchitectureStudio() {
   const zoomInto = (id: string) => { const n = layout.nodes.find((x) => x.id === id); const el = wrapRef.current; if (!n || !el) return; pushCam(); setSel(id); const k = Math.min(2.2, Math.max(1.7, tr.k * 1.5)); setTr(clampTr({ k, x: el.clientWidth / 2 - n.x * k, y: el.clientHeight / 2 - n.y * k })); };
   // §23 live demo — camera glides to a step node at a steady cinematic zoom
   const demoFocus = (id: string) => { const n = layout.nodes.find((x) => x.id === id); const el = wrapRef.current; if (!n || !el) return; const k = 1.55; setTr(clampTr({ k, x: el.clientWidth / 2 - n.x * k, y: el.clientHeight / 2 - n.y * k })); };
+  // §23 narration — speak with a local Hebrew voice if one exists (offline, opt-in). Silent no-op otherwise.
+  const stopSpeak = () => { try { window.speechSynthesis?.cancel(); } catch { /* noop */ } };
+  const speak = (text: string) => {
+    try {
+      const sy = window.speechSynthesis; if (!sy || !text) return; sy.cancel();
+      const u = new SpeechSynthesisUtterance(text.slice(0, 240));
+      const v = sy.getVoices().find((vc) => /he|iw/i.test(vc.lang)); if (v) u.voice = v;
+      u.lang = "he-IL"; u.rate = 0.98; sy.speak(u);
+    } catch { /* speech unavailable — captions still show */ }
+  };
   const enterDemo = () => { setPresent(true); setModeId("business"); setBooting(false); setDemo(true); setDemoStep(0); setPlaying(true); };
-  const exitDemo = () => { setDemo(false); setPlaying(false); setPresent(false); setSel(null); };
+  const exitDemo = () => { stopSpeak(); setDemo(false); setPlaying(false); setPresent(false); setSel(null); };
   const goStep = (i: number) => { if (!demoFlow.length) return; const n = ((i % demoFlow.length) + demoFlow.length) % demoFlow.length; setDemoStep(n); setSel(demoFlow[n].code); };
 
   // selecting a node makes it the workspace-wide active context
@@ -445,6 +468,9 @@ export function ArchitectureStudio() {
             const pct = ((demoStep + 1) / demoFlow.length) * 100;
             const zone = sN?.kind === "table" ? (ZONE_HE[zoneOf(step.code)] || "") : "";
             const s4he = sN?.s4 ? ({ kept: "נשמר ב-S/4", replaced: "הוחלף ב-S/4", removed: "הוסר ב-S/4" } as Record<string, string>)[sN.s4] : null;
+            // §23 verified ECC↔S/4 delta — straight from the blueprint dataset (no fabrication)
+            const trow = tableByName(step.code);
+            const capText = tip?.he || sN?.he || `${step.label} — ${step.code}`;
             return (
               <>
                 <div className="absolute inset-x-0 top-0 z-40 h-1 bg-slate-200/80"><motion.div className="h-full" style={{ background: accent }} initial={false} animate={{ width: `${pct}%` }} transition={{ duration: reduce ? 0 : 0.45, ease: [0.2, 0.7, 0.2, 1] }} /></div>
@@ -458,6 +484,14 @@ export function ArchitectureStudio() {
                     <span className="text-[11px] text-white/55">· {playing ? "מתנגן" : "מושהה"}</span>
                   </div>
                 </div>
+                {/* §23 narration — large voice-ready caption bar */}
+                <AnimatePresence>
+                  {captions && (
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} className="pointer-events-none absolute inset-x-0 bottom-[13.5rem] z-40 flex justify-center px-4">
+                      <div className="max-w-[46rem] rounded-2xl bg-slate-900/90 px-6 py-3 text-center text-[17px] font-bold leading-snug text-white shadow-2xl backdrop-blur">{capText}</div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
                 <div className="absolute inset-x-0 bottom-4 z-40 flex justify-center px-3">
                   <motion.div key={step.code} initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", stiffness: 300, damping: 28 }}
                     className="w-[min(94%,42rem)] rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-2xl backdrop-blur">
@@ -469,11 +503,36 @@ export function ArchitectureStudio() {
                     </div>
                     {(tip?.he || sN?.he) && <p className="mt-2 text-[13px] leading-relaxed text-slate-600">{tip?.he || sN?.he}</p>}
                     {tip?.purpose && <p className="mt-1.5 flex gap-1.5 text-[12.5px] leading-relaxed text-slate-500"><Target className="mt-0.5 size-3.5 shrink-0 text-blue-500" />{tip.purpose}</p>}
-                    <div className="mt-3 flex items-center gap-1.5 border-t border-slate-100 pt-3">
+                    {/* §23 ECC ↔ S/4 side-by-side — verified deltas only */}
+                    <AnimatePresence initial={false}>
+                      {compare && trow && (
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22 }} className="overflow-hidden">
+                          <div className="mt-3 grid grid-cols-2 gap-2 text-[11.5px]">
+                            <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-2.5">
+                              <div className="mb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-500">ECC 6</div>
+                              <div className="tech font-mono font-bold text-slate-800" dir="ltr">{trow.tableName}</div>
+                              {trow.tcodes && <div className="mt-1 truncate text-slate-500" dir="ltr" title={trow.tcodes}>{trow.tcodes}</div>}
+                            </div>
+                            <div className="rounded-xl border p-2.5" style={{ borderColor: (sN?.s4 ? S4_COLOR[sN.s4] : "#16a34a") + "44", background: (sN?.s4 ? S4_COLOR[sN.s4] : "#16a34a") + "0c" }}>
+                              <div className="mb-1 text-[10px] font-extrabold uppercase tracking-wide" style={{ color: sN?.s4 ? S4_COLOR[sN.s4] : "#16a34a" }}>S/4HANA</div>
+                              <div className="font-bold text-slate-800">{s4he || "נשמר"}</div>
+                              {trow.s4AltTable && <div className="mt-0.5 text-slate-600" dir="ltr">→ {trow.s4AltTable}</div>}
+                              {trow.s4AltTcode && <div className="text-slate-600" dir="ltr">→ {trow.s4AltTcode}</div>}
+                              {trow.fioriApp && <div className="mt-0.5 truncate text-amber-700" title={trow.fioriApp}>Fiori · {trow.fioriApp}</div>}
+                            </div>
+                          </div>
+                          {trow.s4Note && <p className="mt-1.5 text-[11.5px] leading-relaxed text-slate-500">{trow.s4Note}</p>}
+                          {!trow.s4AltTable && !trow.s4AltTcode && !trow.s4Note && <p className="mt-1.5 text-[11px] text-slate-400">אין דלתא S/4 מאומתת לאובייקט זה.</p>}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                    <div className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-3">
                       <button onClick={() => { setPlaying(false); goStep(0); }} title="התחל מחדש" className={`${btn} grid size-9 place-items-center rounded-xl border border-slate-200 text-slate-500 hover:text-brand`}><RotateCcw className="size-4" /></button>
                       <button onClick={() => { setPlaying(false); goStep(demoStep - 1); }} title="הקודם (→)" className={`${btn} grid size-9 place-items-center rounded-xl border border-slate-200 text-slate-500 hover:text-brand`}><ChevronRight className="size-5" /></button>
                       <button onClick={() => setPlaying((p) => !p)} title="נגן / השהה (רווח)" className={`${btn} flex items-center gap-1.5 rounded-xl px-4 py-2 text-[13px] font-extrabold text-white shadow-sm`} style={{ background: accent }}>{playing ? <Pause className="size-4" /> : <Play className="size-4" />}{playing ? "השהה" : "נגן"}</button>
                       <button onClick={() => { setPlaying(false); goStep(demoStep + 1); }} title="הבא (←)" className={`${btn} grid size-9 place-items-center rounded-xl border border-slate-200 text-slate-500 hover:text-brand`}><ChevronLeft className="size-5" /></button>
+                      <button onClick={() => setCompare((v) => !v)} title="השוואת ECC ↔ S/4" className={`${btn} flex items-center gap-1 rounded-xl px-2.5 py-2 text-[11.5px] font-bold ${compare ? "text-white shadow-sm" : "border border-slate-200 text-slate-500 hover:text-brand"}`} style={compare ? { background: accent } : undefined}><ArrowLeftRight className="size-4" />ECC↔S/4</button>
+                      <button onClick={() => setCaptions((v) => !v)} title="כתוביות / קריינות" className={`${btn} flex items-center gap-1 rounded-xl px-2.5 py-2 text-[11.5px] font-bold ${captions ? "text-white shadow-sm" : "border border-slate-200 text-slate-500 hover:text-brand"}`} style={captions ? { background: accent } : undefined}><BookOpen className="size-4" />כתוביות</button>
                       <button onClick={exitDemo} title="צא מ-Demo (Esc)" className={`${btn} ms-auto flex items-center gap-1.5 rounded-xl bg-slate-900 px-3 py-2 text-[12px] font-extrabold text-white`}><X className="size-4" />צא</button>
                     </div>
                   </motion.div>
