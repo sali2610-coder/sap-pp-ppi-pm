@@ -417,77 +417,77 @@
     "id": "8.1",
     "title": "The End‑user Mindset",
     "snippet": "An end user focuses on completing assigned tasks correctly in the system: “How do I post this invoice?” “Which app do I use to create a sales order?” “What fields do I fill to receive materials?” Characteristics of the end‑user mindset: Task-centric – focused ",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.2",
-    "title": "A functional consultant does not ask only “how do I do this transaction?” but",
+    "title": "The Implementation Mindset",
     "snippet": "rather: “What is the end‑to‑end business process here?” “What is the requirement, and why does the customer want this behavior?” “How should SAP be configured to support this process?” “What happens upstream and downstream if we change this setting?” Key chara",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.3",
-    "title": "Cause‑and‑effect thinking – understanding how configuration or master",
+    "title": "Characteristics of the Implementation Mindset",
     "snippet": "Process orientation – always thinking in P2P, O2C, R2R flows, not isolated steps. data decisions impact transactions, postings, and reports. Integration awareness – recognizing cross-module touchpoints (MM with FI, SD with FI, etc.). Documentation and communic",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.4",
     "title": "What Functional Consultants actually do",
     "snippet": "In real SAP S/4HANA projects, functional consultants typically work across several key areas. Requirements and process mapping Conduct workshops with business stakeholders. Understand current processes (“as‑is”) and desired improvements (“to‑be”). Map business",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.5",
-    "title": "Functional specifications for technical work",
+    "title": "Functional Specifications for Technical Work",
     "snippet": "When standard configuration is not enough: Define what custom developments are needed (reports, forms, interfaces, enhancements). Write functional specifications describing: Technical consultants then use these specifications to build solutions. Business requi",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.6",
     "title": "Testing and quality support",
     "snippet": "Functional consultants play a central role in testing: Design test scenarios that cover end‑to‑end flows (e.g., full P2P cycle, full O2C cycle). Execute unit tests for their own configuration. Support integration testing, working with other module consultants.",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.7",
-    "title": "Provide on‑site or remote support during go‑live to handle issues as users",
+    "title": "Cutover, Go-Live, and Support",
     "snippet": "Cutover, go‑live, and support Toward deployment: Help prepare cutover plans, which define which data and activities must move from legacy to SAP, and in what sequence. Support mock cutovers and rehearsals. start working in the new system. Participate in hyperc",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.8",
-    "title": "While you will not manage the project as a beginner, you must understand the",
+    "title": "SAP Activate in One Page (for Functional Consultants)",
     "snippet": "basic shape of the implementation lifecycle. SAP’s methodology for implementing S/4HANA is called SAP Activate. At a high level, it includes phases such as: 1. Discover Understand business needs and high-level solution options. Often includes demos and value a",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.9",
-    "title": "How this bridge module prepares you for the 12‑week",
+    "title": "How this bridge module prepares you for the 12-week program",
     "snippet": "program Your bridge module is not only about knowledge; it is about mindset and readiness. Here is how it feeds into your full 12‑week End‑to‑End S/4HANA Implementation Program: From business basics to module configuration Chapters 1–3 ensure you understand en",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.10",
     "title": "Building your consultant identity",
     "snippet": "As you work through the bridge module and the full program, start consciously shaping your consultant identity: Ask “why” before “how” Why does the business need this process? Why is this field important? Why is this control necessary? Connect every step to a ",
-    "he": false
+    "he": true
   },
   {
     "ch": 8,
     "id": "8.11",
     "title": "Key takeaways from Chapter 8",
     "snippet": "End users focus on executing tasks; functional consultants focus on designing, configuring, testing, and improving end‑to‑end processes. The implementation mindset is process-driven, integration-aware, and grounded in business understanding, not just in system",
-    "he": false
+    "he": true
   },
   {
     "ch": 9,
