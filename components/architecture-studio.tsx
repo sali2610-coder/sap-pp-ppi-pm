@@ -263,6 +263,69 @@ export function ArchitectureStudio() {
   const vp = { x: f0((-tr.x / tr.k) * mmK), y: f0((-tr.y / tr.k) * mmK), w: f0((wrapSize.w / tr.k) * mmK, MM_W), h: f0((wrapSize.h / tr.k) * mmK, MM_H) };
   const miniClick = (e: React.MouseEvent) => { const r = (e.currentTarget as HTMLElement).getBoundingClientRect(); const gx = (e.clientX - r.left) / mmK, gy = (e.clientY - r.top) / mmK; const el = wrapRef.current; if (!el) return; setTr((p) => clampTr({ ...p, x: el.clientWidth / 2 - gx * p.k, y: el.clientHeight / 2 - gy * p.k })); };
 
+  // §11 performance — the edges + nodes layers are memoized so a pure pan/zoom
+  // (which only changes `tr` on the parent transform) never re-renders any node
+  // or edge. They rebuild only when their real inputs change → smooth 60fps drag
+  // even on the largest graph (node counts are bounded, so no virtualization).
+  const edgesLayer = useMemo(() => (
+    <svg width={layout.width} height={layout.height} className="absolute inset-0 overflow-visible">
+      {layout.edges.map((e) => {
+        const hot = active != null && (e.from === active || e.to === active);
+        const pts = e.points.length >= 2 ? e.points : [];
+        const d = pts.length ? pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ") : "";
+        if (!d) return null;
+        return (
+          <g key={e.id}>
+            <path d={d} fill="none" stroke={hot ? accent : "#cbd5e1"} strokeWidth={hot ? 2.6 : 1.1} strokeOpacity={active && !hot ? 0.1 : hot ? 0.9 : 0.5} className="transition-all duration-300" />
+            {hot && !reduce && <path d={d} fill="none" stroke="#fff" strokeWidth={1.6} strokeOpacity={0.85} className="studio-flow" />}
+            {hot && !reduce && (
+              <circle r={demo ? 4 : 3} fill={accent} opacity={0.95}>
+                <animateMotion dur={demo ? "1.5s" : "1.9s"} repeatCount="indefinite" path={d} rotate="auto" />
+                <animate attributeName="opacity" values="0;1;1;0" dur={demo ? "1.5s" : "1.9s"} repeatCount="indefinite" />
+              </circle>
+            )}
+          </g>
+        );
+      })}
+    </svg>
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  ), [layout, active, reduce, accent, demo]);
+
+  const nodesLayer = useMemo(() => layout.nodes.map((n, i) => {
+    const col = nodeColor(n.kind, n.s4); const on = n.id === sel; const isHover = n.id === hover; const op = dimNode(n.id);
+    const Ic = KIND_ICON[n.kind]; const deg = degAll(n.id);
+    const core = n.w >= 176, leaf = n.w <= 130;
+    const restShadow = core && !on && !isHover ? `0 10px 22px -14px ${col}55` : undefined;
+    return (
+      <motion.button key={n.id} data-node
+        initial={reduce ? false : { scale: 0.4, opacity: 0 }}
+        animate={{ scale: 1, opacity: op }}
+        transition={{ scale: { type: "spring", stiffness: 420, damping: 26, delay: reduce ? 0 : Math.min(i, 22) * 0.022 }, opacity: { duration: 0.25 } }}
+        whileHover={reduce ? undefined : { scale: 1.045 }} whileTap={reduce ? undefined : { scale: 0.97 }}
+        onMouseEnter={() => setHover(n.id)} onMouseLeave={() => setHover(null)} onClick={() => onNodeClick(n.id)} onDoubleClick={() => zoomInto(n.id)}
+        className="group absolute flex flex-col items-start justify-center rounded-xl border-2 bg-white/95 px-2 text-right shadow-sm backdrop-blur-sm transition-[box-shadow,border-color,left,top] duration-300 hover:z-10 hover:shadow-xl"
+        style={{ left: n.x - n.w / 2, top: n.y - n.h / 2, width: n.w, height: n.h, borderColor: on || isHover ? col : col + "44", boxShadow: on ? `0 8px 26px -8px ${col}88, 0 0 0 4px ${col}1f` : isHover ? `0 10px 24px -10px ${col}66` : restShadow, background: on ? `linear-gradient(135deg,#fff, ${col}0c)` : undefined }}>
+        {on && !reduce && <span className="studio-halo pointer-events-none absolute -inset-1 -z-10 rounded-2xl" style={{ background: `radial-gradient(closest-side, ${col}33, transparent)` }} />}
+        {!sel && !booting && n.id === DEFAULT_FOCUS[module] && (
+          <>
+            {!reduce && <span className="studio-halo pointer-events-none absolute -inset-1.5 -z-10 rounded-2xl" style={{ background: `radial-gradient(closest-side, ${accent}40, transparent)` }} />}
+            <span className="pointer-events-none absolute -top-5 right-0 flex items-center gap-0.5 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[8.5px] font-extrabold text-white shadow-md" style={{ background: accent }}><Sparkles className="size-2.5" />התחל כאן</span>
+          </>
+        )}
+        <span className="flex w-full items-center gap-1">
+          <Ic className={`shrink-0 ${core ? "size-3.5" : "size-3"}`} style={{ color: col }} />
+          <span className={`tech truncate font-mono font-extrabold text-slate-900 ${core ? "text-[13px]" : leaf ? "text-[11px]" : "text-[12px]"}`} dir="ltr">{n.label}</span>
+          {hasHidden(n.id)
+            ? <span className="ms-auto grid size-4 shrink-0 place-items-center rounded-full text-white shadow-sm" style={{ background: col }} title="לחץ לחשיפת שכנים"><Plus className="size-2.5" /></span>
+            : deg > 0 && <span className="ms-auto shrink-0 rounded-full px-1 text-[8.5px] font-extrabold tabular-nums" style={{ background: col + "1f", color: col }} title={`${deg} קשרים`}>{deg}</span>}
+        </span>
+        {n.kind === "table" && n.he && <span className="w-full truncate text-[9px] text-slate-400">{n.he}</span>}
+        {n.kind === "table" && n.s4 && mode.colorBy === "s4" && <span className="absolute -left-1 -top-1 size-2.5 rounded-full ring-2 ring-white" style={{ background: S4_COLOR[n.s4] }} />}
+      </motion.button>
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [layout, sel, hover, lifeOnly, mode, visible, h, booting, reduce, accent, module]);
+
   // keyboard: Space center · Esc deselect · +/- zoom (ignored while typing)
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -466,65 +529,9 @@ export function ArchitectureStudio() {
                   <div className="sticky top-2 mx-2 mt-2 flex items-center justify-center gap-1.5 rounded-lg px-2 py-1 text-[12px] font-extrabold text-white shadow-sm" style={{ background: z.c }}><Zi className="size-3.5 shrink-0 opacity-90" />{z.he}</div>
                 </div>
               ); })}
-              {/* edges */}
-              {edgesOn && <svg width={layout.width} height={layout.height} className="absolute inset-0 overflow-visible">
-                {layout.edges.map((e) => {
-                  const hot = active != null && (e.from === active || e.to === active);
-                  const pts = e.points.length >= 2 ? e.points : [];
-                  const d = pts.length ? pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ") : "";
-                  if (!d) return null;
-                  return (
-                    <g key={e.id}>
-                      <path d={d} fill="none" stroke={hot ? accent : "#cbd5e1"} strokeWidth={hot ? 2.6 : 1.1} strokeOpacity={active && !hot ? 0.1 : hot ? 0.9 : 0.5} className="transition-all duration-300" />
-                      {hot && !reduce && <path d={d} fill="none" stroke="#fff" strokeWidth={1.6} strokeOpacity={0.85} className="studio-flow" />}
-                      {/* §23 particle flowing along the active connector (cinematic) */}
-                      {hot && !reduce && (
-                        <circle r={demo ? 4 : 3} fill={accent} opacity={0.95}>
-                          <animateMotion dur={demo ? "1.5s" : "1.9s"} repeatCount="indefinite" path={d} rotate="auto" />
-                          <animate attributeName="opacity" values="0;1;1;0" dur={demo ? "1.5s" : "1.9s"} repeatCount="indefinite" />
-                        </circle>
-                      )}
-                    </g>
-                  );
-                })}
-              </svg>}
-              {/* nodes */}
-              {layout.nodes.map((n, i) => {
-                const col = nodeColor(n.kind, n.s4); const on = n.id === sel; const isHover = n.id === hover; const op = dimNode(n.id);
-                const Ic = KIND_ICON[n.kind]; const deg = degAll(n.id);
-                // §17 tier by size — drives typography + resting elevation (hierarchy, not colour)
-                const core = n.w >= 176, leaf = n.w <= 130;
-                const restShadow = core && !on && !isHover ? `0 10px 22px -14px ${col}55` : undefined;
-                return (
-                  <motion.button key={n.id} data-node
-                    initial={reduce ? false : { scale: 0.4, opacity: 0 }}
-                    animate={{ scale: 1, opacity: op }}
-                    transition={{ scale: { type: "spring", stiffness: 420, damping: 26, delay: reduce ? 0 : Math.min(i, 22) * 0.022 }, opacity: { duration: 0.25 } }}
-                    whileHover={reduce ? undefined : { scale: 1.045 }} whileTap={reduce ? undefined : { scale: 0.97 }}
-                    onMouseEnter={() => setHover(n.id)} onMouseLeave={() => setHover(null)} onClick={() => onNodeClick(n.id)} onDoubleClick={() => zoomInto(n.id)}
-                    className="group absolute flex flex-col items-start justify-center rounded-xl border-2 bg-white/95 px-2 text-right shadow-sm backdrop-blur-sm transition-[box-shadow,border-color,left,top] duration-300 hover:z-10 hover:shadow-xl"
-                    style={{ left: n.x - n.w / 2, top: n.y - n.h / 2, width: n.w, height: n.h, borderColor: on || isHover ? col : col + "44", boxShadow: on ? `0 8px 26px -8px ${col}88, 0 0 0 4px ${col}1f` : isHover ? `0 10px 24px -10px ${col}66` : restShadow, background: on ? `linear-gradient(135deg,#fff, ${col}0c)` : undefined }}>
-                    {/* halo for the selected node */}
-                    {on && !reduce && <span className="studio-halo pointer-events-none absolute -inset-1 -z-10 rounded-2xl" style={{ background: `radial-gradient(closest-side, ${col}33, transparent)` }} />}
-                    {/* §19 discovery — "start here" hint on the anchor object until the user picks one */}
-                    {!sel && !booting && n.id === DEFAULT_FOCUS[module] && (
-                      <>
-                        {!reduce && <span className="studio-halo pointer-events-none absolute -inset-1.5 -z-10 rounded-2xl" style={{ background: `radial-gradient(closest-side, ${accent}40, transparent)` }} />}
-                        <span className="pointer-events-none absolute -top-5 right-0 flex items-center gap-0.5 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[8.5px] font-extrabold text-white shadow-md" style={{ background: accent }}><Sparkles className="size-2.5" />התחל כאן</span>
-                      </>
-                    )}
-                    <span className="flex w-full items-center gap-1">
-                      <Ic className={`shrink-0 ${core ? "size-3.5" : "size-3"}`} style={{ color: col }} />
-                      <span className={`tech truncate font-mono font-extrabold text-slate-900 ${core ? "text-[13px]" : leaf ? "text-[11px]" : "text-[12px]"}`} dir="ltr">{n.label}</span>
-                      {hasHidden(n.id)
-                        ? <span className="ms-auto grid size-4 shrink-0 place-items-center rounded-full text-white shadow-sm" style={{ background: col }} title="לחץ לחשיפת שכנים"><Plus className="size-2.5" /></span>
-                        : deg > 0 && <span className="ms-auto shrink-0 rounded-full px-1 text-[8.5px] font-extrabold tabular-nums" style={{ background: col + "1f", color: col }} title={`${deg} קשרים`}>{deg}</span>}
-                    </span>
-                    {n.kind === "table" && n.he && <span className="w-full truncate text-[9px] text-slate-400">{n.he}</span>}
-                    {n.kind === "table" && n.s4 && mode.colorBy === "s4" && <span className="absolute -left-1 -top-1 size-2.5 rounded-full ring-2 ring-white" style={{ background: S4_COLOR[n.s4] }} />}
-                  </motion.button>
-                );
-              })}
+              {/* edges + nodes — memoized layers (§11): pan/zoom won't re-render them */}
+              {edgesOn && edgesLayer}
+              {nodesLayer}
             </div>
 
             {/* §25 premium boot skeleton — swimlane placeholders, shimmering,
