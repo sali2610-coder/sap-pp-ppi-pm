@@ -57,8 +57,6 @@ function Header() {
             <Link href="/" className="shrink-0 transition-transform hover:scale-[1.02]" onClick={() => playClick()}>
               <SiteLogo />
             </Link>
-            <span className="h-5 w-px bg-white/20" aria-hidden />
-            <CreatorCredit />
           </div>
           <div className="xl:hidden">
             <LangSwitch />
@@ -83,6 +81,12 @@ function Header() {
             <LangSwitch />
           </div>
         </nav>
+      </div>
+      {/* creator credit — sits on a white strip directly under the red bar, glowing red */}
+      <div className="border-t border-black/10 bg-white">
+        <div className="container-app flex justify-start py-1.5">
+          <CreatorCredit />
+        </div>
       </div>
       {/* mobile/tablet navigation now lives in the bottom tab bar (thumb-reachable) */}
     </header>

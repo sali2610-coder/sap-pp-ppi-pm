@@ -155,6 +155,14 @@ body {
 .credit-glow { animation: credit-glow 20s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .credit-glow { animation: none; } }
 
+/* Creator credit — on-white RED glowing variant (lives under the header bar) */
+@keyframes credit-red-glow {
+  0%, 100% { text-shadow: 0 0 6px rgba(214,32,39,0.28), 0 0 1px rgba(214,32,39,0.35); box-shadow: 0 1px 10px -6px rgba(214,32,39,0.45); }
+  50% { text-shadow: 0 0 16px rgba(214,32,39,0.6), 0 0 3px rgba(214,32,39,0.5); box-shadow: 0 2px 18px -6px rgba(214,32,39,0.7); }
+}
+.credit-red-glow { animation: credit-red-glow 3s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .credit-red-glow { animation: none; } }
+
 /* Monospace SQL / tech-field snippets keep LTR even inside RTL flow */
 .tech,
 code,

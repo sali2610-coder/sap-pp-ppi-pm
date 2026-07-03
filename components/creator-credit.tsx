@@ -18,12 +18,13 @@ export function CreatorCredit() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.3, ease: [0.2, 0.7, 0.2, 1] }}
         aria-label="נבנה על ידי סאלי חליף · Web Coding"
-        className={`${reduce ? "" : "credit-glow"} group flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-2.5 py-1 text-[11px] leading-none text-white/85 backdrop-blur transition-colors hover:bg-white/15`}>
-        <Code2 className="size-3.5 shrink-0 text-white/90" />
+        style={{ color: "#d62027" }}
+        className={`${reduce ? "" : "credit-red-glow"} group flex items-center gap-1.5 rounded-full border border-[#d62027]/25 bg-white px-3 py-1 text-[12px] font-bold leading-none shadow-sm ring-1 ring-[#d62027]/10 transition-colors hover:bg-[#d62027]/5`}>
+        <Code2 className="size-3.5 shrink-0" style={{ color: "#d62027" }} />
         <span className="whitespace-nowrap">
-          <span className="hidden text-white/65 sm:inline">Built by </span>
-          <b className="font-extrabold tracking-tight text-white">Sali Khalif</b>
-          <span className="hidden text-white/65 lg:inline"> · Web Coding · Project NEO</span>
+          <span className="hidden opacity-70 sm:inline">Built by </span>
+          <b className="font-extrabold tracking-tight" style={{ color: "#d62027" }}>Sali Khalif</b>
+          <span className="hidden opacity-70 lg:inline"> · Web Coding · Project NEO</span>
         </span>
       </motion.button>
 
