@@ -254,27 +254,6 @@ export const LIBRARY: LibBook[] = [
       { n: 9, en: "Integration of plant maintenance with warehouse processes.", he: "אינטגרציה של אחזקת מפעל עם תהליכי המחסן.", page: 1 },
     ],
   },
-  {
-    id: "bridge-foundation",
-    title: "SAP S/4HANA Bridge Module — Consultant Foundation",
-    titleHe: "מודול גשר ל-SAP S/4HANA — יסודות הייעוץ",
-    publisher: "ZaranTech",
-    module: "Foundation",
-    pages: 193,
-    summaryEn: "A 'Week 0' foundation for new SAP S/4HANA consultants: how enterprises and processes work, why ERP exists, the SAP ecosystem, landscapes, navigation and the consultant role.",
-    summaryHe: "בסיס 'שבוע 0' ליועצי S/4HANA מתחילים: כיצד עובדים תהליכים ארגוניים, מדוע ERP קיים, מערכת ה-SAP, נופי מערכת, ניווט ותפקיד היועץ — מבוא מצוין לחברי צוות חדשים ב-Project NEO.",
-    chapters: [
-      { n: 1, en: "Understanding Modern Enterprises and Business Functions", he: "הבנת ארגונים מודרניים ופונקציות עסקיות", page: 1 },
-      { n: 2, en: "From Functions to Business Processes", he: "מפונקציות לתהליכים עסקיים", page: 1 },
-      { n: 3, en: "Why ERP Exists and What Problems It Solves", he: "מדוע ERP קיים ואילו בעיות הוא פותר", page: 1 },
-      { n: 4, en: "ERP Concepts and the SAP Ecosystem", he: "מושגי ERP ומערכת ה-SAP", page: 1 },
-      { n: 5, en: "System Landscapes, Clients, and Project Roles", he: "נופי מערכת, Clients ותפקידים בפרויקט", page: 1 },
-      { n: 6, en: "SAP GUI and SAP Fiori — Navigating the SAP World", he: "SAP GUI ו-SAP Fiori — ניווט בעולם ה-SAP", page: 1 },
-      { n: 7, en: "SAP Terminology and Structures for New Consultants", he: "מינוח ומבנים ב-SAP ליועצים חדשים", page: 1 },
-      { n: 8, en: "From End User to Implementation Consultant", he: "ממשתמש קצה ליועץ מיישם", page: 1 },
-      { n: 9, en: "Learning Strategy, Readiness Check, and Next Steps", he: "אסטרטגיית למידה, מבחן מוכנות וצעדים הבאים", page: 1 },
-    ],
-  },
 ];
 
 // Attach the real extracted English body + authored Hebrew translation to
