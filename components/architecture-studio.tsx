@@ -252,7 +252,17 @@ export function ArchitectureStudio() {
       {!present && (<>
       {/* header */}
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2 text-xs text-slate-400"><Link href="/" className="hover:text-slate-700">בית</Link><ArrowLeft className="size-3" /><span className="flex items-center gap-1.5 font-bold text-slate-700"><Compass className="size-4" style={{ color: accent }} />SAP Architecture Studio</span></div>
+        {/* §10 breadcrumb — Home ▸ Module ▸ Architecture ▸ Layer ▸ Object */}
+        <nav aria-label="נתיב ניווט" className="flex flex-wrap items-center gap-1.5 text-xs text-slate-400">
+          <Link href="/" className="hover:text-slate-700">בית</Link>
+          <ArrowLeft className="size-3 shrink-0" />
+          <Link href={module === "PM" ? "/pm/" : "/pp-pi/"} className="font-bold hover:text-slate-700" style={{ color: accent }}>{module}</Link>
+          <ArrowLeft className="size-3 shrink-0" />
+          <span className="flex items-center gap-1.5 font-bold text-slate-600"><Compass className="size-3.5" style={{ color: accent }} />ארכיטקטורה</span>
+          <ArrowLeft className="size-3 shrink-0" />
+          <span className="font-semibold text-slate-500">{mode.he}</span>
+          {tipNode && sel && <><ArrowLeft className="size-3 shrink-0" /><span className="tech font-mono font-extrabold text-slate-800" dir="ltr">{tipNode.label}</span></>}
+        </nav>
         <div className="flex items-center gap-2">
           <button onClick={() => { setPresent(true); dismissCoach(); }} title="מצב מצגת — הגרף על מלוא המסך (Esc ליציאה)" aria-label="מצב מצגת" className={`${btn} flex h-9 items-center gap-1.5 rounded-xl px-3 text-[12.5px] font-extrabold text-white shadow-sm`} style={{ background: accent }}><Maximize2 className="size-4" />מצגת</button>
           <button onClick={() => setShowKeys((v) => !v)} title="קיצורי מקלדת" aria-label="קיצורי מקלדת" className={`${btn} grid size-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 hover:text-brand`}><Keyboard className="size-4" /></button>
@@ -402,6 +412,13 @@ export function ArchitectureStudio() {
                     style={{ left: n.x - n.w / 2, top: n.y - n.h / 2, width: n.w, height: n.h, borderColor: on || isHover ? col : col + "44", boxShadow: on ? `0 8px 26px -8px ${col}88, 0 0 0 4px ${col}1f` : isHover ? `0 10px 24px -10px ${col}66` : restShadow, background: on ? `linear-gradient(135deg,#fff, ${col}0c)` : undefined }}>
                     {/* halo for the selected node */}
                     {on && !reduce && <span className="studio-halo pointer-events-none absolute -inset-1 -z-10 rounded-2xl" style={{ background: `radial-gradient(closest-side, ${col}33, transparent)` }} />}
+                    {/* §19 discovery — "start here" hint on the anchor object until the user picks one */}
+                    {!sel && !booting && n.id === DEFAULT_FOCUS[module] && (
+                      <>
+                        {!reduce && <span className="studio-halo pointer-events-none absolute -inset-1.5 -z-10 rounded-2xl" style={{ background: `radial-gradient(closest-side, ${accent}40, transparent)` }} />}
+                        <span className="pointer-events-none absolute -top-5 right-0 flex items-center gap-0.5 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[8.5px] font-extrabold text-white shadow-md" style={{ background: accent }}><Sparkles className="size-2.5" />התחל כאן</span>
+                      </>
+                    )}
                     <span className="flex w-full items-center gap-1">
                       <Ic className={`shrink-0 ${core ? "size-3.5" : "size-3"}`} style={{ color: col }} />
                       <span className={`tech truncate font-mono font-extrabold text-slate-900 ${core ? "text-[13px]" : leaf ? "text-[11px]" : "text-[12px]"}`} dir="ltr">{n.label}</span>
