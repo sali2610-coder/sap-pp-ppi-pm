@@ -8,6 +8,7 @@ import {
   AlertTriangle, GitBranch, X, Plus, Minus, RotateCcw, SlidersHorizontal, Sparkles, Keyboard,
   Database, Terminal, Plug, FunctionSquare, Cable, Sigma, LayoutGrid, Compass, MousePointerClick,
   BookOpen, MapPin, ArrowLeftRight, Info, Play, Pause, ChevronLeft, ChevronRight, Film,
+  Factory, Activity, ShieldCheck, Settings, Truck, Layers,
 } from "lucide-react";
 import { buildHetero, layoutSubset, layoutZoned, FLOWS, MODES, KIND_META, S4_COLOR, ZONES, zoneOf, type SHetero, type SKind, type ZoneBand, type Zone } from "@/lib/studio-graph";
 import { lookupEntity } from "@/lib/entity-lookup";
@@ -35,6 +36,11 @@ const MODE_HINT: Record<string, string> = {
   fiori: "אפליקציות Fiori הקשורות לכל אובייקט",
 };
 const ZONE_HE: Record<string, string> = Object.fromEntries(ZONES.map((z) => [z.id, z.he]));
+// §15 per-layer visual identity — each swimlane carries its own icon
+const ZONE_ICON: Record<string, typeof Database> = {
+  master: Database, planning: Target, execution: Factory, status: Activity,
+  quality: ShieldCheck, config: Settings, logistics: Truck, other: Layers,
+};
 
 export function ArchitectureStudio() {
   const reduce = useReducedMotion();
@@ -415,7 +421,7 @@ export function ArchitectureStudio() {
 
           {/* search — hidden in presentation mode to keep the stage clean */}
           <div className={`absolute right-3 top-3 z-30 w-64 max-w-[70%] ${present ? "hidden" : ""}`}>
-            <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white/95 px-3 py-2 shadow-sm backdrop-blur"><Search className="size-4 shrink-0 text-slate-400" /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש אובייקט…" className="w-full bg-transparent text-sm outline-none placeholder:text-slate-300" dir="ltr" /></div>
+            <div className="flex items-center gap-2 rounded-2xl border border-white/70 bg-white/65 px-3 py-2 shadow-[0_10px_34px_-14px_rgba(15,23,42,0.3),inset_0_1px_0_rgba(255,255,255,0.75)] ring-1 ring-slate-900/5 backdrop-blur-xl"><Search className="size-4 shrink-0 text-slate-400" /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש אובייקט…" className="w-full bg-transparent text-sm outline-none placeholder:text-slate-300" dir="ltr" /></div>
             <AnimatePresence>{hits.length > 0 && <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-1 max-h-64 overflow-auto rounded-xl border border-slate-200 bg-white p-1 shadow-2xl">{hits.map((n) => { const Ic = KIND_ICON[n.kind]; return <button key={n.id} onClick={() => pickSearch(n.id)} className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-right hover:bg-slate-50"><Ic className="size-3.5 shrink-0" style={{ color: KIND_META[n.kind].c }} /><span className="tech flex-1 truncate font-mono text-sm font-bold text-slate-800" dir="ltr">{n.label}</span><span className="rounded bg-slate-100 px-1.5 text-[9px] font-bold text-slate-500">{KIND_META[n.kind].he}</span></button>; })}</motion.div>}</AnimatePresence>
           </div>
 
@@ -423,18 +429,19 @@ export function ArchitectureStudio() {
           <div className="pointer-events-none absolute left-1/2 top-3 z-20 -translate-x-1/2">
             <AnimatePresence mode="wait">
               <motion.div key={hintText} initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}
-                className="flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/85 px-3 py-1.5 text-[11.5px] font-bold text-slate-600 shadow-sm backdrop-blur">
+                className="flex items-center gap-1.5 rounded-full border border-white/70 bg-white/70 px-3.5 py-1.5 text-[11.5px] font-bold text-slate-600 shadow-[0_8px_24px_-12px_rgba(15,23,42,0.28),inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-slate-900/5 backdrop-blur-xl">
                 <Sparkles className="size-3.5" style={{ color: accent }} />{hintText}
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* zoom controls */}
-          <div className="absolute bottom-3 right-3 z-30 flex items-center gap-1 rounded-xl border border-slate-200 bg-white/95 p-1 shadow-sm backdrop-blur">
-            <button onClick={() => zoom(1.25)} title="התקרב (+)" className={`${btn} grid size-8 place-items-center rounded-lg text-slate-500 hover:bg-slate-100`}><ZoomIn className="size-4" /></button>
-            <span className="px-1 font-mono text-xs font-bold text-slate-400">{Math.round(tr.k * 100)}%</span>
-            <button onClick={() => zoom(0.8)} title="התרחק (−)" className={`${btn} grid size-8 place-items-center rounded-lg text-slate-500 hover:bg-slate-100`}><ZoomOut className="size-4" /></button>
-            <button onClick={fit} title="התאם הכול למסך" className={`${btn} grid size-8 place-items-center rounded-lg text-slate-500 hover:bg-slate-100`}><Maximize2 className="size-4" /></button>
+          {/* §4 zoom controls — premium liquid-glass toolbar */}
+          <div className="absolute bottom-3 right-3 z-30 flex items-center gap-0.5 rounded-2xl border border-white/70 bg-white/65 p-1 shadow-[0_10px_34px_-14px_rgba(15,23,42,0.3),inset_0_1px_0_rgba(255,255,255,0.75)] ring-1 ring-slate-900/5 backdrop-blur-xl">
+            <button onClick={() => zoom(1.25)} title="התקרב (+)" className={`${btn} grid size-8 place-items-center rounded-xl text-slate-600 hover:bg-white hover:text-brand hover:shadow-sm`}><ZoomIn className="size-4" /></button>
+            <button onClick={() => zoom(0.8)} title="התרחק (−)" className={`${btn} grid size-8 place-items-center rounded-xl text-slate-600 hover:bg-white hover:text-brand hover:shadow-sm`}><ZoomOut className="size-4" /></button>
+            <button onClick={() => zoom(1 / tr.k)} title="אחוז מקורי (100%)" className={`${btn} min-w-11 rounded-xl px-1 py-1 text-center font-mono text-[11px] font-extrabold text-slate-500 tabular-nums hover:bg-white hover:text-brand`}>{Math.round(tr.k * 100)}%</button>
+            <span className="mx-0.5 h-5 w-px bg-slate-900/10" />
+            <button onClick={fit} title="התאם הכול למסך" className={`${btn} grid size-8 place-items-center rounded-xl text-slate-600 hover:bg-white hover:text-brand hover:shadow-sm`}><Maximize2 className="size-4" /></button>
           </div>
 
           {/* mini map */}
@@ -453,12 +460,12 @@ export function ArchitectureStudio() {
             style={{ backgroundImage: "radial-gradient(circle at 1px 1px,#d7deea 1px,transparent 0)", backgroundSize: "26px 26px" }}
             onWheel={onWheel} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerLeave={() => { drag.current = null; setHover(null); }}>
             <div dir="ltr" style={{ transform: `translate(${tr.x}px,${tr.y}px) scale(${tr.k})`, transformOrigin: "0 0", width: layout.width, height: layout.height, position: "absolute", left: 0, top: 0, right: "auto", transition: drag.current ? "none" : "transform .42s cubic-bezier(0.22,0.61,0.18,1)" }}>
-              {/* swimlane bands */}
-              {layout.bands.map((z) => (
-                <div key={z.id} className="absolute top-0 border-x border-dashed" style={{ left: z.x, width: z.w, height: layout.height, background: z.c + "07", borderColor: z.c + "22" }}>
-                  <div className="sticky top-2 mx-2 mt-2 rounded-lg px-2 py-1 text-center text-[12px] font-extrabold text-white shadow-sm" style={{ background: z.c }}>{z.he}</div>
+              {/* swimlane bands — §15 each layer has its own colour identity + icon */}
+              {layout.bands.map((z) => { const Zi = ZONE_ICON[z.id] || Layers; return (
+                <div key={z.id} className="absolute top-0 border-x border-dashed" style={{ left: z.x, width: z.w, height: layout.height, background: `linear-gradient(180deg, ${z.c}0f, ${z.c}05)`, borderColor: z.c + "22" }}>
+                  <div className="sticky top-2 mx-2 mt-2 flex items-center justify-center gap-1.5 rounded-lg px-2 py-1 text-[12px] font-extrabold text-white shadow-sm" style={{ background: z.c }}><Zi className="size-3.5 shrink-0 opacity-90" />{z.he}</div>
                 </div>
-              ))}
+              ); })}
               {/* edges */}
               {edgesOn && <svg width={layout.width} height={layout.height} className="absolute inset-0 overflow-visible">
                 {layout.edges.map((e) => {
