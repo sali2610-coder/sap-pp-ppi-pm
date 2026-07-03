@@ -7,7 +7,7 @@ import {
   Search, ZoomIn, ZoomOut, Maximize2, Crosshair, ArrowLeft, ExternalLink, Target, Briefcase,
   AlertTriangle, GitBranch, X, Plus, Minus, RotateCcw, SlidersHorizontal, Sparkles, Keyboard,
   Database, Terminal, Plug, FunctionSquare, Cable, Sigma, LayoutGrid, Compass, MousePointerClick,
-  BookOpen, MapPin, ArrowLeftRight, Info,
+  BookOpen, MapPin, ArrowLeftRight, Info, Play, Pause, ChevronLeft, ChevronRight, Film,
 } from "lucide-react";
 import { buildHetero, layoutSubset, layoutZoned, FLOWS, MODES, KIND_META, S4_COLOR, ZONES, zoneOf, type SHetero, type SKind, type ZoneBand, type Zone } from "@/lib/studio-graph";
 import { lookupEntity } from "@/lib/entity-lookup";
@@ -52,6 +52,9 @@ export function ArchitectureStudio() {
   const [coach, setCoach] = useState(false);
   const [present, setPresent] = useState(false); // §12 presentation mode — chrome off, graph fills the viewport
   const [booting, setBooting] = useState(true); // §25 wow-in-10s — skeleton until first fit settles, then fade in
+  const [demo, setDemo] = useState(false); // §23 live demo — animated node-by-node walkthrough of the business flow
+  const [demoStep, setDemoStep] = useState(0);
+  const [playing, setPlaying] = useState(false);
   const [tr, setTr] = useState({ x: 0, y: 0, k: 1 });
   const [sel, setSel] = useState<string | null>(null);
   const [hover, setHover] = useState<string | null>(null);
@@ -63,6 +66,8 @@ export function ArchitectureStudio() {
   const camHist = useRef<{ x: number; y: number; k: number }[]>([]); // §18 camera history — ESC returns to previous view
   const accent = MOD_COLOR[module];
   const flowSet = useMemo(() => new Set((FLOWS[module] || []).map((s) => s.code)), [module]);
+  // §23 the storyline — business-flow steps that actually exist as nodes
+  const demoFlow = useMemo(() => (FLOWS[module] || []).filter((s) => h.nodes.has(s.code)), [module, h]);
 
   const inScope = (id: string) => { const n = h.nodes.get(id); return !!n && mode.kinds.includes(n.kind) && kindFilter.has(n.kind); };
   const scopeNbrs = (id: string) => [...(h.adj.get(id) || [])].filter(inScope);
@@ -160,6 +165,22 @@ export function ArchitectureStudio() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // §23 drive the camera + selection to the current demo step
+  useEffect(() => {
+    if (!demo || !demoFlow.length) return;
+    const code = demoFlow[Math.min(demoStep, demoFlow.length - 1)].code;
+    setSel(code);
+    const t = setTimeout(() => demoFocus(code), 70);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [demo, demoStep, demoFlow, layout.width, layout.height]);
+  // §23 auto-advance while playing; stop at the last step
+  useEffect(() => {
+    if (!demo || !playing || !demoFlow.length) return;
+    const iv = setInterval(() => setDemoStep((s) => { if (s >= demoFlow.length - 1) { setPlaying(false); return s; } return s + 1; }), 3600);
+    return () => clearInterval(iv);
+  }, [demo, playing, demoFlow.length]);
+
   const onWheel = (e: React.WheelEvent) => { const el = wrapRef.current; if (!el) return; const r = el.getBoundingClientRect(); const px = e.clientX - r.left, py = e.clientY - r.top; const nk = Math.min(2.6, Math.max(0.14, tr.k * (1 - e.deltaY * 0.0014))); const f = nk / tr.k; setTr(clampTr({ k: nk, x: px - (px - tr.x) * f, y: py - (py - tr.y) * f })); };
   const onDown = (e: React.PointerEvent) => { if ((e.target as Element).closest("[data-node]")) return; drag.current = { x: e.clientX, y: e.clientY, ox: tr.x, oy: tr.y, moved: false }; };
   const onMove = (e: React.PointerEvent) => { if (drag.current) { if (Math.abs(e.clientX - drag.current.x) + Math.abs(e.clientY - drag.current.y) > 3) drag.current.moved = true; setTr((p) => clampTr({ ...p, x: drag.current!.ox + (e.clientX - drag.current!.x), y: drag.current!.oy + (e.clientY - drag.current!.y) })); } };
@@ -173,6 +194,11 @@ export function ArchitectureStudio() {
   const centerOn = (id: string) => { pushCam(); setSel(id); setTimeout(() => focusOn(id), 20); };
   // §18 double-click = cinematic zoom INTO the object / business area
   const zoomInto = (id: string) => { const n = layout.nodes.find((x) => x.id === id); const el = wrapRef.current; if (!n || !el) return; pushCam(); setSel(id); const k = Math.min(2.2, Math.max(1.7, tr.k * 1.5)); setTr(clampTr({ k, x: el.clientWidth / 2 - n.x * k, y: el.clientHeight / 2 - n.y * k })); };
+  // §23 live demo — camera glides to a step node at a steady cinematic zoom
+  const demoFocus = (id: string) => { const n = layout.nodes.find((x) => x.id === id); const el = wrapRef.current; if (!n || !el) return; const k = 1.55; setTr(clampTr({ k, x: el.clientWidth / 2 - n.x * k, y: el.clientHeight / 2 - n.y * k })); };
+  const enterDemo = () => { setPresent(true); setModeId("business"); setBooting(false); setDemo(true); setDemoStep(0); setPlaying(true); };
+  const exitDemo = () => { setDemo(false); setPlaying(false); setPresent(false); setSel(null); };
+  const goStep = (i: number) => { if (!demoFlow.length) return; const n = ((i % demoFlow.length) + demoFlow.length) % demoFlow.length; setDemoStep(n); setSel(demoFlow[n].code); };
 
   // selecting a node makes it the workspace-wide active context
   useEffect(() => { if (sel) setActiveEntity(h.nodes.get(sel)?.label || sel); }, [sel, h]);
@@ -235,6 +261,14 @@ export function ArchitectureStudio() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement; if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) return;
+      // §23 demo takes over the keyboard: ← next · → prev (RTL) · Space play/pause · Esc exit
+      if (demo) {
+        if (e.key === "Escape") { exitDemo(); return; }
+        if (e.key === "ArrowLeft") { e.preventDefault(); setPlaying(false); goStep(demoStep + 1); return; }
+        if (e.key === "ArrowRight") { e.preventDefault(); setPlaying(false); goStep(demoStep - 1); return; }
+        if (e.code === "Space") { e.preventDefault(); setPlaying((p) => !p); return; }
+        return;
+      }
       if (e.key === "Escape") { if (present) setPresent(false); else if (popCam()) { /* returned to previous view */ } else if (sel) setSel(null); }
       else if (e.code === "Space" && sel) { e.preventDefault(); focusOn(sel); }
       else if (e.key === "+" || e.key === "=") zoom(1.25);
@@ -242,7 +276,7 @@ export function ArchitectureStudio() {
     };
     window.addEventListener("keydown", onKey); return () => window.removeEventListener("keydown", onKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sel, layout, tr, present]);
+  }, [sel, layout, tr, present, demo, demoStep, demoFlow]);
 
   const dismissCoach = () => { setCoach(false); try { localStorage.setItem(COACH_KEY, "1"); } catch { /* noop */ } };
   const btn = "tap transition active:scale-95";
@@ -264,6 +298,7 @@ export function ArchitectureStudio() {
           {tipNode && sel && <><ArrowLeft className="size-3 shrink-0" /><span className="tech font-mono font-extrabold text-slate-800" dir="ltr">{tipNode.label}</span></>}
         </nav>
         <div className="flex items-center gap-2">
+          <button onClick={() => { enterDemo(); dismissCoach(); }} title="Live Demo — סיור מונפש בתהליך העסקי (Esc ליציאה)" aria-label="Live Demo" className={`${btn} flex h-9 items-center gap-1.5 rounded-xl px-3 text-[12.5px] font-extrabold text-white shadow-sm`} style={{ background: "#0f172a" }}><Play className="size-3.5" />Live Demo</button>
           <button onClick={() => { setPresent(true); dismissCoach(); }} title="מצב מצגת — הגרף על מלוא המסך (Esc ליציאה)" aria-label="מצב מצגת" className={`${btn} flex h-9 items-center gap-1.5 rounded-xl px-3 text-[12.5px] font-extrabold text-white shadow-sm`} style={{ background: accent }}><Maximize2 className="size-4" />מצגת</button>
           <button onClick={() => setShowKeys((v) => !v)} title="קיצורי מקלדת" aria-label="קיצורי מקלדת" className={`${btn} grid size-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 hover:text-brand`}><Keyboard className="size-4" /></button>
           <div className="flex items-center gap-1.5 rounded-xl bg-slate-100 p-1">
@@ -321,8 +356,8 @@ export function ArchitectureStudio() {
       {/* split view: graph left, inspector right (single column in presentation mode) */}
       <div className={`grid gap-3 ${present ? "" : "lg:grid-cols-[minmax(0,1fr)_360px]"}`}>
         <div className={present ? "fixed inset-0 z-[55] bg-slate-50 p-3" : "relative"}>
-          {/* presentation-mode floating control bar — exit + module + mode selector */}
-          {present && (
+          {/* presentation-mode floating control bar — exit + module + mode selector (hidden during live demo) */}
+          {present && !demo && (
             <div className="absolute left-3 top-3 z-40 flex max-w-[calc(100%-1.5rem)] flex-wrap items-center gap-2">
               <button onClick={() => setPresent(false)} title="צא ממצב מצגת (Esc)" className={`${btn} flex items-center gap-1.5 rounded-xl bg-slate-900 px-3 py-2 text-[12.5px] font-extrabold text-white shadow-lg`}><X className="size-4" />צא ממצגת</button>
               <div className="flex items-center gap-1 rounded-xl border border-slate-200 bg-white/95 p-1 shadow-sm backdrop-blur">
@@ -333,6 +368,51 @@ export function ArchitectureStudio() {
               </div>
             </div>
           )}
+
+          {/* §23 LIVE DEMO overlay — metrics · progress · step card · transport */}
+          {demo && demoFlow.length > 0 && (() => {
+            const step = demoFlow[Math.min(demoStep, demoFlow.length - 1)];
+            const sN = h.nodes.get(step.code);
+            const pct = ((demoStep + 1) / demoFlow.length) * 100;
+            const zone = sN?.kind === "table" ? (ZONE_HE[zoneOf(step.code)] || "") : "";
+            const s4he = sN?.s4 ? ({ kept: "נשמר ב-S/4", replaced: "הוחלף ב-S/4", removed: "הוסר ב-S/4" } as Record<string, string>)[sN.s4] : null;
+            return (
+              <>
+                <div className="absolute inset-x-0 top-0 z-40 h-1 bg-slate-200/80"><motion.div className="h-full" style={{ background: accent }} initial={false} animate={{ width: `${pct}%` }} transition={{ duration: reduce ? 0 : 0.45, ease: [0.2, 0.7, 0.2, 1] }} /></div>
+                <div className="pointer-events-none absolute inset-x-0 top-4 z-40 flex justify-center px-3">
+                  <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 rounded-full border border-white/10 bg-slate-900/90 px-4 py-2 text-white shadow-xl backdrop-blur">
+                    <span className="flex items-center gap-1.5 text-[12px] font-extrabold"><Film className="size-4" style={{ color: accent }} />Live Demo</span>
+                    <span className="h-3.5 w-px bg-white/20" />
+                    <span className="text-[12px] font-bold tabular-nums">שלב {demoStep + 1}/{demoFlow.length}</span>
+                    <span className="text-[11px] text-white/55">{module}</span>
+                    {zone && <span className="text-[11px] text-white/55">· {zone}</span>}
+                    <span className="text-[11px] text-white/55">· {playing ? "מתנגן" : "מושהה"}</span>
+                  </div>
+                </div>
+                <div className="absolute inset-x-0 bottom-4 z-40 flex justify-center px-3">
+                  <motion.div key={step.code} initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", stiffness: 300, damping: 28 }}
+                    className="w-[min(94%,42rem)] rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-2xl backdrop-blur">
+                    <div className="flex items-center gap-2">
+                      <span className="grid size-8 shrink-0 place-items-center rounded-lg text-[12px] font-extrabold text-white" style={{ background: accent }}>{demoStep + 1}</span>
+                      <span className="tech font-mono text-lg font-extrabold text-slate-900" dir="ltr">{step.code}</span>
+                      <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-500">{step.label}</span>
+                      {s4he && <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: S4_COLOR[sN!.s4!] }}>{s4he}</span>}
+                    </div>
+                    {(tip?.he || sN?.he) && <p className="mt-2 text-[13px] leading-relaxed text-slate-600">{tip?.he || sN?.he}</p>}
+                    {tip?.purpose && <p className="mt-1.5 flex gap-1.5 text-[12.5px] leading-relaxed text-slate-500"><Target className="mt-0.5 size-3.5 shrink-0 text-blue-500" />{tip.purpose}</p>}
+                    <div className="mt-3 flex items-center gap-1.5 border-t border-slate-100 pt-3">
+                      <button onClick={() => { setPlaying(false); goStep(0); }} title="התחל מחדש" className={`${btn} grid size-9 place-items-center rounded-xl border border-slate-200 text-slate-500 hover:text-brand`}><RotateCcw className="size-4" /></button>
+                      <button onClick={() => { setPlaying(false); goStep(demoStep - 1); }} title="הקודם (→)" className={`${btn} grid size-9 place-items-center rounded-xl border border-slate-200 text-slate-500 hover:text-brand`}><ChevronRight className="size-5" /></button>
+                      <button onClick={() => setPlaying((p) => !p)} title="נגן / השהה (רווח)" className={`${btn} flex items-center gap-1.5 rounded-xl px-4 py-2 text-[13px] font-extrabold text-white shadow-sm`} style={{ background: accent }}>{playing ? <Pause className="size-4" /> : <Play className="size-4" />}{playing ? "השהה" : "נגן"}</button>
+                      <button onClick={() => { setPlaying(false); goStep(demoStep + 1); }} title="הבא (←)" className={`${btn} grid size-9 place-items-center rounded-xl border border-slate-200 text-slate-500 hover:text-brand`}><ChevronLeft className="size-5" /></button>
+                      <button onClick={exitDemo} title="צא מ-Demo (Esc)" className={`${btn} ms-auto flex items-center gap-1.5 rounded-xl bg-slate-900 px-3 py-2 text-[12px] font-extrabold text-white`}><X className="size-4" />צא</button>
+                    </div>
+                  </motion.div>
+                </div>
+              </>
+            );
+          })()}
+
           {/* search — hidden in presentation mode to keep the stage clean */}
           <div className={`absolute right-3 top-3 z-30 w-64 max-w-[70%] ${present ? "hidden" : ""}`}>
             <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white/95 px-3 py-2 shadow-sm backdrop-blur"><Search className="size-4 shrink-0 text-slate-400" /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש אובייקט…" className="w-full bg-transparent text-sm outline-none placeholder:text-slate-300" dir="ltr" /></div>
