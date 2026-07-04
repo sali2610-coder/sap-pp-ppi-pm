@@ -27,7 +27,7 @@ export default function RouteError({ error, reset }: { error: Error & { digest?:
               <g fill="#fff"><circle cx="33" cy="37" r="8" /><circle cx="67" cy="35" r="8" /><circle cx="50" cy="68" r="10.5" /></g>
             </svg>
           </span>
-          <div className="text-start"><div className="text-[13px] font-extrabold tracking-tight text-slate-800">SAP by Sali</div><div className="text-[11px] font-semibold text-slate-400">Project NEO Cockpit</div></div>
+          <div className="text-start"><div className="text-[13px] font-extrabold tracking-tight text-slate-800">SAP by Sali</div><div className="text-[11px] font-semibold text-slate-400">Project NEO</div></div>
         </div>
         <div className="mx-auto mt-6 grid size-12 place-items-center rounded-2xl bg-amber-50 text-amber-500"><AlertTriangle className="size-6" /></div>
         <h1 className="mt-3 text-xl font-extrabold text-slate-900">משהו השתבש בטעינת העמוד</h1>

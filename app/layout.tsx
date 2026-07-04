@@ -4,38 +4,37 @@ import { AppShell } from "@/components/app-shell";
 import { Analytics } from "@vercel/analytics/next";
 
 const SITE = "https://sapbysali.app";
+const AUTHOR = "Sali Halif";
 const DESC =
-  "SAP by Sali · Project NEO — a single source of truth for SAP ECC → S/4HANA migration. Live Architecture Studio, technical data dictionary, status cockpit for PM & PP-PI. 100% offline · RTL.";
-const DESC_HE =
-  "מקור אמת יחיד למיגרציית SAP ECC ל-S/4HANA — סטודיו ארכיטקטורה חי, מילון נתונים טכני וקוקפיט סטטוס ל-PM ו-PP-PI.";
+  "Interactive SAP PP, PP-PI and PM knowledge platform including architecture explorer, table explorer, business processes, SAP learning resources and enterprise documentation.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: "SAP by Sali | Project NEO Cockpit",
+    default: "SAP by Sali | Project NEO",
     template: "SAP by Sali | %s",
   },
   description: DESC,
   applicationName: "SAP by Sali",
-  authors: [{ name: "Sali Khalif" }],
-  creator: "Sali Khalif",
-  publisher: "CBC Israel",
-  keywords: ["SAP", "S/4HANA", "ECC", "PP-PI", "PM", "Architecture", "Migration", "Project NEO", "CBC Israel", "Fiori", "CDS", "BAPI"],
-  alternates: { canonical: "/" },
+  authors: [{ name: AUTHOR, url: SITE }],
+  creator: AUTHOR,
+  publisher: "SAP by Sali",
+  keywords: ["SAP", "S/4HANA", "ECC", "PP", "PP-PI", "PM", "Architecture", "Table Explorer", "Business Processes", "Project NEO", "SAP by Sali", "Fiori", "CDS", "BAPI"],
+  alternates: { canonical: SITE },
   manifest: "/manifest.webmanifest",
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
   openGraph: {
     type: "website",
-    siteName: "SAP by Sali · Project NEO",
+    siteName: "SAP by Sali",
     url: SITE,
-    title: "SAP by Sali | Project NEO Cockpit",
-    description: DESC_HE,
+    title: "SAP by Sali | Project NEO",
+    description: DESC,
     locale: "he_IL",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "SAP by Sali — Project NEO · SAP Architecture Command Center" }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "SAP by Sali — Project NEO · Interactive SAP Knowledge Platform" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SAP by Sali | Project NEO Cockpit",
+    title: "SAP by Sali | Project NEO",
     description: DESC,
     images: ["/og.png"],
   },
@@ -57,7 +56,8 @@ const JSON_LD = {
       "@type": "WebSite",
       "@id": `${SITE}/#website`,
       url: SITE,
-      name: "SAP by Sali · Project NEO",
+      name: "SAP by Sali",
+      alternateName: "Project NEO",
       description: DESC,
       inLanguage: "he-IL",
       publisher: { "@id": `${SITE}/#org` },
@@ -65,10 +65,11 @@ const JSON_LD = {
     {
       "@type": "Organization",
       "@id": `${SITE}/#org`,
-      name: "Project NEO — CBC Israel",
+      name: "SAP by Sali",
+      alternateName: "Project NEO — SAP Knowledge Platform",
       url: SITE,
       logo: `${SITE}/icon-512.png`,
-      founder: { "@type": "Person", name: "Sali Khalif", jobTitle: "Web Coding · Architecture & Development" },
+      founder: { "@type": "Person", name: AUTHOR, jobTitle: "Architecture & Development" },
     },
   ],
 };

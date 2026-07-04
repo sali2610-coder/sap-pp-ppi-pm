@@ -21,7 +21,7 @@ export default function NotFound() {
           <Monogram />
           <div className="text-start">
             <div className="text-[13px] font-extrabold tracking-tight text-slate-800">SAP by Sali</div>
-            <div className="text-[11px] font-semibold text-slate-400">Project NEO Cockpit</div>
+            <div className="text-[11px] font-semibold text-slate-400">Project NEO</div>
           </div>
         </div>
         <p className="mt-6 bg-gradient-to-b from-brand to-brand-dark bg-clip-text text-6xl font-black tracking-tighter text-transparent">404</p>

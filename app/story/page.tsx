@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { STORIES } from "@/data/story/pppi-process-order";
 
-export const metadata = { title: "סיורים מודרכים · NEO Cockpit" };
+export const metadata = { title: "סיורים מודרכים · Project NEO" };
 
 export default function StoryHome() {
   const stories = Object.values(STORIES);

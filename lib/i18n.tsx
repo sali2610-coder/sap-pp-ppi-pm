@@ -78,8 +78,8 @@ const DICT: Dict = {
   "ux.fontSize": { he: "גודל טקסט", en: "Text size" },
   "ux.note": { he: "מתאים לקריאה נוחה ברצפת הייצור. נשמר מקומית בדפדפן.", en: "For comfortable reading on the shop floor. Saved locally." },
   "footer.credit": {
-    he: "הערת פיתוח: האתר נבנה עבור המפתח ב-Web Coding, סאלי חליף. (Project NEO - CBC Israel)",
-    en: "Development note: built for the developer at Web Coding, Sali Halif. (Project NEO - CBC Israel)",
+    he: "נבנה על ידי סאלי חליף · Project NEO — פלטפורמת ידע SAP",
+    en: "Built by Sali Halif · Project NEO — SAP Knowledge Platform",
   },
   "footer.offline": { he: "100% Offline · Static Export", en: "100% Offline · Static Export" },
   "lang.switch": { he: "EN", en: "עב" },

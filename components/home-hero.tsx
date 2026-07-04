@@ -57,7 +57,7 @@ export function HomeHero({ stats }: { stats: HeroStats }) {
           </span>
           SAP Enterprise Command Center
         </span>
-        <h1 className="mt-4 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">Project NEO Cockpit</h1>
+        <h1 className="mt-4 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">Project NEO</h1>
         <p className="mt-3 max-w-2xl text-balance text-sm leading-relaxed text-white/85 sm:text-lg">
           מרכז השליטה לארכיטקטורת SAP של CBC — מודולים, תהליכים, טבלאות וקשרים במקום אחד. ECC6 → S/4HANA.
         </p>

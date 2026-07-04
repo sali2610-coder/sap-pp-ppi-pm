@@ -5,9 +5,9 @@ export const dynamic = "force-static";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "SAP by Sali · Project NEO Cockpit",
+    name: "SAP by Sali · Project NEO",
     short_name: "SAP by Sali",
-    description: "SAP ECC → S/4HANA migration command center — Live Architecture Studio, data dictionary & status cockpit for PM & PP-PI.",
+    description: "Interactive SAP PP, PP-PI and PM knowledge platform — architecture explorer, table explorer, business processes, learning resources and enterprise documentation.",
     id: "/",
     start_url: "/",
     scope: "/",

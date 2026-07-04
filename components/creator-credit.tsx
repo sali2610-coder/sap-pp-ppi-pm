@@ -15,7 +15,7 @@ export function CreatorCredit() {
       initial={reduce ? false : { opacity: 0, y: -4 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.3, ease: [0.2, 0.7, 0.2, 1] }}
-      aria-label="Built by Sali Khalif · Web Coding · Project NEO"
+      aria-label="Built by Sali Halif · Project NEO · SAP by Sali"
       style={{ borderColor: RED }}
       className={`${reduce ? "" : "credit-red-glow"} flex w-full items-center justify-between gap-3 rounded-full border-2 bg-white px-4 py-1.5 text-[12px] font-bold leading-none`}>
       {/* right group (RTL start) — Project NEO + badge */}
@@ -29,15 +29,14 @@ export function CreatorCredit() {
 
       {/* center — creator */}
       <span className="hidden shrink-0 whitespace-nowrap text-slate-500 sm:inline">
-        Built by <b className="font-extrabold" style={{ color: RED }}>Sali Khalif</b>
-        <span className="hidden lg:inline"> · Web Coding</span>
+        Built by <b className="font-extrabold" style={{ color: RED }}>Sali&nbsp;Halif</b>
       </span>
 
-      {/* left group (RTL end) — platform + org */}
+      {/* left group (RTL end) — platform */}
       <span className="flex shrink-0 items-center gap-2 whitespace-nowrap">
-        <span className="hidden text-slate-400 md:inline">SAP Architecture Platform</span>
+        <span className="hidden text-slate-400 md:inline">SAP Knowledge Platform</span>
         <span className="hidden h-3 w-px bg-slate-200 md:inline-block" />
-        <b className="font-extrabold" style={{ color: RED }}>CBC&nbsp;Israel</b>
+        <b className="font-extrabold" style={{ color: RED }}>SAP&nbsp;by&nbsp;Sali</b>
       </span>
     </motion.div>
   );

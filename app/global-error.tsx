@@ -14,7 +14,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
                 <g fill="#fff"><circle cx="33" cy="37" r="8" /><circle cx="67" cy="35" r="8" /><circle cx="50" cy="68" r="10.5" /></g>
               </svg>
             </span>
-            <div style={{ textAlign: "start" }}><div style={{ fontSize: 13, fontWeight: 800, color: "#1e293b" }}>SAP by Sali</div><div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8" }}>Project NEO Cockpit</div></div>
+            <div style={{ textAlign: "start" }}><div style={{ fontSize: 13, fontWeight: 800, color: "#1e293b" }}>SAP by Sali</div><div style={{ fontSize: 11, fontWeight: 600, color: "#94a3b8" }}>Project NEO</div></div>
           </div>
           <h1 style={{ fontSize: 20, fontWeight: 800, marginTop: 20 }}>שגיאה בטעינת היישום</h1>
           <p style={{ fontSize: 14, color: "#64748b", marginTop: 6 }}>טען מחדש כדי להמשיך.</p>
