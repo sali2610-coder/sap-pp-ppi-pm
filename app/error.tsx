@@ -18,14 +18,23 @@ export default function RouteError({ error, reset }: { error: Error & { digest?:
   }, [error]);
 
   return (
-    <div dir="rtl" className="grid min-h-[60vh] place-items-center px-6">
+    <div dir="rtl" className="grid min-h-[70vh] place-items-center px-6">
       <div className="w-full max-w-md text-center">
-        <div className="mx-auto grid size-16 place-items-center rounded-2xl bg-amber-50 text-amber-500"><AlertTriangle className="size-8" /></div>
-        <h1 className="mt-4 text-xl font-extrabold text-slate-900">משהו השתבש בטעינת העמוד</h1>
-        <p className="mt-1.5 text-sm leading-relaxed text-slate-500">אפשר לנסות שוב — הנתונים נטענים מקומית. אם זה חוזר, חזור לעמוד הבית.</p>
+        <div className="mx-auto flex items-center justify-center gap-2.5">
+          <span className="grid size-14 place-items-center rounded-[26%] text-white shadow-lg shadow-brand/30" style={{ background: "radial-gradient(130% 130% at 30% 18%, #e23b41, #d62027 46%, #a3171c)" }}>
+            <svg viewBox="0 0 100 100" width="34" height="34" fill="none" aria-hidden>
+              <g stroke="#fff" strokeWidth="6" strokeLinecap="round"><line x1="33" y1="37" x2="67" y2="35" /><line x1="33" y1="37" x2="50" y2="68" /><line x1="67" y1="35" x2="50" y2="68" /></g>
+              <g fill="#fff"><circle cx="33" cy="37" r="8" /><circle cx="67" cy="35" r="8" /><circle cx="50" cy="68" r="10.5" /></g>
+            </svg>
+          </span>
+          <div className="text-start"><div className="text-[13px] font-extrabold tracking-tight text-slate-800">SAP by Sali</div><div className="text-[11px] font-semibold text-slate-400">Project NEO Cockpit</div></div>
+        </div>
+        <div className="mx-auto mt-6 grid size-12 place-items-center rounded-2xl bg-amber-50 text-amber-500"><AlertTriangle className="size-6" /></div>
+        <h1 className="mt-3 text-xl font-extrabold text-slate-900">משהו השתבש בטעינת העמוד</h1>
+        <p className="mt-1.5 text-sm leading-relaxed text-slate-500">אפשר לנסות שוב — הנתונים נטענים מקומית. אם זה חוזר, חזור לקוקפיט.</p>
         <div className="mt-5 flex justify-center gap-2">
-          <button onClick={() => reset()} className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-sm font-extrabold text-white shadow-sm active:scale-95"><RotateCcw className="size-4" />נסה שוב</button>
-          <Link href="/" className="tap inline-flex items-center gap-1.5 rounded-xl border-2 border-slate-200 px-4 py-2.5 text-sm font-bold text-slate-600 active:scale-95"><Home className="size-4" />לדף הבית</Link>
+          <button onClick={() => reset()} className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-sm font-extrabold text-white shadow-sm shadow-brand/25 active:scale-95"><RotateCcw className="size-4" />נסה שוב</button>
+          <Link href="/" className="tap inline-flex items-center gap-1.5 rounded-xl border-2 border-slate-200 px-4 py-2.5 text-sm font-bold text-slate-600 hover:border-brand/40 hover:text-brand active:scale-95"><Home className="size-4" />לקוקפיט</Link>
         </div>
       </div>
     </div>
