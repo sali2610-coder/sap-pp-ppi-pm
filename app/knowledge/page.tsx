@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { CenterHeader } from "@/components/knowledge";
+
+export const metadata: Metadata = {
+  title: "SAP Knowledge Center",
+  description:
+    "SAP knowledge center — concepts, enhancements, ECC↔S/4HANA changes, transactions and cross-module topics for PP, PP-PI and PM on SAP by Sali · Project NEO.",
+};
 import { KnowledgeExplorer } from "@/components/knowledge-explorer";
 import { CONCEPTS } from "@/data/concepts";
 import { ENHANCEMENTS } from "@/data/enhancements";
