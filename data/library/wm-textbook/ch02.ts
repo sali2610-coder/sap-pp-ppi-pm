@@ -10,7 +10,7 @@ export const CH2: TextbookChapter = {
   titleHe: "שילוב עם תכנון ייצור (PP)",
   titleEn: "Production Planning Integration",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לשילוב בין SAP Extended Warehouse Management (EWM) לבין תכנון-הייצור (PP). נבין כיצד EWM מזין את רצפת-הייצור בחומרי-גלם (Staging), כיצד הוא קולט את התוצרת המוגמרת בחזרה למחסן (Goods Receipt), וכיצד צריכת-החומר (Consumption) נרשמת מול הזמנות-הייצור. נבחין בין שתי שיטות-האינטגרציה המרכזיות — delivery-based production integration (מבוססת-אספקה, הפשוטה) לעומת advanced production integration (המתקדמת, מבוססת Production Material Request) — נכיר את אזור-אספקת-הייצור (Production Supply Area, PSA), את תהליכי הניקוי וההזנה-המחדש (replenishment), ולבסוף את האינטגרציה עם SAP Manufacturing Execution (SAP ME) ו-MFS. כל תת-פרק ותת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים: שלוש רמות-הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת CBC (מפעל-הבקבוק של קוקה-קולה ישראל המזין את קווי-המילוי ומקבל משקאות מוגמרים), ניווט/SPRO, טבלאות/T-Codes/Fiori, קונפיגורציה, תרשים-תהליך, טעויות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות. המטרה: ללמוד את הנושא במלואו ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לשילוב בין SAP Extended Warehouse Management (EWM) לבין תכנון-הייצור (PP). נבין כיצד EWM מזין את רצפת-הייצור בחומרי-גלם (Staging), כיצד הוא קולט את התוצרת המוגמרת בחזרה למחסן (Goods Receipt), וכיצד צריכת-החומר (Consumption) נרשמת מול הזמנות-הייצור. נבחין בין שתי שיטות-האינטגרציה המרכזיות — delivery-based production integration (מבוססת-אספקה, הפשוטה) לעומת advanced production integration (המתקדמת, מבוססת Production Material Request) — נכיר את אזור-אספקת-הייצור (Production Supply Area, PSA), את תהליכי הניקוי וההזנה-המחדש (replenishment), ולבסוף את האינטגרציה עם SAP Manufacturing Execution (SAP ME) ו-MFS. כל תת-פרק ותת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים: שלוש רמות-הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת הארגון (מפעל-הבקבוק של מוצר לדוגמה ישראל המזין את קווי-המילוי ומקבל משקאות מוגמרים), ניווט/SPRO, טבלאות/T-Codes/Fiori, קונפיגורציה, תרשים-תהליך, טעויות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות. המטרה: ללמוד את הנושא במלואו ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 2.1
     {
@@ -27,8 +27,8 @@ export const CH2: TextbookChapter = {
         "המטרה: להבטיח שהחומר הנכון יגיע לקו הנכון בזמן הנכון (just-in-time staging), שהצריכה תירשם מדויק מול ההזמנה, ושהתוצרת המוגמרת תיקלט מיד למלאי-זמין. שילוב טוב מקטין מלאי-רצפה, מונע עצירות-קו בגלל חוסר-חומר, ומשמר תאום-מלאי בין EWM, PP ו-MM-IM.",
       processExampleHe:
         "מחזור מלא: PP משחרר Manufacturing Order ➔ נוצרת דרישת-הזנה ל-EWM ➔ EWM מנתב Warehouse Task להעברת רכיבים מ-bin אחסון ל-PSA bin ברצפה ➔ הייצור צורך את החומר (Consumption, תנועה 261) ➔ בסיום, התוצרת המוגמרת נקלטת (Goods Receipt, תנועה 101) ל-bin קבלה ב-EWM ➔ EWM מבצע putaway ל-bin אחסון. המלאי מתואם לאורך כל השרשרת.",
-      cbcHe:
-        "ב-CBC (קוקה-קולה ישראל): קו-המילוי הוא תחנת-הצריכה. EWM מזין לקו תרכיז, סוכר, CO2, בקבוקים, פקקים ותוויות מה-bins של המחסן ל-PSA שליד הקו (Staging). הקו ממלא ומסמן בקבוקים, צורך את החומרים (Consumption), ובסוף משטחי-המשקה המוגמר נקלטים חזרה למחסן (Goods Receipt) עם batch ו-FEFO. נפח גבוה ⟵ advanced production integration כדי לתזמן staging just-in-time ולמנוע עומס-חומר ליד הקו.",
+      scenarioHe:
+        "בארגון (מוצר לדוגמה ישראל): קו-המילוי הוא תחנת-הצריכה. EWM מזין לקו תרכיז, סוכר, CO2, בקבוקים, פקקים ותוויות מה-bins של המחסן ל-PSA שליד הקו (Staging). הקו ממלא ומסמן בקבוקים, צורך את החומרים (Consumption), ובסוף משטחי-המשקה המוגמר נקלטים חזרה למחסן (Goods Receipt) עם batch ו-FEFO. נפח גבוה ⟵ advanced production integration כדי לתזמן staging just-in-time ולמנוע עומס-חומר ליד הקו.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Receipt Process ► Production Integration",
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Manufacturing (PP) Integration ► Basic Settings",
@@ -105,8 +105,8 @@ export const CH2: TextbookChapter = {
         "המטרה: לאפשר אינטגרציית-ייצור בסיסית בעלות-הגדרה נמוכה, תוך שימוש-חוזר בכל מנגנוני-האספקה הקיימים של EWM. מתאים כשהייצור אינו דורש staging מתוחכם או ניהול-PSA ברזולוציה גבוהה.",
       processExampleHe:
         "Manufacturing Order משוחרר ➔ PP יוצר Outbound Delivery לרכיבים ➔ EWM מבצע picking ו-staging ➔ הייצור צורך ➔ בסיום נוצרת Inbound Delivery לתוצרת ➔ EWM מבצע GR ו-putaway. כל תנועה היא אספקה רגילה ב-EWM.",
-      cbcHe:
-        "ב-CBC: קו-מילוי משני בנפח נמוך מנוהל במודל מבוסס-אספקה — Outbound Delivery מזינה בקבוקים ופקקים, Inbound Delivery קולטת את המשקה המוגמר. פשוט להגדרה, מספיק לקו שאינו דורש JIT.",
+      scenarioHe:
+        "בארגון: קו-מילוי משני בנפח נמוך מנוהל במודל מבוסס-אספקה — Outbound Delivery מזינה בקבוקים ופקקים, Inbound Delivery קולטת את המשקה המוגמר. פשוט להגדרה, מספיק לקו שאינו דורש JIT.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Receipt Process ► Production Integration ► Delivery-Based Production Integration",
         "SAP Easy Access ► Logistics ► SCM Extended Warehouse Management ► Delivery Processing",
@@ -175,8 +175,8 @@ export const CH2: TextbookChapter = {
             "להבהיר את גבולות-המודל ולוודא בחירה-מושכלת: מבוסס-אספקה למקרים פשוטים, advanced למורכבים.",
           processExampleHe:
             "Order משוחרר ➔ Outbound Delivery לרכיבים ➔ EWM picking/staging ➔ צריכה ➔ Inbound Delivery לתוצרת ➔ GR. כל שלב = אספקה.",
-          cbcHe:
-            "ב-CBC קו-מילוי קטן: כל אצווה מזינה רכיבים דרך Outbound Delivery וקולטת משקה מוגמר דרך Inbound Delivery — ללא PSA bin ייעודי.",
+          scenarioHe:
+            "בארגון קו-מילוי קטן: כל אצווה מזינה רכיבים דרך Outbound Delivery וקולטת משקה מוגמר דרך Inbound Delivery — ללא PSA bin ייעודי.",
           navHe: [
             "SCM Extended Warehouse Management ► Goods Receipt Process ► Production Integration ► Delivery-Based ► Basic Settings",
           ],
@@ -222,8 +222,8 @@ export const CH2: TextbookChapter = {
             "להבטיח שהחומר הנכון, בכמות הנכונה, יהיה זמין ליד הקו לפני תחילת-הייצור — ולמנוע עצירות-קו.",
           processExampleHe:
             "Order ל-1,000 יח' ➔ Reservation דורש רכיבים ➔ Outbound Delivery נוצרת ➔ EWM picking מ-bin אחסון ➔ העברה ל-staging area ליד הקו ➔ אישור ה-WT מעדכן מלאי.",
-          cbcHe:
-            "ב-CBC: לפני הרצת-מילוי, EWM מזין לקו תרכיז וסוכר (batch-managed) בכמות לפי ה-Reservation, ומניח אותם ב-staging area שליד הקו דרך Outbound Delivery.",
+          scenarioHe:
+            "בארגון: לפני הרצת-מילוי, EWM מזין לקו תרכיז וסוכר (batch-managed) בכמות לפי ה-Reservation, ומניח אותם ב-staging area שליד הקו דרך Outbound Delivery.",
           navHe: [
             "SCM Extended Warehouse Management ► Goods Receipt Process ► Production Integration ► Delivery-Based ► Staging",
           ],
@@ -280,8 +280,8 @@ export const CH2: TextbookChapter = {
             "לתעד צריכת-חומר מדויקת לחישוב-עלות, לעדכון-מלאי ולסגירת-הזמנה נכונה.",
           processExampleHe:
             "הקו צורך 1,000 בקבוקים ➔ תנועת-261 מורידה מהמלאי כנגד ה-Reservation ➔ העלות נזקפת להזמנה ➔ confirmation עם backflush רושם צריכה אוטומטית.",
-          cbcHe:
-            "ב-CBC: בעת מילוי, הקו צורך תרכיז/סוכר/בקבוקים; ה-backflush ב-confirmation רושם תנועת-261 לפי ה-BOM, והעלות נזקפת לאצוות-המשקה.",
+          scenarioHe:
+            "בארגון: בעת מילוי, הקו צורך תרכיז/סוכר/בקבוקים; ה-backflush ב-confirmation רושם תנועת-261 לפי ה-BOM, והעלות נזקפת לאצוות-המשקה.",
           navHe: [
             "SCM Extended Warehouse Management ► Goods Receipt Process ► Production Integration ► Delivery-Based ► Consumption",
             "Production ► Shop Floor Control ► Confirmations ► Define Confirmation Parameters",
@@ -342,8 +342,8 @@ export const CH2: TextbookChapter = {
             "להפוך תוצרת-ייצור למלאי-זמין-למכירה במהירות, לתעד תפוקה מול ההזמנה, ולשמר נראות-מלאי מדויקת.",
           processExampleHe:
             "הקו מסיים 1,000 יח' ➔ confirmation מפעיל GR אוטומטי (101) ➔ Inbound Delivery נוצרת ב-EWM ➔ putaway WT מנתב ל-bin אחסון ➔ אישור מעדכן מלאי-מוגמר.",
-          cbcHe:
-            "ב-CBC: משטחי-משקה מוגמר נקלטים עם batch ותאריך-תפוגה; EWM מבצע putaway לאזור-ה-FEFO, והמלאי-הזמין-למכירה גדל מיד.",
+          scenarioHe:
+            "בארגון: משטחי-משקה מוגמר נקלטים עם batch ותאריך-תפוגה; EWM מבצע putaway לאזור-ה-FEFO, והמלאי-הזמין-למכירה גדל מיד.",
           navHe: [
             "SCM Extended Warehouse Management ► Goods Receipt Process ► Production Integration ► Delivery-Based ► Goods Receipt",
             "Production ► Shop Floor Control ► Operations ► Confirmation ► Define Automatic Goods Receipt",
@@ -408,8 +408,8 @@ export const CH2: TextbookChapter = {
         "לאפשר staging just-in-time מדויק, מינימום מלאי-רצפה, ניצול-מיטבי של נקודות-הצריכה וניהול אוטומטי של ניקוי וחידוש — קריטי לקווים מהירים ולמורכבות-רכיבים גבוהה.",
       processExampleHe:
         "Order משוחרר ➔ PMR זורם ל-EWM ➔ Control Cycle קובע לכל רכיב אם pick-part או crate-part ➔ staging WTs מנתבים ל-PSA bin ➔ הייצור צורך ➔ עודפים מנוקים מה-PSA bin ➔ replenishment מחדש אוטומטית ➔ GR לתוצרת עם putaway.",
-      cbcHe:
-        "ב-CBC: קו-מילוי ראשי בנפח גבוה עובד advanced — תרכיז כ-pick-part מוזן JIT לפי דרישה, בקבוקים/פקקים כ-crate-parts בכמות-קבועה ל-PSA. בסיום-משמרת ה-PSA bins מנוקים, replenishment מחדש לקראת המשמרת הבאה, ומשקה מוגמר נקלט ב-GR עם batch.",
+      scenarioHe:
+        "בארגון: קו-מילוי ראשי בנפח גבוה עובד advanced — תרכיז כ-pick-part מוזן JIT לפי דרישה, בקבוקים/פקקים כ-crate-parts בכמות-קבועה ל-PSA. בסיום-משמרת ה-PSA bins מנוקים, replenishment מחדש לקראת המשמרת הבאה, ומשקה מוגמר נקלט ב-GR עם batch.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Manufacturing (PP) Integration ► Advanced Production Integration",
         "SCM Extended Warehouse Management ► Master Data ► Production Supply Area ► Define PSA and Control Cycle",
@@ -485,8 +485,8 @@ export const CH2: TextbookChapter = {
             "להזין כל רכיב באופן המיטבי לו — JIT ליקרים/מתכלים, batch לזולים — ולמזער מלאי-רצפה תוך מניעת עצירות.",
           processExampleHe:
             "PMR ל-Order ➔ Control Cycle מסווג: תרכיז=pick, בקבוקים=crate ➔ /SCWM/PSASTAGE יוצר WTs ➔ EWM מנתב לכל PSA bin ➔ אישור מעדכן מלאי.",
-          cbcHe:
-            "ב-CBC: תרכיז מוזן pick-part JIT לפני הרצה; בקבוקים/פקקים crate-parts בכמות-קבועה ל-PSA. כך אין עודף-תרכיז ליד הקו, ויש מלאי-אריזה זמין רציף.",
+          scenarioHe:
+            "בארגון: תרכיז מוזן pick-part JIT לפני הרצה; בקבוקים/פקקים crate-parts בכמות-קבועה ל-PSA. כך אין עודף-תרכיז ליד הקו, ויש מלאי-אריזה זמין רציף.",
           navHe: [
             "SCM Extended Warehouse Management ► Manufacturing (PP) Integration ► Advanced ► Staging ► Define Staging Control",
             "SCM Extended Warehouse Management ► Master Data ► Production Supply Area ► Control Cycle",
@@ -548,8 +548,8 @@ export const CH2: TextbookChapter = {
             "לתעד צריכה מדויקת מול ה-PSA bin לחישוב-עלות, לעדכון-מלאי-רצפה ולהפעלת replenishment בזמן.",
           processExampleHe:
             "הקו צורך מ-PSA bin ➔ backflush ב-confirmation רושם 261 ➔ יתרת ה-PSA bin יורדת ➔ כשיורדת מתחת לסף ➔ replenishment מופעל.",
-          cbcHe:
-            "ב-CBC: בעת מילוי, הקו צורך תרכיז ובקבוקים מה-PSA bin; backflush רושם 261 לפי ה-BOM, ויתרת ה-PSA bin מתעדכנת בזמן-אמת.",
+          scenarioHe:
+            "בארגון: בעת מילוי, הקו צורך תרכיז ובקבוקים מה-PSA bin; backflush רושם 261 לפי ה-BOM, ויתרת ה-PSA bin מתעדכנת בזמן-אמת.",
           navHe: [
             "SCM Extended Warehouse Management ► Manufacturing (PP) Integration ► Advanced ► Consumption",
             "Production ► Shop Floor Control ► Confirmations ► Define Confirmation Parameters",
@@ -608,8 +608,8 @@ export const CH2: TextbookChapter = {
             "להפוך תוצרת למלאי-זמין-למכירה במהירות, עם עקיבות-batch מלאה ו-putaway חכם תומך-FEFO.",
           processExampleHe:
             "סיום-ייצור ➔ confirmation מפעיל GR (101) ➔ Inbound Delivery/HU ב-EWM ➔ putaway WT לפי FEFO ➔ אישור מעדכן מלאי-מוגמר.",
-          cbcHe:
-            "ב-CBC: משטחי-משקה מוגמר נקלטים עם batch ותאריך-תפוגה; EWM מבצע putaway לאזור-FEFO, ומלאי-המכירה גדל מיד לקראת הזמנות-לקוח.",
+          scenarioHe:
+            "בארגון: משטחי-משקה מוגמר נקלטים עם batch ותאריך-תפוגה; EWM מבצע putaway לאזור-FEFO, ומלאי-המכירה גדל מיד לקראת הזמנות-לקוח.",
           navHe: [
             "SCM Extended Warehouse Management ► Manufacturing (PP) Integration ► Advanced ► Goods Receipt",
             "Production ► Shop Floor Control ► Operations ► Confirmation ► Define Automatic Goods Receipt",
@@ -671,8 +671,8 @@ export const CH2: TextbookChapter = {
             "לאפס את ה-PSA bin בין הרצות, למנוע הצטברות-שאריות ולשמר דיוק-מלאי ועקיבות-batch.",
           processExampleHe:
             "סיום-הזמנה ➔ נותרו 20 בקבוקים ב-PSA bin ➔ ניקוי יוצר WT להחזרתם ל-bin אחסון ➔ ה-PSA bin מתאפס ➔ המלאי מתואם.",
-          cbcHe:
-            "ב-CBC: בסיום-משמרת נשארות שאריות-תרכיז/אריזה ב-PSA bin; הניקוי מחזיר אותן למחסן עם ה-batch המקורי, וה-PSA bin נקי למשמרת הבאה.",
+          scenarioHe:
+            "בארגון: בסיום-משמרת נשארות שאריות-תרכיז/אריזה ב-PSA bin; הניקוי מחזיר אותן למחסן עם ה-batch המקורי, וה-PSA bin נקי למשמרת הבאה.",
           navHe: [
             "SCM Extended Warehouse Management ► Manufacturing (PP) Integration ► Advanced ► Clear Production Supply Area Bin",
           ],
@@ -730,8 +730,8 @@ export const CH2: TextbookChapter = {
             "להבטיח זמינות-חומר רציפה בנקודת-הצריכה תוך מינימום-התערבות, ולמנוע עצירות-קו עקב התרוקנות-PSA.",
           processExampleHe:
             "PSA bin של בקבוקים יורד ל-min (200) ➔ replenishment WT נוצר אוטומטית ➔ EWM ממלא עד max (1,000) מ-bin אחסון ➔ הקו ממשיך רציף.",
-          cbcHe:
-            "ב-CBC: PSA bin של פקקים מוגדר min/max; כשיורד מתחת ל-min בזמן מילוי, replenishment אוטומטי מחדש אותו מהמחסן, והקו ממשיך בקצב מלא ללא עצירה.",
+          scenarioHe:
+            "בארגון: PSA bin של פקקים מוגדר min/max; כשיורד מתחת ל-min בזמן מילוי, replenishment אוטומטי מחדש אותו מהמחסן, והקו ממשיך בקצב מלא ללא עצירה.",
           navHe: [
             "SCM Extended Warehouse Management ► Internal Warehouse Processes ► Replenishment Control ► Define Replenishment",
             "SCM Extended Warehouse Management ► Master Data ► Production Supply Area ► Control Cycle (min/max)",
@@ -797,8 +797,8 @@ export const CH2: TextbookChapter = {
         "לסנכרן את ביצוע-הייצור ברצפה (MES) עם הזנת-החומר מ-EWM, להשיג JIT-staging ברמת-תחנה, ולחבר אוטומציה (MFS) לזרימת-חומר חלקה ומדויקת.",
       processExampleHe:
         "יחידה נכנסת לתחנה ב-SAP ME ➔ אירוע מפעיל ME-triggered staging ➔ EWM יוצר staging WT ל-PSA bin של התחנה ➔ MFS מנתב מסוע/מלגזה ➔ החומר מגיע רגע לפני הצריכה.",
-      cbcHe:
-        "ב-CBC: קו-מילוי אוטומטי עם תחנות; SAP ME עוקב אחר התקדמות-היחידה ומפעיל ME-triggered staging מ-EWM לכל תחנה, ו-MFS מנהל את המסועים שמובילים את חומרי-האריזה JIT.",
+      scenarioHe:
+        "בארגון: קו-מילוי אוטומטי עם תחנות; SAP ME עוקב אחר התקדמות-היחידה ומפעיל ME-triggered staging מ-EWM לכל תחנה, ו-MFS מנהל את המסועים שמובילים את חומרי-האריזה JIT.",
       navHe: [
         "SCM Extended Warehouse Management ► Cross-Process Settings ► Manufacturing (PP) Integration ► SAP ME Integration",
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Material Flow System (MFS) ► Basic Settings",
@@ -865,8 +865,8 @@ export const CH2: TextbookChapter = {
             "להשיג JIT-staging ברמת-תחנה — חומר מגיע רגע לפני הצריכה — ולמזער מלאי-תחנה ועצירות.",
           processExampleHe:
             "יחידה נכנסת לתחנה 3 ב-ME ➔ אירוע מפעיל ME-triggered staging ➔ EWM יוצר WT ל-PSA bin של תחנה 3 ➔ MFS מנתב מסוע ➔ החומר מגיע JIT.",
-          cbcHe:
-            "ב-CBC: בתחנת-תיוג בקו-המילוי, כניסת-משטח ב-ME מפעילה staging של גליל-תוויות מ-EWM ל-PSA של התחנה בדיוק לפני התיוג.",
+          scenarioHe:
+            "בארגון: בתחנת-תיוג בקו-המילוי, כניסת-משטח ב-ME מפעילה staging של גליל-תוויות מ-EWM ל-PSA של התחנה בדיוק לפני התיוג.",
           navHe: [
             "SCM Extended Warehouse Management ► Manufacturing (PP) Integration ► SAP ME Integration ► Triggered Staging",
           ],
@@ -923,8 +923,8 @@ export const CH2: TextbookChapter = {
             "ליצור שרשרת ייצור-מחסן מסונכרנת מקצה-לקצה — תכנון, ביצוע וחומר — עם נראות-בזמן-אמת, JIT-staging ואוטומציה.",
           processExampleHe:
             "PP יוצר ומוריד הזמנה ל-ME ➔ ME מבצע ומפעיל ME-triggered staging מ-EWM ➔ EWM מזין JIT ➔ ME מדווח confirmation ל-PP ➔ EWM קולט GR לתוצרת. הלולאה סגורה בין שלוש השכבות.",
-          cbcHe:
-            "ב-CBC: PP מתכנן הרצת-מילוי, SAP ME מנהל את הביצוע על קו-המילוי האוטומטי ומפעיל staging מ-EWM לכל תחנה, ובסיום מדווח ל-PP ו-EWM קולט את המשקה המוגמר — הכול מסונכרן בזמן-אמת.",
+          scenarioHe:
+            "בארגון: PP מתכנן הרצת-מילוי, SAP ME מנהל את הביצוע על קו-המילוי האוטומטי ומפעיל staging מ-EWM לכל תחנה, ובסיום מדווח ל-PP ו-EWM קולט את המשקה המוגמר — הכול מסונכרן בזמן-אמת.",
           navHe: [
             "SCM Extended Warehouse Management ► Manufacturing (PP) Integration ► SAP ME / SAP Manufacturing Integration",
             "Integration ► SAP MII / SAP Digital Manufacturing ► Connectors",
@@ -994,8 +994,8 @@ export const CH2: TextbookChapter = {
         "לעגן את ההבנה השלמה של שילוב-הייצור, לאפשר בחירת-מודל מושכלת, ולספק מפת-דרכים לקונפיגורציה, פתרון-תקלות ואינטגרציה עם MES ואוטומציה.",
       processExampleHe:
         "מקצה-לקצה: שחרור-הזמנה ➔ staging (delivery/PMR) ל-PSA ➔ consumption (261/backflush) ➔ ניקוי-PSA ו-replenishment ➔ GR (101) לתוצרת ➔ putaway. SAP ME מפעיל JIT, MFS מנתב אוטומציה.",
-      cbcHe:
-        "ב-CBC: מפעל-הבקבוק מזין קווי-מילוי בתרכיז/אריזה (advanced + ME-triggered), צורך לפי backflush, מנקה ומחדש PSA בין משמרות, וקולט משקאות מוגמרים ב-GR עם batch ו-FEFO — שרשרת מסונכרנת מהמחסן עד מדף-הסופר.",
+      scenarioHe:
+        "בארגון: מפעל-הבקבוק מזין קווי-מילוי בתרכיז/אריזה (advanced + ME-triggered), צורך לפי backflush, מנקה ומחדש PSA בין משמרות, וקולט משקאות מוגמרים ב-GR עם batch ו-FEFO — שרשרת מסונכרנת מהמחסן עד מדף-הסופר.",
       navHe: [
         "SCM Extended Warehouse Management ► Cross-Process Settings ► Manufacturing (PP) Integration",
         "SAP Easy Access ► Logistics ► SCM Extended Warehouse Management ► Work Scheduling",

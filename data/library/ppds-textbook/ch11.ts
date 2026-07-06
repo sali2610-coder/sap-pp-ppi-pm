@@ -1,6 +1,6 @@
 // ===== PP/DS Digital Textbook — Chapter 11 (Migration to Embedded PP/DS) =====
 // Four flat, deep subchapters — each a complete 18-facet LearningNode of
-// authored Hebrew (beginner + consultant friendly). CBC = Coca-Cola bottling
+// authored Hebrew (beginner + consultant friendly). הארגון = Example Product bottling
 // migration from APO / standalone PP/DS to embedded PP/DS in S/4HANA.
 // SAP object names verbatim English. Inner quotes escaped (פק\"ע).
 import type { TextbookChapter } from "./types";
@@ -10,7 +10,7 @@ export const CH11: TextbookChapter = {
   titleHe: "מעבר ל-PP/DS מוטמע (Migration)",
   titleEn: "Migration to Embedded PP/DS",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה למעבר ל-PP/DS המוטמע (embedded PP/DS) ב-SAP S/4HANA. בעבר PP/DS חי בתוך SAP APO — מערכת נפרדת המחוברת דרך CIF (Core Interface). ב-S/4HANA אותו מנוע-תכנון רץ ישירות בתוך מערכת ה-ERP, על אותו בסיס-נתונים, ללא רפליקציה. הפרק מציג שלושה נתיבי-מעבר רשמיים של SAP — new implementation (greenfield), system conversion (brownfield), ו-SAP S/4HANA Landscape Transformation (selective / SLT-DMLT) — ובסיכום משווה ביניהם ובוחר את הנתיב ל-CBC. כל אחד מארבעת תתי-הפרקים הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות-הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך (flow), טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: להבין ולבחור נתיב-מעבר ל-PP/DS המוטמע בלי הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה למעבר ל-PP/DS המוטמע (embedded PP/DS) ב-SAP S/4HANA. בעבר PP/DS חי בתוך SAP APO — מערכת נפרדת המחוברת דרך CIF (Core Interface). ב-S/4HANA אותו מנוע-תכנון רץ ישירות בתוך מערכת ה-ERP, על אותו בסיס-נתונים, ללא רפליקציה. הפרק מציג שלושה נתיבי-מעבר רשמיים של SAP — new implementation (greenfield), system conversion (brownfield), ו-SAP S/4HANA Landscape Transformation (selective / SLT-DMLT) — ובסיכום משווה ביניהם ובוחר את הנתיב לארגון. כל אחד מארבעת תתי-הפרקים הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות-הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך (flow), טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: להבין ולבחור נתיב-מעבר ל-PP/DS המוטמע בלי הספר המקורי.",
   subchapters: [
     // ============================================================ 11.1
     {
@@ -27,8 +27,8 @@ export const CH11: TextbookChapter = {
         "המטרה: לקבל פלטפורמת-תכנון מודרנית ונקייה כשהמערכת הקיימת ישנה מדי, מותאמת-יתר, או כשהארגון רוצה להגדיר-מחדש תהליכי-תכנון (re-engineering). מתאים כשעלות שיפוץ-העבר גבוהה מעלות-הבנייה-מחדש, או כשעוברים מ-non-SAP / מ-APO standalone שלא כדאי לגרור.",
       processExampleHe:
         "ארגון עם APO standalone ו-ECC מחליט על greenfield: (1) מקים S/4HANA חדש; (2) מפעיל Advanced Planning ו-PP/DS; (3) מגדיר migration objects ב-LTMOM לחומרים, BOM, routings, work centers, מלאי-פתיחה; (4) מעלה תבניות עם הנתונים הנקיים בלבד; (5) מריץ simulate ➔ validate ➔ migrate; (6) מייצר PDS ו-Resources מנתוני-ה-ERP שהועברו; (7) מריץ PP/DS heuristics ו-optimizer לאימות; (8) cutover מבוקר. ה-APO הישן מושבת — אין CIF, אין qRFC בין מערכות.",
-      cbcHe:
-        "ב-CBC: המפעל-החדש בבאר-שבע מוקם כ-greenfield על S/4HANA חדש עם embedded PP/DS, בעוד המפעלים הוותיקים נשארים זמנית. מועברים רק חומרי-המשקה הפעילים (FERT/HALB/ROH), עצי-מוצר נקיים, קווי-המילוי כ-Resources, ומלאי-פתיחה ליום ה-go-live. כל ה-Z-reports הישנים מ-APO לא נגררים; תכנון-קווי-המילוי נבנה מחדש על heuristics סטנדרטיים של SAP. אלרגנים ומתכונים מתוקננים מחדש בהעברה.",
+      scenarioHe:
+        "בארגון: המפעל-החדש בבאר-שבע מוקם כ-greenfield על S/4HANA חדש עם embedded PP/DS, בעוד המפעלים הוותיקים נשארים זמנית. מועברים רק חומרי-המשקה הפעילים (FERT/HALB/ROH), עצי-מוצר נקיים, קווי-המילוי כ-Resources, ומלאי-פתיחה ליום ה-go-live. כל ה-Z-reports הישנים מ-APO לא נגררים; תכנון-קווי-המילוי נבנה מחדש על heuristics סטנדרטיים של SAP. אלרגנים ומתכונים מתוקננים מחדש בהעברה.",
       navHe: [
         "SPRO ► Production Planning for Process Industries / Production ► Advanced Planning ► Basic Settings ► Activate Advanced Planning for Material",
         "SAP S/4HANA Migration Cockpit (Fiori) ► Migrate Your Data — Migration Objects",
@@ -111,8 +111,8 @@ export const CH11: TextbookChapter = {
         "המטרה: לעבור ל-S/4HANA ולהפעיל embedded PP/DS תוך שימור מקסימלי של ההשקעה הקיימת — נתונים, היסטוריה, customizing ותהליכים מוכרים — וכך לקצר זמן-פרויקט ולהקטין סיכון-עסקי לעומת re-implementation מלא. מתאים כשהמערכת הקיימת בריאה-יחסית והתהליכים עדיין מתאימים.",
       processExampleHe:
         "ארגון עם ECC + APO PP/DS standalone מבצע brownfield: (1) Readiness Check + Simplification Item Check; (2) ניקוי custom code לפי ATC; (3) SUM/DMO ממיר את ה-ECC ל-S/4HANA במקום; (4) post-conversion — הפעלת Advanced Planning; (5) בניית PDS/Resources מנתוני-ה-S/4HANA המומרים (CURTO_CREATE, RES01); (6) הגדרת integration פנימי במקום CIF; (7) השוואת תוצאות-תכנון מול ה-APO הישן; (8) השבתת APO. ההיסטוריה העסקית של ה-ERP נשמרה במלואה.",
-      cbcHe:
-        "ב-CBC: מפעל אשקלון הוותיק, שתכנן בקווי-מילוי דרך APO PP/DS, עובר brownfield — ה-ECC שלו מומר במקום ל-S/4HANA עם embedded PP/DS. כל ההיסטוריה (פק\"ע, אישורי-ייצור, מלאי) נשמרת. ה-CIF בין ה-ECC ל-APO מוחלף ב-integration פנימי; קווי-המילוי נבנים-מחדש כ-Resources מתוך ה-Work Centers המומרים, וה-PDS נוצרת מ-BOM+Recipe+Production Version. תכנון-המשקאות נבדק מול ה-APO הישן לפני השבתתו.",
+      scenarioHe:
+        "בארגון: מפעל אשקלון הוותיק, שתכנן בקווי-מילוי דרך APO PP/DS, עובר brownfield — ה-ECC שלו מומר במקום ל-S/4HANA עם embedded PP/DS. כל ההיסטוריה (פק\"ע, אישורי-ייצור, מלאי) נשמרת. ה-CIF בין ה-ECC ל-APO מוחלף ב-integration פנימי; קווי-המילוי נבנים-מחדש כ-Resources מתוך ה-Work Centers המומרים, וה-PDS נוצרת מ-BOM+Recipe+Production Version. תכנון-המשקאות נבדק מול ה-APO הישן לפני השבתתו.",
       navHe: [
         "Maintenance Planner (SAP for Me) ► Plan Conversion / Add-on compatibility",
         "SAP Readiness Check ► Analyze ECC system",
@@ -196,8 +196,8 @@ export const CH11: TextbookChapter = {
         "המטרה: לאפשר מעבר מדורג וגמיש לארגונים מורכבים — multi-plant, multi-company, M&A — שלא יכולים לעצור הכל ולעבור בבת-אחת (כמו brownfield) ולא רוצים לאבד היסטוריה (כמו greenfield). מאפשר לאחד נוף-מערכות מבוזר, לפצל ישות שנמכרה, או לעבור מפעל-אחר-מפעל ל-embedded PP/DS עם downtime מינימלי.",
       processExampleHe:
         "תאגיד עם 3 מערכות-ECC אזוריות מאחד ל-S/4HANA אחד: (1) בונה shell של S/4HANA; (2) מגדיר scope — אילו company codes/plants ואיזו היסטוריה; (3) DMLT/SLT מעביר ומאחד את הנתונים עם data harmonization (אחדת קודי-חומר/מפעל); (4) מפעיל Advanced Planning ל-scope המועבר; (5) בונה PDS/Resources בצד-היעד; (6) SLT מסנכרן בזמן-אמת עד ה-cutover ל-near-zero-downtime; (7) מעביר את האזור הבא בגל נפרד.",
-      cbcHe:
-        "ב-CBC: התאגיד מפעיל phased rollout — מפעל באר-שבע (greenfield) ראשון, ואז selective transition מעביר את מפעלי אשקלון וחיפה ל-S/4HANA המאוחד, מפעל-אחר-מפעל, עם data harmonization של קודי-המשקה והמפעלים. SLT מסנכרן את מפעלי-המעבר בזמן-אמת לצמצום-downtime בקווי-המילוי, ו-embedded PP/DS מופעל לכל מפעל בתורו. היסטוריית-הייצור הרלוונטית מועברת; ה-scope נבחר לפי company code.",
+      scenarioHe:
+        "בארגון: התאגיד מפעיל phased rollout — מפעל באר-שבע (greenfield) ראשון, ואז selective transition מעביר את מפעלי אשקלון וחיפה ל-S/4HANA המאוחד, מפעל-אחר-מפעל, עם data harmonization של קודי-המשקה והמפעלים. SLT מסנכרן את מפעלי-המעבר בזמן-אמת לצמצום-downtime בקווי-המילוי, ו-embedded PP/DS מופעל לכל מפעל בתורו. היסטוריית-הייצור הרלוונטית מועברת; ה-scope נבחר לפי company code.",
       navHe: [
         "SAP S/4HANA Landscape Transformation (DMLT engagement) ► Define Transformation Scope",
         "SLT (SAP Landscape Transformation Replication Server) ► LTRC / LTRS — Configuration + Replication",
@@ -280,8 +280,8 @@ export const CH11: TextbookChapter = {
         "המטרה: לתת ללומד מסגרת-החלטה ברורה לבחירת נתיב-המעבר, ולעגן את המכנה-המשותף של עבודת-ה-PP/DS שמתבצעת אחרי כל מעבר טכני — כדי שהבחירה תהיה מושכלת ולא 'ברירת-מחדל של הספק'.",
       processExampleHe:
         "תהליך-החלטה טיפוסי: (1) Readiness Check + הערכת data quality ו-custom code; (2) מיפוי מורכבות-ארגונית (מפעלים, חברות, M&A); (3) שקלול תיאבון-סיכון מול חלון-downtime; (4) בחירת נתיב — greenfield אם רוצים re-engineering, brownfield אם המערכת בריאה ומהירות חשובה, selective אם מורכבות גבוהה ומעבר מדורג; (5) בכל מקרה — תכנית post-go-live ל-PP/DS: Activate ➔ Integration ➔ PDS ➔ Resources ➔ אימות.",
-      cbcHe:
-        "ב-CBC הבחירה היא היברידית: greenfield למפעל-החדש בבאר-שבע (התחלה נקייה), ו-selective transition לאיחוד מפעלי אשקלון וחיפה הוותיקים ל-S/4HANA המאוחד תוך שמירת היסטוריה. brownfield נשקל ונדחה — נוף-המערכות מבוזר מדי ל'הכל-או-כלום'. בכל המפעלים, embedded PP/DS מופעל, CIF מבוטל, וקווי-המילוי נבנים כ-Resources עם PDS — תכנון-המשקאות מאומת מול ה-APO הישן לפני השבתתו.",
+      scenarioHe:
+        "בארגון הבחירה היא היברידית: greenfield למפעל-החדש בבאר-שבע (התחלה נקייה), ו-selective transition לאיחוד מפעלי אשקלון וחיפה הוותיקים ל-S/4HANA המאוחד תוך שמירת היסטוריה. brownfield נשקל ונדחה — נוף-המערכות מבוזר מדי ל'הכל-או-כלום'. בכל המפעלים, embedded PP/DS מופעל, CIF מבוטל, וקווי-המילוי נבנים כ-Resources עם PDS — תכנון-המשקאות מאומת מול ה-APO הישן לפני השבתתו.",
       navHe: [
         "SAP Readiness Check ► Baseline assessment (כל הנתיבים)",
         "SAP Activate Methodology ► Transition Path Decision",
@@ -333,13 +333,13 @@ export const CH11: TextbookChapter = {
       interviewHe: [
         { qHe: "מהם שלושת נתיבי-המעבר ל-embedded PP/DS וההבדל ביניהם?", aHe: "greenfield (new implementation) — מערכת חדשה + העברה סלקטיבית, נקי אך עתיר-העברה. brownfield (system conversion) — המרה in-place דרך SUM/DMO, מהיר ושומר-עבר. selective (Landscape Transformation) — העברת-scope מדורגת עם SLT/DMLT, גמיש אך יקר-ומורכב." },
         { qHe: "מה משותף לכל שלושת הנתיבים בצד ה-PP/DS?", aHe: "אחרי המעבר הטכני: הפעלת Advanced Planning, החלפת CIF ב-integration פנימי על אותם MARA/MARC, בניית PDS (במקום PPM/Runtime-objects) ו-Resources (מ-Work Centers), ואימות heuristics/optimizer מול baseline." },
-        { qHe: "כיצד בוחרים את הנתיב הנכון?", aHe: "לפי מטריצה: מצב-המערכת (data quality, custom code), מורכבות-הארגון (multi-plant/M&A), תיאבון-לסיכון וחלון-downtime. אין נתיב 'נכון' אחד — לעיתים בוחרים גישה היברידית, כמו ב-CBC." },
+        { qHe: "כיצד בוחרים את הנתיב הנכון?", aHe: "לפי מטריצה: מצב-המערכת (data quality, custom code), מורכבות-הארגון (multi-plant/M&A), תיאבון-לסיכון וחלון-downtime. אין נתיב 'נכון' אחד — לעיתים בוחרים גישה היברידית, כמו בארגון." },
       ],
       takeawaysHe: [
         "שלושה נתיבים: greenfield (נקי), brownfield (in-place), selective/LT (מדורג-גמיש).",
         "ההבדל בין הנתיבים הוא כיצד הנתונים מגיעים; עבודת-ה-PP/DS אחר-כך זהה.",
         "מכנה-משותף: Activate Advanced Planning, integration פנימי (לא CIF), PDS + Resources, אימות.",
-        "בחר לפי מטריצת מצב-מערכת × מורכבות × סיכון × downtime — לעיתים היברידי (כמו CBC).",
+        "בחר לפי מטריצת מצב-מערכת × מורכבות × סיכון × downtime — לעיתים היברידי (כמו הארגון).",
       ],
       relatedHe: [
         { labelHe: "PP/DS · מימוש חדש (11.1)", href: "/library/ppds/chapter-11/#sub-11.1" },

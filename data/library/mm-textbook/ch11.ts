@@ -9,7 +9,7 @@ export const CH11: TextbookChapter = {
   titleHe: "מקורות מוצר (Product Sourcing)",
   titleEn: "Product Sourcing",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה ל-Product Sourcing — תהליך מקורות-המוצר ב-SAP S/4HANA Sourcing & Procurement, הממנף את Sourcing Project, Quotation Evaluation, Enterprise Contract Management, Commodity Pricing Engine (CPE) ו-SAP Business Network. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC (מפעל-מילוי משקאות של קוקה-קולה — מקורות לאריזות ול-SKU חדשים, תמחור-סחורה לסוכר), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך מ-Sourcing Project ועד Award, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. Product Sourcing הוא תהליך מונחה-Fiori מובהק; ה-Fiori apps מודגשים בכל סעיף. המטרה: לשלוט בכל מחזור-החיים של מקורות-מוצר — מהגדרת-פרויקט ועד פסיקת-זכייה, חוזה, תמחור ושיתוף-ספקים — ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה ל-Product Sourcing — תהליך מקורות-המוצר ב-SAP S/4HANA Sourcing & Procurement, הממנף את Sourcing Project, Quotation Evaluation, Enterprise Contract Management, Commodity Pricing Engine (CPE) ו-SAP Business Network. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון (מפעל-מילוי משקאות של מוצר לדוגמה — מקורות לאריזות ול-SKU חדשים, תמחור-סחורה לסוכר), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך מ-Sourcing Project ועד Award, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. Product Sourcing הוא תהליך מונחה-Fiori מובהק; ה-Fiori apps מודגשים בכל סעיף. המטרה: לשלוט בכל מחזור-החיים של מקורות-מוצר — מהגדרת-פרויקט ועד פסיקת-זכייה, חוזה, תמחור ושיתוף-ספקים — ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 11.1
     {
@@ -24,8 +24,8 @@ export const CH11: TextbookChapter = {
         "המטרה: להפוך את בחירת-הספק לתהליך אסטרטגי, שקוף ומתועד — להוזיל עלויות דרך תחרות, להבטיח איכות וזמינות, ולקצר את הדרך מצורך עסקי ל-מקור-אספקה מאושר. בכך מצמצמים סיכון-אספקה ל-SKU חדשים ומבססים תשתית-חוזים ל-MRP ולרכש התפעולי.",
       processExampleHe:
         "ארגון משיק מוצר חדש. צוות-הרכש פותח Sourcing Project, מגדיר את הפריטים והכמויות, מזמין ארבעה ספקים להגיש Supplier Quotation, אוסף את ההצעות, מריץ Quotation Evaluation לפי משקלות (מחיר 50%, איכות 30%, אספקה 20%), בוחר זוכה, ופסיקת-ה-Award יוצרת חוזה (Enterprise Contract) ומקור-אספקה — ומשם הרכש התפעולי יכול להזמין PO.",
-      cbcHe:
-        "ב-CBC: השקת SKU חדש (פחית 250 מ\"ל בעיצוב חדש) מצריכה מקור לפחיות, לתוויות ולקרטונים. צוות-הרכש פותח Sourcing Project, מזמין יצרני-פחיות מקומיים ובינלאומיים, משווה הצעות, ופוסק זכייה שמתורגמת לחוזה — מבלי לערב עדיין את קווי-המילוי. במקביל הסוכר (Commodity) מתומחר דרך CPE לפי מדד-בורסה.",
+      scenarioHe:
+        "בארגון: השקת SKU חדש (פחית 250 מ\"ל בעיצוב חדש) מצריכה מקור לפחיות, לתוויות ולקרטונים. צוות-הרכש פותח Sourcing Project, מזמין יצרני-פחיות מקומיים ובינלאומיים, משווה הצעות, ופוסק זכייה שמתורגמת לחוזה — מבלי לערב עדיין את קווי-המילוי. במקביל הסוכר (Commodity) מתומחר דרך CPE לפי מדד-בורסה.",
       navHe: [
         "SAP Fiori Launchpad ► Sourcing and Procurement ► Sourcing ► Manage Sourcing Projects",
         "Materials Management ► Purchasing ► Sourcing ► Product Sourcing (configuration via SPRO)",
@@ -94,8 +94,8 @@ export const CH11: TextbookChapter = {
         "לרכז את כל פעולות-המיקור תחת פרויקט אחד מנוהל — להבטיח תחרות הוגנת, השוואה אובייקטיבית ופסיקה מתועדת המתורגמת אוטומטית למקור-אספקה. כך מקצרים זמן, מצמצמים סיכון ומבססים שקיפות-רכש.",
       processExampleHe:
         "רוכש פותח Sourcing Project עבור רכיב חדש, מוסיף שלוש שורות-פריט, מזמין חמישה ספקים. שלושה מגישים Supplier Quotation. ה-Quotation Evaluation מנקד אותם לפי מחיר/איכות/אספקה ומציג טבלת-השוואה (כמו ME49). הרוכש פוסק זכייה לספק עם הניקוד הגבוה — וה-Award מייצר חוזה ו-Source List.",
-      cbcHe:
-        "ב-CBC: פרויקט-מיקור לאריזות ה-SKU החדש מנהל בו-זמנית פחיות, תוויות וקרטונים. כל קטגוריה מקבלת קבוצת-ספקים משלה; ההערכה והפסיקה נעשות לכל שורה, וה-Award מייצר חוזי-מסגרת נפרדים לכל ספק-זוכה.",
+      scenarioHe:
+        "בארגון: פרויקט-מיקור לאריזות ה-SKU החדש מנהל בו-זמנית פחיות, תוויות וקרטונים. כל קטגוריה מקבלת קבוצת-ספקים משלה; ההערכה והפסיקה נעשות לכל שורה, וה-Award מייצר חוזי-מסגרת נפרדים לכל ספק-זוכה.",
       navHe: [
         "SAP Fiori Launchpad ► Sourcing ► Manage Sourcing Projects",
         "SAP Fiori Launchpad ► Sourcing ► Manage Supplier Quotations",
@@ -163,8 +163,8 @@ export const CH11: TextbookChapter = {
             "לתת מבנה ומשילות לתהליך-מיקור — לרכז פריטים/ספקים/הצעות, לאכוף תאריכי-יעד, ולשמור תיעוד-מלא לביקורת ולקבלת-החלטה.",
           processExampleHe:
             "רוכש יוצר פרויקט 'מיקור-אריזות-Q3', מוסיף שלושה פריטים, מגדיר תאריך-הגשה אחרון, ומזמין ספקים. ה-Status עובר ל-In Process עד שכל ההצעות מגיעות, ואז להערכה.",
-          cbcHe:
-            "ב-CBC: פרויקט 'SKU-Launch-Cans-2026' מנהל פחיות + תוויות + קרטונים; כל שורה עם כמות-שנתית-צפויה ותאריך-יעד התואם למועד-ההשקה.",
+          scenarioHe:
+            "בארגון: פרויקט 'SKU-Launch-Cans-2026' מנהל פחיות + תוויות + קרטונים; כל שורה עם כמות-שנתית-צפויה ותאריך-יעד התואם למועד-ההשקה.",
           navHe: ["SAP Fiori Launchpad ► Sourcing ► Manage Sourcing Projects (Create Sourcing Project)"],
           tables: ["EKKO", "EKPO", "WYT3"],
           tcodes: ["ME41", "ME47"],
@@ -220,8 +220,8 @@ export const CH11: TextbookChapter = {
             "להפוך השוואת-הצעות מתחושת-בטן להחלטה מבוססת-נתונים, שקופה וברת-הגנה — תוך איזון מחיר מול איכות, אספקה ושירות.",
           processExampleHe:
             "שלוש הצעות לרכיב: A זול אך אספקה איטית; B יקר אך איכות-מעולה; C מאוזן. ההערכה המשוקללת (מחיר 50/איכות 30/אספקה 20) מנקדת ומציגה ש-C מוביל — בסיס לפסיקה.",
-          cbcHe:
-            "ב-CBC: השוואת יצרני-פחיות — מחיר-ליחידה, אחוז-פסולת (איכות), זמן-אספקה ויכולת-נפח. הניקוד המשוקלל בולם בחירה ב'הזול ביותר' אם איכותו נמוכה (סיכון-קו-מילוי).",
+          scenarioHe:
+            "בארגון: השוואת יצרני-פחיות — מחיר-ליחידה, אחוז-פסולת (איכות), זמן-אספקה ויכולת-נפח. הניקוד המשוקלל בולם בחירה ב'הזול ביותר' אם איכותו נמוכה (סיכון-קו-מילוי).",
           navHe: [
             "SAP Fiori Launchpad ► Sourcing ► Compare Supplier Quotations",
             "Materials Management ► Purchasing ► RFQ/Quotation ► Price Comparison List (ME49)",
@@ -283,8 +283,8 @@ export const CH11: TextbookChapter = {
             "לסגור את מעגל-המיקור — להפוך החלטה לחוזה ולמקור-אספקה תפעולי, תוך תיעוד-נימוקים ואפשרות לפיצול-סיכון בין ספקים.",
           processExampleHe:
             "אחרי הערכה, הרוכש פוסק Split Award: 60% לספק C (המוביל) ו-40% לספק B (גיבוי-איכות). ה-Award יוצר שני חוזי-מסגרת ו-Source List עם Quota Arrangement התואם.",
-          cbcHe:
-            "ב-CBC: פסיקת-פחיות מפוצלת בין יצרן-מקומי (70%, אספקה-מהירה) ויצרן-בינלאומי (30%, גיבוי) — Split Award מצמצם סיכון-השבתת-קו ומייצר שני חוזים + Quota Arrangement.",
+          scenarioHe:
+            "בארגון: פסיקת-פחיות מפוצלת בין יצרן-מקומי (70%, אספקה-מהירה) ויצרן-בינלאומי (30%, גיבוי) — Split Award מצמצם סיכון-השבתת-קו ומייצר שני חוזים + Quota Arrangement.",
           navHe: [
             "SAP Fiori Launchpad ► Sourcing ► Manage Sourcing Projects (Award)",
             "Materials Management ► Purchasing ► Source List / Quota Arrangement (ME01/MEQ1)",
@@ -353,8 +353,8 @@ export const CH11: TextbookChapter = {
         "להבטיח שהמיקור מתבצע בצורה מתוכננת ולא ספונטנית — כל פריט משויך לפרויקט, עם לוח-זמנים ברור, ובקיבוץ שממקסם מנוף-מחיר ויעילות.",
       processExampleHe:
         "צוות-רכש מקבל רשימת 40 פריטים חדשים. הוא מייבא אותם, משייך כל קבוצה לפרויקט מתאים, קובע אבני-דרך (סיום-הזמנת-ספקים, סיום-הערכה, פסיקה), ומאגד פריטים דומים לחבילה אחת למינוף-מחיר.",
-      cbcHe:
-        "ב-CBC: ייבוא רשימת-רכיבים ל-SKU החדש; אבני-דרך מתואמות למועד-ההשקה; איגוד כל חומרי-האריזה לחבילה אחת מול ספק-אריזות אסטרטגי לקבלת מחיר-נפח.",
+      scenarioHe:
+        "בארגון: ייבוא רשימת-רכיבים ל-SKU החדש; אבני-דרך מתואמות למועד-ההשקה; איגוד כל חומרי-האריזה לחבילה אחת מול ספק-אריזות אסטרטגי לקבלת מחיר-נפח.",
       navHe: [
         "SAP Fiori Launchpad ► Sourcing ► Manage Sourcing Projects (Planning)",
         "Materials Management ► Purchasing ► Sourcing ► Procurement Planning (SPRO)",
@@ -419,8 +419,8 @@ export const CH11: TextbookChapter = {
             "לקבל את כל הפריטים-למיקור למערכת בצורה מובנית ולחלקם לפרויקטים — בסיס מסודר לכל התהליך.",
           processExampleHe:
             "טעינת 40 פריטים מקובץ; המערכת משייכת אוטומטית לפי קטגוריה: 25 לפרויקט-אריזות, 10 לפרויקט-חומרי-גלם, 5 לפרויקט-שירותים.",
-          cbcHe:
-            "ב-CBC: ייבוא רשימת-רכיבים ל-SKU החדש מ-PLM/אקסל; שיוך אוטומטי — פחיות/תוויות/קרטונים לפרויקט-אריזות.",
+          scenarioHe:
+            "בארגון: ייבוא רשימת-רכיבים ל-SKU החדש מ-PLM/אקסל; שיוך אוטומטי — פחיות/תוויות/קרטונים לפרויקט-אריזות.",
           navHe: ["SAP Fiori Launchpad ► Sourcing ► Manage Sourcing Projects ► Import / Assign Parts"],
           tables: ["MARA", "MARC", "EKPO"],
           tcodes: ["MM03", "ME41"],
@@ -470,8 +470,8 @@ export const CH11: TextbookChapter = {
             "לאכוף משמעת-זמנים על המיקור — שכל שלב יסתיים בזמן, והפסיקה תהיה מוכנה למועד שבו העסק זקוק למקור-האספקה.",
           processExampleHe:
             "מועד-השקה ב-1 בספטמבר; backward scheduling קובע: פסיקה עד 1 ביולי, סיום-הערכה עד 15 ביוני, סיום-הגשת-הצעות עד 1 ביוני. כל אבן-דרך מנוטרת.",
-          cbcHe:
-            "ב-CBC: מועד-השקת-ה-SKU מכתיב את כל לוח-המיקור אחורה — פסיקת-אריזות חייבת להסתיים מספיק מוקדם כדי לאפשר ייצור-ראשוני ובדיקות-קו.",
+          scenarioHe:
+            "בארגון: מועד-השקת-ה-SKU מכתיב את כל לוח-המיקור אחורה — פסיקת-אריזות חייבת להסתיים מספיק מוקדם כדי לאפשר ייצור-ראשוני ובדיקות-קו.",
           navHe: ["SAP Fiori Launchpad ► Sourcing ► Manage Sourcing Projects ► Milestones / Schedule"],
           tables: ["EKKO", "EKPO"],
           tcodes: ["ME41"],
@@ -523,8 +523,8 @@ export const CH11: TextbookChapter = {
             "למקסם מנוף-מיקור — מחיר ותנאים — דרך נפח מאוגד, ולצמצם עומס-תהליך מול ריבוי-פריטים.",
           processExampleHe:
             "במקום שלושה מיקורים נפרדים לפחיות/תוויות/קרטונים, מאגדים את כל חומרי-האריזה לחבילה אחת מול ספקי-אריזה — מחיר-נפח טוב יותר ופחות תהליכים.",
-          cbcHe:
-            "ב-CBC: איגוד כל חומרי-האריזה (פחיות+תוויות+קרטונים) לחבילה אחת מול ספק-אריזות אסטרטגי משיג הנחת-נפח ומפשט את הניהול לקראת ההשקה.",
+          scenarioHe:
+            "בארגון: איגוד כל חומרי-האריזה (פחיות+תוויות+קרטונים) לחבילה אחת מול ספק-אריזות אסטרטגי משיג הנחת-נפח ומפשט את הניהול לקראת ההשקה.",
           navHe: ["SAP Fiori Launchpad ► Sourcing ► Manage Sourcing Projects ► Bundle Items"],
           tables: ["EKKO", "EKPO"],
           tcodes: ["ME41"],
@@ -580,8 +580,8 @@ export const CH11: TextbookChapter = {
         "להבטיח שמקור-האספקה שנפסק מעוגן בחוזה מחייב, מנוהל-משפטית ובר-ביקורת — לא רק רשומת-מחיר טכנית. כך מצמצמים סיכון-משפטי ומבטיחים אכיפות-תנאים.",
       processExampleHe:
         "Award לספק-אריזות מייצר Enterprise Contract: מחיר ותנאים מההצעה-הזוכה, סעיפים-משפטיים מ-Clause Library, נספח-איכות מ-DMS, ותהליך-אישור משפטי+רכש. החוזה משמש מקור-אספקה ל-PO.",
-      cbcHe:
-        "ב-CBC: חוזה-מסגרת רב-שנתי לאריזות מנוהל ב-ECM — כולל סעיפי-איכות (מפרט-פחית), סעיפי-מחיר (כולל הצמדה דרך CPE), ונספחי-תקינה למזון; מאושר משפטית לפני שהרכש מזמין.",
+      scenarioHe:
+        "בארגון: חוזה-מסגרת רב-שנתי לאריזות מנוהל ב-ECM — כולל סעיפי-איכות (מפרט-פחית), סעיפי-מחיר (כולל הצמדה דרך CPE), ונספחי-תקינה למזון; מאושר משפטית לפני שהרכש מזמין.",
       navHe: [
         "SAP Fiori Launchpad ► Sourcing and Procurement ► Manage Purchase Contracts / Enterprise Contracts",
         "Materials Management ► Purchasing ► Outline Agreement ► Contract (ME31K/ME32K/ME33K)",
@@ -650,8 +650,8 @@ export const CH11: TextbookChapter = {
         "לשקף את תנודתיות-שוק-הסחורות במחיר-החוזה בצורה אוטומטית, שקופה והוגנת — להימנע מסיכון-מחיר-קבוע ומסכסוכי-תמחור, ולתמחר נכון מוצרים עתירי-סחורה.",
       processExampleHe:
         "חוזה לרכיב עתיר-אלומיניום: ה-CPE formula = מחיר-LME-אלומיניום (ממוצע-חודשי) + premium-עיבוד. כל חודש המחיר מחושב-מחדש מהמדד; ה-PO על החוזה מקבל את המחיר-המעודכן.",
-      cbcHe:
-        "ב-CBC: הסוכר הוא Commodity מובהק. CPE מקשר את מחיר-הסוכר בחוזה למדד-בורסת-הסוכר (לדוגמה ICE Sugar No.11) + premium-לוגיסטי; כשמחיר-הסוכר העולמי עולה, עלות-המשקה מתעדכנת אוטומטית דרך החוזה.",
+      scenarioHe:
+        "בארגון: הסוכר הוא Commodity מובהק. CPE מקשר את מחיר-הסוכר בחוזה למדד-בורסת-הסוכר (לדוגמה ICE Sugar No.11) + premium-לוגיסטי; כשמחיר-הסוכר העולמי עולה, עלות-המשקה מתעדכנת אוטומטית דרך החוזה.",
       navHe: [
         "Materials Management ► Purchasing ► Conditions ► Commodity Pricing (CPE) (SPRO)",
         "SAP Fiori Launchpad ► Sourcing and Procurement ► Commodity Management / Manage Quotations",
@@ -720,8 +720,8 @@ export const CH11: TextbookChapter = {
         "להבטיח בסיס-השוואה מלא ואמין — שכל ההצעות נקלטות, תקפות, ומכילות את כל הנתונים — תנאי-הכרחי להערכה אובייקטיבית ולפסיקה תקפה.",
       processExampleHe:
         "חמישה ספקים הוזמנו; שלושה מגישים. הרוכש קולט כל הצעה ב-F2370 (מחיר, אספקה, Incoterms, תוקף), מוודא שלמות, וסוגר את חלון-ההגשה. שלוש ההצעות התקפות עוברות ל-Quotation Evaluation.",
-      cbcHe:
-        "ב-CBC: הצעות יצרני-הפחיות נקלטות עם מחיר-לאלף-יחידות, MOQ, זמן-אספקה ו-Incoterms; חלקן מגיעות אוטומטית דרך Business Network. הצעה ללא תוקף או חסרת-MOQ מסומנת לא-שלמה ולא נכנסת להערכה.",
+      scenarioHe:
+        "בארגון: הצעות יצרני-הפחיות נקלטות עם מחיר-לאלף-יחידות, MOQ, זמן-אספקה ו-Incoterms; חלקן מגיעות אוטומטית דרך Business Network. הצעה ללא תוקף או חסרת-MOQ מסומנת לא-שלמה ולא נכנסת להערכה.",
       navHe: [
         "SAP Fiori Launchpad ► Sourcing ► Manage Supplier Quotations",
         "Materials Management ► Purchasing ► RFQ/Quotation ► Maintain Quotation (ME47)",
@@ -790,8 +790,8 @@ export const CH11: TextbookChapter = {
         "לעדכן מחירים בקנה-מידה ביעילות ובעקביות — בעקבות פסיקות, סבבי-משא-ומתן או שינויי-תנאים — בלי עומס-תפעולי ובלי שגיאות-רשומה-בודדת.",
       processExampleHe:
         "אחרי סבב-משא-ומתן שנתי, מחירי-100 Info Records של ספק עולים ב-3%. Mass Price Update מסנן לפי ספק, מחיל +3% על Condition PB00 מתאריך-תוקף, ומעדכן את כולם בפעולה אחת מבוקרת.",
-      cbcHe:
-        "ב-CBC: עדכון-מחירים שנתי לכל חוזי-האריזה של ספק-אסטרטגי בבת-אחת; ולחומרי-סחורה (סוכר) — עדכון ה-premiums הקבועים דרך Mass Update בעוד ה-CPE מטפל ברכיב-המדד אוטומטית.",
+      scenarioHe:
+        "בארגון: עדכון-מחירים שנתי לכל חוזי-האריזה של ספק-אסטרטגי בבת-אחת; ולחומרי-סחורה (סוכר) — עדכון ה-premiums הקבועים דרך Mass Update בעוד ה-CPE מטפל ברכיב-המדד אוטומטית.",
       navHe: [
         "Materials Management ► Purchasing ► Conditions ► Change/Mass Maintenance (MEK1/MEKE)",
         "SAP Fiori Launchpad ► Sourcing and Procurement ► Mass Changes to Purchasing Info Records / Contracts",
@@ -858,8 +858,8 @@ export const CH11: TextbookChapter = {
         "לדגיטל את ממשק-הספק — להאיץ סבבי-מיקור, לצמצם טעויות-הקלדה, לשפר שקיפות ולנהל תקשורת מתועדת — במקום מיילים מפוזרים.",
       processExampleHe:
         "רוכש מפרסם RFQ דרך הרשת; חמישה ספקים מקבלים התראה, מגישים הצעות ישירות בפורטל, שואלים שאלות-הבהרה ב-Q&A מתועד, ומעלים תעודות-איכות. ההצעות נכנסות אוטומטית ל-Manage Supplier Quotations.",
-      cbcHe:
-        "ב-CBC: יצרני-פחיות בינלאומיים מחוברים דרך SAP Business Network להגשת-הצעות ולשיתוף-מפרטים; ספקים-מקומיים אסטרטגיים עובדים דרך פורטל-ספקים פרטי ממותג-CBC עם שאלוני-תקינה-למזון.",
+      scenarioHe:
+        "בארגון: יצרני-פחיות בינלאומיים מחוברים דרך SAP Business Network להגשת-הצעות ולשיתוף-מפרטים; ספקים-מקומיים אסטרטגיים עובדים דרך פורטל-ספקים פרטי ממותג-הארגון עם שאלוני-תקינה-למזון.",
       navHe: [
         "SAP Fiori Launchpad ► Sourcing ► Manage Supplier Quotations (Collaboration)",
         "SAP Business Network ► Supplier onboarding / RFQ distribution",
@@ -925,8 +925,8 @@ export const CH11: TextbookChapter = {
             "להגיע לרוחב-ספקים גלובלי ולמכן את החלפת-המיקור — דרך רשת מחוברת אחת במקום חיבורים נפרדים לכל ספק.",
           processExampleHe:
             "פרסום RFQ ברשת מגיע ל-50 ספקים-פוטנציאליים מתאימים; 12 מגיבים בהצעות-מובנות שנקלטות אוטומטית ל-S/4HANA להערכה.",
-          cbcHe:
-            "ב-CBC: גישה ליצרני-פחיות בינלאומיים דרך SAP Business Network מרחיבה את בסיס-הספקים ל-SKU החדש מעבר לספקים-המקומיים, ומשפרת תחרות-מחיר.",
+          scenarioHe:
+            "בארגון: גישה ליצרני-פחיות בינלאומיים דרך SAP Business Network מרחיבה את בסיס-הספקים ל-SKU החדש מעבר לספקים-המקומיים, ומשפרת תחרות-מחיר.",
           navHe: ["SAP Business Network ► Sourcing / RFQ distribution; S/4HANA ► Manage Supplier Quotations"],
           tables: ["EKKO", "EKPO", "LFA1"],
           tcodes: ["ME41", "ME47"],
@@ -978,8 +978,8 @@ export const CH11: TextbookChapter = {
             "לתת לקונה ערוץ-שיתוף בשליטתו-המלאה — לספקים-אסטרטגיים, עם ברנדינג, פרטיות ותהליכים-מותאמים — היכן שרשת-ציבורית אינה נדרשת או רצויה.",
           processExampleHe:
             "ספקים-אסטרטגיים מקבלים גישה לפורטל-ממותג; הם מגישים הצעות, ממלאים שאלוני-תאימות ומעלים תעודות — הכול מסתנכרן ל-S/4HANA, בשליטה-מלאה של הקונה.",
-          cbcHe:
-            "ב-CBC: ספקי-אריזה אסטרטגיים-מקומיים עובדים בפורטל-CBC ממותג, עם שאלוני-תקינה-למזון ומפרטי-איכות מותאמים — פרטיות ושליטה מלאה מול ספקים-מועדפים.",
+          scenarioHe:
+            "בארגון: ספקי-אריזה אסטרטגיים-מקומיים עובדים בפורטלארגון ממותג, עם שאלוני-תקינה-למזון ומפרטי-איכות מותאמים — פרטיות ושליטה מלאה מול ספקים-מועדפים.",
           navHe: ["Buyer-hosted Supplier Portal ► RFQ / Quotation; S/4HANA ► Manage Supplier Quotations (API)"],
           tables: ["EKKO", "EKPO", "LFA1"],
           tcodes: ["ME41", "ME47"],
@@ -1035,8 +1035,8 @@ export const CH11: TextbookChapter = {
         "לבסס את התשתית שעליה רץ Product Sourcing — להבטיח שכל פרויקט, הערכה ופסיקה מתנהגים עקבית, אוטומטית ובהתאם למדיניות-הרכש.",
       processExampleHe:
         "יועץ מגדיר Project Type 'STD-SOURCING' עם קריטריוני-הערכה ברירת-מחדל (מחיר/איכות/אספקה), ממפה Award ל-Contract Document Type, מחבר Flexible Workflow לאישור מעל סף-ערך, ובודק end-to-end מפרויקט ועד חוזה.",
-      cbcHe:
-        "ב-CBC: קונפיגורציה ייעודית לקטגוריות-אריזה — Project Type עם משקלות-איכות גבוהות (קריטי לקו-מילוי), CPE Condition לסוכר, ו-Workflow-אישור משפטי+רכש לחוזים מעל סף.",
+      scenarioHe:
+        "בארגון: קונפיגורציה ייעודית לקטגוריות-אריזה — Project Type עם משקלות-איכות גבוהות (קריטי לקו-מילוי), CPE Condition לסוכר, ו-Workflow-אישור משפטי+רכש לחוזים מעל סף.",
       navHe: [
         "IMG (SPRO) ► Materials Management ► Purchasing ► Sourcing / Product Sourcing ► Define Sourcing Project Types",
         "IMG (SPRO) ► Materials Management ► Purchasing ► Sourcing ► Define Quotation Evaluation Criteria",
@@ -1112,8 +1112,8 @@ export const CH11: TextbookChapter = {
         "לקשור את כל חלקי-הפרק לתמונה אחת — שהלומד יבין כיצד כל יכולת (פרויקט, הערכה, פסיקה, חוזה, תמחור, שיתוף) משתלבת לתהליך-מיקור שלם ובר-מימוש.",
       processExampleHe:
         "מצורך-עסקי (SKU חדש): תכנון-רכש→Sourcing Project→Supplier Quotations (דרך Business Network)→Quotation Evaluation→Award→Enterprise Contract (עם CPE לסחורה)→מקור-אספקה→PO תפעולי. כל שלב מתועד, מוגדר ב-SPRO, ומנוהל ב-Fiori.",
-      cbcHe:
-        "ב-CBC: השקת-SKU מקצה-לקצה — תכנון, מיקור-אריזות דרך Business Network ופורטל-פרטי, הערכה-משוקללת מוטת-איכות, Split Award לפיזור-סיכון, חוזי-ECM עם CPE לסוכר, ועדכוני-מחיר-המוניים שנתיים — כל מחזור-המיקור במערכת אחת.",
+      scenarioHe:
+        "בארגון: השקת-SKU מקצה-לקצה — תכנון, מיקור-אריזות דרך Business Network ופורטל-פרטי, הערכה-משוקללת מוטת-איכות, Split Award לפיזור-סיכון, חוזי-ECM עם CPE לסוכר, ועדכוני-מחיר-המוניים שנתיים — כל מחזור-המיקור במערכת אחת.",
       navHe: ["SAP Fiori Launchpad ► Sourcing and Procurement ► Sourcing (overview of all Product Sourcing apps)"],
       tables: ["EKKO", "EKPO", "EINA", "EINE", "EORD", "KONP"],
       tcodes: ["ME41", "ME49", "ME31K", "MEK1", "ME01"],

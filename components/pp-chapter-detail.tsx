@@ -79,10 +79,10 @@ function DeepUnitCard({ u, lang }: { u: DeepUnit; lang: string }) {
               <UnitList label={lang === "he" ? "תרחישי פתרון תקלות" : "Troubleshooting"} items={u.troubleshootHe} />
               <UnitList label={lang === "he" ? "טיפים למימוש" : "Implementation tips"} items={u.tipsHe} />
               <UnitList label={lang === "he" ? "מלכודות פרויקט (Consultant pitfalls)" : "Consultant pitfalls"} items={u.pitfallsHe} />
-              {u.cbcHe && (
+              {u.exampleHe && (
                 <div className="rounded-lg border border-brand/20 bg-brand-soft/50 p-2.5">
-                  <p className="text-[11px] font-bold text-brand">הערת CBC</p>
-                  <p className="mt-0.5 text-sm leading-relaxed">{u.cbcHe}</p>
+                  <p className="text-[11px] font-bold text-brand">הערת יישום</p>
+                  <p className="mt-0.5 text-sm leading-relaxed">{u.exampleHe}</p>
                 </div>
               )}
             </div>
@@ -162,7 +162,7 @@ export function PPChapterDetail({ ch }: { ch: PPChapter }) {
           ) : deep.length > 0 ? (
             <section id="learning" dir="rtl" className="glass scroll-mt-24 rounded-2xl p-5">
               <h2 className="mb-1 flex items-center gap-2 text-sm font-bold text-brand"><Briefcase className="size-4" />{lang === "he" ? "תוכן לימודי מעמיק (רמת SAP Press)" : "Deep learning content"}</h2>
-              <p className="mb-3 text-xs text-muted-foreground">{lang === "he" ? "הסבר · תרחיש עסקי · קונפיגורציה · נתוני אב · פתרון תקלות · טיפים · מלכודות · הערות CBC" : "Explanation · scenario · config · master data · troubleshooting · tips · pitfalls · CBC"}</p>
+              <p className="mb-3 text-xs text-muted-foreground">{lang === "he" ? "הסבר · תרחיש עסקי · קונפיגורציה · נתוני אב · פתרון תקלות · טיפים · מלכודות · הערות יישום" : "Explanation · scenario · config · master data · troubleshooting · tips · pitfalls"}</p>
               <div className="space-y-2">
                 {deep.map((u) => <DeepUnitCard key={u.id} u={u} lang={lang} />)}
               </div>
@@ -196,10 +196,10 @@ export function PPChapterDetail({ ch }: { ch: PPChapter }) {
           <Block id="trouble" icon={<AlertTriangle className="size-4" />} title={lang === "he" ? "תרחישי פתרון תקלות" : "Troubleshooting"} items={ch.troubleshootHe} />
           <Block id="lessons" icon={<Lightbulb className="size-4" />} title={lang === "he" ? "לקחים" : "Lessons learned"} items={ch.lessonsHe} />
 
-          {ch.cbcHe && (
+          {ch.scenarioHe && (
             <section dir="rtl" className="glass rounded-2xl border-brand/20 bg-brand-soft/40 p-5">
-              <h2 className="mb-1 flex items-center gap-2 text-sm font-bold text-brand"><Factory className="size-4" />{lang === "he" ? "הערת CBC מעשית" : "CBC practical note"}</h2>
-              <p className="text-sm leading-relaxed">{ch.cbcHe}</p>
+              <h2 className="mb-1 flex items-center gap-2 text-sm font-bold text-brand"><Factory className="size-4" />{lang === "he" ? "הערת יישום מעשית" : "הארגון practical note"}</h2>
+              <p className="text-sm leading-relaxed">{ch.scenarioHe}</p>
             </section>
           )}
 

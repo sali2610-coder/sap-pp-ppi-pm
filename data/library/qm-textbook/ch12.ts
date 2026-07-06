@@ -1,7 +1,7 @@
 // ===== QM Digital Textbook — Chapter 12 (Quality Notification) =====
 // Every node is a complete 18-facet LearningNode with authored Hebrew.
 // Source hierarchy preserved exactly (ids + order; x.y.z nested under x.y).
-// CBC = Coca-Cola bottling: customer complaints + supplier defects.
+// הארגון = Example Product bottling: customer complaints + supplier defects.
 // SAP identifiers verbatim EN.
 import type { TextbookChapter } from "./types";
 
@@ -10,7 +10,7 @@ export const CH12: TextbookChapter = {
   titleHe: "הודעות איכות",
   titleEn: "Quality Notification",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה להודעות-איכות (Quality Notification) ב-SAP S/4HANA QM. הודעת-איכות היא הכלי לתעד, לנתח, לטפל ולסגור כל בעיית-איכות — תלונת-לקוח, פגם-ספק או חריגה בייצור. כל תת-פרק וכל תת-סעיף מהספר הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא במלואו, מתחיל ועד יועץ, ללא הספר המקורי. CBC = מפעל-בקבוקים של קוקה-קולה: תלונות-לקוחות על המשקה ופגמי-ספק על חומרי-הגלם והאריזה.",
+    "פרק זה הוא יחידת-לימוד מלאה להודעות-איכות (Quality Notification) ב-SAP S/4HANA QM. הודעת-איכות היא הכלי לתעד, לנתח, לטפל ולסגור כל בעיית-איכות — תלונת-לקוח, פגם-ספק או חריגה בייצור. כל תת-פרק וכל תת-סעיף מהספר הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא במלואו, מתחיל ועד יועץ, ללא הספר המקורי. הארגון = מפעל-בקבוקים של מוצר לדוגמה: תלונות-לקוחות על המשקה ופגמי-ספק על חומרי-הגלם והאריזה.",
   subchapters: [
     // ============================================================ 12.1
     {
@@ -25,8 +25,8 @@ export const CH12: TextbookChapter = {
         "לספק תהליך-עבודה אחיד, נשלט וניתן-לביקורת לכל בעיית-איכות, מהדיווח ועד הסגירה, תוך חיבור ל-PP, MM, SD ו-CS ושמירת היסטוריה מלאה לניתוח-מגמות ולשיפור-מתמיד.",
       processExampleHe:
         "לקוח מדווח על טעם חריג. נציג פותח הודעת-איכות (QM01) מסוג תלונת-לקוח, מתעד את הפגם (QMFE), מקצה משימת-בדיקה למעבדה (QMSM), המעבדה מזהה סיבת-שורש (QMUR), מוגדרת משימת-תיקון, מבוצעת פעולה מתקנת (QMMA), וההודעה נסגרת (NOCO) רק לאחר שכל המשימות הושלמו.",
-      cbcHe:
-        "ב-CBC כל פנייה ל'קו-לקוחות' על בקבוק פגום נפתחת כהודעת-איכות; כל אצווה-נכנסת של תרכיז שנמצאה לא-תקנית פותחת הודעת-ספק. ה-Workflow מבטיח שאף תלונה לא נסגרת בלי ניתוח-סיבה ופעולה מתקנת מתועדת — דרישה רגולטורית בענף-המשקאות.",
+      scenarioHe:
+        "בארגון כל פנייה ל'קו-לקוחות' על בקבוק פגום נפתחת כהודעת-איכות; כל אצווה-נכנסת של תרכיז שנמצאה לא-תקנית פותחת הודעת-ספק. ה-Workflow מבטיח שאף תלונה לא נסגרת בלי ניתוח-סיבה ופעולה מתקנת מתועדת — דרישה רגולטורית בענף-המשקאות.",
       navHe: [
         "Quality Management ► Quality Notifications ► Notification Processing ► Define Screen Templates (OQM2)",
         "Quality Management ► Quality Notifications ► Notification Creation ► Notification Types ► Define Notification Types (OQM1)",
@@ -95,8 +95,8 @@ export const CH12: TextbookChapter = {
         "לתת לארגון תהליך אחיד וניתן-לביקורת לטיפול בתלונות-לקוחות, לשמר את אמון-הלקוח, לעמוד בדרישות-איכות (ISO 9001 / IATF) ולהפיק תובנות לשיפור-מוצר מתוך מגמות-תלונות.",
       processExampleHe:
         "לקוח מדווח שקיבל ארגז עם בקבוקים סדוקים. נציג פותח הודעת Q1, מקשר ל-Delivery ול-Material, מתעד את הפגם, פותח משימת-בדיקה, מאשר Return, מבצע פעולה מתקנת מול קו-האריזה, ומפיק 8D ללקוח. ההודעה נסגרת רק לאחר תשובה-מאושרת ללקוח.",
-      cbcHe:
-        "ב-CBC תלונת-לקוח טיפוסית: 'בקבוק שטוח ללא גז', 'תווית עקומה', 'גוף-זר'. כל תלונה נפתחת כ-Q1, מקושרת ל-Batch ול-Delivery כדי לאתר את אצוות-הייצור, וה-8D נשלח לרשת-הקמעונאות הגדולה כתנאי-ספק.",
+      scenarioHe:
+        "בארגון תלונת-לקוח טיפוסית: 'בקבוק שטוח ללא גז', 'תווית עקומה', 'גוף-זר'. כל תלונה נפתחת כ-Q1, מקושרת ל-Batch ול-Delivery כדי לאתר את אצוות-הייצור, וה-8D נשלח לרשת-הקמעונאות הגדולה כתנאי-ספק.",
       navHe: [
         "Quality Management ► Quality Notifications ► Notification Creation ► Notification Types ► Define Notification Types (OQM1)",
         "Logistics ► Quality Management ► Quality Notification ► Create (QM01)",
@@ -157,7 +157,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "ב-QM01 מזינים Notification Type=Q1, Reference Object (Delivery/Material), והכותרת QMEL נוצרת בסטטוס OSNO. הקטלוגים (Coding/Defect) מאוכלסים לפי Catalog Profile של הסוג. Partner Determination ממלא את IHPA אוטומטית. ניתן להזין מהזמנת-מכירה (QM01 עם Reference) לירושת-נתונים. ב-S/4HANA קיימת גם אפליקציית Fiori 'Manage Quality Notifications'.",
           purposeHe: "לתעד את התלונה במדויק וברגע-אמת, עם כל ההקשר (לקוח, מוצר, אצווה), כבסיס אמין לניתוח-סיבה, לפעולה מתקנת ולתשובה-ללקוח.",
           processExampleHe: "נציג שירות פותח QM01, סוג Q1, מקיש את ה-Delivery של הלקוח; המערכת יורשת מוצר, אצווה ולקוח. הוא מתאר 'בקבוק ללא גז', מקצה Person Responsible ושומר — מספר-הודעה נוצר.",
-          cbcHe: "ב-CBC נציג קו-הלקוחות פותח Q1 על 'משקה שטוח', מקיש את מספר-המשלוח המופיע על הקבלה; המערכת מזהה אצווה וקו-מילוי — תחקור-שורש מתחיל מיד.",
+          scenarioHe: "בארגון נציג קו-הלקוחות פותח Q1 על 'משקה שטוח', מקיש את מספר-המשלוח המופיע על הקבלה; המערכת מזהה אצווה וקו-מילוי — תחקור-שורש מתחיל מיד.",
           navHe: ["Logistics ► Quality Management ► Quality Notification ► Create (QM01)", "Quality Management ► Quality Notifications ► Notification Creation ► Notification Types ► Define Notification Types (OQM1)"],
           tables: ["QMEL", "QMFE", "IHPA"],
           tcodes: ["QM01", "QM02"],
@@ -176,7 +176,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "משימות נשמרות ב-QMSM, מקודדות דרך Catalog Type B (Tasks). לכל משימה יש Task Code, Person Responsible, Planned/Required dates וסטטוס (Outstanding TSOS → Released TSRL → Completed TSCO). ניתן להוסיף משימות אוטומטית דרך Response-Time Monitoring או Action Box. סגירת ההודעה חסומה כל עוד קיימת משימה ב-TSOS.",
           purposeHe: "להבטיח שכל בעיה מתורגמת לפעולות מוגדרות עם אחריות ומועד, ולמנוע 'שכחת' צעדי-טיפול קריטיים.",
           processExampleHe: "בתלונה על משקה-שטוח נפתחות שלוש משימות: (1) בדיקת-מעבדה לאצווה, (2) בדיקת קו-המילוי, (3) עדכון-לקוח. כל אחת מוקצית לאחראי עם יעד; ההודעה לא תיסגר עד שכולן TSCO.",
-          cbcHe: "ב-CBC משימת-חובה: 'בדוק את לחץ-ה-CO2 בקו-המילוי לאצווה X'. משימה זו מתועדת ב-QMSM ומשמשת ראיה ל-8D ולביקורת-איכות.",
+          scenarioHe: "בארגון משימת-חובה: 'בדוק את לחץ-ה-CO2 בקו-המילוי לאצווה X'. משימה זו מתועדת ב-QMSM ומשמשת ראיה ל-8D ולביקורת-איכות.",
           navHe: ["Logistics ► Quality Management ► Quality Notification ► Change ► Tasks tab (QM02)", "Quality Management ► Quality Notifications ► Notification Processing ► Response Control ► Define Default Values for Tasks"],
           tables: ["QMSM", "QMEL"],
           tcodes: ["QM02", "QM03"],
@@ -195,7 +195,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "מעברי-הסטטוס נשלטים דרך Business Transactions (Set/Complete/Release Task). System Status של ההודעה נע OSNO→NOPR (In Process) →NOCO (Completed). סגירה (Complete Notification) מחייבת שכל QMSM ב-TSCO/לא-רלוונטי. כל מעבר נרשם ב-JCDS/JEST ומופיע ב-Action Log. User Status מ-Status Profile יכול לחסום מעבר אם ההרשאות/התנאים לא מתקיימים.",
           purposeHe: "להבטיח שלמות-תהליך: שאף הודעה לא נסגרת בטרם-עת, ושכל מעבר-סטטוס מתועד לביקורת.",
           processExampleHe: "מנהל-איכות בודק שכל שלוש המשימות ב-TSCO, מסמן Complete Notification; המערכת מציבה NOCO ורושמת תאריך-סגירה. אם משימה אחת עדיין TSOS — המערכת חוסמת ומתריעה.",
-          cbcHe: "ב-CBC הודעת-תלונה נסגרת רק לאחר שמשימת 'אישור-לקוח על קבלת-8D' הושלמה — שלב חובה לפי הסכמי-הרשתות.",
+          scenarioHe: "בארגון הודעת-תלונה נסגרת רק לאחר שמשימת 'אישור-לקוח על קבלת-8D' הושלמה — שלב חובה לפי הסכמי-הרשתות.",
           navHe: ["Logistics ► Quality Management ► Quality Notification ► Change (QM02)", "Quality Management ► Quality Notifications ► Status Management ► Define Status Profile"],
           tables: ["QMSM", "QMMA", "JEST", "JCDS"],
           tcodes: ["QM02"],
@@ -214,7 +214,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "System Status נשמר ב-JEST עם Status ID קבוע (I0068=OSNO וכו') ולא-ניתן-לעריכה. User Status מוגדר ב-Status Profile (BS02): רצף, Initial Status, ערכי-מספור (lowest/highest), Business Transactions מותרות/אסורות, ו-Authorization Key. ה-Status Profile מוקצה ל-Notification Type. מעברים מתועדים ב-JCDS. ניתן להפעיל Follow-On Functions ממעבר-סטטוס.",
           purposeHe: "לאפשר התאמת מחזור-החיים של ההודעה לתהליכי-הארגון — שערי-אישור, הרשאות, חסימות — מעל מסגרת-המערכת הקשיחה.",
           processExampleHe: "ארגון מגדיר User Status: 'נפתח' → 'בבדיקת-מעבדה' → 'ממתין-אישור-QA' → 'מאושר-לסגירה'. רק בסטטוס 'מאושר-לסגירה' ה-Business Transaction של Complete מותרת.",
-          cbcHe: "ב-CBC User Status 'ממתין-אישור-רגולציה' חוסם סגירת תלונות-מזון עד שגורם-בטיחות-המזון אישר — בקרה רגולטורית מהותית.",
+          scenarioHe: "בארגון User Status 'ממתין-אישור-רגולציה' חוסם סגירת תלונות-מזון עד שגורם-בטיחות-המזון אישר — בקרה רגולטורית מהותית.",
           navHe: ["Quality Management ► Quality Notifications ► Status Management ► Define Status Profile", "Cross-Application ► General Status Management ► Maintain Status Profile (BS02)"],
           tables: ["JEST", "JCDS", "TJ20", "TJ30"],
           tcodes: ["BS02", "BS22", "BS32"],
@@ -237,7 +237,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "Follow-On Functions מוגדרות ב-Action Box לכל Notification Type (פונקציות-קטלוג + פונקציות-לקוח דרך QQMA). ניתן לקשר Function Module ולהפעיל אוטומטית במעבר-סטטוס. דוגמאות: Create Sales Document (Return/Credit), Create Service/Production Order, Print Shop Papers. הביצוע נרשם כ-Activity (QMMA) וב-Action Log.",
           purposeHe: "לקצר את שרשרת-הטיפול ולמנוע שגיאות-העתקה ידניות בכך שההודעה מייצרת ישירות את מסמכי-ההמשך הנדרשים.",
           processExampleHe: "בתלונה מאושרת לוחצים 'Create Return' ב-Action Box; נוצרת הזמנת-החזרה ב-SD המקושרת להודעה, ובמקביל נוצרת Activity המתעדת את הפעולה.",
-          cbcHe: "ב-CBC על תלונת-מוצר-פגום, Follow-On מייצר Credit Memo ללקוח ו-Return ל-Batch הפגומה — שניהם מקושרים אוטומטית להודעה לתחקור.",
+          scenarioHe: "בארגון על תלונת-מוצר-פגום, Follow-On מייצר Credit Memo ללקוח ו-Return ל-Batch הפגומה — שניהם מקושרים אוטומטית להודעה לתחקור.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Processing ► Additional Functions ► Define Follow-Up Actions", "Quality Management ► Quality Notifications ► Notification Processing ► Maintain Action Box"],
           tables: ["QMMA", "QMEL", "TQ80"],
           tcodes: ["QM02", "QM03"],
@@ -256,7 +256,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "Action Log מציג את היסטוריית-הסטטוסים (JCDS), שינויי-השדות (CDHDR/CDPOS — Change Documents), ופעולות-ההמשך שבוצעו. נגיש מתוך QM03 (Extras ► Action Log) ומשמש ראיה לביקורת ISO/IATF. אינו ניתן-לעריכה — append-only.",
           purposeHe: "לספק שקיפות מלאה ועקבות-ביקורת לכל מחזור-חיי ההודעה, לעמידה ברגולציה ולתחקור-אירועים.",
           processExampleHe: "בביקורת-איכות מבקשים להוכיח שתלונה מסוימת נסגרה רק אחרי פעולה מתקנת; פותחים את ה-Action Log ומציגים את רצף-האירועים עם חותמות-זמן ושמות-משתמשים.",
-          cbcHe: "ב-CBC רואה-חשבון-איכות מבקש את Action Log של תלונת 'גוף-זר' להוכחת תהליך-החקירה לרשת-קמעונאית; היומן מספק את כל הצעדים בזמן-אמת.",
+          scenarioHe: "בארגון רואה-חשבון-איכות מבקש את Action Log של תלונת 'גוף-זר' להוכחת תהליך-החקירה לרשת-קמעונאית; היומן מספק את כל הצעדים בזמן-אמת.",
           navHe: ["Logistics ► Quality Management ► Quality Notification ► Display ► Extras ► Action Log (QM03)"],
           tables: ["JCDS", "CDHDR", "CDPOS"],
           tcodes: ["QM03"],
@@ -275,7 +275,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "שותפים נשמרים ב-IHPA לפי Partner Function (AG=Sold-to, WE=Ship-to, AP=Contact, VU=Person Responsible). Partner Determination Procedure מוקצה ל-Notification Type וקובע אילו Functions מאוכלסים ומאיזה מקור (Customer/Vendor master, Sales Order). חובה/אופציונלי לכל Function. ב-S/4HANA מתואם עם Business Partner.",
           purposeHe: "להבטיח ניתוב-נכון, תקשורת-יעילה ומעקב-אחריות — שכל הודעה 'יודעת' מי מעורב ומי אחראי.",
           processExampleHe: "ביצירת Q1 מ-Delivery, Partner Determination ממלא אוטומטית Sold-to, Ship-to ו-Contact מנתוני-הלקוח; המשתמש מוסיף Person Responsible פנימי.",
-          cbcHe: "ב-CBC הודעת-תלונה נושאת את רשת-הקמעונאות כ-Sold-to, את הסניף כ-Ship-to, ואת מנהל-האיכות כ-Person Responsible — ניתוב מיידי לטיפול.",
+          scenarioHe: "בארגון הודעת-תלונה נושאת את רשת-הקמעונאות כ-Sold-to, את הסניף כ-Ship-to, ואת מנהל-האיכות כ-Person Responsible — ניתוב מיידי לטיפול.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Processing ► Partner ► Define Partner Determination Procedure", "Quality Management ► Quality Notifications ► Notification Processing ► Partner ► Define Partner Functions"],
           tables: ["IHPA", "QMEL", "TPAR"],
           tcodes: ["QM01", "QM02"],
@@ -294,7 +294,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "ה-8D נבנה מעל נתוני-ההודעה: D1=Team (Partners/Responsible), D2=Problem (QMFE Items), D3=Containment (Tasks מיידיות), D4=Root Cause (QMUR), D5=Corrective Actions (QMSM/QMMA), D6=Implement & Validate, D7=Prevent (CAPA), D8=Congratulate. מיושם כ-Smart Form/Adobe Form המופעל מ-Action Box (Print/Mail). ב-S/4HANA לעיתים מקושר ל-Quality Issue Resolution / 8D process.",
           purposeHe: "לספק ללקוח תשובה מקצועית ומתועדת, לעמוד בדרישות-ספק (IATF 16949), ולכפות תהליך פתרון-בעיות מסודר במקום טיפול-אד-הוק.",
           processExampleHe: "לאחר תלונת-לקוח, צוות ממלא את שמונת השלבים בהודעה; ב-Action Box לוחצים 'Print 8D'; נוצר PDF מובנה הנשלח ללקוח כתשובה רשמית, וההודעה נסגרת רק אחרי אישור-הלקוח.",
-          cbcHe: "ב-CBC רשתות-קמעונאות גדולות דורשות 8D לכל תלונת-מוצר; ה-CAPA (D7) מתעד שינוי בקו-המילוי שמונע הישנות — תנאי להמשך-אספקה.",
+          scenarioHe: "בארגון רשתות-קמעונאות גדולות דורשות 8D לכל תלונת-מוצר; ה-CAPA (D7) מתעד שינוי בקו-המילוי שמונע הישנות — תנאי להמשך-אספקה.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Processing ► Maintain Action Box (8D Print)", "Quality Management ► Quality Notifications ► Notification Print Control ► Define Print Control"],
           tables: ["QMEL", "QMFE", "QMUR", "QMSM", "QMMA"],
           tcodes: ["QM02", "QM03"],
@@ -338,8 +338,8 @@ export const CH12: TextbookChapter = {
         "לזהות ולטפל בבעיות-איכות במקור — ברצפת-הייצור — לפני שחרור-המוצר, לצמצם פסולת ולמנוע תלונות-לקוח עתידיות.",
       processExampleHe:
         "במהלך מילוי מתגלה לחץ-CO2 נמוך. מפעיל פותח Q2, מקשר ל-Process Order ול-Work Center, חוסם את האצווה, פותח משימת-בדיקה-טכנית, ולאחר ניתוח-סיבה יוצר פק\"ע-עיבוד-מחדש או גורט את האצווה.",
-      cbcHe:
-        "ב-CBC הודעת-ייצור טיפוסית: 'סטיית-Brix בערבוב', 'תקלת-מכסה בקו-3'. ההודעה מקושרת ל-Process Order ול-Batch, חוסמת את האצווה החשודה, ומפעילה תחקור-קו לפני שחרור-מסחרי.",
+      scenarioHe:
+        "בארגון הודעת-ייצור טיפוסית: 'סטיית-Brix בערבוב', 'תקלת-מכסה בקו-3'. ההודעה מקושרת ל-Process Order ול-Batch, חוסמת את האצווה החשודה, ומפעילה תחקור-קו לפני שחרור-מסחרי.",
       navHe: [
         "Quality Management ► Quality Notifications ► Notification Creation ► Notification Types ► Define Notification Types (OQM1)",
         "Logistics ► Quality Management ► Quality Notification ► Create (QM01)",
@@ -402,8 +402,8 @@ export const CH12: TextbookChapter = {
         "לאכוף את אחריות-הספק לאיכות, לתעד עלויות אי-התאמה, להזין את הערכת-הספקים ולנהל את ההתחשבנות (החזרה/זיכוי/החלפה) בצורה מסודרת.",
       processExampleHe:
         "בקבלת-טובין מתגלה תרכיז עם pH חריג. רוכש פותח Q3, מקשר ל-PO ול-GR, חוסם את המלאי, פותח Complaint לספק, מבצע Return-to-Vendor, ורושם את עלות-אי-ההתאמה להערכת-הספק.",
-      cbcHe:
-        "ב-CBC משלוח-תרכיז שנכשל בבדיקת-קבלה פותח Q3; ההודעה מקשרת ל-PO ולספק-התרכיז, מחזירה את האצווה, ומשפיעה ישירות על ציון-האיכות של הספק בהערכה-התקופתית.",
+      scenarioHe:
+        "בארגון משלוח-תרכיז שנכשל בבדיקת-קבלה פותח Q3; ההודעה מקשרת ל-PO ולספק-התרכיז, מחזירה את האצווה, ומשפיעה ישירות על ציון-האיכות של הספק בהערכה-התקופתית.",
       navHe: [
         "Quality Management ► Quality Notifications ► Notification Creation ► Notification Types ► Define Notification Types (OQM1)",
         "Logistics ► Quality Management ► Quality Notification ► Create (QM01)",
@@ -459,7 +459,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "ב-QM01 מזינים Notification Type=Q3 ו-Reference Object=Purchase Order/GR Document. המערכת יורשת Vendor, Material, Batch, Quantity. ניתן ליצור אוטומטית מ-Usage Decision של Inspection Lot (Origin 01) עם פגם. הקטלוגים מאוכלסים לפי Catalog Profile של Q3.",
           purposeHe: "לתעד את הפגם-הנכנס במדויק עם כל ההקשר (ספק, PO, אצווה), כבסיס לתביעה מול הספק ולהזנת ההערכה.",
           processExampleHe: "רוכש פותח QM01, סוג Q3, מקיש PO; המערכת מביאה ספק-התרכיז וחומר. הוא מתאר 'pH חוץ-מפרט' ושומר — מספר-הודעה נוצר ומקושר ל-PO.",
-          cbcHe: "ב-CBC בודק-מעבדה מקבל אצווה לא-תקנית, פותח Q3 מתוך ה-Usage Decision של ה-Inspection Lot; ההודעה נוצרת עם קישור אוטומטי ל-PO ולספק.",
+          scenarioHe: "בארגון בודק-מעבדה מקבל אצווה לא-תקנית, פותח Q3 מתוך ה-Usage Decision של ה-Inspection Lot; ההודעה נוצרת עם קישור אוטומטי ל-PO ולספק.",
           navHe: ["Logistics ► Quality Management ► Quality Notification ► Create (QM01)", "Quality Management ► Quality Notifications ► Notification Creation ► Notification Types ► Define Notification Types (OQM1)"],
           tables: ["QMEL", "QMFE", "EKKO"],
           tcodes: ["QM01", "QM02"],
@@ -478,7 +478,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "הגיליון מופק כ-Print/Report מעל נתוני-ההודעה (QMEL/QMFE/QMUR) + Nonconformity Costs + היסטוריית-תלונות מהספק (QM10/Information System). מוגדר ב-Print Control של Q3 ומופעל מ-Action Box. משמש בסיס ל-Complaint לספק ולדרישת-פיצוי.",
           purposeHe: "לצייד את הרוכש בנתונים מבוססים למשא-ומתן עם הספק — לתביעת-פיצוי, להחלפה ולדרישת תוכנית-שיפור.",
           processExampleHe: "לקראת פגישה עם ספק-תרכיז, הרוכש מפיק Negotiation Sheet המציג שלוש תלונות-pH ברבעון ועלות אי-התאמה מצטברת; הוא דורש זיכוי ותוכנית-CAPA מהספק.",
-          cbcHe: "ב-CBC רוכש-חומרי-גלם מפיק את הגיליון לפני חידוש-חוזה-ספק; נתוני-הפגם המצטברים מהווים מנוף להורדת-מחיר או למעבר-ספק.",
+          scenarioHe: "בארגון רוכש-חומרי-גלם מפיק את הגיליון לפני חידוש-חוזה-ספק; נתוני-הפגם המצטברים מהווים מנוף להורדת-מחיר או למעבר-ספק.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Print Control ► Define Print Control (Buyer's Negotiation Sheet)"],
           tables: ["QMEL", "QMFE", "QMUR", "ELBK"],
           tcodes: ["QM03", "QM10"],
@@ -497,7 +497,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "Document Flow נבנה מקישורי-האובייקטים של ההודעה (Object Links / QM-Reference) ומ-MM/SD Document Flow. נגיש מ-QM03 (Environment ► Document Flow). מציג Inspection Lot (QALS), PO/GR (EKBE), Return PO, Credit Memo ו-Activities. שימושי לביקורת ולתחקור-שורש.",
           purposeHe: "לספק שקיפות מלאה של שרשרת-המסמכים סביב הפגם, לתחקור מהיר ולעמידה בדרישות-עקיבות.",
           processExampleHe: "בתחקור פגם-ספק, מנהל-איכות פותח Document Flow מההודעה ורואה: PO ► GR ► Inspection Lot ► Q3 Notification ► Return PO ► Credit Memo — כל הסיפור בתצוגה אחת.",
-          cbcHe: "ב-CBC עקיבות-מזון דורשת שלכל אצווה-תרכיז-פגומה יהיה Document Flow שלם מ-PO ועד ההחזרה — ראיה רגולטורית לתחקור.",
+          scenarioHe: "בארגון עקיבות-מזון דורשת שלכל אצווה-תרכיז-פגומה יהיה Document Flow שלם מ-PO ועד ההחזרה — ראיה רגולטורית לתחקור.",
           navHe: ["Logistics ► Quality Management ► Quality Notification ► Display ► Environment ► Document Flow (QM03)"],
           tables: ["QMEL", "EKBE", "QALS"],
           tcodes: ["QM03"],
@@ -524,8 +524,8 @@ export const CH12: TextbookChapter = {
         "לאפשר ניהול-המוני, מעקב-מגמות, איתור-צווארי-בקבוק ושימוש-חוזר בידע — להפוך נתוני-הודעות לתובנות-שיפור.",
       processExampleHe:
         "מנהל-איכות פותח QM10 בבוקר, מסנן הודעות-פתוחות באיחור, מטפל בהן בבת-אחת; בסוף-החודש מריץ QMIS לזיהוי הפגם-הנפוץ-ביותר, ומעדכן את ה-Solution Database בפתרון-מומלץ.",
-      cbcHe:
-        "ב-CBC צוות-האיכות מנהל את כל התלונות והפגמים דרך QM10 יומי; QMIS חושף ש'תווית-עקומה' היא הפגם-המוביל, ו-CAPA נפתח לקו-התיוג.",
+      scenarioHe:
+        "בארגון צוות-האיכות מנהל את כל התלונות והפגמים דרך QM10 יומי; QMIS חושף ש'תווית-עקומה' היא הפגם-המוביל, ו-CAPA נפתח לקו-התיוג.",
       navHe: [
         "Logistics ► Quality Management ► Quality Notification ► Worklist (QM10)",
         "Information Systems ► Logistics ► Quality Management ► Notifications (QMIS / MCXX)",
@@ -574,7 +574,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "QM10 (Notification List) ו-QM11/QM50 (Task/Worklist views) מסננים לפי Status, Person Responsible, Notification Type, תאריך. ניתן לבצע פעולות-המוניות: שחרור-משימות, השלמה, שינוי-אחראי. נשען על QMEL/QMSM. Selection Variants שומרים סינונים נפוצים. ב-S/4HANA קיימת Fiori 'My Quality Tasks'.",
           purposeHe: "לאפשר שליטה-יומית על כלל-המשימות, זיהוי-איחורים וטיפול-המוני — במקום מעקב הודעה-הודעה.",
           processExampleHe: "מנהל-איכות פותח QM10 עם Variant 'משימות-באיחור-שלי', בוחר חמש משורות, ומשחרר אותן בבת-אחת; שתיים מסומנות הושלמו.",
-          cbcHe: "ב-CBC ראש-צוות-איכות מריץ QM10 כל בוקר על 'תלונות-פתוחות מעל 48ש' ומקצה מחדש אחראים — בקרת-SLA על תלונות-לקוח.",
+          scenarioHe: "בארגון ראש-צוות-איכות מריץ QM10 כל בוקר על 'תלונות-פתוחות מעל 48ש' ומקצה מחדש אחראים — בקרת-SLA על תלונות-לקוח.",
           navHe: ["Logistics ► Quality Management ► Quality Notification ► Worklist ► Notification List (QM10)", "Logistics ► Quality Management ► Quality Notification ► Worklist ► Task List (QM11)"],
           tables: ["QMEL", "QMSM"],
           tcodes: ["QM10", "QM11", "QM50"],
@@ -593,7 +593,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "אפליקציות-מפתח: 'Manage Quality Notifications' (F2218), 'My Quality Tasks' (F4072), 'Analyze Quality Notifications' (Analytical). מבוססות OData ו-CDS Views מעל QMEL/QMFE/QMSM. מוקצות דרך Business Catalogs/Roles ב-Fiori Launchpad. תומכות ב-Defects Recording ובניתוח-מגמות גרפי. דורשות הפעלת ה-OData Services ב-/IWFND/MAINT_SERVICE.",
           purposeHe: "לספק חוויית-משתמש מודרנית, ניידת ומבוססת-תפקיד, להאיץ-טיפול ולהנגיש ניתוח-איכות גרפי למנהלים.",
           processExampleHe: "מנהל-איכות פותח 'Analyze Quality Notifications' ב-Launchpad, רואה תרשים-Pareto של פגמים, ומקיש להודעות-הרלוונטיות ישירות מהתרשים.",
-          cbcHe: "ב-CBC מנהל-מפעל צופה בנייד באפליקציית-הניתוח בזמן-אמת בתלונות-היום, ומקצה אחראים תוך-כדי-תנועה — ללא תחנת-עבודה.",
+          scenarioHe: "בארגון מנהל-מפעל צופה בנייד באפליקציית-הניתוח בזמן-אמת בתלונות-היום, ומקצה אחראים תוך-כדי-תנועה — ללא תחנת-עבודה.",
           navHe: ["SAP Fiori Launchpad ► QM ► Manage Quality Notifications (F2218)", "Fiori Apps Library ► Quality Management ► Quality Notifications"],
           tables: ["QMEL", "QMFE", "QMSM"],
           tcodes: ["QM01", "QM02", "QM03"],
@@ -612,7 +612,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "QMIS חלק מ-LIS (Logistics Information System) עם Info Structures (S070 Notifications, S071 Items, S072 Tasks). דוחות סטנדרטיים MCXX (MCV*, MCXX) מאפשרים drill-down לפי Material/Vendor/Defect/Period. ניתן להגדיר Self-Defined Info Structures ו-Standard Analyses. עדכון נשלט דרך LIS Update Rules. ב-S/4HANA לרוב מוחלף/משלים ע\"י CDS-based Analytical Fiori ו-Embedded Analytics.",
           purposeHe: "לספק ניתוח-מגמות ו-KPI לזיהוי בעיות-איכות חוזרות, ספקים-בעייתיים ופגמים-מובילים — בסיס להחלטות-שיפור.",
           processExampleHe: "בסיכום-רבעון מריצים QMIS לפי Defect Type; תרשים-Pareto חושף ש-80% מהתלונות נובעות משני-פגמים; CAPA נפתח לשניהם.",
-          cbcHe: "ב-CBC QMIS חושף עלייה בתלונות-'משקה-שטוח' בקיץ; הניתוח מוביל לתחזוקת-מונע על מערכות-ה-CO2 בקווי-המילוי.",
+          scenarioHe: "בארגון QMIS חושף עלייה בתלונות-'משקה-שטוח' בקיץ; הניתוח מוביל לתחזוקת-מונע על מערכות-ה-CO2 בקווי-המילוי.",
           navHe: ["Information Systems ► Logistics ► Quality Management ► Notifications (Standard Analyses)", "Logistics ► Logistics Controlling ► QM Information System"],
           tables: ["S070", "S071", "S072", "QMEL"],
           tcodes: ["MCXX", "MCV*", "QGA3"],
@@ -631,7 +631,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "SDB (CS/QM Knowledge Base) בנויה מ-Symptoms ו-Solutions מקושרים, עם Attributes/Search-terms ו-Catalogs. נגישה מתוך ההודעה (חיפוש-פתרון) ומ-QS41. אפשר לקשר Solution להודעה ולהציע משימות-מומלצות. משמשת גם ב-CS Service Notifications. דורשת Authorization ותחזוקה-שוטפת לערך.",
           purposeHe: "לשמר-ידע-ארגוני, לקצר זמן-פתרון בעיות-חוזרות ולתקנן את אופן-הטיפול בין-אנשים-וצוותים.",
           processExampleHe: "בתלונת 'תווית-עקומה' חוזרת, המטפל מחפש ב-SDB, מוצא פתרון-מתועד ('כיול-חיישן-בקו-3'), ומקשר אותו להודעה כמשימה-מומלצת — פתרון תוך-דקות.",
-          cbcHe: "ב-CBC ה-SDB אוגרת פתרונות ל-פגמים-נפוצים (גז-נמוך, תווית-עקומה); מפעיל-חדש מוצא בה את הפתרון בלי תלות ב-מומחה-ותיק.",
+          scenarioHe: "בארגון ה-SDB אוגרת פתרונות ל-פגמים-נפוצים (גז-נמוך, תווית-עקומה); מפעיל-חדש מוצא בה את הפתרון בלי תלות ב-מומחה-ותיק.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Processing ► Maintain Solution Database", "Logistics ► Customer Service ► Solution Database (QS41 / Knowledge Base)"],
           tables: ["QMEL", "QMSM", "QPCD"],
           tcodes: ["QS41", "QM02"],
@@ -658,8 +658,8 @@ export const CH12: TextbookChapter = {
         "להבטיח טיפול-שורש אמיתי במקום תיקוני-טלאי — להסיר סיבות, למנוע-הישנות, לעמוד ברגולציה (ISO/IATF/GMP) ולהניע שיפור-מתמיד.",
       processExampleHe:
         "אחרי תלונה חוזרת על 'גז-נמוך', נפתח CAPA: פעולה-מתקנת = כיול-מיידי של מערכת-ה-CO2; פעולה-מונעת = תוכנית תחזוקה-מונעת + שינוי-נוהל. בדיקת-אפקטיביות אחרי-חודש מאשרת שהתלונות פסקו לפני סגירת ה-CAPA.",
-      cbcHe:
-        "ב-CBC כל פגם-חוזר בקו-מילוי מפעיל CAPA: תיקון-מיידי של הקו + פעולה-מונעת (PM preventive order) למניעת-הישנות; בדיקת-אפקטיביות מבוססת-QMIS לפני סגירה.",
+      scenarioHe:
+        "בארגון כל פגם-חוזר בקו-מילוי מפעיל CAPA: תיקון-מיידי של הקו + פעולה-מונעת (PM preventive order) למניעת-הישנות; בדיקת-אפקטיביות מבוססת-QMIS לפני סגירה.",
       navHe: [
         "Quality Management ► Quality Notifications ► Quality Issue / 8D ► Define CAPA Settings",
         "Quality Management ► Quality Notifications ► Notification Processing ► Response Control (Tasks)",
@@ -719,8 +719,8 @@ export const CH12: TextbookChapter = {
         "לאחד את כל היבטי-הטיפול בבעיית-איכות לתהליך-אחד מנוהל ומדיד, להבטיח מתודולוגיית פתרון-בעיות עקבית, ולשפר זמני-תגובה ואיכות-הפתרון.",
       processExampleHe:
         "בעיית-איכות נפתחת ב-QIR: המערכת מנחה דרך הגדרת-צוות, תיאור-בעיה, בלימה, ניתוח-שורש, פעולות-מתקנות, מניעה וסגירה — בדיוק לפי 8D — עם מעקב-סטטוס ואנליטיקה לאורך-הדרך.",
-      cbcHe:
-        "ב-CBC תלונה מהותית מרשת-קמעונאות מנוהלת כ-QIR מלא: צוות-חוצה-מחלקות, 8D מתועד, CAPA לקו-המילוי, ובדיקת-אפקטיביות — הכול במסך-Fiori אחד לשקיפות-מלאה מול הלקוח.",
+      scenarioHe:
+        "בארגון תלונה מהותית מרשת-קמעונאות מנוהלת כ-QIR מלא: צוות-חוצה-מחלקות, 8D מתועד, CAPA לקו-המילוי, ובדיקת-אפקטיביות — הכול במסך-Fiori אחד לשקיפות-מלאה מול הלקוח.",
       navHe: [
         "SAP Fiori Launchpad ► QM ► Resolve Quality Issues / Quality Issues",
         "Quality Management ► Quality Notifications ► Quality Issue Resolution ► Define Settings",
@@ -771,7 +771,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "שלושת התרחישים מתמפים ל-Notification Types: Q1 (Customer), Q2 (Internal), Q3 (Vendor), כל אחד עם Reference Object, Partner Determination ו-Action Box משלו. QIR מנתב לפי המקור, ומחבר לתהליכי-המקור ב-SD/PP/MM. ב-S/4HANA זה הבסיס לבחירת-מסלול-הטיפול הנכון.",
           purposeHe: "להבטיח שכל בעיה מטופלת בהקשר-העסקי הנכון, עם השותפים, המסמכים והפעולות המתאימים למקורה.",
           processExampleHe: "בעיה נפתחת; QIR שואל את המקור — 'לקוח' מנתב ל-Q1 עם Return/Credit; 'ספק' ל-Q3 עם Return-to-Vendor; 'פנימי' ל-Q2 עם Rework.",
-          cbcHe: "ב-CBC אותה בעיית 'גז-נמוך' מנותבת שונה: אם זוהתה אצל לקוח → Q1+8D; אם בקו-המילוי → Q2+Rework. ההקשר קובע את הטיפול.",
+          scenarioHe: "בארגון אותה בעיית 'גז-נמוך' מנותבת שונה: אם זוהתה אצל לקוח → Q1+8D; אם בקו-המילוי → Q2+Rework. ההקשר קובע את הטיפול.",
           navHe: ["Quality Management ► Quality Notifications ► Quality Issue Resolution ► Define Business Processes / Notification Types"],
           tables: ["QMEL", "TQ80"],
           tcodes: ["QM01", "OQM1"],
@@ -790,7 +790,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "המתודולוגיה מתמפה לקבוצות-הנתונים: תיאור-בעיה→QMFE, ניתוח-שורש→QMUR (לרוב 5-Why/Ishikawa), פתרון→QMSM/QMMA, אימות→Effectiveness Check. QIR מנחה את המשתמש שלב-אחר-שלב ומתעד כל שלב לביקורת. נתמך בכלי-איכות חיצוניים/משובצים.",
           purposeHe: "להבטיח פתרון-שורש שיטתי ומתועד — להגיע לסיבה-האמיתית ולא להסתפק בתסמין, ולאמת שהפתרון עבד.",
           processExampleHe: "בבעיית 'גז-נמוך': מגדירים-בעיה (QMFE), מריצים 5-Why שמגיע ל'אטם-בלאי-במדחס' (QMUR), מחליפים-אטם ומוסיפים-תחזוקה (QMSM), ומאמתים-ירידה-בתלונות (Effectiveness).",
-          cbcHe: "ב-CBC צוות-איכות משתמש ב-Ishikawa לתלונת-טעם: ענפי 'חומר/מכונה/שיטה/אדם' מובילים לסיבת-שורש בתרכיז-ספק; התיעוד נשמר ב-QMUR.",
+          scenarioHe: "בארגון צוות-איכות משתמש ב-Ishikawa לתלונת-טעם: ענפי 'חומר/מכונה/שיטה/אדם' מובילים לסיבת-שורש בתרכיז-ספק; התיעוד נשמר ב-QMUR.",
           navHe: ["Quality Management ► Quality Notifications ► Quality Issue Resolution ► Problem-Solving Settings"],
           tables: ["QMFE", "QMUR", "QMSM", "QMMA"],
           tcodes: ["QM02", "QM03"],
@@ -809,7 +809,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "שמונת ה-Disciplines: D1 Team, D2 Problem Description (QMFE), D3 Interim Containment (Tasks), D4 Root Cause (QMUR), D5 Permanent Corrective Action (QMMA), D6 Implement & Validate, D7 Prevent Recurrence (CAPA), D8 Closure & Recognition. ב-QIR מיושם כתהליך-מונחה עם מעקב-שלבים, ומופק כ-8D Report (ראה 12.2.8). תקן ב-IATF 16949.",
           purposeHe: "לספק מסגרת-עבודה אוניברסלית ומוכחת לפתרון בעיות-מהותיות, מהבלימה-המיידית ועד מניעת-ההישנות, עם תיעוד-מלא ללקוח ולרגולטור.",
           processExampleHe: "בעיה-מהותית עוברת 8D מלא: צוות-חוצה-מחלקות (D1), תיאור (D2), בלימה-מיידית-בעצירת-קו (D3), 5-Why לשורש (D4), פעולה-מתקנת-קבועה (D5), יישום-ואימות (D6), CAPA-מונעת (D7), סגירה-ותודה (D8).",
-          cbcHe: "ב-CBC תלונת 'גוף-זר' מחייבת 8D מלא לרשת-הקמעונאות: D3=עצירת-אצווה-מיידית, D4=זיהוי-מקור-בקו, D7=מסנן-חדש-בקו — ה-8D הוא תנאי-להמשך-אספקה.",
+          scenarioHe: "בארגון תלונת 'גוף-זר' מחייבת 8D מלא לרשת-הקמעונאות: D3=עצירת-אצווה-מיידית, D4=זיהוי-מקור-בקו, D7=מסנן-חדש-בקו — ה-8D הוא תנאי-להמשך-אספקה.",
           navHe: ["Quality Management ► Quality Notifications ► Quality Issue Resolution ► 8D Settings", "Quality Management ► Quality Notifications ► Notification Print Control (8D Report)"],
           tables: ["QMEL", "QMFE", "QMUR", "QMSM", "QMMA"],
           tcodes: ["QM02", "QM03"],
@@ -846,8 +846,8 @@ export const CH12: TextbookChapter = {
         "להתאים את התנהגות-המערכת לתהליכי-הארגון — מסכים, שדות, ניתוב, אוטומציות ובקרות — ולהבטיח עקביות בין סוגי-ההודעות.",
       processExampleHe:
         "יועץ-QM מקים תהליך-תלונות: מגדיר Notification Origin, יוצר Q1, מצמיד Screen Template, Catalog Profile, Partner Determination ו-Status Profile, ולבסוף Action Box עם Return/8D — מערכת מוכנה לתלונת-לקוח.",
-      cbcHe:
-        "ב-CBC היועץ מגדיר שלושה סוגים: Q1 (תלונות-קמעונאות), Q2 (חריגות-קו), Q3 (פגמי-ספק-תרכיז) — כל אחד עם מסכים, קטלוגים ופעולות-המשך מותאמים לתהליך-ה-CBC.",
+      scenarioHe:
+        "בארגון היועץ מגדיר שלושה סוגים: Q1 (תלונות-קמעונאות), Q2 (חריגות-קו), Q3 (פגמי-ספק-תרכיז) — כל אחד עם מסכים, קטלוגים ופעולות-המשך מותאמים לתהליך-ה-הארגון.",
       navHe: [
         "Quality Management ► Quality Notifications ► Notification Creation ► Notification Types ► Define Notification Types (OQM1)",
         "Quality Management ► Quality Notifications ► Notification Creation ► Notification Origins",
@@ -900,7 +900,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "ב-OQM1 לכל Type מגדירים: Notification Origin, Number Range, Catalog Profile, Partner Determination Procedure, Status Profile, Screen areas/template, Priority, ו-Reference Object type. Standard Types: Q1/Q2/Q3 (ו-F1/F2/F3 בגרסאות). הסוג מקושר ל-Origin הקובע את שיוכו-התחומי.",
           purposeHe: "לספק תבנית-התנהגות אחידה לכל תחום-טיפול, ולמרכז את כל הגדרות-ההודעה לאובייקט-אחד נשלט.",
           processExampleHe: "יועץ פותח OQM1, בוחר Q1, ומגדיר: Origin=Customer, Number Range, Catalog Profile-תלונות, Partner Determination-לקוחות, Status Profile, Screen-Template-מכירות.",
-          cbcHe: "ב-CBC Q1 מוגדר עם מסכי-מכירות וקטלוג-תלונות-משקאות; Q3 עם מסכי-רכש וקטלוג-פגמי-תרכיז — כל סוג מותאם לתחומו.",
+          scenarioHe: "בארגון Q1 מוגדר עם מסכי-מכירות וקטלוג-תלונות-משקאות; Q3 עם מסכי-רכש וקטלוג-פגמי-תרכיז — כל סוג מותאם לתחומו.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Creation ► Notification Types ► Define Notification Types (OQM1)"],
           tables: ["TQ80", "TQ85"],
           tcodes: ["OQM1"],
@@ -919,7 +919,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "כולל Number Range Assignment (internal/external) per Type, Notification Origin, Reference Object type, ו-Auto-creation מ-Inspection Lot Usage Decision או Defects Recording (QF31). ניתן להגדיר ערכי-ברירת-מחדל (Priority, Coding). מקושר ל-Catalog Profile לאכלוס-שדות.",
           purposeHe: "לשלוט בנקודת-הכניסה של הודעות — לוודא מספור-תקין, ייחוס-נכון ויצירה-אוטומטית היכן שאפשר.",
           processExampleHe: "מגדירים Number Range פנימי ל-Q3, Origin=Vendor, Reference=PO, ויצירה-אוטומטית מ-Usage Decision; מעתה כל פגם-קבלה פותח Q3 אוטומטית.",
-          cbcHe: "ב-CBC נקבע ש-Q3 נוצר אוטומטית מ-Usage Decision של בדיקת-קבלת-תרכיז — אפס-תלות בזיכרון-המפעיל לפתיחת-תלונת-ספק.",
+          scenarioHe: "בארגון נקבע ש-Q3 נוצר אוטומטית מ-Usage Decision של בדיקת-קבלת-תרכיז — אפס-תלות בזיכרון-המפעיל לפתיחת-תלונת-ספק.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Creation ► Notification Types ► Define Number Ranges", "Quality Management ► Quality Notifications ► Notification Creation ► Notification Origins"],
           tables: ["TQ80", "NRIV"],
           tcodes: ["OQM1", "QCC0"],
@@ -938,7 +938,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "Screen Areas/Templates מוגדרים ב-OQM2 / Define Screen Templates. מעתיקים Screen Area Sequence מ-Reference Type ומתאימים אילו Subscreens מופיעים (Header, Items, Tasks, Activities, Causes, Partners). משולב עם Field Selection (חובה/אופציונלי/מוסתר). מאפשר UX מותאם לכל Type בלי-פיתוח.",
           purposeHe: "להתאים את מסכי-ההודעה לתהליך ולמשתמש — להציג רק את הרלוונטי ולמנוע עומס/בלבול — תוך חיסכון בהגדרה-מאפס.",
           processExampleHe: "יועץ מעתיק את תבנית-המסך של הסוג הסטנדרטי ל-Q1, מסיר אזור 'פעילויות' שלא-נדרש לתלונות-פשוטות, ומשאיר Header/Items/Tasks/Partners.",
-          cbcHe: "ב-CBC מסך-Q1 פושט לקו-הלקוחות: רק כותרת, פגם ושותפים — מהיר לתיעוד-תלונה; מסך-Q3 כולל אזורי-עלות-ורכש.",
+          scenarioHe: "בארגון מסך-Q1 פושט לקו-הלקוחות: רק כותרת, פגם ושותפים — מהיר לתיעוד-תלונה; מסך-Q3 כולל אזורי-עלות-ורכש.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Processing ► Define Screen Templates (OQM2)", "Quality Management ► Quality Notifications ► Notification Processing ► Define Screen Areas / Field Selection"],
           tables: ["TQ80", "T352B"],
           tcodes: ["OQM2"],
@@ -957,7 +957,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "Allowed Change of Notification Type מוגדר ב-Customizing (Allocate Change of Notification Type): מגדירים זוגות From-Type→To-Type מותרים. בעת ההמרה, נתוני-קטלוג/שותפים מתאימים-עצמם ל-Type-היעד; שדות לא-תואמים עלולים להידרש-מחדש. מתועד ב-Action Log.",
           purposeHe: "לאפשר תיקון-סיווג של הודעה ששוייכה-בטעות, תוך בקרה על מעברים-לגיטימיים בלבד ושמירת-עקיבות.",
           processExampleHe: "הודעה נפתחה כ-Q2 (פנימי), אך התברר שהפגם דווח ע\"י לקוח; המשתמש ממיר ל-Q1 (אם הותר), והמערכת מתאימה קטלוג ושותפים, רושמת ב-Action Log.",
-          cbcHe: "ב-CBC חריגה שנפתחה כ-Q2 בקו, ואז זוהתה כתלונת-קמעונאות, מומרת ל-Q1 כדי להפעיל מסלול-8D-ללקוח — ההמרה מותרת ומבוקרת.",
+          scenarioHe: "בארגון חריגה שנפתחה כ-Q2 בקו, ואז זוהתה כתלונת-קמעונאות, מומרת ל-Q1 כדי להפעיל מסלול-8D-ללקוח — ההמרה מותרת ומבוקרת.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Creation ► Notification Types ► Allocate Change of Notification Type"],
           tables: ["TQ80", "QMEL"],
           tcodes: ["OQM1", "SPRO"],
@@ -976,7 +976,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "תחת Notification Processing: Status Management (Status Profile), Partner Determination, Priorities (Priority Types + Response/Completion times), Response Monitoring (Response-time tasks), Catalogs assignment. כל אלה מוקצים ל-Notification Type ומעצבים את ה-Workflow וה-SLA.",
           purposeHe: "לעצב את מחזור-החיים, הבקרה וה-SLA של ההודעה אחרי-היצירה — סטטוסים, שותפים, עדיפויות וזמני-תגובה.",
           processExampleHe: "מגדירים Priority Type עם זמני-תגובה (תלונה-קריטית=4ש'), Status Profile, ו-Response Monitoring שיוצר משימת-מעקב אם חרגו מה-SLA.",
-          cbcHe: "ב-CBC תלונות-קמעונאות מקבלות Priority 'גבוה' עם SLA-4ש'; חריגה מפעילה Response-Task ומסלימה למנהל — בקרת-שירות-לקוח.",
+          scenarioHe: "בארגון תלונות-קמעונאות מקבלות Priority 'גבוה' עם SLA-4ש'; חריגה מפעילה Response-Task ומסלימה למנהל — בקרת-שירות-לקוח.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Processing ► Response Control ► Define Priorities", "Quality Management ► Quality Notifications ► Notification Processing ► Status / Partner / Response Monitoring"],
           tables: ["TQ80", "T356", "QMEL"],
           tcodes: ["OQN6", "BS02", "SPRO"],
@@ -995,7 +995,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "כולל Action Box/Follow-Up Functions (פונקציות-קטלוג + Function Modules דרך QQMA), Print Control (Shop Papers/8D forms), Object Links (קישור לאובייקטים נוספים), Long Text control, ו-Business Workflow integration (SWWL — הקצאת-משימות אוטומטית). מוקצים ל-Notification Type.",
           purposeHe: "להעשיר את ההודעה באוטומציות, מסמכים, קישורים וזרימת-עבודה — להאיץ-טיפול ולהפחית-ידנית.",
           processExampleHe: "מוסיפים ל-Q1: Action Box (Return/Credit/8D), Print Control ל-8D, ו-Workflow השולח-מייל-לאחראי בעת-פתיחה — טיפול-מואץ ואוטומטי.",
-          cbcHe: "ב-CBC Workflow שולח התראה-מיידית למנהל-איכות בכל תלונת 'גוף-זר', ו-Action Box מפיק 8D — תגובה-מהירה לאירוע-קריטי.",
+          scenarioHe: "בארגון Workflow שולח התראה-מיידית למנהל-איכות בכל תלונת 'גוף-זר', ו-Action Box מפיק 8D — תגובה-מהירה לאירוע-קריטי.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Processing ► Additional Functions ► Define Follow-Up Actions / Maintain Action Box", "Quality Management ► Quality Notifications ► Notification Print Control ► Define Print Control"],
           tables: ["TQ80", "TQ80F", "TQ85"],
           tcodes: ["OQM1", "SWWL", "SPRO"],
@@ -1014,7 +1014,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "Defects Recording מוגדר ב-Define Defect Recording: מקשרים Inspection Type ל-Notification Type, קובעים Defect Class, Catalog (Defect codes D) ו-Auto-creation rules. הפגמים נרשמים ב-QMFE של הודעה-נוצרת. נגיש מ-QF31 או מ-Results Recording. מזין Defects-based Quality Score.",
           purposeHe: "לתעד-פגמים בזמן-אמת בבדיקה ולהמיר-אותם אוטומטית להודעות-מנוהלות — שאף פגם לא נופל בין הכיסאות.",
           processExampleHe: "בודק-קבלה רושם ב-QF31 שלושה פגמים באצווה; המערכת פותחת אוטומטית Q3, ממפה את הפגמים ל-QMFE, ומקשרת ל-Inspection Lot.",
-          cbcHe: "ב-CBC בודק-מעבדה רושם פגם 'pH-חוץ-מפרט' ב-QF31; Q3 נפתח אוטומטית מקושר ל-PO-תרכיז — אפס-דליפה בין בדיקה-לטיפול.",
+          scenarioHe: "בארגון בודק-מעבדה רושם פגם 'pH-חוץ-מפרט' ב-QF31; Q3 נפתח אוטומטית מקושר ל-PO-תרכיז — אפס-דליפה בין בדיקה-לטיפול.",
           navHe: ["Quality Management ► Quality Inspection ► Defects Recording ► Define Defect Recording (QF31)", "Quality Management ► Quality Notifications ► Notification Creation ► Defects Recording Settings"],
           tables: ["QMFE", "QMEL", "QALS"],
           tcodes: ["QF31", "QF11", "QE01"],
@@ -1034,7 +1034,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "Nonconformity Costs נרשמות בהודעת-Q3 (Cost fields / Activities) ומועברות ל-Vendor Evaluation criterion 'Quality' (MM-Vendor Eval, ELBK). ניתן להגדיר Cost Collector / קישור ל-CO Order. מזין את ה-Quality Score של הספק ומשפיע על ניקוד-הרכש. בסיס ל-Buyer's Negotiation Sheet.",
           purposeHe: "לכמת כספית את נזק-הפגם, להזין הערכת-ספקים אובייקטיבית ולתמוך בהחלטות-רכש ובמשא-ומתן מבוסס-נתונים.",
           processExampleHe: "ב-Q3 רושמים עלות-בדיקה-חוזרת + עלות-החזרה; הסכום מועבר ל-Vendor Evaluation, מוריד את ציון-האיכות של הספק, ומופיע ב-Negotiation Sheet לחידוש-החוזה.",
-          cbcHe: "ב-CBC עלות-אי-התאמה של אצוות-תרכיז-פגומה (בדיקה+החזרה+עיכוב-קו) נרשמת ומורידה את ציון-ספק-התרכיז — שיקול במכרז-הספקים השנתי.",
+          scenarioHe: "בארגון עלות-אי-התאמה של אצוות-תרכיז-פגומה (בדיקה+החזרה+עיכוב-קו) נרשמת ומורידה את ציון-ספק-התרכיז — שיקול במכרז-הספקים השנתי.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Processing ► Define Nonconformity Costs", "Materials Management ► Purchasing ► Vendor Evaluation ► Define Criteria (Quality)"],
           tables: ["QMEL", "QMMA", "ELBK"],
           tcodes: ["QM02", "ME61", "ME63"],
@@ -1054,7 +1054,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "Confirmation Profile מגדיר את פריסת-מסכי-הדיווח של Tasks/Activities (עמודות, שדות, סדר). מוקצה ל-Notification Type / User. שולט בחוויית-Confirmation בעת תיעוד-פעולות ובדיקת-אפקטיביות. דומה במהותו ל-Confirmation Profiles ב-PP, מותאם ל-QN.",
           purposeHe: "להתאים את מסך-הדיווח של פעילויות-ההודעה לתהליך ולמשתמש — להאיץ-דיווח ולהציג רק את הרלוונטי.",
           processExampleHe: "מגדירים Confirmation Profile ל-Q1 שמציג עמודות: Task, Responsible, Status, Completion-Date; מטפל מדווח-משימות במסך-נקי וממוקד.",
-          cbcHe: "ב-CBC Confirmation Profile של קו-הלקוחות מציג רק שדות-חיוניים (משימה/אחראי/סטטוס) לדיווח-תלונה מהיר; פרופיל-QA כולל שדות-אימות.",
+          scenarioHe: "בארגון Confirmation Profile של קו-הלקוחות מציג רק שדות-חיוניים (משימה/אחראי/סטטוס) לדיווח-תלונה מהיר; פרופיל-QA כולל שדות-אימות.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Processing ► Define Confirmation Profile", "Quality Management ► Quality Notifications ► Notification Processing ► Screen Areas (Confirmation)"],
           tables: ["TQ80", "T352B"],
           tcodes: ["OQM2", "SPRO"],
@@ -1081,8 +1081,8 @@ export const CH12: TextbookChapter = {
         "לקבע את התמונה-המלאה ולחבר את כל החלקים — מהיצירה ועד הסגירה, מהתפעול ועד הקונפיגורציה — לכדי הבנה-מערכתית של הודעות-האיכות כליבת ניהול-האיכות.",
       processExampleHe:
         "המסע המלא: בעיה מתגלה→הודעה נפתחת (QM01) במקור-הנכון→פגם וסיבה מתועדים→משימות ופעולות מבוצעות→8D/CAPA לבעיות-מהותיות→כלי-ניהול לניתוח-מגמות→סגירה-מבוקרת. הכול נשען על קונפיגורציה שהוגדרה ב-SPRO.",
-      cbcHe:
-        "ב-CBC הודעות-האיכות מנהלות את כל מעגל-האיכות: תלונות-קמעונאות (Q1+8D), חריגות-קו (Q2+Rework), פגמי-תרכיז-ספק (Q3+Vendor Eval) — והופכות נתוני-איכות לשיפור-מתמיד ולעמידה-רגולטורית בענף-המשקאות.",
+      scenarioHe:
+        "בארגון הודעות-האיכות מנהלות את כל מעגל-האיכות: תלונות-קמעונאות (Q1+8D), חריגות-קו (Q2+Rework), פגמי-תרכיז-ספק (Q3+Vendor Eval) — והופכות נתוני-איכות לשיפור-מתמיד ולעמידה-רגולטורית בענף-המשקאות.",
       navHe: [
         "Quality Management ► Quality Notifications (כל ענפי-ה-SPRO שנסקרו)",
       ],

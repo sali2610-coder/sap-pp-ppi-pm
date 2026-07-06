@@ -10,7 +10,7 @@ export const CH7: TextbookChapter = {
   titleHe: "שילוב עם תחזוקת מפעל (PM) — ניהול ציוד-בדיקה",
   titleEn: "Integrating with Plant Maintenance",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לשילוב בין QM (ניהול-איכות) ל-PM (תחזוקת-מפעל) סביב ניהול ציוד-הבדיקה והכיול (Test Equipment Management / Calibration). הרעיון המרכזי: כדי שתוצאות-בדיקה יהיו אמינות, מכשירי-המדידה עצמם חייבים להיות מכוילים ותקפים. SAP פותר זאת בכך שכל מכשיר-מדידה הופך ל-Equipment ב-PM, מחובר לתוכנית-תחזוקה (Maintenance Plan) המייצרת אוטומטית הזמנת-כיול (Calibration Order), ושלב-הכיול עצמו מבוצע כ-Inspection Lot של QM מסוג Inspection Type 14. כך נסגר המעגל: PM מתזמן, QM בודק ומתעד תוצאות, ובסוף ה-Usage Decision קובע אם המכשיר תקין להמשך-שימוש. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת CBC (כיול ציוד-מעבדה וציוד-קו במפעל-מילוי משקאות), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לשילוב בין QM (ניהול-איכות) ל-PM (תחזוקת-מפעל) סביב ניהול ציוד-הבדיקה והכיול (Test Equipment Management / Calibration). הרעיון המרכזי: כדי שתוצאות-בדיקה יהיו אמינות, מכשירי-המדידה עצמם חייבים להיות מכוילים ותקפים. SAP פותר זאת בכך שכל מכשיר-מדידה הופך ל-Equipment ב-PM, מחובר לתוכנית-תחזוקה (Maintenance Plan) המייצרת אוטומטית הזמנת-כיול (Calibration Order), ושלב-הכיול עצמו מבוצע כ-Inspection Lot של QM מסוג Inspection Type 14. כך נסגר המעגל: PM מתזמן, QM בודק ומתעד תוצאות, ובסוף ה-Usage Decision קובע אם המכשיר תקין להמשך-שימוש. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת הארגון (כיול ציוד-מעבדה וציוד-קו במפעל-מילוי משקאות), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 7.1
     {
@@ -27,8 +27,8 @@ export const CH7: TextbookChapter = {
         "המטרה: למפות נכון את נקודת-הפתיחה הארגונית כדי לבחור מסלול-מימוש ריאלי. בחירה שגויה (למשל ניסיון להפעיל Inspection Type 14 בלי PM) תוביל למבוי-סתום קונפיגורטיבי. ההחלטה משפיעה ישירות על היקף-העבודה, על רמת-האוטומציה ועל עלות-הבעלות של הפתרון.",
       processExampleHe:
         "ארגון עם S/4HANA מלא (MM+PM+QM) בוחר בתרחיש 2: כל מכשיר נפתח כ-Material עם Serial Number, מסונכרן אוטומטית ל-Equipment, מקושר ל-General Task List, ול-Maintenance Plan שמתזמן כיול שנתי. בכל מועד-כיול ה-Deadline Monitoring מייצר Calibration Order עם Inspection Lot (type 14), טכנאי רושם תוצאות ב-QGA2, וה-UD קובע 'תקין/לא-תקין'.",
-      cbcHe:
-        "ב-CBC (מפעל-מילוי משקאות): קיימים MM, PM ו-QM. מכשירי-מעבדה (pH-meter, רפרקטומטר למדידת Brix, מד-CO2) וציוד-קו (מד-מילוי, מד-לחץ, בקרת-משקל) — כולם מכשירי-בדיקה המשפיעים על שחרור-אצווה. לכן CBC בוחר בתרחיש 2 (PM+MM) לכל ציוד-המדידה: כך כל כיול מתועד, מתוזמן ובר-ביקורת מול תקני-מזון ו-ISO.",
+      scenarioHe:
+        "בארגון (מפעל-מילוי משקאות): קיימים MM, PM ו-QM. מכשירי-מעבדה (pH-meter, רפרקטומטר למדידת Brix, מד-CO2) וציוד-קו (מד-מילוי, מד-לחץ, בקרת-משקל) — כולם מכשירי-בדיקה המשפיעים על שחרור-אצווה. לכן הארגון בוחר בתרחיש 2 (PM+MM) לכל ציוד-המדידה: כך כל כיול מתועד, מתוזמן ובר-ביקורת מול תקני-מזון ו-ISO.",
       navHe: [
         "Quality Management ► QM in Logistics ► QM in Maintenance ► Test Equipment Management ► Define Scenario / Scope",
         "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► (Order Type setup for Calibration)",
@@ -91,8 +91,8 @@ export const CH7: TextbookChapter = {
             "לאפשר כיול-אוטומטי מלא גם בלי MM, כל עוד אין צורך בניהול-מלאי/רכש של המכשירים עצמם.",
           processExampleHe:
             "טכנאי יוצר Equipment ב-IE01 עבור מד-לחץ, משייך General Task List ו-Maintenance Plan; הכיול מתוזמן ומבוצע — בלי שום רשומת-Material.",
-          cbcHe:
-            "ב-CBC זה רלוונטי למפעל-משנה שבו MM אינו פרוס, אך PM כן: מד-טמפרטורה של מקרר-אחסון מנוהל כ-Equipment בלבד.",
+          scenarioHe:
+            "בארגון זה רלוונטי למפעל-משנה שבו MM אינו פרוס, אך PM כן: מד-טמפרטורה של מקרר-אחסון מנוהל כ-Equipment בלבד.",
           navHe: ["Plant Maintenance and Customer Service ► Technical Objects ► Equipment ► Create Equipment (IE01)"],
           tables: ["EQUI", "EQKT", "MPLA"],
           tcodes: ["IE01", "IA05", "IP42"],
@@ -135,8 +135,8 @@ export const CH7: TextbookChapter = {
             "לקבל מעגל-כיול סגור ואוטומטי לחלוטין, עם נראות-מלאי, רכש, ומעקב-ביקורת מלא — בלי תהליכים-ידניים.",
           processExampleHe:
             "פותחים Material ל-pH-meter, יוצרים Serial Number → Equipment נוצר אוטומטית → משייכים Task List ו-Maintenance Plan שנתי → IP30 מזהה מועד ומייצר Calibration Order עם Inspection Lot 14 → תוצאות ב-QGA2 → UD.",
-          cbcHe:
-            "ב-CBC זהו התרחיש שנבחר לכל ציוד-המדידה: רפרקטומטר Brix, מד-CO2, מד-מילוי — כולם Material+Serial↔Equipment עם כיול-אוטומטי שנתי/חצי-שנתי.",
+          scenarioHe:
+            "בארגון זהו התרחיש שנבחר לכל ציוד-המדידה: רפרקטומטר Brix, מד-CO2, מד-מילוי — כולם Material+Serial↔Equipment עם כיול-אוטומטי שנתי/חצי-שנתי.",
           navHe: [
             "Logistics – General ► Serial Number Management ► Define Serial Number Profiles",
             "Plant Maintenance and Customer Service ► Maintenance Plans ► Create Maintenance Plan",
@@ -191,8 +191,8 @@ export const CH7: TextbookChapter = {
             "לאפשר תיעוד-כיול בסיסי בארגון עם MM בלבד, תוך הכרה במגבלת היעדר-התזמון.",
           processExampleHe:
             "מכשיר מנוהל כ-Material+Serial; כל רבעון איש-QA יוצר ידנית Inspection Lot, רושם תוצאות וקובע UD — בלי תזמון-מערכתי.",
-          cbcHe:
-            "ב-CBC תרחיש זה היה מתאים אילו PM לא היה פרוס; בפועל CBC מעדיף תרחיש 2. רלוונטי כשלב-ביניים במפעל שטרם הטמיע PM.",
+          scenarioHe:
+            "בארגון תרחיש זה היה מתאים אילו PM לא היה פרוס; בפועל הארגון מעדיף תרחיש 2. רלוונטי כשלב-ביניים במפעל שטרם הטמיע PM.",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Creation ► Manual Inspection (QA01)"],
           tables: ["MARA", "SER01", "QALS"],
           tcodes: ["MM01", "IQ01", "QA01"],
@@ -235,8 +235,8 @@ export const CH7: TextbookChapter = {
             "לאפשר תיעוד-כיול בסיסי ביותר כשאין שום מודול-לוגיסטי תומך.",
           processExampleHe:
             "מכשיר מתועד כמסמך; הכיול נרשם ידנית בדף-בדיקה חיצוני או Inspection Lot ידני בודד, ללא קישור-מערכתי.",
-          cbcHe:
-            "ב-CBC אינו רלוונטי (כל המודולים פרוסים); מובא להשלמת-התמונה בלבד.",
+          scenarioHe:
+            "בארגון אינו רלוונטי (כל המודולים פרוסים); מובא להשלמת-התמונה בלבד.",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Creation ► Manual Inspection (QA01)"],
           tables: ["QALS", "DRAW"],
           tcodes: ["QA01", "CV01N"],
@@ -282,8 +282,8 @@ export const CH7: TextbookChapter = {
         "לבחור את הייצוג שמאפשר את תהליכי-הכיול הנדרשים ברמת-האוטומציה הרצויה, תוך התאמה למודולים הקיימים.",
       processExampleHe:
         "ארגון מגדיר מד-לחץ כ-Material (לרכש ומלאי) + Serial Number (לזיהוי-יחידה) → Equipment (לכיול). אותו מכשיר משרת רכש, מלאי וכיול — דרך שלושה ייצוגים מסונכרנים.",
-      cbcHe:
-        "ב-CBC כל מכשיר-מדידה מוגדר כ-Material+Serial↔Equipment; כלי-ייצור (תבניות-מילוי) שאינם נמדדים מנוהלים כ-PRT; תעודות-כיול חיצוניות נשמרות כ-Document מקושר.",
+      scenarioHe:
+        "בארגון כל מכשיר-מדידה מוגדר כ-Material+Serial↔Equipment; כלי-ייצור (תבניות-מילוי) שאינם נמדדים מנוהלים כ-PRT; תעודות-כיול חיצוניות נשמרות כ-Document מקושר.",
       navHe: [
         "Plant Maintenance and Customer Service ► Technical Objects ► Equipment",
         "Production ► Basic Data ► Production Resources/Tools",
@@ -338,8 +338,8 @@ export const CH7: TextbookChapter = {
             "לנהל את המכשיר כפריט-לוגיסטי (רכש, מלאי, תמחיר) ולשמש בסיס לסנכרון Equipment.",
           processExampleHe:
             "פותחים Material למד-CO2 ב-MM01, מגדירים Serial Number Profile; מכאן ניתן ליצור Serial→Equipment.",
-          cbcHe:
-            "ב-CBC כל מכשיר-מדידה הוא Material (לרכש ומלאי-חלפים) המהווה בסיס ל-Serial↔Equipment.",
+          scenarioHe:
+            "בארגון כל מכשיר-מדידה הוא Material (לרכש ומלאי-חלפים) המהווה בסיס ל-Serial↔Equipment.",
           navHe: ["Logistics – General ► Material Master ► Create Material (MM01)"],
           tables: ["MARA", "MARC"],
           tcodes: ["MM01", "MM02", "MM03"],
@@ -381,8 +381,8 @@ export const CH7: TextbookChapter = {
             "לאפשר את מעגל-הכיול האוטומטי המלא: תזמון, יצירת-הזמנה, בדיקה ו-UD.",
           processExampleHe:
             "Equipment למד-מילוי משויך ל-Task List ול-Maintenance Plan; IP30 מייצר Calibration Order עם Inspection Lot 14; תוצאות נרשמות ו-UD נקבע.",
-          cbcHe:
-            "ב-CBC כל מכשיר-מדידה הוא Equipment עם כיול-מתוזמן; היסטוריית-הכיולים נשמרת ב-Equipment לצורכי-ביקורת.",
+          scenarioHe:
+            "בארגון כל מכשיר-מדידה הוא Equipment עם כיול-מתוזמן; היסטוריית-הכיולים נשמרת ב-Equipment לצורכי-ביקורת.",
           navHe: ["Plant Maintenance and Customer Service ► Technical Objects ► Equipment ► Create Equipment (IE01)"],
           tables: ["EQUI", "EQKT", "EQUZ"],
           tcodes: ["IE01", "IE02", "IE03"],
@@ -426,8 +426,8 @@ export const CH7: TextbookChapter = {
             "לנהל את המכשיר כמשאב נדרש לפעולת-ייצור, עם בקרת-זמינות.",
           processExampleHe:
             "מד-עובי המחובר לפעולת-ביקורת ב-Routing מוגדר כ-PRT; שימושו נרשם בפק\"ע, אך כיולו מנוהל דרך ה-Equipment שעליו הוא מבוסס.",
-          cbcHe:
-            "ב-CBC תבניות-מילוי וכלים נלווים = PRT; מכשירי-המדידה עצמם = Equipment (לכיול), ולעיתים גם PRT אם משמשים בפעולה.",
+          scenarioHe:
+            "בארגון תבניות-מילוי וכלים נלווים = PRT; מכשירי-המדידה עצמם = Equipment (לכיול), ולעיתים גם PRT אם משמשים בפעולה.",
           navHe: ["Production ► Basic Data ► Production Resources/Tools ► Create PRT (CF01)"],
           tables: ["CRVD_A", "CRVD_B"],
           tcodes: ["CF01", "CF02", "CF03"],
@@ -469,8 +469,8 @@ export const CH7: TextbookChapter = {
             "לשמור ולנהל גרסאות של מסמכי-מכשיר (תעודות, מפרטים) בקישור-מבני.",
           processExampleHe:
             "תעודת-כיול חיצונית מספק נשמרת כ-Document (CV01N) ומקושרת ל-Equipment של המכשיר לצורכי-ביקורת.",
-          cbcHe:
-            "ב-CBC תעודות-כיול של מעבדה חיצונית והסמכות ISO נשמרות כ-Document מקושר ל-Equipment.",
+          scenarioHe:
+            "בארגון תעודות-כיול של מעבדה חיצונית והסמכות ISO נשמרות כ-Document מקושר ל-Equipment.",
           navHe: ["Cross-Application Components ► Document Management ► Create Document (CV01N)"],
           tables: ["DRAW", "DRAD"],
           tcodes: ["CV01N", "CV02N", "CV03N"],
@@ -515,8 +515,8 @@ export const CH7: TextbookChapter = {
         "להניח את התשתית הקונפיגורטיבית המאפשרת אוטומציה: יצירת-Inspection-Lot אוטומטית וסנכרון Material↔Equipment.",
       processExampleHe:
         "צוות-המימוש משייך Type 14 לסוג-הזמנה PM05 ומגדיר Serial Number Profile עם Equipment Category. מעתה כל הזמנת-כיול מולידה Inspection Lot, וכל Serial מוליד Equipment.",
-      cbcHe:
-        "ב-CBC הוגדר Type 14 ↔ PM05 ו-Serial Number Profile אחיד לכל מכשירי-המדידה, כך שהאוטומציה זהה בכל המפעלים.",
+      scenarioHe:
+        "בארגון הוגדר Type 14 ↔ PM05 ו-Serial Number Profile אחיד לכל מכשירי-המדידה, כך שהאוטומציה זהה בכל המפעלים.",
       navHe: [
         "Quality Management ► QM in Logistics ► QM in Maintenance ► Assign Inspection Types to Maintenance/Service Order Types",
         "Logistics – General ► Serial Number Management ► Define Serial Number Profiles",
@@ -569,8 +569,8 @@ export const CH7: TextbookChapter = {
             "לקשר את עולם-ה-PM (ההזמנה) לעולם-ה-QM (הבדיקה) באופן אוטומטי בשחרור-ההזמנה.",
           processExampleHe:
             "בשחרור Calibration Order מסוג PM05 נוצר מיד Inspection Lot type 14 עם רשימת-המאפיינים מה-Task List; הטכנאי רושם תוצאות ב-QGA2.",
-          cbcHe:
-            "ב-CBC כל Calibration Order של מכשיר-מדידה (PM05) מולידה Inspection Lot 14 אוטומטית — ללא צעד-ידני.",
+          scenarioHe:
+            "בארגון כל Calibration Order של מכשיר-מדידה (PM05) מולידה Inspection Lot 14 אוטומטית — ללא צעד-ידני.",
           navHe: ["Quality Management ► QM in Logistics ► QM in Maintenance ► Assign Inspection Types to Maintenance/Service Order Types"],
           tables: ["TQ08", "T399X"],
           tcodes: ["SPRO", "OIOC"],
@@ -613,8 +613,8 @@ export const CH7: TextbookChapter = {
             "להבטיח שכל יחידת-מכשיר (Serial) תיוצג גם כ-Equipment, לאפשר כיול דרך PM.",
           processExampleHe:
             "פרופיל עם Equipment Category Q (ציוד-בדיקה); יצירת Serial ל-Material (IQ01) יוצרת אוטומטית Equipment מסוג Q המקושר ל-Material/Serial.",
-          cbcHe:
-            "ב-CBC הוגדר Serial Number Profile אחיד עם Equipment Category לציוד-מדידה, כך שכל מכשיר חדש מקבל אוטומטית Equipment.",
+          scenarioHe:
+            "בארגון הוגדר Serial Number Profile אחיד עם Equipment Category לציוד-מדידה, כך שכל מכשיר חדש מקבל אוטומטית Equipment.",
           navHe: ["Logistics – General ► Serial Number Management ► Define Serial Number Profiles (OIS2)"],
           tables: ["T377P", "T377X"],
           tcodes: ["OIS2", "MM02"],
@@ -663,8 +663,8 @@ export const CH7: TextbookChapter = {
         "לבנות את כל נתוני-האב הנדרשים כדי שמועדי-הכיול יזוהו אוטומטית ויומרו להזמנות-כיול עם Inspection Lot.",
       processExampleHe:
         "מקימים Material→Serial→Equipment למד-pH, מגדירים Task List עם מאפיינים (טווח-תקין), מקשרים ל-Maintenance Plan שנתי, מתזמנים ב-IP10, ו-IP30 הלילי מייצר את ההזמנה במועד.",
-      cbcHe:
-        "ב-CBC כל מכשיר-מדידה עובר את השרשרת המלאה; ה-Task List מגדיר את מאפייני-הכיול (למשל Brix תקן 11.0 עם סטייה מותרת), וה-Maintenance Plan מתזמן לפי דרישות-רגולציה.",
+      scenarioHe:
+        "בארגון כל מכשיר-מדידה עובר את השרשרת המלאה; ה-Task List מגדיר את מאפייני-הכיול (למשל Brix תקן 11.0 עם סטייה מותרת), וה-Maintenance Plan מתזמן לפי דרישות-רגולציה.",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance Plans",
         "Plant Maintenance and Customer Service ► Task Lists ► General Maintenance Task Lists",
@@ -720,8 +720,8 @@ export const CH7: TextbookChapter = {
             "להקים את הבסיס הלוגיסטי של המכשיר ולחבר אותו לסנכרון-Equipment.",
           processExampleHe:
             "פותחים Material למד-CO2 ב-MM01, מזינים Serial Number Profile; כעת ניתן ליצור Serial.",
-          cbcHe:
-            "ב-CBC כל מכשיר-מדידה נפתח כ-Material עם Serial Number Profile אחיד.",
+          scenarioHe:
+            "בארגון כל מכשיר-מדידה נפתח כ-Material עם Serial Number Profile אחיד.",
           navHe: ["Logistics – General ► Material Master ► Create Material (MM01)"],
           tables: ["MARA", "MARC"],
           tcodes: ["MM01", "MM02"],
@@ -763,8 +763,8 @@ export const CH7: TextbookChapter = {
             "לזהות יחידת-מכשיר ולהוליד את ה-Equipment המסונכרן.",
           processExampleHe:
             "יוצרים Serial ל-pH-meter ב-IQ01; Equipment נוצר אוטומטית ומקושר.",
-          cbcHe:
-            "ב-CBC לכל מכשיר פיזי Serial ייחודי ↔ Equipment, לצורכי-מעקב וכיול.",
+          scenarioHe:
+            "בארגון לכל מכשיר פיזי Serial ייחודי ↔ Equipment, לצורכי-מעקב וכיול.",
           navHe: ["Logistics – General ► Serial Number Management ► Create Serial Number (IQ01)"],
           tables: ["SER01", "OBJK", "EQUI"],
           tcodes: ["IQ01", "IQ02", "IQ03"],
@@ -806,8 +806,8 @@ export const CH7: TextbookChapter = {
             "לשמור עקביות-נתונים מלאה בין הייצוג-הלוגיסטי לייצוג-התחזוקתי של אותו מכשיר.",
           processExampleHe:
             "העברת מכשיר למיקום חדש מתעדכנת ב-Equipment וב-Serial גם יחד, ללא הזנה-כפולה.",
-          cbcHe:
-            "ב-CBC העברת מד-מילוי בין קווים מתעדכנת אוטומטית בשני הצדדים — נראות-מלאי וגם היסטוריית-Equipment.",
+          scenarioHe:
+            "בארגון העברת מד-מילוי בין קווים מתעדכנת אוטומטית בשני הצדדים — נראות-מלאי וגם היסטוריית-Equipment.",
           navHe: ["Logistics – General ► Serial Number Management ► Serial Number Profiles (sync settings)"],
           tables: ["SER01", "OBJK", "EQUI", "EQUZ"],
           tcodes: ["IQ02", "IE02", "OIS2"],
@@ -850,8 +850,8 @@ export const CH7: TextbookChapter = {
             "לרכז את כל ניהול-הכיול והיסטוריה סביב אובייקט-תחזוקה יחיד לכל מכשיר.",
           processExampleHe:
             "Equipment למד-לחץ מקושר ל-Task List ול-Plan; כל כיול מתועד בהיסטוריית-ה-Equipment.",
-          cbcHe:
-            "ב-CBC היסטוריית-הכיולים ב-Equipment משמשת להוכחת-תאימות מול מבקרי-מזון ו-ISO.",
+          scenarioHe:
+            "בארגון היסטוריית-הכיולים ב-Equipment משמשת להוכחת-תאימות מול מבקרי-מזון ו-ISO.",
           navHe: ["Plant Maintenance and Customer Service ► Technical Objects ► Equipment ► Display Equipment (IE03)"],
           tables: ["EQUI", "EQKT", "EQUZ"],
           tcodes: ["IE01", "IE02", "IE03"],
@@ -895,8 +895,8 @@ export const CH7: TextbookChapter = {
             "להגדיר באופן סטנדרטי ובר-שימוש-חוזר את תוכן-הכיול ומאפייניו.",
           processExampleHe:
             "Task List לכיול pH-meter כולל פעולה 'מדידת-buffer 4/7/10' עם מאפיין לכל buffer וטווח-תקין מצומצם; ה-Lot יורש מאפיינים אלה.",
-          cbcHe:
-            "ב-CBC Task List לרפרקטומטר מגדיר מדידת Brix בתקן ידוע עם טווח-תקין, ומשמש את כל מכשירי אותו סוג.",
+          scenarioHe:
+            "בארגון Task List לרפרקטומטר מגדיר מדידת Brix בתקן ידוע עם טווח-תקין, ומשמש את כל מכשירי אותו סוג.",
           navHe: ["Plant Maintenance and Customer Service ► Maintenance Plans ► Task Lists ► General Maintenance Task Lists (IA05)"],
           tables: ["PLKO", "PLPO", "PLMK"],
           tcodes: ["IA05", "IA06", "IA07"],
@@ -939,8 +939,8 @@ export const CH7: TextbookChapter = {
             "לקבוע מתי ובאיזו תדירות יבוצע הכיול, ולקשר את הציוד לתוכן-הבדיקה.",
           processExampleHe:
             "Maintenance Plan שנתי למד-pH מקשר את ה-Equipment ל-Task List ול-PM05; IP10 מתזמן, IP30 מייצר הזמנה במועד.",
-          cbcHe:
-            "ב-CBC תדירות-הכיול נקבעת לפי-רגולציה: מכשירים קריטיים לשחרור-אצווה — חצי-שנתי; אחרים — שנתי.",
+          scenarioHe:
+            "בארגון תדירות-הכיול נקבעת לפי-רגולציה: מכשירים קריטיים לשחרור-אצווה — חצי-שנתי; אחרים — שנתי.",
           navHe: ["Plant Maintenance and Customer Service ► Maintenance Plans ► Create Maintenance Plan (IP42)"],
           tables: ["MPLA", "MPOS", "MMPT"],
           tcodes: ["IP42", "IP02", "IP03"],
@@ -985,8 +985,8 @@ export const CH7: TextbookChapter = {
             "להניע את מחזור-התזמון ולחשב את מועדי-הכיול הצפויים.",
           processExampleHe:
             "מתזמנים תוכנית שנתית ב-IP10 בתאריך-התחלה 01.01; המערכת קובעת מועד-יעד ל-01.01 בשנה הבאה ויוצרת Scheduled Call.",
-          cbcHe:
-            "ב-CBC כל תוכניות-הכיול מתוזמנות ב-IP10 עם Call Horizon התואם את חלון-התכנון של המעבדה.",
+          scenarioHe:
+            "בארגון כל תוכניות-הכיול מתוזמנות ב-IP10 עם Call Horizon התואם את חלון-התכנון של המעבדה.",
           navHe: ["Plant Maintenance and Customer Service ► Maintenance Plans ► Schedule Maintenance Plan (IP10)"],
           tables: ["MPLA", "MHIS"],
           tcodes: ["IP10", "IP30"],
@@ -1030,8 +1030,8 @@ export const CH7: TextbookChapter = {
             "להמיר אוטומטית את מועדי-הכיול המתוזמנים להזמנות-עבודה במועד.",
           processExampleHe:
             "IP30 הלילי מזהה שמועד-הכיול של מד-pH בתוך ה-Horizon, ויוצר Calibration Order עם Inspection Lot 14 הממתין לטכנאי.",
-          cbcHe:
-            "ב-CBC IP30 רץ כל לילה ומייצר את כל הזמנות-הכיול ליום-המחרת, כך שהמעבדה מתחילה את היום עם רשימת-עבודה מוכנה.",
+          scenarioHe:
+            "בארגון IP30 רץ כל לילה ומייצר את כל הזמנות-הכיול ליום-המחרת, כך שהמעבדה מתחילה את היום עם רשימת-עבודה מוכנה.",
           navHe: ["Plant Maintenance and Customer Service ► Maintenance Plans ► Deadline Monitoring (IP30)"],
           tables: ["MPLA", "MHIS", "QALS"],
           tcodes: ["IP30", "IP10"],
@@ -1078,8 +1078,8 @@ export const CH7: TextbookChapter = {
         "להריץ את מחזור-הכיול מקצה-לקצה: הזמנה→בדיקה→תוצאות→החלטה→סגירה→הערכה, תוך שמירת-תיעוד מלא לביקורת.",
       processExampleHe:
         "IP30 פותח Calibration Order; הטכנאי משחרר, מבצע מדידות מול תקן-ייחוס, רושם ב-QGA2, קובע UD 'Accept', וסוגר את ההזמנה. דוח-ההערכה מציג את שיעור-ה-Pass של כלל-המכשירים.",
-      cbcHe:
-        "ב-CBC הטכנאי מכייל מד-CO2 מול גז-ייחוס, רושם תוצאות, וקובע UD. אם נכשל — המד מוצא משימוש, ונבדקת השפעה אחורה על אצוות שנמדדו בו (Quarantine/Recall אם נדרש).",
+      scenarioHe:
+        "בארגון הטכנאי מכייל מד-CO2 מול גז-ייחוס, רושם תוצאות, וקובע UD. אם נכשל — המד מוצא משימוש, ונבדקת השפעה אחורה על אצוות שנמדדו בו (Quarantine/Recall אם נדרש).",
       navHe: [
         "Quality Management ► Quality Inspection ► Worklist",
         "Plant Maintenance and Customer Service ► Maintenance and Service Orders",
@@ -1135,8 +1135,8 @@ export const CH7: TextbookChapter = {
             "לתכנן, לבצע ולתמחר את עבודת-הכיול, ולשמש מיכל ל-Inspection Lot.",
           processExampleHe:
             "Calibration Order למד-לחץ נפתחת מ-IP30, משוחררת, הטכנאי מבצע ומדווח שעות, ה-Inspection Lot נרשם, ולבסוף TECO.",
-          cbcHe:
-            "ב-CBC כל הזמנת-כיול אוגרת את עלות-המעבדה והשעות, לצורכי-תקצוב ובקרת-איכות.",
+          scenarioHe:
+            "בארגון כל הזמנת-כיול אוגרת את עלות-המעבדה והשעות, לצורכי-תקצוב ובקרת-איכות.",
           navHe: ["Plant Maintenance and Customer Service ► Maintenance and Service Orders ► Create/Change Order (IW31/IW32)"],
           tables: ["AUFK", "AFKO", "AFVC"],
           tcodes: ["IW31", "IW32", "IW33"],
@@ -1180,8 +1180,8 @@ export const CH7: TextbookChapter = {
             "לספק את מסגרת ה-QM הפורמלית לרישום, הערכה ותיעוד תוצאות-הכיול.",
           processExampleHe:
             "Inspection Lot 14 נוצר עם הזמנת-כיול pH; כולל 3 מאפיינים (buffer 4/7/10); הטכנאי רושם ערכים, המערכת משווה לטווח, ומסכמת תקין/חורג.",
-          cbcHe:
-            "ב-CBC כל כיול מתועד כ-Inspection Lot 14 — בסיס לאישור-תאימות מול מבקרי-מזון.",
+          scenarioHe:
+            "בארגון כל כיול מתועד כ-Inspection Lot 14 — בסיס לאישור-תאימות מול מבקרי-מזון.",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot ► Display (QA03)"],
           tables: ["QALS", "QAPP", "QAMR"],
           tcodes: ["QA03", "QA32", "QE51N"],
@@ -1226,8 +1226,8 @@ export const CH7: TextbookChapter = {
             "לתעד את מדידות-הכיול ולהעריך אוטומטית את תקינות-המכשיר מול התקן.",
           processExampleHe:
             "טכנאי מזין ב-QGA2 קריאות buffer; המערכת מסמנת מאפיין שחרג מהטווח כ-'Reject', והשאר כ-'Accept'.",
-          cbcHe:
-            "ב-CBC קריאות הרפרקטומטר מול תקן Brix נרשמות ב-QGA2; חריגה מסמנת את המד ככשל-כיול.",
+          scenarioHe:
+            "בארגון קריאות הרפרקטומטר מול תקן Brix נרשמות ב-QGA2; חריגה מסמנת את המד ככשל-כיול.",
           navHe: ["Quality Management ► Quality Inspection ► Results Recording (QE51N) / Maintenance Order Results (QGA2)"],
           tables: ["QAMR", "QASE", "QAPP"],
           tcodes: ["QGA2", "QE51N", "QE11"],
@@ -1271,8 +1271,8 @@ export const CH7: TextbookChapter = {
             "לנהל את עומס-הכיול ולאפשר עיבוד-יעיל ומתועדף של הזמנות ו-Lots.",
           processExampleHe:
             "טכנאי פותח QE51N עם Selection 'כל ה-Lots הפתוחים מסוג 14 השבוע', מתעדף לפי מועד, ומעבד ברצף.",
-          cbcHe:
-            "ב-CBC מנהל-המעבדה משתמש ב-Worklist יומי לחלוקת-עבודת-הכיול בין הטכנאים.",
+          scenarioHe:
+            "בארגון מנהל-המעבדה משתמש ב-Worklist יומי לחלוקת-עבודת-הכיול בין הטכנאים.",
           navHe: ["Quality Management ► Quality Inspection ► Worklist (QE51N) / Order Lists (IW38)"],
           tables: ["QALS", "AUFK"],
           tcodes: ["QE51N", "QA32", "IW38", "IW39"],
@@ -1315,8 +1315,8 @@ export const CH7: TextbookChapter = {
             "לחתום את מחזור-הכיול: החלטה, תיעוד-עבודה וסגירה — תוך אכיפת-תקינות.",
           processExampleHe:
             "טכנאי קובע UD 'Accept', מדווח 1.5 שעות ב-IW41, ומבצע TECO; ה-Equipment חוזר ל-'תקין' עם תאריך-כיול-הבא.",
-          cbcHe:
-            "ב-CBC UD 'Reject' למד-CO2 מסמן את ה-Equipment 'לא-תקין', חוסם שימוש, ומפעיל בדיקת-אצוות שנמדדו בו מאז הכיול הקודם.",
+          scenarioHe:
+            "בארגון UD 'Reject' למד-CO2 מסמן את ה-Equipment 'לא-תקין', חוסם שימוש, ומפעיל בדיקת-אצוות שנמדדו בו מאז הכיול הקודם.",
           navHe: [
             "Quality Management ► Quality Inspection ► Usage Decision (QA11)",
             "Plant Maintenance and Customer Service ► Maintenance and Service Orders ► Complete Order (TECO)",
@@ -1364,8 +1364,8 @@ export const CH7: TextbookChapter = {
             "להפיק תובנות לשיפור-תהליך, לאופטימיזציית-תדירות ולהוכחת-תאימות-רגולטורית.",
           processExampleHe:
             "דוח-מגמה מראה שמד-pH מסוים סוחף עקבית לכיוון חיובי — סימן לבלאי; מחליטים על החלפה.",
-          cbcHe:
-            "ב-CBC דוח-הערכות חודשי מציג שיעור-Pass של כלל-המכשירים ומגמות-סחיפה — מוצג למבקרי-איכות ולרגולטור.",
+          scenarioHe:
+            "בארגון דוח-הערכות חודשי מציג שיעור-Pass של כלל-המכשירים ומגמות-סחיפה — מוצג למבקרי-איכות ולרגולטור.",
           navHe: ["Quality Management ► Information System ► Inspection Results / Maintenance Evaluations (QGA3)"],
           tables: ["QAMR", "QALS", "QAVE"],
           tcodes: ["QGA3", "QGP1", "MCXX"],
@@ -1411,8 +1411,8 @@ export const CH7: TextbookChapter = {
         "להרחיב את מנגנון-הכיול לבדיקות-מובנות איכותניות (כן/לא), עם תיעוד ו-UD מלאים.",
       processExampleHe:
         "רשימת-תיוג לבדיקת-בטיחות-קו כוללת 10 פריטי 'תקין/לא-תקין'; הטכנאי מסמן קוד לכל פריט, ו-UD מסכם.",
-      cbcHe:
-        "ב-CBC רשימת-תיוג לבדיקת-היגיינה-יומית של קו-מילוי (ניקיון, אטמים, מכסים) מנוהלת כ-Checklist עם מאפיינים איכותניים.",
+      scenarioHe:
+        "בארגון רשימת-תיוג לבדיקת-היגיינה-יומית של קו-מילוי (ניקיון, אטמים, מכסים) מנוהלת כ-Checklist עם מאפיינים איכותניים.",
       navHe: ["Quality Management ► Quality Planning ► Inspection Characteristics / Catalogs (Selected Sets)"],
       tables: ["PLMK", "QPMK", "QPAC"],
       tcodes: ["QS41", "QS51", "IA05"],
@@ -1462,8 +1462,8 @@ export const CH7: TextbookChapter = {
             "להניח את תשתית-הערכים האיכותניים שתאפשר רישום 'עבר/נכשל' עם הערכה אוטומטית.",
           processExampleHe:
             "מגדירים Selected Set 'בדיקת-בטיחות' עם קודים 'תקין=Accept', 'פגום=Reject'; משייכים למאפיין ב-Task List.",
-          cbcHe:
-            "ב-CBC Selected Set 'היגיינת-קו' עם קודים 'נקי/לא-נקי' משמש את כל רשימות-התיוג היומיות.",
+          scenarioHe:
+            "בארגון Selected Set 'היגיינת-קו' עם קודים 'נקי/לא-נקי' משמש את כל רשימות-התיוג היומיות.",
           navHe: ["Quality Management ► Quality Planning ► Basic Data ► Catalog ► Edit Selected Sets (QS51)"],
           tables: ["QPAC", "QPGR", "TQ15"],
           tcodes: ["QS41", "QS51"],
@@ -1506,8 +1506,8 @@ export const CH7: TextbookChapter = {
             "להגדיר את תוכן ה-Checklist ולשייכו לאובייקט-הטכני ולתוכנית-התזמון.",
           processExampleHe:
             "Task List 'בדיקת-בטיחות-שבועית' עם 8 מאפיינים איכותניים מקושר ל-Maintenance Plan שבועי על ה-Equipment.",
-          cbcHe:
-            "ב-CBC Task List 'היגיינה-יומית' עם מאפיינים איכותניים מקושר ל-Maintenance Plan יומי על קו-המילוי.",
+          scenarioHe:
+            "בארגון Task List 'היגיינה-יומית' עם מאפיינים איכותניים מקושר ל-Maintenance Plan יומי על קו-המילוי.",
           navHe: ["Plant Maintenance and Customer Service ► Task Lists ► General Maintenance Task Lists (IA05)"],
           tables: ["PLKO", "PLPO", "PLMK"],
           tcodes: ["IA05", "QS21", "IP42"],
@@ -1550,8 +1550,8 @@ export const CH7: TextbookChapter = {
             "להריץ בדיקות איכותניות מובנות מקצה-לקצה עם תיעוד, החלטה ומעקב-תיקון.",
           processExampleHe:
             "IP30 פותח Order לבדיקת-בטיחות; הטכנאי מסמן 'נכשל' לפריט; UD 'Reject' מפעיל Notification לתיקון, ואז TECO.",
-          cbcHe:
-            "ב-CBC כשל בבדיקת-היגיינה-יומית מפעיל Notification מיידי לצוות-הניקיון, וחוסם את הקו עד תיקון.",
+          scenarioHe:
+            "בארגון כשל בבדיקת-היגיינה-יומית מפעיל Notification מיידי לצוות-הניקיון, וחוסם את הקו עד תיקון.",
           navHe: [
             "Quality Management ► Quality Inspection ► Results Recording (QGA2)",
             "Quality Management ► Quality Inspection ► Usage Decision (QA11)",
@@ -1600,8 +1600,8 @@ export const CH7: TextbookChapter = {
         "לקבע את התמונה-המלאה ולחבר את כל החלקים: קונפיגורציה, נתוני-אב ותהליך-עסקי — לכלל מערכת-כיול אוטומטית ובת-ביקורת.",
       processExampleHe:
         "מקצה-לקצה: בחירת-תרחיש→קונפיגורציה (Type 14 + Serial Profile)→נתוני-אב (Material→Serial→Equipment→Task List→Plan)→תזמון (IP10/IP30)→כיול (Order→Lot→Results→UD→TECO)→הערכות.",
-      cbcHe:
-        "ב-CBC המערכת מבטיחה שכל מכשיר-מדידה המשפיע על שחרור-אצווה מכויל בזמן, מתועד ובר-ביקורת — תנאי לעמידה בתקני-מזון ו-ISO ולהגנה על איכות-המוצר.",
+      scenarioHe:
+        "בארגון המערכת מבטיחה שכל מכשיר-מדידה המשפיע על שחרור-אצווה מכויל בזמן, מתועד ובר-ביקורת — תנאי לעמידה בתקני-מזון ו-ISO ולהגנה על איכות-המוצר.",
       navHe: ["Quality Management ► QM in Logistics ► QM in Maintenance ► Test Equipment Management"],
       tables: ["EQUI", "MPLA", "MPOS", "QALS"],
       tcodes: ["IE01", "IA05", "IP42", "IP10", "IP30", "QGA2", "QA11"],

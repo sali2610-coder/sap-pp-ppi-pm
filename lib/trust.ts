@@ -1,9 +1,9 @@
 // Trust Score + Source Traceability (Final Hardening #1, #2).
 // GREEN = verified SAP object · YELLOW = domain knowledge · RED = needs SAP verification.
-// Source: SAP Standard / S/4 Simplification / Domain Knowledge / CBC Knowledge / Generated Mapping.
+// Source: SAP Standard / S/4 Simplification / Domain Knowledge / הארגון Knowledge / Generated Mapping.
 
 export type TrustLevel = "GREEN" | "YELLOW" | "RED";
-export type SourceType = "SAP Standard" | "S/4 Simplification" | "Domain Knowledge" | "CBC Knowledge" | "Generated Mapping";
+export type SourceType = "SAP Standard" | "S/4 Simplification" | "Domain Knowledge" | "הארגון Knowledge" | "Generated Mapping";
 
 export interface Trust { level: TrustLevel; source: SourceType }
 
@@ -16,7 +16,7 @@ export const SOURCE_HE: Record<SourceType, string> = {
   "SAP Standard": "SAP סטנדרטי",
   "S/4 Simplification": "S/4 Simplification",
   "Domain Knowledge": "ידע תחום",
-  "CBC Knowledge": "ידע CBC",
+  "הארגון Knowledge": "ידע הארגון",
   "Generated Mapping": "מיפוי נגזר",
 };
 
@@ -32,4 +32,4 @@ export const trustExit = (inferred?: boolean): Trust => inferred ? { level: "RED
 export const trustNote = (hasRef?: boolean): Trust => hasRef ? { level: "GREEN", source: "SAP Standard" } : { level: "YELLOW", source: "Domain Knowledge" };
 // incident / troubleshooting / process / solution = authored domain knowledge → YELLOW
 export const trustDomain = (): Trust => ({ level: "YELLOW", source: "Domain Knowledge" });
-export const trustCbc = (): Trust => ({ level: "YELLOW", source: "CBC Knowledge" });
+export const trustOrg = (): Trust => ({ level: "YELLOW", source: "הארגון Knowledge" });

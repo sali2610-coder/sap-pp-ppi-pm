@@ -5,7 +5,7 @@ export const CH18: TextbookChapter = {
   titleHe: "דיווח ב-SAP S/4HANA",
   titleEn: "Reporting in SAP S/4HANA",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לדיווח ולניתוח-נתונים במודול QM של SAP S/4HANA. הוא מכסה שלוש שכבות-דיווח: דיווח-תפעולי קלאסי (בחירת לוטי-בדיקה, וריאנטים, רשימות-עבודה, הורדה ל-Excel, ניתוח-ABC), ניתוחים-סטנדרטיים של LIS (Logistics Information System) על מבני-המידע S00x, ושכבת ה-SAP Fiori המודרנית (אפליקציות-אנליטיקה מבוססות-CDS ו-Embedded Analytics). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת CBC (מפעל-מילוי קוקה-קולה), ניווט ו-SPRO/Launchpad, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בדיווח QM מקצה-לקצה ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לדיווח ולניתוח-נתונים במודול QM של SAP S/4HANA. הוא מכסה שלוש שכבות-דיווח: דיווח-תפעולי קלאסי (בחירת לוטי-בדיקה, וריאנטים, רשימות-עבודה, הורדה ל-Excel, ניתוח-ABC), ניתוחים-סטנדרטיים של LIS (Logistics Information System) על מבני-המידע S00x, ושכבת ה-SAP Fiori המודרנית (אפליקציות-אנליטיקה מבוססות-CDS ו-Embedded Analytics). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת הארגון (מפעל-מילוי מוצר לדוגמה), ניווט ו-SPRO/Launchpad, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בדיווח QM מקצה-לקצה ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 18.1
     {
@@ -22,8 +22,8 @@ export const CH18: TextbookChapter = {
         "לתת לכל תפקיד-איכות נקודת-כניסה אחת לאחזור-נתונים גמיש: הבודק רואה את העבודה שלו, מהנדס-האיכות רואה מגמות, והמנהל מוריד ל-Excel לדוחות-הנהלה. המטרה היא דיווח עצמאי (Self-Service) ללא תכנות.",
       processExampleHe:
         "מהנדס-איכות פותח QA32, מזין מפעל 1000, טווח-תאריכי-יצירה של השבוע, וסטטוס-לוט 'בדיקה פתוחה'. SAP מחזיר 240 לוטים ב-ALV. הוא מסנן ל-Inspection Type 01 (קבלה), שומר וריאנט 'WEEKLY_GR', מוריד ל-Excel ומעביר ל-QA לסקירת-בוקר.",
-      cbcHe:
-        "ב-CBC בודק-קו במפעל-המילוי מריץ QA32 כל בוקר עם וריאנט קבוע: מפעל=מפעל-מילוי, Inspection Type=03 (בדיקה תוך-תהליכית), סטטוס='ממתין להחלטה'. הרשימה מזינה את סבב-הבדיקות של אצוות-המשקה לאורך המשמרת.",
+      scenarioHe:
+        "בארגון בודק-קו במפעל-המילוי מריץ QA32 כל בוקר עם וריאנט קבוע: מפעל=מפעל-מילוי, Inspection Type=03 (בדיקה תוך-תהליכית), סטטוס='ממתין להחלטה'. הרשימה מזינה את סבב-הבדיקות של אצוות-המשקה לאורך המשמרת.",
       navHe: [
         "SAP Easy Access ► Logistics ► Quality Management ► Quality Inspection ► Inspection Lot ► Worklist ► QA32 (Change Data) / QA33 (Display)",
         "Fiori Launchpad ► Quality Management ► Inspection Processing ► Manage Inspection Lots (F2424)",
@@ -87,8 +87,8 @@ export const CH18: TextbookChapter = {
             "לאפשר לכל תפקיד לאתר במהירות את קבוצת-הלוטים הרלוונטית לו, בלי לדעת מספרי-לוט מראש.",
           processExampleHe:
             "QA לקבלת-סחורה מזין מפעל 1000, Lot Origin 01 (GR לרכש), טווח-תאריכים השבוע — ומקבל את כל לוטי-הקבלה הפתוחים לטיפול.",
-          cbcHe:
-            "ב-CBC בוחרים לפי Inspection Type 03 (תוך-תהליכי) + חומר=משקה-מוגמר + מפעל-מילוי, כדי לראות את כל בדיקות-האצווה הפעילות בקו.",
+          scenarioHe:
+            "בארגון בוחרים לפי Inspection Type 03 (תוך-תהליכי) + חומר=משקה-מוגמר + מפעל-מילוי, כדי לראות את כל בדיקות-האצווה הפעילות בקו.",
           navHe: [
             "Logistics ► Quality Management ► Quality Inspection ► Inspection Lot ► Worklist ► QA32",
           ],
@@ -139,8 +139,8 @@ export const CH18: TextbookChapter = {
             "לאחזר קבוצה לא-רציפה של ערכים בריצה אחת — חוסך זמן ומבטיח עקביות.",
           processExampleHe:
             "מהנדס בוחר 5 חומרים ספציפיים (Single values) + טווח אצוות, ושולל אצווה אחת בבדיקה-חוזרת (exclude) — הכל בריצה אחת.",
-          cbcHe:
-            "ב-CBC מזינים את כל מק\"טי-המשקאות של קו-מילוי מסוים כ-Single values בבת-אחת, ושוללים טעמים-עונתיים שאינם בייצור כעת.",
+          scenarioHe:
+            "בארגון מזינים את כל מק\"טי-המשקאות של קו-מילוי מסוים כ-Single values בבת-אחת, ושוללים טעמים-עונתיים שאינם בייצור כעת.",
           navHe: [
             "QA32 ► לחיצה על חץ Multiple Selection ליד שדה-בחירה",
           ],
@@ -191,8 +191,8 @@ export const CH18: TextbookChapter = {
             "להאיץ עבודה חוזרת ולתקנן קריטריונים בין משתמשים, בלי לנהל וריאנטים ב-SE38.",
           processExampleHe:
             "בודק שומר בחירה 'OPEN_GR_LOTS' ובכל בוקר טוען אותה במקום למלא ארבעה שדות.",
-          cbcHe:
-            "ב-CBC כל בודק-משמרת שומר בחירה לקו שלו ('LINE3_INPROCESS') ומשתף עם המחליף במשמרת הבאה.",
+          scenarioHe:
+            "בארגון כל בודק-משמרת שומר בחירה לקו שלו ('LINE3_INPROCESS') ומשתף עם המחליף במשמרת הבאה.",
           navHe: [
             "QA32 ► Goto ► Variants / Maintain Selection",
           ],
@@ -242,8 +242,8 @@ export const CH18: TextbookChapter = {
             "להבטיח שדוח רץ אותו-דבר כל פעם, גם אוטומטית, עם תאריכים שמתעדכנים מעצמם.",
           processExampleHe:
             "וריאנט 'DAILY_OPEN' עם Dynamic Date 'מהיום פחות-1 עד היום' מתוזמן ב-SM36 לרוץ כל בוקר ולשלוח Spool ל-QA.",
-          cbcHe:
-            "ב-CBC וריאנט-לילה רץ ברקע ומפיק רשימת לוטים-פתוחים של היממה לכל קווי-המילוי, מוכן לסקירת-בוקר.",
+          scenarioHe:
+            "בארגון וריאנט-לילה רץ ברקע ומפיק רשימת לוטים-פתוחים של היממה לכל קווי-המילוי, מוכן לסקירת-בוקר.",
           navHe: [
             "QA32 ► Goto ► Variants ► Save as Variant",
             "SE38/SA38 ► Program ► Variant Maintenance",
@@ -301,8 +301,8 @@ export const CH18: TextbookChapter = {
             "לרכז את כל פעולות-האיכות במקום אחד, ולאפשר עיבוד-המוני יעיל במקום לוט-אחר-לוט.",
           processExampleHe:
             "בודק מסמן 10 לוטים שעברו בדיקה, ומבצע החלטת-שימוש 'A' (קבלה) על כולם בבת-אחת מתוך ה-Worklist.",
-          cbcHe:
-            "ב-CBC בסוף-משמרת הבודק מסמן את כל אצוות-המשקה שעברו, ומבצע Usage Decision קבוצתי לשחרור למלאי-מכירה.",
+          scenarioHe:
+            "בארגון בסוף-משמרת הבודק מסמן את כל אצוות-המשקה שעברו, ומבצע Usage Decision קבוצתי לשחרור למלאי-מכירה.",
           navHe: [
             "QA32 ► רשימת-ALV (Worklist) ► Functions toolbar",
           ],
@@ -354,8 +354,8 @@ export const CH18: TextbookChapter = {
             "לאפשר ניתוח-אינטראקטיבי מהיר של תוצאות שכבר נשלפו, בלי עומס על המסד.",
           processExampleHe:
             "מהנדס שלף 500 לוטים, ואז מסנן ב-ALV ל'Vendor=4711' כדי לבחון רק ספק-בעייתי, ואז מסיר-מסנן ובוחן ספק אחר.",
-          cbcHe:
-            "ב-CBC הבודק שולף את כל בדיקות-המשמרת, ומסנן ב-ALV לפי 'אצווה דחויה' כדי לטפל קודם בחריגות.",
+          scenarioHe:
+            "בארגון הבודק שולף את כל בדיקות-המשמרת, ומסנן ב-ALV לפי 'אצווה דחויה' כדי לטפל קודם בחריגות.",
           navHe: [
             "QA32 ► ALV ► Filter icon (Ctrl+F)",
           ],
@@ -406,8 +406,8 @@ export const CH18: TextbookChapter = {
             "לאפשר עיבוד וניתוח מחוץ ל-SAP, ולשתף עם בעלי-עניין שאין להם גישה למערכת.",
           processExampleHe:
             "מנהל-QA מוריד את לוטי-החודש ל-Excel, בונה Pivot של אחוז-דחייה לפי ספק, ומציג בישיבת-הנהלה.",
-          cbcHe:
-            "ב-CBC מורידים את תוצאות-בדיקות-הקו השבועיות ל-Excel לדוח-KPI של מפעל-המילוי (First-Pass-Yield).",
+          scenarioHe:
+            "בארגון מורידים את תוצאות-בדיקות-הקו השבועיות ל-Excel לדוח-KPI של מפעל-המילוי (First-Pass-Yield).",
           navHe: [
             "QA32 ► ALV ► List ► Export ► Spreadsheet / Local File",
           ],
@@ -458,8 +458,8 @@ export const CH18: TextbookChapter = {
             "לחלץ במהירות קטע-נתונים מדויק (למשל עמודת-מספרי-לוט) בלי קובץ-מלא.",
           processExampleHe:
             "בודק מסמן את עמודת-מספרי-הלוט של 12 חריגות, מעתיק ל-Excel, ומצרף למייל-אסקלציה לספק.",
-          cbcHe:
-            "ב-CBC מעתיקים את עמודת-אצוות-המשקה הדחויות מ-Worklist ישירות לטופס-CAPA (פעולה-מתקנת) ב-Excel.",
+          scenarioHe:
+            "בארגון מעתיקים את עמודת-אצוות-המשקה הדחויות מ-Worklist ישירות לטופס-CAPA (פעולה-מתקנת) ב-Excel.",
           navHe: [
             "QA32 ► ALV ► סימון תאים ► Ctrl+Y (Block select) ► Ctrl+C",
           ],
@@ -510,8 +510,8 @@ export const CH18: TextbookChapter = {
             "לספק תיעוד-פיזי לרצפה ולביקורת-איכות (Audit-trail), ולתמוך בתהליכים-ידניים שעדיין דורשים נייר.",
           processExampleHe:
             "עם יצירת-לוט, מודפסת אוטומטית הוראת-בדיקה (Inspection Instruction) שמלווה את הדגימה במעבדה; בסיום מודפס פרוטוקול-UD.",
-          cbcHe:
-            "ב-CBC מודפסת תווית-דגימה ל-CO2/תרכיז עם פרטי-אצווה ופרמטרי-בדיקה, ומלווה את הדגימה למעבדה.",
+          scenarioHe:
+            "בארגון מודפסת תווית-דגימה ל-CO2/תרכיז עם פרטי-אצווה ופרמטרי-בדיקה, ומלווה את הדגימה למעבדה.",
           navHe: [
             "QA32 ► List ► Print",
             "SPRO ► QM ► Quality Inspection ► Print Control ► Define Printout Control",
@@ -565,8 +565,8 @@ export const CH18: TextbookChapter = {
             "למקד משאבי-איכות מוגבלים בגורמים בעלי ההשפעה-הגדולה-ביותר על איכות ועלות.",
           processExampleHe:
             "מהנדס מריץ ABC על 'מספר-דחיות לפי ספק'; 3 ספקים (A) אחראים ל-78% מהדחיות — הם מקבלים תוכנית-שיפור ו-Source-inspection.",
-          cbcHe:
-            "ב-CBC ABC על עלות-אי-איכות מצביע שבקבוקי-PET ופקקים (קטגוריה A) מניבים את רוב-הפסולת — מיקוד-ביקורת-ספק שם.",
+          scenarioHe:
+            "בארגון ABC על עלות-אי-איכות מצביע שבקבוקי-PET ופקקים (קטגוריה A) מניבים את רוב-הפסולת — מיקוד-ביקורת-ספק שם.",
           navHe: [
             "QA32 ► ALV ► Sort + Subtotals (ABC ידני)",
             "Logistics ► QM ► Quality Notifications/Inspection ► Info System ► Standard Analyses ► ABC Analysis",
@@ -628,8 +628,8 @@ export const CH18: TextbookChapter = {
         "לספק לניהול-האיכות תצוגות-מגמה ומדדי-על מהירים על בסיס-נתונים מצטבר, לזיהוי בעיות-מערכתיות (ספק חלש, חומר בעייתי) ולא רק טיפול בלוט-בודד.",
       processExampleHe:
         "מנהל-QA פותח ניתוח-סטנדרטי 'Material', בוחר תקופה רבעונית, ורואה לכל חומר: מספר-לוטים, אחוז-דחייה, ערך-איכות (Quality-Score). הוא עושה Drill-down מ-חומר ל-ספק כדי לאתר את שורש-הבעיה.",
-      cbcHe:
-        "ב-CBC ניתוח-סטנדרטי על תרכיזים מציג Quality-Score לפי ספק-תרכיז לאורך-רבעון; ספק עם score יורד מסומן ל-Source-inspection ולשיחת-שיפור.",
+      scenarioHe:
+        "בארגון ניתוח-סטנדרטי על תרכיזים מציג Quality-Score לפי ספק-תרכיז לאורך-רבעון; ספק עם score יורד מסומן ל-Source-inspection ולשיחת-שיפור.",
       navHe: [
         "Logistics ► Quality Management ► Quality Inspection ► Info System ► Standard Analyses",
         "Logistics ► Logistics Controlling ► Quality Management Info System (QMIS)",
@@ -692,8 +692,8 @@ export const CH18: TextbookChapter = {
             "לתת ערכת-דוחות-על מוכנה לכל מימדי-האיכות, בלי לבנות דוח לכל שאלה.",
           processExampleHe:
             "מנהל בוחר ניתוח 'Quality Notifications', בוחר רבע, ועושה Switch-drilldown מ-סוג-הודעה ל-קוד-פגם ל-ספק כדי לאתר את הפגם-החוזר ומקורו.",
-          cbcHe:
-            "ב-CBC משתמשים בניתוח-ההודעות לזהות את קוד-הפגם הנפוץ (למשל 'נזילת-פקק') ולקשר לספק-הפקקים דרך Drill-down.",
+          scenarioHe:
+            "בארגון משתמשים בניתוח-ההודעות לזהות את קוד-הפגם הנפוץ (למשל 'נזילת-פקק') ולקשר לספק-הפקקים דרך Drill-down.",
           navHe: [
             "Logistics ► QM ► Quality Inspection ► Info System ► Standard Analyses ► (Material / Vendor / Characteristics / Notifications)",
           ],
@@ -745,8 +745,8 @@ export const CH18: TextbookChapter = {
             "לזהות אילו חומרים תורמים-הכי-הרבה לבעיות-איכות, ולתעדף פעולות-שיפור ובדיקות.",
           processExampleHe:
             "מהנדס ממיין סקירת-חומר לפי אחוז-דחייה יורד; החומר העליון (חומר-אריזה) מקבל בדיקה-מוגברת ופתיחת-NCR מול הספק.",
-          cbcHe:
-            "ב-CBC סקירת-חומר מראה ש'תווית-PET' מובילה באחוז-דחייה; נפתחת חקירת-מקור מול ספק-התוויות.",
+          scenarioHe:
+            "בארגון סקירת-חומר מראה ש'תווית-PET' מובילה באחוז-דחייה; נפתחת חקירת-מקור מול ספק-התוויות.",
           navHe: [
             "Logistics ► QM ► Quality Inspection ► Info System ► Standard Analyses ► Material",
           ],
@@ -798,8 +798,8 @@ export const CH18: TextbookChapter = {
             "להגדיר במדויק 'מה מודדים' כדי שכל הדוחות יציגו את אותם מדדים באופן עקבי ומשמעותי.",
           processExampleHe:
             "מהנדס מוסיף לניתוח Ratio מחושב 'דחיות/לוטים' ומשווה אותו בין מפעלים כדי לאתר את החלש.",
-          cbcHe:
-            "ב-CBC מדד-המפתח המוביל הוא First-Pass-Yield (לוטים-מאושרים/סה\"כ-לוטים) פר קו-מילוי, מוצג שבועית.",
+          scenarioHe:
+            "בארגון מדד-המפתח המוביל הוא First-Pass-Yield (לוטים-מאושרים/סה\"כ-לוטים) פר קו-מילוי, מוצג שבועית.",
           navHe: [
             "ניתוח-סטנדרטי ► Edit ► Choose Key Figures",
             "SPRO ► LIS ► Logistics Data Warehouse ► Data Basis ► Field Catalogs/Info Structures",
@@ -853,8 +853,8 @@ export const CH18: TextbookChapter = {
             "לכסות את כל מימדי-האיכות (חומר/ספק/מאפיין/הודעה) ולאפשר מבנים-מותאמים לצרכים-מיוחדים.",
           processExampleHe:
             "כדי לנתח חריגות ברמת-מאפיין (לא רק לוט), מהנדס עובר ל-S069 ובוחן את אחוז-החריגה של מאפיין 'pH' לאורך-זמן.",
-          cbcHe:
-            "ב-CBC ניתוח ברמת-מאפיין (S069) על 'Brix' (ריכוז-סוכר) מגלה סחיפה בקו-מילוי מסוים, לפני שלוט שלם נדחה.",
+          scenarioHe:
+            "בארגון ניתוח ברמת-מאפיין (S069) על 'Brix' (ריכוז-סוכר) מגלה סחיפה בקו-מילוי מסוים, לפני שלוט שלם נדחה.",
           navHe: [
             "Logistics ► QM ► ... ► Info System ► Standard Analyses ► (Characteristics / Notifications)",
             "SPRO ► LIS ► Logistics Data Warehouse ► Data Basis ► Information Structures",
@@ -908,8 +908,8 @@ export const CH18: TextbookChapter = {
             "לתעדף אובייקטי-איכות (ספקים/חומרים/מאפיינים) לפי תרומתם, ישירות מתוך הדוח, עם הצגה-גרפית.",
           processExampleHe:
             "מהנדס מריץ ABC על Key-Figure 'דחיות' במבנה-ספק; קטגוריה-A (4 ספקים) מקבלת QM-procurement-key מחמיר ובדיקת-מקור.",
-          cbcHe:
-            "ב-CBC ABC על דחיות-לפי-ספק מסמן את ספקי-הפקקים והבקבוקים כ-A; הם נכנסים לתוכנית-ביקורת-ספק רבעונית.",
+          scenarioHe:
+            "בארגון ABC על דחיות-לפי-ספק מסמן את ספקי-הפקקים והבקבוקים כ-A; הם נכנסים לתוכנית-ביקורת-ספק רבעונית.",
           navHe: [
             "ניתוח-סטנדרטי ► Edit ► ABC Analysis",
           ],
@@ -965,8 +965,8 @@ export const CH18: TextbookChapter = {
             "לזהות מגמות וסחיפה לאורך-זמן, להבדיל בין רעש-אקראי לשינוי-מערכתי, ולתמוך בקבלת-החלטות מבוססת-מגמה.",
           processExampleHe:
             "מנהל בוחן Time-Series של אחוז-דחיית-ספק ל-12 חודשים; עלייה-מתמדת מרבעון-3 מזוהה כמגמה ומובילה לביקורת-ספק.",
-          cbcHe:
-            "ב-CBC Time-Series של First-Pass-Yield שבועי לקו-מילוי מראה ירידה לאורך-הקיץ — נחקרת השפעת-טמפרטורה על תהליך-המילוי.",
+          scenarioHe:
+            "בארגון Time-Series של First-Pass-Yield שבועי לקו-מילוי מראה ירידה לאורך-הקיץ — נחקרת השפעת-טמפרטורה על תהליך-המילוי.",
           navHe: [
             "ניתוח-סטנדרטי ► Edit ► Comparisons ► Time Series",
           ],
@@ -1025,8 +1025,8 @@ export const CH18: TextbookChapter = {
         "לתת למהנדס/בודק מרכז-עבודה אחד עם נראות-מלאה (עבודה פתוחה + מדדים + מגמות), לקצר זמן-החלטה ולמנוע קפיצה בין עשרות מסכים.",
       processExampleHe:
         "מהנדס פותח את הקוקפיט בבוקר: Tile מראה 18 לוטים-ממתינים, KPI מראה אחוז-דחייה יומי, גרף מראה מגמה-שבועית. הוא לוחץ על ה-Tile, נכנס ל-Worklist, ומטפל בלוטים הדחופים — הכל מנקודה-אחת.",
-      cbcHe:
-        "ב-CBC קוקפיט-איכות במפעל-המילוי מציג פר-משמרת: אצוות-ממתינות-להחלטה, First-Pass-Yield, וחריגות-פתוחות; מנהל-המשמרת מנהל את כל יום-העבודה ממנו.",
+      scenarioHe:
+        "בארגון קוקפיט-איכות במפעל-המילוי מציג פר-משמרת: אצוות-ממתינות-להחלטה, First-Pass-Yield, וחריגות-פתוחות; מנהל-המשמרת מנהל את כל יום-העבודה ממנו.",
       navHe: [
         "Fiori Launchpad ► Quality Management ► Quality Engineer Overview (F2787) / Quality Technician Overview",
         "NWBC ► Quality Management ► QM Cockpit / POWL",
@@ -1088,8 +1088,8 @@ export const CH18: TextbookChapter = {
         "להעביר את QM לחוויית-משתמש מודרנית, מבוססת-תפקיד, עם אנליטיקה-בזמן-אמת ישירות מול HANA — ולמחוק את הצורך ב-LIS-Setup ובמסכי-GUI מורכבים.",
       processExampleHe:
         "מהנדס פותח Launchpad, רואה את ה-Overview-שלו, לוחץ על Inspection-Lot-Analytics, מסנן ויזואלית לפי מפעל, עושה Drill-down מ-חומר ל-ספק — והכל בזמן-אמת מול HANA, בלי דוח-רקע.",
-      cbcHe:
-        "ב-CBC כל תפקיד-איכות מקבל Business-Role ב-Launchpad: בודק-הקו רואה Record-Results, מהנדס רואה Analytics, מנהל רואה Supplier-Evaluation — חוויה אחידה בדפדפן ובטאבלט על הקו.",
+      scenarioHe:
+        "בארגון כל תפקיד-איכות מקבל Business-Role ב-Launchpad: בודק-הקו רואה Record-Results, מהנדס רואה Analytics, מנהל רואה Supplier-Evaluation — חוויה אחידה בדפדפן ובטאבלט על הקו.",
       navHe: [
         "Fiori Launchpad ► Quality Management (Business Roles: SAP_BR_QUALITY_TECHNICIAN / SAP_BR_QUALITY_ENGINEER)",
         "Fiori Launchpad ► Quality Management ► Analytics / Inspection Processing groups",
@@ -1152,8 +1152,8 @@ export const CH18: TextbookChapter = {
             "לתת תמונת-על מיידית של מצב-הבדיקות ולאתר חתכים-בעייתיים בלי דוח-רקע או Setup.",
           processExampleHe:
             "מהנדס מסנן ויזואלית לחודש-נוכחי, רואה ש-Inspection-Type 01 מוביל בדחיות, וצולל ל-ספק הבעייתי בלחיצה.",
-          cbcHe:
-            "ב-CBC מנהל-מפעל רואה את אחוז-הדחייה לפי קו-מילוי בזמן-אמת ומזהה קו עם עלייה חריגה במהלך-המשמרת.",
+          scenarioHe:
+            "בארגון מנהל-מפעל רואה את אחוז-הדחייה לפי קו-מילוי בזמן-אמת ומזהה קו עם עלייה חריגה במהלך-המשמרת.",
           navHe: ["Fiori Launchpad ► Quality Management ► Analytics ► Inspection Lot Analytics"],
           tables: ["QALS"],
           tcodes: ["—"],
@@ -1185,8 +1185,8 @@ export const CH18: TextbookChapter = {
             "לנמק ולתעד את רמת-הבדיקה הנוכחית (Skip-Lot/Reduced/Tightened) ולספק שקיפות למבדק-לקוח/רגולציה.",
           processExampleHe:
             "מהנדס בוחן את היסטוריית רמת-האיכות של חומר; שתי-דחיות-רצופות החזירו אותו מ-Skip ל-Tightened — מתועד ומוצדק.",
-          cbcHe:
-            "ב-CBC ספק-תרכיז עם רצף-תקין הועבר ל-Skip-Lot; ההיסטוריה מתעדת מתי ולמה, לצורך מבדק-איכות-לקוח.",
+          scenarioHe:
+            "בארגון ספק-תרכיז עם רצף-תקין הועבר ל-Skip-Lot; ההיסטוריה מתעדת מתי ולמה, לצורך מבדק-איכות-לקוח.",
           navHe: ["Fiori Launchpad ► Quality Management ► Quality Level History"],
           tables: ["QDQL", "QDPS"],
           tcodes: ["—"],
@@ -1218,8 +1218,8 @@ export const CH18: TextbookChapter = {
             "להעביר את רישום-התוצאות לרצפה/מעבדה בממשק-מגע פשוט, להאיץ ולהפחית-טעויות-תמלול.",
           processExampleHe:
             "בודק-מעבדה פותח את הלוט, מקליד pH ו-Brix; חריגה מסומנת-אדום ומחייבת רישום-פגם לפני המשך.",
-          cbcHe:
-            "ב-CBC בודק-קו רושם על טאבלט את נפח-המילוי וה-CO2 לכל דגימת-שעה; חריגה מפעילה התראה מיידית לעצירת-הקו.",
+          scenarioHe:
+            "בארגון בודק-קו רושם על טאבלט את נפח-המילוי וה-CO2 לכל דגימת-שעה; חריגה מפעילה התראה מיידית לעצירת-הקו.",
           navHe: ["Fiori Launchpad ► Quality Management ► Inspection Processing ► Record Inspection Results"],
           tables: ["QAMR", "QASR", "QPMK"],
           tcodes: ["—"],
@@ -1253,8 +1253,8 @@ export const CH18: TextbookChapter = {
             "לזהות סחיפת-תהליך מוקדם (לפני-דחייה) ולתמוך בשיפור-מתמשך מבוסס-נתוני-מדידה.",
           processExampleHe:
             "מהנדס בוחן את היסטוריית-ה-Brix; מגמת-עלייה איטית מתקרבת לגבול-עליון — התהליך מכויל לפני-חריגה.",
-          cbcHe:
-            "ב-CBC היסטוריית-CO2 לאורך-משמרות מגלה ירידה-הדרגתית בקרבונציה — תחזוקת-מערכת-ה-CO2 מתוזמנת מראש.",
+          scenarioHe:
+            "בארגון היסטוריית-CO2 לאורך-משמרות מגלה ירידה-הדרגתית בקרבונציה — תחזוקת-מערכת-ה-CO2 מתוזמנת מראש.",
           navHe: ["Fiori Launchpad ► Quality Management ► Results History"],
           tables: ["QAMR", "QASE"],
           tcodes: ["—"],
@@ -1287,8 +1287,8 @@ export const CH18: TextbookChapter = {
             "לתת לבודק תמונת-עבודה אחת מבוססת-תפקיד עם ניווט-ישיר לפעולה — בלי לחפש בין מסכים.",
           processExampleHe:
             "בודק נכנס בבוקר, Card מראה 12 בדיקות-לרישום, לוחץ, ונכנס ישר ל-Record-Results לטיפול-ברצף.",
-          cbcHe:
-            "ב-CBC בודק-משמרת רואה ב-Overview את כל דגימות-הקו שממתינות-לרישום ואת החריגות-הפתוחות של המשמרת.",
+          scenarioHe:
+            "בארגון בודק-משמרת רואה ב-Overview את כל דגימות-הקו שממתינות-לרישום ואת החריגות-הפתוחות של המשמרת.",
           navHe: ["Fiori Launchpad ► Quality Management ► Quality Technician Overview (Role: SAP_BR_QUALITY_TECHNICIAN)"],
           tables: ["QALS", "QAMR", "QMEL"],
           tcodes: ["—"],
@@ -1321,8 +1321,8 @@ export const CH18: TextbookChapter = {
             "לתת למהנדס נראות-מלאה (מגמות+עבודה) ולקצר-זמן-החלטה — אנליטיקה ופעולה במסך-אחד.",
           processExampleHe:
             "מהנדס רואה KPI-דחייה-עולה, צולל ל-Analytics לאיתור-הספק, ומשם ל-UD-Worklist לטיפול-בלוטים-התקועים.",
-          cbcHe:
-            "ב-CBC מהנדס-מפעל רואה את First-Pass-Yield, ספקי-A-הבעייתיים, ואת אצוות-המשקה-הממתינות-להחלטה — הכל בדף-אחד.",
+          scenarioHe:
+            "בארגון מהנדס-מפעל רואה את First-Pass-Yield, ספקי-A-הבעייתיים, ואת אצוות-המשקה-הממתינות-להחלטה — הכל בדף-אחד.",
           navHe: ["Fiori Launchpad ► Quality Management ► Quality Engineer Overview (Role: SAP_BR_QUALITY_ENGINEER)"],
           tables: ["QALS", "QAVE", "QMEL"],
           tcodes: ["—"],
@@ -1355,8 +1355,8 @@ export const CH18: TextbookChapter = {
             "לסגור את מחזור-הבדיקה בהחלטה-מתועדת ולהניע את פוסטינג-המלאי, ביעילות-המונית.",
           processExampleHe:
             "מהנדס מסמן 15 לוטים-שעברו, בוחר UD-code 'A', והמלאי עובר אוטומטית ל-unrestricted — בפעולה-אחת.",
-          cbcHe:
-            "ב-CBC החלטת-שימוש על אצוות-משקה משחררת אותן למלאי-מכירה; אצווה-דחויה מנותבת ל-Blocked לבדיקה-חוזרת/השמדה.",
+          scenarioHe:
+            "בארגון החלטת-שימוש על אצוות-משקה משחררת אותן למלאי-מכירה; אצווה-דחויה מנותבת ל-Blocked לבדיקה-חוזרת/השמדה.",
           navHe: ["Fiori Launchpad ► Quality Management ► Inspection Processing ► Manage Usage Decisions"],
           tables: ["QAVE", "QALS"],
           tcodes: ["—"],
@@ -1389,8 +1389,8 @@ export const CH18: TextbookChapter = {
             "לתת את חוויית-ה-Worklist המודרנית — בחירה-וניהול-לוטים בדפדפן עם ביצועי-HANA ו-UX-מתקדם.",
           processExampleHe:
             "בודק מסנן ב-Smart-Filter למפעל+Type+'פתוח', שומר My-View, ונכנס ל-Object-Page של לוט לרישום-תוצאות.",
-          cbcHe:
-            "ב-CBC הבודק מנהל את כל לוטי-המשמרת מ-Manage-Inspection-Lots על טאבלט, עם My-View לקו-שלו.",
+          scenarioHe:
+            "בארגון הבודק מנהל את כל לוטי-המשמרת מ-Manage-Inspection-Lots על טאבלט, עם My-View לקו-שלו.",
           navHe: ["Fiori Launchpad ► Quality Management ► Inspection Processing ► Manage Inspection Lots"],
           tables: ["QALS", "QAVE"],
           tcodes: ["—"],
@@ -1423,8 +1423,8 @@ export const CH18: TextbookChapter = {
             "לשלוט בעוצמת-הבדיקה פר-חומר/ספק לפי ביצועי-עבר — להקל על אמינים ולהחמיר על בעייתיים, באופן-מתועד.",
           processExampleHe:
             "מהנדס מאפס Quality-Level של חומר אחרי-שינוי-ספק כדי להתחיל מ-Normal-stage ולבנות-אמון מחדש.",
-          cbcHe:
-            "ב-CBC חומר-אריזה מספק-חדש מאופס ל-Normal עד שייצבר רצף-תקין שיעביר ל-Reduced/Skip.",
+          scenarioHe:
+            "בארגון חומר-אריזה מספק-חדש מאופס ל-Normal עד שייצבר רצף-תקין שיעביר ל-Reduced/Skip.",
           navHe: ["Fiori Launchpad ► Quality Management ► Manage Quality Levels"],
           tables: ["QDQL", "QDPS"],
           tcodes: ["—"],
@@ -1457,8 +1457,8 @@ export const CH18: TextbookChapter = {
             "לייעל את העבודה-הרציפה על-לוט-בודד, להפחית-קליקים ולמנוע-לוטים-תקועים-בין-שלבים.",
           processExampleHe:
             "בודק פותח לוט, רושם את כל-המאפיינים, רושם-פגם-אחד, ומבצע UD — הכל ברצף-אחד בלי-לעזוב-את-המסך.",
-          cbcHe:
-            "ב-CBC בודק-מעבדה מטפל בדגימת-אצווה מקצה-לקצה: רישום-pH/Brix/CO2 ➔ החלטת-שחרור, ברצף-אחד.",
+          scenarioHe:
+            "בארגון בודק-מעבדה מטפל בדגימת-אצווה מקצה-לקצה: רישום-pH/Brix/CO2 ➔ החלטת-שחרור, ברצף-אחד.",
           navHe: ["Fiori Launchpad ► Quality Management ► Inspection Processing ► Process Inspection Lots"],
           tables: ["QALS", "QAMR", "QAVE"],
           tcodes: ["—"],
@@ -1491,8 +1491,8 @@ export const CH18: TextbookChapter = {
             "לנטר יציבות-תהליך סטטיסטית בזמן-אמת, לזהות-סחיפה/חריגה לפני-ייצור-פסול, ולכמת-יכולת-תהליך (Cpk).",
           processExampleHe:
             "מהנדס בוחן x-bar/R-chart של נפח-המילוי; נקודה-מעל-UCL ו-7-נקודות-עולות מפעילים-חקירה לפי-Run-rules, וה-Cpk=1.1 מסמן-יכולת-גבולית.",
-          cbcHe:
-            "ב-CBC Control-Chart של CO2-בקרבונציה מנוטר בזמן-אמת; חריגה-סטטיסטית עוצרת-קו-מילוי לפני-אצוות-פסולות, ו-Cpk נמדד-שבועית.",
+          scenarioHe:
+            "בארגון Control-Chart של CO2-בקרבונציה מנוטר בזמן-אמת; חריגה-סטטיסטית עוצרת-קו-מילוי לפני-אצוות-פסולות, ו-Cpk נמדד-שבועית.",
           navHe: ["Fiori Launchpad ► Quality Management ► Manage Control Charts"],
           tables: ["QASR", "QASE", "QDPS"],
           tcodes: ["—"],
@@ -1529,8 +1529,8 @@ export const CH18: TextbookChapter = {
             "לתמוך בתרחישי-רישום-מורכבים (מדגמים-מרובים, מאפיינים-תלויים, SPC) שמעבר-לרישום-הבסיסי-של-הבודק.",
           processExampleHe:
             "מהנדס רושם 5-מדגמים למאפיין-נפח, המערכת מחשבת-ממוצע, מזינה-Control-Chart, ומסמנת-חריגה-אם-מעבר-UCL.",
-          cbcHe:
-            "ב-CBC רישום-מדגמים-מרובים של-נפח-המילוי לאורך-המשמרת מזין-ישירות-את-Control-Chart-ה-CO2/נפח לניטור-SPC.",
+          scenarioHe:
+            "בארגון רישום-מדגמים-מרובים של-נפח-המילוי לאורך-המשמרת מזין-ישירות-את-Control-Chart-ה-CO2/נפח לניטור-SPC.",
           navHe: ["Fiori Launchpad ► Quality Management ► Inspection Processing ► Record Inspection Results"],
           tables: ["QAMR", "QASR", "QPMK"],
           tcodes: ["—"],
@@ -1567,8 +1567,8 @@ export const CH18: TextbookChapter = {
             "להניע-לסגירה את הפעולות-המתקנות/מונעות שנגזרות-מאי-התאמות, עם מעקב-יעד-וסטטוס.",
           processExampleHe:
             "טכנאי מקבל-משימה 'החלף-אטם-במכונה' מהודעת-תקלה, מבצע, ומסמן-Completed-Successful — ההודעה מתקדמת-לסגירה.",
-          cbcHe:
-            "ב-CBC משימה 'כייל-חיישן-CO2' נוצרת-מחריגת-קרבונציה; הטכנאי מבצע-ומסמן, וה-CAPA-נסגר.",
+          scenarioHe:
+            "בארגון משימה 'כייל-חיישן-CO2' נוצרת-מחריגת-קרבונציה; הטכנאי מבצע-ומסמן, וה-CAPA-נסגר.",
           navHe: ["Fiori Launchpad ► Quality Management ► Process Quality Tasks"],
           tables: ["QMSM", "QMEL"],
           tcodes: ["—"],
@@ -1601,8 +1601,8 @@ export const CH18: TextbookChapter = {
             "לתת-נראות-ובקרה-ניהולית על-תיק-המשימות, למנוע-איחורים ולאזן-עומס בין-מבצעים.",
           processExampleHe:
             "מהנדס מסנן ל-Overdue-tasks, מאתר-3-משימות-באיחור, ומקצה-מחדש לטכנאי-פנוי בפעולה-המונית.",
-          cbcHe:
-            "ב-CBC מנהל-QA סוקר-שבועית את משימות-ה-CAPA-הפתוחות במפעל, מזהה-צוואר-בקבוק, ומאזן-עומס בין-טכנאים.",
+          scenarioHe:
+            "בארגון מנהל-QA סוקר-שבועית את משימות-ה-CAPA-הפתוחות במפעל, מזהה-צוואר-בקבוק, ומאזן-עומס בין-טכנאים.",
           navHe: ["Fiori Launchpad ► Quality Management ► Manage Quality Tasks"],
           tables: ["QMSM", "QMEL"],
           tcodes: ["—"],
@@ -1635,8 +1635,8 @@ export const CH18: TextbookChapter = {
             "לכמת-את-ביצועי-האיכות-של-ספקים אובייקטיבית, להזין-הערכת-ספק-כוללת ולתמוך-בהחלטות-מקור-ורכש.",
           processExampleHe:
             "רוכש בוחן-הערכת-איכות-ספק לפני-חידוש-חוזה; ספק-עם-Score-נמוך-ומגמה-יורדת מסומן-להתראה ול-Source-inspection.",
-          cbcHe:
-            "ב-CBC הערכת-איכות-ספקי-התרכיז-והאריזה מוזנת-לסקירת-ספקים-רבעונית; ספק-A-חלש-מקבל-תוכנית-שיפור-או-מוחלף.",
+          scenarioHe:
+            "בארגון הערכת-איכות-ספקי-התרכיז-והאריזה מוזנת-לסקירת-ספקים-רבעונית; ספק-A-חלש-מקבל-תוכנית-שיפור-או-מוחלף.",
           navHe: ["Fiori Launchpad ► Quality Management ► Analytics ► Supplier Evaluation by Quality"],
           tables: ["S070", "QALS", "ELLI"],
           tcodes: ["—"],
@@ -1670,8 +1670,8 @@ export const CH18: TextbookChapter = {
             "להעמיק-את-ניתוח-הלוטים מעבר-לדחיות — לכלול-יעילות-תהליך-הבדיקה (זמנים, איחורים) לזיהוי-צווארי-בקבוק.",
           processExampleHe:
             "מהנדס בוחן-Cycle-time-של-לוטים-לפי-מפעל; מפעל-עם-זמן-מחזור-ארוך-וחריג מזוהה-כצוואר-בקבוק-בתהליך-הבדיקה.",
-          cbcHe:
-            "ב-CBC ניתוח-זמן-מחזור-בדיקה-לאצווה מגלה-עיכוב-במעבדת-מיקרוביולוגיה; מתוגבר-כוח-אדם-בשעות-שיא.",
+          scenarioHe:
+            "בארגון ניתוח-זמן-מחזור-בדיקה-לאצווה מגלה-עיכוב-במעבדת-מיקרוביולוגיה; מתוגבר-כוח-אדם-בשעות-שיא.",
           navHe: ["Fiori Launchpad ► Quality Management ► Analytics ► Inspection Lot Analytics"],
           tables: ["QALS"],
           tcodes: ["—"],
@@ -1704,8 +1704,8 @@ export const CH18: TextbookChapter = {
             "לאפשר-חקירת-שורש-מעמיקה ברמת-הלוט-הבודד — לראות-בדיוק-מה-נכשל-ולמה.",
           processExampleHe:
             "מהנדס-צולל-מ-Analytics ללוט-דחוי-ספציפי, רואה-שמאפיין-pH-נכשל-ב-3-מתוך-5-מדגמים, ופותח-חקירת-שורש.",
-          cbcHe:
-            "ב-CBC חקירת-אצווה-דחויה מראה-שחריגת-ה-CO2-מקורה-בפעולה-3 (קרבונטור)-בלבד; התחזוקה-ממוקדת-שם.",
+          scenarioHe:
+            "בארגון חקירת-אצווה-דחויה מראה-שחריגת-ה-CO2-מקורה-בפעולה-3 (קרבונטור)-בלבד; התחזוקה-ממוקדת-שם.",
           navHe: ["Fiori Launchpad ► Quality Management ► Analytics ► Inspection Lot Detailed Analytics"],
           tables: ["QALS", "QAMR", "QAVE"],
           tcodes: ["—"],
@@ -1738,8 +1738,8 @@ export const CH18: TextbookChapter = {
             "לזהות-אילו-מאפיינים-תורמים-הכי-הרבה-לחריגות חוצה-לוטים, ולתעדף-שיפור-תהליך-במקור.",
           processExampleHe:
             "מהנדס-רואה-ש'נפח-המילוי' מוביל-באחוז-חריגה-על-פני-כל-החומרים — מצביע-על-בעיית-קליברציה-מערכתית ולא-חומר-בודד.",
-          cbcHe:
-            "ב-CBC אנליטיקת-מאפיינים מגלה-ש'Brix'-חורג-בכל-הטעמים בקו-מסוים — בעיית-מערכת-המינון, לא-מתכון-בודד.",
+          scenarioHe:
+            "בארגון אנליטיקת-מאפיינים מגלה-ש'Brix'-חורג-בכל-הטעמים בקו-מסוים — בעיית-מערכת-המינון, לא-מתכון-בודד.",
           navHe: ["Fiori Launchpad ► Quality Management ► Analytics ► Characteristics Analytics"],
           tables: ["QAMR", "QASE", "S069"],
           tcodes: ["—"],
@@ -1772,8 +1772,8 @@ export const CH18: TextbookChapter = {
             "לבצע-ניתוח-יכולת-תהליך-מעמיק (Capability-Study) למאפיין-קריטי-בודד, מעבר-לאחוז-חריגה.",
           processExampleHe:
             "מהנדס-בוחן-Capability-של-נפח-המילוי: היסטוגרמה-מוטה-וערך-Cpk=0.9 מצביעים-על-תהליך-לא-מסוגל — נדרש-שיפור-לפני-המשך.",
-          cbcHe:
-            "ב-CBC Capability-Study-על-נפח-בקבוק-330ml לפני-אישור-קו-חדש; Cpk≥1.33 נדרש-לאישור-ייצור-מסחרי.",
+          scenarioHe:
+            "בארגון Capability-Study-על-נפח-בקבוק-330ml לפני-אישור-קו-חדש; Cpk≥1.33 נדרש-לאישור-ייצור-מסחרי.",
           navHe: ["Fiori Launchpad ► Quality Management ► Analytics ► Characteristic Detailed Analytics"],
           tables: ["QAMR", "QASE"],
           tcodes: ["—"],
@@ -1809,8 +1809,8 @@ export const CH18: TextbookChapter = {
             "לרכז-את-כל-מידע-הלוט-וניווטיו במקום-אחד — Single-Source-of-Truth-ללוט.",
           processExampleHe:
             "בודק-פותח-Object-Page-של-לוט, רואה-סטטוס-מלא, ומנווט-משם-לרישום-תוצאות ואז-להחלטה — ללא-חיפוש-מחדש.",
-          cbcHe:
-            "ב-CBC Object-Page-של-לוט-אצווה מקשר-ישירות-לאצווה (Batch), לתעודת-משלוח ולהודעת-איכות-אם-נפתחה.",
+          scenarioHe:
+            "בארגון Object-Page-של-לוט-אצווה מקשר-ישירות-לאצווה (Batch), לתעודת-משלוח ולהודעת-איכות-אם-נפתחה.",
           navHe: ["Fiori Launchpad ► Quality Management ► Inspection Lot (Object Page)"],
           tables: ["QALS", "QAMR", "QAVE"],
           tcodes: ["—"],
@@ -1843,8 +1843,8 @@ export const CH18: TextbookChapter = {
             "לתמוך בבדיקות-רב-פעולתיות (תוך-תהליכיות) שבהן-כל-שלב-נבדק-בנפרד — נראות-וניהול ברמת-הפעולה.",
           processExampleHe:
             "בלוט-ייצור-רב-שלבי, הבודק-עובד-פעולה-אחר-פעולה: פעולה-10-מילוי, פעולה-20-סגירה — רושם-תוצאות-לכל-אחת-בנפרד.",
-          cbcHe:
-            "ב-CBC לוט-תוך-תהליכי מחולק-לפעולות: ערבוב➔קרבונציה➔מילוי➔סגירה; כל-פעולה-נבדקת-ונרשמת-בתחנתה.",
+          scenarioHe:
+            "בארגון לוט-תוך-תהליכי מחולק-לפעולות: ערבוב➔קרבונציה➔מילוי➔סגירה; כל-פעולה-נבדקת-ונרשמת-בתחנתה.",
           navHe: ["Fiori Launchpad ► Quality Management ► Inspection Operation (Object Page)"],
           tables: ["QALS", "QAPP", "PLPO"],
           tcodes: ["—"],
@@ -1877,8 +1877,8 @@ export const CH18: TextbookChapter = {
             "לנהל-את-מחזור-חיי-האצווה-ושחרורה בהתאם-לתוצאות-איכות, ולהבטיח-מעקב-מלא (Traceability) ותוקף.",
           processExampleHe:
             "אחרי-UD-חיובי, סטטוס-האצווה-עובר-ל-Unrestricted אוטומטית; אצווה-דחויה-נשארת-Restricted ולא-ניתנת-למכירה.",
-          cbcHe:
-            "ב-CBC כל-אצוות-משקה-מנוהלת-אצווה עם-SLED (תוקף); UD-משחרר-ל-Unrestricted, וה-Batch-classification-נושא-Brix/pH-לטרסביליות.",
+          scenarioHe:
+            "בארגון כל-אצוות-משקה-מנוהלת-אצווה עם-SLED (תוקף); UD-משחרר-ל-Unrestricted, וה-Batch-classification-נושא-Brix/pH-לטרסביליות.",
           navHe: ["Fiori Launchpad ► Quality Management / Inventory ► Manage Batches"],
           tables: ["MCH1", "MCHA", "MCHB", "AUSP"],
           tcodes: ["—"],
@@ -1914,8 +1914,8 @@ export const CH18: TextbookChapter = {
             "להפוך-נתוני-אי-התאמות-לתובנות-פעולה: לזהות-פגמים-חוזרים-ושורשיהם, לכמת-עלות, ולהניע-CAPA-ממוקד.",
           processExampleHe:
             "מהנדס-מנתח-אי-התאמות-רבעוניות; קוד-פגם 'נזילת-פקק'-מוביל (35%), Drill-לסיבה-'מומנט-סגירה'-וב-CAPA-מכוונים-את-מכונת-הסגירה.",
-          cbcHe:
-            "ב-CBC ניתוח-אי-התאמות מצביע-ש'רמת-מילוי-נמוכה'-היא-הפגם-היקר-ביותר; CAPA-ממקד-בקליברציית-מד-הזרימה.",
+          scenarioHe:
+            "בארגון ניתוח-אי-התאמות מצביע-ש'רמת-מילוי-נמוכה'-היא-הפגם-היקר-ביותר; CAPA-ממקד-בקליברציית-מד-הזרימה.",
           navHe: ["Fiori Launchpad ► Quality Management ► Analytics ► Nonconformance Detailed Analytics"],
           tables: ["QMEL", "QMFE", "QMUR"],
           tcodes: ["—"],
@@ -1952,8 +1952,8 @@ export const CH18: TextbookChapter = {
         "לספק-מפת-דרכים-לבחירת-כלי-הדיווח-הנכון-לכל-שאלה ולכל-תפקיד, ולהבטיח-מימוש-תקין-של-שלוש-השכבות.",
       processExampleHe:
         "תרחיש-מלא: בודק-רושם-תוצאות (Fiori-Record) ➔ מהנדס-מחליט-UD (Manage-UD) ➔ אצווה-משוחררת (Manage-Batches) ➔ מהנדס-מנתח-מגמה (Inspection-Lot-Analytics) ➔ מנהל-מעריך-ספק (Supplier-Evaluation) ➔ אי-התאמה-חוזרת-מניעה-CAPA (Nonconformance-Analytics).",
-      cbcHe:
-        "ב-CBC מחזור-איכות-מלא: בדיקת-אצווה-בקו ➔ שחרור-למלאי ➔ ניתוח-First-Pass-Yield-שבועי ➔ הערכת-ספקי-תרכיז/אריזה-רבעונית ➔ CAPA-לפגמים-חוזרים — כולו-על-Fiori-בזמן-אמת.",
+      scenarioHe:
+        "בארגון מחזור-איכות-מלא: בדיקת-אצווה-בקו ➔ שחרור-למלאי ➔ ניתוח-First-Pass-Yield-שבועי ➔ הערכת-ספקי-תרכיז/אריזה-רבעונית ➔ CAPA-לפגמים-חוזרים — כולו-על-Fiori-בזמן-אמת.",
       navHe: [
         "Fiori Launchpad ► Quality Management (תפעולי + Analytics + Overview)",
         "Logistics ► QM ► Info System (LIS/QMIS)",

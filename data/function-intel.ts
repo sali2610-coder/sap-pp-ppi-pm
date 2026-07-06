@@ -136,7 +136,7 @@ export const FUNCTION_INTEL: Record<string, FunctionIntel> = {
   BAPI_BATCH_CREATE: {
     name: "BAPI_BATCH_CREATE",
     what: "יצירת אצווה (Batch) לחומר המנוהל באצוות — כולל סיווג מאפיינים.",
-    why: "ניהול אצוות (PP-PI/QM) — קריטי במזון/משקאות (CBC). QA בודק סיווג, שחרור ומעקב.",
+    why: "ניהול אצוות (PP-PI/QM) — קריטי במזון/משקאות. QA בודק סיווג, שחרור ומעקב.",
     module: "PP-PI", processArea: "ניהול אצוות",
     inputs: [{ name: "MATERIAL / PLANT", dir: "import", he: "חומר ומפעל", req: true }, { name: "BATCHATTRIBUTES", dir: "import", he: "מספר אצווה, תאריך תפוגה" }],
     outputs: [{ name: "BATCH", dir: "export", he: "מספר האצווה שנוצרה (MCHA/MCH1)" }, RET],

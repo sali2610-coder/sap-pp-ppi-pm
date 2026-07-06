@@ -11,7 +11,7 @@ export const CH4: TextbookChapter = {
   titleHe: "הגדרת ייצור תהליכי (PP-PI)",
   titleEn: "Process Manufacturing Configuration",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לקונפיגורציה של ייצור תהליכי (PP-PI) ב-SAP S/4HANA — עולם המשקאות, המזון, התרופות והכימיה, שבו מערבבים נוזלים באצוות (Batches) ולא מרכיבים יחידות בדידות. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. ההבדל המהותי מ-Discrete: Master Recipe במקום Routing, Resource במקום Work Center, Process Order (Category 40) במקום Production Order, ושכבת Process Management — Control Recipe, PI Sheets ו-Process Messages — המחברת את ה-ERP לרצפת-הייצור ולמערכות-הבקרה. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לקונפיגורציה של ייצור תהליכי (PP-PI) ב-SAP S/4HANA — עולם המשקאות, המזון, התרופות והכימיה, שבו מערבבים נוזלים באצוות (Batches) ולא מרכיבים יחידות בדידות. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. ההבדל המהותי מ-Discrete: Master Recipe במקום Routing, Resource במקום Work Center, Process Order (Category 40) במקום Production Order, ושכבת Process Management — Control Recipe, PI Sheets ו-Process Messages — המחברת את ה-ERP לרצפת-הייצור ולמערכות-הבקרה. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 4.1
     {
@@ -26,8 +26,8 @@ export const CH4: TextbookChapter = {
         "לספק לתכנון, לפק\"ע-תהליכית ול-Process Management תיאור מלא של 'ממה', 'כיצד' ו'באיזה כלי' מייצרים — כולל ניהול-אצווה, חישובי-כמות דינמיים והוראות-תהליך לרצפה.",
       processExampleHe:
         "תכנון אצוות-משקה: MRP יוצר הזמנה-מתוכננת ➔ המרה ל-Process Order ➔ הפק\"ע שולפת את ה-Master Recipe + BOM דרך ה-Production Version ➔ נוצר Control Recipe ➔ PI Sheet מגיע למפעיל ברצפה למילוי-ערכים בפועל.",
-      cbcHe:
-        "ב-CBC המשקה מיוצר תהליכית: תרכיז+סוכר+CO2+מים = ROH מנוהלי-אצווה; המשקה המוגמר = FERT באצווה; הערבול והמילוי מתבצעים ב-Resources (טנקי-ערבול וקווי-מילוי). כל אצווה מתועדת מקצה-לקצה לצורך Traceability רגולטורי.",
+      scenarioHe:
+        "בארגון המשקה מיוצר תהליכית: תרכיז+סוכר+CO2+מים = ROH מנוהלי-אצווה; המשקה המוגמר = FERT באצווה; הערבול והמילוי מתבצעים ב-Resources (טנקי-ערבול וקווי-מילוי). כל אצווה מתועדת מקצה-לקצה לצורך Traceability רגולטורי.",
       navHe: [
         "Production Planning for Process Industries ► Master Data ► Master Recipe ► Define Profiles (C2C)",
         "Production Planning for Process Industries ► Master Data ► Master Recipe ► Define Task List Status",
@@ -93,7 +93,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "ב-C2C מגדירים פרופיל עם ערכי-ברירת-מחדל לכותרת ולפעולות. הפרופיל נבחר ביצירת C201 וחוסך הזנה חוזרת; הוא גם אמצעי-תקנון — אותו פרופיל לכל מתכוני-קו-מסוים.",
           purposeHe: "לתקנן ולהאיץ יצירת-מתכונים, ולהבטיח שערכי-ברירת-מחדל קריטיים (Usage/Status/Control Key) לא יישכחו.",
           processExampleHe: "מתכנן יוצר מתכון ב-C201, בוחר Profile 'BEV01'; הכותרת והפעולות נטענות עם Usage 1, Status 4 ו-Control Keys מתאימים — נותר רק להזין שלבים וזמנים.",
-          cbcHe: "ב-CBC פרופיל-מתכון אחד לקווי-המשקאות עם ברירות-מחדל אחידות, כך שכל מתכון-משקה נראה ומתנהג זהה.",
+          scenarioHe: "בארגון פרופיל-מתכון אחד לקווי-המשקאות עם ברירות-מחדל אחידות, כך שכל מתכון-משקה נראה ומתנהג זהה.",
           navHe: ["Production Planning for Process Industries ► Master Data ► Master Recipe ► Define Profiles (C2C)"],
           tables: ["TC60", "PLKO"],
           tcodes: ["C2C", "C201"],
@@ -115,7 +115,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "ההגדרה מקשרת Material Type ל-Task List Type 2. אם חומר-הכותרת אינו ברשימת-המותרים מתקבלת שגיאה ב-C201. זו בקרה זולה למניעת מתכונים שגויים, מקבילה ל-OS24 של ה-BOM.",
           purposeHe: "למנוע טעויות-הזנה ולשמור על היגיון-מבני: רק מה שמיוצר תהליכית מקבל Master Recipe.",
           processExampleHe: "ניסיון ליצור מתכון שבכותרתו ROH מחזיר 'Material type not allowed for task list' — המערכת חוסמת בשורש.",
-          cbcHe: "ב-CBC רק FERT (משקה מוגמר) ו-HALB (תערובת-בסיס) מורשים ככותרת-מתכון; ROH (תרכיז/סוכר) חסומים.",
+          scenarioHe: "בארגון רק FERT (משקה מוגמר) ו-HALB (תערובת-בסיס) מורשים ככותרת-מתכון; ROH (תרכיז/סוכר) חסומים.",
           navHe: ["Production Planning for Process Industries ► Master Data ► Master Recipe ► General Data ► Define Material Type Assignment"],
           tables: ["T418", "TCA01"],
           tcodes: ["OP50", "C201"],
@@ -134,7 +134,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "הסטטוס נושא אינדיקטורים (Released, consistent for costing, released for order). מגדירים את ערכי-הסטטוס בקונפיגורציה, והם נבדקים בעת בחירת-המתכון בפק\"ע. מתכון לא-עקבי (אזהרות בבדיקת-עקביות) עלול להיחסם לתמחיר.",
           purposeHe: "לנהל את מחזור-חיי המתכון — פיתוח, אישור, ייצור — בלי למחוק/לשחזר מבנים.",
           processExampleHe: "מתכון-בפיתוח נשמר בסטטוס 1; אחרי בדיקת-עקביות ואישור-QA מעבירים ל-Status 4, וכל הפק\"עות התהליכיות מתחילות להשתמש בו.",
-          cbcHe: "ב-CBC מוצר-משקה חדש מקבל סטטוס לא-משוחרר עד אישור-מעבדה, ואז Status 4 לפני ייצור מסחרי.",
+          scenarioHe: "בארגון מוצר-משקה חדש מקבל סטטוס לא-משוחרר עד אישור-מעבדה, ואז Status 4 לפני ייצור מסחרי.",
           navHe: ["Production Planning for Process Industries ► Master Data ► Master Recipe ► Define Task List Status"],
           tables: ["TCA21", "PLKO"],
           tcodes: ["OP46", "C202"],
@@ -164,8 +164,8 @@ export const CH4: TextbookChapter = {
         "לתרגם ערכי-זמן-תקן של שלבי-המתכון למשך-ייצור, לעומס-קיבולת ולעלות; Resource מוגדר נכון = תזמון ועלות-פק\"ע מדויקים.",
       processExampleHe:
         "Phase 'ערבול' במתכון מצביעה על Resource 'מערבל-01' ונושאת Setup=20דק', Machine=90דק'. נוסחת-התזמון מתרגמת למשך-שלב; נוסחת-הקיבולת לעומס; נוסחת-העלות מכפילה בתעריף-Activity לעלות-העבודה.",
-      cbcHe:
-        "ב-CBC טנק-ערבול וקו-מילוי = Resources מסוג 'מכונה' עם Activity Types למכונה ולכוח-אדם; תעריפי KP26 מזינים את עלות-המשקה דרך שלבי-הפק\"ע התהליכית.",
+      scenarioHe:
+        "בארגון טנק-ערבול וקו-מילוי = Resources מסוג 'מכונה' עם Activity Types למכונה ולכוח-אדם; תעריפי KP26 מזינים את עלות-המשקה דרך שלבי-הפק\"ע התהליכית.",
       navHe: [
         "Production Planning for Process Industries ► Master Data ► Resources ► General Data ► Define Resource Category",
         "Production Planning for Process Industries ► Master Data ► Resources ► Capacity Planning ► Standard Value Key (OP19)",
@@ -230,7 +230,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "ב-CRC1 מאוכלסות תצוגות-הבסיס: Category, Standard Value Key, יחידות, Control Keys ברירת-מחדל, ושיוך Cost Center/Activity Types. נתונים אלה הם תנאי-סף לתזמון, לקיבולת ולעלות.",
           purposeHe: "להקים את הכלי כאובייקט נתוני-אב שלם לפני שיוכו לשלבי-מתכון.",
           processExampleHe: "יצירת 'מערבל-01' ב-CRC1 עם Category 'מכונה', SVK עם Setup/Machine/Labor, ושיוך ל-Cost Center הקו.",
-          cbcHe: "ב-CBC כל טנק וקו-מילוי מוקם כ-Resource עם נתוני-אב מלאים: SVK אחיד, Cost Center של אזור-הייצור, Activity Types למכונה ולתפעול.",
+          scenarioHe: "בארגון כל טנק וקו-מילוי מוקם כ-Resource עם נתוני-אב מלאים: SVK אחיד, Cost Center של אזור-הייצור, Activity Types למכונה ולתפעול.",
           navHe: ["Production Planning for Process Industries ► Master Data ► Resources ► General Data"],
           tables: ["CRHD", "CRTX"],
           tcodes: ["CRC1", "CRC2"],
@@ -249,7 +249,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "מגדירים Capacity Category, Available Capacity (KAKO), Utilization וניצולת; נתונים אלה מזינים את תזמון-הפק\"ע ואת ניתוח-העומס (CM01). תכנון-קיבולת תהליכי רגיש לזמני-ניקוי/החלפה בין אצוות.",
           purposeHe: "לאפשר תזמון מדויק ותכנון-עומס של ה-Resource לאורך-זמן.",
           processExampleHe: "מערבל בעל קיבולת זמינה 16 שע'/יום; פק\"עות מתוזמנות מולו, וניתוח-עומס (CM01) מציג צווארי-בקבוק.",
-          cbcHe: "ב-CBC קו-מילוי עם קיבולת לפי משמרות; זמני-ניקוי בין-אצוות (Changeover) נכללים בתכנון-העומס.",
+          scenarioHe: "בארגון קו-מילוי עם קיבולת לפי משמרות; זמני-ניקוי בין-אצוות (Changeover) נכללים בתכנון-העומס.",
           navHe: ["Production Planning for Process Industries ► Master Data ► Resources ► Capacity Planning"],
           tables: ["KAKO", "CRCA"],
           tcodes: ["CRC2", "CM01"],
@@ -268,7 +268,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "בעת המרת-פק\"ע השלבים מתוזמנים מול ה-Resource לפי נוסחאות-התזמון; ה-Control Key קובע אם דיווח (Confirmation) אפשרי. דיווח מעדכן Activity quantities ל-CO ומפחית עומס-קיבולת.",
           purposeHe: "לחבר את הגדרת-ה-Resource לביצוע-בפועל: תזמון, דיווח והפחתת-עומס.",
           processExampleHe: "פק\"ע משוחררת מתזמנת שלב-ערבול על המערבל; המפעיל מדווח (CORK) זמן בפועל, והעומס מתעדכן.",
-          cbcHe: "ב-CBC דיווח שלבי-המילוי מעדכן עלות-Activity וכמות-מיוצרת לכל אצווה.",
+          scenarioHe: "בארגון דיווח שלבי-המילוי מעדכן עלות-Activity וכמות-מיוצרת לכל אצווה.",
           navHe: ["Production Planning for Process Industries ► Process Order ► Confirmation"],
           tables: ["AFRU", "AFKO", "AFVC"],
           tcodes: ["COR6N", "CORK", "COR2"],
@@ -287,7 +287,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "ב-CRC2 משייכים Cost Center + Activity Types; ב-KP26 מזינים תעריפים. נוסחת-העלות (OP21) מכפילה Standard Value בתעריף. עקביות בין ה-Resource ל-CO (תקופות, גרסת-תכנון) חיונית לתמחיר-תקן ולסטיות.",
           purposeHe: "לאפשר חישוב עלות-עבודה מדויקת לכל שלב-מתכון ולחשב סטיות מול תקן.",
           processExampleHe: "שלב-ערבול 90דק' × תעריף-מכונה (KP26) = עלות-Activity; מצטבר לעלות-הפק\"ע התהליכית בסגירה.",
-          cbcHe: "ב-CBC תעריפי-KP26 לקווי-המילוי מזינים את עלות-המשקה; סטיות נותחות מול תמחיר-התקן (CK11N/CK40N).",
+          scenarioHe: "בארגון תעריפי-KP26 לקווי-המילוי מזינים את עלות-המשקה; סטיות נותחות מול תמחיר-התקן (CK11N/CK40N).",
           navHe: ["Production Planning for Process Industries ► Master Data ► Resources ► Costing"],
           tables: ["CRCO", "COKL"],
           tcodes: ["KP26", "CRC2", "CK11N"],
@@ -309,13 +309,13 @@ export const CH4: TextbookChapter = {
       beginnerHe:
         "מתכון עובר 'שלבי-בשלות': מטיוטה (סטטוס נמוך) למאושר-לייצור (Status 4). רק כשהוא משוחרר, פק\"ע יכולה להשתמש בו בפועל. הסטטוס מונע שימוש במתכונים לא-בשלים.",
       consultantHe:
-        "הסטטוס נבדק בבחירת-המתכון בעת המרת-הפק\"ע ובתמחיר. לצד 'Released' קיימים אינדיקטורים ל-'Released for order' ו-'Consistent for costing'. ניתן לנהל זרימת-אישור: סטטוס-ביניים שמאפשר תכנון אך לא ייצור-מסחרי. תיאום עם QM ב-CBC לרוב מחייב אישור-מעבדה לפני Status 4.",
+        "הסטטוס נבדק בבחירת-המתכון בעת המרת-הפק\"ע ובתמחיר. לצד 'Released' קיימים אינדיקטורים ל-'Released for order' ו-'Consistent for costing'. ניתן לנהל זרימת-אישור: סטטוס-ביניים שמאפשר תכנון אך לא ייצור-מסחרי. תיאום עם QM בארגון לרוב מחייב אישור-מעבדה לפני Status 4.",
       purposeHe:
         "לשלוט במחזור-חיי המתכון ולמנוע שימוש-ייצור בגרסאות לא-מאושרות או לא-עקביות.",
       processExampleHe:
         "מתכון-משקה חדש: סטטוס 1 בפיתוח ➔ בדיקת-עקביות (C202) ➔ אישור-QA ➔ Status 4 ➔ זמין לפק\"ע ולתמחיר.",
-      cbcHe:
-        "ב-CBC כל שינוי-מתכון תחת רגולציית-מזון עובר אישור-מעבדה לפני Status 4; מתכון לא-משוחרר חסום לייצור מסחרי.",
+      scenarioHe:
+        "בארגון כל שינוי-מתכון תחת רגולציית-מזון עובר אישור-מעבדה לפני Status 4; מתכון לא-משוחרר חסום לייצור מסחרי.",
       navHe: [
         "Production Planning for Process Industries ► Master Data ► Master Recipe ► Define Task List Status",
       ],
@@ -373,8 +373,8 @@ export const CH4: TextbookChapter = {
         "לקשר סוג-פק\"ע תהליכית למפעל ולקבוע כיצד הפק\"ע מוצאת את המתכון וה-BOM הנכונים.",
       processExampleHe:
         "יצירת פק\"ע PI01 במפעל 1010: לשונית נתוני-האב קובעת בחירת Master Recipe אוטומטית דרך Production Version, ו-Application מתאים לבחירת-מתכון.",
-      cbcHe:
-        "ב-CBC PI01 מוגדר בכל מפעלי-המילוי; כל מפעל מצביע על אסטרטגיית בחירת-מתכון משלו דרך Production Versions של קוויו.",
+      scenarioHe:
+        "בארגון PI01 מוגדר בכל מפעלי-המילוי; כל מפעל מצביע על אסטרטגיית בחירת-מתכון משלו דרך Production Versions של קוויו.",
       navHe: [
         "Production Planning for Process Industries ► Process Order ► Master Data ► Order ► Define Order Type-Dependent Parameters (COR4)",
       ],
@@ -428,7 +428,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "Process Order = Category 40; Master Recipe = Task List Type 2; Phase = תת-שלב נושא-עלות; Control Recipe = חבילת-הוראות לרצפה; PI Sheet = ממשק-המפעיל; Process Message = דיווח חוזר מהרצפה ל-ERP.",
           purposeHe: "לבסס אוצר-מילים אחיד שעליו נשענת כל הקונפיגורציה התהליכית.",
           processExampleHe: "פק\"ע (Order Type PI01) ➔ Master Recipe עם Phases ➔ Control Recipe ➔ PI Sheet ➔ Process Messages חוזרות.",
-          cbcHe: "ב-CBC צוות-ההטמעה מאמץ את אותו מילון-מונחים כדי שתקשורת PP-PI תהיה חד-משמעית.",
+          scenarioHe: "בארגון צוות-ההטמעה מאמץ את אותו מילון-מונחים כדי שתקשורת PP-PI תהיה חד-משמעית.",
           navHe: ["Production Planning for Process Industries ► Process Management (terminology overview)"],
           tables: ["AFKO", "T399X"],
           tcodes: ["COR1", "COR4"],
@@ -447,7 +447,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "כלי-ההעתקה (Copy Order Type / Reference Plant) מאפשרים לשכפל COR4 בין מפעלים; פרופילי-תזמון וזמינות הסטנדרטיים משמשים בסיס. מומלץ להתחיל מהסטנדרט ולהתאים, לא לבנות מחדש.",
           purposeHe: "להאיץ מימוש ולהבטיח עקביות בין מפעלים דרך ברירות-מחדל וכלי-העתקה.",
           processExampleHe: "מפעל חדש: מעתיקים COR4 ממפעל-ייחוס קיים, ומתאימים רק Costing Variants ובחירות-מתכון מקומיות.",
-          cbcHe: "ב-CBC הגדרת מפעל-מילוי חדש מתבססת על העתקת-קונפיגורציה ממפעל-ייחוס, עם התאמות מקומיות מעטות.",
+          scenarioHe: "בארגון הגדרת מפעל-מילוי חדש מתבססת על העתקת-קונפיגורציה ממפעל-ייחוס, עם התאמות מקומיות מעטות.",
           navHe: ["Production Planning for Process Industries ► Process Order ► Master Data ► Order ► Define Order Type-Dependent Parameters (COR4)"],
           tables: ["T399X", "AFKO"],
           tcodes: ["COR4", "OPJH"],
@@ -474,8 +474,8 @@ export const CH4: TextbookChapter = {
         "לסגור את לולאת-הדיווח: להעביר נתוני-ייצור בפועל מהרצפה ל-ERP באופן מובנה ואמין.",
       processExampleHe:
         "PI Sheet מבקש מהמפעיל להזין כמות-מיוצרת וטמפרטורה; בשליחה נוצרת Process Message מקטגוריה מתאימה, שמעדכנת את כמות-הפק\"ע ואת רשומת-האצווה.",
-      cbcHe:
-        "ב-CBC הודעות-תהליך מדווחות כמות-מילוי, °Brix וטמפרטורת-פסטור לכל אצווה; היעד מעדכן פק\"ע ומאפייני-אצווה ל-Traceability.",
+      scenarioHe:
+        "בארגון הודעות-תהליך מדווחות כמות-מילוי, °Brix וטמפרטורת-פסטור לכל אצווה; היעד מעדכן פק\"ע ומאפייני-אצווה ל-Traceability.",
       navHe: [
         "Production Planning for Process Industries ► Process Management ► Process Message ► Define Message Categories",
         "Production Planning for Process Industries ► Process Management ► Process Message ► Define Message Destinations",
@@ -529,7 +529,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "ב-CT04 יוצרים Characteristic עם Data Type (מספרי/תווי/תאריך), יחידות וטווח-ערכים. הוא משובץ אחר-כך ב-Message Category. שמות-מאפיינים סטנדרטיים (PPPI_*) מסופקים ע\"י SAP.",
           purposeHe: "להגדיר אילו ערכי-מדידה הודעת-התהליך יכולה לשאת, בצורה מובנית ומבוקרת.",
           processExampleHe: "יצירת Characteristic 'PPPI_PRODUCED_QUANTITY' מספרי ביחידת-נפח; הוא משובץ בקטגוריית-הודעה לדיווח-כמות.",
-          cbcHe: "ב-CBC מאפיינים: כמות-מילוי, °Brix, טמפרטורת-פסטור — כל אחד Characteristic נפרד עם יחידות וטווח.",
+          scenarioHe: "בארגון מאפיינים: כמות-מילוי, °Brix, טמפרטורת-פסטור — כל אחד Characteristic נפרד עם יחידות וטווח.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Process Message ► Define Characteristics (CT04)"],
           tables: ["CABN", "CAWN"],
           tcodes: ["CT04", "CO9C"],
@@ -548,7 +548,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "מגדירים Destination עם Destination Type (פונקציית-עיבוד SAP-delivered או מותאמת). דוגמאות: PI01 לעדכון-פק\"ע, PI04 לתנועות-מלאי. ההודעה מועברת ל-Destination בעיבוד (CO54).",
           purposeHe: "לנתב כל סוג-נתון מדווח ליעד-העיבוד הנכון ב-ERP.",
           processExampleHe: "הודעת כמות-מיוצרת ➔ Destination 'עדכון-פק\"ע' ➔ מעדכן Yield; הודעת תנועת-חומר ➔ Destination 'מלאי' ➔ רושמת Goods Movement.",
-          cbcHe: "ב-CBC כמות-מילוי מנותבת לעדכון-פק\"ע; ערכי-איכות מנותבים לעדכון מאפייני-האצווה.",
+          scenarioHe: "בארגון כמות-מילוי מנותבת לעדכון-פק\"ע; ערכי-איכות מנותבים לעדכון מאפייני-האצווה.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Process Message ► Define Destinations"],
           tables: ["CABTD", "TCABD"],
           tcodes: ["CO9C", "CO54"],
@@ -567,7 +567,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "מגדירים Category, משייכים לה Characteristics ו-Destinations, וקובעים אילו חובה. SAP מספק קטגוריות סטנדרטיות (PI_CRST, PI_PROD וכד'). הקטגוריה נקראת ע\"י ה-Process Instruction בעת בניית ה-PI Sheet.",
           purposeHe: "לתקנן סוגי-הודעות ולקשר בין מאפייני-המדידה ליעדי-העיבוד שלהם.",
           processExampleHe: "קטגוריית 'דיווח-כמות' מאגדת Characteristic 'כמות' + Destination 'עדכון-פק\"ע'; PI Sheet יוצר הודעה מקטגוריה זו בשליחת-ערך.",
-          cbcHe: "ב-CBC קטגוריות נפרדות: 'דיווח-מילוי' (כמות→פק\"ע) ו'דיווח-איכות' (Brix/טמפ'→אצווה).",
+          scenarioHe: "בארגון קטגוריות נפרדות: 'דיווח-מילוי' (כמות→פק\"ע) ו'דיווח-איכות' (Brix/טמפ'→אצווה).",
           navHe: ["Production Planning for Process Industries ► Process Management ► Process Message ► Define Message Categories"],
           tables: ["CABTS", "CABTD"],
           tcodes: ["CO9C", "CO60"],
@@ -594,8 +594,8 @@ export const CH4: TextbookChapter = {
         "להגדיר את שפת-ההוראות שמתרגמת מתכון לפעולות-רצפה מובנות ולדיווח-חוזר.",
       processExampleHe:
         "Phase 'מילוי' נושאת PIs: הצג 'התחל מילוי' ➔ בקש כמות-בפועל ➔ חשב סטייה ➔ צור Process Message לעדכון-פק\"ע. כל אלה מופיעים ב-PI Sheet כשורות.",
-      cbcHe:
-        "ב-CBC PI Sheet של קו-מילוי מציג הוראות: אשר ניקוי-קו, הזן כמות-מילוי, רשום °Brix, ושלח אישור-אצווה — הכל כ-Process Instructions.",
+      scenarioHe:
+        "בארגון PI Sheet של קו-מילוי מציג הוראות: אשר ניקוי-קו, הזן כמות-מילוי, רשום °Brix, ושלח אישור-אצווה — הכל כ-Process Instructions.",
       navHe: [
         "Production Planning for Process Industries ► Process Management ► Process Instruction ► Define Process Instruction Types",
         "Production Planning for Process Industries ► Process Management ► Process Instruction ► Define Process Instruction Categories",
@@ -650,7 +650,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "ה-PI Types מסופקים ע\"י SAP וקובעים את הלוגיקה הבסיסית; ה-PI Category (מבוססת-Characteristic) מפרטת אותם. בחירת-הסוג הנכון היא הצעד הראשון בבניית-הוראה.",
           purposeHe: "להגדיר את אופי-ההוראה — קלט, דיווח, החלטה או חישוב.",
           processExampleHe: "הוראת 'הזן כמות' = Process data request; הוראת 'דווח כמות לפק\"ע' = Process message; הוראת 'אם טמפ'>X דלג' = Sequence definition.",
-          cbcHe: "ב-CBC: 'הזן °Brix' = data request; 'שלח אישור-אצווה' = message; 'חשב סטיית-מילוי' = calculation.",
+          scenarioHe: "בארגון: 'הזן °Brix' = data request; 'שלח אישור-אצווה' = message; 'חשב סטיית-מילוי' = calculation.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Process Instruction ► Define Process Instruction Types"],
           tables: ["TC60", "CABN"],
           tcodes: ["CO9A", "CT04"],
@@ -669,7 +669,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "ה-Assistant מציג רשימת-PI Categories זמינות ובונה את ההוראה עם ה-Characteristics הנכונים. הוא מומלץ במיוחד לבעלי-תפקיד פונקציונליים שאינם מתמצאים בתשתית-ה-Classification.",
           purposeHe: "להאיץ ולפשט בניית-הוראות, ולהנגיש אותה למשתמשים לא-טכניים.",
           processExampleHe: "מתכנן בונה PI Sheet: ה-Assistant מציע 'בקשת-כמות', בוחר את ה-Characteristics, ומשבץ את ההוראה ב-Phase.",
-          cbcHe: "ב-CBC צוות-ההטמעה משתמש ב-PI Assistant לבניית PI Sheets לקווי-מילוי במהירות ובאחידות.",
+          scenarioHe: "בארגון צוות-ההטמעה משתמש ב-PI Assistant לבניית PI Sheets לקווי-מילוי במהירות ובאחידות.",
           navHe: ["Production Planning for Process Industries ► Master Data ► Master Recipe ► Process Instruction Assistant"],
           tables: ["PLPO", "TC60"],
           tcodes: ["C201", "CO9A"],
@@ -688,7 +688,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "מגדירים Category חדשה מעל PI Type, משייכים Characteristics (CT04) וקובעים שדות-חובה והתנהגות. נדרש כשתהליך-הארגון מבקש ערכי-מדידה או לוגיקה שאין בסטנדרט.",
           purposeHe: "להתאים את שפת-ההוראות לדרישות-תהליך ייחודיות שאינן מכוסות בסטנדרט.",
           processExampleHe: "ארגון מבקש לדווח 'קוד-נקיון-CIP'; מגדירים PI Category מותאמת מעל 'Process message' עם Characteristic ייעודי.",
-          cbcHe: "ב-CBC קטגוריה מותאמת לדיווח-CIP (Clean-In-Place) של קווי-מילוי, שאינו חלק מהסטנדרט.",
+          scenarioHe: "בארגון קטגוריה מותאמת לדיווח-CIP (Clean-In-Place) של קווי-מילוי, שאינו חלק מהסטנדרט.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Process Instruction ► Define Process Instruction Categories"],
           tables: ["TC60", "CABN"],
           tcodes: ["CO9A", "CT04"],
@@ -707,7 +707,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "ב-CT04 יוצרים Characteristic מותאם (לא PPPI_ אלא תחילית-לקוח Z*) עם Data Type, יחידות וטווח. הוא משובץ ב-PI Category המותאמת ומשמש גם ל-Process Message ולעדכון-אצווה במידת-הצורך.",
           purposeHe: "להרחיב את מאגר ערכי-המדידה הניתנים לדיווח מעבר לסטנדרט.",
           processExampleHe: "יצירת Characteristic 'Z_CIP_CODE' תווי; שיבוצו בקטגוריית-CIP המותאמת מאפשר דיווח קוד-הנקיון.",
-          cbcHe: "ב-CBC Characteristic מותאם 'Z_CIP_RESULT' לתיעוד תוצאת-נקיון-קו לכל אצווה.",
+          scenarioHe: "בארגון Characteristic מותאם 'Z_CIP_RESULT' לתיעוד תוצאת-נקיון-קו לכל אצווה.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Process Instruction ► Define Characteristics (CT04)"],
           tables: ["CABN", "CAWN"],
           tcodes: ["CT04", "CO9A"],
@@ -734,8 +734,8 @@ export const CH4: TextbookChapter = {
         "לאוטומט את מחזור-חיי הפק\"ע התהליכית — שחרור, יצירת/שליחת Control Recipe ו-GR — ולהבטיח שהוראות-התהליך מגיעות לרצפה בזמן.",
       processExampleHe:
         "המרת הזמנה-מתוכננת לפק\"ע PI01: הפרופיל המשויך גורם לשחרור-מיידי, יצירת Control Recipe אוטומטית (Scope of Generation = at release) ושליחתו ל-Destination של הקו.",
-      cbcHe:
-        "ב-CBC לכל FERT/HALB תהליכי משויך Production Scheduling Profile שמייצר ושולח Control Recipe אוטומטית לקו-המילוי בעת שחרור-הפק\"ע — ללא צעד ידני.",
+      scenarioHe:
+        "בארגון לכל FERT/HALB תהליכי משויך Production Scheduling Profile שמייצר ושולח Control Recipe אוטומטית לקו-המילוי בעת שחרור-הפק\"ע — ללא צעד ידני.",
       navHe: [
         "Production Planning for Process Industries ► Process Order ► Master Data ► Define Production Scheduling Profile (OPKP)",
       ],
@@ -789,7 +789,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "מגדירים Destination עם סוג: 1 (PI Sheet) / 2-4 (external via PI-PCS / IDoc). ה-Destination מקושר ב-Control Recipe Destination בשלבי-המתכון. בחירת-הסוג קובעת אם המפעיל ממלא ידנית או שהמכונה מקבלת אוטומטית.",
           purposeHe: "להגדיר את ערוץ-המסירה של הוראות-התהליך מה-ERP לרצפה או למערכת-הבקרה.",
           processExampleHe: "Destination סוג-1 לקו ידני ➔ PI Sheet למפעיל; Destination סוג-3 לקו-אוטומטי ➔ Control Recipe נשלח כ-IDoc למחשב-הבקרה.",
-          cbcHe: "ב-CBC קווי-מילוי ידניים מקבלים PI Sheet (Destination 1); קווים אוטומטיים מקבלים Control Recipe ל-PCS דרך interface.",
+          scenarioHe: "בארגון קווי-מילוי ידניים מקבלים PI Sheet (Destination 1); קווים אוטומטיים מקבלים Control Recipe ל-PCS דרך interface.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Control Recipe ► Define Control Recipe Destinations (CORD)"],
           tables: ["TCRD", "PLPO"],
           tcodes: ["CORD", "CO53"],
@@ -808,7 +808,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "בפרופיל (OPKP) קובעים Scope of Generation: 'at release' = אוטומטי בשחרור; ערך-אחר = ידני דרך CO53. בשילוב Destination, זה משלים את האוטומציה המלאה. ערך ידני בטעות הוא סיבה נפוצה ל-Control Recipe חסר.",
           purposeHe: "לקבוע את עיתוי יצירת-ה-Control Recipe ואת מידת-האוטומציה של זרימת-ההוראות.",
           processExampleHe: "Scope = at release: שחרור-פק\"ע מייצר מיד את ה-Control Recipe ושולחו ל-Destination; אין צעד-ביניים ידני.",
-          cbcHe: "ב-CBC הפרופילים מוגדרים Scope = at release כך שכל פק\"ע משוחררת מייצרת ושולחת Control Recipe לקו אוטומטית.",
+          scenarioHe: "בארגון הפרופילים מוגדרים Scope = at release כך שכל פק\"ע משוחררת מייצרת ושולחת Control Recipe לקו אוטומטית.",
           navHe: ["Production Planning for Process Industries ► Process Order ► Master Data ► Define Production Scheduling Profile (OPKP)"],
           tables: ["T399P", "AFKO"],
           tcodes: ["OPKP", "CO53"],
@@ -835,8 +835,8 @@ export const CH4: TextbookChapter = {
         "לחבר את ההגדרה הגנרית (OPKP) לחומר הספציפי, ובכך להפעיל את האוטומציות בפועל לכל פק\"ע של אותו חומר.",
       processExampleHe:
         "עדכון MARC-SFCPF למשקה-X לפרופיל 'PI_AUTO'; מעתה כל פק\"ע של משקה-X משוחררת, מייצרת Control Recipe ושולחת אותו אוטומטית — בלי לגעת בפק\"ע.",
-      cbcHe:
-        "ב-CBC כל חומר-משקה מקבל SFCPF בעת פתיחתו; checklist פתיחת-חומר תהליכי כולל אימות-SFCPF כשדה-חובה דה-פקטו.",
+      scenarioHe:
+        "בארגון כל חומר-משקה מקבל SFCPF בעת פתיחתו; checklist פתיחת-חומר תהליכי כולל אימות-SFCPF כשדה-חובה דה-פקטו.",
       navHe: [
         "Logistics ► Material Master ► Work Scheduling view ► Production Scheduling Profile (MM02)",
       ],
@@ -890,7 +890,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "השליחה ממירה Control Recipe (status: created) ל-PI Sheet (אם Destination 1) או ל-IDoc/interface (אם חיצוני). הפרופיל המשויך ב-SFCPF קובע אם זה אוטומטי בשחרור. ניטור ב-CO53/CO60.",
           purposeHe: "להעביר את הוראות-התהליך לרצפה — ידנית או אוטומטית — כדי שהמפעיל/המכונה יוכלו לבצע.",
           processExampleHe: "שחרור-פק\"ע ➔ Control Recipe נוצר ונשלח ➔ ב-Destination 1 הופך ל-PI Sheet הזמין למפעיל ב-CO60.",
-          cbcHe: "ב-CBC שליחה אוטומטית: הפעלת-קו מתחילה כש-PI Sheet מופיע במסך-המפעיל מיד עם שחרור-הפק\"ע.",
+          scenarioHe: "בארגון שליחה אוטומטית: הפעלת-קו מתחילה כש-PI Sheet מופיע במסך-המפעיל מיד עם שחרור-הפק\"ע.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Control Recipe ► Send Control Recipes (CO53)"],
           tables: ["TCRD", "AFKO"],
           tcodes: ["CO53", "CO60"],
@@ -909,7 +909,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "ב-PI Sheet המפעיל יוצר Messages; שליחתן (CO54) מנתבת ל-Destinations שעודכנו בקטגוריה — עדכון Yield, תנועות-מלאי, מאפייני-אצווה. ניתן לאצור ולשלוח באצווה. ניטור ב-CO54/CO55.",
           purposeHe: "לסגור את לולאת-הדיווח: להזרים נתוני-בפועל מהרצפה ל-ERP באופן מבוקר.",
           processExampleHe: "מפעיל מסיים PI Sheet עם כמות+Brix ➔ שולח Process Messages ➔ CO54 מעבד: הפק\"ע מתעדכנת ומאפייני-האצווה נכתבים.",
-          cbcHe: "ב-CBC סיום-אצווה: כמות-המילוי מעדכנת את הפק\"ע, ו-°Brix/טמפ' נכתבים למאפייני-האצווה ל-Traceability.",
+          scenarioHe: "בארגון סיום-אצווה: כמות-המילוי מעדכנת את הפק\"ע, ו-°Brix/טמפ' נכתבים למאפייני-האצווה ל-Traceability.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Process Message ► Send Process Messages (CO54)"],
           tables: ["CABTD", "AUSP"],
           tcodes: ["CO54", "CO55", "CO60"],
@@ -928,7 +928,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "מחיקה (CO57) מסירה Messages במצב מעובד/שגוי. יש לשמור הודעות עד עיבוד מוצלח; מחיקה מוקדמת מאבדת דיווח. בסביבה רגולטורית יש להקפיד על מדיניות-שימור לפני מחיקה.",
           purposeHe: "לתחזק את מאגר-ההודעות נקי ויעיל, תוך שמירה על דרישות-שימור.",
           processExampleHe: "אחרי עיבוד מוצלח (CO54) מוחקים את ה-Messages המעובדות (CO57); הודעה שגויה שדווחה בטעות נמחקת ידנית.",
-          cbcHe: "ב-CBC מדיניות-שימור: מוחקים רק הודעות מעובדות, ורק אחרי גיבוי לצורכי-ביקורת רגולטורית.",
+          scenarioHe: "בארגון מדיניות-שימור: מוחקים רק הודעות מעובדות, ורק אחרי גיבוי לצורכי-ביקורת רגולטורית.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Process Message ► Delete Process Messages (CO57)"],
           tables: ["CABTD"],
           tcodes: ["CO57", "CO55"],
@@ -955,8 +955,8 @@ export const CH4: TextbookChapter = {
         "להבטיח ביצוע-מבוקר ודיווח-אמין של הייצור התהליכי, כולל Traceability מלא של כל אצווה לצורכי-איכות ורגולציה.",
       processExampleHe:
         "אצווה מתחילה: Control Recipe נוצר ונשלח ➔ PI Sheet מנחה את המפעיל שלב-אחר-שלב ➔ המפעיל מזין כמויות וערכי-איכות ➔ Process Messages חוזרות ומעדכנות פק\"ע ואצווה ➔ האצווה נסגרת עם תיעוד-מלא.",
-      cbcHe:
-        "ב-CBC כל אצוות-משקה עוברת את המחזור המלא: הוראות-מילוי לקו, דיווח כמות/Brix/טמפ' חזרה, ותיעוד-אצווה מקצה-לקצה — בסיס ל-Traceability ולתביעות-איכות.",
+      scenarioHe:
+        "בארגון כל אצוות-משקה עוברת את המחזור המלא: הוראות-מילוי לקו, דיווח כמות/Brix/טמפ' חזרה, ותיעוד-אצווה מקצה-לקצה — בסיס ל-Traceability ולתביעות-איכות.",
       navHe: [
         "Production Planning for Process Industries ► Process Management ► (Control Recipe / PI Sheet / Process Message)",
       ],
@@ -996,7 +996,7 @@ export const CH4: TextbookChapter = {
       interviewHe: [
         { qHe: "מהי השכבה שמייחדת PP-PI מ-Discrete?", aHe: "Process Management — feedback-loop דו-כיווני: Control Recipe/PI Sheet לרצפה, Process Messages חזרה ל-ERP." },
         { qHe: "תאר את מחזור Process Management מקצה-לקצה.", aHe: "שחרור-פק\"ע ➔ Control Recipe ➔ שליחה ➔ PI Sheet/PCS ➔ ביצוע+דיווח ➔ Process Messages ➔ עיבוד (CO54) ➔ עדכון פק\"ע/מלאי/אצווה." },
-        { qHe: "מדוע Process Management קריטי ב-CBC?", aHe: "הוא מספק Traceability מלא לכל אצוות-משקה — בסיס לאיכות, רגולציית-מזון ותחקור-תלונות." },
+        { qHe: "מדוע Process Management קריטי בארגון?", aHe: "הוא מספק Traceability מלא לכל אצוות-משקה — בסיס לאיכות, רגולציית-מזון ותחקור-תלונות." },
       ],
       takeawaysHe: [
         "Process Management = ה-feedback-loop של PP-PI.",

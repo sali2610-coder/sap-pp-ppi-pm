@@ -1,6 +1,6 @@
 // ===== QM Digital Textbook — Chapter 13 (Engineering Change Management) =====
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
-// Beginner + consultant friendly; SAP identifiers verbatim EN; CBC = Coca-Cola
+// Beginner + consultant friendly; SAP identifiers verbatim EN; הארגון = Example Product
 // bottling recipe/spec change control. Hierarchy + ids preserved exactly.
 import type { TextbookChapter } from "./types";
 
@@ -9,7 +9,7 @@ export const CH13: TextbookChapter = {
   titleHe: "ניהול שינויים הנדסי (ECM)",
   titleEn: "Engineering Change Management",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לניהול שינויים הנדסי (Engineering Change Management) בהקשר ה-QM. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC (בקרת שינויי מתכון/מפרט בייצור משקאות), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. ECM הוא המנגנון שמבטיח שכל שינוי באובייקט-אב (תוכנית-בדיקה, BOM, מאסטר-בדיקה, מפרט) נעשה תחת מספר-שינוי (Change Number) עם תוקף, אישור ותיעוד מלא — הלב של בקרת-תצורה (Configuration Management) ושל עמידה ברגולציית-מזון.",
+    "פרק זה הוא יחידת-לימוד מלאה לניהול שינויים הנדסי (Engineering Change Management) בהקשר ה-QM. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון (בקרת שינויי מתכון/מפרט בייצור משקאות), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. ECM הוא המנגנון שמבטיח שכל שינוי באובייקט-אב (תוכנית-בדיקה, BOM, מאסטר-בדיקה, מפרט) נעשה תחת מספר-שינוי (Change Number) עם תוקף, אישור ותיעוד מלא — הלב של בקרת-תצורה (Configuration Management) ושל עמידה ברגולציית-מזון.",
   subchapters: [
     // ============================================================ 13.1
     {
@@ -24,8 +24,8 @@ export const CH13: TextbookChapter = {
         "המטרה: לתת מסגרת מבוקרת, מתוארכת ומאושרת לכל שינוי באובייקטי-אב הנדסיים — להבטיח עמידה ברגולציה (מזון/תרופות), בקרת-תצורה, ומעקב-שינויים מלא, מבלי למחוק או לדרוס מידע קודם.",
       processExampleHe:
         "מהנדס-איכות יוצר Change Number ב-CC01 עם Valid-From = 1 בחודש הבא, מסמן Object Type = Inspection plan, ומגדיר סטטוס 'בעיבוד'. הוא עורך את תוכנית-הבדיקה (QP02) תוך ציון אותו Change Number; השינוי נשמר עם תוקף עתידי. בדיקות-קבלה שייפתחו לפני התאריך עדיין משתמשות בתוכנית הישנה; מהתאריך והלאה — בחדשה. לאחר אישור QA הסטטוס מוקפץ ל'משוחרר'.",
-      cbcHe:
-        "ב-CBC כל שינוי במתכון משקה או במפרט-בדיקת-איכות (למשל החמרת סף Brix או הוספת בדיקת-אלרגן) נעשה תחת Change Number ייעודי. ה-Valid-From מסונכרן עם מועד מעבר-הייצור בקו; בדיקות שנפתחו על אצוות שיוצרו לפני המעבר נשארות תחת המפרט הישן — קריטי לרגולציית-מזון ולתחקור-תלונות.",
+      scenarioHe:
+        "בארגון כל שינוי במתכון משקה או במפרט-בדיקת-איכות (למשל החמרת סף Brix או הוספת בדיקת-אלרגן) נעשה תחת Change Number ייעודי. ה-Valid-From מסונכרן עם מועד מעבר-הייצור בקו; בדיקות שנפתחו על אצוות שיוצרו לפני המעבר נשארות תחת המפרט הישן — קריטי לרגולציית-מזון ולתחקור-תלונות.",
       navHe: [
         "Logistics – General ► Engineering Change Management ► Define Change Types (OS54)",
         "Logistics – General ► Engineering Change Management ► Set Up Effectivity Parameters",
@@ -95,7 +95,7 @@ export const CH13: TextbookChapter = {
           consultantHe: "מוגדר ב-BS02 (General Status Management). כל User Status נושא מספר-סדר (Status number — קובע סדר רציף), Lowest/Highest status number (טווח-מעברים מותר), ו-Business transactions שהוא מתיר/אוסר/מחייב. הפרופיל מוצמד לאובייקט CHANGEMASTER ומשויך ל-Change Type ב-OS54. שילוב נכון מאכוף תהליך-אישור — למשל חסימת 'Release' עד הגעה לסטטוס 'Approved'.",
           purposeHe: "לאכוף תהליך-אישור מסודר ובלתי-עקיף על שינויים הנדסיים — כך ששינוי לא-מאושר לא יכול להגיע לייצור, ושכל מעבר-סטטוס מתועד.",
           processExampleHe: "מהנדס יוצר Change Number; הסטטוס ההתחלתי הוא 'In process'. הוא מגיש לאישור (מעבר ל-'Submitted'). מנהל-QA מאשר ('Approved'), ורק אז ניתן 'Release'. ניסיון לדלג ישירות מ-'In process' ל-'Released' נחסם על-ידי טווחי Lowest/Highest.",
-          cbcHe: "ב-CBC פרופיל-הסטטוס אוכף שכל שינוי-מתכון יעבור אישור QA ואישור-רגולציה לפני שחרור לייצור — חסימת 'Released' עד שני האישורים מתועדת ועומדת בביקורת.",
+          scenarioHe: "בארגון פרופיל-הסטטוס אוכף שכל שינוי-מתכון יעבור אישור QA ואישור-רגולציה לפני שחרור לייצור — חסימת 'Released' עד שני האישורים מתועדת ועומדת בביקורת.",
           navHe: ["Logistics – General ► Engineering Change Management ► Define Status Profile (BS02)"],
           tables: ["TJ30", "TJ30T", "AENR"],
           tcodes: ["BS02", "CC01", "CC02"],
@@ -135,7 +135,7 @@ export const CH13: TextbookChapter = {
           consultantHe: "במסך BS02 מתחזקים: שורת-Status (Status / Short text / Status number / Lowest+Highest / Initial / Position+Priority לתצוגה), ולכל סטטוס את לשונית ה-Business transactions (Allowed / Warning / Forbidden / Set / Delete). שינוי בפרופיל פעיל משפיע על Change Masters קיימים — לכן יש לתחזק בזהירות עם בקרת-תעבורה (Transport). ההצמדה ל-Change Type מתבצעת ב-OS54.",
           purposeHe: "לתרגם את עיצוב-התהליך לתצורה אכיפה — ולתחזק אותה לאורך-זמן כשהדרישות העסקיות/הרגולטוריות משתנות.",
           processExampleHe: "צוות-QM מבקש להוסיף סטטוס-ביניים 'Pending Regulatory'. היועץ פותח BS02, מוסיף שורת-סטטוס עם Status number בין 'Submitted' ל-'Approved', מעדכן טווחי Lowest/Highest של השכנים, ומגדיר שב-'Pending Regulatory' עסקת 'Release' אסורה.",
-          cbcHe: "ב-CBC מוסיפים סטטוס 'אישור-רגולציה' לפרופיל שינויי-המתכון, כדי שתחנת-הרגולציה תהפוך לחלק מובנה ובלתי-עקיף בתהליך — מתוחזק ב-BS02 ומופץ לסביבת-הייצור דרך Transport.",
+          scenarioHe: "בארגון מוסיפים סטטוס 'אישור-רגולציה' לפרופיל שינויי-המתכון, כדי שתחנת-הרגולציה תהפוך לחלק מובנה ובלתי-עקיף בתהליך — מתוחזק ב-BS02 ומופץ לסביבת-הייצור דרך Transport.",
           navHe: ["Logistics – General ► Engineering Change Management ► Define Status Profile ► Maintain (BS02)"],
           tables: ["TJ30", "TJ30T", "TJ20"],
           tcodes: ["BS02", "OS54"],
@@ -174,7 +174,7 @@ export const CH13: TextbookChapter = {
           consultantHe: "ב-CC01 קובעים: Change Number (Number range לפי Change Type ב-OS54), Valid-From date, Object Type indicators, Status, ו-Effectivity (Date / Parameter). אפשר להוסיף Alternative Date, אובייקטים ספציפיים (Object overview) ו-Management records לכל אובייקט. הרשומה נכתבת ל-AENR; כל אובייקט מקושר נרשם ב-AEOI. מומלץ Number range פנימי לעקביות. CC31 משמש ליצירת Change Number עם ניהול-היררכי (Change Master Hierarchy / Leading change master).",
           purposeHe: "לפתוח באופן מבוקר את 'מעטפת-השינוי' שתחתיה יבוצעו וירשמו כל העריכות ההנדסיות, עם תוקף, אישור ותיעוד.",
           processExampleHe: "מהנדס פותח CC01, מקבל Change Number פנימי, מזין Valid-From = תחילת הרבעון, מסמן Object Type = Inspection plan + Material, וכותב 'הוספת בדיקת-אלרגן לפי תקן חדש'. שומר; כעת QP02 יקבל את המספר לעריכת-תוכנית-הבדיקה.",
-          cbcHe: "ב-CBC נפתח Change Number לכל גל-שינויים במתכון/מפרט; כאשר שינוי משפיע על כמה אובייקטים (BOM + תוכנית-בדיקה + מאסטר-בדיקה) משתמשים ב-CC31 לניהול-היררכי תחת אב-שינוי מוביל אחד.",
+          scenarioHe: "בארגון נפתח Change Number לכל גל-שינויים במתכון/מפרט; כאשר שינוי משפיע על כמה אובייקטים (BOM + תוכנית-בדיקה + מאסטר-בדיקה) משתמשים ב-CC31 לניהול-היררכי תחת אב-שינוי מוביל אחד.",
           navHe: ["Logistics – General ► Engineering Change Management ► Create Change Master (CC01 / CC31)"],
           tables: ["AENR", "AEOI", "AENV"],
           tcodes: ["CC01", "CC31", "CC02", "CC03"],
@@ -226,7 +226,7 @@ export const CH13: TextbookChapter = {
           consultantHe: "תוכנית-הבדיקה (PLKO כותרת, PLPO פעולות, PLMK מאפייני-בדיקה) נושאת Valid-From בכל גרסה. עריכה ב-QP02 תוך ציון Change Number יוצרת רשומה חדשה עם תוקף מה-Valid-From של אב-השינוי. בעת יצירת מנת-בדיקה (QP01 inspection lot) המערכת מבצעת date-effective explosion — בוחרת את גרסת-התוכנית התקפה לתאריך. כדי שעריכה תחת Change Number תהיה אפשרית, ה-Change Master חייב לסמן Object Type = Inspection plan/Task list, ולעיתים נדרשת History Requirement פעילה לתוכניות.",
           purposeHe: "לנהל שינויי-בדיקה תחת בקרת-תצורה: לדעת בדיוק לפי איזה מפרט נבדקה כל אצווה — חיוני לרגולציה, לתחקור-תלונות ולשחרור-אצוות.",
           processExampleHe: "צריך להחמיר טווח-pH ב-1 בחודש. פותחים Change Number עם Valid-From = 1 בחודש, נכנסים ל-QP02 עם המספר, מעדכנים את ערך-היעד של מאפיין-ה-pH. מנת-בדיקה שתיפתח על אצווה מ-2 בחודש תשתמש בטווח החדש; אצווה מ-28 בחודש הקודם — בישן.",
-          cbcHe: "ב-CBC כל שינוי מפרט-בדיקה (Brix, CO2 volumes, סף-אלרגן) מתוכנת לתוקף תחת Change Number; מנות-הבדיקה של כל אצוות-מילוי נבדקות אוטומטית מול הגרסה התקפה ליום-המילוי שלהן.",
+          scenarioHe: "בארגון כל שינוי מפרט-בדיקה (Brix, CO2 volumes, סף-אלרגן) מתוכנת לתוקף תחת Change Number; מנות-הבדיקה של כל אצוות-מילוי נבדקות אוטומטית מול הגרסה התקפה ליום-המילוי שלהן.",
           navHe: [
             "Quality Management ► Quality Planning ► Inspection Planning ► Change Inspection Plan (QP02)",
             "Logistics – General ► Engineering Change Management ► assign Object Type = Task list to Change Master",
@@ -286,7 +286,7 @@ export const CH13: TextbookChapter = {
           consultantHe: "כוללת שאילתות סביב AENR/AEOI — רשימת Change Masters לפי Valid-From/סטטוס/יוצר, ו-Object overview לכל מספר-שינוי. ב-CC02/CC03 יש Object overview מובנה; דוחות נוספים מאפשרים חתך לפי Object Type. ב-S/4HANA / Fiori קיימים אריחי-ניתוח לשינויים ול-Change Records. השאילתות נשענות על שדות-המפתח: Change Number, Valid-From, Status, Object Type ו-Object key.",
           purposeHe: "לאפשר נראות, ביקורת ותחקור מהירים על כלל פעילות-השינויים — ולתמוך בעמידה ברגולציה ובחקירת-תלונות.",
           processExampleHe: "מבקר-איכות מבקש את כל השינויים בתוכניות-בדיקה ברבעון. דרך מערכת-המידע מסננים Change Masters לפי Object Type = Task list וטווח Valid-From, ומקבלים רשימה עם סטטוס ויוצר — ומשם צוללים ל-Object overview של כל מספר.",
-          cbcHe: "ב-CBC בעת תלונת-צרכן על טעם, QA שולף דרך מערכת-המידע את כל שינויי-המתכון/מפרט שנכנסו לתוקף סביב תאריך-הייצור של האצווה — ומאתר מהר אם שינוי מסוים קשור.",
+          scenarioHe: "בארגון בעת תלונת-צרכן על טעם, QA שולף דרך מערכת-המידע את כל שינויי-המתכון/מפרט שנכנסו לתוקף סביב תאריך-הייצור של האצווה — ומאתר מהר אם שינוי מסוים קשור.",
           navHe: ["Logistics – General ► Engineering Change Management ► Information System / Object Overview (CC02/CC03)"],
           tables: ["AENR", "AEOI", "AENV"],
           tcodes: ["CC02", "CC03"],
@@ -334,8 +334,8 @@ export const CH13: TextbookChapter = {
         "לתת תהליך-עסקי מנוהל ושקוף לשינויים הנדסיים — מבקשה ועד מימוש — עם אחריות, אישורים ותיעוד, מעל הרובד הטכני של אב-השינוי.",
       processExampleHe:
         "בקשת-שינוי נפתחת כ-Change Record (ECR): צוות מעריך השפעה, מאשר; הרשומה עוברת לשלב-מימוש (ECO) שתחתיו נוצר Change Master לעריכת ה-BOM ותוכנית-הבדיקה. עם השלמת המשימות והאישורים — הרשומה נסגרת.",
-      cbcHe:
-        "ב-CBC בקשת שינוי-מתכון נכנסת כ-Change Record; היא עוברת הערכת-השפעה (עלות, רגולציה, מלאי-אריזה ישן), אישור-QA ואישור-רגולציה, ורק אז ממומשת דרך Change Master על ה-BOM ותוכניות-הבדיקה — הכל גלוי ומתועד ב-Engineering Cockpit.",
+      scenarioHe:
+        "בארגון בקשת שינוי-מתכון נכנסת כ-Change Record; היא עוברת הערכת-השפעה (עלות, רגולציה, מלאי-אריזה ישן), אישור-QA ואישור-רגולציה, ורק אז ממומשת דרך Change Master על ה-BOM ותוכניות-הבדיקה — הכל גלוי ומתועד ב-Engineering Cockpit.",
       navHe: [
         "SAP Fiori Launchpad ► Manage Change Records",
         "Logistics – General ► Engineering Change Management ► Change Record configuration",
@@ -389,7 +389,7 @@ export const CH13: TextbookChapter = {
           consultantHe: "אפליקציית Fiori המנהלת Engineering Changes מעל מנגנון ה-ECM; מציגה Change Masters/Records עם Valid-From, Status ו-Affected objects, ומאפשרת drill-down. היא נשענת על אותם נתונים (AENR/AEOI) אך מוסיפה חוויית-משתמש, סינון וניתוח. משמשת כתחליף מודרני ל-CC01/CC02/CC03 בתרחישי S/4HANA Cloud/On-Prem עם Fiori.",
           purposeHe: "להנגיש את יצירת-ומעקב-השינויים בחוויית-משתמש מודרנית, מרוכזת וניתנת-לסינון — ולהפחית תלות בתנועות-המסך הקלאסיות.",
           processExampleHe: "מהנדס פותח את Manage Engineering Changes, מסנן 'In process', בוחר שינוי, בודק את ה-Affected objects ואת ה-Valid-From, ומקדם את הסטטוס — הכל ממסך אחד.",
-          cbcHe: "ב-CBC צוות-ההנדסה מנהל את גל-שינויי-המתכון מ-Manage Engineering Changes: רשימה מסוננת לפי קו-ייצור וסטטוס, עם נראות מיידית לאילו אצוות/מפרטים מושפעים.",
+          scenarioHe: "בארגון צוות-ההנדסה מנהל את גל-שינויי-המתכון מ-Manage Engineering Changes: רשימה מסוננת לפי קו-ייצור וסטטוס, עם נראות מיידית לאילו אצוות/מפרטים מושפעים.",
           navHe: ["SAP Fiori Launchpad ► Manage Engineering Changes"],
           tables: ["AENR", "AEOI"],
           tcodes: ["CC01", "CC02"],
@@ -426,7 +426,7 @@ export const CH13: TextbookChapter = {
           consultantHe: "אפליקציית-Fiori לניהול Change Records מעל Case/Records Management: יצירת רשומה, הקצאת-משתתפים, צירוף-מסמכים, מעקב-משימות ומעברי-סטטוס בין ECR ל-ECO. היא מקשרת Change Master(s) טכניים תחת כל רשומה, ומספקת תצוגת-תהליך רוחבית. נשענת על טבלאות Case (SCMG_*) בנוסף ל-AENR/AEOI של המימוש הטכני.",
           purposeHe: "לנהל את התהליך-העסקי של השינוי (אנשים, אישורים, מסמכים, משימות) במקום מרוכז ושקוף — מעל הביצוע-הטכני.",
           processExampleHe: "מנהל-שינויים פותח Manage Change Records, יוצר רשומה לבקשת-שינוי, מקצה מעריכים, עוקב אחר אישורים, ובמעבר ל-ECO מקשר את ה-Change Master שמבצע את העריכה הטכנית.",
-          cbcHe: "ב-CBC כל בקשת שינוי-מתכון מנוהלת כ-Change Record: שערי-אישור QA ורגולציה, מסמכי-מפרט מצורפים, ומשימות לעדכון BOM/תוכניות-בדיקה — מעקב מלא עד סגירה.",
+          scenarioHe: "בארגון כל בקשת שינוי-מתכון מנוהלת כ-Change Record: שערי-אישור QA ורגולציה, מסמכי-מפרט מצורפים, ומשימות לעדכון BOM/תוכניות-בדיקה — מעקב מלא עד סגירה.",
           navHe: ["SAP Fiori Launchpad ► Manage Change Records"],
           tables: ["SCMG_T_CASE_ATTR", "AENR", "AEOI"],
           tcodes: ["CC02", "CC03"],
@@ -471,7 +471,7 @@ export const CH13: TextbookChapter = {
           consultantHe: "אפליקציית-Fiori מסוג Overview/Cockpit המרכזת KPIs ורשימות-עבודה סביב ECM: Change Records לפי שלב, Change Masters לפי Valid-From/Status, משימות פתוחות ואובייקטים מושפעים. מספקת drill-down ל-Manage Change Records / Manage Engineering Changes. אידיאלית למנהלי-שינויים ולצוות-QM הזקוקים לתמונת-מצב רוחבית ולתעדוף.",
           purposeHe: "לתת נראות-ניהולית ותעדוף לכלל פעילות-השינויים — לזהות צווארי-בקבוק, אישורים תקועים ושינויים שעומדים להיכנס לתוקף.",
           processExampleHe: "מנהל-QM פותח את ה-Engineering Cockpit בבוקר, רואה 3 רשומות ממתינות-לאישור ו-2 שינויים שייכנסו לתוקף השבוע, וצולל ישירות לטיפול בכל אחד.",
-          cbcHe: "ב-CBC ה-Cockpit מציג למנהל-האיכות את כל שינויי-המתכון הקרבים לכניסה-לתוקף לצד מצב-מלאי-אריזה ישן — כדי לתזמן מעבר-קו בלי לזרוק מלאי.",
+          scenarioHe: "בארגון ה-Cockpit מציג למנהל-האיכות את כל שינויי-המתכון הקרבים לכניסה-לתוקף לצד מצב-מלאי-אריזה ישן — כדי לתזמן מעבר-קו בלי לזרוק מלאי.",
           navHe: ["SAP Fiori Launchpad ► Engineering Cockpit / Engineering Change Overview"],
           tables: ["AENR", "AEOI", "SCMG_T_CASE_ATTR"],
           tcodes: ["CC03"],
@@ -517,8 +517,8 @@ export const CH13: TextbookChapter = {
         "לנהל שינויים הנדסיים מורכבים עם תיעוד מובנה, קישור-מסמכים (DMS), אישורים וקישור-אובייקטים — מעבר לרובד הטכני של אב-השינוי.",
       processExampleHe:
         "שינוי-מוצר מורכב נפתח כ-Engineering Record: מצורפים מפרטי-תכן (DMS), מקושרים BOM ותוכנית-בדיקה, מוקצים מאשרים. לאחר אישור, נוצר/מקושר Change Master המבצע את השינוי באובייקטים עם Valid-From.",
-      cbcHe:
-        "ב-CBC שדרוג-קו-מילוי הדורש שינוי מפרט-אריזה, BOM ותוכנית-בדיקה בו-זמנית מנוהל כ-Engineering Record: מסמכי-תכן ותקני-איכות מצורפים, האישורים מתועדים, והמימוש מתבצע תחת Change Master מתואם-Valid-From.",
+      scenarioHe:
+        "בארגון שדרוג-קו-מילוי הדורש שינוי מפרט-אריזה, BOM ותוכנית-בדיקה בו-זמנית מנוהל כ-Engineering Record: מסמכי-תכן ותקני-איכות מצורפים, האישורים מתועדים, והמימוש מתבצע תחת Change Master מתואם-Valid-From.",
       navHe: [
         "SAP Fiori Launchpad ► Manage Engineering Records",
         "Logistics – General ► Engineering Change Management ► Engineering Record configuration",
@@ -577,8 +577,8 @@ export const CH13: TextbookChapter = {
         "להבטיח ממשל-שינויים: ששום שינוי לא מגיע לייצור ללא הערכת-השפעה, אישור ותיעוד — להגן על איכות, רגולציה ועלות, ולשמר בקרת-תצורה מלאה.",
       processExampleHe:
         "שינוי מוצע נכנס כ-ECR; צוות מעריך השפעה רב-תחומית (QM/PP/רגולציה/עלות); ועדת-שינויים מאשרת; השינוי הופך ל-ECO וממומש תחת Change Master עם Valid-From; לאחר אימות-מימוש ובדיקות, התהליך נסגר ומתועד לביקורת.",
-      cbcHe:
-        "ב-CBC כל שינוי-מתכון/מפרט עובר MoC רשמי: הערכת-השפעה (אלרגנים, תווית, מלאי-אריזה, עלות-תרכיז), אישור-QA ואישור-רגולציה, מימוש date-effective מתואם עם מעבר-קו, ותיעוד מלא — בדיוק כפי שדורש Change Control בתעשיית-המזון.",
+      scenarioHe:
+        "בארגון כל שינוי-מתכון/מפרט עובר MoC רשמי: הערכת-השפעה (אלרגנים, תווית, מלאי-אריזה, עלות-תרכיז), אישור-QA ואישור-רגולציה, מימוש date-effective מתואם עם מעבר-קו, ותיעוד מלא — בדיוק כפי שדורש Change Control בתעשיית-המזון.",
       navHe: [
         "Logistics – General ► Engineering Change Management ► Define Change Types (OS54)",
         "Logistics – General ► Engineering Change Management ► Define Status Profile (BS02)",
@@ -647,8 +647,8 @@ export const CH13: TextbookChapter = {
         "לקבע את ההבנה ש-ECM אינו 'עריכת-אובייקט' אלא מסגרת-ממשל מתוארכת, מאושרת ומתועדת — שמגינה על איכות, רגולציה, עלות ובקרת-תצורה לאורך כל מחזור-חיי השינוי.",
       processExampleHe:
         "מחזור-חיים שלם: ECR נפתח כ-Change Record ← הערכת-השפעה ואישור (BS02 gates) ← ECO ממומש תחת Change Master (CC01) עם Valid-From ← תוכנית-הבדיקה נערכת ב-QP02 תחת המספר ← מנת-בדיקה מבצעת date-effective explosion ← התהליך נסגר ומתועד ב-ECM Information System לביקורת.",
-      cbcHe:
-        "ב-CBC: גל שינויי-מתכון רבעוני מנוהל מקצה-לקצה — בקשות ב-Change Records, הערכת-השפעה (אלרגנים/תווית/מלאי/עלות), אישורי-QA ורגולציה, מימוש date-effective מתואם עם מעברי-קו תחת Change Masters, ותיעוד מלא לביקורת-מזון. ה-Engineering Cockpit נותן למנהל-האיכות נראות-על על כל הגל.",
+      scenarioHe:
+        "בארגון: גל שינויי-מתכון רבעוני מנוהל מקצה-לקצה — בקשות ב-Change Records, הערכת-השפעה (אלרגנים/תווית/מלאי/עלות), אישורי-QA ורגולציה, מימוש date-effective מתואם עם מעברי-קו תחת Change Masters, ותיעוד מלא לביקורת-מזון. ה-Engineering Cockpit נותן למנהל-האיכות נראות-על על כל הגל.",
       navHe: [
         "Logistics – General ► Engineering Change Management (סקירת תצורה כוללת)",
         "SAP Fiori Launchpad ► Engineering Cockpit",

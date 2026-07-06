@@ -5,7 +5,7 @@ export const CH4: TextbookChapter = {
   titleHe: "שילוב עם ניהול חומרים (MM)",
   titleEn: "Integrating with Materials Management",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לשילוב מודול האיכות (QM) עם ניהול-החומרים (MM). הפרק מסביר כיצד בקרת-איכות מופעלת אוטומטית בתהליכי הרכש, ניהול-המלאי, הקבלנות-משנה והעברות-המלאי — כיצד קבלת-טובין (Goods Receipt) יוצרת מנת-בדיקה (Inspection Lot), כיצד מפתח-הבקרה (QM Control Key) חוסם תשלום עד לקבלת-החלטת-שימוש (Usage Decision), ומה משמעות כל סוג-בדיקה (Inspection Type) — 01, 0101, 0102, 0130, 08, 05 ו-0800 — מספרים שנשמרים מילולית כפי שהם במערכת. כל תת-פרק וכל תת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים: שלוש רמות-הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC (בקרת-איכות נכנסת לתרכיז ולחומרי-אריזה בבקבוק קוקה-קולה), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-זרימה (GR→בדיקה→UD), טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לשילוב מודול האיכות (QM) עם ניהול-החומרים (MM). הפרק מסביר כיצד בקרת-איכות מופעלת אוטומטית בתהליכי הרכש, ניהול-המלאי, הקבלנות-משנה והעברות-המלאי — כיצד קבלת-טובין (Goods Receipt) יוצרת מנת-בדיקה (Inspection Lot), כיצד מפתח-הבקרה (QM Control Key) חוסם תשלום עד לקבלת-החלטת-שימוש (Usage Decision), ומה משמעות כל סוג-בדיקה (Inspection Type) — 01, 0101, 0102, 0130, 08, 05 ו-0800 — מספרים שנשמרים מילולית כפי שהם במערכת. כל תת-פרק וכל תת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים: שלוש רמות-הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון (בקרת-איכות נכנסת לתרכיז ולחומרי-אריזה בבקבוק מוצר לדוגמה), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-זרימה (GR→בדיקה→UD), טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 4.1
     {
@@ -20,8 +20,8 @@ export const CH4: TextbookChapter = {
         "המטרה: להבטיח שכאשר חומר מגיע, המערכת תדע אוטומטית (א) האם לבדוק אותו, (ב) לפי איזו תוכנית, ו-(ג) האם לעכב את התשלום לספק עד שתתקבל החלטת-שימוש. זהו הבסיס לכל תהליכי-האיכות בשרשרת-הרכש.",
       processExampleHe:
         "ספק שולח חומר-גלם. במסך MM02 הופעלה תצוגת-QM עם Inspection Type 01. בעת קבלת-הטובין (MIGO) המערכת מזהה ש-QM פעיל, יוצרת מנת-בדיקה, מנתבת את הכמות למלאי-בקרת-איכות (Quality Inspection Stock), ובזכות מפתח-הבקרה התשלום לספק נשאר חסום עד החלטת-שימוש.",
-      cbcHe:
-        "ב-CBC: תרכיז קוקה-קולה ובקבוקי-PET מנוהלים עם תצוגת-QM ו-Inspection Type 01. כל מטען-תרכיז נכנס נבדק לפני שחרורו לקו-המילוי; מפתח-הבקרה מבטיח שלא נשלם לספק על תרכיז שטרם אושר על-ידי המעבדה.",
+      scenarioHe:
+        "בארגון: תרכיז מוצר לדוגמה ובקבוקי-PET מנוהלים עם תצוגת-QM ו-Inspection Type 01. כל מטען-תרכיז נכנס נבדק לפני שחרורו לקו-המילוי; מפתח-הבקרה מבטיח שלא נשלם לספק על תרכיז שטרם אושר על-ידי המעבדה.",
       navHe: [
         "Quality Management ► QM in Logistics ► QM in Procurement ► Define Control Keys (TQ07)",
         "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection for Goods Movements ► Define Inspection Control",
@@ -72,7 +72,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "Task List Usage (טבלת TCA12) מקושר ל-Inspection Type בהקצאת-ברירת-המחדל; חיפוש Task List אוטומטי במנת-הבדיקה מסתמך על Usage תואם ועל סטטוס-שחרור (4). אם הקישור חסר, מנת-הבדיקה נוצרת ללא Task List ויש לשייך ידנית ב-QA02.",
           purposeHe: "לאפשר בחירת-תוכנית-בדיקה אוטומטית ועקבית, ולמנוע שיוך-ידני שגוי בכל קבלה.",
           processExampleHe: "חומר-גלם מסוג ROH מקבל בקבלה Inspection Type 01; המערכת מחפשת Task List ב-Usage 5 (Goods receipt) המשוחררת, מוצאת אותה ומכניסה את מאפייני-הבדיקה למנה.",
-          cbcHe: "ב-CBC לתרכיז (ROH) משויכת תוכנית-בדיקה ב-Usage קבלת-טובין הכוללת מאפייני pH, Brix וצבע; השילוב מבטיח שתוכנית זו נשלפת אוטומטית בכל מטען-תרכיז.",
+          scenarioHe: "בארגון לתרכיז (ROH) משויכת תוכנית-בדיקה ב-Usage קבלת-טובין הכוללת מאפייני pH, Brix וצבע; השילוב מבטיח שתוכנית זו נשלפת אוטומטית בכל מטען-תרכיז.",
           navHe: ["Quality Management ► Quality Planning ► Inspection Planning ► General ► Define Task List Usage (TCA12)"],
           tables: ["TCA12", "QMAT", "PLKO"],
           tcodes: ["QP01", "QP02", "QA02"],
@@ -91,7 +91,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "QM Control Key מוגדר ב-TQ07 ומשויך בתצוגת-QM של אב-החומר. דגלים מרכזיים: 'Quality info record required' (חוסם הזמנה ME21N ללא QINF משוחררת), 'Block invoice' (חסימת-תשלום עד UD), ו-'Tech. delivery terms / vendor release'. רשומת-המידע-איכות (QINF) נדרשת כאשר הדגל פעיל, וקושרת חומר↔ספק↔מפעל.",
           purposeHe: "לשלוט בסיכון-הרכש לפי חומר/ספק: חומר קריטי מקבל מפתח חוסם-תשלום ודורש-QINF; חומר זניח מקבל מפתח מקל.",
           processExampleHe: "חומר עם מפתח הדורש QINF: ניסיון ליצור הזמנת-רכש ME21N נחסם עד שקיימת רשומת-מידע-איכות משוחררת לאותו ספק; לאחר קבלה, חשבונית-הספק חסומה עד החלטת-שימוש.",
-          cbcHe: "ב-CBC תרכיז מקבל מפתח-בקרה החוסם תשלום ודורש QINF — אסור להזמין תרכיז מספק שלא אושר, ואסור לשלם לפני אישור-מעבדה.",
+          scenarioHe: "בארגון תרכיז מקבל מפתח-בקרה החוסם תשלום ודורש QINF — אסור להזמין תרכיז מספק שלא אושר, ואסור לשלם לפני אישור-מעבדה.",
           navHe: ["Quality Management ► QM in Logistics ► QM in Procurement ► Define Control Keys (TQ07)"],
           tables: ["TQ07", "QINF", "EINE", "MARC"],
           tcodes: ["OQB1", "MM02", "QI01", "ME21N"],
@@ -122,8 +122,8 @@ export const CH4: TextbookChapter = {
         "למנוע כניסת חומר-לקוי: או בנקודת-הכניסה (01) או בנקודת-המקור (0101), לפי קריטיות-החומר ויחסי-הספק.",
       processExampleHe:
         "הזמנת-רכש נוצרת ב-ME21N. אם 0101 פעיל — נוצר מועד בדיקת-מקור לפני המשלוח. בקבלה (MIGO 101) עם 01 פעיל — נוצרת מנת-בדיקה, החומר נכנס למלאי-בקרה, ובדיקה ב-QA32 מובילה ל-UD.",
-      cbcHe:
-        "ב-CBC תרכיז קריטי נבדק במקור (0101) אצל ספק מאושר לפני שילוחו, ובנוסף בקבלה (01) כשהוא מגיע למפעל — בדיקה כפולה לחומר הרגיש ביותר.",
+      scenarioHe:
+        "בארגון תרכיז קריטי נבדק במקור (0101) אצל ספק מאושר לפני שילוחו, ובנוסף בקבלה (01) כשהוא מגיע למפעל — בדיקה כפולה לחומר הרגיש ביותר.",
       navHe: [
         "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection at Goods Receipt",
         "Quality Management ► QM in Logistics ► QM in Procurement ► Source Inspection",
@@ -175,7 +175,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "תנועת-מלאי 101 מול הזמנת-רכש יוצרת מנת-בדיקה (QALS) עם Origin 01. הכמות נרשמת ב-Quality Inspection Stock (לא Unrestricted). ב-QA32 רושמים תוצאות מול מאפייני ה-Task List, וב-QA11 מקבלים UD שמפעיל קוד-המלצה לתנועות-מלאי (העברה ל-Unrestricted 321 / Blocked 350 / Returns 122).",
           purposeHe: "למנוע שימוש בחומר נכנס לפני אישור-איכות, ולחבר את האישור לשחרור-התשלום לספק.",
           processExampleHe: "ME21N יוצר הזמנה ל-1,000 יח'. MIGO 101 מקבל אותן למלאי-בקרה ויוצר מנת-בדיקה. QA32 לרישום-תוצאות; UD חיובי ➔ 321 ל-Unrestricted; UD שלילי ➔ 350 ל-Blocked. רק אז החשבונית משתחררת.",
-          cbcHe: "ב-CBC קבלת תרכיז: 1,000 ליטר נכנסים ל-QI-Stock, המעבדה בודקת Brix/pH ב-QA32, UD חיובי משחרר לקו-המילוי; UD שלילי מחזיר לספק (122).",
+          scenarioHe: "בארגון קבלת תרכיז: 1,000 ליטר נכנסים ל-QI-Stock, המעבדה בודקת Brix/pH ב-QA32, UD חיובי משחרר לקו-המילוי; UD שלילי מחזיר לספק (122).",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection at Goods Receipt for Purchase Order"],
           tables: ["QALS", "QAVE", "MSEG", "MARD"],
           tcodes: ["MIGO", "QA32", "QA11", "QA13"],
@@ -198,7 +198,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "0101 מבוסס לוח-זמנים: מנות בדיקת-מקור נוצרות ממועדי-המסירה בהזמנה דרך QI07 (worklist) במרווח-זמן מוגדר מראש. תוצאות נרשמות ו-UD מתקבל לפני ה-GR; ב-GR הבא ניתן לקשר את התוצאות במקום לבדוק שוב.",
           purposeHe: "להזיז את הבדיקה שמאלה בשרשרת — חיסכון בהובלה, באחסון-זמני ובהחזרות, במיוחד לספקים מרוחקים.",
           processExampleHe: "QI07 מציג מועדי-מסירה צפויים; נוצרת מנת בדיקת-מקור 0101 שבוע לפני המשלוח; המעבדה (או נציג) בודקת אצל הספק; UD חיובי מאשר משלוח, שלילי עוצר אותו.",
-          cbcHe: "ב-CBC ספק-תרכיז בחו\"ל: בדיקת-מקור 0101 מאשרת את האצווה במפעל-הספק לפני העמסה לקונטיינר; כך לא מובל תרכיז שייפסל בארץ.",
+          scenarioHe: "בארגון ספק-תרכיז בחו\"ל: בדיקת-מקור 0101 מאשרת את האצווה במפעל-הספק לפני העמסה לקונטיינר; כך לא מובל תרכיז שייפסל בארץ.",
           navHe: ["Quality Management ► QM in Logistics ► QM in Procurement ► Source Inspection ► Define Source Inspection Interval"],
           tables: ["QALS", "EKET", "QINF"],
           tcodes: ["QI07", "QA51", "QA32", "QA11"],
@@ -228,8 +228,8 @@ export const CH4: TextbookChapter = {
         "להבטיח אישור-תהליך לפני סדרה: לתעד שהספק/הקו מסוגלים לייצר באיכות-הנדרשת, ולמנוע גילוי-תקלות רק בייצור-המוני.",
       processExampleHe:
         "ספק חדש מגיש דגם-ראשון; נפתחת מנת-בדיקת-מוצר-ראשון עם מאפיינים מלאים; תוצאות נרשמות ב-QA32; UD חיובי מאשר את הספק ומעדכן QINF; רק אז נפתחת הזמנת-סדרה.",
-      cbcHe:
-        "ב-CBC כשמכניסים בקבוק-PET בעיצוב חדש או ספק-תווית חדש: דגם-ראשון נבדק לעומק (מידות, אטימות, צבע, דבק) ומאושר לפני אישור-אספקה-שוטפת.",
+      scenarioHe:
+        "בארגון כשמכניסים בקבוק-PET בעיצוב חדש או ספק-תווית חדש: דגם-ראשון נבדק לעומק (מידות, אטימות, צבע, דבק) ומאושר לפני אישור-אספקה-שוטפת.",
       navHe: [
         "Quality Management ► Quality Inspection ► Inspection Lot Creation ► First Article Inspection",
         "Quality Management ► QM in Logistics ► QM in Procurement ► Quality Info Record (אישור-ספק)",
@@ -285,8 +285,8 @@ export const CH4: TextbookChapter = {
         "לגשר בין אישור-ספק (PPAP) לבין אספקה-שוטפת (01): לוודא יציבות-תהליך לאורך-זמן לפני הרפיית הבקרה.",
       processExampleHe:
         "ספק אושר ב-PPAP; חמשת המטענים הראשונים נבדקים תחת 0102 בתדירות-מלאה; לאחר הוכחת-יציבות עוברים ל-01 בדגימה מופחתת.",
-      cbcHe:
-        "ב-CBC ספק-תרכיז חדש שעבר PPAP מורץ ב-0102 על המשלוחים הראשונים בבדיקה מלאה; רק לאחר יציבות מוכחת עוברים לבדיקת-קבלה רגילה (01).",
+      scenarioHe:
+        "בארגון ספק-תרכיז חדש שעבר PPAP מורץ ב-0102 על המשלוחים הראשונים בבדיקה מלאה; רק לאחר יציבות מוכחת עוברים לבדיקת-קבלה רגילה (01).",
       navHe: [
         "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection for Goods Receipt (Pilot Run)",
       ],
@@ -331,7 +331,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "ההפעלה זהה ל-Inspection Type רגיל ברכש (תצוגת-QM + QMAT), אך עם Task List ייעודית לפיילוט (Usage קבלה, מאפיינים מורחבים). ניתן לנהל את היקף-ההרצה דרך QINF או נוהל-עבודה.",
           purposeHe: "להבטיח בדיקה מחמירה ועקבית בשלב-ההרצה, ולמנוע מעבר-מוקדם לבדיקה-רגילה.",
           processExampleHe: "MM02 מפעיל 0102; תוכנית-בדיקה-מחמירה משויכת; לאחר 5 מטענים תקינים מעדכנים ל-01.",
-          cbcHe: "ב-CBC תוכנית-הפיילוט לתרכיז כוללת את כל מאפייני-המעבדה בתדירות 100% עד סיום שלב-ההרצה.",
+          scenarioHe: "בארגון תוכנית-הפיילוט לתרכיז כוללת את כל מאפייני-המעבדה בתדירות 100% עד סיום שלב-ההרצה.",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection Control (Pilot Run 0102)"],
           tables: ["QMAT", "PLKO", "QINF"],
           tcodes: ["MM02", "QP01", "QA08"],
@@ -350,7 +350,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "Checklist: MARC (QM view+0102), PLKO/PLPO משוחררת (Status 4), Catalogs 1/3 (codes/UD), Sampling procedure (QDP1), QINF משוחררת. כל פריט חסר חוסם או מעוות את מנת-הפיילוט.",
           purposeHe: "למנוע כשל-הרצה עקב נתוני-אב חסרים — לבדוק מראש ולא בזמן-אמת.",
           processExampleHe: "לפני המטען-הראשון רצים על ה-Checklist; מגלים ש-QINF לא משוחררת; משחררים אותה ב-QI02 לפני ה-GR.",
-          cbcHe: "ב-CBC לפני פיילוט-תרכיז: ודא תוכנית-בדיקה משוחררת, נוהל-דגימה, קטלוג-פגמים, ו-QINF פעילה לספק-החו\"ל.",
+          scenarioHe: "בארגון לפני פיילוט-תרכיז: ודא תוכנית-בדיקה משוחררת, נוהל-דגימה, קטלוג-פגמים, ו-QINF פעילה לספק-החו\"ל.",
           navHe: ["Quality Management ► Basic Settings ► Catalog / Sampling / Master Data Checklist"],
           tables: ["MARC", "PLKO", "PLPO", "QINF", "QPAC"],
           tcodes: ["MM03", "QP03", "QS41", "QDP1", "QI03"],
@@ -369,7 +369,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "GR→מנת-בדיקה 0102→רישום מלא ב-QA32→UD→תנועת-מלאי (321/350). מנטרים שיעור-תקלות ויציבות; בהשגת-קריטריון מחליפים ל-01 ב-MM02 ומפסיקים את הפיילוט.",
           purposeHe: "להוכיח יציבות-תהליך לאורך-זמן לפני הרפיית-הבקרה.",
           processExampleHe: "חמישה מטענים ב-0102, כולם UD חיובי; מנהל-האיכות מאשר מעבר; MM02 מחליף ל-01 בדגימה מופחתת.",
-          cbcHe: "ב-CBC חמשת מטעני-התרכיז הראשונים נבדקים מלא; אפס-חריגות מוביל למעבר ל-01.",
+          scenarioHe: "בארגון חמשת מטעני-התרכיז הראשונים נבדקים מלא; אפס-חריגות מוביל למעבר ל-01.",
           navHe: ["Quality Management ► Quality Inspection ► Results Recording / Usage Decision (Pilot Run)"],
           tables: ["QALS", "QAVE", "MSEG"],
           tcodes: ["MIGO", "QA32", "QA11", "MM02"],
@@ -403,8 +403,8 @@ export const CH4: TextbookChapter = {
         "להבטיח שגם מוצר שיוצר בחוץ עומד בתקן-האיכות שלנו, ולנהל נכון את מלאי-הרכיבים שבידי-הקבלן.",
       processExampleHe:
         "PO-קבלנות-משנה למוצר X עם רכיבים A+B. 541 מעביר A+B לקבלן. הקבלן מרכיב ומחזיר X. MIGO 101 מקבל את X (יוצר מנת-בדיקה 0130) וצורך A+B (543). QA32 בודק את X; UD משחרר. MIRO משלם על העיבוד.",
-      cbcHe:
-        "ב-CBC קבלן ממלא בקבוקים בטעם מיוחד מתרכיז ובקבוקים שסיפקנו: שולחים תרכיז+בקבוקים (541), מקבלים משקה-מוגמר ובודקים אותו תחת 0130 לפני שחרור למכירה.",
+      scenarioHe:
+        "בארגון קבלן ממלא בקבוקים בטעם מיוחד מתרכיז ובקבוקים שסיפקנו: שולחים תרכיז+בקבוקים (541), מקבלים משקה-מוגמר ובודקים אותו תחת 0130 לפני שחרור למכירה.",
       navHe: [
         "Materials Management ► Purchasing ► Subcontracting",
         "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection at GR for Subcontract Order",
@@ -457,7 +457,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "Checklist: MARC (QM+0130) למוצר; PLKO/PLPO משוחררת; Catalogs 1/3; BOM-קבלנות (רכיבים לאספקה) ב-CS01; QINF לקבלן אם נדרש מפתח-בקרה.",
           purposeHe: "למנוע כשל בקבלת-מוצר-קבלנות עקב חוסר בנתוני-אב או ב-BOM-רכיבים.",
           processExampleHe: "לפני ה-PO רצים על ה-Checklist; מגלים BOM-רכיבים חסר; משלימים ב-CS01 לפני ההזמנה.",
-          cbcHe: "ב-CBC ודא BOM-קבלנות הכולל תרכיז+בקבוקים, תוכנית-בדיקה למשקה החוזר, ו-QM view+0130.",
+          scenarioHe: "בארגון ודא BOM-קבלנות הכולל תרכיז+בקבוקים, תוכנית-בדיקה למשקה החוזר, ו-QM view+0130.",
           navHe: ["Quality Management ► Master Data ► Inspection Setup (Subcontracting 0130)"],
           tables: ["MARC", "PLKO", "STPO", "QINF"],
           tcodes: ["MM03", "QP03", "CS03", "QI03"],
@@ -476,7 +476,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "Item Category L ב-EKPO; המערכת מפצצת את BOM-הקבלנות ומציגה את הרכיבים שיסופקו. מחיר-ה-PO הוא עלות-העיבוד בלבד. הרכיבים מנוהלים כ-Vendor stock (MSLB) לאחר ההעברה.",
           purposeHe: "להגדיר רשמית את עסקת-העיבוד: מה הקבלן מחזיר, מה אנו מספקים, וכמה משלמים על השירות.",
           processExampleHe: "ME21N עם L למוצר Z; הרכיבים A+B מוצגים אוטומטית מה-BOM; מחיר = עלות-עיבוד; שמירה.",
-          cbcHe: "ב-CBC PO-קבלנות למשקה-בטעם-מיוחד: שורת-L למשקה, רכיבי תרכיז+בקבוקים מוצגים מה-BOM, מחיר = דמי-מילוי.",
+          scenarioHe: "בארגון PO-קבלנות למשקה-בטעם-מיוחד: שורת-L למשקה, רכיבי תרכיז+בקבוקים מוצגים מה-BOM, מחיר = דמי-מילוי.",
           navHe: ["Materials Management ► Purchasing ► Purchase Order ► Create (Subcontracting, Item Category L)"],
           tables: ["EKKO", "EKPO", "STPO"],
           tcodes: ["ME21N", "ME22N", "ME23N"],
@@ -495,7 +495,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "MB1B/MIGO תנועה 541 מעבירה ל-MSLB (Special stock O = vendor). הבעלות נשמרת אצלנו; הצריכה בפועל תתבצע רק בקבלת-המוצר (543). ניתן גם SD-delivery לקבלנות במקום העברה ידנית.",
           purposeHe: "לספק לקבלן את חומרי-הגלם תוך מעקב-מלאי ושמירת-בעלות.",
           processExampleHe: "MB1B 541 מעביר 1,000 בקבוקים + תרכיז ל-Vendor stock של הקבלן; מלאי-המחסן יורד, מלאי-הספק עולה.",
-          cbcHe: "ב-CBC 541 מעביר תרכיז ובקבוקים לקו-המילוי של הקבלן; הם נשארים בבעלות-CBC עד שנצרכים במוצר.",
+          scenarioHe: "בארגון 541 מעביר תרכיז ובקבוקים לקו-המילוי של הקבלן; הם נשארים בבעלות-הארגון עד שנצרכים במוצר.",
           navHe: ["Materials Management ► Inventory Management ► Transfer Posting ► To Subcontractor (541)"],
           tables: ["MSLB", "MSEG", "MKPF"],
           tcodes: ["MB1B", "MIGO", "MBLB"],
@@ -514,7 +514,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "MIGO 101 מול PO-קבלנות מבצע שתי תנועות: 101 למוצר (➔ QI-Stock אם 0130) ו-543 לצריכת-הרכיבים מ-MSLB. כמות-הרכיבים נגזרת מ-BOM-הקבלנות × כמות-המוצר. נוצרת מנת-בדיקה 0130.",
           purposeHe: "לקבל את המוצר, לבדוק אותו, ולעדכן נכון את צריכת-הרכיבים שאצל הקבלן.",
           processExampleHe: "MIGO 101 ל-500 יח' מוצר; אוטומטית נצרכים 500×רכיבים מ-Vendor stock (543); נוצרת מנת-בדיקה 0130 ב-QI-Stock.",
-          cbcHe: "ב-CBC קבלת 500 ארגזי-משקה: התרכיז והבקבוקים נצרכים מ-Vendor stock; המשקה נכנס לבדיקת 0130 לפני שחרור.",
+          scenarioHe: "בארגון קבלת 500 ארגזי-משקה: התרכיז והבקבוקים נצרכים מ-Vendor stock; המשקה נכנס לבדיקת 0130 לפני שחרור.",
           navHe: ["Materials Management ► Inventory Management ► Goods Receipt for Subcontract PO (101/543)"],
           tables: ["MSEG", "QALS", "MSLB"],
           tcodes: ["MIGO", "QA32"],
@@ -538,7 +538,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "QALS עם Origin 0130; QA32 לרישום-תוצאות מול PLPO; QA11 ל-UD עם קוד-המלצה המפעיל 321 (שחרור) / 350 (חסימה) / 122 (החזרה לקבלן). השפעה גם על QInfo אם מנוהל אישור-קבלן.",
           purposeHe: "לוודא שמוצר-הקבלנות עומד בתקן לפני שחרורו, ולתעד את ההחלטה.",
           processExampleHe: "מנת-בדיקה 0130 ל-500 יח'; QA32 רושם תוצאות; UD חיובי ➔ 321 ל-Unrestricted ושחרור-מכירה; UD שלילי ➔ 122 החזרה לקבלן.",
-          cbcHe: "ב-CBC המעבדה בודקת את המשקה החוזר (טעם, גז, מילוי); UD חיובי משחרר למלאי-מכירה; שלילי מחזיר לקבלן לתיקון.",
+          scenarioHe: "בארגון המעבדה בודקת את המשקה החוזר (טעם, גז, מילוי); UD חיובי משחרר למלאי-מכירה; שלילי מחזיר לקבלן לתיקון.",
           navHe: ["Quality Management ► Quality Inspection ► Results Recording / Usage Decision (Subcontracting)"],
           tables: ["QALS", "QAVE", "QAMV"],
           tcodes: ["QA32", "QA11", "QA13"],
@@ -557,7 +557,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "MIRO מול PO-קבלנות מתייחס לעלות-העיבוד שב-EKPO. דגל 'Block invoice' במפתח-הבקרה גורם לחסימת-QM על החשבונית עד UD חיובי ב-0130; שחרור-חסימה ב-MRBR לאחר ה-UD.",
           purposeHe: "לקשר את התשלום לקבלן לאישור-האיכות של המוצר שהחזיר.",
           processExampleHe: "MIRO רושם חשבונית-עיבוד; היא נחסמת (QM block); לאחר UD חיובי ב-0130 החסימה משוחררת והתשלום יוצא.",
-          cbcHe: "ב-CBC דמי-המילוי לקבלן משולמים רק לאחר שהמשקה החוזר עבר את בדיקת 0130 — לא משלמים על מילוי שנפסל.",
+          scenarioHe: "בארגון דמי-המילוי לקבלן משולמים רק לאחר שהמשקה החוזר עבר את בדיקת 0130 — לא משלמים על מילוי שנפסל.",
           navHe: ["Materials Management ► Logistics Invoice Verification ► Invoice Block / Release (MIRO/MRBR)"],
           tables: ["RBKP", "RSEG", "EKBE"],
           tcodes: ["MIRO", "MRBR", "MR8M"],
@@ -584,9 +584,9 @@ export const CH4: TextbookChapter = {
       purposeHe:
         "להבטיח שגם תנועות-מלאי פנימיות וקבלות לא-מהזמנה עוברות בקרת-איכות לפי הצורך.",
       processExampleHe:
-        "העברת-מלאי בין שני מפעלי-CBC: בקבלה במפעל-היעד עם 08 נוצרת מנת-בדיקה; קבלה-חופשית של דוגמה עם 05 יוצרת מנת-בדיקה משלה.",
-      cbcHe:
-        "ב-CBC העברת תרכיז ממרכז-לוגיסטי למפעל-מילוי נבדקת ביעד תחת 08; דוגמת-בדיקה נכנסת תחת 05.",
+        "העברת-מלאי בין שני מפעלי הארגון: בקבלה במפעל-היעד עם 08 נוצרת מנת-בדיקה; קבלה-חופשית של דוגמה עם 05 יוצרת מנת-בדיקה משלה.",
+      scenarioHe:
+        "בארגון העברת תרכיז ממרכז-לוגיסטי למפעל-מילוי נבדקת ביעד תחת 08; דוגמת-בדיקה נכנסת תחת 05.",
       navHe: [
         "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection for Goods Movements",
       ],
@@ -631,7 +631,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "08 מופעל בקבלת Stock Transport Order (תנועה 101 מול STO) או בהעברה דו-שלבית (305). מנת-הבדיקה (QALS Origin 08) מנתבת ל-QI-Stock ביעד; UD משחרר ל-Unrestricted במפעל-היעד.",
           purposeHe: "להבטיח איכות-חומר לאחר העברה/הובלה, במיוחד לחומרים רגישים.",
           processExampleHe: "STO מעביר תרכיז ממפעל A ל-B; בקבלה ב-B עם 08 נוצרת מנת-בדיקה; UD חיובי משחרר לקו-המילוי ב-B.",
-          cbcHe: "ב-CBC תרכיז המועבר ממרכז-קירור מרכזי למפעל-מילוי נבדק ביעד (08) לווידוא שמירת-טמפרטורה בהובלה.",
+          scenarioHe: "בארגון תרכיז המועבר ממרכז-קירור מרכזי למפעל-מילוי נבדק ביעד (08) לווידוא שמירת-טמפרטורה בהובלה.",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection for Stock Transfer (08)"],
           tables: ["QALS", "MSEG", "EKPO"],
           tcodes: ["MIGO", "QA32", "QA11"],
@@ -650,7 +650,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "05 מופעל בתנועות GR-אחרות (כגון 501 קבלה ללא PO, 521/531 קבלת תוצרת-לוואי) שאינן מקושרות ל-PO. QALS Origin 05 מנתב ל-QI-Stock; UD משחרר. שימושי כשאין מסמך-רכש שמטריגר 01.",
           purposeHe: "לכסות פערים בבקרת-איכות עבור כניסות-מלאי שאינן עוברות דרך הרכש.",
           processExampleHe: "קבלה-חופשית 501 של דוגמת-חומר; עם 05 נוצרת מנת-בדיקה; המעבדה בודקת לפני שחרור לשימוש.",
-          cbcHe: "ב-CBC קבלת דוגמת-תרכיז חדשה ללא PO נכנסת תחת 05; היא נבדקת לפני שתשמש בניסוי-ייצור.",
+          scenarioHe: "בארגון קבלת דוגמת-תרכיז חדשה ללא PO נכנסת תחת 05; היא נבדקת לפני שתשמש בניסוי-ייצור.",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection for Other Goods Receipts (05)"],
           tables: ["QALS", "MSEG", "MKPF"],
           tcodes: ["MIGO", "MB1C", "QA32", "QA11"],
@@ -677,8 +677,8 @@ export const CH4: TextbookChapter = {
         "למנוע 'מלאי-יתום' בבקרת-איכות בעת מעבר-להפעלת-QM: לוודא שכל כמות בבקרה משויכת למנת-בדיקה ולהחלטה.",
       processExampleHe:
         "חומר עם 200 יח' ב-QI-Stock; מפעילים QM; 0800 יוצר מנת-בדיקה ל-200 היח'; QA32 רושם תוצאות ו-UD משחרר/דוחה.",
-      cbcHe:
-        "ב-CBC כשמרחיבים QM לחומר-אריזה ותיק עם מלאי קיים בבקרה, 0800 מייצר מנת-בדיקה למלאי-הקיים כדי לשחררו באופן מסודר.",
+      scenarioHe:
+        "בארגון כשמרחיבים QM לחומר-אריזה ותיק עם מלאי קיים בבקרה, 0800 מייצר מנת-בדיקה למלאי-הקיים כדי לשחררו באופן מסודר.",
       navHe: [
         "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection Stock at QM Activation (0800)",
       ],
@@ -726,7 +726,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "0800 משויך ב-QMAT/תצוגת-QM; הפעלתו (Active flag) ב-QA08 מטריגרת יצירת QALS לכמות שב-QI-Stock. נדרשת תוכנית-בדיקה משויכת כדי שהמנה תכיל מאפיינים; אחרת היא נוצרת ריקה.",
           purposeHe: "להגדיר מראש את המנגנון שיטפל במלאי-קיים, כדי שהפעלת-ה-QM תהיה חלקה.",
           processExampleHe: "QA08 מפעיל QM+0800 לקבוצת-חומרים; לכל חומר עם מלאי ב-QI-Stock נוצרת מנת-בדיקה 0800.",
-          cbcHe: "ב-CBC מגדירים 0800 לחומרי-אריזה הוותיקים לפני הרחבת-ה-QM, כדי שמלאי-המחסן הקיים ייכנס לבדיקה מסודרת.",
+          scenarioHe: "בארגון מגדירים 0800 לחומרי-אריזה הוותיקים לפני הרחבת-ה-QM, כדי שמלאי-המחסן הקיים ייכנס לבדיקה מסודרת.",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection Setup (0800 at Activation)"],
           tables: ["QMAT", "MARC", "PLKO"],
           tcodes: ["MM02", "QA08", "QP03"],
@@ -745,7 +745,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "Quality Inspection Stock (סוג-מלאי 02 ב-MARD/MCHB) שקיים בעת ההפעלה הופך לבסיס מנת-0800. אם הכמות אפס — אין מנה. חשוב להבחין בין מלאי-QI שנוצר מ-01 (כבר עם מנה) לבין מלאי-QI 'יתום' שדורש 0800.",
           purposeHe: "לזהות ולכמת את המלאי-הקיים בבקרה שדורש מנת-בדיקה בעת המעבר.",
           processExampleHe: "לפני ההפעלה: 200 יח' ב-QI-Stock ללא מנה; הפעלת 0800 ➔ מנת-בדיקה ל-200 יח'.",
-          cbcHe: "ב-CBC 500 ק\"ג חומר-אריזה ב-QI-Stock לפני הרחבת-QM הופכים למנת-0800 בת 500 ק\"ג.",
+          scenarioHe: "בארגון 500 ק\"ג חומר-אריזה ב-QI-Stock לפני הרחבת-QM הופכים למנת-0800 בת 500 ק\"ג.",
           navHe: ["Quality Management ► Quality Inspection ► Stock Overview at QM Activation"],
           tables: ["MARD", "MCHB", "QALS"],
           tcodes: ["MMBE", "MB52", "QA08"],
@@ -764,7 +764,7 @@ export const CH4: TextbookChapter = {
           consultantHe: "QALS Origin 0800; QA32 לרישום (אם יש Task List); QA11 ל-UD המפעיל 321/350. אם נוצרה מנה ריקה (ללא Task List), ניתן לקבל UD על-בסיס-החלטה בלבד לשחרור-המלאי.",
           purposeHe: "לסגור את מעגל-הטיפול במלאי-הקיים: לבדוק ולשחרר אותו מסודר לאחר הפעלת-ה-QM.",
           processExampleHe: "מנת-0800 ל-200 יח'; QA32 רושם תוצאות; UD חיובי ➔ 321 משחרר ל-Unrestricted; המלאי שוב זמין לייצור.",
-          cbcHe: "ב-CBC מנת-0800 לחומר-האריזה הוותיק נבדקת ומשוחררת (321), והמלאי חוזר לזמינות לקו-המילוי.",
+          scenarioHe: "בארגון מנת-0800 לחומר-האריזה הוותיק נבדקת ומשוחררת (321), והמלאי חוזר לזמינות לקו-המילוי.",
           navHe: ["Quality Management ► Quality Inspection ► Results Recording / Usage Decision (0800)"],
           tables: ["QALS", "QAVE", "MARD"],
           tcodes: ["QA32", "QA11", "QA13"],
@@ -797,8 +797,8 @@ export const CH4: TextbookChapter = {
         "לקשור את כל התרחישים לתמונה אחת: היכן QM נכנס בכל תהליך-MM, אילו Inspection Types רלוונטיים, ומה הזרימה האחידה GR→בדיקה→UD.",
       processExampleHe:
         "מקצה-לקצה: PO → (0101 מקור) → GR (01/08/05) → QI-Stock → QA32 רישום → QA11 UD → 321 שחרור + שחרור-חשבונית. בקבלנות: PO(L) → 541 → GR(101/543, 0130) → UD → MIRO.",
-      cbcHe:
-        "ב-CBC: התמונה המלאה — תרכיז קריטי נבדק במקור (0101) ובקבלה (01), ספק-חדש עובר PPAP ו-0102, מילוי-חוץ נבדק תחת 0130, העברות בין-מפעליות תחת 08, ומלאי-ותיק בהרחבת-QM תחת 0800 — הכול כדי שבקבוק קוקה-קולה ייצא רק מחומר מאושר.",
+      scenarioHe:
+        "בארגון: התמונה המלאה — תרכיז קריטי נבדק במקור (0101) ובקבלה (01), ספק-חדש עובר PPAP ו-0102, מילוי-חוץ נבדק תחת 0130, העברות בין-מפעליות תחת 08, ומלאי-ותיק בהרחבת-QM תחת 0800 — הכול כדי שבקבוק מוצר לדוגמה ייצא רק מחומר מאושר.",
       navHe: [
         "Quality Management ► QM in Logistics (מפת-השילוב המלאה)",
       ],

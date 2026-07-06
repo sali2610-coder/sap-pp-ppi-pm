@@ -8,7 +8,7 @@ export const CH1: TextbookChapter = {
   titleHe: "ניהול איכות ב-SAP S/4HANA",
   titleEn: "Quality Management in SAP S/4HANA",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה למודול ניהול-האיכות (QM) ב-SAP S/4HANA. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC (בקבוק קוקה-קולה ישראל), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, נתוני-אב, טעויות נפוצות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את QM — מבנה-ארגוני, מקומו בנוף-SAP, תהליכי-הליבה והאינטגרציות — ללא צורך במקור חיצוני.",
+    "פרק זה הוא יחידת-לימוד מלאה למודול ניהול-האיכות (QM) ב-SAP S/4HANA. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון (בקבוק מוצר לדוגמה ישראל), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, נתוני-אב, טעויות נפוצות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את QM — מבנה-ארגוני, מקומו בנוף-SAP, תהליכי-הליבה והאינטגרציות — ללא צורך במקור חיצוני.",
   subchapters: [
     // ============================================================ 1.1
     {
@@ -23,8 +23,8 @@ export const CH1: TextbookChapter = {
         "המטרה: לקבע לכל אובייקט-איכות הקשר ארגוני חד-משמעי — באיזה מפעל נבדק, לאיזו חברה מחויבת עלות-האיכות, ובאיזה מקום-אחסון יושב המלאי-בבדיקה — כך שדיווח, חיוב-עלויות והפרדת-מלאי יעבדו נכון.",
       processExampleHe:
         "קבלת-טובין (MIGO, תנועה 101) במפעל 1010 ✦ המערכת בודקת ב-QMAT אם החומר פעיל-לבדיקה במפעל זה ✦ אם כן נוצרת מנת-בדיקה (QALS) המשויכת ל-Plant/Storage Location ✦ הכמות נכנסת ל-Quality Inspection Stock במקום-האחסון ✦ לאחר Usage Decision המלאי משוחרר ל-Unrestricted באותו Storage Location.",
-      cbcHe:
-        "ב-CBC: Client = קבוצת הבקבוק; Company Code = החברה הישראלית; Plant = מפעל-המילוי (למשל אשקלון); Storage Location נפרדים לתרכיז, לסוכר, ל-CO2 ולחומרי-אריזה. כל קבלת-תרכיז נכנסת למלאי-בבדיקה במקום-אחסון התרכיז עד אישור-מעבדה.",
+      scenarioHe:
+        "בארגון: Client = קבוצת הבקבוק; Company Code = החברה הישראלית; Plant = מפעל-המילוי (למשל אשקלון); Storage Location נפרדים לתרכיז, לסוכר, ל-CO2 ולחומרי-אריזה. כל קבלת-תרכיז נכנסת למלאי-בבדיקה במקום-אחסון התרכיז עד אישור-מעבדה.",
       navHe: [
         "Enterprise Structure ► Definition ► Logistics – General ► Define, copy, delete, check plant (OX10)",
         "Enterprise Structure ► Assignment ► Logistics – General ► Assign plant to company code (OX18)",
@@ -88,7 +88,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "Client מזוהה ב-3 ספרות (MANDT) והוא מפתח-העל של כמעט כל טבלה. ב-QM ה-Catalogs (QPCD/QPGR), Code Groups ו-Selected Sets מוגדרים ברמת-Client ומשמשים את כל המפעלים. הגדרות-לקוח מועברות דרך Client-dependent customizing (טבלאות עם MANDT) לעומת cross-client (T000).",
           purposeHe: "לספק בידוד-נתונים מוחלט בין ישויות ולרכז הגדרות-איכות גלובליות שאינן צריכות להשתנות בין מפעלים.",
           processExampleHe: "Catalog Type 3 (Usage Decision codes) מוגדר פעם אחת ברמת-Client; כל מפעל בקבוצה משתמש באותם קודי-החלטה — תקין/דחוי/חוזר.",
-          cbcHe: "ב-CBC ה-Client מייצג את קבוצת-הבקבוק העולמית; קודי-ה-Usage-Decision ('PASS'/'REJECT'/'RETEST') אחידים לכל מפעלי-המילוי.",
+          scenarioHe: "בארגון ה-Client מייצג את קבוצת-הבקבוק העולמית; קודי-ה-Usage-Decision ('PASS'/'REJECT'/'RETEST') אחידים לכל מפעלי-המילוי.",
           navHe: ["Tools ► Administration ► Administration ► Client Administration ► Client Maintenance (SCC4)", "Quality Management ► Quality Inspection ► Inspection Lot Completion ► Define Catalogs"],
           tables: ["T000", "QPCD", "QPGR"],
           tcodes: ["SCC4", "QS41", "QS51"],
@@ -110,7 +110,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "מזוהה ב-4 תווים (BUKRS, טבלה T001). מקושר ל-Plant דרך Valuation Area (T001K). QM Orders (סוג-הזמנה QN/QL) ו-CO-PA נשענים על הקצאה זו. עלויות-איכות מנותחות לפי Cost of Quality (Prevention/Appraisal/Failure) ומחויבות ל-Cost Center / QM Order של ה-Company Code.",
           purposeHe: "לרכז את כל עלויות-האיכות תחת ישות-כספית מדווחת — לאפשר ניתוח Cost-of-Quality ועמידה בדרישות-רגולציה כספיות.",
           processExampleHe: "תלונת-לקוח פותחת QM Notification (QM02) ➔ נפתח QM Order לאיסוף-עלויות (עבודת-תיקון, חומרים) ➔ העלויות מתחייבות ל-Company Code ומנותחות ב-CO-PA.",
-          cbcHe: "ב-CBC כל עלויות-המעבדה, גריטת-מנות פסולות ועלויות-תלונות מתרכזות ב-Company Code של החברה הישראלית לדיווח Cost-of-Quality רבעוני.",
+          scenarioHe: "בארגון כל עלויות-המעבדה, גריטת-מנות פסולות ועלויות-תלונות מתרכזות ב-Company Code של החברה הישראלית לדיווח Cost-of-Quality רבעוני.",
           navHe: ["Enterprise Structure ► Definition ► Financial Accounting ► Edit, Copy, Delete, Check Company Code (OX02)", "Enterprise Structure ► Assignment ► Logistics – General ► Assign plant to company code (OX18)"],
           tables: ["T001", "T001K", "TQ80"],
           tcodes: ["OX02", "OX18", "QM01", "KO01"],
@@ -132,7 +132,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "מזוהה ב-4 תווים (WERKS, טבלה T001W). ה-Inspection Setup (QMAT) הוא חומר×מפעל; Task Lists (PLKO/PLPO), Master Inspection Characteristics (QPMK) ומנות-הבדיקה (QALS) כולם תלויי-מפעל. הפעלת QM-active וה-Inspection Types נקבעים ברמת-מפעל. ה-Plant מקושר ל-Valuation Area ולכן לחיוב-CO.",
           purposeHe: "לקבע היכן פיזית נבדק החומר ומנוהל מלאי-האיכות — ולאפשר התנהגות-בדיקה שונה לאותו חומר במפעלים שונים.",
           processExampleHe: "אותו חומר 'תרכיז' פעיל-לבדיקה במפעל-המילוי (QMAT עם Inspection Type 01) אך לא במחסן-מרכזי — כי ההגדרה היא חומר×מפעל.",
-          cbcHe: "ב-CBC כל מפעל-מילוי (אשקלון, באר-שבע) הוא Plant נפרד עם תכניות-בדיקה משלו לתרכיז, CO2 ואריזה.",
+          scenarioHe: "בארגון כל מפעל-מילוי (אשקלון, באר-שבע) הוא Plant נפרד עם תכניות-בדיקה משלו לתרכיז, CO2 ואריזה.",
           navHe: ["Enterprise Structure ► Definition ► Logistics – General ► Define, copy, delete, check plant (OX10)", "Quality Management ► Basic Settings ► Maintain Settings at Plant Level", "Quality Management ► Quality Planning ► Inspection Planning ► General"],
           tables: ["T001W", "QMAT", "QALS", "QPMK", "PLKO"],
           tcodes: ["OX10", "QA32", "QP01", "QS21", "MM01"],
@@ -155,7 +155,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "מזוהה ב-4 תווים (LGORT, טבלה T001L). מלאי-QM מנוהל כ-stock type Quality Inspection (לא Unrestricted). תנועת 101 עם Inspection-stock indicator מכניסה ל-QI Stock; Usage Decision (QA11) מעביר ל-Unrestricted (321) או לדחייה (Blocked/Scrap). ב-embedded EWM ניהול-המלאי-בבדיקה עובר לרמת ה-Storage Bin.",
           purposeHe: "להפריד פיזית ולוגית מלאי-בבדיקה ממלאי-זמין — למנוע שימוש בחומר לפני אישור-איכות.",
           processExampleHe: "קבלת-סוכר (101) ➔ הכמות נכנסת ל-QI Stock במקום-אחסון 'חומרי-גלם' ➔ דגימה למעבדה ➔ Usage Decision = Accept ➔ 321 מעביר ל-Unrestricted באותו מקום-אחסון.",
-          cbcHe: "ב-CBC מקומות-אחסון נפרדים: תרכיז, סוכר, CO2, חומרי-אריזה. כל קבלה יושבת ב-QI Stock עד אישור-מעבדה, ורק אז זמינה לקו-המילוי.",
+          scenarioHe: "בארגון מקומות-אחסון נפרדים: תרכיז, סוכר, CO2, חומרי-אריזה. כל קבלה יושבת ב-QI Stock עד אישור-מעבדה, ורק אז זמינה לקו-המילוי.",
           navHe: ["Enterprise Structure ► Definition ► Materials Management ► Maintain Storage Location (OX09)", "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection for Goods Movements"],
           tables: ["T001L", "MARD", "QBEW", "QALS"],
           tcodes: ["OX09", "MIGO", "QA11", "QA32", "MMBE"],
@@ -177,7 +177,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "מזוהה ב-3 תווים (LGNUM, טבלה T300). מקושר ל-Plant+Storage Location דרך ה-WM-Org assignment. ב-embedded EWM (S/4HANA) ה-Inspection מנוהל דרך QIE (Quality Inspection Engine) ו-Inspection Document; מלאי-בבדיקה מנוהל ב-Storage Type/Bin ייעודיים, ותנועות מבוקרות דרך Warehouse Tasks/Orders. אינטגרציית QM↔EWM דורשת הגדרת Inspection Object Types.",
           purposeHe: "לאפשר נראות וניהול ברמת-תא של מלאי-בבדיקה, להפריד פיזית מלאי-חסום, ולתזמן תנועות אחרי החלטת-שימוש בסביבת-מחסן מתקדמת.",
           processExampleHe: "קבלה ב-EWM ➔ נוצר Inspection Document (QIE) ➔ החומר מנותב ל-Storage Type של בדיקה ➔ אחרי Usage Decision נוצר Warehouse Task להעברה לתא-אחסון רגיל.",
-          cbcHe: "ב-CBC מחסן-החומרים מנוהל ב-embedded EWM; תרכיז ו-CO2 ממוקמים בתאי-בדיקה ייעודיים, ורק אחרי אישור-מעבדה נוצר Warehouse Task להעברתם לקו-המילוי.",
+          scenarioHe: "בארגון מחסן-החומרים מנוהל ב-embedded EWM; תרכיז ו-CO2 ממוקמים בתאי-בדיקה ייעודיים, ורק אחרי אישור-מעבדה נוצר Warehouse Task להעברתם לקו-המילוי.",
           navHe: ["Enterprise Structure ► Definition ► Logistics Execution ► Define, copy, delete, check warehouse number", "Enterprise Structure ► Assignment ► Logistics Execution ► Assign warehouse number to plant/storage location", "SCM Extended Warehouse Management ► Cross-Process Settings ► Quality Management"],
           tables: ["T300", "T320", "/SCWM/ORDIM_O"],
           tcodes: ["SPRO", "/SCWM/MON", "QA32", "/SCWM/PRDI"],
@@ -208,8 +208,8 @@ export const CH1: TextbookChapter = {
         "להבטיח שאיכות אינה 'תחנה נפרדת' אלא בקרה-מובנית בכל תהליך עסקי — מהרכש דרך הייצור ועד המשלוח והשירות-שלאחר-המכירה.",
       processExampleHe:
         "מחזור מלא: רכש מזמין חומר (MM) ➔ קבלה יוצרת Inspection Lot (QM) ➔ אישור משחרר לייצור (PP) ➔ בדיקה-בתהליך במהלך פק\"ע ➔ בדיקה-סופית לפני מסירה (SD) ➔ תלונת-לקוח פותחת QM Notification. QM נוכח בכל שלב.",
-      cbcHe:
-        "ב-CBC QM שזור לאורך: בדיקת-תרכיז נכנס (MM), בדיקה-בתהליך של ערבוב-וקרבונציה (PP-PI), בדיקה-סופית של מנת-מילוי (Batch QM), ובדיקת-החזרות מלקוחות (SD) — הכל במערכת אחת.",
+      scenarioHe:
+        "בארגון QM שזור לאורך: בדיקת-תרכיז נכנס (MM), בדיקה-בתהליך של ערבוב-וקרבונציה (PP-PI), בדיקה-סופית של מנת-מילוי (Batch QM), ובדיקת-החזרות מלקוחות (SD) — הכל במערכת אחת.",
       navHe: [
         "Quality Management ► Basic Settings",
         "Quality Management ► Environment ► Central Functions",
@@ -270,8 +270,8 @@ export const CH1: TextbookChapter = {
         "לספק מסגרת מקצה-לקצה לאיכות — מהגדרת תקנים, דרך אכיפתם בבדיקות, ועד למידה ושיפור-מתמיד.",
       processExampleHe:
         "מוצר חדש: הנדסת-איכות מגדירה מאפיינים ותכנית-בדיקה ➔ בקבלה/ייצור נוצרות מנות-בדיקה ומתועדות תוצאות ➔ Usage Decision ➔ אם מתגלה חריגה נפתחת Notification ומופעל 8D ➔ אם נדרש תיקון-מתכון מופעל Change Management.",
-      cbcHe:
-        "ב-CBC: הנדסה מגדירה את מפרט-התרכיז (Brix, pH); בקרה בודקת כל מנה; תלונת-טעם פותחת Notification ופעולה-מתקנת; שינוי-מתכון עובר Change Management עם אישור-QA.",
+      scenarioHe:
+        "בארגון: הנדסה מגדירה את מפרט-התרכיז (Brix, pH); בקרה בודקת כל מנה; תלונת-טעם פותחת Notification ופעולה-מתקנת; שינוי-מתכון עובר Change Management עם אישור-QA.",
       navHe: [
         "Quality Management ► Quality Planning",
         "Quality Management ► Quality Inspection",
@@ -321,7 +321,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "אובייקטים: Master Inspection Characteristics (QPMK — quantitative/qualitative), Inspection Methods (QMTB), Sampling Procedures (QDPS), ו-Inspection Plans/Task Lists (PLKO/PLPO/PLMK). מאפיין יכול להיות class-based (Class Characteristic) ולקשר ל-Batch Classification. ב-S/4HANA Fiori 'Manage Inspection Plans' מאחד את התכנון.",
           purposeHe: "לתקנן ולתעד את דרישות-האיכות מראש — כך שהבדיקות יהיו עקביות, ניתנות-למדידה ומקושרות למפרט-המוצר.",
           processExampleHe: "מוצר חדש ➔ מגדירים Master Characteristics (QS21): 'משקל-נטו' עם גבולות 330±5 גרם ➔ מקצים Inspection Method ➔ בונים Task List (QP01) עם הפעולות והמאפיינים ➔ התכנית מוכנה לשימוש במנות-בדיקה.",
-          cbcHe: "ב-CBC הנדסת-האיכות מגדירה למשקה: Brix (יחס-סוכר), pH, רמת-קרבונציה (CO2 volumes), נפח-מילוי וחיתום-פקק — כל אחד כ-Master Characteristic עם גבולות-מפרט.",
+          scenarioHe: "בארגון הנדסת-האיכות מגדירה למשקה: Brix (יחס-סוכר), pH, רמת-קרבונציה (CO2 volumes), נפח-מילוי וחיתום-פקק — כל אחד כ-Master Characteristic עם גבולות-מפרט.",
           navHe: ["Quality Management ► Quality Planning ► Basic Data ► Inspection Characteristic ► Define Master Inspection Characteristics", "Quality Management ► Quality Planning ► Inspection Planning ► General", "Quality Management ► Quality Planning ► Basic Data ► Sample ► Sampling Procedure"],
           tables: ["QPMK", "QMTB", "PLMK", "PLKO", "QDPS"],
           tcodes: ["QS21", "QS22", "QS31", "QP01", "QDV1"],
@@ -345,7 +345,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "Inspection Lot (QALS) נוצר אוטומטית מאירוע-לוגיסטי או ידנית (QA01). Results Recording (QE01/QE51N) רושם ערכים ל-QAMR/QASR; המערכת מעריכה (Accepted/Rejected) לפי גבולות ו-Valuation Mode. Usage Decision (QA11) נשמר ב-QAVE ומפעיל תנועות-מלאי וקודי-Catalog. SPC ו-Control Charts זמינים למאפיינים-כמותיים. ב-S/4HANA Fiori 'Record Inspection Results' ו-'Make Usage Decisions'.",
           purposeHe: "להבטיח שרק חומר התואם-מפרט עובר הלאה — דרך מדידה, השוואה והחלטה מבוקרת המתועדות לביקורת.",
           processExampleHe: "Inspection Lot נוצר (QALS) ➔ בודק רושם תוצאות ל-QAMR (QE01) ➔ המערכת משווה לגבולות וקובעת Accepted/Rejected למאפיין ➔ Usage Decision (QA11): Accept ➔ 321 משחרר ל-Unrestricted; Reject ➔ Blocked/Scrap.",
-          cbcHe: "ב-CBC כל מנת-מילוי נבדקת: נפח, Brix, CO2, חיתום. תוצאות נרשמות מול גבולות-המפרט; Usage Decision משחרר את המנה למשלוח או חוסם אותה לבדיקה-חוזרת/גריטה.",
+          scenarioHe: "בארגון כל מנת-מילוי נבדקת: נפח, Brix, CO2, חיתום. תוצאות נרשמות מול גבולות-המפרט; Usage Decision משחרר את המנה למשלוח או חוסם אותה לבדיקה-חוזרת/גריטה.",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Creation", "Quality Management ► Quality Inspection ► Results Recording", "Quality Management ► Quality Inspection ► Inspection Lot Completion ► Usage Decision"],
           tables: ["QALS", "QAMR", "QASR", "QAVE", "QAPP"],
           tcodes: ["QA01", "QA32", "QE01", "QE51N", "QA11"],
@@ -376,7 +376,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "Quality Notification (QMEL כותרת, QMFE פריטי-תקלה, QMUR סיבות, QMSM משימות, QMMA פעולות). סוגי-Notification: Q1 תלונת-לקוח, Q2 תלונה-לספק, Q3 פנימי. Catalogs לסיווג: 9 (defect type), 5 (cause), 2 (task). Action Box מפעיל פעולות-אוטומטיות. תמיכת-8D ו-CAPA. עלויות נאספות ב-QM Order. ב-S/4HANA Fiori 'Manage Quality Tasks/Notifications'.",
           purposeHe: "לסגור את לולאת-הלמידה הארגונית — לוודא שכל כשל מנותח, מטופל בשורש ומתועד למניעת-הישנות.",
           processExampleHe: "תלונת-לקוח ➔ QM Notification Q1 (QM01) ➔ סיווג-תקלה דרך Catalogs ➔ פתיחת QM Order לאיסוף-עלויות ➔ ניתוח-שורש (8D) ➔ משימות-מתקנות (QMSM) ➔ מעקב וסגירה כשכל המשימות הושלמו.",
-          cbcHe: "ב-CBC תלונת-טעם או חריגת-קרבונציה פותחת Q1; ניתוח-שורש מזהה סטיית-מתכון; פעולה-מתקנת מעדכנת בקרת-תהליך; מעקב מוודא שלא חוזר במנות-הבאות.",
+          scenarioHe: "בארגון תלונת-טעם או חריגת-קרבונציה פותחת Q1; ניתוח-שורש מזהה סטיית-מתכון; פעולה-מתקנת מעדכנת בקרת-תהליך; מעקב מוודא שלא חוזר במנות-הבאות.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Creation", "Quality Management ► Quality Notifications ► Notification Processing ► Response Monitoring", "Quality Management ► Quality Notifications ► Notification ► Catalogs"],
           tables: ["QMEL", "QMFE", "QMUR", "QMSM", "QMMA"],
           tcodes: ["QM01", "QM02", "QM03", "QM10", "IQS22"],
@@ -407,7 +407,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "Engineering Change Management (Change Master AENR, CC01/CC02) מקושר ל-Material, BOM, Task List ו-Inspection Plan. שינוי מקבל Valid-From ונשמר עם היסטוריה; date-effective explosion מבטיח שמנות-בדיקה ישנות נשפטות לפי המפרט-הישן. ב-S/4HANA תמיכה ב-Engineering Record ו-Change Record (PLM). אינטגרציה עם Quality Info Records לשחרור-ספק.",
           purposeHe: "לשמור עקביות, מעקב-תצורה ועמידה-ברגולציה — לדעת בדיוק לפי איזה מפרט נבדק/יוצר כל פריט בכל זמן.",
           processExampleHe: "החמרת גבול-מפרט ל-pH ➔ נפתח Change Master (CC01) עם Valid-From 1/7 ➔ מעדכנים את ה-Inspection Plan תחת מספר-השינוי ➔ מנות לפני התאריך נשפטות לפי המפרט-הישן, אחריו לפי החדש.",
-          cbcHe: "ב-CBC שינוי-מתכון (אלרגנים/יחס-סוכר) או החמרת-מפרט עובר ECM עם אישור-QA ותוקף; כך ביקורת-מזון יכולה לעקוב בדיוק מה ייצרנו בכל תאריך.",
+          scenarioHe: "בארגון שינוי-מתכון (אלרגנים/יחס-סוכר) או החמרת-מפרט עובר ECM עם אישור-QA ותוקף; כך ביקורת-מזון יכולה לעקוב בדיוק מה ייצרנו בכל תאריך.",
           navHe: ["Logistics – General ► Engineering Change Management", "Quality Management ► Quality Planning ► Inspection Planning ► General (with Change Number)", "Cross-Application Components ► Engineering Change Management"],
           tables: ["AENR", "PLKO", "PLMK", "MAST", "QPMK"],
           tcodes: ["CC01", "CC02", "QP02", "CS02", "QS22"],
@@ -446,8 +446,8 @@ export const CH1: TextbookChapter = {
         "להטמיע בקרת-איכות בתוך התהליכים הקיימים — בלי כפילות-נתונים ובלי 'איים' — ולתמוך בעמידה בתקנים.",
       processExampleHe:
         "ספק חדש: QInfo קובע אם נדרשת בדיקת-קבלה (MM); הבדיקה מזינה Vendor Evaluation; בייצור בדיקות-בתהליך (PP); לפני-משלוח מופק Quality Certificate (SD); מכשירי-המדידה מכוילים דרך PM; הכל מתועד לביקורת-ISO.",
-      cbcHe:
-        "ב-CBC: בדיקת-תרכיז-נכנס (MM) + הערכת-ספקי-תרכיז; בדיקת-קרבונציה-בתהליך (PP-PI); תעודת-איכות-למשלוח (SD); כיול-מד-pH ו-densitometer (PM); מלאי-בבדיקה ב-EWM; והכל לפי ISO 9001 / FSSC 22000.",
+      scenarioHe:
+        "בארגון: בדיקת-תרכיז-נכנס (MM) + הערכת-ספקי-תרכיז; בדיקת-קרבונציה-בתהליך (PP-PI); תעודת-איכות-למשלוח (SD); כיול-מד-pH ו-densitometer (PM); מלאי-בבדיקה ב-EWM; והכל לפי ISO 9001 / FSSC 22000.",
       navHe: [
         "Quality Management ► QM in Logistics ► QM in Procurement",
         "Quality Management ► QM in Logistics ► QM in Production",
@@ -499,7 +499,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "Inspection Type 01 (GR from PO), 05 (other GR), 08 (stock transfer). ה-QM Control Key (במאפייני-רכש של אב-החומר) שולט: חובת-בדיקה, שחרור-ספק (QInfo, QI01), חסימת-תשלום עד UD. Quality Info Record (QINF) מתיר/חוסם רכש מספק×חומר. תוצאות-הבדיקה מזינות Quality Score ל-Vendor Evaluation (MM).",
           purposeHe: "להבטיח שרק חומר-תקין מספקים-מאושרים נכנס למלאי-זמין, ולקשור ביצועי-ספק לאיכות.",
           processExampleHe: "PO לספק ➔ קבלה (MIGO 101) ➔ QM Control Key מחייב בדיקה ➔ Inspection Lot 01 ➔ מלאי ב-QI Stock ➔ UD = Accept ➔ שחרור ל-Unrestricted + עדכון Vendor Evaluation; אם אין QInfo תקף — חסימת-קבלה.",
-          cbcHe: "ב-CBC כל קבלת-תרכיז/סוכר/CO2 פותחת בדיקה-01; QInfo מתיר רכש רק מספקי-תרכיז מאושרים; חסימת-תשלום עד אישור-מעבדה; הערכת-ספקים רבעונית לפי תוצאות.",
+          scenarioHe: "בארגון כל קבלת-תרכיז/סוכר/CO2 פותחת בדיקה-01; QInfo מתיר רכש רק מספקי-תרכיז מאושרים; חסימת-תשלום עד אישור-מעבדה; הערכת-ספקים רבעונית לפי תוצאות.",
           navHe: ["Quality Management ► QM in Logistics ► QM in Procurement ► Define Control Keys", "Quality Management ► QM in Logistics ► QM in Procurement ► Quality Info Record", "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection for Goods Movements"],
           tables: ["QINF", "QMAT", "QALS", "EINA", "LFA1"],
           tcodes: ["QI01", "QI02", "MIGO", "QA32", "ME2QM"],
@@ -523,7 +523,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "Inspection Type 03 (during production, Inspection Points עם QAPP) ו-04 (GR from production). Control Key בפעולת ה-Routing מפעיל בדיקה. ב-PP-PI: Process Order + Inspection Points מקושרים ל-Phases וב-PI-Sheet (Process Instructions / XSteps). תוצאות-הבדיקה יכולות לחסום Confirmation או שחרור-מנה. Calculated Characteristics ו-In-Process SPC נתמכים.",
           purposeHe: "לתפוס סטיות מוקדם בתהליך-הייצור — להפחית גריטה ולמנוע המשך-ייצור מנה-פגומה.",
           processExampleHe: "Process Order משוחררת ➔ בדיקה-בתהליך (Type 03) ב-Inspection Point אחרי שלב-הערבוב ➔ רישום-תוצאות (QE51N) ➔ אם בגבולות, הייצור ממשיך; בקבלה-מ-ייצור (101) נוצרת בדיקת-04 למוצר-המוגמר.",
-          cbcHe: "ב-CBC במהלך פק\"ע-המשקה: Inspection Points בודקים Brix וקרבונציה אחרי ערבוב ולפני-מילוי; בדיקת-04 בקבלת-מנת-המילוי הסופית למלאי לפני שחרור-לוגיסטי.",
+          scenarioHe: "בארגון במהלך פק\"ע-המשקה: Inspection Points בודקים Brix וקרבונציה אחרי ערבוב ולפני-מילוי; בדיקת-04 בקבלת-מנת-המילוי הסופית למלאי לפני שחרור-לוגיסטי.",
           navHe: ["Quality Management ► QM in Logistics ► QM in Production", "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection at Production", "Production – Process ► Process Management ► Process Instructions"],
           tables: ["QALS", "QAPP", "AFKO", "PLPO", "QAMR"],
           tcodes: ["CO01", "COR1", "QE51N", "QA32", "QGA3"],
@@ -554,7 +554,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "Inspection Type 10 (Delivery/SD) + 'QM in SD' switch בחומר/לקוח. Certificate Profile (QC01) מפיק Quality Certificate לפי Batch/Lot. חסימת-מסירה (Delivery Block) עד UD. החזרת-לקוח (Returns Order) יכולה להפעיל Inspection Type 06/05 ולפתוח Q1 Notification. אינטגרציה עם Batch Determination למשלוח-לפי-תכונות.",
           purposeHe: "להגן על המוניטין ולעמוד בהתחייבויות-חוזיות — לשלוח רק מוצר-תקין עם תיעוד-איכות מתאים.",
           processExampleHe: "Sales Order ➔ Delivery ➔ אם 'QM in SD' פעיל נוצרת בדיקת-10 ➔ Delivery Block עד UD ➔ Accept ➔ הפקת Quality Certificate (QC01) ושחרור-משלוח; החזרה ➔ Returns + Q1 Notification.",
-          cbcHe: "ב-CBC ללקוחות-מוסדיים מופקת תעודת-איכות-למנה (Brix/CO2/תוקף) דרך Certificate Profile; משקה-מוחזר-מטעם-טעם פותח Q1 ובדיקת-החזרה.",
+          scenarioHe: "בארגון ללקוחות-מוסדיים מופקת תעודת-איכות-למנה (Brix/CO2/תוקף) דרך Certificate Profile; משקה-מוחזר-מטעם-טעם פותח Q1 ובדיקת-החזרה.",
           navHe: ["Quality Management ► QM in Logistics ► QM in Sales and Distribution", "Quality Management ► Quality Certificates ► Outgoing Certificates", "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection for Deliveries"],
           tables: ["QALS", "QCVK", "QMEL", "LIKP", "VBAK"],
           tcodes: ["VL01N", "QC01", "QC51", "QM01", "QA32"],
@@ -578,7 +578,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "Test Equipment מנוהל כ-Equipment (EQUI) ב-PM; Maintenance Plan (IP01) מתזמן כיול-תקופתי; הכיול עצמו רץ כ-Calibration Inspection (Inspection Type 14) המשלב Maintenance Order + Inspection Lot. תוצאות-הכיול נרשמות ב-QM, וה-UD קובע אם הכלי כשיר. אי-כשירות יכולה לחסום שימוש בכלי.",
           purposeHe: "להבטיח שכל מדידת-איכות נעשית בכלי-מכויל-ותקף — תנאי לעמידה ב-ISO 9001 ובמהימנות-נתונים.",
           processExampleHe: "Maintenance Plan מתזמן כיול חודשי למד-pH ➔ נוצר Maintenance Order + Inspection Lot (Type 14) ➔ טכנאי מכייל ורושם תוצאות ➔ UD = כשיר/לא-כשיר ➔ אם לא-כשיר, הכלי נחסם והבדיקות שבוצעו בו נבחנות.",
-          cbcHe: "ב-CBC מד-pH, densitometer ומדי-לחץ-CO2 מכוילים תקופתית דרך PM; כיול שנכשל חוסם את הכלי ומפעיל בדיקה-חוזרת של מנות שנבדקו בו — קריטי לבטיחות-מזון.",
+          scenarioHe: "בארגון מד-pH, densitometer ומדי-לחץ-CO2 מכוילים תקופתית דרך PM; כיול שנכשל חוסם את הכלי ומפעיל בדיקה-חוזרת של מנות שנבדקו בו — קריטי לבטיחות-מזון.",
           navHe: ["Quality Management ► QM in Logistics ► Test Equipment Management", "Plant Maintenance ► Maintenance Plans", "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection for Calibration"],
           tables: ["EQUI", "QALS", "MPLA", "MHIS", "QAMR"],
           tcodes: ["IE01", "IP01", "IP10", "QA32", "QE51N"],
@@ -609,7 +609,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "embedded EWM רץ באותו S/4HANA stack (ללא מערכת-נפרדת). QIE מנהל Inspection Object Types (למשל Q-Inspection בקבלה). מלאי-בבדיקה ב-Stock Type ייעודי ו-Storage Type/Bin נפרדים. אחרי UB/UD נוצרים Warehouse Tasks/Orders. אינטגרציה QM↔EWM דורשת מיפוי Inspection Types ל-Inspection Object Types והגדרת Putaway/Stock Removal strategies.",
           purposeHe: "לנהל מלאי-בבדיקה בנראות ובדיוק ברמת-תא, להפריד פיזית חומר-חסום, ולתזמן תנועות אוטומטיות אחרי UD בסביבת-מחסן מתקדמת.",
           processExampleHe: "קבלה ב-EWM ➔ QIE יוצר Inspection Document ➔ Putaway לתא-בדיקה (Storage Type ייעודי) ➔ בדיקה ב-QM (QA32) ➔ UD = Accept ➔ נוצר Warehouse Task להעברה לתא-אחסון-רגיל.",
-          cbcHe: "ב-CBC מחסן-החומרים ב-embedded EWM ממקם תרכיז/CO2 בתאי-בדיקה; אחרי אישור-מעבדה Warehouse Task מעביר אותם לאזור-זמין סמוך לקו-המילוי.",
+          scenarioHe: "בארגון מחסן-החומרים ב-embedded EWM ממקם תרכיז/CO2 בתאי-בדיקה; אחרי אישור-מעבדה Warehouse Task מעביר אותם לאזור-זמין סמוך לקו-המילוי.",
           navHe: ["SCM Extended Warehouse Management ► Cross-Process Settings ► Quality Management", "SCM Extended Warehouse Management ► Goods Receipt Process ► Quality Management", "Quality Management ► QM in Logistics ► QM and Warehouse Management"],
           tables: ["/SCWM/ORDIM_O", "/SCDL/DB_PROCH_O", "QALS", "T300", "QINF"],
           tcodes: ["/SCWM/MON", "/SCWM/PRDI", "QA32", "/SCWM/QINSP", "QA11"],
@@ -640,7 +640,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "מרכיבי-תמיכה: Audit Management (planning/execution/findings/CAPA), Quality Certificates (incoming/outgoing), Document Management System (DMS) לקישור-מפרטים/נהלים, Engineering Change Management לבקרת-תצורה, ו-Quality Notifications לפעולות-מתקנות. embedded analytics מספק KPIs (FPY, COQ) לסקירת-הנהלה. כל אלה ממפים לסעיפי-ISO (7.5 תיעוד, 8.5 בקרת-ייצור, 9.2 ביקורות, 10.2 אי-התאמות/CAPA).",
           purposeHe: "להפוך עמידה-ברגולציה מנטל-ידני למובנה-במערכת — ראיות-ביקורת זמינות בלחיצה, ומעקב-CAPA מתועד מקצה-לקצה.",
           processExampleHe: "מבדק-פנימי מתוכנן ב-Audit Management ➔ ממצא נרשם ➔ נפתחת פעולה-מתקנת (CAPA) המקושרת ל-Notification ➔ מעקב-עד-סגירה ➔ הראיות (בדיקות, תעודות, מסמכים) זמינות לסוקר-ISO החיצוני.",
-          cbcHe: "ב-CBC הביקורת השנתית ל-ISO 9001 / FSSC 22000 נסמכת על תיעוד-QM: היסטוריית-בדיקות-תרכיז, כיולי-מכשירים, תעודות-מנה, וניתוח-תלונות — הכל ב-SAP, נגיש לסוקר.",
+          scenarioHe: "בארגון הביקורת השנתית ל-ISO 9001 / FSSC 22000 נסמכת על תיעוד-QM: היסטוריית-בדיקות-תרכיז, כיולי-מכשירים, תעודות-מנה, וניתוח-תלונות — הכל ב-SAP, נגיש לסוקר.",
           navHe: ["Quality Management ► Audit Management", "Quality Management ► Quality Certificates", "Cross-Application Components ► Document Management"],
           tables: ["QMEL", "PLMA", "DRAW", "QALS", "AENR"],
           tcodes: ["PLM_AUDIT", "QC01", "CV01N", "QM01", "QGA3"],
@@ -679,8 +679,8 @@ export const CH1: TextbookChapter = {
         "לקבע מודל-מנטלי מלא של QM לפני הצלילה לפרטים — כך שכל נושא-עתידי ימוקם בהקשרו הנכון.",
       processExampleHe:
         "המחזור-המלא שנלמד: מבנה-ארגוני מגדיר היכן ➔ הנדסה מתכננת מה ➔ MM/PP/SD/PM יוצרים מנות-בדיקה ➔ בקרה מבצעת ומחליטה ➔ שיפור לומד מתקלות ➔ ניהול-שינויים מעדכן בצורה מבוקרת ➔ ISO מתעד הכל.",
-      cbcHe:
-        "ב-CBC המפה מתורגמת לחיים: מפעל-מילוי בודק תרכיז (MM), מבצע בדיקות-בתהליך (PP-PI), מפיק תעודות-מנה (SD), מכייל מכשירים (PM), מנהל מלאי-בבדיקה (EWM), ועומד ב-ISO 9001 / FSSC 22000 — הכל במערכת-אחת.",
+      scenarioHe:
+        "בארגון המפה מתורגמת לחיים: מפעל-מילוי בודק תרכיז (MM), מבצע בדיקות-בתהליך (PP-PI), מפיק תעודות-מנה (SD), מכייל מכשירים (PM), מנהל מלאי-בבדיקה (EWM), ועומד ב-ISO 9001 / FSSC 22000 — הכל במערכת-אחת.",
       navHe: [
         "Quality Management ► Basic Settings (נקודת-התחלה למימוש)",
         "Quality Management ► QM in Logistics (אינטגרציות)",

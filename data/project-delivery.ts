@@ -6,7 +6,7 @@
 export interface Phase {
   id: string; n: number; he: string; en: string; color: string; goal: string;
   objectives: string[]; deliverables: string[]; roles: string[]; meetings: string[];
-  templates: string[]; risks: string[]; mistakes: string[]; example: string; cbc?: string;
+  templates: string[]; risks: string[]; mistakes: string[]; example: string; scenario?: string;
   links?: { label: string; href: string }[];
 }
 
@@ -22,7 +22,7 @@ export const PHASES: Phase[] = [
     risks: ["ערך עסקי לא ברור → אין מימון", "סקופ רחב מדי / לא מוגדר"],
     mistakes: ["דילוג על Discovery וקפיצה ל-Realize", "החלטת Brownfield/Greenfield ללא ניתוח קוד מותאם"],
     example: "הרצת SAP Readiness Check על מערכת ECC קיימת לזיהוי Simplification Items ו-Custom Code Impact לפני החלטת גישה.",
-    cbc: "ב-CBC: הערכת ערך למעבר S/4 — דיווח מלאי תרכיזים בזמן אמת (Embedded Analytics) כמניע ערך מרכזי.",
+    scenario: "בארגון: הערכת ערך למעבר S/4 — דיווח מלאי תרכיזים בזמן אמת (Embedded Analytics) כמניע ערך מרכזי.",
     links: [{ label: "Readiness Center", href: "/s4-readiness/" }, { label: "מרכז S/4", href: "/s4hana/" }],
   },
   {
@@ -36,7 +36,7 @@ export const PHASES: Phase[] = [
     risks: ["משאבים/זמינות מומחים", "ממשל לא ברור → החלטות איטיות"],
     mistakes: ["צוות ללא Process Owners מהעסק", "אין סביבת Sandbox ל-Fit-to-Standard"],
     example: "הקמת RACI שמפריד בין החלטות עיצוב (Process Owner) למימוש (Consultant) ולאישור (Steering).",
-    cbc: "ב-CBC: Module Leads ל-PP-PI, PM ו-QM מונו מהשטח (מתכנן ייצור, מהנדס אחזקה) — לא רק IT.",
+    scenario: "בארגון: Module Leads ל-PP-PI, PM ו-QM מונו מהשטח (מתכנן ייצור, מהנדס אחזקה) — לא רק IT.",
     links: [{ label: "Cutover Center", href: "/delivery/#cutover" }],
   },
   {
@@ -50,7 +50,7 @@ export const PHASES: Phase[] = [
     risks: ["ניפוח פערים → קסטומיזציה מיותרת", "Process Owners לא זמינים לסדנאות"],
     mistakes: ["Custom-first במקום Fit-to-Standard", "תיעוד דרישות ללא Backlog מתועדף"],
     example: "סדנת Fit-to-Standard ל-Process Order: הצגת תהליך Best Practice → תיעוד delta → החלטת Config/Enhancement/Workaround.",
-    cbc: "ב-CBC: סדנת Fit-to-Standard לפקודת תהליך — רוב התהליך תאם Best Practice; פער יחיד בקביעת אצווה (FEFO) טופל ב-Config.",
+    scenario: "בארגון: סדנת Fit-to-Standard לפקודת תהליך — רוב התהליך תאם Best Practice; פער יחיד בקביעת אצווה (FEFO) טופל ב-Config.",
     links: [{ label: "Workshop Center", href: "/delivery/#workshop" }, { label: "Blueprint Center", href: "/delivery/#blueprint" }, { label: "מודל נתונים", href: "/sap-infrastructure/" }],
   },
   {
@@ -64,7 +64,7 @@ export const PHASES: Phase[] = [
     risks: ["Scope creep ב-Sprints", "אינטגרציות/הגירה מתגלות מאוחר"],
     mistakes: ["פיתוח WRICEF ללא ATC/Readiness", "בדיקות נדחות לסוף"],
     example: "Sprint שמסיים תהליך Order-to-Confirm מקצה לקצה: Config + Backflush + אישור + בדיקת SIT.",
-    cbc: "ב-CBC: Sprint לייצור — גרסת ייצור (MKAL), מתכון, Backflush ו-COGI נבדקו כיחידת תהליך אחת.",
+    scenario: "בארגון: Sprint לייצור — גרסת ייצור (MKAL), מתכון, Backflush ו-COGI נבדקו כיחידת תהליך אחת.",
     links: [{ label: "Test Center", href: "/delivery/#test" }, { label: "Migration Cockpit", href: "/migration-cockpit/" }, { label: "Object Explorer", href: "/s4hana/" }],
   },
   {
@@ -78,7 +78,7 @@ export const PHASES: Phase[] = [
     risks: ["חלון Cutover קצר מדי", "נתוני פתיחה לא מאוזנים (Reconciliation)"],
     mistakes: ["Dress Rehearsal לא מלא / לא נמדד", "Fallback Plan חסר"],
     example: "Dress Rehearsal מלא של ה-Cutover עם מדידת זמנים, כדי לוודא שהחלון ב-Go-Live ריאלי.",
-    cbc: "ב-CBC: Dress Rehearsal של העלאת יתרות מלאי (LTMC) — נמדד 6 שעות; חלון ה-Go-Live תוכנן ל-8.",
+    scenario: "בארגון: Dress Rehearsal של העלאת יתרות מלאי (LTMC) — נמדד 6 שעות; חלון ה-Go-Live תוכנן ל-8.",
     links: [{ label: "Cutover Center", href: "/delivery/#cutover" }, { label: "Migration Cockpit", href: "/migration-cockpit/" }],
   },
   {
@@ -92,7 +92,7 @@ export const PHASES: Phase[] = [
     risks: ["ידע לא מועבר (KT) → תלות ביועצים", "Backlog שיפורים נזנח"],
     mistakes: ["אין Center of Excellence", "Hypercare מסתיים בלי KT מסודר"],
     example: "Cloud ALM לניטור תפעולי + KPIs (זמני תגובה MRP, תקלות COGI) שמזינים את ה-improvement backlog.",
-    cbc: "ב-CBC: KPI חודשי — מספר רשומות COGI פתוחות, זמן סגירת חודש, אחוז Backflush מוצלח.",
+    scenario: "בארגון: KPI חודשי — מספר רשומות COGI פתוחות, זמן סגירת חודש, אחוז Backflush מוצלח.",
     links: [{ label: "Readiness Center", href: "/s4-readiness/" }, { label: "מרכז תקלות", href: "/incidents/" }],
   },
 ];

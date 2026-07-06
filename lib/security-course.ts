@@ -53,7 +53,7 @@ function topic(a: SecArea): CourseTopic {
     examples: { scenario: a.when, bullets: a.tips },
     transactions: { tcodes: a.tcodes, tables: a.tables.map((t) => t.split(" ")[0]) },
     debug: { issues: a.troubleshooting, steps: a.debug, oss: a.notes },
-    cbc: { text: a.cbc, incidents: a.incidents.map((i) => ({ slug: i.slug, label: i.label })) },
+    scenario: { text: a.scenario, incidents: a.incidents.map((i) => ({ slug: i.slug, label: i.label })) },
     related: a.links.map((l) => ({ label: l.label, href: l.href.includes("/security/#") ? "#" : l.href })),
   };
 }

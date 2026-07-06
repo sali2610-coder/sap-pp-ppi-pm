@@ -2,7 +2,7 @@
 // Every node is a complete LearningNode with 18 facets of authored Hebrew —
 // beginner + consultant friendly, enough to study the topic without the book.
 // Source hierarchy preserved exactly; SAP identifiers verbatim English.
-// CBC = Coca-Cola bottling automated high-bay pallet warehouse (AS/RS, AGV).
+// הארגון = Example Product bottling automated high-bay pallet warehouse (AS/RS, AGV).
 import type { TextbookChapter } from "./types";
 
 export const CH6: TextbookChapter = {
@@ -10,7 +10,7 @@ export const CH6: TextbookChapter = {
   titleHe: "מערכות אוטומציה למחסן (MFS)",
   titleEn: "Warehouse Automation Systems",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לאוטומציית-מחסן ב-SAP EWM. נלמד כיצד EWM שולט ישירות בציוד-אוטומציה — מחסני-מדפים אוטומטיים (AS/RS), מסועים, רכבים אוטונומיים (AGV) ורובוטים — דרך רכיב ה-Material Flow System (MFS). כל תת-פרק הורחב ליחידה עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC ממחסן-המשטחים האוטומטי של מפעל-המשקאות, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-זרימת-טלגרמות, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט באוטומציית-EWM ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לאוטומציית-מחסן ב-SAP EWM. נלמד כיצד EWM שולט ישירות בציוד-אוטומציה — מחסני-מדפים אוטומטיים (AS/RS), מסועים, רכבים אוטונומיים (AGV) ורובוטים — דרך רכיב ה-Material Flow System (MFS). כל תת-פרק הורחב ליחידה עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון ממחסן-המשטחים האוטומטי של מפעל-המשקאות, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-זרימת-טלגרמות, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט באוטומציית-EWM ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 6.1
     {
@@ -27,8 +27,8 @@ export const CH6: TextbookChapter = {
         "המטרה: להגדיל תפוקה, דיוק וזמינות-מלאי תוך הקטנת תלות בכוח-אדם, ולעשות זאת בלי ריבוי-מערכות. אוטומציה מנוהלת-EWM מבטיחה שהחלטות-המלאי (איזה משטח, לאן, מתי) וביצוע-הציוד (איזה מנוף, איזה מסוע) מתקבלות מאותו מקור-אמת.",
       processExampleHe:
         "משטח מוגמר יורד מקו-הייצור אל מסוע-קליטה. סורק קורא את ה-Handling Unit; EWM יוצר Warehouse Task לאחסון. אם המחסן אוטומטי, ה-WT עובר ל-MFS שמתרגם אותו לסדרת-טלגרמות אל ה-PLC: 'הזז מסוע 3 קדימה', 'הרם מנוף לתא 12-04-08'. אישורי-הציוד חוזרים כטלגרמות-מצב ו-EWM מאשר את ה-WT.",
-      cbcHe:
-        "ב-CBC מפעל-המשקאות מפעיל מחסן-משטחים אוטומטי בגובה-רב (high-bay): משטחי-בקבוקים מוגמרים יורדים מקווי-המילוי, נסרקים, ונכנסים למחסן-AS/RS המנוהל-MFS. רכבי-AGV מסיעים משטחים בין אזור-המילוי לאזור-המשלוח. הכול — מתכנון-המלאי ועד פקודת-המנוף — רץ ב-EWM אחד, ללא WCS חיצוני.",
+      scenarioHe:
+        "בארגון מפעל-המשקאות מפעיל מחסן-משטחים אוטומטי בגובה-רב (high-bay): משטחי-בקבוקים מוגמרים יורדים מקווי-המילוי, נסרקים, ונכנסים למחסן-AS/RS המנוהל-MFS. רכבי-AGV מסיעים משטחים בין אזור-המילוי לאזור-המשלוח. הכול — מתכנון-המלאי ועד פקודת-המנוף — רץ ב-EWM אחד, ללא WCS חיצוני.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Issue Process ► ... (general EWM activation)",
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Master Data ► Define Warehouse Number Control",
@@ -94,8 +94,8 @@ export const CH6: TextbookChapter = {
         "המטרה: לתת ל-EWM בקרה דטרמיניסטית ובזמן-אמת על ציוד-האוטומציה, עם latency נמוך ומקור-אמת אחד, במקום להסתמך על WCS חיצוני. כך כל החלטת-ניתוב מתקבלת על-בסיס נתוני-המלאי המעודכנים ביותר.",
       processExampleHe:
         "HU נכנס למסוע ועובר חיישן בנקודת-קליטה — ה-PLC שולח טלגרמת-sensor ל-MFS: 'HU בנקודת-קליטה 1'. MFS מזהה את ה-WT הפתוח, מחליט יעד, ומשיב טלגרמת-action: 'נתב לתת-מסוע 3, יעד תא 12-04'. בכל Communication Point נוסף החיישן מדווח והמערכת מאשרת. בהגעה לתא, מנוף-ה-AS/RS (Resource) מקבל פקודה, מאחסן, ומחזיר acknowledgement; EWM מאשר את ה-WT.",
-      cbcHe:
-        "ב-CBC מסוע מוביל משטחי-בקבוקים מקו-המילוי אל מבואת-המחסן האוטומטי. ה-PLC מדווח ל-MFS על כל משטח שעובר חיישן; MFS מנתב אוטומטית לפי סוג-המוצר ותפוסת-התאים, ושולח פקודה למנוף-AS/RS לאחסון. טלגרמת-heartbeat נשלחת כל שנייה כדי לוודא שהקו 'חי'.",
+      scenarioHe:
+        "בארגון מסוע מוביל משטחי-בקבוקים מקו-המילוי אל מבואת-המחסן האוטומטי. ה-PLC מדווח ל-MFS על כל משטח שעובר חיישן; MFS מנתב אוטומטית לפי סוג-המוצר ותפוסת-התאים, ושולח פקודה למנוף-AS/RS לאחסון. טלגרמת-heartbeat נשלחת כל שנייה כדי לוודא שהקו 'חי'.",
       navHe: [
         "SCM EWM ► Extended Warehouse Management ► Material Flow System (MFS) ► Master Data ► Maintain Communication Channel",
         "SCM EWM ► Extended Warehouse Management ► Material Flow System (MFS) ► Telegram ► Define Telegram Structure",
@@ -170,8 +170,8 @@ export const CH6: TextbookChapter = {
             "להכניס סחורה למחסן האוטומטי במהירות, בדיוק ובלי כוח-אדם, תוך עדכון-מלאי בזמן-אמת.",
           processExampleHe:
             "משטח מתקבל בקבלה (Goods Receipt), נוצר HU; EWM יוצר Putaway WT לתא פנוי. ה-HU נכנס למסוע, עובר תחנת-בדיקת-מימדים (CP), ו-MFS מנתב אותו אל מנוף-ה-AS/RS שמאחסן בתא ומחזיר אישור.",
-          cbcHe:
-            "ב-CBC משטחי-בקבוקים מקו-המילוי מתקבלים אוטומטית: סורק-ברקוד יוצר HU, תחנת-מימדים מאמתת גובה-משטח, ו-AS/RS מאחסן בתא-גובה הפנוי הראשון. משטח חורג-מימדים מנותב למסלול-דחייה.",
+          scenarioHe:
+            "בארגון משטחי-בקבוקים מקו-המילוי מתקבלים אוטומטית: סורק-ברקוד יוצר HU, תחנת-מימדים מאמתת גובה-משטח, ו-AS/RS מאחסן בתא-גובה הפנוי הראשון. משטח חורג-מימדים מנותב למסלול-דחייה.",
           navHe: [
             "SCM EWM ► Extended Warehouse Management ► Goods Receipt Process ► Inbound Delivery",
             "SCM EWM ► Extended Warehouse Management ► Cross-Process Settings ► Warehouse Task ► Define Storage Control",
@@ -217,8 +217,8 @@ export const CH6: TextbookChapter = {
             "להוציא את הסחורה הנכונה (לפי FIFO/shelf-life), במהירות ובדיוק, אל אזור-המשלוח — בלי משיכה ידנית.",
           processExampleHe:
             "Outbound Delivery נוצרת ל-200 משטחים; EWM מייצר Stock-Removal WTs לפי FIFO. מנוף-ה-AS/RS שולף כל משטח, MFS מנתב במסוע אל שער-ההעמסה, ובסיום מתבצע Goods Issue.",
-          cbcHe:
-            "ב-CBC הזמנת-לקוח גדולה נפרסת ל-Wave; AS/RS שולף משטחי-בקבוקים לפי FIFO (תאריך-ייצור מוקדם קודם), והמסוע מוביל אל שער-המשאית הנכון. אצוות עם shelf-life קצר נשלפות תחילה.",
+          scenarioHe:
+            "בארגון הזמנת-לקוח גדולה נפרסת ל-Wave; AS/RS שולף משטחי-בקבוקים לפי FIFO (תאריך-ייצור מוקדם קודם), והמסוע מוביל אל שער-המשאית הנכון. אצוות עם shelf-life קצר נשלפות תחילה.",
           navHe: [
             "SCM EWM ► Extended Warehouse Management ► Goods Issue Process ► Outbound Delivery",
             "SCM EWM ► Extended Warehouse Management ► Cross-Process Settings ► Wave Management",
@@ -267,8 +267,8 @@ export const CH6: TextbookChapter = {
         "לאפשר הפעלת צי-רובוטים רב-ספקים תחת EWM אחד, להפחית עלות-אינטגרציה (תקן VDA 5050 במקום ממשק-לכל-יצרן), ולהוסיף גמישות-אוטומציה בלי לשפץ את המחסן.",
       processExampleHe:
         "הזמנת-ליקוט נוצרת ב-EWM. במקום עובד, EWM שולח את ה-Warehouse Order ל-SAP Warehouse Robotics; השירות מקצה רובוט פנוי, שולח לו mission ב-VDA 5050 'סע למיקום 12, אסוף HU, הבא ל-packing'. הרובוט מבצע, מאשר, וה-WO נסגר.",
-      cbcHe:
-        "ב-CBC רובוטים ניידים מסיעים משטחי-בקבוקים מאזור-ה-staging של ה-AS/RS אל קווי-ההעמסה. צי מעורב (שני יצרנים) מנוהל דרך SAP Warehouse Robotics, כך ש-EWM אינו צריך לדעת מי-יצרן-איזה-רובוט.",
+      scenarioHe:
+        "בארגון רובוטים ניידים מסיעים משטחי-בקבוקים מאזור-ה-staging של ה-AS/RS אל קווי-ההעמסה. צי מעורב (שני יצרנים) מנוהל דרך SAP Warehouse Robotics, כך ש-EWM אינו צריך לדעת מי-יצרן-איזה-רובוט.",
       navHe: [
         "SAP BTP ► SAP Warehouse Robotics ► Robot Master / Fleet Configuration",
         "SCM EWM ► Extended Warehouse Management ► Integration ► Warehouse Robotics ► Define Robotics Communication",
@@ -332,8 +332,8 @@ export const CH6: TextbookChapter = {
         "למקסם ניצול-נפח (גובה), דיוק-מלאי ותפוקה רציפה 24/7, ולהפחית כוח-אדם ונזקי-טיפול — במיוחד למוצרים אחידי-מימדים בנפחים גבוהים.",
       processExampleHe:
         "משטח נכנס לנקודת-P&D בתחתית-הסמטה; MFS מורה למנוף לאסוף, לעלות לגובה הנכון ולהכניס לתא. בשליפה, ה-WT מורה למנוף להוציא מהתא ולהניח בנקודת-P&D של המסוע-היוצא. EWM מעדכן את ה-bin בזמן-אמת.",
-      cbcHe:
-        "ב-CBC מחסן-ה-high-bay מאחסן עשרות-אלפי משטחי-בקבוקים בסמטאות צרות; מנופי-מעבר מאחסנים ושולפים אוטומטית. תפוקה רציפה תומכת בקווי-מילוי הפועלים 24/7, וצפיפות-הגובה חוסכת שטח-רצפה יקר.",
+      scenarioHe:
+        "בארגון מחסן-ה-high-bay מאחסן עשרות-אלפי משטחי-בקבוקים בסמטאות צרות; מנופי-מעבר מאחסנים ושולפים אוטומטית. תפוקה רציפה תומכת בקווי-מילוי הפועלים 24/7, וצפיפות-הגובה חוסכת שטח-רצפה יקר.",
       navHe: [
         "SCM EWM ► Extended Warehouse Management ► Master Data ► Define Storage Type",
         "SCM EWM ► Extended Warehouse Management ► Master Data ► Storage Bins ► Define Storage Bin Structure",
@@ -401,8 +401,8 @@ export const CH6: TextbookChapter = {
             "לתת ל-EWM בקרה ישירה, דטרמיניסטית ובזמן-אמת על ה-AS/RS, עם latency נמוך ומקור-אמת אחד — בלי תלות ב-WCS חיצוני.",
           processExampleHe:
             "WT-אחסון נוצר; MFS מתרגם לתא 12-04-08 ושולח טלגרמת-action ל-PLC של המנוף. המנוף עולה, מכניס את המשטח, ושולח acknowledgement; EWM מאשר את ה-WT ומעדכן את ה-bin.",
-          cbcHe:
-            "ב-CBC המנופים במחסן-ה-high-bay מנוהלים ישירות מ-EWM דרך MFS: כל פקודת-אחסון/שליפה היא טלגרמה ל-PLC של המנוף, וה-heartbeat מנוטר כל שנייה כדי לוודא שהמחסן זמין.",
+          scenarioHe:
+            "בארגון המנופים במחסן-ה-high-bay מנוהלים ישירות מ-EWM דרך MFS: כל פקודת-אחסון/שליפה היא טלגרמה ל-PLC של המנוף, וה-heartbeat מנוטר כל שנייה כדי לוודא שהמחסן זמין.",
           navHe: [
             "SCM EWM ► Extended Warehouse Management ► Material Flow System (MFS) ► Master Data ► Maintain Communication Channel",
             "SCM EWM ► Extended Warehouse Management ► Material Flow System (MFS) ► Programmable Logic Controller (PLC)",
@@ -452,8 +452,8 @@ export const CH6: TextbookChapter = {
             "לחבר את ה-AS/RS לשאר-המחסן בגמישות (בלי תשתית-מסוע יקרה), ולאפשר ניתוב-דינמי של משטחים בין אזורים.",
           processExampleHe:
             "WT-שליפה מוציא משטח מ-AS/RS לנקודת-P&D; EWM יוצר WT-הסעה ל-AGV: 'קח מ-P&D-3 ל-staging-7'. ה-AGV מגיע, מבצע handshake, נוסע, ומאשר. אם ה-AGV מאחר, המנוף ממתין כדי למנוע גלישה.",
-          cbcHe:
-            "ב-CBC רכבי-AGV מסיעים משטחי-בקבוקים בין נקודות-ה-P&D של מחסן-ה-high-bay לבין אזור-המשלוח וקווי-ההעמסה, ומתאמים מול המנופים כדי שכל משטח יעבור חלק.",
+          scenarioHe:
+            "בארגון רכבי-AGV מסיעים משטחי-בקבוקים בין נקודות-ה-P&D של מחסן-ה-high-bay לבין אזור-המשלוח וקווי-ההעמסה, ומתאמים מול המנופים כדי שכל משטח יעבור חלק.",
           navHe: [
             "SCM EWM ► Extended Warehouse Management ► Master Data ► Resource Management ► Define Resource Types",
             "SCM EWM ► Extended Warehouse Management ► Integration ► AGV / Robotics Communication",
@@ -506,8 +506,8 @@ export const CH6: TextbookChapter = {
         "להחליף הובלת-מלגזה ידנית בהסעה אוטומטית רציפה ובטוחה, להפחית תאונות ועלויות-כוח-אדם, ולאפשר זרימת-חומרים 24/7 בין אזורי-המחסן.",
       processExampleHe:
         "EWM יוצר WT-הסעה: 'משטח מ-staging-2 ל-dock-5'. Resource Management מקצה AGV פנוי; ה-AGV נוסע במסלולו, מבצע handshake בכל קצה, ומאשר. אם הסוללה נמוכה, ה-AGV-control-system מנתב אותו לעמדת-טעינה ומשחרר אחר.",
-      cbcHe:
-        "ב-CBC צי-AGV מסיע משטחי-בקבוקים מקווי-המילוי אל מבואת-ה-AS/RS, ומאזור-ה-staging אל שערי-המשלוח. הרכבים פועלים סביב-השעון לתמיכה בייצור רציף, עם ניהול-טעינה אוטומטי בין-משימות.",
+      scenarioHe:
+        "בארגון צי-AGV מסיע משטחי-בקבוקים מקווי-המילוי אל מבואת-ה-AS/RS, ומאזור-ה-staging אל שערי-המשלוח. הרכבים פועלים סביב-השעון לתמיכה בייצור רציף, עם ניהול-טעינה אוטומטי בין-משימות.",
       navHe: [
         "SCM EWM ► Extended Warehouse Management ► Master Data ► Resource Management ► Define Resource Types",
         "SCM EWM ► Extended Warehouse Management ► Master Data ► Resource Management ► Define Resources",
@@ -576,9 +576,9 @@ export const CH6: TextbookChapter = {
       purposeHe:
         "לקבע את התמונה-הכוללת: לדעת איזו טכנולוגיית-אוטומציה לבחור, כיצד EWM שולט בה, ואילו אובייקטי-תצורה (Resources, CPs, Telegrams, Storage Control) דרושים — כדי לתכנן מימוש-אוטומציה שלם.",
       processExampleHe:
-        "מקצה-לקצה ב-CBC: משטח מקו-מילוי → AGV מסיע למבואה → MFS מנתב במסוע → מנוף-AS/RS מאחסן בתא; בהזמנה → AS/RS שולף (FIFO) → AGV/מסוע לשער → Goods Issue. כל שלב מנוהל ע\"י WT אחד וסגירת-לולאה.",
-      cbcHe:
-        "ב-CBC מחסן-המשטחים האוטומטי מאחד AS/RS high-bay, MFS, ו-AGV תחת EWM אחד — תומך בייצור-משקאות רציף 24/7, עם דיוק-מלאי גבוה ושטח-רצפה מינימלי.",
+        "מקצה-לקצה בארגון: משטח מקו-מילוי → AGV מסיע למבואה → MFS מנתב במסוע → מנוף-AS/RS מאחסן בתא; בהזמנה → AS/RS שולף (FIFO) → AGV/מסוע לשער → Goods Issue. כל שלב מנוהל ע\"י WT אחד וסגירת-לולאה.",
+      scenarioHe:
+        "בארגון מחסן-המשטחים האוטומטי מאחד AS/RS high-bay, MFS, ו-AGV תחת EWM אחד — תומך בייצור-משקאות רציף 24/7, עם דיוק-מלאי גבוה ושטח-רצפה מינימלי.",
       navHe: [
         "SCM EWM ► Extended Warehouse Management ► Material Flow System (MFS)",
         "SCM EWM ► Extended Warehouse Management ► Master Data ► Resource Management",

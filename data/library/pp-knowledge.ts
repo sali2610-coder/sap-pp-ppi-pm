@@ -34,7 +34,7 @@ export interface PPChapter {
   lessonsHe?: string[];
   patternsHe?: string[];
   troubleshootHe?: string[];
-  cbcHe?: string;
+  scenarioHe?: string;
   related?: CrossLink[];
 }
 
@@ -67,7 +67,7 @@ export const PP_CHAPTERS: PPChapter[] = [
       "בחירת סוג הייצור (Discrete/Process/REM) היא החלטה אסטרטגית מוקדמת — היא קובעת את כל ההגדרות שאחריה.",
       "S/4HANA מעביר את ה-MRP ל-MRP Live (HANA) — שינוי ביצועים מהותי מול ECC.",
     ],
-    cbcHe: "ב-CBC ייצור המשקאות הוא תהליכי מובהק — הליבה היא PP-PI; פרק זה מסביר מדוע ולא PP בדיד.",
+    scenarioHe: "בארגון ייצור המשקאות הוא תהליכי מובהק — הליבה היא PP-PI; פרק זה מסביר מדוע ולא PP בדיד.",
     related: [PPI("הגדרת ייצור תהליכי ב-PP-PI", "מתכון ייצור"), PPx("הגדרת ייצור תהליכי", 4)],
   },
   {
@@ -118,7 +118,7 @@ export const PP_CHAPTERS: PPChapter[] = [
       "סוג רשימת משימות 2 משמש למתכון ראשי; שיוך לחומר דרך MAPL.",
       "Process Management: Control Recipe Destinations, Process Message Categories, PI Sheets.",
     ],
-    cbcHe: "זהו הפרק המרכזי ל-CBC: ייצור משקאות (תרכיז, סוכר, CO2) הוא תהליכי — המתכון הראשי וה-Control Recipe הם לב התהליך, וה-IDoc LOIPRO/PI Sheets מזינים את ממשקי Zetes/Daymax.",
+    scenarioHe: "זהו הפרק המרכזי לארגון: ייצור משקאות (תרכיז, סוכר, CO2) הוא תהליכי — המתכון הראשי וה-Control Recipe הם לב התהליך, וה-IDoc LOIPRO/PI Sheets מזינים את ממשקי Zetes/Daymax.",
     related: [PPI("מתכון ייצור ופעולות", "מתכון ראשי"), PPI("פק\"ע ומתכון בקרה", "מתכון בקרה"), PPx("תכנון ייצור תהליכי", 7)],
   },
   {
@@ -130,7 +130,7 @@ export const PP_CHAPTERS: PPChapter[] = [
       "REM Profile (OSPT) — בקרת Backflush, תנועות סחורה אוטומטיות, וקביעת אצווה.",
       "Reporting Points מקבילים ל-Milestone ב-Routing — Backflush בכל נקודה.",
     ],
-    lessonsHe: ["REM אינו מנהל תהליכים מורכבים — להשתמש בו רק לזרימה רציפה ויציבה (פחות רלוונטי ל-CBC הליבתי)."],
+    lessonsHe: ["REM אינו מנהל תהליכים מורכבים — להשתמש בו רק לזרימה רציפה ויציבה (פחות רלוונטי לארגון הליבתי)."],
     related: [PPx("תכנון ייצור חוזר", 8), PPx("Kanban", 9)],
   },
   {
@@ -166,7 +166,7 @@ export const PP_CHAPTERS: PPChapter[] = [
     runbookHe: [
       "COR1 צור פק\"ע תהליכי ➔ שחרר ➔ Control Recipe (CO53) ➔ PI Sheet (CO55) ➔ הודעות תהליך (CO54) ➔ CORK דיווח/סגירה.",
     ],
-    cbcHe: "ה-PI Sheet והודעות התהליך הם נקודת האינטגרציה ל-Zetes/Daymax ב-CBC; LOIPRO מפיץ את הפק\"ע למערכות הביצוע.",
+    scenarioHe: "ה-PI Sheet והודעות התהליך הם נקודת האינטגרציה ל-Zetes/Daymax בארגון; LOIPRO מפיץ את הפק\"ע למערכות הביצוע.",
     related: [PPI("מתכון בקרה ופק\"ע", "מתכון בקרה"), PPx("הגדרת ייצור תהליכי", 4), PM("אינטגרציית QM", "QM")],
   },
   {
@@ -202,7 +202,7 @@ export const PP_CHAPTERS: PPChapter[] = [
       "Batch Classification: Class Type 022/023, מאפיינים (CT04), מחלקה (CL02).",
       "Batch Determination: אסטרטגיית חיפוש (COB1) — Condition Technique.",
     ],
-    cbcHe: "באוכל ומשקאות ניהול האצוות חיוני לעקיבות (Traceability), תוקף (Shelf Life) ו-Recall — קריטי ל-CBC ולרגולציה.",
+    scenarioHe: "באוכל ומשקאות ניהול האצוות חיוני לעקיבות (Traceability), תוקף (Shelf Life) ו-Recall — קריטי לארגון ולרגולציה.",
     troubleshootHe: ["קביעת אצווה לא מחזירה תוצאות ➔ בדוק Sort Rule, Selection Class ותנאי הזמינות (ATP)."],
     related: [PM("ניהול אצוות באחזקה", "אצוות"), PPI("ניהול אצוות PP-PI", "אצווה")],
   },
@@ -243,7 +243,7 @@ export const PP_CHAPTERS: PPChapter[] = [
       "הזמנות מתוכננות שגויות ➔ בדוק MRP Type, Lot Size ו-Scope of Planning.",
       "הודעות חריגה (Exception Group 6/7) מצביעות על איחור/הקדמה — תזמן מחדש.",
     ],
-    cbcHe: "ב-CBC ה-MRP מתכנן חומרי גלם ואריזה לפי תחזית; MRP Live מקצר זמני ריצה משמעותית.",
+    scenarioHe: "בארגון ה-MRP מתכנן חומרי גלם ואריזה לפי תחזית; MRP Live מקצר זמני ריצה משמעותית.",
     related: [PPx("ניהול ביקושים", 12), PPx("חידוש מונחה-ביקוש", 14), PM("MRP לחלקי חילוף", "MRP")],
   },
   {
@@ -266,7 +266,7 @@ export const PP_CHAPTERS: PPChapter[] = [
   },
 ];
 
-export const PP_EXEC_HE = `מודול ה-PP (Production Planning) ב-SAP S/4HANA מכסה את מחזור התכנון והייצור המלא — משלושת סוגי הייצור (בדיד, תהליכי/PP-PI, חוזר/REM), דרך נתוני אב (BOM, Routing/מתכון ראשי, מרכזי עבודה, גרסת ייצור), תכנון (S&OP, ניהול ביקושים, MRP Live, DDMRP, pMRP), ביצוע (פק\"ע/Process Order, Backflush, Kanban) ועד ניהול אצוות ועלות. ב-S/4HANA הליבה היא MRP Live על HANA, מודל נתונים פשוט יותר וממשק Fiori. עבור CBC — הענף התהליכי (PP-PI) הוא המרכזי: המתכון הראשי, מתכון הבקרה וה-PI Sheets מזינים את ממשקי הביצוע (Zetes/Daymax), וניהול האצוות קריטי לעקיבות ולרגולציה.`;
+export const PP_EXEC_HE = `מודול ה-PP (Production Planning) ב-SAP S/4HANA מכסה את מחזור התכנון והייצור המלא — משלושת סוגי הייצור (בדיד, תהליכי/PP-PI, חוזר/REM), דרך נתוני אב (BOM, Routing/מתכון ראשי, מרכזי עבודה, גרסת ייצור), תכנון (S&OP, ניהול ביקושים, MRP Live, DDMRP, pMRP), ביצוע (פק\"ע/Process Order, Backflush, Kanban) ועד ניהול אצוות ועלות. ב-S/4HANA הליבה היא MRP Live על HANA, מודל נתונים פשוט יותר וממשק Fiori. עבור הארגון — הענף התהליכי (PP-PI) הוא המרכזי: המתכון הראשי, מתכון הבקרה וה-PI Sheets מזינים את ממשקי הביצוע (Zetes/Daymax), וניהול האצוות קריטי לעקיבות ולרגולציה.`;
 
 export const PP_GLOSSARY: { term: string; he: string }[] = [
   { term: "MRP Live (MD01N)", he: "הרצת תכנון דרישות חומר על מנוע HANA — מהירה, מתעדפת חומרים שהשתנו." },
@@ -275,7 +275,7 @@ export const PP_GLOSSARY: { term: string; he: string }[] = [
   { term: "MKAL", he: "גרסת ייצור (Production Version) — חובה ב-S/4HANA." },
   { term: "AFKO / AFPO / AFRU", he: "כותרת פק\"ע / פריט פק\"ע / רשומות דיווח ביצוע (Confirmation)." },
   { term: "Control Recipe / PI Sheet", he: "מתכון בקרה וגיליון הוראות תהליך בייצור תהליכי (PP-PI)." },
-  { term: "LOIPRO", he: "IDoc להפצת פק\"ע ייצור למערכות ביצוע (Zetes/Daymax ב-CBC)." },
+  { term: "LOIPRO", he: "IDoc להפצת פק\"ע ייצור למערכות ביצוע (Zetes/Daymax בארגון)." },
   { term: "Backflush (MFBF)", he: "ניכוי רכיבים אוטומטי בעת דיווח תוצר (ייצור חוזר)." },
   { term: "Kanban Control Cycle (PK01)", he: "מעגל בקרה לחידוש מונחה-משיכה." },
   { term: "DDMRP", he: "Demand-Driven MRP — תכנון מבוסס באפרים וצריכה בפועל." },

@@ -1,12 +1,12 @@
 import { CenterDetail } from "@/components/topic-center";
-import { CBC_SCENARIOS } from "@/data/centers/cbc";
+import { MFG_SCENARIOS } from "@/data/centers/manufacturing";
 
-export function generateStaticParams() { return CBC_SCENARIOS.map((i) => ({ slug: i.slug })); }
+export function generateStaticParams() { return MFG_SCENARIOS.map((i) => ({ slug: i.slug })); }
 export const dynamicParams = false;
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const item = CBC_SCENARIOS.find((i) => i.slug === decodeURIComponent(slug));
+  const item = MFG_SCENARIOS.find((i) => i.slug === decodeURIComponent(slug));
   if (!item) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">לא נמצא.</div>;
-  return <CenterDetail item={item} base="/cbc/" backLabel="מרכז CBC" />;
+  return <CenterDetail item={item} base="/manufacturing/" backLabel="מרכז התרחישים" />;
 }

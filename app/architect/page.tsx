@@ -8,7 +8,7 @@ import { SAP_NOTES } from "@/data/sap-notes";
 import { SOLUTIONS } from "@/data/solutions";
 import { PROCESS_MAPS } from "@/data/processes";
 import { LIFECYCLE } from "@/data/lifecycle";
-import { CBC_SCENARIOS } from "@/data/centers/cbc";
+import { MFG_SCENARIOS } from "@/data/centers/manufacturing";
 import { CDS_VIEWS } from "@/data/cds-map";
 import { OIC_OBJECTS } from "@/lib/cross-links";
 
@@ -30,7 +30,7 @@ const ROWS = [
   { area: "כיסוי Fiori", val: `${fioriCount}`, score: sc(fioriCount, 60), note: "T-Codes עם חלופת Fiori מתועדת" },
   { area: "כיסוי תקלות (Incidents)", val: `${INCIDENTS.length}`, score: 100, note: `PM/PP/PP-PI/QM/Cross + ${SAP_NOTES.length} SAP Notes` },
   { area: "פונקציות מתועדות לעומק", val: `${deepFn}/${funcs.length}`, score: sc(deepFn, funcs.length), note: "השאר עם פרופיל כללי + כרטיס פער" },
-  { area: "כיסוי CBC", val: `${CBC_SCENARIOS.length}`, score: 90, note: "תרחישי ייצור: משקה/תרכיז/CIP/אריזה/אצוות/אחזקה" },
+  { area: "כיסוי הארגון", val: `${MFG_SCENARIOS.length}`, score: 90, note: "תרחישי ייצור: משקה/תרכיז/CIP/אריזה/אצוות/אחזקה" },
   { area: "פתרונות עסקיים", val: `${SOLUTIONS.length}`, score: 90, note: "Solution Finder לפי דרישה עסקית" },
   { area: "מפות תהליך E2E", val: `${PROCESS_MAPS.length}`, score: 85, note: "P2P/O2C/Plan-to-Produce/QM/אחזקה" },
 ];
@@ -48,7 +48,7 @@ export default function Page() {
   const overall = Math.round(ROWS.reduce((a, r) => a + r.score, 0) / ROWS.length);
   return (
     <div dir="rtl">
-      <CenterHeader eyebrow="Phase 7 · Architect Dashboard" title="לוח מחוונים — ארכיטקט" sub="תמונת כיסוי הידע של NEO לקבלת החלטות: ישויות, ECC↔S/4, טרנזקציות, Fiori, תקלות ו-CBC — עם זיהוי פערים אוטומטי." accent="#1e293b" />
+      <CenterHeader eyebrow="Phase 7 · Architect Dashboard" title="לוח מחוונים — ארכיטקט" sub="תמונת כיסוי הידע של NEO לקבלת החלטות: ישויות, ECC↔S/4, טרנזקציות, Fiori, תקלות ו-הארגון — עם זיהוי פערים אוטומטי." accent="#1e293b" />
       <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[{ l: "ציון כיסוי כולל", v: `${overall}%` }, { l: "ישויות", v: `${ALL_TABLES.length + merged.length + funcs.length}` }, { l: "T-Codes", v: `${merged.length}` }, { l: "תקלות + Notes", v: `${INCIDENTS.length}+${SAP_NOTES.length}` }].map((k) => (
           <div key={k.l} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><div className="text-3xl font-extrabold text-slate-900">{k.v}</div><div className="mt-1 text-sm font-bold text-slate-600">{k.l}</div></div>

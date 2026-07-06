@@ -65,7 +65,7 @@ function topic(p: AlmPlatform): CourseTopic {
     examples: { scenario: p.when, bullets: p.tips },
     transactions: { tools: p.tools },
     debug: { oss: p.notes },
-    cbc: { text: p.cbc },
+    scenario: { text: p.scenario },
     related: p.links.map((l) => ({ label: l.label, href: l.href.includes("/alm/#") ? "#" : l.href })),
   };
 }

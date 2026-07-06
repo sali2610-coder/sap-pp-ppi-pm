@@ -55,7 +55,7 @@ function topic(m: IntgModule): CourseTopic {
     examples: { scenario: m.architecture, bullets: m.monitoring.map((x) => `${x.t} — ${x.what}`) },
     transactions: { tcodes: m.transactions.filter((t) => /^[A-Z/]/.test(t) && !t.includes(" ")), tools: m.monitoring.map((x) => x.t) },
     debug: { issues: [...m.troubleshooting, ...m.rootCauses], steps: m.debug, oss: m.notes },
-    cbc: { text: m.cbc, incidents: m.incidents.map((i) => ({ slug: i.slug, label: i.label })) },
+    scenario: { text: m.scenario, incidents: m.incidents.map((i) => ({ slug: i.slug, label: i.label })) },
     related: m.links.map((l) => ({ label: l.label, href: l.href.includes("/integration/#") ? "#" : l.href })),
   };
 }

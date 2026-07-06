@@ -46,7 +46,7 @@ const TABS = [
   ["technical", "טכני", Database],
   ["learning", "למידה", BookOpen],
   ["trouble", "פתרון תקלות", Wrench],
-  ["notes", "הערות CBC", StickyNote],
+  ["notes", "הערות יישום", StickyNote],
 ] as const;
 type Tab = typeof TABS[number][0];
 
@@ -238,7 +238,7 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
       <div className="print-block slide-print" dir="rtl">
         <div className="mb-6 flex items-center justify-between border-b-4 pb-3" style={{ borderColor: RED }}>
           <div><div className="text-3xl font-extrabold" dir="ltr">{t.tableName}</div><div className="text-sm text-slate-500">{t.descriptionHe || t.descriptionEn} · {t.module}</div></div>
-          <div className="text-left"><div className="text-xs font-bold text-slate-400">NEO COCKPIT · CBC</div><div className="text-[10px] text-slate-400">SAP ECC6 → S/4HANA</div></div>
+          <div className="text-left"><div className="text-xs font-bold text-slate-400">NEO COCKPIT</div><div className="text-[10px] text-slate-400">SAP ECC6 → S/4HANA</div></div>
         </div>
         <div className="mb-5 grid grid-cols-4 gap-3">
           {[["שדות", fields.length], ["תלויות מעלה", g?.upstream.length || 0], ["השפעה מטה", g?.downstream.length || 0], ["רדיוס השפעה", blast]].map(([l, n]) => (
@@ -296,7 +296,7 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
       <motion.div key={tab} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }} className="space-y-5">
         {tab === "wiki" && (() => {
           const jump = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-          const NAV: [string, string][] = [["w-purpose", "מטרה"], ["w-scenarios", "תרחישים"], ["w-actors", "מי עושה מה"], ["w-path", "מסלול E2E"], ["w-s4", "ECC↔S/4"], ["w-related", "קשרים"], ["w-trouble", "תקלות ו-Debug"], ["w-best", "Best Practices"], ["w-cbc", "CBC"], ["w-interview", "ראיון"]];
+          const NAV: [string, string][] = [["w-purpose", "מטרה"], ["w-scenarios", "תרחישים"], ["w-actors", "מי עושה מה"], ["w-path", "מסלול E2E"], ["w-s4", "ECC↔S/4"], ["w-related", "קשרים"], ["w-trouble", "תקלות ו-Debug"], ["w-best", "Best Practices"], ["w-mfg", "הארגון"], ["w-interview", "ראיון"]];
           const Chips = ({ items, color, ltr }: { items: string[]; color?: string; ltr?: boolean }) => (
             <div className="flex flex-wrap gap-1.5">{items.map((x) => <span key={x} dir={ltr ? "ltr" : undefined} className="rounded-lg border px-2 py-0.5 text-[11px] font-bold" style={{ borderColor: (color || "#cbd5e1") + "55", background: (color || "#f1f5f9") + "12", color: color || "#475569" }}>{x}</span>)}</div>
           );
@@ -390,9 +390,9 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
                 </div> : null}
               </Section></div>
 
-              {/* CBC */}
-              <div id="w-cbc"><Section title="דוגמאות ייצור — CBC" icon={<StickyNote className="size-4" style={{ color: RED }} />}>
-                {inc.some((i) => i.cbc) ? <div className="space-y-1.5">{inc.filter((i) => i.cbc).slice(0, 4).map((i) => <p key={i.slug} className="rounded-xl bg-emerald-50/70 px-3 py-2 text-[12.5px] leading-relaxed text-emerald-900">{i.cbc}</p>)}</div> : <p className="text-[12px] text-slate-400">— הוסף דוגמת CBC בלשונית “הערות CBC”</p>}
+              {/* הארגון */}
+              <div id="w-mfg"><Section title="דוגמאות ייצור — הארגון" icon={<StickyNote className="size-4" style={{ color: RED }} />}>
+                {inc.some((i) => i.scenario) ? <div className="space-y-1.5">{inc.filter((i) => i.scenario).slice(0, 4).map((i) => <p key={i.slug} className="rounded-xl bg-emerald-50/70 px-3 py-2 text-[12.5px] leading-relaxed text-emerald-900">{i.scenario}</p>)}</div> : <p className="text-[12px] text-slate-400">— הוסף דוגמת הארגון בלשונית “הערות יישום”</p>}
               </Section></div>
 
               {/* interview */}
@@ -477,7 +477,7 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
                   {conn.s4 && <Link href={conn.s4.href!} className="mt-1.5 inline-block text-[11px] font-bold text-blue-600">{conn.s4.label} ↗</Link>}
                 </div>
               </div>
-              {inc.length > 0 && <Section title={`תקלות ייצור · ${inc.length}`} icon={<Wrench className="size-4" />}><div className="space-y-1.5">{inc.slice(0, 5).map((i) => <Link key={i.slug} href={`/troubleshooting/${i.slug}/`} className="block rounded-lg border border-slate-100 bg-slate-50/60 px-3 py-2 transition hover:border-rose-300 hover:bg-rose-50"><div className="text-[13px] font-bold text-slate-800">{i.he}</div>{i.cbc && <div className="mt-0.5 text-[11px] text-emerald-700">CBC: {i.cbc}</div>}</Link>)}</div></Section>}
+              {inc.length > 0 && <Section title={`תקלות ייצור · ${inc.length}`} icon={<Wrench className="size-4" />}><div className="space-y-1.5">{inc.slice(0, 5).map((i) => <Link key={i.slug} href={`/troubleshooting/${i.slug}/`} className="block rounded-lg border border-slate-100 bg-slate-50/60 px-3 py-2 transition hover:border-rose-300 hover:bg-rose-50"><div className="text-[13px] font-bold text-slate-800">{i.he}</div>{i.scenario && <div className="mt-0.5 text-[11px] text-emerald-700">הארגון: {i.scenario}</div>}</Link>)}</div></Section>}
               {iqs.length > 0 && <Section title={`שאלות ראיון · ${iqs.length}`} icon={<GraduationCap className="size-4" />}><div className="space-y-1.5">{iqs.map((iq, i) => <div key={i} className="rounded-lg bg-slate-50 px-3 py-2 text-[13px]"><span className="font-bold text-slate-800">{iq.q}</span>{iq.aHe && <span className="mt-0.5 block text-slate-600">{iq.aHe}</span>}</div>)}</div></Section>}
               <div className="flex flex-wrap gap-1.5">
                 {cds.length > 0 && <span className="rounded-lg bg-teal-50 px-2.5 py-1 text-[11px] font-bold text-teal-700">CDS: {cds.length}</span>}
@@ -621,9 +621,9 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
         )}
 
         {tab === "notes" && (
-          <Section title="הערות CBC · נשמר מקומית" icon={<StickyNote className="size-4" />}>
+          <Section title="הערות יישום · נשמר מקומית" icon={<StickyNote className="size-4" />}>
             <textarea value={note} onChange={(e) => { setNote(e.target.value); try { localStorage.setItem(`neo:obj:notes:${name}`, e.target.value); } catch { /* noop */ } }}
-              placeholder={`הערות פנימיות של CBC על ${t.tableName} — נשמרות בדפדפן…`}
+              placeholder={`הערות פנימיות של הארגון על ${t.tableName} — נשמרות בדפדפן…`}
               className="min-h-[220px] w-full resize-y rounded-xl border border-slate-200 bg-white p-4 text-sm leading-relaxed outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
             <p className="mt-2 text-xs text-slate-400">נשמר אוטומטית ב-localStorage · ייצוא/גיבוי דרך מסך הסטטוס.</p>
           </Section>

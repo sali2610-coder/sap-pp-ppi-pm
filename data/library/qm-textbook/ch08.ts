@@ -9,7 +9,7 @@ export const CH8: TextbookChapter = {
   titleHe: "שילוב עם EWM מוטמע",
   titleEn: "Integrating with Embedded Extended Warehouse Management",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לשילוב בין Quality Management (QM) לבין Embedded EWM ב-SAP S/4HANA. כאשר מחסן מנוהל ב-EWM, בדיקות-האיכות ברצפת-המחסן מנוהלות דרך מנוע ייעודי — ה-QIE (Quality Inspection Engine) — שמתזמן ומבצע בדיקות לפי Inspection Object Type, ומסונכרן עם תעודת-הבדיקה (Inspection Lot) של QM ב-S/4HANA. כל תת-פרק וכל תת-סעיף מהמקור הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. ה-CBC המוצג הוא בקבוק קוקה-קולה: בדיקת-איכות בקליטה (Inbound) של חומרי-גלם ואריזה למחסן ה-EWM המוטמע. המטרה: ללמוד את הנושא במלואו ללא המקור.",
+    "פרק זה הוא יחידת-לימוד מלאה לשילוב בין Quality Management (QM) לבין Embedded EWM ב-SAP S/4HANA. כאשר מחסן מנוהל ב-EWM, בדיקות-האיכות ברצפת-המחסן מנוהלות דרך מנוע ייעודי — ה-QIE (Quality Inspection Engine) — שמתזמן ומבצע בדיקות לפי Inspection Object Type, ומסונכרן עם תעודת-הבדיקה (Inspection Lot) של QM ב-S/4HANA. כל תת-פרק וכל תת-סעיף מהמקור הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. ה-הארגון המוצג הוא בקבוק מוצר לדוגמה: בדיקת-איכות בקליטה (Inbound) של חומרי-גלם ואריזה למחסן ה-EWM המוטמע. המטרה: ללמוד את הנושא במלואו ללא המקור.",
   subchapters: [
     // ============================================================ 8.1
     {
@@ -24,8 +24,8 @@ export const CH8: TextbookChapter = {
         "המטרה: לחבר את החלטת-האיכות (Accept/Reject) לפעולה פיזית במחסן — שחרור מלאי לאחסון, החזרה לספק, גריטה — באופן אוטומטי ועקבי. הקונפיגורציה מבטיחה שכל קליטה רלוונטית תייצר בדיקה, שהבודק יודרך לתחנה נכונה, ושתוצאת-הבדיקה תניע את תנועת-המלאי הנכונה ב-EWM.",
       processExampleHe:
         "משטח חומר-גלם נקלט במחסן EWM. בזכות הקונפיגורציה: ה-QIE מזהה IOT רלוונטי, נוצרת תעודת-בדיקה (QALS) ב-QM, המלאי נכנס לאזור-QI חסום, הבודק מנותב לתחנת-QA לפי שיוך מרכז-העבודה, ואחרי החלטת-שימוש (UD) פעולת-ההמשך מנתבת את המלאי ל-Unrestricted או ל-Returns.",
-      cbcHe:
-        "ב-CBC (קו-בקבוק קוקה-קולה): כל משלוח-קליטה של תרכיז, פקקים או תוויות נכנס למחסן EWM של המפעל. הקונפיגורציה מגדירה IOT לפריט-משלוח-קליטה, Follow-Up Action שמשחררת פקקים תקינים ל-bin-אחסון ושולחת פגומים ל-Returns, ו-Quality Inspection Group שמקבץ את חומרי-האריזה לכלל-בדיקה אחיד.",
+      scenarioHe:
+        "בארגון (קו-בקבוק מוצר לדוגמה): כל משלוח-קליטה של תרכיז, פקקים או תוויות נכנס למחסן EWM של המפעל. הקונפיגורציה מגדירה IOT לפריט-משלוח-קליטה, Follow-Up Action שמשחררת פקקים תקינים ל-bin-אחסון ושולחת פגומים ל-Returns, ו-Quality Inspection Group שמקבץ את חומרי-האריזה לכלל-בדיקה אחיד.",
       navHe: [
         "SPRO ► SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Quality Management ► Basics",
         "SPRO ► Quality Management ► QM in Logistics ► QM in Procurement ► Define Control Keys",
@@ -88,7 +88,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-QIE מפעילים את ה-IOT הרלוונטי (למשל 4 — Inbound Delivery Item ב-EWM, או IOT-ים נוספים ל-Internal/Returns). ההפעלה נעשית ברמת-Warehouse Number, ולעיתים עם הבחנה לפי Activation per Process. IOT לא-פעיל = ה-QIE מתעלם מהאירוע. ודא תאימות בין ה-IOT שהופעל לבין ה-Inspection Type של QM שיקושר אליו בהמשך.",
           purposeHe: "לאפשר ל-QIE לזהות אירועים רלוונטיים-לבדיקה (קליטה, החזרה, פנימי) ולייצר עבורם מסמכי-בדיקה — בלי הפעלה מיותרת של תרחישים שאינם נדרשים.",
           processExampleHe: "מנהל-המחסן מפעיל IOT לפריט-משלוח-קליטה. מאותו רגע, כל פריט במשלוח-קליטה רלוונטי מייצר אוטומטית בקשת-בדיקה ב-QIE שמתורגמת לתעודת-בדיקה ב-QM.",
-          cbcHe: "ב-CBC מפעילים IOT לקליטת-רכש (Inbound Delivery Item) עבור מחסן חומרי-הגלם והאריזה, כך שכל משלוח של תרכיז או פקקים נכנס למסלול-בדיקה.",
+          scenarioHe: "בארגון מפעילים IOT לקליטת-רכש (Inbound Delivery Item) עבור מחסן חומרי-הגלם והאריזה, כך שכל משלוח של תרכיז או פקקים נכנס למסלול-בדיקה.",
           navHe: ["SPRO ► SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Quality Management ► Basics ► Activate Inspection Object Type"],
           tables: ["/SCWM/TQINSPTYP", "QALS"],
           tcodes: ["/SCWM/MON", "/SCWM/QINSP"],
@@ -110,7 +110,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-QIE כל IOT נושא Version עם Inspection Object Type Control attributes: יצירת-בדיקה אוטומטית, חיוב Sample, חיוב Results recording, חיוב Usage Decision, סנכרון-מלאי וכו'. הגרסה היא מנגנון-הגרסאות שמאפשר לשנות התנהגות מבלי לשבור מסמכים קיימים. ודא שהגרסה הפעילה תואמת לצרכים — שדות-חובה חסרים גורמים לתקיעות בתהליך.",
           purposeHe: "לאפשר שליטה גרסתית בהתנהגות ה-IOT — אילו שלבים חובה ואילו אופציונליים — בלי לשכתב הגדרות ובלי לפגוע בבדיקות שכבר רצות.",
           processExampleHe: "הגרסה של IOT-הקליטה מסומנת כ'דורשת Usage Decision' ו'מסנכרנת-מלאי'; לכן כל בדיקה תחסום מלאי עד UD, ורק אז המלאי ישוחרר.",
-          cbcHe: "ב-CBC הגרסה לקליטת-אריזה דורשת רישום-תוצאות והחלטת-שימוש לפני שחרור — מבטיח שפקקים לא ישוחררו לקו-המילוי לפני אישור-QA.",
+          scenarioHe: "בארגון הגרסה לקליטת-אריזה דורשת רישום-תוצאות והחלטת-שימוש לפני שחרור — מבטיח שפקקים לא ישוחררו לקו-המילוי לפני אישור-QA.",
           navHe: ["SPRO ► SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Quality Management ► Basics ► Maintain Inspection Object Type Version"],
           tables: ["/SCWM/TQINSPTYP", "/SCWM/TQIOTC"],
           tcodes: ["/SCWM/QINSP", "/SCWM/MON"],
@@ -131,7 +131,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "מגדירים Follow-Up Actions ומשייכים אותן לקודי-בחירה (Selected sets / UD codes) של ה-Usage Decision. ב-EWM הפעולה מתורגמת ל-Stock type change (Q2→F2 לשחרור, או לתנועת-Returns) ולעיתים יוצרת Warehouse Task. השיוך נעשה ברמת-IOT/Inspection Type. חשוב לכסות את כל הקודים — אחרת תוצאה ללא פעולה תשאיר מלאי תקוע ב-Q2 (Quality stock).",
           purposeHe: "להפוך החלטת-איכות לפעולה פיזית מיידית ועקבית, בלי התערבות ידנית, ובלי שמלאי יישאר חסום ללא יעד.",
           processExampleHe: "UD = 'Accept' מפעיל Follow-Up Action שמשנה Stock type מ-Q2 ל-Unrestricted ויוצר Warehouse Task ל-Putaway; UD = 'Reject' מפעיל פעולה שמעבירה את המלאי לאזור-Returns.",
-          cbcHe: "ב-CBC: תרכיז שאושר ➔ Follow-Up Action משחררת ל-bin-קירור ויוצרת משימת-אחסון; תרכיז שנדחה ➔ פעולה מנתבת לאזור-החזרות-לספק, עם חסימה מפני שימוש בקו-המילוי.",
+          scenarioHe: "בארגון: תרכיז שאושר ➔ Follow-Up Action משחררת ל-bin-קירור ויוצרת משימת-אחסון; תרכיז שנדחה ➔ פעולה מנתבת לאזור-החזרות-לספק, עם חסימה מפני שימוש בקו-המילוי.",
           navHe: ["SPRO ► SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Quality Management ► Define Follow-Up Actions", "SPRO ► ... ► Quality Management ► Assign Follow-Up Actions"],
           tables: ["/SCWM/TQFOLLOWUP", "QALS", "/SCWM/AQUA"],
           tcodes: ["/SCWM/QINSP", "QA11", "/SCWM/MON"],
@@ -154,7 +154,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ה-Quality Inspection Group משמש מפתח-בקרה ב-QIE לקביעת ה-Inspection Rule/Type הרלוונטי לקליטה. הוא מקושר באב-החומר (QM/EWM view) או דרך טבלת-בקרה, ומפחית את שכפול-הקונפיגורציה. ב-Embedded EWM הוא מסייע לנתב את אירוע-הקליטה ל-Inspection Type הנכון של QM (למשל 17).",
           purposeHe: "לצמצם תחזוקת-קונפיגורציה ולהבטיח אחידות — כל החומרים באותה קבוצה נבדקים לפי אותם כללים, וחומר חדש יורש אוטומטית.",
           processExampleHe: "חומר-אריזה חדש מוקצה ל-Quality Inspection Group 'PACKAGING'; בקליטתו ה-QIE מזהה את הקבוצה ומפעיל את כלל-הבדיקה האחיד ללא קונפיגורציה ייעודית.",
-          cbcHe: "ב-CBC מגדירים קבוצות: 'CONCENTRATE', 'PACKAGING', 'SWEETENERS'. כל פקק/תווית/בקבוק חדש מצטרף ל-'PACKAGING' ויורש את כלל-בדיקת-הקליטה האחיד.",
+          scenarioHe: "בארגון מגדירים קבוצות: 'CONCENTRATE', 'PACKAGING', 'SWEETENERS'. כל פקק/תווית/בקבוק חדש מצטרף ל-'PACKAGING' ויורש את כלל-בדיקת-הקליטה האחיד.",
           navHe: ["SPRO ► SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Quality Management ► Define Quality Inspection Group"],
           tables: ["/SCWM/TQINSPGRP", "QALS"],
           tcodes: ["/SCWM/QINSP", "MM02"],
@@ -175,7 +175,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-EWM מרכז-עבודה (Work Center) מסוג בדיקה מוגדר עם Layout, ומשויך ל-Storage Type / Activity. ה-QIE מנתב את פריט-הבדיקה לתחנה לפי שיוך זה. מרכז-העבודה הוא גם נקודת-העבודה לפעולות Deconsolidation/Packing במידת-הצורך. ב-/SCWM/QINSP או דרך ה-Monitor הבודק רואה את ה-Workload לתחנה. ודא ש-Work Center פעיל ומשויך, אחרת הבדיקות לא 'נוחתות' בשום מקום.",
           purposeHe: "לנתב את עומס-הבדיקה לתחנות הפיזיות הנכונות, לאזן עבודה בין בודקים, ולספק לבודק רשימת-עבודה ברורה.",
           processExampleHe: "פריט-בדיקה חדש מנותב אוטומטית לתחנת-QA-01 לפי שיוך מרכז-העבודה; הבודק פותח את התחנה ב-Monitor, רואה את הפריטים הממתינים, ומבצע רישום-תוצאות.",
-          cbcHe: "ב-CBC מגדירים תחנת 'QA-INBOUND' ליד רציף-הפריקה; כל בדיקת-קליטה של תרכיז/אריזה מנותבת לשם, והבודק מבצע דגימה ורישום-תוצאות במקום.",
+          scenarioHe: "בארגון מגדירים תחנת 'QA-INBOUND' ליד רציף-הפריקה; כל בדיקת-קליטה של תרכיז/אריזה מנותבת לשם, והבודק מבצע דגימה ורישום-תוצאות במקום.",
           navHe: ["SPRO ► SCM Extended Warehouse Management ► Extended Warehouse Management ► Master Data ► Work Center ► Define Work Center", "SPRO ► ... ► Quality Management ► Assign Work Center"],
           tables: ["/SCWM/TWORKST", "/SCWM/TQINSPGRP", "QIWL"],
           tcodes: ["/SCWM/QINSP", "/SCWM/MON", "/SCWM/WORKCENTER"],
@@ -205,8 +205,8 @@ export const CH8: TextbookChapter = {
         "להפעיל את הבדיקה בפועל לכל חומר רלוונטי ולהגדיר 'מה בודקים' — מאפיינים, ערכי-מטרה, גבולות-סבילות ושיטת-דגימה — כך שתעודת-הבדיקה תיווצר עם תוכן מדיד.",
       processExampleHe:
         "אב-חומר עם Inspection Type 17 פעיל + תוכנית-בדיקה עם 3 מאפיינים (ריכוז, pH, צבע). בקליטה נוצרת QALS, נשלפת התוכנית, והבודק מקבל בדיוק 3 מאפיינים למדידה.",
-      cbcHe:
-        "ב-CBC: אב-החומר של התרכיז מסומן Inspection Type 17; תוכנית-הבדיקה כוללת Brix (ריכוז-סוכר), pH וצבע. אב-חומר של פקקים כולל מאפייני-מידות וחוזק-סגירה. נתוני-EWM מגדירים Packaging Specification לכל פריט.",
+      scenarioHe:
+        "בארגון: אב-החומר של התרכיז מסומן Inspection Type 17; תוכנית-הבדיקה כוללת Brix (ריכוז-סוכר), pH וצבע. אב-חומר של פקקים כולל מאפייני-מידות וחוזק-סגירה. נתוני-EWM מגדירים Packaging Specification לכל פריט.",
       navHe: [
         "Logistics ► Quality Management ► Quality Planning ► Inspection Planning ► Inspection Plan ► Create (QP01)",
         "Logistics ► Quality Management ► Quality Planning ► Basic Data ► Inspection Characteristic ► Create (QS21)",
@@ -278,8 +278,8 @@ export const CH8: TextbookChapter = {
         "להבטיח שכל סחורה נכנסת נבדקת לפני שחרור-לשימוש, שהמלאי חסום עד החלטה, ושההחלטה מניעה תנועה-פיזית נכונה — שילוב בקרת-איכות עם זרימת-מלאי במחסן.",
       processExampleHe:
         "ספק מספק תרכיז נגד PO; משלוח-הקליטה נרשם ב-S/4 ומשתקף ב-EWM; GR מכניס את המלאי ל-Q2; נוצרת QALS; הבודק רושם תוצאות, מקבל UD='Accept', וה-Follow-Up Action משחררת ל-Unrestricted ומייצרת משימת-אחסון.",
-      cbcHe:
-        "ב-CBC זהו ה-flow היומיומי: משאית-תרכיז מגיעה לרציף ה-EWM, GR מכניס ל-Q2 ליד הרציף, QA דוגם ובודק Brix/pH, ובאישור — Follow-Up משחררת ל-bin-קירור; בדחייה — לאזור-החזרות.",
+      scenarioHe:
+        "בארגון זהו ה-flow היומיומי: משאית-תרכיז מגיעה לרציף ה-EWM, GR מכניס ל-Q2 ליד הרציף, QA דוגם ובודק Brix/pH, ובאישור — Follow-Up משחררת ל-bin-קירור; בדחייה — לאזור-החזרות.",
       navHe: [
         "Logistics ► Materials Management ► Purchasing ► Purchase Order ► Create (ME21N)",
         "Logistics ► Logistics Execution ► Inbound Process ► Inbound Delivery ► Create (VL31N)",
@@ -343,7 +343,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-ME21N יוצרים PO; ה-Inspection Type 17 (GR for PO) הפעיל באב-החומר בצירוף Control Key (QM in Procurement) קובע שבקליטה תיווצר QALS. אם נדרש שחרור-איכות לפני GR אפשר להפעיל QM-control עם בלוקים. ב-Embedded EWM ה-PO מצביע על מפעל/אחסון המנוהל ב-EWM, מה שמנתב את הקליטה ל-/SCWM/PRDI.",
           purposeHe: "להקים את הבסיס המסחרי לקליטה ולסמן את הסחורה כמועמדת-לבדיקת-קליטה — נקודת-ההתחלה של שרשרת-האיכות.",
           processExampleHe: "רוכש יוצר PO ל-1,000 ק\"ג תרכיז מספק; אב-החומר מסומן Inspection Type 17; המפעל מנוהל-EWM — ולכן הקליטה תייצר משלוח-קליטה ובדיקה.",
-          cbcHe: "ב-CBC נוצר PO שבועי לתרכיז ולפקקים מול ספקים מאושרים; כל הפריטים נושאים בדיקת-קליטה כי הם קריטיים לבטיחות-המזון.",
+          scenarioHe: "בארגון נוצר PO שבועי לתרכיז ולפקקים מול ספקים מאושרים; כל הפריטים נושאים בדיקת-קליטה כי הם קריטיים לבטיחות-המזון.",
           navHe: ["Logistics ► Materials Management ► Purchasing ► Purchase Order ► Create ► Vendor/Supplying Plant Known (ME21N)"],
           tables: ["EKKO", "EKPO", "QMAT"],
           tcodes: ["ME21N", "ME22N", "MM03"],
@@ -362,7 +362,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-VL31N יוצרים Inbound Delivery מול ה-PO (LIKP/LIPS). במערכת עם Embedded EWM, המשלוח מחולל אוטומטית מסמך /SCWM/PRDI דרך ה-Delivery distribution (queue פנימי). כאן עדיין אין תנועת-מלאי — רק התראה-לוגיסטית. ה-EWM-relevance נקבע לפי Storage Location מנוהל-EWM.",
           purposeHe: "לתקשר למחסן את המשלוח-הצפוי ולחבר את עולם-ה-S/4 לעולם-ה-EWM לפני הגעת-הסחורה בפועל.",
           processExampleHe: "מודיע-המשלוח (ASN) של הספק מומר ל-Inbound Delivery ב-VL31N; המסמך משתקף מיד ב-EWM כ-/SCWM/PRDI עם פריטי-המשלוח הצפויים.",
-          cbcHe: "ב-CBC ה-ASN של ספק-התרכיז יוצר Inbound Delivery; מחסן ה-EWM רואה את המשלוח הצפוי ומקצה אזור-קליטה (Staging area) ליד הרציף.",
+          scenarioHe: "בארגון ה-ASN של ספק-התרכיז יוצר Inbound Delivery; מחסן ה-EWM רואה את המשלוח הצפוי ומקצה אזור-קליטה (Staging area) ליד הרציף.",
           navHe: ["Logistics ► Logistics Execution ► Inbound Process ► Goods Receipt for Inbound Delivery ► Inbound Delivery ► Create ► Single Documents (VL31N)"],
           tables: ["LIKP", "LIPS", "EKES"],
           tcodes: ["VL31N", "VL32N", "VL33N"],
@@ -381,7 +381,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-/SCWM/PRDI מבצעים GR; המלאי נרשם ב-EWM עם Stock type Q2 (אם ה-IOT מסנכרן-מלאי). ה-GR מעדכן את S/4 (תנועת-מלאי 101) ומפעיל את ה-QIE ליצירת Inspection Document המסונכרן ל-QALS. לרוב נוצר Warehouse Task ל-Putaway רק אחרי שחרור-איכות. נטר ב-/SCWM/MON תחת Documents/Stock.",
           purposeHe: "להכניס את המלאי פיזית למחסן בסטטוס-חסום-איכות, ולהפעיל את מנגנון-הבדיקה — כך שמלאי לא-בדוק לא ישוחרר לשימוש.",
           processExampleHe: "פקיד-מחסן מבצע GR ב-/SCWM/PRDI; 1,000 ק\"ג תרכיז נכנסים ל-Q2 ליד הרציף; ה-QIE יוצר Inspection Document ו-QALS; משימת-Putaway ממתינה עד אישור-QA.",
-          cbcHe: "ב-CBC ה-GR מתבצע ב-EWM ברגע הפריקה; התרכיז יושב ב-Q2 ב-Staging area; ה-QA מקבל התראה דרך ה-Workload, והמשטח לא נכנס לקירור עד אישור.",
+          scenarioHe: "בארגון ה-GR מתבצע ב-EWM ברגע הפריקה; התרכיז יושב ב-Q2 ב-Staging area; ה-QA מקבל התראה דרך ה-Workload, והמשטח לא נכנס לקירור עד אישור.",
           navHe: ["EWM ► Delivery Processing ► Inbound Delivery ► Maintain Inbound Delivery (/SCWM/PRDI)", "EWM ► Goods Receipt"],
           tables: ["/SCWM/ORDIM_O", "/SCWM/AQUA", "QALS", "MSEG"],
           tcodes: ["/SCWM/PRDI", "/SCWM/MON", "/SCWM/GR"],
@@ -404,7 +404,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-QA32/QE51N (או דרך תחנת-העבודה ב-EWM) רושמים Results recording למאפייני QALS, המערכת מעריכה Accepted/Rejected מול הסבילות, ואז ב-QA11/QE51N נותנים Usage Decision עם UD code. ה-UD מפעיל Follow-Up Action שמתרגמת ל-Stock type change ב-EWM (Q2→F2 או Returns) ויוצר Warehouse Task ל-Putaway. ב-Embedded הסנכרון QALS↔/SCWM/AQUA מיידי.",
           purposeHe: "להמיר מדידות פיזיות להחלטה-עסקית מתועדת, ולהניע ממנה את תנועת-המלאי הנכונה — שחרור, החזרה או גריטה.",
           processExampleHe: "הבודק רושם Brix=10.5 (בתחום), pH=2.6 (בתחום), צבע=תקין; כל המאפיינים Accepted; UD='A1 Accept'; Follow-Up משנה Q2→Unrestricted ויוצרת Putaway.",
-          cbcHe: "ב-CBC: דגימת-תרכיז עוברת מדידת Brix/pH במעבדה; אם בתחום — UD='Accept' ושחרור ל-bin-קירור; אם מחוץ-לתחום — UD='Reject' והעברה לאזור-החזרות-לספק.",
+          scenarioHe: "בארגון: דגימת-תרכיז עוברת מדידת Brix/pH במעבדה; אם בתחום — UD='Accept' ושחרור ל-bin-קירור; אם מחוץ-לתחום — UD='Reject' והעברה לאזור-החזרות-לספק.",
           navHe: ["Logistics ► Quality Management ► Quality Inspection ► Worklist ► Inspection Lot Processing (QA32)", "Logistics ► Quality Management ► Quality Inspection ► Usage Decision ► Record (QA11)"],
           tables: ["QALS", "QAVE", "QASE", "/SCWM/AQUA"],
           tcodes: ["QA32", "QA11", "QE51N", "/SCWM/QINSP"],
@@ -427,7 +427,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-QA33/QA13 או ב-/SCWM/MON מציגים את QALS עם המאפיינים (QASE/QAMV), ההחלטה (QAVE), והקישור לסטטוס-המלאי (/SCWM/AQUA) ולמסמכי-EWM. ב-Embedded אפשר לקפוץ בין QM ל-EWM באותו מסך-ניטור. שימושי לתחקור-תקלות (למה מלאי לא שוחרר) ולביקורת-רגולציה.",
           purposeHe: "לספק שקיפות-מלאה ויכולת-תחקור — מי בדק, מה נמדד, מה הוחלט, ומה קרה למלאי — לצורכי בקרה, ביקורת ולמידה.",
           processExampleHe: "מנהל-QA פותח QA33 על QALS, רואה שכל המאפיינים Accepted, UD='A1', והמלאי שוחרר ל-Unrestricted עם Warehouse Task ל-Putaway שהושלם.",
-          cbcHe: "ב-CBC, בביקורת בטיחות-מזון, מבקר פותח את פרטי-הבדיקה של אצווה-תרכיז ורואה את ערכי-ה-Brix/pH, הבודק, התאריך וההחלטה — שרשרת-ראיות מלאה.",
+          scenarioHe: "בארגון, בביקורת בטיחות-מזון, מבקר פותח את פרטי-הבדיקה של אצווה-תרכיז ורואה את ערכי-ה-Brix/pH, הבודק, התאריך וההחלטה — שרשרת-ראיות מלאה.",
           navHe: ["Logistics ► Quality Management ► Quality Inspection ► Inspection Lot ► Display (QA33)", "EWM ► Monitoring ► Warehouse Management Monitor (/SCWM/MON)"],
           tables: ["QALS", "QAVE", "QASE", "QAMV", "/SCWM/AQUA"],
           tcodes: ["QA33", "QA13", "/SCWM/MON", "QE51N"],
@@ -454,8 +454,8 @@ export const CH8: TextbookChapter = {
         "להפוך את נתוני-הבדיקה והמלאי לתובנות-פעולה: לזהות צווארי-בקבוק, לאזן עומס, לעקוב אחר שיעורי-דחייה ולמדוד lead-time של בדיקות.",
       processExampleHe:
         "מנהל-משמרת פותח את ה-Workload, מזהה שתחנת-QA-01 עמוסה, ומנתב בודק נוסף; במקביל אפליקציית-הניתוח מצביעה על עליית Reject rate בספק מסוים — טריגר לשיחת-איכות.",
-      cbcHe:
-        "ב-CBC: בכל בוקר מנהל-המחסן בודק ב-/SCWM/MON כמה משטחי-תרכיז ב-Q2, ה-Workload מראה את תור-הבדיקות, ואפליקציית-הניתוח מודדת את שיעור-הדחייה השבועי לפי ספק.",
+      scenarioHe:
+        "בארגון: בכל בוקר מנהל-המחסן בודק ב-/SCWM/MON כמה משטחי-תרכיז ב-Q2, ה-Workload מראה את תור-הבדיקות, ואפליקציית-הניתוח מודדת את שיעור-הדחייה השבועי לפי ספק.",
       navHe: [
         "EWM ► Monitoring ► Warehouse Management Monitor (/SCWM/MON)",
         "EWM ► Quality Management ► Inspection Workload",
@@ -511,7 +511,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-/SCWM/MON צומת Quality מציג Inspection Documents, מלאי לפי Stock type (Q2), ומאפשר לקפוץ ל-QALS ולמסמכי-מלאי. ה-Monitor הוא Profile-driven (לכל תפקיד תצוגה שונה) ותומך בפעולות-המשך (Display/Follow-up). זהו כלי-הניטור-הראשי לתחקור 'למה מלאי לא שוחרר' ב-Embedded EWM.",
           purposeHe: "לספק נראות-בזמן-אמת על מצב-המחסן והבדיקות במקום אחד, ולאפשר תחקור-מהיר ופעולות-המשך.",
           processExampleHe: "מנהל פותח /SCWM/MON ► Quality, רואה 12 משטחים ב-Q2, מסנן לפי משלוח, ומזהה שניים ללא UD — קופץ ל-QALS לבירור.",
-          cbcHe: "ב-CBC המנהל מסנן את צומת-האיכות לפי חומרי-אריזה, רואה כמה פקקים ממתינים לבדיקה, ומזהה משטח שתקוע ב-Q2 יומיים — טריגר להאצת-QA.",
+          scenarioHe: "בארגון המנהל מסנן את צומת-האיכות לפי חומרי-אריזה, רואה כמה פקקים ממתינים לבדיקה, ומזהה משטח שתקוע ב-Q2 יומיים — טריגר להאצת-QA.",
           navHe: ["EWM ► Monitoring ► Warehouse Management Monitor (/SCWM/MON) ► Quality node"],
           tables: ["/SCWM/AQUA", "QALS", "/SCWM/ORDIM_O"],
           tcodes: ["/SCWM/MON"],
@@ -530,7 +530,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ה-Workload נשען על QIWL ומציג Inspection Documents ממתינים לפי Work Center/IOT/עדיפות. הוא משמש לניתוב בודקים, לתעדוף בדיקות-דחופות, ולמדידת-זמני-המתנה. שילובו עם שיוך מרכזי-העבודה (8.1.5) קובע כיצד העבודה מתחלקת בפועל.",
           purposeHe: "לאזן עומס-בדיקה בין תחנות ובודקים, לתעדף, ולמנוע מצב שבו מלאי-Q2 ממתין ארוך-מדי בגלל חוסר-איזון.",
           processExampleHe: "מנהל-משמרת פותח את ה-Workload, רואה 8 בדיקות ב-QA-01 ו-1 ב-QA-02, ומנתב חלק ל-QA-02 לאיזון.",
-          cbcHe: "ב-CBC בבוקר עמוס ה-Workload מראה תור ארוך לחומרי-אריזה; המנהל מתעדף את התרכיז (קריטי-לקו) ומקצה בודק נוסף לאריזה.",
+          scenarioHe: "בארגון בבוקר עמוס ה-Workload מראה תור ארוך לחומרי-אריזה; המנהל מתעדף את התרכיז (קריטי-לקו) ומקצה בודק נוסף לאריזה.",
           navHe: ["EWM ► Quality Management ► Inspection Workload", "EWM ► Monitoring ► Warehouse Management Monitor (/SCWM/MON) ► Workload"],
           tables: ["QIWL", "QALS"],
           tcodes: ["/SCWM/QINSP", "/SCWM/MON"],
@@ -550,7 +550,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "אפליקציית Fiori (analytical) מעל QALS/QAVE מספקת KPI: Reject rate, Inspection lead-time, On-time-completion, התפלגות לפי Inspection Type/ספק/מפעל. נשענת על CDS Views ותומכת ב-drill-down. שילובה בסקירות-ניהול-איכות מאפשר זיהוי-מגמות והחלטות מבוססות-נתונים.",
           purposeHe: "לספק תובנות-ניהוליות ומגמות לשיפור-מתמשך — לזהות ספקים בעייתיים, צווארי-בקבוק בבדיקה, ולהפחית שיעורי-דחייה.",
           processExampleHe: "מנהל-איכות פותח את האפליקציה, רואה Reject rate של 8% לספק-מסוים מול 2% בממוצע, וקופץ ל-drill-down לפי חומר לבירור-שורש.",
-          cbcHe: "ב-CBC סקירת-איכות חודשית משתמשת באפליקציה למדידת Reject rate לפי ספק-תרכיז ולפי חומר-אריזה, ולקבלת-החלטות על ספקים מאושרים.",
+          scenarioHe: "בארגון סקירת-איכות חודשית משתמשת באפליקציה למדידת Reject rate לפי ספק-תרכיז ולפי חומר-אריזה, ולקבלת-החלטות על ספקים מאושרים.",
           navHe: ["SAP Fiori Launchpad ► Quality Management ► Inspection Lots / Quality Analytics"],
           tables: ["QALS", "QAVE", "QASE"],
           tcodes: ["QA32", "QGA3"],
@@ -577,8 +577,8 @@ export const CH8: TextbookChapter = {
         "לקבע את התמונה-הכוללת ואת הקשרים בין הרכיבים, כך שהלומד יוכל לתכנן, לממש ולתחזק שילוב QM-EWM, ולתחקר תקלות לפי שכבות: קונפיגורציה ← נתוני-אב ← תהליך ← דיווח.",
       processExampleHe:
         "תרחיש מלא לחזרה: PO לתרכיז → Inbound Delivery ב-S/4 → /SCWM/PRDI ב-EWM → GR ל-Q2 → QIE יוצר QALS → רישום-תוצאות + UD='Accept' → Follow-Up משחררת ל-Unrestricted + Putaway → ניטור ב-/SCWM/MON ומדידה ב-Analytics.",
-      cbcHe:
-        "ב-CBC המסקנה התפעולית: כל חומר-גלם וחומר-אריזה עובר בדיקת-קליטה במחסן ה-EWM לפני שחרור-לקו; שילוב QM-EWM מבטיח שלא ייכנס לקו-המילוי חומר לא-מאושר — לב בטיחות-המזון.",
+      scenarioHe:
+        "בארגון המסקנה התפעולית: כל חומר-גלם וחומר-אריזה עובר בדיקת-קליטה במחסן ה-EWM לפני שחרור-לקו; שילוב QM-EWM מבטיח שלא ייכנס לקו-המילוי חומר לא-מאושר — לב בטיחות-המזון.",
       navHe: [
         "SPRO ► SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Quality Management",
         "EWM ► Monitoring ► Warehouse Management Monitor (/SCWM/MON)",

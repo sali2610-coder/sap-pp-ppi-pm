@@ -2,7 +2,7 @@
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
 // Source hierarchy preserved exactly (ids + order); x.y.z nested under x.y.
 // Transformative Hebrew (beginner + consultant friendly); SAP objects verbatim EN.
-// CBC = Coca-Cola bottling finite detailed scheduling of fill lines with
+// הארגון = Example Product bottling finite detailed scheduling of fill lines with
 // sequence-dependent flavor changeovers.
 import type { TextbookChapter } from "./types";
 
@@ -11,7 +11,7 @@ export const CH6: TextbookChapter = {
   titleHe: "תזמון מפורט (Detailed Scheduling)",
   titleEn: "Detailed Scheduling",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לתזמון-המפורט (Detailed Scheduling) ב-PP/DS של SAP S/4HANA. בעוד שתכנון-הייצור (פרק 5) קובע 'כמה' ו'מתי בערך' לייצר, התזמון-המפורט קובע את הסדר המדויק והעיתוי-לדקה של כל פעולה על כל משאב סופי (Finite), תוך כיבוד קיבולת, תלות-רצף ומגבלות. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC (תזמון קווי-מילוי עם החלפות-טעם תלויות-רצף), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, השפעת נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד מתי להשתמש ב-PP/DS לתזמון, לבנות אסטרטגיית-תזמון (DS strategy profile), להפעיל את ה-Detailed Scheduling Heuristics, להפעיל תזמון מ-Detailed Scheduling Planning Board / Advanced Scheduling Board / Resource Planning Table, ולהריץ את ה-Detailed Scheduling Optimizer — ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לתזמון-המפורט (Detailed Scheduling) ב-PP/DS של SAP S/4HANA. בעוד שתכנון-הייצור (פרק 5) קובע 'כמה' ו'מתי בערך' לייצר, התזמון-המפורט קובע את הסדר המדויק והעיתוי-לדקה של כל פעולה על כל משאב סופי (Finite), תוך כיבוד קיבולת, תלות-רצף ומגבלות. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון (תזמון קווי-מילוי עם החלפות-טעם תלויות-רצף), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, השפעת נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד מתי להשתמש ב-PP/DS לתזמון, לבנות אסטרטגיית-תזמון (DS strategy profile), להפעיל את ה-Detailed Scheduling Heuristics, להפעיל תזמון מ-Detailed Scheduling Planning Board / Advanced Scheduling Board / Resource Planning Table, ולהריץ את ה-Detailed Scheduling Optimizer — ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 6.1
     {
@@ -21,15 +21,15 @@ export const CH6: TextbookChapter = {
       execHe:
         "ההחלטה הראשונה היא האם הארגון בכלל זקוק לתזמון-מפורט (Detailed Scheduling) ב-PP/DS. תזמון-מפורט מתאים כשהקיבולת היא צוואר-בקבוק אמיתי, כשרצף-הייצור משפיע על העלות (החלפות תלויות-רצף, Setup matrix), וכשנדרשת תוצאה ניתנת-לביצוע (Feasible) ברמת-הדקה על משאבים סופיים. אם המגבלה היא חומרים ולא קיבולת — MRP רגיל מספיק.",
       beginnerHe:
-        "MRP אומר לך 'תייצר 10,000 בקבוקים עד יום חמישי'. תזמון-מפורט אומר 'תייצר אותם על קו 2, מ-08:00 עד 14:30, מיד אחרי הקולה ולפני הספרייט, כי החלפת-הטעם הזו קצרה יותר'. השאלה היא האם רמת-הפירוט הזו שווה את המאמץ. אם יש לך מכונה אחת עמוסה שכל שעה עליה יקרה — כן. אם פשוט קונים חומרים בזמן — כנראה לא.",
+        "MRP אומר לך 'תייצר 10,000 בקבוקים עד יום חמישי'. תזמון-מפורט אומר 'תייצר אותם על קו 2, מ-08:00 עד 14:30, מיד אחרי המוגז ולפני הספרייט, כי החלפת-הטעם הזו קצרה יותר'. השאלה היא האם רמת-הפירוט הזו שווה את המאמץ. אם יש לך מכונה אחת עמוסה שכל שעה עליה יקרה — כן. אם פשוט קונים חומרים בזמן — כנראה לא.",
       consultantHe:
         "PP/DS Detailed Scheduling נדרש כאשר: (1) המשאב מתוכנן Finite (Finite Scheduling דרך Resource → 'Finite Scheduling' ב-/SAPAPO/RES01), (2) קיים תלות-רצף דרך Setup Matrix/Setup Groups, (3) נדרש Pegging דינמי לבדיקת-היתכנות, או (4) קיים אופק-PP/DS (PP/DS horizon) שבתוכו רוצים תזמון סופי. השווה מול MRP Live (ב-S/4HANA הליבה) — MRP מתכנן infinite ברירת-מחדל. שקול עלות-תחזוקה: Resources, Setup Matrices, DS strategy profiles ו-Optimization profiles דורשים תחזוקה. בלי צוואר-בקבוק קיבולתי או רצף-משמעותי, התזמון-המפורט הוא over-engineering.",
       purposeHe:
         "למקד את ההשקעה: להפעיל תזמון-מפורט רק היכן שהוא מייצר ערך — צמצום זמני-Setup, ניצול-משאב גבוה יותר, ועמידה בתאריכי-לקוח ברמת-ביצוע אמיתית — ולא להעמיס מורכבות על תהליכים שבהם החומר, ולא הקיבולת, הוא האילוץ.",
       processExampleHe:
         "מפעל עם משאב-מפתח עמוס מגדיר את המשאב כ-Finite, מסמן את החומרים הרלוונטיים ב-PP/DS דרך Advanced Planning, ומגדיר אופק-PP/DS של 4 שבועות. בתוך האופק, MRP Live מעביר את התכנון ל-PP/DS שמתזמן סופית; מחוץ לאופק נשאר תכנון infinite. כך משאב צוואר-הבקבוק מקבל תזמון-לדקה והשאר נשאר פשוט.",
-      cbcHe:
-        "ב-CBC קווי-המילוי הם צוואר-בקבוק קלאסי: כל מעבר מטעם לטעם (קולה→ספרייט→דיאט) דורש שטיפת-CIP בזמן ועלות שונים לפי הזוג. לכן קווי-המילוי מוגדרים Finite ומתוזמנים ב-PP/DS Detailed Scheduling, בעוד מחסני-התרכיז והאריזה (מוגבלי-חומר, לא מוגבלי-קיבולת) נשארים בתכנון MRP רגיל.",
+      scenarioHe:
+        "בארגון קווי-המילוי הם צוואר-בקבוק קלאסי: כל מעבר מטעם לטעם (מוגז→ספרייט→דיאט) דורש שטיפת-CIP בזמן ועלות שונים לפי הזוג. לכן קווי-המילוי מוגדרים Finite ומתוזמנים ב-PP/DS Detailed Scheduling, בעוד מחסני-התרכיז והאריזה (מוגבלי-חומר, לא מוגבלי-קיבולת) נשארים בתכנון MRP רגיל.",
       navHe: [
         "SAP APO ► Advanced Planning and Optimization ► Supply Chain Planning ► PP/DS ► Global Settings ► Maintain Global Parameters and Defaults",
         "Production ► Production Planning ► PP/DS ► Resource ► Define Resource as Finite (/SAPAPO/RES01)",
@@ -82,7 +82,7 @@ export const CH6: TextbookChapter = {
         "תזמון-מפורט קובע סדר ועיתוי-לדקה על משאב Finite — לא 'כמה', אלא 'מתי בדיוק ובאיזה סדר'.",
         "הפעל אותו היכן שהקיבולת/הרצף קריטיים; אחרת MRP מספיק.",
         "תנאי-סף: משאב Finite + Advanced Planning + PP/DS Horizon מתאים.",
-        "ב-CBC קווי-המילוי (החלפות-טעם תלויות-רצף) הם המקרה הקלאסי.",
+        "בארגון קווי-המילוי (החלפות-טעם תלויות-רצף) הם המקרה הקלאסי.",
       ],
       relatedHe: [
         { labelHe: "PP/DS · תכנון ייצור (פרק 5)", href: "/library/ppds/chapter-05/" },
@@ -104,8 +104,8 @@ export const CH6: TextbookChapter = {
         "לתת התנהגות-תזמון אחידה, צפויה ומבוקרת לכל מי שמתזמן — מתכנן ידני, Heuristic ו-Optimizer — כך שהתוצאה תהיה עקבית וניתנת-לשחזור, ולא תלויה ב'איך כל אחד גורר'.",
       processExampleHe:
         "מתכנן בוחר אסטרטגיה 'Find slot' עם תזמון-אחורה: בעת מיקום פעולה, המערכת מחפשת את החלון הפנוי האחרון לפני תאריך-היעד מבלי לדחוף פעולות קיימות. אם הוא מחליף ל'Insert operation', אותה גרירה תדחוף את כל הפעולות הבאות קדימה כדי לפנות מקום.",
-      cbcHe:
-        "ב-CBC המתכנן הראשי משתמש באסטרטגיה 'Find slot, backward, Finite' כדי לסדר אצוות-מילוי לפני תאריכי-המשלוח מבלי לשבש פעולות שכבר אושרו; לתרחישי-חירום (הזמנה דחופה) הוא עובר זמנית ל-'Insert operation' כדי לדחוס אצווה ולדחוף את היתר.",
+      scenarioHe:
+        "בארגון המתכנן הראשי משתמש באסטרטגיה 'Find slot, backward, Finite' כדי לסדר אצוות-מילוי לפני תאריכי-המשלוח מבלי לשבש פעולות שכבר אושרו; לתרחישי-חירום (הזמנה דחופה) הוא עובר זמנית ל-'Insert operation' כדי לדחוס אצווה ולדחוף את היתר.",
       navHe: [
         "Production ► Production Planning ► PP/DS ► Detailed Scheduling ► Strategy ► Maintain Strategy Profile (/SAPAPO/CDPSC1)",
         "SAP APO ► Supply Chain Planning ► PP/DS ► Detailed Scheduling ► Maintain Overall Profile",
@@ -178,9 +178,9 @@ export const CH6: TextbookChapter = {
           purposeHe:
             "לאפשר ניהול ריכוזי וניתן-לשימוש-חוזר של התנהגות-התזמון, ולמנוע פיזור-הגדרות שמוביל לחוסר-עקביות.",
           processExampleHe:
-            "אדמין יוצר פרופיל 'CBC_FILL_STD' (Find slot, backward, Finite) ומשייך אותו ללוח של מתכנני-המילוי וגם ל-Heuristic של תזמון-הרצף. כל המתכננים מקבלים אוטומטית אותה התנהגות.",
-          cbcHe:
-            "ב-CBC מוגדרים שני פרופילים: 'CBC_FILL_STD' לעבודה שוטפת ו-'CBC_RUSH' (Insert operation) לתרחישי הזמנה-דחופה; המתכנן בוחר ביניהם לפי המצב.",
+            "אדמין יוצר פרופיל 'MFG_FILL_STD' (Find slot, backward, Finite) ומשייך אותו ללוח של מתכנני-המילוי וגם ל-Heuristic של תזמון-הרצף. כל המתכננים מקבלים אוטומטית אותה התנהגות.",
+          scenarioHe:
+            "בארגון מוגדרים שני פרופילים: 'MFG_FILL_STD' לעבודה שוטפת ו-'MFG_RUSH' (Insert operation) לתרחישי הזמנה-דחופה; המתכנן בוחר ביניהם לפי המצב.",
           navHe: [
             "Production ► PP/DS ► Detailed Scheduling ► Strategy ► Maintain Strategy Profile (/SAPAPO/CDPSC1)",
             "Detailed Scheduling Planning Board ► Settings ► Strategy",
@@ -230,8 +230,8 @@ export const CH6: TextbookChapter = {
             "לקבוע את התנהגות-הליבה של התזמון — כיוון, כיבוד-קיבולת ואופן-המיקום — בצורה מפורשת ומבוקרת.",
           processExampleHe:
             "מתכנן ב-Find slot + Backward + Finite גורר פעולה: המערכת מחפשת אחורה מתאריך-היעד את החלון-הפנוי האחרון על המשאב מבלי לחרוג מהקיבולת ומבלי לדחוף פעולות שכנות.",
-          cbcHe:
-            "ב-CBC ברירת-המחדל היא Find slot + Backward + Finite — אצוות-המילוי 'נצמדות' לתאריך-המשלוח מבלי לשבור את הקיבולת של הקו; Non-working times מוגדר 'דלג' כדי לא לתזמן במשמרת-לילה סגורה.",
+          scenarioHe:
+            "בארגון ברירת-המחדל היא Find slot + Backward + Finite — אצוות-המילוי 'נצמדות' לתאריך-המשלוח מבלי לשבור את הקיבולת של הקו; Non-working times מוגדר 'דלג' כדי לא לתזמן במשמרת-לילה סגורה.",
           navHe: [
             "Production ► PP/DS ► Detailed Scheduling ► Strategy ► Maintain Strategy Profile ► General Parameters (/SAPAPO/CDPSC1)",
           ],
@@ -289,8 +289,8 @@ export const CH6: TextbookChapter = {
             "לשמור על עקביות-הרצף לאורך שרשרת-ה-Pegging בעת תזמון, כדי שהתוצאה תישאר ניתנת-לביצוע (Feasible) ולא רק 'נראית טוב' על משאב בודד.",
           processExampleHe:
             "מתכנן דוחה פעולת-מילוי בשעתיים. עם 'Schedule dependent objects' פעיל, פעולת-הערבוב שמזינה אותה (Predecessor) נדחית בהתאם, ופעולת-האריזה שאחריה (Successor) זזה גם — כל השרשרת נשארת עקבית.",
-          cbcHe:
-            "ב-CBC דחיית-מילוי גוררת אוטומטית את הכנת-התרכיז (קדם) ואת האריזה (עוקב), כך שאצוות-המשקה נשארת רציפה ולא נוצרת אריזה לפני שהמשקה מוכן.",
+          scenarioHe:
+            "בארגון דחיית-מילוי גוררת אוטומטית את הכנת-התרכיז (קדם) ואת האריזה (עוקב), כך שאצוות-המשקה נשארת רציפה ולא נוצרת אריזה לפני שהמשקה מוכן.",
           navHe: [
             "Production ► PP/DS ► Detailed Scheduling ► Strategy ► Maintain Strategy Profile ► Dependent Objects (/SAPAPO/CDPSC1)",
           ],
@@ -345,8 +345,8 @@ export const CH6: TextbookChapter = {
         "לתת למתכנן כלים מהירים, צפויים וניתנים-לשרשור לסידור הרצף וטיפול-בעומסים — ללא צורך בהרצת-Optimizer כבדה לכל פעולה יומיומית.",
       processExampleHe:
         "מתכנן בוחר את כל הפעולות על המשאב ב-Detailed Scheduling Planning Board ומריץ 'Schedule Sequence' למיון לפי תאריך-יעד; אז מריץ 'Remove Backlog' לדחיפת פעולות-איחור קדימה; ולבסוף 'Minimize Runtime' לצמצום-Setup.",
-      cbcHe:
-        "ב-CBC המתכנן מריץ שרשרת-Heuristics על קו-המילוי: סידור-רצף לפי תאריך-משלוח, ואז 'Minimize Runtime' שמקבץ טעמים-דומים יחד כדי לצמצם שטיפות-CIP בין החלפות-טעם.",
+      scenarioHe:
+        "בארגון המתכנן מריץ שרשרת-Heuristics על קו-המילוי: סידור-רצף לפי תאריך-משלוח, ואז 'Minimize Runtime' שמקבץ טעמים-דומים יחד כדי לצמצם שטיפות-CIP בין החלפות-טעם.",
       navHe: [
         "Production ► PP/DS ► Detailed Scheduling ► Heuristics ► Maintain Heuristics (/SAPAPO/CDPSC0)",
         "Detailed Scheduling Planning Board ► Functions ► Heuristics (/SAPAPO/CDPS0)",
@@ -419,8 +419,8 @@ export const CH6: TextbookChapter = {
             "ליצור רצף-ייצור הגיוני וניתן-לביצוע על המשאב לפי סדר-עדיפויות ברור (לרוב תאריך-יעד).",
           processExampleHe:
             "מתכנן בוחר 20 פעולות לא-מסודרות, מריץ Schedule Sequence לפי תאריך-יעד, והמערכת מסדרת אותן ברצף רציף על הקו, הקרוב-ביותר-לתאריך ראשון.",
-          cbcHe:
-            "ב-CBC Schedule Sequence מסדר את אצוות-המילוי של היום לפי תאריכי-המשלוח — בסיס שעליו ירוץ אחר-כך Minimize Runtime לקיבוץ-טעמים.",
+          scenarioHe:
+            "בארגון Schedule Sequence מסדר את אצוות-המילוי של היום לפי תאריכי-המשלוח — בסיס שעליו ירוץ אחר-כך Minimize Runtime לקיבוץ-טעמים.",
           navHe: ["Production ► PP/DS ► Detailed Scheduling ► Heuristics ► Schedule Sequence (/SAPAPO/CDPSC0)"],
           tables: ["/SAPAPO/HEUR", "/SAPAPO/ORDKEY"],
           tcodes: ["/SAPAPO/CDPSC0", "/SAPAPO/CDPS0"],
@@ -465,8 +465,8 @@ export const CH6: TextbookChapter = {
             "להפוך את הלוח לריאלי — שאף פעולה לא תהיה מתוזמנת 'בעבר' — ולחשוף את האיחורים האמיתיים כדי שאפשר יהיה לטפל בהם.",
           processExampleHe:
             "בבוקר המתכנן מריץ Remove Backlog: כל פעולות-האיחור (שלא בוצעו אתמול) נדחפות קדימה לחלונות-הפנויים הקרובים, והלוח מציג תמונה מבוצעת-יכולה.",
-          cbcHe:
-            "ב-CBC אחרי תקלת-קו לילית, אצוות-המילוי שלא בוצעו נשארות 'בעבר'; הרצת Remove Backlog בבוקר דוחפת אותן לחלונות הפנויים של היום וחושפת אילו משלוחים בסיכון-איחור.",
+          scenarioHe:
+            "בארגון אחרי תקלת-קו לילית, אצוות-המילוי שלא בוצעו נשארות 'בעבר'; הרצת Remove Backlog בבוקר דוחפת אותן לחלונות הפנויים של היום וחושפת אילו משלוחים בסיכון-איחור.",
           navHe: ["Production ► PP/DS ► Detailed Scheduling ► Heuristics ► Remove Backlog (/SAPAPO/CDPSC0)"],
           tables: ["/SAPAPO/HEUR", "/SAPAPO/ORDKEY"],
           tcodes: ["/SAPAPO/CDPSC0", "/SAPAPO/CDPS0", "/SAPAPO/CDPSB0"],
@@ -511,8 +511,8 @@ export const CH6: TextbookChapter = {
             "למקם פעולות נבחרות בלוח בהתאם לאסטרטגיה, ללא שינוי-סדר גורף — בקרה עדינה על המשאב.",
           processExampleHe:
             "נוצרה פק\"ע חדשה שפעולותיה 'לא-מתוזמנות' (Deallocated). המתכנן בוחר אותן ומריץ Schedule Operations; הן ממוקמות בחלונות-פנויים לפי Find slot + Backward מבלי לשבש את שאר הלוח.",
-          cbcHe:
-            "ב-CBC כשמוסיפים אצוות-מילוי חירום לאמצע-היום, Schedule Operations ממקם רק אותן בחלונות-הפנויים מבלי למיין-מחדש את כל רצף-הטעמים שכבר אושר.",
+          scenarioHe:
+            "בארגון כשמוסיפים אצוות-מילוי חירום לאמצע-היום, Schedule Operations ממקם רק אותן בחלונות-הפנויים מבלי למיין-מחדש את כל רצף-הטעמים שכבר אושר.",
           navHe: ["Production ► PP/DS ► Detailed Scheduling ► Heuristics ► Schedule Operations (/SAPAPO/CDPSC0)"],
           tables: ["/SAPAPO/HEUR", "/SAPAPO/ORDKEY"],
           tcodes: ["/SAPAPO/CDPSC0", "/SAPAPO/CDPS0"],
@@ -557,8 +557,8 @@ export const CH6: TextbookChapter = {
             "לצמצם זמן-Setup ולהגדיל את ניצול-המשאב, על-ידי קיבוץ מוצרים-דומים ומזעור-החלפות יקרות.",
           processExampleHe:
             "על משאב עם 8 אצוות בסדר אקראי, Minimize Runtime מקבץ מוצרים-דומים יחד; סך-זמני-ה-Setup יורד מ-4 שעות ל-1.5, והקיבולת-הפנויה גדלה.",
-          cbcHe:
-            "ב-CBC זהו ה-Heuristic הקריטי: ה-Setup Matrix מגדיר ששטיפת-CIP בין קולה-רגיל לקולה-זירו קצרה, אך בין קולה לספרייט ארוכה (טעם/צבע). Minimize Runtime מקבץ טעמים-מאותה-משפחה כדי לחסוך שטיפות, ומסדר את הרצף 'בהיר→כהה' לצמצום-ניקוי.",
+          scenarioHe:
+            "בארגון זהו ה-Heuristic הקריטי: ה-Setup Matrix מגדיר ששטיפת-CIP בין מוגז-רגיל למוגז-זירו קצרה, אך בין מוגז לספרייט ארוכה (טעם/צבע). Minimize Runtime מקבץ טעמים-מאותה-משפחה כדי לחסוך שטיפות, ומסדר את הרצף 'בהיר→כהה' לצמצום-ניקוי.",
           navHe: [
             "Production ► PP/DS ► Detailed Scheduling ► Heuristics ► Minimize Runtime (/SAPAPO/CDPSC0)",
             "Production ► PP/DS ► Detailed Scheduling ► Setup ► Maintain Setup Matrix (/SAPAPO/CDPSC4)",
@@ -598,7 +598,7 @@ export const CH6: TextbookChapter = {
           takeawaysHe: [
             "Minimize Runtime = צמצום-Setup תלוי-רצף.",
             "נשען על Setup Matrix מתוחזק.",
-            "ב-CBC: קיבוץ-טעמים לחיסכון בשטיפות-CIP.",
+            "בארגון: קיבוץ-טעמים לחיסכון בשטיפות-CIP.",
           ],
           relatedHe: [{ labelHe: "PP/DS · Detailed Scheduling Optimizer (6.5)", href: "/library/ppds/chapter-06/#sub-6.5" }],
         },
@@ -616,8 +616,8 @@ export const CH6: TextbookChapter = {
             "ליצור תזמון ניתן-לביצוע מקצה-לקצה על-פני רמות-ייצור מרובות, כך שכל הרמות עקביות זו עם זו (אספקה לפני דרישה).",
           processExampleHe:
             "מוצר תלת-שלבי: Heuristic רב-שלבי Bottom-up מתזמן קודם את הערבוב, ואז ממקם את המילוי אחריו, ואת האריזה אחרי המילוי — בכיבוד מרווחי-הזמן בין השלבים.",
-          cbcHe:
-            "ב-CBC משקה = הכנת-תרכיז ➔ ערבוב ➔ מילוי ➔ אריזה; Heuristic רב-שלבי מסדר את כל ארבעת השלבים בעקביות כך שאף שלב לא מתחיל לפני שקודמו מוכן.",
+          scenarioHe:
+            "בארגון משקה = הכנת-תרכיז ➔ ערבוב ➔ מילוי ➔ אריזה; Heuristic רב-שלבי מסדר את כל ארבעת השלבים בעקביות כך שאף שלב לא מתחיל לפני שקודמו מוכן.",
           navHe: [
             "Production ► PP/DS ► Detailed Scheduling ► Heuristics ► Multilevel Scheduling Framework (/SAPAPO/CDPSC0)",
           ],
@@ -674,8 +674,8 @@ export const CH6: TextbookChapter = {
             "לאזן עומס בין משאבים-מקבילים ולנצל קיבולת-עודפת, במקום להעמיס משאב אחד בעוד אחר פנוי.",
           processExampleHe:
             "שלוש מכונות זהות; ה-Multiresource Heuristic מחלק 30 פעולות ביניהן באיזון, ובוחר לכל פעולה את המכונה הפנויה-ביותר התואמת ל-Mode.",
-          cbcHe:
-            "ב-CBC שני קווי-מילוי זהים (Line 1, Line 2); ה-Heuristic מאזן ביניהם את אצוות-היום, ומנתב טעם מסוים לקו שעליו ה-Setup הנדרש קצר יותר.",
+          scenarioHe:
+            "בארגון שני קווי-מילוי זהים (Line 1, Line 2); ה-Heuristic מאזן ביניהם את אצוות-היום, ומנתב טעם מסוים לקו שעליו ה-Setup הנדרש קצר יותר.",
           navHe: [
             "Production ► PP/DS ► Detailed Scheduling ► Heuristics ► Multiresource Scheduling (/SAPAPO/CDPSC0)",
           ],
@@ -724,8 +724,8 @@ export const CH6: TextbookChapter = {
             "להבטיח שהמשאב-הסופי ישרת קודם את הביקוש-החשוב-ביותר, ולמקסם שירות-לקוח כשהקיבולת מוגבלת.",
           processExampleHe:
             "בעת מחסור-קיבולת, ה-Heuristic מתזמן קודם את אצוות המזינות הזמנות-לקוח בעדיפות-גבוהה, ודוחה מילוי-מלאי בעדיפות-נמוכה ליום הבא.",
-          cbcHe:
-            "ב-CBC לפני חג עם ביקוש-שיא, תזמון מונחה-ביקוש נותן עדיפות לאצוות המזינות הזמנות-קמעונאות-גדולות על-פני מילוי-מלאי-בטחון, כדי להבטיח אספקה ללקוחות-המפתח.",
+          scenarioHe:
+            "בארגון לפני חג עם ביקוש-שיא, תזמון מונחה-ביקוש נותן עדיפות לאצוות המזינות הזמנות-קמעונאות-גדולות על-פני מילוי-מלאי-בטחון, כדי להבטיח אספקה ללקוחות-המפתח.",
           navHe: [
             "Production ► PP/DS ► Detailed Scheduling ► Heuristics ► Demand-Driven Scheduling (/SAPAPO/CDPSC0)",
           ],
@@ -778,8 +778,8 @@ export const CH6: TextbookChapter = {
         "להתאים את כלי-התזמון לפרסונה ולמשימה — מתכנן-מומחה בלוח מפורט, מנהל-תפעול בניטור-עומסים — תוך שמירה על מנוע-תזמון ולוגיקה אחידים.",
       processExampleHe:
         "מתכנן פותח את Detailed Scheduling Planning Board, מסנן את משאבי-המפתח, מריץ Heuristics, גורר התאמות-ידניות, ושומר. מנהל-התפעול פותח את Monitor Capacity Utilization לראות אילו קווים בעומס-יתר.",
-      cbcHe:
-        "ב-CBC המתכנן-הראשי עובד יומית ב-Detailed Scheduling Planning Board לסידור-רצף-הטעמים; מנהל-המשמרת משתמש ב-Monitor Capacity Utilization לראות עומס-קווים בזמן-אמת, וה-Resource Planning Table משמש לאיזון-מהיר בין שני הקווים.",
+      scenarioHe:
+        "בארגון המתכנן-הראשי עובד יומית ב-Detailed Scheduling Planning Board לסידור-רצף-הטעמים; מנהל-המשמרת משתמש ב-Monitor Capacity Utilization לראות עומס-קווים בזמן-אמת, וה-Resource Planning Table משמש לאיזון-מהיר בין שני הקווים.",
       navHe: [
         "SAP APO ► PP/DS ► Detailed Scheduling ► Detailed Scheduling Planning Board (/SAPAPO/CDPS0)",
         "Fiori Launchpad ► Manufacturing ► Advanced Scheduling Board",
@@ -847,8 +847,8 @@ export const CH6: TextbookChapter = {
             "לתת למתכנן שליטה-מלאה ויזואלית על הרצף והעומסים על המשאבים, עם גישה לכל כלי-התזמון ממקום אחד.",
           processExampleHe:
             "המתכנן פותח את הלוח עם Work area של משאבי-המפתח, רואה עומס-יתר (פס-אדום), מריץ Remove Backlog ואז Minimize Runtime, גורר אצווה-דחופה קדימה, מקבע (Fix) אותה, ושומר.",
-          cbcHe:
-            "ב-CBC המתכנן פותח את הלוח לשני קווי-המילוי, רואה את רצף-הטעמים של היום, מריץ Minimize Runtime לקיבוץ-טעמים, וגורר ידנית אצווה דחופה תוך קיבועה כדי שה-Optimizer לא יזיז אותה.",
+          scenarioHe:
+            "בארגון המתכנן פותח את הלוח לשני קווי-המילוי, רואה את רצף-הטעמים של היום, מריץ Minimize Runtime לקיבוץ-טעמים, וגורר ידנית אצווה דחופה תוך קיבועה כדי שה-Optimizer לא יזיז אותה.",
           navHe: ["SAP APO ► PP/DS ► Detailed Scheduling ► Detailed Scheduling Planning Board (/SAPAPO/CDPS0)"],
           tables: ["/SAPAPO/RESOURCE", "/SAPAPO/ORDKEY", "/SAPAPO/CDPSPARA"],
           tcodes: ["/SAPAPO/CDPS0", "/SAPAPO/CDPSC2"],
@@ -904,8 +904,8 @@ export const CH6: TextbookChapter = {
             "לספק חוויית-תזמון מודרנית ונגישה-בדפדפן עם יכולות-הלוח-המלאות, ולהפחית את התלות ב-SAP GUI.",
           processExampleHe:
             "מתכנן פותח את ה-Advanced Scheduling Board ב-Fiori Launchpad, מסנן משאב, גורר פעולות בציר-הזמן, מריץ Heuristic מהתפריט, ובודק את העומס בתצוגה-המודרנית — הכל בדפדפן.",
-          cbcHe:
-            "ב-CBC צוות-תכנון חדש מאומן על ה-Advanced Scheduling Board במקום ה-SAP GUI הקלאסי — אותו רצף-טעמים, אותן Heuristics, בחוויית-Fiori שנוחה יותר על מסכי-המפעל.",
+          scenarioHe:
+            "בארגון צוות-תכנון חדש מאומן על ה-Advanced Scheduling Board במקום ה-SAP GUI הקלאסי — אותו רצף-טעמים, אותן Heuristics, בחוויית-Fiori שנוחה יותר על מסכי-המפעל.",
           navHe: ["Fiori Launchpad ► Manufacturing ► Advanced Scheduling Board"],
           tables: ["/SAPAPO/RESOURCE", "/SAPAPO/ORDKEY"],
           tcodes: ["/SAPAPO/CDPS0"],
@@ -952,8 +952,8 @@ export const CH6: TextbookChapter = {
             "לזהות במהירות צווארי-בקבוק וקיבולת-פנויה ברמת-מנהל, ולנתב את מאמץ-התזמון למקום-הנכון.",
           processExampleHe:
             "מנהל-תפעול פותח את האפליקציה בבוקר, רואה קו-2 ב-130% ביום-חמישי, עושה drill-in לראות אילו הזמנות גורמות לעומס, ומפנה את המתכנן לאזן.",
-          cbcHe:
-            "ב-CBC מנהל-המשמרת בודק ב-Monitor Capacity Utilization שקו-המילוי המרכזי לא חורג מ-100% לפני חג; כשהוא רואה עומס-יתר, הוא מבקש מהמתכנן להעביר אצוות לקו-המשני.",
+          scenarioHe:
+            "בארגון מנהל-המשמרת בודק ב-Monitor Capacity Utilization שקו-המילוי המרכזי לא חורג מ-100% לפני חג; כשהוא רואה עומס-יתר, הוא מבקש מהמתכנן להעביר אצוות לקו-המשני.",
           navHe: ["Fiori Launchpad ► Manufacturing ► Monitor Capacity Utilization"],
           tables: ["/SAPAPO/RESOURCE", "/SAPAPO/ORDKEY"],
           tcodes: ["/SAPAPO/CDPS0"],
@@ -1000,8 +1000,8 @@ export const CH6: TextbookChapter = {
             "לאזן עומס-משאבים במהירות ברמת-Bucket — לפני או לצד התזמון-המפורט-לדקה — ולפשט החלטות-קיבולת-גסות.",
           processExampleHe:
             "מתכנן רואה בטבלה עומס-יתר על קו-1 בשבוע-הבא; הוא מעביר חלק מהעומס לקו-2 (משאב-חלופי) ישירות בטבלה, ואז יורד ל-Planning Board לתזמון-המדויק.",
-          cbcHe:
-            "ב-CBC ה-Resource Planning Table משמש לאיזון-שבועי בין שני קווי-המילוי: כשקו-אחד עמוס, מעבירים כמות-ייצור לקו-השני ברמת-Bucket, והרצף-המדויק נקבע אחר-כך בלוח.",
+          scenarioHe:
+            "בארגון ה-Resource Planning Table משמש לאיזון-שבועי בין שני קווי-המילוי: כשקו-אחד עמוס, מעבירים כמות-ייצור לקו-השני ברמת-Bucket, והרצף-המדויק נקבע אחר-כך בלוח.",
           navHe: ["Fiori Launchpad ► Manufacturing ► Resource Planning Table"],
           tables: ["/SAPAPO/RESOURCE", "/SAPAPO/ORDKEY"],
           tcodes: ["/SAPAPO/CDPSB2", "/SAPAPO/CDPS0"],
@@ -1051,8 +1051,8 @@ export const CH6: TextbookChapter = {
         "להשיג את הרצף הטוב-ביותר-אפשרי לבעיות מורכבות (רצף תלוי-Setup, ריבוי-משאבים, איחורים) שבהן Heuristic לא מספיק — תוך איזון בין מטרות-מתחרות.",
       processExampleHe:
         "על משאב עם 40 פעולות, רצף-Setup מורכב ותאריכי-יעד צפופים, המתכנן מריץ את ה-Optimizer עם פרופיל שמשקלל מזעור-Setup (משקל-גבוה) ומזעור-איחורים (משקל-בינוני); תוך 5 דקות מוחזר רצף שמצמצם Setup ב-40% עם מינימום-איחורים.",
-      cbcHe:
-        "ב-CBC ה-Optimizer פותר את 'בעיית-רצף-הטעמים' השבועית: עשרות אצוות, Setup Matrix תלוי-זוג-טעמים, ושני קווים — הוא מחזיר רצף שממזער שטיפות-CIP (עלות-Setup) תוך עמידה במרב תאריכי-המשלוח.",
+      scenarioHe:
+        "בארגון ה-Optimizer פותר את 'בעיית-רצף-הטעמים' השבועית: עשרות אצוות, Setup Matrix תלוי-זוג-טעמים, ושני קווים — הוא מחזיר רצף שממזער שטיפות-CIP (עלות-Setup) תוך עמידה במרב תאריכי-המשלוח.",
       navHe: [
         "SAP APO ► PP/DS ► Detailed Scheduling ► Optimization ► Maintain Optimization Profile (/SAPAPO/CDPSC5)",
         "Detailed Scheduling Planning Board ► Functions ► Optimize (/SAPAPO/CDPS0)",
@@ -1104,7 +1104,7 @@ export const CH6: TextbookChapter = {
         "Optimizer = פתרון קרוב-לאופטימלי לבעיות-רצף מורכבות.",
         "Cost-based, רב-מטרתי, לפי Optimization profile.",
         "דורש מודל-נתונים נקי ו-runtime-budget.",
-        "ב-CBC: מזעור שטיפות-CIP תלויות-זוג-טעמים.",
+        "בארגון: מזעור שטיפות-CIP תלויות-זוג-טעמים.",
       ],
       relatedHe: [
         { labelHe: "PP/DS · Heuristics (6.3)", href: "/library/ppds/chapter-06/#sub-6.3" },
@@ -1125,8 +1125,8 @@ export const CH6: TextbookChapter = {
             "לתרגם את עדיפויות-העסק (מה יקר יותר — החלפה או איחור?) לשפה-מתמטית שה-Optimizer יכול לאזן ולמזער.",
           processExampleHe:
             "ארגון שעלות-איחור-ללקוח גבוהה מעלות-Setup נותן משקל-גבוה ל-Delay costs ומשקל-נמוך ל-Setup; ה-Optimizer יעדיף עמידה-בתאריכים גם במחיר החלפות-נוספות.",
-          cbcHe:
-            "ב-CBC עלות שטיפת-CIP (Setup) גבוהה, ולכן Setup-cost מקבל משקל-גבוה; אך לפני חג, המשקל של Delay מוגבר זמנית כדי להבטיח עמידה-בתאריכי-קמעונאות גם במחיר שטיפות-נוספות.",
+          scenarioHe:
+            "בארגון עלות שטיפת-CIP (Setup) גבוהה, ולכן Setup-cost מקבל משקל-גבוה; אך לפני חג, המשקל של Delay מוגבר זמנית כדי להבטיח עמידה-בתאריכי-קמעונאות גם במחיר שטיפות-נוספות.",
           navHe: ["SAP APO ► PP/DS ► Detailed Scheduling ► Optimization ► Optimization Profile ► Objective Functions (/SAPAPO/CDPSC5)"],
           tables: ["/SAPAPO/OPTPROF"],
           tcodes: ["/SAPAPO/CDPSC5"],
@@ -1175,8 +1175,8 @@ export const CH6: TextbookChapter = {
             "לארוז את כל תצורת-ה-Optimizer לישות אחת ניתנת-לשימוש-חוזר, כדי שהרצות יהיו עקביות, ניתנות-לשחזור וקלות-להחלפה.",
           processExampleHe:
             "אדמין מגדיר פרופיל 'OPT_STD' (Setup-משקל-גבוה, runtime 5דק') ופרופיל 'OPT_HOLIDAY' (Delay-משקל-גבוה, runtime 10דק'); המתכנן בוחר פרופיל לפי-העונה ומריץ.",
-          cbcHe:
-            "ב-CBC שני פרופילים: 'OPT_STD' (מזעור-שטיפות-CIP) לשגרה, ו-'OPT_PEAK' (עמידה-בתאריכים) לעונת-שיא; המתכנן מחליף ביניהם לפי לוח-השנה.",
+          scenarioHe:
+            "בארגון שני פרופילים: 'OPT_STD' (מזעור-שטיפות-CIP) לשגרה, ו-'OPT_PEAK' (עמידה-בתאריכים) לעונת-שיא; המתכנן מחליף ביניהם לפי לוח-השנה.",
           navHe: ["SAP APO ► PP/DS ► Detailed Scheduling ► Optimization ► Maintain Optimization Profile (/SAPAPO/CDPSC5)"],
           tables: ["/SAPAPO/OPTPROF"],
           tcodes: ["/SAPAPO/CDPSC5", "/SAPAPO/CDPS0"],
@@ -1226,8 +1226,8 @@ export const CH6: TextbookChapter = {
             "להבטיח שכל הרצת-Optimizer אכן משפרת לפי-המטרות, לאתר בעיות-מודל/אילוצים, ולקבל החלטה-מבוססת-נתונים אם לקבל את התוצאה.",
           processExampleHe:
             "המתכנן מריץ Optimizer, פותח את ה-Optimization log, רואה Setup ירד מ-6 ל-3.5 שעות ו-2 איחורים-בלבד, מאמת שאין פעולות Non-scheduled, ומקבל את הפתרון; אחרת — מכוונן משקלים ומריץ-שוב.",
-          cbcHe:
-            "ב-CBC המתכנן מריץ את ה-Optimizer לרצף-השבוע, בודק בלוג שמספר שטיפות-ה-CIP ירד ושכל אצוות-החג תוזמנו (אין Non-scheduled), ורק אז מקבל ושומר את הרצף.",
+          scenarioHe:
+            "בארגון המתכנן מריץ את ה-Optimizer לרצף-השבוע, בודק בלוג שמספר שטיפות-ה-CIP ירד ושכל אצוות-החג תוזמנו (אין Non-scheduled), ורק אז מקבל ושומר את הרצף.",
           navHe: [
             "Detailed Scheduling Planning Board ► Functions ► Optimize (/SAPAPO/CDPS0)",
             "SAP APO ► PP/DS ► Detailed Scheduling ► Optimization ► Monitor Optimization Runs (/SAPAPO/OPT_LOG)",
@@ -1288,15 +1288,15 @@ export const CH6: TextbookChapter = {
       execHe:
         "פרק זה הקיף את התזמון-המפורט (Detailed Scheduling) ב-PP/DS מקצה-לקצה: מתי הוא מוצדק, כיצד בונים DS strategy profile, את עולם ה-Heuristics, כלי-ההפעלה האינטראקטיביים, וה-Detailed Scheduling Optimizer. המסר המרכזי: תזמון-מפורט הופך תוכנית-תכנון (כמה/מתי-בערך) לרצף-ביצוע-מדויק (סדר/עיתוי-לדקה) על משאבים-סופיים, והכלי הנכון (Heuristic מהיר מול Optimizer חזק) נבחר לפי מורכבות-הרצף.",
       beginnerHe:
-        "סיכום במשפט: למדנו לקחת 'תייצר 10,000 בקבוקים עד חמישי' ולהפוך אותו ל'קו-2, 08:00–14:30, אחרי הקולה ולפני הספרייט'. עשינו זאת עם אסטרטגיה (איך-לתזמן), Heuristics (כפתורים-חכמים), לוחות-תזמון (איפה-עובדים), ו-Optimizer (המוח-הגדול).",
+        "סיכום במשפט: למדנו לקחת 'תייצר 10,000 בקבוקים עד חמישי' ולהפוך אותו ל'קו-2, 08:00–14:30, אחרי המוגז ולפני הספרייט'. עשינו זאת עם אסטרטגיה (איך-לתזמן), Heuristics (כפתורים-חכמים), לוחות-תזמון (איפה-עובדים), ו-Optimizer (המוח-הגדול).",
       consultantHe:
         "סקירת-העל: (1) הפעל תזמון-מפורט רק על משאבי-Finite שבהם הקיבולת/הרצף קריטיים; (2) ה-DS strategy profile (/SAPAPO/CDPSC1) הוא הכלל-המרכזי — General params + Dependent objects; (3) Heuristics (/SAPAPO/CDPSC0) הם הכלי-היומיומי, ניתנים-לשרשור, נשענים על Setup Matrix; (4) ההפעלה דרך Detailed Scheduling Planning Board / Advanced Scheduling Board / Monitor Capacity Utilization / Resource Planning Table — אותו מנוע, פרסונות-שונות; (5) ה-Detailed Scheduling Optimizer (/SAPAPO/CDPSC5) לבעיות-מורכבות, Cost-based, רב-מטרתי, עם ניטור-Log חובה. כל אלה משתלבים עם תכנון-הייצור (פרק 5) ועם נתוני-האב של PP/DS.",
       purposeHe:
         "לקבע תמונה-שלמה ומעשית: לדעת מתי-להשתמש, איזה-כלי-לבחור, וכיצד-להגדיר את התזמון-המפורט כך שהתוצאה תהיה ניתנת-לביצוע, יעילה ועקבית.",
       processExampleHe:
         "תהליך-יומי טיפוסי: בוקר — Remove Backlog ב-Production Planning Run; מתכנן — Schedule Sequence + Minimize Runtime בלוח; עומס-יתר — איזון ב-Resource Planning Table; רצף-מורכב/שבועי — Detailed Scheduling Optimizer עם ניטור-Log; קיבוע-החלטות-ידניות + Save → CIF ל-S/4.",
-      cbcHe:
-        "ב-CBC המחזור-המלא: ניטור-עומסי-קווים (Monitor Capacity Utilization) ➔ סידור-רצף-טעמים ומזעור-שטיפות-CIP (Heuristics/Optimizer) ➔ איזון בין שני הקווים (Resource Planning Table) ➔ קיבוע אצוות-חירום ושמירה — וכך משקאות-CBC מיוצרים בסדר-מיטבי, עם פחות-החלפות ועמידה-בתאריכי-משלוח.",
+      scenarioHe:
+        "בארגון המחזור-המלא: ניטור-עומסי-קווים (Monitor Capacity Utilization) ➔ סידור-רצף-טעמים ומזעור-שטיפות-CIP (Heuristics/Optimizer) ➔ איזון בין שני הקווים (Resource Planning Table) ➔ קיבוע אצוות-חירום ושמירה — וכך משקאות-הארגון מיוצרים בסדר-מיטבי, עם פחות-החלפות ועמידה-בתאריכי-משלוח.",
       navHe: [
         "SAP APO ► PP/DS ► Detailed Scheduling ► Strategy / Heuristics / Optimization (/SAPAPO/CDPSC1, /SAPAPO/CDPSC0, /SAPAPO/CDPSC5)",
         "Detailed Scheduling Planning Board (/SAPAPO/CDPS0) ► Heuristics / Optimize / Save",

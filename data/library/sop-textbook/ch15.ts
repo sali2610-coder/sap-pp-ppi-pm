@@ -1,7 +1,7 @@
 // ===== S&OP with SAP IBP Digital Textbook — Chapter 15 =====
 // Roles and Security. Every node is a complete LearningNode with 18 facets of
 // authored Hebrew (beginner + consultant friendly). SAP identifiers verbatim EN.
-// CBC = Coca-Cola bottling IBP roles/security context.
+// הארגון = Example Product bottling IBP roles/security context.
 import type { TextbookChapter } from "./types";
 
 export const CH15: TextbookChapter = {
@@ -9,7 +9,7 @@ export const CH15: TextbookChapter = {
   titleHe: "תפקידים ואבטחה",
   titleEn: "Roles and Security",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לתפקידים ולאבטחה ב-SAP IBP (Integrated Business Planning) בענן. אבטחה ב-IBP אינה רק 'מי נכנס למערכת' — היא קובעת אילו נתוני-תכנון כל משתמש רואה, מה מותר לו לשנות, ובאילו שלבים של תהליך-התכנון הוא מעורב. הפרק עוקב אחר מודל-האבטחה המלא: ניהול משתמשים ב-SAP Cloud Identity, יצירת קבוצות-משתמשים (user groups), הקצאת business roles הבנויים מ-business catalogs, ובקרת-הנתונים העדינה דרך permission filters עם read/write criteria — כולל permission filters בשלב-התהליך (process stage). כל תת-פרק מורחב ל-18 מקטעים: שלוש רמות-הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת CBC, ניווט באפליקציות-הניהול של IBP, טבלאות/אובייקטים, פרטי-קונפיגורציה, תרשים-זרימה, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט במודל-האבטחה של IBP מקצה-לקצה.",
+    "פרק זה הוא יחידת-לימוד מלאה לתפקידים ולאבטחה ב-SAP IBP (Integrated Business Planning) בענן. אבטחה ב-IBP אינה רק 'מי נכנס למערכת' — היא קובעת אילו נתוני-תכנון כל משתמש רואה, מה מותר לו לשנות, ובאילו שלבים של תהליך-התכנון הוא מעורב. הפרק עוקב אחר מודל-האבטחה המלא: ניהול משתמשים ב-SAP Cloud Identity, יצירת קבוצות-משתמשים (user groups), הקצאת business roles הבנויים מ-business catalogs, ובקרת-הנתונים העדינה דרך permission filters עם read/write criteria — כולל permission filters בשלב-התהליך (process stage). כל תת-פרק מורחב ל-18 מקטעים: שלוש רמות-הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת הארגון, ניווט באפליקציות-הניהול של IBP, טבלאות/אובייקטים, פרטי-קונפיגורציה, תרשים-זרימה, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט במודל-האבטחה של IBP מקצה-לקצה.",
   subchapters: [
     // ============================================================ 15.1
     {
@@ -26,8 +26,8 @@ export const CH15: TextbookChapter = {
         "המטרה: להבטיח שכל מתכנן רואה ומשנה רק את חלקו בתכנית — בלי לחשוף נתונים רגישים (מחירים, תחזיות-מתחרים, אזורים שאינם באחריותו), תוך עמידה בהפרדת-תפקידים (Segregation of Duties) ובדרישות-ביקורת.",
       processExampleHe:
         "ארגון גלובלי מקים IBP: צוות-האבטחה מגדיר תחילה את הזהויות ב-Cloud Identity, יוצר business roles לכל פרסונה (Demand Planner, Supply Planner, Viewer), מרכיב כל role מ-business catalogs מתאימים, ולבסוף מצרף permission filters שמגבילים כל מתכנן לאזורו ולמוצריו. בדיקת-קבלה: כל פרסונה נכנסת ומוודאת שהיא רואה בדיוק את מה שתוכנן — לא פחות ולא יותר.",
-      cbcHe:
-        "ב-CBC (מבקבק Coca-Cola): מתכנן-הביקוש של אזור הצפון רואה רק את ה-SKUs והמפעלים של הצפון; מתכנן-האספקה הארצי רואה את כל המפעלים אך יכול לשנות רק תכניות-ייצור; מנהל-המכירות מקבל role של Viewer בלבד — רואה תחזיות אך לא משנה. כל זה נאכף בשלוש השכבות יחד.",
+      scenarioHe:
+        "בארגון (מבקבק Example Product): מתכנן-הביקוש של אזור הצפון רואה רק את ה-SKUs והמפעלים של הצפון; מתכנן-האספקה הארצי רואה את כל המפעלים אך יכול לשנות רק תכניות-ייצור; מנהל-המכירות מקבל role של Viewer בלבד — רואה תחזיות אך לא משנה. כל זה נאכף בשלוש השכבות יחד.",
       navHe: [
         "SAP IBP Web UI ► Side Navigation ► Administration ► Manage Users",
         "SAP IBP Web UI ► Administration ► Roles and Permissions ► Manage Business Roles",
@@ -98,8 +98,8 @@ export const CH15: TextbookChapter = {
         "המטרה: לנהל את מחזור-החיים של המשתמש — פתיחה, שינוי-תפקיד, השעיה ומחיקה — בצורה עקבית, מתועדת ובת-ביקורת, תוך הקצאת-הרשאות אחידה ומדרגית.",
       processExampleHe:
         "מתכנן חדש מצטרף: צוות-ה-IT פותח לו זהות ב-Cloud Identity, יוצר משתמש מקביל ב-IBP, ומשייך אותו ל-user group 'Demand Planners – North'. הקבוצה כבר נושאת את ה-business role ואת ה-permission filters המתאימים — כך המתכנן מקבל את כל ההרשאות הנכונות מהרגע הראשון, בלי הגדרה פרטנית.",
-      cbcHe:
-        "ב-CBC: עובד-תכנון חדש באזור הצפון מתווסף ל-user group 'CBC-North-Demand'. הקבוצה מעניקה role של Demand Planner + permission filter שמגביל ל-Region=North. עובד שעובר לאספקה ארצית — מוסר מהקבוצה הישנה ומתווסף ל-'CBC-National-Supply'; ההרשאות מתחלפות אוטומטית.",
+      scenarioHe:
+        "בארגון: עובד-תכנון חדש באזור הצפון מתווסף ל-user group 'הארגון-North-Demand'. הקבוצה מעניקה role של Demand Planner + permission filter שמגביל ל-Region=North. עובד שעובר לאספקה ארצית — מוסר מהקבוצה הישנה ומתווסף ל-'הארגון-National-Supply'; ההרשאות מתחלפות אוטומטית.",
       navHe: [
         "SAP IBP Web UI ► Administration ► Manage Users",
         "SAP IBP Web UI ► Administration ► Manage Users ► Assign Business Roles",
@@ -167,8 +167,8 @@ export const CH15: TextbookChapter = {
             "המטרה: להעניק לעובד-חדש גישה תקינה ומאובטחת במהירות ובאחידות, עם תפקיד נכון מהרגע הראשון.",
           processExampleHe:
             "ה-IT מקבל בקשת-onboarding: פותח משתמש ב-Manage Users, מזין דוא\"ל ארגוני, משייך ל-user group של הצוות, ושומר. המשתמש מקבל מייל להגדרת-סיסמה ונכנס עם ההרשאות הנכונות.",
-          cbcHe:
-            "ב-CBC קליטת 20 מתכננים חדשים נעשית בייבוא-CSV: כל שורה כוללת דוא\"ל, שם ו-user group ('CBC-North-Demand'). כך כולם מקבלים את אותו role ואת אותו permission filter בלחיצה אחת.",
+          scenarioHe:
+            "בארגון קליטת 20 מתכננים חדשים נעשית בייבוא-CSV: כל שורה כוללת דוא\"ל, שם ו-user group ('הארגון-North-Demand'). כך כולם מקבלים את אותו role ואת אותו permission filter בלחיצה אחת.",
           navHe: [
             "SAP IBP Web UI ► Administration ► Manage Users ► Create",
             "SAP IBP Web UI ► Administration ► Manage Users ► Import",
@@ -227,8 +227,8 @@ export const CH15: TextbookChapter = {
             "המטרה: לנהל הרשאות במקום אחד לכל פרסונה, להפוך onboarding/offboarding לפעולה של דקה, ולהבטיח אחידות מלאה בין חברי אותו צוות.",
           processExampleHe:
             "ארגון מגדיר 6 user groups לפי פרסונות. כל הרשאה — role ו-permission filter — מוצמדת לקבוצה. ב-30 העברות-עובדים בשנה, צוות-האבטחה רק מחליף חברות-קבוצה; אף הרשאה פרטנית לא נוגעת.",
-          cbcHe:
-            "ב-CBC קיימות קבוצות: 'CBC-North-Demand', 'CBC-South-Demand', 'CBC-National-Supply', 'CBC-Exec-Viewer'. כל קבוצת-ביקוש-אזורית נושאת role של Demand Planner + permission filter לפי Region; קבוצת-ה-Viewer נושאת read criteria בלבד על כל האזורים.",
+          scenarioHe:
+            "בארגון קיימות קבוצות: 'הארגון-North-Demand', 'הארגון-South-Demand', 'הארגון-National-Supply', 'הארגון-Exec-Viewer'. כל קבוצת-ביקוש-אזורית נושאת role של Demand Planner + permission filter לפי Region; קבוצת-ה-Viewer נושאת read criteria בלבד על כל האזורים.",
           navHe: [
             "SAP IBP Web UI ► Administration ► Manage User Groups",
             "SAP IBP Web UI ► Administration ► Manage User Groups ► Assign Roles & Filters",
@@ -293,8 +293,8 @@ export const CH15: TextbookChapter = {
         "המטרה: להעניק גישה תפקודית מדויקת לפי פרסונה — לא יותר אפליקציות ולא פחות — תוך שימוש-חוזר ב-business catalogs כדי לשמור על אחידות ועל הפרדת-תפקידים.",
       processExampleHe:
         "מימוש: צוות-האבטחה מגדיר role 'Demand Planner' ומרכיב אותו מ-catalogs של Demand Planning + Analytics (display) + Excel Planning. role 'Viewer' מורכב מ-catalogs של Analytics ב-display בלבד. כל role נבדק מול הפרסונה לוודא שהאפליקציות והפעולות מתאימות בדיוק.",
-      cbcHe:
-        "ב-CBC: role 'CBC Demand Planner' = catalogs לתכנון-ביקוש + ניתוחים (Excel + Web); role 'CBC Supply Planner' = catalogs לתכנון-אספקה + מודל-הזמנה; role 'CBC Sales Viewer' = catalog ניתוחים ב-display בלבד — מנהלי-מכירות רואים תחזיות אך לא נוגעים בהן.",
+      scenarioHe:
+        "בארגון: role 'הארגון Demand Planner' = catalogs לתכנון-ביקוש + ניתוחים (Excel + Web); role 'הארגון Supply Planner' = catalogs לתכנון-אספקה + מודל-הזמנה; role 'הארגון Sales Viewer' = catalog ניתוחים ב-display בלבד — מנהלי-מכירות רואים תחזיות אך לא נוגעים בהן.",
       navHe: [
         "SAP IBP Web UI ► Administration ► Manage Business Roles",
         "SAP IBP Web UI ► Administration ► Manage Business Roles ► Assign Business Catalogs",
@@ -364,8 +364,8 @@ export const CH15: TextbookChapter = {
         "המטרה: לאכוף ש'כל מתכנן רואה רק את שלו' — להגן על נתונים רגישים, לאפשר הפרדת-אזורים/מוצרים, ולתת הרשאת-שינוי מצומצמת בתוך טווח-הקריאה.",
       processExampleHe:
         "מתכנן-ביקוש אזורי מקבל permission filter עם read criteria: Region=North וכן write criteria: Region=North AND ProductFamily=Beverages. כך הוא רואה את כל נתוני-הצפון, אך משנה תחזיות רק למשפחת-המשקאות — לא לחטיפים שמנוהלים בידי מתכנן אחר.",
-      cbcHe:
-        "ב-CBC: מתכנן-הצפון — read: Region=North, write: Region=North. מתכנן-האספקה הארצי — read: כל ה-Regions, write: רק key figures של אספקה. מנהל-מכירות — read: כל ה-Regions, ללא write כלל (Viewer). כל זה דרך permission filters שמוצמדים ל-user groups.",
+      scenarioHe:
+        "בארגון: מתכנן-הצפון — read: Region=North, write: Region=North. מתכנן-האספקה הארצי — read: כל ה-Regions, write: רק key figures של אספקה. מנהל-מכירות — read: כל ה-Regions, ללא write כלל (Viewer). כל זה דרך permission filters שמוצמדים ל-user groups.",
       navHe: [
         "SAP IBP Web UI ► Administration ► Manage Permission Filters",
         "SAP IBP Web UI ► Administration ► Manage Permission Filters ► Read Criteria",
@@ -433,8 +433,8 @@ export const CH15: TextbookChapter = {
             "המטרה: להגדיר במדויק את היקף-הנתונים הגלוי לכל פרסונה, להגן על מידע רגיש ולמקד את המתכנן באחריותו.",
           processExampleHe:
             "מתכנן-הצפון מקבל read: Region=North. בפתיחת planning view הוא רואה רק SKUs ומיקומי-הצפון; נתוני-הדרום אינם מופיעים כלל, גם לא באגרגציה.",
-          cbcHe:
-            "ב-CBC: read של מתכנן-הצפון = Region=North; read של אנליסט-הביקוש הארצי = כל ה-Regions; read של מנהל-מותג = ProductBrand=Coca-Cola בכל האזורים.",
+          scenarioHe:
+            "בארגון: read של מתכנן-הצפון = Region=North; read של אנליסט-הביקוש הארצי = כל ה-Regions; read של מנהל-מותג = ProductBrand=Example Product בכל האזורים.",
           navHe: [
             "SAP IBP Web UI ► Administration ► Manage Permission Filters ► Read Criteria",
           ],
@@ -490,8 +490,8 @@ export const CH15: TextbookChapter = {
             "המטרה: לאפשר שיתוף-נתונים רחב לצורכי-נראות, תוך הגבלת-השינוי לאחריות-המתכנן בלבד — איזון בין שקיפות לבקרה.",
           processExampleHe:
             "אנליסט-ביקוש ארצי: read = כל ה-Regions (נראות מלאה לתיאום), write = Region=North בלבד (האזור באחריותו). הוא רואה את כל המדינה אך עורך רק את הצפון; שאר התאים נעולים.",
-          cbcHe:
-            "ב-CBC: מתכנן-אספקה — read: כל המפעלים, write: רק key figures של תכנית-ייצור (לא תחזית-ביקוש). מנהל-מכירות (Viewer) — write ריק לחלוטין: רואה הכל, משנה כלום.",
+          scenarioHe:
+            "בארגון: מתכנן-אספקה — read: כל המפעלים, write: רק key figures של תכנית-ייצור (לא תחזית-ביקוש). מנהל-מכירות (Viewer) — write ריק לחלוטין: רואה הכל, משנה כלום.",
           navHe: [
             "SAP IBP Web UI ► Administration ► Manage Permission Filters ► Write Criteria",
           ],
@@ -549,8 +549,8 @@ export const CH15: TextbookChapter = {
             "המטרה: לאכוף משמעת-תהליך — לוודא שכל פרסונה תורמת רק בשלב שלה, למנוע שינויים מחוץ-לחלון, ולשמור על שלמות-המספרים לאורך מחזור ה-S&OP.",
           processExampleHe:
             "מחזור S&OP חודשי: בשלב 1 (Demand Review) מתכנן-הביקוש עם write על key figure של תחזית; בשלב 2 (Supply Review) ה-write שלו נסגר (read-only) ומתכנן-האספקה מקבל write על תכנית-הייצור; בשלב 4 (Exec Approval) כל ה-write ננעל פרט למאשר.",
-          cbcHe:
-            "ב-CBC: בשלב 'Demand Consensus' מתכנני-האזורים עורכים תחזיות; משננעל השלב, ב-'Supply Review' רק צוות-האספקה הארצי עורך תכניות-ייצור, והאזורים עוברים ל-read-only — כך התחזית 'מוקפאת' ומספר-אחד-אמין מוזן לאספקה.",
+          scenarioHe:
+            "בארגון: בשלב 'Demand Consensus' מתכנני-האזורים עורכים תחזיות; משננעל השלב, ב-'Supply Review' רק צוות-האספקה הארצי עורך תכניות-ייצור, והאזורים עוברים ל-read-only — כך התחזית 'מוקפאת' ומספר-אחד-אמין מוזן לאספקה.",
           navHe: [
             "SAP IBP Web UI ► Process Management ► Manage Processes",
             "SAP IBP Web UI ► Process Management ► Process Steps ► Assign Permissions",
@@ -621,8 +621,8 @@ export const CH15: TextbookChapter = {
         "המטרה: להבטיח שהפלטפורמה מאובטחת, מחוברת-נכון למערכות-המקור, מופרדת בין סביבות, ומנוטרת — כך שמודל-האבטחה הלוגי (roles/filters) נשען על תשתית יציבה ובת-ביקורת.",
       processExampleHe:
         "מימוש: צוות-הבסיס מגדיר SSO מול ה-IdP הארגוני ב-Cloud Identity, מקים tenant נפרד ל-Test, מגדיר CPI/Cloud Connector לטעינת Master Data מ-S/4HANA, ומפעיל audit logging. רק לאחר שהתשתית מוכנה מקצים את ה-roles וה-permission filters.",
-      cbcHe:
-        "ב-CBC הגלובלי: SSO מול Azure AD דרך Cloud Identity; tenant-Production ל-IBP החי ו-tenant-Test לבדיקות; CPI טוען SKUs, מפעלים ולקוחות מ-S/4HANA מדי לילה; audit logs מתעדים מי ניגש לנתוני-תחזית רגישים.",
+      scenarioHe:
+        "בארגון הגלובלי: SSO מול Azure AD דרך Cloud Identity; tenant-Production ל-IBP החי ו-tenant-Test לבדיקות; CPI טוען SKUs, מפעלים ולקוחות מ-S/4HANA מדי לילה; audit logs מתעדים מי ניגש לנתוני-תחזית רגישים.",
       navHe: [
         "SAP Cloud Identity Services ► Identity Authentication ► Applications & SSO",
         "SAP IBP ► Communication Management / Integration (SDI · CPI · Cloud Connector)",
@@ -691,8 +691,8 @@ export const CH15: TextbookChapter = {
         "המטרה של הפרק: להקנות שליטה מקצה-לקצה במודל-האבטחה של IBP — מתכנון-פרסונות ועד אכיפה תפעולית — כך שמימוש יהיה מאובטח, אחיד ובר-תחזוקה.",
       processExampleHe:
         "מימוש-לדוגמה מלא: הגדרת זהויות ו-SSO → יצירת user groups לפי פרסונה → בניית business roles מ-catalogs → הצמדת permission filters (read/write) → קישור הרשאות ל-process stages → טעינת Master Data דרך CPI → בדיקת-קבלה לכל פרסונה ובכל שלב.",
-      cbcHe:
-        "ב-CBC: מתכנן-צפון (role Demand Planner, filter Region=North, עורך בשלב-הביקוש), מתכנן-אספקה ארצי (read כל-הארץ, write תכנית-ייצור בשלב-האספקה), מנהל-מכירות (Viewer, read בלבד) — כולם מנוהלים דרך user groups, על tenant-Production עם נתונים מ-S/4HANA. דוגמה חיה לכל מה שנלמד.",
+      scenarioHe:
+        "בארגון: מתכנן-צפון (role Demand Planner, filter Region=North, עורך בשלב-הביקוש), מתכנן-אספקה ארצי (read כל-הארץ, write תכנית-ייצור בשלב-האספקה), מנהל-מכירות (Viewer, read בלבד) — כולם מנוהלים דרך user groups, על tenant-Production עם נתונים מ-S/4HANA. דוגמה חיה לכל מה שנלמד.",
       navHe: [
         "SAP IBP Web UI ► Administration ► Manage Users / User Groups / Business Roles / Permission Filters",
         "SAP IBP Web UI ► Process Management ► Manage Processes",

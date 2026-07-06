@@ -1,7 +1,7 @@
 // ===== EWM Digital Textbook — Chapter 9 (Plant Maintenance Integration) =====
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
 // Only three subchapters (9.1, 9.2 with 9.2.1/9.2.2, 9.3) — each authored deep.
-// CBC = Coca-Cola bottling EWM issuing spare parts to PM orders for fill-line equipment.
+// הארגון = Example Product bottling EWM issuing spare parts to PM orders for fill-line equipment.
 // SAP objects verbatim English; relates to /library/pm-academy/chapter-05/.
 import type { TextbookChapter } from "./types";
 
@@ -10,7 +10,7 @@ export const CH9: TextbookChapter = {
   titleHe: "שילוב עם תחזוקת מפעל (PM)",
   titleEn: "Plant Maintenance Integration",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לשילוב בין EWM (Extended Warehouse Management) לבין Plant Maintenance (PM). בעולם של מפעל-מילוי כמו CBC, כל השבתה של קו-מילוי עולה כסף בכל דקה — ולכן זרימה חלקה של חלקי-חילוף מהמחסן אל הזמנת-התחזוקה (PM order) היא קריטית. הפרק מסביר כיצד EWM מקבל ביקוש לחלקי-חילוף מתוך reservation של PM order, מנפיק אותם דרך EWM outbound delivery, ומטפל בהחזרת חלקים שלא נוצלו חזרה למלאי. שלושת תת-הפרקים — סקירת ה-PM, שימוש בהזמנות-תחזוקה (outbound + inbound), וסיכום — נכתבו כל אחד כיחידה עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא לעומק בלי הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לשילוב בין EWM (Extended Warehouse Management) לבין Plant Maintenance (PM). בעולם של מפעל-מילוי כמו הארגון, כל השבתה של קו-מילוי עולה כסף בכל דקה — ולכן זרימה חלקה של חלקי-חילוף מהמחסן אל הזמנת-התחזוקה (PM order) היא קריטית. הפרק מסביר כיצד EWM מקבל ביקוש לחלקי-חילוף מתוך reservation של PM order, מנפיק אותם דרך EWM outbound delivery, ומטפל בהחזרת חלקים שלא נוצלו חזרה למלאי. שלושת תת-הפרקים — סקירת ה-PM, שימוש בהזמנות-תחזוקה (outbound + inbound), וסיכום — נכתבו כל אחד כיחידה עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא לעומק בלי הספר המקורי.",
   subchapters: [
     // ============================================================ 9.1
     {
@@ -27,8 +27,8 @@ export const CH9: TextbookChapter = {
         "המטרה העסקית: להבטיח שחלק-החילוף הנכון מגיע לטכנאי הנכון בזמן הנכון, תוך שמירה על דיוק-מלאי ועל עקיבות-עלות. ה-PM order היא גם מסמך-עלות (כל חלק שנופק נזקף לעלות-ההזמנה דרך ה-CO), וגם מסמך-תכנון (היא קובעת מתי ומה צריך). EWM מוסיף את שכבת-הביצוע הלוגיסטי: איפה במחסן נמצא החלק, מי מלקט אותו, ואיך מתעדים את התנועה. ביחד הם סוגרים את הפער בין 'צריך חלק' ל'החלק ביד הטכנאי'.",
       processExampleHe:
         "תהליך מקצה-לקצה: (1) חיישן בקו-מילוי מתקלקל; טכנאי-תחזוקה פותח PM order מסוג PM01 על ה-Equipment. (2) הוא מוסיף לרשימת-הרכיבים את חלק-החילוף 'חיישן-מילוי' בכמות 1. (3) שמירת ההזמנה יוצרת reservation (RESB) מול ה-Storage Location המנוהל ב-EWM. (4) הביקוש זורם ל-EWM ונוצרת EWM outbound delivery; המערכת מייצרת warehouse task ללקט מהבין הנכון. (5) פועל-מחסן מלקט את החיישן ומאשר את ה-warehouse task. (6) מתבצע Goods Issue — המלאי יורד והעלות נזקפת ל-PM order. (7) הטכנאי מתקין ומדווח confirmation על ההזמנה.",
-      cbcHe:
-        "ב-CBC, מפעל-המילוי מפעיל עשרות קווי-מילוי, מערבלים ומסועים. כל פריט-ציוד כזה הוא Equipment ב-PM, מקושר ל-Functional Location של 'אולם-מילוי 3 / קו 7'. מחסן חלקי-החילוף — מסבים, רצועות-הינע, ראשי-מילוי, חיישנים, אטמים — מנוהל ב-EWM כ-Warehouse Number נפרד. כשמערבל מתקלקל בלילה, צוות-התחזוקה פותח PM order, וה-EWM מנפיק את החלפים בלילה דרך outbound delivery for spare parts כדי שהקו יחזור לפעול לפני משמרת-הבוקר. מהירות הזרימה הזו היא ההבדל בין השבתה של שעה לבין השבתה של משמרת.",
+      scenarioHe:
+        "בארגון, מפעל-המילוי מפעיל עשרות קווי-מילוי, מערבלים ומסועים. כל פריט-ציוד כזה הוא Equipment ב-PM, מקושר ל-Functional Location של 'אולם-מילוי 3 / קו 7'. מחסן חלקי-החילוף — מסבים, רצועות-הינע, ראשי-מילוי, חיישנים, אטמים — מנוהל ב-EWM כ-Warehouse Number נפרד. כשמערבל מתקלקל בלילה, צוות-התחזוקה פותח PM order, וה-EWM מנפיק את החלפים בלילה דרך outbound delivery for spare parts כדי שהקו יחזור לפעול לפני משמרת-הבוקר. מהירות הזרימה הזו היא ההבדל בין השבתה של שעה לבין השבתה של משמרת.",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Define Order Types",
         "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► General Data ► Define Default Values for Component Item Categories",
@@ -105,8 +105,8 @@ export const CH9: TextbookChapter = {
         "המטרה: לשמור על דיוק-מלאי דו-כיווני ועל עקיבות-עלות מלאה. כל חלק שיצא חייב לרדת מהמלאי ולהיזקף לעלות-ההזמנה; כל חלק שחזר חייב לעלות חזרה ולהזכות את ההזמנה. בלי הכיוון הנכנס, מחסן-החלפים מצטבר 'מלאי-רפאים' — חלקים שהמערכת חושבת שנוצלו אך פיזית חזרו למדף.",
       processExampleHe:
         "ניפוק והחזרה: טכנאי מבקש 2 מסבים ל-PM order. EWM מנפיק outbound delivery, מלקט 2 מסבים, מבצע GI — המלאי יורד ב-2 והעלות נזקפת. בפועל נדרש רק מסב אחד. הטכנאי מחזיר מסב אחד: נוצרת inbound delivery, ה-warehouse task מאחסן אותו חזרה בבין, ומתבצע reversal (262) — המלאי עולה ב-1 והעלות מתקזזת. בסוף-התהליך המלאי וה-PM order משקפים בדיוק את הצריכה האמיתית: מסב אחד.",
-      cbcHe:
-        "ב-CBC, החלפת ראש-מילוי בקו 7 דורשת ערכת-חלפים שלמה. צוות-הלילה מושך את כל הערכה (outbound) כדי לא לעצור באמצע. בבוקר מתברר ששלושה אטמים מתוך הערכה לא נדרשו — הם מוחזרים (inbound) למחסן-החלפים. בלי הכיוון הנכנס, ה-CBC היה 'מאבד' שלושה אטמים בכל החלפה, וכעבור חודש המלאי-בספרים היה רחוק מהמלאי-במדף.",
+      scenarioHe:
+        "בארגון, החלפת ראש-מילוי בקו 7 דורשת ערכת-חלפים שלמה. צוות-הלילה מושך את כל הערכה (outbound) כדי לא לעצור באמצע. בבוקר מתברר ששלושה אטמים מתוך הערכה לא נדרשו — הם מוחזרים (inbound) למחסן-החלפים. בלי הכיוון הנכנס, ה-הארגון היה 'מאבד' שלושה אטמים בכל החלפה, וכעבור חודש המלאי-בספרים היה רחוק מהמלאי-במדף.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Issue Process ► Outbound Delivery ► Define Document Types for Outbound Delivery Process",
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Warehouse Task ► Define Warehouse Process Type",
@@ -182,8 +182,8 @@ export const CH9: TextbookChapter = {
             "המטרה: לספק את החלק הנכון לטכנאי במהירות ובדיוק, תוך עדכון-מלאי ועדכון-עלות מיידיים. כל ניפוק נזקף לעלות-ההזמנה — כך מנהל-התחזוקה רואה כמה באמת עלתה כל תיקון, וכך המלאי במחסן תמיד מעודכן.",
           processExampleHe:
             "טכנאי מוסיף 'רצועת-הינע' כ-component ל-PM order ושומר ➔ reservation (RESB, 261) נוצרת מול ה-SLoc המנוהל-EWM ➔ EWM outbound delivery for spare parts נוצרת ➔ warehouse task מנחה ללקט מהבין B-04-12 ➔ פועל מלקט ומאשר ➔ Goods Issue (261) מבוצע: המלאי יורד ב-1, העלות נזקפת ל-PM order ➔ הטכנאי מקבל את הרצועה ומתקין.",
-          cbcHe:
-            "ב-CBC, בשעה 02:00 קו 7 מושבת בגלל רצועת-הינע קרועה. הטכנאי פותח PM order ומוסיף את הרצועה. EWM outbound delivery נוצרת מיד, פועל-לילה מלקט מהבין, מבצע GI, והרצועה ביד הטכנאי תוך 15 דקות. הקו חוזר לפעול לפני משמרת-הבוקר — זה הערך הישיר של תהליך-יוצא חלק.",
+          scenarioHe:
+            "בארגון, בשעה 02:00 קו 7 מושבת בגלל רצועת-הינע קרועה. הטכנאי פותח PM order ומוסיף את הרצועה. EWM outbound delivery נוצרת מיד, פועל-לילה מלקט מהבין, מבצע GI, והרצועה ביד הטכנאי תוך 15 דקות. הקו חוזר לפעול לפני משמרת-הבוקר — זה הערך הישיר של תהליך-יוצא חלק.",
           navHe: [
             "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Issue Process ► Outbound Delivery ► Define Document Types for Outbound Delivery Process",
             "SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Warehouse Task ► Define Warehouse Process Type",
@@ -254,8 +254,8 @@ export const CH9: TextbookChapter = {
             "המטרה: לסגור את לולאת-המלאי. כל חלק שנמשך אך לא נוצל חייב לחזור למלאי ולהזכות את ההזמנה, כדי שמלאי-הספרים ישקף את המלאי-הפיזי ושעלות-ההזמנה תשקף את הצריכה-האמיתית בלבד.",
           processExampleHe:
             "מתוך 2 מסבים שנופקו, רק 1 הותקן. הטכנאי מחזיר 1 ➔ נוצרת EWM inbound delivery הקשורה ל-PM order ➔ warehouse task מנחה לאחסן בבין B-04-12 ➔ פועל מאחסן ומאשר ➔ reversal (262) מבוצע: המלאי עולה ב-1, עלות-ה-PM order מתקזזת ב-1 מסב ➔ בסוף-התהליך נצרך מסב אחד בלבד, והמלאי מדויק.",
-          cbcHe:
-            "ב-CBC, אחרי החלפת ראש-המילוי בקו 7, שלושה אטמים מהערכה לא נדרשו. הטכנאי מחזיר אותם: EWM inbound delivery נפתחת, warehouse task מאחסן אותם חזרה במחסן-החלפים, ו-reversal 262 מעלה את המלאי ומזכה את ה-PM order. בלי השלב הזה, ה-CBC היה 'צורך' שלושה אטמים-רפאים בכל החלפה.",
+          scenarioHe:
+            "בארגון, אחרי החלפת ראש-המילוי בקו 7, שלושה אטמים מהערכה לא נדרשו. הטכנאי מחזיר אותם: EWM inbound delivery נפתחת, warehouse task מאחסן אותם חזרה במחסן-החלפים, ו-reversal 262 מעלה את המלאי ומזכה את ה-PM order. בלי השלב הזה, ה-הארגון היה 'צורך' שלושה אטמים-רפאים בכל החלפה.",
           navHe: [
             "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Receipt Process ► Inbound Delivery ► Define Document Types for Inbound Delivery Process",
             "SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Warehouse Task ► Define Warehouse Process Type",
@@ -331,8 +331,8 @@ export const CH9: TextbookChapter = {
         "המטרה של הפרק כולו: לתת ליועץ ולמתחיל תמונה שלמה של זרימת חלקי-החילוף בין PM ל-EWM — מהיווצרות-הביקוש ועד עדכון-המלאי-והעלות — כך שיוכלו לתכנן, ליישם ולפתור תקלות בשילוב הזה בלי הספר.",
       processExampleHe:
         "מחזור מלא: PM order ➔ reservation ➔ outbound delivery ➔ לקיטה ➔ GI (261, מלאי↓ עלות↑) ➔ [עודף] החזרה ➔ inbound delivery ➔ putaway ➔ reversal (262, מלאי↑ עלות↓). בסוף, המלאי וה-PM order משקפים בדיוק את הצריכה-האמיתית.",
-      cbcHe:
-        "ב-CBC, שילוב PM-EWM הוא מה שמאפשר לקווי-המילוי לחזור לעבוד תוך דקות ולא תוך משמרת, ושומר שמחסן-החלפים יהיה מדויק חודש אחרי חודש — שני הדברים שמודדים את הצלחת ה-go-live של המודול.",
+      scenarioHe:
+        "בארגון, שילוב PM-EWM הוא מה שמאפשר לקווי-המילוי לחזור לעבוד תוך דקות ולא תוך משמרת, ושומר שמחסן-החלפים יהיה מדויק חודש אחרי חודש — שני הדברים שמודדים את הצלחת ה-go-live של המודול.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Interfaces ► ERP Integration ► General Settings ► Map Storage Locations from ERP System to EWM",
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Warehouse Task ► Define Warehouse Process Type",

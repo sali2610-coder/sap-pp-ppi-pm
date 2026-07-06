@@ -2,7 +2,7 @@
 // Quality Management Integration with SAP EWM via the QIE (Quality Inspection
 // Engine). Every node is a complete LearningNode with 18 facets of authored
 // Hebrew (beginner + consultant friendly). Source hierarchy preserved exactly.
-// SAP identifiers verbatim EN; CBC = Coca-Cola bottling EWM inbound inspection.
+// SAP identifiers verbatim EN; הארגון = Example Product bottling EWM inbound inspection.
 import type { TextbookChapter } from "./types";
 
 export const CH3: TextbookChapter = {
@@ -10,7 +10,7 @@ export const CH3: TextbookChapter = {
   titleHe: "שילוב עם ניהול איכות (QM)",
   titleEn: "Quality Management Integration",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לשילוב ניהול-האיכות (Quality Management) עם SAP EWM. בניגוד ל-QM הקלאסי שעבד מול MM-IM, ב-EWM מנוע ייעודי בשם QIE (Quality Inspection Engine) מנהל את הבדיקות בתוך המחסן. כל תת-פרק הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך (inbound→inspection→Usage Decision), טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את שילוב ה-QM ב-EWM ללא הספר המקורי, החל מבדיקת חומרי-גלם נכנסים, דרך בדיקות-מלאי תקופתיות ועד בדיקות החזרות-לקוח.",
+    "פרק זה הוא יחידת-לימוד מלאה לשילוב ניהול-האיכות (Quality Management) עם SAP EWM. בניגוד ל-QM הקלאסי שעבד מול MM-IM, ב-EWM מנוע ייעודי בשם QIE (Quality Inspection Engine) מנהל את הבדיקות בתוך המחסן. כל תת-פרק הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך (inbound→inspection→Usage Decision), טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את שילוב ה-QM ב-EWM ללא הספר המקורי, החל מבדיקת חומרי-גלם נכנסים, דרך בדיקות-מלאי תקופתיות ועד בדיקות החזרות-לקוח.",
   subchapters: [
     // ============================================================ 3.1
     {
@@ -27,8 +27,8 @@ export const CH3: TextbookChapter = {
         "המטרה: למנוע ממלאי-לא-בדוק להיכנס לזמינות, להבטיח עמידה ברגולציה ובמפרטי-איכות, ולנתב סחורה פגומה לחסימה/החזרה — הכול בתוך תהליכי-המחסן של EWM ובלי לשבור את אינטגרציית-המלאי מול S/4 (ERP).",
       processExampleHe:
         "אספקה נכנסת (Inbound Delivery) מגיעה ל-EWM. בעת ה-GR נבדק Inspection Rule: אם קיים כלל פעיל, ה-QIE פותח Inspection Document (IOT 4) וקובע stock type = Q. ה-Putaway מנתב את ה-HU לאזור-בדיקה/QA. איש-איכות שולף דגימה, מזין תוצאות (אם יש Inspection Plan — דרך QM הקלאסי), ומבצע Usage Decision: 'Accept' מעביר ל-Unrestricted ומאפשר Putaway ל-storage; 'Reject' מעביר ל-Blocked או יוצר Return Delivery לספק.",
-      cbcHe:
-        "ב-CBC (מילוי Coca-Cola) כל מכלית-תרכיז וכל מטען חומרי-אריזה נכנסים תחת Inspection Rule ל-IOT 4: בקבלה נפתח Inspection Document, הכמות יושבת ב-Q-stock באזור-QA, מעבדת-האיכות בודקת Brix/pH/מיקרוביולוגיה, ורק UD='Accept' משחרר את התרכיז לקו-המילוי. תרכיז שנכשל נחסם ומנותב להחזרה.",
+      scenarioHe:
+        "בארגון (מילוי Example Product) כל מכלית-תרכיז וכל מטען חומרי-אריזה נכנסים תחת Inspection Rule ל-IOT 4: בקבלה נפתח Inspection Document, הכמות יושבת ב-Q-stock באזור-QA, מעבדת-האיכות בודקת Brix/pH/מיקרוביולוגיה, ורק UD='Accept' משחרר את התרכיז לקו-המילוי. תרכיז שנכשל נחסם ומנותב להחזרה.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Quality Management ► Basics ► General Settings",
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Quality Management ► Activate Quality Inspection per Warehouse/Document/Item Type",
@@ -106,8 +106,8 @@ export const CH3: TextbookChapter = {
         "לוודא שכל אספקה נכנסת עומדת במפרט לפני שחרור למלאי-זמין; לנהל בדיקה ברזולוציה הנכונה (מוצר או אצווה); ולתעד תוצאות ל-Audit ולרגולציה.",
       processExampleHe:
         "אצוות חומר-גלם מנוהל-Batch מגיעה. ב-GR ה-QIE פותח Inspection Document ברמת-Batch, הכמות → Q-stock. בודק שולף דגימה לכל אצווה, רושם תוצאות מול Inspection Plan, וה-UD לכל אצווה מעביר ל-Unrestricted או חוסם בנפרד — כך אצווה אחת יכולה לעבור ואחרת להיכשל.",
-      cbcHe:
-        "ב-CBC חומרי-אריזה (פקקים, תוויות) נבדקים ברמת-Product, ואילו תרכיז וסירופ — מנוהלי-Batch — נבדקים ברמת-Batch כי כל אצווה נושאת תאריך-תפוגה ופרופיל-Brix נפרד. UD לכל אצווה משחרר רק את מה שעבר את מעבדת-CBC.",
+      scenarioHe:
+        "בארגון חומרי-אריזה (פקקים, תוויות) נבדקים ברמת-Product, ואילו תרכיז וסירופ — מנוהלי-Batch — נבדקים ברמת-Batch כי כל אצווה נושאת תאריך-תפוגה ופרופיל-Brix נפרד. UD לכל אצווה משחרר רק את מה שעבר את מעבדת-הארגון.",
       navHe: [
         "Extended Warehouse Management ► Cross-Process Settings ► Quality Management ► Inspection Object Types ► Inspection Object Type 4 (Inbound Delivery)",
         "Extended Warehouse Management ► Cross-Process Settings ► Quality Management ► Define Inspection Rules (/SCWM/QRSETUP)",
@@ -184,8 +184,8 @@ export const CH3: TextbookChapter = {
             "להבטיח שחומרים נרכשים עומדים במפרט לפני תשלום וכניסה לזמינות, ולהזין נתוני-איכות להערכת-ספקים ולתביעות-איכות.",
           processExampleHe:
             "PO לחומר-גלם → Inbound Delivery → GR ב-EWM. Inspection Rule פעיל ⇒ Inspection Document (IOT 4, Type 01), Q-stock. בודק רושם תוצאות ב-QA32 מול Inspection Plan; UD='Accept' ⇒ Posting Change ל-Unrestricted ו-Putaway; UD='Reject' ⇒ Return Delivery לספק.",
-          cbcHe:
-            "ב-CBC תרכיז מספק-חוץ מגיע תחת Inspection Rule זה: מעבדת-CBC בודקת מול מפרט-Coca-Cola, ורק UD='Accept' משחרר את התרכיז לקו. כישלון יוצר Return-to-vendor ותביעת-איכות.",
+          scenarioHe:
+            "בארגון תרכיז מספק-חוץ מגיע תחת Inspection Rule זה: מעבדת-הארגון בודקת מול מפרט-Example Product, ורק UD='Accept' משחרר את התרכיז לקו. כישלון יוצר Return-to-vendor ותביעת-איכות.",
           navHe: [
             "Extended Warehouse Management ► Cross-Process Settings ► Quality Management ► Define Inspection Rules (/SCWM/QRSETUP) ► IOT 4",
             "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection at Goods Receipt ► Inspection Type 01",
@@ -253,8 +253,8 @@ export const CH3: TextbookChapter = {
             "לקצר את זמן-השחרור של תוצרת-עצמית (Pre-Sampling) או לאמת מוצר-מיוצר מול מפרט לפני שחרור (GR-inspection), ולמנוע שחרור פגומים ללקוח.",
           processExampleHe:
             "Pre-Sampling: בזמן ה-Production Order נלקחת דגימה ונרשמות תוצאות; כשהמוצר מגיע ב-GR למחסן ה-UD כבר זמין ⇒ שחרור מיידי ל-Unrestricted. חלופה: GR ללא Pre-Sampling ⇒ Inspection Type 04 פותח בדיקה, Q-stock, ואז UD.",
-          cbcHe:
-            "ב-CBC משקה מוגמר מקו-המילוי נבדק ב-Pre-Sampling: דגימות Brix/CO2/חזותי נלקחות על הקו, וכשהמשטחים נכנסים ל-GR ל-EWM ה-UD כבר מאושר — שחרור מהיר להפצה; כישלון חוסם את המשטח ב-Blocked.",
+          scenarioHe:
+            "בארגון משקה מוגמר מקו-המילוי נבדק ב-Pre-Sampling: דגימות Brix/CO2/חזותי נלקחות על הקו, וכשהמשטחים נכנסים ל-GR ל-EWM ה-UD כבר מאושר — שחרור מהיר להפצה; כישלון חוסם את המשטח ב-Blocked.",
           navHe: [
             "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection at GR from Production (Type 04)",
             "Quality Management ► Quality Inspection ► Sample Management ► Pre-Sampling in Production",
@@ -325,8 +325,8 @@ export const CH3: TextbookChapter = {
         "לאפשר בקרת-איכות מתמשכת על מלאי-קיים — תפוגה, בדיקות-תקופתיות רגולטוריות, וטיפול בהחזרות — בלי לתלות זאת רק בנקודת-הקבלה.",
       processExampleHe:
         "חומר מנוהל-Batch מתקרב ל-Recurring Inspection Date. ה-QIE פותח אוטומטית Inspection Document (IOT 5), חוסם את האצווה ל-Q-stock, בודק מזין תוצאות, וה-UD מאריך תוקף (חזרה ל-Unrestricted) או מנתב ל-Scrapping.",
-      cbcHe:
-        "ב-CBC תרכיז מאוחסן מעל זמן-סף עובר Recurring Inspection (IOT 5): המעבדה בודקת שוב Brix ומיקרוביולוגיה; UD='Accept' מאריך את האצווה לזמינות, אחרת Scrapping. החזרות מלקוחות-הפצה נבדקות תחת ARM.",
+      scenarioHe:
+        "בארגון תרכיז מאוחסן מעל זמן-סף עובר Recurring Inspection (IOT 5): המעבדה בודקת שוב Brix ומיקרוביולוגיה; UD='Accept' מאריך את האצווה לזמינות, אחרת Scrapping. החזרות מלקוחות-הפצה נבדקות תחת ARM.",
       navHe: [
         "Extended Warehouse Management ► Cross-Process Settings ► Quality Management ► Inspection Object Types ► IOT 5 (Warehouse-Internal)",
         "Extended Warehouse Management ► Cross-Process Settings ► Quality Management ► Define Inspection Rules (/SCWM/QRSETUP)",
@@ -398,8 +398,8 @@ export const CH3: TextbookChapter = {
             "לאפשר בדיקת-איכות נקודתית על מלאי-קיים בעת חשד/תלונה/בקרה, בלי תלות בקבלה או בלוח-זמנים תקופתי.",
           processExampleHe:
             "התקבלה תלונה על אצווה. איש-איכות פותח Stock Inspection (IOT 5) על האצווה דרך /SCWM/QINSP; האצווה → Q-stock; בודק רושם תוצאות; UD='Accept' מחזיר ל-Unrestricted או 'Reject' חוסם/גורט.",
-          cbcHe:
-            "ב-CBC חשד-זיהום באצוות-תרכיז מסוימת מפעיל Stock Inspection ידנית: המעבדה בודקת מיקרוביולוגיה, וה-UD מחליט אם להחזיר לזמינות או לגרוט את האצווה.",
+          scenarioHe:
+            "בארגון חשד-זיהום באצוות-תרכיז מסוימת מפעיל Stock Inspection ידנית: המעבדה בודקת מיקרוביולוגיה, וה-UD מחליט אם להחזיר לזמינות או לגרוט את האצווה.",
           navHe: [
             "Extended Warehouse Management ► Cross-Process Settings ► Quality Management ► Inspection Rules (/SCWM/QRSETUP) ► IOT 5 ► Stock Inspection",
             "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Manual Inspection (Type 09)",
@@ -458,8 +458,8 @@ export const CH3: TextbookChapter = {
             "להבטיח שמלאי ארוך-טווח נשאר במפרט לאורך-זמן — דרישה רגולטורית במזון/תרופות/כימיה — ולמנוע שחרור חומר שפג-תוקפו.",
           processExampleHe:
             "QA07 רץ לילית, מזהה אצוות שהגיע Next Inspection Date. לכל אחת נפתח Inspection Document (IOT 5); האצווה → Q-stock; בדיקה ⇒ UD. 'Accept' דוחף את Next Inspection Date קדימה ומחזיר ל-Unrestricted; 'Reject' → Scrapping.",
-          cbcHe:
-            "ב-CBC תרכיז המאוחסן מעבר ל-X חודשים מקבל Recurring Inspection: QA07 פותח בדיקה, המעבדה בודקת Brix/מיקרוביולוגיה, ו-UD מאריך את תוקף-האצווה לזמינות או גורט אם נפסל.",
+          scenarioHe:
+            "בארגון תרכיז המאוחסן מעבר ל-X חודשים מקבל Recurring Inspection: QA07 פותח בדיקה, המעבדה בודקת Brix/מיקרוביולוגיה, ו-UD מאריך את תוקף-האצווה לזמינות או גורט אם נפסל.",
           navHe: [
             "Extended Warehouse Management ► Cross-Process Settings ► Quality Management ► Inspection Rules (/SCWM/QRSETUP) ► IOT 5 ► Recurring Inspection",
             "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Recurring Inspection ► Deadline Monitoring (QA07)",
@@ -526,8 +526,8 @@ export const CH3: TextbookChapter = {
             "להבטיח שמוצר מוחזר נבדק לפני שובו לזמינות, לקשר את תוצאת-הבדיקה להחלטה-לוגיסטית ולזיכוי-כספי, ולמנוע השבת מוצר-פגום למכירה.",
           processExampleHe:
             "לקוח מחזיר מוצר ⇒ Returns Order (ARM) ⇒ Returns Inbound Delivery ⇒ קבלה ב-EWM. ה-QIE פותח Inspection Document; המוצר → Q-stock/Blocked. בדיקה ⇒ Logistical Follow-up: 'good' → Unrestricted; 'damaged' → Scrapping; 'supplier fault' → Return to supplier — וה-Refund Code נקבע בהתאם.",
-          cbcHe:
-            "ב-CBC משטח-משקאות שחזר ממרכז-הפצה נכנס דרך ARM: בדיקה חזותית של שלמות-אריזה ותוקף; UD='good' מחזיר לזמינות, 'expired/damaged' מנתב ל-Scrapping, והזיכוי ללקוח נקבע מ-Refund Code.",
+          scenarioHe:
+            "בארגון משטח-משקאות שחזר ממרכז-הפצה נכנס דרך ARM: בדיקה חזותית של שלמות-אריזה ותוקף; UD='good' מחזיר לזמינות, 'expired/damaged' מנתב ל-Scrapping, והזיכוי ללקוח נקבע מ-Refund Code.",
           navHe: [
             "Sales and Distribution ► Returns Management ► Advanced Returns Management ► Define Logistical Follow-up & Refund Codes",
             "Extended Warehouse Management ► Cross-Process Settings ► Quality Management ► Inspection Rules (/SCWM/QRSETUP) ► Returns scenario",
@@ -599,8 +599,8 @@ export const CH3: TextbookChapter = {
         "להבטיח שהמימוש מבוסס על קוד מתוקן ועל המלצות-SAP עדכניות, ולקצר אבחון-תקלות ע\"י זיהוי בעיות מוכרות שכבר תוקנו ב-Note.",
       processExampleHe:
         "תקלה: UD בוצע אך ה-Q-stock לא משוחרר. במקום שעות-דיבוג, חיפוש ב-SAP launchpad לפי SCM-EWM-QM מעלה Note עם תיקון-עקביות; החלת ה-Note + הרצת תוכנית-תיקון פותרת.",
-      cbcHe:
-        "ב-CBC לפני Go-Live של QM-EWM מבוצעת סקירת-Notes ל-component SCM-EWM-QM ו-QM-QIE, החלת ה-Collective Notes הרלוונטיות ל-Support Package, ותיעודן ב-runbook של הפרויקט.",
+      scenarioHe:
+        "בארגון לפני Go-Live של QM-EWM מבוצעת סקירת-Notes ל-component SCM-EWM-QM ו-QM-QIE, החלת ה-Collective Notes הרלוונטיות ל-Support Package, ותיעודן ב-runbook של הפרויקט.",
       navHe: [
         "SAP for Me / Support Launchpad ► Knowledge Base ► Search by Application Component (SCM-EWM-QM, QM-QIE)",
         "SAP Help Portal ► SAP S/4HANA ► Extended Warehouse Management ► Quality Management",
@@ -657,8 +657,8 @@ export const CH3: TextbookChapter = {
         "לקבע את התמונה-הכוללת ולחבר את תת-הפרקים לתהליך אחד מקצה-לקצה: inbound/stock → inspection → Usage Decision → תנועת-מלאי.",
       processExampleHe:
         "מסע-חיים של פריט: מגיע בקבלה ⇒ Inspection Rule (IOT 4) ⇒ Q-stock ⇒ UD='Accept' ⇒ Unrestricted ⇒ Putaway. חודשים אחר-כך ⇒ Recurring (IOT 5) ⇒ Q-stock ⇒ UD ⇒ הארכה/Scrap. אם נמכר וחוזר ⇒ ARM ⇒ Inspection ⇒ Follow-up.",
-      cbcHe:
-        "ב-CBC הציר חוזר על עצמו: תרכיז נכנס ונבדק (IOT 4), מאוחסן ונבדק-מחדש תקופתית (IOT 5 Recurring), ומשטחי-משקה שחוזרים מהפצה נבדקים ב-ARM — כל שלב עם Q-stock ו-UD משלו.",
+      scenarioHe:
+        "בארגון הציר חוזר על עצמו: תרכיז נכנס ונבדק (IOT 4), מאוחסן ונבדק-מחדש תקופתית (IOT 5 Recurring), ומשטחי-משקה שחוזרים מהפצה נבדקים ב-ARM — כל שלב עם Q-stock ו-UD משלו.",
       navHe: [
         "Extended Warehouse Management ► Cross-Process Settings ► Quality Management (כל ההגדרות מרוכזות כאן)",
         "Quality Management ► Quality Inspection Engine (QIE) — הגדרות-מנוע",

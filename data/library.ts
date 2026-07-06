@@ -2,7 +2,7 @@
 // Structural index of the 10 official SAP S/4HANA manuals in docs/.
 // English chapter titles/abstracts are EXTRACTED from each PDF's table of
 // contents (see scripts/extract-books.mjs). Hebrew is a professional
-// translation authored for CBC. This is a chapter-level index — not the full
+// translation authored for the organization. This is a chapter-level index — not the full
 // 3,000-page text. Page numbers reference the source PDF.
 
 export type LibModule = "PM" | "PP" | "PP-PI" | "QM" | "MM" | "WM" | "IBP" | "Fiori" | "Foundation";
@@ -57,7 +57,7 @@ export const LIBRARY: LibBook[] = [
     module: "PM",
     pages: 669,
     summaryEn: "End-user and process view of SAP S/4HANA Plant Maintenance: how to structure technical systems, run the work-order cycle, and operate preventive maintenance and controlling.",
-    summaryHe: "מבט תהליכי ומשתמש-קצה על אחזקת מפעל ב-S/4HANA: בניית המערכות הטכניות, הפעלת מחזור פקודת העבודה, אחזקה מונעת ובקרת עלויות — משלים את ספר הקונפיגורציה עבור צוות התפעול ב-CBC.",
+    summaryHe: "מבט תהליכי ומשתמש-קצה על אחזקת מפעל ב-S/4HANA: בניית המערכות הטכניות, הפעלת מחזור פקודת העבודה, אחזקה מונעת ובקרת עלויות — משלים את ספר הקונפיגורציה עבור צוות התפעול בארגון.",
     chapters: [
       { n: 1, en: "Introduction to Plant Maintenance", he: "מבוא לאחזקת מפעל", page: 27 },
       { n: 2, en: "Organizational Structures", he: "מבנים ארגוניים", page: 55 },
@@ -79,7 +79,7 @@ export const LIBRARY: LibBook[] = [
     module: "PP-PI",
     pages: 1087,
     summaryEn: "Comprehensive configuration and execution of discrete, process and repetitive manufacturing, MRP, demand management, S&OP, DDMRP and predictive planning (pMRP).",
-    summaryHe: "קונפיגורציה והרצה מקיפה של ייצור בדיד, תהליכי וחוזר, MRP, ניהול ביקושים, S&OP, חידוש מונחה-ביקוש (DDMRP) ותכנון חיזוי — הליבה התיאורטית של מודול ה-PP-PI ב-CBC (ייצור משקאות תהליכי).",
+    summaryHe: "קונפיגורציה והרצה מקיפה של ייצור בדיד, תהליכי וחוזר, MRP, ניהול ביקושים, S&OP, חידוש מונחה-ביקוש (DDMRP) ותכנון חיזוי — הליבה התיאורטית של מודול ה-PP-PI בארגון (ייצור משקאות תהליכי).",
     chapters: [
       { n: 3, en: "Discrete Manufacturing Configuration", he: "הגדרת ייצור בדיד", page: 75 },
       { n: 4, en: "Process Manufacturing Configuration", he: "הגדרת ייצור תהליכי (PP-PI)", page: 129 },
@@ -104,7 +104,7 @@ export const LIBRARY: LibBook[] = [
     module: "PP-PI",
     pages: 639,
     summaryEn: "Embedded Production Planning and Detailed Scheduling: master data, configuration, planning runs, detailed scheduling, the alert monitor and migration to embedded PP/DS.",
-    summaryHe: "תכנון ייצור ותזמון מפורט המוטמע ב-S/4HANA: נתוני אב, קונפיגורציה, הרצות תכנון, תזמון מפורט, מוניטור התראות ומיגרציה ל-PP/DS מוטמע — רלוונטי לתזמון פסי הייצור ב-CBC.",
+    summaryHe: "תכנון ייצור ותזמון מפורט המוטמע ב-S/4HANA: נתוני אב, קונפיגורציה, הרצות תכנון, תזמון מפורט, מוניטור התראות ומיגרציה ל-PP/DS מוטמע — רלוונטי לתזמון פסי הייצור בארגון.",
     chapters: [
       { n: 1, en: "Introduction to PP/DS with SAP S/4HANA", he: "מבוא ל-PP/DS ב-SAP S/4HANA", page: 19 },
       { n: 2, en: "Master Data", he: "נתוני אב", page: 43 },
@@ -126,7 +126,7 @@ export const LIBRARY: LibBook[] = [
     module: "QM",
     pages: 939,
     summaryEn: "End-to-end QM: quality planning and inspection, integration with MM/PP/SD/PM, batch and sample management, certificates, notifications, ECM, audit and stability study.",
-    summaryHe: "ניהול איכות מקצה-לקצה: תכנון ובדיקת איכות, אינטגרציה עם MM/PP/SD/PM, ניהול אצוות ודגימות, תעודות איכות, הודעות איכות, ניהול שינויים הנדסי (ECM), ביקורת ומחקרי יציבות — קריטי לבקרת איכות המשקה ב-CBC.",
+    summaryHe: "ניהול איכות מקצה-לקצה: תכנון ובדיקת איכות, אינטגרציה עם MM/PP/SD/PM, ניהול אצוות ודגימות, תעודות איכות, הודעות איכות, ניהול שינויים הנדסי (ECM), ביקורת ומחקרי יציבות — קריטי לבקרת איכות המשקה בארגון.",
     chapters: [
       { n: 1, en: "Quality Management in SAP S/4HANA", he: "ניהול איכות ב-SAP S/4HANA", page: 35 },
       { n: 2, en: "Quality Planning", he: "תכנון איכות", page: 57 },
@@ -152,7 +152,7 @@ export const LIBRARY: LibBook[] = [
     module: "MM",
     pages: 709,
     summaryEn: "Procure-to-pay in SAP S/4HANA: organizational structure, master data, operational and automated procurement, inventory, contracts, supplier management and central procurement.",
-    summaryHe: "תהליך רכש-עד-תשלום ב-S/4HANA: מבנה ארגוני, נתוני אב, רכש תפעולי ואוטומטי, ניהול מלאי, חוזים, ניהול ספקים ורכש מרכזי — תומך בשרשרת האספקה של חומרי הגלם והאריזה ב-CBC.",
+    summaryHe: "תהליך רכש-עד-תשלום ב-S/4HANA: מבנה ארגוני, נתוני אב, רכש תפעולי ואוטומטי, ניהול מלאי, חוזים, ניהול ספקים ורכש מרכזי — תומך בשרשרת האספקה של חומרי הגלם והאריזה בארגון.",
     chapters: [
       { n: 1, en: "Introduction to Sourcing and Procurement", he: "מבוא לרכש ומקורות אספקה", page: 31 },
       { n: 2, en: "Implementation Options", he: "אפשרויות מימוש", page: 51 },

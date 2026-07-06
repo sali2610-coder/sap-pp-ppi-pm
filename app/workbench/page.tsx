@@ -19,7 +19,7 @@ export default function Page() {
   }));
   return (
     <div>
-      <CenterHeader eyebrow="NEO · שולחן עבודה ליועץ" title="שולחנות עבודה ליועץ" sub="ארבעה שולחנות עבודה ברמת יועץ בכיר — Debugging, QM, PM מתקדם, PP-PI מתקדם. כל אחד עם 12 מקטעים: מושגים, ארכיטקטורה, זרימת תהליך, טבלאות, טרנזקציות, FMs, BAdIs, User Exits, תקלות, נקודות Debug, ECC↔S/4 ו-CBC." accent="#be185d" />
+      <CenterHeader eyebrow="NEO · שולחן עבודה ליועץ" title="שולחנות עבודה ליועץ" sub="ארבעה שולחנות עבודה ברמת יועץ בכיר — Debugging, QM, PM מתקדם, PP-PI מתקדם. כל אחד עם 12 מקטעים: מושגים, ארכיטקטורה, זרימת תהליך, טבלאות, טרנזקציות, FMs, BAdIs, User Exits, תקלות, נקודות Debug, ECC↔S/4 ו-הארגון." accent="#be185d" />
       <CardGrid>
         {cards.map((c) => <IndexCard key={c.href} {...c} />)}
       </CardGrid>

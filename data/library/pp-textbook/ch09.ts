@@ -10,7 +10,7 @@ export const CH9: TextbookChapter = {
   titleHe: "קנבן (Kanban)",
   titleEn: "Kanban",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה ל-Kanban ב-SAP S/4HANA — שיטת-חידוש מבוססת-משיכה (Pull) המנהלת זרימת-חומרים ברצפת-הייצור באמצעות אותות-קיבול (Kanban signals) במקום הזמנות-מתוכננות של MRP. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הנושאים: מעגלי-בקרה (PKMC), לוח-קנבן (PK13N), אסטרטגיות-חידוש (ייצור-עצמי, רכש-חיצוני, העברת-מלאי), אותות-קנבן, חישוב-קנבן, וקנבן מונחה-אירוע. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה ל-Kanban ב-SAP S/4HANA — שיטת-חידוש מבוססת-משיכה (Pull) המנהלת זרימת-חומרים ברצפת-הייצור באמצעות אותות-קיבול (Kanban signals) במקום הזמנות-מתוכננות של MRP. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הנושאים: מעגלי-בקרה (PKMC), לוח-קנבן (PK13N), אסטרטגיות-חידוש (ייצור-עצמי, רכש-חיצוני, העברת-מלאי), אותות-קנבן, חישוב-קנבן, וקנבן מונחה-אירוע. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 9.1
     {
@@ -25,8 +25,8 @@ export const CH9: TextbookChapter = {
         "להחליף תכנון-דחיפה (Push) של MRP בחידוש-משיכה (Pull) לרכיבים בעלי-צריכה יציבה, ולהפחית מלאי-רצפה, זמני-המתנה ועבודה-מנהלתית.",
       processExampleHe:
         "מכל של ברגים מתרוקן בקו-ההרכבה; העובד סורק את כרטיס-הקנבן ➔ הסטטוס הופך Empty ➔ נוצרת דרישת-רכש לספק ➔ הספק מספק ➔ קבלת-טובין הופכת את הסטטוס ל-Full. כל זה ללא הרצת-MRP.",
-      cbcHe:
-        "ב-CBC רכיבי-אריזה בעלי-צריכה גבוהה ויציבה — פקקים, תוויות, קרטונים — מתאימים ל-Kanban: מכלים ליד קו-המילוי מחדשים אוטומטית מהמחסן או מהספק, בלי שמתכנן יריץ MRP לכל פריט.",
+      scenarioHe:
+        "בארגון רכיבי-אריזה בעלי-צריכה גבוהה ויציבה — פקקים, תוויות, קרטונים — מתאימים ל-Kanban: מכלים ליד קו-המילוי מחדשים אוטומטית מהמחסן או מהספק, בלי שמתכנן יריץ MRP לכל פריט.",
       navHe: [
         "Production ► KANBAN ► Control Cycle ► Define Control Cycle (PKMC)",
         "Logistics ► Production ► KANBAN ► Control ► Kanban Board — Demand Source View (PK13N)",
@@ -94,8 +94,8 @@ export const CH9: TextbookChapter = {
         "להתאים את שיטת-החידוש לאופי-הביקוש: Push לתכנון-מראש בתנאי-אי-ודאות, Pull לחידוש-רזה בתנאי-יציבות — ולמקסם זמינות מול מלאי-מינימלי.",
       processExampleHe:
         "מוצר-מוגמר מתוכנן ב-Push (MRP לפי תחזית); רכיביו השכיחים מחודשים ב-Pull (Kanban) — כך התכנון-העליון נשאר גמיש בעוד הרצפה מחדשת את עצמה אוטומטית.",
-      cbcHe:
-        "ב-CBC המשקה-המוגמר מתוכנן Push לפי תחזיות-מכירה עונתיות; חומרי-אריזה השכיחים (פקקים/תוויות) מחודשים Pull ב-Kanban — שילוב המנצל את היתרונות של שתי השיטות.",
+      scenarioHe:
+        "בארגון המשקה-המוגמר מתוכנן Push לפי תחזיות-מכירה עונתיות; חומרי-אריזה השכיחים (פקקים/תוויות) מחודשים Pull ב-Kanban — שילוב המנצל את היתרונות של שתי השיטות.",
       navHe: [
         "Production ► KANBAN — מתודולוגיית-משיכה לעומת MRP-דחיפה",
         "Production ► MRP ► Master Data — נקודת-הניתוק (Decoupling Point)",
@@ -156,8 +156,8 @@ export const CH9: TextbookChapter = {
         "להפריד את האות (Empty) מהמנגנון: אותה לוגיקת-Kanban משרתת ייצור, רכש והעברה דרך בחירת-אסטרטגיה מתאימה לכל רכיב.",
       processExampleHe:
         "רכיב המיוצר-עצמית מקבל אסטרטגיית In-house ➔ Empty יוצר פק\"ע. רכיב נרכש מקבל אסטרטגיית External ➔ Empty יוצר דרישת-רכש/שחרור-מסגרת. רכיב במחסן-מרכזי מקבל אסטרטגיית Stock transfer ➔ Empty יוצר הזמנת-העברה.",
-      cbcHe:
-        "ב-CBC: תערובת-בסיס מיוצרת-עצמית = In-house; פקקים/תוויות נרכשים = External; מלאי-אריזה מהמחסן-המרכזי לקו = Stock transfer. כל סוג רכיב מקבל את האסטרטגיה המתאימה.",
+      scenarioHe:
+        "בארגון: תערובת-בסיס מיוצרת-עצמית = In-house; פקקים/תוויות נרכשים = External; מלאי-אריזה מהמחסן-המרכזי לקו = Stock transfer. כל סוג רכיב מקבל את האסטרטגיה המתאימה.",
       navHe: [
         "Production ► KANBAN ► Replenishment Strategies ► In-House Production",
         "Production ► KANBAN ► Replenishment Strategies ► External Procurement",
@@ -226,8 +226,8 @@ export const CH9: TextbookChapter = {
         "להניח את התשתית הארגונית והטכנית כדי שמעגלי-הבקרה יוכלו לפעול — מספור, אחריות, מיקום-פיזי, נראות-חזותית ולוגיקת-חידוש.",
       processExampleHe:
         "יישום חדש: מגדירים טווחי-מספרים ➔ MRP Controller לקנבן ➔ מחסן ו-PSA ➔ פרופיל-לוח ➔ אסטרטגיות-חידוש; רק אז יוצרים מעגל-בקרה ראשון ב-PKMC ומתחילים לעבוד.",
-      cbcHe:
-        "ב-CBC צוות-המימוש מקים תחילה PSA לכל קו-מילוי, מחסן-קנבן צמוד-לקו, ו-MRP Controller ייעודי ל'חידוש-רצפה' — לפני שמגדירים מעגלי-בקרה לפקקים ולתוויות.",
+      scenarioHe:
+        "בארגון צוות-המימוש מקים תחילה PSA לכל קו-מילוי, מחסן-קנבן צמוד-לקו, ו-MRP Controller ייעודי ל'חידוש-רצפה' — לפני שמגדירים מעגלי-בקרה לפקקים ולתוויות.",
       navHe: [
         "Production ► KANBAN ► Number Ranges",
         "Production ► KANBAN ► Replenishment Strategies",
@@ -289,7 +289,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "מוגדר ב-SPRO תחת KANBAN ► Number Ranges; הקצאה פנימית. נפרד לחלוטין מטווח מזהה-הקנבן הפרטני. מספיק טווח רחב אחד למפעל ברוב המקרים.",
           purposeHe: "להבטיח מזהה ייחודי וחד-משמעי לכל מעגל-בקרה.",
           processExampleHe: "יצירת מעגל-בקרה ב-PKMC מקצה אוטומטית את המספר-הבא מהאינטרוול המוגדר.",
-          cbcHe: "ב-CBC טווח-מספרים אחד רחב מספיק לכלל מעגלי-הבקרה של רכיבי-האריזה באתר.",
+          scenarioHe: "בארגון טווח-מספרים אחד רחב מספיק לכלל מעגלי-הבקרה של רכיבי-האריזה באתר.",
           navHe: ["Production ► KANBAN ► Number Ranges ► Define Number Range for Control Cycle"],
           tables: ["PKHD", "NRIV"],
           tcodes: ["PKMC"],
@@ -308,7 +308,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "מוגדר ב-SPRO; הקצאה פנימית, ונפרד מטווח מעגל-הבקרה. מזהה-הקנבן (PKPS) הוא מה שנסרק ברצפה כדי לשנות סטטוס. במערכות-ברקוד זהו הערך המקודד בכרטיס.",
           purposeHe: "לזהות באופן חד-ערכי כל מכל פיזי לצורך סריקה, שינוי-סטטוס ומעקב.",
           processExampleHe: "מעגל עם 3 מכלים יוצר 3 מזהי-קנבן; סריקת המזהה של מכל מס' 2 משנה רק את הסטטוס שלו.",
-          cbcHe: "ב-CBC כל מכל-פקקים נושא ברקוד עם מזהה-הקנבן; הסורק ברצפה מעדכן Empty/Full לפי המזהה.",
+          scenarioHe: "בארגון כל מכל-פקקים נושא ברקוד עם מזהה-הקנבן; הסורק ברצפה מעדכן Empty/Full לפי המזהה.",
           navHe: ["Production ► KANBAN ► Number Ranges ► Define Number Range for Kanban ID Number"],
           tables: ["PKPS", "NRIV"],
           tcodes: ["PKMC", "PK13N"],
@@ -327,7 +327,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "מוגדר ב-OPPG פר-מפעל ומאוכלס ב-MARC-DISPO. בלוח-הקנבן (PK13N) משמש כקריטריון-בחירה. מומלץ Controller ייעודי ל'חידוש-רצפה' כדי להפריד מ-MRP הקלאסי.",
           purposeHe: "לשייך אחריות ולאפשר סינון-וניטור של מעגלי-הקנבן לפי בעל-תפקיד.",
           processExampleHe: "המתכנן מסנן את לוח-הקנבן לפי ה-MRP Controller שלו ורואה רק את המכלים באחריותו.",
-          cbcHe: "ב-CBC מוגדר MRP Controller 'KAN' לחידוש-רצפה; כל מעגלי-הפקקים והתוויות משויכים אליו לניטור ממוקד.",
+          scenarioHe: "בארגון מוגדר MRP Controller 'KAN' לחידוש-רצפה; כל מעגלי-הפקקים והתוויות משויכים אליו לניטור ממוקד.",
           navHe: ["Production ► KANBAN ► MRP Controllers (OPPG)"],
           tables: ["T024D", "MARC"],
           tcodes: ["OPPG", "PK13N"],
@@ -346,7 +346,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "מוגדר ב-T001L ומשויך למעגל-הבקרה ול-PSA. תנועות-המלאי (GR בקבלה, GI/backflush בצריכה) נרשמות במחסן זה. במודל logical-stock המלאי-הפיזי במחסן-הקנבן עשוי להיות נפרד מהמלאי-החשבונאי.",
           purposeHe: "לעגן את ה-Kanban למיקום-מלאי קונקרטי ולקשר אותות לתנועות-מלאי.",
           processExampleHe: "קבלת-חידוש רושמת GR למחסן-הקנבן; משיכת-רצפה רושמת GI ממנו — כך המלאי משקף את מצב-המכלים.",
-          cbcHe: "ב-CBC מחסן-קנבן 'FILL' צמוד לקו-המילוי; פקקים ותוויות מחודשים אליו ומשם נצרכים בקו.",
+          scenarioHe: "בארגון מחסן-קנבן 'FILL' צמוד לקו-המילוי; פקקים ותוויות מחודשים אליו ומשם נצרכים בקו.",
           navHe: ["Production ► KANBAN ► Kanban Storage Location / PSA (PK05N)"],
           tables: ["T001L", "PKHD"],
           tcodes: ["PK05N", "PKMC"],
@@ -365,7 +365,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "PK13N מציג תצוגת Demand Source (לפי PSA/קו) או Supply Source (לפי מקור-אספקה). שינוי-סטטוס בלוח מפעיל את אותה הלוגיקה כמו סריקת-כרטיס. ניתן לסנן לפי מפעל/PSA/MRP Controller. בנוסף קיים PK12N לתצוגת-supply ו-PK13N לתצוגת-demand.",
           purposeHe: "לספק ניהול-חזותי ובקרה תפעולית בזמן-אמת על כל המכלים והחידושים.",
           processExampleHe: "מפעיל-הקו רואה תא אדום, יודע שהחידוש בדרך; כשמגיע — התא הופך ירוק. בלי לדבר עם אף-אחד, הסטטוס גלוי לכולם.",
-          cbcHe: "ב-CBC מסך-מגע ליד קו-המילוי מציג את לוח-הקנבן; מפעיל-הקו מעדכן Empty בלחיצה והחידוש מהמחסן מופעל מיד.",
+          scenarioHe: "בארגון מסך-מגע ליד קו-המילוי מציג את לוח-הקנבן; מפעיל-הקו מעדכן Empty בלחיצה והחידוש מהמחסן מופעל מיד.",
           navHe: ["Logistics ► Production ► KANBAN ► Control ► Kanban Board: Demand Source View (PK13N)"],
           tables: ["PKPS", "PKHD"],
           tcodes: ["PK13N", "PK12N", "PK11", "PK17"],
@@ -388,7 +388,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "מוגדר ב-PK05N (או דרך אב-החומר/PSA master) ומשויך למעגל-הבקרה ולמחסן. ה-PSA מקשר גם ל-backflush ב-REM ולמשיכת-רכיבים בפק\"ע. הוא מזהה את 'מי הלקוח' של החידוש ומאפשר ניהול-צריכה ממוקד-קו.",
           purposeHe: "להגדיר נקודת-צריכה פיזית ברצפה ולקשר אותה למקור-החידוש ולמחסן.",
           processExampleHe: "קו-ההרכבה מוגדר כ-PSA; כל רכיב המשויך אליו מחודש למדף הצמוד, ונצרך ממנו ב-backflush.",
-          cbcHe: "ב-CBC כל קו-מילוי מוגדר PSA נפרד; פקקים/תוויות מחודשים ל-PSA של הקו הרלוונטי ולא מתערבבים בין קווים.",
+          scenarioHe: "בארגון כל קו-מילוי מוגדר PSA נפרד; פקקים/תוויות מחודשים ל-PSA של הקו הרלוונטי ולא מתערבבים בין קווים.",
           navHe: ["Production ► KANBAN ► Production Supply Area / Define PSA (PK05N)"],
           tables: ["PVBE", "PKHD"],
           tcodes: ["PK05N", "PKMC"],
@@ -411,7 +411,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "מוגדר תחת KANBAN ► Replenishment Strategies לשלושת הסוגים. ה-Control Type הוא המפתח: למשל בייצור — פק\"ע (1) מול הזמנה-מתוכננת מסכמת/REM; ברכש — דרישת-רכש מול Summarized JIT call. כל אסטרטגיה נושאת Print control ו-Replenishment-element handling.",
           purposeHe: "להגדיר אוסף-אסטרטגיות סטנדרטי שממנו מעגלי-הבקרה שואבים את לוגיקת-החידוש.",
           processExampleHe: "מגדירים אסטרטגיית-ייצור עם Control Type 'פק\"ע' והדפסת-כרטיס; מעגל-בקרה של רכיב מיוצר-עצמית מצביע עליה.",
-          cbcHe: "ב-CBC מוגדרות 3 אסטרטגיות-תקן: ייצור-תערובת (פק\"ע), רכש-פקקים (דרישת-רכש מסכמת), והעברת-תוויות (הזמנת-העברה) — וכל מעגל בוחר את המתאימה.",
+          scenarioHe: "בארגון מוגדרות 3 אסטרטגיות-תקן: ייצור-תערובת (פק\"ע), רכש-פקקים (דרישת-רכש מסכמת), והעברת-תוויות (הזמנת-העברה) — וכל מעגל בוחר את המתאימה.",
           navHe: ["Production ► KANBAN ► Replenishment Strategies (In-house / External / Stock transfer)"],
           tables: ["T466A", "T466P", "T466U"],
           tcodes: ["PKMC"],
@@ -431,7 +431,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "הסטטוסים נשמרים ב-PKPS. מעבר ל-Empty מפעיל את יצירת רכיב-החידוש לפי האסטרטגיה; In Process מסמן שהחידוש קיים; קבלה (GR) מחזירה ל-Full. ניתן להגדיר Wait status להשהיית-חידוש ידנית. מעברים אסורים נחסמים על-ידי המערכת.",
           purposeHe: "לנהל את מחזור-החיים של כל מכל ולעגן את נקודת-ההפעלה של החידוש (Empty).",
           processExampleHe: "מכל Full נצרך ➔ Empty (חידוש נוצר) ➔ In Process (פק\"ע/רכש פתוח) ➔ קבלה ➔ Full שוב.",
-          cbcHe: "ב-CBC מכל-פקקים מסומן Empty בסריקה; הופך In Process עם דרישת-הרכש, ו-Full עם קבלת-הספק.",
+          scenarioHe: "בארגון מכל-פקקים מסומן Empty בסריקה; הופך In Process עם דרישת-הרכש, ו-Full עם קבלת-הספק.",
           navHe: ["Logistics ► Production ► KANBAN ► Control ► Set Kanban Status (PK13N / barcode)"],
           tables: ["PKPS", "PKHD"],
           tcodes: ["PK13N", "PK21", "PK22N"],
@@ -454,7 +454,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "מבוססות על חריגות-זמן/סטטוס; מוצגות בלוח-הקנבן ובדוחות (PK31, Delayed Replenishment). ניתן להגדיר ניטור ל-Replenishment-elements שלא הגיעו בזמן. שילוב עם Alert Monitor/workflow מאפשר התראה-יזומה לאחראי-ה-PSA.",
           purposeHe: "לזהות עיכובי-חידוש ותקיעות לפני שהם גורמים למחסור ועצירת-קו.",
           processExampleHe: "מכל ב-Empty מעבר לזמן-החידוש המוגדר ➔ התראה בלוח ➔ האחראי מברר מול הספק/הקו-המייצר.",
-          cbcHe: "ב-CBC התראה על מכל-פקקים שב-Empty מעבר ל-4 שעות מפעילה בירור-מול-הספק לפני שקו-המילוי נעצר.",
+          scenarioHe: "בארגון התראה על מכל-פקקים שב-Empty מעבר ל-4 שעות מפעילה בירור-מול-הספק לפני שקו-המילוי נעצר.",
           navHe: ["Logistics ► Production ► KANBAN ► Evaluations ► Delayed Replenishment / Alerts (PK31)"],
           tables: ["PKPS", "PKER"],
           tcodes: ["PK13N", "PK31"],
@@ -482,8 +482,8 @@ export const CH9: TextbookChapter = {
         "לחדש רכיבים מיוצרים-עצמית בשיטת-משיכה ללא הרצת-MRP — לקצר זמן-תגובה ולהפחית מלאי-ביניים.",
       processExampleHe:
         "מכל של חצי-מוגמר מתרוקן ➔ Empty ➔ נוצרת פק\"ע לפי ה-Production Version ➔ ייצור ➔ GR מחזיר ל-Full ומבצע backflush לרכיבי-ה-BOM.",
-      cbcHe:
-        "ב-CBC תערובת-בסיס מיוצרת-עצמית: מכל-תערובת ב-Empty פותח חידוש-ייצור לפי Production Version של הערבול; הקבלה מחזירה את המכל ומורידה תרכיז/סוכר/מים אוטומטית.",
+      scenarioHe:
+        "בארגון תערובת-בסיס מיוצרת-עצמית: מכל-תערובת ב-Empty פותח חידוש-ייצור לפי Production Version של הערבול; הקבלה מחזירה את המכל ומורידה תרכיז/סוכר/מים אוטומטית.",
       navHe: [
         "Production ► KANBAN ► Replenishment Strategies ► In-House Production",
         "Production ► KANBAN ► Control Cycle ► Define Control Cycle (PKMC)",
@@ -544,7 +544,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "נשמר ב-PKHD; נוצר ב-PKMC. מכיל Material, Plant, PSA, מספר-Kanbans, Kanban quantity, Replenishment strategy ו-Supply source. מספר-המכלים × כמות-מכל = מלאי-המקסימום; חישוב-קנבן (ראו 9.7) קובע ערכים אלה. שינוי-מעגל מחדש את ה-Kanbans הפרטניים.",
           purposeHe: "להגדיר את כל פרמטרי-ה-Kanban לרכיב/PSA במקום-אחד — הבסיס לכל המנגנון.",
           processExampleHe: "מעגל עם 3 מכלים × 100 יח' = מלאי-מקס' 300; כשמכל אחד מתרוקן מחדשים 100, ושני המכלים האחרים מספקים בינתיים.",
-          cbcHe: "ב-CBC מעגל-פקקים: 4 מכלים × 5,000 פקקים, מקור = ספק חיצוני, PSA = קו-מילוי 2.",
+          scenarioHe: "בארגון מעגל-פקקים: 4 מכלים × 5,000 פקקים, מקור = ספק חיצוני, PSA = קו-מילוי 2.",
           navHe: ["Production ► KANBAN ► Control Cycle ► Define Control Cycle (PKMC)"],
           tables: ["PKHD", "PKPS"],
           tcodes: ["PKMC", "PK01"],
@@ -564,7 +564,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "Production Version (MKAL, נוצר ב-C223/MM02) מקשר BOM-Alternative + Routing-Group. מעגל-הבקרה מצביע עליו ישירות; בעת Empty נוצרת פק\"ע/חידוש לפיו. ב-S/4HANA Production Version הוא חובה לחידוש-ייצור — אין בחירת-Alternative עקיפה.",
           purposeHe: "לספק מקור-ייצור חד-משמעי (BOM+Routing) שאליו מצביע מעגל-הבקרה.",
           processExampleHe: "מעגל-בקרה של חצי-מוגמר מצביע על Production Version 0001; כל Empty פותח חידוש לפי אותה גרסה.",
-          cbcHe: "ב-CBC לתערובת-הבסיס Production Version לכל קו-ערבול; מעגל-הקנבן מצביע על הגרסה של הקו הרלוונטי.",
+          scenarioHe: "בארגון לתערובת-הבסיס Production Version לכל קו-ערבול; מעגל-הקנבן מצביע על הגרסה של הקו הרלוונטי.",
           navHe: ["Logistics ► Production ► Master Data ► Production Version (C223 / MM02 — MRP4)"],
           tables: ["MKAL", "MARC", "MAST"],
           tcodes: ["C223", "MM02", "MMSC"],
@@ -584,7 +584,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "ה-BOM (MAST/STKO/STPO) משויך ל-Production Version; הוא מתפוצץ בעת יצירת חידוש-הייצור ליצירת Reservations/backflush. דיוק כמויות, פחת-רכיב ו-Component allocation קריטיים — שגיאה כאן מעוותת backflush ועלות.",
           purposeHe: "להגדיר את צריכת-הרכיבים של החומר-המחודש לצורך backflush ועלות מדויקים.",
           processExampleHe: "חידוש של 100 יח' חצי-מוגמר ➔ ה-BOM מתפוצץ ➔ GR מבצע backflush של הרכיבים לפי הכמויות.",
-          cbcHe: "ב-CBC ה-BOM של תערובת-הבסיס (תרכיז+סוכר+מים) נצרך ב-backflush עם כל חידוש-ערבול דרך ה-Kanban.",
+          scenarioHe: "בארגון ה-BOM של תערובת-הבסיס (תרכיז+סוכר+מים) נצרך ב-backflush עם כל חידוש-ערבול דרך ה-Kanban.",
           navHe: ["Production ► Basic Data ► Bill of Material ► Material BOM (CS01)"],
           tables: ["MAST", "STKO", "STPO"],
           tcodes: ["CS01", "CS02", "CS03"],
@@ -612,8 +612,8 @@ export const CH9: TextbookChapter = {
         "להמיר את מודל-האסטרטגיות התיאורטי לזרימות-עבודה תפעוליות מלאות עם טיפול בשגיאות, הדפסה ומלאי.",
       processExampleHe:
         "אותו אות-Empty יוצר פק\"ע (ייצור), דרישת-רכש (רכש) או הזמנת-העברה (העברה) — בהתאם ל-Control Type; שגיאות נרשמות ב-PKER לעיבוד-חוזר.",
-      cbcHe:
-        "ב-CBC השילוב מלא: תערובת ב-Production, פקקים ב-Procurement, תוויות ב-Stock transfer; כרטיסים מודפסים לקווים ללא-סורק, ושגיאות-חידוש מנוטרות יומית.",
+      scenarioHe:
+        "בארגון השילוב מלא: תערובת ב-Production, פקקים ב-Procurement, תוויות ב-Stock transfer; כרטיסים מודפסים לקווים ללא-סורק, ושגיאות-חידוש מנוטרות יומית.",
       navHe: [
         "Production ► KANBAN ► Replenishment Strategies (Control Types)",
         "Logistics ► Production ► KANBAN ► Control ► Error Processing / Print",
@@ -670,7 +670,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "Control Type 1 = פק\"ע פר-Kanban; אפשרות מסכמת יוצרת הזמנה-מתוכננת/REM אחת לכמה Kanbans. ה-GR מבצע backflush ומחזיר ל-Full. בחירה בין בדיד למסכם תלויה בתדירות-הצריכה ובמספר-המסמכים הרצוי.",
           purposeHe: "לחדש רכיבים מיוצרים-עצמית בפועל, עם או בלי סיכום-מסמכים.",
           processExampleHe: "Empty ➔ פק\"ע 50 יח' ➔ ייצור ➔ GR מחזיר Full + backflush; או מסכם: כמה Empty ➔ הזמנה-מתוכננת אחת.",
-          cbcHe: "ב-CBC חידוש-תערובת מסכם: כמה מכלי-תערובת ב-Empty פותחים חידוש-ערבול אחד גדול, לחיסכון בהקמות.",
+          scenarioHe: "בארגון חידוש-תערובת מסכם: כמה מכלי-תערובת ב-Empty פותחים חידוש-ערבול אחד גדול, לחיסכון בהקמות.",
           navHe: ["Production ► KANBAN ► Replenishment Strategies ► In-House Production (Control Type)"],
           tables: ["PKHD", "T466A", "AFKO"],
           tcodes: ["PKMC", "PK13N", "CO01"],
@@ -690,7 +690,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "Control Type לרכש דורש מקור-אספקה (Source list/Info record/Scheduling agreement). אפשרויות: דרישת-רכש פר-Kanban, או Summarized JIT call מול Scheduling agreement (שיטה מועדפת לצריכה רציפה). ה-GR מהספק מחזיר ל-Full.",
           purposeHe: "לחדש רכיבים נרכשים בשיטת-משיכה ישירות מול הספק, ללא MRP.",
           processExampleHe: "Empty ➔ JIT call מול Scheduling agreement ➔ הספק מספק ➔ GR מחזיר Full. ללא דרישת-רכש בודדת לכל מכל.",
-          cbcHe: "ב-CBC פקקים נרכשים: מכל ב-Empty מפעיל JIT call מול מסגרת-הסכם-הפקקים; הספק מספק ישירות ל-PSA של הקו.",
+          scenarioHe: "בארגון פקקים נרכשים: מכל ב-Empty מפעיל JIT call מול מסגרת-הסכם-הפקקים; הספק מספק ישירות ל-PSA של הקו.",
           navHe: ["Production ► KANBAN ► Replenishment Strategies ► External Procurement (Control Type)"],
           tables: ["PKHD", "T466P", "EKPO", "EKET"],
           tcodes: ["PKMC", "PK13N", "ME31L"],
@@ -710,7 +710,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "Control Type להעברה יוצר Stock transport order/Reservation בין Storage Locations או Plants. ה-GI מהמקור וה-GR ב-PSA מחזירים ל-Full. שימושי כשהרכש/הייצור מרוכזים ומחלקים לקווים פנימית; משלב עם WM/EWM אם רלוונטי.",
           purposeHe: "לחדש קווים ממלאי-קיים במחסן-מרכזי בלי רכש/ייצור חדש — חלוקה פנימית.",
           processExampleHe: "Empty ➔ הזמנת-העברה ממחסן-מרכזי ל-PSA ➔ העברה פיזית ➔ GR ב-PSA מחזיר Full.",
-          cbcHe: "ב-CBC תוויות מוחזקות במחסן-מרכזי; מכל-תוויות ב-Empty פותח הזמנת-העברה מהמחסן אל קו-המילוי.",
+          scenarioHe: "בארגון תוויות מוחזקות במחסן-מרכזי; מכל-תוויות ב-Empty פותח הזמנת-העברה מהמחסן אל קו-המילוי.",
           navHe: ["Production ► KANBAN ► Replenishment Strategies ► Stock Transfer (Control Type)"],
           tables: ["PKHD", "T466U", "RESB"],
           tcodes: ["PKMC", "PK13N", "MB1B"],
@@ -730,7 +730,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "Print control נקבע באסטרטגיה ובמעגל; ההדפסה מופעלת ביצירת-מעגל/חידוש או ידנית ב-PK17. הכרטיס נושא Kanban ID, חומר, כמות, PSA וברקוד. בסביבות-ברקוד זהו הקישור הפיזי-לוגי.",
           purposeHe: "לספק אמצעי-זיהוי פיזי לסריקה ולניהול-חזותי היכן שאין מסך.",
           processExampleHe: "יצירת מעגל עם 4 מכלים ➔ הדפסת 4 כרטיסים עם ברקודים ➔ הצמדה למכלים ➔ סריקה משנה סטטוס.",
-          cbcHe: "ב-CBC קווים ותיקים ללא מסך-מגע עובדים בכרטיסים מודפסים; קווים חדשים עם מסך עובדים אלקטרונית.",
+          scenarioHe: "בארגון קווים ותיקים ללא מסך-מגע עובדים בכרטיסים מודפסים; קווים חדשים עם מסך עובדים אלקטרונית.",
           navHe: ["Logistics ► Production ► KANBAN ► Control ► Print Kanban Cards (PK17)"],
           tables: ["PKPS", "PKHD"],
           tcodes: ["PK17", "PK13N"],
@@ -749,7 +749,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "השגיאות נשמרות ב-PKER; ניתן לעבד-מחדש (reprocess) מלוח-הקנבן או מ-PK13N לאחר תיקון-השורש (Source list/PV/OPL8). מעקב יומי על PKER מונע מצב שבו מכלים 'נתקעים' Empty ללא חידוש בפועל.",
           purposeHe: "להבטיח עמידות: שגיאות לא עוצרות את התהליך אלא נאספות לתיקון ועיבוד-חוזר.",
           processExampleHe: "Empty ללא Source list ➔ שגיאה ב-PKER ➔ המתכנן מוסיף Source list ➔ reprocess ➔ נוצר רכיב-החידוש.",
-          cbcHe: "ב-CBC בדיקת-PKER יומית מגלה מכלי-פקקים שלא חודשו עקב מקור-חסום, לפני שהקו נעצר.",
+          scenarioHe: "בארגון בדיקת-PKER יומית מגלה מכלי-פקקים שלא חודשו עקב מקור-חסום, לפני שהקו נעצר.",
           navHe: ["Logistics ► Production ► KANBAN ► Control ► Reprocess Kanban Errors (PK13N / PKER)"],
           tables: ["PKER", "PKPS"],
           tcodes: ["PK13N", "PK31"],
@@ -769,7 +769,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "נקבע באסטרטגיה; ה-Full נקבע ידנית/בסריקה בעוד ה-GR מתבצע בנפרד (אוטומטי/קבוצתי). שימושי כשתזמון-הזרימה-הפיזית שונה מהרישום, או כשרוצים לאסוף GRs לאצווה. דורש משמעת כדי שמלאי-לוגי ופיזי לא יתבדרו.",
           purposeHe: "לנתק את האות-החזותי (Full) מהרישום-החשבונאי (GR) לגמישות-תפעולית.",
           processExampleHe: "מכל מתמלא ➔ סריקה ל-Full (חזותי) ➔ GR מבוצע בקבוצה בסוף-המשמרת חשבונאית.",
-          cbcHe: "ב-CBC קבלת-תוויות מסומנת Full מיד בקו, אך ה-GR החשבונאי מבוצע מרוכז בסוף-המשמרת.",
+          scenarioHe: "בארגון קבלת-תוויות מסומנת Full מיד בקו, אך ה-GR החשבונאי מבוצע מרוכז בסוף-המשמרת.",
           navHe: ["Production ► KANBAN ► Replenishment Strategies ► Separated GR indicator"],
           tables: ["PKPS", "PKHD"],
           tcodes: ["PK13N", "MIGO"],
@@ -789,7 +789,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "מספר-המכלים במעגל (לרוב 2, אך גם 3+) קובע את ה'חיץ' מול זמן-החידוש. עקרון: זמן-חידוש מכל אחד < זמן-צריכת המכלים הנותרים. שינוי-הסטטוס (אות) הוא מה שמניע; מספר-המכלים נגזר מחישוב-קנבן (9.7).",
           purposeHe: "להבטיח זמינות-רציפה: תמיד מכל זמין בעוד אחר מתחדש.",
           processExampleHe: "2 מכלים × 100 יח'; צריכה 100 ב-2 שעות, חידוש ב-2 שעות ➔ בדיוק מתחלפים. אם החידוש איטי יותר — צריך מכל שלישי.",
-          cbcHe: "ב-CBC קו-מילוי עובד שני-מכלים לפקקים: בעוד מכל אחד מזין את הקו, השני מתחדש מהמחסן; המעבר חלק וללא-עצירה.",
+          scenarioHe: "בארגון קו-מילוי עובד שני-מכלים לפקקים: בעוד מכל אחד מזין את הקו, השני מתחדש מהמחסן; המעבר חלק וללא-עצירה.",
           navHe: ["Production ► KANBAN ► Control Cycle ► Number of Kanbans (PKMC)"],
           tables: ["PKHD", "PKPS"],
           tcodes: ["PKMC", "PK13N"],
@@ -812,7 +812,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "המלאי-הלוגי נגזר מסטטוסי-ה-PKPS; המלאי-הפיזי מתנועות-MM (MARD). Separated GR, סריקות שלא בוצעו ועיכובי-GR גורמים לסטייה. ביקורת-תקופתית ויישור (re-sync) חיוניים; פער מתמשך פוגע באמינות-החידוש ובדיוק-ה-backflush.",
           purposeHe: "להבין ולנהל את הפער בין מצב-המכלים-במערכת למצב-המלאי-בפועל.",
           processExampleHe: "המערכת מציגה 3 Full (300 יח') אך פיזית רק 250 כי GR אחד לא בוצע ➔ יישור נדרש.",
-          cbcHe: "ב-CBC ביקורת-מכלים שבועית מיישרת בין סטטוסי-הקנבן למלאי-הפיזי במחסן-הקו, ומונעת החלטות-חידוש שגויות.",
+          scenarioHe: "בארגון ביקורת-מכלים שבועית מיישרת בין סטטוסי-הקנבן למלאי-הפיזי במחסן-הקו, ומונעת החלטות-חידוש שגויות.",
           navHe: ["Logistics ► Production ► KANBAN ► Evaluations ► Stock Comparison"],
           tables: ["PKPS", "MARD"],
           tcodes: ["PK13N", "MMBE"],
@@ -840,8 +840,8 @@ export const CH9: TextbookChapter = {
         "להבטיח שה-Kanban מכוון אופטימלית ולתחזק אותו לאורך-זמן מול שינויי-צריכה.",
       processExampleHe:
         "ניתוח רבעוני מראה שצריכת-רכיב עלתה 30% ➔ חישוב-קנבן ממליץ להגדיל ממספר-מכלים 2 ל-3 ➔ המתכנן מעדכן את המעגל.",
-      cbcHe:
-        "ב-CBC לפני עונת-השיא מריצים חישוב-קנבן מחדש לכל מעגלי-האריזה ומגדילים מכלים בהתאם לתחזית-הביקוש העונתית.",
+      scenarioHe:
+        "בארגון לפני עונת-השיא מריצים חישוב-קנבן מחדש לכל מעגלי-האריזה ומגדילים מכלים בהתאם לתחזית-הביקוש העונתית.",
       navHe: [
         "Logistics ► Production ► KANBAN ► Evaluations ► Control Cycle / Kanban Analysis",
         "Production ► KANBAN ► Control Cycle ► Calculate Number of Kanbans",
@@ -897,7 +897,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "הנוסחה: מספר-מכלים ≈ (צריכה-ליחידת-זמן × זמן-חידוש × (1+מקדם-ביטחון)) / כמות-מכל. נתוני-הצריכה נשאבים מהיסטוריה/תחזית; התוצאה מוצעת למעגל ב-PKMC. כיוונון-מחדש תקופתי חיוני; חישוב-מוקדם-מדי או נתוני-צריכה-שגויים מטים את התוצאה.",
           purposeHe: "לקבוע מדעית את גודל-החיץ (מספר-מכלים/כמות) לזמינות מול מלאי-מינימלי.",
           processExampleHe: "צריכה 50 יח'/שעה, זמן-חידוש 4 שעות, ביטחון 20%, כמות-מכל 100 ➔ מספר-מכלים ≈ (50×4×1.2)/100 = 2.4 ➔ עיגול ל-3.",
-          cbcHe: "ב-CBC חישוב-קנבן לפקקים: צריכת-קו × זמן-אספקת-ספק × ביטחון ➔ מספר-מכלים; מורץ-מחדש לפני שינויי-קצב-מילוי.",
+          scenarioHe: "בארגון חישוב-קנבן לפקקים: צריכת-קו × זמן-אספקת-ספק × ביטחון ➔ מספר-מכלים; מורץ-מחדש לפני שינויי-קצב-מילוי.",
           navHe: ["Production ► KANBAN ► Control Cycle ► Calculate Number of Kanbans (PKMC)"],
           tables: ["PKHD", "PKPS"],
           tcodes: ["PKMC", "PK31"],
@@ -920,7 +920,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "מבוסס Logistics Information System (LIS) ועל נתוני-PKPS היסטוריים. מדדים: cycle time, dwell time, turns. מזין את חישוב-הקנבן ואת החלטות-הכיוונון. שילוב עם Delayed replenishment חושף עיכובים מערכתיים מול ספקים/קווים.",
           purposeHe: "למדוד ביצועים ולזהות הזדמנויות-שיפור וכיוונון.",
           processExampleHe: "ניתוח מראה שמכלי-רכיב מסוים ממתינים ארוך לפני חידוש ➔ זמן-החידוש בפועל גבוה מההנחה ➔ מעדכנים את החישוב.",
-          cbcHe: "ב-CBC ניתוח-רבעוני של זמני-מחזור-מכלים חושף קווים עם זמני-המתנה גבוהים ומכוון השקעה בשיפור-לוגיסטיקת-הקו.",
+          scenarioHe: "בארגון ניתוח-רבעוני של זמני-מחזור-מכלים חושף קווים עם זמני-המתנה גבוהים ומכוון השקעה בשיפור-לוגיסטיקת-הקו.",
           navHe: ["Logistics ► Production ► KANBAN ► Evaluations ► Kanban Analysis (PK31 / LIS)"],
           tables: ["PKPS", "PKER"],
           tcodes: ["PK31", "PK13N"],
@@ -940,7 +940,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "מבוסס השוואת זמן-בסטטוס מול זמן-החידוש שבמעגל; מציג Replenishment-elements שחרגו. משלים את ההתראות (9.4.9) ואת PKER. שילוב עם דוח/Alert Monitor מאפשר טיפול-יזום מול הספק או הקו-המייצר.",
           purposeHe: "לזהות עיכובי-חידוש מוקדם ולמנוע מחסור ועצירות-קו.",
           processExampleHe: "מכל ב-In Process מעבר ל-6 שעות (מול 4 מתוכננות) ➔ מופיע בדוח-המתעכבים ➔ בירור מול הספק.",
-          cbcHe: "ב-CBC דוח-מתעכבים יומי מסמן הזמנות-העברה-תקועות מהמחסן לקו ומאפשר זירוז לפני עצירת-מילוי.",
+          scenarioHe: "בארגון דוח-מתעכבים יומי מסמן הזמנות-העברה-תקועות מהמחסן לקו ומאפשר זירוז לפני עצירת-מילוי.",
           navHe: ["Logistics ► Production ► KANBAN ► Evaluations ► Delayed Replenishment Elements (PK31)"],
           tables: ["PKPS", "PKER"],
           tcodes: ["PK31", "PK13N"],

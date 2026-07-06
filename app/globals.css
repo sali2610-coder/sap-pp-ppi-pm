@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* ===== Project NEO Cockpit — CBC Israel · Enterprise Pro Max ===== =====
+/* ===== Project NEO Cockpit — SAP by Sali · Enterprise Pro Max ===== =====
    Apple-grade polish × SAP Fiori efficiency. 100% offline — no remote fonts.
    Segoe UI native on Windows SAP clients; clean system fallback elsewhere. */
 
@@ -23,7 +23,7 @@
   --glass-border: rgba(255, 255, 255, 0.6);
   --glass-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.18), 0 2px 8px -2px rgba(15, 23, 42, 0.08);
 
-  /* CBC / Coca-Cola brand — accent only */
+  /* Brand palette — accent only */
   --brand: #d62027;
   --brand-foreground: #ffffff;
   --brand-dark: #a3171c;
@@ -371,7 +371,7 @@ header :focus-visible {
   }
 }
 
-/* ===== CBC Design System — motion + surface tokens ===== */
+/* ===== הארגון Design System — motion + surface tokens ===== */
 :root {
   --ease-premium: cubic-bezier(0.32, 0.72, 0, 1);
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);

@@ -2,7 +2,7 @@
 // Every node is a complete LearningNode with 18 facets of authored Hebrew —
 // beginner + consultant friendly — enough to study the topic without the book.
 // Hierarchy preserved exactly from the source; SAP identifiers verbatim EN.
-// CBC = Coca-Cola bottling QM document control (SOPs, specs, certificates).
+// הארגון = Example Product bottling QM document control (SOPs, specs, certificates).
 import type { TextbookChapter } from "./types";
 
 export const CH20: TextbookChapter = {
@@ -10,7 +10,7 @@ export const CH20: TextbookChapter = {
   titleHe: "מערכת ניהול מסמכים (DMS)",
   titleEn: "Document Management System",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה ל-DMS (Document Management System) בהקשר QM ב-SAP S/4HANA. ה-DMS מנהל את כל המסמכים החיצוניים (CAD, PDF, Word, תמונות, תעודות) דרך אובייקט-על אחד — Document Info Record (DIR) — ומקשר אותו לחומרים, לרשומות-בדיקה, לאצוות ולתוכניות-בדיקה. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט ב-DMS ובבקרת-המסמכים של QM ללא הספר המקורי. ב-CBC, ה-DMS הוא עמוד-השדרה של בקרת-המסמכים — SOPs, מפרטי-איכות (Specifications) ותעודות-אנליזה (Certificates) מנוהלים, מתוקנים ומבוקרי-גרסה דרכו.",
+    "פרק זה הוא יחידת-לימוד מלאה ל-DMS (Document Management System) בהקשר QM ב-SAP S/4HANA. ה-DMS מנהל את כל המסמכים החיצוניים (CAD, PDF, Word, תמונות, תעודות) דרך אובייקט-על אחד — Document Info Record (DIR) — ומקשר אותו לחומרים, לרשומות-בדיקה, לאצוות ולתוכניות-בדיקה. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט ב-DMS ובבקרת-המסמכים של QM ללא הספר המקורי. בארגון, ה-DMS הוא עמוד-השדרה של בקרת-המסמכים — SOPs, מפרטי-איכות (Specifications) ותעודות-אנליזה (Certificates) מנוהלים, מתוקנים ומבוקרי-גרסה דרכו.",
   subchapters: [
     // ============================================================ 20.1
     {
@@ -25,8 +25,8 @@ export const CH20: TextbookChapter = {
         "לבסס בקרת-מסמכים אחידה ומבוקרת: מיספור עקבי, מבנה-שדות אחיד לכל סוג, מחזור-חיים מבוקר (status), קישוריות לאובייקטים העסקיים ופתיחה אוטומטית בתוכנה הנכונה — תשתית-חובה לכל תהליך-איכות מבוקר-מסמכים.",
       processExampleHe:
         "ארגון מטמיע DMS: מגדיר Number Range 01 לטווח DRW פנימי, יוצר Document Type 'QMS' למסמכי-איכות, מקשר אליו תכנית-סטטוס DR (Draft→In Review→Released), מתיר קישור ל-MARA ול-QMAT, וממפה PDF→Adobe ו-DOC→Word. מעתה כל מפרט-איכות נוצר ב-CV01N תחת Type QMS, מקבל מספר אוטומטי, נפתח ב-Adobe ומקושר לחומר.",
-      cbcHe:
-        "ב-CBC מוגדרים Document Types נפרדים: SOP לנהלים, SPC למפרטי-איכות ו-COA לתעודות-אנליזה. כל אחד עם תכנית-סטטוס משלו (ל-SOP נדרש אישור-QA, ל-COA סטטוס Released בלבד) ועם Object Links המתאימים — SPC↔MARA/QMAT, COA↔אצווה (MCH1).",
+      scenarioHe:
+        "בארגון מוגדרים Document Types נפרדים: SOP לנהלים, SPC למפרטי-איכות ו-COA לתעודות-אנליזה. כל אחד עם תכנית-סטטוס משלו (ל-SOP נדרש אישור-QA, ל-COA סטטוס Released בלבד) ועם Object Links המתאימים — SPC↔MARA/QMAT, COA↔אצווה (MCH1).",
       navHe: [
         "Cross-Application Components ► Document Management ► Control Data ► Define Document Types (DC10)",
         "Cross-Application Components ► Document Management ► Control Data ► Define Number Ranges for Document Numbers",
@@ -94,7 +94,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "טווחי-מספרי-DMS מנוהלים דרך אובייקט-מספור DOKUMENT (SNRO). מגדירים מספר-טווח (למשל 01) עם From/To, ומסמנים External אם נדרש מיספור-ידני. ב-DC10 משייכים את מספר-הטווח ל-Document Type בשדה Number assignment. המספר נשמר ב-DRAW-DOKNR. שילוב פנימי+חיצוני באותו Type אפשרי אך יש לתחום טווחים שלא יתנגשו.",
           purposeHe: "להבטיח מיספור עקבי, ייחודי וניתן-למעקב לכל מסמך — בסיס לזיהוי, לחיפוש ולביקורת.",
           processExampleHe: "מגדירים טווח 01 פנימי 10000000–19999999 ל-Document Type QMS; ביצירת DIR ראשון ב-CV01N המערכת מקצה 10000001 אוטומטית.",
-          cbcHe: "ב-CBC טווח פנימי נפרד ל-SOPים (לזיהוי קל) וטווח חיצוני ל-COA המקבל מספר תעודה תואם-מעבדה.",
+          scenarioHe: "בארגון טווח פנימי נפרד ל-SOPים (לזיהוי קל) וטווח חיצוני ל-COA המקבל מספר תעודה תואם-מעבדה.",
           navHe: ["Cross-Application Components ► Document Management ► Control Data ► Define Document Types ► Define Number Ranges (DOKUMENT / SNRO)"],
           tables: ["DRAW", "NRIV", "TNRO"],
           tcodes: ["SNRO", "DC10"],
@@ -113,7 +113,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "ב-DC10 מגדירים את ה-Type עם: Number assignment, Field selection, Internal/external versioning, Status scheme, Revision level, Document structure ו-Workstation applications מותרים. שדות-מפתח: 'Version assignment' (אוטומטי/ידני), 'Change docs', 'CAD indicator' ו-'Use KPro' (אחסון Content Server). ה-Type נשמר ב-DRAW-DOKAR. תכנון-Types נכון הוא ההחלטה האדריכלית החשובה ביותר ב-DMS.",
           purposeHe: "להגדיר משטר-בקרה אחיד לכל משפחת-מסמכים — אותם שדות, אותו מחזור-חיים, אותם קישורים — ולמנוע ניהול אד-הוק.",
           processExampleHe: "יוצרים Type 'SPC' למפרטי-איכות: Number Range 02 פנימי, Field selection הדורש שדה-תיאור, Status scheme SP, ו-Object Links ל-MARA/QMAT. כל מפרט חדש יורש כללים אלה אוטומטית.",
-          cbcHe: "ב-CBC: SOP (נהלים), SPC (מפרטים), COA (תעודות) ו-CAD (שרטוטי-קו). ל-SOP גרסאות-חובה + אישור-QA; ל-COA קישור-חובה לאצווה.",
+          scenarioHe: "בארגון: SOP (נהלים), SPC (מפרטים), COA (תעודות) ו-CAD (שרטוטי-קו). ל-SOP גרסאות-חובה + אישור-QA; ל-COA קישור-חובה לאצווה.",
           navHe: ["Cross-Application Components ► Document Management ► Control Data ► Define Document Types (DC10)"],
           tables: ["DRAW", "TDWA", "TDWD"],
           tcodes: ["DC10", "CV01N"],
@@ -136,7 +136,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "כל Document Type מקבל Status scheme עם רשימת-מצבים, מצב-התחלתי, סוג-מצב (Released indicator 'R', In-work, Locked) ומעברים מותרים. סטטוס נושא הרשאות: שינוי-מקור, יצירת-גרסה, קישור-אובייקט. ב-DC20 מבצעים שינויי-סטטוס תפעוליים. הסטטוס נשמר ב-DRAW-DOKST. סטטוס 'Released' חוסם שינוי ומחייב גרסה חדשה לעדכון — ליבת ה-version control.",
           purposeHe: "לאכוף תהליך-אישור מבוקר: רק מסמך מאושר תקף לשימוש, ושינוי מחייב גרסה חדשה ומסלול-אישור מחדש — דרישת-רגולציה (GMP/ISO).",
           processExampleHe: "מפרט נוצר ב-Draft, נערך ל-In Work, נשלח ל-In Review, ולאחר אישור-QA מועבר ל-Released — נעול. עדכון עתידי מחייב גרסה 01 חדשה שתעבור שוב את המסלול.",
-          cbcHe: "ב-CBC ל-SOP סכימה Draft→Review→QA-Approved→Released; ה-Released נעול ומבוקר-ביקורת — בסיס לעמידה ב-GMP/ISO 9001 של מפעל-המילוי.",
+          scenarioHe: "בארגון ל-SOP סכימה Draft→Review→QA-Approved→Released; ה-Released נעול ומבוקר-ביקורת — בסיס לעמידה ב-GMP/ISO 9001 של מפעל-המילוי.",
           navHe: ["Cross-Application Components ► Document Management ► Control Data ► Define Document Status"],
           tables: ["DRAW", "TDWS", "TDWSP"],
           tcodes: ["DC20", "DC10", "CV02N"],
@@ -158,7 +158,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "בקונפיגורציה מסמנים לכל Document Type אילו Object Link keys מותרים — כל key מצביע על טבלת-אובייקט (MARA, MARC, EQUI, QMAT, PLKO, MAPL). הקישורים נשמרים ב-DRAD (Document↔Object). ניתן להגדיר Screen + מספר-Tab. ב-QM הקישור ל-QMAT (Inspection setup) ול-PLKO (Inspection plan) חיוני — הוא מזין מסמכי-עבודה ישירות לתהליך-הבדיקה.",
           purposeHe: "לחבר מסמכים להקשר העסקי שלהם — נגישות מיידית, מניעת-כפילות וודאות שעובד-הבדיקה רואה את המפרט/הנוהל הנכון ברגע-האמת.",
           processExampleHe: "מקשרים מפרט-איכות (DIR) ל-MARA של חומר-גלם; ב-MM03 ובתוצאות-הבדיקה (QE51N) המפרט נגיש בלחיצה, והבודק עובד מול הגרסה המאושרת.",
-          cbcHe: "ב-CBC: SPC↔MARA/QMAT (מפרט לחומר ולחומר-בדיקה), COA↔MCH1 (תעודה לאצווה), SOP↔EQUI (נוהל-תפעול לקו-מילוי).",
+          scenarioHe: "בארגון: SPC↔MARA/QMAT (מפרט לחומר ולחומר-בדיקה), COA↔MCH1 (תעודה לאצווה), SOP↔EQUI (נוהל-תפעול לקו-מילוי).",
           navHe: ["Cross-Application Components ► Document Management ► Control Data ► Define Object Links"],
           tables: ["DRAD", "TDWO", "MARA", "QMAT"],
           tcodes: ["DC10", "CV01N", "CV02N"],
@@ -181,7 +181,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "ב-Define Workstation Application מגדירים: שם-יישום (למשל PDF, DOC, XLS), נתיב/פקודה לתוכנה לכל פלטפורמה, סיומות-קובץ מותרות (TDWA/TDWD), ו-Storage Category (Content Repository) לאחסון KPro. משייכים יישומים מותרים ל-Document Type ב-DC10. ה-Originals נשמרים דרך ה-Content Server (transaction OAC0 / DC30 לבדיקה). הגדרה זו מנתקת את המסמך מנתיב-קובץ מקומי שביר.",
           purposeHe: "לאפשר פתיחה/עריכה אוטומטית של קבצי-מקור בתוכנה הנכונה, ולאחסנם מרכזית ב-Content Server במקום בכוננים מקומיים — אמינות, גיבוי ובקרה.",
           processExampleHe: "מגדירים יישום PDF→Acrobat עם Storage Category DMS_C1_CD1; מצרפים PDF ל-DIR ב-CV01N — הקובץ נשמר ב-Content Server, ולחיצה על Original פותחת Acrobat.",
-          cbcHe: "ב-CBC: PDF→Acrobat ל-SOP/COA, DOCX→Word לטיוטות, ו-CAD-app לשרטוטי-קווי-המילוי; הכול מאוחסן ב-Content Server של המפעל לגיבוי וביקורת.",
+          scenarioHe: "בארגון: PDF→Acrobat ל-SOP/COA, DOCX→Word לטיוטות, ו-CAD-app לשרטוטי-קווי-המילוי; הכול מאוחסן ב-Content Server של המפעל לגיבוי וביקורת.",
           navHe: ["Cross-Application Components ► Document Management ► General Data ► Define Workstation Application"],
           tables: ["TDWA", "TDWD", "TDWST"],
           tcodes: ["DC30", "OAC0", "DC10"],
@@ -211,8 +211,8 @@ export const CH20: TextbookChapter = {
         "לספק אובייקט-ניהול אחיד לכל מסמך — מטא-נתונים, מחזור-חיים, אחסון-מקור, סיווג וקישוריות — כך שמסמכים ינוהלו, יבוקרו וייחפשו כנתוני-אב לכל דבר.",
       processExampleHe:
         "יוצרים DIR ב-CV01N: בוחרים Type SPC, מקבלים מספר, מצרפים PDF כ-Original, מסווגים לפי מחלקת-מפרטים, מקשרים ל-MARA, ומעבירים ל-Released. מעתה המפרט נגיש, מבוקר וניתן-לחיפוש.",
-      cbcHe:
-        "ב-CBC כל מפרט-איכות, נוהל-בדיקה ותעודת-אנליזה הוא DIR מנוהל: Original ב-Content Server, מסווג לפי קטגוריית-מסמך, מקושר לחומר/אצווה ומבוקר-סטטוס לפי GMP.",
+      scenarioHe:
+        "בארגון כל מפרט-איכות, נוהל-בדיקה ותעודת-אנליזה הוא DIR מנוהל: Original ב-Content Server, מסווג לפי קטגוריית-מסמך, מקושר לחומר/אצווה ומבוקר-סטטוס לפי GMP.",
       navHe: [
         "Logistics ► Central Functions ► Document Management ► Document ► Create (CV01N)",
         "SAP Menu ► Cross-Application Functions ► Document Management System ► Document ► Create/Change/Display (CV01N/CV02N/CV03N)",
@@ -274,8 +274,8 @@ export const CH20: TextbookChapter = {
           beginnerHe: "ב-CV01N 'פותחים תיק' חדש למסמך: בוחרים את הקטגוריה (Type), נותנים תיאור, וה-SAP נותן מספר. בשלב זה התיק קיים — אחר-כך מצרפים אליו את הקובץ, מסווגים ומקשרים.",
           consultantHe: "ב-CV01N בוחרים DOKAR (Type); המספר נגזר מהטווח. ממלאים DOKVR (Version, ברירת-מחדל 00) ו-DOKTL (Part, 000). שדות-מטא: תיאור (DKTXT), מעבדה/מתכנן (LABOR), מפעל. ה-DIR נשמר ב-DRAW בסטטוס-התחלתי לפי הסכימה. רק לאחר-מכן מצרפים Originals ומבצעים Check-In ל-Content Server.",
           purposeHe: "לייצר את רשומת-הניהול שתעטוף ותבקר את המסמך — נקודת-הכניסה לכל שאר רכיבי ה-DIR.",
-          processExampleHe: "QA יוצר ב-CV01N DIR מסוג SPC, תיאור 'מפרט תרכיז-קולה', מקבל מספר 20000123, גרסה 00, חלק 000 — מוכן לצירוף ה-PDF.",
-          cbcHe: "ב-CBC כל מפרט/נוהל חדש מתחיל ב-CV01N תחת Type ייעודי, עם תיאור עברי ושיוך-מעבדה — בסיס למחזור-החיים המבוקר.",
+          processExampleHe: "QA יוצר ב-CV01N DIR מסוג SPC, תיאור 'מפרט תרכיז-מוגז', מקבל מספר 20000123, גרסה 00, חלק 000 — מוכן לצירוף ה-PDF.",
+          scenarioHe: "בארגון כל מפרט/נוהל חדש מתחיל ב-CV01N תחת Type ייעודי, עם תיאור עברי ושיוך-מעבדה — בסיס למחזור-החיים המבוקר.",
           navHe: ["SAP Menu ► Cross-Application Functions ► Document Management System ► Document ► Create (CV01N)"],
           tables: ["DRAW", "TDWA"],
           tcodes: ["CV01N"],
@@ -294,7 +294,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "צירוף-Original מבצע Check-In ל-Content Repository (Storage Category). מבחינים בין Check-In (העלאה ל-KPro) ל-Check-Out (משיכה לעריכה). DIR תומך ב-Original 1 (מקור) ו-Original 2 (נוסף). הקובץ נשמר ב-DMS_PH_CD1/Content Server ולא ב-DRAW. Workstation Application קובע איך ייפתח. ב-S/4HANA ניתן גם Drag-and-drop דרך ה-Fiori app.",
           purposeHe: "לאחסן את התוכן הפיזי באופן מבוקר, מגובה ומרכזי — מנותק מכוננים מקומיים שבירים — ולפתוח אותו אוטומטית בתוכנה הנכונה.",
           processExampleHe: "ב-CV01N מצרפים PDF של המפרט; המערכת מבצעת Check-In ל-Content Server; לחיצה על ה-Original פותחת Acrobat. לעריכה — Check-Out, שינוי, Check-In חוזר.",
-          cbcHe: "ב-CBC ה-Originals (SOP/COA כ-PDF) נשמרים ב-Content Server של המפעל; Check-Out/In מבטיח שרק עותק-עבודה אחד נערך בכל רגע — בקרת-גרסה ברמת-הקובץ.",
+          scenarioHe: "בארגון ה-Originals (SOP/COA כ-PDF) נשמרים ב-Content Server של המפעל; Check-Out/In מבטיח שרק עותק-עבודה אחד נערך בכל רגע — בקרת-גרסה ברמת-הקובץ.",
           navHe: ["SAP Menu ► DMS ► Document ► Create/Change ► Originals (CV01N/CV02N)"],
           tables: ["DRAW", "DMS_PH_CD1", "TOAOM"],
           tcodes: ["CV01N", "CV02N", "CV03N"],
@@ -316,7 +316,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "סיווג-DMS משתמש ב-Class Type 017. יוצרים Class (CL02) עם Characteristics (CT04), ומקצים ל-DIR ב-CV02N לשונית Classification. הערכים נשמרים ב-AUSP/KSSK. 'נתונים-נוספים' כוללים שדות-DRAW נוספים (תיאור-טכני, מעבדה, סטטוס-תוקף). שילוב סיווג + Object Links הופך את ה-DIR לחיפושי-לחלוטין דרך CV04N.",
           purposeHe: "לאפשר חיפוש-מאפיינים מובנה (לא רק לפי מספר), סינון, ובקרה לפי תכונות-תוכן — קריטי בארכיון-מסמכים גדול.",
           processExampleHe: "מסווגים מפרט עם Characteristics: קטגוריה=Spec, אלרגן=No, תוקף=2027; ב-CV04N מחפשים 'כל המפרטים בתוקף ל-2027' ומקבלים רשימה ממוקדת.",
-          cbcHe: "ב-CBC מסווגים מסמכים לפי קטגוריה (SOP/Spec/COA), קו-מילוי, מצב-אלרגן ותאריך-תוקף — מאפשר ל-QA למצוא מיידית את כל המפרטים של קו מסוים.",
+          scenarioHe: "בארגון מסווגים מסמכים לפי קטגוריה (SOP/Spec/COA), קו-מילוי, מצב-אלרגן ותאריך-תוקף — מאפשר ל-QA למצוא מיידית את כל המפרטים של קו מסוים.",
           navHe: ["SAP Menu ► DMS ► Document ► Change ► Classification (CV02N)", "Cross-Application Components ► Classification System ► Classes (CL02, class type 017)"],
           tables: ["AUSP", "KSSK", "KLAH", "DRAW"],
           tcodes: ["CV02N", "CL02", "CT04", "CL24N"],
@@ -339,7 +339,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "ב-CV02N לשונית Object Links מזינים את מפתח-האובייקט (Material, Equipment, QMAT…) שהותר ב-DC10. הרשומה נשמרת ב-DRAD עם DOKAR/DOKNR/OBJKY. ניתן לקשר DIR יחיד למספר אובייקטים ולהיפך. ב-QM הקישור ל-QMAT/PLKO מזין מסמכים ישירות לתהליך-הבדיקה; הקישור לאצווה (MCH1) מצרף תעודות. הקישור דו-כיווני — נגיש גם מהאובייקט.",
           purposeHe: "ליצור את החיבור התפעולי בפועל בין מסמך לאובייקט — נגישות-בהקשר, מניעת-כפילות והבטחת-שימוש בגרסה הנכונה.",
           processExampleHe: "ב-CV02N מקשרים DIR-מפרט ל-Material 100123; ב-MM03 לשונית Documents המפרט גלוי, וב-QE51N הבודק פותח אותו ישירות.",
-          cbcHe: "ב-CBC מקשרים COA לאצוות-תוצרת, SPC לחומר-הגלם ו-SOP לקו-המילוי — כל אובייקט-עבודה חושף את מסמכיו הרלוונטיים.",
+          scenarioHe: "בארגון מקשרים COA לאצוות-תוצרת, SPC לחומר-הגלם ו-SOP לקו-המילוי — כל אובייקט-עבודה חושף את מסמכיו הרלוונטיים.",
           navHe: ["SAP Menu ► DMS ► Document ► Change ► Object Links (CV02N)"],
           tables: ["DRAD", "MARA", "QMAT", "MCH1"],
           tcodes: ["CV01N", "CV02N", "CV03N"],
@@ -366,8 +366,8 @@ export const CH20: TextbookChapter = {
         "לאפשר תחזוקת-מסמכים מבוקרת לאורך מחזור-החיים — עדכון מטא, התקדמות-סטטוס וניהול-מקור — תוך שמירה על עקבות-ביקורת ו-version control.",
       processExampleHe:
         "QA פותח מפרט ב-CV02N, מעדכן תיאור ומעביר מ-In Review ל-Released. בעת ניסיון לשנות PDF של מסמך-Released המערכת חוסמת ומפנה ליצירת גרסה חדשה (CV02N ► New Version).",
-      cbcHe:
-        "ב-CBC עדכון SOP מבוקר: שינויים קלים (מטא) ב-CV02N תוך In-Work; שינוי-תוכן מהותי מחייב גרסה חדשה + מסלול-אישור-QA — הכול מתועד ל-GMP audit trail.",
+      scenarioHe:
+        "בארגון עדכון SOP מבוקר: שינויים קלים (מטא) ב-CV02N תוך In-Work; שינוי-תוכן מהותי מחייב גרסה חדשה + מסלול-אישור-QA — הכול מתועד ל-GMP audit trail.",
       navHe: [
         "SAP Menu ► Cross-Application Functions ► DMS ► Document ► Change (CV02N)",
       ],
@@ -432,8 +432,8 @@ export const CH20: TextbookChapter = {
         "לספק גישת-קריאה בטוחה ומבוקרת למסמכים מאושרים — מניעת-שינוי-בטעות, ואכיפת-עבודה מול הגרסה הנכונה והמשוחררת.",
       processExampleHe:
         "עובד-קו פותח ב-CV03N את ה-SOP המאושר, קורא את ה-PDF, ומאמת שזו הגרסה האחרונה (Released) — בלי יכולת-עריכה.",
-      cbcHe:
-        "ב-CBC עובדי-קו וצוות-QA קוראים SOPים ומפרטים ב-CV03N (או דרך הקישור מהאובייקט) — תמיד תצוגה-בלבד של הגרסה המאושרת, מניעת-עריכה ברצפה.",
+      scenarioHe:
+        "בארגון עובדי-קו וצוות-QA קוראים SOPים ומפרטים ב-CV03N (או דרך הקישור מהאובייקט) — תמיד תצוגה-בלבד של הגרסה המאושרת, מניעת-עריכה ברצפה.",
       navHe: [
         "SAP Menu ► Cross-Application Functions ► DMS ► Document ► Display (CV03N)",
       ],
@@ -487,8 +487,8 @@ export const CH20: TextbookChapter = {
         "לאפשר עקיבות-שינויים מלאה (כל גרסה נשמרת) ולנהל מסמכים מורכבים (חלקים) — בסיס ל-version control רגולטורי ולשליטה במסמכי-איכות.",
       processExampleHe:
         "מפרט בגרסה 00 (Released) מעודכן: נוצרת גרסה 01 הממשיכה מ-Draft, עוברת אישור ל-Released, וגרסה 00 הופכת היסטורית. מסמך-תיעוד גדול מחולק ל-Part 000 ו-Part 001.",
-      cbcHe:
-        "ב-CBC כל עדכון-SOP מנוהל כגרסה חדשה (audit trail מלא ל-GMP); תיק-ולידציה גדול מחולק ל-Parts (פרוטוקול, תוצאות, אישורים) תחת מספר-מסמך אחד.",
+      scenarioHe:
+        "בארגון כל עדכון-SOP מנוהל כגרסה חדשה (audit trail מלא ל-GMP); תיק-ולידציה גדול מחולק ל-Parts (פרוטוקול, תוצאות, אישורים) תחת מספר-מסמך אחד.",
       navHe: [
         "SAP Menu ► DMS ► Document ► Change ► Create New Version (CV02N)",
         "SAP Menu ► DMS ► Document ► Create ► New Part (CV01N)",
@@ -548,7 +548,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "ב-CV02N ► New Version נוצרת רשומה חדשה עם DOKVR מוגדל (לפי Version assignment ב-DC10). היא יורשת מטא, סיווג ו-Originals, ומתחילה בסטטוס-התחלתי. עם שחרורה, הגרסה הקודמת מאבדת את מעמד-ה-Released (לפי הסכימה). זהו המנגנון לעדכון מסמכי-Released הנעולים.",
           purposeHe: "לעדכן מסמך מאושר תוך שמירת audit trail מלא — מאפשר מעקב 'מה השתנה ומתי' ועמידה ברגולציה.",
           processExampleHe: "מפרט גרסה 00 Released מעודכן: CV02N ► New Version יוצר גרסה 01 (Draft) היורשת את ה-PDF; מעדכנים, מאשרים ל-Released, וגרסה 00 הופכת היסטורית.",
-          cbcHe: "ב-CBC כל שינוי-מתכון/אלרגן ב-SOP יוצר גרסה חדשה עם מסלול-אישור-QA; ההיסטוריה משרתת ביקורות-GMP ושחזור 'מה ייצרנו לפי איזו גרסה'.",
+          scenarioHe: "בארגון כל שינוי-מתכון/אלרגן ב-SOP יוצר גרסה חדשה עם מסלול-אישור-QA; ההיסטוריה משרתת ביקורות-GMP ושחזור 'מה ייצרנו לפי איזו גרסה'.",
           navHe: ["SAP Menu ► DMS ► Document ► Change ► Create New Version (CV02N)"],
           tables: ["DRAW", "DRAP"],
           tcodes: ["CV02N", "CV03N"],
@@ -567,7 +567,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "ב-CV01N מזינים Part (DOKTL) חדש תחת DOKNR קיים. כל Part הוא רשומת-DRAW עצמאית עם Originals, סטטוס וגרסאות. שונה מ-Version: Part = חלוקה-מבנית (מקבילה), Version = מהדורה-עוקבת (זמנית). שימושי בתיקי-ולידציה, מדריכים-טכניים ומסמכים מודולריים.",
           purposeHe: "לנהל מסמכים מורכבים-מודולריים כיחידות-משנה עצמאיות תחת זהות-משותפת — בלי לכפות מסמך-ענק יחיד.",
           processExampleHe: "תיק-ולידציה DOKNR 30000050: Part 000 = פרוטוקול, Part 001 = תוצאות, Part 002 = אישורים — כל אחד עם Original וסטטוס משלו.",
-          cbcHe: "ב-CBC תיק-ולידציית-קו מחולק ל-Parts (IQ/OQ/PQ); כל Part מאושר בנפרד אך משתייך לתיק-העל של הקו.",
+          scenarioHe: "בארגון תיק-ולידציית-קו מחולק ל-Parts (IQ/OQ/PQ); כל Part מאושר בנפרד אך משתייך לתיק-העל של הקו.",
           navHe: ["SAP Menu ► DMS ► Document ► Create ► New Part (CV01N)"],
           tables: ["DRAW", "DRAP"],
           tcodes: ["CV01N", "CV02N"],
@@ -594,8 +594,8 @@ export const CH20: TextbookChapter = {
         "לאפשר איתור מהיר ומדויק של מסמכים מתוך ארכיון גדול — לפי כל ממד (מטא, תוכן, הקשר) — תנאי ל-DMS שמיש ולעמידה בדרישות-נגישות-מסמכים.",
       processExampleHe:
         "QA מחפש ב-CV04N את כל המפרטים מסוג SPC בסטטוס Released המקושרים לחומר 100123; משלב Object Link + Status ומקבל רשימה ממוקדת לפתיחה.",
-      cbcHe:
-        "ב-CBC חיפוש נפוץ: 'כל ה-COA של אצווה X' (Object Link↔MCH1), 'כל ה-SOP של קו-מילוי Y' (Object Link↔EQUI), ו-Full-text 'אלרגן' על-פני כל המפרטים.",
+      scenarioHe:
+        "בארגון חיפוש נפוץ: 'כל ה-COA של אצווה X' (Object Link↔MCH1), 'כל ה-SOP של קו-מילוי Y' (Object Link↔EQUI), ו-Full-text 'אלרגן' על-פני כל המפרטים.",
       navHe: [
         "SAP Menu ► Cross-Application Functions ► DMS ► Document ► Find (CV04N)",
       ],
@@ -650,7 +650,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "CV04N מארגן את החיפוש בלשוניות/בלוקים: Basic data, Additional data/Classification, Object links, Texts, Originals, Full-text. כל בלוק שולח שאילתה לטבלה אחרת (DRAW/AUSP/DRAD/DRAT). שילוב-בלוקים מבצע AND. הבנת מקור-הנתונים של כל בלוק מסבירה למה חיפוש מסוים מצליח/נכשל (למשל Full-text תלוי-אינדוקס).",
           purposeHe: "להבין את ארגז-הכלים של החיפוש כדי לבחור את הממד היעיל ביותר לכל מצב — לפי מה שידוע על המסמך.",
           processExampleHe: "מי שיודע את מספר-החומר ישתמש ב-Object Links; מי שיודע מילה בתוכן ישתמש ב-Full-text; מי שיודע קטגוריה ישתמש בסיווג.",
-          cbcHe: "ב-CBC צוות-QA לרוב יודע את האצווה/החומר → בוחר חיפוש-Object-Link; מבקר חיצוני יודע מילת-מפתח → Full-text.",
+          scenarioHe: "בארגון צוות-QA לרוב יודע את האצווה/החומר → בוחר חיפוש-Object-Link; מבקר חיצוני יודע מילת-מפתח → Full-text.",
           navHe: ["SAP Menu ► DMS ► Document ► Find (CV04N) — Search Options"],
           tables: ["DRAW", "DRAD", "DRAT", "AUSP"],
           tcodes: ["CV04N"],
@@ -669,7 +669,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "הבלוק שולח שאילתה ישירות ל-DRAW. שדות-מפתח: DOKAR (Type), DOKNR (Number), DKTXT (Description, תומך wildcards), DOKST (Status), DOKVR/DOKTL. סינון-Status (Released בלבד) נפוץ. זהו החיפוש המהיר ביותר כי הוא על מפתח/אינדקס DRAW ללא join.",
           purposeHe: "לאתר מסמכים במהירות לפי מזהה או מטא-נתון-כותרת — הדרך הישירה כשיודעים מספר/תיאור/סוג.",
           processExampleHe: "מחפשים Description='*תרכיז*' עם Type=SPC ו-Status=Released → רשימת כל מפרטי-התרכיז המאושרים.",
-          cbcHe: "ב-CBC חיפוש-בסיס נפוץ: כל מסמכי Type=SOP בסטטוס Released — לרשימת-נהלים-מאושרת.",
+          scenarioHe: "בארגון חיפוש-בסיס נפוץ: כל מסמכי Type=SOP בסטטוס Released — לרשימת-נהלים-מאושרת.",
           navHe: ["SAP Menu ► DMS ► Document ► Find (CV04N) — Basic data"],
           tables: ["DRAW"],
           tcodes: ["CV04N"],
@@ -688,7 +688,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "הבלוק מבצע חיפוש-מאפיינים מול AUSP/KSSK ב-class type 017. בוחרים Class ומזינים ערכי-Characteristics (CT04). תומך טווחים ותנאים. תלוי לחלוטין באיכות-הסיווג — DIR לא-מסווג לא יימצא. שילוב עם Basic/Object-link מחזק. זהו מנגנון-החיפוש הסמנטי של ה-DMS.",
           purposeHe: "לאתר מסמכים לפי תכונות-תוכן מובנות (לא רק מזהה) — סינון רב-ממדי המבוסס על הסיווג שהוקצה.",
           processExampleHe: "מחפשים class 'QMS_DOCS' עם Characteristic 'אלרגן=כן' ו-'תוקף<2026' → רשימת מפרטים-מכילי-אלרגן שתוקפם פג.",
-          cbcHe: "ב-CBC חיפוש 'כל המפרטים של קו-מילוי 3 בקטגוריה SPC' לפי Characteristics — מאפשר ל-QA סקירת-קו מהירה.",
+          scenarioHe: "בארגון חיפוש 'כל המפרטים של קו-מילוי 3 בקטגוריה SPC' לפי Characteristics — מאפשר ל-QA סקירת-קו מהירה.",
           navHe: ["SAP Menu ► DMS ► Document ► Find (CV04N) — Classification", "CL30N (Find objects in classes, class type 017)"],
           tables: ["AUSP", "KSSK", "KLAH"],
           tcodes: ["CV04N", "CL30N", "CT04"],
@@ -708,7 +708,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "הבלוק שולח שאילתה ל-DRAD לפי OBJKY (מפתח-האובייקט) וסוג-הקישור. מזינים אובייקט (Material/Batch/Equipment/QMAT) ומקבלים את כל ה-DIRים המקושרים. זהו ה-reverse של ה-Object Link — מ-DRAD ל-DRAW. ב-QM נפוץ למצוא מפרטים-לחומר ותעודות-לאצווה. ניתן גם מתוך האובייקט עצמו (MM03/MSC3N לשונית Documents).",
           purposeHe: "לאתר מסמכים מתוך ההקשר העסקי — הדרך המהירה לקבל את כל התיעוד הרלוונטי לחומר/אצווה/ציוד.",
           processExampleHe: "מחפשים Object Link: Material=100123 → רשימת כל המפרטים, הנהלים והשרטוטים המקושרים; פותחים את המפרט-המאושר ב-CV03N.",
-          cbcHe: "ב-CBC 'הראה את כל ה-COA של אצווה X' (Object Link↔MCH1) ו-'כל ה-SOP של קו Y' (↔EQUI) — השאילתות היומיומיות של QA.",
+          scenarioHe: "בארגון 'הראה את כל ה-COA של אצווה X' (Object Link↔MCH1) ו-'כל ה-SOP של קו Y' (↔EQUI) — השאילתות היומיומיות של QA.",
           navHe: ["SAP Menu ► DMS ► Document ► Find (CV04N) — Object Links"],
           tables: ["DRAD", "DRAW", "MARA", "MCH1"],
           tcodes: ["CV04N", "CV03N"],
@@ -727,7 +727,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "הבלוק מחפש ב-DRAT (Document texts) — תיאור (DKTXT) וטקסט-ארוך תלוי-שפה (SPRAS). תומך wildcards. שונה מ-Full-text שמחפש בתוכן ה-Original. חיפוש-טקסט מהיר (טבלאי) אך מוגבל למטא-הטקסט שהוזן. ריבוי-שפות נתמך דרך SPRAS — חשוב בארגון רב-לשוני.",
           purposeHe: "לאתר מסמכים לפי ניסוח-טקסט שהוזן עליהם (תיאור/הערות) — גשר כשלא יודעים מזהה אך זוכרים מילים.",
           processExampleHe: "מחפשים Long text המכיל 'pH' → כל המסמכים שבהערותיהם נזכר pH; מצמצמים עם Type לרשימה ממוקדת.",
-          cbcHe: "ב-CBC חיפוש טקסט-ארוך 'שינוי-מתכון' מאתר נהלים שתוארו ככאלה; חיפוש דו-לשוני (עברית/אנגלית) דרך SPRAS.",
+          scenarioHe: "בארגון חיפוש טקסט-ארוך 'שינוי-מתכון' מאתר נהלים שתוארו ככאלה; חיפוש דו-לשוני (עברית/אנגלית) דרך SPRAS.",
           navHe: ["SAP Menu ► DMS ► Document ► Find (CV04N) — Texts / Long text"],
           tables: ["DRAT", "DRAW"],
           tcodes: ["CV04N"],
@@ -746,7 +746,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "הבלוק מחפש לפי מאפייני-Original: Workstation Application (סיומת), שם-קובץ, וקיום/היעדר Original. מאפשר ניהול-איכות — איתור DIRים ללא Original (תיקים-ריקים) או מסוג-יישום מסוים (כל ה-CAD). הנתונים יושבים בטבלאות-קישור-ה-Original ובקטלוג ה-Content Server.",
           purposeHe: "לאתר מסמכים לפי מאפייני קובץ-המקור — לניהול-איכות, לאיתור-תיקים-ריקים, ולסינון לפי סוג-קובץ/יישום.",
           processExampleHe: "מחפשים DIRים מ-Workstation App=CAD → כל השרטוטים; או DIRים ללא Original → תיקים-ריקים לתיקון.",
-          cbcHe: "ב-CBC ביקורת-איכות-נתונים: 'מצא SOPים ללא Original' (תיקים-ריקים) — מבטיח שכל נוהל-מאושר נושא קובץ בפועל.",
+          scenarioHe: "בארגון ביקורת-איכות-נתונים: 'מצא SOPים ללא Original' (תיקים-ריקים) — מבטיח שכל נוהל-מאושר נושא קובץ בפועל.",
           navHe: ["SAP Menu ► DMS ► Document ► Find (CV04N) — Originals"],
           tables: ["DRAW", "DMS_PH_CD1", "TOAOM"],
           tcodes: ["CV04N"],
@@ -765,7 +765,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "Full-text דורש מנוע-חיפוש מאונדקס — TREX ב-ECC, Embedded Search/ESH ב-S/4HANA. המנוע מאנדקס את תוכן ה-Originals (אחרי Check-In), ומאפשר חיפוש-מילים, ביטויים ו-relevance. ללא אינדוקס פעיל החיפוש לא יחזיר דבר. רגיש לפורמט (קבצים-סרוקים דורשים OCR). ב-S/4HANA אינטגרציה עם Enterprise Search משפרת ביצועים.",
           purposeHe: "לאתר מסמכים לפי תוכנם בפועל (לא רק מטא) — חיוני כשמחפשים מונח/ערך שמופיע בגוף-המסמך ולא בשדות.",
           processExampleHe: "מחפשים Full-text 'benzoate' → כל המפרטים שבתוכנם מופיע benzoate, גם אם לא בתיאור; פותחים ב-CV03N.",
-          cbcHe: "ב-CBC ביקורת מחפשת Full-text 'אלרגן'/'allergen' על-פני כל המפרטים — מאתרת מיידית כל מסמך שמזכיר אלרגן בתוכנו, גם ללא סיווג.",
+          scenarioHe: "בארגון ביקורת מחפשת Full-text 'אלרגן'/'allergen' על-פני כל המפרטים — מאתרת מיידית כל מסמך שמזכיר אלרגן בתוכנו, גם ללא סיווג.",
           navHe: ["SAP Menu ► DMS ► Document ► Find (CV04N) — Full text", "Embedded Search / Enterprise Search (ESH_COCKPIT)"],
           tables: ["DRAW", "DMS_PH_CD1"],
           tcodes: ["CV04N", "ESH_COCKPIT"],
@@ -804,8 +804,8 @@ export const CH20: TextbookChapter = {
         "לקרב את ניהול-המסמכים למשתמש-הקצה דרך ממשק-Fiori אינטואיטיבי — להגביר אימוץ, להפחית הדרכה ולפשט יצירה/עריכה/חיפוש יומיומיים.",
       processExampleHe:
         "QA פותח את 'Manage Documents', יוצר DIR מסוג SPC, גורר PDF פנימה, ממלא תיאור, מקשר לחומר ומשחרר — הכול בדפדפן בלי GUI.",
-      cbcHe:
-        "ב-CBC צוות-QA המבוזר משתמש ב-'Manage Documents' להעלאת COA ועדכון-SOP מהדפדפן; קוראי-רצפה ניגשים למסמכים-מאושרים דרך אריחי-Fiori — אימוץ רחב יותר מה-GUI.",
+      scenarioHe:
+        "בארגון צוות-QA המבוזר משתמש ב-'Manage Documents' להעלאת COA ועדכון-SOP מהדפדפן; קוראי-רצפה ניגשים למסמכים-מאושרים דרך אריחי-Fiori — אימוץ רחב יותר מה-GUI.",
       navHe: [
         "Fiori Launchpad ► Quality Management / Document Management ► Manage Documents",
         "Fiori Launchpad ► tile 'Manage Documents' (app F1827)",
@@ -860,7 +860,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "מצב-העריכה ב-App טוען את ה-DRAW לעדכון. הוא מכבד את סכימת-הסטטוס (DC20): Released נעול ומחייב גרסה חדשה. החלפת-Original מבצעת Check-Out/In מול Content Server. שינויי-קישור מתעדכנים ב-DRAD. שינויים מתועדים ב-Change Documents אם מופעל. ה-UX מפשט אך הלוגיקה זהה ל-CV02N.",
           purposeHe: "לאפשר תחזוקת-מסמכים יומיומית בדפדפן — עדכון-מטא, החלפת-מקור והתקדמות-סטטוס — בנוחות ובבקרה זהה ל-GUI.",
           processExampleHe: "QA פותח SOP ב-App, מעדכן תיאור, גורר PDF-מעודכן, ומעביר ל-Released; מסמך-נעול מפנה ליצירת-גרסה.",
-          cbcHe: "ב-CBC עדכוני-COA יומיים נעשים ב-App (Drag-and-drop של תעודה-חדשה); עדכוני-SOP מהותיים פותחים גרסה חדשה עם אישור-QA.",
+          scenarioHe: "בארגון עדכוני-COA יומיים נעשים ב-App (Drag-and-drop של תעודה-חדשה); עדכוני-SOP מהותיים פותחים גרסה חדשה עם אישור-QA.",
           navHe: ["Fiori Launchpad ► Manage Documents ► Edit"],
           tables: ["DRAW", "DRAD", "CDPOS"],
           tcodes: ["CV02N"],
@@ -879,7 +879,7 @@ export const CH20: TextbookChapter = {
           consultantHe: "ה-App יוצר DIR ב-DRAW עם Type+Number (לפי Number assignment), מבצע Check-In ל-Content Server דרך Drag-and-drop, ומאפשר סיווג (class 017) וקישור (DRAD) באותו זרם. הוא מכבד Field selection וסטטוס-התחלתי מ-DC10/DC20. ה-OData service מבצע את אותן בדיקות-תקינות כמו ה-GUI. מתאים ליצירה-מהירה למשתמשי-עסק.",
           purposeHe: "לאפשר יצירת-מסמכים מהירה ונגישה למשתמשי-עסק בדפדפן — להגביר אימוץ ולהאיץ הזנת-מסמכים יומיומית.",
           processExampleHe: "עובד-QA לוחץ Create, בוחר Type COA, גורר PDF-תעודה, מקשר לאצווה ומשחרר — DIR נוצר ומקושר בדקה.",
-          cbcHe: "ב-CBC העלאת-COA יומית של אצוות-תוצרת נעשית ב-App: Create→Drag PDF→Link batch→Release — זרם-עבודה מהיר ל-QA.",
+          scenarioHe: "בארגון העלאת-COA יומית של אצוות-תוצרת נעשית ב-App: Create→Drag PDF→Link batch→Release — זרם-עבודה מהיר ל-QA.",
           navHe: ["Fiori Launchpad ► Manage Documents ► Create"],
           tables: ["DRAW", "DRAD", "AUSP"],
           tcodes: ["CV01N"],
@@ -906,8 +906,8 @@ export const CH20: TextbookChapter = {
         "להבטיח שכל שלב בתהליך-האיכות נשען על המסמך הנכון, המאושר והעדכני — מתכנון-בדיקה ועד שחרור-אצווה — ולספק תיעוד-מלא ועקיב לכל אצווה ובדיקה.",
       processExampleHe:
         "תוכנית-בדיקה מקשרת נוהל-שיטה (DIR) לפעולת-בדיקה; בעת רישום-תוצאות (QE51N) הבודק פותח את הנוהל ישירות; עם החלטת-השימוש, מופק COA המקושר לאצווה (MCH1) ומשולב מ-DMS.",
-      cbcHe:
-        "ב-CBC: מפרט-תרכיז (SPC) מקושר ל-QMAT ול-Inspection plan; נוהל-דגימה (SOP) מקושר לפעולת-הבדיקה; ועם שחרור-אצוות-מילוי מופק COA (DIR) המקושר לאצווה — תיעוד-מלא ל-GMP מקצה-לקצה.",
+      scenarioHe:
+        "בארגון: מפרט-תרכיז (SPC) מקושר ל-QMAT ול-Inspection plan; נוהל-דגימה (SOP) מקושר לפעולת-הבדיקה; ועם שחרור-אצוות-מילוי מופק COA (DIR) המקושר לאצווה — תיעוד-מלא ל-GMP מקצה-לקצה.",
       navHe: [
         "Logistics ► Quality Management ► Quality Planning ► Inspection Planning ► Inspection Plan ► Create (QP01) ► Object Links",
         "Logistics ► Quality Management ► Quality Certificates ► Output ► For Inspection Lot/Delivery",
@@ -977,8 +977,8 @@ export const CH20: TextbookChapter = {
         "לגבש את התמונה המלאה — מקונפיגורציה, דרך ניהול-מחזור-חיים, חיפוש ואינטגרציה — לכלל יכולת-מימוש מקצה-לקצה של DMS בהקשר QM.",
       processExampleHe:
         "מסע מלא: הגדרת Document Type → יצירת DIR עם Original → סיווג וקישור → אישור (Released) → עדכון דרך גרסה → חיפוש (Object Link/Full-text) → קישור לתוכנית-בדיקה → הפקת COA לאצווה. כל הפרק ביישום אחד.",
-      cbcHe:
-        "ב-CBC ה-DMS מנהל את כל בקרת-המסמכים: SOPים מבוקרי-גרסה ומאושרי-QA, מפרטים מקושרי-חומר, ותעודות-אנליזה מקושרות-אצווה — תשתית-החובה לעמידה ב-GMP ו-ISO 9001 של מערך-המילוי.",
+      scenarioHe:
+        "בארגון ה-DMS מנהל את כל בקרת-המסמכים: SOPים מבוקרי-גרסה ומאושרי-QA, מפרטים מקושרי-חומר, ותעודות-אנליזה מקושרות-אצווה — תשתית-החובה לעמידה ב-GMP ו-ISO 9001 של מערך-המילוי.",
       navHe: [
         "Cross-Application Components ► Document Management (כל ההגדרות)",
         "SAP Menu ► DMS ► Document ► Create/Change/Display/Find (CV01N–CV04N)",

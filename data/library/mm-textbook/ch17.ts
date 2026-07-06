@@ -1,8 +1,8 @@
 // ===== MM Digital Textbook — Chapter 17 (Academy Template, validated) =====
 // Customizing the User Interface — every node is a complete LearningNode with
 // 18 facets of authored Hebrew (beginner + consultant friendly). Hierarchy and
-// ids preserved from source; SAP identifiers verbatim English. CBC context =
-// Coca-Cola bottling procurement users on the SAP Fiori launchpad.
+// ids preserved from source; SAP identifiers verbatim English. הארגון context =
+// Example Product bottling procurement users on the SAP Fiori launchpad.
 import type { TextbookChapter } from "./types";
 
 export const CH17: TextbookChapter = {
@@ -10,7 +10,7 @@ export const CH17: TextbookChapter = {
   titleHe: "התאמת ממשק-המשתמש",
   titleEn: "Customizing the User Interface",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה להתאמת ממשק-המשתמש ב-SAP S/4HANA עבור משתמשי הרכש. כל תת-פרק וכל תת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הפרק מכסה את האפשרויות SAP Fiori מול SAP GUI, את התקנת ה-SAP Fiori launchpad בשתי תצורות פריסה (embedded ו-central hub), את ה-Fiori Apps Reference Library, ואת ההתאמה האישית דרך edit mode והגדרות-המשתמש. המטרה: לדעת להעמיד ולהתאים launchpad תקין למשתמשי הרכש ב-CBC ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה להתאמת ממשק-המשתמש ב-SAP S/4HANA עבור משתמשי הרכש. כל תת-פרק וכל תת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הפרק מכסה את האפשרויות SAP Fiori מול SAP GUI, את התקנת ה-SAP Fiori launchpad בשתי תצורות פריסה (embedded ו-central hub), את ה-Fiori Apps Reference Library, ואת ההתאמה האישית דרך edit mode והגדרות-המשתמש. המטרה: לדעת להעמיד ולהתאים launchpad תקין למשתמשי הרכש בארגון ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 17.1
     {
@@ -27,8 +27,8 @@ export const CH17: TextbookChapter = {
         "המטרה: לתת לכל תפקיד את הממשק היעיל ביותר למשימותיו — Fiori למשימות תפעוליות יומיומיות ול-analytics, GUI לטרנזקציות-עומק וקונפיגורציה — תוך שמירה על נקודת-כניסה אחת, אבטחה role-based ועקביות חוצת-ארגון.",
       processExampleHe:
         "קניין נכנס בבוקר ל-SAP Fiori launchpad בדפדפן, רואה אריחי 'Manage Purchase Orders', 'Monitor Purchase Order Items' ו-KPI של הזמנות-פתוחות. לעריכת-תנאי-מחיר מורכבת הוא לוחץ אריח שעוטף את טרנזקציית ME31K הקלאסית — וה-GUI נפתח בתוך אותו launchpad, ללא login נוסף.",
-      cbcHe:
-        "ב-CBC קנייני התרכיז, הסוכר וחומרי-האריזה עובדים יומיומית ב-SAP Fiori launchpad: אריחי ניהול הזמנות-רכש ומעקב-אספקה. צוות ה-master data והקונפיגורציה ממשיך ב-SAP GUI לטרנזקציות-עומק. שני הקהלים מתחברים לאותו S/4HANA.",
+      scenarioHe:
+        "בארגון קנייני התרכיז, הסוכר וחומרי-האריזה עובדים יומיומית ב-SAP Fiori launchpad: אריחי ניהול הזמנות-רכש ומעקב-אספקה. צוות ה-master data והקונפיגורציה ממשיך ב-SAP GUI לטרנזקציות-עומק. שני הקהלים מתחברים לאותו S/4HANA.",
       navHe: [
         "SAP Fiori launchpad ► Browser URL: https://<host>/sap/bc/ui2/flp",
         "SAP GUI ► SAP Logon ► בחירת מערכת ► קוד-טרנזקציה (למשל ME21N)",
@@ -92,8 +92,8 @@ export const CH17: TextbookChapter = {
             "לספק חוויית-משתמש ממוקדת-משימה, אחידה ונגישה מכל מכשיר, המפחיתה הדרכה ושגיאות ומבליטה את הפעולות הרלוונטיות לכל תפקיד.",
           processExampleHe:
             "קניין פותח אריח 'Manage Purchase Orders', מסנן לפי ספק, פותח הזמנה, מעדכן כמות ושומר — הכל באפליקציה אחת responsive, ללא קוד-טרנזקציה וללא ניווט בין מסכי-Dynpro.",
-          cbcHe:
-            "ב-CBC צוות-הרכש מקבל Business Role 'Buyer' עם space/page ובו אריחי ניהול-הזמנות, מעקב-אספקה ו-KPI של הזמנות-באיחור — חוויה אחת לתרכיז, סוכר ואריזה.",
+          scenarioHe:
+            "בארגון צוות-הרכש מקבל Business Role 'Buyer' עם space/page ובו אריחי ניהול-הזמנות, מעקב-אספקה ו-KPI של הזמנות-באיחור — חוויה אחת לתרכיז, סוכר ואריזה.",
           navHe: [
             "SAP NetWeaver ► UI Technologies ► SAP Fiori ► Overview",
             "SAP Fiori launchpad ► User menu ► App Finder (לגילוי אריחים מותרים)",
@@ -142,8 +142,8 @@ export const CH17: TextbookChapter = {
             "לשמר גישה לכל רוחב הפונקציונליות הקלאסית — קונפיגורציה, טרנזקציות-עומק ופעולות ללא אפליקציית-Fiori — מתוך נקודת-כניסה אחת ובאבטחה role-based.",
           processExampleHe:
             "צוות הקונפיגורציה פותח SPRO ב-SAP GUI להגדרת Document Types; קניין שצריך טרנזקציה קלאסית נדירה לוחץ GUI tile ב-launchpad וה-Web GUI נפתח דרך SICF, ללא יציאה מ-FLP.",
-          cbcHe:
-            "ב-CBC צוות ה-master data וה-config עובד ב-SAP GUI (SPRO, OB52). קנייני-הרכש נשארים ב-Fiori, אך מקבלים מספר GUI tiles בודדים לטרנזקציות-עומק שאין להן עדיין אפליקציה.",
+          scenarioHe:
+            "בארגון צוות ה-master data וה-config עובד ב-SAP GUI (SPRO, OB52). קנייני-הרכש נשארים ב-Fiori, אך מקבלים מספר GUI tiles בודדים לטרנזקציות-עומק שאין להן עדיין אפליקציה.",
           navHe: [
             "SAP Logon ► בחירת מערכת ► הזנת קוד-טרנזקציה",
             "Transaction SICF ► default_host ► sap ► bc ► gui ► sap ► its ► webgui (להפעלת Web GUI)",
@@ -195,8 +195,8 @@ export const CH17: TextbookChapter = {
         "המטרה: להעמיד תשתית-Fiori יציבה ומאובטחת, לבחור topology המתאים לנוף-המערכות, ולזהות במדויק את התוכן והתלויות לכל אפליקציה — כך שהקצאת ה-roles תהיה מהירה ונטולת-ניחושים.",
       processExampleHe:
         "צוות Basis מפעיל את ה-UI components, מפעיל SICF services, מפרסם OData ב-/IWFND/MAINT_SERVICE, ובוחר embedded deployment. הצוות הפונקציונלי מחפש 'Manage Purchase Orders' ב-Fiori Apps Reference Library, מקבל את רשימת התלויות, מפעיל אותן, ומשייך את ה-Business Role לקניינים.",
-      cbcHe:
-        "ב-CBC נבחר embedded deployment (מערכת S/4HANA אחת לבקבוק). Basis מפעיל את שירותי ה-OData של הרכש, והצוות הפונקציונלי שואב מה-Reference Library את כל התלויות לאפליקציות-הרכש לפני העלאתן לקניינים.",
+      scenarioHe:
+        "בארגון נבחר embedded deployment (מערכת S/4HANA אחת לבקבוק). Basis מפעיל את שירותי ה-OData של הרכש, והצוות הפונקציונלי שואב מה-Reference Library את כל התלויות לאפליקציות-הרכש לפני העלאתן לקניינים.",
       navHe: [
         "SAP NetWeaver ► UI Technologies ► SAP Fiori ► Initial Setup / Front-End Server settings",
         "Transaction SICF ► Activate services: /sap/bc/ui2/*, /sap/opu/odata/*",
@@ -261,8 +261,8 @@ export const CH17: TextbookChapter = {
             "להעמיד את התשתית הטכנית שעליה יישבו כל ה-catalogs, ה-tiles וה-roles — שכבת-הבסיס לכל חוויית-Fiori.",
           processExampleHe:
             "Basis מפעיל ב-SICF את /sap/bc/ui2/flp ואת שירותי ה-OData של הרכש, ואז מוסיף ב-/IWFND/MAINT_SERVICE את שירות 'Manage Purchase Orders', מפעיל ובודק 'Call Browser' — תגובת-metadata תקינה מאשרת התקנה מוצלחת.",
-          cbcHe:
-            "ב-CBC Basis מפעיל פעם אחת את שירותי-הבסיס של ה-FLP ואת שירותי-ה-OData הספציפיים של אפליקציות-הרכש, ובודק כל אחד דרך 'Call Browser' לפני מסירה לצוות הפונקציונלי.",
+          scenarioHe:
+            "בארגון Basis מפעיל פעם אחת את שירותי-הבסיס של ה-FLP ואת שירותי-ה-OData הספציפיים של אפליקציות-הרכש, ובודק כל אחד דרך 'Call Browser' לפני מסירה לצוות הפונקציונלי.",
           navHe: [
             "Transaction SICF ► default_host ► sap ► bc ► ui2 ► flp / flp_cust ► Activate Service",
             "Transaction SICF ► default_host ► sap ► opu ► odata ► Activate OData nodes",
@@ -320,8 +320,8 @@ export const CH17: TextbookChapter = {
             "לבחור topology המאזן בין פשטות-תחזוקה (embedded) לבין איחוד-מערכות וגמישות-שדרוג (central hub), בהתאם למספר ה-backends, לאזורי-האבטחה ולמדיניות-הארגון.",
           processExampleHe:
             "ארגון עם S/4HANA יחיד בוחר embedded — FLP פנימי, פחות תחזוקה. ארגון עם S/4HANA + ECC + BW מקים central hub: launchpad אחד עם System Aliases לכל backend, כך שהמשתמש רואה אריחים מכל המערכות במקום אחד.",
-          cbcHe:
-            "ב-CBC, עם מערכת S/4HANA מרכזית לבקבוק, נבחר embedded deployment — פשוט, פחות שרתים לתחזק. אילו היו מספר מערכות-לוויין, central hub היה מאחד את אריחי-הרכש מכולן ל-launchpad אחד.",
+          scenarioHe:
+            "בארגון, עם מערכת S/4HANA מרכזית לבקבוק, נבחר embedded deployment — פשוט, פחות שרתים לתחזק. אילו היו מספר מערכות-לוויין, central hub היה מאחד את אריחי-הרכש מכולן ל-launchpad אחד.",
           navHe: [
             "SAP NetWeaver ► Gateway ► OData Channel ► Configuration ► Connection Settings ► SAP Gateway to SAP System ► Manage SAP System Aliases",
             "Transaction SM59 ► RFC Destination (ל-central hub: trusted RFC ל-backend)",
@@ -384,8 +384,8 @@ export const CH17: TextbookChapter = {
             "לתת לצוות-הפרויקט מקור-אמת יחיד לכל התלויות הטכניות של כל אפליקציה — מה להפעיל, מה לשייך ומה להתקין — ובכך להפוך את ההפעלה לתהליך דטרמיניסטי.",
           processExampleHe:
             "הצוות הפונקציונלי מחפש 'Manage Purchase Orders' בספרייה, פותח את לשונית ה-Implementation Information, מעתיק את ה-OData service ל-/IWFND/MAINT_SERVICE, מפעיל את ה-ICF node, ומשייך את ה-Business Catalog ל-Business Role ב-PFCG.",
-          cbcHe:
-            "ב-CBC הצוות בונה ב-Reference Library Aggregation של כל אפליקציות-הרכש (הזמנות, בקשות, מעקב-ספקים), מייצא רשימת-תלויות אחת, ומוסר ל-Basis להפעלה מרוכזת — במקום לאתר כל שירות ידנית.",
+          scenarioHe:
+            "בארגון הצוות בונה ב-Reference Library Aggregation של כל אפליקציות-הרכש (הזמנות, בקשות, מעקב-ספקים), מייצא רשימת-תלויות אחת, ומוסר ל-Basis להפעלה מרוכזת — במקום לאתר כל שירות ידנית.",
           navHe: [
             "Browser ► https://fioriappslibrary.hana.ondemand.com ► Search/Filter (LoB: Sourcing and Procurement)",
             "App page ► Implementation Information ► OData Services / ICF / Catalog / Business Role",
@@ -444,8 +444,8 @@ export const CH17: TextbookChapter = {
         "לאזן בין סטנדרטיזציה (תוכן מנוהל מרכזית לכל תפקיד) לבין העצמת-משתמש (סידור אישי והעדפות) — כך שכל קניין יקבל launchpad יעיל, מסודר ומותאם להעדפותיו.",
       processExampleHe:
         "מנהל-תוכן יוצר ב-/UI2/FLPD_CUST space & page לקניינים עם sections של 'הזמנות' ו-'ספקים'. קניין נכנס ל-edit mode, גורר את האריחים שהוא משתמש בהם הכי הרבה לראש-הדף, מסיר אריח לא-רלוונטי, ומכוון ב-User Settings את ה-theme ל-Horizon ושפה לעברית.",
-      cbcHe:
-        "ב-CBC מנהל-התוכן בונה page סטנדרטי לקנייני-הרכש; כל קניין מסדר ב-edit mode את אריחי התרכיז/הסוכר/האריזה לפי עבודתו, ובוחר ב-User Settings עברית ו-theme בהיר — אחידות ארגונית עם נגיעה אישית.",
+      scenarioHe:
+        "בארגון מנהל-התוכן בונה page סטנדרטי לקנייני-הרכש; כל קניין מסדר ב-edit mode את אריחי התרכיז/הסוכר/האריזה לפי עבודתו, ובוחר ב-User Settings עברית ו-theme בהיר — אחידות ארגונית עם נגיעה אישית.",
       navHe: [
         "Transaction /UI2/FLPD_CUST ► Catalogs / Groups / Spaces & Pages / Target Mappings (client-specific)",
         "Transaction /UI2/FLPD_CONF ► Configuration (cross-client)",
@@ -508,8 +508,8 @@ export const CH17: TextbookChapter = {
             "לאפשר עיצוב-תוכן גמיש — בידי מנהל ל-baseline ובידי משתמש להעדפותיו — כך שכל launchpad יהיה רלוונטי, מסודר ויעיל לתפקיד ולאדם.",
           processExampleHe:
             "קניין נכנס ל-Edit Home Page, פותח App Finder, מוסיף את אריח 'Monitor Purchase Order Items', גורר אותו לראש section 'הזמנות', מסיר אריח-analytics שאינו בשימוש, ושומר — דף-הבית שלו מותאם אישית.",
-          cbcHe:
-            "ב-CBC כל קניין משתמש ב-edit mode כדי לקבע בראש-הדף את אריחי-הרכש היומיומיים (הזמנות פתוחות, מעקב-אספקה) ולהסיר אריחים של תחומים שאינם שלו — בלי לפגוע ב-baseline של שאר הצוות.",
+          scenarioHe:
+            "בארגון כל קניין משתמש ב-edit mode כדי לקבע בראש-הדף את אריחי-הרכש היומיומיים (הזמנות פתוחות, מעקב-אספקה) ולהסיר אריחים של תחומים שאינם שלו — בלי לפגוע ב-baseline של שאר הצוות.",
           navHe: [
             "SAP Fiori launchpad ► User menu ► Edit Home Page (Personalization)",
             "Edit mode ► App Finder ► הוסף/הסר tiles ► גרור בין sections ► Save",
@@ -565,8 +565,8 @@ export const CH17: TextbookChapter = {
             "לתת לכל משתמש שליטה על חוויית-העבודה שלו — מראה, שפה ונגישות — בלי להזדקק לתמיכה, ובלי להשפיע על משתמשים אחרים.",
           processExampleHe:
             "קניין פותח User Settings, בוחר theme = Horizon, Language = עברית, ומפעיל high-contrast לנגישות. הוא גם מגדיר default plant כפרמטר-משתמש כך שאפליקציות-הרכש נפתחות מסוננות למפעלו.",
-          cbcHe:
-            "ב-CBC קנייני-הרכש בוחרים ב-User Settings עברית ו-theme בהיר; חלקם מגדירים default plant של מפעל-המילוי שלהם, כך שאריחי-ההזמנות נפתחים ישר על הנתונים הרלוונטיים להם.",
+          scenarioHe:
+            "בארגון קנייני-הרכש בוחרים ב-User Settings עברית ו-theme בהיר; חלקם מגדירים default plant של מפעל-המילוי שלהם, כך שאריחי-ההזמנות נפתחים ישר על הנתונים הרלוונטיים להם.",
           navHe: [
             "SAP Fiori launchpad ► User menu (avatar) ► Settings",
             "Settings ► Appearance (Theme) / Language & Region / Notifications / Default Values",
@@ -625,8 +625,8 @@ export const CH17: TextbookChapter = {
         "לאחד את כל חוטי-הפרק לתמונת-פעולה אחת: כיצד מעמידים, מאבטחים ומתאימים launchpad תפעולי — מההחלטה האסטרטגית (Fiori/GUI, topology) ועד לפרט האישי (theme, סידור-אריחים) — עבור קהל-משתמשים אמיתי.",
       processExampleHe:
         "מקצה-לקצה: Basis מפעיל רכיבים+SICF+OData ובוחר embedded; הצוות הפונקציונלי שואב תלויות מה-Reference Library ומשייך Business Roles; מנהל-התוכן בונה spaces & pages ב-/UI2/FLPD_CUST; וכל קניין מסיים ב-edit mode וב-User Settings — launchpad חי, מותאם ומאובטח.",
-      cbcHe:
-        "ב-CBC התוצאה היא launchpad אחיד לקנייני התרכיז, הסוכר והאריזה: embedded deployment, אפליקציות-רכש מופעלות לפי ה-Reference Library, Business Role 'Buyer' עם space ייעודי, וכל קניין מסדר אריחים ובוחר עברית ו-theme — חוויית-רכש מודרנית, role-based ומותאמת.",
+      scenarioHe:
+        "בארגון התוצאה היא launchpad אחיד לקנייני התרכיז, הסוכר והאריזה: embedded deployment, אפליקציות-רכש מופעלות לפי ה-Reference Library, Business Role 'Buyer' עם space ייעודי, וכל קניין מסדר אריחים ובוחר עברית ו-theme — חוויית-רכש מודרנית, role-based ומותאמת.",
       navHe: [
         "סקירה: SAP NetWeaver ► UI Technologies ► SAP Fiori ► Overview",
         "התאמה: /UI2/FLPD_CUST · /UI2/FLPD_CONF · /UI2/FLP",

@@ -8,7 +8,7 @@ export const CH9: TextbookChapter = {
   titleHe: "ניהול אצוות",
   titleEn: "Batch Management",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לניהול אצוות (Batch Management) ב-SAP, בדגש על שילובו ב-QM. כל תת-פרק וכל תת-סעיף מהמקור הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. דוגמת-העל לאורך הפרק: CBC (מפעל-מילוי של Coca-Cola) — תרכיז, סוכר ו-CO2 מנוהלי-אצווה, ניהול FEFO (Expiry-first), בדיקה-חוזרת (Recurring Inspection) ועקיבות-אצווה מלאה מחומר-גלם ועד המשקה המוגמר.",
+    "פרק זה הוא יחידת-לימוד מלאה לניהול אצוות (Batch Management) ב-SAP, בדגש על שילובו ב-QM. כל תת-פרק וכל תת-סעיף מהמקור הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. דוגמת-העל לאורך הפרק: הארגון (מפעל-מילוי של Example Product) — תרכיז, סוכר ו-CO2 מנוהלי-אצווה, ניהול FEFO (Expiry-first), בדיקה-חוזרת (Recurring Inspection) ועקיבות-אצווה מלאה מחומר-גלם ועד המשקה המוגמר.",
   subchapters: [
     // ============================================================ 9.1
     {
@@ -23,8 +23,8 @@ export const CH9: TextbookChapter = {
         "להעניק זהות, מאפיינים, תוקף וסטטוס-איכות ליחידות-תת של חומר, ולאפשר עקיבות דו-כיוונית (היכן-נכנס / לאן-הלך) לצורכי ריקול, רגולציה ובקרת-איכות.",
       processExampleHe:
         "אצווה נוצרת בקליטת חומר-גלם או בדיווח-ייצור; היא מקבלת מאפיינים (תאריך-ייצור, תוקף, ספק, ערך-בדיקה), עוברת לסטטוס מוגבל עד אישור-QM, ואחרי שחרור היא זמינה לצריכה. בכל תנועת-מלאי האצווה נרשמת, וכך נבנית שרשרת-עקיבות מלאה.",
-      cbcHe:
-        "ב-CBC כל מנת-תרכיז, כל שק-סוכר וכל מכל-CO2 מנוהלי-אצווה; המשקה המוגמר נושא אצווה משלו הקשורה לאצוות-הרכיבים. אם מתגלה סטייה — אפשר לאתר תוך דקות אילו מוצרים-סופיים הכילו את אצוות-הרכיב החשודה (ריקול ממוקד).",
+      scenarioHe:
+        "בארגון כל מנת-תרכיז, כל שק-סוכר וכל מכל-CO2 מנוהלי-אצווה; המשקה המוגמר נושא אצווה משלו הקשורה לאצוות-הרכיבים. אם מתגלה סטייה — אפשר לאתר תוך דקות אילו מוצרים-סופיים הכילו את אצוות-הרכיב החשודה (ריקול ממוקד).",
       navHe: [
         "Logistics – General ► Batch Management ► Specify Batch Level and Activate Status Management (OMCT)",
         "Logistics – General ► Batch Management ► Overview",
@@ -87,8 +87,8 @@ export const CH9: TextbookChapter = {
         "לקבוע את היקף-הייחודיות של מספר-האצווה ואת ברירת-המחדל לזמינות-אצווה חדשה — בסיס לכל לוגיקת-המלאי וה-QM.",
       processExampleHe:
         "ארגון רב-מפעלי בוחר material level כדי שאצווה תעבור בין מפעלים בלי לאבד זהות. Status management פעיל — אצווה חדשה נכנסת Restricted, וה-Usage Decision ב-QM משחרר אותה ל-Unrestricted.",
-      cbcHe:
-        "ב-CBC נבחר material level: מנת-תרכיז שנקלטה במחסן-מרכזי ועברה למפעל-מילוי שומרת על אותו מספר-אצווה. Status management פעיל כך שכל אצווה ממתינה לאישור-QM לפני שימוש.",
+      scenarioHe:
+        "בארגון נבחר material level: מנת-תרכיז שנקלטה במחסן-מרכזי ועברה למפעל-מילוי שומרת על אותו מספר-אצווה. Status management פעיל כך שכל אצווה ממתינה לאישור-QM לפני שימוש.",
       navHe: [
         "Logistics – General ► Batch Management ► Specify Batch Level and Activate Status Management (OMCT)",
         "Logistics – General ► Batch Management ► Batch Status Management ► Activate Batch Status Management",
@@ -139,7 +139,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "ב-OMCT בוחרים את הרמה. Material level הוא הסטנדרט ב-S/4HANA: ייחודיות פר Material חוצה מפעלים. מעבר מ-plant ל-material דורש תוכנית-המרה (conversion report) ובדיקת-התנגשויות מקדימה.",
           purposeHe: "להגדיר את היקף-הייחודיות של מספר-האצווה — בסיס לכל ניהול-המלאי וההעברות.",
           processExampleHe: "ביצירת אצווה במפעל A במספר 100000001, אותו מספר זהה ומשמעותו זהה גם במפעל B כאשר הרמה היא material.",
-          cbcHe: "ב-CBC material level מאפשר למנת-תרכיז שנקלטה מרכזית לעבור למפעלי-המילוי בלי שינוי-מספר.",
+          scenarioHe: "בארגון material level מאפשר למנת-תרכיז שנקלטה מרכזית לעבור למפעלי-המילוי בלי שינוי-מספר.",
           navHe: ["Logistics – General ► Batch Management ► Specify Batch Level and Activate Status Management (OMCT)"],
           tables: ["MCHA", "MCH1"],
           tcodes: ["OMCT"],
@@ -158,7 +158,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "טווח-המספרים מוגדר באובייקט BATCH_CLT (פר-לקוח) ונשלט דרך עסקת-ההגדרה. אפשר להפעיל הקצאה-אוטומטית בתנועות-סחורה ובדיווחי-ייצור. ניתן להגדיר Internal/External, וכן User-exit להרכבת מספר-אצווה לפי דפוס (למשל תאריך+רצף).",
           purposeHe: "להבטיח ייחודיות וזמינות-מספר ללא תלות בקלט ידני, ולתמוך בנפח-ייצור גבוה.",
           processExampleHe: "בדיווח-ייצור (CO15/MFBF) המערכת מקצה אוטומטית מספר-אצווה לכמות-המיוצרת ורושמת אותה למלאי באותה תנועה.",
-          cbcHe: "ב-CBC מספרי-אצווה מוקצים אוטומטית בקווי-המילוי; דפוס מותאם (User-exit) משלב תאריך-ייצור ברצף לקריאוּת.",
+          scenarioHe: "בארגון מספרי-אצווה מוקצים אוטומטית בקווי-המילוי; דפוס מותאם (User-exit) משלב תאריך-ייצור ברצף לקריאוּת.",
           navHe: ["Logistics – General ► Batch Management ► Batch Number Assignment ► Activate Internal Batch Number Assignment", "Logistics – General ► Batch Management ► Batch Number Assignment ► Maintain Internal Batch Number Assignment Range (BATCH_CLT)"],
           tables: ["MCH1", "NRIV"],
           tcodes: ["OMCZ", "MSC1N"],
@@ -177,7 +177,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "נשלט דרך Batch Creation indicator בהזמנת-הייצור/תהליך ודרך הגדרת אוטומציה. ב-COR1/CO01 ניתן לקבוע יצירה אוטומטית בקבלה (GR 101). הסיווג של האצווה החדשה יכול לרשת מאפיינים מההזמנה (תאריך-ייצור, גרסת-מתכון).",
           purposeHe: "להבטיח שכל יחידת-תוצר תקבל אצווה מזוהה ברגע-הקליטה, בלי תלות בצעד-ידני נפרד.",
           processExampleHe: "בקבלת-תוצר מהזמנת-תהליך (movement 101) נוצרת אצווה אוטומטית, מסווגת עם תאריך-ייצור ותוקף, ומתחילה Restricted עד Usage Decision.",
-          cbcHe: "ב-CBC סיום מנת-תערובת/מילוי יוצר אצווה אוטומטית בקבלת-התוצר, יורשת תאריך-ייצור ומחשבת תוקף לפי Shelf-life של אב-החומר.",
+          scenarioHe: "בארגון סיום מנת-תערובת/מילוי יוצר אצווה אוטומטית בקבלת-התוצר, יורשת תאריך-ייצור ומחשבת תוקף לפי Shelf-life של אב-החומר.",
           navHe: ["Logistics – General ► Batch Management ► Creation of New Batches ► Define Batch Creation for Production Order / Process Order"],
           tables: ["MCH1", "AFKO", "AUFM"],
           tcodes: ["COR1", "CO01", "CO15", "MFBF"],
@@ -196,7 +196,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "נשלט פר Movement Type (למשל 101 לקבלת-רכש) דרך הגדרת 'Batch Creation for Goods Movement'. קובע אם נדרשת אצווה, ואם המערכת מקצה אותה אוטומטית. משולב עם הקצאת-מספר אוטומטית (9.2.2) ועם סיווג ברירת-מחדל.",
           purposeHe: "להבטיח כיסוי-אצווה מלא בכל ערוצי-הכניסה (רכש, ייצור, העברה), לא רק בייצור.",
           processExampleHe: "בקבלת-רכש (101) של חומר-גלם מנוהל-אצווה נוצרת אצווה אוטומטית, יורשת מספר-אצווה-ספק כמאפיין, ומתחילה Restricted לבדיקת-כניסה.",
-          cbcHe: "ב-CBC קבלת-תרכיז/סוכר מספק יוצרת אצווה אוטומטית; מאפיין 'אצוות-ספק' נשמר לעקיבות-מקור, והאצווה נכנסת Restricted לדגימת-QM.",
+          scenarioHe: "בארגון קבלת-תרכיז/סוכר מספק יוצרת אצווה אוטומטית; מאפיין 'אצוות-ספק' נשמר לעקיבות-מקור, והאצווה נכנסת Restricted לדגימת-QM.",
           navHe: ["Logistics – General ► Batch Management ► Creation of New Batches ► Define Batch Creation for Goods Movement"],
           tables: ["MCH1", "MSEG", "MKPF"],
           tcodes: ["MIGO", "OMCZ"],
@@ -223,8 +223,8 @@ export const CH9: TextbookChapter = {
         "להגדיר את כל התשתית שמאפשרת לאצווה לשאת ולנהל מידע (תוקף, מאפיינים, ערכי-בדיקה), ולחבר אותה לקביעת-אצווה ולתהליכי-QM.",
       processExampleHe:
         "מגדירים מאפיינים (תפוגה, ספק, אחוז-ריכוז), מקבצים לכיתה 022, מקצים את הכיתה לאב-החומר. מעתה כל אצווה חדשה של החומר מציגה שדות אלה ב-MSC1N/MSC2N וניתנים לחיפוש ב-BMBC ולשימוש בקביעת-אצווה.",
-      cbcHe:
-        "ב-CBC כיתת-אצווה למשקה כוללת LOBM_VFDAT (תפוגה), LOBM_HSDAT (ייצור), 'אחוז-CO2', 'Brix' (ריכוז-סוכר) ו'מקור-תרכיז'. מאפיינים אלו מניעים FEFO בקביעת-אצווה ובדיקה-חוזרת על תרכיז.",
+      scenarioHe:
+        "בארגון כיתת-אצווה למשקה כוללת LOBM_VFDAT (תפוגה), LOBM_HSDAT (ייצור), 'אחוז-CO2', 'Brix' (ריכוז-סוכר) ו'מקור-תרכיז'. מאפיינים אלו מניעים FEFO בקביעת-אצווה ובדיקה-חוזרת על תרכיז.",
       navHe: [
         "Logistics – General ► Batch Management ► Batch Valuation ► Update Standard Characteristics",
         "Cross-Application Components ► Classification System ► Master Data ► Maintain Characteristics (CT04) / Classes (CL02)",
@@ -281,7 +281,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "השדה XCHPF נמצא בתצוגות Purchasing/MRP/Storage/Work Scheduling. ב-MARA הוא כלל-ארגוני; ב-MARC הוא פר-מפעל בהתאם ל-Batch level. הפעלה על חומר עם מלאי קיים דורשת תנועת-המרה (מלאי ל-0 או תוכנית-המרה ייעודית).",
           purposeHe: "להפוך את החומר למנוהל-אצווה — תנאי-סף לכל שאר נתוני-האב והתהליכים.",
           processExampleHe: "ב-MM02 מסמנים Batch management בתצוגת Purchasing; מעתה קבלת-רכש של החומר דורשת אצווה ויוצרת אותה.",
-          cbcHe: "ב-CBC מסומן Batch management לכל ROH (תרכיז/סוכר/CO2), HALB (תערובת) ו-FERT (משקה) — אחרת אין עקיבות.",
+          scenarioHe: "בארגון מסומן Batch management לכל ROH (תרכיז/סוכר/CO2), HALB (תערובת) ו-FERT (משקה) — אחרת אין עקיבות.",
           navHe: ["Logistics – General ► Material Master ► Material ► Change (MM02) ► Purchasing/MRP/Storage Views ► Batch management indicator"],
           tables: ["MARA", "MARC"],
           tcodes: ["MM01", "MM02", "MMAM"],
@@ -300,7 +300,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "מגדירים Characteristics ב-CT04 (כולל מובנים LOBM_*), מקבצים ל-Class ב-CL02 מסוג 022 (Batch) או 023 (PI). ערכי-המאפיינים נשמרים ב-AUSP, השיוך ב-INOB/KSSK. הסיווג מאוכלס אוטומטית בקבלה/דיווח כשמוגדרת ירושת-מאפיינים, או ידנית ב-MSC2N.",
           purposeHe: "להעניק לאצווה תכונות ניתנות-לחיפוש ולקביעה — תשתית ל-FEFO, לבדיקה-חוזרת ולעקיבות-תכונה.",
           processExampleHe: "אצווה חדשה מסווגת אוטומטית: LOBM_VFDAT מתאריך-קבלה+זמן-מדף, 'ספק' מהזמנת-הרכש; ערכים אלו זמינים לחיפוש ב-BMBC ולקביעת-אצווה.",
-          cbcHe: "ב-CBC אצוות-תרכיז מסווגות עם Brix, אחוז-CO2 ותפוגה; קביעת-אצווה למשקה בוחרת לפי אלה ולפי FEFO.",
+          scenarioHe: "בארגון אצוות-תרכיז מסווגות עם Brix, אחוז-CO2 ותפוגה; קביעת-אצווה למשקה בוחרת לפי אלה ולפי FEFO.",
           navHe: ["Cross-Application Components ► Classification System ► Master Data ► Maintain Classes (CL02) / Characteristics (CT04)"],
           tables: ["KLAH", "KSML", "CABN", "CAWN", "AUSP", "INOB", "KSSK"],
           tcodes: ["CT04", "CL02", "MSC2N", "MSC3N"],
@@ -320,7 +320,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "ב-MM02 תצוגת Classification: מזינים סוג-כיתה 022/023 ובוחרים את הכיתה. השיוך נשמר ב-KSSK (אובייקט = חומר). אפשר להקצות גם ערכי-ברירת-מחדל ברמת-החומר שיורדים לאצוות. ללא הקצאה זו, אצוות ייווצרו ללא מאפיינים גם אם הכיתה קיימת.",
           purposeHe: "לחבר את כיתת-המאפיינים לחומר כך שכל אצווה תירש את השדות — מפעיל בפועל את הסיווג.",
           processExampleHe: "ב-MM02 מקצים לחומר את כיתת-האצווה; אצווה הנוצרת לאחר מכן מציגה את כל המאפיינים ב-MSC2N למילוי/ירושה.",
-          cbcHe: "ב-CBC כיתת-המשקה מוקצית לכל FERT; כך כל אצוות-מילוי יורשות Brix, CO2 ותפוגה אוטומטית.",
+          scenarioHe: "בארגון כיתת-המשקה מוקצית לכל FERT; כך כל אצוות-מילוי יורשות Brix, CO2 ותפוגה אוטומטית.",
           navHe: ["Logistics – General ► Material Master ► Material ► Change (MM02) ► Classification View ► Class type 022/023"],
           tables: ["KSSK", "INOB", "KLAH"],
           tcodes: ["MM02", "MM03", "CL24N"],
@@ -347,8 +347,8 @@ export const CH9: TextbookChapter = {
         "להעניק למשתמשי-הקצה את הכלים לתחזק אצוות לאורך מחזור-חייהן — מיצירה, דרך עדכון-מאפיינים, ועד חסימה/מחיקה — תוך שמירת עקיבות.",
       processExampleHe:
         "מחסנאי קולט חומר → אצווה נוצרת (אוטומטית או MSC1N) → QM מעדכן ערכי-בדיקה ב-MSC2N → לאחר תפוגה האצווה מסומנת למחיקה ב-MSC2N → MMBE מאשרת אפס-מלאי.",
-      cbcHe:
-        "ב-CBC קליטת-תרכיז יוצרת אצווה אוטומטית; מעבדת-QM מזינה Brix ב-MSC2N; בתום-תוקף אצווה נחסמת; MMBE מנטרת מלאי-תרכיז זמין לפי FEFO.",
+      scenarioHe:
+        "בארגון קליטת-תרכיז יוצרת אצווה אוטומטית; מעבדת-QM מזינה Brix ב-MSC2N; בתום-תוקף אצווה נחסמת; MMBE מנטרת מלאי-תרכיז זמין לפי FEFO.",
       navHe: [
         "Logistics – General ► Batch Management ► Tools ► Batch Maintenance",
         "Logistics ► Materials Management ► Inventory Management ► Environment ► Stock ► Stock Overview (MMBE)",
@@ -401,7 +401,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "ב-MSC1N מזינים Material/Plant ומספר-אצווה (פנימי/חיצוני לפי 9.2.2). מסך-הסיווג מציג את מאפייני-הכיתה למילוי. הרשומה נכתבת ל-MCH1/MCHA וערכי-המאפיינים ל-AUSP. שימושי ל-cutover, לדגימות ולתרחישי-בדיקה.",
           purposeHe: "לאפשר יצירת-אצווה במקרים שאין תנועה אוטומטית — cutover, דגימות, תיקונים.",
           processExampleHe: "ב-cutover מקליטים מלאי-פתיחה: יוצרים אצווה ב-MSC1N עם מספר-המקור (External), ממלאים תפוגה ומקור, ואז רושמים מלאי-פתיחה (561).",
-          cbcHe: "ב-CBC ב-Go-Live מקליטים אצוות-תרכיז קיימות ב-MSC1N עם מספרי-הספק כ-External ותאריכי-תפוגה ידועים.",
+          scenarioHe: "בארגון ב-Go-Live מקליטים אצוות-תרכיז קיימות ב-MSC1N עם מספרי-הספק כ-External ותאריכי-תפוגה ידועים.",
           navHe: ["Logistics – General ► Batch Management ► Batch ► Create (MSC1N)"],
           tables: ["MCH1", "MCHA", "AUSP"],
           tcodes: ["MSC1N"],
@@ -420,7 +420,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "MSC2N מאפשרת עדכון נתוני-בסיס, מאפיינים (AUSP) וסטטוס (Restricted/Unrestricted) אם Status Management פעיל. שינוי-סטטוס ידני אפשרי אך לרוב מנוהל דרך Usage Decision של QM (QA11). שינויים נרשמים בתיעוד-שינויים (Change documents).",
           purposeHe: "לתחזק את נתוני-האצווה לאורך חייה — ערכי-בדיקה, תפוגה, סטטוס והערות.",
           processExampleHe: "מעבדת-QM מסיימת בדיקה ומזינה ב-MSC2N את הערך הנמדד; אם תקין, סטטוס-האצווה משוחרר ל-Unrestricted (לרוב דרך QA11).",
-          cbcHe: "ב-CBC מעבדה מזינה Brix ו-pH ב-MSC2N לאצוות-תרכיז; הסטטוס משתחרר ל-Unrestricted רק אחרי אישור.",
+          scenarioHe: "בארגון מעבדה מזינה Brix ו-pH ב-MSC2N לאצוות-תרכיז; הסטטוס משתחרר ל-Unrestricted רק אחרי אישור.",
           navHe: ["Logistics – General ► Batch Management ► Batch ► Change (MSC2N)"],
           tables: ["MCH1", "AUSP", "CDHDR"],
           tcodes: ["MSC2N", "QA11"],
@@ -439,7 +439,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "ב-MSC2N מסמנים Deletion flag; מצריך אפס-מלאי (MCHB). הסימון מונע שימוש חדש אך משאיר את הרשומה לעקיבות ולדוחות. הסרה-פיזית נעשית בתהליך-ארכוב (Archiving object) בלבד — קריטי לרגולציה.",
           purposeHe: "להסיר אצווה מהשימוש בלי לפגוע בעקיבות ובדרישות-הרגולציה לשמירת-היסטוריה.",
           processExampleHe: "אצווה שפגה ומלאיה אופס מסומנת Deletion flag ב-MSC2N; היא נעלמת מבחירות-עתיד אך נשארת בדוחות-עקיבות עד ארכוב.",
-          cbcHe: "ב-CBC אצוות-תרכיז שפגו מסומנות למחיקה אחרי גריטה; ההיסטוריה נשמרת לתחקור-ריקול אפשרי.",
+          scenarioHe: "בארגון אצוות-תרכיז שפגו מסומנות למחיקה אחרי גריטה; ההיסטוריה נשמרת לתחקור-ריקול אפשרי.",
           navHe: ["Logistics – General ► Batch Management ► Batch ► Change (MSC2N) ► Set Deletion Flag"],
           tables: ["MCH1", "MCHB"],
           tcodes: ["MSC2N", "SARA"],
@@ -458,7 +458,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "ב-MIGO/קבלת-תוצר, אם Batch Creation for Goods Movement פעיל ל-Movement Type, נוצרת אצווה עם מספר-אוטומטי וירושת-מאפיינים (מהזמנה/ספק). הסטטוס ההתחלתי נקבע לפי ברירת-המחדל (Restricted לרוב). הרישום ב-MSEG/MCHB מתבצע בו-זמנית.",
           purposeHe: "להבטיח שכל כניסת-מלאי תקבל אצווה מזוהה ומסווגת ללא תלות-אנוש.",
           processExampleHe: "קבלת-רכש (101) של חומר מנוהל-אצווה: MIGO יוצר אצווה אוטומטית, מסווג מספר-ספק ותפוגה, ורושם מלאי Restricted לבדיקת-QM.",
-          cbcHe: "ב-CBC כל קבלת-תרכיז/סוכר ב-MIGO פותחת אצווה אוטומטית עם תפוגה ומקור, ונכנסת Restricted לדגימה.",
+          scenarioHe: "בארגון כל קבלת-תרכיז/סוכר ב-MIGO פותחת אצווה אוטומטית עם תפוגה ומקור, ונכנסת Restricted לדגימה.",
           navHe: ["Logistics ► Materials Management ► Inventory Management ► Goods Movement ► Goods Receipt (MIGO)"],
           tables: ["MCH1", "MSEG", "MCHB"],
           tcodes: ["MIGO", "MB31", "MIGO_GR"],
@@ -477,7 +477,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "MMBE מציגה מלאי היררכי (חברה→מפעל→מחסן→אצווה) עם סוגי-מלאי. MB52 מספקת רשימה שטוחה. הנתון מגיע מ-MCHB ו-MARD. עמודת-הסטטוס מבחינה בין מלאי-חופשי, מוגבל ובבדיקת-QM — קריטי לתכנון-זמינות ול-FEFO.",
           purposeHe: "לתת נראות-מלאי מלאה ברמת-האצווה — זמינות, מיקום וסטטוס — לתכנון, ל-QM ול-FEFO.",
           processExampleHe: "מתכנן בודק ב-MMBE אילו אצוות זמינות לצריכה: רואה שאצווה אחת Restricted (ממתינה ל-QM) ושתיים Unrestricted; בוחר את הקרובה-לתפוגה (FEFO).",
-          cbcHe: "ב-CBC מתכנן-המילוי משתמש ב-MMBE לראות אצוות-תרכיז זמינות ותפוגתן, ובוחר ראשית את הקרובה-לתפוגה.",
+          scenarioHe: "בארגון מתכנן-המילוי משתמש ב-MMBE לראות אצוות-תרכיז זמינות ותפוגתן, ובוחר ראשית את הקרובה-לתפוגה.",
           navHe: ["Logistics ► Materials Management ► Inventory Management ► Environment ► Stock ► Stock Overview (MMBE)"],
           tables: ["MCHB", "MARD", "MARC"],
           tcodes: ["MMBE", "MB52", "MB5B"],
@@ -505,8 +505,8 @@ export const CH9: TextbookChapter = {
         "לבחור אוטומטית את האצווה הנכונה לכל תנועה לפי מדיניות (FEFO/FIFO/מאפיינים), למנוע בחירה-ידנית שגויה ולמזער פחת-תוקף.",
       processExampleHe:
         "פק\"ע צורכת חומר מנוהל-אצווה; קביעת-האצווה מסננת את האצוות הזמינות לפי Selection Class (תקין-QM, ריכוז בטווח), ממיינת לפי Sort Rule (FEFO) ומקצה אוטומטית את הקרובה-לתפוגה לרכיב.",
-      cbcHe:
-        "ב-CBC קביעת-אצווה למשקה מסננת אצוות-תרכיז תקינות עם Brix בטווח, ממיינת FEFO לפי LOBM_VFDAT, ומקצה את התרכיז הקרוב-לתפוגה — מזער פחת תוך עמידה במפרט.",
+      scenarioHe:
+        "בארגון קביעת-אצווה למשקה מסננת אצוות-תרכיז תקינות עם Brix בטווח, ממיינת FEFO לפי LOBM_VFDAT, ומקצה את התרכיז הקרוב-לתפוגה — מזער פחת תוך עמידה במפרט.",
       navHe: [
         "Logistics – General ► Batch Management ► Batch Determination and Batch Check ► Condition Technique",
         "Logistics – General ► Batch Management ► Batch Determination and Batch Check ► Activate Automatic Batch Determination",
@@ -564,7 +564,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "מגדירים טבלת-תנאי (טווח 5xx ללקוח) עם שדות מתוך Field Catalog. השדות קובעים את רמת-הפירוט של רשומות-התנאי. נשמרת ב-T681/KOTABxxx. ככל שיותר שדות — בחירה ספציפית יותר אך תחזוקה כבדה יותר.",
           purposeHe: "להגדיר את צירוף-המפתח שלפיו תאוחסן ותימצא אסטרטגיית-קביעת-האצווה.",
           processExampleHe: "טבלת-תנאי 'Material/Plant' מאפשרת רשומה נפרדת לכל שילוב חומר-מפעל; הקביעה מוצאת את האסטרטגיה לפי שילוב זה.",
-          cbcHe: "ב-CBC טבלת-תנאי לפי 'Material/Plant' מספיקה — מדיניות-FEFO אחידה לכל המשקאות במפעל.",
+          scenarioHe: "בארגון טבלת-תנאי לפי 'Material/Plant' מספיקה — מדיניות-FEFO אחידה לכל המשקאות במפעל.",
           navHe: ["Logistics – General ► Batch Management ► Batch Determination and Batch Check ► Condition Tables ► Define Condition Tables"],
           tables: ["T681", "KOTAB"],
           tcodes: ["CU70", "V/C7"],
@@ -583,7 +583,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "Access Sequence מקשר טבלאות-תנאי בסדר-עדיפות עם תנאי-Requirement אופציונליים. החיפוש עוצר ברשומה הראשונה שנמצאה (Exclusive) או ממשיך לצבירה. נשמר ב-T682. סדר נכון: ספציפי→כללי.",
           purposeHe: "להבטיח שהקביעה תמצא את הרשומה המתאימה-ביותר לפי סדר-עדיפות הגיוני.",
           processExampleHe: "רצף: (1) Material/Plant, (2) Material בלבד. הקביעה מנסה תחילה את הספציפי; אם אין — נופלת לכללי.",
-          cbcHe: "ב-CBC רצף פשוט: Material/Plant ואז Material — מאפשר חריג פר-מפעל מעל מדיניות-כללית.",
+          scenarioHe: "בארגון רצף פשוט: Material/Plant ואז Material — מאפשר חריג פר-מפעל מעל מדיניות-כללית.",
           navHe: ["Logistics – General ► Batch Management ► Batch Determination and Batch Check ► Access Sequences ► Define Access Sequences"],
           tables: ["T682", "T682I"],
           tcodes: ["CU70"],
@@ -602,7 +602,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "Strategy Type מגדיר Access Sequence, Selection Class (סוג 023), Sort Rule, Quantity proposal ו-Batch split. דומה ל-Condition Type בתמחור. נשמר ב-T688. סוגי-סטנדרט: למשל לפק\"ע, למכירה, להעברה — כל אחד עם לוגיקה משלו.",
           purposeHe: "לאגד את כללי-הבחירה-והמיון לחבילה אחת הניתנת לשיוך לאובייקט-עסקי.",
           processExampleHe: "Strategy Type לפק\"ע מצביע על Selection Class 'תקין-QM' ועל Sort Rule 'FEFO'; כל פק\"ע משתמשת בו אוטומטית לבחירת-רכיבים.",
-          cbcHe: "ב-CBC Strategy Type ייעודי לפק\"ע/הזמנת-תהליך מגדיר Selection Class (Brix בטווח) ו-Sort Rule FEFO לתרכיז.",
+          scenarioHe: "בארגון Strategy Type ייעודי לפק\"ע/הזמנת-תהליך מגדיר Selection Class (Brix בטווח) ו-Sort Rule FEFO לתרכיז.",
           navHe: ["Logistics – General ► Batch Management ► Batch Determination and Batch Check ► Strategy Types ► Define ... Strategy Types"],
           tables: ["T688", "T689"],
           tcodes: ["CU70"],
@@ -621,7 +621,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "Search Procedure מכיל שורות של Strategy Types עם Requirements. הוא מוקצה לאובייקט (Order type, Movement type, Sales doc). נשמר ב-T6KZ/T6KS. סדר-השורות קובע איזו אסטרטגיה נבחנת תחילה.",
           purposeHe: "לאגד ולסדר את האסטרטגיות שיופעלו לאובייקט-עסקי נתון.",
           processExampleHe: "Search Procedure לסוג-הזמנת-תהליך מכיל Strategy Type אחד (FEFO); כל פק\"ע מסוג זה מפעילה אותו אוטומטית.",
-          cbcHe: "ב-CBC נוהל-חיפוש להזמנות-תהליך-מילוי מכיל את אסטרטגיית-ה-FEFO לתרכיז.",
+          scenarioHe: "בארגון נוהל-חיפוש להזמנות-תהליך-מילוי מכיל את אסטרטגיית-ה-FEFO לתרכיז.",
           navHe: ["Logistics – General ► Batch Management ► Batch Determination and Batch Check ► Batch Search Procedure Definition ► Define ... Search Procedure"],
           tables: ["T6KZ", "T6KS"],
           tcodes: ["CU70"],
@@ -640,7 +640,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "מקצים Search Procedure פר Order Type / Movement Type / Sales doc, ומסמנים Batch Check / Automatic Batch Determination. ב-MM מופעל פר Movement Type; ב-PP פר Order Type. ה-Check אוכף שכל תנועה תכלול אצווה תקפה.",
           purposeHe: "לחבר את מנגנון-הקביעה לאובייקטים בפועל ולאכוף בחירת-אצווה תקפה.",
           processExampleHe: "מקצים Search Procedure ל-Order Type של פק\"ע ומפעילים קביעה-אוטומטית; מעתה כל פק\"ע מבצעת FEFO בלי התערבות.",
-          cbcHe: "ב-CBC מופעלת קביעה-אוטומטית לסוגי-הזמנת-המילוי ולתנועות-הצריכה (261) — FEFO אכוף בכל משיכת-תרכיז.",
+          scenarioHe: "בארגון מופעלת קביעה-אוטומטית לסוגי-הזמנת-המילוי ולתנועות-הצריכה (261) — FEFO אכוף בכל משיכת-תרכיז.",
           navHe: ["Logistics – General ► Batch Management ► Batch Determination and Batch Check ► Batch Search Procedure Allocation and Check Activation ► Allocate ... / Activate Automatic Batch Determination"],
           tables: ["T6KS", "TQ07"],
           tcodes: ["CU70", "OMCG"],
@@ -659,7 +659,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "נוהל-החיפוש מוקצה ל-Order Type של הזמנת-התהליך (COR1). הקביעה רצה בשחרור או בעת Material Staging. ה-Strategy Type כולל Selection Class למפרט (Brix/ריכוז) ו-Sort Rule FEFO. אפשר אוטומציה מלאה דרך COB1 (אצוות-batch determination ברקע).",
           purposeHe: "להחיל קביעת-אצווה אוטומטית בסביבת PP-PI, בהתאמה לדרישות תעשיות-התהליך (תוקף, מפרט).",
           processExampleHe: "הזמנת-תהליך משוחררת; הקביעה מקצה לכל רכיב-גלם את האצווה הקרובה-לתפוגה העומדת במפרט, ויוצרת Reservations עם אצווה.",
-          cbcHe: "ב-CBC כל הזמנת-תהליך-מילוי מבצעת בשחרור קביעת-FEFO על תרכיז/סוכר תוך אכיפת-מפרט (Brix), ומקצה אצוות לרכיבים.",
+          scenarioHe: "בארגון כל הזמנת-תהליך-מילוי מבצעת בשחרור קביעת-FEFO על תרכיז/סוכר תוך אכיפת-מפרט (Brix), ומקצה אצוות לרכיבים.",
           navHe: ["Logistics – General ► Batch Management ► Batch Determination and Batch Check ► Batch Search Procedure Allocation and Check Activation ► Allocate Search Procedure to Process Order Type"],
           tables: ["T6KS", "AFKO", "RESB"],
           tcodes: ["COR1", "CORS", "COB1", "CU70"],
@@ -679,7 +679,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "Sort Rule מבוסס מאפיינים: למיון-FEFO ממיינים עולה לפי LOBM_VFDAT. נוצר כ-Class מסוג 023 עם מאפיינים והגדרת כיוון-מיון, ומוקצה ל-Strategy Type. ניתן לשלב כמה מאפיינים (תפוגה ואז כמות).",
           purposeHe: "לקבוע את סדר-העדיפות לבחירת-אצווה — מימוש מדיניות FEFO/FIFO למזעור-פחת.",
           processExampleHe: "Sort Rule 'FEFO' ממיין אצוות עולה לפי תפוגה; הקביעה לוקחת ראשית את הקרובה-לפוג, ומונעת זריקת-מלאי.",
-          cbcHe: "ב-CBC Sort Rule מבוסס LOBM_VFDAT מבטיח שתרכיז קרוב-לתפוגה נצרך ראשון — מזער פחת-תוקף יקר.",
+          scenarioHe: "בארגון Sort Rule מבוסס LOBM_VFDAT מבטיח שתרכיז קרוב-לתפוגה נצרך ראשון — מזער פחת-תוקף יקר.",
           navHe: ["Logistics – General ► Batch Management ► Batch Determination and Batch Check ► Sort Rule (Sort Sequence) ► Define Sort Rule"],
           tables: ["KLAH", "KSML", "CABN"],
           tcodes: ["CU70", "CL02", "CT04"],
@@ -698,7 +698,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "רשומות מתוחזקות לפי Strategy Type (למשל MBC1/MBC2/MBC3 לתנועות, COB1 לפק\"ע, VCH1 למכירות). הן מאחסנות Selection Class, Sort Rule וכמויות פר-קריטריון. נשמרות ב-KONP/KOTAB. ניתן לתחזק מרוכז דרך הטרנזקציה התואמת לאובייקט.",
           purposeHe: "לאכלס את הטכניקה בנתונים בפועל — לקשר קריטריונים לאסטרטגיות-בחירה ולמיון.",
           processExampleHe: "ב-MBC1 יוצרים רשומה ל-Strategy Type/חומר/מפעל עם Selection Class ו-Sort Rule FEFO; כעת תנועות תואמות מבצעות קביעה אוטומטית.",
-          cbcHe: "ב-CBC רשומת-תנאי לכל סוג-משקה במפעל קובעת Selection Class (Brix) ו-Sort Rule FEFO — מדיניות-בחירה תפעולית.",
+          scenarioHe: "בארגון רשומת-תנאי לכל סוג-משקה במפעל קובעת Selection Class (Brix) ו-Sort Rule FEFO — מדיניות-בחירה תפעולית.",
           navHe: ["Logistics – General ► Batch Management ► Batch Determination and Batch Check ► Maintain Condition Records"],
           tables: ["KONP", "KOTAB", "KONH"],
           tcodes: ["MBC1", "MBC2", "MBC3", "COB1", "VCH1"],
@@ -717,7 +717,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "בעיבוד-המסמך נקרא Search Procedure → Strategy Type → Access Sequence מוצא רשומה → Selection Class מסנן אצוות-זמינות (סטטוס+מאפיינים) → Sort Rule ממיין → הקצאה (כולל Batch split אם נדרש). תוצאות נרשמות ב-RESB/תנועה. ניתן לראות/לדרוס ידנית במסך-הקביעה.",
           purposeHe: "להראות כיצד כל שכבות-ההגדרה מתלכדות לבחירה-אוטומטית אחת בזמן-אמת.",
           processExampleHe: "פק\"ע משוחררת; הקביעה מסננת אצוות-תקינות-QM, ממיינת FEFO, מקצה את הקרובה-לתפוגה; אם הכמות לא מספיקה — Batch split בין שתי אצוות.",
-          cbcHe: "ב-CBC שחרור הזמנת-מילוי בוחר אוטומטית תרכיז FEFO תקין-מפרט; חוסר-כמות מפצל בין שתי אצוות-תרכיז ברצף-תפוגה.",
+          scenarioHe: "בארגון שחרור הזמנת-מילוי בוחר אוטומטית תרכיז FEFO תקין-מפרט; חוסר-כמות מפצל בין שתי אצוות-תרכיז ברצף-תפוגה.",
           navHe: ["Logistics ► Production ► Process Order ► Release ► Batch Determination", "Logistics ► Materials Management ► Inventory Management ► Goods Movement ► Batch Determination in MIGO"],
           tables: ["RESB", "MSEG", "MCHB"],
           tcodes: ["COR2", "MIGO", "CO15", "MBC1"],
@@ -751,8 +751,8 @@ export const CH9: TextbookChapter = {
         "להבטיח שמלאי-אצווה מאוחסן נשאר תוך-מפרט לאורך-חייו, לנהל תוקף, ולמנוע שימוש בחומר פג-תוקף.",
       processExampleHe:
         "אצווה מתקרבת למועד-בדיקה-חוזרת; QA07 יוצרת inspection lot מסוג 09; המעבדה בודקת; Usage Decision מאריך את התפוגה (קובע next-inspection חדש) או חוסם את האצווה.",
-      cbcHe:
-        "ב-CBC תרכיז נבדק-מחדש מדי X חודשים; QA07 יוצרת מנת-בדיקה-חוזרת; אם Brix ו-pH עדיין תקינים — התפוגה מוארכת, אחרת האצווה נחסמת לגריטה.",
+      scenarioHe:
+        "בארגון תרכיז נבדק-מחדש מדי X חודשים; QA07 יוצרת מנת-בדיקה-חוזרת; אם Brix ו-pH עדיין תקינים — התפוגה מוארכת, אחרת האצווה נחסמת לגריטה.",
       navHe: [
         "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Maintain Inspection Types (Type 09)",
         "Logistics ► Quality Management ► Quality Inspection ► Worklist ► Deadline Monitoring (QA07)",
@@ -807,7 +807,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "Checklist: (1) QM view פעיל באב-החומר; (2) Inspection Type 09 בהגדרת-בדיקה (Inspection Setup) עם Active; (3) MHDHB/MHDRZ; (4) Inspection Interval; (5) כיתת-אצווה עם LOBM_VFDAT. ללא Inspection Setup פעיל — QA07 לא יוצרת מנה.",
           purposeHe: "להבטיח שכל הקדם-תנאים לבדיקה-חוזרת קיימים לפני הפעלה תפעולית.",
           processExampleHe: "לפני Go-Live עוברים על Checklist לכל חומר רגיש-תוקף ומוודאים QM view + Type 09 + Shelf-life — ואז QA07 פועלת חלק.",
-          cbcHe: "ב-CBC ה-Checklist מורץ לכל תרכיז/HALB רגיש-תוקף לפני הפעלת-בדיקה-חוזרת בייצור.",
+          scenarioHe: "בארגון ה-Checklist מורץ לכל תרכיז/HALB רגיש-תוקף לפני הפעלת-בדיקה-חוזרת בייצור.",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection for Goods Movements / Maintain Inspection Types"],
           tables: ["MARA", "QMAT", "TQ30"],
           tcodes: ["MM02", "QA07", "QS28"],
@@ -826,7 +826,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "QA07/QA08 סורקות אצוות עם next-inspection שחלף ויוצרות inspection lot 09. אחרי תוצאות, Usage Decision קובע: Accept → next-inspection חדש מחושב והתפוגה מוארכת; Reject → סטטוס-אצווה Restricted/Blocked. כל זה מתועד ב-QALS/QAVE.",
           purposeHe: "להריץ את מחזור-הבדיקה-החוזרת מקצה-לקצה תוך עדכון-תוקף ושמירת-איכות.",
           processExampleHe: "QA07 יוצרת מנות-09 לאצוות-שמועדן; מעבדה מזינה תוצאות; ב-QA11 Accept מאריך תפוגה ב-X חודשים, Reject חוסם.",
-          cbcHe: "ב-CBC job-לילי QA07 פותח מנות-בדיקה-חוזרת לתרכיז; אישור-QA מאריך תפוגה, דחייה חוסמת לגריטה.",
+          scenarioHe: "בארגון job-לילי QA07 פותח מנות-בדיקה-חוזרת לתרכיז; אישור-QA מאריך תפוגה, דחייה חוסמת לגריטה.",
           navHe: ["Logistics ► Quality Management ► Quality Inspection ► Worklist ► Deadline Monitoring (QA07)", "Logistics ► Quality Management ► Quality Inspection ► Usage Decision (QA11)"],
           tables: ["QALS", "QAVE", "MCHA"],
           tcodes: ["QA07", "QA08", "QA11", "QA32"],
@@ -853,8 +853,8 @@ export const CH9: TextbookChapter = {
         "לתכנן, לצרוך ולתמחר לפי תוכן-פעיל אמיתי ולא לפי משקל-גולמי, כשהריכוז משתנה בין אצוות.",
       processExampleHe:
         "אצווה בריכוז 95% נצרכת לפק\"ע הדורשת כמות-פעילה קבועה; המערכת מחשבת כמה ק\"ג-גולמי לשקול כדי לספק את הכמות-הפעילה הנדרשת.",
-      cbcHe:
-        "ב-CBC ריכוז-תרכיז משתנה מעט בין אצוות; ניהול-חומר-פעיל מבטיח שכל מנת-משקה תקבל את כמות-החומר-הפעיל הנכונה גם אם המשקל-הגולמי משתנה.",
+      scenarioHe:
+        "בארגון ריכוז-תרכיז משתנה מעט בין אצוות; ניהול-חומר-פעיל מבטיח שכל מנת-משקה תקבל את כמות-החומר-הפעיל הנכונה גם אם המשקל-הגולמי משתנה.",
       navHe: [
         "Logistics – General ► Batch Management ► Active Ingredient Management ► Set Up Active Ingredient Management",
         "Logistics – General ► Material Master ► Settings for Key Fields ► Units of Measure",
@@ -906,7 +906,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "מפעילים Active Ingredient management ב-IMG, מגדירים Proportion Unit ו-Product Unit, ומקשרים את מאפיין-הריכוז (LOBM_AKTIV) לכיתת-האצווה. ההמרה הדינמית נשענת על MARM ועל ערך-הריכוז ב-AUSP.",
           purposeHe: "להניח את התשתית הטכנית להמרה דינמית בין כמות-גולמית לפעילה.",
           processExampleHe: "ב-IMG מפעילים את היכולת ומגדירים יחידות; מקשרים LOBM_AKTIV לכיתה — כעת ההמרה אפשרית.",
-          cbcHe: "ב-CBC מגדירים יחידות לריכוז-תרכיז ומקשרים LOBM_AKTIV לכיתת-התרכיז.",
+          scenarioHe: "בארגון מגדירים יחידות לריכוז-תרכיז ומקשרים LOBM_AKTIV לכיתת-התרכיז.",
           navHe: ["Logistics – General ► Batch Management ► Active Ingredient Management ► Set Up Active Ingredient Management"],
           tables: ["MARM", "TCURM"],
           tcodes: ["OMW1", "CT04"],
@@ -925,7 +925,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "אב-החומר: סימון Active Ingredient + Base/Proportion/Product UoM ב-MARM. האצווה: ערך LOBM_AKTIV ב-AUSP (לרוב נכנס מ-QM/קבלה). ההמרה לכל תנועה משתמשת בריכוז-האצווה הספציפי.",
           purposeHe: "לספק את הנתונים הספציפיים (יחידות + ריכוז-פר-אצווה) שעליהם נשענת ההמרה.",
           processExampleHe: "אב-החומר מוגדר עם יחידות-המרה; אצווה חדשה מקבלת ריכוז 95% מתוצאת-QM; ההמרה משתמשת ב-95% בכל צריכה.",
-          cbcHe: "ב-CBC כל אצוות-תרכיז מקבלת ערך-ריכוז מתוצאת-מעבדה; ההמרה למשקה משתמשת בערך זה.",
+          scenarioHe: "בארגון כל אצוות-תרכיז מקבלת ערך-ריכוז מתוצאת-מעבדה; ההמרה למשקה משתמשת בערך זה.",
           navHe: ["Logistics – General ► Material Master ► Material ► Change (MM02) ► Active Ingredient settings", "Logistics – General ► Batch Management ► Batch ► Change (MSC2N) ► Concentration"],
           tables: ["MARM", "MCHA", "AUSP"],
           tcodes: ["MM02", "MSC2N", "CT04"],
@@ -944,7 +944,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "בקבלה נרשמות שתי כמויות (גולמית ופעילה). MRP יכול לתכנן לפי כמות-פעילה. בצריכת-פק\"ע ההקצאה מתורגמת לכמות-גולמית הדרושה לכמות-פעילה. תמחיר משתקלל לפי תוכן-פעיל. הכול מתועד פר-אצווה.",
           purposeHe: "להריץ תכנון, צריכה ותמחיר על-בסיס תוכן-פעיל אמיתי לאורך כל זרימת-הלוגיסטיקה.",
           processExampleHe: "פק\"ע דורשת 50 ק\"ג חומר-פעיל; אצווה ב-95% ➔ המערכת מקצה ~52.6 ק\"ג-גולמי; הצריכה והעלות נרשמות בהתאם.",
-          cbcHe: "ב-CBC מנת-משקה דורשת כמות-תרכיז-פעיל קבועה; ההמרה מבטיחה אחידות-טעם גם כשריכוז-האצוות משתנה.",
+          scenarioHe: "בארגון מנת-משקה דורשת כמות-תרכיז-פעיל קבועה; ההמרה מבטיחה אחידות-טעם גם כשריכוז-האצוות משתנה.",
           navHe: ["Logistics ► Production ► Process Order ► Goods Movements (Active ingredient conversion)", "Logistics ► Materials Management ► Inventory Management (Active ingredient quantities)"],
           tables: ["MSEG", "RESB", "MARM"],
           tcodes: ["MIGO", "CO15", "COR6N"],
@@ -971,8 +971,8 @@ export const CH9: TextbookChapter = {
         "להבטיח זרימת-מאפיינים אוטומטית מרכיב למוצר — עקיבות-תכונה (אלרגנים, מקור, ריכוז) בלי הקלדה-ידנית ושגיאות.",
       processExampleHe:
         "מנת-תוצר נוצרת מאצוות-רכיב; כלל-גזירה מעתיק את 'אזור-מקור' ו'סטטוס-אלרגן' מהרכיבים לאצוות-המוצר, ומחשב ריכוז-משוקלל.",
-      cbcHe:
-        "ב-CBC גזירה מעבירה את 'מקור-תרכיז' ו'אצוות-ספק' מאצוות-הרכיב לאצוות-המשקה — כל בקבוק יודע מאיזה תרכיז ומאיזה ספק הגיע, אוטומטית.",
+      scenarioHe:
+        "בארגון גזירה מעבירה את 'מקור-תרכיז' ו'אצוות-ספק' מאצוות-הרכיב לאצוות-המשקה — כל בקבוק יודע מאיזה תרכיז ומאיזה ספק הגיע, אוטומטית.",
       navHe: [
         "Logistics – General ► Batch Management ► Derivation of Batch Data ► Set Up Derivation",
         "Logistics – General ► Batch Management ► Derivation of Batch Data ► Maintain Derivation Strategy",
@@ -1028,7 +1028,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "ב-DVMO/DVMA מגדירים Strategy עם Sender Search (אצוות-רכיב לפי ההזמנה) ו-Receiver Search (אצוות-תוצר), ו-Rules הממפות מאפיינים. ניתן להגדיר Derivation events (בקבלה/דיווח). נתמך ב-BAdI להרחבה.",
           purposeHe: "להניח את המסגרת הטכנית של הגזירה לפני שמיישמים כללים עסקיים.",
           processExampleHe: "מגדירים Strategy שקוראת מאצוות-רכיב-ההזמנה וכותבת לאצוות-התוצר, עם כלל-העתקה ל'מקור'.",
-          cbcHe: "ב-CBC מגדירים Strategy לקריאה מאצוות-תרכיז וכתיבה לאצוות-המשקה.",
+          scenarioHe: "בארגון מגדירים Strategy לקריאה מאצוות-תרכיז וכתיבה לאצוות-המשקה.",
           navHe: ["Logistics – General ► Batch Management ► Derivation of Batch Data ► Set Up Derivation / Maintain Derivation Strategy"],
           tables: ["DVS_*", "KLAH"],
           tcodes: ["DVMA", "DVMO"],
@@ -1047,7 +1047,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "מוודאים שהמאפיין (למשל 'מקור') מופיע בכיתת-האצווה (022/023) של ה-Sender וגם של ה-Receiver, ומוקצה לחומרים (MM02). ללא נוכחות דו-צדדית, הגזירה מתעלמת מהמאפיין.",
           purposeHe: "להבטיח שהמאפיינים הנגזרים זמינים בשני-הצדדים — תנאי-סף הכרחי לגזירה.",
           processExampleHe: "'אזור-מקור' מתווסף לכיתת-אצוות-הרכיב ולכיתת-אצוות-המוצר; כעת הגזירה יכולה להעבירו.",
-          cbcHe: "ב-CBC 'מקור-תרכיז' ו'אצוות-ספק' מופיעים גם בכיתת-התרכיז וגם בכיתת-המשקה.",
+          scenarioHe: "בארגון 'מקור-תרכיז' ו'אצוות-ספק' מופיעים גם בכיתת-התרכיז וגם בכיתת-המשקה.",
           navHe: ["Logistics – General ► Material Master ► Material ► Change (MM02) ► Classification View (Sender + Receiver materials)"],
           tables: ["KSSK", "KLAH", "AUSP"],
           tcodes: ["MM02", "CL02", "CT04"],
@@ -1066,7 +1066,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "ב-Derivation event (קבלת-תוצר 101 / דיווח) המנוע קורא Sender batches מ-RESB/ההזמנה, מחיל Rules, וכותב ל-AUSP של אצוות-התוצר. DVRE מאפשר הרצה/בדיקה ידנית. תוצאות מתועדות ב-Derivation log.",
           purposeHe: "להריץ את הגזירה בנקודות-הזמן הנכונות ולאפשר בקרה/תיקון ידני.",
           processExampleHe: "דיווח מנת-משקה מפעיל גזירה: 'מקור' ו'אלרגן' מועתקים מאצוות-התרכיז; הלוג מציג מה נגזר ומאיזו אצווה.",
-          cbcHe: "ב-CBC כל סיום-מנת-מילוי גוזר אוטומטית 'מקור-תרכיז' ו'אצוות-ספק' לאצוות-המשקה; ניתן לבדוק ב-DVRE.",
+          scenarioHe: "בארגון כל סיום-מנת-מילוי גוזר אוטומטית 'מקור-תרכיז' ו'אצוות-ספק' לאצוות-המשקה; ניתן לבדוק ב-DVRE.",
           navHe: ["Logistics ► Production ► Process Order ► Confirmation (Derivation at GR)", "Logistics – General ► Batch Management ► Derivation ► Manual Derivation (DVRE)"],
           tables: ["RESB", "AUSP", "MCHA"],
           tcodes: ["COR6N", "CO15", "DVRE"],
@@ -1085,7 +1085,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "Derivation log ודוחות-מאפיינים (BMBC עם מאפיינים, וכן דוחות-WHERE-USED) מציגים את שרשרת-הגזירה. ניתן להצליב מול ערכי-Sender לאימות. שימושי לביקורת ולתחקור-ריקול מבוסס-תכונה.",
           purposeHe: "לספק נראות ותיעוד של מה-נגזר-מאיפה לצורכי ביקורת, איכות-נתונים ותחקור.",
           processExampleHe: "בתחקור-תלונה בודקים בדוח-הגזירה אילו אצוות-רכיב תרמו ל'מקור' של אצוות-המוצר החשודות.",
-          cbcHe: "ב-CBC דוח-גזירה מצליב 'מקור-תרכיז' של אצוות-משקה חשודות חזרה לאצוות-התרכיז המקוריות.",
+          scenarioHe: "בארגון דוח-גזירה מצליב 'מקור-תרכיז' של אצוות-משקה חשודות חזרה לאצוות-התרכיז המקוריות.",
           navHe: ["Logistics – General ► Batch Management ► Derivation ► Display Derivation Log", "Logistics – General ► Batch Information Cockpit (BMBC) — characteristic view"],
           tables: ["AUSP", "MCHA", "DVS_*"],
           tcodes: ["DVRE", "BMBC", "MB56"],
@@ -1112,8 +1112,8 @@ export const CH9: TextbookChapter = {
         "לשמר עקיבות-אצווה רציפה דרך כל שלבי-הייצור, כולל תוצרי-ביניים שאינם מאוחסנים — לריקול מדויק ולתחקור-תהליך.",
       processExampleHe:
         "תהליך תלת-שלבי: לכל שלב נוצרת WIP Batch הקושרת את אצוות-הקלט לאצוות-הפלט-הביניים; בסוף נבנית שרשרת מלאה מחומר-גלם ועד מוצר.",
-      cbcHe:
-        "ב-CBC הכנת-סירופ → ערבוב → מילוי, כל שלב מקבל WIP Batch; כך עקיבות מלאה: בקבוק → מנת-מילוי → תערובת → סירופ → תרכיז/סוכר, בלי 'שבירה' באמצע.",
+      scenarioHe:
+        "בארגון הכנת-סירופ → ערבוב → מילוי, כל שלב מקבל WIP Batch; כך עקיבות מלאה: בקבוק → מנת-מילוי → תערובת → סירופ → תרכיז/סוכר, בלי 'שבירה' באמצע.",
       navHe: [
         "Logistics – General ► Batch Management ► Work in Process Batch ► Activate WIP Batch",
         "Logistics – General ► Batch Management ► Work in Process Batch ► Define WIP Batch for Order Types",
@@ -1168,7 +1168,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "הפעלה ב-IMG (Activate WIP Batch), הקצאה ל-Order Type, והגדרת WIP Batch creation ב-Phase/Resource. ניתן לקבוע אם נוצרת אצווה לכל שלב או רק לנבחרים. דורש PP-PI Process Order.",
           purposeHe: "להניח את תשתית-העקיבות הפנים-תהליכית לפני הפעלה תפעולית.",
           processExampleHe: "מפעילים WIP Batch ל-Order Type של תהליך ומגדירים יצירה בשלבי הערבוב והמילוי.",
-          cbcHe: "ב-CBC מפעילים WIP Batch להזמנות-תהליך-משקה ומגדירים יצירה בשלבי סירופ/ערבוב/מילוי.",
+          scenarioHe: "בארגון מפעילים WIP Batch להזמנות-תהליך-משקה ומגדירים יצירה בשלבי סירופ/ערבוב/מילוי.",
           navHe: ["Logistics – General ► Batch Management ► Work in Process Batch ► Activate WIP Batch / Define for Order Types"],
           tables: ["AFKO", "T399X"],
           tcodes: ["COR4"],
@@ -1187,7 +1187,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "Master Recipe (C201) עם Phases; חומרי-ביניים (HALB) עם XCHPF וכיתת-אצווה; הקצאת מאפיינים לתוצרי-הביניים. ה-Material List/BOM מקשרת רכיבים לשלבים. ה-WIP Batch נוצר לפי מבנה זה.",
           purposeHe: "לספק את נתוני-האב (מתכון, חומרי-ביניים מנוהלי-אצווה, כיתות) שעליהם נשען מנגנון-ה-WIP.",
           processExampleHe: "מגדירים Master Recipe תלת-שלבי; חומרי-הביניים מנוהלי-אצווה עם כיתה; כעת כל שלב יכול לייצר WIP Batch מקושר.",
-          cbcHe: "ב-CBC המתכון מגדיר סירופ→תערובת→משקה; כל ביניים מנוהל-אצווה עם כיתה, מאפשר WIP Batch בכל שלב.",
+          scenarioHe: "בארגון המתכון מגדיר סירופ→תערובת→משקה; כל ביניים מנוהל-אצווה עם כיתה, מאפשר WIP Batch בכל שלב.",
           navHe: ["Logistics ► Production – Process ► Master Data ► Master Recipes ► Recipe ► Create (C201)"],
           tables: ["PLPO", "MAPL", "MARC", "KLAH"],
           tcodes: ["C201", "C202", "MM02"],
@@ -1206,7 +1206,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "בדיווחי-שלב (COR6N/CORK) נוצרות אצוות-WIP ונרשמים קשרי genealogy (input batches → WIP output). תנועות-261/101 פנים-תהליכיות מקושרות לאצוות-הביניים. השרשרת זמינה מיד לתחקור ב-MB56/BMBC.",
           purposeHe: "לבנות את שרשרת-העקיבות הפנים-תהליכית בזמן-אמת תוך כדי ייצור.",
           processExampleHe: "דיווח שלב-ערבוב יוצר WIP Batch לתערובת ומקשר אליה את אצוות-הסירופ והתרכיז שנצרכו; שלב-המילוי מקשר את התערובת למשקה.",
-          cbcHe: "ב-CBC דיווח כל שלב במנת-המשקה מקשר את אצוות-הקלט לאצוות-הביניים, ובסוף בקבוק→מילוי→תערובת→סירופ→תרכיז.",
+          scenarioHe: "בארגון דיווח כל שלב במנת-המשקה מקשר את אצוות-הקלט לאצוות-הביניים, ובסוף בקבוק→מילוי→תערובת→סירופ→תרכיז.",
           navHe: ["Logistics ► Production – Process ► Process Order ► Confirmation ► Enter for Phase (COR6N)"],
           tables: ["AFRU", "RESB", "MB_DOCBATCH"],
           tcodes: ["COR6N", "CORK", "CO15"],
@@ -1225,7 +1225,7 @@ export const CH9: TextbookChapter = {
           consultantHe: "MB56 (Batch Where-Used) מספק Top-down (where-used) ו-Bottom-up (origin) כולל WIP Batches. BMBC מאחד תצוגת-אצווה, מלאי, מאפיינים ו-genealogy במסך-אחד. שימושי לריקול ממוקד ולחקירת-סטיות-תהליך.",
           purposeHe: "לספק נראות דו-כיוונית מלאה של שרשרת-האצווה כולל ביניים — לריקול ולתחקור.",
           processExampleHe: "בריקול בודקים ב-MB56 Bottom-up מאצווה-חשודה: רואים אילו אצוות-ביניים ומוצרים-סופיים הושפעו, ומצמצמים את היקף-הריקול.",
-          cbcHe: "ב-CBC בתלונת-לקוח מריצים MB56 מאצוות-המשקה אחורה דרך התערובת והסירופ עד התרכיז/הספק — ריקול ממוקד.",
+          scenarioHe: "בארגון בתלונת-לקוח מריצים MB56 מאצוות-המשקה אחורה דרך התערובת והסירופ עד התרכיז/הספק — ריקול ממוקד.",
           navHe: ["Logistics – General ► Batch Management ► Batch Information Cockpit (BMBC)", "Logistics ► Materials Management ► Inventory Management ► Environment ► Batch Where-Used List (MB56)"],
           tables: ["MB_DOCBATCH", "MCHA", "AUSP"],
           tcodes: ["MB56", "BMBC"],
@@ -1252,8 +1252,8 @@ export const CH9: TextbookChapter = {
         "לרכז את כל פעולות-וצפיות-האצווה בכלי-אחד — חיפוש, מלאי, סטטוס, מאפיינים ו-genealogy — לייעול-תפעול ולתחקור-מהיר.",
       processExampleHe:
         "איש-QM מחפש ב-BMBC את כל האצוות עם ריכוז מתחת-לסף; רואה את מלאיין וסטטוסן; ומבצע שינוי-סטטוס-המוני ל-Restricted ישירות מהמסך.",
-      cbcHe:
-        "ב-CBC מנהל-QA פותח BMBC, מסנן אצוות-תרכיז שתפוגתן בתוך 30 יום, רואה מלאי ו-genealogy, וחוסם המונית אצוות פגות-תוקף — תפעול-FEFO יעיל.",
+      scenarioHe:
+        "בארגון מנהל-QA פותח BMBC, מסנן אצוות-תרכיז שתפוגתן בתוך 30 יום, רואה מלאי ו-genealogy, וחוסם המונית אצוות פגות-תוקף — תפעול-FEFO יעיל.",
       navHe: [
         "Logistics – General ► Batch Management ► Batch Information Cockpit (BMBC)",
         "Logistics ► Central Functions ► Batch Management ► Batch Information Cockpit",
@@ -1315,8 +1315,8 @@ export const CH9: TextbookChapter = {
         "להחליף תיעוד-נייר בתיק-אצווה דיגיטלי מלא, מבוקר וחתום — לעמידה ברגולציה, לסקירה-יעילה ולשחרור-אצווה מהיר.",
       processExampleHe:
         "במהלך ייצור נאספים PI Sheet data, תוצאות-QM וחריגות; בסיום מבצע סקירת-Batch-Record, מאשר חתימות-דיגיטליות, ומשחרר את האצווה — הכול מתועד ב-EBR.",
-      cbcHe:
-        "ב-CBC כל מנת-משקה תחת-רגולציה מייצרת EBR: פרמטרי-ערבוב, Brix, חריגות-תהליך וחתימות-QA; ה-EBR נסקר ונחתם לפני שחרור-המשקה לשוק.",
+      scenarioHe:
+        "בארגון כל מנת-משקה תחת-רגולציה מייצרת EBR: פרמטרי-ערבוב, Brix, חריגות-תהליך וחתימות-QA; ה-EBR נסקר ונחתם לפני שחרור-המשקה לשוק.",
       navHe: [
         "Logistics ► Production – Process ► Process Management ► Electronic Batch Record",
         "Logistics ► Production – Process ► Tools ► Digital Signature ► Define Signature Strategies",
@@ -1378,8 +1378,8 @@ export const CH9: TextbookChapter = {
         "לקבע את התמונה-הכוללת ולחבר את כל החלקים למסגרת-מימוש קוהרנטית, כך שניתן לתכנן פרויקט ניהול-אצוות מקצה-לקצה.",
       processExampleHe:
         "מסע-אצווה מלא: יצירה (אוטומטית) → סיווג → בדיקת-כניסה (Restricted→Unrestricted) → קביעת-FEFO לצריכה → גזירת-מאפיינים לתוצר → WIP genealogy → בדיקה-חוזרת → תחקור ב-BMBC → EBR לשחרור.",
-      cbcHe:
-        "ב-CBC: תרכיז/סוכר/CO2 נקלטים כאצוות, נבדקים, נצרכים FEFO לפי מפרט, גוזרים 'מקור' למשקה, נבנה genealogy מלא, והכול מתועד ב-EBR — מאפשר ריקול תוך-דקות ועמידה רגולטורית.",
+      scenarioHe:
+        "בארגון: תרכיז/סוכר/CO2 נקלטים כאצוות, נבדקים, נצרכים FEFO לפי מפרט, גוזרים 'מקור' למשקה, נבנה genealogy מלא, והכול מתועד ב-EBR — מאפשר ריקול תוך-דקות ועמידה רגולטורית.",
       navHe: [
         "Logistics – General ► Batch Management (כלל-המסלולים שנסקרו בפרק)",
       ],

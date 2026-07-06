@@ -137,7 +137,7 @@ export const ECC_S4_TOPICS: EccS4Topic[] = [
     fioriCds: "Fiori 'Manage Batches'; CDS I_Batch.",
     simplification: "—",
     impact: "מינימלי; שים לב לאורך מספר אצווה ולסיווג.",
-    note: "מרכזי בייצור תהליכי (CBC)." },
+    note: "מרכזי בייצור תהליכי." },
   { slug: "capacity-planning-s4", title: "Capacity Planning", he: "תכנון קיבולת", area: "PP", status: "Changed",
     ecc: "CM01-CM25, Capacity Leveling קלאסי, Planning Table (גרפי/טבלאי).",
     s4: "חלק מכלי הקיבולת הקלאסיים לא אסטרטגיים; תכנון/פנמייה מתקדם דרך PP-DS Planning Board.",

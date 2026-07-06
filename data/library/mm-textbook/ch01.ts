@@ -9,7 +9,7 @@ export const CH1: TextbookChapter = {
   titleHe: "מבוא לרכש ואספקה",
   titleEn: "Introduction to Sourcing and Procurement",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה למבוא לרכש ואספקה (Sourcing & Procurement) ב-SAP S/4HANA. כל תת-פרק וכל תת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC (בקבוק קוקה-קולה ישראל), ניווט ו-SPRO/IMG, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשימי-תהליך (Source-to-Pay ו-Procure-to-Pay), טעויות נפוצות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בעולם הרכש של S/4HANA — מהבסיס התפעולי ועד הסורסינג האסטרטגי — ללא מקור נוסף.",
+    "פרק זה הוא יחידת-לימוד מלאה למבוא לרכש ואספקה (Sourcing & Procurement) ב-SAP S/4HANA. כל תת-פרק וכל תת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון (בקבוק מוצר לדוגמה ישראל), ניווט ו-SPRO/IMG, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשימי-תהליך (Source-to-Pay ו-Procure-to-Pay), טעויות נפוצות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בעולם הרכש של S/4HANA — מהבסיס התפעולי ועד הסורסינג האסטרטגי — ללא מקור נוסף.",
   subchapters: [
     // ============================================================ 1.1
     {
@@ -26,8 +26,8 @@ export const CH1: TextbookChapter = {
         "המטרה: למקסם ערך לאורך כל ההוצאה — להבטיח אספקה רציפה (תפעולי) תוך שיפור מתמיד של תנאים, סיכון ועלות-כוללת (אסטרטגי). מיפוי נכון של הרצף קובע איפה להשקיע אוטומציה (תפעולי) ואיפה שיקול-דעת אנושי (אסטרטגי).",
       processExampleHe:
         "ארגון מזהה חומר עתיר-הוצאה. הסורסינג מנהל RFQ (ME41), בוחר ספק, חותם חוזה-מסגרת (ME31K). מאותו רגע הרכש התפעולי רק מבצע: PR נוצר, Source Determination שולפת את החוזה, ה-PO מופק כ-Release Order כנגד החוזה — בלי משא-ומתן חוזר.",
-      cbcHe:
-        "ב-CBC: התרכיז (Concentrate) נרכש ספק-יחיד מ-The Coca-Cola Company — סורסינג אסטרטגי טהור עם חוזה ארוך-טווח. לעומתו, חומרי-אריזה (פקקים, תוויות) הם רכש תפעולי שוטף מספקים מרובים דרך Ariba. הסוכר וה-CO2 נמצאים באמצע — חוזי-מסגרת שנתיים עם Release Orders שבועיים.",
+      scenarioHe:
+        "בארגון: התרכיז (Concentrate) נרכש ספק-יחיד מ-The Example Product Company — סורסינג אסטרטגי טהור עם חוזה ארוך-טווח. לעומתו, חומרי-אריזה (פקקים, תוויות) הם רכש תפעולי שוטף מספקים מרובים דרך Ariba. הסוכר וה-CO2 נמצאים באמצע — חוזי-מסגרת שנתיים עם Release Orders שבועיים.",
       navHe: [
         "Materials Management ► Purchasing ► Sources of Supply ► Maintain Source List (SPRO ► IMG ► MM ► Purchasing ► Source List)",
         "Materials Management ► Purchasing ► Sources of Supply ► Define Rules for Source Determination",
@@ -101,8 +101,8 @@ export const CH1: TextbookChapter = {
             "להבטיח שלכל קטגוריית-הוצאה יש ספק מתאים, מוערך ומחוזה — לפני שמתחיל הרכש התפעולי. הסורסינג ממיר 'הוצאה כאוטית' ל'הוצאה מנוהלת'.",
           processExampleHe:
             "קטגוריה חדשה: שולחים RFQ למספר ספקים (ME41), מקבלים הצעות (ME47), משווים (ME49), בוחרים, מעריכים ספק, וחותמים חוזה. התוצאה: Info Record + Source List שמהם ימשיך הרכש התפעולי.",
-          cbcHe:
-            "ב-CBC הסורסינג של בקבוקי-PET וחומרי-אריזה מנוהל ב-SAP Ariba: RFQ דיגיטלי, השוואת-הצעות וניהול חוזים. התרכיז עצמו אינו עובר סורסינג תחרותי — Single Source מחוזה The Coca-Cola Company.",
+          scenarioHe:
+            "בארגון הסורסינג של בקבוקי-PET וחומרי-אריזה מנוהל ב-SAP Ariba: RFQ דיגיטלי, השוואת-הצעות וניהול חוזים. התרכיז עצמו אינו עובר סורסינג תחרותי — Single Source מחוזה The Example Product Company.",
           navHe: [
             "Materials Management ► Purchasing ► RFQ/Quotation ► Define Document Types",
             "SPRO ► IMG ► Materials Management ► Purchasing ► Sources of Supply ► Purchasing Info Record ► Define Number Ranges",
@@ -157,8 +157,8 @@ export const CH1: TextbookChapter = {
             "לבצע ביעילות-מרבית את החלטות-המקור האסטרטגיות: לקנות את הכמות הנכונה, בזמן הנכון, במחיר המוסכם, ולשלם נכון — תוך מינימום התערבות-ידנית.",
           processExampleHe:
             "משתמש יוצר PR (ME51N) ל-1,000 יח'. Source Determination מצמידה ספק מ-Source List. הרכש ממיר ל-PO (ME21N) או שזה קורה אוטומטית. ה-PO נשלח, הסחורה מתקבלת ב-MIGO (101), והחשבונית מאומתת ב-MIRO מול ה-PO וה-GR.",
-          cbcHe:
-            "ב-CBC הזמנות-אריזה שבועיות הן רכש תפעולי טהור: PR נוצר מ-MRP, Auto-PO מפיק PO כנגד חוזה-המסגרת, GR בקבלה לקו-המילוי, ו-ERS מסלק חשבונית ללא חשבונית-נייר מהספק.",
+          scenarioHe:
+            "בארגון הזמנות-אריזה שבועיות הן רכש תפעולי טהור: PR נוצר מ-MRP, Auto-PO מפיק PO כנגד חוזה-המסגרת, GR בקבלה לקו-המילוי, ו-ERS מסלק חשבונית ללא חשבונית-נייר מהספק.",
           navHe: [
             "Materials Management ► Purchasing ► Purchase Order ► Define Document Types",
             "SPRO ► IMG ► Materials Management ► Logistics Invoice Verification ► Incoming Invoice ► Configure How Unplanned Delivery Costs Are Posted",
@@ -231,8 +231,8 @@ export const CH1: TextbookChapter = {
         "לראות ולנהל את הרכש כשרשרת-ערך אחת: לקצר זמני-מחזור, להפחית עלות-עיבוד, לאכוף ציות-לחוזה ולשפר את ניראות ההוצאה — במקום אופטימיזציה מקומית של שלב בודד.",
       processExampleHe:
         "צורך מזוהה ➔ סורסינג בוחר ספק וחותם חוזה (S2P) ➔ PR נוצר ➔ Source Determination שולפת את החוזה ➔ PO מופק ➔ GR ➔ IR ➔ תשלום. דוח Overview מציג את כל הצנרת בזמן-אמת ומתריע על פריטים תקועים.",
-      cbcHe:
-        "ב-CBC השרשרת מקצה-לקצה: MRP מזהה צורך-אריזה ➔ חוזה-מסגרת (S2P, נחתם פעם בשנה) ➔ PR➔PO שבועי ➔ GR בקו-המילוי ➔ ERS/MIRO ➔ תשלום. Ariba מכסה את צד-ה-S2P; S/4HANA Core את ה-P2P.",
+      scenarioHe:
+        "בארגון השרשרת מקצה-לקצה: MRP מזהה צורך-אריזה ➔ חוזה-מסגרת (S2P, נחתם פעם בשנה) ➔ PR➔PO שבועי ➔ GR בקו-המילוי ➔ ERS/MIRO ➔ תשלום. Ariba מכסה את צד-ה-S2P; S/4HANA Core את ה-P2P.",
       navHe: [
         "SPRO ► IMG ► Materials Management ► Purchasing ► Define Default Values for Buyers",
         "Materials Management ► Purchasing ► Environment Data ► Current Settings",
@@ -301,8 +301,8 @@ export const CH1: TextbookChapter = {
             "להגדיר יעד ברור ולמדוד התקדמות מולו: כל פער מהאידיאל (התערבות-ידנית, חריגה-מחוזה, עיכוב) הוא הזדמנות-שיפור מדידה.",
           processExampleHe:
             "משתמש בוחר פריט מקטלוג ➔ PR נוצר ➔ אישור אוטומטי (בתוך מדיניות) ➔ Auto-PO ➔ GR ➔ ERS ➔ תשלום, ללא נגיעת-רכש אחת. רק חריג (חוסר-מקור/חריגת-מחיר) מנותב לאדם.",
-          cbcHe:
-            "ב-CBC הזמנות-אריזה החוזרות שואפות ל-Touchless: MRP➔Auto-PO כנגד חוזה➔GR➔ERS. רק שינוי-מחיר חריג או ספק-חדש מצריך התערבות-קניין.",
+          scenarioHe:
+            "בארגון הזמנות-אריזה החוזרות שואפות ל-Touchless: MRP➔Auto-PO כנגד חוזה➔GR➔ERS. רק שינוי-מחיר חריג או ספק-חדש מצריך התערבות-קניין.",
           navHe: [
             "SAP Fiori Launchpad ► Self-Service Procurement",
             "SPRO ► IMG ► Materials Management ► Purchasing ► Purchase Order ► Automatic Generation of POs",
@@ -363,8 +363,8 @@ export const CH1: TextbookChapter = {
             "לתת שפה אחידה למחזור-הרכש ולחלוקת-תחומים בין מערכות וצוותים: מה תפעולי (P2P) ומה אסטרטגי (S2P), ואיפה עוברת התפר-האינטגרטיבי.",
           processExampleHe:
             "S2P: סורסינג בוחר ספק ➔ חוזה נחתם ➔ (כאן מתחיל P2P) PR ➔ PO כנגד החוזה ➔ GR ➔ IR ➔ תשלום. החוזה מ-S2P הוא ה'גשר' שמזין את ה-P2P.",
-          cbcHe:
-            "ב-CBC: S2P מנהל את חוזי-האריזה והסוכר ב-Ariba; P2P מבצע את ההזמנות השבועיות ב-S/4HANA כנגד אותם חוזים. התרכיז = P2P בלבד מול חוזה Single-Source קיים.",
+          scenarioHe:
+            "בארגון: S2P מנהל את חוזי-האריזה והסוכר ב-Ariba; P2P מבצע את ההזמנות השבועיות ב-S/4HANA כנגד אותם חוזים. התרכיז = P2P בלבד מול חוזה Single-Source קיים.",
           navHe: [
             "SAP Ariba ► Sourcing / Contracts (S2P)",
             "Materials Management ► Purchasing ► Outline Agreement ► Contract ► Define Document Types",
@@ -431,8 +431,8 @@ export const CH1: TextbookChapter = {
             "לחלק את הרכש למבני-אחריות ברורים — לתכנון-תהליך, להגדרת-תפקידים, להרשאות ול-KPI — ולמנוע 'אזורים אפורים' שבהם משימות נופלות בין הכיסאות.",
           processExampleHe:
             "PR נוצר (תפעולי) ➔ Source Determination מסתמכת על הסורסינג (אסטרטגי) ➔ PO (תפעולי) ➔ GR (ניהול-מלאי) ➔ IR (אימות-חשבונית) ➔ תשלום (חשבונאות-ספקים). כל חץ הוא מעבר בין תחומי-אחריות.",
-          cbcHe:
-            "ב-CBC: צוות-סורסינג מנהל חוזי-תרכיז/סוכר ב-Ariba; קנייני-תפעול מוציאים PO-ים; מחסן קו-המילוי מבצע GR; AP מטפל בחשבוניות ובתשלום — חמישה תחומים, גבולות-הרשאה ברורים.",
+          scenarioHe:
+            "בארגון: צוות-סורסינג מנהל חוזי-תרכיז/סוכר ב-Ariba; קנייני-תפעול מוציאים PO-ים; מחסן קו-המילוי מבצע GR; AP מטפל בחשבוניות ובתשלום — חמישה תחומים, גבולות-הרשאה ברורים.",
           navHe: [
             "SPRO ► IMG ► Materials Management ► Purchasing (Operational + Sourcing)",
             "SPRO ► IMG ► Materials Management ► Inventory Management and Physical Inventory",
@@ -499,8 +499,8 @@ export const CH1: TextbookChapter = {
         "לספק פלטפורמת-רכש אחת המשלבת ביצוע, אנליטיקה ואינטליגנציה בזמן-אמת — להאיץ החלטות, להוריד עלות-בעלות-כוללת (TCO) ולאפשר תהליכים אינטליגנטיים (ML/Situation Handling).",
       processExampleHe:
         "קניין פותח את Procurement Overview Page (Fiori), רואה PR-ים פתוחים וחריגי-אספקה בזמן-אמת, ממיר PR ל-PO בכמה קליקים, וה-Embedded Analytics מציג מיד את השפעת-ההוצאה — הכל במערכת אחת ללא Data Warehouse נפרד.",
-      cbcHe:
-        "ב-CBC המעבר ל-S/4HANA איחד את הרכש: ניהול-מלאי קו-המילוי על MATDOC, ספקי-התרכיז/סוכר כ-Business Partners, ודוחות-הוצאה בזמן-אמת. הסורסינג של אריזה רץ ב-Ariba המקושר ל-Core.",
+      scenarioHe:
+        "בארגון המעבר ל-S/4HANA איחד את הרכש: ניהול-מלאי קו-המילוי על MATDOC, ספקי-התרכיז/סוכר כ-Business Partners, ודוחות-הוצאה בזמן-אמת. הסורסינג של אריזה רץ ב-Ariba המקושר ל-Core.",
       navHe: [
         "SAP Fiori Launchpad ► Procurement (Business Roles)",
         "SPRO ► IMG ► Materials Management ► (S/4HANA simplified config)",
@@ -569,8 +569,8 @@ export const CH1: TextbookChapter = {
             "להתאים את מודל-הפריסה לצרכי-העסק: רב-דייר ל-TCO נמוך וסטנדרטיזציה; חד-דייר לשליטה ולהתאמות. ההחלטה מעצבת את כל פרויקט-המימוש.",
           processExampleHe:
             "ארגון 'Fit-to-Standard' בוחר Public Cloud: מאמץ Best-Practice לרכש, מסתפק ב-Key-User extensibility, ומקבל עדכונים רבעוניים. ארגון עם תהליכי-רכש ייחודיים בוחר Private Cloud לשמירת ההתאמות.",
-          cbcHe:
-            "ב-CBC, בהיותו חלק מרשת-בקבוק גלובלית עם תהליכי-תרכיז ייחודיים ואינטגרציות (Zetes/Daymax בלוגיסטיקה), Private Cloud / Single-Tenant מתאים — שליטה בעדכונים והתאמות-עומק לצד אימוץ-סטנדרט בליבת-הרכש.",
+          scenarioHe:
+            "בארגון, בהיותו חלק מרשת-בקבוק גלובלית עם תהליכי-תרכיז ייחודיים ואינטגרציות (Zetes/Daymax בלוגיסטיקה), Private Cloud / Single-Tenant מתאים — שליטה בעדכונים והתאמות-עומק לצד אימוץ-סטנדרט בליבת-הרכש.",
           navHe: [
             "SAP Cloud ALM / Maintenance Planner (תכנון-פריסה)",
             "SPRO ► IMG (זמין מלא ב-Private/On-Premise; מוגבל ב-Public Cloud)",
@@ -628,8 +628,8 @@ export const CH1: TextbookChapter = {
             "למקסם ערך-הוצאה ארוך-טווח: להוריד עלות-כוללת, להפחית סיכון-אספקה, להבטיח ציות-לחוזה ולנצל חדשנות-ספקים — לפני ובמקביל לרכש התפעולי.",
           processExampleHe:
             "ניתוח-הוצאה מזהה קטגוריה עתירת-הוצאה ➔ מכרז ב-Ariba ➔ בחירת ספק ➔ חוזה ➔ קישור ל-Source List ב-Core ➔ הערכת-ספק שוטפת (SLP). מאז, P2P מבצע מול החוזה.",
-          cbcHe:
-            "ב-CBC הסורסינג האסטרטגי מנהל את חוזי-הסוכר ארוכי-הטווח (מחירי-סחורה תנודתיים), מכרזי-אריזה ב-Ariba, והערכת ספקי-CO2. התרכיז = Single Source מחוזה גלובלי, ללא מכרז.",
+          scenarioHe:
+            "בארגון הסורסינג האסטרטגי מנהל את חוזי-הסוכר ארוכי-הטווח (מחירי-סחורה תנודתיים), מכרזי-אריזה ב-Ariba, והערכת ספקי-CO2. התרכיז = Single Source מחוזה גלובלי, ללא מכרז.",
           navHe: [
             "SAP Ariba ► Sourcing / Contracts / Supplier Management",
             "Materials Management ► Purchasing ► RFQ/Quotation",
@@ -698,8 +698,8 @@ export const CH1: TextbookChapter = {
             "לבצע ביעילות-מרבית את הקנייה: כמות נכונה, בזמן, במחיר-החוזה, עם מינימום-מאמץ-ידני ומקסימום-ניראות.",
           processExampleHe:
             "משתמש בוחר פריט מקטלוג (Self-Service) ➔ PR ➔ Flexible Workflow מאשר ➔ Auto-PO כנגד חוזה ➔ נשלח לספק דרך Ariba Network ➔ GR. כל זה מנוטר ב-Procurement Overview Page.",
-          cbcHe:
-            "ב-CBC הרכש התפעולי מפיק PO-ים שבועיים לאריזה/סוכר כנגד חוזי-המסגרת; הזמנות-תרכיז מול ספק-יחיד; הכל ב-Fiori עם Auto-PO ל-SKU-ים יציבים.",
+          scenarioHe:
+            "בארגון הרכש התפעולי מפיק PO-ים שבועיים לאריזה/סוכר כנגד חוזי-המסגרת; הזמנות-תרכיז מול ספק-יחיד; הכל ב-Fiori עם Auto-PO ל-SKU-ים יציבים.",
           navHe: [
             "SAP Fiori Launchpad ► Self-Service Procurement",
             "Materials Management ► Purchasing ► Purchase Order ► Automatic Generation of POs",
@@ -768,8 +768,8 @@ export const CH1: TextbookChapter = {
             "להבטיח שמשלמים רק עבור מה שהוזמן והתקבל, במחיר-המוסכם — ולסגור את הלולאה הכספית של הרכש בדיוק ובבקרה.",
           processExampleHe:
             "חשבונית מתקבלת ➔ MIRO מאמת מול PO ו-GR ➔ אם בתוך Tolerance, נרשם מסמך-FI ופריט-פתוח ב-AP ➔ F110 משלם בתאריך-הפירעון. אם מחוץ-לטולרנס — חסימה לבירור.",
-          cbcHe:
-            "ב-CBC חשבוניות-אריזה השוטפות מסולקות ב-ERS (ללא חשבונית-נייר) כנגד GR; חשבוניות-תרכיז (סכומים גבוהים) עוברות MIRO עם 3-Way Match ובקרת-Tolerance הדוקה.",
+          scenarioHe:
+            "בארגון חשבוניות-אריזה השוטפות מסולקות ב-ERS (ללא חשבונית-נייר) כנגד GR; חשבוניות-תרכיז (סכומים גבוהים) עוברות MIRO עם 3-Way Match ובקרת-Tolerance הדוקה.",
           navHe: [
             "SPRO ► IMG ► Materials Management ► Logistics Invoice Verification ► Incoming Invoice",
             "SPRO ► IMG ► Materials Management ► Logistics Invoice Verification ► Invoice Block ► Set Tolerance Limits",
@@ -838,8 +838,8 @@ export const CH1: TextbookChapter = {
             "להעניק לכל תפקיד-רכש בדיוק את הכלים שהוא צריך, בחוויה אחידה ומבוססת-נתונים — להאיץ עבודה, לצמצם-טעויות ולשלב ביצוע עם אנליטיקה.",
           processExampleHe:
             "קניין מקבל את Business Role 'Purchaser' ➔ ה-Launchpad מציג Manage PR, Manage PO, Overview Page ו-Sources of Supply ➔ הוא מבצע ומנתח באותו מקום, על נתוני-זמן-אמת.",
-          cbcHe:
-            "ב-CBC קנייני-האריזה מקבלים Business Role 'Purchaser' עם אפליקציות-PO ו-Overview Page; מנהל-הרכש מקבל 'Purchasing Manager' עם דוחות-הוצאה ו-KPI; צוות-AP מקבל אפליקציות-חשבונית.",
+          scenarioHe:
+            "בארגון קנייני-האריזה מקבלים Business Role 'Purchaser' עם אפליקציות-PO ו-Overview Page; מנהל-הרכש מקבל 'Purchasing Manager' עם דוחות-הוצאה ו-KPI; צוות-AP מקבל אפליקציות-חשבונית.",
           navHe: [
             "SAP Fiori Launchpad ► Spaces & Pages",
             "SPRO ► IMG ► (Activate Business Roles / Catalogs)",
@@ -910,8 +910,8 @@ export const CH1: TextbookChapter = {
         "לקבע מפת-ידע מאוחדת לפני הצלילה לפרטים: מהם החלקים, כיצד הם מתחברים, ואיפה S/4HANA משנה את המשחק מול ECC.",
       processExampleHe:
         "מבט-על על מחזור שלם: צורך ➔ סורסינג/חוזה (S2P) ➔ PR➔PO➔GR➔IR➔תשלום (P2P) ➔ ניתוח-הוצאה ➔ חזרה לסורסינג. כל חוליה תפורט בפרק ייעודי.",
-      cbcHe:
-        "ב-CBC הפרק הניח את התשתית: תרכיז (Single Source), סוכר/CO2 (חוזי-מסגרת), אריזה (Ariba + Auto-PO) — מקרי-מבחן שילוו את כל הספר להמחשת התהליכים.",
+      scenarioHe:
+        "בארגון הפרק הניח את התשתית: תרכיז (Single Source), סוכר/CO2 (חוזי-מסגרת), אריזה (Ariba + Auto-PO) — מקרי-מבחן שילוו את כל הספר להמחשת התהליכים.",
       navHe: [
         "SAP Fiori Launchpad ► Procurement (Overview)",
         "SPRO ► IMG ► Materials Management (מפת-קונפיגורציה כללית)",

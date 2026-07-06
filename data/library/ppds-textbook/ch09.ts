@@ -12,7 +12,7 @@ export const CH9: TextbookChapter = {
   titleHe: "SAP Digital Supply Chain Management",
   titleEn: "SAP Digital Supply Chain Management",
   introHe:
-    "פרק זה מסביר כיצד PP/DS פועל כפתרון sidecar — כלומר מותקן במערכת נפרדת (SAP S/4HANA Manufacturing for Planning and Scheduling, מקוצר DMP) ומחובר אל מערכת-ה-ERP התפעולית דרך CIF integration. זאת בניגוד לפריסה המשולבת (embedded) שבה PP/DS חי בתוך אותה מערכת S/4HANA של הביצוע. כל תת-פרק וכל תת-סעיף הורחבו ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. CBC = מפעל מילוי-משקאות של Coca-Cola שבו PP/DS מותקן כ-sidecar (DMP) ומחובר ל-ERP. המטרה: ללמוד את הארכיטקטורה, התנאים-המוקדמים, ההגדרה והאינטגרציה — ללא הספר המקורי.",
+    "פרק זה מסביר כיצד PP/DS פועל כפתרון sidecar — כלומר מותקן במערכת נפרדת (SAP S/4HANA Manufacturing for Planning and Scheduling, מקוצר DMP) ומחובר אל מערכת-ה-ERP התפעולית דרך CIF integration. זאת בניגוד לפריסה המשולבת (embedded) שבה PP/DS חי בתוך אותה מערכת S/4HANA של הביצוע. כל תת-פרק וכל תת-סעיף הורחבו ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הארגון = מפעל מילוי-משקאות של Example Product שבו PP/DS מותקן כ-sidecar (DMP) ומחובר ל-ERP. המטרה: ללמוד את הארכיטקטורה, התנאים-המוקדמים, ההגדרה והאינטגרציה — ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 9.1
     {
@@ -27,8 +27,8 @@ export const CH9: TextbookChapter = {
         "המטרה: לאפשר תכנון-ייצור מתקדם (Detailed Scheduling, Optimizer, Pegging) גם כאשר הביצוע יושב במערכת אחרת או ישנה, ולרכז תכנון של כמה מפעלים/מערכות במקום אחד. כך מקבלים יכולות PP/DS מלאות בלי לשדרג מיד את כל נחיתת-הביצוע ל-embedded.",
       processExampleHe:
         "ביקוש למוצר נקלט ב-ERP כהזמנת-לקוח. דרך CIF הוא מועבר ל-DMP כדרישה. PP/DS מתזמן ויוצר Planned Order עם תאריכים מדויקים ב-liveCache. ה-Planned Order מועבר חזרה ל-ERP דרך CIF, מומר שם ל-Production Order, מבוצע ברצפה, והאישור (confirmation) זורם בחזרה ל-DMP לעדכון התמונה.",
-      cbcHe:
-        "ב-CBC: ה-ERP (ECC) מנהל את מילוי-המשקאות, המלאי ואישורי-הקווים. DMP מותקן כ-sidecar ומתזמן את קווי-המילוי עם ה-Optimizer (רצף, זמני-החלפה, מינימום שטיפות). תכנית-המילוי מחושבת ב-DMP ומוחזרת ל-ECC לביצוע — הקו עצמו ממשיך לרוץ מול ECC כרגיל.",
+      scenarioHe:
+        "בארגון: ה-ERP (ECC) מנהל את מילוי-המשקאות, המלאי ואישורי-הקווים. DMP מותקן כ-sidecar ומתזמן את קווי-המילוי עם ה-Optimizer (רצף, זמני-החלפה, מינימום שטיפות). תכנית-המילוי מחושבת ב-DMP ומוחזרת ל-ECC לביצוע — הקו עצמו ממשיך לרוץ מול ECC כרגיל.",
       navHe: [
         "Advanced Planning ► Basic Settings ► Integration ► Integration via Core Interface (CIF)",
         "SAP NetWeaver ► Application Server ► IDoc Interface/ALE ► Basic Settings ► Logical Systems ► Define Logical System (BD54)",
@@ -102,8 +102,8 @@ export const CH9: TextbookChapter = {
         "המטרה: למנוע כישלון-אינטגרציה מאוחר ויקר. אימות תנאי-הסף מראש מבטיח שה-CIF, ה-liveCache והתכנון יעבדו מהרגע הראשון, ושלא 'נגלה' חוסר באמצע go-live.",
       processExampleHe:
         "צוות-טכני מריץ LC10 ומוודא ש-liveCache במצב Running, בודק SM59 connection test לשני הכיוונים, מוודא ש-PP/DS מסומן פעיל ב-scope, ורק אז ניגש להגדיר Integration Models. כל סעיף שנכשל נחסם עד לתיקון.",
-      cbcHe:
-        "ב-CBC לפני חיבור ה-sidecar: ה-Basis מאשר שה-ECC במפלס-תמיכה תואם ל-CIF, שה-DMP עם liveCache ירוק, ושמשתמש-CIF (RFC) קיים בשתי המערכות עם time zone אחיד — אחרת תאריכי-המילוי יסטו בין המערכות.",
+      scenarioHe:
+        "בארגון לפני חיבור ה-sidecar: ה-Basis מאשר שה-ECC במפלס-תמיכה תואם ל-CIF, שה-DMP עם liveCache ירוק, ושמשתמש-CIF (RFC) קיים בשתי המערכות עם time zone אחיד — אחרת תאריכי-המילוי יסטו בין המערכות.",
       navHe: [
         "Advanced Planning ► Basic Settings ► Check liveCache / Connection (LC10)",
         "Advanced Planning ► Basic Settings ► Activate Advanced Planning (PP/DS) in Scope",
@@ -177,8 +177,8 @@ export const CH9: TextbookChapter = {
         "המטרה: להבטיח ששתי המערכות מוגדרות בצורה משלימה — שה-ERP יודע 'לפרסם' נתונים ל-DMP, ושה-DMP יודע 'לקלוט' ולתכנן אותם. תיאום זה הוא תנאי לזרימת-CIF נקייה.",
       processExampleHe:
         "צוות-המימוש קודם מגדיר את צד-ה-ERP (RFC, distribution), ואז את צד-ה-DMP (planning version, CIF inbound), ולבסוף מריץ Integration Model ראשון לבדיקת זרימה מקצה-לקצה.",
-      cbcHe:
-        "ב-CBC: ה-ECC מוגדר לפרסם את חומרי-המשקה והקווים ל-DMP, וה-DMP מוגדר עם planning version פעילה לקווי-המילוי. רק כששני הצדדים מסונכרנים, תכנית-המילוי זורמת.",
+      scenarioHe:
+        "בארגון: ה-ECC מוגדר לפרסם את חומרי-המשקה והקווים ל-DMP, וה-DMP מוגדר עם planning version פעילה לקווי-המילוי. רק כששני הצדדים מסונכרנים, תכנית-המילוי זורמת.",
       navHe: [
         "Advanced Planning ► Basic Settings ► Configure the System (Source + Target)",
         "Integration with Other SAP Components ► Advanced Planning and Optimization",
@@ -246,8 +246,8 @@ export const CH9: TextbookChapter = {
             "להכשיר את ה-ERP כצד-מוצא: שידע לאיזו מערכת-תכנון לפרסם, דרך איזה ערוץ, ואילו הגדרות-CIF להחיל. בלי צד-ERP מוגדר, אין מה ל-DMP לקלוט.",
           processExampleHe:
             "ב-ECC מגדירים target system = DMP (CFC1), RFC destination אליו (SM59), ומפעילים application log + queue type ב-CFC2. כעת ה-ERP מוכן לפרסם Integration Models.",
-          cbcHe:
-            "ב-CBC ה-ECC מוגדר עם target system = DMP, RFC ל-DMP, ו-application log פעיל — כך חומרי-המשקה והקווים מוכנים לפרסום ל-sidecar.",
+          scenarioHe:
+            "בארגון ה-ECC מוגדר עם target system = DMP, RFC ל-DMP, ו-application log פעיל — כך חומרי-המשקה והקווים מוכנים לפרסום ל-sidecar.",
           navHe: [
             "Integration with Other SAP Components ► Advanced Planning and Optimization ► Basic Settings for the Data Transfer ► Target System and RFC Destination (CFC1)",
             "Integration with Other SAP Components ► Advanced Planning and Optimization ► Basic Settings for the Data Transfer ► Set User Parameters / Application Log (CFC2)",
@@ -313,8 +313,8 @@ export const CH9: TextbookChapter = {
             "להכשיר את DMP כצד-יעד: שיהיה מקום (Version) לקלוט אליו את הנתונים, וכללים (procedures) להריץ עליהם תכנון. זהו התנאי שהופך נתונים שזרמו ל-DMP לתכנית-ייצור מתוזמנת.",
           processExampleHe:
             "ב-DMP מוודאים ש-Model 000/Version 000 קיימים, מגדירים CIF inbound queue, וקובעים planning procedure לחומרים שייקלטו. כשחומר נכנס מ-CIF, הוא משויך ל-Version 000 ומוכן ל-heuristic/Optimizer.",
-          cbcHe:
-            "ב-CBC ה-DMP מחזיק Version 000 פעילה לקווי-המילוי; planning procedure מפעיל heuristic-תכנון אוטומטי על כל חומר-משקה שנקלט מ-ECC, וה-Optimizer מסדר את רצף-הקווים.",
+          scenarioHe:
+            "בארגון ה-DMP מחזיק Version 000 פעילה לקווי-המילוי; planning procedure מפעיל heuristic-תכנון אוטומטי על כל חומר-משקה שנקלט מ-ECC, וה-Optimizer מסדר את רצף-הקווים.",
           navHe: [
             "Advanced Planning ► Master Data ► Planning Version Management ► Maintain Planning Version (/SAPAPO/MVM)",
             "Advanced Planning ► Production Planning and Detailed Scheduling (PP/DS) ► Global Settings ► Maintain Global Parameters and Defaults",
@@ -384,8 +384,8 @@ export const CH9: TextbookChapter = {
         "המטרה: לספק ל-DMP את כל הנתונים לתכנון מדויק — הן את ה'שלד' (master data) והן את ה'דם' (transaction data) — ולהחזיר ל-ERP את תוצאות-התכנון לביצוע. ללא שני הזרמים אין מעגל-תכנון-ביצוע סגור.",
       processExampleHe:
         "תחילה Integration Model של master data מעביר חומרים, resources ו-PDS ל-DMP. אחר-כך Integration Model של transaction data מעביר דרישות והזמנות. PP/DS מתכנן, וה-Planned Orders חוזרים ל-ERP — הכל דרך אותו ערוץ-CIF.",
-      cbcHe:
-        "ב-CBC: master data (חומרי-משקה, קווי-מילוי כ-resources, מתכונים כ-PDS) מועבר ראשון; אחריו transaction data (דרישות-מילוי, אישורי-קווים). PP/DS מתזמן את הקווים ומחזיר תכנית ל-ECC.",
+      scenarioHe:
+        "בארגון: master data (חומרי-משקה, קווי-מילוי כ-resources, מתכונים כ-PDS) מועבר ראשון; אחריו transaction data (דרישות-מילוי, אישורי-קווים). PP/DS מתזמן את הקווים ומחזיר תכנית ל-ECC.",
       navHe: [
         "Integration with Other SAP Components ► Advanced Planning and Optimization ► Application-Specific Settings ► Integration Models",
         "Logistics ► Central Functions ► Supply Chain Planning Interface (CIF) ► Integration Model ► Create (CFM1)",
@@ -456,8 +456,8 @@ export const CH9: TextbookChapter = {
             "לספק ל-DMP את ה'שלד' לתכנון: מה מתכננים (products), היכן (locations), על איזה משאב (resources), ולפי איזה מבנה (PDS). בלי נתוני-אב, אין על מה להריץ heuristic/Optimizer.",
           processExampleHe:
             "Integration Model של master data מועבר: חומרי-המוצר הופכים ל-products ב-DMP, מרכזי-העבודה ל-resources, וה-BOM+routing ל-PDS. שינוי routing ב-ERP מעדכן את ה-PDS דרך CIF delta.",
-          cbcHe:
-            "ב-CBC: חומרי-המשקה → products; קווי-המילוי → resources; מתכון-המשקה (BOM+routing) → PDS; המפעל → location. כל אלה עוברים ראשונים, לפני דרישות-המילוי.",
+          scenarioHe:
+            "בארגון: חומרי-המשקה → products; קווי-המילוי → resources; מתכון-המשקה (BOM+routing) → PDS; המפעל → location. כל אלה עוברים ראשונים, לפני דרישות-המילוי.",
           navHe: [
             "Integration with Other SAP Components ► Advanced Planning and Optimization ► Application-Specific Settings ► Master Data ► Materials / Work Centers / PDS",
             "Logistics ► Central Functions ► CIF ► Integration Model ► Create — Master Data (CFM1)",
@@ -524,8 +524,8 @@ export const CH9: TextbookChapter = {
             "לסגור את מעגל התכנון-ביצוע: לספק ל-DMP ביקוש ומלאי עדכניים לתכנון, ולהחזיר ל-ERP את התוצאות לביצוע. כך התכנית ב-DMP והמציאות ב-ERP נשארות מסונכרנות תמיד.",
           processExampleHe:
             "הזמנת-לקוח ב-ERP זורמת ל-DMP כדרישה; PP/DS יוצר Planned Order; הוא חוזר ל-ERP ומומר ל-Production Order; הביצוע ברצפה מדווח (confirmation) וזורם בחזרה ל-DMP לעדכון-עומס ו-pegging.",
-          cbcHe:
-            "ב-CBC: דרישת-מילוי זורמת מ-ECC ל-DMP; PP/DS מתזמן את הקו ויוצר Planned Order; הוא חוזר ל-ECC כפק\"ע-מילוי; אישור-הקו (כמות שיוצרה) זורם בחזרה ומעדכן את עומס-הקו ב-DMP.",
+          scenarioHe:
+            "בארגון: דרישת-מילוי זורמת מ-ECC ל-DMP; PP/DS מתזמן את הקו ויוצר Planned Order; הוא חוזר ל-ECC כפק\"ע-מילוי; אישור-הקו (כמות שיוצרה) זורם בחזרה ומעדכן את עומס-הקו ב-DMP.",
           navHe: [
             "Integration with Other SAP Components ► Advanced Planning and Optimization ► Application-Specific Settings ► Transaction Data ► Orders / Stocks / Confirmations",
             "Logistics ► Central Functions ► CIF ► Integration Model ► Create — Transaction Data (CFM1)",
@@ -599,8 +599,8 @@ export const CH9: TextbookChapter = {
         "המטרה של פרק-הסיכום: לאחד את כל הידע לתמונת-יישום אחת — מתי לבחור sidecar, מה להכין, איך להגדיר, ואיך לתפעל את ה-CIF לאורך-זמן, כך שמעגל התכנון-ביצוע יישאר מסונכרן.",
       processExampleHe:
         "מסלול-יישום טיפוסי: אמת תנאי-סף → הגדר ERP+DMP → העבר master data → העבר transaction data → תכנן ב-PP/DS → החזר Planned Orders → תפעל ניטור-CIF שוטף. כל שלב נשען על הקודם.",
-      cbcHe:
-        "ב-CBC המעגל המלא: ECC כביצוע, DMP כ-sidecar לתזמון-קווים, CIF כמסנכרן. master (משקאות, קווים, מתכונים) עבר ראשון; transaction (דרישות, אישורים) זורם חי; ניטור-CIF יומי שומר על תכנית-מילוי מסונכרנת מול הרצפה.",
+      scenarioHe:
+        "בארגון המעגל המלא: ECC כביצוע, DMP כ-sidecar לתזמון-קווים, CIF כמסנכרן. master (משקאות, קווים, מתכונים) עבר ראשון; transaction (דרישות, אישורים) זורם חי; ניטור-CIF יומי שומר על תכנית-מילוי מסונכרנת מול הרצפה.",
       navHe: [
         "Advanced Planning ► Overview ► Solution Architecture & Integration",
         "Logistics ► Central Functions ► CIF ► Monitoring (SMQ1 / SMQ2)",

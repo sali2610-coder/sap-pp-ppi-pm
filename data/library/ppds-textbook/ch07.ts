@@ -5,7 +5,7 @@ export const CH7: TextbookChapter = {
   titleHe: "מוניטור התראות (Alert Monitor)",
   titleEn: "The Alert Monitor",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה על ה-Alert Monitor של PP/DS — הכלי המרכזי לניהול-לפי-חריגות (Management by Exception) בתכנון מתקדם. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. הרעיון המרכזי: במקום שמתכנן יסרוק ידנית אלפי הזמנות, ה-Alert Monitor (/SAPAPO/AMON1) מציף אוטומטית רק את החריגות — מחסור (shortage), פיגור (backlog), עומס-יתר על משאב (resource overload), חריגת-תאריך — ומנתב את המתכנן ישירות לפעולה. המטרה: לשלוט בנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה על ה-Alert Monitor של PP/DS — הכלי המרכזי לניהול-לפי-חריגות (Management by Exception) בתכנון מתקדם. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. הרעיון המרכזי: במקום שמתכנן יסרוק ידנית אלפי הזמנות, ה-Alert Monitor (/SAPAPO/AMON1) מציף אוטומטית רק את החריגות — מחסור (shortage), פיגור (backlog), עומס-יתר על משאב (resource overload), חריגת-תאריך — ומנתב את המתכנן ישירות לפעולה. המטרה: לשלוט בנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 7.1
     {
@@ -22,8 +22,8 @@ export const CH7: TextbookChapter = {
         "המטרה: לאפשר ניהול-לפי-חריגות. במקום סקירה ידנית של כל ההזמנות, המתכנן מגדיר פעם אחת אילו חריגות חשובות לו, וה-Alert Monitor מסנן עבורו את כל ה\"רעש\". כך מצטמצם זמן-התגובה לבעיות-תכנון אמיתיות ומשתפר ניצול-המשאבים.",
       processExampleHe:
         "מתכנן אחראי על קבוצת-מוצרים מגדיר alert profile: התראת-מחסור כש-Available Quantity שלילי, התראת-פיגור כש-Order End אחרי Requirement Date, והתראת עומס-משאב כשניצול > 100%. הוא משייך אותו ל-overall profile האישי שלו. בכל בוקר הוא פותח את /SAPAPO/AMON1, רואה 12 התראות במקום 4,000 הזמנות, ופותר אותן לפי חומרה.",
-      cbcHe:
-        "ב-CBC (מפעל-בקבוק קוקה-קולה) מתכנן קווי-המילוי מגדיר alert profile המתמקד בשלוש חריגות: מחסור-תרכיז (shortage) לפני ריצת-מילוי, פיגור (backlog) של פק\"ע משקה מאחורי תאריך-המשלוח לרשת-קמעונאות, ועומס-יתר (resource overload) על קו-המילוי בעונת-השיא (קיץ). רק שלוש קבוצות-התראה אלו מוצגות לו — לא התראות-איכות או תחזוקה.",
+      scenarioHe:
+        "בארגון (מפעל-בקבוק מוצר לדוגמה) מתכנן קווי-המילוי מגדיר alert profile המתמקד בשלוש חריגות: מחסור-תרכיז (shortage) לפני ריצת-מילוי, פיגור (backlog) של פק\"ע משקה מאחורי תאריך-המשלוח לרשת-קמעונאות, ועומס-יתר (resource overload) על קו-המילוי בעונת-השיא (קיץ). רק שלוש קבוצות-התראה אלו מוצגות לו — לא התראות-איכות או תחזוקה.",
       navHe: [
         "Advanced Planning and Optimization ► Supply Chain Monitoring ► Alert Monitor ► Maintain Alert Profiles",
         "Easy Access ► Advanced Planning and Optimization ► Supply Chain Monitoring ► Current Settings ► Alert Monitor (/SAPAPO/AMON1)",
@@ -99,8 +99,8 @@ export const CH7: TextbookChapter = {
             "להבטיח שהתשתית לחישוב-התראות פעילה ושהמתכנן יכול לגשת לכלי בערוץ קבוע — תנאי-סף לכל ניטור.",
           processExampleHe:
             "יועץ-מימוש מפעיל ב-SPRO את Alert Determination ל-PP/DS, בודק שגרסת-התכנון 000 קיימת, ונכנס ל-/SAPAPO/AMON1. המסך נפתח עם overall profile ברירת-מחדל; המתכנן יכול כעת לבחור פרופיל ולהריץ.",
-          cbcHe:
-            "ב-CBC במהלך ה-go-live היועץ מפעיל alert determination ל-PP/DS, מצמיד את /SAPAPO/AMON1 כמסך-פתיחה למתכנני-המילוי, ומוודא שגרסת-התכנון של מפעל-הבקבוק פעילה — אחרת התראות-המחסור לא יחושבו.",
+          scenarioHe:
+            "בארגון במהלך ה-go-live היועץ מפעיל alert determination ל-PP/DS, מצמיד את /SAPAPO/AMON1 כמסך-פתיחה למתכנני-המילוי, ומוודא שגרסת-התכנון של מפעל-הבקבוק פעילה — אחרת התראות-המחסור לא יחושבו.",
           navHe: [
             "SPRO ► Advanced Planning and Optimization ► Supply Chain Monitoring ► Alert Monitor ► Settings for Alert Determination ► Activate Alert Types",
             "Easy Access ► APO ► Supply Chain Monitoring ► Current Settings ► Alert Monitor (/SAPAPO/AMON1)",
@@ -150,8 +150,8 @@ export const CH7: TextbookChapter = {
             "להתאים את היקף-ההתראות בדיוק לאחריות המתכנן — לא יותר ולא פחות — וכך לאפשר ניהול-לפי-חריגות יעיל.",
           processExampleHe:
             "מתכנן יוצר פרופיל \"FILLING_PLANNER\": מסמן Shortage (סף: כמות-זמינה שלילית, חומרה Error), Backlog (סף: יום-אחד פיגור, Warning), Resource Overload (סף: 100%, Warning). שומר ומשייך ל-overall profile האישי.",
-          cbcHe:
-            "ב-CBC נוצר פרופיל \"BEV_LINE\": Shortage על תרכיז ו-CO2, Backlog על פק\"ע-משקה מול תאריך-משלוח, Resource Overload על קו-המילוי. ספים מותאמים לעונת-השיא: בקיץ סף-העומס יורד ל-95% כדי להתריע מוקדם.",
+          scenarioHe:
+            "בארגון נוצר פרופיל \"BEV_LINE\": Shortage על תרכיז ו-CO2, Backlog על פק\"ע-משקה מול תאריך-משלוח, Resource Overload על קו-המילוי. ספים מותאמים לעונת-השיא: בקיץ סף-העומס יורד ל-95% כדי להתריע מוקדם.",
           navHe: [
             "/SAPAPO/AMON1 ► Settings ► Maintain Alert Profile ► Create",
             "SPRO ► APO ► Supply Chain Monitoring ► Alert Monitor ► Define Alert Profiles",
@@ -209,8 +209,8 @@ export const CH7: TextbookChapter = {
             "לתת למתכנן מבט-על אחד מאוחד על כל סוגי-החריגות הרלוונטיים אליו, ולחסוך החלפה ידנית בין פרופילים.",
           processExampleHe:
             "מתכנן יוצר overall profile \"PLANNER_DAILY\" ומשייך אליו את alert profile של PP/DS (Shortage/Backlog/Overload) וגם alert profile של ATP. בבוקר הוא טוען פרופיל-על אחד ורואה את כל התמונה.",
-          cbcHe:
-            "ב-CBC מתכנן-המילוי מגדיר overall profile \"CBC_DAILY\" המאגד את alert profile של PP/DS (מחסור-תרכיז, פיגור-משקה, עומס-קו) יחד עם פרופיל-ATP לזמינות-משלוח לרשתות — מבט אחד מהמחסן ועד הקו.",
+          scenarioHe:
+            "בארגון מתכנן-המילוי מגדיר overall profile \"MFG_DAILY\" המאגד את alert profile של PP/DS (מחסור-תרכיז, פיגור-משקה, עומס-קו) יחד עם פרופיל-ATP לזמינות-משלוח לרשתות — מבט אחד מהמחסן ועד הקו.",
           navHe: [
             "/SAPAPO/AMON1 ► Settings ► Maintain Overall Profile ► Create",
             "SPRO ► APO ► Supply Chain Monitoring ► Alert Monitor ► Define Overall Alert Profile",
@@ -271,8 +271,8 @@ export const CH7: TextbookChapter = {
             "להבטיח עקביות-הגדרות בין סביבות, להימנע מהזנה-ידנית חוזרת ולשמר ממשל-שינויים (change management).",
           processExampleHe:
             "היועץ מגדיר shared overall profile בפיתוח, מפעיל Transport, ומשחרר את ה-request. ב-QA וב-Production הפרופיל מופיע זהה; המתכננים רק בוחרים אותו.",
-          cbcHe:
-            "ב-CBC ה-shared profile \"BEV_LINE\" נבנה ב-DEV, נבדק ב-QA דרך Transport, ועובר ל-PRD לפני ה-go-live. כל מתכנני-המילוי בכל המפעלים מקבלים פרופיל זהה ללא הזנה ידנית.",
+          scenarioHe:
+            "בארגון ה-shared profile \"BEV_LINE\" נבנה ב-DEV, נבדק ב-QA דרך Transport, ועובר ל-PRD לפני ה-go-live. כל מתכנני-המילוי בכל המפעלים מקבלים פרופיל זהה ללא הזנה ידנית.",
           navHe: [
             "SPRO ► APO ► Supply Chain Monitoring ► Alert Monitor ► Define Alert Profiles ► Transport",
             "/SAPAPO/AMON1 ► Settings ► (Profile) ► Transport",
@@ -326,8 +326,8 @@ export const CH7: TextbookChapter = {
         "להפוך התראה לפעולה במהירות: לזהות חריגה, לקפוץ לאובייקט הרלוונטי, ולתקן (לתזמן-מחדש, להזיז, לפצל, לשנות-מקור) — מינימום זמן בין גילוי לתיקון.",
       processExampleHe:
         "מתכנן פותח /SAPAPO/AMON1, רואה 8 התראות-מחסור באדום. הוא לוחץ על אחת, נופל ישירות ל-Product View של אותו מוצר, מזהה הזמנה-מתוכננת מאוחרת, מקדים אותה, וההתראה נעלמת ברענון.",
-      cbcHe:
-        "ב-CBC המתכנן רואה התראת resource overload על קו-מילוי-2 בשיא-הקיץ; הוא קופץ ל-DS Board, מעביר חלק מהפק\"ע לקו-3 שפנוי, והעומס יורד מתחת לסף — ההתראה נסגרת.",
+      scenarioHe:
+        "בארגון המתכנן רואה התראת resource overload על קו-מילוי-2 בשיא-הקיץ; הוא קופץ ל-DS Board, מעביר חלק מהפק\"ע לקו-3 שפנוי, והעומס יורד מתחת לסף — ההתראה נסגרת.",
       navHe: [
         "Easy Access ► APO ► Supply Chain Monitoring ► Current Settings ► Alert Monitor (/SAPAPO/AMON1)",
         "SPRO ► APO ► Supply Chain Monitoring ► Alert Monitor ► Settings for Background Alert Determination",
@@ -394,8 +394,8 @@ export const CH7: TextbookChapter = {
             "לתת למתכנן נקודת-כניסה אחת ומסודרת לכל החריגות, עם מעבר מהיר לפעולה.",
           processExampleHe:
             "מתכנן טוען overall profile, ממיין לפי חומרה, פותח קבוצת Shortage, לוחץ על מוצר, נופל ל-RRP3, מקדים הזמנה, חוזר ומרענן — השורה נעלמה.",
-          cbcHe:
-            "ב-CBC מתכנן-המילוי פותח /SAPAPO/AMON1 בבוקר עם פרופיל \"CBC_DAILY\", רואה מחסור-תרכיז כ-Error, קופץ ל-RRP3 ומקדים אספקת-תרכיז לפני ריצת-המילוי.",
+          scenarioHe:
+            "בארגון מתכנן-המילוי פותח /SAPAPO/AMON1 בבוקר עם פרופיל \"MFG_DAILY\", רואה מחסור-תרכיז כ-Error, קופץ ל-RRP3 ומקדים אספקת-תרכיז לפני ריצת-המילוי.",
           navHe: [
             "Easy Access ► APO ► Supply Chain Monitoring ► Current Settings ► Alert Monitor (/SAPAPO/AMON1)",
           ],
@@ -451,8 +451,8 @@ export const CH7: TextbookChapter = {
             "לאפשר ניטור-מסה מהיר בנפחים גדולים, ולהכין סקירת-בוקר מוכנה למתכננים בלי המתנה לחישוב.",
           processExampleHe:
             "job-לילי מריץ alert determination על כל המוצרים ושומר 1,200 התראות ב-ALERTDB. בבוקר 30 מתכננים פותחים את המוניטור — כל אחד רואה רק את שלו, מיד, ללא חישוב חוזר.",
-          cbcHe:
-            "ב-CBC job-לילי מחשב התראות-מחסור ופיגור על כל קווי-המילוי וכל המפעלים; בבוקר מתכננֵי-המשמרת רואים סקירה מוכנה. reorg-שבועי מנקה התראות-ישנות מ-ALERTDB.",
+          scenarioHe:
+            "בארגון job-לילי מחשב התראות-מחסור ופיגור על כל קווי-המילוי וכל המפעלים; בבוקר מתכננֵי-המשמרת רואים סקירה מוכנה. reorg-שבועי מנקה התראות-ישנות מ-ALERTDB.",
           navHe: [
             "SPRO ► APO ► Supply Chain Monitoring ► Alert Monitor ► Settings for Background Alert Determination",
             "Easy Access ► APO ► Supply Chain Monitoring ► Reporting ► Alert Monitor Reorganization",
@@ -520,8 +520,8 @@ export const CH7: TextbookChapter = {
             "לקצר עוד יותר את הלולאה גילוי→תיקון, ע\"י הצגת ההתראה בהקשר התכנון עצמו במקום במסך נפרד.",
           processExampleHe:
             "מתכנן עובד ב-DS Board, גורר פק\"ע לקו אחר; מיד מופיעה התראת resource overload על הקו-החדש. הוא מבטל את ההזזה או מפצל — closed loop באותו מסך.",
-          cbcHe:
-            "ב-CBC מתכנן-המילוי ב-DS Board של קו-2 רואה context alert של עומס-יתר תוך-כדי גרירת פק\"ע-משקה; הוא מעביר חלק לקו-3 וההתראה במסך נעלמת מיד.",
+          scenarioHe:
+            "בארגון מתכנן-המילוי ב-DS Board של קו-2 רואה context alert של עומס-יתר תוך-כדי גרירת פק\"ע-משקה; הוא מעביר חלק לקו-3 וההתראה במסך נעלמת מיד.",
           navHe: [
             "Easy Access ► APO ► Production Planning ► Interactive Production Planning ► Product View (/SAPAPO/RRP3)",
             "Easy Access ► APO ► Production Planning ► Detailed Scheduling Planning Board (/SAPAPO/CDPS0)",
@@ -584,8 +584,8 @@ export const CH7: TextbookChapter = {
         "לקבע את התמונה האינטגרטיבית: כיצד הגדרה (7.1) הופכת לניטור (7.2), וכיצד שלוש דרכי-הצריכה משלימות זו את זו לכלי-עבודה יומי אפקטיבי.",
       processExampleHe:
         "מחזור-חיים שלם: יועץ מגדיר alert profile + overall profile ב-DEV, מעביר ב-Transport ל-PRD, מתזמן job-לילי + reorg; בבוקר המתכנן פותח /SAPAPO/AMON1, מטפל בחריגות drill-down, וממשיך לתקן context alerts תוך-כדי עבודה ב-DS Board.",
-      cbcHe:
-        "ב-CBC: פרופיל \"BEV_LINE\" (מחסור-תרכיז, פיגור-משקה, עומס-קו) → overall \"CBC_DAILY\" → Transport לכל המפעלים → job-לילי + reorg-שבועי. מתכנני-המשמרת מנהלים את עונת-השיא לפי חריגות בלבד, מהמחסן ועד קו-המילוי.",
+      scenarioHe:
+        "בארגון: פרופיל \"BEV_LINE\" (מחסור-תרכיז, פיגור-משקה, עומס-קו) → overall \"MFG_DAILY\" → Transport לכל המפעלים → job-לילי + reorg-שבועי. מתכנני-המשמרת מנהלים את עונת-השיא לפי חריגות בלבד, מהמחסן ועד קו-המילוי.",
       navHe: [
         "Easy Access ► APO ► Supply Chain Monitoring ► Current Settings ► Alert Monitor (/SAPAPO/AMON1)",
         "SPRO ► APO ► Supply Chain Monitoring ► Alert Monitor (כל ענפי-ה-Customizing של הפרק)",

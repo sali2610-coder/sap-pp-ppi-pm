@@ -1,7 +1,7 @@
 // ===== PM User Digital Textbook — Chapter 1 (gold-standard learning chapter) =====
 // Plant Maintenance Business User Guide. Every node is a complete LearningNode
 // with 18 facets of authored Hebrew (beginner + consultant friendly), business-user
-// perspective. SAP identifiers verbatim EN. CBC = Coca-Cola bottling PM business
+// perspective. SAP identifiers verbatim EN. הארגון = Example Product bottling PM business
 // users maintaining fill-line equipment. Hierarchy + ids preserved from the source.
 import type { TextbookChapter } from "./types";
 
@@ -10,7 +10,7 @@ export const CH1: TextbookChapter = {
   titleHe: "מבוא לתחזוקת מפעל (מדריך משתמש)",
   titleEn: "Introduction to Plant Maintenance",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לפתיחת מדריך-המשתמש של Plant Maintenance ב-SAP S/4HANA, מנקודת-מבט של משתמש-עסקי המתחזק ציוד בקו-מילוי. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט וצמתי-מערכת, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: להבין מהי תחזוקת-מפעל ב-SAP, איך התחום התפתח, ועל אילו פלטפורמות (SAP S/4HANA, SAP HANA, SAP GUI / SAP Business Client / SAP Fiori) המשתמש עובד מדי יום — ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לפתיחת מדריך-המשתמש של Plant Maintenance ב-SAP S/4HANA, מנקודת-מבט של משתמש-עסקי המתחזק ציוד בקו-מילוי. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט וצמתי-מערכת, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: להבין מהי תחזוקת-מפעל ב-SAP, איך התחום התפתח, ועל אילו פלטפורמות (SAP S/4HANA, SAP HANA, SAP GUI / SAP Business Client / SAP Fiori) המשתמש עובד מדי יום — ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 1.1
     {
@@ -27,8 +27,8 @@ export const CH1: TextbookChapter = {
         "המטרה: להבהיר מדוע ארגון עובר ל-Plant Maintenance מודרני — לא כפרויקט-IT אלא כדי להגדיל זמינות-ציוד, להקטין השבתות-לא-מתוכננות ולשפר תיעוד ובטיחות. עבור המשתמש-העסקי זו הסיבה שהמסכים נראים אחרת ושכדאי ללמוד את הכלים החדשים.",
       processExampleHe:
         "מפעיל מבחין ברעש חריג במסוע. במקום לחכות לתקלה, הוא פותח הודעת-תחזוקה (Maintenance Notification) מהנייד, מצרף תמונה, והמערכת מנתבת אותה למתכנן. המתכנן הופך אותה להזמנת-עבודה (Maintenance Order), משייך חלפים וזמן-טכנאי, והכול מתועד — מהזיהוי ועד הסגירה — באותה פלטפורמה.",
-      cbcHe:
-        "ב-CBC (מפעל-המילוי של קוקה-קולה): קו-מילוי הוא שרשרת מכונות (שטיפה, מילוי, סגירה, תיוג, אריזה). השבתה של דקה עולה ארגזים. תחזוקת-מפעל מודרנית מאפשרת לטכנאי-הקו לדווח על דליפה בראש-מילוי דרך SAP Fiori תוך שניות, במקום למלא טופס-נייר שיגיע למחשב רק בסוף-המשמרת.",
+      scenarioHe:
+        "בארגון (מפעל-המילוי של מוצר לדוגמה): קו-מילוי הוא שרשרת מכונות (שטיפה, מילוי, סגירה, תיוג, אריזה). השבתה של דקה עולה ארגזים. תחזוקת-מפעל מודרנית מאפשרת לטכנאי-הקו לדווח על דליפה בראש-מילוי דרך SAP Fiori תוך שניות, במקום למלא טופס-נייר שיגיע למחשב רק בסוף-המשמרת.",
       navHe: [
         "SAP Fiori Launchpad ► Maintenance Management (group) ► Create Maintenance Request / Find Technical Objects",
         "SAP Menu ► Logistics ► Plant Maintenance ► Maintenance Processing",
@@ -91,8 +91,8 @@ export const CH1: TextbookChapter = {
         "המטרה: ליצור שפה משותפת. כשמתכנן, טכנאי ומנהל משתמשים באותם מונחים — Notification, Order, Functional Location, Equipment — התקשורת מדויקת והדיווחים עקביים.",
       processExampleHe:
         "מנהל מבקש 'דוח-תקלות לרבעון'. בשפה הנכונה זו שאילתה על Maintenance Notifications מסוג Malfunction (M1) הקשורות ל-Equipment מסוים בטווח-תאריכים — ולא 'דוח-Orders'. הבחנה במונח חוסכת דוח שגוי.",
-      cbcHe:
-        "ב-CBC: 'קו-מילוי 1' הוא Functional Location; 'מכונת-המילוי' בתוכו היא Equipment; דיווח 'יש דליפה' הוא Notification; 'תקן את הדליפה — 2 שעות טכנאי + אטם' הוא Order. אימוץ המינוח האחיד מונע מצב שבו משמרת-בוקר ומשמרת-לילה מתעדות אותו דבר בשמות שונים.",
+      scenarioHe:
+        "בארגון: 'קו-מילוי 1' הוא Functional Location; 'מכונת-המילוי' בתוכו היא Equipment; דיווח 'יש דליפה' הוא Notification; 'תקן את הדליפה — 2 שעות טכנאי + אטם' הוא Order. אימוץ המינוח האחיד מונע מצב שבו משמרת-בוקר ומשמרת-לילה מתעדות אותו דבר בשמות שונים.",
       navHe: [
         "SAP Easy Access ► Logistics ► Plant Maintenance — תפריט-העל בו מופיעים המונחים הקלאסיים",
         "SAP Fiori Launchpad ► Maintenance Management — כאן מופיעים המונחים הידידותיים (Request / Report Malfunction)",
@@ -146,8 +146,8 @@ export const CH1: TextbookChapter = {
         "המטרה: להתאים את עוצמת-התחזוקה לערך-הנכס. לא כל מכונה מצדיקה חיישנים; ולא כל מכונה קריטית מסתפקת בתחזוקת-שבר. האסטרטגיה הנכונה ממזערת את סך עלות-הבעלות.",
       processExampleHe:
         "מדחס קריטי מקבל תחזוקה-מבוססת-מצב: חיישן-רעידות מזין Measuring Document; כשהערך חוצה סף, נוצרת אוטומטית הודעה והזמנת-עבודה — לפני הכשל. מכונה זניחה מקבלת תחזוקת-שבר בלבד.",
-      cbcHe:
-        "ב-CBC: מכונת-המילוי (קריטית, השבתתה עוצרת קו) מקבלת תחזוקה-מונעת לפי מונה-בקבוקים + ניטור-מצב; מסוע-משני מקבל תחזוקה-מונעת לפי זמן; פח-אשפה מקבל תחזוקת-שבר. השילוב חוסך עלות בלי לסכן את הקו-הקריטי.",
+      scenarioHe:
+        "בארגון: מכונת-המילוי (קריטית, השבתתה עוצרת קו) מקבלת תחזוקה-מונעת לפי מונה-בקבוקים + ניטור-מצב; מסוע-משני מקבל תחזוקה-מונעת לפי זמן; פח-אשפה מקבל תחזוקת-שבר. השילוב חוסך עלות בלי לסכן את הקו-הקריטי.",
       navHe: [
         "SAP Menu ► Plant Maintenance ► Preventive Maintenance ► Maintenance Planning ► Maintenance Plans ► Create (IP01/IP42)",
         "SAP Menu ► Plant Maintenance ► Management of Technical Objects ► Measuring Points/Counters",
@@ -211,8 +211,8 @@ export const CH1: TextbookChapter = {
         "המטרה: לתת הקשר. כשמשתמש מבין שהמערכת התפתחה ולא 'הומצאה מאפס', קל לו יותר לקבל את השינוי, ולמצוא פעולות מוכרות בלבוש חדש.",
       processExampleHe:
         "ארגון שעבד ב-ECC עם עסקת IW31 ליצירת הזמנת-עבודה, מוצא ב-S/4HANA את אותה יכולת גם דרך אפליקציית SAP Fiori 'Create Maintenance Order' — אותו תהליך-עסקי, ממשק חדש ונתונים זהים בבסיס.",
-      cbcHe:
-        "ב-CBC: מתכנן-תחזוקה ותיק שהכיר את ECC ימצא ב-S/4HANA את כל מבנה-הנכסים של קווי-המילוי כפי שהיה — אותם Functional Locations ו-Equipment — אך עם דוחות מהירים יותר ומסכי-Fiori לדיווח-שטח.",
+      scenarioHe:
+        "בארגון: מתכנן-תחזוקה ותיק שהכיר את ECC ימצא ב-S/4HANA את כל מבנה-הנכסים של קווי-המילוי כפי שהיה — אותם Functional Locations ו-Equipment — אך עם דוחות מהירים יותר ומסכי-Fiori לדיווח-שטח.",
       navHe: [
         "SAP Easy Access (SAP GUI) — הסביבה ה'קלאסית' המוכרת מ-ECC",
         "SAP Fiori Launchpad — סביבת-העבודה המודרנית ב-S/4HANA",
@@ -266,8 +266,8 @@ export const CH1: TextbookChapter = {
         "המטרה: להבין שכל פעולות-התחזוקה אינן 'תוכנה נפרדת' אלא חלק ממערכת-ארגונית אחת — ולכן הזמנת-עבודה משפיעה על מלאי-חלפים (MM), על עלויות (CO) ועל יומן (FI) באותה רשומה.",
       processExampleHe:
         "סגירת הזמנת-עבודה ב-S/4HANA: משיכת-חלף מעדכנת מיד את המלאי (MM), העלות נרשמת על ההזמנה (CO), והרישום הכספי נכנס ל-Universal Journal (FI) — הכול בזמן-אמת, על אותו בסיס-נתונים.",
-      cbcHe:
-        "ב-CBC: כשטכנאי מחליף ראש-מילוי ומושך אותו מהמחסן, S/4HANA מנכה מלאי-חלפים, מטעין את עלות-החלף על הזמנת-העבודה של קו-המילוי, ומאפשר למנהל לראות מיד את עלות-התחזוקה לקו — בלי דוח-לילה.",
+      scenarioHe:
+        "בארגון: כשטכנאי מחליף ראש-מילוי ומושך אותו מהמחסן, S/4HANA מנכה מלאי-חלפים, מטעין את עלות-החלף על הזמנת-העבודה של קו-המילוי, ומאפשר למנהל לראות מיד את עלות-התחזוקה לקו — בלי דוח-לילה.",
       navHe: [
         "SAP Fiori Launchpad — נקודת-הכניסה המומלצת ב-S/4HANA",
         "SAP Logon (SAP GUI) ► מערכת S/4HANA ► SAP Easy Access",
@@ -320,8 +320,8 @@ export const CH1: TextbookChapter = {
             "המטרה: לתת תמונת-על — שהמשתמש יבין שהוא חלק ממערכת רחבה, וש'פשטות' אינה שטחיות אלא איחוד וייעול.",
           processExampleHe:
             "דוח עלות-תחזוקה לפי ציוד נשען על Universal Journal ו-CDS View — מתקבל בזמן-אמת בלי הרצת-לילה, ישירות באפליקציית Fiori אנליטית.",
-          cbcHe:
-            "ב-CBC: מנהל-תחזוקה רואה לוח-מחוונים (Dashboard) חי של זמינות קווי-המילוי ושל עלות-תחזוקה לקו — נתונים שמתעדכנים תוך כדי המשמרת בזכות SAP HANA.",
+          scenarioHe:
+            "בארגון: מנהל-תחזוקה רואה לוח-מחוונים (Dashboard) חי של זמינות קווי-המילוי ושל עלות-תחזוקה לקו — נתונים שמתעדכנים תוך כדי המשמרת בזכות SAP HANA.",
           navHe: [
             "SAP Fiori Launchpad ► Overview / Analytical pages",
             "SAP S/4HANA ► Asset Management — ה-LoB של תחזוקת-מפעל",
@@ -367,8 +367,8 @@ export const CH1: TextbookChapter = {
             "המטרה: להסביר כיצד התווספו יכולות-PM לאורך חיי-ECC, וכיצד מודל-העדכון השתנה ב-S/4HANA — חשוב בעיקר בהקשר מעבר-מערכת.",
           processExampleHe:
             "ארגון על ECC הפעיל Business Function של PM כדי לקבל שיפור בדיווח-זמני-טכנאי. במעבר ל-S/4HANA הצוות בודק שהפונקציה המקבילה קיימת/מופעלת בסטנדרט החדש.",
-          cbcHe:
-            "ב-CBC: אם בעבר הופעלה תוספת-PM ב-ECC לתמיכה בקריאות-ציוד מסוימות, צוות-המעבר ל-S/4HANA מוודא שהתהליך נתמך מקורית, כדי לא לאבד יכולת בקווי-המילוי.",
+          scenarioHe:
+            "בארגון: אם בעבר הופעלה תוספת-PM ב-ECC לתמיכה בקריאות-ציוד מסוימות, צוות-המעבר ל-S/4HANA מוודא שהתהליך נתמך מקורית, כדי לא לאבד יכולת בקווי-המילוי.",
           navHe: [
             "SAP GUI (ECC) ► SFW5 — Switch Framework Customizing (הפעלת Business Functions)",
             "S/4HANA ► מסמכי Release Information / What's New — מחליפים את מודל-ה-EHP",
@@ -419,8 +419,8 @@ export const CH1: TextbookChapter = {
         "המטרה: להסביר מקור-המהירות. כשמשתמש מבין ש-HANA מאפשר ניתוח בזמן-אמת, הוא יכול לסמוך על דוחות-חיים לקבלת-החלטה ולא להמתין להרצות-לילה.",
       processExampleHe:
         "מנהל-תחזוקה שואל 'אילו 5 פריטי-ציוד גרמו לרוב ההשבתות החודש?'. ב-HANA השאילתה רצה ישירות על נתוני-ההודעות בזמן-אמת ומחזירה תשובה מיידית — בסיס להחלטת-תעדוף.",
-      cbcHe:
-        "ב-CBC: ניתוח MTBF/MTTR (זמן-בין-תקלות / זמן-תיקון) למכונות-המילוי רץ על SAP HANA ומוצג בלוח-מחוונים חי; המנהל מזהה מיד את הקו הבעייתי במשמרת הנוכחית.",
+      scenarioHe:
+        "בארגון: ניתוח MTBF/MTTR (זמן-בין-תקלות / זמן-תיקון) למכונות-המילוי רץ על SAP HANA ומוצג בלוח-מחוונים חי; המנהל מזהה מיד את הקו הבעייתי במשמרת הנוכחית.",
       navHe: [
         "SAP Fiori Launchpad ► Analytical apps (KPIs בזמן-אמת המבוססים על HANA)",
         "S/4HANA ► Embedded Analytics — CDS Views הרצים ישירות מול SAP HANA",
@@ -472,8 +472,8 @@ export const CH1: TextbookChapter = {
         "המטרה: שהמשתמש ידע איזה כלי מתאים למשימה — ולא יתקע ב-GUI כשיש אפליקציית-Fiori מהירה, או יחפש ב-Fiori עסקת-קונפיגורציה ששייכת ל-GUI.",
       processExampleHe:
         "טכנאי-שטח מדווח תקלה דרך אפליקציית SAP Fiori מהנייד (שתי הקשות + תמונה). אותו ארגון משתמש ב-SAP GUI כשמתכנן-בכיר עורך Task List מורכבת עם מאות שדות. שני הכלים — אותה מערכת.",
-      cbcHe:
-        "ב-CBC: מפעילי-הקו מדווחים תקלות ב-SAP Fiori מטאבלט ליד המכונה; מתכנן-התחזוקה במשרד עובד ב-SAP GUI לתחזוקת מבני-נכסים ותוכניות; בתקופת-המעבר חלקם נכנסים דרך SAP Business Client שמאחד את שניהם.",
+      scenarioHe:
+        "בארגון: מפעילי-הקו מדווחים תקלות ב-SAP Fiori מטאבלט ליד המכונה; מתכנן-התחזוקה במשרד עובד ב-SAP GUI לתחזוקת מבני-נכסים ותוכניות; בתקופת-המעבר חלקם נכנסים דרך SAP Business Client שמאחד את שניהם.",
       navHe: [
         "SAP Logon ► SAP GUI ► SAP Easy Access",
         "SAP Business Client ► תפריט-תפקיד (PFCG roles) ► Transactions / Apps",
@@ -532,8 +532,8 @@ export const CH1: TextbookChapter = {
             "המטרה: גישה מלאה ומדויקת לכל עסקה ושדה — חיוני למתכננים, ל-power users ולמטלות-קונפיגורציה.",
           processExampleHe:
             "מתכנן יוצר Task List תחזוקתית מורכבת (IA01) עם עשרות פעולות, מרכזי-עבודה וחלפים — מסך עתיר-שדות שנוח לבצע ב-SAP GUI.",
-          cbcHe:
-            "ב-CBC: בניית רשימת-משימות-תחזוקה לקו-מילוי שלם, על כל פעולותיה, נעשית ב-SAP GUI במשרד-התכנון — מקום שבו הרוחב והשליטה חשובים יותר מהפשטות.",
+          scenarioHe:
+            "בארגון: בניית רשימת-משימות-תחזוקה לקו-מילוי שלם, על כל פעולותיה, נעשית ב-SAP GUI במשרד-התכנון — מקום שבו הרוחב והשליטה חשובים יותר מהפשטות.",
           navHe: [
             "SAP Logon ► בחירת מערכת ► SAP Easy Access ► שדה-עסקה (למשל IW31)",
             "SAP GUI for HTML (Webgui) ► גישה דרך דפדפן למסכי-Dynpro",
@@ -580,8 +580,8 @@ export const CH1: TextbookChapter = {
             "המטרה: לתת חלון-עבודה אחד למשתמש שצריך גם עסקאות-GUI וגם אפליקציות-Web — בלי לקפוץ בין סביבות.",
           processExampleHe:
             "משתמש פותח את Business Client, ובוחר מהתפריט-בצד גם עסקת-GUI (IW33 להצגת-הזמנה) וגם אפליקציית-Web — הכול בחלון אחד, תחת זהות-התחברות אחת.",
-          cbcHe:
-            "ב-CBC בתקופת-המעבר ל-S/4HANA: מתכנני-תחזוקה עובדים ב-SAP Business Client כדי לגשת גם למסכי-GUI הוותיקים שהם מכירים וגם לאפליקציות-Fiori החדשות — מעטפת אחת מקלה על האימוץ.",
+          scenarioHe:
+            "בארגון בתקופת-המעבר ל-S/4HANA: מתכנני-תחזוקה עובדים ב-SAP Business Client כדי לגשת גם למסכי-GUI הוותיקים שהם מכירים וגם לאפליקציות-Fiori החדשות — מעטפת אחת מקלה על האימוץ.",
           navHe: [
             "SAP Business Client (Desktop) ► תפריט-תפקיד (PFCG) ► Transactions / Web apps",
             "הגדרת Connection ל-S/4HANA backend בתוך Business Client",
@@ -628,8 +628,8 @@ export const CH1: TextbookChapter = {
             "המטרה: לפשט ולמקד — לאפשר למשתמש-העסקי לבצע את משימתו במהירות, מכל מכשיר, בלי לנווט במסכים עתירי-שדות.",
           processExampleHe:
             "מפעיל פותח אריח 'Report Malfunction' ב-Fiori מהטאבלט, בוחר את ה-Equipment, מתאר את התקלה, מצרף תמונה — והודעת-התחזוקה נוצרת ונשלחת למתכנן תוך פחות מדקה.",
-          cbcHe:
-            "ב-CBC: ליד כל מכונת-מילוי טאבלט עם Fiori Launchpad מותאם-תפקיד; המפעיל מדווח דליפה באריח ייעודי, והמתכנן רואה אותה מיד ב-'My Maintenance Requests' — דיווח-שטח מהיר שמקצר זמן-תגובה.",
+          scenarioHe:
+            "בארגון: ליד כל מכונת-מילוי טאבלט עם Fiori Launchpad מותאם-תפקיד; המפעיל מדווח דליפה באריח ייעודי, והמתכנן רואה אותה מיד ב-'My Maintenance Requests' — דיווח-שטח מהיר שמקצר זמן-תגובה.",
           navHe: [
             "דפדפן ► SAP Fiori Launchpad ► Spaces/Pages ► קבוצות לפי תפקיד",
             "SAP Fiori ► Maintenance Management ► Create Maintenance Request / Report Malfunction / Find Technical Objects",
@@ -689,8 +689,8 @@ export const CH1: TextbookChapter = {
         "המטרה: לקבע את מסגרת-הידע לפני הצלילה לתהליכים. משתמש שמבין את ה'למה' ואת ה'איפה' ילמד את ה'איך' של הפרקים הבאים מהר ובביטחון.",
       processExampleHe:
         "משתמש שסיים פרק זה יודע, מול בקשת-מנהל 'דווח תקלה ותכנן תיקון', לזהות שמדובר ב-Notification → Order, לבצע זאת ב-SAP Fiori מהשטח, ולהבין שהעלות תיזקף בזמן-אמת על אותה הזמנה.",
-      cbcHe:
-        "ב-CBC: עובד-תחזוקה חדש שקרא פרק זה מבין את 'מפת-העולם' — קווי-מילוי כ-Functional Locations, מכונות כ-Equipment, דיווח דרך Fiori, ומערכת אחת מהירה מאחורי הכול — ומוכן ללמוד את התהליכים המעשיים.",
+      scenarioHe:
+        "בארגון: עובד-תחזוקה חדש שקרא פרק זה מבין את 'מפת-העולם' — קווי-מילוי כ-Functional Locations, מכונות כ-Equipment, דיווח דרך Fiori, ומערכת אחת מהירה מאחורי הכול — ומוכן ללמוד את התהליכים המעשיים.",
       navHe: [
         "SAP Fiori Launchpad — נקודת-הכניסה היומיומית",
         "SAP Easy Access (SAP GUI) — למשימות-עומק",

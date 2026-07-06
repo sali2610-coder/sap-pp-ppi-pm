@@ -2,7 +2,7 @@
 // Dock Appointment Scheduling (DAS). Every node is a complete LearningNode with
 // 18 facets of authored Hebrew — enough to study the topic without the source book.
 // Only three subchapters (5.1, 5.2 with 5.2.1/5.2.2, 5.3) — each authored DEEP.
-// Transformative Hebrew; SAP identifiers verbatim EN. CBC = Coca-Cola bottling.
+// Transformative Hebrew; SAP identifiers verbatim EN. הארגון = Example Product bottling.
 import type { TextbookChapter } from "./types";
 
 export const CH5: TextbookChapter = {
@@ -10,7 +10,7 @@ export const CH5: TextbookChapter = {
   titleHe: "תזמון תורים לרציפים (Dock Appointment Scheduling)",
   titleEn: "Dock Appointment Scheduling",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה ל-Dock Appointment Scheduling (DAS) ב-SAP EWM — המנגנון שמתזמן את הגעת המשאיות לרציפי המחסן ומסנכרן ביניהן לבין תהליכי הכניסה (Inbound) והיציאה (Outbound). שלושת תתי-הפרקים — סקירת DAS, תכנון התורים (כולל תהליך הכניסה ב-DAS והתכנון ב-EWM), וסיכום — הורחבו ליחידות-לימוד עצמאיות בנות 18 מקטעים כל אחת: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori ואפליקציות /SCWM/*, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט ב-DAS ללא הספר המקורי. הקשר CBC: מפעל מילוי משקאות של קוקה-קולה שבו משאיות-חומרי-גלם (תרכיז, סוכר, CO2, בקבוקים) נכנסות ומשאיות-משקאות-מוגמרים יוצאות — וכולן חולקות מספר מצומצם של רציפים שיש לתזמן בקפדנות.",
+    "פרק זה הוא יחידת-לימוד מלאה ל-Dock Appointment Scheduling (DAS) ב-SAP EWM — המנגנון שמתזמן את הגעת המשאיות לרציפי המחסן ומסנכרן ביניהן לבין תהליכי הכניסה (Inbound) והיציאה (Outbound). שלושת תתי-הפרקים — סקירת DAS, תכנון התורים (כולל תהליך הכניסה ב-DAS והתכנון ב-EWM), וסיכום — הורחבו ליחידות-לימוד עצמאיות בנות 18 מקטעים כל אחת: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori ואפליקציות /SCWM/*, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט ב-DAS ללא הספר המקורי. הקשר ייצור: מפעל מילוי משקאות של מוצר לדוגמה שבו משאיות-חומרי-גלם (תרכיז, סוכר, CO2, בקבוקים) נכנסות ומשאיות-משקאות-מוגמרים יוצאות — וכולן חולקות מספר מצומצם של רציפים שיש לתזמן בקפדנות.",
   subchapters: [
     // ============================================================ 5.1
     {
@@ -27,8 +27,8 @@ export const CH5: TextbookChapter = {
         "המטרה: להפוך את הגעת המשאיות מאירוע אקראי לאירוע מתוכנן. תיאום-מראש מאפשר לפרוס את עומס-הרציפים והפריקה לאורך המשמרת, להבטיח שכוח-אדם וציוד (מלגזות, פועלי-טעינה) זמינים בדיוק כשהמשאית מגיעה, לצמצם זמני-המתנה ועלויות-דמי-המתנה (Demurrage), ולספק לספקים ולמובילים שקיפות לגבי 'מתי מותר לי להגיע'.",
       processExampleHe:
         "מוביל מקבל הזמנת-איסוף ל-Outbound Delivery. דרך פורטל/אפליקציית DAS הוא מבקש תור: המערכת מציגה חלונות-זמן פנויים מול Loading Point מתאים לסוג-המשאית, והוא מאשר 14:00–15:00 מול Door 5. ביום ההגעה הנהג עובר ב-Checkpoint (Check-in) — נרשם שהגיע — ומופנה ל-Door 5 בשעה שנקבעה. הטעינה מתבצעת מול ה-Outbound Delivery, ובסיום הנהג עובר Check-out ב-Checkpoint ויוצא. היומן מתעדכן: ה-Appointment עבר ל-Completed.",
-      cbcHe:
-        "ב-CBC: בבוקר מגיעות משאיות חומרי-גלם — תרכיז (Batch-managed), סוכר בתפזורת, CO2 ובקבוקים — כל אחת מתוזמנת ל-Door פריקה לפי סוג-החומר (סוכר בתפזורת ל-Door עם מערכת-שאיבה; תרכיז ל-Door מקורה). אחר-הצהריים מתוזמנות משאיות-משקאות-מוגמרים ל-Doors טעינה. DAS מבטיח ששתי הזרימות לא מתנגשות על אותם רציפים, ושמשאית-הסוכר לא ממתינה כשמשאית-המשקאות תופסת את ה-Door שלה.",
+      scenarioHe:
+        "בארגון: בבוקר מגיעות משאיות חומרי-גלם — תרכיז (Batch-managed), סוכר בתפזורת, CO2 ובקבוקים — כל אחת מתוזמנת ל-Door פריקה לפי סוג-החומר (סוכר בתפזורת ל-Door עם מערכת-שאיבה; תרכיז ל-Door מקורה). אחר-הצהריים מתוזמנות משאיות-משקאות-מוגמרים ל-Doors טעינה. DAS מבטיח ששתי הזרימות לא מתנגשות על אותם רציפים, ושמשאית-הסוכר לא ממתינה כשמשאית-המשקאות תופסת את ה-Door שלה.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Dock Appointment Scheduling ► Basic Settings for Dock Appointment Scheduling",
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Dock Appointment Scheduling ► General Settings ► Define Loading Points",
@@ -108,8 +108,8 @@ export const CH5: TextbookChapter = {
         "להפוך את כוונת-ההגעה לשיבוץ-מחייב מול משאב פיזי. התכנון מבטיח ניצול-רציפים מיטבי, מונע התנגשויות, מאפשר תעדוף (משאית-קירור לפני אחרות), ונותן למחסן 'תחזית-עומס' לשעות הקרובות — בסיס לתכנון-כוח-אדם ולמשיכת-Resources.",
       processExampleHe:
         "מתכנן-המחסן פותח את יומן ה-Loading Point לבוקר מחר. הוא רואה שלושה תורי-Inbound מבוקשים. הוא מאשר תור A ל-08:00 מול Door 1, גורר את תור B ל-09:30 (כי 08:00 תפוס), ומשייך כל תור ל-Inbound Delivery וה-TU המתאימים. כשמשאית A מתעכבת, הוא מבצע Rescheduling ל-08:45 — המערכת בודקת שאין חפיפה מול Door 1 ומאשרת. בהגעה בפועל, ה-Check-in מקדם את הסטטוס ל-Checked-in.",
-      cbcHe:
-        "ב-CBC המתכנן משבץ בבוקר את משאיות חומרי-הגלם: תרכיז ל-08:00 (Door מקורה), סוכר-בתפזורת ל-08:30 (Door עם שאיבה), CO2 ל-09:00. כל תור קשור ל-Inbound Delivery (ASN של הספק) ול-TU. אחר-הצהריים נפתחים חלונות-Outbound למשאיות-המשקאות. כשמשאית-הסוכר מודיעה על איחור, התכנון מזיז אותה ל-10:00 בלי לפגוע בחלון ה-CO2, ומתריע אם אין Door פנוי.",
+      scenarioHe:
+        "בארגון המתכנן משבץ בבוקר את משאיות חומרי-הגלם: תרכיז ל-08:00 (Door מקורה), סוכר-בתפזורת ל-08:30 (Door עם שאיבה), CO2 ל-09:00. כל תור קשור ל-Inbound Delivery (ASN של הספק) ול-TU. אחר-הצהריים נפתחים חלונות-Outbound למשאיות-המשקאות. כשמשאית-הסוכר מודיעה על איחור, התכנון מזיז אותה ל-10:00 בלי לפגוע בחלון ה-CO2, ומתריע אם אין Door פנוי.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Dock Appointment Scheduling ► Planning ► Define Operating Times for Loading Points",
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Dock Appointment Scheduling ► Appointment ► Define Appointment Types",
@@ -188,8 +188,8 @@ export const CH5: TextbookChapter = {
             "להבטיח שהסחורה הנכנסת מגיעה בחלון-זמן שבו הרציף, הצוות והמלאי-הצפוי מסונכרנים — כך שהפריקה וה-Goods Receipt מתבצעים מיד, בלי דמי-המתנה ובלי עומס-יתר נקודתי.",
           processExampleHe:
             "ספק שולח ASN ל-100 משטחי-חומר; נוצר Inbound Delivery. הספק מבקש תור-פריקה ב-DAS ומקבל 08:00 מול Door 2. ביום ההגעה הנהג עובר Check-in ב-Checkpoint; ה-Yard מנתב ל-Door 2; הצוות פורק ומבצע Goods Receipt מול ה-Inbound Delivery; המערכת יוצרת משימות-Putaway. בסיום הנהג עובר Check-out וה-Appointment עובר ל-Completed.",
-          cbcHe:
-            "ב-CBC משאית-תרכיז מגיעה עם ASN ל-Inbound Delivery של תרכיז Batch-managed. התור משובץ ל-08:00 מול Door מקורה ייעודי. ב-Check-in נרשמת ההגעה; הפריקה כוללת רישום-אצווה (Batch) ובדיקת-QA לפני שחרור ל-Putaway באזור-קירור. סנכרון ה-ASN עם התור מאפשר להכין מראש את אזור-הפריקה ואת בודק-ה-QA.",
+          scenarioHe:
+            "בארגון משאית-תרכיז מגיעה עם ASN ל-Inbound Delivery של תרכיז Batch-managed. התור משובץ ל-08:00 מול Door מקורה ייעודי. ב-Check-in נרשמת ההגעה; הפריקה כוללת רישום-אצווה (Batch) ובדיקת-QA לפני שחרור ל-Putaway באזור-קירור. סנכרון ה-ASN עם התור מאפשר להכין מראש את אזור-הפריקה ואת בודק-ה-QA.",
           navHe: [
             "SCM Extended Warehouse Management ► Extended Warehouse Management ► Dock Appointment Scheduling ► Appointment ► Define Appointment Types (Inbound)",
             "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Receipt Process ► Inbound Delivery ► Define Process for Inbound Delivery",
@@ -260,8 +260,8 @@ export const CH5: TextbookChapter = {
             "להראות שהתכנון אינו אפליקציה מנותקת אלא שכבה המוטמעת ב-EWM: ההגדרות, נתוני-האב והאינטגרציה ל-Delivery/Yard הם שמאפשרים תכנון אמין. הבנת המבנה הזה היא תנאי למימוש ולתחזוקה נכונים.",
           processExampleHe:
             "מתכנן פותח את /SCWM/DAS ב-EWM ורואה Gantt של שלושה Loading Points. ה-Operating Times שהוגדרו ב-SPRO מגבילים שיבוץ ל-06:00–18:00; ה-Capacity מאפשר שני תורים במקביל פר Loading Point. הוא משבץ תורים, המערכת אוכפת את ההגדרות, וכל תור מתקשר ל-TU ול-Delivery. שינוי-הגדרה ב-SPRO (הרחבת שעות) משתקף מיד באפליקציה.",
-          cbcHe:
-            "ב-CBC ה-EWM של מפעל-המילוי מגדיר שלושה Loading Points: פריקת-חומרי-גלם, טעינת-משקאות, ורציף-קירור. ה-Operating Times לרציף-הקירור צרים יותר (לפי משמרת-QA). מסך-התכנון מציג את שלושתם, והמתכנן מאזן ביניהם — כשרציף-הקירור מלא, סחורה רגישה מתוזמנת מחדש, וה-Yard מנתב בהתאם ל-Check-in.",
+          scenarioHe:
+            "בארגון ה-EWM של מפעל-המילוי מגדיר שלושה Loading Points: פריקת-חומרי-גלם, טעינת-משקאות, ורציף-קירור. ה-Operating Times לרציף-הקירור צרים יותר (לפי משמרת-QA). מסך-התכנון מציג את שלושתם, והמתכנן מאזן ביניהם — כשרציף-הקירור מלא, סחורה רגישה מתוזמנת מחדש, וה-Yard מנתב בהתאם ל-Check-in.",
           navHe: [
             "SCM Extended Warehouse Management ► Extended Warehouse Management ► Dock Appointment Scheduling ► General Settings ► Define Loading Points",
             "SCM Extended Warehouse Management ► Extended Warehouse Management ► Dock Appointment Scheduling ► Planning ► Define Operating Times for Loading Points",
@@ -334,8 +334,8 @@ export const CH5: TextbookChapter = {
         "לקבע את התמונה השלמה: DAS אינו רכיב מבודד אלא חוליה המחברת תיאום-מראש (תכנון) לביצוע (Yard + רציף + Delivery). מטרת-העל — ניצול-רציפים מיטבי, זמני-המתנה מינימליים ושקיפות לכל הצדדים.",
       processExampleHe:
         "מסע מלא: ספק/מוביל מבקש תור → המתכנן מאשר ומשבץ מול Door וחלון-זמן → קישור ל-Delivery ול-TU → ביום-ההגעה Check-in ב-Checkpoint → ניתוב ב-Yard ל-Door → פריקה/טעינה מול ה-Delivery → Check-out → Appointment=Completed. כל שלב נשען על ההגדרות שנסקרו בפרק.",
-      cbcHe:
-        "ב-CBC DAS מסנכרן את זרם-הבוקר של חומרי-הגלם (תרכיז, סוכר, CO2, בקבוקים) עם זרם-אחר-הצהריים של המשקאות-המוגמרים על מספר רציפים מצומצם — מונע התנגשויות, שומר על אזורי-קירור ו-QA זמינים, ומבטיח שמשאיות-הספקים ומשאיות-ההפצה לא מתחרות על אותו Door.",
+      scenarioHe:
+        "בארגון DAS מסנכרן את זרם-הבוקר של חומרי-הגלם (תרכיז, סוכר, CO2, בקבוקים) עם זרם-אחר-הצהריים של המשקאות-המוגמרים על מספר רציפים מצומצם — מונע התנגשויות, שומר על אזורי-קירור ו-QA זמינים, ומבטיח שמשאיות-הספקים ומשאיות-ההפצה לא מתחרות על אותו Door.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Dock Appointment Scheduling (כל ענפי ה-SPRO שנסקרו בפרק)",
       ],

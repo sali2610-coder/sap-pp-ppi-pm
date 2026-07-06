@@ -11,7 +11,7 @@ export const CH2: TextbookChapter = {
   titleHe: "מבנה ארגוני ב-SAP S/4HANA",
   titleEn: "Organizational Structure in SAP S/4HANA",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה למבנה הארגוני (Enterprise Structure) ב-SAP S/4HANA מנקודת-מבט ה-PP. כל תת-פרק הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, השפעת נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הנושאים: Client, Company Code, Plant, Storage Location, מרכזי-עבודה ומשבצות-תפקיד (MRP Controller / Capacity Planner / Production Scheduler), שיוכי-מפעל וההערכה (Valuation), וניהול לוחות-השנה (Holiday/Factory Calendar) המניעים את כל תזמון-הייצור. המטרה: לשלוט במבנה הארגוני של PP ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה למבנה הארגוני (Enterprise Structure) ב-SAP S/4HANA מנקודת-מבט ה-PP. כל תת-פרק הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, השפעת נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הנושאים: Client, Company Code, Plant, Storage Location, מרכזי-עבודה ומשבצות-תפקיד (MRP Controller / Capacity Planner / Production Scheduler), שיוכי-מפעל וההערכה (Valuation), וניהול לוחות-השנה (Holiday/Factory Calendar) המניעים את כל תזמון-הייצור. המטרה: לשלוט במבנה הארגוני של PP ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 2.1
     {
@@ -26,8 +26,8 @@ export const CH2: TextbookChapter = {
         "לתת לכל תהליך עסקי הקשר חד-משמעי: היכן נוהל המלאי, לאיזו ישות-משפטית נזקף, ובאיזה מטבע הוערך. המבנה גם מגדיר הרשאות, סינון-נתונים וגבולות-דיווח.",
       processExampleHe:
         "הזמנת-ייצור נוצרת ב-Plant 1010; משיכת-הרכיבים מורידה מלאי מ-Storage Location 0001 שבאותו Plant; קליטת-המוצר זוקפת ערך ל-Company Code שאליו ה-Plant משויך, במטבע-החברה. כל שלב 'יודע' את מקומו בהיררכיה.",
-      cbcHe:
-        "ב-CBC Israel: Client אחד לכל הסביבה; Company Code אחד לישות-המשפטית בישראל (מטבע ILS); Plants נפרדים לאתרי-המילוי (למשל אשקלון/באר-טוביה); Storage Locations לחומרי-גלם, אריזה ומוצר-מוגמר בכל אתר.",
+      scenarioHe:
+        "ב-SAP by Sali: Client אחד לכל הסביבה; Company Code אחד לישות-המשפטית בישראל (מטבע ILS); Plants נפרדים לאתרי-המילוי (למשל אשקלון/באר-טוביה); Storage Locations לחומרי-גלם, אריזה ומוצר-מוגמר בכל אתר.",
       navHe: [
         "Enterprise Structure ► Definition ► Logistics – General ► Define, copy, delete, check plant",
         "Enterprise Structure ► Assignment ► Logistics – General ► Assign plant to company code",
@@ -94,7 +94,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "מוגדר ב-SCC4 (מספר תלת-ספרתי), נשמר ב-T000. כמעט כל טבלה נושאת שדה-מפתח MANDT (Client). הגדרות-הלקוח כוללות: שינויי-Customizing מותרים/חסומים, תיקון-תוכנה, והגנת-CATT. לקוח-הייצור מוגדר 'No changes allowed' למניעת שינויים ישירים.",
           purposeHe: "להפריד באופן מוחלט בין סביבות וארגונים בתוך אותה התקנה טכנית, ולספק גבול-אבטחה ונתונים ברמה העליונה.",
           processExampleHe: "מפתח עובד בלקוח DEV, מעביר Transport ל-QAS לבדיקות, ולבסוף ל-PRD. אותו תהליך נבדק בכל לקוח בלי לזהם את האחרים.",
-          cbcHe: "ב-CBC לקוח-ייצור אחד מנוהל בנעילת-Customizing; שינויים נכנסים רק דרך Transports מסביבת-הפיתוח.",
+          scenarioHe: "בארגון לקוח-ייצור אחד מנוהל בנעילת-Customizing; שינויים נכנסים רק דרך Transports מסביבת-הפיתוח.",
           navHe: ["Administration ► Client Administration ► Client Maintenance (SCC4)"],
           tables: ["T000"],
           tcodes: ["SCC4", "SCC1", "SCCL"],
@@ -116,7 +116,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "מוגדר ב-OX02 (קוד 4 תווים), נשמר ב-T001. נושא Local Currency, Country, Chart of Accounts, Fiscal Year Variant. ב-PP חשיבותו עקיפה אך קריטית: ה-Plant משויך אליו, וכך כל הערכת-מלאי ועלות-הייצור נזקפות לספריו. ב-S/4HANA Universal Journal (ACDOCA) מאחד FI/CO ברמת-Company Code.",
           purposeHe: "לספק את רמת-הדיווח-החשבונאי המחייב ואת מטבע-ההערכה לכל תנועות-הלוגיסטיקה והייצור.",
           processExampleHe: "קליטת מוצר-מוגמר מפק\"ע יוצרת מסמך-חומר ומסמך-FI; מסמך-ה-FI נזקף ל-Company Code של ה-Plant, במטבע-החברה, לחשבון-המלאי הרלוונטי.",
-          cbcHe: "ב-CBC Company Code אחד לישות-הישראלית (מטבע ILS, לוח-שנה-פיסקלי מקומי); כל אתרי-המילוי משויכים אליו.",
+          scenarioHe: "בארגון Company Code אחד לישות-הישראלית (מטבע ILS, לוח-שנה-פיסקלי מקומי); כל אתרי-המילוי משויכים אליו.",
           navHe: ["Enterprise Structure ► Definition ► Financial Accounting ► Edit, Copy, Delete, Check Company Code (OX02)"],
           tables: ["T001", "T880"],
           tcodes: ["OX02", "OBY6", "OB37"],
@@ -138,7 +138,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "מוגדר ב-OX10 (קוד 4 תווים), נשמר ב-T001W; משויך ל-Company Code (OX18). ב-S/4HANA ה-Plant הוא גם Valuation Area (T001K). פרמטרי-PP רבים תלויי-Plant: MRP run, Available capacity, Factory Calendar, Address. שכפול-Plant (Copy) חוסך הגדרת עשרות טבלאות-תלויות.",
           purposeHe: "לספק את ההקשר התפעולי לכל תכנון, ייצור וניהול-מלאי — היכן מתוכננת הדרישה, היכן מיוצר המוצר, והיכן הוא מנוהל.",
           processExampleHe: "הרצת-MRP מתבצעת פר-Plant (MD01/MD41); היא קוראת את MARC של אותו Plant, את לוח-השנה-של-המפעל לתזמון, ויוצרת הזמנות-מתוכננות לאותו Plant בלבד.",
-          cbcHe: "ב-CBC כל אתר-מילוי = Plant נפרד (אשקלון, באר-טוביה); לכל אחד MRP, קיבולת-קווים ולוח-שנה-מפעל משלו, אך כולם תחת אותו Company Code.",
+          scenarioHe: "בארגון כל אתר-מילוי = Plant נפרד (אשקלון, באר-טוביה); לכל אחד MRP, קיבולת-קווים ולוח-שנה-מפעל משלו, אך כולם תחת אותו Company Code.",
           navHe: [
             "Enterprise Structure ► Definition ► Logistics – General ► Define, copy, delete, check plant (OX10)",
             "Enterprise Structure ► Assignment ► Logistics – General ► Assign plant to company code (OX18)",
@@ -196,7 +196,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "מוגדר ב-OX09 (קוד 4 תווים), נשמר ב-T001L; משויך ל-Plant. נתוני-החומר ברמת-Storage-Location יושבים ב-MARD. ה-Storage Location קובע גם ברירות-מחדל לתנועות (Goods Issue/Receipt) ויכול להניע Storage-Location MRP נפרד. הוא אינו רמת-הערכה (ההערכה היא ברמת-Plant).",
           purposeHe: "לנהל מלאי כמותי בגרנולריות פנים-מפעלית — להפריד חומרי-גלם, אריזה, מוצר-בתהליך ומוצר-מוגמר.",
           processExampleHe: "משיכת-רכיבים לפק\"ע (תנועה 261) מורידה מלאי מ-Storage Location של חומרי-הגלם; קליטת המוצר (101) מכניסה ל-Storage Location של המוצר-המוגמר — באותו Plant.",
-          cbcHe: "ב-CBC בכל אתר: SLoc לחומרי-גלם (תרכיז/סוכר), SLoc לאריזה (בקבוקים/פקקים/תוויות), ו-SLoc למוצר-מוגמר מוכן-למשלוח.",
+          scenarioHe: "בארגון בכל אתר: SLoc לחומרי-גלם (תרכיז/סוכר), SLoc לאריזה (בקבוקים/פקקים/תוויות), ו-SLoc למוצר-מוגמר מוכן-למשלוח.",
           navHe: ["Enterprise Structure ► Definition ► Materials Management ► Maintain Storage Location (OX09)"],
           tables: ["T001L", "MARD"],
           tcodes: ["OX09", "MMSC", "MB1A", "MB1C"],
@@ -244,7 +244,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "מוגדר ב-OPPQ / IMG פר-Plant, נשמר ב-T024D; מאוכלס באב-החומר בשדה MARC-DISPO. משמש לסינון ב-MD04/MD06, לניתוב התראות-תכנון (Exception messages), ולקביעת נמען-אימייל ל-MRP Live. אין לבלבל עם Production Supervisor (MARC-FEVOR).",
           purposeHe: "לחלק את אחריות-התכנון, לסנן את תוצאות-ה-MRP לפי תחום, ולכוון התראות לאדם/קבוצה הנכונים.",
           processExampleHe: "MRP Live רץ ל-Plant; כל התראת-תכנון (למשל 'הקדם הזמנה') מנותבת ל-MRP Controller של החומר; המתכנן מסנן את MD06 לפי הקוד שלו ומטפל רק בחומרים באחריותו.",
-          cbcHe: "ב-CBC: MRP Controller 'BEV' למשקאות-מוגמרים, 'PKG' לאריזה, 'RAW' לחומרי-גלם — כל מתכנן רואה ומטפל רק בתחומו.",
+          scenarioHe: "בארגון: MRP Controller 'BEV' למשקאות-מוגמרים, 'PKG' לאריזה, 'RAW' לחומרי-גלם — כל מתכנן רואה ומטפל רק בתחומו.",
           navHe: ["Production ► Material Requirements Planning ► Master Data ► Define MRP Controllers (OPPQ)"],
           tables: ["T024D", "MARC"],
           tcodes: ["OPPQ", "MM02", "MD06"],
@@ -289,7 +289,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "מוגדר ב-IMG (Capacity Planning) ומשויך למרכז-העבודה (CRHD / Capacity view). משמש לסינון בכלי-תכנון-הקיבולת (CM01/CM21/Fiori Capacity Scheduling) ולקביעת אחריות. בתעשיות-תהליך משויך גם ל-Resource. אינו אותו אובייקט כ-MRP Controller.",
           purposeHe: "להקצות אחריות לאיזון-עומס ולסנן את תצוגות-הקיבולת לפי תחום, כדי שכל מתכנן-קיבולת יראה את המרכזים שלו.",
           processExampleHe: "דוח-עומס (CM01) מראה צוואר-בקבוק בקו-מילוי; ה-Capacity Planner של אותו קו מקבל את ההתראה, מעביר עבודה לקו-חלופי או למשמרת נוספת (CM21).",
-          cbcHe: "ב-CBC Capacity Planner לכל אזור-קווים; הוא מאזן עומס בין קווי-המילוי, מזיז פק\"ע למשמרת-לילה כשקו עמוס, ומונע 'תור' מול קו אחד.",
+          scenarioHe: "בארגון Capacity Planner לכל אזור-קווים; הוא מאזן עומס בין קווי-המילוי, מזיז פק\"ע למשמרת-לילה כשקו עמוס, ומונע 'תור' מול קו אחד.",
           navHe: ["Production ► Capacity Requirements Planning ► Master Data ► Define Capacity Planner Group"],
           tables: ["CRHD", "KAKO", "TC37A"],
           tcodes: ["CR02", "CM01", "CM21", "CM25"],
@@ -335,7 +335,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "מוגדר ב-OPJ9 / IMG (Production Scheduler), נשמר ב-T024F; מאוכלס ב-MARC-FEVOR. מקושר ל-Production Scheduling Profile (OPKP) שקובע אוטומציות בהמרת-פק\"ע. זהו ה'נשכח' הקלאסי: ללא FEVOR מתאים אין שחרור/GR אוטומטי. שונה מ-MRP Controller (DISPO) ומ-Capacity Planner.",
           purposeHe: "להקצות אחריות-ביצוע לייצור, ולחבר את החומר לאוטומציות-הפק\"ע דרך פרופיל-התזמון.",
           processExampleHe: "המרת הזמנה-מתוכננת לפק\"ע: ה-Production Scheduling Profile המקושר ל-FEVOR של החומר קובע אם הפק\"ע משוחררת אוטומטית, ואם GR-אוטומטי מופעל בדיווח-הסיום.",
-          cbcHe: "ב-CBC Production Scheduler לכל אתר-מילוי, עם Scheduling Profile שמשחרר פק\"ע אוטומטית בהמרה ומבצע GR-אוטומטי לקליטת-מוצר בקצה-הקו.",
+          scenarioHe: "בארגון Production Scheduler לכל אתר-מילוי, עם Scheduling Profile שמשחרר פק\"ע אוטומטית בהמרה ומבצע GR-אוטומטי לקליטת-מוצר בקצה-הקו.",
           navHe: [
             "Production ► Shop Floor Control ► Master Data ► Define Production Scheduler (OPJ9)",
             "Production ► Shop Floor Control ► Master Data ► Define Production Scheduling Profile (OPKP)",
@@ -397,13 +397,13 @@ export const CH2: TextbookChapter = {
       beginnerHe:
         "SAP צריך לדעת מתי 'יום-עבודה'. לשם כך בונים שרשרת: קודם מגדירים חגים (Public Holidays), אוספים אותם ל-Holiday Calendar, ומגדירים Factory Calendar שאומר אילו ימים בשבוע עובדים ואילו חגים סגורים. ה-Factory Calendar מחובר למפעל — וכל תאריך-ייצור מחושב לפיו.",
       consultantHe:
-        "מוגדר ב-SCAL (Calendar Maintenance): Public Holidays (סוג קבוע/נע/דתי), Holiday Calendar (אוסף-חגים עם תוקף), Factory Calendar (ימי-עבודה + Holiday Calendar + Start/End). ה-Factory Calendar משויך ל-Plant ולמרכזי-עבודה (Available capacity). שגיאה כאן מזיזה את כל תאריכי-ה-MRP. ב-CBC עם משמרות-מילוי וחגי-ישראל זו הגדרה רגישה במיוחד.",
+        "מוגדר ב-SCAL (Calendar Maintenance): Public Holidays (סוג קבוע/נע/דתי), Holiday Calendar (אוסף-חגים עם תוקף), Factory Calendar (ימי-עבודה + Holiday Calendar + Start/End). ה-Factory Calendar משויך ל-Plant ולמרכזי-עבודה (Available capacity). שגיאה כאן מזיזה את כל תאריכי-ה-MRP. בארגון עם משמרות-מילוי וחגי-ישראל זו הגדרה רגישה במיוחד.",
       purposeHe:
         "לספק ל-PP הגדרת-זמן עקבית: אילו ימים זמינים לייצור ולתזמון. זהו הבסיס לכל חישובי-התאריכים במערכת.",
       processExampleHe:
         "MRP מחשב תאריך-התחלה לפק\"ע: הוא לוקח את תאריך-הסיום הנדרש, מפחית lead-time, ו'מדלג אחורה' רק על ימי-עבודה לפי ה-Factory Calendar של ה-Plant — חגים ושבתות אינם נספרים.",
-      cbcHe:
-        "ב-CBC ה-Factory Calendar כולל חגי-ישראל וימי-שישי/שבת לפי משטר-המשמרות; בשיא-הקיץ מפעילים משמרות נוספות והקיבולת-הזמינה במרכזי-העבודה מעודכנת בהתאם — אך ימי-העבודה הבסיסיים נקבעים כאן.",
+      scenarioHe:
+        "בארגון ה-Factory Calendar כולל חגי-ישראל וימי-שישי/שבת לפי משטר-המשמרות; בשיא-הקיץ מפעילים משמרות נוספות והקיבולת-הזמינה במרכזי-העבודה מעודכנת בהתאם — אך ימי-העבודה הבסיסיים נקבעים כאן.",
       navHe: [
         "SAP NetWeaver ► General Settings ► Maintain Calendar (SCAL)",
         "Enterprise Structure ► Definition ► Logistics – General ► Define plant ► Factory calendar (OX10)",
@@ -464,7 +464,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "ב-SCAL מגדירים Public Holiday עם Holiday Type (Fixed date / Relative to Easter / Floating / With function module). חגים מותאמים-אישית (למשל חגי-ישראל) מוגדרים כאן לפני שילובם ב-Holiday Calendar. נשמר ב-THOL.",
           purposeHe: "להגדיר את הימים שאינם ימי-עבודה ברמת-החג הבודד, כבסיס ל-Holiday Calendar.",
           processExampleHe: "הגדרת 'ראש-השנה' כחג; הוא יצורף ל-Holiday Calendar הישראלי, וכל Factory Calendar המשתמש בו יראה את היום כיום-לא-עבודה.",
-          cbcHe: "ב-CBC מוגדרים כל חגי-ישראל (ראש-השנה, יום-כיפור, סוכות, פסח, שבועות וכו') כ-Public Holidays לפני בניית הלוח.",
+          scenarioHe: "בארגון מוגדרים כל חגי-ישראל (ראש-השנה, יום-כיפור, סוכות, פסח, שבועות וכו') כ-Public Holidays לפני בניית הלוח.",
           navHe: ["SAP NetWeaver ► General Settings ► Maintain Calendar ► Public Holidays (SCAL)"],
           tables: ["THOL"],
           tcodes: ["SCAL"],
@@ -483,7 +483,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "ב-SCAL יוצרים Holiday Calendar (קוד דו-תווי), מצרפים אליו Public Holidays, וקובעים Valid From/To. נשמר ב-THOC. כל Factory Calendar מצביע על Holiday Calendar אחד; כך אותו אוסף-חגים משרת מספר לוחות-מפעל.",
           purposeHe: "לקבץ חגים לפי גיאוגרפיה/מדינה ולספק קלט אחיד ל-Factory Calendars.",
           processExampleHe: "Holiday Calendar 'IL' אוסף את כל חגי-ישראל; שני Factory Calendars (משמרת-יום ומשמרת-מלאה) משתמשים באותו 'IL' לחגים, ונבדלים רק בימי-העבודה.",
-          cbcHe: "ב-CBC Holiday Calendar 'IL' משותף לכל אתרי-המילוי; כל אתר מצביע עליו דרך ה-Factory Calendar שלו.",
+          scenarioHe: "בארגון Holiday Calendar 'IL' משותף לכל אתרי-המילוי; כל אתר מצביע עליו דרך ה-Factory Calendar שלו.",
           navHe: ["SAP NetWeaver ► General Settings ► Maintain Calendar ► Holiday Calendar (SCAL)"],
           tables: ["THOC", "THOL"],
           tcodes: ["SCAL"],
@@ -502,7 +502,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "ב-SCAL יוצרים Factory Calendar (קוד דו-תווי): בוחרים ימי-עבודה בשבוע, משייכים Holiday Calendar, וקובעים Valid From/To. נשמר ב-TFACS/TFACD. משויך ל-Plant (OX10) ולמרכזי-העבודה (Available capacity — KAKO). ה-Factory Calendar הוא הקלט ל'דילוג-ימי-עבודה' בכל חישובי-התזמון.",
           purposeHe: "לתרגם ימי-עבודה וחגים לטווח-תאריכים תפעולי שעליו נשען כל תזמון-MRP, פק\"ע וקיבולת.",
           processExampleHe: "תזמון-אחורה של פק\"ע: מתאריך-הסיום הנדרש, SAP מדלג אחורה רק על ימים שב-Factory Calendar מסומנים כעבודה — מגיע לתאריך-התחלה ריאלי.",
-          cbcHe: "ב-CBC כל אתר עם Factory Calendar משלו: ימי-עבודה לפי משטר-המשמרות + Holiday Calendar 'IL'; בקיץ מוסיפים ימי/משמרות-עבודה והקיבולת-הזמינה מעודכנת.",
+          scenarioHe: "בארגון כל אתר עם Factory Calendar משלו: ימי-עבודה לפי משטר-המשמרות + Holiday Calendar 'IL'; בקיץ מוסיפים ימי/משמרות-עבודה והקיבולת-הזמינה מעודכנת.",
           navHe: [
             "SAP NetWeaver ► General Settings ► Maintain Calendar ► Factory Calendar (SCAL)",
             "Enterprise Structure ► Definition ► Logistics – General ► Define plant ► Factory calendar (OX10)",

@@ -1,6 +1,6 @@
 // ===== PM Business User Guide — Chapter 3 (gold-standard learning chapter) =====
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
-// Source hierarchy preserved (ids + order); CBC = Coca-Cola bottling technical
+// Source hierarchy preserved (ids + order); הארגון = Example Product bottling technical
 // structure (plant→line→station functional locations, fill machines as equipment).
 // Transformative Hebrew; SAP identifiers verbatim EN.
 import type { TextbookChapter } from "./types";
@@ -10,7 +10,7 @@ export const CH3: TextbookChapter = {
   titleHe: "מבנה מערכות טכניות",
   titleEn: "Structuring of Technical Systems",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה למבנה (Structuring) של המערכות הטכניות בתחזוקה (Plant Maintenance). מבנה טוב הוא הבסיס לכל תהליך PM: ללא מיקומים פונקציונליים (Functional Locations) ופריטי-ציוד (Equipment) ערוכים נכון, אי-אפשר לתחזק, לתעד היסטוריה, לנתח עלויות או לתכנן תחזוקה-מונעת. כל תת-פרק וכל תת-סעיף מהמדריך המקורי הורחב כאן ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC (מפעל מילוי משקאות), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. דוגמת-העל החוזרת: מפעל-בקבוק (Plant) ← קו-מילוי (Line) ← תחנה (Station) כמיקומים פונקציונליים, ומכונת-מילוי כפריט-ציוד הניתן להתקנה/פירוק. המטרה: ללמוד את הנושא ללא המדריך המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה למבנה (Structuring) של המערכות הטכניות בתחזוקה (Plant Maintenance). מבנה טוב הוא הבסיס לכל תהליך PM: ללא מיקומים פונקציונליים (Functional Locations) ופריטי-ציוד (Equipment) ערוכים נכון, אי-אפשר לתחזק, לתעד היסטוריה, לנתח עלויות או לתכנן תחזוקה-מונעת. כל תת-פרק וכל תת-סעיף מהמדריך המקורי הורחב כאן ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון (מפעל מילוי משקאות), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. דוגמת-העל החוזרת: מפעל-בקבוק (Plant) ← קו-מילוי (Line) ← תחנה (Station) כמיקומים פונקציונליים, ומכונת-מילוי כפריט-ציוד הניתן להתקנה/פירוק. המטרה: ללמוד את הנושא ללא המדריך המקורי.",
   subchapters: [
     // ============================================================ 3.1
     {
@@ -27,8 +27,8 @@ export const CH3: TextbookChapter = {
         "המטרה: למנוע 're-work' יקר. מבנה שתוכנן נכון מאפשר ניתוח-עלויות לפי אובייקט, היסטוריה אמינה, תחזוקה-מונעת ממוקדת ודיווח KPI. תכנון לקוי גורם להיסטוריה מפוזרת, עלויות לא-משויכות וחוסר-יכולת להשוות אובייקטים דומים.",
       processExampleHe:
         "פרויקט-הטמעה: צוות התחזוקה ממפה את המפעל על נייר, מחליט שכל קו-ייצור = ענף ב-Functional Location, שהעומק יורד עד רמת-תחנה, שהמספור היררכי (XXXX-YY-ZZ), ושמכונות גדולות = Equipment המותקן על התחנה. רק לאחר אישור ההחלטות נפתח Structure Indicator ב-SPRO ומתחילה העלאת-הנתונים.",
-      cbcHe:
-        "ב-CBC: לפני העלאה הצוות מחליט — מפעל-המילוי = Functional Location ברמה עליונה, כל קו-מילוי (Line 1, Line 2) = רמה שנייה, וכל תחנה (שטיפה, מילוי, פיקה, תיוג, אריזה) = רמה שלישית. מכונת-המילוי, שמועברת בין קווים בעת תקלה, מוגדרת Equipment כדי לשמר היסטוריה גם בעת מעבר. רק אז נקבע Structure Indicator וטווחי-מספרים.",
+      scenarioHe:
+        "בארגון: לפני העלאה הצוות מחליט — מפעל-המילוי = Functional Location ברמה עליונה, כל קו-מילוי (Line 1, Line 2) = רמה שנייה, וכל תחנה (שטיפה, מילוי, פיקה, תיוג, אריזה) = רמה שלישית. מכונת-המילוי, שמועברת בין קווים בעת תקלה, מוגדרת Equipment כדי לשמר היסטוריה גם בעת מעבר. רק אז נקבע Structure Indicator וטווחי-מספרים.",
       navHe: [
         "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Technical Objects ► General Data ► Set Field Selection",
         "Plant Maintenance and Customer Service ► Master Data in PM and CS ► Technical Objects ► Functional Locations ► Define Structure Indicator for Reference Locations and Functional Locations (IL12)",
@@ -79,7 +79,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "Functional Location מתאר 'איפה' מתבצעת התחזוקה (מקום קבוע במפעל); Equipment מתאר 'מה' מתוחזק (אובייקט בעל היסטוריה עצמאית, נייד); Assembly הוא רכיב-מבנה לוגי. שילוב נפוץ: FL לשלד, Equipment למכונות המותקנות בו. הבחירה משפיעה על היכן נצברת היסטוריה ועלות.",
           purposeHe: "להחליט מהיכן ינוהלו היסטוריה ועלות — מהמקום (FL) או מהפריט (Equipment) — ולמנוע כפילות.",
           processExampleHe: "מפעל בוחר FL לכל מבנה-הקו, ו-Equipment רק למכונות שעוברות בין קווים; כך מכונה שעוזבת קו לוקחת איתה את ההיסטוריה שלה.",
-          cbcHe: "ב-CBC: שלד הקו = Functional Locations; מכונת-המילוי וחבית-CO2 = Equipment כי הן עוברות בין קווים ושומרות היסטוריה.",
+          scenarioHe: "בארגון: שלד הקו = Functional Locations; מכונת-המילוי וחבית-CO2 = Equipment כי הן עוברות בין קווים ושומרות היסטוריה.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► General Data ► Define Types of Technical Objects"],
           tables: ["IFLOT", "EQUI"],
           tcodes: ["IL01", "IE01"],
@@ -100,7 +100,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "עומק נקבע מצרכי-ה-CO וה-Reliability: אם רוצים MTBF לרמת-מכונה — רד למכונה; אם מספיק לרמת-קו — עצור בקו. כל רמה = רשומת-IFLOT/EQUI עם תחזוקה. עומק מופרז מנפח את נתוני-האב בלי תועלת.",
           purposeHe: "לאזן בין דיוק-ניתוח לבין עלות-תחזוקת-נתונים.",
           processExampleHe: "ארגון שמדווח אמינות לרמת-מכונה יורד עד Equipment; ארגון שמדווח רק לרמת-קו עוצר ב-FL של הקו.",
-          cbcHe: "ב-CBC יורדים עד רמת-תחנה (FL) ומכונה (Equipment) — שם נדרש MTBF ועלות; לא יורדים עד בורג בודד.",
+          scenarioHe: "בארגון יורדים עד רמת-תחנה (FL) ומכונה (Equipment) — שם נדרש MTBF ועלות; לא יורדים עד בורג בודד.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► Functional Locations ► Define Structure Indicator (IL12)"],
           tables: ["IFLOT", "T370F"],
           tcodes: ["IL12", "IL03"],
@@ -121,7 +121,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "חיתוך-לפי-תהליך הוא הנפוץ ב-PM כי הוא משקף את זרימת-הייצור ומקל על ניתוח-צוואר-בקבוק. חיתוך-מרחבי מתאים לתשתיות (בניינים). הקריטריון נקבע פעם אחת ומיושם דרך תבנית-המספור (Structure Indicator).",
           purposeHe: "להבטיח ש-FL דומים נראים ומתנהגים זהה בכל המפעל — בסיס להשוואה ולתבניות-תחזוקה.",
           processExampleHe: "מפעל בוחר חיתוך-לפי-תהליך: כל קו מחולק לאותן תחנות-תהליך, כך ש'תחנת-מילוי' של קו 1 דומה לזו של קו 2.",
-          cbcHe: "ב-CBC החיתוך הוא לפי-תהליך: שטיפה → מילוי → פיקה → תיוג → אריזה, אותו רצף בכל קו — מאפשר השוואת-תחנות בין קווים.",
+          scenarioHe: "בארגון החיתוך הוא לפי-תהליך: שטיפה → מילוי → פיקה → תיוג → אריזה, אותו רצף בכל קו — מאפשר השוואת-תחנות בין קווים.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► Functional Locations ► Define Structure Indicator (IL12)"],
           tables: ["IFLOT", "T370F"],
           tcodes: ["IL12"],
@@ -142,7 +142,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "רמת-הצבירה היא היכן נפתחות Notifications/Orders. רמה גבוהה מדי = היסטוריה גסה; רמה נמוכה מדי = פיזור. לרוב בוחרים את רמת-ה-Equipment למכונות ואת רמת-ה-FL לתשתית. ניתן לדווח ברמה אחת ולנתח בהיררכיה כלפי-מעלה.",
           purposeHe: "לקבוע נקודה אחת עקבית לדיווח-תחזוקה, כדי שהניתוח ההיררכי יהיה אמין.",
           processExampleHe: "טכנאי מדווח תקלה תמיד על ה-Equipment (המכונה); הניתוח מצטבר אוטומטית כלפי-מעלה ל-FL של התחנה והקו.",
-          cbcHe: "ב-CBC הדיווח נעשה ברמת-המכונה (Equipment) כשמדובר במכונה, וברמת-התחנה (FL) לתשתית; כך עלות-תחזוקת-הקו מצטברת מכל בנותיו.",
+          scenarioHe: "בארגון הדיווח נעשה ברמת-המכונה (Equipment) כשמדובר במכונה, וברמת-התחנה (FL) לתשתית; כך עלות-תחזוקת-הקו מצטברת מכל בנותיו.",
           navHe: ["Plant Maintenance ► Maintenance Processing ► Notifications ► Notification Creation"],
           tables: ["IFLOT", "EQUI", "QMEL", "AUFK"],
           tcodes: ["IW21", "IW31"],
@@ -163,7 +163,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "Functional Locations משתמשים כמעט תמיד במספור-חיצוני היררכי דרך ה-Structure Indicator (Edit mask), כך שהמספר משקף את ההיררכיה. Equipment לרוב פנימי (אין משמעות-מיקום קבועה כי הוא נייד). שילוב מקובל: FL חיצוני-משמעותי, Equipment פנימי.",
           purposeHe: "להפוך את המספר לכלי-זיהוי וניווט, או לחלופין לפשט תחזוקה — תלוי בקטגוריה.",
           processExampleHe: "Structure Indicator בתבנית XXXX-XX-XX מייצר FL כמו BLN1-L1-FL ('מפעל ברלין, קו 1, תחנת-מילוי') — קריא מיידית.",
-          cbcHe: "ב-CBC: FL במספור-חיצוני היררכי (BOTL-L01-FILL), Equipment במספור-פנימי כי המכונות עוברות בין תחנות.",
+          scenarioHe: "בארגון: FL במספור-חיצוני היררכי (BOTL-L01-FILL), Equipment במספור-פנימי כי המכונות עוברות בין תחנות.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► Functional Locations ► Define Structure Indicator (IL12)", "Plant Maintenance ► Master Data ► Technical Objects ► Equipment ► Number Ranges"],
           tables: ["IFLOT", "T370F", "EQUI"],
           tcodes: ["IL12", "OIEN", "OIIN"],
@@ -185,7 +185,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "דרך Field Selection (SPRO) קובעים לכל שדה ב-IFLOT/EQUI: חובה / אופציונלי / לקריאה / מוסתר, לפי קטגוריית-אובייקט. שדות קריטיים לניתוח (Cost Center, Planner Group, Manufacturer, ABC-indicator) צריכים להיות חובה; שדות נדירים מוסתרים לפשטות.",
           purposeHe: "לאזן בין עומס-הזנה לבין עושר-נתונים הדרוש לניתוח ולתכנון.",
           processExampleHe: "ארגון מסמן Cost Center ו-Planner Group כחובה ב-Field Selection, כך שכל אובייקט חדש מובטח שיהיה ניתן-לניתוח.",
-          cbcHe: "ב-CBC חובה: Cost Center, Planner Group, Manufacturer, Construction Year; מוסתרים שדות-תשתית שאינם רלוונטיים למפעל-מילוי.",
+          scenarioHe: "בארגון חובה: Cost Center, Planner Group, Manufacturer, Construction Year; מוסתרים שדות-תשתית שאינם רלוונטיים למפעל-מילוי.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► General Data ► Set Field Selection for Functional Locations / Equipment"],
           tables: ["IFLOT", "EQUI", "ILOA"],
           tcodes: ["OIBS", "IL02", "IE02"],
@@ -206,7 +206,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "האינטגרציה כוללת Classification (תכונות חיפוש), PM-BOM (חלקי-חילוף), Measuring Points/Counters (IMPTT), Documents (DMS), Partners ו-Permits. תכנון נכון משלב אותם כבר בהעלאה דרך LSMW/Migration Cockpit, או בהדרגה לפי בשלות. שיוך מאוחר אפשרי אך יקר בנפח.",
           purposeHe: "להפוך את האובייקט לרשומה עשירה התומכת בחיפוש, בתכנון-חלפים, בתחזוקה-לפי-מצב ובתיעוד.",
           processExampleHe: "בהעלאה, כל Equipment מקבל Class עם תכונות (הספק, מתח), PM-BOM של חלפיו, ו-Measuring Point לשעות-מנוע — הכל מ-Migration Cockpit.",
-          cbcHe: "ב-CBC מכונת-מילוי מקבלת: Class (מהירות-מילוי, נפח), PM-BOM (ראשי-מילוי, אטמים), Measuring Point לבקבוקים-ממולאים, ומסמך-תפעול ב-DMS.",
+          scenarioHe: "בארגון מכונת-מילוי מקבלת: Class (מהירות-מילוי, נפח), PM-BOM (ראשי-מילוי, אטמים), Measuring Point לבקבוקים-ממולאים, ומסמך-תפעול ב-DMS.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► Define Object Types & assignments"],
           tables: ["EQUI", "IFLOT", "IMPTT", "KSSK", "STPO"],
           tcodes: ["IE02", "IL02", "IK01", "IB01", "CV01N"],
@@ -227,7 +227,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "מחיקה-פיזית של IFLOT/EQUI נחסמת כשקיימת היסטוריה (Orders/Notifications). הזרימה: Deletion Flag (לוגי) → Deletion Indicator → Archiving (PM_EQUI/PM_IFLOT). מכאן שתכנון-יתר של אובייקטים יקר לתיקון. עדיף ליצור מעט וברמה הנכונה.",
           purposeHe: "להגן על שלמות-ההיסטוריה ולמנוע אובדן-מידע רגולטורי.",
           processExampleHe: "מכונה שהושבתה מקבלת Deletion Flag; היא נעלמת מרשימות-עבודה אך ההיסטוריה נשמרת לביקורת, ובהמשך מאורכבת.",
-          cbcHe: "ב-CBC מכונת-מילוי שהוצאה משירות מקבלת DLFL ולא נמחקת — היסטוריית-התקלות נדרשת לרגולציית-מזון ולניתוח-אמינות.",
+          scenarioHe: "בארגון מכונת-מילוי שהוצאה משירות מקבלת DLFL ולא נמחקת — היסטוריית-התקלות נדרשת לרגולציית-מזון ולניתוח-אמינות.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► Equipment ► Deactivate / Archiving (SARA)"],
           tables: ["EQUI", "IFLOT", "JEST"],
           tcodes: ["IE02", "IL02", "SARA"],
@@ -248,7 +248,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "בחירת-הפונקציות משפיעה על הקסטומיזציה: Reference Functional Locations לסטנדרטיזציה, Alternative Labeling לריבוי-מערכות-מספור, Object Networks לקשרים לא-היררכיים, LAM לנכסים-ליניאריים. הפעלתן בדיעבד אפשרית אך עדיף לתכנן מראש.",
           purposeHe: "להתאים את עושר-הפונקציונליות לצרכים האמיתיים בלי לסבך מימוש מיותר.",
           processExampleHe: "ארגון עם קווים זהים מפעיל Reference Functional Locations כדי ליצור עשרות קווים מתבנית אחת.",
-          cbcHe: "ב-CBC: Reference FL לקווי-מילוי זהים, Object Networks לקשרי-צנרת בין תחנות, ו-Alternative Labeling אם יש מערכת-מספור ישנה לצד החדשה.",
+          scenarioHe: "בארגון: Reference FL לקווי-מילוי זהים, Object Networks לקשרי-צנרת בין תחנות, ו-Alternative Labeling אם יש מערכת-מספור ישנה לצד החדשה.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► (Reference Locations / Labeling / Networks)"],
           tables: ["IFLOT", "IFLOTX", "EQUZ"],
           tcodes: ["IL11", "IL01", "IN01"],
@@ -269,7 +269,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "האסטרטגיה השכיחה ב-PM ייצורי: FL היררכי כשלד-קבוע + Equipment למכונות המותקנות בו (היברידי). העלאה לרוב בשלבים (קו אחר קו) להפחתת-סיכון, באמצעות Migration Cockpit. האסטרטגיה מתורגמת ל-Structure Indicator, Field Selection ו-Number Ranges.",
           purposeHe: "לתת מסגרת-החלטה אחת קוהרנטית שמכוונת את כל הקסטומיזציה ואת תוכנית-ההעלאה.",
           processExampleHe: "אסטרטגיה היברידית: בונים תחילה את שלד-ה-FL לכל המפעל, ואז מתקינים Equipment קו-אחר-קו — כל קו עולה לאוויר בנפרד.",
-          cbcHe: "ב-CBC: אסטרטגיה היברידית — שלד-FL (מפעל→קו→תחנה) מועלה ראשון, ואז המכונות (Equipment) מותקנות עליו קו-אחר-קו ב-roll-out מבוקר.",
+          scenarioHe: "בארגון: אסטרטגיה היברידית — שלד-FL (מפעל→קו→תחנה) מועלה ראשון, ואז המכונות (Equipment) מותקנות עליו קו-אחר-קו ב-roll-out מבוקר.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► (overall Customizing)"],
           tables: ["IFLOT", "EQUI", "ILOA"],
           tcodes: ["IL12", "OIBS", "LSMW"],
@@ -299,8 +299,8 @@ export const CH3: TextbookChapter = {
         "לספק שלד-מקום קבוע שאליו נצמדות עלות, היסטוריה ותכנון-תחזוקה, וכן לאפשר סטנדרטיזציה ושכפול מהיר של מבנים חוזרים דרך תבניות.",
       processExampleHe:
         "מהנדס יוצר ב-IL01 את ה-FL של תחנת-מילוי תחת ה-FL של הקו תחת ה-FL של המפעל. כל פעולת-תחזוקה ועלות נצמדות ל-FL הזה; ניתוח ב-IH01 מציג את העץ עם עלות מצטברת כלפי-מעלה.",
-      cbcHe:
-        "ב-CBC: BOTL (מפעל) ← BOTL-L01 (קו 1) ← BOTL-L01-FILL (תחנת-מילוי). קווים 2 ו-3, הזהים לקו 1, נוצרים מ-Reference Functional Location אחד — עדכון בתבנית מתפשט לכל הקווים.",
+      scenarioHe:
+        "בארגון: BOTL (מפעל) ← BOTL-L01 (קו 1) ← BOTL-L01-FILL (תחנת-מילוי). קווים 2 ו-3, הזהים לקו 1, נוצרים מ-Reference Functional Location אחד — עדכון בתבנית מתפשט לכל הקווים.",
       navHe: [
         "Plant Maintenance ► Master Data ► Technical Objects ► Functional Locations ► Define Structure Indicator (IL12)",
         "Plant Maintenance ► Master Data ► Technical Objects ► Functional Locations ► Define Category of Functional Location",
@@ -371,7 +371,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "IL01 דורש Structure Indicator, Category ו-(אם חיצוני) מספר תואם-Edit mask. ה-FL נתלה תחת אב לפי הקידומת-ההיררכית. ILOA מתמלא ב-Cost Center/Planner. שדה Superior Functional Location קובע את ההורה. ניתן להעתיק מ-FL קיים כתבנית.",
           purposeHe: "ליצור FL בודד בשליטה-מלאה על שדותיו ומיקומו בעץ.",
           processExampleHe: "מהנדס יוצר ב-IL01 תחנת-מילוי חדשה: מספר BOTL-L01-FILL, אב BOTL-L01, Cost Center של הקו — נשמר ומשתלב מיד בעץ.",
-          cbcHe: "ב-CBC יצירת תחנת-QA ייחודית שאין לה מקבילה בקווים אחרים נעשית ב-IL01 כהזנה-בודדת.",
+          scenarioHe: "בארגון יצירת תחנת-QA ייחודית שאין לה מקבילה בקווים אחרים נעשית ב-IL01 כהזנה-בודדת.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► Functional Location ► Create (IL01)"],
           tables: ["IFLOT", "ILOA", "IFLOTX"],
           tcodes: ["IL01", "IL02", "IL03"],
@@ -392,7 +392,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "ההזנה-הקבוצתית מבוססת לרוב על Reference Functional Location שממנה נגזרים FL פיזיים רבים עם Inheritance, או על העלאה המונית (LSMW / Migration Cockpit). יתרון: עקביות מובטחת ועדכון-מרכזי. ה-Edit mask מבטיח מספור-היררכי תקין לכל הנוצרים.",
           purposeHe: "להעלות מבנה גדול במהירות, בעקביות וללא שגיאות-הקלדה.",
           processExampleHe: "מהנדס בוחר Reference FL של קו-מילוי ומייצר ממנה את כל תחנות הקו החדש בבת-אחת, כולן יורשות נתונים מהתבנית.",
-          cbcHe: "ב-CBC קו-מילוי חדש (Line 4) נוצר כקבוצה מ-Reference FL של Line 1 — כל חמש התחנות נוצרות זהות במכה אחת.",
+          scenarioHe: "בארגון קו-מילוי חדש (Line 4) נוצר כקבוצה מ-Reference FL של Line 1 — כל חמש התחנות נוצרות זהות במכה אחת.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► Functional Location ► Create from Reference / Mass upload"],
           tables: ["IFLOT", "ILOA", "IFLOS"],
           tcodes: ["IL01", "IL11", "LSMW"],
@@ -413,7 +413,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "Reference FL היא קטגוריה נפרדת (אינה נכס פיזי, אין לה היסטוריה/עלות). FL פיזיים מקושרים אליה ויורשים שדות-מוגדרים (Inheritance). שינוי בתבנית מתפשט (אם הוגדר). שימושית מאוד לתעשיות עם יחידות-זהות חוזרות (קווים, תחנות, רכבות).",
           purposeHe: "להבטיח אחידות-מבנה בין יחידות-זהות, ולאפשר תחזוקת-נתונים מרכזית במקום עדכון כל-אובייקט.",
           processExampleHe: "תבנית 'קו-מילוי-תקני' מגדירה חמש תחנות עם Planner Group. כל קו פיזי נגזר ממנה; שינוי ה-Planner Group בתבנית מתעדכן בכל הקווים.",
-          cbcHe: "ב-CBC Reference FL 'STD-FILL-LINE' מגדירה את חמש התחנות הסטנדרטיות; קווים 1–4 נגזרים ממנה — שדרוג-תהליך מעודכן פעם אחת ומתפשט.",
+          scenarioHe: "בארגון Reference FL 'STD-FILL-LINE' מגדירה את חמש התחנות הסטנדרטיות; קווים 1–4 נגזרים ממנה — שדרוג-תהליך מעודכן פעם אחת ומתפשט.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► Reference Functional Locations ► Create (IL11)"],
           tables: ["IFLOT", "IFLOS", "IFLOTX"],
           tcodes: ["IL11", "IL12", "IL13"],
@@ -435,7 +435,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "מוגדר ברמת-Structure Indicator (כל Label = Indicator משלו). אחד מסומן Primary; השאר חלופיים. נתוני-האב משותפים, רק הזיהוי שונה. שימושי במיגרציה ממערכת-מספור-ישנה, או כשהנדסה ותחזוקה משתמשות במוסכמות שונות. IFLOS שומר את התוויות.",
           purposeHe: "לאפשר מעבר חלק בין מערכות-מספור ולתמוך בנקודות-מבט מרובות בלי לכפול אובייקטים.",
           processExampleHe: "במיגרציה, כל FL מקבל Label חדש (Primary) ושומר את ה-Label הישן כחלופי; טכנאים ותיקים מחפשים לפי הישן, החדשים לפי החדש — אותו אובייקט.",
-          cbcHe: "ב-CBC, בעת מעבר ממערכת-מספור ישנה, תחנת-מילוי נושאת גם 'FILL-07' (legacy) וגם 'BOTL-L01-FILL' (חדש) — שתי תוויות, אובייקט אחד.",
+          scenarioHe: "בארגון, בעת מעבר ממערכת-מספור ישנה, תחנת-מילוי נושאת גם 'FILL-07' (legacy) וגם 'BOTL-L01-FILL' (חדש) — שתי תוויות, אובייקט אחד.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► Functional Locations ► Alternative Labeling of Functional Locations"],
           tables: ["IFLOS", "IFLOT", "T370F"],
           tcodes: ["IL12", "IL02"],
@@ -464,8 +464,8 @@ export const CH3: TextbookChapter = {
         "לעקוב אחר אובייקטים ניידים בעלי-ערך לאורך חייהם — היכן הותקנו, מתי, אילו תקלות חוו — וכך לנהל אמינות, אחריות ועלות פר-יחידה.",
       processExampleHe:
         "מנוע נרכש כחומר עם מספר-סידורי; בעת התקנתו על תחנת-מילוי נוצר/מקושר Equipment המותקן על ה-FL. כל תקלה נרשמת על ה-Equipment; כשהמנוע עובר לתחנה אחרת, ההיסטוריה עוברת איתו.",
-      cbcHe:
-        "ב-CBC: מכונת-המילוי = Equipment עם מספר-סידורי; היא מותקנת על FL 'תחנת-מילוי'. כשהיא מתקלקלת ומוחלפת במכונת-רזרבה, היסטוריית-התקלות נשארת על ה-Equipment, וה-FL ממשיך לתעד מי מותקן בו כעת.",
+      scenarioHe:
+        "בארגון: מכונת-המילוי = Equipment עם מספר-סידורי; היא מותקנת על FL 'תחנת-מילוי'. כשהיא מתקלקלת ומוחלפת במכונת-רזרבה, היסטוריית-התקלות נשארת על ה-Equipment, וה-FL ממשיך לתעד מי מותקן בו כעת.",
       navHe: [
         "Plant Maintenance ► Master Data ► Technical Objects ► Equipment ► Define Equipment Categories",
         "Plant Maintenance ► Master Data ► Technical Objects ► Serial Number Management ► Define Serial Number Profiles",
@@ -536,7 +536,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "ב-IE4N (או IE02) מבצעים Install/Dismantle. כל פעולה כותבת רשומת-EQUZ עם Usage period (תאריכי-מ-עד) ו-FL. ניתן לחייב היררכיה (Equipment-on-Equipment או Equipment-on-FL). Where-installed history זמינה ב-IE03/IH08. הגדרות 'InstallAtFunctLoc' בקטגוריה קובעות אם מותר.",
           purposeHe: "לתעד את שרשרת-המיקומים של כל פריט נייד לאורך חייו — קריטי לאמינות, לעלות-פר-מיקום ולחקירת-תקלות.",
           processExampleHe: "מכונת-מילוי מותקנת על FL תחנת-מילוי ב-1.1; ב-1.6 היא מפורקת ומותקנת על תחנה אחרת. EQUZ שומר שתי תקופות; עלות-התחזוקה משויכת ל-FL הנכון בכל תקופה.",
-          cbcHe: "ב-CBC מכונת-רזרבה מותקנת על תחנת-מילוי בעת תקלה (IE4N); כשהמקורית חוזרת מתיקון, הרזרבה מפורקת — שתי תקופות-שימוש מתועדות בדיוק.",
+          scenarioHe: "בארגון מכונת-רזרבה מותקנת על תחנת-מילוי בעת תקלה (IE4N); כשהמקורית חוזרת מתיקון, הרזרבה מפורקת — שתי תקופות-שימוש מתועדות בדיוק.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► Equipment ► Install / Dismantle (IE4N)"],
           tables: ["EQUZ", "EQUI", "ILOA"],
           tcodes: ["IE4N", "IE02", "IE03"],
@@ -558,7 +558,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "מבוצע דרך שינוי System Status (למשל INST/ESTO — Equipment in storage) ב-IE02. פריט-במחסן אינו מותקן על FL ואינו צובר עלות-מיקום. הוצאה משנה סטטוס ומאפשרת התקנה. שימושי לניהול pool של ציוד-רזרבי. סטטוס נשמר ב-JEST.",
           purposeHe: "לנהל מאגר ציוד-רזרבי — להבחין בין פריטים פעילים-מותקנים לבין פריטים זמינים-במחסן.",
           processExampleHe: "מנוע-רזרבה מתויג 'במחסן'; כשמנוע פעיל מתקלקל, מוציאים את הרזרבי מהמחסן ומתקינים אותו, ואת התקול מכניסים למחסן עד תיקון.",
-          cbcHe: "ב-CBC מאגר ראשי-מילוי רזרביים מתויג 'במחסן' (ESTO); בתקלה מוציאים ראש זמין, מתקינים, ומכניסים את הפגום למחסן עד שיפוץ.",
+          scenarioHe: "בארגון מאגר ראשי-מילוי רזרביים מתויג 'במחסן' (ESTO); בתקלה מוציאים ראש זמין, מתקינים, ומכניסים את הפגום למחסן עד שיפוץ.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► Equipment ► Change ► System Status (IE02)"],
           tables: ["EQUI", "JEST", "EQUZ"],
           tcodes: ["IE02", "IE03"],
@@ -579,7 +579,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "היררכיית-Equipment נבנית דרך Superior Equipment (התקנה Equipment-on-Equipment ב-IE4N). EQUZ מתעד את ה-Superior. מאפשר צבירת-עלות כלפי-מעלה והעברת תת-מכלול שלם. שונה מ-PM-BOM (שמתאר חלפים-לתחזוקה) — כאן כל רכיב הוא Equipment עצמאי בעל היסטוריה.",
           purposeHe: "לדגם אובייקטים מורכבים שבהם תת-מכלולים נשואי-היסטוריה עצמאית, תוך שמירת קשר-מבני וצבירת-עלות.",
           processExampleHe: "מכונת-מילוי (Equipment עליון) מכילה מנוע ומשאבה (Equipment תחתונים); תקלת-מנוע נרשמת על המנוע, ועלותה מצטברת כלפי-מעלה למכונה.",
-          cbcHe: "ב-CBC מכונת-מילוי (Equipment) מכילה ראשי-מילוי ומנוע כ-Equipment-בנים; החלפת ראש-מילוי נרשמת עליו, והעלות מצטברת למכונה ולקו.",
+          scenarioHe: "בארגון מכונת-מילוי (Equipment) מכילה ראשי-מילוי ומנוע כ-Equipment-בנים; החלפת ראש-מילוי נרשמת עליו, והעלות מצטברת למכונה ולקו.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► Equipment ► Install on superior Equipment (IE4N)"],
           tables: ["EQUI", "EQUZ"],
           tcodes: ["IE4N", "IE03", "IH03"],
@@ -600,7 +600,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "FL: מספור-חיצוני-היררכי, היסטוריה צמודה-למקום, אידיאלי לתשתית. Equipment: מספור-פנימי, נייד, מספר-סידורי, התקנה/פירוק, אידיאלי לפריטים יקרים/ניידים. שילוב: Equipment מותקן על FL — שתי שכבות-היסטוריה (מקום + פריט). הבחירה משפיעה על where-used, עלות ואמינות.",
           purposeHe: "לבחור נכון היכן נצברת היסטוריה (מקום מול פריט) ולמנוע אובדן-מידע בעת תנועת-ציוד.",
           processExampleHe: "תחנה = FL (קבועה); המכונה עליה = Equipment (ניידת). תקלת-מכונה נרשמת על ה-Equipment; ניתוח-מקום נעשה על ה-FL — שתי נקודות-מבט משלימות.",
-          cbcHe: "ב-CBC תחנת-המילוי = FL; מכונת-המילוי = Equipment מותקן. כשהמכונה עוברת קו, היסטוריית-המכונה עוברת איתה, והיסטוריית-המקום נשארת ב-FL — אין אובדן.",
+          scenarioHe: "בארגון תחנת-המילוי = FL; מכונת-המילוי = Equipment מותקן. כשהמכונה עוברת קו, היסטוריית-המכונה עוברת איתה, והיסטוריית-המקום נשארת ב-FL — אין אובדן.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► (Functional Location vs Equipment design)"],
           tables: ["IFLOT", "EQUI", "EQUZ", "ILOA"],
           tcodes: ["IL03", "IE03", "IH01", "IH08"],
@@ -630,8 +630,8 @@ export const CH3: TextbookChapter = {
         "לדגם תלויות-זרימה ותלויות-חיבור שההיררכיה לבדה אינה מבטאת, ולתמוך בניתוח-השפעה ובאיתור מקור-תקלה.",
       processExampleHe:
         "רשת מתעדת שתחנת-שטיפה מזינה את תחנת-המילוי דרך צינור-מים. כשהשטיפה נופלת, ניתוח-הרשת מציג מיד שהמילוי מושפע — אף שאינם באותו ענף-היררכי.",
-      cbcHe:
-        "ב-CBC רשת-אובייקטים מתעדת את זרימת-המשקה: ערבוב → CO2 → מילוי → פיקה. כשמערכת-ה-CO2 נופלת, הרשת מראה שתחנות-המילוי במורד-הזרם מושפעות, גם אם הן ב-FL נפרדים.",
+      scenarioHe:
+        "בארגון רשת-אובייקטים מתעדת את זרימת-המשקה: ערבוב → CO2 → מילוי → פיקה. כשמערכת-ה-CO2 נופלת, הרשת מראה שתחנות-המילוי במורד-הזרם מושפעות, גם אם הן ב-FL נפרדים.",
       navHe: [
         "Plant Maintenance ► Master Data ► Technical Objects ► Networks of Objects / Object Links",
         "Plant Maintenance ► Master Data ► Technical Objects ► General Data ► Define Object Network Settings",
@@ -693,8 +693,8 @@ export const CH3: TextbookChapter = {
         "לתעד ולתחזק נכסים-ליניאריים ברמת-מקטע, לאפשר ניתוח-תקלות לאורך-קו ותכנון-תחזוקה גאוגרפי.",
       processExampleHe:
         "דליפה בצינור-מים מדווחת על מקטע 'מ-מטר 1200 עד 1350'; הזמנת-העבודה נושאת את המקטע, וההיסטוריה מצטברת לאורך-הקו — מאתרים את האזורים הבעייתיים.",
-      cbcHe:
-        "ב-CBC צנרת-ה-CO2 וצנרת-המים-המטופלים בין המתקנים מנוהלות כנכסים-ליניאריים; דליפה מתועדת במקטע-מדויק, ומאפשרת לזהות קטעי-צנרת חוזרי-תקלות לשדרוג.",
+      scenarioHe:
+        "בארגון צנרת-ה-CO2 וצנרת-המים-המטופלים בין המתקנים מנוהלות כנכסים-ליניאריים; דליפה מתועדת במקטע-מדויק, ומאפשרת לזהות קטעי-צנרת חוזרי-תקלות לשדרוג.",
       navHe: [
         "Plant Maintenance ► Master Data ► Technical Objects ► Linear Asset Management ► Define Linear Reference Patterns",
         "Plant Maintenance ► Master Data ► Technical Objects ► Linear Asset Management ► Activate Linear Data",
@@ -751,8 +751,8 @@ export const CH3: TextbookChapter = {
         "לאפשר ניתוח-תקלות ברמת-רכיב בלי עומס-ניהול של Equipment לכל חלק, ולחבר את האובייקט-הטכני לנתוני-החומר והמלאי.",
       processExampleHe:
         "טכנאי מדווח תקלה על מכונה ובוחר Assembly='משאבה' מתוך ה-PM-BOM; הניתוח מצביע שרוב-התקלות במשאבה — בלי שהמשאבה נוהלה כ-Equipment.",
-      cbcHe:
-        "ב-CBC הודעת-תקלה על מכונת-מילוי בוחרת Assembly='ראש-מילוי' מתוך ה-PM-BOM; ניתוח-Pareto מראה שראשי-המילוי הם מקור-התקלות העיקרי — בלי לנהל כל ראש כ-Equipment.",
+      scenarioHe:
+        "בארגון הודעת-תקלה על מכונת-מילוי בוחרת Assembly='ראש-מילוי' מתוך ה-PM-BOM; ניתוח-Pareto מראה שראשי-המילוי הם מקור-התקלות העיקרי — בלי לנהל כל ראש כ-Equipment.",
       navHe: [
         "Plant Maintenance ► Master Data in PM ► Bills of Material ► (Assembly via PM-BOM)",
         "Plant Maintenance ► Master Data ► Technical Objects ► assign Construction Type / Material",
@@ -808,8 +808,8 @@ export const CH3: TextbookChapter = {
         "לספק לתכנון-התחזוקה את רשימת-החלפים המדויקת — לתכנון-חומרים, לשרזוב, ולניתוח-תקלות-לפי-רכיב — ולמנוע חיפוש-ידני של חלפים.",
       processExampleHe:
         "מתכנן פותח הזמנת-עבודה למכונה; ה-PM-BOM מציע את החלפים, הוא בוחר אטם ומיסב, והמערכת יוצרת Reservation/דרישת-רכש אוטומטית.",
-      cbcHe:
-        "ב-CBC ל-Equipment 'מכונת-מילוי' מוגדר Equipment-BOM הכולל ראשי-מילוי, אטמים ומסבים; הזמנת-תחזוקה-מונעת מושכת מהם את החלפים הדרושים אוטומטית.",
+      scenarioHe:
+        "בארגון ל-Equipment 'מכונת-מילוי' מוגדר Equipment-BOM הכולל ראשי-מילוי, אטמים ומסבים; הזמנת-תחזוקה-מונעת מושכת מהם את החלפים הדרושים אוטומטית.",
       navHe: [
         "Plant Maintenance ► Master Data in PM ► Bills of Material ► Equipment BOM (IB01)",
         "Plant Maintenance ► Master Data in PM ► Bills of Material ► Functional Location BOM (IB11)",
@@ -877,8 +877,8 @@ export const CH3: TextbookChapter = {
         "להעשיר אובייקטים בתכונות-חיפוש ולאפשר איתור, סינון, השוואה ודיווח לפי מאפיינים-טכניים, מעבר לשדות-המבנה הקבועים.",
       processExampleHe:
         "מהנדס מחפש 'כל המשאבות במתח 380V מיצרן X' דרך חיפוש-classification ומקבל רשימה מיידית — בלי הסיווג זו הייתה סריקה ידנית.",
-      cbcHe:
-        "ב-CBC כל מכונת-מילוי מסווגת ב-Class 'FILLING_MACHINE' עם תכונות: מהירות, נפח-בקבוק, יצרן. כך מאתרים מהר את כל המכונות התואמות-מפרט לתכנון-שדרוג או לחלף-מתאים.",
+      scenarioHe:
+        "בארגון כל מכונת-מילוי מסווגת ב-Class 'FILLING_MACHINE' עם תכונות: מהירות, נפח-בקבוק, יצרן. כך מאתרים מהר את כל המכונות התואמות-מפרט לתכנון-שדרוג או לחלף-מתאים.",
       navHe: [
         "Cross-Application Components ► Classification System ► Classes ► Maintain Classes (CL01/CL02)",
         "Cross-Application Components ► Classification System ► Characteristics ► Maintain Characteristics (CT04)",
@@ -942,8 +942,8 @@ export const CH3: TextbookChapter = {
         "לתת מבט-הקשר אחד מקיף לאובייקט — מבנה, חלפים, מסמכים, סיווג — להאצת-ניתוח וניווט בין כל המידע הקשור.",
       processExampleHe:
         "מהנדס פותח ב-CC04 את המכונה ורואה בעץ אחד את ה-BOM, השרטוטים ב-DMS, וה-Class — ומנווט ישירות לכל אחד מהם לבדיקה.",
-      cbcHe:
-        "ב-CBC לפני שדרוג-קו, ההנדסה פותחת ב-CC04 את מכונת-המילוי ובוחנת בעץ אחד את חלפיה, שרטוטיה ותכונותיה — לתכנון-השדרוג ללא דילוג בין טרנזקציות.",
+      scenarioHe:
+        "בארגון לפני שדרוג-קו, ההנדסה פותחת ב-CC04 את מכונת-המילוי ובוחנת בעץ אחד את חלפיה, שרטוטיה ותכונותיה — לתכנון-השדרוג ללא דילוג בין טרנזקציות.",
       navHe: [
         "Logistics ► Central Functions ► Engineering Change Management ► Environment ► Product Structure Browser (CC04)",
       ],
@@ -996,8 +996,8 @@ export const CH3: TextbookChapter = {
         "לשפר נגישות-ויזואלית לנכסים, להאיץ איתור וניווט, ולקרב משתמשי-שטח/הנהלה לאובייקט הפיזי ולמצבו.",
       processExampleHe:
         "מנהל-תחזוקה פותח את ה-Asset Viewer, רואה את פריסת-המפעל, לוחץ על תחנת-מילוי ומקבל מיד את ה-Equipment עליה, הזמנות-העבודה הפתוחות ומדידות-המצב.",
-      cbcHe:
-        "ב-CBC ה-Asset Viewer מציג את פריסת-קווי-המילוי; לחיצה על מכונה מציגה את היסטוריית-תקלותיה ואת ההזמנות-הפתוחות — תמונת-מצב ויזואלית של בריאות-הקו.",
+      scenarioHe:
+        "בארגון ה-Asset Viewer מציג את פריסת-קווי-המילוי; לחיצה על מכונה מציגה את היסטוריית-תקלותיה ואת ההזמנות-הפתוחות — תמונת-מצב ויזואלית של בריאות-הקו.",
       navHe: [
         "SAP Fiori Launchpad ► Asset Management ► Asset Viewer (S/4HANA)",
         "Plant Maintenance ► (S/4HANA Visual / Geo integration settings)",
@@ -1051,8 +1051,8 @@ export const CH3: TextbookChapter = {
         "לספק כלים-רוחביים לניהול-יעיל של נתוני-האב — העלאה, עדכון-המוני, מדידות, תיעוד, שותפים והרשאות — על-פני כל סוגי-האובייקטים.",
       processExampleHe:
         "צוות-הטמעה מעלה אלפי אובייקטים ב-Migration Cockpit (Data Transfer), מעדכן Planner Group להמונים (Mass Change), ומקים Measuring Points לשעות-מנוע — הכל בכלים-גנריים.",
-      cbcHe:
-        "ב-CBC הכלים-הגנריים משמשים: העלאת כל המכונות במכה (Data Transfer), עדכון מרכז-עלות לכל קו (Mass Change), Measuring Point לבקבוקים-ממולאים, ומסמכי-תפעול ב-DMS לכל מכונה.",
+      scenarioHe:
+        "בארגון הכלים-הגנריים משמשים: העלאת כל המכונות במכה (Data Transfer), עדכון מרכז-עלות לכל קו (Mass Change), Measuring Point לבקבוקים-ממולאים, ומסמכי-תפעול ב-DMS לכל מכונה.",
       navHe: [
         "Plant Maintenance ► Master Data ► Technical Objects ► (cross-object generic functions)",
         "Plant Maintenance ► Master Data ► Measuring Points / Documents / Partners / Permits",
@@ -1101,7 +1101,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "LSMW (legacy) או SAP S/4HANA Migration Cockpit (LTMC/LTMOM) ממפים שדות-מקור ל-IFLOT/EQUI/ILOA. תומך ב-recording, BAPI (BAPI_EQUI_CREATE, BAPI_FUNCLOC_CREATE) או IDoc. דורש תבנית-מיפוי, ולידציה ו-test-load. שמירה על Edit mask והיררכיה קריטית בהעלאה.",
           purposeHe: "להעלות נפח-אובייקטים גדול במהירות, בעקביות ובאמינות, עם ולידציה — במקום הזנה-ידנית מועדת-שגיאות.",
           processExampleHe: "צוות מכין קובץ-מקור עם FL ו-Equipment, ממפה ב-Migration Cockpit, מריץ test-load לתיקון-שגיאות, ואז העלאה-מלאה — אלפי אובייקטים בשעות.",
-          cbcHe: "ב-CBC כל קווי-המילוי וכל המכונות הועלו ב-Migration Cockpit מקובץ-מקור אחיד, אחרי test-load שתיקן שגיאות-Edit-mask.",
+          scenarioHe: "בארגון כל קווי-המילוי וכל המכונות הועלו ב-Migration Cockpit מקובץ-מקור אחיד, אחרי test-load שתיקן שגיאות-Edit-mask.",
           navHe: ["SAP Menu ► Tools ► LSMW", "SAP S/4HANA Migration Cockpit (LTMC / Fiori)"],
           tables: ["IFLOT", "EQUI", "ILOA"],
           tcodes: ["LSMW", "LTMC", "LTMOM"],
@@ -1122,7 +1122,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "מבוצע דרך Mass Change ב-IL02/IE02 (List editing: IL05/IE05 → Mass change) או טרנזקציית MASS. בורר את האובייקטים, בוחר שדות-יעד, מציב ערך, ומריץ. זהיר: שינוי גורף בלי בורר-מדויק עלול לעדכן אובייקטים לא-מכוונים. תיעוד-שינוי ב-Change Documents.",
           purposeHe: "לעדכן נתוני-אב בקנה-מידה ביעילות ובעקביות, ולמנוע סטיות-נתונים בין אובייקטים-דומים.",
           processExampleHe: "ארגון מאחד מרכזי-עלות; שינוי-המוני בוחר את כל ה-Equipment של מחלקה ומעדכן את ה-Cost Center בכולם בבת-אחת.",
-          cbcHe: "ב-CBC בעת ארגון-מחדש של קו, שינוי-המוני מעדכן את Planner Group ו-Cost Center לכל מכונות-הקו בפעולה אחת.",
+          scenarioHe: "בארגון בעת ארגון-מחדש של קו, שינוי-המוני מעדכן את Planner Group ו-Cost Center לכל מכונות-הקו בפעולה אחת.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► List Editing ► Mass Change (IL05/IE05 → MASS)"],
           tables: ["EQUI", "IFLOT", "ILOA"],
           tcodes: ["IL05", "IE05", "MASS", "IL02", "IE02"],
@@ -1143,7 +1143,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "Measuring Point (IK01) משויך ל-Equipment/FL, נשמר ב-IMPTT; קריאות (IK11) ב-IMRG. Counter הוא Measuring Point מסוג-מונה (עולה/מחזורי). משמש ל-Performance-based maintenance (Maintenance Plan לפי-מונה) ולגבולות-מדידה (Measurement-based notifications). אינטגרציה עם Maintenance Plans (IP42 counter-based).",
           purposeHe: "לאסוף נתוני-מצב וצבירה לאובייקטים, ולהניע תחזוקה-מונעת מבוססת-מצב או מבוססת-שימוש במקום זמן-בלבד.",
           processExampleHe: "Counter לשעות-מנוע מגיע ל-2000; Maintenance Plan מבוסס-מונה מפעיל אוטומטית הזמנת-תחזוקה — תחזוקה לפי-שימוש ולא לפי-לוח-שנה.",
-          cbcHe: "ב-CBC Counter 'בקבוקים-ממולאים' במכונת-מילוי מפעיל החלפת-אטמים כל 1,000,000 בקבוקים; Measuring Point ללחץ-CO2 מתריע בחריגה — שניהם מניעים תחזוקה-מבוססת-מצב.",
+          scenarioHe: "בארגון Counter 'בקבוקים-ממולאים' במכונת-מילוי מפעיל החלפת-אטמים כל 1,000,000 בקבוקים; Measuring Point ללחץ-CO2 מתריע בחריגה — שניהם מניעים תחזוקה-מבוססת-מצב.",
           navHe: ["Plant Maintenance ► Master Data ► Measuring Points and Counters ► Create Measuring Point (IK01)", "Plant Maintenance ► Maintenance Processing ► Measurement Documents (IK11)"],
           tables: ["IMPTT", "IMRG", "EQUI", "IFLOT"],
           tcodes: ["IK01", "IK02", "IK11", "IK13", "IK17"],
@@ -1168,7 +1168,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "Document Info Record (CV01N) נשמר ב-DRAW; מקושר ל-Equipment/FL דרך Object Links (DRAD). תומך בגרסאות, סטטוסים ובדיקת-תוקף. אינטגרציה עם הזמנות-עבודה (מסמכים בהוראת-העבודה) ועם Product Structure Browser. אחסון בקבצי-מקור (Content Server / Vault).",
           purposeHe: "לרכז ולנהל תיעוד-טכני מבוקר-גרסאות הצמוד לאובייקט, ולהנגישו בתהליכי-תחזוקה וברגולציה.",
           processExampleHe: "טכנאי פותח הזמנת-עבודה למכונה; ה-DIR המקושר מציג את שרטוט-הפירוק העדכני — אין חיפוש בארכיון-נייר.",
-          cbcHe: "ב-CBC כל מכונת-מילוי נושאת DIR עם מדריך-CIP (ניקוי), שרטוט-פירוק ותעודת-תאימות-מזון; הטכנאי ניגש אליהם ישירות מהאובייקט ומההזמנה.",
+          scenarioHe: "בארגון כל מכונת-מילוי נושאת DIR עם מדריך-CIP (ניקוי), שרטוט-פירוק ותעודת-תאימות-מזון; הטכנאי ניגש אליהם ישירות מהאובייקט ומההזמנה.",
           navHe: ["Cross-Application Components ► Document Management ► Create Document (CV01N)", "Plant Maintenance ► link documents to Equipment/FL (Object Links)"],
           tables: ["DRAW", "DRAD", "EQUI", "IFLOT"],
           tcodes: ["CV01N", "CV02N", "CV03N", "IE02"],
@@ -1189,7 +1189,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "כתובות נשמרות ב-Central Address Management (ADRC) ומקושרות דרך ILOA (Address number) לאובייקט. ניתן לשייך כתובת ל-FL/Equipment ולשותפים (IHPA). תומך בכתובות-מרובות ובכתובת-מורשת מההיררכיה. שימושי בארגונים רב-אתריים ובשירות-שטח.",
           purposeHe: "לספק מיקום-פיזי אמין לאובייקטים ולשותפים — לניווט-שטח, ללוגיסטיקת-חלפים ולתיאום-שירות.",
           processExampleHe: "אובייקט באתר-מרוחק נושא כתובת; הזמנת-שירות מציגה אותה לטכנאי-החוץ והחלפים נשלחים לכתובת הנכונה.",
-          cbcHe: "ב-CBC במפעל יחיד הכתובת אחידה, אך במודל רב-מפעלי כל מפעל-מילוי נושא כתובת משלו ב-ILOA — לניתוב-שירות וחלפים לאתר הנכון.",
+          scenarioHe: "בארגון במפעל יחיד הכתובת אחידה, אך במודל רב-מפעלי כל מפעל-מילוי נושא כתובת משלו ב-ILOA — לניתוב-שירות וחלפים לאתר הנכון.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► assign Address (ILOA)", "Basis ► Central Address Management"],
           tables: ["ADRC", "ILOA", "EQUI", "IFLOT"],
           tcodes: ["IE02", "IL02"],
@@ -1210,7 +1210,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "Warranty (BGMK) משויכת לאובייקט עם Master Warranty / Warranty counter (זמן או מונה). בעת הודעת/הזמנת-תחזוקה המערכת מבצעת Warranty check ומתריעה אם בתוך-תוקף. תומך באחריות-נכנסת (Vendor) ויוצאת (Customer/CS). מבוסס-תאריך או מבוסס-מונה.",
           purposeHe: "למנוע עלות-תיקון מיותרת על אובייקטים-באחריות ולנהל תביעות-אחריות מול ספקים ולקוחות.",
           processExampleHe: "תקלה במכונה חדשה; ב-Warranty check המערכת מתריעה 'בתוך-אחריות-ספק' — התיקון נדרש מהספק במקום מתקציב-התחזוקה.",
-          cbcHe: "ב-CBC מכונת-מילוי חדשה נושאת Warranty של 24 חודשים; תקלה בחודש 18 מפעילה התראת-אחריות, והעלות נדרשת מהיצרן.",
+          scenarioHe: "בארגון מכונת-מילוי חדשה נושאת Warranty של 24 חודשים; תקלה בחודש 18 מפעילה התראת-אחריות, והעלות נדרשת מהיצרן.",
           navHe: ["Plant Maintenance ► Master Data ► Warranties ► Define Master Warranties (BGM1)", "Plant Maintenance ► assign Warranty to Equipment/FL"],
           tables: ["BGMK", "EQUI", "IFLOT"],
           tcodes: ["BGM1", "BGM2", "IE02", "IL02"],
@@ -1231,7 +1231,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "Partners נשמרים ב-IHPA, מבוססי Partner Functions (VW אחראי, AG וכו') ו-Partner Determination Procedure. מקושרים ל-Business Partner / משתמש / ארגון. עוברים בירושה מהיררכיה ומשמשים בהודעות/הזמנות לניתוב ולהתראה. ב-S/4HANA דרך Business Partner.",
           purposeHe: "להגדיר אחריות וניתוב — מי-אחראי, את-מי-לערב — לכל אובייקט ובכל תהליך-תחזוקה.",
           processExampleHe: "הודעת-תקלה נפתחת; דרך ה-Partners של האובייקט, האחראי-המתאים מקבל התראה אוטומטית ומשובץ לטיפול.",
-          cbcHe: "ב-CBC לכל קו-מילוי משויך Partner 'מנהל-תחזוקת-קו'; הודעת-תקלה מנתבת אליו אוטומטית, וה-Partner 'יצרן' משמש לתביעות-אחריות.",
+          scenarioHe: "בארגון לכל קו-מילוי משויך Partner 'מנהל-תחזוקת-קו'; הודעת-תקלה מנתבת אליו אוטומטית, וה-Partner 'יצרן' משמש לתביעות-אחריות.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► Partner ► Define Partner Determination Procedure", "Plant Maintenance ► assign Partners to Equipment/FL"],
           tables: ["IHPA", "EQUI", "IFLOT", "TPAR"],
           tcodes: ["IE02", "IL02", "BP"],
@@ -1252,7 +1252,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "Permit (PM Permits) מוגדר עם Permit category ומקושר ל-Equipment/FL או נגזר אוטומטית לפי-תנאי. בהזמנת-העבודה מתבצעת Permit check — חוסמת (hard) או מתריעה (soft) עד הענקה. תומך בהיתרי-בטיחות, סביבה ורגולציה. נשמר ושויך לאובייקט; משולב ב-Order release.",
           purposeHe: "לאכוף ציות-בטיחות ורגולציה — למנוע ביצוע-עבודה מסוכנת ללא אישור מתאים.",
           processExampleHe: "הזמנת-עבודת-ריתוך על מכונה דורשת Hot Work Permit; ה-Permit check חוסם את שחרור-ההזמנה עד שהיתר-החום ניתן ואושר.",
-          cbcHe: "ב-CBC עבודה בתוך מיכל-ערבוב דורשת Confined Space Permit, וריתוך-בקו דורש Hot Work Permit; שניהם נבדקים ב-Permit check לפני שחרור-ההזמנה.",
+          scenarioHe: "בארגון עבודה בתוך מיכל-ערבוב דורשת Confined Space Permit, וריתוך-בקו דורש Hot Work Permit; שניהם נבדקים ב-Permit check לפני שחרור-ההזמנה.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► Permits ► Define Permit Categories", "Plant Maintenance ► assign Permits to Equipment/FL"],
           tables: ["EQUI", "IFLOT", "T357", "AUFK"],
           tcodes: ["IE02", "IL02", "IW31", "IW32"],
@@ -1273,7 +1273,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "System Status (אובייקט-טבלת JEST/TJ02) נקבע ע\"י SAP ומבקר Business Transactions (Allowed/Forbidden). User Status מוגדר ב-Status Profile (BS02/OIBS) עם סדר, הרשאות ו-business-transaction-control, משויך לקטגוריית-אובייקט. שילובם קובע התנהגות. שימושי לאכיפת-תהליך (אי-שחרור עד אישור).",
           purposeHe: "לשלוט במחזור-חיי-האובייקט ובתהליך — לאפשר/לחסום עסקאות לפי מצב, ולאכוף שלבי-אישור ארגוניים.",
           processExampleHe: "Equipment ב-User Status 'ממתין-QA' חוסם פתיחת-הזמנת-עבודה; רק לאחר מעבר ל-'מאושר' (User Status) ניתן לשחרר עבודה.",
-          cbcHe: "ב-CBC מכונה-חדשה ב-User Status 'בהרצה' לא נכנסת לתוכנית-תחזוקה-מונעת; רק במעבר ל-'מבצעי' (Status Profile של CBC) היא מצטרפת — אכיפת-תהליך.",
+          scenarioHe: "בארגון מכונה-חדשה ב-User Status 'בהרצה' לא נכנסת לתוכנית-תחזוקה-מונעת; רק במעבר ל-'מבצעי' (Status Profile של הארגון) היא מצטרפת — אכיפת-תהליך.",
           navHe: ["Plant Maintenance ► Master Data ► Technical Objects ► General Data ► Define User Status Profile (OIBS/BS02)", "assign Status Profile to Equipment/FL category"],
           tables: ["JEST", "TJ02", "TJ30", "JCDS"],
           tcodes: ["BS02", "OIBS", "IE02", "IL02"],
@@ -1306,8 +1306,8 @@ export const CH3: TextbookChapter = {
         "לקשור את כל חלקי-הפרק לתמונה-אחת: מבנה-טכני נכון = היסטוריה אמינה, עלות-משויכת, חיפוש-יעיל ותחזוקה-מונעת אפשרית. מבנה לקוי = כל אלו נפגעים.",
       processExampleHe:
         "מבט-על: מפעל ← קווים ← תחנות (FL); מכונות מותקנות (Equipment + Serial); כל אובייקט מסווג, נושא PM-BOM, מדידות, מסמכים, שותפים, היתרים וסטטוס — מוכן להודעות, הזמנות ותחזוקה-מונעת.",
-      cbcHe:
-        "ב-CBC: שלד BOTL→Line→Station הוקם; מכונות-מילוי הותקנו כ-Equipment עם Counters לבקבוקים, PM-BOMs לחלפים, Permits לבטיחות ו-Warranties ליצרן — תשתית-הנתונים של מפעל-המשקאות מוכנה לתפעול-תחזוקה מלא.",
+      scenarioHe:
+        "בארגון: שלד BOTL→Line→Station הוקם; מכונות-מילוי הותקנו כ-Equipment עם Counters לבקבוקים, PM-BOMs לחלפים, Permits לבטיחות ו-Warranties ליצרן — תשתית-הנתונים של מפעל-המשקאות מוכנה לתפעול-תחזוקה מלא.",
       navHe: [
         "Plant Maintenance ► Master Data in Plant Maintenance and Customer Service ► Technical Objects (סקירת-כל-הפרק)",
       ],

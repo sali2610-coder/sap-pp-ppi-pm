@@ -11,7 +11,7 @@ export const CH6: TextbookChapter = {
   titleHe: "תכנון ייצור — ייצור בדיד",
   titleEn: "Production Planning for Discrete Manufacturing",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לביצוע-הייצור בייצור בדיד ב-SAP S/4HANA: ממעבר הזמנה-מתוכננת לפק\"ע, דרך מחזור-החיים המלא (יצירה, שחרור, הדפסה, WIP, דיווח, קבלת-מוצר, התחשבנות, TECO וסגירה), תזמון-פק\"ע, בדיקת-זמינות, קיבולת, תנועות-מלאי, דיווחי-ביצוע (CO11N) ומערכת-המידע של פקודות-הייצור. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לביצוע-הייצור בייצור בדיד ב-SAP S/4HANA: ממעבר הזמנה-מתוכננת לפק\"ע, דרך מחזור-החיים המלא (יצירה, שחרור, הדפסה, WIP, דיווח, קבלת-מוצר, התחשבנות, TECO וסגירה), תזמון-פק\"ע, בדיקת-זמינות, קיבולת, תנועות-מלאי, דיווחי-ביצוע (CO11N) ומערכת-המידע של פקודות-הייצור. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 6.1
     {
@@ -26,8 +26,8 @@ export const CH6: TextbookChapter = {
         "להפוך החלטת-תכנון למוצר פיזי תוך לכידת כל העלויות (חומר, עבודה, תקורה) על אובייקט-עלות אחד — הפק\"ע — לצורך בקרת-עלות-מוצר (Product Cost Controlling) וניתוח-סטיות.",
       processExampleHe:
         "MRP יוצר הזמנה-מתוכננת ל-1,000 יח'; המתכנן ממיר אותה ב-CO40/MD04 לפק\"ע (CRTD); משחרר (REL) לאחר בדיקת-זמינות; מדפיס מסמכי-רצפה; הרצפה מושכת רכיבים (261) ומדווחת פעולות (CO11N); קבלת-המוצר (101) מזכה את המלאי; ההתחשבנות מעמיסה סטיות ל-CO; TECO סוגר טכנית; סגירה (CLSD) חוסמת רישומים.",
-      cbcHe:
-        "ב-CBC: MRP ממליץ על מנת-מילוי של משקה מוגמר; ההמלצה מומרת לפק\"ע לקו-מילוי, נמשכים תרכיז/סוכר/בקבוקים, הקו מדווח דרך CO11N, והמשקה המוגמר נכנס למלאי כאצווה (Batch) עם קבלת-מוצר 101.",
+      scenarioHe:
+        "בארגון: MRP ממליץ על מנת-מילוי של משקה מוגמר; ההמלצה מומרת לפק\"ע לקו-מילוי, נמשכים תרכיז/סוכר/בקבוקים, הקו מדווח דרך CO11N, והמשקה המוגמר נכנס למלאי כאצווה (Batch) עם קבלת-מוצר 101.",
       navHe: [
         "Logistics ► Production ► Shop Floor Control ► Order ► Create / Change / Display (CO01/CO02/CO03)",
         "Logistics ► Production ► MRP ► Evaluations ► Stock/Requirements List (MD04) ► Convert Planned Order",
@@ -96,8 +96,8 @@ export const CH6: TextbookChapter = {
         "לספק לפק\"ע מקור-נתונים שלם ועקבי כך שהפיצוץ, התזמון והתמחור יהיו דטרמיניסטיים — ללא 'ניחושים' של המערכת.",
       processExampleHe:
         "המרת פק\"ע לחומר FERT: המערכת בוחרת Production Version תקף לכמות ולתאריך, מפצצת את ה-BOM המשויך ל-Reservations, שולפת את פעולות-ה-Routing, ומתזמנת לפי מרכזי-העבודה — הכל אוטומטית כשהנתונים שלמים.",
-      cbcHe:
-        "ב-CBC לכל משקה מוגמר: אב-חומר FERT עם תצוגות-MRP+Work Scheduling, BOM (תרכיז/סוכר/CO2/בקבוק/תווית), מרכז-עבודה = קו-מילוי, Routing (הכנה➔ערבול➔מילוי➔QA➔אריזה), ו-Production Version לכל קו פעיל.",
+      scenarioHe:
+        "בארגון לכל משקה מוגמר: אב-חומר FERT עם תצוגות-MRP+Work Scheduling, BOM (תרכיז/סוכר/CO2/בקבוק/תווית), מרכז-עבודה = קו-מילוי, Routing (הכנה➔ערבול➔מילוי➔QA➔אריזה), ו-Production Version לכל קו פעיל.",
       navHe: [
         "Logistics ► Production ► Master Data ► Material Master / Bills of Material / Work Center / Routings",
         "Logistics ► Production ► Master Data ► Production Versions (C223 / MM02 ► MRP4)",
@@ -158,7 +158,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "בהמרת-פק\"ע נשלפים MARC-DZEIT (זמן-ייצור) לתזמון, MARC-SFCPF לאוטומציות (שחרור/GR אוטומטי דרך OPKP), ו-MBEW-VPRSV לבקרת-מחיר. Price Control S מול V קובע אם עלות-התקן או הממוצע-נע מזכה את המלאי בקבלה ואיך מנותחות הסטיות.",
           purposeHe: "להבטיח שהפק\"ע יורשת פרמטרי-תכנון, אוטומציות-ביצוע ובקרת-עלות נכונים מנתון-אב יחיד.",
           processExampleHe: "פק\"ע ל-FERT עם SFCPF המוגדר ל-Auto-Release ו-Auto-GR: עם ההמרה הפק\"ע משוחררת לבד, ובדיווח-הסופי מתבצעת קבלת-מוצר אוטומטית.",
-          cbcHe: "ב-CBC כל משקה מוגמר נושא SFCPF עם Auto-GR כך שדיווח-הקו מזכה אוטומטית את מלאי-המשקה כאצווה.",
+          scenarioHe: "בארגון כל משקה מוגמר נושא SFCPF עם Auto-GR כך שדיווח-הקו מזכה אוטומטית את מלאי-המשקה כאצווה.",
           navHe: ["Logistics ► Production ► Master Data ► Material Master ► Display (MM03) ► MRP / Work Scheduling / Accounting"],
           tables: ["MARC", "MBEW", "MARA"],
           tcodes: ["MM01", "MM02", "MM03"],
@@ -181,7 +181,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "הפיצוץ מתחשב בכמות-הפק\"ע, ב-Component Scrap וב-Operation Scrap, ומקצה רכיבים לפעולות דרך Component Allocation (PLMZ). Item Category L יוצר RESB מול המלאי; N יוצר דרישת-רכש ישירה לפק\"ע.",
           purposeHe: "לתרגם את מבנה-המוצר לדרישות-רכיבים מדויקות ברמת-הפק\"ע, מתואמות לשלב-הצריכה ברצפה.",
           processExampleHe: "פק\"ע ל-1,000 יח': כל רכיב-L מקבל Reservation לפי הכמות+פחת; רכיב-N מקבל דרישת-רכש; ברצפה מבצעים Goods Issue 261 כנגד ה-Reservations.",
-          cbcHe: "ב-CBC פיצוץ-BOM של משקה יוצר Reservations לתרכיז/סוכר/בקבוק/תווית עם פחת-אריזה ~1%; בדיקת-מעבדה חיצונית (N) יוצרת דרישת-רכש.",
+          scenarioHe: "בארגון פיצוץ-BOM של משקה יוצר Reservations לתרכיז/סוכר/בקבוק/תווית עם פחת-אריזה ~1%; בדיקת-מעבדה חיצונית (N) יוצרת דרישת-רכש.",
           navHe: ["Logistics ► Production ► Master Data ► Bills of Material ► Display (CS03)"],
           tables: ["STKO", "STPO", "MAST", "RESB"],
           tcodes: ["CS01", "CS02", "CS03", "CS11"],
@@ -204,7 +204,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "כל פעולת-פק\"ע מצביעה על מרכז-עבודה; נוסחאות-המרכז (OP21) מתרגמות את ה-Standard Values למשך-תזמון, לדרישת-קיבולת ולכמות-Activity. Activity Types מתומחרים ב-KP26 ומזינים את עלות-הפק\"ע. ה-Control Key בפעולה קובע אילו יכולות פעילות.",
           purposeHe: "לחבר את הפק\"ע לתזמון, לעומס-קיבולת ולמערכת-העלויות באופן עקבי.",
           processExampleHe: "פעולת-מילוי על מרכז 'קו-1': נוסחת-התזמון נותנת משך 4 שעות, נוסחת-הקיבולת טוענת 4 שעות-מכונה, ונוסחת-העלות מכפילה ב-תעריף-KP26 לעלות-העבודה.",
-          cbcHe: "ב-CBC קו-מילוי = מרכז-עבודה 'מכונה' עם Activity Types למכונה ולכוח-אדם; תעריפי-KP26 מזינים את עלות-המשקה דרך פעולות-הפק\"ע.",
+          scenarioHe: "בארגון קו-מילוי = מרכז-עבודה 'מכונה' עם Activity Types למכונה ולכוח-אדם; תעריפי-KP26 מזינים את עלות-המשקה דרך פעולות-הפק\"ע.",
           navHe: ["Logistics ► Production ► Master Data ► Work Centers ► Display (CR03)"],
           tables: ["CRHD", "CRCO", "KAKO"],
           tcodes: ["CR01", "CR02", "CR03", "KP26"],
@@ -224,7 +224,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "בהמרה נשלפות פעולות-ה-Routing דרך ה-Production Version ומועתקות ל-AFVC; הקצאות-הרכיבים (PLMZ) קובעות באיזו פעולה כל רכיב נצרך. ה-Control Key של כל פעולה קובע אם היא מתוזמנת/מתומחרת/מדווחת/מודפסת/Milestone.",
           purposeHe: "להגדיר את תהליך-הביצוע התפעולי של הפק\"ע ולקבוע את נקודות-הדיווח.",
           processExampleHe: "פק\"ע יורשת פעולות 0010–0050; בדיווח-ביצוע (CO11N) מדווחים פעולה-פעולה, ופעולת-Milestone מאשרת אוטומטית את הקודמות.",
-          cbcHe: "ב-CBC מסלול-הקו: 0010 הכנה ➔ 0020 ערבול ➔ 0030 מילוי ➔ 0040 QA ➔ 0050 אריזה; פעולת-המילוי לרוב Milestone.",
+          scenarioHe: "בארגון מסלול-הקו: 0010 הכנה ➔ 0020 ערבול ➔ 0030 מילוי ➔ 0040 QA ➔ 0050 אריזה; פעולת-המילוי לרוב Milestone.",
           navHe: ["Logistics ► Production ► Master Data ► Routings ► Display (CA03)"],
           tables: ["PLKO", "PLPO", "AFVC", "PLMZ"],
           tcodes: ["CA01", "CA02", "CA03"],
@@ -244,7 +244,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ב-C223 (או MM02 ► MRP4) מגדירים Version עם BOM-Alternative, Routing-Group/Counter, Lot-size from/to ו-Valid-from/to. ב-S/4HANA חובה אפילו לתרחיש בודד; בהיעדרה ההמרה והתמחיר נכשלים. טווחי-כמות חופפים בין Versions גורמים בחירה לא-צפויה.",
           purposeHe: "להבטיח בחירת-מבנה דטרמיניסטית בייצור ובתמחיר כשקיימות חלופות-BOM/Routing.",
           processExampleHe: "מוצר עם שני קווים: Version 0001 (קו מהיר, עד 5,000 יח') ו-0002 (קו איטי, מעל); פק\"ע ל-3,000 יח' בוחרת אוטומטית 0001.",
-          cbcHe: "ב-CBC לכל קו-מילוי פעיל Production Version משלו; פק\"ע מנותבת אוטומטית לקו הנכון לפי הכמות והתוקף.",
+          scenarioHe: "בארגון לכל קו-מילוי פעיל Production Version משלו; פק\"ע מנותבת אוטומטית לקו הנכון לפי הכמות והתוקף.",
           navHe: ["Logistics ► Production ► Master Data ► Production Versions (C223)", "MM02 ► MRP 4 ► Production Versions"],
           tables: ["MKAL", "MAST", "PLKO"],
           tcodes: ["C223", "MM02"],
@@ -275,8 +275,8 @@ export const CH6: TextbookChapter = {
         "לבנות מסמך-ביצוע מלא ומדויק לפני שחרורו לרצפה, עם אפשרות-עריכה מבוקרת של פעולות, רכיבים ותאריכים.",
       processExampleHe:
         "פק\"ע נוצרת מהמלצת-MRP; המתכנן עובר על סקירת-הפעולות (משכים), מאמת רכיבים בסקירת-הרכיבים, מריץ תזמון, ובודק זמינות — ורק אז משחרר.",
-      cbcHe:
-        "ב-CBC המתכנן ממיר מנת-מילוי לפק\"ע, מאמת שהבקבוק/התווית הנכונים מוקצים בסקירת-הרכיבים, ומריץ בדיקת-זמינות לפני שחרור הקו.",
+      scenarioHe:
+        "בארגון המתכנן ממיר מנת-מילוי לפק\"ע, מאמת שהבקבוק/התווית הנכונים מוקצים בסקירת-הרכיבים, ומריץ בדיקת-זמינות לפני שחרור הקו.",
       navHe: [
         "Logistics ► Production ► Shop Floor Control ► Order ► Create (CO01) / With Material (CO07)",
         "Logistics ► Production ► Shop Floor Control ► Order ► Change (CO02) ► Header / Operations / Components",
@@ -337,7 +337,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "AFKO מחזיקה GAMNG (כמות-יעד), GSTRP/GLTRP (תאריכי-בסיס), GSTRS/GLTRS (תאריכים-מתוזמנים), ו-Production Version. שינוי-כמות בכותרת מפעיל מחדש פיצוץ-רכיבים ותזמון. הסטטוס המצרפי מוצג כאן.",
           purposeHe: "לספק תצוגת-על אחת לכל פרמטרי-הפק\"ע המהותיים ולנקודת-כניסה לעריכתם.",
           processExampleHe: "שינוי כמות-יעד מ-1,000 ל-1,200 בכותרת מעדכן אוטומטית את כמויות-ה-Reservations ואת משכי-הפעולות.",
-          cbcHe: "ב-CBC הכותרת מציגה את מנת-המילוי, קו-המילוי (Production Version), ותאריך-היעד למשלוח.",
+          scenarioHe: "בארגון הכותרת מציגה את מנת-המילוי, קו-המילוי (Production Version), ותאריך-היעד למשלוח.",
           navHe: ["CO02 ► Header"],
           tables: ["AFKO", "AUFK"],
           tcodes: ["CO02", "CO03"],
@@ -356,7 +356,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "AFVC מחזיקה את הפעולות; AFVV את ערכי-הזמן ו-AFVU את הסטטוסים. הוספת-פעולה ידנית אפשרית אך עדיף לתקן ב-Routing. ה-Control Key של כל פעולה קובע את התנהגותה (דיווח/תמחור/קיבולת).",
           purposeHe: "לבחון ולערוך את תהליך-הביצוע ברמת-הפעולה לפני שחרור.",
           processExampleHe: "המתכנן מוסיף פעולת-בדיקה חד-פעמית 0045 בין QA לאריזה לפק\"ע ספציפית, ללא שינוי ה-Routing הכללי.",
-          cbcHe: "ב-CBC מוסיפים לעיתים פעולת-ניקוי-מיוחד לפק\"ע לאחר החלפת-טעם, רק לאותה מנה.",
+          scenarioHe: "בארגון מוסיפים לעיתים פעולת-ניקוי-מיוחד לפק\"ע לאחר החלפת-טעם, רק לאותה מנה.",
           navHe: ["CO02 ► Operations"],
           tables: ["AFVC", "AFVV", "AFVU"],
           tcodes: ["CO02", "CO03"],
@@ -375,7 +375,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Trigger Points מוגדרים על פעולה (או כ-Standard Trigger Point לשימוש-חוזר), נקשרים לאירוע-סטטוס (Release/Confirm), ומפעילים: שחרור-פעולות-עוקבות, יצירת-Rework-Order, החלת-Trigger-Point-Group או Workflow. שימושי לאוטומציית-תהליך ברמת-הפעולה.",
           purposeHe: "לאפשר אוטומציות מותנות-אירוע ברמת-הפעולה בלי התערבות ידנית.",
           processExampleHe: "Trigger Point על פעולת-QA: אם QA נכשלת (Confirm עם סטטוס מתאים) — נוצרת אוטומטית פק\"ע-Rework.",
-          cbcHe: "ב-CBC Trigger Point על פעולת-בדיקת-מיקרוביולוגיה: כישלון מפעיל אוטומטית פק\"ע-Rework לטיפול-חוזר במנה.",
+          scenarioHe: "בארגון Trigger Point על פעולת-בדיקת-מיקרוביולוגיה: כישלון מפעיל אוטומטית פק\"ע-Rework לטיפול-חוזר במנה.",
           navHe: ["CO02 ► Operation ► Trigger Points", "Production ► Shop Floor Control ► Operations ► Trigger Points ► Define Standard Trigger Points"],
           tables: ["AFVC", "TPSB"],
           tcodes: ["CO02", "CO03"],
@@ -394,7 +394,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "RESB מחזיקה את ההקצאות; כל שורה קשורה לפעולה (Component Allocation) ולמחסן. ניתן להוסיף רכיב חד-פעמי, לשנות כמות, או לשנות סוג-משיכה (Backflush/ידני). שינוי-כמות-פק\"ע מעדכן את הכמויות אוטומטית.",
           purposeHe: "לבקר ולערוך את דרישות-הרכיבים של הפק\"ע ולוודא מקור-משיכה תקין.",
           processExampleHe: "המתכנן מבחין שרכיב-אריזה לא מוקצה למחסן-הנכון, מתקן את ה-Storage Location ב-RESB לפני שחרור.",
-          cbcHe: "ב-CBC בודקים שהבקבוק/הפקק/התווית הנכונים לאותו טעם מוקצים, ושמחסן-המשיכה הוא מחסן-הקו.",
+          scenarioHe: "בארגון בודקים שהבקבוק/הפקק/התווית הנכונים לאותו טעם מוקצים, ושמחסן-המשיכה הוא מחסן-הקו.",
           navHe: ["CO02 ► Components"],
           tables: ["RESB", "RKPF"],
           tcodes: ["CO02", "CO03"],
@@ -413,7 +413,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "הפונקציה מפעילה New Explosion: היא מוחקת את AFVC/RESB הקיימים ויוצרת אותם מחדש מנתוני-האב. זהירות — היא דורסת שינויים-ידניים שבוצעו בפק\"ע. לרוב אסורה לאחר התחלת-דיווח/משיכה.",
           purposeHe: "לסנכרן פק\"ע פתוחה עם שינויי-נתוני-אב מבלי ליצור פק\"ע חדשה.",
           processExampleHe: "BOM עודכן (רכיב חדש) אחרי יצירת-הפק\"ע; Reread Master Data מושך את הרכיב החדש ל-Reservations של הפק\"ע.",
-          cbcHe: "ב-CBC לאחר שינוי-מתכון מאושר, מריצים Reread לפק\"עות-שלא-שוחררו כדי שיכללו את הרכיב המעודכן.",
+          scenarioHe: "בארגון לאחר שינוי-מתכון מאושר, מריצים Reread לפק\"עות-שלא-שוחררו כדי שיכללו את הרכיב המעודכן.",
           navHe: ["CO02 ► Functions ► Read PP Master Data"],
           tables: ["AFVC", "RESB", "AFKO"],
           tcodes: ["CO02"],
@@ -432,7 +432,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "System Status מנוהל אוטומטית; User Status מוגדר ב-Status Profile (OK02/BS02) ומשויך דרך Order Type. כל סטטוס נושא Business Transactions מותרות/אסורות. JEST/JCDS מאחסנים את היסטוריית-הסטטוסים. בדיקת 'why allowed/forbidden' היא כלי-תקלות מרכזי.",
           purposeHe: "לאכוף את חוקיות מחזור-חיי-הפק\"ע ולמנוע פעולות לא-תקינות בכל שלב.",
           processExampleHe: "ניסיון למשוך רכיב לפק\"ע ב-CRTD נחסם; רק לאחר REL (שחרור) המשיכה מותרת.",
-          cbcHe: "ב-CBC User Status מותאם ('ממתין-QA', 'מאושר-משלוח') חוסם קבלת-מוצר עד אישור-מעבדה.",
+          scenarioHe: "בארגון User Status מותאם ('ממתין-QA', 'מאושר-משלוח') חוסם קבלת-מוצר עד אישור-מעבדה.",
           navHe: ["CO02 ► Header ► Status", "Production ► Shop Floor Control ► Operations ► Define Status Profile (OK02/BS02)"],
           tables: ["JEST", "JCDS", "TJ02"],
           tcodes: ["CO02", "CO03", "BS02"],
@@ -454,7 +454,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Scheduling Type (Backward/Forward/Only Capacity Requirements) נקבע ב-Scheduling Parameters (OPU3 פר Order Type+Plant). התזמון מחשב Setup/Processing/Teardown/Move/Queue times לפי הנוסחאות ו-Reduction strategies לקיצור. תוצאתו: GSTRS/GLTRS ב-AFKO ותאריכי-פעולה ב-AFVV.",
           purposeHe: "לקבוע תאריכי-ביצוע ריאליים, לחשב עומס-קיבולת, ולתאם עם תאריך-היעד מ-MRP.",
           processExampleHe: "תזמון-אחורה מתאריך-יעד 15/06: המערכת מחשבת אחורה דרך הפעולות וקובעת תאריך-התחלה 12/06; אם עברנו אותו — מופעל Reduction לקיצור.",
-          cbcHe: "ב-CBC תזמון-אחורה מתאריך-משלוח קובע מתי הקו חייב להתחיל; חפיפת-מנות נשלטת דרך זמני-Queue.",
+          scenarioHe: "בארגון תזמון-אחורה מתאריך-משלוח קובע מתי הקו חייב להתחיל; חפיפת-מנות נשלטת דרך זמני-Queue.",
           navHe: ["CO02 ► Functions ► Scheduling", "Production ► Shop Floor Control ► Operations ► Scheduling ► Define Scheduling Parameters (OPU3)"],
           tables: ["AFKO", "AFVV", "AFVC"],
           tcodes: ["CO02", "OPU3"],
@@ -477,7 +477,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ATP נשלטת דרך Checking Group (MARC-MTVFP) + Checking Rule (PP); ה-Scope of Check (OPJJ) קובע אילו מלאים/קבלות/דרישות נכללים. הבדיקה יכולה להיות אוטומטית-בשחרור (OPL8) או ידנית. בדיקת-קיבולת ו-PRT נפרדות. תוצאה: Missing Parts List.",
           purposeHe: "להבטיח שפק\"ע משוחררת היא בת-ביצוע — מונע עצירות-קו ו-WIP תקוע.",
           processExampleHe: "בשחרור, ATP מזהה חוסר ב-200 בקבוקים; הפק\"ע מקבלת Missing Parts ונחסמת/מתריעה עד השלמת-המלאי.",
-          cbcHe: "ב-CBC בדיקת-זמינות לפני שחרור-מנה מאמתת תרכיז/בקבוקים/תוויות; חוסר מתריע למתכנן לפני הקצאת-הקו.",
+          scenarioHe: "בארגון בדיקת-זמינות לפני שחרור-מנה מאמתת תרכיז/בקבוקים/תוויות; חוסר מתריע למתכנן לפני הקצאת-הקו.",
           navHe: ["CO02 ► Functions ► Check Availability", "Production ► Shop Floor Control ► Operations ► Availability Check ► Define Checking Control (OPJK) / Scope of Check (OPJJ)"],
           tables: ["MARC", "RESB", "T441V"],
           tcodes: ["CO02", "OPJK", "OPJJ", "CO24"],
@@ -515,8 +515,8 @@ export const CH6: TextbookChapter = {
         "לאשר רשמית את תחילת-הייצור, להבטיח שהפק\"ע בת-ביצוע, ולפתוח את כל פעולות-הביצוע (משיכה/דיווח/GR).",
       processExampleHe:
         "המתכנן בוחר 50 פק\"עות מאושרות-זמינות ומשחרר אותן מצרפית ב-CO05N; כל אחת עוברת ל-REL, מודפסת, ומוכנה למשיכה ברצפה.",
-      cbcHe:
-        "ב-CBC פק\"עות-המילוי מוגדרות ל-Auto-Release דרך SFCPF; הקו מקבל אותן משוחררות מיד עם ההמרה, ללא צעד ידני.",
+      scenarioHe:
+        "בארגון פק\"עות-המילוי מוגדרות ל-Auto-Release דרך SFCPF; הקו מקבל אותן משוחררות מיד עם ההמרה, ללא צעד ידני.",
       navHe: [
         "CO02 ► Functions ► Release",
         "Logistics ► Production ► Shop Floor Control ► Control ► Collective Release (CO05N)",
@@ -570,7 +570,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "מוגדר ב-OPKP (Production Scheduling Profile) עם אינדיקטור Automatic Release, ומשויך לחומר דרך MARC-SFCPF. השחרור-האוטומטי מתרחש בהמרה/יצירה ומריץ את בדיקות-השחרור הרגילות. שילוב עם Auto-GR מאפשר מחזור-חיים כמעט-אוטומטי.",
           purposeHe: "לחסוך צעד ידני בייצור זורם ולקצר זמן-תגובה מהמלצה לביצוע.",
           processExampleHe: "המרת-פק\"ע למשקה עם SFCPF ל-Auto-Release ➔ הפק\"ע ב-REL מיד, מודפסת ומוכנה.",
-          cbcHe: "ב-CBC קווי-המילוי הזורמים משתמשים ב-Auto-Release כך שאין עיכוב בין תכנון לקו.",
+          scenarioHe: "בארגון קווי-המילוי הזורמים משתמשים ב-Auto-Release כך שאין עיכוב בין תכנון לקו.",
           navHe: ["Production ► Shop Floor Control ► Order ► Define Production Scheduling Profile (OPKP)"],
           tables: ["MARC", "AFKO"],
           tcodes: ["OPKP", "MM02", "CO40"],
@@ -589,7 +589,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ב-CO02 לוחצים Release; המערכת מריצה בדיקת-זמינות (אם מוגדר) ומעדכנת ל-REL. מאפשר התערבות אחרונה (תאריכים/רכיבים) לפני השחרור. מתאים כשכל פק\"ע ייחודית.",
           purposeHe: "לאפשר בקרה פרטנית ושיקול-דעת לפני הפעלת פק\"ע בודדת.",
           processExampleHe: "פק\"ע מיוחדת ללקוח: המתכנן בודק רכיבים ותאריכים, מאשר ידנית ומשחרר ב-CO02.",
-          cbcHe: "ב-CBC פק\"עות מיוחדות (מהדורה-מוגבלת) משוחררות בודדות לאחר אישור-QA פרטני.",
+          scenarioHe: "בארגון פק\"עות מיוחדות (מהדורה-מוגבלת) משוחררות בודדות לאחר אישור-QA פרטני.",
           navHe: ["CO02 ► Functions ► Release"],
           tables: ["AFKO", "JEST"],
           tcodes: ["CO02"],
@@ -608,7 +608,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ב-CO05N בוחרים פק\"עות לפי Selection ומשחררים מצרפית עם לוג-תוצאות; ניתן לסנן לפי זמינות (משחרר רק את מה שעבר ATP). COHV מספק עיבוד-המוני נוסף. כלי-המפתח לתפעול-שגרתי בנפח.",
           purposeHe: "לייעל שחרור-יומי בנפח גבוה ולמנוע טיפול פק\"ע-פק\"ע.",
           processExampleHe: "מדי בוקר מריצים CO05N למפעל-המילוי, מסננים לפי זמינות, ומשחררים את כל הפק\"עות הזמינות ליום-העבודה.",
-          cbcHe: "ב-CBC שחרור-בוקר מצרפי ב-CO05N לכל קווי-המילוי, מסונן לפי זמינות-רכיבים, מכין את הקווים ליום.",
+          scenarioHe: "בארגון שחרור-בוקר מצרפי ב-CO05N לכל קווי-המילוי, מסונן לפי זמינות-רכיבים, מכין את הקווים ליום.",
           navHe: ["Logistics ► Production ► Shop Floor Control ► Control ► Collective Release (CO05N)"],
           tables: ["AFKO", "JEST"],
           tcodes: ["CO05N", "COHV"],
@@ -635,8 +635,8 @@ export const CH6: TextbookChapter = {
         "לספק לרצפה תיעוד-ביצוע ברור (פעולות/ליקוט/תוויות) ולתמוך בתהליך ידני/חצי-ידני.",
       processExampleHe:
         "עם שחרור-הפק\"ע מודפסת אוטומטית רשימת-ליקוט למחסן ורשימת-משימות לקו; המלקט מושך לפי הרשימה, והמפעיל מבצע לפי כרטיסי-העבודה.",
-      cbcHe:
-        "ב-CBC רשימת-ליקוט מודפסת למחסן-החומרים (תרכיז/אריזה) ותוויות-אצווה לקו; בקווים-מודרניים התהליך עובר לדיווח-מסכי.",
+      scenarioHe:
+        "בארגון רשימת-ליקוט מודפסת למחסן-החומרים (תרכיז/אריזה) ותוויות-אצווה לקו; בקווים-מודרניים התהליך עובר לדיווח-מסכי.",
       navHe: [
         "CO02/CO04N ► Functions ► Print",
         "Production ► Shop Floor Control ► Operations ► Print ► Define Print Control (OPK8)",
@@ -694,8 +694,8 @@ export const CH6: TextbookChapter = {
         "לתעד את צריכת-החומר ואת תפוקת-המוצר במלאי ובעלות, ולחבר ביצוע-פיזי לרישום-חשבונאי.",
       processExampleHe:
         "ברצפה מושכים תרכיז/בקבוקים (261) כנגד ה-Reservations; בסיום מדווחים ומקבלים את המשקה (101); אם Backflush מופעל — המשיכה מתבצעת אוטומטית עם הדיווח.",
-      cbcHe:
-        "ב-CBC רכיבי-תפזורת (תרכיז/סוכר) נמשכים ב-Backflush עם דיווח-הקו; חומרי-אריזה לעיתים נמשכים ידנית; המשקה המוגמר מתקבל כ-Batch בתנועה 101.",
+      scenarioHe:
+        "בארגון רכיבי-תפזורת (תרכיז/סוכר) נמשכים ב-Backflush עם דיווח-הקו; חומרי-אריזה לעיתים נמשכים ידנית; המשקה המוגמר מתקבל כ-Batch בתנועה 101.",
       navHe: [
         "Logistics ► Materials Management ► Inventory Management ► Goods Movement (MIGO)",
         "Logistics ► Production ► Shop Floor Control ► Goods Movements ► Goods Issue (MB1A) / Goods Receipt (MB31)",
@@ -755,7 +755,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ב-MIGO/MB1A מבצעים 261 כנגד הפק\"ע; המערכת מקזזת מ-RESB, יוצרת מסמך-חומר (MATDOC) ומסמך-CO. אם הרכיב Batch-managed — נדרשת בחירת-אצווה (אוטומטית דרך Batch Determination או ידנית). תנועה 262 מבטלת.",
           purposeHe: "לתעד את צריכת-החומר במלאי ובעלות ולחבר את ה-BOM למציאות-הרצפה.",
           processExampleHe: "המלקט מבצע 261 ל-1,000 בקבוקים כנגד הפק\"ע; מלאי-הבקבוקים יורד ב-1,000 ועלותם נזקפת לפק\"ע.",
-          cbcHe: "ב-CBC משיכת-תרכיז 261 דורשת בחירת-אצווה (Batch) למעקב-מקור; המלאי והעלות מתעדכנים מיד.",
+          scenarioHe: "בארגון משיכת-תרכיז 261 דורשת בחירת-אצווה (Batch) למעקב-מקור; המלאי והעלות מתעדכנים מיד.",
           navHe: ["MIGO ► Goods Issue ► Order (261)", "Logistics ► Production ► Goods Movements ► Goods Issue (MB1A)"],
           tables: ["RESB", "MSEG", "MATDOC"],
           tcodes: ["MIGO", "MB1A"],
@@ -774,7 +774,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "CO27 (Picking) מציג את ה-Reservations לליקוט ומבצע 261 מרוכז; ניתן לסנן לפי מפעל/מחסן/פק\"ע. משלים את הדפסת-רשימת-הליקוט מ-OPK8. ב-S/4HANA קיימות אפליקציות-Fiori לליקוט.",
           purposeHe: "לייעל את משיכת-הרכיבים ולמנוע חוסרים בקו דרך ריכוז-הדרישות.",
           processExampleHe: "המלקט פותח CO27 לפק\"עות-היום, מסמן זמינות, ומבצע 261 מרוכז לכל הרכיבים לקו.",
-          cbcHe: "ב-CBC רשימת-ליקוט יומית למחסן-החומרים מרכזת תרכיז/אריזה לכל פק\"עות-המילוי של היום.",
+          scenarioHe: "בארגון רשימת-ליקוט יומית למחסן-החומרים מרכזת תרכיז/אריזה לכל פק\"עות-המילוי של היום.",
           navHe: ["Logistics ► Production ► Shop Floor Control ► Goods Movements ► Material Staging / Picking (CO27)"],
           tables: ["RESB", "MSEG"],
           tcodes: ["CO27", "MIGO"],
@@ -793,7 +793,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "מסומן ב-MRP2/Work Scheduling באב-החומר, במרכז-העבודה, או ברכיב-ה-BOM. בעת CO11N המערכת מבצעת 261 לפי הכמות-המדווחת × ה-BOM. כשל-משיכה (חוסר-מלאי/אצווה) יוצר רשומת-COGI לעיבוד-חוזר. ביטול-דיווח מבטל גם את ה-Backflush.",
           purposeHe: "להפחית פעולות-משיכה ידניות ברכיבים-אמינים ולסנכרן צריכה עם תפוקה.",
           processExampleHe: "דיווח 500 יח' ב-CO11N עם Backflush ➔ המערכת מושכת אוטומטית 500 × כמות-BOM מכל רכיב-Backflush.",
-          cbcHe: "ב-CBC תרכיז/סוכר (תפזורת) מסומנים Backflush ונמשכים עם דיווח-הקו; חומרי-אריזה לעיתים ידניים בשל פחת-משתנה.",
+          scenarioHe: "בארגון תרכיז/סוכר (תפזורת) מסומנים Backflush ונמשכים עם דיווח-הקו; חומרי-אריזה לעיתים ידניים בשל פחת-משתנה.",
           navHe: ["MM02 ► MRP 2 / Work Scheduling ► Backflush", "CR02 ► Backflush", "CS02 ► Item ► Backflush"],
           tables: ["RESB", "MSEG", "AFRU"],
           tcodes: ["CO11N", "COGI", "MF47"],
@@ -824,8 +824,8 @@ export const CH6: TextbookChapter = {
         "ללכוד נתוני-ביצוע אמיתיים לעדכון-מלאי, עלות, קיבולת והתקדמות — הבסיס לבקרת-עלות-מוצר ולניתוח-סטיות.",
       processExampleHe:
         "המפעיל מדווח ב-CO11N: 480 יח' תקינות, 20 פסולת, 4 שעות-מכונה; המערכת מנכה Backflush, זוקפת עלות-Activity, מעדכנת קיבולת, ואם מוגדר — מבצעת Auto-GR.",
-      cbcHe:
-        "ב-CBC המפעיל מדווח את כמות-המשקה שמולאה וזמן-הקו ב-CO11N; Auto-GR מזכה את מלאי-המשקה כ-Batch, ו-Backflush מנכה תרכיז/סוכר.",
+      scenarioHe:
+        "בארגון המפעיל מדווח את כמות-המשקה שמולאה וזמן-הקו ב-CO11N; Auto-GR מזכה את מלאי-המשקה כ-Batch, ו-Backflush מנכה תרכיז/סוכר.",
       navHe: [
         "Logistics ► Production ► Shop Floor Control ► Confirmation ► Enter ► For Operation (CO11N)",
         "Logistics ► Production ► Shop Floor Control ► Confirmation ► Cancel (CO13)",
@@ -885,7 +885,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "CO11N מדווח פעולה ספציפית: Yield/Scrap/Rework, Activities (Setup/Machine/Labor), ותאריכים. יוצר AFRU, מנכה Backflush של רכיבי-הפעולה, זוקף Activities, ומעדכן קיבולת. מאפשר בדיקת-שגיאות (OPK4) לפני שמירה.",
           purposeHe: "לדווח התקדמות ועלות ברזולוציית-פעולה לדיוק-WIP ולניתוח-סטיות מדויק.",
           processExampleHe: "דיווח פעולת-מילוי 0030: 480 תקין, 20 פסולת, 4 שעות-מכונה; הרכיבים שהוקצו לפעולה נמשכים ב-Backflush.",
-          cbcHe: "ב-CBC כל שלב-קו (ערבול/מילוי/אריזה) מדווח בנפרד ב-CO11N לדיוק עלות-שלב ומעקב-תקלות.",
+          scenarioHe: "בארגון כל שלב-קו (ערבול/מילוי/אריזה) מדווח בנפרד ב-CO11N לדיוק עלות-שלב ומעקב-תקלות.",
           navHe: ["CO11N — Enter Time Ticket for Operation"],
           tables: ["AFRU", "AFVC"],
           tcodes: ["CO11N"],
@@ -904,7 +904,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "המערכת מחשבת את הדלתא מהכמות-המצטברת-המדווחת פחות הקודמת, ומבצעת Backflush/Activities על-ההפרש. שימושי בדיווח-מכונה/PI-Sheet אוטומטי. מונע טעויות-חיבור ידני בדיווחים-תכופים.",
           purposeHe: "לפשט דיווח רציף/תכוף ולמנוע שגיאות-צבירה בקווים בתפוקה-גבוהה.",
           processExampleHe: "דיווחים מצטברים: 200 ➔ 450 ➔ 600; המערכת גוזרת דלתות 200/250/150 ומבצעת Backflush מתאים בכל שלב.",
-          cbcHe: "ב-CBC קו-מילוי רציף מדווח מצטבר (מונה-מילוי), והמערכת גוזרת את הדלתא לכל פרק-זמן.",
+          scenarioHe: "בארגון קו-מילוי רציף מדווח מצטבר (מונה-מילוי), והמערכת גוזרת את הדלתא לכל פרק-זמן.",
           navHe: ["CO11N ► Progress Confirmation"],
           tables: ["AFRU", "AFKO"],
           tcodes: ["CO11N"],
@@ -923,7 +923,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "CO15 מדווח ברמת-ה-Header: Yield/Scrap מצרפיים, Backflush של כל הרכיבים, ו-Activities מצרפיים (לרוב לפי תקן). מתאים לפק\"עות פשוטות/קצרות. מאבד את היכולת לנתח סטיות-עלות פר-פעולה.",
           purposeHe: "לאפשר דיווח-מהיר לפק\"עות פשוטות שבהן רזולוציית-פעולה אינה נדרשת.",
           processExampleHe: "פק\"ע חד-שלבית מדווחת ב-CO15: 1,000 יח', Backflush מלא ו-Activities לפי תקן — בדיווח אחד.",
-          cbcHe: "ב-CBC מנות-מילוי פשוטות/קצרות מדווחות ב-CO15 מצרפית כשאין צורך בפירוט-שלב.",
+          scenarioHe: "בארגון מנות-מילוי פשוטות/קצרות מדווחות ב-CO15 מצרפית כשאין צורך בפירוט-שלב.",
           navHe: ["Logistics ► Production ► Shop Floor Control ► Confirmation ► Enter ► For Order (CO15)"],
           tables: ["AFRU", "AFKO"],
           tcodes: ["CO15"],
@@ -942,7 +942,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "CO13 מבטל רשומת-AFRU ספציפית; המערכת יוצרת תנועות-היפוך (262 לרכיבי-Backflush), מבטלת Activities ומחזירה סטטוס. שגיאות-היפוך (חוסר-מלאי להיפוך) נופלות ל-COGI. אם בוצע Auto-GR — גם הוא מבוטל (102).",
           purposeHe: "לאפשר תיקון דיווחים שגויים תוך שמירה על שלמות-מלאי, עלות וקיבולת.",
           processExampleHe: "דווחו בטעות 500 במקום 50; CO13 מבטל את הדיווח (מהפך Backflush ו-Activities), ואז מדווחים מחדש 50.",
-          cbcHe: "ב-CBC דיווח-מילוי שגוי מבוטל ב-CO13 (כולל היפוך-Backflush של תרכיז) לפני דיווח-מתוקן.",
+          scenarioHe: "בארגון דיווח-מילוי שגוי מבוטל ב-CO13 (כולל היפוך-Backflush של תרכיז) לפני דיווח-מתוקן.",
           navHe: ["Logistics ► Production ► Shop Floor Control ► Confirmation ► Cancel (CO13)"],
           tables: ["AFRU", "MSEG"],
           tcodes: ["CO13", "COGI"],
@@ -973,8 +973,8 @@ export const CH6: TextbookChapter = {
         "לסגור את הפק\"ע כאובייקט-עלות — להעביר סטיות, לשחרר משאבים-פתוחים, ולנעול את המסמך מפני שינויים.",
       processExampleHe:
         "GR 101 ➔ DLV; ריצת-CO88 חודשית מחשבת סטייה +3% ומעבירה ל-Material/CO-PA; TECO מסגר תפעולית; בסוף-תקופה CLSD נועל את הפק\"ע סופית.",
-      cbcHe:
-        "ב-CBC קבלת-המשקה כ-Batch (101) מעבירה ל-DLV; CO88 חודשית מעמיסה סטיות-קו ל-CO; פק\"עות-שהסתיימו עוברות TECO ובסוף-רבעון CLSD.",
+      scenarioHe:
+        "בארגון קבלת-המשקה כ-Batch (101) מעבירה ל-DLV; CO88 חודשית מעמיסה סטיות-קו ל-CO; פק\"עות-שהסתיימו עוברות TECO ובסוף-רבעון CLSD.",
       navHe: [
         "Logistics ► Production ► Shop Floor Control ► Order ► Functions ► Technically Complete (CO02 ► TECO)",
         "Accounting ► Controlling ► Product Cost Controlling ► Period-End Closing ► Settlement (KO88 / CO88)",
@@ -1041,8 +1041,8 @@ export const CH6: TextbookChapter = {
         "לספק נראות-מלאה ובקרה תפעולית על מצב-הייצור, צווארי-בקבוק, חוסרים וביצוע מול תכנון.",
       processExampleHe:
         "המתכנן מריץ COOIS לפק\"עות פתוחות (REL ללא CNF) במפעלו, מזהה פק\"עות מאחרות, וקופץ ל-CO02 לטיפול; לחלופין מבצע Mass-TECO ב-COHV למה שהסתיים.",
-      cbcHe:
-        "ב-CBC מנהל-המשמרת מריץ COOIS בוקר וערב לסטטוס-קווים, חוסרי-רכיבים (CO24) ופיגורי-דיווח, ומבצע Mass-actions ב-COHV.",
+      scenarioHe:
+        "בארגון מנהל-המשמרת מריץ COOIS בוקר וערב לסטטוס-קווים, חוסרי-רכיבים (CO24) ופיגורי-דיווח, ומבצע Mass-actions ב-COHV.",
       navHe: [
         "Logistics ► Production ► Shop Floor Control ► Information System ► Order Information System (COOIS)",
         "Logistics ► Production ► Shop Floor Control ► Control ► Mass Processing (COHV)",

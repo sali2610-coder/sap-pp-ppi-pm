@@ -1,7 +1,7 @@
 // ===== PM Business User Guide — Chapter 6 (gold-standard learning chapter) =====
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
 // Source hierarchy preserved exactly; SAP identifiers verbatim English.
-// CBC context = Coca-Cola bottling: repairs, refurbishment and calibration of
+// הארגון context = Example Product bottling: repairs, refurbishment and calibration of
 // fill-line equipment and lab instruments.
 import type { TextbookChapter } from "./types";
 
@@ -10,7 +10,7 @@ export const CH6: TextbookChapter = {
   titleHe: "תהליכים עסקיים נוספים",
   titleEn: "Other Business Processes",
   introHe:
-    "פרק זה מרחיב את עולם ה-Plant Maintenance מעבר לתהליך-התחזוקה הבסיסי, ומכסה את התרחישים העסקיים שמפעל-ייצור אמיתי נתקל בהם יום-יום: תיקונים מיידיים, רישומי-משמרת, מתן-עבודה לקבלן-חוץ, שיפוץ ציוד (Refurbishment), עבודות-קבלנות (Subcontracting), כיול ציוד-מדידה (Calibration), הזמנות-המשך, ניהול מאגר-ציוד (Pool Asset Management) ותחזוקה מבוססת-פרויקט. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות-הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך (היכן רלוונטי), טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: שתלמד כל תהליך עד רמת-ביצוע, גם בלי הספר המקורי.",
+    "פרק זה מרחיב את עולם ה-Plant Maintenance מעבר לתהליך-התחזוקה הבסיסי, ומכסה את התרחישים העסקיים שמפעל-ייצור אמיתי נתקל בהם יום-יום: תיקונים מיידיים, רישומי-משמרת, מתן-עבודה לקבלן-חוץ, שיפוץ ציוד (Refurbishment), עבודות-קבלנות (Subcontracting), כיול ציוד-מדידה (Calibration), הזמנות-המשך, ניהול מאגר-ציוד (Pool Asset Management) ותחזוקה מבוססת-פרויקט. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות-הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך (היכן רלוונטי), טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: שתלמד כל תהליך עד רמת-ביצוע, גם בלי הספר המקורי.",
   subchapters: [
     // ============================================================ 6.1
     {
@@ -25,8 +25,8 @@ export const CH6: TextbookChapter = {
         "להבטיח שגם תחת לחץ-זמן קיצוני נשמרים שלושת היעדים: השבת-הציוד מהר, לכידת-עלות (חומרים+עבודה) לפק\"ע, ויצירת רשומת-היסטוריה לציוד (לצורך ניתוח-תקלות עתידי, MTBF/MTTR). בלי המסלול הזה, צוותים היו מתקנים 'מתחת לראדאר' והארגון היה מאבד נראות-עלות ונתוני-אמינות.",
       processExampleHe:
         "ב-02:14 לפנות-בוקר מנוע-משאבה נשרף. הטכנאי פותח פק\"ע ב-IW31 (Order Type PM01) המקושרת ל-Equipment, מבצע REL מיידי, מושך מנוע-חלופי מהמלאי (Goods Issue), מתקין, ומדווח שעתיים-עבודה ב-IW41. רק בבוקר מוסיף Notification (IW21) המתעד את סיבת-התקלה (Damage/Cause codes) ומקשר אותה לפק\"ע. הפק\"ע עוברת TECO ובהמשך Settlement ל-Cost Center של הקו.",
-      cbcHe:
-        "ב-CBC: באמצע מילוי-בקבוקים, מסתם-מילוי (filling valve) בקו 3 נתקע ודולף. הטכנאי-התורן פותח פק\"ע-מיידית כנגד ה-Equipment של ראש-המילוי, מחליף את המסתם ממלאי-חלפים, מדווח זמן, ובדיעבד פותח Notification עם קוד-נזק 'דליפה' וקוד-סיבה 'בלאי-אטם' — נתונים שיזינו אחר-כך את ניתוח-האמינות של קווי-המילוי.",
+      scenarioHe:
+        "בארגון: באמצע מילוי-בקבוקים, מסתם-מילוי (filling valve) בקו 3 נתקע ודולף. הטכנאי-התורן פותח פק\"ע-מיידית כנגד ה-Equipment של ראש-המילוי, מחליף את המסתם ממלאי-חלפים, מדווח זמן, ובדיעבד פותח Notification עם קוד-נזק 'דליפה' וקוד-סיבה 'בלאי-אטם' — נתונים שיזינו אחר-כך את ניתוח-האמינות של קווי-המילוי.",
       navHe: [
         "Plant Maintenance ► Maintenance Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Define Default Values for Task List Data and Profile Assignments",
         "Plant Maintenance ► Maintenance Processing ► Maintenance Notifications ► Notification Processing ► Define Field Selection for Notifications",
@@ -96,7 +96,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ב-IW31 ניתן ליצור פק\"ע ולקשר Notification קיים, או להגדיר Order Type שמייצר Notification אוטומטית. הסגירה דו-שלבית: TECO מעביר את הפק\"ע לסטטוס Technically Completed (חוסם תכנון אך מאפשר עדיין תנועות-עלות מאחרות), ו-Business Completion (CLSD) חוסם הכל אחרי יישוב-מלא. סדר נכון: דיווח → Goods movements → TECO → Settlement → CLSD.",
           purposeHe: "לאחד מהירות עם שלמות-תיעוד: מסמך-אחד שגם לוכד עלות וגם מתעד תקלה, וסגירה מבוקרת שמונעת 'דליפת-עלויות' אחרי סיום-העבודה.",
           processExampleHe: "טכנאי יוצר פק\"ע ב-IW31 עם Notification מקושר, מבצע, מדווח ב-IW41, מבצע TECO ב-IW32. בסוף-החודש, אחרי Settlement, רץ CLSD לסגירה-עסקית — הפק\"ע נעולה לחלוטין.",
-          cbcHe: "ב-CBC תיקון מסתם-מילוי נפתח כ-Order+Notification מאוחד; אחרי ההחלפה ודיווח-הזמן מבוצע TECO באותה משמרת, וה-CLSD רץ ב-batch סוף-חודש לכל הפק\"עות שיושבו.",
+          scenarioHe: "בארגון תיקון מסתם-מילוי נפתח כ-Order+Notification מאוחד; אחרי ההחלפה ודיווח-הזמן מבוצע TECO באותה משמרת, וה-CLSD רץ ב-batch סוף-חודש לכל הפק\"עות שיושבו.",
           navHe: [
             "Plant Maintenance ► Maintenance Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Configure Order Types",
             "Plant Maintenance ► Maintenance Processing ► Completion ► Define Completion Confirmation Parameters",
@@ -145,7 +145,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "המאפיין הקריטי הוא ניהול-תאריכים: ב-Confirmation (IW41) מזינים Actual Start/Finish רטרואקטיביים, וב-Goods Issue את Posting Date המקורי (תלוי בתקופת-MM/CO פתוחה). אם התקופה נסגרה, נדרש רישום בתקופה-הנוכחית — מה שמעוות את ה-period costing. שים לב גם להשפעה על Equipment availability/breakdown analysis: שדה Breakdown ומשכי-Malfunction צריכים לשקף את הזמן-האמיתי, לא את זמן-ההקלדה.",
           purposeHe: "לאפשר השלמת-תיעוד אמינה לאירועים שטופלו 'בשטח' לפני ההזנה, ולשמור על שלמות נתוני-העלות וההיסטוריה גם כשהרישום מאחר.",
           processExampleHe: "תיקון-חירום בוצע ב-23:00 בלי גישה למערכת. למחרת ב-08:00 הטכנאי פותח פק\"ע, מזין Malfunction Start 22:30 ו-End 23:45, מדווח שעה-וחצי עבודה עם Actual dates של אמש, ורושם Goods Issue עם Posting Date של אתמול (אם התקופה פתוחה).",
-          cbcHe: "ב-CBC עצירת-קו לילית של ממלא תועדה למחרת: ה-Breakdown indicator סומן, Malfunction Start/End שיקפו את 47 דקות-ההשבתה האמיתיות, כך שזמינות-הקו (Availability) בדוח החודשי נשארה מדויקת.",
+          scenarioHe: "בארגון עצירת-קו לילית של ממלא תועדה למחרת: ה-Breakdown indicator סומן, Malfunction Start/End שיקפו את 47 דקות-ההשבתה האמיתיות, כך שזמינות-הקו (Availability) בדוח החודשי נשארה מדויקת.",
           navHe: [
             "Plant Maintenance ► Maintenance Processing ► Completion Confirmation ► Define Control Parameters for Completion Confirmation",
             "Plant Maintenance ► Maintenance Processing ► Maintenance Notifications ► Maintenance Notification Types ► Set Breakdown Duration",
@@ -202,8 +202,8 @@ export const CH6: TextbookChapter = {
         "להבטיח רציפות-מידע בין משמרות, למנוע אובדן-ידע ('זה נאמר בעל-פה ונשכח'), ולספק מקור-אחד-לאמת לאירועי-המשמרת — שממנו ניתן לגזור Notifications ו-Orders בלי לאבד הקשר.",
       processExampleHe:
         "במשמרת-לילה מבחין מפעיל ברעידה חריגה במנוע. הוא רושם Shift Note מקושר ל-Equipment עם קוד-תצפית. בסוף-המשמרת מופק Shift Report המאגד את כל הפתקים. מתאם-התחזוקה בבוקר קורא את הדוח, וממיר את הפתק-החריג ל-Notification ➔ Order לבדיקה.",
-      cbcHe:
-        "ב-CBC כל משמרת בקו-מילוי מסיימת ב-Shift Report: פתקים על עצירות-קצרות, החלפות-אצווה, וקריאות-לחץ; פתק 'דליפת-קיטור במַעֲבֶה' מומר ע\"י המתאם ל-Notification PM ומשם לפק\"ע.",
+      scenarioHe:
+        "בארגון כל משמרת בקו-מילוי מסיימת ב-Shift Report: פתקים על עצירות-קצרות, החלפות-אצווה, וקריאות-לחץ; פתק 'דליפת-קיטור במַעֲבֶה' מומר ע\"י המתאם ל-Notification PM ומשם לפק\"ע.",
       navHe: [
         "Plant Maintenance ► Maintenance Processing ► Shift Note and Shift Report ► Shift Notes ► Define Shift Note Types",
         "Plant Maintenance ► Maintenance Processing ► Shift Note and Shift Report ► Shift Reports ► Define Shift Report Types",
@@ -258,7 +258,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "פתק נוצר דרך Shift Note Type עם Catalog Profile. ניתן לצרף קריאות-מדידה, מסמכים (DMS), וקישור ל-Technical Object. ההסלמה ל-Notification/Order שומרת על שרשור-ההקשר. ב-S/4HANA נתמך גם ב-Fiori 'Manage Shift Notes'.",
           purposeHe: "ללכוד בזמן-אמת ובאופן-מובנה כל אירוע-משמרת רלוונטי, עם קוד והקשר-ציוד, כדי שלא יאבד.",
           processExampleHe: "מפעיל יוצר Shift Note 'טמפרטורת-מסב גבוהה' עם קוד-תצפית, מקשר ל-Equipment של המנוע, ומצרף קריאת-מדידה. מתאם ממיר ל-Notification.",
-          cbcHe: "ב-CBC פתק 'ריח-חריגה במַדְחֵס CO2' עם קוד-בטיחות מקושר ל-Equipment של המדחס, ומוסלם מיד ל-Notification דחוף.",
+          scenarioHe: "בארגון פתק 'ריח-חריגה במַדְחֵס CO2' עם קוד-בטיחות מקושר ל-Equipment של המדחס, ומוסלם מיד ל-Notification דחוף.",
           navHe: ["Plant Maintenance ► Maintenance Processing ► Shift Note and Shift Report ► Shift Notes ► Define Shift Note Types"],
           tables: ["/PLMB/SHIFTNOTE", "EQUI"],
           tcodes: ["SHN1", "SHRP"],
@@ -277,7 +277,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Shift Report Type מגדיר אילו רכיבים נאספים (Shift Notes, Measurement readings, Orders/Confirmations) ולפי איזו Shift Definition. הדוח ניתן-לחתימה ולהקפאה, ומשמש כרשומת-מסירה רשמית. ב-S/4HANA נתמך ב-Fiori 'Manage Shift Reports'.",
           purposeHe: "לספק מסמך-מסירה שלם ואמין בין משמרות, ולשמר היסטוריה תפעולית מצרפית לניתוח.",
           processExampleHe: "בסוף-משמרת מופק Shift Report המאגד 4 פתקים ו-12 קריאות-מדידה; מנהל-המשמרת חותם, והדוח עובר למשמרת-הבאה.",
-          cbcHe: "ב-CBC Shift Report של קו-מילוי מסכם עצירות, החלפות-אצווה וקריאות-לחץ-מילוי; הוא נחתם ומשמש בסיס לפגישת-מסירת-משמרת.",
+          scenarioHe: "בארגון Shift Report של קו-מילוי מסכם עצירות, החלפות-אצווה וקריאות-לחץ-מילוי; הוא נחתם ומשמש בסיס לפגישת-מסירת-משמרת.",
           navHe: ["Plant Maintenance ► Maintenance Processing ► Shift Note and Shift Report ► Shift Reports ► Define Shift Report Types"],
           tables: ["/PLMB/SRT_NOTE", "AFIH"],
           tcodes: ["SHRP"],
@@ -304,8 +304,8 @@ export const CH6: TextbookChapter = {
         "לאפשר ביצוע-עבודות שאין להן יכולת-פנים, לשלב את הרכש בתוך תהליך-התחזוקה בלי לעקוף בקרות, ולשמור על לכידת-עלות מלאה ב-Order גם כשהעבודה חיצונית.",
       processExampleHe:
         "פק\"ע לכיול-מנוף דורשת קבלן-מוסמך. מתכנן מסמן פעולה כ-external (Control Key PM02), מזין Vendor, Material Group ו-Net Price. בשמירה נוצרת PR; הרכש ממיר ל-PO; הקבלן מבצע; מאשרים GR/Service Entry; העלות נצברת לפק\"ע ומיושבת ב-Settlement.",
-      cbcHe:
-        "ב-CBC כיול שנתי של מאזני-מילוי וריתוך-לחץ על קווי-CO2 מבוצעים ע\"י קבלנים-מוסמכים: הפעולות בפק\"ע מסומנות external, נוצרות PR→PO, ובאישור-השירות (ML81N) העלות נכנסת לפק\"ע ומיושבת ל-Cost Center של אזור-המילוי.",
+      scenarioHe:
+        "בארגון כיול שנתי של מאזני-מילוי וריתוך-לחץ על קווי-CO2 מבוצעים ע\"י קבלנים-מוסמכים: הפעולות בפק\"ע מסומנות external, נוצרות PR→PO, ובאישור-השירות (ML81N) העלות נכנסת לפק\"ע ומיושבת ל-Cost Center של אזור-המילוי.",
       navHe: [
         "Plant Maintenance ► Maintenance Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► External Procurement ► Define Control Key",
         "Plant Maintenance ► Maintenance Processing ► Maintenance and Service Orders ► External Procurement ► Set Up Profiles for External Procurement",
@@ -374,7 +374,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "המפתח הוא Control Key (Operation Control Key): הוא קובע אם הפעולה פנימית, external (single PO) או external services. בנוסף — Account Assignment (Order), Material/Service Group, Cost Element, ומקור-אספקה (Vendor/Info Record). ההבחנה בין רכש-שירות חד-פעמי לבין capacity מ-external work center היא החלטה-עקרונית שמשפיעה על תזמון-וקיבולת.",
           purposeHe: "להניח תשתית-מושגית נכונה לבחירת התרחיש המתאים, ולהבטיח שכל עבודה-חיצונית נלכדת בעלות ובבקרת-רכש.",
           processExampleHe: "מתכנן מחליט: עבודה חד-פעמית של קבלן = single PO (PM02); עבודה שחוזרת עם קיבולת = external work center; שירות מורכב עם פירוט = service specs (PM03).",
-          cbcHe: "ב-CBC: ריתוך חד-פעמי = single PO; קבלן-ניקיון-קבוע לקווים = external work center; חוזה-כיול-מעבדה מפורט = service specifications.",
+          scenarioHe: "בארגון: ריתוך חד-פעמי = single PO; קבלן-ניקיון-קבוע לקווים = external work center; חוזה-כיול-מעבדה מפורט = service specifications.",
           navHe: ["Plant Maintenance ► Maintenance Processing ► Maintenance and Service Orders ► External Procurement ► Define Control Key"],
           tables: ["AFVC", "EBAN", "T399X"],
           tcodes: ["IW31", "OPJB"],
@@ -393,7 +393,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Control Key PM02. בפעולה מזינים Net Price, Vendor, Material Group, Cost Element, Purchasing Group. בשמירה נוצרת PR (Account Assignment = Order). העלות נצברת ב-GR (MIGO) כנגד ה-Cost Element. אין service specifications — שורה אחת.",
           purposeHe: "לתמוך בעבודות-קבלן חד-פעמיות פשוטות בלי תקורת service-management.",
           processExampleHe: "פעולה 'שיפוץ-מנוע חיצוני' עם Net Price ו-Vendor; PR→PO ב-ME21N; GR ב-MIGO באישור-הקבלן; העלות לפק\"ע.",
-          cbcHe: "ב-CBC ריתוך חד-פעמי על קו-CO2: פעולה single PO עם מחיר-קבוע, GR בקבלת-העבודה, עלות לפק\"ע.",
+          scenarioHe: "בארגון ריתוך חד-פעמי על קו-CO2: פעולה single PO עם מחיר-קבוע, GR בקבלת-העבודה, עלות לפק\"ע.",
           navHe: ["Plant Maintenance ► Maintenance Processing ► Maintenance and Service Orders ► External Procurement ► Set Up Profiles for External Procurement"],
           tables: ["AFVC", "EBAN", "EKPO"],
           tcodes: ["IW31", "ME21N", "MIGO"],
@@ -412,7 +412,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "External Work Center (CR01 עם Usage המתאים) נושא Control Key חיצוני ו-Costing דרך Activity Type/Cost Center. הוא מאפשר capacity planning לקבלן-קבוע, בשונה מ-single PO שאין לו קיבולת. עדיין נוצרת PR/PO לרכש בפועל, אך התזמון מנוהל דרך המרכז.",
           purposeHe: "לשלב קבלן-חוזר בתכנון-הקיבולת ובתזמון, ולא רק ברכש חד-פעמי.",
           processExampleHe: "קבלן-ניקיון קבוע מוגדר כ-external work center; פעולות-ניקיון בפק\"עות מצביעות עליו, מתוזמנות לפי קיבולתו, ונוצרת PR לתשלום.",
-          cbcHe: "ב-CBC קבלן ניקיון-CIP חיצוני קבוע מוגדר כ-external work center; עבודות-הניקיון מתוזמנות לפי קיבולתו ועלותו נצברת לפק\"ע.",
+          scenarioHe: "בארגון קבלן ניקיון-CIP חיצוני קבוע מוגדר כ-external work center; עבודות-הניקיון מתוזמנות לפי קיבולתו ועלותו נצברת לפק\"ע.",
           navHe: ["Plant Maintenance ► Maintenance Plans, Work Centers, Task Lists ► Work Centers ► General Data ► Define Work Center Types / Control Keys"],
           tables: ["CRHD", "CRCO", "AFVC"],
           tcodes: ["CR01", "CR02", "IW31"],
@@ -431,7 +431,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Control Key PM03 מפעיל External Services. מזינים Service lines (מ-Service Master ASMD או כ-free text), value/quantity limits לחריגות, ו-Model Service Specifications. ה-PR/PO הוא service PO; האישור הוא Service Entry Sheet (ML81N) שמזכה עלות-בפועל לפי השירותים-שבוצעו. תומך ב-hierarchies ובמסגרות-חוזה.",
           purposeHe: "לנהל שירותים-חיצוניים מורכבים עם פירוט, מגבלות-ערך, ובקרת-ביצוע מדויקת — מעבר ל-single PO.",
           processExampleHe: "חוזה-שיפוץ מפורט: 3 service lines + limit ל-unplanned. PO-שירות; הקבלן מבצע; ML81N מאשר את הכמויות-שבוצעו; העלות לפק\"ע לפי-בפועל.",
-          cbcHe: "ב-CBC חוזה-כיול-מעבדה שנתי מפורט כ-service specifications עם שורות לכל מכשיר ו-limit לכיולים-לא-מתוכננים; ML81N מאשר כיולים-שבוצעו, והעלות נצברת לפק\"ע.",
+          scenarioHe: "בארגון חוזה-כיול-מעבדה שנתי מפורט כ-service specifications עם שורות לכל מכשיר ו-limit לכיולים-לא-מתוכננים; ML81N מאשר כיולים-שבוצעו, והעלות נצברת לפק\"ע.",
           navHe: ["Materials Management ► External Services Management ► Source Determination and Default Values ► Define Default Values for Service Specifications"],
           tables: ["ESLL", "ESSR", "ASMD", "EKPO"],
           tcodes: ["IW31", "ML81N", "ME21N", "AC03"],
@@ -461,8 +461,8 @@ export const CH6: TextbookChapter = {
         "להפחית עלויות-רכש ע\"י מחזור-חלקים, לשמור על נראות-מלאי לפי-מצב, וללכוד את עלות-השיפוץ במדויק כדי להחליט 'לשפץ מול לקנות-חדש'. בנוסף — לתמוך בכלכלה-מעגלית ובזמינות-חלקים מהירה.",
       processExampleHe:
         "מנוע-משאבה נשרף. הוא נרשם כ-Valuation Type 'לשיפוץ' במלאי. נפתחת Refurbishment Order: From=לשיפוץ, To=משופץ, Qty=1. GI 261 מוציא את המנוע-הפגום, מבצעים שיפוץ (עבודה+חלקים), GR 101 מחזיר מנוע-משופץ למלאי. עלות-השיפוץ נצברה על-היחידה; כעת ניתן להתקין אותו בפק\"ע-תחזוקה.",
-      cbcHe:
-        "ב-CBC ראשי-מילוי (filling heads) ומשאבות-CO2 משופצים במקום להיקנות: חלק-פגום מקו-המילוי נרשם C2 (לשיפוץ), Refurbishment Order משפץ אותו ל-C3 (משופץ), והוא חוזר למלאי-החלפים מוכן להתקנה בקו הבא שיידרש.",
+      scenarioHe:
+        "בארגון ראשי-מילוי (filling heads) ומשאבות-CO2 משופצים במקום להיקנות: חלק-פגום מקו-המילוי נרשם C2 (לשיפוץ), Refurbishment Order משפץ אותו ל-C3 (משופץ), והוא חוזר למלאי-החלפים מוכן להתקנה בקו הבא שיידרש.",
       navHe: [
         "Plant Maintenance ► Maintenance Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Indicate Order Types for Refurbishment Processing",
         "Materials Management ► Valuation and Account Assignment ► Split Valuation ► Configure Split Valuation",
@@ -532,7 +532,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "דרישות-קדם: (1) Valuation Category באב-החומר + Valuation Types ב-OMWC; (2) Accounting view עם מחירים פר-Valuation Type; (3) Order Type מסומן ל-refurbishment; (4) Serial Number Profile (אם נדרש מעקב-יחידה); (5) Storage location/מלאי קיים ב-Valuation Type 'לשיפוץ'.",
           purposeHe: "להבטיח שכל התשתית (נתוני-אב + config) מוכנה כך שפק\"ע-השיפוץ תוכל לרוץ ללא שגיאות.",
           processExampleHe: "צוות-הטמעה מגדיר Valuation Category, יוצר Valuation Types C1/C2/C3, מזין מחירים, מסמן Order Type PM04, ומגדיר Serial Number Profile למנועים.",
-          cbcHe: "ב-CBC הוכן חומר 'ראש-מילוי' עם C1/C2/C3, מחירים נפרדים, Order Type PM04, ו-Serial Number Profile למעקב פר-ראש.",
+          scenarioHe: "בארגון הוכן חומר 'ראש-מילוי' עם C1/C2/C3, מחירים נפרדים, Order Type PM04, ו-Serial Number Profile למעקב פר-ראש.",
           navHe: ["Materials Management ► Valuation and Account Assignment ► Split Valuation ► Configure Split Valuation"],
           tables: ["MBEW", "T149", "AUFK"],
           tcodes: ["OMWC", "MM01", "OIS2"],
@@ -551,7 +551,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ה-Notification נושא Damage/Cause codes לחלק-הפגום, ומקשר ל-Material/Serial Number. ניתן ליצור ממנו את ה-Refurbishment Order. הקודים מזינים ניתוח-אמינות (אילו חלקים נכשלים, למה).",
           purposeHe: "ללכוד את סיבת-הכשל וההקשר של החלק-הפגום, ולספק בסיס להחלטות-שיפוץ ולניתוח-מגמות.",
           processExampleHe: "טכנאי פותח Notification 'מנוע נשרף — עומס-יתר' עם Serial Number; ממנו נוצרת Refurbishment Order.",
-          cbcHe: "ב-CBC Notification 'ראש-מילוי דולף — בלאי-אטם' עם Serial Number מתעד את הכשל לפני שיפוץ; הקוד מזין ניתוח-בלאי-אטמים.",
+          scenarioHe: "בארגון Notification 'ראש-מילוי דולף — בלאי-אטם' עם Serial Number מתעד את הכשל לפני שיפוץ; הקוד מזין ניתוח-בלאי-אטמים.",
           navHe: ["Plant Maintenance ► Maintenance Processing ► Maintenance Notifications ► Notification Creation ► Define Notification Types"],
           tables: ["QMEL", "QMFE", "QMUR", "SER01"],
           tcodes: ["IW21", "IW22", "IW24"],
@@ -570,7 +570,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "מלאי ב-Valuation Type 'לשיפוץ' נראה ב-MD04. ניתן לתכנן refurbishment דרך MRP (reorder point למלאי-משופץ), ולפצץ את ה-BOM של פק\"ע-השיפוץ לחלקי-משנה. תכנון נכון מבטיח שלא נתקעים בלי חלקי-משנה באמצע-שיפוץ.",
           purposeHe: "להבטיח זמינות חלקי-משנה לשיפוץ, ולתכנן את מאגר-המשופצים לפי-ביקוש כדי שלא יחסרו חלפים מוכנים.",
           processExampleHe: "MRP מזהה מלאי-משופצים נמוך, יוצר הזמנה-מתוכננת לשיפוץ; פיצוץ ה-BOM מזמין אטמים ומסבים לתהליך.",
-          cbcHe: "ב-CBC MRP שומר 5 ראשי-מילוי משופצים במלאי-בטיחות; כשהמלאי יורד, נוצרת המלצת-שיפוץ ומוזמנים אטמים לתהליך.",
+          scenarioHe: "בארגון MRP שומר 5 ראשי-מילוי משופצים במלאי-בטיחות; כשהמלאי יורד, נוצרת המלצת-שיפוץ ומוזמנים אטמים לתהליך.",
           navHe: ["Production ► Material Requirements Planning ► Planning ► Define Scope of Planning"],
           tables: ["MARC", "RESB", "PLAF"],
           tcodes: ["MD04", "MD02", "IW81"],
@@ -589,7 +589,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "נוצרת ב-IW81 (Order Type PM04). שדות-מפתח: Material, Quantity, From Valuation Type (לשיפוץ), To Valuation Type (משופץ). הפעולות נושאות עבודה (וגם external אפשרי), והרכיבים הם חלקי-המשנה. השחרור מאפשר GI 261; הדיווח לוכד עבודה; ה-GR 101 מחזיר את המשופץ. עלות נצברת פר-יחידה.",
           purposeHe: "לרכז את כל פעילות-השיפוץ (חומר, עבודה, חלקי-משנה, תנועות-מלאי) באובייקט-אחד עם לכידת-עלות פר-יחידה.",
           processExampleHe: "IW81: Material=מנוע, Qty=2, From=C2, To=C3. REL ➔ GI 261 (2 מנועים פגומים) ➔ שיפוץ ודיווח ➔ GR 101 (2 משופצים) ➔ Settlement.",
-          cbcHe: "ב-CBC IW81 ל-3 ראשי-מילוי: From=לשיפוץ, To=משופץ; פעולות-פירוק-ניקוי-החלפת-אטם-הרכבה, GR מחזיר 3 ראשים-משופצים למלאי.",
+          scenarioHe: "בארגון IW81 ל-3 ראשי-מילוי: From=לשיפוץ, To=משופץ; פעולות-פירוק-ניקוי-החלפת-אטם-הרכבה, GR מחזיר 3 ראשים-משופצים למלאי.",
           navHe: ["Plant Maintenance ► Maintenance Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Configure Order Types"],
           tables: ["AUFK", "AFKO", "AFVC", "RESB"],
           tcodes: ["IW81", "IW82", "IW8W", "IW41"],
@@ -608,7 +608,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "תנועה 261 כנגד הפק\"ע, ב-Valuation Type 'לשיפוץ'. אם יש Serial Numbers — מזינים את המספרים הספציפיים. החלק-הפגום והרכיבים (אטמים/מסבים) מנופקים. העלות נצברת לפק\"ע.",
           purposeHe: "להעביר את החלק-הפגום ואת חלקי-המשנה לפק\"ע, ולהתחיל את לכידת-העלות ואת ההפחתה ממלאי-לשיפוץ.",
           processExampleHe: "GI 261: מנוע C2 + אטם חדש מנופקים לפק\"ע; אם Serial — נבחר המנוע הספציפי.",
-          cbcHe: "ב-CBC GI 261 מנפק ראש-מילוי C2 (לפי Serial) + אטם-חדש לפק\"ע-השיפוץ.",
+          scenarioHe: "בארגון GI 261 מנפק ראש-מילוי C2 (לפי Serial) + אטם-חדש לפק\"ע-השיפוץ.",
           navHe: ["Materials Management ► Inventory Management ► Goods Issue ► (movement type 261)"],
           tables: ["RESB", "MSEG", "SER01"],
           tcodes: ["MB1A", "MIGO", "IW8W"],
@@ -627,7 +627,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "תנועה 101 כנגד הפק\"ע, ב-Valuation Type 'משופץ'. עם Serial Numbers — אותו מספר חוזר במצב-משופץ. עלות-השיפוץ שנצברה נכנסת להערכת-המלאי-המשופץ (בכפוף ל-price control). מסיים את מחזור-המצב C2→C3.",
           purposeHe: "להחזיר את החלק-המשופץ למלאי הזמין-לשימוש, ולעדכן את ערך-המלאי-המשופץ בהתאם לעלות-השיפוץ.",
           processExampleHe: "GR 101: מנוע משופץ נכנס ל-C3; ה-Serial חוזר במצב-משופץ; מלאי-משופצים עולה.",
-          cbcHe: "ב-CBC GR 101 מחזיר ראש-מילוי משופץ ל-C3, זמין להתקנה בקו-המילוי הבא שיידרש.",
+          scenarioHe: "בארגון GR 101 מחזיר ראש-מילוי משופץ ל-C3, זמין להתקנה בקו-המילוי הבא שיידרש.",
           navHe: ["Materials Management ► Inventory Management ► Goods Receipt ► (movement type 101)"],
           tables: ["MSEG", "MBEW", "SER01"],
           tcodes: ["MIGO", "IW8W"],
@@ -646,7 +646,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "הפק\"ע צוברת עלויות (Plan/Actual). ה-Settlement (KO88) מיישב את העלות אל ערך-המלאי-המשופץ (price difference אם standard price) או ישירות. השוואת עלות-שיפוץ-ליחידה מול מחיר-חדש מנחה החלטות. נדרש Settlement Rule (לרוב MAT — לחומר-המשופץ).",
           purposeHe: "לספק שקיפות-עלות-שיפוץ פר-יחידה, ליישב אותה נכון בחשבונאות, ולתמוך בהחלטות-כלכליות.",
           processExampleHe: "פק\"ע צברה 800 ש\"ח (עבודה+אטם) ל-2 מנועים = 400/יחידה. Settlement MAT מיישב ל-C3; השוואה למחיר-חדש 1,200 ➔ שיפוץ משתלם.",
-          cbcHe: "ב-CBC שיפוץ ראש-מילוי עלה 350 ש\"ח מול 1,100 חדש; Costing הראה חיסכון, וה-Settlement עדכן את ערך-המלאי-המשופץ.",
+          scenarioHe: "בארגון שיפוץ ראש-מילוי עלה 350 ש\"ח מול 1,100 חדש; Costing הראה חיסכון, וה-Settlement עדכן את ערך-המלאי-המשופץ.",
           navHe: ["Controlling ► Product Cost Controlling ► Cost Object Controlling ► Settlement ► Maintain Settlement Profiles"],
           tables: ["AUFK", "COEP", "MBEW"],
           tcodes: ["KO88", "KOB1", "IW82"],
@@ -673,8 +673,8 @@ export const CH6: TextbookChapter = {
         "לאפשר שיפוץ-חיצוני תוך שמירה על בעלות-החומר ונראות-מלאי מלאה ('היכן החלק שלי'), ולשלם רק על-השירות — שילוב של הוזלת-עלות עם בקרת-נכסים.",
       processExampleHe:
         "מנוע-פגום נשלח לספק-שיפוץ דרך subcontracting PO; movement 541 מעביר אותו ל-special stock אצל-הספק; הספק משפץ; GR מחזיר מנוע-משופץ וצורך את הפגום; משלמים על-השירות; הניטור (ME2O) הראה לאורך-הדרך 'מנוע אצל-ספק'.",
-      cbcHe:
-        "ב-CBC משאבות-CO2 ומדי-זרימה מדויקים נשלחים לשיפוץ-חיצוני: subcontracting PO + 541 מעביר את היחידה לספק תוך שמירת-בעלות; ME2O מנטר את היחידות-אצל-הספקים; GR מחזיר משופץ ומחייב רק את עלות-השירות.",
+      scenarioHe:
+        "בארגון משאבות-CO2 ומדי-זרימה מדויקים נשלחים לשיפוץ-חיצוני: subcontracting PO + 541 מעביר את היחידה לספק תוך שמירת-בעלות; ME2O מנטר את היחידות-אצל-הספקים; GR מחזיר משופץ ומחייב רק את עלות-השירות.",
       navHe: [
         "Materials Management ► Purchasing ► Purchase Order ► Define Document Types",
         "Materials Management ► Inventory Management ► Special Stocks ► Subcontracting ► Configure Subcontracting",
@@ -743,7 +743,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "PO עם Item Category L. ה-BOM של ה-subcontracting קובע אילו רכיבים מסופקים לספק (החלק-הפגום + חלקי-משנה). המחיר הוא עלות-השירות. ה-Account Assignment מקשר לפק\"ע-השיפוץ. ME21N ליצירה.",
           purposeHe: "לעגן את עסקת-השיפוץ-החיצוני: מה נשלח, מה מתקבל, וכמה משלמים על-השירות.",
           processExampleHe: "ME21N: PO Item Category L, חומר=מנוע, BOM=מנוע-פגום+אטם, מחיר-שירות=400; מקושר לפק\"ע-שיפוץ.",
-          cbcHe: "ב-CBC subcontracting PO למשאבת-CO2: Item Category L, BOM=משאבה-פגומה+ערכת-אטמים, מחיר-שירות לספק-המוסמך.",
+          scenarioHe: "בארגון subcontracting PO למשאבת-CO2: Item Category L, BOM=משאבה-פגומה+ערכת-אטמים, מחיר-שירות לספק-המוסמך.",
           navHe: ["Materials Management ► Purchasing ► Purchase Order ► Define Document Types"],
           tables: ["EKPO", "EKKO"],
           tcodes: ["ME21N", "ME22N"],
@@ -762,7 +762,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ה-PR (EBAN) עם Item Category L נוצרת מפק\"ע-השיפוץ (Account Assignment = Order). ME57/ME58 או conversion ממירים ל-PO. ה-PR נושאת את החומר, ה-BOM-המסופק ומחיר-משוער. תהליך-אישור (release strategy) יכול לחול.",
           purposeHe: "ליצור את נקודת-החיבור המבוקרת בין צורך-השיפוץ (PM) לבין הרכש, עם אפשרות-אישור לפני התחייבות.",
           processExampleHe: "פק\"ע-שיפוץ עם רכיב subcontracting ➔ PR אוטומטית; קניין ממיר ב-ME57 ל-PO.",
-          cbcHe: "ב-CBC פק\"ע-שיפוץ למד-זרימה יוצרת PR-subcontracting; קניין-החלפים ממיר ל-PO לספק-הכיול-המוסמך.",
+          scenarioHe: "בארגון פק\"ע-שיפוץ למד-זרימה יוצרת PR-subcontracting; קניין-החלפים ממיר ל-PO לספק-הכיול-המוסמך.",
           navHe: ["Materials Management ► Purchasing ► Purchase Requisition ► Define Document Types"],
           tables: ["EBAN", "EKPO"],
           tcodes: ["ME57", "ME58", "ME51N"],
@@ -781,7 +781,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ME2O מציג special stock O (MSLB) לפי ספק/PO: מה סופק (541), מה התקבל (GR), ומה הפתוח. מאפשר provision (541) מתוך הכלי. קריטי לבקרת-נכסים — חלקים-יקרים אצל-ספקים ללא-מעקב הם סיכון.",
           purposeHe: "לתת נראות מלאה ובקרה על כל החומר-אצל-הספקים, ולמנוע אובדן/עיכוב של חלקים-בשיפוץ.",
           processExampleHe: "מנהל-מלאי פותח ME2O, רואה 3 מנועים אצל ספק A שלא חזרו 30 יום, ומברר סטטוס.",
-          cbcHe: "ב-CBC ME2O מנטר את כל מדי-הזרימה ומשאבות-ה-CO2 אצל ספקי-השיפוץ; התראה על יחידות שלא-חזרו בזמן מונעת מחסור-חלפים בקו.",
+          scenarioHe: "בארגון ME2O מנטר את כל מדי-הזרימה ומשאבות-ה-CO2 אצל ספקי-השיפוץ; התראה על יחידות שלא-חזרו בזמן מונעת מחסור-חלפים בקו.",
           navHe: ["Materials Management ► Purchasing ► Subcontracting ► Subcontracting Monitor"],
           tables: ["MSLB", "EKPO"],
           tcodes: ["ME2O", "MBLB"],
@@ -800,7 +800,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Serial Number Profile מחייב מספר בתנועות. ה-Serial נשמר ב-SER01 לאורך 541→GR. ב-S/4HANA זה מאפשר היסטוריית-יחידה מלאה ובקרת 'מספר-שיפוצים מקסימלי'. קריטי לחלקים-יקרים/קריטיים (משאבות, מדים).",
           purposeHe: "לספק עקיבות-יחידה מלאה לאורך מסע-ה-subcontracting, ולתמוך בהיסטוריית-שיפוצים ובמגבלות-שימוש-חוזר.",
           processExampleHe: "מנוע SN-12345 יוצא ב-541, מנוטר ב-ME2O עם ה-SN, וחוזר ב-GR כ-SN-12345 משופץ; היסטוריית-השיפוצים שלו מתעדכנת.",
-          cbcHe: "ב-CBC כל מד-זרימה נושא Serial Number; המערכת עוקבת כמה פעמים שופץ, ומתריעה כשמתקרב למגבלת-השיפוצים לפני החלפה-סופית.",
+          scenarioHe: "בארגון כל מד-זרימה נושא Serial Number; המערכת עוקבת כמה פעמים שופץ, ומתריעה כשמתקרב למגבלת-השיפוצים לפני החלפה-סופית.",
           navHe: ["Plant Maintenance ► Master Data in PM and CS ► Technical Objects ► Serial Number Management ► Define Serial Number Profiles"],
           tables: ["SER01", "OBJK", "EQUI"],
           tcodes: ["IQ01", "IQ02", "OIS2"],
@@ -827,8 +827,8 @@ export const CH6: TextbookChapter = {
         "להבטיח מהימנות-מדידה רציפה ועמידה-ברגולציה: שכל ציוד-מדידה מכויל בזמן, שהתוצאות מתועדות, ושמכשיר-שנכשל אינו ממשיך לשמש עד תיקון/כיול-מחדש.",
       processExampleHe:
         "מד-לחץ דורש כיול-רבעוני. Maintenance Plan מתזמן; IP30 מייצר פק\"ע + Inspection Lot (type 14). הטכנאי מודד מול תקן, רושם תוצאות ב-QE51N; אם בסבולת — Usage Decision 'accept' ו-Follow-Up מעדכן 'מכויל-עד'; אם מחוץ-לסבולת — 'reject', המכשיר ננעל לשימוש עד תיקון.",
-      cbcHe:
-        "ב-CBC כל מאזני-המילוי, מדי-ה-CO2 ומכשירי-המעבדה (pH, Brix) תחת Maintenance Plans של כיול; IP30 הלילי מייצר פק\"עות-כיול עם Inspection Lots type 14; כשל-מאזניים מוביל ל-reject ולנעילת-המכשיר עד כיול-מחדש — קריטי לעמידה בתקני-מזון.",
+      scenarioHe:
+        "בארגון כל מאזני-המילוי, מדי-ה-CO2 ומכשירי-המעבדה (pH, Brix) תחת Maintenance Plans של כיול; IP30 הלילי מייצר פק\"עות-כיול עם Inspection Lots type 14; כשל-מאזניים מוביל ל-reject ולנעילת-המכשיר עד כיול-מחדש — קריטי לעמידה בתקני-מזון.",
       navHe: [
         "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Maintain Inspection Types",
         "Quality Management ► Quality Planning ► Basic Data ► Inspection Characteristic ► Define Master Inspection Characteristics (QS21)",
@@ -898,7 +898,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ה-Equipment נושא QM view עם inspection type 14 פעיל, שיוך ל-Maintenance Plan, ולעיתים Measuring Points לקריאות. ה-Equipment category לרוב 'Q' (test/measurement equipment). חשוב לתחזק status שמשקף 'מכויל/לא-מכויל'.",
           purposeHe: "להגדיר את ציוד-המדידה כאובייקט בר-כיול עם כל הקישורים (QM, Plan) הנדרשים לתהליך-אוטומטי.",
           processExampleHe: "מד-לחץ נרשם כ-Equipment קטגוריה Q, QM view + inspection type 14, ומשויך ל-Maintenance Plan רבעוני.",
-          cbcHe: "ב-CBC כל מאזני-מילוי נרשם כ-Equipment-כיול עם inspection type 14, מקושר ל-Plan ול-MIC של דיוק-משקל.",
+          scenarioHe: "בארגון כל מאזני-מילוי נרשם כ-Equipment-כיול עם inspection type 14, מקושר ל-Plan ול-MIC של דיוק-משקל.",
           navHe: ["Plant Maintenance ► Master Data in PM and CS ► Technical Objects ► Equipment ► Define Equipment Categories"],
           tables: ["EQUI", "EQUZ", "ILOA"],
           tcodes: ["IE01", "IE02", "IE03"],
@@ -917,7 +917,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "MIC נוצרים ב-QS21 (או QGA2 — general characteristics). הם נושאים nominal value, tolerances, sampling, ושיטת-בדיקה (Inspection Method). ניתן quantitative או qualitative (עם Catalog). הם משויכים ל-Task List ומועתקים ל-Inspection Lot. ה-MIC הוא לב הדיוק.",
           purposeHe: "להגדיר באופן-חד-משמעי וניתן-לאכיפה מה נמדד והסבולות, כך שההחלטה accept/reject תהיה אובייקטיבית ומתועדת.",
           processExampleHe: "MIC 'דיוק-לחץ': nominal 10 בר, ±0.1, שיטה 'השוואה-לתקן'; משויך ל-Task List של מד-הלחץ.",
-          cbcHe: "ב-CBC MIC למאזני-מילוי: nominal 500 גרם, ±2 גרם; ל-pH-מטר: nominal לפי buffer 7.00, ±0.02 — מגדירים את סף-הקבלה.",
+          scenarioHe: "בארגון MIC למאזני-מילוי: nominal 500 גרם, ±2 גרם; ל-pH-מטר: nominal לפי buffer 7.00, ±0.02 — מגדירים את סף-הקבלה.",
           navHe: ["Quality Management ► Quality Planning ► Basic Data ► Inspection Characteristic ► Define Master Inspection Characteristics (QS21)"],
           tables: ["QPMK", "QPMT", "QMTB"],
           tcodes: ["QS21", "QS23", "QGA2", "QS31"],
@@ -936,7 +936,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Task List מסוג PM (IA01 — equipment/general) עם פעולות הנושאות inspection characteristics (משויכים מ-MIC). הוא מקושר ל-Maintenance Plan Item. בעת יצירת-פק\"ע, הפעולות וה-MIC מועתקים, וה-Inspection Lot נושא אותם ל-Results Recording. ניתן Reference/General Task List לשימוש-חוזר.",
           purposeHe: "לתקנן את תהליך-הכיול (פעולות + מאפיינים) כתבנית-אחת, להבטיח עקביות בין כיולים ולחסוך תחזוקה-כפולה.",
           processExampleHe: "Task List 'כיול מד-לחץ': פעולה 1 'נקה+חבר-לתקן', פעולה 2 'מדוד 3 נקודות' עם MIC; משויך ל-Plan.",
-          cbcHe: "ב-CBC Task List 'כיול-מאזניים': פעולות-ניקוי, אִפוס, ומדידה ב-3 משקלי-תקן עם MIC לכל נקודה; משמש את כל מאזני-המילוי.",
+          scenarioHe: "בארגון Task List 'כיול-מאזניים': פעולות-ניקוי, אִפוס, ומדידה ב-3 משקלי-תקן עם MIC לכל נקודה; משמש את כל מאזני-המילוי.",
           navHe: ["Plant Maintenance ► Maintenance Plans, Work Centers, Task Lists ► Task Lists ► General Data"],
           tables: ["PLKO", "PLPO", "PLMK"],
           tcodes: ["IA01", "IA02", "IA05", "IA06"],
@@ -955,7 +955,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Maintenance Plan (single-cycle או strategy-based) עם Maintenance Item המקשר Equipment+Task List. Scheduling (IP10) קובע call dates; IP30 (deadline monitoring, batch) מייצר את הפק\"ע וה-Inspection Lot. ה-Scheduling parameters (cycle, shift factor, completion requirement) שולטים בדיוק-התזמון.",
           purposeHe: "להבטיח כיול-בזמן ורציף לכל ציוד-המדידה, ללא הסתמכות על-זיכרון, ובהתאם לדרישות-רגולציה.",
           processExampleHe: "Plan רבעוני למד-לחץ; IP10 מתזמן; IP30 הלילי מייצר פק\"ע + Inspection Lot 5 ימים לפני המועד.",
-          cbcHe: "ב-CBC כל מכשירי-המעבדה תחת Maintenance Plans בתדירויות-שונות (יומי/שבועי/רבעוני); IP30 לילי מייצר את כל פק\"עות-הכיול במרוכז.",
+          scenarioHe: "בארגון כל מכשירי-המעבדה תחת Maintenance Plans בתדירויות-שונות (יומי/שבועי/רבעוני); IP30 לילי מייצר את כל פק\"עות-הכיול במרוכז.",
           navHe: ["Plant Maintenance ► Maintenance Plans, Work Centers, Task Lists ► Maintenance Plans ► Set Maintenance Plan Categories"],
           tables: ["MPLA", "MPOS", "MHIS"],
           tcodes: ["IP01", "IP02", "IP10", "IP30"],
@@ -974,7 +974,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Inspection Lot עם origin 14 (calibration) נוצר עם הפק\"ע. ה-lot נושא את ה-MIC מה-Task List. הפק\"ע משוחררת לביצוע (זמן/חומר), וה-lot מוכן ל-Results Recording. הקישור Order↔Lot שומר על שלמות-התהליך. ה-lot נדרש בסטטוס-מתאים לרישום-תוצאות.",
           purposeHe: "להפריד אחריות: הפק\"ע ללכידת-עבודה-ועלות, וה-Inspection Lot לניהול-התוצאות-וההחלטה — תוך קישור שמבטיח תהליך-שלם.",
           processExampleHe: "IP30 מייצר פק\"ע + Inspection Lot type 14 למד-לחץ; הטכנאי מבצע ומדווח בפק\"ע, ורושם תוצאות ב-lot.",
-          cbcHe: "ב-CBC כיול-מאזניים מייצר פק\"ע (זמן-טכנאי) ו-Inspection Lot type 14 (תוצאות-3-המשקלים); שניהם נסגרים יחד.",
+          scenarioHe: "בארגון כיול-מאזניים מייצר פק\"ע (זמן-טכנאי) ו-Inspection Lot type 14 (תוצאות-3-המשקלים); שניהם נסגרים יחד.",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Creation ► Maintain Inspection Types"],
           tables: ["QALS", "AUFK", "AFKO"],
           tcodes: ["QA03", "IW32", "QGA1"],
@@ -993,7 +993,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "QE51N (worklist) או QE11 לרישום פר-characteristic. הערכים מוערכים מול ה-MIC (accepted/rejected per characteristic). ניתן רישום-summarized או single-value. התוצאות נשמרות ב-QASR/QAMR ומשמשות ל-Usage Decision. שיטות-בדיקה ו-Catalogs ל-qualitative.",
           purposeHe: "לתעד באופן-מהימן ומדויק את ביצועי-המכשיר-בפועל מול התקן, כבסיס להחלטת-הכיול ולתיעוד-רגולטורי.",
           processExampleHe: "QE51N: מד-לחץ נמדד 10.05 / 9.98 / 10.02 — כולם בתוך ±0.1; כל ה-characteristics 'accepted'.",
-          cbcHe: "ב-CBC רישום-תוצאות למאזניים: 3 משקלי-תקן נרשמים; אם אחד מחוץ ל-±2 גרם, ה-characteristic נכשל וה-lot יידחה.",
+          scenarioHe: "בארגון רישום-תוצאות למאזניים: 3 משקלי-תקן נרשמים; אם אחד מחוץ ל-±2 גרם, ה-characteristic נכשל וה-lot יידחה.",
           navHe: ["Quality Management ► Quality Inspection ► Results Recording ► Define Recording Configuration"],
           tables: ["QASR", "QAMR", "QALS"],
           tcodes: ["QE51N", "QE11", "QE01"],
@@ -1012,7 +1012,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "QA11 קובע UD code (מתוך Selected Set/Catalog) שמסווג accept/reject. ה-UD סוגר את ה-lot, מעדכן quality score, ומפעיל Follow-Up Actions (סטטוס-Equipment, usage, חישוב מועד-כיול-הבא). ניתן לחייב UD לפני סגירת-פק\"ע. UD הוא צומת-ההכרעה.",
           purposeHe: "לקבע החלטה רשמית-ומתועדת על תקינות-המכשיר, ולהפעיל אוטומטית את הפעולות-הנגזרות (המשך-שימוש/נעילה).",
           processExampleHe: "כל ה-characteristics 'accepted' ➔ QA11 UD 'A — accepted'; ה-lot נסגר; Follow-Up מעדכן 'מכויל-עד'.",
-          cbcHe: "ב-CBC מאזניים שכל-משקליו בסבולת ➔ UD 'accepted'; מאזניים עם סטייה ➔ UD 'rejected', והמכשיר ננעל אוטומטית.",
+          scenarioHe: "בארגון מאזניים שכל-משקליו בסבולת ➔ UD 'accepted'; מאזניים עם סטייה ➔ UD 'rejected', והמכשיר ננעל אוטומטית.",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Completion ► Define Usage Decision Codes / Selected Sets"],
           tables: ["QAVE", "QALS", "QAMV"],
           tcodes: ["QA11", "QA12", "QA13"],
@@ -1031,7 +1031,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Follow-Up Actions מקושרות ל-UD codes (configuration). דוגמאות: set/reset user status על ה-Equipment (מכויל/לא-מכויל), trigger workflow/Notification, עדכון partner. הן מבטיחות שמכשיר-כושל לא ימשיך לשמש ושכשלון מתועד לטיפול. ניתן function modules מותאמים.",
           purposeHe: "לסגור את לולאת-הכיול אוטומטית: לאכוף שמכשיר-כושל יינעל, שכשלון יטופל, ושמכשיר-תקין יסומן תקף-עד-המועד-הבא.",
           processExampleHe: "UD 'rejected' ➔ Follow-Up נועל את ה-Equipment (user status NOK) ופותח Notification-תיקון; UD 'accepted' ➔ סטטוס 'מכויל'.",
-          cbcHe: "ב-CBC מאזניים-שנכשלו ננעלים אוטומטית (status חוסם-שימוש) ונפתחת קריאת-תיקון; הקו מקבל התראה לא להשתמש במאזניים עד כיול-מחדש.",
+          scenarioHe: "בארגון מאזניים-שנכשלו ננעלים אוטומטית (status חוסם-שימוש) ונפתחת קריאת-תיקון; הקו מקבל התראה לא להשתמש במאזניים עד כיול-מחדש.",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Completion ► Define Follow-Up Actions"],
           tables: ["TQ77", "QAVE", "EQUI"],
           tcodes: ["QA11", "OQB1"],
@@ -1058,8 +1058,8 @@ export const CH6: TextbookChapter = {
         "להפריד עבודה-נוספת-שהתגלתה מהפק\"ע-המקורית, לשמור על דיוק-עלות-והיקף לכל פק\"ע, ולשמר את שרשרת-ההקשר בין הממצא לבין הטיפול.",
       processExampleHe:
         "בתיקון-משאבה (פק\"ע A) מגלה הטכנאי בלאי-במסב. במקום להרחיב את A, הוא יוצר פק\"ע-המשך B מתוך A; B מטפל במסב; שתיהן מקושרות לאותו Equipment, וכל אחת נושאת את עלותה.",
-      cbcHe:
-        "ב-CBC בתיקון מסוע-בקבוקים מתגלה גם בלאי במנוע-ההנעה; הטכנאי פותח פק\"ע-המשך נפרדת למנוע, כך שעלות-המסוע ועלות-המנוע מופרדות לניתוח-אמינות מדויק.",
+      scenarioHe:
+        "בארגון בתיקון מסוע-בקבוקים מתגלה גם בלאי במנוע-ההנעה; הטכנאי פותח פק\"ע-המשך נפרדת למנוע, כך שעלות-המסוע ועלות-המנוע מופרדות לניתוח-אמינות מדויק.",
       navHe: [
         "Plant Maintenance ► Maintenance Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Define Default Order Types for Follow-On Orders",
         "Plant Maintenance ► Maintenance Processing ► Maintenance Notifications ► Notification Processing ► Define Object Information Keys",
@@ -1118,7 +1118,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "מתוך IW32 → Follow-On Order; ה-default order type נקבע ב-config. הפק\"ע-החדשה יורשת את האובייקט-הטכני ונושאת object link למקור. מהיר, שומר-הקשר, ומונע טעויות-הקלדה.",
           purposeHe: "ליצור פק\"ע-המשך במהירות וברצף, תוך שמירה אוטומטית של ההפניה והאובייקט.",
           processExampleHe: "ב-IW32 של פק\"ע-המשאבה, 'Create Follow-On Order' לטיפול-במסב; הפק\"ע-החדשה כבר מקושרת ולאותו Equipment.",
-          cbcHe: "ב-CBC מתוך פק\"ע-המסוע נוצרת ישירות פק\"ע-המשך למנוע-ההנעה, מקושרת ולאותו ציוד.",
+          scenarioHe: "בארגון מתוך פק\"ע-המסוע נוצרת ישירות פק\"ע-המשך למנוע-ההנעה, מקושרת ולאותו ציוד.",
           navHe: ["Plant Maintenance ► Maintenance Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Define Default Order Types for Follow-On Orders"],
           tables: ["AUFK", "AFIH"],
           tcodes: ["IW32"],
@@ -1137,7 +1137,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "פתיחת Notification (IW21) על אותו Equipment/Functional Location עם קודי-תקלה, ואז יצירת פק\"ע ממנו. ההקשר נשמר דרך האובייקט-הטכני. שימושי כשרוצים תיעוד-ממצא מובנה (Damage/Cause) לפני פתיחת-העבודה, או כשהעבודה תתוזמן מאוחר-יותר.",
           purposeHe: "לתעד את הממצא-החדש כ-Notification מובנה (עם קודים) לפני/לצד פתיחת פק\"ע-ההמשך, לתחקור ולתעדוף.",
           processExampleHe: "טכנאי פותח Notification 'בלאי-מסב' עם קודים; מתאם מתעדף ויוצר ממנו פק\"ע-המשך מאוחר-יותר.",
-          cbcHe: "ב-CBC ממצא 'רעידה-במנוע' נרשם כ-Notification עם קוד-תצפית; הוא מתועדף ומומר לפק\"ע-המשך בתכנון-השבועי.",
+          scenarioHe: "בארגון ממצא 'רעידה-במנוע' נרשם כ-Notification עם קוד-תצפית; הוא מתועדף ומומר לפק\"ע-המשך בתכנון-השבועי.",
           navHe: ["Plant Maintenance ► Maintenance Processing ► Maintenance Notifications ► Notification Processing ► Define Object Information Keys"],
           tables: ["QMEL", "QMFE", "AUFK"],
           tcodes: ["IW21", "IW31"],
@@ -1164,8 +1164,8 @@ export const CH6: TextbookChapter = {
         "למקסם ניצול-ציוד-יקר ע\"י שיתוף מבוקר, למנוע כפילות-רכש, לשייך עלות-שימוש למשתמש-בפועל, ולתת נראות 'מי-מחזיק-מה-מתי'.",
       processExampleHe:
         "מחלקה מבקשת מכשיר-מדידה לשבוע. הבקשה נכנסת ל-Planning Board; המתאם מאשר חלון-זמן פנוי (Confirmation); ביום-האיסוף מבוצע Issue; בסוף-השבוע Return; ה-Settlement מחייב את המחלקה לפי משך-השימוש.",
-      cbcHe:
-        "ב-CBC מכשירי-מדידה ניידים יקרים (מד-עובי-דופן, מצלמה-תרמית, מנתח-גזים) מנוהלים במאגר-מרכזי; אזורי-הייצור מבקשים, ה-Planning Board מונע-חפיפות, וה-Settlement מחייב כל אזור לפי-שימוש — מצדיק את רכש-הציוד המשותף.",
+      scenarioHe:
+        "בארגון מכשירי-מדידה ניידים יקרים (מד-עובי-דופן, מצלמה-תרמית, מנתח-גזים) מנוהלים במאגר-מרכזי; אזורי-הייצור מבקשים, ה-Planning Board מונע-חפיפות, וה-Settlement מחייב כל אזור לפי-שימוש — מצדיק את רכש-הציוד המשותף.",
       navHe: [
         "Asset Management ► Pool Asset Management ► Basic Settings ► Define Pool Asset Types",
         "Asset Management ► Pool Asset Management ► Planning Board ► Configure Planning Board Profile",
@@ -1234,7 +1234,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Request נושא requester (partner), pool asset או asset type, ותקופת-שימוש. הוא יוצר דרישה שמופיעה ב-Planning Board לשיבוץ. ניתן לבקש נכס-ספציפי או 'כל נכס פנוי מסוג'. הבקשה היא הבסיס לחיוב-עתידי.",
           purposeHe: "ללכוד את הצורך באופן-מובנה (מי/מה/מתי) כבסיס לתזמון, הקצאה וחיוב.",
           processExampleHe: "מחלקת-QA מבקשת מד-עובי מ-1 עד 5; הבקשה נכנסת ל-Planning Board.",
-          cbcHe: "ב-CBC אזור-מילוי מבקש מצלמה-תרמית לשבוע-בדיקות; הבקשה כוללת את התקופה ואת ה-Cost Center לחיוב.",
+          scenarioHe: "בארגון אזור-מילוי מבקש מצלמה-תרמית לשבוע-בדיקות; הבקשה כוללת את התקופה ואת ה-Cost Center לחיוב.",
           navHe: ["Asset Management ► Pool Asset Management ► Requests ► Define Request Types"],
           tables: ["EQUI", "VBAK"],
           tcodes: ["IW31", "CM01"],
@@ -1253,7 +1253,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Planning Board (CM01-style / Fiori) מציג נכסים מול ציר-זמן עם הקצאות. מאפשר drag-and-drop, מניעת-חפיפות, וזיהוי-עומסים. שיבוץ-בקשה יוצר הקצאה הממתינה ל-Confirmation. ה-Planning Board Profile שולט בתצוגה ובכללי-החפיפה.",
           purposeHe: "לתת נראות-זמינות מלאה ולמנוע התנגשויות-הקצאה, תוך אופטימיזציה של ניצול-המאגר.",
           processExampleHe: "המתאם רואה בלוח שמד-העובי פנוי 1–5, גורר אליו את בקשת-QA, ויוצר הקצאה.",
-          cbcHe: "ב-CBC ה-Planning Board מציג את כל המכשירים-הניידים; המתאם משבץ בקשות-האזורים בלי חפיפות, וממקסם את ניצול-המצלמה-התרמית.",
+          scenarioHe: "בארגון ה-Planning Board מציג את כל המכשירים-הניידים; המתאם משבץ בקשות-האזורים בלי חפיפות, וממקסם את ניצול-המצלמה-התרמית.",
           navHe: ["Asset Management ► Pool Asset Management ► Planning Board ► Configure Planning Board Profile"],
           tables: ["EQUI", "RESB"],
           tcodes: ["CM01", "CM21"],
@@ -1272,7 +1272,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Confirmation מקבעת את ההקצאה (status), מונעת שינוי-חופשי, ומסנכרנת ל-Issue/Return. היא יכולה לכלול אישור-מבקש/מתאם (workflow). מרגע האישור, הנכס 'תפוס' בלוח ונראה למבקש כמובטח.",
           purposeHe: "להפוך תזמון-זמני להתחייבות-ודאית, ולמנוע שינויי-הקצאה לא-מבוקרים לפני הניפוק.",
           processExampleHe: "המתאם מאשר את הקצאת מד-העובי ל-QA; הנכס ננעל לתאריכים 1–5 ומופיע כ'מאושר'.",
-          cbcHe: "ב-CBC הקצאת המצלמה-התרמית מאושרת לאזור-המילוי לשבוע; כעת אזור-אחר לא יכול לקבל אותה לאותם תאריכים.",
+          scenarioHe: "בארגון הקצאת המצלמה-התרמית מאושרת לאזור-המילוי לשבוע; כעת אזור-אחר לא יכול לקבל אותה לאותם תאריכים.",
           navHe: ["Asset Management ► Pool Asset Management ► Requests ► Define Confirmation Profile"],
           tables: ["EQUI", "JEST"],
           tcodes: ["CM01", "IW32"],
@@ -1291,7 +1291,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Issue רושם את היציאה (status/goods movement במידת-הצורך), מתעד מצב-נכס ו-meter readings, ומתחיל את ספירת-זמן-החיוב. מקושר להקצאה-המאושרת. ב-S/4HANA נתמך ב-Fiori issue/return.",
           purposeHe: "לתעד את העברת-החזקה-בפועל, להתחיל את חישוב-החיוב, וללכוד מצב-הנכס בעת-המסירה.",
           processExampleHe: "ב-1 בחודש מד-העובי מנופק ל-QA; נרשם מצב-תקין ומונה-שימוש התחלתי.",
-          cbcHe: "ב-CBC המצלמה-התרמית מנופקת לאזור-המילוי; נרשם מצבה ומספר-שעות-השימוש ההתחלתי לחיוב-מדויק.",
+          scenarioHe: "בארגון המצלמה-התרמית מנופקת לאזור-המילוי; נרשם מצבה ומספר-שעות-השימוש ההתחלתי לחיוב-מדויק.",
           navHe: ["Asset Management ► Pool Asset Management ► Issue and Return ► Define Issue Profile"],
           tables: ["EQUI", "JEST", "IMRG"],
           tcodes: ["IW32", "IK11"],
@@ -1310,7 +1310,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Return רושם את הקבלה (status), משווה מצב מול ה-Issue, לוכד meter readings סופיים (לחיוב לפי-שימוש), ומאתר נזקים שעלולים לפתוח Notification/חיוב-נוסף. משחרר את הנכס בלוח להקצאה-הבאה.",
           purposeHe: "לסגור את מחזור-השימוש: לשחרר את הנכס, לקבע את נתוני-החיוב, ולתעד מצב/נזקים.",
           processExampleHe: "ב-5 בחודש מד-העובי מוחזר; נרשם מונה-סופי, אומת מצב-תקין, והנכס שוחרר בלוח.",
-          cbcHe: "ב-CBC המצלמה-התרמית מוחזרת; שעות-השימוש נרשמות לחיוב, נבדק שאין נזק, והיא פנויה לאזור-הבא.",
+          scenarioHe: "בארגון המצלמה-התרמית מוחזרת; שעות-השימוש נרשמות לחיוב, נבדק שאין נזק, והיא פנויה לאזור-הבא.",
           navHe: ["Asset Management ► Pool Asset Management ► Issue and Return ► Define Return Profile"],
           tables: ["EQUI", "JEST", "IMRG", "QMEL"],
           tcodes: ["IW32", "IK11", "IW21"],
@@ -1329,7 +1329,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Settlement (KO88 / billing rule) מיישב את עלות-השימוש ל-Cost Center המבקש, לפי billing basis (משך/מונה/תעריף). ניתן דרך Service Order/internal billing. מבוסס על נתוני Issue/Return (מונים, זמן). מספק שקיפות-עלות ובסיס-תקצוב.",
           purposeHe: "לשייך עלות-שימוש למשתמש-בפועל, ליצור שקיפות-עלות-פנימית, ולהצדיק את מודל-המאגר-המשותף כלכלית.",
           processExampleHe: "5 ימי-שימוש × תעריף-יומי ➔ Settlement מחייב את Cost Center של QA; הדוח מראה עלות-שימוש לכל מחלקה.",
-          cbcHe: "ב-CBC שבוע-שימוש במצלמה-התרמית מחויב לאזור-המילוי לפי תעריף-יומי; הנהלת-המפעל רואה ניצול ועלות פר-אזור.",
+          scenarioHe: "בארגון שבוע-שימוש במצלמה-התרמית מחויב לאזור-המילוי לפי תעריף-יומי; הנהלת-המפעל רואה ניצול ועלות פר-אזור.",
           navHe: ["Asset Management ► Pool Asset Management ► Settlement ► Define Billing and Settlement Rules"],
           tables: ["AUFK", "COEP", "EQUI"],
           tcodes: ["KO88", "IW32"],
@@ -1348,7 +1348,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "דרישות-קדם: (1) Equipment מוגדר כ-pool asset עם org. assignment; (2) Pool Asset Types; (3) Planning Board Profile עם מניעת-חפיפות; (4) profiles ל-Request/Confirmation/Issue/Return; (5) Billing/Settlement rules עם Cost Center-יעד; (6) הרשאות-תהליך. ב-S/4HANA גם הפעלת רכיב-PAM.",
           purposeHe: "להבטיח שכל התשתית (נתוני-אב + config + הרשאות) קיימת כך שמחזור-ה-PAM ירוץ ללא תקלות.",
           processExampleHe: "צוות-הטמעה מגדיר 10 מכשירים כ-pool assets, Planning Board Profile, ו-billing rule יומי לפני השקת-המאגר.",
-          cbcHe: "ב-CBC הוגדרו כל המכשירים-הניידים כ-pool assets עם תעריפים, Planning Board עם מניעת-חפיפות, והרשאות לאזורי-הייצור לבקש.",
+          scenarioHe: "בארגון הוגדרו כל המכשירים-הניידים כ-pool assets עם תעריפים, Planning Board עם מניעת-חפיפות, והרשאות לאזורי-הייצור לבקש.",
           navHe: ["Asset Management ► Pool Asset Management ► Basic Settings ► Define Pool Asset Types"],
           tables: ["EQUI", "AUFK", "ILOA"],
           tcodes: ["IE01", "CM01"],
@@ -1375,8 +1375,8 @@ export const CH6: TextbookChapter = {
         "לנהל אירועי-תחזוקה רחבי-היקף עם תקצוב, תזמון ובקרה מאוחדים, לקבל נראות-עלות כוללת לאירוע, ולתאם מאות-עבודות תחת מטרייה-אחת.",
       processExampleHe:
         "Shutdown שנתי: נפתח פרויקט עם WBS לכל אזור. ב-MEB משייכים את כל ה-Notifications לאירוע, יוצרים פק\"עות ומקצים ל-WBS, מקבצים ל-Revision של חלון-העצירה, מתקצבים, מבצעים, ומבקרים עלות-מול-תקציב ברמת-הפרויקט.",
-      cbcHe:
-        "ב-CBC עצירת-קיץ שנתית של כל קווי-המילוי מנוהלת כפרויקט-PS: WBS לכל קו, MEB מקבץ את מאות פק\"עות-התחזוקה ל-Revision של שבוע-העצירה, ותקציב-העצירה מבוקר מול-בפועל ברמת-הפרויקט.",
+      scenarioHe:
+        "בארגון עצירת-קיץ שנתית של כל קווי-המילוי מנוהלת כפרויקט-PS: WBS לכל קו, MEB מקבץ את מאות פק\"עות-התחזוקה ל-Revision של שבוע-העצירה, ותקציב-העצירה מבוקר מול-בפועל ברמת-הפרויקט.",
       navHe: [
         "Plant Maintenance ► Maintenance Processing ► Maintenance Event Builder ► Define Revision Types",
         "Project System ► Structures ► Operative Structures ► Work Breakdown Structure (WBS) ► Create Project Profile",
@@ -1445,7 +1445,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "WBS (PRPS) = מבנה-תקצוב היררכי עם availability control. Networks/Activities לתזמון-תלויות. פק\"עות-PM משויכות ל-WBS Element; עלותן מתגלגלת. Project Profile קובע ברירות-מחדל, settlement, ותקצוב. CJ20N הוא ה-Project Builder.",
           purposeHe: "לספק מבנה-תקצוב-ובקרה מאוחד לאירוע-תחזוקה, ונראות-עלות מצטברת לכל רמה במבנה.",
           processExampleHe: "פרויקט-Shutdown עם WBS לכל אזור; פק\"עות-התחזוקה משויכות ל-WBS; CN41 מציג עלות-מול-תקציב.",
-          cbcHe: "ב-CBC פרויקט-עצירת-הקיץ בנוי WBS לכל קו-מילוי; כל פק\"עות-הקו נתלות על ה-WBS שלו, והתקציב מבוקר פר-קו.",
+          scenarioHe: "בארגון פרויקט-עצירת-הקיץ בנוי WBS לכל קו-מילוי; כל פק\"עות-הקו נתלות על ה-WBS שלו, והתקציב מבוקר פר-קו.",
           navHe: ["Project System ► Structures ► Operative Structures ► Work Breakdown Structure (WBS) ► Create Project Profile"],
           tables: ["PROJ", "PRPS", "PRTE"],
           tcodes: ["CJ20N", "CJ40", "CN41"],
@@ -1464,7 +1464,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "MEB (IPMD/WPS1) מציג Notifications פתוחים, מאפשר שיוך ל-WBS, יצירת/קיבוץ Orders, והקצאת Revision לקיבוץ לחלון-Shutdown. הוא משלב planning ו-scheduling ברמת-האירוע, ומאפשר scope-of-work עם תקצוב מצטבר. ה-Revision מקשר את כל פק\"עות-העצירה לתקופה-אחת.",
           purposeHe: "לרכז את ניהול אירוע-התחזוקה במקום-אחד: מ-Notifications ועד פק\"עות-מתוקצבות-ומתוזמנות תחת WBS ו-Revision.",
           processExampleHe: "ב-IPMD המתאם מסנן Notifications של אזור, יוצר מהם פק\"עות, משייך ל-WBS, ומקצה Revision של שבוע-העצירה — הכל ממסך-אחד.",
-          cbcHe: "ב-CBC ה-MEB מרכז את כל קריאות-עצירת-הקיץ; המתכננים יוצרים מהן פק\"עות, משייכים ל-WBS פר-קו, ומקבצים ל-Revision של שבוע-העצירה.",
+          scenarioHe: "בארגון ה-MEB מרכז את כל קריאות-עצירת-הקיץ; המתכננים יוצרים מהן פק\"עות, משייכים ל-WBS פר-קו, ומקבצים ל-Revision של שבוע-העצירה.",
           navHe: ["Plant Maintenance ► Maintenance Processing ► Maintenance Event Builder ► Define Revision Types"],
           tables: ["AFIH", "QMEL", "PRPS", "T350"],
           tcodes: ["IPMD", "WPS1", "IW32"],
@@ -1491,8 +1491,8 @@ export const CH6: TextbookChapter = {
         "לקבע את ההבנה שתהליכי-PM המתקדמים אינם 'תוספות' אלא חלק-אינטגרלי מניהול-נכסים בוגר, ולהכין את הלומד לזהות איזה תהליך מתאים לכל תרחיש-עסקי.",
       processExampleHe:
         "תרחיש-משולב: כשל-משאבה ➔ תיקון-מיידי (6.1); תוך-כדי מתגלה בלאי ➔ הזמנת-המשך (6.7); המנוע נשלח לשיפוץ-חיצוני ➔ subcontracting (6.5); מד-הלחץ של המערכת מגיע למועד-כיול ➔ calibration (6.6). תהליך-אחד נוגע בארבעה מהנושאים שלמדנו.",
-      cbcHe:
-        "ב-CBC כל הפרק חי בקו-המילוי: תיקוני-חירום של מסתמים, דוחות-משמרת, שיפוץ ראשי-מילוי ומשאבות-CO2, כיול מאזניים ומכשירי-מעבדה, מאגר-מכשירים-ניידים, ועצירת-קיץ מנוהלת-כפרויקט — כולם יחד מבטיחים זמינות-קו, עמידה-ברגולציה ובקרת-עלות.",
+      scenarioHe:
+        "בארגון כל הפרק חי בקו-המילוי: תיקוני-חירום של מסתמים, דוחות-משמרת, שיפוץ ראשי-מילוי ומשאבות-CO2, כיול מאזניים ומכשירי-מעבדה, מאגר-מכשירים-ניידים, ועצירת-קיץ מנוהלת-כפרויקט — כולם יחד מבטיחים זמינות-קו, עמידה-ברגולציה ובקרת-עלות.",
       navHe: [
         "Plant Maintenance ► Maintenance Processing (כלל-התהליכים)",
         "Cross-application: MM (External Procurement/Subcontracting), QM (Calibration), PS (Maintenance Event Builder)",

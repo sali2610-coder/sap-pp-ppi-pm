@@ -44,7 +44,7 @@ export function OnboardingDrawer() {
               <button onClick={close} className="absolute end-4 top-4 rounded-lg p-1 text-white/80 hover:bg-white/15"><X className="size-5" /></button>
               <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-white/70"><Sparkles className="size-3.5" />Project NEO</div>
               <h2 className="mt-1 text-2xl font-extrabold">ברוך הבא ל-NEO</h2>
-              <p className="mt-1 text-sm text-white/85">קוקפיט הידע למיגרציית SAP ECC → S/4HANA של CBC — תהליכים, אובייקטים, מודל נתונים והשפעת S/4 במקום אחד.</p>
+              <p className="mt-1 text-sm text-white/85">קוקפיט הידע למיגרציית SAP ECC → S/4HANA של הארגון — תהליכים, אובייקטים, מודל נתונים והשפעת S/4 במקום אחד.</p>
             </div>
 
             {/* role selector */}

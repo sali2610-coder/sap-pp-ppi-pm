@@ -25,7 +25,7 @@ export interface SecArea {
   tips: string[];
   notes: string[];          // SAP Note search keywords + component
   incidents: SecIncident[];
-  cbc: string;
+  scenario: string;
   links: SecLink[];
 }
 
@@ -55,7 +55,7 @@ export const AREAS: SecArea[] = [
     tips: ["Service/System users לממשקים — לא Dialog (מונע נעילות סיסמה)", "תמיד User Comparison אחרי שיוך תפקיד", "SU10 לשינויי מסה"],
     notes: ["user locked USR02 UFLAG unlock SU01 · BC-SEC-USR", "user comparison required after role assignment · BC-SEC-USR-ADM"],
     incidents: [],
-    cbc: "ב-CBC: משתמש ממשק (RFC) הוגדר כ-Dialog וננעל אחרי כשלי-סיסמה; הוסב ל-System user וננעלה נעילת המדיניות.",
+    scenario: "בארגון: משתמש ממשק (RFC) הוגדר כ-Dialog וננעל אחרי כשלי-סיסמה; הוסב ל-System user וננעלה נעילת המדיניות.",
     links: [{ label: "RFC users", href: "/integration/#rfc" }, S4, INC],
   },
   {
@@ -71,7 +71,7 @@ export const AREAS: SecArea[] = [
     tips: ["תמיד תחזק דרך SU24 → צבעי סטטוס ירוקים", "אל תערוך אובייקט ל-'Changed' ידני אם אפשר proposal", "Derived roles ל-org levels — לא לשכפל ידנית", "SUPC/SUPCX לאחר טרנספורט"],
     notes: ["PFCG authorization status red maintain values · BC-SEC-AUT-PFC", "generated profile not updated SUPC · BC-SEC-AUT-PFC", "SU24 maintain authorization defaults · BC-SEC-AUT-PFC"],
     incidents: [{ slug: "su53-missing-authorization-deep", label: "חסר הרשאה — PFCG/SU53" }],
-    cbc: "ב-CBC: תפקיד טכנאי PM קיבל אדום ב-Authorizations — שדה I_SWERK (מפעל) ריק; מולא ב-Org Levels, נוצר פרופיל ובוצע User Comparison.",
+    scenario: "בארגון: תפקיד טכנאי PM קיבל אדום ב-Authorizations — שדה I_SWERK (מפעל) ריק; מולא ב-Org Levels, נוצר פרופיל ובוצע User Comparison.",
     links: [{ label: "PM — הרשאות מפעל", href: "/pm/" }, { label: "מודל Fiori", href: "/security/#fiori" }, S4],
   },
   {
@@ -87,7 +87,7 @@ export const AREAS: SecArea[] = [
     tips: ["SU53 = נקודת פתיחה מהירה; לא סוף פסוק", "אפשר לצפות ב-SU53 של משתמש אחר (אדמין)", "תרחיש רב-שלבי → STAUTHTRACE"],
     notes: ["SU53 last authorization check empty · BC-SEC-AUT", "SU53 display other user authorization · BC-SEC-AUT"],
     incidents: [{ slug: "su53-missing-authorization-deep", label: "אבחון SU53 / STAUTHTRACE" }],
-    cbc: "ב-CBC: טכנאי נחסם ב-IW31 — SU53 הצביע על I_SWERK חסר; נוסף בתפקיד הנגזר ובוצע User Comparison.",
+    scenario: "בארגון: טכנאי נחסם ב-IW31 — SU53 הצביע על I_SWERK חסר; נוסף בתפקיד הנגזר ובוצע User Comparison.",
     links: [{ label: "STAUTHTRACE", href: "/security/#stauthtrace" }, { label: "PM — IW31", href: "/pm/" }, INC],
   },
   {
@@ -103,7 +103,7 @@ export const AREAS: SecArea[] = [
     tips: ["סנן לפי משתמש לפני שחזור", "STUSERTRACE לאיסוף לאורך זמן", "תמיד הרץ בסביבת בדיקה תחת אותו תרחיש משתמש"],
     notes: ["STAUTHTRACE system trace authorization filter · BC-SEC-AUT", "Fiori OData authorization trace · BC-SEC-AUT"],
     incidents: [{ slug: "su53-missing-authorization-deep", label: "STAUTHTRACE — תרחיש רב-שלבי" }],
-    cbc: "ב-CBC: אפליקציית Fiori להזמנות עבודה החזירה 'no auth' — STAUTHTRACE חשף הרשאת S_SERVICE חסרה לשירות ה-OData; נוספה לתפקיד.",
+    scenario: "בארגון: אפליקציית Fiori להזמנות עבודה החזירה 'no auth' — STAUTHTRACE חשף הרשאת S_SERVICE חסרה לשירות ה-OData; נוספה לתפקיד.",
     links: [{ label: "OData / S_SERVICE", href: "/integration/#odata" }, { label: "SU53", href: "/security/#su53" }, S4],
   },
   {
@@ -119,7 +119,7 @@ export const AREAS: SecArea[] = [
     tips: ["RSUSR002 הוא ה-go-to לביקורת", "אתר SAP_ALL/SAP_NEW בפרודקשן", "שלב עם STAUTHTRACE לתמונה מלאה"],
     notes: ["SUIM RSUSR002 users by authorization · BC-SEC-AUT", "find users with SAP_ALL profile · BC-SEC-AUT"],
     incidents: [],
-    cbc: "ב-CBC: ביקורת דרשה 'מי מורשה לשחרר הזמנות רכש' — RSUSR070 לפי M_BEST_BSA הניב את רשימת התפקידים והמשתמשים.",
+    scenario: "בארגון: ביקורת דרשה 'מי מורשה לשחרר הזמנות רכש' — RSUSR070 לפי M_BEST_BSA הניב את רשימת התפקידים והמשתמשים.",
     links: [{ label: "MM — שחרור רכש", href: "/sap-infrastructure/" }, { label: "Migration — תפקידים", href: "/migration-cockpit/" }, INC],
   },
   {
@@ -135,7 +135,7 @@ export const AREAS: SecArea[] = [
     tips: ["למד ACTVT: 01 צור / 02 שנה / 03 הצג / 06 מחק", "S_TCODE לבד לא מספיק — צריך גם אובייקטי היישום", "Z-tcode חדש → תחזק SU24"],
     notes: ["authorization object ACTVT TACT values · BC-SEC-AUT", "S_SERVICE OData authorization · BC-SEC-AUT"],
     incidents: [{ slug: "su53-missing-authorization-deep", label: "אובייקט/ACTVT חסר" }],
-    cbc: "ב-CBC: משתמש יכל להציג אך לא לשנות הזמנת ייצור — ACTVT=03 בלבד באובייקט; נוסף 02 ונפתר.",
+    scenario: "בארגון: משתמש יכל להציג אך לא לשנות הזמנת ייצור — ACTVT=03 בלבד באובייקט; נוסף 02 ונפתר.",
     links: [{ label: "S_RFC", href: "/security/#authobjects" }, { label: "אינטגרציה — S_RFC", href: "/integration/#rfc" }, INC],
   },
   {
@@ -151,7 +151,7 @@ export const AREAS: SecArea[] = [
     tips: ["לעולם לא SAP_ALL בפרודקשן (אלא חירום מתועד)", "תחזק SAP_NEW כחלק מ-upgrade", "SU56 לבדיקת מה באמת בתוקף"],
     notes: ["SAP_ALL production risk emergency user · BC-SEC-AUT", "SAP_NEW maintenance after upgrade · BC-SEC-AUT", "user buffer SU56 refresh · BC-SEC-USR"],
     incidents: [],
-    cbc: "ב-CBC: לאחר שדרוג, משתמשים קיבלו שגיאות הרשאה חדשות — SAP_NEW לא תוחזק; בוצע יישור ובדיקת SU24 לאובייקטים החדשים.",
+    scenario: "בארגון: לאחר שדרוג, משתמשים קיבלו שגיאות הרשאה חדשות — SAP_NEW לא תוחזק; בוצע יישור ובדיקת SU24 לאובייקטים החדשים.",
     links: [{ label: "Migration / Upgrade", href: "/migration-cockpit/" }, S4, INC],
   },
   {
@@ -167,7 +167,7 @@ export const AREAS: SecArea[] = [
     tips: ["עיצוב לפי תפקיד עסקי, לא לפי אדם", "שמור single roles 'נקיים' לפי תהליך", "org-level variance → derived"],
     notes: ["single role design best practice PFCG · BC-SEC-AUT-PFC"],
     incidents: [],
-    cbc: "ב-CBC: נבנה single role 'מתכנן PP-PI' עם טרנזקציות COR1/COR2/MD04 ואובייקטי הרשאה תואמים — שוכפל ל-derived לפי מפעל.",
+    scenario: "בארגון: נבנה single role 'מתכנן PP-PI' עם טרנזקציות COR1/COR2/MD04 ואובייקטי הרשאה תואמים — שוכפל ל-derived לפי מפעל.",
     links: [{ label: "PP-PI", href: "/pp-pi/" }, { label: "Derived Roles", href: "/security/#derived" }, { label: "Role Design", href: "/security/#roledesign" }],
   },
   {
@@ -183,7 +183,7 @@ export const AREAS: SecArea[] = [
     tips: ["אל תתחזק הרשאות ב-composite (אין לו)", "Composite להקצאה, Single לתחזוקה", "User Comparison חובה גם ב-composite"],
     notes: ["composite role no authorization data maintain single · BC-SEC-AUT-PFC"],
     incidents: [],
-    cbc: "ב-CBC: 'מנהל משמרת' הוגדר כ-composite מ-3 singles (ייצור/איכות/דוחות); שינוי הרשאה בוצע ב-single הייצור והוחל מחדש.",
+    scenario: "בארגון: 'מנהל משמרת' הוגדר כ-composite מ-3 singles (ייצור/איכות/דוחות); שינוי הרשאה בוצע ב-single הייצור והוחל מחדש.",
     links: [{ label: "Single Role", href: "/security/#single" }, { label: "Business Roles", href: "/security/#fiori" }],
   },
   {
@@ -199,7 +199,7 @@ export const AREAS: SecArea[] = [
     tips: ["שנה הרשאות בהורה בלבד → adjust derived", "derived = רק org levels שונים", "PFCGMASSVAL לעדכון רוחבי"],
     notes: ["derived role adjust from parent org levels · BC-SEC-AUT-PFC", "PFCGMASSVAL mass org level · BC-SEC-AUT-PFC"],
     incidents: [{ slug: "su53-missing-authorization-deep", label: "Org level חסר ב-derived" }],
-    cbc: "ב-CBC: תפקיד טכנאי PM נגזר ל-3 מפעלים; הרשאה חדשה נוספה בהורה ו-'Adjust derived roles' הפיץ לכל הנגזרים.",
+    scenario: "בארגון: תפקיד טכנאי PM נגזר ל-3 מפעלים; הרשאה חדשה נוספה בהורה ו-'Adjust derived roles' הפיץ לכל הנגזרים.",
     links: [{ label: "PM — מפעלים", href: "/pm/" }, { label: "Single Role", href: "/security/#single" }, { label: "Role Design", href: "/security/#roledesign" }],
   },
   {
@@ -215,7 +215,7 @@ export const AREAS: SecArea[] = [
     tips: ["Catalog = הרשאה, Group = תצוגה — אל תבלבל", "תמיד S_SERVICE + אובייקט יישום", "מעבר ל-Spaces/Pages במודל החדש"],
     notes: ["Fiori catalog tile not visible target mapping · CA-FLP-FE-COR", "Fiori app no authorization S_SERVICE · BC-SEC-AUT"],
     incidents: [],
-    cbc: "ב-CBC: tile 'Manage Maintenance Orders' לא הופיע — הקטלוג לא שויך לתפקיד; שויך, נוסף S_SERVICE ובוצע compare.",
+    scenario: "בארגון: tile 'Manage Maintenance Orders' לא הופיע — הקטלוג לא שויך לתפקיד; שויך, נוסף S_SERVICE ובוצע compare.",
     links: [{ label: "OData", href: "/integration/#odata" }, { label: "Spaces & Pages", href: "/security/#spaces" }, S4],
   },
   {
@@ -231,7 +231,7 @@ export const AREAS: SecArea[] = [
     tips: ["Spaces/Pages מחליפים Groups — תכנן מעבר", "Business Role ≈ הרשאה+תצוגה מאוחדים", "Cloud = IAM apps; On-prem = PFCG+spaces"],
     notes: ["S/4HANA spaces pages launchpad assignment · CA-FLP-FE-COR", "business role catalog space assignment IAM · BC-SEC-AUT"],
     incidents: [],
-    cbc: "ב-CBC (S/4 הערכה): נבנה Space 'תחזוקה' עם Page לטכנאים; Business Role קישר את ה-Business Catalogs של PM וה-Space, ושויך למשתמשים.",
+    scenario: "בארגון (S/4 הערכה): נבנה Space 'תחזוקה' עם Page לטכנאים; Business Role קישר את ה-Business Catalogs של PM וה-Space, ושויך למשתמשים.",
     links: [{ label: "PM — תחזוקה", href: "/pm/" }, { label: "Catalogs (קלאסי)", href: "/security/#catalogs" }, { label: "Delivery — S/4", href: "/delivery/" }],
   },
 ];

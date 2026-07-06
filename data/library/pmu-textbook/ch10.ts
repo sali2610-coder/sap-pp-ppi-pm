@@ -1,7 +1,7 @@
 // ===== PM User-Guide Digital Textbook — Chapter 10 (Usability) =====
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
 // Source hierarchy preserved (10.1–10.6 with nested sub-headings, ids+order).
-// Transformative Hebrew; SAP identifiers verbatim EN. CBC = Coca-Cola bottling
+// Transformative Hebrew; SAP identifiers verbatim EN. הארגון = Example Product bottling
 // maintenance users' usability (technicians/planners).
 import type { TextbookChapter } from "./types";
 
@@ -10,7 +10,7 @@ export const CH10: TextbookChapter = {
   titleHe: "שמישות (Usability)",
   titleEn: "Usability",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה על שמישות (Usability) של מערכת ה-PM עבור משתמשי-הקצה — טכנאים, מתכננים ומנהלי-תחזוקה. השמישות אינה 'נוי' אלא מנוף תפעולי: ככל שמסך-ההזמנה, רשימת-העבודה והדיווח קלים יותר, כך הדיווח מהיר ומדויק, נתוני-התחזוקה אמינים, וקבלת-המשתמשים (User Acceptance) גבוהה. הפרק סוקר מהי שמישות וכיצד מודדים אותה, מדוע שמישות אינה זהה לקבלת-משתמשים ומדוע הקבלה כה חשובה, ולאחר-מכן שלוש שכבות של אפשרויות-שיפור: מה המשתמש עצמו יכול לעשות (SU3, תפקידים, וריאנטים), מה אנשי-IT שאינם מתכנתים יכולים לעשות (Transaction Variants ב-SHD0, Customizing, Action Box, SAP Business Client, פתרונות-מובייל, SAP Fiori, GuiXT, SAP Screen Personas), ומה מתכנתים יכולים לעשות (Upstream Transactions, BAPI, ממשק-Web, Customer Exits ועוד). הפרק נחתם במחקרי-שמישות (Usability Studies) — הכנה, ביצוע, תוצאות, ומעבדת-בדיקה עם SAP Screen Personas. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות-הסבר, מטרה, דוגמת-תהליך, דוגמת CBC, ניווט/SPRO, אובייקטים, קונפיגורציה, טעויות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות — כדי ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה על שמישות (Usability) של מערכת ה-PM עבור משתמשי-הקצה — טכנאים, מתכננים ומנהלי-תחזוקה. השמישות אינה 'נוי' אלא מנוף תפעולי: ככל שמסך-ההזמנה, רשימת-העבודה והדיווח קלים יותר, כך הדיווח מהיר ומדויק, נתוני-התחזוקה אמינים, וקבלת-המשתמשים (User Acceptance) גבוהה. הפרק סוקר מהי שמישות וכיצד מודדים אותה, מדוע שמישות אינה זהה לקבלת-משתמשים ומדוע הקבלה כה חשובה, ולאחר-מכן שלוש שכבות של אפשרויות-שיפור: מה המשתמש עצמו יכול לעשות (SU3, תפקידים, וריאנטים), מה אנשי-IT שאינם מתכנתים יכולים לעשות (Transaction Variants ב-SHD0, Customizing, Action Box, SAP Business Client, פתרונות-מובייל, SAP Fiori, GuiXT, SAP Screen Personas), ומה מתכנתים יכולים לעשות (Upstream Transactions, BAPI, ממשק-Web, Customer Exits ועוד). הפרק נחתם במחקרי-שמישות (Usability Studies) — הכנה, ביצוע, תוצאות, ומעבדת-בדיקה עם SAP Screen Personas. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות-הסבר, מטרה, דוגמת-תהליך, דוגמת הארגון, ניווט/SPRO, אובייקטים, קונפיגורציה, טעויות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות — כדי ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 10.1
     {
@@ -25,8 +25,8 @@ export const CH10: TextbookChapter = {
         "המטרה: להבין ששמישות היא משתנה-מפתח בהחזר-ההשקעה של מערכת-PM. דיווח קל = נתונים מלאים ובזמן = MTBF/MTTR אמינים, תחזוקה-מונעת מבוססת-נתונים, וניתוח-עלויות מדויק. שמישות נמוכה = דיווח-חסר, נתונים מזוהמים, והחלטות-תחזוקה שגויות.",
       processExampleHe:
         "טכנאי מקבל קריאת-תקלה. בממשק שמיש: סורק QR של הציוד → מסך IW51 פתוח עם הציוד וה-Functional Location ממולאים, קוד-תקלה נבחר מרשימה קצרה, טקסט מוכתב, שמירה. שלושים שניות. בממשק לא-שמיש: חיפוש-ציוד ידני, גלילה בין עשרות שדות-חובה מיותרים, הקלדת-קודים מהזיכרון — שלוש דקות והרבה שגיאות.",
-      cbcHe:
-        "ב-CBC טכנאי בקו-מילוי מדווח עשרות תקלות ביום. אם כל דיווח לוקח שלוש דקות במקום שלושים שניות — אובדן של שעות-עבודה יומיות ודיווח-חסר שמרעיל את ה-KPI של זמינות-הקו. השמישות של IW51/IW21 וה-Order היא לכן יעד-פרויקט מדיד, לא 'נחמד-שיהיה'.",
+      scenarioHe:
+        "בארגון טכנאי בקו-מילוי מדווח עשרות תקלות ביום. אם כל דיווח לוקח שלוש דקות במקום שלושים שניות — אובדן של שעות-עבודה יומיות ודיווח-חסר שמרעיל את ה-KPI של זמינות-הקו. השמישות של IW51/IW21 וה-Order היא לכן יעד-פרויקט מדיד, לא 'נחמד-שיהיה'.",
       navHe: [
         "SAP Easy Access ► Logistics ► Plant Maintenance ► Maintenance Processing",
         "Help ► Settings ► (F1/F4 behavior, Quick Info)",
@@ -73,7 +73,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "התקן ISO 9241-11 מגדיר שמישות בהקשר-שימוש: משתמש מסוים, מטרה מסוימת, סביבה מסוימת. לכן 'שמיש' תלוי-קהל: מסך IW32 עם עשרות לשוניות שמיש למתכנן-מנוסה אך לא-שמיש לטכנאי-זמני. ב-PM מבחינים בין משתמשי-עומק (מתכננים) למשתמשי-רוחב (טכנאים) — לכל אחד הגדרת-שמישות שונה, ומכאן הצורך בכלים שונים (Personas/Fiori לטכנאי, GUI מלא למתכנן).",
           purposeHe: "להגדיר במדויק מה מודדים לפני שמשפרים — בלי הגדרה אובייקטיבית, 'שיפור' הופך לטעם אישי של מי שמגדיר את המסך.",
           processExampleHe: "מדידת שמישות של יצירת-הודעה: אפקטיביות = אחוז-ההודעות שנשמרו ללא שגיאה; יעילות = זמן ומספר-לחיצות ממוצעים; שביעות-רצון = ציון בשאלון SUS. שלושתם יחד נותנים תמונה.",
-          cbcHe: "ב-CBC טכנאי-קו (משתמש-רוחב) צריך מסך מינימלי לדיווח-מהיר; מתכנן-תחזוקה (משתמש-עומק) צריך גישה לכל הלשוניות של ההזמנה. אותה 'שמישות' פירושה דברים שונים לשני הקהלים.",
+          scenarioHe: "בארגון טכנאי-קו (משתמש-רוחב) צריך מסך מינימלי לדיווח-מהיר; מתכנן-תחזוקה (משתמש-עומק) צריך גישה לכל הלשוניות של ההזמנה. אותה 'שמישות' פירושה דברים שונים לשני הקהלים.",
           navHe: ["Help ► SAP Library ► Getting Started (UI concepts)"],
           tables: ["TSTC", "USR01"],
           tcodes: ["IW21", "IW31", "IW32"],
@@ -95,7 +95,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "שיטות: (1) Think-Aloud — המשתמש מדבר תוך-כדי, חושף נקודות-בלבול; (2) Heuristic Evaluation לפי 10 העקרונות של Nielsen; (3) מדדי-ביצוע: Task Completion Rate, Time-on-Task, Error Rate; (4) שאלון SUS (System Usability Scale, 0–100). ב-SAP אפשר להוסיף ניתוח-לוגים (ST03N/SM20) למדידת זמני-תגובה ותדירות-מסכים, ו-RUM (Real User Monitoring) ב-Fiori.",
           purposeHe: "להחליף 'תחושות' בנתונים — לדעת היכן בדיוק החיכוך, לתעדף שיפורים לפי השפעה, ולמדוד אם שיפור אכן עזר (לפני/אחרי).",
           processExampleHe: "מודדים יצירת-הזמנה: 8 משתמשים, משימה זהה. תוצאות: 75% השלימו, זמן ממוצע 2:40, 3 שגיאות-ממוצע, SUS=52. לאחר פישוט-מסך: 100%, 1:10, 0.5 שגיאות, SUS=78. השיפור מוכח במספרים.",
-          cbcHe: "ב-CBC מודדים זמן-דיווח-תקלה של טכנאי בקו לפני ואחרי החלת Transaction Variant. ירידה מ-3 דק' ל-40 שנ' מתורגמת ישירות לזמינות-קו גבוהה יותר ולדיווח שלם יותר.",
+          scenarioHe: "בארגון מודדים זמן-דיווח-תקלה של טכנאי בקו לפני ואחרי החלת Transaction Variant. ירידה מ-3 דק' ל-40 שנ' מתורגמת ישירות לזמינות-קו גבוהה יותר ולדיווח שלם יותר.",
           navHe: ["Tools ► Administration ► Monitor ► Performance ► Workload (ST03N)"],
           tables: ["TSTC", "SWNCMONI"],
           tcodes: ["ST03N", "SM20"],
@@ -117,7 +117,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "מודל TAM (Technology Acceptance Model) מבחין בין Perceived Ease of Use (קרוב לשמישות) ל-Perceived Usefulness, ושניהם משפיעים על Intention to Use. שמישות גבוהה משפרת את הקלות-הנתפסת, אך הקבלה תלויה גם בתועלת-הנתפסת, בנורמות-חברתיות ובתנאים-מאפשרים (הדרכה, תמיכה, מנהיגות). ב-PM נפוץ ש'הוותיקים' דוחים ממשק חדש ושמיש מסיבות תרבותיות, לא ארגונומיות.",
           purposeHe: "להזהיר מפני ההנחה ש'אם נשפר שמישות הכול ייפתר'. שיפור-ממשק הוא תנאי הכרחי אך לא-מספיק לקבלה.",
           processExampleHe: "פרויקט החליף את IW51 ב-Fiori שמיש מאוד. מדדי-השמישות עלו, אך השימוש בשטח נשאר נמוך — הטכנאים לא קיבלו הדרכה ולא סמכו על הסנכרון. הבעיה לא הייתה הממשק אלא ההטמעה.",
-          cbcHe: "ב-CBC טכנאי-ותיק מסרב לאפליקציית-המובייל החדשה למרות שהיא קלה, כי הוא רגיל לפתקים ולא בוטח בקליטה. הפתרון אינו ממשק טוב יותר אלא ליווי, אמון והוכחת-תועלת.",
+          scenarioHe: "בארגון טכנאי-ותיק מסרב לאפליקציית-המובייל החדשה למרות שהיא קלה, כי הוא רגיל לפתקים ולא בוטח בקליטה. הפתרון אינו ממשק טוב יותר אלא ליווי, אמון והוכחת-תועלת.",
           navHe: ["—"],
           tables: ["AGR_USERS", "USR01"],
           tcodes: ["SU3"],
@@ -139,7 +139,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "קבלה נמוכה מתבטאת ב-shadow systems (אקסל/פתקים), בדיווח-מאוחר/חלקי, ובנתונים מזוהמים (קוד-תקלה אחיד 'אחר', זמני-עבודה מומצאים). התוצאה: MTBF/MTTR לא-אמינים, תכנון-תחזוקה-מונעת שגוי, ניתוח-Bad Actor כושל, ועלויות-תחזוקה לא-מנותחות. קבלה היא לכן יעד-פרויקט מדרגה-ראשונה, נמדד ב-Adoption Rate ובשלמות-נתונים.",
           purposeHe: "להבהיר שהקבלה אינה 'רכה' אלא משפיעה ישירות על איכות-הנתונים, ומכאן על כל הערך שמערכת-PM אמורה לספק.",
           processExampleHe: "במפעל עם קבלה נמוכה, 40% מהתקלות לא מדווחות והשאר עם קוד 'אחר'. ניתוח Bad Actor מצביע על המכונה הלא-נכונה, התחזוקה-המונעת מתוכננת שגוי, ותקלות חוזרות. תיקון-הקבלה החזיר את אמינות-הנתונים.",
-          cbcHe: "ב-CBC זמינות-הקו (Line Availability) היא KPI מרכזי הנגזר מנתוני-תקלות מ-PM. אם הטכנאים לא מקבלים את המערכת ולא מדווחים — ה-KPI שקרי, וההנהלה מקבלת החלטות-השקעה על-בסיס נתונים פגומים.",
+          scenarioHe: "בארגון זמינות-הקו (Line Availability) היא KPI מרכזי הנגזר מנתוני-תקלות מ-PM. אם הטכנאים לא מקבלים את המערכת ולא מדווחים — ה-KPI שקרי, וההנהלה מקבלת החלטות-השקעה על-בסיס נתונים פגומים.",
           navHe: ["—"],
           tables: ["AUFK", "QMEL", "AFRU"],
           tcodes: ["IW51", "IW41", "IW47"],
@@ -161,7 +161,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "סדר-העדפה לפי עלות/סיכון: (1) User-level — SU3 Parameters, Roles/Favorites, List/Layout Variants — מיידי וללא-Transport; (2) Non-programmer IT — Transaction Variants (SHD0), Customizing, Action Box (notification activities), Business Client, Fiori, GuiXT, Screen Personas — ללא-ABAP אך עם Transport; (3) Programmer — Upstream Transactions, BAPI, Web/OData, Customer Exits/BAdI. ככל שעולים בסולם — עולה הגמישות אך גם העלות, הסיכון ונטל-התחזוקה (במיוחד בשדרוג).",
           purposeHe: "לתת מסגרת-החלטה: לאיזה כלי לפנות לכל בעיית-שמישות, כדי לא 'לירות בתותח' (פיתוח) על בעיה שנפתרת בהגדרה אישית.",
           processExampleHe: "בקשה: 'הסתירו שדות מיותרים ב-IW31 והפכו את סוג-ההזמנה לברירת-מחדל'. אין צורך בקוד — Transaction Variant ב-SHD0 מסתיר שדות וקובע ברירות-מחדל, מוקצה דרך תפקיד. שעה-עבודה, ללא פיתוח.",
-          cbcHe: "ב-CBC לטכנאי-קו מוקצה Transaction Variant מצומצם של IW51 (Persona-מבוסס), בעוד המתכנן עובד עם GUI מלא — הכול ללא שורת-קוד, רק SHD0 ותפקידים.",
+          scenarioHe: "בארגון לטכנאי-קו מוקצה Transaction Variant מצומצם של IW51 (Persona-מבוסס), בעוד המתכנן עובד עם GUI מלא — הכול ללא שורת-קוד, רק SHD0 ותפקידים.",
           navHe: [
             "System ► User Profile ► Own Data (SU3)",
             "Tools ► ABAP Workbench ► Development ► Other Tools ► Transaction Variant (SHD0)",
@@ -198,8 +198,8 @@ export const CH10: TextbookChapter = {
         "להעצים את המשתמש לשפר את סביבת-העבודה שלו בעצמו, ולהוריד עומס מ-IT — שיפורים קטנים ומצטברים שמשנים את חוויית-היומיום בלי פרויקט.",
       processExampleHe:
         "מתכנן מגדיר ב-SU3 את Planning Plant ואת ה-Work Center כברירת-מחדל; מסדר את IW31/IW32/IW38 כ-Favorites; שומר Layout-Variant ב-IW38 עם העמודות והמיון שהוא צריך, ומסמן אותו כ-Default. מעתה כל בוקר הוא נכנס ישר לרשימה-המוכנה.",
-      cbcHe:
-        "ב-CBC כל מתכנן-קו מגדיר ב-SU3 את ה-Planning Plant וה-Maintenance Planner Group שלו, ושומר Layout-Variant ב-IW38 המסונן לקו-הייצור שבאחריותו — כך הרשימה היומית רלוונטית מיד ללא סינון-חוזר.",
+      scenarioHe:
+        "בארגון כל מתכנן-קו מגדיר ב-SU3 את ה-Planning Plant וה-Maintenance Planner Group שלו, ושומר Layout-Variant ב-IW38 המסונן לקו-הייצור שבאחריותו — כך הרשימה היומית רלוונטית מיד ללא סינון-חוזר.",
       navHe: [
         "System ► User Profile ► Own Data (SU3) ► Parameters",
         "Favorites ► Insert Transaction (SAP Easy Access)",
@@ -250,7 +250,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-SU3 ► Parameters מזינים Parameter-ID (3–20 תווים, מ-Data Element) וערך. כשמסך מציג שדה הקשור לאותו Parameter-ID, הוא נמלא אוטומטית (אלא-אם הוגדר אחרת). דוגמאות כלליות: WRK (Plant), SPR (Language), BUK (Company Code). הערכים נשמרים ב-USR05. מאתרים Parameter-ID דרך F1►Technical Information.",
           purposeHe: "להפחית הקלדה-חוזרת ושגיאות בשדות-קבועים, ולהאיץ ניווט בכל המערכת — לא רק ב-PM.",
           processExampleHe: "משתמש מגדיר WRK=1000. מעתה ב-MM03, MD04, IW31 וכל מסך עם שדה-מפעל — 1000 מופיע אוטומטית, והמשתמש רק מאשר.",
-          cbcHe: "ב-CBC משתמש-מפעל-יחיד מגדיר WRK=מפעל-הבקבוק שלו פעם-אחת; כל מסכי-הלוגיסטיקה והתחזוקה כבר ממולאים, ואין סיכון להזין מפעל-שגוי.",
+          scenarioHe: "בארגון משתמש-מפעל-יחיד מגדיר WRK=מפעל-הבקבוק שלו פעם-אחת; כל מסכי-הלוגיסטיקה והתחזוקה כבר ממולאים, ואין סיכון להזין מפעל-שגוי.",
           navHe: ["System ► User Profile ► Own Data (SU3) ► Parameters tab"],
           tables: ["USR05", "USR01"],
           tcodes: ["SU3"],
@@ -272,7 +272,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Parameter-IDs רלוונטיים: IWK (Maintenance Planning Plant), ING (Planner Group), עבודה/מרכז-עבודה דרך Data Elements של ה-Order. בשילוב עם Transaction Variant אפשר גם לקבע סוג-הזמנה (Order Type) כברירת-מחדל. שים לב: חלק מהשדות ב-IW31/IW51 ממולאים מנתוני-האב של הציוד/ה-FLOC ולא מהפרמטר — סדר-העדיפות חשוב באבחון.",
           purposeHe: "לקצר ולדייק את יצירת-ההודעה/ההזמנה למשתמשי-תחזוקה, שמדווחים עשרות פעמים ביום על אותו מפעל/קבוצה.",
           processExampleHe: "מתכנן מגדיר IWK=1000, ING=M01. ב-IW31 שדות Planning Plant ו-Planner Group נטענים אוטומטית; הוא בוחר רק את הציוד והבעיה. שני שדות פחות בכל הזמנה × עשרות הזמנות ביום.",
-          cbcHe: "ב-CBC לכל מתכנן-קו מוקצים IWK של מפעל-הבקבוק ו-ING של קבוצת-התחזוקה לקו שלו; הזמנות-העבודה נפתחות כבר משויכות נכון, ללא טעות-שיוך בין-קווים.",
+          scenarioHe: "בארגון לכל מתכנן-קו מוקצים IWK של מפעל-הבקבוק ו-ING של קבוצת-התחזוקה לקו שלו; הזמנות-העבודה נפתחות כבר משויכות נכון, ללא טעות-שיוך בין-קווים.",
           navHe: ["System ► User Profile ► Own Data (SU3) ► Parameters (IWK / ING)"],
           tables: ["USR05", "T024I", "T024F"],
           tcodes: ["SU3", "IW31", "IW51"],
@@ -295,7 +295,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Roles (PFCG) מגדירים Menu + Authorizations; ה-User Menu מציג את עץ-התפקיד. Favorites הם אישיים ונשמרים למשתמש (לא דורשים PFCG). אפשר להוסיף ל-Favorites טרנזקציות, דוחות, קישורי-Web וקבצים. ב-SAP Business Client/Fiori Launchpad המקבילה היא Tiles/Groups מבוססי-Catalog. הבחנה חשובה: Role-menu מנוהל מרכזית (Transport דרך PFCG), Favorites מנוהלים אישית.",
           purposeHe: "לצמצם 'רעש-ניווט' ולמקד את המשתמש במשימותיו — פחות זמן-חיפוש, פחות כניסה למסכים-לא-נכונים, יותר מיקוד.",
           processExampleHe: "מתכנן עם Role 'PM Planner' רואה בתפריט רק IW31/IW32/IW38/IP10/IK11; הוא מוסיף ל-Favorites את IW38 (רשימת-הזמנות) ו-IP30 (Deadline Monitoring) כשני-קיצורים בראש העץ.",
-          cbcHe: "ב-CBC מוגדרים Roles נפרדים ל'טכנאי-קו' (IW51/IW41/IW47 בלבד) ול'מתכנן' (סט מלא). טכנאי לא רואה מסכי-תכנון מורכבים, ומגיע מיד לדיווח-תקלה ולדיווח-גמר.",
+          scenarioHe: "בארגון מוגדרים Roles נפרדים ל'טכנאי-קו' (IW51/IW41/IW47 בלבד) ול'מתכנן' (סט מלא). טכנאי לא רואה מסכי-תכנון מורכבים, ומגיע מיד לדיווח-תקלה ולדיווח-גמר.",
           navHe: [
             "Tools ► Administration ► User Maintenance ► Role Administration ► Roles (PFCG)",
             "Favorites ► Insert Transaction / Add other objects (Easy Access)",
@@ -324,7 +324,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ALV Layout Variants נשמרים ב-LTDX. וריאנט יכול להיות User-specific (מתחיל ב-/ או מסומן 'User-specific') או גלובלי. אפשר לקבוע Default-Layout לכל משתמש. בנוסף ל-Display Variant יש Selection Variants (קריטריוני-בחירה של הדוח, נשמרים ב-VARI). הבחנה זו חשובה: Display = איך-מציגים, Selection = מה-בוחרים. ב-S/4HANA חלק מהדוחות עברו ל-Fiori עם Variant Management מובנה.",
           purposeHe: "לחסוך התאמה-חוזרת של רשימות-עבודה יומיות ולהבטיח שכל משתמש רואה את הנתונים בפורמט המיטבי למשימתו.",
           processExampleHe: "מתכנן ב-IW38 מסנן Order Type=PM01, מסדר עמודות (Order, Equipment, Basic Start, System Status), ממיין לפי תאריך, שומר כ-Layout 'יומי' ומסמן Default. כל בוקר IW38 נפתח בדיוק כך.",
-          cbcHe: "ב-CBC כל מתכנן-קו שומר Layout ב-IW38 המסונן ל-Planner Group ולקו שלו, עם עמודות-זמינות-ציוד; ב-IW28 שומר וריאנט להודעות-פתוחות לפי Priority — רשימות-עבודה מוכנות-מראש.",
+          scenarioHe: "בארגון כל מתכנן-קו שומר Layout ב-IW38 המסונן ל-Planner Group ולקו שלו, עם עמודות-זמינות-ציוד; ב-IW28 שומר וריאנט להודעות-פתוחות לפי Priority — רשימות-עבודה מוכנות-מראש.",
           navHe: [
             "List screen ► Settings ► Layout ► Change / Save / Manage",
             "Program ► Save as Variant (Selection Variant)",
@@ -352,7 +352,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Input Help מבוסס Search Help (Elementary/Collective) המוגדר ב-Data Dictionary. ברמת-המשתמש: Personal Value List (Input History) נשמרת מקומית/בפרופיל ומציעה ערכים-אחרונים; אפשר לכבותה דרך Help►Settings. ברמת-IT אפשר לשנות Search Help מוקצה לשדה (Customizing/DDIC) או להוסיף Append Search Help. ב-PM שכיח להתאים את עזר-הבחירה של Equipment/FLOC/Catalog-codes כדי לצמצם את הרשימה לערכים-רלוונטיים.",
           purposeHe: "להחליף שינון-קודים בבחירה-מודרכת — מפחית שגיאות-הקלדה ומאיץ מסכים שבהם בוחרים ציוד/קוד/חומר עשרות פעמים ביום.",
           processExampleHe: "טכנאי לוחץ F4 בשדה-Equipment ב-IW51, מסנן לפי Functional Location, ובוחר. ההיסטוריה-האישית מציעה את הציוד שטיפל בו לאחרונה ראשון — בחירה בלחיצה.",
-          cbcHe: "ב-CBC עזר-הבחירה של קוד-תקלה (Catalog) מותאם כך שלכל קבוצת-ציוד מוצגים רק הקודים-הרלוונטיים; הטכנאי בוחר מרשימה קצרה במקום לחפש בקטלוג-ענק, והנתונים נקיים.",
+          scenarioHe: "בארגון עזר-הבחירה של קוד-תקלה (Catalog) מותאם כך שלכל קבוצת-ציוד מוצגים רק הקודים-הרלוונטיים; הטכנאי בוחר מרשימה קצרה במקום לחפש בקטלוג-ענק, והנתונים נקיים.",
           navHe: [
             "F4 popup ► Personal Value List / Settings",
             "Help ► Settings ► F4 Help (Input History on/off)",
@@ -383,7 +383,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-SAP GUI כל Function Code (OK-code) ממופה ל-Shortcut וכפתור. המשתמש מתאים את ה-Toolbar (Local Layout ► customize). Quick Info מציג רמז על-כל-כפתור; אפשר לכוונן זמן-השהיה ב-Help►Settings. ברמת-IT אפשר להוסיף/להסתיר כפתורים דרך GuiXT או Transaction Variant. ב-Screen Personas ניתן להגדיר כפתורי-מאקרו (Scripts) שמבצעים רצף-פעולות בלחיצה.",
           purposeHe: "להמיר רצפי-לחיצות חוזרים לפעולה-אחת או ל-Shortcut, ולצמצם 'תנועת-עכבר' שצוברת זמן לאורך-יום.",
           processExampleHe: "מתכנן שמשחרר עשרות הזמנות ביום משתמש ב-Ctrl+S לשמירה וב-Shortcut לשחרור במקום בעכבר; חסכון של שניות × מאות-פעמים = דקות-יקרות.",
-          cbcHe: "ב-CBC נבנה ב-Screen Personas כפתור-מאקרו 'דיווח-גמר-מהיר' שממלא זמן-תקן, מסמן TECO ושומר — רצף שהיה חמש-לחיצות הופך ללחיצה-אחת לטכנאי-הקו.",
+          scenarioHe: "בארגון נבנה ב-Screen Personas כפתור-מאקרו 'דיווח-גמר-מהיר' שממלא זמן-תקן, מסמן TECO ושומר — רצף שהיה חמש-לחיצות הופך ללחיצה-אחת לטכנאי-הקו.",
           navHe: [
             "Local Layout (Alt+F12) ► Customize Local Layout / Quick Info",
             "Help ► Settings ► (Quick Info delay)",
@@ -412,7 +412,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Table Control נבדל מ-ALV: זהו רכיב-Dynpro קלאסי בתוך מסך-עסקה. המשתמש מתאים דרך כפתור-התצורה (פינה ימנית-עליונה של הטבלה) ► בחירת-עמודות/סדר/רוחב/Freeze ► Save Configuration. התצורה נשמרת ברמת-משתמש/וריאנט. ב-Transaction Variant (SHD0) אפשר לקבע תצורת-Table-Control ארגונית (הסתרת-עמודות, ברירות-מחדל). שים לב: לא כל טבלה במסך היא Table Control — חלק הן ALV-Grid עם התאמה שונה.",
           purposeHe: "להתאים את הטבלאות הפנים-מסכיות (פעולות, רכיבים, אובייקטים) לשדות הרלוונטיים למשתמש, ולהפחית גלילה וחיפוש-עמודות.",
           processExampleHe: "ב-IW32, לשונית Operations, המשתמש מסתיר עמודות-שאינו-משתמש, מרחיב את Work Center ו-Description, מקפיא את מספר-הפעולה, ושומר תצורה — מעתה הטבלה תמיד נוחה.",
-          cbcHe: "ב-CBC בטבלת-הרכיבים של הזמנת-תחזוקה מותאמת תצורה שמציגה Material, Quantity, Storage Location בלבד ומסתירה עמודות-מיותרות; דרך SHD0 זו ברירת-מחדל ארגונית לכל הטכנאים.",
+          scenarioHe: "בארגון בטבלת-הרכיבים של הזמנת-תחזוקה מותאמת תצורה שמציגה Material, Quantity, Storage Location בלבד ומסתירה עמודות-מיותרות; דרך SHD0 זו ברירת-מחדל ארגונית לכל הטכנאים.",
           navHe: [
             "Table corner ► Configuration button ► Administrator / User-specific ► Save",
             "Transaction Variant (SHD0) ► Table Control settings",
@@ -449,8 +449,8 @@ export const CH10: TextbookChapter = {
         "לספק ל-IT ארגז-כלים עשיר לשיפור-שמישות מבלי להיכנס לפיתוח-ABAP — מהיר יותר, בטוח יותר וקל-תחזוקה יותר מקוד מותאם.",
       processExampleHe:
         "דרישה: 'מסך-IW31 פשוט לטכנאי, עם Order Type מקובע ושדות-מיותרים מוסתרים, וכפתור-המשך מהיר מהודעה'. הפתרון: Transaction Variant ב-SHD0 + Action Box בהגדרת-ההודעה — שניהם ללא-קוד, מוקצים דרך Role.",
-      cbcHe:
-        "ב-CBC הטכנאים בשטח עובדים ב-SAP Asset Manager (מובייל) לדיווח-תקלה וגמר; המתכננים ב-Fiori Launchpad; מסכי-GUI שנותרו עברו פישוט ב-Screen Personas — הכול ללא פיתוח-ABAP.",
+      scenarioHe:
+        "בארגון הטכנאים בשטח עובדים ב-SAP Asset Manager (מובייל) לדיווח-תקלה וגמר; המתכננים ב-Fiori Launchpad; מסכי-GUI שנותרו עברו פישוט ב-Screen Personas — הכול ללא פיתוח-ABAP.",
       navHe: [
         "Tools ► ABAP Workbench ► Development ► Other Tools ► Transaction Variant (SHD0)",
         "SPRO ► Plant Maintenance and Customer Service",
@@ -506,7 +506,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-SHD0 מקליטים את הטרנזקציה, מסמנים לכל שדה: Invisible / Output-only / Required / ערך-ברירת-מחדל / 'with content', ומסמנים מסכים ל-Skip. נוצר Screen Variant + Transaction Variant (נשמר ב-TSTCV/TSTCP). ההקצאה: או Variant Transaction (SE93 → Transaction with Variant) המוכנסת ל-Role-menu, או הגדרת Standard Variant. אזהרה: Variant 'נצמד' למבנה-המסך התקני — שינוי-מסך בשדרוג עלול לדרוש התאמה.",
           purposeHe: "לפשט מסכים-תקניים לפי תפקיד מבלי לפתח — להסיר 'רעש', להבטיח ברירות-מחדל אחידות ולמנוע שגיאות-הזנה.",
           processExampleHe: "יוצרים Variant ל-IW31: Order Type=PM01 מקובע ומוסתר, Planning Plant ברירת-מחדל, לשוניות-מתקדמות מוסתרות. מקצים Variant Transaction ZIW31 ל-Role של הטכנאי. הטכנאי פותח ZIW31 ורואה מסך-מינימלי.",
-          cbcHe: "ב-CBC נבנה Variant של IW51 לטכנאי-קו: סוג-הודעה מקובע (M1), שדות-ארגוניים ממולאים-ומוסתרים, ורק Equipment+קוד-תקלה+טקסט גלויים — דיווח-תקלה בשלושה שדות.",
+          scenarioHe: "בארגון נבנה Variant של IW51 לטכנאי-קו: סוג-הודעה מקובע (M1), שדות-ארגוניים ממולאים-ומוסתרים, ורק Equipment+קוד-תקלה+טקסט גלויים — דיווח-תקלה בשלושה שדות.",
           navHe: ["Tools ► ABAP Workbench ► Development ► Other Tools ► Transaction Variant (SHD0)", "Variant Transaction via SE93 ► Transaction with Variant"],
           tables: ["TSTCV", "TSTCP", "TSTC"],
           tcodes: ["SHD0", "SE93", "IW31", "IW51"],
@@ -532,7 +532,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-PM, Customizing מרכזי לשמישות: Field Selection לפעולות/הודעה (איזה שדה חובה/אופציונלי/מוסתר), Order/Notification Types (מסכים, טווחי-מספר, ברירות), Catalog Profiles (קודי-תקלה רלוונטיים), Priorities ו-Response/Service Profiles. שלא-כמו SHD0 (התאמת-מסך), Customizing משנה התנהגות-תהליך ותקף לכל המשתמשים של אותו Type. נשמר בטבלאות-T (T365/T366/T350 ועוד) ומועבר ב-Transport.",
           purposeHe: "להתאים את התהליך והמסכים לדרישות-הארגון ברמת-מערכת — בסיס-שמישות שכל הכלים האחרים (Variant/Fiori) נשענים עליו.",
           processExampleHe: "מגדירים ב-SPRO Field Selection ל-Notification Type M1: Equipment חובה, Cause אופציונלי, שדות-לא-רלוונטיים מוסתרים. כל הודעות-M1 מקבלות מסך-עקבי ומדויק — ללא Variant נפרד.",
-          cbcHe: "ב-CBC מוגדרים Notification Types ל'תקלת-קו', 'תחזוקה-מונעת' ו'בטיחות', כל אחד עם Catalog Profile וקודי-תקלה-רלוונטיים ושדות-חובה משלו — כך הדיווח אחיד, נקי ומדויק לכל סוג.",
+          scenarioHe: "בארגון מוגדרים Notification Types ל'תקלת-קו', 'תחזוקה-מונעת' ו'בטיחות', כל אחד עם Catalog Profile וקודי-תקלה-רלוונטיים ושדות-חובה משלו — כך הדיווח אחיד, נקי ומדויק לכל סוג.",
           navHe: [
             "SPRO ► Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Notifications",
             "SPRO ► ... ► Notification Creation ► Notification Types ► Define Field Selection",
@@ -563,7 +563,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ה-Action Box מוגדר ב-Customizing (T365/T366) פר Notification Type: כל פעילות היא Activity/Task/Follow-up עם Sort Key, אייקון, ו-Function (Standard או Customer-specific function module). אפשר לקשר פעילות לקוד-Catalog (Activities catalog) כדי לתעד אוטומטית. פעילויות יכולות לקרוא טרנזקציה עם פרמטרים מהודעה. ב-S/4HANA הפונקציונליות נשמרת; ב-Fiori מקבילה דרך Object-Page actions.",
           purposeHe: "לחבר את ההודעה לפעולות-ההמשך הטבעיות שלה, לצמצם ניווט ולתעד אוטומטית — מה שמעלה הן את המהירות והן את שלמות-הנתונים.",
           processExampleHe: "ב-IW52 הטכנאי לוחץ ב-Action Box 'Create Order' — נוצרת הזמנת-תחזוקה מקושרת להודעה עם הציוד וה-FLOC מועברים; לחיצה נוספת 'Document activity' מתעדת קוד-פעילות לתיעוד.",
-          cbcHe: "ב-CBC הודעת-תקלת-קו כוללת ב-Action Box כפתורי 'צור-הזמנה-דחופה' ו'הזמן-חלק-חילוף'; הטכנאי מטפל בכל שרשרת-ההמשך מתוך מסך-ההודעה היחיד, בלי לנווט בין טרנזקציות.",
+          scenarioHe: "בארגון הודעת-תקלת-קו כוללת ב-Action Box כפתורי 'צור-הזמנה-דחופה' ו'הזמן-חלק-חילוף'; הטכנאי מטפל בכל שרשרת-ההמשך מתוך מסך-ההודעה היחיד, בלי לנווט בין טרנזקציות.",
           navHe: ["SPRO ► Plant Maintenance and Customer Service ► Maintenance and Service Processing ► ... ► Notifications ► Notification Processing ► Additional Functions ► Define Action Box"],
           tables: ["T365", "T366", "TQ80"],
           tcodes: ["SPRO", "IW51", "IW52"],
@@ -589,7 +589,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "NWBC הוא Desktop-shell (גם גרסת-HTML) המבוסס על Role-menu (PFCG) להרכבת הניווט; הוא מארח GUI for Windows transactions לצד Web Dynpro/Fiori. יתרונות: Single sign-on, ניווט-אחיד, Side Panel (CHIP-based) להצגת-מידע-הקשרי. ב-S/4HANA הכיוון הראשי הוא Fiori Launchpad, אך NWBC עדיין רלוונטי כגשר היברידי לסביבות עם GUI כבד. ההגדרה נשענת על אותם Roles, כך שהשקעה ב-PFCG משרתת את שניהם.",
           purposeHe: "לאחד חוויית-משתמש על-פני GUI ו-Web בשלב-מעבר, ולספק ניווט Role-based עקבי — גשר בין העולם הקלאסי ל-Fiori.",
           processExampleHe: "מתכנן נכנס ל-Business Client, רואה תפריט-צד לפי Role 'PM Planner' עם IW38 (GUI) לצד אריח-Fiori 'Maintenance Backlog'; Side Panel מציג פרטי-ציוד הקשריים לצד ההזמנה הפתוחה.",
-          cbcHe: "ב-CBC בשלב-המעבר ל-S/4 הוקם Business Client למתכננים: עיבוד-הזמנות ב-GUI לצד דוחות-Fiori, תחת ניווט-אחיד — עד שכל התהליכים יהגרו ל-Fiori מלא.",
+          scenarioHe: "בארגון בשלב-המעבר ל-S/4 הוקם Business Client למתכננים: עיבוד-הזמנות ב-GUI לצד דוחות-Fiori, תחת ניווט-אחיד — עד שכל התהליכים יהגרו ל-Fiori מלא.",
           navHe: ["Launch SAP Business Client (Desktop/HTML) ► Role-based navigation", "Tools ► Administration ► User Maintenance ► Roles (PFCG) — מזין את הניווט"],
           tables: ["AGR_DEFINE", "AGR_HIER", "AGR_USERS"],
           tcodes: ["PFCG", "NWBC"],
@@ -614,7 +614,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "SAP Asset Manager (על SAP Mobile Services/BTP, מבוסס Mobile Development Kit) מספק עבודה-Offline עם OData ו-OfflineStore, תמיכה ב-GIS, חתימה, צילום וסריקה. הוא ניזון מאותם נתוני-PM (Order/Notification/Confirmation) דרך שירותי-OData. ההתאמה (Metadata-driven) ללא-ABAP בעיקרה. שיקולי-מפתח: סנכרון-קונפליקטים, Delta-download, ואבטחת-מכשירים (MDM). מחליף Work Manager/Inventory Manager הוותיקים.",
           purposeHe: "לאפשר דיווח בנקודת-העבודה ובזמן-אמת — שמעלה את שלמות-הנתונים ומהירותם, ומסיר את 'פער-המשרד' שבו דיווח נדחה ומאבד-דיוק.",
           processExampleHe: "טכנאי מקבל ב-Asset Manager את רשימת-ההזמנות שלו (offline), ניגש למכונה, סורק QR, רואה היסטוריית-תקלות, מבצע, מדווח זמן-עבודה וחומרים, מצלם, וחותם — הכול בשדה; בחזרה לקליטה הכול מסתנכרן ל-SAP.",
-          cbcHe: "ב-CBC טכנאי-שטח מטפל בקו-מילוי מרוחק עם Asset Manager במצב-offline; דיווחי-הגמר והחומרים נכנסים ל-AFRU/הזמנה ברגע-הסנכרון, כך שזמינות-הקו ב-KPI מתעדכנת כמעט בזמן-אמת.",
+          scenarioHe: "בארגון טכנאי-שטח מטפל בקו-מילוי מרוחק עם Asset Manager במצב-offline; דיווחי-הגמר והחומרים נכנסים ל-AFRU/הזמנה ברגע-הסנכרון, כך שזמינות-הקו ב-KPI מתעדכנת כמעט בזמן-אמת.",
           navHe: ["SAP Asset Manager (mobile app) ► My Work Orders / Notifications", "SAP BTP / Mobile Services ► App configuration (Admin)"],
           tables: ["AFRU", "AUFK", "QMEL", "JEST"],
           tcodes: ["IW41", "IW51", "IW32"],
@@ -640,7 +640,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Fiori בנוי על SAPUI5 + OData (Gateway/CDS) ומאורגן ב-Launchpad המורכב מ-Catalogs/Groups/Spaces&Pages הממופים ל-Roles (PFCG → Catalog). סוגי-אפליקציות: Transactional, Analytical (KPI/Smart Business), Fact-sheet (Object pages). ב-PM: Manage Maintenance Notifications, Find/Manage Maintenance Orders, Maintenance Backlog, Technical Object pages. התאמה ללא-קוד דרך UI Adaptation (Key-User Adaptation) — הסתרת/סידור-שדות בדפדפן. עקרונות-עיצוב: Role-based, Responsive, Coherent, Simple, Delightful.",
           purposeHe: "לספק UX ממוקד-משימה, רספונסיבי ואנליטי — להחליף את עומס ה-GUI הקלאסי בחוויה פשוטה ש-מעלה קבלה-ושמישות, במיוחד למשתמשי-רוחב ולמובייל.",
           processExampleHe: "מתכנן פותח את אריח 'Maintenance Backlog' ב-Launchpad, רואה KPI של הזמנות-פתוחות, מתעמק (drill) לרשימה, פותח Object-Page של הזמנה, ומבצע פעולה — הכול בדפדפן, ללא GUI.",
-          cbcHe: "ב-CBC המתכננים עובדים ב-Fiori Launchpad עם אריחי 'Find Maintenance Orders' ו'Maintenance Backlog' המסוננים לקו; KPI של זמינות-קו מוצג כ-Analytical Tile — תמונת-מצב מיידית לתחזוקת-המפעל.",
+          scenarioHe: "בארגון המתכננים עובדים ב-Fiori Launchpad עם אריחי 'Find Maintenance Orders' ו'Maintenance Backlog' המסוננים לקו; KPI של זמינות-קו מוצג כ-Analytical Tile — תמונת-מצב מיידית לתחזוקת-המפעל.",
           navHe: [
             "Fiori Launchpad ► Maintenance group ► (Find Maintenance Orders / Maintenance Backlog)",
             "Launchpad ► Key-User Adaptation (UI Adaptation at runtime)",
@@ -671,7 +671,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "GuiXT פועל בצד-ה-Presentation (SAP GUI for Windows) וקורא קבצי-Script (.txt) ושפת-InputAssistant; יכולות: הסתרה/מיקום-מחדש של שדות, Pushbuttons, תמונות, Tabs, ו-automation. נשמר כקבצים (מקומי/שרת) ולא ב-Repository. יתרון: גמישות-ויזואלית גבוהה ללא-ABAP. חיסרון מהותי: תלוי במבנה-המסך התקני — כל שינוי-Dynpro בשדרוג/Support-Pack עלול לשבור את הסקריפט; דורש מנוע-GuiXT בצד-לקוח. ב-S/4HANA Cloud אינו רלוונטי (Fiori-only).",
           purposeHe: "להשיג עיצוב-GUI מותאם-עמוק (מעבר ל-SHD0) ללא פיתוח-ABAP — כשהארגון נשאר על GUI ומעוניין בשיפור-ויזואלי משמעותי.",
           processExampleHe: "סקריפט-GuiXT ל-IW31 מסתיר עשרה שדות-לא-רלוונטיים, מוסיף כפתור 'תקלת-חירום' שממלא ערכים, ומציג לוגו ותרשים-הקו — מסך-GUI שנראה מותאם-לארגון, ללא קוד-ABAP.",
-          cbcHe: "ב-CBC נעשה שימוש ב-GuiXT לפישוט מסכי-GUI ותיקים של דיווח-קו לפני המעבר ל-Personas/Fiori; כל שינוי-מסך-תקני חייב בדיקת-סקריפט מחדש.",
+          scenarioHe: "בארגון נעשה שימוש ב-GuiXT לפישוט מסכי-GUI ותיקים של דיווח-קו לפני המעבר ל-Personas/Fiori; כל שינוי-מסך-תקני חייב בדיקת-סקריפט מחדש.",
           navHe: ["GuiXT engine (client) ► Script directory", "SAP GUI ► Options ► GuiXT (enable)"],
           tables: ["TSTC", "TSTCV"],
           tcodes: ["SHD0", "IW31"],
@@ -696,8 +696,8 @@ export const CH10: TextbookChapter = {
           consultantHe: "Personas (חלק מ-S/4HANA / NetWeaver) פועל בצד-השרת ומרנדר מסכי-GUI כ-HTML; מעצבים Flavors ב-Admin/Editor: הסתרה/מיקום-מחדש, מיזוג-מסכים (למסך-יחיד), Pushbuttons, ו-Scripts (JavaScript-like) לאוטומציה ורצפי-פעולות. Flavors מאוחסנים בשרת ומוקצים לפי-משתמש/תפקיד, ומשתלבים ב-Fiori Launchpad כ-Tiles. בניגוד ל-GuiXT (צד-לקוח, קבצים) — Personas הוא צד-שרת, מנוהל-מרכזית וקל-תחזוקה יחסית, אך גם הוא רגיש לשינויי-מסך-תקני.",
           purposeHe: "להמיר מסכי-GUI מורכבים לחוויות-Flavor פשוטות ופר-תפקיד ללא-קוד, ולגשר GUI כבד אל עולם-Fiori — שיפור-שמישות מהיר ומנוהל-מרכזית.",
           processExampleHe: "מעצבים Flavor ל-IW41 לטכנאי: מיזוג שתי-לשוניות למסך-יחיד, הסתרת-שדות, כפתור-מאקרו 'דיווח-גמר-מהיר' שממלא זמן-תקן ומסמן TECO. הטכנאי רואה מסך-דיווח בלחיצה-אחת במקום מסך-GUI עמוס.",
-          cbcHe:
-            "ב-CBC עוצב Flavor של דיווח-גמר-פק\"ע (הזמנת-עבודה) לטכנאי-הקו: שדות-ארגוניים מוסתרים, כפתור-מאקרו ממלא שעות-תקן וחומרים-סטנדרטיים ומסמן TECO — דיווח שהיה דקתיים ב-GUI הופך לחצי-דקה.",
+          scenarioHe:
+            "בארגון עוצב Flavor של דיווח-גמר-פק\"ע (הזמנת-עבודה) לטכנאי-הקו: שדות-ארגוניים מוסתרים, כפתור-מאקרו ממלא שעות-תקן וחומרים-סטנדרטיים ומסמן TECO — דיווח שהיה דקתיים ב-GUI הופך לחצי-דקה.",
           navHe: ["SAP Screen Personas ► Admin Transaction / Flavor Editor", "Assign Flavors by user/role; integrate as Fiori tile"],
           tables: ["TSTC", "TSTCV", "AGR_USERS"],
           tcodes: ["SHD0", "IW41", "IW32"],
@@ -731,8 +731,8 @@ export const CH10: TextbookChapter = {
         "לספק יכולת-שיפור בלתי-מוגבלת כשאין מענה בכלים-תקניים — מסכים-ייעודיים, אינטגרציות וממשקים מותאמים — תוך-מודעות לעלות-החיים-המלאה (תחזוקה, רגרסיה, שדרוג).",
       processExampleHe:
         "אינטגרציה: מערכת-SCADA מזהה תקלת-מכונה ושולחת קריאה ל-BAPI_ALM_NOTIF_CREATE שיוצרת הודעת-PM אוטומטית עם הציוד וקוד-התקלה — דיווח-תקלה ללא מגע-אדם, דרך ממשק-תכנותי יציב.",
-      cbcHe:
-        "ב-CBC חיישני-קו (IoT) יוצרים הודעות-תחזוקה אוטומטית דרך BAPI; מסך-Upstream מותאם מאחד דיווח-גמר ובדיקת-QA למסך-יחיד; הרחבות נעשות דרך BAdI מאושרים בלבד לשמירת Clean Core לקראת/אחרי המעבר ל-S/4.",
+      scenarioHe:
+        "בארגון חיישני-קו (IoT) יוצרים הודעות-תחזוקה אוטומטית דרך BAPI; מסך-Upstream מותאם מאחד דיווח-גמר ובדיקת-QA למסך-יחיד; הרחבות נעשות דרך BAdI מאושרים בלבד לשמירת Clean Core לקראת/אחרי המעבר ל-S/4.",
       navHe: [
         "Tools ► ABAP Workbench ► Development (SE80) / Function Builder (SE37)",
         "Tools ► ABAP Workbench ► Utilities ► Business Add-Ins ► Definition (SE18) / Implementation (SE19)",
@@ -787,7 +787,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "מימוש: מסך-Z (Module Pool/Web Dynpro/Fiori) אוסף קלט, מאמת, ומפעיל את התקנית ב-Call Transaction/BDC (שביר) או עדיף ב-BAPI (יציב). שיקול-מפתח: עיבוד-שגיאות והחזרת-הודעות מהתקנית למסך-המקדים. יתרון: חוויה ממוקדת-משימה; חיסרון: כפילות-לוגיקה ותלות בתקנית. ב-S/4HANA העדפה ברורה ל-Upstream-Fiori מעל-BAPI על-פני BDC.",
           purposeHe: "להציג למשתמש מסך-קלט מינימלי ופר-תפקיד מבלי לחשוף את מורכבות-הטרנזקציה התקנית — שיפור-שמישות דרך 'עטיפה'.",
           processExampleHe: "מסך-Upstream 'דיווח-תקלת-קו' עם שלושה-שדות (קו, תופעה, דחיפות) מפעיל מאחורי-הקלעים BAPI_ALM_NOTIF_CREATE עם כל השדות-הארגוניים שממולאים אוטומטית; הטכנאי רואה רק שלושה-שדות.",
-          cbcHe: "ב-CBC מסך-Upstream לדיווח-תקלות-קו פשט את התהליך לשלושה-שדות; מאחור הוא יוצר הודעת-PM מלאה דרך BAPI — שמישות-מרבית לטכנאי בלי לוותר על שלמות-הנתונים.",
+          scenarioHe: "בארגון מסך-Upstream לדיווח-תקלות-קו פשט את התהליך לשלושה-שדות; מאחור הוא יוצר הודעת-PM מלאה דרך BAPI — שמישות-מרבית לטכנאי בלי לוותר על שלמות-הנתונים.",
           navHe: ["Tools ► ABAP Workbench ► Development (SE80) ► custom screen/program", "Call standard transaction via BAPI / Call Transaction"],
           tables: ["TSTC", "TFDIR", "QMEL"],
           tcodes: ["SE80", "SE93", "SE37"],
@@ -812,7 +812,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "BAPIs ל-PM: BAPI_ALM_NOTIF_CREATE/_DATA_ADD (הודעה), BAPI_ALM_ORDER_MAINTAIN (הזמנה, מרכזי), BAPI_ALM_CONF_CREATE (דיווח-גמר). מאפיינים: RFC-enabled, אטומיים-לוגית, עם Return table (Type E/W/S) ו-COMMIT/ROLLBACK נפרדים (BAPI_TRANSACTION_COMMIT). שלא-כמו Call Transaction — חוזה-נתונים יציב לאורך-גרסאות (Released). ב-S/4HANA רבים נעטפים ב-OData/CDS כ-Released APIs ל-Fiori ול-Side-by-side extensibility. תמיד בדוק Return ובצע COMMIT מפורש.",
           purposeHe: "לספק נקודת-כניסה תכנותית יציבה לאוטומציה, אינטגרציה ו-Upstream — מבלי תלות-במסכים ובלי שבירת-שדרוג.",
           processExampleHe: "תוכנית-אצווה יוצרת הזמנות-תחזוקה-מונעת המוניות דרך BAPI_ALM_ORDER_MAINTAIN, בודקת את ה-Return table, וקוראת BAPI_TRANSACTION_COMMIT — מאות הזמנות נוצרות אמינות ללא-מגע.",
-          cbcHe: "ב-CBC חיישני-IoT בקווי-המילוי קוראים ל-BAPI_ALM_NOTIF_CREATE ביצירת-תקלה אוטומטית; ממשק-הסנכרון של אפליקציית-המובייל יוצר דיווחי-גמר דרך BAPI_ALM_CONF_CREATE — הכול דרך ממשקים יציבים.",
+          scenarioHe: "בארגון חיישני-IoT בקווי-המילוי קוראים ל-BAPI_ALM_NOTIF_CREATE ביצירת-תקלה אוטומטית; ממשק-הסנכרון של אפליקציית-המובייל יוצר דיווחי-גמר דרך BAPI_ALM_CONF_CREATE — הכול דרך ממשקים יציבים.",
           navHe: ["BAPI Explorer (transaction BAPI) ► Plant Maintenance", "Function Builder (SE37) ► BAPI_ALM_*"],
           tables: ["TFDIR", "QMEL", "AUFK", "AFRU"],
           tcodes: ["BAPI", "SE37", "SWO1"],
@@ -839,7 +839,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Stack: SAPUI5/Fiori (Frontend) → OData v2/v4 (Gateway/RAP-CDS) → Backend (BAPI/CDS Behavior). אפשרויות: Custom Fiori app (RAP/CAP), Web Dynpro ABAP (Legacy), או External-facing portal. שיקולים: Authentication (SAML/OAuth), Caching, Versioning, ו-Clean Core (העדף RAP על Web Dynpro חדש). ב-PM שכיח לחשוף דיווח-תקלה לקבלני-חוץ או דשבורד-תחזוקה מותאם. נטל: מחזור-חיים מלא של אפליקציית-Web.",
           purposeHe: "לספק חוויית-Web מותאמת-במדויק (פנים/חוץ-ארגונית) כשאפליקציות-Fiori התקניות אינן מכסות את הצורך — שמישות-שיא לתרחיש-ייעודי.",
           processExampleHe: "פורטל-קבלנים: קבלן-חוץ פותח דף-Web מותאם, מדווח תקלה על-ציוד שבאחריותו; הקלט עובר דרך OData ל-BAPI_ALM_NOTIF_CREATE ויוצר הודעת-PM — ללא גישת-GUI לקבלן.",
-          cbcHe: "ב-CBC נבנה דשבורד-Web מותאם למנהל-התחזוקה המציג זמינות-קווים, Backlog ו-Bad Actors בתצוגה אחת מותאמת-לארגון, מעל OData/CDS — מעבר למה שאריחי-Fiori התקניים נתנו.",
+          scenarioHe: "בארגון נבנה דשבורד-Web מותאם למנהל-התחזוקה המציג זמינות-קווים, Backlog ו-Bad Actors בתצוגה אחת מותאמת-לארגון, מעל OData/CDS — מעבר למה שאריחי-Fiori התקניים נתנו.",
           navHe: ["Tools ► ABAP Workbench (SE80) / Business Application Studio ► UI5 app", "Activate OData service (/IWFND/MAINT_SERVICE)"],
           tables: ["/IWFND/*", "QMEL", "AUFK"],
           tcodes: ["SE80", "/IWFND/MAINT_SERVICE", "SEGW"],
@@ -864,8 +864,8 @@ export const CH10: TextbookChapter = {
           consultantHe: "Customer Exits הם הדור-המוקדם של ה-Enhancement: מאוגדים ב-Enhancement Project (CMOD) על Enhancements (SMOD), עם רכיבים — Function Exit (EXIT_*), Screen Exit (Subscreen+CALL CUSTOMER-SUBSCREEN), Menu Exit (+CUS). ב-PM שכיחים Exits ב-Notification/Order. הדור-החדש: BAdI (SE18/SE19, OO, מרובה-מימושים) ו-Enhancement Framework (Implicit/Explicit). העדפת-יציבות: BAdI > Customer Exit > Implicit Enhancement > Modification. ב-S/4HANA מועדפים BAdI מאושרים ו-Extension Points רשמיים (Clean Core).",
           purposeHe: "להוסיף לוגיקה/שדות/בדיקות מותאמים לשיפור-שמישות ותהליך — בנקודות-הרחבה רשמיות שאינן נשברות בשדרוג כמו Modifications.",
           processExampleHe: "Function Exit ב-Notification מאמת שכאשר Priority='חירום' שדה-טלפון-איש-קשר חובה; הבדיקה רצה בשמירה דרך נקודת-Exit מאושרת, בלי לגעת בקוד התקני של ה-Notification.",
-          cbcHe:
-            "ב-CBC הוטמע BAdI על הזמנת-עבודה שממלא אוטומטית את קוד-הקו (Production Line) מתוך ה-Functional Location בעת יצירת-פק\"ע — שיפור-שמישות (פחות שדה למלא) דרך נקודת-הרחבה מאושרת, שומר Clean Core.",
+          scenarioHe:
+            "בארגון הוטמע BAdI על הזמנת-עבודה שממלא אוטומטית את קוד-הקו (Production Line) מתוך ה-Functional Location בעת יצירת-פק\"ע — שיפור-שמישות (פחות שדה למלא) דרך נקודת-הרחבה מאושרת, שומר Clean Core.",
           navHe: [
             "Tools ► ABAP Workbench ► Utilities ► Enhancements ► Project Management (CMOD) / Definition (SMOD)",
             "Tools ► ABAP Workbench ► Utilities ► Business Add-Ins ► Definition (SE18) / Implementation (SE19)",
@@ -895,7 +895,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "BAdI (SE18/SE19) — OO, Filter-based, מרובה-מימושים, הדור-המומלץ. Enhancement Framework — Explicit (Enhancement-points/sections מוגדרי-SAP) ו-Implicit (תחילת/סוף-FM, שביר יותר). BTE (FIBF) — Publish&Subscribe/Process events. SAP Business Workflow (SWDD) — ניתוב-משימות אוטומטי לשיפור-זרימה (למשל אישור-הזמנה). ב-S/4HANA: RAP Behavior Extensions, CDS Extend, Side-by-side ב-BTP. עיקרון: Clean Core — Released Enhancement Points בלבד; הימנע מ-Implicit/Modification.",
           purposeHe: "להשלים את ארגז-הכלים התכנותי לתרחישים מגוונים (אירועים, ניתוב-משימות, הרחבות-מודל) — תוך-העדפת הטכניקה היציבה והמאושרת ביותר לכל-מקרה.",
           processExampleHe: "Workflow מנתב הזמנת-תחזוקה מעל-תקציב לאישור-מנהל אוטומטית; BAdI מוסיף בדיקת-בטיחות בשחרור-הזמנה; BTE מפעיל התראה בשינוי-סטטוס — שילוב-טכניקות לזרימה-חלקה.",
-          cbcHe: "ב-CBC Workflow מנתב הזמנות-תחזוקה דחופות לאישור-מנהל-משמרת מיידי, ו-BAdI מאמת זמינות-חלפים בשחרור — אוטומציות שמקצרות זמן-תגובה לתקלות-קו, דרך נקודות-הרחבה מאושרות.",
+          scenarioHe: "בארגון Workflow מנתב הזמנות-תחזוקה דחופות לאישור-מנהל-משמרת מיידי, ו-BAdI מאמת זמינות-חלפים בשחרור — אוטומציות שמקצרות זמן-תגובה לתקלות-קו, דרך נקודות-הרחבה מאושרות.",
           navHe: [
             "Tools ► ABAP Workbench ► Utilities ► Business Add-Ins (SE18/SE19)",
             "Tools ► Business Workflow ► Development ► Definition Tools (SWDD)",
@@ -934,8 +934,8 @@ export const CH10: TextbookChapter = {
         "להחליף החלטות-עיצוב מבוססות-דעה בהחלטות מבוססות-ראיות — לזהות במדויק את החיכוך, לתעדף שיפורים לפי-השפעה, ולאמת שהשיפור עבד לפני פריסה-רחבה.",
       processExampleHe:
         "פרויקט בודק שני Flavors לדיווח-גמר עם 8 טכנאים: Flavor A (מסך-מאוחד) מול B (שני-מסכים). תוצאות: A — 95% השלמה, 0:50, SUS=82; B — 80%, 1:40, SUS=61. ההחלטה לפרוס את A מבוססת-נתונים.",
-      cbcHe:
-        "ב-CBC נערך מחקר-שמישות לדיווח-תקלת-קו במעבדה: טכנאים אמיתיים, משימות-תרחיש, מדידת זמן-ושגיאות, והשוואת Flavor-Personas מול GUI-תקני — לפני פריסה לכל-המפעלים.",
+      scenarioHe:
+        "בארגון נערך מחקר-שמישות לדיווח-תקלת-קו במעבדה: טכנאים אמיתיים, משימות-תרחיש, מדידת זמן-ושגיאות, והשוואת Flavor-Personas מול GUI-תקני — לפני פריסה לכל-המפעלים.",
       navHe: [
         "Usability Lab / Remote testing setup",
         "SAP Screen Personas ► Flavor Editor (build A/B flavors)",
@@ -986,7 +986,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "הכנה: כתיבת Task-scenarios (לא הוראות-צעד-אחר-צעד), בחירת 5–8 משתתפים פר-Persona (מספיק לרוב הליקויים), הגדרת-מדדים ו-Baseline, הכנת-טפסי-הסכמה והקלטה. ביצוע: Pilot-run לתיקון-משימות, Moderated (תובנות-עומק, Think-Aloud) מול Unmoderated (היקף/מהירות), מדידת-זמנים ושגיאות, ושאלון-SUS בסיום. שמירה על תנאים-אחידים בין-משתתפים קריטית להשוואה.",
           purposeHe: "להבטיח שהמחקר ימדוד את הדבר-הנכון בתנאים-אחידים — בלי הכנה-טובה התוצאות רועשות וחסרות-ערך-להחלטה.",
           processExampleHe: "מכינים תרחיש 'דווח על תקלת-מסוע במכונה X'; 6 טכנאים, מדדים מוגדרים, Pilot-run מתקן ניסוח-עמום; הביצוע Moderated עם Think-Aloud והקלטת-מסך; SUS בסיום.",
-          cbcHe: "ב-CBC מכינים תרחישי-דיווח אמיתיים (תקלת-קו, החלפת-חלק) עם טכנאים מכל-משמרת; הביצוע במעבדה-סמוכה-לקו בתנאים-מבוקרים, עם הקלטה ומדידת-זמן.",
+          scenarioHe: "בארגון מכינים תרחישי-דיווח אמיתיים (תקלת-קו, החלפת-חלק) עם טכנאים מכל-משמרת; הביצוע במעבדה-סמוכה-לקו בתנאים-מבוקרים, עם הקלטה ומדידת-זמן.",
           navHe: ["Usability Lab setup ► Moderated/Unmoderated session", "Recording + SUS questionnaire"],
           tables: ["SWNCMONI"],
           tcodes: ["ST03N"],
@@ -1008,7 +1008,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ניתוח כמותני: Task Completion Rate, Time-on-Task (ממוצע/חציון), Error Rate, ו-SUS (השוואה ל-Benchmark ~68). ניתוח איכותני: קידוד Pain-points מההקלטות/Think-Aloud, קיבוצם ל-themes, ודירוג Severity (Critical/Serious/Minor) × Frequency. תוצר: דוח עם ממצאים, ציטוטים, ווידאו-קליפים, והמלצות-מתועדפות הניתנות-למימוש (SHD0/Customizing/Personas/Fiori). חיבור-חזרה ל-Baseline מוכיח שיפור.",
           purposeHe: "לתרגם את המחקר להחלטות: מה לתקן, באיזה סדר, ובאיזה כלי — ולכמת את הפער מול-המצב-הרצוי.",
           processExampleHe: "ניתוח חושף: 3/8 לא מצאו את כפתור-השמירה (Critical), Time-on-Task חציוני 1:40, SUS=58 (מתחת-לממוצע). המלצה מתועדפת: הבלטת-כפתור (Personas) + הסתרת-שדות (SHD0) — צפי-שיפור ל-SUS>75.",
-          cbcHe: "ב-CBC ניתוח-המחקר הצביע שקוד-תקלה היה ה-Pain-point המרכזי (חיפוש-ארוך בקטלוג); ההמלצה — צמצום-Catalog פר-קבוצת-ציוד — יושמה ושיפרה זמן-דיווח ושלמות-נתונים.",
+          scenarioHe: "בארגון ניתוח-המחקר הצביע שקוד-תקלה היה ה-Pain-point המרכזי (חיפוש-ארוך בקטלוג); ההמלצה — צמצום-Catalog פר-קבוצת-ציוד — יושמה ושיפרה זמן-דיווח ושלמות-נתונים.",
           navHe: ["Analysis ► Severity × Frequency matrix ► prioritized recommendations"],
           tables: ["SWNCMONI"],
           tcodes: ["ST03N"],
@@ -1030,8 +1030,8 @@ export const CH10: TextbookChapter = {
           consultantHe: "מתודה: בונים ב-Flavor Editor שתי-גרסאות (A=GUI-תקני/Flavor-קיים, B=Flavor-מוצע) באותו תהליך; מריצים A/B Counterbalanced (חצי מתחילים ב-A, חצי ב-B) לנטרול-הטיית-סדר; מודדים Time/Errors/Completion/SUS פר-Flavor. יתרון-Personas: הגרסה הזוכה כבר מוכנה-לפריסה (אין צורך לבנות-מחדש). חיבור ל-ST03N למדדי-תגובה אובייקטיביים. מאמת את ההשקעה לפני פריסה-רחבה.",
           purposeHe: "לבסס החלטת-עיצוב על השוואה-נתונית בין-חלופות, ולהבטיח שה-Flavor הנפרס אכן עדיף — תוך-חיסכון בעלות-מימוש-שגוי.",
           processExampleHe: "במעבדה: Flavor A (IW41 תקני) מול B (Flavor מאוחד עם מאקרו-דיווח), 8 טכנאים Counterbalanced. B ניצח: 0:50 מול 1:40, SUS 82 מול 60. B נפרס — וכבר מוכן, כי נבנה ב-Personas.",
-          cbcHe:
-            "ב-CBC נבדקו במעבדה שני Flavors לדיווח-גמר-פק\"ע: תקני מול מאוחד-עם-מאקרו. ה-Flavor המאוחד הוריד את זמן-הדיווח בחצי והעלה SUS משמעותית, ונפרס לכל-הטכנאים — מוכן-לפריסה ללא בנייה-מחדש.",
+          scenarioHe:
+            "בארגון נבדקו במעבדה שני Flavors לדיווח-גמר-פק\"ע: תקני מול מאוחד-עם-מאקרו. ה-Flavor המאוחד הוריד את זמן-הדיווח בחצי והעלה SUS משמעותית, ונפרס לכל-הטכנאים — מוכן-לפריסה ללא בנייה-מחדש.",
           navHe: ["SAP Screen Personas ► Flavor Editor (build A/B) ► assign to test users", "Run counterbalanced A/B in lab; collect Time/Errors/SUS"],
           tables: ["SWNCMONI", "TSTC"],
           tcodes: ["SHD0", "ST03N", "IW41"],
@@ -1064,13 +1064,13 @@ export const CH10: TextbookChapter = {
       beginnerHe:
         "סיכום בקצרה: שמישות = כמה נוח לעבוד עם המערכת, והיא חשובה כי דיווח-נוח = נתונים-טובים. נוחות לבד לא מספיקה — צריך גם שהמשתמשים יקבלו וירצו (קבלה). לשיפור יש 'סולם': קודם הגדרות-אישיות, אז כלים-של-IT-בלי-קוד, ורק לבסוף תכנות. ולפני שמשנים — בודקים עם משתמשים-אמיתיים מה באמת עוזר.",
       consultantHe:
-        "המסגרת המעשית: (1) שמישות ≠ קבלה — טפל בשתיהן (TAM: Ease-of-Use + Usefulness + ליווי); (2) סולם-עלות/סיכון: User → Non-programmer IT → Programmer, תמיד מהנמוך; (3) ב-S/4HANA Fiori-first + Clean Core (Released APIs/Extension Points), Personas כגשר ל-GUI כבד; (4) החלטות מבוססות-מחקר-שמישות (Personas A/B, SUS, Time/Errors). היישום ל-CBC: טכנאי-שטח ב-Asset Manager, מתכננים ב-Fiori, מסכי-GUI שנותרו ב-Personas/SHD0 — מדידים ב-Adoption ושלמות-נתונים.",
+        "המסגרת המעשית: (1) שמישות ≠ קבלה — טפל בשתיהן (TAM: Ease-of-Use + Usefulness + ליווי); (2) סולם-עלות/סיכון: User → Non-programmer IT → Programmer, תמיד מהנמוך; (3) ב-S/4HANA Fiori-first + Clean Core (Released APIs/Extension Points), Personas כגשר ל-GUI כבד; (4) החלטות מבוססות-מחקר-שמישות (Personas A/B, SUS, Time/Errors). היישום לארגון: טכנאי-שטח ב-Asset Manager, מתכננים ב-Fiori, מסכי-GUI שנותרו ב-Personas/SHD0 — מדידים ב-Adoption ושלמות-נתונים.",
       purposeHe:
         "לקבע מסגרת-החלטה לכל בעיית-שמישות ב-PM: לזהות את הקהל, לבחור את השכבה-הנכונה, ולאמת בראיות — כדי למקסם קבלה, איכות-נתונים והחזר-השקעה.",
       processExampleHe:
         "בקשה לשיפור דיווח-תקלה: מאפיינים Persona (טכנאי-רוחב), מודדים Baseline, פותרים בשכבה-נמוכה (SHD0 + Action Box, ולא פיתוח), בודקים A/B ב-Personas, פורסים את הזוכה ומודדים Adoption — מחזור-שלם של שיפור-שמישות מבוסס-ראיות.",
-      cbcHe:
-        "ב-CBC אסטרטגיית-השמישות: Fiori למתכננים, Asset Manager לטכנאי-שטח, SHD0/Personas למסכי-GUI שנותרו, Clean Core בכל-הרחבה, ומחקרי-שמישות לפני-פריסה — הכול נמדד ב-Adoption, זמן-דיווח ושלמות-נתונים, ומחובר ל-KPI זמינות-הקו.",
+      scenarioHe:
+        "בארגון אסטרטגיית-השמישות: Fiori למתכננים, Asset Manager לטכנאי-שטח, SHD0/Personas למסכי-GUI שנותרו, Clean Core בכל-הרחבה, ומחקרי-שמישות לפני-פריסה — הכול נמדד ב-Adoption, זמן-דיווח ושלמות-נתונים, ומחובר ל-KPI זמינות-הקו.",
       navHe: ["—"],
       tables: ["USR05", "TSTCV", "AUFK", "QMEL"],
       tcodes: ["SU3", "SHD0", "SPRO", "BAPI"],

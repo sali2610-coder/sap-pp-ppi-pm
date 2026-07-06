@@ -1,7 +1,7 @@
 // ===== PM Business User Guide — Chapter 7 (gold-standard learning chapter) =====
 // Integrating Applications. Every node is a complete LearningNode with 18 facets
 // of authored Hebrew (beginner + consultant friendly). Hierarchy + ids preserved
-// from the source TOC. SAP object identifiers verbatim English. CBC = Coca-Cola
+// from the source TOC. SAP object identifiers verbatim English. הארגון = Example Product
 // bottling Plant Maintenance integration scenarios. MUST compile.
 import type { TextbookChapter } from "./types";
 
@@ -10,7 +10,7 @@ export const CH7: TextbookChapter = {
   titleHe: "שילוב יישומים",
   titleEn: "Integrating Applications",
   introHe:
-    "תחזוקת-מפעל (PM) אינה אי בודד. כל הזמנת-תחזוקה (Maintenance Order) נוגעת ברכש חלקי-חילוף (MM), בתפיסת קיבולת מול ייצור (PP/PP-PI), באיכות וכיול (QM), בבטיחות וסביבה (EHS), ובזרימת-עלויות אל הכספים (FI/CO) ואל רכוש-קבוע (AA). פרק זה הוא יחידת-לימוד מלאה על נקודות-המגע של PM עם שאר רכיבי SAP S/4HANA, עם מערכות SAP נוספות (MDM, MDG, SRM) ועם מערכות חיצוניות (ניטור-תפעול/IoT, מערכות-מידע, מפרטי-שירות). כל תת-פרק הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות-הסבר, מטרה עסקית, דוגמת-תהליך, דוגמת CBC, ניווט/SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים זרימת-נתונים בין-מודולרי, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: להבין את ה-PM כצומת-אינטגרציה בלב ה-ERP.",
+    "תחזוקת-מפעל (PM) אינה אי בודד. כל הזמנת-תחזוקה (Maintenance Order) נוגעת ברכש חלקי-חילוף (MM), בתפיסת קיבולת מול ייצור (PP/PP-PI), באיכות וכיול (QM), בבטיחות וסביבה (EHS), ובזרימת-עלויות אל הכספים (FI/CO) ואל רכוש-קבוע (AA). פרק זה הוא יחידת-לימוד מלאה על נקודות-המגע של PM עם שאר רכיבי SAP S/4HANA, עם מערכות SAP נוספות (MDM, MDG, SRM) ועם מערכות חיצוניות (ניטור-תפעול/IoT, מערכות-מידע, מפרטי-שירות). כל תת-פרק הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות-הסבר, מטרה עסקית, דוגמת-תהליך, דוגמת הארגון, ניווט/SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים זרימת-נתונים בין-מודולרי, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: להבין את ה-PM כצומת-אינטגרציה בלב ה-ERP.",
   subchapters: [
     // ============================================================ 7.1
     {
@@ -27,8 +27,8 @@ export const CH7: TextbookChapter = {
         "המטרה: לאפשר תהליך-תחזוקה מקצה-לקצה שבו זמינות-חלפים, פינוי-קו, איכות-עבודה ועלות מתואמים אוטומטית בין המודולים — במקום ממשקים ידניים, גיליונות-Excel ותיאום טלפוני.",
       processExampleHe:
         "תקלת-מסוע: נפתחת Notification (M2) → הופכת ל-Maintenance Order (PM01) → הזמנת רכיבים יוצרת Reservation ל-MM, חלק-חסר מפיק Purchase Requisition → קיבולת מתוכננת מול PP → מד-לחץ מנותב לכיול ב-QM → גמר-עבודה (Confirmation) → Goods Issue 261 → Settlement של העלויות אל Cost Center של הקו (CO) ורישום ב-ACDOCA (FI).",
-      cbcHe:
-        "ב-CBC קו-מילוי בקבוקים מחבר את כל הקצוות: מנוע-מסוע פגום → הזמנת-תחזוקה מושכת מיסב מהמחסן (MM), תופסת חלון-עצירה מתואם עם תכנית-הייצור (PP-PI), מכיילת מד-מומנט (QM), דורשת היתר-עבודה-חמה (EHS), ומסלקת את העלות אל מרכז-העלות של הקו (CO) ואל ה-Asset של המכונה (AA).",
+      scenarioHe:
+        "בארגון קו-מילוי בקבוקים מחבר את כל הקצוות: מנוע-מסוע פגום → הזמנת-תחזוקה מושכת מיסב מהמחסן (MM), תופסת חלון-עצירה מתואם עם תכנית-הייצור (PP-PI), מכיילת מד-מומנט (QM), דורשת היתר-עבודה-חמה (EHS), ומסלקת את העלות אל מרכז-העלות של הקו (CO) ואל ה-Asset של המכונה (AA).",
       navHe: [
         "Plant Maintenance ► Maintenance and Service Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Define Default Values for Component Item Categories and Procurement (OIDA)",
         "Plant Maintenance ► Maintenance and Service Processing ► Maintenance and Service Orders ► Costing Data for Maintenance and Service Orders ► Assign Costing Parameters and Results Analysis Keys",
@@ -101,8 +101,8 @@ export const CH7: TextbookChapter = {
             "להבטיח שחלקי-החילוף הנכונים זמינים בזמן-העבודה — בלי מלאי-יתר ובלי השבתה בגלל חוסר — ולקשר את עלות-החלף ישירות להזמנת-התחזוקה.",
           processExampleHe:
             "הזמנה דורשת מיסב (ERSA): רכיב L → Reservation; בעת ביצוע-העבודה מבצעים Goods Issue 261 מ-MIGO/IW41; חיישן מיוחד שאינו במלאי → רכיב N → Purchase Requisition → PO → קבלת-טובין 101 → Goods Issue להזמנה.",
-          cbcHe:
-            "ב-CBC חלפי קו-המילוי (מיסבים, חגורות, ראשי-מילוי) מנוהלים כ-ERSA עם Reorder Point; הזמנת-תחזוקה מושכת אותם מהמחסן הטכני, וחלקי-יבוא מיוחדים נרכשים כ-Non-stock עם הקצאה ישירה להזמנה.",
+          scenarioHe:
+            "בארגון חלפי קו-המילוי (מיסבים, חגורות, ראשי-מילוי) מנוהלים כ-ERSA עם Reorder Point; הזמנת-תחזוקה מושכת אותם מהמחסן הטכני, וחלקי-יבוא מיוחדים נרכשים כ-Non-stock עם הקצאה ישירה להזמנה.",
           navHe: [
             "Plant Maintenance ► Maintenance and Service Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Define Default Values for Component Item Categories and Procurement",
             "Materials Management ► Purchasing ► Account Assignment ► Maintain Account Assignment Categories (OME9)",
@@ -162,8 +162,8 @@ export const CH7: TextbookChapter = {
             "למנוע התנגשות בין עצירת-תחזוקה לפק\"ע פעילה, ולשבץ תחזוקה-מונעת בחלונות-זמן שאינם פוגעים בתפוקת-הייצור.",
           processExampleHe:
             "תכנית-תחזוקה-מונעת מפיקה הזמנה לבדיקת-מסוע כל 500 שעות-ריצה; המתכנן צופה ב-CM01 את עומס-הקיבולת של הקו, מזהה חלון בין שתי פק\"עות, ומתזמן את העצירה לשם.",
-          cbcHe:
-            "ב-CBC עצירת-CIP/תחזוקה של קו-המילוי מתואמת עם לוח-הייצור היומי: התחזוקה מתוזמנת בין משמרות או בסוף-מחזור-ייצור כדי לא לעצור מילוי פעיל; מרכז-העבודה של הקו משותף ל-PP-PI ול-PM.",
+          scenarioHe:
+            "בארגון עצירת-CIP/תחזוקה של קו-המילוי מתואמת עם לוח-הייצור היומי: התחזוקה מתוזמנת בין משמרות או בסוף-מחזור-ייצור כדי לא לעצור מילוי פעיל; מרכז-העבודה של הקו משותף ל-PP-PI ול-PM.",
           navHe: [
             "Plant Maintenance ► Maintenance Plans, Work Centers, Task Lists ► Work Centers ► General Data ► Define Control Keys",
             "Production ► Capacity Requirements Planning ► Evaluation ► Define Profiles for Capacity Leveling",
@@ -223,8 +223,8 @@ export const CH7: TextbookChapter = {
             "לנצל כושר-ייצור פנוי, לקצר זמני-אספקה לחלפים קריטיים, ולהפחית תלות בספקים חיצוניים.",
           processExampleHe:
             "בית-המלאכה מייצר תושבות-מנוע: Production Order → ייצור → Goods Receipt 101 למלאי כ-HALB; מאוחר יותר הזמנת-PM מושכת תושבת מהמלאי (261) להחלפה.",
-          cbcHe:
-            "ב-CBC בית-המלאכה הטכני מייצר מתאמים/תושבות מותאמים לקו-המילוי; הם נכנסים למלאי הטכני, וכשמתבלה רכיב — הזמנת-התחזוקה מושכת אותם בלי המתנה ליבוא.",
+          scenarioHe:
+            "בארגון בית-המלאכה הטכני מייצר מתאמים/תושבות מותאמים לקו-המילוי; הם נכנסים למלאי הטכני, וכשמתבלה רכיב — הזמנת-התחזוקה מושכת אותם בלי המתנה ליבוא.",
           navHe: [
             "Production ► Shop Floor Control ► Master Data ► Order ► Define Order Types",
             "Plant Maintenance ► Maintenance and Service Processing ► Maintenance and Service Orders ► Define Default Values for Component Item Categories and Procurement",
@@ -283,8 +283,8 @@ export const CH7: TextbookChapter = {
             "להבטיח שציוד-המדידה מדויק ומכויל לפי רגולציה ותקנים (ISO, GMP), ולתעד ראיות-כיול לביקורת.",
           processExampleHe:
             "כיול מד-לחץ: Maintenance Plan מפיק הזמנת-כיול → שחרור יוצר Inspection Lot → טכנאי מודד ורושם תוצאות (QE11) → Usage Decision 'עבר' → תאריך-הכיול-הבא מתעדכן; אם 'נכשל' → המכשיר נחסם לשימוש.",
-          cbcHe:
-            "ב-CBC מד-מומנט של ראש-המילוי ומדי-Brix של התרכיז מכוילים מחזורית דרך תכנית-תחזוקה+QM; כשל-כיול חוסם את הקו עד תיקון — מניעת מילוי מחוץ-לטולרנס (בטיחות-מזון).",
+          scenarioHe:
+            "בארגון מד-מומנט של ראש-המילוי ומדי-Brix של התרכיז מכוילים מחזורית דרך תכנית-תחזוקה+QM; כשל-כיול חוסם את הקו עד תיקון — מניעת מילוי מחוץ-לטולרנס (בטיחות-מזון).",
           navHe: [
             "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Maintain Inspection Types",
             "Plant Maintenance ► Maintenance Plans, Work Centers, Task Lists ► Task Lists ► Control Data ► Configure Inspection Point Completion",
@@ -344,8 +344,8 @@ export const CH7: TextbookChapter = {
             "למנוע פציעות ותקריות-סביבה בעבודות-תחזוקה, ולעמוד בדרישות-רגולציה (OSHA, ISO 45001) עם תיעוד-ראיות מלא.",
           processExampleHe:
             "תיקון משאבת-כימיקלים: הזמנת-PM דורשת היתר-עבודה-חמה ו-LOTO → EHS מנפיק Permit, מבצע Risk Assessment, נועל מקורות-אנרגיה → רק לאחר אישור משוחררת ההזמנה לביצוע.",
-          cbcHe:
-            "ב-CBC עבודות על מערכת-ה-CO2 או על דוד-קיטור דורשות היתר-עבודה-חמה ו-LOTO; הזמנת-התחזוקה לא משוחררת עד שה-EHS מאשר נעילה, אוורור והערכת-סיכון — מניעת תאונת-לחץ/חנק.",
+          scenarioHe:
+            "בארגון עבודות על מערכת-ה-CO2 או על דוד-קיטור דורשות היתר-עבודה-חמה ו-LOTO; הזמנת-התחזוקה לא משוחררת עד שה-EHS מאשר נעילה, אוורור והערכת-סיכון — מניעת תאונת-לחץ/חנק.",
           navHe: [
             "Plant Maintenance ► Work Clearance Management ► Define Work Clearance Application Types",
             "Environment, Health and Safety ► Health and Safety Management ► Risk Assessment ► Define Risk Assessment Settings",
@@ -404,8 +404,8 @@ export const CH7: TextbookChapter = {
             "לתת תמונה כספית אמיתית ובזמן-אמת של עלויות-התחזוקה, לתמוך בדיווח-כספי ובביקורת, ולחבר את הוצאות-התחזוקה למבנה-החשבונות הארגוני.",
           processExampleHe:
             "Goods Issue של חלף → FI document: חובה 'הוצאות-חלפים' / זכות 'מלאי-חלפים'; שעות-עבודה ב-Confirmation → רישום-עלות לפי תעריף-Activity; Settlement מעביר את הסך אל Cost Center של הקו — הכל ב-ACDOCA.",
-          cbcHe:
-            "ב-CBC עלויות-תחזוקת קו-המילוי נרשמות ב-FI לפי חשבונות-הוצאה ייעודיים; דוח-עלות-תחזוקה-חודשי לכל קו נשען על ה-ACDOCA, ומשמש את ה-controller לניתוח עלות-לבקבוק.",
+          scenarioHe:
+            "בארגון עלויות-תחזוקת קו-המילוי נרשמות ב-FI לפי חשבונות-הוצאה ייעודיים; דוח-עלות-תחזוקה-חודשי לכל קו נשען על ה-ACDOCA, ומשמש את ה-controller לניתוח עלות-לבקבוק.",
           navHe: [
             "Materials Management ► Valuation and Account Assignment ► Account Determination ► Account Determination Without Wizard ► Configure Automatic Postings (OBYC)",
             "Financial Accounting ► General Ledger Accounting ► Master Data ► G/L Accounts ► Define G/L Account Master Data",
@@ -464,8 +464,8 @@ export const CH7: TextbookChapter = {
             "להבחין נכון בין הוצאה שוטפת להשקעה הונית, לנהל פחת מדויק, ולחבר היסטוריית-תחזוקה לערך-הנכס לצורכי דיווח-כספי ומיסוי.",
           processExampleHe:
             "החלפת מנוע רגילה → הוצאה ל-Cost Center; שדרוג קו שמאריך חיי-מכונה ב-5 שנים → Investment Order → AuC → Capitalization ל-Asset, מתחיל פחת חדש.",
-          cbcHe:
-            "ב-CBC קו-מילוי הוא Asset; תחזוקה-שוטפת = הוצאה, אך פרויקט-שדרוג-קו (מהירות-מילוי גבוהה יותר) מהוון אל ה-Asset ומגדיל את בסיס-הפחת.",
+          scenarioHe:
+            "בארגון קו-מילוי הוא Asset; תחזוקה-שוטפת = הוצאה, אך פרויקט-שדרוג-קו (מהירות-מילוי גבוהה יותר) מהוון אל ה-Asset ומגדיל את בסיס-הפחת.",
           navHe: [
             "Asset Accounting ► Master Data ► Define Asset Classes",
             "Controlling ► Internal Orders ► Settlement ► Maintain Settlement Profiles (Capital settlement to Asset)",
@@ -523,8 +523,8 @@ export const CH7: TextbookChapter = {
             "לאפשר תקצוב, מעקב ובקרה של עלויות-תחזוקה לכל אובייקט-טכני וקו, ולזהות חריגות מול תקציב/תכנון.",
           processExampleHe:
             "הזמנה מתוכננת ל-10,000 ₪ (חומר+עבודה); בפועל: Goods Issue 6,000 + 8 שעות×תעריף = 4,800 → סך 10,800; Settlement מעביר ל-Cost Center; הפרש 800 ₪ מנותח כחריגה.",
-          cbcHe:
-            "ב-CBC כל קו-מילוי הוא Cost Center; עלויות-התחזוקה שלו מסולקות אליו, ודוח חודשי משווה עלות-תחזוקה-מתוכננת מול בפועל לכל קו — בסיס ל-KPI 'עלות-תחזוקה לבקבוק'.",
+          scenarioHe:
+            "בארגון כל קו-מילוי הוא Cost Center; עלויות-התחזוקה שלו מסולקות אליו, ודוח חודשי משווה עלות-תחזוקה-מתוכננת מול בפועל לכל קו — בסיס ל-KPI 'עלות-תחזוקה לבקבוק'.",
           navHe: [
             "Controlling ► Internal Orders ► Actual Postings ► Settlement ► Maintain Settlement Profiles (OKO7)",
             "Controlling ► Cost Center Accounting ► Actual Postings ► Activity Allocation ► Define Activity Types (KP26 rates)",
@@ -584,8 +584,8 @@ export const CH7: TextbookChapter = {
             "לחבר תחזוקת-מבנים ותשתיות לניהול-החללים והחוזים, לאפשר הקצאת-עלות-תחזוקה לפי שטח/שוכר, ולתחזק היסטוריית-מבנה.",
           processExampleHe:
             "תקלת-מיזוג בקומת-משרדים: Functional Location 'מערכת-HVAC-בניין-A' מקושר ל-RE Building; הזמנת-תחזוקה נפתחת, ועלותה ניתנת להקצאה לחוזי-השכירות של אותו בניין.",
-          cbcHe:
-            "ב-CBC מבני-המפעל (אולם-ייצור, מחסן-קירור) מנוהלים כ-RE objects; תחזוקת-מערכות-הקירור והחשמל של המבנה מקושרת ל-FL של המבנה, ועלויותיה משויכות לעלות-התקורה של האתר.",
+          scenarioHe:
+            "בארגון מבני-המפעל (אולם-ייצור, מחסן-קירור) מנוהלים כ-RE objects; תחזוקת-מערכות-הקירור והחשמל של המבנה מקושרת ל-FL של המבנה, ועלויותיה משויכות לעלות-התקורה של האתר.",
           navHe: [
             "Flexible Real Estate Management ► Master Data ► Architectural Objects ► Define Architectural Object Types",
             "Plant Maintenance ► Technical Objects ► Functional Locations ► Link Functional Location to Real Estate Object",
@@ -644,8 +644,8 @@ export const CH7: TextbookChapter = {
             "לשבץ את העובד המוסמך הזמין, לתעד זמן-עבודה מדויק לצורכי-עלות ושכר, ולנהל כישורים ובטיחות-עובד.",
           processExampleHe:
             "עבודת-ריתוך דורשת הסמכת-ריתוך; המערכת בוחרת טכנאי בעל Qualification מתאים; שעותיו נרשמות ב-CATS, זורמות לעלות-העבודה בהזמנה ולחישוב-שכר ב-HCM.",
-          cbcHe:
-            "ב-CBC צוות-התחזוקה של האתר מנוהל ב-HCM/SuccessFactors; הסמכות (חשמל-מתח-גבוה, עבודה-בגובה) קובעות שיבוץ; שעות-העבודה על קווי-המילוי מתועדות ב-CATS וזורמות לעלות-הקו.",
+          scenarioHe:
+            "בארגון צוות-התחזוקה של האתר מנוהל ב-HCM/SuccessFactors; הסמכות (חשמל-מתח-גבוה, עבודה-בגובה) קובעות שיבוץ; שעות-העבודה על קווי-המילוי מתועדות ב-CATS וזורמות לעלות-הקו.",
           navHe: [
             "Personnel Management ► Personnel Administration ► Define Personnel Number Ranges",
             "Cross-Application Time Sheet ► Time Recording ► Set Up Data Entry Profiles",
@@ -705,8 +705,8 @@ export const CH7: TextbookChapter = {
             "לאפשר תחזוקה כשירות מסחרי — תמחור, חיוב-לקוח, חוזי-שירות ו-SLA — ולחבר עלות-תחזוקה להכנסה.",
           processExampleHe:
             "תיקון ציוד-לקוח: Service Order אוסף עלות חלקים+עבודה → DP90 ממיר ל-Billing Request → חשבונית-לקוח (SD) → הכנסה; חוזה-שירות מגדיר אילו תיקונים מכוסים.",
-          cbcHe:
-            "ב-CBC פחות שכיח (תחזוקה פנימית); רלוונטי כאשר CBC מתחזקת מתקני-קירור אצל לקוחות-קמעונאים תחת חוזה-שירות — הזמנת-שירות מחייבת את הקמעונאי על חלקים ועבודה מעבר לכיסוי-החוזה.",
+          scenarioHe:
+            "בארגון פחות שכיח (תחזוקה פנימית); רלוונטי כאשר הארגון מתחזקת מתקני-קירור אצל לקוחות-קמעונאים תחת חוזה-שירות — הזמנת-שירות מחייבת את הקמעונאי על חלקים ועבודה מעבר לכיסוי-החוזה.",
           navHe: [
             "Service ► Service Order Management ► Transactions ► Define Service Order Types",
             "Sales and Distribution ► Sales ► Sales Documents ► Resource-Related Billing ► Define DIP Profiles (ODP1)",
@@ -768,8 +768,8 @@ export const CH7: TextbookChapter = {
         "להבטיח נתוני-אב נקיים, מאושרים ומופצים אחיד (MDM/MDG), ולייעל רכש-עקיף של חלקים ושירותים (SRM) — שני תנאים לתחזוקה אמינה.",
       processExampleHe:
         "חלף-חדש נדרש: בקשת-אב-חומר עוברת workflow-אישור ב-MDG → לאחר אישור מופצת לכל המערכות → SRM/רכש מזמין אותו דרך קטלוג → הוא זמין כרכיב בהזמנת-PM.",
-      cbcHe:
-        "ב-CBC כל אתרי-הבקבוק חולקים נתוני-אב מנוהלים מרכזית (MDG) — אותו חלף נושא אותו מספר ותיאור בכל אתר; רכש-חלפים-עקיף נעשה דרך קטלוג מרכזי, מה שמונע כפילויות ומפחית עלות.",
+      scenarioHe:
+        "בארגון כל אתרי-הבקבוק חולקים נתוני-אב מנוהלים מרכזית (MDG) — אותו חלף נושא אותו מספר ותיאור בכל אתר; רכש-חלפים-עקיף נעשה דרך קטלוג מרכזי, מה שמונע כפילויות ומפחית עלות.",
       navHe: [
         "Cross-Application Components ► Processes and Tools for Enterprise Applications ► Master Data Governance ► General Settings ► Data Modeling",
         "SAP NetWeaver ► Application Server ► IDoc Interface / ALE ► Modelling and Implementing Business Processes",
@@ -829,8 +829,8 @@ export const CH7: TextbookChapter = {
             "לחסל כפילויות וסתירות בנתוני-אב בין מערכות, ולספק ל-PM חלפים/ספקים אחידים ואמינים.",
           processExampleHe:
             "שלוש מערכות-ERP אזוריות מנהלות חלפים בנפרד; MDM מזהה כפילויות, ממזג למספר-אב אחד ומפיץ — מעתה אותו חלף אחיד בכל אתר.",
-          cbcHe:
-            "ב-CBC עם מספר אתרי-בקבוק היסטוריים, MDM איחד את קטלוג-החלפים כך שמיסב זהה לא מנוהל תחת חמישה מספרים — בסיס למלאי-חלפים משותף.",
+          scenarioHe:
+            "בארגון עם מספר אתרי-בקבוק היסטוריים, MDM איחד את קטלוג-החלפים כך שמיסב זהה לא מנוהל תחת חמישה מספרים — בסיס למלאי-חלפים משותף.",
           navHe: ["SAP NetWeaver ► Master Data Management ► Configure MDM Repositories and Syndication (MDM Console — חיצוני)"],
           tables: ["MARA", "LFA1", "EDIDC"],
           tcodes: ["BD64", "WE20", "SXMB_MONI"],
@@ -869,8 +869,8 @@ export const CH7: TextbookChapter = {
             "להבטיח שנתוני-האב המזינים PM (חלפים, ספקים, ציוד) נוצרים תחת אישור, נקיים ומופצים אחיד — ממשל-נתונים אמיתי.",
           processExampleHe:
             "בקשה לחלף-חדש: Change Request נפתחת → מילוי שדות → Validation אוטומטי → אישור מנהל-קטגוריה → יצירת Material master → DRF מפיץ לאתרים → זמין ל-PM.",
-          cbcHe:
-            "ב-CBC כל חלף/ספק-תחזוקה חדש עובר Change Request ב-MDG עם אישור-רכש ואיכות; רק אז נפתח ומופץ — מונע 'מיסבי-רפאים' כפולים ומבטיח תיאור אחיד בעברית/אנגלית.",
+          scenarioHe:
+            "בארגון כל חלף/ספק-תחזוקה חדש עובר Change Request ב-MDG עם אישור-רכש ואיכות; רק אז נפתח ומופץ — מונע 'מיסבי-רפאים' כפולים ומבטיח תיאור אחיד בעברית/אנגלית.",
           navHe: [
             "Cross-Application Components ► Master Data Governance ► General Settings ► Data Modeling ► Edit Data Model",
             "Cross-Application Components ► Master Data Governance ► General Settings ► Process Modeling ► Workflow",
@@ -914,8 +914,8 @@ export const CH7: TextbookChapter = {
             "לייעל ולהאיץ רכש-עקיף של חלפים ושירותי-תחזוקה, לאכוף חוזים ומחירים, ולקצר זמן-אספקה לחלקים-חסרים.",
           processExampleHe:
             "חלק חסר בהזמנת-PM (Non-stock) → דרישת-רכש → SRM Shopping Cart מול קטלוג-ספק → אישור → PO אוטומטי → קבלה והקצאה להזמנה.",
-          cbcHe:
-            "ב-CBC רכש חלפי-תחזוקה-עקיפים נעשה דרך קטלוג מרכזי (SRM/Ariba) עם מחירי-חוזה מוסכמים; כך תיקון דחוף לקו-מילוי מזמין חלף-מאושר במחיר-חוזה תוך דקות.",
+          scenarioHe:
+            "בארגון רכש חלפי-תחזוקה-עקיפים נעשה דרך קטלוג מרכזי (SRM/Ariba) עם מחירי-חוזה מוסכמים; כך תיקון דחוף לקו-מילוי מזמין חלף-מאושר במחיר-חוזה תוך דקות.",
           navHe: [
             "SAP Supplier Relationship Management ► SRM Server ► Cross-Application Basic Settings ► Define Backend Systems",
             "Materials Management ► Purchasing ► Purchase Requisition ► Define Document Types",
@@ -962,8 +962,8 @@ export const CH7: TextbookChapter = {
         "להפוך תחזוקה מ-reactive ל-proactive/predictive על-בסיס נתוני-חיישנים אמיתיים, ולנהל שירותים-מורכבים מבחוץ עם תיעוד ובקרת-עלות מלאים.",
       processExampleHe:
         "חיישן-רעידות על מנוע שולח קריאה דרך IoT→BTP→SAP; חריגה מהסף יוצרת Measurement Document → Notification אוטומטית → הזמנת-תחזוקה לפני כשל; שירות-חיצוני מורכב (כיול-מעבדה) מנוהל כ-Service Specification עם Service Entry Sheet לתיעוד-ביצוע.",
-      cbcHe:
-        "ב-CBC חיישני-IoT על קומפרסורי-ה-CO2 ומשאבות מזרימים נתוני-רעידות/טמפרטורה דרך BTP; חריגה פותחת הזמנת-תחזוקה מונעת-כשל; כיול-מעבדה חיצוני ל-Brix נרכש כ-Service Specification עם SES לאישור-ביצוע ותשלום.",
+      scenarioHe:
+        "בארגון חיישני-IoT על קומפרסורי-ה-CO2 ומשאבות מזרימים נתוני-רעידות/טמפרטורה דרך BTP; חריגה פותחת הזמנת-תחזוקה מונעת-כשל; כיול-מעבדה חיצוני ל-Brix נרכש כ-Service Specification עם SES לאישור-ביצוע ותשלום.",
       navHe: [
         "Plant Maintenance ► Maintenance Plans, Work Centers, Task Lists ► Measuring Points and Counters ► Define Measuring Point Categories",
         "Materials Management ► External Services Management ► Source Determination and Default Values ► Define Service Specifications Settings",
@@ -1022,8 +1022,8 @@ export const CH7: TextbookChapter = {
             "לעבור מתחזוקת-שבר/מתוזמנת לתחזוקה מבוססת-מצב — לתקן רק כשצריך ולפני כשל — ולהאריך חיי-ציוד ולצמצם השבתה.",
           processExampleHe:
             "מד-רעידות שולח קריאה כל דקה; ערך עולה מ-2 ל-7 mm/s ועובר סף; Measurement Document נכתב, Notification אוטומטית נפתחת, ומתוזמנת הזמנת-תחזוקה לבדיקת-מיסב — לפני כשל-קטסטרופלי.",
-          cbcHe:
-            "ב-CBC קומפרסור-CO2 מנוטר ב-SCADA; עליית-טמפרטורה חורגת מפעילה Measurement Document ו-Notification אוטומטית; התחזוקה מחליפה מסנן לפני קריסת-הקומפרסור ועצירת-מילוי.",
+          scenarioHe:
+            "בארגון קומפרסור-CO2 מנוטר ב-SCADA; עליית-טמפרטורה חורגת מפעילה Measurement Document ו-Notification אוטומטית; התחזוקה מחליפה מסנן לפני קריסת-הקומפרסור ועצירת-מילוי.",
           navHe: [
             "Plant Maintenance ► Maintenance Plans, Work Centers, Task Lists ► Measuring Points and Counters ► Define Measuring Point Categories",
             "Plant Maintenance ► Maintenance Notifications ► Notification Creation ► Set Up Automatic Notification from Measurement",
@@ -1066,8 +1066,8 @@ export const CH7: TextbookChapter = {
             "להפוך נתוני-תחזוקה לתובנות-ניהול ול-KPIs (אמינות, זמינות, עלות), לתמוך בקבלת-החלטות מבוססת-נתונים ולשיפור-מתמיד.",
           processExampleHe:
             "כל Notification/Order מזין את ה-PMIS; דוח-MTBF חודשי לכל Equipment מזהה שמסוע-X נכשל תכופות → החלטה לשדרגו או להגביר תחזוקה-מונעת.",
-          cbcHe:
-            "ב-CBC לוח-בקרה ב-SAP Analytics Cloud מציג זמינות-קווים, OEE ועלות-תחזוקה-לבקבוק; מנהל-האתר מזהה את הקו הבעייתי ביותר ומפנה אליו משאבי-תחזוקה.",
+          scenarioHe:
+            "בארגון לוח-בקרה ב-SAP Analytics Cloud מציג זמינות-קווים, OEE ועלות-תחזוקה-לבקבוק; מנהל-האתר מזהה את הקו הבעייתי ביותר ומפנה אליו משאבי-תחזוקה.",
           navHe: [
             "Logistics – General ► Logistics Information System (LIS) ► Logistics Data Warehouse ► Updating ► Define Updating (Plant Maintenance)",
             "Plant Maintenance ► Information System (PMIS) ► Standard Analyses Settings",
@@ -1110,8 +1110,8 @@ export const CH7: TextbookChapter = {
             "לתכנן, להזמין, לאשר ולשלם שירותי-תחזוקה-חיצוניים מורכבים בצורה מבוקרת, עם תיעוד-ביצוע ומניעת-תשלום-יתר.",
           processExampleHe:
             "כיול-מעבדה חיצוני: דרישת-רכש עם Service Specification (שורות: כיול, נסיעה, דוח) → PO → הקבלן מבצע → Service Entry Sheet רושם כמות-בפועל → אישור → התחייבות-תשלום → חשבונית.",
-          cbcHe:
-            "ב-CBC ניקוי-תעשייתי של מיכלי-תרכיז וכיול-מעבדה חיצוני מנוהלים כ-Service Specifications; ה-Service Entry Sheet מאשר שעות/יחידות-בפועל מול המתוכנן לפני תשלום לקבלן.",
+          scenarioHe:
+            "בארגון ניקוי-תעשייתי של מיכלי-תרכיז וכיול-מעבדה חיצוני מנוהלים כ-Service Specifications; ה-Service Entry Sheet מאשר שעות/יחידות-בפועל מול המתוכנן לפני תשלום לקבלן.",
           navHe: [
             "Materials Management ► External Services Management ► Service Specifications ► Define Service Specifications Settings",
             "Materials Management ► External Services Management ► Service Entry Sheet ► Define Screen Layout",
@@ -1158,8 +1158,8 @@ export const CH7: TextbookChapter = {
         "לקבע את התובנה שמימוש-PM מוצלח אינו טכני-מקומי אלא תלוי-אינטגרציה: כל החלטה ב-PM מהדהדת ב-MM, PP, QM, FI ו-CO. הבנת-הצומת היא המפתח למימוש שמשתלב בליבת-המפעל.",
       processExampleHe:
         "מקצה-לקצה: Notification מחיישן (IoT) → Maintenance Order → חלפים מ-MM → קיבולת מתואמת PP → כיול QM → אישור-בטיחות EHS → Confirmation עם שעות-HCM → Settlement ל-CO/FI/AA → KPI ב-Analytics. כל החוליות בפרק נפגשות במחזור-חיים אחד.",
-      cbcHe:
-        "ב-CBC המחזור המלא: חיישן-IoT על קומפרסור-CO2 פותח הזמנה → מיסב מהמחסן (MM) → חלון מתואם עם תכנית-המילוי (PP-PI) → כיול מד-מומנט (QM) → היתר-עבודה (EHS) → שעות-טכנאי (HCM) → סילוק ל-Cost Center של הקו (CO) ול-Asset (AA) → עלות-תחזוקה-לבקבוק ב-SAC.",
+      scenarioHe:
+        "בארגון המחזור המלא: חיישן-IoT על קומפרסור-CO2 פותח הזמנה → מיסב מהמחסן (MM) → חלון מתואם עם תכנית-המילוי (PP-PI) → כיול מד-מומנט (QM) → היתר-עבודה (EHS) → שעות-טכנאי (HCM) → סילוק ל-Cost Center של הקו (CO) ול-Asset (AA) → עלות-תחזוקה-לבקבוק ב-SAC.",
       navHe: [
         "Plant Maintenance ► Maintenance and Service Processing ► Maintenance and Service Orders ► (כל ה-Order Type / Settlement / Component settings שנסקרו בפרק)",
       ],

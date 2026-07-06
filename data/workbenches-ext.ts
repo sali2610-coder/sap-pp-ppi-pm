@@ -10,7 +10,7 @@ const QM: Workbench = {
   he: "מרכז QM — שולחן עבודה",
   title: "Quality Management Workbench",
   accent: "#0d9488",
-  intro: "שולחן עבודה ליועץ QM ב־ECC6 EHP7 עם דגשי S/4HANA. מכסה את מחזור החיים של inspection lot (יצירה → רישום תוצאות → usage decision → פקודת מלאי), MIC ו־inspection plan, נהלי דגימה, quality notifications, quality info record ברכש, ותעודות איכות (CoA). בהקשר CBC: בקרת קבלה לקונצנטרט וחומרי גלם, בקרה תוך־תהליכית בקו המילוי, שחרור אצוות לייצור ולחלוקה.",
+  intro: "שולחן עבודה ליועץ QM ב־ECC6 EHP7 עם דגשי S/4HANA. מכסה את מחזור החיים של inspection lot (יצירה → רישום תוצאות → usage decision → פקודת מלאי), MIC ו־inspection plan, נהלי דגימה, quality notifications, quality info record ברכש, ותעודות איכות (CoA). בהקשר ייצור: בקרת קבלה לקונצנטרט וחומרי גלם, בקרה תוך־תהליכית בקו המילוי, שחרור אצוות לייצור ולחלוקה.",
   concepts: [
     { term: "Inspection Lot", he: "מנת בדיקה", desc: "ישות מרכזית בטבלת QALS המייצגת אירוע בדיקה בודד — נוצרת אוטומטית מ־GR (סוג 01), מפקודת ייצור (03/04), ממסירה (10) או ידנית ב־QA01. כל פעולות הבדיקה, התוצאות וה־usage decision תלויות בה." },
     { term: "Master Inspection Characteristic (MIC)", he: "מאפיין בדיקה ראשי", desc: "מוגדר ב־QS21/QS22, מאוחסן ב־QPMK. מאפיין כמותי (עם גבולות מפרט) או איכותי (עם selected set מקטלוג). משויך ל־inspection plan ב־QP01 ומשמש לרישום תוצאות." },
@@ -89,7 +89,7 @@ const QM: Workbench = {
     { ecc: "Batch determination ו־ATP ב־ECC נסמכים על אצוות עם status שמושפע מ־UD דרך MCH1/MCHA.", s4: "ב־S/4HANA aATP (advanced ATP) שוקל batch restrictions; שילוב QM-Batch נשמר, אך לאמת התנהגות backorder processing מול batch status שעודכן על ידי UD." },
     { ecc: "QM משתמש ב־classification (CLMS) להעברת תוצאות לאצווה דרך characteristics.", s4: "ההתנהגות נשמרת ב־S/4; ה־simplification של QM יחסית מתון — אין הסרת פונקציונליות מרכזית ידועה, אך לאמת SAP Note ספציפי לפני התחייבות על delta נוסף." }
   ],
-  cbc: [
+  scenario: [
     "בקרת קבלה לקונצנטרט וחומרי גלם (סוכר, CO2, תוויות): inspection type 01 על GR מספק; MIC קריטי כולל Brix, pH, microbiological count; UD שמשחרר ל־unrestricted מאפשר שימוש בקו המילוי, blocked מחזיק עד ל־retest.",
     "בקרה תוך־תהליכית בקו המילוי: סוג בדיקה 03 על process order PP-PI; QE51N לתחנת איכות עם MICs של נפח מילוי, fill height, CO2 volumes, seal integrity — תוצאות נכשלות מפעילות quality notification Q3 פנימית.",
     "שחרור אצוות וחתימה רגולטורית: UD ב־QA11 על האצווה הסופית מעדכן batch status ל־released, מאפשר picking ב־SD לחלוקה; Certificate of Analysis מ־QC22 נשלח ללקוחות מוסדיים (רשתות, HoReCa) כחלק מ־output determination."
@@ -188,8 +188,8 @@ const PM: Workbench = {
     { ecc: "סילוק הזמנת PM ל־CO מבוסס Settlement Rule ב־COBRA/COBRB עם הרצת KO88 ורישומי COEP מקבילים ל־BSEG.", s4: "Universal Journal (ACDOCA) מאחד CO+FI; הסילוק עדיין רץ אך הרישום מתרכז ב־ACDOCA; טבלאות COEP/COSS נשמרות כתאימות — verify behavior של דוחות Z שמסתמכים עליהן." },
     { ecc: "אפליקציות מובייל מבוססות SAP Work Manager / Syclo עם מתאם middleware.", s4: "Fiori-based Asset Manager ו־׳My Maintenance Tasks׳ מתחברים ישירות ל־OData; ארכיטקטורת מובייל חדשה — verify לפי גרסת S/4 ספציפית." }
   ],
-  cbc: [
-    "מבנה היררכי לקו מילוי: FuncLoc CBC-IL-ASH-LINE1 → רכיבי ציוד Filler / Capper / Labeller / Conveyor / Palletiser כל אחד EQUI נפרד עם EQUZ פעיל — מאפשר ניתוח MTBF/MTTR לפי תחנה.",
+  scenario: [
+    "מבנה היררכי לקו מילוי: FuncLoc הארגון-IL-ASH-LINE1 → רכיבי ציוד Filler / Capper / Labeller / Conveyor / Palletiser כל אחד EQUI נפרד עם EQUZ פעיל — מאפשר ניתוח MTBF/MTTR לפי תחנה.",
     "תכנית תחזוקה מונעת לקו מילוי: MPLA אסטרטגיה עם חבילות 7/30/180 יום (ניקוי, החלפת אטמים, כיול ראשי מילוי), IP30 רץ לילי ומשחרר הזמנות PM02 אוטומטית עם TaskList מאושר.",
     "תרחיש שבר על Labeller באמצע משמרת: אופרטור פותח QMEL מסוג M1 דרך מסך מקוצר, מתכנן ממיר ל־IW31 PM01, מוקצה לטכנאי תורן, דיווח IW41 כולל צריכת חלקי חילוף (RESB→261), TECO וסילוק יומי למרכז עלות של קו 1."
   ]
@@ -283,8 +283,8 @@ const PPPI: Workbench = {
     { ecc: "PP-DS הוא רכיב SCM נפרד (APO) עם CIF להעברת אב־נתונים והזמנות.", s4: "PP-DS משולב ב־S/4 (Embedded PP-DS) על אותו מסד נתונים — אין CIF פנימי, אופטימייזר ב־HANA." },
     { ecc: "מוצרי לוואי וקו־פרודקטים מנוהלים דרך AFPO + הגדרות יישוב קלאסיות; טבלאות COEP/COSS/COSP נפרדות.", s4: "Universal Journal ACDOCA מאחד עלויות; מוצרי לוואי משתקפים ב־ACDOCA ויישוב הזמנת תהליך עובד מול Margin Analysis (verify לפי SP)." }
   ],
-  cbc: [
-    "ליבת CBC: ייצור משקאות — מתכון אב לרכזת/סירופ עם שלבי Mixing/Blending/Carbonation, גרסת ייצור (MKAL) פר מפעל מתאמת מתכון ו־BOM (סוכר, מים, CO2, רכז) ובוחרת אצוות לפי 023 (Brix, pH, Shelf Life).",
+  scenario: [
+    "ליבת הארגון: ייצור משקאות — מתכון אב לרכזת/סירופ עם שלבי Mixing/Blending/Carbonation, גרסת ייצור (MKAL) פר מפעל מתאמת מתכון ו־BOM (סוכר, מים, CO2, רכז) ובוחרת אצוות לפי 023 (Brix, pH, Shelf Life).",
     "קווי מילוי: דיווח שלב מילוי מבצע Backflush אוטומטי של רכז וסוכר (תנועה 261) ו־GR למשקה המוגמר (101) באצווה מנוהלת; כל כשל בתנועה (חוסר אצוות רכז, מלאי 0) נופל ל־AFFW ומטופל ב־COGI לפני TECO.",
     "מעברי מוצר ו־CIP: בין מתכונים שונים בקו אותו מתבצע CIP (ניקוי) — מנוהל כפעולה במתכון או כהזמנת תחזוקה PM; חשוב לוודא יישוב נכון ל־CO ושמירת מסלול האצווה (Batch Where-Used MB56) לדרישות איכות ומשיכה מהשוק."
   ]

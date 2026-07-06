@@ -137,10 +137,10 @@ export function IDocExplorer() {
         </section>
       </div>
 
-      {/* CBC reality + incidents */}
+      {/* הארגון reality + incidents */}
       <section className="rounded-3xl border p-5 shadow-[var(--elev-1)]" style={{ borderColor: ACCENT + "30", background: ACCENT + "08" }}>
-        <h2 className="mb-2 flex items-center gap-2 text-base font-extrabold text-slate-900"><BookOpen className="size-4" style={{ color: ACCENT }} />מהשטח ב-CBC</h2>
-        <p className="text-[12.5px] leading-relaxed text-slate-600">{IDOC.cbc}</p>
+        <h2 className="mb-2 flex items-center gap-2 text-base font-extrabold text-slate-900"><BookOpen className="size-4" style={{ color: ACCENT }} />מהשטח בארגון</h2>
+        <p className="text-[12.5px] leading-relaxed text-slate-600">{IDOC.scenario}</p>
         {IDOC.incidents.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-2">
             {IDOC.incidents.map((i) => (

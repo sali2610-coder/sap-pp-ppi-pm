@@ -103,10 +103,10 @@ function ChapterCard({ ch, query }: { ch: PPChapter; query: string }) {
               <KnowledgeBlock icon={<Sparkles className="size-3.5" />} title="דפוסי מימוש" items={ch.patternsHe} />
               <KnowledgeBlock icon={<AlertTriangle className="size-3.5" />} title="פתרון תקלות" items={ch.troubleshootHe} />
               <KnowledgeBlock icon={<Lightbulb className="size-3.5" />} title="לקחים" items={ch.lessonsHe} />
-              {ch.cbcHe && (
+              {ch.scenarioHe && (
                 <div className="rounded-xl border border-brand/20 bg-brand-soft/50 p-3">
-                  <p className="mb-1 flex items-center gap-1.5 text-xs font-bold text-brand"><Factory className="size-3.5" />הערת CBC</p>
-                  <p className="text-sm leading-relaxed">{ch.cbcHe}</p>
+                  <p className="mb-1 flex items-center gap-1.5 text-xs font-bold text-brand"><Factory className="size-3.5" />הערת יישום</p>
+                  <p className="text-sm leading-relaxed">{ch.scenarioHe}</p>
                 </div>
               )}
               {ch.related?.length ? (

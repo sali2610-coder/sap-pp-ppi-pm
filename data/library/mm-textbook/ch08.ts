@@ -8,7 +8,7 @@ export const CH8: TextbookChapter = {
   titleHe: "חוזים והסכמי-תזמון",
   titleEn: "Contract and Scheduling Agreement",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לניהול חוזי-רכש (Purchase Contracts) והסכמי-תזמון (Scheduling Agreements) ב-SAP S/4HANA Sourcing & Procurement. הסכמי-מסגרת (Outline Agreements) הם הסכמים ארוכי-טווח עם ספק לאספקת חומר או שירות במחיר ובתנאים מוסכמים, שמהם נגזרות הזמנות-שחרור (Release Orders) או לוחות-תזמון (Delivery Schedules). כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. דוגמת-העל: CBC — מפעל-בקבוק של Coca-Cola — מנהל חוזים שנתיים לסוכר ולתרכיז (concentrate), והסכמי-תזמון לחומרי-אריזה (בקבוקים, פקקים, תוויות). המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לניהול חוזי-רכש (Purchase Contracts) והסכמי-תזמון (Scheduling Agreements) ב-SAP S/4HANA Sourcing & Procurement. הסכמי-מסגרת (Outline Agreements) הם הסכמים ארוכי-טווח עם ספק לאספקת חומר או שירות במחיר ובתנאים מוסכמים, שמהם נגזרות הזמנות-שחרור (Release Orders) או לוחות-תזמון (Delivery Schedules). כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. דוגמת-העל: הארגון — מפעל-בקבוק של Example Product — מנהל חוזים שנתיים לסוכר ולתרכיז (concentrate), והסכמי-תזמון לחומרי-אריזה (בקבוקים, פקקים, תוויות). המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 8.1
     {
@@ -25,8 +25,8 @@ export const CH8: TextbookChapter = {
         "המטרה העסקית: להמיר רכש טקטי וחוזר ליחס אסטרטגי ארוך-טווח — לנעול מחירים מול תנודתיות-שוק, להבטיח זמינות-חומר קריטי, להפחית עומס-מו\"מ, ולאכוף משמעת-רכש כך שהקנייה מתבצעת מול תנאים מוסכמים ולא 'מהשרוול'. החוזה הוא גם בסיס למדידת-ביצועים: ניצול, נזילות (Leakage) והוצאה-מחוץ-לחוזה.",
       processExampleHe:
         "Source-to-Contract: לאחר מו\"מ עם ספק נוצר חוזה-כמות (ME31K, סוג MK) ל-1,000 טון סוכר במחיר 600 €/טון, תקף שנה. מחלקת-הייצור צריכה 50 טון — נוצרת הזמנת-שחרור (ME21N) עם הפניה לחוזה; המחיר נמשך אוטומטית, והכמות (50) מתועדת ב-EKAB ומקטינה את היתרה הפתוחה לחוזה. כך חוזרים עד מיצוי 1,000 הטון או תום-התוקף.",
-      cbcHe:
-        "ב-CBC: סוכר ותרכיז (concentrate) הם חומרי-הליבה היקרים ביותר. הרכש חותם חוזה-כמות שנתי לסוכר מול ספק מקומי, וחוזה-ערך לתרכיז מול The Coca-Cola Company (מחיר ליחידה משתנה אך תקציב שנתי נעול). חומרי-אריזה (בקבוקי-PET, פקקים, תוויות) מנוהלים בהסכמי-תזמון בשל צריכתם הרציפה והצורך בלוחות-אספקה מדויקים לקו-המילוי.",
+      scenarioHe:
+        "בארגון: סוכר ותרכיז (concentrate) הם חומרי-הליבה היקרים ביותר. הרכש חותם חוזה-כמות שנתי לסוכר מול ספק מקומי, וחוזה-ערך לתרכיז מול The Example Product Company (מחיר ליחידה משתנה אך תקציב שנתי נעול). חומרי-אריזה (בקבוקי-PET, פקקים, תוויות) מנוהלים בהסכמי-תזמון בשל צריכתם הרציפה והצורך בלוחות-אספקה מדויקים לקו-המילוי.",
       navHe: [
         "Logistics ► Materials Management ► Purchasing ► Outline Agreement ► Contract ► (ME31K/ME32K/ME33K)",
         "SPRO ► Materials Management ► Purchasing ► Contract ► Define Document Types",
@@ -102,8 +102,8 @@ export const CH8: TextbookChapter = {
             "להתאים את מבנה-החוזה לאופי-ההוצאה: כמות לחומרי-בסיס אחידים, ערך לסל-פריטים/שירותים מגוון, ומרכזי לארגון רב-מפעלי שרוצה כוח-קנייה מאוחד.",
           processExampleHe:
             "חוזה-כמות (MK) ל-1,000 טון סוכר: כל משיכה מקטינה את EKPO-KTMNG. במקביל חוזה-ערך (WK) לשירותי-תחזוקה ב-200,000 €: כל הזמנת-שירות מקטינה את EKKO-KTWRT עד מיצוי-התקציב.",
-          cbcHe:
-            "ב-CBC: סוכר ובקבוקי-PET = חוזי-כמות (טונאז'/יחידות אחידות). תרכיז ושירותי-מעבדה = חוזי-ערך (מחיר משתנה, תקציב נעול). חוזה מרכזי לסוכר משמש את שני מפעלי-המילוי של CBC במדינה.",
+          scenarioHe:
+            "בארגון: סוכר ובקבוקי-PET = חוזי-כמות (טונאז'/יחידות אחידות). תרכיז ושירותי-מעבדה = חוזי-ערך (מחיר משתנה, תקציב נעול). חוזה מרכזי לסוכר משמש את שני מפעלי-המילוי של הארגון במדינה.",
           navHe: [
             "Logistics ► MM ► Purchasing ► Outline Agreement ► Contract ► Create (ME31K)",
             "SPRO ► MM ► Purchasing ► Contract ► Define Document Types",
@@ -152,8 +152,8 @@ export const CH8: TextbookChapter = {
             "לרכז את כל מחזור-החיים של החוזה בכלי אחד, מודרני ונגיש, עם נראות-ניצול בזמן-אמת ושילוב-אישורים — להאיץ עבודת-רכש ולהפחית טעויות.",
           processExampleHe:
             "רוכש פותח את Manage Purchase Contracts, מסנן 'חוזים שתוקפם פג תוך 30 יום', בוחר חוזה-סוכר, מאריך תוקף ומעדכן מחיר, שומר — והשינוי נכנס למסלול-אישור אם מוגדר.",
-          cbcHe:
-            "ב-CBC צוות-הרכש מנהל את כל חוזי-החומרים (סוכר/תרכיז/אריזה) דרך האפליקציה; דשבורד-התוקף מתריע על חוזים שיש לחדש לפני עונת-הקיץ (שיא-צריכה).",
+          scenarioHe:
+            "בארגון צוות-הרכש מנהל את כל חוזי-החומרים (סוכר/תרכיז/אריזה) דרך האפליקציה; דשבורד-התוקף מתריע על חוזים שיש לחדש לפני עונת-הקיץ (שיא-צריכה).",
           navHe: [
             "Fiori Launchpad ► Procurement ► Manage Purchase Contracts (F1600A)",
             "Logistics ► MM ► Purchasing ► Outline Agreement ► Contract ► Change (ME32K)",
@@ -202,8 +202,8 @@ export const CH8: TextbookChapter = {
             "לבצע עדכונים-רוחביים (מחיר/תוקף/תנאים) ביעילות ובעקביות — חיוני בארגון עם מאות חוזים פעילים שבו שינוי-מדיניות מחייב עדכון-המוני.",
           processExampleHe:
             "לאחר עליית-מחירים מול ספק, הרוכש בוחר את כל חוזי-הספק ב-MEMASSCONTRACT, מעדכן את תנאי-המחיר ב-+5%, מריץ סימולציה לבדיקה, ומחיל — מאות פריטים מתעדכנים בבת-אחת.",
-          cbcHe:
-            "ב-CBC לאחר עדכון-Incoterms גלובלי, צוות-הרכש משנה את שדה-ה-Incoterms בכל חוזי-האריזה בפעולה אחת; ובסוף-שנה מאריך תוקף לכל החוזים-הפעילים בבת-אחת.",
+          scenarioHe:
+            "בארגון לאחר עדכון-Incoterms גלובלי, צוות-הרכש משנה את שדה-ה-Incoterms בכל חוזי-האריזה בפעולה אחת; ובסוף-שנה מאריך תוקף לכל החוזים-הפעילים בבת-אחת.",
           navHe: [
             "Fiori Launchpad ► Procurement ► Mass Changes to Purchase Contracts",
             "Logistics ► MM ► Purchasing ► (MEMASSCONTRACT)",
@@ -255,8 +255,8 @@ export const CH8: TextbookChapter = {
         "לאפשר משיכה מבוקרת ומדידה מההסכם — להבטיח שהמחירים-המוסכמים נאכפים, שהניצול עוקב אחר היעד, ושהארגון מקבל את ההנחות שעבורן נחתם החוזה.",
       processExampleHe:
         "חוזה ל-1,000 טון סוכר. הזמנת-שחרור ראשונה ל-200 טון: EKAB מתעדכן ל-200, יתרה 800. הזמנה שנייה ל-300: מצטבר 500, יתרה 500. דוח ME80RA מציג את הניצול המצטבר ואת היתרה-הפתוחה.",
-      cbcHe:
-        "ב-CBC קו-המילוי צורך סוכר שבועית. מערכת-ה-MRP מייצרת דרישות-רכש, וה-Source List מנתב אותן אוטומטית לחוזה-הסוכר כהזמנות-שחרור. כך הצריכה השוטפת מנצלת את החוזה ללא התערבות-ידנית.",
+      scenarioHe:
+        "בארגון קו-המילוי צורך סוכר שבועית. מערכת-ה-MRP מייצרת דרישות-רכש, וה-Source List מנתב אותן אוטומטית לחוזה-הסוכר כהזמנות-שחרור. כך הצריכה השוטפת מנצלת את החוזה ללא התערבות-ידנית.",
       navHe: [
         "Logistics ► MM ► Purchasing ► Purchase Order ► Create (ME21N) — עם הפניה לחוזה",
         "Logistics ► MM ► Purchasing ► Outline Agreement ► (ME80RA) — Release Documentation",
@@ -317,8 +317,8 @@ export const CH8: TextbookChapter = {
             "לנהל הוצאה-מגוונת מול תקציב-נעול — אידיאלי לשירותים ולסל-פריטים שבהם הכמות אינה המדד הרלוונטי.",
           processExampleHe:
             "חוזה-ערך לשירותי-תחזוקה ב-200,000 €. כל הזמנת-שירות (ME21N → חוזה) גורעת את ערכה; דוח-ניצול מציג ערך-מנוצל מול Open Value עד מיצוי-התקציב.",
-          cbcHe:
-            "ב-CBC חוזה-ערך לתרכיז מול The Coca-Cola Company: מחיר ליחידה משתנה לפי נוסחה, אך התקציב-השנתי נעול. כל משיכה גורעת ערך, ולא כמות.",
+          scenarioHe:
+            "בארגון חוזה-ערך לתרכיז מול The Example Product Company: מחיר ליחידה משתנה לפי נוסחה, אך התקציב-השנתי נעול. כל משיכה גורעת ערך, ולא כמות.",
           navHe: ["Logistics ► MM ► Purchasing ► Outline Agreement ► Contract ► Create ► Document Type WK (ME31K)"],
           tables: ["EKKO", "EKPO", "EKAB"],
           tcodes: ["ME31K", "ME21N", "ME80RA"],
@@ -364,8 +364,8 @@ export const CH8: TextbookChapter = {
             "לנהל אספקת-חומר אחיד מול יעד-כמות — מבטיח מחיר-מוסכם ומעקב-טונאז' מדויק לחומרי-בסיס.",
           processExampleHe:
             "חוזה ל-1,000 טון סוכר. הזמנות-שחרור של 200+300 טון מותירות Open Quantity 500. MRP ממשיך לייצר דרישות שמנותבות לחוזה עד מיצוי-הכמות או תום-התוקף.",
-          cbcHe:
-            "ב-CBC חוזה-כמות שנתי לסוכר (1,000 טון) ולבקבוקי-PET (10M יחידות); הצריכה השבועית של קו-המילוי גורעת מהכמות, והדוח מתריע כשנותרים פחות מ-15%.",
+          scenarioHe:
+            "בארגון חוזה-כמות שנתי לסוכר (1,000 טון) ולבקבוקי-PET (10M יחידות); הצריכה השבועית של קו-המילוי גורעת מהכמות, והדוח מתריע כשנותרים פחות מ-15%.",
           navHe: ["Logistics ► MM ► Purchasing ► Outline Agreement ► Contract ► Create ► Document Type MK (ME31K)"],
           tables: ["EKPO", "EKAB", "EORD"],
           tcodes: ["ME31K", "ME21N", "ME80RA"],
@@ -414,8 +414,8 @@ export const CH8: TextbookChapter = {
         "להפוך את ניהול-החוזים מתגובתי ליזום — לזהות בזבוז (Off-Contract/Leakage), הזדמנויות (חוזים-לא-מנוצלים), וסיכונים (תפוגה) לפני שהם פוגעים בעלות או באספקה.",
       processExampleHe:
         "מנהל-רכש פותח את Off-Contract Spend, מזהה שקטגוריית-אריזה נרכשת 30% מחוץ-לחוזה, חוקר Leakage לאיתור-המקור, ומקים Source List לכפיית-ניתוב — והבזבוז יורד.",
-      cbcHe:
-        "ב-CBC ה-CPO מנטר רבעונית: Off-Contract Spend לאיתור-רכש 'מהשרוול', Unused Contracts לסגירת-חוזים מתים, ו-Contract Expiry להבטחת-חידוש לפני עונת-הקיץ.",
+      scenarioHe:
+        "בארגון ה-CPO מנטר רבעונית: Off-Contract Spend לאיתור-רכש 'מהשרוול', Unused Contracts לסגירת-חוזים מתים, ו-Contract Expiry להבטחת-חידוש לפני עונת-הקיץ.",
       navHe: [
         "Fiori Launchpad ► Procurement ► Analytics ► (Off-Contract Spend / Unused Contracts / Contract Leakage)",
         "Logistics ► MM ► Purchasing ► Outline Agreement ► Reporting (ME80RA)",
@@ -470,8 +470,8 @@ export const CH8: TextbookChapter = {
             "לנקות חוזים-מתים, לזהות עקיפת-חוזים, ולוודא שכל חוזה-שנחתם אכן מספק ערך — או נסגר.",
           processExampleHe:
             "הדוח מציג חוזה-אריזה ב-0% ניצול אחרי חצי-שנה. בדיקה מגלה שאין Source List, והרכש הזמין מספק-אחר. הפתרון: הקמת Source List או סגירת-החוזה.",
-          cbcHe:
-            "ב-CBC הדוח חושף חוזה-תוויות שלא נוצל מאז שינוי-עיצוב-המותג; ה-CPO מחליט לסגור אותו ולחתום חוזה-חדש לעיצוב-הנוכחי.",
+          scenarioHe:
+            "בארגון הדוח חושף חוזה-תוויות שלא נוצל מאז שינוי-עיצוב-המותג; ה-CPO מחליט לסגור אותו ולחתום חוזה-חדש לעיצוב-הנוכחי.",
           navHe: ["Fiori Launchpad ► Procurement ► Analytics ► Unused Contracts"],
           tables: ["EKKO", "EKPO", "EKAB"],
           tcodes: ["ME80RA"],
@@ -509,8 +509,8 @@ export const CH8: TextbookChapter = {
             "לאתר ולצמצם דליפת-הוצאה — להגדיל את אחוז-הרכש-המנוהל (Spend-under-Management) ולממש את הנחות-החוזה.",
           processExampleHe:
             "הדוח מראה 30% מרכש-האריזה מחוץ-לחוזה. drill-down חושף רוכש שמזמין מספק-מקומי. תיקון: Source List עם Fix לחוזה — והדליפה נסגרת.",
-          cbcHe:
-            "ב-CBC הדוח חושף שמהנדסי-התחזוקה קונים חומרי-ניקוי מחוץ-לחוזה-המסגרת; הוקם Source List לכפיית-ניתוב, וההוצאה-מחוץ-לחוזה צנחה.",
+          scenarioHe:
+            "בארגון הדוח חושף שמהנדסי-התחזוקה קונים חומרי-ניקוי מחוץ-לחוזה-המסגרת; הוקם Source List לכפיית-ניתוב, וההוצאה-מחוץ-לחוזה צנחה.",
           navHe: ["Fiori Launchpad ► Procurement ► Analytics ► Off-Contract Spend"],
           tables: ["EKPO", "EKBE", "EKKO", "EORD"],
           tcodes: ["ME2M", "ME80RA"],
@@ -551,8 +551,8 @@ export const CH8: TextbookChapter = {
             "להבטיח שהערך-שהוסכם-בחוזה אכן ממומש — לזהות תשלום-יתר ולסגור פערים גם כשהרכש מנותב-נכון.",
           processExampleHe:
             "הדוח מגלה שהזמנות-שחרור לסוכר שולמו 5% מעל מחיר-החוזה בשל דריסה-ידנית. תיקון: ביטול-הרשאת-דריסה ובדיקת-תנאי-מחיר — והנזילות נסגרת.",
-          cbcHe:
-            "ב-CBC הדוח חושף שהנחת-הכמות (Scale) לתרכיז לא מומשה כי ההזמנות פוצלו מתחת-לסף; איחוד-ההזמנות מימש את ההנחה.",
+          scenarioHe:
+            "בארגון הדוח חושף שהנחת-הכמות (Scale) לתרכיז לא מומשה כי ההזמנות פוצלו מתחת-לסף; איחוד-ההזמנות מימש את ההנחה.",
           navHe: ["Fiori Launchpad ► Procurement ► Analytics ► Contract Leakage"],
           tables: ["EKPO", "EKBE", "PRCD_ELEMENTS"],
           tcodes: ["ME80RA", "ME2M"],
@@ -593,8 +593,8 @@ export const CH8: TextbookChapter = {
             "לחבר את ניהול-החוזים לבקרה-הפיננסית — להראות לכל מרכז-עלות/פרויקט את התחייבויות-החוזה הרלוונטיות לו.",
           processExampleHe:
             "מנהל-פרויקט פותח את הדוח, מסנן לפי ה-WBS שלו, ורואה את כל פריטי-החוזה המחויבים לפרויקט — בסיס לתחזית-הוצאה תקציבית.",
-          cbcHe:
-            "ב-CBC חוזי-שירותי-תחזוקה מחויבים למרכזי-עלות-המפעל; הדוח מאפשר למנהל-המפעל לראות את התחייבויות-החוזה לפי מרכז-עלות.",
+          scenarioHe:
+            "בארגון חוזי-שירותי-תחזוקה מחויבים למרכזי-עלות-המפעל; הדוח מאפשר למנהל-המפעל לראות את התחייבויות-החוזה לפי מרכז-עלות.",
           navHe: ["Fiori Launchpad ► Procurement ► Analytics ► Purchase Contract Items by Account Assignment"],
           tables: ["EKPO", "EKKN", "EKKO"],
           tcodes: ["ME33K", "ME2K"],
@@ -635,8 +635,8 @@ export const CH8: TextbookChapter = {
             "לתת לרוכש שליטה תפעולית שוטפת — לעקוב אחר ניצול ויתרות, לזהות חריגות, ולפעול לפני שפריט נגמר או פג.",
           processExampleHe:
             "הרוכש פותח את ה-Monitor בתחילת-היום, מסנן 'יתרה-פתוחה < 15%', ומזהה שני פריטים שצריך לחדש או להגדיל לפני מיצוי.",
-          cbcHe:
-            "ב-CBC הרוכש מנטר יומית את פריטי-חוזה-הסוכר; כשהיתרה יורדת מתחת לסף שמספיק לשבועיים-ייצור, הוא יוזם חידוש/הגדלה.",
+          scenarioHe:
+            "בארגון הרוכש מנטר יומית את פריטי-חוזה-הסוכר; כשהיתרה יורדת מתחת לסף שמספיק לשבועיים-ייצור, הוא יוזם חידוש/הגדלה.",
           navHe: ["Fiori Launchpad ► Procurement ► Monitor Purchase Contract Items"],
           tables: ["EKPO", "EKAB", "EKKO"],
           tcodes: ["ME80RA", "ME33K"],
@@ -674,8 +674,8 @@ export const CH8: TextbookChapter = {
             "למנוע פערי-אספקה ואובדן-תנאים בשל חוזים-שפגו — להבטיח חידוש-בזמן או מעבר-מסודר לחוזה-חלופי.",
           processExampleHe:
             "הדוח מציג 5 חוזים שיפוגו תוך 30 יום. הרוכש מתעדף, פותח כל אחד דרך drill-down, ומאריך/מחדש לפני התפוגה.",
-          cbcHe:
-            "ב-CBC כל חוזי-החומרים-הקריטיים מנוטרים; לפני עונת-הקיץ (שיא-צריכה) ה-Expiry-Dashboard מבטיח שאף חוזה-סוכר/תרכיז לא יפוג ללא חידוש.",
+          scenarioHe:
+            "בארגון כל חוזי-החומרים-הקריטיים מנוטרים; לפני עונת-הקיץ (שיא-צריכה) ה-Expiry-Dashboard מבטיח שאף חוזה-סוכר/תרכיז לא יפוג ללא חידוש.",
           navHe: ["Fiori Launchpad ► Procurement ► Analytics ► Contract Expiry"],
           tables: ["EKKO", "EKPO"],
           tcodes: ["ME80RA", "ME3M"],
@@ -719,8 +719,8 @@ export const CH8: TextbookChapter = {
         "להבטיח שתהליך-החוזה תואם-מדיניות: סוגים-נכונים, מספור-עקבי, בקרת-פריטים ואישורים — בסיס לתהליך-רכש מבוקר ובר-ביקורת.",
       processExampleHe:
         "מומחה-SAP מגדיר ב-SPRO סוג-מסמך MK עם טווח-מספרים פנימי, Field Selection מתאים, Item Categories מותרים (Standard/Service), ו-Release Strategy לחוזים מעל 100,000 € — וכך תהליך-החוזה נאכף.",
-      cbcHe:
-        "ב-CBC הוגדרו סוגי-מסמך נפרדים לחוזי-חומרי-גלם ולחוזי-שירותים, טווחי-מספרים מובחנים, ו-Workflow-אישור דו-שלבי (רוכש→מנהל-רכש) לחוזים אסטרטגיים.",
+      scenarioHe:
+        "בארגון הוגדרו סוגי-מסמך נפרדים לחוזי-חומרי-גלם ולחוזי-שירותים, טווחי-מספרים מובחנים, ו-Workflow-אישור דו-שלבי (רוכש→מנהל-רכש) לחוזים אסטרטגיים.",
       navHe: [
         "SPRO ► MM ► Purchasing ► Contract ► Define Document Types",
         "SPRO ► MM ► Purchasing ► Contract ► Define Number Ranges",
@@ -777,8 +777,8 @@ export const CH8: TextbookChapter = {
             "לבסס תהליך-חוזה תקני, מבוקר ובר-אכיפה — שמתאים למדיניות-הרכש של הארגון.",
           processExampleHe:
             "הגדרת MK: BSTYP=K, טווח-מספרים פנימי, Field Selection שמסמן Plant ו-Material כחובה, Item Categories Standard+Service, ו-Release Procedure לחוזים-גדולים.",
-          cbcHe:
-            "ב-CBC הוגדר MK לחומרי-גלם (Material חובה) ו-WK לשירותים (Item Category D מותר), כל אחד עם Field Selection ו-Release מתאימים.",
+          scenarioHe:
+            "בארגון הוגדר MK לחומרי-גלם (Material חובה) ו-WK לשירותים (Item Category D מותר), כל אחד עם Field Selection ו-Release מתאימים.",
           navHe: ["SPRO ► MM ► Purchasing ► Contract ► Define Document Types"],
           tables: ["T161", "T16FS"],
           tcodes: ["OMET", "SPRO"],
@@ -821,8 +821,8 @@ export const CH8: TextbookChapter = {
             "לאכוף בקרת-אישורים גמישה וקלה-לתחזוקה על חוזים — להבטיח שחוזים-מהותיים מאושרים ברמה-המתאימה לפני כניסתם-לתוקף.",
           processExampleHe:
             "מוגדר Workflow: חוזה < 50K → אוטומט; 50K–200K → אישור-מנהל-רכש; > 200K → אישור-CPO. חוזה ב-150K נשלח אוטומטית למנהל-הרכש, שמאשר בתיבת-המשימות.",
-          cbcHe:
-            "ב-CBC הוגדר Workflow דו-שלבי: חוזי-חומרי-גלם מאושרים ע\"י מנהל-הרכש, וחוזים-אסטרטגיים (סוכר/תרכיז) דורשים גם אישור-CFO בשל היקפם.",
+          scenarioHe:
+            "בארגון הוגדר Workflow דו-שלבי: חוזי-חומרי-גלם מאושרים ע\"י מנהל-הרכש, וחוזים-אסטרטגיים (סוכר/תרכיז) דורשים גם אישור-CFO בשל היקפם.",
           navHe: [
             "Fiori Launchpad ► Procurement ► Manage Workflows for Purchase Contracts",
             "SPRO ► MM ► Purchasing ► Contract ► Release Procedure for Contracts",
@@ -874,8 +874,8 @@ export const CH8: TextbookChapter = {
         "לאפשר אספקה-רציפה ומתוזמנת לחומרים בצריכה-קבועה — להקטין מלאי, לפשט תפעול (פחות מסמכים), ולתמוך ב-JIT/JIS מול הספק.",
       processExampleHe:
         "הסכם-תזמון לבקבוקי-PET. MRP מחשב צריכה שבועית ויוצר Schedule Lines ב-EKET. הסכם מפיק Release (Forecast/JIT) שנשלח לספק, שמספק לפי הלוח; קבלות-הטובין מוקזזות מול לוח-התזמון.",
-      cbcHe:
-        "ב-CBC כל חומרי-האריזה (בקבוקים/פקקים/תוויות) מנוהלים בהסכמי-תזמון: קו-המילוי צורך ברציפות, MRP מייצר Schedule Lines, והספקים מספקים JIT למחסן-הקו — מלאי-מינימלי ואספקה-זורמת.",
+      scenarioHe:
+        "בארגון כל חומרי-האריזה (בקבוקים/פקקים/תוויות) מנוהלים בהסכמי-תזמון: קו-המילוי צורך ברציפות, MRP מייצר Schedule Lines, והספקים מספקים JIT למחסן-הקו — מלאי-מינימלי ואספקה-זורמת.",
       navHe: [
         "Logistics ► MM ► Purchasing ► Outline Agreement ► Scheduling Agreement ► Create (ME31L)",
         "Logistics ► MM ► Purchasing ► Outline Agreement ► Scheduling Agreement ► Delivery Schedule (ME38)",
@@ -939,8 +939,8 @@ export const CH8: TextbookChapter = {
             "להתאים את מנגנון-השחרור לצורך: LP לתסריט-פשוט, LPA לאספקת-JIT מבוקרת עם תיעוד והבחנה Forecast/JIT.",
           processExampleHe:
             "חומר בצריכה-יציבה → LP (Schedule Lines ישירות). חומר ב-JIT לקו-ייצור → LPA: Forecast-Schedule נותן תחזית-ארוכה, ו-JIT-Schedule נותן קריאות-אספקה מדויקות לטווח-קצר.",
-          cbcHe:
-            "ב-CBC בקבוקי-PET (אספקת-JIT לקו) = LPA עם Forecast+JIT; תוויות בצריכה-יציבה = LP פשוט.",
+          scenarioHe:
+            "בארגון בקבוקי-PET (אספקת-JIT לקו) = LPA עם Forecast+JIT; תוויות בצריכה-יציבה = LP פשוט.",
           navHe: ["SPRO ► MM ► Purchasing ► Scheduling Agreement ► Define Document Types"],
           tables: ["T161", "EKKO", "EKEH"],
           tcodes: ["ME31L", "ME38"],
@@ -982,8 +982,8 @@ export const CH8: TextbookChapter = {
             "לתת לרוכש ולתכנון כלי שלם ליצירה-ולתחזוקה של הסכמי-תזמון ולוחות-האספקה — מהקמת-ההסכם ועד שחרור שוטף לספק.",
           processExampleHe:
             "רוכש יוצר הסכם-תזמון LPA לבקבוקים (ME31L), קובע מחיר. MRP יוצר Schedule Lines ל-12 שבועות. ME84 מפיק Release Forecast לספק; כל שבוע JIT-Release מעדכן את האספקה-המיידית.",
-          cbcHe:
-            "ב-CBC צוות-התכנון מתחזק הסכמי-תזמון לאריזה דרך ME38; MRP ממלא Schedule Lines לפי תכנית-המילוי, ו-ME84 שולח Release לספקי-האריזה מדי-שבוע.",
+          scenarioHe:
+            "בארגון צוות-התכנון מתחזק הסכמי-תזמון לאריזה דרך ME38; MRP ממלא Schedule Lines לפי תכנית-המילוי, ו-ME84 שולח Release לספקי-האריזה מדי-שבוע.",
           navHe: [
             "Logistics ► MM ► Purchasing ► Outline Agreement ► Scheduling Agreement ► Create (ME31L)",
             "Logistics ► MM ► Purchasing ► Outline Agreement ► Scheduling Agreement ► Delivery Schedule (ME38)",
@@ -1028,8 +1028,8 @@ export const CH8: TextbookChapter = {
             "לתת שליטה תפעולית על זרימת-האספקה בהסכמי-תזמון — לזהות איחורים/חוסרים ולפעול לפני שהקו נעצר.",
           processExampleHe:
             "מתכנן פותח את ה-Monitor, מסנן 'Overdue Schedule Lines', מזהה אספקת-בקבוקים-באיחור, ויוצר-קשר עם הספק לפני שהמלאי אוזל.",
-          cbcHe:
-            "ב-CBC המתכנן מנטר יומית את הסכמי-האריזה; כששורת-אספקת-בקבוקים מתעכבת, הוא מתערב מיד כדי שקו-המילוי לא ייעצר.",
+          scenarioHe:
+            "בארגון המתכנן מנטר יומית את הסכמי-האריזה; כששורת-אספקת-בקבוקים מתעכבת, הוא מתערב מיד כדי שקו-המילוי לא ייעצר.",
           navHe: ["Fiori Launchpad ► Procurement ► Monitor Purchase Scheduling Agreement Items"],
           tables: ["EKPO", "EKET", "EKEH", "EKBE"],
           tcodes: ["ME38", "ME33L", "ME80RA"],
@@ -1070,8 +1070,8 @@ export const CH8: TextbookChapter = {
         "לבסס תהליך הסכם-תזמון תקני עם שחרורי-אספקה מבוקרים — להבטיח שהספק מקבל לוחות-Forecast/JIT בתדירות ובאופק הנכונים.",
       processExampleHe:
         "מומחה-SAP מגדיר LPA עם טווח-מספרים, Item Categories מותרים, ו-Release Creation Profile: Forecast חודשי לאופק-3-חודשים, JIT שבועי לאופק-שבועיים — וכך השחרורים מופקים אוטומטית בקצב-הנכון.",
-      cbcHe:
-        "ב-CBC הוגדר Release Creation Profile לאריזה: Forecast חודשי לספק (לתכנון-ייצורו) ו-JIT שבועי (לאספקה-מיידית לקו) — איזון בין נראות-ארוכה לגמישות-קצרה.",
+      scenarioHe:
+        "בארגון הוגדר Release Creation Profile לאריזה: Forecast חודשי לספק (לתכנון-ייצורו) ו-JIT שבועי (לאספקה-מיידית לקו) — איזון בין נראות-ארוכה לגמישות-קצרה.",
       navHe: [
         "SPRO ► MM ► Purchasing ► Scheduling Agreement ► Define Document Types",
         "SPRO ► MM ► Purchasing ► Scheduling Agreement ► Define Number Ranges",
@@ -1128,8 +1128,8 @@ export const CH8: TextbookChapter = {
             "להגדיר סוגי-הסכם-תזמון תקניים שמתאימים לתסריטי-העבודה (LP פשוט / LPA JIT) ולמדיניות-הרכש.",
           processExampleHe:
             "הגדרת LPA: BSTYP=L, Release Documentation פעיל, טווח-מספרים פנימי, Item Categories Standard, Field Selection שמסמן Material+Plant חובה.",
-          cbcHe:
-            "ב-CBC הוגדר LPA לאריזת-JIT ו-LP לחומרי-עזר-יציבים, כל אחד עם Field Selection ו-Item Categories מתאימים.",
+          scenarioHe:
+            "בארגון הוגדר LPA לאריזת-JIT ו-LP לחומרי-עזר-יציבים, כל אחד עם Field Selection ו-Item Categories מתאימים.",
           navHe: ["SPRO ► MM ► Purchasing ► Scheduling Agreement ► Define Document Types"],
           tables: ["T161", "T16FS"],
           tcodes: ["OMET", "SPRO"],
@@ -1168,8 +1168,8 @@ export const CH8: TextbookChapter = {
             "להבטיח מספור-עקבי, מובחן ובר-מעקב להסכמי-התזמון — בסיס לבקרה ולזיהוי-מהיר.",
           processExampleHe:
             "מוגדר טווח פנימי 5500000000–5599999999 ל-LP/LPA, נפרד מטווח-החוזים — כל הסכם מקבל מספר מהטווח אוטומטית.",
-          cbcHe:
-            "ב-CBC הוקצה טווח-מספרים ייעודי להסכמי-התזמון, נבדל מחוזי-החומרים, לזיהוי-מיידי בדוחות.",
+          scenarioHe:
+            "בארגון הוקצה טווח-מספרים ייעודי להסכמי-התזמון, נבדל מחוזי-החומרים, לזיהוי-מיידי בדוחות.",
           navHe: ["SPRO ► MM ► Purchasing ► Scheduling Agreement ► Define Number Ranges"],
           tables: ["T161", "NRIV"],
           tcodes: ["SNRO", "SPRO"],
@@ -1208,8 +1208,8 @@ export const CH8: TextbookChapter = {
             "למנוע שילובי-פריט לא-תקפים בהסכם-תזמון ולשמור על היגיון-תהליכי ואיכות-נתונים.",
           processExampleHe:
             "ניסיון להזין פריט Consignment בהסכם שלא-מתיר זאת מוחזר בשגיאה; רק Standard ו-Subcontracting הוגדרו מותרים.",
-          cbcHe:
-            "ב-CBC הסכמי-אריזה מתירים Standard בלבד; הסכמי-קבלנות-משנה (מילוי-חיצוני) מתירים גם L=Subcontracting.",
+          scenarioHe:
+            "בארגון הסכמי-אריזה מתירים Standard בלבד; הסכמי-קבלנות-משנה (מילוי-חיצוני) מתירים גם L=Subcontracting.",
           navHe: ["SPRO ► MM ► Purchasing ► Scheduling Agreement ► Define Allowed Item Categories"],
           tables: ["T161", "T163"],
           tcodes: ["OMET", "SPRO"],
@@ -1248,8 +1248,8 @@ export const CH8: TextbookChapter = {
             "לשלוט במנגנון-השחרור — להבטיח שהספק מקבל לוחות-Forecast/JIT בתדירות, באופק ובאגרגציה הנכונים, עם טיפול-נכון ב-Backlog ובדרישות-מיידיות.",
           processExampleHe:
             "פרופיל: Forecast חודשי לאופק-90-יום, JIT שבועי לאופק-14-יום, Aggregation שבועי לאחר-30-יום. ME84 מפיק בהתאם, והספק מקבל תחזית-ארוכה + קריאות-קצרות מדויקות.",
-          cbcHe:
-            "ב-CBC פרופיל-האריזה: Forecast חודשי (לתכנון-ייצור-הספק) + JIT שבועי (לאספקה-מיידית לקו). כך הספק מתכנן-קדימה אך מספק בקצב-הצריכה-בפועל.",
+          scenarioHe:
+            "בארגון פרופיל-האריזה: Forecast חודשי (לתכנון-ייצור-הספק) + JIT שבועי (לאספקה-מיידית לקו). כך הספק מתכנן-קדימה אך מספק בקצב-הצריכה-בפועל.",
           navHe: ["SPRO ► MM ► Purchasing ► Scheduling Agreement ► Maintain Release Creation Profile"],
           tables: ["T161", "EKET", "EKEH"],
           tcodes: ["OMET", "ME84", "SPRO"],
@@ -1299,8 +1299,8 @@ export const CH8: TextbookChapter = {
         "לשלב את החוזק-של-Ariba בניהול-החוזים-האסטרטגי-והמשפטי עם החוזק-של-S/4HANA בביצוע-התפעולי — מקור-אמת-אחד, פחות הקלדה-כפולה, ובקרת-Compliance מקצה-לקצה.",
       processExampleHe:
         "צוות-Sourcing מנהל מו\"מ ב-Ariba, סוגר חוזה עם סעיפים-משפטיים ו-eSignature; האינטגרציה יוצרת Outline Agreement ב-S/4HANA; הרכש-התפעולי מושך ממנו הזמנות-שחרור — וצריכה-בפועל מוזנת חזרה לדיווח ב-Ariba.",
-      cbcHe:
-        "ב-CBC חוזי-הסוכר-והתרכיז האסטרטגיים נסגרים ב-Ariba (מו\"מ, Compliance, חתימות), ומסונכרנים אוטומטית ל-S/4HANA כ-Outline Agreements שמהם מפעלי-המילוי מושכים אספקה.",
+      scenarioHe:
+        "בארגון חוזי-הסוכר-והתרכיז האסטרטגיים נסגרים ב-Ariba (מו\"מ, Compliance, חתימות), ומסונכרנים אוטומטית ל-S/4HANA כ-Outline Agreements שמהם מפעלי-המילוי מושכים אספקה.",
       navHe: [
         "SAP Integration Suite ► Cloud Integration ► (Ariba ↔ S/4HANA iFlows)",
         "SAP Ariba ► Contracts ► Contract Workspace",
@@ -1359,8 +1359,8 @@ export const CH8: TextbookChapter = {
         "לקבע את התמונה-המלאה: מתי לבחור חוזה מול הסכם-תזמון, כיצד לנצל ולמדוד, וכיצד להגדיר ולשלב — כדי לתכנן, לממש ולתקן תהליכי-הסכמי-מסגרת ב-S/4HANA בביטחון.",
       processExampleHe:
         "מקצה-לקצה: מו\"מ→חוזה/הסכם-תזמון→ניצול (שחרור/לוח-אספקה)→GR+חשבונית→אנליטיקה (ניצול/דליפה/תפוגה)→חידוש. כל שלב נשען על האובייקטים שנלמדו בפרק.",
-      cbcHe:
-        "ב-CBC: חוזי-כמות/ערך לסוכר-ותרכיז, הסכמי-תזמון JIT לאריזה, אנליטיקה-רבעונית למשמעת-רכש, ו-Ariba לחוזים-האסטרטגיים — תמונת-רכש שלמה למפעל-בקבוק.",
+      scenarioHe:
+        "בארגון: חוזי-כמות/ערך לסוכר-ותרכיז, הסכמי-תזמון JIT לאריזה, אנליטיקה-רבעונית למשמעת-רכש, ו-Ariba לחוזים-האסטרטגיים — תמונת-רכש שלמה למפעל-בקבוק.",
       navHe: [
         "Fiori Launchpad ► Procurement ► Manage Purchase Contracts (F1600A)",
         "SPRO ► MM ► Purchasing ► Contract / Scheduling Agreement",

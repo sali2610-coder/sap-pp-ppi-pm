@@ -8,7 +8,7 @@ export const CH7: TextbookChapter = {
   titleHe: "הגדרת תהליכים עסקיים נוספים",
   titleEn: "Configuring Additional Business Processes",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לקונפיגורציה של תהליכים עסקיים מתקדמים בתחזוקה (Plant Maintenance) ב-SAP S/4HANA Asset Management. בעוד הפרקים הקודמים בנו את התשתית — אובייקטים טכניים, הודעות, פקודות-עבודה, תוכניות-תחזוקה — פרק זה מוסיף תהליכים שלמים שכל ארגון-תחזוקה רציני נדרש להם: עיבוד-חיצוני (External Processing) של תיקונים אצל קבלן, שיקום (Refurbishment) של חלפים בני-תיקון, מיקור-חוץ (Subcontracting) של ציוד שנשלח החוצה, כיול (Calibration) של ציוד-מדידה בצימוד PM/QM, ניהול מאגר-נכסים (Pool Asset Management), Maintenance Event Builder לתכנון מקבצי-עבודה, דוחות-משמרת ורשימות-תיוג (Checklists), ולבסוף מודל-השלבים (Phase Model) החדש למחזור-חיי פקודת-העבודה. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC (מפעל בקבוק של קוקה-קולה), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא במלואו ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לקונפיגורציה של תהליכים עסקיים מתקדמים בתחזוקה (Plant Maintenance) ב-SAP S/4HANA Asset Management. בעוד הפרקים הקודמים בנו את התשתית — אובייקטים טכניים, הודעות, פקודות-עבודה, תוכניות-תחזוקה — פרק זה מוסיף תהליכים שלמים שכל ארגון-תחזוקה רציני נדרש להם: עיבוד-חיצוני (External Processing) של תיקונים אצל קבלן, שיקום (Refurbishment) של חלפים בני-תיקון, מיקור-חוץ (Subcontracting) של ציוד שנשלח החוצה, כיול (Calibration) של ציוד-מדידה בצימוד PM/QM, ניהול מאגר-נכסים (Pool Asset Management), Maintenance Event Builder לתכנון מקבצי-עבודה, דוחות-משמרת ורשימות-תיוג (Checklists), ולבסוף מודל-השלבים (Phase Model) החדש למחזור-חיי פקודת-העבודה. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון (מפעל בקבוק של מוצר לדוגמה), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא במלואו ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 7.1
     {
@@ -23,8 +23,8 @@ export const CH7: TextbookChapter = {
         "לאפשר תכנון, רכש, קבלת-שירות ובקרת-עלות לעבודה שמבוצעת בידי קבלן, מתוך פקודת-התחזוקה עצמה ובאינטגרציה מלאה ל-MM ו-FI/CO — דרישת-רכש נוצרת אוטומטית, קבלת-השירות מזרימה עלות בפועל לפקודה, וההפרש מחשבונית מתקן את העלות.",
       processExampleHe:
         "מתכנן-התחזוקה מתכנן פעולת-עיבוד-חיצוני בפקודה; ברקע נוצרת דרישת-רכש; הרכש ממיר אותה להזמנת-רכש לספק; הקבלן מבצע; קבלת-השירות (Goods Receipt/Service Entry Sheet) מזרימה עלות בפועל; חשבונית-הספק חותמת את התהליך ומתקנת עלויות אם הסכום שונה.",
-      cbcHe:
-        "ב-CBC: כיול מנוע חיצוני, תיקון רובוט-מילוי אצל היצרן, או ניקוי-מיכל בידי קבלן מורשה — כולם פעולות-עיבוד-חיצוני בפקודת-התחזוקה. תיקון-מנוע פשוט = PM02 (הזמנה בודדת); חוזה-שירות שנתי עם פירוט-עבודות = PM03 (מפרט-שירותים).",
+      scenarioHe:
+        "בארגון: כיול מנוע חיצוני, תיקון רובוט-מילוי אצל היצרן, או ניקוי-מיכל בידי קבלן מורשה — כולם פעולות-עיבוד-חיצוני בפקודת-התחזוקה. תיקון-מנוע פשוט = PM02 (הזמנה בודדת); חוזה-שירות שנתי עם פירוט-עבודות = PM03 (מפרט-שירותים).",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists, and PRTs ► Work Centers ► Task List Data ► Maintain Control Keys",
         "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Procurement ► Create Default Value Profiles for External Procurement",
@@ -91,7 +91,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "ה-Control Key חייב: Ext. Processing='Externally processed operation', Cost מסומן (עלות נכנסת לתמחיר), Confirmation='Confirmation not possible', Service ריק (כדי שלא ייווצר מפרט-שירותים). Sched.Ext.Op. אופציונלי אם מזמינים על בסיס-שעות ורוצים לכלול בתזמון-הפקודה. אם ה-GR מוערך — עלות בפועל נרשמת בקבלה; הפרש-חשבונית מתקן אוטומטית לעלות-נטו.",
           purposeHe: "לאפשר תיקון/שירות חיצוני פשוט ללא ניהול-שירותים מפורט — מתאים לעבודות חד-פעמיות שבהן תיאור-טקסט ומחיר-כולל מספיקים.",
           processExampleHe: "פעולה 0010 בפקודה 901760 = 'תיקון-מנוע אצל Miller Inc.'. תכנון יוצר דרישת-רכש → הרכש ממיר להזמנה → המנוע תוקן → GR מזרים עלות בפועל לפקודה → חשבונית-הספק חותמת ומתקנת הפרשים.",
-          cbcHe: "ב-CBC: תיקון משאבת-CO2 חד-פעמי אצל ספק — Control Key PM02, GR מוערך כך שעלות-התיקון נרשמת מיד בפקודת-התחזוקה של מערכת-הקרבונציה.",
+          scenarioHe: "בארגון: תיקון משאבת-CO2 חד-פעמי אצל ספק — Control Key PM02, GR מוערך כך שעלות-התיקון נרשמת מיד בפקודת-התחזוקה של מערכת-הקרבונציה.",
           navHe: ["Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists, and PRTs ► Work Centers ► Task List Data ► Maintain Control Keys", "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Procurement ► Create Default Value Profiles for External Procurement"],
           tables: ["AFVC", "EBAN", "EKPO", "T399X"],
           tcodes: ["IW32", "ME21N", "MIGO", "MIRO"],
@@ -118,7 +118,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "ה-Control Key: Ext.Processing='Externally', Service מסומן (מאפשר מפרט-שירותים), Cost מסומן, Print מסומן (הדפסת SES), Confirmation='not possible'. נדרש Service Master עם Service Category (AS01/AS02/AS03) ו-Account Category Reference (ARef) לקביעת-חשבון אוטומטית. ה-SES מאפשר פריטים לא-מתוכננים ומחייב Service Acceptance לשחרור לחשבונית.",
           purposeHe: "לנהל עבודות-קבלן מורכבות עם פירוט-עלות, מגבלות-תקציב לשירות-לא-מתוכנן, ובקרת-ארבע-עיניים — נדרש בחוזי-שירות גדולים ובמכרזים.",
           processExampleHe: "קביעת-דרישה בפקודה → מכרז → הצעות → בחירת-ספק → הזמנה → ביצוע → Service Entry → Service Acceptance → אימות-חשבונית. כל שלב מתועד, ופריטים לא-מתוכננים מתווספים ב-SES בכפוף-למגבלה.",
-          cbcHe: "ב-CBC: חוזה-שירות שנתי לתחזוקת קו-המילוי עם פירוט-עבודות (סיכה, יישור, החלפת-חלקים) — מפרט-שירותים מאפשר מגבלת-תקציב לעבודות-חירום לא-מתוכננות.",
+          scenarioHe: "בארגון: חוזה-שירות שנתי לתחזוקת קו-המילוי עם פירוט-עבודות (סיכה, יישור, החלפת-חלקים) — מפרט-שירותים מאפשר מגבלת-תקציב לעבודות-חירום לא-מתוכננות.",
           navHe: ["Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists, and PRTs ► Work Centers ► Task List Data ► Maintain Control Keys", "Materials Management ► External Services Management ► Service Master ► Define Service Category"],
           tables: ["ASMD", "ESLL", "ESSR", "T399X"],
           tcodes: ["IW32", "AC01", "ML81N", "ME21N"],
@@ -154,8 +154,8 @@ export const CH7: TextbookChapter = {
         "להבטיח זמינות מיידית של רכיבים קריטיים ויקרי-ערך לנכס, לחסוך רכש-חדש, ולנהל נכון את הערך-החשבונאי של החלף לאורך מחזור-חיי השיקום.",
       processExampleHe:
         "רכש חלף בן-תיקון → התקנה בנכס → כשל → הוצאת-פגום והחזרתו למלאי (C3) → צבירת-פגומים מגיעה לסף → יצירת Refurbishment Order → משיכה מהמלאי → שיקום (אישורים/GR/SES) → GR למלאי כתקין (C2) → או גריטה אם לא ניתן לשקם.",
-      cbcHe:
-        "ב-CBC: משאבות, מנועים וראשי-מילוי הם חלפים בני-תיקון יקרים. משאבה פגומה (C3, $700) משוקמת בפקודת-שיקום ומוחזרת כתקינה (C2, $2,500); כך מובטחת זמינות-מיידית לקו-המילוי בלי לקנות משאבה חדשה (C1, $3,000).",
+      scenarioHe:
+        "בארגון: משאבות, מנועים וראשי-מילוי הם חלפים בני-תיקון יקרים. משאבה פגומה (C3, $700) משוקמת בפקודת-שיקום ומוחזרת כתקינה (C2, $2,500); כך מובטחת זמינות-מיידית לקו-המילוי בלי לקנות משאבה חדשה (C1, $3,000).",
       navHe: [
         "Materials Management ► Valuation and Account Assignment ► Split Valuation ► Activate Split Valuation (OMW0)",
         "Materials Management ► Valuation and Account Assignment ► Split Valuation ► Configure Split Valuation (OMWC)",
@@ -221,7 +221,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "תחילה מפעילים Split Valuation גלובלית (OMW0), אז מגדירים (OMWC): Global Valuation Types (C1=Like new, C2=Refurbished, C3=Faulty; חובה Int.POs=2 כדי שיותרו בפקודות-שיקום), Global Valuation Categories (C=Condition), ולבסוף Local Definitions — הפעלת-הקטגוריה למפעל יוצרת אוטומטית את ה-Local Valuation Types. דוגמת-ערכים: C1 $3,000, C2 $2,500, C3 $700.",
           purposeHe: "לשקף נכון את הערך-החשבונאי של החלף בכל מצב לאורך מחזור-השיקום, ולאפשר רישומי-מלאי תקפים בכל מעבר-מצב.",
           processExampleHe: "יצירת אב-חומר עם Valuation Category C; הוצאת-חלף-פגום נרשמת ב-C3 ($700); לאחר שיקום ה-GR למלאי נרשם ב-C2 ($2,500) — ההפרש משקף את הערך שנוסף.",
-          cbcHe: "ב-CBC: משאבת-מילוי מנוהלת כחומר עם Valuation Category C; הוצאתה כפגומה ב-C3 והחזרתה כמשוקמת ב-C2 משקפות נכון את ערך-המלאי של מחסן-החלפים.",
+          scenarioHe: "בארגון: משאבת-מילוי מנוהלת כחומר עם Valuation Category C; הוצאתה כפגומה ב-C3 והחזרתה כמשוקמת ב-C2 משקפות נכון את ערך-המלאי של מחסן-החלפים.",
           navHe: ["Materials Management ► Valuation and Account Assignment ► Split Valuation ► Activate Split Valuation (OMW0)", "Materials Management ► Valuation and Account Assignment ► Split Valuation ► Configure Split Valuation (OMWC)"],
           tables: ["MBEW", "T149", "T149C", "MARC"],
           tcodes: ["OMW0", "OMWC", "MM01", "MM02"],
@@ -249,7 +249,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "מומלץ Notification Type נפרד להבחנה ולבקרה. ב-Overview of Notification Type → Screen Areas in Notification Header: Screen Type Hdr='H100' (Header maintenance notification); ScrnType Object='O130' (serial number + material number + device ID) — כי השיקום מתייחס למספר-חומר. שאר ההגדרות כמו הודעות רגילות.",
           purposeHe: "לתעד את פעולות-מחלקת-התחזוקה בשיקום, להבטיח היסטוריה-מלאה, ולשמש טריגר-ראשון מסודר לתהליך כאשר הארגון מחייב הודעה לפני פקודה.",
           processExampleHe: "פותחים הודעת-שיקום (סוג ייעודי) עם מספר-החומר של המשאבה הפגומה; ההודעה מתעדת ומזניקה את פקודת-השיקום; ההיסטוריה נשמרת לתחקור עתידי.",
-          cbcHe: "ב-CBC: כל החזרת-משאבה פגומה למחסן פותחת הודעת-שיקום ייעודית עם מספר-החומר — כך נשמרת היסטוריית-תקלות מלאה לכל דגם-משאבה.",
+          scenarioHe: "בארגון: כל החזרת-משאבה פגומה למחסן פותחת הודעת-שיקום ייעודית עם מספר-החומר — כך נשמרת היסטוריית-תקלות מלאה לכל דגם-משאבה.",
           navHe: ["Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Notifications ► Overview of Notification Types ► Subfunction Screen Areas in Notification Header"],
           tables: ["QMEL", "TQ80", "T356"],
           tcodes: ["IW21", "IW22", "OION"],
@@ -276,7 +276,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Configure Order Types (OIDA): Settlement Profile שונה מרגיל — Material כ-Valid Receiver (Settlement Optional=1), Default Object Type='MAT'. Indicate Order Types for Refurbishment Processing: סימון הסוג כשיקום (חוסם שימוש רגיל). Assign Notification Types to Order Types: הצעת סוג-פקודת-שיקום מסוג-הודעת-שיקום. שאר ההגדרות כמו פקודות רגילות (Chapter 5).",
           purposeHe: "לבודד את תהליך-השיקום מתחזוקה רגילה, ולאפשר התחשבנות נכונה של עלות-השיקום חזרה לערך-החומר במלאי.",
           processExampleHe: "יצירת Refurbishment Order עם Settlement על החומר; משיכת-פגומים, ביצוע-שיקום, GR למלאי כתקין; ב-Settlement העלות נזקפת למספר-החומר ומעדכנת את ערכו.",
-          cbcHe: "ב-CBC: סוג-פקודה PMRF ייעודי לשיקום-משאבות; ה-Settlement מחזיר את עלות-העבודה-והחלקים לערך-החומר של המשאבה במחסן-החלפים.",
+          scenarioHe: "בארגון: סוג-פקודה PMRF ייעודי לשיקום-משאבות; ה-Settlement מחזיר את עלות-העבודה-והחלקים לערך-החומר של המשאבה במחסן-החלפים.",
           navHe: ["Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Configure Order Types (OIDA)", "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Indicate Order Types for Refurbishment Processing"],
           tables: ["AUFK", "T003O", "T156", "TKB1A"],
           tcodes: ["OIDA", "IW81", "KO88"],
@@ -304,7 +304,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "תנאי: הפעלת Business Functions LOG_EAM_ROTSUB, LOG_EAM_ROTSUB_2, LOG_MM_SERNO (תחת S/4H_ALWAYS_ON_FUNCTIONS), והקצאת Spare Part Class Code באב-החומר (2=repairable עם CMM, 6=בלי CMM). אם תת-המסך חסר — Define Structure of Data Screens for Each Screen Sequence (OMT3B): Program='SAPLADRT21', Screen='2000'. אז ב-MD04 ניתן להמיר תוכנית-מתוכננת לפקודת-שיקום.",
           purposeHe: "להבטיח זמינות-רציפה של חלפים תקינים דרך אוטומציה — MRP מזהה מחסור ומציע שיקום מהמלאי-הפגום במקום רכש-חדש.",
           processExampleHe: "תקינים יורדים מתחת ל-Reorder Point; MRP רואה פגומים במלאי ויוצר Planned Order; המתכנן ממיר אותה ב-MD04 ל-Refurbishment Order; השיקום ממלא מחדש את מלאי-התקינים.",
-          cbcHe: "ב-CBC: כשמלאי-משאבות-תקינות יורד מתחת ל-2, MRP מציע פקודת-שיקום אוטומטית מתוך מלאי-המשאבות-הפגומות — מבטיח זמינות מיידית לקווי-המילוי.",
+          scenarioHe: "בארגון: כשמלאי-משאבות-תקינות יורד מתחת ל-2, MRP מציע פקודת-שיקום אוטומטית מתוך מלאי-המשאבות-הפגומות — מבטיח זמינות מיידית לקווי-המילוי.",
           navHe: ["Logistics - General ► Material Master ► Configuring the Material Master ► Define Structure of Data Screens for Each Screen Sequence (OMT3B)"],
           tables: ["MARC", "MDKP", "MDTB", "PLAF"],
           tcodes: ["MD04", "MD01", "OMT3B", "MM02"],
@@ -339,8 +339,8 @@ export const CH7: TextbookChapter = {
         "לאפשר תיקון/שיפוץ/החלפה של ציוד יקר אצל ספק-מומחה תוך מעקב מלא אחר הפריט הפיזי (מספר-סידורי) ואחר המלאי-המסופק לספק.",
       processExampleHe:
         "IW81: פקודה עם ציוד+Subcontracting → ME52N דרישת-רכש עם מספר-סידורי → ME21N הזמנה (L) → MIGO 541 העברה למלאי-Subcontracting → עיבוד אצל ספק → MIGO 543 הוצאה ממלאי-מסופק + MIGO 101 GR לפריט-המשוקם → MIRO חשבונית → IW32 השלמה-טכנית.",
-      cbcHe:
-        "ב-CBC: מנוע-מילוי מורכב נשלח לשיפוץ-יסודי אצל היצרן. הוא מנוהל במספר-סידורי, נשלח ב-Outbound Delivery, נכנס למלאי-אצל-הספק, חוזר משופץ ומתקבל ב-GR — הכל באותו מספר-סידורי לשמירת היסטוריית-הציוד.",
+      scenarioHe:
+        "בארגון: מנוע-מילוי מורכב נשלח לשיפוץ-יסודי אצל היצרן. הוא מנוהל במספר-סידורי, נשלח ב-Outbound Delivery, נכנס למלאי-אצל-הספק, חוזר משופץ ומתקבל ב-GR — הכל באותו מספר-סידורי לשמירת היסטוריית-הציוד.",
       navHe: [
         "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Technical Objects ► Serial Number Management ► Define Serial Number Profiles (OIS2)",
         "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Bills of Material ► Item Data ► Define Material Provision Indicators (OICO)",
@@ -413,8 +413,8 @@ export const CH7: TextbookChapter = {
         "להבטיח אמינות-מדידה רגולטורית של ציוד-בדיקה דרך תזמון-אוטומטי של כיולים, רישום-תוצאות מובנה, והחלטת-שימוש (קבל/דחה) עם פעולות-המשך — חיוני בתעשיות מפוקחות.",
       processExampleHe:
         "תוכנית-תחזוקה לציוד-מדידה מייצרת פקודה + Inspection Lot; הטכנאי רושם תוצאות-אפיון מול Master Inspection Characteristics; Usage Decision קובע קבל/דחה; פעולת-המשך (נעילת-ציוד / השלמה-טכנית) מופעלת אוטומטית.",
-      cbcHe:
-        "ב-CBC: משקלי-מעבדה ומדי-pH לבקרת-איכות-המשקה מכוילים תקופתית. כל מכשיר = Equipment עם קטגוריית-PRT; תוכנית-התחזוקה מייצרת פקודת-כיול + Inspection Lot; אם המשקל סוטה — Usage Decision='דחה' נועל את הציוד אוטומטית.",
+      scenarioHe:
+        "בארגון: משקלי-מעבדה ומדי-pH לבקרת-איכות-המשקה מכוילים תקופתית. כל מכשיר = Equipment עם קטגוריית-PRT; תוכנית-התחזוקה מייצרת פקודת-כיול + Inspection Lot; אם המשקל סוטה — Usage Decision='דחה' נועל את הציוד אוטומטית.",
       navHe: [
         "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Technical Objects ► Equipment ► Equipment Categories ► Maintain Equipment Category",
         "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Define Inspections in Plant Maintenance",
@@ -481,7 +481,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Set View Profiles for Technical Objects: מבנה-מסכים ייעודי. Maintain Equipment Category: Reference Category חייב P (Production resources/tools). Define Additional Business Views: PRT View ל-Selection (חובה — ריק לא עובד); SD View אם מאחסנים (דורש Serial Number Profile). Define Serial Number Profiles (OIS2) למספר-סידורי.",
           purposeHe: "לבדל את ציוד-המדידה משאר-הציוד, ולהקנות לו את התכונות (PRT, סידוריזציה, מבנה-מסך) הנדרשות לתהליך-הכיול.",
           processExampleHe: "יצירת Equipment Category חדשה עם Reference Category P והפעלת PRT View; כל משקל-מעבדה נוצר תחתיה ב-IE01 ומקבל אוטומטית את מבנה-המסך והתכונות הנדרשות לכיול.",
-          cbcHe: "ב-CBC: קטגוריית-ציוד 'CALIB' למכשירי-מעבדה, עם Reference Category P ו-PRT/SD Views — מבדילה משקלי-pH ומדי-לחץ משאר-ציוד-המפעל.",
+          scenarioHe: "בארגון: קטגוריית-ציוד 'CALIB' למכשירי-מעבדה, עם Reference Category P ו-PRT/SD Views — מבדילה משקלי-pH ומדי-לחץ משאר-ציוד-המפעל.",
           navHe: ["Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Technical Objects ► General Data ► Set View Profiles for Technical Objects", "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Technical Objects ► Equipment ► Equipment Categories ► Maintain Equipment Category"],
           tables: ["EQUI", "T370K", "T370U", "T377X"],
           tcodes: ["IE01", "OIS2", "OIBS"],
@@ -509,7 +509,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Define SPC Criteria: שני קריטריונים — אחד ל-Task List Characteristics (QRKS_CHARACTERISTIC_PM_OBJECT), שני ל-Master Inspection Characteristics (QRKS_MASTER_CHAR_PM_OBJECT); שניהם Usage 004/009 ו-'New assignment in each insp. point'. Define Inspection Points: type 1 (Equipment) עם Selected Set/Code לקבל-דחה לכל מפעל. Control Keys: Insp.Char.Required. Maintain Inspection Types + Origin 14. Define Inspections in Plant Maintenance: קישור Order Type↔Inspection Type לכל מפעל — בלעדיו אין צימוד. Follow-up Actions (V_TQ07, function L) דרך QFOA_OBJECT_STATUS_SET לנעילת-ציוד.",
           purposeHe: "לבנות את שרשרת-האיכות שמייצרת Inspection Lot מכל פקודת-כיול, רושמת תוצאות, ומפעילה פעולות-המשך לפי החלטת-השימוש.",
           processExampleHe: "פקודת-כיול במפעל מסוים יוצרת אוטומטית Inspection Lot עם ה-Inspection Type המקושר; הטכנאי רושם תוצאות; Usage Decision='דחה' מפעיל QFOA_OBJECT_STATUS_SET לנעילת-המכשיר.",
-          cbcHe: "ב-CBC: Inspection Type ייעודי 'CAL' מקושר לסוג-פקודת-הכיול במפעל-המעבדה; כל פקודת-כיול-משקל מייצרת Inspection Lot, וקוד-דחייה נועל אוטומטית את המשקל הסוטה.",
+          scenarioHe: "בארגון: Inspection Type ייעודי 'CAL' מקושר לסוג-פקודת-הכיול במפעל-המעבדה; כל פקודת-כיול-משקל מייצרת Inspection Lot, וקוד-דחייה נועל אוטומטית את המשקל הסוטה.",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Creation ► Maintain Inspection Types", "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Define Inspections in Plant Maintenance"],
           tables: ["QPMK", "QALS", "TQ30", "TQ07", "TQ31"],
           tcodes: ["QS21", "QE51N", "QGA1", "V_TQ07"],
@@ -545,8 +545,8 @@ export const CH7: TextbookChapter = {
         "לנהל ביעילות מאגר-משאבים משותף — שיבוץ, מעקב-זמינות, אישור-אוטומטי וחיוב-עלות לפי-שימוש — תוך שקיפות בלוח-תכנון גרפי.",
       processExampleHe:
         "עובד פותח הודעת-PAM לרכב; המתזמן משבץ רכב בלוח; העובד מקבל מייל-אישור; בהוצאה נרשם מד-ק\"מ ושעת-נטילה; בהחזרה נרשם מד-ק\"מ ותאריך; העלות מחושבת ומוקצית למרכז-העלות דרך פקודת-PAM ברקע.",
-      cbcHe:
-        "ב-CBC: מאגר מלגזות-המחסן וצי-רכבי-החלוקה מנוהל ב-PAM. נהג מבקש מלגזה למשמרת, מקבל אישור, וזמן-השימוש מחויב למרכז-העלות של מחלקת-הלוגיסטיקה — עם שקיפות-זמינות בלוח-התכנון.",
+      scenarioHe:
+        "בארגון: מאגר מלגזות-המחסן וצי-רכבי-החלוקה מנוהל ב-PAM. נהג מבקש מלגזה למשמרת, מקבל אישור, וזמן-השימוש מחויב למרכז-העלות של מחלקת-הלוגיסטיקה — עם שקיפות-זמינות בלוח-התכנון.",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Pool Asset Management ► Basic Settings for Pool Asset Management",
         "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Pool Asset Management ► Define Settings for Planning Board",
@@ -619,8 +619,8 @@ export const CH7: TextbookChapter = {
         "לתכנן ולנהל אירועי-תחזוקה מורכבים בצורה מקובצת — בקרת-Backlog, קיבוץ ל-Revisions, יצירת-פקודות והקצאת-משימות במקום-אחד.",
       processExampleHe:
         "מתכנן פותח WPS1, בודק Backlog של הודעות-פתוחות, מקבץ אותן ל-Revision של השבתה-מתוכננת, יוצר פקודות מההודעות, מקצה משימות, ובודק זמינות-משאבים — הכל מתוך ה-Workbench.",
-      cbcHe:
-        "ב-CBC: השבתה-שנתית של קו-המילוי מנוהלת ב-MEB כ-Revision; כל הודעות-התחזוקה הפתוחות לקו מקובצות, מומרות לפקודות, ומתוזמנות לחלון-ההשבתה תוך בדיקת-זמינות של אנשי-התחזוקה.",
+      scenarioHe:
+        "בארגון: השבתה-שנתית של קו-המילוי מנוהלת ב-MEB כ-Revision; כל הודעות-התחזוקה הפתוחות לקו מקובצות, מומרות לפקודות, ומתוזמנות לחלון-ההשבתה תוך בדיקת-זמינות של אנשי-התחזוקה.",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance Event Builder ► Maintain Revision Type (DIWPSC4)",
       ],
@@ -685,8 +685,8 @@ export const CH7: TextbookChapter = {
         "לתעד אירועי-משמרת בצורה מובנית ולהפיק דוח-PDF חתום המשמש כראיה-תיעודית — חיוני להעברת-מידע בין משמרות ולתחקור-אירועים.",
       processExampleHe:
         "במהלך-משמרת נרשמות Shift Notes על תקלת-מכונה והצעת-שיפור; בסוף-המשמרת האחראי מפיק Shift Report (PDF) המרכז אותן יחד עם אישורים, תנועות-מלאי והודעות, וחותם דיגיטלית.",
-      cbcHe:
-        "ב-CBC: מפעיל קו-המילוי רושם Shift Notes על עצירות-קו והפסקות; בסוף-המשמרת מנהל-המשמרת מפיק Shift Report חתום הכולל את כל האירועים, אישורי-הייצור ותנועות-המלאי — להעברה למשמרת הבאה.",
+      scenarioHe:
+        "בארגון: מפעיל קו-המילוי רושם Shift Notes על עצירות-קו והפסקות; בסוף-המשמרת מנהל-המשמרת מפיק Shift Report חתום הכולל את כל האירועים, אישורי-הייצור ותנועות-המלאי — להעברה למשמרת הבאה.",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Shift Reports/Notes ► Settings for Shift Notes ► Make Settings for Shift Note Type",
         "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Shift Reports/Notes ► Settings for Shift Reports ► Define Shift Report Types (ORPS7)",
@@ -759,8 +759,8 @@ export const CH7: TextbookChapter = {
         "להבטיח ביצוע-בדיקות מובנה ומתועד-משפטית של נכסים, עם רישום-תוצאות אחיד ופעולות-המשך אוטומטיות — לעמידה ברגולציה ובבטיחות.",
       processExampleHe:
         "תוכנית-תחזוקה מייצרת פקודת-בדיקה + Inspection Lot עבור Functional Location או Equipment; הבודק רושם OK/לא-OK או מדידה; Usage Decision קובע קבל/דחה; פעולת-המשך נועלת את ה-Equipment אם נכשל.",
-      cbcHe:
-        "ב-CBC: בדיקת-בטיחות יומית של קו-המילוי (Functional Location) — רשימת-תיוג עם פריטי OK/לא-OK; בדיקה-נכשלת מסמנת את הקו לטיפול, ובדיקת-Equipment ספציפי אף יכולה לנעול אותו אוטומטית.",
+      scenarioHe:
+        "בארגון: בדיקת-בטיחות יומית של קו-המילוי (Functional Location) — רשימת-תיוג עם פריטי OK/לא-OK; בדיקה-נכשלת מסמנת את הקו לטיפול, ובדיקת-Equipment ספציפי אף יכולה לנעול אותו אוטומטית.",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Configure Order Types (OIDA)",
         "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Define Inspections in Plant Maintenance",
@@ -825,7 +825,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Configure Order Types (OIDA): RefObject O110 (FL, Equipment) או O180 (FL 1:1, Equipment). Define Identifier for Inspection Points: type 2 (Functional Location) או type 1 (Equipment), עם Selected Set/Code לקבל-דחה לכל מפעל. Define Inspections in Plant Maintenance: קישור Order Type↔Inspection Type. Define Follow-up Action (V_TQ07): QFOA_OBJECT_STATUS_SET — נועל Equipment בלבד. הודעה אופציונלית. שאר ההגדרות זהות לכיול (7.4).",
           purposeHe: "לאפשר בדיקות-נכסים מובנות לציוד ולמיקומים-תפקודיים עם מינימום-קונפיגורציה מעבר לתהליך-הכיול הקיים.",
           processExampleHe: "תוכנית-תחזוקה לבדיקת-בטיחות יומית של Functional Location מייצרת פקודה (Order Type ייעודי) + Inspection Lot (Origin 14); הבודק רושם OK/לא-OK; Usage Decision='דחה' מסמן את המיקום (אך לא נועל אותו).",
-          cbcHe: "ב-CBC: בדיקת-בטיחות-יומית של קו-המילוי כ-Functional Location — Inspection Point type 2; אם נכשל, מסומן לטיפול אך לא ננעל (Functional Location לא ניתן לנעילה-אוטומטית).",
+          scenarioHe: "בארגון: בדיקת-בטיחות-יומית של קו-המילוי כ-Functional Location — Inspection Point type 2; אם נכשל, מסומן לטיפול אך לא ננעל (Functional Location לא ניתן לנעילה-אוטומטית).",
           navHe: ["Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Configure Order Types (OIDA)", "Quality Management ► Quality Planning ► Inspection Planning ► General ► Define Inspection Points"],
           tables: ["QALS", "PLKO", "IFLOT", "EQUI"],
           tcodes: ["OIDA", "QS21", "QE51N", "V_TQ07"],
@@ -853,7 +853,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "הגרסה המורחבת נשענת על אותה תשתית PM/QM (Inspection Lot, Origin 14, Inspection Types, Usage Decision) אך מרחיבה את עיבוד-הבדיקה: catalogs ופרופילי-catalog להודעות, פעולות-המשך מתקדמות, ואינטגרציה לאפליקציות-מובייל/Fiori לרישום-תוצאות-בשטח. הקונפיגורציה ממנפת את Maintain Catalogs, Define Catalog Profile, ו-Inspection Types עם רישום-תוצאות מורחב.",
           purposeHe: "לתמוך בהליכי-בדיקה מורכבים ומפוקחים-רגולטורית הדורשים תיעוד עשיר, פעולות-המשך מתקדמות ורישום-תוצאות-נייד.",
           processExampleHe: "הליך-בדיקה רב-שלבי עם catalog-קודים, רישום-תוצאות-מפורט וצרופות; הבודק מתעד בשטח דרך אפליקציית-מובייל; Usage Decision מפעיל פעולות-המשך מתקדמות לפי קוד-הדחייה.",
-          cbcHe: "ב-CBC: ביקורת-איכות-מקיפה של קו-המילוי לפני-הסמכה — רשימת-תיוג מורחבת עם תיעוד-מפורט, צרופות-תמונה וקודי-catalog לכל ממצא; נרשמת במובייל בשטח-הייצור.",
+          scenarioHe: "בארגון: ביקורת-איכות-מקיפה של קו-המילוי לפני-הסמכה — רשימת-תיוג מורחבת עם תיעוד-מפורט, צרופות-תמונה וקודי-catalog לכל ממצא; נרשמת במובייל בשטח-הייצור.",
           navHe: ["Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Notifications ► Notification Creation ► Notification Content ► Define Catalog Profile", "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Maintain Inspection Types"],
           tables: ["QALS", "QPMK", "QPCD", "TQ15"],
           tcodes: ["QS41", "QS21", "QE51N", "QGA1"],
@@ -889,8 +889,8 @@ export const CH7: TextbookChapter = {
         "לספק מחזור-חיים מובנה, מפוקח-Workflow ומבוסס-Fiori לפקודת-העבודה — עם הפרדת-תפקידים ברורה, אישורי-עלות, ותכנון-Backlog מתקדם דרך Planning Buckets.",
       processExampleHe:
         "עובד פותח Maintenance Request (F1511A) → מפקח מסנן (F4072) → מתכנן יוצר פקודות (F4604) → מנהל מאשר (F0862) → הכנה ב-Planning Buckets (F3888) → תזמון (F2175) → טכנאי מבצע (F5104A) → מפקח בודק פוסט-ביצוע → סגירה והתחשבנות.",
-      cbcHe:
-        "ב-CBC: בקשת-תחזוקה לקו-מילוי תקול עוברת את תשעת-השלבים — מפעיל-הקו פותח בקשה ב-F1511A, מפקח-המשמרת מסנן, מתכנן-התחזוקה מתכנן ומבקש אישור-עלות, מנהל מאשר, והטכנאי מבצע ב-F5104A תוך רישום-זמן ונתוני-כשל.",
+      scenarioHe:
+        "בארגון: בקשת-תחזוקה לקו-מילוי תקול עוברת את תשעת-השלבים — מפעיל-הקו פותח בקשה ב-F1511A, מפקח-המשמרת מסנן, מתכנן-התחזוקה מתכנן ומבקש אישור-עלות, מנהל מאשר, והטכנאי מבצע ב-F5104A תוך רישום-זמן ונתוני-כשל.",
       navHe: [
         "ABAP Platform ► Application Server ► Business Management ► SAP Business Feature ► Activate Business Feature (EAM_PHASE_MODEL_PROCESSING)",
         "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Notifications ► Notification Creation ► Notification Types ► Define Notification Types",

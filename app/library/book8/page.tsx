@@ -15,7 +15,7 @@ interface RelatedLink { labelHe: string; href: string }
 interface Section {
   id: string; titleHe: string; titleEn: string; depth: number;
   execHe: string; beginnerHe: string; consultantHe: string;
-  purposeHe: string; processExampleHe: string; cbcHe: string;
+  purposeHe: string; processExampleHe: string; scenarioHe: string;
   navHe: string[]; tables: string[]; tcodes: string[]; fiori: string[];
   configHe: string[]; flow?: FlowStep[]; masterDataHe?: string[];
   mistakesHe: string[]; troubleshootHe: string[]; bestPracticeHe: string[];
@@ -95,7 +95,7 @@ function SectionCard({ s }: { s: Section }) {
               <div className="grid gap-3 sm:grid-cols-3 border-t border-border/30 pt-3">
                 <Facet label="מטרה עסקית" text={s.purposeHe} />
                 <Facet label="דוגמת תהליך" text={s.processExampleHe} />
-                <Facet label="דוגמת CBC" text={s.cbcHe} tone="amber" />
+                <Facet label="דוגמת הארגון" text={s.scenarioHe} tone="amber" />
               </div>
               {/* reference identifiers (verbatim EN) */}
               {(s.tcodes?.length || s.tables?.length || s.fiori?.length || s.navHe?.length) ? (

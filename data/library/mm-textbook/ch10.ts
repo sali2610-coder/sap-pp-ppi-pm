@@ -2,7 +2,7 @@
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
 // Source hierarchy preserved exactly (ids + order); nested sub-headings kept verbatim.
 // Transformative Hebrew (beginner + consultant friendly); SAP identifiers verbatim EN.
-// CBC = Coca-Cola bottling: RFQ to packaging / ingredient suppliers via SAP Ariba.
+// הארגון = Example Product bottling: RFQ to packaging / ingredient suppliers via SAP Ariba.
 import type { TextbookChapter } from "./types";
 
 export const CH10: TextbookChapter = {
@@ -10,7 +10,7 @@ export const CH10: TextbookChapter = {
   titleHe: "מקורות חיצוניים (External Sourcing)",
   titleEn: "External Sourcing",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לתהליך המקורות-החיצוניים (External Sourcing) ב-SAP S/4HANA — מאסטרטגיית-מקורות, דרך בקשת-הצעת-מחיר (Request for Quotation), השוואת-הצעות, ועד הענקת-העסקה (Award). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות / T-Codes / Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הדגש על אפליקציות ה-SAP Fiori החדשות (Manage Request for Quotation, Manage Supplier Quotations), על ה-Flexible Workflow, ועל אינטגרציה עם SAP Ariba Sourcing ו-SAP Business Network דרך cXML. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לתהליך המקורות-החיצוניים (External Sourcing) ב-SAP S/4HANA — מאסטרטגיית-מקורות, דרך בקשת-הצעת-מחיר (Request for Quotation), השוואת-הצעות, ועד הענקת-העסקה (Award). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות / T-Codes / Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הדגש על אפליקציות ה-SAP Fiori החדשות (Manage Request for Quotation, Manage Supplier Quotations), על ה-Flexible Workflow, ועל אינטגרציה עם SAP Ariba Sourcing ו-SAP Business Network דרך cXML. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 10.1
     {
@@ -25,8 +25,8 @@ export const CH10: TextbookChapter = {
         "המטרה: למקסם ערך-רכש (מחיר, איכות, זמינות, סיכון) דרך התאמת שיטת-המקורות לאופי-ההוצאה. הוצאה טקטית-חוזרת → Contract; הוצאה תחרותית חד-פעמית → RFQ; קטגוריה אסטרטגית מורכבת → Ariba Sourcing.",
       processExampleHe:
         "מחלקת-רכש מקבלת דרישת-רכש ל-50 טון אבקת-קקאו ללא ספק קבוע. במקום הזמנה ישירה, הקונה יוצר RFQ, שולח לחמישה ספקים, מקבל Supplier Quotations, משווה ב-Compare Supplier Quotations, מעניק לזוכה, וממיר את ההצעה הזוכה ל-Purchase Order או Contract.",
-      cbcHe:
-        "ב-CBC: לרכש אריזה (בקבוקי PET, פקקים, תוויות) ורכיבים (תרכיז, סוכר, CO2) — קטגוריות אסטרטגיות בעלות-נפח גבוה מנותבות ל-SAP Ariba Sourcing למכרז תחרותי; רכש-טקטי חוזר (חומרי-ניקוי, חלפים) מנוהל ב-Standalone S/4HANA RFQ או דרך Contracts קיימים.",
+      scenarioHe:
+        "בארגון: לרכש אריזה (בקבוקי PET, פקקים, תוויות) ורכיבים (תרכיז, סוכר, CO2) — קטגוריות אסטרטגיות בעלות-נפח גבוה מנותבות ל-SAP Ariba Sourcing למכרז תחרותי; רכש-טקטי חוזר (חומרי-ניקוי, חלפים) מנוהל ב-Standalone S/4HANA RFQ או דרך Contracts קיימים.",
       navHe: [
         "Materials Management ► Purchasing ► Sourcing ► Define Sourcing Strategy / Source Determination",
         "Materials Management ► Purchasing ► Source List ► Define Source List Requirement at Plant Level (OME5)",
@@ -100,8 +100,8 @@ export const CH10: TextbookChapter = {
         "המטרה: ליצור תחרות בין ספקים ולקבל החלטת-רכש מבוססת-נתונים (מחיר, זמן-אספקה, תנאים) במקום הזמנה ישירה ללא השוואה. RFQ מבטיח שקיפות, ציות (Compliance) ותיעוד-בחירה.",
       processExampleHe:
         "קונה יוצר RFQ ל-100,000 בקבוקי-PET, מוסיף חמישה ספקים, מגדיר Quotation Deadline. הספקים מגישים Supplier Quotations עם מחיר ליחידה וזמן-אספקה. הקונה מריץ Compare Supplier Quotations, רואה שספק C זול ב-4% עם זמן-אספקה דומה, מעניק לו את העסקה, ודוחה את השאר אוטומטית עם הודעת-דחייה.",
-      cbcHe:
-        "ב-CBC: רכש עונתי של תוויות-קמפיין למשקאות — הקונה מוציא RFQ דרך Manage Request for Quotation לשלושה ספקי-דפוס, ההצעות נקלטות (ידנית או דרך Ariba/cXML), משווים, ומעניקים. הזוכה מקבל PO; הדוחים מקבלים הודעת-דחייה אוטומטית.",
+      scenarioHe:
+        "בארגון: רכש עונתי של תוויות-קמפיין למשקאות — הקונה מוציא RFQ דרך Manage Request for Quotation לשלושה ספקי-דפוס, ההצעות נקלטות (ידנית או דרך Ariba/cXML), משווים, ומעניקים. הזוכה מקבל PO; הדוחים מקבלים הודעת-דחייה אוטומטית.",
       navHe: [
         "Materials Management ► Purchasing ► RFQ/Quotation ► Maintain (ME41 classic)",
         "Materials Management ► Purchasing ► Request for Quotation ► Define Document Types",
@@ -170,7 +170,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "S/4HANA שולח דרישות/RFQ כהודעת cXML ל-SAP Business Network; Ariba Sourcing מנהל את האירוע (RFP/RFQ/Reverse Auction); ההצעות והפרס חוזרים כ-cXML. נדרשים: Activate cXML Message Types, Credentials & Endpoints (כתובות ה-Network), Network ID משויך ל-Company Code, ו-Output Parameter Determination לשיגור. זהו תרחיש Strategic Sourcing מלא.",
           purposeHe: "לנהל Sourcing אסטרטגי מורכב — מכרזים גדולים, מכרזים-הפוכים, שיתוף-ספקים גלובלי — בפלטפורמה ייעודית, תוך שמירה על S/4HANA כמערכת-הרשומה לדרישות והזמנות.",
           processExampleHe: "דרישת-רכש אסטרטגית ב-S/4HANA נשלחת כ-cXML ל-Ariba; הקונה מנהל מכרז-הפוך עם 8 ספקים גלובליים; הזוכה והמחיר חוזרים ל-S/4HANA, והופכים אוטומטית ל-Contract.",
-          cbcHe: "ב-CBC רכש גלובלי של רזין/PET לבקבוקים מנוהל ב-Ariba Sourcing: מכרז-הפוך בין ספקי-יבוא, הזוכה חוזר ל-S/4HANA כ-Contract, וכל ההזמנות התפעוליות נמשכות ממנו.",
+          scenarioHe: "בארגון רכש גלובלי של רזין/PET לבקבוקים מנוהל ב-Ariba Sourcing: מכרז-הפוך בין ספקי-יבוא, הזוכה חוזר ל-S/4HANA כ-Contract, וכל ההזמנות התפעוליות נמשכות ממנו.",
           navHe: [
             "Materials Management ► Purchasing ► SAP Ariba Integration ► Activate cXML Message Types",
             "Integration ► SAP Business Network ► Define Credentials and Endpoints",
@@ -200,7 +200,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ה-RFQ והצעות-הספק נשמרים ב-S/4HANA; השיגור לספק יכול להיות דרך Output (PDF/דוא\"ל) או הזנה-ידנית של ההצעה ע\"י הקונה. אין תלות ב-cXML או ב-Network. זהו ברירת-המחדל ל-Operational Sourcing טקטי. נדרש: Document Types, Number Ranges, ו-Flexible Workflow (אופציונלי) לאישור.",
           purposeHe: "לנהל RFQ מקומי במהירות וללא תקורת-אינטגרציה — מתאים להוצאה טקטית, ספקים מקומיים מעטים, ותהליך פנימי.",
           processExampleHe: "קונה יוצר RFQ ל-3 ספקי חומרי-ניקוי דרך Manage RFQ, שולח ב-PDF, מזין את ההצעות ב-Manage Supplier Quotations, משווה ומעניק — הכל בתוך S/4HANA.",
-          cbcHe: "ב-CBC רכש-טקטי של חלפי-תחזוקה לקווי-המילוי מנוהל Standalone: RFQ ל-2-3 ספקים מקומיים, השוואה מהירה והענקה, ללא Ariba.",
+          scenarioHe: "בארגון רכש-טקטי של חלפי-תחזוקה לקווי-המילוי מנוהל Standalone: RFQ ל-2-3 ספקים מקומיים, השוואה מהירה והענקה, ללא Ariba.",
           navHe: ["Fiori Launchpad ► Sourcing and Procurement ► Manage Request for Quotation", "Materials Management ► Purchasing ► RFQ/Quotation (ME41 classic)"],
           tables: ["EKKO", "EKPO", "EBAN"],
           tcodes: ["ME41", "ME47", "ME49"],
@@ -219,7 +219,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "הצעות-הספק נקלטות כ-cXML Supplier Quotation דרך ה-Network ומשויכות ל-RFQ הפתוח. נדרש Activate cXML Message Types ו-Schedule Job להמרת דרישות-רכש ל-RFQ ולעיבוד-קליטות. ה-Output Parameter Determination שולט בשיגור ה-RFQ לספקים. התוצאה: Touchless Sourcing לחלק מההוצאה.",
           purposeHe: "להאיץ את מחזור ה-RFQ→Quotation ולצמצם שגיאות-הקלדה, במיוחד בנפח-RFQ גבוה.",
           processExampleHe: "Job מתוזמן ממיר מדי-לילה דרישות-רכש פתוחות ל-RFQ ושולח דרך ה-Network; הצעות-הספק נקלטות אוטומטית למחרת, מוכנות להשוואה ללא הקלדה.",
-          cbcHe: "ב-CBC בעונת-שיא, מאות דרישות לאריזה ממתינות; Quote Automation ממיר אותן ל-RFQ ושולח לספקים-מועדפים, וההצעות חוזרות אוטומטית — חוסך ימי-עבודה לקונים.",
+          scenarioHe: "בארגון בעונת-שיא, מאות דרישות לאריזה ממתינות; Quote Automation ממיר אותן ל-RFQ ושולח לספקים-מועדפים, וההצעות חוזרות אוטומטית — חוסך ימי-עבודה לקונים.",
           navHe: ["Materials Management ► Purchasing ► SAP Ariba Integration ► Activate cXML Message Types", "Materials Management ► Purchasing ► Schedule Job for RFQ Processing"],
           tables: ["EKKO", "EKPO", "EBAN", "TVARVC"],
           tcodes: ["SM37", "SE38", "ME41"],
@@ -238,7 +238,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "מבחינה טכנית זהו RFQ עם דגש על שדה-המחיר, לעיתים Document Type ייעודי. ה-Compare Supplier Quotations ממיין ישירות לפי מחיר. שימושי כשהמפרט קבוע והמחיר הוא המבדל היחיד.",
           purposeHe: "לקבל החלטת-רכש מהירה כשהמפרט ידוע והמחיר הוא הקריטריון המכריע.",
           processExampleHe: "קונה שולח Request for Price ל-4 ספקי-סוכר באותו מפרט; ההצעות חוזרות, נמיין לפי מחיר, ומעניקים לזול ביותר תוך יום.",
-          cbcHe: "ב-CBC רכש-קומודיטי (סוכר, CO2) שבו המפרט סטנדרטי — Request for Price מהיר בין ספקים, החלטה לפי מחיר בלבד.",
+          scenarioHe: "בארגון רכש-קומודיטי (סוכר, CO2) שבו המפרט סטנדרטי — Request for Price מהיר בין ספקים, החלטה לפי מחיר בלבד.",
           navHe: ["Fiori Launchpad ► Sourcing and Procurement ► Manage Request for Quotation (Price-focused type)"],
           tables: ["EKKO", "EKPO"],
           tcodes: ["ME41", "ME49"],
@@ -265,8 +265,8 @@ export const CH10: TextbookChapter = {
         "לספק תהליך-Sourcing מקצה-לקצה בחוויית-Fiori אחידה, עם אישורים מובנים (Workflow) ושקיפות בזמן-אמת על סטטוס-הפריטים — במקום מסכים מנותקים.",
       processExampleHe:
         "קונה פותח Manage RFQ, יוצר RFQ ממסך אחד, מנטר את הפריטים ב-Monitor RFQ Items, משווה ב-Compare Supplier Quotations, ומאשרים את ההענקה דרך My Inbox — הכל בלי לעזוב את ה-Launchpad.",
-      cbcHe:
-        "ב-CBC צוות-הרכש עובד כולו ב-Fiori: יצירת RFQ לאריזה, מעקב-סטטוס, השוואת-הצעות ואישור-מנהל ב-My Inbox — תהליך אחיד לכל הקונים ולכל הקטגוריות.",
+      scenarioHe:
+        "בארגון צוות-הרכש עובד כולו ב-Fiori: יצירת RFQ לאריזה, מעקב-סטטוס, השוואת-הצעות ואישור-מנהל ב-My Inbox — תהליך אחיד לכל הקונים ולכל הקטגוריות.",
       navHe: [
         "Fiori Launchpad ► Sourcing and Procurement ► Operational Procurement / Sourcing",
         "SPRO ► Cross-Application Components ► Processes and Tools for Enterprise Applications ► Reusable Objects and Functions for BOPF ► (workflow apps)",
@@ -325,7 +325,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "האפליקציה עובדת מול אובייקט ה-RFQ החדש (לא EKKO-קלאסי בלבד). תומכת ב-RFQ Types, Quotation Deadline, פריטים מרובים, ספקים מרובים, סטטוסי-פריט, ושיגור דרך Output/cXML. משולבת ב-Flexible Workflow לאישור לפני פרסום, וב-Monitor RFQ Items למעקב.",
           purposeHe: "לרכז את כל ניהול ה-RFQ — יצירה, פרסום, מעקב — במסך אחד מודרני, במקום ME41/ME42.",
           processExampleHe: "קונה פותח Manage RFQ, יוצר RFQ חדש מסוג Standard, מוסיף 2 פריטי-אריזה, 4 ספקים, מועד-הגשה בעוד שבוע, מאשר דרך Workflow ושולח.",
-          cbcHe: "ב-CBC קונה-האריזה יוצר את כל ה-RFQ דרך אפליקציה זו — מסך אחיד לבקבוקים, פקקים ותוויות, עם רשימת-הספקים המאושרים.",
+          scenarioHe: "בארגון קונה-האריזה יוצר את כל ה-RFQ דרך אפליקציה זו — מסך אחיד לבקבוקים, פקקים ותוויות, עם רשימת-הספקים המאושרים.",
           navHe: ["Fiori Launchpad ► Sourcing and Procurement ► Manage Request for Quotation"],
           tables: ["EKKO", "EKPO"],
           tcodes: ["ME41", "ME42"],
@@ -344,7 +344,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ה-Process Purchase Requisitions מציג דרישות ללא מקור-אספקה; בחירה והפעלת 'Create RFQ' יוצרת RFQ עם פריטים מהדרישות (EBAN→RFQ). שומר את הקישור דרישה↔RFQ למעקב. בסיס ל-Quote Automation כשמתוזמן כ-Job.",
           purposeHe: "לקצר את הדרך מדרישה ל-RFQ, לשמר את הקישור הדרישה→מקורות, ולמנוע הקלדה-כפולה.",
           processExampleHe: "קונה פותח Process Purchase Requisitions, מסנן דרישות-אריזה פתוחות, בוחר 6, ולוחץ 'Create RFQ' — נוצר RFQ אחד עם 6 הפריטים מוכן לשליחה.",
-          cbcHe: "ב-CBC דרישות-רכש לחומרי-גלם מצטברות יומית; הקונה ממיר אותן בקבוצות ל-RFQ דרך אפליקציה זו, וכל הקשר נשמר לדיווח.",
+          scenarioHe: "בארגון דרישות-רכש לחומרי-גלם מצטברות יומית; הקונה ממיר אותן בקבוצות ל-RFQ דרך אפליקציה זו, וכל הקשר נשמר לדיווח.",
           navHe: ["Fiori Launchpad ► Sourcing and Procurement ► Process Purchase Requisitions"],
           tables: ["EBAN", "EKKO", "EKPO"],
           tcodes: ["ME51N", "ME57", "ME41"],
@@ -363,7 +363,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "האפליקציה מציגה RFQ Item Status ברמת-פריט (Open / Quoted / Awarded / Rejected) ומאפשרת drill-down להצעות. שימושית לזיהוי פריטים ללא-תגובה לפני ה-Deadline ולהנעת ספקים. נשענת על אובייקט ה-RFQ החדש.",
           purposeHe: "לתת שקיפות בזמן-אמת על התקדמות ה-RFQ ולמקד פעולת-קונה בפריטים תקועים.",
           processExampleHe: "יומיים לפני ה-Deadline הקונה פותח Monitor RFQ Items, רואה ש-2 מתוך 5 ספקים טרם הגישו לפריט מסוים, ושולח תזכורת.",
-          cbcHe: "ב-CBC לפני סגירת-מכרז-אריזה הקונה מנטר אילו ספקי-דפוס הגישו, ומתקשר לאלו שטרם — מבטיח תחרות מלאה.",
+          scenarioHe: "בארגון לפני סגירת-מכרז-אריזה הקונה מנטר אילו ספקי-דפוס הגישו, ומתקשר לאלו שטרם — מבטיח תחרות מלאה.",
           navHe: ["Fiori Launchpad ► Sourcing and Procurement ► Monitor Request for Quotation Items"],
           tables: ["EKKO", "EKPO"],
           tcodes: ["ME4S", "ME49"],
@@ -382,7 +382,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "האפליקציה מצליבה Supplier Quotations לפי פריט, ממיינת לפי מחיר/קריטריון, ומאפשרת Award ברמת-פריט או הצעה. ה-Award יוצר/מסמן את ההצעה הזוכה להמרה ל-PO/Contract; הדחיות יכולות להישלח אוטומטית. מחליפה את ME49 (Price Comparison List).",
           purposeHe: "להפוך החלטת-רכש לשקופה ומבוססת-נתונים — לא 'תחושה' אלא השוואה אובייקטיבית של מחיר ותנאים.",
           processExampleHe: "5 הצעות לבקבוקי-PET נפרשות בטבלה; ספק C זול ב-4% עם זמן-אספקה דומה. הקונה מעניק ל-C, דוחה את השאר, וההצעה הזוכה עוברת ל-PO.",
-          cbcHe: "ב-CBC השוואת הצעות-תוויות: האפליקציה מראה מחיר-ליחידה, מינימום-הזמנה וזמן-אספקה; הקונה בוחר את האיזון הטוב ביותר בין מחיר לזמן לעונת-הקמפיין.",
+          scenarioHe: "בארגון השוואת הצעות-תוויות: האפליקציה מראה מחיר-ליחידה, מינימום-הזמנה וזמן-אספקה; הקונה בוחר את האיזון הטוב ביותר בין מחיר לזמן לעונת-הקמפיין.",
           navHe: ["Fiori Launchpad ► Sourcing and Procurement ► Compare Supplier Quotations"],
           tables: ["EKKO", "EKPO"],
           tcodes: ["ME49", "ME48"],
@@ -404,7 +404,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Supplier Quotation הוא אובייקט נפרד מ-RFQ ב-S/4HANA. האפליקציה תומכת בהזנה-ידנית, בעריכה, ובקליטה אוטומטית דרך cXML/Network. ניתן לשייך Flexible Workflow לאישור-הצעה לפני Award. מחליפה את ME47.",
           purposeHe: "לנהל את הצעות-הספק כאובייקט-מסמך עצמאי — קליטה, עריכה ואישור — לפני שלב-ההשוואה.",
           processExampleHe: "ספק שלח הצעה ב-PDF; הקונה פותח Manage Supplier Quotations, מקליד את המחיר וזמן-האספקה כנגד ה-RFQ, שומר, וההצעה זמינה להשוואה.",
-          cbcHe: "ב-CBC חלק מספקי-האריזה שולחים cXML (נקלט אוטומטית) וחלק PDF (הקונה מקליד); שניהם מנוהלים באותה אפליקציה לפני ההשוואה.",
+          scenarioHe: "בארגון חלק מספקי-האריזה שולחים cXML (נקלט אוטומטית) וחלק PDF (הקונה מקליד); שניהם מנוהלים באותה אפליקציה לפני ההשוואה.",
           navHe: ["Fiori Launchpad ► Sourcing and Procurement ► Manage Supplier Quotations"],
           tables: ["EKKO", "EKPO"],
           tcodes: ["ME47", "ME48"],
@@ -423,7 +423,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "האפליקציה היא ה-front-end של ה-Flexible Workflow ל-RFQ: הגדרת Scenario, Preconditions (Start Conditions), Steps, Recipients (Agents), Deadlines ו-Escalation. עובדת מול אותו מנגנון של 10.5 (Scenario Activation, Step definition). האישורים מגיעים ל-My Inbox.",
           purposeHe: "לאפשר לארגון להגדיר בקרות-אישור גמישות ל-RFQ לפי סכום/קטגוריה/מפעל — ללא פיתוח Workflow קלאסי.",
           processExampleHe: "אדמין-רכש מגדיר ב-Manage Workflows for RFQs: RFQ מעל 100K₪ דורש אישור-מנהל; הכלל נכנס לתוקף, וכל RFQ כזה נעצר לאישור ב-My Inbox.",
-          cbcHe: "ב-CBC RFQ אסטרטגי לאריזה מעל סף-סכום דורש אישור-מנהל-רכש; הכלל מוגדר כאן ומנותב ל-My Inbox של המנהל.",
+          scenarioHe: "בארגון RFQ אסטרטגי לאריזה מעל סף-סכום דורש אישור-מנהל-רכש; הכלל מוגדר כאן ומנותב ל-My Inbox של המנהל.",
           navHe: ["Fiori Launchpad ► Sourcing and Procurement ► Manage Workflows for Request for Quotation"],
           tables: ["SWW_CONT", "SWWWIHEAD"],
           tcodes: ["SWDD", "PFTC"],
@@ -443,7 +443,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Front-end ל-Flexible Workflow על אובייקט ה-Supplier Quotation: Scenario, Start Conditions (סכום/ספק/קטגוריה), Steps, Recipients. שימושי כשהענקה דורשת אישור-ניהולי. אישורים ל-My Inbox; אותו מנגנון של 10.5.",
           purposeHe: "להוסיף בקרת-אישור על הצעות-ספק לפני הענקה — ציות וממשל-רכש.",
           processExampleHe: "הצעת-ספק זוכה מעל סף מסוים נעצרת לאישור-מנהל ב-My Inbox לפני שניתן להמיר ל-PO.",
-          cbcHe: "ב-CBC הענקת חוזה-אריזה גדול דורשת אישור-CFO; הכלל מוגדר כאן והצעת-הספק הזוכה ממתינה לאישור.",
+          scenarioHe: "בארגון הענקת חוזה-אריזה גדול דורשת אישור-CFO; הכלל מוגדר כאן והצעת-הספק הזוכה ממתינה לאישור.",
           navHe: ["Fiori Launchpad ► Sourcing and Procurement ► Manage Workflows for Supplier Quotation"],
           tables: ["SWW_CONT", "SWWWIHEAD"],
           tcodes: ["SWDD", "PFTC"],
@@ -462,7 +462,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "My Inbox מציגה work-items מכל ה-Flexible Workflows (RFQ, Supplier Quotation, PO ועוד), עם Decision Options (Approve/Reject), הערות, ו-Substitution. נשענת על SWWUSERWI/SWWWIHEAD. ה-Decision Options ושמות-המשימות מוגדרים ב-10.5.3 (Maintain Task Names and Decision Options).",
           purposeHe: "לרכז את כל האישורים של המשתמש במקום אחד, עם החלטה מהירה ושקיפות-סטטוס.",
           processExampleHe: "מנהל-רכש פותח My Inbox, רואה RFQ ל-200K₪ ממתין, בודק, ולוחץ Approve — ה-RFQ משתחרר ונשלח לספקים.",
-          cbcHe: "ב-CBC מנהל-הרכש מאשר את כל ה-RFQ והענקות-החוזה דרך My Inbox, גם מהנייד, בעונת-הרכש העמוסה.",
+          scenarioHe: "בארגון מנהל-הרכש מאשר את כל ה-RFQ והענקות-החוזה דרך My Inbox, גם מהנייד, בעונת-הרכש העמוסה.",
           navHe: ["Fiori Launchpad ► My Inbox"],
           tables: ["SWWUSERWI", "SWWWIHEAD", "SWW_CONT"],
           tcodes: ["SBWP", "SWIA"],
@@ -482,7 +482,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "RFQ Types הם למעשה Document Types ל-RFQ: קובעים Number Range, Field Selection (שדות-חובה כמו Deadline), Item Categories מותרים, ו-default-ים. מוגדרים ב-SPRO (Document Types for RFQ) ומוצגים ב-Manage RFQ. בסיס להבחנה בין Standard, Request for Price ו-Strategic.",
           purposeHe: "להתאים את התנהגות ה-RFQ לסוג-ההוצאה — שדות, מספור והרשאות שונים לטקטי מול אסטרטגי.",
           processExampleHe: "אדמין מגדיר שני RFQ Types: 'Standard' (Deadline חובה) ו-'Price' (מחיר בלבד); הקונה בוחר את המתאים ביצירה ב-Manage RFQ.",
-          cbcHe: "ב-CBC RFQ Type 'Strategic' לאריזה-בנפח-גבוה דורש שדות-נוספים ואישור-Workflow; 'Standard' לרכש-טקטי פשוט יותר.",
+          scenarioHe: "בארגון RFQ Type 'Strategic' לאריזה-בנפח-גבוה דורש שדות-נוספים ואישור-Workflow; 'Standard' לרכש-טקטי פשוט יותר.",
           navHe: ["Materials Management ► Purchasing ► Request for Quotation ► Define Document Types for RFQ"],
           tables: ["T161", "T161S"],
           tcodes: ["OMH5", "SPRO"],
@@ -510,8 +510,8 @@ export const CH10: TextbookChapter = {
         "לקבוע את חוקי-המשחק של ה-RFQ: מספור, שדות, סוגים, תקשורת ופלט — תשתית שעליה רץ כל התהליך התפעולי.",
       processExampleHe:
         "צוות-בייסיס מגדיר Number Range ל-RFQ, שני Document Types (Standard/Strategic), מפעיל cXML, מזין Endpoints של ה-Network, משייך Network ID ל-Company Code, ומתזמן Job — וכעת הקונים יכולים ליצור ולשלוח RFQ.",
-      cbcHe:
-        "ב-CBC ה-IT מגדיר את כל קונפיגורציית ה-RFQ פעם-אחת: מספור ייעודי, Document Types לאריזה/חומרי-גלם, חיבור-cXML ל-Ariba, ו-Output לדוא\"ל-ספק — תשתית לכל קוני-החברה.",
+      scenarioHe:
+        "בארגון ה-IT מגדיר את כל קונפיגורציית ה-RFQ פעם-אחת: מספור ייעודי, Document Types לאריזה/חומרי-גלם, חיבור-cXML ל-Ariba, ו-Output לדוא\"ל-ספק — תשתית לכל קוני-החברה.",
       navHe: [
         "Materials Management ► Purchasing ► Request for Quotation ► (Number Ranges / Document Types)",
         "Materials Management ► Purchasing ► SAP Ariba Integration ► (cXML / Credentials / Network ID)",
@@ -572,7 +572,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "מוגדרים ב-OMH6 ומשויכים ל-Document Type (T161). פנימי = NRIV מנהל את הרץ; חיצוני = הזנה-ידנית בטווח-מותר. נדרשים טווחים נפרדים ל-RFQ ול-Supplier Quotation. אזילת-טווח חוסמת יצירה.",
           purposeHe: "להבטיח מזהה-ייחודי ומסודר לכל מסמך, ולהפריד מספור בין סוגי-מסמך.",
           processExampleHe: "אדמין מגדיר טווח 6000000000–6099999999 פנימי ל-RFQ, משייך ל-Document Type, וכל RFQ חדש מקבל מספר עוקב.",
-          cbcHe: "ב-CBC טווח-מספרים ייעודי ל-RFQ-אריזה ולחומרי-גלם להבחנה-ויזואלית בדיווחים.",
+          scenarioHe: "בארגון טווח-מספרים ייעודי ל-RFQ-אריזה ולחומרי-גלם להבחנה-ויזואלית בדיווחים.",
           navHe: ["Materials Management ► Purchasing ► RFQ/Quotation ► Define Number Ranges (OMH6)"],
           tables: ["NRIV", "T161"],
           tcodes: ["OMH6", "SNRO"],
@@ -591,7 +591,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "מוגדרים ב-OMH5/SPRO (T161). כל Document Type נושא Number Range, Field Selection Key, Allowed Item Categories ו-default-ים (מטבע, Deadline). שינוי כאן משפיע ישירות על שדות-החובה ב-Manage RFQ. מבחין Standard/Price/Strategic.",
           purposeHe: "להתאים את ה-RFQ לסוג-ההוצאה — שדות, מספור והרשאות שונים לכל קטגוריה.",
           processExampleHe: "אדמין יוצר Document Type 'STRA' ל-RFQ אסטרטגי עם Field Selection שמחייב Deadline ו-Incoterms, ומשייך Number Range ייעודי.",
-          cbcHe: "ב-CBC Document Type נפרד ל-RFQ-אריזה (עם שדות-איכות) ול-RFQ-שירותים, כל אחד עם מספור ושדות משלו.",
+          scenarioHe: "בארגון Document Type נפרד ל-RFQ-אריזה (עם שדות-איכות) ול-RFQ-שירותים, כל אחד עם מספור ושדות משלו.",
           navHe: ["Materials Management ► Purchasing ► Request for Quotation ► Define Document Types (OMH5)"],
           tables: ["T161", "T161S"],
           tcodes: ["OMH5", "SPRO"],
@@ -611,7 +611,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "מוגדרים ב-SPRO (T161 לאובייקט ה-Supplier Quotation). חיוני להפריד מספור ו-Field Selection מ-RFQ. משפיע על Manage Supplier Quotations. בקליטת-cXML, סוג-המסמך נקבע לפי המיפוי.",
           purposeHe: "לנהל את הצעת-הספק כאובייקט נפרד עם מספור ושדות משלו, התואמים לקליטה ולעריכה.",
           processExampleHe: "אדמין מגדיר Document Type להצעת-ספק עם Field Selection שמחייב מחיר וזמן-אספקה, ומשייך Number Range נפרד מ-RFQ.",
-          cbcHe: "ב-CBC הצעות-ספק (cXML או ידני) מקבלות Document Type אחיד עם שדות-איכות-אריזה, נפרד ממספור-ה-RFQ.",
+          scenarioHe: "בארגון הצעות-ספק (cXML או ידני) מקבלות Document Type אחיד עם שדות-איכות-אריזה, נפרד ממספור-ה-RFQ.",
           navHe: ["Materials Management ► Purchasing ► Supplier Quotation ► Define Document Types"],
           tables: ["T161", "T161S"],
           tcodes: ["OMH5", "SPRO"],
@@ -630,7 +630,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "מגדיר את ה-inbound processing של הצעות-ספק כ-cXML: מיפוי-שדות, Document Type-יעד, וטיפול-שגיאות. תלוי ב-Activate cXML Message Types וב-Credentials. הבסיס ל-Quote Automation (10.2.3). ניטור דרך מוניטור-האינטגרציה.",
           purposeHe: "לאפשר קליטה-אוטומטית של הצעות-ספק מהרשת — Touchless — לצמצום הזנה-ידנית ושגיאות.",
           processExampleHe: "ספק מגיש הצעה ב-Ariba; ה-External Processing קולט אותה כ-cXML, ממפה לשדות ויוצר Supplier Quotation ב-S/4HANA אוטומטית.",
-          cbcHe: "ב-CBC ספקי-אריזה המחוברים ל-Network מגישים הצעות שנקלטות אוטומטית; רק ספקים לא-מחוברים מוזנים ידנית.",
+          scenarioHe: "בארגון ספקי-אריזה המחוברים ל-Network מגישים הצעות שנקלטות אוטומטית; רק ספקים לא-מחוברים מוזנים ידנית.",
           navHe: ["Materials Management ► Purchasing ► SAP Ariba Integration ► External Processing for Supplier Quotation"],
           tables: ["EKKO", "EKPO", "EDIDC"],
           tcodes: ["SXMB_MONI", "SOAMANAGER"],
@@ -650,7 +650,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "מפעיל לכל Message Type את כיוון-התקשורת ואת ה-binding. נדרש לפני Credentials & Endpoints ולפני שיגור/קליטה. כל Message Type (RFQ, Quotation, Award) מופעל בנפרד. ללא הפעלה — ההודעות לא נוצרות/נקלטות.",
           purposeHe: "להפעיל את ערוצי-התקשורת הספציפיים (RFQ/Quotation/Award) מול ה-Network — תנאי-סף לאינטגרציה.",
           processExampleHe: "צוות-אינטגרציה מפעיל cXML Message Types ל-outbound RFQ ול-inbound Supplier Quotation; כעת RFQ יכול להישלח ל-Ariba והצעות לחזור.",
-          cbcHe: "ב-CBC מופעלים Message Types ל-RFQ, Quotation ו-Award לתמיכה במחזור-Sourcing מלא מול Ariba.",
+          scenarioHe: "בארגון מופעלים Message Types ל-RFQ, Quotation ו-Award לתמיכה במחזור-Sourcing מלא מול Ariba.",
           navHe: ["Materials Management ► Purchasing ► SAP Ariba Integration ► Activate cXML Message Types"],
           tables: ["EDIDC", "EDMSG"],
           tcodes: ["SOAMANAGER", "WE20"],
@@ -670,7 +670,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Endpoints = ה-URLs של ה-Network לשיגור/קליטה; Credentials = מפתחות/אישורים (shared secret / certificate). מוגדרים אחרי Activate cXML. שגיאה כאן = כשל-תקשורת שקט. נשמרים מאובטחים ומנוהלים ב-SOAMANAGER/Communication Arrangements.",
           purposeHe: "לאפשר חיבור מאובטח ומדויק בין S/4HANA ל-Network — בלעדיו ה-cXML לא מגיע ליעדו.",
           processExampleHe: "צוות-אינטגרציה מזין את Endpoint ה-Network ואת ה-Credentials; בדיקת-חיבור מצליחה, וה-RFQ הראשון נשלח בהצלחה ל-Ariba.",
-          cbcHe: "ב-CBC ה-IT מגדיר Endpoints וCredentials ל-Network פעם-אחת; חיבור מאובטח משמש את כל מחזורי-ה-Sourcing מול Ariba.",
+          scenarioHe: "בארגון ה-IT מגדיר Endpoints וCredentials ל-Network פעם-אחת; חיבור מאובטח משמש את כל מחזורי-ה-Sourcing מול Ariba.",
           navHe: ["Materials Management ► Purchasing ► SAP Ariba Integration ► Define Credentials and Endpoints"],
           tables: ["EDIDC", "SXMSCONFVL"],
           tcodes: ["SOAMANAGER", "SM59"],
@@ -688,8 +688,8 @@ export const CH10: TextbookChapter = {
           beginnerHe: "לכל חברה יש 'תעודת-זהות' ברשת של Ariba (Network ID). כאן מקשרים את ה-ID הזה לחברה ב-SAP, כדי שהמערכת תדע מי שולח ומי מקבל.",
           consultantHe: "השיוך (ANID↔Company Code) הכרחי לניתוב cXML נכון: outbound מסומן עם ה-ANID של החברה; inbound ממופה חזרה ל-Company Code. ללא שיוך — הצעות/פרסים לא חוזרים לישות הנכונה. רלוונטי בסביבה רב-חברתית.",
           purposeHe: "להבטיח שכל הודעת-cXML משויכת לישות-החברה הנכונה — קריטי בסביבה רב-Company-Code.",
-          processExampleHe: "אדמין משייך ANID של CBC-Israel ל-Company Code 1000; כעת כל RFQ של חברה זו נושא את ה-ANID הנכון, וההצעות חוזרות אליה.",
-          cbcHe: "ב-CBC כל ישות-בקבוק (מדינה/Company Code) מקבלת ANID משלה ומשויכת בנפרד — ההצעות חוזרות לישות-הרכש הנכונה.",
+          processExampleHe: "אדמין משייך ANID של הארגון-Israel ל-Company Code 1000; כעת כל RFQ של חברה זו נושא את ה-ANID הנכון, וההצעות חוזרות אליה.",
+          scenarioHe: "בארגון כל ישות-בקבוק (מדינה/Company Code) מקבלת ANID משלה ומשויכת בנפרד — ההצעות חוזרות לישות-הרכש הנכונה.",
           navHe: ["Materials Management ► Purchasing ► SAP Ariba Integration ► Assign Network ID to Company Code"],
           tables: ["T001", "EDIDC"],
           tcodes: ["SPRO", "OBY6"],
@@ -708,7 +708,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "מוגדר ב-SM37/Application Jobs עם Job Template ו-variant. Jobs טיפוסיים: המרת EBAN→RFQ, שיגור-Output מרוכז, עיבוד-קליטות-cXML. ה-variant קובע את היקף-הבחירה. ניטור דרך SM37. בסיס ל-Touchless Sourcing.",
           purposeHe: "לאוטומציה ולעיבוד-נפח של RFQ — המרה, שיגור וקליטה — ללא התערבות-ידנית.",
           processExampleHe: "אדמין מתזמן Job לילי שממיר דרישות-רכש פתוחות ל-RFQ ושולח לספקים; בבוקר ה-RFQ כבר אצל הספקים.",
-          cbcHe: "ב-CBC בעונת-שיא Job לילי ממיר מאות דרישות-אריזה ל-RFQ ושולח — חוסך ימי-עבודה לקונים.",
+          scenarioHe: "בארגון בעונת-שיא Job לילי ממיר מאות דרישות-אריזה ל-RFQ ושולח — חוסך ימי-עבודה לקונים.",
           navHe: ["Materials Management ► Purchasing ► Schedule Job for RFQ Processing", "Fiori ► Application Jobs"],
           tables: ["TBTCO", "TBTCP"],
           tcodes: ["SM36", "SM37", "SE38"],
@@ -728,7 +728,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-S/4HANA ה-Output מנוהל דרך Output Management (BRF+ ו-Determination), לא דרך NAST הקלאסי בלבד. מגדירים Output Type, Channel (PRINT/EMAIL/EDI/XML), Determination Rules, Form Template ו-Receiver. רלוונטי גם לשיגור-cXML ל-Network. שימוש ב-Manage RFQ ובשיגור-מרוכז (Job).",
           purposeHe: "להבטיח שכל RFQ יגיע לספק בערוץ, בתבנית ולנמען הנכונים — אוטומטית ועקבית.",
           processExampleHe: "אדמין מגדיר Output Type ל-RFQ עם Channel=EMAIL ותבנית-PDF; כל RFQ שמפורסם נשלח אוטומטית בדוא\"ל לאיש-הקשר של הספק.",
-          cbcHe: "ב-CBC RFQ לספקים-מחוברים יוצא כ-cXML ל-Network; לספקים לא-מחוברים יוצא כ-PDF במייל — שני Output Types באותו מנגנון.",
+          scenarioHe: "בארגון RFQ לספקים-מחוברים יוצא כ-cXML ל-Network; לספקים לא-מחוברים יוצא כ-PDF במייל — שני Output Types באותו מנגנון.",
           navHe: ["Materials Management ► Purchasing ► Messages ► Output Determination ► Define Output Parameter Determination"],
           tables: ["NAST", "T160", "T161S"],
           tcodes: ["NACE", "MN01", "SPRO"],
@@ -758,8 +758,8 @@ export const CH10: TextbookChapter = {
         "לאפשר לארגון להגדיר בקרות-אישור גמישות ל-Sourcing — לפי סכום/קטגוריה/מפעל — במהירות, ללא פיתוח, ועם תחזוקה עצמית של הצוות-העסקי.",
       processExampleHe:
         "אדמין מפעיל Scenario ל-RFQ, מגדיר Start Condition 'מעל 100K₪', מוסיף Step עם מאשר=מנהל-רכש ו-Decision Options (Approve/Reject); כל RFQ כזה מנותב ל-My Inbox של המנהל.",
-      cbcHe:
-        "ב-CBC Flexible Workflow מאשר RFQ והענקות-חוזה: סף-סכום מנתב למנהל-רכש, סף גבוה יותר ל-CFO; הכל מוגדר ב-Fiori ומנותב ל-My Inbox.",
+      scenarioHe:
+        "בארגון Flexible Workflow מאשר RFQ והענקות-חוזה: סף-סכום מנתב למנהל-רכש, סף גבוה יותר ל-CFO; הכל מוגדר ב-Fiori ומנותב ל-My Inbox.",
       navHe: [
         "SPRO ► Materials Management ► Purchasing ► Flexible Workflow for RFQ / Supplier Quotation",
         "Fiori ► Manage Workflows for Request for Quotation / Supplier Quotation",
@@ -824,7 +824,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "מוגדר ב-SPRO (Scenario Activation) או ב-Fiori; מקשר Scenario ל-Object Type ומפעיל. ללא הפעלה, גם אם Steps ו-Start Conditions מוגדרים — דבר לא קורה. נקודת-הבדיקה הראשונה בכל תקלת-Workflow.",
           purposeHe: "להפעיל/לכבות את כל מנגנון-האישור לאובייקט ברמת-מערכת — מתג-על.",
           processExampleHe: "אדמין מפעיל Scenario ל-RFQ Approval; מרגע זה כללי-ה-Start-Conditions שמוגדרים נכנסים לפעולה.",
-          cbcHe: "ב-CBC מפעילים Scenario ל-RFQ ול-Supplier Quotation Approval לפני הגדרת-הכללים הספציפיים.",
+          scenarioHe: "בארגון מפעילים Scenario ל-RFQ ול-Supplier Quotation Approval לפני הגדרת-הכללים הספציפיים.",
           navHe: ["SPRO ► SAP Business Workflow ► Flexible Workflow ► Activate Scenario for Object"],
           tables: ["SWF_SCENARIO", "SWD_HEADER"],
           tcodes: ["SWDD", "SPRO"],
@@ -843,7 +843,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "מבוסס על Event Linkage (SWE2/SWETYPV): רישום Object Event ↔ Receiver Workflow. נדרש להפעלת Workflow עוקב (למשל אחרי Award → Workflow ליצירת-PO). בלי רישום-אירוע, השרשור לא קורה. ניטור דרך SWEL (Event Trace).",
           purposeHe: "לשרשר תהליכים אוטומטית — סיום-שלב מפעיל את הבא — ללא הפעלה-ידנית.",
           processExampleHe: "אירוע 'Quotation Awarded' רשום; ברגע ה-Award מופעל Workflow עוקב שיוצר טיוטת-PO לאישור.",
-          cbcHe: "ב-CBC אירוע 'RFQ Approved' מפעיל אוטומטית את שיגור-ה-RFQ לספקים — שרשור ללא התערבות.",
+          scenarioHe: "בארגון אירוע 'RFQ Approved' מפעיל אוטומטית את שיגור-ה-RFQ לספקים — שרשור ללא התערבות.",
           navHe: ["SPRO ► SAP Business Workflow ► Flexible Workflow ► Register Event for Subsequent Workflow"],
           tables: ["SWETYPV", "SWEINSTCOU"],
           tcodes: ["SWE2", "SWEL", "SWETYPV"],
@@ -862,7 +862,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Task Names ו-Decision Options מוגדרים ל-Workflow Task (PFTC) ומוצגים ב-My Inbox. Decision Options = ערכי-ההחלטה (Outcomes) שכל אחד מנתב לנתיב-המשך. ניסוח ברור קריטי לחוויית-המאשר ולהפחתת-טעויות. תומך רב-לשוני.",
           purposeHe: "להבטיח שהמאשר יבין בדיוק מה מאשרים ואילו אפשרויות יש — בהירות-החלטה.",
           processExampleHe: "אדמין מגדיר Task Name='אישור RFQ אסטרטגי' ו-Decision Options: 'אשר', 'דחה עם נימוק'; המנהל רואה זאת ב-My Inbox.",
-          cbcHe: "ב-CBC שמות-המשימות ואפשרויות-ההחלטה מנוסחים בעברית ('אשר רכש'/'דחה') לנוחות מנהלי-הרכש המקומיים.",
+          scenarioHe: "בארגון שמות-המשימות ואפשרויות-ההחלטה מנוסחים בעברית ('אשר רכש'/'דחה') לנוחות מנהלי-הרכש המקומיים.",
           navHe: ["SPRO ► SAP Business Workflow ► Flexible Workflow ► Maintain Task Names and Decision Options"],
           tables: ["PFTC_DESCR", "SWD_HEADER"],
           tcodes: ["PFTC", "SWDD"],
@@ -882,7 +882,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "כלי-הוויזואליזציה (Workflow Log / Graphical Log, SWI1/SWIA) מציג את מופע-ה-Workflow: Steps, Agents, סטטוס וזמנים. חיוני לאבחון תקיעות, להבנת-ניתוב ולתמיכה. ב-Fiori קיים Workflow visualization מובנה.",
           purposeHe: "לאבחן במהירות מצב-Workflow — היכן תקוע, מי האחראי, ומה הנתיב — לתמיכה ולשקיפות.",
           processExampleHe: "תמיכה פותחת את ה-Workflow Log ל-RFQ תקוע, רואה שהשלב ממתין למאשר בחופשה ללא Substitution, ומפנה לחלופי.",
-          cbcHe: "ב-CBC צוות-התמיכה משתמש בוויזואליזציה לאיתור הענקות-תקועות בעונת-שיא ולזיהוי מאשרים-חסרים.",
+          scenarioHe: "בארגון צוות-התמיכה משתמש בוויזואליזציה לאיתור הענקות-תקועות בעונת-שיא ולזיהוי מאשרים-חסרים.",
           navHe: ["SPRO ► SAP Business Workflow ► Visualization", "SAP Easy Access ► Workflow ► Workflow Log (SWI1)"],
           tables: ["SWWWIHEAD", "SWWLOGHIST"],
           tcodes: ["SWI1", "SWIA", "SWI6"],
@@ -901,7 +901,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ה-Scenario כולל: Start Conditions (תנאי-הפעלה לפי שדות-מסמך), Steps (שלבי-אישור), Agent Determination (מי המאשר — תפקיד/היררכיה/משתמש), Deadlines/Escalation, ו-Decision Options. מוגדר ב-Fiori (Manage Workflows) או SPRO. זהו לב ה-Flexible Workflow.",
           purposeHe: "להגדיר את כל מהלך-האישור לאובייקט — מתנאי-הפעלה ועד מאשרים ומועדים — כיחידה אחת.",
           processExampleHe: "Scenario ל-RFQ: Start Condition 'מעל 100K', Step1=מנהל-רכש (Deadline 2 ימים), Step2=CFO אם מעל 500K; כל שלב עם Decision Options.",
-          cbcHe: "ב-CBC Scenario דו-שלבי לאריזה: מנהל-רכש ואז CFO לסכומים גבוהים, עם Deadlines ו-Escalation אוטומטי.",
+          scenarioHe: "בארגון Scenario דו-שלבי לאריזה: מנהל-רכש ואז CFO לסכומים גבוהים, עם Deadlines ו-Escalation אוטומטי.",
           navHe: ["Fiori ► Manage Workflows for RFQ ► Define Scenario", "SPRO ► Flexible Workflow ► Scenario Definition"],
           tables: ["SWF_SCENARIO", "SWD_HEADER"],
           tcodes: ["SWDD", "PFTC"],
@@ -923,7 +923,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-PFTC מגדירים Task Attributes: General Task (ביטול בקרת-Agent — כל משתמש-מורשה יכול), Background processing, Confirm End of Processing, ו-Asynchronous/Synchronous. תכונת 'General Task' היא תקלה-נפוצה: אם לא מסומנת, רק Possible Agents מוגדרים יכולים לקבל — וה-Workflow 'נעלם'.",
           purposeHe: "לשלוט מי ואיך מבצע את משימת-ה-Workflow — בקרת-Agent, רקע, ואישור-סיום.",
           processExampleHe: "אדמין מסמן את משימת-האישור כ-General Task; כעת כל מאשר-מורשה לפי ה-Scenario מקבל אותה, ולא רק רשימת-Agents מצומצמת.",
-          cbcHe: "ב-CBC משימת-אישור-RFQ מוגדרת General Task כדי שכל מנהל-רכש מורשה יוכל לאשר, ולא רק משתמש-בודד.",
+          scenarioHe: "בארגון משימת-אישור-RFQ מוגדרת General Task כדי שכל מנהל-רכש מורשה יוכל לאשר, ולא רק משתמש-בודד.",
           navHe: ["SAP Easy Access ► Tools ► Business Workflow ► Development ► Definition Tools ► Tasks (PFTC)"],
           tables: ["HRS1000", "PFTC_DESCR"],
           tcodes: ["PFTC", "SWDD", "OOCU_RESP"],
@@ -953,8 +953,8 @@ export const CH10: TextbookChapter = {
         "להרחיב את ה-Sourcing מעבר לגבולות-המערכת — לרשת-ספקים גלובלית, למכרזים אסטרטגיים מתקדמים, ולאוטומציית-מסמכים — תוך שמירה על S/4HANA כמערכת-הרשומה.",
       processExampleHe:
         "דרישה אסטרטגית ל-PET נשלחת כ-cXML ל-Ariba; הקונה מנהל מכרז-הפוך עם ספקים גלובליים; ה-Award חוזר ל-S/4HANA והופך ל-Contract, שממנו נמשכות הזמנות-תפעוליות.",
-      cbcHe:
-        "ב-CBC רכש-PET/רזין גלובלי וקטגוריות-אריזה אסטרטגיות מנוהלים ב-Ariba: מכרזים-הפוכים, גילוי-ספקים חדשים, וחוזים שחוזרים אוטומטית ל-S/4HANA — בעוד רכש-טקטי נשאר Standalone.",
+      scenarioHe:
+        "בארגון רכש-PET/רזין גלובלי וקטגוריות-אריזה אסטרטגיות מנוהלים ב-Ariba: מכרזים-הפוכים, גילוי-ספקים חדשים, וחוזים שחוזרים אוטומטית ל-S/4HANA — בעוד רכש-טקטי נשאר Standalone.",
       navHe: [
         "Materials Management ► Purchasing ► SAP Ariba Integration ► (cXML / Credentials / Network ID)",
         "Integration Monitoring ► SAP Business Network / SOA Monitor",
@@ -1021,8 +1021,8 @@ export const CH10: TextbookChapter = {
         "לאחד את כל רכיבי ה-External Sourcing לתמונה-אחת קוהרנטית — תהליך, אפליקציות, קונפיגורציה, Workflow ואינטגרציה — כבסיס למימוש ולתפעול.",
       processExampleHe:
         "מסע מלא: דרישה→RFQ (Manage RFQ)→שיגור (Output/cXML)→הצעות (Manage Supplier Quotations)→השוואה (Compare)→אישור (My Inbox/Flexible Workflow)→Award→PO/Contract — בין Standalone ל-Ariba.",
-      cbcHe:
-        "ב-CBC: קטגוריות אסטרטגיות (PET/רזין) ב-Ariba, רכש-טקטי (חלפים/ניקוי) Standalone, הכל ב-Fiori עם Flexible Workflow ל-אישורים — תהליך-רכש אחיד, מבוקר ומשולב לכל הקונים.",
+      scenarioHe:
+        "בארגון: קטגוריות אסטרטגיות (PET/רזין) ב-Ariba, רכש-טקטי (חלפים/ניקוי) Standalone, הכל ב-Fiori עם Flexible Workflow ל-אישורים — תהליך-רכש אחיד, מבוקר ומשולב לכל הקונים.",
       navHe: [
         "Fiori Launchpad ► Sourcing and Procurement (כל האפליקציות)",
         "SPRO ► Materials Management ► Purchasing (RFQ / cXML / Workflow)",

@@ -44,7 +44,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         {i.ecc && <Block title="התנהגות ב-ECC" accent="#64748b">{i.ecc}</Block>}
         {i.s4 && <Block title="התנהגות ב-S/4HANA" accent="#2563eb">{i.s4}</Block>}
       </div>}
-      {i.cbc && <div className="mt-4"><Block title="דוגמה — CBC" accent="#d62027">{i.cbc}</Block></div>}
+      {i.scenario && <div className="mt-4"><Block title="דוגמה — הארגון" accent="#d62027">{i.scenario}</Block></div>}
       <Link href="/troubleshooting/" className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:underline">→ חזרה למרכז פתרון תקלות</Link>
     </div>
   );

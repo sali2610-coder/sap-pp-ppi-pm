@@ -62,7 +62,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
         <Block title="אפליקציות Fiori" accent="#7c3aed"><div className="flex flex-wrap gap-1.5">{g.fiori.map((f) => <span key={f} className="tech rounded-lg border border-violet-200 bg-violet-50 px-2.5 py-1 text-xs font-bold text-violet-700">{f}</span>)}</div></Block>
-        <Block title="דוגמת ייצור — CBC" accent="#d62027">{g.cbc}</Block>
+        <Block title="דוגמת ייצור — הארגון" accent="#d62027">{g.scenario}</Block>
       </div>
 
       <div className="mt-4"><EccS4Block data={g.eccS4} title={`ECC6 → S/4HANA · ${g.he}`} /></div>

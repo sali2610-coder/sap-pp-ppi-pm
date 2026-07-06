@@ -1,7 +1,7 @@
 // ===== PP Deep Learning Content — Chapters 3 & 4 (SAP-Press-grade benchmark) =====
 // Transformative Hebrew learning content per subchapter: explanation, business
 // scenario, configuration example, master-data example, troubleshooting, tips,
-// consultant pitfalls, CBC notes. Copyright-safe: no verbatim source prose.
+// consultant pitfalls, הארגון notes. Copyright-safe: no verbatim source prose.
 // SAP identifiers (T-Codes / tables / CDS / Fiori / programs) verbatim in English.
 
 export interface DeepUnit {
@@ -12,7 +12,7 @@ export interface DeepUnit {
   scenarioHe?: string;
   configHe?: string[];
   masterDataHe?: string[];
-  cbcHe?: string;
+  exampleHe?: string;
   troubleshootHe?: string[];
   tipsHe?: string[];
   pitfallsHe?: string[];
@@ -43,7 +43,7 @@ export const PP_DEEP: Record<string, DeepUnit[]> = {
         "חוסר Production Version או נתוני MRP חלקיים ➔ ה-MRP לא ייצר הזמנות / שגיאות בפיצוץ ה-BOM.",
         "MRP Type שגוי (VB במקום PD) משנה לחלוטין את לוגיקת התכנון — ודא עם תכנון הביקוש.",
       ],
-      cbcHe: "ב-CBC חומרי הגלם (תרכיז, סוכר, CO2) הם ROH מנוהלי-אצווה; המוצר המוגמר FERT — לכולם נדרשים נתוני MRP מלאים ו-Production Version.",
+      exampleHe: "בארגון חומרי הגלם (תרכיז, סוכר, CO2) הם ROH מנוהלי-אצווה; המוצר המוגמר FERT — לכולם נדרשים נתוני MRP מלאים ו-Production Version.",
     },
     {
       id: "3.2", titleHe: "עץ מוצר (BOM) — שימושים, סטטוס, קטגוריות פריט", titleEn: "Bill of Materials",
@@ -158,7 +158,7 @@ export const PP_DEEP: Record<string, DeepUnit[]> = {
       troubleshootHe: ["MRP לא מוצא Production Version ➔ בדוק תוקף, טווח כמות ו-Consistency Check (אדום)."],
       tipsHe: ["שמור על Production Version אחת ברורה לכל חומר; ריבוי גרסאות מסבך את בחירת ה-MRP."],
       pitfallsHe: ["היעדר Production Version ב-S/4HANA = כשל קשיח ב-MRP/המרת הזמנה מתוכננת."],
-      cbcHe: "ב-CBC כל מוצר מיוצר חייב Production Version תקפה — זה תנאי סף להרצת ה-MRP על קווי המילוי.",
+      exampleHe: "בארגון כל מוצר מיוצר חייב Production Version תקפה — זה תנאי סף להרצת ה-MRP על קווי המילוי.",
     },
   ],
   "4": [
@@ -173,7 +173,7 @@ export const PP_DEEP: Record<string, DeepUnit[]> = {
         "סוג רשימת משימות 2 למתכון ראשי; שיוך לחומר דרך MAPL.",
       ],
       masterDataHe: ["PLKO/PLPO (מתכון/פעולות) · PLPH (Phases) · MAPL (שיוך) · MKAL (גרסה) · CRHD (משאב)."],
-      cbcHe: "זהו לב ה-PP-PI ב-CBC: המתכון הראשי מגדיר את תהליך ייצור המשקה ומשמש בסיס למתכון הבקרה וה-PI Sheet.",
+      exampleHe: "זהו לב ה-PP-PI בארגון: המתכון הראשי מגדיר את תהליך ייצור המשקה ומשמש בסיס למתכון הבקרה וה-PI Sheet.",
       pitfallsHe: ["מתכון ללא Phases/Control Key תהליכי לא יפיק Control Recipe."],
     },
     {
@@ -218,7 +218,7 @@ export const PP_DEEP: Record<string, DeepUnit[]> = {
         "CO53 (Control Recipe Monitor), CO54 (Process Message Monitor) לניטור.",
       ],
       masterDataHe: ["מאפייני הודעה מבוססי Characteristics (CT04) של מערכת הסיווג."],
-      cbcHe: "ב-CBC הודעות התהליך הן נקודת האינטגרציה: ה-PI Sheet/מערכת הבקרה מחזיר דיווחי מילוי וצריכה ל-SAP, ומשם ל-Zetes/Daymax.",
+      exampleHe: "בארגון הודעות התהליך הן נקודת האינטגרציה: ה-PI Sheet/מערכת הבקרה מחזיר דיווחי מילוי וצריכה ל-SAP, ומשם ל-Zetes/Daymax.",
       troubleshootHe: ["הודעת תהליך לא מעדכנת פק\"ע ➔ בדוק Destination ומיפוי המאפיין."],
     },
     {
@@ -241,7 +241,7 @@ export const PP_DEEP: Record<string, DeepUnit[]> = {
         "CO53 שליחת מתכוני בקרה; CO55 עיבוד PI Sheet.",
       ],
       troubleshootHe: ["מתכון בקרה לא נוצר ➔ פרופיל תזמון ללא יעד, או מתכון ללא הוראות תהליך."],
-      cbcHe: "ב-CBC יעד מתכון הבקרה מנתב את הוראות הייצור למערכת הבקרה/Zetes; LOIPRO מפיץ את הפק\"ע במקביל.",
+      exampleHe: "בארגון יעד מתכון הבקרה מנתב את הוראות הייצור למערכת הבקרה/Zetes; LOIPRO מפיץ את הפק\"ע במקביל.",
     },
     {
       id: "4.8", titleHe: "פרופיל תזמון ייצור תהליכי", titleEn: "Process Production Scheduling Profile",
@@ -259,7 +259,7 @@ export const PP_DEEP: Record<string, DeepUnit[]> = {
       explanationHe:
         "Process Management הוא המנגנון המקשר בין הפק\"ע התהליכי לביצוע בשטח: מתכון בקרה ➔ PI Sheet/PCS ➔ הוראות תהליך ➔ הודעות תהליך חזרה ל-SAP (דיווח, צריכה, מדידות, אצוות). זהו ייחוד ה-PP-PI מול ייצור בדיד.",
       configHe: ["CO53 Control Recipe Monitor · CO55 PI Sheet · CO54 Process Message Monitor · CORK דיווח/סגירה."],
-      cbcHe: "ב-CBC כל מחזור הייצור התהליכי עובר דרך Process Management — זו השכבה שמחברת את SAP למערכות הביצוע (Zetes/Daymax) ומבטיחה עקיבות אצווה.",
+      exampleHe: "בארגון כל מחזור הייצור התהליכי עובר דרך Process Management — זו השכבה שמחברת את SAP למערכות הביצוע (Zetes/Daymax) ומבטיחה עקיבות אצווה.",
       troubleshootHe: ["פערי דיווח ➔ נטר ב-CO54 הודעות תהליך תקועות; ודא מיפוי Destination נכון."],
     },
   ],
@@ -273,7 +273,7 @@ export const PP_DEEP_STATS = Object.fromEntries(
       fields: units.reduce(
         (s, u) =>
           s +
-          [u.scenarioHe, u.cbcHe].filter(Boolean).length +
+          [u.exampleHe, u.exampleHe].filter(Boolean).length +
           (u.configHe?.length ?? 0) + (u.masterDataHe?.length ?? 0) +
           (u.troubleshootHe?.length ?? 0) + (u.tipsHe?.length ?? 0) + (u.pitfallsHe?.length ?? 0),
         0,

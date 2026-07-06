@@ -1,7 +1,7 @@
 // ===== QM Digital Textbook — Chapter 14 (Audit Management) =====
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
 // Hierarchy preserved exactly (14.1–14.7, with 14.2.x / 14.3.x / 14.4.x nested).
-// Transformative Hebrew; SAP identifiers verbatim EN. CBC = Coca-Cola bottling
+// Transformative Hebrew; SAP identifiers verbatim EN. הארגון = Example Product bottling
 // ISO 9001 / food-safety internal audits.
 import type { TextbookChapter } from "./types";
 
@@ -10,7 +10,7 @@ export const CH14: TextbookChapter = {
   titleHe: "ניהול ביקורות (Audit Management)",
   titleEn: "Audit Management",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה למודול ניהול-הביקורות (Audit Management, QM-AM) ב-SAP. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך מחזור-החיים, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד לתכנן, לבצע, להעריך ולתעד ביקורות-איכות (ISO 9001, בטיחות-מזון) ללא הספר המקורי. אובייקט-הליבה הוא PLMD_AUDIT, ומחזור-החיים נע מתוכנית-ביקורת, דרך ביקורת ושאלות, ועד דוח-ביקורת ופעולות-מתקנות (CAPA).",
+    "פרק זה הוא יחידת-לימוד מלאה למודול ניהול-הביקורות (Audit Management, QM-AM) ב-SAP. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך מחזור-החיים, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד לתכנן, לבצע, להעריך ולתעד ביקורות-איכות (ISO 9001, בטיחות-מזון) ללא הספר המקורי. אובייקט-הליבה הוא PLMD_AUDIT, ומחזור-החיים נע מתוכנית-ביקורת, דרך ביקורת ושאלות, ועד דוח-ביקורת ופעולות-מתקנות (CAPA).",
   subchapters: [
     // ============================================================ 14.1
     {
@@ -25,8 +25,8 @@ export const CH14: TextbookChapter = {
         "לרכז את כל מחזור-חיי הביקורת בכלי-אחד עם נתיב-ביקורת מלא, להבטיח עקביות בין מבקרים שונים דרך רשימות-שאלות סטנדרטיות, לאכוף סגירת-ליקויים דרך CAPA, ולספק ראיות-ציות לתקני ISO 9001 / FSSC 22000 בעת ביקורת-חוץ.",
       processExampleHe:
         "מנהל-איכות יוצר תוכנית-ביקורת שנתית, משבץ בה עשר ביקורות-פנים, לכל ביקורת מצרף רשימת-שאלות מקטלוג, משחרר את התוכנית, המבקר מבצע ומעריך כל שאלה, פותח CAPA לכל ליקוי, מעריך את הביקורת כולה ומפיק דוח-ביקורת — הכול תחת PLMD_AUDIT עם חתימה-דיגיטלית בנקודות-המפתח.",
-      cbcHe:
-        "ב-CBC מנוהלות ביקורות-פנים שנתיות לפי ISO 9001 ו-FSSC 22000: ביקורת-קו-מילוי, ביקורת-מחסן-חומרי-גלם, ביקורת-CIP (ניקוי במקום) וביקורת-ספק-תרכיז. כל קווי-המילוי, המעבדה ומחסני-החומרים נבדקים מול רשימות-שאלות אחידות, וכל ליקוי-בטיחות-מזון הופך אוטומטית ל-CAPA עם תאריך-יעד ואחראי.",
+      scenarioHe:
+        "בארגון מנוהלות ביקורות-פנים שנתיות לפי ISO 9001 ו-FSSC 22000: ביקורת-קו-מילוי, ביקורת-מחסן-חומרי-גלם, ביקורת-CIP (ניקוי במקום) וביקורת-ספק-תרכיז. כל קווי-המילוי, המעבדה ומחסני-החומרים נבדקים מול רשימות-שאלות אחידות, וכל ליקוי-בטיחות-מזון הופך אוטומטית ל-CAPA עם תאריך-יעד ואחראי.",
       navHe: [
         "Quality Management ► Audit Management ► Basic Settings (SPRO)",
         "Logistics ► Quality Management ► Audit Management ► Audit ► PLMD_AUDIT",
@@ -97,8 +97,8 @@ export const CH14: TextbookChapter = {
         "להפריד את שלב-ההגדרה (מבנה, היקף, תוכן) משלב-הביצוע. כך ניתן לבנות תוכנית שלמה, לאשר אותה, ורק אז לשחרר לביצוע — בלי שמבקרים יפעלו על נתונים לא-מאושרים.",
       processExampleHe:
         "מנהל-איכות בונה תוכנית-ביקורת לשנה, יוצר תחתיה חמש ביקורות, ומצרף לכל ביקורת רשימת-שאלות מתאימה מהקטלוג — הכול במצב-טיוטה הניתן לעריכה עד השחרור.",
-      cbcHe:
-        "ב-CBC ההקמה כוללת תוכנית-ביקורת-פנים שנתית, ביקורת נפרדת לכל אזור (מילוי, מחסן, מעבדה, CIP), ורשימות-שאלות ייעודיות לכל אזור הנשענות על דרישות FSSC 22000.",
+      scenarioHe:
+        "בארגון ההקמה כוללת תוכנית-ביקורת-פנים שנתית, ביקורת נפרדת לכל אזור (מילוי, מחסן, מעבדה, CIP), ורשימות-שאלות ייעודיות לכל אזור הנשענות על דרישות FSSC 22000.",
       navHe: [
         "Logistics ► QM ► Audit Management ► Audit Plan ► Create",
         "Logistics ► QM ► Audit Management ► Audit ► PLMD_AUDIT ► Create",
@@ -150,7 +150,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "Audit Plan הוא אובייקט CGPL (project-like) הנושא תקופה, מבנה-היררכי של ביקורות-משנה, Partners ו-User Status מ-Status Profile. ניתן לייצא/לסנכרן ל-Microsoft Project (14.4.1). השחרור שלו (14.3.1) משחרר את המסגרת אך לא בהכרח כל ביקורת.",
           purposeHe: "לאגד את כל פעילות-הביקורת לתקופה למסגרת-מנוהלת אחת, לאפשר תכנון-משאבים, מעקב-התקדמות ודיווח-הנהלה.",
           processExampleHe: "מנהל-איכות יוצר תוכנית '2026 Internal Audits', מגדיר תקופה ינואר–דצמבר, ומשבץ בה עשר ביקורות עם תאריכי-יעד ומבקרים-אחראים.",
-          cbcHe: "ב-CBC נבנית תוכנית-ביקורת-פנים שנתית המכסה את כל אזורי-הייצור והאיכות, מתואמת עם לוח-הביקורות-החיצוני של ISO 9001.",
+          scenarioHe: "בארגון נבנית תוכנית-ביקורת-פנים שנתית המכסה את כל אזורי-הייצור והאיכות, מתואמת עם לוח-הביקורות-החיצוני של ISO 9001.",
           navHe: ["Logistics ► QM ► Audit Management ► Audit Plan ► Create", "SPRO ► QM ► Audit Management ► Audit Plan ► Define Number Ranges for Audit Plan"],
           tables: ["CGPL_PROJ", "CGPL_TASK", "PLM_AUDIT_HEAD"],
           tcodes: ["PLMD_AUDIT", "PLMD_CONTROL"],
@@ -169,7 +169,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "ב-PLMD_AUDIT יוצרים Audit, בוחרים Audit Type (קובע מספור/חתימה/תבנית), מזינים Partners (Auditor, Auditee, Lead Auditor) דרך Partner Determination, מגדירים Scope ותאריכים, ומקשרים Question List משוחררת. ה-User Status נע 'Created' עד שחרור (14.3.2).",
           purposeHe: "ליצור את יחידת-העבודה הפרטנית שעליה יבוצעו ההערכה, ה-CAPA והדוח — עם כל ההקשר (סוג, היקף, אנשים, שאלות).",
           processExampleHe: "מבקר יוצר ביקורת 'Audit – Filling Line 3', מסוג 'Internal Process Audit', משבץ עצמו כ-Lead Auditor ואת מנהל-הקו כ-Auditee, ומקשר את רשימת-השאלות של קווי-המילוי.",
-          cbcHe: "ב-CBC נוצרת ביקורת נפרדת לכל קו-מילוי ולכל מחסן; ה-Auditee הוא מנהל-האזור וה-Question List נגזרת מדרישות-בטיחות-המזון.",
+          scenarioHe: "בארגון נוצרת ביקורת נפרדת לכל קו-מילוי ולכל מחסן; ה-Auditee הוא מנהל-האזור וה-Question List נגזרת מדרישות-בטיחות-המזון.",
           navHe: ["Logistics ► QM ► Audit Management ► Audit ► PLMD_AUDIT ► Create", "SPRO ► QM ► Audit Management ► Audit ► Define Audit Types"],
           tables: ["PLM_AUDIT_HEAD", "PLM_AUDIT_PARTNER", "JEST"],
           tcodes: ["PLMD_AUDIT"],
@@ -192,7 +192,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "Question List נבנית ב-PLMC_QCAT/Manage Question Lists כעץ: Question List → קבוצות → Questions → sub-questions. כל שאלה יכולה לשאת Weighting, Valuation (קישור ל-Code Group/Catalog להערכה — למשל 'מתאים/לא-מתאים/N/A'), טקסט-עזר ומסמכים (DMS). הרשימה משוחררת ואז ניתנת-לקישור לביקורת; שינויים מנוהלים בגרסאות.",
           purposeHe: "לתקנן את תוכן-הביקורת בין מבקרים ותקופות, לאפשר ניקוד אובייקטיבי דרך קטלוג-הערכה, ולחסוך עבודה-כפולה דרך שימוש-חוזר.",
           processExampleHe: "מומחה-איכות בונה Question List 'ISO 9001 – Process', מקבץ שאלות לפי סעיפי-התקן, מגדיר לכל שאלה משקל וקטלוג-הערכה ('Conform / Minor / Major'), משחרר את הרשימה ומקשר לביקורות הרלוונטיות.",
-          cbcHe: "ב-CBC נבנות רשימות-שאלות פר-אזור (מילוי, CIP, מחסן) הנשענות על סעיפי FSSC 22000; כל שאלה נושאת משקל וקטלוג 'תקין/ליקוי-מינורי/ליקוי-קריטי' לבטיחות-מזון.",
+          scenarioHe: "בארגון נבנות רשימות-שאלות פר-אזור (מילוי, CIP, מחסן) הנשענות על סעיפי FSSC 22000; כל שאלה נושאת משקל וקטלוג 'תקין/ליקוי-מינורי/ליקוי-קריטי' לבטיחות-מזון.",
           navHe: ["Logistics ► QM ► Audit Management ► Question List ► PLMC_QCAT", "SPRO ► QM ► Audit Management ► Question List ► Define Catalogs for Valuation"],
           tables: ["PLM_AUDIT_QSTN", "QPCT", "QPGR"],
           tcodes: ["PLMC_QCAT", "QS41", "QS51"],
@@ -222,8 +222,8 @@ export const CH14: TextbookChapter = {
         "לתרגם את התוכנית המאושרת לביצוע-מבוקר עם נתיב-ביקורת, לאכוף סגירת-ליקויים דרך CAPA, ולספק ציון-מצרפי ודוח-רשמי לראיות-ציות.",
       processExampleHe:
         "מנהל משחרר את התוכנית, מבקר משחרר ומבצע ביקורת, מדרג כל שאלה, פותח CAPA לכל ליקוי, מחשב ציון-מצרפי משוקלל, וחותם דיגיטלית על דוח-הביקורת.",
-      cbcHe:
-        "ב-CBC כל ליקוי-בטיחות-מזון שמתגלה בשאלה הופך אוטומטית ל-CAPA עם אחראי ותאריך-יעד; הביקורת מקבלת ציון-מצרפי, ודוח-הביקורת נחתם דיגיטלית כראיה ל-FSSC 22000.",
+      scenarioHe:
+        "בארגון כל ליקוי-בטיחות-מזון שמתגלה בשאלה הופך אוטומטית ל-CAPA עם אחראי ותאריך-יעד; הביקורת מקבלת ציון-מצרפי, ודוח-הביקורת נחתם דיגיטלית כראיה ל-FSSC 22000.",
       navHe: [
         "Logistics ► QM ► Audit Management ► Audit ► PLMD_AUDIT (Release/Valuate)",
         "SPRO ► QM ► Audit Management ► Status Management ► Define Status Profiles",
@@ -277,7 +277,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "השחרור מקדם User Status (למשל REL) ב-Status Profile של התוכנית; חלק מההגדרות נועלות שדות-מסגרת. ניתן לדרוש Digital Signature בשחרור. שחרור-התוכנית הוא תנאי-מקדים לשחרור-הביקורות (14.3.2) ברוב הקונפיגורציות.",
           purposeHe: "לעגן את התוכנית כמאושרת, לנעול את המסגרת, ולפתוח את הדרך לביצוע הביקורות.",
           processExampleHe: "מנהל-איכות בודק את התוכנית, מאשר ומשחרר; הסטטוס עובר ל-Released וניתן כעת לשחרר את הביקורות הבודדות.",
-          cbcHe: "ב-CBC מנהל-האיכות-הראשי משחרר את תוכנית-הביקורת-השנתית בתחילת-השנה כחלק ממחויבות-ה-Management Review של ISO 9001.",
+          scenarioHe: "בארגון מנהל-האיכות-הראשי משחרר את תוכנית-הביקורת-השנתית בתחילת-השנה כחלק ממחויבות-ה-Management Review של ISO 9001.",
           navHe: ["Logistics ► QM ► Audit Management ► Audit Plan ► Release", "SPRO ► QM ► Audit Management ► Status Management ► Status Profile (Plan)"],
           tables: ["JEST", "CGPL_PROJ"],
           tcodes: ["PLMD_AUDIT", "PLMD_CONTROL"],
@@ -296,7 +296,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "השחרור מקדם User Status של ה-Audit (REL) ב-Status Profile; ייתכן שתידרש Digital Signature. מרגע זה ניתן להזין תשובות ולהעריך שאלות (14.3.3). חלק מהשדות (Scope, Question List) ננעלים כדי לשמור על שלמות-הביקורת.",
           purposeHe: "לאפשר את הביצוע בפועל — הזנת-תשובות והערכה — תוך נעילת-היקף לשמירה על נתיב-ביקורת אמין.",
           processExampleHe: "המבקר פותח את הביקורת, מאשר את ההיקף, ומשחרר; כעת מסך-ההערכה זמין והוא יכול לעבור שאלה-שאלה.",
-          cbcHe: "ב-CBC המבקר משחרר את ביקורת-קו-המילוי ביום-הביקורת, לאחר שווידא שרשימת-השאלות מעודכנת לגרסת-ה-FSSC הנוכחית.",
+          scenarioHe: "בארגון המבקר משחרר את ביקורת-קו-המילוי ביום-הביקורת, לאחר שווידא שרשימת-השאלות מעודכנת לגרסת-ה-FSSC הנוכחית.",
           navHe: ["Logistics ► QM ► Audit Management ► Audit ► PLMD_AUDIT ► Release", "SPRO ► QM ► Audit Management ► Status Management ► Status Profile (Audit)"],
           tables: ["JEST", "PLM_AUDIT_HEAD"],
           tcodes: ["PLMD_AUDIT"],
@@ -315,7 +315,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "כל שאלה מוערכת מול ה-Valuation Catalog המקושר (Code Group), עם משקל מרשימת-השאלות. ניתן לצרף Notes, מסמכים (DMS) ולפתוח CAPA ישירות מהתשובה. הניקוד מצטבר משוקלל לציון-הביקורת (14.3.5). שאלות 'לא-רלוונטי' (N/A) מנוטרלות מהמשקל.",
           purposeHe: "לרשום הערכה אובייקטיבית ומתועדת לכל שאלה, לזהות ליקויים בנקודת-המקור, ולהזין את הציון-המצרפי בצורה משוקללת.",
           processExampleHe: "המבקר מדרג שאלת-CIP כ-'Minor' עם הערה 'תיעוד-טמפרטורה חסר', מצרף צילום, ופותח CAPA לאחראי-התחזוקה.",
-          cbcHe: "ב-CBC הערכת-שאלת 'טמפרטורת-פסטור' כ-'Major' מפעילה אוטומטית CAPA קריטי עם תאריך-יעד מיידי, כנדרש ב-FSSC 22000.",
+          scenarioHe: "בארגון הערכת-שאלת 'טמפרטורת-פסטור' כ-'Major' מפעילה אוטומטית CAPA קריטי עם תאריך-יעד מיידי, כנדרש ב-FSSC 22000.",
           navHe: ["Logistics ► QM ► Audit Management ► Audit ► PLMD_AUDIT ► Valuate", "SPRO ► QM ► Audit Management ► Question List ► Define Valuation Catalogs"],
           tables: ["PLM_AUDIT_QSTN", "QPCT", "PLM_AUDIT_CORRACT"],
           tcodes: ["PLMD_AUDIT"],
@@ -337,7 +337,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "CAPA (טבלת PLM_AUDIT_CORRACT) נוצרת מתשובה או ברמת-הביקורת, נושאת Partner (אחראי), Due Date, תיאור, ו-User Status נפרד (Open/In Process/Completed). ניתן לקשר מסמכים ולעקוב במוניטור-הביקורת (14.4.3). מבחין בין Corrective (תיקון-מקור) ל-Preventive (מניעת-הישנות). סגירת-ביקורת לרוב חסומה כל עוד CAPA פתוחים.",
           purposeHe: "להבטיח טיפול-מתועד ומבוקר בכל ליקוי, לאכוף סגירה לפני סגירת-הביקורת, ולתעד פעולות-מניעה לשיפור-מתמשך.",
           processExampleHe: "לליקוי 'תיעוד-טמפרטורה חסר' נפתחת CAPA: אחראי = מנהל-תחזוקה, יעד = שבועיים, תיאור = 'התקנת רישום-טמפרטורה אוטומטי'; הסטטוס נסגר רק לאחר אימות.",
-          cbcHe: "ב-CBC ליקוי-בטיחות-מזון יוצר CAPA קריטי עם תאריך-יעד קצר; ה-Preventive Action כולל עדכון-נוהל ו-CIP, והסגירה מאומתת בביקורת-מעקב.",
+          scenarioHe: "בארגון ליקוי-בטיחות-מזון יוצר CAPA קריטי עם תאריך-יעד קצר; ה-Preventive Action כולל עדכון-נוהל ו-CIP, והסגירה מאומתת בביקורת-מעקב.",
           navHe: ["Logistics ► QM ► Audit Management ► Audit ► PLMD_AUDIT ► Corrective/Preventive Action", "SPRO ► QM ► Audit Management ► Corrective/Preventive Action ► Define Number Ranges"],
           tables: ["PLM_AUDIT_CORRACT", "JEST", "PLM_AUDIT_PARTNER"],
           tcodes: ["PLMD_AUDIT"],
@@ -360,7 +360,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "ה-Valuation מצרף את ניקודי-השאלות לפי המשקלים (תוך ניטרול N/A) לציון-מצרפי, לרוב מתורגם לקטגוריה (Pass/Conditional/Fail) דרך טווחי-ניקוד מוגדרים. ניתן לדרוש Digital Signature בהשלמת-ההערכה. הציון נשמר בכותרת-הביקורת ומוצג במוניטור ובדוח.",
           purposeHe: "לספק מדד-עמידה כולל, אובייקטיבי ומשוקלל, לאפשר השוואות-מגמה ולתמוך בהחלטות-הנהלה ובדירוג-ספקים.",
           processExampleHe: "לאחר דירוג כל השאלות מחושב ציון 92% המתורגם ל-'Pass'; הציון נחתם דיגיטלית ונרשם בכותרת-הביקורת.",
-          cbcHe: "ב-CBC ציון-ביקורת מתחת לסף-מוגדר מחייב ביקורת-מעקב; ציוני-הספקים מזינים את דירוג-הספק השנתי לבחירת-תרכיז.",
+          scenarioHe: "בארגון ציון-ביקורת מתחת לסף-מוגדר מחייב ביקורת-מעקב; ציוני-הספקים מזינים את דירוג-הספק השנתי לבחירת-תרכיז.",
           navHe: ["Logistics ► QM ► Audit Management ► Audit ► PLMD_AUDIT ► Valuate Audit", "SPRO ► QM ► Audit Management ► Define Valuation/Scoring"],
           tables: ["PLM_AUDIT_HEAD", "PLM_AUDIT_QSTN"],
           tcodes: ["PLMD_AUDIT"],
@@ -382,7 +382,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "הדוח מופק מתבנית (Smart Form / Adobe Form / Fiori output) המשויכת ל-Audit Type. הוא מאגד כותרת, שאלות+הערכות, רשימת-CAPA וציון, וניתן לחתום עליו דיגיטלית ולשמור ב-DMS. ניתן להפיק בפורמטים שונים (PDF) ולהפיץ אוטומטית. תוכן-הדוח נשלט דרך הקונפיגורציה של התבנית.",
           purposeHe: "לתעד את הביקורת במסמך-רשמי לראיות-ציות, להעביר ממצאים למבוקר ולהנהלה, ולשמור ארכיון-ביקורת לטווח-ארוך.",
           processExampleHe: "בסיום מפיק המבקר Audit Report בפורמט PDF, חותם דיגיטלית, שומר ב-DMS ושולח למנהל-הקו ולמנהל-האיכות.",
-          cbcHe: "ב-CBC דוחות-הביקורת-השנתיים נשמרים ב-DMS עם חתימה-דיגיטלית כראיות ל-FSSC 22000 ומוצגים לרואה-החשבון-החיצוני בביקורת-ההסמכה.",
+          scenarioHe: "בארגון דוחות-הביקורת-השנתיים נשמרים ב-DMS עם חתימה-דיגיטלית כראיות ל-FSSC 22000 ומוצגים לרואה-החשבון-החיצוני בביקורת-ההסמכה.",
           navHe: ["Logistics ► QM ► Audit Management ► Audit ► PLMD_AUDIT ► Print/Report", "SPRO ► QM ► Audit Management ► Define Forms/Print Control for Audit Report"],
           tables: ["PLM_AUDIT_HEAD", "NAST", "TNAPR"],
           tcodes: ["PLMD_AUDIT"],
@@ -413,8 +413,8 @@ export const CH14: TextbookChapter = {
         "לנהל ביקורות בקנה-מידה ארגוני — תכנון-משאבים, עבודה-לא-מקוונת, ובקרת-על מרכזית — בלי לאבד את נתיב-הביקורת והעקביות.",
       processExampleHe:
         "מנהל מתכנן את התוכנית ב-Microsoft Project, מייצא ביקורת לעבודה-בשטח, מייבא חזרה את התשובות, ועוקב אחר כל הביקורות והליקויים במוניטור.",
-      cbcHe:
-        "ב-CBC המוניטור משמש את מנהל-האיכות לראות בזמן-אמת אילו ביקורות-פנים פתוחות, אילו CAPA חורגים-מיעד, ומהו ציון-העמידה הממוצע על-פני המפעלים.",
+      scenarioHe:
+        "בארגון המוניטור משמש את מנהל-האיכות לראות בזמן-אמת אילו ביקורות-פנים פתוחות, אילו CAPA חורגים-מיעד, ומהו ציון-העמידה הממוצע על-פני המפעלים.",
       navHe: [
         "Logistics ► QM ► Audit Management ► Audit Monitor",
         "SPRO ► QM ► Audit Management ► Productivity Tools (MS Project / Import-Export)",
@@ -465,7 +465,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "התוכנית (אובייקט CGPL) מיוצאת כמבנה-פרויקט עם משימות (ביקורות-משנה), תלויות ותאריכים; עריכה ב-MS Project מיובאת חזרה ומעדכנת את ה-Audit Plan. שימושי לתכנון-קיבולת של מבקרים. נדרשת התקנת-רכיב-אינטגרציה והגדרת-מיפוי.",
           purposeHe: "לנצל את כלי-תכנון-הפרויקטים המוכר לתכנון-לוחות ומשאבי-ביקורת, תוך שמירה על מקור-אמת אחד ב-SAP.",
           processExampleHe: "מנהל מייצא את תוכנית-2026 ל-MS Project, מאזן עומסי-מבקרים על-פני הרבעונים, ומייבא חזרה את התאריכים המעודכנים.",
-          cbcHe: "ב-CBC צוות-איכות-קטן מתכנן את פריסת-הביקורות-השנתית ב-MS Project כדי לאזן עומס בין שני מבקרים-פנימיים על-פני המפעלים.",
+          scenarioHe: "בארגון צוות-איכות-קטן מתכנן את פריסת-הביקורות-השנתית ב-MS Project כדי לאזן עומס בין שני מבקרים-פנימיים על-פני המפעלים.",
           navHe: ["Logistics ► QM ► Audit Management ► Audit Plan ► Export to MS Project", "SPRO ► QM ► Audit Management ► Productivity Tools ► MS Project Integration"],
           tables: ["CGPL_PROJ", "CGPL_TASK"],
           tcodes: ["PLMD_AUDIT"],
@@ -484,7 +484,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "הייצוא יוצר קובץ (XML) המכיל מבנה-ביקורת ושאלות; עבודה-לא-מקוונת בכלי-לקוח, וייבוא מעדכן את האובייקט ב-SAP עם בקרת-עקביות. שימושי לאתרים מרוחקים ולשכפול-תבניות בין מערכות (Dev→Prod). נדרשת התאמת-גרסאות-Question List למניעת-קונפליקט.",
           purposeHe: "לאפשר ביצוע-ביקורת באתרים ללא-רשת, להעביר ביקורות בין נופי-מערכת, ולשכפל מבנים לחיסכון-בעבודה.",
           processExampleHe: "מבקר מייצא ביקורת למחשב-נייד, מבצע באתר-מרוחק ללא-רשת, וביום-המחרת מייבא את התשובות וה-CAPA חזרה ל-SAP.",
-          cbcHe: "ב-CBC ביקורת-ספק-תרכיז באתר-הספק מבוצעת לא-מקוון, ומיובאת חזרה למערכת-המרכזית לאחר החזרה למפעל.",
+          scenarioHe: "בארגון ביקורת-ספק-תרכיז באתר-הספק מבוצעת לא-מקוון, ומיובאת חזרה למערכת-המרכזית לאחר החזרה למפעל.",
           navHe: ["Logistics ► QM ► Audit Management ► Audit ► Export/Import", "SPRO ► QM ► Audit Management ► Productivity Tools ► Import/Export"],
           tables: ["PLM_AUDIT_HEAD", "PLM_AUDIT_QSTN"],
           tcodes: ["PLMD_AUDIT"],
@@ -503,7 +503,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "המוניטור (ALV/Fiori) שולף את אובייקטי-הביקורת לפי סינונים (Audit Type, סטטוס, תקופה, אחראי), מציג סטטוסי-JEST, ציונים ו-CAPA פתוחים עם חריגות-יעד, ומאפשר Drill-down ל-PLMD_AUDIT. משמש גם לדיווח-הנהלה ולמעקב-KPI (אחוז-השלמה, ליקויים-פתוחים).",
           purposeHe: "לספק נראות-על מרכזית, לזהות ביקורות-מתעכבות ו-CAPA-חורגים, ולתמוך בדיווח-הנהלה ובניהול-יומי של תיק-הביקורות.",
           processExampleHe: "מנהל-האיכות פותח את המוניטור בבוקר, מסנן ל-CAPA חורגי-יעד, ומקליק לכל אחד לטיפול — בלי לפתוח ביקורות בודדות.",
-          cbcHe: "ב-CBC המוניטור משמש כלוח-בקרה שבועי: אחוז-ביקורות-שהושלמו, ליקויי-בטיחות-מזון פתוחים, וציון-עמידה ממוצע מוצגים לסקירת-הנהלה.",
+          scenarioHe: "בארגון המוניטור משמש כלוח-בקרה שבועי: אחוז-ביקורות-שהושלמו, ליקויי-בטיחות-מזון פתוחים, וציון-עמידה ממוצע מוצגים לסקירת-הנהלה.",
           navHe: ["Logistics ► QM ► Audit Management ► Audit Monitor", "SPRO ► QM ► Audit Management ► Audit Monitor ► Define Selection Variants"],
           tables: ["PLM_AUDIT_HEAD", "PLM_AUDIT_CORRACT", "JEST"],
           tcodes: ["PLMD_AUDIT", "PLMD_CONTROL"],
@@ -533,8 +533,8 @@ export const CH14: TextbookChapter = {
         "לחבר ביקורות לעולם-הבדיקות הקלאסי של QM — לנצל תכניות-בדיקה, רישום-תוצאות, החלטת-שימוש וציון-איכות — כשמבנה-הבדיקה מתאים יותר מאובייקט-הביקורת הטהור.",
       processExampleHe:
         "ביקורת-תהליך מופעלת כ-Inspection Lot מסוג 89; המבקר רושם תוצאות מול מאפייני-בדיקה, ובסיום נותן Usage Decision שמסכם 'עומד/לא-עומד' ומחשב Quality Score.",
-      cbcHe:
-        "ב-CBC ביקורת-היגיינה-תקופתית מנוהלת כ-Inspection Type 89: מאפייני-בדיקה (ניקיון-משטחים, שאריות-CIP) נרשמים כתוצאות, וה-Usage Decision מתעד את עמידת-הקו בתקן-בטיחות-המזון.",
+      scenarioHe:
+        "בארגון ביקורת-היגיינה-תקופתית מנוהלת כ-Inspection Type 89: מאפייני-בדיקה (ניקיון-משטחים, שאריות-CIP) נרשמים כתוצאות, וה-Usage Decision מתעד את עמידת-הקו בתקן-בטיחות-המזון.",
       navHe: [
         "Quality Management ► Quality Inspection ► Inspection Lot Processing",
         "SPRO ► QM ► Quality Inspection ► Inspection Lot Creation ► Maintain Inspection Types (89 – Audit)",
@@ -601,8 +601,8 @@ export const CH14: TextbookChapter = {
         "להגדיר את שלד-המודול פעם-אחת — סיווג, מספור, אבטחה ואוטומציה — כך שכל הנתונים והתהליכים שייווצרו לאחר-מכן יהיו עקביים, מאובטחים וניתנים-למעקב.",
       processExampleHe:
         "צוות-יישום מגדיר Usage 'Internal', Audit Type 'Process Audit' עם Number Range ו-Signature Profile, אסטרטגיית-חתימה לשחרור, ו-Trigger שיוצר ביקורת-פנים רבעונית אוטומטית.",
-      cbcHe:
-        "ב-CBC מוגדרים Audit Types נפרדים ל-Internal, Supplier ו-Food-Safety, כל אחד עם מספור ותבנית-דוח משלו, חתימה-דיגיטלית לשחרור, ו-Trigger אוטומטי לביקורות-החובה-השנתיות.",
+      scenarioHe:
+        "בארגון מוגדרים Audit Types נפרדים ל-Internal, Supplier ו-Food-Safety, כל אחד עם מספור ותבנית-דוח משלו, חתימה-דיגיטלית לשחרור, ו-Trigger אוטומטי לביקורות-החובה-השנתיות.",
       navHe: [
         "SPRO ► QM ► Audit Management ► Basic Settings",
         "SPRO ► QM ► Audit Management ► Audit ► Define Audit Types",
@@ -655,7 +655,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "ה-Usage מסווג ביקורות לתחומים ומשמש כפילטר/ברירת-מחדל לבחירת-קטלוגים, רשימות-שאלות ותבניות. הוא משויך ל-Audit Type ומשפיע על הצגת-נתונים ועל הדיווח. הגדרה מוקדמת ב-Basic Settings.",
           purposeHe: "להפריד הקשרי-ביקורת ולספק ברירות-מחדל מתאימות לכל תחום, למניעת ערבוב בין ביקורות-פנים לספק למערכת.",
           processExampleHe: "בעת יצירת-ביקורת ה-Usage 'Supplier' מסנן אוטומטית את רשימות-השאלות והתבניות הרלוונטיות לספקים.",
-          cbcHe: "ב-CBC מוגדרים Usages 'Internal', 'Supplier' ו-'Food-Safety', כל אחד עם קטלוגי-שאלות ותבניות-דוח משלו.",
+          scenarioHe: "בארגון מוגדרים Usages 'Internal', 'Supplier' ו-'Food-Safety', כל אחד עם קטלוגי-שאלות ותבניות-דוח משלו.",
           navHe: ["SPRO ► QM ► Audit Management ► Basic Settings ► Define Audit Usage"],
           tables: ["TQ80", "PLM_AUDIT_HEAD"],
           tcodes: ["SPRO"],
@@ -674,7 +674,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "ב-'Define Audit Types' מקשרים לכל Type: Number Range (מספור), Status Profile (User Status network), Signature Profile (חתימה-דיגיטלית), Partner Determination (תפקידים), Form (תבנית-דוח), ולעיתים Usage ולוגיקת-מספור-שאלות. ה-Type הוא נקודת-הבקרה המרכזית — שינוי בו משפיע על כל הביקורות מסוגו.",
           purposeHe: "לרכז את כל הגדרות-ההתנהגות של ביקורת תחת ישות-אחת, כך שבחירת-Type אחת תקבע מספור, סטטוס, חתימה, תפקידים ותבנית בעקביות.",
           processExampleHe: "Audit Type 'Internal Process Audit' מוגדר עם Number Range ייעודי, Status Profile של ביקורת-פנים, חתימה לשחרור, ותבנית-דוח-פנים; כל ביקורת-פנים יורשת התנהגות זו.",
-          cbcHe: "ב-CBC Audit Types נפרדים ל-'Internal', 'Supplier' ו-'Food-Safety', כל אחד עם מספור, חתימה ותבנית-דוח התואמים לדרישות-התקן הרלוונטי.",
+          scenarioHe: "בארגון Audit Types נפרדים ל-'Internal', 'Supplier' ו-'Food-Safety', כל אחד עם מספור, חתימה ותבנית-דוח התואמים לדרישות-התקן הרלוונטי.",
           navHe: ["SPRO ► QM ► Audit Management ► Audit ► Define Audit Types"],
           tables: ["TQ80", "JSTO", "DSIG", "TNAPR"],
           tcodes: ["SPRO", "PLMD_CONTROL"],
@@ -697,7 +697,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "מוגדרת דרך Signature Strategy/Method (DSAL/DSIG) ומשויכת ל-Audit Type בנקודות-מפתח (Release, Valuation-complete, Report). תומכת ב-System Signature (סיסמה) או חתימה-מבוססת-תעודה. החתימה נשמרת בלוג-החתימות (DSAL) ובלתי-ניתנת-לעקיפה. נדרשת ברגולציות מחמירות.",
           purposeHe: "להבטיח אחריות-אישית מתועדת על מעברים-קריטיים, ולספק ראיית-ציות חזקה (אי-התכחשות) לרגולטורים ולביקורות-חוץ.",
           processExampleHe: "בעת שחרור-ביקורת המערכת דורשת חתימה-דיגיטלית; המבקר מזין סיסמה, החתימה נרשמת בלוג, והמעבר מתבצע.",
-          cbcHe: "ב-CBC כל דוח-ביקורת-בטיחות-מזון נחתם דיגיטלית בהשלמתו; הלוג משמש ראיה לרואה-החשבון-החיצוני ב-FSSC 22000.",
+          scenarioHe: "בארגון כל דוח-ביקורת-בטיחות-מזון נחתם דיגיטלית בהשלמתו; הלוג משמש ראיה לרואה-החשבון-החיצוני ב-FSSC 22000.",
           navHe: ["SPRO ► QM ► Audit Management ► Digital Signature ► Assign Signature Strategy", "SPRO ► Cross-Application ► General Application Functions ► Digital Signature"],
           tables: ["DSIG", "DSAL", "TQ80"],
           tcodes: ["SPRO", "DSAL"],
@@ -720,7 +720,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "Trigger יכול להיות מבוסס-תאריך (periodic), מבוסס-אירוע (לאחר Quality Notification/תלונה), או מבוסס-אובייקט (ספק/חומר). ההגדרה קושרת תנאי ל-Audit Type ול-Question List, ויוצרת Audit במצב-טיוטה. שימושי לאכיפת תוכניות-ביקורת-חובה ולתגובת-איכות אוטומטית.",
           purposeHe: "להבטיח יצירת ביקורות-חובה במועד ובאופן-אוטומטי, ולחבר ביקורות לאירועי-איכות (תלונות, חריגות) ללא תלות בפעולה-ידנית.",
           processExampleHe: "Trigger רבעוני יוצר אוטומטית ביקורת-ספק לכל ספק-קריטי; Trigger מבוסס-אירוע יוצר ביקורת לאחר תלונת-לקוח חמורה.",
-          cbcHe: "ב-CBC Trigger אוטומטי יוצר ביקורת-היגיינה לאחר כל אירוע-חריגה-במעבדה, ו-Trigger תקופתי יוצר את ביקורות-ה-FSSC השנתיות-החובה.",
+          scenarioHe: "בארגון Trigger אוטומטי יוצר ביקורת-היגיינה לאחר כל אירוע-חריגה-במעבדה, ו-Trigger תקופתי יוצר את ביקורות-ה-FSSC השנתיות-החובה.",
           navHe: ["SPRO ► QM ► Audit Management ► Audit Trigger ► Define Triggers for Audit Creation"],
           tables: ["TQ80", "PLM_AUDIT_HEAD"],
           tcodes: ["SPRO", "PLMD_CONTROL"],
@@ -750,8 +750,8 @@ export const CH14: TextbookChapter = {
         "לקבע תמונה-שלמה של QM-AM כך שהלומד יוכל לתכנן, להקים, להפעיל ולתחזק ניהול-ביקורות עצמאית — מהקונפיגורציה ועד הדוח — בהקשר-ציות אמיתי.",
       processExampleHe:
         "מקצה-לקצה: קונפיגורציה (Type+חתימה+Trigger) → תוכנית → ביקורת → רשימת-שאלות → שחרור → הערכת-שאלות+CAPA → הערכת-ביקורת → דוח חתום ב-DMS → מעקב במוניטור.",
-      cbcHe:
-        "ב-CBC המחזור השלם מבטיח עמידה ב-ISO 9001 ו-FSSC 22000: ביקורות-פנים שנתיות-אוטומטיות, ליקויי-בטיחות-מזון נסגרים דרך CAPA, ודוחות חתומים-דיגיטלית משמשים ראיה בביקורת-ההסמכה החיצונית.",
+      scenarioHe:
+        "בארגון המחזור השלם מבטיח עמידה ב-ISO 9001 ו-FSSC 22000: ביקורות-פנים שנתיות-אוטומטיות, ליקויי-בטיחות-מזון נסגרים דרך CAPA, ודוחות חתומים-דיגיטלית משמשים ראיה בביקורת-ההסמכה החיצונית.",
       navHe: [
         "Logistics ► QM ► Audit Management (כלל-המודול)",
         "SPRO ► QM ► Audit Management ► Basic Settings",

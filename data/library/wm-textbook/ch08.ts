@@ -10,7 +10,7 @@ export const CH8: TextbookChapter = {
   titleHe: "בריאות, בטיחות וסביבה (EHS)",
   titleEn: "Environmental Health and Safety",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לשילוב SAP EHS Management עם תהליכי המחסן ב-SAP EWM. כל תת-פרק הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. ההקשר העסקי הוא מפעל מילוי של Coca-Cola (CBC): קליטה, אחסון ושינוע של חומרים מסוכנים — CO2 בלחץ גבוה וכימיקלי-ניקוי (חומצות/בסיסים ל-CIP) — לצד המשקאות עצמם. המטרה: ללמוד כיצד EHS שולב בקבלת-טובין ובהוצאת-טובין, dangerous goods check, hazardous substance master ו-/SCWM/* EHS integration — ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לשילוב SAP EHS Management עם תהליכי המחסן ב-SAP EWM. כל תת-פרק הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. ההקשר העסקי הוא מפעל מילוי של Example Product: קליטה, אחסון ושינוע של חומרים מסוכנים — CO2 בלחץ גבוה וכימיקלי-ניקוי (חומצות/בסיסים ל-CIP) — לצד המשקאות עצמם. המטרה: ללמוד כיצד EHS שולב בקבלת-טובין ובהוצאת-טובין, dangerous goods check, hazardous substance master ו-/SCWM/* EHS integration — ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 8.1
     {
@@ -27,8 +27,8 @@ export const CH8: TextbookChapter = {
         "המטרה כפולה: ציות (compliance) ובטיחות (safety). מצד הציות — לעמוד ברגולציות הובלה (ADR/IMDG/IATA), אחסון חומרים-מסוכנים, ודיווח-סביבתי, ולהימנע מקנסות ומהשבתת-רישיון. מצד הבטיחות — למנוע אחסון לא-תואם (storage incompatibility), חשיפת-עובדים, ותקריות. EHS הופך כללי-בטיחות ממסמכים שיושבים במגירה למנגנון-אכיפה חי בתוך כל תנועת-מלאי.",
       processExampleHe:
         "מגיע משלוח חומצה הידרוכלורית למחסן. ב-Inbound Delivery, ה-/SCWM/* EHS integration מזהה שהחומר נושא hazardous substance flag, מושך את ה-hazardous substance master, ובודק האם ה-storage type/section אליו מתוכננת ההכנסה תואם את מחלקת-האחסון של החומצה. במקביל dangerous goods check אימת שתעודת-ההובלה והאריזה תואמות ADR. אם ה-bin המתוכנן נמצא ליד חומר בלתי-תואם (למשל בסיס) — המערכת חוסמת את ה-putaway ומנתבת ל-storage section נפרד.",
-      cbcHe:
-        "ב-CBC המחסן מטפל בשני סוגי חומרים-מסוכנים מרכזיים: גלילי CO2 בלחץ גבוה (gas under pressure, ADR class 2) המשמשים לקרבונציה, וכימיקלי-CIP — חומצות ובסיסים לניקוי קווי-המילוי (corrosive, ADR class 8). EHS מבטיח שה-CO2 מאוחסן באזור מאוורר ומופרד-אש, ושהחומצות והבסיסים מאוחסנים בתאים נפרדים (storage section) כדי למנוע תגובה מסוכנת. המשקאות המוגמרים עצמם אינם hazardous, כך שהמחסן מנהל מסלולי-תהליך מקבילים: רגיל למשקה, ומבוקר-EHS לחומרי-העזר.",
+      scenarioHe:
+        "בארגון המחסן מטפל בשני סוגי חומרים-מסוכנים מרכזיים: גלילי CO2 בלחץ גבוה (gas under pressure, ADR class 2) המשמשים לקרבונציה, וכימיקלי-CIP — חומצות ובסיסים לניקוי קווי-המילוי (corrosive, ADR class 8). EHS מבטיח שה-CO2 מאוחסן באזור מאוורר ומופרד-אש, ושהחומצות והבסיסים מאוחסנים בתאים נפרדים (storage section) כדי למנוע תגובה מסוכנת. המשקאות המוגמרים עצמם אינם hazardous, כך שהמחסן מנהל מסלולי-תהליך מקבילים: רגיל למשקה, ומבוקר-EHS לחומרי-העזר.",
       navHe: [
         "SAP EHS Management ► Foundation for EHS Management ► Specify Environment, Health, and Safety Settings",
         "SAP EHS Management ► Product Compliance ► Dangerous Goods Management ► Basic Data and Master Data",
@@ -71,7 +71,7 @@ export const CH8: TextbookChapter = {
         "SAP EHS Management מנהל dangerous goods (הובלה) ו-hazardous substance (אחסון) ומשולב ב-EWM דרך /SCWM/* EHS integration.",
         "הבדיקות נשענות על master data — בלי dangerous goods indicator / hazardous substance flag אין אכיפה.",
         "המטרה כפולה: ציות-רגולטורי ובטיחות-עובדים, באכיפה בזמן-אמת על כל תנועת-מלאי.",
-        "ב-CBC: CO2 בלחץ (class 2) וכימיקלי-CIP (class 8) הם החומרים-המסוכנים המנוהלים לצד המשקאות.",
+        "בארגון: CO2 בלחץ (class 2) וכימיקלי-CIP (class 8) הם החומרים-המסוכנים המנוהלים לצד המשקאות.",
       ],
       relatedHe: [
         { labelHe: "EWM · קבלת והוצאת טובין עם EHS (8.2)", href: "/library/wm/chapter-08/#sub-8.2" },
@@ -93,8 +93,8 @@ export const CH8: TextbookChapter = {
         "לשבץ את הבטיחות בתוך זרימת-העבודה ולא לצדה. במקום בקרה ידנית או ביקורת בדיעבד, EHS מבצע בקרה מובנית בזמן-אמת בשתי הנקודות-הקריטיות ביותר: כניסת-חומר (היכן לאחסן) ויציאת-חומר (כיצד לשלוח). כך נמנעים אחסון לא-תואם ושינוע לא-חוקי כבר ברגע-ההתרחשות.",
       processExampleHe:
         "משלוח כימיקלי-CIP מגיע למחסן (Inbound). hazardous substance check מנתב את הבסיס ל-storage section נפרד מהחומצות. בהמשך-היום, הזמנת-לקוח דורשת משלוח גליל CO2 ללקוח (Outbound). לפני ה-loading, dangerous goods check מאמת שהגליל מסומן UN 1013, packing group מתאים, ושתעודת-ההובלה (ADR transport document) מצורפת. רק לאחר שני האישורים — הסחורה נכנסת ויוצאת.",
-      cbcHe:
-        "ב-CBC התהליך מאחד את שני הכיוונים סביב אותם חומרים: בקבלה (Inbound) מגיעים גלילי-CO2 וכימיקלי-CIP מספקים, ו-EHS מנתב אותם לאזורי-אחסון מבוקרים-ומופרדים; בהוצאה (Outbound) נשלחים בעיקר משקאות (לא-מסוכנים) אך גם גלילי-CO2 ריקים-להחזרה וכימיקלים-עודפים, וכאן dangerous goods check מבטיח שינוע-תקין. כך אותו מחסן מריץ מסלול 'רגיל' למשקה ומסלול 'מבוקר-EHS' לחומרי-העזר, בשני הכיוונים.",
+      scenarioHe:
+        "בארגון התהליך מאחד את שני הכיוונים סביב אותם חומרים: בקבלה (Inbound) מגיעים גלילי-CO2 וכימיקלי-CIP מספקים, ו-EHS מנתב אותם לאזורי-אחסון מבוקרים-ומופרדים; בהוצאה (Outbound) נשלחים בעיקר משקאות (לא-מסוכנים) אך גם גלילי-CO2 ריקים-להחזרה וכימיקלים-עודפים, וכאן dangerous goods check מבטיח שינוע-תקין. כך אותו מחסן מריץ מסלול 'רגיל' למשקה ומסלול 'מבוקר-EHS' לחומרי-העזר, בשני הכיוונים.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► EHS Integration ► Activate EHS Checks for Inbound/Outbound",
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Receipt Process ► Strategies ► Storage Type Search ► EHS-Relevant Storage Section Determination",
@@ -140,7 +140,7 @@ export const CH8: TextbookChapter = {
       bestPracticeHe: [
         "הפעל EHS checks בשני הכיוונים ובכל נקודות-ההחלטה — Inbound, Putaway, Outbound.",
         "השתמש ב-error (חסימה) לכשלים קריטיים-לבטיחות ו-warning רק להערות-מידע.",
-        "תחזק incompatibility matrix מפורשת לחומרי-CBC (CO2, חומצה, בסיס) ובדוק אותה בקבלה.",
+        "תחזק incompatibility matrix מפורשת לחומרי-הארגון (CO2, חומצה, בסיס) ובדוק אותה בקבלה.",
         "נטר את EHS check results ב-/SCWM/MON כחלק משגרת-הבקרה היומית של מנהל-המחסן.",
       ],
       interviewHe: [
@@ -174,8 +174,8 @@ export const CH8: TextbookChapter = {
             "להבטיח שכל חומר-מסוכן נכנס ל-storage section תואם-בטיחות ולא נוצרת שכנות מסוכנת — כבר ברגע-הקבלה, לפני שהחומר 'נעלם' למדף ויהיה קשה לתקן.",
           processExampleHe:
             "משאית עם חביות חומצה הידרוכלורית פורקת ברציף. ב-/SCWM/PRDI, ה-hazardous substance check מזהה storage hazard class 'corrosive-acid', ו-storage section determination מנתב את ה-putaway ל-section ייעודי לחומצות. ה-incompatibility check מוודא שאין באותו section בסיסים. נוצר Warehouse Task; העובד מאחסן; התוצאה נרשמת ב-/SCWM/MON.",
-          cbcHe:
-            "ב-CBC הקבלה הנפוצה היא גלילי-CO2 וכימיקלי-CIP. ה-CO2 (gas under pressure) מנותב ל-section מאוורר ומופרד-אש; החומצות והבסיסים ל-CIP מנותבים ל-sections נפרדים זה מזה. כך אם מגיע משלוח-מעורב, EHS מפצל את ה-putaway אוטומטית לפי storage hazard class של כל פריט.",
+          scenarioHe:
+            "בארגון הקבלה הנפוצה היא גלילי-CO2 וכימיקלי-CIP. ה-CO2 (gas under pressure) מנותב ל-section מאוורר ומופרד-אש; החומצות והבסיסים ל-CIP מנותבים ל-sections נפרדים זה מזה. כך אם מגיע משלוח-מעורב, EHS מפצל את ה-putaway אוטומטית לפי storage hazard class של כל פריט.",
           navHe: [
             "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Receipt Process ► Inbound Delivery ► EHS Integration",
             "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Receipt Process ► Strategies ► Storage Type Search ► Define EHS-Relevant Storage Section Determination",
@@ -216,7 +216,7 @@ export const CH8: TextbookChapter = {
           bestPracticeHe: [
             "הגדר sections ייעודיים לכל storage hazard class לפני העלאת-המחסן לאוויר.",
             "ודא ש-storage section determination הוא EHS-relevant ולא רק קיבולתי.",
-            "תחזק incompatibility matrix מלאה לחומרי-CBC ובדוק אותה בקבלת-מדגם.",
+            "תחזק incompatibility matrix מלאה לחומרי-הארגון ובדוק אותה בקבלת-מדגם.",
           ],
           interviewHe: [
             { qHe: "מה מפעיל את ה-hazardous substance check בתהליך-הכניסה?", aHe: "ה-hazardous substance flag באב-החומר, הנקרא על-ידי ה-/SCWM/* EHS integration ב-Inbound Delivery (/SCWM/PRDI). בלעדיו הבדיקה לא מופעלת והחומר עלול להגיע ל-bin שגוי." },
@@ -246,8 +246,8 @@ export const CH8: TextbookChapter = {
             "להבטיח ששום חומר-מסוכן לא עוזב את המחסן בצורה לא-חוקית או לא-בטוחה — אימות-הובלה מובנה בזמן-אמת, לפני נקודת-האל-חזור של הטעינה והשינוע.",
           processExampleHe:
             "הזמנת-לקוח דורשת משלוח גלילי-CO2 בכביש. לאחר פיקינג, ב-/SCWM/PRDO, ה-dangerous goods check מאמת UN 1013, packing group, התאמה ל-ADR (mode = road), וקיום transport document. הבדיקה עוברת; ה-loading מאושר; ה-Goods Issue מבוצע; המלאי מתעדכן; התוצאה נרשמת ב-/SCWM/MON.",
-          cbcHe:
-            "ב-CBC רוב ה-Outbound הוא משקאות לא-מסוכנים העוברים ללא בדיקת-DG. אך גלילי-CO2 ריקים-להחזרה לספק, או כימיקלי-CIP עודפים, הם dangerous goods — וכאן dangerous goods check מאמת UN number, אריזה ותעודת-ADR לפני טעינה למשאית-ההחזרה. כך אותו תהליך-Outbound מריץ מסלול-מהיר למשקה ומסלול-מבוקר לחומרי-העזר.",
+          scenarioHe:
+            "בארגון רוב ה-Outbound הוא משקאות לא-מסוכנים העוברים ללא בדיקת-DG. אך גלילי-CO2 ריקים-להחזרה לספק, או כימיקלי-CIP עודפים, הם dangerous goods — וכאן dangerous goods check מאמת UN number, אריזה ותעודת-ADR לפני טעינה למשאית-ההחזרה. כך אותו תהליך-Outbound מריץ מסלול-מהיר למשקה ומסלול-מבוקר לחומרי-העזר.",
           navHe: [
             "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Issue Process ► Outbound Delivery ► EHS Integration",
             "SAP EHS Management ► Product Compliance ► Dangerous Goods Management ► Dangerous Goods Checks ► Define Check Schema",
@@ -315,13 +315,13 @@ export const CH8: TextbookChapter = {
       beginnerHe:
         "למדנו שהמחסן בודק בטיחות-חומרים בכניסה ובַיציאה. בכניסה — 'לאן מותר לשים?' (hazardous substance check). ביציאה — 'מותר לשלוח ככה?' (dangerous goods check). הכול עובד רק אם החומר מסומן נכון באב-החומר. כך מונעים אחסון מסוכן ושינוע לא-חוקי, ושומרים על העובדים ועל החוק.",
       consultantHe:
-        "מבחינת-מימוש, ההצלחה תלויה בשלושה: (1) master data — dangerous goods master + hazardous substance master + flags באב-החומר; (2) integration switches — הפעלת הבדיקות הנכונות לכל תהליך; (3) determination & reaction — storage section determination, check schema, ו-reaction control (error/warning). ב-CBC, הדגש הוא על CO2 (class 2) וכימיקלי-CIP (class 8), עם incompatibility בין חומצה לבסיס. ניטור שוטף ב-/SCWM/MON סוגר את הלולאה.",
+        "מבחינת-מימוש, ההצלחה תלויה בשלושה: (1) master data — dangerous goods master + hazardous substance master + flags באב-החומר; (2) integration switches — הפעלת הבדיקות הנכונות לכל תהליך; (3) determination & reaction — storage section determination, check schema, ו-reaction control (error/warning). בארגון, הדגש הוא על CO2 (class 2) וכימיקלי-CIP (class 8), עם incompatibility בין חומצה לבסיס. ניטור שוטף ב-/SCWM/MON סוגר את הלולאה.",
       purposeHe:
         "לקבע את עקרון-העל: בטיחות-וציות אינם תהליך נפרד אלא שכבה מוטמעת בכל תנועת-מלאי, הנשענת על נתוני-אב נכונים ועל אכיפה-בזמן-אמת בנקודות-ההחלטה הקריטיות.",
       processExampleHe:
         "מקצה-לקצה: חומצה נכנסת (Inbound → hazardous substance check → section-חומצות), מאוחסנת בנפרד מבסיסים (incompatibility), ובהמשך גליל-CO2 יוצא (Outbound → dangerous goods check → UN 1013 + ADR → loading → Goods Issue). כל שלב נרשם ב-/SCWM/MON.",
-      cbcHe:
-        "ב-CBC הפרק מתורגם לשגרה: קבלת CO2 וכימיקלי-CIP לאזורי-אחסון מבוקרים-ומופרדים, והוצאת גלילים-להחזרה תחת dangerous goods check — לצד מסלול-מהיר ולא-מבוקר למשקאות עצמם. כך בטיחות נשמרת בלי להאט את התפעול הרגיל.",
+      scenarioHe:
+        "בארגון הפרק מתורגם לשגרה: קבלת CO2 וכימיקלי-CIP לאזורי-אחסון מבוקרים-ומופרדים, והוצאת גלילים-להחזרה תחת dangerous goods check — לצד מסלול-מהיר ולא-מבוקר למשקאות עצמם. כך בטיחות נשמרת בלי להאט את התפעול הרגיל.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► EHS Integration",
         "SAP EHS Management ► Product Compliance ► Dangerous Goods Management",
@@ -360,7 +360,7 @@ export const CH8: TextbookChapter = {
         "EHS ב-EWM = שכבת-בטיחות מוטמעת בקבלה ובהוצאה, לא תהליך נפרד.",
         "Inbound → hazardous substance check (אחסון); Outbound → dangerous goods check (הובלה).",
         "ההצלחה תלויה ב-master data, integration switches, ו-determination/reaction.",
-        "ב-CBC: CO2 (class 2) וכימיקלי-CIP (class 8) הם מוקד-הבקרה; ניטור ב-/SCWM/MON.",
+        "בארגון: CO2 (class 2) וכימיקלי-CIP (class 8) הם מוקד-הבקרה; ניטור ב-/SCWM/MON.",
       ],
       relatedHe: [
         { labelHe: "EWM · סקירת EHS (8.1)", href: "/library/wm/chapter-08/#sub-8.1" },

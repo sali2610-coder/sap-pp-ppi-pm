@@ -10,7 +10,7 @@ export const CH5: TextbookChapter = {
   titleHe: "הגדרת ייצור חוזר (REM)",
   titleEn: "Repetitive Manufacturing Configuration",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לקונפיגורציה של ייצור חוזר (Repetitive Manufacturing, REM) ב-SAP S/4HANA — שיטת-הייצור המתאימה לתפוקה רציפה של מוצרים זהים על קווי-ייצור, ללא ניהול פק\"ע בודדות. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, השפעת נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הציר המרכזי: REM Profile, קו-ייצור ו-Rate Routing, טבלת-התכנון (Planning Table), Backflush, Product Cost Collector והגדרות אב-החומר ל-REM. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לקונפיגורציה של ייצור חוזר (Repetitive Manufacturing, REM) ב-SAP S/4HANA — שיטת-הייצור המתאימה לתפוקה רציפה של מוצרים זהים על קווי-ייצור, ללא ניהול פק\"ע בודדות. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, השפעת נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הציר המרכזי: REM Profile, קו-ייצור ו-Rate Routing, טבלת-התכנון (Planning Table), Backflush, Product Cost Collector והגדרות אב-החומר ל-REM. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 5.1
     {
@@ -25,8 +25,8 @@ export const CH5: TextbookChapter = {
         "לרכז את כל החלטות-הביצוע של REM במקום אחד שניתן לתחזק ולשכפל בין חומרים. כך מבטיחים אחידות בין קווים, מפשטים תחזוקה, ומונעים הגדרות-נקודתיות סותרות באב-החומר.",
       processExampleHe:
         "מתכנן מדווח ב-MFBF על 5,000 יח' שיצאו מהקו; ה-REM Profile קובע ש-Backflush מוריד אוטומטית את כל רכיבי-ה-BOM (תנועה 261), מקבל את המוצר-המוגמר (תנועה 131), ומזכה את ה-Activity. אם רכיב חסר-מלאי — לפי ה-Process Control הרשומה נשמרת ל-Postprocessing (COGI) במקום לחסום.",
-      cbcHe:
-        "ב-CBC כל קו-מילוי משויך ל-REM Profile אחיד: Backflush מלא של תרכיז/סוכר/CO2/אריזה, GR אוטומטי של המשקה המוגמר מנוהל-אצווה, ו-Postprocessing ל-COGI כשאצווה אינה זמינה — כדי שהקו לא ייעצר על תקלת-מלאי נקודתית.",
+      scenarioHe:
+        "בארגון כל קו-מילוי משויך ל-REM Profile אחיד: Backflush מלא של תרכיז/סוכר/CO2/אריזה, GR אוטומטי של המשקה המוגמר מנוהל-אצווה, ו-Postprocessing ל-COGI כשאצווה אינה זמינה — כדי שהקו לא ייעצר על תקלת-מלאי נקודתית.",
       navHe: [
         "Production ► Repetitive Manufacturing ► Control Data ► Define Repetitive Manufacturing Profiles (OSP2)",
         "Production ► Repetitive Manufacturing ► Control Data ► Make Settings for Backflushing",
@@ -95,7 +95,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "בפרופיל מסמנים Production Type: REM להרכבה-סופית (Make-to-Stock), REM למכלולים, או REM ייעודי-לקוח (Sales-order REM). הבחירה משולבת עם Strategy Group באב-החומר ועם REM Indicator (MARC-SAUFT) הקובע גרסת-Backflush.",
           purposeHe: "להתאים את מנגנון-הדיווח לטיפוס-המוצר — מוצר-מלאי, מכלול, או ייצור-לפי-הזמנה — כדי שהמלאי והעלויות יזרמו ליעד הנכון.",
           processExampleHe: "FERT-REM לייצור-למלאי: דיווח ב-MFBF מקבל מוצר-מוגמר למלאי-חופשי. במכלול-REM, ה-GR נכנס כ-HALB הנצרך ברמה-מעל.",
-          cbcHe: "ב-CBC המשקה המוגמר = FERT-REM Make-to-Stock; תערובת-בסיס כ-sub-assembly REM כשהיא מאוחסנת, או פאנטום כשלא.",
+          scenarioHe: "בארגון המשקה המוגמר = FERT-REM Make-to-Stock; תערובת-בסיס כ-sub-assembly REM כשהיא מאוחסנת, או פאנטום כשלא.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► Define REM Profiles ► Production Type (OSP2)"],
           tables: ["T437", "MARC"],
           tcodes: ["OSP2", "MM02"],
@@ -114,7 +114,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "מפעילים Reporting Points בפרופיל ומסמנים פעולות מתאימות ב-Rate Routing כ-RP. הדיווח ב-RP (MF41/MFBF) צורך את רכיבי-הפעולות עד אותה נקודה ומעדכן WIP. ב-S/4HANA נתמך גם RP-confirmation ל-Kanban. ללא סימון פעולות אין RP בפועל.",
           purposeHe: "לקבל נראות-התקדמות ו-WIP מדויק בקווים-ארוכים, ולפצל Backflush לשלבים במקום דיווח-בודד בסוף.",
           processExampleHe: "קו עם RP אחרי הערבול: דיווח ב-RP צורך תרכיז+סוכר ומראה WIP בערבול; דיווח-סיום בסוף-הקו צורך אריזה ומקבל מוצר-מוגמר.",
-          cbcHe: "ב-CBC RP בסוף-ערבול וב-סוף-מילוי מאפשרים לעקוב אחר כמות-בתהליך בכל שלב, חשוב לאצוות-משקה גדולות.",
+          scenarioHe: "בארגון RP בסוף-ערבול וב-סוף-מילוי מאפשרים לעקוב אחר כמות-בתהליך בכל שלב, חשוב לאצוות-משקה גדולות.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► Define REM Profiles ► Reporting Points (OSP2)"],
           tables: ["T437", "PLPO", "AFRU"],
           tcodes: ["OSP2", "MF41", "MFBF"],
@@ -133,7 +133,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "בפרופיל מסמנים Automatic GR ו-Backflush של רכיבים. תנועת-GR ברירת-מחדל 131 (REM receipt), צריכת-רכיבים 261. ב-S/4HANA התנועות נרשמות מול ה-Product Cost Collector. אפשר להפריד GR מ-GI (ראה Separated Backflush).",
           purposeHe: "לחסל תנועות-מלאי ידניות בייצור-המוני — דיווח-כמות בודד מנפיק את כל ה-GR/GI אוטומטית, מפחית מאמץ ושגיאות.",
           processExampleHe: "MFBF על 10,000 בקבוקים: 131 מקבל 10,000 מוצר-מוגמר; 261 מוריד אוטומטית את כל הרכיבים לפי ה-BOM × הכמות.",
-          cbcHe: "ב-CBC דיווח-קו יחיד יוצר 131 למשקה-המוגמר ו-261 לתרכיז/סוכר/CO2/אריזה — אין נגיעה ידנית במלאי בקו רגיל.",
+          scenarioHe: "בארגון דיווח-קו יחיד יוצר 131 למשקה-המוגמר ו-261 לתרכיז/סוכר/CO2/אריזה — אין נגיעה ידנית במלאי בקו רגיל.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► Define REM Profiles ► Automatic Goods Movements (OSP2)"],
           tables: ["T437", "T156", "MSEG"],
           tcodes: ["OSP2", "MFBF"],
@@ -152,7 +152,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "ב-REM-Kanban משלבים Control Cycle עם RP-confirmation: שינוי-סטטוס Kanban ל-FULL מפעיל Backflush ב-RP המתאים. נשען על Production Supply Area ועל הפרופיל המסמן RP. רלוונטי לרצפת-ייצור pull-driven.",
           purposeHe: "לאחד את אות-ה-Kanban עם דיווח-הייצור — להימנע מדיווח-כפול ולחבר משיכה לרישום-מלאי אוטומטי.",
           processExampleHe: "מכל-Kanban מתרוקן ומדווח 'Empty'; לאחר מילוי, מעבר ל-'Full' מפעיל RP-confirmation שמבצע Backflush לרכיבים שנצרכו.",
-          cbcHe: "ב-CBC אספקת-רכיבים לקו (פקקים/תוויות) מנוהלת ב-Kanban; מעבר-מכל ל-FULL מדווח אוטומטית RP בקו-המילוי.",
+          scenarioHe: "בארגון אספקת-רכיבים לקו (פקקים/תוויות) מנוהלת ב-Kanban; מעבר-מכל ל-FULL מדווח אוטומטית RP בקו-המילוי.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► RP Confirmation for Kanban (OSP2)"],
           tables: ["T437", "PKHD", "PKPS"],
           tcodes: ["OSP2", "PK01", "PKBC"],
@@ -172,7 +172,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "בפרופיל מסמנים Activity Backflush; הכמויות נגזרות מ-Standard Values ב-Rate Routing × תעריפי-Activity (KP26) ונרשמות מול ה-Cost Collector (KKF6N). אפשר Activity backflush בנפרד מ-Backflush-החומרים (Separated). ללא רישום-Activity העלויות סוטות ל-WIP/Variance.",
           purposeHe: "לזרום עלות-עבודה ועלות-מכונה לעלות-המוצר באופן אוטומטי וצמוד-לכמות, במקום הקצאה ידנית/תקופתית.",
           processExampleHe: "דיווח 5,000 יח': Activity 'זמן-מכונה' לפי Rate Routing נרשם מול ה-Cost Collector ומזכה את ה-Cost Center של הקו.",
-          cbcHe: "ב-CBC זמן-מילוי וזמן-תפעול בקו נרשמים כ-Activity מול ה-Cost Collector של המשקה — כך עלות-הקו נכנסת לעלות-המשקה.",
+          scenarioHe: "בארגון זמן-מילוי וזמן-תפעול בקו נרשמים כ-Activity מול ה-Cost Collector של המשקה — כך עלות-הקו נכנסת לעלות-המשקה.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Activity Posting (OSP2)"],
           tables: ["T437", "AFRU", "COSP"],
           tcodes: ["OSP2", "MFBF", "KP26"],
@@ -191,7 +191,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "מסמנים Separated Backflush בפרופיל; ה-GR, ה-component-GI וה-Activity מתבצעים כצעדים נפרדים (אפשר ב-batch — MF45/MF42). מועיל כשרכיבים חסרים אך רוצים לזכות-מוצר, או כשרישום-Activity מתאחר. דורש משמעת ב-Postprocessing (COGI).",
           purposeHe: "לנתק תלות בין רכיבי-הדיווח — לזכות-מוצר גם כשצריכת-רכיב או Activity טרם נסגרו, ולטפל בכל אחד במסלולו.",
           processExampleHe: "GR למוצר מבוצע בסוף-משמרת; ה-component-backflush רץ ב-batch לילי (MF42), וה-Activity נרשם בנפרד — כל אחד עם error-log משלו.",
-          cbcHe: "ב-CBC בעת מחסור-אצווה זמני: מזכים את המשקה-המוגמר (GR) ומשאירים את צריכת-הרכיב ל-Postprocessing מאוחר, כדי שהקו לא ייעצר.",
+          scenarioHe: "בארגון בעת מחסור-אצווה זמני: מזכים את המשקה-המוגמר (GR) ומשאירים את צריכת-הרכיב ל-Postprocessing מאוחר, כדי שהקו לא ייעצר.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Separated Backflush (OSP2)"],
           tables: ["T437", "AFRU", "AFFW"],
           tcodes: ["OSP2", "MF42", "MF45", "COGI"],
@@ -210,7 +210,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "בפרופיל קובעים Process Control לכל סוג-תנועה: 1=Online correction (חוסם), 2=Postprocessing (שומר ל-AFFW/COGI). בקווים-עמוסים מעדיפים Postprocessing כדי לא לעצור; אך זה דורש ניטור-COGI יומי. ההחלטה הזו היא לב-ה-throughput של הקו.",
           purposeHe: "לאזן בין דיוק-מיידי לבין רציפות-הקו — לא לעצור ייצור-המוני על תקלת-מלאי נקודתית, אך לוודא שהשגיאות נסגרות.",
           processExampleHe: "רכיב חסר-מלאי בדיווח: Online ➔ הדיווח נחסם עד תיקון; Postprocessing ➔ הדיווח עובר, השגיאה נשמרת ב-COGI לטיפול מאוחר.",
-          cbcHe: "ב-CBC קווי-המילוי מוגדרים Postprocessing — מחסור-אצווה זמני לא עוצר את הקו; צוות-המלאי סוגר COGI מדי-משמרת.",
+          scenarioHe: "בארגון קווי-המילוי מוגדרים Postprocessing — מחסור-אצווה זמני לא עוצר את הקו; צוות-המלאי סוגר COGI מדי-משמרת.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Process Control (OSP2)"],
           tables: ["T437", "AFFW"],
           tcodes: ["OSP2", "COGI", "MF47"],
@@ -233,7 +233,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "Firming ב-REM נשען על Planning Time Fence (MARC-FXHOR) ועל סימון-קיבוע ידני בטבלת-התכנון (MF50). הזמנות מקובעות אינן זזות/נמחקות ב-MRP, אך נכנסות ל-Reduction בדיווח. שילוב נכון עם PTF מונע 'ריצוד-תוכנית' (nervousness).",
           purposeHe: "לייצב את לוח-הקו לטווח-קצר — לאפשר תכנון-משמרות, אספקת-רכיבים ו-Kanban בלי שינויים אוטומטיים תכופים.",
           processExampleHe: "תוכנית-קו לשבוע מקובעת ב-MF50; הרצת-MRP לילית אינה משנה את הכמויות בתוך ה-PTF, ורק מוסיפה דרישות מעבר לו.",
-          cbcHe: "ב-CBC לוח-המילוי השבועי מקובע לאחר אישור-תכנון, כדי שאספקת-תרכיז וזמני-הקו יישארו יציבים מול תנודות-ביקוש קצרות.",
+          scenarioHe: "בארגון לוח-המילוי השבועי מקובע לאחר אישור-תכנון, כדי שאספקת-תרכיז וזמני-הקו יישארו יציבים מול תנודות-ביקוש קצרות.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Firming (OSP2)"],
           tables: ["T437", "PLAF", "MARC"],
           tcodes: ["OSP2", "MF50", "MD04"],
@@ -252,7 +252,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "מסתמך על Stock Determination Group (MARC) + Rule (OPK9-area) שקובעים סדר-עדיפויות בין Storage Locations וסוגי-מלאי (own/consignment). ב-REM ה-Backflush משתמש בכלל למשיכת-רכיבים אוטומטית; קריטי כשרכיב מאוחסן במספר מקומות או בקונסיגנציה.",
           purposeHe: "לאוטמט את מקור-המשיכה של רכיבים בדיווח-המוני — סדר-קבוע בין מחסנים/מלאים, מניעת בחירה-ידנית ושגיאות.",
           processExampleHe: "רכיב קיים גם במלאי-עצמי וגם בקונסיגנציה; כלל-הקביעה מושך קודם קונסיגנציה ואז עצמי — ה-Backflush בוחר אוטומטית.",
-          cbcHe: "ב-CBC רכיבי-אריזה מאוחסנים בכמה Storage Locations ליד הקו; כלל-קביעת-מלאי מושך אוטומטית מהמיקום הקרוב/המועדף בדיווח.",
+          scenarioHe: "בארגון רכיבי-אריזה מאוחסנים בכמה Storage Locations ליד הקו; כלל-קביעת-מלאי מושך אוטומטית מהמיקום הקרוב/המועדף בדיווח.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Stock Determination (OSP2)"],
           tables: ["T437", "MARC", "T434G"],
           tcodes: ["OSP2", "OPK9", "MFBF"],
@@ -271,7 +271,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "נשען על Batch Search Procedure (CL/COB1) המשויך ל-REM; ב-Backflush המערכת מציעה/בוחרת אצוות-רכיב לפי Sort Rule (FEFO/תוקף). ב-S/4HANA אינטגרציה הדוקה עם Batch Management; חשוב לקווי-מזון/תרופות. ללא נוהל — בחירה ידנית בכל דיווח.",
           purposeHe: "לאוטמט בחירת-אצוות בדיווח-המוני לפי כללי-מלאי (FEFO/תוקף), לעמוד ברגולציה ולמנוע עצירת-קו על בחירה-ידנית.",
           processExampleHe: "Backflush של תרכיז מנוהל-אצווה: ה-Batch Search Procedure בוחר אוטומטית את האצווה עם התוקף-הקצר-ביותר (FEFO).",
-          cbcHe: "ב-CBC כל רכיבי-המשקה מנוהלי-אצווה; קביעת-אצווה אוטומטית FEFO מבטיחה צריכת-תרכיז לפי תוקף ועקיבות מלאה (traceability).",
+          scenarioHe: "בארגון כל רכיבי-המשקה מנוהלי-אצווה; קביעת-אצווה אוטומטית FEFO מבטיחה צריכת-תרכיז לפי תוקף ועקיבות מלאה (traceability).",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Batch Determination (OSP2)"],
           tables: ["T437", "CUVTAB", "MCH1"],
           tcodes: ["OSP2", "COB1", "MFBF"],
@@ -291,7 +291,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "ב-REM הדיווח (MFBF) מצמצם את ה-Planned Order/Run Schedule Quantity לפי הכמות-המדווחת, בתוך Reduction Period מוגדר. בלי Reduction נוצרת ספירה-כפולה בתכנון. מצב ה-firming משפיע: הזמנות-מקובעות מצטמצמות אך אינן נמחקות ע\"י MRP.",
           purposeHe: "למנוע ספירה-כפולה — לסנכרן את התוכנית למציאות-הייצור כך שדרישה-שדווחה לא תתוכנן מחדש.",
           processExampleHe: "הזמנה-מתוכננת ל-10,000; דיווח 4,000 ב-MFBF מצמצם אוטומטית את ההזמנה ל-6,000 הנותרים — אין יצירת-דרישה כפולה.",
-          cbcHe: "ב-CBC דיווח-קו יומי מצמצם את לוח-המילוי השבועי; הכמות-שיוצרה יורדת מהתוכנית, וה-MRP מתכנן רק את היתרה.",
+          scenarioHe: "בארגון דיווח-קו יומי מצמצם את לוח-המילוי השבועי; הכמות-שיוצרה יורדת מהתוכנית, וה-MRP מתכנן רק את היתרה.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Reduction (OSP2)"],
           tables: ["T437", "PLAF"],
           tcodes: ["OSP2", "MFBF", "MD04"],
@@ -310,7 +310,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "ה-Period מגדיר טווח-ימים סביב תאריך-הדיווח לבחירת ההזמנה-המתוכננת לצמצום (לרוב backward ואז forward). חשוב כשיש הזמנות יומיות מרובות; period רחב מדי 'יבלע' הזמנות-עתידיות, צר מדי ישאיר הזמנות-עבר פתוחות. נקבע ברמת-הפרופיל.",
           purposeHe: "לכוון את Reduction להזמנה-הנכונה — לאזן בין סגירת-הזמנות-עבר לבין אי-בליעת הזמנות-עתיד.",
           processExampleHe: "Reduction Period של 5 ימים: דיווח היום סוגר הזמנות מתוכננות מהיומיים-האחרונים ומהיומיים-הבאים, אך לא הזמנה לשבוע הבא.",
-          cbcHe: "ב-CBC עם לוח-מילוי יומי, Reduction Period קצר (1–2 ימים) מבטיח שהדיווח סוגר את הזמנת-היום ולא בולע הזמנות-מחר.",
+          scenarioHe: "בארגון עם לוח-מילוי יומי, Reduction Period קצר (1–2 ימים) מבטיח שהדיווח סוגר את הזמנת-היום ולא בולע הזמנות-מחר.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Reduction Period (OSP2)"],
           tables: ["T437", "PLAF"],
           tcodes: ["OSP2", "MFBF"],
@@ -329,7 +329,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "בעת היפוך-דיווח (reversal), אם מסומן, המערכת יוצרת מחדש הזמנה-מתוכננת בגובה הכמות-המבוטלת (היפוך ה-Reduction). בלי זה הדרישה אובדת והתכנון לא-מאוזן עד הרצת-MRP הבאה. רלוונטי לתיקוני-דיווח שגרתיים בקו.",
           purposeHe: "לשמור על איזון-תכנון בתיקוני-דיווח — להבטיח שכמות-שבוטלה חוזרת כדרישה במקום ליצור חוסר.",
           processExampleHe: "דיווח 4,000 צומצם מהזמנה; היפוך-הדיווח יוצר מחדש 4,000 כהזמנה-מתוכננת, וה-MD04 חוזר למצב שלפני הדיווח השגוי.",
-          cbcHe: "ב-CBC ביטול-דיווח עקב כשל-קו (מילוי פגום) מחזיר אוטומטית את כמות-המילוי לתוכנית, כך שהקו יתזמן אותה מחדש.",
+          scenarioHe: "בארגון ביטול-דיווח עקב כשל-קו (מילוי פגום) מחזיר אוטומטית את כמות-המילוי לתוכנית, כך שהקו יתזמן אותה מחדש.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Reversal Behavior (OSP2)"],
           tables: ["T437", "PLAF", "AFRU"],
           tcodes: ["OSP2", "MF41", "MFBF"],
@@ -348,7 +348,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "זוהי קצה ה-Online ב-Process Control: השגיאה מוצגת ב-dialog לתיקון-מיידי (בחירת-אצווה/מלאי, הקצאה). מתאים לסביבות נפח-נמוך/דיוק-גבוה. בקווים-עמוסים הוא חוסם-throughput, ולכן רבים מעדיפים Postprocessing במקום.",
           purposeHe: "להבטיח דיוק-מיידי — לא לאפשר דיווח שגוי 'לעבור', אלא לחייב פתרון-בזמן-אמת.",
           processExampleHe: "MFBF נתקל בחוסר-אצווה ➔ נפתח dialog-תיקון; המשתמש בוחר אצווה חלופית והדיווח מושלם מיד, ללא רישום ב-COGI.",
-          cbcHe: "ב-CBC משתמשים ב-Online Correction בעיקר בייצור-פיילוט/אצוות-מיוחדות נמוכות-נפח, שם דיוק-מיידי חשוב יותר מ-throughput.",
+          scenarioHe: "בארגון משתמשים ב-Online Correction בעיקר בייצור-פיילוט/אצוות-מיוחדות נמוכות-נפח, שם דיוק-מיידי חשוב יותר מ-throughput.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Online Correction (OSP2)"],
           tables: ["T437", "AFFW"],
           tcodes: ["OSP2", "MFBF", "COGI"],
@@ -367,7 +367,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "ה-Error Log (AFFW) מצטבר מ-Postprocessing; COGI/MF47 מאפשרים סינון, תיקון-המוני ו-reprocess. צריכות-פתוחות מעוותות מלאי ו-WIP/Variance. דרושה אחריות-תפעולית יומית (owner) ומדדי-גיל לרשומות-פתוחות. ב-S/4HANA קיימים Fiori monitors מקבילים.",
           purposeHe: "להבטיח שכל צריכה/תנועה שנדחתה ל-Postprocessing נסגרת בזמן — כדי לשמור על דיוק-מלאי, WIP ועלות.",
           processExampleHe: "COGI מציג 12 רשומות חסרות-מלאי; צוות-המלאי מבצע קבלת-טובין לרכיב, ואז reprocess ב-COGI סוגר את כל ה-12 בבת-אחת.",
-          cbcHe: "ב-CBC ניהול-COGI יומי מובנה במשמרת: כל רשומות ה-Backflush הפתוחות נסגרות לפני סוף-משמרת, כדי שמלאי-הרכיבים יהיה מדויק לתכנון-הלילה.",
+          scenarioHe: "בארגון ניהול-COGI יומי מובנה במשמרת: כל רשומות ה-Backflush הפתוחות נסגרות לפני סוף-משמרת, כדי שמלאי-הרכיבים יהיה מדויק לתכנון-הלילה.",
           navHe: ["Production ► Repetitive Manufacturing ► Goods Movements ► Postprocessing of Error Records (COGI/MF47)"],
           tables: ["AFFW", "T437"],
           tcodes: ["COGI", "MF47", "COGL"],
@@ -390,7 +390,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "ברירת-מחדל: 131 (REM GR), 132 (reversal), 261 (component GI), 262 (reversal). ה-Movement Types מקושרים ל-Account Determination (OBYC) דרך Value/Transaction keys. שינוי או הוספת תנועה דורש תיאום מלא עם FI כדי לא לשבור רישום-עלות. נשלט ב-T156 וברמת-הפרופיל.",
           purposeHe: "להבטיח שכל תנועת-REM נרשמת בקוד-תנועה הנכון, מקושר לחשבונאות הנכונה — בסיס לדיוק-מלאי ולעלות-מוצר.",
           processExampleHe: "MFBF: 131 מזכה מלאי-מוצר ומחייב חשבון-מלאי-מוגמר; 261 מזכה מלאי-רכיב ומחייב את ה-Cost Collector — הכל לפי OBYC.",
-          cbcHe: "ב-CBC קווי-המילוי משתמשים ב-131/261 הסטנדרטיים; כל שינוי-תנועה עובר אישור-FI כדי לשמר את מבנה-העלות של המשקה.",
+          scenarioHe: "בארגון קווי-המילוי משתמשים ב-131/261 הסטנדרטיים; כל שינוי-תנועה עובר אישור-FI כדי לשמר את מבנה-העלות של המשקה.",
           navHe: [
             "Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Movement Types (OSP2)",
             "Materials Management ► Inventory Management ► Movement Types ► Define (OMJJ)",
@@ -412,7 +412,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "מפתח-הפרופיל (4 תווים) נשמר ב-T437 ומוקצה ב-MARC-SFEPR. מוסכמת-שמות לפי טיפוס-קו/תהליך מונעת הקצאות-שגויות בנוף של עשרות חומרים. תעד את משמעות כל פרופיל במסמך-עיצוב.",
           purposeHe: "להפוך את הקונפיגורציה לישות מזוהה ובת-הקצאה, ולמנוע בלבול בין פרופילים בעת תחזוקה והרחבת-חומרים.",
           processExampleHe: "פרופיל 'FL01' מתואר 'קו-מילוי סטנדרטי, Postprocessing, Auto-GR' — קל לזהות ולהקצות לכל FERT-משקה.",
-          cbcHe: "ב-CBC מוסכמת-שמות לפי בית-מלאכה/קו (למשל 'PETx', 'CANx') מקלה על הקצאת-פרופיל נכונה לעשרות SKU של משקאות.",
+          scenarioHe: "בארגון מוסכמת-שמות לפי בית-מלאכה/קו (למשל 'PETx', 'CANx') מקלה על הקצאת-פרופיל נכונה לעשרות SKU של משקאות.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► Define REM Profiles ► Profile Key & Description (OSP2)"],
           tables: ["T437", "MARC"],
           tcodes: ["OSP2", "MM02"],
@@ -431,7 +431,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "צ'ק-ליסט-יישום: (1) Production Type+REM Indicator; (2) Auto goods movements + Movement Types; (3) Activity/Separated Backflush מול ה-Cost Collector; (4) Process Control (Online/Postprocessing)+COGI; (5) Firming+PTF; (6) Stock/Batch Determination; (7) Reduction+Period; (8) שם+הקצאה (SFEPR). שגיאה בכל אחד מתפשטת לכל דיווחי-הקו.",
           purposeHe: "לספק מבט-על אינטגרטיבי לפני הקצאה — לוודא שכל ההחלטות עקביות זו עם זו ועם נתוני-האב/החשבונאות.",
           processExampleHe: "לפני העלאת-קו לאוויר: עוברים על צ'ק-ליסט-הפרופיל, מבצעים דיווח-בדיקה ב-MFBF, מאמתים GR/GI/Activity ב-MD04/COOIS ו-COGI נקי.",
-          cbcHe: "ב-CBC כל קו-מילוי חדש עובר אימות-פרופיל מקצה-לקצה (Backflush+Activity+COGI) לפני ייצור-מסחרי, כחלק מ-cutover.",
+          scenarioHe: "בארגון כל קו-מילוי חדש עובר אימות-פרופיל מקצה-לקצה (Backflush+Activity+COGI) לפני ייצור-מסחרי, כחלק מ-cutover.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► Define REM Profiles (OSP2) — review all tabs"],
           tables: ["T437", "MARC", "AFFW", "PLAF"],
           tcodes: ["OSP2", "MFBF", "COGI", "MD04"],
@@ -459,8 +459,8 @@ export const CH5: TextbookChapter = {
         "לקבל נראות-התקדמות ו-WIP מדויק לאורך-קו ארוך, ולאפשר זיהוי-צווארי-בקבוק ודיווח-חלקי תקין.",
       processExampleHe:
         "קו עם שלושה RP — סוף-ערבול, סוף-מילוי, סוף-אריזה. דיווח בכל RP צורך את רכיבי-השלב ומראה כמה יחידות 'תקועות' בין שלבים.",
-      cbcHe:
-        "ב-CBC RP בסוף-ערבול וב-סוף-מילוי מאפשרים מעקב-WIP לאצוות-משקה גדולות, וזיהוי מהיר של עיכוב בין הערבול למילוי.",
+      scenarioHe:
+        "בארגון RP בסוף-ערבול וב-סוף-מילוי מאפשרים מעקב-WIP לאצוות-משקה גדולות, וזיהוי מהיר של עיכוב בין הערבול למילוי.",
       navHe: [
         "Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Activate Reporting Points (OSP2)",
         "Production ► Basic Data ► Routing ► Rate Routing ► mark operations as Reporting Points (CA21/CA22)",
@@ -524,8 +524,8 @@ export const CH5: TextbookChapter = {
         "לתת למתכנן-הקו כלי ויזואלי לאיזון-עומס בין קווים ותקופות — תכנון-קצב (rate-based) במקום ניהול-פק\"ע בודדות.",
       processExampleHe:
         "מתכנן פותח MF50 לשבוע, רואה 50,000 דרישה מול קיבולת-קו 40,000/יום, מפזר את הכמות על שלושה ימים, מקבע, ומפיק הזמנות-מתוכננות לדיווח.",
-      cbcHe:
-        "ב-CBC מתכנן-המילוי משתמש ב-MF50 לפיזור ביקוש-המשקאות בין קווי-PET ו-CAN לאורך-השבוע, תוך איזון מול קיבולת-קו וזמינות-תרכיז.",
+      scenarioHe:
+        "בארגון מתכנן-המילוי משתמש ב-MF50 לפיזור ביקוש-המשקאות בין קווי-PET ו-CAN לאורך-השבוע, תוך איזון מול קיבולת-קו וזמינות-תרכיז.",
       navHe: [
         "Production ► Repetitive Manufacturing ► Planning ► Planning Table (MF50)",
         "Logistics ► Production ► Repetitive Manufacturing ► Planning ► Change Planning Table",
@@ -585,7 +585,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "במסך-ההתחלה של MF50 מזינים Plant, Production Line/MRP Controller, Period (ימים/שבועות) ואופק. הבחירה משפיעה על ביצועים ועל קריאוּת. ניתן לשמור variants. בחירה רחבה-מדי מאטה ומעמיסה; צרה-מדי מסתירה דרישות.",
           purposeHe: "למקד את טבלת-התכנון בקווים ובתקופות הרלוונטיים — לאזן בין כיסוי לקריאוּת וביצועים.",
           processExampleHe: "מתכנן מזין מפעל 1000, קו FILL01, אופק שבועיים ביחידות-ימים — MF50 נפתחת ממוקדת רק לקו ולתקופה הרצויים.",
-          cbcHe: "ב-CBC מתכנן-המילוי שומר variant לכל אזור-קווים (PET/CAN) כדי לפתוח את MF50 ממוקד בשנייה.",
+          scenarioHe: "בארגון מתכנן-המילוי שומר variant לכל אזור-קווים (PET/CAN) כדי לפתוח את MF50 ממוקד בשנייה.",
           navHe: ["Production ► Repetitive Manufacturing ► Planning ► Planning Table ► Entry/Selection screen (MF50)"],
           tables: ["PLAF", "CRHD"],
           tcodes: ["MF50"],
@@ -604,7 +604,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "מגדירים Row Selection (תצוגה/layout) הקובע את שורות-המידע ב-MF50: Requirements, Planned orders/RSH, Stock, Available capacity, Range of coverage. ניתן לשמור כ-layout. תצוגה עמוסה מסיחה; תצוגה ממוקדת מאיצה החלטות.",
           purposeHe: "להתאים את שורות-המידע בטבלה לתפקיד-המתכנן — להציג את הדרוש-להחלטה ולהסתיר רעש.",
           processExampleHe: "מתכנן-קיבולת מציג שורות דרישה+קיבולת+range-of-coverage ומסתיר פירוט-מלאי, לקבלת-החלטות-פיזור מהירה.",
-          cbcHe: "ב-CBC מתכנן-המילוי מציג שורות דרישה, הזמנות-מתוכננות וקיבולת-קו, לאיזון-עומס מהיר בין קווי-המשקאות.",
+          scenarioHe: "בארגון מתכנן-המילוי מציג שורות דרישה, הזמנות-מתוכננות וקיבולת-קו, לאיזון-עומס מהיר בין קווי-המשקאות.",
           navHe: ["Production ► Repetitive Manufacturing ► Planning ► Planning Table ► Row Selection / Layout (MF50)"],
           tables: ["PLAF", "CRHD"],
           tcodes: ["MF50"],
@@ -631,8 +631,8 @@ export const CH5: TextbookChapter = {
         "לאחד pull-signal עם דיווח-ייצור — להימנע מדיווח-כפול ולסנכרן צריכת-רכיבים עם המשיכה בפועל.",
       processExampleHe:
         "מכל-רכיב מתרוקן (EMPTY) ומופעלת אספקה; לאחר מילוי, מעבר ל-FULL מפעיל RP-confirmation המבצע Backflush לרכיבי-הפעולה.",
-      cbcHe:
-        "ב-CBC אספקת פקקים/תוויות לקו מנוהלת ב-Kanban; מעבר-מכל ל-FULL מדווח אוטומטית RP בקו-המילוי, ללא הזנה ידנית של הצוות.",
+      scenarioHe:
+        "בארגון אספקת פקקים/תוויות לקו מנוהלת ב-Kanban; מעבר-מכל ל-FULL מדווח אוטומטית RP בקו-המילוי, ללא הזנה ידנית של הצוות.",
       navHe: [
         "Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► RP Confirmation for Kanban (OSP2)",
         "Production ► Kanban ► Control Cycle ► Create/Maintain (PK01)",
@@ -697,8 +697,8 @@ export const CH5: TextbookChapter = {
         "לזרום עלות-עבודה ועלות-מכונה לעלות-המוצר אוטומטית וצמוד-לכמות, במקום הקצאה ידנית/תקופתית — בסיס לתמחיר-אמת ולניתוח-סטיות.",
       processExampleHe:
         "דיווח 8,000 יח': Activities 'זמן-מכונה' ו'זמן-עבודה' לפי Rate Routing נרשמים מול ה-Cost Collector, מזכים את ה-Cost Center של הקו לפי תעריף-KP26.",
-      cbcHe:
-        "ב-CBC זמן-מילוי וזמן-תפעול בקו נרשמים כ-Activities מול ה-Cost Collector של המשקה — כך עלות-הקו נכללת בעלות-המשקה, ולא רק עלות-הרכיבים.",
+      scenarioHe:
+        "בארגון זמן-מילוי וזמן-תפעול בקו נרשמים כ-Activities מול ה-Cost Collector של המשקה — כך עלות-הקו נכללת בעלות-המשקה, ולא רק עלות-הרכיבים.",
       navHe: [
         "Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Activity Backflush (OSP2)",
         "Controlling ► Cost Center Accounting ► Planning ► Activity Output/Prices (KP26)",
@@ -762,8 +762,8 @@ export const CH5: TextbookChapter = {
         "לחסל תנועות-מלאי ידניות בייצור-המוני — דיווח-כמות בודד מנפיק את כל ה-GR/GI אוטומטית, מפחית מאמץ, זמן ושגיאות.",
       processExampleHe:
         "MFBF על 12,000 יח': 131 מקבל 12,000 מוצר-מוגמר למלאי; 261 מוריד אוטומטית את כל רכיבי-ה-BOM × 12,000, עם בחירת-אצווה FEFO אוטומטית.",
-      cbcHe:
-        "ב-CBC דיווח-קו יחיד יוצר 131 למשקה-המוגמר (מנוהל-אצווה) ו-261 לתרכיז/סוכר/CO2/אריזה — הקו עובד ללא נגיעה-ידנית במלאי בתפעול רגיל.",
+      scenarioHe:
+        "בארגון דיווח-קו יחיד יוצר 131 למשקה-המוגמר (מנוהל-אצווה) ו-261 לתרכיז/סוכר/CO2/אריזה — הקו עובד ללא נגיעה-ידנית במלאי בתפעול רגיל.",
       navHe: [
         "Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Automatic Goods Movements (OSP2)",
         "Production ► Repetitive Manufacturing ► Backflushing ► Backflush (MFBF)",
@@ -829,8 +829,8 @@ export const CH5: TextbookChapter = {
         "לאזן בין רציפות-קו לבין דיוק-מיידי — לא לעצור ייצור-המוני על תקלת-מלאי נקודתית, אך להבטיח שהשגיאות נסגרות בזמן.",
       processExampleHe:
         "רכיב חסר-מלאי בדיווח: Online ➔ הדיווח נחסם עד תיקון; Postprocessing ➔ הדיווח עובר, השגיאה נשמרת ב-COGI לטיפול ב-reprocess מאוחר.",
-      cbcHe:
-        "ב-CBC קווי-המילוי מוגדרים Postprocessing — מחסור-אצווה זמני אינו עוצר את הקו; צוות-המלאי סוגר COGI מדי-משמרת לשמירת-דיוק.",
+      scenarioHe:
+        "בארגון קווי-המילוי מוגדרים Postprocessing — מחסור-אצווה זמני אינו עוצר את הקו; צוות-המלאי סוגר COGI מדי-משמרת לשמירת-דיוק.",
       navHe: [
         "Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Process Control (OSP2)",
         "Production ► Repetitive Manufacturing ► Goods Movements ► Postprocess Errors (COGI/MF47)",
@@ -894,8 +894,8 @@ export const CH5: TextbookChapter = {
         "לייצב את לוח-הקו לטווח-קצר — לאפשר תכנון-משמרות, אספקת-רכיבים ו-Kanban בלי שינויים אוטומטיים תכופים, תוך שמירה על תגובה לדרישה מעבר ל-PTF.",
       processExampleHe:
         "לוח-קו שבועי מקובע ב-MF50; הרצת-MRP לילית אינה משנה כמויות בתוך ה-PTF, ומוסיפה דרישות חדשות רק מעבר לאופק-הקיבוע.",
-      cbcHe:
-        "ב-CBC לוח-המילוי השבועי מקובע לאחר אישור-תכנון, כדי שאספקת-תרכיז וזמני-קו יישארו יציבים מול תנודות-ביקוש קצרות-טווח.",
+      scenarioHe:
+        "בארגון לוח-המילוי השבועי מקובע לאחר אישור-תכנון, כדי שאספקת-תרכיז וזמני-קו יישארו יציבים מול תנודות-ביקוש קצרות-טווח.",
       navHe: [
         "Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Firming (OSP2)",
         "Production ► MRP ► Planning ► Planning Time Fence in MRP 1 (MARC-FXHOR)",
@@ -959,8 +959,8 @@ export const CH5: TextbookChapter = {
         "לאוטמט את מקור-המשיכה של רכיבים בדיווח-המוני — סדר-קבוע בין מחסנים/מלאים, מניעת בחירה-ידנית, התאמה לקונסיגנציה ומניעת שגיאות.",
       processExampleHe:
         "רכיב קיים גם במלאי-עצמי וגם בקונסיגנציה; כלל-הקביעה מושך קודם קונסיגנציה ואז עצמי — ה-Backflush בוחר אוטומטית לפי הכלל.",
-      cbcHe:
-        "ב-CBC רכיבי-אריזה מאוחסנים בכמה Storage Locations ליד הקו; כלל-קביעת-מלאי מושך אוטומטית מהמיקום המועדף/הקרוב בכל דיווח.",
+      scenarioHe:
+        "בארגון רכיבי-אריזה מאוחסנים בכמה Storage Locations ליד הקו; כלל-קביעת-מלאי מושך אוטומטית מהמיקום המועדף/הקרוב בכל דיווח.",
       navHe: [
         "Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Stock Determination (OSP2)",
         "Materials Management ► … ► Stock Determination ► Define Strategies (OPK9-area)",
@@ -1024,8 +1024,8 @@ export const CH5: TextbookChapter = {
         "למנוע ספירה-כפולה — לסנכרן את התוכנית למציאות כך שדרישה-שדווחה לא תתוכנן מחדש, ולכוון את הצמצום להזמנה-הנכונה.",
       processExampleHe:
         "הזמנה-מתוכננת ל-10,000; דיווח 4,000 ב-MFBF מצמצם אוטומטית את ההזמנה ל-6,000 הנותרים, בתוך Reduction Period של 2 ימים — אין יצירת-דרישה כפולה.",
-      cbcHe:
-        "ב-CBC דיווח-קו יומי מצמצם את לוח-המילוי השבועי; Reduction Period קצר (1–2 ימים) מבטיח שהדיווח סוגר את הזמנת-היום ואינו בולע הזמנת-מחר.",
+      scenarioHe:
+        "בארגון דיווח-קו יומי מצמצם את לוח-המילוי השבועי; Reduction Period קצר (1–2 ימים) מבטיח שהדיווח סוגר את הזמנת-היום ואינו בולע הזמנת-מחר.",
       navHe: [
         "Production ► Repetitive Manufacturing ► Control Data ► REM Profiles ► Reduction & Reduction Period (OSP2)",
         "Production ► Repetitive Manufacturing ► Backflushing ► Backflush (MFBF)",

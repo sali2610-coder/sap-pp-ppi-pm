@@ -21,7 +21,7 @@ export const INTEGRATIONS: CenterItem[] = [
     ["51: שדה חובה/סוג חומר חסר ביעד", "Partner Profile לא מוגדר (WE20)", "Distribution Model חסר (BD64)", "Port/RFC לא תקין (SM59)"],
     ["WE02", "WE05", "BD87", "WE20", "BD64"], ["BD10", "WE19", "SM59"],
     { unchanged: "ALE/IDoc נתמך ב-S/4.", changed: "אורך MATNR 40 במיפוי.", deprecated: "לתרחישים חדשים העדף OData API_PRODUCT/Events.", fiori: "—", migration: "QA: IDoc MATMAS 03/53 + אורך MATNR." }),
-  mk("idoc-loipro", "PP-PI", "IDoc — מתכון/מסלול (LOIPRO)", "IDoc / ALE", "הפצת מסלול/מתכון ייצור בין מערכות (Zetes/Daymax בהקשר CBC).",
+  mk("idoc-loipro", "PP-PI", "IDoc — מתכון/מסלול (LOIPRO)", "IDoc / ALE", "הפצת מסלול/מתכון ייצור בין מערכות (Zetes/Daymax בהקשר ייצור).",
     ["שינוי מתכון (C202)", "יצירת IDoc LOIPRO", "Partner Profile (WE20)", "שליחה", "עיבוד ביעד (MES)", "סטטוס"],
     ["03/53 — הצלחה", "51 — שגיאת אפליקציה", "26 — שגיאת תחביר"],
     ["51: מתכון/גרסת ייצור חסרים ביעד", "סגמנט חסר ב-Basic Type", "מיפוי שגוי ל-MES"],

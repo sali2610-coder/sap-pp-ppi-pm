@@ -1,7 +1,7 @@
 // ===== MM Digital Textbook — Chapter 4 (Master Data) =====
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
 // Source hierarchy preserved exactly (ids + order); SAP identifiers verbatim EN.
-// CBC context: Coca-Cola bottling material masters (ROH concentrate/packaging)
+// הארגון context: Example Product bottling material masters (ROH concentrate/packaging)
 // + suppliers as Business Partners.
 import type { TextbookChapter } from "./types";
 
@@ -10,7 +10,7 @@ export const CH4: TextbookChapter = {
   titleHe: "נתוני אב",
   titleEn: "Master Data",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לנתוני-האב של רכש ומקורות-אספקה (Sourcing & Procurement) ב-SAP S/4HANA. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הנושאים: אב-החומר וקבוצות-חומר, ניהול-אצוות וסיריאליזציה, ומודל ה-Business Partner שבו ספקים מנוהלים כ-Business Partners עם CVI. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לנתוני-האב של רכש ומקורות-אספקה (Sourcing & Procurement) ב-SAP S/4HANA. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הנושאים: אב-החומר וקבוצות-חומר, ניהול-אצוות וסיריאליזציה, ומודל ה-Business Partner שבו ספקים מנוהלים כ-Business Partners עם CVI. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 4.1
     {
@@ -27,8 +27,8 @@ export const CH4: TextbookChapter = {
         "המטרה: לתת לרכש את כל הפרמטרים לרכוש נכון — מה (תיאור, יחידה), מאיפה (Purchasing Group/Source), כמה (Order Unit/EOQ) ובאיזו עלות (Valuation). קבוצת-החומר מאפשרת ניתוח-הוצאות (Spend Analysis), בקרת-תקציב והקצאת-חשבון אוטומטית.",
       processExampleHe:
         "רכש מתחיל מ-Purchase Requisition לחומר: המערכת קוראת את אב-החומר, שולפת Material Group, Purchasing Group ו-Order Unit, מבצעת Source Determination (Info Record/Contract), ויוצרת Purchase Order. ב-Goods Receipt תנועת-המלאי מעדכנת את MARD ואת MBEW לפי ה-Valuation Class הנגזר מקבוצת-החומר.",
-      cbcHe:
-        "ב-CBC: התרכיז (Concentrate) והסוכר = ROH מנוהלי-אצווה; בקבוקים, פקקים, תוויות וקרטונים = ROH/VERP חומרי-אריזה. כל ROH נדרש לתצוגות Basic + Purchasing + MRP + Accounting. קבוצות-חומר: 'Concentrate', 'Sugar', 'Packaging-Glass', 'Packaging-PET' — מאפשרות ניתוח-הוצאות מול הספקים ובקרת-עלות-חומר למשקה.",
+      scenarioHe:
+        "בארגון: התרכיז (Concentrate) והסוכר = ROH מנוהלי-אצווה; בקבוקים, פקקים, תוויות וקרטונים = ROH/VERP חומרי-אריזה. כל ROH נדרש לתצוגות Basic + Purchasing + MRP + Accounting. קבוצות-חומר: 'Concentrate', 'Sugar', 'Packaging-Glass', 'Packaging-PET' — מאפשרות ניתוח-הוצאות מול הספקים ובקרת-עלות-חומר למשקה.",
       navHe: [
         "Logistics – General ► Material Master ► Basic Settings ► Material Types ► Define Attributes of Material Types (OMS2)",
         "Logistics – General ► Material Master ► Settings for Key Fields ► Define Material Groups (OMSF)",
@@ -104,8 +104,8 @@ export const CH4: TextbookChapter = {
             "לאכוף איכות-נתונים: שדות קריטיים לרכש (Purchasing Group, Material Group) חובה, שדות לא-רלוונטיים מוסתרים — פחות שגיאות, פחות עומס-מסך.",
           processExampleHe:
             "מנהל-נתונים קובע ש-Purchasing Group יהיה חובה ל-ROH. מרגע זה, יצירת ROH ב-MM01 ללא Purchasing Group נחסמת בהודעת-שגיאה, ומבטיחה רכש תקין.",
-          cbcHe:
-            "ב-CBC שדה Batch Management Indicator הופך לחובה עבור ROH (תרכיז/סוכר) דרך Field Selection, כדי שאף חומר-גלם לא ייפתח בלי ניהול-אצווה.",
+          scenarioHe:
+            "בארגון שדה Batch Management Indicator הופך לחובה עבור ROH (תרכיז/סוכר) דרך Field Selection, כדי שאף חומר-גלם לא ייפתח בלי ניהול-אצווה.",
           navHe: [
             "Logistics – General ► Material Master ► Field Selection ► Assign Fields to Field Selection Groups (OMSR)",
             "Logistics – General ► Material Master ► Field Selection ► Maintain Field Selection for Data Screens (OMS9)",
@@ -154,8 +154,8 @@ export const CH4: TextbookChapter = {
             "לייצר רשומת-אב עקבית שכל התהליכים (רכש, מלאי, תכנון, כספים) נשענים עליה, ברמות-הארגון הנכונות.",
           processExampleHe:
             "מנהל-נתונים פותח ROH חדש: בוחר Material Type ROH, מפעל, מחסן ו-Purchasing Org; ממלא Basic (שם, UoM), Purchasing (Purchasing Group, Material Group), MRP ו-Accounting (Valuation Class, מחיר). מתקבל מספר-חומר זמין לרכש מיידי.",
-          cbcHe:
-            "ב-CBC פתיחת בקבוק-PET חדש: Material Type ROH/VERP, Material Group 'Packaging-PET', יחידת-בסיס EA, Batch Management כבוי לאריזה אך מופעל לתרכיז. נוצר ברמת-המפעל של מתקן-המילוי.",
+          scenarioHe:
+            "בארגון פתיחת בקבוק-PET חדש: Material Type ROH/VERP, Material Group 'Packaging-PET', יחידת-בסיס EA, Batch Management כבוי לאריזה אך מופעל לתרכיז. נוצר ברמת-המפעל של מתקן-המילוי.",
           navHe: [
             "Logistics ► Materials Management ► Material Master ► Material ► Create (General) ► Immediately (MM01)",
             "Logistics – General ► Material Master ► Basic Settings ► Define Output Format of Material Number",
@@ -208,8 +208,8 @@ export const CH4: TextbookChapter = {
             "לאפשר ניתוח-הוצאות (Spend), בקרת-תקציב, קביעת-מקור ברמת-קבוצה והקצאת-חשבון עקבית — בלי לתחזק כל חומר בנפרד.",
           processExampleHe:
             "רכש-שירות ללא אב-חומר נוצר עם Material Group 'Cleaning-Services'; ה-Account Determination גוזר חשבון-G/L מהקבוצה, וה-Spend Report מקבץ את כל ההוצאה תחת אותה קבוצה.",
-          cbcHe:
-            "ב-CBC נפתחות קבוצות 'Concentrate', 'Sugar', 'Packaging-Glass', 'Packaging-PET', 'CO2'. הן מאפשרות לנתח עלות-חומר למשקה ולנהל מו\"מ-ספקים לפי קטגוריה.",
+          scenarioHe:
+            "בארגון נפתחות קבוצות 'Concentrate', 'Sugar', 'Packaging-Glass', 'Packaging-PET', 'CO2'. הן מאפשרות לנתח עלות-חומר למשקה ולנהל מו\"מ-ספקים לפי קטגוריה.",
           navHe: [
             "Logistics – General ► Material Master ► Settings for Key Fields ► Define Material Groups (OMSF)",
             "Materials Management ► Purchasing ► Material Master ► Entry Aids for Items Without a Material Master (OMSF)",
@@ -259,8 +259,8 @@ export const CH4: TextbookChapter = {
             "לפשט ולאחד את רכש-השירותים עם רכש-החומרים, להפחית מורכבות-Customizing ולנצל את חוויית-ה-Fiori ל-Service Procurement.",
           processExampleHe:
             "רכש שירות-תחזוקה: יוצרים PO עם פריט-שירות (חומר SERV), נותן-השירות מבצע, ומוזן Lean Service Entry Sheet המאשר את הביצוע; קליטת-השירות מפעילה את חשבונית-הספק.",
-          cbcHe:
-            "ב-CBC שירותי-ניקוי-מתקנים ותחזוקת-קווי-מילוי נרכשים כ-Lean Services: אב-חומר SERV לכל שירות, PO עם פריט-שירות, ו-Lean Service Entry Sheet לאישור הביצוע במקום ML81N הישן.",
+          scenarioHe:
+            "בארגון שירותי-ניקוי-מתקנים ותחזוקת-קווי-מילוי נרכשים כ-Lean Services: אב-חומר SERV לכל שירות, PO עם פריט-שירות, ו-Lean Service Entry Sheet לאישור הביצוע במקום ML81N הישן.",
           navHe: [
             "Materials Management ► External Services Management ► (Lean Services / Service Procurement settings)",
             "Logistics – General ► Material Master ► Basic Settings ► Material Types ► Define Attributes of Material Types (OMS2) — Product Type SERV",
@@ -309,8 +309,8 @@ export const CH4: TextbookChapter = {
             "להבדיל שירותים ממוצרים פיזיים ברמת-אב-החומר, ולהפעיל את מנגנון רכש-השירותים הרזה.",
           processExampleHe:
             "מגדירים Material Type 'SRVC' עם Product Type SERV; כל חומר שנפתח תחתיו מתנהג כשירות — PO עם פריט-שירות ו-Lean Service Entry Sheet במקום קליטת-מלאי.",
-          cbcHe:
-            "ב-CBC נפתח Material Type לשירותי-תחזוקה עם Product Type SERV; שירותי כיול-מכונות וניקוי-מתקנים נפתחים תחתיו ונרכשים כשירותים רזים.",
+          scenarioHe:
+            "בארגון נפתח Material Type לשירותי-תחזוקה עם Product Type SERV; שירותי כיול-מכונות וניקוי-מתקנים נפתחים תחתיו ונרכשים כשירותים רזים.",
           navHe: [
             "Logistics – General ► Material Master ► Basic Settings ► Material Types ► Define Attributes of Material Types (OMS2)",
             "Materials Management ► External Services Management ► (Service Procurement / Product Type settings)",
@@ -359,8 +359,8 @@ export const CH4: TextbookChapter = {
             "להתאים את אב-החומר לתהליכי-הארגון: לאזן איכות-נתונים (חובה), נוחות-משתמש (מסכים) וגמישות (טווחי-מספרים, אורך).",
           processExampleHe:
             "צוות-המימוש מחליט: ROH עם טווח-מספרים פנימי, Purchasing Group חובה, מסכי-MRP מוסתרים לחומרי-מסחר, ופורמט מספר-חומר ללא Lexicographical — ומגדיר הכל ב-OMS2/OMS9/OMT3E.",
-          cbcHe:
-            "ב-CBC נבחר: ROH פנימי, חובה על Batch Management ו-Purchasing Group, הסתרת תצוגות-מכירה לחומרי-גלם, ופורמט מספר-חומר אחיד מול הקבוצה הגלובלית של Coca-Cola.",
+          scenarioHe:
+            "בארגון נבחר: ROH פנימי, חובה על Batch Management ו-Purchasing Group, הסתרת תצוגות-מכירה לחומרי-גלם, ופורמט מספר-חומר אחיד מול הקבוצה הגלובלית של Example Product.",
           navHe: [
             "Logistics – General ► Material Master ► Basic Settings ► Material Types ► Define Attributes of Material Types (OMS2)",
             "Logistics – General ► Material Master ► Configuring the Material Master ► Maintain Order of Main and Additional Screens (OMT3E)",
@@ -411,8 +411,8 @@ export const CH4: TextbookChapter = {
             "לאפשר מספרי-חומר ארוכים/בעלי-משמעות וקיבולת גדולה יותר, תוך שמירה על תאימות-ממשקים.",
           processExampleHe:
             "ארגון מחליט להרחיב MATNR ל-40 תווים: מפעיל את ה-Extended Material Number, מריץ Custom Code Analysis, מתקן פיתוחים שמניחים 18 תווים, ובודק IDocs/ממשקים מול מערכות-לוויין.",
-          cbcHe:
-            "ב-CBC הרחבת MATNR נשקלת כדי ליישר מספרי-חומר עם מערך-קוד גלובלי של Coca-Cola; לפני הפעלה נבדקים ה-IDocs MATMAS וממשקי ה-Zetes/Daymax שאינם מניחים 18 תווים.",
+          scenarioHe:
+            "בארגון הרחבת MATNR נשקלת כדי ליישר מספרי-חומר עם מערך-קוד גלובלי של Example Product; לפני הפעלה נבדקים ה-IDocs MATMAS וממשקי ה-Zetes/Daymax שאינם מניחים 18 תווים.",
           navHe: [
             "Logistics – General ► Material Master ► Basic Settings ► Define Output Format of Material Number (OMSL)",
             "SAP S/4HANA ► Simplification List ► Extended Material Number (SAP Note 2267140)",
@@ -465,8 +465,8 @@ export const CH4: TextbookChapter = {
         "להבטיח עקיבות מלאה משדה-לרכש ומרכש-לייצור: לדעת מאיזו אצווה/יחידה הגיע כל פריט, לתמוך ב-Recall ממוקד ולעמוד ברגולציית-מזון/תרופות.",
       processExampleHe:
         "GR לתרכיז: נקלטת אצווה חדשה עם תאריך-ייצור, תוקף ומספר-אצווה-ספק; Batch Determination בוחר את האצווה ב-FEFO לצריכה; אם מתגלה בעיה — Recall מזהה את כל המוצרים שצרכו אותה אצווה.",
-      cbcHe:
-        "ב-CBC כל ROH (תרכיז/סוכר/CO2) מנוהל-אצווה לעקיבות-מזון; כל אצווה נושאת תוקף ומקור-ספק, ובחירת-אצווה FEFO מבטיחה צריכת-המלאי הקרוב-לפוג ראשון. ציוד-מילוי קריטי מסוריאלי לעקיבות-תחזוקה.",
+      scenarioHe:
+        "בארגון כל ROH (תרכיז/סוכר/CO2) מנוהל-אצווה לעקיבות-מזון; כל אצווה נושאת תוקף ומקור-ספק, ובחירת-אצווה FEFO מבטיחה צריכת-המלאי הקרוב-לפוג ראשון. ציוד-מילוי קריטי מסוריאלי לעקיבות-תחזוקה.",
       navHe: [
         "Logistics – General ► Batch Management ► Specify Batch Level and Activate Status Management",
         "Plant Maintenance and Customer Service ► Master Data in PM and CS ► Technical Objects ► Serial Number Management ► Define Serial Number Profiles (OIS2)",
@@ -535,8 +535,8 @@ export const CH4: TextbookChapter = {
             "להבטיח זהות-אצווה עקבית וייחודית, אוטומציה של ההקצאה, ויכולת לחסום אצוות פגומות.",
           processExampleHe:
             "GR לתרכיז יוצר אצווה אוטומטית (Internal Assignment) מתוך טווח-מספרים; האצווה נכנסת בסטטוס Unrestricted, אך QA יכול להעבירה ל-Restricted עד אישור-בדיקה.",
-          cbcHe:
-            "ב-CBC Batch Level=Material והקצאה פנימית; אצוות-תרכיז נקלטות ב-Restricted עד שחרור-QA, ורק אז זמינות לצריכה בקווי-המילוי.",
+          scenarioHe:
+            "בארגון Batch Level=Material והקצאה פנימית; אצוות-תרכיז נקלטות ב-Restricted עד שחרור-QA, ורק אז זמינות לצריכה בקווי-המילוי.",
           navHe: [
             "Logistics – General ► Batch Management ► Specify Batch Level and Activate Status Management",
             "Logistics – General ► Batch Management ► Batch Number Assignment ► Activate Internal Batch Number Assignment",
@@ -586,8 +586,8 @@ export const CH4: TextbookChapter = {
             "לאפשר מעקב-יחידה מלא — איתור, אחריות, תחזוקה והיסטוריה — לפריטים שבהם זהות-יחידה קריטית.",
           processExampleHe:
             "GR לרכיב-ציוד יקר: ה-Profile (Obligatory) מחייב הזנת סיריאל; נוצרת רשומת-Equipment; בהוצאה למתקן הסיריאל עוקב, ובתחזוקה מאוחרת ההיסטוריה זמינה לפי אותו סיריאל.",
-          cbcHe:
-            "ב-CBC חלקי-ציוד קריטיים בקווי-המילוי (משאבות, ראשי-מילוי) מסוריאליים: כל יחידה מקושרת ל-Equipment, וכך עקיבות-תחזוקה והחלפות מנוהלות ברמת-היחידה.",
+          scenarioHe:
+            "בארגון חלקי-ציוד קריטיים בקווי-המילוי (משאבות, ראשי-מילוי) מסוריאליים: כל יחידה מקושרת ל-Equipment, וכך עקיבות-תחזוקה והחלפות מנוהלות ברמת-היחידה.",
           navHe: [
             "Plant Maintenance and Customer Service ► Master Data in PM and CS ► Technical Objects ► Serial Number Management ► Define Serial Number Profiles (OIS2)",
             "Plant Maintenance and Customer Service ► Master Data in PM and CS ► Technical Objects ► Serial Number Management ► Serializing Procedures",
@@ -641,8 +641,8 @@ export const CH4: TextbookChapter = {
         "לאחד את ניהול-השותפים-העסקיים לרשומה אחת רב-תפקידית, למנוע כפילות-נתונים בין ספק ללקוח, ולספק תשתית אחידה ל-Sourcing & Procurement ול-Sales.",
       processExampleHe:
         "פתיחת ספק חדש: ב-BP transaction בוחרים Organization, ממלאים נתונים כלליים (BUT000), מוסיפים BP Role 'Supplier (FLVN00)' ו-'Supplier (Fin.Accounting) FLVN01', ממלאים Purchasing/Company Code data; ה-CVI מייצר אוטומטית את LFA1/LFB1/LFM1 והספק זמין ל-PO.",
-      cbcHe:
-        "ב-CBC כל ספקי-התרכיז, הסוכר והאריזות מנוהלים כ-Business Partners: רשומת-BP אחת לכל ספק, עם תפקיד Supplier ל-Purchasing Org של מתקן-המילוי. ספק שהוא גם לקוח (החזרי-בקבוקים) מקבל גם תפקיד Customer — באותה רשומת-BP.",
+      scenarioHe:
+        "בארגון כל ספקי-התרכיז, הסוכר והאריזות מנוהלים כ-Business Partners: רשומת-BP אחת לכל ספק, עם תפקיד Supplier ל-Purchasing Org של מתקן-המילוי. ספק שהוא גם לקוח (החזרי-בקבוקים) מקבל גם תפקיד Customer — באותה רשומת-BP.",
       navHe: [
         "Cross-Application Components ► SAP Business Partner ► Business Partner ► Basic Settings ► Number Ranges and Groupings",
         "Cross-Application Components ► Master Data Synchronization ► Customer/Vendor Integration ► Business Partner Settings",
@@ -712,8 +712,8 @@ export const CH4: TextbookChapter = {
             "לנהל ספק כתפקיד בתוך מודל-שותפים אחיד, למנוע כפל-נתונים ולאפשר לישות אחת לשמש ספק ולקוח בו-זמנית.",
           processExampleHe:
             "ספק-תרכיז קיים כ-BP; מוסיפים תפקיד FLVN00 ל-Purchasing Org ו-FLVN01 ל-Company Code; ה-CVI מייצר LFA1/LFM1/LFB1, והספק זמין מיידית ל-PO ולתשלום.",
-          cbcHe:
-            "ב-CBC ספק-הסוכר מנוהל כ-BP עם תפקיד Supplier ל-Purchasing Org של המתקן; אם אותו ספק קונה מ-CBC בקבוקים-ריקים, מוסיפים לו תפקיד Customer — באותו BP.",
+          scenarioHe:
+            "בארגון ספק-הסוכר מנוהל כ-BP עם תפקיד Supplier ל-Purchasing Org של המתקן; אם אותו ספק קונה מ-הארגון בקבוקים-ריקים, מוסיפים לו תפקיד Customer — באותו BP.",
           navHe: [
             "Cross-Application Components ► SAP Business Partner ► Business Partner ► Basic Settings ► Business Partner Roles ► Define BP Roles",
             "SAP Easy Access ► Logistics ► Materials Management ► Purchasing ► Master Data ► Business Partner ► Maintain (BP)",
@@ -762,8 +762,8 @@ export const CH4: TextbookChapter = {
             "להעביר/לטעון אוכלוסיית-ספקים גדולה בעקביות ובאיכות, תוך הבטחת סנכרון מלא BP↔Vendor.",
           processExampleHe:
             "צוות-המיגרציה טוען קובץ-ספקים ל-Migration Cockpit (object Supplier); המערכת יוצרת BP לכל ספק עם תפקידי FLVN00/FLVN01; ה-CVI מסנכרן ל-LFA1/LFM1, ושגיאות נבדקות ב-PPO לפני אישור.",
-          cbcHe:
-            "ב-CBC כל ספקי-הקבוצה הועברו מ-ECC דרך Migration Cockpit כ-BPs; ספקי-תרכיז גלובליים נטענו עם תפקידי Purchasing לכל Purchasing Org של מתקני-המילוי.",
+          scenarioHe:
+            "בארגון כל ספקי-הקבוצה הועברו מ-ECC דרך Migration Cockpit כ-BPs; ספקי-תרכיז גלובליים נטענו עם תפקידי Purchasing לכל Purchasing Org של מתקני-המילוי.",
           navHe: [
             "SAP S/4HANA Migration Cockpit ► Migration Object: Supplier (LTMC)",
             "Cross-Application Components ► Master Data Synchronization ► Synchronization Cockpit (MDS_LOAD_COCKPIT)",
@@ -813,8 +813,8 @@ export const CH4: TextbookChapter = {
             "לספק לכל תחום (רכש, כספים) את נתוני-הספק הדרושים לתפעול: הזמנה, קליטה, חשבונית ותשלום.",
           processExampleHe:
             "הקמת ספק-אריזות: General — כתובת ובנק; Company Code — Recon.Account 160000 ו-Payment Terms NT30; Purchasing Org — מטבע EUR, Incoterms FOB, GR-Based IV פעיל; הספק מוכן ל-PO ולתשלום.",
-          cbcHe:
-            "ב-CBC ספק-הבקבוקים מוקם עם Purchasing data לכל מתקן-מילוי (מטבע, Incoterms), Company Code data לחברת-הבת המקומית, ו-Partner Functions (OA הזמנה, PI חשבונית, RS נמען-תשלום).",
+          scenarioHe:
+            "בארגון ספק-הבקבוקים מוקם עם Purchasing data לכל מתקן-מילוי (מטבע, Incoterms), Company Code data לחברת-הבת המקומית, ו-Partner Functions (OA הזמנה, PI חשבונית, RS נמען-תשלום).",
           navHe: [
             "SAP Easy Access ► Logistics ► Materials Management ► Purchasing ► Master Data ► Business Partner ► Maintain (BP)",
             "Materials Management ► Purchasing ► Partner Determination ► Define Partner Schemas",
@@ -867,8 +867,8 @@ export const CH4: TextbookChapter = {
             "להבטיח עקביות-נתונים מלאה בין ה-BP לרשומות-הספק/לקוח, ולאפשר את כל תהליכי ה-MM/SD/FI שעדיין קוראים את LFA1/KNA1.",
           processExampleHe:
             "בפרויקט-המרה: מריצים Pre-Checks ב-ECC, מתקנים ספקים פגומים, מפעילים CVI ב-S/4HANA, מריצים MDS_LOAD_COCKPIT להמרת כל הספקים ל-BPs, ובודקים PPO עד אפס-שגיאות לפני go-live.",
-          cbcHe:
-            "ב-CBC במהלך ה-Conversion הופעל CVI ונבדק ב-PPO; כל ספקי-התרכיז והאריזה הומרו ל-BPs עם Number Range Synchronization 'Same', כך שמספר-הספק נשמר זהה למספר-ה-BP.",
+          scenarioHe:
+            "בארגון במהלך ה-Conversion הופעל CVI ונבדק ב-PPO; כל ספקי-התרכיז והאריזה הומרו ל-BPs עם Number Range Synchronization 'Same', כך שמספר-הספק נשמר זהה למספר-ה-BP.",
           navHe: [
             "Cross-Application Components ► Master Data Synchronization ► Customer/Vendor Integration ► Business Partner Settings ► Settings for Vendor Integration",
             "Cross-Application Components ► Master Data Synchronization ► Synchronization Control ► Activate Synchronization Options",
@@ -940,8 +940,8 @@ export const CH4: TextbookChapter = {
         "לעגן את התשתית של נתוני-האב לפני המעבר לתהליכים העסקיים (רכש, חשבונית, מלאי): בלי אב-חומר, קבוצות, עקיבות וספקים-כ-BP — אין על מה לבנות.",
       processExampleHe:
         "מסלול שלם: פותחים אב-חומר ROH מנוהל-אצווה, משייכים Material Group, מקימים את הספק כ-BP עם תפקידי-ספק ו-CVI, ואז יוצרים PO — כל נתוני-האב מתכנסים לכדי עסקת-רכש אחת.",
-      cbcHe:
-        "ב-CBC: ROH (תרכיז/סוכר/אריזה) מנוהלי-אצווה, מסווגים בקבוצות-חומר, נרכשים מספקים שכולם Business Partners מסונכרני-CVI — תשתית-נתוני-האב המלאה שעליה רץ רכש-מתקני-המילוי.",
+      scenarioHe:
+        "בארגון: ROH (תרכיז/סוכר/אריזה) מנוהלי-אצווה, מסווגים בקבוצות-חומר, נרכשים מספקים שכולם Business Partners מסונכרני-CVI — תשתית-נתוני-האב המלאה שעליה רץ רכש-מתקני-המילוי.",
       navHe: [
         "Logistics – General ► Material Master (אב-חומר וקבוצות)",
         "Logistics – General ► Batch Management / PM ► Serial Number Management (עקיבות)",

@@ -2,7 +2,7 @@
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
 // Source hierarchy preserved: 10.5 (3 children), 10.6 (2 children).
 // Transformative Hebrew (no source prose); SAP identifiers verbatim EN.
-// CBC context = Coca-Cola bottling PP/DS administration (CIF queues, liveCache).
+// הארגון context = Example Product bottling PP/DS administration (CIF queues, liveCache).
 import type { TextbookChapter } from "./types";
 
 export const CH10: TextbookChapter = {
@@ -10,7 +10,7 @@ export const CH10: TextbookChapter = {
   titleHe: "ניהול PP/DS ב-SAP S/4HANA",
   titleEn: "Administering PP/DS with SAP S/4HANA",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לניהול התפעולי (Administration) של PP/DS המוטמע (Embedded PP/DS) ב-SAP S/4HANA. בניגוד לפרקי-התכנון, כאן הדגש הוא על תחזוקת-המנגנון עצמו: ניטור תורי ה-Core Interface (CIF) ב-/SAPAPO/CQ, טיפול בשגיאות-העברה ב-Postprocessing /SAPAPO/CPP1, השוואה והשלמה בין S/4 ל-liveCache באמצעות CCR (/SAPAPO/CCR), ניהול יומן-היישום, וטיפול ב-liveCache עצמו דרך /SAPAPO/OM13. כל תת-פרק ותת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: להפעיל ולתחזק PP/DS באופן יציב ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לניהול התפעולי (Administration) של PP/DS המוטמע (Embedded PP/DS) ב-SAP S/4HANA. בניגוד לפרקי-התכנון, כאן הדגש הוא על תחזוקת-המנגנון עצמו: ניטור תורי ה-Core Interface (CIF) ב-/SAPAPO/CQ, טיפול בשגיאות-העברה ב-Postprocessing /SAPAPO/CPP1, השוואה והשלמה בין S/4 ל-liveCache באמצעות CCR (/SAPAPO/CCR), ניהול יומן-היישום, וטיפול ב-liveCache עצמו דרך /SAPAPO/OM13. כל תת-פרק ותת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: להפעיל ולתחזק PP/DS באופן יציב ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 10.1
     {
@@ -25,8 +25,8 @@ export const CH10: TextbookChapter = {
         "להבטיח ש-PP/DS מתכנן על נתונים עדכניים. כל החלטת-תכנון (Pegging, Scheduling, Heuristics) טובה רק כמו הנתונים שמאחוריה. ניטור-תור מונע את התרחיש הגרוע: תכנון שמתעלם מהזמנת-מכירה חדשה או משינוי-מלאי כי העדכון תקוע בתור.",
       processExampleHe:
         "מתכנן מדווח שהזמנת-מכירה חדשה לא מופיעה ב-Product View (/SAPAPO/RRP3). הצוות פותח /SAPAPO/CQ, מסנן לפי המודל הפעיל, ומזהה רשומת-תור בסטטוס SYSFAIL עם שם-תור CFSLS*. לחיצה על השגיאה חושפת חריגה ב-target system; אחרי תיקון שורש-הבעיה מבצעים Activate/Execute LUW והתור משוחרר — ההזמנה זורמת ל-PP/DS.",
-      cbcHe:
-        "ב-CBC כל הזמנת-מילוי-משקה, שינוי-מלאי-תרכיז ועדכון-קיבולת-קו-מילוי זורמים דרך ה-CIF אל PP/DS. בדיקת-בוקר קבועה של /SAPAPO/CQ לפני ריצת-ה-Heuristics היומית מוודאת שלוח-המילוי מתוכנן על תמונת-מלאי ודרישות מעודכנת; תור CFPLO* תקוע פירושו תכנון על מתכון/קיבולת ישנים.",
+      scenarioHe:
+        "בארגון כל הזמנת-מילוי-משקה, שינוי-מלאי-תרכיז ועדכון-קיבולת-קו-מילוי זורמים דרך ה-CIF אל PP/DS. בדיקת-בוקר קבועה של /SAPAPO/CQ לפני ריצת-ה-Heuristics היומית מוודאת שלוח-המילוי מתוכנן על תמונת-מלאי ודרישות מעודכנת; תור CFPLO* תקוע פירושו תכנון על מתכון/קיבולת ישנים.",
       navHe: [
         "Easy Access ► /SAPAPO/CQ — CIF Queue Manager",
         "Easy Access ► SMQ1 — qRFC Monitor (Outbound Queue)",
@@ -101,8 +101,8 @@ export const CH10: TextbookChapter = {
         "לשמור על זרימת-CIF רציפה תוך בידוד שגיאות לטיפול-יזום. במערכת-ייצור עמוסה, תור-תקוע אחד יכול לעכב מאות עדכונים תקינים; Postprocessing מונע 'נזק-משני' של רשומה אחת על כל השאר.",
       processExampleHe:
         "עדכון-חומר נכשל כי שדה-חובה חסר ב-target. במקום SYSFAIL, הרשומה מוסטת ל-Postprocessing. האדמין פותח /SAPAPO/CPP1, רואה את ההודעה, מתקן את נתון-האב ב-S/4, ולוחץ Reprocess — הרשומה עוברת והתור מעולם לא נחסם.",
-      cbcHe:
-        "ב-CBC עונת-שיא: אלפי עדכוני-מילוי זורמים דרך CIF. הגדרת Postprocessing מבטיחה שעדכון-מתכון-בעייתי בודד לא יעצור את כל לוח-המילוי. צוות-PP/DS סורק את /SAPAPO/CPP1 בכל בוקר ומטפל ברשומות שנפלו במהלך-הלילה לפני הריצה היומית.",
+      scenarioHe:
+        "בארגון עונת-שיא: אלפי עדכוני-מילוי זורמים דרך CIF. הגדרת Postprocessing מבטיחה שעדכון-מתכון-בעייתי בודד לא יעצור את כל לוח-המילוי. צוות-PP/DS סורק את /SAPAPO/CPP1 בכל בוקר ומטפל ברשומות שנפלו במהלך-הלילה לפני הריצה היומית.",
       navHe: [
         "Easy Access ► /SAPAPO/CPP1 — Postprocessing of CIF Records",
         "Easy Access ► /SAPAPO/CPP — Postprocessing (overview)",
@@ -176,8 +176,8 @@ export const CH10: TextbookChapter = {
         "להבטיח עקביות-נתונים (data consistency) בין שני העולמות. תכנון על נתונים לא-עקביים מסוכן יותר מתכנון על נתונים-ישנים, כי הוא יוצר החלטות שגויות שנראות תקינות.",
       processExampleHe:
         "אחרי תחזוקת-מערכת בסוף-שבוע, צוות-Basis הריץ /SAPAPO/CCR למודל-הייצור. הדוח חשף 12 הזמנות-מתוכננות שקיימות ב-S/4 אך חסרות ב-liveCache (כנראה תורים שנמחקו בעבר). הצוות סימן אותן ובחר 'Resend from ERP'; ההשלמה יצרה אותן מחדש ב-liveCache והעקביות שוחזרה.",
-      cbcHe:
-        "ב-CBC מריצים CCR אוטומטי בלילה לכל מודלי-המילוי, אחרי שתעבורת-ה-CIF שוככת. דוח-הבדלים נסקר בבוקר; פער בהזמנות-מילוי או במלאי-תרכיז מתוקן לפני ריצת-התכנון, כדי שלוח-המילוי לא יתבסס על תמונה לא-עקבית.",
+      scenarioHe:
+        "בארגון מריצים CCR אוטומטי בלילה לכל מודלי-המילוי, אחרי שתעבורת-ה-CIF שוככת. דוח-הבדלים נסקר בבוקר; פער בהזמנות-מילוי או במלאי-תרכיז מתוקן לפני ריצת-התכנון, כדי שלוח-המילוי לא יתבסס על תמונה לא-עקבית.",
       navHe: [
         "Easy Access ► /SAPAPO/CCR — CIF Comparison/Reconciliation of Transaction Data",
         "Easy Access ► SE38 ► /SAPAPO/CIF_DELTAREPORT3 — Reconciliation report (batch)",
@@ -251,8 +251,8 @@ export const CH10: TextbookChapter = {
         "לספק שקיפות-מלאה לדיבוג-CIF ולשמור על בריאות-ה-DB. בלי יומן אי-אפשר לאבחן שגיאות; עם יומן שלא מנוקה ה-DB תופח ומאט.",
       processExampleHe:
         "רשומת-Postprocessing נכשלה ב-Reprocess. האדמין לוחץ 'Display Log', /SAPAPO/C3 נפתח על אותה רשומה ומציג: 'Material X: MRP type missing in target plant'. הסיבה ברורה, התיקון ממוקד, וה-Reprocess הבא מצליח. במקביל, job שבועי של SLG2 מוחק יומני-CIF בני יותר מ-30 יום.",
-      cbcHe:
-        "ב-CBC רמת-הרישום הרגילה היא 'שגיאות בלבד' כדי לא להעמיס; בעת חקירת-תקלה מעלים זמנית ל'מלא' למספר-שעות. job-housekeeping שבועי (SLG2) מוחק יומני-CIF ישנים כדי לשמור על ביצועי-DB בשרת-המילוי.",
+      scenarioHe:
+        "בארגון רמת-הרישום הרגילה היא 'שגיאות בלבד' כדי לא להעמיס; בעת חקירת-תקלה מעלים זמנית ל'מלא' למספר-שעות. job-housekeeping שבועי (SLG2) מוחק יומני-CIF ישנים כדי לשמור על ביצועי-DB בשרת-המילוי.",
       navHe: [
         "Easy Access ► /SAPAPO/C3 — Display CIF Application Log",
         "Easy Access ► SLG1 — Application Log: Display Logs",
@@ -327,8 +327,8 @@ export const CH10: TextbookChapter = {
         "לשמור על liveCache עקבי, רזה ובריא, כך שמנוע-התכנון יפעל מהר ונכון. liveCache מנופח או לא-עקבי גורם לתכנון-איטי ולהחלטות-שגויות.",
       processExampleHe:
         "אחרי שבועות-עבודה, /SAPAPO/OM13 מראה שגודל-ה-liveCache גדל וזמני-התגובה עלו. הצוות מריץ job-housekeeping שמסלק גרסאות-תכנון ישנות ואובייקטים-מיותמים, ואז /SAPAPO/OM17 להשלמת-עקביות. הביצועים חוזרים לקדמותם.",
-      cbcHe:
-        "ב-CBC liveCache מחזיק את כל לוח-המילוי החי: הזמנות-מילוי, Pegging תרכיז→משקה, ועומסי-קווים. תחזוקה שבועית (housekeeping + OM17) מבטיחה שריצת-ה-Heuristics היומית מהירה ועובדת על רשת-Order עקבית.",
+      scenarioHe:
+        "בארגון liveCache מחזיק את כל לוח-המילוי החי: הזמנות-מילוי, Pegging תרכיז→משקה, ועומסי-קווים. תחזוקה שבועית (housekeeping + OM17) מבטיחה שריצת-ה-Heuristics היומית מהירה ועובדת על רשת-Order עקבית.",
       navHe: [
         "Easy Access ► /SAPAPO/OM13 — liveCache: Monitoring",
         "Easy Access ► /SAPAPO/OM17 — liveCache Consistency Check",
@@ -396,7 +396,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "מבוצע דרך תוכניות-מחיקה ב-batch: מחיקת הזמנות-מתוכננות מיותמות, ניקוי גרסאות-תכנון לא-פעילות (/SAPAPO/OM02 ניהול-גרסאות), ו-time-series שאינם משויכים. רבים מהאובייקטים-המיותמים נוצרים מתורי-CIF שנמחקו או מהמרות-הזמנה לא-מושלמות. Housekeeping צריך לרוץ בחלון-תחזוקה, אחרי גיבוי, ובתיאום עם CCR/OM17 לזיהוי מה באמת מיותם.",
           purposeHe: "למנוע ניפוח-liveCache ולשמר ביצועי-תכנון. אובייקטים-מיותמים אינם רק בזבוז-זיכרון — הם יכולים להופיע בתוצאות-תכנון ולעוות החלטות.",
           processExampleHe: "job שבועי מזהה 3,000 הזמנות-מתוכננות מיותמות (ללא רשומת-DB מקבילה) ומוחק אותן מ-liveCache; גודל-ה-liveCache יורד וזמן-ריצת-ה-Heuristics מתקצר.",
-          cbcHe: "ב-CBC job-housekeeping לילי מנקה הזמנות-מילוי שהושלמו וגרסאות-סימולציה ישנות, כדי שלוח-המילוי החי יישאר רזה לקראת ריצת-הבוקר.",
+          scenarioHe: "בארגון job-housekeeping לילי מנקה הזמנות-מילוי שהושלמו וגרסאות-סימולציה ישנות, כדי שלוח-המילוי החי יישאר רזה לקראת ריצת-הבוקר.",
           navHe: ["Easy Access ► /SAPAPO/OM13 — liveCache Monitoring (size before/after)", "SPRO ► Advanced Planning ► Basic Settings ► Maintain Planning Versions / Deletion Reports"],
           tables: ["/SAPAPO/ORDKEY", "/SAPAPO/TS_LCKEY", "/SAPAPO/MATKEY"],
           tcodes: ["/SAPAPO/OM02", "/SAPAPO/OM13", "SM37", "SE38"],
@@ -419,7 +419,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "/SAPAPO/OM17 (liveCache Consistency Check) משווה אובייקטי-liveCache מול ה-anchor-tables (/SAPAPO/ORDKEY, /SAPAPO/ORDMAP) ומזהה: אובייקטים ב-liveCache ללא DB-key (orphan), או DB-keys ללא אובייקט-liveCache (missing). ניתן לתקן בבחירת-כיוון. זהו reconciliation פנימי-ל-APO; CCR (10.3) הוא חוצה-מערכת מול נתוני-ה-ERP. הרץ בחלון-שקט ואחרי גיבוי, כי תיקון מוחק/יוצר אובייקטים.",
           purposeHe: "להבטיח עקביות בין liveCache ל-DB, כך שכל אובייקט-תכנון אמיתי ומתוקף. חוסר-עקביות יוצר 'הזמנות-רפאים' או חוסרים שמעוותים תכנון.",
           processExampleHe: "/SAPAPO/OM17 מוצא 40 orphan-orders ב-liveCache ללא רשומת-DB. הצוות בוחר למחוק אותם (אחרי אימות), וה-liveCache חוזר לעקביות מלאה מול ה-DB.",
-          cbcHe: "ב-CBC הרצת /SAPAPO/OM17 שבועית מוודאת שאחרי ניקוי-ה-housekeeping לא נותרו orphan-orders של מילוי — כדי שלוח-המילוי החי יהיה עקבי לחלוטין.",
+          scenarioHe: "בארגון הרצת /SAPAPO/OM17 שבועית מוודאת שאחרי ניקוי-ה-housekeeping לא נותרו orphan-orders של מילוי — כדי שלוח-המילוי החי יהיה עקבי לחלוטין.",
           navHe: ["Easy Access ► /SAPAPO/OM17 — liveCache Consistency Check", "SPRO ► Advanced Planning ► Basic Settings ► liveCache Consistency / Reconciliation"],
           tables: ["/SAPAPO/ORDKEY", "/SAPAPO/ORDMAP", "/SAPAPO/TS_LCKEY"],
           tcodes: ["/SAPAPO/OM17", "/SAPAPO/CCR", "SM37"],
@@ -442,7 +442,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "המפה: /SAPAPO/OM13 = liveCache Monitoring (מצב/גודל/גרסה); /SAPAPO/OM17 = Consistency Check & reconcile; /SAPAPO/OM02 = ניהול Planning Versions; /SAPAPO/OM03 = liveCache anchor info; LC10 = liveCache Assistant (Basis: start/stop/state/log volumes); DB50/DBACOCKPIT לניטור MaxDB. בתקלה: התחל ב-OM13, אם liveCache down עבור ל-LC10 (Basis), ולעקביות הרץ OM17.",
           purposeHe: "לתת לאדמין 'ארגז-כלים' מסודר לכל תרחיש-liveCache, מניטור-שגרתי ועד שחזור-חירום.",
           processExampleHe: "התראה על liveCache: האדמין פותח /SAPAPO/OM13 ➔ מצב 'inactive' ➔ עובר ל-LC10, מפעיל-מחדש את ה-liveCache, ואז מריץ /SAPAPO/OM17 לעקביות לפני שחרור-המערכת למתכננים.",
-          cbcHe: "ב-CBC ה-runbook התפעולי מפרט בדיוק: ניטור-בוקר ב-OM13, עקביות-שבועית ב-OM17, ושחזור-חירום ב-LC10 — כדי שכל תורן-משמרת ידע איזה כפתור ללחוץ.",
+          scenarioHe: "בארגון ה-runbook התפעולי מפרט בדיוק: ניטור-בוקר ב-OM13, עקביות-שבועית ב-OM17, ושחזור-חירום ב-LC10 — כדי שכל תורן-משמרת ידע איזה כפתור ללחוץ.",
           navHe: ["Easy Access ► /SAPAPO/OM13 — liveCache Monitoring", "Easy Access ► LC10 — liveCache Assistant", "Easy Access ► /SAPAPO/OM02 — Planning Version Management"],
           tables: ["/SAPAPO/ORDKEY", "/SAPAPO/ORDMAP", "/SAPAPO/MATKEY"],
           tcodes: ["/SAPAPO/OM13", "/SAPAPO/OM17", "/SAPAPO/OM02", "/SAPAPO/OM03", "LC10", "DB50"],
@@ -473,8 +473,8 @@ export const CH10: TextbookChapter = {
         "להבטיח שמנוע-התכנון פועל על תשתית-נתונים נכונה: קיבולת אמיתית, מסלולים מעודכנים, ולוגיקת-Pegging תקינה. נתון-אב פגום מייצר תוכנית פגומה שנראית תקינה.",
       processExampleHe:
         "קו-מילוי חדש נוסף ב-S/4 כמרכז-עבודה. ה-CIF אמור להעבירו כ-Resource ל-PP/DS. האדמין מוודא ב-/SAPAPO/RES01 שה-Resource נוצר עם הקיבולת הנכונה, ושה-PDS המעודכן מקשר אותו — אחרת התכנון יתעלם מהקו.",
-      cbcHe:
-        "ב-CBC כל שינוי בקווי-המילוי (קיבולת, משמרות) או במתכונים חייב לזרום נכון מ-S/4 ל-PP/DS דרך ה-CIF. ניהול נתוני-האב מוודא שה-Resources וה-PDS משקפים את המפעל האמיתי, כך שלוח-המילוי ריאלי.",
+      scenarioHe:
+        "בארגון כל שינוי בקווי-המילוי (קיבולת, משמרות) או במתכונים חייב לזרום נכון מ-S/4 ל-PP/DS דרך ה-CIF. ניהול נתוני-האב מוודא שה-Resources וה-PDS משקפים את המפעל האמיתי, כך שלוח-המילוי ריאלי.",
       navHe: [
         "Easy Access ► /SAPAPO/RES01 — Resource Maintenance",
         "Easy Access ► /SAPAPO/CURTO_SIMU — PDS (Production Data Structure) Display",
@@ -542,7 +542,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Pegging Area נגזר מ-Product+Location (ולעיתים account assignment). הוא נושא הגדרות: Dynamic Pegging (שיוך אוטומטי לפי תאריך/כמות) מול Fixed Pegging (קישור-קשיח ידני), Pegging strategy, ו-alert-thresholds. ה-Pegging הוא הבסיס ל-alerts ב-Alert Monitor ולחישובי-זמינות. ניהול-תפעולי: ודא שהגדרות-Pegging ברמת-Product נכונות ושאין fixed-pegging תקוע שמונע אופטימיזציה.",
           purposeHe: "להגדיר נכון את שיוך-ההיצע-לביקוש, שממנו נגזרים תאריכי-זמינות, התראות-מחסור, ולוגיקת-ה-rescheduling.",
           processExampleHe: "דרישת-מכירה למשקה מקבלת Pegging דינמי להזמנת-מילוי קרובה. אם המילוי מתעכב, ה-Pegging מפעיל alert ב-Alert Monitor שמתריע על סיכון-אספקה.",
-          cbcHe: "ב-CBC כל Product+מחסן-מילוי הוא Pegging Area; שיוך-דינמי מאפשר ל-PP/DS לקשר אוטומטית הזמנות-מילוי לדרישות-לקוח ולהתריע על פערים בעונת-שיא.",
+          scenarioHe: "בארגון כל Product+מחסן-מילוי הוא Pegging Area; שיוך-דינמי מאפשר ל-PP/DS לקשר אוטומטית הזמנות-מילוי לדרישות-לקוח ולהתריע על פערים בעונת-שיא.",
           navHe: ["SPRO ► Advanced Planning ► PP/DS ► Global Settings ► Maintain Pegging-Relevant Settings", "Easy Access ► /SAPAPO/RRP3 — Product View (Pegging tab)"],
           tables: ["/SAPAPO/PEGKEY", "/SAPAPO/MATKEY", "/SAPAPO/ORDMAP"],
           tcodes: ["/SAPAPO/RRP3", "/SAPAPO/MAT1", "/SAPAPO/AMON1"],
@@ -565,7 +565,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Resources (/SAPAPO/RES01) מגיעים מ-CIF ממרכזי-עבודה. סוגים: Single/Multi-activity, Bucket, Production, Transportation. הם נושאים Available Capacity, Shift sequences, ו-finite/infinite flag. תזמון-מפורט (DS) נשען על קיבולת-סופית (finite). ניהול-תפעולי: ודא סנכרון-CIF של שינויי-קיבולת/משמרות, בדוק finite-flag למשאבי-צוואר-בקבוק, ותחזק לוחות-משמרות מעודכנים. אי-התאמה בין S/4 ל-Resource = תזמון על קיבולת-שגויה.",
           purposeHe: "לספק למנוע-התזמון תמונת-קיבולת אמיתית, כך שתאריכי-הפק\"ע והעומסים ריאליים וניתנים-לביצוע.",
           processExampleHe: "קו-מילוי עובר משתי-משמרות לשלוש. השינוי נעשה ב-S/4 ומועבר דרך CIF ל-Resource; PP/DS מזהה את הקיבולת-הנוספת ומתזמן עליה הזמנות-מילוי נוספות.",
-          cbcHe: "ב-CBC כל קו-מילוי = Resource עם קיבולת-סופית ולוח-משמרות עונתי. עדכון-משמרות לעונת-שיא חייב לזרום דרך CIF, אחרת PP/DS מתזמן על קיבולת-חורף נמוכה.",
+          scenarioHe: "בארגון כל קו-מילוי = Resource עם קיבולת-סופית ולוח-משמרות עונתי. עדכון-משמרות לעונת-שיא חייב לזרום דרך CIF, אחרת PP/DS מתזמן על קיבולת-חורף נמוכה.",
           navHe: ["Easy Access ► /SAPAPO/RES01 — Resource Maintenance", "SPRO ► Advanced Planning ► PP/DS ► Resources ► Specify Resource Settings"],
           tables: ["/SAPAPO/RESHEAD", "/SAPAPO/RESNTAB", "/SAPAPO/RESCAP"],
           tcodes: ["/SAPAPO/RES01", "/SAPAPO/CDPSC0", "/SAPAPO/CCR"],
@@ -596,8 +596,8 @@ export const CH10: TextbookChapter = {
         "להפוך את התחזוקה לאוטומטית, עקבית וניתנת-לניטור — כך שיציבות-ה-PP/DS אינה תלויה בזיכרון או בנוכחות של אדמין מסוים.",
       processExampleHe:
         "שרשרת-jobs לילית: בשעה 01:00 משקיטים CIF, ב-01:15 רץ CCR, ב-01:45 OM17, ב-02:15 housekeeping של liveCache, וב-03:00 SLG2. בבוקר האדמין סוקר את ה-job-logs ב-SM37 ומטפל רק בחריגים.",
-      cbcHe:
-        "ב-CBC לוח-ה-jobs מתועד ב-runbook: שרשרת-תחזוקה לילית לכל מודלי-המילוי, כך שריצת-ה-Heuristics של הבוקר תמיד פוגשת liveCache רזה, עקבי ומסונכרן — קריטי בעונת-שיא.",
+      scenarioHe:
+        "בארגון לוח-ה-jobs מתועד ב-runbook: שרשרת-תחזוקה לילית לכל מודלי-המילוי, כך שריצת-ה-Heuristics של הבוקר תמיד פוגשת liveCache רזה, עקבי ומסונכרן — קריטי בעונת-שיא.",
       navHe: [
         "Easy Access ► SM36 — Define Background Job",
         "Easy Access ► SM37 — Job Overview / Monitoring",
@@ -671,8 +671,8 @@ export const CH10: TextbookChapter = {
         "לקבע את עקרונות-העל של ניהול-PP/DS כתשתית ליציבות-תכנון, ולתת לאדמין מפת-דרכים תפעולית מאוחדת.",
       processExampleHe:
         "אדמין-PP/DS חדש בונה runbook: בדיקת-בוקר (/SAPAPO/CQ, /SAPAPO/CPP1, OM13), שרשרת-jobs לילית (CCR➔OM17➔housekeeping➔SLG2), ותגובת-חירום (LC10 ל-liveCache). תוך-שבועות המערכת יציבה והמתכננים סומכים על הנתונים.",
-      cbcHe:
-        "ב-CBC ה-runbook הזה הוא ההבדל בין עונת-שיא חלקה לכאוטית: CIF זורם, liveCache עקבי, קווי-המילוי משתקפים נכון, והכול מתוחזק אוטומטית — כך שלוח-המילוי תמיד אמין.",
+      scenarioHe:
+        "בארגון ה-runbook הזה הוא ההבדל בין עונת-שיא חלקה לכאוטית: CIF זורם, liveCache עקבי, קווי-המילוי משתקפים נכון, והכול מתוחזק אוטומטית — כך שלוח-המילוי תמיד אמין.",
       navHe: [
         "Easy Access ► /SAPAPO/CQ · /SAPAPO/CPP1 · /SAPAPO/CCR — שלמות-CIF",
         "Easy Access ► /SAPAPO/OM13 · /SAPAPO/OM17 · LC10 — בריאות-liveCache",

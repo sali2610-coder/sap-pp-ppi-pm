@@ -2,7 +2,7 @@
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
 // Source hierarchy preserved exactly (ids + order); x.y.z nested under x.y.
 // Transformative Hebrew (beginner + consultant friendly); SAP objects verbatim EN.
-// CBC = Coca-Cola bottling PP/DS planning of fill-line production.
+// הארגון = Example Product bottling PP/DS planning of fill-line production.
 import type { TextbookChapter } from "./types";
 
 export const CH5: TextbookChapter = {
@@ -10,7 +10,7 @@ export const CH5: TextbookChapter = {
   titleHe: "תכנון ייצור",
   titleEn: "Production Planning",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לתכנון-ייצור ב-PP/DS של SAP S/4HANA. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC (תכנון קווי-מילוי משקאות), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, השפעת נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד מתי להשתמש ב-PP/DS, את פונקציות-הליבה (Pegging, חישוב-דרישות-נטו, מקור-אספקה), את עולם ה-Heuristics וה-Service Heuristics, הרצת-תכנון אינטראקטיבית/רקע ו-MRP Live, ניטור והערכת-הרצות, ה-Production Planning Optimizer ו-PP/DS עם SAP IBP — ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לתכנון-ייצור ב-PP/DS של SAP S/4HANA. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון (תכנון קווי-מילוי משקאות), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, השפעת נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד מתי להשתמש ב-PP/DS, את פונקציות-הליבה (Pegging, חישוב-דרישות-נטו, מקור-אספקה), את עולם ה-Heuristics וה-Service Heuristics, הרצת-תכנון אינטראקטיבית/רקע ו-MRP Live, ניטור והערכת-הרצות, ה-Production Planning Optimizer ו-PP/DS עם SAP IBP — ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 5.1
     {
@@ -27,8 +27,8 @@ export const CH5: TextbookChapter = {
         "למקד את ההשקעה בתכנון-מתקדם רק היכן שהיא משתלמת: לתת תכנון מודע-קיבולת ותזמון-מדויק לחומרים הקריטיים, בלי להעמיס מורכבות על כלל ה-portfolio. בחירה נכונה = ROI גבוה; over-engineering (הכל ב-PP/DS) = תחזוקה כבדה ללא ערך.",
       processExampleHe:
         "מפעל מזהה שקו-המילוי הוא צוואר-הבקבוק. המוצרים הזורמים דרכו מסומנים Advanced Planning באב-החומר; חומרי-הגלם והאריזה נשארים classic MRP. בהרצת-MRP-Live חומרי-ה-FERT מתוכננים ב-PP/DS (finite, מול ה-Resource של הקו), בעוד הרכיבים מתוכננים classic — והכל בריצה אחת.",
-      cbcHe:
-        "ב-CBC קווי-המילוי (Filling Lines) הם צווארי-הבקבוק היקרים: המשקאות המוגמרים (FERT) הזורמים דרכם מסומנים Advanced Planning ומתוכננים ב-PP/DS מול Resources של הקווים, עם sequence-dependent setup (מעבר-טעם/CIP). התרכיז, הסוכר וה-CO2 (ROH) נשארים classic MRP — אין צורך ב-finite scheduling עבורם.",
+      scenarioHe:
+        "בארגון קווי-המילוי (Filling Lines) הם צווארי-הבקבוק היקרים: המשקאות המוגמרים (FERT) הזורמים דרכם מסומנים Advanced Planning ומתוכננים ב-PP/DS מול Resources של הקווים, עם sequence-dependent setup (מעבר-טעם/CIP). התרכיז, הסוכר וה-CO2 (ROH) נשארים classic MRP — אין צורך ב-finite scheduling עבורם.",
       navHe: [
         "Production Planning for Process Industries ► Advanced Planning ► Basic Settings ► Activate Advanced Planning",
         "Logistics – General ► Material Master ► ... ► Advanced Planning view (MM02 → Advanced Planning)",
@@ -99,8 +99,8 @@ export const CH5: TextbookChapter = {
         "להגדיר את ההתנהגות-הבסיסית שכל היוריסטיקה תירש: מה מקושר למה, באיזה טווח מתכננים, כמה חסר, כמה מזמינים, כמה שומרים ומאיפה מביאים. שליטה בפונקציות = שליטה בתוצאה.",
       processExampleHe:
         "הרצת-תכנון לחומר: ה-net requirements calculation מזהה חוסר בטווח האופק; ה-lot-sizing יוצר receipt בכמות-רכש מתאימה; ה-Pegging מקשר אותו לדרישה; ה-Source Determination בוחר PDS/קו; מלאי-הביטחון נשמר כ-buffer תחתון. כל זה בתוך ה-PP/DS Horizon ומחוץ ל-Planning Time Fence.",
-      cbcHe:
-        "ב-CBC: דרישה ל-Coca-Cola 1.5L מקזזת מול מלאי (net), נוצרת הזמנה-מתוכננת בכמות-מינימום-batch של הקו, ה-Pegging מקשר אותה להזמנת-הלקוח, וה-Source Determination בוחר את קו-המילוי המתאים. מלאי-הביטחון על המשקה המוגמר מגן מפני תנודות-ביקוש בקיץ.",
+      scenarioHe:
+        "בארגון: דרישה ל-Example Product 1.5L מקזזת מול מלאי (net), נוצרת הזמנה-מתוכננת בכמות-מינימום-batch של הקו, ה-Pegging מקשר אותה להזמנת-הלקוח, וה-Source Determination בוחר את קו-המילוי המתאים. מלאי-הביטחון על המשקה המוגמר מגן מפני תנודות-ביקוש בקיץ.",
       navHe: [
         "Production Planning for Process Industries ► PP/DS ► Basic Settings",
         "Production Planning for Process Industries ► PP/DS ► Maintain Global Parameters and Defaults",
@@ -168,8 +168,8 @@ export const CH5: TextbookChapter = {
             "לתת נראות מלאה של 'מה-מכסה-מה' לצורך rescheduling, ניתוח-השפעה והבטחת-הקצאה (ATP/allocation) למוצרים/לקוחות קריטיים.",
           processExampleHe:
             "הזמנת-לקוח ל-1,000 יח' זוכה ל-Pegging מהזמנה-מתוכננת ל-1,000. אם ההזמנה-המתוכננת מתעכבת, מערכת-ה-Alerts מציגה under-coverage על הזמנת-הלקוח — והמתכנן יודע מיד מה לתקן.",
-          cbcHe:
-            "ב-CBC הזמנת-רשת-קמעונאית ל-Sprite מקבלת Fixed Pegging מ-batch ייצור ספציפי כדי להבטיח אספקה לקמפיין-מבצע — כך התכנון לא 'יגנוב' את ה-batch ללקוח אחר.",
+          scenarioHe:
+            "בארגון הזמנת-רשת-קמעונאית ל-Sprite מקבלת Fixed Pegging מ-batch ייצור ספציפי כדי להבטיח אספקה לקמפיין-מבצע — כך התכנון לא 'יגנוב' את ה-batch ללקוח אחר.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Maintain Global Settings for Pegging",
             "Product master ► Advanced Planning ► Pegging (use of safety stock, intervals)",
@@ -231,8 +231,8 @@ export const CH5: TextbookChapter = {
             "לייצב את הביצוע הקרוב (אין שינויי-רגע-אחרון) תוך שמירה על גמישות-תכנון בטווח-הרחוק; למנוע 'רעידות' (planning nervousness) שמשבשות את הרצפה.",
           processExampleHe:
             "PTF של 5 ימים: הזמנות-מתוכננות ב-3 הימים הקרובים firmed — הרצת-התכנון לא תזיז אותן גם אם הביקוש השתנה; מעבר ל-5 ימים התכנון חופשי להזיז/לבטל.",
-          cbcHe:
-            "ב-CBC ה-PTF על קווי-המילוי = שבוע: לוח-הייצור לשבוע הקרוב קפוא (חומרי-גלם כבר נמשכו), והתכנון משנה רק את השבועות הבאים — כך הרצפה יציבה.",
+          scenarioHe:
+            "בארגון ה-PTF על קווי-המילוי = שבוע: לוח-הייצור לשבוע הקרוב קפוא (חומרי-גלם כבר נמשכו), והתכנון משנה רק את השבועות הבאים — כך הרצפה יציבה.",
           navHe: [
             "Product master ► Advanced Planning ► PP/DS Horizon",
             "Product master ► Advanced Planning ► Planning Time Fence / Firming",
@@ -290,8 +290,8 @@ export const CH5: TextbookChapter = {
             "למנוע ייצור/רכש מיותר (אם יש מלאי) ולהבטיח כיסוי-חוסר במדויק — בסיס לכל יצירת-אספקה ב-PP/DS.",
           processExampleHe:
             "דרישה 1,000; מלאי-זמין 300; מלאי-ביטחון 100. נטו = 1,000 − (300 − 100) = 800 — נוצרת אספקה ל-800 (לפני עיגול-lot).",
-          cbcHe:
-            "ב-CBC דרישה ל-5,000 ארגזי Coca-Cola, מלאי 1,200, מלאי-ביטחון 500 → נטו 4,300; ה-lot-sizing יעגל למינימום-batch של הקו.",
+          scenarioHe:
+            "בארגון דרישה ל-5,000 ארגזי Example Product, מלאי 1,200, מלאי-ביטחון 500 → נטו 4,300; ה-lot-sizing יעגל למינימום-batch של הקו.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Heuristics (net requirements step)",
             "Product master ► Advanced Planning ► Safety Stock",
@@ -348,8 +348,8 @@ export const CH5: TextbookChapter = {
             "לאזן בין עלויות-החזקה (lots קטנים) לעלויות-setup/הזמנה (lots גדולים), ולכבד אילוצי-מינימום/מקסימום/אריזה.",
           processExampleHe:
             "נטו 800; minimum lot 1,000; rounding 100 → אספקה 1,000. נטו 2,350; periodic weekly → אספקה אחת ל-2,350 לשבוע.",
-          cbcHe:
-            "ב-CBC מינימום-batch של קו-מילוי = 1,000 ארגזים, rounding לפי משטח (pallet) = 48 → כל הזמנה-מתוכננת מעוגלת למשטחים שלמים מעל המינימום.",
+          scenarioHe:
+            "בארגון מינימום-batch של קו-מילוי = 1,000 ארגזים, rounding לפי משטח (pallet) = 48 → כל הזמנה-מתוכננת מעוגלת למשטחים שלמים מעל המינימום.",
           navHe: [
             "Product master ► Advanced Planning ► Lot Size",
             "Production ► MRP ► Lot-Size Calculation ► Rounding Profiles",
@@ -406,8 +406,8 @@ export const CH5: TextbookChapter = {
             "להגן על רמת-השירות מול תנודתיות, ולאפשר build-ahead מבוקר עד מלאי-יעד — תוך שמירה על עלות-החזקה סבירה.",
           processExampleHe:
             "Target days' supply = 5: התכנון בונה מלאי עד כיסוי 5 ימי-ביקוש קדימה, גם אם אין דרישה מיידית — מחליק עומסים.",
-          cbcHe:
-            "ב-CBC בקיץ מעלים את target days' supply על משקאות-שיא (Coca-Cola, Sprite) כדי לספוג קפיצות-ביקוש; בחורף מורידים כדי לא להחזיק עודף.",
+          scenarioHe:
+            "בארגון בקיץ מעלים את target days' supply על משקאות-שיא (Example Product, Sprite) כדי לספוג קפיצות-ביקוש; בחורף מורידים כדי לא להחזיק עודף.",
           navHe: [
             "Product master ► Advanced Planning ► Safety Stock / Target Stock",
             "Production Planning for Process Industries ► PP/DS ► Safety Stock Planning",
@@ -464,8 +464,8 @@ export const CH5: TextbookChapter = {
             "להבטיח שכל אספקה משויכת למקור בר-ביצוע ואופטימלי (עלות/קיבולת/מרחק), תוך כיבוד הסכמי-מכסה ועדיפויות.",
           processExampleHe:
             "מוצר ניתן לייצור בשני קווים (PDS_A עדיפות 1, PDS_B עדיפות 2). אם קו A מלא — ה-Source Determination/Quota מפנה ל-B; אחרת A מועדף.",
-          cbcHe:
-            "ב-CBC משקה ניתן למילוי בקו-1 או קו-2; quota arrangement מחלק 70/30, וה-Source Determination בוחר את הקו לכל הזמנה-מתוכננת לפי המכסה והקיבולת.",
+          scenarioHe:
+            "בארגון משקה ניתן למילוי בקו-1 או קו-2; quota arrangement מחלק 70/30, וה-Source Determination בוחר את הקו לכל הזמנה-מתוכננת לפי המכסה והקיבולת.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Source Determination",
             "Master Data ► Production Data Structure (PDS) / Quota Arrangements",
@@ -529,8 +529,8 @@ export const CH5: TextbookChapter = {
         "לתת למתכנן ספריית-אלגוריתמים מוכנה לכל תרחיש-תכנון, עקבית וניתנת-לשיוך — במקום קוד אד-הוק; ולשלוט במדויק מה רץ על מה.",
       processExampleHe:
         "מתכנן מריץ SAP_PP_002 על מוצר: ה-heuristic מחשבת נטו, יוצרת הזמנות-מתוכננות לפי lot-sizing, מבצעת Pegging וקובעת מקור — הכל בצעד אחד מתוך /SAPAPO/RRP3.",
-      cbcHe:
-        "ב-CBC המשקאות המוגמרים משויכים ל-SAP_PP_002 (תכנון-lots סטנדרטי) דרך ה-Planning Procedure; חומרים מנוהלי-reorder-point (חלקי-CIP) משויכים ל-SAP_PP_003.",
+      scenarioHe:
+        "בארגון המשקאות המוגמרים משויכים ל-SAP_PP_002 (תכנון-lots סטנדרטי) דרך ה-Planning Procedure; חומרים מנוהלי-reorder-point (חלקי-CIP) משויכים ל-SAP_PP_003.",
       navHe: [
         "Production Planning for Process Industries ► PP/DS ► Heuristics ► Maintain Heuristics",
         "Production Planning for Process Industries ► PP/DS ► Heuristics ► Define Profiles",
@@ -592,8 +592,8 @@ export const CH5: TextbookChapter = {
             "לתת תכנון-מוצר מקצה-לקצה בצעד אחד עבור המקרה-הסטנדרטי, בלי הגדרות מיוחדות.",
           processExampleHe:
             "מתכנן בוחר מוצר ב-/SAPAPO/RRP3 ומריץ SAP_PP_002: נוצרות הזמנות-מתוכננות מתוזמנות וממוקרות-Pegging לכיסוי כל הדרישות בטווח-האופק.",
-          cbcHe:
-            "ב-CBC כל משקה מוגמר מתוכנן ב-SAP_PP_002: ההזמנות-המתוכננות מתוזמנות מול קו-המילוי וממוקרות להזמנות-הלקוחות.",
+          scenarioHe:
+            "בארגון כל משקה מוגמר מתוכנן ב-SAP_PP_002: ההזמנות-המתוכננות מתוזמנות מול קו-המילוי וממוקרות להזמנות-הלקוחות.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Heuristics ► SAP_PP_002",
             "Product master ► Advanced Planning ► Planning Procedure",
@@ -646,8 +646,8 @@ export const CH5: TextbookChapter = {
             "לתכנן פריטים בעלי ביקוש-רציף בעלות-תכנון נמוכה, בלי דרישות-תלויות מפורטות.",
           processExampleHe:
             "Reorder point 500, lot 2,000: כשמלאי יורד ל-480 — נוצרת אספקה ל-2,000.",
-          cbcHe:
-            "ב-CBC חומרי-עזר (חומרי-ניקוי CIP, סיכה) מנוהלים reorder-point — נצרכים ברציפות, לא דורשים תכנון-דרישות מפורט.",
+          scenarioHe:
+            "בארגון חומרי-עזר (חומרי-ניקוי CIP, סיכה) מנוהלים reorder-point — נצרכים ברציפות, לא דורשים תכנון-דרישות מפורט.",
           navHe: [
             "Product master ► Advanced Planning ► MRP Type (reorder point) + Reorder Point",
             "Production Planning for Process Industries ► PP/DS ► Heuristics ► SAP_PP_003",
@@ -700,8 +700,8 @@ export const CH5: TextbookChapter = {
             "לאזן בין דיוק-תכנון (קרוב) ליציבות וביצועים (רחוק); להימנע מפירוט-יתר בטווח שעוד ישתנה.",
           processExampleHe:
             "אופק 1 (0–5 ימים): finite, lot-for-lot; אופק 2 (5–20): periodic שבועי; אופק 3 (20+): periodic חודשי גס.",
-          cbcHe:
-            "ב-CBC קווי-המילוי מתוכננים מפורט-finite לשבוע הקרוב, שבועי לחודש, וחודשי-גס לרבעון — מדויק היכן שמייצרים, גמיש היכן שלא.",
+          scenarioHe:
+            "בארגון קווי-המילוי מתוכננים מפורט-finite לשבוע הקרוב, שבועי לחודש, וחודשי-גס לרבעון — מדויק היכן שמייצרים, גמיש היכן שלא.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Heuristics ► Planning in Three Horizons",
           ],
@@ -751,8 +751,8 @@ export const CH5: TextbookChapter = {
             "לבצע תכנון-כמויות מהיר (infinite) בתוך עולם-ה-PP/DS, ולהפריד את שלב-הכמויות משלב-התזמון-המפורט.",
           processExampleHe:
             "SAP_MRP_001 רצה על קבוצת-מוצרים ויוצרת הזמנות-מתוכננות לכל החוסר; אחר-כך heuristic של detailed scheduling משבצת אותן על המשאבים.",
-          cbcHe:
-            "ב-CBC רכיבי-ביניים (תערובות) מתוכננים ב-SAP_MRP_001 לכמויות, בעוד המשקאות-המוגמרים על הקווים מקבלים detailed scheduling נפרד.",
+          scenarioHe:
+            "בארגון רכיבי-ביניים (תערובות) מתוכננים ב-SAP_MRP_001 לכמויות, בעוד המשקאות-המוגמרים על הקווים מקבלים detailed scheduling נפרד.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Heuristics ► SAP_MRP_001",
           ],
@@ -802,8 +802,8 @@ export const CH5: TextbookChapter = {
             "לעדכן במהירות את הדרישות-התלויות בכל רמות-ה-BOM אחרי שינוי-ביקוש, כהכנה לתכנון-מפורט.",
           processExampleHe:
             "שינוי דרישה ל-FERT מופץ דרך ה-PDS: התרכיז, הסוכר וה-CO2 מקבלים dependent requirements מעודכנות — אחר-כך heuristic אחרת יוצרת אספקה.",
-          cbcHe:
-            "ב-CBC קפיצת-ביקוש ל-Coca-Cola מופצת מיד כלפי-מטה לתרכיז ולסוכר, כך שתכנון-הרכיבים יראה את הצורך עוד באותה הרצה.",
+          scenarioHe:
+            "בארגון קפיצת-ביקוש ל-Example Product מופצת מיד כלפי-מטה לתרכיז ולסוכר, כך שתכנון-הרכיבים יראה את הצורך עוד באותה הרצה.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Heuristics ► Demand Propagation",
           ],
@@ -852,8 +852,8 @@ export const CH5: TextbookChapter = {
             "להבטיח חלוקת-עומס/רכש מאוזנת בין מקורות-מרובים לפי מדיניות (capacity balancing, dual sourcing, risk).",
           processExampleHe:
             "Quota 70/30 בין קו-1 לקו-2: מתוך 10 הזמנות-מתוכננות, 7 מנותבות לקו-1 ו-3 לקו-2, עם איזון מצטבר.",
-          cbcHe:
-            "ב-CBC חלוקת מילוי Coca-Cola 70/30 בין שני קווים מנוהלת ב-Quota heuristic, לאיזון בלאי-קווים ולגיבוי-אספקה.",
+          scenarioHe:
+            "בארגון חלוקת מילוי Example Product 70/30 בין שני קווים מנוהלת ב-Quota heuristic, לאיזון בלאי-קווים ולגיבוי-אספקה.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Heuristics ► Quota Heuristic",
             "Master Data ► Quota Arrangements (MEQ1)",
@@ -908,8 +908,8 @@ export const CH5: TextbookChapter = {
             "לתכנן נכון תהליכים רב-תפוקתיים, שבהם אי-אפשר לתכנן מוצר אחד בלי השני — נפוץ ב-process industry.",
           processExampleHe:
             "תהליך מניב מוצר-ראשי + co-product: דרישה למוצר-הראשי יוצרת הזמנה שמניבה גם את הלוואי; ה-heuristic מקזזת את הלוואי מול דרישותיו-שלו.",
-          cbcHe:
-            "ב-CBC הפקת-סירופ עשויה להניב co-product (שאריות-סוכר לשימוש-חוזר); SAP_PP_C001 מתאמת את שניהם מאותה הזמנת-ייצור.",
+          scenarioHe:
+            "בארגון הפקת-סירופ עשויה להניב co-product (שאריות-סוכר לשימוש-חוזר); SAP_PP_C001 מתאמת את שניהם מאותה הזמנת-ייצור.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Heuristics ► SAP_PP_C001",
             "Master Data ► PDS ► Co-Products / Apportionment",
@@ -965,8 +965,8 @@ export const CH5: TextbookChapter = {
         "לתת למתכן ארגז-כלים לתיקון-תוכנית: יישור-תאריכים מול Pegging, קביעת-עדיפויות, הבטחת-הקצאות ומיספור-שלבים — לאחר שהתוכנית כבר נוצרה.",
       processExampleHe:
         "אחרי הרצת-תכנון נוצר פער: רכיב מגיע מאוחר מהמכלול. המתכנן מריץ bottom-up rescheduling — ההזמנות-העליונות נדחפות להתאים לרכיב; או top-down — הרכיבים נמשכים להתאים למכלול.",
-      cbcHe:
-        "ב-CBC כשהזמנת-תרכיז מתעכבת, מתכנן-הקו מריץ bottom-up rescheduling כדי לדחוף את מילוי-המשקה להתאים, ומשנה priorities כדי שמשקה-מבצע יתוזמן ראשון.",
+      scenarioHe:
+        "בארגון כשהזמנת-תרכיז מתעכבת, מתכנן-הקו מריץ bottom-up rescheduling כדי לדחוף את מילוי-המשקה להתאים, ומשנה priorities כדי שמשקה-מבצע יתוזמן ראשון.",
       navHe: [
         "Production Planning for Process Industries ► PP/DS ► Heuristics ► Service Heuristics",
         "Detailed Scheduling ► Planning Board (/SAPAPO/CDPS0)",
@@ -1026,8 +1026,8 @@ export const CH5: TextbookChapter = {
             "להבטיח feasibility זמנית: מכלול לא מתחיל לפני שרכיביו מוכנים — מונע התחלות-שווא ומחסור-רכיבים ברצפה.",
           processExampleHe:
             "רכיב נדחה מ-5 ל-10. bottom-up דוחף את המכלול שמעליו (וכל מה שמעליו) ל-10 ואילך, כך שכל הרמות עקביות.",
-          cbcHe:
-            "ב-CBC אם אספקת-תרכיז נדחית, bottom-up rescheduling דוחף את מילוי-המשקה התלוי בו, כך שלא נתזמן מילוי ללא תרכיז.",
+          scenarioHe:
+            "בארגון אם אספקת-תרכיז נדחית, bottom-up rescheduling דוחף את מילוי-המשקה התלוי בו, כך שלא נתזמן מילוי ללא תרכיז.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Heuristics ► Bottom-Up Rescheduling",
           ],
@@ -1076,8 +1076,8 @@ export const CH5: TextbookChapter = {
             "ליישר את הרכיבים JIT לדרישת-המכלול — להקטין מלאי-ביניים ולהדק את שרשרת-הזמן כלפי תאריך-המסירה.",
           processExampleHe:
             "מכלול נדרש ל-20. top-down מתזמן את כל הרכיבים backward כך שיגיעו בדיוק לפני ההרכבה — בלי להקדים מיותר.",
-          cbcHe:
-            "ב-CBC top-down מותח את הזמנות-התרכיז/אריזה כך שיגיעו ממש לפני חלון-המילוי המתוכנן, להקטנת מלאי-ביניים ברצפה.",
+          scenarioHe:
+            "בארגון top-down מותח את הזמנות-התרכיז/אריזה כך שיגיעו ממש לפני חלון-המילוי המתוכנן, להקטנת מלאי-ביניים ברצפה.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Heuristics ► Top-Down Rescheduling",
           ],
@@ -1126,8 +1126,8 @@ export const CH5: TextbookChapter = {
             "לתרגם חשיבות-עסקית (לקוח/מבצע/דחיפות) להחלטת-תזמון בקיבולת-מוגבלת — מי מקבל את המשאב קודם.",
           processExampleHe:
             "הזמנת-VIP מקבלת priority 1; בהרצת finite היא משובצת ראשונה על הקו, ושאר ההזמנות מסביבה.",
-          cbcHe:
-            "ב-CBC הזמנת-משקה לקמפיין-טלוויזיה מקבלת priority גבוה — כך הקו משבץ אותה לפני הזמנות-שגרה, להבטחת-זמינות למבצע.",
+          scenarioHe:
+            "בארגון הזמנת-משקה לקמפיין-טלוויזיה מקבלת priority גבוה — כך הקו משבץ אותה לפני הזמנות-שגרה, להבטחת-זמינות למבצע.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Heuristics ► Change Order Priorities",
           ],
@@ -1176,8 +1176,8 @@ export const CH5: TextbookChapter = {
             "להבטיח שאספקה מסוימת תישאר מוקצית לדרישה מסוימת לאורך-זמן — הקצאה ודאית בלי 'גניבה' ע\"י התכנון.",
           processExampleHe:
             "מתכנן יוצר fixed peg בין batch מסוים להזמנת-לקוח אסטרטגית; הרצות-התכנון הבאות לא מנתקות אותם.",
-          cbcHe:
-            "ב-CBC fixed peg בין batch-ייצור ספציפי להזמנת-רשת-קמעונאית מבטיח שה-batch לא יוקצה ללקוח אחר עד אספקה.",
+          scenarioHe:
+            "בארגון fixed peg בין batch-ייצור ספציפי להזמנת-רשת-קמעונאית מבטיח שה-batch לא יוקצה ללקוח אחר עד אספקה.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Heuristics ► Create Fixed Pegging",
           ],
@@ -1230,8 +1230,8 @@ export const CH5: TextbookChapter = {
             "לשחרר אילוצי-הקצאה שהתיישנו ולהחזיר גמישות-תכנון — מונע 'נעילת'-אספקות מיותרת.",
           processExampleHe:
             "לקוח ביטל הזמנה שה-batch קובע אליה; המתכנן מריץ Delete Fixed Pegging, וה-batch משוחרר לדרישות אחרות.",
-          cbcHe:
-            "ב-CBC לאחר סיום-מבצע, fixed pegs של ה-batches המוקצים נמחקים כדי שהמלאי הנותר ישרת ביקוש-שגרה.",
+          scenarioHe:
+            "בארגון לאחר סיום-מבצע, fixed pegs של ה-batches המוקצים נמחקים כדי שהמלאי הנותר ישרת ביקוש-שגרה.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Heuristics ► Delete Fixed Pegging",
           ],
@@ -1283,8 +1283,8 @@ export const CH5: TextbookChapter = {
             "להבטיח סדר-תכנון נכון ב-multi-level: כל רמה אחרי הרמות שמעליה — למניעת תכנון-חוזר ועקביות-דרישות.",
           processExampleHe:
             "מוצר 3-רמות: stage 0 (FERT), 1 (HALB), 2 (ROH). ה-planning sequence מתכנן 0→1→2, כך שדרישות-הביניים מוכנות בכל שלב.",
-          cbcHe:
-            "ב-CBC: משקה (stage 0) → תערובת-בסיס (stage 1) → תרכיז/סוכר (stage 2); ה-stage numbering מבטיח שהמשקה מתוכנן לפני שמתכננים את רכיביו.",
+          scenarioHe:
+            "בארגון: משקה (stage 0) → תערובת-בסיס (stage 1) → תרכיז/סוכר (stage 2); ה-stage numbering מבטיח שהמשקה מתוכנן לפני שמתכננים את רכיביו.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Heuristics ► Stage Numbering / Low-Level Code",
           ],
@@ -1333,8 +1333,8 @@ export const CH5: TextbookChapter = {
             "לתכנן ולתפעל ייצור-המוני-רציף ביעילות — קצב במקום הזמנות-בדידות, עם דיווח ובקרה מפושטים.",
           processExampleHe:
             "קו מתוכנן ל-10,000 יח'/יום run-schedule; ה-backflush מנכה רכיבים אוטומטית לפי הכמות-המיוצרת — בלי הזמנה פר-batch.",
-          cbcHe:
-            "ב-CBC קו-מילוי Coca-Cola הרץ ברציפות מתוכנן ב-REM: run-schedule יומי על ה-line resource ו-backflush של תרכיז/בקבוקים/פקקים — מתאים מאוד לקווי-מילוי high-volume.",
+          scenarioHe:
+            "בארגון קו-מילוי Example Product הרץ ברציפות מתוכנן ב-REM: run-schedule יומי על ה-line resource ו-backflush של תרכיז/בקבוקים/פקקים — מתאים מאוד לקווי-מילוי high-volume.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Repetitive Manufacturing",
             "Production ► Repetitive Manufacturing ► Control (REM Profile)",
@@ -1396,8 +1396,8 @@ export const CH5: TextbookChapter = {
         "לאפשר תכנון-תרחישים והשוואת-חלופות בסביבה מבודדת, בלי לזעזע את הביצוע — ולהעביר רק את התרחיש-הנבחר לגרסה-הפעילה.",
       processExampleHe:
         "מתכנן בודק תרחיש 'קו נוסף' בגרסה לא-פעילה: מריץ heuristics, רואה את ההשפעה על העומס, ואם משתלם — מעביר את התוכנית לגרסה-הפעילה.",
-      cbcHe:
-        "ב-CBC לפני קמפיין-קיץ, מתכנן בונה תרחיש-ביקוש-מוגבר בגרסה לא-פעילה, בודק עומס-קווים, ורק לאחר אישור מעביר לגרסה-הפעילה — בלי לסכן את התכנון השוטף.",
+      scenarioHe:
+        "בארגון לפני קמפיין-קיץ, מתכנן בונה תרחיש-ביקוש-מוגבר בגרסה לא-פעילה, בודק עומס-קווים, ורק לאחר אישור מעביר לגרסה-הפעילה — בלי לסכן את התכנון השוטף.",
       navHe: [
         "Production Planning for Process Industries ► PP/DS ► Planning Version Management",
         "Production Planning for Process Industries ► PP/DS ► Heuristics ► Inactive Planned Orders",
@@ -1458,8 +1458,8 @@ export const CH5: TextbookChapter = {
         "להפעיל את התכנון בהיקף ובתדירות המתאימים: אינטראקטיבי לתיקונים נקודתיים, רקע ל-mass planning, ו-MRP Live לתכנון-משולב יומי.",
       processExampleHe:
         "job לילי מריץ production planning run על כל חומרי-ה-PP/DS; בבוקר המתכנן פותח /SAPAPO/RRP3 לתיקונים אינטראקטיביים נקודתיים על חריגים.",
-      cbcHe:
-        "ב-CBC MRP Live רץ כל לילה ומתכנן את כל המשקאות (PP/DS) והרכיבים (classic) בריצה אחת; ביום מתכנן-הקו מבצע התאמות אינטראקטיביות ב-product view על הזמנות-חריגות.",
+      scenarioHe:
+        "בארגון MRP Live רץ כל לילה ומתכנן את כל המשקאות (PP/DS) והרכיבים (classic) בריצה אחת; ביום מתכנן-הקו מבצע התאמות אינטראקטיביות ב-product view על הזמנות-חריגות.",
       navHe: [
         "Production Planning for Process Industries ► PP/DS ► Production Planning Run",
         "Logistics ► MRP ► MRP Live (MD01N)",
@@ -1521,8 +1521,8 @@ export const CH5: TextbookChapter = {
             "לתת שליטה-ידנית מיידית על תכנון-מוצר בודד — לתיקון חריגים ולבדיקה-מהירה, מבלי להמתין ל-job.",
           processExampleHe:
             "alert על under-coverage; המתכנן פותח /SAPAPO/RRP3, מריץ SAP_PP_002 על המוצר, רואה הזמנה-מתוכננת חדשה שסוגרת את הפער — מיד.",
-          cbcHe:
-            "ב-CBC מתכנן-קו מטפל ב-alert על מחסור-משקה: פותח את ה-product view, מתכנן מחדש את המשקה, ומשבץ ידנית על הקו — תוך דקות.",
+          scenarioHe:
+            "בארגון מתכנן-קו מטפל ב-alert על מחסור-משקה: פותח את ה-product view, מתכנן מחדש את המשקה, ומשבץ ידנית על הקו — תוך דקות.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Interactive Planning (/SAPAPO/RRP3)",
           ],
@@ -1572,8 +1572,8 @@ export const CH5: TextbookChapter = {
             "לתכנן ביעילות ובאופן-שגרתי את כלל חומרי-ה-PP/DS בהיקף-רחב, ללא התערבות-ידנית, בחלון-זמן מבוקר.",
           processExampleHe:
             "job לילי עם propagation range של כל חומרי-המפעל, parallel 4, package 200: מתכנן את כל החומרים עד הבוקר ומפיק log לבדיקה.",
-          cbcHe:
-            "ב-CBC ה-production planning run הלילי מתכנן את כל המשקאות וה-HALB מול הקווים; חריגים (alerts) מטופלים אינטראקטיבית בבוקר.",
+          scenarioHe:
+            "בארגון ה-production planning run הלילי מתכנן את כל המשקאות וה-HALB מול הקווים; חריגים (alerts) מטופלים אינטראקטיבית בבוקר.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Production Planning Run (Background)",
           ],
@@ -1626,8 +1626,8 @@ export const CH5: TextbookChapter = {
             "לתת למתכן שליטה-ויזואלית מלאה על שיבוץ-ההזמנות על-פני המשאבים — לתזמון-מפורט, פתרון-התנגשויות ובחינת-תרחישים.",
           processExampleHe:
             "ב-DS Planning Board המתכנן רואה שני קווים בעומס-יתר; הוא גורר הזמנות בין הקווים ומריץ heuristic ליישור, עד שהעומס מאוזן — ויזואלית.",
-          cbcHe:
-            "ב-CBC מתכנן-הקו פותח את ה-Planning Board, רואה את רצף-הטעמים על קו-המילוי, וגורר הזמנות למזער מעברי-טעם (CIP) — ויזואלית, בזמן-אמת.",
+          scenarioHe:
+            "בארגון מתכנן-הקו פותח את ה-Planning Board, רואה את רצף-הטעמים על קו-המילוי, וגורר הזמנות למזער מעברי-טעם (CIP) — ויזואלית, בזמן-אמת.",
           navHe: [
             "Production Planning for Process Industries ► Detailed Scheduling ► Planning Board (/SAPAPO/CDPS0)",
           ],
@@ -1681,8 +1681,8 @@ export const CH5: TextbookChapter = {
             "לתכנן את כל ה-portfolio (classic + advanced) בריצה אחת עקבית ומהירה על HANA — בלי לתאם ידנית שתי הרצות.",
           processExampleHe:
             "MD01N על מפעל: FERT (PP/DS) מתוכנן finite מול הקווים, רכיביו (classic) מתוכננים ב-HANA-MRP — הכל בריצה אחת, עם דרישות-תלויות עקביות.",
-          cbcHe:
-            "ב-CBC MD01N הלילי מתכנן את המשקאות (PP/DS) מול הקווים ואת התרכיז/סוכר/אריזה (classic) — בריצה אחת, כך שדרישות-הרכיבים נגזרות מיד מתכנון-המשקאות.",
+          scenarioHe:
+            "בארגון MD01N הלילי מתכנן את המשקאות (PP/DS) מול הקווים ואת התרכיז/סוכר/אריזה (classic) — בריצה אחת, כך שדרישות-הרכיבים נגזרות מיד מתכנון-המשקאות.",
           navHe: [
             "Logistics ► MRP ► MRP Live (MD01N)",
             "Production Planning for Process Industries ► PP/DS ► Integration with MRP Live",
@@ -1746,8 +1746,8 @@ export const CH5: TextbookChapter = {
         "להבטיח שהתכנון רץ נכון, לזהות שגיאות/חריגים מוקדם, ולנהל לפי-חריגים (exception-based) במקום לבדוק כל חומר.",
       processExampleHe:
         "אחרי ה-job הלילי, ה-planner פותח את ה-MRP monitor ב-Fiori, מסנן ל-uncovered requirements, ומטפל רק ב-50 החומרים החריגים מתוך אלפים.",
-      cbcHe:
-        "ב-CBC בכל בוקר מתכנן-הקו בודק את ה-log של ה-production planning run ואת Monitor Material Coverage, ומטפל רק במשקאות עם under-coverage — לא בכל ה-portfolio.",
+      scenarioHe:
+        "בארגון בכל בוקר מתכנן-הקו בודק את ה-log של ה-production planning run ואת Monitor Material Coverage, ומטפל רק במשקאות עם under-coverage — לא בכל ה-portfolio.",
       navHe: [
         "Production Planning for Process Industries ► PP/DS ► Planning Log",
         "Logistics ► MRP ► Monitoring (MRP Live / Fiori apps)",
@@ -1807,8 +1807,8 @@ export const CH5: TextbookChapter = {
             "לתת שקיפות מלאה לפעולת-ה-heuristics — לאתר ולפתור שגיאות-תכנון במהירות.",
           processExampleHe:
             "חומר לא קיבל הזמנה-מתוכננת; ה-log מראה 'no valid source found' — המתכנן מבין שחסר PDS פעיל ומתקן.",
-          cbcHe:
-            "ב-CBC ה-log חושף שמשקה לא תוכנן בגלל 'PDS not found' אחרי שינוי-קו; המתכנן מסנכרן PDS ומריץ שוב.",
+          scenarioHe:
+            "בארגון ה-log חושף שמשקה לא תוכנן בגלל 'PDS not found' אחרי שינוי-קו; המתכנן מסנכרן PDS ומריץ שוב.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Planning Log",
           ],
@@ -1859,8 +1859,8 @@ export const CH5: TextbookChapter = {
             "לאמת שההרצה המשולבת כיסתה את כל החומרים נכון (כל אחד במנועו) ולזהות בעיות-ניתוב/ביצועים.",
           processExampleHe:
             "הערכה מראה ש-200 חומרים 'נפלו' ל-classic למרות שהם PP/DS — בדיקה מגלה דגל Advanced Planning חסר; תיקון והרצה-מחדש.",
-          cbcHe:
-            "ב-CBC ההערכה מאשרת שכל המשקאות תוכננו ב-PP/DS וכל הרכיבים ב-classic; חריג שבו משקה תוכנן classic מצביע על דגל-חסר.",
+          scenarioHe:
+            "בארגון ההערכה מאשרת שכל המשקאות תוכננו ב-PP/DS וכל הרכיבים ב-classic; חריג שבו משקה תוכנן classic מצביע על דגל-חסר.",
           navHe: [
             "Logistics ► MRP ► MRP Live ► Evaluation / Statistics",
           ],
@@ -1914,8 +1914,8 @@ export const CH5: TextbookChapter = {
             "לאמת שה-background run כיסה את כל ה-propagation range ולזהות packages/חומרים שנכשלו.",
           processExampleHe:
             "ה-log מראה ש-package 3 נכשל ב-timeout; המתכנן מקטין package size ומריץ-מחדש את ה-scope החסר.",
-          cbcHe:
-            "ב-CBC הערכת ה-job הלילי חושפת ש-package של קו-2 לא הושלם; המתכנן מריץ-מחדש את חומרי-הקו אינטראקטיבית בבוקר.",
+          scenarioHe:
+            "בארגון הערכת ה-job הלילי חושפת ש-package של קו-2 לא הושלם; המתכנן מריץ-מחדש את חומרי-הקו אינטראקטיבית בבוקר.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Background Run ► Application Log",
           ],
@@ -1969,8 +1969,8 @@ export const CH5: TextbookChapter = {
             "לתת למתכן ממשק יומיומי יעיל לניהול-לפי-חריגים: לזהות מחסורים, לקבל הצעות-פתרון, ולפעול — בלי לנווט בין מסכים.",
           processExampleHe:
             "Monitor Material Coverage מציג 30 חומרים ב-uncovered; המתכנן נכנס ל-Manage Material Coverage, בוחר solution card (להקדים אספקה), ומאשר — הפער נסגר.",
-          cbcHe:
-            "ב-CBC מתכנן-המשקאות פותח בבוקר את Monitor Material Coverage, רואה מחסור-קיץ ב-Sprite, ומ-Manage Material Coverage מקדים הזמנה-מתוכננת בלחיצה.",
+          scenarioHe:
+            "בארגון מתכנן-המשקאות פותח בבוקר את Monitor Material Coverage, רואה מחסור-קיץ ב-Sprite, ומ-Manage Material Coverage מקדים הזמנה-מתוכננת בלחיצה.",
           navHe: [
             "SAP Fiori Launchpad ► Manufacturing ► MRP ► Monitor/Manage Material Coverage",
           ],
@@ -2028,8 +2028,8 @@ export const CH5: TextbookChapter = {
         "למצוא תוכנית-ייצור מיטבית מול trade-offs מורכבים (עלות מול שירות מול setup) שאי-אפשר לפתור ידנית או ב-heuristic — במיוחד בקווים עם sequence-dependent setup.",
       processExampleHe:
         "קו עם זמני-מעבר תלויי-רצף; ה-Optimizer מסדר את ההזמנות למזער-setup תוך עמידה-בתאריכים, ומחזיר רצף-ייצור אופטימלי שה-heuristic לא הייתה מוצאת.",
-      cbcHe:
-        "ב-CBC ה-Optimizer מסדר את רצף-המשקאות על קו-המילוי למזער מעברי-טעם (CIP יקר): מקבץ טעמים-דומים, עובר מבהיר-לכהה, ומאזן מול תאריכי-מסירה — חיסכון משמעותי בזמן-ניקוי.",
+      scenarioHe:
+        "בארגון ה-Optimizer מסדר את רצף-המשקאות על קו-המילוי למזער מעברי-טעם (CIP יקר): מקבץ טעמים-דומים, עובר מבהיר-לכהה, ומאזן מול תאריכי-מסירה — חיסכון משמעותי בזמן-ניקוי.",
       navHe: [
         "Production Planning for Process Industries ► PP/DS ► Optimization ► Maintain Optimization Profiles",
         "Production Planning for Process Industries ► PP/DS ► Optimization ► Setup Matrix / Groups",
@@ -2090,8 +2090,8 @@ export const CH5: TextbookChapter = {
             "לספק ל-Optimizer את 'מפת-העלויות והאילוצים' שעליה הוא מבסס את ההחלטה — בלעדיה הפתרון חסר-משמעות.",
           processExampleHe:
             "setup matrix מגדיר 20 דק' מעבר מטעם-בהיר לכהה ו-90 דק' להפך; ה-Optimizer ישתמש בכך לסדר טעמים מבהיר-לכהה ולמזער-ניקוי.",
-          cbcHe:
-            "ב-CBC ה-setup matrix של קו-המילוי מקודד זמני-CIP בין טעמים (לימון→קולה יקר, מים→לימון זול); ה-Optimizer מסתמך עליו לרצף-מיטבי.",
+          scenarioHe:
+            "בארגון ה-setup matrix של קו-המילוי מקודד זמני-CIP בין טעמים (לימון→מוגז יקר, מים→לימון זול); ה-Optimizer מסתמך עליו לרצף-מיטבי.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Optimization ► Setup Matrix / Setup Groups",
             "Resource master ► Setup / Costs",
@@ -2148,8 +2148,8 @@ export const CH5: TextbookChapter = {
             "לתרגם את מדיניות-התכנון (עלות מול שירות) להגדרה מתמטית מכוונת — ולאפשר תרחישים שונים דרך profiles נפרדים.",
           processExampleHe:
             "profile A (cost-focus): משקל-setup גבוה; profile B (service-focus): משקל-delay גבוה. הרצת שניהם מאפשרת להשוות תוכנית-זולה מול תוכנית-עומדת-בזמן.",
-          cbcHe:
-            "ב-CBC בשגרה רץ profile cost-focus (מיעוט-CIP); לפני קמפיין רץ profile service-focus (עמידה-בתאריכי-מבצע גם במחיר setup).",
+          scenarioHe:
+            "בארגון בשגרה רץ profile cost-focus (מיעוט-CIP); לפני קמפיין רץ profile service-focus (עמידה-בתאריכי-מבצע גם במחיר setup).",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Optimization ► Maintain Optimization Profiles",
           ],
@@ -2202,8 +2202,8 @@ export const CH5: TextbookChapter = {
             "להפיק תוכנית-מיטבית בפועל ולשלוט בתהליך-האימוץ — להריץ, לבחון, ולהחליט אם לאמץ.",
           processExampleHe:
             "המתכנן מריץ Optimizer על קו ל-7 ימים; אחרי 5 דקות מתקבל רצף-מוצע עם 30% פחות setup; הוא בוחן ומאמץ.",
-          cbcHe:
-            "ב-CBC הרצת-Optimizer על קו-מילוי לשבוע מחזירה רצף-טעמים שחוסך שתי CIP-מלאות; המתכנן מאמץ אחרי בדיקה ויזואלית ב-Planning Board.",
+          scenarioHe:
+            "בארגון הרצת-Optimizer על קו-מילוי לשבוע מחזירה רצף-טעמים שחוסך שתי CIP-מלאות; המתכנן מאמץ אחרי בדיקה ויזואלית ב-Planning Board.",
           navHe: [
             "Production Planning for Process Industries ► Detailed Scheduling ► Planning Board ► Optimize",
             "Production Planning for Process Industries ► PP/DS ► Optimization ► Background Execution",
@@ -2260,8 +2260,8 @@ export const CH5: TextbookChapter = {
             "לכמת את ערך-האופטימיזציה ולכוון אותה: לאמץ רק פתרון משתלם, ולשפר ע\"י כיול-profile איטרטיבי.",
           processExampleHe:
             "ניתוח מראה −30% setup אך +2 הזמנות-מאחרות; המתכנן מעלה משקל-delay ב-profile ומריץ-שוב — מקבל איזון טוב יותר.",
-          cbcHe:
-            "ב-CBC הניתוח מאשר חיסכון של 2 CIP אך מאחר משקה-מבצע; המתכנן מעלה את priority/delay-weight של המבצע ומריץ-שוב — חיסכון ללא-איחור-המבצע.",
+          scenarioHe:
+            "בארגון הניתוח מאשר חיסכון של 2 CIP אך מאחר משקה-מבצע; המתכנן מעלה את priority/delay-weight של המבצע ומריץ-שוב — חיסכון ללא-איחור-המבצע.",
           navHe: [
             "Production Planning for Process Industries ► PP/DS ► Optimization ► Optimization Log / Results",
             "Detailed Scheduling ► Planning Board ► Evaluate",
@@ -2321,8 +2321,8 @@ export const CH5: TextbookChapter = {
         "ליישר תכנון-עסקי-כולל (IBP) עם ביצוע-מפורט (PP/DS): שהתוכנית-הטקטית תהיה בת-ביצוע, ושמגבלות-הרצפה ישתקפו חזרה בתכנון-העליון.",
       processExampleHe:
         "IBP קובע 100K יח'/חודש למוצר; הכמות יורדת ל-PP/DS כ-PIRs; PP/DS מתכנן finite על הקווים ומגלה שרק 90K ישימים — ה-feedback חוזר ל-IBP לתיאום-מחדש.",
-      cbcHe:
-        "ב-CBC IBP מתכנן ביקוש-קיץ למשקאות ברמת-חודש/אזור; הכמויות יורדות ל-PP/DS שמתכנן את קווי-המילוי finite; אם קו מגיע לתקרת-קיבולת — ה-feedback חוזר ל-IBP להזיז נפח לחודש/מפעל אחר.",
+      scenarioHe:
+        "בארגון IBP מתכנן ביקוש-קיץ למשקאות ברמת-חודש/אזור; הכמויות יורדות ל-PP/DS שמתכנן את קווי-המילוי finite; אם קו מגיע לתקרת-קיבולת — ה-feedback חוזר ל-IBP להזיז נפח לחודש/מפעל אחר.",
       navHe: [
         "Production Planning for Process Industries ► PP/DS ► Integration ► SAP IBP Integration",
         "SAP IBP ► Application Jobs / RTI ► S/4HANA Integration",
@@ -2385,8 +2385,8 @@ export const CH5: TextbookChapter = {
         "לקבע את התמונה-הכוללת ואת רצף-ההחלטות הנכון, כך שהלומד יוכל לתכנן ייצור-PP/DS מקצה-לקצה ולדעת מתי כל כלי משרת אותו.",
       processExampleHe:
         "מסע-יום של מתכן: MRP Live לילי מתכנן הכל → בוקר ב-MRP Fiori apps לטיפול-חריגים → Optimizer על קו-מפתח לרצף-מיטבי → התאמות ב-DS Planning Board → feedback ל-IBP על תקרת-קיבולת.",
-      cbcHe:
-        "ב-CBC המודל המלא: IBP מתכנן נפחי-קיץ → MRP Live מתכנן משקאות (PP/DS) ורכיבים (classic) → Optimizer ממזער CIP על קווי-המילוי → מתכנן-הקו מטפל בחריגים ב-Fiori → ה-feedback מיישר נפחים בין מפעלים.",
+      scenarioHe:
+        "בארגון המודל המלא: IBP מתכנן נפחי-קיץ → MRP Live מתכנן משקאות (PP/DS) ורכיבים (classic) → Optimizer ממזער CIP על קווי-המילוי → מתכנן-הקו מטפל בחריגים ב-Fiori → ה-feedback מיישר נפחים בין מפעלים.",
       navHe: [
         "Production Planning for Process Industries ► PP/DS (כלל-הפרק)",
         "SAP Help ► PP/DS in SAP S/4HANA ► Production Planning",

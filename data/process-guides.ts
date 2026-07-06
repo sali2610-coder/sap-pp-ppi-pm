@@ -1,6 +1,6 @@
 // Deep Process Guides — end-to-end PM / PP-PI process walkthroughs with
 // step-by-step SAP execution, common mistakes, troubleshooting flow, debugging
-// path, exits/BAdIs, ECC↔S/4 and CBC examples. Hand-written from SAP knowledge.
+// path, exits/BAdIs, ECC↔S/4 and הארגון examples. Hand-written from SAP knowledge.
 
 import type { EccS4 } from "@/components/ecc-s4-block";
 
@@ -20,7 +20,7 @@ export interface ProcessGuide {
   debugPath: string[];
   exits: string[];
   fiori: string[];
-  cbc: string;
+  scenario: string;
   eccS4: EccS4;
 }
 
@@ -44,7 +44,7 @@ export const PROCESS_GUIDES: ProcessGuide[] = [
     debugPath: ["SU53 להרשאה", "ST22 ל-dump", "breakpoint ב-BAdI WORKORDER_UPDATE (שמירה)", "EXIT_SAPLCOIH_009 (IWO10009) לבדיקות שחרור"],
     exits: ["IWO10009", "CONFPM01", "WORKORDER_UPDATE", "QQMA0001"],
     fiori: ["Create Maintenance Request", "Manage Maintenance Orders", "Confirm Jobs"],
-    cbc: "ב-CBC: ממלאת נעצרת → טכנאי פותח M2 (Malfunction Start), רכז ממיר ל-PM01 עם החלפת ראש מילוי (רכיב מלאי) + כיול (שירות→PR). אישור שעות + Malfunction End, TECO, התחשבנות למרכז עלות הקו. MCI7 מראה MTBF.",
+    scenario: "בארגון: ממלאת נעצרת → טכנאי פותח M2 (Malfunction Start), רכז ממיר ל-PM01 עם החלפת ראש מילוי (רכיב מלאי) + כיול (שירות→PR). אישור שעות + Malfunction End, TECO, התחשבנות למרכז עלות הקו. MCI7 מראה MTBF.",
     eccS4: { unchanged: "מחזור הודעה→פקודה→אישור→התחשבנות זהה.", changed: "UX ל-Fiori; עלויות ל-ACDOCA; מדדי אמינות ב-Embedded Analytics.", fiori: "Manage Maintenance Orders / Confirm Jobs", simplification: "Universal Journal (עלויות).", migration: "QA: מחזור מלא + התחשבנות ל-ACDOCA + מדדי MTTR/MTBF." } },
   {
     slug: "pm-preventive", module: "PM", title: "Preventive Maintenance (Plan→Call→Order)", he: "אחזקה מונעת — מקצה לקצה",
@@ -64,7 +64,7 @@ export const PROCESS_GUIDES: ProcessGuide[] = [
     debugPath: ["IP10 → 'Scheduling overview' לחישוב", "EXIT של IPRM0001 לתזמון", "ST22 ל-dump ב-IP30"],
     exits: ["IPRM0001", "IWO10009"],
     fiori: ["Manage Maintenance Plans", "Schedule Maintenance Plans"],
-    cbc: "ב-CBC: תכנית רבעונית ל'מערכת מים מטוהרים' + תכנית מבוססת-שעות למשאבות. IP30 הלילי יוצר פקודות מונעות לפני המועד; קריאות מונה (IK11) מתזמנות את התכניות מבוססות-הביצועים.",
+    scenario: "בארגון: תכנית רבעונית ל'מערכת מים מטוהרים' + תכנית מבוססת-שעות למשאבות. IP30 הלילי יוצר פקודות מונעות לפני המועד; קריאות מונה (IK11) מתזמנות את התכניות מבוססות-הביצועים.",
     eccS4: { unchanged: "מודל תכנון/תזמון זהה.", changed: "לוח תזמון גרפי ב-Fiori; ניטור משופר.", fiori: "Schedule Maintenance Plans / Scheduling Board", migration: "QA: תזמון + IP30 → פקודות במועד." } },
   {
     slug: "pppi-mts-process-order", module: "PP-PI", title: "Make-to-Stock Process Order (MRP→GR→Settle)", he: "ייצור-למלאי תהליכי — מקצה לקצה",
@@ -85,7 +85,7 @@ export const PROCESS_GUIDES: ProcessGuide[] = [
     debugPath: ["MD04 לאלמנטי תכנון", "COGI/AFFW לתנועות כושלות", "PPCO0001 (EXIT) לבדיקות פקודה", "CONFPP01 לבדיקות אישור"],
     exits: ["PPCO0001", "CONFPP01", "CONFPP05", "WORKORDER_CONFIRM"],
     fiori: ["Monitor Material Coverage", "Manage Process Orders", "Confirm Process Order"],
-    cbc: "ב-CBC: תחזית 200K בקבוקים → MD61 → MRP Live מפצץ תרכיז/בקבוקים/מכסים. COR1 לפקודת תהליך 50K, שחרור שולח מרשם בקרה לקו, אישור עושה Backflush של תרכיז + GR לאצווה עם תפוגה, התחשבנות בסוף חודש.",
+    scenario: "בארגון: תחזית 200K בקבוקים → MD61 → MRP Live מפצץ תרכיז/בקבוקים/מכסים. COR1 לפקודת תהליך 50K, שחרור שולח מרשם בקרה לקו, אישור עושה Backflush של תרכיז + GR לאצווה עם תפוגה, התחשבנות בסוף חודש.",
     eccS4: { unchanged: "מחזור הייצור התהליכי זהה.", changed: "MRP Live; aATP; OData/Fiori; עלויות ל-ACDOCA+ML.", fiori: "Manage Process Orders / Confirm Process Order", simplification: "MRP Live + Material Ledger + MATDOC.", migration: "QA: מחזור מלא MRP→פקודה→אישור→GR→התחשבנות." } },
   {
     slug: "pppi-batch-traceability", module: "PP-PI", title: "Batch Production & Traceability", he: "ייצור ומעקב אצוות — מקצה לקצה",
@@ -105,7 +105,7 @@ export const PROCESS_GUIDES: ProcessGuide[] = [
     debugPath: ["BMBC (Batch Information Cockpit)", "SAPLV01Z (EXIT) לקביעת אצווה", "breakpoint ב-BAdI VB_BD_BATCH_DETERMINATION"],
     exits: ["SAPLV01Z", "BATCH_MASTER", "WORKORDER_GOODSMVT"],
     fiori: ["Manage Batches", "Batch Information Cockpit"],
-    cbc: "ב-CBC: כל מנת משקה מקבלת אצווה עם תאריך ייצור+תפוגה. במכירה, קביעת FEFO בוחרת אצווה קרובה לתפוגה. אם אצווה נפסלת ב-QM → נחסמת אוטומטית ולא נבחרת. Recall? MB56 מאתר כל הלקוחות שקיבלו אצווה.",
+    scenario: "בארגון: כל מנת משקה מקבלת אצווה עם תאריך ייצור+תפוגה. במכירה, קביעת FEFO בוחרת אצווה קרובה לתפוגה. אם אצווה נפסלת ב-QM → נחסמת אוטומטית ולא נבחרת. Recall? MB56 מאתר כל הלקוחות שקיבלו אצווה.",
     eccS4: { unchanged: "מודל אצווה + סיווג + קביעה זהה.", changed: "UX ל-Fiori; BIC משופר.", fiori: "Manage Batches / Batch Information Cockpit", cds: "I_Batch", migration: "QA: יצירה+סיווג+קביעה (FEFO)+Where-Used." } },
   {
     slug: "pp-mrp-to-order", module: "PP", title: "Discrete: MRP → Production Order", he: "ייצור בדיד — MRP עד פקודה",
@@ -125,7 +125,7 @@ export const PROCESS_GUIDES: ProcessGuide[] = [
     debugPath: ["MD04", "COGI", "PPCO0001 (EXIT)", "CONFPP01"],
     exits: ["PPCO0001", "CONFPP01", "WORKORDER_UPDATE"],
     fiori: ["Monitor Material Coverage", "Manage Production Orders", "Confirm Production Operation"],
-    cbc: "ב-CBC (אריזה משנית): MRP מתכנן מארזי קרטון → פקודת ייצור בדיד להרכבת מארז 24 → אישור CO11N עם Backflush של בקבוקים+קרטון → GR מארזים מוגמרים.",
+    scenario: "בארגון (אריזה משנית): MRP מתכנן מארזי קרטון → פקודת ייצור בדיד להרכבת מארז 24 → אישור CO11N עם Backflush של בקבוקים+קרטון → GR מארזים מוגמרים.",
     eccS4: { unchanged: "מחזור ייצור בדיד זהה.", changed: "MRP Live; UX Fiori; עלויות ל-ACDOCA.", fiori: "Manage Production Orders", simplification: "MRP Live + MATDOC.", migration: "QA: מחזור MRP→פקודה→אישור→GR→התחשבנות." } },
   {
     slug: "pm-calibration-process", module: "PM", title: "Calibration (PM-QM integrated)", he: "כיול משולב PM-QM — מקצה לקצה",
@@ -145,7 +145,7 @@ export const PROCESS_GUIDES: ProcessGuide[] = [
     debugPath: ["QGA2 (Calibration overview)", "QEEM0001 (EXIT רישום תוצאות)", "ST22 ל-dump"],
     exits: ["QEEM0001", "CONFPM01"],
     fiori: ["Record Inspection Results", "Manage Inspection Lots"],
-    cbc: "ב-CBC: כיול חיישני טמפ' בפסטור — תכנית רבעונית יוצרת פקודת PM03 → מנת בדיקה. חריגה מהתקן → UD 'לא תקין' → חסימת החיישן עד תיקון; היסטוריית כיול נשמרת לציוד.",
+    scenario: "בארגון: כיול חיישני טמפ' בפסטור — תכנית רבעונית יוצרת פקודת PM03 → מנת בדיקה. חריגה מהתקן → UD 'לא תקין' → חסימת החיישן עד תיקון; היסטוריית כיול נשמרת לציוד.",
     eccS4: { unchanged: "אינטגרציית PM-QM זהה.", changed: "UX ל-Fiori לרישום תוצאות.", fiori: "Record Inspection Results", migration: "QA: פקודה→מנת בדיקה→UD→סטטוס מכשיר." } },
 ];
 

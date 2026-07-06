@@ -11,7 +11,7 @@ export const CH1: TextbookChapter = {
   titleHe: "מבוא ל-PP/DS ב-SAP S/4HANA",
   titleEn: "Introduction to PP/DS with SAP S/4HANA",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה למבוא ל-Production Planning and Detailed Scheduling (PP/DS) ב-SAP S/4HANA. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. נושאי הליבה: מהו תכנון-ייצור ותזמון-מפורט, כיצד PP/DS התפתח מ-SAP APO אל ה-embedded PP/DS ב-S/4HANA, אילו פישוטים מרכזיים בוצעו, וכיצד נראים מודלי הפריסה והארכיטקטורה. המטרה: להבין את PP/DS לעומק ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה למבוא ל-Production Planning and Detailed Scheduling (PP/DS) ב-SAP S/4HANA. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. נושאי הליבה: מהו תכנון-ייצור ותזמון-מפורט, כיצד PP/DS התפתח מ-SAP APO אל ה-embedded PP/DS ב-S/4HANA, אילו פישוטים מרכזיים בוצעו, וכיצד נראים מודלי הפריסה והארכיטקטורה. המטרה: להבין את PP/DS לעומק ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 1.1
     {
@@ -28,8 +28,8 @@ export const CH1: TextbookChapter = {
         "המטרה: לגשר על הפער בין תחזית/דרישה לבין יכולת-ייצור בפועל. תכנון לבדו (MRP) מתעלם מקיבולת סופית ומ-setup; תזמון-מפורט מוסיף את מימד הזמן-והמכונה. יחד הם מבטיחים שהתכנית ניתנת לביצוע, ממזערים מלאי-תהליך וזמני-החלפה, ומשפרים On-Time-Delivery.",
       processExampleHe:
         "יצרן מקבל תחזית ל-50,000 יח' לחודש. שלב התכנון יוצר Planned Orders לכיסוי הדרישה לפי lot-size ומקורות-אספקה. שלב התזמון-המפורט לוקח את אותן הזמנות, משבץ אותן על המשאבים הסופיים לפי קיבולת זמינה, ממזער החלפות (setup) ע\"י קיבוץ מוצרים דומים, וקובע לכל הזמנה תאריך-ושעת התחלה/סיום מדויקים — תכנית שאפשר למסור לרצפה.",
-      cbcHe:
-        "ב-CBC (Coca-Cola bottling) קווי-המילוי הם משאבים סופיים יקרים. PP/DS מתכנן אילו SKUs למלא וכמה (תכנון), ואז מסדר את רצף-המילוי על כל קו כדי למזער החלפות-טעם וגדלי-בקבוק (setup ארוך בין Coke ל-Sprite, או בין 0.5L ל-1.5L) — תזמון-מפורט שמקסם תפוקת-קו ומצמצם זמני-שטיפה.",
+      scenarioHe:
+        "בארגון (Example Product bottling) קווי-המילוי הם משאבים סופיים יקרים. PP/DS מתכנן אילו SKUs למלא וכמה (תכנון), ואז מסדר את רצף-המילוי על כל קו כדי למזער החלפות-טעם וגדלי-בקבוק (setup ארוך בין Coke ל-Sprite, או בין 0.5L ל-1.5L) — תזמון-מפורט שמקסם תפוקת-קו ומצמצם זמני-שטיפה.",
       navHe: [
         "SPRO ► Advanced Planning ► Basic Settings ► Activate Advanced Planning",
         "SAP Easy Access ► Logistics ► Advanced Planning ► Production Planning ► Interactive Production Planning",
@@ -97,8 +97,8 @@ export const CH1: TextbookChapter = {
             "להבטיח זמינות-מוצר במועד הנכון ובכמות הנכונה, תוך איזון בין רמות-מלאי לבין שירות-לקוח. תכנון טוב מצמצם חוסרים ועודפים כאחד.",
           processExampleHe:
             "Heuristic מזהה דרישה ל-1,000 יח' ב-15 בחודש ומלאי זמין 300. הוא יוצר Planned Order ל-700 יח', מחיל gross lot-size 500 (כך 1,000), קובע מקור-אספקה דרך PDS, וקושר ב-pegging את ההזמנה לדרישה. תאריך-ההתחלה נגזר מ-lead time.",
-          cbcHe:
-            "ב-CBC תכנון-הייצור קובע כמה בקבוקי-Coke 0.5L למלא השבוע לפי תחזית-מכירות וקידום-מבצע, ויוצר Planned Orders למילוי — לפני שהוחלט על איזה קו ובאיזה רצף.",
+          scenarioHe:
+            "בארגון תכנון-הייצור קובע כמה בקבוקי-Coke 0.5L למלא השבוע לפי תחזית-מכירות וקידום-מבצע, ויוצר Planned Orders למילוי — לפני שהוחלט על איזה קו ובאיזה רצף.",
           navHe: [
             "SPRO ► Advanced Planning ► Production Planning and Detailed Scheduling (PP/DS) ► Heuristics ► Maintain Heuristics",
             "SAP Easy Access ► Advanced Planning ► Production Planning ► Production Planning Run",
@@ -161,8 +161,8 @@ export const CH1: TextbookChapter = {
             "למקסם ניצולת-משאבים ולמזער זמני-החלפה והמתנה, תוך הבטחת עמידה-בזמנים. תזמון טוב = תפוקה גבוהה יותר מאותו ציוד והתחייבות-מסירה אמינה.",
           processExampleHe:
             "חמש הזמנות מתוכננות לאותו קו. ה-Optimizer מסדר אותן לפי Setup Matrix כך שמוצרים דומים רצים ברצף (מזעור setup), משבץ כל אחת בחלון-זמן פנוי על המשאב, וקובע התחלה 08:00 וסיום 11:30 להזמנה הראשונה — עם רצף שמקצר את סך-זמן-ההחלפות.",
-          cbcHe:
-            "ב-CBC ה-Setup Matrix מקודד שמעבר מ-Diet-Coke ל-Coke מצריך שטיפה קצרה, ומעבר מ-Coke ל-Sprite שטיפה ארוכה. התזמון-המפורט מסדר את רצף-המילוי על הקו כדי למזער שטיפות יקרות ולמקסם שעות-מילוי בפועל.",
+          scenarioHe:
+            "בארגון ה-Setup Matrix מקודד שמעבר מ-Diet-Coke ל-Coke מצריך שטיפה קצרה, ומעבר מ-Coke ל-Sprite שטיפה ארוכה. התזמון-המפורט מסדר את רצף-המילוי על הקו כדי למזער שטיפות יקרות ולמקסם שעות-מילוי בפועל.",
           navHe: [
             "SPRO ► Advanced Planning ► PP/DS ► Detailed Scheduling ► Maintain Heuristics / Optimization",
             "SAP Easy Access ► Advanced Planning ► Production Planning ► Detailed Scheduling Planning Board",
@@ -228,8 +228,8 @@ export const CH1: TextbookChapter = {
         "להבין את ההקשר ההיסטורי והארכיטקטוני כדי לקבל החלטות-מימוש נכונות: לדעת אילו רכיבים להפעיל, כיצד מאסטר-דאטה זורם, ומדוע ה-Customizing נראה כפי שהוא נראה.",
       processExampleHe:
         "ארגון שעבר מ-APO side-by-side ל-S/4HANA embedded: במקום CIF המסנכרן חומרים ומשאבים בין SCM ל-ERP, המוצרים והמשאבים יושבים באותה מערכת. הגדרת Advanced Planning על חומר-קיים מפעילה אותו ל-PP/DS ישירות, בלי שכבת-אינטגרציה בין-מערכתית.",
-      cbcHe:
-        "ב-CBC ארגון בקבוקאי השוקל תכנון-מתקדם לקווי-המילוי צריך להחליט בין side-by-side APO לבין embedded PP/DS ב-S/4HANA. הבחירה משפיעה על האם נדרש CIF, על תחזוקת מערכת-נפרדת, ועל מודל-התפעול של צוות-התכנון.",
+      scenarioHe:
+        "בארגון ארגון בקבוקאי השוקל תכנון-מתקדם לקווי-המילוי צריך להחליט בין side-by-side APO לבין embedded PP/DS ב-S/4HANA. הבחירה משפיעה על האם נדרש CIF, על תחזוקת מערכת-נפרדת, ועל מודל-התפעול של צוות-התכנון.",
       navHe: [
         "SPRO ► Advanced Planning ► Basic Settings ► Activate Advanced Planning",
         "SPRO ► Advanced Planning ► Production Planning and Detailed Scheduling (PP/DS)",
@@ -292,7 +292,7 @@ export const CH1: TextbookChapter = {
             "לספק תכנון-מתקדם מודע-קיבולת ואופטימיזציה מעבר ל-MRP הקלאסי — בסיס היסטורי שהבנתו מסבירה את מבנה ומונחי ה-PP/DS של היום.",
           processExampleHe:
             "בארכיטקטורת-APO קלאסית: DP מייצר תחזית → SNP פורש לרשת-האספקה → CIF מעביר ל-ERP/חזרה → PP/DS מתזמן ייצור באתר → gATP מבטיח זמינות ללקוח. כל רכיב במערכת SCM הנפרדת.",
-          cbcHe:
+          scenarioHe:
             "בארגון-בקבוקאי על APO: DP חוזה ביקוש למשקאות, SNP מחליט באיזה מפעל למלא ומאיפה לשנע, ו-PP/DS מתזמן את קווי-המילוי בכל מפעל — שרשרת-תכנון מלאה לפני עידן ה-embedded.",
           navHe: [
             "SAP SCM ► Advanced Planning and Optimization ► Production Planning and Detailed Scheduling",
@@ -356,8 +356,8 @@ export const CH1: TextbookChapter = {
             "להפחית מורכבות-תפעולית ועלות-תחזוקה, לשפר עקביות-נתונים, ולקרב את התכנון-המתקדם ל-real-time מול הביצוע.",
           processExampleHe:
             "בעבר: שינוי-חומר ב-ECC נשלח דרך CIF ל-APO, ולעיתים נכשל ויצר חוסר-עקביות. ב-embedded: אותו חומר קיים פעם-אחת ב-S/4HANA, וה-PP/DS עובד עליו ישירות — אין סנכרון, אין סחף-נתונים.",
-          cbcHe:
-            "ב-CBC הפישוט מבטל את התחזוקה של מערכת-APO נפרדת ושל ה-CIF; צוות-התכנון של קווי-המילוי עובד מול S/4HANA יחיד, ושינויי-מאסטר-דאטה (מתכון, קו) זמינים מיד לתכנון.",
+          scenarioHe:
+            "בארגון הפישוט מבטל את התחזוקה של מערכת-APO נפרדת ושל ה-CIF; צוות-התכנון של קווי-המילוי עובד מול S/4HANA יחיד, ושינויי-מאסטר-דאטה (מתכון, קו) זמינים מיד לתכנון.",
           navHe: [
             "SPRO ► Advanced Planning ► Basic Settings ► Activate Advanced Planning",
             "SAP S/4HANA Simplification List ► Advanced Planning (PP/DS) item",
@@ -420,8 +420,8 @@ export const CH1: TextbookChapter = {
             "לבחור את מודל-הפריסה התואם לנוף-המערכות, לרישוי ולאסטרטגיה — החלטה ארכיטקטונית מוקדמת המשפיעה על כל המימוש.",
           processExampleHe:
             "לקוח-APO ותיק במעבר ל-S/4HANA: שלב ראשון side-by-side (APO קיים + CIF) כדי לא לעצור פעילות, ובהמשך מיגרציה ל-embedded PP/DS — נטרול CIF והעברת התכנון פנימה.",
-          cbcHe:
-            "ב-CBC: ארגון רב-מפעלים עם APO ותיק עשוי להתחיל side-by-side לשמירת-רציפות, בעוד אתר-greenfield חדש ייפרס ישר כ-embedded PP/DS — בלי שרת-תכנון נפרד.",
+          scenarioHe:
+            "בארגון: ארגון רב-מפעלים עם APO ותיק עשוי להתחיל side-by-side לשמירת-רציפות, בעוד אתר-greenfield חדש ייפרס ישר כ-embedded PP/DS — בלי שרת-תכנון נפרד.",
           navHe: [
             "SPRO ► Advanced Planning ► Basic Settings ► Activate Advanced Planning",
             "SPRO ► Integration with SAP Components ► CIF (side-by-side)",
@@ -483,8 +483,8 @@ export const CH1: TextbookChapter = {
             "להבין כיצד רכיבי-המערכת מתחברים — קריטי לתכנון-ביצועים, לפתרון בעיות-עקביות (liveCache↔DB), ולהחלטות-מימוש (PDS, resources, optimizer).",
           processExampleHe:
             "מתכנן פותח את ה-Planning Board: השכבה-האפליקטיבית קוראת את רשת-ההזמנות מ-liveCache (מהיר), מציגה Gantt, ומאפשרת תזמון-מחדש. שינוי נשמר ל-liveCache ומתמיד ל-HANA. אם נוצר חוסר-עקביות — מריצים /SAPAPO/OM17 ליישוב.",
-          cbcHe:
-            "ב-CBC ה-Resources הם קווי-המילוי, ה-PDS נגזר מ-BOM+Routing של כל משקה, וה-liveCache מחזיק את כל הזמנות-המילוי ל-Gantt של קווי-הייצור — מאפשר תזמון-מחדש מהיר בזמן שינוי-תחזית או תקלת-קו.",
+          scenarioHe:
+            "בארגון ה-Resources הם קווי-המילוי, ה-PDS נגזר מ-BOM+Routing של כל משקה, וה-liveCache מחזיק את כל הזמנות-המילוי ל-Gantt של קווי-הייצור — מאפשר תזמון-מחדש מהיר בזמן שינוי-תחזית או תקלת-קו.",
           navHe: [
             "SPRO ► Advanced Planning ► Basic Settings ► liveCache / Consistency",
             "SAP Easy Access ► Advanced Planning ► Tools ► /SAPAPO/OM17 (Consistency Check)",
@@ -552,8 +552,8 @@ export const CH1: TextbookChapter = {
         "לגבש את התמונה הכוללת לפני צלילה לפרקי-המימוש: מאסטר-דאטה, heuristics, תזמון, אופטימיזציה ואינטגרציה — כך שכל נושא מתחבר למפת-העל של PP/DS.",
       processExampleHe:
         "מסע אופייני: ארגון מפעיל Advanced Planning, מגדיר Products ו-Resources, יוצר PDS מ-Production Versions, מריץ Heuristics לתכנון, מתזמן ב-Planning Board עם DS-Optimizer ו-Setup Matrix, ומנטר עקביות liveCache — מסוף-לסוף בתוך S/4HANA אחד.",
-      cbcHe:
-        "ב-CBC: הפרק הניח את היסוד להבנה כיצד PP/DS יתזמן את קווי-המילוי — ממיפוי הקווים כ-Resources, דרך PDS למשקאות, ועד אופטימיזציית-רצף שממזערת שטיפות והחלפות-טעם בקווי-הבקבוקאי.",
+      scenarioHe:
+        "בארגון: הפרק הניח את היסוד להבנה כיצד PP/DS יתזמן את קווי-המילוי — ממיפוי הקווים כ-Resources, דרך PDS למשקאות, ועד אופטימיזציית-רצף שממזערת שטיפות והחלפות-טעם בקווי-הבקבוקאי.",
       navHe: [
         "SPRO ► Advanced Planning ► Production Planning and Detailed Scheduling (PP/DS)",
         "SAP Easy Access ► Advanced Planning ► Production Planning / Detailed Scheduling",

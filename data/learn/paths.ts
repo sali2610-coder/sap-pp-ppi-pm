@@ -172,8 +172,8 @@ export const LEARN_PATHS: Record<string, LearnPath> = {
   "pm-troubleshooting": { id: "pm-troubleshooting", he: "PM · פתרון תקלות", sub: "תקלות אחזקה נפוצות + אבחון", accent: PM_C, level: "מתקדם", durationHe: "כ-2 שעות", steps: PM_TS },
   "pm-ecc-s4": { id: "pm-ecc-s4", he: "PM · ECC מול S/4", sub: "מה משתנה במיגרציה ל-S/4HANA", accent: PM_C, level: "מומחה", durationHe: "כ-2 שעות", steps: PM_S4 },
   // PP-PI
-  "pp-pi": { id: "pp-pi", he: "PP-PI · יסודות", sub: "אב חומר, עץ מוצר, מתכון, משאב", accent: PP_C, level: "מבוא", durationHe: "כ-3 שעות", steps: PPF, note: "Environment focus: PP-PI (Process Manufacturing) — מותאם לתהליכי CBC." },
-  "pp": { id: "pp", he: "PP · יסודות ייצור", sub: "מושגי ייצור משותפים לפני PP/PP-PI", accent: PP_C, level: "מבוא", durationHe: "כ-2 שעות", steps: PPF, note: "PP בסביבת CBC = PP-PI. מסלול יסוד משותף." },
+  "pp-pi": { id: "pp-pi", he: "PP-PI · יסודות", sub: "אב חומר, עץ מוצר, מתכון, משאב", accent: PP_C, level: "מבוא", durationHe: "כ-3 שעות", steps: PPF, note: "Environment focus: PP-PI (Process Manufacturing) — מותאם לתהליכי הארגון." },
+  "pp": { id: "pp", he: "PP · יסודות ייצור", sub: "מושגי ייצור משותפים לפני PP/PP-PI", accent: PP_C, level: "מבוא", durationHe: "כ-2 שעות", steps: PPF, note: "PP בסביבת הארגון = PP-PI. מסלול יסוד משותף." },
   "pp-planning": { id: "pp-planning", he: "PP-PI · תכנון", sub: "MARC, גרסת ייצור, מתכון, MRP", accent: PP_C, level: "מתקדם", durationHe: "כ-3 שעות", steps: PP_PLAN },
   "pp-execution": { id: "pp-execution", he: "PP-PI · ביצוע", sub: "פקודת תהליך → אישור ייצור", accent: PP_C, level: "מתקדם", durationHe: "כ-4 שעות", steps: PP_EXEC },
   "pp-inventory": { id: "pp-inventory", he: "PP-PI · מלאי ותנועות", sub: "אצוות, שמורות, תנועות סחורה", accent: PP_C, level: "מתקדם", durationHe: "כ-3 שעות", steps: PP_INV },
@@ -186,13 +186,13 @@ export const LEARN_PATHS: Record<string, LearnPath> = {
   "qa-integration": { id: "qa-integration", he: "בדיקות אינטגרציה", sub: "זרימה חוצת-מודולים וממשקים", accent: QA_C, level: "מתקדם", durationHe: "כ-2 שעות", steps: QA_INT },
   "qa-defect": { id: "qa-defect", he: "ניהול ליקויים", sub: "מחזור חיי באג ואבחון שורש", accent: QA_C, level: "מתקדם", durationHe: "כ-2 שעות", steps: QA_DEF },
   // Onboarding
-  "cbc-onboarding": { id: "cbc-onboarding", he: "CBC · קליטת יועץ חדש", sub: "סיור התמצאות בפלטפורמה ובמתודולוגיה", accent: ON_C, level: "מבוא", durationHe: "שבוע ראשון", steps: ONB },
+  "onboarding-org": { id: "onboarding-org", he: "הארגון · קליטת יועץ חדש", sub: "סיור התמצאות בפלטפורמה ובמתודולוגיה", accent: ON_C, level: "מבוא", durationHe: "שבוע ראשון", steps: ONB },
 };
 
 // Top-level academy categories for the /learn chooser.
 export interface LearnCategory { id: string; he: string; sub: string; accent: string; icon: "pm" | "factory" | "qa" | "onboard"; tracks: string[] }
 export const LEARN_CATEGORIES: LearnCategory[] = [
-  { id: "onboarding", he: "קליטת יועץ חדש", sub: "התחל כאן — סיור התמצאות מלא", accent: ON_C, icon: "onboard", tracks: ["cbc-onboarding"] },
+  { id: "onboarding", he: "קליטת יועץ חדש", sub: "התחל כאן — סיור התמצאות מלא", accent: ON_C, icon: "onboard", tracks: ["onboarding-org"] },
   { id: "pm", he: "אחזקת מפעל · PM", sub: "6 מסלולים — יסודות עד S/4", accent: PM_C, icon: "pm", tracks: ["pm-fundamentals", "pm-planning", "pm-execution", "pm-preventive", "pm-troubleshooting", "pm-ecc-s4"] },
   { id: "pppi", he: "ייצור · PP / PP-PI", sub: "7 מסלולים — יסודות עד S/4", accent: PP_C, icon: "factory", tracks: ["pp", "pp-pi", "pp-planning", "pp-execution", "pp-inventory", "pp-troubleshooting", "pp-ecc-s4"] },
   { id: "qa", he: "איכות ובדיקות · QA", sub: "5 מסלולים — בדיקות, UAT, ליקויים", accent: QA_C, icon: "qa", tracks: ["qa-fundamentals", "qa-sap-testing", "qa-uat", "qa-integration", "qa-defect"] },

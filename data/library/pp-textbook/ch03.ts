@@ -9,7 +9,7 @@ export const CH3: TextbookChapter = {
     titleHe: "הגדרת ייצור בדיד (Discrete Manufacturing Configuration)",
     titleEn: "Discrete Manufacturing Configuration",
     introHe:
-      "פרק זה הוא יחידת-לימוד מלאה לקונפיגורציה של ייצור בדיד ב-SAP S/4HANA. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+      "פרק זה הוא יחידת-לימוד מלאה לקונפיגורציה של ייצור בדיד ב-SAP S/4HANA. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
     subchapters: [
       // ============================================================ 3.1
       {
@@ -24,8 +24,8 @@ export const CH3: TextbookChapter = {
           "המטרה: לתת ל-MRP את כל הפרמטרים לתכנן נכון — מתי (lead time), כמה (lot size), ומאיפה (procurement type). בנוסף הוא מחבר את הייצור ל-FI/CO דרך תצוגות Accounting/Costing, ומספק את הבסיס לתמחיר-תקן.",
         processExampleHe:
           "תכנון משקה מוגמר: MRP קורא את MARC-DISMM=PD, מזהה דרישה, מחשב כמות לפי Lot Size (DISLS), קובע תאריך-התחלה לפי In-house Production Time (DZEIT) ו-Scheduling Margin Key, ויוצר הזמנה-מתוכננת. ה-Production Scheduling Profile (SFCPF) קובע אם הפק\"ע תשוחרר אוטומטית בהמרה.",
-        cbcHe:
-          "ב-CBC: תרכיז, סוכר ו-CO2 = ROH מנוהלי-אצווה (Batch managed); המשקה המוגמר = FERT; תערובת-בסיס = HALB. לכל FERT/HALB מיוצר חובה למלא MRP views + Work Scheduling + Production Scheduling Profile, אחרת קווי-המילוי לא נכנסים לתכנון.",
+        scenarioHe:
+          "בארגון: תרכיז, סוכר ו-CO2 = ROH מנוהלי-אצווה (Batch managed); המשקה המוגמר = FERT; תערובת-בסיס = HALB. לכל FERT/HALB מיוצר חובה למלא MRP views + Work Scheduling + Production Scheduling Profile, אחרת קווי-המילוי לא נכנסים לתכנון.",
         navHe: [
           "Logistics – General ► Material Master ► Basic Settings ► Material Types ► Define Attributes of Material Types (OMS2)",
           "Logistics – General ► Material Master ► Field Selection ► Maintain Field Selection for Data Screens (OMS9)",
@@ -102,8 +102,8 @@ export const CH3: TextbookChapter = {
           "ה-BOM מגדיר 'ממה' מורכב המוצר (לעומת ה-Routing שמגדיר 'כיצד'). הוא הבסיס ל-MRP (דרישות-תלויות), לפק\"ע (Reservations/דרישות-רכש), לתמחיר (Material costing) ולתיעוד-הנדסי (Engineering Change).",
         processExampleHe:
           "MRP מזהה דרישה ל-1,000 יח' מוצר. הוא קורא את ה-BOM, מפצץ אותו: לכל רכיב-מלאי (L) נוצרת דרישה-תלויה; אם חסר מלאי — הזמנה-מתוכננת/דרישת-רכש. בעת יצירת הפק\"ע, אותם רכיבים הופכים ל-Reservations (טבלת RESB) הממתינות למשיכה ברצפה.",
-        cbcHe:
-          "ב-CBC ה-BOM של משקה: תרכיז + סוכר + CO2 + מים מטופלים + בקבוק + פקק + תווית + אריזה, עם פחת-רכיב ~1% על חומרי-אריזה. רכיבי-מלאי = L; שירות-מעבדה חיצוני = N (דרישת-רכש ישירה).",
+        scenarioHe:
+          "בארגון ה-BOM של משקה: תרכיז + סוכר + CO2 + מים מטופלים + בקבוק + פקק + תווית + אריזה, עם פחת-רכיב ~1% על חומרי-אריזה. רכיבי-מלאי = L; שירות-מעבדה חיצוני = N (דרישת-רכש ישירה).",
         navHe: [
           "Production ► Basic Data ► Bill of Material ► General Data ► BOM Usage ► Define BOM Usages (OS20)",
           "Production ► Basic Data ► Bill of Material ► Item Data ► Define Item Categories (OS23)",
@@ -171,7 +171,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "ב-OS20 כל Usage מגדיר לכל אינדיקטור-יישום ערך: + חובה-רלוונטי, - לא-רלוונטי, . אופציונלי (המשתמש קובע בשורה). השילוב קובע אילו פריטים נכנסים לפיצוץ של כל יישום. Usage 1 מסמן Production/Costing/Engineering = רלוונטי.",
             purposeHe: "להפריד הקשרי-שימוש: BOM-ייצור לא חייב להיות זהה ל-BOM-תמחיר או ל-BOM-תחזוקה. חוסך תחזוקה כפולה ומונע ערבוב רכיבים בין תחומים.",
             processExampleHe: "ביצירת BOM ב-CS01 המשתמש בוחר Usage. הפיצוץ בפק\"ע ישתמש רק בפריטים שסומנו רלוונטיים-לייצור באותו Usage.",
-            cbcHe: "ב-CBC Usage 1 לכל BOM-המשקאות; Usage 4 (תחזוקה) נשמר לחלקי-חילוף של PM כדי לא לערבב אריזה עם חלפים.",
+            scenarioHe: "בארגון Usage 1 לכל BOM-המשקאות; Usage 4 (תחזוקה) נשמר לחלקי-חילוף של PM כדי לא לערבב אריזה עם חלפים.",
             navHe: ["Production ► Basic Data ► Bill of Material ► General Data ► BOM Usage ► Define BOM Usages (OS20)"],
             tables: ["TBST", "STKO"],
             tcodes: ["OS20", "CS01"],
@@ -194,7 +194,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "ההגדרה מקשרת Material Type ל-BOM Usage. אם חומר-הכותרת אינו ברשימת-המותרים מתקבלת שגיאה ביצירה. זו בקרה זולה אך יעילה למניעת מבנים שגויים בנתוני-האב.",
             purposeHe: "למנוע טעויות-הזנה ושמירה על היגיון-מבני: רק מה שמיוצר/מורכב מקבל BOM.",
             processExampleHe: "ניסיון ליצור BOM שבכותרתו ROH מחזיר 'Material type not allowed for BOM' — המערכת חוסמת בשורש.",
-            cbcHe: "ב-CBC רק FERT ו-HALB מורשים ככותרת; ROH (תרכיז/סוכר) חסומים — אי-אפשר 'בטעות' לבנות מתכון לחומר-גלם.",
+            scenarioHe: "בארגון רק FERT ו-HALB מורשים ככותרת; ROH (תרכיז/סוכר) חסומים — אי-אפשר 'בטעות' לבנות מתכון לחומר-גלם.",
             navHe: ["Production ► Basic Data ► Bill of Material ► General Data ► Define Allowed Material Types for BOM Header"],
             tables: ["TBST", "T418"],
             tcodes: ["OS24", "CS01"],
@@ -213,7 +213,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "הסטטוס נושא אינדיקטורים נפרדים (Active, Explosion in MRP, Costing, Order, Engineering). אפשר לאפשר MRP אך לחסום Costing, למשל בשלב-מעבר. ב-OS27 מגדירים את ערכי-הסטטוס.",
             purposeHe: "לשלוט במחזור-חיי ה-BOM — פיתוח, אישור, ייצור — בלי למחוק/לשחזר מבנים.",
             processExampleHe: "BOM בפיתוח בסטטוס לא-פעיל; אחרי אישור-הנדסי מעבירים ל-Status 1 וכל היישומים מתחילים להשתמש בו.",
-            cbcHe: "ב-CBC מוצר-בפיתוח מקבל סטטוס לא-פעיל עד אישור QA, ואז Status 1 לפני ייצור מסחרי.",
+            scenarioHe: "בארגון מוצר-בפיתוח מקבל סטטוס לא-פעיל עד אישור QA, ואז Status 1 לפני ייצור מסחרי.",
             navHe: ["Production ► Basic Data ► Bill of Material ► Control Data ► Define BOM Status (OS27)"],
             tables: ["STKO", "TCS03"],
             tcodes: ["OS27", "CS02"],
@@ -232,7 +232,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "מופעל ברמת-Usage. מרגע ההפעלה, שינוי ללא Change Number (CC01) נחסם. ההיסטוריה נשמרת ב-STZU ומאפשרת date-effective explosion — MRP מפצץ לפי התוקף הרלוונטי לתאריך-הדרישה.",
             purposeHe: "עמידה ברגולציה (מזון/תרופות), מעקב-תצורה (Configuration management) ויכולת לשחזר 'מה ייצרנו אז'.",
             processExampleHe: "שינוי מתכון נכנס לתוקף ב-1 בחודש דרך Change Number; פק\"ע לפני התאריך עדיין מפוצצת לפי המתכון הישן, ואחריו לפי החדש.",
-            cbcHe: "ב-CBC מוצרים תחת רגולציית-מזון (אלרגנים/מתכון) מנוהלים עם דרישת-היסטוריה — כל שינוי-רכיב מתועד עם תאריך ומאשר.",
+            scenarioHe: "בארגון מוצרים תחת רגולציית-מזון (אלרגנים/מתכון) מנוהלים עם דרישת-היסטוריה — כל שינוי-רכיב מתועד עם תאריך ומאשר.",
             navHe: ["Production ► Basic Data ► Bill of Material ► Control Data ► BOMs with History Requirement (OS27 / Usage settings)"],
             tables: ["STZU", "STKO", "AENR"],
             tcodes: ["CC01", "CC02", "CS02"],
@@ -255,7 +255,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "ב-OS23 כל קטגוריה נושאת מאפיינים: Stock relevance, Inventory management, Sub-item allowed, Variable-size, Material required. L מפעיל RESB מול המלאי; N יוצר Purchase Requisition הקשורה ישירות לפק\"ע (לרוב עם Account Assignment לפק\"ע).",
             purposeHe: "להגדיר התנהגות-רכש/צריכה לכל רכיב — האם הוא מנוהל-מלאי, נרכש ישירות, או רק מידע.",
             processExampleHe: "רכיב L ➔ פיצוץ יוצר Reservation; ברצפה מבצעים Goods Issue (261). רכיב N ➔ פיצוץ יוצר דרישת-רכש; הרכש מזמין ומקבל ישירות לפק\"ע.",
-            cbcHe: "ב-CBC: תרכיז/אריזה = L (מלאי); בדיקת-מעבדה חיצונית = N (דרישת-רכש ישירה).",
+            scenarioHe: "בארגון: תרכיז/אריזה = L (מלאי); בדיקת-מעבדה חיצונית = N (דרישת-רכש ישירה).",
             navHe: ["Production ► Basic Data ► Bill of Material ► Item Data ► Define Item Categories (OS23)"],
             tables: ["STPO", "TPOP"],
             tcodes: ["OS23", "CS02"],
@@ -277,7 +277,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "מגדירים Formula עם משתני-מידה (ROMS1/ROMS2/ROMS3) ומקצים לפריט ה-R ב-BOM. הכמות-המחושבת מוכפלת ב-Variable-size-item quantity. שימושי בתעשיות-גיליון/מתכת/פילם.",
             purposeHe: "לחשב צריכת-חומר מדויקת לרכיבים הנמדדים בממדים פיזיים, במקום הזנת-כמות ידנית שגויה.",
             processExampleHe: "פריט יריעה: אורך 2מ' × רוחב 1.5מ' → הנוסחה מחשבת 3 מ\"ר לכל יחידה; פק\"ע ל-100 יח' צורכת 300 מ\"ר.",
-            cbcHe: "ב-CBC פחות שכיח למשקאות; רלוונטי לפילם-אריזה/יריעות הנמדדים בשטח (אורך×רוחב).",
+            scenarioHe: "בארגון פחות שכיח למשקאות; רלוונטי לפילם-אריזה/יריעות הנמדדים בשטח (אורך×רוחב).",
             navHe: ["Production ► Basic Data ► Bill of Material ► Item Data ► Variable-Size Item Formulas"],
             tables: ["STPO", "TC04"],
             tcodes: ["OS23", "CS02"],
@@ -296,7 +296,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "פאנטום מסומן דרך Special Procurement 50 באב-החומר או דרך Item Category מתאימה. ה-MRP 'מדלג' על רמת-הפאנטום ומעביר דרישות לרמה-מתחתיה, בלי הזמנה-מתוכננת לפאנטום עצמו. שימושי לפישוט מבנים ולמכלולים-זמניים.",
             purposeHe: "להימנע מרישום-מלאי וניהול מיותרים למכלולי-ביניים שלא נשמרים בפועל.",
             processExampleHe: "תערובת-בסיס מוגדרת פאנטום; דרישה למוצר-סופי מפצצת ישירות לרכיבי-הגלם של התערובת, ללא הזמנה-מתוכננת לתערובת.",
-            cbcHe: "ב-CBC תערובת-בסיס שאינה מאוחסנת = פאנטום; דרישותיה עוברות ישירות לתרכיז/סוכר/מים.",
+            scenarioHe: "בארגון תערובת-בסיס שאינה מאוחסנת = פאנטום; דרישותיה עוברות ישירות לתרכיז/סוכר/מים.",
             navHe: ["Production ► Material Requirements Planning ► BOM Explosion ► Define Explosion Types"],
             tables: ["STPO", "MARC"],
             tcodes: ["OS23", "MM02"],
@@ -318,7 +318,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "Selection ID (per Plant/Usage) מגדיר את לוגיקת-הבחירה לפי תאריך וטווח-כמות. ב-S/4HANA ההמלצה היא בחירה מפורשת דרך Production Version (MKAL), שמקשרת BOM-Alternative + Routing וגם משמשת ל-MRP, להמרת-פק\"ע ולתמחיר.",
             purposeHe: "להבטיח בחירת-מבנה דטרמיניסטית כשיש חלופות — שהמערכת לא 'תנחש'.",
             processExampleHe: "מוצר עם שני Alternatives לפי כמות: עד 500 יח' Alt 1, מעל Alt 2. Production Versions עם טווחי-כמות שונים בוחרים אוטומטית לפי גודל-הפק\"ע.",
-            cbcHe: "ב-CBC ריבוי קווי-מילוי לאותו משקה מנוהל דרך Production Versions; כל קו בוחר את ה-BOM/Routing הנכון אוטומטית.",
+            scenarioHe: "בארגון ריבוי קווי-מילוי לאותו משקה מנוהל דרך Production Versions; כל קו בוחר את ה-BOM/Routing הנכון אוטומטית.",
             navHe: ["Production ► Material Requirements Planning ► BOM Explosion ► Define BOM Selection (Selection IDs)"],
             tables: ["MAST", "STAS", "MKAL"],
             tcodes: ["OS31", "C223", "CS02"],
@@ -349,8 +349,8 @@ export const CH3: TextbookChapter = {
           "לתרגם ערכי-זמן-תקן למשך-ייצור, לעומס-קיבולת ולעלות. מרכז-עבודה מוגדר נכון = תזמון ועלות-פק\"ע מדויקים; מוגדר שגוי = כל החישובים סוטים.",
         processExampleHe:
           "פעולה ב-Routing מצביעה על מרכז-עבודה ונושאת Setup=30דק', Machine=2שע'. נוסחת-התזמון של המרכז מתרגמת ל-משך-פעולה; נוסחת-הקיבולת לעומס על הקו; נוסחת-העלות מכפילה ב-תעריף-Activity (KP26) לעלות-העבודה.",
-        cbcHe:
-          "ב-CBC קו-מילוי = מרכז-עבודה מסוג 'מכונה' עם Activity Types למכונה ולכוח-אדם; תעריפי KP26 מזינים את עלות-המשקה דרך פעולות-הפק\"ע. תחנות-QA = קטגוריה נפרדת ללא קיבולת.",
+        scenarioHe:
+          "בארגון קו-מילוי = מרכז-עבודה מסוג 'מכונה' עם Activity Types למכונה ולכוח-אדם; תעריפי KP26 מזינים את עלות-המשקה דרך פעולות-הפק\"ע. תחנות-QA = קטגוריה נפרדת ללא קיבולת.",
         navHe: [
           "Production ► Basic Data ► Work Center ► General Data ► Define Work Center Category (OP40)",
           "Production ► Basic Data ► Work Center ► Capacity Planning ► Define Standard Value Key (OP19)",
@@ -413,7 +413,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "ב-OP40 מגדירים קטגוריה, משייכים Field Selection ו-Standard Value Key, וקובעים יישומי-רשימת-משימות מותרים. הקטגוריה היא 'התבנית' של המרכז.",
             purposeHe: "להתאים מסכים והתנהגות לסוג-המרכז הפיזי ולמנוע שדות לא-רלוונטיים.",
             processExampleHe: "פתיחת מרכז-עבודה ב-CR01 עם קטגוריית 'מכונה' פותחת תצוגות-קיבולת ועלות; קטגוריית 'בדיקה' מציגה שדות-QA.",
-            cbcHe: "ב-CBC קווי-מילוי = קטגוריית 'מכונה' עם קיבולת ועלות; תחנות-QA = קטגוריה נפרדת ללא קיבולת.",
+            scenarioHe: "בארגון קווי-מילוי = קטגוריית 'מכונה' עם קיבולת ועלות; תחנות-QA = קטגוריה נפרדת ללא קיבולת.",
             navHe: ["Production ► Basic Data ► Work Center ► General Data ► Define Work Center Category (OP40)"],
             tables: ["CRHD", "T430"],
             tcodes: ["OP40", "CR01"],
@@ -432,7 +432,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "מגדירים Field Selection group וקובעים השפעות (Modifiable fields with influences). זהו אותו מנגנון-Influence הקיים גם באב-החומר ובפק\"ע.",
             purposeHe: "מסך נקי ובקרת-נתונים — חובה היכן שצריך, מוסתר היכן שלא-רלוונטי.",
             processExampleHe: "שדה 'תקן-QA' מוגדר חובה לקטגוריית-בדיקה ומוסתר לקו-מילוי.",
-            cbcHe: "ב-CBC שדה 'תקן בקרת-איכות' חובה למרכזי-QA, מוסתר בקווי-מילוי טהורים.",
+            scenarioHe: "בארגון שדה 'תקן בקרת-איכות' חובה למרכזי-QA, מוסתר בקווי-מילוי טהורים.",
             navHe: ["Production ► Basic Data ► Work Center ► General Data ► Field Selection: Influencing / Modifiable Fields"],
             tables: ["CRHD", "T430F"],
             tcodes: ["OPFA", "CR02"],
@@ -451,7 +451,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "ב-OP21 מגדירים נוסחה עם Parameters; משייכים נוסחאות נפרדות ל-Scheduling, Capacity ו-Costing בתצוגות המרכז. בדיקת 'Formula test' חיונית לפני שחרור.",
             purposeHe: "להמיר ערכי-תקן אחידים לשלושת התוצרים (תזמון/קיבולת/עלות) באופן עקבי.",
             processExampleHe: "נוסחת-תזמון: משך = Setup + (Machine × כמות / Base). שינוי בכמות-הפק\"ע מעדכן אוטומטית את המשך.",
-            cbcHe: "ב-CBC נוסחת קו-מילוי: זמן-מכונה = (כמות / קצב-מילוי) + זמן-הכנה — מזינה תזמון ועלות יחד.",
+            scenarioHe: "בארגון נוסחת קו-מילוי: זמן-מכונה = (כמות / קצב-מילוי) + זמן-הכנה — מזינה תזמון ועלות יחד.",
             navHe: ["Production ► Basic Data ► Work Center ► Costing ► Define Formulas for Work Centers (OP21)"],
             tables: ["TC21", "CRHD"],
             tcodes: ["OP21", "CR02"],
@@ -470,7 +470,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "ב-OP19 מגדירים SVK עם פרמטרים וממדיהם (זמן), ומשייכים לקטגוריית-המרכז. SAP1 הוא ה-SVK הסטנדרטי התואם לנוסחאות-המובנות.",
             purposeHe: "תקנן את ערכי-הזמן הנאספים כדי שהנוסחאות יידעו מה להזין.",
             processExampleHe: "פעולה עם SVK הכולל Setup/Machine/Labor — המתכנן מזין שלושתם, והנוסחאות משתמשות בהם.",
-            cbcHe: "ב-CBC SVK של קו-מילוי: Setup (ניקוי/החלפת-טעם), Machine (מילוי), Labor (תפעול) — שלושתם מתומחרים.",
+            scenarioHe: "בארגון SVK של קו-מילוי: Setup (ניקוי/החלפת-טעם), Machine (מילוי), Labor (תפעול) — שלושתם מתומחרים.",
             navHe: ["Production ► Basic Data ► Work Center ► Capacity Planning ► Define Standard Value Key (OP19)"],
             tables: ["TC23", "CRHD"],
             tcodes: ["OP19", "CR02"],
@@ -489,7 +489,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "מגדירים Location Group ומשייכים מרכזים; ניתן להגדיר זמני-מעבר בין קבוצות. רלוונטי בעיקר באתרים-גדולים.",
             purposeHe: "לחשב זמני-תנועה בין-מרכזיים ולנתח קיבולת ברמת-אזור.",
             processExampleHe: "מעבר בין מרכז-ערבול למרכז-מילוי מוסיף זמן-תנועה לפי Location Groups.",
-            cbcHe: "ב-CBC קווי-מילוי באולם אחד מקובצים ל-Location Group לניתוח-קיבולת מצרפי לאתר.",
+            scenarioHe: "בארגון קווי-מילוי באולם אחד מקובצים ל-Location Group לניתוח-קיבולת מצרפי לאתר.",
             navHe: ["Production ► Basic Data ► Work Center ► General Data ► Define Location Groups"],
             tables: ["CRHD", "T357"],
             tcodes: ["CR02"],
@@ -508,7 +508,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "ב-OP00 מגדירים Control Key ומסמנים פונקציות. PP01 = פעולה פנימית מלאה; PP02 = עיבוד-חוץ (External Processing) עם רכש-שירות. מיפוי שגוי שובר תזמון/עלות/דיווח בבת-אחת.",
             purposeHe: "לשלוט בהתנהגות כל פעולה — פנימית מלאה, עיבוד-חוץ, ציון-דרך (Milestone) וכו'.",
             processExampleHe: "פעולת-מילוי PP01 מתזמנת, טוענת קיבולת, מתומחרת ומדווחת; פעולת-מעבדה-חיצונית עם External Processing מפעילה דרישת-רכש-שירות.",
-            cbcHe: "ב-CBC פעולת-מילוי = PP01; פעולת-מעבדה-חיצונית = Control Key עם External Processing וללא קיבולת-פנימית.",
+            scenarioHe: "בארגון פעולת-מילוי = PP01; פעולת-מעבדה-חיצונית = Control Key עם External Processing וללא קיבולת-פנימית.",
             navHe: ["Production ► Shop Floor Control ► Master Data ► Define Control Key (OP00)"],
             tables: ["PLPO", "T430C"],
             tcodes: ["OP00", "CA02"],
@@ -542,8 +542,8 @@ export const CH3: TextbookChapter = {
           "להגדיר את תהליך-הייצור התפעולי, לתזמן את הפק\"ע, לחשב עומס-קיבולת ולתמחר את העבודה.",
         processExampleHe:
           "פק\"ע מקבלת מה-Routing פעולות 0010–0050; כל פעולה מתוזמנת לפי מרכז-העבודה והנוסחאות; רכיבים מוקצים לפעולות כך שמשיכת-מלאי מתואמת לשלב-הצריכה.",
-        cbcHe:
-          "ב-CBC מסלול קו-ייצור: 0010 הכנה ➔ 0020 ערבול ➔ 0030 מילוי ➔ 0040 בקרת-איכות (Control Key עם Inspection) ➔ 0050 אריזה.",
+        scenarioHe:
+          "בארגון מסלול קו-ייצור: 0010 הכנה ➔ 0020 ערבול ➔ 0030 מילוי ➔ 0040 בקרת-איכות (Control Key עם Inspection) ➔ 0050 אריזה.",
         navHe: [
           "Production ► Basic Data ► Routing ► Control Data ► Define Number Ranges",
           "Production ► Basic Data ► Routing ► Operation Data ► Define Control Keys (OP00)",
@@ -610,8 +610,8 @@ export const CH3: TextbookChapter = {
           "לאפשר התנהגות-עיבוד שונה לתרחישים שונים ושליטה אחידה בעלות ובמספור.",
         processExampleHe:
           "יצירת פק\"ע ב-CO01 דורשת בחירת Order Type; הסוג קובע את טווח-המספר, את ברירות-הבחירה (BOM/Routing) ואת ה-Costing Variant דרך OPL8.",
-        cbcHe:
-          "ב-CBC: PP01 ייצור-רגיל, PP02 Rework, PP03 חצי-מוגמר — 3 סוגים שמכסים את רוב התרחישים.",
+        scenarioHe:
+          "בארגון: PP01 ייצור-רגיל, PP02 Rework, PP03 חצי-מוגמר — 3 סוגים שמכסים את רוב התרחישים.",
         navHe: [
           "Production ► Shop Floor Control ► Master Data ► Order ► Define Order Types (OPJH)",
           "Production ► Shop Floor Control ► Master Data ► Order ► Define Number Ranges (CO82)",
@@ -664,7 +664,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "ב-OPJH יוצרים Order Type, משייכים Category 10, וקובעים רלוונטיות ל-CO/Settlement. תכנון מוקדם עם ה-CO חשוב — שינוי בדיעבד יקר.",
             purposeHe: "ליצור את אובייקט-הבקרה שעליו תלוי כל עיבוד-הפק\"ע.",
             processExampleHe: "יצירת PP01 ב-OPJH; מרגע זה אפשר לשייך לו טווח-מספרים ופרמטרים פר-מפעל.",
-            cbcHe: "ב-CBC PP01/PP02/PP03 נוצרים ב-OPJH כבסיס לכל קונפיגורציית-הייצור.",
+            scenarioHe: "בארגון PP01/PP02/PP03 נוצרים ב-OPJH כבסיס לכל קונפיגורציית-הייצור.",
             navHe: ["Production ► Shop Floor Control ► Master Data ► Order ► Define Order Types (OPJH)"],
             tables: ["T399X"],
             tcodes: ["OPJH"],
@@ -683,7 +683,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "ב-CO82 מגדירים Number Range Group, מקצים אינטרוול, ומשייכים סוגי-הזמנה. אינטרוול נפרד ל-Rework מקל על דיווח.",
             purposeHe: "להבטיח מספור-פק\"ע ייחודי ועקבי לפי סוג.",
             processExampleHe: "יצירת פק\"ע PP01 מקצה אוטומטית את המספר-הבא מהאינטרוול המשויך.",
-            cbcHe: "ב-CBC מספור פנימי רציף לכל הפק\"ע; אינטרוול נפרד ל-Rework למעקב.",
+            scenarioHe: "בארגון מספור פנימי רציף לכל הפק\"ע; אינטרוול נפרד ל-Rework למעקב.",
             navHe: ["Production ► Shop Floor Control ► Master Data ► Order ► Define Number Ranges (CO82)"],
             tables: ["NRIV", "T399X"],
             tcodes: ["CO82"],
@@ -713,8 +713,8 @@ export const CH3: TextbookChapter = {
           "לקשר סוג-פק\"ע למפעל ולקבוע התנהגות-תכנון/ביצוע/עלות פר-מפעל.",
         processExampleHe:
           "יצירת פק\"ע PP01 במפעל 1010: OPL8 קובע Routing-selection אוטומטי, בדיקת-זמינות בשחרור, ו-Costing Variant PPP1/PPP2.",
-        cbcHe:
-          "ב-CBC PP01 מוגדר בכל מפעלי-המילוי, אך כל מפעל מצביע על Costing Variant מקומי וברירות-בחירה משלו.",
+        scenarioHe:
+          "בארגון PP01 מוגדר בכל מפעלי-המילוי, אך כל מפעל מצביע על Costing Variant מקומי וברירות-בחירה משלו.",
         navHe: [
           "Production ► Shop Floor Control ► Master Data ► Order ► Define Order Type-Dependent Parameters (OPL8)",
         ],
@@ -767,7 +767,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "קובעים Task List Application (PP01), Routing Selection = 'automatic with manual option', וכללי BOM Application. בחירה-אוטומטית של Production Version מבטיחה טעינה נכונה ללא התערבות.",
             purposeHe: "להבטיח שהפק\"ע נטענת עם ה-BOM וה-Routing הנכונים אוטומטית.",
             processExampleHe: "פק\"ע על קו-מילוי נטענת אוטומטית עם ה-Production Version התואם לקו ולכמות.",
-            cbcHe: "ב-CBC בחירה-אוטומטית של Production Version מבטיחה טעינה נכונה בכל קו-מילוי.",
+            scenarioHe: "בארגון בחירה-אוטומטית של Production Version מבטיחה טעינה נכונה בכל קו-מילוי.",
             navHe: ["Production ► Shop Floor Control ► Master Data ► Order ► OPL8 ► Planning tab"],
             tables: ["T399X"],
             tcodes: ["OPL8"],
@@ -786,7 +786,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "משייכים Status Profile (אם נדרש), קובעים בדיקת-זמינות אוטומטית בשחרור, ומפעילים תיעוד-שינויים. הפעלת ATP-אוטומטי בשחרור חוסמת התחלת-ייצור ללא חומר.",
             purposeHe: "לשלוט בבדיקות ובסטטוסים בעת ביצוע-הפק\"ע.",
             processExampleHe: "בשחרור-פק\"ע מתבצעת בדיקת-זמינות-חומר אוטומטית; חוסר ➔ סטטוס MSPT.",
-            cbcHe: "ב-CBC בדיקת-זמינות אוטומטית בשחרור מונעת מילוי ללא תרכיז/אריזה.",
+            scenarioHe: "בארגון בדיקת-זמינות אוטומטית בשחרור מונעת מילוי ללא תרכיז/אריזה.",
             navHe: ["Production ► Shop Floor Control ► Master Data ► Order ► OPL8 ► Implementation tab"],
             tables: ["T399X"],
             tcodes: ["OPL8"],
@@ -805,7 +805,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "משייכים Costing Variant Plan (PPP1) ו-Actual (PPP2), Results Analysis Key, ו-RA-relevance. אלה משותפים לסגירה החודשית — אל תיגע ללא ה-CO.",
             purposeHe: "לקבוע כיצד הפק\"ע מתומחרת ואיך נאספות ומנותחות סטיות.",
             processExampleHe: "ביצירה — תמחיר-תכנון מ-PPP1; לאורך-החיים — עלויות-בפועל מול PPP2; בסגירה — חישוב-סטיות ו-WIP.",
-            cbcHe: "ב-CBC עלות-תקן של המשקה מ-Costing Variant Plan; סטיות נאספות מול Actual ומנותחות חודשית.",
+            scenarioHe: "בארגון עלות-תקן של המשקה מ-Costing Variant Plan; סטיות נאספות מול Actual ומנותחות חודשית.",
             navHe: ["Production ► Shop Floor Control ► Master Data ► Order ► OPL8 ► Cost Accounting tab"],
             tables: ["T399X", "TCK03"],
             tcodes: ["OPL8", "OKZ3"],
@@ -835,8 +835,8 @@ export const CH3: TextbookChapter = {
           "לקבוע מתי להתחיל ייצור כדי לעמוד ביעד, ולאפשר תכנון-קיבולת ריאלי.",
         processExampleHe:
           "פק\"ע עם תאריך-סיום נדרש: תזמון-אחורה מחשב משך מכל פעולה (נוסחאות-המרכז) ומגיע לתאריך-התחלה; Floats מוסיפים מרווחי-ביטחון.",
-        cbcHe:
-          "ב-CBC תזמון-אחורה מתאריך-אספקה קובע מתי להתחיל מילוי, בהתחשב בזמני-הכנה וניקוי-קו.",
+        scenarioHe:
+          "בארגון תזמון-אחורה מתאריך-אספקה קובע מתי להתחיל מילוי, בהתחשב בזמני-הכנה וניקוי-קו.",
         navHe: [
           "Production ► Shop Floor Control ► Operations ► Scheduling ► Define Scheduling Parameters for Production Orders (OPU3)",
         ],
@@ -895,8 +895,8 @@ export const CH3: TextbookChapter = {
           "לחסוך צעדים-ידניים חוזרים ולהבטיח עיבוד אחיד בנפח-גבוה.",
         processExampleHe:
           "יצירת פק\"ע עם SFCPF הכולל Auto-Release ➔ הפק\"ע נפתחת ישר ב-REL; דיווח-סיום ➔ Auto-GR מבצע קבלת-תוצר אוטומטית.",
-        cbcHe:
-          "ב-CBC הפרופיל מפעיל שחרור וקבלת-תוצר אוטומטיים בקווי-מילוי בנפח-גבוה — מצמצם התערבות ידנית.",
+        scenarioHe:
+          "בארגון הפרופיל מפעיל שחרור וקבלת-תוצר אוטומטיים בקווי-מילוי בנפח-גבוה — מצמצם התערבות ידנית.",
         navHe: [
           "Production ► Shop Floor Control ► Master Data ► Define Production Scheduling Profile (OPKP)",
         ],
@@ -952,8 +952,8 @@ export const CH3: TextbookChapter = {
           "למנוע שחרור-פק\"ע ללא חומר, ולהתריע על חוסרים לפני שהביצוע נתקע.",
         processExampleHe:
           "בשחרור-פק\"ע ATP בודק מול Scope of Check; חוסר ➔ סטטוס MSPT (Missing Parts) ➔ ניתוח ב-CO24 ו-MD04.",
-        cbcHe:
-          "ב-CBC בדיקת-הזמינות מבטיחה שתרכיז/אריזה זמינים לפני שחרור פק\"ע-המילוי; חוסר נחסם ומנותב ל-MD04.",
+        scenarioHe:
+          "בארגון בדיקת-הזמינות מבטיחה שתרכיז/אריזה זמינים לפני שחרור פק\"ע-המילוי; חוסר נחסם ומנותב ל-MD04.",
         navHe: [
           "Production ► Shop Floor Control ► Operations ► Availability Check ► Define Checking Control (OPJK)",
           "Production ► Shop Floor Control ► Operations ► Availability Check ► Define Scope of Check (OPJJ)",
@@ -1009,7 +1009,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "מגדירים Checking Group (למשל 02 individual requirements) ומשייכים לאב-החומר (MRP3). Checking Group ריקה = אין בדיקה.",
             purposeHe: "להפעיל/לכבות בדיקת-זמינות ולקבוע את לוגיקתה ברמת-החומר.",
             processExampleHe: "חומר עם Checking Group 02 נבדק ב-ATP בעת שחרור-פק\"ע; חומר ללא קבוצה — לא נבדק.",
-            cbcHe: "ב-CBC כל רכיב-מיוצר מקבל Checking Group עם ATP; חומרי-עזר זניחים — ללא-בדיקה.",
+            scenarioHe: "בארגון כל רכיב-מיוצר מקבל Checking Group עם ATP; חומרי-עזר זניחים — ללא-בדיקה.",
             navHe: ["Production ► MRP ► Availability Check ► Define Checking Groups"],
             tables: ["TMVF", "MARC"],
             tcodes: ["OVZ2", "MM02"],
@@ -1028,7 +1028,7 @@ export const CH3: TextbookChapter = {
             consultantHe: "משייכים Checking Rule (PP) ב-OPJK לפי Order Type+Plant ומגדירים Scope ב-OPJJ. Checking Rules שונים (פק\"ע מול מכירות) נותנים תוצאות-ATP שונות — תקין אך יש להבין.",
             purposeHe: "להתאים את היקף-הבדיקה ליישום — ייצור שונה ממכירות.",
             processExampleHe: "Checking Rule של ייצור כולל מלאי-זמין + קבלות-רכש מאושרות, מתעלם ממלאי-QI שטרם שוחרר.",
-            cbcHe: "ב-CBC Checking Rule ייעודי-לייצור כולל מלאי-זמין + רכש-מאושר, מתעלם ממלאי-QI.",
+            scenarioHe: "בארגון Checking Rule ייעודי-לייצור כולל מלאי-זמין + רכש-מאושר, מתעלם ממלאי-QI.",
             navHe: ["Production ► MRP ► Availability Check ► Define Checking Rule + Scope of Check (OPJJ)"],
             tables: ["TMVFP", "RESB"],
             tcodes: ["OPJK", "OPJJ"],
@@ -1058,8 +1058,8 @@ export const CH3: TextbookChapter = {
           "להגדיר איזה שילוב BOM+Routing תקף לאיזה טווח-כמויות ומתי, ולאפשר ניהול שיטות-ייצור מרובות.",
         processExampleHe:
           "MRP יוצר הזמנה-מתוכננת; ההמרה-לפק\"ע בוחרת Production Version תקפה לפי תאריך וכמות, וטוענת את ה-BOM וה-Routing המתאימים.",
-        cbcHe:
-          "ב-CBC כל מוצר-מיוצר חייב Production Version תקפה — תנאי-סף להרצת-MRP ולהמרת-הזמנות על קווי-המילוי.",
+        scenarioHe:
+          "בארגון כל מוצר-מיוצר חייב Production Version תקפה — תנאי-סף להרצת-MRP ולהמרת-הזמנות על קווי-המילוי.",
         navHe: ["Logistics ► Production ► Master Data ► Production Version (C223)"],
         tables: ["MKAL", "MARC"],
         tcodes: ["C223", "MM02", "CU51"],

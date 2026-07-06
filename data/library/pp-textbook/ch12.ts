@@ -13,7 +13,7 @@ export const CH12: TextbookChapter = {
   titleHe: "ניהול ביקושים (Demand Management)",
   titleEn: "Demand Management",
   introHe:
-    "ניהול-ביקושים הוא הגשר בין התחזית-העסקית (S&OP/מכירות) לבין תכנון-החומרים (MRP). פרק זה הוא יחידת-לימוד מלאה: הוא מסביר כיצד דרישות-עצמאיות-מתוכננות (PIR), אסטרטגיות-תכנון, סוגי-דרישה ומחלקות-דרישה, ומצבי-צריכה מתורגמים להחלטה האם לייצר-למלאי (MTS), לייצר-לפי-הזמנה (MTO) או לתכנן-מראש-מבלי-להרכיב. כל תת-פרק הורחב ל-18 מקטעים — שלוש רמות הסבר, מטרה עסקית, דוגמת-תהליך, דוגמת CBC (מפעל-בקבוק משקאות, ייצור-למלאי), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, קונפיגורציה, תרשים-תהליך, טעויות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות. המטרה: לשלוט בנושא ללא הספר המקורי.",
+    "ניהול-ביקושים הוא הגשר בין התחזית-העסקית (S&OP/מכירות) לבין תכנון-החומרים (MRP). פרק זה הוא יחידת-לימוד מלאה: הוא מסביר כיצד דרישות-עצמאיות-מתוכננות (PIR), אסטרטגיות-תכנון, סוגי-דרישה ומחלקות-דרישה, ומצבי-צריכה מתורגמים להחלטה האם לייצר-למלאי (MTS), לייצר-לפי-הזמנה (MTO) או לתכנן-מראש-מבלי-להרכיב. כל תת-פרק הורחב ל-18 מקטעים — שלוש רמות הסבר, מטרה עסקית, דוגמת-תהליך, דוגמת הארגון (מפעל-בקבוק משקאות, ייצור-למלאי), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, קונפיגורציה, תרשים-תהליך, טעויות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות. המטרה: לשלוט בנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 12.1
     {
@@ -28,8 +28,8 @@ export const CH12: TextbookChapter = {
         "להבטיח שהמערכת מתכננת ייצור-מראש מספיק כדי לעמוד בזמני-אספקה, מבלי לייצר כפול כאשר הזמנות-אמיתיות מגיעות. זהו האיזון בין זמינות-מדף לבין מלאי-עודף.",
       processExampleHe:
         "תחזית של 1,000 יח'/חודש נכנסת כ-PIR. MRP מתכנן ייצור ל-1,000. כשמגיעה הזמנת-מכירה ל-300, מצב-הצריכה מקזז 300 מה-PIR — כך שסך-הדרישה נותר 1,000 ולא 1,300.",
-      cbcHe:
-        "ב-CBC (ייצור-למלאי) התחזית החודשית למשקה נכנסת כ-PIR לכל קו-מילוי; הזמנות-הרשתות מקזזות את התחזית בזמן-אמת, כך שהמלאי המתוכנן מכסה את הביקוש בלי ניפוח.",
+      scenarioHe:
+        "בארגון (ייצור-למלאי) התחזית החודשית למשקה נכנסת כ-PIR לכל קו-מילוי; הזמנות-הרשתות מקזזות את התחזית בזמן-אמת, כך שהמלאי המתוכנן מכסה את הביקוש בלי ניפוח.",
       navHe: [
         "Production ► Production Planning ► Demand Management ► Planned Independent Requirements ► Define Planning Strategy",
         "Logistics ► Production ► SOP ► Demand Management ► Demand Management",
@@ -92,7 +92,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "PIR נשמרות ב-PBED (פריטים) ו-PBIM (אינדקס חומר/מפעל/גרסה). כל שורה נושאת Requirements Type שמגיע מהאסטרטגיה. גרסת-PIR (Version) עם דגל 'Active' קובעת מה נכנס ל-MRP — אפשר להחזיק גרסאות-פעילה ולא-פעילה במקביל. בקיזוז, ההזמנה מפחיתה את ה-PIR ויוצרת 'withdrawal'.",
           purposeHe: "להזין את הביקוש-העתידי למערכת כדי ש-MRP יוכל לתכנן רכש וייצור מראש, לפני שמתקבלות הזמנות-לקוח אמיתיות.",
           processExampleHe: "מתכנן מזין ב-MD61 1,000 יח' לחודש הבא, גרסה 00 פעילה. MRP יוצר הזמנות-מתוכננות לכיסוי. עם קבלת הזמנת-מכירה, ה-PIR מקוזזת והכמות-הפתוחה יורדת.",
-          cbcHe: "ב-CBC התחזית של מחלקת-הביקוש מוזנת כ-PIR לכל SKU של משקה במפעל-המילוי; זו הכמות שלפיה מוזמנים תרכיז, אריזה ומתוזמנים קווי-המילוי.",
+          scenarioHe: "בארגון התחזית של מחלקת-הביקוש מוזנת כ-PIR לכל SKU של משקה במפעל-המילוי; זו הכמות שלפיה מוזמנים תרכיז, אריזה ומתוזמנים קווי-המילוי.",
           navHe: ["Production ► Production Planning ► Demand Management ► Planned Independent Requirements ► Maintain (MD61)"],
           tables: ["PBED", "PBIM", "PBHI"],
           tcodes: ["MD61", "MD62", "MD63", "MD04", "MD73"],
@@ -115,7 +115,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "Consumption Mode נשמר ב-MARC-VRMOD: 1=אחורה, 2=אחורה+קדימה, 3=קדימה, 4=קדימה+אחורה. התקופות VINT1 (ימי-עבודה אחורה) ו-VINT2 (קדימה) מוגדרות באב-החומר או נגזרות מה-Strategy. הערכים נלקחים מ-MRP 3 view. ללא תקופה תקפה אין קיזוז גם אם המצב מוגדר.",
           purposeHe: "להגדיר חלון-זמן הגיוני לקיזוז: לאפשר להזמנה לקזז תחזית סמוכה (לפני/אחרי) מבלי לקזז תחזית רחוקה מדי שאינה רלוונטית.",
           processExampleHe: "הזמנה לתאריך 15/3, Consumption Mode 2, VINT1=10 / VINT2=5. המערכת תחפש PIR פתוחה מ-1/3 (10 ימי-עבודה אחורה) ואם לא נמצא — עד 22/3 (5 ימים קדימה), ותקזז משם.",
-          cbcHe: "ב-CBC מצב 'אחורה+קדימה' עם חלון של מספר-ימים מתאים לביקוש-יומי תנודתי של משקאות; הזמנת-רשת מקזזת את תחזית-השבוע הקרובה אליה.",
+          scenarioHe: "בארגון מצב 'אחורה+קדימה' עם חלון של מספר-ימים מתאים לביקוש-יומי תנודתי של משקאות; הזמנת-רשת מקזזת את תחזית-השבוע הקרובה אליה.",
           navHe: ["Logistics – General ► Material Master ► MRP 3 ► Consumption Mode / Periods"],
           tables: ["MARC", "PBED"],
           tcodes: ["MM02", "MD04", "OPPT"],
@@ -137,7 +137,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "לוגיקת-הקביעה: עבור PIR הסוג נקבע מה-Strategy Group (Requirements Type של התכנון). עבור הזמנת-מכירה קיימת היררכיה: Item Category + MRP Type → Strategy Group → ברירת-מחדל. הקביעה מתועדת ב-OVZH/OVZG (קישור Requirements Type ↔ Requirements Class). דריסה ידנית בלשונית Procurement של ההזמנה.",
           purposeHe: "לוודא שכל דרישה מקבלת את אופי-התכנון הנכון אוטומטית, מבלי שהמשתמש יצטרך לזכור קודים בכל פעם.",
           processExampleHe: "הזמנת-מכירה לחומר עם Strategy Group 40 ➔ המערכת קובעת Requirements Type KSV (צריכה מול תחזית), שמקזז את ה-PIR מסוג VSF שנוצרו לאותו חומר.",
-          cbcHe: "ב-CBC כל המשקאות עם Strategy 40: ה-PIR מקבלות VSF וההזמנות מקבלות KSV — שילוב שמבטיח קיזוז-תחזית תקני בייצור-למלאי.",
+          scenarioHe: "בארגון כל המשקאות עם Strategy 40: ה-PIR מקבלות VSF וההזמנות מקבלות KSV — שילוב שמבטיח קיזוז-תחזית תקני בייצור-למלאי.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Requirements Types and Classes (OVZH/OVZG)"],
           tables: ["T459K", "T459U", "T458A"],
           tcodes: ["OVZH", "OVZG", "VA01", "MD61"],
@@ -159,7 +159,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "Availability Check נשלט ב-Checking Group (MARC-MTVFP) + Checking Rule, מוגדר ב-OVZ9/OVZ2. TRLT (MARC-WZEIT) הוא שדה ידני באב-החומר המסכם את כל זמני-ההשלמה הרב-שלביים. בדיקה מול TRLT אומרת: כל דרישה מעבר ל-TRLT זמינה תמיד; מתחת — בודקים מלאי ואלמנטי-אספקה בפועל.",
           purposeHe: "לתת הבטחת-אספקה אמינה ללקוח: לאזן בין התחייבות מהירה (לפי מלאי) לבין התחייבות ריאלית (לפי זמן-ייצור) בלי הבטחות-יתר.",
           processExampleHe: "TRLT = 20 ימים. הזמנה לתאריך +30 יום מאושרת מיד (מעבר ל-TRLT); הזמנה לתאריך +5 ימים נבדקת מול מלאי ואלמנטי-אספקה בפועל ומאושרת חלקית אם חסר.",
-          cbcHe: "ב-CBC עם מלאי-מדף גבוה, ATP רגיל לפי מלאי מספיק; TRLT רלוונטי בעיקר למשקאות-עונתיים או מבצעים שבהם הביקוש עולה על המלאי.",
+          scenarioHe: "בארגון עם מלאי-מדף גבוה, ATP רגיל לפי מלאי מספיק; TRLT רלוונטי בעיקר למשקאות-עונתיים או מבצעים שבהם הביקוש עולה על המלאי.",
           navHe: ["Sales and Distribution ► Basic Functions ► Availability Check ► Define Checking Groups (OVZ2) / Checking Rules (OVZ9)"],
           tables: ["MARC", "TMVF", "T441V"],
           tcodes: ["OVZ2", "OVZ9", "CO09", "MD04"],
@@ -190,8 +190,8 @@ export const CH12: TextbookChapter = {
         "לארוז את כל החלטות-התכנון של מוצר לבחירה-אחת פשוטה ועקבית, ולמנוע הגדרה-ידנית של פרמטרים נפרדים על כל חומר.",
       processExampleHe:
         "מתכנן בוחר ל-FERT את Strategy Group 40; מרגע זה PIR מקבלות VSF, הזמנות מקבלות KSV, והקיזוז עובד אוטומטית — ללא הגדרת Requirements Class ידנית.",
-      cbcHe:
-        "ב-CBC כל המשקאות המוגמרים = Strategy Group 40 (Planning with Final Assembly) — האסטרטגיה הקלאסית לייצור-למלאי עם קיזוז-תחזית.",
+      scenarioHe:
+        "בארגון כל המשקאות המוגמרים = Strategy Group 40 (Planning with Final Assembly) — האסטרטגיה הקלאסית לייצור-למלאי עם קיזוז-תחזית.",
       navHe: [
         "Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy",
         "Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy Group",
@@ -249,7 +249,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "אסטרטגיה 10 משתמשת ב-Requirements Type LSF (PIR בלבד); אין Requirements Type לצריכת-הזמנות. הזמנות-מכירה אינן רלוונטיות-לתכנון — הן מפחיתות PIR בעת מסירה (reduction). מתאים כשהתחזית אמינה והמכירות אינן צריכות 'להוסיף' ייצור.",
           purposeHe: "לתכנן ייצור יציב לפי תחזית בלבד, מתאים למוצרי-מדף בנפח-גבוה שבהם הזמנות בודדות לא משנות את תוכנית-הייצור.",
           processExampleHe: "PIR ל-5,000 יח'/חודש. MRP מתכנן 5,000. הזמנה ל-200 יח' אינה יוצרת דרישה נוספת — הסחורה נמשכת מהמלאי וה-PIR מצטמצמת בעת המסירה.",
-          cbcHe: "ב-CBC מתאים למשקה-יסוד בנפח-ענק שמיוצר ברצף קבוע; התחזית מובילה והזמנות-הרשתות נמשכות מהמלאי המוכן.",
+          scenarioHe: "בארגון מתאים למשקה-יסוד בנפח-ענק שמיוצר ברצף קבוע; התחזית מובילה והזמנות-הרשתות נמשכות מהמלאי המוכן.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (10)"],
           tables: ["T459K", "PBED", "MARC"],
           tcodes: ["OPPS", "MD61", "MD04"],
@@ -271,7 +271,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "אסטרטגיה 11 משתמשת ב-Requirements Type BSF (Gross PIR). דגל 'Gross requirements' ב-Requirements Class מורה ל-MRP להתעלם מ-stock ומ-receipts בעת חישוב. שימושי בייצור-רציף, בתעשיות-מתכת/כימיה, או כשיש התחייבות-קיבולת קבועה.",
           purposeHe: "להבטיח ייצור בקצב קבוע ללא תלות במלאי — קריטי לתהליכים שלא ניתן/כדאי לעצור (כבשנים, קווים-רציפים).",
           processExampleHe: "PIR ברוטו ל-1,000 יח'/יום. גם אם יש 300 במלאי, MRP מתכנן ייצור מלא של 1,000 — המלאי מצטבר ומנוהל בנפרד.",
-          cbcHe: "ב-CBC פחות נפוץ; רלוונטי אם קו-מילוי חייב לרוץ בקצב מינימלי קבוע מסיבות-תפעוליות ללא תלות במלאי-המדף.",
+          scenarioHe: "בארגון פחות נפוץ; רלוונטי אם קו-מילוי חייב לרוץ בקצב מינימלי קבוע מסיבות-תפעוליות ללא תלות במלאי-המדף.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (11)"],
           tables: ["T459K", "T459C", "PBED"],
           tcodes: ["OPPS", "OVZG", "MD61"],
@@ -290,7 +290,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "אסטרטגיה 30 משלבת תגובה-להזמנה עם lot-sizing (לרוב periodic/optimum). אין Requirements Type לתחזית. ההזמנות מצטברות ו-MRP יוצר הזמנת-ייצור באצווה לפי Lot Size procedure. שונה מ-MTO טהור (20) בכך שהמלאי משותף (ללא special stock segment).",
           purposeHe: "לאזן בין ייצור-לפי-ביקוש-אמיתי לבין יעילות-אצווה — להימנע מתכנון-תחזית מצד אחד וממנות-ייצור קטנות-מדי מצד שני.",
           processExampleHe: "Lot Size שבועי: כל ההזמנות שהתקבלו במהלך-השבוע מצטברות לאצווה אחת המיוצרת בסוף-השבוע, במקום פק\"ע נפרדת לכל הזמנה.",
-          cbcHe: "ב-CBC רלוונטי למשקה-נישה בנפח-נמוך: צוברים הזמנות ומריצים את הקו רק כשמצטברת אצווה כלכלית, במקום להחזיק מלאי-תחזית.",
+          scenarioHe: "בארגון רלוונטי למשקה-נישה בנפח-נמוך: צוברים הזמנות ומריצים את הקו רק כשמצטברת אצווה כלכלית, במקום להחזיק מלאי-תחזית.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (30)"],
           tables: ["T459K", "MARC", "VBBE"],
           tcodes: ["OPPS", "MM02", "MD04"],
@@ -309,7 +309,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "אסטרטגיה 40 משתמשת ב-VSF לתחזית (Requirements Type של PIR) וב-KSV לצריכה (הזמנות). הלוגיקה: MRP לוקח את ה-MAX בין (PIR שנותרו אחרי-קיזוז) לבין (הזמנות בפועל) בכל תקופה. עודף-הזמנות מעבר לתחזית מגדיל ייצור; הזמנות מתחת לתחזית — התחזית מובילה. זו האסטרטגיה ל-FERT טיפוסי.",
           purposeHe: "לאפשר ייצור-מראש לפי תחזית עם יכולת-תגובה להזמנות גבוהות מהצפוי — איזון אופטימלי בין זמינות-מדף לבין גמישות.",
           processExampleHe: "PIR=1,000. הזמנות בפועל=1,200 ➔ MRP מתכנן 1,200 (ה-MAX). אם הזמנות=700 ➔ עדיין 1,000 (התחזית מובילה). תחזית שלא נצרכה 'נשרפת' בסוף-התקופה.",
-          cbcHe: "ב-CBC זו אסטרטגיית-ברירת-המחדל לכל המשקאות המוגמרים: תחזית-חודשית מובילה, והזמנות-רשתות גדולות-מהצפוי מגדילות אוטומטית את הייצור.",
+          scenarioHe: "בארגון זו אסטרטגיית-ברירת-המחדל לכל המשקאות המוגמרים: תחזית-חודשית מובילה, והזמנות-רשתות גדולות-מהצפוי מגדילות אוטומטית את הייצור.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (40)"],
           tables: ["T459K", "PBED", "VBBE", "MARC"],
           tcodes: ["OPPS", "MD61", "VA01", "MD04"],
@@ -341,7 +341,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "אסטרטגיה 52 משתמשת ב-Requirements Type שמאפשר תכנון-הרכבה-סופית עם consumption אך ללא special stock segment. לרוב משולבת עם 'Planning Material' (משפחת-מוצרים) באסטרטגיות 60/63. ההבדל מ-40: היא מיועדת לתרחישי-תכנון-קבוצתי שבהם הצריכה אינה יוצרת מלאי נפרד.",
           purposeHe: "לתכנן מראש ולאפשר קיזוז-הזמנות במלאי-משותף, מתאים כשרוצים תכנון-הרכבה-סופית בלי בידוד-מלאי ללקוח.",
           processExampleHe: "מוצר-סופי מתוכנן לפי PIR; הזמנות מקזזות את התחזית ונמשכות מהמלאי-המשותף ללא יצירת מקטע-מלאי ייעודי.",
-          cbcHe: "ב-CBC רלוונטי לתכנון משפחת-משקאות במשותף; 40 מספיקה לרוב, ו-52 שמורה לתרחישי-תכנון-קבוצתי מתקדמים.",
+          scenarioHe: "בארגון רלוונטי לתכנון משפחת-משקאות במשותף; 40 מספיקה לרוב, ו-52 שמורה לתרחישי-תכנון-קבוצתי מתקדמים.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (52)"],
           tables: ["T459K", "PBED", "VBBE"],
           tcodes: ["OPPS", "MD61", "MD04"],
@@ -360,7 +360,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "אסטרטגיה 63 מבוססת על Planning Material (MARC-VPMAT) ו-Planning Plant. ה-PIR מוזנות על החומר-המתכנן; הוריאנטים מקושרים אליו וצורכים את תחזיתו. ה-Requirements Class תומך ב-planning-material consumption ללא special stock. מתאים לוריאנטים בעלי רכיבים-משותפים גבוהים.",
           purposeHe: "לרכז תחזית של משפחת-וריאנטים לפריט-תכנון אחד — מפשט תחזית ומבטיח רכש-משותף, גם כשהמכירות מתפזרות בין וריאנטים.",
           processExampleHe: "חומר-מתכנן 'משקה-משפחה' מקבל PIR ל-10,000 יח'. הזמנות לוריאנטים (1 ליטר / 1.5 ליטר) צורכות מהתחזית-המשותפת, וה-MRP מתכנן רכיבים-משותפים יחד.",
-          cbcHe: "ב-CBC רלוונטי כשאותו משקה נמכר בכמה אריזות: תחזית-משפחה אחת על Planning Material, וההזמנות לאריזות-השונות צורכות ממנה.",
+          scenarioHe: "בארגון רלוונטי כשאותו משקה נמכר בכמה אריזות: תחזית-משפחה אחת על Planning Material, וההזמנות לאריזות-השונות צורכות ממנה.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (63)"],
           tables: ["T459K", "MARC", "PBED"],
           tcodes: ["OPPS", "MM02", "MD61", "MD04"],
@@ -387,8 +387,8 @@ export const CH12: TextbookChapter = {
         "לאתר במהירות איזה אובייקט מחזיק כל פרמטר: בחירת-אסטרטגיה ב-Strategy Group, התנהגות-בפועל ב-Requirements Class. זה הבסיס לכל אבחון-תקלה בניהול-ביקושים.",
       processExampleHe:
         "אבחון 'למה הזמנה יוצרת special stock?': מ-MARC-STRGR ➔ Strategy ➔ Requirements Type של הצריכה ➔ Requirements Class — שם דגל ה-Special Stock. מתקנים במחלקה, לא באסטרטגיה.",
-      cbcHe:
-        "ב-CBC הבנת-השרשרת מאפשרת לאמת ש-Strategy 40 → KSV → Requirements Class ללא special stock — כלומר מלאי-משותף, כמתחייב בייצור-למלאי.",
+      scenarioHe:
+        "בארגון הבנת-השרשרת מאפשרת לאמת ש-Strategy 40 → KSV → Requirements Class ללא special stock — כלומר מלאי-משותף, כמתחייב בייצור-למלאי.",
       navHe: [
         "Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Requirements Classes (OVZG)",
         "Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Requirements Types (OVZH)",
@@ -444,7 +444,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "אסטרטגיה 20 משתמשת ב-Requirements Type KE, שה-Requirements Class שלו נושא Account Assignment 'M' (Sales order) ו-Special Stock indicator 'E'. המלאי מנוהל פר-הזמנה (segment בטבלת MSKA). MRP מתכנן רק את הדרישה-הספציפית; אין PIR. עלויות נצברות על ההזמנה (Make-to-Order costing).",
           purposeHe: "לייצר מוצרים-מותאמים/יקרים רק לפי ביקוש-אמיתי, עם בידוד-מלאי ועלות מלא לכל הזמנה — אפס מלאי-ספקולטיבי.",
           processExampleHe: "הזמנה ללקוח A ל-50 יח' יוצרת Sales Order Stock נפרד; 50 היח' מיוצרות ושמורות אך-ורק ללקוח A — הזמנת לקוח B תייצר מקטע נפרד משלה.",
-          cbcHe: "ב-CBC נדיר למשקאות-מדף, אך רלוונטי למוצר-קידום-מותאם-לקוח (private label) המיוצר אך-ורק לרשת-לקוח ספציפית.",
+          scenarioHe: "בארגון נדיר למשקאות-מדף, אך רלוונטי למוצר-קידום-מותאם-לקוח (private label) המיוצר אך-ורק לרשת-לקוח ספציפית.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (20)"],
           tables: ["T459K", "MSKA", "VBAP"],
           tcodes: ["OPPS", "VA01", "MD04", "MD50"],
@@ -466,7 +466,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "אסטרטגיה 60 משלבת Planning Material (תחזית-רכיבים) עם MTO ברמת-המוצר-הסופי. ה-PIR על החומר-המתכנן מבטיחות רכיבים; הזמנת-הוריאנט יוצרת דרישה-עצמאית-לפי-הזמנה שצורכת את תחזית-החומר-המתכנן. ההבדל מ-63: ב-60 קיים מרכיב-MTO (special stock) למוצר-הסופי.",
           purposeHe: "לקצר זמן-אספקה לוריאנטים תוך הימנעות ממלאי-מוצר-סופי: מתכננים-מראש רכיבים-משותפים, מרכיבים-לפי-הזמנה.",
           processExampleHe: "תחזית על Planning Material מבטיחה רכיבים; הזמנה לוריאנט ספציפי צורכת את התחזית ומפעילה הרכבה-סופית לפי-הזמנה עם מלאי-ייעודי.",
-          cbcHe: "ב-CBC רלוונטי לתרחיש private-label עם רכיבים-משותפים: תחזית על משפחת-הרכיבים, והרכבה-סופית של אריזת-הלקוח רק לפי-הזמנה.",
+          scenarioHe: "בארגון רלוונטי לתרחיש private-label עם רכיבים-משותפים: תחזית על משפחת-הרכיבים, והרכבה-סופית של אריזת-הלקוח רק לפי-הזמנה.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (60)"],
           tables: ["T459K", "MARC", "MSKA"],
           tcodes: ["OPPS", "MM02", "MD61", "MD04"],
@@ -485,7 +485,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "אסטרטגיה 50 משתמשת ב-Requirements Type VSE לתכנון (PIR) שיוצר 'planned orders without final assembly' — דרישות-תלויות לרכיבים אך הזמנה-מתוכננת-לא-המירה למוצר-סופי (VP planned order). רק הזמנת-מכירה (Requirements Type KEV) ממירה לפק\"ע-סופית, עם special stock. מתאים כשההרכבה-הסופית מהירה אך הרכיבים ארוכי-אספקה.",
           purposeHe: "לקצר משמעותית את זמן-האספקה ללקוח (הרכיבים מוכנים) בלי לשאת סיכון מלאי-מוצר-סופי — איזון בין מהירות-תגובה למניעת-התיישנות.",
           processExampleHe: "PIR מייצרות מראש רכיבים ומכלולים (VP planned orders); כשמגיעה הזמנה, נוצרת פק\"ע-הרכבה-סופית שצורכת מהרכיבים-המוכנים ומספקת תוך זמן קצר.",
-          cbcHe: "ב-CBC מקביל ל'ערבול-מראש': מכינים תערובת-בסיס לפי תחזית, אך מילוי+אריזה סופיים רק לפי הזמנה — כך מקצרים אספקה בלי מלאי מוצר-סופי שפג-תוקף.",
+          scenarioHe: "בארגון מקביל ל'ערבול-מראש': מכינים תערובת-בסיס לפי תחזית, אך מילוי+אריזה סופיים רק לפי הזמנה — כך מקצרים אספקה בלי מלאי מוצר-סופי שפג-תוקף.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (50)"],
           tables: ["T459K", "PBED", "MSKA"],
           tcodes: ["OPPS", "MD61", "VA01", "MD04"],
@@ -516,8 +516,8 @@ export const CH12: TextbookChapter = {
         "להבטיח תאריך-אספקה אמין ומיידי ללקוח בתרחישי הרכבה-לפי-הזמנה, עם קישור ישיר וסנכרון בין ההזמנה לייצור.",
       processExampleHe:
         "הזמנת-מכירה למוצר-הרכבה ➔ המערכת יוצרת מיידית פק\"ע (82) צמודה, מבצעת ATP מול רכיבים/קיבולת, ומחזירה תאריך-אספקה ריאלי באותו רגע.",
-      cbcHe:
-        "ב-CBC רלוונטי למארזי-מתנה/מבצעים מורכבים המורכבים-לפי-הזמנה: הזמנת-הרשת יוצרת מיד פק\"ע-הרכבה צמודה עם תאריך-התחייבות מיידי.",
+      scenarioHe:
+        "בארגון רלוונטי למארזי-מתנה/מבצעים מורכבים המורכבים-לפי-הזמנה: הזמנת-הרשת יוצרת מיד פק\"ע-הרכבה צמודה עם תאריך-התחייבות מיידי.",
       navHe: [
         "Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (81/82)",
       ],
@@ -573,7 +573,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "אסטרטגיה 81 משתמשת ב-Assembly type המייצר planned order. ה-ATP/scheduling מתבצע מול הרכיבים בעת היצירה. השלב-המתוכנן מאפשר אישור-תכנון לפני המרה ל-CO01. מתאים כשנדרשת ביקורת-ביניים לפני התחייבות-ייצור.",
           purposeHe: "לאפשר התחייבות-אספקה מיידית עם שלב-תכנון-ביניים גמיש לבדיקה/כיוונון לפני ייצור-בפועל.",
           processExampleHe: "הזמנה ➔ הזמנה-מתוכננת אוטומטית עם ATP; המתכנן מאשר/מכוונן ➔ ממיר לפק\"ע ➔ ייצור.",
-          cbcHe: "ב-CBC מתאים למארז-מבצע שדורש אישור-תכנון לפני ייצור: ההזמנה יוצרת הזמנה-מתוכננת, ומחלקת-התכנון מאשרת לפני המרה.",
+          scenarioHe: "בארגון מתאים למארז-מבצע שדורש אישור-תכנון לפני ייצור: ההזמנה יוצרת הזמנה-מתוכננת, ומחלקת-התכנון מאשרת לפני המרה.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (81)"],
           tables: ["T459C", "PLAF", "VBAP"],
           tcodes: ["OPPS", "VA01", "MD04", "CO40"],
@@ -592,7 +592,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "אסטרטגיה 82 משתמשת ב-Assembly type המייצר production order ישירות (AFKO). ה-ATP/CTP מתבצע מול קיבולת/רכיבים בזמן-יצירת-ההזמנה ומחזיר תאריך-מחויב. כל שינוי בכמות/תאריך ההזמנה מתעדכן מיידית בפק\"ע. אין שלב-תכנון-ביניים.",
           purposeHe: "לקבל התחייבות-ייצור מיידית ומדויקת ללא שלב-ביניים — מקסימום מהירות-תגובה בהרכבה-לפי-הזמנה.",
           processExampleHe: "הזמנה ➔ פק\"ע אוטומטית עם ATP מול קיבולת; תאריך-האספקה מוחזר מיד ללקוח, ושינוי-הזמנה מסנכרן את הפק\"ע אוטומטית.",
-          cbcHe: "ב-CBC מתאים להרכבת-מארז דחופה לפי-הזמנה: הזמנת-הרשת יוצרת פק\"ע מיידית עם תאריך-התחייבות בזמן-אמת, ללא המתנה.",
+          scenarioHe: "בארגון מתאים להרכבת-מארז דחופה לפי-הזמנה: הזמנת-הרשת יוצרת פק\"ע מיידית עם תאריך-התחייבות בזמן-אמת, ללא המתנה.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (82)"],
           tables: ["T459C", "AFKO", "VBAP"],
           tcodes: ["OPPS", "VA01", "CO08", "MD04"],
@@ -622,8 +622,8 @@ export const CH12: TextbookChapter = {
         "לתכנן ולייצר-מראש מכלולים-משותפים כדי לקצר אספקה ולאפשר גמישות-וריאנטים, מבלי לתכנן כל מוצר-סופי בנפרד.",
       processExampleHe:
         "מכלול-בסיס מתוכנן לפי PIR ומיוצר-מראש; הזמנות למוצרים-סופיים שונים צורכות מאותו מכלול, מה שמקצר את אספקתם.",
-      cbcHe:
-        "ב-CBC תערובת-בסיס משותפת לכמה משקאות מתוכננת ברמת-המכלול (HALB); המשקאות-הסופיים צורכים ממנה, מקצרים אספקה ומשתפים מלאי-ביניים.",
+      scenarioHe:
+        "בארגון תערובת-בסיס משותפת לכמה משקאות מתוכננת ברמת-המכלול (HALB); המשקאות-הסופיים צורכים ממנה, מקצרים אספקה ומשתפים מלאי-ביניים.",
       navHe: [
         "Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (70/59)",
       ],
@@ -678,7 +678,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "אסטרטגיה 70 מוקצית ב-Strategy Group על ה-HALB. PIR על המכלול יוצרות ייצור-מראש; הדרישות-התלויות מהמוצרים-הסופיים מקזזות אותן (consumption of assembly PIR). דורש Requirements Type שמאפשר צריכה ברמת-המכלול ושילוב עם אסטרטגיית מוצר-סופי.",
           purposeHe: "להחזיק מלאי-מכלולים-מתוכנן לקיצור-אספקה של וריאנטים, במקום מלאי-מוצר-סופי לכל וריאנט.",
           processExampleHe: "מכלול מתוכנן ל-5,000 לפי PIR ומיוצר-מראש; הזמנות ל-3 מוצרים-סופיים שונים צורכות מהמכלול ומקצרות את זמן-אספקתם.",
-          cbcHe: "ב-CBC תערובת-בסיס (HALB) מתוכננת לפי PIR ומיוצרת-מראש; המשקאות-הסופיים (אריזות שונות) צורכים ממנה.",
+          scenarioHe: "בארגון תערובת-בסיס (HALB) מתוכננת לפי PIR ומיוצרת-מראש; המשקאות-הסופיים (אריזות שונות) צורכים ממנה.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (70)"],
           tables: ["T459K", "PBED", "MARC"],
           tcodes: ["OPPS", "MD61", "MD04"],
@@ -697,7 +697,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "אסטרטגיה 59 משלבת תכנון ברמת-מכלול עם פריט-פאנטום (Special Procurement 50). ה-PIR על הפאנטום מניעות דרישות-רכיבים ללא יצירת מלאי-מכלול; הדרישות-התלויות מהמוצר-הסופי צורכות ברמת-הפאנטום. מתאים לרכיבים-משותפים שלא כדאי לאחסן כמכלול.",
           purposeHe: "לרכז תכנון רכיבים-משותפים ברמת-מכלול-לוגית מבלי לשאת מלאי-מכלול פיזי — שילוב יתרונות-התכנון-המרוכז עם פאנטום.",
           processExampleHe: "מכלול-פאנטום מתוכנן לפי PIR; דרישותיו עוברות ישירות לרכיבים, והמוצרים-הסופיים צורכים ברמת-הפאנטום — בלי שום מלאי-מכלול.",
-          cbcHe: "ב-CBC תערובת-בסיס שאינה מאוחסנת (פאנטום) משמשת לתכנון-מרוכז של תרכיז/סוכר/מים, בלי מלאי-תערובת פיזי.",
+          scenarioHe: "בארגון תערובת-בסיס שאינה מאוחסנת (פאנטום) משמשת לתכנון-מרוכז של תרכיז/סוכר/מים, בלי מלאי-תערובת פיזי.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (59)"],
           tables: ["T459K", "PBED", "MARC"],
           tcodes: ["OPPS", "MM02", "MD61", "MD04"],
@@ -725,8 +725,8 @@ export const CH12: TextbookChapter = {
         "לאזן בין נראות-מעקב (Individual) לבין ביצועים ופשטות (Collective) בניהול דרישות-רכיבים משותפים.",
       processExampleHe:
         "רכיב משותף ל-3 מוצרים: ב-Collective נוצרת דרישה-תלויה מאוגדת אחת; ב-Individual נשמרות 3 דרישות נפרדות עם pegging לכל מוצר-אב.",
-      cbcHe:
-        "ב-CBC רכיבי-אריזה משותפים מנוהלים Collective (יעיל, מלאי-משותף); רכיב ייעודי ל-private label של רשת מנוהל Individual לשמירת-בידוד.",
+      scenarioHe:
+        "בארגון רכיבי-אריזה משותפים מנוהלים Collective (יעיל, מלאי-משותף); רכיב ייעודי ל-private label של רשת מנוהל Individual לשמירת-בידוד.",
       navHe: [
         "Logistics – General ► Material Master ► MRP 4 ► Individual/Collective Requirements (MARC-SBDKZ)",
       ],
@@ -781,7 +781,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "ב-OVZG מעתיקים Requirements Class סטנדרטי (למשל 050) למספר בטווח-לקוח. מעתיקים את כל האינדיקטורים (Account Assignment, Consumption, Assembly, Special stock, Costing) ומשנים רק את הנדרש. זה הבסיס לכל אסטרטגיה-מותאמת.",
           purposeHe: "ליצור בסיס-בטוח להתאמה מבלי לפגוע בלקוחות-הסטנדרט הקיימים או באובייקטי-SAP מקוריים.",
           processExampleHe: "העתקת Requirements Class 050 ל-950, שינוי אינדיקטור Consumption בלבד — שאר ההגדרות נשמרות תקינות.",
-          cbcHe: "ב-CBC כל התאמת-אסטרטגיה מתחילה בהעתקת מחלקה-סטנדרטית לטווח 9xx, לשמירת-יציבות הסטנדרט.",
+          scenarioHe: "בארגון כל התאמת-אסטרטגיה מתחילה בהעתקת מחלקה-סטנדרטית לטווח 9xx, לשמירת-יציבות הסטנדרט.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Requirements Classes (OVZG)"],
           tables: ["T459C"],
           tcodes: ["OVZG"],
@@ -800,7 +800,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "ב-OVZH יוצרים Requirements Type (תחזית או צריכה) ומשייכים אותו ל-Requirements Class שהעתקנו. שמירה על זוגיות נכונה (סוג-תחזית מול סוג-צריכה) חיונית כדי שהקיזוז יעבוד באסטרטגיה הסופית.",
           purposeHe: "לחבר את המחלקה-המותאמת לשרשרת-ההצבעות כך שאסטרטגיה תוכל להשתמש בה.",
           processExampleHe: "יצירת Requirements Type Z40 וקישורו ל-Requirements Class 950; כעת ניתן לשבץ אותו באסטרטגיה.",
-          cbcHe: "ב-CBC כל התאמה מקבלת Requirements Types ייעודיים בטווח-Z, מקושרים למחלקות-9xx.",
+          scenarioHe: "בארגון כל התאמה מקבלת Requirements Types ייעודיים בטווח-Z, מקושרים למחלקות-9xx.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Requirements Types (OVZH)"],
           tables: ["T459U", "T459C"],
           tcodes: ["OVZH"],
@@ -819,7 +819,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "ב-OPPS (T459K) מגדירים Strategy ומזווגים Requirements Type לתכנון + לצריכה. האסטרטגיה היא היחידה שמופיעה ב-Strategy Group. ודא שהזוג תואם את ההתנהגות הרצויה (MTS/MTO/הרכבה) לפי המחלקות שמאחוריו.",
           purposeHe: "להרכיב את ה-Types המותאמים לאסטרטגיה אחת בעלת-משמעות שניתן לשבץ בקבוצה ולהקצות לחומר.",
           processExampleHe: "יצירת Strategy Z40 עם Type-תכנון Z-VSF ו-Type-צריכה Z-KSV; כעת אפשר לכלול אותה ב-Strategy Group.",
-          cbcHe: "ב-CBC אסטרטגיה-מותאמת (אם נדרשת) מורכבת מזוג ה-Types ה-Z ומשובצת ב-Strategy Group ייעודי.",
+          scenarioHe: "בארגון אסטרטגיה-מותאמת (אם נדרשת) מורכבת מזוג ה-Types ה-Z ומשובצת ב-Strategy Group ייעודי.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy (OPPS)"],
           tables: ["T459K", "T459U"],
           tcodes: ["OPPS"],
@@ -838,7 +838,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "ב-OPPT (T461P) מגדירים Strategy Group, קובעים Main Strategy ועד 7 Alternative Strategies. ה-Strategy Group הוא מה ש-MARC-STRGR מצביע אליו. מאפשר למתכנן לבחור אסטרטגיה-חלופית במסגרת-מותרת על אותו חומר.",
           purposeHe: "לארוז את האסטרטגיה לאובייקט בר-הקצאה לחומר, עם גמישות-מבוקרת לבחירת-חלופות.",
           processExampleHe: "יצירת Strategy Group Z40 עם אסטרטגיה-ראשית Z40 וחלופות מותרות; הקבוצה מוכנה להקצאה ל-MARC-STRGR.",
-          cbcHe: "ב-CBC Strategy Group מאגד את אסטרטגיית-ה-MTS הראשית ואולי חלופת-MTO לתרחישי private label.",
+          scenarioHe: "בארגון Strategy Group מאגד את אסטרטגיית-ה-MTS הראשית ואולי חלופת-MTO לתרחישי private label.",
           navHe: ["Production ► Production Planning ► Demand Management ► PIR ► Planning Strategy ► Define Strategy Group (OPPT)"],
           tables: ["T461P", "T459K"],
           tcodes: ["OPPT"],
@@ -857,7 +857,7 @@ export const CH12: TextbookChapter = {
           consultantHe: "ב-OPPT/OPPR משייכים Strategy Group ל-MRP Group (MARC-DISGR). חומר עם MRP Group זה יורש את ה-Strategy Group כברירת-מחדל בעת תחזוקת-אב-החומר. מפשט תחזוקה-המונית ומבטיח עקביות. ניתן עדיין לדרוס ידנית בחומר-בודד.",
           purposeHe: "להחיל אסטרטגיה אחידה על קבוצת-חומרים אוטומטית, להפחית טעויות-הזנה ולפשט תחזוקה.",
           processExampleHe: "MRP Group 'MTS-Beverages' משויך ל-Strategy Group 40; כל חומר חדש עם MRP Group זה מקבל אוטומטית אסטרטגיה 40.",
-          cbcHe: "ב-CBC MRP Group של משקאות-מוגמרים משויך ל-Strategy Group 40, כך שכל SKU חדש יורש MTS אוטומטית.",
+          scenarioHe: "בארגון MRP Group של משקאות-מוגמרים משויך ל-Strategy Group 40, כך שכל SKU חדש יורש MTS אוטומטית.",
           navHe: ["Production ► MRP ► MRP Groups ► Define MRP Group / Assign Strategy Group to MRP Group (OPPR/OPPT)"],
           tables: ["T438M", "T461P", "MARC"],
           tcodes: ["OPPR", "OPPT", "MM02"],

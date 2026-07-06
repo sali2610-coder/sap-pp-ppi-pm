@@ -9,7 +9,7 @@ export const CH3: TextbookChapter = {
     titleHe: "הגדרת פונקציות גנריות",
     titleEn: "Configuring Generic Functions",
     introHe:
-      "פרק זה הוא יחידת-לימוד מלאה לפונקציות הגנריות (Generic Functions) של SAP S/4HANA Asset Management — אותן פונקציות החוזרות על פני אובייקטים רבים (ציוד, מיקום פונקציונלי, הודעה, פקודה, רשימת משימות, תוכנית אחזקה): מידע אובייקט, ניהול סטטוסים, הקצאת מספרים, אחריות, נקודות מדידה ומונים, היתרים, שותפים, מסמכים, בחירת שדות, וריאנטי רשימות, רשימות רב-שלביות ומסמכי שינוי. כל תת-פרק הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC (מפעל מילוי משקאות קוקה-קולה), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+      "פרק זה הוא יחידת-לימוד מלאה לפונקציות הגנריות (Generic Functions) של SAP S/4HANA Asset Management — אותן פונקציות החוזרות על פני אובייקטים רבים (ציוד, מיקום פונקציונלי, הודעה, פקודה, רשימת משימות, תוכנית אחזקה): מידע אובייקט, ניהול סטטוסים, הקצאת מספרים, אחריות, נקודות מדידה ומונים, היתרים, שותפים, מסמכים, בחירת שדות, וריאנטי רשימות, רשימות רב-שלביות ומסמכי שינוי. כל תת-פרק הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון (מפעל מילוי משקאות מוצר לדוגמה), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
     subchapters: [
       // ============================================================ 3.1
       {
@@ -24,8 +24,8 @@ export const CH3: TextbookChapter = {
           "המטרה: לתת לטכנאי או למתכנן החלטה מהירה ומבוססת-נתונים בנקודת-הכניסה לתהליך — האם לבצע, מה ההיסטוריה, האם יש דפוס-תקלות — בלי לנדוד בין מסכים. כך מצמצמים פקודות-כפל ומשפרים זמינות.",
         processExampleHe:
           "מתקבלת הודעה על דליפה במשאבה. הטכנאי פותח את ההודעה; מפתח-המידע מוגדר Structure ומציג מיד שלוש הודעות דומות בחצי-השנה האחרונה על אותה משאבה וערך-סף שחצה (ברק) — סימן לבעיה כרונית. במקום פקודת-תיקון נקודתית, מוחלט על החלפה מתוכננת.",
-        cbcHe:
-          "ב-CBC: על קו-מילוי קריטי מוגדר מפתח-מידע ברמת Structure המציג היסטוריית-תקלות של כל הציוד הכפוף (מערבל, ממלא, פקק) — כך מנהל-המשמרת רואה מיד אם תקלה חוזרת לפני הכרעה על עצירת-קו. ההצגה אינה אוטומטית כדי לא להעמיס.",
+        scenarioHe:
+          "בארגון: על קו-מילוי קריטי מוגדר מפתח-מידע ברמת Structure המציג היסטוריית-תקלות של כל הציוד הכפוף (מערבל, ממלא, פקק) — כך מנהל-המשמרת רואה מיד אם תקלה חוזרת לפני הכרעה על עצירת-קו. ההצגה אינה אוטומטית כדי לא להעמיס.",
         navHe: [
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Basic Settings ► Define Object Information Keys (OIMD)",
           "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Notifications ► Notification Processing ► Object Information ► Assign Object Information Keys to Notification Types",
@@ -99,8 +99,8 @@ export const CH3: TextbookChapter = {
           "המטרה: לאכוף משמעת-תהליך — שלא יבצעו פעולה אסורה במצב לא-נכון (למשל אישור על ציוד נגרט), ולאפשר חיפוש אובייקטים לפי-מצב (כל הציוד 'בתכנון'). הסטטוס הוא שכבת-הבקרה החוצה את כל אובייקטי האחזקה.",
         processExampleHe:
           "פיסת-ציוד עוברת מחזור-חיים: EPLN (בתכנון, מספר 10, סטטוס-התחלתי) ➔ הותקנה ➔ מוכנה-לשימוש (30) ➔ בתיקון (40). כשהיא ב-40, גבולות-המעבר מתירים רק 30..60 — אי-אפשר לחזור ל-20 (בבדיקה). ניסיון לבצע תנועה אסורה במצב הנוכחי נחסם/מזהיר לפי Transaction Control.",
-        cbcHe:
-          "ב-CBC: פרופיל סטטוס-משתמש (BS02) לקו-מילוי מגדיר OPER (בייצור), CLEAN (בניקוי/CIP), MAINT (באחזקה). כשהקו ב-MAINT, פתיחת פקודת-ייצור חסומה (Forbidd.) — מונע ייצור בזמן עבודות-אחזקה. כל הציוד 'בתיקון' ניתן-לאיתור בחיפוש לפי-סטטוס לתכנון משמרת.",
+        scenarioHe:
+          "בארגון: פרופיל סטטוס-משתמש (BS02) לקו-מילוי מגדיר OPER (בייצור), CLEAN (בניקוי/CIP), MAINT (באחזקה). כשהקו ב-MAINT, פתיחת פקודת-ייצור חסומה (Forbidd.) — מונע ייצור בזמן עבודות-אחזקה. כל הציוד 'בתיקון' ניתן-לאיתור בחיפוש לפי-סטטוס לתכנון משמרת.",
         navHe: [
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Basic Settings ► Define User Status (BS02)",
           "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► General Data ► User Status for Orders ► Define Status Profile",
@@ -176,8 +176,8 @@ export const CH3: TextbookChapter = {
           "המטרה: זיהוי חד-ערכי של כל רשומה, שליטה במבנה-המספור (לפי קבוצות עסקיות), ושימושיות — מספרים קצרים שקל להקליד ולזכור. גם בסיס למעקב ולמיון.",
         processExampleHe:
           "מגדירים קבוצת-ציוד 'Fleet': טווח פנימי 100000–199999 וחיצוני A00000–AZZZZZ. שתי קטגוריות-ציוד משויכות לקבוצה וחולקות את הטווח. ביצירת ציוד-צי המערכת מקצה 100001, 100002... אוטומטית; לציוד מיובא עם מספר-יצרן משתמשים בטווח החיצוני.",
-        cbcHe:
-          "ב-CBC: לציוד-מפעל הקצאה פנימית קצרה (6 ספרות, 800123) לנוחות הטכנאים; לרכבי-הפצה (Fleet) טווח נפרד; נקודות-מדידה ומסמכי-מדידה — רק טווח פנימי 01 (אין הקלדה ידנית של מיליוני קריאות).",
+        scenarioHe:
+          "בארגון: לציוד-מפעל הקצאה פנימית קצרה (6 ספרות, 800123) לנוחות הטכנאים; לרכבי-הפצה (Fleet) טווח נפרד; נקודות-מדידה ומסמכי-מדידה — רק טווח פנימי 01 (אין הקלדה ידנית של מיליוני קריאות).",
         navHe: [
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Technical Objects ► Equipment ► Equipment Categories ► Define Number Ranges (OIEN)",
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Basic Settings ► Warranties ► Define Number Ranges for Warranty Types (BG20)",
@@ -251,8 +251,8 @@ export const CH3: TextbookChapter = {
           "המטרה: לוודא שתביעות-אחריות ינוצלו — שהמערכת תתריע בזמן פתיחת תקלה שהציוד מכוסה, ותמנע הוצאה מיותרת. בנוסף — מעקב אחר תוקף וסוג-אחריות לכל נכס.",
         processExampleHe:
           "ציוד נרכש עם אחריות-יצרן לשנתיים. נפתחת הודעת-תקלה; כיוון שסוג-האחריות מסומן להצגת-דו-שיח בפתיחת-הודעה, קופצת התראה 'הציוד באחריות-יצרן עד 12/2026'. הטכנאי מפנה את התיקון לספק תחת-אחריות במקום לבצע פנימית בתשלום.",
-        cbcHe:
-          "ב-CBC: ממלא-בקבוקים חדש על קו-המילוי נרשם עם שני סוגי-אחריות — יצרן (Manufacturer) וספק (Vendor). כל תקלה בשנת-האחריות הראשונה מציפה דו-שיח, וכך עלות-התיקון מועברת לספק במקום לתקציב-האחזקה של המפעל.",
+        scenarioHe:
+          "בארגון: ממלא-בקבוקים חדש על קו-המילוי נרשם עם שני סוגי-אחריות — יצרן (Manufacturer) וספק (Vendor). כל תקלה בשנת-האחריות הראשונה מציפה דו-שיח, וכך עלות-התיקון מועברת לספק במקום לתקציב-האחזקה של המפעל.",
         navHe: [
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Basic Settings ► Warranties ► Check Warranty Categories (GM01)",
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Basic Settings ► Warranties ► Define Warranty Types",
@@ -327,8 +327,8 @@ export const CH3: TextbookChapter = {
           "המטרה: לאפשר אחזקה מבוססת-מצב ומבוססת-ביצועים — להתערב לפי קריאה אמיתית ולא לפי לוח-זמנים נוקשה. גבולות וערכי-יעד מפעילים התראות והודעות אוטומטיות לפני כשל.",
         processExampleHe:
           "על משאבה מוגדרת נקודת-מדידה ללחץ עם גבול-עליון; ב-IK11 נרשמת קריאה החורגת מהגבול. כיוון ש-MeasRge message=E וב-Create Notifications פעיל, נחסמת הקריאה החריגה ונוצרת הודעת-אחזקה אוטומטית — האירוע מטופל לפני נזק. מונה שעות-מנוע מפעיל תוכנית-אחזקה כל 500 שע'.",
-        cbcHe:
-          "ב-CBC: על מערבל-הסירופ נקודת-מדידה לטמפ' (ערך-יעד 4°C, גבול-עליון 8°C) — חריגה יוצרת הודעה אוטומטית להגנת-המוצר. מונה-מחזורים על הממלא מפעיל תחזוקה-מונעת כל מיליון בקבוקים. Interval Documents מופעל כדי לא להציף את 12 הרכיבים הכפופים בקו במאות מסמכי-הפרש.",
+        scenarioHe:
+          "בארגון: על מערבל-הסירופ נקודת-מדידה לטמפ' (ערך-יעד 4°C, גבול-עליון 8°C) — חריגה יוצרת הודעה אוטומטית להגנת-המוצר. מונה-מחזורים על הממלא מפעיל תחזוקה-מונעת כל מיליון בקבוקים. Interval Documents מופעל כדי לא להציף את 12 הרכיבים הכפופים בקו במאות מסמכי-הפרש.",
         navHe: [
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Basic Settings ► Measuring Points, Counters, and Measurement Documents ► Make System Settings for Measuring Points and Measurement Documents",
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Basic Settings ► Measuring Points, Counters, and Measurement Documents ► Define Measuring Point Categories",
@@ -404,8 +404,8 @@ export const CH3: TextbookChapter = {
           "המטרה: לאכוף בטיחות ועמידה-ברגולציה — למנוע שחרור או השלמה של פקודה ללא ההיתרים הנדרשים, ולתעד את האישורים על מסמך-העבודה.",
         processExampleHe:
           "פקודה לתיקון-ריתוך על מיכל. להיתר-הריתוך הוגדר OR='חייב'. בניסיון לשחרר את הפקודה המערכת חוסמת עד שההיתר ניתן ידנית; לאחר-מכן ההיתר מודפס על מסמך-הפקודה (Print) ומלווה את הצוות לשטח.",
-        cbcHe:
-          "ב-CBC: עבודות-ריתוך ליד מיכלי-CO2 והגנת-פיצוץ באזורי-מילוי דורשות היתרים מסומנים 'חייב' בשחרור-פקודה. ללא היתר-גישה-למיכל מאושר, הפקודה לא משתחררת — הגנה על בטיחות-העובדים ועל ציות לתקני המפעל.",
+        scenarioHe:
+          "בארגון: עבודות-ריתוך ליד מיכלי-CO2 והגנת-פיצוץ באזורי-מילוי דורשות היתרים מסומנים 'חייב' בשחרור-פקודה. ללא היתר-גישה-למיכל מאושר, הפקודה לא משתחררת — הגנה על בטיחות-העובדים ועל ציות לתקני המפעל.",
         navHe: [
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Basic Settings ► Permits ► Define Permit Categories",
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Technical Objects ► (Equipment) ► Goto ► Permits (IPMD)",
@@ -479,8 +479,8 @@ export const CH3: TextbookChapter = {
           "המטרה: לתעד במדויק את כל בעלי-העניין סביב נכס ופקודה — לתקשורת, לאחריות-ביצוע, לקביעת-עלויות ולתביעות-אחריות — ולאכוף אילו שותפים חובה לציין.",
         processExampleHe:
           "לקטגוריית-ציוד מוגדר נוהל-קביעת-שותפים שבו יצרן (MF) וספק (PV) חובה ונותן-שירות (SP) רשות. ביצירת-ציוד המערכת מחייבת מילוי MF ו-PV מתוך טבלת-הספקים (LI); ללא-מילוי — שגיאה. בפתיחת-פקודה השותפים מורשים אוטומטית, וכך פנייה לנותן-שירות אפשרית בלחיצה.",
-        cbcHe:
-          "ב-CBC: לממלא-בקבוקים מוגדר נוהל עם MF (יצרן-המכונה) ו-PV (ספק-מקומי) חובה, ו-SP (טכנאי-שירות-חיצוני) רשות. כשנפתחת פקודת-תקלה, פרטי נותן-השירות זמינים מיד להזמנת-טכנאי, ופרטי-היצרן לתביעת-אחריות.",
+        scenarioHe:
+          "בארגון: לממלא-בקבוקים מוגדר נוהל עם MF (יצרן-המכונה) ו-PV (ספק-מקומי) חובה, ו-SP (טכנאי-שירות-חיצוני) רשות. כשנפתחת פקודת-תקלה, פרטי נותן-השירות זמינים מיד להזמנת-טכנאי, ופרטי-היצרן לתביעת-אחריות.",
         navHe: [
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Basic Settings ► Partners ► Define Partner Determination Procedure and Partner Function (VOP2)",
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Technical Objects ► Equipment ► Equipment Categories ► Assign Partner Determination Procedure to Equipment Category (OIEV)",
@@ -555,8 +555,8 @@ export const CH3: TextbookChapter = {
           "המטרה: להנגיש את כל הידע-ההנדסי (שרטוטים, הוראות, תקנים) ישירות בנקודת-העבודה, להבטיח שהצוות עובד לפי הגרסה הנכונה, ולשמור תיעוד מרכזי ומאובטח.",
         processExampleHe:
           "מוגדר סוג-מסמך PM ב-DC10 עם Object Links ל-EQUI ו-PMAUFK ו-Create Document='1'. טכנאי פותח פקודה, גורר קובץ-PDF של הוראת-העבודה; רשומת-המסמך נוצרת אוטומטית במספור-פנימי ומקושרת לפקודה. הקובץ נשמר ב-Content Repository המאובטח דרך KPro.",
-        cbcHe:
-          "ב-CBC: לכל קו-מילוי מקושרים שרטוטי-P&ID, הוראות-CIP ותקני-בטיחות-מזון כמסמכי-DMS על הציוד. בפתיחת פקודת-אחזקה הטכנאי רואה מיד את השרטוט העדכני, ומוודא עבודה לפי-תקן — קריטי בסביבת מזון מפוקחת.",
+        scenarioHe:
+          "בארגון: לכל קו-מילוי מקושרים שרטוטי-P&ID, הוראות-CIP ותקני-בטיחות-מזון כמסמכי-DMS על הציוד. בפתיחת פקודת-אחזקה הטכנאי רואה מיד את השרטוט העדכני, ומוודא עבודה לפי-תקן — קריטי בסביבת מזון מפוקחת.",
         navHe: [
           "Cross-Application Components ► Document Management ► Control Data ► Define Document Types (DC10)",
           "Cross-Application Components ► Document Management ► General Data ► Settings for Storage Systems ► Maintain Storage System (OAC0)",
@@ -632,8 +632,8 @@ export const CH3: TextbookChapter = {
           "המטרה: לאכוף איכות-נתונים (שדות-מפתח חובה), לפשט מסכים (הסתרת לא-רלוונטי), ולהתאים את התצוגה להקשר דרך שדות-משפיעים — בלי פיתוח.",
         processExampleHe:
           "לכותרת-פקודה (OIAN) מבססים בחירת-שדות על סוג-הפקודה. לסוג 'תיקון-חירום' שדה 'סיבת-תקלה' מוגדר Req. (חובה), ולסוג 'מונע' הוא Hide. כך אותו מסך מתנהג שונה לפי-הקשר ומבטיח שדות-מפתח מלאים היכן שצריך.",
-        cbcHe:
-          "ב-CBC: לקטגוריית-ציוד 'קו-מילוי' שדה 'מהירות-נקובה' מוגדר חובה (Req.) להבטחת-נתונים; לציוד-משרדי הוא מוסתר (Hide). כך טכנאי המזין ציוד-ייצור חייב למלא נתון קריטי, ואינו רואה שדות לא-רלוונטיים.",
+        scenarioHe:
+          "בארגון: לקטגוריית-ציוד 'קו-מילוי' שדה 'מהירות-נקובה' מוגדר חובה (Req.) להבטחת-נתונים; לציוד-משרדי הוא מוסתר (Hide). כך טכנאי המזין ציוד-ייצור חייב למלא נתון קריטי, ואינו רואה שדות לא-רלוונטיים.",
         navHe: [
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Technical Objects ► Equipment ► Define Field Selection for the Equipment Master Record (OIAD)",
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Technical Objects ► Functional Locations ► Define Field Selection for Functional Locations (OIAE)",
@@ -708,8 +708,8 @@ export const CH3: TextbookChapter = {
           "המטרה: לתת לכל קבוצת-משתמשים נקודת-מוצא ממוקדת לרשימות-העבודה — סינון ועמודות נכונים מההתחלה — ולחסוך כל-אחד-בונה-מאפס. גם אכיפת-סינון (חובה/מוגן) למניעת-שאילתות-כבדות.",
         processExampleHe:
           "למתכנן מוגדר וריאנט-פקודות (OIWL) שבו 'מפעל' הוא שדה-חובה ומוגן, סטטוס='פתוח' קבוע, והעמודות המוצגות הן תאריך-יעד, ציוד וקבוצת-מתכננים, ממוין לפי-תאריך. בפתיחת IW39 המתכנן מקבל מיד רשימה רלוונטית בלי הגדרות.",
-        cbcHe:
-          "ב-CBC: למנהל-משמרת וריאנט-הודעות (OIWI) המסנן אוטומטית למפעל-המילוי ולמרכז-העבודה שלו, ומציג עמודות עדיפות-תקלה וזמן-השבתה — כך הוא רואה בפתיחת IW29 רק את התקלות הרלוונטיות לקו שלו, ממוינות לפי-דחיפות.",
+        scenarioHe:
+          "בארגון: למנהל-משמרת וריאנט-הודעות (OIWI) המסנן אוטומטית למפעל-המילוי ולמרכז-העבודה שלו, ומציג עמודות עדיפות-תקלה וזמן-השבתה — כך הוא רואה בפתיחת IW29 רק את התקלות הרלוונטיות לקו שלו, ממוינות לפי-דחיפות.",
         navHe: [
           "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► List Editing ► Define List Variants (OIWL)",
           "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Notifications ► Notification Processing ► Define List Variants (OIWI)",
@@ -784,8 +784,8 @@ export const CH3: TextbookChapter = {
           "המטרה: לתת מבט-הקשרי מקיף על אובייקט — כל מה שתלוי בו במקום-אחד — לתחקור-תקלות, לתכנון ולסקירת-מצב, בלי איסוף-ידני ממסכים מרובים.",
         processExampleHe:
           "מתכנן פותח IL07 על מיקום-פונקציונלי. בסגמנט-הפקודות מוגדר DispPosition לשדות תאריך-יעד וסטטוס, ובסגמנט-המסמכים מוצגים שרטוטים מקושרים. במבט-אחד הוא רואה את כל הפקודות הפתוחות והמסמכים של המיקום — ומכין סקירת-מצב לישיבת-תכנון.",
-        cbcHe:
-          "ב-CBC: מנהל-תחזוקה מריץ IL07 על קו-מילוי שלם ורואה בעץ-אחד את כל הציוד הכפוף, ההודעות הפתוחות, הפקודות והמסמכים — תמונת-מצב מלאה של הקו לפני סבב-תחזוקה מתוכנן, בלי לפתוח עשרות מסכים.",
+        scenarioHe:
+          "בארגון: מנהל-תחזוקה מריץ IL07 על קו-מילוי שלם ורואה בעץ-אחד את כל הציוד הכפוף, ההודעות הפתוחות, הפקודות והמסמכים — תמונת-מצב מלאה של הקו לפני סבב-תחזוקה מתוכנן, בלי לפתוח עשרות מסכים.",
         navHe: [
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Technical Objects ► Functional Locations ► Field Selection for Multilevel List Displays of Functional Location",
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Technical Objects ► Equipment ► Define Field Selection for Multilevel List Displays of Equipment",
@@ -860,8 +860,8 @@ export const CH3: TextbookChapter = {
           "המטרה: ביקורת-עקיבות (Audit Trail) — מי שינה מה ומתי — לעמידה-ברגולציה, לחקירת-אירועים ולשקיפות-נתונים. בלי מסמכי-שינוי אין דרך לדעת מה השתנה בנתוני-האב.",
         processExampleHe:
           "לקטגוריית-ציוד הופעל מחוון C. טכנאי שינה את המיקום-הפונקציונלי של ציוד; יומן-הפעולות (Action Log) רושם את הערך-הישן, החדש, המשתמש והתאריך. בתחקור-תקלה מאוחר מתגלה שהציוד הועבר ביום-התקלה — קצה-חוט קריטי.",
-        cbcHe:
-          "ב-CBC: בסביבת מזון מפוקחת מופעלים מסמכי-שינוי לכל הציוד ולפקודות. כל שינוי במאפייני-ציוד-קריטי (מהירות, נפח, מרכז-עלות) מתועד לביקורת-איכות; כך עומדים בדרישות-תקן ומסוגלים להוכיח שליטה-בשינויים בעת ביקורת חיצונית.",
+        scenarioHe:
+          "בארגון: בסביבת מזון מפוקחת מופעלים מסמכי-שינוי לכל הציוד ולפקודות. כל שינוי במאפייני-ציוד-קריטי (מהירות, נפח, מרכז-עלות) מתועד לביקורת-איכות; כך עומדים בדרישות-תקן ומסוגלים להוכיח שליטה-בשינויים בעת ביקורת חיצונית.",
         navHe: [
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Technical Objects ► Equipment ► Equipment Categories ► Maintain Equipment Category",
           "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Define Change Documents, Collective Purchase Requisition, MRP Relevance",
@@ -936,8 +936,8 @@ export const CH3: TextbookChapter = {
           "המטרה: לבסס חשיבה-גנרית — להבין שפונקציה נלמדת פעם-אחת ומיושמת רוחבית — ולתת מפת-דרכים לתשתית הקונפיגורציה לפני הצלילה לאובייקטים הספציפיים.",
         processExampleHe:
           "מימוש טיפוסי: קודם מקימים תשתית גנרית (טווחי-מספרים, פרופילי-סטטוס, סוגי-מסמך, בחירת-שדות), ורק אז מגדירים את האובייקטים הספציפיים (קטגוריות-ציוד, סוגי-הודעה/פקודה) המצביעים על התשתית. כך נמנעת עבודה-כפולה.",
-        cbcHe:
-          "ב-CBC: צוות-המימוש הקים תחילה את הפונקציות הגנריות (סטטוס לקווים, מספור-ציוד קצר, DMS לשרטוטים, נקודות-מדידה לטמפ'), ואז שילב אותן בקטגוריות-הציוד ובסוגי-הפקודה של המפעל — תשתית אחת המשרתת את כל מערך-האחזקה.",
+        scenarioHe:
+          "בארגון: צוות-המימוש הקים תחילה את הפונקציות הגנריות (סטטוס לקווים, מספור-ציוד קצר, DMS לשרטוטים, נקודות-מדידה לטמפ'), ואז שילב אותן בקטגוריות-הציוד ובסוגי-הפקודה של המפעל — תשתית אחת המשרתת את כל מערך-האחזקה.",
         navHe: [
           "Plant Maintenance and Customer Service ► Master Data in Plant Maintenance and Customer Service ► Basic Settings (תשתית גנרית)",
           "Cross-Application Components ► Document Management (DMS גנרי)",

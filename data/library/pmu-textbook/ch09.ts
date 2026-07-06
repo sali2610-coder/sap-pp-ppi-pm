@@ -9,7 +9,7 @@ export const CH9: TextbookChapter = {
   titleHe: "טכנולוגיות מידע חדשות",
   titleEn: "New Information Technologies",
   introHe:
-    "פרק זה סוקר את גל-החדשנות הטכנולוגי שמשנה את אופן עבודת אחזקת-המפעל (Plant Maintenance) ב-SAP S/4HANA: ממשק-משתמש חדש (SAP Fiori, SAP 3D Visual Enterprise, Quick Views), אחזקה ניידת (Mobile Maintenance — SAP Work Manager, SAP Asset Manager, RFID), ואחזקה חכמה ומבוססת-נתונים (SAP Intelligent Asset Management — Asset Central Foundation, AIN, ASPM, PdMS, SAP Predictive Engineering Insights). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת CBC (מפעל-מילוי משקאות של Coca-Cola), עצי-ניווט באפליקציות, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-זרימה לתהליכים ניידים וחיזויים, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הטכנולוגיה ללא הספר המקורי, ברמה שמשרתת גם מתחיל וגם יועץ.",
+    "פרק זה סוקר את גל-החדשנות הטכנולוגי שמשנה את אופן עבודת אחזקת-המפעל (Plant Maintenance) ב-SAP S/4HANA: ממשק-משתמש חדש (SAP Fiori, SAP 3D Visual Enterprise, Quick Views), אחזקה ניידת (Mobile Maintenance — SAP Work Manager, SAP Asset Manager, RFID), ואחזקה חכמה ומבוססת-נתונים (SAP Intelligent Asset Management — Asset Central Foundation, AIN, ASPM, PdMS, SAP Predictive Engineering Insights). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת הארגון (מפעל-מילוי משקאות של Example Product), עצי-ניווט באפליקציות, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-זרימה לתהליכים ניידים וחיזויים, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הטכנולוגיה ללא הספר המקורי, ברמה שמשרתת גם מתחיל וגם יועץ.",
   subchapters: [
     // ============================================================ 9.1
     {
@@ -26,8 +26,8 @@ export const CH9: TextbookChapter = {
         "להעביר את אנשי-האחזקה מ-'ניווט במערכת' ל-'ביצוע עבודה': פחות מסכים, פחות הקלדה, יותר הקשר ויזואלי. ממשק נכון מקצר Onboarding של טכנאי חדש משבועות לימים ומפחית טעויות-הזנה שמזהמות את היסטוריית-הנכס.",
       processExampleHe:
         "מתכנן-אחזקה נכנס ל-Fiori Launchpad, רואה אריח 'My Open Maintenance Orders' עם מונה, נכנס ל-Object Page של הזמנת-אחזקה, פותח מודל תלת-ממדי של המשאבה דרך SAP 3D Visual Enterprise, מסמן את האטם הפגום ויזואלית, ומ-Quick View של ה-Equipment רואה מיד את היסטוריית-התקלות ורשימת חלקי-החילוף — הכל בלי לעבור בין עשרה מסכי-GUI.",
-      cbcHe:
-        "ב-CBC (מפעל-מילוי Coca-Cola): מנהל-משמרת פותח Launchpad עם אריחי-תפקיד לקווי-המילוי; טכנאי-קו רואה Quick View של מילֵא (Filler) עם מצב, פק\"ע פתוחות וזמינות-חלפים; ומדריך-הכשרה משתמש במודל תלת-ממדי של ראש-המילוי כדי להראות לעובד-חדש איפה האטם הדולף — במקום צילום-מסך מטושטש.",
+      scenarioHe:
+        "בארגון (מפעל-מילוי Example Product): מנהל-משמרת פותח Launchpad עם אריחי-תפקיד לקווי-המילוי; טכנאי-קו רואה Quick View של מילֵא (Filler) עם מצב, פק\"ע פתוחות וזמינות-חלפים; ומדריך-הכשרה משתמש במודל תלת-ממדי של ראש-המילוי כדי להראות לעובד-חדש איפה האטם הדולף — במקום צילום-מסך מטושטש.",
       navHe: [
         "SAP Fiori Launchpad ► Spaces & Pages ► Maintenance Management (Business Role: SAP_BR_MAINTENANCE_PLANNER)",
         "SAP GUI ► SPRO ► SAP NetWeaver ► UI Technologies ► SAP Fiori ► Activate Catalogs/Groups",
@@ -90,8 +90,8 @@ export const CH9: TextbookChapter = {
             "לקצר את הזמן לזיהוי-חלק ולהזמנת-חלף נכון, להפחית טעויות-הזמנה, ולשפר הדרכה: עובד חדש מבין מבנה-מכונה ויזואלית מהר בהרבה מאשר משרטוט.",
           processExampleHe:
             "טכנאי מקבל פק\"ע על רעש במסבך; פותח את ה-3D Viewer של המכונה, מבצע exploded view של גל-ההינע, מזהה את המסב הפגום, לוחץ עליו ומקבל את מספר-החומר (Material) ל-Reservation — הכל מבלי לעזוב את הזמנת-האחזקה.",
-          cbcHe:
-            "ב-CBC: מודל תלת-ממדי של ראש-המילוי הקרוסלי (rotary filler) מאפשר לטכנאי לסמן את ה-fill valve הדולף ולמשוך מיד את חלף-החילוף הנכון מתוך מאות שסתומים זהים-למראה.",
+          scenarioHe:
+            "בארגון: מודל תלת-ממדי של ראש-המילוי הקרוסלי (rotary filler) מאפשר לטכנאי לסמן את ה-fill valve הדולף ולמשוך מיד את חלף-החילוף הנכון מתוך מאות שסתומים זהים-למראה.",
           navHe: [
             "Fiori Object Page (Equipment) ► 3D Visualization tab ► Visual Enterprise Viewer",
             "DMS ► CV03N ► Document (VDS) ► Object Link ► Equipment",
@@ -140,8 +140,8 @@ export const CH9: TextbookChapter = {
             "להעמיד את המשתמש במרכז: זרימת-עבודה אחת לכל משימה, חיפוש-Enterprise חוצה-אובייקטים, וניידות אמיתית — אותו ממשק בדסקטופ, בטאבלט ובטלפון.",
           processExampleHe:
             "מתכנן פותח אפליקציית 'Find Maintenance Notifications', מסנן לפי מערכת-משנה, ממיר התראה להזמנה ('Create Maintenance Order'), מתזמן ומשחרר — שרשרת שלמה תוך מספר אפליקציות מקושרות, עם ניווט-הקשרי ביניהן.",
-          cbcHe:
-            "ב-CBC כל תפקיד מקבל Space ייעודי: 'Line Maintenance Technician' עם אריחי דיווח-זמן ואישור-פק\"ע; 'Reliability Engineer' עם אריחי-אנליטיקה של MTBF ו-Top Bad Actors בקווי-המילוי.",
+          scenarioHe:
+            "בארגון כל תפקיד מקבל Space ייעודי: 'Line Maintenance Technician' עם אריחי דיווח-זמן ואישור-פק\"ע; 'Reliability Engineer' עם אריחי-אנליטיקה של MTBF ו-Top Bad Actors בקווי-המילוי.",
           navHe: [
             "SAP Fiori Launchpad ► Spaces ► Maintenance Management",
             "Fiori Apps Reference Library ► PM ► App ID ► OData service + Business Role",
@@ -197,8 +197,8 @@ export const CH9: TextbookChapter = {
             "לתת החלטה מהירה בשטח: 'האם להתערב עכשיו?' — ע\"י ריכוז המידע הרלוונטי במקום אחד, בלי לאבד זמן בניווט.",
           processExampleHe:
             "מפקח פותח Quick View של משאבה: רואה status 'in operation', מד-רטט עדכני באדום, שתי פק\"ע פתוחות וזמינות-מסב במלאי — ומחליט תוך שניות להקדים את ההזמנה.",
-          cbcHe:
-            "ב-CBC: Quick View של מילֵא מציג OEE-קו, מספר-עצירות במשמרת, פק\"ע פתוחות וחלפים — מנהל-המשמרת מקבל תמונת-מצב מיידית לפני סבב-הביקורת.",
+          scenarioHe:
+            "בארגון: Quick View של מילֵא מציג OEE-קו, מספר-עצירות במשמרת, פק\"ע פתוחות וחלפים — מנהל-המשמרת מקבל תמונת-מצב מיידית לפני סבב-הביקורת.",
           navHe: [
             "Fiori ► Object Page (Equipment / Functional Location)",
             "Fiori ► Overview Page (Maintenance) ► Cards",
@@ -249,8 +249,8 @@ export const CH9: TextbookChapter = {
         "להגדיל wrench-time (אחוז-הזמן בעבודת-אחזקה בפועל), לבטל הקלדה-כפולה ופערי-תיעוד, ולשפר את איכות היסטוריית-הנכס — כי הדיווח נעשה בנקודת-העבודה ובזמן-אמת.",
       processExampleHe:
         "טכנאי מקבל push לפק\"ע במכשיר, ניגש לקו, סורק תג-RFID של המכונה (זיהוי-Equipment אוטומטי), מבצע, מתעד מדידה (Measurement Document), מדווח 1.5 שעות ומשיכת-חלף, מצרף תמונה ומאשר — והכל מסתנכרן ל-S/4HANA; אם הקו במרתף ללא רשת, הנתונים נשמרים offline ומסתנכרנים כשחוזרת הקליטה.",
-      cbcHe:
-        "ב-CBC: טכנאי-משמרת בקו-המילוי נושא טאבלט עם SAP Asset Manager; משמרת-לילה במחסן-קירור ללא Wi-Fi עובדת offline; תגי-RFID על מנועים וראשי-מילוי מזהים את ה-Equipment בסריקה, ומונעים דיווח על המכונה הלא-נכונה.",
+      scenarioHe:
+        "בארגון: טכנאי-משמרת בקו-המילוי נושא טאבלט עם SAP Asset Manager; משמרת-לילה במחסן-קירור ללא Wi-Fi עובדת offline; תגי-RFID על מנועים וראשי-מילוי מזהים את ה-Equipment בסריקה, ומונעים דיווח על המכונה הלא-נכונה.",
       navHe: [
         "SAP Asset Manager (mobile app) ► My Work Orders ► Operation ► Confirm",
         "SAP BTP Cockpit ► Mobile Services ► Asset Manager ► OData offline configuration",
@@ -320,8 +320,8 @@ export const CH9: TextbookChapter = {
             "להניח תשתית-הבנה משותפת: לבחור פתרון, להגדיר scope-נתונים, ולתכנן offline — לפני התעמקות במוצר ספציפי.",
           processExampleHe:
             "במימוש: מגדירים אילו אובייקטים יורדים למכשיר (פק\"ע פתוחות שלי + ה-Equipment שלהן), כיצד מתבצע delta sync, וכיצד נפתרים קונפליקטים אם שני טכנאים נגעו באותה פעולה.",
-          cbcHe:
-            "ב-CBC: ה-scope לטכנאי-קו = פק\"ע פתוחות על קו-המילוי שלו + ה-Equipment של הקו + הוראות-מדידה; לא כל המפעל — לשמירה על מכשיר קל וסנכרון מהיר.",
+          scenarioHe:
+            "בארגון: ה-scope לטכנאי-קו = פק\"ע פתוחות על קו-המילוי שלו + ה-Equipment של הקו + הוראות-מדידה; לא כל המפעל — לשמירה על מכשיר קל וסנכרון מהיר.",
           navHe: [
             "SAP BTP ► Mobile Services ► Offline OData ► Defining Requests (scope)",
             "Mobile app ► Sync ► Delta",
@@ -370,8 +370,8 @@ export const CH9: TextbookChapter = {
             "לאפשר ללקוחות-קיימים להמשיך אחזקה ניידת offline, ולספק בסיס-להבנה לקראת מעבר ל-SAP Asset Manager.",
           processExampleHe:
             "טכנאי ב-Work Manager מסנכרן בתחילת-משמרת, עובד offline כל היום על פק\"ע ומדידות, ומסנכרן בסוף — נתונים זורמים ל-ERP דרך SMP.",
-          cbcHe:
-            "ב-CBC: אם המפעל מימש Work Manager בעבר, הוא מתוכנן להגר ל-SAP Asset Manager במסגרת מעבר ל-S/4HANA Cloud-ready.",
+          scenarioHe:
+            "בארגון: אם המפעל מימש Work Manager בעבר, הוא מתוכנן להגר ל-SAP Asset Manager במסגרת מעבר ל-S/4HANA Cloud-ready.",
           navHe: [
             "SAP Work Manager ► Agentry ► Work Order ► Steps",
             "SMP Server ► Agentry application deployment",
@@ -420,8 +420,8 @@ export const CH9: TextbookChapter = {
             "לספק אחזקה-ניידת מודרנית, ניתנת-להתאמה וקלת-תחזוקה, המנצלת BTP ו-OData-offline ומשתלבת ב-Intelligent Asset Management.",
           processExampleHe:
             "טכנאי מקבל פק\"ע ב-Asset Manager, מנווט לנכס במפה, סורק RFID, מבצע, מתעד מדידות ותמונות, מושך-חלף מ-mobile inventory, מדווח-זמן ומאשר — offline אם צריך — והכל מסתנכרן דרך BTP ל-S/4HANA.",
-          cbcHe:
-            "ב-CBC: SAP Asset Manager הוא הסטנדרט לטכנאי-קווי-המילוי; משולב עם RFID לזיהוי-מכונה, geolocation לאיתור נכסים במתחם, ו-mobile inventory לחלפים — תומך עבודה offline במחסני-קירור.",
+          scenarioHe:
+            "בארגון: SAP Asset Manager הוא הסטנדרט לטכנאי-קווי-המילוי; משולב עם RFID לזיהוי-מכונה, geolocation לאיתור נכסים במתחם, ו-mobile inventory לחלפים — תומך עבודה offline במחסני-קירור.",
           navHe: [
             "SAP Asset Manager (app) ► My Work Orders / Map / Inventory",
             "SAP BTP ► Mobile Services ► Asset Manager ► Offline OData",
@@ -478,8 +478,8 @@ export const CH9: TextbookChapter = {
             "לבטל זיהוי-ידני שגוי, להאיץ פתיחת-הקשר בשטח, לאפשר מעקב ואינוונטריזציה אוטומטיים — ולשפר את אמינות היסטוריית-הנכס.",
           processExampleHe:
             "טכנאי מקרב טלפון לתג-NFC על משאבה; ה-UID מתורגם ל-Equipment, ו-Asset Manager פותח את פק\"ע הפתוחה והיסטוריה — בלי חיפוש-ידני ובלי סיכון לבלבול בין מכונות זהות.",
-          cbcHe:
-            "ב-CBC: עשרות מנועים וראשי-מילוי זהים-למראה על אותו קו; תגי-RFID מבטיחים שהטכנאי מדווח על ה-Equipment הנכון, וספירת-מלאי-חלפים במחסן-הקירור נעשית בסריקה מהירה.",
+          scenarioHe:
+            "בארגון: עשרות מנועים וראשי-מילוי זהים-למראה על אותו קו; תגי-RFID מבטיחים שהטכנאי מדווח על ה-Equipment הנכון, וספירת-מלאי-חלפים במחסן-הקירור נעשית בסריקה מהירה.",
           navHe: [
             "Mobile app ► Scan RFID/NFC ► Equipment context",
             "S/4HANA ► Equipment ► technical identification (tag ↔ Equipment mapping)",
@@ -532,8 +532,8 @@ export const CH9: TextbookChapter = {
         "לחבר נתוני-חיישנים, היסטוריית-אחזקה וידע-הנדסי לכדי החלטות: מתי להתערב, על מה, ובאיזו אסטרטגיה — כדי למקסם זמינות-נכס במינימום-עלות, ולסגור את הלולאה חזרה ל-PM הביצועי ב-S/4HANA.",
       processExampleHe:
         "חיישן-רטט מזין indicator ב-Asset Central Foundation; PdMS מזהה anomaly מול baseline, מחשב health-score יורד, ויוצר אוטומטית Maintenance Notification ב-S/4HANA; ASPM מצליב מול ה-FMEA וממליץ על שינוי-אסטרטגיה; AIN מאפשר לשתף את התקלה עם היצרן לקבלת המלצה.",
-      cbcHe:
-        "ב-CBC: קווי-המילוי מצוידים בחיישני-רטט וטמפרטורה; IAM אוסף indicators ל-ACF, PdMS חוזה כשל-מסב במילֵא לפני עצירת-קו, ASPM מנהל את אסטרטגיית-האחזקה לכל סוג-קו, ו-AIN משתף נתוני-ביצועים עם יצרן-המכונה.",
+      scenarioHe:
+        "בארגון: קווי-המילוי מצוידים בחיישני-רטט וטמפרטורה; IAM אוסף indicators ל-ACF, PdMS חוזה כשל-מסב במילֵא לפני עצירת-קו, ASPM מנהל את אסטרטגיית-האחזקה לכל סוג-קו, ו-AIN משתף נתוני-ביצועים עם יצרן-המכונה.",
       navHe: [
         "SAP BTP ► Intelligent Asset Management ► Asset Central Foundation",
         "IAM ► AIN / ASPM / PdMS / PEI launchpad",
@@ -600,8 +600,8 @@ export const CH9: TextbookChapter = {
             "לספק מקור-אמת אחד ומשותף לנתוני-נכס בענן, שעליו נבנים collaboration, אסטרטגיה וניבוי — בלי לשכפל נתוני-אב.",
           processExampleHe:
             "Equipment מ-S/4HANA מסונכרן ל-ACF כ-Equipment הקשור ל-Model; מוגדרים עליו Indicators (רטט/טמפ'); PdMS צורך את ה-Indicators, ו-AIN משתף את ה-Model עם היצרן.",
-          cbcHe:
-            "ב-CBC: כל מילֵא מסונכרן ל-ACF כ-Equipment תחת Model של היצרן, עם Indicators לרטט-מסב וטמפרטורה — בסיס לכל ניתוח-IAM של הקו.",
+          scenarioHe:
+            "בארגון: כל מילֵא מסונכרן ל-ACF כ-Equipment תחת Model של היצרן, עם Indicators לרטט-מסב וטמפרטורה — בסיס לכל ניתוח-IAM של הקו.",
           navHe: [
             "SAP BTP ► Intelligent Asset Management ► Asset Central Foundation ► Equipment / Models / Indicators",
             "S/4HANA ► IAM integration ► master-data sync",
@@ -649,8 +649,8 @@ export const CH9: TextbookChapter = {
             "לבטל איי-מידע בין יצרן למפעיל: מפרט וחומר-אחזקה תמיד עדכניים מהמקור, שיתוף-תובנות דו-כיווני, וקיצור זמן-לתיקון בזכות מידע-יצרן זמין.",
           processExampleHe:
             "יצרן-המשאבות מפרסם ב-AIN Model עם הוראות-אחזקה ורשימת-חלפים; המפעיל מקשר את ה-Equipment שלו ל-Model ומקבל את התוכן; כשמתגלה תקלה חוזרת, המפעיל משתף נתונים עם היצרן דרך הרשת.",
-          cbcHe:
-            "ב-CBC: יצרן-קווי-המילוי מפרסם ב-AIN את מפרטי-הקו וחלפיו; מפעלי-Coca-Cola שונים נהנים מאותו מידע-עדכני, ומשתפים נתוני-אמינות בחזרה לשיפור-המוצר.",
+          scenarioHe:
+            "בארגון: יצרן-קווי-המילוי מפרסם ב-AIN את מפרטי-הקו וחלפיו; מפעלי-Example Product שונים נהנים מאותו מידע-עדכני, ומשתפים נתוני-אמינות בחזרה לשיפור-המוצר.",
           navHe: [
             "SAP BTP ► IAM ► Asset Intelligence Network ► Models / Equipment / Collaboration",
             "AIN ► Documents / Instructions / Spare Parts sharing",
@@ -698,8 +698,8 @@ export const CH9: TextbookChapter = {
             "להקצות משאבי-אחזקה לפי סיכון וערך: למקד אחזקה-מונעת/חזויית בנכסים-קריטיים ולחסוך בנכסים שוליים — אופטימיזציה של עלות מול זמינות.",
           processExampleHe:
             "צוות-אמינות מבצע FMEA למילֵא, מזהה 'כשל-מסב' כ-RPN גבוה, קובע אסטרטגיה חזויית למסבים ומונעת לאטמים; ASPM גוזר maintenance strategy שמתורגמת ל-task lists ב-S/4HANA ומודד MTBF להמשך-שיפור.",
-          cbcHe:
-            "ב-CBC: ASPM מנהל אסטרטגיה לכל סוג-קו; מסבים קריטיים = אחזקה-חזויית (PdMS), רכיבים-זולים = run-to-failure; KPIs (MTBF/availability) למילֵאים מנחים את התקציב.",
+          scenarioHe:
+            "בארגון: ASPM מנהל אסטרטגיה לכל סוג-קו; מסבים קריטיים = אחזקה-חזויית (PdMS), רכיבים-זולים = run-to-failure; KPIs (MTBF/availability) למילֵאים מנחים את התקציב.",
           navHe: [
             "SAP BTP ► IAM ► Asset Strategy and Performance Management ► FMEA / Strategy / Performance",
             "ASPM ► Criticality / RAMS analytics",
@@ -748,8 +748,8 @@ export const CH9: TextbookChapter = {
             "לעבור מ-time-based ל-condition/predictive maintenance: להתערב לפי-מצב-אמיתי, להפחית עצירות לא-מתוכננות ועלויות, ולהאריך חיי-נכס.",
           processExampleHe:
             "חיישן-רטט מזין Indicator; PdMS מזהה anomaly מול baseline, ה-health-score צונח, נוצרת אוטומטית Maintenance Notification ב-S/4HANA, מתכנן ממיר להזמנה ומתזמן — הכשל נמנע לפני עצירת-הקו.",
-          cbcHe:
-            "ב-CBC: PdMS מנטר מסבים ומנועים בקווי-המילוי; חיזוי כשל-מסב במילֵא יוצר התראה ופק\"ע מתוכננת בין-משמרות — נמנעת עצירת-קו בשיא-הייצור.",
+          scenarioHe:
+            "בארגון: PdMS מנטר מסבים ומנועים בקווי-המילוי; חיזוי כשל-מסב במילֵא יוצר התראה ופק\"ע מתוכננת בין-משמרות — נמנעת עצירת-קו בשיא-הייצור.",
           navHe: [
             "SAP BTP ► IAM ► Predictive Maintenance and Service ► Indicators / Anomalies / Alerts",
             "PdMS ► write-back ► S/4HANA Notification/Order",
@@ -811,8 +811,8 @@ export const CH9: TextbookChapter = {
             "להעמיק את הניבוי מ-'חריגה' ל-'הבנה-הנדסית': RUL, אופטימיזציית-ביצועים וניתוח-צי — לתמיכה בהחלטות-הנדסה ושיפור-מוצר.",
           processExampleHe:
             "מהנדס-אמינות מריץ מודל-הנדסי ב-PEI המשלב נתוני-עומס ורטט מ-ACF, מחשב remaining-useful-life למסב, ומזין את התובנה ל-ASPM לעדכון-אסטרטגיה ול-AIN לשיתוף עם היצרן.",
-          cbcHe:
-            "ב-CBC: PEI מנתח את צי-המילֵאים, מחשב RUL למסבים תחת פרופיל-העומס האמיתי של כל קו, וממליץ על מועד-החלפה אופטימלי — מדויק יותר מ-'חריגה' גרידא.",
+          scenarioHe:
+            "בארגון: PEI מנתח את צי-המילֵאים, מחשב RUL למסבים תחת פרופיל-העומס האמיתי של כל קו, וממליץ על מועד-החלפה אופטימלי — מדויק יותר מ-'חריגה' גרידא.",
           navHe: [
             "SAP BTP ► IAM ► Predictive Engineering Insights ► Engineering Models / RUL",
             "PEI ► fleet analytics ► feedback ל-ASPM/AIN",
@@ -863,8 +863,8 @@ export const CH9: TextbookChapter = {
         "לקשור את שלושת הגלים לתמונה אחת: ממשק טוב מאיץ עבודה, ניידות מעבירה אותה לשטח, ובינת-נכסים הופכת אותה לחזויית — שלושתם משלימים, לא מתחרים.",
       processExampleHe:
         "תרחיש-קצה-לקצה: PdMS חוזה כשל-מסב (IAM) → נוצרת Notification ב-S/4HANA → המתכנן מטפל ב-Fiori → הטכנאי מקבל פק\"ע ב-SAP Asset Manager בשטח, סורק RFID, רואה מודל 3D, מבצע ומאשר offline → ההיסטוריה מזינה חזרה את ASPM/PEI.",
-      cbcHe:
-        "ב-CBC: קו-מילוי 'חכם' — חיישנים מזינים IAM, PdMS חוזה כשל-מסב, Notification נפתחת, טכנאי מקבל פק\"ע ב-Asset Manager עם מודל-3D ו-RFID, מתקן בין-משמרות, וה-ASPM מעדכן אסטרטגיה — לולאה שלמה שמונעת עצירת-קו.",
+      scenarioHe:
+        "בארגון: קו-מילוי 'חכם' — חיישנים מזינים IAM, PdMS חוזה כשל-מסב, Notification נפתחת, טכנאי מקבל פק\"ע ב-Asset Manager עם מודל-3D ו-RFID, מתקן בין-משמרות, וה-ASPM מעדכן אסטרטגיה — לולאה שלמה שמונעת עצירת-קו.",
       navHe: [
         "Fiori Launchpad ► Maintenance (UI)",
         "SAP Asset Manager (mobile) ► RFID (ניידות)",

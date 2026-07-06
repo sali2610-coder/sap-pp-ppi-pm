@@ -9,7 +9,7 @@ export const CH19: TextbookChapter = {
     titleHe: "בקרת איכות (Quality Control)",
     titleEn: "Quality Control",
     introHe:
-      "פרק זה הוא יחידת-לימוד מלאה לבקרת-איכות ב-SAP S/4HANA QM. הוא מכסה את שלושת עמודי-התווך של ה-Quality Control: הערכת-ספקים (Supplier Evaluation) הנותנת ציון-איכות לכל ספק, רמת-האיכות (Quality Level / Dynamic Modification) המווסתת את היקף-הדגימה לפי ביצועי-עבר, ובקרת-תהליך-סטטיסטית (SPC) המנטרת בזמן-אמת את יציבות-התהליך דרך לוחות-בקרה ויכולת-תהליך (Cp/Cpk). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. דוגמת-העל: מפעל-מילוי של Coca-Cola — ניקוד-ספקים של תרכיז/אריזה ו-SPC על נפחי-מילוי. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+      "פרק זה הוא יחידת-לימוד מלאה לבקרת-איכות ב-SAP S/4HANA QM. הוא מכסה את שלושת עמודי-התווך של ה-Quality Control: הערכת-ספקים (Supplier Evaluation) הנותנת ציון-איכות לכל ספק, רמת-האיכות (Quality Level / Dynamic Modification) המווסתת את היקף-הדגימה לפי ביצועי-עבר, ובקרת-תהליך-סטטיסטית (SPC) המנטרת בזמן-אמת את יציבות-התהליך דרך לוחות-בקרה ויכולת-תהליך (Cp/Cpk). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. דוגמת-העל: מפעל-מילוי של Example Product — ניקוד-ספקים של תרכיז/אריזה ו-SPC על נפחי-מילוי. המטרה: ללמוד את הנושא ללא הספר המקורי.",
     subchapters: [
       // ============================================================ 19.1
       {
@@ -24,8 +24,8 @@ export const CH19: TextbookChapter = {
           "להפוך נתוני-איכות מפוזרים (מנות-בדיקה, תלונות, תעודות) למדד-החלטה אחד לכל ספק, ולספק לרכש בסיס-נתונים אובייקטיבי לבחירת-מקור, למשא-ומתן ולהפחתת-סיכון-אספקה.",
         processExampleHe:
           "ספק מספק 50 משלוחים ברבעון. בכל קבלה נוצרת מנת-בדיקה; 3 נדחו. בנוסף נפתחו 2 תלונות-איכות (Q1 Notification). בהרצת ME6H נצברים הציונים: תת-קריטריון GR יורד בגלל הדחיות, Complaints יורד בגלל ההתראות, וה-Q-Score הכולל מתעדכן ל-Vendor Evaluation — מה שמוריד את דירוג-הספק לרבעון הבא.",
-        cbcHe:
-          "ב-CBC ספק-התרכיז וספק-הבקבוקים מוערכים אוטומטית: כל אצווה-תרכיז נכנסת דרך מנת-בדיקת-כניסה, וכל פגם-אריזה נפתח כתלונת-איכות. ME6H מפיק ציון-איכות רבעוני; ספק-בקבוקים עם פגמי-צוואר חוזרים יורד מתחת לסף 80 ומופעל תהליך-החלפת-מקור.",
+        scenarioHe:
+          "בארגון ספק-התרכיז וספק-הבקבוקים מוערכים אוטומטית: כל אצווה-תרכיז נכנסת דרך מנת-בדיקת-כניסה, וכל פגם-אריזה נפתח כתלונת-איכות. ME6H מפיק ציון-איכות רבעוני; ספק-בקבוקים עם פגמי-צוואר חוזרים יורד מתחת לסף 80 ומופעל תהליך-החלפת-מקור.",
         navHe: [
           "Materials Management ► Purchasing ► Vendor Evaluation ► Define Weighting Keys / Criteria (OMGL)",
           "Quality Management ► QM in Logistics ► QM in Procurement ► Define Control Keys / Quality Score for Lots",
@@ -95,7 +95,7 @@ export const CH19: TextbookChapter = {
             consultantHe: "ב-OMGL מגדירים Purchasing-Organization-level: Main-criteria עם משקל, Sub-criteria (כולל ה-QM-driven: GR, Audit, Complaints, Certificates), שיטת-חישוב (Automatic/Semi-automatic/Manual), ו-Points-scale. תת-הקריטריונים האוטומטיים שואבים מ-QM/MM; חשוב להגדיר את 'Quality Score for inspection lots' שממיר Q-Score של QALS לנקודות.",
             purposeHe: "להבטיח מדידה אחידה והוגנת בין ספקים — אותם קריטריונים, אותם משקלים, אותו סולם — כך שההשוואה תקפה.",
             processExampleHe: "צוות-הרכש מחליט: איכות 40%, מחיר 30%, אספקה 20%, שירות 10%. ב-OMGL מוזנים המשקלים ל-Purchasing Org; תת-קריטריון Complaints מוגדר Automatic ממקור Q-Notifications.",
-            cbcHe: "ב-CBC, מפעל-המילוי מגדיר משקל-איכות גבוה (40%) לספקי-תרכיז קריטיים, כדי שפגם-בטיחות-מזון ישפיע מהותית על דירוג-הספק.",
+            scenarioHe: "בארגון, מפעל-המילוי מגדיר משקל-איכות גבוה (40%) לספקי-תרכיז קריטיים, כדי שפגם-בטיחות-מזון ישפיע מהותית על דירוג-הספק.",
             navHe: ["Materials Management ► Purchasing ► Vendor Evaluation ► Maintain Weighting Keys / Define Criteria (OMGL)"],
             tables: ["T147", "T147G", "T147H"],
             tcodes: ["OMGL", "ME6H"],
@@ -118,7 +118,7 @@ export const CH19: TextbookChapter = {
             consultantHe: "המפתחות: QM-control-key (QINF) ברמת-חומר/ספק/מפעל הקובע פעילויות-QM הנדרשות; Quality Info Record (QI01) לרכש המחבר חומר-ספק-מפעל ומאפשר Source-Inspection/Release; ושדה-ההערכה ב-LFM1/LFA1. ללא QI-record פעיל, GR לא תמיד מייצר מנת-בדיקה ולכן אין הזנה ל-ELBP.",
             purposeHe: "לוודא שכל אירוע-איכות (קבלה, תלונה, תעודה) אכן נקשר לספק הנכון ומוזן לציון, בלי 'דליפות' של נתונים.",
             processExampleHe: "פותחים Quality Info Record (QI01) לחומר-תרכיז מול הספק, מסמנים QM-control-key הדורש בדיקת-כניסה. מעתה כל GR יוצר QALS, וה-Q-Score שלו מוזן אוטומטית להערכה.",
-            cbcHe: "ב-CBC כל ספק-תרכיז/אריזה מאושר מקבל QI-record פעיל; ספק ללא רשומה אינו רשאי לספק — בקרת-מקור שמבטיחה גם הזנת-ציון.",
+            scenarioHe: "בארגון כל ספק-תרכיז/אריזה מאושר מקבל QI-record פעיל; ספק ללא רשומה אינו רשאי לספק — בקרת-מקור שמבטיחה גם הזנת-ציון.",
             navHe: ["Quality Management ► QM in Logistics ► QM in Procurement ► Quality Info Record (QI01/QI02)", "Logistics ► Material Master ► Purchasing/QM views"],
             tables: ["QINF", "LFM1", "EINA", "EINE"],
             tcodes: ["QI01", "QI02", "QI03", "ME11", "MM02"],
@@ -141,7 +141,7 @@ export const CH19: TextbookChapter = {
             consultantHe: "זרימה: GR → QALS (type 01) → UD → Q-Score → ELBP(GR). תלונה: QM01 (Q1) → קודי-פגם → השפעה על Complaints/Rejection. תעודה: Certificate receipt/processing → Certificates sub-criterion. Audit: תוצאת-ביקורת מוזנת ל-Quality-audit. ME6H/ME63 מבצעים re-evaluation שמסכם הכל ל-ELBK.",
             purposeHe: "להבטיח שזרם-העבודה התפעולי (קבלות, תלונות, תעודות) מתורגם אוטומטית לנתוני-הערכה, בלי הזנה-ידנית כפולה.",
             processExampleHe: "משלוח נכנס → GR יוצר מנת-בדיקה → המעבדה רושמת תוצאות → UD מחושב Q-Score 92 → ELBP(GR) מתעדכן. במקביל נפתחת תלונה על פגם-תווית (QM01) שמורידה את Complaints. ME6H מסכם לרבעון.",
-            cbcHe: "ב-CBC: כל טנדר-תרכיז עובר GR-inspection; חריגת-Brix פותחת תלונה; תעודת-CoA נדרשת לכל אצווה. שלושת הזרמים מזינים את ציון-ספק-התרכיז.",
+            scenarioHe: "בארגון: כל טנדר-תרכיז עובר GR-inspection; חריגת-Brix פותחת תלונה; תעודת-CoA נדרשת לכל אצווה. שלושת הזרמים מזינים את ציון-ספק-התרכיז.",
             navHe: ["Logistics ► Quality Management ► Quality Inspection ► Inspection Lot (QA32)", "Logistics ► Quality Management ► Quality Notification (QM01)"],
             tables: ["QALS", "QMEL", "QAVE", "ELBP"],
             tcodes: ["QA32", "QA11", "QM01", "ME6H", "ME63"],
@@ -163,7 +163,7 @@ export const CH19: TextbookChapter = {
             consultantHe: "החישוב: Score = Σ(SubScore × SubWeight) per Main, ואז Σ(MainScore × MainWeight). ME63 מחשב פר-ספק; ME6H מבצע מסה/אנליזה. הציון-האוטומטי מתבסס על Smoothing (ממוצע-נע על אירועים אחרונים) שמונע תנודתיות-יתר. תוצאות ב-ELBK (ראשי), ELBP (תת), ELBM (חומר-ספק).",
             purposeHe: "להפיק מדד-יחיד, יציב ובר-השוואה לכל ספק — בסיס לדירוג, לחסימה ולמשא-ומתן.",
             processExampleHe: "ספק: איכות 88 (משקל 40%), מחיר 75 (30%), אספקה 90 (20%), שירות 80 (10%) → ציון = 88×0.4+75×0.3+90×0.2+80×0.1 = 84.7. ME63 שומר 85 (מעוגל) ב-ELBK.",
-            cbcHe: "ב-CBC ספק-התרכיז מקבל 91, ספק-הבקבוקים 78. הסף הארגוני 80 — ולכן מופעל תהליך-שיפור מול ספק-הבקבוקים.",
+            scenarioHe: "בארגון ספק-התרכיז מקבל 91, ספק-הבקבוקים 78. הסף הארגוני 80 — ולכן מופעל תהליך-שיפור מול ספק-הבקבוקים.",
             navHe: ["Materials Management ► Purchasing ► Vendor Evaluation ► Evaluation (ME63 / ME6H)"],
             tables: ["ELBK", "ELBP", "ELBM"],
             tcodes: ["ME63", "ME6H", "ME64"],
@@ -186,7 +186,7 @@ export const CH19: TextbookChapter = {
             consultantHe: "כלים: ME6B (הערכה לפי חומר/קבוצת-חומר), ME6C (ספקים ללא הערכה), ME6E (תוקף-נתונים), ME64 (השוואה), ו-ranking lists. ME6H נותן אנליזה גמישה. ב-S/4HANA Embedded Analytics ו-CDS-views מספקים Supplier-Evaluation Fiori עם drill-down בזמן-אמת.",
             purposeHe: "להפוך את הציון ממספר-בודד למערכת-תמיכה-בהחלטות: השוואה, פילוח, מגמה וזיהוי-חריגות.",
             processExampleHe: "הרכש מריץ ME6B לחומר-תרכיז ומקבל דירוג כל הספקים; ME64 משווה שניים מובילים; ME6H מציג מגמה רבעונית לזיהוי-שיפור.",
-            cbcHe: "ב-CBC דוח-מגמה רבעוני מוצג ב-QBR (סקירת-עסקים) עם הרכש; ספקים מתחת לסף מקבלים תכנית-שיפור מתועדת.",
+            scenarioHe: "בארגון דוח-מגמה רבעוני מוצג ב-QBR (סקירת-עסקים) עם הרכש; ספקים מתחת לסף מקבלים תכנית-שיפור מתועדת.",
             navHe: ["Materials Management ► Purchasing ► Vendor Evaluation ► List Displays / Analyses (ME6B/ME6C/ME64/ME6H)"],
             tables: ["ELBK", "ELBM", "ELBP"],
             tcodes: ["ME6B", "ME6C", "ME6E", "ME64", "ME6H"],
@@ -216,8 +216,8 @@ export const CH19: TextbookChapter = {
           "להוזיל עלויות-בדיקה ולהאיץ-זרימה לספקים-טובים, תוך שמירה על רשת-ביטחון: הרעה-בביצועים מחזירה אוטומטית לבדיקה-מחמירה.",
         processExampleHe:
           "חומר עם Dynamic Modification Rule: אחרי 5 מנות מאושרות-ברצף, רמת-האיכות עוברת מ-Normal ל-Reduced (דגימה-קטנה יותר). מנה-נדחית מחזירה מיד ל-Tightened. ה-Quality Level (QA32) מציג את השלב והמונה.",
-        cbcHe:
-          "ב-CBC ספק-תרכיז עם היסטוריה מצוינת מגיע ל-Skip — בדיקת-כניסה מדגמית בלבד, מאיצה את קו-המילוי. פגם-Brix יחיד מחזיר אוטומטית ל-Tightened עד התייצבות.",
+        scenarioHe:
+          "בארגון ספק-תרכיז עם היסטוריה מצוינת מגיע ל-Skip — בדיקת-כניסה מדגמית בלבד, מאיצה את קו-המילוי. פגם-Brix יחיד מחזיר אוטומטית ל-Tightened עד התייצבות.",
         navHe: [
           "Quality Management ► Quality Inspection ► Sample ► Dynamic Modification ► Define Dynamic Modification Rules (QDP1)",
           "Quality Management ► Quality Planning ► Basic Data ► Sample ► Sampling Procedure (QDV1)",
@@ -285,7 +285,7 @@ export const CH19: TextbookChapter = {
             consultantHe: "ב-Inspection-type setup בוחרים Dynamic-Modification-at-lot-creation. בעת יצירת QALS, ה-Quality Level (QDQL) נקרא, ה-Inspection-stage הנוכחי קובע Sampling Procedure וחומרה, והמונה מתעדכן. שונה מ-On-UD, שבו השלב מתעדכן רק לאחר ההחלטה ולכן משפיע על המנה הבאה.",
             purposeHe: "להחיל את ההתאמה-הדינמית כבר על המנה הנוכחית — מתאים כשרוצים ש-Skip/Reduced ייכנסו לתוקף מיד.",
             processExampleHe: "GR מייצר מנה; מאחר שהעדכון On-creation, רמת-האיכות שב-Skip גורמת לכך שלא נוצרת בדיקה פיזית (Skip) — המשלוח משוחרר מהר.",
-            cbcHe: "ב-CBC ספק-Skip: GR של תרכיז לא יוצר בדיקה-פיזית כלל בזכות עדכון-On-creation — קו-המילוי לא ממתין.",
+            scenarioHe: "בארגון ספק-Skip: GR של תרכיז לא יוצר בדיקה-פיזית כלל בזכות עדכון-On-creation — קו-המילוי לא ממתין.",
             navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Creation ► Define Default Values / Inspection Control"],
             tables: ["QDQL", "QALS", "QDPS"],
             tcodes: ["QDL3", "QA01", "QA32"],
@@ -307,7 +307,7 @@ export const CH19: TextbookChapter = {
             consultantHe: "QDL1 (Create) / QDL2 (Change) / QDL3 (Display) מאפשרים להגדיר Inspection-stage התחלתי, מונה ותוקף. שימושי לאתחול בלי היסטוריה, או להחזרה-יזומה ל-Normal/Tightened. דורש הרשאה — שינוי-ידני יכול לעקוף רשת-ביטחון, ולכן מנוהל ומתועד.",
             purposeHe: "לאפשר שליטה-יזומה במצב-ההתחלה או באיפוס, היכן שהאוטומציה אינה מתאימה (חומר-חדש, אירוע-חריג, החלטת-QA).",
             processExampleHe: "חומר-חדש נפתח; ה-QA יוצר ב-QDL1 רמת-איכות בשלב Normal כדי שהבדיקות יתחילו בחומרה-רגילה עד שתצטבר היסטוריה.",
-            cbcHe: "ב-CBC, החלפת-ספק-תרכיז ➔ QA מאפס ב-QDL2 את רמת-האיכות ל-Tightened לתקופת-הרצה, גם אם החומר-עצמו מוכר.",
+            scenarioHe: "בארגון, החלפת-ספק-תרכיז ➔ QA מאפס ב-QDL2 את רמת-האיכות ל-Tightened לתקופת-הרצה, גם אם החומר-עצמו מוכר.",
             navHe: ["Quality Management ► Quality Inspection ► Sample ► Dynamic Modification ► Quality Level (QDL1/QDL2/QDL3)"],
             tables: ["QDQL"],
             tcodes: ["QDL1", "QDL2", "QDL3"],
@@ -329,7 +329,7 @@ export const CH19: TextbookChapter = {
             consultantHe: "QDL3 מציג רמת-איכות בודדת; דוחות/Fiori ו-QM-Info-System (QMIS) מספקים מבט-רוחב — התפלגות-שלבים, תדירות-מעברים ומגמה. ניתוח זה מזהה חומרים שאינם מגיעים ל-Reduced (בעיית-ספק כרונית) או כאלה ב-Skip שראוי לבחון-מחדש.",
             purposeHe: "לסגור את לולאת-הבקרה: לוודא שההתאמה-הדינמית משיגה את מטרתה — הקלת-בדיקה לטובים, החמרה-לבעייתיים — ולמקד מאמצי-שיפור.",
             processExampleHe: "QA מריץ דוח-רמות-איכות; מזהה שחומר-X לא יצא מ-Tightened ב-3 חודשים — סימן לספק-לא-יציב; פותח תהליך-שיפור-ספק מול הרכש.",
-            cbcHe: "ב-CBC סקירת-רמות-איכות רבעונית מציגה אילו ספקים הגיעו ל-Skip (חיסכון-בדיקה) ואילו תקועים ב-Tightened (מועמדים להחלפה).",
+            scenarioHe: "בארגון סקירת-רמות-איכות רבעונית מציגה אילו ספקים הגיעו ל-Skip (חיסכון-בדיקה) ואילו תקועים ב-Tightened (מועמדים להחלפה).",
             navHe: ["Quality Management ► Information System ► Inspection Results / Quality Level Evaluation", "Quality Management ► Quality Inspection ► Quality Level (QDL3)"],
             tables: ["QDQL", "QALS", "QAMR"],
             tcodes: ["QDL3", "QGA3", "MCXX"],
@@ -360,8 +360,8 @@ export const CH19: TextbookChapter = {
           "לזהות חוסר-יציבות וסחיפת-תהליך מוקדם, להפחית שונות, ולמנוע פגמים במקום לגלותם — תוך הפיכת נתוני-בדיקה לתובנת-תהליך פעילה.",
         processExampleHe:
           "תהליך-מילוי נמדד כל 30 דק' (תת-קבוצה של 5). כל תת-קבוצה מזינה נקודה ל-X-bar/R chart. כשממוצע-תת-קבוצה חורג מ-UCL, או 7 נקודות-ברצף עולות (run), המערכת מסמנת אזהרה — המפעיל מכוונן את המכונה לפני חריגה אמיתית.",
-        cbcHe:
-          "ב-CBC נפח-המילוי מנוטר ב-SPC: כל ראש-מילוי נדגם, X-bar/R chart מזהה סחיפה כלפי תת-מילוי לפני שבקבוקים יורדים מתחת לתקן-המסחרי — מונע קנסות-רגולציה והשבתת-קו.",
+        scenarioHe:
+          "בארגון נפח-המילוי מנוטר ב-SPC: כל ראש-מילוי נדגם, X-bar/R chart מזהה סחיפה כלפי תת-מילוי לפני שבקבוקים יורדים מתחת לתקן-המסחרי — מונע קנסות-רגולציה והשבתת-קו.",
         navHe: [
           "Quality Management ► Quality Planning ► Basic Data ► Inspection Characteristic ► SPC Criterion / Control Chart",
           "Quality Management ► Statistical Process Control ► Define Control Chart Types / Tracks",
@@ -431,7 +431,7 @@ export const CH19: TextbookChapter = {
             consultantHe: "ב-QGC1/QGC3 בוחרים MIC/חומר/מרכז ומציגים את ה-chart הרלוונטי. ה-X-bar עוקב אחרי הממוצע, ה-R/S אחרי הפיזור. סיבה-מיוחסת (special cause) מזוהה דרך נקודה-מעבר-לגבול או run-rules; סיבה-מקרית (common cause) היא השונות-המובנית. רק שונות-מיוחסת מצדיקה תגובה — תיקון לשונות-מקרית מגביר אותה (over-control).",
             purposeHe: "להבחין נכון בין 'רעש' לתהליך לבין 'אות' אמיתי, כדי לפעול רק כשצריך ולא להזיק בכיוונון-יתר.",
             processExampleHe: "ב-QGC3 מוצג X-bar/R של מילוי; נקודה אחת חורגת מ-UCL בעקבות החלפת-גליל; זו סיבה-מיוחסת — המפעיל מתקן ומתעד. שונות יומיומית בתוך-הגבולות נשארת ללא-התערבות.",
-            cbcHe: "ב-CBC לוח-הבקרה של ראש-מילוי מציג נקודה-חורגת בעקבות סתימת-זרבובית; טכנאי מנקה, וה-chart חוזר ליציבות — אירוע מתועד כסיבה-מיוחסת.",
+            scenarioHe: "בארגון לוח-הבקרה של ראש-מילוי מציג נקודה-חורגת בעקבות סתימת-זרבובית; טכנאי מנקה, וה-chart חוזר ליציבות — אירוע מתועד כסיבה-מיוחסת.",
             navHe: ["Quality Management ► Statistical Process Control ► Control Chart Display (QGC1/QGC3)"],
             tables: ["QSPC", "QASR", "QSPCK"],
             tcodes: ["QGC1", "QGC2", "QGC3"],
@@ -453,7 +453,7 @@ export const CH19: TextbookChapter = {
             consultantHe: "ה-Quality Chart נשען על QMIS/Info-System ועל תוצאות QASR/QAMR. הוא מציג מגמות, Pareto-של-פגמים, והתפלגויות. ב-S/4HANA Embedded-Analytics ו-Fiori-charts מספקים drill-down אינטראקטיבי. שונה מ-control-chart: לא לזיהוי-special-cause נקודתי אלא למבט-מגמה ותעדוף.",
             purposeHe: "לתת ל-QA ולהנהלה מבט-על מתומצת של ביצועי-איכות, לתעדוף-שיפורים ולתקשורת-מצב.",
             processExampleHe: "תרשים-Pareto של פגמי-אריזה מראה ש-70% מהדחיות מקורן בפגם-צוואר-בקבוק; הצוות ממקד שיפור-ספק שם.",
-            cbcHe: "ב-CBC לוח-מחוונים שבועי מציג מגמת-Q-Score של קווי-המילוי ו-Pareto-פגמים; פגם-תווית הדומיננטי מקבל פרויקט-שיפור.",
+            scenarioHe: "בארגון לוח-מחוונים שבועי מציג מגמת-Q-Score של קווי-המילוי ו-Pareto-פגמים; פגם-תווית הדומיננטי מקבל פרויקט-שיפור.",
             navHe: ["Quality Management ► Information System ► Quality Charts / Evaluations"],
             tables: ["QAMR", "QASR", "QMEL"],
             tcodes: ["MCXX", "QGC3", "QM01"],
@@ -475,7 +475,7 @@ export const CH19: TextbookChapter = {
             consultantHe: "פריטי-החובה: QPMK/MIC עם SPC-criterion פעיל ו-Control-Chart-Type; Sampling-Procedure (QDV1) עם Valuation מתאים; Spec-Limits (LSL/USL) במאפיין; Inspection-Plan (QP01) המשייך את ה-MIC; ו-Inspection-Setup באב-החומר. חוסר באחד מהם שובר את שרשרת ה-SPC או את חישוב-היכולת.",
             purposeHe: "להבטיח שכל אבני-הבניין של ה-SPC קיימות ועקביות, כך שהלוחות וה-Cp/Cpk יתבססו על נתונים-תקפים.",
             processExampleHe: "לפני הפעלת-SPC על מילוי: בודקים MIC עם SPC-criterion + X-bar/R, Sampling-Procedure, LSL/USL=±5ml, ושיוך ל-Inspection-Plan. רק אז ה-chart מתחיל לצבור.",
-            cbcHe: "ב-CBC checklist להקמת-SPC על קו-מילוי-חדש: MIC-נפח, גבולות ±מ\"ל, Sampling-Procedure, ושיוך-תוכנית — מאומת לפני ייצור-מסחרי.",
+            scenarioHe: "בארגון checklist להקמת-SPC על קו-מילוי-חדש: MIC-נפח, גבולות ±מ\"ל, Sampling-Procedure, ושיוך-תוכנית — מאומת לפני ייצור-מסחרי.",
             navHe: ["Quality Management ► Quality Planning ► Inspection Characteristics (QS21)", "Quality Management ► Quality Planning ► Inspection Plan (QP01)"],
             tables: ["QPMK", "QPGR", "PLMK", "QDV1"],
             tcodes: ["QS21", "QS23", "QP01", "QDV1", "MM02"],
@@ -498,8 +498,8 @@ export const CH19: TextbookChapter = {
             consultantHe: "Cp = (USL-LSL)/(6σ); Cpk = min[(USL-μ),(μ-LSL)]/(3σ). σ נאמד מנתוני-ה-SPC (within-subgroup). Cp מניח מירכוז; Cpk מעניש סטייה-ממרכז. סף-תעשייתי נפוץ ≥1.33 (4σ) או ≥1.67. ב-QM הערכים נגזרים מאותם QASR/QSPC של ה-control-chart; דורש תהליך-יציב תחילה (אחרת σ חסר-משמעות).",
             purposeHe: "לכמת את הסיכון-לפגמים ולתת מדד-יעד אובייקטיבי לשיפור-תהליך — מעבר ל'בבקרה' אל 'מסוגל'.",
             processExampleHe: "מילוי: USL-LSL=10ml, σ=1.2ml ➔ Cp=10/(6×1.2)=1.39. אך הממוצע מוסט 1ml מהמרכז ➔ Cpk=1.11 < 1.33 — מורה למרכז-מחדש את המכונה כדי לשפר-Cpk בלי לשנות-σ.",
-            cbcHe:
-              "ב-CBC נפח-המילוי נדרש Cpk≥1.33 כדי להבטיח שכמעט-כל-בקבוק עומד בתקן-המסחרי תוך מזעור עודף-מילוי (give-away); Cpk נמוך ➔ או מרכוז-מחדש או הקטנת-שונות-המכונה.",
+            scenarioHe:
+              "בארגון נפח-המילוי נדרש Cpk≥1.33 כדי להבטיח שכמעט-כל-בקבוק עומד בתקן-המסחרי תוך מזעור עודף-מילוי (give-away); Cpk נמוך ➔ או מרכוז-מחדש או הקטנת-שונות-המכונה.",
             navHe: ["Quality Management ► Statistical Process Control ► Process Capability (Cp/Cpk) Evaluation", "Quality Management ► Information System ► Capability Analysis"],
             tables: ["QASR", "QSPC", "QAMR"],
             tcodes: ["QGC3", "QGC1", "MCXX"],
@@ -528,7 +528,7 @@ export const CH19: TextbookChapter = {
             consultantHe: "ה-Q-Score נגזר ב-UD מתוצאות-המאפיינים (QAMR/QASR) ונשמר ב-QALS/QAVE. ניתוח-המגמה דרך QMIS/MCXX. ה-Q-Score מזין הן את הערכת-הספקים (ELBP) והן עשוי להשפיע על Dynamic-Modification. שמירת-ההיסטוריה מאפשרת מתאם בין סחיפת-SPC להתדרדרות-ציון.",
             purposeHe: "לספק מבט-לאורך-זמן על איכות-תוצרים, לזהות-מגמות מוקדם, ולחבר נתוני-בדיקה להחלטות-ספק ולחומרת-דגימה.",
             processExampleHe: "דוח-מגמה מראה ירידת Q-Score הדרגתית של חומר לאורך-חודשיים; הצלבה עם ה-control-chart חושפת סחיפת-תהליך — מקדימים תחזוקה מונעת.",
-            cbcHe: "ב-CBC מגמת-Q-Score של תרכיז-ספק יורדת ברבעון; ההצלבה עם ה-SPC ועם הערכת-הספק מובילה לשיחת-שיפור עם הספק לפני כשל.",
+            scenarioHe: "בארגון מגמת-Q-Score של תרכיז-ספק יורדת ברבעון; ההצלבה עם ה-SPC ועם הערכת-הספק מובילה לשיחת-שיפור עם הספק לפני כשל.",
             navHe: ["Quality Management ► Information System ► Inspection Results / Quality Score History (MCXX)"],
             tables: ["QALS", "QAVE", "QAMR", "QASR"],
             tcodes: ["MCXX", "QA32", "QGC3"],
@@ -551,7 +551,7 @@ export const CH19: TextbookChapter = {
             consultantHe: "ה-Histogram ב-QGC נבנה מ-QASR; הוא משלים את ה-control-chart (סדרת-זמן) במבט-התפלגות. בודקים נורמליות (תנאי ל-Cp/Cpk), זיהוי-bimodality (ערבוב-מקורות), skewness, ויחס למיקום-ה-Spec-Limits. צורה לא-נורמלית מאותתת שיש לבחון-מחדש את הנחות-היכולת או לפצל-נתונים.",
             purposeHe: "להבין את צורת-ההתפלגות מאחורי המספרים — תנאי לפרשנות-נכונה של Cp/Cpk ולזיהוי-מקורות-שונות נסתרים.",
             processExampleHe: "היסטוגרמת-מילוי מראה שתי-גבעות; בירור חושף שני-ראשי-מילוי בכיול-שונה. הפרדת-הנתונים לכל-ראש חושפת שכל-אחד נורמלי — הבעיה היא הפרש-כיול, לא שונות-אקראית.",
-            cbcHe: "ב-CBC היסטוגרמת-נפח דו-מודלית חשפה הפרש-כיול בין שני-ראשי-מילוי; כיול-מחדש איחד את ההתפלגות ושיפר-Cpk.",
+            scenarioHe: "בארגון היסטוגרמת-נפח דו-מודלית חשפה הפרש-כיול בין שני-ראשי-מילוי; כיול-מחדש איחד את ההתפלגות ושיפר-Cpk.",
             navHe: ["Quality Management ► Statistical Process Control ► Histogram / Distribution Display (QGC)"],
             tables: ["QASR", "QAMR", "QSPC"],
             tcodes: ["QGC1", "QGC3", "MCXX"],
@@ -581,8 +581,8 @@ export const CH19: TextbookChapter = {
           "לקשור את הנושאים לכדי תפיסת-בקרה-אחת: נתוני-איכות נאספים פעם-אחת ומשרתים שלוש-החלטות — מקור, היקף-בדיקה, ושיפור-תהליך.",
         processExampleHe:
           "מנת-בדיקת-כניסה נסגרת ב-UD: ה-Q-Score מעדכן את הערכת-הספק, מקדם/מחזיר את רמת-האיכות, ותוצאות-המאפיין מוזנות ל-control-chart וליכולת-התהליך — אירוע-אחד, שלוש-תובנות.",
-        cbcHe:
-          "ב-CBC: GR של תרכיז ➔ Q-Score מעלה את דירוג-הספק, מקדם את רמת-האיכות ל-Skip, ונפח-המילוי-של-המוצר-המוגמר מנוטר ב-SPC עם Cpk≥1.33 — מערך-בקרה-שלם מקבלה ועד מילוי.",
+        scenarioHe:
+          "בארגון: GR של תרכיז ➔ Q-Score מעלה את דירוג-הספק, מקדם את רמת-האיכות ל-Skip, ונפח-המילוי-של-המוצר-המוגמר מנוטר ב-SPC עם Cpk≥1.33 — מערך-בקרה-שלם מקבלה ועד מילוי.",
         navHe: [
           "Quality Management ► QM in Logistics ► QM in Procurement (Supplier Evaluation)",
           "Quality Management ► Quality Inspection ► Sample ► Dynamic Modification (Quality Level)",

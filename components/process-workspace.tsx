@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { GitBranch, Gauge, AlertTriangle, Terminal, Boxes, FileCode, Network, Lightbulb, HelpCircle, Clock4, Briefcase, ArrowLeft, GraduationCap, ShieldCheck, ArrowRightLeft, StickyNote, Check } from "lucide-react";
-import { PROCESS, STEP_CBC } from "@/data/process/process-data";
+import { PROCESS, STEP_MFG } from "@/data/process/process-data";
 import { knowledgeFor } from "@/lib/knowledge";
 import { s4For, RISK_HE, RISK_COLOR, TRUST_HE } from "@/lib/s4";
 import { INCIDENTS } from "@/data/troubleshooting";
@@ -27,7 +27,7 @@ export function ProcessWorkspace({ code, byName, color }: { code: string; byName
   const incidents = s.object ? INCIDENTS.filter((inc) => inc.tables.includes(s.object!)) : [];
   // T-Codes from the table + enriched with diagnosis T-Codes from the incident KB
   const tcodes = [...new Set([...(t ? splitTc(t.tcodes) : []), ...incidents.flatMap((inc) => inc.analyzeTcodes || [])])].slice(0, 10);
-  const cbcExamples = [STEP_CBC[s.id], ...incidents.map((inc) => inc.cbc).filter(Boolean) as string[]].filter(Boolean).slice(0, 3) as string[];
+  const scenarioExamples = [STEP_MFG[s.id], ...incidents.map((inc) => inc.scenario).filter(Boolean) as string[]].filter(Boolean).slice(0, 3) as string[];
   const s4 = t ? s4For(s.object!, t.s4, t.s4alt) : null;
   const objHref = (n: string) => `/object/${encodeURIComponent(n)}/`;
 
@@ -95,11 +95,11 @@ export function ProcessWorkspace({ code, byName, color }: { code: string; byName
           </div>
         )}
 
-        {/* CBC examples — concrete plant-floor scenarios */}
-        {cbcExamples.length > 0 && (
+        {/* הארגון examples — concrete plant-floor scenarios */}
+        {scenarioExamples.length > 0 && (
           <div className="rounded-2xl border border-brand/20 bg-brand/[0.04] p-4">
-            <h3 className="mb-2 flex items-center gap-1.5 text-sm font-extrabold text-brand"><Briefcase className="size-4" />דוגמאות מ-CBC</h3>
-            <ul className="space-y-2">{cbcExamples.map((ex, idx) => <li key={idx} className="flex gap-2 text-[13px] leading-relaxed text-slate-700"><span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-brand" />{ex}</li>)}</ul>
+            <h3 className="mb-2 flex items-center gap-1.5 text-sm font-extrabold text-brand"><Briefcase className="size-4" />דוגמאות מ-הארגון</h3>
+            <ul className="space-y-2">{scenarioExamples.map((ex, idx) => <li key={idx} className="flex gap-2 text-[13px] leading-relaxed text-slate-700"><span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-brand" />{ex}</li>)}</ul>
           </div>
         )}
 

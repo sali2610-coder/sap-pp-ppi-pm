@@ -124,7 +124,7 @@ export function DomainView({ d }: { d: Domain }) {
             </Card>
           </div>
 
-          <Card title="דוגמת ייצור — CBC" icon={<Factory className="size-4 text-brand" />}><p className="text-sm leading-relaxed text-slate-700">{det.cbc}</p></Card>
+          <Card title="דוגמת ייצור — הארגון" icon={<Factory className="size-4 text-brand" />}><p className="text-sm leading-relaxed text-slate-700">{det.scenario}</p></Card>
 
           {det.fiori.length > 0 && <Card title="אפליקציות Fiori" icon={<LayoutGrid className="size-4 text-violet-600" />}><div className="flex flex-wrap gap-1.5">{det.fiori.map((f) => <Chip key={f} text={f} tone={c} />)}</div></Card>}
 

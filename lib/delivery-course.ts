@@ -64,7 +64,7 @@ function topic(p: Phase): CourseTopic {
     examples: { scenario: p.example, bullets: p.templates },
     transactions: { tools: [...p.meetings, ...p.templates] },
     debug: { issues: [...p.risks, ...p.mistakes] },
-    cbc: { text: p.cbc },
+    scenario: { text: p.scenario },
     related: (p.links || []).map((l) => ({ label: l.label, href: l.href.includes("#") ? "#" : l.href })),
   };
 }

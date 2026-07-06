@@ -9,7 +9,7 @@ export const CH10: TextbookChapter = {
   titleHe: "SAP Advanced Track and Trace לתרופות",
   titleEn: "SAP Advanced Track and Trace for Pharmaceuticals",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה ל-SAP Advanced Track and Trace for Pharmaceuticals (ATTP) ולשילובו עם SAP EWM ו-SAP S/4HANA. ATTP הוא פתרון ה-serialization וה-track-and-trace הרגולטורי של SAP לתעשיית-התרופות — הוא מנהל מספרים-סדרתיים ייחודיים ברמת-הפריט (serialization), בונה היררכיות-אריזה (aggregation), מתעד אירועי-שרשרת-אספקה בתקן EPCIS, ומדווח לרשויות (US DSCSA, EU FMD). שלושת תתי-הפרקים — סקירה (10.1), שילוב עם EWM ו-S/4HANA על תהליכי inbound/outbound (10.2), ומסקנות (10.3) — הורחבו כל אחד ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הערה ל-CBC: ATTP ממוקד-תרופות, אך אותם עקרונות של serialization, aggregation ו-track-and-trace חלים אנלוגית על מעקב-אצוות במשקאות (beverage batch traceability) — ההסברים מסומנים בהתאם.",
+    "פרק זה הוא יחידת-לימוד מלאה ל-SAP Advanced Track and Trace for Pharmaceuticals (ATTP) ולשילובו עם SAP EWM ו-SAP S/4HANA. ATTP הוא פתרון ה-serialization וה-track-and-trace הרגולטורי של SAP לתעשיית-התרופות — הוא מנהל מספרים-סדרתיים ייחודיים ברמת-הפריט (serialization), בונה היררכיות-אריזה (aggregation), מתעד אירועי-שרשרת-אספקה בתקן EPCIS, ומדווח לרשויות (US DSCSA, EU FMD). שלושת תתי-הפרקים — סקירה (10.1), שילוב עם EWM ו-S/4HANA על תהליכי inbound/outbound (10.2), ומסקנות (10.3) — הורחבו כל אחד ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הערה לארגון: ATTP ממוקד-תרופות, אך אותם עקרונות של serialization, aggregation ו-track-and-trace חלים אנלוגית על מעקב-אצוות במשקאות (beverage batch traceability) — ההסברים מסומנים בהתאם.",
   subchapters: [
     // ============================================================ 10.1
     {
@@ -26,8 +26,8 @@ export const CH10: TextbookChapter = {
         "המטרה: עמידה ברגולציה (כל יחידת-תרופה חייבת זהות-ייחודית ניתנת-אימות לאורך-השרשרת), מניעת זיופים (anti-counterfeiting), יכולת recall מדויקת (לאתר בדיוק אילו אצוות/סריאלים הופצו לאן), ושקיפות-שרשרת מקצה-לקצה. עסקית: רישיון-להפעיל בשווקים מוסדרים, צמצום-סיכון רגולטורי, ושיפור-אמון בשרשרת-האספקה.",
       processExampleHe:
         "קו-אריזה במפעל מדפיס DataMatrix ייחודי על כל קופסה (commissioning — ATTP מנפיק את הסריאלים מראש). הקופסאות נארזות בארגז שמקבל SSCC; ATTP רושם AggregationEvent הקושר את סריאלי-הקופסאות ל-SSCC של הארגז. הארגז נכנס למלאי, ובהמשך נשלח ללקוח — ATTP רושם shipping ObjectEvent + TransactionEvent (העברת-בעלות) ומפיק הודעת EPCIS ללקוח ולרשות. הלקוח קולט (receiving), והשרשרת מתועדת מקצה-לקצה.",
-      cbcHe:
-        "ב-CBC: ATTP עצמו ממוקד-תרופות ואינו מוטמע למשקאות; אך העיקרון אנלוגי — מעקב-אצוות של משקאות (beverage batch traceability) מנהל זהות ייחודית ברמת-אצווה/מארז, aggregation של בקבוקים↔ארגז↔משטח, ותיעוד-אירועים לצורך recall ו-track-and-trace. ב-CBC המנגנון המקביל ל-serialization הוא ניהול-אצוות (Batch management) ב-EWM + תיוג-משטחים ב-SSCC; ATTP יוטמע רק אם CBC תיכנס לקו-מוצרים מוסדר (למשל תוספי-תזונה תחת רגולציה).",
+      scenarioHe:
+        "בארגון: ATTP עצמו ממוקד-תרופות ואינו מוטמע למשקאות; אך העיקרון אנלוגי — מעקב-אצוות של משקאות (beverage batch traceability) מנהל זהות ייחודית ברמת-אצווה/מארז, aggregation של בקבוקים↔ארגז↔משטח, ותיעוד-אירועים לצורך recall ו-track-and-trace. בארגון המנגנון המקביל ל-serialization הוא ניהול-אצוות (Batch management) ב-EWM + תיוג-משטחים ב-SSCC; ATTP יוטמע רק אם הארגון תיכנס לקו-מוצרים מוסדר (למשל תוספי-תזונה תחת רגולציה).",
       navHe: [
         "SPRO ► SAP Advanced Track and Trace for Pharmaceuticals ► General Settings ► Define Number Ranges (SGTIN/SSCC/Serial)",
         "SPRO ► SAP Advanced Track and Trace for Pharmaceuticals ► Master Data ► Trade Item ► Define Trade Item Settings",
@@ -77,7 +77,7 @@ export const CH10: TextbookChapter = {
         "שמור על ATTP כ-system of record יחיד לזהות-סדרתית; אל תכפיל ניהול-סריאלים ב-EWM.",
       ],
       interviewHe: [
-        { qHe: "מהו ההבדל בין serialization ל-aggregation?", aHe: "serialization = הנפקת מספר-סדרתי ייחודי לכל יחידת-מכירה (SGTIN); aggregation = קישור-היררכי של הסריאלים לרמת-אריזה גבוהה יותר (case/pallet עם SSCC), כך שסריקת-המארז שקולה לכל הפריטים שבתוכו." },
+        { qHe: "מהו ההבדל בין serialization ל-aggregation?", aHe: "serialization = הנפקת מספר-סדרתי ייחודי לכל יחידת-מכירה (SGTIN); aggregation = קישור-היררכי של הסריאלים לרמת-אריזה גבוהה יותר (case/pallet עם SSCC), כך שסריקת-המארז שמוגז לכל הפריטים שבתוכו." },
         { qHe: "מהו EPCIS ולמה הוא מרכזי ב-ATTP?", aHe: "EPCIS (Electronic Product Code Information Services) הוא תקן GS1 לתיעוד אירועי-שרשרת-אספקה (what/when/where/why). ATTP מתעד כל אירוע פיזי כ-EPCIS event ב-Object Event Repository ומשתמש בו לדיווח רגולטורי ולשיתוף עם שותפים." },
         { qHe: "מהו תפקיד ATTP מול EWM/S4?", aHe: "ATTP הוא מערכת-העל לזהות-הסדרתית ולדיווח-רגולטורי (system of record); EWM/S4 הם מערכות-הביצוע הפיזיות שמזינות את ATTP באירועי commissioning, packing, shipping ו-receiving." },
       ],
@@ -108,8 +108,8 @@ export const CH10: TextbookChapter = {
         "המטרה: לאחד את הביצוע-הפיזי (EWM) עם התיעוד-הרגולטורי (ATTP) ללא הזנה-כפולה וללא פערי-נתונים. כך מובטח שכל יחידה שיצאה מהמחסן דווחה, כל aggregation משקף את האריזה האמיתית, וה-recall יכול להישען על נתוני-תנועה אמיתיים ולא על הצהרות.",
       processExampleHe:
         "משלוח-יוצא ללקוח: S/4HANA יוצר Outbound Delivery; EWM מבצע Warehouse Order, מלקט סריאלים, אורז ל-HU (=SSCC) ומפיק AggregationEvent ב-ATTP; ב-Goods Issue, EWM מפעיל shipping ObjectEvent + TransactionEvent (העברת-בעלות מהמחסן ללקוח); ATTP מפיק EPCIS-XML ושולח ללקוח ולרשות. כל הסריאלים שבמשלוח עברו מ-status 'במלאי' ל-'נשלח' אוטומטית.",
-      cbcHe:
-        "ב-CBC השילוב EWM↔ATTP אינו פעיל (אין רגולציית-תרופות); המקבילה היא EWM Batch management + HU/SSCC על משטחי-משקאות, המתעד aggregation (בקבוק→ארגז→משטח) ותנועות-מלאי לצורך מעקב-אצווה ו-recall. אם CBC תידרש לרגולציה, אותן נקודות-מגע (/SCWM/PACK ל-aggregation, Goods Issue ל-shipping event) יחוברו ל-ATTP באותו אופן.",
+      scenarioHe:
+        "בארגון השילוב EWM↔ATTP אינו פעיל (אין רגולציית-תרופות); המקבילה היא EWM Batch management + HU/SSCC על משטחי-משקאות, המתעד aggregation (בקבוק→ארגז→משטח) ותנועות-מלאי לצורך מעקב-אצווה ו-recall. אם הארגון תידרש לרגולציה, אותן נקודות-מגע (/SCWM/PACK ל-aggregation, Goods Issue ל-shipping event) יחוברו ל-ATTP באותו אופן.",
       navHe: [
         "SPRO ► SCM Extended Warehouse Management ► EWM ► Cross-Process Settings ► Serial Numbers ► Define Serial Number Profiles",
         "SPRO ► SCM EWM ► EWM ► Goods Receipt Process ► Configure Serialization in Inbound Process",
@@ -189,8 +189,8 @@ export const CH10: TextbookChapter = {
             "המטרה: להבטיח שרק מלאי-סדרתי תקין ומאומת נכנס למערכת, לזהות זיופים/טעויות כבר בשער-הכניסה, ולתעד את נקודת-הכניסה של כל סריאל ל-track-and-trace.",
           processExampleHe:
             "ספק שולח 50 ארגזים (כל אחד SSCC עם 100 SGTIN) + הודעת-EPCIS. ATTP קולט את ההודעה. EWM יוצר Inbound Delivery, ובקליטה סורק את ה-SSCC של כל ארגז; ATTP מאמת שהסריאלים תואמים את ההודעה ורושם receiving event. הארגזים מאוחסנים תוך שמירת קשר HU↔SSCC. אם ארגז-אחד מכיל סריאל לא-מדווח — EWM מסמן exception ומונע putaway עד בירור.",
-          cbcHe:
-            "ב-CBC המקביל: קליטת חומרי-גלם/מוצרים מנוהלי-אצווה ל-EWM עם רישום-אצווה ו-HU; ה'verification' הוא בדיקת-תעודת-אצווה (CoA) וקליטת-משטחים ב-SSCC. אין EPCIS-inbound, אך עיקרון בדיקת-התאמה בשער-הכניסה זהה.",
+          scenarioHe:
+            "בארגון המקביל: קליטת חומרי-גלם/מוצרים מנוהלי-אצווה ל-EWM עם רישום-אצווה ו-HU; ה'verification' הוא בדיקת-תעודת-אצווה (CoA) וקליטת-משטחים ב-SSCC. אין EPCIS-inbound, אך עיקרון בדיקת-התאמה בשער-הכניסה זהה.",
           navHe: [
             "SPRO ► SCM EWM ► EWM ► Goods Receipt Process ► Inbound Delivery ► Serialization Settings",
             "SPRO ► SCM EWM ► EWM ► Cross-Process Settings ► Serial Numbers ► Assign Serial Profile to Inbound WPT",
@@ -266,8 +266,8 @@ export const CH10: TextbookChapter = {
             "המטרה: להבטיח שכל יחידה היוצאת מדווחת לרשות וללקוח בתקן EPCIS, שה-aggregation במשלוח משקף את המציאות, ושהעברת-הבעלות מתועדת — בסיס ל-recall, ל-anti-counterfeiting ולקליטה-תקינה אצל הלקוח.",
           processExampleHe:
             "הזמנת-לקוח ל-30 ארגזים. S/4HANA יוצר Outbound Delivery; EWM מלקט (סורק SSCC), אורז על משטח (יוצר SSCC-משטח עם AggregationEvent), ומבצע Goods Issue — ATTP רושם shipping ObjectEvent לכל הסריאלים + TransactionEvent (העברה ללקוח) ומפיק EPCIS-XML. אם ארגז נפתח לליקוט-חלקי (15 קופסאות בלבד) — מתבצע disaggregation וה-15 הנותרות חוזרות למלאי כיחידות-בודדות.",
-          cbcHe:
-            "ב-CBC המקביל: ליקוט/אריזה/Goods Issue של משטחי-משקאות עם HU/SSCC לצורך מעקב-אצווה ו-recall; ה'shipping event' הוא רישום-תנועת-המלאי ותעודת-המשלוח. אין EPCIS-XML לרשות, אך תיעוד aggregation (בקבוק→ארגז→משטח) ביציאה מאפשר track-and-trace אנלוגי.",
+          scenarioHe:
+            "בארגון המקביל: ליקוט/אריזה/Goods Issue של משטחי-משקאות עם HU/SSCC לצורך מעקב-אצווה ו-recall; ה'shipping event' הוא רישום-תנועת-המלאי ותעודת-המשלוח. אין EPCIS-XML לרשות, אך תיעוד aggregation (בקבוק→ארגז→משטח) ביציאה מאפשר track-and-trace אנלוגי.",
           navHe: [
             "SPRO ► SCM EWM ► EWM ► Goods Issue Process ► Outbound Delivery ► Serialization & Packing Settings",
             "SPRO ► SCM EWM ► EWM ► Cross-Process Settings ► Serial Numbers ► Assign Serial Profile to Outbound WPT",
@@ -348,8 +348,8 @@ export const CH10: TextbookChapter = {
         "לקבע את התמונה-הכוללת: כיצד serialization, aggregation ו-EPCIS מתחברים לתהליכי-מחסן אמיתיים, ומה נדרש כדי שהמערכת המשולבת תספק ציות, אמינות ומעקב מקצה-לקצה.",
       processExampleHe:
         "מקצה-לקצה: ספק שולח EPCIS→EWM קולט ומאמת (inbound)→המוצר נשמר עם HU↔SSCC→הזמנת-לקוח מובילה לליקוט+packing+Goods Issue (outbound)→ATTP מפיק shipping+TransactionEvent ומדווח לרשות וללקוח. כל סריאל מתועד מהכניסה ועד היציאה ללא הזנה-כפולה.",
-      cbcHe:
-        "ב-CBC: ATTP ממוקד-תרופות ואינו בשימוש; אך אותם עקרונות — זהות-ייחודית, aggregation (בקבוק→ארגז→משטח) ותיעוד-אירועים — מיושמים אנלוגית דרך Batch management + HU/SSCC ב-EWM, ומספקים beverage batch traceability ל-recall ולמעקב.",
+      scenarioHe:
+        "בארגון: ATTP ממוקד-תרופות ואינו בשימוש; אך אותם עקרונות — זהות-ייחודית, aggregation (בקבוק→ארגז→משטח) ותיעוד-אירועים — מיושמים אנלוגית דרך Batch management + HU/SSCC ב-EWM, ומספקים beverage batch traceability ל-recall ולמעקב.",
       navHe: [
         "SPRO ► SAP Advanced Track and Trace for Pharmaceuticals ► (סקירת כלל-ההגדרות)",
         "SPRO ► SCM EWM ► EWM ► Cross-Process Settings ► Serial Numbers (סקירת-אינטגרציה)",

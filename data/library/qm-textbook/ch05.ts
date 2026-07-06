@@ -3,7 +3,7 @@
 // Every node (subchapter + nested source sub-heading) is a complete
 // LearningNode with 18 facets of authored Hebrew — enough to study the topic
 // without the original book. Source hierarchy preserved (ids + order, nested).
-// Transformative Hebrew; SAP identifiers verbatim EN. CBC = Coca-Cola bottling
+// Transformative Hebrew; SAP identifiers verbatim EN. הארגון = Example Product bottling
 // in-process QM on filling lines (inspection type 03 during the production order).
 import type { TextbookChapter } from "./types";
 
@@ -12,7 +12,7 @@ export const CH5: TextbookChapter = {
   titleHe: "שילוב עם תכנון ייצור (PP)",
   titleEn: "Integrating with Production Planning",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה על שילוב מודול ניהול-האיכות (QM) עם תכנון-הייצור (PP / PP-PI). הליבה היא בקרת-איכות תוך-תהליכית (In-Process) — סוג-בדיקה 03 הנוצר אוטומטית עם פתיחת/שחרור פק\"ע, מאפשר רישום-תוצאות (Results Recording) ואישור-איכות במהלך הייצור עצמו. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC על קווי-המילוי, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות-נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה על שילוב מודול ניהול-האיכות (QM) עם תכנון-הייצור (PP / PP-PI). הליבה היא בקרת-איכות תוך-תהליכית (In-Process) — סוג-בדיקה 03 הנוצר אוטומטית עם פתיחת/שחרור פק\"ע, מאפשר רישום-תוצאות (Results Recording) ואישור-איכות במהלך הייצור עצמו. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון על קווי-המילוי, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות-נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 5.1
     {
@@ -27,8 +27,8 @@ export const CH5: TextbookChapter = {
         "המטרה: לשלב את בקרת-האיכות בזרימת-הייצור באופן אוטומטי ועקבי, בלי תהליך-בדיקה ידני-מנותק. זה מבטיח שכל מנה מיוצרת נבדקת לפי תקן, שהתוצאות נרשמות ליד הדיווח על הייצור, ושאישור-האיכות (Usage Decision) חוסם/משחרר מלאי לפי התוצאה.",
       processExampleHe:
         "מתכנן ממיר הזמנה-מתוכננת לפק\"ע. בשחרור (Release) המערכת בודקת את נתוני-הבדיקה באב-החומר, מזהה Inspection Type 03 פעיל, ויוצרת Inspection Lot מסוג 03 הקשור ל-AUFNR. מאפייני-הבדיקה (PLMK) מועתקים מהתוכנית. ברצפה העובד מדווח פעולה ב-CO11N ורושם תוצאות; בסיום נקבע Usage Decision שמשחרר את הכמות למלאי-חופשי.",
-      cbcHe:
-        "ב-CBC על קו-מילוי: עם שחרור פק\"ע למשקה נוצרת אוטומטית מנת-בדיקה 03. בודק-קו רושם ב-CO11N/QA32 ערכי Brix, CO2, pH ונפח-מילוי בכל פעולה. כשל בערך קריטי חוסם את ה-Usage Decision ומונע שחרור-אצווה — מנגנון שמבטיח שלא תצא לשוק אצווה מחוץ-לתקן.",
+      scenarioHe:
+        "בארגון על קו-מילוי: עם שחרור פק\"ע למשקה נוצרת אוטומטית מנת-בדיקה 03. בודק-קו רושם ב-CO11N/QA32 ערכי Brix, CO2, pH ונפח-מילוי בכל פעולה. כשל בערך קריטי חוסם את ה-Usage Decision ומונע שחרור-אצווה — מנגנון שמבטיח שלא תצא לשוק אצווה מחוץ-לתקן.",
       navHe: [
         "Production ► Shop Floor Control ► Master Data ► Order ► Define Order-Type-Dependent Plant Parameters (OPL8)",
         "Production ► Shop Floor Control ► Operations ► Confirmation ► Define Confirmation Parameters (OPK4)",
@@ -96,7 +96,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "ב-OPLB משייכים Material Type ל-Task List Type המותר (N=Routing, 2=Master Recipe, R=Rate Routing). הקישור נבדק ביצירת רשימת-המשימות (CA01/C201). בלי צירוף תקין מתקבלת שגיאה, ואז אין PLPO/PLMK לחומר — כלומר אין פעולות ואין מאפייני-בדיקה לבקרה תוך-תהליכית.",
           purposeHe: "להבטיח היגיון-נתונים: רק חומרים מיוצרים מקבלים מסלול-ייצור, ורק מסוגי-המסלול ההגיוניים לענף (בדיד מול תהליכי).",
           processExampleHe: "ניסיון ליצור Master Recipe (C201) למשקה FERT עובד רק אם צירוף FERT↔Recipe מותר; אחרת המערכת חוסמת ולא ניתן להגדיר פעולות-בדיקה.",
-          cbcHe: "ב-CBC: FERT/HALB של משקאות מורשים ל-Master Recipe (תעשייה תהליכית); כך ניתן לבנות מתכון-אב עם פעולות-מילוי הנושאות בדיקות 03.",
+          scenarioHe: "בארגון: FERT/HALB של משקאות מורשים ל-Master Recipe (תעשייה תהליכית); כך ניתן לבנות מתכון-אב עם פעולות-מילוי הנושאות בדיקות 03.",
           navHe: ["Production ► Basic Data ► Routing / Master Recipe ► Control Data ► Define Material Type / Task List Combinations (OPLB)"],
           tables: ["T415T", "MARA", "PLKO"],
           tcodes: ["OPLB", "CA01", "C201"],
@@ -119,7 +119,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "ב-OPL8 מגדירים לכל Order Type×Plant: Number Ranges, Costing/Scheduling/Availability check, ויישום בקרת-האיכות. ערכים אלה משפיעים על יצירת Inspection Lot בעת השחרור. חסר רשומת-OPL8 = הודעת-שגיאה ביצירת/שחרור הפק\"ע, ולכן גם אין מנת-בדיקה 03.",
           purposeHe: "להתאים את התנהגות-הפק\"ע (כולל ה-QM) לכל סוג-הזמנה ולכל מפעל בנפרד — גמישות-קונפיגורציה לפי תהליך עסקי.",
           processExampleHe: "בשחרור פק\"ע מסוג PI01 במפעל 1000, פרמטרי-OPL8 קובעים שהשחרור מפעיל בדיקת-זמינות ויוצר Inspection Lot; באותה הזמנה במפעל אחר ייתכן שההתנהגות שונה.",
-          cbcHe: "ב-CBC כל מפעל-בקבוק מקבל רשומת-OPL8 לסוג-הזמנת-המילוי, כך שהשחרור על הקו פותח אוטומטית בדיקה 03 בהתאם לתקני-המפעל המקומי.",
+          scenarioHe: "בארגון כל מפעל-בקבוק מקבל רשומת-OPL8 לסוג-הזמנת-המילוי, כך שהשחרור על הקו פותח אוטומטית בדיקה 03 בהתאם לתקני-המפעל המקומי.",
           navHe: ["Production ► Shop Floor Control ► Master Data ► Order ► Define Order-Type-Dependent Plant Parameters (OPL8)", "Production Planning for Process Industries ► Process Order ► Master Data ► Order ► Define Order-Type-Dependent Parameters (COR4)"],
           tables: ["T399X", "T001W", "AUFK"],
           tcodes: ["OPL8", "COR4", "CO01"],
@@ -141,7 +141,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "ב-OPK4 מגדירים את התנהגות ה-Confirmation לכל סוג-הזמנה/מפעל: Confirmation type, בדיקות (תאריך/כמות/חריגות), טיפול בשגיאות (Termination/Log), ו-Goods movement. כשמופעל קישור ל-QM, דיווח הפעולה ב-CO11N פותח את מסך רישום-התוצאות עבור מאפייני-הבדיקה (PLMK) של אותה פעולה. ב-PP-PI הדיווח לרוב דרך COR6N/Process Messages.",
           purposeHe: "לאחד את דיווח-הייצור עם רישום-התוצאות, כך שבודק-הקו מזין נתוני-איכות באותו הקשר שבו הוא מדווח על ביצוע-הפעולה — פחות חיכוך, יותר עקביות.",
           processExampleHe: "עובד מדווח פעולת-מילוי ב-CO11N. בזכות פרמטרי-OPK4, נפתח מיד מסך רישום-תוצאות עבור Brix ו-CO2 של אותה פעולה; הערכים נשמרים תחת ה-Inspection Lot 03.",
-          cbcHe: "ב-CBC הקונפיגורציה מקשרת CO11N לרישום-תוצאות-QM: בכל דיווח-פעולה על הקו הבודק נדרש להזין נפח-מילוי ולחץ-CO2, וכך אין דיווח-ייצור 'עיוור' בלי נתוני-איכות.",
+          scenarioHe: "בארגון הקונפיגורציה מקשרת CO11N לרישום-תוצאות-QM: בכל דיווח-פעולה על הקו הבודק נדרש להזין נפח-מילוי ולחץ-CO2, וכך אין דיווח-ייצור 'עיוור' בלי נתוני-איכות.",
           navHe: ["Production ► Shop Floor Control ► Operations ► Confirmation ► Define Confirmation Parameters (OPK4)", "Production Planning for Process Industries ► Process Order ► Operations ► Confirmation ► Define Confirmation Parameters"],
           tables: ["AFRU", "T399X", "QALS"],
           tcodes: ["OPK4", "CO11N", "COR6N"],
@@ -164,7 +164,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "ב-OP00 מגדירים Control Keys עם אינדיקטורים: Scheduling, Capacity, Confirmation (חובה/אופציונלי/לא), Costing, External processing, Print, ו-'QM in Routing/Recipe'. הדגל ה-QM הוא התנאי שמאפשר לשייך מאפייני-בדיקה (PLMK) לפעולה. בעת שחרור, מאפיינים אלה הופכים לפריטי-בדיקה תחת ה-Inspection Lot 03. ערכי-תקן: PP01 דיווח-חובה, PP02 דיווח-אוטומטי, וכו'.",
           purposeHe: "לשלוט במדויק אילו פעולות נכללות בתזמון, בקיבולת, בעלות, בדיווח — ובאילו פעולות מתבצעת בדיקת-איכות תוך-תהליכית.",
           processExampleHe: "פעולת-מילוי נושאת Control Key עם 'QM in Routing'. בעת השחרור, מאפייני-הבדיקה (Brix, CO2) המוגדרים לפעולה הופכים לפריטי-בדיקה ב-QALS, ובודק-הקו רושם עליהם תוצאות ב-CO11N/QA32.",
-          cbcHe: "ב-CBC פעולות-המילוי וה-Capping נושאות Control Key עם דגל-QM, ולכן כל אחת מהן יוצרת פריטי-בדיקה (נפח, אטימות-פקק); פעולות-לוגיסטיקה (העברה למחסן) נושאות Control Key ללא QM.",
+          scenarioHe: "בארגון פעולות-המילוי וה-Capping נושאות Control Key עם דגל-QM, ולכן כל אחת מהן יוצרת פריטי-בדיקה (נפח, אטימות-פקק); פעולות-לוגיסטיקה (העברה למחסן) נושאות Control Key ללא QM.",
           navHe: ["Production ► Basic Data ► Routing ► Operation Data ► Define Control Key (OP00)", "Production Planning for Process Industries ► Master Recipe ► Operation/Phase ► Define Control Key"],
           tables: ["PLPO", "PLMK", "T430"],
           tcodes: ["OP00", "CA02", "C202"],
@@ -195,8 +195,8 @@ export const CH5: TextbookChapter = {
         "להבטיח שנתוני-האב מספקים שרשרת-מידע שלמה: מהחומר (יש בדיקה?) דרך הפעולה (מה בודקים?) ועד למאפיין (איך מודדים ומה הסף?). זה הבסיס לאוטומציה אמינה של בקרת-האיכות בייצור.",
       processExampleHe:
         "מהנדס-איכות מגדיר Master Inspection Characteristics (QS21) ל-Brix ו-CO2, משייך אותם לפעולות במתכון-האב (C202), ומפעיל Inspection Type 03 באב-החומר (MM02). מעתה כל פק\"ע למוצר זה תיצור בדיקה עם מאפיינים אלה.",
-      cbcHe:
-        "ב-CBC נתוני-האב לקו-מילוי: אב-החומר של המשקה עם Inspection Type 03 פעיל; מתכון-האב עם פעולות-מילוי הנושאות מאפייני Brix/CO2/pH/נפח; ותוכנית-דגימה המגדירה כמה בקבוקים לדגום לשעה.",
+      scenarioHe:
+        "בארגון נתוני-האב לקו-מילוי: אב-החומר של המשקה עם Inspection Type 03 פעיל; מתכון-האב עם פעולות-מילוי הנושאות מאפייני Brix/CO2/pH/נפח; ותוכנית-דגימה המגדירה כמה בקבוקים לדגום לשעה.",
       navHe: [
         "Quality Management ► Quality Planning ► Inspection Planning ► General ► Define Identifier for Inspection Types",
         "Quality Management ► Quality Planning ► Basic Data ► Inspection Characteristic / Inspection Method",
@@ -259,7 +259,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "נתוני-אב PP: MARA/MARC, STKO/STPO (BOM), CRHD (Work Center), PLKO/PLPO (Routing). נתוני-אב QM: QPMK (מאפיין), QPMT (שיטה), QPAC (קוד-קבוצה), Plan (QP01) / מאפיינים בפעולות (PLMK). השילוב: ב-S/4HANA לרוב משלבים את מאפייני-הבדיקה ישירות ב-Routing/Master Recipe (QM in Routing) במקום תוכנית-בדיקה נפרדת — חוסך תחזוקה-כפולה ומסנכרן את הבדיקה עם הייצור.",
           purposeHe: "לתחזק מקור-אמת אחד לכל היבט: PP אחראי לזרימת-הייצור, QM למאפייני-הבדיקה, והשילוב מבטיח שהבדיקה תמיד תואמת את הפעולה הנכונה.",
           processExampleHe: "מהנדס-QM יוצר QPMK ל-pH; מתכנן-PP משייך אותו כ-PLMK לפעולת-המילוי במתכון. כך אותו מאפיין-אב משמש בעקביות בכל המתכונים.",
-          cbcHe: "ב-CBC: PP מתחזק את מתכון-המשקה וקווי-המילוי; QM מתחזק את מאפייני Brix/CO2/pH ושיטות-המדידה; השילוב משייך אותם לפעולות-המילוי כך שהבדיקה רצה בתוך הפק\"ע.",
+          scenarioHe: "בארגון: PP מתחזק את מתכון-המשקה וקווי-המילוי; QM מתחזק את מאפייני Brix/CO2/pH ושיטות-המדידה; השילוב משייך אותם לפעולות-המילוי כך שהבדיקה רצה בתוך הפק\"ע.",
           navHe: ["Quality Management ► Quality Planning ► Basic Data ► Inspection Characteristic (QS21)", "Production ► Basic Data ► Routing ► QM in Routing"],
           tables: ["QPMK", "QPMT", "QPAC", "PLMK", "PLPO", "MARC"],
           tcodes: ["QS21", "QS31", "QS41", "CA02", "C202"],
@@ -282,7 +282,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "ב-C201/C202 מוסיפים מאפייני-בדיקה (PLMK) לפעולות/שלבים של מתכון-האב; הם מקושרים ל-QPMK/QPMT ולתוכניות-דגימה. ה-Control Key של הפעולה חייב לשאת 'QM in Recipe'. בעת שחרור פק\"ע-תהליכית (COR1), נוצר Inspection Lot 03 (QALS) ומאפייני המתכון הופכים לפריטי-בדיקה. הדיווח ב-COR6N/CO11N עם רישום-תוצאות ב-QA32 משלים את המעגל.",
           purposeHe: "לאחד את ההגדרה התהליכית והבקרה האיכותית בנשא-אב אחד — פחות סנכרון בין מסמכים, התאמה מדויקת בין שלב-ייצור לבדיקה.",
           processExampleHe: "מתכון-משקה: שלב-ערבוב נושא מאפיין Brix; שלב-מילוי נושא נפח ו-CO2. בשחרור פק\"ע נוצרים פריטי-בדיקה בדיוק בשלבים אלה; הבודק רושם תוצאות תוך כדי דיווח-הפעולה.",
-          cbcHe: "ב-CBC מתכון-המשקה משבץ Brix בשלב-העירוב, ו-CO2 + נפח-מילוי + אטימות-פקק בשלב-המילוי/הסגירה; כל שחרור-פק\"ע מייצר בדיקה 03 התואמת בדיוק את שלבי-הקו.",
+          scenarioHe: "בארגון מתכון-המשקה משבץ Brix בשלב-העירוב, ו-CO2 + נפח-מילוי + אטימות-פקק בשלב-המילוי/הסגירה; כל שחרור-פק\"ע מייצר בדיקה 03 התואמת בדיוק את שלבי-הקו.",
           navHe: ["Production Planning for Process Industries ► Master Recipe ► Create / Change Master Recipe (C201 / C202)", "PP-PI ► Master Recipe ► Operation/Phase ► Inspection Characteristics (QM in Recipe)"],
           tables: ["PLKO", "PLPO", "PLMK", "PLFH", "QALS"],
           tcodes: ["C201", "C202", "C203", "COR1", "QA32"],
@@ -313,8 +313,8 @@ export const CH5: TextbookChapter = {
         "להתאים את מנגנון-הבדיקה לאופי-הייצור, כך שבקרת-האיכות נשארת אוטומטית ועקבית בין אם מייצרים אצווה תהליכית, מכלול בדיד, או זרם-ייצור חוזר.",
       processExampleHe:
         "ייצור-תהליכי: שחרור פק\"ע-משקה ➔ בדיקה 03 ➔ דיווח ב-COR6N עם תוצאות ➔ Usage Decision משחרר אצווה. ייצור-חוזר: דיווח-Backflush על קו רץ ➔ בדיקת-מדגם תקופתית ➔ Usage Decision לכמות-תקופה.",
-      cbcHe:
-        "ב-CBC קו-מילוי במהירות-גבוהה הוא מקרה-גבול בין Process ל-Repetitive: הבדיקה 03 מופעלת עם הפק\"ע התהליכית, אך הדגימה היא תקופתית (כל X בקבוקים/שעה) — מה שמשקף את אופי הזרם-החוזר של הקו.",
+      scenarioHe:
+        "בארגון קו-מילוי במהירות-גבוהה הוא מקרה-גבול בין Process ל-Repetitive: הבדיקה 03 מופעלת עם הפק\"ע התהליכית, אך הדגימה היא תקופתית (כל X בקבוקים/שעה) — מה שמשקף את אופי הזרם-החוזר של הקו.",
       navHe: [
         "Production Planning for Process Industries ► Process Order ► Process Management",
         "Production ► Shop Floor Control ► Operations ► Confirmation",
@@ -375,7 +375,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "Process: COR1 ליצירה, COR6N/CO11N לדיווח, Process Messages אפשריות. Discrete: CO01 ליצירה, CO11N/CO15 לדיווח. בשני המקרים, בעת Release נוצר Inspection Lot 03 ב-QALS הקשור ל-AFKO דרך AUFNR; ה-PLMK מהמתכון/מסלול מועתק ל-QAPP (פריטי-בדיקה). תוצאות ב-QAMR; Usage Decision ב-QA11 (QAVE) חוסם/משחרר. ההבדל הוא בעיקר מודולרי (PP-PI מול PP) ולא מהותי לבקרה.",
           purposeHe: "להבטיח בקרת-איכות תוך-תהליכית עקבית בשני אופני-הייצור הנפוצים, עם נקודת-בדיקה אחת ברורה: שחרור-ההזמנה.",
           processExampleHe: "Discrete: שחרור פק\"ע למכלול ➔ בדיקה 03 על פעולת-הרכבה ➔ CO11N עם רישום-מימדים ➔ Usage Decision. Process: שחרור פק\"ע-משקה ➔ בדיקה 03 על שלב-מילוי ➔ COR6N עם Brix/CO2 ➔ Usage Decision.",
-          cbcHe: "ב-CBC הייצור-התהליכי שולט: שחרור פק\"ע-מילוי פותח בדיקה 03; הבודק רושם ב-CO11N/QA32 ערכי Brix, CO2, pH ונפח; כשל קריטי חוסם את ה-Usage Decision ומונע שחרור-אצווה לשוק.",
+          scenarioHe: "בארגון הייצור-התהליכי שולט: שחרור פק\"ע-מילוי פותח בדיקה 03; הבודק רושם ב-CO11N/QA32 ערכי Brix, CO2, pH ונפח; כשל קריטי חוסם את ה-Usage Decision ומונע שחרור-אצווה לשוק.",
           navHe: ["Production Planning for Process Industries ► Process Order ► Create / Release (COR1)", "Production ► Shop Floor Control ► Order ► Create / Release (CO01)", "Quality Management ► Quality Inspection ► Results Recording (QA32)"],
           tables: ["QALS", "QAPP", "QAMR", "AFKO", "AFRU"],
           tcodes: ["COR1", "CO01", "COR6N", "CO11N", "QA32", "QA11"],
@@ -406,7 +406,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "Repetitive משתמש ב-Product Cost Collector ו-Run Schedule במקום פק\"ע. הדיווח: MFBF (Backflush) ➔ AFRU + תנועות-טובין. הבדיקה התוך-תהליכית מתוכננת לפי מדגם/תדירות; לעיתים נוצר Inspection Lot 04 בקבלת-המוצר מהקו. QALS היא הכותרת; Usage Decision (QA11) חוסם/משחרר את כמות-התקופה. תכנון-דגימה (QDP1) קריטי כדי לא 'לבדוק' כל יחידה בזרם.",
           purposeHe: "להתאים בקרת-איכות לזרם-ייצור מהיר וחוזר, שבו בדיקה-לכל-יחידה אינה מעשית — תוך שמירה על שער-מלאי איכותי.",
           processExampleHe: "קו רץ מייצר ברצף; דיווח-Backflush ב-MFBF רושם כמות-מיוצרת. כל שעה נדגמים N פריטים, נרשמות תוצאות, ו-Usage Decision נקבע לכמות-השעה.",
-          cbcHe: "ב-CBC קו-מילוי במהירות-גבוהה: בדיקת-מדגם של בקבוקים כל פרק-זמן (Brix, CO2, נפח, אטימות); Usage Decision לכמות-התקופה; כשל ➔ חסימה והחזקת-אצווה (Quality hold) עד בירור.",
+          scenarioHe: "בארגון קו-מילוי במהירות-גבוהה: בדיקת-מדגם של בקבוקים כל פרק-זמן (Brix, CO2, נפח, אטימות); Usage Decision לכמות-התקופה; כשל ➔ חסימה והחזקת-אצווה (Quality hold) עד בירור.",
           navHe: ["Production ► Repetitive Manufacturing ► Control Data ► Define Production Versions / REM Profile", "Logistics ► Repetitive Manufacturing ► Backflush (MFBF)", "Quality Management ► Quality Inspection ► Results Recording (QA32)"],
           tables: ["QALS", "QAMR", "AFRU", "PVBE", "QAVE"],
           tcodes: ["MFBF", "MF50", "QA32", "QA11", "QGA1"],
@@ -438,15 +438,15 @@ export const CH5: TextbookChapter = {
       execHe:
         "השילוב בין QM ל-PP/PP-PI הופך את בקרת-האיכות מתהליך-נפרד למרכיב-אינטגרלי של הייצור. ארבעה רכיבי-קונפיגורציה (צירוף-חומר/רשימה, פרמטרי-מפעל, פרמטרי-דיווח, מפתח-בקרה) מאפשרים יצירת Inspection Lot 03 בשחרור-ההזמנה; נתוני-אב מסונכרנים (QMAT, PLMK, QPMK) מספקים את מאפייני-הבדיקה; ובשלושת אופני-הייצור נשמרת אותה ליבה — בדיקה, רישום-תוצאות, Usage Decision.",
       beginnerHe:
-        "מה למדנו: כדי שאיכות תיבדק בתוך הייצור, מגדירים ארבעה כללי-קונפיגורציה, מסנכרנים את נתוני-האב כך שהחומר 'יודע' שיש לו בדיקה והפעולה 'יודעת' מה לבדוק, ואז — בכל סוג-ייצור — נפתחת בדיקה אוטומטית, רושמים תוצאות, ומחליטים אם המנה תקינה. ב-CBC זה מה ששומר שלא תצא לשוק אצווה מחוץ-לתקן.",
+        "מה למדנו: כדי שאיכות תיבדק בתוך הייצור, מגדירים ארבעה כללי-קונפיגורציה, מסנכרנים את נתוני-האב כך שהחומר 'יודע' שיש לו בדיקה והפעולה 'יודעת' מה לבדוק, ואז — בכל סוג-ייצור — נפתחת בדיקה אוטומטית, רושמים תוצאות, ומחליטים אם המנה תקינה. בארגון זה מה ששומר שלא תצא לשוק אצווה מחוץ-לתקן.",
       consultantHe:
         "סיכום-יועץ: התרשים המנטלי הוא QMAT (חומר) ➔ PLMK (פעולה) ➔ QALS (מנה) ➔ QAMR (תוצאות) ➔ QAVE (החלטה). מפתחות-ההפעלה: Inspection Type 03 באב-החומר, 'QM in Routing/Recipe' ב-Control Key, פרמטרי-מפעל (OPL8/COR4), ופרמטרי-Confirmation (OPK4). נקודות-כשל נפוצות: Type 03 לא פעיל, Control Key ללא QM, פרמטרי-מפעל חסרים, או היעדר Usage Decision שמשאיר מלאי תקוע. ב-Repetitive זכור את הבדל-הדגימה ואת אפשרות ה-04 בקבלה.",
       purposeHe:
         "לגבש תמונה אינטגרטיבית: לא ללמוד כל רכיב לבד, אלא להבין כיצד הקונפיגורציה, נתוני-האב והתהליך מתחברים לשרשרת-בקרה אחת מקצה-לקצה.",
       processExampleHe:
         "מקצה-לקצה: המרת הזמנה-מתוכננת ➔ שחרור פק\"ע ➔ יצירת Inspection Lot 03 ➔ דיווח ב-CO11N/COR6N עם רישום-תוצאות ➔ Usage Decision ב-QA11 ➔ שחרור/חסימת מלאי. כל חוליה נשענת על קונפיגורציה ונתוני-אב מהפרק.",
-      cbcHe:
-        "ב-CBC: כל אצווה של משקה עוברת את אותה שרשרת — שחרור-פק\"ע על הקו, בדיקה 03 עם דגימה תקופתית, רישום Brix/CO2/pH/נפח, ו-Usage Decision שמהווה את שער-השחרור-לשוק. שגיאת-קונפיגורציה באחת החוליות = אצווה ללא בקרה.",
+      scenarioHe:
+        "בארגון: כל אצווה של משקה עוברת את אותה שרשרת — שחרור-פק\"ע על הקו, בדיקה 03 עם דגימה תקופתית, רישום Brix/CO2/pH/נפח, ו-Usage Decision שמהווה את שער-השחרור-לשוק. שגיאת-קונפיגורציה באחת החוליות = אצווה ללא בקרה.",
       navHe: [
         "Quality Management ► Quality Inspection ► Inspection Lot Processing",
         "Production / PP-PI ► Order ► Confirmation",
@@ -484,7 +484,7 @@ export const CH5: TextbookChapter = {
       bestPracticeHe: [
         "תרגל את שרשרת-הבקרה מקצה-לקצה ב-Sandbox לפני Go-Live.",
         "תעד נקודות-כשל ובדוק כל חוליה בנפרד בעת תקלה.",
-        "אכוף Usage Decision כשער-מלאי קשיח, במיוחד בתעשיית-המזון/CBC.",
+        "אכוף Usage Decision כשער-מלאי קשיח, במיוחד בתעשיית-המזון/הארגון.",
       ],
       interviewHe: [
         { qHe: "תאר את שרשרת-הבקרה מקצה-לקצה בשילוב QM-PP.", aHe: "QMAT (חומר) ➔ PLMK (פעולה) ➔ QALS (מנה בשחרור) ➔ QAMR (תוצאות בדיווח) ➔ QAVE (Usage Decision) שחוסם/משחרר מלאי." },

@@ -11,7 +11,7 @@ export const CH15: TextbookChapter = {
   titleHe: "תכנון חומרים ומשאבים חיזויי (pMRP)",
   titleEn: "Predictive Material and Resource Planning (pMRP)",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה ל-pMRP — Predictive Material and Resource Planning — כלי-סימולציה טקטי ב-S/4HANA המאפשר למתכננים לבחון תרחישי-דרישה וקיבולת לטווח-בינוני (לרוב חודשים), לזהות צווארי-בקבוק, ולהתאים דרישה או קיבולת לפני שמשחררים את התוצאות ל-MRP התפעולי. pMRP אינו T-Code קלאסי אלא תהליך מונחה-אפליקציות-Fiori: 'Schedule pMRP Simulation Creation' יוצרת את הסימולציה מנתוני PIR/SOP, ו-'Process pMRP Simulations' היא חדר-הבקרה האינטראקטיבי לעריכתה. כל תת-סעיף מהמקור הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר, מטרה עסקית, דוגמת-תהליך, דוגמת CBC, ניווט/SPRO, טבלאות/T-Codes/Fiori, קונפיגורציה, תרשים-תהליך, טעויות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות. המטרה: לשלוט ב-pMRP ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה ל-pMRP — Predictive Material and Resource Planning — כלי-סימולציה טקטי ב-S/4HANA המאפשר למתכננים לבחון תרחישי-דרישה וקיבולת לטווח-בינוני (לרוב חודשים), לזהות צווארי-בקבוק, ולהתאים דרישה או קיבולת לפני שמשחררים את התוצאות ל-MRP התפעולי. pMRP אינו T-Code קלאסי אלא תהליך מונחה-אפליקציות-Fiori: 'Schedule pMRP Simulation Creation' יוצרת את הסימולציה מנתוני PIR/SOP, ו-'Process pMRP Simulations' היא חדר-הבקרה האינטראקטיבי לעריכתה. כל תת-סעיף מהמקור הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר, מטרה עסקית, דוגמת-תהליך, דוגמת הארגון, ניווט/SPRO, טבלאות/T-Codes/Fiori, קונפיגורציה, תרשים-תהליך, טעויות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות. המטרה: לשלוט ב-pMRP ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 15.1
     {
@@ -26,8 +26,8 @@ export const CH15: TextbookChapter = {
         "המטרה: לתת לתכנון יכולת לראות-קדימה ולקבל החלטות-קיבולת מושכלות — האם להוסיף משמרת, להקדים ייצור, או לדחות דרישה — לפני שהבעיה הופכת ל-backlog בפק\"ע. זהו 'rough-cut capacity planning' מודרני, אינטראקטיבי וויזואלי.",
       processExampleHe:
         "מתכנן מזהה גידול צפוי של 30% בביקוש לרבעון הבא. הוא יוצר סימולציית pMRP מ-PIR, רואה ש-קו-המילוי הראשי עובר 100% קיבולת בחודשיים, מקדים חלק מהדרישה לחודש פנוי, ומחיל את התוצאה — כך ש-PIR מעודכנים מזינים את MRP בלי הפתעות-עומס.",
-      cbcHe:
-        "ב-CBC הביקוש עונתי-חד (קיץ/חגים). pMRP מאפשר לתכנון לדמות את שיא-הקיץ מבעוד-מועד על קווי-המילוי הקריטיים, לזהות שקו PET-1.5L יחרוג מקיבולת ביולי, ולהחליט מראש על הקדמת-ייצור או משמרת-לילה — במקום לגלות את החריגה כשהפק\"ע כבר נתקעות.",
+      scenarioHe:
+        "בארגון הביקוש עונתי-חד (קיץ/חגים). pMRP מאפשר לתכנון לדמות את שיא-הקיץ מבעוד-מועד על קווי-המילוי הקריטיים, לזהות שקו PET-1.5L יחרוג מקיבולת ביולי, ולהחליט מראש על הקדמת-ייצור או משמרת-לילה — במקום לגלות את החריגה כשהפק\"ע כבר נתקעות.",
       navHe: [
         "SAP Fiori Launchpad ► Production Planner role ► Predictive Material and Resource Planning group",
         "Production ► Predictive Material and Resource Planning ► Basic Settings (SPRO)",
@@ -89,8 +89,8 @@ export const CH15: TextbookChapter = {
         "להבטיח שהסימולציה תקבל קלט מלא ואמין: דרישה, מבנה-מוצר, ומסגרת-קיבולת — אחרת התובנות יהיו מטעות.",
       processExampleHe:
         "צוות-בסיס מפעיל pMRP ב-SPRO, מסמן את שלושת קווי-המילוי הקריטיים כ-Relevant to pMRP, מוודא שלכל FERT יש Production Version, ומאשר ש-PIR לרבעון הבא מאוכלסים — כעת הסביבה מוכנה ליצירת סימולציה.",
-      cbcHe:
-        "ב-CBC סומנו רק קווי-המילוי הצמיגים-לעומס (PET, זכוכית) כ-Relevant to pMRP; מכונות-עזר נשארו מחוץ לתחום כדי למקד את הניתוח. כל FERT-משקה קיבל Production Version פעילה לפני ההרצה הראשונה.",
+      scenarioHe:
+        "בארגון סומנו רק קווי-המילוי הצמיגים-לעומס (PET, זכוכית) כ-Relevant to pMRP; מכונות-עזר נשארו מחוץ לתחום כדי למקד את הניתוח. כל FERT-משקה קיבל Production Version פעילה לפני ההרצה הראשונה.",
       navHe: [
         "Production ► Predictive Material and Resource Planning ► Basic Settings ► Activate pMRP (SPRO)",
         "Production ► Basic Data ► Work Center ► mark as Relevant to pMRP",
@@ -149,8 +149,8 @@ export const CH15: TextbookChapter = {
         "להפריד את הבנייה הכבדה (קריאת-נתונים, פיצוץ, חישוב) מהעיבוד האינטראקטיבי — כך שהמתכנן נכנס ל-'Process' עם נתונים מוכנים.",
       processExampleHe:
         "מתכנן מתזמן יצירת-סימולציה לכל קווי-המילוי במפעל 1000 על-בסיס PIR לחצי-השנה הקרובה; העבודה רצה בלילה, ובבוקר הסימולציה מוכנה לעיבוד.",
-      cbcHe:
-        "ב-CBC נקבעת עבודת-יצירה שבועית אוטומטית לקראת תכנון-הקיץ, כך שבכל יום-שני המתכננים פותחים סימולציה רעננה המבוססת על תחזית-המכירות העדכנית.",
+      scenarioHe:
+        "בארגון נקבעת עבודת-יצירה שבועית אוטומטית לקראת תכנון-הקיץ, כך שבכל יום-שני המתכננים פותחים סימולציה רעננה המבוססת על תחזית-המכירות העדכנית.",
       navHe: [
         "Fiori ► Schedule pMRP Simulation Creation ► New / Schedule",
       ],
@@ -194,7 +194,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "כולל Demand Plan/Version (מקור-PIR), אופק (Start/End או מספר-תקופות), ו-bucket profile (חודשי/שבועי). מקור-הדרישה יכול להיות PIR קיימים או נתוני-מכירות; הבחירה כאן קובעת את ה-baseline שעליו תרוץ הסימולציה.",
           purposeHe: "לקבע את הבסיס הכמותי והזמני של הסימולציה — דרישה ואופק.",
           processExampleHe: "המתכנן בוחר Demand Plan='Active PIR', אופק=6 חודשים, bucket=חודשי — הסימולציה תכסה 6 דליי-תקופות.",
-          cbcHe: "ב-CBC נבחר אופק שמכסה את כל עונת-הקיץ (אפריל–ספטמבר) עם דליי-תקופה חודשיים, כדי לראות את עקומת-העומס העונתית במלואה.",
+          scenarioHe: "בארגון נבחר אופק שמכסה את כל עונת-הקיץ (אפריל–ספטמבר) עם דליי-תקופה חודשיים, כדי לראות את עקומת-העומס העונתית במלואה.",
           navHe: ["Fiori ► Schedule pMRP Simulation Creation ► Parameters (Part 1: Demand & Horizon)"],
           tables: ["PBED", "PBIM", "PPH_PMRP_SIM"],
           tcodes: ["—"],
@@ -213,7 +213,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "כולל Plant, Material/Product-Group selection, MRP Controller, ובחירת single-level מול multilevel explosion. multilevel מאריך את החישוב אך חושף עומסי-קיבולת ברמות-ביניים; single-level מהיר וממוקד-מוצר-סופי. כאן גם נקבעים פילטרים נוספים (MRP Area, Production Version).",
           purposeHe: "להגדיר את גבולות-הסימולציה — מה נכלל ועד כמה עמוק — לאיזון בין כיסוי לביצועים.",
           processExampleHe: "המתכנן בוחר Plant=1000, קבוצת-מוצרים='Beverages', multilevel — כדי לראות גם עומס על קווי-תערובת-הבסיס שמתחת למשקה.",
-          cbcHe: "ב-CBC נבחר multilevel כדי לחשוף שלא רק קו-המילוי עמוס, אלא גם עמדת-הכנת-הסירופ שמתחתיו — צוואר-בקבוק נסתר ברמת-ביניים.",
+          scenarioHe: "בארגון נבחר multilevel כדי לחשוף שלא רק קו-המילוי עמוס, אלא גם עמדת-הכנת-הסירופ שמתחתיו — צוואר-בקבוק נסתר ברמת-ביניים.",
           navHe: ["Fiori ► Schedule pMRP Simulation Creation ► Parameters (Part 2: Materials & Explosion)"],
           tables: ["MARC", "MKAL", "PPH_PMRP_MAT_OBJ"],
           tcodes: ["—"],
@@ -234,7 +234,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "ה-Application Log (SLG1-style) מסווג הודעות ל-Success/Warning/Error לפי חומר/מפעל. אזהרות נפוצות: 'No production version', 'Work center not relevant to pMRP', 'No capacity'. שגיאות חוסמות-יצירה מצריכות תיקון-נתוני-אב והרצה-חוזרת.",
           purposeHe: "לספק שקיפות מלאה לתהליך-הבנייה ולמנוע עבודה על סימולציה חלקית או מטעה.",
           processExampleHe: "אחרי הרצה, היומן מציג 12 אזהרות 'No production version' — המתכנן מתקן את הגרסאות החסרות ומריץ שוב לפני העיבוד.",
-          cbcHe: "ב-CBC היומן חשף ש-3 משקאות-חדשים ללא Production Version לא נכנסו לסימולציה — תיקון מנע תכנון-קיבולת חסר לקראת השקה.",
+          scenarioHe: "בארגון היומן חשף ש-3 משקאות-חדשים ללא Production Version לא נכנסו לסימולציה — תיקון מנע תכנון-קיבולת חסר לקראת השקה.",
           navHe: ["Fiori ► Application Log / Schedule pMRP Simulation Creation ► Log"],
           tables: ["BALHDR", "BALDAT", "PPH_PMRP_SIM"],
           tcodes: ["SLG1"],
@@ -261,8 +261,8 @@ export const CH15: TextbookChapter = {
         "לאפשר תכנון-תרחישים אינטראקטיבי: לבחון פתרונות-קיבולת שונים ולבחור את האופטימלי לפני החלה תפעולית.",
       processExampleHe:
         "המתכנן רואה חודש אדום בקו-מילוי, מזיז 20% מהדרישה לחודש הקודם (Shift demand), הצבע הופך לכתום, מוסיף משמרת (Change available capacity) — והופך לירוק. ה-Summary מאשר שיפור ב-Delivery Performance.",
-      cbcHe:
-        "ב-CBC המתכנן מאזן את עומס-יולי בקו-PET: מקדים ייצור-מלאי לאמצע-יוני (Preproduction), מעביר חלק מהדרישה לקו-זכוכית פנוי (Change source), ומוסיף משמרת-לילה — עד שכל החודשים יורדים מתחת ל-100%.",
+      scenarioHe:
+        "בארגון המתכנן מאזן את עומס-יולי בקו-PET: מקדים ייצור-מלאי לאמצע-יוני (Preproduction), מעביר חלק מהדרישה לקו-זכוכית פנוי (Change source), ומוסיף משמרת-לילה — עד שכל החודשים יורדים מתחת ל-100%.",
       navHe: [
         "Fiori ► Process pMRP Simulations ► open simulation",
       ],
@@ -314,7 +314,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "ההעתקה משכפלת את כל עצמי-הסימולציה (Top/Material/Capacity) למזהה חדש. שימושי לתרחיש A מול B: למשל 'משמרת נוספת' מול 'הקדמת-ייצור'. ההשוואה נעשית דרך ה-Summary של כל עותק.",
           purposeHe: "לאפשר תכנון מרובה-תרחישים ובחירת-החלופה-המיטבית בלי לסכן את הסימולציה המקורית.",
           processExampleHe: "מתכנן מעתיק סימולציית-בסיס לשני עותקים: באחד מוסיף קיבולת, בשני מזיז דרישה — ומשווה את ה-Delivery Performance של שניהם.",
-          cbcHe: "ב-CBC הושוו שני תרחישים לקיץ: 'משמרת-לילה בקו-PET' מול 'הסבת-נפח לקו-זכוכית' — ההעתקה אפשרה השוואה אובייקטיבית לפני החלטת-הנהלה.",
+          scenarioHe: "בארגון הושוו שני תרחישים לקיץ: 'משמרת-לילה בקו-PET' מול 'הסבת-נפח לקו-זכוכית' — ההעתקה אפשרה השוואה אובייקטיבית לפני החלטת-הנהלה.",
           navHe: ["Fiori ► Process / Manage pMRP Simulations ► Copy"],
           tables: ["PPH_PMRP_SIM", "PPH_PMRP_TOP_OBJ"],
           tcodes: ["—"],
@@ -333,7 +333,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "הדרישה מוצגת בדליי-תקופה הניתנים-לעריכה (editable buckets). כל שינוי מפעיל recalculation של דרישות-תלויות ועומס-קיבולת. זהו ה-lever הראשון לאיזון — לפני נגיעה בקיבולת.",
           purposeHe: "לבחון תרחישי-דרישה ('מה אם נמכור פחות/יותר') ואת השפעתם על העומס, כבסיס לדיון-מכירות-ותפעול.",
           processExampleHe: "המתכנן מקטין דרישת-יולי ב-15% בסימולציה; הקיבולת בקו-המילוי יורדת מ-110% ל-95% — ראיה כמותית לדיון על הזזת-קמפיין.",
-          cbcHe: "ב-CBC נבחנה השפעת קמפיין-מבצע נוסף ביולי: הגדלת-דרישה בסימולציה הראתה חריגת-קיבולת חדה — קלט להחלטת-שיווק על תזמון-המבצע.",
+          scenarioHe: "בארגון נבחנה השפעת קמפיין-מבצע נוסף ביולי: הגדלת-דרישה בסימולציה הראתה חריגת-קיבולת חדה — קלט להחלטת-שיווק על תזמון-המבצע.",
           navHe: ["Fiori ► Process pMRP Simulations ► Demand Plan view"],
           tables: ["PPH_PMRP_TOP_OBJ", "PBED"],
           tcodes: ["—"],
@@ -352,7 +352,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "החישוב: דרישה → דרישות-תלויות → דרישת-קיבולת לכל מרכז-pMRP, מול Available Capacity. אחוז-ניצול (utilization%) מקודד בצבע. זהו פלט-הניתוח המרכזי; ממנו ניגשים ל-Inspector Panel לפירוט-מרכז.",
           purposeHe: "להציג חזותית היכן ומתי הקיבולת חורגת, וכך למקד את פעולות-ההתאמה.",
           processExampleHe: "תצוגת-הקיבולת מראה אדום בקו-A ביולי-אוגוסט; המתכנן מתמקד שם, בעוד שאר הקווים ירוקים ואינם דורשים פעולה.",
-          cbcHe: "ב-CBC תצוגת-הקיבולת הבליטה שקו-PET-1.5L אדום ביולי, בעוד קו-הזכוכית ירוק — מה שהוביל ישירות להחלטת הסבת-נפח בין הקווים.",
+          scenarioHe: "בארגון תצוגת-הקיבולת הבליטה שקו-PET-1.5L אדום ביולי, בעוד קו-הזכוכית ירוק — מה שהוביל ישירות להחלטת הסבת-נפח בין הקווים.",
           navHe: ["Fiori ► Process pMRP Simulations ► Capacity Plan view"],
           tables: ["PPH_PMRP_CAP", "KAKO", "CRHD"],
           tcodes: ["—"],
@@ -371,7 +371,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "שינוי-הקיבולת בסימולציה מעדכן את ה-Available Capacity לתקופה ספציפית (לא את נתון-האב KAKO הקבוע). ניתן לדמות משמרות נוספות, ימי-עבודה מורחבים, או צמצום-תחזוקה. ההשפעה משתקפת מיד ב-utilization% וב-Delivery Performance. ב-Release ההתאמות יכולות לזרום לאפליקציית Mass Maintenance of Work Center Capacities (15.24).",
           purposeHe: "לבחון פתרונות-היצע-קיבולת (משמרות/שעות) כחלופה או השלמה להזזת-דרישה.",
           processExampleHe: "המתכנן מוסיף משמרת-לילה לקו-A ביולי בסימולציה; הקיבולת-הזמינה עולה ב-33%, ה-utilization יורד מ-115% ל-86%, והחודש הופך לירוק.",
-          cbcHe: "ב-CBC נבחנה השפעת הוספת משמרת-שבת בקיץ לקו-PET; הסימולציה הראתה שזה לבדו פותר את צוואר-הבקבוק של יולי — קלט לתמחור עלות-השבת מול חלופות.",
+          scenarioHe: "בארגון נבחנה השפעת הוספת משמרת-שבת בקיץ לקו-PET; הסימולציה הראתה שזה לבדו פותר את צוואר-הבקבוק של יולי — קלט לתמחור עלות-השבת מול חלופות.",
           navHe: ["Fiori ► Process pMRP Simulations ► Capacity ► Change Available Capacity"],
           tables: ["PPH_PMRP_CAP", "KAKO"],
           tcodes: ["—"],
@@ -393,7 +393,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "ה-Inspector מציג drill-down: תרומת-עומס לכל חומר/דרישה במרכז ובתקופה, מקורות-האספקה הזמינים, וההשפעה-הצפויה של פעולות-התאמה. זהו הגשר בין הצבע (סימפטום) לבין הסיבה (תמהיל-המוצרים).",
           purposeHe: "לתרגם 'אדום' לתובנה פעילה — לדעת בדיוק איזו דרישה להזיז או לאיזה מקור-חלופי להעביר.",
           processExampleHe: "תא-אדום נפתח ב-Inspector: 60% מהעומס ממוצר X. המתכנן מזיז דווקא את X — הפעולה הממוקדת והיעילה ביותר.",
-          cbcHe: "ב-CBC ה-Inspector חשף שעומס-יולי בקו-PET נובע בעיקר ממשקה-אנרגיה חדש; הזזת אותו פריט בלבד אזנה את החודש בלי לגעת במוצרי-הליבה.",
+          scenarioHe: "בארגון ה-Inspector חשף שעומס-יולי בקו-PET נובע בעיקר ממשקה-אנרגיה חדש; הזזת אותו פריט בלבד אזנה את החודש בלי לגעת במוצרי-הליבה.",
           navHe: ["Fiori ► Process pMRP Simulations ► select cell ► Inspector Panel"],
           tables: ["PPH_PMRP_MAT_OBJ", "PPH_PMRP_CAP"],
           tcodes: ["—"],
@@ -412,7 +412,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "הרכיבים נגזרים בפיצוץ-BOM (single/multilevel לפי הבחירה ב-15.5). התצוגה חושפת תלות-רכיבים ועומסי-קיבולת ברמות-ביניים — קריטית כשצוואר-הבקבוק אינו במוצר-הסופי אלא ברכיב-משנה.",
           purposeHe: "לחשוף את השפעת-הדרישה על שרשרת-האספקה כולה, לא רק על המוצר-הסופי.",
           processExampleHe: "הגדלת-דרישה למשקה מגדילה דרישת-תרכיז ב-Components; הסימולציה חושפת שעמדת-הכנת-התרכיז תהפוך לצוואר-בקבוק לפני קו-המילוי עצמו.",
-          cbcHe: "ב-CBC תצוגת-הרכיבים גילתה שגידול-הביקוש למשקאות מעמיס דווקא על עמדת-הסירופ המשותפת לכמה מוצרים — צוואר-בקבוק חבוי ברמת-רכיב.",
+          scenarioHe: "בארגון תצוגת-הרכיבים גילתה שגידול-הביקוש למשקאות מעמיס דווקא על עמדת-הסירופ המשותפת לכמה מוצרים — צוואר-בקבוק חבוי ברמת-רכיב.",
           navHe: ["Fiori ► Process pMRP Simulations ► Components view"],
           tables: ["PPH_PMRP_MAT_OBJ", "STPO", "RESB"],
           tcodes: ["—"],
@@ -432,7 +432,7 @@ export const CH15: TextbookChapter = {
           purposeHe:
             "לתת תמונת-קיבולת מלאה של שרשרת-הייצור הרב-שלבית, במקום תצוגה חלקית של המוצר-הסופי בלבד.",
           processExampleHe: "מוצר עם תערובת-בסיס (HALB) ומילוי (FERT): הסימולציה הרב-שלבית מגלה שעמדת-התערובת היא צוואר-הבקבוק האמיתי, לא קו-המילוי.",
-          cbcHe: "ב-CBC ייצור-המשקה דו-שלבי: הכנת-סירופ ואז מילוי. רק סימולציה רב-שלבית חשפה שעמדת-הסירופ המשותפת מגבילה את התפוקה — לא הקווים.",
+          scenarioHe: "בארגון ייצור-המשקה דו-שלבי: הכנת-סירופ ואז מילוי. רק סימולציה רב-שלבית חשפה שעמדת-הסירופ המשותפת מגבילה את התפוקה — לא הקווים.",
           navHe: ["Fiori ► Schedule pMRP Simulation Creation (multilevel) ► Process pMRP Simulations"],
           tables: ["PPH_PMRP_MAT_OBJ", "STPO", "MKAL", "PPH_PMRP_CAP"],
           tcodes: ["—"],
@@ -451,7 +451,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "החלפת-מקור משנה את ה-Production Version המשמשת לפיצוץ, ובכך מנתבת עומס למרכז-עבודה אחר. אפשר גם להעביר למקור-רכש (procurement) במקום ייצור-עצמי. הפעולה מועילה רק כשקיימים מקורות-חלופיים תקפים בנתוני-האב.",
           purposeHe: "לאזן עומס בין קווים/מפעלים/מקורות מבלי לשנות את הדרישה הכוללת.",
           processExampleHe: "המתכנן מעביר 30% מדרישת-המשקה מ-Production Version של קו-PET העמוס ל-Production Version של קו-זכוכית הפנוי; שני הקווים מתאזנים מתחת ל-100%.",
-          cbcHe: "ב-CBC חלק מנפח-המשקה הוסב מקו-PET העמוס ביולי לקו-זכוכית הפנוי דרך החלפת-Production-Version — איזון מיידי בלי תוספת-קיבולת.",
+          scenarioHe: "בארגון חלק מנפח-המשקה הוסב מקו-PET העמוס ביולי לקו-זכוכית הפנוי דרך החלפת-Production-Version — איזון מיידי בלי תוספת-קיבולת.",
           navHe: ["Fiori ► Process pMRP Simulations ► Change Source of Supply"],
           tables: ["MKAL", "PPH_PMRP_MAT_OBJ", "PPH_PMRP_CAP"],
           tcodes: ["—"],
@@ -470,7 +470,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "Shift Top-Level Demand מזיז buckets קדימה/אחורה; SAP ממליץ-קדימה (preponement) כדי לבנות מלאי לפני השיא. ההזזה מפעילה recalculation מלא ומשפיעה על Delivery Performance — הקדמה משפרת קיבולת אך מעלה מלאי. זהו ה-lever המרכזי לאיזון-עונתי.",
           purposeHe: "להחליק שיאי-עונה אל תקופות עם קיבולת-פנויה, ולמנוע חריגות בלי לוותר על דרישה.",
           processExampleHe: "המתכנן מזיז 25% מדרישת-יולי לחודש יוני; יולי יורד ל-92% קיבולת, יוני עולה ל-88% — שני החודשים בני-ביצוע, על-חשבון מלאי-ביניים.",
-          cbcHe: "ב-CBC נבנה מלאי-קיץ מראש: דרישת-משקאות מיולי הוקדמה למאי–יוני (preponement), כדי שקווי-המילוי יעמדו בשיא בלי משמרות-חירום.",
+          scenarioHe: "בארגון נבנה מלאי-קיץ מראש: דרישת-משקאות מיולי הוקדמה למאי–יוני (preponement), כדי שקווי-המילוי יעמדו בשיא בלי משמרות-חירום.",
           navHe: ["Fiori ► Process pMRP Simulations ► Shift Top-Level Demand"],
           tables: ["PPH_PMRP_TOP_OBJ", "PBED"],
           tcodes: ["—"],
@@ -492,7 +492,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "Preproduction מקדים ייצור-רכיב (HALB) למרכז-עבודה בתקופה-פנויה; Early Procurement מקדים הזמנת-רכש לרכיב-נרכש. שתיהן מסיטות עומס/דרישה קדימה ברמת-הרכיב, ומגדילות מלאי-רכיבים. זמין בעיקר ב-multilevel (15.14).",
           purposeHe: "להקל על צוואר-בקבוק שמקורו ברכיב, על-ידי הקדמת-זמינותו, מבלי לדחות את המוצר-הסופי.",
           processExampleHe: "תערובת-בסיס (HALB) גורמת לעומס ביולי; המתכנן מקדים את ייצורה ליוני (Preproduction), משחרר קיבולת ביולי, ומאחסן את התערובת עד המילוי.",
-          cbcHe: "ב-CBC הסירופ המשותף יוצּר מראש במאי–יוני (Preproduction) ואוחסן, כדי לפנות את עמדת-הסירופ לשיא-יולי; חומרי-אריזה ארוכי-אספקה הוזמנו מוקדם (Early Procurement).",
+          scenarioHe: "בארגון הסירופ המשותף יוצּר מראש במאי–יוני (Preproduction) ואוחסן, כדי לפנות את עמדת-הסירופ לשיא-יולי; חומרי-אריזה ארוכי-אספקה הוזמנו מוקדם (Early Procurement).",
           navHe: ["Fiori ► Process pMRP Simulations ► Preproduction / Early Procurement"],
           tables: ["PPH_PMRP_MAT_OBJ", "PLAF", "EBAN"],
           tcodes: ["—"],
@@ -511,7 +511,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "ה-Issue List מתעדכן דינמית אחרי כל פעולת-התאמה: כשמרכז יורד מתחת ל-100% הבעיה נעלמת; פעולה לא-מוצלחת עשויה ליצור בעיה חדשה במקום אחר. הוא הגשר בין הניתוח (Capacity Plan) לבין מדד-התוצאה (Delivery Performance).",
           purposeHe: "לתת רשימת-עבודה ברורה וניתנת-למעקב, ולוודא ששום חריגה לא נשכחת לפני Release.",
           processExampleHe: "ה-Issue List פותח עם 5 חריגות; אחרי הזזת-דרישה ושינוי-מקור נותרת אחת; משמרת נוספת מרוקנת אותה — הסימולציה נקייה ומוכנה ל-Release.",
-          cbcHe: "ב-CBC ה-Issue List לקיץ הראה 4 חריגות בקווים-שונים; המתכנן עבד שורה-שורה — הזזה, הסבת-מקור, Preproduction — עד שהרשימה התרוקנה.",
+          scenarioHe: "בארגון ה-Issue List לקיץ הראה 4 חריגות בקווים-שונים; המתכנן עבד שורה-שורה — הזזה, הסבת-מקור, Preproduction — עד שהרשימה התרוקנה.",
           navHe: ["Fiori ► Process pMRP Simulations ► Issue List"],
           tables: ["PPH_PMRP_CAP", "PPH_PMRP_TOP_OBJ"],
           tcodes: ["—"],
@@ -530,7 +530,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "Delivery Performance מחושב מיחס דרישה-מכוסה-במועד מול דרישה-כוללת. דחיית-דרישה מורידה אותו; הקדמה/תוספת-קיבולת לרוב משמרת או משפרת. הוא מאזן את ההחלטות: לא די בהורדת-עומס אם המחיר הוא פגיעה-במסירה. נבדק לצד ה-Summary לפני Release.",
           purposeHe: "לוודא שאיזון-הקיבולת לא בא על-חשבון שירות-הלקוח — לשמור על ראייה דו-ממדית (קיבולת מול מסירה).",
           processExampleHe: "המתכנן שוקל לדחות דרישה כדי להוריד עומס, אך רואה ש-Delivery Performance צונח מ-98% ל-90%; הוא בוחר במקום זאת בהקדמה, ששומרת על המדד.",
-          cbcHe: "ב-CBC כל תרחיש-קיץ נשקל מול Delivery Performance: הסבת-נפח והקדמה נבחרו דווקא משום ששמרו על מסירה ~99% — קריטי לרשתות-הקמעונאות.",
+          scenarioHe: "בארגון כל תרחיש-קיץ נשקל מול Delivery Performance: הסבת-נפח והקדמה נבחרו דווקא משום ששמרו על מסירה ~99% — קריטי לרשתות-הקמעונאות.",
           navHe: ["Fiori ► Process pMRP Simulations ► Delivery Performance / Summary"],
           tables: ["PPH_PMRP_TOP_OBJ", "PPH_PMRP_SIM"],
           tcodes: ["—"],
@@ -549,7 +549,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "ה-Summary מאחד את ה-KPIs (utilization, Delivery Performance), את רשימת-ההתאמות ואת מצב ה-Issue List. הוא משמש לתיעוד-החלטה ולהשוואת-תרחישים (מול עותקים מ-15.8). Release מומלץ רק כש-Summary 'ירוק' וה-Issue List ריק.",
           purposeHe: "לספק תמונת-החלטה מסכמת ובסיס-תיעוד לפני המעבר ל-MRP התפעולי.",
           processExampleHe: "ה-Summary מראה: 5 חריגות נפתרו, Delivery Performance 99%, 3 התאמות (הזזה/מקור/משמרת). המתכנן מאשר וממשיך ל-Release.",
-          cbcHe: "ב-CBC ה-Summary של תרחיש-הקיץ הוצג להנהלת-התפעול כדוח-החלטה: כל החריגות נפתרו, מסירה 99%, עלות-משמרת מתומחרת — אישור ל-Release.",
+          scenarioHe: "בארגון ה-Summary של תרחיש-הקיץ הוצג להנהלת-התפעול כדוח-החלטה: כל החריגות נפתרו, מסירה 99%, עלות-משמרת מתומחרת — אישור ל-Release.",
           navHe: ["Fiori ► Process pMRP Simulations ► Simulation Summary"],
           tables: ["PPH_PMRP_SIM", "PPH_PMRP_TOP_OBJ", "PPH_PMRP_CAP"],
           tcodes: ["—"],
@@ -576,8 +576,8 @@ export const CH15: TextbookChapter = {
         "להמיר תוכנית-טקטית מאושרת לפעולה-תפעולית, ולסגור את הלולאה בין תכנון-חיזוי לביצוע.",
       processExampleHe:
         "אחרי שהסימולציה נקייה, המתכנן מבצע Release; ה-PIR לחודשי-הקיץ מתעדכנים, ובהרצת-MRP הבאה ההזמנות-המתוכננות משקפות את התוכנית המאוזנת.",
-      cbcHe:
-        "ב-CBC לאחר אישור-הנהלה שוחררה סימולציית-הקיץ: PIR המעודכנים (כולל ההקדמות) הוזרמו ל-MRP, ושינויי-הקיבולת (משמרות) הוחלו דרך Mass Maintenance — תכנון-הקיץ הפך תפעולי.",
+      scenarioHe:
+        "בארגון לאחר אישור-הנהלה שוחררה סימולציית-הקיץ: PIR המעודכנים (כולל ההקדמות) הוזרמו ל-MRP, ושינויי-הקיבולת (משמרות) הוחלו דרך Mass Maintenance — תכנון-הקיץ הפך תפעולי.",
       navHe: [
         "Fiori ► Process / Manage pMRP Simulations ► Release",
       ],
@@ -628,7 +628,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "MRP Live (MD01N) קורא את ה-PIR המעודכנים ויוצר Planned Orders/PReqs בהתאם. pMRP אינו יוצר הזמנות בעצמו — הוא רק מעצב את הדרישה; MRP הוא שמייצר את אלמנטי-האספקה התפעוליים. כך נסגרת הלולאה טקטי→תפעולי.",
           purposeHe: "לוודא שהתכנון-החיזוי מתורגם לאלמנטי-תכנון תפעוליים מדויקים בעבודה השוטפת.",
           processExampleHe: "אחרי Release מריצים MD01N; ההזמנות-המתוכננות לקיץ פרוסות לפי התוכנית המאוזנת — בלי חריגות-קיבולת שהיו מתגלות מאוחר.",
-          cbcHe: "ב-CBC הרצת-MRP שלאחר ה-Release ייצרה הזמנות-מתוכננות פרוסות-מראש לקיץ, כולל ההקדמות שתוכננו ב-pMRP — קווי-המילוי נכנסו לעונה ללא הפתעות.",
+          scenarioHe: "בארגון הרצת-MRP שלאחר ה-Release ייצרה הזמנות-מתוכננות פרוסות-מראש לקיץ, כולל ההקדמות שתוכננו ב-pMRP — קווי-המילוי נכנסו לעונה ללא הפתעות.",
           navHe: ["Fiori/SAP GUI ► Schedule MRP Run (MD01N) after Release", "Stock/Requirements List (MD04)"],
           tables: ["PBED", "PLAF", "EBAN", "MDKP"],
           tcodes: ["MD01N", "MD04", "MD02"],
@@ -647,7 +647,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "ה-PIR המעודכנים נשמרים ב-PBED (גרסת-דרישה רלוונטית) וניתנים-לצפייה/עריכה ב-MD61/MD62/MD04. חשוב לעדכן את הגרסה הנכונה (Version/Requirements Plan) שאליה MRP מאזין. ניתן לתחזק היסטוריית-גרסאות להשוואת תכנון-לפני/אחרי-pMRP.",
           purposeHe: "לקבע את תוצאת-הסימולציה כתחזית-הביקוש הרשמית שמזינה את MRP ואת שרשרת-האספקה.",
           processExampleHe: "אחרי Release נפתח MD61 ורואים את ה-PIR המעודכנים לקיץ — הכמויות המוקדמות והמאוזנות מופיעות בגרסת-הדרישה הפעילה.",
-          cbcHe: "ב-CBC ה-PIR לקיץ עודכנו בגרסת-הדרישה הפעילה, כולל ההקדמות מ-pMRP; הגרסה הקודמת נשמרה כ-baseline להשוואת תכנון-לפני-ואחרי.",
+          scenarioHe: "בארגון ה-PIR לקיץ עודכנו בגרסת-הדרישה הפעילה, כולל ההקדמות מ-pMRP; הגרסה הקודמת נשמרה כ-baseline להשוואת תכנון-לפני-ואחרי.",
           navHe: ["SAP GUI ► Maintain PIRs (MD61/MD62)", "Stock/Requirements List (MD04)"],
           tables: ["PBED", "PBIM", "PBHI"],
           tcodes: ["MD61", "MD62", "MD63", "MD04"],
@@ -674,8 +674,8 @@ export const CH15: TextbookChapter = {
         "לסגור את לולאת-הקיבולת: להמיר את שינויי-הקיבולת-המתוכננים ב-pMRP לעדכון-קיבולת תפעולי-בפועל, ביעילות ובקנה-מידה.",
       processExampleHe:
         "אחרי Release, המתכנן פותח את האפליקציה ומעדכן באופן-המוני את הקיבולת של שלושת קווי-הקיץ — משמרת-לילה ביולי-אוגוסט — כך ש-MRP ותכנון-הקיבולת התפעולי יראו את הקיבולת המוגדלת.",
-      cbcHe:
-        "ב-CBC משמרות-הקיץ שתוכננו ב-pMRP הוחלו במכה-אחת על כל קווי-המילוי הרלוונטיים דרך האפליקציה, במקום עדכון ידני קו-אחר-קו ב-CR02 — חיסכון-זמן ומניעת-שגיאות.",
+      scenarioHe:
+        "בארגון משמרות-הקיץ שתוכננו ב-pMRP הוחלו במכה-אחת על כל קווי-המילוי הרלוונטיים דרך האפליקציה, במקום עדכון ידני קו-אחר-קו ב-CR02 — חיסכון-זמן ומניעת-שגיאות.",
       navHe: [
         "Fiori ► Mass Maintenance of Work Center Capacities ► select work centers ► edit intervals",
       ],
@@ -729,8 +729,8 @@ export const CH15: TextbookChapter = {
         "להפוך את הסימולציה לריאליסטית יותר: לא כל חריגה היא קטסטרופה; חלקן ניתנות-לספיגה דרך גמישות-תפעולית, ופחות פעולות-איזון נדרשות.",
       processExampleHe:
         "מרכז-עבודה מגיע ל-108% ביולי; תחת אילוץ-גמיש עם סבילות-10% זה מתקבל (שעות-נוספות) ואינו נחשב חריגה-קשה, כך שהמתכנן אינו 'מבזבז' פעולת-איזון על חריגה-זניחה.",
-      cbcHe:
-        "ב-CBC הוגדרה סבילות-גמישה של ~10% לקווי-המילוי בקיץ, המשקפת יכולת אמיתית לשעות-נוספות; כך התמקדו המתכננים רק בחריגות-המהותיות (>10%) במקום לרדוף אחרי כל אחוז.",
+      scenarioHe:
+        "בארגון הוגדרה סבילות-גמישה של ~10% לקווי-המילוי בקיץ, המשקפת יכולת אמיתית לשעות-נוספות; כך התמקדו המתכננים רק בחריגות-המהותיות (>10%) במקום לרדוף אחרי כל אחוז.",
       navHe: [
         "Fiori ► Process pMRP Simulations ► Capacity settings ► Flexible Constraint / tolerance",
         "Production ► Predictive MRP ► define constraint/tolerance (SPRO)",

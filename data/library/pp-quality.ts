@@ -18,7 +18,7 @@ export interface ChapterQA {
   crossLinkIssues: QAFinding[];
   hierarchyIssues: string[];
   terminologyIssues: string[];
-  cbcIssues: string[];
+  orgIssues: string[];
   missingContent: string[];
 }
 
@@ -62,13 +62,13 @@ export const PP_QUALITY: ChapterQA[] = [
   {
     n: 1, titleHe: "מבוא לתכנון ייצור ב-SAP S/4HANA", titleEn: "Introduction to Production Planning",
     confidence: 86, hierarchyMatch: "high", reviewed: true,
-    summary: "היררכיה תואמת ל-TOC במדויק והטרמינולוגיה/CBC מצוינות; החולשה היחידה — כמה מזהי Fiori לא-מאומתים (F2101 מסומן כ-Manage Production Orders במקום F2336; F3469/F3556/F2332) וערבוב קל של C223 כ-Rate Routing.",
+    summary: "היררכיה תואמת ל-TOC במדויק והטרמינולוגיה/הארגון מצוינות; החולשה היחידה — כמה מזהי Fiori לא-מאומתים (F2101 מסומן כ-Manage Production Orders במקום F2336; F3469/F3556/F2332) וערבוב קל של C223 כ-Rate Routing.",
     sapObjectIssues: [
       { node: "1.1", value: "F2101", problem: "מסומן 'Manage Production Orders' — הבנצ'מרק משתמש ב-F2336; F2101 כנראה מיפוי שגוי.", severity: "med" },
       { node: "1.1.2/1.2/1.3", value: "F3469/F3556/F2332/F2735", problem: "מזהי Fiori לא-מאומתים, ללא תימוכין בבנצ'מרק.", severity: "low" },
       { node: "1.3", value: "C223", problem: "מצוין כיצירת Rate Routing; C223 = Production Version, יצירת rate routing היא CA21.", severity: "low" },
     ],
-    crossLinkIssues: [], hierarchyIssues: [], terminologyIssues: [], cbcIssues: [],
+    crossLinkIssues: [], hierarchyIssues: [], terminologyIssues: [], orgIssues: [],
     missingContent: ["מקטעי-Fiori הם החוליה החלשה מול ch3 (הרבה IDs לא-מאומתים)."],
   },
   {
@@ -86,7 +86,7 @@ export const PP_QUALITY: ChapterQA[] = [
     ],
     hierarchyIssues: ["TOC '2' כולל כפילויות מקולקלות 2.3–2.11 שקופלו ל-2.1/2.2 (מתועד, מוצדק)."],
     terminologyIssues: ["Production Scheduler מול Production Supervisor (FEVOR) מעורבבים מעט."],
-    cbcIssues: ["שמות מפעלי-CBC (אשקלון/באר-טוביה) סבירים אך לא-מאומתים מול רשימת-המפעלים בפועל."],
+    orgIssues: ["שמות מפעלי הארגון (אשקלון/באר-טוביה) סבירים אך לא-מאומתים מול רשימת-המפעלים בפועל."],
     missingContent: ["מערכי fiori ריקים ב-2.1.1, 2.2.1, 2.2.2; הצמתים הללו דקים מהשכנים."],
   },
   {
@@ -103,13 +103,13 @@ export const PP_QUALITY: ChapterQA[] = [
       { node: "3.2.4", value: "STZU", problem: "קישור-אובייקט מת → 404.", severity: "high" },
     ],
     hierarchyIssues: ["3.10 Production Version הוא תוספת מעבר ל-TOC (שמסתיים ב-3.9.2) — מוצדק לשלמות אך חורג מהמקור."],
-    terminologyIssues: [], cbcIssues: [],
+    terminologyIssues: [], orgIssues: [],
     missingContent: ["קישור לא-אחיד: כמה תתי-צמתים ללא relatedHe."],
   },
   {
     n: 4, titleHe: "הגדרת ייצור תהליכי (PP-PI)", titleEn: "Process Manufacturing Configuration",
     confidence: 88, hierarchyMatch: "high", reviewed: true,
-    summary: "פרק PP-PI נאמן ל-TOC עם אובייקטים נכונים (Master Recipe C201/C202, Resource CRC1, Order Category 40, CO9A/CO53/CO54/CO60) ו-CBC סביר. פגמים: קישור 4.4→AUFK שבור; F2336 חוזר ~22× כ-placeholder; relabel מוצדק של 4.2→Resource; טבלאות message לא-ודאיות (CABTS/CABTD).",
+    summary: "פרק PP-PI נאמן ל-TOC עם אובייקטים נכונים (Master Recipe C201/C202, Resource CRC1, Order Category 40, CO9A/CO53/CO54/CO60) ו-הארגון סביר. פגמים: קישור 4.4→AUFK שבור; F2336 חוזר ~22× כ-placeholder; relabel מוצדק של 4.2→Resource; טבלאות message לא-ודאיות (CABTS/CABTD).",
     sapObjectIssues: [
       { node: "רבים", value: "F2336", problem: "מופיע על ~22 צמתים בנושאים לא-קשורים — placeholder.", severity: "med" },
       { node: "4.1.1", value: "C2C", problem: "Master Recipe Profile מתוחזק ב-SPRO; C2C כ-tcode עצמאי לא-מתועד היטב.", severity: "low" },
@@ -117,7 +117,7 @@ export const PP_QUALITY: ChapterQA[] = [
     ],
     crossLinkIssues: [{ node: "4.4", value: "AUFK", problem: "עמוד-אובייקט לא במאגר → 404.", severity: "high" }],
     hierarchyIssues: ["4.2 שונה מ-'Task List Assignment with Material Type' ל-'Resource' (מוצדק ע\"י הילדים, חורג מהתווית המילולית)."],
-    terminologyIssues: [], cbcIssues: ["מוטיב CBC (Brix/קו-מילוי) חוזר זהה בכל הצמתים — מונוטוני."],
+    terminologyIssues: [], orgIssues: ["מוטיב הארגון (Brix/קו-מילוי) חוזר זהה בכל הצמתים — מונוטוני."],
     missingContent: ["PLAS/RESB נעדרות למרות רלוונטיות; XSteps דקים יחסית לתקן S/4."],
   },
   {
@@ -135,7 +135,7 @@ export const PP_QUALITY: ChapterQA[] = [
       { node: "5.1.15", value: "AFFW", problem: "קישור-אובייקט מת → 404.", severity: "high" },
     ],
     hierarchyIssues: ["5.3 שונה מ-'Automatic GR' ל-'Planning Table' (מוצדק, מתועד)."],
-    terminologyIssues: [], cbcIssues: [],
+    terminologyIssues: [], orgIssues: [],
     missingContent: ["KKF6N/T437 מוזכרים אך ללא עמוד-אובייקט; אין קישור לפרק 8 (ביצוע REM)."],
   },
   {
@@ -153,7 +153,7 @@ export const PP_QUALITY: ChapterQA[] = [
       "תוויות TOC '6' מקולקלות; ה-relabel למחזור-החיים הבדיד מוצדק (הילדים תואמים).",
       "6.5 (Printing) / 6.8 (Settlement/TECO) / 6.9 (Order Info System) הם תוספות מעבר ל-TOC (שמסתיים ב-6.7.4).",
     ],
-    terminologyIssues: [], cbcIssues: [],
+    terminologyIssues: [], orgIssues: [],
     missingContent: ["KKAX (WIP) רק ב-flow ולא ב-tcodes; קטגוריות-סטייה לא ממוספרות; תנועת 531 (תוצר-לוואי) חסרה."],
   },
   {
@@ -168,7 +168,7 @@ export const PP_QUALITY: ChapterQA[] = [
     ],
     crossLinkIssues: [],
     hierarchyIssues: ["7.7 הורחב ל-'…CT04 and XSteps' מול תווית-המקור '…CT04' — הרחבת-מחבר."],
-    terminologyIssues: [], cbcIssues: [],
+    terminologyIssues: [], orgIssues: [],
     missingContent: ["COR3 (display process order) נעדר; reprocessing tcode מעוגן חלש; עורך-XStep בתוך C201/C202 מעוגן דק."],
   },
   {
@@ -186,7 +186,7 @@ export const PP_QUALITY: ChapterQA[] = [
     ],
     hierarchyIssues: ["8.7 titleEn 'Work Center Capacity Header' סותר את הילדים (Backflush); 8.2/8.4 drift תווית-מול-תוכן מהמקור."],
     terminologyIssues: ["'הזמנת Run-Schedule … order type REM' רופף — ב-S/4 REM משתמש ב-planned orders רגילים (PLAF) עם דגל-REM."],
-    cbcIssues: [],
+    orgIssues: [],
     missingContent: ["מחזור-חיי Product Cost Collector דק; Reporting-Point backflush ו-ביטול-Backflush חסרים."],
   },
   {
@@ -202,7 +202,7 @@ export const PP_QUALITY: ChapterQA[] = [
       "9.6 שונה מ-'Control Types for In-House Production' ל-'…ואסטרטגיות חידוש' (re-scope מכוון, חורג מהתווית).",
       "9.7 הורה ממותג מחדש; 9.7.1 תוכן=חישוב מול תווית-מקור 'Control Cycle and Kanban Evaluation'.",
     ],
-    terminologyIssues: [], cbcIssues: [],
+    terminologyIssues: [], orgIssues: [],
     missingContent: ["Event-driven Kanban (PK23/PK24) מוזכר רק ברמז; חוסר צומת ייעודי."],
   },
   {
@@ -222,13 +222,13 @@ export const PP_QUALITY: ChapterQA[] = [
       { node: "10.5.6", value: "/library/pp-pi/", problem: "מסלול לא קיים; הנכון /pp-pi/.", severity: "high" },
     ],
     hierarchyIssues: ["תוויות-עלה מקולקלות (10.4-10.7) שונו לנושאים קוהרנטיים (מתועד)."],
-    terminologyIssues: [], cbcIssues: [],
+    terminologyIssues: [], orgIssues: [],
     missingContent: ["Batch valuation / split valuation מוזכר רק בחטף."],
   },
   {
     n: 11, titleHe: "תכנון מכירות ותפעול (S&OP)", titleEn: "Sales and Operations Planning",
     confidence: 88, hierarchyMatch: "high", reviewed: true,
-    summary: "פרק קרוב-לבנצ'מרק: היררכיה ממופה 1:1 ל-TOC '11', מונחים מצוינים (SOP standard/flexible, info structure S076, RCCP, PIR) ו-CBC עונתי קוהרנטי. פגמים: טבלאות מפוקפקות/מומצאות (PROW לפקטורים-יחסיים; T024D/T024W); אי-דיוקי-tcode (MC9A ל-RCCP, MC67 לאירועים); אין קישורי-object; RCCP דק.",
+    summary: "פרק קרוב-לבנצ'מרק: היררכיה ממופה 1:1 ל-TOC '11', מונחים מצוינים (SOP standard/flexible, info structure S076, RCCP, PIR) ו-הארגון עונתי קוהרנטי. פגמים: טבלאות מפוקפקות/מומצאות (PROW לפקטורים-יחסיים; T024D/T024W); אי-דיוקי-tcode (MC9A ל-RCCP, MC67 לאירועים); אין קישורי-object; RCCP דק.",
     sapObjectIssues: [
       { node: "11.1/11.1.5", value: "PROW", problem: "אינה טבלה סטנדרטית לפקטורים-יחסיים ב-SOP (היחסים ב-PGMI). כנראה מומצאת.", severity: "med" },
       { node: "11.5", value: "MC9A", problem: "RCCP למוצר-קבוצה הוא MC35; MC9A לכל-היותר תחזוקת-פרופיל.", severity: "low" },
@@ -237,7 +237,7 @@ export const PP_QUALITY: ChapterQA[] = [
     crossLinkIssues: [],
     hierarchyIssues: ["11.3 תווית-מקור קטועה ('…Consiste') שוחזרה ל-Consistent Planning."],
     terminologyIssues: ["'Delta Planning' מוצג כשיטה שוות-מעמד ל-Level-by-Level/Consistent — מעט מוגזם."],
-    cbcIssues: [],
+    orgIssues: [],
     missingContent: ["אין קישורי /object/* (מול הבנצ'מרק); RCCP ללא צומת-ייעודי; הערת S/4-IBP דקה."],
   },
   {
@@ -258,7 +258,7 @@ export const PP_QUALITY: ChapterQA[] = [
       "TOC '12.4 Strategy 40: MTS' הוסר (קופל ל-12.2.1) — קורא לפי TOC לא ימצא 12.4.",
     ],
     terminologyIssues: ["אסטרטגיה 52 קשורה הדוקות מדי ל-planning-material (60/63)."],
-    cbcIssues: ["אסטרטגיה 11 (gross) ל-CBC make-to-stock מאולצת; 81/82 (promo assembly) ספקולטיבי."],
+    orgIssues: ["אסטרטגיה 11 (gross) לארגון make-to-stock מאולצת; 81/82 (promo assembly) ספקולטיבי."],
     missingContent: ["אין צומת ייעודי לאסטרטגיה 40."],
   },
   {
@@ -275,7 +275,7 @@ export const PP_QUALITY: ChapterQA[] = [
       { node: "13.5", value: "T449L", problem: "עמוד-אובייקט לא במאגר → 404.", severity: "high" },
     ],
     hierarchyIssues: ["כותרות TOC כפולות (13.5/13.7/13.9) קיבלו כותרות-משנה ברורות; קינון scrap/safety-stock מהמקור נשמר אך מגושם."],
-    terminologyIssues: [], cbcIssues: [],
+    terminologyIssues: [], orgIssues: [],
     missingContent: ["MRP Live פנימי דק; MDKP/MDTB לא-מוסברות; הבחנת MD04↔MD05 מופיעה רק בראיון."],
   },
   {
@@ -293,7 +293,7 @@ export const PP_QUALITY: ChapterQA[] = [
       { node: "14.x", value: "anchors ch13/ch03", problem: "קישורים מניחים קיום עוגני #sub — לאמת שהיעדים נפתרים.", severity: "low" },
     ],
     hierarchyIssues: ["TOC שטוח 14.1–14.18 קונן מחדש (14.10↗14.9, 14.12/13↗14.11, 14.15-18↗14.14) — מוצהר ככוונה אך חורג מסדר-המקור."],
-    terminologyIssues: [], cbcIssues: [],
+    terminologyIssues: [], orgIssues: [],
     missingContent: ["מומלץ לאמת את כל מזהי ה-Fiori של DD מול SAP Fiori Apps Reference Library."],
   },
   {
@@ -308,7 +308,7 @@ export const PP_QUALITY: ChapterQA[] = [
       { node: "15.7/15.24", value: "#sub-3.3", problem: "מקשר קיבולת ל-3.3 ('Allowed Material Types in BOM Header') — אי-התאמת-נושא קלה.", severity: "low" },
     ],
     hierarchyIssues: ["TOC שטוח 15.1–15.25 קובץ לעצי Scheduling/Processing/Releasing (מתועד, כל 25 נוכחים)."],
-    terminologyIssues: [], cbcIssues: [],
+    terminologyIssues: [], orgIssues: [],
     missingContent: ["הבחנת top-down/flexible-constraint (15.25) דקה."],
   },
 ];

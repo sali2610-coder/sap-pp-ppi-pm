@@ -1,5 +1,5 @@
 // Professional Hebrew translation of each chapter's extracted English scope,
-// authored for CBC. Keyed [bookId][chapterNumber]. The English side is the
+// authored for the organization. Keyed [bookId][chapterNumber]. The English side is the
 // verbatim PDF excerpt in library-content.json (scripts/extract-book-content.mjs).
 
 export const CONTENT_HE: Record<string, Record<number, string>> = {

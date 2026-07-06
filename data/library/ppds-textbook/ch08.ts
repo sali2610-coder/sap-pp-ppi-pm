@@ -1,7 +1,7 @@
 // ===== PP/DS Digital Textbook — Chapter 8 (Advanced PP/DS Features) =====
 // Every node is a complete 18-facet LearningNode of authored Hebrew —
 // beginner + consultant friendly, enough to study without the original book.
-// SAP identifiers verbatim EN. CBC = Coca-Cola bottling context.
+// SAP identifiers verbatim EN. הארגון = Example Product bottling context.
 import type { TextbookChapter } from "./types";
 
 export const CH8: TextbookChapter = {
@@ -9,7 +9,7 @@ export const CH8: TextbookChapter = {
   titleHe: "יכולות PP/DS מתקדמות",
   titleEn: "Advanced PP/DS Features",
   introHe:
-    "פרק זה מרכז את יכולות-התכנון המתקדמות של PP/DS ב-SAP S/4HANA — תכנון תוקף-מדף (shelf life), המרת-מוצרים (product interchangeability), תכנון תלוי-מאפיינים (CDP), תכנון-בלוקים (block planning), Push Production, תכנון-מכלים (Tank Planning), תכנון-קמפיינים (Production Campaign) ופילוח (Segmentation). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות-הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC לבקבוק משקה, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-זרימה, טעויות-נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בנושא ללא הספר המקורי.",
+    "פרק זה מרכז את יכולות-התכנון המתקדמות של PP/DS ב-SAP S/4HANA — תכנון תוקף-מדף (shelf life), המרת-מוצרים (product interchangeability), תכנון תלוי-מאפיינים (CDP), תכנון-בלוקים (block planning), Push Production, תכנון-מכלים (Tank Planning), תכנון-קמפיינים (Production Campaign) ופילוח (Segmentation). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות-הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון לבקבוק משקה, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-זרימה, טעויות-נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 8.1
     {
@@ -24,8 +24,8 @@ export const CH8: TextbookChapter = {
         "להבטיח שהתכנון מכבד רעננות: לא לכסות דרישה עם מלאי שיפוג מוקדם מדי, ולתזמן ייצור כך שיישאר מספיק זמן-מדף בנקודת-הצריכה. זה מקטין בלאי (waste), עומד ברגולציה ושומר על איכות-מוצר.",
       processExampleHe:
         "דרישה ל-1,000 יח' בתאריך 1.7. במלאי 1,000 יח' שפג ב-20.6 — PP/DS לא ישייך אותם (יפוגו לפני הדרישה), ויתכנן פק\"ע חדשה שתסתיים בזמן עם זמן-מדף-נותר מספק. ה-Pegging יוצר קשר רק בין דרישה לבין מלאי תקֵף שיעמוד בזמן-המדף-המינימלי.",
-      cbcHe:
-        "ב-CBC משקה מוגמר נושא shelf life של ~9 חודשים; תרכיז ~6 חודשים. תכנון shelf life מבטיח שמשלוח ללקוח יכלול מלאי עם מספיק ימים-נותרים (Min Remaining Shelf Life) לפי דרישת-הרשת הקמעונאית, ושתערובת-בסיס לא-יציבה תיוצר סמוך-מאוד למילוי.",
+      scenarioHe:
+        "בארגון משקה מוגמר נושא shelf life של ~9 חודשים; תרכיז ~6 חודשים. תכנון shelf life מבטיח שמשלוח ללקוח יכלול מלאי עם מספיק ימים-נותרים (Min Remaining Shelf Life) לפי דרישת-הרשת הקמעונאית, ושתערובת-בסיס לא-יציבה תיוצר סמוך-מאוד למילוי.",
       navHe: [
         "Logistics – General ► Material Master ► Settings for Key Fields ► Data Relevant to SD ► Define Shelf Life",
         "Advanced Planning ► Master Data ► Product ► Maintain Product (/SAPAPO/MAT1) ► tab Properties (Shelf Life)",
@@ -91,7 +91,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "MARC-MHDRZ/MHDHB/IPRKZ נטענים ל-/SAPAPO/MATLOC. ברמת-האצווה VFDAT/HSDAT ב-MCH1 מחושבים אוטומטית בקליטה לפי MHDRZ. ב-PP/DS השדות מופיעים בתצוגת Properties של /SAPAPO/MAT1; חובה ש-Period Indicator יהיה אחיד בין רכיב למוצר.",
           purposeHe: "לספק ל-PP/DS את הפרמטרים המספריים לחישוב-שרידות, ולקשר כל אצווה לתאריך-תפוגה ממשי.",
           processExampleHe: "פתיחת חומר עם MHDRZ=270 ימים ו-MHDHB=90 ימים: כל אצווה שתיקלט תקבל VFDAT=תאריך-ייצור+270, ו-PP/DS לא ישייך אותה לדרישה שיותר מ-180 יום אחרי הייצור.",
-          cbcHe: "ב-CBC: משקה FERT — MHDRZ=270, MHDHB=90; תרכיז ROH — MHDRZ=180, MHDHB=60. כל אצוות-תרכיז מקבלת VFDAT אוטומטי בקליטה לפי MHDRZ.",
+          scenarioHe: "בארגון: משקה FERT — MHDRZ=270, MHDHB=90; תרכיז ROH — MHDRZ=180, MHDHB=60. כל אצוות-תרכיז מקבלת VFDAT אוטומטי בקליטה לפי MHDRZ.",
           navHe: ["Logistics – General ► Material Master ► Material ► MM02 ► tab Plant data/storage 1 (Shelf Life fields)"],
           tables: ["MARC", "MCH1", "/SAPAPO/MATLOC"],
           tcodes: ["MM02", "MSC2N", "/SAPAPO/MAT1"],
@@ -110,7 +110,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-PP/DS אצוות מועברות כ-Stock עם attributes של shelf life. ב-Embedded PP/DS תמיכת-אצוות מלאה ב-Pegging דורשת הפעלת Shelf Life Planning ו-Batch attributes. ה-CIF (בתרחיש ECC) מעביר אצוות עם VFDAT דרך integration model של מלאי. בחירת-אצווה (FIFO/FEFO) משתלבת עם ה-Pegging.",
           purposeHe: "לאפשר תכנון ברזולוציית-אצווה: צריכת FEFO (First-Expired-First-Out) ומניעת-שיוך של אצווה-פגה לדרישה.",
           processExampleHe: "שתי אצוות במלאי: A פג ב-1.8, B פג ב-1.10. דרישה ב-15.7 — PP/DS משייך FEFO את A (פג מוקדם), ושומר את B לדרישה מאוחרת יותר, כל עוד שתיהן עומדות ב-Min Remaining.",
-          cbcHe: "ב-CBC מחסן-המוצר-המוגמר מכיל אצוות-משקה מתאריכי-מילוי שונים; PP/DS משייך FEFO כך שהמשלוח לרשת יוצא מהאצווה הקרובה-לתפוגה שעדיין עומדת בדרישת-הימים-הנותרים.",
+          scenarioHe: "בארגון מחסן-המוצר-המוגמר מכיל אצוות-משקה מתאריכי-מילוי שונים; PP/DS משייך FEFO כך שהמשלוח לרשת יוצא מהאצווה הקרובה-לתפוגה שעדיין עומדת בדרישת-הימים-הנותרים.",
           navHe: ["Advanced Planning ► Master Data ► Product ► /SAPAPO/MAT1 ► Shelf Life", "Logistics ► Central Functions ► Batch Management ► Batch Determination (FEFO)"],
           tables: ["MCH1", "MCHB", "/SAPAPO/MATLOC"],
           tcodes: ["MSC1N", "MSC2N", "/SAPAPO/RRP3", "/SAPAPO/CCR"],
@@ -129,7 +129,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-Dynamic Pegging המערכת בודקת ל-pegging earliest/latest pegging date ביחס ל-shelf life: maximum earliness/lateness של ה-product נלקח בחשבון יחד עם תאריך-התפוגה. ניתן להגדיר maximum shelf life כ-pegging constraint. ב-RRP3 (Product View) רואים את ה-pegging arcs; הפרות-shelf-life מסומנות. ה-Heuristic לתכנון מתחשב במגבלה ביצירת receipts.",
           purposeHe: "להבטיח שכל שיוך דרישה↔אספקה הוא תקֵף-זמנית — לא רק מבחינת כמות אלא גם מבחינת רעננות.",
           processExampleHe: "דרישה ב-1.9 ל-500 יח'. אספקה זמינה שפגה ב-20.8 — ה-Pegging דוחה אותה ו'מחפש' אספקה אחרת או יוצר הזמנה-מתוכננת חדשה. ה-arc ב-RRP3 מקשר רק למקור-תקף.",
-          cbcHe: "ב-CBC דרישה לקמפיין-מילוי באוקטובר לא תקושר לתערובת-בסיס שיוצרה ביולי (פגה); ה-Pegging יחייב ייצור-תערובת סמוך-למילוי, ובכך מתאם את תכנון-הקמפיין.",
+          scenarioHe: "בארגון דרישה לקמפיין-מילוי באוקטובר לא תקושר לתערובת-בסיס שיוצרה ביולי (פגה); ה-Pegging יחייב ייצור-תערובת סמוך-למילוי, ובכך מתאם את תכנון-הקמפיין.",
           navHe: ["Production Planning and Detailed Scheduling ► Product View (/SAPAPO/RRP3)", "PP/DS ► Maintain Global Parameters ► Pegging settings"],
           tables: ["/SAPAPO/ORDKEY", "/SAPAPO/PEGID", "/SAPAPO/MATLOC"],
           tcodes: ["/SAPAPO/RRP3", "/SAPAPO/RRP4", "/SAPAPO/CDPSC0"],
@@ -149,7 +149,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "מגדירים Alert Profile (/SAPAPO/AMON1) עם Alert Type ל-shelf life; הסף נקבע לפי Min Remaining. אלרטים מופיעים ב-Alert Monitor וב-PP/DS Planning Board / Product View בצבע. ניתן לקשר Alert Profile ל-Planner ולמסך-העבודה. ב-S/4HANA חלק מהאלרטים זמינים גם ב-Fiori (Monitor Material Coverage / Manage PP/DS Alerts).",
           purposeHe: "לאפשר ניהול-חריגים (Management by Exception): המתכנן מתמקד רק במקרים שמפרים רעננות, במקום לסרוק את כל המלאי.",
           processExampleHe: "אצווה תפוג בעוד 10 ימים ואין לה דרישה — האלרט 'Shelf life expiring without demand' מופיע; המתכנן מקדם משלוח או מסמן להורדת-מחיר.",
-          cbcHe: "ב-CBC המתכנן פותח את Alert Monitor בבוקר ורואה אילו אצוות-משקה מתקרבות לתפוגה במחסנים האזוריים, ומפנה אותן לרשתות עם תחלופה-מהירה.",
+          scenarioHe: "בארגון המתכנן פותח את Alert Monitor בבוקר ורואה אילו אצוות-משקה מתקרבות לתפוגה במחסנים האזוריים, ומפנה אותן לרשתות עם תחלופה-מהירה.",
           navHe: ["Advanced Planning ► Supply Chain Monitoring ► Alert Monitor (/SAPAPO/AMON1)", "PP/DS ► Configuration ► Define Alert Profiles"],
           tables: ["/SAPAPO/AMON_PROF", "/SAPAPO/ALERTDB"],
           tcodes: ["/SAPAPO/AMON1", "/SAPAPO/CDPSB0", "/SAPAPO/RRP3"],
@@ -176,8 +176,8 @@ export const CH8: TextbookChapter = {
         "לנהל את מחזור-חיי-המוצר: לאזול מלאי-ישן לפני מעבר לחדש, להבטיח אספקה כשרכיב מסולק, ולנצל גמישות-החלפה להפחתת-מלאי.",
       processExampleHe:
         "תווית-עיצוב-ישנה (predecessor) מוחלפת בעיצוב-חדש (successor) מתאריך 1.7. עד אז MRP/PP/DS צורך את הישנה; מ-1.7 או כשהמלאי-הישן אזל — עובר אוטומטית לחדשה, בלי מלאי-מת.",
-      cbcHe:
-        "ב-CBC מעבר עיצוב-תווית עונתי: התווית-הקודמת מוגדרת predecessor לתווית-החדשה עם תאריך-הפסקה; PP/DS צורך את המלאי-הישן עד תום ואז עובר לחדשה, ומונע גריטת-תוויות. בקבוקים שווי-נפח ממוצרנים-שונים מוגדרים Form-Fit-Function להחלפה-הדדית.",
+      scenarioHe:
+        "בארגון מעבר עיצוב-תווית עונתי: התווית-הקודמת מוגדרת predecessor לתווית-החדשה עם תאריך-הפסקה; PP/DS צורך את המלאי-הישן עד תום ואז עובר לחדשה, ומונע גריטת-תוויות. בקבוקים שווי-נפח ממוצרנים-שונים מוגדרים Form-Fit-Function להחלפה-הדדית.",
       navHe: [
         "Production Planning ► Interchangeability ► Manage Interchangeability Groups",
         "SPRO ► Production ► MRP ► Master Data ► Interchangeability ► Define Settings",
@@ -241,8 +241,8 @@ export const CH8: TextbookChapter = {
           beginnerHe: "כאן בונים את 'טבלת-ההחלפות': מי מחליף את מי, ממתי, ובאיזה כיוון. כל החלפה היא רשומה עם מוצר-מקור, מוצר-יעד ותאריך.",
           consultantHe: "ב-/INCMD/UI מגדירים Interchangeability Group, מוסיפים Members, וב-Supersession קובעים predecessor/successor עם Effective-out Date ו-Direction. ה-Use-up indicator נקבע ברמת-הקשר. הנתונים נשמרים ב-/INCMD/HEADER+MEMBER+SUPSESS ומועברים ב-CIF.",
           purposeHe: "לרכז את כל חוקי-ההחלפה במקום-אחד, נגיש ל-MRP ול-PP/DS, במקום לוגיקה מפוזרת.",
-          processExampleHe: "יצירת קבוצה 'תוויות-קוקה-קולה': member ישן + member חדש, supersession ישן→חדש, Effective-out 30.6, Use-up=פעיל. PP/DS ינהל את המעבר אוטומטית.",
-          cbcHe: "ב-CBC קבוצת-החלפה 'בקבוק-500מל': מוצרני-זכוכית A ו-B כ-FFF דו-כיווני; קבוצת-תווית-עונתית כ-supersession עם Use-up.",
+          processExampleHe: "יצירת קבוצה 'תוויות-מוצר לדוגמה': member ישן + member חדש, supersession ישן→חדש, Effective-out 30.6, Use-up=פעיל. PP/DS ינהל את המעבר אוטומטית.",
+          scenarioHe: "בארגון קבוצת-החלפה 'בקבוק-500מל': מוצרני-זכוכית A ו-B כ-FFF דו-כיווני; קבוצת-תווית-עונתית כ-supersession עם Use-up.",
           navHe: ["Production Planning ► Interchangeability ► Manage Interchangeability Groups (/INCMD/UI)"],
           tables: ["/INCMD/HEADER", "/INCMD/MEMBER", "/INCMD/SUPSESS"],
           tcodes: ["/INCMD/UI", "/SAPAPO/CCR"],
@@ -261,7 +261,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ה-Heuristic/MRP בודק supersession בעת כיסוי-דרישה: אם predecessor במלאי וטרם חלף Effective-out — צורך אותו (Use-up); אחרת מתכנן successor. ב-FFF המערכת יכולה לכסות דרישה של חבר-אחד במלאי-חבר-אחר. ב-RRP3/MD04 רואים את ההחלפה. PP/DS מתחשב גם ב-pegging ובמגבלות בעת ההחלפה.",
           purposeHe: "להפוך את חוקי-ההחלפה לפעולה-בפועל בתכנון — מעבר-גרסה חלק, ניצול-מלאי וכיסוי-דרישה גמיש.",
           processExampleHe: "דרישה ל-successor ב-15.7, אך יש 200 יח' predecessor במלאי ו-Use-up פעיל — PP/DS צורך תחילה את ה-200 ורק ליתרה מתכנן successor חדש.",
-          cbcHe: "ב-CBC הרצת-תכנון לקראת חילופי-עונה: PP/DS צורך את מלאי-התווית-הישנה עד תום ואז מתכנן ייצור עם התווית-החדשה — מעבר חלק ללא גריטה.",
+          scenarioHe: "בארגון הרצת-תכנון לקראת חילופי-עונה: PP/DS צורך את מלאי-התווית-הישנה עד תום ואז מתכנן ייצור עם התווית-החדשה — מעבר חלק ללא גריטה.",
           navHe: ["Production Planning and Detailed Scheduling ► Product View (/SAPAPO/RRP3)", "MRP ► Stock/Requirements List (MD04) ► Interchangeability indicator"],
           tables: ["/SAPAPO/MATLOC", "/INCMD/SUPSESS", "/SAPAPO/ORDKEY"],
           tcodes: ["/SAPAPO/RRP3", "MD04", "/SAPAPO/CDPSC0", "MD01N"],
@@ -289,8 +289,8 @@ export const CH8: TextbookChapter = {
         "לתכנן ברזולוציה עסקית-אמיתית — ואריאציות-מוצר — במקום לפתוח אלפי מספרי-חומר. שיפור-דיוק-תכנון, ניהול-תהליך לפי-תכונה, ובסיס ל-block planning של משאבים.",
       processExampleHe:
         "חומר 'צבע' עם מאפיין Color. דרישה ל-Color=Red תכוסה רק ע\"י מלאי/אספקה עם Color=Red; ה-Pegging לא יקשר דרישת-אדום למלאי-כחול, גם אם אותו מספר-חומר.",
-      cbcHe:
-        "ב-CBC משקה מנוהל לפי מאפיין Flavor (קולה/דיאט/לימון) וגודל-אריזה; CDP מאפשר לתכנן ולשייך מלאי לפי-טעם — דרישת-'דיאט' לא תכוסה במלאי-'רגיל'. זה הבסיס ל-block planning של קו-המילוי לפי טעמים.",
+      scenarioHe:
+        "בארגון משקה מנוהל לפי מאפיין Flavor (מוגז/דיאט/לימון) וגודל-אריזה; CDP מאפשר לתכנן ולשייך מלאי לפי-טעם — דרישת-'דיאט' לא תכוסה במלאי-'רגיל'. זה הבסיס ל-block planning של קו-המילוי לפי טעמים.",
       navHe: [
         "SPRO ► Production Planning for Process Industries ► Master Data ► Bill of Material ► Characteristics-Dependent Planning",
         "Advanced Planning ► Global Settings ► Maintain Settings for Characteristics-Based Planning",
@@ -354,7 +354,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "Characteristic-based pegging משווה את ה-characteristic values על ה-receipt מול ה-requirement. ניתן להגדיר אילו מאפיינים רלוונטיים-ל-pegging. ערכי-מאפיין מגיעים מ-Classification של ההזמנה/המלאי. אי-התאמה ➔ אין arc. ב-RRP3 רואים את ערכי-המאפיין על האובייקטים.",
           purposeHe: "לשמור על נכונות-תכנון ברזולוציית-ואריאציה ולמנוע כיסוי-שגוי בין ערכים-שונים.",
           processExampleHe: "דרישה Color=Red, Size=L. רק receipt עם Color=Red+Size=L יתפגג אליה; receipt Color=Red+Size=M לא יתאים.",
-          cbcHe: "ב-CBC דרישת Flavor=Diet, Pack=Can-330 תקושר רק לאספקת-משקה עם אותם ערכים; pegging מונע שיוך מלאי-'רגיל' לדרישת-'דיאט'.",
+          scenarioHe: "בארגון דרישת Flavor=Diet, Pack=Can-330 תקושר רק לאספקת-משקה עם אותם ערכים; pegging מונע שיוך מלאי-'רגיל' לדרישת-'דיאט'.",
           navHe: ["PP/DS ► Product View (/SAPAPO/RRP3) ► Characteristics", "Global Settings ► Characteristic-Based Planning"],
           tables: ["/SAPAPO/MATLOC", "CABN", "CAWN", "/SAPAPO/PEGID"],
           tcodes: ["/SAPAPO/RRP3", "/SAPAPO/RRP4", "CL24N"],
@@ -373,7 +373,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "Block Planning בנוי על CDP. מגדירים Block Definition על ה-Resource (ב-PP/DS Resource: block planning active) עם Block Basis ו-characteristic value לכל בלוק. ה-Heuristic/Detailed Scheduling משבץ operations לבלוקים תואמים; ניתן Block maintenance ב-DS Planning Board (/SAPAPO/CDPS0). בלוקים יכולים להיות Fixed או Flexible. מקטין setup ע\"י קיבוץ ערך-מאפיין.",
           purposeHe: "להפחית זמני-החלפה/ניקוי ולמקסם תפוקת-משאב ע\"י קיבוץ ייצור לפי ערך-מאפיין בבלוקי-זמן מוגדרים.",
           processExampleHe: "משאב עם בלוקים: Mon 06-14 = Color Red, Mon 14-22 = Color Blue. פק\"ע-אדום משובצת אוטומטית לבלוק-האדום; אין החלפת-צבע בתוך בלוק.",
-          cbcHe: "ב-CBC קו-מילוי מתוכנן בבלוקים לפי Flavor: בלוק-בוקר=קולה-רגיל, צהריים=דיאט, ערב=לימון. כל בלוק ממזער ניקוי-בין-טעמים (CIP) ומקבץ את הטעם — חיסכון משמעותי בזמני-changeover.",
+          scenarioHe: "בארגון קו-מילוי מתוכנן בבלוקים לפי Flavor: בלוק-בוקר=מוגז-רגיל, צהריים=דיאט, ערב=לימון. כל בלוק ממזער ניקוי-בין-טעמים (CIP) ומקבץ את הטעם — חיסכון משמעותי בזמני-changeover.",
           navHe: ["PP/DS ► Master Data ► Resource ► Block Planning (Block Definition)", "DS Planning Board (/SAPAPO/CDPS0) ► Block Maintenance"],
           tables: ["/SAPAPO/RESHEAD", "/SAPAPO/BLOCK", "/SAPAPO/MATLOC"],
           tcodes: ["/SAPAPO/RES01", "/SAPAPO/CDPS0", "/SAPAPO/CDPSC0"],
@@ -404,8 +404,8 @@ export const CH8: TextbookChapter = {
         "למנוע הצטברות-מלאי בלתי-מתוכנן מתפוקת-שלב-קודם, ולתעל עודפים לשלבים-הבאים או לדרישה-חלופית — שיפור-תזרים והפחתת-מלאי-מת.",
       processExampleHe:
         "שלב-ערבוב מייצר 1,200 ק\"ג תערובת בעוד שלב-המילוי צריך רק 1,000. 200 ק\"ג 'נדחפים'; ה-Push Production view מזהה אותם ומאפשר לתזמן מילוי-נוסף או לשייכם לדרישה-עתידית.",
-      cbcHe:
-        "ב-CBC טנק-ערבוב מייצר אצוות-מינימום של תערובת גדולות מצריכת-המילוי-המיידית; ה-Push Production view מציג את עודף-התערובת ומאפשר לתכנן ריצת-מילוי-נוספת לפני שהתערובת תפוג (shelf life).",
+      scenarioHe:
+        "בארגון טנק-ערבוב מייצר אצוות-מינימום של תערובת גדולות מצריכת-המילוי-המיידית; ה-Push Production view מציג את עודף-התערובת ומאפשר לתכנן ריצת-מילוי-נוספת לפני שהתערובת תפוג (shelf life).",
       navHe: [
         "Production Planning and Detailed Scheduling ► Push Production",
         "PP/DS ► Interactive Planning ► Product View ► Push Production",
@@ -467,7 +467,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "מזהים ב-RRP3/MD04 receipts ללא pegging arc במורד-הזרם, או surplus ב-pegging overview. co-products מ-Master Recipe מופיעים כ-receipts נפרדים. Alert Monitor יכול לסמן surplus. הזיהוי מבוסס על Dynamic Pegging שמשאיר את העודף 'לא-מפוגג'.",
           purposeHe: "לאתר במדויק את כמות-העודף ומקורו (yield/co-product/min-lot) כבסיס להחלטת-טיפול.",
           processExampleHe: "ב-RRP3 רואים receipt של 200 ק\"ג ללא arc לדרישה; ה-pegging overview מסמן surplus — זוהי בעיית-ה-push לטיפול.",
-          cbcHe: "ב-CBC המתכנן רואה ב-Product View של התערובת 200 ק\"ג לא-מפוגגים מאצוות-המינימום, ומזהה שזה עודף הדורש תיעול-מילוי לפני תפוגה.",
+          scenarioHe: "בארגון המתכנן רואה ב-Product View של התערובת 200 ק\"ג לא-מפוגגים מאצוות-המינימום, ומזהה שזה עודף הדורש תיעול-מילוי לפני תפוגה.",
           navHe: ["PP/DS ► Product View (/SAPAPO/RRP3) ► Pegging Overview", "Alert Monitor (surplus)"],
           tables: ["/SAPAPO/MATLOC", "/SAPAPO/PEGID", "/SAPAPO/ALERTDB"],
           tcodes: ["/SAPAPO/RRP3", "MD04", "/SAPAPO/AMON1"],
@@ -486,7 +486,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "מפעילים את ה-Push Production view (חלק מ-Interactive Planning / RRP3 או טרנזקציית-Push ייעודית). היא מציגה את העודפים ומאפשרת actions: create dependent/independent demand, schedule downstream order, או run Push heuristic. הפעולות נשמרות ל-livecache ומשתקפות ב-pegging. ניתן לקשר ל-shelf life כדי לתעדף עודף-מתקרב-לתפוגה.",
           purposeHe: "לספק נקודת-עבודה-אחת להמרת-עודף לתכנון-ממשי במורד-הזרם, במהירות ובשקיפות.",
           processExampleHe: "בתצוגת Push בוחרים את 200 ק\"ג-העודף ומפעילים 'schedule downstream' — נוצרת ריצת-מילוי שצורכת אותם, וה-pegging מתעדכן ל-arc תקין.",
-          cbcHe: "ב-CBC המתכנן פותח את ה-Push view, רואה עודף-תערובת, ומתזמן בלחיצה ריצת-מילוי-נוספת בקו לפני שהתערובת תפוג — העודף הופך למוצר-מוגמר.",
+          scenarioHe: "בארגון המתכנן פותח את ה-Push view, רואה עודף-תערובת, ומתזמן בלחיצה ריצת-מילוי-נוספת בקו לפני שהתערובת תפוג — העודף הופך למוצר-מוגמר.",
           navHe: ["PP/DS ► Interactive Planning ► Push Production View", "Product View (/SAPAPO/RRP3) ► Push functions"],
           tables: ["/SAPAPO/MATLOC", "/SAPAPO/ORDKEY", "/SAPAPO/PEGID"],
           tcodes: ["/SAPAPO/PPDS_PUSH", "/SAPAPO/RRP3", "/SAPAPO/CDPSC0"],
@@ -514,8 +514,8 @@ export const CH8: TextbookChapter = {
         "להבטיח תכנון-נוזל ריאלי: לא לחרוג מקיבולת-מכל, לתזמן מילוי/שאיבה נכון, ולמנוע ערבוב-תכולות לא-תואמות — תוך שמירה על shelf life של הנוזל.",
       processExampleHe:
         "מכל בנפח 50,000 ל'. ייצור-תערובת ממלא אותו; ריצות-מילוי שואבות ממנו. Tank Planning מבטיח שלא ממלאים מעל-50,000 ושלא שואבים מתחת-למינימום, ומציג את עקומת-המילוי לאורך-המשמרת.",
-      cbcHe:
-        "ב-CBC מכלי-סירופ מנוהלים ב-Tank Planning: כל מכל מאחסן טעם-סירופ אחד; התכנון מתזמן ערבוב-סירופ למילוי-המכל ושאיבה ממנו לקווי-המילוי, מבלי לחרוג מנפח-המכל ומבלי לערבב טעמים (CDP).",
+      scenarioHe:
+        "בארגון מכלי-סירופ מנוהלים ב-Tank Planning: כל מכל מאחסן טעם-סירופ אחד; התכנון מתזמן ערבוב-סירופ למילוי-המכל ושאיבה ממנו לקווי-המילוי, מבלי לחרוג מנפח-המכל ומבלי לערבב טעמים (CDP).",
       navHe: [
         "SPRO ► Advanced Planning ► PP/DS ► Tank Planning ► Activate and Configure Tank Planning",
         "PP/DS ► Master Data ► Resource ► define Tank/Storage Resource",
@@ -579,7 +579,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-SPRO מפעילים Tank Planning, מגדירים Resource type מתאים (Storage/Tank) ו-capacity profile מבוסס-נפח. קובעים את אופן-חישוב-רמת-המכל ואת קשרי המילוי/שאיבה (consumption/production into tank). ניתן להגדיר תאימות-תכולות. בלי הפעלה גלובלית, ה-Tank Planning Board לא זמין.",
           purposeHe: "להכין את המערכת לתכנון-נפח: הגדרת-המכל כ-capacity-נפח ואכיפת min/max.",
           processExampleHe: "מגדירים Tank Resource עם max=50,000 ל', min=5,000 ל'; כל ייצור-לתוך-המכל בודק מול ה-max, כל שאיבה מול ה-min.",
-          cbcHe: "ב-CBC מגדירים כל מכל-סירופ כ-Tank Resource עם נפחו האמיתי; מילוי-מערבל יוצר נפח, שאיבה-לקו צורכת נפח, והקונפיגורציה אוכפת את גבולות-המכל.",
+          scenarioHe: "בארגון מגדירים כל מכל-סירופ כ-Tank Resource עם נפחו האמיתי; מילוי-מערבל יוצר נפח, שאיבה-לקו צורכת נפח, והקונפיגורציה אוכפת את גבולות-המכל.",
           navHe: ["SPRO ► Advanced Planning ► PP/DS ► Tank Planning ► Activate Tank Planning", "PP/DS ► Resource ► Tank/Storage Resource type"],
           tables: ["/SAPAPO/V_RESTYPE", "/SAPAPO/RESHEAD"],
           tcodes: ["SPRO", "/SAPAPO/RES01"],
@@ -597,8 +597,8 @@ export const CH8: TextbookChapter = {
           beginnerHe: "כאן ממלאים את הפרטים של כל מכל: מה הוא מאחסן, כמה הוא מכיל, ומה הרמה-המינימלית. כמו 'תעודת-זהות' למכל.",
           consultantHe: "ב-/SAPAPO/RES01 מגדירים Tank Resource עם available capacity (נפח), utilization, ושיוך-חומר. אם המכל מאחסן ערכים-שונים לאורך-זמן — משייכים Class/Characteristics (CDP) לניהול-תכולה. נתוני המוצר ב-/SAPAPO/MAT1 כוללים יחידת-נפח ו-shelf life. תאימות-תכולות מוגדרת אם נדרש.",
           purposeHe: "לספק לתכנון את גבולות-המכל והתכולה-המותרת, כבסיס לאכיפת-נפח ולמניעת-ערבוב.",
-          processExampleHe: "Tank Resource T01: max 50,000 ל', min 5,000 ל', חומר=סירופ-קולה, יחידת-נפח L; CDP Flavor=Cola — רק סירופ-קולה מותר.",
-          cbcHe: "ב-CBC כל מכל-סירופ מקבל נתוני-אב: נפח-מכל, סוג-הסירופ (CDP Flavor), ו-shelf life של הסירופ; כך התכנון יודע כמה ומה אפשר בכל מכל.",
+          processExampleHe: "Tank Resource T01: max 50,000 ל', min 5,000 ל', חומר=סירופ-מוגז, יחידת-נפח L; CDP Flavor=Drink — רק סירופ-מוגז מותר.",
+          scenarioHe: "בארגון כל מכל-סירופ מקבל נתוני-אב: נפח-מכל, סוג-הסירופ (CDP Flavor), ו-shelf life של הסירופ; כך התכנון יודע כמה ומה אפשר בכל מכל.",
           navHe: ["PP/DS ► Master Data ► Resource (/SAPAPO/RES01)", "PP/DS ► Product (/SAPAPO/MAT1) ► volume + shelf life"],
           tables: ["/SAPAPO/RESHEAD", "/SAPAPO/MATLOC", "KLAH", "CABN"],
           tcodes: ["/SAPAPO/RES01", "/SAPAPO/MAT1", "CL02"],
@@ -617,7 +617,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ה-Tank Planning Board (חלק מ-DS Planning Board /SAPAPO/CDPS0 או מסך-Tank ייעודי) מציג fill-level curve לכל מכל, את ה-receipts (מילוי) וה-issues (שאיבה), והפרות-קיבולת בצבע. המתכנן יכול לתזמן-מחדש, לפצל, או להעביר בין-מכלים. אינטגרציה עם CDP מציגה את התכולה. שינויים נשמרים ל-livecache ומשתקפים ב-pegging.",
           purposeHe: "לתת למתכנן שליטה-ויזואלית אינטראקטיבית על רמות-המכל, לזהות חריגות מוקדם ולאזן ידנית כשה-heuristic לא מספיק.",
           processExampleHe: "בלוח רואים שמכל T01 יחרוג מ-max ב-14:00; המתכנן מקדים ריצת-מילוי השואבת ממנו, ועקומת-המילוי חוזרת לתחום החוקי.",
-          cbcHe: "ב-CBC מתכנן-המשמרת פותח את ה-Tank Planning Board, רואה את מכלי-הסירופ מתמלאים/מתרוקנים מול קצב-קווי-המילוי, ומאזן ערבוב-סירופ מול שאיבה כך שאף מכל לא עולה-על-גדותיו ואף קו לא נעצר ביובש.",
+          scenarioHe: "בארגון מתכנן-המשמרת פותח את ה-Tank Planning Board, רואה את מכלי-הסירופ מתמלאים/מתרוקנים מול קצב-קווי-המילוי, ומאזן ערבוב-סירופ מול שאיבה כך שאף מכל לא עולה-על-גדותיו ואף קו לא נעצר ביובש.",
           navHe: ["PP/DS ► Tank Planning Board", "DS Planning Board (/SAPAPO/CDPS0) ► Tank view"],
           tables: ["/SAPAPO/RESHEAD", "/SAPAPO/ORDKEY", "/SAPAPO/MATLOC"],
           tcodes: ["/SAPAPO/TANKPLAN", "/SAPAPO/CDPS0", "/SAPAPO/RRP3"],
@@ -645,8 +645,8 @@ export const CH8: TextbookChapter = {
         "למזער זמני-ועלויות-החלפה (setup/cleanup) ע\"י קיבוץ-ייצור רציף, ולשפר ניצול-משאב ותפוקה בתעשיות עם changeover יקר.",
       processExampleHe:
         "במקום 5 אצוות עם 5 ניקויים (5×2 שעות), קמפיין-אחד: ניקוי-פתיחה (2 שעות) + 5 ריצות-רצופות + ניקוי-סגירה (2 שעות) = 4 שעות-ניקוי במקום 10. חיסכון של 6 שעות-משאב.",
-      cbcHe:
-        "ב-CBC קמפיין-טעם: כל ריצות-הקולה של השבוע מקובצות לקמפיין-אחד על קו-המילוי, עם CIP בתחילתו ובסופו בלבד; כך מבצעים ניקוי-בין-טעמים פעם-אחת ולא לפני כל אצווה — חיסכון-ניקוי משמעותי.",
+      scenarioHe:
+        "בארגון קמפיין-טעם: כל ריצות-המוגז של השבוע מקובצות לקמפיין-אחד על קו-המילוי, עם CIP בתחילתו ובסופו בלבד; כך מבצעים ניקוי-בין-טעמים פעם-אחת ולא לפני כל אצווה — חיסכון-ניקוי משמעותי.",
       navHe: [
         "SPRO ► Advanced Planning ► PP/DS ► Production Campaign ► Activate and Configure",
         "PP/DS ► Master Data ► Production Campaign Profile",
@@ -709,8 +709,8 @@ export const CH8: TextbookChapter = {
           beginnerHe: "כאן 'מדליקים' קמפיינים ומגדירים את 'מתכון-הקמפיין': כמה ניקוי בהתחלה, כמה בסוף, ומה מותר לקבץ יחד.",
           consultantHe: "ב-SPRO מפעילים Production Campaign ומגדירים Campaign Profile עם setup/cleanup activity types, grouping criteria, ו-resource assignment. קובעים האם הקמפיין מקובע (fixed) או דינמי. שילוב עם changeover matrix/CDP מגדיר תאימות-קיבוץ.",
           purposeHe: "להכין את המערכת לקיבוץ-קמפיינים — הגדרת ה-overhead (setup/cleanup) וכללי-הקיבוץ.",
-          processExampleHe: "Campaign Profile: setup-פתיחה=CIP 2שע', cleanup-סגירה=CIP 2שע', grouping=אותו Flavor; כל orders-הקולה יקובצו אוטומטית.",
-          cbcHe: "ב-CBC מגדירים Campaign Profile לקו-מילוי: CIP-פתיחה, CIP-סגירה, וקיבוץ-לפי-Flavor — כך קמפיין-קולה לא יערבב דיאט באמצע.",
+          processExampleHe: "Campaign Profile: setup-פתיחה=CIP 2שע', cleanup-סגירה=CIP 2שע', grouping=אותו Flavor; כל orders-המוגז יקובצו אוטומטית.",
+          scenarioHe: "בארגון מגדירים Campaign Profile לקו-מילוי: CIP-פתיחה, CIP-סגירה, וקיבוץ-לפי-Flavor — כך קמפיין-מוגז לא יערבב דיאט באמצע.",
           navHe: ["SPRO ► PP/DS ► Production Campaign ► Activate + Define Campaign Profile"],
           tables: ["/SAPAPO/CAMPAIGN", "/SAPAPO/RESHEAD"],
           tcodes: ["SPRO", "/SAPAPO/CAMPAIGN"],
@@ -728,8 +728,8 @@ export const CH8: TextbookChapter = {
           beginnerHe: "כאן מגדירים את הפרטים: אילו מוצרים 'הולכים יחד' בקמפיין, וכמה זמן-ניקוי כל החלפה לוקחת. כמו 'טבלת-התאמות' למה-עם-מה.",
           consultantHe: "נתוני-האב: Campaign Profile (ב-/SAPAPO/CAMPAIGN), Setup/Changeover Matrix (זמני-changeover בין מוצרים/מאפיינים), ושיוך-Resource/Block. ה-matrix מזין את ה-Detailed Scheduling בעלות-ההחלפה. CDP characteristics משמשים כקריטריון-קיבוץ. כל אלה מעצבים את הקמפיין האופטימלי.",
           purposeHe: "לספק ל-DS את כללי-התאימות ועלויות-ההחלפה הדרושים לבניית-קמפיינים יעילים.",
-          processExampleHe: "Changeover matrix: קולה→דיאט=30דק', קולה→לימון=90דק'; ה-DS יעדיף לקבץ קולה+דיאט באותו קמפיין לפני מעבר ללימון.",
-          cbcHe: "ב-CBC matrix-ה-changeover בין-טעמים (קולה→דיאט קצר; קולה→לימון ארוך עם CIP-מלא) מנחה את בניית-הקמפיינים כך שמעברי-טעם יקרים ימוזערו.",
+          processExampleHe: "Changeover matrix: מוגז→דיאט=30דק', מוגז→לימון=90דק'; ה-DS יעדיף לקבץ מוגז+דיאט באותו קמפיין לפני מעבר ללימון.",
+          scenarioHe: "בארגון matrix-ה-changeover בין-טעמים (מוגז→דיאט קצר; מוגז→לימון ארוך עם CIP-מלא) מנחה את בניית-הקמפיינים כך שמעברי-טעם יקרים ימוזערו.",
           navHe: ["PP/DS ► Master Data ► Campaign Profile", "PP/DS ► Setup/Changeover Matrix"],
           tables: ["/SAPAPO/CAMPAIGN", "/SAPAPO/SETUP_MAT", "/SAPAPO/RESHEAD"],
           tcodes: ["/SAPAPO/CAMPAIGN", "/SAPAPO/CDPS0", "CL02"],
@@ -747,8 +747,8 @@ export const CH8: TextbookChapter = {
           beginnerHe: "מסכים שבהם המתכנן 'בונה' קמפיינים: גורר אצוות לתוך קמפיין, מפצל קמפיין-ארוך, וממזג שניים. רואה מתי הניקוי קורה ומשבץ הכל על הקו.",
           consultantHe: "ב-DS Planning Board (/SAPAPO/CDPS0) קיימות פונקציות-קמפיין: create/extend/split/merge campaign, הצגת setup/cleanup blocks, ו-resequencing. ה-Campaign heuristic יכול לבנות קמפיינים אוטומטית מ-orders תואמים. שינויים נשמרים ל-livecache ומשתקפים ב-pegging וב-shelf life. ב-S/4HANA יש אפליקציות-Fiori לניהול-קמפיינים.",
           purposeHe: "לתת למתכנן שליטה אינטראקטיבית מלאה על בניית ותזמון הקמפיינים, ולמטב רצף-ייצור על המשאב.",
-          processExampleHe: "המתכנן ממזג שני קמפייני-קולה קטנים לאחד גדול ב-Planning Board — ה-setup/cleanup הכפול מתבטל, וזמן-המשאב הפנוי גדל.",
-          cbcHe: "ב-CBC מתכנן-הקו משתמש בכלי-הקמפיין כדי לקבץ את כל ריצות-הקולה השבועיות, לפצל קמפיין כשמגיעה דרישה-דחופה לדיאט, ולוודא ש-CIP מתבצע רק בקצוות.",
+          processExampleHe: "המתכנן ממזג שני קמפייני-מוגז קטנים לאחד גדול ב-Planning Board — ה-setup/cleanup הכפול מתבטל, וזמן-המשאב הפנוי גדל.",
+          scenarioHe: "בארגון מתכנן-הקו משתמש בכלי-הקמפיין כדי לקבץ את כל ריצות-המוגז השבועיות, לפצל קמפיין כשמגיעה דרישה-דחופה לדיאט, ולוודא ש-CIP מתבצע רק בקצוות.",
           navHe: ["PP/DS ► DS Planning Board (/SAPAPO/CDPS0) ► Campaign functions", "Fiori ► Manage Production Campaigns"],
           tables: ["/SAPAPO/CAMPAIGN", "/SAPAPO/ORDKEY", "/SAPAPO/RESHEAD"],
           tcodes: ["/SAPAPO/CDPS0", "/SAPAPO/CAMPAIGN", "/SAPAPO/RRP3"],
@@ -776,8 +776,8 @@ export const CH8: TextbookChapter = {
         "לבדל מלאי לפי-משמעות-עסקית (איכות/מקור/ערוץ/לקוח) ולתכנן כל סגמנט בנפרד — שמירת-מלאי לערוצים, הפרדת-איכויות, ושירות-לקוח-מובחן.",
       processExampleHe:
         "אותו חומר בשני סגמנטים: 'Premium' ו-'Standard'. דרישת-לקוח-Premium מכוסה רק במלאי-Premium-segment; מלאי-Standard לא ישויך אליה, לפי consumption rule.",
-      cbcHe:
-        "ב-CBC משקה מפולח לפי ערוץ: 'Export' מול 'Domestic', או לפי איכות 'A-grade' מול 'B-grade'. דרישת-ייצוא תכוסה רק במלאי-ייצוא-segment; כך מובטח מלאי ייעודי לכל ערוץ ללא 'גניבה' בין-ערוצים.",
+      scenarioHe:
+        "בארגון משקה מפולח לפי ערוץ: 'Export' מול 'Domestic', או לפי איכות 'A-grade' מול 'B-grade'. דרישת-ייצוא תכוסה רק במלאי-ייצוא-segment; כך מובטח מלאי ייעודי לכל ערוץ ללא 'גניבה' בין-ערוצים.",
       navHe: [
         "SPRO ► Cross-Application Components ► Segmentation ► Activate Segmentation",
         "SPRO ► Segmentation ► Define Segmentation Strategy",
@@ -841,7 +841,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-SGTS מגדירים Segmentation Strategy עם characteristics, Stock segments, Requirement segments ו-Consumption (Strategy) rule. משייכים לחומר בתצוגת-Segmentation של ה-Material Master. ה-segments נגזרים מ-Characteristic values. נתונים אלה מועברים ל-PP/DS לצורך pegging-מפולח.",
           purposeHe: "לרכז את הגדרות-הפילוח (segments + כללי-כיסוי) ולקשרן לחומר, כבסיס לכל תכנון-מפולח.",
           processExampleHe: "Strategy 'Channel': Stock segments=Export/Domestic, Requirement segments=Export/Domestic, Consumption=same-only; שיוך לחומר-המשקה.",
-          cbcHe: "ב-CBC מגדירים Strategy לפי-ערוץ (Export/Domestic) או איכות (A/B), ומשייכים לכל FERT-משקה; כל אצווה מקבלת segment לפי ערכי-ה-Characteristics שלה.",
+          scenarioHe: "בארגון מגדירים Strategy לפי-ערוץ (Export/Domestic) או איכות (A/B), ומשייכים לכל FERT-משקה; כל אצווה מקבלת segment לפי ערכי-ה-Characteristics שלה.",
           navHe: ["SPRO ► Segmentation ► Define Segmentation Strategy (SGTS)", "Material Master ► Segmentation view"],
           tables: ["SGT_SEG_STR", "SGT_CHA", "MARC"],
           tcodes: ["SGTS", "MM02"],
@@ -860,7 +860,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "במסמכי-התנועה (stock/orders/sales reqs) ה-segment נקבע מ-Characteristic values. ב-PP/DS ה-pegging וה-ATP מכבדים את ה-Consumption rule: requirement-segment מכוסה רק ב-stock-segment מותר. ב-RRP3/MD04 רואים את ה-segment על כל אובייקט. שגיאות-segment גורמות לכיסוי-שגוי או למחסור-מדומה.",
           purposeHe: "להבטיח שהפילוח שהוגדר בנתוני-האב אכן נאכף על נתוני-התנועה — pegging ו-ATP מפולחים בפועל.",
           processExampleHe: "מלאי-אצווה עם segment=Export ודרישת-לקוח segment=Domestic — ה-pegging לא יקשר ביניהם (Consumption=same-only), ויידרש מלאי-Domestic נפרד.",
-          cbcHe: "ב-CBC אצוות-משקה מקבלות segment=Export/Domestic לפי יעדן; דרישת-לקוח-ייצוא תקושר רק לאצוות-Export, ומלאי-Domestic נשמר לשוק-המקומי.",
+          scenarioHe: "בארגון אצוות-משקה מקבלות segment=Export/Domestic לפי יעדן; דרישת-לקוח-ייצוא תקושר רק לאצוות-Export, ומלאי-Domestic נשמר לשוק-המקומי.",
           navHe: ["PP/DS ► Product View (/SAPAPO/RRP3) ► Segment", "MRP ► Stock/Requirements List (MD04) ► Segment column"],
           tables: ["/SAPAPO/MATLOC", "MCHB", "/SAPAPO/ORDKEY", "SGT_CHA"],
           tcodes: ["/SAPAPO/RRP3", "MD04", "MSC2N"],
@@ -888,8 +888,8 @@ export const CH8: TextbookChapter = {
         "לחבר את כל היכולות לתמונה-אחת: מתי להשתמש בכל אחת, וכיצד הן משתלבות לתכנון-תהליך מקצה-לקצה בתעשיית-משקאות.",
       processExampleHe:
         "תרחיש-משולב: דרישת-משקה מפולחת (Segmentation) מתוכננת ב-CDP לפי-טעם, מיוצרת בקמפיין (Campaign) על קו עם block planning, מסירופ-מכל (Tank Planning) תוך כיבוד shelf life ו-pegging; עודף-תערובת מתועל דרך Push Production; תווית-ישנה מנוצלת דרך Interchangeability.",
-      cbcHe:
-        "ב-CBC כל היכולות פועלות יחד: מכלי-סירופ (Tank) מזינים קווי-מילוי המתוכננים בקמפייני-טעם (Campaign+Block+CDP), המוצר נושא shelf life ומפולח לערוצים (Segmentation), עודפי-תערובת מתועלים (Push), ומעברי-עיצוב מנוהלים (Interchangeability) — תכנון-תהליך שלם לבקבוק.",
+      scenarioHe:
+        "בארגון כל היכולות פועלות יחד: מכלי-סירופ (Tank) מזינים קווי-מילוי המתוכננים בקמפייני-טעם (Campaign+Block+CDP), המוצר נושא shelf life ומפולח לערוצים (Segmentation), עודפי-תערובת מתועלים (Push), ומעברי-עיצוב מנוהלים (Interchangeability) — תכנון-תהליך שלם לבקבוק.",
       navHe: [
         "PP/DS ► Advanced Planning (כל היכולות)",
         "SPRO ► Advanced Planning ► PP/DS ► Global Settings",

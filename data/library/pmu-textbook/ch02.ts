@@ -9,7 +9,7 @@
 //     2.1.4 Plant-Specific and Cross-Plant Maintenance
 //   2.2 Work Centers
 //   2.3 Summary
-// SAP identifiers kept verbatim in English; CBC = Coca-Cola bottling PM org.
+// SAP identifiers kept verbatim in English; הארגון = Example Product bottling PM org.
 import type { TextbookChapter } from "./types";
 
 export const CH2: TextbookChapter = {
@@ -17,7 +17,7 @@ export const CH2: TextbookChapter = {
   titleHe: "מבנים ארגוניים",
   titleEn: "Organizational Structures",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה למבנים הארגוניים של אחזקת מפעלים (Plant Maintenance) ב-SAP. לפני שניגעים בהזמנת-עבודה, בהודעת-תקלה או בציוד אחד, חובה להבין על איזו 'מפה ארגונית' הכול יושב: מהו Maintenance Plant, מהו Maintenance Planning Plant, מהו Planner Group, וכיצד מרכז-עבודה (Work Center) מחבר את התחזוקה לתזמון, לקיבולת ולעלות. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט במבנה הארגוני של PM ללא הספר המקורי, מנקודת-מבט של משתמש-עסקי ושל יועץ כאחד.",
+    "פרק זה הוא יחידת-לימוד מלאה למבנים הארגוניים של אחזקת מפעלים (Plant Maintenance) ב-SAP. לפני שניגעים בהזמנת-עבודה, בהודעת-תקלה או בציוד אחד, חובה להבין על איזו 'מפה ארגונית' הכול יושב: מהו Maintenance Plant, מהו Maintenance Planning Plant, מהו Planner Group, וכיצד מרכז-עבודה (Work Center) מחבר את התחזוקה לתזמון, לקיבולת ולעלות. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט במבנה הארגוני של PM ללא הספר המקורי, מנקודת-מבט של משתמש-עסקי ושל יועץ כאחד.",
   subchapters: [
     // ============================================================ 2.1
     {
@@ -34,8 +34,8 @@ export const CH2: TextbookChapter = {
         "המטרה: למפות את הציוד הפיזי, את אחריות-התכנון ואת אחריות-העלות לרשת אחת קוהרנטית, כך שכל הודעה והזמנה יֵדעו מאליהן היכן, מי ולחשבון מי. ללא מבנה זה אין אפשרות לסנן עבודה לפי אתר, לאחד תכנון בין אתרים, או לחייב Cost Center נכון.",
       processExampleHe:
         "ציוד נכשל באתר. הטכנאי פותח Notification; SAP שואב מהציוד את ה-Maintenance Plant, ממנו גוזר את ה-Maintenance Planning Plant ואת ה-Planner Group, וכך ההזמנה הנגזרת מנותבת למתכנן הנכון, למרכז-העבודה הנכון, ולעלות הנזקפת ל-Cost Center של אותו אתר.",
-      cbcHe:
-        "ב-CBC (מפעל-מילוי משקאות) כל אתר-בקבוק הוא Plant נפרד; קווי-המילוי, הציוד והמכלים יושבים כ-Maintenance Plant של אותו אתר. תכנון-האחזקה עשוי להתבצע מרכזית במטה (Maintenance Planning Plant אחד) או מקומית בכל אתר — שתי החלופות נלמדות ב-2.1.4.",
+      scenarioHe:
+        "בארגון (מפעל-מילוי משקאות) כל אתר-בקבוק הוא Plant נפרד; קווי-המילוי, הציוד והמכלים יושבים כ-Maintenance Plant של אותו אתר. תכנון-האחזקה עשוי להתבצע מרכזית במטה (Maintenance Planning Plant אחד) או מקומית בכל אתר — שתי החלופות נלמדות ב-2.1.4.",
       navHe: [
         "Enterprise Structure ► Definition ► Logistics – General ► Define, copy, delete, check plant (OX10)",
         "Plant Maintenance and Customer Service ► Master Data in PM and CS ► Technical Objects ► General Data ► Set Up Maintenance Plant (Assign Planning Plant) ► T399I",
@@ -111,8 +111,8 @@ export const CH2: TextbookChapter = {
             "לקבע את העוגן הגאוגרפי של כל אובייקט-תחזוקה — היכן הוא עומד — כדי לאפשר סינון, דיווח, ושיוך-עלות לפי אתר.",
           processExampleHe:
             "מתקינים ציוד חדש ב-IE01: בוחרים Maintenance Plant; SAP מאכלס SWERK בכרטיס-הציוד וגוזר את ה-Planning Plant מ-T399I, כך שכל הודעה עתידית כבר תדע לאן לפנות.",
-          cbcHe:
-            "ב-CBC אתר-המילוי בבאר-שבע הוא Plant אחד; כל מכונות-המילוי, המדחסים והמכלים נושאים אותו כ-Maintenance Plant (SWERK), בלי קשר לשאלה אם התכנון מקומי או מטה.",
+          scenarioHe:
+            "בארגון אתר-המילוי בבאר-שבע הוא Plant אחד; כל מכונות-המילוי, המדחסים והמכלים נושאים אותו כ-Maintenance Plant (SWERK), בלי קשר לשאלה אם התכנון מקומי או מטה.",
           navHe: [
             "Enterprise Structure ► Definition ► Logistics – General ► Define, copy, delete, check plant (OX10)",
             "Enterprise Structure ► Assignment ► Logistics – General ► Assign plant to company code (OX18)",
@@ -165,8 +165,8 @@ export const CH2: TextbookChapter = {
             "להגדיר את שרשרת-האחריות של התחזוקה: מי מתכנן, מי מבצע-מנהל, ולאיזה אזור-אחריות שייך הציוד — בלי תלות במבנה הלוגיסטי.",
           processExampleHe:
             "הזמנת-עבודה נפתחת; ה-Planner Group נשאב מהציוד ומופיע בכותרת-ההזמנה, כך שהמתכנן רואה את כל עבודתו ברשימת IW38 לפי קבוצתו, וה-Plant Section מאפשר לדווח עלויות לפי אזור.",
-          cbcHe:
-            "ב-CBC: Planner Group 'מכונות-מילוי' מול 'מערכות-קירור'; Plant Section 'אזור-מילוי' מול 'חדר-דוודים' — כך אחראי-האזור מקבל רק את הקריאות הרלוונטיות לו.",
+          scenarioHe:
+            "בארגון: Planner Group 'מכונות-מילוי' מול 'מערכות-קירור'; Plant Section 'אזור-מילוי' מול 'חדר-דוודים' — כך אחראי-האזור מקבל רק את הקריאות הרלוונטיות לו.",
           navHe: [
             "Plant Maintenance and Customer Service ► Master Data in PM and CS ► Technical Objects ► General Data ► Define Planner Groups (T024I)",
             "Plant Maintenance and Customer Service ► Master Data in PM and CS ► Technical Objects ► General Data ► Define Plant Sections",
@@ -229,8 +229,8 @@ export const CH2: TextbookChapter = {
             "לחבר את התחזוקה הפיזית למערכת-העלויות ולשרשרת-החלפים: כל שעת-עבודה וכל חלק שנמשך מקבלים בית-עלות ובית-מלאי.",
           processExampleHe:
             "הזמנת-תחזוקה צורכת חלף מ-Storage Location ועבודה ממרכז-עבודה; בסגירה היא מבצעת Settlement ל-Cost Center של מחלקת-האחזקה, וה-Company Code רושם את ההוצאה ב-FI.",
-          cbcHe:
-            "ב-CBC חלקי-חילוף למכונות-המילוי יושבים ב-Storage Location ייעודי; עלות-התחזוקה נזקפת ל-Cost Center 'אחזקת-ייצור' תחת Controlling Area של הקבוצה.",
+          scenarioHe:
+            "בארגון חלקי-חילוף למכונות-המילוי יושבים ב-Storage Location ייעודי; עלות-התחזוקה נזקפת ל-Cost Center 'אחזקת-ייצור' תחת Controlling Area של הקבוצה.",
           navHe: [
             "Enterprise Structure ► Definition ► Financial Accounting ► Define Company Code (OX02)",
             "Enterprise Structure ► Definition ► Controlling ► Maintain Controlling Area (OKKP)",
@@ -291,8 +291,8 @@ export const CH2: TextbookChapter = {
             "להתאים את מודל-התכנון למבנה-הארגון: ביזור לאוטונומיה אתרית, ריכוז לחיסכון-תקן, סטנדרטיזציה ושיתוף-משאבים בין אתרים.",
           processExampleHe:
             "בתרחיש מרכזי: ציוד נכשל באתר-צפון (Maintenance Plant 2000), אך ה-Notification מנותב ל-Planning Plant 1000 (המטה); מתכנן במטה רואה את כל הקריאות מכל האתרים ברשימה אחת ומקצה משאבים בין-אתרית.",
-          cbcHe:
-            "ב-CBC עם כמה אתרי-מילוי: מודל מרכזי מאפשר ל-COE-אחזקה במטה לתכנן עבור כל האתרים (Planning Plant אחד), בעוד הציוד נשאר ב-Maintenance Plant של כל אתר — איזון בין סטנדרטיזציה לאוטונומיה מקומית.",
+          scenarioHe:
+            "בארגון עם כמה אתרי-מילוי: מודל מרכזי מאפשר ל-COE-אחזקה במטה לתכנן עבור כל האתרים (Planning Plant אחד), בעוד הציוד נשאר ב-Maintenance Plant של כל אתר — איזון בין סטנדרטיזציה לאוטונומיה מקומית.",
           navHe: [
             "Plant Maintenance and Customer Service ► Master Data in PM and CS ► Technical Objects ► General Data ► Set Up Maintenance Plant (T399I)",
             "Plant Maintenance and Customer Service ► Organization ► Maintenance Plants ► Maintain assignment Planning Plant to Maintenance Plant",
@@ -359,8 +359,8 @@ export const CH2: TextbookChapter = {
         "לתרגם פעולות-תחזוקה למשך-עבודה (תזמון), לעומס על הצוות (קיבולת) ולעלות-עבודה (Costing). מרכז-עבודה מוגדר נכון = הזמנה מתוזמנת ומתומחרת נכון; מוגדר שגוי = משך אפס או עלות אפס.",
       processExampleHe:
         "בהזמנת-תחזוקה הפעולה מצביעה על Work Center IR01 ונושאת Work=4 שעות; נוסחת-התזמון של המרכז מתרגמת למשך-פעולה ולתאריכים, נוסחת-הקיבולת מטילה עומס על הצוות (Capacity 002 כוח-אדם), ובסגירה נוסחת-העלות מכפילה את השעות בתעריף-ה-Activity Type (KP26) — וכך נזקפת עלות-העבודה ל-Cost Center.",
-      cbcHe:
-        "ב-CBC: Work Center IR01 = 'צוות-מכונאים-מילוי'; Work Center IR02 = 'חשמלאי-בקרה'. כל מרכז משויך ל-Cost Center של מחלקת-האחזקה עם Activity Type לשעת-עבודה ותעריף KP26, כך שעלות תיקון מכונת-מילוי נזקפת אוטומטית.",
+      scenarioHe:
+        "בארגון: Work Center IR01 = 'צוות-מכונאים-מילוי'; Work Center IR02 = 'חשמלאי-בקרה'. כל מרכז משויך ל-Cost Center של מחלקת-האחזקה עם Activity Type לשעת-עבודה ותעריף KP26, כך שעלות תיקון מכונת-מילוי נזקפת אוטומטית.",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Define Work Center Category (OP40)",
         "Plant Maintenance and Customer Service ► Master Data in PM and CS ► Define Standard Value Key (OP19)",
@@ -439,8 +439,8 @@ export const CH2: TextbookChapter = {
         "לקבע בראש-הלומד מודל-מנטלי שלם של הרשת הארגונית, כך שכל מושג עתידי ב-PM ייקשר למקומו הנכון במבנה.",
       processExampleHe:
         "מציוד שנכשל ועד ל-Settlement: SWERK (Maintenance Plant) ► IWERK (Planning Plant, T399I) ► INGRP (Planner Group) ► Work Center IR01 ► Cost Center — שרשרת אחת שמקשרת היכן, מי-מתכנן, מי-מבצע ולחשבון-מי.",
-      cbcHe:
-        "ב-CBC כל אתר-מילוי הוא Maintenance Plant; התכנון מרוכז במטה (Planning Plant אחד) או מקומי; Planner Groups לפי דיסציפלינה; Work Centers לפי צוות; ועלות נזקפת ל-Cost Center של אחזקת-הייצור.",
+      scenarioHe:
+        "בארגון כל אתר-מילוי הוא Maintenance Plant; התכנון מרוכז במטה (Planning Plant אחד) או מקומי; Planner Groups לפי דיסציפלינה; Work Centers לפי צוות; ועלות נזקפת ל-Cost Center של אחזקת-הייצור.",
       navHe: [
         "Plant Maintenance and Customer Service ► Organization ► (כל ה-SPRO של פרק זה)",
       ],

@@ -1,5 +1,5 @@
 // NEO Certification — question generator. Builds typed questions from the
-// VERIFIED dataset (tables, PK/FK, ER joins, S/4 impact, incidents + CBC). Every
+// VERIFIED dataset (tables, PK/FK, ER joins, S/4 impact, incidents + הארגון). Every
 // correct answer and explanation is grounded in real data — nothing generic or
 // invented. Distractors are real sibling tables/fields so the test is meaningful.
 
@@ -10,7 +10,7 @@ import { S4_IMPACT } from "@/data/s4-impact";
 import type { SAPTable } from "@/lib/types";
 
 export type CertModule = "PM" | "PP-PI" | "PP";
-export type QType = "table-id" | "pk" | "fk" | "meaning" | "flow" | "join" | "trouble" | "s4" | "thinking" | "cbc";
+export type QType = "table-id" | "pk" | "fk" | "meaning" | "flow" | "join" | "trouble" | "s4" | "thinking" | "scenario";
 export type Level = 1 | 2 | 3 | 4;
 
 export interface Question {
@@ -33,7 +33,7 @@ export interface Question {
 export const QTYPE_HE: Record<QType, string> = {
   "table-id": "זיהוי טבלה", pk: "מפתח ראשי", fk: "מפתח זר", meaning: "משמעות עסקית",
   flow: "זרימת נתונים", join: "JOIN / SQL", trouble: "פתרון תקלות", s4: "S/4HANA",
-  thinking: "חשיבת יועץ", cbc: "תרחיש CBC",
+  thinking: "חשיבת יועץ", scenario: "תרחיש ייצור",
 };
 export const LEVEL_HE: Record<Level, string> = { 1: "יועץ זוטר", 2: "יועץ פונקציונלי", 3: "יועץ בכיר", 4: "ארכיטקט פתרון" };
 // which question types unlock at each level (cumulative)
@@ -41,7 +41,7 @@ const LEVEL_TYPES: Record<Level, QType[]> = {
   1: ["meaning", "table-id", "pk"],
   2: ["meaning", "table-id", "pk", "fk", "flow"],
   3: ["meaning", "table-id", "pk", "fk", "flow", "join", "trouble", "s4"],
-  4: ["meaning", "table-id", "pk", "fk", "flow", "join", "trouble", "s4", "thinking", "cbc"],
+  4: ["meaning", "table-id", "pk", "fk", "flow", "join", "trouble", "s4", "thinking", "scenario"],
 };
 
 const PP_CORE = new Set(["MARA", "MAKT", "MARC", "MARM", "MBEW", "MAST", "STKO", "STPO", "STAS", "STZU", "PLKO", "PLPO", "PLAS", "PLFL", "PLMZ", "CRHD", "CRTX", "CRCO", "CRCA", "MKAL", "AFKO", "AFPO", "AFVC", "AUFK", "AFFL", "AFFH", "RESB", "PLMK", "MDMA"]);
@@ -49,7 +49,7 @@ const PP_CORE = new Set(["MARA", "MAKT", "MARC", "MARM", "MBEW", "MAST", "STKO",
 const tablesFor = (m: CertModule): SAPTable[] => {
   if (m === "PM") return ALL_TABLES.filter((t) => t.module === "PM");
   if (m === "PP-PI") return ALL_TABLES.filter((t) => t.module === "PP-PI");
-  return ALL_TABLES.filter((t) => t.module === "PP-PI" && PP_CORE.has(t.tableName)); // PP = production core (CBC: PP = PP-PI)
+  return ALL_TABLES.filter((t) => t.module === "PP-PI" && PP_CORE.has(t.tableName)); // PP = production core (הארגון: PP = PP-PI)
 };
 
 export function shuffle<T>(arr: T[]): T[] {
@@ -141,7 +141,7 @@ export function buildBank(module: CertModule): Question[] {
     }
   }
 
-  // 7) troubleshooting + 10) CBC — from real incidents touching this module's tables
+  // 7) troubleshooting + 10) הארגון — from real incidents touching this module's tables
   const nameSet = new Set(names);
   for (const i of INCIDENTS) {
     const hit = i.tables.find((tn) => nameSet.has(tn));
@@ -149,9 +149,9 @@ export function buildBank(module: CertModule): Question[] {
     const m = mc(hit, pickN(names, 3, new Set([hit])));
     if (m) push({ type: "trouble", level: 3, table: hit, stem: `${i.symptom} איזו טבלה לבדוק תחילה?`, ...m,
       why: `התקלה "${i.he}" נחקרת דרך ${i.tables.join(", ")}. הטבלה המרכזית: ${hit}.`, wrongNote: "הטבלאות האחרות אינן הנקודה הראשונה לבדיקה בתקלה זו.", context: i.rootCauses?.slice(0, 2).join(" · "), related: i.tables.filter((x) => x !== hit).slice(0, 4), tcodes: i.analyzeTcodes?.slice(0, 5) });
-    if (i.cbc) {
+    if (i.scenario) {
       const m2 = mc(hit, pickN(names, 3, new Set([hit])));
-      if (m2) push({ type: "cbc", level: 4, table: hit, stem: `תרחיש CBC: ${i.cbc} על איזו טבלה מתמקד הפתרון?`, ...m2,
+      if (m2) push({ type: "scenario", level: 4, table: hit, stem: `תרחיש ייצור: ${i.scenario} על איזו טבלה מתמקד הפתרון?`, ...m2,
         why: `במקרה זה (${i.he}) הטבלה ${hit} היא במוקד. ${i.fix?.[0] || ""}`.trim(), wrongNote: "הטבלאות האחרות אינן מוקד התרחיש הזה.", context: i.rootCauses?.slice(0, 2).join(" · "), related: i.tables.filter((x) => x !== hit).slice(0, 4), tcodes: i.analyzeTcodes?.slice(0, 5) });
     }
   }

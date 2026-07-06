@@ -11,7 +11,7 @@ export const CH14: TextbookChapter = {
   titleHe: "חידוש מונחה-ביקוש (DDMRP)",
   titleEn: "Demand-Driven Replenishment (DDMRP)",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה ל-Demand-Driven Replenishment (DDMRP) ב-SAP S/4HANA — מתודולוגיה לתכנון-חידוש המוּנעת מביקוש-בפועל במקום מתחזית בלבד. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. בשונה מפרקים אחרים, DDMRP ב-S/4HANA הוא ברובו מבוסס-אפליקציות-Fiori (PP/MRP), ולכן מקטע ה-Fiori עשיר במיוחד. הדגש: מיקום-באפרים אסטרטגי (נקודות-ניתוק), חישוב גודל-באפר ואזורים (אדום/צהוב/ירוק), משוואת התזרים-הנקי (Net Flow), ותהליך-החידוש היומי. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה ל-Demand-Driven Replenishment (DDMRP) ב-SAP S/4HANA — מתודולוגיה לתכנון-חידוש המוּנעת מביקוש-בפועל במקום מתחזית בלבד. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. בשונה מפרקים אחרים, DDMRP ב-S/4HANA הוא ברובו מבוסס-אפליקציות-Fiori (PP/MRP), ולכן מקטע ה-Fiori עשיר במיוחד. הדגש: מיקום-באפרים אסטרטגי (נקודות-ניתוק), חישוב גודל-באפר ואזורים (אדום/צהוב/ירוק), משוואת התזרים-הנקי (Net Flow), ותהליך-החידוש היומי. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 14.1
     {
@@ -26,8 +26,8 @@ export const CH14: TextbookChapter = {
         "להבין מדוע נדרשת שיטה חדשה: לא להחליף את MRP אלא להשלים אותו היכן שהתנודתיות שוברת אותו. המטרה היא הגנה על התזרים (Flow) — זמינות-חומר גבוהה עם מלאי נמוך יותר.",
       processExampleHe:
         "מפעל מתכנן לפי תחזית של 1,000 יח'; בפועל מגיע ביקוש 1,300. החוסר מתפשט אחורה: דרישת-רכיבים גדלה, הספק מאחר, וכל הרמות 'מנפחות' הזמנות לביטחון — מלאי עולה אך השירות יורד.",
-      cbcHe:
-        "ב-CBC קמפיין-מבצע פתאומי על משקה מסוים מקפיץ ביקוש; MRP קלאסי, שתוכנן לתחזית-בסיס, יוצר חוסר-תרכיז בקו אחד ועודף-אריזה בקו אחר. DDMRP היה סופג זאת דרך באפר-תרכיז ממוקם.",
+      scenarioHe:
+        "בארגון קמפיין-מבצע פתאומי על משקה מסוים מקפיץ ביקוש; MRP קלאסי, שתוכנן לתחזית-בסיס, יוצר חוסר-תרכיז בקו אחד ועודף-אריזה בקו אחר. DDMRP היה סופג זאת דרך באפר-תרכיז ממוקם.",
       navHe: [
         "Production ► Material Requirements Planning ► Demand-Driven Replenishment ► General Settings",
         "SAP Fiori Launchpad ► Demand-Driven Replenishment (PP-DD) — group של אפליקציות-DDMRP",
@@ -78,8 +78,8 @@ export const CH14: TextbookChapter = {
         "להפריד תכנון-ארוך-טווח (תחזית) מביצוע-קצר-טווח (חידוש מול ביקוש-בפועל), כדי שכל אחד יעבוד באופק ובאיתות המתאימים לו.",
       processExampleHe:
         "מוצר-מוגמר עם באפר: הזמנת-לקוח 'מושכת' מהבאפר; הבאפר מאותת חידוש לפי ה-Net Flow; הייצור מחדש את הבאפר — בלי שהזמנת-הלקוח \"תרוץ\" עד הספק הראשוני.",
-      cbcHe:
-        "ב-CBC נקודת-ניתוק על תרכיז (חומר אסטרטגי, אספקה ארוכה) מנתקת את קווי-המילוי מתנודות-הספק; כל קו מושך מבאפר-התרכיז, והבאפר מתחדש בקצב יציב.",
+      scenarioHe:
+        "בארגון נקודת-ניתוק על תרכיז (חומר אסטרטגי, אספקה ארוכה) מנתקת את קווי-המילוי מתנודות-הספק; כל קו מושך מבאפר-התרכיז, והבאפר מתחדש בקצב יציב.",
       navHe: [
         "SAP Fiori ► Demand-Driven Replenishment ► Schedule Product Classification (DD)",
         "Production ► Material Requirements Planning ► Demand-Driven Replenishment ► Master Data Settings",
@@ -126,8 +126,8 @@ export const CH14: TextbookChapter = {
         "לספק מסגרת-עבודה שלמה: היכן לשים מלאי, כמה, מתי להתאים, איך לתכנן ואיך לבצע — הכל סביב הגנת-התזרים.",
       processExampleHe:
         "חומר מסומן DD-relevant; הרצת-Classification מחשבת לו Buffer Profile ואזורים; אפליקציית Replenishment Planning מחשבת Net Flow יומי וממליצה על הזמנות-חידוש; המתכנן מאשר.",
-      cbcHe:
-        "ב-CBC חמשת-הרכיבים: מקמו באפר-תרכיז (1), חשבו אזורים לפי צריכה-יומית (2), עדכנו לעונת-קיץ (3), תכננו חידוש יומי (Net Flow) (4), ונהלו דרך לוח-Fiori צבעוני (5).",
+      scenarioHe:
+        "בארגון חמשת-הרכיבים: מקמו באפר-תרכיז (1), חשבו אזורים לפי צריכה-יומית (2), עדכנו לעונת-קיץ (3), תכננו חידוש יומי (Net Flow) (4), ונהלו דרך לוח-Fiori צבעוני (5).",
       navHe: [
         "Production ► Material Requirements Planning ► Demand-Driven Replenishment",
         "SAP Fiori ► Demand-Driven Replenishment (PP-DD) catalog",
@@ -171,7 +171,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "קריטריוני-מיקום: Lead Time, Variability, Customer Tolerance Time, Inventory Leverage (BOM convergence), ו-Critical Operation Protection. נקודת-ניתוק טובה מקצרת את ה-DLT לרמות שמתחתיה ומפחיתה תנודה מצטברת. ההחלטה ידנית-אסטרטגית, נתמכת בנתוני-Classification.",
           purposeHe: "למקד את ההשקעה-במלאי היכן שהיא מגנה על התזרים בצורה הטובה-ביותר, במקום לפזר באפרים בכל מקום.",
           processExampleHe: "ב-BOM רב-שלבי, ממקמים באפר בנקודת-convergence (שבה רכיבים רבים מתאחדים) — באפר אחד מגן על מגוון רחב של מוצרי-קצה.",
-          cbcHe: "ב-CBC נקודת-ניתוק על תרכיז (אספקה ארוכה, קריטי לכל המשקאות) ועל אריזות-מפתח; מים ו-CO2 (זמינים-מקומית, יציבים) אינם מבוּפרים.",
+          scenarioHe: "בארגון נקודת-ניתוק על תרכיז (אספקה ארוכה, קריטי לכל המשקאות) ועל אריזות-מפתח; מים ו-CO2 (זמינים-מקומית, יציבים) אינם מבוּפרים.",
           navHe: ["Production ► Material Requirements Planning ► Demand-Driven Replenishment ► Master Data Settings"],
           tables: ["MARC", "PPH_DD_BUFFER"],
           tcodes: ["MD04"],
@@ -193,7 +193,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "הרכיבים נשענים על PPH_DD_BUFFER (נתוני-באפר) ועל שדות-MARC. ה-Net Flow Position = On-Hand + On-Order − Qualified Demand. כשהוא נופל לאזור-הצהוב/אדום — נוצר איתות-חידוש. אפליקציות-Fiori מציגות זאת בצבע.",
           purposeHe: "להבטיח שכל אבני-הבניין קיימות לפני התכנון: בלי Buffer Profile או אזורים אין מה לתכנן.",
           processExampleHe: "חומר DD-relevant ➔ Classification מקצה Buffer Profile ➔ חישוב אזורים ➔ הרצת Replenishment Planning קוראת את Net Flow ויוצרת המלצות.",
-          cbcHe: "ב-CBC תרכיז: DD-relevant=כן, Buffer Profile='Medium-LT/High-Var', אזורים מחושבים מצריכה-יומית; הרצה יומית מאותתת חידוש לקו-הערבול.",
+          scenarioHe: "בארגון תרכיז: DD-relevant=כן, Buffer Profile='Medium-LT/High-Var', אזורים מחושבים מצריכה-יומית; הרצה יומית מאותתת חידוש לקו-הערבול.",
           navHe: ["Production ► Material Requirements Planning ► Demand-Driven Replenishment ► Master Data Settings"],
           tables: ["MARC", "PPH_DD_BUFFER", "PPH_DD_BUFFER"],
           tcodes: ["MD04", "SPRO"],
@@ -224,8 +224,8 @@ export const CH14: TextbookChapter = {
         "לתרגם את חמשת-הרכיבים התיאורטיים למערך-יישום קונקרטי ב-S/4HANA — מה להגדיר, מה להזין, מה להריץ.",
       processExampleHe:
         "מיישמים DDMRP לחומר: SPRO→Buffer Profile, אב-חומר→DD-relevant+Profile, ואז שלוש אפליקציות-Fiori — Classification, Buffer Proposal/Levels, Replenishment Planning.",
-      cbcHe:
-        "ב-CBC צוות-ה-PP מגדיר Buffer Profiles למשפחות-חומרים (תרכיזים/אריזות), מסמן חומרים, ומפעיל את אפליקציות-ה-Fiori בשגרה יומית.",
+      scenarioHe:
+        "בארגון צוות-ה-PP מגדיר Buffer Profiles למשפחות-חומרים (תרכיזים/אריזות), מסמן חומרים, ומפעיל את אפליקציות-ה-Fiori בשגרה יומית.",
       navHe: [
         "SPRO ► Production ► MRP ► Demand-Driven Replenishment ► General Settings / Buffer Proposal (SPRO)",
         "SAP Fiori ► Demand-Driven Replenishment catalog (PP-DD)",
@@ -266,7 +266,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "ב-SPRO מגדירים Buffer Profile עם Lead Time Category, Variability Category, Order Cycle, Minimum Order Qty ופקטורי-אזורים. הגדרות-מפעל (Plant-specific) מכוונות סיווגי-LT וספי-תנודתיות. הטבלה: PPH_DD_BUFFER.",
           purposeHe: "לקבוע מסגרת-חישוב אחידה: כל חומר ששויך לפרופיל יקבל אזורים לפי אותה לוגיקה.",
           processExampleHe: "מגדירים Profile 'Long-LT/High-Var' עם Red-Base-Factor גבוה; כל חומר-תרכיז ששויך אליו מקבל אזור-אדום גדול יחסית.",
-          cbcHe: "ב-CBC מגדירים פרופילים למשפחות: 'תרכיז-יבוא' (LT ארוך), 'אריזה-מקומית' (LT קצר) — כל אחד עם פקטורים מתאימים.",
+          scenarioHe: "בארגון מגדירים פרופילים למשפחות: 'תרכיז-יבוא' (LT ארוך), 'אריזה-מקומית' (LT קצר) — כל אחד עם פקטורים מתאימים.",
           navHe: ["SPRO ► Production ► MRP ► Demand-Driven Replenishment ► Maintain Buffer Proposal Profiles (SPRO)"],
           tables: ["PPH_DD_BUFFER"],
           tcodes: ["SPRO"],
@@ -285,7 +285,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "השדות יושבים ברובד-MARC ובטבלת PPH_DD_BUFFER: MRP Type מותאם (לעיתים), DD-relevance indicator, Buffer Profile, Decoupled Lead Time, ADU (מחושב מהיסטוריה/תחזית). חלק מהשדות מתמלאים אוטומטית בהרצת-Classification.",
           purposeHe: "לחבר את החומר הספציפי למסגרת-החישוב — להזין את הקלטים שמהם נגזרים האזורים.",
           processExampleHe: "מסמנים חומר DD-relevant, מצמידים Buffer Profile; הרצת-Classification מחשבת ADU מהצריכה-ההיסטורית וקובעת אזורים.",
-          cbcHe: "ב-CBC לתרכיז: DD-relevant=כן, Profile='תרכיז-יבוא', DLT=21 ימים, ADU מחושב מצריכת-90-יום אחרונה.",
+          scenarioHe: "בארגון לתרכיז: DD-relevant=כן, Profile='תרכיז-יבוא', DLT=21 ימים, ADU מחושב מצריכת-90-יום אחרונה.",
           navHe: ["Logistics ► Material Master ► MRP views (DD fields)", "SAP Fiori ► Manage Material Master Data (DD)"],
           tables: ["MARC", "PPH_DD_BUFFER"],
           tcodes: ["MM02", "MD04"],
@@ -305,7 +305,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "האפליקציות העיקריות: Schedule Product Classification (DD) → סיווג-ABC/XYZ; Manage Buffer Levels / Buffer Proposal → אזורים; Replenishment Planning (Net Flow) → המלצות; Replenishment Execution → ניטור-ביצוע מול On-Hand Alert Zone. כולן קוראות/כותבות ל-PPH_DD_BUFFER.",
           purposeHe: "לספק את כלי-העבודה היומיים: לסווג, לחשב, לתכנן ולבצע — בממשק נראה ושיתופי.",
           processExampleHe: "מתכנן פותח Replenishment Planning בבוקר, רואה חומרים בצהוב/אדום לפי Net Flow, מאשר הזמנות-חידוש; אחר-הצהריים בודק Replenishment Execution לחומרים בסיכון.",
-          cbcHe: "ב-CBC מתכנן-ה-PP מתחיל יום ב-Replenishment Planning של התרכיזים, ועובר ל-Replenishment Execution כדי לזהות באפרים שירדו לאזור-אדום-קריטי.",
+          scenarioHe: "בארגון מתכנן-ה-PP מתחיל יום ב-Replenishment Planning של התרכיזים, ועובר ל-Replenishment Execution כדי לזהות באפרים שירדו לאזור-אדום-קריטי.",
           navHe: ["SAP Fiori ► Demand-Driven Replenishment ► Replenishment Planning / Replenishment Execution / Manage Buffer Levels"],
           tables: ["PPH_DD_BUFFER", "MARC"],
           tcodes: ["MD04"],
@@ -335,8 +335,8 @@ export const CH14: TextbookChapter = {
         "להחליט היכן 'לשבור' את שרשרת-התלות — היכן מלאי-באפר ייתן את התשואה-הגבוהה-ביותר בהגנת-תזרים.",
       processExampleHe:
         "מנתחים BOM רב-שלבי, מזהים נקודת-convergence ו-DLT ארוך, וממקמים שם באפר; כל המוצרים-מתחת נהנים מ-DLT מקוצר.",
-      cbcHe:
-        "ב-CBC ממקמים באפרים על תרכיז (LT ארוך, convergence לכל המשקאות) ועל אריזות-מפתח; כך קווי-המילוי מנותקים מתנודות-יבוא.",
+      scenarioHe:
+        "בארגון ממקמים באפרים על תרכיז (LT ארוך, convergence לכל המשקאות) ועל אריזות-מפתח; כך קווי-המילוי מנותקים מתנודות-יבוא.",
       navHe: ["Production ► MRP ► Demand-Driven Replenishment ► Master Data Settings (DD-relevance)"],
       tables: ["MARC", "PPH_DD_BUFFER"],
       tcodes: ["MD04"],
@@ -385,7 +385,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "Throughput הוא מדד-העל (לפי Theory of Constraints). הבאפר מנתק את התנודה כדי שזרימת-החומר לא תיעצר. מדדי-תזרים (Flow metrics) — לא רמות-מלאי — הם הקריטריון להצלחה. אזור-אדום מגן על התזרים בנקודת-הצוואר.",
           purposeHe: "להסיט את הפוקוס מ'כמה מלאי' ל'כמה רציפה הזרימה' — שינוי-תפיסה מהותי מול MRP.",
           processExampleHe: "באפר-תרכיז מונע עצירת קו-מילוי בעת איחור-ספק; התזרים (בקבוקים/שעה) נשמר רציף למרות התנודה.",
-          cbcHe: "ב-CBC הגנת-התזרים = קווי-המילוי לא נעצרים בגלל חוסר-תרכיז; הבאפר מבטיח זרימה רציפה גם בעונת-שיא.",
+          scenarioHe: "בארגון הגנת-התזרים = קווי-המילוי לא נעצרים בגלל חוסר-תרכיז; הבאפר מבטיח זרימה רציפה גם בעונת-שיא.",
           navHe: ["SAP Fiori ► Demand-Driven Replenishment ► Replenishment Execution (Flow protection)"],
           tables: ["PPH_DD_BUFFER"],
           tcodes: ["MD04"],
@@ -404,7 +404,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "האפליקציה מריצה סיווג מבוסס-נתונים: ABC לפי Consumption Value, XYZ לפי Coefficient of Variation. התוצאה מזינה את בחירת-Buffer Profile ואת DD-relevance. ניתן לתזמן הרצה-תקופתית. נשען על נתוני-צריכה היסטוריים.",
           purposeHe: "להפוך את החלטת-המיקום והפרופיל מ'תחושה' לנתונים — מי תנודתי, מי בעל-ערך, מי מתאים לבאפר.",
           processExampleHe: "הרצת-Classification מסמנת תרכיז כ-AX (ערך-גבוה, יציב) ואריזה-עונתית כ-CZ (ערך-נמוך, תנודתי); כל אחד מקבל פרופיל-באפר שונה.",
-          cbcHe: "ב-CBC הרצה-חודשית מסווגת: תרכיזים=A (ערך), משקאות-מבצע=Z (תנודתי); הפלט מנחה אילו לבּפר ובאיזה פרופיל.",
+          scenarioHe: "בארגון הרצה-חודשית מסווגת: תרכיזים=A (ערך), משקאות-מבצע=Z (תנודתי); הפלט מנחה אילו לבּפר ובאיזה פרופיל.",
           navHe: ["SAP Fiori ► Demand-Driven Replenishment ► Schedule Product Classification (DD)"],
           tables: ["PPH_DD_BUFFER", "MARC"],
           tcodes: ["MD04"],
@@ -423,7 +423,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "מיקום בנקודת-convergence (איחוד-רכיבים) או divergence (פיצול-למוצרים) ממקסם Inventory Leverage. כל באפר מנתק וקובע מחדש את ה-DLT של החומרים מתחתיו. ב-S/4HANA מיושם בסימון DD-relevant של החומר-בנקודה.",
           purposeHe: "להציב את נקודות-הניתוק היכן שהן מקצרות את ה-DLT הכולל ומגנות על מירב-המוצרים.",
           processExampleHe: "באפר בנקודת-convergence שבה 8 רכיבים מתאחדים ל-2 חצאי-מוצר: באפר-אחד מקצר DLT ל-15 מוצרי-קצה.",
-          cbcHe: "ב-CBC מיקום-באפר על תרכיז (convergence — כל המשקאות תלויים בו) נותן את ה-Leverage הגבוה-ביותר.",
+          scenarioHe: "בארגון מיקום-באפר על תרכיז (convergence — כל המשקאות תלויים בו) נותן את ה-Leverage הגבוה-ביותר.",
           navHe: ["Production ► MRP ► Demand-Driven Replenishment ► Master Data Settings (DD-relevance)"],
           tables: ["MARC", "PPH_DD_BUFFER"],
           tcodes: ["MD04"],
@@ -443,7 +443,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "ב-SPRO מגדירים Lead Time Categories עם טווחי-ימים ופקטורים. ה-Lead Time Factor מוכפל ב-(ADU × DLT) לחישוב אזור-הירוק והאדום-הבסיסי. סיווג שגוי מעוות את כל האזורים.",
           purposeHe: "להתאים את גודל-הבאפר לאורך-האספקה — כיסוי הולם ללא ניפוח.",
           processExampleHe: "DLT=21 ימים → קטגוריית 'Long' עם Factor גבוה → אזור-ירוק/אדום גדול; DLT=3 ימים → 'Short' עם Factor נמוך → באפר רזה.",
-          cbcHe: "ב-CBC תרכיז-יבוא = 'Long LT' (פקטור גבוה, באפר גדול); אריזה-מקומית = 'Short LT' (באפר רזה).",
+          scenarioHe: "בארגון תרכיז-יבוא = 'Long LT' (פקטור גבוה, באפר גדול); אריזה-מקומית = 'Short LT' (באפר רזה).",
           navHe: ["SPRO ► ... ► Demand-Driven Replenishment ► Lead Time Categories (SPRO)"],
           tables: ["PPH_DD_BUFFER", "PPH_DD_BUFFER"],
           tcodes: ["SPRO"],
@@ -462,7 +462,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "הנוסחאות: Yellow = ADU × DLT; Green = max(ADU×DLT×LT-Factor, MOQ, ADU×Order-Cycle); Red = (ADU×DLT×LT-Factor) + Red-Safety(Variability-Factor). Top of Yellow (TOY) = Red+Yellow; Top of Green (TOG) = Red+Yellow+Green. כל אלו ב-PPH_DD_BUFFER.",
           purposeHe: "להפיק את הכמויות-המספריות שמהן ייגזרו איתותי-החידוש — לב-החישוב של DDMRP.",
           processExampleHe: "ADU=100, DLT=10, LT-Factor=0.5, Var-Factor=0.5: Yellow=1000, Green=500, Red=500+250=750; TOY=1750, TOG=2250.",
-          cbcHe: "ב-CBC לתרכיז: ADU=200, DLT=21 → Yellow=4200, Green/Red לפי פקטורי-'Long/High-Var'; הפלט מנחה את החידוש היומי.",
+          scenarioHe: "בארגון לתרכיז: ADU=200, DLT=21 → Yellow=4200, Green/Red לפי פקטורי-'Long/High-Var'; הפלט מנחה את החידוש היומי.",
           navHe: ["SAP Fiori ► Demand-Driven Replenishment ► Manage Buffer Levels / Buffer Proposal"],
           tables: ["PPH_DD_BUFFER", "PPH_DD_BUFFER"],
           tcodes: ["MD04"],
@@ -484,7 +484,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "Planning: Net Flow = On-Hand+On-Order−Qualified Demand; אם < TOY → המלצת-חידוש עד TOG. Execution: ניטור On-Hand מול Red zone (Alert) ללא קשר ל-On-Order — מזהה סיכון-מיידי. שתי-הזוויות משלימות: צפי מול מצב-נוכחי.",
           purposeHe: "להפריד בין החלטת-הזמנה (Planning, מבוסס Net Flow) לבין ניטור-סיכון-מיידי (Execution, מבוסס On-Hand) — שתי שאלות שונות.",
           processExampleHe: "בוקר: Planning מזהה Net Flow=1600<TOY=1750 → המלצה לחדש ל-2250 (TOG). צהריים: Execution מזהה On-Hand ירד לאזור-אדום → התראת-סיכון.",
-          cbcHe: "ב-CBC המתכנן מריץ Planning של התרכיזים בבוקר, ובודק Execution לפני-משמרת כדי לוודא שאף תרכיז לא ייכנס לאדום בקו-הערבול.",
+          scenarioHe: "בארגון המתכנן מריץ Planning של התרכיזים בבוקר, ובודק Execution לפני-משמרת כדי לוודא שאף תרכיז לא ייכנס לאדום בקו-הערבול.",
           navHe: ["SAP Fiori ► Demand-Driven Replenishment ► Replenishment Planning / Replenishment Execution"],
           tables: ["PPH_DD_BUFFER", "MARC"],
           tcodes: ["MD04"],
@@ -506,7 +506,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "מדדים מרכזיים: Buffer Penetration (% חדירה לאזורים), On-Hand below Top of Red frequency, Order Spike events, ו-Decoupled Lead Time adherence. הניתוח מזין החלטות-Dynamic-Adjustment (DAF) ומיקום-מחדש. נצפה דרך Fiori analytical apps.",
           purposeHe: "לסגור את לולאת-המשוב: למדוד תזרים, לזהות באפרים שגויים, ולכוון פרופילים/מיקום.",
           processExampleHe: "מדד מראה שבאפר נכנס לאדום 30% מהזמן → אות להגדיל פקטור או לבחון מיקום; באפר שלא יוצא מהירוק → אולי מנופח.",
-          cbcHe: "ב-CBC דוח-חודשי מראה שבאפר-תרכיז בעונת-קיץ באדום תכופות → מפעילים DAF עונתי להגדלת-האזורים.",
+          scenarioHe: "בארגון דוח-חודשי מראה שבאפר-תרכיז בעונת-קיץ באדום תכופות → מפעילים DAF עונתי להגדלת-האזורים.",
           navHe: ["SAP Fiori ► Demand-Driven Replenishment ► Buffer / Flow analytics"],
           tables: ["PPH_DD_BUFFER"],
           tcodes: ["MD04"],
@@ -533,8 +533,8 @@ export const CH14: TextbookChapter = {
         "לתרגם חישוב-מתמטי לשפת-פעולה ויזואלית: כל צבע מסמן מצב והחלטה — לא צריך לקרוא מספרים, רואים צבע.",
       processExampleHe:
         "Net Flow באזור-ירוק → אין צורך לחדש. נכנס לצהוב → צור הזמנת-חידוש עד Top of Green. ירד לאדום → סיכון, תעדף.",
-      cbcHe:
-        "ב-CBC לוח-Fiori של מתכנן-התרכיזים: ירוק=שב בנחת, צהוב=הזמן ספק-יבוא, אדום=זרז משלוח/הקצה-עדיפות-לקו.",
+      scenarioHe:
+        "בארגון לוח-Fiori של מתכנן-התרכיזים: ירוק=שב בנחת, צהוב=הזמן ספק-יבוא, אדום=זרז משלוח/הקצה-עדיפות-לקו.",
       navHe: ["SAP Fiori ► Demand-Driven Replenishment ► Manage Buffer Levels (zones view)"],
       tables: ["PPH_DD_BUFFER", "PPH_DD_BUFFER"],
       tcodes: ["MD04"],
@@ -592,8 +592,8 @@ export const CH14: TextbookChapter = {
         "לחשב איתות-חידוש מבוסס-ביקוש-אמיתי ולא תחזית — עם סינון-רעש (Spikes) כדי שלא נגיב לכל קפיצה זמנית.",
       processExampleHe:
         "On-Hand=800, On-Order=600, Qualified Demand=300 → Net Flow=1100. אם TOY=1750 → 1100<1750 → המלצת-חידוש של (TOG−Net Flow)=2250−1100=1150.",
-      cbcHe:
-        "ב-CBC לתרכיז: On-Hand 3000 + On-Order 1000 − Qualified Demand 1500 = Net Flow 3500; אם TOY=4200 → מחדשים ל-TOG (למשל 5400), הזמנה של 1900.",
+      scenarioHe:
+        "בארגון לתרכיז: On-Hand 3000 + On-Order 1000 − Qualified Demand 1500 = Net Flow 3500; אם TOY=4200 → מחדשים ל-TOG (למשל 5400), הזמנה של 1900.",
       navHe: ["SAP Fiori ► Demand-Driven Replenishment ► Replenishment Planning (Net Flow)"],
       tables: ["PPH_DD_BUFFER", "MARC", "VBBE"],
       tcodes: ["MD04"],
@@ -651,8 +651,8 @@ export const CH14: TextbookChapter = {
         "להגן על התזרים בזמן-אמת — לתפוס סיכוני-חוסר מיידיים שהתכנון (מבוסס-Net-Flow) עלול לפספס.",
       processExampleHe:
         "Net Flow תקין (כי On-Order גבוה), אך הספק מאחר — ה-On-Hand בפועל נכנס לאדום. Execution מסמן Alert, והמתכנן מזרז את המשלוח.",
-      cbcHe:
-        "ב-CBC לפני-משמרת: מתכנן בודק Replenishment Execution; תרכיז שמלאי-היד שלו באדום מקבל קדימות — מזרזים שחרור-QA או משלוח-יבוא.",
+      scenarioHe:
+        "בארגון לפני-משמרת: מתכנן בודק Replenishment Execution; תרכיז שמלאי-היד שלו באדום מקבל קדימות — מזרזים שחרור-QA או משלוח-יבוא.",
       navHe: ["SAP Fiori ► Demand-Driven Replenishment ► Replenishment Execution"],
       tables: ["PPH_DD_BUFFER", "MARC"],
       tcodes: ["MD04"],
@@ -707,8 +707,8 @@ export const CH14: TextbookChapter = {
         "לתקנן את חישוב-הבאפרים: במקום לכוון כל חומר לחוד, מנהלים מעט פרופילים למשפחות-התנהגות.",
       processExampleHe:
         "פרופיל 'Medium-LT/High-Var': LT-Factor=0.5, Var-Factor=0.7, Order-Cycle=7; כל חומר משויך מקבל אזורים לפי כך. שינוי-פרופיל מעדכן את כל החומרים-בו.",
-      cbcHe:
-        "ב-CBC מגדירים פרופיל 'תרכיז-יבוא' (LT ארוך, Var גבוה) ו'אריזה-מקומית' (LT קצר, Var נמוך); כל חומר משויך למשפחתו.",
+      scenarioHe:
+        "בארגון מגדירים פרופיל 'תרכיז-יבוא' (LT ארוך, Var גבוה) ו'אריזה-מקומית' (LT קצר, Var נמוך); כל חומר משויך למשפחתו.",
       navHe: ["SPRO ► Production ► MRP ► Demand-Driven Replenishment ► Maintain Buffer Profiles (SPRO)"],
       tables: ["PPH_DD_BUFFER", "PPH_DD_BUFFER"],
       tcodes: ["SPRO"],
@@ -753,7 +753,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "ברמת-המפעל (PPH_DD_BUFFER plant-key) מגדירים את גבולות סיווגי-ה-LT/Variability ואת ברירות-מחדל-ה-Spike. כך אותו Buffer Profile מניב אזורים מותאמים-מפעל. חשוב בארגון רב-אתרי.",
           purposeHe: "להתאים את חישוב-הבאפר למציאות-האספקה והביקוש הספציפית לכל מפעל, בלי לשכפל פרופילים.",
           processExampleHe: "מפעל-A (יבוא) מגדיר סף-'Long-LT'=14 ימים; מפעל-B (מקומי) מגדיר 7; אותו פרופיל מניב אזורים שונים לכל מפעל.",
-          cbcHe: "ב-CBC אתר-מרכזי (יבוא-תרכיז) ואתר-משני נבדלים בספי-LT; ההגדרות-ברמת-מפעל מכוונות כל אחד.",
+          scenarioHe: "בארגון אתר-מרכזי (יבוא-תרכיז) ואתר-משני נבדלים בספי-LT; ההגדרות-ברמת-מפעל מכוונות כל אחד.",
           navHe: ["SPRO ► ... ► Demand-Driven Replenishment ► Plant-Specific Buffer Settings (SPRO)"],
           tables: ["PPH_DD_BUFFER", "PPH_DD_BUFFER"],
           tcodes: ["SPRO"],
@@ -780,8 +780,8 @@ export const CH14: TextbookChapter = {
         "לתת למתכנן תמונה-אחת המשלבת את העולם-הקלאסי (הזמנות/דרישות) עם העולם-ה-DDMRP (אזורים/Net Flow) לחומר נתון.",
       processExampleHe:
         "פתיחת MD04 לתרכיז-מבּוּפר מציגה On-Hand, הזמנות-פתוחות, דרישות, ובמקביל את האזורים ואת ה-Net Flow — המתכנן רואה אם הבאפר בצהוב.",
-      cbcHe:
-        "ב-CBC מתכנן פותח MD04 לתרכיז, מזהה Net Flow בצהוב, ומאשר את המלצת-החידוש מאפליקציית Replenishment Planning.",
+      scenarioHe:
+        "בארגון מתכנן פותח MD04 לתרכיז, מזהה Net Flow בצהוב, ומאשר את המלצת-החידוש מאפליקציית Replenishment Planning.",
       navHe: ["SAP Easy Access ► Logistics ► Production ► MRP ► Evaluations ► Stock/Requirements List (MD04)"],
       tables: ["MARC", "PPH_DD_BUFFER", "VBBE", "RESB"],
       tcodes: ["MD04", "MD05"],
@@ -832,7 +832,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "PIR (טבלת PBED) מזינות חישוב-ADU עתידי (forward-looking ADU) ובכך משפיעות על גודל-האזורים, אך אינן נצרכות ישירות ב-Net Flow כ-Dependent Demand. זהו הבדל-תפיסה מהותי מ-MRP: התחזית מכיילת באפר, לא יוצרת הזמנה.",
           purposeHe: "לאפשר לתחזית להתאים את גודל-הבאפר לשינויי-ביקוש-צפויים (עונה/מבצע) בלי שתשבש את האיתות מבוסס-הביקוש-האמיתי.",
           processExampleHe: "PIR גבוהות לקיץ מעלות את ה-forward ADU → האזורים גדלים מבעוד-מועד; אך החידוש-בפועל עדיין נקבע מ-Net Flow.",
-          cbcHe: "ב-CBC PIR של עונת-קיץ מגדילות את באפר-התרכיז מראש, אך ההזמנות-בפועל עדיין נגזרות מצריכת-הקווים בזמן-אמת.",
+          scenarioHe: "בארגון PIR של עונת-קיץ מגדילות את באפר-התרכיז מראש, אך ההזמנות-בפועל עדיין נגזרות מצריכת-הקווים בזמן-אמת.",
           navHe: ["SAP Easy Access ► Production ► Demand Management ► PIR (MD61)", "SAP Fiori ► Manage PIRs"],
           tables: ["PBED", "PBIM", "PPH_DD_BUFFER"],
           tcodes: ["MD61", "MD62", "MD04"],
@@ -852,7 +852,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "הזמנות-מכירה (VBBE/VBAP) הן הליבה של Qualified Demand: ביקוש-להיום + פיגורים. הזמנה שחוצה את ה-Spike Threshold בתוך ה-Spike Horizon נכנסת כ-Order Spike ומטופלת בנפרד. כך הבאפר מגיב לביקוש-אמיתי אך לא נסחף משיא חד-פעמי.",
           purposeHe: "להזין את האיתות מבוסס-הביקוש-האמיתי — בשונה מ-MRP שבו התחזית מובילה, כאן ההזמנה-בפועל מובילה.",
           processExampleHe: "הזמנת-לקוח רגילה מורידה את ה-Net Flow בהדרגה; הזמנה-ענקית פתאומית (>Spike Threshold) נרשמת כ-Spike ומתוכננת בנפרד מבלי לסחוף את הבאפר.",
-          cbcHe: "ב-CBC הזמנת-רשת-קמעונאות גדולה למשקה מסוים נחשבת Order Spike; המערכת מתכננת לה חידוש-ייעודי בלי לנפח את כל באפר-המוצר.",
+          scenarioHe: "בארגון הזמנת-רשת-קמעונאות גדולה למשקה מסוים נחשבת Order Spike; המערכת מתכננת לה חידוש-ייעודי בלי לנפח את כל באפר-המוצר.",
           navHe: ["SAP Easy Access ► Sales ► Order ► Create (VA01)", "SAP Fiori ► Manage Sales Orders"],
           tables: ["VBAK", "VBAP", "VBBE", "PPH_DD_BUFFER"],
           tcodes: ["VA01", "VA02", "MD04"],
@@ -880,8 +880,8 @@ export const CH14: TextbookChapter = {
         "להפוך את הכנת-החומרים מתהליך-ידני לתהליך-אוטומטי, נתונים-מבוסס ומתוזמן — כך שהבאפרים תמיד עדכניים.",
       processExampleHe:
         "הרצה-חודשית מתוזמנת: סורקת 500 חומרים, מחשבת ADU מ-90-יום, מסווגת, ומעדכנת Buffer Profiles ואזורים — בלי התערבות-ידנית.",
-      cbcHe:
-        "ב-CBC הרצת-סיווג חודשית מעדכנת את ADU של כל התרכיזים והאריזות, ומכוונת מחדש פרופילים לפני העונה.",
+      scenarioHe:
+        "בארגון הרצת-סיווג חודשית מעדכנת את ADU של כל התרכיזים והאריזות, ומכוונת מחדש פרופילים לפני העונה.",
       navHe: ["SAP Fiori ► Demand-Driven Replenishment ► Schedule Product Classification (DD)"],
       tables: ["PPH_DD_BUFFER", "MARC"],
       tcodes: ["MD04"],
@@ -930,7 +930,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "התזמון מוגדר כ-Application Job עם Recurrence Pattern (Start, Frequency, End). יש לאזן בין עדכניות (תכוף) לעומס-מערכת. הרצה-לילית-תקופתית היא הנפוצה.",
           purposeHe: "להבטיח עדכון-באפרים שוטף ואוטומטי בלי תלות בזיכרון-המתכנן.",
           processExampleHe: "תזמון Job חודשי בלילה הראשון-לחודש; ההרצה מעדכנת ADU ואזורים לפני תחילת-החודש.",
-          cbcHe: "ב-CBC Job חודשי-לילי מעדכן את כל באפרי-ה-DDMRP לפני סבב-התכנון החודשי.",
+          scenarioHe: "בארגון Job חודשי-לילי מעדכן את כל באפרי-ה-DDMRP לפני סבב-התכנון החודשי.",
           navHe: ["SAP Fiori ► Schedule Product Classification (DD) ► Scheduling Options"],
           tables: ["PPH_DD_BUFFER"],
           tcodes: ["MD04"],
@@ -949,7 +949,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "הבחירה לפי Plant, MRP Area/Controller, Material Group, ABC-class או רשימה-מפורשת. מומלץ לצמצם ל-DD-relevant כדי לחסוך זמן-עיבוד ולמנוע 'רעש'. הבחירה משולבת עם ה-Thresholds.",
           purposeHe: "למקד את ההרצה בחומרים-הנכונים — חיסכון בעיבוד ומניעת-סיווג מיותר.",
           processExampleHe: "בחירה: Plant=1000, MRP Controller=DD1 → ההרצה מסווגת רק את חומרי-ה-DDMRP של אותו מתכנן.",
-          cbcHe: "ב-CBC בחירה לפי Material Group='Concentrates' מצמצמת את ההרצה לתרכיזים בלבד.",
+          scenarioHe: "בארגון בחירה לפי Material Group='Concentrates' מצמצמת את ההרצה לתרכיזים בלבד.",
           navHe: ["SAP Fiori ► Schedule Product Classification (DD) ► Selection Criteria"],
           tables: ["MARC", "PPH_DD_BUFFER"],
           tcodes: ["MD04"],
@@ -969,7 +969,7 @@ export const CH14: TextbookChapter = {
           purposeHe:
             "לתרגם נתונים-רציפים (ערך, תנודתיות) לקטגוריות שלפיהן נבחר הפרופיל ומחושבים הפקטורים — בצורה אחידה ושקופה.",
           processExampleHe: "ספים: A=top-80% value, X=CV<0.5; חומר עם ערך-גבוה ו-CV=0.3 → AX → פרופיל ל-'יציב-יקר'.",
-          cbcHe: "ב-CBC ספי-XYZ מבחינים תרכיז-יציב (X) ממשקה-מבצע-תנודתי (Z); כל אחד מקבל פקטורי-Variability שונים.",
+          scenarioHe: "בארגון ספי-XYZ מבחינים תרכיז-יציב (X) ממשקה-מבצע-תנודתי (Z); כל אחד מקבל פקטורי-Variability שונים.",
           navHe: ["SAP Fiori ► Schedule Product Classification (DD) ► Thresholds"],
           tables: ["PPH_DD_BUFFER", "PPH_DD_BUFFER"],
           tcodes: ["MD04"],
@@ -991,7 +991,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "חומרים שאינם DD-relevant ואין להם DLT מנותק מתוכננים ב-MRP רגיל (PD/VB) או כ-Lot-for-lot ישיר. חשוב לזהותם מפורשות כדי שלא 'ייפלו בין הכיסאות' — לא מבּוּפרים אך גם לא מתוכננים נכון.",
           purposeHe: "להבטיח כיסוי-תכנון מלא: כל חומר או מבּוּפר (DDMRP) או מתוכנן-קלאסי — אף-אחד לא נשאר ללא-שיטה.",
           processExampleHe: "הרצת-הסיווג מסמנת חומר-יציב-זול כ-'unbuffered'; הוא נשאר MRP Type PD רגיל, ללא אזורי-באפר.",
-          cbcHe: "ב-CBC מים-מטופלים ו-CO2 (זמינים-מקומית, יציבים) נשארים לא-מבּוּפרים ומתוכננים ב-MRP רגיל.",
+          scenarioHe: "בארגון מים-מטופלים ו-CO2 (זמינים-מקומית, יציבים) נשארים לא-מבּוּפרים ומתוכננים ב-MRP רגיל.",
           navHe: ["SAP Fiori ► Schedule Product Classification (DD) ► Unbuffered Products result"],
           tables: ["MARC", "PPH_DD_BUFFER"],
           tcodes: ["MD04", "MM02"],

@@ -9,7 +9,7 @@ export const CH5: TextbookChapter = {
   titleHe: "רכש תפעולי",
   titleEn: "Operational Procurement",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לרכש התפעולי (Operational Procurement) ב-SAP S/4HANA — הלב הפועם של תהליך ה-Procure-to-Pay. כאן מתבצע התהליך היומיומי: דרישה (Requisition / Shopping Cart) ► הזמנת-רכש (Purchase Order) ► קבלת-טובין (Goods Receipt) ► חשבונית (Invoice). כל תת-פרק ותת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית מקצה-לקצה, דוגמת CBC (ייצור-בקבוק של קוקה-קולה — רכש חומרי-גלם, אריזה ו-MRO), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הרכש התפעולי במלואו ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לרכש התפעולי (Operational Procurement) ב-SAP S/4HANA — הלב הפועם של תהליך ה-Procure-to-Pay. כאן מתבצע התהליך היומיומי: דרישה (Requisition / Shopping Cart) ► הזמנת-רכש (Purchase Order) ► קבלת-טובין (Goods Receipt) ► חשבונית (Invoice). כל תת-פרק ותת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית מקצה-לקצה, דוגמת הארגון (ייצור-בקבוק של מוצר לדוגמה — רכש חומרי-גלם, אריזה ו-MRO), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הרכש התפעולי במלואו ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 5.1
     {
@@ -24,8 +24,8 @@ export const CH5: TextbookChapter = {
         "להבטיח שכל צורך עסקי מתורגם להזמנה מבוקרת, מאושרת ומתועדת — עם הפרדת-תפקידים (מבקש ≠ מאשר ≠ מקבל ≠ משלם), עקיבות מלאה (audit trail), ושליטה תקציבית. הרכש התפעולי הוא הגשר בין הצורך התפעולי לבין ההתחייבות הכספית והרישום החשבונאי.",
       processExampleHe:
         "תהליך מלא: מחלקת-ייצור מזהה מחסור בסוכר ► נוצרת דרישת-רכש (ME51N / Fiori) עם חומר, כמות, מפעל ותאריך ► רוכש ממיר אותה להזמנת-רכש (ME21N) לספק-החוזה ► ההזמנה עוברת flexible workflow לאישור ► נשלחת לספק (הדפסה / IDoc / SAP Business Network) ► הסחורה מגיעה ונרשמת GR (MIGO, תנועה 101) ► הספק שולח חשבונית, נרשמת MIRO ► ה-Three-Way-Match (PO↔GR↔Invoice) משחרר לתשלום.",
-      cbcHe:
-        "ב-CBC (מפעל-בקבוק של קוקה-קולה) הרכש התפעולי מזין את קו-הייצור: תרכיז מ-The Coca-Cola Company, סוכר, CO2, בקבוקי-PET, פקקים ותוויות מספקי-אריזה, וחלפי-MRO לתחזוקת קווי-המילוי. דרישות-הסוכר נוצרות אוטומטית מ-MRP, הופכות להזמנות-רכש מול חוזי-מסגרת, ונשלחות דרך SAP Business Network. רכש-MRO (חלפים) לרוב מתחיל כ-Shopping Cart של טכנאי-תחזוקה.",
+      scenarioHe:
+        "בארגון (מפעל-בקבוק של מוצר לדוגמה) הרכש התפעולי מזין את קו-הייצור: תרכיז מ-The Example Product Company, סוכר, CO2, בקבוקי-PET, פקקים ותוויות מספקי-אריזה, וחלפי-MRO לתחזוקת קווי-המילוי. דרישות-הסוכר נוצרות אוטומטית מ-MRP, הופכות להזמנות-רכש מול חוזי-מסגרת, ונשלחות דרך SAP Business Network. רכש-MRO (חלפים) לרוב מתחיל כ-Shopping Cart של טכנאי-תחזוקה.",
       navHe: [
         "Materials Management ► Purchasing ► Purchase Requisition ► Define Document Types",
         "Materials Management ► Purchasing ► Purchase Order ► Define Document Types",
@@ -100,8 +100,8 @@ export const CH5: TextbookChapter = {
         "לאפשר 'רכש מבוזר מבוקר' — המשתמשים מבקשים בעצמם, אך כל בקשה עוברת אישור-תקציבי וכללי-מקור-אספקה. מפחית צווארי-בקבוק במחלקת-הרכש, מקצר lead-time, ומגדיל ציות (compliance) דרך קטלוגים מאושרים מראש.",
       processExampleHe:
         "עובד פותח 'My Shopping Cart' (Fiori) ► בוחר 5 פריטי-משרד מקטלוג פנימי ► מוסיף free-text item לכבל-מיוחד ► מאשר ► נוצרת דרישת-רכש (EBAN) ► flexible workflow מנתב למנהל לאישור-תקציבי ► לאחר אישור, הדרישה מומרת ל-PO אוטומטית (אם יש מקור) ► נשלחת לספק ► העובד מבצע Confirmation עם קבלת-הפריטים.",
-      cbcHe:
-        "ב-CBC טכנאי-תחזוקה זקוק לאטם ולמסנן לקו-מילוי. הוא פותח Shopping Cart, בוחר מקטלוג-ה-MRO, ומאשר; הדרישה מנותבת לראש-צוות-התחזוקה לאישור, ואז הופכת ל-PO מול ספק-החלפים. כך טכנאים מזמינים MRO ללא תלות יומיומית במחלקת-הרכש.",
+      scenarioHe:
+        "בארגון טכנאי-תחזוקה זקוק לאטם ולמסנן לקו-מילוי. הוא פותח Shopping Cart, בוחר מקטלוג-ה-MRO, ומאשר; הדרישה מנותבת לראש-צוות-התחזוקה לאישור, ואז הופכת ל-PO מול ספק-החלפים. כך טכנאים מזמינים MRO ללא תלות יומיומית במחלקת-הרכש.",
       navHe: [
         "Fiori Launchpad ► Procurement ► Create Purchase Requisition / My Shopping Cart",
         "Materials Management ► Purchasing ► Self-Service Procurement ► Catalog Management",
@@ -164,7 +164,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "הדרישה נשמרת ב-EBAN. שדות-מפתח: MATNR (חומר), MENGE (כמות), WERKS (מפעל), LGORT (מחסן), BADAT/LFDAT (תאריכים), KNTTP (Account Assignment), PSTYP (Item Category). דרישה יכולה להיווצר ידנית (ME51N), אוטומטית מ-MRP, או מ-Shopping Cart. ב-S/4HANA אפליקציית 'Create Purchase Requisition' (F1048) ו-'Manage Purchase Requisitions' הן הממשק המומלץ.",
           purposeHe: "לתעד את הצורך באופן מובנה לפני התחייבות כספית — ולאפשר אישור, בחירת-מקור והמרה ל-PO מבוקרת.",
           processExampleHe: "מתכנן-ייצור פותח ME51N ► חומר 'סוכר', כמות 20 טון, מפעל 1000, תאריך-אספקה בעוד שבוע, Account Assignment ריק (מלאי) ► שומר ► נוצרת PR מספר 10xxxxxx ב-EBAN, ממתינה לבחירת-מקור והמרה.",
-          cbcHe: "ב-CBC רוב דרישות-חומרי-הגלם (סוכר, תרכיז, CO2) נוצרות אוטומטית מ-MRP לפי תכנון-הייצור; דרישות-MRO נוצרות ידנית כ-Shopping Cart על-ידי טכנאים.",
+          scenarioHe: "בארגון רוב דרישות-חומרי-הגלם (סוכר, תרכיז, CO2) נוצרות אוטומטית מ-MRP לפי תכנון-הייצור; דרישות-MRO נוצרות ידנית כ-Shopping Cart על-ידי טכנאים.",
           navHe: [
             "Logistics ► Materials Management ► Purchasing ► Purchase Requisition ► Create (ME51N)",
             "Fiori ► Procurement ► Create Purchase Requisition",
@@ -201,7 +201,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "היכולת נשענת על SAP Sustainability Footprint Management / Green Token ועל שדות-פליטה המשולבים בנתוני-המוצר ובמסמכי-הרכש. ערכי-פליטה (לרוב kg CO2e ליחידה) מגיעים מ-master data של המוצר/ספק ומוצגים ב-Manage Purchase Requisitions / Orders, ויכולים להזין דיווחי-קיימות.",
           purposeHe: "להטמיע שיקולי-קיימות בהחלטות-הרכש התפעוליות — לעמוד ביעדי-ESG, רגולציה ודרישות-לקוחות לשרשרת-אספקה ירוקה.",
           processExampleHe: "רוכש בוחר בין שני ספקי-בקבוקים: המחיר זהה, אך אפליקציית-הרכש מציגה לספק A פליטה של 0.8 kg CO2e ליחידה ולספק B 0.5 — הרוכש בוחר ב-B מתוך שיקול-קיימות, והבחירה מתועדת.",
-          cbcHe: "ב-CBC, קוקה-קולה מציבה יעדי-קיימות לאריזה; מעקב-הפחמן מאפשר להעדיף ספקי-PET ממוחזר עם טביעת-רגל נמוכה, ולדווח על פליטות שרשרת-האספקה (Scope 3).",
+          scenarioHe: "בארגון, מוצר לדוגמה מציבה יעדי-קיימות לאריזה; מעקב-הפחמן מאפשר להעדיף ספקי-PET ממוחזר עם טביעת-רגל נמוכה, ולדווח על פליטות שרשרת-האספקה (Scope 3).",
           navHe: [
             "Fiori ► Sustainability ► Manage Footprint Inventory",
             "Materials Management ► Purchasing ► Sustainability / Footprint integration",
@@ -231,7 +231,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "Advanced Intercompany מבוסס על intercompany STO / sales-flow המופעל ב-S/4HANA: ה-PO בקוד-החברה הקונה מפעיל יצירת Sales Order בקוד-החברה המוכרת, עם Intercompany Billing, transfer pricing (condition PI01/IV01) ורישומי-CO-PA נפרדים לכל ישות. תומך ב-drop-shipment ובשרשראות-אספקה רב-ישותיות.",
           purposeHe: "לייעל סחר פנים-קבוצתי — לשקף נכון רווח/עלות בכל ישות, לעמוד בדרישות transfer-pricing, ולמנוע עבודה כפולה בין הצדדים.",
           processExampleHe: "חברת-ההפצה (CC 2000) מזמינה מוצר ממפעל-הייצור (CC 1000) ► PO ב-2000 יוצר אוטומטית SO ב-1000 ► המפעל מספק ► Intercompany Billing מ-1000 ל-2000 לפי transfer price ► כל ישות רושמת רווח/עלות נפרדים.",
-          cbcHe: "ב-CBC קבוצת-הבקבוק כוללת ישויות-ייצור וישויות-הפצה נפרדות; משקאות 'נמכרים' ממפעל-הייצור לישות-ההפצה האזורית דרך תרחיש בין-חברתי מתקדם, עם תמחור-העברה פנימי.",
+          scenarioHe: "בארגון קבוצת-הבקבוק כוללת ישויות-ייצור וישויות-הפצה נפרדות; משקאות 'נמכרים' ממפעל-הייצור לישות-ההפצה האזורית דרך תרחיש בין-חברתי מתקדם, עם תמחור-העברה פנימי.",
           navHe: [
             "Sales & Distribution ► Billing ► Intercompany Billing",
             "Materials Management ► Purchasing ► Purchase Order ► Intercompany / STO setup",
@@ -260,7 +260,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "Confirmations מוגדרות דרך Confirmation Control Key ברמת שורת-ה-PO (EKPO-BSTAE) — קובע אילו סוגי-אישור (AB=Order Ack, LA=Inbound Delivery) צפויים ובאיזה רצף. Return Delivery נרשמת ב-MIGO כתנועה 122 (החזרה ל-GR) או דרך Returns PO (EKPO-RETPO), ויוצרת MSEG הפוך ועדכון-EKBE. ב-S/4HANA Returns מנוהל גם דרך Advanced Returns Management.",
           purposeHe: "Confirmation משפרת את אמינות-התכנון (תאריכים ריאליים מהספק); Return Delivery מטפלת בכמות/איכות לקויה בצורה מתועדת ומבוקרת, עם השפעה נכונה על המלאי וה-IR.",
           processExampleHe: "PO ל-100 בקבוקים עם Confirmation Control Key 0004 ► הספק שולח Order Acknowledgement (AB) ל-100 ב-20 בחודש ► נרשמת Confirmation, MRP מעדכן תאריך ► בקבלה מתגלים 10 פגומים ► נרשמת Return Delivery (122) ל-10, החשבונית תשולם רק על 90.",
-          cbcHe: "ב-CBC ספקי-תרכיז שולחים Order Acknowledgements שמעדכנים את תכנון-המילוי; אצוות-אריזה שנכשלו בבדיקת-QA מוחזרות לספק כ-Return Delivery (122) עם תיעוד-איכות.",
+          scenarioHe: "בארגון ספקי-תרכיז שולחים Order Acknowledgements שמעדכנים את תכנון-המילוי; אצוות-אריזה שנכשלו בבדיקת-QA מוחזרות לספק כ-Return Delivery (122) עם תיעוד-איכות.",
           navHe: [
             "Materials Management ► Purchasing ► Confirmations ► Define Confirmation Control",
             "Logistics ► Materials Management ► Inventory Management ► Goods Movement (MIGO) — Return Delivery 122",
@@ -298,7 +298,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "Shopping Cart הקלאסי הוא אובייקט-SRM נפרד; Requisition-to-Pay ב-S/4HANA מבוסס על אובייקט ה-PR בליבה עם Self-Service Requisitioning ו-flexible workflow. הגירה כוללת מיפוי Shopping Carts פתוחים ל-PRs, העברת קטלוגים ל-internal catalog / OCI, והמרת אישורי-SRM ל-flexible workflow. אלטרנטיבה: SAP Ariba Buying כענן-רכש. נדרשת החלטת-ארכיטקטורה: embedded vs Ariba.",
           purposeHe: "להחליט נכון על מודל-הרכש העתידי בעת מעבר ל-S/4HANA — להימנע מהשקעה ב-SRM שהופסק, ולבחור בין הפתרון המובְנֵה ל-Ariba לפי גודל וצרכים.",
           processExampleHe: "ארגון על SRM נכנס לפרויקט-S/4HANA ► ממפה את תהליכי-ה-Shopping-Cart ל-Self-Service Requisitioning ► מהגר קטלוגים ל-OCI ► בונה flexible workflow מקביל לאישורי-SRM ► מכבה את SRM לאחר העברת-עגלות פתוחות.",
-          cbcHe: "ב-CBC, אם ישות הסתמכה על SRM ל-MRO, ההגירה ל-S/4HANA תעביר את עגלות-ה-MRO ל-Self-Service Requisitioning המובְנֵה, ותשמור על חוויית-המשתמש של הטכנאים.",
+          scenarioHe: "בארגון, אם ישות הסתמכה על SRM ל-MRO, ההגירה ל-S/4HANA תעביר את עגלות-ה-MRO ל-Self-Service Requisitioning המובְנֵה, ותשמור על חוויית-המשתמש של הטכנאים.",
           navHe: [
             "Materials Management ► Purchasing ► Self-Service Procurement ► Activate / Migrate",
             "Migration Cockpit (LTMC / Migrate Your Data) — Open Purchase Requisitions",
@@ -327,7 +327,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "flexible workflow (Manage Workflows for Purchase Requisitions / Orders) מוגדר דרך Fiori: Preconditions (start conditions) + Steps + Agent determination (role/responsibility/expression). מחליף את ה-Release Strategy הקלאסית (Release Group/Code/Strategy ב-CL classes). אישורים מתבצעים ב-'My Inbox' (F0862). תומך בשלבים מקבילים, eסקלציה ו-substitution. ה-Release Strategy הקלאסית עדיין נתמכת אך ה-flexible workflow מומלץ ב-greenfield.",
           purposeHe: "לאכוף הפרדת-תפקידים ובקרה-תקציבית — שאף התחייבות-רכש לא יוצאת ללא אישור-מורשה — בצורה גמישה, שקופה ונטולת-תכנות.",
           processExampleHe: "דרישת-רכש ב-50,000 ₪ נשמרת ► start condition מזהה שווי>10,000 ► ה-workflow מנתב למנהל-המחלקה (Inbox) ► הוא מאשר ► שווי>40,000 מפעיל שלב-שני למנהל-כספים ► אישור ► הדרישה משוחררת ומומרת ל-PO.",
-          cbcHe: "ב-CBC הזמנות-רכש לחומרי-גלם בשווי-גבוה מנותבות ל-flexible workflow רב-שלבי (ראש-רכש ► מנהל-מפעל ► כספים), בעוד דרישות-MRO זניחות מאושרות אוטומטית מתחת לסף.",
+          scenarioHe: "בארגון הזמנות-רכש לחומרי-גלם בשווי-גבוה מנותבות ל-flexible workflow רב-שלבי (ראש-רכש ► מנהל-מפעל ► כספים), בעוד דרישות-MRO זניחות מאושרות אוטומטית מתחת לסף.",
           navHe: [
             "Fiori ► Manage Workflows for Purchase Requisitions / Purchase Orders",
             "Materials Management ► Purchasing ► Purchase Order ► Release Procedure (קלאסי — OMGS/OMGQ)",
@@ -365,7 +365,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "יכולות-ML ברכש כוללות: Predictive analytics לחיזוי-תאריכי-אספקה, intelligent approval routing, automatic source-of-supply assignment, ו-anomaly/duplicate detection בחשבוניות. נשען על SAP S/4HANA embedded ML (Predictive Scenarios / Intelligent Scenario Lifecycle Management — ISLM) ועל SAP AI Core/Business AI. מודלים מאומנים על נתוני-EKKO/EKPO/EKBE היסטוריים, ומשולבים באפליקציות-Fiori כהמלצות.",
           purposeHe: "להגדיל יעילות ודיוק — לקצר זמני-מחזור, להפחית טעויות-הקלדה, לזהות סיכונים (חריגות-מחיר, חשבוניות-כפולות) ולשחרר רוכשים למשימות אסטרטגיות.",
           processExampleHe: "רוכש פותח PR ללא מקור ► מנוע-ה-ML מציע ספק מומלץ לפי היסטוריה, מחיר ואמינות-אספקה ► הרוכש מאשר בלחיצה ► בעת רישום-חשבונית, ה-ML מסמן חריגת-מחיר של 18% מעל הממוצע — הרוכש בודק לפני אישור.",
-          cbcHe: "ב-CBC ML מציע אוטומטית את ספק-הסוכר המתאים לפי עונתיות ומחיר, וחוזה עיכובי-אספקה אפשריים בתקופות-שיא — מה שמאפשר תכנון-מילוי יציב.",
+          scenarioHe: "בארגון ML מציע אוטומטית את ספק-הסוכר המתאים לפי עונתיות ומחיר, וחוזה עיכובי-אספקה אפשריים בתקופות-שיא — מה שמאפשר תכנון-מילוי יציב.",
           navHe: [
             "Fiori ► Intelligent Scenario Lifecycle Management (ISLM)",
             "Materials Management ► Purchasing ► Machine Learning–Based Functionality (activation)",
@@ -403,8 +403,8 @@ export const CH5: TextbookChapter = {
         "לגשר בין הצורך לביצוע באופן מבוקר: לאשר, להקצות מקור-אספקה נכון, ולהמיר ל-PO ביעילות — תוך אכיפת חוזים, מחירים ומדיניות-רכש.",
       processExampleHe:
         "MRP יוצר 30 דרישות-רכש לסוכר ► רוכש פותח 'Manage Purchase Requisitions' ► לכל דרישה המערכת מציעה מקור מ-Source List ► הרוכש מאשר את הבחירה ► מריץ ME59N להמרה-אוטומטית ל-POs ► 30 הזמנות נוצרות ונשלחות לספקי-החוזה.",
-      cbcHe:
-        "ב-CBC זרם דרישות-ה-MRP (סוכר, תרכיז, CO2, אריזה) מעובד יומית: בחירת-מקור אוטומטית מחוזי-מסגרת, והמרה אצווה ל-POs דרך ME59N — מבטיח אספקה רציפה לקווי-המילוי.",
+      scenarioHe:
+        "בארגון זרם דרישות-ה-MRP (סוכר, תרכיז, CO2, אריזה) מעובד יומית: בחירת-מקור אוטומטית מחוזי-מסגרת, והמרה אצווה ל-POs דרך ME59N — מבטיח אספקה רציפה לקווי-המילוי.",
       navHe: [
         "Logistics ► Materials Management ► Purchasing ► Purchase Requisition ► Follow-On Functions ► Create PO (ME57/ME58/ME59N)",
         "Materials Management ► Purchasing ► Purchase Requisition ► Release Procedure / Source Determination",
@@ -473,8 +473,8 @@ export const CH5: TextbookChapter = {
         "לעגן את ההתחייבות מול הספק במסמך אחד, מחייב ומתועד, שהוא הבסיס לקבלה, לחשבונית, לתשלום ולבקרה (commitment ב-CO). ה-PO מבטיח שכל צד יודע בדיוק מה הוסכם.",
       processExampleHe:
         "רוכש פותח ME21N ► ספק, ארגון-רכש 1000 ► שורה: 100 בקבוקים, 2 ₪, מפעל 1000, תאריך-אספקה ► מחיר נקבע אוטומטית מ-Info Record ► שמירה ► flexible workflow מאשר ► ה-PO נשלחת לספק (Output) ► בקבלה: GR 101 (EKBE) ► בחשבונית: MIRO, Three-Way-Match משחרר לתשלום.",
-      cbcHe:
-        "ב-CBC הזמנות-רכש לתרכיז, סוכר, CO2 ובקבוקים מבוססות על חוזי-מסגרת; הזמנות-MRO לחלפי-קווים נוצרות מ-Shopping Carts. כל PO נשלחת דרך SAP Business Network, ומעקב-האספקה מתבצע מול ה-EKET.",
+      scenarioHe:
+        "בארגון הזמנות-רכש לתרכיז, סוכר, CO2 ובקבוקים מבוססות על חוזי-מסגרת; הזמנות-MRO לחלפי-קווים נוצרות מ-Shopping Carts. כל PO נשלחת דרך SAP Business Network, ומעקב-האספקה מתבצע מול ה-EKET.",
       navHe: [
         "Logistics ► Materials Management ► Purchasing ► Purchase Order ► Create (ME21N)",
         "Materials Management ► Purchasing ► Purchase Order ► Define Document Types / Screen Layout",
@@ -548,8 +548,8 @@ export const CH5: TextbookChapter = {
         "לנהל רכש לא-מוחשי בצורה מבוקרת — להזמין שירות, לאשר ביצוע בפועל (כמה שעות/יחידות), ולשלם רק על העבודה שאושרה — עם בקרה ותיעוד מלאים.",
       processExampleHe:
         "PO-שירות (Item Category D) ל-'תחזוקת קו-מילוי, 40 שעות, 300 ₪/שעה' ► הקבלן מבצע 35 שעות ► נרשם Service Entry Sheet ל-35 שעות (ML81N / Fiori) ► אישור ה-Entry Sheet יוצר GR-equivalent ► הספק שולח חשבונית, MIRO מתאים מול ה-Entry Sheet ► תשלום על 35 שעות בלבד.",
-      cbcHe:
-        "ב-CBC שירותי-תחזוקה לקווי-המילוי (כיול, תיקונים, ניקוי-CIP חיצוני) נרכשים כשירותים; הטכנאי מאשר את השעות שבוצעו ב-Service Entry Sheet, ורק אז משוחררת החשבונית לתשלום.",
+      scenarioHe:
+        "בארגון שירותי-תחזוקה לקווי-המילוי (כיול, תיקונים, ניקוי-CIP חיצוני) נרכשים כשירותים; הטכנאי מאשר את השעות שבוצעו ב-Service Entry Sheet, ורק אז משוחררת החשבונית לתשלום.",
       navHe: [
         "Materials Management ► External Services Management ► Service Master / Lean Services",
         "Logistics ► MM ► Service Entry Sheet ► Maintain (ML81N)",
@@ -618,8 +618,8 @@ export const CH5: TextbookChapter = {
         "להפוך את התקשורת עם הספק לדיגיטלית, מהירה ושקופה — להפחית טעויות-הקלדה, לקצר זמני-מחזור, ולקבל נראות בזמן-אמת על מצב-ההזמנה (אושרה / נשלחה / חויבה).",
       processExampleHe:
         "PO נשלחת דרך SAP Business Network ► הספק רואה אותה בפורטל, מאשר ומחזיר Order Confirmation (EKES) ► לקראת-משלוח שולח ASN, שיוצר Inbound Delivery ב-SAP ► בקבלה GR מתבצע מול ה-ASN ► הספק שולח חשבונית אלקטרונית, שנכנסת ישירות ל-MIRO ל-Three-Way-Match.",
-      cbcHe:
-        "ב-CBC ספקי-תרכיז, סוכר ואריזה מחוברים ל-SAP Business Network; הזמנות-רכש, אישורים, ASNs וחשבוניות זורמים אוטומטית — מבטיח אספקה רציפה ושקופה לקווי-המילוי ללא טיפול-נייר ידני.",
+      scenarioHe:
+        "בארגון ספקי-תרכיז, סוכר ואריזה מחוברים ל-SAP Business Network; הזמנות-רכש, אישורים, ASNs וחשבוניות זורמים אוטומטית — מבטיח אספקה רציפה ושקופה לקווי-המילוי ללא טיפול-נייר ידני.",
       navHe: [
         "Materials Management ► Purchasing ► Messages / Output Determination",
         "SAP Business Network integration ► Trading Partner / Document Mapping",
@@ -687,8 +687,8 @@ export const CH5: TextbookChapter = {
         "לתרגם את דרישות-העסק להתנהגות-מערכת — לקבוע כיצד נראות ומתנהגות הדרישות, ההזמנות, האישורים והאינטגרציות בכל תרחיש-רכש.",
       processExampleHe:
         "צוות-המימוש מגדיר ב-SPRO: Document Type לדרישות-Self-Service, Account Assignment ברירת-מחדל, Source List, flexible workflow לאישור, ו-Output ל-Business Network ► בודק תהליך מקצה-לקצה ► מעלה לפרודקשן.",
-      cbcHe:
-        "ב-CBC הקונפיגורציה מותאמת לתרחישי-הרכש: חומרי-גלם (MRP→PO אוטומטי), אריזה (חוזי-מסגרת), MRO (Self-Service), ושירותי-תחזוקה (Lean Services) — כל אחד עם סוגי-מסמכים, שיוכי-חשבון ו-workflow משלו.",
+      scenarioHe:
+        "בארגון הקונפיגורציה מותאמת לתרחישי-הרכש: חומרי-גלם (MRP→PO אוטומטי), אריזה (חוזי-מסגרת), MRO (Self-Service), ושירותי-תחזוקה (Lean Services) — כל אחד עם סוגי-מסמכים, שיוכי-חשבון ו-workflow משלו.",
       navHe: [
         "SPRO ► Materials Management ► Purchasing (אזור-העל לכל הקונפיגורציה)",
         "SPRO ► Materials Management ► Purchasing ► Purchase Requisition / Purchase Order",
@@ -747,7 +747,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "מפעילים Self-Service Requisitioning, מגדירים Document Type ייעודי, מקצים internal catalog / OCI, קובעים Account Assignment ברירת-מחדל (K=Cost Center של המבקש), ומחברים flexible workflow לאישור. ה-PR (EBAN) הוא האובייקט הנוצר ברקע.",
           purposeHe: "לאפשר רכש-מבוזר-מבוקר — משתמשים מבקשים בעצמם, אך תחת קטלוגים מאושרים, שיוך-חשבון נכון ואישור-תקציבי.",
           processExampleHe: "Admin מפעיל את התרחיש, מגדיר Document Type 'ZSC', מקצה קטלוג-משרד, קובע K כברירת-מחדל, ובונה workflow מבוסס-שווי ► משתמש פותח Shopping Cart ומבקש ► PR נוצרת ומנותבת.",
-          cbcHe: "ב-CBC מוגדר קטלוג-MRO לטכנאים, עם Account Assignment ל-Cost Center של התחזוקה ו-workflow לאישור ראש-הצוות.",
+          scenarioHe: "בארגון מוגדר קטלוג-MRO לטכנאים, עם Account Assignment ל-Cost Center של התחזוקה ו-workflow לאישור ראש-הצוות.",
           navHe: ["SPRO ► Materials Management ► Purchasing ► Self-Service Procurement / Activate Self-Service Requisitioning"],
           tables: ["EBAN", "EBKN"],
           tcodes: ["ME51N", "ME53N", "SPRO"],
@@ -767,7 +767,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "מפעילים Intelligent Scenarios דרך ISLM, מאמנים מודל על נתוני-EKKO/EKPO/EKBE היסטוריים, פורסים אותו, וקובעים confidence threshold. אינטגרציה ל-SAP AI Core/Business AI לתרחישים מתקדמים. ניטור-ביצועים שוטף (drift) דרך ISLM.",
           purposeHe: "להטמיע אוטומציה-חכמה מבוקרת — המלצות מבוססות-נתונים עם ספי-ביטחון ובקרת-אדם, לשיפור-יעילות ולמזעור-טעויות.",
           processExampleHe: "צוות מפעיל תרחיש 'source prediction' ב-ISLM ► מאמן על שנתיים של נתוני-PO ► פורס עם threshold 80% ► ההמלצות מופיעות ב-'Manage Purchase Requisitions'.",
-          cbcHe: "ב-CBC נפרס תרחיש חיזוי-אספקה לספקי-סוכר עונתיים, עם ניטור-drift לעדכון המודל לפי שינויי-שוק.",
+          scenarioHe: "בארגון נפרס תרחיש חיזוי-אספקה לספקי-סוכר עונתיים, עם ניטור-drift לעדכון המודל לפי שינויי-שוק.",
           navHe: ["SPRO / Fiori ► Intelligent Scenario Lifecycle Management (ISLM)", "SPRO ► Materials Management ► Purchasing ► ML-Based Functionality"],
           tables: ["EKKO", "EKPO", "EKBE"],
           tcodes: ["SPRO", "ME53N"],
@@ -787,7 +787,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "ב-SPRO ► Purchase Requisition: Document Types (T161), Field Selection, Account Assignment, Source Determination (Source List/Info Record/Outline Agreement), Auto-PO indicators, ו-Release Procedure / flexible workflow. קובע את שלד עיבוד-ה-EBAN.",
           purposeHe: "לתרגם את מדיניות-הדרישות להתנהגות-מערכת — אילו דרישות, מאילו מקורות, באיזה אישור והמרה.",
           processExampleHe: "מגדירים Document Type 'NB', שדות-חובה, Source List חובה, Auto-PO לחומרים נבחרים, ו-flexible workflow מעל סף-שווי ► דרישות-MRP זורמות ל-PO אוטומטית.",
-          cbcHe: "ב-CBC מוגדר Source List לסוכר/תרכיז + Auto-PO, כך שדרישות-MRP הופכות אוטומטית ל-POs מול חוזי-המסגרת.",
+          scenarioHe: "בארגון מוגדר Source List לסוכר/תרכיז + Auto-PO, כך שדרישות-MRP הופכות אוטומטית ל-POs מול חוזי-המסגרת.",
           navHe: ["SPRO ► Materials Management ► Purchasing ► Purchase Requisition (Document Types / Source Determination / Release)"],
           tables: ["EBAN", "EBKN", "EORD", "T161"],
           tcodes: ["ME51N", "ME59N", "SPRO"],
@@ -807,7 +807,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "ב-SPRO ► Purchase Order: Document Types (NB/FO/UB), Screen Layout at Document Level (Field Selection Keys), Item Categories, Account Assignment, Pricing Procedure (תנאי PB00 + מסים), Output Determination, ו-flexible workflow / release strategy. קובע את שלד ה-EKKO/EKPO.",
           purposeHe: "לתרגם מדיניות-הזמנות להתנהגות-מערכת — מבנה, תמחור, שליחה ואישור של כל ה-POs.",
           processExampleHe: "מגדירים Document Type 'NB', Screen Layout עם שדות-חובה, Pricing Procedure RM0000, Output ל-Business Network, ו-flexible workflow ► כל PO נוצרת, מתומחרת, נשלחת ומאושרת לפי ההגדרה.",
-          cbcHe: "ב-CBC מוגדר Document Type 'FO' לחוזי-מסגרת-אריזה, Pricing מ-Info Record, ו-Output אוטומטי ל-Business Network לספקי-חומרי-הגלם.",
+          scenarioHe: "בארגון מוגדר Document Type 'FO' לחוזי-מסגרת-אריזה, Pricing מ-Info Record, ו-Output אוטומטי ל-Business Network לספקי-חומרי-הגלם.",
           navHe: ["SPRO ► Materials Management ► Purchasing ► Purchase Order (Document Types / Screen Layout / Pricing / Output)"],
           tables: ["EKKO", "EKPO", "EKET", "T163"],
           tcodes: ["ME21N", "ME9F", "SPRO"],
@@ -827,7 +827,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "מגדירים Output Determination (ORDERS), Trading Partner ב-Business Network, ו-mapping ל-cXML/IDoc. Inbound: ORDRSP (→EKES), DESADV (→Inbound Delivery), INVOIC (→MIRO). Confirmation Control Key לקליטת-אישורים. ניטור IDocs (WE02) ל-exception handling.",
           purposeHe: "להפוך את התקשורת עם הספק לדיגיטלית-אוטומטית — שליחה וקליטה של כל מסמכי-הרכש בזמן-אמת.",
           processExampleHe: "מגדירים Output ORDERS ל-Business Network, Trading Partner לספק, ו-inbound processing ל-ORDRSP/DESADV/INVOIC ► PO נשלחת, אישור/ASN/חשבונית חוזרים אוטומטית.",
-          cbcHe: "ב-CBC מחוברים ספקי-תרכיז/סוכר/אריזה ל-Business Network עם mapping מלא — כל מסמכי-הרכש זורמים אוטומטית.",
+          scenarioHe: "בארגון מחוברים ספקי-תרכיז/סוכר/אריזה ל-Business Network עם mapping מלא — כל מסמכי-הרכש זורמים אוטומטית.",
           navHe: ["SPRO ► Materials Management ► Purchasing ► Messages / Output Determination", "SPRO ► Integration ► SAP Business Network / Trading Partner"],
           tables: ["EKKO", "EKES", "EKPO"],
           tcodes: ["ME9F", "WE02", "SPRO"],
@@ -847,7 +847,7 @@ export const CH5: TextbookChapter = {
           consultantHe: "האינטגרציה (לרוב דרך SAP Integration Suite / CPI) מסנכרנת employee data, org assignments ו-cost-center mapping מ-SuccessFactors ל-S/4HANA. משמש את agent determination ב-flexible workflow (manager-based routing), את שיוך-המבקש לעגלות, ואת ה-Account Assignment ברירת-המחדל. מבוסס replication ו-employee↔Business Partner mapping.",
           purposeHe: "להבטיח שמבני-האישור ושיוכי-העלות ברכש משקפים את הארגון בפועל — ניתוב-אישור נכון לפי היררכיה-עדכנית, ללא תחזוקה כפולה.",
           processExampleHe: "עובד-חדש נקלט ב-SuccessFactors עם מנהל ומרכז-עלות ► הנתונים מסונכרנים ל-S/4HANA ► כשהעובד פותח Shopping Cart, ה-workflow מנתב אוטומטית למנהל-הישיר, וה-Account Assignment ברירת-המחדל הוא מרכז-העלות שלו.",
-          cbcHe: "ב-CBC נתוני-העובדים מ-SuccessFactors מזינים את ניתוב-האישורים: דרישות-MRO מנותבות אוטומטית לראש-צוות-התחזוקה לפי ההיררכיה הארגונית המעודכנת.",
+          scenarioHe: "בארגון נתוני-העובדים מ-SuccessFactors מזינים את ניתוב-האישורים: דרישות-MRO מנותבות אוטומטית לראש-צוות-התחזוקה לפי ההיררכיה הארגונית המעודכנת.",
           navHe: ["SPRO ► Integration with SAP SuccessFactors / Employee Replication", "SAP Integration Suite (CPI) ► SuccessFactors ► S/4HANA replication"],
           tables: ["PA0001", "EBAN"],
           tcodes: ["SPRO", "ME53N"],
@@ -875,8 +875,8 @@ export const CH5: TextbookChapter = {
         "לקבע את התמונה-הכוללת — איך כל הרכיבים (דרישה, הזמנה, קבלה, חשבונית, אישורים, אינטגרציות וקונפיגורציה) מתחברים לתהליך-רכש אחד זורם, מבוקר ומתועד.",
       processExampleHe:
         "מקצה-לקצה: צורך ► דרישה (EBAN) ► בחירת-מקור ► הזמנה (EKKO/EKPO) ► אישור (flexible workflow) ► שליחה (Business Network) ► קבלה (GR/Service Entry Sheet) ► חשבונית (MIRO) ► Three-Way-Match ► תשלום — כל הפרק בתרשים אחד.",
-      cbcHe:
-        "ב-CBC הפרק כולו משרת מטרה אחת: שקווי-מילוי-המשקאות לעולם לא יעצרו ממחסור — תרכיז, סוכר, CO2, אריזה ו-MRO זמינים בזמן, במחיר-חוזה, ובאופן מבוקר ומתועד, עם אוטומציה מקסימלית מול הספקים.",
+      scenarioHe:
+        "בארגון הפרק כולו משרת מטרה אחת: שקווי-מילוי-המשקאות לעולם לא יעצרו ממחסור — תרכיז, סוכר, CO2, אריזה ו-MRO זמינים בזמן, במחיר-חוזה, ובאופן מבוקר ומתועד, עם אוטומציה מקסימלית מול הספקים.",
       navHe: ["SPRO ► Materials Management ► Purchasing (סקירת-העל)", "Fiori ► Procurement (כל אפליקציות-הרכש התפעולי)"],
       tables: ["EBAN", "EKKO", "EKPO", "EKBE"],
       tcodes: ["ME51N", "ME21N", "MIGO", "MIRO"],

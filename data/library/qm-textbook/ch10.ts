@@ -1,6 +1,6 @@
 // ===== QM Digital Textbook — Chapter 10: Sample Management =====
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
-// Source hierarchy preserved (ids + order); CBC = Coca-Cola bottling context.
+// Source hierarchy preserved (ids + order); הארגון = Example Product bottling context.
 import type { TextbookChapter } from "./types";
 
 export const CH10: TextbookChapter = {
@@ -8,7 +8,7 @@ export const CH10: TextbookChapter = {
   titleHe: "ניהול דגימות",
   titleEn: "Sample Management",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לניהול דגימות פיזיות (Sample Management) ב-SAP QM. ניהול דגימות הוא מנגנון מקצה-לקצה המנהל את הדגימה הפיזית מרגע משיכתה — בקבלת-סחורה או בייצור — דרך זיהוי, אריזה, מיקום-אחסון ותיוג, ועד רישום-תוצאות במעבדה. כל תת-פרק וכל תת-סעיף מהמקור הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC של מילוי משקאות, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המוקד: דגימות פיזיות של משקה מוגמר, תרכיז וחומרי-גלם ב-CBC ישראל. מזהי SAP מובאים מילולית: QPV2 (Sample-Drawing Procedure), QPR4/QPR5 (Physical Samples), QA01 (Inspection Lot), QA02/QA03, תוצאות QE51N; טבלאות QPRS (Physical Sample) ו-QALS (Inspection Lot).",
+    "פרק זה הוא יחידת-לימוד מלאה לניהול דגימות פיזיות (Sample Management) ב-SAP QM. ניהול דגימות הוא מנגנון מקצה-לקצה המנהל את הדגימה הפיזית מרגע משיכתה — בקבלת-סחורה או בייצור — דרך זיהוי, אריזה, מיקום-אחסון ותיוג, ועד רישום-תוצאות במעבדה. כל תת-פרק וכל תת-סעיף מהמקור הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון של מילוי משקאות, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המוקד: דגימות פיזיות של משקה מוגמר, תרכיז וחומרי-גלם בארגון ישראל. מזהי SAP מובאים מילולית: QPV2 (Sample-Drawing Procedure), QPR4/QPR5 (Physical Samples), QA01 (Inspection Lot), QA02/QA03, תוצאות QE51N; טבלאות QPRS (Physical Sample) ו-QALS (Inspection Lot).",
   subchapters: [
     // ============================================================ 10.1
     {
@@ -23,8 +23,8 @@ export const CH10: TextbookChapter = {
         "להבטיח שכל מפעל שמנהל דגימות פיזיות עושה זאת באחידות — מספור עקבי, ברירות-מחדל נכונות, וקישור תקין בין הדגימה למגרש-הבדיקה ולתכנית-הבדיקה.",
       processExampleHe:
         "צוות-ההטמעה מפעיל ניהול-דגימות במפעל 1000: מגדיר Inspection Type עם דגימה, מקצה טווח-מספרים לדגימות, ובודק שב-QA01 על קבלת-סחורה נוצרות רשומות QPRS אוטומטית לצד מגרש-הבדיקה ב-QALS.",
-      cbcHe:
-        "ב-CBC מפעל-המילוי בישראל מוגדר כמנהל-דגימות: כל קבלת תרכיז וכל אצוות-מילוי של משקה מייצרת דגימות פיזיות. טווח-מספרים נפרד לדגימות-תרכיז ולדגימות-משקה-מוגמר, כדי שניתן יהיה לאתר בקבוק-דגימה במעבדה לפי מספרו.",
+      scenarioHe:
+        "בארגון מפעל-המילוי בישראל מוגדר כמנהל-דגימות: כל קבלת תרכיז וכל אצוות-מילוי של משקה מייצרת דגימות פיזיות. טווח-מספרים נפרד לדגימות-תרכיז ולדגימות-משקה-מוגמר, כדי שניתן יהיה לאתר בקבוק-דגימה במעבדה לפי מספרו.",
       navHe: [
         "Quality Management ► Quality Inspection ► Sample Management ► Define Number Ranges (Physical Samples)",
         "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Maintain Inspection Types",
@@ -91,8 +91,8 @@ export const CH10: TextbookChapter = {
         "להפריד את 'כמה ואיך מושכים' (נוהל) מ'מה בודקים' (תכנית), ולאפשר שימוש-חוזר אחיד בין חומרים ומגרשים — תחזוקה יחידה, אכיפה עקבית.",
       processExampleHe:
         "יועץ-QM יוצר נוהל משיכת-דגימות 'BEVERAGE-GR' עם שני Items (דגימת-מעבדה ודגימת-שימור), מקשר אותו לתכנית-הבדיקה של המשקה, וכך כל קבלת-סחורה מייצרת אוטומטית שתי דגימות עם הבדיקות הנכונות.",
-      cbcHe:
-        "ב-CBC נתוני-האב מוגדרים לכל קבוצת-מוצרים: נוהל-משיכה לתרכיז (דגימה למעבדה + דגימת-שימור), ונוהל-משיכה למשקה-מוגמר (דגימה לקו-המילוי + Pooled Sample לבדיקות-מיקרוביולוגיה).",
+      scenarioHe:
+        "בארגון נתוני-האב מוגדרים לכל קבוצת-מוצרים: נוהל-משיכה לתרכיז (דגימה למעבדה + דגימת-שימור), ונוהל-משיכה למשקה-מוגמר (דגימה לקו-המילוי + Pooled Sample לבדיקות-מיקרוביולוגיה).",
       navHe: [
         "Quality Management ► Quality Planning ► Inspection Planning ► Sample ► Edit Sample-Drawing Procedure (QPV2)",
         "Quality Management ► Quality Planning ► Inspection Planning ► Inspection Plan ► Create (QP01)",
@@ -147,7 +147,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-QPV2 הנוהל מורכב מ-Sample-Drawing Items, כשכל Item נושא Physical-Sample Type (Primary/Pooled/Reserve), כמות, ויחידת-מידה. אפשר להגדיר חישוב-כמות דינמי (Size of physical sample) ולקשר Container ו-Location. הנוהל נקשר לתכנית-הבדיקה ומופעל ביצירת המגרש — אז נוצרות רשומות QPRS לפי ה-Items.",
           purposeHe: "להגדיר באופן מרכזי וחוזר את אופן משיכת-הדגימה הפיזית — כמות, סוג ואגירה — ולאכוף אותו בכל מגרש-בדיקה אוטומטית.",
           processExampleHe: "נוהל 'CONC-GR' מגדיר Item 1 = דגימת-מעבדה 250 מ\"ל (Primary), Item 2 = דגימת-שימור 250 מ\"ל (Reserve). ביצירת מגרש לקבלת-תרכיז, נוצרות שתי QPRS תואמות.",
-          cbcHe: "ב-CBC נוהל-המשקה מגדיר דגימה-ראשית לבדיקות פיזיקליות (Brix, CO2) בקו-המילוי, ודגימה מאוגמת (Pooled) המורכבת ממספר נקודות-מילוי לאורך האצווה לבדיקה מיקרוביולוגית.",
+          scenarioHe: "בארגון נוהל-המשקה מגדיר דגימה-ראשית לבדיקות פיזיקליות (Brix, CO2) בקו-המילוי, ודגימה מאוגמת (Pooled) המורכבת ממספר נקודות-מילוי לאורך האצווה לבדיקה מיקרוביולוגית.",
           navHe: ["Quality Management ► Quality Planning ► Inspection Planning ► Sample ► Edit Sample-Drawing Procedure (QPV2)"],
           tables: ["QPV1", "QPV2", "QPVT"],
           tcodes: ["QPV2", "QPV3", "QPV4"],
@@ -196,7 +196,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-QP01 בונים Operation-ים עם Inspection Characteristics (PLMK), כל מאפיין מקושר ל-Master Inspection Characteristic (QS21) ול-Sampling Procedure (QDV1) לגודל-מדגם. בכותרת התכנית מקשרים את ה-Sample-Drawing Procedure, וכך המגרש שנוצר יודע גם מה לבדוק וגם כמה דגימות פיזיות למשוך.",
           purposeHe: "לקבוע את תוכן-הבדיקה (מאפיינים, ערכי-יעד, גבולות) ולחבר אותו למשיכה-הפיזית, כך שהמעבדה מקבלת אובייקט-דגימה עם רשימת-בדיקות מוכנה.",
           processExampleHe: "תכנית-בדיקה למשקה כוללת מאפיינים: Brix (יעד 10.5±0.2), pH, CO2, מראה. בכותרת מקושר נוהל-המשיכה. כל מגרש מקבל את המאפיינים על הדגימות שנמשכו.",
-          cbcHe: "ב-CBC תכנית-בדיקת-המשקה כוללת מאפיינים פיזיקליים-כימיים (Brix, CO2, pH) ומאפיינים מיקרוביולוגיים על הדגימה המאוגמת. נוהל-המשיכה מקושר בכותרת.",
+          scenarioHe: "בארגון תכנית-בדיקת-המשקה כוללת מאפיינים פיזיקליים-כימיים (Brix, CO2, pH) ומאפיינים מיקרוביולוגיים על הדגימה המאוגמת. נוהל-המשיכה מקושר בכותרת.",
           navHe: ["Quality Management ► Quality Planning ► Inspection Planning ► Inspection Plan ► Create (QP01)"],
           tables: ["PLKO", "PLPO", "PLMK", "QDPS"],
           tcodes: ["QP01", "QP02", "QP03", "QS21"],
@@ -245,7 +245,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "הרשימה בודקת תלות: Inspection Type מופעל עם דגימה → MIC (QS21) קיימים → QDV1 קיים → QPV2 קיים ומקושר ל-Plan → Physical-Sample Types מוגדרים ב-Customizing → Containers/Locations קיימים. כל חוליה חסרה מתבטאת בכשל ב-QA01 או ברישום-תוצאות. מומלץ לתעד את הרשימה כ-Cutover-checklist.",
           purposeHe: "לאכוף שלמות-נתונים ולקצר זמן-תקלות בהטמעה — לוודא שכל התלויות סגורות לפני העלייה-לאוויר.",
           processExampleHe: "בטרם cutover, צוות-QM עובר על הרשימה לכל קבוצת-מוצרים, מאתר שחסר Physical-Sample Type לדגימת-שימור, ומשלים אותו לפני שהתקלה מגיעה לרצפה.",
-          cbcHe: "ב-CBC רשימת-התיוג מורצת לכל משפחת-מוצרים (תרכיז, משקה, חומרי-גלם) לפני העלייה לאוויר של מפעל-המילוי, ומבטיחה שכל נוהל-משיכה מקושר וכל Container/Location קיים.",
+          scenarioHe: "בארגון רשימת-התיוג מורצת לכל משפחת-מוצרים (תרכיז, משקה, חומרי-גלם) לפני העלייה לאוויר של מפעל-המילוי, ומבטיחה שכל נוהל-משיכה מקושר וכל Container/Location קיים.",
           navHe: ["Quality Management ► (מעבר רוחבי על כל ענפי-ה-Customizing וה-Master Data של ניהול-דגימות)"],
           tables: ["TQ07", "QPV2", "PLKO", "QPRS"],
           tcodes: ["QCC0", "QS21", "QDV1", "QPV2", "QP01"],
@@ -303,8 +303,8 @@ export const CH10: TextbookChapter = {
         "להמיר את הגדרות-האב לזרימת-עבודה תפעולית עקבית, אכיפה אוטומטית של משיכת-דגימות, ושקיפות-מצב מלאה של כל בקבוק-דגימה מהמשיכה ועד התוצאה.",
       processExampleHe:
         "משאית-תרכיז מגיעה → MIGO רושם קבלה → נוצר מגרש + 2 דגימות → QPR4 משחרר ומדפיס מדבקות → המעבדה בודקת → QE51N רושם תוצאות → החלטת-שימוש משחררת את המלאי.",
-      cbcHe:
-        "ב-CBC: אצוות-מילוי משקה מסתיימת → דגימות נמשכות מקו-המילוי → משוחררות ומתויגות → נשלחות למעבדת-QA → Brix/CO2/מיקרוביולוגיה נרשמים → אישור-שחרור לפני שילוח.",
+      scenarioHe:
+        "בארגון: אצוות-מילוי משקה מסתיימת → דגימות נמשכות מקו-המילוי → משוחררות ומתויגות → נשלחות למעבדת-QA → Brix/CO2/מיקרוביולוגיה נרשמים → אישור-שחרור לפני שילוח.",
       navHe: [
         "Logistics ► Materials Management ► Inventory Management ► Goods Movement (MIGO)",
         "Quality Management ► Quality Inspection ► Physical Samples ► Edit (QPR4 / QPR5)",
@@ -361,7 +361,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-MIGO תנועה 101 כנגד PO; אם החומר נושא Inspection Type עם דגימה ונוהל-משיכה מקושר, נוצרים QALS ו-QPRS. המלאי מנותב ל-Quality Inspection Stock (Q) עד החלטת-שימוש. ה-Movement Type והקישור ל-Inspection Setup באב-החומר הם הטריגרים.",
           purposeHe: "להבטיח שכל חומר-נכנס הדורש בדיקה יעבור דגימה אוטומטית, ושהמלאי יוחזק במלאי-בדיקה עד אישור.",
           processExampleHe: "קבלת 1,000 ק\"ג תרכיז ב-MIGO תנועה 101 → המלאי נכנס ל-Q-stock → נוצר מגרש + 2 דגימות לפי הנוהל → המעבדה מקבלת התראה.",
-          cbcHe: "ב-CBC קבלת תרכיז מסְפָּק חו\"ל נרשמת ב-MIGO; המערכת חוסמת את המלאי כ-Q-stock ומייצרת דגימת-מעבדה ודגימת-שימור עד אישור-QA.",
+          scenarioHe: "בארגון קבלת תרכיז מסְפָּק חו\"ל נרשמת ב-MIGO; המערכת חוסמת את המלאי כ-Q-stock ומייצרת דגימת-מעבדה ודגימת-שימור עד אישור-QA.",
           navHe: ["Logistics ► Materials Management ► Inventory Management ► Goods Movement ► Goods Receipt for Purchase Order (MIGO)"],
           tables: ["MSEG", "MKPF", "QALS", "QPRS"],
           tcodes: ["MIGO", "MB01"],
@@ -405,7 +405,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "המגרש (QALS) נוצר עם Inspection Lot Origin (למשל 01 = GR for PO), כמות, חומר, מפעל, ותכנית-בדיקה משויכת. אם הנוהל מקושר, נוצרות דגימות (QPRS) הקשורות אליו. סטטוס-המגרש (REL, CRTD, UD) מנהל את מחזור-חייו. QA01/QA02/QA03 לתצוגה ועריכה ידנית.",
           purposeHe: "לרכז תחת אובייקט אחד את כל מרכיבי-הבדיקה — כמות, תכנית, דגימות, תוצאות והחלטת-שימוש — ולנהל את הסטטוס מקצה-לקצה.",
           processExampleHe: "GR מייצר מגרש Origin 01 לכמות 1,000 ק\"ג תרכיז; המגרש נושא את תכנית-הבדיקה ו-2 דגימות, וממתין לרישום-תוצאות.",
-          cbcHe: "ב-CBC כל קבלת-תרכיז מייצרת מגרש Origin 01; כל אצוות-מילוי משקה מייצרת מגרש Origin 03/04 (ייצור), שניהם עם דגימות פיזיות.",
+          scenarioHe: "בארגון כל קבלת-תרכיז מייצרת מגרש Origin 01; כל אצוות-מילוי משקה מייצרת מגרש Origin 03/04 (ייצור), שניהם עם דגימות פיזיות.",
           navHe: [
             "Quality Management ► Quality Inspection ► Inspection Lot ► Processing ► Create (QA01)",
             "Quality Management ► Quality Inspection ► Inspection Lot ► Processing ► Display (QA03)",
@@ -455,7 +455,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-QPR4/QPR5 רואים ועורכים את הדגימות שנוצרו מהנוהל. כל QPRS נושאת Physical-Sample Type, כמות, Container, Storage Location וסטטוס. דגימות-Primary, Pooled ו-Reserve מנוהלות יחד תחת המגרש. ניתן לעדכן כמות בפועל, להחליף מכל, או לבטל דגימה.",
           purposeHe: "לתת ייצוג-מערכת מדויק לכל פריט-דגימה פיזי, עם זיהוי, מיקום ומצב — כדי שניתן יהיה לאתר, לתייג, לבדוק ולעקוב.",
           processExampleHe: "GR מייצר 2 דגימות: QPRS מס' 10000001 (מעבדה, 250 מ\"ל, מקרר A) ו-10000002 (שימור, 250 מ\"ל, ארכיון). ב-QPR4 בודקים את פרטיהן.",
-          cbcHe: "ב-CBC כל דגימת-תרכיז מקבלת מספר QPRS, מסומנת לסוג (מעבדה/שימור), ומאוחסנת במקרר-המעבדה עם מיקום מתועד לאיתור.",
+          scenarioHe: "בארגון כל דגימת-תרכיז מקבלת מספר QPRS, מסומנת לסוג (מעבדה/שימור), ומאוחסנת במקרר-המעבדה עם מיקום מתועד לאיתור.",
           navHe: ["Quality Management ► Quality Inspection ► Physical Samples ► Edit ► Sample for Lot (QPR4)"],
           tables: ["QPRS", "QPRP", "QPRST"],
           tcodes: ["QPR4", "QPR5", "QPR6"],
@@ -500,7 +500,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-QPR4/QPR5 מבצעים Release לדגימה — הסטטוס עובר מ-Created ל-Released/Drawn. אז מדפיסים מדבקת-דגימה (Label) דרך Output/Print, לרוב עם ברקוד של מספר-ה-QPRS. ההדפסה נשענת על Condition/Output-type של דגימה. שחרור הוא תנאי-סף ליצירת מגרש-לדגימה ולרישום-תוצאות.",
           purposeHe: "ליצור חיבור חד-ערכי וניתן-לסריקה בין האובייקט הפיזי לרשומה הדיגיטלית, ולסמן זמינות-לבדיקה.",
           processExampleHe: "פקיד-קבלה מבצע Release ל-QPRS 10000001, מדפיס מדבקה עם ברקוד, ומדביק על הבקבוק; המעבדה סורקת את הברקוד וניגשת ישירות לרשומה.",
-          cbcHe: "ב-CBC כל בקבוק-דגימה משקה מקבל מדבקה עם ברקוד מספר-הדגימה, מספר-אצווה ותאריך; סריקה במעבדה פותחת את הדגימה לרישום-תוצאות מיידי.",
+          scenarioHe: "בארגון כל בקבוק-דגימה משקה מקבל מדבקה עם ברקוד מספר-הדגימה, מספר-אצווה ותאריך; סריקה במעבדה פותחת את הדגימה לרישום-תוצאות מיידי.",
           navHe: ["Quality Management ► Quality Inspection ► Physical Samples ► Edit ► Release / Print (QPR4 / QPR5)"],
           tables: ["QPRS", "NAST", "QPRSL"],
           tcodes: ["QPR4", "QPR5"],
@@ -546,7 +546,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ניתן ליצור מגרש-לדגימה עם Inspection Lot Origin ייעודי (למשל 15 — physical-sample inspection) מתוך QPR4/QPR5, או אוטומטית לפי הגדרה. המגרש החדש (QALS) מקושר ל-QPRS ולתכנית-הבדיקה, ועליו מתבצע רישום-התוצאות. הפרדה זו מאפשרת מעקב-בדיקה ברמת-דגימה בודדת.",
           purposeHe: "לאפשר רישום-תוצאות ומעקב ברמת-הדגימה הבודדת, בנפרד מהמגרש-הראשי, לשליטה ולעקיבות מדויקות.",
           processExampleHe: "לדגימת-מעבדה משוחררת נוצר מגרש Origin 15; המעבדה רושמת עליו Brix ו-pH, והתוצאה מתויקת לדגימה הספציפית.",
-          cbcHe: "ב-CBC כל דגימת-משקה משוחררת מקבלת מגרש-בדיקה נפרד; בדיקות-המעבדה נרשמות עליו, ומחוברות חזרה לאצוות-המילוי דרך הדגימה.",
+          scenarioHe: "בארגון כל דגימת-משקה משוחררת מקבלת מגרש-בדיקה נפרד; בדיקות-המעבדה נרשמות עליו, ומחוברות חזרה לאצוות-המילוי דרך הדגימה.",
           navHe: ["Quality Management ► Quality Inspection ► Physical Samples ► Edit ► Inspection Lot for Sample (QPR4)"],
           tables: ["QALS", "QPRS", "QAMR"],
           tcodes: ["QPR4", "QA01", "QA03"],
@@ -591,7 +591,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-QE51N (Worklist) או QE01 רושמים לכל Inspection Characteristic את הערך/התוצאה; המערכת מעריכה מול הגבולות מתכנית-הבדיקה ומחשבת Accept/Reject. התוצאות נשמרות ב-QAMR/QASE. ניתן רישום-בודד או מרובה. סגירת-מאפיינים (Valuation) מאפשרת Usage Decision.",
           purposeHe: "להמיר מדידות-מעבדה לנתוני-איכות מובנים, להעריך תקינות מול ערכי-יעד, ולספק בסיס מתועד להחלטת-שימוש.",
           processExampleHe: "המעבדה מזינה ב-QE51N עבור דגימת-המשקה: Brix 10.4 (תקין), CO2 3.8 (תקין), pH 3.2 (תקין); המגרש מוכן ל-UD.",
-          cbcHe: "ב-CBC טכנאי-המעבדה רושם ב-QE51N את תוצאות-המשקה (Brix, CO2, pH, מראה) לכל דגימה; חריגה ב-Brix מסמנת Reject ומפעילה הודעת-איכות (QM Notification).",
+          scenarioHe: "בארגון טכנאי-המעבדה רושם ב-QE51N את תוצאות-המשקה (Brix, CO2, pH, מראה) לכל דגימה; חריגה ב-Brix מסמנת Reject ומפעילה הודעת-איכות (QM Notification).",
           navHe: ["Quality Management ► Quality Inspection ► Worklist ► Results Recording (QE51N)"],
           tables: ["QAMR", "QASE", "QASV", "QPRS"],
           tcodes: ["QE51N", "QE01", "QE02", "QE03"],
@@ -638,7 +638,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ה-Pooled Sample מוגדר ב-Sample-Drawing Procedure (QPV2) כדגימה המאחדת Primary samples. רישום-התוצאות (QE51N) מתבצע על ה-QPRS המאוגם, לא על דגימות-המשנה. ההערכה והתוצאות מתויקות לדגימה-המאוגמת ומשפיעות על UD של המגרש. נפוץ לבדיקות הדורשות נפח גדול או ייצוג-ממוצע (מיקרוביולוגיה).",
           purposeHe: "לצמצם מספר-בדיקות ולספק תוצאה מייצגת לכלל-המשיכות, בעיקר כשהבדיקה דורשת נפח-מאוחד או ממוצע סטטיסטי.",
           processExampleHe: "5 משיכות לאורך אצוות-מילוי מאוחדות ל-Pooled Sample אחד; המעבדה רושמת עליו תוצאה מיקרוביולוגית אחת המייצגת את כל האצווה.",
-          cbcHe: "ב-CBC בדיקת-מיקרוביולוגיה של משקה נעשית על Pooled Sample המורכב ממספר נקודות-מילוי לאורך האצווה; תוצאה אחת מייצגת את כל המנה ומשמשת לשחרור.",
+          scenarioHe: "בארגון בדיקת-מיקרוביולוגיה של משקה נעשית על Pooled Sample המורכב ממספר נקודות-מילוי לאורך האצווה; תוצאה אחת מייצגת את כל המנה ומשמשת לשחרור.",
           navHe: ["Quality Management ► Quality Inspection ► Worklist ► Results Recording for Pooled Sample (QE51N)"],
           tables: ["QPRS", "QAMR", "QPV2"],
           tcodes: ["QE51N", "QPR4", "QPV2"],
@@ -684,7 +684,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-QPR1 יוצרים QPRS ידנית: בוחרים Physical-Sample Type, חומר, כמות, Container ו-Location. הדגימה אינה קשורה אוטומטית למגרש, אך ניתן ליצור עבורה מגרש-בדיקה (Origin 15) ולרשום תוצאות. שימושי ל-ad-hoc, complaints, ו-stability samples.",
           purposeHe: "לאפשר ניהול דגימות שאינן נובעות מתהליך-מלאי סטנדרטי — דגימות-אד-הוק, תלונות, יציבות — באותו מנגנון QPRS.",
           processExampleHe: "בעקבות תלונת-לקוח על משקה, QA יוצר ב-QPR1 דגימה ידנית מהאצווה החשודה, מאחסן אותה, ויוצר מגרש לבדיקה-חוזרת.",
-          cbcHe: "ב-CBC דגימות-יציבות (Stability) ודגימות-תלונה נוצרות ידנית ב-QPR1, מתויגות ומאוחסנות, ונבדקות לאורך-זמן או בעקבות אירוע.",
+          scenarioHe: "בארגון דגימות-יציבות (Stability) ודגימות-תלונה נוצרות ידנית ב-QPR1, מתויגות ומאוחסנות, ונבדקות לאורך-זמן או בעקבות אירוע.",
           navHe: ["Quality Management ► Quality Inspection ► Physical Samples ► Create (QPR1)"],
           tables: ["QPRS", "QPRP"],
           tcodes: ["QPR1", "QPR2", "QPR3"],
@@ -737,8 +737,8 @@ export const CH10: TextbookChapter = {
         "להבטיח דגימה מבוקרת לאורך הייצור ועקיבות מלאה בין הדגימה, אצוות-הייצור והפקודה — בסיס לשחרור-מנה ולתחקור-איכות.",
       processExampleHe:
         "פקודת-תהליך לייצור 10,000 ליטר משקה; בנקודות-בקרה לאורך הריצה נמשכות דגימות הקשורות לפקודה, נבדקות, ומשמשות לשחרור האצווה.",
-      cbcHe:
-        "ב-CBC כל פקודת-מילוי מייצרת דגימות in-process בנקודות לאורך האצווה (התחלה/אמצע/סוף); כולן מקושרות לפקודה ולמספר-האצווה לעקיבות ולשחרור-המנה.",
+      scenarioHe:
+        "בארגון כל פקודת-מילוי מייצרת דגימות in-process בנקודות לאורך האצווה (התחלה/אמצע/סוף); כולן מקושרות לפקודה ולמספר-האצווה לעקיבות ולשחרור-המנה.",
       navHe: [
         "Logistics ► Production – Process ► Process Order ► Create (COR1)",
         "Quality Management ► Quality Inspection ► Physical Samples ► Drawing with Reference",
@@ -789,7 +789,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-COR1 נוצרת הפקודה עם Master Recipe ו-BOM; היא מקבלת מספר-אצווה (Batch). אם החומר נושא Inspection Type לייצור עם דגימה, נוצר מגרש (Origin 03/04) ודגימות. הקישור QPRS↔Order↔Batch הוא ליבת-העקיבות. AFKO/AUFK שומרות את נתוני-הפקודה.",
           purposeHe: "לספק את ההקשר התעשייתי (חומר, כמות, אצווה, מתכון) שאליו נקשרת הדגימה, ולאפשר שחרור-מנה מבוסס-בדיקה.",
           processExampleHe: "פקודת-תהליך לייצור 10,000 ליטר משקה במנה B-2026-001; הפקודה מייצרת מגרש-בדיקה ודגימות הקשורות למנה.",
-          cbcHe: "ב-CBC כל ריצת-מילוי = פקודת-תהליך עם מספר-אצווה ייחודי; הדגימות הנמשכות מקושרות לפקודה ולאצווה לצורך שחרור ושליחות.",
+          scenarioHe: "בארגון כל ריצת-מילוי = פקודת-תהליך עם מספר-אצווה ייחודי; הדגימות הנמשכות מקושרות לפקודה ולאצווה לצורך שחרור ושליחות.",
           navHe: ["Logistics ► Production – Process ► Process Order ► Create (COR1)"],
           tables: ["AUFK", "AFKO", "AFPO", "QALS"],
           tcodes: ["COR1", "COR2", "COR3"],
@@ -834,7 +834,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "המשיכה (QPR4) מתבצעת בהתייחס למגרש-הייצור (Origin 03/04) שנוצר מהפקודה. נוהל-המשיכה קובע כמה דגימות ובאיזה סוג; כל QPRS נושאת קישור לפקודה, לאצווה ולנקודת-המשיכה. ניתן לשחרר, לתייג ולרשום-תוצאות כרגיל. ה-in-process inspection מאפשר משיכה בשלבים.",
           purposeHe: "לבצע משיכה מבוקרת ועקיבה לאורך הייצור — בקרת-תהליך בזמן-אמת ובסיס מתועד לשחרור-מנה.",
           processExampleHe: "במהלך ריצת-המילוי נמשכות 3 דגימות (התחלה/אמצע/סוף) בהתייחס לפקודה; כל אחת מתויגת, נבדקת, ומשמשת להחלטה על האצווה.",
-          cbcHe: "ב-CBC טכנאי-הקו מושך דגימת-משקה בכל נקודת-בקרה דרך QPR4; הדגימות מקושרות לפקודת-המילוי ולאצווה, ובדיקת-Brix/CO2 קובעת המשך/עצירה של הריצה.",
+          scenarioHe: "בארגון טכנאי-הקו מושך דגימת-משקה בכל נקודת-בקרה דרך QPR4; הדגימות מקושרות לפקודת-המילוי ולאצווה, ובדיקת-Brix/CO2 קובעת המשך/עצירה של הריצה.",
           navHe: ["Quality Management ► Quality Inspection ► Physical Samples ► Drawing with Reference (QPR4)"],
           tables: ["QPRS", "QALS", "AFKO"],
           tcodes: ["QPR4", "QPR5", "QE51N"],
@@ -887,8 +887,8 @@ export const CH10: TextbookChapter = {
         "לבסס תשתית-Customizing אחידה לכל ניהול-הדגימות — סוגים, מכלים ומיקומים מתוקננים — שעליה נבנים הנהלים, התכניות והתהליכים.",
       processExampleHe:
         "יועץ מגדיר ב-SPRO סוגי-דגימה (מעבדה/שימור/מאוגם), מכלים (בקבוק 250 מ\"ל), ומיקומים (מקרר-A, ארכיון), ואז משייך סוגי-דגימה ל-Inspection Types השונים.",
-      cbcHe:
-        "ב-CBC ה-Customizing כולל סוגי-דגימה למשקה ולתרכיז, מכלי-בקבוק-מעבדה סטנדרטיים, ומיקומי-אחסון (מקרר-מעבדה, ארכיון-שימור) — מתוקננים בין כל מפעלי-המילוי.",
+      scenarioHe:
+        "בארגון ה-Customizing כולל סוגי-דגימה למשקה ולתרכיז, מכלי-בקבוק-מעבדה סטנדרטיים, ומיקומי-אחסון (מקרר-מעבדה, ארכיון-שימור) — מתוקננים בין כל מפעלי-המילוי.",
       navHe: [
         "Quality Management ► Quality Inspection ► Sample Management ► Define Physical-Sample Type Assignment to Inspection Type",
         "Quality Management ► Quality Inspection ► Sample Management ► Define Physical-Sample Types",
@@ -942,7 +942,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-Customizing משייכים Physical-Sample Type ל-Inspection Type. השיוך נצרך כברירת-מחדל ב-QPV2 וביצירת-המגרש: ה-Inspection Type של המגרש קובע אילו סוגי-דגימה זמינים/נוצרים. שיוך שגוי = סוגי-דגימה לא-נכונים או חסרים.",
           purposeHe: "להתאים את סוגי-הדגימה הנוצרים להקשר-המגרש (קבלה מול ייצור), ולמנוע יצירת סוגים לא-רלוונטיים.",
           processExampleHe: "ל-Inspection Type 01 (GR) משויכים סוגי 'מעבדה' ו'שימור'; ל-Inspection Type 04 (ייצור) משויך 'in-process'. כל מגרש מייצר את הסוגים הנכונים.",
-          cbcHe: "ב-CBC ל-Inspection Type של קבלת-תרכיז משויכים מעבדה+שימור; ל-Inspection Type של מילוי-משקה משויכים in-process+מאוגם — כך כל הקשר מקבל את הדגימות הנכונות.",
+          scenarioHe: "בארגון ל-Inspection Type של קבלת-תרכיז משויכים מעבדה+שימור; ל-Inspection Type של מילוי-משקה משויכים in-process+מאוגם — כך כל הקשר מקבל את הדגימות הנכונות.",
           navHe: ["Quality Management ► Quality Inspection ► Sample Management ► Define Physical-Sample Type Assignment to Inspection Type"],
           tables: ["TQ77", "TQ07"],
           tcodes: ["SPRO", "QCC0"],
@@ -984,7 +984,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-Customizing מגדירים כל Physical-Sample Type עם הקטגוריה (Primary/Pooled/Reserve) ומאפייניו. הקטגוריה משפיעה על אופן רישום-התוצאות (Pooled נבדק כיחידה) ועל ניהול-המלאי של הדגימה. הסוגים נצרכים ב-QPV2 וב-Inspection Type assignment.",
           purposeHe: "לתת מבנה ומשמעות לכל דגימה — ראשית/מאוגמת/שימור — ולשלוט באופן הבדיקה והשמירה שלה.",
           processExampleHe: "מוגדרים 3 סוגים: 'LAB' (Primary), 'POOL' (Pooled), 'RES' (Reserve); הנוהל בוחר מהם לפי הצורך.",
-          cbcHe: "ב-CBC מוגדרים סוגי-דגימה: דגימת-משקה ראשית (LAB), דגימה מאוגמת למיקרוביולוגיה (POOL), ודגימת-שימור לארכיון (RES) לתחקור עתידי.",
+          scenarioHe: "בארגון מוגדרים סוגי-דגימה: דגימת-משקה ראשית (LAB), דגימה מאוגמת למיקרוביולוגיה (POOL), ודגימת-שימור לארכיון (RES) לתחקור עתידי.",
           navHe: ["Quality Management ► Quality Inspection ► Sample Management ► Define Physical-Sample Types"],
           tables: ["TQ78", "QPRS"],
           tcodes: ["SPRO", "QPV2"],
@@ -1027,7 +1027,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-Customizing מגדירים Containers עם תיאור וקיבולת. ה-Container נבחר ב-QPV2/QPR4 ונשמר ב-QPRS. תקנון מכלים תומך באחסון ובאיתור עקביים. מכל מתאים נדרש כדי שכמות-הדגימה תהיה הגיונית.",
           purposeHe: "לתקנן ולתעד את כלי-האחסון של הדגימה, ולתמוך באחסון ובאיתור עקביים במעבדה.",
           processExampleHe: "מוגדר Container 'BOT-250' (בקבוק 250 מ\"ל); דגימות-המשקה מאוחסנות בו, וכך הכמות והאחסון אחידים.",
-          cbcHe: "ב-CBC מוגדרים מכלי-מעבדה סטנדרטיים: בקבוק-זכוכית 250 מ\"ל למשקה, מכל-תרכיז קטן לדגימת-תרכיז — מתוקננים בין כל המפעלים.",
+          scenarioHe: "בארגון מוגדרים מכלי-מעבדה סטנדרטיים: בקבוק-זכוכית 250 מ\"ל למשקה, מכל-תרכיז קטן לדגימת-תרכיז — מתוקננים בין כל המפעלים.",
           navHe: ["Quality Management ► Quality Inspection ► Sample Management ► Define Physical-Sample Containers"],
           tables: ["TQ79", "QPRS"],
           tcodes: ["SPRO", "QPV2"],
@@ -1069,7 +1069,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-Customizing מגדירים Locations עם תיאור. ה-Location נבחר ב-QPV2/QPR4 ונשמר ב-QPRS. תיעוד-מיקום עקבי הוא קריטי לאיתור-מעבדה, במיוחד לדגימות-שימור הנשמרות לאורך-זמן. מיקום שגוי/חסר = דגימה 'אבודה'.",
           purposeHe: "לתעד ולתקנן את מיקום-האחסון של כל דגימה, ולאפשר איתור מהיר ואמין במעבדה ובארכיון.",
           processExampleHe: "מוגדרים מיקומים 'FRIDGE-A' (מקרר) ו'ARCHIVE-1' (ארכיון-שימור); כל דגימה מתויקת למיקומה ונמצאת מיד בעת-צורך.",
-          cbcHe: "ב-CBC מוגדרים מיקומי-מעבדה: מקרר לדגימות-בדיקה, ארכיון-שימור לדגימות-Reserve הנשמרות עד תום-חיי-המדף לתחקור.",
+          scenarioHe: "בארגון מוגדרים מיקומי-מעבדה: מקרר לדגימות-בדיקה, ארכיון-שימור לדגימות-Reserve הנשמרות עד תום-חיי-המדף לתחקור.",
           navHe: ["Quality Management ► Quality Inspection ► Sample Management ► Define Physical-Sample Locations"],
           tables: ["TQ79", "QPRS"],
           tcodes: ["SPRO", "QPV2"],
@@ -1120,8 +1120,8 @@ export const CH10: TextbookChapter = {
         "לעגן את התמונה השלמה — מ-Customizing דרך נתוני-אב ועד תהליך-חי — כדי שהלומד יוכל לתכנן, להטמיע ולתחזק ניהול-דגימות ללא הסתמכות על המקור.",
       processExampleHe:
         "מקצה-לקצה: GR/פקודה → מגרש+דגימות → Release+תיוג → מגרש-דגימה → QE51N → UD. כל שלב נשען על הגדרה שנלמדה בפרק, וכולם מתחברים לזרימה אחת.",
-      cbcHe:
-        "ב-CBC: כל קבלת-תרכיז וכל אצוות-מילוי-משקה עוברת את המסלול המלא — דגימות נמשכות, מתויגות בברקוד, נבדקות במעבדה (Brix/CO2/מיקרוביולוגיה), ומשמשות לשחרור-מנה לפני שילוח, עם עקיבות מלאה לאצווה.",
+      scenarioHe:
+        "בארגון: כל קבלת-תרכיז וכל אצוות-מילוי-משקה עוברת את המסלול המלא — דגימות נמשכות, מתויגות בברקוד, נבדקות במעבדה (Brix/CO2/מיקרוביולוגיה), ומשמשות לשחרור-מנה לפני שילוח, עם עקיבות מלאה לאצווה.",
       navHe: [
         "Quality Management ► Quality Inspection ► Sample Management ► (כל ענפי-ה-Customizing שנסקרו)",
       ],

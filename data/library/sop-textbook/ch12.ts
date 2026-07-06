@@ -2,7 +2,7 @@
 // Key Performance Indicators and Performance Monitoring.
 // Every node is a complete LearningNode with 18 facets of authored Hebrew —
 // beginner + consultant friendly. SAP objects verbatim English (KPI, MAPE,
-// bias, balanced scorecard, DMAIC). CBC = Coca-Cola bottling S&OP KPIs.
+// bias, balanced scorecard, DMAIC). הארגון = Example Product bottling S&OP KPIs.
 import type { TextbookChapter } from "./types";
 
 export const CH12: TextbookChapter = {
@@ -10,7 +10,7 @@ export const CH12: TextbookChapter = {
   titleHe: "מדדי-ביצוע וניטור (KPIs)",
   titleEn: "Key Performance Indicators and Performance Monitoring",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה למדדי-ביצוע (KPIs) ולניטור-ביצועים בתהליך ה-S&OP עם SAP IBP. מדד-ביצוע הוא המספר שמתרגם תוכנית להישג מדיד: בלעדיו ה-S&OP הופך לדיון-דעות, ועם מדדים נכונים הוא הופך לתהליך-ניהול מבוסס-עובדות. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC (מפעל-מילוי משקאות של Coca-Cola), ניווט בעצי-היישומים של IBP, מדדים/אובייקטים/אפליקציות, פרטי הגדרה, תרשים-זרימה, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד למדוד, לנטר ולשפר את ה-S&OP — מ-forecast accuracy (MAPE/bias) דרך fill rate ו-OTIF ועד inventory — ללא הספר המקורי. SAP IBP הוא פתרון-ענן (cloud), והמדדים נצרכים דרך Analytics, Dashboards ו-Excel add-in.",
+    "פרק זה הוא יחידת-לימוד מלאה למדדי-ביצוע (KPIs) ולניטור-ביצועים בתהליך ה-S&OP עם SAP IBP. מדד-ביצוע הוא המספר שמתרגם תוכנית להישג מדיד: בלעדיו ה-S&OP הופך לדיון-דעות, ועם מדדים נכונים הוא הופך לתהליך-ניהול מבוסס-עובדות. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון (מפעל-מילוי משקאות של Example Product), ניווט בעצי-היישומים של IBP, מדדים/אובייקטים/אפליקציות, פרטי הגדרה, תרשים-זרימה, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד למדוד, לנטר ולשפר את ה-S&OP — מ-forecast accuracy (MAPE/bias) דרך fill rate ו-OTIF ועד inventory — ללא הספר המקורי. SAP IBP הוא פתרון-ענן (cloud), והמדדים נצרכים דרך Analytics, Dashboards ו-Excel add-in.",
   subchapters: [
     // ============================================================ 12.1
     {
@@ -27,8 +27,8 @@ export const CH12: TextbookChapter = {
         "המטרה: לתת לכל שלב ב-S&OP שפה כמותית משותפת — שכל מחלקה (Demand, Supply, Finance, Operations) תדון באותם מספרים, תזהה פערים, ותקבל החלטות מבוססות-נתונים במקום תחושות-בטן. KPIs גם מחברים את התוכנית-התפעולית ליעדים-העסקיים (הכנסות, שירות, הון-חוזר).",
       processExampleHe:
         "מחזור-S&OP חודשי: בתחילת החודש נסגר snapshot של התחזית הקודמת. עם סגירת-החודש נטענים actuals. IBP מחשב אוטומטית forecast accuracy (1 − MAPE) ו-bias לכל מוצר/לקוח, fill rate ו-OTIF מנתוני-ההזמנות, ורמות-inventory מול היעד. לוח-המדדים מסמן בצבעים (Alerts) היכן חרגנו מהסף, וכל מפגש-סקירה מתחיל מהחריגות.",
-      cbcHe:
-        "ב-CBC (מפעל-מילוי Coca-Cola) ארבעת מדדי-הליבה: (1) forecast accuracy = 1 − MAPE לכל SKU-משקה, (2) fill rate — אחוז הזמנות-קמעונאים שסופקו במלואן, (3) OTIF — On-Time-In-Full ללקוחות-רשת, (4) inventory — Days of Supply של מוצר-מוגמר וחומרי-אריזה. מדדים אלה נסקרים בכל מחזור-S&OP, מפולחים לפי מותג, אריזה ואזור-הפצה.",
+      scenarioHe:
+        "בארגון (מפעל-מילוי Example Product) ארבעת מדדי-הליבה: (1) forecast accuracy = 1 − MAPE לכל SKU-משקה, (2) fill rate — אחוז הזמנות-קמעונאים שסופקו במלואן, (3) OTIF — On-Time-In-Full ללקוחות-רשת, (4) inventory — Days of Supply של מוצר-מוגמר וחומרי-אריזה. מדדים אלה נסקרים בכל מחזור-S&OP, מפולחים לפי מותג, אריזה ואזור-הפצה.",
       navHe: [
         "SAP IBP Web UI ► Configuration ► Planning Areas ► Key Figures (הגדרת KPI כ-Key Figure מחושב)",
         "SAP IBP Web UI ► Analytics ► Analytics Stories / Charts (תצוגת KPI)",
@@ -101,8 +101,8 @@ export const CH12: TextbookChapter = {
             "להבטיח שכל מדד ניתן-לפעולה: לא רק לדעת 'מה קרה' אלא 'האם זה בסדר' ו'מי אחראי לתקן'. מבנה המדידה-יעד-סף הוא מה שהופך נתון להחלטה.",
           processExampleHe:
             "בסוף החודש IBP משווה את התחזית-שננעלה (lag-1) מול ה-actuals: |1000 − 850| / 850 = 17.6% שגיאה → MAPE; accuracy = 82.4%. ה-bias שלילי (חזינו יותר ממה שנמכר) → נטייה לעודף-תחזית. Custom Alert בסף 85% נדלק ומפנה את צוות-הביקוש לתחקיר.",
-          cbcHe:
-            "ב-CBC: forecast accuracy ל-SKU 'פחית 330 מ\"ל' = 1 − MAPE, נמדד ב-lag-1; bias חיובי עקבי מגלה ש'אנחנו תמיד מתחת לתחזית' לקראת הקיץ — תובנה שמובילה לעדכון מוקדם של תכנית-הקיץ. היעד 90%, הסף 85%.",
+          scenarioHe:
+            "בארגון: forecast accuracy ל-SKU 'פחית 330 מ\"ל' = 1 − MAPE, נמדד ב-lag-1; bias חיובי עקבי מגלה ש'אנחנו תמיד מתחת לתחזית' לקראת הקיץ — תובנה שמובילה לעדכון מוקדם של תכנית-הקיץ. היעד 90%, הסף 85%.",
           navHe: [
             "SAP IBP Web UI ► Configuration ► Key Figures ► Calculation (נוסחת MAPE/bias)",
             "SAP IBP Web UI ► Custom Alerts ► Define Alerts (סף KPI)",
@@ -172,8 +172,8 @@ export const CH12: TextbookChapter = {
             "להנגיש את אותם מדדים לכל בעל-עניין בפורמט המתאים לו, תוך שמירה על 'מקור-אמת-יחיד' — כולם רואים את אותו Key Figure, רק בתצוגה שונה.",
           processExampleHe:
             "לקראת מפגש Demand Review: המתכנן מנתח חריגות-accuracy ב-Excel add-in, מנהל-הביקוש סוקר את אותם מדדים בלוח-Dashboard, ו-Custom Alert כבר סימן את עשרת ה-SKUs הגרועים. כולם — אותו Key Figure, אותו snapshot.",
-          cbcHe:
-            "ב-CBC מנהל-תפעול רואה Dashboard עם fill rate, OTIF ו-inventory לפי אזור-הפצה; מתכנן-הביקוש עובד ב-Excel add-in על forecast accuracy ברמת-SKU; Custom Alert שולח רשימת SKUs שחרגו מ-85% accuracy לפני המפגש.",
+          scenarioHe:
+            "בארגון מנהל-תפעול רואה Dashboard עם fill rate, OTIF ו-inventory לפי אזור-הפצה; מתכנן-הביקוש עובד ב-Excel add-in על forecast accuracy ברמת-SKU; Custom Alert שולח רשימת SKUs שחרגו מ-85% accuracy לפני המפגש.",
           navHe: [
             "SAP IBP Web UI ► Analytics ► Manage Charts / Stories",
             "SAP IBP Web UI ► Dashboards ► Create Dashboard",
@@ -245,8 +245,8 @@ export const CH12: TextbookChapter = {
             "לוודא שמספר-הביקוש המוסכם אמין, לזהות היכן התחזית נכשלת, ולכוון מאמצי-שיפור (מודלים, התערבות-ידנית, נתוני-קלט) למקום שבו הם משפיעים על העסק.",
           processExampleHe:
             "Demand Review: הצוות סוקר accuracy ברמת-מותג (88%) ומגלה שמותג-אחד מושך מטה (72%). drill-down ל-SKU מראה bias חיובי עקבי — התחזית-הידנית מנופחת. FVA שלילי מאשר שההתערבות הזיקה; ההחלטה: לחזור למודל-הסטטיסטי לאותו מותג.",
-          cbcHe:
-            "ב-CBC Demand Review סוקר forecast accuracy לפי מותג ואריזה: 'דיאט בפחית' מדויק (91%) אך 'מהדורה-מוגבלת' גרוע (65%) עקב מבצעים. bias מגלה ניפוח-תחזית למבצעים; FVA מנחה אם להמשיך בהתערבות-הידנית.",
+          scenarioHe:
+            "בארגון Demand Review סוקר forecast accuracy לפי מותג ואריזה: 'דיאט בפחית' מדויק (91%) אך 'מהדורה-מוגבלת' גרוע (65%) עקב מבצעים. bias מגלה ניפוח-תחזית למבצעים; FVA מנחה אם להמשיך בהתערבות-הידנית.",
           navHe: [
             "SAP IBP Web UI ► Analytics ► Demand Review Dashboard",
             "SAP IBP for Excel ► Forecast Error / FVA Key Figures",
@@ -316,8 +316,8 @@ export const CH12: TextbookChapter = {
             "לוודא שתוכנית-האספקה ריאלית (feasible), לזהות צווארי-בקבוק-קיבולת מראש, ולאזן בין רמת-שירות לבין עלות-מלאי וניצולת.",
           processExampleHe:
             "Supply Review: ה-run מראה capacity utilization 105% בקו-מילוי בשבוע-שיא — אי-אפשר לספק. הצוות בוחן אלטרנטיבות: build-ahead (להקדים ייצור ולהגדיל מלאי), משמרת-נוספת, או דחיית-ביקוש. DoS הצפוי לאחר build-ahead נבדק מול יעד-המלאי.",
-          cbcHe:
-            "ב-CBC Supply Review: ניצולת-קווי-המילוי לקראת הקיץ מגיעה ל-110% — צוואר-בקבוק. ההחלטה: build-ahead של מותגי-ליבה בחורף כדי להגדיל DoS לפני השיא, תוך ניטור עלות-המלאי הנוסף מול סיכון-fill-rate.",
+          scenarioHe:
+            "בארגון Supply Review: ניצולת-קווי-המילוי לקראת הקיץ מגיעה ל-110% — צוואר-בקבוק. ההחלטה: build-ahead של מותגי-ליבה בחורף כדי להגדיל DoS לפני השיא, תוך ניטור עלות-המלאי הנוסף מול סיכון-fill-rate.",
           navHe: [
             "SAP IBP Web UI ► Analytics ► Supply Review Dashboard",
             "SAP IBP Web UI ► Application Jobs ► Supply Planning Run (Heuristic / Optimizer)",
@@ -387,8 +387,8 @@ export const CH12: TextbookChapter = {
             "להגיע לתוכנית-יחידה מאוזנת ומוסכמת, לזהות את הפערים שדורשים הכרעת-הנהלה, ולוודא עמידה ביעדי-שירות ובמסגרת-הון-חוזר.",
           processExampleHe:
             "Operating Review: התוכנית המאוחדת מראה OTIF צפוי 94% מול יעד 97% עקב demand-supply gap בשני מותגים. הצוות מציע: הסטת-קיבולת ממותג-איטי, או קבלת ירידת-מלאי. הסוגיה (עלות מול שירות) מועברת כהחלטה ל-Executive Review.",
-          cbcHe:
-            "ב-CBC Operating Review מאחד תכנית-ביקוש-קיץ עם קיבולת-המילוי: fill rate צפוי 96%, OTIF 93% לרשתות עקב צוואר-בקבוק. inventory turns יורד עקב build-ahead. ה-trade-off (שירות-לרשתות מול הון-חוזר) מוכן להכרעת-ההנהלה.",
+          scenarioHe:
+            "בארגון Operating Review מאחד תכנית-ביקוש-קיץ עם קיבולת-המילוי: fill rate צפוי 96%, OTIF 93% לרשתות עקב צוואר-בקבוק. inventory turns יורד עקב build-ahead. ה-trade-off (שירות-לרשתות מול הון-חוזר) מוכן להכרעת-ההנהלה.",
           navHe: [
             "SAP IBP Web UI ► Analytics ► Operating / Pre-S&OP Review Dashboard",
             "SAP IBP Web UI ► Scenarios / Versions (השוואת תרחישי-איזון)",
@@ -458,8 +458,8 @@ export const CH12: TextbookChapter = {
             "לאשר תוכנית-S&OP אחת, מאוזנת ומיושרת ליעדים-הפיננסיים; להכריע ב-trade-offs שלא נפתרו בסקירה-התפעולית; ולספק כיוון-אסטרטגי לשרשרת-האספקה.",
           processExampleHe:
             "Executive Review: ההנהלה רואה revenue attainment 98% מול תוכנית אך margin מתחת ליעד עקב עלות build-ahead. שני תרחישים מוצגים: 'שירות-מקסימלי' (OTIF 97%, מזומן נמוך) מול 'מזומן-מאוזן' (OTIF 94%, מלאי נמוך). ההנהלה בוחרת ומאשרת את ה-consensus plan.",
-          cbcHe:
-            "ב-CBC Executive Review: revenue/volume attainment לקיץ, margin אחרי עלות-build-ahead, working capital כלוא במלאי-משקאות, ו-OTIF ארגוני לרשתות. ההנהלה מכריעה בין שירות-לרשתות-המפתח לבין יעד-המזומן, ומאשרת תוכנית אחת.",
+          scenarioHe:
+            "בארגון Executive Review: revenue/volume attainment לקיץ, margin אחרי עלות-build-ahead, working capital כלוא במלאי-משקאות, ו-OTIF ארגוני לרשתות. ההנהלה מכריעה בין שירות-לרשתות-המפתח לבין יעד-המזומן, ומאשרת תוכנית אחת.",
           navHe: [
             "SAP IBP Web UI ► Analytics ► Executive S&OP Dashboard",
             "SAP IBP Web UI ► Versions / Scenarios (Business Plan מול S&OP)",
@@ -532,8 +532,8 @@ export const CH12: TextbookChapter = {
         "להפוך קיימות מ'דוח-שנתי נפרד' לחלק מהחלטת-ה-S&OP השוטפת: לבחור תרחיש שמאזן שירות, עלות וטביעת-רגל-פחמנית, ולעמוד ביעדי-ESG ורגולציה תוך שמירה על ביצועים-מסחריים.",
       processExampleHe:
         "תרחיש-אספקה: build-ahead מרכזי מקטין עלות-ייצור אך מגדיל הובלות-חירום (פליטות גבוהות). ה-Operating Review משווה שני תרחישים גם ב-carbon footprint: התרחיש ה'זול' מזהם 12% יותר. ההנהלה בוחרת תרחיש-ביניים שעומד גם ביעד-הפליטות.",
-      cbcHe:
-        "ב-CBC מדדי-קיימות: CO2e לליטר-משקה (ייצור+הובלה), אחוז-PET-ממוחזר באריזה, צריכת-מים-לליטר (water ratio) ופסולת-לפסולת-אפס. תוכנית-קיץ עם build-ahead נבחנת גם מול יעד-הפליטות; אופטימיזציה של רשת-ההפצה מצמצמת ק\"מ-משאית ופליטות.",
+      scenarioHe:
+        "בארגון מדדי-קיימות: CO2e לליטר-משקה (ייצור+הובלה), אחוז-PET-ממוחזר באריזה, צריכת-מים-לליטר (water ratio) ופסולת-לפסולת-אפס. תוכנית-קיץ עם build-ahead נבחנת גם מול יעד-הפליטות; אופטימיזציה של רשת-ההפצה מצמצמת ק\"מ-משאית ופליטות.",
       navHe: [
         "SAP IBP Web UI ► Configuration ► Key Figures (Sustainability KPIs — CO2e/energy/water)",
         "SAP IBP Web UI ► Analytics ► Sustainability Dashboard",
@@ -607,8 +607,8 @@ export const CH12: TextbookChapter = {
         "לסגור את הפער בין 'לדעת שיש בעיה' לבין 'לפתור אותה לתמיד': לתרגם חריגות-KPI לפעולות-שיפור מנוהלות, ולהבטיח שהשיפור נשמר לאורך-זמן (sustained, לא חד-פעמי).",
       processExampleHe:
         "Custom Alert מסמן ירידת-OTIF. במקום תיקון-נקודתי, הצוות מפעיל root-cause (5 Whys) ומגלה כשל-תזמון-חוזר; פותח פרויקט-DMAIC קצר; מוסיף את ה-OTIF ל-balanced scorecard עם בעלים ויעד; ובקרת-ה-Control מוודאת שהשיפור נשמר במחזורים הבאים.",
-      cbcHe:
-        "ב-CBC ירידה-חוזרת ב-fill rate של מותג-קיץ מנוהלת בלולאה: Alert ➔ root-cause (חוסר-בקבוקים מספק) ➔ DMAIC (חוזה-אספקה + safety stock) ➔ balanced scorecard מאזן שירות/עלות/קיימות ➔ Control מוודא יציבות לאורך הקיץ.",
+      scenarioHe:
+        "בארגון ירידה-חוזרת ב-fill rate של מותג-קיץ מנוהלת בלולאה: Alert ➔ root-cause (חוסר-בקבוקים מספק) ➔ DMAIC (חוזה-אספקה + safety stock) ➔ balanced scorecard מאזן שירות/עלות/קיימות ➔ Control מוודא יציבות לאורך הקיץ.",
       navHe: [
         "SAP IBP Web UI ► Custom Alerts ► Monitor & Manage",
         "SAP IBP Web UI ► Analytics ► Drill-Down (Root-Cause)",
@@ -678,8 +678,8 @@ export const CH12: TextbookChapter = {
             "להבטיח יישור-אסטרטגי ואיזון — שתוכנית-ה-S&OP תקדם את כל המבטים-העסקיים, ולא תשפר מדד-אחד על-חשבון אחר.",
           processExampleHe:
             "Executive Review סוקר scorecard: Financial ירוק, אך Customer (OTIF) אדום ו-Internal Process (accuracy) צהוב. הקשר-הסיבתי מצביע: accuracy-נמוך ➔ OTIF-נמוך. ההחלטה ממקדת השקעה בשיפור-accuracy (מבט-תהליך) כדי לרפא את מבט-הלקוח.",
-          cbcHe:
-            "ב-CBC scorecard ל-S&OP: Financial = margin-לליטר; Customer = OTIF-לרשתות; Process = forecast accuracy ו-line adherence; Learning & Growth = אימוץ-IBP ובשלות-S&OP. קיימות מתווספת כמבט-חמישי (CO2e לליטר).",
+          scenarioHe:
+            "בארגון scorecard ל-S&OP: Financial = margin-לליטר; Customer = OTIF-לרשתות; Process = forecast accuracy ו-line adherence; Learning & Growth = אימוץ-IBP ובשלות-S&OP. קיימות מתווספת כמבט-חמישי (CO2e לליטר).",
           navHe: [
             "SAP IBP Web UI ► Analytics ► Balanced Scorecard Dashboard",
             "SAP IBP Web UI ► Dashboards (ארבעה מבטים)",
@@ -747,8 +747,8 @@ export const CH12: TextbookChapter = {
             "למנוע חזרת-בעיות: לזהות ולתקן את הסיבה-השורשית של חריגת-KPI, במקום לכבות-שריפות שוב ושוב על אותו תסמין.",
           processExampleHe:
             "OTIF צנח. 5 Whys: למה? משלוחים-מאוחרים. למה? חוסר-מלאי-מוגמר. למה? תחזית-נמוכה-מדי. למה? לא שוקלל מבצע. למה? נתוני-המבצע לא הגיעו ל-Demand Planning בזמן ➔ שורש = ממשק-נתונים. התיקון: אוטומציית-ממשק, לא רק 'להזמין-עוד'.",
-          cbcHe:
-            "ב-CBC נפילת fill rate בקיץ: Fishbone חושף — Material (חוסר-בקבוקים מספק), Method (safety stock נמוך), Measurement (תחזית-מבצע שגויה). השורש הדומיננטי: חוזה-אספקת-בקבוקים לא-מותאם-לשיא. תיקון בשורש מונע חזרה בקיץ הבא.",
+          scenarioHe:
+            "בארגון נפילת fill rate בקיץ: Fishbone חושף — Material (חוסר-בקבוקים מספק), Method (safety stock נמוך), Measurement (תחזית-מבצע שגויה). השורש הדומיננטי: חוזה-אספקת-בקבוקים לא-מותאם-לשיא. תיקון בשורש מונע חזרה בקיץ הבא.",
           navHe: [
             "SAP IBP Web UI ► Analytics ► Drill-Down (ראיות כמותיות)",
             "SAP IBP Web UI ► Custom Alerts ► Alert Root-Cause",
@@ -817,8 +817,8 @@ export const CH12: TextbookChapter = {
             "לנהל שיפור-תהליכי בצורה ממושמעת ומבוססת-נתונים, כך שהשיפור אמיתי, נמדד, ונשמר — ולא יוזמה חד-פעמית שדועכת.",
           processExampleHe:
             "פרויקט-DMAIC לשיפור forecast accuracy: Define — accuracy 78%, יעד 90% למותג-מפתח. Measure — baseline + פילוח-שגיאה. Analyze — RCA: מבצעים לא-משוקללים. Improve — שילוב לוח-מבצעים בתחזית; פיילוט. Control — Custom Alert על accuracy + תקנון-תהליך-מבצעים. accuracy עלה ל-89% ונשמר.",
-          cbcHe:
-            "ב-CBC DMAIC לשיפור fill rate בקיץ: Define (fill rate 91%→97%); Measure (baseline + פילוח-מותג); Analyze (חוסר-בקבוקים); Improve (חוזה-אספקה + safety stock דינמי); Control (Alert על DoS-בקבוקים ותקנון-הזמנה). השיפור נשמר לאורך הקיץ.",
+          scenarioHe:
+            "בארגון DMAIC לשיפור fill rate בקיץ: Define (fill rate 91%→97%); Measure (baseline + פילוח-מותג); Analyze (חוסר-בקבוקים); Improve (חוזה-אספקה + safety stock דינמי); Control (Alert על DoS-בקבוקים ותקנון-הזמנה). השיפור נשמר לאורך הקיץ.",
           navHe: [
             "SAP IBP Web UI ► Analytics ► Baseline & Drill-Down (Measure/Analyze)",
             "SAP IBP Web UI ► Custom Alerts (Control)",
@@ -893,8 +893,8 @@ export const CH12: TextbookChapter = {
         "לקשור את כל חלקי-הפרק לתמונה-אחת: מדידה נכונה, צריכה נכונה, מדדים-נכונים-לכל-מפגש, ממד-קיימות, ולולאת-שיפור-מתמיד — כדי שה-S&OP יהיה לא רק מתואם אלא גם משתפר-מחזור-אחר-מחזור.",
       processExampleHe:
         "מחזור-S&OP שלם בעדשת-מדדים: snapshot ➔ actuals ➔ accuracy/bias (Demand) ➔ utilization/DoS (Supply) ➔ fill rate/OTIF (Operating) ➔ revenue/margin (Executive) ➔ CO2e (קיימות) ➔ Alert על חריגה ➔ RCA+DMAIC ➔ scorecard מאוזן ➔ מחזור משופר.",
-      cbcHe:
-        "ב-CBC המסע: forecast accuracy לפי מותג ➔ ניצולת-קווי-מילוי ➔ fill rate ו-OTIF לרשתות ➔ margin אחרי build-ahead ➔ CO2e לליטר ➔ Alert+RCA+DMAIC על fill-rate-קיץ ➔ scorecard המאזן שירות/עלות/קיימות. כל קיץ טוב מהקודם.",
+      scenarioHe:
+        "בארגון המסע: forecast accuracy לפי מותג ➔ ניצולת-קווי-מילוי ➔ fill rate ו-OTIF לרשתות ➔ margin אחרי build-ahead ➔ CO2e לליטר ➔ Alert+RCA+DMAIC על fill-rate-קיץ ➔ scorecard המאזן שירות/עלות/קיימות. כל קיץ טוב מהקודם.",
       navHe: [
         "SAP IBP Web UI ► Analytics / Dashboards (כל מדדי-הפרק)",
         "SAP IBP Web UI ► Custom Alerts (ניטור)",

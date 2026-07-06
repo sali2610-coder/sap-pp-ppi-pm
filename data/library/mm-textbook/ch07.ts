@@ -9,7 +9,7 @@ export const CH7: TextbookChapter = {
   titleHe: "ניהול מלאי",
   titleEn: "Inventory Management",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לניהול-מלאי (Inventory Management) ב-SAP S/4HANA במסגרת Sourcing & Procurement. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC (מפעל-מילוי משקאות של קוקה-קולה), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך לתנועות-הסחורה ולספירת-המלאי, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בזיהוי-מלאי, תנועות-סחורה (MIGO וסוגי-תנועה 101/201/261/311/541/641), ספירת-מלאי-פיזית (MI01/MI04/MI07), דיווח וקונפיגורציה — ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לניהול-מלאי (Inventory Management) ב-SAP S/4HANA במסגרת Sourcing & Procurement. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון (מפעל-מילוי משקאות של מוצר לדוגמה), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך לתנועות-הסחורה ולספירת-המלאי, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בזיהוי-מלאי, תנועות-סחורה (MIGO וסוגי-תנועה 101/201/261/311/541/641), ספירת-מלאי-פיזית (MI01/MI04/MI07), דיווח וקונפיגורציה — ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 7.1
     {
@@ -24,8 +24,8 @@ export const CH7: TextbookChapter = {
         "המטרה: לספק תמונת-מלאי מדויקת ומעודכנת לכל התהליכים — MRP מתכנן לפיה, מכירות מבטיחות זמינות (ATP) לפיה, וכספים מדווחים את ערך-המלאי במאזן לפיה. מלאי מדויק = החלטות-עסק נכונות; מלאי שגוי = עודפים, חוסרים ושגיאות-מאזן.",
       processExampleHe:
         "מחזור מלא: ספק מספק חומר-גלם → קבלת-סחורה (101) מגדילה מלאי ומזכה GR/IR; ייצור מושך את החומר → הוצאה-לייצור (261) מקטינה מלאי ומחייבת את הפק\"ע; המוצר המוגמר נקלט (101 מפק\"ע); מכירה מוציאה אותו → הוצאה-למכירה (601) מקטינה מלאי ומחייבת עלות-מכר. כל שלב = מסמך-חומר + מסמך-FI.",
-      cbcHe:
-        "ב-CBC המחסן מנהל תרכיז, סוכר, CO2 ומים-מטופלים (חומרי-גלם מנוהלי-אצווה), חצאי-מוצר (תערובת-בסיס) ומשקאות-מוגמרים על משטחים. כל קבלת-תרכיז מספק, כל משיכה לקו-המילוי וכל העברת-מוגמר למרכז-הפצה = תנועת-מלאי המעדכנת כמות וערך בזמן-אמת.",
+      scenarioHe:
+        "בארגון המחסן מנהל תרכיז, סוכר, CO2 ומים-מטופלים (חומרי-גלם מנוהלי-אצווה), חצאי-מוצר (תערובת-בסיס) ומשקאות-מוגמרים על משטחים. כל קבלת-תרכיז מספק, כל משיכה לקו-המילוי וכל העברת-מוגמר למרכז-הפצה = תנועת-מלאי המעדכנת כמות וערך בזמן-אמת.",
       navHe: [
         "Materials Management ► Inventory Management and Physical Inventory ► General Settings",
         "Materials Management ► Inventory Management and Physical Inventory ► Goods Receipt",
@@ -88,15 +88,15 @@ export const CH7: TextbookChapter = {
       execHe:
         "ניהול-המלאי ב-S/4HANA מבחין בין יחידות-מלאי לפי שישה ממדים: זהות-החומר, מיקום, שימושיות (Usability), בעלות (Ownership), אצווה (Batch) ומספר-סידורי (Serial). כל ממד מפצל את המלאי ליחידות-ניהול נפרדות — אותו חומר יכול להופיע פעמים רבות, כל פעם במיקום, סטטוס או בעלות שונים. הבנת ששת הממדים היא תנאי לכל פעולת-מלאי נכונה.",
       beginnerHe:
-        "אותו חומר אינו 'גוש אחד'. SAP מפצל אותו לפי שאלות: איזה חומר זה? איפה הוא? האם מותר להשתמש בו? של מי הוא? לאיזו אצווה הוא שייך? ומה מספרו-הסידורי? כל תשובה שונה = יחידת-מלאי נפרדת. כך SAP יודע להבדיל בין 100 בקבוקים תקינים ב-CBC ל-50 בקבוקים בבדיקת-איכות.",
+        "אותו חומר אינו 'גוש אחד'. SAP מפצל אותו לפי שאלות: איזה חומר זה? איפה הוא? האם מותר להשתמש בו? של מי הוא? לאיזו אצווה הוא שייך? ומה מספרו-הסידורי? כל תשובה שונה = יחידת-מלאי נפרדת. כך SAP יודע להבדיל בין 100 בקבוקים תקינים בארגון ל-50 בקבוקים בבדיקת-איכות.",
       consultantHe:
         "ששת הממדים ממופים לשדות-מפתח: Material (MATNR), Plant/Storage Location (WERKS/LGORT ב-MARD), Stock Type (Unrestricted/Quality/Blocked), Special Stock Indicator (Sobkz — בעלות/ייעוד), Batch (CHARG ב-MCHB), Serial Number (OBJK/SER*). כל צירוף ייחודי הוא 'Stock Segment' עם כמות וערך משלו. ה-Special Stock (קונסיגנציה K, Project Q, Subcontracting O, Sales E) מנוהל בטבלאות נפרדות (MKOL, MSPR וכו').",
       purposeHe:
         "המטרה: לאפשר שליטה גרעינית — לדעת לא רק 'כמה יש' אלא 'כמה זמין, היכן, באיזה סטטוס ושל מי'. זהו הבסיס ל-ATP מדויק, ל-Traceability (אצווה/סידורי), ולהפרדה חשבונאית בין מלאי-עצמי למלאי-זר (קונסיגנציה).",
       processExampleHe:
         "חומר נכנס במצב Quality Inspection (Stock Type) → אינו זמין ל-MRP; לאחר אישור-QA מתבצעת Transfer Posting ל-Unrestricted (321) → כעת זמין. אם החומר מנוהל-אצווה, כל קבלה מקבלת Batch ייחודי; אם מנוהל-סידורי — כל יחידה מקבלת Serial Number עוקב.",
-      cbcHe:
-        "ב-CBC אותו תרכיז עשוי להתקיים בו-זמנית: 500 ק\"ג Unrestricted במחסן 0001, 200 ק\"ג ב-Quality Inspection ממשלוח-חדש, ו-100 ק\"ג קונסיגנציה מהספק — שלוש יחידות-מלאי נפרדות, כל אחת באצווה משלה לצורך מעקב-תוקף.",
+      scenarioHe:
+        "בארגון אותו תרכיז עשוי להתקיים בו-זמנית: 500 ק\"ג Unrestricted במחסן 0001, 200 ק\"ג ב-Quality Inspection ממשלוח-חדש, ו-100 ק\"ג קונסיגנציה מהספק — שלוש יחידות-מלאי נפרדות, כל אחת באצווה משלה לצורך מעקב-תוקף.",
       navHe: [
         "Materials Management ► Inventory Management and Physical Inventory ► General Settings ► Set Tolerance Limits",
         "Logistics – General ► Batch Management",
@@ -159,7 +159,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "המלאי תמיד נשמר ביחידת-המידה הבסיסית (Base UoM, MARA-MEINS). תנועות ב-UoM אחרת מומרות אוטומטית. סוג-החומר (Material Type) קובע אם החומר מנוהל-כמות בלבד או גם מנוהל-ערך, ואת קבוצת-ההערכה (Valuation Class) דרך MBEW.",
           purposeHe: "לקשר כל יחידת-מלאי לנתוני-האב הקובעים את אופן-הניהול שלה — מידה, ערך, אצווה — ולמנוע ערבוב בין חומרים.",
           processExampleHe: "תנועת-קבלה של 1,000 ליטר תרכיז: SAP מזהה MATNR, מוודא Base UoM = ליטר, ומעדכן את MARD ביחידה הבסיסית גם אם ההזמנה הייתה בחביות.",
-          cbcHe: "ב-CBC לכל תרכיז, סוכר, בקבוק ופקק מספר-חומר ייחודי; משקה-מוגמר נמדד ביחידות-אריזה אך מנוהל-מלאי לפי Base UoM שהוגדר.",
+          scenarioHe: "בארגון לכל תרכיז, סוכר, בקבוק ופקק מספר-חומר ייחודי; משקה-מוגמר נמדד ביחידות-אריזה אך מנוהל-מלאי לפי Base UoM שהוגדר.",
           navHe: ["Logistics – General ► Material Master ► Basic Settings ► Material Types ► Define Attributes of Material Types (OMS2)"],
           tables: ["MARA", "MAKT", "MARD"],
           tcodes: ["MM03", "MMBE", "MIGO"],
@@ -178,7 +178,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Plant (T001W) הוא יחידת-התכנון; Storage Location (T001L) היא חלוקה לוגית בתוכו (MARD). מחסן-לוגיסטי (WM/EWM) מוסיף שכבת Bin-level. ב-S/4HANA EWM מומלץ; הקישור הוא Storage Location ↔ Warehouse Number. MRP רץ ברמת-Plant, אך אפשר MRP Areas לרמת-מחסן.",
           purposeHe: "לדעת היכן בדיוק נמצא החומר — לתכנון, ללוגיסטיקה ולספירה — ולהפריד מלאי בין מחסנים פיזיים/לוגיים.",
           processExampleHe: "חומר מתקבל ל-Storage Location 0001 (חומרי-גלם); לפני ייצור מועבר ל-0002 (קו-מילוי) דרך Transfer Posting (311). MRP רואה את הסכום ברמת-Plant.",
-          cbcHe: "ב-CBC: SLoc 'RAW' לחומרי-גלם, 'PROD' ליד הקו, 'FG' למוגמרים ו-'QUAL' לבדיקת-איכות; כולם תחת אותו Plant של מפעל-המילוי.",
+          scenarioHe: "בארגון: SLoc 'RAW' לחומרי-גלם, 'PROD' ליד הקו, 'FG' למוגמרים ו-'QUAL' לבדיקת-איכות; כולם תחת אותו Plant של מפעל-המילוי.",
           navHe: ["Enterprise Structure ► Definition ► Materials Management ► Maintain Storage Location", "Enterprise Structure ► Assignment ► Logistics Execution ► Assign Warehouse Number to Plant/Storage Location"],
           tables: ["T001W", "T001L", "MARD", "MARC"],
           tcodes: ["OX09", "MMSC", "MMBE"],
@@ -197,7 +197,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Stock Type נקבע על-ידי Movement Type בתנועה (למשל 101 ל-Unrestricted, 103/105 ל-Blocked GR, 321 העברה מ-QI ל-Unrestricted). חומר מנוהל-QM מתקבל אוטומטית ל-Quality Inspection ומשוחרר עם Usage Decision. MARD מנהל שלוש עמודות-כמות נפרדות (LABST/INSME/SPEME).",
           purposeHe: "להבטיח שרק חומר מאושר ייכנס לייצור/מכירה, ולתמוך בתהליכי-איכות ובהחזקת-מלאי-חסום עד הכרעה.",
           processExampleHe: "GR של חומר מנוהל-QM (101) → נכנס ל-Quality Inspection (INSME); QA מבצע Usage Decision → Transfer Posting (321) ל-Unrestricted (LABST); כעת זמין ל-MRP.",
-          cbcHe: "ב-CBC כל משלוח-תרכיז נכנס ל-Quality Inspection עד בדיקת-מעבדה (אלרגנים/ריכוז); רק לאחר אישור הוא הופך ל-Unrestricted ומשוחרר לקו-המילוי.",
+          scenarioHe: "בארגון כל משלוח-תרכיז נכנס ל-Quality Inspection עד בדיקת-מעבדה (אלרגנים/ריכוז); רק לאחר אישור הוא הופך ל-Unrestricted ומשוחרר לקו-המילוי.",
           navHe: ["Materials Management ► Inventory Management and Physical Inventory ► Goods Receipt ► Set Stock Type for Movement Types", "Quality Management ► Quality Inspection ► Inspection Lot Completion ► Define Usage Decision"],
           tables: ["MARD", "QALS", "MSEG"],
           tcodes: ["MIGO", "QA11", "MB1B"],
@@ -216,7 +216,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Special Stock Indicator (Sobkz) מפצל את המלאי לטבלאות-ייעודיות: MKOL (קונסיגנציה K + ספק), MSPR (Subcontracting O אצל ספק), MSKA (Sales Order E), MSKU. הערכה וחשבונאות שונות — קונסיגנציה אינה במאזן עד Consignment Withdrawal (411 K) שיוצר התחייבות לספק.",
           purposeHe: "להפריד חשבונאית וכמותית בין מלאי בבעלותך למלאי-זר/מיועד, לעמידה בכללי-מאזן ובמעקב-בעלות.",
           processExampleHe: "ספק מספק תרכיז בקונסיגנציה (101 K) → נכנס ל-MKOL, לא למאזן; ייצור מושך אותו → Consignment Withdrawal (411 K) מעביר ל-Own Stock ויוצר חוב לספק; הוצאה-לייצור (261) מהמלאי-העצמי.",
-          cbcHe: "ב-CBC משטחים ומכלי-CO2 חוזרים מנוהלים כ-Returnable Packaging (M); תרכיז-ייבוא עשוי להיות בקונסיגנציה עד משיכה לקו, מה שמשפר תזרים.",
+          scenarioHe: "בארגון משטחים ומכלי-CO2 חוזרים מנוהלים כ-Returnable Packaging (M); תרכיז-ייבוא עשוי להיות בקונסיגנציה עד משיכה לקו, מה שמשפר תזרים.",
           navHe: ["Materials Management ► Purchasing ► Consignment ► Set Up Consignment", "Materials Management ► Inventory Management ► Goods Issue/Transfer Postings ► Define Screen Layout"],
           tables: ["MKOL", "MSPR", "MSKA", "MSKU"],
           tcodes: ["MIGO", "MB1B", "MRKO", "MMBE"],
@@ -235,7 +235,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "מלאי-אצווה מנוהל ב-MCHB (כמות לפי Batch+SLoc), הכותרת ב-MCH1, והמאפיינים דרך Classification (Class 023, MCHA/AUSP). Batch Determination בוחר אצוות אוטומטית בתנועות לפי אסטרטגיה. רמת-Batch יכולה להיות Plant / Material / Client (ב-S/4HANA לרוב Material). FEFO (First-Expired-First-Out) נתמך דרך Batch Determination.",
           purposeHe: "לאפשר מעקב-מקור-ויעד (Traceability) דו-כיווני, ניהול-תוקף (Shelf Life) ובחירת-אצווה אוטומטית — תנאי-רגולציה במזון/תרופות.",
           processExampleHe: "GR של תרכיז יוצר Batch עם תאריך-תוקף; בייצור Batch Determination בוחר את האצווה הקרובה-לתפוגה (FEFO); המוצר-המוגמר מקבל Batch חדש המקושר לאצוות-הרכיבים — שרשרת-Traceability מלאה.",
-          cbcHe: "ב-CBC כל אצוות-תרכיז נושאת תוקף; קו-המילוי צורך FEFO; כל אצוות-משקה-מוגמר מתועדת מול אצוות-הרכיבים — כך ריקול ממוקד אפשרי תוך דקות.",
+          scenarioHe: "בארגון כל אצוות-תרכיז נושאת תוקף; קו-המילוי צורך FEFO; כל אצוות-משקה-מוגמר מתועדת מול אצוות-הרכיבים — כך ריקול ממוקד אפשרי תוך דקות.",
           navHe: ["Logistics – General ► Batch Management ► Specify Batch Level and Activate Status Management", "Logistics – General ► Batch Management ► Batch Determination and Batch Check ► Strategy Types"],
           tables: ["MCHB", "MCH1", "MCHA", "AUSP"],
           tcodes: ["MSC1N", "MSC2N", "MSC3N", "MMBE"],
@@ -244,7 +244,7 @@ export const CH7: TextbookChapter = {
           mistakesHe: ["הפעלת ניהול-אצווה לאחר קיום-מלאי — דורש המרה מורכבת.", "אי-הגדרת Shelf Life Expiration לחומרים-מתכלים."],
           troubleshootHe: ["GI נכשל ➔ לא צוין Batch לחומר מנוהל-אצווה.", "אצווה-לא-נכונה נבחרה ➔ אסטרטגיית Batch Determination שגויה."],
           bestPracticeHe: ["הפעל Batch Management בפתיחת-החומר, לא בדיעבד.", "השתמש ב-FEFO לחומרים-מתכלים; הגדר Shelf Life."],
-          interviewHe: [{ qHe: "מהי אצווה ולמה היא חשובה ב-CBC?", aHe: "תת-כמות הומוגנית עם מאפיינים משותפים (תוקף/ספק). היא מאפשרת Traceability וריקול ממוקד — חובה רגולטורית במזון/משקאות." }],
+          interviewHe: [{ qHe: "מהי אצווה ולמה היא חשובה בארגון?", aHe: "תת-כמות הומוגנית עם מאפיינים משותפים (תוקף/ספק). היא מאפשרת Traceability וריקול ממוקד — חובה רגולטורית במזון/משקאות." }],
           takeawaysHe: ["אצווה = תת-כמות הומוגנית עם מאפיינים.", "מנוהלת ב-MCHB; מאפיינים דרך Classification.", "Batch Determination/FEFO בוחרים אוטומטית."],
           relatedHe: [{ labelHe: "אובייקט · MCHB", href: "/library/mm/object/MCHB/" }],
         },
@@ -255,7 +255,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Serial Number Profile (מוגדר ב-OIS2) מקושר באב-החומר (MARC) וקובע באילו תנועות חובה/אופציונלי לציין סידורי. המספרים מנוהלים ב-OBJK/SER01/SER03 ומקושרים ל-Equipment (PM). ב-IM, Serialization בתנועות-מלאי מסונכרנת עם כמות-המלאי.",
           purposeHe: "מעקב ברמת-יחידה לאחריות, תחזוקה והיסטוריית-תנועות — היכן הפריט המסוים נמצא ומה עבר עליו.",
           processExampleHe: "קבלת ציוד-מילוי (101) מחייבת הזנת מספר-סידורי לכל יחידה; כל תנועה עוקבת אחריו; ב-PM נוצר Equipment Master מקושר לתחזוקה.",
-          cbcHe: "ב-CBC מכלי-CO2 לחץ-גבוה וציוד-מעבדה יקר מנוהלים-סידורית — מאפשר מעקב-בדיקות-תקופתיות ואיתור-מיקום פר-מכל.",
+          scenarioHe: "בארגון מכלי-CO2 לחץ-גבוה וציוד-מעבדה יקר מנוהלים-סידורית — מאפשר מעקב-בדיקות-תקופתיות ואיתור-מיקום פר-מכל.",
           navHe: ["Plant Maintenance and Customer Service ► Master Data ► Technical Objects ► Serial Number Management ► Define Serial Number Profiles (OIS2)", "Logistics – General ► Serial Number Management"],
           tables: ["OBJK", "SER01", "SER03", "EQUI"],
           tcodes: ["IQ01", "IQ02", "IQ03", "MIGO"],
@@ -282,8 +282,8 @@ export const CH7: TextbookChapter = {
         "לתעד ולערך כל שינוי-מלאי באופן עקבי, לסנכרן Logistics ו-FI, ולהזין את MRP, ATP והעלויות בנתונים מעודכנים בזמן-אמת.",
       processExampleHe:
         "Procure-to-Pay: GR מ-PO (101) מגדיל מלאי ומזכה GR/IR Clearing; משיכה-לייצור (261) מקטינה מלאי ומחייבת פק\"ע; קליטת-מוגמר (101 מפק\"ע); הוצאה-למכירה (601 מ-Delivery) מקטינה מלאי ומחייבת COGS. כל שלב = מסמך-חומר + FI.",
-      cbcHe:
-        "ב-CBC זרימה יומית: קבלת-תרכיז מספק (101) → משיכה לקו-המילוי (261) → קליטת-משקה-מוגמר (101) → העברה למרכז-הפצה (641/STO) → הוצאה ללקוח (601). כל תנועה מעדכנת מלאי, ערך ומסמך-FI אוטומטית.",
+      scenarioHe:
+        "בארגון זרימה יומית: קבלת-תרכיז מספק (101) → משיכה לקו-המילוי (261) → קליטת-משקה-מוגמר (101) → העברה למרכז-הפצה (641/STO) → הוצאה ללקוח (601). כל תנועה מעדכנת מלאי, ערך ומסמך-FI אוטומטית.",
       navHe: [
         "Materials Management ► Inventory Management and Physical Inventory ► Movement Types ► Copy, Change Movement Types (OMJJ)",
         "Materials Management ► Inventory Management and Physical Inventory ► Goods Receipt ► Create Storage Location Automatically",
@@ -346,7 +346,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "GR ל-PO (101) מזכה GR/IR Clearing (WRX) ומחייב מלאי (BSX); GR מפק\"ע (101) מזכה את הפק\"ע (GBB-AUF). אם מנוהל-QM, החומר נכנס ל-Quality Inspection. תנועות-משנה: 103 (GR ל-Blocked), 105 (שחרור מ-Blocked). EWM/WM מוסיף Putaway.",
           purposeHe: "לתעד כניסת-חומר, להגדיל מלאי זמין ולסגור את צד-הקבלה במחזור-הרכש/הייצור — בסיס ל-Three-Way-Match (PO/GR/Invoice).",
           processExampleHe: "ספק שולח 1,000 ק\"ג סוכר מול PO; פקיד-המחסן מבצע MIGO GR (101) → מלאי +1,000, GR/IR מזוכה; חשבונית-הספק תקוזז מול GR/IR ב-MIRO (Three-Way-Match).",
-          cbcHe: "ב-CBC קבלת-תרכיז מספק (101) נכנסת ל-Quality Inspection לבדיקת-מעבדה; קבלת-משקה-מוגמר מהקו (101 מפק\"ע) נכנסת ל-Unrestricted במחסן-המוגמרים.",
+          scenarioHe: "בארגון קבלת-תרכיז מספק (101) נכנסת ל-Quality Inspection לבדיקת-מעבדה; קבלת-משקה-מוגמר מהקו (101 מפק\"ע) נכנסת ל-Unrestricted במחסן-המוגמרים.",
           navHe: ["Materials Management ► Inventory Management and Physical Inventory ► Goods Receipt ► For Purchase Order / For Production Order"],
           tables: ["MATDOC", "MSEG", "EKBE", "MARD"],
           tcodes: ["MIGO", "MB01", "MB31"],
@@ -366,7 +366,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "GI לפק\"ע (261) מזכה מלאי (BSX) ומחייב את הפק\"ע (GBB-VBR/Consumption). GI ל-Cost Center (201) מחייב חשבון-הוצאה; Scrapping (551) מחייב הוצאת-בלאי. GI למכירה (601) מ-Delivery מחייב COGS (GBB-VAX/VAY). ב-Backflush, ה-261 מתבצע אוטומטית בדיווח-הייצור.",
           purposeHe: "לתעד צריכה/יציאה, להקטין מלאי זמין ולחייב את היעד הנכון (פק\"ע / מרכז-עלות / עלות-מכר) — סגירת צד-הצריכה.",
           processExampleHe: "קו-מילוי צורך תרכיז: GI לפק\"ע (261) → מלאי -X, פק\"ע מחויבת בעלות-החומר; אם הוגדר Backflush — ה-261 קורה אוטומטית בדיווח-הכמות-המיוצרת.",
-          cbcHe: "ב-CBC משיכת תרכיז/סוכר/CO2 לקו (261) מתבצעת לרוב כ-Backflush בדיווח-המילוי; חומר-פגום שנפסל מדווח כ-Scrapping (551).",
+          scenarioHe: "בארגון משיכת תרכיז/סוכר/CO2 לקו (261) מתבצעת לרוב כ-Backflush בדיווח-המילוי; חומר-פגום שנפסל מדווח כ-Scrapping (551).",
           navHe: ["Materials Management ► Inventory Management and Physical Inventory ► Goods Issue ► Define Screen Layout / Reasons"],
           tables: ["MATDOC", "MSEG", "RESB", "MARD"],
           tcodes: ["MIGO", "MB1A", "MB26"],
@@ -386,7 +386,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "העברה בין-SLoc (311) באותו Plant — One-Step, ללא ערך-FI (אותו Valuation). העברה בין-Plant עם STO (ME21N → GI 641 → GR 101) — Two-Step, עם Stock-in-Transit וייתכן הפרש-Valuation בין-מפעלי. Cross-Company STO יוצר חשבונית-בין-חברתית. EWM מנהל את ההובלה-הפנימית.",
           purposeHe: "להזיז מלאי לאן שנדרש — לקו-הייצור, למרכז-הפצה או למפעל-אחר — תוך שמירת-נראות (Stock-in-Transit) ודיוק-ערך.",
           processExampleHe: "STO בין מפעל-ייצור למרכז-הפצה: ME21N יוצר STO → GI עם 641 (מלאי יוצא ל-Stock-in-Transit) → הובלה → GR 101 ביעד. הנראות נשמרת לאורך כל המעבר.",
-          cbcHe: "ב-CBC העברת משקאות-מוגמרים ממפעל-המילוי למרכזי-הפצה אזוריים מנוהלת ב-STO (641/101); משיכת תרכיז ממחסן-גלם לקו-המילוי = העברה בין-SLoc (311).",
+          scenarioHe: "בארגון העברת משקאות-מוגמרים ממפעל-המילוי למרכזי-הפצה אזוריים מנוהלת ב-STO (641/101); משיכת תרכיז ממחסן-גלם לקו-המילוי = העברה בין-SLoc (311).",
           navHe: ["Materials Management ► Purchasing ► Purchase Order ► Set Up Stock Transport Order ► Define Shipping Data / Assign Document Type", "Materials Management ► Inventory Management ► Transfer Posting"],
           tables: ["MATDOC", "MSEG", "EKKO", "MSLB"],
           tcodes: ["MIGO", "MB1B", "ME21N", "MB5T"],
@@ -406,7 +406,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Transfer Posting מבוצע ב-MB1B/MIGO ומשנה Stock Type (321/322/343/344), חומר (309/310), או בעלות (Special Stock). לרוב ללא ערך-FI אם ה-Valuation זהה; שינוי-Valuation (309 בין חומרים בעלי-ערך-שונה) כן יוצר מסמך-FI. אין תנועה-פיזית — רק עדכון-קטגוריה ב-MARD.",
           purposeHe: "לשנות את אופן-ניהול המלאי (סטטוס/חומר/בעלות) בלי הזזה-פיזית — תומך בתהליכי-איכות, ריקלסיפיקציה ושחרורים.",
           processExampleHe: "לאחר אישור-QA: Transfer Posting 321 מעביר את החומר מ-Quality Inspection ל-Unrestricted באותו מחסן — לא זז פיזית, אך כעת זמין ל-MRP.",
-          cbcHe: "ב-CBC שחרור תרכיז שאושר במעבדה (321 QI→Unrestricted); המרת חומר-גלם-גנרי לחומר-ממותג ספציפי (309) — שניהם רישומי-העברה ללא הזזה.",
+          scenarioHe: "בארגון שחרור תרכיז שאושר במעבדה (321 QI→Unrestricted); המרת חומר-גלם-גנרי לחומר-ממותג ספציפי (309) — שניהם רישומי-העברה ללא הזזה.",
           navHe: ["Materials Management ► Inventory Management and Physical Inventory ► Transfer Posting ► Define Screen Layout"],
           tables: ["MATDOC", "MSEG", "MARD"],
           tcodes: ["MIGO", "MB1B", "MBST"],
@@ -433,8 +433,8 @@ export const CH7: TextbookChapter = {
         "להבטיח שהמלאי-הספרי תואם למציאות — לדיוק-MRP, לאמינות-ATP ולנכונות-המאזן (דרישה חשבונאית/רגולטורית).",
       processExampleHe:
         "ספירה-תקופתית: MI01 יוצר מסמך-ספירה עם Posting Block; הצוות סופר פיזית; MI04 מזין כמויות-ספירה; MI20 משווה ומציג הפרשים; MI07 רושם את ההפרש (701/702) ומיישר את המלאי-הספרי לפיזי.",
-      cbcHe:
-        "ב-CBC ספירה-מחזורית (Cycle Counting) לפי ABC: תרכיז יקר (A) נספר לעיתים-קרובות, אריזה זולה (C) לעיתים-רחוקות; הפרשים נרשמים (MI07) ומיישרים את מלאי-המחסן.",
+      scenarioHe:
+        "בארגון ספירה-מחזורית (Cycle Counting) לפי ABC: תרכיז יקר (A) נספר לעיתים-קרובות, אריזה זולה (C) לעיתים-רחוקות; הפרשים נרשמים (MI07) ומיישרים את מלאי-המחסן.",
       navHe: [
         "Materials Management ► Inventory Management and Physical Inventory ► Physical Inventory ► Settings for Physical Inventory",
         "Materials Management ► Inventory Management and Physical Inventory ► Physical Inventory ► Cycle Counting ► Define Cycle Counting (OMCO)",
@@ -498,7 +498,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "MI01 יוצר IKPF/ISEG עם תאריך-ספירה, Plant/SLoc, ואינדיקטור Posting Block / Freeze Book Inventory. MI31 מייצר מסמכים בכמות גדולה לפי בחירה (חומר/מחסן/Cycle Counting). הכמות-הספרית מוקפאת (Freeze) כדי שההשוואה תהיה מול נקודת-זמן עקבית.",
           purposeHe: "להגדיר את היקף-הספירה ולהקפיא את המלאי-הספרי כך שההשוואה לפיזי תהיה מדויקת ועקבית.",
           processExampleHe: "לקראת ספירה-רבעונית: MI31 מייצר מסמכי-ספירה לכל פריטי-A במחסן; Posting Block מופעל; הצוות מקבל רשימות-ספירה מודפסות.",
-          cbcHe: "ב-CBC לפני ספירת מחסן-התרכיזים: MI31 מייצר מסמכי-ספירה לכל אצוות-התרכיז עם Freeze, כדי שתנועות-קו לא ישבשו את הספירה.",
+          scenarioHe: "בארגון לפני ספירת מחסן-התרכיזים: MI31 מייצר מסמכי-ספירה לכל אצוות-התרכיז עם Freeze, כדי שתנועות-קו לא ישבשו את הספירה.",
           navHe: ["Materials Management ► Inventory Management and Physical Inventory ► Physical Inventory ► Physical Inventory Document ► Create"],
           tables: ["IKPF", "ISEG"],
           tcodes: ["MI01", "MI31", "MICN"],
@@ -517,7 +517,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "מבוצע דרך MICN (Cycle Counting batch) או Job-תזמון של MI31 ב-SM36/Application Jobs. המערכת בוחרת פריטים לפי CC-indicator ותאריך-ספירה-אחרון (MARD/MARC), ויוצרת מסמכים אוטומטית. ב-Fiori — אפליקציית 'Schedule Physical Inventory Document Creation' מנהלת זאת כ-Job מחזורי.",
           purposeHe: "לאוטמט את שלב-היצירה בספירה-מחזורית, להקטין עבודה-ידנית ולהבטיח שאף פריט לא 'יישכח' מהמועד שלו.",
           processExampleHe: "Job לילי בוחר את כל פריטי-A שעברו 30 יום מספירתם-האחרונה ויוצר להם מסמכי-ספירה; בבוקר הצוות מוצא רשימות-מוכנות.",
-          cbcHe: "ב-CBC Job-יומי מייצר מסמכי Cycle Counting לתרכיזים-יקרים (A) שהגיע מועדם — המחסן מקבל רשימות-ספירה אוטומטית מדי בוקר.",
+          scenarioHe: "בארגון Job-יומי מייצר מסמכי Cycle Counting לתרכיזים-יקרים (A) שהגיע מועדם — המחסן מקבל רשימות-ספירה אוטומטית מדי בוקר.",
           navHe: ["Materials Management ► Inventory Management and Physical Inventory ► Physical Inventory ► Cycle Counting ► Batch Input for Cycle Counting"],
           tables: ["IKPF", "MARD", "MARC"],
           tcodes: ["MICN", "MI31", "SM36"],
@@ -536,7 +536,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "MI04 (Enter Count) מעדכן את ISEG בכמות-הנספרת ומסמן את הפריט כ'נספר'. אפשר Zero Count (פריט-ריק) ו-Recount (ספירה-חוזרת, MI11). ב-Fiori 'Manage Physical Inventory Count' מאפשר הזנה-ניידת. ההפרש מחושב אך טרם-נרשם — רישום קורה רק ב-MI07.",
           purposeHe: "לתעד את תוצאות-הספירה-הפיזית במערכת ולחשב הפרשים לפני הכרעה — שלב-ביניים בין הספירה לרישום.",
           processExampleHe: "צוות-המחסן ספר 980 ק\"ג סוכר; ב-MI04 מזינים 980 מול 1,000 ספרי; SAP מציג הפרש -20; הפריט מסומן 'נספר' וממתין ל-Difference Posting.",
-          cbcHe: "ב-CBC ספירת אצוות-תרכיז: הסופר מזין כמות-בפועל לכל אצווה ב-MI04 (או באפליקציה-ניידת ברצפת-המחסן); הפרשים מודגשים לפני אישור.",
+          scenarioHe: "בארגון ספירת אצוות-תרכיז: הסופר מזין כמות-בפועל לכל אצווה ב-MI04 (או באפליקציה-ניידת ברצפת-המחסן); הפרשים מודגשים לפני אישור.",
           navHe: ["Materials Management ► Inventory Management and Physical Inventory ► Physical Inventory ► Count ► Enter / Change Count"],
           tables: ["ISEG", "IKPF"],
           tcodes: ["MI04", "MI05", "MI11"],
@@ -555,7 +555,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "MI20 (List of Differences) מציג את כל ההפרשים הספריים-מול-נספרים; חריגים מעבר-לטולרנס מצריכים אישור/Recount. MI07 (Post Difference) יוצר מסמך-חומר עם 701/702 (Unrestricted) או 711/712 (QI/Blocked) — מעדכן MARD וערך-MBEW, ורושם הפרש-מלאי ל-FI (GBB-INV). הפעולה סוגרת את מסמך-הספירה.",
           purposeHe: "ליישר את המלאי-הספרי למציאות-הפיזית, לתעד את ההפרש החשבונאית, ולסגור את מחזור-הספירה.",
           processExampleHe: "MI20 מציג הפרש -20 ק\"ג סוכר; בתוך-הטולרנס; MI07 רושם 702 (הקטנת-מלאי) → MARD מתוקן ל-980, הפרש -20 מחויב לחשבון-הפרשי-מלאי. המסמך נסגר.",
-          cbcHe: "ב-CBC לאחר ספירת-המחסן: MI20 מרכז את כל ההפרשים בין-האצוות; MI07 רושם אותם, מיישר מלאי-תרכיז ומזין דוח-הפרשים לבקרת-ניהול.",
+          scenarioHe: "בארגון לאחר ספירת-המחסן: MI20 מרכז את כל ההפרשים בין-האצוות; MI07 רושם אותם, מיישר מלאי-תרכיז ומזין דוח-הפרשים לבקרת-ניהול.",
           navHe: ["Materials Management ► Inventory Management and Physical Inventory ► Physical Inventory ► Difference ► Post Difference"],
           tables: ["IKPF", "ISEG", "MATDOC", "MARD"],
           tcodes: ["MI20", "MI07", "MI10", "MIDO"],
@@ -575,7 +575,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "ABC-classification מבוצע ב-MIBC (לפי ערך-צריכה/מלאי) ומאכלס MARC-CCIND (A/B/C/D). ב-OMCO מגדירים לכל אינדיקטור Cycle-Counting interval (ימים בין-ספירות) ומספר-ספירות-בשנה. ה-Job (MICN) בוחר פריטים לפי CCIND + תאריך-ספירה-אחרון ויוצר מסמכים. כך עומס-הספירה מתפלג לאורך-השנה.",
           purposeHe: "למקד מאמץ-ספירה היכן שהסיכון/הערך גבוה, להפחית עומס-תפעולי, ולשמור דיוק-מלאי גבוה ברציפות במקום בנקודת-זמן-אחת.",
           processExampleHe: "ABC Analysis (MIBC) מסווג תרכיז כ-A (ספירה כל 30 יום), אריזה כ-C (כל 180 יום); MARC-CCIND מאוכלס; Job יומי יוצר מסמכי-ספירה לפי-מועד.",
-          cbcHe: "ב-CBC: תרכיז ותמציות (A) נספרים חודשית; סוכר/CO2 (B) רבעונית; פקקים/תוויות (C) חצי-שנתית — Cycle Counting מפלג את העומס ושומר דיוק בפריטים-היקרים.",
+          scenarioHe: "בארגון: תרכיז ותמציות (A) נספרים חודשית; סוכר/CO2 (B) רבעונית; פקקים/תוויות (C) חצי-שנתית — Cycle Counting מפלג את העומס ושומר דיוק בפריטים-היקרים.",
           navHe: ["Materials Management ► Inventory Management and Physical Inventory ► Physical Inventory ► Cycle Counting ► Define Cycle Counting (OMCO)"],
           tables: ["MARC", "T159C", "ISEG"],
           tcodes: ["OMCO", "MIBC", "MICN"],
@@ -594,7 +594,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "ב-Fiori Launchpad מוגדרים Tiles מסוג 'Transaction' (Semantic Object + Action) המפעילים את ה-T-Code ב-SAP GUI for HTML (Webgui, ITS). שימושי לעסקאות-Physical-Inventory שאין להן עדיין Fiori native. הרשאות זהות ל-SAP GUI; חוויית-המשתמש משולבת ב-Launchpad אך המסך הוא ה-Dynpro הקלאסי.",
           purposeHe: "לאפשר גישה מלאה לפונקציונליות-הספירה הקלאסית מתוך סביבת-Fiori-בדפדפן, בלי להתקין SAP GUI ובלי לאבד יכולות.",
           processExampleHe: "משתמש פותח Tile 'Post Difference' ב-Launchpad → נטען MI07 כ-SAP GUI for HTML בדפדפן → מבצע Difference Posting בדיוק כמו ב-SAP GUI הקלאסי.",
-          cbcHe: "ב-CBC מנהל-המחסן עובד כולו בדפדפן: אפליקציות-Fiori native לדיווח, ו-GUI for HTML לעסקאות-ספירה ישנות (MI07/MI20) — חוויה אחידה ללא התקנה.",
+          scenarioHe: "בארגון מנהל-המחסן עובד כולו בדפדפן: אפליקציות-Fiori native לדיווח, ו-GUI for HTML לעסקאות-ספירה ישנות (MI07/MI20) — חוויה אחידה ללא התקנה.",
           navHe: ["Fiori Launchpad ► Inventory Management group ► Physical Inventory transactions (SAP GUI for HTML tiles)"],
           tables: ["IKPF", "ISEG"],
           tcodes: ["MI01", "MI04", "MI07", "MI20"],
@@ -621,8 +621,8 @@ export const CH7: TextbookChapter = {
         "לספק נראות-מלאי לכל בעלי-העניין — תפעול (זמינות), כספים (ערך), וניהול (KPIs) — לבסס החלטות על נתונים מעודכנים בזמן-אמת.",
       processExampleHe:
         "מנהל-מחסן פותח Overview Page לראות מלאי-נמוך; קליק מוביל ל-Stock-Multiple-Materials; קליק-נוסף לדף-אובייקט-החומר עם כל תנועותיו (MB51) — Drill-down רציף מ-KPI לפרט.",
-      cbcHe:
-        "ב-CBC מנהל-המפעל פותח דשבורד-מלאי בזמן-אמת: רמות-תרכיז מול נקודות-הזמנה, ערך-מלאי-מוגמרים מול יעד, ותנועות-החריגות של היום — הכל מ-CDS מעל MATDOC.",
+      scenarioHe:
+        "בארגון מנהל-המפעל פותח דשבורד-מלאי בזמן-אמת: רמות-תרכיז מול נקודות-הזמנה, ערך-מלאי-מוגמרים מול יעד, ותנועות-החריגות של היום — הכל מ-CDS מעל MATDOC.",
       navHe: [
         "Fiori Launchpad ► Inventory Management ► Overview Pages / Analytical List Pages",
         "Materials Management ► Inventory Management and Physical Inventory ► Reporting",
@@ -677,7 +677,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Overview Page (Fiori Elements OVP) בנויה מ-Cards (List/Table/Analytical/KPI) על CDS Views. כל Card תומך ב-Filtering גלובלי ו-Navigation לאפליקציות-יעד (Object/List). מותאמת-אישית לפי-תפקיד דרך Manage Cards.",
           purposeHe: "לתת תמונת-מצב מהירה ומרוכזת למנהל-מלאי, עם נתיב-צלילה ישיר לבעיות.",
           processExampleHe: "מנהל פותח Inventory Overview; Card 'Materials Below Reorder Point' מציג 12 פריטים; קליק מוביל ישירות לרשימת-החומרים לטיפול.",
-          cbcHe: "ב-CBC דף-סקירה מציג כרטיסי 'תרכיז מתחת לנקודת-הזמנה', 'אצוות שתוקפן קרוב' ו'ערך-מוגמרים' — מבט-בוקר אחד למנהל-המפעל.",
+          scenarioHe: "בארגון דף-סקירה מציג כרטיסי 'תרכיז מתחת לנקודת-הזמנה', 'אצוות שתוקפן קרוב' ו'ערך-מוגמרים' — מבט-בוקר אחד למנהל-המפעל.",
           navHe: ["Fiori Launchpad ► Inventory Management ► Inventory Overview Page"],
           tables: ["MATDOC", "MARD", "MARC"],
           tcodes: ["MMBE"],
@@ -696,7 +696,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "MB51 (Material Document List) מסנן לפי Material/Plant/Movement Type/תאריך מעל MSEG. ב-Fiori 'Material Documents Overview' (List Report על CDS) מאפשר חיפוש-חופשי, Drill-down למסמך ו-Export. שימושי לביקורת, תחקור-הפרשים ומעקב-תנועות.",
           purposeHe: "לעקוב אחר היסטוריית-התנועות לכל חומר — לביקורת, לתחקור-הפרשי-ספירה ולאיתור-שגיאות-רישום.",
           processExampleHe: "תחקור הפרש-ספירה: MB51 על החומר מציג שכל ה-261 של אתמול נרשמו פעמיים — מקור-הפער זוהה תוך-דקות.",
-          cbcHe: "ב-CBC תחקור 'לאן נעלם תרכיז': Material Documents Overview מסנן Movement Type 261 ליום-נתון ומאתר משיכה-כפולה לקו-המילוי.",
+          scenarioHe: "בארגון תחקור 'לאן נעלם תרכיז': Material Documents Overview מסנן Movement Type 261 ליום-נתון ומאתר משיכה-כפולה לקו-המילוי.",
           navHe: ["Fiori Launchpad ► Inventory Management ► Material Documents Overview"],
           tables: ["MATDOC", "MSEG", "MKPF"],
           tcodes: ["MB51", "MB03", "MB5S"],
@@ -715,7 +715,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "MMBE (Stock Overview) מציג מלאי רב-ממדי (Plant/SLoc/Batch/Special/Stock-Type) לחומר; MB52 לרשימת-חומרים במחסן; MB5B מלאי לתאריך-רישום-היסטורי. ב-Fiori 'Stock — Multiple Materials' (CDS, בזמן-אמת) מחליף בהדרגה. שימושי ל-ATP, החלטות-רכש וספירה.",
           purposeHe: "לדעת את היתרה-הזמינה כעת (או בתאריך-עבר) לכל חתך — בסיס להחלטות-זמינות, רכש וספירה.",
           processExampleHe: "לפני התחייבות-אספקה ללקוח: MMBE על המוצר מראה 800 Unrestricted, 200 QI — רק 800 זמינים להבטחה; ההחלטה מתבססת על-כך.",
-          cbcHe: "ב-CBC לפני קמפיין-מכירה: 'Stock — Multiple Materials' מראה מלאי-משקאות-מוגמרים בכל מרכזי-ההפצה בזמן-אמת — בסיס להקצאה-ללקוחות.",
+          scenarioHe: "בארגון לפני קמפיין-מכירה: 'Stock — Multiple Materials' מראה מלאי-משקאות-מוגמרים בכל מרכזי-ההפצה בזמן-אמת — בסיס להקצאה-ללקוחות.",
           navHe: ["Fiori Launchpad ► Inventory Management ► Stock - Single / Multiple Materials"],
           tables: ["MARD", "MARC", "MCHB", "MBEW"],
           tcodes: ["MMBE", "MB52", "MB5B", "MB53"],
@@ -734,7 +734,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "מבוססות על MBEW (Valuation) — Standard Price (S) או Moving-Average (V), Total Value, Total Stock. אפליקציות כמו 'Material Inventory Values — Line Items/Balance Summary' (CDS) מציגות תנועות-ערך, Price Differences ו-Revaluations. מקושרות ל-Material Ledger (S/4HANA) לתמחיר רב-מטבעי ו-Actual Costing.",
           purposeHe: "לנטר את ערך-המלאי לצורכי-מאזן, לזהות חריגות-תמחיר (Price Differences) ולתמוך ב-Actual Costing — גשר Logistics↔FI.",
           processExampleHe: "סגירת-חודש: 'Material Inventory Values — Balance Summary' מראה ערך-מלאי-מוגמרים מול חודש-קודם; קפיצה מוסברת דרך Line Items כ-Revaluation לאחר עדכון-Standard-Price.",
-          cbcHe: "ב-CBC בקרת-עלות-משקאות: דוח-ערכי-מלאי מראה שווי-תרכיז במחסן מול תקציב, ומזהה Price Differences מעליית-מחיר-סוכר עולמית.",
+          scenarioHe: "בארגון בקרת-עלות-משקאות: דוח-ערכי-מלאי מראה שווי-תרכיז במחסן מול תקציב, ומזהה Price Differences מעליית-מחיר-סוכר עולמית.",
           navHe: ["Fiori Launchpad ► Inventory Accounting ► Material Inventory Values – Line Items / Balance Summary"],
           tables: ["MBEW", "MATDOC", "ACDOCA"],
           tcodes: ["MB5L", "MR21", "CKM3"],
@@ -753,7 +753,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Object Page (Fiori Elements) בנויה על CDS Composite View עם Header Facets ו-Sections (General/Stock/Movements/Valuation). תומכת ב-Navigation להקשרים (PO, פק\"ע, Batch) וב-Related Apps. מחליפה את ה-Drill-down הקלאסי המפוזר בעסקה-אחת מאוחדת.",
           purposeHe: "לרכז את כל ההקשר על אובייקט-יחיד לחקירה-מהירה, במקום ניווט בין דוחות-נפרדים.",
           processExampleHe: "חקירת אצווה חשודה: Object Page של ה-Batch מציג מקור (GR), כל תנועותיה, מלאי-נוכחי ותוקף — תמונה-מלאה בדף-אחד לצורך-ריקול.",
-          cbcHe: "ב-CBC Object Page של אצוות-משקה מציג את כל אצוות-הרכיבים שנכנסו אליה ואת יעדי-ההפצה — בסיס לריקול-ממוקד תוך-דקות.",
+          scenarioHe: "בארגון Object Page של אצוות-משקה מציג את כל אצוות-הרכיבים שנכנסו אליה ואת יעדי-ההפצה — בסיס לריקול-ממוקד תוך-דקות.",
           navHe: ["Fiori Launchpad ► Inventory Management ► Material / Batch / Material Document Object Page"],
           tables: ["MATDOC", "MARD", "MCHB", "MBEW"],
           tcodes: ["MM03", "MSC3N", "MB03"],
@@ -772,13 +772,13 @@ export const CH7: TextbookChapter = {
           consultantHe: "מבוססת Analytical List Page (ALP) ו-Multidimensional Reports על Analytical CDS Views (@Analytics.dataCategory). KPIs טיפוסיים: Days of Supply, Inventory Turnover, Slow/Dead Stock, Physical Inventory Accuracy. תומכת Drill-down, Filtering ו-Smart Charts; משולבת ב-SAP Analytics Cloud (SAC) לתכנון.",
           purposeHe: "להפוך נתוני-מלאי לתובנות-ניהוליות — לזהות עודפים, חוסרים ומלאי-מת, ולשפר Working Capital בזמן-אמת.",
           processExampleHe: "ALP 'Inventory Turnover' חושף מחזור-איטי בקבוצת-אריזה; Drill-down מגלה מלאי-מת מקמפיין-ישן; ההחלטה: חיסול/Scrapping יזום.",
-          cbcHe: "ב-CBC דשבורד-אנליטי מציג Days-of-Supply לתרכיז מול עונתיות, ומלאי-מת של אריזות-קמפיין-שהסתיים — מאפשר אופטימיזציית הון-חוזר.",
+          scenarioHe: "בארגון דשבורד-אנליטי מציג Days-of-Supply לתרכיז מול עונתיות, ומלאי-מת של אריזות-קמפיין-שהסתיים — מאפשר אופטימיזציית הון-חוזר.",
           navHe: ["Fiori Launchpad ► Inventory Management ► Inventory Analytics (Analytical List Pages)"],
           tables: ["MATDOC", "MARD", "MBEW"],
           tcodes: ["MC.9", "MC50", "MCBA"],
           fiori: ["F2748", "F2139"],
           configHe: ["ALP / Multidim Reports על Analytical CDS (@Analytics.dataCategory).", "KPIs: Days of Supply, Turnover, Slow/Dead Stock, PI-Accuracy; שילוב SAC."],
-          mistakesHe: ["מדידת-KPIs ללא הקשר-עונתי (CBC עונתי-מאוד).", "הסתמכות על אצוות-קלאסיות (MC.9) במקום ALP בזמן-אמת."],
+          mistakesHe: ["מדידת-KPIs ללא הקשר-עונתי (הארגון עונתי-מאוד).", "הסתמכות על אצוות-קלאסיות (MC.9) במקום ALP בזמן-אמת."],
           troubleshootHe: ["KPI לא-הגיוני ➔ הגדרת-מדד/חתך שגויה ב-CDS.", "נתון לא-עדכני ➔ הסתמכות על Aggregate קלאסי במקום Real-time CDS."],
           bestPracticeHe: ["נטר Dead/Slow Stock תקופתית לאופטימיזציית הון-חוזר.", "הקשר KPIs לעונתיות-העסק."],
           interviewHe: [{ qHe: "אילו KPIs טיפוסיים באנליטיקת-מלאי?", aHe: "Days of Supply, Inventory Turnover, Slow/Dead Stock ו-Physical-Inventory-Accuracy — מ-Analytical CDS Views בזמן-אמת." }],
@@ -800,8 +800,8 @@ export const CH7: TextbookChapter = {
         "לתפור את ניהול-המלאי לתהליכי-הארגון — אילו תנועות מותרות, אילו שדות נדרשים, לאן נרשם כל ערך, ואיך מתנהלת הספירה.",
       processExampleHe:
         "מימוש חדש: מגדירים Plant Parameters (אפשר Negative Stock?), Tolerances ל-GR, Field Selection ל-GI (Reason חובה ב-Scrapping), משכפלים Movement Type מותאם (OMJJ), ומגדירים OBYC לכל Valuation Class — ואז התנועות עובדות נכון.",
-      cbcHe:
-        "ב-CBC הקונפיגורציה מגדירה: Quality Inspection חובה לתרכיז-נכנס, Reason Codes ל-Scrapping-משקאות-פגומים, STO בין-מפעלי למרכזי-הפצה, ו-Cycle Counting (ABC) לתרכיזים-יקרים.",
+      scenarioHe:
+        "בארגון הקונפיגורציה מגדירה: Quality Inspection חובה לתרכיז-נכנס, Reason Codes ל-Scrapping-משקאות-פגומים, STO בין-מפעלי למרכזי-הפצה, ו-Cycle Counting (ABC) לתרכיזים-יקרים.",
       navHe: [
         "Materials Management ► Inventory Management and Physical Inventory ► General Settings",
         "Materials Management ► Inventory Management and Physical Inventory ► Movement Types ► Copy, Change Movement Types (OMJJ)",
@@ -863,7 +863,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "OMCQ/OMJ7 קובעים Plant-level parameters; Tolerance Limits (OMC0) לפי Tolerance Key (B1/B2 ל-GR over/under); Field Selection (OMBW) גלובלי. כולל הגדרת Default Values for Movements ו-Document Type per transaction. בסיס שעליו נשענות כל ההגדרות-הספציפיות.",
           purposeHe: "לקבוע מסגרת-התנהגות אחידה לכל התנועות במפעל — לפני התאמות-פרטניות.",
           processExampleHe: "מגדירים ב-OMCQ: Negative Stock אסור ב-Plant; Tolerance ל-GR over-delivery 5%; Field Selection דורש Reason ב-Scrapping — מסגרת לכל התנועות.",
-          cbcHe: "ב-CBC: Negative Stock אסור (מניעת-מלאי-פיקטיבי), Tolerance 2% לקבלת-תרכיז (דיוק-משקל), Reason חובה לפסילת-משקאות.",
+          scenarioHe: "בארגון: Negative Stock אסור (מניעת-מלאי-פיקטיבי), Tolerance 2% לקבלת-תרכיז (דיוק-משקל), Reason חובה לפסילת-משקאות.",
           navHe: ["Materials Management ► Inventory Management and Physical Inventory ► General Settings ► Set Tolerance Limits / Plant Parameters"],
           tables: ["T001W", "T159", "T169"],
           tcodes: ["OMCQ", "OMJ7", "OMC0"],
@@ -882,7 +882,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Set Stock Type for GR קובע יעד ברירת-מחדל (Auto QI אם QM); Reasons for Movements (OMBS) לפי Movement Type ל-GI; Screen Layout (Field Selection per Movement); Create SLoc Automatically. כולל הגדרת GR-Based-IV וברירות-מחדל. משפיע ישירות על 101/103/201/261/551.",
           purposeHe: "לעצב את תנועות-הקבלה-וההוצאה לפי תהליכי-הארגון — סטטוס-יעד, סיבות, ושדות-נדרשים.",
           processExampleHe: "מגדירים: GR לתרכיז → Auto Quality Inspection; GI Scrapping (551) → Reason Code חובה; Screen Layout מציג Batch — וכל קבלה/הוצאה מתנהגת בהתאם.",
-          cbcHe: "ב-CBC: כל GR-תרכיז ל-Quality Inspection אוטומטית; Reason-Codes ל-GI-פסילה (זיהום/תפוגה); Batch חובה בכל קבלת-חומר-גלם.",
+          scenarioHe: "בארגון: כל GR-תרכיז ל-Quality Inspection אוטומטית; Reason-Codes ל-GI-פסילה (זיהום/תפוגה); Batch חובה בכל קבלת-חומר-גלם.",
           navHe: ["Materials Management ► Inventory Management and Physical Inventory ► Goods Receipt / Goods Issue ► Create Reasons / Set Stock Type / Screen Layout"],
           tables: ["T156", "T157D", "T159"],
           tcodes: ["OMBS", "OMJJ", "OMB1"],
@@ -902,7 +902,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "OMJJ מנהל את T156 וטבלאות-הבת: Update Control (כמות/ערך), Value String (קישור ל-OBYC), Field Selection, Allowed Transactions, Reversal, ו-Account Grouping (GBB modifiers VBR/VAX/INV/AUF). תנועות בזוגות (xx1/xx2). שכפול עדיף על שינוי-סטנדרטי. 101/102, 201/202, 261/262, 311/312, 541/542, 641/642 — הליבה התפעולית.",
           purposeHe: "להגדיר במדויק כיצד כל סוג-תנועה משפיע על מלאי, ערך, חשבונות ושדות — הבסיס לכל פעולת-IM.",
           processExampleHe: "541 (GI לקבלן-משנה) מעביר חומר ל-Subcontracting Stock (O) אצל הספק; 641 (GI ל-STO) מעביר ל-Stock-in-Transit; כל אחד עם Value String ו-Account Grouping משלו, מוגדר ב-OMJJ.",
-          cbcHe: "ב-CBC: 261 משיכת-רכיבים לקו (Backflush), 101 קליטת-משקה, 311 העברה-בין-מחסנים, 541 שליחת-חומר-לאריזת-משנה חיצונית, 641 העברה למרכז-הפצה — כולם מוגדרים-ומותאמים ב-OMJJ.",
+          scenarioHe: "בארגון: 261 משיכת-רכיבים לקו (Backflush), 101 קליטת-משקה, 311 העברה-בין-מחסנים, 541 שליחת-חומר-לאריזת-משנה חיצונית, 641 העברה למרכז-הפצה — כולם מוגדרים-ומותאמים ב-OMJJ.",
           navHe: ["Materials Management ► Inventory Management and Physical Inventory ► Movement Types ► Copy, Change Movement Types (OMJJ)"],
           tables: ["T156", "T156S", "T156W", "T156X"],
           tcodes: ["OMJJ", "OMBA", "MIGO"],
@@ -925,7 +925,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "STO Config: Assign Document Type (UB תוך-חברה / NB cross-company) per supplying/receiving Plant; Shipping Data (Customer/SLoc/Delivery Type NL/NLCC) per Plant; Availability Check; Cross-Company Billing (NB + Invoice). הזרימה: ME21N → VL10B (Delivery) → GI 641/643 → GR 101. Stock-in-Transit נראה ב-MB5T.",
           purposeHe: "לנהל העברות בין-מפעליות עם הובלה, נראות (Stock-in-Transit) וחשבונאות-נכונה (כולל בין-חברתית) — לא רק רישום-מלאי.",
           processExampleHe: "STO ממפעל-ייצור למרכז-הפצה: ME21N (UB) → VL10B Delivery → GI 641 (Stock-in-Transit) → הובלה → GR 101 ביעד. הנראות נשמרת לכל-אורך.",
-          cbcHe: "ב-CBC העברת-משקאות-מוגמרים ממפעל-המילוי למרכזי-הפצה אזוריים מנוהלת ב-STO (UB) עם Delivery ו-Stock-in-Transit; בין-ישויות-משפטיות — NB עם Cross-Company Billing.",
+          scenarioHe: "בארגון העברת-משקאות-מוגמרים ממפעל-המילוי למרכזי-הפצה אזוריים מנוהלת ב-STO (UB) עם Delivery ו-Stock-in-Transit; בין-ישויות-משפטיות — NB עם Cross-Company Billing.",
           navHe: ["Materials Management ► Purchasing ► Purchase Order ► Set Up Stock Transport Order ► Assign Document Type / Define Shipping Data per Plant"],
           tables: ["EKKO", "EKPO", "MSLB", "T001W"],
           tcodes: ["ME21N", "VL10B", "MB5T", "OMGN"],
@@ -945,7 +945,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Tolerances (OMC0/OMJ2) per User Group להפרש-כמותי/ערכי-מותר; Cycle Counting (OMCO) — intervals ו-counts/year per CC-indicator; Default Values for Physical Inventory; Allowed Movement Types ל-Difference (701/702/711/712). כולל Freeze Book Inventory ו-Batch-Input settings. מתחבר ל-MARC-CCIND ול-FI דרך GBB-INV.",
           purposeHe: "להגדיר את מסגרת-הספירה — סבילות, מחזוריות-ABC ורישום-הפרשים — כך שהספירה תהיה מבוקרת, יעילה ומדויקת חשבונאית.",
           processExampleHe: "מגדירים: Tolerance 2% per User Group; Cycle Counting A=30 יום / C=180; Difference Posting דרך 701/702 ל-GBB-INV — וכל ספירה פועלת לפי-מסגרת-זו.",
-          cbcHe: "ב-CBC: Tolerance הדוקה לתרכיז-יקר (1%), Cycle Counting A חודשי לתמציות, C חצי-שנתי לתוויות; הפרשים נרשמים ל-GBB-INV לבקרת-עלות.",
+          scenarioHe: "בארגון: Tolerance הדוקה לתרכיז-יקר (1%), Cycle Counting A חודשי לתמציות, C חצי-שנתי לתוויות; הפרשים נרשמים ל-GBB-INV לבקרת-עלות.",
           navHe: ["Materials Management ► Inventory Management and Physical Inventory ► Physical Inventory ► Define Tolerances / Cycle Counting (OMCO) / Settings for Physical Inventory"],
           tables: ["T159C", "T159P", "ISEG"],
           tcodes: ["OMCO", "OMC0", "OMJ2"],
@@ -973,8 +973,8 @@ export const CH7: TextbookChapter = {
         "לקשור את כל החלקים לתמונה-אחת ולספק רשת-ביטחון לפני-מבחן/הטמעה: מה למדנו, מה קריטי, ולאן להמשיך.",
       processExampleHe:
         "מחזור-החיים המלא שכיסינו: GR (101) → Quality Inspection → שחרור (321) → GI-לייצור (261) → קליטת-מוגמר (101) → STO (641/101) → מכירה (601), עם ספירה-מחזורית מיישרת לאורך-הדרך — כל שלב מתועד, מוערך ומדווח בזמן-אמת.",
-      cbcHe:
-        "ב-CBC הפרק תורגם לתהליך-יומי: קבלת-תרכיז ל-QI, שחרור-מעבדה, Backflush לקו-המילוי, קליטת-משקה, STO למרכזי-הפצה, מכירה-ללקוח — וכל זאת תחת ניהול-אצווה (FEFO) ו-Cycle Counting (ABC) השומרים דיוק ועמידה-רגולטורית.",
+      scenarioHe:
+        "בארגון הפרק תורגם לתהליך-יומי: קבלת-תרכיז ל-QI, שחרור-מעבדה, Backflush לקו-המילוי, קליטת-משקה, STO למרכזי-הפצה, מכירה-ללקוח — וכל זאת תחת ניהול-אצווה (FEFO) ו-Cycle Counting (ABC) השומרים דיוק ועמידה-רגולטורית.",
       navHe: [
         "Materials Management ► Inventory Management and Physical Inventory (כלל ההגדרות שנסקרו)",
       ],

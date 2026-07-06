@@ -13,7 +13,7 @@ import { BLUEPRINTS } from "@/data/centers/blueprints";
 import { CONFIG_TOPICS } from "@/data/centers/config";
 import { MIGRATIONS } from "@/data/centers/migration";
 import { DEBUGGINGS } from "@/data/centers/debugging";
-import { CBC_SCENARIOS } from "@/data/centers/cbc";
+import { MFG_SCENARIOS } from "@/data/centers/manufacturing";
 import { TOOLKIT } from "@/data/centers/toolkit";
 import { PROCESS_AUTH } from "@/data/centers/process-auth";
 import { ALL_TABLES } from "@/data/sapData";
@@ -38,7 +38,7 @@ const GROUPS = [
   { slug: "fix",     en: "Troubleshoot & Resolve", he: "פתור תקלה",       intent: "מתסמין לפתרון — אבחון, SAP Notes, Debug ובדיקות QA.",               accent: "#dc2626" },
   { slug: "migrate", en: "Migrate to S/4HANA",    he: "נדוד ל-S/4HANA",  intent: "מה נשאר, מה השתנה, מה הוסר — והשפעת המעבר ECC↔S/4.",                 accent: "#2563eb" },
   { slug: "data",    en: "Reference & Data",      he: "נתונים והפניות",  intent: "קטלוגים לחיפוש מהיר — T-Codes, טבלאות, הרשאות ושולחנות עבודה.",      accent: "#0891b2" },
-  { slug: "cbc",     en: "CBC Context",           he: "הקשר CBC",        intent: "אזורי המפעל של CBC ותרחישי ייצור אמיתיים, ממופים למודולי SAP.",      accent: "#be185d" },
+  { slug: "scenario",     en: "Manufacturing Context",           he: "הקשר ייצור",        intent: "אזורי המפעל לדוגמה ותרחישי ייצור אמיתיים, ממופים למודולי SAP.",      accent: "#be185d" },
   { slug: "system",  en: "Governance & System",   he: "ממשל ומערכת",     intent: "כיסוי ידע, אימות, ארכיטקטורת מחבר וכלי יועץ — שכבת ניהול.",          accent: "#475569" },
 ] as const;
 
@@ -48,11 +48,11 @@ export default function Page() {
     { group: "find", href: "/apps/", he: "אפליקציות וטרנזקציות", title: "Apps & Transactions Center", tag: `${appCodes().length}`, tagColor: "#0f172a", desc: "שולחן העבודה היומי — חיפוש אחד שמחבר ECC⇄S/4⇄Fiori⇄תהליך⇄טבלאות⇄CDS⇄BAPIs⇄הרשאות⇄מיגרציה⇄בדיקות. עמוד אובייקט פרימיום לכל טרנזקציה + מצב השוואה ECC↔Fiori." },
     { group: "find", href: "/copilot/", he: "קופיילוט יועץ", title: "Consultant Copilot", tag: "Q&A", tagColor: "#d62027", desc: "שאל שאלה — NEO עונה ממאגר הידע בלבד (lifecycle, פתרונות, טבלאות, תקלות), לא מזיכרון AI כללי." },
     { group: "find", href: "/solutions/", he: "מאתר פתרונות SAP", title: "SAP Solution Finder", tag: `${SOLUTIONS.length}`, tagColor: "#b45309", desc: "חיפוש לפי דרישה עסקית (גם בעברית: 'קליטת סחורה', 'ניהול אצווה') — תהליך, ECC, S/4, Fiori, טבלאות, CDS, APIs, BAPIs, Exits, תקלות, מורכבות." },
-    { group: "find", href: "/oic/", he: "תבונת אובייקטים", title: "Object Intelligence Center", tag: `${OIC_OBJECTS.length}`, tagColor: "#4338ca", desc: "תצוגה מאוחדת לכל אובייקט ליבה — טבלאות, T-Codes, BAPIs/FMs, BAdIs/Exits, CDS, תקלות, SAP Notes, Debug ו-CBC, עם קישורים צולבים בין כולם." },
+    { group: "find", href: "/oic/", he: "תבונת אובייקטים", title: "Object Intelligence Center", tag: `${OIC_OBJECTS.length}`, tagColor: "#4338ca", desc: "תצוגה מאוחדת לכל אובייקט ליבה — טבלאות, T-Codes, BAPIs/FMs, BAdIs/Exits, CDS, תקלות, SAP Notes, Debug ו-הארגון, עם קישורים צולבים בין כולם." },
 
     // ── הבן תהליך · Understand the Process ──
     { group: "learn", href: "/process-explorer/", he: "סייר תהליכים E2E", title: "Process Explorer", tag: `${PROCESS_MAPS.length}`, tagColor: "#4338ca", desc: "מפות תהליך מקצה-לקצה (P2P/O2C/Plan-to-Produce/QM/אחזקה) — כל שלב חושף T-Codes, טבלאות, Fiori, ממשקים, תקלות ובדיקות." },
-    { group: "learn", href: "/guides/", he: "מדריכי תהליך מעמיקים", title: "Deep Process Guides", tag: `${PROCESS_GUIDES.length} תהליכים`, tagColor: "#0369a1", desc: "תהליכי PM/PP-PI מקצה-לקצה — זרימה, ביצוע שלב-אחר-שלב, טעויות נפוצות, זרימת אבחון, נתיב Debug, Exits/BAdIs, ECC↔S/4 ו-CBC." },
+    { group: "learn", href: "/guides/", he: "מדריכי תהליך מעמיקים", title: "Deep Process Guides", tag: `${PROCESS_GUIDES.length} תהליכים`, tagColor: "#0369a1", desc: "תהליכי PM/PP-PI מקצה-לקצה — זרימה, ביצוע שלב-אחר-שלב, טעויות נפוצות, זרימת אבחון, נתיב Debug, Exits/BAdIs, ECC↔S/4 ו-הארגון." },
     { group: "learn", href: "/blueprints/", he: "מרכז בלופרינטים", title: "Business Blueprints", tag: `${BLUEPRINTS.length}`, tagColor: "#0369a1", desc: "בלופרינטים עסקיים PM/PP-PI — היקף, גורמים, קלט/פלט, תלויות, אינטגרציה, נתוני אב, תרשים E2E." },
     { group: "learn", href: "/concepts/", he: "מרכז מושגי SAP", title: "SAP Concepts Center", tag: `${CONCEPTS.length} מושגים`, tagColor: "#0891b2", desc: "אובייקט, טבלה, מבנה, דומיין, FM, BAPI, IDoc, CDS, BAdI, מרכז עבודה, ציוד, פקודות — הסבר עסקי + טכני + ECC/S4." },
     { group: "learn", href: "/mrp/", he: "מרכז MRP / MPS", title: "MRP / MPS Center", tag: "Planning", tagColor: "#1d4ed8", desc: "מדריך תכנון מעמיק — MRP Live מול קלאסי, MPS, PIR/תחזית, אסטרטגיות 10/11/20/40/50/70, Net-Change, MRP Areas, Lot-Sizing וגרסת ייצור." },
@@ -89,15 +89,15 @@ export default function Page() {
     { group: "data", href: "/tables/", he: "חוקר טבלאות מתקדם", title: "Advanced Tables Explorer", tag: `${ALL_TABLES.length}`, tagColor: "#0891b2", desc: "כל הטבלאות — תיאור, קשרים, CDS, ECC↔S/4 ומפת קשרים מלאה (שדות/מפתחות/גרף)." },
     { group: "data", href: "/security/", he: "מרכז הרשאות ואבטחה", title: "Security & Authorizations", tag: "12 תחומים", tagColor: "#dc2626", desc: "SU01, PFCG, SU53, STAUTHTRACE, SUIM, אובייקטי הרשאה, פרופילים, תפקידים (single/composite/derived) ומודל Fiori/IAM — ארכיטקטורה, זרימת אבחון ושאלות ראיון." },
     { group: "data", href: "/authorizations/", he: "הרשאות לתהליכים", title: "Authorization Center", tag: `${PROCESS_AUTH.length}`, tagColor: "#dc2626", desc: "לכל תהליך — אובייקטי הרשאה, כשלים נפוצים ונתיב אבחון SU53→PFCG." },
-    { group: "data", href: "/workbench/", he: "שולחנות עבודה ליועץ", title: "Consultant Workbenches", tag: `${WORKBENCHES.length} שולחנות`, tagColor: "#be185d", desc: "שולחנות עבודה ברמת יועץ בכיר — Debugging, QM, PM מתקדם, PP-PI מתקדם. לכל אחד 12 מקטעים: מושגים, ארכיטקטורה, זרימה, טבלאות, טרנזקציות, FMs, BAdIs, Exits, תקלות, נקודות Debug, ECC↔S/4 ו-CBC." },
+    { group: "data", href: "/workbench/", he: "שולחנות עבודה ליועץ", title: "Consultant Workbenches", tag: `${WORKBENCHES.length} שולחנות`, tagColor: "#be185d", desc: "שולחנות עבודה ברמת יועץ בכיר — Debugging, QM, PM מתקדם, PP-PI מתקדם. לכל אחד 12 מקטעים: מושגים, ארכיטקטורה, זרימה, טבלאות, טרנזקציות, FMs, BAdIs, Exits, תקלות, נקודות Debug, ECC↔S/4 ו-הארגון." },
 
-    // ── הקשר CBC · CBC Context ──
-    { group: "cbc", href: "/cbc-model/", he: "מודל תחום CBC", title: "CBC Domain Model", tag: "CBC", tagColor: "#d62027", desc: "אזורי מפעל (קו ייצור/תרכיז/CIP/אצוות/אריזה/איכות/מחסן) → מודולי SAP (PP/PP-PI/QM/PM/MM) + אובייקטים, תהליכים ותקלות." },
-    { group: "cbc", href: "/cbc/", he: "מרכז תרחישי CBC", title: "CBC Manufacturing", tag: `${CBC_SCENARIOS.length}`, tagColor: "#d62027", desc: "תרחישי ייצור אמיתיים — משקה, תרכיז, אצוות, CIP, אריזה, מחזורי פקודה." },
+    // ── הקשר ייצור · Manufacturing Context ──
+    { group: "scenario", href: "/domain-model/", he: "מודל תחום", title: "Domain Model", tag: "הארגון", tagColor: "#d62027", desc: "אזורי מפעל (קו ייצור/תרכיז/CIP/אצוות/אריזה/איכות/מחסן) → מודולי SAP (PP/PP-PI/QM/PM/MM) + אובייקטים, תהליכים ותקלות." },
+    { group: "scenario", href: "/manufacturing/", he: "מרכז תרחישי ייצור", title: "Manufacturing", tag: `${MFG_SCENARIOS.length}`, tagColor: "#d62027", desc: "תרחישי ייצור אמיתיים — משקה, תרכיז, אצוות, CIP, אריזה, מחזורי פקודה." },
 
     // ── ממשל ומערכת · Governance & System ──
     { group: "system", href: "/alm/", he: "מרכז ALM", title: "Application Lifecycle Management", tag: "SolMan · Cloud ALM", tagColor: "#2563eb", desc: "Solution Manager, Focused Build ו-Cloud ALM — מחזור חיים E2E, ניהול טרנספורטים (CTS/STMS/Retrofit), שינויים ותקלות, בדיקות וניטור." },
-    { group: "system", href: "/architect/", he: "לוח ארכיטקט", title: "Architect Dashboard", tag: "KPI", tagColor: "#1e293b", desc: "כיסוי ידע, ECC↔S/4, טרנזקציות, Fiori, תקלות, CBC — עם זיהוי פערים אוטומטי." },
+    { group: "system", href: "/architect/", he: "לוח ארכיטקט", title: "Architect Dashboard", tag: "KPI", tagColor: "#1e293b", desc: "כיסוי ידע, ECC↔S/4, טרנזקציות, Fiori, תקלות, הארגון — עם זיהוי פערים אוטומטי." },
     { group: "system", href: "/verification/", he: "לוח אימות מאגר", title: "Verification Dashboard", tag: "Audit", tagColor: "#0f766e", desc: "סיווג כל ישות Verified/Partially/Needs + קישורים מומצאים, מיפויים חלשים, כפילויות ומיפויי FM/BAdI חשודים." },
     { group: "system", href: "/quality-audit/", he: "ביקורת איכות ידע", title: "Knowledge Quality Audit", tag: "Audit", tagColor: "#0f766e", desc: "סריקה סטטית — כפילויות, הפניות יתומות, קישורים שבורים, לוח איכות." },
     { group: "system", href: "/connector/", he: "מחבר SAP (ארכיטקטורה)", title: "Live SAP Connector", tag: "Prep", tagColor: "#0e7490", desc: "ארכיטקטורה וממשקים למחבר read-only עתידי (TSTC/DD02L/DD03L/SE93/CDS/Fiori). ללא חיבור חי." },

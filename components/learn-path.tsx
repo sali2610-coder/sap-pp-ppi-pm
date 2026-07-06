@@ -39,7 +39,7 @@ function Lesson({ s, total, accent, isDone, onToggle, onPrev, onNext, hasPrev, h
   const k = s.object ? knowledgeFor(s.object) : undefined;
   const iqs = s.object ? interviewFor(s.object) : [];
   const inc = s.object ? INCIDENTS.filter((i) => i.tables.includes(s.object!)) : [];
-  const cbc = inc.find((i) => i.cbc)?.cbc;
+  const scen = inc.find((i) => i.scenario)?.scenario;
   const s4 = s.object && intel ? s4For(s.object, intel.table.s4Note, intel.table.s4AltTable) : null;
   const related = (intel?.related || []).slice(0, 10);
   const ic = IMPORTANCE_COLOR[s.importance];
@@ -73,7 +73,7 @@ function Lesson({ s, total, accent, isDone, onToggle, onPrev, onNext, hasPrev, h
         {k && <Block icon={<Briefcase className="size-3.5" />} label="הערת יועץ — מה לזכור" color="#0f172a">
           <p>{k.role}</p>{k.whenUsed && <p className="mt-1.5 text-slate-500"><span className="font-bold text-slate-700">מתי: </span>{k.whenUsed}</p>}
         </Block>}
-        {cbc && <Block icon={<Boxes className="size-3.5" />} label="המציאות ב-CBC" color="#16a34a">{cbc}</Block>}
+        {scen && <Block icon={<Boxes className="size-3.5" />} label="המציאות בארגון" color="#16a34a">{scen}</Block>}
         {iq && <Block icon={<MessageSquare className="size-3.5" />} label="שאלת ראיון נפוצה" color="#7c3aed">
           <p className="font-bold text-slate-800">{iq.q}</p>{iq.aHe && <p className="mt-1.5 text-slate-600">{iq.aHe}</p>}
         </Block>}

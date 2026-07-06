@@ -9,7 +9,7 @@ export const CH12: TextbookChapter = {
   titleHe: "ניהול חשבוניות וזכאים",
   titleEn: "Invoice and Payables Management",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לניהול-חשבוניות-ספק וזכאים (Invoice and Payables Management) ב-SAP S/4HANA במסגרת Sourcing & Procurement. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC (מפעל-מילוי משקאות של קוקה-קולה), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך להתאמה-תלת-כיוונית (3-Way Match) ולתשלום (F110), טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט באימות-חשבוניות (MIRO/MIR7/MIR4/MIR6), שחרור-חסימות (MRBR), חשבונות-זכאים (BSIK/BSAK), תשלום (F110), אנליטיקה ודוחות, וקונפיגורציה — ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לניהול-חשבוניות-ספק וזכאים (Invoice and Payables Management) ב-SAP S/4HANA במסגרת Sourcing & Procurement. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון (מפעל-מילוי משקאות של מוצר לדוגמה), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך להתאמה-תלת-כיוונית (3-Way Match) ולתשלום (F110), טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט באימות-חשבוניות (MIRO/MIR7/MIR4/MIR6), שחרור-חסימות (MRBR), חשבונות-זכאים (BSIK/BSAK), תשלום (F110), אנליטיקה ודוחות, וקונפיגורציה — ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 12.1
     {
@@ -26,8 +26,8 @@ export const CH12: TextbookChapter = {
         "המטרה: להבטיח שמשלמים לספק רק עבור מה שהוזמן ונתקבל, במחיר הנכון — בקרה פיננסית מהותית מפני הונאה וטעויות; ולנהל את התחייבויות-הזכאים (timing, cash discount, due date) כך שתזרים-המזומנים מתוכנן והנחות-מזומן מנוצלות.",
       processExampleHe:
         "ספק שולח חשבונית על 1,000 ארגזים. הרכש מקליד אותה ב-MIRO תוך הפניה ל-PO. SAP מושך אוטומטית את הכמות והמחיר מה-PO ומאמת מול ה-GR: אם הכל תואם — החשבונית נרשמת מאוזנת ומיד משוחררת לתשלום; אם המחיר חורג מהטולרנס — נוצרת חסימת-תשלום עד שמורשה משחרר ב-MRBR. בהמשך F110 סורק חשבונות-זכאים פתוחים (BSIK), בוחר את אלה שהגיע מועדם, ומפיק תשלום — והפריט עובר ל-BSAK.",
-      cbcHe:
-        "ב-CBC מפעל-המילוי מקבל אלפי חשבוניות חודשיות: תרכיז מ-The Coca-Cola Company, סוכר, CO2, בקבוקים, תוויות ושירותי-לוגיסטיקה. כל חשבונית עוברת 3-Way Match מול ה-PO וה-GR; חשבוניות-תרכיז בעלות-גבוהה נתונות לטולרנס מחמיר וחסימות-תשלום נפוצות יותר. תשלומי-הספקים מרוכזים בריצת-F110 שבועית, עם ניצול הנחות-מזומן (Cash Discount) לשיפור הון-חוזר.",
+      scenarioHe:
+        "בארגון מפעל-המילוי מקבל אלפי חשבוניות חודשיות: תרכיז מ-The Example Product Company, סוכר, CO2, בקבוקים, תוויות ושירותי-לוגיסטיקה. כל חשבונית עוברת 3-Way Match מול ה-PO וה-GR; חשבוניות-תרכיז בעלות-גבוהה נתונות לטולרנס מחמיר וחסימות-תשלום נפוצות יותר. תשלומי-הספקים מרוכזים בריצת-F110 שבועית, עם ניצול הנחות-מזומן (Cash Discount) לשיפור הון-חוזר.",
       navHe: [
         "Materials Management ► Logistics Invoice Verification ► Incoming Invoice ► Activate Direct Posting to G/L Accounts and Material Accounts",
         "Materials Management ► Logistics Invoice Verification ► Define Attributes of System Messages",
@@ -99,8 +99,8 @@ export const CH12: TextbookChapter = {
         "לתרגם מסמך-נייר/אלקטרוני של ספק לרישום-חשבונאי מבוקר ומאוזן, תוך אימות אוטומטי מול ההזמנה והקבלה — מבלי להזין ידנית כל סכום ולחשוף את הארגון לטעויות.",
       processExampleHe:
         "פקיד-AP פותח MIRO, מקיש PO, SAP טוען את השורות עם כמות-שנותרה-לחיוב ומחיר-PO. הוא מזין את סכום-החשבונית בכותרת; השדה 'Balance' חייב להגיע ל-0 כדי לרשום. אם תואם — רישום מיידי; אם לא — שמירה כ-Parked עד בירור מול הספק.",
-      cbcHe:
-        "ב-CBC צוות-AP מעבד מאות חשבוניות-יומיות. חשבוניות-תרכיז (סכום גבוה, ספק-בודד) עוברות אימות קפדני; חשבוניות-אריזה (ריבוי-ספקים) מעובדות בצובר. חשבוניות שאינן מתאזנות נשמרות כ-Parked ומועברות לבירור-רכש.",
+      scenarioHe:
+        "בארגון צוות-AP מעבד מאות חשבוניות-יומיות. חשבוניות-תרכיז (סכום גבוה, ספק-בודד) עוברות אימות קפדני; חשבוניות-אריזה (ריבוי-ספקים) מעובדות בצובר. חשבוניות שאינן מתאזנות נשמרות כ-Parked ומועברות לבירור-רכש.",
       navHe: [
         "Materials Management ► Logistics Invoice Verification ► Incoming Invoice ► Maintain Default Values for Tax Codes",
         "Materials Management ► Logistics Invoice Verification ► Incoming Invoice ► Number Assignment ► Maintain Number Assignments for Logistics Documents",
@@ -169,8 +169,8 @@ export const CH12: TextbookChapter = {
             "לשמר תיעוד מלא ובר-מעקב של כל חשבונית — לצורכי ביקורת, התאמה מול ה-PO/GR, ומעקב אחר סטטוס-התשלום.",
           processExampleHe:
             "לאחר רישום ב-MIRO, המערכת מציגה 'Document no. 51XXXXXXXX created'. הצגתו ב-MIR4 חושפת את הכותרת והשורות, את מסמך-ה-FI המקושר, ואת היסטוריית-ההזמנה (PO History).",
-          cbcHe:
-            "ב-CBC כל חשבונית-תרכיז מקבלת מסמך עם הפניה ל-PO ולמספר-משלוח של The Coca-Cola Company, לצורכי תחקור-ביקורת מלא.",
+          scenarioHe:
+            "בארגון כל חשבונית-תרכיז מקבלת מסמך עם הפניה ל-PO ולמספר-משלוח של The Example Product Company, לצורכי תחקור-ביקורת מלא.",
           navHe: [
             "Materials Management ► Logistics Invoice Verification ► Incoming Invoice ► Number Assignment ► Maintain Number Assignments for Logistics Documents",
             "Materials Management ► Logistics Invoice Verification ► Incoming Invoice ► Number Assignment ► Maintain Number Assignments for Accounting Documents",
@@ -217,8 +217,8 @@ export const CH12: TextbookChapter = {
             "להשלים את החצי-הכספי של הקבלה-הלוגיסטית: ההפרשה שנוצרה ב-GR מתחלפת בהתחייבות-אמיתית לספק, וההפרשי-מחיר מנותבים נכון.",
           processExampleHe:
             "GR קודם זיכה GR/IR ב-1,000. החשבונית על 1,020 רושמת: Dr GR/IR 1,000, Dr Price Difference 20, Cr Vendor 1,020 (+מס). GR/IR נסגר במלואו; ההפרש-20 נרשם כ-PRD כי החומר ב-Standard Price.",
-          cbcHe:
-            "ב-CBC חומרי-גלם בניהול-Standard-Price: הפרשי-מחיר-חשבונית נרשמים ל-PRD ומנותחים חודשית מול תקציב-עלויות-החומר של מפעל-המילוי.",
+          scenarioHe:
+            "בארגון חומרי-גלם בניהול-Standard-Price: הפרשי-מחיר-חשבונית נרשמים ל-PRD ומנותחים חודשית מול תקציב-עלויות-החומר של מפעל-המילוי.",
           navHe: [
             "Materials Management ► Valuation and Account Assignment ► Account Determination ► Account Determination Without Wizard ► Configure Automatic Postings (OBYC)",
           ],
@@ -269,8 +269,8 @@ export const CH12: TextbookChapter = {
             "להתאים את רמת-הבקרה לסוג-הרכש: סחורה פיזית דורשת 3-Way; שירות מתמשך עשוי להסתפק ב-2-Way; הוצאה-כללית נרשמת ישירות.",
           processExampleHe:
             "סחורה: 3-Way Match אוטומטי. שירותי-ייעוץ: 2-Way (PO+חשבונית) כי אין GR פיזי. חשמל-משרד: רישום-ישיר ב-FB60 ללא PO.",
-          cbcHe:
-            "ב-CBC: חומרי-גלם ואריזה = GR-Based 3-Way Match (חשבוניות חלקיות נפוצות); שירותי-תחזוקה = 2-Way; הוצאות-מטה = רישום-ישיר FB60.",
+          scenarioHe:
+            "בארגון: חומרי-גלם ואריזה = GR-Based 3-Way Match (חשבוניות חלקיות נפוצות); שירותי-תחזוקה = 2-Way; הוצאות-מטה = רישום-ישיר FB60.",
           navHe: [
             "Materials Management ► Logistics Invoice Verification ► Incoming Invoice ► Activate Direct Posting to G/L Accounts and Material Accounts",
             "Materials Management ► Purchasing ► Purchase Order ► Set Up Goods-Receipt-Based Invoice Verification",
@@ -320,8 +320,8 @@ export const CH12: TextbookChapter = {
             "לאפשר קליטה גמישה ומבוקרת של חשבוניות מסוגים שונים, עם טעינה-אוטומטית של נתוני-ההזמנה לצמצום-הקלדה וטעויות.",
           processExampleHe:
             "פקיד מזין PO, בוחר 'Delivery Note' כהתייחסות, SAP מסנן ל-GR הספציפי. הוא מזין סכום-ברוטו 5,000, Balance=0, Post. המערכת מחזירה מספר-מסמך.",
-          cbcHe:
-            "ב-CBC הזנת חשבונית-תרכיז מתבצעת עם הפניה ל-Delivery Note כדי להבטיח התאמה למשלוח הספציפי מ-The Coca-Cola Company.",
+          scenarioHe:
+            "בארגון הזנת חשבונית-תרכיז מתבצעת עם הפניה ל-Delivery Note כדי להבטיח התאמה למשלוח הספציפי מ-The Example Product Company.",
           navHe: [
             "Materials Management ► Logistics Invoice Verification ► Incoming Invoice ► Maintain Default Values for Tax Codes",
             "Materials Management ► Logistics Invoice Verification ► Incoming Invoice ► Define Tax Jurisdiction",
@@ -378,8 +378,8 @@ export const CH12: TextbookChapter = {
             "להעביר את ההחלטה 'לשלם או לחסום' מבן-אדם לכללים-מוגדרים-מראש — בקרה אובייקטיבית, מהירה וברת-ביקורת על כל חשבונית.",
           processExampleHe:
             "חשבונית במחיר 1.05/יח' מול PO ב-1.00 וטולרנס 3% — הסטייה 5% חורגת; נוצרת Payment Block 'R'. מנהל-רכש בוחן ב-MRBR, מאשר את עליית-המחיר, ומשחרר — החשבונית עוברת לזכאי-לתשלום.",
-          cbcHe:
-            "ב-CBC עליות-מחיר-סוכר עונתיות יוצרות חסימות-תשלום תכופות; צוות-הרכש סוקר אותן ב-MRBR ומשחרר לאחר אימות מול חוזה-הספק.",
+          scenarioHe:
+            "בארגון עליות-מחיר-סוכר עונתיות יוצרות חסימות-תשלום תכופות; צוות-הרכש סוקר אותן ב-MRBR ומשחרר לאחר אימות מול חוזה-הספק.",
           navHe: [
             "Materials Management ► Logistics Invoice Verification ► Invoice Block ► Set Tolerance Limits",
             "Materials Management ► Logistics Invoice Verification ► Invoice Block ► Determine Payment Block",
@@ -441,8 +441,8 @@ export const CH12: TextbookChapter = {
             "לתת למנהל-AP ולמבקר תמונת-מצב בזמן-אמת על צוואר-הבקבוק בעיבוד, ולמנוע חשבוניות 'אבודות' שלא נרשמו או לא שולמו.",
           processExampleHe:
             "מנהל-AP מריץ MIR6 בבוקר, מסנן לחשבוניות-חסומות מעל 10,000, ומקצה אותן לשחרור-עדיפות ב-MRBR לפני מועד-ניצול-ההנחה.",
-          cbcHe:
-            "ב-CBC דוח-יומי מציג חשבוניות-תרכיז חסומות לפי גיל; חשבוניות מעל-סף-ערך מקבלות טיפול-עדיפות לשמירה על יחסי-ספק עם The Coca-Cola Company.",
+          scenarioHe:
+            "בארגון דוח-יומי מציג חשבוניות-תרכיז חסומות לפי גיל; חשבוניות מעל-סף-ערך מקבלות טיפול-עדיפות לשמירה על יחסי-ספק עם The Example Product Company.",
           navHe: [
             "Logistics ► Materials Management ► Logistics Invoice Verification ► Further Processing ► Display List of Invoice Documents (MIR5)",
           ],
@@ -489,8 +489,8 @@ export const CH12: TextbookChapter = {
             "לספק חוויית-משתמש אחידה, מקושרת וניתנת-לניווט לכל אובייקט-עסקי, ולהחליף את ריבוי-המסכים הטרנזקציוניים בתצוגה-אחת-עשירה.",
           processExampleHe:
             "משתמש לוחץ על חשבונית ברשימת-Fiori; נפתח Object Page עם פרטי-החשבונית, שורות-ההתאמה, וקישור-ישיר למסמך-ה-PO ולמסמך-התשלום — ללא מעבר בין טרנזקציות.",
-          cbcHe:
-            "ב-CBC צוות-AP עובר ל-Object Pages לבירור-מהיר של חשבונית-ספק תוך ניווט ל-PO ול-GR בלחיצה — מקצר זמן-בירור מול ספקים.",
+          scenarioHe:
+            "בארגון צוות-AP עובר ל-Object Pages לבירור-מהיר של חשבונית-ספק תוך ניווט ל-PO ול-GR בלחיצה — מקצר זמן-בירור מול ספקים.",
           navHe: [
             "SAP Fiori Launchpad ► Sourcing and Procurement ► Invoice Processing ► Manage Supplier Invoices",
           ],
@@ -540,8 +540,8 @@ export const CH12: TextbookChapter = {
         "לנהל את ההתחייבויות-לספקים בצורה מבוקרת: לשלם בזמן הנכון (לא מוקדם מדי, לא באיחור), לנצל הנחות-מזומן, ולתחזק יתרות-ספק נכונות לדוחות-הכספיים.",
       processExampleHe:
         "חשבונית נרשמה → Open Item ב-BSIK עם Due Date לפי ZTERM (למשל נטו-30, 2% הנחה תוך-10). F110 בוחר את הפריט ביום-ה-9, משלם עם 2% הנחה, ומעביר ל-BSAK.",
-      cbcHe:
-        "ב-CBC חשבונות-הזכאים מנהלים מאות-ספקים: תרכיז, סוכר, אריזה, לוגיסטיקה. צוות-ה-AP מתזמן תשלומים לניצול-מרבי של הנחות-מזומן תוך שמירה על תזרים-מזומנים יציב למפעל-המילוי.",
+      scenarioHe:
+        "בארגון חשבונות-הזכאים מנהלים מאות-ספקים: תרכיז, סוכר, אריזה, לוגיסטיקה. צוות-ה-AP מתזמן תשלומים לניצול-מרבי של הנחות-מזומן תוך שמירה על תזרים-מזומנים יציב למפעל-המילוי.",
       navHe: [
         "Financial Accounting ► Accounts Receivable and Accounts Payable ► Vendor Accounts ► Master Data ► Preparations for Creating Vendor Master Data",
         "Financial Accounting ► Accounts Receivable and Accounts Payable ► Business Transactions ► Outgoing Payments ► Automatic Outgoing Payments",
@@ -594,8 +594,8 @@ export const CH12: TextbookChapter = {
             "לאוטמט תשלומי-המוני בצורה מבוקרת, לבחור נכון מה לשלם ומתי, לנצל הנחות, ולהבטיח שלא משלמים פריטים-חסומים.",
           processExampleHe:
             "ביום-תשלום-שבועי F110 רץ: Parameters לחברה+שיטת-העברה, Proposal מציג 320 פריטים, מנהל-AP מוציא 5 פריטים-במחלוקת, מריץ Payment — נוצרים מסמכי-תשלום, BSIK→BSAK, וקובץ-DME לבנק.",
-          cbcHe:
-            "ב-CBC ריצת-F110 שבועית משלמת מאות-ספקים בהעברה-בנקאית; פריטים-חסומים (MRBR שטרם-שוחרר) נדחים אוטומטית, ותרכיז משולם בעדיפות לניצול-הנחת-מזומן.",
+          scenarioHe:
+            "בארגון ריצת-F110 שבועית משלמת מאות-ספקים בהעברה-בנקאית; פריטים-חסומים (MRBR שטרם-שוחרר) נדחים אוטומטית, ותרכיז משולם בעדיפות לניצול-הנחת-מזומן.",
           navHe: [
             "Financial Accounting ► Accounts Receivable and Accounts Payable ► Business Transactions ► Outgoing Payments ► Automatic Outgoing Payments ► Payment Method/Bank Selection for Payment Program",
           ],
@@ -659,8 +659,8 @@ export const CH12: TextbookChapter = {
             "להבטיח שכל ספק משולם לחשבון-הנכון, בתנאים-הנכונים, ושיתרתו משקפת-נאמנה את החוב — בסיס לתשלום, לתזרים ולביקורת.",
           processExampleHe:
             "ספק מעדכן חשבון-בנק; AP מעדכן LFBK ב-BP, מאשר דרך תהליך-בקרת-שינויי-בנק, ומריץ FBL1N לאימות שכל הפריטים-הפתוחים יופנו לחשבון-החדש בריצת-F110 הבאה.",
-          cbcHe:
-            "ב-CBC ניהול-אב-ספק ל-The Coca-Cola Company כולל בקרה מחמירה על שינויי-בנק (סיכון-הונאה) ותנאי-תשלום מוסכמים-חוזית לתרכיז.",
+          scenarioHe:
+            "בארגון ניהול-אב-ספק ל-The Example Product Company כולל בקרה מחמירה על שינויי-בנק (סיכון-הונאה) ותנאי-תשלום מוסכמים-חוזית לתרכיז.",
           navHe: [
             "Financial Accounting ► Accounts Receivable and Accounts Payable ► Vendor Accounts ► Master Data ► Preparations for Creating Vendor Master Data ► Define Account Groups with Screen Layout",
             "Cross-Application Components ► SAP Business Partner ► Business Partner ► Basic Settings",
@@ -717,8 +717,8 @@ export const CH12: TextbookChapter = {
         "לתת ל-CFO ולמנהל-AP בקרה על הון-חוזר ותזרים: לדעת מתי משלמים, להימנע מפיגורים, למקסם-הנחות ולמדוד יעילות-תשלום — בזמן-אמת ובלי דוחות-לילה.",
       processExampleHe:
         "מנהל-AP פותח 'Accounts Payable Overview', רואה Overdue עולה, מנתח Aging, מזהה ספק-בעייתי, ומנווט ל-Open Items שלו לתיקון — הכל מלוח-מחוונים אחד.",
-      cbcHe:
-        "ב-CBC ה-CFO עוקב אחר DPO וניצול-הנחות-מזומן רבעוני; עלייה ב-DPO מול ספקי-אריזה משקפת אסטרטגיית-הון-חוזר מכוונת של מפעל-המילוי.",
+      scenarioHe:
+        "בארגון ה-CFO עוקב אחר DPO וניצול-הנחות-מזומן רבעוני; עלייה ב-DPO מול ספקי-אריזה משקפת אסטרטגיית-הון-חוזר מכוונת של מפעל-המילוי.",
       navHe: [
         "SAP Fiori Launchpad ► Sourcing and Procurement ► Invoice and Payables Management ► Analytics",
       ],
@@ -765,8 +765,8 @@ export const CH12: TextbookChapter = {
             "לרכז את כל מדדי-הזכאים במבט-אחד ולאפשר drill-down מהיר — חוסך פתיחת-דוחות נפרדים ומאיץ-החלטה.",
           processExampleHe:
             "מנהל-AP פותח את ה-Overview בבוקר, מזהה כרטיס-Overdue אדום, לוחץ, ומנותב לרשימת-הפיגורים לטיפול-מיידי.",
-          cbcHe:
-            "ב-CBC מנהל-AP במפעל-המילוי משתמש ב-Overview כ-dashboard-יומי לאיזון תשלומים מול תזרים.",
+          scenarioHe:
+            "בארגון מנהל-AP במפעל-המילוי משתמש ב-Overview כ-dashboard-יומי לאיזון תשלומים מול תזרים.",
           navHe: ["SAP Fiori Launchpad ► Accounts Payable Overview"],
           tables: ["BSIK", "BSAK", "ACDOCA"],
           tcodes: ["FK10N", "FBL1N"],
@@ -793,8 +793,8 @@ export const CH12: TextbookChapter = {
             "לזהות זכאים-מזדקנים הדורשים-טיפול: חסימות-תקועות, מחלוקות-ספק, או ספקים שנשכחו — לפני שהופכים לבעיית-יחסים או לסיכון-מאזני.",
           processExampleHe:
             "ניתוח-גיול מראה 200,000 בטווח-90+; drill-down חושף חמש חשבוניות-תרכיז חסומות ב-MRBR מזה-חודשיים — מועברות לשחרור-דחוף.",
-          cbcHe:
-            "ב-CBC bucket-90+ עם ספק-תרכיז מסכן יחסי-מפתח; הוא מנוטר שבועית ומטופל מיידית.",
+          scenarioHe:
+            "בארגון bucket-90+ עם ספק-תרכיז מסכן יחסי-מפתח; הוא מנוטר שבועית ומטופל מיידית.",
           navHe: ["SAP Fiori Launchpad ► Aging Analysis (Payables)"],
           tables: ["BSIK", "ACDOCA"],
           tcodes: ["FBL1N", "S_ALR_87012078"],
@@ -821,8 +821,8 @@ export const CH12: TextbookChapter = {
             "לאתר ולתקן תשלומים-שלא-בוצעו-בזמן — מניעת קנסות-איחור, פגיעה-באשראי-ספק ושיבוש-אספקה.",
           processExampleHe:
             "KPI-Overdue קופץ; drill-down מגלה 30 פריטים עם Payment Block; הם משוחררים ב-MRBR ונכללים בריצת-F110 הבאה.",
-          cbcHe:
-            "ב-CBC פיגור לספק-CO2 קריטי לייצור; ניטור-Overdue יומי מונע עצירת-קו עקב מחלוקת-תשלום.",
+          scenarioHe:
+            "בארגון פיגור לספק-CO2 קריטי לייצור; ניטור-Overdue יומי מונע עצירת-קו עקב מחלוקת-תשלום.",
           navHe: ["SAP Fiori Launchpad ► Overdue Payables"],
           tables: ["BSIK", "ACDOCA"],
           tcodes: ["FBL1N", "F110"],
@@ -849,8 +849,8 @@ export const CH12: TextbookChapter = {
             "לתכנן תזרים-מזומנים-יוצא: לוודא נזילות מספקת בכל מועד-תשלום, ולתזמן-תשלומים מול הכנסות.",
           processExampleHe:
             "תזרים-עתידי מראה 1.2M לתשלום בשבוע-הבא; הכספים מוודאים יתרת-בנק מספקת ומתאמים מועד-F110.",
-          cbcHe:
-            "ב-CBC תחזית-זכאים-עתידיים מיושרת מול עונתיות-מכירות-המשקאות לשמירת-נזילות בשיא-הקיץ.",
+          scenarioHe:
+            "בארגון תחזית-זכאים-עתידיים מיושרת מול עונתיות-מכירות-המשקאות לשמירת-נזילות בשיא-הקיץ.",
           navHe: ["SAP Fiori Launchpad ► Future Payables"],
           tables: ["BSIK", "ACDOCA"],
           tcodes: ["FBL1N", "FF7B"],
@@ -877,8 +877,8 @@ export const CH12: TextbookChapter = {
             "למקסם-חיסכון-פיננסי: לזהות הנחות שעומדות-לפקוע ולתעדף-תשלומן לפני המועד.",
           processExampleHe:
             "התחזית מראה 8,000 הנחה-זמינה שתפקע ב-3 ימים; הכספים מקדימים ריצת-F110 לפריטים אלה.",
-          cbcHe:
-            "ב-CBC הנחות-מזומן-תרכיז משמעותיות; התחזית מתעדפת תשלומי-תרכיז לניצול-מרבי.",
+          scenarioHe:
+            "בארגון הנחות-מזומן-תרכיז משמעותיות; התחזית מתעדפת תשלומי-תרכיז לניצול-מרבי.",
           navHe: ["SAP Fiori Launchpad ► Cash Discount Forecast"],
           tables: ["BSIK", "ACDOCA"],
           tcodes: ["FBL1N", "F110"],
@@ -905,8 +905,8 @@ export const CH12: TextbookChapter = {
             "למדוד ולשפר את יעילות-ניצול-ההנחות — כל הנחה-שאבדה היא חיסכון-שהוחמץ; המדד מזהה היכן התהליך-מאבד-כסף.",
           processExampleHe:
             "ניצול-רבעוני 82%; ניתוח-Lost חושף שרוב-האובדן מחסימות-MRBR-מאוחרות — מובילה לשיפור-מחזור-השחרור.",
-          cbcHe:
-            "ב-CBC ה-CFO קובע יעד-ניצול 95%; אובדן-הנחה מתועד וסיבותיו מטופלות ברבעון.",
+          scenarioHe:
+            "בארגון ה-CFO קובע יעד-ניצול 95%; אובדן-הנחה מתועד וסיבותיו מטופלות ברבעון.",
           navHe: ["SAP Fiori Launchpad ► Cash Discount Utilization"],
           tables: ["BSAK", "ACDOCA"],
           tcodes: ["FBL1N", "S_ALR_87012103"],
@@ -933,8 +933,8 @@ export const CH12: TextbookChapter = {
             "למדוד ולנהל את משך-מחזור-התשלום כמנוף הון-חוזר, תוך-איזון מול יחסי-ספק והנחות-מזומן.",
           processExampleHe:
             "DPO עלה מ-35 ל-45 יום ברבעון; ה-CFO מאשר שזו אסטרטגיית-הון-חוזר מכוונת, בתנאי-שלא-נפגעות הנחות-מזומן.",
-          cbcHe:
-            "ב-CBC מפעל-המילוי מנהל DPO ~40 יום לספקי-אריזה, מאוזן מול הנחות-תרכיז שעדיף-לנצל-מהר.",
+          scenarioHe:
+            "בארגון מפעל-המילוי מנהל DPO ~40 יום לספקי-אריזה, מאוזן מול הנחות-תרכיז שעדיף-לנצל-מהר.",
           navHe: ["SAP Fiori Launchpad ► Days Payable Outstanding"],
           tables: ["BSIK", "BSAK", "ACDOCA"],
           tcodes: ["FK10N", "S_ALR_87012078"],
@@ -961,8 +961,8 @@ export const CH12: TextbookChapter = {
             "לספק מדד-DPO סטנדרטי וברת-השוואה-חיצונית, מבוסס-דוחות-כספיים, ל-benchmark מול-תעשייה ולדיווח-להנהלה.",
           processExampleHe:
             "ה-CFO מציג DPO-עקיף שנתי של 42 יום מול ממוצע-תעשייה 38 — אות לניהול-הון-חוזר-אגרסיבי-יחסית.",
-          cbcHe:
-            "ב-CBC DPO-עקיף מדווח-לקבוצת-הבקבוק העולמית להשוואה בין-מפעלית.",
+          scenarioHe:
+            "בארגון DPO-עקיף מדווח-לקבוצת-הבקבוק העולמית להשוואה בין-מפעלית.",
           navHe: ["SAP Fiori Launchpad ► Days Payable Outstanding (Indirect)"],
           tables: ["ACDOCA", "BSIK", "BSAK"],
           tcodes: ["FK10N", "S_ALR_87012078"],
@@ -989,8 +989,8 @@ export const CH12: TextbookChapter = {
             "לשפר את יעילות-עיבוד-החשבוניות: לקצר-cycle-time, להפחית-חסימות-מיותרות ולאזן-עומס בין-פקידים.",
           processExampleHe:
             "הניתוח מראה Block-Rate 18% רובו מסטיות-מחיר-קטנות; הרחבת-טולרנס-AP מפחיתה-חסימות-מיותרות ומקצרת-cycle.",
-          cbcHe:
-            "ב-CBC ניתוח-עיבוד מזהה צוואר-בקבוק בחשבוניות-אריזה רב-ספקיות; מובילה לאוטומציה ב-OpenText.",
+          scenarioHe:
+            "בארגון ניתוח-עיבוד מזהה צוואר-בקבוק בחשבוניות-אריזה רב-ספקיות; מובילה לאוטומציה ב-OpenText.",
           navHe: ["SAP Fiori Launchpad ► Invoice Processing Analysis"],
           tables: ["RBKP", "RSEG", "BSIK"],
           tcodes: ["MIR5", "MIR6", "MRBR"],
@@ -1017,8 +1017,8 @@ export const CH12: TextbookChapter = {
             "להגדיל-אוטומציה ולהקטין-תשלומים-ידניים — שיפור-יעילות, בקרה והפרדת-תפקידים.",
           processExampleHe:
             "הניתוח מראה 25% תשלומים-ידניים, רובם 'דחופים'; הסדרת-תזמון-F110-תכוף-יותר מפחיתה-ידני ל-8%.",
-          cbcHe:
-            "ב-CBC תשלומים-ידניים מוגבלים-למקרי-חירום-ייצור (CO2); השאר דרך F110 לבקרה-מרבית.",
+          scenarioHe:
+            "בארגון תשלומים-ידניים מוגבלים-למקרי-חירום-ייצור (CO2); השאר דרך F110 לבקרה-מרבית.",
           navHe: ["SAP Fiori Launchpad ► Supplier Payment Analysis"],
           tables: ["PAYR", "REGUH", "BSAK"],
           tcodes: ["F110", "F-53", "FBL1N"],
@@ -1045,8 +1045,8 @@ export const CH12: TextbookChapter = {
             "לתעדף את ריצת-התשלום-הבאה: לזהות מה-בשל-ומותר-לתשלום מול מה-חסום, ולתכנן-תזרים-יוצא-מיידי.",
           processExampleHe:
             "לפני F110 מנהל-AP סוקר תשלומים-פתוחים, מזהה פריטים-בשלים-לא-חסומים בסך-800K, ומכליל-אותם בפרמטרי-הריצה.",
-          cbcHe:
-            "ב-CBC סקירת-פתוחים-שבועית מזינה-ישירות את Proposal-F110 לתשלום-ספקי-המפעל.",
+          scenarioHe:
+            "בארגון סקירת-פתוחים-שבועית מזינה-ישירות את Proposal-F110 לתשלום-ספקי-המפעל.",
           navHe: ["SAP Fiori Launchpad ► Supplier Payment Analysis (Open)"],
           tables: ["BSIK", "ACDOCA"],
           tcodes: ["FBL1N", "F110"],
@@ -1076,8 +1076,8 @@ export const CH12: TextbookChapter = {
         "להתאים את ההתנהגות-האוטומטית של המערכת למדיניות-הארגון: רמת-בקרה, סיבולת-לסטיות, מבנה-חשבונות ושיטות-תשלום.",
       processExampleHe:
         "יועץ מגדיר OMR6 (טולרנס-מחיר 5%), Determine-Payment-Block (סטיית-מחיר→Block-R), ו-FBZP (שיטת-העברה+House-Bank) — וכך מעצב את כל זרימת-החשבונית-לתשלום.",
-      cbcHe:
-        "ב-CBC הקונפיגורציה מבדילה טולרנס-מחמיר-לתרכיז מטולרנס-רגיל-לאריזה, ומגדירה House-Banks-מרובים לתשלומי-מפעל-המילוי.",
+      scenarioHe:
+        "בארגון הקונפיגורציה מבדילה טולרנס-מחמיר-לתרכיז מטולרנס-רגיל-לאריזה, ומגדירה House-Banks-מרובים לתשלומי-מפעל-המילוי.",
       navHe: [
         "Materials Management ► Logistics Invoice Verification ► Incoming Invoice",
         "Materials Management ► Logistics Invoice Verification ► Invoice Block",
@@ -1127,8 +1127,8 @@ export const CH12: TextbookChapter = {
             "להגדיר קליטת-חשבונית מבוקרת-ויעילה: למנוע-כפילות, להקטין-הקלדה (ברירות-מחדל), ולאפשר-נתיבי-רישום-נכונים.",
           processExampleHe:
             "יועץ מפעיל Duplicate-Check, מגדיר Tax-Code-ברירת-מחדל V1, ומפעיל Direct-Posting-to-G/L — וכך MIRO מציע-מס-אוטומטי, חוסם-כפילות ומאפשר-רישום-הוצאה-ישיר.",
-          cbcHe:
-            "ב-CBC Duplicate-Check מחמיר-במיוחד לחשבוניות-תרכיז בעלות-גבוהה; Tax-Codes מותאמים-למע\"מ-ישראלי.",
+          scenarioHe:
+            "בארגון Duplicate-Check מחמיר-במיוחד לחשבוניות-תרכיז בעלות-גבוהה; Tax-Codes מותאמים-למע\"מ-ישראלי.",
           navHe: [
             "Materials Management ► Logistics Invoice Verification ► Incoming Invoice ► Set Check for Duplicate Invoices",
             "Materials Management ► Logistics Invoice Verification ► Incoming Invoice ► Maintain Default Values for Tax Codes",
@@ -1179,8 +1179,8 @@ export const CH12: TextbookChapter = {
             "לאזן-בין-בקרה-ליעילות: לחסום-רק-סטיות-מהותיות, לאפשר-זעירות-לעבור, ולספק-מסלול-שחרור-מבוקר.",
           processExampleHe:
             "טולרנס-מחיר 3%; חשבונית-בסטייה-5%→Block-R; מנהל-בוחן-ב-MRBR, מאשר ומשחרר; חשבונית-בסטייה-1%→עוברת-ללא-חסימה.",
-          cbcHe:
-            "ב-CBC טולרנס-תרכיז מחמיר (1%) מול-אריזה (5%); חסימות-תרכיז משוחררות רק-לאחר-אימות-מול-חוזה-The-Coca-Cola-Company.",
+          scenarioHe:
+            "בארגון טולרנס-תרכיז מחמיר (1%) מול-אריזה (5%); חסימות-תרכיז משוחררות רק-לאחר-אימות-מול-חוזה-The-Example Product-Company.",
           navHe: [
             "Materials Management ► Logistics Invoice Verification ► Invoice Block ► Set Tolerance Limits",
             "Materials Management ► Logistics Invoice Verification ► Invoice Block ► Determine Payment Block",
@@ -1248,8 +1248,8 @@ export const CH12: TextbookChapter = {
         "לאוטמט-קצה-לקצה-את-קליטת-החשבוניות: מהפחתת-הקלדה-ידנית, דרך-ניתוב-אישורים-חכם, ועד-טיפול-בחריגות — חיסכון-בזמן-ובטעויות.",
       processExampleHe:
         "חשבונית-נכנסת-באימייל→OCR-מחלץ-נתונים→VIM-מתאים-ל-PO→ניתוב-לאישור-מנהל-רכש→רישום-אוטומטי-ב-MIRO. חשבונית-ללא-PO-מנותבת-ל-Exception-Workflow.",
-      cbcHe:
-        "ב-CBC VIM מטפל-באלפי-חשבוניות-אריזה-רב-ספקיות; OCR-וניתוב-אוטומטי מפחיתים-עומס-צוות-ה-AP-ומקצרים-cycle-time.",
+      scenarioHe:
+        "בארגון VIM מטפל-באלפי-חשבוניות-אריזה-רב-ספקיות; OCR-וניתוב-אוטומטי מפחיתים-עומס-צוות-ה-AP-ומקצרים-cycle-time.",
       navHe: [
         "SAP Fiori Launchpad ► Invoice Processing (OpenText VIM inbound)",
         "Tools ► Business Documents ► OpenText Vendor Invoice Management",
@@ -1299,8 +1299,8 @@ export const CH12: TextbookChapter = {
         "לרכז-ולתקנן-קליטת-חשבוניות-על-פני-מערכות-מרובות, לשפר-שקיפות-מול-ספקים, ולהפחית-עיבוד-ידני דרך-רשת-Ariba.",
       processExampleHe:
         "ספק-מעלה-חשבונית-ל-Ariba-Network→CIM-מרכז-ומאמת→מנתב-ל-S/4HANA-Cloud-הרלוונטי→LIV-מבצע-3-Way-Match. הספק-רואה-סטטוס-בזמן-אמת-ברשת.",
-      cbcHe:
-        "ב-CBC ארגון-בקבוק-רב-מדינתי ירכז-חשבוניות-ספקים-גלובליים (תרכיז, אריזה) דרך-CIM ל-Inbox-אחד, עם-שקיפות-מלאה-ל-The-Coca-Cola-Company.",
+      scenarioHe:
+        "בארגון ארגון-בקבוק-רב-מדינתי ירכז-חשבוניות-ספקים-גלובליים (תרכיז, אריזה) דרך-CIM ל-Inbox-אחד, עם-שקיפות-מלאה-ל-The-Example Product-Company.",
       navHe: [
         "SAP Business Technology Platform ► Ariba Central Invoice Management",
         "SAP Fiori Launchpad ► Central Invoice Management",
@@ -1349,8 +1349,8 @@ export const CH12: TextbookChapter = {
             "לאפשר-לספקים-להגיש-חשבוניות-בערוץ-דיגיטלי-אחיד, ולהבטיח-קליטה-מנורמלת-לפני-עיבוד-מרכזי.",
           processExampleHe:
             "ספק-מבצע-PO-Flip-ב-Ariba: בוחר-PO-קיים, המערכת-ממלאת-אוטומטית-שורות-וכמויות, הוא-מאשר-ושולח — חשבונית-מדויקת-נכנסת-ללא-הקלדה-ידנית.",
-          cbcHe:
-            "ב-CBC ספקי-אריזה-משתמשים-ב-PO-Flip להעלאת-חשבוניות-מדויקות, מצמצם-סטיות-ו-3-Way-Match-נכשל.",
+          scenarioHe:
+            "בארגון ספקי-אריזה-משתמשים-ב-PO-Flip להעלאת-חשבוניות-מדויקות, מצמצם-סטיות-ו-3-Way-Match-נכשל.",
           navHe: ["SAP Fiori Launchpad ► Central Invoice Management ► Upload Invoices"],
           tables: ["RBKP", "RSEG"],
           tcodes: ["MIRO"],
@@ -1395,8 +1395,8 @@ export const CH12: TextbookChapter = {
             "לתת-נקודת-שליטה-ונראות-אחת-לכל-זרימת-החשבוניות-הרב-מערכתית, ולקצר-זמן-פתרון-חריגות.",
           processExampleHe:
             "מנהל-AP-מרכזי-רואה-ב-Inbox-חשבונית-ב-Exception (אי-התאמה-ל-PO), פותר-מרכזית-ומנתב-מחדש-ל-S/4HANA-הנכון לרישום.",
-          cbcHe:
-            "ב-CBC צוות-AP-גלובלי-מנהל-חשבוניות-של-מספר-מפעלי-בקבוק מ-Inbox-אחד, עם-שקיפות-מלאה-לסטטוס.",
+          scenarioHe:
+            "בארגון צוות-AP-גלובלי-מנהל-חשבוניות-של-מספר-מפעלי-בקבוק מ-Inbox-אחד, עם-שקיפות-מלאה-לסטטוס.",
           navHe: ["SAP Fiori Launchpad ► Central Invoice Management ► Manage Invoices"],
           tables: ["RBKP", "RSEG"],
           tcodes: ["MIRO", "MIR6"],
@@ -1444,8 +1444,8 @@ export const CH12: TextbookChapter = {
         "למקסם-תשואה-על-מזומן-עודף (הנחות-דינמיות) ולחזק-את-יציבות-שרשרת-האספקה (מימון-ספקים), תוך-איזון-הון-חוזר.",
       processExampleHe:
         "לקונה-יש-מזומן-עודף; דרך-Taulia-הוא-מציע-לספק-תשלום-מוקדם-תמורת-הנחה-דינמית (2.5%-אם-25-יום-מוקדם). הספק-מקבל-מזומן-מהר, הקונה-משיג-תשואה-עדיפה-על-הפיקדון.",
-      cbcHe:
-        "ב-CBC מפעל-המילוי-מציע-Dynamic-Discounting-לספקי-אריזה-קטנים-הזקוקים-למזומן, מחזק-יציבות-אספקה-ומשפר-תשואה-על-מזומן-עודף-עונתי.",
+      scenarioHe:
+        "בארגון מפעל-המילוי-מציע-Dynamic-Discounting-לספקי-אריזה-קטנים-הזקוקים-למזומן, מחזק-יציבות-אספקה-ומשפר-תשואה-על-מזומן-עודף-עונתי.",
       navHe: [
         "SAP Business Technology Platform ► Taulia Working Capital Management",
         "SAP Fiori Launchpad ► Accounts Payable ► Early Payment / Discounting",
@@ -1499,8 +1499,8 @@ export const CH12: TextbookChapter = {
         "לאחד-את-כל-רכיבי-הפרק-לתמונה-אחת-קוהרנטית ולוודא-שהלומד-יכול-לבצע-ולתחקר-את-תהליך-החשבוניות-והזכאים-עצמאית.",
       processExampleHe:
         "מסע-מלא: PO→GR→MIRO (3-Way-Match)→חסימה-אפשרית→MRBR→זכאי-BSIK→F110→BSAK→אנליטיקה (DPO/הנחות) — כל-השלבים-שנלמדו-בפרק-במחזור-אחד.",
-      cbcHe:
-        "ב-CBC הלומד-מסוגל-כעת-לנהל-את-מחזור-חשבוניות-הספק-של-מפעל-המילוי: מתרכיז-ועד-אריזה, אימות-תשלום-ואופטימיזציית-הון-חוזר.",
+      scenarioHe:
+        "בארגון הלומד-מסוגל-כעת-לנהל-את-מחזור-חשבוניות-הספק-של-מפעל-המילוי: מתרכיז-ועד-אריזה, אימות-תשלום-ואופטימיזציית-הון-חוזר.",
       navHe: ["SAP Fiori Launchpad ► Sourcing and Procurement ► Invoice and Payables Management"],
       tables: ["RBKP", "RSEG", "BSIK", "BSAK"],
       tcodes: ["MIRO", "MRBR", "F110"],

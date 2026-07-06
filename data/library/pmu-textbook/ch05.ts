@@ -1,7 +1,7 @@
 // ===== PM Business User Textbook — Chapter 5 (Preventive Maintenance) =====
 // Every node is a complete LearningNode with 18 facets of authored Hebrew —
 // beginner + consultant friendly, study-without-the-book depth.
-// SAP identifiers verbatim EN; CBC = Coca-Cola bottling preventive maintenance
+// SAP identifiers verbatim EN; הארגון = Example Product bottling preventive maintenance
 // for fill lines. Source hierarchy + ids preserved exactly.
 import type { TextbookChapter } from "./types";
 
@@ -10,7 +10,7 @@ export const CH5: TextbookChapter = {
   titleHe: "תחזוקה מונעת",
   titleEn: "Preventive Maintenance",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לתחזוקה מונעת (Preventive Maintenance) ב-SAP PM. תחזוקה מונעת היא המעבר מ'לתקן כשנשבר' (Breakdown) ל'לתחזק לפני שנשבר' (Planned) — היא לב-ליבו של ניהול-נכסים בוגר במפעל. כל תת-פרק מורחב ליחידה עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC (תחזוקת קווי-מילוי במפעל-בקבוק קוקה-קולה), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך-תזמון, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. נלמד רשימות-משימות (Task Lists), תוכניות-תחזוקה מבוססות-זמן ומבוססות-ביצוע, תוכניות מרובות-מונים (Multiple Counter) וסבבי-בדיקה (Inspection Rounds) — הכל בלי הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לתחזוקה מונעת (Preventive Maintenance) ב-SAP PM. תחזוקה מונעת היא המעבר מ'לתקן כשנשבר' (Breakdown) ל'לתחזק לפני שנשבר' (Planned) — היא לב-ליבו של ניהול-נכסים בוגר במפעל. כל תת-פרק מורחב ליחידה עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון (תחזוקת קווי-מילוי במפעל-בקבוק מוצר לדוגמה), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך-תזמון, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. נלמד רשימות-משימות (Task Lists), תוכניות-תחזוקה מבוססות-זמן ומבוססות-ביצוע, תוכניות מרובות-מונים (Multiple Counter) וסבבי-בדיקה (Inspection Rounds) — הכל בלי הספר המקורי.",
   subchapters: [
     // ============================================================ 5.1
     {
@@ -27,8 +27,8 @@ export const CH5: TextbookChapter = {
         "המטרה: למקסם זמינות-ציוד (Availability) ובטיחות תוך מזעור עלות-מחזור-החיים (TCO). תחזוקה מונעת מעבירה את עלות-התחזוקה מבלתי-צפויה (שבר, השבתה, נזק-תוצאתי) לצפויה ומתוכננת (חלון-תחזוקה, חלפים מוזמנים מראש, כוח-אדם מתוכנן).",
       processExampleHe:
         "משאבה קריטית בקו-ייצור: מהנדס-אמינות מגדיר רשימת-משימות (סיכה, בדיקת-רטט, החלפת-אטם) ותוכנית-תחזוקה רבעונית. ב-IP10 מתזמנים את התוכנית; SAP מחשב מועדי-קריאה עתידיים ובכל רבעון יוצר פק\"ע-תחזוקה אוטומטית עם כל הפעולות, החלפים והעלות — לפני שהמשאבה נשחקת.",
-      cbcHe:
-        "ב-CBC קו-מילוי (Filler) הוא הנכס הקריטי ביותר — דקת-השבתה = אלפי בקבוקים שלא מולאו. תחזוקה מונעת על ה-Filler משלבת: סיכה שבועית (זמן), כיול-שסתומים כל 5,000,000 מילויים (ביצוע), והחלפת-מסננים לפי שעות-פעולה. כל זה מנוהל בתוכניות-תחזוקה שמייצרות פק\"ע בחלונות-העצירה המתוכננים (CIP/שטיפה), כך שאין השבתה לא-מתוכננת.",
+      scenarioHe:
+        "בארגון קו-מילוי (Filler) הוא הנכס הקריטי ביותר — דקת-השבתה = אלפי בקבוקים שלא מולאו. תחזוקה מונעת על ה-Filler משלבת: סיכה שבועית (זמן), כיול-שסתומים כל 5,000,000 מילויים (ביצוע), והחלפת-מסננים לפי שעות-פעולה. כל זה מנוהל בתוכניות-תחזוקה שמייצרות פק\"ע בחלונות-העצירה המתוכננים (CIP/שטיפה), כך שאין השבתה לא-מתוכננת.",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists and PRTs ► Maintenance Plans ► Set Maintenance Plan Categories",
         "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Define Default Values for Task List Data and Profile Assignments",
@@ -105,8 +105,8 @@ export const CH5: TextbookChapter = {
         "ההפרדה לאובייקטים מאפשרת שימוש-חוזר ותחזוקה יעילה: רשימת-משימות אחת משרתת תוכניות רבות; אסטרטגיה אחת משרתת רשימות-משימות רבות; שינוי במקום אחד מתפשט לכל המשתמשים. זה DRY (Don't Repeat Yourself) של עולם-התחזוקה.",
       processExampleHe:
         "מהנדס יוצר General Task List 'שירות-משאבה-רבעוני', מקצה לה Strategy עם Packages רבעוני/שנתי, ואז יוצר תוכנית-תחזוקה עם פריט המקשר את הרשימה ל-Equipment P-101. אותה רשימה תשמש גם את P-102, P-103 — שינוי-פעולה אחד מעדכן את כולם.",
-      cbcHe:
-        "ב-CBC רשימת-משימות גנרית 'שירות-קו-מילוי' משמשת את כל קווי-המילוי (Filler-1..Filler-6); כל קו מקבל תוכנית-תחזוקה משלו עם פריט המצביע ל-Equipment שלו, אך כולם חולקים את אותה רשימת-משימות ואסטרטגיה — תחזוקה אחידה ויעילה על-פני המפעל.",
+      scenarioHe:
+        "בארגון רשימת-משימות גנרית 'שירות-קו-מילוי' משמשת את כל קווי-המילוי (Filler-1..Filler-6); כל קו מקבל תוכנית-תחזוקה משלו עם פריט המצביע ל-Equipment שלו, אך כולם חולקים את אותה רשימת-משימות ואסטרטגיה — תחזוקה אחידה ויעילה על-פני המפעל.",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists and PRTs ► Task Lists ► General Data ► Define Task List Usage Keys",
         "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists and PRTs ► Maintenance Plans ► Define Maintenance Plan Categories",
@@ -181,8 +181,8 @@ export const CH5: TextbookChapter = {
         "לתקנן עבודת-תחזוקה: אחידות-ביצוע, זמני-תקן לתכנון-קיבולת, חלפים מוגדרים-מראש ועלות-תקן. הסטנדרטיזציה היא שמאפשרת תכנון-משאבים, אומדן-עלות ובקרת-איכות חוצי-מפעל.",
       processExampleHe:
         "מהנדס בונה רשימת-משימות 'שירות-מנוע-חשמלי' עם 6 פעולות, מקצה לכל פעולה Work Center וזמן-תקן, מקשר חלפים מ-BOM-הציוד, ומשחרר (Status 4). הרשימה משויכת לתוכנית; כל פק\"ע נוצרת אוטומטית עם כל 6 הפעולות, החלפים והעלות.",
-      cbcHe:
-        "ב-CBC רשימת-משימות 'שירות-Filler' כוללת: ניקוי-CIP, בדיקת-שסתומי-מילוי, כיול-נפח, סיכה והחלפת-O-rings. חלפי-המילוי מקושרים מ-BOM-הקו; זמני-התקן מאפשרים לתכנן את חלון-העצירה כך שהקו יחזור לייצור בזמן.",
+      scenarioHe:
+        "בארגון רשימת-משימות 'שירות-Filler' כוללת: ניקוי-CIP, בדיקת-שסתומי-מילוי, כיול-נפח, סיכה והחלפת-O-rings. חלפי-המילוי מקושרים מ-BOM-הקו; זמני-התקן מאפשרים לתכנן את חלון-העצירה כך שהקו יחזור לייצור בזמן.",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists and PRTs ► Task Lists ► Control Data ► Define Profiles with Default Values",
         "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists and PRTs ► Task Lists ► General Data ► Configure Planner Group",
@@ -256,8 +256,8 @@ export const CH5: TextbookChapter = {
             "מבנה-הזיהוי (Group/Counter) מאפשר לנהל וריאנטים ולשייך במדויק את הגרסה הנכונה לתוכנית — בלי בלבול בין דומות.",
           processExampleHe:
             "מהנדס מחפש ב-IA09 את Group 'MOTOR-SVC', רואה Counter 1 (סטנדרטי) ו-Counter 2 (מורחב), ומשייך לתוכנית את ה-Counter המתאים לרמת-הקריטיות של הנכס.",
-          cbcHe:
-            "ב-CBC Group 'FILLER-SVC' עם Counter 1 (שירות-קל) ו-Counter 2 (Overhaul); קווים קריטיים מקבלים Counter 2 בתוכנית השנתית.",
+          scenarioHe:
+            "בארגון Group 'FILLER-SVC' עם Counter 1 (שירות-קל) ו-Counter 2 (Overhaul); קווים קריטיים מקבלים Counter 2 בתוכנית השנתית.",
           navHe: [
             "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists and PRTs ► Task Lists ► General Data ► Define Task List Usage Keys",
           ],
@@ -306,8 +306,8 @@ export const CH5: TextbookChapter = {
             "להעביר את הסטנדרט מהתכנון לביצוע ללא הקלדה-חוזרת: אחידות, מהירות, ודיוק-עלות. הפק\"ע הופכת ל'מופע' של רשימת-המשימות.",
           processExampleHe:
             "תוכנית רבעונית מגיעה למועד; IP10 יוצר פק\"ע PM01 עם 6 פעולות מרשימת-המשימות, 4 חלפים כ-Reservations ועלות-מתוכננת מחושבת. הטכנאי מבצע, מדווח (IW41) וסוגר (TECO).",
-          cbcHe:
-            "ב-CBC פק\"ע-Filler נוצרת אוטומטית מהתוכנית עם כל פעולות-השירות והחלפים; מנהל-המשמרת רואה אותה ב-IW38, משבץ לחלון-CIP, והקו חוזר לייצור בזמן.",
+          scenarioHe:
+            "בארגון פק\"ע-Filler נוצרת אוטומטית מהתוכנית עם כל פעולות-השירות והחלפים; מנהל-המשמרת רואה אותה ב-IW38, משבץ לחלון-CIP, והקו חוזר לייצור בזמן.",
           navHe: [
             "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Assign Task List Data and Default Values",
           ],
@@ -370,8 +370,8 @@ export const CH5: TextbookChapter = {
             "אחריותיות ומעקב: לדעת מי שינה מה ומתי — קריטי לסביבות-רגולציה ולתחקור שגיאות-תחזוקה.",
           processExampleHe:
             "פק\"ע התחילה להגיע עם זמן-תקן שגוי; המהנדס פותח את ה-Action Log, רואה ששעת-Machine שונתה אתמול ע\"י משתמש מסוים, ומתקן.",
-          cbcHe:
-            "ב-CBC, תחת רגולציית-מזון, כל שינוי ברשימת-שירות-Filler מתועד ב-Action Log לצורך ביקורת-QA והוכחת-תצורה.",
+          scenarioHe:
+            "בארגון, תחת רגולציית-מזון, כל שינוי ברשימת-שירות-Filler מתועד ב-Action Log לצורך ביקורת-QA והוכחת-תצורה.",
           navHe: [
             "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists and PRTs ► Task Lists ► Control Data ► Activate Change Documents",
           ],
@@ -418,8 +418,8 @@ export const CH5: TextbookChapter = {
             "אומדן-עלות מראש: תקצוב, אישור-עבודה והשוואת מתוכנן-מול-בפועל לבקרת-יעילות-תחזוקה.",
           processExampleHe:
             "רשימת 'Overhaul-מנוע': 8 שעות-עבודה × 200₪ + חלפים 1,500₪ = 3,100₪ עלות-מתוכננת. הפק\"ע נושאת אומדן זה; אחרי-ביצוע משווים לבפועל ב-IW38/דוחות-CO.",
-          cbcHe:
-            "ב-CBC עלות-שירות-Filler המתוכננת (עבודה + O-rings + שסתומים) מתוקצבת מראש; חריגה בפועל מסמנת בעיה (חלפים יקרים/זמן-עודף) לתחקור.",
+          scenarioHe:
+            "בארגון עלות-שירות-Filler המתוכננת (עבודה + O-rings + שסתומים) מתוקצבת מראש; חריגה בפועל מסמנת בעיה (חלפים יקרים/זמן-עודף) לתחקור.",
           navHe: [
             "Controlling ► Cost Center Accounting ► Planning ► Activity Output/Prices ► Define Activity Prices (KP26)",
             "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Costing Data for Order Types",
@@ -477,8 +477,8 @@ export const CH5: TextbookChapter = {
             "לתחזק נתוני-אב בקנה-מידה ביעילות ובעקביות: שינוי-ארגוני (מרכז-עבודה, תעריף, נוהל) מתפשט לכל הרשימות בלי טעויות-ידניות.",
           processExampleHe:
             "מרכז-העבודה 'MECH-01' אוחד ל-'MECH-A'; המהנדס מריץ CA85 להחלפת Work Center בכל הרשימות הרלוונטיות — 280 פעולות מתעדכנות בהרצה אחת.",
-          cbcHe:
-            "ב-CBC כשמוקם צוות-תחזוקה חדש לאזור-המילוי, Mass Change מעביר את כל רשימות-ה-Filler ל-Work Center החדש בבת-אחת — בלי לגעת בכל רשימה.",
+          scenarioHe:
+            "בארגון כשמוקם צוות-תחזוקה חדש לאזור-המילוי, Mass Change מעביר את כל רשימות-ה-Filler ל-Work Center החדש בבת-אחת — בלי לגעת בכל רשימה.",
           navHe: [
             "Logistics ► Plant Maintenance ► Maintenance Planning ► Task Lists ► Extras ► Mass Change",
             "Production ► Master Data ► Routings ► Extras ► Replace Work Center (CA85)",
@@ -533,8 +533,8 @@ export const CH5: TextbookChapter = {
         "למכן תחזוקה התלויה-בזמן: לוודא שעבודות-תקופתיות מתבצעות במועדן ללא שכחה אנושית, ולספק נראות-קדימה (Call Horizon) לתכנון-משאבים.",
       processExampleHe:
         "ביקורת-בטיחות-מעלית כל 6 חודשים: תוכנית מבוססת-זמן עם Cycle=6M, Call Horizon=80%. ב-IP10 SAP יוצר את הקריאה ~5 חודשים אחרי-הקודמת (80% מהמחזור), מאפשר תכנון, ובמועד נוצרת פק\"ע.",
-      cbcHe:
-        "ב-CBC סיכה-שבועית של Filler: תוכנית מבוססת-זמן Cycle=1W; כל שבוע נוצרת פק\"ע-סיכה קצרה שמשובצת לחלון-CIP. אם השלימו מאוחר, Shift Factor מזיז את המחזור הבא בהתאם.",
+      scenarioHe:
+        "בארגון סיכה-שבועית של Filler: תוכנית מבוססת-זמן Cycle=1W; כל שבוע נוצרת פק\"ע-סיכה קצרה שמשובצת לחלון-CIP. אם השלימו מאוחר, Shift Factor מזיז את המחזור הבא בהתאם.",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists and PRTs ► Maintenance Plans ► Set Maintenance Plan Categories",
         "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists and PRTs ► Maintenance Plans ► Set List Editing for Maintenance Items / Plans",
@@ -607,8 +607,8 @@ export const CH5: TextbookChapter = {
             "פתרון פשוט ומהיר לעבודת-תחזוקה תקופתית-בודדת בלי מורכבות-אסטרטגיה.",
           processExampleHe:
             "החלפת-מסנן כל 30 יום: IP41 עם Cycle=30D, רשימת 'החלפת-מסנן', Reference Object = יחידת-AHU. IP10 מתזמן; כל חודש נוצרת פק\"ע אחת.",
-          cbcHe:
-            "ב-CBC ניקוי-חיישני-Filler כל 30 יום: תוכנית מחזור-יחיד פשוטה שיוצרת פק\"ע-ניקוי חודשית לכל קו-מילוי.",
+          scenarioHe:
+            "בארגון ניקוי-חיישני-Filler כל 30 יום: תוכנית מחזור-יחיד פשוטה שיוצרת פק\"ע-ניקוי חודשית לכל קו-מילוי.",
           navHe: [
             "Logistics ► Plant Maintenance ► Maintenance Planning ► Maintenance Plans ► Create ► Single Cycle Plan (IP41)",
           ],
@@ -668,8 +668,8 @@ export const CH5: TextbookChapter = {
             "לנהל דפוס-תחזוקה רב-מחזורי באובייקט יחיד ביעילות — פחות תוכניות, איחוד-עבודות במועד-משותף, פחות השבתות.",
           processExampleHe:
             "תחזוקת-מדחס: Strategy עם Packages 1M (בדיקה), 3M (החלפת-מסנן), 12M (Overhaul). בחודש ה-12 'יורים' כל השלושה יחד בפק\"ע אחת — חוסך 3 עצירות נפרדות.",
-          cbcHe:
-            "ב-CBC אסטרטגיית-Filler: 1W סיכה, 1M כיול-בסיסי, 6M Overhaul. ה-Overhaul החצי-שנתי כולל את הסיכה והכיול — עצירה אחת מקיפה במקום שלוש.",
+          scenarioHe:
+            "בארגון אסטרטגיית-Filler: 1W סיכה, 1M כיול-בסיסי, 6M Overhaul. ה-Overhaul החצי-שנתי כולל את הסיכה והכיול — עצירה אחת מקיפה במקום שלוש.",
           navHe: [
             "Plant Maintenance and Customer Service ► Preventive Maintenance ► Maintenance Plans ► Maintenance Strategies ► Set Maintenance Strategies",
             "Logistics ► Plant Maintenance ► Maintenance Planning ► Maintenance Plans ► Create ► Strategy Plan (IP42)",
@@ -741,8 +741,8 @@ export const CH5: TextbookChapter = {
         "להתאים תחזוקה לשחיקה-בפועל ולא ללוח-שרירותי — חוסך תחזוקת-יתר בציוד פחות-פעיל ומונע תחזוקת-חסר בציוד עמוס. דיוק גבוה יותר לעלות ולאמינות.",
       processExampleHe:
         "מדחס עם תחזוקה כל 4,000 שע'-פעולה: Measuring Point לשעות-פעולה; קריאות-מונה שבועיות; Annual Estimate=8,000 שע'/שנה. SAP חוזה שהסף-הבא ייגבר בעוד ~6 חודשים ויוצר פק\"ע אז.",
-      cbcHe:
-        "ב-CBC כיול-שסתומי-Filler כל 5,000,000 מילויים: Measuring Point סופר-מילויים; קריאה אוטומטית מ-PLC/SCADA (או ידנית IK11). בעונת-שיא (קיץ) הקריאות תכופות יותר — התחזוקה מתאימה לשימוש-האמיתי.",
+      scenarioHe:
+        "בארגון כיול-שסתומי-Filler כל 5,000,000 מילויים: Measuring Point סופר-מילויים; קריאה אוטומטית מ-PLC/SCADA (או ידנית IK11). בעונת-שיא (קיץ) הקריאות תכופות יותר — התחזוקה מתאימה לשימוש-האמיתי.",
       navHe: [
         "Plant Maintenance and Customer Service ► Technical Objects ► Measuring Points, Counters, Measurement Documents ► Define Field Selection for Measuring Points",
         "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists and PRTs ► Maintenance Plans ► Set Maintenance Plan Categories",
@@ -815,8 +815,8 @@ export const CH5: TextbookChapter = {
             "פתרון פשוט לתחזוקה מבוססת-שחיקה-בודדת — מחזור-מונה יחיד בלי מורכבות-אסטרטגיה.",
           processExampleHe:
             "החלפת-שמן-מדחס כל 1,000 שע': Counter שעות-פעולה, Cycle=1000H, רשימת 'החלפת-שמן'. קריאות שבועיות; SAP יוצר פק\"ע סביב כל 1,000 שע'.",
-          cbcHe:
-            "ב-CBC החלפת-מסנן-מים כל 2,000 שע'-פעולה של יחידת-הטיהור: מחזור-יחיד מבוסס-ביצוע על Counter-השעות.",
+          scenarioHe:
+            "בארגון החלפת-מסנן-מים כל 2,000 שע'-פעולה של יחידת-הטיהור: מחזור-יחיד מבוסס-ביצוע על Counter-השעות.",
           navHe: [
             "Logistics ► Plant Maintenance ► Maintenance Planning ► Maintenance Plans ► Create ► Single Cycle Plan (IP41)",
           ],
@@ -872,8 +872,8 @@ export const CH5: TextbookChapter = {
             "לנהל דפוס-תחזוקה רב-רמתי לפי שחיקה-בפועל — מאחד מחזורי-מונה שונים בעצירה אחת, מותאם לעומס-האמיתי.",
           processExampleHe:
             "טורבינה: Strategy מבוסס-שעות עם 1,000H (בדיקה), 4,000H (שירות), 16,000H (Overhaul). ב-16,000H 'יורים' את כל השלושה יחד לפי Hierarchy — עצירה-מקיפה אחת.",
-          cbcHe:
-            "ב-CBC אסטרטגיית-מונה ל-Filler לפי מילויים: 1M-מילויים ניקוי, 5M-מילויים כיול, 20M-מילויים Overhaul — כולם על Counter-המילויים, מתואמים לעונת-הייצור.",
+          scenarioHe:
+            "בארגון אסטרטגיית-מונה ל-Filler לפי מילויים: 1M-מילויים ניקוי, 5M-מילויים כיול, 20M-מילויים Overhaul — כולם על Counter-המילויים, מתואמים לעונת-הייצור.",
           navHe: [
             "Plant Maintenance and Customer Service ► Preventive Maintenance ► Maintenance Plans ► Maintenance Strategies ► Set Maintenance Strategies",
             "Logistics ► Plant Maintenance ► Maintenance Planning ► Maintenance Plans ► Create ► Strategy Plan (IP42)",
@@ -940,8 +940,8 @@ export const CH5: TextbookChapter = {
         "לכסות מצבי-שחיקה מורכבים שבהם יותר מציר-אחד קובע: למנוע גם תחזוקת-יתר (אם רק זמן) וגם תחזוקת-חסר (אם רק שימוש), דרך OR/AND.",
       processExampleHe:
         "רכב-תפעולי: 'כל 12 חודשים OR כל 20,000 ק\"מ'. נסיעה-מועטה ➔ הזמן מפעיל; נסיעה-רבה ➔ הק\"מ מפעיל. תמיד מה-שמגיע-ראשון — כיסוי מלא.",
-      cbcHe:
-        "ב-CBC מלגזת-מחסן: 'כל 6 חודשים OR כל 1,000 שע'-מנוע'. בשיא-העונה השעות מפעילות מוקדם; בעונה-שקטה הזמן מבטיח טיפול-מינימלי. שני הצירים מכוסים.",
+      scenarioHe:
+        "בארגון מלגזת-מחסן: 'כל 6 חודשים OR כל 1,000 שע'-מנוע'. בשיא-העונה השעות מפעילות מוקדם; בעונה-שקטה הזמן מבטיח טיפול-מינימלי. שני הצירים מכוסים.",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists and PRTs ► Maintenance Plans ► Set Maintenance Plan Categories",
         "Plant Maintenance and Customer Service ► Technical Objects ► Measuring Points, Counters ► Define Counter Settings",
@@ -1011,8 +1011,8 @@ export const CH5: TextbookChapter = {
             "כיסוי כפול בסיסי (זמן+שימוש) בלי מורכבות — הבטחה שלא יחלוף יותר-מדי זמן ולא ייצבר יותר-מדי שימוש.",
           processExampleHe:
             "מדחס: 'כל 6M OR כל 1,000H'. אם רץ הרבה — ה-1,000H מפעיל בחודש 4; אם רץ מעט — ה-6M מפעיל. תמיד מוקדם-יותר.",
-          cbcHe:
-            "ב-CBC משאבת-CIP: 'כל 6M OR כל 1,500 שע''. שני הצירים מובטחים בלי הגדרת-אסטרטגיה.",
+          scenarioHe:
+            "בארגון משאבת-CIP: 'כל 6M OR כל 1,500 שע''. שני הצירים מובטחים בלי הגדרת-אסטרטגיה.",
           navHe: [
             "Logistics ► Plant Maintenance ► Maintenance Planning ► Maintenance Plans ► Create ► Multiple Counter Plan (IP43)",
           ],
@@ -1068,8 +1068,8 @@ export const CH5: TextbookChapter = {
             "לדגם דפוסי-שחיקה מורכבים-מציאותיים שבהם זמן, שעות ויחידות-ייצור משפיעים יחד — דיוק-תחזוקה מקסימלי לנכסים הקריטיים ביותר.",
           processExampleHe:
             "מנוע-קו: 'כל 4,000 שע' OR כל 2M יחידות' לשירות, 'AND כל שנה' לבדיקת-בטיחות-חובה; Modification Factor מקצר 20% אחרי 5 שנות-ותק. ה-IP10 מאזן את כל הצירים.",
-          cbcHe:
-            "ב-CBC Filler קריטי בשיא-העונה: שילוב 'כל 1M מילויים OR כל 1,000 שע'' לשירות, 'AND כל 6M' לבטיחות, עם Modification Factor שמכווץ מחזורים לקווים-ותיקים — תחזוקה מדויקת לנכס-הליבה.",
+          scenarioHe:
+            "בארגון Filler קריטי בשיא-העונה: שילוב 'כל 1M מילויים OR כל 1,000 שע'' לשירות, 'AND כל 6M' לבטיחות, עם Modification Factor שמכווץ מחזורים לקווים-ותיקים — תחזוקה מדויקת לנכס-הליבה.",
           navHe: [
             "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists and PRTs ► Maintenance Plans ► Define Cycle Sets / Modification Factors",
           ],
@@ -1136,8 +1136,8 @@ export const CH5: TextbookChapter = {
         "להפחית עומס-מנהלי (פחות פק\"ע, פחות תזמון) תוך כיסוי מערך-נכסים גדול בבדיקות-תכופות-קצרות — איזון בין יעילות-תפעולית לכיסוי-מונע.",
       processExampleHe:
         "מפקח עובר שבועית על 15 משאבות-תהליך: פק\"ע-אחת (Inspection Round) עם רשימת-15-המשאבות; המפקח בודק רטט, דליפה ולחץ בכל אחת, ומדווח בפק\"ע-אחת.",
-      cbcHe:
-        "ב-CBC סבב-בדיקה-יומי על קווי-המילוי: פק\"ע-אחת מכסה את כל 6 ה-Fillers + מכונות-ההדבקה + המסועים; המפקח עובר, בודק חזותית-ושמיעתית, ומתעד חריגות שיפכו לפק\"ע-תיקון נפרדת.",
+      scenarioHe:
+        "בארגון סבב-בדיקה-יומי על קווי-המילוי: פק\"ע-אחת מכסה את כל 6 ה-Fillers + מכונות-ההדבקה + המסועים; המפקח עובר, בודק חזותית-ושמיעתית, ומתעד חריגות שיפכו לפק\"ע-תיקון נפרדת.",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists and PRTs ► Task Lists ► Operation Data ► Maintain Object List Settings",
         "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Object List / Object Information",
@@ -1206,8 +1206,8 @@ export const CH5: TextbookChapter = {
             "כיסוי-סבב מהיר ויעיל לנכסים-רבים-פשוטים שבהם לא נדרשת היסטוריה פרטנית — מקסימום-יעילות, מינימום-הגדרה.",
           processExampleHe:
             "סבב-שבועי על 20 ברזי-בטיחות: פק\"ע-אחת עם Object List של 20 הברזים ופעולה 'בדוק-ופתח-סגור'. המפקח עובר ומדווח בפק\"ע-אחת.",
-          cbcHe:
-            "ב-CBC סבב-יומי-מהיר על 12 חיישני-טמפ' בקווי-המילוי: Object List עם 12 החיישנים ופעולה 'בדיקה-חזותית'; דיווח מרוכז בסוף-המשמרת.",
+          scenarioHe:
+            "בארגון סבב-יומי-מהיר על 12 חיישני-טמפ' בקווי-המילוי: Object List עם 12 החיישנים ופעולה 'בדיקה-חזותית'; דיווח מרוכז בסוף-המשמרת.",
           navHe: [
             "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Object List ► Define Object List Behavior",
           ],
@@ -1264,8 +1264,8 @@ export const CH5: TextbookChapter = {
             "לקבל את יתרון-העומס-הנמוך של סבב יחד עם נראות והיסטוריה ברמת-נכס — הטוב-משני-העולמות לסבבי-נכסים-חשובים.",
           processExampleHe:
             "סבב על 10 מנועים-קריטיים: רשימת-משימות שבה כל פעולה צמודה למנוע אחר ('בדוק-רטט-מנוע-1', '...מנוע-2'). פק\"ע-אחת, אך כל מנוע מקבל היסטוריית-בדיקה משלו.",
-          cbcHe:
-            "ב-CBC סבב על 6 ה-Fillers: כל פעולה ברשימה צמודה ל-Filler מסוים ('בדיקת-שסתומי-Filler-1'...); פק\"ע-אחת מנהלת את כל הסבב, אך כל Filler צובר היסטוריית-אמינות נפרדת לניתוח-מגמות.",
+          scenarioHe:
+            "בארגון סבב על 6 ה-Fillers: כל פעולה ברשימה צמודה ל-Filler מסוים ('בדיקת-שסתומי-Filler-1'...); פק\"ע-אחת מנהלת את כל הסבב, אך כל Filler צובר היסטוריית-אמינות נפרדת לניתוח-מגמות.",
           navHe: [
             "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists and PRTs ► Task Lists ► Operation Data ► Assign Reference Object to Operation",
           ],
@@ -1329,8 +1329,8 @@ export const CH5: TextbookChapter = {
         "למזער גם תחזוקת-יתר וגם כשלים-פתאומיים: לתחזק על-בסיס המצב-האמיתי של הנכס. חיסכון-עלות מקסימלי + זמינות-מקסימלית — אך דורש תשתית-חיישנים ונתונים.",
       processExampleHe:
         "משאבה עם חיישן-רטט: Measuring Point לרטט עם סף-עליון 7mm/s. כשקריאה חוצה 7, נוצרת אוטומטית Notification → פק\"ע לבדיקת-מיסבים — לפני-כשל, אך לא בלי-צורך.",
-      cbcHe:
-        "ב-CBC חיישני-רטט-וטמפ' על מנועי-ה-Fillers מזרימים נתונים ל-SAP; חריגת-סף יוצרת קריאת-תחזוקה אוטומטית. כך נמנעת השבתת-קו פתאומית בשיא-העונה — מתערבים רק כשהנתונים מצביעים על שחיקה אמיתית.",
+      scenarioHe:
+        "בארגון חיישני-רטט-וטמפ' על מנועי-ה-Fillers מזרימים נתונים ל-SAP; חריגת-סף יוצרת קריאת-תחזוקה אוטומטית. כך נמנעת השבתת-קו פתאומית בשיא-העונה — מתערבים רק כשהנתונים מצביעים על שחיקה אמיתית.",
       navHe: [
         "Plant Maintenance and Customer Service ► Technical Objects ► Measuring Points, Counters, Measurement Documents ► Define Valuation Codes for Measurement Documents",
         "Plant Maintenance and Customer Service ► Technical Objects ► Measuring Points, Counters ► Configure Measurement-Document-Triggered Notification/Order",
@@ -1404,8 +1404,8 @@ export const CH5: TextbookChapter = {
         "לחבר את כל החלקים לתמונת-מימוש אחת: לדעת איזה דפוס לבחור מתי, איך לבנות את האובייקטים לשימוש-חוזר, ואיך למדוד שהתחזוקה-המונעת באמת משפרת זמינות ומורידה עלות.",
       processExampleHe:
         "תרחיש-מימוש מלא לנכס: ניתוח-קריטיות ➔ בחירת-דפוס (זמן/ביצוע/מצב) ➔ General Task List + Strategy ➔ Maintenance Plan + Item המקשר לאובייקט ➔ תזמון IP10 ➔ ניטור IP24 ➔ פק\"ע-אוטומטיות ➔ ביצוע ו-TECO ➔ ניתוח-KPI ➔ כיוונון-מחזורים.",
-      cbcHe:
-        "ב-CBC, מערך-תחזוקה-מונעת לקווי-המילוי: סיכה-שבועית (זמן), כיול-מילויים (ביצוע), בטיחות-שנתית (מרובה-מונים OR), ורטט-מנועים (מבוסס-מצב) — וסבב-יומי על כל הקווים. התוצאה: זמינות-קו גבוהה, פחות-השבתות-פתאומיות בשיא-העונה, ועלות-תחזוקה צפויה ומתוקצבת.",
+      scenarioHe:
+        "בארגון, מערך-תחזוקה-מונעת לקווי-המילוי: סיכה-שבועית (זמן), כיול-מילויים (ביצוע), בטיחות-שנתית (מרובה-מונים OR), ורטט-מנועים (מבוסס-מצב) — וסבב-יומי על כל הקווים. התוצאה: זמינות-קו גבוהה, פחות-השבתות-פתאומיות בשיא-העונה, ועלות-תחזוקה צפויה ומתוקצבת.",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance Plans, Work Centers, Task Lists and PRTs ► Maintenance Plans ► Set Maintenance Plan Categories",
         "Plant Maintenance and Customer Service ► Preventive Maintenance ► Scheduling of Maintenance Plans",

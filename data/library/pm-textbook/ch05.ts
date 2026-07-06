@@ -10,7 +10,7 @@ export const CH5: TextbookChapter = {
   titleHe: "הגדרת מחזור פקודת-העבודה",
   titleEn: "Configuring the Work Order Cycle",
   introHe:
-    "פרק זה הוא יחידת-הליבה של קונפיגורציית האחזקה ב-SAP S/4HANA Asset Management. מחזור פקודת-העבודה נשען על שלושה אובייקטים עסקיים: ההודעה (Notification — תיעוד התקלה והבקשה), הפקודה (Order — תכנון וביצוע העבודה) ואישור-הביצוע (Completion Confirmation — דיווח זמן ונתונים טכניים). כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC (מפעל המשקאות קוקה-קולה — פקודות תקלה ואחזקה מתוכננת), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, השפעה על נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בקונפיגורציה של מחזור פקודת-העבודה ללא הספר המקורי.",
+    "פרק זה הוא יחידת-הליבה של קונפיגורציית האחזקה ב-SAP S/4HANA Asset Management. מחזור פקודת-העבודה נשען על שלושה אובייקטים עסקיים: ההודעה (Notification — תיעוד התקלה והבקשה), הפקודה (Order — תכנון וביצוע העבודה) ואישור-הביצוע (Completion Confirmation — דיווח זמן ונתונים טכניים). כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון (מפעל המשקאות מוצר לדוגמה — פקודות תקלה ואחזקה מתוכננת), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, השפעה על נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בקונפיגורציה של מחזור פקודת-העבודה ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 5.1
     {
@@ -25,8 +25,8 @@ export const CH5: TextbookChapter = {
         "לתעד את התקלה-הטכנית הקשורה לאובייקט, לבקש משימה ממחלקת-האחזקה, ולתעד את העבודה שבוצעה — כך שכל אירוע ניתן לניתוח ארוך-טווח (תדירות-תקלות, MTBF, עלויות). ההודעה מפרידה בין 'הבקשה/התיעוד' לבין 'הביצוע', ומאפשרת לתפעול לדווח תקלה בלי להבין את עולם-הפקודות.",
       processExampleHe:
         "מפעיל מזהה רעש חריג במנוע-משאבה. הוא פותח הודעת-תקלה (IW21), בוחר את הציוד, מתעד את הנזק מתוך קטלוג, קובע עדיפות גבוהה ומסמן השבתה. מתכנן-האחזקה רואה את ההודעה ברשימה (IW28), יוצר ממנה פקודת-עבודה (IW34), מתכנן חלקים ופעולות — וכך ההודעה הופכת מבקשה לעבודה מבוצעת ומתועדת בהיסטוריה.",
-      cbcHe:
-        "ב-CBC כל השבתת קו-מילוי או תקלת-ציוד (מדחס CO2, ממלא, מכסה-מכסים) מדווחת כהודעת-תקלה. מוסכמת-שמות: Mx להודעות-אחזקה. ההשבתה והשפעתה על הייצור נרשמות בהודעה, ומשמשות לחישוב OEE ולתעדוף תחזוקה-מונעת בקווים-הקריטיים.",
+      scenarioHe:
+        "בארגון כל השבתת קו-מילוי או תקלת-ציוד (מדחס CO2, ממלא, מכסה-מכסים) מדווחת כהודעת-תקלה. מוסכמת-שמות: Mx להודעות-אחזקה. ההשבתה והשפעתה על הייצור נרשמות בהודעה, ומשמשות לחישוב OEE ולתעדוף תחזוקה-מונעת בקווים-הקריטיים.",
       navHe: [
         "SAP Easy Access ► Logistics ► Plant Maintenance ► Maintenance Processing ► Notification ► Create (IW21/IW24)",
         "SPRO ► Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Notifications",
@@ -100,8 +100,8 @@ export const CH5: TextbookChapter = {
             "לרכז במקום-אחד את כל ההתנהגות של ההודעה — מסך, מספור, קטלוגים, עדיפויות וקישור-לפקודה — כדי שאותו תהליך-עסקי יזכה לחוויית-הזנה אחידה ולנתונים אחידים לניתוח.",
           processExampleHe:
             "ארגון מגדיר M1=דיווח-תקלה (Origin 02, מסך מצומצם לתפעול) ו-M2=בקשת-אחזקה (Origin 01, מסך מורחב למתכנן). הקצאת-מספר מוקדמת מאפשרת לנציג-ההוטליין למסור מיד את מספר-ההודעה למתקשר.",
-          cbcHe:
-            "ב-CBC: M1 לתקלות-קו דחופות (השבתת-ייצור), M2 לבקשות-אחזקה מתוכננות. שני הסוגים מקושרים לסוגי-פקודה מתאימים (PM01/PM02) דרך Assign Notification Types to Order Types.",
+          scenarioHe:
+            "בארגון: M1 לתקלות-קו דחופות (השבתת-ייצור), M2 לבקשות-אחזקה מתוכננות. שני הסוגים מקושרים לסוגי-פקודה מתאימים (PM01/PM02) דרך Assign Notification Types to Order Types.",
           navHe: [
             "SPRO ► Maintenance and Service Notifications ► Notification Creation ► Notification Types ► Define Notification Types",
             "Notification Types ► Set Screen Templates for the Notification Type",
@@ -171,8 +171,8 @@ export const CH5: TextbookChapter = {
             "להפוך את ההודעה מתיעוד-טקסט למאגר-נתונים ניתן-לניתוח: סטטיסטיקת-תקלות, פארטו של סיבות-נזק, זיהוי ציוד-בעייתי. בלי קטלוגים אין ניתוח-אמינות אמיתי.",
           processExampleHe:
             "טכנאי מתעד תקלת-משאבה: Catalog C (Damage) → Code Group 5400 (Pumps) → Code 1100 (Crack in crankcase); Catalog 5 (Causes) → סיבת-עומס-יתר. כעבור שנה דוח-פארטו מראה ש'סדק במעטה' חוזר ב-12 משאבות — בסיס להחלטת-החלפה.",
-          cbcHe:
-            "ב-CBC קטלוג-נזקים לציוד-קו (ממלאים, מכסים, מובילים) עם קבוצות-קוד לפי סוג-מכונה. פרופיל-קטלוג P-FILLER לממלאים, P-CO2 למערכת ה-CO2 — מציע אוטומטית את הקודים הרלוונטיים בכל הודעה.",
+          scenarioHe:
+            "בארגון קטלוג-נזקים לציוד-קו (ממלאים, מכסים, מובילים) עם קבוצות-קוד לפי סוג-מכונה. פרופיל-קטלוג P-FILLER לממלאים, P-CO2 למערכת ה-CO2 — מציע אוטומטית את הקודים הרלוונטיים בכל הודעה.",
           navHe: [
             "SPRO ► Maintenance and Service Notifications ► Notification Creation ► Notification Content ► Maintain Catalogs",
             "Notification Content ► Define Catalog Profile",
@@ -242,8 +242,8 @@ export const CH5: TextbookChapter = {
             "להבטיח שההודעה לא רק מתעדת אלא גם מתעדפת ומניעה פעולה: עדיפות וניטור-תגובה הופכים את ההודעה לכלי-SLA, ותיבת-הפעולה מאיצה את הטיפול. מצבי-מערכת והשפעות-תפעוליות מספקים קריטריונים לבחירה ולהערכה.",
           processExampleHe:
             "הודעת-תקלה בעדיפות 1 מקבלת Rel.End של 4 שעות (חישוב מ-Rel.Start). Response Profile יוצר אוטומטית משימה 'הודע למהנדס-המפעל' עם מסגרת-15-דקות, ותיבת-הפעולה מאפשרת בלחיצה-אחת ליצור פקודת-עבודה (QM06_FM_*).",
-          cbcHe:
-            "ב-CBC השבתת קו-מילוי = השפעה-תפעולית 'Production breakdown' + עדיפות 1; ניטור-התגובה מבטיח שטכנאי-משמרת מטופל תוך 15 דקות. תיבת-הפעולה כוללת 'צור פקודת-תקלה' ו'הודע לראש-משמרת'.",
+          scenarioHe:
+            "בארגון השבתת קו-מילוי = השפעה-תפעולית 'Production breakdown' + עדיפות 1; ניטור-התגובה מבטיח שטכנאי-משמרת מטופל תוך 15 דקות. תיבת-הפעולה כוללת 'צור פקודת-תקלה' ו'הודע לראש-משמרת'.",
           navHe: [
             "SPRO ► Maintenance and Service Notifications ► Notification Processing ► Response Time Monitoring ► Define Priorities / Define Response Monitoring",
             "Notification Processing ► Additional Functions ► Define Action Box",
@@ -315,8 +315,8 @@ export const CH5: TextbookChapter = {
         "לתכנן ולבצע משימת-אחזקה תוך שילוב מלא עם הלוגיסטיקה והכספים: ניהול חלקים, רכש חיצוני, תזמון וקיבולת, תמחיר והתחשבנות. הפקודה היא 'אספן-העלויות' — כל עלות מצטברת אליה ובסוף מתחשבנת אל הגורם-המחייב.",
       processExampleHe:
         "מתכנן יוצר פקודה (IW31), מוסיף פעולות עם מרכז-עבודה וזמני-תקן, שומר חלקים מהמלאי (L) ופותח דרישת-רכש לחלק חיצוני (N). בשחרור (REL) המערכת בודקת זמינות, מדפיסה מסמכי-עבודה ויוצרת כלל-התחשבנות. הטכנאי מבצע, מוציא חלקים (261), מאשר זמן (IW41), ולבסוף הפקודה מוּשלמת-טכנית (TECO) ומתחשבנת.",
-      cbcHe:
-        "ב-CBC PM01 לפקודות-תקלה דחופות (קו עומד) ו-PM02 לאחזקה מתוכננת (חלון-תחזוקה שבועי). פקודת-תקלה לממלא שומרת חלקי-חילוף, מתזמנת טכנאי-מכונות, ומתחשבנת אל מרכז-העלות של קו-המילוי — בסיס לחישוב עלות-תחזוקה ל-hectoliter.",
+      scenarioHe:
+        "בארגון PM01 לפקודות-תקלה דחופות (קו עומד) ו-PM02 לאחזקה מתוכננת (חלון-תחזוקה שבועי). פקודת-תקלה לממלא שומרת חלקי-חילוף, מתזמנת טכנאי-מכונות, ומתחשבנת אל מרכז-העלות של קו-המילוי — בסיס לחישוב עלות-תחזוקה ל-hectoliter.",
       navHe: [
         "SAP Easy Access ► Plant Maintenance ► Maintenance Processing ► Order ► Create (IW31)",
         "SPRO ► Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders",
@@ -391,8 +391,8 @@ export const CH5: TextbookChapter = {
             "לרכז את כל ההתנהגות של הפקודה במפתח-בקרה אחד, ולאפשר תהליכים שונים (תקלה מול מונע מול שיפוץ) עם מספור, התחשבנות ומסמכים מותאמים — תוך הפרדה בין מה שאחיד בכל הארגון לבין מה שתלוי-מפעל.",
           processExampleHe:
             "ארגון מגדיר PM01 (תקלה, התחשבנות למרכז-עלות, מסמכי-עבודה דחופים) ו-PM02 (מונעת, מקושרת לתוכניות-אחזקה). כל סוג מוקצה למפעלי-האחזקה הרלוונטיים, ומקבל פרמטרי-תזמון ותמחיר משלו לכל מפעל.",
-          cbcHe:
-            "ב-CBC PM01 לתקלות-קו, PM02 לאחזקה מתוכננת, PM03 לשיפוץ/refurbishment. כל סוג מוקצה למפעל-המילוי ומפעל-הלוגיסטיקה, עם Maintenance Activity Types נפרדים לדיווח-OEE.",
+          scenarioHe:
+            "בארגון PM01 לתקלות-קו, PM02 לאחזקה מתוכננת, PM03 לשיפוץ/refurbishment. כל סוג מוקצה למפעל-המילוי ומפעל-הלוגיסטיקה, עם Maintenance Activity Types נפרדים לדיווח-OEE.",
           navHe: [
             "SPRO ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Configure Order Types",
             "Functions and Settings for Order Types ► Assign Order Types to Maintenance Plants",
@@ -461,8 +461,8 @@ export const CH5: TextbookChapter = {
             "למנוע שחרור פקודה שלא ניתן לבצע: ATP מבטיח שהחלקים יהיו זמינים בתאריך-הדרישה, וכך נמנעות עצירות-עבודה והמתנות מיותרות לחלקים.",
           processExampleHe:
             "פקודה דורשת אטם בתאריך +5 ימים. המלאי היום 0, אך יש הזמנת-רכש מגיעה בעוד 3 ימים. בדיקת-ATP מזהה שב-+5 יהיו 10 יח' — הזמינות תקינה והפקודה משוחררת; אילו ההזמנה הייתה מגיעה ב-+7, הבדיקה הייתה חוסמת/מזהירה.",
-          cbcHe:
-            "ב-CBC חלקי-חילוף קריטיים (אטמים, מנועים) נבדקים אוטומטית בשחרור פקודת-תקלה — אם החלק לא זמין בחלון-התחזוקה, ראש-המשמרת מקבל התראה ומתאם אספקה לפני עצירת-הקו.",
+          scenarioHe:
+            "בארגון חלקי-חילוף קריטיים (אטמים, מנועים) נבדקים אוטומטית בשחרור פקודת-תקלה — אם החלק לא זמין בחלון-התחזוקה, ראש-המשמרת מקבל התראה ומתאם אספקה לפני עצירת-הקו.",
           navHe: [
             "SPRO ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Availability Check ► Define Checking Control",
             "Production ► Sales and Distribution ► Basic Functions ► Availability Check ► Define Checking Groups / Define Scope of Check",
@@ -531,8 +531,8 @@ export const CH5: TextbookChapter = {
             "לפשט ולדייק את רכש חלקי-החילוף: גישה ישירה לקטלוג-הספק המעודכן, ללא הקלדה ידנית של מספרי-חלק ומחירים, והפחתת שגיאות-הזמנה.",
           processExampleHe:
             "טכנאי מתכנן פקודה, פותח את קטלוג-הספק (OCI), בוחר מסבך ואטם, Add to Cart, Checkout — והפריטים חוזרים כרכיבי-N עם מספרי-ספק ומחירים; דרישת-הרכש נוצרת אוטומטית.",
-          cbcHe:
-            "ב-CBC קטלוג-OCI של ספק חלקי-מכונות-מילוי מחובר ל-PM03; טכנאים מזמינים חלקים-ייעודיים ישירות מהפקודה בלי לתחזק אלפי מספרי-חלק כאב-חומר.",
+          scenarioHe:
+            "בארגון קטלוג-OCI של ספק חלקי-מכונות-מילוי מחובר ל-PM03; טכנאים מזמינים חלקים-ייעודיים ישירות מהפקודה בלי לתחזק אלפי מספרי-חלק כאב-חומר.",
           navHe: [
             "SPRO ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Electronic Parts Catalog ► Define Catalogs",
             "Electronic Parts Catalog ► Define Conversion Modules",
@@ -599,8 +599,8 @@ export const CH5: TextbookChapter = {
             "להבטיח שכל רכיב יקבל את התנהגות-הרכש הנכונה אוטומטית, בלי הקלדה ידנית בכל פקודה, ולשלוט מתי הדרישות נכנסות לתכנון (MRP).",
           processExampleHe:
             "טכנאי מוסיף חלק-חילוף (ERSA) — ברירת-המחדל L יוצרת שמורה עם תנועה 261. הוא מוסיף שירות-חיצוני ללא מספר-חומר — הרשומה-הריקה נותנת N, ונוצרת דרישת-רכש (NB/F). אם Res/PurRq=2, הדרישה הופכת רלוונטית-MRP רק בשחרור.",
-          cbcHe:
-            "ב-CBC חלקי-מלאי (אטמים, מסבכים = ERSA) מקבלים L אוטומטית; שירותי-קבלן וחלקים-מיוחדים מקבלים N. Res/PurRq=2 כדי שדרישות-תקלה לא יוצפו ל-MRP לפני שהפקודה אושרה לביצוע.",
+          scenarioHe:
+            "בארגון חלקי-מלאי (אטמים, מסבכים = ERSA) מקבלים L אוטומטית; שירותי-קבלן וחלקים-מיוחדים מקבלים N. Res/PurRq=2 כדי שדרישות-תקלה לא יוצפו ל-MRP לפני שהפקודה אושרה לביצוע.",
           navHe: [
             "SPRO ► Maintenance and Service Orders ► General Data ► Define Default Values for Component Item Categories",
             "Maintenance and Service Orders ► General Data ► Define Movement Types for Material Reservations",
@@ -672,8 +672,8 @@ export const CH5: TextbookChapter = {
             "לקבל לוח-זמנים מציאותי לעבודה: מתי להתחיל, מתי להיערך לחלקים, ומה החוצץ. התזמון מזין גם את חישוב-הקיבולת ואת תמחיר-העבודה.",
           processExampleHe:
             "פקודה עם תאריך-בסיס-התחלה 1.11 ופעולות בנות 4 ו-2 שעות. תזמון-קדימה מחשב מהבסיס את התאריכים-המוקדמים; ההפרש מהתאריכים-המאוחרים נותן חוצץ ברמת-הכותרת. Latest Staging Date כבוי כדי שהחומר ייערך לתאריך-המוקדם.",
-          cbcHe:
-            "ב-CBC לחלון-תחזוקה שבועי משתמשים בתזמון-קדימה מתאריך-תחילת-החלון; Automatic Scheduling פעיל, Adjust Dates = 'אל תתאם תאריכי-בסיס' כדי לשמר את החלון-המתוכנן.",
+          scenarioHe:
+            "בארגון לחלון-תחזוקה שבועי משתמשים בתזמון-קדימה מתאריך-תחילת-החלון; Automatic Scheduling פעיל, Adjust Dates = 'אל תתאם תאריכי-בסיס' כדי לשמר את החלון-המתוכנן.",
           navHe: [
             "SPRO ► Production ► Shop Floor Control ► Operations ► Scheduling ► Define Formula Parameters / Define Formulas / Specify Scheduling Type",
             "SPRO ► Maintenance and Service Orders ► Scheduling ► Set Scheduling Parameters",
@@ -743,8 +743,8 @@ export const CH5: TextbookChapter = {
             "להבטיח שעומס-העבודה תואם את כוח-האדם הזמין: זיהוי צווארי-בקבוק, הזזת-פקודות ואיזון-משאבים — בעיקר לכוח-אדם (Person), שהוא המשאב-הקריטי באחזקה.",
           processExampleHe:
             "צוות-מכונות בקיבולת 40 שע'/שבוע; פקודות-השבוע דורשות 52 שע'. CM01 מראה עומס-יתר 130%. המתכנן ב-CM34 מזיז שתי פקודות-מונע לשבוע הבא ומאזן ל-95%.",
-          cbcHe:
-            "ב-CBC משתמשים בתכנון-קיבולת בעיקר לאחזקה-מונעת (זמני-תקן ידועים), עם Capacity Category 002 לטכנאים. פקודות-תקלה בלתי-צפויות לרוב מחוץ לחישוב; חלון-התחזוקה השבועי מאוזן ב-CM34.",
+          scenarioHe:
+            "בארגון משתמשים בתכנון-קיבולת בעיקר לאחזקה-מונעת (זמני-תקן ידועים), עם Capacity Category 002 לטכנאים. פקודות-תקלה בלתי-צפויות לרוב מחוץ לחישוב; חלון-התחזוקה השבועי מאוזן ב-CM34.",
           navHe: [
             "SPRO ► Production ► Capacity Requirements Planning ► Master Data ► Capacity Data ► Define Capacity Category",
             "SPRO ► Production ► Capacity Requirements Planning ► Operations ► Available Capacity ► Define Shift Sequences",
@@ -813,8 +813,8 @@ export const CH5: TextbookChapter = {
             "לספק לטכנאי וללוגיסטיקה בדיוק את המסמכים הנדרשים, במדיום הנכון, עם בקרת-הדפסה (Delta, סטטוס-Printed) שמונעת הדפסות-יתר ומבטיחה עדכניות.",
           processExampleHe:
             "בשחרור פקודה מודפסים: כרטיס-בקרת-פעולה למפקח, רשימת-ליקוט למחסן, וכרטיסי-זמן לטכנאי. Delta print מבטיח שבהדפסה-חוזרת רק פעולות-חדשות יודפסו. כרטיס-הזמן מודפס רק לפעולות עם Control Key שבו Print Time Tic. פעיל.",
-          cbcHe:
-            "ב-CBC כרטיסי-זמן ופתקי-אישור מנותבים (Print Diversion) למדפסת קו-המילוי דרך מרכז-העבודה (IR02); רשימות-ליקוט נשלחות למדפסת-המחסן. חלק מהפקודות נשלחות כ-PDF בדוא\"ל לטאבלט-הטכנאי.",
+          scenarioHe:
+            "בארגון כרטיסי-זמן ופתקי-אישור מנותבים (Print Diversion) למדפסת קו-המילוי דרך מרכז-העבודה (IR02); רשימות-ליקוט נשלחות למדפסת-המחסן. חלק מהפקודות נשלחות כ-PDF בדוא\"ל לטאבלט-הטכנאי.",
           navHe: [
             "SPRO ► Maintenance and Service Orders ► Print Control ► Define Shop Papers, Forms, and Output Programs",
             "Print Control ► Define Printer",
@@ -884,8 +884,8 @@ export const CH5: TextbookChapter = {
             "לתת שקיפות-עלות מלאה לפקודה — השוואת משוער/מתוכנן/בפועל — לצורכי תקצוב, בקרה והחלטות (תיקון מול החלפה), ולהזין את ה-PMIS.",
           processExampleHe:
             "מתכנן מזין עלות-משוערת 5,000 ש\"ח. תכנון-המשאבים (4 שע' × תעריף + חלקים) מחשב מתוכנן 4,300. לאחר ביצוע, אישורים ומשיכות מצטברים לבפועל 4,650. מבט-Value-Categories מציג את שלושת המספרים זה-לצד-זה.",
-          cbcHe:
-            "ב-CBC כל פקודת-תחזוקה צוברת עלות לפי קטגוריות (עבודה, חלקים, קבלן); מבט-Value-Categories מאפשר להשוות עלות-תחזוקה-מתוכננת מול בפועל לכל קו-מילוי ולחשב עלות-תחזוקה ל-hectoliter.",
+          scenarioHe:
+            "בארגון כל פקודת-תחזוקה צוברת עלות לפי קטגוריות (עבודה, חלקים, קבלן); מבט-Value-Categories מאפשר להשוות עלות-תחזוקה-מתוכננת מול בפועל לכל קו-מילוי ולחשב עלות-תחזוקה ל-hectoliter.",
           navHe: [
             "SPRO ► Maintenance and Service Processing ► Basic Settings ► Settings for Display of Costs ► Maintain Value Categories / Assign Cost Elements to Value Categories",
             "Functions and Settings for Order Types ► Costing Data for Maintenance and Service Orders ► Maintain Costing Sheet / Define Valuation Variants / Maintain Costing Variants",
@@ -958,8 +958,8 @@ export const CH5: TextbookChapter = {
             "לסגור את מעגל-העלות: להוציא את העלויות מהפקודה (אובייקט-זמני) אל אובייקט-קבוע (מרכז-עלות/השקעה), כך שהדוחות-הכספיים והבקרה משקפים את עלות-התחזוקה האמיתית.",
           processExampleHe:
             "פקודה צברה 4,650 ש\"ח. בשחרור נוצר כלל-התחשבנות אוטומטי אל מרכז-העלות של הציוד (Default Object Type = CTR). בסוף-החודש KO88 מתחשבן: הפקודה מזוכה, מרכז-העלות מחויב לפי Allocation Structure.",
-          cbcHe:
-            "ב-CBC פקודות-קו מתחשבנות אל מרכז-העלות של קו-המילוי; פקודות-שיפוץ-הון מתחשבנות אל אלמנט-WBS/AuC. Amount Settlement משמש כשעובדים מול קבלן במחיר-קבוע.",
+          scenarioHe:
+            "בארגון פקודות-קו מתחשבנות אל מרכז-העלות של קו-המילוי; פקודות-שיפוץ-הון מתחשבנות אל אלמנט-WBS/AuC. Amount Settlement משמש כשעובדים מול קבלן במחיר-קבוע.",
           navHe: [
             "SPRO ► Maintenance and Service Processing ► Basic Settings ► General Order Settlement ► Maintain Allocation Structures / Maintain Settlement Profiles",
             "Functions and Settings for Order Types ► Settlement Rule: Define Time and Creation of Distribution Rule",
@@ -1028,8 +1028,8 @@ export const CH5: TextbookChapter = {
             "לשלב אחזקה הונית בתקצוב ובביקורת של PS/IM: שיפוצים-גדולים ופרויקטי-הון מקבלים תקציב, מעקב-התקדמות ויכולת-הוונה (AuC) — בנפרד מאחזקה-שוטפת.",
           processExampleHe:
             "שדרוג-קו מנוהל כפרויקט-PS; פקודות-האחזקה משויכות אוטומטית (ADPMPS) לאלמנט-WBS דרך PM/PS Reference Element. כל העלויות נצברות ב-WBS, מתוקצבות ומבוקרות כפרויקט.",
-          cbcHe:
-            "ב-CBC החלפת-קו-מילוי שלם = השקעה: פקודות PM03 מקושרות לתוכנית-השקעה עם Investment Profile, צוברות ל-AuC, ובסיום מהוונות לנכס-קבוע. אחזקה-שוטפת נשארת על מרכז-עלות.",
+          scenarioHe:
+            "בארגון החלפת-קו-מילוי שלם = השקעה: פקודות PM03 מקושרות לתוכנית-השקעה עם Investment Profile, צוברות ל-AuC, ובסיום מהוונות לנכס-קבוע. אחזקה-שוטפת נשארת על מרכז-עלות.",
           navHe: [
             "SPRO ► Functions and Settings for Order Types ► Define Transfer of Project or Investment Program",
             "Functions and Settings for Order Types ► Define Relevant Fields for Assignment of IM Program / Assign IM Assignment Key to Order Types",
@@ -1098,8 +1098,8 @@ export const CH5: TextbookChapter = {
             "להשלים את ה-'דבק' של הפקודה: אינטגרציה עם ייצור, התנהגות-כלים, בקרת-הודעות, וברירות-מחדל שמייעלות הזנה ומבטיחות אחידות לכל order type/מפעל.",
           processExampleHe:
             "פקודת-אחזקה על מכונת-ייצור עם Reservation by PM יוצרת עומס-קיבולת על מרכז-הייצור — התכנון יודע שהמכונה תושבת. Default Value Profile ממלא אוטומטית Field key, Calculation Key ו-Graphics profile בכל פקודה-חדשה מאותו order type.",
-          cbcHe:
-            "ב-CBC פקודת-תחזוקה על קו-מילוי מסומנת Reservation by PM — מתכנן-הייצור רואה את חלון-התחזוקה כעומס על הקו ולא מתכנן ייצור באותו זמן. Default Values מאיצים הזנת פקודות-מונע חוזרות.",
+          scenarioHe:
+            "בארגון פקודת-תחזוקה על קו-מילוי מסומנת Reservation by PM — מתכנן-הייצור רואה את חלון-התחזוקה כעומס על הקו ולא מתכנן ייצור באותו זמן. Default Values מאיצים הזנת פקודות-מונע חוזרות.",
           navHe: [
             "SPRO ► Maintenance and Service Orders ► General Data ► Create System Conditions or Operating Conditions",
             "Maintenance and Service Orders ► Production Resource/Tool Assignments ► Define PRT Control Keys / Message Control",
@@ -1171,8 +1171,8 @@ export const CH5: TextbookChapter = {
         "להצמיד מציאות לתכנון: זמן-בפועל, עלות-בפועל, נתונים-טכניים (מדידות, ממצאים), וסגירת-משאבים — כך שהפקודה משקפת מה באמת קרה, ולא רק מה תוכנן.",
       processExampleHe:
         "טכנאי סיים תיקון-משאבה. ב-IW41 הוא מדווח 3.5 שע', מסמן Final Confirmation, ומזין קריאת-מונה. AFRU נרשם, עלות-העבודה (3.5 × תעריף) נצברת לפקודה, השמורות-שלא-נמשכו מתאפסות, והפעולה מקבלת סטטוס CNF.",
-      cbcHe:
-        "ב-CBC טכנאי-משמרת מדווחים זמן-תיקון ב-IW41 ישירות מהרצפה; קבוצות-תחזוקה-מתוכננת מדווחות שבועית ב-CATS. הדיווח מזין עלות-תחזוקה-בפועל לכל קו ומאפס שמורות-חלקים שלא נצרכו.",
+      scenarioHe:
+        "בארגון טכנאי-משמרת מדווחים זמן-תיקון ב-IW41 ישירות מהרצפה; קבוצות-תחזוקה-מתוכננת מדווחות שבועית ב-CATS. הדיווח מזין עלות-תחזוקה-בפועל לכל קו ומאפס שמורות-חלקים שלא נצרכו.",
       navHe: [
         "SAP Easy Access ► Plant Maintenance ► Maintenance Processing ► Completion Confirmation ► Entry (IW41/IW42/IW44)",
         "SPRO ► Maintenance and Service Processing ► Completion Confirmations",
@@ -1245,8 +1245,8 @@ export const CH5: TextbookChapter = {
             "לקבוע, לכל צירוף order type×מפעל, כיצד מתנהג הדיווח: מה מוצע, מתי מזהירים, ומה קורה בשגיאה — כדי שהדיווח יהיה מהיר, אחיד ומבוקר.",
           processExampleHe:
             "OIOR ל-PM01: Propose Dates + Propose Activities מסומנים — ב-IW41 מוצעים תאריכי-הפעולה והעבודה כברירת-מחדל; WrkDev. 20% — סטייה גדולה מ-20% מציגה אזהרה. בשגיאת-עלות, Termination for Incorrect ActCosts מונע פוסט.",
-          cbcHe:
-            "ב-CBC OIOR מוגדר לכל order type×מפעל-מילוי; Propose Dates/Activities מזרזים דיווח-משמרת; בקרת-סטייה תופסת דיווחי-זמן חריגים. Screen Template ל-IW42 כולל Times + Meas. readings לקריאות-מונה.",
+          scenarioHe:
+            "בארגון OIOR מוגדר לכל order type×מפעל-מילוי; Propose Dates/Activities מזרזים דיווח-משמרת; בקרת-סטייה תופסת דיווחי-זמן חריגים. Screen Template ל-IW42 כולל Times + Meas. readings לקריאות-מונה.",
           navHe: [
             "SPRO ► Maintenance and Service Processing ► Completion Confirmations ► Define Control Parameters for Completion Confirmations",
             "Completion Confirmations ► Define Causes for Variances",
@@ -1315,8 +1315,8 @@ export const CH5: TextbookChapter = {
             "לאפשר דיווח-זמן מרוכז ויעיל לכוח-אדם המשרת מספר פקודות, עם מסך-הזנה נקי ומותאם-אחזקה, ולהזרים את הזמנים אל פקודות-ה-PM כעלות-בפועל.",
           processExampleHe:
             "טכנאי פותח CATS (CAT2) בסוף-שבוע, מזין שעות מול פקודות-שונות (Receiver Order + Activity), שומר — והזמנים משוחררים (Release on saving). בהעברה (CAT5) הם נרשמים ב-AFRU כעלות-בפועל בכל פקודה.",
-          cbcHe:
-            "ב-CBC קבוצות-תחזוקה-מתוכננת מדווחות שבועית ב-CATS מול פקודות-מונע מרובות; Field Selection מצומצם (ARBPL/RAUFNR/LSTAR/VORNR) שומר על מסך נקי. ללא Worklist וללא Approval לזרימה מהירה.",
+          scenarioHe:
+            "בארגון קבוצות-תחזוקה-מתוכננת מדווחות שבועית ב-CATS מול פקודות-מונע מרובות; Field Selection מצומצם (ARBPL/RAUFNR/LSTAR/VORNR) שומר על מסך נקי. ללא Worklist וללא Approval לזרימה מהירה.",
           navHe: [
             "SPRO ► Cross-Application Components ► Time Sheet ► Specific Settings for CATS Classic ► Set Up Data Entry Profiles",
             "Cross-Application Components ► Time Sheet ► Settings for All User Interfaces ► Time Recording ► Choose Fields (CAC2)",

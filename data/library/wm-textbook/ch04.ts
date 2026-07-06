@@ -1,7 +1,7 @@
 // ===== EWM Digital Textbook — Chapter 4 (gold-standard learning chapter) =====
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
 // Source hierarchy preserved (ids + order, nested); SAP identifiers verbatim EN.
-// CBC = Coca-Cola bottling: outbound beverage shipping to retailers via TM.
+// הארגון = Example Product bottling: outbound beverage shipping to retailers via TM.
 import type { TextbookChapter } from "./types";
 
 export const CH4: TextbookChapter = {
@@ -9,7 +9,7 @@ export const CH4: TextbookChapter = {
   titleHe: "שילוב עם ניהול תחבורה (TM)",
   titleEn: "Transportation Management Integration",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה על שילוב SAP EWM עם ניהול-תחבורה (Transportation Management, TM). הפרק עוקב אחר התפתחות שלושת מודלי-השילוב: ה-Shipment הקלאסי של ERP, שילוב Freight Order מול TM, וה-Advanced Shipping & Receiving (ASR) המודרני המבוסס על Transportation Unit (TU) משותף. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את שילוב EWM↔TM ללא הספר המקורי. כל זרימת-תהליך מודגמת על מקרה CBC: מפעל-בקבוק המשנע משקאות מוגמרים מהמחסן אל קמעונאים דרך תכנון-תחבורה ב-TM.",
+    "פרק זה הוא יחידת-לימוד מלאה על שילוב SAP EWM עם ניהול-תחבורה (Transportation Management, TM). הפרק עוקב אחר התפתחות שלושת מודלי-השילוב: ה-Shipment הקלאסי של ERP, שילוב Freight Order מול TM, וה-Advanced Shipping & Receiving (ASR) המודרני המבוסס על Transportation Unit (TU) משותף. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את שילוב EWM↔TM ללא הספר המקורי. כל זרימת-תהליך מודגמת על מקרה הארגון: מפעל-בקבוק המשנע משקאות מוגמרים מהמחסן אל קמעונאים דרך תכנון-תחבורה ב-TM.",
   subchapters: [
     // ============================================================ 4.1
     {
@@ -26,8 +26,8 @@ export const CH4: TextbookChapter = {
         "המטרה: להפריד אחריות בין תכנון-הובלה (TM) לביצוע-מחסן (EWM), תוך שמירה על סנכרון מלא של כמויות, תאריכים, רציפים ומובילים. ההפרדה מאפשרת אופטימיזציית-הובלה (איחוד עומסים, בחירת מוביל זול) בלי לפגוע בדיוק תהליכי-המחסן.",
       processExampleHe:
         "הזמנת-לקוח נוצרת ב-SD ➔ נוצר Outbound Delivery ב-EWM ➔ TM קולט את הדרישה כ-Freight Unit ➔ מתכנן מאחד מספר FU ל-Freight Order עם מוביל ומסלול ➔ TM מבקש מ-EWM להכין את הסחורה ➔ EWM מבצע Picking/Packing/Staging ➔ הסחורה נטענת, ה-FO מבוצע, וה-Goods Issue מדווח.",
-      cbcHe:
-        "ב-CBC המחסן מחזיק משטחי משקאות מוגמרים. TM מתכנן את חלוקת-המשקאות לרשתות-הקמעונאות: מאחד הזמנות של כמה סניפים לאותה משאית-חלוקה, בוחר מוביל לפי אזור, וקובע חלון-זמן לרציף. EWM מקבל את הבקשה ומכין את המשטחים ליד הרציף בדיוק לפי סדר-הפריקה בנקודות-החלוקה.",
+      scenarioHe:
+        "בארגון המחסן מחזיק משטחי משקאות מוגמרים. TM מתכנן את חלוקת-המשקאות לרשתות-הקמעונאות: מאחד הזמנות של כמה סניפים לאותה משאית-חלוקה, בוחר מוביל לפי אזור, וקובע חלון-זמן לרציף. EWM מקבל את הבקשה ומכין את המשטחים ליד הרציף בדיוק לפי סדר-הפריקה בנקודות-החלוקה.",
       navHe: [
         "SAP Customizing Implementation Guide ► Transportation Management ► Integration ► Logistics Integration ► Activate Embedded TM",
         "SAP Customizing Implementation Guide ► Transportation Management ► Basic Functions ► General Settings",
@@ -98,8 +98,8 @@ export const CH4: TextbookChapter = {
         "המטרה: לחבר את הזרימה הפיזית של רכבים ושל מטענים אל זרימת-המסמכים, כך שכל פריקה/טעינה תקושר למסמך-הובלה ולתאריך-מתוכנן, ויאפשרו דיווח-סטטוס מדויק לאורך כל המסע.",
       processExampleHe:
         "Outbound: הזמנה ➔ Outbound Delivery Order ➔ Picking ל-Staging Area ➔ הקצאת Door ➔ הגעת-רכב ➔ Loading ➔ Goods Issue. Inbound: הודעת-משלוח ➔ Inbound Delivery ➔ הגעת-רכב לרציף ➔ Unloading ➔ Goods Receipt ➔ Putaway למלאי.",
-      cbcHe:
-        "ב-CBC הצד היוצא דומיננטי: עשרות משאיות-חלוקה ביום מקבלות משטחי-משקאות. הצד הנכנס מטפל בקליטת-חומרי-גלם (תרכיז, אריזות) וברכבי-החזרה של מארזים ריקים (Empties). כל רכב מקושר ל-TU/FO כדי לתאם רציף וחלון-זמן.",
+      scenarioHe:
+        "בארגון הצד היוצא דומיננטי: עשרות משאיות-חלוקה ביום מקבלות משטחי-משקאות. הצד הנכנס מטפל בקליטת-חומרי-גלם (תרכיז, אריזות) וברכבי-החזרה של מארזים ריקים (Empties). כל רכב מקושר ל-TU/FO כדי לתאם רציף וחלון-זמן.",
       navHe: [
         "SAP Customizing Implementation Guide ► Extended Warehouse Management ► Goods Receipt Process ► Inbound Delivery",
         "SAP Customizing Implementation Guide ► Extended Warehouse Management ► Goods Issue Process ► Outbound Delivery",
@@ -169,8 +169,8 @@ export const CH4: TextbookChapter = {
         "המטרה: לחבר את תכנון-ההובלה המתקדם של TM (איחוד, תמחור, מסלול) ישירות לביצוע-המחסן, בלי המגבלות של ה-Shipment הקלאסי, תוך שמירת מסמך-מוביל אחד אחראי לכל מסע.",
       processExampleHe:
         "Deliveries זורמות ל-TM כ-Freight Units ➔ מתכנן מאחד ל-Freight Order עם מוביל ומסלול ➔ ה-FO מקושר ל-Deliveries ב-EWM ➔ EWM מבצע Picking/Packing ➔ הטעינה מדווחת ➔ סטטוס-הביצוע ב-FO מתעדכן ➔ Goods Issue.",
-      cbcHe:
-        "ב-CBC כל משאית-חלוקה יומית מיוצגת כ-Freight Order: מוביל אזורי, מסלול דרך מספר סניפי-רשת, ועליו ה-Deliveries של אותם סניפים. המחסן מכין את המשטחים לפי ה-FO; סטטוס-הטעינה מסונכרן ל-TM לצורך מעקב-חלוקה.",
+      scenarioHe:
+        "בארגון כל משאית-חלוקה יומית מיוצגת כ-Freight Order: מוביל אזורי, מסלול דרך מספר סניפי-רשת, ועליו ה-Deliveries של אותם סניפים. המחסן מכין את המשטחים לפי ה-FO; סטטוס-הטעינה מסונכרן ל-TM לצורך מעקב-חלוקה.",
       navHe: [
         "SAP Customizing Implementation Guide ► Transportation Management ► Freight Order Management ► Freight Order ► Define Freight Order Types",
         "SAP Customizing Implementation Guide ► Transportation Management ► Integration ► ERP Logistics Integration ► Delivery-Based Transportation Requirement",
@@ -239,8 +239,8 @@ export const CH4: TextbookChapter = {
             "לתאם מראש את הגעת-המטען הנכנס עם קיבולת-המחסן, ולספק ל-TM נראות על סטטוס-הפריקה והקליטה בזמן-אמת.",
           processExampleHe:
             "FO נכנס מתוכנן ➔ קישור ל-Inbound Delivery ➔ הגעת-רכב + Check-In ➔ הקצאת Door ➔ Unloading (Warehouse Tasks) ➔ Goods Receipt ➔ Putaway ➔ סטטוס מסונכרן ל-FO.",
-          cbcHe:
-            "ב-CBC משאית-תרכיז של ספק מגיעה תחת FO נכנס; המחסן מכין רציף-קליטה ייעודי לחומרי-גלם, פורק, מבצע GR ומאחסן בקירור. החזרת-מארזים-ריקים (Empties) מטופלת באותו מודל.",
+          scenarioHe:
+            "בארגון משאית-תרכיז של ספק מגיעה תחת FO נכנס; המחסן מכין רציף-קליטה ייעודי לחומרי-גלם, פורק, מבצע GR ומאחסן בקירור. החזרת-מארזים-ריקים (Empties) מטופלת באותו מודל.",
           navHe: [
             "SAP Customizing Implementation Guide ► Extended Warehouse Management ► Goods Receipt Process ► Inbound Delivery ► Define Document Types",
             "SAP Customizing Implementation Guide ► Transportation Management ► Integration ► ERP Logistics Integration ► Inbound Delivery",
@@ -300,8 +300,8 @@ export const CH4: TextbookChapter = {
             "לאחד הזמנות לעומס-משאית יעיל תחת מסמך-מוביל אחד, ולסנכרן את ביצוע-המחסן עם תכנון-ההובלה עד לדיווח-היציאה.",
           processExampleHe:
             "Deliveries → Freight Units → Freight Order (מוביל+מסלול) ➔ קישור ל-Outbound Delivery Orders ➔ Picking/Packing/Staging ➔ הקצאת Door ➔ Loading לפי סדר-פריקה ➔ סטטוס ל-FO ➔ Goods Issue.",
-          cbcHe:
-            "ב-CBC משאית-חלוקה יומית = FO המאחד הזמנות של מספר סניפי-רשת; המחסן טוען את המשטחים בסדר הפוך לרצף-הפריקה בנקודות-החלוקה, ומסנכרן את סטטוס-הטעינה ל-TM למעקב-חלוקה בזמן-אמת.",
+          scenarioHe:
+            "בארגון משאית-חלוקה יומית = FO המאחד הזמנות של מספר סניפי-רשת; המחסן טוען את המשטחים בסדר הפוך לרצף-הפריקה בנקודות-החלוקה, ומסנכרן את סטטוס-הטעינה ל-TM למעקב-חלוקה בזמן-אמת.",
           navHe: [
             "SAP Customizing Implementation Guide ► Extended Warehouse Management ► Goods Issue Process ► Outbound Delivery ► Define Document Types",
             "SAP Customizing Implementation Guide ► Transportation Management ► Integration ► ERP Logistics Integration ► Outbound Delivery",
@@ -367,8 +367,8 @@ export const CH4: TextbookChapter = {
         "המטרה: אובייקט-ביצוע יחיד (TU) המשותף ל-EWM ול-TM, המבטל סנכרון-כפול, מפשט את הקישור ומספק נראות-בזמן-אמת אחידה על טעינה, פריקה וסטטוס-הובלה.",
       processExampleHe:
         "FO נוצר ב-TM ➔ ה-TU נגזר ומשותף ל-EWM ➔ EWM מקצה Door ל-TU ➔ Picking/Staging ➔ Loading של ה-TU (Handling Units) ➔ סטטוס-הטעינה מתעדכן אוטומטית ב-TM ➔ Departure ➔ Goods Issue.",
-      cbcHe:
-        "ב-CBC כל משאית-חלוקה מיוצגת כ-Transportation Unit אחד המשותף ל-TM ול-EWM. TM מתכנן את עומס-המשאית ומסלולה; EWM טוען את המשטחים אל ה-TU; ברגע סיום-הטעינה הסטטוס מתעדכן מיידית ב-TM, ומנהל-החלוקה רואה את המשאית מוכנה ליציאה בזמן-אמת.",
+      scenarioHe:
+        "בארגון כל משאית-חלוקה מיוצגת כ-Transportation Unit אחד המשותף ל-TM ול-EWM. TM מתכנן את עומס-המשאית ומסלולה; EWM טוען את המשטחים אל ה-TU; ברגע סיום-הטעינה הסטטוס מתעדכן מיידית ב-TM, ומנהל-החלוקה רואה את המשאית מוכנה ליציאה בזמן-אמת.",
       navHe: [
         "SAP Customizing Implementation Guide ► Extended Warehouse Management ► Interfaces ► Transportation Management ► Advanced Shipping and Receiving ► Activate ASR",
         "SAP Customizing Implementation Guide ► Transportation Management ► Integration ► Logistics Integration ► Define Transportation Unit Settings",
@@ -438,8 +438,8 @@ export const CH4: TextbookChapter = {
             "לתאם את הגעת-הרכב הנכנס עם פריקה ו-Putaway, תוך נראות-בזמן-אמת ל-TM על מצב-הפריקה, באמצעות אובייקט-TU יחיד.",
           processExampleHe:
             "FO נכנס ➔ TU נגזר ומשותף ל-EWM ➔ Check-In + Door ➔ Unloading של HUs (Warehouse Tasks) ➔ Goods Receipt ➔ Putaway ➔ סטטוס TU מתעדכן אוטומטית ב-TM.",
-          cbcHe:
-            "ב-CBC משאית-תרכיז נכנסת = TU משותף; EWM מקצה רציף-קליטה, פורק את ה-HUs לקירור, מבצע GR, וה-TM רואה את הפריקה מסתיימת בזמן-אמת לשחרור-הרכב. רכבי-Empties נקלטים באותו זרם.",
+          scenarioHe:
+            "בארגון משאית-תרכיז נכנסת = TU משותף; EWM מקצה רציף-קליטה, פורק את ה-HUs לקירור, מבצע GR, וה-TM רואה את הפריקה מסתיימת בזמן-אמת לשחרור-הרכב. רכבי-Empties נקלטים באותו זרם.",
           navHe: [
             "SAP Customizing Implementation Guide ► Extended Warehouse Management ► Interfaces ► Transportation Management ► Advanced Shipping and Receiving ► Inbound TU Settings",
             "SAP Customizing Implementation Guide ► Extended Warehouse Management ► Goods Receipt Process ► Inbound Delivery",
@@ -499,8 +499,8 @@ export const CH4: TextbookChapter = {
             "לטעון את עומס-המשאית היוצאת תחת אובייקט-TU יחיד, עם עדכון-סטטוס אוטומטי ל-TM ודיווח-יציאה מדויק — ללא סנכרון-כפול.",
           processExampleHe:
             "FO יוצא ➔ TU נגזר ומשותף ל-EWM ➔ הקצאת Door ➔ Picking/Packing/Staging ➔ Loading של HUs אל TU ➔ סטטוס Loaded/Departed אוטומטי ל-TM ➔ Goods Issue.",
-          cbcHe:
-            "ב-CBC משאית-חלוקה = TU יוצא משותף; EWM טוען את משטחי-המשקאות אל ה-TU בסדר הפוך לרצף-הפריקה בסניפים; ברגע סיום-הטעינה הסטטוס מתעדכן מיידית ב-TM ומנהל-החלוקה משחרר את המשאית לדרך.",
+          scenarioHe:
+            "בארגון משאית-חלוקה = TU יוצא משותף; EWM טוען את משטחי-המשקאות אל ה-TU בסדר הפוך לרצף-הפריקה בסניפים; ברגע סיום-הטעינה הסטטוס מתעדכן מיידית ב-TM ומנהל-החלוקה משחרר את המשאית לדרך.",
           navHe: [
             "SAP Customizing Implementation Guide ► Extended Warehouse Management ► Interfaces ► Transportation Management ► Advanced Shipping and Receiving ► Outbound TU Settings",
             "SAP Customizing Implementation Guide ► Extended Warehouse Management ► Goods Issue Process ► Outbound Delivery",
@@ -566,8 +566,8 @@ export const CH4: TextbookChapter = {
         "לספק מנגנון-תכנון-הובלה בסיסי בתוך ERP, ללא תלות ב-TM, לארגונים שדרישות-ההובלה שלהם פשוטות (איחוד-בסיסי, מסלול קבוע) ואינם זקוקים לאופטימיזציה ולתמחור של TM.",
       processExampleHe:
         "Deliveries נוצרות ➔ Shipment נוצר ב-VT01N ומאחד אותן ➔ Route ו-Carrier משויכים ➔ ה-Shipment מקושר ל-Deliveries של EWM ➔ המחסן מבצע Picking/Loading ➔ Goods Issue.",
-      cbcHe:
-        "ב-CBC ארגון/אזור שלא עבר ל-TM מלא עשוי עדיין להשתמש ב-Shipment: משאית-חלוקה = Shipment המאחד הזמנות סניפים, עם Route קבוע ו-Carrier אזורי; המחסן מבצע את ההכנה והטעינה כרגיל.",
+      scenarioHe:
+        "בארגון ארגון/אזור שלא עבר ל-TM מלא עשוי עדיין להשתמש ב-Shipment: משאית-חלוקה = Shipment המאחד הזמנות סניפים, עם Route קבוע ו-Carrier אזורי; המחסן מבצע את ההכנה והטעינה כרגיל.",
       navHe: [
         "SAP Customizing Implementation Guide ► Logistics Execution ► Transportation ► Shipments ► Define Shipment Types",
         "SAP Customizing Implementation Guide ► Logistics Execution ► Transportation ► Basic Transportation Functions ► Routes",
@@ -636,8 +636,8 @@ export const CH4: TextbookChapter = {
             "לאפשר תכנון-הובלה בסיסי בתוך ERP ללא TM — לארגונים בעלי דרישות פשוטות שמעדיפים תהליך-תכנון ידני-מובנה על מסלולים קבועים.",
           processExampleHe:
             "המתכנן מריץ VT04 ➔ המערכת מציעה Deliveries לאיחוד לפי Route ➔ נוצר Shipment ➔ שיוך Carrier ➔ שלבי-ביצוע (Check-In/Loading/Completion) ➔ קישור ל-EWM לביצוע.",
-          cbcHe:
-            "ב-CBC ללא TM: רכז-לוגיסטיקה מריץ VT04 בבוקר, מאחד את הזמנות-הסניפים למשאיות לפי אזור-מסלול, משייך מוביל אזורי, ומשחרר את ה-Shipments למחסן להכנה.",
+          scenarioHe:
+            "בארגון ללא TM: רכז-לוגיסטיקה מריץ VT04 בבוקר, מאחד את הזמנות-הסניפים למשאיות לפי אזור-מסלול, משייך מוביל אזורי, ומשחרר את ה-Shipments למחסן להכנה.",
           navHe: [
             "SAP Customizing Implementation Guide ► Logistics Execution ► Transportation ► Shipments ► Define Shipment Types",
             "SAP Customizing Implementation Guide ► Logistics Execution ► Transportation ► Shipments ► Maintain Selection Variants for Collective Processing",
@@ -697,8 +697,8 @@ export const CH4: TextbookChapter = {
             "להביא את יכולות-התכנון המתקדמות של TM (איחוד אוטומטי, אופטימיזציה, תמחור) אל תוך ביצוע-המחסן של EWM — במקום תכנון-ERP פשוט.",
           processExampleHe:
             "Deliveries → Freight Units ב-TM ➔ תכנון ב-Transportation Cockpit (אופטימיזציה/איחוד) ➔ Freight Order/TU ➔ ביצוע ב-EWM (Picking/Loading) ➔ סטטוס מסונכרן ➔ GI.",
-          cbcHe:
-            "ב-CBC עם TM: ה-Transportation Cockpit מאחד אוטומטית עשרות הזמנות-סניפים למשאיות-חלוקה אופטימליות לפי אזור וקיבולת, ומעביר כ-TU ל-EWM לטעינה — שיפור משמעותי על תכנון-ה-Shipment הידני.",
+          scenarioHe:
+            "בארגון עם TM: ה-Transportation Cockpit מאחד אוטומטית עשרות הזמנות-סניפים למשאיות-חלוקה אופטימליות לפי אזור וקיבולת, ומעביר כ-TU ל-EWM לטעינה — שיפור משמעותי על תכנון-ה-Shipment הידני.",
           navHe: [
             "SAP Customizing Implementation Guide ► Transportation Management ► Planning ► General Settings ► Define Planning Profile Settings",
             "SAP Customizing Implementation Guide ► Transportation Management ► Integration ► Logistics Integration ► EWM Integration",
@@ -765,8 +765,8 @@ export const CH4: TextbookChapter = {
         "לקבע מסגרת-החלטה: איזה מודל-שילוב לבחור לפי גרסה, מורכבות-תכנון ונוף-מערכות, ולהבין את נקודות-החיבור המשותפות לכל המודלים.",
       processExampleHe:
         "החלטת-מימוש טיפוסית: נוף S/4HANA חדש עם embedded TM ➔ בחר ASR ➔ תכנן ב-Transportation Cockpit ל-Freight Orders ➔ TU משותף מזרים ל-EWM ➔ ביצוע-מחסן עם סטטוס-אוטומטי ➔ GI. נוף ישן/פשוט ➔ Shipment.",
-      cbcHe:
-        "ב-CBC המסקנה: לחלוקת-משקאות יומית בהיקף גבוה עם איחוד-מורכב, ASR הוא הבחירה — TU משותף לכל משאית-חלוקה, אופטימיזציית-מסלול ב-TM, ונראות-חלוקה בזמן-אמת. אזורים פשוטים יכולים להישאר על Shipment עד למיגרציה.",
+      scenarioHe:
+        "בארגון המסקנה: לחלוקת-משקאות יומית בהיקף גבוה עם איחוד-מורכב, ASR הוא הבחירה — TU משותף לכל משאית-חלוקה, אופטימיזציית-מסלול ב-TM, ונראות-חלוקה בזמן-אמת. אזורים פשוטים יכולים להישאר על Shipment עד למיגרציה.",
       navHe: [
         "SAP Customizing Implementation Guide ► Extended Warehouse Management ► Interfaces ► Transportation Management",
         "SAP Customizing Implementation Guide ► Transportation Management ► Integration ► Logistics Integration",

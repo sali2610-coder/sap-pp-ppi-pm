@@ -22,7 +22,7 @@ export const INCIDENTS_EXT4: Incident[] = [
     prevention: ["הגבל הרשאת שינוי-סטטוס ידני (B_ALE_RECV)", "תזמן RBDMANI2 עם בורר זהיר; תעד מדיניות סטטוס 68"],
     oss: ["IDoc status 68 set manually RBDMANI2 · BC-MID-ALE", "reprocess IDoc status 68 WE19 · BC-MID-ALE"],
     ecc: "ניהול IDoc זהה; WE02/BD87/WE19 קלאסיים.", s4: "זהה ב-S/4; מומלץ ניטור דרך AIF (Application Interface Framework) במקום WE02 גולמי.",
-    cbc: "ב-CBC: IDoc אב-חומר נכנס נסגר אוטומטית ל-68 ע\"י ריצת ניקוי לילית; מק\"ט חדש לא נוצר ביעד. שוחזר ב-WE19 ועובד."
+    scenario: "בארגון: IDoc אב-חומר נכנס נסגר אוטומטית ל-68 ע\"י ריצת ניקוי לילית; מק\"ט חדש לא נוצר ביעד. שוחזר ב-WE19 ועובד."
   },
   {
     slug: "pi-po-channel-error-not-sent", module: "Cross", he: "ערוץ PI/PO תקוע — הודעה לא נשלחת",
@@ -39,7 +39,7 @@ export const INCIDENTS_EXT4: Incident[] = [
     prevention: ["ניטור Channel + Alerting ב-PO/Integration Suite", "מעבר ל-SAP Integration Suite (CPI) — PO ב-maintenance עד 2027/2030"],
     oss: ["PI PO message system error channel · BC-XI-IBC", "Adapter Engine queue stuck · BC-XI-IS"],
     ecc: "תזמור דרך SAP PI/PO on-prem.", s4: "מומלץ SAP Integration Suite (Cloud Integration / CPI); IDoc/SOAP נשמרים אך ניטור עובר ל-Cloud.",
-    cbc: "ב-CBC: הודעת מכירות ל-Daymax נתקעה ב-PO — ה-channel היה ב-Error אחרי שינוי endpoint; הופעל מחדש והודעות נשלחו."
+    scenario: "בארגון: הודעת מכירות ל-Daymax נתקעה ב-PO — ה-channel היה ב-Error אחרי שינוי endpoint; הופעל מחדש והודעות נשלחו."
   },
   {
     slug: "cpi-iflow-failed", module: "Cross", he: "iFlow ב-Integration Suite (CPI) נכשל",
@@ -56,7 +56,7 @@ export const INCIDENTS_EXT4: Incident[] = [
     prevention: ["Alerting ב-Integration Suite + ניטור MPL", "בדיקות regression ל-iFlows לפני deploy"],
     oss: ["CPI iFlow failed message monitoring · LOD-HCI-PI", "Cloud Connector connectivity · BC-MID-SCC"],
     ecc: "לא רלוונטי (ענן).", s4: "Integration Suite היא שכבת האינטגרציה המודרנית ל-S/4 Cloud/היברידי.",
-    cbc: "ב-CBC: iFlow ששולח אישורי ייצור ל-MES נכשל — security material פג; חודש ובוצע Resend."
+    scenario: "בארגון: iFlow ששולח אישורי ייצור ל-MES נכשל — security material פג; חודש ובוצע Resend."
   },
   {
     slug: "rfc-connection-sm59-failed", module: "Cross", he: "חיבור RFC נכשל (SM59)",
@@ -73,7 +73,7 @@ export const INCIDENTS_EXT4: Incident[] = [
     prevention: ["ניטור SM59 tests מתוזמן + Alerting", "מניעת נעילת service users; תיעוד RFC landscape"],
     oss: ["RFC destination connection test failed SM59 · BC-MID-RFC", "S_RFC authorization · BC-SEC-AUT"],
     ecc: "RFC/SM59 קלאסי.", s4: "זהה; חלק מהאינטגרציות עוברות ל-OData/CPI אך RFC נשמר לתרחישים פנימיים.",
-    cbc: "ב-CBC: ממשק לבנק נכשל — RFC user ננעל אחרי שינוי סיסמה; שוחרר ב-SU01 ו-SM59 test עבר."
+    scenario: "בארגון: ממשק לבנק נכשל — RFC user ננעל אחרי שינוי סיסמה; שוחרר ב-SU01 ו-SM59 test עבר."
   },
   {
     slug: "su53-missing-authorization-deep", module: "Cross", he: "חסר הרשאה — אבחון SU53 / STAUTHTRACE",
@@ -90,6 +90,6 @@ export const INCIDENTS_EXT4: Incident[] = [
     prevention: ["STAUTHTRACE בבדיקות SIT/UAT", "ביקורת תפקידים תקופתית; הימנעות מ-SAP_ALL בפרודקשן"],
     oss: ["SU53 last authorization check · BC-SEC-AUT", "STAUTHTRACE system trace authorization · BC-SEC-AUT"],
     ecc: "PFCG/SU53/STAUTHTRACE קלאסי.", s4: "זהה; מעבר GUI→Fiori דורש Business Roles + Catalogs/Groups (IAM) בנוסף לאובייקטים הקלאסיים.",
-    cbc: "ב-CBC: טכנאי נחסם ב-IW31 — SU53 הצביע על I_SWERK (מפעל) חסר; נוסף בתפקיד הנגזר ובוצע User Comparison."
+    scenario: "בארגון: טכנאי נחסם ב-IW31 — SU53 הצביע על I_SWERK (מפעל) חסר; נוסף בתפקיד הנגזר ובוצע User Comparison."
   },
 ];

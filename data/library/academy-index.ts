@@ -182,7 +182,7 @@ export function bookStats(id: string) {
 }
 
 // ---- structural quality report (deterministic) ----
-const REQ_STR = ["execHe", "beginnerHe", "consultantHe", "purposeHe", "processExampleHe", "cbcHe"] as const;
+const REQ_STR = ["execHe", "beginnerHe", "consultantHe", "purposeHe", "processExampleHe", "scenarioHe"] as const;
 const REQ_ARR = ["navHe", "tcodes", "tables", "configHe", "mistakesHe", "troubleshootHe", "bestPracticeHe", "interviewHe", "takeawaysHe"] as const;
 
 export interface StructuralReport {

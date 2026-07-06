@@ -2,7 +2,7 @@
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
 // Source hierarchy preserved exactly (ids + order); x.y.z nested under x.y.
 // Transformative Hebrew (beginner + consultant friendly); SAP identifiers verbatim EN.
-// CBC = Coca-Cola bottling line FMEA / control plan running example.
+// הארגון = Example Product bottling line FMEA / control plan running example.
 import type { TextbookChapter } from "./types";
 
 export const CH16: TextbookChapter = {
@@ -10,7 +10,7 @@ export const CH16: TextbookChapter = {
   titleHe: "FMEA ותוכנית בקרה",
   titleEn: "Failure Mode and Effects Analysis and Control Plan",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה ל-FMEA (Failure Mode and Effects Analysis) ולתוכנית-בקרה (Control Plan) ב-SAP S/4HANA QM. FMEA היא מתודולוגיה מובנית לזיהוי אופני-כשל אפשריים בתהליך או במוצר, הערכת הסיכון שלהם וניהול פעולות-מנע ופעולות-גילוי לפני שהכשל מגיע ללקוח. כל תת-פרק וכל תת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC מקו-מילוי קוקה-קולה, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הרעיון המרכזי החוזר: severity (חומרת ההשפעה) × occurrence (הסתברות ההיארעות) × detection (יכולת הגילוי) = RPN (Risk Priority Number) — מספר עדיפות-הסיכון שמכוון את הטיפול. המטרה: ללמוד את הנושא במלואו ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה ל-FMEA (Failure Mode and Effects Analysis) ולתוכנית-בקרה (Control Plan) ב-SAP S/4HANA QM. FMEA היא מתודולוגיה מובנית לזיהוי אופני-כשל אפשריים בתהליך או במוצר, הערכת הסיכון שלהם וניהול פעולות-מנע ופעולות-גילוי לפני שהכשל מגיע ללקוח. כל תת-פרק וכל תת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון מקו-מילוי מוצר לדוגמה, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הרעיון המרכזי החוזר: severity (חומרת ההשפעה) × occurrence (הסתברות ההיארעות) × detection (יכולת הגילוי) = RPN (Risk Priority Number) — מספר עדיפות-הסיכון שמכוון את הטיפול. המטרה: ללמוד את הנושא במלואו ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 16.1
     {
@@ -25,8 +25,8 @@ export const CH16: TextbookChapter = {
         "המטרה: להזיז את האיכות 'שמאלה' — מבקרה בסוף-הקו למניעה בשלב-התכנון. FMEA מתעדף השקעת-משאבים לפי סיכון אמיתי (RPN), מתעד את ההצדקה לכל בקרה בתוכנית-הבקרה, ויוצר תיעוד-ביקורת לרגולטור וללקוח.",
       processExampleHe:
         "צוות רב-תחומי מתכנס: מהנדס-תהליך, QA ותפעול. הם בוחרים תהליך (מילוי-בקבוקים), ממפים פונקציות, מזהים לכל פונקציה אופני-כשל, גוזרים סיבות והשפעות, מדרגים severity/occurrence/detection, המערכת מחשבת RPN, והצוות מגדיר פעולות-שיפור לפריטים הגבוהים. אחרי הביצוע מדרגים מחדש ובודקים ירידת-RPN.",
-      cbcHe:
-        "ב-CBC קו-המילוי עובר FMEA: הפונקציה 'מילוי לנפח-יעד' עם אופן-כשל 'תת-מילוי', סיבה 'שסתום-מילוי סתום', השפעה 'נפח מתחת לתקן → תלונת-לקוח ואי-עמידה במשקל-נטו'. הצוות מדרג, מקבל RPN גבוה, ומגדיר פעולת-מנע (תחזוקה-מונעת לשסתום) ופעולת-גילוי (משקל-בקרה inline).",
+      scenarioHe:
+        "בארגון קו-המילוי עובר FMEA: הפונקציה 'מילוי לנפח-יעד' עם אופן-כשל 'תת-מילוי', סיבה 'שסתום-מילוי סתום', השפעה 'נפח מתחת לתקן → תלונת-לקוח ואי-עמידה במשקל-נטו'. הצוות מדרג, מקבל RPN גבוה, ומגדיר פעולת-מנע (תחזוקה-מונעת לשסתום) ופעולת-גילוי (משקל-בקרה inline).",
       navHe: [
         "Logistics ► Quality Management ► Quality Planning ► FMEA ► Display/Change FMEA (QM-PT)",
         "SAP Menu ► Logistics ► Quality Management ► Quality Planning ► FMEA",
@@ -96,7 +96,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "ב-SAP כל Action (Preventive/Detection) מקושר לאופן-הכשל ולסיבה, נושא אחראי ותאריך, ומשפיע על valuations ה-occurrence/detection. השוואת RPN לפני ואחרי הפעולה (Current vs. Optimized) מתועדת על האובייקט. הפעולות ניתנות לניטור דרך FMEA Monitor.",
           purposeHe: "להבטיח שה-FMEA מוביל לשינוי ממשי — לא רק תיעוד. תוכנית-הפעולה הופכת ציוני-סיכון למשימות-מעקב מדידות.",
           processExampleHe: "פריט עם RPN=200 מקבל שתי פעולות: מנע (שינוי-תהליך) וגילוי (הוספת בקרה). לכל אחת אחראי ויעד; לאחר ביצוע מדרגים מחדש ו-RPN יורד ל-60.",
-          cbcHe: "ב-CBC לאופן-הכשל 'תת-מילוי' נקבעת תוכנית-פעולה: פעולת-מנע = PM מונע לשסתום-המילוי כל שבוע; פעולת-גילוי = checkweigher inline. אחראי = מנהל-קו, יעד = סוף-הרבעון.",
+          scenarioHe: "בארגון לאופן-הכשל 'תת-מילוי' נקבעת תוכנית-פעולה: פעולת-מנע = PM מונע לשסתום-המילוי כל שבוע; פעולת-גילוי = checkweigher inline. אחראי = מנהל-קו, יעד = סוף-הרבעון.",
           navHe: ["Quality Management ► Quality Planning ► FMEA ► Actions ► Maintain Action Plan"],
           tables: ["QFMEAACT", "QFMEAOBJ"],
           tcodes: ["QM01", "QS41"],
@@ -115,7 +115,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "ה-FMEA Type קובע אם זה Design או Process FMEA, ובהתאם משתנים ה-System Elements, ה-Valuation Catalogs ומשמעות ה-occurrence. אובייקטי-כשל יכולים להיות משותפים בין FMEAs דרך הספרייה (Reusable objects), ובכך מתחזקים הצלבה בין-קטגוריאלית.",
           purposeHe: "להבטיח כיסוי מלא של הסיכון — כשל שנובע מהתכנון לא יטופל בכלים של תהליך ולהפך.",
           processExampleHe: "אופן-כשל 'דליפה' מופיע גם ב-Design FMEA (חומר-אטם לא-מתאים) וגם ב-Process FMEA (הידוק לא-תקין). כל קטגוריה מובילה לפעולה אחרת.",
-          cbcHe: "ב-CBC 'דליפת-פקק' היא Process FMEA (כוח-הברגה שגוי) ואילו 'התאמת-תבריג בקבוק/פקק' היא Design FMEA — שני FMEAs נפרדים עם אובייקט-כשל מקושר.",
+          scenarioHe: "בארגון 'דליפת-פקק' היא Process FMEA (כוח-הברגה שגוי) ואילו 'התאמת-תבריג בקבוק/פקק' היא Design FMEA — שני FMEAs נפרדים עם אובייקט-כשל מקושר.",
           navHe: ["Quality Management ► FMEA ► FMEA Type (Design/Process)"],
           tables: ["QFMEA", "QFMEATYP"],
           tcodes: ["QS41", "SPRO"],
@@ -134,7 +134,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "ב-SAP הלולאה מורכבת מ-FMEA → Control Plan → Inspection Plan/Lot → Quality Notification → חזרה ל-FMEA. תלונות-לקוח (QM-Notification) ותוצאות-בדיקה (Inspection Results) מהווים טריגר לעדכון occurrence/detection ולפתיחת פעולות חדשות. FMEA Monitor ו-Risk Analysis נותנים את הראייה-הרוחבית.",
           purposeHe: "להבטיח שיפור-מתמיד מבוסס-נתונים: הסיכון התיאורטי מתעדכן מהמציאות בשטח, ומונע חזרה על אותן תקלות.",
           processExampleHe: "תלונת-לקוח על דליפה פותחת QM-Notification; הניתוח מוצא סיבה שלא הופיעה ב-FMEA; היא נוספת, מדורגת, מקבלת פעולה ונכנסת ל-Control Plan.",
-          cbcHe: "ב-CBC תלונה על 'משקה שטוח' (אובדן-קרבונציה) מזינה חזרה ל-FMEA: נוספת סיבה 'איטום-פקק חלש', מדורגת מחדש, ונוספת בקרת-לחץ-CO2 לתוכנית-הבקרה.",
+          scenarioHe: "בארגון תלונה על 'משקה שטוח' (אובדן-קרבונציה) מזינה חזרה ל-FMEA: נוספת סיבה 'איטום-פקק חלש', מדורגת מחדש, ונוספת בקרת-לחץ-CO2 לתוכנית-הבקרה.",
           navHe: ["Quality Management ► FMEA / Control Plan / Quality Notifications (closed loop)"],
           tables: ["QFMEA", "QMEL", "QPRN", "QALS"],
           tcodes: ["QM01", "QM02", "QS41"],
@@ -161,8 +161,8 @@ export const CH16: TextbookChapter = {
         "לבנות בסיס-נתונים מובנה ושלם שעליו ירוצו חישובי-RPN, ניתוח-סיכון ותוכנית-בקרה. הקמה רשלנית = ניתוח חסר-ערך.",
       processExampleHe:
         "המהנדס פותח FMEA חדש, יוצר Function List, מזין פונקציות, מגדיר prerequisites, יוצר Characteristics, ואז לכל פונקציה: Failure Mode → Cause → Preventive/Detection Action → Effect. בסיום עץ-FMEA שלם מוכן לדירוג.",
-      cbcHe:
-        "ב-CBC המהנדס מקים FMEA ל'תחנת-מילוי': פונקציה 'מילוי לנפח 330 מ\"ל ±2', מאפיין 'נפח-מילוי', אופן-כשל 'תת/יתר-מילוי', סיבה, פעולת-מנע (PM), פעולת-גילוי (checkweigher) והשפעה (תלונת-לקוח).",
+      scenarioHe:
+        "בארגון המהנדס מקים FMEA ל'תחנת-מילוי': פונקציה 'מילוי לנפח 330 מ\"ל ±2', מאפיין 'נפח-מילוי', אופן-כשל 'תת/יתר-מילוי', סיבה, פעולת-מנע (PM), פעולת-גילוי (checkweigher) והשפעה (תלונת-לקוח).",
       navHe: [
         "Quality Management ► Quality Planning ► FMEA ► Create/Change FMEA (QS41)",
         "SAP Menu ► Logistics ► QM ► Quality Planning ► FMEA ► Set Up",
@@ -220,7 +220,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "ב-SAP ה-Function List נבנית כקבוצת אובייקטי-Function (QFMEAOBJ type Function) תחת ה-FMEA. ניתן לייבא מספרייה. כל פונקציה תקבל בהמשך אופני-כשל. מומלץ לנסח פונקציות בפועל-פעיל מדיד (verb + object + מדד).",
           purposeHe: "להבטיח שכל ציפייה-תפקודית ממופתה, כך שאף אופן-כשל לא יישמט מהניתוח.",
           processExampleHe: "לתחנת-מילוי מזינים פונקציות: 'מלא לנפח-יעד', 'שמור על ניקיון-מילוי', 'מנע-הגלשה'. כל אחת תהפוך לענף-כשל.",
-          cbcHe: "ב-CBC רשימת-הפונקציות לתחנת-מילוי: 'מילוי 330 מ\"ל ±2', 'שמירת-קרבונציה', 'מניעת-זיהום'. כל אחת מובילה לאופני-כשל ייחודיים.",
+          scenarioHe: "בארגון רשימת-הפונקציות לתחנת-מילוי: 'מילוי 330 מ\"ל ±2', 'שמירת-קרבונציה', 'מניעת-זיהום'. כל אחת מובילה לאופני-כשל ייחודיים.",
           navHe: ["Quality Management ► FMEA ► Functions ► Create Function List"],
           tables: ["QFMEAOBJ", "QFMEA"],
           tcodes: ["QS41"],
@@ -239,7 +239,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "כל Function היא QFMEAOBJ עם type=Function, טקסט, ושיוך ל-Characteristic אופציונלי. ניתן להגדיר prerequisites בין פונקציות. הפונקציה משמשת הורה לאופני-כשל ב-QFMEAREL. שדות נשלטים ע\"י Field Selection וה-FMEA Type.",
           purposeHe: "לתת לכל ציפייה-תפקודית ישות-נתונים עצמאית שאליה יקושרו כשלים, מאפיינים ופעולות.",
           processExampleHe: "יוצרים Function 'מילוי לנפח-יעד', מקשרים Characteristic 'נפח-מילוי', ומגדירים prerequisite שהבקבוק כבר עבר חיטוי.",
-          cbcHe: "ב-CBC יוצרים Function 'מילוי 330 מ\"ל ±2 מ\"ל' עם Characteristic 'נפח' ו-prerequisite 'בקבוק מחוטא'; היא העוגן לאופני-כשל תת/יתר-מילוי.",
+          scenarioHe: "בארגון יוצרים Function 'מילוי 330 מ\"ל ±2 מ\"ל' עם Characteristic 'נפח' ו-prerequisite 'בקבוק מחוטא'; היא העוגן לאופני-כשל תת/יתר-מילוי.",
           navHe: ["Quality Management ► FMEA ► Functions ► Create Function"],
           tables: ["QFMEAOBJ", "QFMEAREL"],
           tcodes: ["QS41"],
@@ -258,7 +258,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "Prerequisite נשמר כקשר ב-QFMEAREL בין אובייקטים, ויוצר תלות-סיבתית. הוא מסייע לניתוח-שורש: כשל בפונקציה A יכול להיות סיבה לכשל בפונקציה B התלויה בה. בכך ה-FMEA משקף את זרימת-התהליך האמיתית.",
           purposeHe: "למדל תלויות-תהליך אמיתיות, לאתר שרשראות-כשל ולמנוע ניתוח מבודד של פונקציות התלויות זו בזו.",
           processExampleHe: "לפונקציה 'מילוי-נקי' מגדירים prerequisite 'חיטוי-בקבוק תקין'; אם החיטוי נכשל, ה-FMEA מקשר זאת ישירות לכשל-המילוי.",
-          cbcHe: "ב-CBC prerequisite ל'מילוי' = 'rinser השלים שטיפה'; כשל ב-rinser הופך לסיבת-שורש לזיהום-מילוי.",
+          scenarioHe: "בארגון prerequisite ל'מילוי' = 'rinser השלים שטיפה'; כשל ב-rinser הופך לסיבת-שורש לזיהום-מילוי.",
           navHe: ["Quality Management ► FMEA ► Functions ► Define Prerequisites"],
           tables: ["QFMEAREL", "QFMEAOBJ"],
           tcodes: ["QS41"],
@@ -277,7 +277,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "ה-Characteristic מקושר לפונקציה וניתן לקשרו ל-Master Inspection Characteristic (QPMK) ולתוכנית-הבקרה. הוא נושא ערכי-יעד וסבולות (Tolerances) המגדירים מתי יש כשל. בכך ה-Characteristic הוא נקודת-החיבור בין ניתוח-הסיכון לביצוע-המדידה.",
           purposeHe: "לתרגם פונקציה מופשטת לפרמטר נמדד, ולחבר את ה-FMEA לתוכנית-בקרה ולביקורת-איכות אמיתית.",
           processExampleHe: "לפונקציה 'מילוי' יוצרים Characteristic 'נפח' עם יעד 330 מ\"ל וסבולת ±2; חריגה מהסבולת = אופן-כשל.",
-          cbcHe: "ב-CBC ה-Characteristic 'נפח-מילוי' (330±2 מ\"ל) ו'לחץ-CO2' (יעד 3.8 vol) מקושרים ל-QPMK ועוברים ישירות לתוכנית-הבקרה ולבדיקת-הקו.",
+          scenarioHe: "בארגון ה-Characteristic 'נפח-מילוי' (330±2 מ\"ל) ו'לחץ-CO2' (יעד 3.8 vol) מקושרים ל-QPMK ועוברים ישירות לתוכנית-הבקרה ולבדיקת-הקו.",
           navHe: ["Quality Management ► FMEA ► Characteristics ► Create Characteristic"],
           tables: ["QFMEAOBJ", "QPMK", "QPMT"],
           tcodes: ["QS41", "QS21"],
@@ -296,7 +296,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "Failure Mode = QFMEAOBJ type Failure, מקושר תחת Function. אליו נקשרים Effects (severity), Causes (כל סיבה עם occurrence) ו-Detection Actions (detection). ה-RPN מחושב per cause-path: severity של ההשפעה × occurrence של הסיבה × detection של פעולת-הגילוי. אותו אופן-כשל יכול לשאת מספר נתיבי-RPN.",
           purposeHe: "לזהות באופן ממצה את כל הדרכים שבהן כל פונקציה עלולה להיכשל — הבסיס לכל הערכת-הסיכון.",
           processExampleHe: "לפונקציה 'מילוי' מזהים Failure Mode 'תת-מילוי'. אליו יקושרו: השפעה 'משקל-נטו מתחת לתקן', סיבה 'שסתום סתום', פעולת-גילוי 'checkweigher'.",
-          cbcHe: "ב-CBC לפונקציה 'מילוי' אופני-כשל: 'תת-מילוי', 'יתר-מילוי', 'הגלשה'; לפונקציה 'הברגת-פקק' אופן-כשל 'תבריג-חלקי' → דליפה.",
+          scenarioHe: "בארגון לפונקציה 'מילוי' אופני-כשל: 'תת-מילוי', 'יתר-מילוי', 'הגלשה'; לפונקציה 'הברגת-פקק' אופן-כשל 'תבריג-חלקי' → דליפה.",
           navHe: ["Quality Management ► FMEA ► Failure Modes ► Create Failure Mode"],
           tables: ["QFMEAOBJ", "QFMEAREL"],
           tcodes: ["QS41"],
@@ -315,7 +315,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "Cause = QFMEAOBJ type Cause, מקושר תחת Failure Mode. נושא valuation של occurrence מ-Valuation Catalog. עליה פועלות Preventive Actions (שמורידות occurrence). ניתוח-שורש (5-Why/Ishikawa) מזין את הסיבות. כל זוג (Effect-severity, Cause-occurrence, Detection) מניב RPN נפרד.",
           purposeHe: "לאתר את הגורמים-האמיתיים שעליהם אפשר לפעול במניעה — שכן מונעים סיבות, לא אופני-כשל.",
           processExampleHe: "לאופן-כשל 'תת-מילוי' מזינים סיבות: 'שסתום סתום' (occurrence=6), 'לחץ-קו נמוך' (occurrence=3). כל אחת תקבל פעולת-מנע.",
-          cbcHe: "ב-CBC לאופן-כשל 'תת-מילוי' סיבות: 'משקע-סוכר חוסם שסתום' (occurrence גבוה), 'בלאי-אטם' (בינוני). פעולת-המנע = ניקוי-CIP מתוזמן.",
+          scenarioHe: "בארגון לאופן-כשל 'תת-מילוי' סיבות: 'משקע-סוכר חוסם שסתום' (occurrence גבוה), 'בלאי-אטם' (בינוני). פעולת-המנע = ניקוי-CIP מתוזמן.",
           navHe: ["Quality Management ► FMEA ► Causes ► Create Cause"],
           tables: ["QFMEAOBJ", "QFMEAREL"],
           tcodes: ["QS41"],
@@ -334,7 +334,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "Preventive Action = QFMEAOBJ type Action (preventive), מקושר תחת Cause. ביצועה מצדיק הורדת occurrence ב-valuation. ה-RPN החדש (Optimized) מושווה לישן. ב-S/4HANA הפעולה נושאת אחראי, תאריך וסטטוס וניתנת לניטור ב-FMEA Monitor.",
           purposeHe: "להקטין את הסתברות-הכשל בשורש — הדרך היעילה ביותר להוריד RPN, כי היא מטפלת בגורם ולא בתסמין.",
           processExampleHe: "לסיבה 'שסתום סתום' (occurrence=6) מגדירים פעולת-מנע 'CIP יומי'; לאחר-יישום occurrence יורד ל-2 ו-RPN צונח.",
-          cbcHe: "ב-CBC פעולת-מנע ל'משקע-סוכר': תוכנית-CIP אוטומטית בין-משמרות; occurrence יורד מ-7 ל-2, ו-RPN של תת-המילוי מתכווץ.",
+          scenarioHe: "בארגון פעולת-מנע ל'משקע-סוכר': תוכנית-CIP אוטומטית בין-משמרות; occurrence יורד מ-7 ל-2, ו-RPN של תת-המילוי מתכווץ.",
           navHe: ["Quality Management ► FMEA ► Actions ► Create Preventive Action"],
           tables: ["QFMEAACT", "QFMEAOBJ"],
           tcodes: ["QS41"],
@@ -353,7 +353,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "Detection Action = QFMEAOBJ type Action (detection), מקושר תחת Failure Mode/Cause. היא משפיעה על valuation ה-detection (סולם הפוך: גילוי-מצוין=ציון-נמוך). 100% inline detection מוריד detection דרמטית; דגימה-תקופתית פחות. ה-RPN משקלל זאת ישירות.",
           purposeHe: "להבטיח שכשל שלא נמנע ייתפס בתוך הארגון ולא אצל הלקוח — שכבת-הגנה שנייה אחרי המניעה.",
           processExampleHe: "לאופן-כשל 'תת-מילוי' מגדירים Detection Action 'checkweigher 100% inline'; detection יורד מ-7 ל-2, וה-RPN צונח.",
-          cbcHe: "ב-CBC פעולות-גילוי: checkweigher inline לכל בקבוק, מצלמת-מילוי (fill-level vision) ובדיקת-לחץ-CO2 דגימתית. כל אחת מורידה detection לאופן-כשל אחר.",
+          scenarioHe: "בארגון פעולות-גילוי: checkweigher inline לכל בקבוק, מצלמת-מילוי (fill-level vision) ובדיקת-לחץ-CO2 דגימתית. כל אחת מורידה detection לאופן-כשל אחר.",
           navHe: ["Quality Management ► FMEA ► Actions ► Create Detection Action"],
           tables: ["QFMEAACT", "QFMEAOBJ"],
           tcodes: ["QS41"],
@@ -372,7 +372,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "Effect = QFMEAOBJ type Effect, מקושר תחת Failure Mode. נושא valuation של severity מ-Valuation Catalog. אותו אופן-כשל יכול לשאת מספר השפעות בעלות severity שונה; ה-RPN מחושב מול ה-severity הרלוונטי. severity גבוה (9-10) לרוב מסומן כ-Special Characteristic הדורש בקרה קריטית בתוכנית-הבקרה.",
           purposeHe: "לכמת את חומרת-הנזק כדי לתעדף — כשל בעל severity גבוה דורש טיפול גם אם הוא נדיר. severity לעולם אינו מוקטן בפעולה; רק התכנון משנה אותו.",
           processExampleHe: "לאופן-כשל 'תת-מילוי' מזינים Effect 'משקל-נטו מתחת לתקן' (severity=8) ו-Effect 'תלונת-לקוח' (severity=6); ה-RPN הגבוה נגזר מה-severity הגבוה.",
-          cbcHe: "ב-CBC להשפעת 'משקל מתחת לתקן' severity=8 (קנס-רגולטורי על משקל-נטו); להשפעת 'מראה לא-אחיד' severity=4. severity=8 מסמן Special Characteristic ל-Control Plan.",
+          scenarioHe: "בארגון להשפעת 'משקל מתחת לתקן' severity=8 (קנס-רגולטורי על משקל-נטו); להשפעת 'מראה לא-אחיד' severity=4. severity=8 מסמן Special Characteristic ל-Control Plan.",
           navHe: ["Quality Management ► FMEA ► Effects ► Create Effect"],
           tables: ["QFMEAOBJ", "QFMEAREL"],
           tcodes: ["QS41"],
@@ -399,8 +399,8 @@ export const CH16: TextbookChapter = {
         "לתרגם את עץ-ה-FMEA למספרי-סיכון אובייקטיביים ואחידים שמכוונים החלטות-תעדוף ומשאבים.",
       processExampleHe:
         "הצוות עובר אובייקט-אובייקט: מדרג detection לכל בקרה, occurrence לכל סיבה, severity לכל השפעה. המערכת מחשבת RPN לכל נתיב, ממיינת יורד, וה-3 הגבוהים מקבלים פעולות מיידיות.",
-      cbcHe:
-        "ב-CBC הצוות מדרג: severity=8 (משקל-תקן), occurrence=6 (שסתום), detection=7 (טרם הותקן checkweigher) → RPN=336. אחרי checkweigher detection=2 → RPN=96. התעדוף ברור.",
+      scenarioHe:
+        "בארגון הצוות מדרג: severity=8 (משקל-תקן), occurrence=6 (שסתום), detection=7 (טרם הותקן checkweigher) → RPN=336. אחרי checkweigher detection=2 → RPN=96. התעדוף ברור.",
       navHe: [
         "Quality Management ► FMEA ► Valuation / RPN Calculation",
         "SPRO ► Quality Management ► FMEA ► Valuation Specification / Rating Profile",
@@ -456,7 +456,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "ה-detection נדרג מול Valuation Catalog ייעודי (סולם-הפוך). אם לאופן-כשל מספר Detection Actions, נלקח בדרך-כלל ה-detection הטוב-ביותר (הנמוך). הסולם מוגדר ב-Rating Profile, וערכי-העוגן מתארים סוגי-בקרה (100% אוטומטי vs. דגימה ידנית).",
           purposeHe: "לכמת אובייקטיבית את אמינות-הגילוי, כדי שה-RPN ישקף את הסיכון שכשל יחמוק החוצה.",
           processExampleHe: "Detection Action 'checkweigher 100%' מדורג detection=2; 'בדיקה-עינית מדגמית' מדורג detection=7. הראשון מוריד RPN משמעותית יותר.",
-          cbcHe: "ב-CBC checkweigher inline=detection 2, fill-vision=detection 3, בדיקת-CO2 דגימתית=detection 6. הצוות בוחר את הנמוך לכל אופן-כשל.",
+          scenarioHe: "בארגון checkweigher inline=detection 2, fill-vision=detection 3, בדיקת-CO2 דגימתית=detection 6. הצוות בוחר את הנמוך לכל אופן-כשל.",
           navHe: ["Quality Management ► FMEA ► Valuation ► Detection"],
           tables: ["QFMEAVAL", "QPRN"],
           tcodes: ["QS41"],
@@ -475,7 +475,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "ה-occurrence נדרג מול Valuation Catalog (סולם-ישר: נדיר=1, תכוף=10) על ה-Cause. פעולת-המנע מצדיקה הורדת occurrence מ-Current ל-Optimized. ה-RPN מחושב פעמיים — לפני ואחרי — להוכחת-אפקטיביות. הערכי-עוגן מתארים שיעורי-תקלה (ppm).",
           purposeHe: "לכמת את הפחתת-ההסתברות שמשיגה פעולת-המנע, ולתעד את ירידת-ה-RPN כהוכחת-שיפור.",
           processExampleHe: "Cause 'שסתום סתום' occurrence=6 (Current); אחרי פעולת-מנע 'CIP יומי' occurrence=2 (Optimized). ה-RPN צונח בהתאם.",
-          cbcHe: "ב-CBC 'CIP אוטומטי בין-משמרות' מוריד occurrence של 'משקע-סוכר' מ-7 ל-2; מתועד כ-Current vs. Optimized RPN.",
+          scenarioHe: "בארגון 'CIP אוטומטי בין-משמרות' מוריד occurrence של 'משקע-סוכר' מ-7 ל-2; מתועד כ-Current vs. Optimized RPN.",
           navHe: ["Quality Management ► FMEA ► Valuation ► Occurrence"],
           tables: ["QFMEAVAL", "QPRN"],
           tcodes: ["QS41"],
@@ -494,7 +494,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "ה-severity נדרג מול Valuation Catalog (סולם-ישר) על ה-Effect. severity 9-10 לרוב מחייב סימון Special/Critical Characteristic המעביר אותו לבקרה מחמירה ב-Control Plan. severity קובע סף לטיפול גם בלי RPN גבוה. ערכי-העוגן מתארים השלכות (בטיחות/רגולציה/לקוח).",
           purposeHe: "לכמת את חומרת-הנזק כדי לזהות כשלים קריטיים הדורשים בקרה גם אם הם נדירים.",
           processExampleHe: "Effect 'משקל מתחת לתקן' severity=8; Effect 'מראה לא-אחיד' severity=4. ה-RPN של הראשון יהיה גבוה משמעותית.",
-          cbcHe: "ב-CBC 'משקל-נטו מתחת לתקן' severity=8 (קנס-רגולטורי); 'גוף-זר במשקה' severity=10 (בטיחות-מזון) → Critical Characteristic עם בקרת-100%.",
+          scenarioHe: "בארגון 'משקל-נטו מתחת לתקן' severity=8 (קנס-רגולטורי); 'גוף-זר במשקה' severity=10 (בטיחות-מזון) → Critical Characteristic עם בקרת-100%.",
           navHe: ["Quality Management ► FMEA ► Valuation ► Severity"],
           tables: ["QFMEAVAL", "QPRN"],
           tcodes: ["QS41"],
@@ -513,7 +513,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "ה-RPN מחושב אוטומטית בכל cause-path (Effect-severity × Cause-occurrence × Detection-detection). SAP מאחסן Current ו-Optimized RPN. ניתן להגדיר RPN-threshold ל-flagging. חשוב: RPN הוא כלי-תעדוף יחסי ולא ערך-מוחלט — IATF החדש מעדיף גם Action Priority (AP) המשקלל S→O→D בנפרד, אך SAP-RPN נותר נפוץ.",
           purposeHe: "לספק מדד-יחיד להשוואה ותעדוף בין כל אופני-הכשל, ולמדוד אפקטיביות-שיפור דרך ירידת-RPN.",
           processExampleHe: "severity=8, occurrence=6, detection=7 → RPN=336 (גבוה, טפל מיד). אחרי פעולות: occurrence=2, detection=2 → RPN=32. ירידה דרמטית מתועדת.",
-          cbcHe: "ב-CBC תת-מילוי: 8×6×7=336 לפני; 8×2×2=32 אחרי checkweigher+CIP. severity נשאר 8 (רגולציה), אך RPN צנח פי-10.",
+          scenarioHe: "בארגון תת-מילוי: 8×6×7=336 לפני; 8×2×2=32 אחרי checkweigher+CIP. severity נשאר 8 (רגולציה), אך RPN צנח פי-10.",
           navHe: ["Quality Management ► FMEA ► RPN Calculation"],
           tables: ["QFMEAVAL", "QPRN", "QFMEAOBJ"],
           tcodes: ["QS41"],
@@ -535,7 +535,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "התכונות כוללות: RPN/severity filtering, Special Characteristic indicators (מועברים ל-Control Plan), version comparison (Current vs. baseline), reuse-library, וקישורי-אובייקט ל-QPMK/Inspection Plan/QM-Notification. ב-S/4HANA חלקן ניתנות דרך Fiori עם אנליטיקה. אינטגרציה עם FMEA Monitor ו-Risk Analysis משלימה את הראייה-הרוחבית.",
           purposeHe: "להפוך את ה-FMEA מטבלה-סטטית לכלי-ניהול-סיכונים אינטראקטיבי המשולב במערך-האיכות.",
           processExampleHe: "המהנדס מסנן RPN>125, ממיין יורד, מסמן את ה-Special Characteristics, ומשווה לגרסה הקודמת לראות אילו פעולות הורידו סיכון.",
-          cbcHe: "ב-CBC הסינון מציג שלושה כשלים מעל סף; שניהם מסומנים Special Characteristic ומקושרים ל-Control Plan ול-Inspection Plan של הקו.",
+          scenarioHe: "בארגון הסינון מציג שלושה כשלים מעל סף; שניהם מסומנים Special Characteristic ומקושרים ל-Control Plan ול-Inspection Plan של הקו.",
           navHe: ["Quality Management ► FMEA ► Features (Filter/Sort/Compare/Special Characteristics)"],
           tables: ["QFMEAOBJ", "QFMEAVAL", "QPMK"],
           tcodes: ["QS41", "QS61"],
@@ -562,8 +562,8 @@ export const CH16: TextbookChapter = {
         "לתקנן ולתעד את תהליך-ההערכה, להבטיח כיסוי-מלא ועקביות בין-מעריכים, ולספק ניקוד-מצטבר להשוואה לאורך-זמן.",
       processExampleHe:
         "צוות-FMEA פותח Question List מאושרת, עובר שאלה-שאלה ('האם תועדו כל אופני-הכשל הקריטיים?'), נותן ציון לכל אחת, והניקוד-המצטבר מסכם את בשלות-ה-FMEA.",
-      cbcHe:
-        "ב-CBC Question List ל'מוכנות-קו-מילוי' כוללת שאלות על PM, calibration ו-CIP; הצוות מנקד לפני שחרור-FMEA, והניקוד מהווה תנאי-מעבר.",
+      scenarioHe:
+        "בארגון Question List ל'מוכנות-קו-מילוי' כוללת שאלות על PM, calibration ו-CIP; הצוות מנקד לפני שחרור-FMEA, והניקוד מהווה תנאי-מעבר.",
       navHe: [
         "Quality Management ► Quality Planning ► Question List ► Create/Change",
         "SPRO ► Quality Management ► FMEA ► Question List (Structure / List Structure)",
@@ -618,7 +618,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "כל שאלה נשמרת תחת מבנה-הרשימה (Structure of Question List), נושאת valuation מ-Rating Profile, משקל וניקוד. ניתן לקנן שאלות בהיררכיה. השאלות תומכות ב-required/optional ובתשובות מרובות-ערך. הניקוד מצטבר לפי המשקלים.",
           purposeHe: "לתרגם את היבטי-ההערכה לשאלות מדידות וברורות שמבטיחות כיסוי ועקביות-מענה.",
           processExampleHe: "מזינים שאלות: 'האם כל severity≥9 מסומן Critical?' (משקל גבוה), 'האם תועדו פעולות-מנע?'. כל אחת עם ציון-מענה.",
-          cbcHe: "ב-CBC שאלות: 'האם checkweigher עבר calibration השבוע?', 'האם CIP בוצע בין-משמרות?' — כל אחת ממונקדת לפי משקל-סיכון.",
+          scenarioHe: "בארגון שאלות: 'האם checkweigher עבר calibration השבוע?', 'האם CIP בוצע בין-משמרות?' — כל אחת ממונקדת לפי משקל-סיכון.",
           navHe: ["Quality Management ► Question List ► Create Questions"],
           tables: ["QFRAGE", "QFRAGELIST"],
           tcodes: ["QS41"],
@@ -637,7 +637,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "הרשימה עוברת סטטוסים (Created → Approved → Released), אולי דרך workflow. השחרור נועל את התוכן וקובע גרסה תקפה. שינוי לאחר-שחרור דורש גרסה-חדשה. הסטטוס נשמר על הרשימה ונבדק בעת השימוש ב-FMEA/Audit.",
           purposeHe: "להבטיח שרק שאלונים מאומתים-ומאושרים משמשים בהערכה — תקפות, אחידות וביקורתיות.",
           processExampleHe: "מנהל-איכות בודק את הרשימה, מאשר, ומשחרר; מאותו רגע הצוותים יכולים להשתמש בה ב-FMEA, וכל שינוי ידרוש גרסה-חדשה.",
-          cbcHe: "ב-CBC רשימת 'מוכנות-קו' משוחררת ע\"י מנהל-QM; טיוטות-ביניים חסומות לשימוש כדי למנוע ניקוד לא-תקף.",
+          scenarioHe: "בארגון רשימת 'מוכנות-קו' משוחררת ע\"י מנהל-QM; טיוטות-ביניים חסומות לשימוש כדי למנוע ניקוד לא-תקף.",
           navHe: ["Quality Management ► Question List ► Approval / Release"],
           tables: ["QFRAGELIST", "QPRN"],
           tcodes: ["QS41"],
@@ -664,8 +664,8 @@ export const CH16: TextbookChapter = {
         "לאפשר ניהול-סיכונים מרכזי ופרואקטיבי: לזהות פעולות-פתוחות באיחור, RPNs שלא טופלו ומגמות לאורך-זמן.",
       processExampleHe:
         "מנהל-איכות פותח את המוניטור, מסנן RPN>125 עם פעולה-פתוחה באיחור, מקבל רשימה של 4 פריטים, עושה drill-down, ומקצה-מחדש אחראים.",
-      cbcHe:
-        "ב-CBC המוניטור מציג שכל קווי-המילוי, חושף שב-FMEA של קו-3 פעולת-מנע באיחור-שבועיים; מנהל-הקו מקבל התראה ומטפל.",
+      scenarioHe:
+        "בארגון המוניטור מציג שכל קווי-המילוי, חושף שב-FMEA של קו-3 פעולת-מנע באיחור-שבועיים; מנהל-הקו מקבל התראה ומטפל.",
       navHe: [
         "Quality Management ► FMEA ► FMEA Monitor",
         "SAP Fiori ► Quality Engineer ► Monitor FMEAs",
@@ -730,8 +730,8 @@ export const CH16: TextbookChapter = {
         "להמיר נתוני-FMEA פרטניים לתובנות-מאקרו: היכן להשקיע במניעה מול גילוי, ואילו תהליכים נושאים את עיקר-הסיכון.",
       processExampleHe:
         "Pareto מראה ש-70% מה-RPN המצטבר נובע מ-3 אופני-כשל, ושמרבית התרומה היא מ-detection גבוה → המסקנה: להשקיע בבקרות-גילוי inline.",
-      cbcHe:
-        "ב-CBC הניתוח חושף שרוב-הסיכון בקווי-המילוי נובע מ-occurrence (תקלות-שסתום חוזרות), לא מ-detection → הארגון מעדיף השקעה ב-PM ו-CIP על-פני בדיקות-נוספות.",
+      scenarioHe:
+        "בארגון הניתוח חושף שרוב-הסיכון בקווי-המילוי נובע מ-occurrence (תקלות-שסתום חוזרות), לא מ-detection → הארגון מעדיף השקעה ב-PM ו-CIP על-פני בדיקות-נוספות.",
       navHe: [
         "Quality Management ► FMEA ► Risk Analysis",
         "SAP Fiori ► Quality Engineer ► Analyze FMEA Risks",
@@ -797,8 +797,8 @@ export const CH16: TextbookChapter = {
         "להבטיח שכל סיכון שזוהה ב-FMEA אכן נשלט בקו בפועל — עם שיטה, תכיפות, גבולות ותגובה מוגדרים — וכך לסגור את הפער בין ניתוח-תיאורטי לבקרה-מבצעית.",
       processExampleHe:
         "מ-FMEA: 'תת-מילוי' Special Characteristic. ה-Control Plan מגדיר: מאפיין=נפח, שיטה=checkweigher, תכיפות=100% inline, גבולות=330±2, Reaction Plan=עצירת-קו+ניקוי-שסתום. הופך ל-Inspection Plan לקו.",
-      cbcHe:
-        "ב-CBC ה-Control Plan לקו-מילוי: נפח (100% checkweigher, 330±2, תגובה=עצירה), לחץ-CO2 (דגימה כל-שעה, 3.8±0.2, תגובה=כיול-carbonator), שלמות-פקק (torque, דגימה, תגובה=כוונון-capper).",
+      scenarioHe:
+        "בארגון ה-Control Plan לקו-מילוי: נפח (100% checkweigher, 330±2, תגובה=עצירה), לחץ-CO2 (דגימה כל-שעה, 3.8±0.2, תגובה=כיול-carbonator), שלמות-פקק (torque, דגימה, תגובה=כוונון-capper).",
       navHe: [
         "Quality Management ► Quality Planning ► Control Plan ► Create/Change (QM-PT)",
         "SPRO ► Quality Management ► Control Plan ► Define Control Plan Type / Structure Type",
@@ -872,8 +872,8 @@ export const CH16: TextbookChapter = {
         "להתאים את ה-FMEA וה-Control Plan לתהליכי-הארגון ולתקני-הלקוח (IATF/ISO), ולהבטיח עקביות-נתונים ודירוג אחיד.",
       processExampleHe:
         "היועץ מגדיר FMEA Type ל-Process, מקצה Rating Profile עם סולם 1-10, קובע Valuation Specification ל-S/O/D, מסמן שדות-חובה ב-Field Selection, ומקשר Control Plan Type.",
-      cbcHe:
-        "ב-CBC היועץ מגדיר Process FMEA Type לקווי-מילוי, Rating Profile מבוסס-AIAG, ו-Control Plan Type עם שלבי Prototype/Pre-launch/Production — תואם דרישת-הלקוח של רשת-קוקה-קולה.",
+      scenarioHe:
+        "בארגון היועץ מגדיר Process FMEA Type לקווי-מילוי, Rating Profile מבוסס-AIAG, ו-Control Plan Type עם שלבי Prototype/Pre-launch/Production — תואם דרישת-הלקוח של רשת-מוצר לדוגמה.",
       navHe: [
         "SPRO ► Quality Management ► FMEA ► Basic Settings",
         "SPRO ► Quality Management ► Control Plan ► Basic Settings",
@@ -929,7 +929,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "מוגדר per FMEA Type / object-type. כל שדה מקבל influencing: Required/Optional/Display/Hidden. נשען על Field Reference. מאפשר אכיפת-מדיניות (למשל severity חובה) והתאמת-מסך לתפקיד. שגיאת-הגדרה חוסמת שמירה או מסתירה שדה-חיוני.",
           purposeHe: "להבטיח איכות-נתונים ע\"י אכיפת שדות-חובה, ולפשט מסכים ע\"י הסתרת לא-רלוונטי.",
           processExampleHe: "מסמנים 'severity' ו-'אחראי-פעולה' כחובה, 'הערות' כאופציונלי, ושדה-Design ב-Process-FMEA כמוסתר.",
-          cbcHe: "ב-CBC מכריחים 'Reaction Plan' ו-'תכיפות-דגימה' כחובה לכל Special Characteristic, כדי שלא ייווצרו בקרות חסרות-תגובה.",
+          scenarioHe: "בארגון מכריחים 'Reaction Plan' ו-'תכיפות-דגימה' כחובה לכל Special Characteristic, כדי שלא ייווצרו בקרות חסרות-תגובה.",
           navHe: ["SPRO ► Quality Management ► FMEA ► Field Selection"],
           tables: ["QFMEATYP", "T162"],
           tcodes: ["SPRO"],
@@ -948,7 +948,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "מקשר לכל מימד (S/O/D) את ה-Valuation Catalog המתאים. הקטלוג מגדיר ערכים, טקסטי-עוגן וכיוון-סולם (detection הפוך). מוקצה דרך FMEA Type/Rating Profile. הוא המקור היחיד-לאמת לדירוג, ומבטיח עקביות בין-מעריכים ובין-FMEAs.",
           purposeHe: "להבטיח שכל דירוג נשען על אותם סולמות-עוגן מתוקננים — תנאי לעקביות ולהשוואתיות-RPN.",
           processExampleHe: "מקשרים: severity→Catalog-S (AIAG), occurrence→Catalog-O (ppm), detection→Catalog-D (סוגי-בקרה, הפוך). כל מעריך מדרג מאותם עוגנים.",
-          cbcHe: "ב-CBC severity-Catalog ממפה רגולציית-מזון (10=בטיחות), occurrence-Catalog לפי ppm-תקלות, detection-Catalog לפי 100%/דגימה/עיני.",
+          scenarioHe: "בארגון severity-Catalog ממפה רגולציית-מזון (10=בטיחות), occurrence-Catalog לפי ppm-תקלות, detection-Catalog לפי 100%/דגימה/עיני.",
           navHe: ["SPRO ► Quality Management ► FMEA ► Valuation Specification"],
           tables: ["QPRN", "QFMEATYP"],
           tcodes: ["SPRO"],
@@ -967,7 +967,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "מגדיר את ה-hierarchy-tree של השאלות (קבוצות/תת-קבוצות), רצף וניווט. מקושר ל-List Structure (התצוגה) ול-Rating Profile (הניקוד). מבנה-נכון תומך בניקוד-מצטבר לפי-קבוצה ובניתוח-תוצאות מפולח.",
           purposeHe: "לארגן את ה-Question List לקטגוריות הגיוניות, לשפר ניווט וניקוד-מפולח, ולהבטיח כיסוי-שיטתי.",
           processExampleHe: "מבנים שאלון ל-3 קבוצות: 'נתוני-אב', 'בקרות-תהליך', 'תגובה-לחריגות'; כל קבוצה מקבלת ניקוד-משנה.",
-          cbcHe: "ב-CBC שאלון-מוכנות-קו מובנה ל'PM', 'Calibration', 'CIP', 'תיעוד' — כל קבוצה מנוקדת בנפרד לאיתור-חולשות.",
+          scenarioHe: "בארגון שאלון-מוכנות-קו מובנה ל'PM', 'Calibration', 'CIP', 'תיעוד' — כל קבוצה מנוקדת בנפרד לאיתור-חולשות.",
           navHe: ["SPRO ► Quality Management ► FMEA ► Structure of Question List"],
           tables: ["QFRAGELIST", "QPRN"],
           tcodes: ["SPRO"],
@@ -986,7 +986,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "מגדיר RPN-thresholds ו/או severity-triggers הממפים לרמות-עדיפות וצבעי-flagging. ניתן לשלב כללי-AP (Action Priority) של AIAG-VDA המשקללים S→O→D ולא רק מכפלה. משולב ב-FMEA Monitor ו-Risk Analysis לסינון אוטומטי.",
           purposeHe: "להמיר ציוני-RPN להחלטות-פעולה אובייקטיביות ואחידות, ולמקד משאבים בסיכונים-הגבוהים.",
           processExampleHe: "מגדירים: RPN≥125 או severity≥9 → עדיפות-גבוהה (פעולה-חובה); 50-124 → בינונית; <50 → ניטור.",
-          cbcHe: "ב-CBC כל severity≥9 (בטיחות-מזון) מקבל עדיפות-גבוהה אוטומטית גם ב-RPN נמוך — מבטיח טיפול בכשלים-קטסטרופליים נדירים.",
+          scenarioHe: "בארגון כל severity≥9 (בטיחות-מזון) מקבל עדיפות-גבוהה אוטומטית גם ב-RPN נמוך — מבטיח טיפול בכשלים-קטסטרופליים נדירים.",
           navHe: ["SPRO ► Quality Management ► FMEA ► Priorities"],
           tables: ["QPRN", "QFMEATYP"],
           tcodes: ["SPRO"],
@@ -1005,7 +1005,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "קובע את ה-display-layout (עמודות, סדר, ניקוד מצטבר/לשורה) של רשימת-השאלות וה-FMEA. מקושר ל-Structure of Question List (התוכן) ול-Rating Profile (הסולם). תצורות שונות לתפקידים/תהליכים שונים.",
           purposeHe: "לשפר שמישות ויעילות-הזנה ע\"י תצוגה מותאמת לתפקיד ולתהליך.",
           processExampleHe: "מגדירים layout עם עמודות: שאלה / ציון / משקל / ניקוד-משוקלל / הערה, בסדר זה.",
-          cbcHe: "ב-CBC layout-קו-ייצור מציג עמודות מתומצתות (שאלה/ציון/תגובה) למסך-מגע ברצפה, ו-layout-מורחב למשרד-ה-QA.",
+          scenarioHe: "בארגון layout-קו-ייצור מציג עמודות מתומצתות (שאלה/ציון/תגובה) למסך-מגע ברצפה, ו-layout-מורחב למשרד-ה-QA.",
           navHe: ["SPRO ► Quality Management ► FMEA ► List Structure"],
           tables: ["QFRAGELIST", "QPRN"],
           tcodes: ["SPRO"],
@@ -1024,7 +1024,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "מגדיר את ה-rating-scale (טווח, ערכים, טקסטי-עוגן) המוקצה ל-Valuation Specification ול-Question List. קובע ערכים-מותרים, ברירת-מחדל וכיוון. ניתן להגדיר פרופילים שונים ל-Design/Process או לתקנים-שונים (AIAG vs. VDA). שגיאה כאן מעוותת כל RPN.",
           purposeHe: "לתקנן את סולמות-הדירוג כך שכל מעריך משתמש באותם ערכים ומשמעויות — תנאי לעקביות ול-RPN בר-השוואה.",
           processExampleHe: "מגדירים Rating Profile 1-10 עם טקסטי-עוגן לכל מימד; מקצים אותו ל-FMEA Type ול-Question List.",
-          cbcHe: "ב-CBC Rating Profile מבוסס-AIAG משמש את כל קווי-המילוי, כך שדירוג בקו-1 בר-השוואה לקו-5; פרופיל נפרד לתקן-VDA לקווי-יצוא.",
+          scenarioHe: "בארגון Rating Profile מבוסס-AIAG משמש את כל קווי-המילוי, כך שדירוג בקו-1 בר-השוואה לקו-5; פרופיל נפרד לתקן-VDA לקווי-יצוא.",
           navHe: ["SPRO ► Quality Management ► FMEA ► Rating Profile"],
           tables: ["QPRN", "QFMEATYP"],
           tcodes: ["SPRO"],
@@ -1044,7 +1044,7 @@ export const CH16: TextbookChapter = {
           purposeHe:
             "לספק תבנית-אחת המרכזת את כל ההגדרות, כך ש-FMEAs מאותו סוג עקביים, תקני-לקוח ובני-השוואה.",
           processExampleHe: "מגדירים Process-FMEA-Type: מבנה-תהליך, Rating Profile AIAG, severity/occurrence/detection חובה, קישור ל-Control Plan Type. כל Process-FMEA חדש יורש זאת.",
-          cbcHe: "ב-CBC 'PFMEA-Filling' Type לקווי-מילוי: מבנה Process, Rating Profile-AIAG, Special Characteristics מועברים ל-Control-Plan-Type 'Beverage-Production'.",
+          scenarioHe: "בארגון 'PFMEA-Filling' Type לקווי-מילוי: מבנה Process, Rating Profile-AIAG, Special Characteristics מועברים ל-Control-Plan-Type 'Beverage-Production'.",
           navHe: ["SPRO ► Quality Management ► FMEA ► Define FMEA Type"],
           tables: ["QFMEATYP", "QPRN"],
           tcodes: ["SPRO"],
@@ -1063,7 +1063,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "מגדיר object-types ותכונותיהם (valuations מותרים, קישורים-מותרים), ו-Forms (SAPscript/Smart Forms/Adobe) לתצוגה/הדפסה. קובע אילו properties כל object נושא ומה הקשרים-החוקיים ב-QFMEAREL. Forms מאפשרים דוחות-FMEA תקני-לקוח (פורמט-AIAG). הגדרה-נכונה = עץ-לגיטימי ודוחות-מקצועיים.",
           purposeHe: "להגדיר את אוצר-האובייקטים, תכונותיהם והקשרים-החוקיים בעץ, ולספק דוחות-FMEA בפורמט נדרש.",
           processExampleHe: "מגדירים שאובייקט-Cause נושא occurrence ומקושר ל-Preventive-Action, ושטופס-ההדפסה תואם פורמט-AIAG ללקוח.",
-          cbcHe: "ב-CBC טופס-ה-FMEA מותאם לפורמט-הדיווח של רשת-קוקה-קולה; object-properties מגדירים שכל Effect-בטיחות מסומן Critical.",
+          scenarioHe: "בארגון טופס-ה-FMEA מותאם לפורמט-הדיווח של רשת-מוצר לדוגמה; object-properties מגדירים שכל Effect-בטיחות מסומן Critical.",
           navHe: ["SPRO ► Quality Management ► FMEA ► Objects, Properties and Forms"],
           tables: ["QFMEAOBJ", "QFMEATYP", "TNAPR"],
           tcodes: ["SPRO", "SE71"],
@@ -1082,7 +1082,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "מגדיר structure, Field Selection, lifecycle-phase וקישור ל-FMEA Type. ה-phase (Prototype/Pre-launch/Production) קובע את היקף-הבקרה ותכיפותה. קישור ל-FMEA Type מבטיח שה-Special Characteristics זורמים אוטומטית. שינוי-Type משפיע על כל תוכניות-הבקרה מסוגו.",
           purposeHe: "לספק תבנית-אחידה לתוכניות-בקרה תואמות-מחזור ותקני-לקוח, המקושרות אוטומטית ל-FMEA.",
           processExampleHe: "מגדירים Control-Plan-Type 'Production' עם שדות-חובה Reaction-Plan ו-Sampling, מקושר ל-Process-FMEA-Type.",
-          cbcHe: "ב-CBC 'Beverage-Production' Control-Plan-Type לקווי-מילוי: phase=Production, שדות-חובה Reaction-Plan, מקושר ל-PFMEA-Filling להזרמת Special Characteristics.",
+          scenarioHe: "בארגון 'Beverage-Production' Control-Plan-Type לקווי-מילוי: phase=Production, שדות-חובה Reaction-Plan, מקושר ל-PFMEA-Filling להזרמת Special Characteristics.",
           navHe: ["SPRO ► Quality Management ► Control Plan ► Define Control Plan Type"],
           tables: ["QCTRLPLANTYP", "QFMEATYP"],
           tcodes: ["SPRO"],
@@ -1101,7 +1101,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "מגדיר את ה-hierarchy/grouping של פריטי-הבקרה (by process-step / characteristic / equipment). משפיע על תצוגה, על קיבוץ-בדיקות ועל המיפוי ל-Inspection Plan (PLKO/PLPO). מבנה-לפי-שלב-תהליך מתאים לקווי-ייצור-רציפים; מבנה-לפי-מאפיין למוצרים-בדידים.",
           purposeHe: "לארגן את תוכנית-הבקרה בצורה התואמת את זרימת-הייצור, לשיפור-קריאות ולתרגום-נקי ל-Inspection Plan.",
           processExampleHe: "בוחרים Structure-by-process-step: שטיפה → מילוי → פיקוק → אריזה, כל שלב עם מאפייני-הבקרה שלו.",
-          cbcHe: "ב-CBC תוכנית-הבקרה מובנית by-process-step לאורך-הקו: rinser → filler → capper → labeler → packer, כל תחנה עם בקרותיה — תואם את זרימת-המילוי.",
+          scenarioHe: "בארגון תוכנית-הבקרה מובנית by-process-step לאורך-הקו: rinser → filler → capper → labeler → packer, כל תחנה עם בקרותיה — תואם את זרימת-המילוי.",
           navHe: ["SPRO ► Quality Management ► Control Plan ► Define Structure Type"],
           tables: ["QCTRLPLAN", "QCTRLPLANITM", "PLKO"],
           tcodes: ["SPRO"],
@@ -1128,8 +1128,8 @@ export const CH16: TextbookChapter = {
         "לקבע את התמונה-השלמה: FMEA אינו תרגיל-תיעוד אלא מערכת-ניהול-סיכונים חיה, מקושרת לבקרה, מנוטרת ומשתפרת-מתמיד — ליבת-איכות פרואקטיבית.",
       processExampleHe:
         "צוות מזהה סיכון ➔ מדרג ➔ מחשב RPN ➔ פועל ➔ מדרג-מחדש ➔ מתרגם ל-Control Plan ➔ בקרה בקו ➔ חריגה/תלונה ➔ עדכון-FMEA. הלולאה רצה שוב-ושוב, וה-RPN המצטבר יורד עם הזמן.",
-      cbcHe:
-        "ב-CBC המסע השלם: PFMEA לקו-מילוי ➔ Special Characteristics (נפח/CO2/פקק) ➔ Control Plan (checkweigher/לחץ/torque) ➔ Inspection Plan בקו ➔ תלונה על 'משקה-שטוח' ➔ עדכון-FMEA ➔ בקרת-CO2 מחמירה. איכות פרואקטיבית בלולאה-סגורה.",
+      scenarioHe:
+        "בארגון המסע השלם: PFMEA לקו-מילוי ➔ Special Characteristics (נפח/CO2/פקק) ➔ Control Plan (checkweigher/לחץ/torque) ➔ Inspection Plan בקו ➔ תלונה על 'משקה-שטוח' ➔ עדכון-FMEA ➔ בקרת-CO2 מחמירה. איכות פרואקטיבית בלולאה-סגורה.",
       navHe: [
         "Quality Management ► FMEA / Control Plan (מחזור-מלא)",
         "SPRO ► Quality Management ► FMEA / Control Plan (Configuration)",

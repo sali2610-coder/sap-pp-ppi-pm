@@ -1,7 +1,7 @@
 // ===== PP/DS Digital Textbook — Chapter 2 (Master Data) =====
 // Every node is a complete LearningNode with 18 facets of authored Hebrew —
 // beginner + consultant friendly, enough to study embedded PP/DS master data
-// without the original book. SAP identifiers verbatim EN; CBC = Coca-Cola
+// without the original book. SAP identifiers verbatim EN; הארגון = Example Product
 // bottling (fill-line resources, flavor-changeover setup matrix, PDS from
 // routing/recipe). Hierarchy + ids preserved exactly from the source TOC.
 import type { TextbookChapter } from "./types";
@@ -11,7 +11,7 @@ export const CH2: TextbookChapter = {
   titleHe: "נתוני אב",
   titleEn: "Master Data",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לנתוני-האב של PP/DS המוטמע ב-S/4HANA. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-זרימה, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. ב-Embedded PP/DS נתוני-האב מסונכרנים מ-S/4HANA לאזור-התכנון (liveCache) — מודל-אינטגרציה (CFM1/CFM2), Location, Product (/SAPAPO/MAT1), Resource (/SAPAPO/RES01), ו-PDS שנוצר מ-Routing/Recipe (CURTO_CREATE). המטרה: לשלוט בנתוני-האב של PP/DS ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לנתוני-האב של PP/DS המוטמע ב-S/4HANA. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-זרימה, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. ב-Embedded PP/DS נתוני-האב מסונכרנים מ-S/4HANA לאזור-התכנון (liveCache) — מודל-אינטגרציה (CFM1/CFM2), Location, Product (/SAPAPO/MAT1), Resource (/SAPAPO/RES01), ו-PDS שנוצר מ-Routing/Recipe (CURTO_CREATE). המטרה: לשלוט בנתוני-האב של PP/DS ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 2.1
     {
@@ -26,8 +26,8 @@ export const CH2: TextbookChapter = {
         "לשלוט בדיוק אילו אובייקטים נכנסים לתכנון-המתקדם, להימנע מהעמסת-יתר של ה-liveCache בנתונים לא-רלוונטיים, ולספק נקודת-בקרה אחת לסנכרון נתוני-אב ותנועה.",
       processExampleHe:
         "מטמיעים PP/DS למפעל חדש: ב-CFM1 בונים מודל בשם ZPPDS_MAT עם Filter = Plant 1010 + Material Type FERT/HALB ו-Object Type = Materials; מפעילים ב-CFM2; החומרים מופיעים כעת ב-/SAPAPO/MAT1. מודל נוסף ZPPDS_RES מעביר את מרכזי-העבודה כ-Resources, ומודל ZPPDS_PDS מעביר Routings כ-PDS.",
-      cbcHe:
-        "ב-CBC בונים מודלי-אינטגרציה נפרדים לכל סוג-אובייקט: ZCBC_MAT (משקאות מוגמרים FERT + תערובות HALB), ZCBC_RES (קווי-המילוי כ-Resources), ZCBC_PDS (מתכוני-המילוי כ-PDS). הפרדה זו מאפשרת להפעיל-מחדש רק את מה שהשתנה — למשל קו-מילוי חדש בלי לגעת בחומרים.",
+      scenarioHe:
+        "בארגון בונים מודלי-אינטגרציה נפרדים לכל סוג-אובייקט: ZMFG_MAT (משקאות מוגמרים FERT + תערובות HALB), ZMFG_RES (קווי-המילוי כ-Resources), ZMFG_PDS (מתכוני-המילוי כ-PDS). הפרדה זו מאפשרת להפעיל-מחדש רק את מה שהשתנה — למשל קו-מילוי חדש בלי לגעת בחומרים.",
       navHe: [
         "SAP Easy Access ► Logistics ► Central Functions ► Supply Chain Planning Interface ► Core Interface Advanced Planner and Optimizer ► Integration Model ► Create (CFM1)",
         "SPRO ► Integration with Other SAP Components ► Advanced Planning and Optimization ► Basic Settings for the Data Transfer ► Change Transfer for Master Data",
@@ -40,7 +40,7 @@ export const CH2: TextbookChapter = {
         "Filter Objects: Material, Plant, Material Type, MRP Type — מסננים את היקף האובייקטים.",
         "Object Types: Materials, Plants/MRP Areas, Work Centers/Resources, BOM, Routings/PDS, Stocks, Planned/Production Orders, PIRs, Sales Orders.",
         "Change Transfer: Online (מיידי) או Periodic (אצווה) דרך הגדרות SPRO.",
-        "Naming convention עקבי למודלים (ZCBC_<OBJ>) לזיהוי וניטור.",
+        "Naming convention עקבי למודלים (ZMFG_<OBJ>) לזיהוי וניטור.",
       ],
       flow: [
         { he: "בחירת Filter + Object Type", code: "CFM1", note: "Plant/Material Type" },
@@ -89,8 +89,8 @@ export const CH2: TextbookChapter = {
           beginnerHe: "כאן \"כותבים את רשימת-הקניות\": איזה מפעל, אילו חומרים, ואיזה סוג-אובייקט. שומרים את הרשימה תחת שם — אבל עדיין לא \"קונים\" (לא מפעילים).",
           consultantHe: "ב-CFM1 מזינים Model Name + Logical System + Application, ומסמנים Object Types. ה-Filter (Material/Plant/Material Type/MRP Type) מצמצם את ההיקף. שמירה יוצרת גרסת-מודל ב-CIF_IMOD; ניתן ליצור Variants ב-CFM7 לתזמון-אצווה.",
           purposeHe: "להגדיר במדויק ובאופן-מתועד אילו אובייקטים מועמדים לסנכרון, לפני ההפעלה בפועל.",
-          processExampleHe: "ב-CFM1 יוצרים ZCBC_MAT, אפליקציה MATERIAL, Filter Plant=1010 + Material Type=FERT, Object Type=Materials, ושומרים. נוצרת גרסה ראשונה הממתינה להפעלה.",
-          cbcHe: "ב-CBC יוצרים ZCBC_MAT לכל המשקאות-המוגמרים במפעל-המילוי; Filter לפי Material Type=FERT מבטיח שרק מוצרים-סופיים ייכנסו לתכנון-PP/DS.",
+          processExampleHe: "ב-CFM1 יוצרים ZMFG_MAT, אפליקציה MATERIAL, Filter Plant=1010 + Material Type=FERT, Object Type=Materials, ושומרים. נוצרת גרסה ראשונה הממתינה להפעלה.",
+          scenarioHe: "בארגון יוצרים ZMFG_MAT לכל המשקאות-המוגמרים במפעל-המילוי; Filter לפי Material Type=FERT מבטיח שרק מוצרים-סופיים ייכנסו לתכנון-PP/DS.",
           navHe: ["Logistics ► Central Functions ► Supply Chain Planning Interface ► Core Interface APO ► Integration Model ► Create (CFM1)"],
           tables: ["CIF_IMOD"],
           tcodes: ["CFM1", "CFM7"],
@@ -108,8 +108,8 @@ export const CH2: TextbookChapter = {
           beginnerHe: "אחרי שכתבנו את הרשימה (CFM1), כאן \"מבצעים את ההזמנה\": הנתונים נשלחים לעולם-התכנון. מפעילים-מחדש כשמשהו השתנה.",
           consultantHe: "ב-CFM2 בוחרים את המודל ומפעילים; המערכת משווה לגרסה-הפעילה הקודמת ומעבירה רק את ההפרש. שגיאות-הפעלה נצפות ב-SLG1 (Application Log) ובתורי SMQ1/SMQ2. אי-עקביות נפתרת ב-CCR.",
           purposeHe: "להזרים את האובייקטים שהוגדרו אל ה-liveCache ולסנכרן עדכונים באופן-מבוקר.",
-          processExampleHe: "אחרי הוספת FERT חדש, מפעילים-מחדש את ZCBC_MAT ב-CFM2; רק החומר-החדש מועבר (דלתא), והוא מופיע מיד ב-/SAPAPO/MAT1.",
-          cbcHe: "ב-CBC מפעילים-מחדש את ZCBC_RES בכל פעם שמתווסף קו-מילוי, כך שה-Resource החדש זמין לתכנון בלי לגעת בחומרים.",
+          processExampleHe: "אחרי הוספת FERT חדש, מפעילים-מחדש את ZMFG_MAT ב-CFM2; רק החומר-החדש מועבר (דלתא), והוא מופיע מיד ב-/SAPAPO/MAT1.",
+          scenarioHe: "בארגון מפעילים-מחדש את ZMFG_RES בכל פעם שמתווסף קו-מילוי, כך שה-Resource החדש זמין לתכנון בלי לגעת בחומרים.",
           navHe: ["Logistics ► Central Functions ► ... ► Integration Model ► Activate (CFM2)"],
           tables: ["CIF_IMOD"],
           tcodes: ["CFM2", "/SAPAPO/CCR", "SMQ1"],
@@ -136,8 +136,8 @@ export const CH2: TextbookChapter = {
         "לספק את ההקשר-המרחבי לכל התכנון: כל מוצר, משאב, מלאי והזמנה משויכים ל-Location, וכך ה-PP/DS יודע היכן הביקוש, היכן הקיבולת, והיכן המלאי.",
       processExampleHe:
         "כשמסנכרנים Plant 1010 דרך מודל-אינטגרציה, נוצר אוטומטית Location 1010 מסוג 1001. כל FERT המסונכרן הופך ל-Location Product (השילוב Product×Location), וכל קו-מילוי הופך ל-Resource באותו Location.",
-      cbcHe:
-        "ב-CBC כל אתר-בקבוק (מפעל-מילוי) הוא Location מסוג 1001; מרכזי-ההפצה האזוריים הם Locations מסוג 1002. תכנון-המילוי מתבצע ב-Location של מפעל-המילוי, והביקוש מגיע מ-Locations של מרכזי-ההפצה.",
+      scenarioHe:
+        "בארגון כל אתר-בקבוק (מפעל-מילוי) הוא Location מסוג 1001; מרכזי-ההפצה האזוריים הם Locations מסוג 1002. תכנון-המילוי מתבצע ב-Location של מפעל-המילוי, והביקוש מגיע מ-Locations של מרכזי-ההפצה.",
       navHe: [
         "SAP Easy Access ► Advanced Planning and Optimization ► Master Data ► Location ► Location (/SAPAPO/LOC3)",
         "SPRO ► Advanced Planning ► Master Data ► Location ► Define Location Types",
@@ -200,8 +200,8 @@ export const CH2: TextbookChapter = {
         "לתת ל-PP/DS את כל הפרמטרים לתכנן מוצר ברמת-Location: מתי לתכנן-מחדש, כמה לתכנן (lot-size), ומאיזה מקור (in-house/external), ולהבחין בין מוצרים מתוכננים-מתקדם למתוכננים-קלאסי.",
       processExampleHe:
         "מסמנים FERT לתכנון-מתקדם (Advanced Planning=X); ה-PP/DS Horizon נקבע ל-30 יום; Planning Procedure מסוג in-house production מבטיח שכל שינוי-ביקוש בתוך-האופק מפעיל תכנון-מחדש מיידי ב-liveCache ויוצר Planned Order עם תזמון-מדויק לשנייה.",
-      cbcHe:
-        "ב-CBC כל משקה-מוגמר (FERT) מסומן Advanced Planning עם PP/DS Horizon התואם את אופק-המילוי השבועי; תערובות-הבסיס (HALB) מתוכננות-מתקדם רק אם הן צוואר-בקבוק; חומרי-הגלם (ROH) נשארים בתכנון-קלאסי.",
+      scenarioHe:
+        "בארגון כל משקה-מוגמר (FERT) מסומן Advanced Planning עם PP/DS Horizon התואם את אופק-המילוי השבועי; תערובות-הבסיס (HALB) מתוכננות-מתקדם רק אם הן צוואר-בקבוק; חומרי-הגלם (ROH) נשארים בתכנון-קלאסי.",
       navHe: [
         "SAP Easy Access ► Advanced Planning ► Master Data ► Product ► Product (/SAPAPO/MAT1)",
         "Logistics ► Material Master ► Material ► Create/Change (MM01/MM02) ► Advanced Planning view",
@@ -265,7 +265,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "ב-S/4HANA הסימון נעשה בלשונית Advanced Planning של אב-החומר (שדה ב-MARC) או דרך מיפוי-המוני (Mass Activation / report). ההפעלה יוצרת/מעדכנת את רשומת ה-Product×Location ב-/SAPAPO/MATLOC. ניתן להפעיל גם דרך הגדרת ברירת-מחדל פר Material Type/Plant ב-SPRO.",
           purposeHe: "להגדיר מפורשות אילו חומרים מנוהלים בתכנון-המתקדם, ולמנוע ניפוח של ה-liveCache בחומרים שאינם זקוקים לו.",
           processExampleHe: "מסמנים FERT בלשונית Advanced Planning, שומרים, והמוצר מופיע מיד כ-Product×Location פעיל ב-/SAPAPO/MAT1 ומוכן לתכנון ב-/SAPAPO/RRP3.",
-          cbcHe: "ב-CBC מפעילים תכנון-מתקדם לכל משקאות-המילוי המוגמרים ולתערובות-בסיס שהן צווארי-בקבוק, אך לא לחומרי-גלם בסיסיים.",
+          scenarioHe: "בארגון מפעילים תכנון-מתקדם לכל משקאות-המילוי המוגמרים ולתערובות-בסיס שהן צווארי-בקבוק, אך לא לחומרי-גלם בסיסיים.",
           navHe: ["Logistics ► Material Master ► Material ► Change (MM02) ► Advanced Planning", "SPRO ► Production ► Advanced Planning ► Master Data ► Product ► Activate Advanced Planning"],
           tables: ["MARC", "/SAPAPO/MATLOC"],
           tcodes: ["MM02", "/SAPAPO/MAT1"],
@@ -284,7 +284,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "הביטול מתבצע דרך כיבוי ה-Advanced Planning indicator או report-ביטול. SAP ממליצה למחוק/להמיר תחילה אובייקטי-תכנון פתוחים כדי למנוע \"נתונים-יתומים\" ב-liveCache. אי-עקביות שנותרת נפתרת ב-/SAPAPO/CCR.",
           purposeHe: "להוציא בצורה-נקייה מוצר מהתכנון-המתקדם — למשל כשמוצר יורד מהקו או כשמסתבר שאינו זקוק לתכנון-מפורט.",
           processExampleHe: "מוצר מופסק: מוודאים שאין Planned/Production Orders פתוחים, מכבים את ה-indicator, ומריצים CCR לוודא ש-Product×Location הוסר נקי מ-liveCache.",
-          cbcHe: "ב-CBC כשמשקה עונתי יורד מהקו, מבטלים לו תכנון-מתקדם בסוף-העונה אחרי סגירת כל פק\"ע פתוחה, ומחזירים אותו לתכנון-קלאסי.",
+          scenarioHe: "בארגון כשמשקה עונתי יורד מהקו, מבטלים לו תכנון-מתקדם בסוף-העונה אחרי סגירת כל פק\"ע פתוחה, ומחזירים אותו לתכנון-קלאסי.",
           navHe: ["Logistics ► Material Master ► Material ► Change (MM02) ► Advanced Planning", "SPRO ► Production ► Advanced Planning ► Master Data ► Product ► Deactivate Advanced Planning"],
           tables: ["MARC", "/SAPAPO/MATLOC"],
           tcodes: ["MM02", "/SAPAPO/CCR"],
@@ -303,7 +303,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "השדות הקריטיים: Planning Procedure (event-driven replanning), Lot-Size (Lot-for-lot/Fixed/Periodic + Min/Max/Rounding), GR/GI Processing Time (משפיע על תזמון-זמין-לשימוש), Planning Time Fence ו-PP/DS Horizon. נשמרים ב-/SAPAPO/MATLOC ומשפיעים ישירות על ה-heuristics ועל בדיקת-הקיבולת ב-DS Planning Board.",
           purposeHe: "לכוונן את התנהגות-התכנון של כל מוצר בנפרד — כדי שהתזמון, גודל-האצווה והמקור יתאימו למציאות התפעולית שלו.",
           processExampleHe: "מוצר עם Min Lot-Size=1000 ו-Rounding=500: PP/DS מייצר Planned Orders בכפולות-500 לא-פחות-מ-1000; ה-GR Processing Time=1 יום דוחה את זמינות-המלאי ביום מקבלת-הסחורה.",
-          cbcHe: "ב-CBC קו-מילוי עם Min Lot-Size = batch-מינימלי של 5000 בקבוקים ו-Rounding לפי גודל-מכל; GR Processing Time מייצג זמן-בידוד QA לפני שחרור-מלאי.",
+          scenarioHe: "בארגון קו-מילוי עם Min Lot-Size = batch-מינימלי של 5000 בקבוקים ו-Rounding לפי גודל-מכל; GR Processing Time מייצג זמן-בידוד QA לפני שחרור-מלאי.",
           navHe: ["Advanced Planning ► Master Data ► Product ► Product (/SAPAPO/MAT1) ► PP/DS view", "Logistics ► Material Master (MM02) ► Advanced Planning"],
           tables: ["/SAPAPO/MATLOC", "MARC"],
           tcodes: ["/SAPAPO/MAT1", "MM02"],
@@ -325,7 +325,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "ב-SPRO מגדירים ברירות-מחדל פר Plant + Material Type להפעלת Advanced Planning, ובאמצעות BAdI/כללים ניתן להחיל לוגיקה גמישה. ב-Embedded PP/DS האינטגרציה היא פנימית (אין CIF חיצוני), ולכן \"גמישה\" — סימון החומר מפעיל מיד את ה-Product×Location בלי תור-RFC. שימושי במיגרציה המונית של חומרים קיימים.",
           purposeHe: "להאיץ ולתקנן את הכנסת-החומרים ל-PP/DS בקנה-מידה, תוך שמירה על שליטה לפי מפעל וסוג-חומר.",
           processExampleHe: "מגדירים כלל ברירת-מחדל: Plant=1010 + Material Type=FERT ⇒ Advanced Planning פעיל; מריצים report-המרה שמסמן את כל ה-FERT הקיימים ויוצר את ה-Product×Location שלהם בבת-אחת.",
-          cbcHe: "ב-CBC ברגע-העלייה לאוויר מפעילים אינטגרציה-גמישה לכל ה-FERT בכל מפעלי-המילוי בבת-אחת, ומשאירים ROH ב-MRP קלאסי — מיגרציה מהירה בלי סימון פרטני.",
+          scenarioHe: "בארגון ברגע-העלייה לאוויר מפעילים אינטגרציה-גמישה לכל ה-FERT בכל מפעלי-המילוי בבת-אחת, ומשאירים ROH ב-MRP קלאסי — מיגרציה מהירה בלי סימון פרטני.",
           navHe: ["SPRO ► Production ► Advanced Planning ► Master Data ► Product ► Activate Advanced Planning per Plant/Material Type", "SPRO ► Production ► Advanced Planning ► Basic Settings ► Configure Embedded PP/DS"],
           tables: ["MARC", "/SAPAPO/MATLOC", "T399D"],
           tcodes: ["MM02", "/SAPAPO/MAT1"],
@@ -355,8 +355,8 @@ export const CH2: TextbookChapter = {
         "לספק ל-PP/DS ייצוג-קיבולת מדויק ל-finite scheduling: לדעת בכל רגע אם משאב פנוי, לתזמן פעולות לשנייה, ולפתור עומסי-יתר על לוח-התכנון.",
       processExampleHe:
         "קו-מילוי מסונכרן כ-Single-Mixed Resource עם time stream של 3 משמרות; כשנוצר Planned Order, PP/DS מתזמן את הפעולה על המשאב לפי הזמן-הפנוי הבא, מתחשב ב-Setup Matrix אם נדרש changeover, ומסמן עומס-יתר אם המשאב כבר מלא.",
-      cbcHe:
-        "ב-CBC כל קו-מילוי = Single-Mixed Resource עם time stream של משמרות-המפעל; ה-Setup Matrix של הקו מתאר זמני-ניקוי בין-טעמים (קולה→ספרייט ארוך, קולה→קולה-דיאט קצר); תכנון-המילוי משבץ פק\"עות על הקו תוך מינימיזציה של זמני-changeover.",
+      scenarioHe:
+        "בארגון כל קו-מילוי = Single-Mixed Resource עם time stream של משמרות-המפעל; ה-Setup Matrix של הקו מתאר זמני-ניקוי בין-טעמים (מוגז→ספרייט ארוך, מוגז→מוגז-דיאט קצר); תכנון-המילוי משבץ פק\"עות על הקו תוך מינימיזציה של זמני-changeover.",
       navHe: [
         "SAP Easy Access ► Advanced Planning ► Master Data ► Resource ► Resource (/SAPAPO/RES01)",
         "Production ► Basic Data ► Work Center (CR01/CR02) — מקור ה-Resource",
@@ -419,7 +419,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "מרכז-העבודה (CR01/CR02) חייב Capacity Category, Available Capacity ולוח-שנה תקינים — הם הופכים ל-time stream של ה-Resource. ה-Standard Value Key קובע אילו זמנים (Setup/Machine/Labor) זמינים, וה-Control Key קובע אם הפעולה רלוונטית-לתזמון. נתוני-העלות (Activity Types/KP26) ממשיכים לשמש לתמחיר-הפק\"ע.",
           purposeHe: "להגדיר את הקיבולת, הזמנים והעלות במרכז-העבודה כך שיסונכרנו נכון ל-Resource ויאפשרו תזמון-סופי מדויק.",
           processExampleHe: "מגדירים קו-מילוי כמרכז-עבודה עם Capacity Category 001, 3 משמרות וניצולת 90%; הסנכרון יוצר Resource עם time stream תואם, שעליו PP/DS מתזמן.",
-          cbcHe: "ב-CBC כל קו-מילוי מוגדר תחילה כמרכז-עבודה מסוג מכונה עם קיבולת-משמרות וניצולת; רק אז הוא מסונכרן ל-Resource לתכנון-מתקדם.",
+          scenarioHe: "בארגון כל קו-מילוי מוגדר תחילה כמרכז-עבודה מסוג מכונה עם קיבולת-משמרות וניצולת; רק אז הוא מסונכרן ל-Resource לתכנון-מתקדם.",
           navHe: ["Production ► Basic Data ► Work Center ► Create/Change (CR01/CR02)", "Production ► Basic Data ► Work Center ► Capacity Planning ► Define Capacity (KAKO)"],
           tables: ["CRHD", "CRCA", "KAKO"],
           tcodes: ["CR01", "CR02", "CR03"],
@@ -438,7 +438,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "ב-/SAPAPO/RES01 מתחזקים את ה-Resource: Type, Available Capacity, Finite/Infinite indicator, Dimension, ו-Setup Matrix/Setup Group. ה-modes ממפים את Standard Values ל-activity-ים. אפשר להגדיר Resources מרובי-קיבולת (Multi-Mixed) לעובדים-מקבילים. שינויי-Resource מורגשים מיד ב-liveCache.",
           purposeHe: "לאפשר תזמון-סופי מדויק, פתרון-עומסים ואופטימיזציה של רצף-changeover על המשאב.",
           processExampleHe: "ב-DS Planning Board PP/DS משבץ פק\"ע על Resource של קו-מילוי בחלון-הפנוי הבא; אם המשאב מסומן Finite, לא ניתן לחרוג מהקיבולת — נוצר עומס-יתר גלוי לפתרון.",
-          cbcHe: "ב-CBC קו-מילוי כ-Resource Finite מבטיח שלא יתוזמנו שתי פק\"עות בו-זמנית; ה-Setup Matrix מצמצם changeover-טעמים, וה-optimizer ממיין את סדר-המשקאות למינימום-ניקויים.",
+          scenarioHe: "בארגון קו-מילוי כ-Resource Finite מבטיח שלא יתוזמנו שתי פק\"עות בו-זמנית; ה-Setup Matrix מצמצם changeover-טעמים, וה-optimizer ממיין את סדר-המשקאות למינימום-ניקויים.",
           navHe: ["Advanced Planning ► Master Data ► Resource ► Resource (/SAPAPO/RES01)", "Advanced Planning ► Detailed Scheduling ► Detailed Scheduling Planning Board (/SAPAPO/CDPS0)"],
           tables: ["/SAPAPO/RESOURCE", "/SAPAPO/RESCAP"],
           tcodes: ["/SAPAPO/RES01", "/SAPAPO/CDPS0"],
@@ -468,8 +468,8 @@ export const CH2: TextbookChapter = {
         "לספק ל-PP/DS את כל החלופות לאספקת-מוצר — ייצור או רכש — עם כל הפרטים הנדרשים לתזמון, לקיבולת ולעלות, ולאפשר בחירת-מקור אוטומטית.",
       processExampleHe:
         "FERT מתוכנן: PP/DS בוחר את ה-PDS הפעיל (מ-Production Version), מפצץ את ה-components כדרישות-תלויות, ומתזמן את ה-activities על ה-Resources. אם נדרש רכיב-נרכש, ה-External Procurement Relationship שלו קובע ספק וזמן-אספקה.",
-      cbcHe:
-        "ב-CBC מקור-האספקה של משקה-מוגמר הוא PDS שנוצר ממתכון-המילוי (Master Recipe) דרך CURTO_CREATE; התרכיז הנרכש מ-The Coca-Cola Company מנוהל כ-External Procurement Relationship עם זמן-אספקה ומחיר-חוזה.",
+      scenarioHe:
+        "בארגון מקור-האספקה של משקה-מוגמר הוא PDS שנוצר ממתכון-המילוי (Master Recipe) דרך CURTO_CREATE; התרכיז הנרכש מ-The Example Product Company מנוהל כ-External Procurement Relationship עם זמן-אספקה ומחיר-חוזה.",
       navHe: [
         "SAP Easy Access ► Advanced Planning ► Master Data ► Production Data Structure ► Display (/SAPAPO/CURTO_SIMU)",
         "Advanced Planning ► Master Data ► Generate Production Data Structure (CURTO_CREATE)",
@@ -532,7 +532,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "ה-PDS נשמר ב-/SAPAPO/PDSPROD ונוצר אך-ורק מ-Production Version (לא ניתן לערוך ידנית — read-only result). הוא נושא: components עם component assignment לפעולות, activities עם modes (קישור ל-Resource + Setup/Process/Teardown), ופרמטרי-תזמון. ב-S/4HANA ה-PDS החליף סופית את ה-PPM. שינויי-מקור מחייבים יצירה-מחדש (re-transfer).",
           purposeHe: "לספק ל-PP/DS מבנה-מקור-אספקה יציב ומלא לייצור-פנימי — components, activities ו-modes — לתזמון-סופי, פיצוץ-דרישות וחישוב-עלות.",
           processExampleHe: "PP/DS מתזמן FERT: בוחר את ה-PDS, יוצר activities לפי ה-modes על ה-Resources, מפצץ את ה-components כדרישות-תלויות לפי ה-component assignment, ומחשב משכים מ-Standard Values.",
-          cbcHe: "ב-CBC ה-PDS של משקה כולל: component תרכיז/סוכר/CO2/מים, activity ערבול על Resource-המערבל, activity מילוי על Resource-קו-המילוי (עם Setup ל-changeover), ו-activity אריזה — הכל נגזר ממתכון-המילוי.",
+          scenarioHe: "בארגון ה-PDS של משקה כולל: component תרכיז/סוכר/CO2/מים, activity ערבול על Resource-המערבל, activity מילוי על Resource-קו-המילוי (עם Setup ל-changeover), ו-activity אריזה — הכל נגזר ממתכון-המילוי.",
           navHe: ["Advanced Planning ► Master Data ► Production Data Structure ► Display PDS (/SAPAPO/CURTO_SIMU)"],
           tables: ["/SAPAPO/PDSPROD", "/SAPAPO/PDS"],
           tcodes: ["/SAPAPO/CURTO_SIMU", "CURTO_CREATE"],
@@ -554,7 +554,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "CURTO_CREATE מקבל PDS Type (לדוגמה PP/DS PDS) ו-Filter; הוא קורא את ה-Production Version (BOM Alternative + Routing/Group), מתרגם פעולות→activities, מרכזי-עבודה→modes-on-Resources, ורכיבים→components. אפשר לתזמן re-transfer אוטומטי על שינויי-Change Number דרך הגדרות-SPRO. שגיאות נצפות בלוג-הדוח.",
           purposeHe: "להפוך את נתוני-הייצור הקלאסיים (Routing+BOM) למבנה-מקור-אספקה שה-PP/DS יכול לתזמן, ולסנכרן שינויים.",
           processExampleHe: "אחרי הגדרת Production Version ל-FERT, מריצים CURTO_CREATE עם Filter Material+Plant; נוצר PDS; המוצר זמין כעת לתכנון-מתקדם עם תזמון על ה-Resources.",
-          cbcHe: "ב-CBC, כשמשנים מסלול קו-מילוי (למשל מוסיפים תחנת-בדיקה), מריצים CURTO_CREATE מחדש כדי שה-PDS ישקף את הפעולה-החדשה בתכנון.",
+          scenarioHe: "בארגון, כשמשנים מסלול קו-מילוי (למשל מוסיפים תחנת-בדיקה), מריצים CURTO_CREATE מחדש כדי שה-PDS ישקף את הפעולה-החדשה בתכנון.",
           navHe: ["Advanced Planning ► Master Data ► Production Data Structure ► Generate (CURTO_CREATE)", "SPRO ► Production ► Advanced Planning ► Master Data ► Source of Supply ► Production Data Structure ► Define PDS Transfer"],
           tables: ["/SAPAPO/PDSPROD", "PLKO", "PLPO", "MAPL"],
           tcodes: ["CURTO_CREATE", "/SAPAPO/CURTO_SIMU", "C223"],
@@ -584,7 +584,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "ה-transfer של Master Recipe מתרגם operations/phases→activities, resources→modes, וחומרי-המתכון (material list) →components. ב-Embedded PP/DS שני העולמות (Discrete Routing ו-PI Master Recipe) משתמשים באותו PDS-type ובאותו דוח, מה שמאחד את מקור-האספקה ללא קשר לסוג-הייצור.",
           purposeHe: "לאפשר תכנון-PP/DS מתקדם גם לתעשיית-תהליך (PP-PI) על-בסיס Master Recipe, באותו מנגנון-PDS של ייצור-בדיד.",
           processExampleHe: "מתכון-מילוי PI עם phases הכנה→ערבול→מילוי→אריזה מומר דרך CURTO_CREATE ל-PDS; PP/DS מתזמן את ה-phases כ-activities על ה-Resources של קו-המילוי.",
-          cbcHe: "ב-CBC המשקאות מנוהלים ב-PP-PI עם Master Recipe; ה-PDS שלהם נוצר מהמתכון, וכך תכנון-המילוי המתקדם זהה בלוגיקה לזה של ייצור-בדיד.",
+          scenarioHe: "בארגון המשקאות מנוהלים ב-PP-PI עם Master Recipe; ה-PDS שלהם נוצר מהמתכון, וכך תכנון-המילוי המתקדם זהה בלוגיקה לזה של ייצור-בדיד.",
           navHe: ["Advanced Planning ► Master Data ► Production Data Structure ► Generate (CURTO_CREATE)", "Production Planning – Process Industries ► Master Data ► Master Recipe (C201/C202)"],
           tables: ["/SAPAPO/PDSPROD", "PLPO", "PLKO", "RC27M"],
           tcodes: ["CURTO_CREATE", "C201", "C202", "C223"],
@@ -614,7 +614,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "ה-External Procurement Relationships מסונכרנים מ-EINA/EINE (Info Record), חוזים (ME31K) או Scheduling Agreements. הם נושאים Planned Delivery Time, Procurement Priority ו-cost לבחירת-מקור ב-heuristics. ב-PP/DS הם מאפשרים יצירת Purchase Requisitions מתוזמנות. ניתן לנהל מספר ספקים עם Quota Arrangement.",
           purposeHe: "לאפשר ל-PP/DS לתכנן רכש-חיצוני — לבחור ספק, לחשב תאריך-הזמנה לפי PDT, ולייצר דרישות-רכש מתוזמנות.",
           processExampleHe: "רכיב נרכש עם Info Record: PP/DS מזהה מחסור, קורא את ה-PDT (10 יום), ויוצר Purchase Requisition עם תאריך-הזמנה 10 יום לפני הצורך, מול הספק שב-Info Record.",
-          cbcHe: "ב-CBC התרכיז נרכש מ-The Coca-Cola Company דרך Scheduling Agreement; PP/DS מתזמן את משיכות-התרכיז לפי PDT וכמויות-מינימום החוזיות.",
+          scenarioHe: "בארגון התרכיז נרכש מ-The Example Product Company דרך Scheduling Agreement; PP/DS מתזמן את משיכות-התרכיז לפי PDT וכמויות-מינימום החוזיות.",
           navHe: ["Materials Management ► Purchasing ► Purchasing Info Record ► Create (ME11)", "Materials Management ► Purchasing ► Outline Agreement ► Contract/Scheduling Agreement (ME31K/ME31L)", "Advanced Planning ► Master Data ► Source of Supply ► External Procurement Relationships"],
           tables: ["EINA", "EINE", "EKKO", "/SAPAPO/TRPROD"],
           tcodes: ["ME11", "ME12", "ME31K", "ME31L"],
@@ -643,9 +643,9 @@ export const CH2: TextbookChapter = {
       purposeHe:
         "לתאר תכונות-מוצר באופן-מובנה כדי לאפשר changeover תלוי-רצף (Setup Matrix), תכנון-בלוקים ותחזית מבוססת-מאפיינים.",
       processExampleHe:
-        "מגדירים Characteristic בשם FLAVOR עם ערכים Cola/Sprite/Fanta, ומשייכים לכל FERT את ערך-הטעם שלו; ה-Setup Matrix משתמשת בערך זה לחשב זמן-ניקוי בין-טעמים בתזמון.",
-      cbcHe:
-        "ב-CBC מגדירים Characteristic של משפחת-טעם ושל צבע; כל משקה נושא ערכים אלו, וה-Setup Matrix של קו-המילוי מחשבת changeover ארוך במעבר כהה→בהיר וקצר בין-טעמים דומים.",
+        "מגדירים Characteristic בשם FLAVOR עם ערכים Drink/Sprite/Fanta, ומשייכים לכל FERT את ערך-הטעם שלו; ה-Setup Matrix משתמשת בערך זה לחשב זמן-ניקוי בין-טעמים בתזמון.",
+      scenarioHe:
+        "בארגון מגדירים Characteristic של משפחת-טעם ושל צבע; כל משקה נושא ערכים אלו, וה-Setup Matrix של קו-המילוי מחשבת changeover ארוך במעבר כהה→בהיר וקצר בין-טעמים דומים.",
       navHe: [
         "Cross-Application Components ► Classification System ► Characteristics ► Create (CT04)",
         "Cross-Application Components ► Classification System ► Class ► Create (CL01/CL02)",
@@ -702,8 +702,8 @@ export const CH2: TextbookChapter = {
         "לפזר ביקוש בין מקורות-אספקה מקבילים באופן-מבוקר — לאיזון-עומסים, לניהול-סיכוני-ספק ולעמידה בהתחייבויות-חוזיות.",
       processExampleHe:
         "מוצר עם שני ספקים בהסדר 70/30: PP/DS מפצל דרישה ל-1000 יח' ל-700 מספק-א' ו-300 מספק-ב', ויוצר שתי Purchase Requisitions בהתאם.",
-      cbcHe:
-        "ב-CBC משקה המיוצר על שני קווי-מילוי מקבילים מנוהל בהסדר-מכסה 50/50 לאיזון-עומסים; בעת תחזוקת-קו, ה-Quota מוטה זמנית 100% לקו הפעיל.",
+      scenarioHe:
+        "בארגון משקה המיוצר על שני קווי-מילוי מקבילים מנוהל בהסדר-מכסה 50/50 לאיזון-עומסים; בעת תחזוקת-קו, ה-Quota מוטה זמנית 100% לקו הפעיל.",
       navHe: [
         "Materials Management ► Purchasing ► Quota Arrangement ► Maintain (MEQ1)",
         "Production ► MRP ► Master Data ► Quota Arrangement",
@@ -759,9 +759,9 @@ export const CH2: TextbookChapter = {
       purposeHe:
         "למדל את עלות/זמן ה-changeover תלוי-הרצף, ולאפשר ל-optimizer לרצף פק\"עות באופן שממזער היערכויות — שיפור-קיבולת וחיסכון-עלות ישירים.",
       processExampleHe:
-        "Resource עם Setup Matrix: מעבר Cola→Cola = 5 דק', Cola→Diet = 20 דק', Cola→Sprite = 60 דק'. ה-optimizer ממיין 10 פק\"עות כך שהרצף ממזער את סך-זמני-המעבר.",
-      cbcHe:
-        "ב-CBC מטריצת קו-המילוי: changeover בין משקאות-קולה קצר, מעבר לטעם-הדר ארוך (ניקוי-עמוק), ומעבר ממשקה-כהה לבהיר הארוך-ביותר; ה-optimizer מסדר מבהיר לכהה למינימום-ניקויים יומיים.",
+        "Resource עם Setup Matrix: מעבר Drink→Drink = 5 דק', Drink→Diet = 20 דק', Drink→Sprite = 60 דק'. ה-optimizer ממיין 10 פק\"עות כך שהרצף ממזער את סך-זמני-המעבר.",
+      scenarioHe:
+        "בארגון מטריצת קו-המילוי: changeover בין משקאות-מוגז קצר, מעבר לטעם-הדר ארוך (ניקוי-עמוק), ומעבר ממשקה-כהה לבהיר הארוך-ביותר; ה-optimizer מסדר מבהיר לכהה למינימום-ניקויים יומיים.",
       navHe: [
         "Advanced Planning ► Master Data ► Setup Matrix ► Maintain Setup Matrix (/SAPAPO/CDPSC1)",
         "Advanced Planning ► Master Data ► Resource (/SAPAPO/RES01) ► Setup Matrix assignment",
@@ -816,7 +816,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "ב-/SAPAPO/CDPSC1 מגדירים את ה-Setup Groups/Keys וממלאים ידנית את התאים. המטריצה משויכת ל-Resource. יתרון: שקיפות ושליטה מלאה. חיסרון: תחזוקה ידנית שגדלה ריבועית עם מספר-הקבוצות (n×n).",
           purposeHe: "לספק מודל-changeover מדויק ומבוקר כשמספר קבוצות-ההיערכות נשלט והערכים ידועים מראש.",
           processExampleHe: "מגדירים 4 Setup Keys וממלאים מטריצת 4×4 ידנית; ה-optimizer קורא את הערכים הקבועים בעת ריצוף.",
-          cbcHe: "ב-CBC קו-מילוי עם 5 משפחות-טעם בלבד מנוהל במטריצה-סטטית 5×5 שמתוחזקת ידנית על-ידי מהנדס-התהליך.",
+          scenarioHe: "בארגון קו-מילוי עם 5 משפחות-טעם בלבד מנוהל במטריצה-סטטית 5×5 שמתוחזקת ידנית על-ידי מהנדס-התהליך.",
           navHe: ["Advanced Planning ► Master Data ► Setup Matrix ► Maintain Setup Matrix (/SAPAPO/CDPSC1)"],
           tables: ["/SAPAPO/SETUPMATRIX", "/SAPAPO/SETUPGRP"],
           tcodes: ["/SAPAPO/CDPSC1", "/SAPAPO/RES01"],
@@ -835,7 +835,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "ה-Generated Matrix מבוססת על Setup Group Characteristics וכללי-מעבר (לדוגמה דרך condition technique/rule). היא מתאימה למאות צירופים שבהם מילוי-ידני בלתי-אפשרי. הכללים מתבססים על מרחק-בין-ערכי-מאפיין (color/flavor/size). עדכון-כלל מעדכן את כל המטריצה בבת-אחת.",
           purposeHe: "לייצר מטריצת-changeover מורכבת ועקבית בלי תחזוקה-ידנית בלתי-מעשית, ולעדכנה ממקור-אחד (הכלל).",
           processExampleHe: "כלל: changeover = פונקציה של הפרש-צבע + הפרש-טעם; המערכת בונה מטריצת 50×50 אוטומטית, וה-optimizer משתמש בה לריצוף.",
-          cbcHe: "ב-CBC עם 50+ מק\"טי-משקה, המטריצה מגונרטת מכלל המבוסס על משפחת-טעם וצבע: מעבר בהיר→כהה קצר, כהה→בהיר ארוך (ניקוי-עמוק) — נבנה אוטומטית לכל הצירופים.",
+          scenarioHe: "בארגון עם 50+ מק\"טי-משקה, המטריצה מגונרטת מכלל המבוסס על משפחת-טעם וצבע: מעבר בהיר→כהה קצר, כהה→בהיר ארוך (ניקוי-עמוק) — נבנה אוטומטית לכל הצירופים.",
           navHe: ["Advanced Planning ► Master Data ► Setup Matrix ► Generate Setup Matrix", "Advanced Planning ► Master Data ► Setup Matrix ► Maintain Setup Groups/Rules (/SAPAPO/CDPSC1)"],
           tables: ["/SAPAPO/SETUPMATRIX", "/SAPAPO/SETUPGRP", "CABN"],
           tcodes: ["/SAPAPO/CDPSC1", "CT04", "/SAPAPO/RES01"],
@@ -865,8 +865,8 @@ export const CH2: TextbookChapter = {
         "לקשור את כל אובייקטי נתוני-האב לתמונה-אחת ולהבהיר שכל יכולות-התכנון של הפרקים הבאים (heuristics, optimizer, DS board) תלויות באיכות שכבה זו.",
       processExampleHe:
         "הטמעה מקצה-לקצה: CFM1/CFM2 מעבירים חומרים+מרכזי-עבודה ➔ Locations נוצרים ➔ Advanced Planning מופעל למוצרים ➔ Resources נוצרים עם time stream ➔ CURTO_CREATE יוצר PDS ➔ Setup Matrix משויכת ➔ המוצר מוכן לתכנון מלא ב-/SAPAPO/RRP3.",
-      cbcHe:
-        "ב-CBC: כל קווי-המילוי הם Resources עם Setup Matrix לטעמים, כל המשקאות הם Products מתוכננים-מתקדם עם PDS ממתכוני-המילוי, והתרכיז נרכש דרך External Procurement — תשתית-נתונים מלאה לתכנון-מילוי יומי.",
+      scenarioHe:
+        "בארגון: כל קווי-המילוי הם Resources עם Setup Matrix לטעמים, כל המשקאות הם Products מתוכננים-מתקדם עם PDS ממתכוני-המילוי, והתרכיז נרכש דרך External Procurement — תשתית-נתונים מלאה לתכנון-מילוי יומי.",
       navHe: [
         "סקירה: Advanced Planning ► Master Data (כל האובייקטים)",
         "בקרת-עקביות: Advanced Planning ► Integration ► CIF Compare/Reconcile (/SAPAPO/CCR)",

@@ -9,7 +9,7 @@ export const CH9: TextbookChapter = {
   titleHe: "ניהול תהליך (Process Management)",
   titleEn: "Process Management",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לרכיב Process Management ב-SAP IBP — המנוע שמתזמן, מתעד ומנהל את מחזור ה-S&OP החודשי מקצה-לקצה. בעוד שמודלי-התכנון, ה-key figures וה-planning views מספקים את ה'תוכן', Process Management מספק את ה'ניצוח': מי עושה מה, מתי, באיזה סדר, ובאילו תלויות. כל תת-פרק וכל תת-סעיף מהמקור הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC (מחזור S&OP חודשי של מבקבק Coca-Cola), עצי-ניווט באפליקציות ה-Fiori של IBP, פרטי הגדרה, תרשים-זרימה של המחזור החודשי, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בניהול-תהליך ב-IBP בלי הספר המקורי. אובייקטי SAP (Process Management, process template, application jobs, Gantt, Manage Processes, APIs/OData) נשמרים באנגלית מקורית.",
+    "פרק זה הוא יחידת-לימוד מלאה לרכיב Process Management ב-SAP IBP — המנוע שמתזמן, מתעד ומנהל את מחזור ה-S&OP החודשי מקצה-לקצה. בעוד שמודלי-התכנון, ה-key figures וה-planning views מספקים את ה'תוכן', Process Management מספק את ה'ניצוח': מי עושה מה, מתי, באיזה סדר, ובאילו תלויות. כל תת-פרק וכל תת-סעיף מהמקור הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון (מחזור S&OP חודשי של מבקבק Example Product), עצי-ניווט באפליקציות ה-Fiori של IBP, פרטי הגדרה, תרשים-זרימה של המחזור החודשי, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בניהול-תהליך ב-IBP בלי הספר המקורי. אובייקטי SAP (Process Management, process template, application jobs, Gantt, Manage Processes, APIs/OData) נשמרים באנגלית מקורית.",
   subchapters: [
     // ============================================================ 9.1
     {
@@ -26,8 +26,8 @@ export const CH9: TextbookChapter = {
         "המטרה העסקית: לתת ל-S&OP ממשל (governance) — סטנדרטיזציה של המחזור, אחריותיות (accountability) ברורה לכל צעד, מדידת cycle-time ו-bottlenecks, וצמצום התלות בידע-שבטי. תהליך מוגדר היטב מאפשר לקצר את מחזור ה-S&OP, לזהות עיכובים בזמן-אמת, ולספק audit-trail לכל מי-עשה-מה-ומתי.",
       processExampleHe:
         "בארגון תעשייתי: מחזור S&OP חודשי מוגדר כ-process template עם חמישה שלבים — Data Gathering, Demand Review, Supply Review, Pre-S&OP, Executive S&OP. כל שלב מכיל tasks המשויכים ל-roles. ב-1 לחודש נוצר process instance; application job מעדכן אוטומטית את ה-actuals; ה-Demand Planner מקבל task, משלים אותו, והתהליך פותח אוטומטית את Supply Review. בסוף החודש ההנהלה רואה ב-dashboard ש-95% מה-steps הושלמו בזמן.",
-      cbcHe:
-        "ב-CBC (מבקבק Coca-Cola): מחזור ה-S&OP החודשי מנוהל כ-process template יחיד המשרת את כל ה-SKU-portfolio (פחיות, בקבוקים, חביות). השלב הראשון אוסף sell-out מהקמעונאים, השני מאחד תחזית-ביקוש לעונת-הקיץ, השלישי בודק קיבולת קווי-מילוי ותרכיז, והאחרון מאשר את התוכנית בישיבת-הנהלה. Process Management מבטיח שכל מדינת-בקבוק (bottling territory) משלימה את חלקה לפני שלב-האיחוד.",
+      scenarioHe:
+        "בארגון (מבקבק Example Product): מחזור ה-S&OP החודשי מנוהל כ-process template יחיד המשרת את כל ה-SKU-portfolio (פחיות, בקבוקים, חביות). השלב הראשון אוסף sell-out מהקמעונאים, השני מאחד תחזית-ביקוש לעונת-הקיץ, השלישי בודק קיבולת קווי-מילוי ותרכיז, והאחרון מאשר את התוכנית בישיבת-הנהלה. Process Management מבטיח שכל מדינת-בקבוק (bottling territory) משלימה את חלקה לפני שלב-האיחוד.",
       navHe: [
         "SAP Fiori Launchpad ► Process Management group ► Manage Processes",
         "SAP Fiori Launchpad ► Process Management group ► Process Templates",
@@ -91,8 +91,8 @@ export const CH9: TextbookChapter = {
         "המטרה: לקודד את מחזור ה-S&OP פעם אחת בצורה שניתנת-לחזרה, למדידה ולשיפור. תבנית טובה מבטיחה שכל מחזור רץ באותו סדר, עם אותן אחריותיות, ועם אותן אוטומציות — מבטלת שונות ומאיצה את המחזור.",
       processExampleHe:
         "צוות-תכנון מגדיר process template ל-S&OP חודשי: Step 1 Data Load (אוטומציה — application job של copy operator), Step 2 Demand Review (roles: Demand Planner; duration 3 ימי-עבודה), Step 3 Supply Review (role: Supply Planner; תלוי ב-Step 2), Step 4 Reconciliation (parallel: Finance + Sales), Step 5 Executive Sign-off. התבנית נשמרת ומשמשת כל חודש.",
-      cbcHe:
-        "ב-CBC נבנית תבנית-S&OP אחת: Step 1 טוען sell-out ו-actuals אוטומטית (application job), Step 2 איחוד תחזית-ביקוש לפי territory (roles לכל מנהל-אזור, duration לפי workday calendar מקומי), Step 3 בדיקת קיבולת מילוי ותרכיז, Step 4 גישור Finance/Commercial במקביל, Step 5 אישור VP Supply Chain.",
+      scenarioHe:
+        "בארגון נבנית תבנית-S&OP אחת: Step 1 טוען sell-out ו-actuals אוטומטית (application job), Step 2 איחוד תחזית-ביקוש לפי territory (roles לכל מנהל-אזור, duration לפי workday calendar מקומי), Step 3 בדיקת קיבולת מילוי ותרכיז, Step 4 גישור Finance/Commercial במקביל, Step 5 אישור VP Supply Chain.",
       navHe: [
         "SAP Fiori Launchpad ► Process Management ► Process Templates ► Create/Edit Template",
         "בתוך התבנית ► Steps ► Add Step ► (Roles / Duration / Tasks / Automation)",
@@ -154,8 +154,8 @@ export const CH9: TextbookChapter = {
             "להפריד את 'מה צריך לקרות' (התבנית) מ-'מי יעשה זאת' (ההקצאה), כדי לאפשר reuse, גמישות-כוח-אדם, ו-accountability ברורה.",
           processExampleHe:
             "תבנית מגדירה role 'Demand Reviewer' ל-Step 2. בכל מחזור, ה-coordinator קושר את ה-role לשלושת ה-planners של אותו חודש. אם אחד יוצא לחופשה, מחליפים רק את הקישור ל-role, וה-task עובר לעמית — בלי לגעת בתבנית.",
-          cbcHe:
-            "ב-CBC כל territory מקבל role משלו (Demand Reviewer – North, – South…); אותה תבנית-S&OP משרתת את כל המדינות, כשכל role מקושר למנהל-האזור המקומי. החלפת מנהל = שינוי קישור-role בלבד.",
+          scenarioHe:
+            "בארגון כל territory מקבל role משלו (Demand Reviewer – North, – South…); אותה תבנית-S&OP משרתת את כל המדינות, כשכל role מקושר למנהל-האזור המקומי. החלפת מנהל = שינוי קישור-role בלבד.",
           navHe: [
             "Process Templates ► Step ► Roles ► Assign Process Role",
             "Manage Processes ► Process ► Assignments ► Map Role to Users",
@@ -204,8 +204,8 @@ export const CH9: TextbookChapter = {
             "להבטיח שתאריכי-היעד של כל צעד ריאליים ומתואמים-גלובלית — מכבדים ימי-עבודה, חגים ואזורי-זמן מקומיים — כך שה-cycle-plan ניתן-לעמידה בפועל.",
           processExampleHe:
             "Step 'Demand Review' בן 3 workdays עם calendar אמריקאי מתחיל ב-יום-שני ומסתיים ב-יום-רביעי; אם נופל חג, היעד נדחה אוטומטית ליום-עבודה הבא. ה-Gantt מציג את הדחייה ואת השפעתה על ה-critical path.",
-          cbcHe:
-            "ב-CBC לכל territory workday calendar מקומי: השלב באזור עם ראש-השנה מקומי מקבל יותר זמן-קלנדרי כדי לעמוד באותם 3 ימי-עבודה. הגדרת time zone לכל אזור מונעת בלבול בתאריכי-מסירה בין מדינות-הבקבוק.",
+          scenarioHe:
+            "בארגון לכל territory workday calendar מקומי: השלב באזור עם ראש-השנה מקומי מקבל יותר זמן-קלנדרי כדי לעמוד באותם 3 ימי-עבודה. הגדרת time zone לכל אזור מונעת בלבול בתאריכי-מסירה בין מדינות-הבקבוק.",
           navHe: [
             "Process Templates ► Step ► Scheduling ► Duration / Time Zone / Workday Calendar",
             "Template ► Gantt View (אימות תאריכים מחושבים)",
@@ -264,8 +264,8 @@ export const CH9: TextbookChapter = {
             "להמיר אחריות מופשטת לפעולות מוחשיות, מדידות וניתנות-להשלמה — ולחבר את המשתמש ישירות לכלי-העבודה (planning view) הדרוש להשלמת המטלה.",
           processExampleHe:
             "Step 'Demand Review' מכיל tasks: (1) 'סקור תחזית סטטיסטית' עם deep-link ל-planning view; (2) 'הזן market intelligence'; (3) 'אשר תחזית סופית'. ה-Demand Planner מקבל את שלושתם, פותח את ה-view בלחיצה, ומסמן completion אחד-אחד; השלמת כולם סוגרת את ה-step.",
-          cbcHe:
-            "ב-CBC ב-step של ביקוש-קיץ: task 'הזן תחזית-קמפיין-קיץ' עם deep-link ל-view של ה-promotions, task 'אשר תחזית פחיות 330מ\"ל', ו-task 'תעד הנחות-מזג-אוויר'. כל territory משלים את ה-tasks שלו לפני שלב-האיחוד.",
+          scenarioHe:
+            "בארגון ב-step של ביקוש-קיץ: task 'הזן תחזית-קמפיין-קיץ' עם deep-link ל-view של ה-promotions, task 'אשר תחזית פחיות 330מ\"ל', ו-task 'תעד הנחות-מזג-אוויר'. כל territory משלים את ה-tasks שלו לפני שלב-האיחוד.",
           navHe: [
             "Process Templates ► Step ► Tasks ► Add Task ► (Role / Instructions / Deep-link / Mandatory)",
             "My Process Steps / Manage Processes ► Task ► Complete",
@@ -318,8 +318,8 @@ export const CH9: TextbookChapter = {
             "להוריד מהמתכננים את עבודת-השגרה (טעינה/העתקה/חישוב), לקצר את המחזור, ולהבטיח עקביות — צעד-אוטומטי רץ אותו-דבר כל חודש בלי טעויות-אנוש.",
           processExampleHe:
             "Step 1 'Data Refresh' מוגדר אוטומטי ומקושר ל-application job של copy operator שמעדכן actuals. ב-1 לחודש התהליך מתחיל, ה-job רץ לבד, מעדכן את ה-key figures, מסמן complete, ופותח אוטומטית את Step 2 (Demand Review) למתכננים.",
-          cbcHe:
-            "ב-CBC ה-step הראשון טוען sell-out מהקמעונאים ומריץ snapshot של ה-baseline אוטומטית בלילה; כשהמתכננים מתחילים בבוקר, הנתונים מוכנים ו-step הביקוש כבר פתוח — בלי שאיש נגע במערכת.",
+          scenarioHe:
+            "בארגון ה-step הראשון טוען sell-out מהקמעונאים ומריץ snapshot של ה-baseline אוטומטית בלילה; כשהמתכננים מתחילים בבוקר, הנתונים מוכנים ו-step הביקוש כבר פתוח — בלי שאיש נגע במערכת.",
           navHe: [
             "Process Templates ► Step ► Automation ► Assign Application Job / IBP Action",
             "Application Jobs ► Schedule Job (סוג Process Step)",
@@ -381,8 +381,8 @@ export const CH9: TextbookChapter = {
             "להבטיח שה-pipeline של נתוני-המחזור רץ בסדר נכון, עם תלויות-כשל, ובלי תלות-בזיכרון-אנושי — ולספק נקודת-בקרה אחת לכל האוטומציות של המחזור.",
           processExampleHe:
             "מחזור מתוזמר: job1 טוען actuals → (בהצלחה) job2 מריץ copy ל-baseline → job3 מריץ statistical forecast → job4 יוצר snapshot. כל job מקושר ל-step עם dependency על קודמו; כשל ב-job1 עוצר את כל השרשרת ומתריע, במקום להמשיך על נתונים חלקיים.",
-          cbcHe:
-            "ב-CBC ה-orchestration הלילי: טען sell-out → copy ל-demand baseline → הרץ תחזית סטטיסטית לכל territory → snapshot ל-cycle. אם טעינת-ה-sell-out של אזור נכשלת, השרשרת נעצרת ומתריעה, כך שהמתכננים לא עובדים בבוקר על baseline-שגוי.",
+          scenarioHe:
+            "בארגון ה-orchestration הלילי: טען sell-out → copy ל-demand baseline → הרץ תחזית סטטיסטית לכל territory → snapshot ל-cycle. אם טעינת-ה-sell-out של אזור נכשלת, השרשרת נעצרת ומתריעה, כך שהמתכננים לא עובדים בבוקר על baseline-שגוי.",
           navHe: [
             "Process Templates ► Steps ► (סדרת automated steps עם dependencies)",
             "Application Jobs ► Schedule / Monitor (jobs מתוזמרים)",
@@ -442,8 +442,8 @@ export const CH9: TextbookChapter = {
             "לתת תמונה אחת, מיידית ומדויקת, של מבנה-המחזור ולוח-הזמנים — לתכנון (היכן ה-critical path) ולניטור (היכן אנחנו ומי מעכב) — ובכך לאפשר ניהול-תהליך מבוסס-נתונים.",
           processExampleHe:
             "ב-Gantt רואים: Step 1 Data Load (אוטומטי, יום), אחריו Step 2 Demand Review (3 ימים) ו-Step 3 Supply Review (3 ימים) ברצף; Step 4 Reconciliation מתפצל ל-Finance ו-Sales במקביל; Step 5 Sign-off בסוף. ה-critical path מודגש; חריגה ב-Demand Review מאירה באדום ודוחפת את תאריך-הסיום.",
-          cbcHe:
-            "ב-CBC ה-Gantt מציג את כל ה-territories ב-parallel branches בשלב-הביקוש, מתכנסים ל-sequential reconciliation ולאישור-הנהלה. ה-VP רואה במבט-אחד שה-territory הדרומי מעכב ושהוא על ה-critical path של מחזור-הקיץ.",
+          scenarioHe:
+            "בארגון ה-Gantt מציג את כל ה-territories ב-parallel branches בשלב-הביקוש, מתכנסים ל-sequential reconciliation ולאישור-הנהלה. ה-VP רואה במבט-אחד שה-territory הדרומי מעכב ושהוא על ה-critical path של מחזור-הקיץ.",
           navHe: [
             "Manage Processes ► Process ► Gantt View",
             "Process Templates ► Template ► Gantt View (הגדרת תלויות ו-durations)",
@@ -504,8 +504,8 @@ export const CH9: TextbookChapter = {
         "לספק נקודת-שליטה אחת על כל המחזורים הפעילים — יצירתם מתבנית, ניהול מחזור-חייהם, וניטורם — כך שמנהל-ה-S&OP רואה את כל התמונה ומנהל אותה ממקום אחד.",
       processExampleHe:
         "ב-1 ליוני, מנהל-S&OP נכנס ל-Manage Processes, יוצר instance ל-'S&OP June' מהתבנית, ממפה roles למתכנני-החודש, ולוחץ Start. לאורך החודש הוא עוקב אחר הסטטוס, ובסוף מסמן Complete — וה-instance נארכב עם כל ה-audit-trail שלו.",
-      cbcHe:
-        "ב-CBC נוצר מדי חודש instance 'S&OP – [חודש]' מתבנית-העל; ה-coordinator ממפה את מנהלי-ה-territories, מפעיל את המחזור, ובסוף מסמן Complete. ההיסטוריה של כל המחזורים נשמרת להשוואת cycle-time בין חודשים.",
+      scenarioHe:
+        "בארגון נוצר מדי חודש instance 'S&OP – [חודש]' מתבנית-העל; ה-coordinator ממפה את מנהלי-ה-territories, מפעיל את המחזור, ובסוף מסמן Complete. ההיסטוריה של כל המחזורים נשמרת להשוואת cycle-time בין חודשים.",
       navHe: [
         "SAP Fiori Launchpad ► Process Management ► Manage Processes",
         "Manage Processes ► Create Process (from Template) ► Scope / Roles / Start",
@@ -565,8 +565,8 @@ export const CH9: TextbookChapter = {
             "להגדיר את היחידה הניתנת-להרצה, למדידה ולניטור של מחזור-התכנון — כך שאפשר לנהל, להשוות ולשפר מחזורים כיחידות עצמאיות.",
           processExampleHe:
             "'S&OP June' הוא Process: נגזר מהתבנית, מקושר ל-PlanningArea של ה-finished-goods, רץ מ-1 עד 25 ביוני, עם roles ממופים ל-planners; הסטטוס שלו In Process, וה-progress 60%.",
-          cbcHe:
-            "ב-CBC 'S&OP – יוני' ו-'S&OP – יולי' הם שני Processes נפרדים מאותה תבנית; כל אחד מודד את ה-cycle-time שלו, ומאפשר להשוות אם מחזור-הקיץ ארוך-יותר ממחזור-החורף.",
+          scenarioHe:
+            "בארגון 'S&OP – יוני' ו-'S&OP – יולי' הם שני Processes נפרדים מאותה תבנית; כל אחד מודד את ה-cycle-time שלו, ומאפשר להשוות אם מחזור-הקיץ ארוך-יותר ממחזור-החורף.",
           navHe: [
             "Manage Processes ► Process List (כל ה-processes הפעילים/שהושלמו)",
             "Manage Processes ► Process ► Details (Steps / Status / Scope)",
@@ -616,8 +616,8 @@ export const CH9: TextbookChapter = {
             "להמיר הגדרה-סטטית (template) למחזור-פעיל בצורה מבוקרת ועקבית — עם scope ו-roles נכונים — כך שכל מחזור מתחיל 'נקי' ומוכן-לעבודה.",
           processExampleHe:
             "מנהל-S&OP בוחר template 'Monthly S&OP', מגדיר PlanningArea=FG, תקופה=יולי, ממפה Demand/Supply/Finance roles, וקובע start ל-1 ביולי. ה-instance נוצר, Step 1 (אוטומטי) מתוזמן, וה-tasks הראשונים ממתינים.",
-          cbcHe:
-            "ב-CBC יוצרים את 'S&OP – יולי' מהתבנית, ממפים את כל מנהלי-ה-territories ל-roles, וקובעים start ל-1 בחודש; ה-application job של טעינת-ה-sell-out כבר משובץ ב-Step 1.",
+          scenarioHe:
+            "בארגון יוצרים את 'S&OP – יולי' מהתבנית, ממפים את כל מנהלי-ה-territories ל-roles, וקובעים start ל-1 בחודש; ה-application job של טעינת-ה-sell-out כבר משובץ ב-Step 1.",
           navHe: [
             "Manage Processes ► Create Process ► Select Template",
             "Create Process ► Scope (PlanningArea / Period) ► Map Roles ► Start Date",
@@ -680,8 +680,8 @@ export const CH9: TextbookChapter = {
             "לשלוט בצורה מסודרת ומבוקרת-הרשאות במעבר המחזור בין מצביו — להבטיח סגירה נקייה, audit-trail מלא, ומדדים אמינים.",
           processExampleHe:
             "מחזור In Process; באמצע-החודש מתגלה בעיית-נתונים — מנהל-S&OP מעביר ל-On Hold, מתקן, ומחזיר ל-In Process. בסוף, כשכל ה-steps הושלמו, הוא מעביר ל-Completed וה-instance נארכב.",
-          cbcHe:
-            "ב-CBC, מחזור-קיץ הועבר ל-On Hold ליומיים בגלל תקלת-טעינת-sell-out, ואז חזר ל-In Process. בסיום סומן Completed; מחזור שבוטל בגלל מיזוג-טריטוריות סומן Stopped כדי לא לזהם את ממוצע-ה-cycle-time.",
+          scenarioHe:
+            "בארגון, מחזור-קיץ הועבר ל-On Hold ליומיים בגלל תקלת-טעינת-sell-out, ואז חזר ל-In Process. בסיום סומן Completed; מחזור שבוטל בגלל מיזוג-טריטוריות סומן Stopped כדי לא לזהם את ממוצע-ה-cycle-time.",
           navHe: [
             "Manage Processes ► Process ► Lifecycle Actions (Start / Hold / Resume / Stop / Complete)",
             "(אופציונלי) API/OData ► עדכון state של process",
@@ -740,8 +740,8 @@ export const CH9: TextbookChapter = {
             "לספק שקיפות בזמן-אמת על התקדמות-המחזור ולזהות bottlenecks מוקדם — כדי לאפשר התערבות-ניהולית בזמן ולעמוד בלוח-הזמנים.",
           processExampleHe:
             "מנהל-S&OP פותח את Manage Processes באמצע-החודש ורואה: progress 70%, Demand Review ירוק, Supply Review צהוב (in-process), Reconciliation אפור (ממתין). step אחד אדום (overdue) — הוא פונה לאחראי ומשחרר את החסם.",
-          cbcHe:
-            "ב-CBC ה-VP רואה בלוח שכל ה-territories ירוקים חוץ-מהדרומי (אדום, overdue על ה-critical path); הוא מתערב מיד, כי עיכוב שם דוחה את אישור מחזור-הקיץ כולו.",
+          scenarioHe:
+            "בארגון ה-VP רואה בלוח שכל ה-territories ירוקים חוץ-מהדרומי (אדום, overdue על ה-critical path); הוא מתערב מיד, כי עיכוב שם דוחה את אישור מחזור-הקיץ כולו.",
           navHe: [
             "Manage Processes ► Process ► Status / Gantt",
             "Manage Processes ► My Process Steps (סטטוס ה-tasks האישיים)",
@@ -795,8 +795,8 @@ export const CH9: TextbookChapter = {
             "להפוך נתוני-תהליך מרובי-מחזורים לתובנות-ניהול ברות-פעולה — מדידת-ביצועים, השוואה-לאורך-זמן, וזיהוי-מוקדים-לשיפור.",
           processExampleHe:
             "Dashboard מציג: cycle-time ממוצע 18 ימים (ירד מ-22), on-time 92%, וה-step שהכי-מאחר באופן-חוזר הוא Supply Review. ההנהלה מחליטה לאוטמט חלק מ-Supply Review (9.2.4) כדי לקצרו.",
-          cbcHe:
-            "ב-CBC ה-dashboard מראה ש-cycle-time של מחזורי-קיץ ארוך ב-3 ימים מהחורף, ושה-territory הדרומי הוא bottleneck-חוזר; ההחלטה: parallelize את ה-territories טוב-יותר ולאוטמט את טעינת-ה-sell-out שלהם.",
+          scenarioHe:
+            "בארגון ה-dashboard מראה ש-cycle-time של מחזורי-קיץ ארוך ב-3 ימים מהחורף, ושה-territory הדרומי הוא bottleneck-חוזר; ההחלטה: parallelize את ה-territories טוב-יותר ולאוטמט את טעינת-ה-sell-out שלהם.",
           navHe: [
             "SAP Fiori Launchpad ► Process Management ► Process Dashboard / Overview",
             "(אופציונלי) SAP Build Work Zone ► embedded Process dashboard",
@@ -852,8 +852,8 @@ export const CH9: TextbookChapter = {
         "לחבר את המשתמש-הבודד לתהליך-הכולל בצורה פשוטה: לראות מה עליי לעשות, לעשותו במקום-הנכון, ולסמן-בוצע — כך שהתהליך מתקדם מעצמו מהשלמות-ה-tasks.",
       processExampleHe:
         "Demand Planner פותח את My Process Steps, רואה 3 tasks, לוחץ deep-link לכל אחד, עובד ב-planning view, ומסמן completion. עם השלמת השלישי, ה-step נסגר וה-Supply Review נפתח אוטומטית.",
-      cbcHe:
-        "ב-CBC כל מנהל-territory רואה את ה-tasks שלו (תחזית-אזורית, אישור-SKU), משלים אותם — חלקם מתוך ה-Excel Add-In שבו הוא רגיל לעבוד — וההשלמות מצטברות ל-progress של שלב-הביקוש.",
+      scenarioHe:
+        "בארגון כל מנהל-territory רואה את ה-tasks שלו (תחזית-אזורית, אישור-SKU), משלים אותם — חלקם מתוך ה-Excel Add-In שבו הוא רגיל לעבוד — וההשלמות מצטברות ל-progress של שלב-הביקוש.",
       navHe: [
         "SAP Fiori Launchpad ► Process Management ► My Process Steps",
         "SAP IBP Add-In for Microsoft Excel ► Process Steps / Tasks",
@@ -907,8 +907,8 @@ export const CH9: TextbookChapter = {
             "להבטיח שכל יחידת-עבודה מגיעה לאדם-הנכון ומסומנת-כבוצעה בצורה מתועדת — הבסיס ל-accountability ול-progress.",
           processExampleHe:
             "task 'אשר תחזית' מוקצה אוטומטית ל-Demand Reviewer (לפי role). היא mandatory; ה-reviewer פותח deep-link, סוקר, ומסמן complete; ה-timestamp נשמר, וה-step מתקדם.",
-          cbcHe:
-            "ב-CBC task 'אשר תחזית-פחיות-קיץ' מוקצה למנהל-האזור לפי role; הוא משלים מתוך ה-Excel Add-In, וההשלמה מתועדת עם שמו וזמנה — חיוני ל-audit מול ה-Commercial.",
+          scenarioHe:
+            "בארגון task 'אשר תחזית-פחיות-קיץ' מוקצה למנהל-האזור לפי role; הוא משלים מתוך ה-Excel Add-In, וההשלמה מתועדת עם שמו וזמנה — חיוני ל-audit מול ה-Commercial.",
           navHe: [
             "My Process Steps ► Task ► Complete",
             "Manage Processes ► Process ► Tasks (מעקב הקצאות/השלמות)",
@@ -968,8 +968,8 @@ export const CH9: TextbookChapter = {
             "להוריד את חסם-האימוץ: לאפשר השלמת-tasks בסביבה שבה המתכננים כבר עובדים (Excel), כך שניהול-התהליך משתלב בעבודה במקום להוסיף-עליה.",
           processExampleHe:
             "Demand Planner עורך תחזית ב-planning view בתוך Excel, שומר, ומיד באותו חלון רואה את ה-task 'השלם Demand Review' ומסמן complete; ה-progress ב-Manage Processes מתעדכן מיד.",
-          cbcHe:
-            "ב-CBC מנהלי-ה-territories הם 'Excel-first'; הם עורכים את תחזית-האזור ומשלימים את ה-task מתוך ה-Add-In — בלי לפתוח דפדפן. זה הקפיץ את שיעור-ההשלמה-בזמן של שלב-הביקוש.",
+          scenarioHe:
+            "בארגון מנהלי-ה-territories הם 'Excel-first'; הם עורכים את תחזית-האזור ומשלימים את ה-task מתוך ה-Add-In — בלי לפתוח דפדפן. זה הקפיץ את שיעור-ההשלמה-בזמן של שלב-הביקוש.",
           navHe: [
             "SAP IBP Add-In for Microsoft Excel ► Ribbon ► Process Steps / Tasks",
             "Add-In ► Task ► Complete (מסונכרן ל-Manage Processes)",
@@ -1031,8 +1031,8 @@ export const CH9: TextbookChapter = {
             "לספק מדד-התקדמות אובייקטיבי ושקוף המבוסס על עבודה-שהושלמה — הבסיס לניטור (9.3.4), ל-dashboards (9.3.5) ולשיפור-מחזורי.",
           processExampleHe:
             "step עם 4 mandatory tasks: השלמת 2 = 50% step-progress; השלמת כולם = step complete. process עם 5 steps: סגירת 3 ≈ 60% process-progress (משוקלל לפי משך). ה-Gantt וה-dashboard משקפים זאת בזמן-אמת.",
-          cbcHe:
-            "ב-CBC שלב-הביקוש מורכב מ-task לכל territory; השלמת 8 מתוך 10 territories = 80% step-progress. ה-VP רואה במדויק כמה נותר לפני שלב-האיחוד יכול להתחיל.",
+          scenarioHe:
+            "בארגון שלב-הביקוש מורכב מ-task לכל territory; השלמת 8 מתוך 10 territories = 80% step-progress. ה-VP רואה במדויק כמה נותר לפני שלב-האיחוד יכול להתחיל.",
           navHe: [
             "Manage Processes ► Process ► Progress / Gantt",
             "Process Dashboard ► Progress KPIs",
@@ -1094,8 +1094,8 @@ export const CH9: TextbookChapter = {
         "לאחד את חוויית ניהול-התהליך במקום-עבודה-דיגיטלי אחד ומותאם-אישית — להגדיל אימוץ, לצמצם חיכוך-ניווט, ולשלב את ה-S&OP בזרימת-העבודה היומית הרחבה.",
       processExampleHe:
         "משתמש פותח את Work Zone בבוקר ורואה card 'My S&OP Tasks (3 open)', card 'Cycle Status 70%', והתראה 'Supply Review overdue'. בלחיצה הוא מגיע ישירות ל-task — בלי לחפש את האפליקציה הנכונה.",
-      cbcHe:
-        "ב-CBC ה-Work Zone הוא דף-הבית של כל ה-planners; מנהל-territory רואה את ה-tasks האזוריים שלו, את מצב מחזור-הקיץ, ואת ה-dashboard — לצד חדשות-החברה — והכול מותאם ל-role שלו.",
+      scenarioHe:
+        "בארגון ה-Work Zone הוא דף-הבית של כל ה-planners; מנהל-territory רואה את ה-tasks האזוריים שלו, את מצב מחזור-הקיץ, ואת ה-dashboard — לצד חדשות-החברה — והכול מותאם ל-role שלו.",
       navHe: [
         "SAP Build Work Zone ► Home ► Process Management cards/sections",
         "SAP Build Work Zone ► Workspace ► embedded Fiori (My Process Steps / Manage Processes)",
@@ -1153,8 +1153,8 @@ export const CH9: TextbookChapter = {
         "לאפשר אוטומציה ואינטגרציה תכנותית מלאה של ניהול-התהליך — יצירה, ניטור ועדכון מתוכניות/מערכות חיצוניות — מעבר למה שניתן ידנית ב-Fiori.",
       processExampleHe:
         "job חיצוני (CPI) קורא ל-OData API ב-1 לחודש ליצירת ה-process 'S&OP' מהתבנית, ממפה roles אוטומטית, ומפעיל אותו; dashboard חיצוני קורא מדי-בוקר את status/progress דרך אותו API ומציג אותו להנהלה.",
-      cbcHe:
-        "ב-CBC ה-IT מאוטמט את כל מחזור-הפתיחה: API יוצר את ה-process החודשי, ממפה את מנהלי-ה-territories, ומפעיל את ה-orchestration; פורטל-הנהלה חיצוני שואב progress דרך ה-API להצגה לדירקטוריון.",
+      scenarioHe:
+        "בארגון ה-IT מאוטמט את כל מחזור-הפתיחה: API יוצר את ה-process החודשי, ממפה את מנהלי-ה-territories, ומפעיל את ה-orchestration; פורטל-הנהלה חיצוני שואב progress דרך ה-API להצגה לדירקטוריון.",
       navHe: [
         "SAP API Business Hub ► SAP IBP ► Process Management OData APIs",
         "SAP IBP ► Communication Arrangements/Scenarios ► Process Management API",
@@ -1218,8 +1218,8 @@ export const CH9: TextbookChapter = {
         "לחבר את כל המקטעים לתמונה-אחת ולספק checklist-מנטלי ליישום Process Management — כך שהקורא יוכל לתכנן, להריץ, למדוד ולשפר מחזור-S&OP בלי הספר.",
       processExampleHe:
         "יישום מלא: הגדר template (steps+roles+durations+automations) → אמת ב-Gantt → צור instance חודשי (ידנית/API) → הרץ עם automations+orchestration → משתמשים משלימים tasks (Fiori/Excel) → נטר ב-Manage Processes → מדוד ב-dashboard → שכלל את התבנית למחזור-הבא.",
-      cbcHe:
-        "ב-CBC המסע השלם: תבנית-S&OP אחת לכל ה-territories, orchestration לילי של sell-out→forecast→snapshot, השלמת-tasks אזורית מ-Excel, ניטור-VP ב-Work Zone, מדידת cycle-time ב-dashboard, ואוטומציית-פתיחה חודשית דרך API — מחזור הדוק, מדיד ומשתפר.",
+      scenarioHe:
+        "בארגון המסע השלם: תבנית-S&OP אחת לכל ה-territories, orchestration לילי של sell-out→forecast→snapshot, השלמת-tasks אזורית מ-Excel, ניטור-VP ב-Work Zone, מדידת cycle-time ב-dashboard, ואוטומציית-פתיחה חודשית דרך API — מחזור הדוק, מדיד ומשתפר.",
       navHe: [
         "Process Templates ► Manage Processes ► My Process Steps ► Process Dashboard",
         "SAP Build Work Zone ► Process Management cards",

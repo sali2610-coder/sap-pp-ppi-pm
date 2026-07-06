@@ -2,7 +2,7 @@
 // Implementation Options. Conceptual chapter: every node is a full 18-facet
 // LearningNode authored in Hebrew (beginner + consultant friendly). Config
 // facets are lighter (conceptual subject) but exec/beginner/consultant/process
-// are full. SAP objects, RISE with SAP, SUM/DMO verbatim English. CBC = Coca-Cola
+// are full. SAP objects, RISE with SAP, SUM/DMO verbatim English. הארגון = Example Product
 // bottling deployment example throughout.
 import type { TextbookChapter } from "./types";
 
@@ -11,7 +11,7 @@ export const CH2: TextbookChapter = {
   titleHe: "אפשרויות מימוש",
   titleEn: "Implementation Options",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לאפשרויות-המימוש של SAP S/4HANA בתחום ה-Sourcing & Procurement (MM). זהו פרק מושגי: הוא אינו מלמד קונפיגורציה-בפועל אלא את ההחלטות-האסטרטגיות שכל ארגון חייב לקבל לפני שמתחילים — היכן יורץ המערכת (Cloud מול On-Premise), כיצד עוברים אליה (New Implementation מול System Conversion), מה היקף ה-SAP Best Practices, מהן אפשרויות-האינטגרציה, וכיצד מאיצים את הפרויקט עם תוכן-מוכן ומתודולוגיית SAP Activate. כל תת-פרק ותת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות-הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת CBC (פריסת בקבוק-קוקה-קולה), ניווט, אובייקטים/Fiori, פרטי-החלטה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לבחור את דרך-המימוש הנכונה מבלי להסתמך על הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לאפשרויות-המימוש של SAP S/4HANA בתחום ה-Sourcing & Procurement (MM). זהו פרק מושגי: הוא אינו מלמד קונפיגורציה-בפועל אלא את ההחלטות-האסטרטגיות שכל ארגון חייב לקבל לפני שמתחילים — היכן יורץ המערכת (Cloud מול On-Premise), כיצד עוברים אליה (New Implementation מול System Conversion), מה היקף ה-SAP Best Practices, מהן אפשרויות-האינטגרציה, וכיצד מאיצים את הפרויקט עם תוכן-מוכן ומתודולוגיית SAP Activate. כל תת-פרק ותת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות-הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת הארגון (פריסת בקבוק-מוצר לדוגמה), ניווט, אובייקטים/Fiori, פרטי-החלטה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לבחור את דרך-המימוש הנכונה מבלי להסתמך על הספר המקורי.",
   subchapters: [
     // ============================================================ 2.1
     {
@@ -26,8 +26,8 @@ export const CH2: TextbookChapter = {
         "להעמיד מסגרת-החלטה מסודרת: התאמת דרך-המימוש לאסטרטגיה, לתקציב, ללוח-הזמנים ולמורכבות תהליכי-הרכש הקיימים, במקום לבחור 'כמו שכולם' או 'כמו שהיה'.",
       processExampleHe:
         "ועדת-היגוי ממפה: כמה Z-תהליכים יש ברכש? כמה אינטגרציות לספקים? מה רמת-הסיכון לעצירת-ייצור? לפי התשובות נבחר השילוב — למשל ארגון עם רכש סטנדרטי בוחר Public Cloud + New Implementation; ארגון עם רכש מותאם-מאוד והיסטוריה ארוכה בוחר Private Cloud + System Conversion.",
-      cbcHe:
-        "ב-CBC (מפעל-בקבוק קוקה-קולה): תהליכי-הרכש (חומרי-גלם, אריזה, חלפי-PM) סטנדרטיים ברובם, אך יש אינטגרציות-ספקים ואצוות-מנוהלות ייחודיות. ההחלטה: Private Cloud (RISE with SAP) עם System Conversion — לשמר את ההיסטוריה והאינטגרציות, אך לעבור לתשתית-ענן מנוהלת.",
+      scenarioHe:
+        "בארגון (מפעל-בקבוק מוצר לדוגמה): תהליכי-הרכש (חומרי-גלם, אריזה, חלפי-PM) סטנדרטיים ברובם, אך יש אינטגרציות-ספקים ואצוות-מנוהלות ייחודיות. ההחלטה: Private Cloud (RISE with SAP) עם System Conversion — לשמר את ההיסטוריה והאינטגרציות, אך לעבור לתשתית-ענן מנוהלת.",
       navHe: [
         "SAP S/4HANA ► Implementation Roadmap ► SAP Activate Methodology",
         "Maintenance Planner ► System Conversion Readiness (Pre-Check)",
@@ -86,7 +86,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "On-Premise: בעלות-מלאה על Basis, גרסאות ו-DB; התאמות-עומק חופשיות. Private Cloud (RISE with SAP, S/4HANA Cloud, private edition): SAP/Hyperscaler מנהלים את התשתית; היקף-פונקציונלי כמעט-מלא; חלון-שדרוג שנתי. Public Cloud (S/4HANA Cloud, public edition): רב-דיירי, Best Practices בלבד, Extensibility דרך key-user / developer extensibility בלבד, עדכונים רבעוניים כפויים.",
           purposeHe: "להתאים את מודל-האחריות והגמישות לצרכים: שליטה-מקסימלית מול תחזוקה-מינימלית.",
           processExampleHe: "ארגון רב-לאומי עם דרישות-ריבונות-נתונים בוחר Private Cloud באזור-גיאוגרפי מסוים; חברה צעירה עם תהליכים סטנדרטיים בוחרת Public Cloud להאצה ולעלות-תפעול נמוכה.",
-          cbcHe: "ב-CBC נבחר Private Cloud (RISE with SAP) — שילוב של תחזוקה-מנוהלת עם גמישות לשמר את אינטגרציות-הספקים והאצוות הייחודיות לתעשיית-המשקאות.",
+          scenarioHe: "בארגון נבחר Private Cloud (RISE with SAP) — שילוב של תחזוקה-מנוהלת עם גמישות לשמר את אינטגרציות-הספקים והאצוות הייחודיות לתעשיית-המשקאות.",
           navHe: ["RISE with SAP ► Deployment Model Selection", "SAP S/4HANA ► Cloud / On-Premise editions"],
           tables: ["—"],
           tcodes: ["—"],
@@ -107,7 +107,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "הענן מגיע בשתי טעמים: Public (multi-tenant, Best Practices, רבעוני) ו-Private (single-tenant, גמיש, RISE with SAP). שניהם subscription-based, מבוססי-Fiori, עם Extensibility מוגבלת-ומבוקרת (in-app / side-by-side על SAP BTP). העדכונים ב-Public כפויים — דורש בדיקות-רגרסיה אוטומטיות.",
           purposeHe: "להפחית עומס-IT, להאיץ time-to-value ולקבל חדשנות-רציפה ללא פרויקטי-שדרוג גדולים.",
           processExampleHe: "ארגון מאמץ Public Cloud: כל רבעון SAP דוחפת עדכון; צוות-הבדיקות מריץ test automation על תהליכי-הרכש לפני הפעלת-העדכון בפרודקשן.",
-          cbcHe: "ב-CBC מודל-הענן (Private) מסיר מהארגון את תחזוקת-ה-Basis וה-HANA, ומאפשר לצוות-ה-IT להתמקד בתהליכי-הרכש ולא בתשתית.",
+          scenarioHe: "בארגון מודל-הענן (Private) מסיר מהארגון את תחזוקת-ה-Basis וה-HANA, ומאפשר לצוות-ה-IT להתמקד בתהליכי-הרכש ולא בתשתית.",
           navHe: ["SAP S/4HANA Cloud ► Subscription & Onboarding", "SAP BTP ► Extensibility Services"],
           tables: ["—"],
           tcodes: ["—"],
@@ -128,7 +128,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "מודל-רישוי קלאסי (perpetual license + maintenance). היקף-פונקציונלי מלא, ABAP classic + RAP, התאמות-Z חופשיות, שדרוגים בשליטת-הארגון (SUM). מתאים לארגונים עם דרישות-התאמה גבוהות, ריבונות-נתונים מחמירה או אינטגרציות-עומק. נטל-ה-Basis וה-HANA על הארגון.",
           purposeHe: "לתת שליטה-מקסימלית והתאמה בלתי-מוגבלת היכן שהעסק דורש ייחודיות-תהליכית או ריבונות-נתונים.",
           processExampleHe: "ארגון-ביטחוני עם דרישות-רגולציה מחמירות מתקין On-Premise באתר-מאובטח, מבצע התאמות-Z עמוקות ושולט במלואו במועדי-השדרוג.",
-          cbcHe: "ב-CBC לא נבחר On-Premise טהור — אך הוא היה החלופה אילו דרישות-הריבונות חייבו אחסון מקומי-מלא; במצב זה כל תחזוקת-ה-Basis הייתה על צוות-ה-IT הפנימי.",
+          scenarioHe: "בארגון לא נבחר On-Premise טהור — אך הוא היה החלופה אילו דרישות-הריבונות חייבו אחסון מקומי-מלא; במצב זה כל תחזוקת-ה-Basis הייתה על צוות-ה-IT הפנימי.",
           navHe: ["SAP S/4HANA On-Premise ► Installation Guide", "SUM ► Software Update Manager"],
           tables: ["—"],
           tcodes: ["SAINT", "SPAM", "STC01 (Task Manager)"],
@@ -149,7 +149,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "New Implementation: re-engineering תהליכים, Fit-to-Standard, Data Migration סלקטיבית (Migration Cockpit / LTMC, LTMOM), הזדמנות לנטוש Z-קוד מיושן. System Conversion: in-place, SUM with DMO (DB→HANA + S/4 בצעד-אחד), Custom Code Adaptation (SPDD/SPAU, ATC + Simplification Database), Simplification Items מטופלים. Selective Data Transition = גישת-ביניים (shell conversion + העברת-נתונים סלקטיבית). ב-MM יש לשים לב ל-MM-IM ול-Material Ledger כ-mandatory ב-S/4.",
           purposeHe: "לבחור בין שימור (היסטוריה, התאמות, מהירות) לחידוש (תהליכים-נקיים, פישוט, סטנדרטיזציה).",
           processExampleHe: "ארגון עם Z-רכש מועט וחזון תהליכי-חדש בוחר New Implementation: מגדיר תהליכי-רכש מ-Best Practices, מעביר רק נתוני-אב פעילים. ארגון עם התאמות-עומק והיסטוריה ארוכה בוחר System Conversion: מריץ SUM/DMO ומתאים את ה-Z-קוד.",
-          cbcHe: "ב-CBC נבחר System Conversion — שימור אינטגרציות-הספקים, היסטוריית-רכש ואצוות-מנוהלות, תוך מעבר ל-S/4HANA והפעלת Material Ledger החובה.",
+          scenarioHe: "בארגון נבחר System Conversion — שימור אינטגרציות-הספקים, היסטוריית-רכש ואצוות-מנוהלות, תוך מעבר ל-S/4HANA והפעלת Material Ledger החובה.",
           navHe: [
             "SAP Activate ► Transition Path: New Implementation",
             "SAP Activate ► Transition Path: System Conversion (SUM/DMO)",
@@ -217,8 +217,8 @@ export const CH2: TextbookChapter = {
         "לתת לארגונים בעלי דרישות-התאמה גבוהות או נישות-תהליך ייחודיות את מלוא-העוצמה והשליטה, כולל היקף-MM שאינו זמין בענן.",
       processExampleHe:
         "ארגון-ייצור-מורכב מממש On-Premise: מגדיר תהליכי-רכש מותאמים, אינטגרציות-EDI לספקים דרך SAP PI/PO, ומפעיל Material Ledger לתמחיר רב-מטבעי — הכל בשליטה-מלאה.",
-      cbcHe:
-        "ב-CBC ה-On-Premise היה מספק את כל היקף-ה-MM (רכש-אצוות, אינטגרציות-ספקים, חלפי-PM) — אך נטל-התחזוקה הוביל לבחירת Private Cloud (RISE) המספק היקף-זהה כמעט-במלואו בתשתית-מנוהלת.",
+      scenarioHe:
+        "בארגון ה-On-Premise היה מספק את כל היקף-ה-MM (רכש-אצוות, אינטגרציות-ספקים, חלפי-PM) — אך נטל-התחזוקה הוביל לבחירת Private Cloud (RISE) המספק היקף-זהה כמעט-במלואו בתשתית-מנוהלת.",
       navHe: [
         "SAP S/4HANA On-Premise ► Application Help ► Sourcing and Procurement",
         "SPRO ► Materials Management",
@@ -278,7 +278,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "ה-scope כולל את כל ה-Line-of-Business modules ב-coverage המלא: MM-PUR, MM-IM, MM-IV, Subcontracting, Consignment, Pipeline, ועוד תרחישים שב-Public Cloud מכוסים חלקית או מוחלפים בתהליך-best-practice. נישות-תעשייה (IS) ו-add-ons נתמכים בכפוף ל-compatibility.",
           purposeHe: "לאפשר לארגונים עם תהליכי-רכש מורכבים או ייחודיים-לתעשייה לכסות את כל הצרכים ללא פשרה.",
           processExampleHe: "ארגון מפעיל subcontracting מורכב עם רכיבים-מסופקים, consignment מספקים, ו-pipeline — כולם נתמכים-מלא ב-On-Premise.",
-          cbcHe: "ב-CBC היקף ה-On-Premise כיסה רכש-אצוות, subcontracting אריזה, ו-consignment חומרי-גלם — תרחישים שנשמרו גם תחת Private Cloud (RISE).",
+          scenarioHe: "בארגון היקף ה-On-Premise כיסה רכש-אצוות, subcontracting אריזה, ו-consignment חומרי-גלם — תרחישים שנשמרו גם תחת Private Cloud (RISE).",
           navHe: ["SAP S/4HANA On-Premise ► Application Help ► Sourcing and Procurement (full scope)"],
           tables: ["EKKO", "EKPO", "EKBE", "MSEG"],
           tcodes: ["ME21N", "ME2O (Subcontracting)", "MB1B"],
@@ -297,7 +297,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "השלבים: Sizing (Quick Sizer) ► התקנת-HANA ► התקנת S/4HANA (Software Provisioning Manager) ► הקמת Transport landscape (STMS) ► Fiori front-end (embedded / hub) ► client copy ו-baseline config. נדרשת התאמת OS/DB/Kernel ל-Product Availability Matrix (PAM).",
           purposeHe: "להעמיד נוף-מערכות יציב, מתוקף ובגודל-נכון, כבסיס לכל המימוש.",
           processExampleHe: "צוות-Basis מבצע Quick Sizer, מקים DEV/QAS/PRD, מגדיר STMS, ומתקין Fiori embedded — ואז מוסר את הסביבה לצוות-הפונקציונלי.",
-          cbcHe: "ב-CBC (תחת RISE) ההתקנה בוצעה על-ידי SAP/Hyperscaler — הארגון קיבל סביבה-מוכנה במקום להקים שרתים בעצמו.",
+          scenarioHe: "בארגון (תחת RISE) ההתקנה בוצעה על-ידי SAP/Hyperscaler — הארגון קיבל סביבה-מוכנה במקום להקים שרתים בעצמו.",
           navHe: ["SAP Software Provisioning Manager ► Install SAP S/4HANA", "STMS ► Transport Management"],
           tables: ["—"],
           tcodes: ["STMS", "SICK", "SGEN", "SE06"],
@@ -316,7 +316,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "מסופק דרך SAP CAL (deploy ל-AWS/Azure/GCP) או כ-Enterprise Management Layer appliance. כולל Best Practices content מופעל, sample master data ו-pre-configured Fiori. מיועד ל-sandbox / PoC / enablement, לא ל-production. בסיס נוח ל-Fit-to-Standard workshops.",
           purposeHe: "לקצר time-to-demo ולספק סביבת-לימוד/הערכה עובדת ללא פרויקט-התקנה מלא.",
           processExampleHe: "צוות-המכירות פורס Appliance מ-SAP CAL לענן, ותוך שעות מציג תהליכי-רכש מקצה-לקצה ללקוח על נתוני-הדגמה.",
-          cbcHe: "ב-CBC ה-Appliance שימש ל-Fit-to-Standard workshops — היועצים הדגימו תהליכי-רכש סטנדרטיים על נתוני-הדגמה לפני קונפיגורציית-הסביבה האמיתית.",
+          scenarioHe: "בארגון ה-Appliance שימש ל-Fit-to-Standard workshops — היועצים הדגימו תהליכי-רכש סטנדרטיים על נתוני-הדגמה לפני קונפיגורציית-הסביבה האמיתית.",
           navHe: ["SAP Cloud Appliance Library (CAL) ► SAP S/4HANA ... Fully-Activated Appliance", "SAP Best Practices ► Activated content"],
           tables: ["—"],
           tcodes: ["—"],
@@ -335,7 +335,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "נושאים מרכזיים: Sizing & capacity planning; HA/DR (HANA System Replication); Security (roles/PFCG, SOD, חיבורי-RFC); Transport governance (STMS, ChaRM/Solution Manager או Cloud ALM); Patch/Upgrade strategy (SUM); Backup/Recovery; Monitoring (Focused Run / Cloud ALM); GRC. ב-MM יש לתת דעת ל-SOD ברכש (מפריד יוצר-PO ממאשר ומקבלן-טובין).",
           purposeHe: "להבטיח שהמערכת זמינה, מאובטחת, מתוחזקת ובת-שליטה לאורך-זמן — ולא רק 'עובדת ביום-ההשקה'.",
           processExampleHe: "צוות-ה-IT מגדיר HANA System Replication ל-DR, מקים מטריצת-SOD ברכש ב-GRC, ומנהל תעבורות דרך ChaRM — שכבת-תפעול שמלווה את המערכת לאורך-חייה.",
-          cbcHe: "ב-CBC תחת RISE רוב שיקולי-ה-IT (HA/DR, גיבוי, monitoring תשתיתי) עברו ל-SAP; הארגון נותר אחראי על אבטחת-יישום, SOD-ברכש ו-transport governance.",
+          scenarioHe: "בארגון תחת RISE רוב שיקולי-ה-IT (HA/DR, גיבוי, monitoring תשתיתי) עברו ל-SAP; הארגון נותר אחראי על אבטחת-יישום, SOD-ברכש ו-transport governance.",
           navHe: ["SAP Cloud ALM / Solution Manager ► Application Operations", "PFCG ► Role Maintenance", "SAP GRC ► Access Control (SOD)"],
           tables: ["AGR_1251 (roles)", "—"],
           tcodes: ["PFCG", "SU01", "STMS", "RZ20 (Monitoring)"],
@@ -357,7 +357,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "ערוצים: IDoc (ORDERS/ORDRSP/DESADV/INVOIC לרכש-EDI), BAPI/RFC (BAPI_PO_CREATE1), OData (Fiori + integration), SOAP/REST. Middleware: SAP PI/PO (on-prem) או SAP Integration Suite (Cloud, Cloud Integration). חיבורי-רכש: Ariba Network (cXML), Central Procurement (hub→connected systems דרך SOAP/RFC). API discovery דרך SAP API Business Hub.",
           purposeHe: "לחבר את הרכש לספקים, לרשתות-מסחר ולמערכות-לוויין באופן אמין, מאובטח וניתן-לניטור.",
           processExampleHe: "הזמנת-רכש נשלחת לספק כ-IDoc ORDERS דרך SAP PI/PO; אישור-ההזמנה חוזר כ-ORDRSP; החשבונית מגיעה כ-INVOIC ל-MIRO אוטומטית — מחזור-EDI מלא.",
-          cbcHe: "ב-CBC ספקי-חומרי-הגלם מחוברים ב-EDI (ORDERS/INVOIC) דרך SAP Integration Suite; ספקי-MRO אינדירקטיים מחוברים ל-Ariba Network — שתי שכבות-אינטגרציה ברכש.",
+          scenarioHe: "בארגון ספקי-חומרי-הגלם מחוברים ב-EDI (ORDERS/INVOIC) דרך SAP Integration Suite; ספקי-MRO אינדירקטיים מחוברים ל-Ariba Network — שתי שכבות-אינטגרציה ברכש.",
           navHe: ["SAP Integration Suite ► Cloud Integration", "SAP API Business Hub ► Sourcing & Procurement APIs", "WE20 ► Partner Profiles (IDoc)"],
           tables: ["EDIDC", "EDIDS", "—"],
           tcodes: ["WE20", "WE21", "SOAMANAGER", "BD87"],
@@ -380,7 +380,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "מסלול: Maintenance Planner Pre-Checks ► Custom Code Analysis (ATC + Simplification Database) ► Simplification Item Check (/SDF/RC_START_CHECK) ► SUM with DMO ► post-processing (SPDD בעת DDIC, SPAU לקוד) ► Business Partner conversion (CVI) ► Material Ledger activation. ב-MM: simplification של MM-IM (MATDOC כ-single source מחליף MKPF/MSEG), Business Partner mandatory, foreign-trade/credit-management שינויים.",
           purposeHe: "לעבור ל-S/4HANA מהר ובסיכון-מבוקר תוך שימור ההשקעה הקיימת (תהליכים, התאמות, היסטוריה).",
           processExampleHe: "הצוות מריץ Readiness Check ➔ מטפל ב-Simplification Items ➔ מתאים Z-קוד דרך ATC/SPAU ➔ מבצע CVI ל-Business Partner ➔ מריץ SUM/DMO בסוף-שבוע ➔ מפעיל Material Ledger ➔ go-live על המערכת-הממירה.",
-          cbcHe: "ב-CBC ה-System Conversion שימר את אינטגרציות-הספקים, היסטוריית-הרכש והאצוות; הצוות טיפל ב-MM-IM simplification (MATDOC), המיר vendor ל-Business Partner והפעיל Material Ledger.",
+          scenarioHe: "בארגון ה-System Conversion שימר את אינטגרציות-הספקים, היסטוריית-הרכש והאצוות; הצוות טיפל ב-MM-IM simplification (MATDOC), המיר vendor ל-Business Partner והפעיל Material Ledger.",
           navHe: [
             "Maintenance Planner ► System Conversion Path",
             "SAP Readiness Check ► Simplification Items & Custom Code",
@@ -445,30 +445,30 @@ export const CH2: TextbookChapter = {
       beginnerHe:
         "S/4HANA Cloud (public) = הגרסה ה'מוכנה-לשימוש' של SAP בענן. מקבלים תהליכים סטנדרטיים מומלצים, ממשק-Fiori יפה, ו-SAP מעדכנת לבד כל רבעון. פחות התאמה אישית — אבל מהיר וזול-תפעולית.",
       consultantHe:
-        "Public Cloud מבוססת SAP Best Practices (scope items), multi-tenant, עם quarterly upgrades כפויים. Extensibility מוגבלת ל-key-user (in-app) ול-developer extensibility (restricted ABAP) + side-by-side על SAP BTP. אין modifications, אין classic-ABAP חופשי. Onboarding מואץ דרך SAP Activate + Central Business Configuration (CBC tool). ב-MM: scope items לרכש (BNX, J45 ועוד), Fiori-first, two/three-system landscape מנוהל.",
+        "Public Cloud מבוססת SAP Best Practices (scope items), multi-tenant, עם quarterly upgrades כפויים. Extensibility מוגבלת ל-key-user (in-app) ול-developer extensibility (restricted ABAP) + side-by-side על SAP BTP. אין modifications, אין classic-ABAP חופשי. Onboarding מואץ דרך SAP Activate + Central Business Configuration (הארגון tool). ב-MM: scope items לרכש (BNX, J45 ועוד), Fiori-first, two/three-system landscape מנוהל.",
       purposeHe:
         "לספק מערכת-רכש מודרנית במהירות ובעלות-תפעול נמוכה, לארגונים שתהליכיהם תואמים-במידה-רבה ל-Best Practices.",
       processExampleHe:
-        "חברה צעירה מאמצת Public Cloud: מפעילה scope items לרכש סטנדרטי, מבצעת Fit-to-Standard, מגדירה דרך CBC, ועולה-לאוויר תוך חודשים — עם עדכונים-רבעוניים אוטומטיים.",
-      cbcHe:
-        "ב-CBC (קוקה-קולה) ה-Public Cloud לא נבחר לליבה (בשל אינטגרציות ואצוות-ייחודיות), אך Best-Practice scope items שימשו כבסיס-עיצוב גם תחת ה-Private Cloud — 'fit-to-standard first'.",
+        "חברה צעירה מאמצת Public Cloud: מפעילה scope items לרכש סטנדרטי, מבצעת Fit-to-Standard, מגדירה דרך הארגון, ועולה-לאוויר תוך חודשים — עם עדכונים-רבעוניים אוטומטיים.",
+      scenarioHe:
+        "בארגון (מוצר לדוגמה) ה-Public Cloud לא נבחר לליבה (בשל אינטגרציות ואצוות-ייחודיות), אך Best-Practice scope items שימשו כבסיס-עיצוב גם תחת ה-Private Cloud — 'fit-to-standard first'.",
       navHe: [
         "SAP S/4HANA Cloud (public edition) ► SAP Best Practices Explorer",
-        "Central Business Configuration (CBC) ► Scope & Configure",
+        "Central Business Configuration ► Scope & Configure",
         "SAP Activate ► Cloud Roadmap",
       ],
       tables: ["—"],
       tcodes: ["—"],
       fiori: ["Manage Your Solution", "Central Business Configuration apps"],
       configHe: [
-        "מבוסס SAP Best Practices (scope items); קונפיגורציה דרך Central Business Configuration (CBC).",
+        "מבוסס SAP Best Practices (scope items); קונפיגורציה דרך Central Business Configuration.",
         "Extensibility: key-user (in-app) + developer extensibility (restricted) + side-by-side על SAP BTP.",
         "Quarterly upgrades אוטומטיים; landscape מנוהל (2/3-system).",
       ],
       flow: [
         { he: "בחירת scope items", code: "Best Practices" },
         { he: "Fit-to-Standard", note: "פערים מול תקן" },
-        { he: "קונפיגורציה", code: "CBC" },
+        { he: "קונפיגורציה", code: "הארגון" },
         { he: "Extensibility מבוקרת", code: "key-user / BTP" },
         { he: "Go-live + עדכון רבעוני", note: "מנוהל SAP" },
       ],
@@ -489,16 +489,16 @@ export const CH2: TextbookChapter = {
       bestPracticeHe: [
         "אמץ fit-to-standard first; שנה תהליך לפני שמתאים מערכת.",
         "בנה test automation סביב חלון-העדכון הרבעוני.",
-        "השתמש ב-CBC כ-single source לקונפיגורציה.",
+        "השתמש בארגון כ-single source לקונפיגורציה.",
       ],
       interviewHe: [
         { qHe: "על מה מבוססת S/4HANA Cloud (public)?", aHe: "על SAP Best Practices (scope items) — תהליכים סטנדרטיים מוגדרים-מראש, multi-tenant, עם עדכונים רבעוניים אוטומטיים והרחבה מבוקרת." },
-        { qHe: "מהו כלי-הקונפיגורציה המרכזי ב-Public Cloud?", aHe: "Central Business Configuration (CBC) — שדרכו מגדירים scope ופרמטרים, כ-single source לקונפיגורציה הענן." },
+        { qHe: "מהו כלי-הקונפיגורציה המרכזי ב-Public Cloud?", aHe: "Central Business Configuration — שדרכו מגדירים scope ופרמטרים, כ-single source לקונפיגורציה הענן." },
       ],
       takeawaysHe: [
         "Public Cloud = SaaS מבוסס Best Practices, time-to-value מהיר.",
         "התאמה-מבוקרת בלבד (key-user / BTP), עדכונים רבעוניים כפויים.",
-        "קונפיגורציה דרך Central Business Configuration (CBC).",
+        "קונפיגורציה דרך Central Business Configuration.",
       ],
       relatedHe: [
         { labelHe: "MM · ענן (2.1.2)", href: "/library/mm/chapter-02/#sub-2.1.2" },
@@ -512,7 +512,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "כל scope item (מזוהה בקוד, למשל J45 – Procurement of Direct Materials) כולל test scripts, process flows ו-config מוכן. ה-SAP Best Practices Explorer הוא הקטלוג. ה-Fit-to-Standard מתבצע מול ה-scope items; פערים מטופלים ב-extensibility או בשינוי-תהליך, לא ב-modification.",
           purposeHe: "לספק בסיס-תהליכים מוכח-ומתועד שמאיץ הקמה ומבטיח עקביות ועדכניות.",
           processExampleHe: "צוות-הרכש בוחן את scope item J45, מריץ את test script המצורף, ומאשר שהוא תואם את תהליך-הרכש-הישיר — או מזהה פער לטיפול.",
-          cbcHe: "ב-CBC scope items לרכש-ישיר ועקיף שימשו כבסיס-עיצוב; הצוות בחן אותם ב-Best Practices Explorer לפני קונפיגורציה.",
+          scenarioHe: "בארגון scope items לרכש-ישיר ועקיף שימשו כבסיס-עיצוב; הצוות בחן אותם ב-Best Practices Explorer לפני קונפיגורציה.",
           navHe: ["SAP Best Practices Explorer ► SAP S/4HANA Cloud ► Sourcing and Procurement", "Manage Your Solution ► Configure Your Solution"],
           tables: ["—"],
           tcodes: ["—"],
@@ -531,7 +531,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "אחריות-SAP: infrastructure, HA/DR, backup, OS/DB/kernel, quarterly upgrades. אחריות-לקוח: business roles (business catalogs/restrictions), identity (IAS/IPS), integration (Integration Suite), test automation לחלון-העדכון, ו-data protection/GDPR ברמת-היישום. ה-landscape מנוהל (2/3-system) ללא גישת-Basis קלאסית.",
           purposeHe: "להפחית עומס-תפעולי ולמקד את ה-IT בערך-עסקי (תהליך, אינטגרציה, אבטחת-גישה) במקום בתחזוקת-תשתית.",
           processExampleHe: "צוות-ה-IT מגדיר business roles דרך business catalogs, מחבר identity ל-IAS, ומריץ test automation לפני כל עדכון-רבעוני — ללא נגיעה בתשתית.",
-          cbcHe: "ב-CBC המודל-הענני (גם תחת Private) הפחית את עומס-ה-IT התשתיתי; הצוות התמקד בהרשאות-רכש (SOD), באינטגרציות ובבדיקות-עדכון.",
+          scenarioHe: "בארגון המודל-הענני (גם תחת Private) הפחית את עומס-ה-IT התשתיתי; הצוות התמקד בהרשאות-רכש (SOD), באינטגרציות ובבדיקות-עדכון.",
           navHe: ["SAP Cloud Identity Services (IAS/IPS)", "Maintain Business Roles", "SAP Cloud ALM ► Test Automation"],
           tables: ["—"],
           tcodes: ["—"],
@@ -550,7 +550,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "Extensibility: (1) key-user / in-app — custom fields, logic (BAdI via Custom Logic app), forms, CDS-based analytics; (2) developer extensibility — restricted ABAP (ABAP Cloud) ב-released APIs בלבד; (3) side-by-side — apps על SAP BTP (CAP/RAP) הצורכות OData/SOAP APIs. אינטגרציה: published APIs (SAP API Business Hub), Integration Suite, events (Advanced Event Mesh). הכל upgrade-stable.",
           purposeHe: "לאפשר התאמה ואינטגרציה מבלי לשבור את ה-upgrade האוטומטי — extensibility שנשמרת בין עדכונים-רבעוניים.",
           processExampleHe: "הוספת שדה לרכש: דרך key-user Custom Fields and Logic; הוספת לוגיקה דרך BAdI ב-Custom Logic app; חיבור לספק דרך Integration Suite — הכל נשמר אחרי ה-upgrade.",
-          cbcHe: "ב-CBC הרחבות-רכש (שדות ולוגיקה) תוכננו דרך key-user extensibility; אינטגרציות-הספקים דרך Integration Suite — שמירה על upgrade-stability.",
+          scenarioHe: "בארגון הרחבות-רכש (שדות ולוגיקה) תוכננו דרך key-user extensibility; אינטגרציות-הספקים דרך Integration Suite — שמירה על upgrade-stability.",
           navHe: ["Custom Fields and Logic", "Custom Business Objects", "SAP BTP ► ABAP Environment / CAP", "SAP API Business Hub"],
           tables: ["—"],
           tcodes: ["—"],
@@ -581,8 +581,8 @@ export const CH2: TextbookChapter = {
         "לאחד ולמרכז את הרכש על-פני נוף-מערכות מבוזר (multi-backend) מבלי לחייב מיגרציה-מלאה — שליטה, ראות-הוצאות ומינוף-מסחרי מרוכזים.",
       processExampleHe:
         "משתמש במפעל יוצר Central Purchase Requisition ב-hub; היא מנותבת ל-backend הנכון (S/4 או ECC) ליצירת PO; חוזה-מרכזי מנוהל ב-hub ומופץ ל-backends — רכש-מאוחד מעל מערכות-מרובות.",
-      cbcHe:
-        "ב-CBC רשת-המפעלים האזורית (כמה אתרי-בקבוק, חלקם עדיין ECC) משתמשת ב-Central Procurement לניהול חוזי-אריזה וחומרי-גלם מרוכזים מעל כל האתרים, עם Ariba Network ל-MRO אינדירקטי.",
+      scenarioHe:
+        "בארגון רשת-המפעלים האזורית (כמה אתרי-בקבוק, חלקם עדיין ECC) משתמשת ב-Central Procurement לניהול חוזי-אריזה וחומרי-גלם מרוכזים מעל כל האתרים, עם Ariba Network ל-MRO אינדירקטי.",
       navHe: [
         "SAP Central Procurement (Private Cloud Edition) ► Hub Setup",
         "Central Procurement ► Connect Source/Backend Systems",
@@ -650,8 +650,8 @@ export const CH2: TextbookChapter = {
         "להאיץ time-to-value, להפחית סיכון ולהבטיח עקביות — ע\"י שימוש-חוזר בתוכן-מוכח במקום פיתוח-מאפס.",
       processExampleHe:
         "פרויקט מתחיל מ-Best Practices scope items, מקים Appliance/EML כ-baseline, מריץ Fit-to-Standard workshops עם ה-process flows, ומנהל הכל לפי roadmap של SAP Activate ב-Cloud ALM.",
-      cbcHe:
-        "ב-CBC הפרויקט נשען על Best Practices לרכש, על Enterprise Management Layer כ-baseline, ועל SAP Activate כמתודולוגיה — קיצור-משמעותי של שלב-העיצוב.",
+      scenarioHe:
+        "בארגון הפרויקט נשען על Best Practices לרכש, על Enterprise Management Layer כ-baseline, ועל SAP Activate כמתודולוגיה — קיצור-משמעותי של שלב-העיצוב.",
       navHe: [
         "SAP Activate ► Roadmap Viewer",
         "SAP Best Practices Explorer",
@@ -711,7 +711,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "התוכן מגיע עם ה-Best Practices: test scripts (לכל scope item), process flow diagrams, configuration guides, ו-migration templates (Migrate Your Data). זמין ב-Best Practices Explorer וב-Cloud ALM. משמש ב-Fit-to-Standard, ב-test phase וב-data migration.",
           purposeHe: "לקצר תיעוד ובדיקות, להבטיח כיסוי-מלא, ולהאיץ טעינת-נתונים עם תבניות-מובנות.",
           processExampleHe: "צוות-הבדיקות מריץ את test script של scope item רכש כפי-שהוא; צוות-הנתונים ממלא את ה-migration template לחומרים ולספקים — שניהם מוכנים-מראש.",
-          cbcHe: "ב-CBC ה-process flows ו-test scripts לרכש שימשו ב-Fit-to-Standard; ה-migration templates האיצו טעינת ספקים וחומרים.",
+          scenarioHe: "בארגון ה-process flows ו-test scripts לרכש שימשו ב-Fit-to-Standard; ה-migration templates האיצו טעינת ספקים וחומרים.",
           navHe: ["SAP Best Practices Explorer ► Accelerators (test scripts, process flows)", "Migrate Your Data ► Templates"],
           tables: ["—"],
           tcodes: ["—"],
@@ -730,7 +730,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "מאורגנים ב-scope items מזוהי-קוד, מקובצים ל-LoB. כוללים building blocks, config, test scripts, process flows ו-master data. ב-Public Cloud הם ה-scope עצמו (activated); ב-On-Premise/Private הם content שניתן להפעיל סלקטיבית. נגישים ב-SAP Best Practices Explorer; משמשים בסיס ל-Fit-to-Standard.",
           purposeHe: "לספק נקודת-מוצא מוכחת ומתועדת לתהליכי-רכש, לקצר עיצוב ולהבטיח עקביות ועדכניות.",
           processExampleHe: "פרויקט מפעיל scope items של requisition-to-pay; מריץ את ה-test scripts המצורפים; ומתאים רק את הפערים שעלו ב-Fit-to-Standard.",
-          cbcHe: "ב-CBC Best-Practice scope items לרכש-ישיר ועקיף היו בסיס-העיצוב; הפרויקט סטה מהם רק היכן שאצוות/אינטגרציות חייבו.",
+          scenarioHe: "בארגון Best-Practice scope items לרכש-ישיר ועקיף היו בסיס-העיצוב; הפרויקט סטה מהם רק היכן שאצוות/אינטגרציות חייבו.",
           navHe: ["SAP Best Practices Explorer ► Sourcing and Procurement", "Manage Your Solution (Cloud) / Best Practices content (On-Prem)"],
           tables: ["—"],
           tcodes: ["—"],
@@ -753,7 +753,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "Appliance (SAP CAL / Fully-Activated Appliance) — ל-PoC/enablement, לא לפרודקשן. Enterprise Management Layer — package של best-practice configuration (כולל מבנה רב-חברתי, מטבעות, מסים) המשמש baseline למימוש-פרודקשן, נפוץ ב-System Conversion ובמימושים-גלובליים. מאיץ Fit-to-Standard ומפחית עבודת-config ראשונית.",
           purposeHe: "לספק נקודת-פתיחה מוגדרת-מראש — Appliance להדגמה/לימוד, EML ל-baseline-פרודקשן — במקום קונפיגורציה-מאפס.",
           processExampleHe: "צוות מקים Appliance ל-Fit-to-Standard workshops, ובמקביל מאמץ Enterprise Management Layer כ-baseline לסביבת-הפרודקשן — חוסך שבועות של config ראשוני.",
-          cbcHe: "ב-CBC ה-Enterprise Management Layer שימש baseline למבנה הרב-חברתי (אתרי-בקבוק אזוריים), וה-Appliance שימש ל-Fit-to-Standard לפני הקמת-הפרודקשן.",
+          scenarioHe: "בארגון ה-Enterprise Management Layer שימש baseline למבנה הרב-חברתי (אתרי-בקבוק אזוריים), וה-Appliance שימש ל-Fit-to-Standard לפני הקמת-הפרודקשן.",
           navHe: ["SAP Cloud Appliance Library (CAL) ► Fully-Activated Appliance", "SAP Enterprise Management Layer for SAP S/4HANA"],
           tables: ["—"],
           tcodes: ["—"],
@@ -775,7 +775,7 @@ export const CH2: TextbookChapter = {
           consultantHe: "שש פאזות: Discover (trial/value), Prepare (תכנון, צוות, סביבה), Explore (Fit-to-Standard workshops, פערים, backlog), Realize (config/build/test ב-sprints), Deploy (cutover, go-live), Run (hypercare, תפעול). נשענת על Fit-to-Standard, Best Practices, ו-quality gates. מנוהלת ב-SAP Cloud ALM עם roadmaps ייעודיים לכל סוג-מעבר. תומכת agile.",
           purposeHe: "לספק מסגרת-מימוש עקבית, מבוססת-תוכן ובת-ניהול, שמפחיתה סיכון ומאיצה time-to-value בכל סוג-פרויקט.",
           processExampleHe: "פרויקט-רכש עובר את הפאזות: Explore — Fit-to-Standard workshops על scope items של רכש, רישום-פערים ל-backlog; Realize — config ובדיקות ב-sprints; Deploy — cutover ו-go-live; Run — hypercare.",
-          cbcHe: "ב-CBC הפרויקט נוהל לפי SAP Activate: Fit-to-Standard לרכש ב-Explore, התאמות-אצוות ב-Realize, cutover ב-Deploy ו-hypercare ב-Run — הכל ב-SAP Cloud ALM.",
+          scenarioHe: "בארגון הפרויקט נוהל לפי SAP Activate: Fit-to-Standard לרכש ב-Explore, התאמות-אצוות ב-Realize, cutover ב-Deploy ו-hypercare ב-Run — הכל ב-SAP Cloud ALM.",
           navHe: ["SAP Activate ► Roadmap Viewer (Cloud / On-Premise / Conversion)", "SAP Cloud ALM ► Implementation Roadmap"],
           tables: ["—"],
           tcodes: ["—"],
@@ -837,8 +837,8 @@ export const CH2: TextbookChapter = {
         "לקבע מסגרת-החלטה שלמה: לבחור deployment, transition, מהדורה, שכבת-רכש-מרכזי ומאיצים — באופן מבוסס-נתונים (Readiness Check) ומותאם לאסטרטגיה ולמורכבות-הרכש.",
       processExampleHe:
         "ארגון מסכם: Readiness Check ➔ בחירת Private Cloud (RISE) + System Conversion ➔ שימור scope-items כבסיס-עיצוב ➔ EML כ-baseline ➔ ניהול ב-SAP Activate/Cloud ALM ➔ Central Procurement לרשת-האתרים. מסלול-מימוש שלם נגזר מההחלטות שבפרק.",
-      cbcHe:
-        "ב-CBC ההחלטות התלכדו: Private Cloud (RISE) + System Conversion לשימור אינטגרציות, אצוות והיסטוריה; Best Practices + EML כבסיס; SAP Activate כמתודולוגיה; Central Procurement לרשת-האתרים האזורית עם Ariba ל-MRO — דרך-מימוש מותאמת לתעשיית-המשקאות.",
+      scenarioHe:
+        "בארגון ההחלטות התלכדו: Private Cloud (RISE) + System Conversion לשימור אינטגרציות, אצוות והיסטוריה; Best Practices + EML כבסיס; SAP Activate כמתודולוגיה; Central Procurement לרשת-האתרים האזורית עם Ariba ל-MRO — דרך-מימוש מותאמת לתעשיית-המשקאות.",
       navHe: [
         "סקירה: MM ► Implementation Options (פרק 2)",
         "SAP Activate ► Roadmap Viewer",

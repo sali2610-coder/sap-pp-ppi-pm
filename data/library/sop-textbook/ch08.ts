@@ -9,7 +9,7 @@ export const CH8: TextbookChapter = {
   titleHe: "סימולציות תכנון",
   titleEn: "Planning Simulations",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לסימולציות תכנון ב-SAP IBP for Sales and Operations. סימולציה היא היכולת לשאול 'מה-אם' (what-if) — לשנות הנחות-יסוד של ביקוש או היצע, להריץ את התכנון מחדש, ולראות את ההשפעה על שירות-הלקוח, על המלאי ועל הרווחיות — בלי לפגוע בתוכנית הרשמית. כל תת-פרק ותת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת CBC (מפעל-מילוי של קוקה-קולה), ניווט באפליקציות IBP ובתוסף ה-Excel, טבלאות/אפליקציות/T-Codes, פרטי קונפיגורציה, תרשים-זרימה, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המוקד: versions ו-scenarios ככלי ה-what-if הרשמיים של IBP cloud — סימולציית קפיצת-ביקוש (demand surge) וסימולציית קו-מושבת (line down) במפעל CBC.",
+    "פרק זה הוא יחידת-לימוד מלאה לסימולציות תכנון ב-SAP IBP for Sales and Operations. סימולציה היא היכולת לשאול 'מה-אם' (what-if) — לשנות הנחות-יסוד של ביקוש או היצע, להריץ את התכנון מחדש, ולראות את ההשפעה על שירות-הלקוח, על המלאי ועל הרווחיות — בלי לפגוע בתוכנית הרשמית. כל תת-פרק ותת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת הארגון (מפעל-מילוי של מוצר לדוגמה), ניווט באפליקציות IBP ובתוסף ה-Excel, טבלאות/אפליקציות/T-Codes, פרטי קונפיגורציה, תרשים-זרימה, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המוקד: versions ו-scenarios ככלי ה-what-if הרשמיים של IBP cloud — סימולציית קפיצת-ביקוש (demand surge) וסימולציית קו-מושבת (line down) במפעל לדוגמה.",
   subchapters: [
     // ============================================================ 8.1
     {
@@ -26,8 +26,8 @@ export const CH8: TextbookChapter = {
         "המטרה: לאפשר קבלת-החלטות מבוססת-נתונים תחת אי-ודאות. במקום 'נחכה ונראה', ההנהלה מכמתת מראש את הסיכון וההזדמנות בכל תרחיש — כמה מכירות נאבד אם הקו מושבת, כמה מלאי-חירום צריך לקפיצת-ביקוש, ומה עלות כל חלופה — ומחליטה על בסיס מספרים, לא תחושות.",
       processExampleHe:
         "מנהלת-תכנון חוששת מקפיצת-ביקוש לקראת חג. היא יוצרת scenario מעל ה-baseline, מעלה את ה-customer demand ב-25% למשך חודש, מריצה simulate ב-Excel add-in, ובוחנת: האם ה-supply עומד? היכן נוצר מחסור? כמה מלאי-בטיחות נדרש? היא משווה את ה-scenario ל-baseline, מציגה להנהלה ב-S&OP review, וההחלטה מתקבלת.",
-      cbcHe:
-        "ב-CBC (מפעל-מילוי קוקה-קולה) שתי הסימולציות החוזרות: (1) demand surge — גל-חום צפוי מקפיץ ביקוש למשקאות קלים ב-30%, ובודקים אם תרכיז וקיבולת-מילוי מספיקים; (2) line down — קו-מילוי 2 מושבת לשלושה ימים לתחזוקה, ובודקים את ההשפעה על שירות-הלקוח ועל הצורך בעבודת-משמרת-נוספת. שתיהן מורצות כ-scenarios או versions ומושוות ל-baseline.",
+      scenarioHe:
+        "בארגון (מפעל-מילוי מוצר לדוגמה) שתי הסימולציות החוזרות: (1) demand surge — גל-חום צפוי מקפיץ ביקוש למשקאות קלים ב-30%, ובודקים אם תרכיז וקיבולת-מילוי מספיקים; (2) line down — קו-מילוי 2 מושבת לשלושה ימים לתחזוקה, ובודקים את ההשפעה על שירות-הלקוח ועל הצורך בעבודת-משמרת-נוספת. שתיהן מורצות כ-scenarios או versions ומושוות ל-baseline.",
       navHe: [
         "SAP IBP ► Web UI ► Sales and Operations Planning ► Planner Workspaces",
         "SAP IBP ► Excel Add-In ► Simulate (ribbon) ► Save Simulation / Discard",
@@ -96,8 +96,8 @@ export const CH8: TextbookChapter = {
             "לכמת איך שינוי בצד-הביקוש מזיז את כל השרשרת — כמה supply, מלאי וקיבולת נדרשים — לפני שמחייבים משאבים.",
           processExampleHe:
             "המתכנן מעלה את Promotion Uplift ב-15% לחודש המבצע ב-scenario, מריץ simulate, ובוחן אם נוצר מחסור בתקופת-המבצע ומתי צריך להתחיל לבנות מלאי מקדים.",
-          cbcHe:
-            "ב-CBC גל-חום צפוי: המתכנן מעלה Customer Demand למשקאות-קלים ב-30% לשבועיים, ובודק אם תרכיז + קיבולת-מילוי מספיקים, או שצריך הזמנת-תרכיז דחופה.",
+          scenarioHe:
+            "בארגון גל-חום צפוי: המתכנן מעלה Customer Demand למשקאות-קלים ב-30% לשבועיים, ובודק אם תרכיז + קיבולת-מילוי מספיקים, או שצריך הזמנת-תרכיז דחופה.",
           navHe: [
             "SAP IBP ► Excel Add-In ► edit demand key figures ► Simulate",
             "SAP IBP ► Web UI ► Demand Planning ► Forecast key figures",
@@ -145,8 +145,8 @@ export const CH8: TextbookChapter = {
             "לבחון עמידות שרשרת-האספקה תחת הפרעה — השבתה, מחסור, עיכוב — ולתכנן מענה (משמרת-נוספת, ספק-חלופי, מלאי-חירום) מראש.",
           processExampleHe:
             "המתכנן מאפס את Production Capacity של resource מסוים לשלושה ימים ב-scenario, מריץ ה-optimizer, ורואה כמה ביקוש הופך ל-late ובאילו לקוחות — ואז בוחן הסטה לקו אחר.",
-          cbcHe:
-            "ב-CBC קו-מילוי 2 מושבת לתחזוקה שלושה ימים: המתכנן מוריד את הקיבולת של ה-resource לאפס בתקופה, מסמלץ, ובודק אם קו 1 + משמרת-נוספת מכסים, או שיהיה מחסור ללקוחות מפתח.",
+          scenarioHe:
+            "בארגון קו-מילוי 2 מושבת לתחזוקה שלושה ימים: המתכנן מוריד את הקיבולת של ה-resource לאפס בתקופה, מסמלץ, ובודק אם קו 1 + משמרת-נוספת מכסים, או שיהיה מחסור ללקוחות מפתח.",
           navHe: [
             "SAP IBP ► Excel Add-In ► edit supply/capacity key figures ► Simulate",
             "SAP IBP ► Web UI ► Supply Planning ► Capacity & Constraints",
@@ -194,8 +194,8 @@ export const CH8: TextbookChapter = {
             "לתת לארגון 'תרחישי-חזרה' מוכנים — שגרת-סימולציה קבועה לאירועים הצפויים — כך שכשהם מתרחשים, התגובה כבר מתוכננת.",
           processExampleHe:
             "בישיבת-S&OP חודשית מציגים שני scenarios: 'Surge +30%' מול 'Line2 Down 3d', כל אחד מושווה ל-baseline. ההנהלה רואה את הפער בשירות ובעלות, ובוחרת מדיניות-מלאי ותגבור-משמרות.",
-          cbcHe:
-            "ב-CBC: scenario 'Heatwave Surge' מעלה ביקוש משקאות ב-30%; scenario 'Filler-2 Maintenance' מאפס קיבולת קו-2 לשלושה ימים. שניהם מורצים, מושווים ל-baseline, ומוצגים כ-what-if להחלטת-הנהלה.",
+          scenarioHe:
+            "בארגון: scenario 'Heatwave Surge' מעלה ביקוש משקאות ב-30%; scenario 'Filler-2 Maintenance' מאפס קיבולת קו-2 לשלושה ימים. שניהם מורצים, מושווים ל-baseline, ומוצגים כ-what-if להחלטת-הנהלה.",
           navHe: [
             "SAP IBP ► Excel Add-In ► create scenario ► Simulate ► Save",
             "SAP IBP ► Web UI ► Manage Scenarios ► Compare",
@@ -246,8 +246,8 @@ export const CH8: TextbookChapter = {
         "לתת למתכנן מרחב-ניסוי בטוח ומהיר: לבדוק רעיונות, להשוות חלופות, ולחזור על איטרציות — בלי סיכון לתוכנית הרשמית ובלי תלות ב-IT.",
       processExampleHe:
         "המתכנן פותח planning view ב-Excel, נכנס ל-simulate, מעלה ביקוש למוצר, רואה את ה-supply נחשב מחדש בזמן-אמת, מנסה ערך אחר, ולבסוף לוחץ save כדי לקבע את התרחיש ב-scenario — או discard כדי לוותר.",
-      cbcHe:
-        "ב-CBC המתכננת פותחת את ה-planning view של משקאות-הקיץ ב-Excel add-in, נכנסת ל-simulate, מעלה ביקוש ב-30% (demand surge), רואה את צריכת-התרכיז וקיבולת-המילוי נחשבות מחדש, ושומרת ל-scenario 'Heatwave Surge'.",
+      scenarioHe:
+        "בארגון המתכננת פותחת את ה-planning view של משקאות-הקיץ ב-Excel add-in, נכנסת ל-simulate, מעלה ביקוש ב-30% (demand surge), רואה את צריכת-התרכיז וקיבולת-המילוי נחשבות מחדש, ושומרת ל-scenario 'Heatwave Surge'.",
       navHe: [
         "SAP IBP ► Excel Add-In ► Planning View ► Simulate",
         "SAP IBP ► Excel Add-In ► Save Simulation / Discard Simulation",
@@ -314,8 +314,8 @@ export const CH8: TextbookChapter = {
         "לאפשר תכנון-מקביל מבודד: לנהל תוכנית-תקציב, תרחיש-אסטרטגי או baseline-חלופי לצד התוכנית הרשמית, ולהשוות ביניהם ברמת ה-key figure לאורך כל האופק.",
       processExampleHe:
         "צוות-כספים יוצר version 'Budget 2027' כעותק של ה-Base Version, מתכנן בו את התקציב לאורך השנה, ובסוף-רבעון משווה Budget מול Actual (Base) ב-version comparison כדי לזהות סטיות.",
-      cbcHe:
-        "ב-CBC נוצר version 'Growth Scenario +10%' לתכנון-אסטרטגי שנתי במקביל ל-Base Version התפעולי; ההנהלה משווה את שניהם לקראת השקעות-קיבולת בקווי-מילוי חדשים.",
+      scenarioHe:
+        "בארגון נוצר version 'Growth Scenario +10%' לתכנון-אסטרטגי שנתי במקביל ל-Base Version התפעולי; ההנהלה משווה את שניהם לקראת השקעות-קיבולת בקווי-מילוי חדשים.",
       navHe: [
         "SAP IBP ► Web UI ► Manage Versions",
         "SAP IBP ► Excel Add-In ► Set Context ► Version",
@@ -380,8 +380,8 @@ export const CH8: TextbookChapter = {
             "לתת בעלי-תפקיד שליטה מלאה ובטוחה על מחזור-חיי ה-versions — יצירה מבוקרת ומחיקה מסודרת — בלי מעורבות IT.",
           processExampleHe:
             "צוות-תכנון פותח Manage Versions, יוצר 'Budget 2027' כעותק של Base, עובד בו רבעון, ובסוף-התהליך מוחק אותו אחרי שהמסקנות אומצו.",
-          cbcHe:
-            "ב-CBC מנהל-התכנון יוצר ב-Manage Versions את 'Growth Scenario +10%', ובסוף סבב-התכנון-האסטרטגי מוחק אותו כדי לשמור על נראות וביצועים.",
+          scenarioHe:
+            "בארגון מנהל-התכנון יוצר ב-Manage Versions את 'Growth Scenario +10%', ובסוף סבב-התכנון-האסטרטגי מוחק אותו כדי לשמור על נראות וביצועים.",
           navHe: [
             "SAP IBP ► Web UI ► Manage Versions ► Create / Copy",
             "SAP IBP ► Web UI ► Manage Versions ► Delete",
@@ -429,8 +429,8 @@ export const CH8: TextbookChapter = {
             "להפוך נתוני-version להחלטה — לראות במספרים את ההבדל בין התוכנית הרשמית לחלופה, ולבחור על בסיס עובדות.",
           processExampleHe:
             "ב-quarterly review מציגים chart המשווה 'Budget 2027' מול 'Actual (Base)' ל-key figure של revenue; הסטיות החודשיות גלויות מיד והשיחה מתמקדת בפערים.",
-          cbcHe:
-            "ב-CBC משווים 'Growth +10%' מול Base ל-key figures של נפח-מילוי וצריכת-תרכיז, כדי להחליט אם להשקיע בקו-מילוי שלישי.",
+          scenarioHe:
+            "בארגון משווים 'Growth +10%' מול Base ל-key figures של נפח-מילוי וצריכת-תרכיז, כדי להחליט אם להשקיע בקו-מילוי שלישי.",
           navHe: [
             "SAP IBP ► Web UI ► Analytics ► multi-version chart",
             "SAP IBP ► Web UI ► Planner Workspaces ► Version Comparison",
@@ -478,8 +478,8 @@ export const CH8: TextbookChapter = {
             "לאזן בין שלמות-ההשוואה לעלות-המשאבים, ולהבטיח ממשל-נתונים נכון (מי רואה/עורך מה) על ה-versions.",
           processExampleHe:
             "האדמין מגדיר ש-version-תקציב יכלול רק key figures פיננסיים רלוונטיים, מקצר זמן-העתקה ומוקד את ההשוואה.",
-          cbcHe:
-            "ב-CBC version 'Growth' מוגדר לכלול רק key figures של נפח, קיבולת ותרכיז — מספיק להחלטת-השקעה, בלי לשכפל את כל אזור-התכנון.",
+          scenarioHe:
+            "בארגון version 'Growth' מוגדר לכלול רק key figures של נפח, קיבולת ותרכיז — מספיק להחלטת-השקעה, בלי לשכפל את כל אזור-התכנון.",
           navHe: [
             "SAP IBP ► Web UI ► Configuration ► Planning Areas ► Versions",
             "SAP IBP ► Web UI ► Configuration ► Key Figures (version relevance)",
@@ -530,8 +530,8 @@ export const CH8: TextbookChapter = {
         "לאפשר what-if מהיר, זול ומרובה — לבדוק עשרות תרחישים נקודתיים ביום בלי עומס-זיכרון, ולהשוות ביניהם ול-baseline לקבלת-החלטה.",
       processExampleHe:
         "המתכנן יוצר שלושה scenarios — 'Surge +20%', 'Surge +30%', 'Surge +40%' — על אותו version, מסמלץ כל אחד, משווה את ההשפעה על המלאי והשירות, ובוחר את רמת-המלאי-המקדים המתאימה.",
-      cbcHe:
-        "ב-CBC המתכננת מחזיקה במקביל 'Heatwave +30%' ו-'Filler-2 Down 3d' כ-scenarios מעל ה-Base Version, מסמלצת ומשווה את שניהם ל-baseline בישיבת-S&OP.",
+      scenarioHe:
+        "בארגון המתכננת מחזיקה במקביל 'Heatwave +30%' ו-'Filler-2 Down 3d' כ-scenarios מעל ה-Base Version, מסמלצת ומשווה את שניהם ל-baseline בישיבת-S&OP.",
       navHe: [
         "SAP IBP ► Excel Add-In ► Create Scenario ► Simulate ► Save",
         "SAP IBP ► Web UI ► Manage Scenarios",
@@ -596,8 +596,8 @@ export const CH8: TextbookChapter = {
             "להקים מהר ובזול את מרחב-העבודה ל-what-if נקודתי, עם שיוך ברור ל-version-מקור ולשם משמעותי.",
           processExampleHe:
             "המתכנן יוצר scenario 'Promo April +15%' מעל Base, ומיד מתחיל לערוך את ה-Promotion Uplift לחודש אפריל.",
-          cbcHe:
-            "ב-CBC המתכננת יוצרת scenario 'Heatwave Surge' מעל ה-Base Version לקראת גל-חום, ומכינה את שכבת-ה-delta לעריכת-הביקוש.",
+          scenarioHe:
+            "בארגון המתכננת יוצרת scenario 'Heatwave Surge' מעל ה-Base Version לקראת גל-חום, ומכינה את שכבת-ה-delta לעריכת-הביקוש.",
           navHe: [
             "SAP IBP ► Excel Add-In ► Create Scenario",
             "SAP IBP ► Web UI ► Manage Scenarios ► Create",
@@ -645,8 +645,8 @@ export const CH8: TextbookChapter = {
             "לבחור בין חלופות-what-if על בסיס מספרים — KPI-ים של שירות, מלאי ועלות — במקום אינטואיציה.",
           processExampleHe:
             "ב-S&OP review מציגים chart המשווה 'Surge +20%', '+30%', '+40%' ל-key figures של projected stock ו-non-delivery; ההנהלה בוחרת את מדיניות-המלאי המתאימה.",
-          cbcHe:
-            "ב-CBC משווים 'Heatwave +30%' מול 'Filler-2 Down 3d' באותו chart, ורואים איזה תרחיש פוגע יותר בשירות-הלקוח.",
+          scenarioHe:
+            "בארגון משווים 'Heatwave +30%' מול 'Filler-2 Down 3d' באותו chart, ורואים איזה תרחיש פוגע יותר בשירות-הלקוח.",
           navHe: [
             "SAP IBP ► Web UI ► Manage Scenarios ► Compare",
             "SAP IBP ► Web UI ► Analytics ► multi-scenario chart",
@@ -694,8 +694,8 @@ export const CH8: TextbookChapter = {
             "לשמור על מרחב-what-if מסודר, משותף ובר-ממשל — נראות מי יצר מה, מי רשאי לערוך, ומתי למחוק.",
           processExampleHe:
             "ראש-צוות פותח Manage Scenarios, משתף את 'Surge +30%' עם חברי-הצוות לדיון, ולאחר ההחלטה מוחק את ה-scenarios שלא נבחרו.",
-          cbcHe:
-            "ב-CBC מנהלת-התכנון משתפת את scenario 'Filler-2 Down 3d' עם מנהל-הייצור לתיאום-משמרות, ומוחקת אותו לאחר ביצוע-התחזוקה.",
+          scenarioHe:
+            "בארגון מנהלת-התכנון משתפת את scenario 'Filler-2 Down 3d' עם מנהל-הייצור לתיאום-משמרות, ומוחקת אותו לאחר ביצוע-התחזוקה.",
           navHe: [
             "SAP IBP ► Web UI ► Manage Scenarios ► Share / Lock",
             "SAP IBP ► Web UI ► Manage Scenarios ► Delete",
@@ -743,8 +743,8 @@ export const CH8: TextbookChapter = {
             "לאחד את שתי רמות-ה-what-if — האסטרטגית (version) והתפעולית (scenario) — מול הרשמית, בתמונה אחת לקבלת-החלטה.",
           processExampleHe:
             "ב-S&OP review מציגים chart עם שלוש סדרות: Base, version 'Growth +10%', ו-scenario 'Heatwave Surge'; ההנהלה רואה את ההשפעה המשולבת על קיבולת ומחליטה על השקעה ועל מלאי-מקדים גם יחד.",
-          cbcHe:
-            "ב-CBC משווים Base מול version 'Growth +10%' (אסטרטגי) מול scenario 'Heatwave +30%' (תפעולי) באותו chart — ורואים אם תוכנית-הצמיחה מספיקה גם לגל-חום פתאומי.",
+          scenarioHe:
+            "בארגון משווים Base מול version 'Growth +10%' (אסטרטגי) מול scenario 'Heatwave +30%' (תפעולי) באותו chart — ורואים אם תוכנית-הצמיחה מספיקה גם לגל-חום פתאומי.",
           navHe: [
             "SAP IBP ► Web UI ► Analytics ► combined version+scenario chart",
             "SAP IBP ► Web UI ► Planner Workspaces ► multi-source comparison",
@@ -800,8 +800,8 @@ export const CH8: TextbookChapter = {
         "לסכם את הפרק לכדי שגרת-עבודה ישימה: מתי לסמלץ, איזה כלי לבחור, איך להשוות, ואיך להציג להחלטה.",
       processExampleHe:
         "מחזור-S&OP מלא: זיהוי שאלת-what-if ► בחירת scenario/version ► simulate ב-Excel ► comparison מול baseline ► הצגה ב-review ► החלטה ► ניקוי scenarios/versions ישנים.",
-      cbcHe:
-        "ב-CBC השגרה: לכל סבב-S&OP מריצים 'Heatwave Surge' ו-'Filler-2 Down' כ-scenarios, ולתכנון-שנתי מחזיקים version 'Growth +10%'; מציגים את כולם מול Base ומחליטים על מלאי, קיבולת והשקעה.",
+      scenarioHe:
+        "בארגון השגרה: לכל סבב-S&OP מריצים 'Heatwave Surge' ו-'Filler-2 Down' כ-scenarios, ולתכנון-שנתי מחזיקים version 'Growth +10%'; מציגים את כולם מול Base ומחליטים על מלאי, קיבולת והשקעה.",
       navHe: [
         "SAP IBP ► Excel Add-In ► Simulate / Save",
         "SAP IBP ► Web UI ► Manage Versions / Manage Scenarios",

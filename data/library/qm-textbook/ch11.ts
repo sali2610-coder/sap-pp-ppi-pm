@@ -1,7 +1,7 @@
 // ===== QM Digital Textbook — Chapter 11 (Quality Certificates) =====
 // Every node is a complete LearningNode with 18 facets of authored Hebrew —
 // beginner + consultant friendly, enough to study the topic without the book.
-// CBC = Coca-Cola bottling certificates to retailers / from suppliers.
+// הארגון = Example Product bottling certificates to retailers / from suppliers.
 // SAP identifiers verbatim EN (QC01/QC02/QC51, QC20 profile, VL01N; QALS/QCVK).
 import type { TextbookChapter } from "./types";
 
@@ -10,7 +10,7 @@ export const CH11: TextbookChapter = {
   titleHe: "תעודות איכות",
   titleEn: "Quality Certificates",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לתעודות-איכות (Quality Certificates) ב-SAP QM, על שני צדדיו: תעודות נכנסות מספקים (Incoming) ותעודות יוצאות ללקוחות (Outgoing). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. ב-CBC: תעודות-איכות שנשלחות לקמעונאים על משלוחי משקאות, ותעודות שמתקבלות מספקי תרכיז/סוכר/CO2. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לתעודות-איכות (Quality Certificates) ב-SAP QM, על שני צדדיו: תעודות נכנסות מספקים (Incoming) ותעודות יוצאות ללקוחות (Outgoing). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. בארגון: תעודות-איכות שנשלחות לקמעונאים על משלוחי משקאות, ותעודות שמתקבלות מספקי תרכיז/סוכר/CO2. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 11.1
     {
@@ -27,8 +27,8 @@ export const CH11: TextbookChapter = {
         "המטרה: למנוע כניסת חומר-גלם קריטי ללא אישור-איכות מהספק, להעביר חלק מאחריות-הבדיקה לשרשרת-האספקה, ולספק תיעוד-ביקורת (Audit trail) לרגולציה. בכך מצמצמים בדיקות-קבלה כפולות ומקצרים זמני-שחרור.",
       processExampleHe:
         "ספק שולח תרכיז; הזמנת-הרכש דורשת תעודת-איכות מסוג \"תוצאות-בדיקה\". בקבלת-הטובין המערכת בודקת אם התעודה הגיעה: אם כן — קבלה ושחרור; אם לא — הרשומה נכנסת ל-Worklist (QC51) והתשלום/השימוש עשוי להיחסם עד הגעת התעודה.",
-      cbcHe:
-        "ב-CBC: ספקי תרכיז, סוכר ו-CO2 מחויבים לצרף תעודת-איכות לכל אצווה. ללא תעודה, האצווה ננעלת ב-Worklist ואינה משוחררת לקווי-המילוי. זה קריטי לרגולציית-מזון — כל רכיב שנכנס למשקה חייב הוכחת-איכות מתועדת.",
+      scenarioHe:
+        "בארגון: ספקי תרכיז, סוכר ו-CO2 מחויבים לצרף תעודת-איכות לכל אצווה. ללא תעודה, האצווה ננעלת ב-Worklist ואינה משוחררת לקווי-המילוי. זה קריטי לרגולציית-מזון — כל רכיב שנכנס למשקה חייב הוכחת-איכות מתועדת.",
       navHe: [
         "Quality Management ► QM in Logistics ► QM in Procurement ► Define Control Keys (QM-Control Keys)",
         "Quality Management ► Quality Certificates ► Certificate Receipt for Goods Receipt and Stock Transfer ► Define Control Functions for Certificate Processing",
@@ -96,8 +96,8 @@ export const CH11: TextbookChapter = {
             "לתת שליטה ברמת-החומר על מידת-הבקרה: חומר קריטי מקבל מפתח מחמיר (תעודה + חסימה), חומר זניח מקבל מפתח מקל או ללא QM כלל.",
           processExampleHe:
             "חומר \"תרכיז\" מקבל Control Key הדורש תעודה וחוסם חשבונית עד שחרור. בקבלת-טובין המערכת חוסמת את התשלום ומסמנת דרישת-תעודה; השחרור ניתן רק לאחר אישור-קבלת-התעודה.",
-          cbcHe:
-            "ב-CBC לתרכיז ולסוכר מוקצה Control Key מחמיר (תעודה + Block invoice); לחומרי-אריזה משניים מוקצה מפתח מקל. כך הבקרה מתמקדת ברכיבים שנכנסים פיזית למשקה.",
+          scenarioHe:
+            "בארגון לתרכיז ולסוכר מוקצה Control Key מחמיר (תעודה + Block invoice); לחומרי-אריזה משניים מוקצה מפתח מקל. כך הבקרה מתמקדת ברכיבים שנכנסים פיזית למשקה.",
           navHe: [
             "Quality Management ► QM in Logistics ► QM in Procurement ► Define Control Keys",
           ],
@@ -145,8 +145,8 @@ export const CH11: TextbookChapter = {
             "להבדיל בין חומרים שבהם תעודה חסרה היא אזהרה (לוגיסטיקה גמישה) לבין חומרים קריטיים שבהם היא חסימה מוחלטת — איזון בין בקרה לבין רציפות-תפעולית.",
           processExampleHe:
             "פונקציית-בקרה מוגדרת \"Error\" לחומרי-מזון: קבלת-טובין ללא תעודה נחסמת. לחומרי-אריזה מוגדרת \"Warning\": הקבלה עוברת אך נרשמת התראה ב-Worklist.",
-          cbcHe:
-            "ב-CBC לתרכיז/סוכר/CO2 מוגדרת תגובת-חסימה (Error) — אין קבלה ללא תעודה; לחומרי-אריזה משניים מוגדרת אזהרה בלבד, כדי לא לעצור את קו-המילוי.",
+          scenarioHe:
+            "בארגון לתרכיז/סוכר/CO2 מוגדרת תגובת-חסימה (Error) — אין קבלה ללא תעודה; לחומרי-אריזה משניים מוגדרת אזהרה בלבד, כדי לא לעצור את קו-המילוי.",
           navHe: [
             "Quality Management ► Quality Certificates ► Certificate Receipt for Goods Receipt and Stock Transfer ► Define Control Functions for Certificate Processing",
           ],
@@ -193,8 +193,8 @@ export const CH11: TextbookChapter = {
             "לאפשר דרישת-תעודה מדויקת ודיפרנציאלית — ספק מהימן עשוי לדרוש פחות, ספק חדש יותר — בלי לקודד את הכללים בכל הזמנה ידנית.",
           processExampleHe:
             "נוצר QINF לספק-התרכיז: Control Key מחמיר, Certificate type \"Analysis\", שחרור-ספק פעיל. כל הזמנה לספק זה יורשת אוטומטית את הדרישה לתעודת-ניתוח.",
-          cbcHe:
-            "ב-CBC לכל ספק-תרכיז מאושר נוצר QINF הדורש תעודת-ניתוח לכל אצווה; ספק שאינו משוחרר ב-QINF כלל אינו מאושר לרכש — בקרת-איכות בשורש.",
+          scenarioHe:
+            "בארגון לכל ספק-תרכיז מאושר נוצר QINF הדורש תעודת-ניתוח לכל אצווה; ספק שאינו משוחרר ב-QINF כלל אינו מאושר לרכש — בקרת-איכות בשורש.",
           navHe: [
             "Logistics ► Quality Management ► Quality Inspection ► Quality Info Record ► Maintain (QI01)",
             "Quality Management ► QM in Logistics ► QM in Procurement ► Quality Info Record settings",
@@ -243,8 +243,8 @@ export const CH11: TextbookChapter = {
             "להטמיע את דרישת-האיכות כבר ברכש — כך שהבקרה אינה תלויה בזיכרון-המשתמש אלא מובנית בזרימת-המסמך.",
           processExampleHe:
             "רוכש יוצר ME21N לתרכיז; ההזמנה יורשת Control Key מחמיר ומסמנת דרישת-תעודת-ניתוח. בלשונית-ה-QM נראה הסטטוס; בקבלה תיבדק הגעת-התעודה.",
-          cbcHe:
-            "ב-CBC הזמנת-רכש לתרכיז נוצרת מול ספק מאושר ב-QINF; ההזמנה כוללת אוטומטית דרישת-תעודה ובקרת-קבלה, כך שאצווה ללא תעודה תיחסם בהמשך.",
+          scenarioHe:
+            "בארגון הזמנת-רכש לתרכיז נוצרת מול ספק מאושר ב-QINF; ההזמנה כוללת אוטומטית דרישת-תעודה ובקרת-קבלה, כך שאצווה ללא תעודה תיחסם בהמשך.",
           navHe: [
             "Logistics ► Materials Management ► Purchasing ► Purchase Order ► Create (ME21N)",
           ],
@@ -291,8 +291,8 @@ export const CH11: TextbookChapter = {
             "לוודא שחומר אינו עובר לשימוש-חופשי לפני שאיכותו אומתה — דרך תעודת-ספק ו/או בדיקת-קבלה — וליצור תיעוד-ביקורת מלא.",
           processExampleHe:
             "GR לתרכיז: נוצר Inspection Lot, המלאי ב-Quality stock. התעודה לא צורפה ➔ רשומה ב-QC51, חשבונית חסומה. עם הגעת-התעודה ואישורה — Usage Decision משחרר ל-Unrestricted.",
-          cbcHe:
-            "ב-CBC קבלת תרכיז יוצרת Inspection Lot; האצווה ב-Quality stock עד שתעודת-הניתוח של הספק מאושרת. רק אז הקו רשאי למשוך את האצווה למילוי.",
+          scenarioHe:
+            "בארגון קבלת תרכיז יוצרת Inspection Lot; האצווה ב-Quality stock עד שתעודת-הניתוח של הספק מאושרת. רק אז הקו רשאי למשוך את האצווה למילוי.",
           navHe: [
             "Logistics ► Materials Management ► Inventory Management ► Goods Movement ► Goods Receipt (MIGO)",
           ],
@@ -340,8 +340,8 @@ export const CH11: TextbookChapter = {
             "לתעד ולאמת את תוכן התעודה — לא רק את קבלתה — כדי לאפשר החלטת-שימוש מבוססת-נתונים ושמירת-היסטוריה ברמת-האצווה.",
           processExampleHe:
             "תעודת-ניתוח לתרכיז מגיעה עם ערכי Brix וחומציות; היועץ מזין אותם כ-Results מול ה-Inspection Lot; אם בתחום-המפרט — Usage Decision = Accept והאצווה משוחררת.",
-          cbcHe:
-            "ב-CBC ערכי תעודת-הניתוח של התרכיז (Brix, חומציות, מיקרוביולוגיה) מוזנים מול ה-Inspection Lot ונשמרים על האצווה — כך שכל משקה ניתן לתחקור עד תעודת-הספק.",
+          scenarioHe:
+            "בארגון ערכי תעודת-הניתוח של התרכיז (Brix, חומציות, מיקרוביולוגיה) מוזנים מול ה-Inspection Lot ונשמרים על האצווה — כך שכל משקה ניתן לתחקור עד תעודת-הספק.",
           navHe: [
             "Logistics ► Quality Management ► Quality Inspection ► Results Recording (QE51N)",
             "Logistics ► Quality Management ► Quality Inspection ► Inspection Lot ► Usage Decision (QA11)",
@@ -389,8 +389,8 @@ export const CH11: TextbookChapter = {
             "לתת נראות תפעולית ריכוזית לתעודות חסרות — כדי שאצווה חסומה לא \"תיעלם\" ולא תעכב ייצור או תשלום.",
           processExampleHe:
             "מנהל-האיכות פותח QC51 בבוקר, רואה שלוש אצוות-תרכיז ללא תעודה, מתקשר לספק, מקבל את התעודות, מאשר ב-QC51 ומשחרר את האצוות לקו-המילוי.",
-          cbcHe:
-            "ב-CBC QC51 נסרקת מדי בוקר; כל אצוות תרכיז/סוכר ללא תעודה מסומנות ומטופלות מול הספק לפני תחילת-המשמרת, כדי שקווי-המילוי לא ייעצרו.",
+          scenarioHe:
+            "בארגון QC51 נסרקת מדי בוקר; כל אצוות תרכיז/סוכר ללא תעודה מסומנות ומטופלות מול הספק לפני תחילת-המשמרת, כדי שקווי-המילוי לא ייעצרו.",
           navHe: [
             "Logistics ► Quality Management ► Quality Certificates ► Certificate Receipt ► Worklist (QC51)",
             "Logistics ► Quality Management ► Quality Certificates ► Certificate Receipt ► Monitor (QC55)",
@@ -449,8 +449,8 @@ export const CH11: TextbookChapter = {
         "לספק ללקוח הוכחת-איכות אוטומטית ועקבית, לעמוד בדרישות-רגולציה/חוזה, ולחסוך הפקה ידנית של תעודות — כל זאת תוך שאיבת-נתונים מהמקור האמין (תוצאות-הבדיקה והאצווה).",
       processExampleHe:
         "במשלוח משקה ללקוח, ה-Output במשלוח מפעיל את ה-Certificate Profile של המוצר; הפרופיל שואב את ערכי-הבדיקה של האצווה (Brix, חומציות), מרכיב תעודה ומדפיס/שולח אותה עם תעודת-המשלוח.",
-      cbcHe:
-        "ב-CBC כל משלוח-משקאות לקמעונאי גדול מלווה בתעודת-איכות אוטומטית, השואבת את ערכי-הבדיקה של אצוות-המילוי. כך הקמעונאי מקבל הוכחת-עמידה-במפרט לכל אצווה ללא עבודה ידנית של CBC.",
+      scenarioHe:
+        "בארגון כל משלוח-משקאות לקמעונאי גדול מלווה בתעודת-איכות אוטומטית, השואבת את ערכי-הבדיקה של אצוות-המילוי. כך הקמעונאי מקבל הוכחת-עמידה-במפרט לכל אצווה ללא עבודה ידנית של הארגון.",
       navHe: [
         "Quality Management ► Quality Certificates ► Certificates in Sales and Distribution ► Define Certificate Profile (QC20)",
         "Quality Management ► Quality Certificates ► Certificates in Sales and Distribution ► Assign Certificate Profiles",
@@ -519,8 +519,8 @@ export const CH11: TextbookChapter = {
             "לקבע את אוצר-המונחים והמקורות מראש — כך שבניית-פרופיל היא הרכבה מאבני-בניין מוגדרות, אחידה ונשלטת, ולא הגדרה אד-הוק לכל תעודה.",
           processExampleHe:
             "מוגדר Certificate type \"Analysis\" ו-Data Origin \"Inspection results per batch\". בבניית הפרופיל, כל Characteristic מקבלת את ה-Origin הזה כדי לשאוב מ-Lot האצווה.",
-          cbcHe:
-            "ב-CBC מוגדרים סוג-תעודה \"Certificate of Analysis\" ו-Origin \"תוצאות-בדיקה לפי אצווה\" — כל תעודות-המשקאות לקמעונאים נבנות מאבני-הבניין האחידות הללו.",
+          scenarioHe:
+            "בארגון מוגדרים סוג-תעודה \"Certificate of Analysis\" ו-Origin \"תוצאות-בדיקה לפי אצווה\" — כל תעודות-המשקאות לקמעונאים נבנות מאבני-הבניין האחידות הללו.",
           navHe: [
             "Quality Management ► Quality Certificates ► Certificates in Sales and Distribution ► Define Certificate Types",
             "Quality Management ► Quality Certificates ► Certificates in Sales and Distribution ► Define Data Origin",
@@ -568,8 +568,8 @@ export const CH11: TextbookChapter = {
             "לאפשר הפקת-תעודה דיפרנציאלית ומדויקת — לקוח אחד עשוי לדרוש פורמט שונה — בלי לקודד את הכללים בכל משלוח.",
           processExampleHe:
             "נוצר Profile \"COA-Beverage\" ומשויך ברמת-Material לכל המשקאות; לקוח-מפתח מקבל שיוך Customer-Material עם פורמט מורחב. במשלוח המערכת בוחרת את הפרופיל הנכון לפי העדיפות.",
-          cbcHe:
-            "ב-CBC פרופיל ברירת-מחדל משויך לכל המשקאות ברמת-Material; רשת-קמעונאות גדולה מקבלת פרופיל ייעודי ברמת-Customer-Material עם שדות נוספים שהיא דורשת בחוזה.",
+          scenarioHe:
+            "בארגון פרופיל ברירת-מחדל משויך לכל המשקאות ברמת-Material; רשת-קמעונאות גדולה מקבלת פרופיל ייעודי ברמת-Customer-Material עם שדות נוספים שהיא דורשת בחוזה.",
           navHe: [
             "Quality Management ► Quality Certificates ► Certificates in Sales and Distribution ► Define Certificate Profile (QC20)",
             "Quality Management ► Quality Certificates ► Certificates in Sales and Distribution ► Assign Certificate Profiles to Material/Customer",
@@ -618,8 +618,8 @@ export const CH11: TextbookChapter = {
             "להבטיח שכל משלוח-רלוונטי מלווה בתעודה תקפה ועדכנית, אוטומטית, כחלק מתהליך-המכירה — ללא תלות בפעולה-ידנית ובלי לעכב את המשלוח.",
           processExampleHe:
             "פיקינג ו-PGI למשלוח-משקאות; ה-Output מפיק תעודת-COA השואבת את ערכי-הבדיקה של אצוות-המשלוח; התעודה מודפסת/נשלחת ב-EDI ללקוח יחד עם תעודת-המשלוח.",
-          cbcHe:
-            "ב-CBC משלוח לקמעונאי גדול עובר PGI; התעודה מופקת אוטומטית מערכי-אצוות-המילוי ונשלחת ב-EDI ל-Portal של הרשת — הקמעונאי מקבל הוכחת-איכות לכל אצווה ברגע השילוח.",
+          scenarioHe:
+            "בארגון משלוח לקמעונאי גדול עובר PGI; התעודה מופקת אוטומטית מערכי-אצוות-המילוי ונשלחת ב-EDI ל-Portal של הרשת — הקמעונאי מקבל הוכחת-איכות לכל אצווה ברגע השילוח.",
           navHe: [
             "Logistics ► Sales and Distribution ► Shipping ► Outbound Delivery ► Create (VL01N)",
             "Logistics ► Quality Management ► Quality Certificates ► Certificate Creation for Delivery (QC42)",
@@ -686,9 +686,9 @@ export const CH11: TextbookChapter = {
       purposeHe:
         "לקבע תהליך-איכות מקצה-לקצה: מניעת כניסת-חומר ללא הוכחה, ומתן-הוכחה ללקוח — שניהם מתועדים, אוטומטיים וברי-תחקור.",
       processExampleHe:
-        "מחזור מלא ב-CBC: ספק שולח תרכיז עם תעודת-ניתוח ➔ נבדקת ב-GR, אצווה משוחררת ➔ המשקה מיוצר ונבדק ➔ במשלוח לקמעונאי מופקת תעודת-COA אוטומטית מערכי-האצווה.",
-      cbcHe:
-        "ב-CBC תעודות-האיכות סוגרות מעגל: אותם ערכי-איכות שנדרשו מהספק (Brix, חומציות) נבדקים שוב במשקה המוגמר ומופקים בתעודה ללקוח — תחקור רציף מחומר-הגלם ועד המדף.",
+        "מחזור מלא בארגון: ספק שולח תרכיז עם תעודת-ניתוח ➔ נבדקת ב-GR, אצווה משוחררת ➔ המשקה מיוצר ונבדק ➔ במשלוח לקמעונאי מופקת תעודת-COA אוטומטית מערכי-האצווה.",
+      scenarioHe:
+        "בארגון תעודות-האיכות סוגרות מעגל: אותם ערכי-איכות שנדרשו מהספק (Brix, חומציות) נבדקים שוב במשקה המוגמר ומופקים בתעודה ללקוח — תחקור רציף מחומר-הגלם ועד המדף.",
       navHe: [
         "Quality Management ► Quality Certificates (כלל-הצומת ל-SPRO)",
         "Quality Management ► QM in Logistics ► QM in Procurement (צד נכנס)",

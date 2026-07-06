@@ -9,7 +9,7 @@ export const CH7: TextbookChapter = {
   titleHe: "לוגיסטיקת חצר (Yard Logistics)",
   titleEn: "Yard Logistics",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה ל-Yard Logistics (לוגיסטיקת חצר) במסגרת SAP EWM. החצר (yard) היא השטח שמחוץ לקירות המחסן — שערי-כניסה (gates), משקלי-גשר, חניות (parking spaces) ורציפי-העמסה (doors) — שבו נעים משאיות, נגררים (trailers) וקרונות. כל תת-פרק הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך check-in→move→check-out, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בנושא ללא חומר חיצוני. ב-CBC מדובר בניהול חצר המשאיות והנגררים של מפעל-המשקאות של קוקה-קולה.",
+    "פרק זה הוא יחידת-לימוד מלאה ל-Yard Logistics (לוגיסטיקת חצר) במסגרת SAP EWM. החצר (yard) היא השטח שמחוץ לקירות המחסן — שערי-כניסה (gates), משקלי-גשר, חניות (parking spaces) ורציפי-העמסה (doors) — שבו נעים משאיות, נגררים (trailers) וקרונות. כל תת-פרק הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך check-in→move→check-out, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בנושא ללא חומר חיצוני. בארגון מדובר בניהול חצר המשאיות והנגררים של מפעל-המשקאות של מוצר לדוגמה.",
   subchapters: [
     // ============================================================ 7.1
     {
@@ -26,8 +26,8 @@ export const CH7: TextbookChapter = {
         "המטרה: לתת נראות (visibility) מלאה ובקרה על כל כלי-רכב בשטח-המפעל, לקצר זמני-המתנה, למנוע detention charges, ולסנכרן את הגעת-המשאיות עם זמינות-הרציפים ועם ה-Warehouse Tasks של ההעמסה/הפריקה. נראות זו גם תנאי לתכנון-עומסים (door scheduling) ולמדידת KPI כמו זמן-שהייה ממוצע בחצר.",
       processExampleHe:
         "משאית עם נגרר (TU) מגיעה לשער. בנקודת-הביקורת (checkpoint) מבוצע check-in: ה-TU נרשם ומשויך ל-yard, ונקבעת לו חניה (parking space). כשהרציף (door) מתפנה, נוצרת Yard Movement שמורה לנהג לגשת מהחניה לרציף; ההעמסה/הפריקה מתבצעת דרך ה-Warehouse Tasks הרגילים; ולבסוף check-out בשער מסיר את ה-TU מה-yard.",
-      cbcHe:
-        "ב-CBC: משאיות-חלוקה המביאות בקבוקים/פחיות ריקים נכנסות בשער המזרחי, נשקלות בגשר-המשקל, וממתינות בחניה עד שרציף-הפריקה מתפנה. נגררי המוצר-המוגמר (FERT) ממתינים בחניות נפרדות עד שקו-המילוי השלים אצווה והפלטות מוכנות להעמסה. ה-yard של ה-DC ממופה ב-EWM כ-Storage Type מסוג Yard עם עשרות parking spaces ו-doors צמודים לקווי-המילוי.",
+      scenarioHe:
+        "בארגון: משאיות-חלוקה המביאות בקבוקים/פחיות ריקים נכנסות בשער המזרחי, נשקלות בגשר-המשקל, וממתינות בחניה עד שרציף-הפריקה מתפנה. נגררי המוצר-המוגמר (FERT) ממתינים בחניות נפרדות עד שקו-המילוי השלים אצווה והפלטות מוכנות להעמסה. ה-yard של ה-DC ממופה ב-EWM כ-Storage Type מסוג Yard עם עשרות parking spaces ו-doors צמודים לקווי-המילוי.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Master Data ► Activate Yard Management",
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Master Data ► Define Checkpoint",
@@ -105,8 +105,8 @@ export const CH7: TextbookChapter = {
         "לספק זרימה תפעולית מבוקרת מהשער ועד הרציף ובחזרה — להבטיח שכל TU מנותב לחניה/רציף הנכונים בזמן הנכון, שהמהלכים מתועדים, ושההעמסה/הפריקה מסונכרנת עם ה-Warehouse Tasks. כך מצטמצמים זמני-מחזור ועלויות-המתנה.",
       processExampleHe:
         "TU מגיע ב-check-in ומשובץ ל-parking space P-01. ה-SADD מזהה שהפריקה צריכה להתבצע בדלת D-12 הצמודה ל-Staging Area של הקבלה. נוצר Yard Order עם Yard Task 'P-01 → D-12'; טרקטור-החצר מבצע ומאשר. בתום הפריקה (Warehouse Tasks 101) נוצר Yard Task 'D-12 → checkpoint יציאה' ובוצע check-out.",
-      cbcHe:
-        "ב-CBC: נגרר מלא בפחיות-ריקות עובר check-in, ממתין ב-P-Empty-03, ומנותב לדלת-הפריקה הסמוכה למחסן-החומרים. במקביל, נגרר ריק מנותב לדלת-ההעמסה הצמודה לקו-המילוי שסיים אצווה, נטען בפלטות FERT דרך Warehouse Tasks, ויוצא ב-check-out לעבר ה-DC האזורי.",
+      scenarioHe:
+        "בארגון: נגרר מלא בפחיות-ריקות עובר check-in, ממתין ב-P-Empty-03, ומנותב לדלת-הפריקה הסמוכה למחסן-החומרים. במקביל, נגרר ריק מנותב לדלת-ההעמסה הצמודה לקו-המילוי שסיים אצווה, נטען בפלטות FERT דרך Warehouse Tasks, ויוצא ב-check-out לעבר ה-DC האזורי.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Shipping and Receiving ► Define Control for Shipping and Receiving Activities",
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Receipt Process ► Staging Area and Door Determination (SADD)",
@@ -182,8 +182,8 @@ export const CH7: TextbookChapter = {
             "להבטיח קבלת-סחורה מסודרת: TU מנותב לדלת הנכונה הצמודה ל-Staging Area של הקבלה, הפריקה מתועדת, וה-Inbound Delivery וה-GR מסונכרנים עם התנועה הפיזית בחצר.",
           processExampleHe:
             "נגרר עם חומרי-גלם מגיע, check-in ב-/SCWM/PRDI ומשויך ל-Inbound Delivery. SADD בוחר door D-04 הצמוד ל-Staging Area של הקבלה. Yard Task 'P-07 → D-04' מבוצע; בדלת מתבצע unloading ונוצרים Putaway Tasks ל-bins. עם סיום הפריקה — Yard Task 'D-04 → checkpoint' ו-check-out.",
-          cbcHe:
-            "ב-CBC: נגרר עם תרכיז/סוכר (ROH מנוהלי-אצווה) עובר check-in, נשקל בגשר-המשקל, ומנותב לדלת הצמודה למחסן-החומרים. הפריקה יוצרת Putaway Tasks עם batch ל-bins; ה-Inbound Delivery נסגר וה-GR מדווח. הנגרר הריק יוצא ב-check-out.",
+          scenarioHe:
+            "בארגון: נגרר עם תרכיז/סוכר (ROH מנוהלי-אצווה) עובר check-in, נשקל בגשר-המשקל, ומנותב לדלת הצמודה למחסן-החומרים. הפריקה יוצרת Putaway Tasks עם batch ל-bins; ה-Inbound Delivery נסגר וה-GR מדווח. הנגרר הריק יוצא ב-check-out.",
           navHe: [
             "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Receipt Process ► Inbound Delivery ► Define Process Profiles",
             "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Receipt Process ► Staging Area and Door Determination (SADD) ► Define Access for Storage Process",
@@ -252,8 +252,8 @@ export const CH7: TextbookChapter = {
             "להבטיח משלוח-סחורה מסודר: ה-TU מנותב לדלת-ההעמסה הצמודה ל-Staging Area של המשלוח, ההעמסה מסונכרנת עם ה-Pick Tasks, וה-Outbound Delivery וה-GI מתעדכנים עם היציאה הפיזית מהחצר.",
           processExampleHe:
             "נגרר ריק מגיע, check-in ב-/SCWM/PRDO ומשויך ל-Outbound Delivery. SADD בוחר door D-21 הצמוד ל-Staging Area של המשלוח. Wave משחרר Pick Tasks שמביאים את הפלטות ל-staging. Yard Task 'P-12 → D-21' מבוצע; ההעמסה מאושרת ל-TU; מדווח Goods Issue; Yard Task 'D-21 → checkpoint' ו-check-out.",
-          cbcHe:
-            "ב-CBC: נגרר ריק עובר check-in ומנותב לדלת הצמודה לקו-המילוי שסיים אצווה. Wave משחרר Pick Tasks לפלטות FERT; ההעמסה מאושרת, Goods Issue מדווח, וה-TU המלא יוצא ב-check-out לעבר ה-DC האזורי או הלקוח הקמעונאי.",
+          scenarioHe:
+            "בארגון: נגרר ריק עובר check-in ומנותב לדלת הצמודה לקו-המילוי שסיים אצווה. Wave משחרר Pick Tasks לפלטות FERT; ההעמסה מאושרת, Goods Issue מדווח, וה-TU המלא יוצא ב-check-out לעבר ה-DC האזורי או הלקוח הקמעונאי.",
           navHe: [
             "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Issue Process ► Outbound Delivery ► Define Process Profiles",
             "SCM Extended Warehouse Management ► Extended Warehouse Management ► Goods Issue Process ► Staging Area and Door Determination (SADD)",
@@ -325,8 +325,8 @@ export const CH7: TextbookChapter = {
         "לקבע את התמונה הכוללת: ניהול-החצר אינו מודול נפרד אלא שכבת-נראות ובקרה המחברת תחבורה (TM) למחסן (EWM). מטרתו לוודא שכל כלי-רכב מנותב נכון, בזמן, ובלי המתנות מיותרות — וכך לשמר את מדדי-השירות ועלויות-הלוגיסטיקה.",
       processExampleHe:
         "מקצה-לקצה: TU מגיע → check-in → parking space → SADD בוחר door → Yard Task לרציף → פריקה/העמסה דרך Warehouse Tasks → GR/GI → Yard Task חזרה ל-checkpoint → check-out. אותה שלדה משרתת גם Inbound וגם Outbound.",
-      cbcHe:
-        "ב-CBC התמונה השלמה: עשרות נגררים נכנסים ויוצאים מדי-יום מ-DC המשקאות; ניהול-החצר ב-EWM מבטיח שריקים נפרקים סמוך למחסן-החומרים, שמלאים נטענים סמוך לקווי-המילוי, ושאף נגרר לא 'הולך-לאיבוד' בחצר — תוך שמירה על detention נמוך וזמן-מחזור קצר.",
+      scenarioHe:
+        "בארגון התמונה השלמה: עשרות נגררים נכנסים ויוצאים מדי-יום מ-DC המשקאות; ניהול-החצר ב-EWM מבטיח שריקים נפרקים סמוך למחסן-החומרים, שמלאים נטענים סמוך לקווי-המילוי, ושאף נגרר לא 'הולך-לאיבוד' בחצר — תוך שמירה על detention נמוך וזמן-מחזור קצר.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Master Data ► Activate Yard Management",
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Cross-Process Settings ► Shipping and Receiving ► Define Control for Shipping and Receiving Activities",

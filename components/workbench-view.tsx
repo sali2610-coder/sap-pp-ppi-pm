@@ -122,8 +122,8 @@ export function WorkbenchView({ w }: { w: Workbench }) {
       )}
 
       <div className="mt-4">
-        <Block title="דוגמאות CBC (CBC Examples)" accent="#d62027">
-          <ul className="space-y-2 text-sm leading-relaxed text-slate-600">{w.cbc.map((c, idx) => <li key={idx} className="flex gap-2"><span className="text-brand">●</span><span>{c}</span></li>)}</ul>
+        <Block title="דוגמאות הארגון (הארגון Examples)" accent="#d62027">
+          <ul className="space-y-2 text-sm leading-relaxed text-slate-600">{w.scenario.map((c, idx) => <li key={idx} className="flex gap-2"><span className="text-brand">●</span><span>{c}</span></li>)}</ul>
         </Block>
       </div>
 

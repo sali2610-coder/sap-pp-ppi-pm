@@ -21,7 +21,7 @@ export interface AlmPlatform {
   s4: string;
   tips: string[];
   notes: string[];
-  cbc: string;
+  scenario: string;
   links: AlmLink[];
 }
 
@@ -48,7 +48,7 @@ export const PLATFORMS: AlmPlatform[] = [
     ecc: "מנוהל מערכות ECC דרך Managed System config; ChaRM מעל CTS.", s4: "תומך גם ב-S/4 on-prem; אך SAP מכוונת ל-Cloud ALM לתרחישים חדשים/היברידיים.",
     tips: ["Managed System + LMDB חייבים להיות מעודכנים ל-RCA/ניטור", "ChaRM דורש משמעת cycle (phases)", "תכנן מעבר ל-Cloud ALM לקראת 2027"],
     notes: ["Solution Manager 7.2 managed system setup · SV-SMG-SET", "ChaRM change document transport · SV-SMG-CM", "BPMon alert configuration · SV-SMG-MON-BPM"],
-    cbc: "ב-CBC: ChaRM שימש לשנע תיקון PP-PI דרך DEV→QA→PRD עם תיעוד מלא; BPMon התריע על backlog אישורי ייצור.",
+    scenario: "בארגון: ChaRM שימש לשנע תיקון PP-PI דרך DEV→QA→PRD עם תיעוד מלא; BPMon התריע על backlog אישורי ייצור.",
     links: [{ label: "Transport Mgmt", href: "/alm/#transport" }, DELIVERY, S4],
   },
   {
@@ -67,7 +67,7 @@ export const PLATFORMS: AlmPlatform[] = [
     ecc: "פועל על SolMan 7.2 שמנהל נופי ECC/S4.", s4: "נפוץ בפרויקטי S/4 transformation (SAP Activate); מקביל מודרני: Cloud ALM Implementation.",
     tips: ["Work Item ↔ Transport — שמור על המיפוי", "Solution Readiness Dashboard = תמונת מצב להנהלה", "Focused Build דורש SolMan 7.2 SP מתאים"],
     notes: ["Focused Build work package work item · SV-SMG-FB", "Solution Readiness Dashboard · SV-SMG-FB"],
-    cbc: "ב-CBC: דרישה לדוח תחזוקה (PM) נוהלה כ-Work Package עם 3 Work Items (CDS, Fiori, הרשאה); שוחררה ב-wave מתוכנן.",
+    scenario: "בארגון: דרישה לדוח תחזוקה (PM) נוהלה כ-Work Package עם 3 Work Items (CDS, Fiori, הרשאה); שוחררה ב-wave מתוכנן.",
     links: [{ label: "SAP Activate", href: "/delivery/" }, { label: "אבטחה — תפקידים", href: "/security/" }, S4],
   },
   {
@@ -87,7 +87,7 @@ export const PLATFORMS: AlmPlatform[] = [
     ecc: "לא מיועד ל-ECC טהור; מתמקד ב-Cloud/S4/היברידי.", s4: "ה-ALM המומלץ ל-S/4HANA Cloud / RISE; Implementation מבוסס SAP Activate, Operations מחליף ניטור SolMan.",
     tips: ["Cloud ALM = SaaS — אין תשתית לתחזק", "Implementation ↔ Operations שתי הזרועות", "מתאים במיוחד ל-RISE with SAP"],
     notes: ["SAP Cloud ALM implementation operations setup · SV-CLM", "Cloud ALM integration monitoring · SV-CLM-OP-IM", "Cloud ALM health monitoring · SV-CLM-OP-HM"],
-    cbc: "ב-CBC (הערכת S/4): Cloud ALM שימש לתכנון Tasks לפי Activate ול-Integration Monitoring של iFlows ל-MES.",
+    scenario: "בארגון (הערכת S/4): Cloud ALM שימש לתכנון Tasks לפי Activate ול-Integration Monitoring של iFlows ל-MES.",
     links: [{ label: "אינטגרציה — CPI", href: "/integration/#cpi" }, { label: "מסירה — Activate", href: "/delivery/" }, MIG, S4],
   },
 ];

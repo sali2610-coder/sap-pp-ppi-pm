@@ -9,7 +9,7 @@ export const CH8: TextbookChapter = {
   titleHe: "הגדרת SAP Fiori Launchpad",
   titleEn: "SAP Fiori Launchpad Configuration",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה להקמת SAP Fiori Launchpad עבור תחזוקת-מפעל (Plant Maintenance) ב-SAP S/4HANA. ה-Launchpad הוא נקודת-הכניסה היחידה (single point of entry) של טכנאי-התחזוקה למערכת — מסך אריחים (tiles) מבוסס-תפקיד, רספונסיבי, נייד וברור. כל תת-פרק וכל שלב-קונפיגורציה מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-זרימה, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המוקד הוא ה-T-Codes האמיתיים של ההקמה — SICF, /IWFND/MAINT_SERVICE, /UI2/FLPD_CUST, /UI2/FLPCM_CUST, PFCG ו-SU01 — כדי שתוכל להקים Launchpad לטכנאי-התחזוקה של CBC (יצרנית-המשקאות של קוקה-קולה) ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה להקמת SAP Fiori Launchpad עבור תחזוקת-מפעל (Plant Maintenance) ב-SAP S/4HANA. ה-Launchpad הוא נקודת-הכניסה היחידה (single point of entry) של טכנאי-התחזוקה למערכת — מסך אריחים (tiles) מבוסס-תפקיד, רספונסיבי, נייד וברור. כל תת-פרק וכל שלב-קונפיגורציה מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-זרימה, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המוקד הוא ה-T-Codes האמיתיים של ההקמה — SICF, /IWFND/MAINT_SERVICE, /UI2/FLPD_CUST, /UI2/FLPCM_CUST, PFCG ו-SU01 — כדי שתוכל להקים Launchpad לטכנאי-התחזוקה של הארגון (יצרנית-המשקאות של מוצר לדוגמה) ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 8.1
     {
@@ -24,8 +24,8 @@ export const CH8: TextbookChapter = {
         "המטרה: לתת לכל בעל-תפקיד נקודת-כניסה אחת, נקייה ומבוססת-הרשאה — תחת מהירות-HANA ועם נראות-מובייל. במקום ללמד טכנאי עשרות T-Codes, מציגים לו חמישה אריחים רלוונטיים. Fiori מחבר תהליך, הרשאה ונתון תחת ממשק אחיד שניתן להפעיל מכל מכשיר.",
       processExampleHe:
         "טכנאי פותח את ה-Launchpad בטאבלט בשטח: רואה אריח 'Create Maintenance Request' עם מספר-תקלות-פתוחות עליו (key figure), לוחץ, סורק ברקוד של ציוד, בוחר mode-of-failure מתוך קטלוג, מצרף תמונה ושומר. הכל ב-SAPUI5 רספונסיבי — אותו תהליך שב-GUI דורש מספר מסכי-IW21, כאן הוא אריח אחד.",
-      cbcHe:
-        "ב-CBC טכנאי-התחזוקה של קו-המילוי מקבל Launchpad ייעודי: אריחי 'Create Maintenance Request', 'Report and Repair Malfunction' ו-'Find Technical Object' לציוד-המפעל (ממלאים, מובילים, דוודי-CO2). במקום מסכי-GUI מלאים, הטכנאי בשטח-הייצור מדווח תקלה בטאבלט תוך שניות, מה שמקצר את זמן-ההשבתה של הקו.",
+      scenarioHe:
+        "בארגון טכנאי-התחזוקה של קו-המילוי מקבל Launchpad ייעודי: אריחי 'Create Maintenance Request', 'Report and Repair Malfunction' ו-'Find Technical Object' לציוד-המפעל (ממלאים, מובילים, דוודי-CO2). במקום מסכי-GUI מלאים, הטכנאי בשטח-הייצור מדווח תקלה בטאבלט תוך שניות, מה שמקצר את זמן-ההשבתה של הקו.",
       navHe: [
         "https://fioriappslibrary.hana.ondemand.com — SAP Fiori Apps Reference Library (כ-15,000 אפליקציות)",
         "SAP Fiori Launchpad ► My Home (עמוד אישי הניתן להתאמה מאריחים)",
@@ -83,7 +83,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "האריחים מוגשים מ-Launchpad הרץ על Frontend Server; כל אריח קשור ל-Target Mapping המפנה לאפליקציית-SAPUI5 (intent-based navigation: semantic object + action). SAPUI5 מבוססת HTML5 ומשתמשת ב-OData לקריאת-נתונים. ה-My Home הוא personalization ברמת-המשתמש הנשמר ב-Frontend.",
           purposeHe: "לספק חוויית-משתמש אחידה, ויזואלית ונגישה-ממובייל — משטח-כניסה אחד שמפשט תהליכים ומקצר הכשרה לעומת ניווט-תפריטים ב-GUI.",
           processExampleHe: "טכנאי רואה אריח 'My Home' שבנה בעצמו — שלושה אריחים שבהם הוא משתמש יומית; לחיצה על 'Create Maintenance Request' פותחת מסך-SAPUI5 רספונסיבי בדפדפן ללא פתיחת SAP GUI.",
-          cbcHe: "ב-CBC טכנאי קו-המילוי מסדר ב-My Home את אריחי-התקלות שלו לפי תדירות-שימוש, כך שדיווח-תקלה בשטח הוא לחיצה אחת.",
+          scenarioHe: "בארגון טכנאי קו-המילוי מסדר ב-My Home את אריחי-התקלות שלו לפי תדירות-שימוש, כך שדיווח-תקלה בשטח הוא לחיצה אחת.",
           navHe: ["SAP Fiori Launchpad ► My Home", "SAP Fiori Launchpad ► תפריט-אריחים (tiles)"],
           tables: ["/UI2/SERV_DESC", "/UI2/CHIP"],
           tcodes: ["/UI2/FLP", "/UI2/FLPD_CUST"],
@@ -122,7 +122,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "סיווג-לפי-תוכן: Transactional מקבילה 1:1 ל-transaction ב-GUI (ולעיתים מאחדת כמה); Fact Sheet מציגה מידע-מפתח על אובייקט אחד; Analytical מפיקה KPIs, סטטיסטיקות ותרשימים (לרוב נשענת על CDS Analytical queries). סיווג-לפי-תוצאה קריטי לתכנון: 'אמיתית-עם-ערך' (SAPUI5 שמוסיף ערך — חילוץ-פונקציה, איחוד-transactions, פונקציות שאין ב-GUI, KPIs על אריח), 'אמיתית-ללא-ערך' (SAPUI5 אך בלי יתרון מול ה-GUI), ו'פסאודו' (לא SAPUI5 כלל — רק GUI עטוף, כמו Overall Completion שמציג את IW42).",
           purposeHe: "להבין מה כל אפליקציה נותנת לפני הקצאתה — אפליקציה אמיתית-עם-ערך מצדיקה מאמץ-הקמה; פסאודו-אפליקציה היא רק GUI ב-HTML ולא תמיד שווה הקמה נפרדת.",
           processExampleHe: "'Find Technical Object' היא אפליקציה Dynamic: שינוי הפילטר מעדכן את הרשימה מיידית, ללא חזרה למסך-בחירה. לעומתה אפליקציה Static דורשת חזרה למסך-הבחירה כדי להרחיב את הקריטריון.",
-          cbcHe: "ב-CBC: 'Create Maintenance Request' = Transactional (פעולה); 'Find Technical Object' = Dynamic (חיפוש-ציוד חי); 'Maintenance Planning Overview' = Analytical (KPIs ותרשימים על עומס-התחזוקה במפעל).",
+          scenarioHe: "בארגון: 'Create Maintenance Request' = Transactional (פעולה); 'Find Technical Object' = Dynamic (חיפוש-ציוד חי); 'Maintenance Planning Overview' = Analytical (KPIs ותרשימים על עומס-התחזוקה במפעל).",
           navHe: ["https://fioriappslibrary.hana.ondemand.com — סינון לפי Application Type"],
           tables: ["/UI2/SERV_DESC"],
           tcodes: ["/UI2/FLPD_CUST"],
@@ -162,7 +162,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "responsive = זיהוי-מכשיר והתאמת-פריסה; coherent = פונקציות, מכשירים ונתונים מאוחדים בין כל האפליקציות; role-based = כל משתמש רואה רק את שהורשה (PFCG); personalization = variants ובחירת-שדות; mobile = גישה מכל מקום; extensibility = פיתוח-עצמי דרך SAP Business Application Studio (לשעבר SAP Web IDE). חסרונות-מימוש שכדאי לתעד: מסכי-SAPUI5 לא-קומפקטיים עם הרבה רווח-לבן; היעדר tabstrips (HTML5) → מידע מוצג זה-תחת-זה, מסכים ארוכים וגלילה רבה; מיקום מקשי-פונקציה עדיין לא-מתוקנן.",
           purposeHe: "לקבל החלטת-מימוש מאוזנת — לדעת מתי Fiori מוסיף ערך אמיתי (מובייל, רספונסיבי, KPIs) ומתי החסרונות (גלילה, רווח-לבן) משמעותיים לתהליך מסוים.",
           processExampleHe: "טכנאי במשמרת מקבל אריח עם key figure (מספר הודעות-תחזוקה פתוחות), פותח אפליקציה, מסנן, ושולח את הרשימה ב-email או מייצא ל-Microsoft Office — שלוש יכולות יומיומיות מובנות ב-Fiori.",
-          cbcHe: "ב-CBC טכנאי בשטח-המפעל עובד מהטאבלט (mobile + responsive); מנהל-התחזוקה מקבל key figures על האריחים לראות עומס-תקלות במבט-אחד; אך מסכי-ה-SAPUI5 הארוכים דורשים גלילה — שיקול בבחירת אילו תהליכים להעביר ל-Fiori.",
+          scenarioHe: "בארגון טכנאי בשטח-המפעל עובד מהטאבלט (mobile + responsive); מנהל-התחזוקה מקבל key figures על האריחים לראות עומס-תקלות במבט-אחד; אך מסכי-ה-SAPUI5 הארוכים דורשים גלילה — שיקול בבחירת אילו תהליכים להעביר ל-Fiori.",
           navHe: ["SAP Fiori Launchpad ► אריחים עם key figures", "SAP Business Application Studio — פיתוח אפליקציות-לקוח"],
           tables: ["/UI2/CHIP"],
           tcodes: ["/UI2/FLPD_CUST"],
@@ -212,8 +212,8 @@ export const CH8: TextbookChapter = {
         "לתת לטכנאי נקודת-כניסה אחת ומבוססת-תפקיד לאפליקציה הדרושה לו, תוך חיבור תקין של נתון-תקשורת-תוכן-הרשאה. שמונת-השלבים מבטיחים שאף שכבה לא נשמטת — אחרת האריח לא יופיע או לא יעבוד.",
       processExampleHe:
         "מטמיעים את 'Create Maintenance Request' (F1511A): בודקים גרסה → בספרייה רואים שצריך OData service UI_MAINTWORKREQUESTOVW_V2, ICF node /sap/bc/ui5_ui5/sap/eam_wreq_crts1, Technical Catalog SAP_TC_COMMON, Business Catalog SAP_EAM_BC_MREQ_MNG, Business Group SAP_EAM_BCG_MREQ_MNG → מפעילים OData ו-ICF → בונים קטלוג וקבוצה → יוצרים תפקיד ב-PFCG ומשייכים למשתמש KARL → פותחים Launchpad והאריח שם.",
-      cbcHe:
-        "ב-CBC מקימים Launchpad לטכנאי-התחזוקה במפעל-המילוי: אותם שמונה-שלבים, עם קטלוג וקבוצה ייעודיים לטכנאי (Z_CBC_MAINTTECH) ותפקיד PFCG המשויך למשתמשי-הטכנאים בקו. התוצאה: אריח 'Create Maintenance Request' זמין לכל טכנאי-קו במפעל.",
+      scenarioHe:
+        "בארגון מקימים Launchpad לטכנאי-התחזוקה במפעל-המילוי: אותם שמונה-שלבים, עם קטלוג וקבוצה ייעודיים לטכנאי (Z_MFG_MAINTTECH) ותפקיד PFCG המשויך למשתמשי-הטכנאים בקו. התוצאה: אריח 'Create Maintenance Request' זמין לכל טכנאי-קו במפעל.",
       navHe: [
         "Transaction /UI2/FLP — Start SAP Fiori Launchpad",
         "Transaction /UI2/FLPD_CUST — Start Launchpad Designer",
@@ -273,7 +273,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-System • Status, בקליק על אייקון אזור 'SAP System data' רואים את Installed Software Component Versions. הרכיבים הקריטיים לבדיקה: SAP_BASIS, SAP_UI, S4CORE, UIS4HOP1, ו-UIAPFI70 (רק אם ממומשות אפליקציות-finance). בנוסף בודקים את Installed Product Versions: On-premise SAP S/4HANA (למשל 2023 initial shipment stack) ו-SAP Fiori for SAP S/4HANA. נתונים אלה משמשים בשלב-2 להצלבה מול דרישות-האפליקציה בספריית-העזר.",
           purposeHe: "למנוע ניסיון-מימוש של אפליקציה שאינה נתמכת בגרסת-המערכת — חוסך זמן ושגיאות בהמשך התהליך.",
           processExampleHe: "לפני מימוש F1511A פותחים System • Status, רושמים SAP_BASIS, SAP_UI, S4CORE ואת מחסנית-המוצר (S/4HANA 2023), ושומרים את המספרים להצלבה מול 'Installation' של האפליקציה בספרייה.",
-          cbcHe: "ב-CBC צוות-ה-Basis מוודא שמחסנית-המוצר (S/4HANA 2023) ורכיבי-ה-SAP_UI תומכים באפליקציות-התחזוקה לפני שמתחילים את ההקמה לטכנאים.",
+          scenarioHe: "בארגון צוות-ה-Basis מוודא שמחסנית-המוצר (S/4HANA 2023) ורכיבי-ה-SAP_UI תומכים באפליקציות-התחזוקה לפני שמתחילים את ההקמה לטכנאים.",
           navHe: ["System • Status ► SAP System data ► Installed Software Component Versions", "System • Status ► Installed Product Versions"],
           tables: ["CVERS", "PRDVERS"],
           tcodes: ["SE16", "SPAM"],
@@ -312,7 +312,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "בקישור https://fioriappslibrary.hana.ondemand.com מסננים SAP Fiori apps for SAP S/4HANA ► Lines of Business • Asset Management ומחפשים את האפליקציה. בצד-ימין: Required Back-End Product, Application Type (Transactional), Database (HANA exclusive), Device Types, App ID (F1511A). בטאב IMPLEMENTATION INFORMATION בודקים תאימות-release ואת ה-Installation (רכיבי-חזית/עורף). בחלק-העליון של Configuration: SAPUI5 Application (eam_wreq_crts1, ICF path /sap/bc/ui5_ui5/sap/eam_wreq_crts1), OData Service (UI_MAINTWORKREQUESTOVW_V2), ו-OData V4 Service Group. בחלק-התחתון: Technical Catalog (SAP_TC_COMMON), Business Catalog (SAP_EAM_BC_MREQ_MNG), Business Group (SAP_EAM_BCG_MREQ_MNG).",
           purposeHe: "לאסוף בבת-אחת את כל הפרטים הטכניים של האפליקציה — בלעדיהם שלבי-ההקמה הבאים הם ניחוש. הספרייה היא 'תעודת-הזהות' של כל אפליקציה.",
           processExampleHe: "ל-F1511A הספרייה מספקת: Application Type=Transactional, App ID=F1511A, release מ-2021, OData=UI_MAINTWORKREQUESTOVW_V2, ICF=/sap/bc/ui5_ui5/sap/eam_wreq_crts1, Technical Catalog=SAP_TC_COMMON, Business Catalog=SAP_EAM_BC_MREQ_MNG, Business Group=SAP_EAM_BCG_MREQ_MNG.",
-          cbcHe: "ב-CBC היועץ שולף מהספרייה את דרישות-'Create Maintenance Request', מצליב מול נתוני-המערכת משלב-1, ומאשר שהאפליקציה נתמכת לפני שמקים אריח לטכנאי-המפעל.",
+          scenarioHe: "בארגון היועץ שולף מהספרייה את דרישות-'Create Maintenance Request', מצליב מול נתוני-המערכת משלב-1, ומאשר שהאפליקציה נתמכת לפני שמקים אריח לטכנאי-המפעל.",
           navHe: [
             "https://fioriappslibrary.hana.ondemand.com/sap/fix/externalViewer/#/home",
             "SAP Fiori apps for SAP S/4HANA ► Lines of Business • Asset Management ► All Apps",
@@ -356,7 +356,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-/IWFND/MAINT_SERVICE בודקים אם UI_MAINTWORKREQUESTOVW_V2 רשום ופעיל. אם לא: + Add Service → הזנת שם + System Alias='LOCAL' → Get Services → סימון השירות → + Add Selected Services. תוצאות-אפשריות: 'No Backend Services Found' (השירות קיים רק ב-release מאוחר יותר), 'Backend Services Are Already Registered' (כבר מומש), או 'Service was created and its metadata was loaded successfully' (הצלחה). לשירותי V4 — ב-/IWFND/V4_ADMIN בודקים את ה-Service Group (למשל UI_PRIORITIZATION_PROFILE) ומפרסמים ב-Publish Service Groups אם חסר.",
           purposeHe: "לוודא שהאפליקציה תוכל לקרוא ולכתוב נתונים מול ה-Backend. ללא OData פעיל, האפליקציה תיטען ריקה או תכשל.",
           processExampleHe: "ל-F1511A: ב-/IWFND/MAINT_SERVICE מחפשים UI_MAINTWORKREQUESTOVW_V2; אם אינו פעיל — Add Service, Alias='LOCAL', Get Services, מסמנים, Add Selected Services, ומקבלים 'Service was created and its metadata was loaded successfully'.",
-          cbcHe: "ב-CBC צוות-ה-Basis מפעיל את UI_MAINTWORKREQUESTOVW_V2 ב-/IWFND/MAINT_SERVICE על מערכת-הייצור, כדי שאפליקציית-דיווח-התקלות של הטכנאים תוכל לקרוא ולכתוב נתוני-בקשות-תחזוקה.",
+          scenarioHe: "בארגון צוות-ה-Basis מפעיל את UI_MAINTWORKREQUESTOVW_V2 ב-/IWFND/MAINT_SERVICE על מערכת-הייצור, כדי שאפליקציית-דיווח-התקלות של הטכנאים תוכל לקרוא ולכתוב נתוני-בקשות-תחזוקה.",
           navHe: ["Transaction /IWFND/MAINT_SERVICE — Activate and Maintain Services", "Transaction /IWFND/V4_ADMIN — Activate OData V4 Service Groups"],
           tables: ["/IWFND/I_MED_SRH", "/IWFND/C_MGDEAM"],
           tcodes: ["/IWFND/MAINT_SERVICE", "/IWFND/V4_ADMIN"],
@@ -398,7 +398,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-SICF מגיעים למסך Define Services. לאחר התקנת SAP NetWeaver AS for ABAP כל שירותי-ה-ICF כבויים מטעמי-אבטחה. כל צמתי-השירות בעץ-ה-SICF חייבים להיות פעילים (כי כמה שירותים מורצים בקריאת-URL). יצירה/הפעלה כוללת: יצירת-השירות, תחזוקת logon procedure, אפשרויות-שירות, דרישות-אבטחה, דפי-שגיאה, request handlers, והפעלה/השבתה. במקרה שלנו מפעילים את הצומת /sap/bc/ui5_ui5/sap/eam_wreq_crts1 עבור 'Create Maintenance Request'. (transaction של SAP GUI אינה דורשת הפעלת-ICF; Web Dynpro דורשת — למשל EAMS_WDA_JOBUC_OIF תחת /sap/bc/webdynpro/sap/...).",
           purposeHe: "לפתוח את ערוץ-ה-HTTP מהדפדפן אל ה-UI של האפליקציה. ICF כבוי = האפליקציה אינה נגישה כלל, גם אם ה-OData פעיל.",
           processExampleHe: "ל-F1511A: ב-SICF מנווטים לנתיב /sap/bc/ui5_ui5/sap/eam_wreq_crts1, יוצרים/מפעילים את השירות (Activate Service), ומוודאים שכל צמתי-העץ עד אליו פעילים.",
-          cbcHe: "ב-CBC מפעילים ב-SICF את הצומת /sap/bc/ui5_ui5/sap/eam_wreq_crts1 כדי שטאבלטי-הטכנאים יוכלו לטעון את אפליקציית-דיווח-התקלות מהדפדפן.",
+          scenarioHe: "בארגון מפעילים ב-SICF את הצומת /sap/bc/ui5_ui5/sap/eam_wreq_crts1 כדי שטאבלטי-הטכנאים יוכלו לטעון את אפליקציית-דיווח-התקלות מהדפדפן.",
           navHe: ["Transaction SICF ► Define Services ► עץ /sap/bc/ui5_ui5/sap/...", "SICF ► צומת-האפליקציה ► Activate Service"],
           tables: ["ICFSERVICE", "ICFSERVLOC"],
           tcodes: ["SICF"],
@@ -440,7 +440,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "שני T-Codes ליצירת קטלוג: /UI2/FLPCM_CUST (Client-Specific) ו-/UI2/FLPCM_CONF (Cross-Client). ליצירה ברמת-client משתמשים ב-/UI2/FLPCM_CUST. בהפעלתו רואים סקירת-קטלוגים קיימים; Create → הזנת-פרטים (קטלוג לטכנאי-תחזוקה). הדרך-הקלה לאכלס תוכן: לחפש Technical Catalog (SAP_TC_EAM_COMMON), לסמן את האריחים בתחתית, וללחוץ Add Tiles/Target Mappings; במסך-הבא מחפשים את ה-Business Catalog החדש ומשייכים tile reference ב-Add Tile/TM Reference. הבחנה חשובה: Catalog = אוסף-אפליקציות לתפקיד; Group = תת-קבוצה של אריחים שמוצגת בפועל למשתמש.",
           purposeHe: "להגדיר 'מאגר-מורשה' של אפליקציות לתפקיד — מתוכו תיגזר אחר-כך הקבוצה שתוצג. הקטלוג מפריד 'מה מותר' (catalog) מ'מה מוצג' (group).",
           processExampleHe: "ב-/UI2/FLPCM_CUST יוצרים Business Catalog לטכנאי-תחזוקה במפעל-Dallas, מחפשים Technical Catalog SAP_TC_EAM_COMMON, מסמנים את אריח-'Create Maintenance Request', Add Tiles/Target Mappings, ומשייכים tile reference ל-Business Catalog החדש.",
-          cbcHe: "ב-CBC יוצרים Business Catalog Z_CBC_MAINTTECH ב-/UI2/FLPCM_CUST, ומאכלסים אותו באריחי-התחזוקה (Create Maintenance Request, Report and Repair Malfunction) מתוך SAP_TC_EAM_COMMON.",
+          scenarioHe: "בארגון יוצרים Business Catalog Z_MFG_MAINTTECH ב-/UI2/FLPCM_CUST, ומאכלסים אותו באריחי-התחזוקה (Create Maintenance Request, Report and Repair Malfunction) מתוך SAP_TC_EAM_COMMON.",
           navHe: ["Transaction /UI2/FLPCM_CUST — Launchpad Content Manager (Client-Specific)", "Transaction /UI2/FLPCM_CONF — Launchpad Content Manager (Cross-Client)"],
           tables: ["/UI2/PAGE_CATALOG", "/UI2/CHIP"],
           tcodes: ["/UI2/FLPCM_CUST", "/UI2/FLPCM_CONF"],
@@ -479,10 +479,10 @@ export const CH8: TextbookChapter = {
           id: "8.2.6", titleHe: "שלב 6: יצירת קבוצה עסקית ל-Launchpad", titleEn: "Step 6: Create a Business Group for the SAP Fiori Launchpad",
           execHe: "קבוצה עסקית (Business Group) היא תת-קבוצת אריחים מקטלוג אחד או יותר — והיא מה שמוצג בפועל על מסך-המשתמש. בונים אותה ב-Launchpad Designer (/UI2/FLPD_CUST), מוסיפים קבוצה חדשה ומשייכים אליה אריחים מה-Business Catalog שנוצר בשלב-5.",
           beginnerHe: "Group = מה שהמשתמש באמת רואה. נכנסים ל-Launchpad Designer (/UI2/FLPD_CUST), לוחצים Groups → Create, נותנים שם, ומסמנים אם לאפשר למשתמש להזיז/למחוק אריחים (personalization). אז מחפשים את ה-Business Catalog שלנו ומשייכים ממנו אריחים לקבוצה.",
-          consultantHe: "ה-Launchpad Designer נפתח ב-/UI2/FLPD_CUST או בקישור https://myserver/sap/bc/ui5_ui5/sap/arsrvc_upb_admn/main.html. הוא client-specific (ה-client, למשל 201, מוצג בפינה הימנית-העליונה). שינויים מופצים דרך transports, ולכן בתחילת-הקונפיגורציה מוקצה transport order; לשינוי-מקומי בלבד לא מפיצים. Groups → Create → סימון 'Enable users to personalize their group' (מאפשר למשתמש להזיז/למחוק אריחים) → הוספת-אריחים בחיפוש-ה-Business Catalog ושיוכם לקבוצה. הבחנה: Catalog = מאגר; Group = תצוגה. ב-CBC הקבוצה תיקרא למשל Z_CBC_MAINTTECH.",
+          consultantHe: "ה-Launchpad Designer נפתח ב-/UI2/FLPD_CUST או בקישור https://myserver/sap/bc/ui5_ui5/sap/arsrvc_upb_admn/main.html. הוא client-specific (ה-client, למשל 201, מוצג בפינה הימנית-העליונה). שינויים מופצים דרך transports, ולכן בתחילת-הקונפיגורציה מוקצה transport order; לשינוי-מקומי בלבד לא מפיצים. Groups → Create → סימון 'Enable users to personalize their group' (מאפשר למשתמש להזיז/למחוק אריחים) → הוספת-אריחים בחיפוש-ה-Business Catalog ושיוכם לקבוצה. הבחנה: Catalog = מאגר; Group = תצוגה. בארגון הקבוצה תיקרא למשל Z_MFG_MAINTTECH.",
           purposeHe: "להגדיר את התצוגה-בפועל למשתמש — אילו אריחים מהמאגר יופיעו על מסך-הבית שלו, ובאיזו קיבוץ.",
           processExampleHe: "ב-/UI2/FLPD_CUST: Groups → Create → 'apps for maintenance technicians in the Dallas plant' → סימון personalization → חיפוש ה-Business Catalog שנוצר → שיוך אריח-'Create Maintenance Request' לקבוצה.",
-          cbcHe: "ב-CBC יוצרים בקבוצה Z_CBC_MAINTTECH ב-/UI2/FLPD_CUST ומשייכים אליה את אריחי-התחזוקה מה-Business Catalog Z_CBC_MAINTTECH, כך שטכנאי-הקו יראו אותם על מסך-הבית.",
+          scenarioHe: "בארגון יוצרים בקבוצה Z_MFG_MAINTTECH ב-/UI2/FLPD_CUST ומשייכים אליה את אריחי-התחזוקה מה-Business Catalog Z_MFG_MAINTTECH, כך שטכנאי-הקו יראו אותם על מסך-הבית.",
           navHe: ["Transaction /UI2/FLPD_CUST — Start Launchpad Designer", "https://myserver/sap/bc/ui5_ui5/sap/arsrvc_upb_admn/main.html ► Groups ► Create"],
           tables: ["/UI2/PAGE_GROUP", "/UI2/CHIP"],
           tcodes: ["/UI2/FLPD_CUST"],
@@ -505,7 +505,7 @@ export const CH8: TextbookChapter = {
           bestPracticeHe: [
             "אפשר personalization של הקבוצה כדי שטכנאים יסדרו אריחים לפי-נוחות.",
             "הקצה transport מודע בתחילת-העבודה ב-Designer.",
-            "תן שמות-קבוצה עקביים לפי תפקיד/אתר (Z_CBC_MAINTTECH).",
+            "תן שמות-קבוצה עקביים לפי תפקיד/אתר (Z_MFG_MAINTTECH).",
           ],
           interviewHe: [
             { qHe: "מהי Business Group ומה היחס שלה ל-Catalog?", aHe: "Group = תת-קבוצת-אריחים המוצגת בפועל למשתמש, נגזרת מקטלוג אחד או יותר; Catalog = המאגר-המורשה ממנו נבחרים האריחים." },
@@ -525,7 +525,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "ב-PFCG (Role Maintenance) יוצרים Single Role: בטאב Menu משייכים Launchpad Catalog ו-Launchpad Group; בטאב Authorizations מייצרים Authorization Profile (אובייקטי-הרשאה + שדות-הרשאה, generated מהתפקיד); בטאב User משייכים למשתמש אחד או יותר. התפקיד מבוסס על מבנה-הארגון ומקשר משתמש להרשאות-המתאימות. פרופילי-ההרשאה נגזרים אוטומטית מהתפקיד-היחיד. (אובייקטי-ההרשאה של Asset Management מסוכמים ב-Appendix A.2 של הספר.) במקרה שלנו: תפקיד לטכנאי במפעל-Dallas המשויך למשתמש KARL.",
           purposeHe: "לקשור משתמש לאפליקציות ולהרשאות בצורה מבוקרת ומבוססת-תפקיד — לוודא שכל טכנאי רואה ומבצע רק את שמותר לו, ושאריחי-ה-Group בכלל מופיעים אצלו.",
           processExampleHe: "ב-PFCG יוצרים Single Role לטכנאי-Dallas: Menu ← Launchpad Catalog + Launchpad Group; Authorizations ← יצירת-פרופיל; User ← שיוך KARL. מרגע זה KARL מורשה לראות ולהפעיל את אריחי-התחזוקה.",
-          cbcHe: "ב-CBC יוצרים תפקיד Z_CBC_MAINTTECH ב-PFCG, משייכים אליו את הקטלוג והקבוצה Z_CBC_MAINTTECH, ומקצים אותו למשתמשי-הטכנאים של קו-המילוי דרך טאב User (או דרך SU01).",
+          scenarioHe: "בארגון יוצרים תפקיד Z_MFG_MAINTTECH ב-PFCG, משייכים אליו את הקטלוג והקבוצה Z_MFG_MAINTTECH, ומקצים אותו למשתמשי-הטכנאים של קו-המילוי דרך טאב User (או דרך SU01).",
           navHe: ["Transaction PFCG ► Single Role ► Menu (Launchpad Catalog + Group)", "PFCG ► Authorizations", "PFCG ► User", "Transaction SU01 — Maintain Users"],
           tables: ["AGR_DEFINE", "AGR_1251", "AGR_USERS"],
           tcodes: ["PFCG", "SU01"],
@@ -568,7 +568,7 @@ export const CH8: TextbookChapter = {
           consultantHe: "המשתמש מפעיל את ה-Launchpad (/UI2/FLP) ורואה את הקבוצה החדשה. זהו end-to-end test של כל השרשרת: OData (3) → ICF (4) → Catalog (5) → Group (6) → Role (7). אם האריח חסר — מאבחנים אחורה: Role משויך? (SU01/PFCG-User) → Catalog+Group ב-Menu? → Group מכיל אריחים? → ICF פעיל? → OData פעיל? כלי-עזר לאימות-זמינות: /UI2/FLPAM (Launchpad App Manager). לעיתים נדרש ניקוי-cache (/UI2/INVAL_CACHES) כדי שהשינוי יופיע.",
           purposeHe: "לאמת שהשרשרת המלאה עובדת מקצה-לקצה ושהמשתמש-הסופי מקבל את האפליקציה הנכונה — לפני מסירה לייצור.",
           processExampleHe: "KARL מתחבר, פותח את ה-Launchpad ב-/UI2/FLP, רואה את הקבוצה החדשה עם אריח-'Create Maintenance Request', לוחץ, והאפליקציה נפתחת — סימן שכל שבעת-השלבים הוקמו נכון.",
-          cbcHe: "ב-CBC טכנאי-קו מתחבר ל-Launchpad, רואה את קבוצת Z_CBC_MAINTTECH עם אריחי-התחזוקה, ומדווח תקלה ראשונה מהטאבלט — אימות שההקמה מוכנה לשטח-הייצור.",
+          scenarioHe: "בארגון טכנאי-קו מתחבר ל-Launchpad, רואה את קבוצת Z_MFG_MAINTTECH עם אריחי-התחזוקה, ומדווח תקלה ראשונה מהטאבלט — אימות שההקמה מוכנה לשטח-הייצור.",
           navHe: ["Transaction /UI2/FLP — Start SAP Fiori Launchpad", "Transaction /UI2/FLPAM — Launchpad App Manager", "Transaction /UI2/INVAL_CACHES — Invalidate Caches"],
           tables: ["/UI2/PAGE_GROUP", "AGR_USERS"],
           tcodes: ["/UI2/FLP", "/UI2/FLPAM", "/UI2/INVAL_CACHES"],

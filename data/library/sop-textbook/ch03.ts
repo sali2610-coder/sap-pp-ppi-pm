@@ -10,7 +10,7 @@ export const CH3: TextbookChapter = {
   titleHe: "תכנון ביקושים (Demand Planning)",
   titleEn: "Demand Planning",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לתכנון-הביקושים (Demand Planning) ב-SAP IBP — הצעד הראשון והקובע בתהליך ה-S&OP. כאן הופכים היסטוריית-מכירות לתחזית-ביקוש מהימנה, באמצעות מודלים סטטיסטיים (Holt-Winters, Croston, AR ועוד), תכנון מבוסס-מניעים (driver-based), חיזוי-ביקוש בטווח-קצר (demand sensing), ומודל-פיננסי-משתף הממיר את התחזית התפעולית לתחזית-הכנסות ורווח. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC (מפעל-מילוי משקאות מבית Coca-Cola, עם עונתיות ומבצעים), ניווט באפליקציות IBP (Manage Forecast Models, Excel add-in), אובייקטים ו-key figures, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לבנות תחזית-ביקוש מקצה-לקצה ב-IBP ללא הספר המקורי. אובייקטי-SAP נשמרים באנגלית מקור (Holt-Winters, Croston, AR, Manage Forecast Models, demand sensing, ABC/XYZ).",
+    "פרק זה הוא יחידת-לימוד מלאה לתכנון-הביקושים (Demand Planning) ב-SAP IBP — הצעד הראשון והקובע בתהליך ה-S&OP. כאן הופכים היסטוריית-מכירות לתחזית-ביקוש מהימנה, באמצעות מודלים סטטיסטיים (Holt-Winters, Croston, AR ועוד), תכנון מבוסס-מניעים (driver-based), חיזוי-ביקוש בטווח-קצר (demand sensing), ומודל-פיננסי-משתף הממיר את התחזית התפעולית לתחזית-הכנסות ורווח. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון (מפעל-מילוי משקאות מבית Example Product, עם עונתיות ומבצעים), ניווט באפליקציות IBP (Manage Forecast Models, Excel add-in), אובייקטים ו-key figures, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לבנות תחזית-ביקוש מקצה-לקצה ב-IBP ללא הספר המקורי. אובייקטי-SAP נשמרים באנגלית מקור (Holt-Winters, Croston, AR, Manage Forecast Models, demand sensing, ABC/XYZ).",
   subchapters: [
     // ============================================================ 3.1
     {
@@ -27,8 +27,8 @@ export const CH3: TextbookChapter = {
         "המטרה: לייצר מספר-ביקוש אחד, מהימן ומשותף, שיהווה את הקלט היחיד לתכנון-האספקה ולתכנון הפיננסי. תחזית מאוחדת מונעת 'מספרים מתחרים' בין מחלקות, מקטנת bias, ומאפשרת קבלת-החלטות מבוססת-נתונים בישיבת ה-S&OP.",
       processExampleHe:
         "בחברת-מוצרי-צריכה: מערכת מושכת 36 חודשי-מכירות היסטוריים ל-IBP; ה-Statistical Forecasting operator מריץ Holt-Winters ומפיק תחזית-בסיס ל-18 חודשים; השיווק מוסיף uplift למבצע-קיץ; מנהלי-המכירות מתקנים אזורית ב-Excel add-in; התחזיות מתאחדות ל-Consensus Demand, שננעל ומועבר כקלט ל-Supply Planning.",
-      cbcHe:
-        "ב-CBC (מפעל-מילוי משקאות): הביקוש למשקאות-קלים עונתי בחדות — שיא בקיץ ובחגים. תכנון-הביקושים מתחיל מ-Statistical Forecast לכל SKU×לקוח×אזור, מוסיף uplift למבצעי-קמעונאות (1+1, מדפים), ומאחד ל-Consensus Demand שמזין את תכנון-קווי-המילוי. דיוק-התחזית נמדד מול Actuals כדי לכוונן את המודלים מדי-עונה.",
+      scenarioHe:
+        "בארגון (מפעל-מילוי משקאות): הביקוש למשקאות-קלים עונתי בחדות — שיא בקיץ ובחגים. תכנון-הביקושים מתחיל מ-Statistical Forecast לכל SKU×לקוח×אזור, מוסיף uplift למבצעי-קמעונאות (1+1, מדפים), ומאחד ל-Consensus Demand שמזין את תכנון-קווי-המילוי. דיוק-התחזית נמדד מול Actuals כדי לכוונן את המודלים מדי-עונה.",
       navHe: [
         "SAP Fiori Launchpad ► Demand Planning ► Manage Forecast Models",
         "Excel ► SAP IBP ribbon ► New View ► טעינת Actuals + Statistical Forecast + Consensus Demand",
@@ -100,8 +100,8 @@ export const CH3: TextbookChapter = {
             "להתאים את שיטת-החיזוי לאופי-הביקוש ולאופק, כדי למקסם דיוק ולמזער התערבות-ידנית.",
           processExampleHe:
             "מוצר נפוץ ויציב מקבל Holt-Winters אוטומטי; מוצר תלוי-מחיר מקבל מודל driver-based עם מחיר ומבצע כ-drivers; מוצר עם sales-orders פתוחים מקבל demand sensing לתיקון 4 השבועות הקרובים.",
-          cbcHe:
-            "ב-CBC: משקה-דגל יציב → Holt-Winters; משקה-מבצע תלוי-קמעונאות → driver-based (מחיר, מבצע, חג); מוצר-נישה אזורי → Croston (ביקוש מקוטע).",
+          scenarioHe:
+            "בארגון: משקה-דגל יציב → Holt-Winters; משקה-מבצע תלוי-קמעונאות → driver-based (מחיר, מבצע, חג); מוצר-נישה אזורי → Croston (ביקוש מקוטע).",
           navHe: [
             "SAP Fiori Launchpad ► Demand Planning ► Manage Forecast Models ► בחירת Forecasting Approach",
             "Excel ► SAP IBP ► Statistical Forecasting ► בחירת model/operator",
@@ -149,8 +149,8 @@ export const CH3: TextbookChapter = {
             "ליצור מסגרת-תכנון עקבית התואמת את מחזור-ההחלטות העסקי, כך שהתחזית תהיה רלוונטית, ניתנת-לתחזוקה, וברת-מדידה.",
           processExampleHe:
             "חברה קובעת: אופק 18 חודשים, bucket חודשי, גרנולריות Product×Customer×Location, מחזור חודשי. כל חודש מורצת תחזית, מתאחד consensus, ננעלת גרסה, ונמדד דיוק מול הגרסה הקודמת.",
-          cbcHe:
-            "ב-CBC: אופק 18 חודשים ל-S&OP אך demand sensing ל-8 שבועות; bucket חודשי לתכנון, שבועי לביצוע; גרנולריות SKU×לקוח-מפתח×אזור-הפצה; מחזור חודשי המתואם עם לוח-מבצעי-הקמעונאות.",
+          scenarioHe:
+            "בארגון: אופק 18 חודשים ל-S&OP אך demand sensing ל-8 שבועות; bucket חודשי לתכנון, שבועי לביצוע; גרנולריות SKU×לקוח-מפתח×אזור-הפצה; מחזור חודשי המתואם עם לוח-מבצעי-הקמעונאות.",
           navHe: [
             "SAP Fiori Launchpad ► Configuration ► Time Profiles / Planning Areas (הגדרת אופק ו-buckets)",
             "Excel ► SAP IBP ► New View ► Planning Level (בחירת גרנולריות)",
@@ -201,8 +201,8 @@ export const CH3: TextbookChapter = {
             "להפוך את תכנון-הביקוש לתהליך מובנה, חוזר וניתן-למדידה, במקום מאמץ-אד-הוק חודשי.",
           processExampleHe:
             "יום 1: job-שרשרת מנקה outliers ומריץ Holt-Winters. ימים 2–4: שיווק ומכירות מתקנים ב-Excel. יום 5: ה-consensus מתאחד אוטומטית. יום 6: מנהל-הביקוש מאשר ונועל גרסה. יום 7: מסירה ל-Supply. בתחילת-המחזור-הבא: snapshot של דיוק מול actuals.",
-          cbcHe:
-            "ב-CBC: תהליך חודשי — preprocessing מנקה outlier של שיטפון-הזמנות חד-פעמי; Holt-Winters רץ לכל SKU; מנהלי-אזור מוסיפים uplift למבצעי-קיץ; consensus מתאחד; ננעל ונשלח לתכנון-קווי-המילוי; דיוק נמדד מול מכירות-בפועל.",
+          scenarioHe:
+            "בארגון: תהליך חודשי — preprocessing מנקה outlier של שיטפון-הזמנות חד-פעמי; Holt-Winters רץ לכל SKU; מנהלי-אזור מוסיפים uplift למבצעי-קיץ; consensus מתאחד; ננעל ונשלח לתכנון-קווי-המילוי; דיוק נמדד מול מכירות-בפועל.",
           navHe: [
             "SAP Fiori Launchpad ► Application Jobs ► Schedule (preprocessing → forecasting → snapshot)",
             "Excel ► SAP IBP ► עריכת Marketing Uplift / Sales Override ← Consensus Demand",
@@ -266,8 +266,8 @@ export const CH3: TextbookChapter = {
         "לספק למודלים קלט נקי, רציף ומיושר, כדי שהדפוסים שהם לומדים (מגמה, עונתיות) ישקפו ביקוש-אמיתי ולא רעש או אירועים חד-פעמיים.",
       processExampleHe:
         "מערכת טוענת 36 חודשי-מכירות. ה-outlier correction מזהה חודש עם הזמנת-ענק חד-פעמית ומרכך אותו לערך-צפוי. חודש עם נתון-חסר מושלם באינטרפולציה. מבצע-עבר נוכה מההיסטוריה כדי שתחזית-הבסיס לא תכלול אותו. התוצאה: Cleansed Actuals מוכן לחיזוי.",
-      cbcHe:
-        "ב-CBC: הזמנת-מלאי-ראשוני ענקית של רשת-קמעונאות חדשה מזוהה כ-outlier ומרוככת; ביקוש-שיא של מבצע-קיץ קודם מנוכה מההיסטוריה לפני חישוב-בסיס; היסטוריית-מוצר שהוחלף (אריזה ישנה→חדשה) מועברת ב-realignment ל-SKU החדש.",
+      scenarioHe:
+        "בארגון: הזמנת-מלאי-ראשוני ענקית של רשת-קמעונאות חדשה מזוהה כ-outlier ומרוככת; ביקוש-שיא של מבצע-קיץ קודם מנוכה מההיסטוריה לפני חישוב-בסיס; היסטוריית-מוצר שהוחלף (אריזה ישנה→חדשה) מועברת ב-realignment ל-SKU החדש.",
       navHe: [
         "SAP Fiori Launchpad ► Manage Forecast Models ► Preprocessing Steps (Outlier/Missing)",
         "Excel ► SAP IBP ► Statistical Forecasting ► Data Cleansing options",
@@ -344,8 +344,8 @@ export const CH3: TextbookChapter = {
         "להפיק תחזית-בסיס אובייקטיבית, חוזרת וניתנת-להסבר, שמשחררת את התכננים מחישוב-ידני ומאפשרת להם להתמקד בהוספת תובנה עסקית.",
       processExampleHe:
         "תכנן מגדיר forecast model עם Holt-Winters ו-Best-Fit; מריץ על 36 חודשי-Cleansed Actuals; IBP מאתר עונתיות שנתית, מכייל alpha/beta/gamma, ומפיק 18 חודשי-תחזית ל-Statistical Forecast Qty; ה-system מדווח MAPE לכל פריט.",
-      cbcHe:
-        "ב-CBC: למשקאות-דגל עם עונתיות-קיץ חדה רץ Holt-Winters; לטעמים-נישה שנמכרים לסירוגין רץ Croston; ה-Best-Fit בוחר אוטומטית בין המודלים לכל SKU; MAPE נמדד כדי לזהות פריטים שדורשים תכנון-ידני.",
+      scenarioHe:
+        "בארגון: למשקאות-דגל עם עונתיות-קיץ חדה רץ Holt-Winters; לטעמים-נישה שנמכרים לסירוגין רץ Croston; ה-Best-Fit בוחר אוטומטית בין המודלים לכל SKU; MAPE נמדד כדי לזהות פריטים שדורשים תכנון-ידני.",
       navHe: [
         "SAP Fiori Launchpad ► Demand Planning ► Manage Forecast Models ► Create Forecast Model",
         "SAP Fiori Launchpad ► Application Jobs ► Statistical Forecasting ► Schedule Run",
@@ -412,8 +412,8 @@ export const CH3: TextbookChapter = {
             "להתאים מודל לאופי-הסדרה (מגמה/עונתיות/קיטוע/מניעים) כדי למקסם דיוק — אין מודל-אחד-טוב-לכול.",
           processExampleHe:
             "מוצר עם מגמת-עלייה ועונתיות → Holt-Winters multiplicative; מוצר שנמכר 3 פעמים ברבעון עם אפסים → Croston-TSB; מוצר תלוי-מחיר → MLR עם מחיר כ-driver.",
-          cbcHe:
-            "ב-CBC: משקה-דגל עונתי → Holt-Winters; טעם-נישה לסירוגין → Croston-TSB; מארז-מבצע → MLR/Gradient Boosting עם מחיר ומבצע כ-drivers.",
+          scenarioHe:
+            "בארגון: משקה-דגל עונתי → Holt-Winters; טעם-נישה לסירוגין → Croston-TSB; מארז-מבצע → MLR/Gradient Boosting עם מחיר ומבצע כ-drivers.",
           navHe: [
             "SAP Fiori Launchpad ► Manage Forecast Models ► Add Algorithm Step (בחירת מודל)",
             "Excel ► SAP IBP ► Statistical Forecasting ► Algorithm parameters",
@@ -467,8 +467,8 @@ export const CH3: TextbookChapter = {
             "להפוך את החיזוי לתהליך מוגדר, חוזר ומתוזמן, עם שקיפות מלאה (logs) ויכולת-מדידה (forecast error key figure).",
           processExampleHe:
             "תכנן יוצר model 'Beverages-HW' עם Holt-Winters, input=Cleansed Actuals, output=Statistical Forecast Qty, history=36m, forecast=18m. בודק interactively ב-Excel על SKU-מדגם, ואז מתזמן Application Job לילי שמריץ preprocessing→forecasting→snapshot לכל הפורטפוליו.",
-          cbcHe:
-            "ב-CBC: model נפרד לכל segment — 'HW-Seasonal' למשקאות-דגל, 'TSB-Intermittent' לטעמי-נישה; ה-Application Job רץ לילית לפני ישיבת-הביקוש, וה-log נבדק בבוקר לפני שחרור-התחזית לתכננים.",
+          scenarioHe:
+            "בארגון: model נפרד לכל segment — 'HW-Seasonal' למשקאות-דגל, 'TSB-Intermittent' לטעמי-נישה; ה-Application Job רץ לילית לפני ישיבת-הביקוש, וה-log נבדק בבוקר לפני שחרור-התחזית לתכננים.",
           navHe: [
             "SAP Fiori Launchpad ► Demand Planning ► Manage Forecast Models ► Create / Edit / Assign",
             "Excel ► SAP IBP ► Statistical Forecasting ► Run (interactive)",
@@ -533,8 +533,8 @@ export const CH3: TextbookChapter = {
         "לחזות ביקוש שמושפע-בעיקר ממניעים-ניתנים-לתכנון (מחיר/מבצע) ולאפשר what-if: 'מה יקרה לביקוש אם נעשה מבצע?'.",
       processExampleHe:
         "צוות-שיווק מתכנן הורדת-מחיר 10% למוצר. מודל ה-MLR (שלמד price-elasticity מההיסטוריה) מתרגם זאת ל-uplift של 18% בביקוש. התחזית מתעדכנת אוטומטית, ותכנון-האספקה מקבל את הכמות-המוגדלת.",
-      cbcHe:
-        "ב-CBC: drivers = מחיר-מדף, דגל-מבצע (1+1/מחיר-מבצע), טמפרטורה-עונתית, חגים. Gradient Boosting לומד את הקשר הלא-לינארי בין חום-קיצוני למכירות-משקאות; תכנון-מבצע-קמעונאות מתורגם אוטומטית ל-uplift בתחזית.",
+      scenarioHe:
+        "בארגון: drivers = מחיר-מדף, דגל-מבצע (1+1/מחיר-מבצע), טמפרטורה-עונתית, חגים. Gradient Boosting לומד את הקשר הלא-לינארי בין חום-קיצוני למכירות-משקאות; תכנון-מבצע-קמעונאות מתורגם אוטומטית ל-uplift בתחזית.",
       navHe: [
         "SAP Fiori Launchpad ► Manage Forecast Models ► Add MLR / Gradient Boosting Step + assign drivers",
         "SAP Fiori Launchpad ► Configuration ► Key Figures ► driver key figures + calculations",
@@ -606,8 +606,8 @@ export const CH3: TextbookChapter = {
         "לחבר את התכנון-התפעולי לתכנון-הפיננסי במודל-אחד, כך שהחלטות-ביקוש נבחנות מיד דרך השפעתן על הכנסות ורווח, ובעלי-העניין מכל הפונקציות מתכננים יחד.",
       processExampleHe:
         "Consensus Demand של 1M יח' מוכפל במחיר-ממוצע ל-Revenue; מוכפל ב-unit cost ל-COGS; Gross Margin מחושב אוטומטית. בישיבת-S&OP בוחנים תרחיש-מבצע: התחזית עולה אך ה-margin% יורד — וההחלטה מתקבלת על-בסיס הרווח, לא הנפח.",
-      cbcHe:
-        "ב-CBC: תחזית-משקאות (cases) → Revenue לפי מחיר-לפי-ערוץ; COGS לפי עלות-תרכיז+אריזה+מילוי; Gross Margin לכל מותג. מבצע-קיץ מגדיל נפח אך לוחץ margin — הנהלת-האזור מחליטה על-בסיס תרומה-לרווח, לא רק נפח-מכירות.",
+      scenarioHe:
+        "בארגון: תחזית-משקאות (cases) → Revenue לפי מחיר-לפי-ערוץ; COGS לפי עלות-תרכיז+אריזה+מילוי; Gross Margin לכל מותג. מבצע-קיץ מגדיל נפח אך לוחץ margin — הנהלת-האזור מחליטה על-בסיס תרומה-לרווח, לא רק נפח-מכירות.",
       navHe: [
         "SAP Fiori Launchpad ► Configuration ► Key Figures ► Revenue / COGS / Gross Margin calculations",
         "Excel ► SAP IBP ► Planning View עם Demand + Revenue + Margin",
@@ -679,8 +679,8 @@ export const CH3: TextbookChapter = {
             "לתת להנהלה תמונת-רווחיות-מלאה מתוכננת הנגזרת ישירות מהביקוש, ככלי-החלטה מרכזי בישיבת-S&OP.",
           processExampleHe:
             "תחזית מעודכנת מקפיצה Net Revenue ב-3%; COGS עולה ב-2.5%; ה-Operating Profit במודל עולה ב-5% — וההנהלה מאשרת את תוכנית-הביקוש על-בסיס שיפור-הרווח.",
-          cbcHe:
-            "ב-CBC: P&L לכל מותג — Net Revenue (אחרי הנחות-סחר), COGS (תרכיז+אריזה+מילוי+הפצה), Gross Margin, ו-Operating Profit אחרי שיווק. מבצע-קיץ נבחן דרך השפעתו על Operating Profit של המותג.",
+          scenarioHe:
+            "בארגון: P&L לכל מותג — Net Revenue (אחרי הנחות-סחר), COGS (תרכיז+אריזה+מילוי+הפצה), Gross Margin, ו-Operating Profit אחרי שיווק. מבצע-קיץ נבחן דרך השפעתו על Operating Profit של המותג.",
           navHe: [
             "SAP Fiori Launchpad ► Configuration ► Key Figures ► Income Statement calculations",
             "Excel ► SAP IBP ► Planning View ► P&L layout (Revenue→COGS→Margin→Profit)",
@@ -740,8 +740,8 @@ export const CH3: TextbookChapter = {
             "להפוך נתונים-פיננסיים-מוחלטים ליחסים-מנהליים בני-השוואה, ולספק לישיבת-S&OP תובנות-רווחיות מיידיות וניתנות-להשוואה.",
           processExampleHe:
             "Dashboard מציג Gross Margin % לכל קטגוריה; תרחיש-מבצע מראה נפח +12% אך Gross Margin % יורד מ-32% ל-27%; ההנהלה מחליטה למקד את המבצע במוצרים בעלי-margin-גבוה בלבד.",
-          cbcHe:
-            "ב-CBC: dashboard של Gross Margin % ו-ROS לכל מותג-וערוץ; מבצע-קמעונאות שמקפיץ נפח אך שוחק margin% מתחת לסף מפעיל alert; ההחלטה מתקבלת לפי contribution לרווח, לא לפי נפח.",
+          scenarioHe:
+            "בארגון: dashboard של Gross Margin % ו-ROS לכל מותג-וערוץ; מבצע-קמעונאות שמקפיץ נפח אך שוחק margin% מתחת לסף מפעיל alert; ההחלטה מתקבלת לפי contribution לרווח, לא לפי נפח.",
           navHe: [
             "SAP Fiori Launchpad ► Analytics ► Create Chart (Gross Margin % / ROS)",
             "SAP Fiori Launchpad ► Dashboards ► Financial Ratios dashboard",
@@ -803,8 +803,8 @@ export const CH3: TextbookChapter = {
         "להמיר קלט סטטיסטי + פיננסי + ידע-עסקי לתוכנית-ביקוש אחת, מאושרת, מתועדת וננעלת — שתשמש כקלט-יחיד אמין לכל מורד-הזרם.",
       processExampleHe:
         "ב-demand review החודשי: התחזית הסטטיסטית מוצגת; מכירות מוסיפות חוזה-לקוח-חדש כ-override; שיווק מאשר uplift-מבצע; כספים בוחנים את השפעת-ה-P&L; הקבוצה מסכימה; מנהל-הביקוש נועל version 'Approved Demand' ומעביר ל-Supply Planning.",
-      cbcHe:
-        "ב-CBC: demand review אזורי לפני ה-S&OP הגלובלי; מנהלי-מדינות מוסיפים ידע-שטח (אירוע-ספורט, גל-חום צפוי) כ-override שקוף; הנחות מתועדות ב-Case Management; version 'Approved' ננעלת ומוזנת לתכנון-קווי-המילוי.",
+      scenarioHe:
+        "בארגון: demand review אזורי לפני ה-S&OP הגלובלי; מנהלי-מדינות מוסיפים ידע-שטח (אירוע-ספורט, גל-חום צפוי) כ-override שקוף; הנחות מתועדות ב-Case Management; version 'Approved' ננעלת ומוזנת לתכנון-קווי-המילוי.",
       navHe: [
         "Excel ► SAP IBP ► Collaborative editing על Consensus Demand (override key figures)",
         "SAP Fiori Launchpad ► Manage Cases / Collaboration ► תיעוד-הנחות והחלטות",
@@ -880,8 +880,8 @@ export const CH3: TextbookChapter = {
         "לקבע את עקרונות-העל של תכנון-הביקוש כבסיס למחזורי-S&OP חוזרים ולשאר מודולי-IBP.",
       processExampleHe:
         "מחזור-S&OP מלא: היסטוריה נקייה → Holt-Winters → uplift-מבצע (driver-based) → תרגום-פיננסי → demand review → Approved Demand נעול → handover ל-Supply → snapshot למדידה — ומכאן מתחיל המחזור הבא, מדויק יותר.",
-      cbcHe:
-        "ב-CBC: המחזור החודשי למשקאות — עונתיות ב-Holt-Winters, uplift למבצעי-קמעונאות, P&L לכל מותג, demand review אזורי, ונעילת 'Approved Demand' לקווי-המילוי. דיוק-התחזית משתפר מעונה-לעונה דרך snapshots.",
+      scenarioHe:
+        "בארגון: המחזור החודשי למשקאות — עונתיות ב-Holt-Winters, uplift למבצעי-קמעונאות, P&L לכל מותג, demand review אזורי, ונעילת 'Approved Demand' לקווי-המילוי. דיוק-התחזית משתפר מעונה-לעונה דרך snapshots.",
       navHe: [
         "SAP Fiori Launchpad ► Demand Planning ► Manage Forecast Models",
         "SAP Fiori Launchpad ► Application Jobs ► Statistical Forecasting + snapshots",

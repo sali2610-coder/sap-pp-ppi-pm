@@ -145,8 +145,8 @@ function NodeBody({ n, lang }: { n: LearningNode; lang: string }) {
 
       <Row icon={<Target className="size-3.5" />} label={lang === "he" ? "מטרה עסקית" : "Business purpose"}>{n.purposeHe}</Row>
       <Row icon={<Workflow className="size-3.5" />} label={lang === "he" ? "דוגמת תהליך" : "Process example"}>{n.processExampleHe}</Row>
-      <Row icon={<Factory className="size-3.5" />} label={lang === "he" ? "דוגמת CBC" : "CBC example"}>
-        <div className="rounded-lg border border-brand/20 bg-brand-soft/50 p-2.5 text-slate-800">{n.cbcHe}</div>
+      <Row icon={<Factory className="size-3.5" />} label={lang === "he" ? "דוגמת הארגון" : "הארגון example"}>
+        <div className="rounded-lg border border-brand/20 bg-brand-soft/50 p-2.5 text-slate-800">{n.scenarioHe}</div>
       </Row>
 
       {n.flow && <Row icon={<GitBranch className="size-3.5" />} label={lang === "he" ? "תרשים תהליך" : "Process flow"}><MiniFlow steps={n.flow} /></Row>}

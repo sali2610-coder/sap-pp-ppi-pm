@@ -2,7 +2,7 @@
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
 // Source hierarchy preserved exactly (1.1 → 1.5, x.y.z nested under x.y).
 // Transformative Hebrew (beginner + consultant friendly); SAP objects verbatim EN.
-// CBC = Coca-Cola bottling S&OP scenario.
+// הארגון = Example Product bottling S&OP scenario.
 import type { TextbookChapter } from "./types";
 
 export const CH1: TextbookChapter = {
@@ -10,7 +10,7 @@ export const CH1: TextbookChapter = {
   titleHe: "מבוא לתכנון מכירות ותפעול (S&OP)",
   titleEn: "Introduction to Sales and Operations Planning",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה למבוא של תכנון מכירות ותפעול (Sales and Operations Planning, S&OP) ולפתרון SAP Integrated Business Planning (SAP IBP). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC (מפעל-מילוי של Coca-Cola), ניווט באפליקציות ובעצי-הניווט של IBP, טבלאות/אובייקטים, מזהי-SAP, פרטי-תצורה, תרשים-תהליך של מחזור ה-S&OP, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: להבין מהו S&OP, מדוע הוא נחוץ, ומה מקומו של SAP IBP — ללא הספר המקורי. שים לב: SAP IBP הוא פתרון ענן (cloud); העבודה היומיומית מתבצעת דרך ה-Excel add-in וה-Web UI.",
+    "פרק זה הוא יחידת-לימוד מלאה למבוא של תכנון מכירות ותפעול (Sales and Operations Planning, S&OP) ולפתרון SAP Integrated Business Planning (SAP IBP). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון (מפעל-מילוי של Example Product), ניווט באפליקציות ובעצי-הניווט של IBP, טבלאות/אובייקטים, מזהי-SAP, פרטי-תצורה, תרשים-תהליך של מחזור ה-S&OP, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: להבין מהו S&OP, מדוע הוא נחוץ, ומה מקומו של SAP IBP — ללא הספר המקורי. שים לב: SAP IBP הוא פתרון ענן (cloud); העבודה היומיומית מתבצעת דרך ה-Excel add-in וה-Web UI.",
   subchapters: [
     // ============================================================ 1.1
     {
@@ -18,7 +18,7 @@ export const CH1: TextbookChapter = {
       titleHe: "מניעים שוקיים (Market Drivers)",
       titleEn: "Market Drivers",
       execHe:
-        "המניעים השוקיים הם הכוחות החיצוניים שהפכו את S&OP מ'נחמד-שיהיה' להכרח עסקי. שיבושי שרשרת-אספקה, גלובליזציה ותנודתיות-שוק יצרו סביבה שבה תכנון מבודד לכל מחלקה כבר אינו עובד. הנהלה בכירה זקוקה לתהליך אחד שמיישר ביקוש, היצע וכספים אל מול אי-ודאות גוברת — וזהו בדיוק תפקיד ה-S&OP.",
+        "המניעים השוקיים הם הכוחות החיצוניים שהפכו את S&OP מ'נחמד-שיהיה' להכרח עסקי. שיבושי שרשרת-אספקה, גלובליזציה ותנודתיות-שוק יצרו סביבה שבה תכנון מבודד לכל מחלקה כבר אינו עובד. הנהלה בכירה זמוצר לתהליך אחד שמיישר ביקוש, היצע וכספים אל מול אי-ודאות גוברת — וזהו בדיוק תפקיד ה-S&OP.",
       beginnerHe:
         "דמיין שאתה מנהל מפעל-משקאות. פעם יכולת להניח שמחר יידמה להיום: אותם לקוחות, אותם ספקים, אותם מחירים. היום העולם משתנה במהירות — ספק נופל, מטבע קופץ, טרנד צרכני מתפוצץ בן-לילה. 'מניעים שוקיים' הם בדיוק השינויים האלה בעולם החיצוני, והם הסיבה שצריך תהליך-תכנון מסודר שמגיב להם מהר.",
       consultantHe:
@@ -27,8 +27,8 @@ export const CH1: TextbookChapter = {
         "המטרה: להבין שה-S&OP אינו תרגיל פנימי אלא תגובה מובנית לסביבה עסקית הפכפכה. זיהוי המניעים השוקיים מצדיק את התהליך, מגדיר את הדרישות מהמערכת, וקובע אילו מודולים של SAP IBP נדרשים.",
       processExampleHe:
         "יצרן גלובלי חווה עלייה פתאומית בעלויות-הובלה ימית. בלי S&OP, הרכש, הייצור והמכירות מגיבים בנפרד ובסתירה. עם תהליך S&OP נתמך-IBP, התרחיש מוזן כ-scenario, המערכת מחשבת מחדש את ההיצע והרווחיות, וההנהלה מקבלת החלטה אחת מיושרת — להעביר ייצור למפעל קרוב יותר ולעדכן את תחזית-המכירות בהתאם.",
-      cbcHe:
-        "ב-CBC (מפעל-מילוי של Coca-Cola): מחסור עולמי ב-CO2 מאיים על קווי-המילוי. המניע השוקי (שיבוש-אספקה) מתורגם ב-SAP IBP לתרחיש שבו זמינות ה-CO2 מוגבלת; ה-S&OP בוחן מה תהיה ההשפעה על אספקת-המשקאות לרשתות-השיווק לקראת הקיץ, ומחליט על תיעדוף SKU-ים רווחיים.",
+      scenarioHe:
+        "בארגון (מפעל-מילוי של Example Product): מחסור עולמי ב-CO2 מאיים על קווי-המילוי. המניע השוקי (שיבוש-אספקה) מתורגם ב-SAP IBP לתרחיש שבו זמינות ה-CO2 מוגבלת; ה-S&OP בוחן מה תהיה ההשפעה על אספקת-המשקאות לרשתות-השיווק לקראת הקיץ, ומחליט על תיעדוף SKU-ים רווחיים.",
       navHe: [
         "SAP IBP Web UI ► Dashboards ► Demand Sensing / Supply Overview (תצוגת מגמות-שוק)",
         "SAP IBP ► Application Jobs ► Statistical Forecasting (זיהוי שינויי-ביקוש)",
@@ -91,8 +91,8 @@ export const CH1: TextbookChapter = {
             "המטרה: להפוך את שרשרת-האספקה לעמידה (resilient) — לזהות נקודות-תורפה, לכמת סיכון, ולתכנן מלאי-ביטחון ומקורות-גיבוי לפני שהשיבוש מתרחש.",
           processExampleHe:
             "ספק-יחיד של רכיב קריטי מודיע על עיכוב של 6 שבועות. ב-IBP מזינים scenario עם lead time מוארך; IBP for Inventory מחשב מחדש את מלאי-הביטחון הנדרש, ו-IBP for Response מתעדף אילו הזמנות-לקוח יסופקו מהמלאי הקיים.",
-          cbcHe:
-            "ב-CBC: ספק-הפקקים היחיד נפגע משריפה. התרחיש מוזן ל-SAP IBP; IBP for Inventory מציע להעלות מלאי-ביטחון של פקקים, ו-IBP for Response מתעדף מילוי בקבוקי 1.5 ליטר (רווחיים) על-פני אריזות-קטנות עד שובו של הספק.",
+          scenarioHe:
+            "בארגון: ספק-הפקקים היחיד נפגע משריפה. התרחיש מוזן ל-SAP IBP; IBP for Inventory מציע להעלות מלאי-ביטחון של פקקים, ו-IBP for Response מתעדף מילוי בקבוקי 1.5 ליטר (רווחיים) על-פני אריזות-קטנות עד שובו של הספק.",
           navHe: [
             "SAP IBP ► IBP for Inventory ► Inventory Optimization run",
             "SAP IBP ► IBP for Response ► Order-based Planning ► Constrained Forecast Run",
@@ -152,8 +152,8 @@ export const CH1: TextbookChapter = {
             "המטרה: לנהל תכנון אחיד וגלובלי תוך שמירה על רזולוציה מקומית — אזור, מדינה, אתר — ולאפשר השוואה ואיחוד בין שווקים שונים במטבע ובמדידה אחידים.",
           processExampleHe:
             "תאגיד עם מפעלים באירופה ובאסיה מתכנן ביקוש גלובלי. ב-IBP, כל אזור מתחזק את התחזית המקומית שלו; ה-planning area מאחד למבט גלובלי במטבע אחיד, וההנהלה מאזנת היצע בין-אזורי.",
-          cbcHe:
-            "ב-CBC: מפעלי-מילוי במספר מדינות חולקים את אותו ריכוז (concentrate) מ-The Coca-Cola Company. ה-planning area הגלובלי מאחד את תחזיות-המכירות של כל המדינות לתכנון רכש-ריכוז כולל, תוך שמירה על תכנון-מילוי מקומי לכל מפעל.",
+          scenarioHe:
+            "בארגון: מפעלי-מילוי במספר מדינות חולקים את אותו ריכוז (concentrate) מ-The Example Product Company. ה-planning area הגלובלי מאחד את תחזיות-המכירות של כל המדינות לתכנון רכש-ריכוז כולל, תוך שמירה על תכנון-מילוי מקומי לכל מפעל.",
           navHe: [
             "SAP IBP Web UI ► Master Data ► Maintain Region / Country / Location hierarchies",
             "SAP IBP ► Planning Area ► Currency Conversion settings",
@@ -213,8 +213,8 @@ export const CH1: TextbookChapter = {
             "המטרה: להפחית את הסיכון מתחזית שגויה — לזהות שינויי-ביקוש מוקדם, להחזיק תרחישים חלופיים, ולתכנן-מחדש מהר כשהשוק זז.",
           processExampleHe:
             "גל-חום מקדים מקפיץ ביקוש למשקאות-קרים. demand sensing ב-IBP for Demand מזהה את הקפיצה מנתוני-מכירות יומיים, מעדכן את התחזית קצרת-הטווח, ומפעיל התראה לתכנון-ההיצע — הכל לפני מחזור ה-S&OP החודשי.",
-          cbcHe:
-            "ב-CBC: מבצע פתאומי של רשת-קמעונאות מכפיל ביקוש ל-SKU מסוים. IBP for Demand מזהה את החריגה, יוצרים scenario של ביקוש-מוגבר, ובוחנים אם קווי-המילוי יכולים לעמוד בו לפני שמתחייבים לרשת.",
+          scenarioHe:
+            "בארגון: מבצע פתאומי של רשת-קמעונאות מכפיל ביקוש ל-SKU מסוים. IBP for Demand מזהה את החריגה, יוצרים scenario של ביקוש-מוגבר, ובוחנים אם קווי-המילוי יכולים לעמוד בו לפני שמתחייבים לרשת.",
           navHe: [
             "SAP IBP ► IBP for Demand ► Demand Sensing run",
             "SAP IBP ► Application Jobs ► Statistical Forecasting (multiple algorithms)",
@@ -277,8 +277,8 @@ export const CH1: TextbookChapter = {
         "המטרה: להפוך את ה-S&OP מאוסף-פגישות לתהליך-ניהול חזרתי ומדיד — עם הגדרה, אופק ושלבים ברורים — שמייצר החלטות מיושרות מדי חודש.",
       processExampleHe:
         "ארגון מגדיר מחזור-S&OP חודשי: בשבוע הראשון Demand Review, בשני Supply Review, בשלישי Reconciliation, וברביעי Management Business Review. כל שלב נתמך ב-planning view ייעודי ב-IBP, וה-process management מתזמן את המעברים.",
-      cbcHe:
-        "ב-CBC: מחזור-S&OP חודשי מיישר את תחזית-המכירות של המשקאות מול קיבולת קווי-המילוי וזמינות-הריכוז. כל שלב במחזור מתורגם ל-planning view ב-SAP IBP, וההנהלה מקבלת תוכנית-מילוי מאושרת אחת לחודש לכל המפעלים.",
+      scenarioHe:
+        "בארגון: מחזור-S&OP חודשי מיישר את תחזית-המכירות של המשקאות מול קיבולת קווי-המילוי וזמינות-הריכוז. כל שלב במחזור מתורגם ל-planning view ב-SAP IBP, וההנהלה מקבלת תוכנית-מילוי מאושרת אחת לחודש לכל המפעלים.",
       navHe: [
         "SAP IBP Web UI ► Process Management ► Create S&OP Process",
         "SAP IBP ► Planning Area ► Time Profile (horizon + buckets)",
@@ -341,8 +341,8 @@ export const CH1: TextbookChapter = {
             "המטרה: ליצור הבנה משותפת מהו S&OP בארגון — היקפו, תדירותו וההחלטות שהוא מייצר — כדי שכל המחלקות יפעלו לפי אותו תהליך.",
           processExampleHe:
             "הארגון מגדיר: S&OP הוא תהליך חודשי בראשות סמנכ\"ל-תפעול, המיישר תחזית-מכירות מול קיבולת-ייצור ומול תקציב, ומפיק תוכנית-אספקה מאושרת אחת. ההגדרה מתועדת ומוטמעת ב-process management של IBP.",
-          cbcHe:
-            "ב-CBC: ההגדרה קובעת ש-S&OP הוא מחזור חודשי המיישר את ביקוש-המשקאות מול קיבולת-המילוי וזמינות-הריכוז, ומפיק תוכנית-מילוי אחת מאושרת לכל מפעלי-החברה.",
+          scenarioHe:
+            "בארגון: ההגדרה קובעת ש-S&OP הוא מחזור חודשי המיישר את ביקוש-המשקאות מול קיבולת-המילוי וזמינות-הריכוז, ומפיק תוכנית-מילוי אחת מאושרת לכל מפעלי-החברה.",
           navHe: [
             "SAP IBP Web UI ► Process Management ► Define Process Template",
             "SAP IBP ► Planning Area ► assign key figures (Demand/Supply/Financial)",
@@ -390,8 +390,8 @@ export const CH1: TextbookChapter = {
             "המטרה: להבטיח שה-S&OP מסתכל מספיק רחוק קדימה כדי לאפשר את ההחלטות שהוא אמור לקבל — קיבולת, מלאי, פיתוח — בלי לאבד דיוק בטווח-הקרוב.",
           processExampleHe:
             "ארגון בוחר אופק של 24 חודשים: 18 הראשונים ברזולוציה חודשית לתכנון-תפעולי-טקטי, ו-6 האחרונים לתכנון-קיבולת אסטרטגי. ה-time profile ב-IBP מוגדר בהתאם.",
-          cbcHe:
-            "ב-CBC: אופק של 18 חודשים מאפשר לתכנן את שיא-הקיץ הבא — להזמין ריכוז מראש, לתזמן תחזוקת-קווים מחוץ לעונה, ולהחליט על הוספת-משמרת לפני הביקוש.",
+          scenarioHe:
+            "בארגון: אופק של 18 חודשים מאפשר לתכנן את שיא-הקיץ הבא — להזמין ריכוז מראש, לתזמן תחזוקת-קווים מחוץ לעונה, ולהחליט על הוספת-משמרת לפני הביקוש.",
           navHe: [
             "SAP IBP ► Planning Area ► Time Profile ► Define Horizon & Buckets",
             "SAP IBP Excel add-in ► Planning View ► Time Settings",
@@ -439,8 +439,8 @@ export const CH1: TextbookChapter = {
             "המטרה: להפוך תהליך מורכב לרצף-שלבים מנוהל — כל שלב ממוקד, מדיד, ובעל אחריות ברורה — כדי שהמחזור יזרום בצורה צפויה ויפיק החלטה מאושרת.",
           processExampleHe:
             "Demand Review מפיק תחזית-ביקוש מוסכמת ➔ זו הקלט ל-Supply Review שבוחן אם ההיצע יכול לעמוד בה ➔ Reconciliation מאזן פערים ובוחן תרחישים ➔ Management Business Review מאשר תוכנית סופית. כל מעבר מתועד ב-snapshot.",
-          cbcHe:
-            "ב-CBC: Demand Review מסכם תחזית-מכירות-משקאות; Supply Review בודק מול קיבולת-מילוי וריכוז; Reconciliation מאזן (למשל הזזת-מבצע מחוץ-לשיא); Management Business Review מאשר תוכנית-מילוי חודשית.",
+          scenarioHe:
+            "בארגון: Demand Review מסכם תחזית-מכירות-משקאות; Supply Review בודק מול קיבולת-מילוי וריכוז; Reconciliation מאזן (למשל הזזת-מבצע מחוץ-לשיא); Management Business Review מאשר תוכנית-מילוי חודשית.",
           navHe: [
             "SAP IBP Web UI ► Process Management ► Process Steps & Owners",
             "SAP IBP ► Application Jobs (per step: forecast / heuristic / optimizer)",
@@ -504,8 +504,8 @@ export const CH1: TextbookChapter = {
         "המטרה: להבין שהטכנולוגיה היא ה-enabler — בלי in-memory, ויזואליזציה ושיתוף-פעולה, ה-S&OP נשאר תהליך אצווה איטי. SAP IBP נבנה כדי לממש את שלושת אלה.",
       processExampleHe:
         "מתכנן משנה תחזית ב-Excel add-in; בזכות ה-in-memory, מלאי-הביטחון, עלות-ההיצע והרווחיות מחושבים-מחדש תוך שניות; dashboard ב-Web UI מציג את ההשפעה ויזואלית; והמתכנן פותח Case לדיון עם הרכש — הכל בלי המתנה ל-batch לילי.",
-      cbcHe:
-        "ב-CBC: מתכנן-הביקוש מעלה תחזית-קיץ ב-Excel add-in; IBP מחשב מיד את עומס קווי-המילוי ואת צריכת-הריכוז, מציג גרף-קיבולת ב-Web UI, ופותח Case לתכנון-ההיצע — מחזור-תכנון שלם בזמן-אמת.",
+      scenarioHe:
+        "בארגון: מתכנן-הביקוש מעלה תחזית-קיץ ב-Excel add-in; IBP מחשב מיד את עומס קווי-המילוי ואת צריכת-הריכוז, מציג גרף-קיבולת ב-Web UI, ופותח Case לתכנון-ההיצע — מחזור-תכנון שלם בזמן-אמת.",
       navHe: [
         "SAP IBP Excel add-in ► Planning View ► Edit & Simulate (in-memory)",
         "SAP IBP Web UI ► Analytics ► Charts & Dashboards",
@@ -566,8 +566,8 @@ export const CH1: TextbookChapter = {
             "המטרה: לאפשר קבלת-החלטות בזמן-אמת — לבחון 'מה-אם' תוך כדי הפגישה, ולא להמתין לריצת-batch לילית בין סבבים.",
           processExampleHe:
             "במהלך Demand Review, המתכנן מעלה תחזית ב-15% ב-Excel add-in במצב-סימולציה; ה-in-memory מחשב מיד את צריכת-הקיבולת ואת הרווחיות; המשתתפים רואים את ההשפעה ומחליטים — בלי לצאת מהפגישה.",
-          cbcHe:
-            "ב-CBC: בפגישת-Demand Review מעלים את תחזית-הקיץ; in-memory מציג מיד שקו-מילוי 2 יעבור 100% עומס, וההחלטה על משמרת-נוספת מתקבלת בו-במקום.",
+          scenarioHe:
+            "בארגון: בפגישת-Demand Review מעלים את תחזית-הקיץ; in-memory מציג מיד שקו-מילוי 2 יעבור 100% עומס, וההחלטה על משמרת-נוספת מתקבלת בו-במקום.",
           navHe: [
             "SAP IBP Excel add-in ► Planning View ► Simulate (Edit before Save)",
             "SAP IBP Web UI ► Analytics ► real-time recalculation",
@@ -615,8 +615,8 @@ export const CH1: TextbookChapter = {
             "המטרה: להאיץ הבנה והחלטה — להציג מגמות, פערים וחריגות ויזואלית כדי שהסקירה תתמקד בהחלטות ולא בפענוח-מספרים.",
           processExampleHe:
             "ב-Management Business Review, dashboard מציג גרף ביקוש-מול-היצע, KPI של רמת-שירות, ומפת-חום של מפעלים בעומס-יתר. ההנהלה מזהה את הצוואר ומחליטה — בלי לעבור טבלאות.",
-          cbcHe:
-            "ב-CBC: dashboard מציג עומס לכל קו-מילוי כמפת-חום (אדום=עומס-יתר), מגמת מכירות-משקאות, ורמת-מלאי-ריכוז — ההנהלה רואה מיד היכן הסיכון לקראת הקיץ.",
+          scenarioHe:
+            "בארגון: dashboard מציג עומס לכל קו-מילוי כמפת-חום (אדום=עומס-יתר), מגמת מכירות-משקאות, ורמת-מלאי-ריכוז — ההנהלה רואה מיד היכן הסיכון לקראת הקיץ.",
           navHe: [
             "SAP IBP Web UI ► Analytics ► Create Chart / Dashboard",
             "SAP IBP Web UI ► Dashboards ► assign to role / process step",
@@ -664,8 +664,8 @@ export const CH1: TextbookChapter = {
             "המטרה: ליצור single source of truth שיתופי — כל המשתתפים על אותה תוכנית, עם תיעוד-החלטות והקצאת-משימות — במקום סנכרון ידני דרך מיילים וקבצים.",
           processExampleHe:
             "מתכנן-ההיצע מזהה פער-קיבולת, פותח Case מקושר ל-planning view, מקצה Task לרכש לבדוק מקור-חלופי, ומתעד את ההחלטה. כל המשתתפים רואים את ההתקדמות בזמן-אמת.",
-          cbcHe:
-            "ב-CBC: בפער-ריכוז לקראת הקיץ, מתכנן פותח Case ומקצה Task ל-The Coca-Cola Company לבדוק הקדמת-משלוח, ומתעד את ההחלטה — כל המפעלים רואים את הסטטוס.",
+          scenarioHe:
+            "בארגון: בפער-ריכוז לקראת הקיץ, מתכנן פותח Case ומקצה Task ל-The Example Product Company לבדוק הקדמת-משלוח, ומתעד את ההחלטה — כל המפעלים רואים את הסטטוס.",
           navHe: [
             "SAP IBP Web UI ► Collaboration ► Create Case / Task",
             "SAP IBP ► integration ► SAP Jam / Microsoft Teams",
@@ -716,8 +716,8 @@ export const CH1: TextbookChapter = {
         "המטרה: לספק פלטפורמה אחת, משולבת וענן-מבוססת לכל תכנון שרשרת-האספקה — שמממשת את הגישה המשולבת, אלגוריתמים טובים, חוויית-משתמש מוכרת וזריזות, ומחליפה את הכלים הישנים והמבודדים.",
       processExampleHe:
         "ביקוש מתוכנן ב-IBP for Demand → זורם ל-IBP for Supply שמתכנן היצע → IBP for Inventory מאזן מלאי-ביטחון → IBP for Response מגיב לטווח-קצר. הכל על אותו planning area, נראה ב-Excel add-in וב-Web UI, ומשולב עם S/4HANA.",
-      cbcHe:
-        "ב-CBC: SAP IBP מאחד את תכנון-המשקאות מקצה-לקצה — תחזית-מכירות ב-Demand, תכנון-מילוי ב-Supply, מלאי-ריכוז ב-Inventory, ותגובה לשיא-קיץ ב-Response — בענן אחד, משולב עם ה-S/4HANA של החברה.",
+      scenarioHe:
+        "בארגון: SAP IBP מאחד את תכנון-המשקאות מקצה-לקצה — תחזית-מכירות ב-Demand, תכנון-מילוי ב-Supply, מלאי-ריכוז ב-Inventory, ותגובה לשיא-קיץ ב-Response — בענן אחד, משולב עם ה-S/4HANA של החברה.",
       navHe: [
         "SAP IBP Web UI ► Apps overview (Demand / Supply / Inventory / Response / S&OP)",
         "SAP IBP Excel add-in ► Connect to SAP IBP system",
@@ -781,8 +781,8 @@ export const CH1: TextbookChapter = {
             "המטרה: לבטל את ה-silos ואת הסנכרון-הידני — תוכנית-ביקוש זורמת מיד לתכנון-היצע ולמלאי, על מקור-נתונים אחד, בעקביות מלאה.",
           processExampleHe:
             "תחזית מעודכנת ב-IBP for Demand נראית מיד ב-key figures של IBP for Supply באותו planning area — בלי interface, בלי העברת-קבצים, בלי השהיה.",
-          cbcHe:
-            "ב-CBC: עדכון תחזית-משקה ב-Demand נראה מיד בתכנון-המילוי ובמלאי-הריכוז — מתכנן-ההיצע ומתכנן-המלאי עובדים על אותה אמת אחת.",
+          scenarioHe:
+            "בארגון: עדכון תחזית-משקה ב-Demand נראה מיד בתכנון-המילוי ובמלאי-הריכוז — מתכנן-ההיצע ומתכנן-המלאי עובדים על אותה אמת אחת.",
           navHe: [
             "SAP IBP ► Planning Area ► single area shared across modules",
             "SAP IBP Excel add-in ► same planning view across Demand/Supply key figures",
@@ -829,8 +829,8 @@ export const CH1: TextbookChapter = {
             "המטרה: להחליף החלטות-מבוססות-תחושה באלגוריתמים מוכחים — דיוק-תחזית גבוה יותר, מלאי-ביטחון מיטבי, ותוכנית-היצע רווחית יותר.",
           processExampleHe:
             "best-fit ב-IBP for Demand בוחר אוטומטית את האלגוריתם בעל ה-error הנמוך לכל SKU; IBP for Inventory מחשב מלאי-ביטחון multi-stage; IBP for Supply optimizer ממזער עלות תוך עמידה באילוצים.",
-          cbcHe:
-            "ב-CBC: best-fit בוחר לכל משקה את שיטת-התחזית המתאימה (עונתי לגזוז, יציב למים); optimizer ב-Supply מחליט אילו מפעל ימלא איזה SKU בעלות-מינימום.",
+          scenarioHe:
+            "בארגון: best-fit בוחר לכל משקה את שיטת-התחזית המתאימה (עונתי לגזוז, יציב למים); optimizer ב-Supply מחליט אילו מפעל ימלא איזה SKU בעלות-מינימום.",
           navHe: [
             "SAP IBP ► IBP for Demand ► Forecast Models ► Best-Fit / ML algorithms",
             "SAP IBP ► IBP for Inventory ► Multi-Stage Optimization run",
@@ -880,8 +880,8 @@ export const CH1: TextbookChapter = {
             "המטרה: למקסם אימוץ-משתמשים ופרודוקטיביות — ממשק מוכר (Excel) למתכננים, וממשק מודרני (Web) לניתוח ולשיתוף — במקום כלי יחיד שמתפשר על שניהם.",
           processExampleHe:
             "מתכנן עורך תחזית ב-Excel add-in; מנהל בוחן dashboards ופותח Cases ב-Web UI; אדמין מתזמן application jobs ב-Web UI. כל תפקיד בממשק המתאים לו.",
-          cbcHe:
-            "ב-CBC: מתכנני-הביקוש במפעלים עובדים ב-Excel add-in המוכר; מנהלי-S&OP בוחנים dashboards ופותחים Cases ב-Web UI — אימוץ מהיר בכל הרמות.",
+          scenarioHe:
+            "בארגון: מתכנני-הביקוש במפעלים עובדים ב-Excel add-in המוכר; מנהלי-S&OP בוחנים dashboards ופותחים Cases ב-Web UI — אימוץ מהיר בכל הרמות.",
           navHe: [
             "SAP IBP Excel add-in ► Planning View ► Favorites & Templates",
             "SAP IBP Web UI ► Apps ► Analytics / Collaboration / Application Jobs",
@@ -929,8 +929,8 @@ export const CH1: TextbookChapter = {
             "המטרה: לאפשר לארגון להגיב לשינויי-שוק במהירות — תכנון-מחדש בדקות, תרחישים מיידיים, ויכולות-ענן מתעדכנות — במקום מחזורי-תכנון איטיים ושדרוגים כבדים.",
           processExampleHe:
             "שינוי-שוק פתאומי: הצוות מריץ scenario חדש, ה-in-memory מחשב מיד, ותוכנית מעודכנת מאושרת באותו יום — ללא המתנה למחזור הבא או לשדרוג.",
-          cbcHe:
-            "ב-CBC: גל-חום בלתי-צפוי; הצוות מריץ scenario של ביקוש-מוגבר, מתכנן-מחדש את המילוי תוך שעות, ומגיב לרשתות — זריזות שמצילה מכירות-קיץ.",
+          scenarioHe:
+            "בארגון: גל-חום בלתי-צפוי; הצוות מריץ scenario של ביקוש-מוגבר, מתכנן-מחדש את המילוי תוך שעות, ומגיב לרשתות — זריזות שמצילה מכירות-קיץ.",
           navHe: [
             "SAP IBP Excel add-in ► Scenarios ► rapid what-if",
             "SAP IBP ► Version Management ► compare plan versions",
@@ -979,8 +979,8 @@ export const CH1: TextbookChapter = {
             "המטרה: לספק ארגז-כלים מודולרי — לבחור את המודולים הנדרשים (Demand, Inventory, Supply, Response, S&OP) לפי בשלות ותהליך — שכולם משתלבים על מודל-נתונים אחד.",
           processExampleHe:
             "ארגון מתחיל ב-IBP for Sales and Operations ו-Demand, מוסיף Inventory ו-Supply בהמשך, ולבסוף Response — כל מודול נשען על ה-planning area הקיים בלי re-implementation.",
-          cbcHe:
-            "ב-CBC: שלב-א — IBP for Demand ו-Sales and Operations למחזור-מילוי חודשי; שלב-ב — IBP for Inventory לריכוז/אריזה; שלב-ג — IBP for Response לשיא-הקיץ. כולם על אותו planning area.",
+          scenarioHe:
+            "בארגון: שלב-א — IBP for Demand ו-Sales and Operations למחזור-מילוי חודשי; שלב-ב — IBP for Inventory לריכוז/אריזה; שלב-ג — IBP for Response לשיא-הקיץ. כולם על אותו planning area.",
           navHe: [
             "SAP IBP Web UI ► Apps ► IBP for Demand / Inventory / Supply / Response / Sales and Operations",
             "SAP IBP ► Planning Area ► assign module-specific key figures",
@@ -1042,8 +1042,8 @@ export const CH1: TextbookChapter = {
         "המטרה: לעגן את התמונה-הכוללת לפני הצלילה לפרטים — מדוע S&OP, מהם מניעיו, ומה מקומו של SAP IBP — כך שכל פרק-המשך יתחבר למסגרת אחת.",
       processExampleHe:
         "מבט-על על המסע: מניעים מצדיקים S&OP → S&OP מוגדר כתהליך חודשי בחמישה שלבים → SAP IBP מממש אותו עם מודולים משולבים → הארגון מתכנן, מדמה ומחליט בזמן-אמת ובזריזות.",
-      cbcHe:
-        "ב-CBC: התמונה-הכוללת — מניעי-שוק (CO2, גל-חום) ותהליך-S&OP חודשי מיושמים ב-SAP IBP על-פני Demand/Inventory/Supply/Response, ומפיקים תוכנית-מילוי מאושרת אחת לכל המפעלים לקראת הקיץ.",
+      scenarioHe:
+        "בארגון: התמונה-הכוללת — מניעי-שוק (CO2, גל-חום) ותהליך-S&OP חודשי מיושמים ב-SAP IBP על-פני Demand/Inventory/Supply/Response, ומפיקים תוכנית-מילוי מאושרת אחת לכל המפעלים לקראת הקיץ.",
       navHe: [
         "SAP IBP Web UI ► Apps overview (חזרה על כל המודולים)",
         "SAP IBP ► Process Management ► full S&OP cycle",

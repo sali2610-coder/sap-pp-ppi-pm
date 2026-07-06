@@ -2,7 +2,7 @@
 // Configuring SAP IBP for Sales and Operations. Every node is a complete
 // LearningNode with 18 facets of authored Hebrew (beginner + consultant).
 // Config-heavy: rich IBP Configuration app navigation trees. Hierarchy/ids
-// preserved exactly; CBC = Coca-Cola bottling IBP planning-area configuration.
+// preserved exactly; הארגון = Example Product bottling IBP planning-area configuration.
 import type { TextbookChapter } from "./types";
 
 export const CH10: TextbookChapter = {
@@ -10,7 +10,7 @@ export const CH10: TextbookChapter = {
   titleHe: "הגדרת SAP IBP ל-S&OP",
   titleEn: "Configuring SAP IBP for Sales and Operations",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה להגדרת SAP IBP (Integrated Business Planning) עבור תהליך S&OP. SAP IBP הוא פתרון ענן (cloud) לתכנון שרשרת-אספקה, וכל תהליך תכנון בו נשען על אבני-בניין מודולריות: Planning Area, Time Profile, Attribute, Master Data Type, Planning Level, Key Figure ו-Planning Operator. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC (מפעל-בקבוק של קוקה-קולה), עצי-ניווט באפליקציית IBP Configuration, תרשימי-זרימה, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לדעת להגדיר Planning Area שלם ל-S&OP — כולל key figures, aggregation/disaggregation ו-Copy Operator — ללא צורך בחומר נוסף.",
+    "פרק זה הוא יחידת-לימוד מלאה להגדרת SAP IBP (Integrated Business Planning) עבור תהליך S&OP. SAP IBP הוא פתרון ענן (cloud) לתכנון שרשרת-אספקה, וכל תהליך תכנון בו נשען על אבני-בניין מודולריות: Planning Area, Time Profile, Attribute, Master Data Type, Planning Level, Key Figure ו-Planning Operator. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון (מפעל-בקבוק של מוצר לדוגמה), עצי-ניווט באפליקציית IBP Configuration, תרשימי-זרימה, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לדעת להגדיר Planning Area שלם ל-S&OP — כולל key figures, aggregation/disaggregation ו-Copy Operator — ללא צורך בחומר נוסף.",
   subchapters: [
     // ============================================================ 10.1
     {
@@ -25,8 +25,8 @@ export const CH10: TextbookChapter = {
         "לספק לארגון מבנה-נתונים אחד, עקבי ומאוחד, שעליו רצים תרחישי S&OP — מ-Demand Review ועד Supply Review ו-Executive Review. ה-Time Profile מבטיח שכל המדדים מדברים באותה 'שפת-זמן', כך שאפשר להשוות ביקוש לאספקה לאותה תקופה בדיוק.",
       processExampleHe:
         "צוות תכנון מקים תהליך S&OP חודשי: בונים Time Profile עם רמות Month ← Quarter ← Year, יוצרים Planning Area חדש מבוסס SAPIBP1, מקצים לו את ה-Time Profile, ולאחר Activation טוענים נתוני-אב ונתוני-מפתח. מאותו רגע כל החישובים (ביקוש, אספקה, מלאי) מתבצעים על אותו ציר-זמן חודשי.",
-      cbcHe:
-        "ב-CBC מוקם Planning Area בשם CBC_SNOP עבור תכנון מכירות-ותפעול של משקאות. ה-Time Profile נבנה עם Month ← Quarter ← Year, כי תכנון-המשקאות מתנהל חודשית מול עונתיות-קיץ. רמת-Week נוספת כדי לתמוך בפירוק (disaggregation) של תכנית-הייצור לשבועות-מילוי בקווי-המילוי.",
+      scenarioHe:
+        "בארגון מוקם Planning Area בשם MFG_SNOP עבור תכנון מכירות-ותפעול של משקאות. ה-Time Profile נבנה עם Month ← Quarter ← Year, כי תכנון-המשקאות מתנהל חודשית מול עונתיות-קיץ. רמת-Week נוספת כדי לתמוך בפירוק (disaggregation) של תכנית-הייצור לשבועות-מילוי בקווי-המילוי.",
       navHe: [
         "IBP Web UI ► Configuration ► Time Profiles ► New (הגדר Time Profile Levels: Month/Quarter/Year)",
         "IBP Web UI ► Configuration ► Planning Areas ► Copy from Sample (SAPIBP1) ► assign Time Profile",
@@ -92,7 +92,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-Configuration מגדירים Planning Area עם מזהה (עד 8 תווים), Time Profile, ו-Attributes גלובליים. Sample Planning Areas: SAP4 (כללי), SAPIBP1 (מודל מאוחד ל-Demand/Inventory/S&OP/Supply), SAP6, SAP7. ה-Planning Area תומך ב-Versions ו-Scenarios לתכנון-תרחישים. Activation בונה את הטבלאות ב-HANA.",
           purposeHe: "לתחום ולאחד תהליך-תכנון שלם תחת מבנה-נתונים אחד עקבי, כך שכל המדדים והרמות מסונכרנים.",
           processExampleHe: "צוות מעתיק את SAPIBP1 ל-Planning Area חדש Z_SNOP, מסיר Key Figures לא-רלוונטיים, מוסיף Attribute עסקי, ומפעיל Activate. כעת אפשר לטעון נתונים ולהריץ דוחות.",
-          cbcHe: "ב-CBC ה-Planning Area הוא CBC_SNOP, מבוסס SAPIBP1, ומכיל את כל ממדי-המשקאות (Product, Brand, Plant, Customer) וכל מדדי ה-S&OP (Demand, Production, Inventory).",
+          scenarioHe: "בארגון ה-Planning Area הוא MFG_SNOP, מבוסס SAPIBP1, ומכיל את כל ממדי-המשקאות (Product, Brand, Plant, Customer) וכל מדדי ה-S&OP (Demand, Production, Inventory).",
           navHe: ["IBP Web UI ► Configuration ► Planning Areas ► New / Copy from Sample (SAPIBP1)", "IBP Web UI ► Configuration ► Planning Areas ► <PA> ► Activate"],
           tables: ["Planning Area (metadata)", "Sample PA: SAPIBP1"],
           tcodes: ["IBP Web UI: Configuration", "Manage Planning Area Versions"],
@@ -115,7 +115,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Time Profile בנוי מ-Time Profile Levels ממוספרים. כל רמה מחזיקה Period IDs (TSTART/TEND). הרמה הגבוהה ביותר היא הגסה (Year). ה-Storage level הוא הדק ביותר שבו נשמרים נתונים. תבניות-זמן (Patterns) קובעות חלוקת-שבועות. שינוי לאחר טעינה דורש re-init של נתוני-הזמן. ה-Time Profile משותף לכל מי שמשתמש בו, אך Planning Area מקשר רק אחד.",
           purposeHe: "להבטיח 'שפת-זמן' אחידה לכל המדדים, כך שביקוש ואספקה לאותה תקופה ניתנים להשוואה, וכך שצבירה ופירוק לאורך-זמן עובדים נכון.",
           processExampleHe: "בונים Time Profile עם Level 1=Year, 2=Quarter, 3=Month, 4=Week. מגדירים Storage ב-Week. נתוני-ביקוש שבועיים מצטברים אוטומטית לחודשים ולרבעונים בדוחות.",
-          cbcHe: "ב-CBC ה-Time Profile הוא Year ← Quarter ← Month ← Week. תכנון-המכירות מתנהל חודשית, אך הפירוק לשבועות מאפשר תרגום תכנית-ייצור לתוכנית-מילוי שבועית בקווים.",
+          scenarioHe: "בארגון ה-Time Profile הוא Year ← Quarter ← Month ← Week. תכנון-המכירות מתנהל חודשית, אך הפירוק לשבועות מאפשר תרגום תכנית-ייצור לתוכנית-מילוי שבועית בקווים.",
           navHe: ["IBP Web UI ► Configuration ► Time Profiles ► New ► define Levels (Year/Quarter/Month/Week)", "IBP Web UI ► Configuration ► Time Profiles ► Generate Periods (TSTART/TEND)"],
           tables: ["Time Profile", "Time Profile Level", "Period (TSTART/TEND)"],
           tcodes: ["IBP Web UI: Configuration", "Application Jobs (Generate Time Periods)"],
@@ -146,8 +146,8 @@ export const CH10: TextbookChapter = {
         "להגדיר את 'גיאומטריית-התכנון' — אילו ממדים קיימים, מה המפתח של כל ישות, ואילו תכונות מתארות אותה. ללא Attributes ו-Master Data Types תקינים אין Planning Levels, ואין על מה לאחסן key figures.",
       processExampleHe:
         "מגדירים Attribute PRDID (CHAR 18) ו-PRDDESC, יוצרים Master Data Type Simple בשם 'Product' עם PRDID כ-Key Attribute, וטוענים את רשימת-המוצרים. אותו דבר ל-Location ו-Customer. כעת אפשר לבנות Planning Level בצירוף Product × Location × Month.",
-      cbcHe:
-        "ב-CBC מגדירים Master Data Types: Product (PRDID, Brand, Pack-Size, Flavor), Location (Plant, DC), Customer (Sold-To, Channel). Attribute עסקי ייחודי: Brand (Coke / Sprite / Fanta) המאפשר צבירת-ביקוש לפי מותג ב-Demand Review.",
+      scenarioHe:
+        "בארגון מגדירים Master Data Types: Product (PRDID, Brand, Pack-Size, Flavor), Location (Plant, DC), Customer (Sold-To, Channel). Attribute עסקי ייחודי: Brand (Coke / Sprite / Fanta) המאפשר צבירת-ביקוש לפי מותג ב-Demand Review.",
       navHe: [
         "IBP Web UI ► Configuration ► Attributes ► New (Name, Data Type, Length)",
         "IBP Web UI ► Configuration ► Master Data Types ► New ► choose type (Simple/Compound/Reference/External)",
@@ -210,7 +210,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-Configuration מגדירים Attribute עם Technical Name (אנגלית, ייחודי), Data Type (NUMC/CHAR/DATS/DEC/TIMS) ו-Length/Decimals. Attributes נצרכים ב-Master Data Types (כ-Key או רגיל) וב-Planning Levels. שינוי Data Type/Length לאחר שימוש מצריך זהירות — ייתכן re-load. Attributes מסוג Calculated אפשריים דרך נוסחה.",
           purposeHe: "לספק את הלבנים שמהן בונים ממדים, ישויות ורמות-תכנון — עם טיפוס ואורך נכונים כדי שהנתונים יישמרו בלי קיטום.",
           processExampleHe: "מגדירים PRDID (CHAR 18), Brand (CHAR 10), UNITPRICE (DEC 15,2). אלה ישמשו ב-Master Data Type 'Product' וב-Planning Levels וב-Key Figures.",
-          cbcHe: "ב-CBC מגדירים Attributes: PRDID, Brand (Coke/Sprite/Fanta), PackSize (Can/Bottle/Multipack), Channel (Retail/HoReCa). Brand מאפשר צבירה לפי-מותג.",
+          scenarioHe: "בארגון מגדירים Attributes: PRDID, Brand (Coke/Sprite/Fanta), PackSize (Can/Bottle/Multipack), Channel (Retail/HoReCa). Brand מאפשר צבירה לפי-מותג.",
           navHe: ["IBP Web UI ► Configuration ► Attributes ► New (Technical Name, Data Type, Length)"],
           tables: ["Attribute (metadata)"],
           tcodes: ["IBP Web UI: Configuration"],
@@ -229,7 +229,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "סוגים: Simple (רשימה עצמאית עם Key משלה), Compound (Key תלוי במפתח של Master Data Type אחר — Referenced MDTs), Reference (מצביע על Simple ללא נתונים משלו), External (נשען על מקור חיצוני/Virtual). כל אחד נושא Key Attributes ו-Attributes רגילים. נטענים דרך Data Integration / Manage Master Data לאחר Activation. Compound חיוני לישויות תלויות (Customer-Product, Source-of-Supply).",
           purposeHe: "להגדיר את הישויות שלפיהן מתכננים ואת המפתח שלהן, ולספק את ה-Attributes ל-Planning Levels.",
           processExampleHe: "יוצרים Simple MDT 'Location' (Key: LOCID), טוענים 50 מיקומים. יוצרים Compound MDT 'Customer-Location' התלוי ב-Customer וב-Location, ומגדיר אילו לקוחות משויכים לאילו מיקומים.",
-          cbcHe: "ב-CBC: Simple MDTs ל-Product, Plant, Customer; Compound MDT ל-Product-Plant (אילו משקאות מיוצרים בכל מפעל) ול-Customer-Product (מטריצת-שירות).",
+          scenarioHe: "בארגון: Simple MDTs ל-Product, Plant, Customer; Compound MDT ל-Product-Plant (אילו משקאות מיוצרים בכל מפעל) ול-Customer-Product (מטריצת-שירות).",
           navHe: ["IBP Web UI ► Configuration ► Master Data Types ► New ► type (Simple/Compound/Reference/External)", "IBP Web UI ► Configuration ► Master Data Types ► assign Key Attributes + Referenced MDTs"],
           tables: ["Master Data Type", "Master Data (instances)"],
           tcodes: ["IBP Web UI: Configuration", "Data Integration"],
@@ -259,8 +259,8 @@ export const CH10: TextbookChapter = {
         "להגדיר את הרזולוציה שבה כל מדד חי, ולאפשר צבירה ופירוק עקביים בין רמות — כך שמנהל רואה סיכום-מותג בעוד מתכנן רואה פירוט-מוצר, מאותם נתונים.",
       processExampleHe:
         "key figure 'Demand' מוגדר ב-base level Product × Customer × Location × Week. בדוח Executive Review הוא נצבר אוטומטית ל-Brand × Region × Quarter. אותם נתונים, רזולוציות שונות, בלי כפילות.",
-      cbcHe:
-        "ב-CBC מגדירים Planning Levels: PRODUCT_LOC_CUST_WK (בסיס לביקוש), BRAND_REGION_MO (סקירת-מנהלים), ו-PLANT_PROD_WK (תכנון-ייצור). תכנית-המכירות ברמת-מותג מתפרקת לרמת-מוצר לצורך תכנון-מילוי.",
+      scenarioHe:
+        "בארגון מגדירים Planning Levels: PRODUCT_LOC_CUST_WK (בסיס לביקוש), BRAND_REGION_MO (סקירת-מנהלים), ו-PLANT_PROD_WK (תכנון-ייצור). תכנית-המכירות ברמת-מותג מתפרקת לרמת-מוצר לצורך תכנון-מילוי.",
       navHe: [
         "IBP Web UI ► Configuration ► Planning Levels ► New ► select Attributes",
         "IBP Web UI ► Configuration ► Planning Levels ► set Root Time Profile Level",
@@ -331,8 +331,8 @@ export const CH10: TextbookChapter = {
         "לייצג את כל הגדלים הנמדדים והמתוכננים, ולחבר ביניהם בנוסחאות (Projected Inventory = Opening + Production − Demand). הם מתרגמים את מודל-הנתונים לתובנות-תכנון.",
       processExampleHe:
         "key figure CONSENSUSDEMAND נערך ב-Demand Review; PRODUCTION מתוכנן ב-Supply Review; key figure מחושב PROJECTEDINVENTORY = previous inventory + PRODUCTION − CONSENSUSDEMAND מציג את תחזית-המלאי לאורך-האופק.",
-      cbcHe:
-        "ב-CBC key figures: CONSENSUSDEMAND (ביקוש-מוסכם למשקה), PRODUCTIONQTY (כמות-מילוי מתוכננת), PROJECTEDSTOCK (מלאי-חזוי), CAPACITYUSAGE (ניצול-קווים). PROJECTEDSTOCK מחושב מהביקוש, הייצור והמלאי-הפותח.",
+      scenarioHe:
+        "בארגון key figures: CONSENSUSDEMAND (ביקוש-מוסכם למשקה), PRODUCTIONQTY (כמות-מילוי מתוכננת), PROJECTEDSTOCK (מלאי-חזוי), CAPACITYUSAGE (ניצול-קווים). PROJECTEDSTOCK מחושב מהביקוש, הייצור והמלאי-הפותח.",
       navHe: [
         "IBP Web UI ► Configuration ► Key Figures ► New ► Base Planning Level",
         "IBP Web UI ► Configuration ► Key Figures ► Aggregation / Disaggregation",
@@ -397,7 +397,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "key figure = (value, Planning Level coordinate, time bucket). הוא נושא תכונות-מטא: Base Level, Aggregation, Disaggregation, Editable/Stored/Calculated, Unit/Currency. ב-Excel/Web UI הוא העמודה שמתכננים עליה. מבחינים בין key figures בסיסיים (input) למחושבים (output).",
           purposeHe: "לתת שם, רמה ומשמעות לכל גודל שמתכננים, כדי שאפשר יהיה לערוך, לצבור, לפרק ולחשב אותו עקבית.",
           processExampleHe: "המתכנן פותח planning view ב-Excel; העמודות הן key figures (Demand, Production, Inventory) והשורות הן צירופי Planning Level. הוא עורך Demand וה-Inventory המחושב מתעדכן.",
-          cbcHe: "ב-CBC המתכנן רואה key figures: ביקוש-משקה, מילוי-מתוכנן ומלאי-חזוי, ברמת מוצר×מפעל×שבוע.",
+          scenarioHe: "בארגון המתכנן רואה key figures: ביקוש-משקה, מילוי-מתוכנן ומלאי-חזוי, ברמת מוצר×מפעל×שבוע.",
           navHe: ["IBP Web UI ► Configuration ► Key Figures (overview)", "IBP for Excel ► Planning View (key figures as columns)"],
           tables: ["Key Figure (metadata)", "Key Figure data (HANA)"],
           tcodes: ["IBP Web UI: Configuration", "IBP for Excel"],
@@ -416,7 +416,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-Configuration ► Key Figures ► New: שם, Base Planning Level, Aggregation Mode, Disaggregation Mode+Basis, Stored/Calculated/Editable, Unit of Measure/Currency Conversion. לאחר מכן Activation. אפשר לבסס על key figure קיים. Helper key figures מסומנים כ-auxiliary. עריכה ב-planning view דורשת Editable+Stored.",
           purposeHe: "להוסיף למודל מדד חדש עם כל ההתנהגויות הנכונות, כך שיתנהג נכון בצבירה, בפירוק ובחישוב.",
           processExampleHe: "יוצרים key figure 'SAFETYSTOCK': Base = Product×Location×Week, Aggregation = SUM, Disaggregation Basis = DEMAND, Stored+Editable. Activate. כעת מתכננים אותו ב-Excel.",
-          cbcHe: "ב-CBC יוצרים key figure PROMODEMAND (ביקוש-מבצע): Base = Product×Customer×Week, SUM, Disaggregation לפי DEMAND, Editable — לתכנון השפעת-מבצעי-קיץ.",
+          scenarioHe: "בארגון יוצרים key figure PROMODEMAND (ביקוש-מבצע): Base = Product×Customer×Week, SUM, Disaggregation לפי DEMAND, Editable — לתכנון השפעת-מבצעי-קיץ.",
           navHe: ["IBP Web UI ► Configuration ► Key Figures ► New ► Base Planning Level + Aggregation + Disaggregation", "IBP Web UI ► Configuration ► Activate"],
           tables: ["Key Figure (metadata)"],
           tcodes: ["IBP Web UI: Configuration"],
@@ -435,7 +435,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Stored key figures נשמרים ב-HANA ברמת-הבסיס וניתנים לעריכה. Calculated מחושבים מ-Calculation בזמן-ריצה (לא תופסים אחסון). Auxiliary/Helper מסומנים ככאלה ומשמשים רק בנוסחאות. סוגים מיוחדים: Time Profile attribute KF, Lag (לתחזית-מול-בפועל), Last-Period-of-Period (LPoP), Attribute Transformation. ב-S&OP נפוצים גם key figures מבוססי-Snapshot.",
           purposeHe: "לבחור את ההתנהגות הנכונה לכל מדד — נערך, נגזר או עזר — לאיזון בין גמישות, ביצועים ואחסון.",
           processExampleHe: "DEMAND = Stored (נערך). PROJECTEDINVENTORY = Calculated (נגזר). HELP_AVGDEMAND = Auxiliary (ממוצע-ביקוש לשימוש פנימי בנוסחת safety stock).",
-          cbcHe: "ב-CBC: CONSENSUSDEMAND = Stored; PROJECTEDSTOCK = Calculated; HELP_SEASONINDEX = Auxiliary (מקדם-עונתיות-קיץ לשימוש בנוסחאות-פירוק).",
+          scenarioHe: "בארגון: CONSENSUSDEMAND = Stored; PROJECTEDSTOCK = Calculated; HELP_SEASONINDEX = Auxiliary (מקדם-עונתיות-קיץ לשימוש בנוסחאות-פירוק).",
           navHe: ["IBP Web UI ► Configuration ► Key Figures ► Type (Stored/Calculated/Auxiliary)", "IBP Web UI ► Configuration ► Key Figures ► special (Lag/Snapshot/LPoP)"],
           tables: ["Key Figure (metadata)"],
           tcodes: ["IBP Web UI: Configuration"],
@@ -457,7 +457,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Aggregation מוגדר לכל key figure בנפרד עבור Attribute aggregation ו-Time aggregation. מצבים: SUM, AVG, MIN, MAX, LAST, FIRST, COUNT, NONE. מדדי-זרימה (Demand/Production) = SUM; מדדי-מלאי (Inventory) = LAST בזמן ו-SUM ב-Attributes; אחוזים/מחירים = AVG (לרוב ממוצע-משוקלל דרך calculation). Aggregation שגוי הוא תקלת-S&OP קלאסית. ניתן להגדיר Aggregation שונה לזמן מול Attributes.",
           purposeHe: "להבטיח שסיכומי-רמה משמעותיים — שכמויות מסתכמות, שמלאי-סוף-תקופה לא 'מתחבר', ושאחוזים ממוצעים נכון.",
           processExampleHe: "DEMAND ברמת-מוצר נצבר ב-SUM למותג ולרבעון. INVENTORY נצבר ב-SUM בין מיקומים אך ב-LAST לאורך-זמן (מלאי-סוף-חודש, לא סכום-שבועות).",
-          cbcHe: "ב-CBC: PRODUCTIONQTY ו-CONSENSUSDEMAND = SUM (זרימה); PROJECTEDSTOCK = LAST בזמן (מלאי-סוף-תקופה) ו-SUM בין-מפעלים; FILLRATE% = AVG משוקלל.",
+          scenarioHe: "בארגון: PRODUCTIONQTY ו-CONSENSUSDEMAND = SUM (זרימה); PROJECTEDSTOCK = LAST בזמן (מלאי-סוף-תקופה) ו-SUM בין-מפעלים; FILLRATE% = AVG משוקלל.",
           navHe: ["IBP Web UI ► Configuration ► Key Figures ► Aggregation ► Attribute / Time Aggregation Mode"],
           tables: ["Key Figure (metadata)"],
           tcodes: ["IBP Web UI: Configuration"],
@@ -479,7 +479,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "Disaggregation Mode: Equally (שווה), By Reference Key Figure (Disaggregation Basis), By Attribute Weight. ה-Basis key figure מספק את פרופיל-החלוקה (למשל DEMAND ההיסטורי). אם ה-Basis אפס/ריק — הפירוק נכשל או נופל לחלוקה-שווה. בעריכה top-down ב-planning view, IBP מפרק בזמן-אמת. Disaggregation שגוי הוא תקלה נפוצה — תמיד הגדר Basis למדד שנערך ברמה-גסה.",
           purposeHe: "לאפשר תכנון top-down — עריכה ברמת-סיכום עם פירוק-חכם לרמת-הביצוע — בלי שהמתכנן יזין כל תא בנפרד.",
           processExampleHe: "מנהל-ביקוש מזין יעד-מותג רבעוני; IBP מפרק לפי פרופיל ה-DEMAND ההיסטורי לכל מוצר ולכל שבוע, ושומר ב-base level. שינוי ביעד מתחלק-מחדש אוטומטית.",
-          cbcHe: "ב-CBC תכנית-מכירות ברמת-מותג רבעונית מתפרקת לרמת-מוצר×שבוע לפי פרופיל-עונתיות-קיץ (Disaggregation Basis = ביקוש-אשתקד), כך שיולי מקבל יותר מנובמבר.",
+          scenarioHe: "בארגון תכנית-מכירות ברמת-מותג רבעונית מתפרקת לרמת-מוצר×שבוע לפי פרופיל-עונתיות-קיץ (Disaggregation Basis = ביקוש-אשתקד), כך שיולי מקבל יותר מנובמבר.",
           navHe: ["IBP Web UI ► Configuration ► Key Figures ► Disaggregation ► Mode + Disaggregation Basis Key Figure"],
           tables: ["Key Figure (metadata)"],
           tcodes: ["IBP Web UI: Configuration", "IBP for Excel (top-down edit)"],
@@ -501,7 +501,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-Configuration ► Calculations כותבים נוסחה לכל key figure מחושב בשפת-IBP. אלמנטים: arithmetic, פונקציות (IF, ROUND, MAX), aggregation-references (@), time-shift (לחישוב על תקופה-קודמת), ו-cross-level references. ה-Calculation Level חשוב — הנוסחה רצה ברמה מסוימת. סדר-החישוב נקבע מהתלויות. נוסחאות מורכבות משתמשות ב-Helper/Auxiliary key figures. שגיאות-רמה (mismatched Planning Levels) הן מקור-תקלות נפוץ.",
           purposeHe: "לקשר key figures בלוגיקה-עסקית — מאזני-מלאי, ניצול-קיבולת, תחזית-מול-בפועל — בלי הזנה-ידנית של הנגזרות.",
           processExampleHe: "PROJECTEDINVENTORY מוגדר: prevperiod(PROJECTEDINVENTORY) + PRODUCTION − CONSENSUSDEMAND. בכל תקופה הנוסחה גוללת את יתרת-המלאי קדימה לאורך-האופק.",
-          cbcHe: "ב-CBC: PROJECTEDSTOCK = prevperiod(PROJECTEDSTOCK) + PRODUCTIONQTY − CONSENSUSDEMAND; CAPACITYUSAGE% = PRODUCTIONQTY / LINECAPACITY. כך רואים מתי מפעל יחרוג מקיבולת-קווי-המילוי בקיץ.",
+          scenarioHe: "בארגון: PROJECTEDSTOCK = prevperiod(PROJECTEDSTOCK) + PRODUCTIONQTY − CONSENSUSDEMAND; CAPACITYUSAGE% = PRODUCTIONQTY / LINECAPACITY. כך רואים מתי מפעל יחרוג מקיבולת-קווי-המילוי בקיץ.",
           navHe: ["IBP Web UI ► Configuration ► Calculations ► select Key Figure ► formula editor", "IBP Web UI ► Configuration ► Calculations ► set Calculation Level"],
           tables: ["Key Figure (metadata)", "Calculation (formula)"],
           tcodes: ["IBP Web UI: Configuration", "Application Jobs"],
@@ -532,8 +532,8 @@ export const CH10: TextbookChapter = {
         "לאוטמט את הפעולות החוזרות של מחזור-התכנון — אתחול-בסיס, העתקת-גרסאות, ניקוי-נתונים — בעקביות ובלי טעויות-אנוש.",
       processExampleHe:
         "בתחילת מחזור-S&OP חודשי רץ Copy Operator שמעתיק את STATISTICALFORECAST ל-DEMANDPLANNING כנקודת-מוצא; אז המתכננים עורכים. בסוף-המחזור רץ Snapshot ששומר את הגרסה-המאושרת.",
-      cbcHe:
-        "ב-CBC מתוזמן Copy Operator חודשי שמעתיק את תחזית-המכירות הסטטיסטית לתכנית-הביקוש, ו-Copy נוסף שמעתיק את התכנית-המאושרת לתכנית-הייצור — בסיס לתכנון-קווי-המילוי.",
+      scenarioHe:
+        "בארגון מתוזמן Copy Operator חודשי שמעתיק את תחזית-המכירות הסטטיסטית לתכנית-הביקוש, ו-Copy נוסף שמעתיק את התכנית-המאושרת לתכנית-הייצור — בסיס לתכנון-קווי-המילוי.",
       navHe: [
         "IBP Web UI ► Configuration ► Operators ► New ► Copy / Disaggregation / Snapshot",
         "IBP Web UI ► Application Jobs ► Schedule ► select Operator + Recurrence",
@@ -596,7 +596,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "ב-Configuration ► Operators ► Copy: בוחרים Source Key Figure ו-Target Key Figure (חייבים להיות תואמי-רמה או עם המרה), Planning Level, פילטרים (Attributes/Version/Scenario), Time Range ו-Time Offset (להעתקה מתקופה-לתקופה). אפשר Add/Overwrite. מריצים אד-הוק או מתזמנים. שגיאה נפוצה: target ברמה לא-תואמת או פילטר חסר שמוביל לדריסה.",
           purposeHe: "להעביר נתונים בין שלבי-מחזור או גרסאות אוטומטית — אתחול, גיבוי, השוואת-תרחישים — בלי הזנה-ידנית.",
           processExampleHe: "Copy Operator: Source=STATISTICALFORECAST, Target=DEMANDPLANNINGQTY, Level=Product×Customer×Week, Mode=Overwrite. רץ בתחילת-מחזור ומאתחל את תכנית-הביקוש מהתחזית הסטטיסטית.",
-          cbcHe: "ב-CBC Copy Operator מעתיק CONSENSUSDEMAND (מאושר) ל-PRODUCTIONDEMAND כדי להתניע את תכנון-הייצור על קווי-המילוי, מסונן ל-Version 'Active'.",
+          scenarioHe: "בארגון Copy Operator מעתיק CONSENSUSDEMAND (מאושר) ל-PRODUCTIONDEMAND כדי להתניע את תכנון-הייצור על קווי-המילוי, מסונן ל-Version 'Active'.",
           navHe: ["IBP Web UI ► Configuration ► Operators ► New ► Copy Operator", "IBP Web UI ► Operators ► Copy ► Source/Target Key Figure + filters + Time Offset", "IBP Web UI ► Application Jobs ► run/schedule the Copy Operator"],
           tables: ["Operator (Copy)", "Application Job"],
           tcodes: ["IBP Web UI: Configuration", "Application Jobs"],
@@ -619,7 +619,7 @@ export const CH10: TextbookChapter = {
           consultantHe: "אופרטורים: Purge/Delete Key Figure Data (לפי פילטר/טווח), Time-shift (העברת נתונים בין תקופות בתחילת מחזור), Snapshot (שמירת גרסה לניתוח-דיוק/Lag), ו-housekeeping של Versions/Scenarios ישנים. מתוזמנים כ-Application Jobs. ב-S&OP חודשי נפוץ time-shift חודשי שמגלגל את האופק. ניקוי-נתונים משפר ביצועי-HANA ועלות-אחסון. יש להיזהר ממחיקה לא-הפיכה — תמיד עם פילטר מדויק וגיבוי.",
           purposeHe: "לשמור על מודל רזה ומהיר, לגלגל את אופק-התכנון אוטומטית, ולשמר היסטוריה למדידת-דיוק — לאורך מחזורי-תכנון חוזרים.",
           processExampleHe: "בתחילת כל חודש רץ Time-shift המגלגל את אופק-התכנון חודש קדימה; Purge מוחק נתוני-תכנון בני 24 חודשים-ויותר; Snapshot שומר את גרסת-התחזית למדידת-Forecast-Accuracy.",
-          cbcHe: "ב-CBC time-shift חודשי מגלגל את אופק-תכנון-המשקאות; Snapshot שומר את תחזית-הקיץ למדידת-דיוק מול-בפועל בסוף-העונה; Purge מנקה תרחישי-תכנון ישנים.",
+          scenarioHe: "בארגון time-shift חודשי מגלגל את אופק-תכנון-המשקאות; Snapshot שומר את תחזית-הקיץ למדידת-דיוק מול-בפועל בסוף-העונה; Purge מנקה תרחישי-תכנון ישנים.",
           navHe: ["IBP Web UI ► Configuration ► Operators ► New ► Purge / Time-shift / Snapshot", "IBP Web UI ► Application Jobs ► schedule lifecycle operators (Recurrence)", "IBP Web UI ► Manage Application Jobs ► monitor lifecycle runs"],
           tables: ["Operator (Lifecycle)", "Application Job", "Snapshot Key Figure"],
           tcodes: ["IBP Web UI: Configuration", "Application Jobs", "Manage Application Jobs"],
@@ -650,8 +650,8 @@ export const CH10: TextbookChapter = {
         "לספק שקיפות, ביקורת ויכולת-שחזור על שינויי-המודל — לתמוך ב-change management ובאיתור-שורש כשתוצאות-תכנון משתנות במפתיע.",
       processExampleHe:
         "תחזית-מלאי 'נשברה' פתאום; הצוות פותח את ה-History Report, רואה ש-Aggregation של key figure שונה ל-SUM אתמול על-ידי משתמש מסוים, ומשחזר ל-LAST.",
-      cbcHe:
-        "ב-CBC לאחר ש-PROJECTEDSTOCK הציג מספרים חריגים, ה-History Report חשף ששונה ה-Disaggregation Basis של CONSENSUSDEMAND; השינוי בוטל והמספרים חזרו לקדמותם.",
+      scenarioHe:
+        "בארגון לאחר ש-PROJECTEDSTOCK הציג מספרים חריגים, ה-History Report חשף ששונה ה-Disaggregation Basis של CONSENSUSDEMAND; השינוי בוטל והמספרים חזרו לקדמותם.",
       navHe: [
         "IBP Web UI ► Configuration ► <Planning Area> ► History / Change Log",
         "IBP Web UI ► Application Logs ► filter by object / user / date",
@@ -718,8 +718,8 @@ export const CH10: TextbookChapter = {
         "לתמוך בתכנון-תרחישים, השוואת-גרסאות וקישורי-נתונים מורכבים — להעמיק את יכולת-ה-S&OP מעבר לתכנון-בסיסי — תוך ניהול-מודע של מורכבות וביצועים.",
       processExampleHe:
         "ב-Supply Review יוצרים Scenario 'High-Demand' המעלה את הביקוש ב-15%, מריצים בו את חישובי-המלאי-החזוי, ומשווים מול הגרסה-הפעילה — בלי לפגוע בתכנית-הבסיס.",
-      cbcHe:
-        "ב-CBC יוצרים Scenario 'Heatwave' המגדיל ביקוש-קיץ ב-20%, ובוחנים אם קווי-המילוי עומדים בקיבולת; Version 'Budget' שומרת את התכנית-המאושרת מול תרחישי-העבודה.",
+      scenarioHe:
+        "בארגון יוצרים Scenario 'Heatwave' המגדיל ביקוש-קיץ ב-20%, ובוחנים אם קווי-המילוי עומדים בקיבולת; Version 'Budget' שומרת את התכנית-המאושרת מול תרחישי-העבודה.",
       navHe: [
         "IBP Web UI ► Configuration ► Versions ► New (select Key Figures)",
         "IBP for Excel ► Scenarios ► Create Scenario (what-if over active version)",
@@ -788,8 +788,8 @@ export const CH10: TextbookChapter = {
         "להבטיח חוויית-תכנון מהירה ויציבה גם בנפחי-נתונים גדולים, ולשמור על עלויות-מערכת ועל זמני-תגובה סבירים לאורך מחזורי-S&OP.",
       processExampleHe:
         "צוות מגלה ש-planning view נטען ב-90 שניות; הם מצמצמים Stored key figures לא-בשימוש, מעלים את ה-base level מ-Day ל-Week, ומוסיפים Filters — זמן-הטעינה יורד ל-8 שניות.",
-      cbcHe:
-        "ב-CBC המודל הואט בעונת-הקיץ; הצוות הריץ Purge לתרחישים-ישנים, העלה את רמת-הבסיס של key figures שוליים מ-Day ל-Week, וצמצם cross-level calculations — וזמני-התגובה השתפרו משמעותית.",
+      scenarioHe:
+        "בארגון המודל הואט בעונת-הקיץ; הצוות הריץ Purge לתרחישים-ישנים, העלה את רמת-הבסיס של key figures שוליים מ-Day ל-Week, וצמצם cross-level calculations — וזמני-התגובה השתפרו משמעותית.",
       navHe: [
         "IBP Web UI ► Configuration ► Key Figures ► review Stored vs Calculated + Base Level",
         "IBP Web UI ► Application Jobs ► schedule heavy operators in off-peak windows",
@@ -854,13 +854,13 @@ export const CH10: TextbookChapter = {
       beginnerHe:
         "סיכמנו את אבני-הבניין של IBP: 'איפה' מתכננים (Planning Area), 'מתי' (Time Profile), 'על מה' (Attributes ו-Master Data Types), 'באיזה דיוק' (Planning Levels), 'מה מודדים' (Key Figures), 'איך מסכמים ומפרקים' (aggregation/disaggregation), 'איך מאוטמטים' (Operators), ו'איך שומרים מהיר ועקבי' (ביצועים והיסטוריה).",
       consultantHe:
-        "סדר-הבנייה המומלץ: Time Profile ← Attributes ← Master Data Types ← Planning Levels ← Key Figures (Base level, aggregation, disaggregation, calculations) ← Activation ← Master Data load ← Key Figure data load ← Operators (Copy/Lifecycle) ← Versions/Scenarios. בכל שלב: Activate לאחר שינוי, בדוק ב-History Report, ושמור מודל רזה לביצועים. CBC ממחיש את כל השרשרת על Planning Area של משקאות.",
+        "סדר-הבנייה המומלץ: Time Profile ← Attributes ← Master Data Types ← Planning Levels ← Key Figures (Base level, aggregation, disaggregation, calculations) ← Activation ← Master Data load ← Key Figure data load ← Operators (Copy/Lifecycle) ← Versions/Scenarios. בכל שלב: Activate לאחר שינוי, בדוק ב-History Report, ושמור מודל רזה לביצועים. הארגון ממחיש את כל השרשרת על Planning Area של משקאות.",
       purposeHe:
         "לקשור את כל אבני-הבניין לתמונה אחת — כך שהלומד יוכל לתכנן, לבנות ולתחזק Planning Area שלם ל-S&OP, ולחבר אותו לתהליכי Demand/Supply/Executive Review.",
       processExampleHe:
         "מימוש S&OP מלא: בונים Time Profile חודשי, מגדירים ממדי-מוצר/מיקום/לקוח, יוצרים Planning Levels ו-key figures לביקוש/ייצור/מלאי עם aggregation/disaggregation נכונים, מגדירים Copy Operator לאתחול-מחזור ו-Lifecycle לגלילת-אופק, ומפעילים — תהליך-S&OP חודשי פועל מקצה-לקצה.",
-      cbcHe:
-        "ב-CBC התוצאה היא Planning Area CBC_SNOP פעיל: ביקוש-משקאות מתוכנן ברמת-מותג ומתפרק למוצר×שבוע, מועתק לתכנית-ייצור על קווי-המילוי, עם מלאי-חזוי מחושב, גלילת-אופק חודשית ותרחישי-קיץ — מודל-S&OP מלא בענן.",
+      scenarioHe:
+        "בארגון התוצאה היא Planning Area MFG_SNOP פעיל: ביקוש-משקאות מתוכנן ברמת-מותג ומתפרק למוצר×שבוע, מועתק לתכנית-ייצור על קווי-המילוי, עם מלאי-חזוי מחושב, גלילת-אופק חודשית ותרחישי-קיץ — מודל-S&OP מלא בענן.",
       navHe: [
         "IBP Web UI ► Configuration ► (Time Profile ← Attributes ← MDT ← Planning Levels ← Key Figures ← Operators)",
         "IBP Web UI ► Configuration ► Activate (after each structural change)",

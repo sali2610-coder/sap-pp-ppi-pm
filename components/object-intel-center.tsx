@@ -60,12 +60,12 @@ export function ObjectIntelView({ obj, graph }: { obj: OICObject; graph: ObjectG
         <Facet title="תקלות קשורות" icon={<ShieldAlert className="size-4 text-red-500" />} tone="#dc2626" refs={graph.incidents} />
         <Facet title="SAP Notes" icon={<BookText className="size-4 text-amber-600" />} tone="#b45309" refs={graph.notes} />
         <Facet title="נקודות Debug" icon={<Bug className="size-4 text-pink-600" />} tone="#be185d" refs={graph.debug} />
-        <Facet title="תרחישי CBC" icon={<Factory className="size-4 text-brand" />} tone="#d62027" refs={graph.cbc} />
+        <Facet title="תרחישי ייצור" icon={<Factory className="size-4 text-brand" />} tone="#d62027" refs={graph.scenario} />
       </div>
 
       <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-        <h2 className="mb-1.5 flex items-center gap-2 text-sm font-extrabold tracking-tight text-slate-900"><Factory className="size-4 text-brand" />דוגמת CBC</h2>
-        <p className="text-[13px] leading-relaxed text-slate-600">{obj.cbc}</p>
+        <h2 className="mb-1.5 flex items-center gap-2 text-sm font-extrabold tracking-tight text-slate-900"><Factory className="size-4 text-brand" />דוגמת הארגון</h2>
+        <p className="text-[13px] leading-relaxed text-slate-600">{obj.scenario}</p>
       </div>
 
       <div className="mt-4"><EccS4Block data={{ unchanged: `מבנה ${graph.name} נשמר ב-S/4HANA.`, changed: graph.s4Note, migration: `QA: ודא ${graph.name} + קשרים + CDS לאחר המרה.` }} title={`ECC6 → S/4HANA · ${obj.he}`} /></div>

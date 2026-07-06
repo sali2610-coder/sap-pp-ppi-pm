@@ -10,7 +10,7 @@ export const CH3: TextbookChapter = {
   titleHe: "מבנה ארגוני",
   titleEn: "Organizational Structure",
   introHe:
-    "המבנה הארגוני הוא השלד שעליו נשען כל תהליך הרכש והאספקה (Sourcing & Procurement) ב-SAP S/4HANA. כל מסמך-רכש — בקשת-הצעה, הזמנת-רכש, קבלת-טובין, חשבונית-ספק — נושא בתוכו צירוף של אובייקטים ארגוניים: Company Code, Plant, Storage Location, Purchasing Organization ו-Purchasing Group. הגדרה שגויה כאן מתפשטת לכל זרימת ה-Procure-to-Pay. פרק זה הוא יחידת-לימוד מלאה: כל תת-פרק הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת CBC (מפעל מילוי משקאות של קוקה-קולה), ניווט SPRO מפורט, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בבניית המבנה הארגוני של הרכש ללא הספר המקורי.",
+    "המבנה הארגוני הוא השלד שעליו נשען כל תהליך הרכש והאספקה (Sourcing & Procurement) ב-SAP S/4HANA. כל מסמך-רכש — בקשת-הצעה, הזמנת-רכש, קבלת-טובין, חשבונית-ספק — נושא בתוכו צירוף של אובייקטים ארגוניים: Company Code, Plant, Storage Location, Purchasing Organization ו-Purchasing Group. הגדרה שגויה כאן מתפשטת לכל זרימת ה-Procure-to-Pay. פרק זה הוא יחידת-לימוד מלאה: כל תת-פרק הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת הארגון (מפעל מילוי משקאות של מוצר לדוגמה), ניווט SPRO מפורט, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בבניית המבנה הארגוני של הרכש ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 3.1
     {
@@ -27,8 +27,8 @@ export const CH3: TextbookChapter = {
         "להגדיר את המסגרת המשפטית-כספית-לוגיסטית האחידה של הארגון, כך שכל תנועה — רכש, מלאי, ייצור, מכירה — תירשם תחת ישות משפטית נכונה (Company Code) ובאתר נכון (Plant), ותתחבר אוטומטית ל-FI/CO.",
       processExampleHe:
         "בהזמנת-רכש: המערכת גוזרת את ה-Company Code מתוך ה-Plant שהוזן בשורה, קובעת לפיו את המטבע, את לוח-השנה הפיננסי ואת חשבונות-ה-GL לפקודת-היומן בקבלת-הטובין. כל פעולה לוגיסטית 'יודעת' באיזו ישות משפטית היא נרשמת — בזכות שרשרת Client→Company Code→Plant.",
-      cbcHe:
-        "ב-CBC: ה-Client הוא מערכת SAP של הבקבוקאי; Company Code 'CBC1' = הישות המשפטית הישראלית המפיקה מאזן בשקלים; ה-Plants הם אתרי המילוי והמחסנים. כל מפעל-מילוי משויך ל-CBC1 ומדווח אליו כספית.",
+      scenarioHe:
+        "בארגון: ה-Client הוא מערכת SAP של הבקבוקאי; Company Code 'MFG1' = הישות המשפטית הישראלית המפיקה מאזן בשקלים; ה-Plants הם אתרי המילוי והמחסנים. כל מפעל-מילוי משויך לארגון1 ומדווח אליו כספית.",
       navHe: [
         "Enterprise Structure ► Definition ► Financial Accounting ► Edit, Copy, Delete, Check Company Code (EC01 / OX02)",
         "Enterprise Structure ► Definition ► Logistics – General ► Define, copy, delete, check plant (OX10)",
@@ -100,8 +100,8 @@ export const CH3: TextbookChapter = {
         "להפריד בין שלוש שאלות: מי הגוף החוזי מול הספק (Purchasing Org), מי מבצע את הרכש בפועל (Purchasing Group), והיכן מאוחסן התוצר (Storage Location). הפרדה זו מאפשרת בקרה, אחריותיות ודיווח לפי כל ממד.",
       processExampleHe:
         "בהזמנת-רכש: ה-Purchasing Organization קובעת אילו תנאי-חוזה ומחירים חלים (Info Records לפי PurchOrg), ה-Purchasing Group מזוהה כקונה-האחראי לצורך מעקב ואישורים, וה-Storage Location בשורה קובעת לאן ייכנס המלאי בקבלת-הטובין.",
-      cbcHe:
-        "ב-CBC: Purchasing Organization 'CBC1' מנהלת חוזים מרכזיים מול ספקי תרכיז, סוכר ואריזה; Purchasing Groups נפרדות לחומרי-גלם, אריזה, ו-MRO; Storage Locations מפרידים בין מחסן-תרכיז מקורר, מחסן-אריזה ומחסן-חלפים.",
+      scenarioHe:
+        "בארגון: Purchasing Organization 'MFG1' מנהלת חוזים מרכזיים מול ספקי תרכיז, סוכר ואריזה; Purchasing Groups נפרדות לחומרי-גלם, אריזה, ו-MRO; Storage Locations מפרידים בין מחסן-תרכיז מקורר, מחסן-אריזה ומחסן-חלפים.",
       navHe: [
         "Enterprise Structure ► Definition ► Materials Management ► Maintain purchasing organization (OX08)",
         "Materials Management ► Purchasing ► Create Purchasing Groups (OME4)",
@@ -174,8 +174,8 @@ export const CH3: TextbookChapter = {
         "לספק את הישות שעבורה מנוהלים ספרי-חשבונות שלמים ומופק מאזן — הבסיס לדיווח חיצוני, מס וביקורת. בלעדיו אין היכן 'לתפוס' את הערך הכספי של תנועות-הרכש.",
       processExampleHe:
         "בחשבונית-ספק (MIRO): המערכת רושמת זכות ל-Vendor וחובה ל-GR/IR Clearing, הכול במטבע ובלוח-השנה של ה-Company Code שנגזר מה-Plant שבהזמנה — ומעדכנת את ספרי החברה הנכונים.",
-      cbcHe:
-        "ב-CBC: Company Code 'CBC1' = הישות הישראלית, מטבע ILS, לוח-שנה ינואר–דצמבר. כל מפעלי-המילוי והמחסנים בישראל מדווחים אליו; ישות במדינה אחרת תהיה Company Code נפרד.",
+      scenarioHe:
+        "בארגון: Company Code 'MFG1' = הישות הישראלית, מטבע ILS, לוח-שנה ינואר–דצמבר. כל מפעלי-המילוי והמחסנים בישראל מדווחים אליו; ישות במדינה אחרת תהיה Company Code נפרד.",
       navHe: [
         "Enterprise Structure ► Definition ► Financial Accounting ► Edit, Copy, Delete, Check Company Code (OX02)",
         "Financial Accounting ► Financial Accounting Global Settings ► Company Code ► Enter Global Parameters (OBY6)",
@@ -247,8 +247,8 @@ export const CH3: TextbookChapter = {
         "לייצג את האתר הפיזי שבו מתרחשת הלוגיסטיקה — קבלה, אחסון, ייצור, אספקה. ה-Plant מחבר את הרכש לעולם הפיזי (היכן יתקבל החומר) ולעולם הכספי (איזו Company Code ואיזו Valuation Area).",
       processExampleHe:
         "בהזמנת-רכש לתרכיז: ה-Plant בשורה הוא מפעל-המילוי. בקבלת-הטובין (MIGO) המלאי נכנס לאותו Plant ומוערך לפי ה-Material Master שלו ב-Plant זה; ה-FI נרשם ל-Company Code שאליו ה-Plant משויך.",
-      cbcHe:
-        "ב-CBC: כל מפעל-מילוי הוא Plant נפרד (למשל 'PL10' אשקלון, 'PL20' באר-טוביה); מרכז-הפצה ומחסן-תרכיז מרכזי הם Plants לוגיסטיים. כולם משויכים ל-CBC1 ול-Purchasing Org CBC1.",
+      scenarioHe:
+        "בארגון: כל מפעל-מילוי הוא Plant נפרד (למשל 'PL10' אשקלון, 'PL20' באר-טוביה); מרכז-הפצה ומחסן-תרכיז מרכזי הם Plants לוגיסטיים. כולם משויכים לארגון1 ול-Purchasing Org MFG1.",
       navHe: [
         "Enterprise Structure ► Definition ► Logistics – General ► Define, copy, delete, check plant (OX10)",
         "Enterprise Structure ► Assignment ► Logistics – General ► Assign plant to company code (OX18)",
@@ -320,8 +320,8 @@ export const CH3: TextbookChapter = {
         "לחלק את המלאי הפיזי שבתוך ה-Plant לאזורי-אחסון בעלי משמעות תפעולית, ולאפשר רמת-בקרה מתאימה — IM פשוט היכן שדי בכך, או ניהול-מחסן מלא היכן שנדרש מעקב מדויק.",
       processExampleHe:
         "בקבלת-טובין: ה-Storage Location בשורת-ההזמנה קובעת לאן נכנס המלאי. אם ה-Storage Location מנוהלת-מחסן, נוצרת משימת-מחסן (Warehouse Task) להעברת הטובין ל-Bin פיזי; אחרת המלאי נרשם ישירות ברמת-הכמות.",
-      cbcHe:
-        "ב-CBC: בכל מפעל-מילוי — Storage Locations נפרדים לתרכיז (מקורר), לסוכר, לאריזה, ולמוצר-מוגמר. מחסן המוצר-המוגמר מנוהל ב-EWM עם Bins למשטחים; מחסן-החומרים הפשוטים נשאר IM-only.",
+      scenarioHe:
+        "בארגון: בכל מפעל-מילוי — Storage Locations נפרדים לתרכיז (מקורר), לסוכר, לאריזה, ולמוצר-מוגמר. מחסן המוצר-המוגמר מנוהל ב-EWM עם Bins למשטחים; מחסן-החומרים הפשוטים נשאר IM-only.",
       navHe: [
         "Enterprise Structure ► Definition ► Materials Management ► Maintain storage location (OX09)",
         "Enterprise Structure ► Definition ► Logistics Execution ► Define, copy, delete, check warehouse number",
@@ -390,8 +390,8 @@ export const CH3: TextbookChapter = {
             "להפריד את המלאי בתוך ה-Plant לאזורים בעלי משמעות — חומרי-גלם, אריזה, מוצר-מוגמר, פסולת — לצורך בקרה, ספירה ותכנון נפרדים.",
           processExampleHe:
             "בקבלת-טובין (MIGO 101): המלאי נכנס ל-Storage Location שבשורת-ההזמנה (למשל RM01). בהוצאה לייצור (261) המלאי יוצא מ-SLoc זה. דוח-מלאי (MMBE) מציג את היתרה לפי Plant + Storage Location.",
-          cbcHe:
-            "ב-CBC: RM01 תרכיז-מקורר, RM02 סוכר, PK01 אריזה, FG01 מוצר-מוגמר. הפרדה זו מאפשרת ספירת-מלאי וניהול-תוקף נפרדים לכל סוג-חומר.",
+          scenarioHe:
+            "בארגון: RM01 תרכיז-מקורר, RM02 סוכר, PK01 אריזה, FG01 מוצר-מוגמר. הפרדה זו מאפשרת ספירת-מלאי וניהול-תוקף נפרדים לכל סוג-חומר.",
           navHe: [
             "Enterprise Structure ► Definition ► Materials Management ► Maintain storage location (OX09)",
             "Materials Management ► Inventory Management and Physical Inventory ► Goods Receipt ► Create Storage Location Automatically",
@@ -456,8 +456,8 @@ export const CH3: TextbookChapter = {
             "לספק נראות וניהול ברמת-Bin — היכן בדיוק נמצא כל פריט, אילו אסטרטגיות-העלאה/הורדה חלות, וכיצד מתבצעות משימות-המחסן — לאתרים שבהם ספירת-כמות פשוטה אינה מספקת.",
           processExampleHe:
             "קבלת-טובין למוצר-מוגמר ב-SLoc מנוהלת-EWM: רישום ה-101 יוצר Inbound Delivery; EWM מפיק Warehouse Task להעלאת המשטח ל-Bin לפי Putaway strategy; עם אישור-המשימה המלאי 'נח' ב-Bin הפיזי ונראה במלואו.",
-          cbcHe:
-            "ב-CBC: מחסן המוצר-המוגמר בכל מפעל-מילוי מנוהל ב-EWM עם Bins למשטחי-משקאות, אסטרטגיית FIFO לפי תוקף; מחסני חומרי-גלם פשוטים נשארים IM-only ללא Warehouse.",
+          scenarioHe:
+            "בארגון: מחסן המוצר-המוגמר בכל מפעל-מילוי מנוהל ב-EWM עם Bins למשטחי-משקאות, אסטרטגיית FIFO לפי תוקף; מחסני חומרי-גלם פשוטים נשארים IM-only ללא Warehouse.",
           navHe: [
             "Enterprise Structure ► Definition ► Logistics Execution ► Define, copy, delete, check warehouse number",
             "Enterprise Structure ► Assignment ► Logistics Execution ► Assign warehouse number to plant/storage location",
@@ -526,8 +526,8 @@ export const CH3: TextbookChapter = {
         "לרכז את האחריות החוזית מול הספקים ביחידה מוגדרת, שמתחזקת תנאים ומחירים ושעבורה נמדד ביצוע-הרכש. היא קובעת אילו מחירים וחוזים חלים על כל הזמנה.",
       processExampleHe:
         "ביצירת הזמנת-רכש: בוחרים Purchasing Organization; המערכת שולפת את ה-Info Record ותנאי-המחיר השמורים ל-PurchOrg+Vendor+Material, ומאכלסת אוטומטית מחיר ותנאים. PurchOrg אחרת עשויה לשלוף תנאים שונים לאותו ספק.",
-      cbcHe:
-        "ב-CBC: Purchasing Organization מרכזית 'CBC1' מנהלת חוזי-מסגרת ארציים מול ספקי תרכיז וסוכר; היא משויכת ל-CBC1 ולכל מפעלי-המילוי, כך שכל מפעל נהנה מתנאי-החוזה המרכזיים.",
+      scenarioHe:
+        "בארגון: Purchasing Organization מרכזית 'MFG1' מנהלת חוזי-מסגרת ארציים מול ספקי תרכיז וסוכר; היא משויכת לארגון1 ולכל מפעלי-המילוי, כך שכל מפעל נהנה מתנאי-החוזה המרכזיים.",
       navHe: [
         "Enterprise Structure ► Definition ► Materials Management ► Maintain purchasing organization (OX08)",
         "Enterprise Structure ► Assignment ► Materials Management ► Assign purchasing organization to company code (OX01)",
@@ -599,8 +599,8 @@ export const CH3: TextbookChapter = {
         "לזהות מי הקונה-האחראי בפועל על כל פעולת-רכש — לצורך אחריותיות, ניתוב-אישורים, מעקב-ביצוע ודיווח. היא ממד תפעולי-ניהולי ולא רמה במבנה הקשיח.",
       processExampleHe:
         "ב-MRP: דרישת-חומר יוצרת הזמנה-מתוכננת ש-Purchasing Group שלה נגזרת מ-Material Master (MRP view). בהמרה להזמנת-רכש, ה-Purchasing Group עוברת אוטומטית ומשמשת לניתוב-האישור (Release strategy) ולמעקב הקונה-האחראי.",
-      cbcHe:
-        "ב-CBC: Purchasing Group 'R01' לחומרי-גלם (תרכיז/סוכר), 'P01' לאריזה, 'M01' ל-MRO/חלפים. כל קבוצה נושאת את פרטי-הקשר של הקונה האחראי ומסננת את דוחות-הרכש שלו.",
+      scenarioHe:
+        "בארגון: Purchasing Group 'R01' לחומרי-גלם (תרכיז/סוכר), 'P01' לאריזה, 'M01' ל-MRO/חלפים. כל קבוצה נושאת את פרטי-הקשר של הקונה האחראי ומסננת את דוחות-הרכש שלו.",
       navHe: [
         "Materials Management ► Purchasing ► Create Purchasing Groups (OME4)",
         "SAP IMG ► Materials Management ► Purchasing ► Purchasing Group ► Maintain (OMEH)",
@@ -670,9 +670,9 @@ export const CH3: TextbookChapter = {
       purposeHe:
         "לאחד את כל אבני-הבניין הארגוניות לתמונה אחת קוהרנטית, ולהדגיש את השיוכים והחלטות-העיצוב שמהם נגזרת תקינות כל תהליך-הרכש.",
       processExampleHe:
-        "הזמנת-רכש לדוגמה מאחדת הכול: Purchasing Org CBC1 (חוזה) + Purchasing Group R01 (קונה) + Plant PL10 (מסירה) + Storage Location RM01 (אחסון) → קבלה ל-Warehouse (אם מנוהל) → FI ל-Company Code CBC1. כל ששת האובייקטים נוכחים בכל מסמך.",
-      cbcHe:
-        "ב-CBC המבנה השלם: Company Code CBC1 → Plants (מפעלי-מילוי + מחסנים) → Storage Locations (תרכיז/סוכר/אריזה/מוגמר) + Warehouses (EWM למוגמר); Purchasing Org CBC1 מרכזית + Purchasing Groups לפי קטגוריה. זהו השלד שעליו רץ כל הרכש של הבקבוקאי.",
+        "הזמנת-רכש לדוגמה מאחדת הכול: Purchasing Org MFG1 (חוזה) + Purchasing Group R01 (קונה) + Plant PL10 (מסירה) + Storage Location RM01 (אחסון) → קבלה ל-Warehouse (אם מנוהל) → FI ל-Company Code MFG1. כל ששת האובייקטים נוכחים בכל מסמך.",
+      scenarioHe:
+        "בארגון המבנה השלם: Company Code MFG1 → Plants (מפעלי-מילוי + מחסנים) → Storage Locations (תרכיז/סוכר/אריזה/מוגמר) + Warehouses (EWM למוגמר); Purchasing Org MFG1 מרכזית + Purchasing Groups לפי קטגוריה. זהו השלד שעליו רץ כל הרכש של הבקבוקאי.",
       navHe: [
         "Enterprise Structure ► Definition (Company Code OX02 · Plant OX10 · PurchOrg OX08 · Storage Location OX09)",
         "Enterprise Structure ► Assignment (Plant→CC OX18 · PurchOrg→CC OX01 · PurchOrg→Plant OX17)",

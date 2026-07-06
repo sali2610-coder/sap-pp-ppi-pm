@@ -217,7 +217,7 @@ export default function LibraryPage() {
           </span>
           <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-5xl">ספריית SAP הדיגיטלית</h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/85 sm:text-base">
-            מדף ספרים דיגיטלי אחוד — מסלולי למידה אינטראקטיביים ({ac.booksLive} פעילים) לצד {LIBRARY_STATS.books} מדריכי SAP S/4HANA רשמיים. אנגלית מקורית לצד תרגום עברי מקצועי ל-CBC.
+            מדף ספרים דיגיטלי אחוד — מסלולי למידה אינטראקטיביים ({ac.booksLive} פעילים) לצד {LIBRARY_STATS.books} מדריכי SAP S/4HANA רשמיים. אנגלית מקורית לצד תרגום עברי מקצועי לארגון.
           </p>
           <div className="mt-5 grid grid-cols-3 gap-2.5 sm:max-w-xl sm:grid-cols-4">
             {[
@@ -302,7 +302,7 @@ export default function LibraryPage() {
       )}
 
       <p className="text-center text-xs text-slate-400">
-        מסלולי הלמידה נבנו לפי תבנית 18 המקטעים של NEO Academy · מדריכי העיון מאונדקסים מתוכן העניינים של קובצי ה-PDF המקוריים. תרגום עברי מקצועי נכתב עבור CBC.
+        מסלולי הלמידה נבנו לפי תבנית 18 המקטעים של NEO Academy · מדריכי העיון מאונדקסים מתוכן העניינים של קובצי ה-PDF המקוריים. תרגום עברי מקצועי נכתב עבור הארגון.
       </p>
     </div>
   );

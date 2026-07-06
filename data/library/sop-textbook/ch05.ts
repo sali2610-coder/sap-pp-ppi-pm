@@ -1,7 +1,7 @@
 // ===== S&OP with SAP IBP Digital Textbook — Chapter 5 =====
 // Constrained Supply Planning. Every node is a complete LearningNode with the
 // full 18 facets of authored Hebrew (beginner + consultant friendly).
-// SAP objects kept verbatim in English; CBC = Coca-Cola bottling constrained
+// SAP objects kept verbatim in English; הארגון = Example Product bottling constrained
 // S&OP optimizer (capacity-limited fill lines, cost minimization, fair-share).
 import type { TextbookChapter } from "./types";
 
@@ -10,7 +10,7 @@ export const CH5: TextbookChapter = {
   titleHe: "תכנון אספקה מוגבל",
   titleEn: "Constrained Supply Planning",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לתכנון-אספקה מוגבל (Constrained Supply Planning) ב-SAP IBP for Sales and Operations. בעוד תכנון בלתי-מוגבל (unconstrained) מניח קיבולת אינסופית ומראה 'מה היינו רוצים', תכנון מוגבל לוקח בחשבון את מגבלות-המציאות — קיבולת קווי-מילוי, זמינות-חומרים, תחבורה ותקציב — ומחזיר תכנית בת-ביצוע. הלב של היכולת הוא ה-S&OP Optimizer: מנוע אופטימיזציה מבוסס-תכנות-ליניארי (LP/MILP) שממקסם רווח או ממזער עלות בכפוף לאילוצים. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת CBC, ניווט באפליקציות IBP בענן, מקטעי-ייחוס (planning levels / key figures / apps), פרטי-קונפיגורציה, תרשים-הרצת-אופטימייזר, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. SAP IBP הוא פתרון-ענן (cloud), והאובייקטים — S&OP Optimizer, hard/soft constraints, cost key figures, fair-share, product substitution, finite heuristic — נשמרים באנגלית מקורית. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לתכנון-אספקה מוגבל (Constrained Supply Planning) ב-SAP IBP for Sales and Operations. בעוד תכנון בלתי-מוגבל (unconstrained) מניח קיבולת אינסופית ומראה 'מה היינו רוצים', תכנון מוגבל לוקח בחשבון את מגבלות-המציאות — קיבולת קווי-מילוי, זמינות-חומרים, תחבורה ותקציב — ומחזיר תכנית בת-ביצוע. הלב של היכולת הוא ה-S&OP Optimizer: מנוע אופטימיזציה מבוסס-תכנות-ליניארי (LP/MILP) שממקסם רווח או ממזער עלות בכפוף לאילוצים. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת הארגון, ניווט באפליקציות IBP בענן, מקטעי-ייחוס (planning levels / key figures / apps), פרטי-קונפיגורציה, תרשים-הרצת-אופטימייזר, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. SAP IBP הוא פתרון-ענן (cloud), והאובייקטים — S&OP Optimizer, hard/soft constraints, cost key figures, fair-share, product substitution, finite heuristic — נשמרים באנגלית מקורית. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 5.1
     {
@@ -27,8 +27,8 @@ export const CH5: TextbookChapter = {
         "המטרה: לייצר תכנית-אספקה ריאלית שמשמשת בסיס להתחייבות עסקית (Supply Commit) ב-S&OP. תכנון מוגבל חושף צווארי-בקבוק מראש, מאפשר לקבל החלטות trade-off (איזה לקוח/מוצר מקבל קדימות) באופן שקוף ומבוסס-עלות, ומונע התחייבויות-יתר שמתפוצצות ברצפת-הייצור.",
       processExampleHe:
         "תהליך S&OP חודשי: (1) Demand Review מאשר תחזית; (2) הרצת Supply Planning — תחילה Heuristic בלתי-מוגבל לראות את ה'משאלה'; (3) זיהוי צווארי-בקבוק שבהם Capacity Utilization > 100%; (4) הרצת S&OP Optimizer מוגבל; (5) השוואת Unconstrained Demand מול Constrained Demand — הפער הוא הביקוש שלא ייענה; (6) Supply Review ו-Pre-S&OP מחליטים על trade-offs; (7) Executive S&OP מאשר את התכנית המוגבלת כ-commit.",
-      cbcHe:
-        "ב-CBC: ביקוש-שיא לפני הקיץ עולה על קיבולת קווי-המילוי. הרצה בלתי-מוגבלת מציגה ביקוש של 1.2M ארגזים; קווי-המילוי מוגבלים ל-1.0M. ה-S&OP Optimizer מחזיר Constrained Demand של 1.0M, מסמן 0.2M כביקוש לא-נענה (lost demand), וממליץ אילו SKU ואילו לקוחות לתעדף לפי תרומה-לרווח — תוך שמירה על fair-share בין מפיצים אזוריים.",
+      scenarioHe:
+        "בארגון: ביקוש-שיא לפני הקיץ עולה על קיבולת קווי-המילוי. הרצה בלתי-מוגבלת מציגה ביקוש של 1.2M ארגזים; קווי-המילוי מוגבלים ל-1.0M. ה-S&OP Optimizer מחזיר Constrained Demand של 1.0M, מסמן 0.2M כביקוש לא-נענה (lost demand), וממליץ אילו SKU ואילו לקוחות לתעדף לפי תרומה-לרווח — תוך שמירה על fair-share בין מפיצים אזוריים.",
       navHe: [
         "SAP IBP ► Application Jobs ► Define and run a Supply Planning Operator (Heuristic / Optimizer)",
         "SAP IBP ► Sales and Operations Planning ► Supply Planning view (Constrained Demand / Constrained Supply / Capacity Utilization)",
@@ -99,8 +99,8 @@ export const CH5: TextbookChapter = {
         "המטרה: למצוא את התכנית האופטימלית כשיש משאבים מתחרים והחלטות-trade-off רבות מדי לחישוב-ידני. ה-Optimizer הופך החלטות-עדיפות מ'תחושת-בטן' ל'מבוסס-עלות' ושקוף, ומאזן ייצור-מול-קנייה, מפעל-מול-מפעל ולקוח-מול-לקוח.",
       processExampleHe:
         "המתכנן מגדיר Operator profile מסוג S&OP Optimizer במצב Cost Minimization, קובע אופק של 18 חודשים ומשקלי-עלות. בהרצה ה-Optimizer קורא ביקוש, קיבולת ועלויות; פותר את ה-LP; ומחזיר לכל product-location-period את Constrained Supply, Production, Transport ו-Inventory, יחד עם Capacity Utilization וכל ביקוש שלא נענה (עם עלות-non-delivery בפונקציית-המטרה).",
-      cbcHe:
-        "ב-CBC ה-Optimizer מחליט: בשיא-הקיץ, האם לייצר את ה-1.5L הרווחי במפעל הצפוני (קיבולת מוגבלת) או להעביר ייצור לדרום (עלות-תחבורה גבוהה)? הוא משקלל עלות-ייצור, עלות-תחבורה ועלות-non-delivery, ובוחר את התמהיל שממזער עלות-כוללת תוך מקסום שירות ל-SKU רווחיים.",
+      scenarioHe:
+        "בארגון ה-Optimizer מחליט: בשיא-הקיץ, האם לייצר את ה-1.5L הרווחי במפעל הצפוני (קיבולת מוגבלת) או להעביר ייצור לדרום (עלות-תחבורה גבוהה)? הוא משקלל עלות-ייצור, עלות-תחבורה ועלות-non-delivery, ובוחר את התמהיל שממזער עלות-כוללת תוך מקסום שירות ל-SKU רווחיים.",
       navHe: [
         "SAP IBP ► Application Jobs ► Create ► Operator: S&OP Optimizer",
         "SAP IBP ► Manage Planning Operators ► define profit/cost optimization and horizon",
@@ -171,8 +171,8 @@ export const CH5: TextbookChapter = {
         "המטרה: לתת למתכנן שליטה מדורגת על ההתנהגות — לבטא מה הוא חוק-טבע (קיבולת פיזית), מה כלל-עסקי-חשוב (מלאי-מינימום) ומה העדפה (תעדוף-לקוח). חלוקה נכונה בין הדרגות היא ההבדל בין Optimizer שמחזיר תכנית מועילה לבין כזה שנכשל או מתעלם מהמציאות.",
       processExampleHe:
         "מתכנן מגדיר: קיבולת קו-מילוי = hard (פיזי); מלאי-בטחון = pseudo-hard (אפשר לרדת מתחתיו רק במשבר); תעדוף לקוח-VIP = soft. בהרצה רגילה ה-Optimizer מכבד את כולם; בתרחיש-מחסור הוא ישבור קודם את ה-soft, ורק אם אין ברירה יחדור ל-pseudo-hard, אך לעולם לא יחרוג מ-hard.",
-      cbcHe:
-        "ב-CBC: קיבולת קו-המילוי = hard (אי-אפשר לייצר יותר ממה שהמכונה מסוגלת); רמת-מלאי-בטחון של תרכיז = pseudo-hard; העדפה לספק קודם למפיץ-האזורי הגדול = soft. במחסור-קיץ ה-Optimizer מוותר תחילה על ההעדפה, שומר ככל-יכולתו על מלאי-הבטחון, ולעולם לא מתיימר לייצר מעבר לקיבולת הפיזית.",
+      scenarioHe:
+        "בארגון: קיבולת קו-המילוי = hard (אי-אפשר לייצר יותר ממה שהמכונה מסוגלת); רמת-מלאי-בטחון של תרכיז = pseudo-hard; העדפה לספק קודם למפיץ-האזורי הגדול = soft. במחסור-קיץ ה-Optimizer מוותר תחילה על ההעדפה, שומר ככל-יכולתו על מלאי-הבטחון, ולעולם לא מתיימר לייצר מעבר לקיבולת הפיזית.",
       navHe: [
         "SAP IBP ► Manage Planning Operators ► Constraints / Constraint settings of the Optimizer",
         "SAP IBP ► Planning Area ► Key Figures ► constraint key figures (capacity, min/max inventory)",
@@ -236,8 +236,8 @@ export const CH5: TextbookChapter = {
             "לוודא שהתכנית לעולם אינה חוצה גבולות-מציאות פיזיים — מה שהיה הופך אותה לבלתי-ניתנת-לביצוע ברצפת-הייצור.",
           processExampleHe:
             "Capacity Supply של קו = 1,000 שעות/חודש מוגדר hard. גם אם הביקוש דורש 1,300 שעות, ה-Optimizer לעולם לא יתכנן מעבר ל-1,000; את ה-300 העודפות הוא ינתב למשאב אחר, לתקופה אחרת, או יסמן כ-lost demand.",
-          cbcHe:
-            "ב-CBC קיבולת קו-המילוי המהיר (bottles/hour × זמינות) היא hard. ה-Optimizer לא יתיימר לייצר 1.2M ארגזים על קו שמסוגל ל-1.0M — הוא יחפש מפעל חלופי או יוותר על החלק הלא-רווחי.",
+          scenarioHe:
+            "בארגון קיבולת קו-המילוי המהיר (bottles/hour × זמינות) היא hard. ה-Optimizer לא יתיימר לייצר 1.2M ארגזים על קו שמסוגל ל-1.0M — הוא יחפש מפעל חלופי או יוותר על החלק הלא-רווחי.",
           navHe: [
             "SAP IBP ► Manage Planning Operators ► mark capacity key figure as hard constraint",
             "SAP IBP ► Planning Area ► RESOURCE level ► Capacity Supply key figure",
@@ -286,8 +286,8 @@ export const CH5: TextbookChapter = {
             "לבטא כלל-עסקי קריטי (כמו מלאי-בטחון) שאסור להפר בנסיבות רגילות, אך עדיף להפר במשבר מאשר לקבל תכנית בלתי-פתירה (infeasible).",
           processExampleHe:
             "מלאי-בטחון מוגדר pseudo-hard עם עלות-עונש גבוהה. בחודש רגיל ה-Optimizer שומר עליו בקפדנות. בחודש-מחסור חריף, אם הברירה היא לרדת מעט מתחת למלאי-הבטחון או לאבד מכירות-ענק, הוא יחדור זמנית למלאי-הבטחון — אך רק אז.",
-          cbcHe:
-            "ב-CBC מלאי-בטחון של תרכיז מוגדר pseudo-hard. בקיץ-שיא, אם שמירה על המלאי תמנע מילוי קו רווחי, ה-Optimizer ירד מתחת למלאי-הבטחון כמינימום ההכרחי — אך רק כשאין חלופה זולה יותר.",
+          scenarioHe:
+            "בארגון מלאי-בטחון של תרכיז מוגדר pseudo-hard. בקיץ-שיא, אם שמירה על המלאי תמנע מילוי קו רווחי, ה-Optimizer ירד מתחת למלאי-הבטחון כמינימום ההכרחי — אך רק כשאין חלופה זולה יותר.",
           navHe: [
             "SAP IBP ► Manage Planning Operators ► set very high penalty cost on the constraint key figure",
             "SAP IBP ► Planning Area ► min inventory / min production key figures",
@@ -336,8 +336,8 @@ export const CH5: TextbookChapter = {
             "לבטא מדיניות והעדפות עסקיות גמישות שאפשר לוותר עליהן לטובת יעד-העל (מינימום-עלות/מקסימום-רווח) כשהמשאבים מתוחים.",
           processExampleHe:
             "העדפה לספק לקוח-A לפני לקוח-B מוגדרת soft (עלות-עונש קטנה על אי-עמידה). ברוב התרחישים A יקבל קדימות; במחסור חריף, אם שירות ל-B רווחי בהרבה, ה-Optimizer ישבור את ההעדפה ויעדיף את B.",
-          cbcHe:
-            "ב-CBC העדפה לייצר את ה-Coke-Zero במפעל-המקומי (במקום להוביל) מוגדרת soft. כשהמקומי עמוס, ה-Optimizer ישבור את ההעדפה ויוביל מהמפעל השכן — כי עלות-התחבורה זולה מעלות-ה-non-delivery.",
+          scenarioHe:
+            "בארגון העדפה לייצר את ה-Coke-Zero במפעל-המקומי (במקום להוביל) מוגדרת soft. כשהמקומי עמוס, ה-Optimizer ישבור את ההעדפה ויוביל מהמפעל השכן — כי עלות-התחבורה זולה מעלות-ה-non-delivery.",
           navHe: [
             "SAP IBP ► Manage Planning Operators ► moderate penalty cost on preference key figures",
             "SAP IBP ► Planning Area ► priority / preferred-source / fair-share key figures",
@@ -388,8 +388,8 @@ export const CH5: TextbookChapter = {
         "לתרגם את שרשרת-האספקה למודל-כספי שמאפשר ל-Optimizer לקבל החלטות-trade-off אובייקטיביות ומבוססות-עלות, במקום כללים נוקשים או תחושת-בטן.",
       processExampleHe:
         "המתכנן מאכלס: production cost לכל source, transportation cost לכל lane, storage cost לכל location, ו-non-delivery cost לכל מוצר/לקוח (גבוהה ל-SKU רווחי). בהרצה ה-Optimizer בוחר אוטומטית את התמהיל הזול-ביותר שמכבד את האילוצים — למשל לייצר רחוק ולהוביל אם זה זול מאי-אספקה.",
-      cbcHe:
-        "ב-CBC: production cost שונה בין מפעל ישן ליעיל; transportation cost לפי מרחק-הפצה; storage cost למחסנים-קרים; non-delivery cost גבוהה ל-SKU בעלי-מרווח-גבוה ולחשבונות-מפתח. כך ה-Optimizer 'יודע' להעדיף את המשקאות הרווחיים ואת הלקוחות החשובים — בלי שמישהו יקודד כלל ידני.",
+      scenarioHe:
+        "בארגון: production cost שונה בין מפעל ישן ליעיל; transportation cost לפי מרחק-הפצה; storage cost למחסנים-קרים; non-delivery cost גבוהה ל-SKU בעלי-מרווח-גבוה ולחשבונות-מפתח. כך ה-Optimizer 'יודע' להעדיף את המשקאות הרווחיים ואת הלקוחות החשובים — בלי שמישהו יקודד כלל ידני.",
       navHe: [
         "SAP IBP ► Planning Area ► Key Figures ► define cost/financial key figures",
         "SAP IBP ► Manage Planning Operators ► assign cost key figures to the Optimizer",
@@ -454,8 +454,8 @@ export const CH5: TextbookChapter = {
             "לספק ל-Optimizer את כל תגי-המחיר הדרושים כדי לדרג חלופות — איזה מקור, איזה lane, ומתי 'כדאי' לא-לספק.",
           processExampleHe:
             "Production Cost: מפעל-יעיל 10, ישן 13. Transportation 2 ל-lane רחוק. Non-Delivery 50 ל-SKU רווחי. ה-Optimizer יעדיף לייצר ביעיל; כשעמוס יוביל מהישן (13+2=15) במקום לא-לספק (50).",
-          cbcHe:
-            "ב-CBC כל קו-מילוי מקבל Production Cost משלו, כל נתיב-הפצה Transportation Cost, וכל SKU/לקוח Non-Delivery Cost לפי רווחיות. כך מודל-העלות לבדו מכתיב את העדפת-המשקאות הרווחיים בקיץ.",
+          scenarioHe:
+            "בארגון כל קו-מילוי מקבל Production Cost משלו, כל נתיב-הפצה Transportation Cost, וכל SKU/לקוח Non-Delivery Cost לפי רווחיות. כך מודל-העלות לבדו מכתיב את העדפת-המשקאות הרווחיים בקיץ.",
           navHe: [
             "SAP IBP ► Planning Area ► Key Figures ► create cost key figures (production/storage/transport/non-delivery)",
             "SAP IBP ► Manage Planning Operators ► map each cost key figure to its Optimizer role",
@@ -508,8 +508,8 @@ export const CH5: TextbookChapter = {
             "לכוון את התנהגות-הפתרון לאסטרטגיה העסקית — למשל מקסום-רווח בשיא-ביקוש מול מינימום-עלות בעונה רגילה — ולשלוט בהיבטים כמו אספקה-מאוחרת ואופק.",
           processExampleHe:
             "בעונה רגילה: Cost Minimization, אופק 12 חודשים. לקראת שיא: מעבר ל-Profit Maximization עם revenue key figure, כדי שה-Optimizer יעדיף את ה-SKU הרווחיים גם במחיר עלות-ייצור גבוהה יותר.",
-          cbcHe:
-            "ב-CBC המתכנן עובר ל-Profit Maximization לפני הקיץ — כך ה-Optimizer מתעדף משקאות בעלי-מרווח-גבוה על-פני זולים, גם אם עלות-הייצור שלהם גבוהה יותר, כי ה-revenue מצדיק זאת.",
+          scenarioHe:
+            "בארגון המתכנן עובר ל-Profit Maximization לפני הקיץ — כך ה-Optimizer מתעדף משקאות בעלי-מרווח-גבוה על-פני זולים, גם אם עלות-הייצור שלהם גבוהה יותר, כי ה-revenue מצדיק זאת.",
           navHe: [
             "SAP IBP ► Manage Planning Operators ► Optimizer profile ► mode / horizon / late-fulfillment / weights",
             "SAP IBP ► Application Jobs ► run Optimizer with the chosen parameter profile",
@@ -564,8 +564,8 @@ export const CH5: TextbookChapter = {
         "לאפשר ל-Optimizer לבטא דקויות-עסקיות אמיתיות — הוגנות, גמישות-זמן, החלפות וביקוש מדורג — שתכנון פשוט מפספס, ובכך להפיק תכנית עשירה, ריאלית וניתנת-להסבר.",
       processExampleHe:
         "במצב-מחסור ה-Optimizer מפעיל בו-זמנית כמה יכולות: מתעדף confirmed orders על forecast (multiple demand category), מחלק את היתרה ב-fair-share בין מפיצים, מציע product substitution למה שחסר, ומספק late-delivery למה שאפשר רק מאוחר — והכל מוסבר דרך Optimizer Explanation.",
-      cbcHe:
-        "ב-CBC קיץ-מחסור: confirmed לרשתות-מזון לפני forecast לחנויות-קצה; fair-share בין מפיצים-אזוריים; substitution מ-1.5L חסר ל-2L זמין; late-delivery לרשת שמוכנה לקבל באיחור-יומיים; וכל החלטה ניתנת-להסבר להנהלה.",
+      scenarioHe:
+        "בארגון קיץ-מחסור: confirmed לרשתות-מזון לפני forecast לחנויות-קצה; fair-share בין מפיצים-אזוריים; substitution מ-1.5L חסר ל-2L זמין; late-delivery לרשת שמוכנה לקבל באיחור-יומיים; וכל החלטה ניתנת-להסבר להנהלה.",
       navHe: [
         "SAP IBP ► Manage Planning Operators ► enable advanced Optimizer features",
         "SAP IBP ► Planning Area ► supporting key figures (late/min-consumption/fair-share/substitution)",
@@ -618,8 +618,8 @@ export const CH5: TextbookChapter = {
             "למקסם שירות-ביקוש כולל על-ידי ניצול גמישות-זמן — לספק מאוחר מה שאי-אפשר בזמן, במקום לאבד את המכירה.",
           processExampleHe:
             "ביקוש ל-100 ביוני; הקיבולת ביוני מלאה. עם late-fulfillment ה-Optimizer מספק 60 ביוני ו-40 ביולי (late-delivery cost) במקום לוותר על 40 (non-delivery cost גבוה יותר).",
-          cbcHe:
-            "ב-CBC רשת-מזון שמוכנה לקבל באיחור-יומיים בשיא-קיץ: ה-Optimizer משבץ late-delivery במקום non-delivery, ושומר את חשבון-המפתח מרוצה.",
+          scenarioHe:
+            "בארגון רשת-מזון שמוכנה לקבל באיחור-יומיים בשיא-קיץ: ה-Optimizer משבץ late-delivery במקום non-delivery, ושומר את חשבון-המפתח מרוצה.",
           navHe: [
             "SAP IBP ► Manage Planning Operators ► enable late-demand fulfillment + late-delivery cost",
             "SAP IBP ► Planning Area ► late-delivery / discounting key figures",
@@ -668,8 +668,8 @@ export const CH5: TextbookChapter = {
             "למנוע תכניות עם הפעלות-משאב זעירות לא-כלכליות, ולכפות אצוות-מינימום או משמרות-שלמות.",
           processExampleHe:
             "קו עם אצווה-מינימלית 500. ה-Optimizer לא יתכנן ייצור של 50; או שהוא ייצר ≥500, או שלא יפעיל את הקו כלל ויחפש חלופה.",
-          cbcHe:
-            "ב-CBC הפעלת קו-מילוי כרוכה ב-CIP (ניקוי) יקר; אצווה-מינימלית מבטיחה שה-Optimizer לא 'ידליק' קו לכמות זעירה אלא רק לריצה כלכלית.",
+          scenarioHe:
+            "בארגון הפעלת קו-מילוי כרוכה ב-CIP (ניקוי) יקר; אצווה-מינימלית מבטיחה שה-Optimizer לא 'ידליק' קו לכמות זעירה אלא רק לריצה כלכלית.",
           navHe: [
             "SAP IBP ► Manage Planning Operators ► enable minimum resource consumption (MILP)",
             "SAP IBP ► Planning Area ► minimum consumption / minimum lot key figures",
@@ -718,8 +718,8 @@ export const CH5: TextbookChapter = {
             "לחלק מחסור באופן הוגן ושקוף בין לקוחות/אזורים, לשמר יחסים מסחריים ולמנוע 'מנצח-לוקח-הכל'.",
           processExampleHe:
             "זמין 80, ביקוש: A=50, B=50. ללא fair-share A יקבל 50 ו-B 30. עם fair-share כל אחד מקבל 40 (80%) — חלוקה פרופורציונלית.",
-          cbcHe:
-            "ב-CBC קיץ-מחסור: שלושה מפיצים-אזוריים מקבלים כל אחד את אותו אחוז מהביקוש שלו, כדי שאף אזור לא יישאר ריק בעוד אחר מלא — שמירה על נאמנות-המפיצים.",
+          scenarioHe:
+            "בארגון קיץ-מחסור: שלושה מפיצים-אזוריים מקבלים כל אחד את אותו אחוז מהביקוש שלו, כדי שאף אזור לא יישאר ריק בעוד אחר מלא — שמירה על נאמנות-המפיצים.",
           navHe: [
             "SAP IBP ► Manage Planning Operators ► enable fair-share distribution",
             "SAP IBP ► Planning Area ► fair-share / proportional-allocation key figures",
@@ -768,8 +768,8 @@ export const CH5: TextbookChapter = {
             "לבטא מגבלות-משאב/תקציב משותפות לקבוצה, שלא ניתן לתאר כסכום אילוצים-בודדים.",
           processExampleHe:
             "מפעל עם 3 קווים אך כוח-אדם ל-2-בו-זמנית. aggregate constraint: סך-שעות-העבודה על שלושת הקווים ≤ קיבולת-כוח-האדם — מאלץ את ה-Optimizer לא להפעיל את כל השלושה במלואם בו-זמנית.",
-          cbcHe:
-            "ב-CBC אספקת-תרכיז שבועית מוגבלת ומשותפת לכל ה-SKU. aggregate constraint על סך-צריכת-התרכיז מאלץ את ה-Optimizer לחלק את התרכיז המוגבל בין המשקאות לפי רווחיות.",
+          scenarioHe:
+            "בארגון אספקת-תרכיז שבועית מוגבלת ומשותפת לכל ה-SKU. aggregate constraint על סך-צריכת-התרכיז מאלץ את ה-Optimizer לחלק את התרכיז המוגבל בין המשקאות לפי רווחיות.",
           navHe: [
             "SAP IBP ► Manage Planning Operators ► define aggregate constraint key figures",
             "SAP IBP ► Planning Area ► aggregate-level key figures (shared capacity/material/budget)",
@@ -818,8 +818,8 @@ export const CH5: TextbookChapter = {
             "לתעדף סוגי-ביקוש לפי ודאות/חשיבות — לוודא שהזמנות-מאושרות נענות לפני תחזית — באמצעות מודל-עלות מדורג.",
           processExampleHe:
             "ביקוש: confirmed=60, forecast=40, זמין=70. עם non-delivery cost גבוה ל-confirmed ונמוך ל-forecast, ה-Optimizer ממלא 60 confirmed + 10 forecast, ומוותר על 30 forecast.",
-          cbcHe:
-            "ב-CBC הזמנות-מאושרות של רשתות-מזון = confirmed (non-delivery גבוה); תחזית-חנויות-קצה = forecast (נמוך). במחסור הרשתות נענות במלואן, והקצה סופג את החוסר.",
+          scenarioHe:
+            "בארגון הזמנות-מאושרות של רשתות-מזון = confirmed (non-delivery גבוה); תחזית-חנויות-קצה = forecast (נמוך). במחסור הרשתות נענות במלואן, והקצה סופג את החוסר.",
           navHe: [
             "SAP IBP ► Manage Planning Operators ► configure demand categories + per-category non-delivery cost",
             "SAP IBP ► Planning Area ► confirmed / forecast demand key figures",
@@ -868,8 +868,8 @@ export const CH5: TextbookChapter = {
             "למקסם שירות-ביקוש על-ידי מילוי-חלופי כשה-SKU המבוקש חסר, במקום אי-אספקה — תוך שליטה בעלות/קבילות-ההחלפה.",
           processExampleHe:
             "1.5L חסר, 2L זמין, substitution מותר בעלות נמוכה. ה-Optimizer ממלא את ביקוש-ה-1.5L מ-2L (substitution cost) במקום לוותר (non-delivery גבוה יותר).",
-          cbcHe:
-            "ב-CBC כשה-1.5L Coke חסר בשיא, ה-Optimizer מציע substitution ל-2L (אם המפיץ מאשר), ושומר על שירות במקום מדף-ריק.",
+          scenarioHe:
+            "בארגון כשה-1.5L Coke חסר בשיא, ה-Optimizer מציע substitution ל-2L (אם המפיץ מאשר), ושומר על שירות במקום מדף-ריק.",
           navHe: [
             "SAP IBP ► Manage Planning Operators ► enable product substitution",
             "SAP IBP ► Planning Area / master data ► substitution relationships + substitution cost",
@@ -918,8 +918,8 @@ export const CH5: TextbookChapter = {
             "להאיץ את ה-Optimizer ולשפר feasibility על-ידי פירוק רשת גדולה לתת-רשתות עצמאיות.",
           processExampleHe:
             "תאגיד עם רשת-צפון-אמריקה ורשת-אירופה ללא העברות ביניהן. ה-Optimizer מפצל ל-2 subnetworks, פותר כל אחת בנפרד, וזמן-הריצה צונח.",
-          cbcHe:
-            "ב-CBC מפעלים ואזורי-הפצה עצמאיים גיאוגרפית (אין העברות ביניהם) מפוצלים ל-subnetworks; ה-Optimizer פותר כל אזור-בקבוק לחוד ומהר.",
+          scenarioHe:
+            "בארגון מפעלים ואזורי-הפצה עצמאיים גיאוגרפית (אין העברות ביניהם) מפוצלים ל-subnetworks; ה-Optimizer פותר כל אזור-בקבוק לחוד ומהר.",
           navHe: [
             "SAP IBP ► Manage Planning Operators ► partitioning / subnetwork scope settings",
             "SAP IBP ► Planning Area ► verify no shared lanes/resources across regions",
@@ -968,8 +968,8 @@ export const CH5: TextbookChapter = {
             "להפוך את תוצאת-ה-Optimizer לשקופה ולברת-הגנה — להבין מה הגביל, מה הניע, ולמה — לצורך אמון-עסקי וכיוּל-מודל.",
           processExampleHe:
             "Constrained Demand נמוך מהצפוי. ה-Explanation מראה ש-Capacity Supply של קו-2 הוא binding constraint ושעלות-ה-non-delivery הניעה ויתור על SKU זול. המתכנן מבין שצריך להרחיב את קו-2.",
-          cbcHe:
-            "ב-CBC ההנהלה שואלת למה מפיץ-X קיבל פחות. ה-Explanation מראה: קיבולת קו-המילוי הייתה binding ו-fair-share חילק את היתרה — תשובה שקופה ומבוססת-נתונים.",
+          scenarioHe:
+            "בארגון ההנהלה שואלת למה מפיץ-X קיבל פחות. ה-Explanation מראה: קיבולת קו-המילוי הייתה binding ו-fair-share חילק את היתרה — תשובה שקופה ומבוססת-נתונים.",
           navHe: [
             "SAP IBP ► Application Jobs ► run with Optimizer Explanation enabled",
             "SAP IBP ► Application Logs ► review binding constraints + cost contributions",
@@ -1020,8 +1020,8 @@ export const CH5: TextbookChapter = {
         "לספק תכנון-מוגבל מהיר וקל-להבנה כשאין צורך באופטימיזציה-גלובלית מבוססת-עלות — ולשמש 'דרגת-ביניים' בין Heuristic בלתי-מוגבל ל-Optimizer מלא.",
       processExampleHe:
         "המתכנן בוחר Operator מסוג Finite Heuristic. ההרצה מתכננת כל משאב עד-קיבולתו לפי priority; עודף-ביקוש נדחה לתקופה-הבאה או מסומן lost. התוצאה מהירה ובת-ביצוע, אך ייתכן שאינה מינימום-העלות הגלובלי.",
-      cbcHe:
-        "ב-CBC לתכנון-שבועי-מהיר של קו-מילוי בודד, ה-Finite Heuristic מספיק: הוא ממלא את הקו עד-קיבולתו לפי עדיפות-SKU ודוחה את העודף. ל-S&OP חודשי רב-מפעלי עם trade-offs — עוברים ל-Optimizer.",
+      scenarioHe:
+        "בארגון לתכנון-שבועי-מהיר של קו-מילוי בודד, ה-Finite Heuristic מספיק: הוא ממלא את הקו עד-קיבולתו לפי עדיפות-SKU ודוחה את העודף. ל-S&OP חודשי רב-מפעלי עם trade-offs — עוברים ל-Optimizer.",
       navHe: [
         "SAP IBP ► Application Jobs ► Operator: Finite Heuristic",
         "SAP IBP ► Manage Planning Operators ► define finite-heuristic profile + resource scope",
@@ -1081,8 +1081,8 @@ export const CH5: TextbookChapter = {
         "לאחד את כל מרכיבי-הפרק לתמונה-אחת מעשית: מתי ואיך להפעיל תכנון-מוגבל, איזה מנוע לבחור, וכיצד לכייל אותו כך שהתכנית תהיה ריאלית, אופטימלית ובת-הגנה ב-S&OP.",
       processExampleHe:
         "מימוש מלא: הקם planning area עם RESOURCE+capacity; הגדר sources of supply ו-cost key figures; כייל non-delivery; סווג אילוצים; הרץ Heuristic בלתי-מוגבל לבסיס, ואז Optimizer מוגבל; נתח עם Explanation; אשר Constrained Plan כ-Supply Commit ב-Executive S&OP.",
-      cbcHe:
-        "ב-CBC המסע השלם: לפני הקיץ מַדֵּלים קיבולת-קווים ועלויות, מסווגים קיבולת=hard ומלאי-בטחון=pseudo-hard, עוברים ל-Profit Maximization, מפעילים fair-share ו-substitution, מריצים Optimizer, ומסבירים להנהלה דרך Optimizer Explanation מדוע התכנית המוגבלת היא הטובה ביותר האפשרית.",
+      scenarioHe:
+        "בארגון המסע השלם: לפני הקיץ מַדֵּלים קיבולת-קווים ועלויות, מסווגים קיבולת=hard ומלאי-בטחון=pseudo-hard, עוברים ל-Profit Maximization, מפעילים fair-share ו-substitution, מריצים Optimizer, ומסבירים להנהלה דרך Optimizer Explanation מדוע התכנית המוגבלת היא הטובה ביותר האפשרית.",
       navHe: [
         "SAP IBP ► Application Jobs ► run Heuristic then Optimizer and compare",
         "SAP IBP ► Sales and Operations Planning ► review Constrained vs Unconstrained",

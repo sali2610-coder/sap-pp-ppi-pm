@@ -10,7 +10,7 @@ export const CH11: TextbookChapter = {
   titleHe: "בניית תצוגות-תכנון (Planning Views)",
   titleEn: "Building Planning Views",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לבניית תצוגות-תכנון (planning views) ב-SAP IBP — ענן-התכנון של SAP. ה-planning view היא הממשק היומיומי של המתכנן: גיליון Excel חי, מחובר ל-IBP דרך ה-Excel add-in, שדרכו רואים, עורכים ומפרסמים מספרי-תכנון (Key Figures) חתוכים לפי מאפיינים (Attributes). כל תת-פרק וכל תת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC (מתכנני חברת-המשקאות קוקה-קולה הבונים את תצוגות-התכנון שלהם ב-Excel), ניווט בעצי-התפריט של ה-Excel add-in ושל Planner Workspaces, טבלאות/אובייקטים, פרטי-בנייה, תרשים-תהליך לבניית התצוגה, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לבנות תצוגת-תכנון תקינה מאפס בלי הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לבניית תצוגות-תכנון (planning views) ב-SAP IBP — ענן-התכנון של SAP. ה-planning view היא הממשק היומיומי של המתכנן: גיליון Excel חי, מחובר ל-IBP דרך ה-Excel add-in, שדרכו רואים, עורכים ומפרסמים מספרי-תכנון (Key Figures) חתוכים לפי מאפיינים (Attributes). כל תת-פרק וכל תת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון (מתכנני חברת-המשקאות מוצר לדוגמה הבונים את תצוגות-התכנון שלהם ב-Excel), ניווט בעצי-התפריט של ה-Excel add-in ושל Planner Workspaces, טבלאות/אובייקטים, פרטי-בנייה, תרשים-תהליך לבניית התצוגה, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לבנות תצוגת-תכנון תקינה מאפס בלי הספר המקורי.",
   subchapters: [
     // ============================================================ 11.1
     {
@@ -27,8 +27,8 @@ export const CH11: TextbookChapter = {
         "המטרה: לתת למתכנן סביבת-עבודה מוכרת (Excel) עם נתונים חיים מ-IBP, מבלי שילמד כלי חדש. תבניות ומועדפים מבטיחים אחידות (כל המתכננים רואים אותה פריסה), חוסכים זמן-הקמה יומי, ומפחיתים טעויות-עיצוב.",
       processExampleHe:
         "מתכנן-ביקוש פותח Excel ► לשונית SAP IBP ► Log On ► New View ► בוחר Planning Area, את ה-Key Figure ‏Consensus Demand, את ה-Attributes ‏Product ו-Customer בשורות ואת החודשים בעמודות, ומגדיר אופק של 12 חודשים. לוחץ OK; הגריד מתמלא. הוא מתקן מספר-תחזית בתא, מריץ Simulate, ולבסוף Save Data כדי לפרסם ל-IBP. לסיום שומר Save As Favorite בשם \"Monthly Demand Review\".",
-      cbcHe:
-        "ב-CBC כל מתכנן-ביקוש של קוקה-קולה פותח את ה-favorite \"CBC Monthly Demand\" — planning view אחיד עם Consensus Demand לפי SKU ולפי רשת-קמעונאות, חודשי, אופק 18 חודשים. במקום שכל מתכנן יבנה תצוגה משלו, ה-template המרכזי מבטיח שכולם מדווחים על אותו מבנה לישיבת ה-S&OP.",
+      scenarioHe:
+        "בארגון כל מתכנן-ביקוש של מוצר לדוגמה פותח את ה-favorite \"הארגון Monthly Demand\" — planning view אחיד עם Consensus Demand לפי SKU ולפי רשת-קמעונאות, חודשי, אופק 18 חודשים. במקום שכל מתכנן יבנה תצוגה משלו, ה-template המרכזי מבטיח שכולם מדווחים על אותו מבנה לישיבת ה-S&OP.",
       navHe: [
         "Excel ► SAP IBP tab ► Log On (התחברות ל-IBP cloud)",
         "Excel ► SAP IBP tab ► New View (פתיחת תצוגת-תכנון חדשה)",
@@ -105,8 +105,8 @@ export const CH11: TextbookChapter = {
             "לאפשר למתכנן להרכיב במדויק את חתך-הנתונים הדרוש לו — ביקוש לפי SKU, או מלאי לפי מחסן — בלי פיתוח ובלי בקשת-דוח מ-IT.",
           processExampleHe:
             "מתכנן בוחר Planning Area ‏SAPIBP1, מוסיף Key Figures ‏Consensus Demand ו-Statistical Forecast, גורר Product ו-Customer ל-Rows, את Month ל-Columns, קובע אופק 12 חודשים קדימה ומסנן ל-Location מסוים. לוחץ OK והגריד מתמלא; כעת יכול לערוך ו-Save Data.",
-          cbcHe:
-            "מתכנן-CBC יוצר תצוגה: Key Figure ‏Consensus Demand, שורות = SKU + רשת-קמעונאות, עמודות = חודשים, אופק 18 חודש, Filter ל-Region \"Israel\". זו תהיה הבסיס ל-favorite היומיומי שלו.",
+          scenarioHe:
+            "מתכנן-הארגון יוצר תצוגה: Key Figure ‏Consensus Demand, שורות = SKU + רשת-קמעונאות, עמודות = חודשים, אופק 18 חודש, Filter ל-Region \"Israel\". זו תהיה הבסיס ל-favorite היומיומי שלו.",
           navHe: [
             "Excel ► SAP IBP tab ► New View",
             "Planning View Configuration ► Key Figures (Add/Remove)",
@@ -175,8 +175,8 @@ export const CH11: TextbookChapter = {
             "לחסוך זמן-הקמה יומי, להבטיח אחידות-מבנה בין מתכננים ולנהל מרכזית את התצוגות ה'רשמיות' של תהליך ה-S&OP.",
           processExampleHe:
             "מתכנן בונה תצוגת-סקירה, שומר Save As Favorite \"Weekly S&OP\". key user נוטל אותה, מנקה Filters אישיים ושומר כ-Template \"S&OP Standard Review\", שמפיץ לכל הצוות; כל מתכנן פותח את ה-template וממלא Filters משלו.",
-          cbcHe:
-            "ב-CBC ה-key user מתחזק template אחיד \"CBC S&OP Demand\" עם פריסת-Key-Figures מוסכמת; כל מתכנן-מדינה פותח אותו, בוחר Region משלו, ושומר favorite אישי — אך המבנה זהה לכולם בישיבת ה-S&OP.",
+          scenarioHe:
+            "בארגון ה-key user מתחזק template אחיד \"הארגון S&OP Demand\" עם פריסת-Key-Figures מוסכמת; כל מתכנן-מדינה פותח אותו, בוחר Region משלו, ושומר favorite אישי — אך המבנה זהה לכולם בישיבת ה-S&OP.",
           navHe: [
             "Excel ► SAP IBP tab ► Favorites ► Save / Save As / Open / Delete",
             "Excel ► SAP IBP tab ► Templates ► New from Template / Manage Templates",
@@ -246,8 +246,8 @@ export const CH11: TextbookChapter = {
         "לאחד תכנון, ניטור-חריגות וניתוח-מגמות במסך-עבודה אחד מבוסס-דפדפן — לקצר את הדרך מ'זיהוי-בעיה' ל'תיקון-בתצוגה', ולאפשר עבודה ללא Excel.",
       processExampleHe:
         "מתכנן פותח Planner Workspace ► רואה Custom Alert card שמדגיש 5 SKUs עם תחזית מתחת לסף ► לוחץ על ההתראה ► מתמקד ב-Planning View card באותם SKUs ► מתקן את התחזית בגריד ► ה-Analytics Chart card מעדכן את גרף-המגמה ► שומר את השינוי. הכל באותו מסך-דפדפן.",
-      cbcHe:
-        "ב-CBC מנהל-תכנון בונה Planner Workspace \"CBC S&OP Cockpit\": Custom Alert ל-\"Forecast Accuracy < 70%\", Planning View של Consensus Demand לפי SKU, ו-Analytics chart של מגמת-מכירות. בישיבת ה-S&OP כל הצוות מסתכל על אותו workspace משותף.",
+      scenarioHe:
+        "בארגון מנהל-תכנון בונה Planner Workspace \"הארגון S&OP Cockpit\": Custom Alert ל-\"Forecast Accuracy < 70%\", Planning View של Consensus Demand לפי SKU, ו-Analytics chart של מגמת-מכירות. בישיבת ה-S&OP כל הצוות מסתכל על אותו workspace משותף.",
       navHe: [
         "Web UI ► Planner Workspaces ► New / Open Workspace",
         "Planner Workspace ► Add Card ► Planning View",
@@ -322,8 +322,8 @@ export const CH11: TextbookChapter = {
         "להפוך את התצוגה לקריאה ופעילה — שהמתכנן יזהה מהר חריגות, יבדיל בין עמודות-זמן ובין editable ל-read-only, ושהעיצוב לא יאבד ברענון.",
       processExampleHe:
         "מתכנן מקפיא את שורת-הכותרת והעמודה הראשונה, מרחיב את עמודת-המוצר, מוסיף conditional formatting שמאדים ערכי-תחזית מתחת לסף, ושומר את התצוגה — בפתיחה הבאה ה-favorite משחזר את העיצוב.",
-      cbcHe:
-        "ב-CBC ה-template האחיד כולל עיצוב מוסכם: עמודות-עבר באפור, עמודות-עתיד בלבן, conditional formatting אדום ל-Forecast Accuracy נמוך — כך כל מתכנן-מדינה רואה אותה שפה-חזותית בישיבת ה-S&OP.",
+      scenarioHe:
+        "בארגון ה-template האחיד כולל עיצוב מוסכם: עמודות-עבר באפור, עמודות-עתיד בלבן, conditional formatting אדום ל-Forecast Accuracy נמוך — כך כל מתכנן-מדינה רואה אותה שפה-חזותית בישיבת ה-S&OP.",
       navHe: [
         "Excel ► SAP IBP tab ► Sheet Options",
         "Excel ► Home ► Conditional Formatting (על אזור-הערכים)",
@@ -388,8 +388,8 @@ export const CH11: TextbookChapter = {
             "לקצר את זמן-ההתמצאות של המתכנן ולמנוע טעויות-עריכה בעמודה/שורה שגויה.",
           processExampleHe:
             "מתכנן מסדר Product Group ► Product ► Customer בשורות, מקפיא כותרות, מרחיב את עמודת-המוצר, וצובע את ה-Key Figure העריך ברקע-בהיר — ואז Save Favorite.",
-          cbcHe:
-            "ב-CBC הפריסה האחידה: Category ► Brand ► SKU בשורות, חודשים בעמודות, Consensus Demand עריך מודגש — אותו מבנה לכל המתכננים.",
+          scenarioHe:
+            "בארגון הפריסה האחידה: Category ► Brand ► SKU בשורות, חודשים בעמודות, Consensus Demand עריך מודגש — אותו מבנה לכל המתכננים.",
           navHe: [
             "Excel ► View ► Freeze Panes",
             "Excel ► SAP IBP tab ► Planning View Configuration ► Attributes order",
@@ -446,8 +446,8 @@ export const CH11: TextbookChapter = {
             "להוסיף חישובים, יחסים והערות לתצוגה בצורה עמידה-לרענון, בלי לזהם את נתוני-IBP ובלי שהעבודה תאבד ב-Refresh.",
           processExampleHe:
             "מתכנן מוסיף Local Member מסוג formula שמחשב יחס \"Forecast / Sales History\" כעמודה חדשה ליד הנתונים; ב-Refresh הנתונים מתעדכנים והעמודה-המחושבת נשארת. הוא מכוון Sheet Options להסתיר אפסים. אף אחד מאלה לא נשלח ל-IBP ב-Save Data.",
-          cbcHe:
-            "ב-CBC מתכנן מוסיף Local Member \"Forecast Accuracy %\" כעמודת-עזר לכל SKU, ו-Sheet Options מסתירות אפסים — תצוגה נקייה לישיבת-הביקוש, בלי לגעת בנתוני-IBP.",
+          scenarioHe:
+            "בארגון מתכנן מוסיף Local Member \"Forecast Accuracy %\" כעמודת-עזר לכל SKU, ו-Sheet Options מסתירות אפסים — תצוגה נקייה לישיבת-הביקוש, בלי לגעת בנתוני-IBP.",
           navHe: [
             "Excel ► SAP IBP tab ► Sheet Options",
             "Excel ► SAP IBP tab ► Local Member ► New (Formula / Comment)",
@@ -513,8 +513,8 @@ export const CH11: TextbookChapter = {
             "לתקנן ולשמר עיצוב באופן מרכזי, עמיד-לרענון ואחיד בין כל המתכננים — בלי תחזוקת-עיצוב ידנית חוזרת.",
           processExampleHe:
             "key user מגדיר ב-Formatting Sheet: כותרות כחול-כהה, editable Key Figures רקע-לבן, calculated רקע-אפור, עמודות-עבר אפור-בהיר. כל מתכנן שפותח את ה-template מקבל את העיצוב אוטומטית, וגם אחרי Refresh.",
-          cbcHe:
-            "ב-CBC ה-Formatting Sheet של ה-template הארגוני קובע: עבר=אפור, עתיד=לבן, חריגות=אדום. כך הדוחות לישיבת ה-S&OP נראים זהים בכל מדינה, בלי שמתכנן יעצב ידנית.",
+          scenarioHe:
+            "בארגון ה-Formatting Sheet של ה-template הארגוני קובע: עבר=אפור, עתיד=לבן, חריגות=אדום. כך הדוחות לישיבת ה-S&OP נראים זהים בכל מדינה, בלי שמתכנן יעצב ידנית.",
           navHe: [
             "Excel ► SAP IBP tab ► Sheet Options ► Formatting Sheet (הפעלה/הצבעה)",
             "חוברת-העבודה ► גיליון Formatting Sheet ► הגדרת כללי-עיצוב",
@@ -578,8 +578,8 @@ export const CH11: TextbookChapter = {
         "לתרגם נתוני-תכנון לסיפור חזותי — מגמות, עונתיות, פערי-תחזית — כדי לתמוך בהחלטות ובישיבת ה-S&OP.",
       processExampleHe:
         "מתכנן מסמן בגריד את Statistical Forecast ו-Sales History לאורך 12 חודשים, לוחץ Create Chart ובוחר combo (קו לתחזית, עמודות לבפועל); הגרף חושף עונתיות ופער-תחזית. בישיבה הוא מציג Analytics chart מקביל ב-Planner Workspace.",
-      cbcHe:
-        "ב-CBC מציגים בישיבת ה-S&OP גרף-קו של Consensus Demand מול Sales History לפי חודש, ועמודות של Forecast Accuracy לפי SKU — הגרפים הם שפת-ההחלטה של הצוות.",
+      scenarioHe:
+        "בארגון מציגים בישיבת ה-S&OP גרף-קו של Consensus Demand מול Sales History לפי חודש, ועמודות של Forecast Accuracy לפי SKU — הגרפים הם שפת-ההחלטה של הצוות.",
       navHe: [
         "Excel ► SAP IBP tab ► Create Chart (מתוך הגריד)",
         "Web UI ► Analytics ► Create Chart",
@@ -643,8 +643,8 @@ export const CH11: TextbookChapter = {
         "להבטיח שמרחב-התכנון (אילו צירופי מוצר/לקוח/מיקום קיימים) מוגדר נכון ומלא — בלעדיו אין היכן לאחסן או להזין מספרי-תכנון.",
       processExampleHe:
         "key user פותח Master Data workbook, שולף את Product, מוסיף SKU חדש עם Attributes (Product Group, UoM), מעלה (Save), ואז יוצר planning objects לצירוף SKU×Customer×Location כדי שאפשר יהיה להזין לו תחזית בתצוגה.",
-      cbcHe:
-        "ב-CBC השקת-מוצר חדש מתחילה ב-Master Data: מוסיפים את ה-SKU ל-Product, מקשרים ל-Brand/Category, ויוצרים planning objects לכל רשת-קמעונאות רלוונטית — רק אז המתכנן יכול להזין תחזית בתצוגתו.",
+      scenarioHe:
+        "בארגון השקת-מוצר חדש מתחילה ב-Master Data: מוסיפים את ה-SKU ל-Product, מקשרים ל-Brand/Category, ויוצרים planning objects לכל רשת-קמעונאות רלוונטית — רק אז המתכנן יכול להזין תחזית בתצוגתו.",
       navHe: [
         "Excel ► SAP IBP tab ► Master Data Workbook ► New",
         "Web UI ► Master Data (Manage Master Data app)",
@@ -711,8 +711,8 @@ export const CH11: TextbookChapter = {
             "לאפשר ל-key user/מתכנן לתחזק נתוני-אב במהירות-ובהמוניות מתוך Excel המוכר, בלי כלי-אינטגרציה.",
           processExampleHe:
             "key user פותח Master Data Workbook ל-Product, שולף 500 SKUs, מתקן Attribute שגוי ב-30 שורות בבת-אחת, מוסיף 3 SKUs חדשים, ולוחץ Save — ה-add-in מעלה ומאמת.",
-          cbcHe:
-            "ב-CBC לקראת עונת-קיץ מוסיפים עשרות SKUs חדשים דרך Master Data Workbook אחד — שורה לכל מוצר עם Brand/Category/UoM — במקום הזנה אחת-אחת ב-Web UI.",
+          scenarioHe:
+            "בארגון לקראת עונת-קיץ מוסיפים עשרות SKUs חדשים דרך Master Data Workbook אחד — שורה לכל מוצר עם Brand/Category/UoM — במקום הזנה אחת-אחת ב-Web UI.",
           navHe: [
             "Excel ► SAP IBP tab ► Master Data ► New Workbook",
             "Master Data Workbook ► Select Master Data Type + Attributes",
@@ -773,8 +773,8 @@ export const CH11: TextbookChapter = {
             "להגדיר במדויק אילו צירופים ניתנים-לתכנון — לפתוח 'תאי-אחסון' ל-Key Figure data ולמנוע מרחב-תכנון מנופח.",
           processExampleHe:
             "אחרי הוספת SKU חדש, key user יוצר planning objects לצירוף SKU×כל-רשת-קמעונאות×מרכז-הפצה; כעת המתכנן יכול להזין Consensus Demand לכל צירוף בתצוגתו.",
-          cbcHe:
-            "ב-CBC השקת-מוצר: לכל SKU חדש יוצרים planning objects רק לרשתות-הקמעונאות שבהן יימכר — לא לכולן — כדי לשמור על מרחב-תכנון רזה ומהיר.",
+          scenarioHe:
+            "בארגון השקת-מוצר: לכל SKU חדש יוצרים planning objects רק לרשתות-הקמעונאות שבהן יימכר — לא לכולן — כדי לשמור על מרחב-תכנון רזה ומהיר.",
           navHe: [
             "Excel ► SAP IBP tab ► Master Data Workbook (צירופי-Attributes)",
             "Web UI ► Manage Master Data ► Create Planning Object",
@@ -839,8 +839,8 @@ export const CH11: TextbookChapter = {
             "לספק תחזוקת-אב נגישה מהדפדפן — לתיקונים נקודתיים, לבקרה ולמשתמשים שאינם עובדים ב-Excel.",
           processExampleHe:
             "key user מקבל דיווח על קוד-מוצר שגוי, פותח Manage Master Data app, מחפש את ה-SKU, מתקן את ה-Attribute ושומר — התיקון משתקף מיד בתצוגות-התכנון.",
-          cbcHe:
-            "ב-CBC מנהל-נתונים מתקן מהר שיוך-Brand שגוי ל-SKU דרך ה-Master Data app מהדפדפן, בלי לפתוח Excel — והמתכננים רואים את התיקון מיד.",
+          scenarioHe:
+            "בארגון מנהל-נתונים מתקן מהר שיוך-Brand שגוי ל-SKU דרך ה-Master Data app מהדפדפן, בלי לפתוח Excel — והמתכננים רואים את התיקון מיד.",
           navHe: [
             "Web UI ► Manage Master Data (חיפוש/עריכה/יצירה)",
             "Manage Master Data ► Select Master Data Type",
@@ -908,8 +908,8 @@ export const CH11: TextbookChapter = {
         "להרחיב את ה-add-in מעבר לתצורה-הסטנדרטית: אוטומציה חוזרת, ולידציות-מותאמות והזרקת-לוגיקה בנקודות-אירוע — לחיסכון-זמן ולאחידות.",
       processExampleHe:
         "key user כותב מאקרו-VBA שמופעל אחרי Refresh, מוסיף אוטומטית Local Member \"Forecast Accuracy %\" לכל SKU בגריד ומעצב אותו — כך המתכנן לא צריך להוסיפו ידנית בכל פתיחה.",
-      cbcHe:
-        "ב-CBC ה-key user בונה מאקרו-VBA המחובר ל-hook של post-Refresh: הוא מזריק Local Members של KPIs (Accuracy, Bias) ומחיל את עיצוב-ה-Formatting-Sheet — כל מתכנן מקבל תצוגה אחידה ומחושבת אוטומטית.",
+      scenarioHe:
+        "בארגון ה-key user בונה מאקרו-VBA המחובר ל-hook של post-Refresh: הוא מזריק Local Members של KPIs (Accuracy, Bias) ומחיל את עיצוב-ה-Formatting-Sheet — כל מתכנן מקבל תצוגה אחידה ומחושבת אוטומטית.",
       navHe: [
         "Excel ► Developer ► Visual Basic (עורך-VBA)",
         "Excel ► Developer ► Macros",
@@ -974,8 +974,8 @@ export const CH11: TextbookChapter = {
             "להבטיח שכל תצוגה תכלול אוטומטית את חישובי-העזר הסטנדרטיים (KPIs/יחסים) — בלי הזנה ידנית חוזרת ובלי שונות בין מתכננים.",
           processExampleHe:
             "מאקרו רץ ומוסיף Local Member עם הנוסחה Forecast/SalesHistory לכל שורה בגריד, ומעצב כאחוז; המתכנן פותח את התצוגה והעמודה כבר שם, מעודכנת.",
-          cbcHe:
-            "ב-CBC מאקרו מוסיף אוטומטית שלושה Local Members — Accuracy, Bias, MAPE — לכל SKU בכל תצוגת-ביקוש, כך שכל מתכנן-מדינה רואה אותם KPIs בלי להגדירם.",
+          scenarioHe:
+            "בארגון מאקרו מוסיף אוטומטית שלושה Local Members — Accuracy, Bias, MAPE — לכל SKU בכל תצוגת-ביקוש, כך שכל מתכנן-מדינה רואה אותם KPIs בלי להגדירם.",
           navHe: [
             "Excel ► Developer ► Visual Basic ► מודול-מאקרו",
             "VBA ► קריאה ל-add-in API ► Create/Update Local Member (Formula)",
@@ -1042,8 +1042,8 @@ export const CH11: TextbookChapter = {
             "להזריק לוגיקה-מותאמת בנקודות-אירוע מוגדרות — ולידציות, אוטומציה ועיצוב — באופן אוטומטי ועקבי לכל המתכננים.",
           processExampleHe:
             "key user מגדיר שגרת pre-Save שמוודאת שאין ערכים שליליים בתחזית; אם יש — היא מבטלת את ה-Save ומציגה הודעה. שגרת post-Refresh מזריקה Local Members של KPIs.",
-          cbcHe:
-            "ב-CBC hook של pre-Save חוסם פרסום של תחזית מתחת/מעל ספים-עסקיים, ו-hook של post-Refresh מחיל את עיצוב-ה-Formatting-Sheet ומוסיף Local Members — בקרת-איכות ואחידות אוטומטיות לכל הצוות.",
+          scenarioHe:
+            "בארגון hook של pre-Save חוסם פרסום של תחזית מתחת/מעל ספים-עסקיים, ו-hook של post-Refresh מחיל את עיצוב-ה-Formatting-Sheet ומוסיף Local Members — בקרת-איכות ואחידות אוטומטיות לכל הצוות.",
           navHe: [
             "Excel ► Developer ► Visual Basic ► מודול עם שגרות-hook בשמות-מוסכמה",
             "VBA ► post-Refresh / pre-Save / post-Save",
@@ -1111,8 +1111,8 @@ export const CH11: TextbookChapter = {
         "לקבע תמונה-שלמה ומעשית: מתי להשתמש בכל כלי, ובאיזה סדר — נתוני-אב → תצוגה → עיצוב → ניתוח → אוטומציה — כדי לבנות סביבת-תכנון אמינה.",
       processExampleHe:
         "זרימה מלאה: key user מתחזק Master Data ויוצר planning objects ► בונה template עם Formatting Sheet ► מתכנן פותח planning view, עורך ו-Save Data ► מנטר ב-Planner Workspace עם custom alerts ► VBA מזריק Local Members של KPIs אחרי כל Refresh.",
-      cbcHe:
-        "ב-CBC המחזור החודשי: עדכון נתוני-אב לעונה ► template אחיד \"CBC S&OP Demand\" ► מתכנני-מדינה עורכים תחזית ► Planner Workspace משותף לישיבת ה-S&OP עם alerts ו-charts ► hooks מבצעים ולידציה ומחשבים KPIs אוטומטית.",
+      scenarioHe:
+        "בארגון המחזור החודשי: עדכון נתוני-אב לעונה ► template אחיד \"הארגון S&OP Demand\" ► מתכנני-מדינה עורכים תחזית ► Planner Workspace משותף לישיבת ה-S&OP עם alerts ו-charts ► hooks מבצעים ולידציה ומחשבים KPIs אוטומטית.",
       navHe: [
         "Excel ► SAP IBP tab (planning views, favorites, templates)",
         "Web UI ► Planner Workspaces / Analytics / Manage Master Data",

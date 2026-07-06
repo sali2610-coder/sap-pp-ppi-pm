@@ -19,7 +19,7 @@ export interface LearningNode {
   // 4–6 context + examples
   purposeHe: string;          // business purpose
   processExampleHe: string;   // real end-to-end process example
-  cbcHe: string;              // CBC production example
+  scenarioHe: string;              // הארגון production example
   // 7–11 reference
   navHe: string[];    // SAP navigation + SPRO path(s)
   tables: string[];
@@ -51,7 +51,7 @@ export interface TextbookChapter {
 // reading-time estimate (Hebrew ~180 wpm) per node, recursive
 export function nodeWordCount(n: LearningNode): number {
   const txt = [
-    n.execHe, n.beginnerHe, n.consultantHe, n.purposeHe, n.processExampleHe, n.cbcHe,
+    n.execHe, n.beginnerHe, n.consultantHe, n.purposeHe, n.processExampleHe, n.scenarioHe,
     ...n.configHe, ...(n.masterDataHe ?? []), ...n.mistakesHe, ...n.troubleshootHe,
     ...n.bestPracticeHe, ...n.takeawaysHe, ...n.interviewHe.flatMap((q) => [q.qHe, q.aHe]),
   ].join(" ");

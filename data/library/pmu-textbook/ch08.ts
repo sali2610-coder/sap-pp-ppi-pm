@@ -1,7 +1,7 @@
 // ===== PM Business User Guide — Chapter 8 (full 18-facet learning chapter) =====
 // Plant Maintenance Controlling. Every node is a complete LearningNode with 18
 // facets of authored Hebrew (beginner + consultant friendly). Hierarchy + ids
-// preserved exactly; CBC = Coca-Cola bottling maintenance cost controlling/budgeting.
+// preserved exactly; הארגון = Example Product bottling maintenance cost controlling/budgeting.
 import type { TextbookChapter } from "./types";
 
 export const CH8: TextbookChapter = {
@@ -9,7 +9,7 @@ export const CH8: TextbookChapter = {
   titleHe: "בקרת תחזוקת מפעל (Controlling)",
   titleEn: "Plant Maintenance Controlling",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לבקרת-עלויות ולתקצוב בתחזוקת-מפעל (PM Controlling). תחזוקה אינה רק 'לתקן מכונות' — היא צרכנית-תקציב גדולה שיש לתכנן, למדוד ולבקר. הפרק מסביר תחילה מהי בקרת-תחזוקה ומדוע היא קריטית, ואז סוקר את שתי משפחות-הכלים: כלים להפקת-מידע (SAP List Viewer ALV, QuickViewer, LIS, BW/4HANA, SAP Lumira) וכלים לתקצוב (Order budgeting, Cost-center budgeting, Investment Management, WBS, ותקצוב-עלות-תחזוקה). כל תת-פרק ותת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. כל אובייקטי-SAP נשמרים באנגלית verbatim. המטרה: לשלוט בבקרת-התחזוקה ובתקצובה ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לבקרת-עלויות ולתקצוב בתחזוקת-מפעל (PM Controlling). תחזוקה אינה רק 'לתקן מכונות' — היא צרכנית-תקציב גדולה שיש לתכנן, למדוד ולבקר. הפרק מסביר תחילה מהי בקרת-תחזוקה ומדוע היא קריטית, ואז סוקר את שתי משפחות-הכלים: כלים להפקת-מידע (SAP List Viewer ALV, QuickViewer, LIS, BW/4HANA, SAP Lumira) וכלים לתקצוב (Order budgeting, Cost-center budgeting, Investment Management, WBS, ותקצוב-עלות-תחזוקה). כל תת-פרק ותת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. כל אובייקטי-SAP נשמרים באנגלית verbatim. המטרה: לשלוט בבקרת-התחזוקה ובתקצובה ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 8.1
     {
@@ -26,8 +26,8 @@ export const CH8: TextbookChapter = {
         "המטרה העסקית: לשלוט בעלות-המחזור-של-נכס (Total Cost of Ownership), לאזן בין תחזוקה-מונעת (PM) למתקנת (Breakdown), ולספק להנהלה תמונת-אמת על היכן הכסף נשרף. בלי בקרה, תחזוקה הופכת ל'בור-תקציבי' ללא נראות, וההחלטה 'לתקן מול להחליף' מתקבלת בעיוורון.",
       processExampleHe:
         "תקלה במשאבה ➔ נפתחת Notification (M2) ➔ ממנה Maintenance Order (IW31). מתכננים שעות-עבודה (Operations), חלקים (Components) וקבלן (External). שחרור ה-Order יוצר עלות-מתוכננת (Planned). הביצוע: Confirmation (IW41) מזין עלות-עבודה בפועל, Goods Issue (MIGO/261) מזין עלות-חלקים, קבלת-שירות מזינה עלות-קבלן. בסגירה (TECO) משווים Plan מול Actual, מבצעים Settlement ל-Cost Center של הנכס, ומנתחים סטיות.",
-      cbcHe:
-        "ב-CBC (מפעל-מילוי קוקה-קולה): קו-מילוי PET עוצר בגלל תקלת-מנוע. ה-Maintenance Order אוסף 6 שעות-טכנאי, מנוע חלופי מהמלאי, וקריאת-קבלן-חשמל. בסוף-החודש בקרת-התחזוקה מסכמת את כל ה-Orders של קו-המילוי, מסלקת ל-Cost Center 'Line-PET-01', ומשווה לתקציב-התחזוקה-החודשי. סטייה חיובית מתמשכת מפעילה שיחה: לחדש את הקו או להמשיך לתחזק.",
+      scenarioHe:
+        "בארגון (מפעל-מילוי מוצר לדוגמה): קו-מילוי PET עוצר בגלל תקלת-מנוע. ה-Maintenance Order אוסף 6 שעות-טכנאי, מנוע חלופי מהמלאי, וקריאת-קבלן-חשמל. בסוף-החודש בקרת-התחזוקה מסכמת את כל ה-Orders של קו-המילוי, מסלקת ל-Cost Center 'Line-PET-01', ומשווה לתקציב-התחזוקה-החודשי. סטייה חיובית מתמשכת מפעילה שיחה: לחדש את הקו או להמשיך לתחזק.",
       navHe: [
         "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Costing Data for Maintenance and Service Orders ► Assign Costing Parameters and Results Analysis Keys",
         "Controlling ► Internal Orders ► Actual Postings ► Settlement ► Maintain Settlement Profiles",
@@ -104,8 +104,8 @@ export const CH8: TextbookChapter = {
         "לספק לכל קהל את הכלי המתאים: לטכנאי דוח-ALV מהיר, לאנליסט שאילתת-SQVI גמישה, למנהל-תחזוקה מגמת-LIS, ולהנהלה דשבורד-BW/Lumira. התאמת-הכלי-למשימה חוסכת זמן-פיתוח ומונעת 'פטיש-אחד-לכל-מסמר'.",
       processExampleHe:
         "מנהל-תחזוקה רוצה 'עלות-תחזוקה לפי ציוד ברבעון'. ALV: מריץ IW38, מסנן ומסכם — מהיר אך מוגבל לדוח-ה-Order. SQVI: בונה שאילתה Join בין AUFK ל-COEP. LIS: מנתח Information Structure S061 (Object class) למגמה-תקופתית. BW: דשבורד עם drill-down לפי Plant→Line→Equipment. הכלי נבחר לפי עומק-הניתוח הנדרש.",
-      cbcHe:
-        "ב-CBC: צוות-הרצפה משתמש ב-ALV (IW38) לרשימת-Orders-פתוחים; מהנדס-אמינות בונה SQVI ל-MTBF לפי ציוד; בקר-תחזוקה מנתח ב-LIS את עלות-התחזוקה-למקרה-ייצור (cost per case) חודש-מול-חודש; וסמנכ\"ל-תפעול רואה דשבורד-Lumira מעל BW עם עלות-תחזוקה לכל מפעלי-הבקבוק בישראל.",
+      scenarioHe:
+        "בארגון: צוות-הרצפה משתמש ב-ALV (IW38) לרשימת-Orders-פתוחים; מהנדס-אמינות בונה SQVI ל-MTBF לפי ציוד; בקר-תחזוקה מנתח ב-LIS את עלות-התחזוקה-למקרה-ייצור (cost per case) חודש-מול-חודש; וסמנכ\"ל-תפעול רואה דשבורד-Lumira מעל BW עם עלות-תחזוקה לכל מפעלי-הבקבוק בישראל.",
       navHe: [
         "Logistics Information System ► Logistics Data Warehouse ► Updating ► Updating Control ► Settings: Maintenance ► Define Update (OMOY)",
         "Plant Maintenance and Customer Service ► Information System ► Configure Standard Analyses",
@@ -174,8 +174,8 @@ export const CH8: TextbookChapter = {
             "לתת למשתמש-הקצה שליטה-מלאה בתצוגת-הדוח בלי IT — לחתוך, לסנן ולסכם עלויות-תחזוקה לפי הצורך, ולשמור תצוגות חוזרות.",
           processExampleHe:
             "טכנאי מריץ IW38, מקבל רשימת-Orders ב-ALV, מסנן לפי Plant ו-Status, ממיין לפי Actual-Cost יורד, מוסיף Subtotal לפי Cost Center, שומר Layout בשם /MAINT-COST, ומייצא לאקסל לישיבת-בוקר.",
-          cbcHe:
-            "ב-CBC: מנהל-המשמרת מריץ IW38 כל בוקר עם Layout שמור המציג Orders-פתוחים בקו-PET, ממוין לפי תאריך-יעד ועלות-מתוכננת — תמונת-מצב מיידית של עומס-התחזוקה במשמרת.",
+          scenarioHe:
+            "בארגון: מנהל-המשמרת מריץ IW38 כל בוקר עם Layout שמור המציג Orders-פתוחים בקו-PET, ממוין לפי תאריך-יעד ועלות-מתוכננת — תמונת-מצב מיידית של עומס-התחזוקה במשמרת.",
           navHe: [
             "(ALV Layouts מנוהלים ברמת-המשתמש דרך כפתור Settings/Layout בכל דוח — לא ב-SPRO)",
             "Plant Maintenance and Customer Service ► Information System ► Reports — כל דוח מוצג ב-ALV",
@@ -236,8 +236,8 @@ export const CH8: TextbookChapter = {
             "לאפשר לאנליסט-תחזוקה לענות על שאלות-אד-הוק במהירות, בלי להמתין לפיתוח-IT, ובלי ידע-ABAP.",
           processExampleHe:
             "מהנדס-אמינות רוצה 'מספר-Orders ועלות-כוללת לפי יצרן-ציוד'. ב-SQVI הוא בונה Join: EQUI (Manufacturer) ↔ AFIH (Order↔Equipment) ↔ COEP (Cost). בוחר שדות-יציאה, מריץ — ומקבל ALV. אם זה שימושי-חוזר, הוא ממיר ל-Query ב-SQ01 ומשתף עם הצוות.",
-          cbcHe:
-            "ב-CBC: בקר-תחזוקה בונה SQVI ל-'עלות-תחזוקה לכל ארגז-מילוי (cost per case)' — Join בין נתוני-ייצור (כמות-ארגזים) לבין סיכום-COEP של Orders באותו קו, לחודש. אחרי תיקוף, הופך ל-Query משותף לכל מנהלי-הקווים.",
+          scenarioHe:
+            "בארגון: בקר-תחזוקה בונה SQVI ל-'עלות-תחזוקה לכל ארגז-מילוי (cost per case)' — Join בין נתוני-ייצור (כמות-ארגזים) לבין סיכום-COEP של Orders באותו קו, לחודש. אחרי תיקוף, הופך ל-Query משותף לכל מנהלי-הקווים.",
           navHe: [
             "(SQVI נפתח ישירות כ-transaction; QuickViews אישיים, לא ב-SPRO)",
             "להמרה לשיתוף: Tools ► ABAP Workbench ► Utilities ► SAP Query ► InfoSets (SQ02) / Queries (SQ01)",
@@ -300,8 +300,8 @@ export const CH8: TextbookChapter = {
             "לספק ניתוחי-מגמה תקופתיים (KPIs: MTBR, MTTR, עלות-תחזוקה, זמן-השבתה) בלי בניית-שאילתה בכל פעם ובלי מערכת-BW נפרדת — מקור-אמת מצטבר לתחזוקה.",
           processExampleHe:
             "מנהל-תחזוקה מריץ MCI8 (Breakdown analysis) על S065: מקבל לכל Equipment את מספר-ההשבתות, זמן-ההשבתה-הכולל ו-MTBR (Mean Time Between Repairs) על-פני 12 חודשים, עם drill-down מ-Plant ל-Equipment. מזהה את 5 הציודים ה'גרועים' להשקעת-שיפור.",
-          cbcHe:
-            "ב-CBC: בקר-אמינות מנתח ב-LIS את S065 לכל קווי-המילוי — איזה קו סובל מהכי הרבה השבתות-בלתי-מתוכננות, ומה עלות-התחזוקה-למקרה לאורך-זמן. הניתוח מזין את תוכנית-ההשקעות-השנתית (ראה 8.3.3).",
+          scenarioHe:
+            "בארגון: בקר-אמינות מנתח ב-LIS את S065 לכל קווי-המילוי — איזה קו סובל מהכי הרבה השבתות-בלתי-מתוכננות, ומה עלות-התחזוקה-למקרה לאורך-זמן. הניתוח מזין את תוכנית-ההשקעות-השנתית (ראה 8.3.3).",
           navHe: [
             "Logistics Information System ► Logistics Data Warehouse ► Updating ► Updating Control ► Settings: Maintenance ► Define Update (OMOY)",
             "Logistics Information System ► Logistics Data Warehouse ► Data Basis ► Tools ► Set Up Statistical Data ► Application Specific Setup (OLI…)",
@@ -366,8 +366,8 @@ export const CH8: TextbookChapter = {
             "לאחד נתוני-תחזוקה ממפעלים/מערכות מרובים, לשמור היסטוריה-ארוכה, ולספק להנהלה דיווח-אסטרטגי ו-KPIs חוצי-ארגון שלא ניתן להפיק ממערכת-תפעולית בודדת.",
           processExampleHe:
             "ארגון רב-מפעלי: Extractors מושכים עלויות-תחזוקה מכל ECC ל-BW/4HANA; Process Chain טוען ל-ADSO; CompositeProvider מאחד עם נתוני-נכסים; Query מציג עלות-תחזוקה-לנכס לכל המפעלים עם drill-down מ-Region ל-Equipment, על-פני 5 שנים.",
-          cbcHe:
-            "ב-CBC: כל מפעלי-הבקבוק של הזכיין מזינים נתוני-תחזוקה ל-BW/4HANA מרכזי. ההנהלה רואה עלות-תחזוקה-לארגז benchmark בין מפעלים, מזהה את ה-outliers, ומקצה תקציבי-שיפור — החלטה שאי-אפשר לקבל ממפעל-בודד.",
+          scenarioHe:
+            "בארגון: כל מפעלי-הבקבוק של הזכיין מזינים נתוני-תחזוקה ל-BW/4HANA מרכזי. ההנהלה רואה עלות-תחזוקה-לארגז benchmark בין מפעלים, מזהה את ה-outliers, ומקצה תקציבי-שיפור — החלטה שאי-אפשר לקבל ממפעל-בודד.",
           navHe: [
             "(מוגדר במערכת ה-BW/4HANA הנפרדת — Modeling ב-Eclipse/BW-tooling, לא ב-SPRO של ה-ECC)",
             "ECC: SBIW ► Business Information Warehouse ► Settings for Application-Specific DataSources (PM extraction)",
@@ -432,8 +432,8 @@ export const CH8: TextbookChapter = {
             "להעצים את מנהל-התחזוקה לבנות ויזואליזציות ודשבורדים בעצמו, מבלי להמתין ל-IT — מקצר את מחזור 'שאלה→תובנה' ומגביר אימוץ-נתונים בקרב-המשתמשים.",
           processExampleHe:
             "מנהל-תחזוקה מחבר Lumira ל-BW-Query של עלויות-תחזוקה, גורר 'Plant' לציר-X, 'Actual Cost' לערך, מוסיף מסנן-תקופה, צובע לפי 'Order Type' (מונעת/מתקנת), ובונה Story עם גרף-מגמה + מפת-מפעלים. משתף עם ההנהלה כדשבורד-אינטראקטיבי.",
-          cbcHe:
-            "ב-CBC: דשבורד-Lumira מציג לכל מפעל-בקבוק את חלוקת-עלות-התחזוקה בין מונעת-למתקנת, מגמת-cost-per-case, ו-Top-10 ציודים-יקרים. ההנהלה משתמשת בו בסקירת-תפעול-רבעונית להחלטות-השקעה.",
+          scenarioHe:
+            "בארגון: דשבורד-Lumira מציג לכל מפעל-בקבוק את חלוקת-עלות-התחזוקה בין מונעת-למתקנת, מגמת-cost-per-case, ו-Top-10 ציודים-יקרים. ההנהלה משתמשת בו בסקירת-תפעול-רבעונית להחלטות-השקעה.",
           navHe: [
             "(כלי-Client נפרד / שרת-BI — מוגדר מחוץ ל-SPRO של ה-ECC)",
             "התחברות: Lumira ► New Dataset ► SAP BW / SAP HANA / File",
@@ -500,8 +500,8 @@ export const CH8: TextbookChapter = {
         "להחליף בקרה-בדיעבד בבקרה-מקדימה: לעצור או להתריע על חריגה ברגע-ההזמנה, לא בסוף-התקופה. כך תחזוקה נשארת בתוך-מסגרת, וההנהלה מקבלת נראות-מחויבויות (Commitments) בזמן-אמת.",
       processExampleHe:
         "ארגון מקצה תקציב-תחזוקה-שנתי לכל Cost-Center-של-קו. תקציבי-Orders נגזרים ממנו. כש-Order מנסה ליצור PReq שחורגת מתקציב-ה-Order, Availability Control מתריע (Tolerance 90%) או חוסם (100%). המתכנן מבקש העברת-תקציב לפני שהוא יכול להמשיך.",
-      cbcHe:
-        "ב-CBC: תקציב-התחזוקה-השנתי מחולק לכל מפעל ➔ לכל Planner-Group ➔ לכל קו (Cost Center). השקעות-הון גדולות (קו-מילוי-חדש) דרך IM; שדרוגי-פרויקט דרך WBS; ותחזוקה-שוטפת תחת תקציבי-Orders עם AVAC. כך אין 'הפתעות-תקציב' בסוף-הרבעון.",
+      scenarioHe:
+        "בארגון: תקציב-התחזוקה-השנתי מחולק לכל מפעל ➔ לכל Planner-Group ➔ לכל קו (Cost Center). השקעות-הון גדולות (קו-מילוי-חדש) דרך IM; שדרוגי-פרויקט דרך WBS; ותחזוקה-שוטפת תחת תקציבי-Orders עם AVAC. כך אין 'הפתעות-תקציב' בסוף-הרבעון.",
       navHe: [
         "Controlling ► Internal Orders ► Budgeting and Availability Control ► Maintain Budget Profile",
         "Controlling ► Internal Orders ► Budgeting and Availability Control ► Define Tolerance Limits for Availability Control",
@@ -572,8 +572,8 @@ export const CH8: TextbookChapter = {
             "בקרה-מקדימה ברמת-הפקודה — לעצור חריגת-עלות של עבודת-תחזוקה-יחידה לפני שהיא קורית, ולתת למתכנן נראות-מיידית של ניצול-התקציב.",
           processExampleHe:
             "Order לשיפוץ-משאבה מקבל תקציב 15,000₪ (KO22, AVAC פעיל, Tolerance 95%/100%). המתכנן יוצר PReq לחלקים ב-9,000₪ — עובר. Confirmation של עבודה מוסיף 5,500₪ — חוצה 95%, מתקבלת אזהרה. ניסיון להוסיף עוד 1,000₪ חוצה 100% — נחסם עד supplement (KO24).",
-          cbcHe:
-            "ב-CBC: שיפוץ-תקופתי של ממלא (filler) מקבל Order עם תקציב-מאושר; AVAC מבטיח שעלות-החלקים-והקבלן לא תחרוג בלי אישור-מנהל-תחזוקה דרך supplement.",
+          scenarioHe:
+            "בארגון: שיפוץ-תקופתי של ממלא (filler) מקבל Order עם תקציב-מאושר; AVAC מבטיח שעלות-החלקים-והקבלן לא תחרוג בלי אישור-מנהל-תחזוקה דרך supplement.",
           navHe: [
             "Controlling ► Internal Orders ► Budgeting and Availability Control ► Maintain Budget Profile",
             "Controlling ► Internal Orders ► Budgeting and Availability Control ► Define Tolerance Limits for Availability Control",
@@ -635,8 +635,8 @@ export const CH8: TextbookChapter = {
             "לקבוע מסגרת-עלות-תקופתית לאזור-תחזוקה שלם ולמדוד Plan/Actual ברמת-מנהל-המחלקה — בקרה-ניהולית גם כשאין חסימה-אוטומטית.",
           processExampleHe:
             "מרכז-עלות 'Maint-Line-PET' מקבל Plan-שנתי 1.2M₪ (KP06), מפולח לחודשים ולקטגוריות (עבודה/חומר/חוץ). מדי-חודש מנהל-התחזוקה מריץ דוח Plan/Actual (S_ALR_87013611) ובוחן סטיות. עלויות מגיעות דרך Settlement של Orders ל-Cost-Center.",
-          cbcHe:
-            "ב-CBC: כל קו-מילוי הוא Cost-Center עם Plan-שנתי. מנהל-המפעל עוקב אחר Plan/Actual של כל הקווים, מזהה קו שחורג, ומתחקר — האם תחזוקה-מתקנת עלתה (סימן-בלאי) או מחיר-חלקים.",
+          scenarioHe:
+            "בארגון: כל קו-מילוי הוא Cost-Center עם Plan-שנתי. מנהל-המפעל עוקב אחר Plan/Actual של כל הקווים, מזהה קו שחורג, ומתחקר — האם תחזוקה-מתקנת עלתה (סימן-בלאי) או מחיר-חלקים.",
           navHe: [
             "Controlling ► Cost Center Accounting ► Planning ► Manual Planning ► Define User-Defined Planner Profiles",
             "Controlling ► Cost Center Accounting ► Planning ► Basic Settings for Planning ► Define Versions",
@@ -699,8 +699,8 @@ export const CH8: TextbookChapter = {
             "לנהל השקעות-הון-תחזוקתיות-גדולות במשמעת-תקציב-היררכית, להבטיח שסך-ההשקעות לא חורג מהמסגרת-המאושרת, ולהון (capitalize) נכון את העלות לנכס.",
           processExampleHe:
             "תוכנית-השקעה-שנתית 20M₪ (IM01). Position 'Bottling-Upgrade' מקבלת 8M₪ (IM52), מחולקים ל-3 Orders/WBS (החלפת-ממלא, מערכת-CIP, רובוט-פליטה). כל Measure צובר עלות כ-AuC; AVAC חוסם חריגה; בסיום Settlement מהון ל-Final-Asset (ציוד-חדש).",
-          cbcHe:
-            "ב-CBC: פרויקט הכנסת קו-PET-חדש מנוהל כ-Investment-Program-Position; תקציב-ההון מחולק ל-Measures (מכונות, צנרת, אוטומציה); העלויות נצברות כ-AuC ומהוונות לנכסים בעת ה-go-live — בשליטת-תקציב מלאה.",
+          scenarioHe:
+            "בארגון: פרויקט הכנסת קו-PET-חדש מנוהל כ-Investment-Program-Position; תקציב-ההון מחולק ל-Measures (מכונות, צנרת, אוטומציה); העלויות נצברות כ-AuC ומהוונות לנכסים בעת ה-go-live — בשליטת-תקציב מלאה.",
           navHe: [
             "Investment Management ► Investment Programs ► Master Data ► Define Program Types",
             "Investment Management ► Investment Programs ► Budgeting in Program ► Define Budget Profiles",
@@ -765,8 +765,8 @@ export const CH8: TextbookChapter = {
             "לנהל תחזוקה-פרויקטלית רב-עבודתית עם מבנה-עבודה-מדורג ובקרת-תקציב לכל-ענף — נראות-וגמישות שאין ב-Order-בודד, והקצאת-עלות לפי שלבי-הפרויקט.",
           processExampleHe:
             "Turnaround-שנתי מנוהל כפרויקט: WBS-Top 'TA-2026' עם תקציב 5M₪, מחולק ל-WBS-Elements לפי-אזור (Boiler/Filler/Utilities). כל אזור מקבל תקציב; Maintenance-Orders משויכים ל-WBS-המתאים; AVAC חוסם חריגה-לפי-אזור; דוח-פרויקט (CN41N/S_ALR) מציג Plan/Budget/Actual/Commitment.",
-          cbcHe:
-            "ב-CBC: עצירת-תחזוקה-שנתית של מפעל-הבקבוק מנוהלת כ-WBS — ענף לכל מערכת (קיטור, מילוי, CIP, חשמל). תקציב-עצירה מחולק לענפים, וכל פק\"ע-עצירה נצברת לענף-שלה, מאפשר בקרת-תקציב-עצירה מדויקת.",
+          scenarioHe:
+            "בארגון: עצירת-תחזוקה-שנתית של מפעל-הבקבוק מנוהלת כ-WBS — ענף לכל מערכת (קיטור, מילוי, CIP, חשמל). תקציב-עצירה מחולק לענפים, וכל פק\"ע-עצירה נצברת לענף-שלה, מאפשר בקרת-תקציב-עצירה מדויקת.",
           navHe: [
             "Project System ► Costs ► Budget ► Maintain Budget Profile",
             "Project System ► Costs ► Budget ► Define Tolerance Limits",
@@ -831,8 +831,8 @@ export const CH8: TextbookChapter = {
             "לתת למנהל-התחזוקה כלי-תקצוב במונחים שלו (ציוד/מיקום/קבוצת-מתכננים), לזהות אילו אובייקטים צורכים-תקציב-יתר, ולבסס החלטות-החלפה/שיפור על תקציב-מול-ביצוע ברמת-הנכס.",
           processExampleHe:
             "מנהל-תחזוקה מתקצב 800K₪ ל-Planner-Group 'PG-Filling' לשנה, מפולח ל-Functional-Locations של קווי-המילוי. במהלך-השנה, actuals של כל Maintenance-Orders המשויכים לאותם FLOCs נאספים ומושווים מול התקציב-לפי-אובייקט. FLOC שחורג-באופן-עקבי מסומן למועמדות-החלפה.",
-          cbcHe:
-            "ב-CBC: תקציב-התחזוקה-השנתי מפולק ל-Functional-Locations של כל קו-מילוי ולכל Planner-Group. בקר-התחזוקה רואה 'cost-per-FLOC' מול-תקציב, מזהה את הממלא-הישן שצורך תקציב-יתר, ומזין את הנתון לתוכנית-ההשקעות (8.3.3) להחלפתו.",
+          scenarioHe:
+            "בארגון: תקציב-התחזוקה-השנתי מפולק ל-Functional-Locations של כל קו-מילוי ולכל Planner-Group. בקר-התחזוקה רואה 'cost-per-FLOC' מול-תקציב, מזהה את הממלא-הישן שצורך תקציב-יתר, ומזין את הנתון לתוכנית-ההשקעות (8.3.3) להחלפתו.",
           navHe: [
             "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Basic Settings ► Define Default Values for Value Categories",
             "Plant Maintenance and Customer Service ► Maintenance and Service Processing ► Maintenance and Service Orders ► Functions and Settings for Order Types ► Costing Data",
@@ -907,8 +907,8 @@ export const CH8: TextbookChapter = {
         "לאחד את הפרק לתמונת-עבודה אחת: בקרת-תחזוקה אפקטיבית = מידע-נכון בכלי-הנכון + תקצוב-חוסם-במקום-הנכון, המבוססים על נתוני-Order נקיים ועל הבנת-זרימת-העלות.",
       processExampleHe:
         "מחזור-שנתי טיפוסי: (1) תקצוב — IM להשקעות, WBS לעצירות, Order/Maintenance-Cost-Budgeting לשוטף, עם AVAC. (2) ביצוע — Orders אוספים עלות ומסולקים. (3) מידע — ALV/SQVI לתפעול, LIS/Embedded למגמה, BW/Lumira להנהלה. (4) החלטה — Plan/Actual מזין תקציב-השנה-הבאה.",
-      cbcHe:
-        "ב-CBC: המעגל סוגר את-עצמו — תקציב-תחזוקה-שנתי לפי-קו ➔ Orders עם AVAC ➔ דשבורד-Lumira של cost-per-case ➔ זיהוי-קו-בעייתי ➔ תוכנית-השקעה-להחלפה ➔ תקציב-שנה-הבאה. בקרת-תחזוקה הופכת מ'מרכז-עלות-עיוור' למנוע-החלטות.",
+      scenarioHe:
+        "בארגון: המעגל סוגר את-עצמו — תקציב-תחזוקה-שנתי לפי-קו ➔ Orders עם AVAC ➔ דשבורד-Lumira של cost-per-case ➔ זיהוי-קו-בעייתי ➔ תוכנית-השקעה-להחלפה ➔ תקציב-שנה-הבאה. בקרת-תחזוקה הופכת מ'מרכז-עלות-עיוור' למנוע-החלטות.",
       navHe: [
         "(סיכום — ראה נתיבי-ה-SPRO בכל תת-פרק: Value-Categories, Budget-Profiles, Tolerance-Limits, LIS-Update)",
       ],

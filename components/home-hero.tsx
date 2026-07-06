@@ -59,7 +59,7 @@ export function HomeHero({ stats }: { stats: HeroStats }) {
         </span>
         <h1 className="mt-4 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">Project NEO</h1>
         <p className="mt-3 max-w-2xl text-balance text-sm leading-relaxed text-white/85 sm:text-lg">
-          מרכז השליטה לארכיטקטורת SAP של CBC — מודולים, תהליכים, טבלאות וקשרים במקום אחד. ECC6 → S/4HANA.
+          מרכז השליטה לארכיטקטורת SAP של הארגון — מודולים, תהליכים, טבלאות וקשרים במקום אחד. ECC6 → S/4HANA.
         </p>
 
         <div className="mt-6 grid grid-cols-3 gap-2.5 sm:grid-cols-6 sm:gap-3">

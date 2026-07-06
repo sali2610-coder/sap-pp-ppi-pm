@@ -6614,7 +6614,7 @@ export const PM_DATA = {
         "1",
         "T003O - סוגי פק\"ע (Order Types; הוגדר כ-T350)",
         "SPRO; OIOA",
-        "מגדיר את סוגי פקודות העבודה (PM01 שגרתי, PM02 שירות חיצוני, PM03 השבתה). לכל סוג קובעים טווח מספרים, קטגוריית פקודה (30=PM), פרופיל סטטוס, פרופיל התחשבנות וברירות מחדל. נתיב SPRO: Plant Maintenance and Customer Service ◄ Maintenance and Service Orders ◄ Functions and Settings for Order Types ◄ Configure Order Types. ל-CBC: הפרדת סוגי פק\"ע לפי זרם עבודה (מפעל/קו ייצור) מאפשרת בקרת עלות ודיווח נפרדים, והקצאת פרופיל סטטוס ייעודי לכל תהליך.",
+        "מגדיר את סוגי פקודות העבודה (PM01 שגרתי, PM02 שירות חיצוני, PM03 השבתה). לכל סוג קובעים טווח מספרים, קטגוריית פקודה (30=PM), פרופיל סטטוס, פרופיל התחשבנות וברירות מחדל. נתיב SPRO: Plant Maintenance and Customer Service ◄ Maintenance and Service Orders ◄ Functions and Settings for Order Types ◄ Configure Order Types. לארגון: הפרדת סוגי פק\"ע לפי זרם עבודה (מפעל/קו ייצור) מאפשרת בקרת עלות ודיווח נפרדים, והקצאת פרופיל סטטוס ייעודי לכל תהליך.",
         "סוג פקודה = Order Type\nקטגוריית פקודה = Order Category\nטווח מספרים = Number Range\nפרופיל התחשבנות = Settlement Profile",
         "SAP Help - PM Orders",
         "SAP Community EAM"
@@ -6623,7 +6623,7 @@ export const PM_DATA = {
         "2",
         "T356 - עדיפויות (Priorities)",
         "SPRO; OIOH",
-        "מגדיר את טבלת העדיפויות (1=דחוף ... 4=נמוך) וסוגי העדיפות (Priority Type) המקושרים לסוגי הודעה/פק\"ע. לכל עדיפות נקבע מרווח זמן יחסי לחישוב אוטומטי של תאריך התחלה/סיום נדרש (Relative Start/End). ל-CBC: עדיפות 'תקלת קו ייצור' מתורגמת אוטומטית למועד טיפול מיידי (SLA), ומאפשרת ניטור הפרות SLA בדוחות PMIS.",
+        "מגדיר את טבלת העדיפויות (1=דחוף ... 4=נמוך) וסוגי העדיפות (Priority Type) המקושרים לסוגי הודעה/פק\"ע. לכל עדיפות נקבע מרווח זמן יחסי לחישוב אוטומטי של תאריך התחלה/סיום נדרש (Relative Start/End). לארגון: עדיפות 'תקלת קו ייצור' מתורגמת אוטומטית למועד טיפול מיידי (SLA), ומאפשרת ניטור הפרות SLA בדוחות PMIS.",
         "עדיפות = Priority\nסוג עדיפות = Priority Type\nתאריך התחלה נדרש = Required Start\nמרווח יחסי = Relative Interval",
         "SAP Help - Priorities",
         "SAP Community EAM"
@@ -6632,7 +6632,7 @@ export const PM_DATA = {
         "3",
         "TQ80 - סוגי הודעה (Notification Types)",
         "OIAL; SPRO, QCC0",
-        "מגדיר את סוגי הודעת האחזקה (M1 בקשה, M2 תקלה, M3 פעילות) ומקשר לכל סוג: פרופיל קטלוג (קודים מותרים), פריסת מסך (OIAL), סוג פק\"ע ברירת מחדל וטווח מספרים. ל-CBC: הפרדה בין הודעת תקלה (M2) לבקשת שיפור (M1) מאפשרת ניתוח אמינות (MTBF/MTTR) נפרד וזרימת אישורים שונה לכל סוג.",
+        "מגדיר את סוגי הודעת האחזקה (M1 בקשה, M2 תקלה, M3 פעילות) ומקשר לכל סוג: פרופיל קטלוג (קודים מותרים), פריסת מסך (OIAL), סוג פק\"ע ברירת מחדל וטווח מספרים. לארגון: הפרדה בין הודעת תקלה (M2) לבקשת שיפור (M1) מאפשרת ניתוח אמינות (MTBF/MTTR) נפרד וזרימת אישורים שונה לכל סוג.",
         "סוג הודעה = Notification Type\nפרופיל קטלוג = Catalog Profile\nפריסת מסך = Screen Layout\nקבוצת קוד = Code Group",
         "SAP Help - Notifications",
         "Report Malfunction F2215"
@@ -6641,7 +6641,7 @@ export const PM_DATA = {
         "4",
         "TJ30 - פרופיל סטטוס משתמש (User Status Profile)",
         "BS02; OIBS",
-        "מגדיר פרופיל סטטוס משתמש ובתוכו סטטוסים מותאמים אישית (למשל 'ממתין לחלקים', 'אושר תקציב') עם סדר מעבר, חסימה/התרה של תהליכים עסקיים (Business Transactions), וסטטוס ראשוני. נתיב: BS02. ל-CBC: סטטוס 'אישור בטיחות' חוסם שחרור פק\"ע (REL) עד לאישור, ואוכף תהליך עבודה ארגוני מעבר לסטטוס המערכת הקבוע.",
+        "מגדיר פרופיל סטטוס משתמש ובתוכו סטטוסים מותאמים אישית (למשל 'ממתין לחלקים', 'אושר תקציב') עם סדר מעבר, חסימה/התרה של תהליכים עסקיים (Business Transactions), וסטטוס ראשוני. נתיב: BS02. לארגון: סטטוס 'אישור בטיחות' חוסם שחרור פק\"ע (REL) עד לאישור, ואוכף תהליך עבודה ארגוני מעבר לסטטוס המערכת הקבוע.",
         "פרופיל סטטוס = Status Profile\nסטטוס משתמש = User Status\nתהליך עסקי = Business Transaction\nסטטוס ראשוני = Initial Status",
         "SAP Help - Status Mgmt",
         "SAP Community EAM"
@@ -6650,7 +6650,7 @@ export const PM_DATA = {
         "5",
         "TJ30T - טקסטים של סטטוס משתמש (User Status Texts)",
         "BS02; BS03",
-        "מאחסן את הטקסטים הרב-לשוניים של סטטוסי המשתמש שהוגדרו ב-TJ30: קוד מקוצר (TXT04) ותיאור ארוך (TXT30) לפי שפה (SPRAS). ל-CBC: מאפשר תצוגת סטטוסים בעברית ובאנגלית לפי שפת המשתמש, וחיוני לדוחות דו-לשוניים ולממשקי Fiori.",
+        "מאחסן את הטקסטים הרב-לשוניים של סטטוסי המשתמש שהוגדרו ב-TJ30: קוד מקוצר (TXT04) ותיאור ארוך (TXT30) לפי שפה (SPRAS). לארגון: מאפשר תצוגת סטטוסים בעברית ובאנגלית לפי שפת המשתמש, וחיוני לדוחות דו-לשוניים ולממשקי Fiori.",
         "טקסט סטטוס = Status Text\nקוד מקוצר = Short Code (TXT04)\nתיאור ארוך = Long Text (TXT30)\nשפה = Language Key",
         "SAP Help - Status Texts",
         "SAP Community EAM"
@@ -6659,7 +6659,7 @@ export const PM_DATA = {
         "6",
         "BUT000 - שותף עסקי (Business Partner / Partner Profiles)",
         "BP; (ECC: XK01/MK01)",
-        "ב-S/4HANA ספקי שירותי האחזקה (קבלני משנה) מנוהלים כ-Business Partner (BP) במקום רשומת ספק קלאסית. נדרש CVI (Customer/Vendor Integration) להמרת LFA1 ל-BUT000 לפני/במהלך ההמרה. נתיב: tcode BP. ל-CBC: כל קבלן אחזקה חיצוני בפק\"ע (פעולת PM02) חייב BP פעיל עם תפקיד ספק (FLVN00/FLVN01); היעדר CVI יכשיל את ה-Pre-Check של SUM. ראה SAP Note 2265093 (S4TWL - Business Partner Approach).",
+        "ב-S/4HANA ספקי שירותי האחזקה (קבלני משנה) מנוהלים כ-Business Partner (BP) במקום רשומת ספק קלאסית. נדרש CVI (Customer/Vendor Integration) להמרת LFA1 ל-BUT000 לפני/במהלך ההמרה. נתיב: tcode BP. לארגון: כל קבלן אחזקה חיצוני בפק\"ע (פעולת PM02) חייב BP פעיל עם תפקיד ספק (FLVN00/FLVN01); היעדר CVI יכשיל את ה-Pre-Check של SUM. ראה SAP Note 2265093 (S4TWL - Business Partner Approach).",
         "שותף עסקי = Business Partner\nתפקיד BP = BP Role\nקבוצת שותף = BP Grouping\nאינטגרציית ספק = CVI",
         "SAP Note 2265093 (BP)",
         "Simplification Item Catalog"

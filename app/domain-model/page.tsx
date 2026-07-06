@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { CenterHeader } from "@/components/knowledge";
-import { CBC_AREAS, MODULE_COLOR } from "@/data/cbc-model";
+import { MFG_AREAS, MODULE_COLOR } from "@/data/domain-model";
 export default function Page() {
   return (
     <div dir="rtl">
-      <CenterHeader eyebrow="Domain · CBC Knowledge Model" title="מודל תחום CBC" sub={`${CBC_AREAS.length} אזורי מפעל (קו ייצור, חדר תרכיז, CIP, אצוות, אריזה, איכות, מחסן) מחוברים למודולי SAP (PP/PP-PI/QM/PM/MM) + אובייקטים, מפות תהליך ותקלות.`} accent="#d62027" />
+      <CenterHeader eyebrow="Domain Knowledge Model" title="מודל תחום" sub={`${MFG_AREAS.length} אזורי מפעל (קו ייצור, חדר תרכיז, CIP, אצוות, אריזה, איכות, מחסן) מחוברים למודולי SAP (PP/PP-PI/QM/PM/MM) + אובייקטים, מפות תהליך ותקלות.`} accent="#d62027" />
       <div className="space-y-4">
-        {CBC_AREAS.map((a) => (
+        {MFG_AREAS.map((a) => (
           <section key={a.slug} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="mb-2 flex flex-wrap items-center gap-2">
               <h2 className="text-base font-extrabold tracking-tight text-slate-900">{a.he} · <span className="tech" dir="ltr">{a.title}</span></h2>

@@ -9,7 +9,7 @@ export const CH6: TextbookChapter = {
   titleHe: "רכש אוטומטי וישיר",
   titleEn: "Automated and Direct Procurement",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לרכש האוטומטי והישיר (Automated and Direct Procurement) ב-SAP S/4HANA — האזור שבו המערכת עצמה מזהה צורך, בוחרת מקור-אספקה ומפיקה הזמנה כמעט ללא התערבות-אדם. הוא נשען על שלוש קומות: תכנון-דרישות (MRP) שמייצר את הצורך, קביעת-מקור (Source Determination — Info Records, Source Lists, Quota Arrangements, Scheduling Agreements) שבוחרת ממי לקנות, וזרימת-מסמכים אוטומטית (PR ► PO) המבוצעת ברקע ומשולבת ב-SAP Ariba וב-SAP Business Network. כל תת-פרק ותת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC (מפעל-בקבוק של קוקה-קולה — רכש-אוטומטי של תרכיז, סוכר, CO2 ואריזה, מיקור-חוץ ומלאי-קונסיגנציה), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הרכש האוטומטי במלואו ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לרכש האוטומטי והישיר (Automated and Direct Procurement) ב-SAP S/4HANA — האזור שבו המערכת עצמה מזהה צורך, בוחרת מקור-אספקה ומפיקה הזמנה כמעט ללא התערבות-אדם. הוא נשען על שלוש קומות: תכנון-דרישות (MRP) שמייצר את הצורך, קביעת-מקור (Source Determination — Info Records, Source Lists, Quota Arrangements, Scheduling Agreements) שבוחרת ממי לקנות, וזרימת-מסמכים אוטומטית (PR ► PO) המבוצעת ברקע ומשולבת ב-SAP Ariba וב-SAP Business Network. כל תת-פרק ותת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון (מפעל-בקבוק של מוצר לדוגמה — רכש-אוטומטי של תרכיז, סוכר, CO2 ואריזה, מיקור-חוץ ומלאי-קונסיגנציה), ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הרכש האוטומטי במלואו ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 6.1
     {
@@ -24,8 +24,8 @@ export const CH6: TextbookChapter = {
         "להוריד את ההתערבות-הידנית ברכש-החוזר אל אפס כמעט-מוחלט: פחות זמן-מחזור, פחות שגיאות-הקלדה, מחירים עקביים מחוזים, ומלאי מאוזן. האוטומציה משחררת את הרוכשים לעיסוק האסטרטגי (משא-ומתן, ניהול-ספקים) במקום בהקלדת-הזמנות שגרתית.",
       processExampleHe:
         "MRP רץ בלילה ► מזהה שמלאי-הסוכר יירד מתחת לנקודת-ההזמנה-מחדש ► יוצר דרישת-רכש (EBAN) עם מקור-קבוע מ-Source List ► בבוקר רץ ME59N וממיר את כל ה-PRs בעלי מקור חד-משמעי להזמנות-רכש (EKKO/EKPO) ► ההזמנות נשלחות אוטומטית דרך SAP Business Network ► הספק מאשר, מספק, וה-GR נרשם — הכל ללא רוכש שנגע בהזמנה.",
-      cbcHe:
-        "ב-CBC הרכש האוטומטי מזין את קווי-המילוי: תרכיז מ-The Coca-Cola Company, סוכר, CO2 ובקבוקי-PET נרכשים בהיקפים-קבועים מספקים-קבועים. MRP מייצר את הדרישות, Source Lists ו-Scheduling Agreements קובעים את הספק והמחיר, ו-ME59N ממיר להזמנות אוטומטית מדי בוקר. רכש-MRO (חלפים) נשאר ידני/Self-Service ואינו חלק מהזרימה האוטומטית-הישירה.",
+      scenarioHe:
+        "בארגון הרכש האוטומטי מזין את קווי-המילוי: תרכיז מ-The Example Product Company, סוכר, CO2 ובקבוקי-PET נרכשים בהיקפים-קבועים מספקים-קבועים. MRP מייצר את הדרישות, Source Lists ו-Scheduling Agreements קובעים את הספק והמחיר, ו-ME59N ממיר להזמנות אוטומטית מדי בוקר. רכש-MRO (חלפים) נשאר ידני/Self-Service ואינו חלק מהזרימה האוטומטית-הישירה.",
       navHe: [
         "Materials Management ► Purchasing ► Purchase Requisition ► Automatic Conversion to PO",
         "Materials Management ► Purchasing ► Sources of Supply — Info Record / Source List / Quota",
@@ -101,8 +101,8 @@ export const CH6: TextbookChapter = {
         "להבטיח 'החומר הנכון, בכמות הנכונה, במקום ובזמן הנכונים' — בלי עודף-מלאי (הון כלוא) ובלי חוסר (עצירת-ייצור). MRP מאזן בין רמת-שירות לעלות-החזקה, ומפיק את ההצעות שמזינות את הרכש האוטומטי ואת תכנון-הייצור.",
       processExampleHe:
         "הזמנת-מכירה ל-10,000 משקאות ► MRP מפצץ את ה-BOM ► מזהה דרישה ל-2 טון סוכר ► בודק מלאי (1 טון) + הזמנות-פתוחות (0) ► חוסר נטו 1 טון ► יוצר דרישת-רכש (EBAN) לסוכר עם תאריך-נדרש, ובמקביל הזמנה-מתוכננת לייצור המשקה. ה-PR מגיעה לרכש האוטומטי וההזמנה-המתוכננת להמרה לפק\"ע.",
-      cbcHe:
-        "ב-CBC ה-MRP רץ לילית על כל החומרים: סוכר/CO2/תרכיז (רכש חיצוני, F → דרישות-רכש), משקאות-מוגמרים (ייצור, E → הזמנות-מתוכננות). תחזית-המכירות לעונת-הקיץ מזינה דרישות, וה-MRP מתרגם אותן לרכש-אוטומטי של אריזה וחומרי-גלם מראש, כדי שקווי-המילוי לא ייעצרו בשיא-הביקוש.",
+      scenarioHe:
+        "בארגון ה-MRP רץ לילית על כל החומרים: סוכר/CO2/תרכיז (רכש חיצוני, F → דרישות-רכש), משקאות-מוגמרים (ייצור, E → הזמנות-מתוכננות). תחזית-המכירות לעונת-הקיץ מזינה דרישות, וה-MRP מתרגם אותן לרכש-אוטומטי של אריזה וחומרי-גלם מראש, כדי שקווי-המילוי לא ייעצרו בשיא-הביקוש.",
       navHe: [
         "Production ► MRP ► Planning ► Define Scope of Planning for Total Planning",
         "Production ► MRP ► Master Data ► Check MRP Types (OMDT)",
@@ -171,7 +171,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "MRP Live (MD01N) מבצע את החישוב ב-HANA ב-set-based logic במקום row-by-row, ומדלג על MDTB/טבלאות-ביניים. השוני: אין MRP List קבוע (MD05) באותו אופן — הדגש על Stock/Requirements List חי. חלק מאפשרויות-ה-MRP הקלאסי (למשל Planning File entries) הומרו ל-PPH_* טבלאות. אפליקציות Fiori: Monitor Material Coverage, Manage Material Coverage, Manage PR — מחליפות חלקית את MD04/MD06.",
           purposeHe: "להאיץ ולפשט את התכנון: תכנון תכוף יותר, תגובה מהירה לשינויי-ביקוש, וממשק מבוסס-חריגות שמכוון את המתכנן ישר לבעיות הקריטיות.",
           processExampleHe: "במקום הרצת-MRP לילית בלבד, ב-S/4HANA רצים MD01N כמה פעמים ביום; שינוי בהזמנת-מכירה גדולה מתוכנן-מחדש תוך דקות, וה-PR לסוכר מתעדכנת באותו יום.",
-          cbcHe: "ב-CBC המעבר ל-MRP Live מאפשר תכנון-מחדש מהיר כשעולה הזמנת-רשת-שיווק גדולה לקראת סוף-שבוע — האריזה והסוכר נרכשים מיד, בלי להמתין לריצה הלילית.",
+          scenarioHe: "בארגון המעבר ל-MRP Live מאפשר תכנון-מחדש מהיר כשעולה הזמנת-רשת-שיווק גדולה לקראת סוף-שבוע — האריזה והסוכר נרכשים מיד, בלי להמתין לריצה הלילית.",
           navHe: ["Production ► MRP ► MRP Live — MD01N", "Logistics ► MRP (SAP Easy Access) — MD01N / MD04"],
           tables: ["MARC", "PLAF", "PPH_DBVM", "MDKP"],
           tcodes: ["MD01N", "MD04", "MD01", "MD02"],
@@ -194,7 +194,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "pMRP יוצר Simulation מתוך מקורות-ביקוש (תחזית, PIR, Sales Orders), מחשב Capacity Load על מרכזי-עבודה-צווארי-בקבוק ו-Material Flow, ומציג Issues. המתכנן יכול ליישם פתרונות (Pre-build, Adjust Demand, Change Capacity) ולראות השפעה — והכל כ-simulation עד ל-release. ב-S/4HANA זו חבילת-Fiori ייעודית (Process pMRP Simulation). אינו מחליף MRP אלא מקדים ומאמת אותו טקטית.",
           purposeHe: "לזהות אי-התאמות בין ביקוש לקיבולת/אספקה מוקדם, ולתת למתכננים מרחב-תמרון לפתור אותן לפני שהן הופכות לחוסר אמיתי בקו-הייצור.",
           processExampleHe: "תחזית-קיץ מצביעה על קפיצת-ביקוש ביולי ► pMRP מריץ סימולציה ► מזהה שקו-המילוי יהיה בעומס-יתר ► המתכנן 'בונה-מראש' מלאי ביוני ומקדים רכש-אריזה ► הבעיה נפתרת לפני שהגיעה.",
-          cbcHe: "ב-CBC pMRP בודק את עונת-הקיץ: האם קווי-המילוי והסוכר יספיקו לשיא? אם לא — בנייה-מוקדמת של מלאי-משקאות ביוני וקידום הזמנות-סוכר, הכל מדומה ומאומת לפני התחייבות.",
+          scenarioHe: "בארגון pMRP בודק את עונת-הקיץ: האם קווי-המילוי והסוכר יספיקו לשיא? אם לא — בנייה-מוקדמת של מלאי-משקאות ביוני וקידום הזמנות-סוכר, הכל מדומה ומאומת לפני התחייבות.",
           navHe: ["Production Planning ► Predictive MRP — Fiori: Schedule pMRP Simulation Creation / Process pMRP Simulation"],
           tables: ["PMRP_SIM", "MARC", "PLAF"],
           tcodes: ["MD04"],
@@ -216,7 +216,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "האפליקציות העיקריות: Monitor Material Coverage (F2101) ל-shortage detection לפי MRP Controller/Area, Manage Material Coverage (F2102) ליישום-פתרונות, Monitor Stock/Requirements, Manage Purchase Requisitions (F2360). הן נשענות על CDS Views חיים מעל HANA — ללא טבלאות-ביניים — ומאפשרות Mass-Conversion של הצעות ל-PR/PO. משלימות (לא מחליפות לגמרי) את MD04/MD06 הקלאסיים.",
           purposeHe: "להפוך את המתכנן ליעיל יותר: זמן מושקע בבעיות-הקריטיות במקום בסריקה ידנית, עם פעולות-מרובות (mass) וניתוח ויזואלי.",
           processExampleHe: "מתכנן פותח Monitor Material Coverage ► רואה 8 חומרים בחוסר ► נכנס ל-Manage Material Coverage ► לכל חומר בוחר פתרון (הקדמת-אספקה / הזמנה-חדשה) ► ממיר את ההצעות ל-PR בלחיצה אחת.",
-          cbcHe: "ב-CBC מתכנן-החומרים פותח בבוקר את Monitor Material Coverage, מסנן לפי MRP Controller של חומרי-אריזה, ומטפל רק בחריגות — הסוכר והבקבוקים בעודף לא מציקים לו, רק החוסרים.",
+          scenarioHe: "בארגון מתכנן-החומרים פותח בבוקר את Monitor Material Coverage, מסנן לפי MRP Controller של חומרי-אריזה, ומטפל רק בחריגות — הסוכר והבקבוקים בעודף לא מציקים לו, רק החוסרים.",
           navHe: ["SAP Fiori Launchpad ► Material Planner ► Monitor Material Coverage / Manage Material Coverage / Manage Purchase Requisitions"],
           tables: ["MARC", "PLAF", "EBAN", "MDKP"],
           tcodes: ["MD04", "MD06"],
@@ -246,8 +246,8 @@ export const CH6: TextbookChapter = {
         "לאפשר רכש-אוטומטי וייצור-מראש גם כשהביקוש אינו ודאי — לאזן בין סיכון-חוסר (אובדן-מכירה) לעלות-עודף (הון-כלוא), ולתת לספקים נראות לתכנן את הקיבולת שלהם.",
       processExampleHe:
         "צריכת-סוכר היסטורית מוזנת ל-Forecast Model ► המודל מזהה מגמת-עלייה עונתית ► חוזה צריכה ל-3 חודשים קדימה ► MRP משתמש בתחזית כדרישה ► יוצר דרישות-רכש מראש ► התחזית משותפת לספק-הסוכר דרך Business Network כדי שיתכונן.",
-      cbcHe:
-        "ב-CBC חיזוי קריטי בגלל עונתיות: צריכת-משקאות מזנקת בקיץ. CBC משתמש ב-Seasonal Forecast Model לחומרי-גלם ואריזה, וב-Reorder Point לחומרי-MRO. התחזיות העונתיות משותפות לספקי-הסוכר וה-PET כדי שיבטיחו קיבולת לשיא.",
+      scenarioHe:
+        "בארגון חיזוי קריטי בגלל עונתיות: צריכת-משקאות מזנקת בקיץ. הארגון משתמש ב-Seasonal Forecast Model לחומרי-גלם ואריזה, וב-Reorder Point לחומרי-MRO. התחזיות העונתיות משותפות לספקי-הסוכר וה-PET כדי שיבטיחו קיבולת לשיא.",
       navHe: [
         "Production ► MRP ► Forecast ► Define Forecast Parameters",
         "Logistics ► Materials Management ► Forecast (SAP Easy Access) — MP30 / MP38",
@@ -315,7 +315,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "MRP Type VV מפעיל את התחזית כמקור-דרישה ב-MRP. המודל (Constant/Trend/Seasonal/Trend-Seasonal/Winters) נבחר ידנית או דרך Automatic Selection, עם Smoothing Factors (Alpha/Beta/Gamma). MP30 מריץ את החיזוי; הערכים נשמרים ב-PROP ומופיעים כדרישות-תחזית ב-MD04. הצריכה-בפועל מצמצמת את התחזית (consumption of forecast) למניעת כפל-תכנון.",
           purposeHe: "לתכנן אספקה לפריטים בצריכה-סדירה שאין להם הזמנות-מכירה ישירות — לוודא זמינות בלי להמתין לדרישה קונקרטית.",
           processExampleHe: "צריכת-תווית חודשית ~10,000 ► המודל חוזה 11,000 לחודש הבא (מגמת-עלייה) ► MRP יוצר דרישת-רכש מראש ► צריכה-בפועל של 9,000 מצמצמת את יתרת-התחזית.",
-          cbcHe: "ב-CBC תוויות וחומרי-עזר בצריכה-יציבה מתוכננים Forecast-Based; המודל חוזה את הצריכה-החודשית והרכש-האוטומטי מזמין מראש.",
+          scenarioHe: "בארגון תוויות וחומרי-עזר בצריכה-יציבה מתוכננים Forecast-Based; המודל חוזה את הצריכה-החודשית והרכש-האוטומטי מזמין מראש.",
           navHe: ["Production ► MRP ► Forecast ► Define Forecast Parameters", "Logistics ► Forecast — MP30 / MP38"],
           tables: ["MARC", "MPOP", "PROP", "MVER"],
           tcodes: ["MP30", "MP38", "MM02", "MD04"],
@@ -337,7 +337,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "VB = Reorder Point ידני (המתכנן קובע MINBE); VM = אוטומטי (המערכת מחשבת ROP מתחזית + Safety Stock דרך MP30). הנוסחה: ROP = Safety Stock + (Avg Daily Usage × Replenishment Lead Time). כשמלאי-זמין < ROP, MRP יוצר PR/הזמנה-מתוכננת בכמות לפי Lot-Sizing. אינו מסתכל על דרישות-עתידיות קונקרטיות — רק על רמת-המלאי.",
           purposeHe: "לתת תכנון-אספקה אוטומטי ופשוט לפריטים בצריכה-יציבה, בלי מורכבות-תחזית או חישוב-דרישות מלא — תקורת-תכנון מינימלית.",
           processExampleHe: "ROP לפקקים = 50,000. מלאי יורד ל-48,000 ► MRP יוצר דרישת-רכש אוטומטית לכמות-Lot ► הרכש-האוטומטי ממיר ל-PO ► המלאי מתחדש לפני שאזל.",
-          cbcHe: "ב-CBC חומרי-MRO (חלפים, חומרי-ניקוי) וחומרי-עזר זולים מנוהלים Reorder Point — סף פשוט שמבטיח זמינות בלי תכנון-תחזית כבד.",
+          scenarioHe: "בארגון חומרי-MRO (חלפים, חומרי-ניקוי) וחומרי-עזר זולים מנוהלים Reorder Point — סף פשוט שמבטיח זמינות בלי תכנון-תחזית כבד.",
           navHe: ["Materials Management ► Consumption-Based Planning ► Reorder Point Planning ► Define Reorder Point", "Logistics ► Forecast — MP30 (ל-VM אוטומטי)"],
           tables: ["MARC", "MDKP", "EBAN"],
           tcodes: ["MM02", "MD04", "MP30", "MD01"],
@@ -359,7 +359,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "R1 (Time-Phased) / R2 (Time-Phased with Reorder Point) משתמשים ב-Planning Calendar וב-Planning Cycle המוגדר באב-החומר (MARC). ה-MRP נכנס לפעולה רק בתאריכי-התכנון, מצבר את כל הדרישות עד למשלוח-הבא, ויוצר הצעה אחת. ה-Planning Cycle מקושר ל-Delivery Cycle של הספק (ב-Info Record/Source List). מאזן בין תכיפות-תכנון לעלות-משלוח.",
           purposeHe: "ליישר את התכנון לחלון-המשלוח של הספק — להזמין רק כשהספק מספק, ולצבור צורך להזמנה יעילה אחת במקום הזמנות-קטנות תכופות.",
           processExampleHe: "ספק-תרכיז מספק כל יום-שלישי. Planning Cycle = שלישי ► MRP מתכנן רק בשלישי ► מצבר את צורך-השבוע ► יוצר דרישת-רכש אחת לאספקה ביום-המשלוח.",
-          cbcHe: "ב-CBC ספק-הסוכר מספק פעמיים-בשבוע בימים קבועים; Time-Phased Planning מיישר את הזמנות-הסוכר לחלונות-המשלוח, מצבר צורך, וחוסך משלוחים מיותרים.",
+          scenarioHe: "בארגון ספק-הסוכר מספק פעמיים-בשבוע בימים קבועים; Time-Phased Planning מיישר את הזמנות-הסוכר לחלונות-המשלוח, מצבר צורך, וחוסך משלוחים מיותרים.",
           navHe: ["Materials Management ► Consumption-Based Planning ► Time-Phased Planning ► Maintain Planning Calendar (MD25)", "Logistics ► MRP — Planning Cycle"],
           tables: ["MARC", "MDKP", "T449"],
           tcodes: ["MD25", "MM02", "MD04", "MD01"],
@@ -380,8 +380,8 @@ export const CH6: TextbookChapter = {
           beginnerHe: "במקום להפתיע את הספק עם הזמנה גדולה, משתפים אותו מראש בניחוש-הביקוש שלנו. הוא רואה כמה נצטרך, מאשר שהוא יכול לספק, ומתכונן. פחות הפתעות, פחות חוסרים.",
           consultantHe: "התחזית (PIR / Forecast) מועברת לספק דרך SAP Business Network (Planning Collaboration / Supply Chain Collaboration). הספק מגיב עם Commit/Forecast-Response, ואי-התאמות (Demand vs Commit) מסומנות לטיפול. משולב עם Scheduling Agreement Release Collaboration ועם Consignment/SMI (Supplier-Managed Inventory). מצמצם Bullwhip Effect ומשפר רמת-שירות.",
           purposeHe: "לתת לספק נראות-מוקדמת לתכנון-קיבולת, לצמצם חוסרים ועודפים לאורך השרשרת, ולבנות אמון ושקיפות בין הקונה לספק.",
-          processExampleHe: "תחזית-קיץ לסוכר משותפת לספק דרך Business Network ► הספק מאשר 80% מהכמות וצופה מגבלה ביולי ► CBC מקדים הזמנות ומחפש ספק-משלים ► החוסר נמנע מבעוד-מועד.",
-          cbcHe: "ב-CBC התחזיות העונתיות (קיץ) משותפות לספקי-הסוכר וה-PET דרך SAP Business Network; הספקים מאשרים קיבולת מראש, ו-CBC מבטיח אספקה לשיא-הביקוש בלי הפתעות.",
+          processExampleHe: "תחזית-קיץ לסוכר משותפת לספק דרך Business Network ► הספק מאשר 80% מהכמות וצופה מגבלה ביולי ► הארגון מקדים הזמנות ומחפש ספק-משלים ► החוסר נמנע מבעוד-מועד.",
+          scenarioHe: "בארגון התחזיות העונתיות (קיץ) משותפות לספקי-הסוכר וה-PET דרך SAP Business Network; הספקים מאשרים קיבולת מראש, ו-הארגון מבטיח אספקה לשיא-הביקוש בלי הפתעות.",
           navHe: ["SAP Business Network ► Planning / Supply Chain Collaboration ► Forecast", "S/4HANA ► Integration with SAP Business Network"],
           tables: ["MARC", "PROP", "EKKO"],
           tcodes: ["MD04", "ME38"],
@@ -412,8 +412,8 @@ export const CH6: TextbookChapter = {
         "להבטיח שכל דרישה תקושר אוטומטית לספק-הנכון, במחיר-הנכון, לפי מדיניות-הרכש (ספק-יחיד / חלוקה / חוזה) — בלי בחירה ידנית, עם בקרה מלאה על מי מורשה לספק.",
       processExampleHe:
         "MRP יוצר דרישה לסוכר ► Source Determination בודק Source List (שני ספקים מאושרים) ► Quota Arrangement מחלק 70/30 ► בוחר ספק לפי היתרה ► מושך תנאי-מחיר מ-Info Record ► ה-PR מקבלת מקור חד-משמעי ► ME59N ממירה ל-PO אוטומטית.",
-      cbcHe:
-        "ב-CBC קביעת-המקור קריטית: תרכיז = ספק-יחיד (The Coca-Cola Company, Fixed Source); סוכר = שני ספקים ב-Quota 60/40; PET = חוזה-מסגרת שנתי. Info Records מחזיקים את המחירים המוסכמים, ו-Source Lists מבטיחים שרק ספקים מאושרים יזכו בהזמנות-האוטומטיות.",
+      scenarioHe:
+        "בארגון קביעת-המקור קריטית: תרכיז = ספק-יחיד (The Example Product Company, Fixed Source); סוכר = שני ספקים ב-Quota 60/40; PET = חוזה-מסגרת שנתי. Info Records מחזיקים את המחירים המוסכמים, ו-Source Lists מבטיחים שרק ספקים מאושרים יזכו בהזמנות-האוטומטיות.",
       navHe: [
         "Materials Management ► Purchasing ► Sources of Supply ► Maintain Purchasing Info Record",
         "Materials Management ► Purchasing ► Sources of Supply ► Source List ► Define Source List Requirement (OME5)",
@@ -483,7 +483,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ה-PIR מאוחסן בשתי רמות: EINA (כללי — חומר/ספק) ו-EINE (לפי Purchasing Org/Plant — תנאים). הוא מחזיק Conditions (מחיר, הנחות, תוספות) דרך record-condition-technique, Planned Delivery Time, Min/Standard Quantity, Tolerances. נוצר ב-ME11 (או אוטומטית מ-Quotation/PO עם 'Info Update'). תומך בסוגים: Standard, Subcontracting, Pipeline, Consignment. ה-Conditions מזינים את תמחור-ה-PO וה-Source Determination.",
           purposeHe: "לרכז את כל תנאי-הרכש מספק לחומר במקום אחד — מחיר, זמן, כמות — כך שהרכש-האוטומטי יפיק הזמנות-מדויקות בלי הזנה-ידנית חוזרת.",
           processExampleHe: "ME11 ► יוצרים Info Record לסוכר מספק X: מחיר 2.5₪/ק\"ג, Planned Delivery 7 ימים, Min 1 טון ► PO חדש לסוכר-X מושך את המחיר וזמן-האספקה אוטומטית ► ה-MRP משתמש ב-Planned Delivery Time לתזמון.",
-          cbcHe: "ב-CBC לכל זוג חומר-ספק (סוכר-X, PET-Y, תרכיז-TCCC) יש Info Record עם המחיר המוסכם וזמן-האספקה; הרכש-האוטומטי מושך מהם, וה-MRP מתזמן לפי Planned Delivery Time.",
+          scenarioHe: "בארגון לכל זוג חומר-ספק (סוכר-X, PET-Y, תרכיז-TCCC) יש Info Record עם המחיר המוסכם וזמן-האספקה; הרכש-האוטומטי מושך מהם, וה-MRP מתזמן לפי Planned Delivery Time.",
           navHe: ["Materials Management ► Purchasing ► Sources of Supply ► Maintain Purchasing Info Record (ME11)", "Logistics ► MM ► Purchasing ► Master Data ► Info Record — ME11/ME12/ME13"],
           tables: ["EINA", "EINE", "KONP", "A017"],
           tcodes: ["ME11", "ME12", "ME13", "ME1M", "ME1P"],
@@ -506,7 +506,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Source List (EORD) ברמת חומר/מפעל, עם רשומות לפי תוקף-תאריכים. שדות-מפתח: Fixed (מקור חד-משמעי), Blocked (חסום), MRP (relevance — האם משמש בתכנון: ' '=לא, 1=PR, 2=Scheduling Agreement). נוצר ב-ME01 (או אוטומטית מ-Outline Agreement). אם Source List Requirement מופעל (OME5/אב-החומר), Source List הופך חובה — אין רכש בלי רשומה מאושרת. הוא הצעד-הראשון בהיררכיית-קביעת-המקור.",
           purposeHe: "לאכוף מדיניות-רכש: רק ספקים-מאושרים, חסימת ספקים-בעייתיים, וקביעת-ספק-קבוע לרכש-אוטומטי חד-משמעי. בקרת-איכות וציות (compliance) בשרשרת-האספקה.",
           processExampleHe: "ME01 ► רשימת-מקורות לסוכר במפעל 1000: ספק-X (Fixed, MRP=1), ספק-Y (Blocked) ► MRP יוצר דרישה ► קביעת-מקור בוחרת אוטומטית את ספק-X ► ספק-Y לא נבחר אף-פעם עד הסרת-החסימה.",
-          cbcHe: "ב-CBC כל חומר-ישיר חייב Source List: תרכיז עם TCCC כ-Fixed (ספק-יחיד), סוכר עם שני ספקים מאושרים, וספק-PET שנכשל ב-QA מסומן Blocked — כך הרכש-האוטומטי לעולם לא מזמין ממנו.",
+          scenarioHe: "בארגון כל חומר-ישיר חייב Source List: תרכיז עם TCCC כ-Fixed (ספק-יחיד), סוכר עם שני ספקים מאושרים, וספק-PET שנכשל ב-QA מסומן Blocked — כך הרכש-האוטומטי לעולם לא מזמין ממנו.",
           navHe: ["Materials Management ► Purchasing ► Sources of Supply ► Source List ► Maintain (ME01)", "Materials Management ► Purchasing ► Sources of Supply ► Source List ► Define Source List Requirement (OME5)"],
           tables: ["EORD", "MARC"],
           tcodes: ["ME01", "ME03", "ME04", "ME05", "ME06", "ME07"],
@@ -529,7 +529,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Quota Arrangement (EQUK כותרת / EQUP פריטים) מגדיר Quota לכל מקור עם Quota Rating ו-Allocated Quantity. הבחירה: Quota-Allocated = (Allocated + New) / Quota → המקור עם הערך-הנמוך נבחר. מופעל דרך Quota Arrangement Usage באב-החומר (MARC). תומך ב-Max Quantity/Lot, Min Lot Size, ו-Once-Only flag. נוצר ב-MEQ1. משולב בקביעת-מקור אחרי Source List, ומאפשר Split בין-ספקים אוטומטי.",
           purposeHe: "לפזר רכש בין-ספקים לצמצום-סיכון (לא תלות בספק-יחיד), לעמוד בהסכמי-נפח חוזיים, ולאזן עומס-אספקה — הכל אוטומטית בלי החלטה ידנית בכל הזמנה.",
           processExampleHe: "MEQ1 ► Quota לסוכר: ספק-A 60%, ספק-B 40% ► דרישה ל-100 טון ► המערכת מחשבת Quota-Allocated ובוחרת ספק-A ל-60 ו-B ל-40 (או לסירוגין לפי היתרה) ► שומרת על היחס לאורך-זמן.",
-          cbcHe: "ב-CBC הסוכר נרכש בהסדר-מכסות 60/40 בין שני ספקים — פיזור-סיכון שמבטיח שאם ספק אחד נכשל, השני יכול להגדיל. Quota מחלק אוטומטית כל דרישה לפי היחס.",
+          scenarioHe: "בארגון הסוכר נרכש בהסדר-מכסות 60/40 בין שני ספקים — פיזור-סיכון שמבטיח שאם ספק אחד נכשל, השני יכול להגדיל. Quota מחלק אוטומטית כל דרישה לפי היחס.",
           navHe: ["Materials Management ► Purchasing ► Sources of Supply ► Quota Arrangement ► Maintain (MEQ1)", "Materials Management ► Purchasing ► Sources of Supply ► Quota Arrangement ► Define Quota Arrangement Usage"],
           tables: ["EQUK", "EQUP", "MARC"],
           tcodes: ["MEQ1", "MEQ3", "MEQ4", "MEQ6", "MEQ7", "MEQ8"],
@@ -552,7 +552,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Scheduling Agreement (סוג LP/LPA) — Outline Agreement ב-EKKO/EKPO עם target quantity ותנאים, ו-Schedule Lines ב-EKET. נוצר ב-ME31L; שחרורים ב-ME38 (ידני) או אוטומטית מ-MRP (Source List עם MRP=2). שני סוגי-שחרור: Forecast (FRC) ו-JIT Delivery Schedule. השחרורים נשלחים לספק (Release Documentation, ME84). מצוין לחומרים בצריכה-גבוהה-וקבועה. ה-Source List עם MRP=2 גורם ל-MRP לייצר schedule lines במקום PRs.",
           purposeHe: "לייעל רכש-חוזר בהיקף-גבוה: חוזה אחד במקום הזמנות רבות, מחיר-קבוע, ושחרורים אוטומטיים מ-MRP — מצמצם תקורה-אדמיניסטרטיבית ומבטיח רציפות-אספקה.",
           processExampleHe: "ME31L ► Scheduling Agreement לסוכר: 1200 טון/שנה, 2.4₪/ק\"ג ► Source List עם MRP=2 ► MRP מייצר schedule lines אוטומטית לפי הצורך ► ME84 שולח את ה-Releases לספק ► הספק מספק לפי לוח-הזמנים.",
-          cbcHe: "ב-CBC הסוכר וה-PET נרכשים דרך Scheduling Agreements שנתיים: המחיר נעול לשנה, וה-MRP מייצר schedule lines שבועיים אוטומטית מול הקו. זה מבטיח אספקה-רציפה לקווי-המילוי בלי הזמנות-ידניות חוזרות.",
+          scenarioHe: "בארגון הסוכר וה-PET נרכשים דרך Scheduling Agreements שנתיים: המחיר נעול לשנה, וה-MRP מייצר schedule lines שבועיים אוטומטית מול הקו. זה מבטיח אספקה-רציפה לקווי-המילוי בלי הזמנות-ידניות חוזרות.",
           navHe: ["Materials Management ► Purchasing ► Outline Agreement ► Scheduling Agreement ► Create (ME31L)", "Materials Management ► Purchasing ► Outline Agreement ► Scheduling Agreement ► Delivery Schedule (ME38)"],
           tables: ["EKKO", "EKPO", "EKET", "EORD"],
           tcodes: ["ME31L", "ME32L", "ME33L", "ME38", "ME84", "ME9E"],
@@ -578,7 +578,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ה-Releases (FRC Forecast + JIT Delivery Schedule) מ-Scheduling Agreement מועברים לספק דרך SAP Business Network. הספק מגיב עם Order Confirmation ו-ASN, וה-ASN יוצר Inbound Delivery אוטומטית ב-S/4HANA. תומך ב-Self-Billing/ERS. ה-collaboration מצמצם פערי-תקשורת, מאיץ אספקה ומשפר דיוק. משולב עם Forecast Collaboration (6.3.4) ליצירת שרשרת-אספקה-מקושרת מלאה.",
           purposeHe: "להפוך את ה-Scheduling Agreement לתהליך-שיתופי בזמן-אמת — הספק רואה דרישות, מאשר, ושולח ASN — לצמצום-טעויות, האצת-אספקה ושקיפות-מלאה.",
           processExampleHe: "MRP מייצר schedule lines ► נשלחים כ-FRC+JIT Release לספק דרך Business Network ► הספק מאשר ושולח ASN ► ASN יוצר Inbound Delivery ב-S/4HANA ► ה-GR נקלט מהר ומדויק מול ה-ASN.",
-          cbcHe: "ב-CBC שחרורי-הסוכר וה-PET משותפים לספקים דרך Business Network: הספק רואה את לוח-המילוי השבועי, מאשר, ושולח ASN לכל משלוח — קווי-המילוי יודעים מראש מתי הסחורה מגיעה.",
+          scenarioHe: "בארגון שחרורי-הסוכר וה-PET משותפים לספקים דרך Business Network: הספק רואה את לוח-המילוי השבועי, מאשר, ושולח ASN לכל משלוח — קווי-המילוי יודעים מראש מתי הסחורה מגיעה.",
           navHe: ["SAP Business Network ► Supply Chain Collaboration ► Scheduling Agreement Releases", "Materials Management ► Outline Agreement ► Scheduling Agreement ► Release (ME84)"],
           tables: ["EKET", "EKKO", "EKPO", "LIKP"],
           tcodes: ["ME84", "ME38", "ME9E", "VL31N"],
@@ -601,7 +601,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Blanket PO = Document Type FO (Framework Order) עם Item Category B (Limit) ו-Validity Period + Value Limit (Overall/Expected). אין GR — החשבוניות (MIRO) נרשמות ישירות מול ה-Limit עד התקרה. Account Assignment חובה (K/F — Cost Center/Order) כי אין מלאי. מתאים לרכש-עקיף זניח. בקרה דרך Value Limit ו-Validity, לא דרך כמות. ב-S/4HANA יש גם Lean Services דרך אותו מנגנון.",
           purposeHe: "להוריד תקורה-אדמיניסטרטיבית ברכש-זניח-חוזר: הזמנה אחת לתקופה במקום מאות הזמנות-קטנות, בלי GR, עם בקרה תקציבית דרך תקרת-ערך.",
           processExampleHe: "ME21N ► Blanket PO (FO) לחומרי-ניקוי: תוקף שנה, תקרה 50,000₪, Cost Center תחזוקה ► לאורך-השנה נרשמות חשבוניות (MIRO) מול ה-Limit ► כשמגיעים ל-50,000 או לתום-התוקף — ה-PO נסגר.",
-          cbcHe: "ב-CBC חומרי-ניקוי-תעשייתי, כפפות וחומרי-עזר זולים לקווי-המילוי נרכשים ב-Blanket PO שנתי לכל מחלקה — בלי GR פרטני, עם תקרת-ערך לבקרה תקציבית.",
+          scenarioHe: "בארגון חומרי-ניקוי-תעשייתי, כפפות וחומרי-עזר זולים לקווי-המילוי נרכשים ב-Blanket PO שנתי לכל מחלקה — בלי GR פרטני, עם תקרת-ערך לבקרה תקציבית.",
           navHe: ["Materials Management ► Purchasing ► Purchase Order ► Create (ME21N) — Document Type FO", "Materials Management ► Purchasing ► Purchase Order ► Define Document Types — Framework Order"],
           tables: ["EKKO", "EKPO", "RBKP"],
           tcodes: ["ME21N", "ME22N", "ME23N", "MIRO"],
@@ -622,8 +622,8 @@ export const CH6: TextbookChapter = {
           beginnerHe: "PO רגיל = 'ספק, שלח לי X'. הזמנה רב-שכבתית = כשהספק שלך תלוי בספק שלו, ששלו תלוי בעוד אחד — והמערכת רואה את כל השרשרת. כך יודעים לא רק שהזמנו, אלא שגם ספק-המשנה במעלה-השרשרת מתקדם.",
           consultantHe: "PO רגיל ב-EKKO/EKPO/EKET. Multitier Purchase Order משתף את ה-PO לאורך שרשרת-הספקים דרך SAP Business Network: ה-Tier-1 supplier משתף את ה-sub-tier (Tier-2/3) requirements, ומתקבלת multi-tier visibility על מלאי, אספקה וצווארי-בקבוק. רלוונטי ל-Direct Materials עם שרשראות-עמוקות (אלקטרוניקה, רכב). משולב עם CATENA-X לשקיפות-שרשרת ו-CO2-tracking. מצמצם סיכוני-אספקה נסתרים בעומק-השרשרת.",
           purposeHe: "לתת נראות ובקרה מעבר לספק-הישיר — לזהות סיכוני-אספקה ומחסור עמוק-בשרשרת מוקדם, ולנהל שרשראות-אספקה גלובליות מורכבות בשקיפות מלאה.",
-          processExampleHe: "PO לבקבוקי-PET ל-Tier-1 ► Tier-1 תלוי ב-Tier-2 (יצרן-רזין) ► דרך Business Network משותפת השרשרת ► מחסור-רזין ב-Tier-2 מתגלה מוקדם ► CBC מתאים תכנון לפני שהמחסור מגיע לקו.",
-          cbcHe: "ב-CBC PET ותרכיז מגיעים משרשראות-עמוקות: PO רב-שכבתי נותן נראות לספקי-המשנה (יצרני-רזין, חומרי-גלם), כך ש-CBC מזהה סיכוני-אספקה גלובליים מוקדם ומגיב לפני מחסור בקו-המילוי.",
+          processExampleHe: "PO לבקבוקי-PET ל-Tier-1 ► Tier-1 תלוי ב-Tier-2 (יצרן-רזין) ► דרך Business Network משותפת השרשרת ► מחסור-רזין ב-Tier-2 מתגלה מוקדם ► הארגון מתאים תכנון לפני שהמחסור מגיע לקו.",
+          scenarioHe: "בארגון PET ותרכיז מגיעים משרשראות-עמוקות: PO רב-שכבתי נותן נראות לספקי-המשנה (יצרני-רזין, חומרי-גלם), כך ש-הארגון מזהה סיכוני-אספקה גלובליים מוקדם ומגיב לפני מחסור בקו-המילוי.",
           navHe: ["Materials Management ► Purchasing ► Purchase Order ► Create (ME21N)", "SAP Business Network ► Multi-Tier / Supply Chain Collaboration"],
           tables: ["EKKO", "EKPO", "EKET", "EKBE"],
           tcodes: ["ME21N", "ME22N", "ME23N", "ME9F", "MIGO"],
@@ -646,7 +646,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Subcontracting PO = Item Category L. ה-BOM של המוצר מגדיר את הרכיבים שיסופקו. החומרים אצל הספק = Special Stock O (מלאי-אצל-ספק-משנה, נראה ב-MBLB / Stock provided to vendor). תהליך: PO(L) ► אספקת-רכיבים לספק (ME2O / Movement 541) ► קבלת-המוצר-המוגמר (GR 101) שצורכת אוטומטית את הרכיבים (541→543) ► חשבונית על שירות-העיבוד. ה-MRP מתכנן גם את אספקת-הרכיבים. EKPO-PSTYP=3 מסמן Subcontracting.",
           purposeHe: "לנצל יכולת-ייצור חיצונית תוך שמירת-בעלות על חומרי-הגלם — לשלם רק על ערך-מוסף (עבודה), עם בקרה ועקיבות מלאה על המלאי-אצל-הספק.",
           processExampleHe: "PO(L) למשקה-מוגמר מבית-מילוי-חיצוני ► ME2O שולח תרכיז+סוכר+בקבוקים לספק (Movement 541) ► הספק ממלא ► GR למשקה-המוגמר (101) צורך אוטומטית את הרכיבים (543) ► חשבונית רק על שירות-המילוי.",
-          cbcHe: "ב-CBC בעונת-שיא CBC ממקרת מילוי לבית-מילוי-שותף: שולחת תרכיז, סוכר ובקבוקים (Special Stock O), מקבלת בחזרה משקאות-ארוזים, ומשלמת רק על שירות-המילוי. ME2O מנהל את המלאי-אצל-הספק.",
+          scenarioHe: "בארגון בעונת-שיא הארגון ממקרת מילוי לבית-מילוי-שותף: שולחת תרכיז, סוכר ובקבוקים (Special Stock O), מקבלת בחזרה משקאות-ארוזים, ומשלמת רק על שירות-המילוי. ME2O מנהל את המלאי-אצל-הספק.",
           navHe: ["Materials Management ► Purchasing ► Purchase Order ► Create (ME21N) — Item Category L", "Materials Management ► Purchasing ► Subcontracting ► Provide Components to Vendor (ME2O)"],
           tables: ["EKKO", "EKPO", "EKET", "MSLB", "RESB"],
           tcodes: ["ME21N", "ME2O", "MIGO", "MB1B", "MBLB"],
@@ -668,8 +668,8 @@ export const CH6: TextbookChapter = {
           beginnerHe: "הספק מאחסן את הסחורה שלו אצלך, אבל היא עדיין שלו עד שאתה משתמש בה. רק כשאתה 'מושך' חומר מהמלאי-הזה — אז אתה חייב לשלם עליו. כך יש לך זמינות מיידית בלי לקנות מראש ולהקפיא כסף.",
           consultantHe: "Consignment Stock = Special Stock K (Vendor consignment). תהליך: PO/Sched.Agmt לקונסיגנציה ► GR למלאי-קונסיגנציה (101, Special Stock K — לא valuated במלאי-הקונה) ► צריכה/משיכה (Consignment Withdrawal, Movement 411 K לבעלות-עצמית או צריכה ישירה) ► Consignment Settlement (MRKO) מסדר תשלום לפי Consignment Info Record (סוג 2). המלאי נראה ב-MB54/MBLB. ה-MRP מתכנן מולו. אין חשבונית רגילה — רק Settlement תקופתי.",
           purposeHe: "להבטיח זמינות-מיידית של חומר קריטי בלי הון-כלוא ובלי סיכון-מלאי — משלמים רק על מה שצורכים בפועל, והספק נושא בסיכון-ההחזקה.",
-          processExampleHe: "Consignment Sched.Agmt ל-CO2 ► הספק ממלא את המכל באתר-CBC (GR Special Stock K) ► קו-המילוי מושך CO2 לפי הצורך (411 K / צריכה) ► בסוף-חודש MRKO מחשב את הצריכה ומסדר תשלום לפי מחיר-הקונסיגנציה.",
-          cbcHe: "ב-CBC ה-CO2 מוחזק בקונסיגנציה: הספק ממלא מכלי-CO2 באתר, הבעלות שלו עד למשיכה, ו-CBC משלמת רק על ה-CO2 שנצרך בפועל בקרבונציה. אפס הון-כלוא ב-CO2, זמינות-מיידית לקו.",
+          processExampleHe: "Consignment Sched.Agmt ל-CO2 ► הספק ממלא את המכל באתר-הארגון (GR Special Stock K) ► קו-המילוי מושך CO2 לפי הצורך (411 K / צריכה) ► בסוף-חודש MRKO מחשב את הצריכה ומסדר תשלום לפי מחיר-הקונסיגנציה.",
+          scenarioHe: "בארגון ה-CO2 מוחזק בקונסיגנציה: הספק ממלא מכלי-CO2 באתר, הבעלות שלו עד למשיכה, ו-הארגון משלמת רק על ה-CO2 שנצרך בפועל בקרבונציה. אפס הון-כלוא ב-CO2, זמינות-מיידית לקו.",
           navHe: ["Materials Management ► Purchasing ► Consignment ► Maintain Consignment Info Record", "Logistics ► MM ► Inventory Mgmt ► Consignment — Settlement (MRKO)"],
           tables: ["MKOL", "EINA", "EINE", "EKPO"],
           tcodes: ["ME21N", "MIGO", "MB54", "MRKO", "MB1B"],
@@ -692,7 +692,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Consignment Order = PO/Scheduling Agreement עם Item Category K. ה-MRP מייצר דרישות-קונסיגנציה אוטומטית (Source List מקושר). מחזור: Replenishment (GR Special Stock K) ► Withdrawal/Consumption (411 K / 201 K) ► Return to vendor במידת-הצורך ► MRKO Settlement. ב-S/4HANA משולב עם Consignment Collaboration ב-SAP Business Network ל-replenishment אוטומטי (Supplier-Managed Inventory). הצריכה מנותחת ב-MB54/MRKO.",
           purposeHe: "להפעיל ולנהל את מודל-הקונסיגנציה תפעולית — חידוש-מלאי אוטומטי מהספק, מעקב-צריכה, ו-Settlement — לזמינות-רציפה בלי הון-כלוא ובמינימום-התערבות.",
           processExampleHe: "Consignment Sched.Agmt(K) ל-CO2 ► MRP/Collaboration מפעיל replenishment ► הספק ממלא (GR Special Stock K) ► קו מושך CO2 (consumption) ► MRKO חודשי מסדר תשלום לפי הצריכה.",
-          cbcHe: "ב-CBC הזמנות-הקונסיגנציה ל-CO2 פועלות אוטומטית: כשמלאי-הקונסיגנציה יורד, replenishment מופעל והספק ממלא; הצריכה נמדדת וה-MRKO החודשי מחשב תשלום — מחזור-חיים מלא ללא הזמנה-ידנית.",
+          scenarioHe: "בארגון הזמנות-הקונסיגנציה ל-CO2 פועלות אוטומטית: כשמלאי-הקונסיגנציה יורד, replenishment מופעל והספק ממלא; הצריכה נמדדת וה-MRKO החודשי מחשב תשלום — מחזור-חיים מלא ללא הזמנה-ידנית.",
           navHe: ["Materials Management ► Purchasing ► Purchase Order / Outline Agreement — Item Category K", "SAP Business Network ► Consignment Collaboration"],
           tables: ["EKKO", "EKPO", "MKOL", "EKET"],
           tcodes: ["ME21N", "ME31L", "MIGO", "MRKO", "MB54"],
@@ -715,7 +715,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "QM Collaboration מחבר את QM ל-SAP Business Network: Quality Certificates (Certificate of Analysis) מצורפים ל-ASN, תוצאות-בדיקה ו-Inspection Lots משותפים, ו-Quality Notifications (תלונות-ספק) זורמים דו-כיוונית. משולב עם Quality Info Records ו-Source Inspection. מצמצם בדיקות-נכנס כפולות (אם הספק מאמת, אפשר Skip-Lot), מאיץ שחרור-מלאי, ומשפר ציות-רגולטורי לחומרים-ישירים.",
           purposeHe: "לדגיטליזציה ולשיתוף-פעולה של תהליכי-איכות לאורך השרשרת — איכות-מאומתת-מראש, פחות בדיקות-כפולות, שחרור-מלאי מהיר, וציות-רגולטורי לחומרים-קריטיים.",
           processExampleHe: "ספק-סוכר שולח ASN עם Certificate of Analysis דיגיטלי דרך Business Network ► המערכת מקשרת ל-Inspection Lot ► תוצאות-עומדות-בתקן → Skip-Lot/שחרור-מהיר ► חריגה → Quality Notification אוטומטית לספק.",
-          cbcHe: "ב-CBC חומרי-מזון (סוכר, תרכיז, CO2) דורשים ציות-איכות מחמיר. ספקים שולחים Certificates of Analysis דיגיטליים דרך Business Network; CBC מאמת מראש, מצמצם בדיקות-נכנס, ומתעד ציות-רגולטורי מלא לכל אצווה.",
+          scenarioHe: "בארגון חומרי-מזון (סוכר, תרכיז, CO2) דורשים ציות-איכות מחמיר. ספקים שולחים Certificates of Analysis דיגיטליים דרך Business Network; הארגון מאמת מראש, מצמצם בדיקות-נכנס, ומתעד ציות-רגולטורי מלא לכל אצווה.",
           navHe: ["SAP Business Network ► Quality Collaboration", "Quality Management ► QM in Procurement ► Quality Info Record / Certificates"],
           tables: ["QINF", "QALS", "QMEL"],
           tcodes: ["QI01", "QE51N", "QM01", "MIGO"],
@@ -737,7 +737,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "Supply Base Optimization (חלק מ-SAP Ariba / Spend Analysis / Source-to-Pay) מנתח Spend, Supplier Risk, Performance ו-Concentration כדי להמליץ על קונסולידציה, dual-sourcing או החלפת-ספק. הוא מזין החלטות-מקור (Source Lists, Quotas, Contracts) בנתונים: זיהוי single-source risk, הזדמנויות-נפח, וספקים תת-ביצועיים. משולב עם Supplier Risk Management ו-Category Management. מטרה: בסיס-ספקים רזה, עמיד וחסכוני.",
           purposeHe: "להפוך את בחירת-הספקים מהחלטה-היסטורית להחלטה-אופטימלית מבוססת-נתונים — לאזן בין חיסכון (קונסולידציה) לעמידות (פיזור-סיכון), ולנקות ספקים תת-ביצועיים.",
           processExampleHe: "ניתוח מגלה ש-80% מהסוכר מספק-יחיד (סיכון) ושיש 12 ספקי-אריזה קטנים (פיזור-יתר) ► המלצה: dual-source לסוכר, קונסולידציה ל-3 ספקי-אריזה ► מעדכנים Source Lists ו-Quotas בהתאם ► חיסכון-נפח + הפחתת-סיכון.",
-          cbcHe: "ב-CBC הכלי מנתח את בסיס-ספקי-האריזה והגלם: מזהה תלות-יתר בספק-PET יחיד וממליץ על dual-sourcing, ומאחד ספקי-תוויות קטנים לחיסכון-נפח — וההמלצות מתורגמות ל-Source Lists ו-Quotas מעודכנים.",
+          scenarioHe: "בארגון הכלי מנתח את בסיס-ספקי-האריזה והגלם: מזהה תלות-יתר בספק-PET יחיד וממליץ על dual-sourcing, ומאחד ספקי-תוויות קטנים לחיסכון-נפח — וההמלצות מתורגמות ל-Source Lists ו-Quotas מעודכנים.",
           navHe: ["SAP Ariba ► Spend Analysis / Supplier Management", "S/4HANA ► Sourcing and Procurement ► Supplier Evaluation / Category Management"],
           tables: ["LFA1", "EINA", "EORD", "EQUK"],
           tcodes: ["ME01", "MEQ1", "ME11"],
@@ -767,8 +767,8 @@ export const CH6: TextbookChapter = {
         "להניח את התשתית-הטכנית לכל הרכש-האוטומטי — שכל אובייקט (מסמך, מקור, תחזית) יתנהג לפי מדיניות-הארגון, ושהאוטומציה (ME59N, MRP-source, Settlement) תפעל ללא תקלות.",
       processExampleHe:
         "מימוש חדש: מגדירים Document Types (NB/FO/LP) ► קובעים Item Categories מותרות ► מפעילים Source List Requirement (OME5) למפעל ► מגדירים Quota Usage באב-החומר ► מקימים Forecast Profile ► בודקים שהזרימה PR→ME59N→PO עובדת end-to-end.",
-      cbcHe:
-        "ב-CBC הקונפיגורציה תומכת בתהליכים: Document Types לחומרי-גלם ואריזה, Source List Requirement חובה לכל חומר-ישיר, Quota Usage לסוכר (60/40), ו-Forecast Profiles עונתיים. כל הגדרה מיושרת למדיניות-הרכש של הארגון ולציות-המזון.",
+      scenarioHe:
+        "בארגון הקונפיגורציה תומכת בתהליכים: Document Types לחומרי-גלם ואריזה, Source List Requirement חובה לכל חומר-ישיר, Quota Usage לסוכר (60/40), ו-Forecast Profiles עונתיים. כל הגדרה מיושרת למדיניות-הרכש של הארגון ולציות-המזון.",
       navHe: [
         "SPRO ► Materials Management ► Purchasing ► Purchase Requisition / Purchase Order ► Define Document Types",
         "SPRO ► Materials Management ► Purchasing ► Sources of Supply ► Source List ► Define Source List Requirement (OME5)",
@@ -836,7 +836,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ב-SPRO: Material Type (OMS2 — מסכים, Number Range, Procurement Type), Field Selection (OMS9), Business Partner roles (FLVN00/FLVN01 — Vendor). תצוגות-חובה: Purchasing (מקור-מחיר), MRP 1-4 (תכנון), Forecasting (חיזוי). 'Autom. PO' flag בחומר ובספק. אי-תחזוקת תצוגה רלוונטית = החומר נעלם מקביעת-מקור/MRP.",
           purposeHe: "להבטיח שכל חומר-ישיר וכל ספק נושאים את כל הנתונים הדרושים לרכש-אוטומטי — תצוגות, שדות-חובה, 'Autom. PO' — כתשתית לכל השאר.",
           processExampleHe: "OMS2 ► Material Type ROH עם תצוגות Purchasing+MRP+Forecasting פתוחות ► OMS9 ► שדה Source List = חובה ► פתיחת-חומר (MM01) מאלצת את כל התצוגות ► החומר מוכן לרכש-אוטומטי.",
-          cbcHe: "ב-CBC נתוני-האב לחומרי-גלם (ROH) ואריזה מוגדרים עם תצוגות-חובה Purchasing/MRP/Forecasting ו-'Autom. PO', וספקי-המפתח (TCCC, ספקי-סוכר) כ-Business Partners מלאים — תשתית לרכש-האוטומטי.",
+          scenarioHe: "בארגון נתוני-האב לחומרי-גלם (ROH) ואריזה מוגדרים עם תצוגות-חובה Purchasing/MRP/Forecasting ו-'Autom. PO', וספקי-המפתח (TCCC, ספקי-סוכר) כ-Business Partners מלאים — תשתית לרכש-האוטומטי.",
           navHe: ["SPRO ► Logistics-General ► Material Master ► Basic Settings ► Material Types ► Define Attributes (OMS2)", "SPRO ► Logistics-General ► Material Master ► Field Selection (OMS9)"],
           tables: ["T134", "MARA", "MARC", "LFA1"],
           tcodes: ["OMS2", "OMS9", "MM01", "BP"],
@@ -858,7 +858,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "PR Document Types (T161): NB (Standard). PO/Agreement Types (EKKO): NB (PO), FO (Framework/Blanket), LP/LPA (Scheduling Agreement), MK/WK (Contract). כל סוג: Number Range (פנימי/חיצוני), Field Selection Reference, Allowed Item Categories, Allowed Account Assignments. ב-SPRO תחת Purchasing. Link Type↔Item Category↔Account Assignment חייב להיות עקבי, אחרת יצירת-מסמך נכשלת.",
           purposeHe: "להגדיר תבניות-מסמך תואמות-מדיניות לכל תרחיש-רכש (סטנדרטי/כולל/חוזה/scheduling) — עם בקרת-מספור, שדות וקטגוריות — כבסיס לזרימה-תקינה.",
           processExampleHe: "הגדרת PO Type FO (Framework) עם Item Category B (Limit) מותרת, Number Range נפרד, Account Assignment חובה ► יצירת Blanket PO (ME21N, FO) עובדת חלק ► סוג NB עם Item Categories רגילות לרכש-מלאי.",
-          cbcHe: "ב-CBC מוגדרים Document Types ייעודיים: NB לרכש-גלם/אריזה רגיל, LPA ל-Scheduling Agreements של סוכר/PET, FO ל-Blanket של חומרי-ניקוי — כל אחד עם הקטגוריות והמספור המתאימים.",
+          scenarioHe: "בארגון מוגדרים Document Types ייעודיים: NB לרכש-גלם/אריזה רגיל, LPA ל-Scheduling Agreements של סוכר/PET, FO ל-Blanket של חומרי-ניקוי — כל אחד עם הקטגוריות והמספור המתאימים.",
           navHe: ["SPRO ► Materials Management ► Purchasing ► Purchase Order ► Define Document Types", "SPRO ► Materials Management ► Purchasing ► Purchase Requisition ► Define Document Types"],
           tables: ["T161", "T161N", "EKKO"],
           tcodes: ["OMET", "ME21N", "ME31L"],
@@ -880,7 +880,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ב-SPRO תחת Consumption-Based Planning ► Forecast: Forecast Models (Constant/Trend/Seasonal/Trend-Seasonal/Winters/Automatic), Smoothing Factors defaults (Alpha=demand, Beta=trend, Gamma=season), Number of Historical/Forecast Periods, Period Indicator, Initialization. Error-measures (MAD, Ex-Post) להערכת-מודל. הפרמטרים מוגדרים ברמת-Customizing וכ-defaults בתצוגת-Forecasting של אב-החומר (MPOP).",
           purposeHe: "לקבוע את כללי-החיזוי שיניבו תחזית-מהימנה — בחירת-מודל נכונה, רגישות-מתאימה ואופק-תכנון — כדי שהרכש-האוטומטי-מבוסס-תחזית יזמין כמויות-נכונות.",
           processExampleHe: "הגדרת Forecast Profile: Automatic Model Selection, Alpha=0.2, 12 תקופות היסטוריות, אופק-3-חודשים ► החומר יורש את ההגדרות ► MP30 מריץ ובוחר מודל-עונתי אוטומטית ► תחזית מהימנה ל-MRP.",
-          cbcHe: "ב-CBC Forecast Profiles עונתיים: Automatic Selection לזיהוי-עונתיות-הקיץ, פקטורי-החלקה מכוילים לצריכת-משקאות, ואופק-תכנון של רבעון — כדי שהרכש-האוטומטי יזמין סוכר ואריזה לקיץ מראש.",
+          scenarioHe: "בארגון Forecast Profiles עונתיים: Automatic Selection לזיהוי-עונתיות-הקיץ, פקטורי-החלקה מכוילים לצריכת-משקאות, ואופק-תכנון של רבעון — כדי שהרכש-האוטומטי יזמין סוכר ואריזה לקיץ מראש.",
           navHe: ["SPRO ► Materials Management ► Consumption-Based Planning ► Forecast ► Define Forecast Parameters", "SPRO ► ... ► Forecast ► Define Splitting of Forecast Requirements for MRP"],
           tables: ["MPOP", "T438A", "PROP"],
           tcodes: ["MP30", "MP38", "MM02"],
@@ -903,7 +903,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ב-SPRO: Number Ranges ל-Info Record (פנימי/חיצוני), Condition Schema (Calculation Schema) לתמחור-Info-Record (מחיר, הנחות, תוספות, מסים), Price Determination, ו-'Info Update' control ב-Document Types. Categories: 0=Standard, 1=Subcontracting, 2=Pipeline, 3=Consignment. ה-Condition Technique (A017 וכד') מחבר את ה-Info Record לתמחור-ה-PO.",
           purposeHe: "להגדיר את תשתית-התמחור: איך Info Records ממוספרים, אילו תנאים נתמכים, ואיך הם מתעדכנים אוטומטית — כדי שהרכש-האוטומטי ימשוך מחירים-נכונים ל-PO.",
           processExampleHe: "הגדרת Condition Schema ל-Info Record עם PB00 (מחיר-ברוטו) + הנחות ► Number Range פנימי ► 'Info Update' מופעל ב-PO Type ► PO חדש מעדכן את ה-Info Record אוטומטית עם המחיר-האחרון.",
-          cbcHe: "ב-CBC Info Records מוגדרים עם Condition Schema התומך במחירי-חוזה והנחות-נפח לסוכר/PET, ו-'Info Update' מופעל כך שכל הזמנה מעדכנת את המחיר-האחרון — תמחור-עקבי לרכש-האוטומטי.",
+          scenarioHe: "בארגון Info Records מוגדרים עם Condition Schema התומך במחירי-חוזה והנחות-נפח לסוכר/PET, ו-'Info Update' מופעל כך שכל הזמנה מעדכנת את המחיר-האחרון — תמחור-עקבי לרכש-האוטומטי.",
           navHe: ["SPRO ► Materials Management ► Purchasing ► Purchasing Info Record ► Define Number Ranges", "SPRO ► Materials Management ► Purchasing ► Conditions ► Define Price Determination Process"],
           tables: ["EINA", "EINE", "T686", "A017"],
           tcodes: ["ME11", "ME12", "OMEO"],
@@ -926,7 +926,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ב-SPRO: Source List Requirement (OME5) ברמת-מפעל, ו-'Source list' flag באב-החומר (MARC). Automatic Source Determination ב-Document Type/PR מפעיל בחירת-מקור. ME05 ליצירה-אוטומטית מ-Outline Agreements/Info Records. השדה MRP-relevance ב-EORD (1=PR, 2=Sched.Agmt) קובע שימוש-בתכנון. אינטראקציה: Source List חובה + אין רשומה = חסימת-רכש.",
           purposeHe: "לאכוף רכש-מאושר-בלבד דרך Source List חובה, ולהפעיל קביעת-מקור-אוטומטית — בקרת-compliance על ספקים-מורשים, בסיס לרכש-האוטומטי.",
           processExampleHe: "OME5 ► Source List = חובה למפעל 1000 ► פתיחת-חומר-ישיר ► חייבים להזין Source List תקף ► קביעת-מקור-אוטומטית בוחרת את ה-Fixed Source ► ME59N ממירה אוטומטית.",
-          cbcHe: "ב-CBC Source List Requirement מופעל לכל החומרים-הישירים: אי-אפשר לקנות תרכיז/סוכר/PET מספק שאינו ברשימה-המאושרת — אכיפת compliance מלאה על שרשרת-האספקה.",
+          scenarioHe: "בארגון Source List Requirement מופעל לכל החומרים-הישירים: אי-אפשר לקנות תרכיז/סוכר/PET מספק שאינו ברשימה-המאושרת — אכיפת compliance מלאה על שרשרת-האספקה.",
           navHe: ["SPRO ► Materials Management ► Purchasing ► Source List ► Define Source List Requirement at Plant Level (OME5)", "SPRO ► Materials Management ► Purchasing ► Source List ► Define Source List Requirement at Material Level"],
           tables: ["EORD", "T161", "MARC"],
           tcodes: ["OME5", "ME01", "ME05"],
@@ -949,7 +949,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "ב-SPRO: Quota Arrangement Usage (קוד שמוקצה באב-החומר, MARC-USEQU) — קובע באילו אובייקטים Quota פעיל (PR, PO, Scheduling Agreement, MRP, Planned Order). Number Ranges ל-Quota. פרמטרים: Min Quantity Split, Once-Only. אינטראקציה עם Source List (Fixed Source גובר על Quota). ה-Quota Usage הוא ה'מתג-ההפעלה' — בלעדיו ה-Quota קיים אך לא משפיע.",
           purposeHe: "לקבוע באילו תהליכים החלוקה-בין-ספקים מופעלת — להבטיח שפיזור-הרכש (לצמצום-סיכון/עמידה-בנפח) יחול היכן שצריך, אוטומטית.",
           processExampleHe: "הגדרת Quota Usage שמפעיל Quota ב-PR וב-MRP ► הקצאה לקוד באב-החומר של הסוכר ► MEQ1 קובע 60/40 ► MRP/PR מחלקים אוטומטית בין-הספקים לפי היחס.",
-          cbcHe: "ב-CBC Quota Usage מופעל ב-MRP וב-PR לסוכר (60/40) ול-PET (dual-source) — כך שכל דרישה אוטומטית מתחלקת בין-הספקים לפי המדיניות, לפיזור-סיכון.",
+          scenarioHe: "בארגון Quota Usage מופעל ב-MRP וב-PR לסוכר (60/40) ול-PET (dual-source) — כך שכל דרישה אוטומטית מתחלקת בין-הספקים לפי המדיניות, לפיזור-סיכון.",
           navHe: ["SPRO ► Materials Management ► Purchasing ► Quota Arrangement ► Define Quota Arrangement Usage", "SPRO ► Materials Management ► Purchasing ► Quota Arrangement ► Define Number Ranges"],
           tables: ["EQUK", "EQUP", "MARC", "T161"],
           tcodes: ["MEQ1", "MM02", "OMI4"],
@@ -980,8 +980,8 @@ export const CH6: TextbookChapter = {
         "לתת מענה-מותאם-תעשייה במקום פתרון-גנרי — לקצר זמן-מימוש, לעמוד בדרישות-רגולטוריות (CO2, traceability), ולחבר את הרכש לאקוסיסטמה-התעשייתית הרחבה.",
       processExampleHe:
         "יצרן-רכב מצטרף ל-CATENA-X ► משתף נתוני-CO2 ו-traceability לאורך השרשרת ► רכש-אוטומטי מתחשב ב-PCF (Product Carbon Footprint) בבחירת-ספק ► עמידה ברגולציית-פליטות עם נתונים-מאומתים מהשרשרת.",
-      cbcHe:
-        "ב-CBC עקרונות CATENA-X רלוונטיים לשקיפות-CO2 של אריזה ולוגיסטיקה: מעקב-טביעת-פחמן של בקבוקי-PET לאורך השרשרת, ובחירת-ספקים גם לפי נתוני-קיימות — חשוב למטרות-ה-ESG של קוקה-קולה.",
+      scenarioHe:
+        "בארגון עקרונות CATENA-X רלוונטיים לשקיפות-CO2 של אריזה ולוגיסטיקה: מעקב-טביעת-פחמן של בקבוקי-PET לאורך השרשרת, ובחירת-ספקים גם לפי נתוני-קיימות — חשוב למטרות-ה-ESG של מוצר לדוגמה.",
       navHe: [
         "SAP Business Network ► Industry Networks (CATENA-X)",
         "SAP S/4HANA ► Enterprise Product Development",
@@ -1041,7 +1041,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "CATENA-X מבוסס על Eclipse Dataspace Connector ועקרונות Gaia-X (data sovereignty). Use-cases: Traceability, PCF (טביעת-פחמן-מוצר), Demand & Capacity Management (DCM), Quality, Circular Economy. SAP מספקת חיבור דרך SAP Business Network / SAP Sustainability. הנתונים אינם 'מועלים לענן-מרכזי' אלא מוחלפים peer-to-peer עם בקרת-גישה. רלוונטי לרכש: בחירת-ספק מבוססת-PCF, נראות-קיבולת, ו-traceability-רגולטורי.",
           purposeHe: "לאפשר שקיפות-שרשרת ו-traceability תוך ריבונות-נתונים — לעמוד ברגולציית-CO2/Supply-Chain-Act, לזהות סיכוני-קיבולת, ולקבל החלטות-רכש מבוססות-קיימות.",
           processExampleHe: "יצרן-רכב דורש PCF לכל רכיב ► ספקים משתפים נתוני-CO2 דרך CATENA-X ► הרכש מחשב PCF-מצרפי ► בחירת-ספק שוקלת גם פליטות ► עמידה ברגולציה עם נתונים-מאומתים.",
-          cbcHe: "ב-CBC עקרונות CATENA-X מיושמים לקיימות-אריזה: ספקי-PET משתפים נתוני-CO2 דרך Data Space, CBC מחשב טביעת-פחמן לבקבוק, ובחירת-ספקים שוקלת קיימות — תומך ביעדי-ESG של קוקה-קולה.",
+          scenarioHe: "בארגון עקרונות CATENA-X מיושמים לקיימות-אריזה: ספקי-PET משתפים נתוני-CO2 דרך Data Space, הארגון מחשב טביעת-פחמן לבקבוק, ובחירת-ספקים שוקלת קיימות — תומך ביעדי-ESG של מוצר לדוגמה.",
           navHe: ["SAP Business Network ► CATENA-X / Industry Data Spaces", "SAP Sustainability ► Product Footprint Management"],
           tables: ["LFA1", "EKKO", "EKPO"],
           tcodes: ["ME21N", "ME59N"],
@@ -1063,7 +1063,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "EPD (SAP BTP-based) משלב Collaborative Product Development, Visualization, ו-Handover-to-Manufacturing. הוא מקשר Engineering BOM ל-Manufacturing BOM ולנתוני-רכש, מאפשר Early Supplier Involvement, ומזין Should-Cost ו-Sourcing מוקדם. אינטגרציה ל-S/4HANA (Material/BOM) ול-Sourcing. מקצר Time-to-Market ומשפר Design-to-Cost דרך נראות-רכש מוקדמת בתהליך-הפיתוח.",
           purposeHe: "לחבר פיתוח-מוצר לרכש מוקדם בתהליך — Early Supplier Involvement, Design-to-Cost, ו-Handover חלק — לקיצור Time-to-Market ולהפחתת-עלות-מוצר.",
           processExampleHe: "מהנדס מתכנן מוצר ב-EPD ובוחר רכיבים ► הרכש רואה את ה-Engineering BOM מוקדם ► מתחיל Sourcing ו-Should-Cost ► Handover-to-Manufacturing מעביר ל-S/4HANA עם ספקים-מוכנים ► ייצור מתחיל בלי עיכובי-רכש.",
-          cbcHe: "ב-CBC פיתוח-משקה-חדש או אריזה-חדשה דרך EPD: צוות-הפיתוח בוחר רכיבים, הרכש מזהה ספקים ומתמחר מוקדם, וה-Handover מעביר ל-S/4HANA — השקת-מוצר מהירה יותר עם שרשרת-אספקה-מוכנה.",
+          scenarioHe: "בארגון פיתוח-משקה-חדש או אריזה-חדשה דרך EPD: צוות-הפיתוח בוחר רכיבים, הרכש מזהה ספקים ומתמחר מוקדם, וה-Handover מעביר ל-S/4HANA — השקת-מוצר מהירה יותר עם שרשרת-אספקה-מוכנה.",
           navHe: ["SAP BTP ► Enterprise Product Development", "SAP S/4HANA ► Integration with EPD (Handover-to-Manufacturing)"],
           tables: ["MARA", "STKO", "STPO", "EINA"],
           tcodes: ["CS01", "ME11", "MM01"],
@@ -1085,7 +1085,7 @@ export const CH6: TextbookChapter = {
           consultantHe: "הפתרון משלב Equipment/Functional Location (PM) עם תכנון-חומרים ולוגיסטיקה: Material Logistics Planning לאתרים, רכש-חלפים מבוסס-ציוד (Maintenance BOM), Project-based Procurement, ו-Field Stock Management. נשען על אינטגרציית MM↔PM↔PS. רלוונטי לתעשיות-תשתית עם נכסים-מבוזרים. מנהל את אספקת-החומרים לעבודות-שדה תוך סנכרון עם תחזוקה-מתוכננת.",
           purposeHe: "להבטיח שחומרים, חלפים וציוד יגיעו לאתרי-שדה מרוחקים בזמן ובכמות-הנכונה — סנכרון רכש-אוטומטי עם תחזוקה-מתוכננת ולוגיסטיקה-מבצעית.",
           processExampleHe: "תחזוקה-מתוכננת לתורן בשטח ► Maintenance BOM מגדיר חלפים ► רכש-אוטומטי מזמין חלפים לאתר ► Material Logistics Planning מתזמן אספקה ► החלפים מגיעים לשטח בזמן-העבודה.",
-          cbcHe: "ב-CBC פחות מרכזי (ייצור-נייח), אך רלוונטי לתחזוקת-קווי-המילוי המבוזרים בין-מפעלים: תכנון-אספקת-חלפים לאתרי-הייצור השונים, מסונכרן עם תחזוקה-מונעת.",
+          scenarioHe: "בארגון פחות מרכזי (ייצור-נייח), אך רלוונטי לתחזוקת-קווי-המילוי המבוזרים בין-מפעלים: תכנון-אספקת-חלפים לאתרי-הייצור השונים, מסונכרן עם תחזוקה-מונעת.",
           navHe: ["SAP S/4HANA ► Asset Management ► Field Equipment & Material Logistics", "Plant Maintenance ► Maintenance Planning ► Material Provision"],
           tables: ["EQUI", "EQUK", "STKO", "EKKO"],
           tcodes: ["IE01", "IW31", "ME21N", "ME59N"],
@@ -1116,8 +1116,8 @@ export const CH6: TextbookChapter = {
         "לחבר את הרכש-האוטומטי לספקים בזמן-אמת — אוטומציה מקצה-לקצה (PO→Confirmation→ASN→Invoice), פחות שגיאות-תקשורת, מחזורי-תשלום מהירים, וניהול-ספקים אסטרטגי דרך Ariba.",
       processExampleHe:
         "ME59N מייצר PO ► נשלח דרך CIG ל-Business Network (cXML) ► הספק מאשר (Order Confirmation) ► שולח ASN → Inbound Delivery ► GR ► הספק שולח Invoice דרך הרשת → MIRO/ERS → Three-Way-Match → תשלום. כל המחזור דיגיטלי וללא-נייר.",
-      cbcHe:
-        "ב-CBC כל ספקי-המפתח (סוכר, PET, תרכיז) מחוברים ל-SAP Business Network: ההזמנות-האוטומטיות נשלחות דיגיטלית, ASN מודיע על-משלוחים, וחשבוניות זורמות ל-ERS — מחזור-Procure-to-Pay מלא וללא-נייר. Ariba מנהל את הערכת-הספקים ואת המכרזים האסטרטגיים.",
+      scenarioHe:
+        "בארגון כל ספקי-המפתח (סוכר, PET, תרכיז) מחוברים ל-SAP Business Network: ההזמנות-האוטומטיות נשלחות דיגיטלית, ASN מודיע על-משלוחים, וחשבוניות זורמות ל-ERS — מחזור-Procure-to-Pay מלא וללא-נייר. Ariba מנהל את הערכת-הספקים ואת המכרזים האסטרטגיים.",
       navHe: [
         "SAP BTP ► Cloud Integration Gateway (CIG) ► SAP Business Network",
         "SAP Ariba ► Sourcing / Contracts / Supplier Management",
@@ -1193,8 +1193,8 @@ export const CH6: TextbookChapter = {
         "לקשור את כל חלקי-הפרק לתמונה-אחת: הרכש-האוטומטי-והישיר הוא מערכת-מקושרת שבה תכנון, קביעת-מקור, ביצוע ושיתוף-ספק עובדים יחד להזרים חומרים ישירים לייצור במינימום-התערבות ובמקסימום-בקרה.",
       processExampleHe:
         "מסע מלא: תחזית-קיץ ► MRP ► דרישה לסוכר ► Source List+Quota בוחרים ספק ► Scheduling Agreement מייצר schedule line ► Business Network שולח לספק ► ASN+QM Certificate ► GR ► ERS ► תשלום. כל זה ללא רוכש שנגע בהזמנה — רק טיפל בחריגה אחת שעלתה.",
-      cbcHe:
-        "ב-CBC הפרק כולו מתכנס: תרכיז (ספק-יחיד), סוכר (Quota 60/40), PET (Scheduling Agreement), CO2 (Consignment) — כולם נרכשים אוטומטית, מחוברים ל-Business Network, עם QM Collaboration לציות-מזון ושקיפות-CO2 לקיימות. קווי-המילוי מקבלים חומרים בזמן בלי התערבות-רכש שגרתית.",
+      scenarioHe:
+        "בארגון הפרק כולו מתכנס: תרכיז (ספק-יחיד), סוכר (Quota 60/40), PET (Scheduling Agreement), CO2 (Consignment) — כולם נרכשים אוטומטית, מחוברים ל-Business Network, עם QM Collaboration לציות-מזון ושקיפות-CO2 לקיימות. קווי-המילוי מקבלים חומרים בזמן בלי התערבות-רכש שגרתית.",
       navHe: [
         "סקירה: MRP ► Forecast ► Source Determination ► ME59N ► Business Network",
         "SPRO ► Materials Management ► Purchasing — כל הקונפיגורציה של הפרק",

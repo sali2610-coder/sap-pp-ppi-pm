@@ -12,7 +12,7 @@ export const CH16: TextbookChapter = {
   titleHe: "שילוב עם SAP Signavio ומערכות חיצוניות",
   titleEn: "Integrating SAP S/4HANA with SAP Signavio and External Systems",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לשילוב SAP S/4HANA Sourcing & Procurement עם רשתות ומערכות חיצוניות: SAP Ariba, SAP Business Network (לסחר, לשרשרת-אספקה, ללוגיסטיקה ולתחזוקת-נכסים), SAP Fieldglass, SAP SuccessFactors ו-SAP Signavio. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים זרימת-נתונים, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הדגש הוא אינטגרציה: זרימת-מסמכים (cXML/SOAP), Middleware (SAP Integration Suite) וכרייה-תהליכית (SAP Signavio Process Intelligence). המטרה: ללמוד את השילוב ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לשילוב SAP S/4HANA Sourcing & Procurement עם רשתות ומערכות חיצוניות: SAP Ariba, SAP Business Network (לסחר, לשרשרת-אספקה, ללוגיסטיקה ולתחזוקת-נכסים), SAP Fieldglass, SAP SuccessFactors ו-SAP Signavio. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים זרימת-נתונים, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הדגש הוא אינטגרציה: זרימת-מסמכים (cXML/SOAP), Middleware (SAP Integration Suite) וכרייה-תהליכית (SAP Signavio Process Intelligence). המטרה: ללמוד את השילוב ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 16.1
     {
@@ -27,8 +27,8 @@ export const CH16: TextbookChapter = {
         "המטרה: לדגֵם את שרשרת ה-Source-to-Pay כך שכל מסמך זורם דיגיטלית בין קונה לספק — להאיץ מחזורי-רכש, להפחית שגיאות-הקלדה, לאפשר תאימות-חוזים ולקבל נראות מלאה על ההוצאה (Spend visibility).",
       processExampleHe:
         "רוכש יוצר Purchase Order ב-S/4HANA. ה-PO נשלח כ-cXML דרך SAP Integration Suite אל SAP Business Network, ומגיע לספק. הספק שולח Order Confirmation, ואז Advance Ship Notice (ASN), ובסוף חשבונית (Invoice) — כולם זורמים חזרה ל-S/4HANA, מתאימים אוטומטית (3-way match) ומאושרים לתשלום.",
-      cbcHe:
-        "ב-CBC: רכש חומרי-אריזה (בקבוקים, פקקים, תוויות) מספקים גלובליים מנוהל דרך SAP Business Network; ההזמנות לקווי-המילוי זורמות כ-cXML, והספקים מחזירים ASN שמעדכן את תכנון-הקבלה במחסן-החומרים.",
+      scenarioHe:
+        "בארגון: רכש חומרי-אריזה (בקבוקים, פקקים, תוויות) מספקים גלובליים מנוהל דרך SAP Business Network; ההזמנות לקווי-המילוי זורמות כ-cXML, והספקים מחזירים ASN שמעדכן את תכנון-הקבלה במחסן-החומרים.",
       navHe: [
         "Materials Management ► Purchasing ► Integration with SAP Business Network ► Define Buyer Profile (ANID)",
         "SPRO ► Integration with Other SAP Components ► SAP Ariba / SAP Business Network ► Basic Settings",
@@ -102,8 +102,8 @@ export const CH16: TextbookChapter = {
         "המטרה: לספק תשתית-קישוריות סטנדרטית, מנוהלת ומעודכנת בין S/4HANA לפתרונות ה-Spend Management, ולקצר משמעותית את זמן-המימוש (Time-to-Value) של פרויקטי-שילוב.",
       processExampleHe:
         "מסמך PO יוצא מ-S/4HANA כ-IDoc; ה-Managed Gateway קולט אותו, ממפה ל-cXML לפי תבנית-הסטנדרט, ומנתב אל Business Network. בכיוון-החזרה, חשבונית cXML מתורגמת ל-IDoc INVOIC ונכנסת ל-S/4HANA — הכל דרך iFlows מנוהלים.",
-      cbcHe:
-        "ב-CBC ה-Managed Gateway משמש כצינור-יחיד לכל זרימות-המסמכים מול ספקי-האריזה והחומרים — הזמנות, אישורים וחשבוניות — עם ניטור מרכזי שמאפשר לצוות-הרכש לעקוב אחר תקיעות.",
+      scenarioHe:
+        "בארגון ה-Managed Gateway משמש כצינור-יחיד לכל זרימות-המסמכים מול ספקי-האריזה והחומרים — הזמנות, אישורים וחשבוניות — עם ניטור מרכזי שמאפשר לצוות-הרכש לעקוב אחר תקיעות.",
       navHe: [
         "SAP Integration Suite ► Cloud Integration ► Manage Integration Content",
         "SAP Business Network ► Administration ► Electronic Order Routing / Integration Settings",
@@ -163,7 +163,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "תהליך: (1) Provisioning של Integration Suite tenant; (2) הפעלת חבילת-התוכן הרלוונטית; (3) הגדרת Communication Arrangement/User ב-S/4HANA; (4) הזנת ANID ו-credentials של Business Network; (5) הקמת certificates ו-security material; (6) בדיקת-קצה. כל iFlow נושא קונפיגורציה (externalized parameters) שמותאמת ללקוח.",
           purposeHe: "להפעיל בפועל את הקישוריות המנוהלת — מהתקנה ועד מסמך-ראשון שזורם — בצורה סטנדרטית, מאובטחת וניתנת-לניטור.",
           processExampleHe: "מהנדס-אינטגרציה מפעיל את חבילת-התוכן, מזין את ה-ANID ואת ה-endpoints, מעלה certificate, ומריץ בדיקת-PO. ה-PO זורם, ובכך מאומת שהגדרת-הקצה תקינה.",
-          cbcHe: "ב-CBC צוות-ה-Basis מפעיל את ה-Integration Suite tenant ומחבר אותו ל-Business Network של ספקי-האריזה; iFlow ה-PO נבדק עם ספק-פיילוט אחד לפני הרחבה.",
+          scenarioHe: "בארגון צוות-ה-Basis מפעיל את ה-Integration Suite tenant ומחבר אותו ל-Business Network של ספקי-האריזה; iFlow ה-PO נבדק עם ספק-פיילוט אחד לפני הרחבה.",
           navHe: [
             "SAP Integration Suite ► Discover ► Integration Packages ► Copy & Deploy",
             "SAP Integration Suite ► Monitor ► Manage Integration Content",
@@ -192,7 +192,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "השילוב מזרים נתוני-מאסטר ותוצאות: חוזה ב-Ariba Contracts יכול להפוך ל-Outline Agreement / Contract ב-S/4HANA (או לשמש כמקור-מחיר), נתוני-ספק מסונכרנים, ו-Sourcing awards מזינים Info Records. שים לב לכיווניות: לרוב Ariba הוא ה-system-of-record לחוזה האסטרטגי, ו-S/4HANA לביצוע.",
           purposeHe: "לחבר את ההחלטות האסטרטגיות (ממי לקנות ובאיזה תנאי) לביצוע הפעולתי (הזמנות וחשבוניות), כך שכל רכישה תישען על חוזה ומחיר מאושרים.",
           processExampleHe: "מכרז ב-Ariba Sourcing מסתיים ב-award לספק; נוצר חוזה ב-Ariba Contracts; החוזה/המחיר מסונכרן ל-S/4HANA כ-Outline Agreement; הזמנות-רכש עתידיות מתייחסות אליו אוטומטית.",
-          cbcHe: "ב-CBC מכרז שנתי לבקבוקי-PET מתנהל ב-Ariba Sourcing; החוזה הזוכה מסונכרן ל-S/4HANA, וכל הזמנות-המילוי נשענות על מחיר-החוזה.",
+          scenarioHe: "בארגון מכרז שנתי לבקבוקי-PET מתנהל ב-Ariba Sourcing; החוזה הזוכה מסונכרן ל-S/4HANA, וכל הזמנות-המילוי נשענות על מחיר-החוזה.",
           navHe: [
             "SAP Ariba ► Sourcing ► Events / Awards",
             "SAP Ariba ► Contracts ► Contract Workspaces",
@@ -222,7 +222,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "התרחיש מכסה את מסמכי ה-cXML: OrderRequest, ConfirmationRequest, ShipNoticeRequest, InvoiceDetailRequest. ה-Business Network אוכף כללי-validation (למשל Invoice rules נגד ה-PO) לפני שהחשבונית מגיעה ל-S/4HANA, מה שמפחית דחיות. תומך גם ב-Service Sheets ו-Goods Receipt-based invoicing.",
           purposeHe: "להפוך את הרכש התפעולי (Procure-to-Pay) לאוטומטי, מהיר ונקי-משגיאות — מ-PO ועד תשלום — עם נראות-סטטוס לשני הצדדים.",
           processExampleHe: "PO זורם לספק; הספק מאשר ושולח ASN; הסחורה מתקבלת ב-S/4HANA (GR); הספק שולח חשבונית; ה-Business Network מאמת מול ה-PO/GR (3-way) ומעביר ל-S/4HANA לתשלום אוטומטי.",
-          cbcHe: "ב-CBC כל הזמנות חומרי-האריזה השוטפות עוברות ב-Commerce Automation; ASN מספק מעדכן את חלון-הקבלה במחסן, וחשבוניות מאומתות-מראש מצמצמות חריגות-תשלום.",
+          scenarioHe: "בארגון כל הזמנות חומרי-האריזה השוטפות עוברות ב-Commerce Automation; ASN מספק מעדכן את חלון-הקבלה במחסן, וחשבוניות מאומתות-מראש מצמצמות חריגות-תשלום.",
           navHe: [
             "SAP Business Network ► Workbench ► Orders / Invoices",
             "SAP Business Network ► Administration ► Transaction Rules (Invoice/Order Rules)",
@@ -261,8 +261,8 @@ export const CH16: TextbookChapter = {
         "לקצר את שרשרת-האספקה הישירה: לתת לספקים נראות-תחזית מוקדמת, לסנכרן אספקות מול קווי-הייצור, ולנהל Subcont, Consignment ואיכות ברשת אחת — להפחית מחסור ועודף.",
       processExampleHe:
         "MRP ב-S/4HANA מפיק תחזית-דרישות לחומר-גלם; התחזית משותפת לספק דרך ה-Business Network; הספק מתחייב לכמויות; Scheduling Agreement releases זורמים אוטומטית; הספק שולח ASN שמסונכרן עם הקבלה.",
-      cbcHe:
-        "ב-CBC תחזית-הדרישות לתרכיז ולסוכר משותפת לספקים דרך SCC; הספקים מתכננים אספקה לקווי-המילוי, ומלאי-Consignment של חומרי-אריזה מנוהל ברשת עם משיכה לפי-צריכה.",
+      scenarioHe:
+        "בארגון תחזית-הדרישות לתרכיז ולסוכר משותפת לספקים דרך SCC; הספקים מתכננים אספקה לקווי-המילוי, ומלאי-Consignment של חומרי-אריזה מנוהל ברשת עם משיכה לפי-צריכה.",
       navHe: [
         "SAP Business Network ► Supply Chain Collaboration ► Planning / Orders / Quality",
         "S/4HANA ► MRP ► Scheduling Agreement (ME31L / ME38)",
@@ -323,7 +323,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "כל תרחיש הוא 'collaboration document type' עם מצב (status) משותף לשני הצדדים: Forecast, Order, Schedule Line, Receipt, Consignment Movement, Quality Notification. המידע דו-כיווני ומשקף את ה-S/4HANA כמעט בזמן-אמת. ה-Workbench מספק תצוגות-חריגה (exceptions) להתערבות מהירה.",
           purposeHe: "לספק יכולות-שיתוף מוכנות-לשימוש לכל שלב במחזור-החומר-הישיר, כדי לקצר מימוש ולסטנדרט את שיתוף-הפעולה.",
           processExampleHe: "ספק נכנס ל-Workbench, רואה תחזית מעודכנת, מתחייב לכמויות, צופה ב-schedule lines, מאשר משלוח ושולח ASN — הכל מתוך ממשק-רשת אחד.",
-          cbcHe: "ב-CBC ספק-הסוכר משתמש ב-Workbench לצפייה בתחזית-הדרישות ולהתחייבות לאספקה שבועית לקווי-המילוי.",
+          scenarioHe: "בארגון ספק-הסוכר משתמש ב-Workbench לצפייה בתחזית-הדרישות ולהתחייבות לאספקה שבועית לקווי-המילוי.",
           navHe: ["SAP Business Network ► Supply Chain Collaboration ► Workbench (Planning/Orders/Quality/Consignment)"],
           tables: ["EKET", "RESB", "QMEL"],
           tcodes: ["MD04", "ME38", "ME2O"],
@@ -342,7 +342,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "שלבים: (1) הפעלת scope ב-Business Network admin; (2) הגדרת iFlows ב-Managed Gateway לתרחישי SCC; (3) הקמת Scheduling Agreements (ME31L) + output ל-SA release; (4) מיפוי Consignment/Subcontracting movements; (5) בדיקת סנכרון מול MD04. שים לב להתאמת לוחות-זמנים (delivery schedule lines, EKET) ולתזמון השחרורים.",
           purposeHe: "להפעיל בפועל את תרחישי שיתוף-הפעולה ולחבר אותם לתכנון (MRP) ולמסמכי-האספקה, כך שהשיתוף ישקף נתוני-אמת.",
           processExampleHe: "יועץ מפעיל את תרחיש Forecast+SA, מקים Scheduling Agreement, מגדיר output ל-release, ובודק ש-schedule lines מ-EKET זורמים לרשת ושה-ASN חוזר ומסנכרן את הקבלה.",
-          cbcHe: "ב-CBC מוקמים Scheduling Agreements לתרכיז ולסוכר עם output ל-Business Network; ה-iFlows ל-SA release ול-ASN נבדקים עם ספק-פיילוט.",
+          scenarioHe: "בארגון מוקמים Scheduling Agreements לתרכיז ולסוכר עם output ל-Business Network; ה-iFlows ל-SA release ול-ASN נבדקים עם ספק-פיילוט.",
           navHe: [
             "SAP Business Network ► Administration ► Supply Chain Collaboration Scope",
             "S/4HANA ► MRP ► Scheduling Agreement (ME31L) ► Maintain Delivery Schedule (ME38)",
@@ -377,8 +377,8 @@ export const CH16: TextbookChapter = {
         "לתת נראות מקצה-לקצה על תנועת-הסחורה — מהספק, דרך המוביל, ועד הקבלה — כדי לשפר תכנון-קבלה, לזהות עיכובים מוקדם ולתאם בין כל הצדדים בשרשרת.",
       processExampleHe:
         "משלוח יוצא מהספק; המוביל מדווח milestones (Picked up, In transit, Customs, Delivered) דרך Global Track and Trace; S/4HANA/TM מציג ETA מעודכן; מחסן-הקבלה מתכנן את חלון-הפריקה בהתאם.",
-      cbcHe:
-        "ב-CBC משלוחי חומרי-אריזה ותרכיז ממובילים בינלאומיים מנוטרים ב-Track and Trace; ETA מעודכן מאפשר ל-CBC לתזמן את קבלות-המחסן ולמנוע צווארי-בקבוק בקווי-המילוי.",
+      scenarioHe:
+        "בארגון משלוחי חומרי-אריזה ותרכיז ממובילים בינלאומיים מנוטרים ב-Track and Trace; ETA מעודכן מאפשר לארגון לתזמן את קבלות-המחסן ולמנוע צווארי-בקבוק בקווי-המילוי.",
       navHe: [
         "SAP Business Network ► Logistics ► Freight Collaboration / Track and Trace",
         "S/4HANA ► Transportation Management ► Freight Order Management",
@@ -440,9 +440,9 @@ export const CH16: TextbookChapter = {
       purposeHe:
         "ליצור 'מקור-אמת יחיד' למידע-ציוד לאורך מחזור-חייו, לשתפו בין כל בעלי-העניין, ולקשר תחזוקה וחלקי-חילוף לרשת-הספקים — להפחית downtime ולשפר אמינות.",
       processExampleHe:
-        "יצרן-מכונה מפרסם equipment model ברשת; CBC מחבר את ה-EQUI ב-S/4HANA למודל; הוראות-תחזוקה וחלקי-חילוף מסונכרנים; כשנדרש חלף, ההזמנה זורמת לספק דרך אותה רשת.",
-      cbcHe:
-        "ב-CBC קווי-המילוי וממלאות-הבקבוקים רשומים כ-equipment ב-EAM; חיבורם ל-Asset Management network מאפשר קבלת עדכוני-מפרט מהיצרן ורכש-חלפים מהיר דרך הרשת — קריטי לזמינות-קו גבוהה.",
+        "יצרן-מכונה מפרסם equipment model ברשת; הארגון מחבר את ה-EQUI ב-S/4HANA למודל; הוראות-תחזוקה וחלקי-חילוף מסונכרנים; כשנדרש חלף, ההזמנה זורמת לספק דרך אותה רשת.",
+      scenarioHe:
+        "בארגון קווי-המילוי וממלאות-הבקבוקים רשומים כ-equipment ב-EAM; חיבורם ל-Asset Management network מאפשר קבלת עדכוני-מפרט מהיצרן ורכש-חלפים מהיר דרך הרשת — קריטי לזמינות-קו גבוהה.",
       navHe: [
         "SAP Business Network ► Asset Management ► Equipment Models / Instances",
         "S/4HANA ► Asset Management (EAM) ► Equipment (IE01/IE02)",
@@ -498,8 +498,8 @@ export const CH16: TextbookChapter = {
         "לתת נראות ובקרה על ההוצאה הגדלה על כוח-אדם-חיצוני ושירותים — לאכוף תהליכי-רכש, לאמת שעות ותפוקות, ולחייב-עלות נכון, במקום הוצאה לא-מנוהלת.",
       processExampleHe:
         "מנהל יוצר דרישה ל-2 מפתחי-קבלן ב-Fieldglass; ספקי-כוח-אדם מציעים מועמדים; לאחר בחירה נוצר PO/Work Order; העובד מדווח שעות; ה-time sheet המאושר יוצר Service Entry Sheet וחשבונית ב-S/4HANA.",
-      cbcHe:
-        "ב-CBC עובדי-תחזוקה קבלניים וצוותי-פרויקט להקמת-קווים מנוהלים ב-Fieldglass; שעותיהם מאומתות ומחויבות ל-Cost Centers / WBS של הפרויקט ב-S/4HANA דרך Service Entry Sheets.",
+      scenarioHe:
+        "בארגון עובדי-תחזוקה קבלניים וצוותי-פרויקט להקמת-קווים מנוהלים ב-Fieldglass; שעותיהם מאומתות ומחויבות ל-Cost Centers / WBS של הפרויקט ב-S/4HANA דרך Service Entry Sheets.",
       navHe: [
         "SAP Fieldglass ► Procurement ► Work Orders / SOW",
         "S/4HANA ► MM ► Service Procurement ► Service Entry Sheet (ML81N)",
@@ -556,7 +556,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "הרכיבים: SAP Integration Suite (Cloud Integration) עם iFlows מוכנים, SOAP/REST APIs של Fieldglass ושל S/4HANA, OAuth/certificates לאימות, ו-message mapping (Work Order↔PO, Time Sheet↔SES, Invoice↔INVOIC). חבילות-תוכן מוכנות מקצרות מימוש. שים לב ל-error handling ול-monitoring ברמת ה-iFlow.",
           purposeHe: "לספק את התשתית-הטכנית המאובטחת והסטנדרטית שמאפשרת זרימת-נתונים אוטומטית בין Fieldglass ל-S/4HANA, עם ניטור וטיפול-שגיאות.",
           processExampleHe: "time sheet מאושר ב-Fieldglass מפעיל קריאת-API; iFlow ב-Integration Suite ממפה אותו ל-Service Entry Sheet ומזרים ל-S/4HANA דרך SOAP — אוטומטית ומאובטחת.",
-          cbcHe: "ב-CBC צוות-ה-Basis מפעיל את חבילת-התוכן של Fieldglass ב-Integration Suite, מגדיר OAuth ו-endpoints, ובודק זרימת time-sheet↔SES עם ספק-פיילוט.",
+          scenarioHe: "בארגון צוות-ה-Basis מפעיל את חבילת-התוכן של Fieldglass ב-Integration Suite, מגדיר OAuth ו-endpoints, ובודק זרימת time-sheet↔SES עם ספק-פיילוט.",
           navHe: ["SAP Integration Suite ► Cloud Integration ► Fieldglass Integration Package", "SAP Fieldglass ► Integration ► Connectors / API"],
           tables: ["EDIDC", "ESSR"],
           tcodes: ["SOAMANAGER", "SXMB_MONI"],
@@ -575,7 +575,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "מחזור CWM: Job Posting ➔ Candidate ➔ Work Order ➔ Time/Expense ➔ Invoice. השילוב יוצר PO רקורסיבי או Work Order שמתורגם ל-Service Procurement ב-S/4HANA, עם Service Entry Sheets לכל תקופת-דיווח. שים לב ל-rate cards, ל-tenure tracking (מגבלת-זמן העסקה) ולחיוב Cost Center נכון.",
           purposeHe: "לנהל את העובדים-הזמניים בבקרה מלאה — מדרישה ועד חשבונית — עם אימות-שעות, אכיפת-תעריפים ומעקב-עלות, ולמנוע הוצאה לא-מבוקרת על כוח-אדם.",
           processExampleHe: "דרישה ל-3 עובדי-מחסן זמניים מפורסמת; ספקי-כוח-אדם מציעים; נבחרים ומתחילים; כל שבוע מדווחות שעות, מאושרות, ויוצרות SES; חשבונית חודשית מאומתת מול ה-SES ב-S/4HANA.",
-          cbcHe: "ב-CBC בעונת-השיא מגויסים עובדי-מחסן זמניים דרך CWM; שעותיהם מאומתות ומחויבות ל-Cost Center של הלוגיסטיקה, וחשבוניות-הקבלן מאומתות מול ה-Service Entry Sheets.",
+          scenarioHe: "בארגון בעונת-השיא מגויסים עובדי-מחסן זמניים דרך CWM; שעותיהם מאומתות ומחויבות ל-Cost Center של הלוגיסטיקה, וחשבוניות-הקבלן מאומתות מול ה-Service Entry Sheets.",
           navHe: [
             "SAP Fieldglass ► Contingent ► Job Postings / Work Orders / Time Sheets",
             "S/4HANA ► MM ► Service Procurement ► Service Entry Sheet (ML81N)",
@@ -613,8 +613,8 @@ export const CH16: TextbookChapter = {
         "לוודא שנתוני-העובדים והארגון ב-S/4HANA מעודכנים ומדויקים — כדי שאישורי-רכש, זיהוי-מבקשים וחיוב-עלות יעבדו נכון — מבלי לתחזק נתוני-HR בכפילות.",
       processExampleHe:
         "עובד חדש נקלט ב-Employee Central עם Cost Center ומנהל; הנתון מסונכרן ל-S/4HANA; כשהעובד יוצר Purchase Requisition, ה-workflow מנתב לאישור-מנהלו, וההוצאה מחויבת ל-Cost Center הנכון.",
-      cbcHe:
-        "ב-CBC עובדי-הרכש והלוגיסטיקה מנוהלים ב-Employee Central; הסנכרון ל-S/4HANA מבטיח ש-Purchase Requisitions מנותבות לאישור הנכון ומחויבות ל-Cost Centers של המחלקות.",
+      scenarioHe:
+        "בארגון עובדי-הרכש והלוגיסטיקה מנוהלים ב-Employee Central; הסנכרון ל-S/4HANA מבטיח ש-Purchase Requisitions מנותבות לאישור הנכון ומחויבות ל-Cost Centers של המחלקות.",
       navHe: [
         "SAP SuccessFactors ► Employee Central ► Employee / Org Data",
         "S/4HANA ► Personnel Administration / HR mini-master (PA30)",
@@ -670,7 +670,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "השילוב הישיר מבוסס על integration content מובנה ב-S/4HANA הצורך את ה-EC OData/SOAP APIs, עם replication של Employee + Org. הוא מתאים לתרחישים סטנדרטיים ללא טרנספורמציות מורכבות. שים לב למגבלות-המיפוי: כשנדרשת לוגיקת-מיפוי עשירה, עדיף הנתיב דרך Cloud Integration (16.7.2).",
           purposeHe: "לספק חיבור פשוט וישיר בין EC ל-S/4HANA לתרחישים סטנדרטיים, עם פחות רכיבי-תשתית לתחזוקה.",
           processExampleHe: "S/4HANA מריץ replication job שקורא Employee/Org מ-EC דרך API, וממלא את ה-HR mini-master — בלי iFlow ביניים.",
-          cbcHe: "ב-CBC, בהיעדר טרנספורמציות-HR מורכבות, נבחר הנתיב הישיר לסנכרון עובדי-הרכש מ-EC ל-S/4HANA.",
+          scenarioHe: "בארגון, בהיעדר טרנספורמציות-HR מורכבות, נבחר הנתיב הישיר לסנכרון עובדי-הרכש מ-EC ל-S/4HANA.",
           navHe: ["S/4HANA ► Integration ► Employee Central Direct Integration ► Replication", "SAP SuccessFactors ► Employee Central ► API Center"],
           tables: ["PA0001", "HRP1000", "CSKS"],
           tcodes: ["PFAL", "PA30"],
@@ -689,7 +689,7 @@ export const CH16: TextbookChapter = {
           consultantHe: "Cloud Integration מריץ iFlows מוכנים (SAP-delivered) לתרחיש EC↔S/4HANA, עם message mapping עשיר, value mapping, error handling ו-monitoring מרכזי. מתאים כשיש כללי-מיפוי מורכבים, מספר מערכות-יעד, או צורך בטרנספורמציות. שים לב לתחזוקת ה-iFlows ולעדכוני-תוכן.",
           purposeHe: "לתמוך בתרחישי-שילוב מורכבים בין EC ל-S/4HANA עם יכולות מיפוי, טרנספורמציה וניטור מתקדמות, מעבר למה שהנתיב הישיר מאפשר.",
           processExampleHe: "נתון-עובד מ-EC נכנס ל-iFlow ב-Cloud Integration; עובר value mapping (למשל המרת קודי-מחלקה), מסונן, ומנותב גם ל-S/4HANA וגם למערכת-שכר נוספת.",
-          cbcHe: "ב-CBC, אם נדרש לנתב נתוני-עובד גם ל-S/4HANA וגם למערכת-נוכחות מקומית, נבחר הנתיב דרך Cloud Integration עם value mapping לקודי-המחלקות הישראליים.",
+          scenarioHe: "בארגון, אם נדרש לנתב נתוני-עובד גם ל-S/4HANA וגם למערכת-נוכחות מקומית, נבחר הנתיב דרך Cloud Integration עם value mapping לקודי-המחלקות הישראליים.",
           navHe: ["SAP Integration Suite ► Cloud Integration ► EC to S/4HANA Integration Package", "SAP SuccessFactors ► Employee Central ► Integration Center"],
           tables: ["PA0001", "HRP1000", "EDIDC"],
           tcodes: ["PFAL", "SXMB_MONI"],
@@ -720,8 +720,8 @@ export const CH16: TextbookChapter = {
         "לתת לארגון אמת-מבוססת-נתונים על תהליכי-הרכש שלו — לזהות צווארי-בקבוק, חוסר-ציות (off-contract buying), ו-rework — ולהניע שיפור-תהליכים מתמשך לפני ואחרי מעבר ל-S/4HANA.",
       processExampleHe:
         "Signavio מושך event log של 100,000 הזמנות-רכש; הוא מגלה ש-15% מהן עוקפות חוזה (maverick buying) ושאישורים מעל סכום מסוים מתעכבים 4 ימים בממוצע; הארגון מתקן את ה-workflow ואת מדיניות-החוזים.",
-      cbcHe:
-        "ב-CBC נעשה שימוש ב-SAP Signavio Process Intelligence לכריית תהליך ה-Procure-to-Pay: זוהו עיכובי-אישור בקווי-הרכש לחומרי-אריזה וחריגות מחוזי-ספקים; התובנות הזינו אופטימיזציה של זרימת-האישורים לפני ה-Go-Live של S/4HANA.",
+      scenarioHe:
+        "בארגון נעשה שימוש ב-SAP Signavio Process Intelligence לכריית תהליך ה-Procure-to-Pay: זוהו עיכובי-אישור בקווי-הרכש לחומרי-אריזה וחריגות מחוזי-ספקים; התובנות הזינו אופטימיזציה של זרימת-האישורים לפני ה-Go-Live של S/4HANA.",
       navHe: [
         "SAP Signavio ► Process Intelligence ► Investigations / Process Graph",
         "SAP Signavio ► Process Manager ► BPMN Modeling",
@@ -789,8 +789,8 @@ export const CH16: TextbookChapter = {
         "לאחד את כל תכני-הפרק לתמונת-על אחת: כיצד לחבר את ה-Procurement של S/4HANA לרשת ולמערכות החיצוניות בצורה סטנדרטית, מנוטרת ובת-קיימא, ולהשתמש ב-Process Mining לשיפור-מתמיד.",
       processExampleHe:
         "מקצה-לקצה: SuccessFactors מספק את המבקש; Signavio מצביע על צוואר-בקבוק באישורים; ה-PR מאושר; ה-PO זורם דרך Managed Gateway ל-Business Network; הספק מאשר ושולח (SCC/Logistics); Fieldglass מנהל את כוח-האדם הקבלני; והחשבונית חוזרת ומאומתת — מעגל אחד, נתונים זורמים.",
-      cbcHe:
-        "ב-CBC: כל שרשרת ה-Source-to-Pay לחומרי-המשקה מחוברת — Ariba/Business Network לספקים, Logistics לנראות-משלוח, Fieldglass לקבלנים, SuccessFactors לעובדים, ו-Signavio לאופטימיזציית-התהליך — סביב ליבת S/4HANA אחת.",
+      scenarioHe:
+        "בארגון: כל שרשרת ה-Source-to-Pay לחומרי-המשקה מחוברת — Ariba/Business Network לספקים, Logistics לנראות-משלוח, Fieldglass לקבלנים, SuccessFactors לעובדים, ו-Signavio לאופטימיזציית-התהליך — סביב ליבת S/4HANA אחת.",
       navHe: [
         "SAP Integration Suite ► Discover ► Integration Packages (ריכוז כל התרחישים)",
         "SAP Business Network ► Administration ► Integration Overview",

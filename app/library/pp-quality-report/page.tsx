@@ -109,7 +109,7 @@ function ChapterCard({ c }: { c: ChapterQA }) {
         <TextList title="היררכיה" icon={<ListTree className="size-3.5" />} items={c.hierarchyIssues} />
         <TextList title="תוכן חסר" icon={<FileWarning className="size-3.5" />} items={c.missingContent} />
         <TextList title="טרמינולוגיה" icon={<GraduationCap className="size-3.5" />} items={c.terminologyIssues} />
-        <TextList title="הערות CBC" icon={<Factory className="size-3.5" />} items={c.cbcIssues} />
+        <TextList title="הערות יישום" icon={<Factory className="size-3.5" />} items={c.orgIssues} />
       </div>
     </section>
   );
@@ -120,7 +120,7 @@ export default function PPQualityReportPage() {
   const avg = Math.round(PP_QUALITY.reduce((s, c) => s + scoreOf(c), 0) / PP_QUALITY.length);
   const atBar = PP_QUALITY.filter((c) => scoreOf(c) >= PP_QUALITY_META.publishBar).length;
   const totalHigh = PP_QUALITY.reduce((s, c) => s + c.sapObjectIssues.filter((f) => f.severity === "high").length + (PP_QUALITY_META.crossLinksResolved ? 0 : c.crossLinkIssues.filter((f) => f.severity === "high").length), 0);
-  const totalIssues = PP_QUALITY.reduce((s, c) => s + c.sapObjectIssues.length + c.crossLinkIssues.length + c.hierarchyIssues.length + c.terminologyIssues.length + c.cbcIssues.length + c.missingContent.length, 0);
+  const totalIssues = PP_QUALITY.reduce((s, c) => s + c.sapObjectIssues.length + c.crossLinkIssues.length + c.hierarchyIssues.length + c.terminologyIssues.length + c.orgIssues.length + c.missingContent.length, 0);
 
   return (
     <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">

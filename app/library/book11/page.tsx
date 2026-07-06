@@ -121,8 +121,8 @@ export default function Book11Page() {
 
       <p className="text-center text-xs text-muted-foreground">
         {lang === "he"
-          ? "הטקסט חולץ מקובץ ה-PDF המקורי (pdf-parse). תרגום עברי מקצועי נכתב עבור CBC."
-          : "Text extracted from the original PDF (pdf-parse). Hebrew professionally translated for CBC."}
+          ? "הטקסט חולץ מקובץ ה-PDF המקורי (pdf-parse). תרגום עברי מקצועי נכתב עבור הארגון."
+          : "Text extracted from the original PDF (pdf-parse). Hebrew professionally translated for the organization."}
       </p>
     </div>
   );

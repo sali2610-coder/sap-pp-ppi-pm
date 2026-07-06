@@ -2,7 +2,7 @@
 // Every node (parent + nested sub-heading) is a complete LearningNode with 18
 // facets of authored Hebrew. Source hierarchy preserved (pm-toc.json key "1");
 // x.y.z nested under x.y. Transformative Hebrew (no source prose); SAP
-// identifiers verbatim EN. CBC = Coca-Cola bottling Israel plant maintenance.
+// identifiers verbatim EN. הארגון = Example Product bottling Israel plant maintenance.
 import type { TextbookChapter } from "./types";
 
 export const CH1: TextbookChapter = {
@@ -10,7 +10,7 @@ export const CH1: TextbookChapter = {
   titleHe: "פרויקטי SAP בתחזוקת מפעל",
   titleEn: "SAP Projects in Plant Maintenance",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה על אופן הובלת פרויקט מימוש Plant Maintenance (תחזוקת-מפעל) ב-SAP S/4HANA Asset Management. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. בשונה מפרקי-הקונפיגורציה הבאים, פרק זה עוסק בשיטת-העבודה (מתודולוגיה, סיכונים, הצלחה, וטיפים) — היסוד שעליו נשען כל מימוש מוצלח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה על אופן הובלת פרויקט מימוש Plant Maintenance (תחזוקת-מפעל) ב-SAP S/4HANA Asset Management. כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. בשונה מפרקי-הקונפיגורציה הבאים, פרק זה עוסק בשיטת-העבודה (מתודולוגיה, סיכונים, הצלחה, וטיפים) — היסוד שעליו נשען כל מימוש מוצלח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 1.1
     {
@@ -25,8 +25,8 @@ export const CH1: TextbookChapter = {
         "המטרה: לייצר תוכנית-מימוש הקובעת אילו פונקציות מיושמות, באיזה מפעל, ובאיזו נקודת-זמן — כך שהפרויקט מתקדם בשלבים נשלטים במקום 'הכול בבת-אחת'. זה מקטין סיכון, מפזר עומס ומאפשר הפקת-לקחים בין שלבים.",
       processExampleHe:
         "ארגון תעשייתי מחליט: שלב-פונקציונלי 1 = מבנה-נכסים טכני (Functional Locations + Equipment); שלב 2 = עיבוד פקודות-עבודה; שלב 3 = אחזקה מונעת (Maintenance Plans). מרחבית: פיילוט → מפעל בודד → Rollout. אסטרטגיה משולבת: מימוש מלא במפעל-חלוץ אחד, ואז פריסת עיבוד-הפקודות לכל המפעלים.",
-      cbcHe:
-        "ב-CBC ישראל הפרויקט נפרס בשלבים: תחילה ממפים את קווי-המילוי וה-Functional Locations של מפעל אחד (פיילוט), מקימים Equipment למילרים/מכסים/מסועים, ורק לאחר ייצוב מרחיבים לאחזקה מונעת ול-Rollout לשאר אתרי-הבקבוק. כך מתקלות-קו לא 'מציפות' פרויקט שעוד לא התייצב.",
+      scenarioHe:
+        "בארגון ישראל הפרויקט נפרס בשלבים: תחילה ממפים את קווי-המילוי וה-Functional Locations של מפעל אחד (פיילוט), מקימים Equipment למילרים/מכסים/מסועים, ורק לאחר ייצוב מרחיבים לאחזקה מונעת ול-Rollout לשאר אתרי-הבקבוק. כך מתקלות-קו לא 'מציפות' פרויקט שעוד לא התייצב.",
       navHe: [
         "SAP Activate Roadmap Viewer (https://go.support.sap.com/roadmapviewer/) — בחירת Roadmap למימוש S/4HANA",
         "SAP Road Map Explorer (https://roadmaps.sap.com/) — חזון מוצר S/4HANA Asset Management",
@@ -87,7 +87,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "הציר הפונקציונלי: שלב 1 מבנה-נכסים, שלב 2 פקודות-עבודה, שלב 3 אחזקה מונעת, שלב 4 הרחבות (Refurbishment, Subcontracting, Pool Asset Management, Mobile). הציר המרחבי: פיילוט→מפעל→Rollout. הצלב אותם ל-Roadmap עם תאריכי-יעד לכל מפעל/פונקציה. אם מבני-נכסים קיימים במורשת — דלג על שלב 1 והעבר ב-IBIP/LSMW.",
           purposeHe: "לפזר סיכון ועומס לאורך-זמן ולאפשר הפקת-לקחים בין שלבים, במקום מהפכה חד-פעמית שמסכנת את כל הארגון בבת-אחת.",
           processExampleHe: "תוכנית: רבעון 1 — מבנה-נכסים בפיילוט; רבעון 2 — פקודות-עבודה במפעל-החלוץ; רבעון 3 — אחזקה מונעת; רבעון 4 — Rollout אופקי של עיבוד-הפקודות לשאר המפעלים.",
-          cbcHe: "ב-CBC: שלב 1 מקים Functional Locations של מפעל-בקבוק חלוץ; שלב 2 פקודות-תיקון לקווי-המילוי; שלב 3 תוכניות-אחזקה מונעת למילרים; שלב 4 Rollout לאתרים נוספים — כל אתר נכנס רק לאחר התייצבות הקודם.",
+          scenarioHe: "בארגון: שלב 1 מקים Functional Locations של מפעל-בקבוק חלוץ; שלב 2 פקודות-תיקון לקווי-המילוי; שלב 3 תוכניות-אחזקה מונעת למילרים; שלב 4 Rollout לאתרים נוספים — כל אתר נכנס רק לאחר התייצבות הקודם.",
           navHe: ["SAP Activate Roadmap Viewer ► בחירת Roadmap לפי היקף-מימוש ושלבים"],
           tables: ["IFLOT", "EQUI"],
           tcodes: ["IL01", "IE01"],
@@ -109,7 +109,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "ששת השלבים: Discover (היכרות + As-Is), Prepare (ארגון, מטרות, תקציב, צוות), Explore (Business Blueprint + Fit-Gap + אב-טיפוס), Realize (Customizing סופי, פיתוחים, בדיקות), Deploy (Cutover + Go-Live), Run (אופטימיזציה מתמשכת). כל מעבר נשמר ב-Quality Gate (QG1–QG5). Accelerators = תבניות ושיטות-עבודה זמינות ב-Roadmap Viewer ו-Solution Manager.",
           purposeHe: "לספק מסגרת-ביצוע מוכחת עם תוצרים, נקודות-בקרה ותבניות — כך שהצוות לא 'ממציא את הגלגל' ולא מדלג על שלבים קריטיים.",
           processExampleHe: "הפרויקט עובר QG1 בסוף Prepare (Scope מאושר), QG2 בסוף Explore (Blueprint + Fit-Gap מאושרים), QG3/QG4 ב-Realize (קונפיגורציה ובדיקות), QG5 ב-Deploy (Go-Live Readiness) — וכל שער חוסם מעבר עד עמידה בקריטריונים.",
-          cbcHe: "ב-CBC הפרויקט מנוהל לפי Activate: ב-Explore מגדירים Blueprint לקווי-המילוי ולתוכניות-האחזקה; ב-Realize מבצעים את ה-Customizing ובודקים תרחישי-תקלה אמיתיים; ב-Deploy מבצעים Cutover ועולים לאוויר במפעל-החלוץ.",
+          scenarioHe: "בארגון הפרויקט מנוהל לפי Activate: ב-Explore מגדירים Blueprint לקווי-המילוי ולתוכניות-האחזקה; ב-Realize מבצעים את ה-Customizing ובודקים תרחישי-תקלה אמיתיים; ב-Deploy מבצעים Cutover ועולים לאוויר במפעל-החלוץ.",
           navHe: [
             "SAP Activate Roadmap Viewer ► שישה שלבים + Quality Gates + Accelerators",
             "SAP Road Map Explorer ► חזון מוצר ותכולות עתידיות S/4HANA Asset Management",
@@ -157,8 +157,8 @@ export const CH1: TextbookChapter = {
         "להפוך ניהול-סיכונים מאינטואיציה לתהליך מבוסס-נתונים: לזהות מראש את הסיכונים השכיחים, לתעדף את גורמי-ההצלחה הקריטיים, ולכוון אליהם משאבים.",
       processExampleHe:
         "מנהל-פרויקט בונה Risk Register: לכל אחד מ-33 הסיכונים (למשל R01 תיעוד-לקוי, R07 בקשות-שינוי מתמשכות) מוקצים הסתברות, השפעה, צעד-מיטיגציה ואחראי — ונסקר בכל Steering Committee.",
-      cbcHe:
-        "ב-CBC הסיכון הבולט הוא R20 (עומס-יתר על צוות-האחזקה — טכנאים 'חיים' בכיבוי-שריפות בקו-המילוי ואינם פנויים לפרויקט). המיטיגציה: הקצאת אדם 100% ייעודי + תמיכת-הנהלה לשחרורו ממשימות-יום-יום.",
+      scenarioHe:
+        "בארגון הסיכון הבולט הוא R20 (עומס-יתר על צוות-האחזקה — טכנאים 'חיים' בכיבוי-שריפות בקו-המילוי ואינם פנויים לפרויקט). המיטיגציה: הקצאת אדם 100% ייעודי + תמיכת-הנהלה לשחרורו ממשימות-יום-יום.",
       navHe: [
         "Roadmap Viewer ► Accelerators ► Risk Register / Risk Assessment templates",
         "Solution Manager ► Project Management ► Risk & Issue tracking",
@@ -209,7 +209,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "הסיכונים הבולטים: R01 תיעוד-לקוי ו-R07 בקשות-שינוי מתמשכות (סביבה); R14/R15 אי-התאמת-תוכניות לשינויים (ניהול); R20 עומס-צוות ו-R22 ידע-חסר (ארגון/צוות); R28/R30/R31 חוסר-זמן ועיכובים (מהלך). מפה כל סיכון רלוונטי ל-Register עם מיטיגציה.",
           purposeHe: "לזהות מראש את נקודות-הכשל השכיחות ולתכנן מולן צעדי-מנע, במקום להגיב באיחור.",
           processExampleHe: "צוות מזהה את R07 (בקשות-שינוי מתמשכות) כסיכון-מוביל ומגדיר Change-Management Policy עם נוהל-אישור — מיטיגציה ישירה.",
-          cbcHe: "ב-CBC R20 (עומס-צוות) הוא הסיכון הראשי: טכנאי-אחזקה עסוקים בכיבוי-תקלות-קו. מיטיגציה: שחרור אדם 100% ייעודי + גיבוי-משמרת.",
+          scenarioHe: "בארגון R20 (עומס-צוות) הוא הסיכון הראשי: טכנאי-אחזקה עסוקים בכיבוי-תקלות-קו. מיטיגציה: שחרור אדם 100% ייעודי + גיבוי-משמרת.",
           navHe: ["Roadmap Viewer ► Accelerators ► Risk Assessment / Risk Radar template"],
           tables: [],
           tcodes: [],
@@ -231,7 +231,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "הדירוג חושב במשקלים (חשוב-מאוד=4 … לא-חשוב=1), ולכן אינו תואם בדיוק לאחוז ה'חשוב-מאוד'. מבחינה מעשית: גייס Steering Committee פעיל (E12), מנה PM בעל-סמכות (E02), עבוד מובנה (E01), והדרך את הצוות (E05) לפני שמתחילים בתוכן.",
           purposeHe: "לכוון את משאבי-הפרויקט לגורמים בעלי-ההשפעה-הגדולה-ביותר על ההצלחה, במקום לפזר מאמץ אחיד.",
           processExampleHe: "PM מציג להנהלה את הדירוג, משיג מחויבות-Steering-Committee פעילה (E12), וממנה צוות עם אדם 100% ייעודי וכשירות-טכנית (E05/E25).",
-          cbcHe: "ב-CBC E05 (כשירות-טכנית) קריטי: הצוות חייב להכיר את ציוד-קווי-המילוי כדי למפות נכון Functional Locations ו-Equipment; חוסר-ידע מוביל למבנה-נכסים שגוי.",
+          scenarioHe: "בארגון E05 (כשירות-טכנית) קריטי: הצוות חייב להכיר את ציוד-קווי-המילוי כדי למפות נכון Functional Locations ו-Equipment; חוסר-ידע מוביל למבנה-נכסים שגוי.",
           navHe: ["Roadmap Viewer ► Accelerators ► Project Charter / Success-Criteria template"],
           tables: [],
           tcodes: [],
@@ -261,8 +261,8 @@ export const CH1: TextbookChapter = {
         "לתרגם את המתודולוגיה והסקר להמלצות-פעולה קונקרטיות לכל שלב, כך שצוות-הפרויקט יימנע מהמלכודות הנפוצות ויאמץ שיטות-עבודה מוכחות.",
       processExampleHe:
         "צוות עובד עם צ'ק-ליסט הטיפים: ב-Discover עורך As-Is לפי רשימת-שאלות מובנית; ב-Prepare מגדיר Change-Policy; ב-Explore בונה אב-טיפוס; ב-Realize מבצע בדיקות-אינטגרציה; ב-Deploy מריץ Cutover-Plan.",
-      cbcHe:
-        "ב-CBC הטיפים מתורגמים לקווי-המילוי: As-Is של תהליכי-תקלה קיימים, אב-טיפוס עם Functional Locations מייצגים, ובדיקת-אינטגרציה של זרימת הודעת-תקלה (IW21)→פקודה (IW31)→דיווח (IW41) לפני Go-Live.",
+      scenarioHe:
+        "בארגון הטיפים מתורגמים לקווי-המילוי: As-Is של תהליכי-תקלה קיימים, אב-טיפוס עם Functional Locations מייצגים, ובדיקת-אינטגרציה של זרימת הודעת-תקלה (IW21)→פקודה (IW31)→דיווח (IW41) לפני Go-Live.",
       navHe: [
         "SAP Activate Roadmap ► רצף Discover→Prepare→Explore→Realize→Deploy→Run",
         "Roadmap Viewer ► Accelerators לכל שלב (Checklists, Templates)",
@@ -313,7 +313,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "ה-As-Is אינו פורמליות: עבוד מול רשימת-שאלות מובנית — רקע-מערכת (Release, EhP, פונקציות LOG_EAM, FI/CO/רכש/מלאי פעילים), מבנים-ארגוניים (Controlling Area, Company Code, Plant, Maintenance Plant/Planning Plant), מבנה-נכסים-טכני (סוגי-אובייקטים, BOM לחלפים, Warranties), תהליכי-אחזקה (תקלות, מונעת, כיול), רכש/מחסן ודיווח. שייך כל פונקציה לשלב-הרחבה A/B/C.",
           purposeHe: "להבין במדויק אילו נתוני-אב, תהליכים ודוחות יש למפות, ולבסס תכנון-מועדים, מאמץ, כוח-אדם ועלויות.",
           processExampleHe: "צוות עורך סדנאות-משתמשים, תצפיות וראיונות; ממפה את תהליך-התקלה הקיים; מתעד Quantity-Structure (כמה Equipment, כמה Task Lists); ומשייך פונקציות לשלבי A/B/C.",
-          cbcHe: "ב-CBC ה-As-Is ממפה: כמה קווי-מילוי, כמה מילרים/מסועים, איך מדווחות תקלות היום (טלפון/נייר), ואילו דוחות-זמינות נדרשים ל-Go-Live — בסיס למבנה-הנכסים העתידי.",
+          scenarioHe: "בארגון ה-As-Is ממפה: כמה קווי-מילוי, כמה מילרים/מסועים, איך מדווחות תקלות היום (טלפון/נייר), ואילו דוחות-זמינות נדרשים ל-Go-Live — בסיס למבנה-הנכסים העתידי.",
           navHe: ["SAP Activate ► Discover ► As-Is Analysis + Feasibility Study", "SAP Learning Hub ► S43000/S43100/S43200/S43300/S43400"],
           tables: ["IFLOT", "EQUI", "T370", "T399I"],
           tcodes: ["IH01", "IE03", "IL03"],
@@ -336,7 +336,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "נקודות-מפתח: (1) Change-Policy — אילו שינויים מותרים ונוהל-אישורם; (2) מטרה כתובה ומפורסמת + הגדרת מה לא-רוצים; (3) צוות לפי 1×100 > 3×50 > 6×30 — לפחות אדם אחד 100% ייעודי, חדר-פרויקט נפרד; (4) 'מסמך-המסמכים' המגדיר כל תוצר (Project Plan, Business Case, As-Is, BPML, Gap-List, WRICEF, Cutover-Plan); (5) שיטות-מידול: VCD/EPC/BPMN/ECD.",
           purposeHe: "לבנות תשתית-פרויקט יציבה — מטרות ברורות, צוות נכון, תיעוד מסודר וניהול-שינויים — לפני שמתחילים בתוכן.",
           processExampleHe: "המנהל מנסח מטרה ('הפחתת זמן-השבתה מ-6.2% ל-2.8%'), מפרסם אותה, מקצה אדם 100% ייעודי, מגדיר Change-Policy, ובונה 'מסמך-מסמכים' עם שמות/אחסון/אחראים.",
-          cbcHe: "ב-CBC המטרה: הפחתת Breakdowns בקו-המילוי והגדלת Availability. הצוות כולל טכנאי-אחזקה-בכיר 100% ייעודי + יועץ-PM; התיעוד כולל BPML של תהליך-התקלה ו-WRICEF-List לממשק-Zetes/Daymax.",
+          scenarioHe: "בארגון המטרה: הפחתת Breakdowns בקו-המילוי והגדלת Availability. הצוות כולל טכנאי-אחזקה-בכיר 100% ייעודי + יועץ-PM; התיעוד כולל BPML של תהליך-התקלה ו-WRICEF-List לממשק-Zetes/Daymax.",
           navHe: ["SAP Activate ► Prepare ► Project Charter, Schedule, Budget", "Roadmap Viewer ► Accelerators ► Document templates (BPML, Gap-List, WRICEF)"],
           tables: ["AUFK", "VIQMEL"],
           tcodes: ["IW31", "IW21"],
@@ -373,7 +373,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "טיפים מרכזיים: (1) שתף משתמשים — Reference Group ומשובים; (2) שמור פשטות — '80% עם 100% קבלה עדיף על 100% עם 20% קבלה'; (3) קטוף Low-Hanging-Fruit מ-As-Is; (4) עצב מושג-הרשאות (PFCG) במקביל; (5) תכנן העברת-נתונים (IBIP/LSMW/Migration-Cockpit); (6) בנה אב-טיפוס עם כל ה-Controlling-Customizing; (7) Gap-List → WRICEF (Customer Exits כמו IWO10004, BAPIs, BAdIs).",
           purposeHe: "להפוך את ה-As-Is לתפיסת-To-Be מפורטת ומאומתת באב-טיפוס, ולזהות מראש את כל הפערים הדורשים פיתוח.",
           processExampleHe: "צוות בונה אב-טיפוס: מבנה Functional Location, Equipment ו-Task Lists מייצגים; מציג ל-Reference Group; מתעד Gap-List (למשל 'אישור-טכני חסום אם נותרו דרישות-רכש פתוחות' → Customer Exit IWO10004).",
-          cbcHe: "ב-CBC אב-הטיפוס מדגים את זרימת התקלה בקו-המילוי; Low-Hanging-Fruit = יצירת Maintenance Request ב-Fiori במקום נייר; Gap-List כולל ממשק לדיווח-תקלות מ-Zetes/Daymax (WRICEF-Interface).",
+          scenarioHe: "בארגון אב-הטיפוס מדגים את זרימת התקלה בקו-המילוי; Low-Hanging-Fruit = יצירת Maintenance Request ב-Fiori במקום נייר; Gap-List כולל ממשק לדיווח-תקלות מ-Zetes/Daymax (WRICEF-Interface).",
           navHe: ["SAP Activate ► Explore ► Business Blueprint + Fit-Gap + Prototype", "Customizing ► PM ► Prototype configuration (Controlling settings)"],
           tables: ["IFLOT", "EQUI", "MPOS", "MPLA"],
           tcodes: ["IH01", "IE01", "IP01", "PFCG"],
@@ -417,7 +417,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "השלם את ה-Non-Controlling-Customizing (Planner Groups, Purchasing Groups, MRP Controllers, Locations, Plant Sections) שהוזן רק חלקית ב-Explore. בצע שלוש שכבות-בדיקה: Functional (יחידני), Scenario (שרשרת-תהליך), Integration (End-to-End עם נתונים-מהוגרים וממשקים אמיתיים). הוסף UAT. הכן Cutover-Plan.",
           purposeHe: "להפוך את הקונספט למערכת-יצרנית-מאומתת, כך שב-Go-Live אין הפתעות-עיצוב אלא לכל-היותר שאלות-הפעלה.",
           processExampleHe: "צוות משלים Customizing, מפתח Customer Exit IWO10004 (חסימת-אישור עם דרישות-רכש פתוחות), מקים תפקידי-PFCG, מזין Equipment, ומריץ בדיקת-אינטגרציה: הודעה (IW21)→פקודה (IW31)→דיווח (IW41)→Settlement.",
-          cbcHe: "ב-CBC בדיקת-האינטגרציה מדמה תקלת-מילר: יצירת הודעה (IW21), המרה לפקודה (IW31), משיכת חלף ממלאי, דיווח-גמר (IW41) ו-Settlement לעלות-מרכז-העלות של הקו — עם הממשק ל-Zetes/Daymax פעיל.",
+          scenarioHe: "בארגון בדיקת-האינטגרציה מדמה תקלת-מילר: יצירת הודעה (IW21), המרה לפקודה (IW31), משיכת חלף ממלאי, דיווח-גמר (IW41) ו-Settlement לעלות-מרכז-העלות של הקו — עם הממשק ל-Zetes/Daymax פעיל.",
           navHe: ["SAP Activate ► Realize ► Final Configuration + Build + Test", "Customizing ► PM ► Non-Controlling settings (Planner Groups, MRP Controllers, Locations)"],
           tables: ["AUFK", "VIQMEL", "AFRU", "BANF"],
           tcodes: ["IW31", "IW21", "IW41", "PFCG"],
@@ -456,7 +456,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "טיפים: (1) הקצב יום עד שבוע לתיקון/השלמת נתוני-אב — העברה לעולם לא חלקה לגמרי; (2) הדרכת-קצה תיעשה ע\"י עובדי-הארגון (לא קורסי-SAP), סמוך ל-Go-Live עם אובייקטים-אמיתיים; (3) Cutover-Plan = 'חוט-קשור-לאצבע' לפרטים-קטנים (נתונים-ידניים, הגדרות-לא-מועברות, Variants, Batch-Jobs, Number-Ranges); (4) תמיכה On-Site + Hotline בימים הראשונים.",
           purposeHe: "לבצע מעבר-מבוקר לתפעול-חי בלי לשכוח את 'הדברים-הקטנים' שדווקא הם נשכחים במהלך-גדול כמו Go-Live.",
           processExampleHe: "הצוות מריץ Cutover-Plan: יוצר ידנית נתונים-שלא-שווה-להגר, מפעיל Number-Ranges, מריץ Batch-Jobs, ומבצע Going-Live-Check; ביום-העלייה מתחילים לעבד הודעות ופקודות עם תמיכה On-Site.",
-          cbcHe: "ב-CBC ה-Cutover כולל: יצירת Equipment אחרון לקווי-המילוי, הפעלת טווחי-מספרים לפקודות, והדרכת-טכנאים-פנימית על יצירת הודעת-תקלה. Hotline פעיל בשבוע-העלייה לתמיכת-משמרות.",
+          scenarioHe: "בארגון ה-Cutover כולל: יצירת Equipment אחרון לקווי-המילוי, הפעלת טווחי-מספרים לפקודות, והדרכת-טכנאים-פנימית על יצירת הודעת-תקלה. Hotline פעיל בשבוע-העלייה לתמיכת-משמרות.",
           navHe: ["SAP Activate ► Deploy ► Cutover + Go-Live + Hypercare", "Cutover-Plan ► Manual-Data, Variants, Batch-Jobs, Number-Ranges"],
           tables: ["EQUI", "IFLOT", "AUFK", "VIQMEL"],
           tcodes: ["IBIP", "LSMW", "IW31", "IW21"],
@@ -495,7 +495,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "Run אינו 'סוף' אלא מחזור-חיים: הקם תהליך Continuous-Improvement, נטר KPI-אחזקה (זמינות, MTBF/MTTR), ובצע אופטימיזציה של Fiori Launchpads, תפקידי-PFCG ושדרוגי-מערכת. אסוף Lessons-Learned לפרויקט-Rollout הבא.",
           purposeHe: "להפוך את המערכת מ'מותקנת' ל'משתפרת-מתמיד', ולמסד למידה-ארגונית לפרויקטים עתידיים.",
           processExampleHe: "צוות-Run מנטר דוחות-זמינות, מזהה Functional Locations עם תקלות-חוזרות, מתאים תוכניות-אחזקה-מונעת, ומשפר Fiori Launchpad לטכנאים על-בסיס משוב.",
-          cbcHe: "ב-CBC צוות-Run מנתח Breakdown-Rate לכל קו-מילוי, מזהה מילרים 'בעייתיים', מקצר מחזורי-אחזקה-מונעת, ומשפר את אפליקציות-ה-Fiori על הטאבלטים של הטכנאים.",
+          scenarioHe: "בארגון צוות-Run מנתח Breakdown-Rate לכל קו-מילוי, מזהה מילרים 'בעייתיים', מקצר מחזורי-אחזקה-מונעת, ומשפר את אפליקציות-ה-Fiori על הטאבלטים של הטכנאים.",
           navHe: ["SAP Activate ► Run ► Continuous Improvement + Optimization", "Roadmap Viewer ► Run-phase accelerators (Operations, Upgrades)"],
           tables: ["EQUI", "IFLOT", "MPLA", "AUFK"],
           tcodes: ["IW38", "IW28", "IP30", "MCI3"],
@@ -530,8 +530,8 @@ export const CH1: TextbookChapter = {
         "לעגן את עקרונות-הניהול לפני הירידה לפרטי-הקונפיגורציה — כך שהמימוש הטכני יתבצע בתוך מסגרת-פרויקט בריאה.",
       processExampleHe:
         "צוות-מנצח: Steering-Committee פעיל, PM בעל-סמכות, מטרה כתובה ('הפחתת השבתה ל-2.8%'), Roadmap לפי Activate, As-Is מלא, אדם 100% ייעודי, אב-טיפוס, בדיקות-רב-שכבתיות והדרכת-קצה צמודה ל-Go-Live.",
-      cbcHe:
-        "ב-CBC ההצלחה נמדדת ב-Breakdown-Rate יורד ו-Availability עולה בקווי-המילוי — תוצאה ישירה של יישום-נכון של כל עקרונות-הפרק: אסטרטגיה-בשלבים, Activate, ניהול-סיכונים וטיפים.",
+      scenarioHe:
+        "בארגון ההצלחה נמדדת ב-Breakdown-Rate יורד ו-Availability עולה בקווי-המילוי — תוצאה ישירה של יישום-נכון של כל עקרונות-הפרק: אסטרטגיה-בשלבים, Activate, ניהול-סיכונים וטיפים.",
       navHe: [
         "SAP Activate ► סקירת-מחזור Discover→Prepare→Explore→Realize→Deploy→Run",
         "Roadmap Viewer ► Lessons-Learned + Next-Phase planning",

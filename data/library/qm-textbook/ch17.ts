@@ -1,7 +1,7 @@
 // ===== QM Digital Textbook — Chapter 17 (Early Warning System) =====
 // Every node is a complete LearningNode with 18 facets of authored Hebrew —
 // beginner + consultant friendly, enough to study the topic without the book.
-// SAP identifiers verbatim EN. CBC = Coca-Cola bottling quality-trend early warning.
+// SAP identifiers verbatim EN. הארגון = Example Product bottling quality-trend early warning.
 import type { TextbookChapter } from "./types";
 
 export const CH17: TextbookChapter = {
@@ -9,7 +9,7 @@ export const CH17: TextbookChapter = {
   titleHe: "מערכת התראה מוקדמת (Early Warning System)",
   titleEn: "Early Warning System",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה למערכת ההתראה המוקדמת (Early Warning System – EWS) של מערכת המידע ב-QM. ה-EWS יושב מעל מבני-המידע של ה-LIS (Logistics Information System) ומנטר אותם באופן יזום: הוא סורק נתוני-איכות שנצברים (שיעורי-פסילה, ערכי-מדידה, חריגות-תהליך) ומפעיל התראה ברגע שמגמה חוצה סף שהוגדר מראש. כל תת-פרק ותת-סעיף הורחבו ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד לבנות, לתזמן ולתפעל EWS על מגמות-איכות — כולל מקרה-הבוחן של CBC: זיהוי מוקדם של עליית שיעור-פסילות בקו-מילוי לפני שהיא הופכת לסיכון-בטיחות-מזון או ל-Recall.",
+    "פרק זה הוא יחידת-לימוד מלאה למערכת ההתראה המוקדמת (Early Warning System – EWS) של מערכת המידע ב-QM. ה-EWS יושב מעל מבני-המידע של ה-LIS (Logistics Information System) ומנטר אותם באופן יזום: הוא סורק נתוני-איכות שנצברים (שיעורי-פסילה, ערכי-מדידה, חריגות-תהליך) ומפעיל התראה ברגע שמגמה חוצה סף שהוגדר מראש. כל תת-פרק ותת-סעיף הורחבו ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד לבנות, לתזמן ולתפעל EWS על מגמות-איכות — כולל מקרה-הבוחן של הארגון: זיהוי מוקדם של עליית שיעור-פסילות בקו-מילוי לפני שהיא הופכת לסיכון-בטיחות-מזון או ל-Recall.",
   subchapters: [
     // ============================================================ 17.1
     {
@@ -24,8 +24,8 @@ export const CH17: TextbookChapter = {
         "המטרה העסקית: לקצר את זמן-התגובה לבעיות-איכות מימים/שבועות לשעות, ולהפוך ניהול-איכות מתגובתי ליזום. במקום לחכות לתלונת-לקוח או לפסילת-אצווה גדולה, הארגון מזהה את ההידרדרות בעודה קטנה — וחוסך עלויות-פסילה, Recalls וקנסות-רגולציה.",
       processExampleHe:
         "מנהל-איכות מגדיר חריגה: 'התרע אם שיעור-הפסילה של חומר X חורג מ-2% בחודש'. ה-EWS, ברקע, סורק את מבנה-המידע מדי לילה; ברגע שהשיעור עולה ל-2.3% נוצרת התראה הנשלחת ל-SAP Office Inbox/דוא\"ל של המנהל, עם קישור ל-Exception Analysis לתחקור.",
-      cbcHe:
-        "ב-CBC: מבנה-מידע אוגר את שיעור-הפסילות בכל קו-מילוי לפי משמרת. ה-EWS מוגדר להתריע אם שיעור-הפסילה בקו 3 עולה מעל 1.5% או אם הוא עלה ב-50% מול השבוע שעבר — סימן מוקדם לתקלת-מכונת-מילוי או לסטיית-CO2 לפני שהיא הופכת לסיכון בטיחות-מזון.",
+      scenarioHe:
+        "בארגון: מבנה-מידע אוגר את שיעור-הפסילות בכל קו-מילוי לפי משמרת. ה-EWS מוגדר להתריע אם שיעור-הפסילה בקו 3 עולה מעל 1.5% או אם הוא עלה ב-50% מול השבוע שעבר — סימן מוקדם לתקלת-מכונת-מילוי או לסטיית-CO2 לפני שהיא הופכת לסיכון בטיחות-מזון.",
       navHe: [
         "Logistics ► Logistics Controlling ► Quality Management Information System ► Early Warning System",
         "SPRO ► Logistics – General ► Logistics Information System (LIS) ► Logistics Data Warehouse ► Standard Analyses ► Early Warning System",
@@ -91,8 +91,8 @@ export const CH17: TextbookChapter = {
         "המטרה: לתרגם מדיניות-איכות ('שיעור-פסילה לא יעבור X', 'אל תרשה הידרדרות מגמתית') להגדרות-מערכת אופרטיביות שיתריעו אוטומטית — מבלי שאיש יצטרך לזכור לבדוק.",
       processExampleHe:
         "צוות-איכות מגדיר שלוש חריגות (חריגת-סף לשיעור-פסילה, חריגת-מגמה לערכי-מדידה, חריגת-תכנון-מול-בפועל), מקבץ אותן ל-Exception Group אחת בשם 'QM_LINE_MONITOR', ומגדיר Periodic Analysis יומי. מאותו רגע הקבוצה כולה נסרקת מדי לילה.",
-      cbcHe:
-        "ב-CBC מקימים Exception Group אחת לכל קו-מילוי ('CBC_FILLLINE_03'), המאגדת חריגות לשיעור-פסילה, לסטיית-CO2 ולמשקל-מילוי. הקבוצה נסרקת יומית כך שכל קו מנוטר כיחידה אחת.",
+      scenarioHe:
+        "בארגון מקימים Exception Group אחת לכל קו-מילוי ('MFG_FILLLINE_03'), המאגדת חריגות לשיעור-פסילה, לסטיית-CO2 ולמשקל-מילוי. הקבוצה נסרקת יומית כך שכל קו מנוטר כיחידה אחת.",
       navHe: [
         "Logistics ► Logistics Controlling ► Quality Management Information System ► Early Warning System ► Edit Exceptions",
         "SPRO ► Logistics – General ► Logistics Information System (LIS) ► Logistics Data Warehouse ► Standard Analyses ► Early Warning System ► Maintain Exceptions",
@@ -157,8 +157,8 @@ export const CH17: TextbookChapter = {
             "להמיר כלל-איכות בודד להגדרה אופרטיבית מדויקת — מספיק חדה כדי לתפוס בעיה אמיתית, ומספיק רחבה כדי לא להציף בהתראות-שווא.",
           processExampleHe:
             "יוצרים Exception: Information Structure S004, Key Figure 'שיעור-פסילה', Characteristic = Material, Requirement = Threshold, יחס '>' ‏2%. כל חומר שעובר 2% מסומן כחריג בעת הניתוח.",
-          cbcHe:
-            "ב-CBC יוצרים Exception: 'שיעור-פסילה בקו-מילוי 3 > 1.5%' כסף, ובמקביל Exception מסוג Trend: 'עלייה > 50% בשיעור-הפסילה מול השבוע שעבר' — לתפוס הידרדרות פתאומית גם מתחת לסף-המוחלט.",
+          scenarioHe:
+            "בארגון יוצרים Exception: 'שיעור-פסילה בקו-מילוי 3 > 1.5%' כסף, ובמקביל Exception מסוג Trend: 'עלייה > 50% בשיעור-הפסילה מול השבוע שעבר' — לתפוס הידרדרות פתאומית גם מתחת לסף-המוחלט.",
           navHe: [
             "Logistics ► Logistics Controlling ► QMIS ► Early Warning System ► Exceptions ► Create (MC=)",
             "SPRO ► Logistics – General ► LIS ► Logistics Data Warehouse ► Standard Analyses ► Early Warning System ► Maintain Exceptions",
@@ -222,8 +222,8 @@ export const CH17: TextbookChapter = {
             "לפשט תפעול וניהול: לתחזק, להריץ ולנתב התראות של תחום-אחריות שלם כיחידה אחת, ולהבטיח שכל ההתראות הרלוונטיות מגיעות לאדם הנכון.",
           processExampleHe:
             "מנהל-איכות מאגד חמש חריגות הנוגעות לאותו ספק ל-Exception Group 'VENDOR_4711', ומגדיר ברמת-הקבוצה שכל התראה תישלח גם לקניין וגם למבטיח-האיכות. מעתה כל הספק מנוטר כיחידה אחת.",
-          cbcHe:
-            "ב-CBC כל קו-מילוי מקבל Exception Group ('CBC_FILLLINE_03') המאגדת חריגות לשיעור-פסילה, CO2 ומשקל; ה-Follow-Up מנתב את כל ההתראות למנהל-המשמרת ולמעבדת-QA יחד.",
+          scenarioHe:
+            "בארגון כל קו-מילוי מקבל Exception Group ('MFG_FILLLINE_03') המאגדת חריגות לשיעור-פסילה, CO2 ומשקל; ה-Follow-Up מנתב את כל ההתראות למנהל-המשמרת ולמעבדת-QA יחד.",
           navHe: [
             "Logistics ► Logistics Controlling ► QMIS ► Early Warning System ► Exceptions ► Group (MC=)",
             "SPRO ► Logistics – General ► LIS ► Logistics Data Warehouse ► Standard Analyses ► Early Warning System ► Maintain Exception Groups",
@@ -283,8 +283,8 @@ export const CH17: TextbookChapter = {
             "להבטיח שהניטור קורה אוטומטית, באופן עקבי ובתדירות שתואמת את קצב-ההידרדרות של הסיכון — בלי תלות בזיכרון-אנושי.",
           processExampleHe:
             "מגדירים Periodic Analysis ל-Exception Group 'QM_LINE_MONITOR', Period to analyze = החודש האחרון, ומתזמנים Background Job יומי ב-02:00. כל בוקר ממתינה רשימת-חריגים מעודכנת בתיבת-הנמען.",
-          cbcHe:
-            "ב-CBC הניתוח-התקופתי של 'CBC_FILLLINE_03' מתוזמן יומי בסוף-משמרת-לילה, סורק את נתוני-24-השעות האחרונות, כך שכל חריגת-איכות בקו מזוהה לפני תחילת המשמרת הבאה.",
+          scenarioHe:
+            "בארגון הניתוח-התקופתי של 'MFG_FILLLINE_03' מתוזמן יומי בסוף-משמרת-לילה, סורק את נתוני-24-השעות האחרונות, כך שכל חריגת-איכות בקו מזוהה לפני תחילת המשמרת הבאה.",
           navHe: [
             "Logistics ► Logistics Controlling ► QMIS ► Early Warning System ► Periodic Analysis (MCYG)",
             "SPRO ► Logistics – General ► LIS ► Logistics Data Warehouse ► Standard Analyses ► Early Warning System ► Schedule Periodic Analysis",
@@ -347,8 +347,8 @@ export const CH17: TextbookChapter = {
         "להבטיח ניטור עקבי ובלתי-תלוי באדם, בתדירות שמתאימה לסיכון, כדי שהתראה תגיע בזמן שעדיין אפשר לפעול.",
       processExampleHe:
         "מנהל-המערכת יוצר ב-SM36 Job בשם 'EWS_QM_DAILY' המריץ את ה-Periodic Analysis של קבוצת-החריגה כל יום ב-03:00, אחרי ה-Job שמעדכן את מבנה-המידע. SM37 מציג היסטוריית-הרצות מוצלחות.",
-      cbcHe:
-        "ב-CBC ה-Job 'EWS_CBC_LINES' מתוזמן יומי בסוף-משמרת-שלישית ומשורשר אחרי עדכון מבני-המידע של קווי-המילוי, כך שהניטור תמיד רץ על נתונים מלאים של היממה.",
+      scenarioHe:
+        "בארגון ה-Job 'EWS_MFG_LINES' מתוזמן יומי בסוף-משמרת-שלישית ומשורשר אחרי עדכון מבני-המידע של קווי-המילוי, כך שהניטור תמיד רץ על נתונים מלאים של היממה.",
       navHe: [
         "Tools ► CCMS ► Background Processing ► Define Job (SM36)",
         "SPRO ► Logistics – General ► LIS ► Logistics Data Warehouse ► Standard Analyses ► Early Warning System ► Schedule Periodic Analysis",
@@ -412,8 +412,8 @@ export const CH17: TextbookChapter = {
         "לסגור את הלולאה בין נתון-איכות לפעולה-מתקנת: לוודא שהתראה לא רק נוצרת אלא מגיעה לאדם-הנכון בזמן ומובילה לתחקור ותיקון.",
       processExampleHe:
         "בלילה ה-EWS מזהה ששיעור-הפסילה של חומר X עלה ל-2.4% (סף 2%). נוצרת התראה אדומה ב-MC/E ונשלחת לתיבת-מנהל-האיכות. בבוקר הוא פותח, עושה drill-down לפי ספק וזמן, ומגלה שכל הפסילות הגיעו מאצווה אחת של ספק מסוים — ופותח Quality Notification.",
-      cbcHe:
-        "ב-CBC ה-EWS מזהה לפנות-בוקר עלייה חדה בשיעור-פסילות בקו-מילוי 3 (Trend +60%). התראה אדומה נשלחת למנהל-המשמרת ולמעבדת-QA; ה-drill-down מצביע על משמרת-לילה ספציפית, ומוביל לעצירת-הקו ובדיקת-כיול של מכונת-המילוי לפני שאצוות פגומות יוצאות מהמפעל.",
+      scenarioHe:
+        "בארגון ה-EWS מזהה לפנות-בוקר עלייה חדה בשיעור-פסילות בקו-מילוי 3 (Trend +60%). התראה אדומה נשלחת למנהל-המשמרת ולמעבדת-QA; ה-drill-down מצביע על משמרת-לילה ספציפית, ומוביל לעצירת-הקו ובדיקת-כיול של מכונת-המילוי לפני שאצוות פגומות יוצאות מהמפעל.",
       navHe: [
         "Logistics ► Logistics Controlling ► QMIS ► Early Warning System ► Display Exceptions (MC/E)",
         "SAP Business Workplace ► Inbox (SBWP) — קבלת התראות",
@@ -478,8 +478,8 @@ export const CH17: TextbookChapter = {
         "להפוך התראה גולמית לתובנה ניתנת-לפעולה: לתעדף לפי חומרה, לבודד את הגורם (ספק/מכונה/משמרת/אצווה), ולהתחיל את התהליך-המתקן.",
       processExampleHe:
         "מנהל-איכות פותח את Exception Analysis, רואה שלושה חריגים אדומים, בוחר את החמור, ועושה drill-down: Material→Vendor מגלה שספק אחד אחראי ל-80% מהפסילות. הוא מייצא את הרשימה ופותח Quality Notification מול הספק.",
-      cbcHe:
-        "ב-CBC ניתוח-החריגות של קו-מילוי 3 מאפשר drill-down לפי משמרת ושעה; מנהל-QA מגלה שכל הפסילות מרוכזות במשמרת-לילה אחת, מבודד את מכונת-המילוי החשודה, ומתעד CAPA לבדיקת-כיול.",
+      scenarioHe:
+        "בארגון ניתוח-החריגות של קו-מילוי 3 מאפשר drill-down לפי משמרת ושעה; מנהל-QA מגלה שכל הפסילות מרוכזות במשמרת-לילה אחת, מבודד את מכונת-המילוי החשודה, ומתעד CAPA לבדיקת-כיול.",
       navHe: [
         "Logistics ► Logistics Controlling ► QMIS ► Early Warning System ► Exception Analysis (MC/E)",
         "Logistics ► Logistics Controlling ► QMIS ► Standard Analyses ► drill-down (MCSI)",
@@ -544,8 +544,8 @@ export const CH17: TextbookChapter = {
         "לקבע את ה-EWS כשכבת-המנע של ניהול-האיכות: לקצר זמן-תגובה, למנוע פסילות והרחבת-נזק, ולעמוד בדרישות-רגולציה דרך ניטור-מגמות שיטתי ואוטומטי.",
       processExampleHe:
         "מקצה-לקצה: רשמת תוצאות-בדיקה → ה-LIS התעדכן → ה-EWS המתוזמן זיהה חריגת-סף → התראה נשלחה → תחקרת ב-Exception Analysis → בודדת ספק/משמרת → פתחת Notification ותיקנת. הלולאה נסגרה אוטומטית-למחצה.",
-      cbcHe:
-        "ב-CBC ה-EWS מנטר את כל קווי-המילוי יומית; עליית-מגמה בשיעור-פסילה או סטיית-CO2 מזוהה לפנות-בוקר, מובילה לעצירת-קו ובדיקת-כיול, ומונעת שחרור אצוות-משקה פגומות — הגנה ישירה על בטיחות-המזון, המותג והעמידה ברגולציה.",
+      scenarioHe:
+        "בארגון ה-EWS מנטר את כל קווי-המילוי יומית; עליית-מגמה בשיעור-פסילה או סטיית-CO2 מזוהה לפנות-בוקר, מובילה לעצירת-קו ובדיקת-כיול, ומונעת שחרור אצוות-משקה פגומות — הגנה ישירה על בטיחות-המזון, המותג והעמידה ברגולציה.",
       navHe: [
         "Logistics ► Logistics Controlling ► Quality Management Information System ► Early Warning System",
         "SPRO ► Logistics – General ► LIS ► Logistics Data Warehouse ► Standard Analyses ► Early Warning System",
@@ -590,7 +590,7 @@ export const CH17: TextbookChapter = {
       takeawaysHe: [
         "EWS הופך את ניהול-האיכות מתגובתי ליזום מעל ה-LIS.",
         "הצלחה = LIS תקין + ספים מכוילים + תזמון תואם-סיכון + בעלות-תהליך.",
-        "ב-CBC: הגנה ישירה על בטיחות-מזון, מותג ורגולציה דרך זיהוי-מגמה מוקדם.",
+        "בארגון: הגנה ישירה על בטיחות-מזון, מותג ורגולציה דרך זיהוי-מגמה מוקדם.",
       ],
       relatedHe: [
         { labelHe: "QM · מערכת המידע של QM (QMIS)", href: "/library/qm/chapter-16/" },

@@ -3,14 +3,14 @@ import type { TextbookChapter } from "./types";
 // ===== QM Digital Textbook — Chapter 15: Stability Study =====
 // Every node is a complete 18-facet LearningNode in authored Hebrew.
 // Hierarchy + ids preserved verbatim; SAP identifiers kept in English.
-// CBC context = Coca-Cola bottling: beverage shelf-life / stability testing.
+// הארגון context = Example Product bottling: beverage shelf-life / stability testing.
 
 export const CH15: TextbookChapter = {
   n: 15,
   titleHe: "מחקר יציבות (Stability Study)",
   titleEn: "Stability Study",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה למחקר-יציבות (Stability Study) ב-SAP QM. מחקר-יציבות בודק כיצד איכות מוצר משתנה לאורך-זמן בתנאי-אחסון מבוקרים — לחות, טמפרטורה ותאורה — כדי לקבוע חיי-מדף (shelf life) ותאריך-תפוגה. ב-SAP זהו תהליך החוצה QM, PP, PM ו-MM: הוא נשען על inspection type 16, על Testing Schedule שמייצר אוטומטית מנות-בדיקה (inspection lots) בכל נקודת-זמן (למשל חודש 0, 3, 6, 9, 12), על Physical Samples לדגימות, ועל Maintenance Strategy של PM לתזמון. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את מחקר-היציבות במלואו ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה למחקר-יציבות (Stability Study) ב-SAP QM. מחקר-יציבות בודק כיצד איכות מוצר משתנה לאורך-זמן בתנאי-אחסון מבוקרים — לחות, טמפרטורה ותאורה — כדי לקבוע חיי-מדף (shelf life) ותאריך-תפוגה. ב-SAP זהו תהליך החוצה QM, PP, PM ו-MM: הוא נשען על inspection type 16, על Testing Schedule שמייצר אוטומטית מנות-בדיקה (inspection lots) בכל נקודת-זמן (למשל חודש 0, 3, 6, 9, 12), על Physical Samples לדגימות, ועל Maintenance Strategy של PM לתזמון. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי-קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את מחקר-היציבות במלואו ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 15.1
     {
@@ -25,8 +25,8 @@ export const CH15: TextbookChapter = {
         "המטרה: לקבל תהליך אוטומטי, מתועד ובר-ביקורת לקביעת חיי-מדף ותאריך-תפוגה, העומד בדרישות-רגולציה (מזון/תרופות). במקום מעקב ידני אחר עשרות בדיקות לאורך שנה, המערכת מתזמנת, מזכירה ומתעדת לבד.",
       processExampleHe:
         "פיתוח מוצר חדש: QM פותח Stability Study, מבצע Initial Test (T=0), מגדיר Testing Schedule ל-12 חודשים עם נקודות ב-0/3/6/9/12, וקובע start date. ה-Maintenance Plan מתזמן; בכל נקודה נוצר inspection lot, המעבדה מקבלת התראה, בודקת, רושמת results, ומקבלת usage decision. בסוף — דו\"ח-יציבות הקובע shelf life.",
-      cbcHe:
-        "ב-CBC: משקה מוגמר חדש (FERT) נבדק ליציבות לפני השקה מסחרית. דגימות נשמרות בתאי-אקלים ב-25°C/60%RH (תנאי-מדף) וב-40°C/75%RH (תנאי-מואץ); כל 3 חודשים נבדקים pH, CO2, צבע וטעם. התוצאה קובעת את תאריך-התפוגה המודפס על הבקבוק.",
+      scenarioHe:
+        "בארגון: משקה מוגמר חדש (FERT) נבדק ליציבות לפני השקה מסחרית. דגימות נשמרות בתאי-אקלים ב-25°C/60%RH (תנאי-מדף) וב-40°C/75%RH (תנאי-מואץ); כל 3 חודשים נבדקים pH, CO2, צבע וטעם. התוצאה קובעת את תאריך-התפוגה המודפס על הבקבוק.",
       navHe: [
         "Quality Management ► Quality Inspection ► Inspection Lot Creation ► Inspection for Stability Study ► Define Inspection Types (inspection type 16)",
         "Quality Management ► Quality Planning ► Inspection Planning ► Stability Study ► Define Testing Schedule",
@@ -103,8 +103,8 @@ export const CH15: TextbookChapter = {
         "להבטיח שלכל מחקר יש בסיס-נתונים אחיד ובר-שימוש-חוזר: אותה תוכנית-בדיקה לכמה מחקרים, אותם MICs בין מוצרים, ותזמון עקבי דרך Maintenance Strategy אחיד.",
       processExampleHe:
         "לפני פתיחת מחקר: יוצרים MICs (QS21) ל-pH, CO2, צבע; בונים Inspection Plan (QP01) שמקבץ אותם; משייכים inspection type 16 באב-החומר (MM02); מגדירים Maintenance Plan (IP01) עם Strategy. כעת QST01 יכול לפתוח מחקר תקין.",
-      cbcHe:
-        "ב-CBC נתוני-האב כוללים MICs סטנדרטיים למשקאות: pH (טווח 2.5–3.8), CO2 (volumes), Brix (סוכר), צבע ו-sensory. אותם MICs משמשים את כל מחקרי-המשקאות; כל טעם חדש מקבל Inspection Plan שמרכיב אותם.",
+      scenarioHe:
+        "בארגון נתוני-האב כוללים MICs סטנדרטיים למשקאות: pH (טווח 2.5–3.8), CO2 (volumes), Brix (סוכר), צבע ו-sensory. אותם MICs משמשים את כל מחקרי-המשקאות; כל טעם חדש מקבל Inspection Plan שמרכיב אותם.",
       navHe: [
         "Logistics ► Central Functions ► Quality Management ► Master Inspection Characteristics (QS21)",
         "Quality Management ► Quality Planning ► Inspection Planning ► Inspection Plan (QP01)",
@@ -178,8 +178,8 @@ export const CH15: TextbookChapter = {
         "לספק נוהל-עבודה מסודר ובר-חזרה לכל מחקר, כך שצוות-המעבדה יבצע את אותם צעדים באותו סדר — מה שמבטיח עקביות, מעקב ועמידה ברגולציה.",
       processExampleHe:
         "מוצר חדש: QST01 פותח מחקר ► נמשכת דגימה ראשונה ► נוצר initial test lot ► המעבדה בודקת T=0 ► מוגדרים תנאי-אחסון 25°C ו-40°C ► נבנה Testing Schedule ל-0/3/6/9/12 ► נקבע start date ► המערכת מתזמנת ומייצרת lot כל 3 חודשים ► בכל נקודה בודקים ► בסוף — דו\"ח-יציבות.",
-      cbcHe:
-        "ב-CBC המחזור מבוצע לכל טעם-משקה חדש לפני השקה: דגימות נכנסות לתאי-אקלים, נבדקות כל 3 חודשים על pH/CO2/צבע/טעם, וב-T=12 מתקבל shelf life שנכנס למערכת-התפוגה הארגונית.",
+      scenarioHe:
+        "בארגון המחזור מבוצע לכל טעם-משקה חדש לפני השקה: דגימות נכנסות לתאי-אקלים, נבדקות כל 3 חודשים על pH/CO2/צבע/טעם, וב-T=12 מתקבל shelf life שנכנס למערכת-התפוגה הארגונית.",
       navHe: [
         "Logistics ► Quality Management ► Quality Planning ► Stability Study ► Create (QST01)",
         "Logistics ► Quality Management ► Quality Planning ► Stability Study ► Change (QST02)",
@@ -248,7 +248,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "QST01 יוצר את ה-master ומקשר material + batch + inspection plan. נדרש שהחומר יישא inspection type 16 פעיל. ה-master מקבל מספר ושמירתו פותחת את ה-status (created). מכאן אפשר למשוך initial sample. הקישור ל-batch קריטי כי היציבות נמדדת על אצווה ספציפית.",
           purposeHe: "להקים את המסגרת המרכזית שתאחד את כל מרכיבי-המחקר תחת מזהה אחד, מקושרת לחומר ולאצווה הנבדקת.",
           processExampleHe: "QM פותח QST01, מזין material code, batch מהאצווה החדשה, ו-inspection plan; שומר ומקבל מספר-מחקר; כעת אפשר להמשיך ל-initial sample.",
-          cbcHe: "ב-CBC נפתח מחקר לכל אצווה-פיילוט של טעם חדש; ה-batch מקשר לתאריך-הייצור, מה שמאפשר לחשב חיי-מדף מנקודת-הייצור.",
+          scenarioHe: "בארגון נפתח מחקר לכל אצווה-פיילוט של טעם חדש; ה-batch מקשר לתאריך-הייצור, מה שמאפשר לחשב חיי-מדף מנקודת-הייצור.",
           navHe: ["Logistics ► Quality Management ► Quality Planning ► Stability Study ► Create (QST01)"],
           tables: ["QALS", "QASE", "MCH1"],
           tcodes: ["QST01", "QST02"],
@@ -271,7 +271,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "ה-initial sample מנוהל כ-Physical Sample (QPCT/QPCU). היא יכולה להיות primary sample שמחולקת ל-pooled/individual samples לכל storage condition × נקודת-זמן. מספר-הדגימות נגזר ממספר-התנאים כפול מספר-נקודות-הזמן (פלוס reserve). ה-sample type ו-physical-sample container קובעים את האריזה.",
           purposeHe: "להבטיח כמות-דגימה מספקת ומחולקת נכון לכל שילוב של תנאי-אחסון ונקודת-זמן, כך שלא ייגמרו דגימות באמצע-המחקר.",
           processExampleHe: "מחקר עם 2 תנאים × 5 נקודות = 10 דגימות + reserve; נמשכת primary sample אחת ומחולקת ל-12 physical samples ממוספרות, כל אחת מתויגת לתנאי ולנקודה.",
-          cbcHe: "ב-CBC נמשכים עשרות בקבוקים מאצווה אחת; חלקם ל-25°C, חלקם ל-40°C, כל קבוצה לנקודות 0/3/6/9/12 — סך-הכול עשרות בקבוקים ממוספרים.",
+          scenarioHe: "בארגון נמשכים עשרות בקבוקים מאצווה אחת; חלקם ל-25°C, חלקם ל-40°C, כל קבוצה לנקודות 0/3/6/9/12 — סך-הכול עשרות בקבוקים ממוספרים.",
           navHe: ["Quality Management ► Quality Inspection ► Sample Management ► Physical Samples ► Create (QPR1)"],
           tables: ["QPCT", "QPCU", "QASE"],
           tcodes: ["QPR1", "QPR4", "QST02"],
@@ -293,7 +293,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "ה-BOM (STKO/STPO/MAST) של חומר-המחקר רלוונטי כשמחקר-היציבות בוחן גם את אינטראקציית המוצר עם האריזה-הראשונית. רכיב-האריזה ב-BOM מקושר ל-primary packaging בקונפיגורציה (15.4.1). ב-PP/PI ה-BOM מפצץ לרכיבים; במחקר הוא מספק את ההקשר על מה בדיוק נבדק.",
           purposeHe: "לחבר את המחקר למבנה-המוצר האמיתי, כולל אריזה, כדי שהיציבות תיבחן בהקשר הנכון (מוצר + אריזה).",
           processExampleHe: "מחקר על משקה בבקבוק PET: ה-BOM כולל את הקונצנטרט, המים, ה-CO2 והבקבוק; המחקר בוחן יציבות של המשקה דווקא בבקבוק זה, כי PET חדיר לחמצן.",
-          cbcHe: "ב-CBC ה-BOM מבדיל בין בקבוק זכוכית, PET ופחית — לכל אריזה מחקר-יציבות נפרד, כי חיי-המדף שונים בהתאם לחומר-האריזה.",
+          scenarioHe: "בארגון ה-BOM מבדיל בין בקבוק זכוכית, PET ופחית — לכל אריזה מחקר-יציבות נפרד, כי חיי-המדף שונים בהתאם לחומר-האריזה.",
           navHe: ["Production ► Basic Data ► Bill of Material ► Material BOM ► Create (CS01)"],
           tables: ["STKO", "STPO", "MAST"],
           tcodes: ["CS01", "CS02", "CS03"],
@@ -316,7 +316,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "הלוט נוצר עם inspection type 16 וקושר ל-Stability Study master ול-physical sample של T=0. הוא מקבל את ה-inspection plan ומאוכלס במאפיינים (MICs). תוצאות-ה-T=0 הן קו-הבסיס. הלוט הראשוני נפרד מלוטי-נקודות-הזמן — הוא לא נוצר מ-Maintenance Plan אלא ידנית בפתיחת-המחקר, ולעיתים הוא זה שקובע את start date.",
           purposeHe: "לקבוע נתוני-בסיס אובייקטיביים של המוצר הטרי, שישמשו כנקודת-ייחוס להערכת כל שינוי לאורך-זמן.",
           processExampleHe: "מיד לאחר פתיחת המחקר נוצר initial test lot; המעבדה מודדת pH=3.2, CO2=3.8vol, צבע תקין; ערכים אלה נשמרים כ-T=0 ומשמשים השוואה לכל הנקודות הבאות.",
-          cbcHe: "ב-CBC ה-T=0 של משקה חדש: pH, Brix, CO2 וטעם נמדדים על האצווה הטרייה; אם T=0 לא תקין — אין טעם להמשיך, האצווה נפסלת לפני המחקר.",
+          scenarioHe: "בארגון ה-T=0 של משקה חדש: pH, Brix, CO2 וטעם נמדדים על האצווה הטרייה; אם T=0 לא תקין — אין טעם להמשיך, האצווה נפסלת לפני המחקר.",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Processing ► Results Recording (QA32)"],
           tables: ["QALS", "QASE", "QAMV"],
           tcodes: ["QA32", "QE51N", "QST02"],
@@ -338,7 +338,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "התהליך: results recording (QE51N) לכל MIC בלוט; valuation אוטומטי מול tolerances; ואז Usage Decision (QA11) ברמת-הלוט. ה-UD סוגר את ה-T=0 ומאפשר את המשך-המחקר. תוצאות נשמרות ב-QAMV/QASV. אם המדידה qualitative — נבחר code מ-selected set. ה-UD של ה-initial הוא תנאי לשחרור הלוח.",
           purposeHe: "לוודא שקו-הבסיס מתועד, מוערך ומאושר רשמית לפני שמשקיעים חודשים במחקר — שער-איכות בכניסה.",
           processExampleHe: "המעבדה מזינה pH=3.2 (בטווח 2.5–3.8 → accepted), CO2=3.8 → accepted; כל המאפיינים תקינים; ניתן UD = A (accepted); ה-T=0 נסגר והמחקר ממשיך.",
-          cbcHe: "ב-CBC רישום-התוצאות כולל גם sensory panel (טעם/ריח) שמתועד כ-qualitative; ה-UD הראשוני נדרש לפני שהדגימות נכנסות לתאי-האקלים.",
+          scenarioHe: "בארגון רישום-התוצאות כולל גם sensory panel (טעם/ריח) שמתועד כ-qualitative; ה-UD הראשוני נדרש לפני שהדגימות נכנסות לתאי-האקלים.",
           navHe: ["Quality Management ► Quality Inspection ► Results Recording (QE51N)", "Quality Management ► Quality Inspection ► Usage Decision (QA11)"],
           tables: ["QAMV", "QASV", "QAVE", "QALS"],
           tcodes: ["QE51N", "QA11", "QA32"],
@@ -360,7 +360,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "ה-Change Notification מבוסס על QM Notification (QMEL) עם Notification Type ייעודי למחקרי-יציבות (15.4.9). הוא יכול להיווצר אוטומטית כ-follow-up action בעקבות UD חורג, או ידנית. ה-Action Box (15.4.11) מגדיר את הפעולות-הזמינות — פתיחת-משימה, התראה, או עצירת-מחקר. ה-notification מקושר ל-study ולמסמכי-התגובה.",
           purposeHe: "לתעד ולנהל באופן בר-ביקורת כל סטייה או שינוי במהלך המחקר, ולהבטיח תגובה מתועדת — חיוני לרגולציה.",
           processExampleHe: "בנקודת T=6 ה-pH חורג; ה-UD מפעיל follow-up שיוצר Change Notification; ה-Action Box פותח משימת-חקירה, מודיע למנהל-איכות, ומתעד את ההחלטה (המשך/עצירה).",
-          cbcHe: "ב-CBC חריגת-טעם או ירידת-CO2 בנקודת-זמן פותחת notification; ה-Action Box מודיע ל-QA ול-R&D, ומתעד אם חיי-המדף נדרשים לקיצור.",
+          scenarioHe: "בארגון חריגת-טעם או ירידת-CO2 בנקודת-זמן פותחת notification; ה-Action Box מודיע ל-QA ול-R&D, ומתעד אם חיי-המדף נדרשים לקיצור.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Creation (QM01)", "Quality Management ► Quality Notifications ► Notification ► Notification Type"],
           tables: ["QMEL", "QMFE", "QMUR"],
           tcodes: ["QM01", "QM02", "QM03"],
@@ -383,7 +383,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "השלמת ה-initial test נקבעת ע\"י UD מאושר על ה-initial lot והעברת ה-study status מ-created ל-released (או דומה). זוהי precondition לקביעת start date ולתזמון ה-Maintenance Plan. שינוי-סטטוס זה גם נועל את נתוני-הבסיס מפני שינוי, ומבטיח שה-T=0 מקובע לפני שמתחילים למדוד את הזמן.",
           purposeHe: "להגדיר באופן חד-משמעי שקו-הבסיס מקובע ומאושר, ולפתוח את השלב הבא בצורה מבוקרת ובת-מעקב.",
           processExampleHe: "לאחר UD=A על ה-initial lot, QM משנה את סטטוס-המחקר ל-released; המערכת מאשרת שה-T=0 נעול; כעת אפשר לגשת ל-Storage Conditions ול-Testing Schedule.",
-          cbcHe: "ב-CBC השלמת ה-initial test של משקה היא אבן-דרך: רק לאחר אישור-QA של ה-T=0 הדגימות נכנסות רשמית לתאי-האקלים ושעון-המחקר מתחיל.",
+          scenarioHe: "בארגון השלמת ה-initial test של משקה היא אבן-דרך: רק לאחר אישור-QA של ה-T=0 הדגימות נכנסות רשמית לתאי-האקלים ושעון-המחקר מתחיל.",
           navHe: ["Logistics ► Quality Management ► Quality Planning ► Stability Study ► Change (QST02)"],
           tables: ["QALS", "QAVE", "JEST"],
           tcodes: ["QST02", "QA11", "QA32"],
@@ -405,7 +405,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "תנאי-האחסון מקושרים ל-study ולכל סדרת-בדיקות; הם מוגדרים בקונפיגורציה (15.4.3) ומיושמים ל-physical samples. כל storage condition נושא סדרת-נקודות-זמן משלו (יכול להיות שונה — מואץ נבדק תכופות יותר). הקישור condition ↔ Storage Location (15.4.4) ↔ physical-sample container קובע היכן הדגימה פיזית.",
           purposeHe: "להבטיח שהמוצר נבדק בתנאים מבוקרים ומתועדים, כך שהשינויים נובעים מהזמן/הסביבה ולא מגורמים אקראיים — בסיס למסקנת-shelf-life תקפה.",
           processExampleHe: "מחקר עם 3 תנאים: long-term 25°C/60%, intermediate 30°C/65%, accelerated 40°C/75%; ה-long-term נבדק ב-0/3/6/12, ה-accelerated ב-0/1/2/3 (מהיר יותר).",
-          cbcHe: "ב-CBC תנאי-המדף 25°C/60%RH מדמה מדף-סופרמרקט; 40°C/75%RH מדמה מחסן-קיץ חם; 5°C מדמה קירור. כל תנאי קובע אריזה ותא-אקלים שונים.",
+          scenarioHe: "בארגון תנאי-המדף 25°C/60%RH מדמה מדף-סופרמרקט; 40°C/75%RH מדמה מחסן-קיץ חם; 5°C מדמה קירור. כל תנאי קובע אריזה ותא-אקלים שונים.",
           navHe: ["Quality Management ► Basic Settings ► Stability Study ► Define Storage Conditions"],
           tables: ["QPCT", "T001L", "QALS"],
           tcodes: ["QST02", "QPR1"],
@@ -428,7 +428,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "ה-Testing Schedule מיושם כ-Maintenance Plan מסוג Stability (MPLA/MPOS) עם Maintenance Strategy (15.4.8) שמחזיקה packages — כל package = נקודת-זמן (cycle). ה-Testing Schedule Category (15.4.7) קובע את התנהגות-התזמון. תזמון (IP10) מחשב תאריכי-יעד מ-start date + cycle; בכל תאריך-יעד scheduling-call מייצר inspection lot (inspection type 16) המקושר ל-study, ל-storage condition ול-physical sample.",
           purposeHe: "להפוך את ניהול עשרות-הבדיקות לאורך-שנה לתהליך אוטומטי, צפוי ובר-מעקב — תזמון, יצירת-lot והתראה ללא התערבות ידנית.",
           processExampleHe: "Strategy עם packages ב-0/3/6/9/12 חודשים; start date = 1/1; IP10 מתזמן יעדים ב-1/1, 1/4, 1/7, 1/10, 1/1+שנה; בכל יעד נוצר lot ומופקת התראה למעבדה.",
-          cbcHe: "ב-CBC לוח-המשקאות: long-term ב-0/3/6/12 ו-accelerated ב-0/1/2/3; ה-Maintenance Plan מייצר lot לכל נקודה ושולח התראה למעבדה-המרכזית.",
+          scenarioHe: "בארגון לוח-המשקאות: long-term ב-0/3/6/12 ו-accelerated ב-0/1/2/3; ה-Maintenance Plan מייצר lot לכל נקודה ושולח התראה למעבדה-המרכזית.",
           navHe: ["Quality Management ► Quality Planning ► Inspection Planning ► Stability Study ► Testing Schedule", "Plant Maintenance ► Maintenance Plans ► Maintenance Plan ► Create (IP01)"],
           tables: ["MPLA", "MPOS", "MMPT", "QALS"],
           tcodes: ["IP01", "IP02", "IP10", "QST02"],
@@ -454,7 +454,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "הלוט נוצר עם inspection type 16 דרך scheduling-call של ה-Maintenance Plan; הוא מקבל את ה-inspection plan המשויך, ומקושר ל-study, storage condition ו-physical sample (QASE). מבחינה טכנית זהו QALS עם origin המתאים למחקר-יציבות. ה-lot עובר results recording ו-UD בדיוק כמו lot רגיל, אך ההקשר הוא נקודת-זמן ספציפית במחקר.",
           purposeHe: "לתת לכל נקודת-זמן ישות-בדיקה עצמאית ובת-מעקב, עם תוצאות ו-UD משלה, כך שניתן לעקוב אחר התפתחות-האיכות נקודה-אחר-נקודה.",
           processExampleHe: "בנקודת T=6 נוצר lot חדש (type 16); המעבדה מקבלת אותו ב-worklist (QA32), שולפת את הדגימה מארון-40°C, מודדת, רושמת תוצאות ונותנת UD; הלוט נסגר ומתועד לנקודת T=6.",
-          cbcHe: "ב-CBC כל נקודת-זמן × תנאי-אחסון = lot נפרד; לדגימת-25°C ב-T=6 lot אחד, ולדגימת-40°C ב-T=6 lot אחר — שניהם type 16, כל אחד עם ה-physical sample שלו.",
+          scenarioHe: "בארגון כל נקודת-זמן × תנאי-אחסון = lot נפרד; לדגימת-25°C ב-T=6 lot אחד, ולדגימת-40°C ב-T=6 lot אחר — שניהם type 16, כל אחד עם ה-physical sample שלו.",
           navHe: ["Quality Management ► Quality Inspection ► Inspection Lot Processing ► Worklist (QA32)"],
           tables: ["QALS", "QASE", "QAMV"],
           tcodes: ["QA32", "QE51N", "QA11"],
@@ -476,7 +476,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "ההדפסה מבוססת על print-control של QM (Sample-drawing / inspection-lot printing) עם label layout (SAPscript/Smart Forms/Adobe). התווית כוללת physical-sample number, material, batch, storage condition, ונקודת-הזמן. ההדפסה מופעלת בעת משיכת-הדגימה או ביצירת-הלוט, לפי print-control configuration. זיהוי-ברקוד מאיץ scanning ב-worklist.",
           purposeHe: "להבטיח זיהוי-דגימה חד-משמעי ובר-מעקב לאורך כל המחקר, ולמנוע בלבול בין דגימות זהות בתנאים/נקודות שונות.",
           processExampleHe: "בעת משיכת ה-initial sample מודפסות 12 תוויות; כל בקבוק מתויג; ב-T=6 המעבדה סורקת את התווית של דגימת-40°C ופותחת את ה-lot הנכון.",
-          cbcHe: "ב-CBC כל בקבוק-דגימה מקבל תווית עם ברקוד; הסריקה במעבדה מקשרת ישירות ל-physical sample וללוט-הנכון, מונעת בדיקת-בקבוק-שגוי.",
+          scenarioHe: "בארגון כל בקבוק-דגימה מקבל תווית עם ברקוד; הסריקה במעבדה מקשרת ישירות ל-physical sample וללוט-הנכון, מונעת בדיקת-בקבוק-שגוי.",
           navHe: ["Quality Management ► Basic Settings ► Print Control ► Define Printers / Forms for Stability Study"],
           tables: ["QPCT", "QASE", "TQ77"],
           tcodes: ["QPR1", "QA32"],
@@ -498,7 +498,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "ה-start date נקבע על ה-study (QST08 / QST02) רק לאחר השלמת ה-initial test. הוא מועבר ל-Maintenance Plan כ-scheduling reference; תזמון (IP10) מחשב יעדים = start date + cycle של כל package. שינוי start date מזיז את כל הלוח — לכן הוא נעול לרוב לאחר שחרור. ה-start date לרוב = תאריך משיכת-הדגימה או תאריך-הייצור של ה-batch.",
           purposeHe: "לקבע נקודת-אפס אחת וברורה לכל לוח-הבדיקות, ולהבטיח שכל נקודות-הזמן מחושבות באופן עקבי ובר-מעקב.",
           processExampleHe: "לאחר השלמת ה-initial, QM קובע start date = 1/1; IP10 מתזמן יעדים ב-1/4, 1/7, 1/10, 1/1+שנה; המערכת מתחילה לייצר lot-ים בכל יעד.",
-          cbcHe: "ב-CBC ה-start date נקבע לתאריך-הייצור של אצווה-הפיילוט; כך חיי-המדף מחושבים מנקודת-הייצור, כפי שיופיע על תווית-המוצר.",
+          scenarioHe: "בארגון ה-start date נקבע לתאריך-הייצור של אצווה-הפיילוט; כך חיי-המדף מחושבים מנקודת-הייצור, כפי שיופיע על תווית-המוצר.",
           navHe: ["Logistics ► Quality Management ► Quality Planning ► Stability Study ► Set Start Date (QST08)"],
           tables: ["MPLA", "QALS", "MMPT"],
           tcodes: ["QST08", "QST02", "IP10"],
@@ -521,7 +521,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "lot ידני נוצר עבור inspection type 16 דרך QST02 / יצירת-lot ייעודית, מקושר ל-study ול-storage condition ספציפי, מבלי לעבור דרך ה-Maintenance Plan scheduling. שימושי לבדיקות-ביניים, חקירת-חריגה, או נקודה נוספת שלא הוגדרה ב-Strategy. ה-lot מתנהג כרגיל (results + UD) אך מקורו ידני, ולכן יש לתעד את סיבת-היצירה.",
           purposeHe: "לאפשר גמישות לבדיקות לא-מתוכננות תוך שמירה על המבנה והתיעוד של המחקר — חקירה, אימות או נקודה חריגה.",
           processExampleHe: "חשד לתקלה בתא-ה-40°C; QM יוצר lot ידני לתנאי זה, המעבדה בודקת מיד, והתוצאה מאמתת/שוללת את התקלה — בלי להמתין לנקודה המתוכננת הבאה.",
-          cbcHe: "ב-CBC לאחר תקלת-קירור בתא-אקלים נוצר lot ידני לבדיקה מיידית של הדגימות החשודות, כדי להחליט אם המחקר עדיין תקף.",
+          scenarioHe: "בארגון לאחר תקלת-קירור בתא-אקלים נוצר lot ידני לבדיקה מיידית של הדגימות החשודות, כדי להחליט אם המחקר עדיין תקף.",
           navHe: ["Logistics ► Quality Management ► Quality Planning ► Stability Study ► Change ► Create Lot Manually (QST02)"],
           tables: ["QALS", "QASE"],
           tcodes: ["QST02", "QA32", "QE51N"],
@@ -543,7 +543,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "שינוי תנאי-אחסון מבוצע ב-QST02 על ה-study; אפשר להוסיף condition (עם schedule משלו), לסיים condition פעיל, או להעביר physical samples. כל שינוי לרוב מלווה ב-Change Notification (15.3.6) לתיעוד. הוספת-תנאי גוררת Maintenance-Plan/schedule חדש; סיום-תנאי עוצר את ה-scheduling שלו. שינויים אלה נכנסים ל-audit trail.",
           purposeHe: "לאפשר התאמת-המחקר למציאות (שינויי-רגולציה, ממצאים, מגבלות) תוך שמירה על תוקף ובקרת-שינויים מתועדת.",
           processExampleHe: "רגולציה חדשה דורשת תנאי-ביניים 30°C; ב-QST02 מוסיפים condition עם schedule משלו, פותחים Change Notification לתיעוד, וה-Maintenance Plan מתחיל לתזמן את הנקודות החדשות.",
-          cbcHe: "ב-CBC לאחר מעבר-שוק לאקלים חם יותר, מוסיפים תנאי-אחסון 30°C למחקרים פעילים; השינוי מתועד ומאושר ע\"י QA.",
+          scenarioHe: "בארגון לאחר מעבר-שוק לאקלים חם יותר, מוסיפים תנאי-אחסון 30°C למחקרים פעילים; השינוי מתועד ומאושר ע\"י QA.",
           navHe: ["Logistics ► Quality Management ► Quality Planning ► Stability Study ► Change (QST02)"],
           tables: ["QPCT", "MPLA", "QALS"],
           tcodes: ["QST02", "IP02", "QM01"],
@@ -566,7 +566,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "הסטטוס מנוהל דרך status profile (system + user status, JEST/JCDS) על אובייקט ה-study. created = הוקם; released = ה-initial הושלם וה-scheduling פעיל; completed = כל הנקודות נבדקו ונסגרו, אין יצירת-lot-ים נוספת. סטטוסי-משתמש נוספים (locked, on-hold) שולטים בחריגים. כל מעבר נשמר ב-audit trail ולעיתים דורש authorization.",
           purposeHe: "לשלוט בצורה ברורה ובת-ביקורת באילו פעולות מותרות בכל שלב, ולמנוע פעולות שגויות (כמו יצירת-lot לאחר השלמה).",
           processExampleHe: "המחקר ב-released ומייצר lot-ים; לאחר T=12 וכל ה-UD-ים, QM משנה ל-completed; המערכת חוסמת scheduling נוסף; ניתן רק להפיק דו\"ח.",
-          cbcHe: "ב-CBC משקה שסיים מחקר 12-חודשי מועבר ל-completed; חיי-המדף שנקבעו נכנסים למערכת; המחקר ננעל לקריאה-בלבד לצורכי-ביקורת.",
+          scenarioHe: "בארגון משקה שסיים מחקר 12-חודשי מועבר ל-completed; חיי-המדף שנקבעו נכנסים למערכת; המחקר ננעל לקריאה-בלבד לצורכי-ביקורת.",
           navHe: ["Logistics ► Quality Management ► Quality Planning ► Stability Study ► Change ► Status (QST02)"],
           tables: ["JEST", "JCDS", "QALS"],
           tcodes: ["QST02", "QST03"],
@@ -588,7 +588,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "QST03 מציג read-only את ה-study master, את כל ה-QALS המקושרים, תוצאות (QAMV/QASV), UD-ים (QAVE) ו-trend לאורך-זמן. ניתן להפיק stability report (לעיתים דרך BI/analytics או list-output) שמרכז את התפתחות-המאפיינים. הניתוח קובע shelf life — נקודת-הזמן שבה מאפיין צפוי לחרוג מהמפרט. ב-S/4HANA ניתן להשתמש ב-Fiori analytical apps לניתוח-מגמה.",
           purposeHe: "לספק את מבט-העל הניתוחי הדרוש לקבלת ההחלטה העסקית — קביעת shelf life, תאריך-תפוגה, ועמידה בדרישות-תיעוד-רגולציה.",
           processExampleHe: "QST03 מציג שב-T=12 ה-pH עדיין במפרט אך מגמת-CO2 יורדת; הניתוח קובע shelf life = 12 חודשים; הדו\"ח מתויק לרגולציה.",
-          cbcHe: "ב-CBC QST03 מראה את מגמת-ה-CO2 לאורך-12-חודשים; הנקודה שבה ה-CO2 יורד מתחת ל-2.5vol קובעת את חיי-המדף המודפסים על הבקבוק.",
+          scenarioHe: "בארגון QST03 מראה את מגמת-ה-CO2 לאורך-12-חודשים; הנקודה שבה ה-CO2 יורד מתחת ל-2.5vol קובעת את חיי-המדף המודפסים על הבקבוק.",
           navHe: ["Logistics ► Quality Management ► Quality Planning ► Stability Study ► Display (QST03)"],
           tables: ["QALS", "QAMV", "QASV", "QAVE"],
           tcodes: ["QST03", "QGA3", "QGP1"],
@@ -619,8 +619,8 @@ export const CH15: TextbookChapter = {
         "להבטיח שכל מרכיבי-התהליך מוגדרים מראש, אחידים ובני-שימוש-חוזר, כך שפתיחת-מחקר חדש תהיה מהירה ועקבית ולא תדרוש הגדרות ad-hoc.",
       processExampleHe:
         "מימוש חדש: היועץ מגדיר ב-SPRO primary packaging ► physical-sample container ► storage conditions ► storage locations ► BOM usage ► sample types ► testing schedule category ► maintenance strategy ► notification type ► priority type ► action box; כעת הצוות יכול לפתוח מחקרים ב-QST01.",
-      cbcHe:
-        "ב-CBC הקונפיגורציה משקפת את מערך-המעבדה: תאי-אקלים (storage locations), בקבוקי-דגימה (containers), תנאי-25°C/40°C (conditions), ותזמון-רבעוני (strategy) — הכול מוגדר פעם-אחת ומשרת את כל מחקרי-המשקאות.",
+      scenarioHe:
+        "בארגון הקונפיגורציה משקפת את מערך-המעבדה: תאי-אקלים (storage locations), בקבוקי-דגימה (containers), תנאי-25°C/40°C (conditions), ותזמון-רבעוני (strategy) — הכול מוגדר פעם-אחת ומשרת את כל מחקרי-המשקאות.",
       navHe: [
         "Quality Management ► Basic Settings ► Stability Study (SPRO)",
         "Plant Maintenance ► Maintenance Plans, Work Centers, Task Lists ► Maintenance Plans ► Set Maintenance Strategies",
@@ -686,7 +686,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "מוגדר ב-SPRO תחת Stability Study; משייך חומרי-אריזה (כ-material/BOM component) ל-study ול-physical-sample container. ב-S/4HANA ה-primary packaging מקושר ל-BOM (15.3.3) ול-container (15.4.2), כך שהדגימה נשמרת באריזתה האמיתית. השפעת-האריזה (חדירות O2, הגירת-חומרים) היא לעיתים אובייקט-מחקר בפני-עצמו.",
           purposeHe: "להבטיח שהיציבות נבדקת במוצר באריזתו הסופית, כי האריזה היא גורם-מפתח בחיי-המדף.",
           processExampleHe: "הגדרת בקבוק-PET כ-primary packaging; הדגימות נשמרות בבקבוקי-PET אמיתיים; המחקר מודד גם השפעת-חדירות-החמצן של ה-PET על המשקה.",
-          cbcHe: "ב-CBC primary packaging = זכוכית/PET/פחית; לכל אחת חדירות-שונה לחמצן, ולכן השפעה-שונה על CO2 וטעם — מחקר נפרד לכל אריזה.",
+          scenarioHe: "בארגון primary packaging = זכוכית/PET/פחית; לכל אחת חדירות-שונה לחמצן, ולכן השפעה-שונה על CO2 וטעם — מחקר נפרד לכל אריזה.",
           navHe: ["Quality Management ► Basic Settings ► Stability Study ► Define Primary Packaging"],
           tables: ["TQ77", "MARA", "STPO"],
           tcodes: ["SPRO", "MM01"],
@@ -709,7 +709,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "מוגדר ב-SPRO; מקושר ל-physical sample (QPCT) ול-primary packaging (15.4.1). קובע sample container type, נפח/כמות, ולעיתים label layout. ה-container מבטיח שכל דגימה באותו מחקר נשמרת בכלי זהה, מה שמייתר משתנה-מבלבל. שימושי גם לחישוב כמות-משיכה (כמה כלים = כמה דגימות).",
           purposeHe: "לתקנן את הכלי-הפיזי של הדגימות לאחסון אחיד, זיהוי ברור וחישוב-כמות מדויק.",
           processExampleHe: "הגדרת container = בקבוק-250מ\"ל; כל physical sample במחקר נשמרת בבקבוק כזה; כמות-המשיכה מחושבת לפי מספר-הכלים הנדרש.",
-          cbcHe: "ב-CBC ה-container הוא בקבוק-המשקה המקורי (זהה למוצר); כך הדגימה נשמרת בדיוק כמו על-המדף — אותו נפח, אותה אריזה.",
+          scenarioHe: "בארגון ה-container הוא בקבוק-המשקה המקורי (זהה למוצר); כך הדגימה נשמרת בדיוק כמו על-המדף — אותו נפח, אותה אריזה.",
           navHe: ["Quality Management ► Basic Settings ► Stability Study ► Define Physical-Sample Container"],
           tables: ["QPCT", "QPCU", "TQ77"],
           tcodes: ["SPRO", "QPR1"],
@@ -731,7 +731,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "מוגדר ב-SPRO; כל storage condition נושא קוד, תיאור ופרמטרי-סביבה (טמפ'/לחות). הקודים משויכים למחקרים (15.3.8) ול-storage locations (15.4.4). תקני ICH (למזון/תרופות) ממליצים על תנאים סטנדרטיים (25°C/60%RH long-term, 40°C/75%RH accelerated). הקודים בני-שימוש-חוזר בין כל המחקרים.",
           purposeHe: "לתקנן את תנאי-האחסון לכל הארגון, כך שמחקרים שונים משווים על אותו בסיס, ועומדים בתקני-רגולציה.",
           processExampleHe: "הגדרת קודים: SC1=25°C/60%, SC2=30°C/65%, SC3=40°C/75%; כל מחקר בוחר את הקודים הרלוונטיים מתוך הספרייה.",
-          cbcHe: "ב-CBC הספרייה: 5°C (קירור), 25°C/60% (מדף), 40°C/75% (מואץ); כל מחקר-משקה בוחר מתוכם לפי שוק-היעד.",
+          scenarioHe: "בארגון הספרייה: 5°C (קירור), 25°C/60% (מדף), 40°C/75% (מואץ); כל מחקר-משקה בוחר מתוכם לפי שוק-היעד.",
           navHe: ["Quality Management ► Basic Settings ► Stability Study ► Define Storage Conditions"],
           tables: ["TQ77", "QPCT"],
           tcodes: ["SPRO"],
@@ -754,7 +754,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "Storage Locations מוגדרים ב-MM (OX09, טבלת T001L) ברמת-מפעל; ב-WM ניתן לרדת לרמת-bin. הם מקושרים ל-storage conditions (15.4.3) — תא X מספק תנאי 25°C. ה-physical sample מאוחסן ב-location, מה שמאפשר מעקב פיזי ואיתור. במחקר, ה-location הוא 'הכתובת' של הדגימה.",
           purposeHe: "לספק מיקום-פיזי בר-מעקב לכל דגימה, ולקשר בין התנאי-הלוגי (טמפ') למקום-הפיזי (תא) — חיוני לאיתור ולביקורת.",
           processExampleHe: "תא-אקלים CHAMBER1 מוגדר כ-storage location ומקושר לתנאי-25°C; כל דגימת-25°C מאוחסנת בו; המעבדה יודעת בדיוק היכן לחפש בכל נקודת-בדיקה.",
-          cbcHe: "ב-CBC תאי-האקלים במעבדה-המרכזית = storage locations; CHAMBER-A=25°C, CHAMBER-B=40°C; כל בקבוק-דגימה מאוחסן בתא המתאים לתנאי-המחקר שלו.",
+          scenarioHe: "בארגון תאי-האקלים במעבדה-המרכזית = storage locations; CHAMBER-A=25°C, CHAMBER-B=40°C; כל בקבוק-דגימה מאוחסן בתא המתאים לתנאי-המחקר שלו.",
           navHe: ["Materials Management ► Inventory Management ► Storage Locations ► Maintain (OX09)", "Enterprise Structure ► Definition ► Materials Management ► Maintain Storage Location"],
           tables: ["T001L", "QPCT", "MARD"],
           tcodes: ["OX09", "QPR1"],
@@ -777,7 +777,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "אובייקט PP (OS20, טבלת TBST). Usage 1 = production; הוא קובע אינדיקטורי-רלוונטיות (+/-/.) לכל יישום. במחקר-יציבות חשוב שרכיב-האריזה (primary packaging) יסומן רלוונטי, כך שייכלל בפיצוץ ובהקשר-המחקר. ה-Usage מקשר בין ה-BOM (15.3.3) לתהליך-הייצור של חומר-המחקר.",
           purposeHe: "להבטיח שה-BOM של חומר-המחקר, על רכיביו והאריזה, תקף ומפוצץ נכון בהקשר הרלוונטי למחקר.",
           processExampleHe: "BOM של המשקה ב-Usage 1; רכיב-הבקבוק מסומן רלוונטי-לייצור; כך האריזה נכללת במחקר ובפיצוץ-הפק\"ע.",
-          cbcHe: "ב-CBC כל BOM-משקה ב-Usage 1; רכיבי-האריזה (בקבוק/פקק/תווית) רלוונטיים, כך שמחקר-היציבות בוחן את המוצר באריזתו המלאה.",
+          scenarioHe: "בארגון כל BOM-משקה ב-Usage 1; רכיבי-האריזה (בקבוק/פקק/תווית) רלוונטיים, כך שמחקר-היציבות בוחן את המוצר באריזתו המלאה.",
           navHe: ["Production ► Basic Data ► Bill of Material ► General Data ► BOM Usage ► Define BOM Usages (OS20)"],
           tables: ["TBST", "STKO"],
           tcodes: ["OS20", "CS01"],
@@ -800,7 +800,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "מבוסס על Sample Management של QM: sample-drawing procedure, sample types, ומספור physical samples (QPCT/QPCU). מוגדר ב-SPRO ומקושר לחומר באב-החומר (Sample-drawing procedure בתצוגת-QM). קובע כמה primary/pooled/individual samples, וכיצד הם נקשרים ללוטי-הבדיקה של נקודות-הזמן. ה-numbering בר-התאמה (internal/external).",
           purposeHe: "לתקנן את אופן משיכת-וניהול הדגימות, כך שכל מחקר מקבל את הכמות הנכונה, ממוספרת ומקושרת ללוטים באופן עקבי.",
           processExampleHe: "הגדרת sample-drawing procedure המייצר primary sample אחת המחולקת ל-physical samples לפי תנאים×נקודות; בעת פתיחת-מחקר הדגימות נוצרות וממוספרות אוטומטית.",
-          cbcHe: "ב-CBC sample-drawing procedure מוגדר למשיכת X בקבוקים מאצווה, חלוקתם לתנאים ונקודות, ומספורם — כל זאת אוטומטית עם פתיחת-המחקר.",
+          scenarioHe: "בארגון sample-drawing procedure מוגדר למשיכת X בקבוקים מאצווה, חלוקתם לתנאים ונקודות, ומספורם — כל זאת אוטומטית עם פתיחת-המחקר.",
           navHe: ["Quality Management ► Quality Inspection ► Sample Management ► Sample-Drawing Procedure ► Define"],
           tables: ["QPCT", "QPCU", "QPMK"],
           tcodes: ["QPV2", "QPR1", "SPRO"],
@@ -823,7 +823,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "מוגדר ב-SPRO; קובע את maintenance-plan-category (Stability) ואת לוגיקת-הגזירה של נקודות-הזמן (strategy-based packages מול single-cycle). מקושר ל-Maintenance Strategy (15.4.8). ה-category קובע גם את ה-scheduling parameters (call horizon, shift factors). בחירה נכונה כאן מבטיחה שה-Testing Schedule (15.3.9) יתזמן את הנקודות בדיוק הנדרש.",
           purposeHe: "לקבוע את התנהגות-התזמון של לוחות-הבדיקה באופן אחיד ובר-שימוש-חוזר, ולחבר את הלוח ל-Maintenance Strategy הנכונה.",
           processExampleHe: "הגדרת category מסוג strategy-based; כל מחקר המשתמש בו מתזמן לפי ה-packages של ה-Strategy המשויכת (0/3/6/9/12).",
-          cbcHe: "ב-CBC category אחת לכל מחקרי-המשקאות, מבוססת-strategy עם תזמון-רבעוני; כך כל המחקרים מתנהגים אחיד.",
+          scenarioHe: "בארגון category אחת לכל מחקרי-המשקאות, מבוססת-strategy עם תזמון-רבעוני; כך כל המחקרים מתנהגים אחיד.",
           navHe: ["Quality Management ► Quality Planning ► Inspection Planning ► Stability Study ► Define Testing Schedule Category"],
           tables: ["MPLA", "T399A", "T351"],
           tcodes: ["SPRO", "IP01"],
@@ -849,7 +849,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "אובייקט PM (טבלאות T351/T351P). ה-Strategy מכילה maintenance packages, כל אחד עם cycle (למשל 3 חודשים), hierarchy ו-offset. ה-Maintenance Plan (MPLA) של ה-Testing Schedule מצביע עליה; בתזמון (IP10), כל package בשל יוצר maintenance-call → inspection lot. ה-Strategy בת-שימוש-חוזר בין מחקרים. הגדרה נכונה של packages = נקודות-זמן מדויקות.",
           purposeHe: "לתקנן ולתחזק את דפוסי-נקודות-הזמן במקום-אחד, כך שמחקרים רבים חולקים אותם cycles ומתזמנים אחיד ובר-מעקב.",
           processExampleHe: "Strategy STAB12 עם packages ב-0,3,6,9,12 חודשים; כל מחקר המשתמש בה מקבל בדיוק את הנקודות האלה; שינוי ב-Strategy משפיע על כל המחקרים העתידיים.",
-          cbcHe: "ב-CBC Strategy STAB-LONG (0/3/6/12) ו-STAB-ACC (0/1/2/3); מחקרי-משקאות בוחרים את ה-Strategy לפי סוג-המחקר (ארוך-טווח/מואץ).",
+          scenarioHe: "בארגון Strategy STAB-LONG (0/3/6/12) ו-STAB-ACC (0/1/2/3); מחקרי-משקאות בוחרים את ה-Strategy לפי סוג-המחקר (ארוך-טווח/מואץ).",
           navHe: ["Plant Maintenance ► Maintenance Plans, Work Centers, Task Lists ► Maintenance Plans ► Set Maintenance Strategies (IP11)"],
           tables: ["T351", "T351P", "MPLA"],
           tcodes: ["IP11", "IP01", "IP10"],
@@ -872,7 +872,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "מוגדר ב-SPRO (QM notifications); קובע notification category, screen layout, partner functions, catalog profile (סוגי-קוד לחריגות), ו-Action Box (15.4.11). Notification type ייעודי למחקרי-יציבות מאפשר טיפול עקבי בחריגות. מקושר ל-priority types (15.4.10) ול-follow-up מ-UD. ה-type הוא התשתית של תהליך-התגובה לחריגות.",
           purposeHe: "להגדיר מסגרת-טיפול אחידה ובת-ביקורת לחריגות-מחקר, עם המסכים, השותפים והפעולות הנכונים.",
           processExampleHe: "הגדרת notification type ZSTAB עם catalog לחריגות-יציבות, partner = QA-manager, ו-Action Box למשימות; כל חריגת-מחקר פותחת notification מסוג זה.",
-          cbcHe: "ב-CBC notification type ייעודי לחריגות-יציבות-משקאות, עם partner = מנהל-QA ו-R&D, ו-catalog לסוגי-חריגה (pH/CO2/טעם).",
+          scenarioHe: "בארגון notification type ייעודי לחריגות-יציבות-משקאות, עם partner = מנהל-QA ו-R&D, ו-catalog לסוגי-חריגה (pH/CO2/טעם).",
           navHe: ["Quality Management ► Quality Notifications ► Notification Creation ► Notification Type ► Define Notification Types"],
           tables: ["TQ80", "QMEL", "TQ15"],
           tcodes: ["SPRO", "QM01"],
@@ -898,7 +898,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "מוגדר ב-SPRO; priority type מכיל priorities עם זמני-תגובה/סיום (response/completion time) המחשבים deadlines אוטומטית ב-notification. מקושר ל-Notification Type (15.4.9). priorities גבוהות יכולות להפעיל escalation. במחקר-יציבות, חריגת-מאפיין-קריטי (למשל בטיחות-מזון) מקבלת priority גבוהה עם תגובה-מיידית.",
           purposeHe: "לתעדף ולנהל זמני-תגובה לחריגות לפי חומרתן, ולהבטיח שחריגות-קריטיות מטופלות בזמן הנכון.",
           processExampleHe: "הגדרת priority type עם 1=קריטי (תגובה 4 שעות), 2=גבוה (24 שעות), 3=נמוך (שבוע); חריגת-pH קריטית מקבלת priority 1 ו-deadline אוטומטי.",
-          cbcHe: "ב-CBC חריגת בטיחות-מזון (זיהום/pH מסוכן) = priority קריטי עם תגובה-מיידית; חריגת-טעם-קלה = priority נמוך.",
+          scenarioHe: "בארגון חריגת בטיחות-מזון (זיהום/pH מסוכן) = priority קריטי עם תגובה-מיידית; חריגת-טעם-קלה = priority נמוך.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Processing ► Response Control ► Define Priorities"],
           tables: ["TQ80", "T356", "QMEL"],
           tcodes: ["SPRO", "QM02"],
@@ -921,7 +921,7 @@ export const CH15: TextbookChapter = {
           consultantHe: "מוגדר ב-SPRO (Notification → Activities → Define Follow-up Actions / Action Box); כל פעולה מקושרת ל-function module או task. הפעולות מותאמות ל-Notification Type (15.4.9). דוגמאות: create task, send mail, trigger workflow, create manual inspection lot, change study status. ה-Action Box מבטיח שתגובות-סטנדרטיות מבוצעות בלחיצה, מתועדות, ובאופן עקבי. ניתן לקשר ל-SAP Business Workflow.",
           purposeHe: "להפוך את התגובה-לחריגה לאוטומטית, מהירה ועקבית — צעד-אחד במקום תהליך-ידני — תוך תיעוד מלא לביקורת.",
           processExampleHe: "ב-notification של חריגה, המשתמש לוחץ ב-Action Box 'Open investigation task' → נוצרת משימה; 'Notify QA manager' → נשלחת התראה; הכול מתועד ב-notification.",
-          cbcHe: "ב-CBC ה-Action Box של חריגת-משקה כולל: 'הודע ל-QA', 'פתח חקירת-R&D', 'צור בדיקה-חוזרת', 'הצע קיצור shelf life' — בלחיצה, מתועד.",
+          scenarioHe: "בארגון ה-Action Box של חריגת-משקה כולל: 'הודע ל-QA', 'פתח חקירת-R&D', 'צור בדיקה-חוזרת', 'הצע קיצור shelf life' — בלחיצה, מתועד.",
           navHe: ["Quality Management ► Quality Notifications ► Notification Processing ► Additional Functions ► Define Follow-Up Actions (Action Box)"],
           tables: ["TQ80", "TQ85", "QMSM"],
           tcodes: ["SPRO", "QM02"],
@@ -955,8 +955,8 @@ export const CH15: TextbookChapter = {
         "לאחד את כל הפרק לתמונה-אחת: כיצד SAP הופך תהליך-מעבדה ידני ומורכב לזרימה אוטומטית, אחידה ובת-ביקורת לקביעת חיי-מדף — ולספק את נקודות-המפתח לזכירה ולראיון.",
       processExampleHe:
         "תמצית-המחזור: QST01 פותח ► T=0 נבדק ומאושר ► תנאי-אחסון ולוח-זמנים מוגדרים ► start date נקבע ► Maintenance Plan מתזמן ומייצר lot כל נקודה ► המעבדה בודקת ונותנת UD ► חריגות דרך Change Notification + Action Box ► QST03 מנתח מגמה ► shelf life נקבע ומתויק.",
-      cbcHe:
-        "ב-CBC כל טעם-משקה חדש עובר מחקר-יציבות לפני השקה: דגימות ב-25°C ו-40°C, בדיקת pH/CO2/צבע/טעם כל 3 חודשים, וקביעת תאריך-התפוגה המודפס על הבקבוק — תהליך אחיד, אוטומטי ובר-ביקורת לכל המוצרים.",
+      scenarioHe:
+        "בארגון כל טעם-משקה חדש עובר מחקר-יציבות לפני השקה: דגימות ב-25°C ו-40°C, בדיקת pH/CO2/צבע/טעם כל 3 חודשים, וקביעת תאריך-התפוגה המודפס על הבקבוק — תהליך אחיד, אוטומטי ובר-ביקורת לכל המוצרים.",
       navHe: [
         "Quality Management ► Quality Planning ► Stability Study (QST01/QST02/QST03)",
         "Quality Management ► Basic Settings ► Stability Study (SPRO)",

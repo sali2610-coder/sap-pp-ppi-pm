@@ -9,7 +9,7 @@ export const CH1: TextbookChapter = {
   titleHe: "מבוא לתכנון ייצור ב-SAP S/4HANA",
   titleEn: "Introduction to Production Planning in SAP S/4HANA",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה למבוא לתכנון-הייצור (PP) ב-SAP S/4HANA. כל תת-פרק מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הפרק סוקר את מודולי-המשנה של PP (ייצור בדיד, תהליכי וחוזר), את הפישוטים של S/4HANA, את ה-Embedded Analytics, את ה-Fiori Launchpad, את MRP Live ואת מודל-הנתונים של הייצור. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה למבוא לתכנון-הייצור (PP) ב-SAP S/4HANA. כל תת-פרק מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הפרק סוקר את מודולי-המשנה של PP (ייצור בדיד, תהליכי וחוזר), את הפישוטים של S/4HANA, את ה-Embedded Analytics, את ה-Fiori Launchpad, את MRP Live ואת מודל-הנתונים של הייצור. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 1.1
     {
@@ -24,8 +24,8 @@ export const CH1: TextbookChapter = {
         "המטרה: להבטיח שהמוצר הנכון יהיה זמין בכמות הנכונה, בזמן הנכון ובעלות מיטבית, תוך איזון בין רמת-שירות-ללקוח, ניצול-קיבולת ומלאי. PP הוא הכלי שמונע גם מחסור (חוסר-זמינות) וגם עודף (מלאי כלוא).",
       processExampleHe:
         "ביקוש לטלפון נכנס כתחזית (PIR) והזמנות-מכירה. MRP Live סורק את אב-החומר, מנכה מלאי וקבלות-צפויות, ויוצר הזמנות-מתוכננות לרכיבים-מיוצרים ודרישות-רכש לקנויים. המתכנן ממיר את ההזמנה-המתוכננת לפק\"ע, משחרר אותה, ורצפת-הייצור מדווחת ביצוע (Confirmation) — המידע זורם בזמן-אמת ל-CO לחישוב עלות-המוצר בפועל.",
-      cbcHe:
-        "ב-CBC: ביקוש לקרטוני-משקה נכנס כ-PIR שבועי לפי תחזית-מכירות. MRP Live מתרגם אותו לדרישות תרכיז, סוכר, CO2, בקבוקים ותוויות, וליצירת הזמנות-מתוכננות לקווי-המילוי. מכיוון שהמשקאות מיוצרים ב-PP-PI, ההזמנה-המתוכננת הופכת לפקודת-תהליך (Process Order) ולא לפק\"ע רגילה.",
+      scenarioHe:
+        "בארגון: ביקוש לקרטוני-משקה נכנס כ-PIR שבועי לפי תחזית-מכירות. MRP Live מתרגם אותו לדרישות תרכיז, סוכר, CO2, בקבוקים ותוויות, וליצירת הזמנות-מתוכננות לקווי-המילוי. מכיוון שהמשקאות מיוצרים ב-PP-PI, ההזמנה-המתוכננת הופכת לפקודת-תהליך (Process Order) ולא לפק\"ע רגילה.",
       navHe: [
         "SAP Easy Access ► Logistics ► Production ► MRP ► MRP ► MD01N – MRP Live",
         "Production ► Material Requirements Planning ► Planning ► Define Scope of Planning",
@@ -95,7 +95,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "התכנון נע מ-Long-term (S&OP / SOP, מצרפי) דרך Mid-term (Demand Management, PIR) אל Short-term (MRP, Capacity, Scheduling). ב-S/4HANA ה-S&OP המתקדם עבר ל-SAP IBP בענן, בעוד MRP ו-Capacity נותרו מובנים (Embedded). זרימת-התכנון יורדת מרמת-מוצר-מצרפי לרמת-חומר-בודד-במפעל.",
           purposeHe: "ליצור 'תוכנית-על' שמאזנת ביקוש מול קיבולת ומלאי, ומספקת בסיס ברור ל-MRP לחשב דרישות-מדויקות.",
           processExampleHe: "תחזית-מכירות רבעונית יורדת ל-PIR חודשי לכל מוצר; MRP מפרק אותה לדרישות-רכיבים יומיות; תכנון-קיבולת מאזן את העומס על המכונות.",
-          cbcHe: "ב-CBC התחזית העונתית (קיץ = ביקוש-שיא) יורדת ל-PIR שבועי לכל טעם; MRP מתרגם לדרישות-תרכיז ולתזמון קווי-המילוי.",
+          scenarioHe: "בארגון התחזית העונתית (קיץ = ביקוש-שיא) יורדת ל-PIR שבועי לכל טעם; MRP מתרגם לדרישות-תרכיז ולתזמון קווי-המילוי.",
           navHe: ["SAP Easy Access ► Logistics ► Production ► Production Planning ► Demand Management ► MD61 – Create PIR"],
           tables: ["PBED", "PBIM", "MDKP"],
           tcodes: ["MD61", "MD62", "MC87"],
@@ -118,7 +118,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "Discrete משתמש ב-Routing+BOM ובפק\"ע (AUFK/AFKO), עם מעקב-פרטני לפי הזמנה. Process (PP-PI) משתמש ב-Master Recipe (PLPOD), ב-Resource במקום Work Center, וב-Process Order עם Control Recipes ו-Process Messages. Repetitive משתמש ב-Rate Routing, ב-Production Version, וב-Backflush מול Run Schedule — ללא הזמנה פרטנית, רק כמויות-תקופה.",
           purposeHe: "להתאים את מודל-הנתונים ואת מנגנון-הביצוע לאופי-הייצור האמיתי, כדי למזער תקורה ולמקסם דיוק.",
           processExampleHe: "מפעל-מזון: רוטב = Process (מתכון, אצווה); אריזה-חוזרת של אותו מוצר = REM (קצב); קו-הרכבה של ערכות-מתנה = Discrete (פק\"ע).",
-          cbcHe: "ב-CBC: ערבול-ומילוי משקה = Process (PP-PI, מתכון + Resource + Batch); אם קו מסוים מייצר משקה-יחיד ברצף-קבוע — ניתן לנהלו כ-REM להפחתת-תקורה.",
+          scenarioHe: "בארגון: ערבול-ומילוי משקה = Process (PP-PI, מתכון + Resource + Batch); אם קו מסוים מייצר משקה-יחיד ברצף-קבוע — ניתן לנהלו כ-REM להפחתת-תקורה.",
           navHe: ["Production ► Basic Data ► Define Production Types / Order Types per Mode"],
           tables: ["AFKO", "PLPOD", "AFRU", "MARC"],
           tcodes: ["CO01", "COR1", "MF50", "MFBF"],
@@ -141,7 +141,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "השרשרת מערבת אובייקטים: PIR (PBED) → Planned Order (PLAF) → Production/Process Order (AFKO/AFPO) → Reservations (RESB) → Goods Issue (261) → Confirmation (AFRU) → Goods Receipt (101) → Settlement. ב-S/4HANA כל המעברים נראים בזמן-אמת ב-Stock/Requirements List (MD04) וב-Fiori, וה-Settlement מזין את CO-PC.",
           purposeHe: "להבטיח רצף-ביצוע מבוקר ועקבי שבו כל החלטת-תכנון הופכת לפעולה ולמדידה — ללא 'נפילות' בין השלבים.",
           processExampleHe: "PIR ► MRP יוצר Planned Order ► המתכנן ממיר לפק\"ע ► בדיקת-זמינות ושחרור ► משיכת-רכיבים (261) ► דיווח-פעולות (CO11N) ► GR (101) למלאי ► Settlement לסגירת-עלות.",
-          cbcHe: "ב-CBC: PIR למשקה ► MRP יוצר Planned Order ► המרה לפקודת-תהליך ► שחרור ויצירת Control Recipe ► משיכת תרכיז/אריזה ► דיווח-מילוי ► GR לאצווה ► Settlement.",
+          scenarioHe: "בארגון: PIR למשקה ► MRP יוצר Planned Order ► המרה לפקודת-תהליך ► שחרור ויצירת Control Recipe ► משיכת תרכיז/אריזה ► דיווח-מילוי ► GR לאצווה ► Settlement.",
           navHe: ["SAP Easy Access ► Logistics ► Production ► Shop Floor Control ► Order ► CO01 – Create Production Order", "Production ► Process ► Process Order ► COR1"],
           tables: ["PLAF", "AFKO", "AFPO", "RESB", "AFRU"],
           tcodes: ["MD01N", "CO01", "CO02", "CO11N", "MIGO", "KO88"],
@@ -164,7 +164,7 @@ export const CH1: TextbookChapter = {
           consultantHe: "CO-PC נשען על PP: ה-BOM מספק עלות-חומר, ה-Routing/Recipe + Work Center/Resource (Activity Types, KP26) מספקים עלות-המרה. Product Costing (CK11N/CK40N) יוצר Standard Cost; ההזמנה צוברת Actuals (חומר + Confirmation × תעריף); ב-Settlement (KO88/CO88) מחושבות Variances ומועברות ל-FI/CO-PA. תמחיר שגוי ב-PP מתורגם ישירות לסטיות-עלות לא-מוסברות.",
           purposeHe: "לתת רווחיות-מוצר אמינה, לזהות חריגות-עלות בזמן, ולתמוך בתמחור ובהחלטות make-or-buy.",
           processExampleHe: "Standard Cost Estimate (CK11N) קובע עלות-תקן; הפק\"ע צוברת חומר בפועל ופעולות-בפועל; ב-Settlement מתקבלות סטיות-כמות וסטיות-תעריף המנותחות ב-CO-PA.",
-          cbcHe: "ב-CBC עלות-המשקה מורכבת מתרכיז+סוכר+אריזה (חומר) ועלות-קו-מילוי (Activity). סטיית-תפוקה בקו (פחת-מילוי גבוה) מופיעה כ-Variance בסגירת-פקודת-התהליך.",
+          scenarioHe: "בארגון עלות-המשקה מורכבת מתרכיז+סוכר+אריזה (חומר) ועלות-קו-מילוי (Activity). סטיית-תפוקה בקו (פחת-מילוי גבוה) מופיעה כ-Variance בסגירת-פקודת-התהליך.",
           navHe: ["SAP Easy Access ► Accounting ► Controlling ► Product Cost Controlling ► Product Cost Planning ► CK11N", "Controlling ► Product Cost by Order ► Period-End Closing ► KO88/CO88"],
           tables: ["KEKO", "KEPH", "COEP", "MLCD"],
           tcodes: ["CK11N", "CK40N", "KP26", "KO88", "CO88"],
@@ -195,8 +195,8 @@ export const CH1: TextbookChapter = {
         "לתמוך בתעשיות-תהליך בדרישותיהן הייחודיות: מתכון משתנה-כמות, ניהול-אצווה ועקיבות (Traceability), בקרת-תהליך בזמן-אמת, ועמידה ברגולציית-מזון/תרופות.",
       processExampleHe:
         "Master Recipe מגדיר שלבי-ערבול וזמני-תגובה; פקודת-תהליך מחשבת כמויות לפי כמות-האצווה (Material Quantity Calculation); Control Recipe נשלח לרצפה; המפעיל ממלא PI-Sheet והמערכת קולטת Process Messages עם ערכי-תהליך בפועל.",
-      cbcHe:
-        "ב-CBC זרימת-המשקה: Master Recipe = הכנת-מים ► עירוב-תרכיז+סוכר ► קרבונציה (CO2) ► מילוי ► אריזה; פקודת-תהליך יוצרת אצווה עם עקיבות מלאה מהתרכיז ועד הבקבוק; Control Recipe מזין את קו-המילוי.",
+      scenarioHe:
+        "בארגון זרימת-המשקה: Master Recipe = הכנת-מים ► עירוב-תרכיז+סוכר ► קרבונציה (CO2) ► מילוי ► אריזה; פקודת-תהליך יוצרת אצווה עם עקיבות מלאה מהתרכיז ועד הבקבוק; Control Recipe מזין את קו-המילוי.",
       navHe: [
         "SAP Easy Access ► Logistics ► Production – Process ► Master Data ► Master Recipes ► C201",
         "Production – Process ► Process Order ► COR1 – Create Process Order",
@@ -247,7 +247,7 @@ export const CH1: TextbookChapter = {
         "PP-PI = Master Recipe + Resource + Process Order.",
         "Control Recipe ו-Process Messages מחברים לרצפה/MES.",
         "ניהול-אצווה ועקיבות הם לב ה-PP-PI.",
-        "זהו אופן-הייצור של CBC למשקאות.",
+        "זהו אופן-הייצור של הארגון למשקאות.",
       ],
       relatedHe: [
         { labelHe: "PP · נתוני-אב בתעשיות-תהליך (פרק 4)", href: "/library/pp/chapter-04/" },
@@ -268,8 +268,8 @@ export const CH1: TextbookChapter = {
         "להפחית תקורה ניהולית בייצור-המוני-יציב: פחות הזמנות, פחות דיווח-פרטני, תכנון מבוסס-קצב ומלאי-WIP נמוך.",
       processExampleHe:
         "Production Version מקשרת BOM+Rate Routing; MRP יוצר Planned Orders ברמת-קצב; הקו מייצר; בסוף-משמרת מבצעים Backflush (MFBF) שמנכה רכיבים, מזכה פעולות ומקבל תוצר — הכל באירוע אחד.",
-      cbcHe:
-        "ב-CBC אם קו-מילוי ייעודי מייצר טעם-יחיד ברצף-קבוע, ניתן לנהלו כ-REM: תכנון לפי קצב-יומי, ו-Backflush שמנכה תרכיז/בקבוקים/תוויות בסוף-משמרת במקום דיווח פק\"ע פרטני.",
+      scenarioHe:
+        "בארגון אם קו-מילוי ייעודי מייצר טעם-יחיד ברצף-קבוע, ניתן לנהלו כ-REM: תכנון לפי קצב-יומי, ו-Backflush שמנכה תרכיז/בקבוקים/תוויות בסוף-משמרת במקום דיווח פק\"ע פרטני.",
       navHe: [
         "SAP Easy Access ► Logistics ► Production ► Repetitive Manufacturing ► Backflush ► MFBF",
         "Production ► Repetitive Manufacturing ► Planning ► MF50 – Planning Table",
@@ -340,8 +340,8 @@ export const CH1: TextbookChapter = {
         "לתת תכנון שרשרת-אספקה מתקדם, רב-ארגוני וסימולטיבי שחורג מגבולות מפעל-בודד — איזון ביקוש-מול-אספקה, אופטימיזציית-מלאי ותרחישי what-if — בעוד ה-PP המובנה מתמקד בביצוע.",
       processExampleHe:
         "IBP for Demand מייצר תחזית-סטטיסטית; IBP for S&OP מאזן מול קיבולת ומלאי בתרחישים; התוכנית המאושרת מסונכרנת כ-PIR ל-S/4HANA, שם MRP Live מתרגם אותה לדרישות-ייצור-ורכש מפורטות.",
-      cbcHe:
-        "ב-CBC: IBP מתכנן את עונת-הקיץ ברמה-ארצית — איזה מלאי-ביטחון להחזיק במרכזי-הפצה, כמה לייצר מראש לפני שיא-הביקוש; התוצאה יורדת כ-PIR לכל מפעל-בקבוק, ושם MRP Live מתכנן את קווי-המילוי בפועל.",
+      scenarioHe:
+        "בארגון: IBP מתכנן את עונת-הקיץ ברמה-ארצית — איזה מלאי-ביטחון להחזיק במרכזי-הפצה, כמה לייצר מראש לפני שיא-הביקוש; התוצאה יורדת כ-PIR לכל מפעל-בקבוק, ושם MRP Live מתכנן את קווי-המילוי בפועל.",
       navHe: [
         "SAP IBP Web UI ► Demand Planning / S&OP / Inventory (cloud)",
         "S/4HANA ► Integration ► SAP Cloud Integration for Data Services (CI-DS)",
@@ -404,8 +404,8 @@ export const CH1: TextbookChapter = {
         "לתת ללומד מסגרת-התמצאות: היכן כל נושא יושב, כיצד הרכיבים מתחברים, ומדוע S/4HANA שונה — כדי לגשת לפרקים-המתקדמים עם תמונה-שלמה.",
       processExampleHe:
         "ביקוש (IBP/PIR) ► MRP Live ► Planned Order ► המרה לאופן-הייצור המתאים ► ביצוע-ודיווח ► GR ► Settlement ► ניתוח בזמן-אמת ב-Fiori. כל פרק בספר מעמיק חוליה אחת בשרשרת הזו.",
-      cbcHe:
-        "ב-CBC המסע השלם: IBP מתכנן עונה ► PIR יורד למפעל ► MRP Live מתרגם לדרישות ► פקודת-תהליך (PP-PI) ► מילוי ודיווח ► GR לאצווה ► Settlement ► מנהל-הייצור רואה תפוקה וסטיות בזמן-אמת ב-Fiori Launchpad.",
+      scenarioHe:
+        "בארגון המסע השלם: IBP מתכנן עונה ► PIR יורד למפעל ► MRP Live מתרגם לדרישות ► פקודת-תהליך (PP-PI) ► מילוי ודיווח ► GR לאצווה ► Settlement ► מנהל-הייצור רואה תפוקה וסטיות בזמן-אמת ב-Fiori Launchpad.",
       navHe: [
         "SAP Fiori Launchpad ► Manufacturing (תפקידי PP) — נקודת-המוצא היומיומית",
         "SAP Easy Access ► Logistics ► Production (תאימות-GUI במידת-הצורך)",

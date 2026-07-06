@@ -12,7 +12,7 @@ const STAGES: Stage[] = [
   { id: "welcome", n: 1, icon: Sparkles, title: "ברוך הבא ל-NEO", desc: "סיור מהיר: מודל נתונים, אקדמיה, מנטור, תקלות והסמכה — הכל במקום אחד.", action: "התחל את המסע", mins: 5 },
   { id: "track", n: 2, icon: Compass, title: "בחירת התמחות", desc: "PM (אחזקת מפעל) או PP-PI (ייצור תהליכי) — בחר את מסלול הליבה שלך.", action: "בחר מסלול", href: "/learn/", mins: 10 },
   { id: "model", n: 3, icon: Database, title: "היכרות עם מודל הנתונים", desc: "טבלאות, מפתחות, קשרים והשפעת S/4 — בגרף אינטראקטיבי.", action: "פתח מודל נתונים", href: "/sap-infrastructure/", mins: 20 },
-  { id: "process", n: 4, icon: Workflow, title: "הבנת התהליך העסקי", desc: "סיור מודרך בתהליך אחזקה/ייצור מקצה לקצה, בהקשר CBC.", action: "פתח סיור מודרך", href: "/story/", mins: 25 },
+  { id: "process", n: 4, icon: Workflow, title: "הבנת התהליך העסקי", desc: "סיור מודרך בתהליך אחזקה/ייצור מקצה לקצה, בהקשר ייצור.", action: "פתח סיור מודרך", href: "/story/", mins: 25 },
   { id: "mentor", n: 5, icon: BrainCircuit, title: "עבודה עם המנטור", desc: "שאל על כל אובייקט, תסמין או תהליך — תשובות מבוססות מאגר בלבד.", action: "שאל את המנטור", mentor: true, mins: 10 },
   { id: "exam", n: 6, icon: Award, title: "מבחן הסמכה", desc: "מבחן ידע טכני אקראי — 20 שאלות, ציון מעבר 80.", action: "גש למבחן", href: "/certification/", mins: 30 },
   { id: "badge", n: 7, icon: BadgeCheck, title: "קבלת תג יועץ", desc: "סיימת את המסע — קבל את תג היועץ המוסמך של NEO.", action: "קבל תג", final: true, mins: 2 },

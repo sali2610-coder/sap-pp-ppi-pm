@@ -2,7 +2,7 @@
 // Every node is a complete 18-facet LearningNode of authored Hebrew —
 // beginner + consultant friendly, config-heavy with rich SPRO navigation.
 // Source hierarchy preserved exactly; x.y.z nested under x.y.
-// Transformative Hebrew prose; SAP identifiers verbatim EN. CBC = Coca-Cola bottling.
+// Transformative Hebrew prose; SAP identifiers verbatim EN. הארגון = Example Product bottling.
 import type { TextbookChapter } from "./types";
 
 export const CH3: TextbookChapter = {
@@ -10,7 +10,7 @@ export const CH3: TextbookChapter = {
   titleHe: "קונפיגורציה",
   titleEn: "Configuration",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לקונפיגורציה של PP/DS המוטמע (Embedded PP/DS) ב-SAP S/4HANA. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC (מפעל-מילוי משקאות), ניווט ו-SPRO מפורט, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הפרק מכסה את הפעלת PP/DS, הגדרות-בסיס (Model 000, אינטגרציה, העברת-נתונים, סכמת-קונפיגורציה, פרמטרים גלובליים, נתוני-אב), היוריסטיקות, נהלי-תכנון, תצוגת-הזמנות, לוח-התזמון המפורט (DS Board), יומני-יישום והאופטימייזר. המטרה: לשלוט בקונפיגורציה של PP/DS ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לקונפיגורציה של PP/DS המוטמע (Embedded PP/DS) ב-SAP S/4HANA. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון (מפעל-מילוי משקאות), ניווט ו-SPRO מפורט, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. הפרק מכסה את הפעלת PP/DS, הגדרות-בסיס (Model 000, אינטגרציה, העברת-נתונים, סכמת-קונפיגורציה, פרמטרים גלובליים, נתוני-אב), היוריסטיקות, נהלי-תכנון, תצוגת-הזמנות, לוח-התזמון המפורט (DS Board), יומני-יישום והאופטימייזר. המטרה: לשלוט בקונפיגורציה של PP/DS ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 3.1
     {
@@ -27,8 +27,8 @@ export const CH3: TextbookChapter = {
         "המטרה: להפוך תכנון-מתקדם (תזמון-סדר-עדינות, אופטימיזציה, פיזור-עומס) לזמין בתוך ה-ERP בלי מערכת חיצונית, אינטגרציית core-interface כבדה או סנכרון-נתונים בין שתי מערכות. כך מתקבל planning בזמן-אמת על נתוני-הליבה.",
       processExampleHe:
         "ארגון העובר מ-ECC עם APO נפרד מטמיע S/4HANA: צוות-הבסיס מפעיל את ה-Business Function ואת scope item של Advanced Planning בסביבת-QA, מאמת שתפריטי ה-SPRO של PP/DS נפתחו, ורק אז משכפל לסביבת-הייצור. מכאן ואילך הצוות-הפונקציונלי מגדיר Model 000, אינטגרציה ונתוני-אב.",
-      cbcHe:
-        "ב-CBC ההחלטה להפעיל PP/DS נובעת מהצורך לתזמן בעדינות החלפות-טעם וניקויי-CIP בין מוצרים על קווי-המילוי — דבר שתכנון-MRP בסיסי אינו עושה. צוות-הבסיס מפעיל את הקומפוננטה, ולאחר-מכן מסומנים המשקאות המוגמרים (FERT) לתכנון מתקדם.",
+      scenarioHe:
+        "בארגון ההחלטה להפעיל PP/DS נובעת מהצורך לתזמן בעדינות החלפות-טעם וניקויי-CIP בין מוצרים על קווי-המילוי — דבר שתכנון-MRP בסיסי אינו עושה. צוות-הבסיס מפעיל את הקומפוננטה, ולאחר-מכן מסומנים המשקאות המוגמרים (FERT) לתכנון מתקדם.",
       navHe: [
         "SPRO ► SAP Reference IMG ► Advanced Planning (ענף-העל הנפתח לאחר ההפעלה)",
         "Activate Business Function for Advanced Planning (transaction SFW5 / scope item של Advanced Planning ב-SAP Best Practices)",
@@ -94,8 +94,8 @@ export const CH3: TextbookChapter = {
         "המטרה: לבסס סביבת-תכנון אחת, עקבית ומסונכרנת עם הליבה, שבה כל האובייקטים קיימים, ברירות-המחדל מוגדרות, והאינטגרציה מבטיחה שכל שינוי בליבה משתקף בתכנון ולהפך.",
       processExampleHe:
         "בהקמת PP/DS היועץ מאמת ש-Model 000/Version 000 פעילים, מגדיר אילו נתוני-תנועה מועברים, קובע פרמטרים גלובליים (אופק-תכנון, אזור-זמן), ומוודא שנתוני-האב (location, product, resource) נוצרים אוטומטית מהליבה. רק אז ניתן להריץ היוריסטיקה ראשונה.",
-      cbcHe:
-        "ב-CBC כל המפעלים, קווי-המילוי והמשקאות חיים תחת Model 000/Version 000 יחיד. שינוי בקיבולת-קו בליבה (במרכז-העבודה) משתקף אוטומטית כ-resource ב-PP/DS, ולכן הגדרות-האינטגרציה הנכונות הן תנאי לתכנון מהימן.",
+      scenarioHe:
+        "בארגון כל המפעלים, קווי-המילוי והמשקאות חיים תחת Model 000/Version 000 יחיד. שינוי בקיבולת-קו בליבה (במרכז-העבודה) משתקף אוטומטית כ-resource ב-PP/DS, ולכן הגדרות-האינטגרציה הנכונות הן תנאי לתכנון מהימן.",
       navHe: [
         "SPRO ► Advanced Planning ► Production Planning and Detailed Scheduling (PP/DS) ► Basic Settings",
         "Advanced Planning ► Basic Settings ► Maintain Global Parameters and Default Values",
@@ -159,7 +159,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "ב-/SAPAPO/MVM מנהלים את ה-Model ואת ה-Versions. Version 000 קשורה ל-Active Model 000 ומסונכרנת עם הליבה (liveCache). גרסאות-סימולציה הן עותקים שאינם משפיעים על הליבה. שכפול-גרסה (Version copy) מאפשר בדיקת-תרחישים בלי לפגוע בתכנון הפרודקטיבי.",
           purposeHe: "להפריד תכנון-פרודקטיבי (000) מתרחישי-סימולציה, ולשמור על מקור-אמת יחיד ומסונכרן עם הליבה.",
           processExampleHe: "מתכנן רוצה לבחון השפעת תוספת-קו: הוא משכפל את Version 000 לגרסת-סימולציה, מריץ שם תכנון, משווה תוצאות, ורק אם משתכנע מיישם בליבה — בלי שהסימולציה נגעה בתכנון הפעיל.",
-          cbcHe: "ב-CBC כל קווי-המילוי והמשקאות חיים ב-Model 000/Version 000. בחינת תוספת-משמרת-לילה נעשית בגרסת-סימולציה משוכפלת, ללא סיכון לתכנון השוטף.",
+          scenarioHe: "בארגון כל קווי-המילוי והמשקאות חיים ב-Model 000/Version 000. בחינת תוספת-משמרת-לילה נעשית בגרסת-סימולציה משוכפלת, ללא סיכון לתכנון השוטף.",
           navHe: [
             "SPRO ► Advanced Planning ► Basic Settings ► Model and Version Management",
             "Advanced Planning ► Master Data ► Model and Version Management ► Manage Models / Planning Versions (/SAPAPO/MVM)",
@@ -203,7 +203,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "ב-Embedded PP/DS האינטגרציה מבוססת על Real-Time Integration ועל סימון Advanced Planning באב-החומר (MRP 4 view). מודל-האינטגרציה מגדיר אילו location/product/PDS מועברים. בניגוד ל-APO, אין צורך להקים ולנטר תור-CIF; הסנכרון מיידי. עדיין מגדירים אילו סוגי-נתונים (קיבולת, מלאי, הזמנות) רלוונטיים לתכנון-מתקדם.",
           purposeHe: "להבטיח שכל אובייקט הרלוונטי לתכנון-מתקדם, ורק הוא, יהיה זמין ב-PP/DS עם נתונים עדכניים.",
           processExampleHe: "חומר מסומן Advanced Planning בליבה; מנגנון-האינטגרציה יוצר אוטומטית את ה-product וה-PDS ב-PP/DS, וכל שינוי-מלאי/הזמנה משתקף מיד.",
-          cbcHe: "ב-CBC רק המשקאות (FERT) וחצאי-המוצר (HALB) הרלוונטיים לתזמון-עדין מסומנים Advanced Planning; חומרי-גלם פשוטים נשארים בתכנון-MRP רגיל כדי לא להעמיס את המנוע.",
+          scenarioHe: "בארגון רק המשקאות (FERT) וחצאי-המוצר (HALB) הרלוונטיים לתזמון-עדין מסומנים Advanced Planning; חומרי-גלם פשוטים נשארים בתכנון-MRP רגיל כדי לא להעמיס את המנוע.",
           navHe: [
             "SPRO ► Advanced Planning ► Basic Settings ► Integration ► Configure Transfer of Master Data",
             "Advanced Planning ► Integration ► Set Up Advanced Planning Relevance (Material Master MRP 4: Advanced Planning indicator)",
@@ -247,7 +247,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "ב-Embedded PP/DS נתוני-התנועה (orders, stocks, requirements) מסונכרנים ל-liveCache בזמן-אמת. כלי-תיקון כמו /SAPAPO/CCR (Reconciliation) ו-/SAPAPO/OM17 (liveCache consistency) מאתרים אי-התאמות בין הליבה ל-liveCache. בעת הקמה או לאחר תקלה מריצים העברה-מחדש (initial transfer) של נתוני-התנועה לגרסה 000.",
           purposeHe: "לוודא שהתכנון מבוסס על תמונת-מצב נכונה ועדכנית של מלאי, הזמנות ודרישות.",
           processExampleHe: "לאחר הקמת חומר חדש מריצים העברת-נתוני-תנועה ראשונית; המלאי וההזמנות הפתוחות מופיעים ב-/SAPAPO/RRP3, והמתכנן רואה תמונת-תכנון מלאה.",
-          cbcHe: "ב-CBC, אחרי downtime של liveCache, מריצים /SAPAPO/CCR כדי לאמת שכל פקודות-המילוי הפתוחות והמלאי-בפועל תואמים בין הליבה ל-PP/DS לפני שמתזמנים מחדש.",
+          scenarioHe: "בארגון, אחרי downtime של liveCache, מריצים /SAPAPO/CCR כדי לאמת שכל פקודות-המילוי הפתוחות והמלאי-בפועל תואמים בין הליבה ל-PP/DS לפני שמתזמנים מחדש.",
           navHe: [
             "SPRO ► Advanced Planning ► Basic Settings ► Integration ► Transfer Transaction Data",
             "Advanced Planning ► Integration Tools ► Reconcile Transaction Data (/SAPAPO/CCR)",
@@ -291,7 +291,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "הסכמה משקפת את היררכיית-ההגדרות: (1) Global Parameters (אזור-זמן, אופק); (2) Master-data-level (Planning Procedure, PP/DS-relevant horizon, Strategy Profile לכל product/location); (3) Run-level (Heuristics + Planning Procedures שמופעלות בהרצה); (4) Interactive-level (DS Board profiles). חשוב להבין אילו הגדרות 'גוברות' על מי — למשל פרמטרי-הרצה גוברים על ברירות-מחדל-גלובליות.",
           purposeHe: "לספק תמונה אחודה של אופן-עבודת המערכת, לאתר חוסר-עקביות, ולתכנן הגדרה מסודרת מלמעלה-למטה.",
           processExampleHe: "בתחילת מימוש היועץ משרטט את הסכמה: פרמטרים גלובליים → נתוני-אב לכל חומר → היוריסטיקות ונהלי-תכנון → פרופילי-לוח. כל הגדרה חדשה ממוקמת בסכמה ובודקים את השפעתה כלפי מטה.",
-          cbcHe: "ב-CBC הסכמה מתעדת: אזור-זמן-מפעל גלובלי → Planning Procedure לכל משקה → היוריסטיקת SAP_PP_002 בהרצת-הלילה → פרופיל-DS-Board לראש-הקו. מסמך אחד שמראה איך הכל מתחבר.",
+          scenarioHe: "בארגון הסכמה מתעדת: אזור-זמן-מפעל גלובלי → Planning Procedure לכל משקה → היוריסטיקת SAP_PP_002 בהרצת-הלילה → פרופיל-DS-Board לראש-הקו. מסמך אחד שמראה איך הכל מתחבר.",
           navHe: [
             "SPRO ► Advanced Planning ► Production Planning and Detailed Scheduling (PP/DS) (ענף-העל של כל ההגדרות)",
             "Advanced Planning ► PP/DS ► Global Settings / Heuristics / Planning Procedure / Detailed Scheduling (תתי-הענפים)",
@@ -341,7 +341,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "בהגדרות הגלובליות מגדירים PP/DS horizon (האופק שבו מתבצע תכנון-DS לעומת תכנון-גס מעבר לו), time zone, ו-default planning behavior. ה-PP/DS horizon הוא קריטי: דרישות בתוכו מתוזמנות במדויק על-ידי המנוע; מעבר לו מטופלות כדרישות-PP רגילות. הגדרה זו משפיעה ישירות על ביצועי-המנוע (אופק קצר = פחות עומס).",
           purposeHe: "לקבוע התנהגות-בסיס עקבית ולהגדיר עד-כמה-רחוק מתבצע תכנון-מתקדם, באיזון בין דיוק לבין עומס-מערכת.",
           processExampleHe: "מגדירים PP/DS horizon של 30 יום: דרישות ב-30 הימים הקרובים מתוזמנות עדין על-ידי המנוע; מעבר לכך נשארות הזמנות-תכנון רגילות עד שייכנסו לאופק.",
-          cbcHe: "ב-CBC מגדירים PP/DS horizon של ~3-4 שבועות לקווי-המילוי — מספיק כדי לתזמן רצפי-מוצרים והחלפות-טעם, בלי להעמיס את המנוע בתכנון-עדין של חודשים קדימה.",
+          scenarioHe: "בארגון מגדירים PP/DS horizon של ~3-4 שבועות לקווי-המילוי — מספיק כדי לתזמן רצפי-מוצרים והחלפות-טעם, בלי להעמיס את המנוע בתכנון-עדין של חודשים קדימה.",
           navHe: [
             "SPRO ► Advanced Planning ► PP/DS ► Global Settings ► Maintain Global Parameters and Default Values",
             "Advanced Planning ► PP/DS ► Global Settings ► Specify PP/DS Horizon and Time Zone",
@@ -388,7 +388,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "האובייקטים (location/product/resource/PDS) נטענים מהליבה, אך נושאים שדות PP/DS ייעודיים: Planning Procedure (איך החומר מגיב לאירועי-תכנון), Strategy Profile (כיצד המנוע משבץ הזמנות), PP/DS horizon ספציפי, Planning Group. ה-resource (מתורגם ממרכז-העבודה) נושא הגדרות-קיבולת ולוח-זמינות. הגדרות-אלה גוברות על ברירות-המחדל הגלובליות לאותו אובייקט.",
           purposeHe: "להתאים את התנהגות-התכנון לכל חומר/קו ספציפי — אסטרטגיה, אופק ונוהל — מעבר לברירות-המחדל הכלליות.",
           processExampleHe: "מוצר מהיר-תנועה מקבל Planning Procedure שמפעיל תכנון-מיידי בכל שינוי-דרישה, ו-Strategy Profile שמעדיף שיבוץ-לאחור; מוצר איטי מקבל נוהל המתבסס על הרצת-לילה בלבד.",
-          cbcHe: "ב-CBC משקה-דגל מקבל Planning Procedure לתכנון-מיידי ו-Strategy Profile למזעור-החלפות-טעם; משקה-עונתי מקבל נוהל מבוסס-הרצת-לילה ואופק קצר יותר.",
+          scenarioHe: "בארגון משקה-דגל מקבל Planning Procedure לתכנון-מיידי ו-Strategy Profile למזעור-החלפות-טעם; משקה-עונתי מקבל נוהל מבוסס-הרצת-לילה ואופק קצר יותר.",
           navHe: [
             "SPRO ► Advanced Planning ► PP/DS ► Maintain Settings at Master-Data Level",
             "Advanced Planning ► Master Data ► Product (/SAPAPO/MAT1) / Resource (/SAPAPO/RES01)",
@@ -449,8 +449,8 @@ export const CH3: TextbookChapter = {
         "המטרה: לאוטמט את התכנון לפי כללים עסקיים מוגדרים, באופן עקבי ומהיר, על-פני אלפי-חומרים, בלי החלטה-ידנית לכל אחד.",
       processExampleHe:
         "הרצת-לילה מפעילה את SAP_PP_002 על כל מוצרי-המפעל: ההיוריסטיקה סורקת דרישות, יוצרת הזמנות-תכנון לפי lot-size, ומתזמנת אותן. בבוקר המתכנן רואה תכנית מלאה ומטפל רק בחריגות.",
-      cbcHe:
-        "ב-CBC הרצת-הלילה מפעילה SAP_PP_002 על המשקאות; לאחריה מופעלת היוריסטיקת-תזמון שמסדרת את ההזמנות על קווי-המילוי כך שמוצרים דומים (אותו טעם) רצים ברצף — לצמצום ניקויי-CIP.",
+      scenarioHe:
+        "בארגון הרצת-הלילה מפעילה SAP_PP_002 על המשקאות; לאחריה מופעלת היוריסטיקת-תזמון שמסדרת את ההזמנות על קווי-המילוי כך שמוצרים דומים (אותו טעם) רצים ברצף — לצמצום ניקויי-CIP.",
       navHe: [
         "SPRO ► Advanced Planning ► PP/DS ► Heuristics ► Maintain Heuristics",
         "SPRO ► Advanced Planning ► PP/DS ► Heuristics ► Define Heuristic Profiles",
@@ -510,7 +510,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "ב-/SAPAPO/CDPSC1 בוחרים היוריסטיקה ומגדירים את ה-Algorithm ואת הפרמטרים: scheduling direction, finite/infinite, lot-size procedure, ו-planning horizon. עבור SAP_PP_002 מגדירים אם ליצור הזמנות-תכנון לכל הדרישות ומה מצב-התזמון. הגדרות-אלה נשמרות עם ה-Heuristic ID ומשמשות בכל מקום שבו ההיוריסטיקה מופעלת.",
           purposeHe: "להתאים את האלגוריתם-הגנרי להתנהגות-העסקית הרצויה — דיוק-תזמון, התחשבות-בקיבולת וגודל-אצווה.",
           processExampleHe: "מגדירים את SAP_PP_002 עם backward scheduling ו-infinite capacity: ההזמנות מתוזמנות לאחור מתאריך-הדרישה בלי להגביל קיבולת; שלב-תזמון-סופי נפרד יישב על הקו עם קיבולת-סופית.",
-          cbcHe: "ב-CBC היוריסטיקת-התזמון של קווי-המילוי מוגדרת finite (קיבולת-סופית) כדי שלא יתוזמנו שתי פקודות-מילוי על אותו קו בו-זמנית.",
+          scenarioHe: "בארגון היוריסטיקת-התזמון של קווי-המילוי מוגדרת finite (קיבולת-סופית) כדי שלא יתוזמנו שתי פקודות-מילוי על אותו קו בו-זמנית.",
           navHe: [
             "SPRO ► Advanced Planning ► PP/DS ► Heuristics ► Maintain Heuristics (Settings)",
             "Advanced Planning ► PP/DS ► Heuristics ► Define Heuristic Settings (/SAPAPO/CDPSC1)",
@@ -553,7 +553,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "ב-/SAPAPO/CDPSC11 מגדירים Heuristic Profile ובו רשימת-היוריסטיקות לפי סדר-ביצוע. הפרופיל משויך ללחצן ב-DS Board (דרך ה-Overall Profile) או נקרא בהרצת-תכנון. סדר-הביצוע קריטי: תכנון-כמות חייב לקדום לתזמון-סופי. ניתן להגדיר פרופילים שונים לתפקידים שונים.",
           purposeHe: "לארוז רצף-תכנון מורכב לפעולה אחת עקבית, להבטיח סדר-ביצוע נכון ולפשט את עבודת-המתכנן.",
           processExampleHe: "פרופיל 'תכנון-יומי' מכיל: (1) SAP_PP_002 תכנון-כמות; (2) היוריסטיקת-תזמון-לאחור; (3) תזמון-סופי על הקו. לחיצה אחת מריצה את שלושתם בסדר.",
-          cbcHe: "ב-CBC פרופיל 'קו-מילוי' מקבץ: תכנון-כמות → תזמון → מיון-לפי-טעם להפחתת-CIP. ראש-הקו מפעיל אותו מה-DS Board בלחיצה.",
+          scenarioHe: "בארגון פרופיל 'קו-מילוי' מקבץ: תכנון-כמות → תזמון → מיון-לפי-טעם להפחתת-CIP. ראש-הקו מפעיל אותו מה-DS Board בלחיצה.",
           navHe: [
             "SPRO ► Advanced Planning ► PP/DS ► Heuristics ► Define Heuristic Profiles",
             "Advanced Planning ► PP/DS ► Heuristics ► Assign Profile to DS Board (/SAPAPO/CDPSC11)",
@@ -604,8 +604,8 @@ export const CH3: TextbookChapter = {
         "לאזן בין תגובתיות-תכנון (זמן-אמת) לבין עומס-מערכת — לתת תכנון-מיידי רק היכן שצריך, ולהשאיר את השאר להרצות-אצווה.",
       processExampleHe:
         "מוצר-דגל בנוהל immediate: דרישה חדשה מפעילה מיד היוריסטיקה ויוצרת הזמנת-תכנון. מוצר-רגיל בנוהל planning-run: הדרישה רק מסומנת, וההרצה הלילית תטפל בה.",
-      cbcHe:
-        "ב-CBC משקאות-דגל בנוהל תכנון-מיידי כדי להגיב מהר לשינויי-ביקוש; משקאות-עונתיים בנוהל מבוסס-הרצה כדי לא להעמיס את המערכת בכל שינוי-קטן.",
+      scenarioHe:
+        "בארגון משקאות-דגל בנוהל תכנון-מיידי כדי להגיב מהר לשינויי-ביקוש; משקאות-עונתיים בנוהל מבוסס-הרצה כדי לא להעמיס את המערכת בכל שינוי-קטן.",
       navHe: [
         "SPRO ► Advanced Planning ► PP/DS ► Planning Procedure ► Maintain Planning Procedures",
         "Advanced Planning ► PP/DS ► Planning Procedure ► Assign Planning Procedure to Products",
@@ -662,7 +662,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "ב-/SAPAPO/CDPSC5 מגדירים לכל נוהל את ה-reaction-to-events: לכל event-type בוחרים אחת מאפשרויות-התגובה (1/3/4...) ומשייכים היוריסטיקה. ניתן להפעיל גם 'planning in planning run' לאירועים מסוימים ו-'immediate' לאחרים — שליטה דקה. הנוהל גם קובע אם נדרש re-planning של pegging-relationships.",
           purposeHe: "לאפשר שליטה מדויקת בהתנהגות-תכנון לכל סוג-אירוע, ולא רק החלטה גורפת אחת.",
           processExampleHe: "נוהל שמגדיר: יצירת-דרישה ← immediate; שינוי-כמות ← mark for planning-run; מחיקה ← no action. כך אירועים-חשובים מטופלים מיד והשאר נצברים להרצה.",
-          cbcHe: "ב-CBC נוהל קו-המילוי: דרישת-מכירה חדשה ← immediate (להגיב מהר); שינוי-תאריך קטן ← planning-run הלילית.",
+          scenarioHe: "בארגון נוהל קו-המילוי: דרישת-מכירה חדשה ← immediate (להגיב מהר); שינוי-תאריך קטן ← planning-run הלילית.",
           navHe: [
             "SPRO ► Advanced Planning ► PP/DS ► Planning Procedure ► Maintain Planning Procedure (Reactions)",
             "Advanced Planning ► PP/DS ► Planning Procedure ► Define Reactions to Events (/SAPAPO/CDPSC5)",
@@ -705,7 +705,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "ב-/SAPAPO/CDPSB0 (Production Planning Run) מגדירים variant: planning scope (net change בלבד מול regenerative מלא), Heuristic Profile, propagation range (אילו חומרים/location), ו-planning mode. Net-change מתכנן רק מה שהשתנה (מהיר); regenerative מתכנן הכל מחדש (כבד, לאתחול). ההרצה מתועדת ב-Application Log. לרוב מתזמנים אותה ב-background job לילי.",
           purposeHe: "לתכנן ביעילות אוכלוסיית-חומרים גדולה באצווה, תוך בחירת-היקף שמאזן בין שלמות לבין זמן-ריצה.",
           processExampleHe: "Variant לילי: net-change + Heuristic Profile 'תכנון-יומי' + propagation range של כל המפעל. ה-job רץ ב-02:00, ובבוקר התכנית מעודכנת.",
-          cbcHe: "ב-CBC הרצת-net-change לילית מפעילה את פרופיל קו-המילוי על כל המשקאות; הרצת-regenerative מלאה מורצת רק בסופי-שבוע לאיפוס-מלא של התכנית.",
+          scenarioHe: "בארגון הרצת-net-change לילית מפעילה את פרופיל קו-המילוי על כל המשקאות; הרצת-regenerative מלאה מורצת רק בסופי-שבוע לאיפוס-מלא של התכנית.",
           navHe: [
             "SPRO ► Advanced Planning ► PP/DS ► Planning Procedure ► Define Settings for Production Planning Run",
             "Advanced Planning ► PP/DS ► Production Planning Run (/SAPAPO/CDPSB0) ► Define Planning Variant",
@@ -771,8 +771,8 @@ export const CH3: TextbookChapter = {
         "לתת למתכנן מסך-עבודה ממוקד, שמדגיש את מה שדורש-טיפול (חריגות) ומסתיר רעש, ומאפשר פעולות-תכנון ישירות.",
       processExampleHe:
         "המתכנן פותח את ה-Product View, רואה את כל ההיצע-מול-דרישה לחומר, עם הזמנות-באיחור מסומנות אדום; הוא גורר תאריך או מפעיל היוריסטיקה ישירות מהמסך.",
-      cbcHe:
-        "ב-CBC תצוגת-המתכנן מציגה לכל משקה את פקודות-המילוי הקרובות, עם התרעה אדומה על מחסור-תרכיז או חריגת-קיבולת-קו; המתכנן מתעדף לפי הצבעים.",
+      scenarioHe:
+        "בארגון תצוגת-המתכנן מציגה לכל משקה את פקודות-המילוי הקרובות, עם התרעה אדומה על מחסור-תרכיז או חריגת-קיבולת-קו; המתכנן מתעדף לפי הצבעים.",
       navHe: [
         "SPRO ► Advanced Planning ► PP/DS ► Order View / Product View ► Define Order View Profile",
         "Advanced Planning ► PP/DS ► Interactive Planning ► Product Planning Table / Product View (/SAPAPO/RRP3)",
@@ -827,8 +827,8 @@ export const CH3: TextbookChapter = {
         "לתת למתכנן שליטה גרפית מלאה על התזמון — לראות עומסים, לפתור התנגשויות, ולהפעיל אוטומציות — במקום אחד אינטראקטיבי.",
       processExampleHe:
         "המתכנן פותח את ה-DS Board, רואה שעל קו-1 שתי הזמנות חופפות; הוא גורר אחת לקו-2, מפעיל היוריסטיקת-תזמון לסידור-מחדש, ולבסוף אופטימייזר למזעור-זמני-מעבר.",
-      cbcHe:
-        "ב-CBC ראש-המשמרת פותח את ה-DS Board לקווי-המילוי, רואה את רצף-המוצרים ליום, גורר כדי לקבץ אותו-טעם יחד (פחות CIP), ומפעיל אופטימייזר למזעור החלפות-טעם וזמני-ניקוי.",
+      scenarioHe:
+        "בארגון ראש-המשמרת פותח את ה-DS Board לקווי-המילוי, רואה את רצף-המוצרים ליום, גורר כדי לקבץ אותו-טעם יחד (פחות CIP), ומפעיל אופטימייזר למזעור החלפות-טעם וזמני-ניקוי.",
       navHe: [
         "SPRO ► Advanced Planning ► PP/DS ► Detailed Scheduling ► Detailed Scheduling Planning Board ► Maintain Overall Profile (/SAPAPO/CDPSC0)",
         "Advanced Planning ► PP/DS ► Detailed Scheduling ► Detailed Scheduling Planning Board (/SAPAPO/CDPS0)",
@@ -883,7 +883,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "ב-/SAPAPO/CDPSC0 מגדירים Overall Profile ומשייכים לו: Time Profile, Work Area, Planning Board Profile, Strategy Profile, Heuristic Profile ו-Optimization Profile. ניתן ליצור Overall Profiles רבים לתפקידים/אזורים שונים. זהו ה'מנהל' של כל שאר-הפרופילים.",
           purposeHe: "לארוז את כל הגדרות-הלוח לישות-אחת ניתנת-לבחירה, ולתת חוויות-עבודה שונות לתפקידים שונים בלחיצה.",
           processExampleHe: "מגדירים Overall Profile 'מתכנן-מילוי' עם Work Area של קווי-המילוי, Time Profile של שבוע, ו-Heuristic Profile מתאים; המתכנן בוחר אותו וכל הלוח מוכן.",
-          cbcHe: "ב-CBC קיימים Overall Profiles נפרדים: 'מילוי', 'ערבוב' ו-'אריזה' — כל אחד עם המשאבים, האופק וההיוריסטיקות שלו.",
+          scenarioHe: "בארגון קיימים Overall Profiles נפרדים: 'מילוי', 'ערבוב' ו-'אריזה' — כל אחד עם המשאבים, האופק וההיוריסטיקות שלו.",
           navHe: [
             "SPRO ► Advanced Planning ► PP/DS ► Detailed Scheduling ► DS Board ► Maintain Overall Profile (/SAPAPO/CDPSC0)",
           ],
@@ -923,7 +923,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "ב-/SAPAPO/CDPSC2 מגדירים Time Profile: Planning period (start/end יחסיים, למשל 'מהיום עד +14 יום'), Display period, ו-Time bucket granularity. אופק קצר ומפורט = תזמון-עדין; אופק ארוך = תמונה-רחבה. ה-Time Profile משויך ל-Overall Profile.",
           purposeHe: "להתאים את חלון-הזמן ואת רזולוציית-התצוגה למשימה — תזמון-עדין-יומי מול תכנון-שבועי.",
           processExampleHe: "Time Profile 'יומי-מפורט': מהיום עד +3 ימים, ברזולוציית-שעות — מתאים לתזמון-עדין של רצף-קו.",
-          cbcHe: "ב-CBC ראש-המשמרת משתמש ב-Time Profile של 24-48 שעות ברזולוציית-שעות לתזמון-מדויק של רצף-המילוי; מנהל-התכנון משתמש ב-Time Profile שבועי לתמונה-רחבה.",
+          scenarioHe: "בארגון ראש-המשמרת משתמש ב-Time Profile של 24-48 שעות ברזולוציית-שעות לתזמון-מדויק של רצף-המילוי; מנהל-התכנון משתמש ב-Time Profile שבועי לתמונה-רחבה.",
           navHe: [
             "SPRO ► Advanced Planning ► PP/DS ► Detailed Scheduling ► DS Board ► Maintain Time Profile (/SAPAPO/CDPSC2)",
           ],
@@ -965,7 +965,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "ב-/SAPAPO/CDPSC4 מגדירים Work Area עם selection של resources/products (לפי PPM, location, planner) ו-order categories. ניתן להגדיר selection דינמי (לפי MRP controller) או סטטי (רשימה). ה-Work Area הוא הקובע-המרכזי של ביצועי-הלוח — Work Area ממוקד = לוח מהיר ונקי.",
           purposeHe: "להציג למתכנן רק את המשאבים והמוצרים שבאחריותו, לשיפור-מיקוד וביצועי-לוח.",
           processExampleHe: "Work Area 'קווי-מילוי-משקה-קל' כולל רק את 3 קווי-המילוי הרלוונטיים ואת המשקאות הרצים עליהם — המתכנן לא נחשף לקווי-ערבוב.",
-          cbcHe: "ב-CBC כל ראש-קו מקבל Work Area של הקווים שלו בלבד; מנהל-המפעל מקבל Work Area רחב הכולל את כל קווי-המילוי לתמונה-מלאה.",
+          scenarioHe: "בארגון כל ראש-קו מקבל Work Area של הקווים שלו בלבד; מנהל-המפעל מקבל Work Area רחב הכולל את כל קווי-המילוי לתמונה-מלאה.",
           navHe: [
             "SPRO ► Advanced Planning ► PP/DS ► Detailed Scheduling ► DS Board ► Maintain Work Area (/SAPAPO/CDPSC4)",
           ],
@@ -1007,7 +1007,7 @@ export const CH3: TextbookChapter = {
           consultantHe: "ב-/SAPAPO/CDPSC1 (Planning Board section) מגדירים את ה-charts (resource chart, product chart, order chart), את graphical objects (צבעים לפי order-type/status), את ה-text שעל ה-operations, ואת ה-tooltips. הגדרת-תצוגה טובה הופכת חריגות לבולטות-עין. הפרופיל משויך ל-Overall Profile.",
           purposeHe: "לעצב לוח-קריא שמדגיש את המידע-החשוב (סטטוס, חריגה, מוצר) ויזואלית, להאצת-קבלת-החלטות.",
           processExampleHe: "Planning Board Profile צובע הזמנות-באיחור באדום, הזמנות-קבועות (fixed) באפור, ומציג על כל מלבן את מספר-המוצר וכמות — המתכנן 'קורא' את הלוח במבט.",
-          cbcHe: "ב-CBC הלוח צובע כל טעם-משקה בצבע-שונה, כך שרצף-מוצרים-מאותו-טעם נראה כגוש-צבע אחיד — וניתן לזהות במבט היכן נדרש ניקוי-CIP (מעבר-צבע).",
+          scenarioHe: "בארגון הלוח צובע כל טעם-משקה בצבע-שונה, כך שרצף-מוצרים-מאותו-טעם נראה כגוש-צבע אחיד — וניתן לזהות במבט היכן נדרש ניקוי-CIP (מעבר-צבע).",
           navHe: [
             "SPRO ► Advanced Planning ► PP/DS ► Detailed Scheduling ► DS Board ► Maintain Planning Board Profile (Charts & Graphics)",
           ],
@@ -1058,8 +1058,8 @@ export const CH3: TextbookChapter = {
         "לספק שקיפות-מלאה ויכולת-אבחון לכל פעולת-תכנון אוטומטית, ולאתר במהירות מדוע תוצאה אינה כמצופה.",
       processExampleHe:
         "הרצת-לילה לא יצרה הזמנות לחומר מסוים; המתכנן פותח /SAPAPO/RRPLOG1, מאתר את ה-run, ורואה הודעת-שגיאה 'No source of supply' — מבין שה-PDS חסר ומתקן.",
-      cbcHe:
-        "ב-CBC לאחר הרצת-תכנון לילית, האחראי בודק את ה-Application Log לאיתור משקאות שלא-תוכננו (חסר-PDS/מחסור-תרכיז) לפני תחילת-המשמרת, וכך מונע הפתעות ברצפה.",
+      scenarioHe:
+        "בארגון לאחר הרצת-תכנון לילית, האחראי בודק את ה-Application Log לאיתור משקאות שלא-תוכננו (חסר-PDS/מחסור-תרכיז) לפני תחילת-המשמרת, וכך מונע הפתעות ברצפה.",
       navHe: [
         "SPRO ► Advanced Planning ► PP/DS ► Global Settings ► Configure Application Log (Log Level & Retention)",
         "Advanced Planning ► PP/DS ► Reporting ► Display Application Log (/SAPAPO/RRPLOG1)",
@@ -1117,8 +1117,8 @@ export const CH3: TextbookChapter = {
         "להפיק תכנית-תזמון אופטימלית-מתמטית היכן שמורכבות-הרצף (setup-dependent) גבוהה ופתרון-ידני/היוריסטי אינו מספיק — מזעור עלויות-מעבר ואיחורים בו-זמנית.",
       processExampleHe:
         "קו עם 10 מוצרים וזמני-החלפה תלויי-רצף: האופטימייזר, עם setup matrix, מסדר אותם כך שסך-זמני-ההחלפה מינימלי ואף-הזמנה לא מאחרת מעבר-לסף — בתוך זמן-ריצה של 5 דקות שהוגדר.",
-      cbcHe:
-        "ב-CBC זהו ה-use-case המובהק: לכל קו-מילוי setup matrix של זמני-ניקוי-CIP בין טעמים (מעבר מכהה-לבהיר=ניקוי-ארוך). האופטימייזר מסדר את רצף-המשקאות היומי כך שסך-זמני-הניקוי מינימלי, תוך עמידה בתאריכי-אספקה.",
+      scenarioHe:
+        "בארגון זהו ה-use-case המובהק: לכל קו-מילוי setup matrix של זמני-ניקוי-CIP בין טעמים (מעבר מכהה-לבהיר=ניקוי-ארוך). האופטימייזר מסדר את רצף-המשקאות היומי כך שסך-זמני-הניקוי מינימלי, תוך עמידה בתאריכי-אספקה.",
       navHe: [
         "SPRO ► Advanced Planning ► PP/DS ► Optimization ► Maintain Optimization Profile (Cost Functions)",
         "SPRO ► Advanced Planning ► PP/DS ► Optimization ► Define Setup Matrix / Setup Groups",
@@ -1188,8 +1188,8 @@ export const CH3: TextbookChapter = {
         "לקבע את התמונה-הכוללת ואת סדר-המימוש הנכון, כדי שהיועץ ידע להקים PP/DS מקצה-לקצה ולאתר היכן כל הגדרה משתבצת.",
       processExampleHe:
         "מימוש מלא: צוות-בסיס מפעיל את הקומפוננטה; היועץ מאמת Model 000, מגדיר אינטגרציה ופרמטרים, מקים נתוני-אב, בונה היוריסטיקות ונהלים, מתזמן הרצת-לילה, מגדיר תצוגות ו-DS Board, מפעיל אופטימייזר לקווים תלויי-setup, ומנטר Application Logs.",
-      cbcHe:
-        "ב-CBC התוצר הוא מערכת המתזמנת אוטומטית את רצף-המשקאות על קווי-המילוי: היוריסטיקות יוצרות פקודות-מילוי, האופטימייזר ממזער זמני-ניקוי-CIP לפי setup matrix, וה-DS Board נותן לראש-המשמרת שליטה-גרפית — הכל מתועד ביומנים.",
+      scenarioHe:
+        "בארגון התוצר הוא מערכת המתזמנת אוטומטית את רצף-המשקאות על קווי-המילוי: היוריסטיקות יוצרות פקודות-מילוי, האופטימייזר ממזער זמני-ניקוי-CIP לפי setup matrix, וה-DS Board נותן לראש-המשמרת שליטה-גרפית — הכל מתועד ביומנים.",
       navHe: [
         "SPRO ► Advanced Planning ► Production Planning and Detailed Scheduling (PP/DS) (ענף-העל — סיכום כל הענפים)",
         "Advanced Planning ► PP/DS ► Global Settings / Heuristics / Planning Procedure / Detailed Scheduling / Optimization",

@@ -10,7 +10,7 @@ export const CH1: TextbookChapter = {
   titleHe: "מבוא ל-Extended Warehouse Management (EWM)",
   titleEn: "Introduction to Extended Warehouse Management",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לעולם ה-Extended Warehouse Management (EWM) של SAP. נתחיל בשאלה 'מה זה EWM ובמה הוא נבדל מ-WM הקלאסי', נמשיך באבולוציה של המוצר (מ-EWM 5.0 כתוסף ל-SCM ועד embedded EWM ב-S/4HANA וענן), נסקור את אפשרויות-הפריסה (On-Premise, Cloud, NetWeaver, decentralized מול ERP זר), נבין כיצד נתונים זורמים בין SAP ERP / S/4HANA לבין EWM (CIF / qRFC / DRF), נמפה את האינטגרציה עם MM-IM, PP, QM, TM ו-LE, נדון באימוץ בתעשייה, ונסכם את ה-SAP Notes המהותיים. כל תת-פרק ותת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים: שלוש רמות-הסבר, מטרה עסקית, דוגמת-תהליך, דוגמת CBC (מפעל-הבקבוק של קוקה-קולה ישראל), ניווט/SPRO, טבלאות/T-Codes/Fiori, קונפיגורציה, תרשים-תהליך, טעויות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות. המטרה: ללמוד את הנושא במלואו ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לעולם ה-Extended Warehouse Management (EWM) של SAP. נתחיל בשאלה 'מה זה EWM ובמה הוא נבדל מ-WM הקלאסי', נמשיך באבולוציה של המוצר (מ-EWM 5.0 כתוסף ל-SCM ועד embedded EWM ב-S/4HANA וענן), נסקור את אפשרויות-הפריסה (On-Premise, Cloud, NetWeaver, decentralized מול ERP זר), נבין כיצד נתונים זורמים בין SAP ERP / S/4HANA לבין EWM (CIF / qRFC / DRF), נמפה את האינטגרציה עם MM-IM, PP, QM, TM ו-LE, נדון באימוץ בתעשייה, ונסכם את ה-SAP Notes המהותיים. כל תת-פרק ותת-סעיף הורחב ליחידה עצמאית בת 18 מקטעים: שלוש רמות-הסבר, מטרה עסקית, דוגמת-תהליך, דוגמת הארגון (מפעל-הבקבוק של מוצר לדוגמה ישראל), ניווט/SPRO, טבלאות/T-Codes/Fiori, קונפיגורציה, תרשים-תהליך, טעויות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות. המטרה: ללמוד את הנושא במלואו ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 1.1
     {
@@ -27,8 +27,8 @@ export const CH1: TextbookChapter = {
         "המטרה: לתת לארגון עם מחסנים מורכבים שליטה ברמת-bin, ניצול-מיטבי של שטח וכוח-אדם, נראות בזמן-אמת, ותהליכים מתקדמים (גלים, cross-docking, VAS, kitting) שאינם אפשריים ב-WM הקלאסי. EWM מקצר זמני-מחזור, מפחית טעויות-ליקוט ומאפשר אוטומציה (מסועים, AS/RS, AGV).",
       processExampleHe:
         "קבלת-טובין: משאית מגיעה ➔ ASN/Inbound Delivery זורמת מה-ERP ל-EWM ➔ EWM יוצר Warehouse Task לפריקה ל-bin קבלה ➔ אופציונלי QM inspection ➔ putaway WT מנתב ל-bin אחסון לפי אסטרטגיית-Putaway ➔ אישור ה-WT מעדכן מלאי ב-EWM וגוזר Goods Receipt בחזרה ל-ERP. כל שלב מתועד ברמת ה-Handling Unit.",
-      cbcHe:
-        "ב-CBC (קוקה-קולה ישראל): מרכז-ההפצה האזורי מקבל משטחי-משקאות מוגמרים מקו-המילוי וחומרי-אריזה מספקים. EWM מנהל את ה-bins של המקררים והמדפים, מנתב מלגזות ב-RF, מבצע גלי-ליקוט להזמנות-לקוח (סופרמרקטים), ושומר FEFO לפי תוקף-המשקה. ההחלטה embedded מול decentralized תלויה בנפח: מרכז-הפצה גדול עם אוטומציה ⟵ decentralized.",
+      scenarioHe:
+        "בארגון (מוצר לדוגמה ישראל): מרכז-ההפצה האזורי מקבל משטחי-משקאות מוגמרים מקו-המילוי וחומרי-אריזה מספקים. EWM מנהל את ה-bins של המקררים והמדפים, מנתב מלגזות ב-RF, מבצע גלי-ליקוט להזמנות-לקוח (סופרמרקטים), ושומר FEFO לפי תוקף-המשקה. ההחלטה embedded מול decentralized תלויה בנפח: מרכז-הפצה גדול עם אוטומציה ⟵ decentralized.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Master Data ► Define Warehouse Number Control",
         "SAP Easy Access ► Logistics ► SCM Extended Warehouse Management ► Extended Warehouse Management",
@@ -100,8 +100,8 @@ export const CH1: TextbookChapter = {
         "המטרה של הבנת-האבולוציה: לבחור את דור-הפריסה הנכון לארגון, להעריך מאמץ-המרה מ-WM/SCM-EWM ל-S/4, ולהבין אילו פיצ'רים זמינים באיזו גרסה (למשל MFS, advanced production integration).",
       processExampleHe:
         "ארגון על ECC + SCM EWM 9.5 שעובר ל-S/4HANA: צוות-הפרויקט מחליט בין embedded EWM (פשטות, מערכת אחת) ל-decentralized EWM on S/4 (ביצועים, ניתוק-תחזוקה). ההחלטה מכתיבה אסטרטגיית-המרה, mapping מחדש של Warehouse Numbers, והעברת master data.",
-      cbcHe:
-        "ב-CBC: מחסן-משקאות קטן בסניף ⟵ embedded EWM (פשוט, מערכת אחת); מרכז-הפצה ארצי אוטומטי עם נפח-תנועות עצום ⟵ decentralized EWM כדי לבודד עומס ולאפשר חלונות-תחזוקה נפרדים מה-S/4 הפיננסי.",
+      scenarioHe:
+        "בארגון: מחסן-משקאות קטן בסניף ⟵ embedded EWM (פשוט, מערכת אחת); מרכז-הפצה ארצי אוטומטי עם נפח-תנועות עצום ⟵ decentralized EWM כדי לבודד עומס ולאפשר חלונות-תחזוקה נפרדים מה-S/4 הפיננסי.",
       navHe: [
         "SCM Extended Warehouse Management ► Extended Warehouse Management ► Master Data ► Define Warehouse Number Control",
         "SAP S/4HANA ► IMG ► SCM Extended Warehouse Management ► Master Data",
@@ -162,8 +162,8 @@ export const CH1: TextbookChapter = {
             "לאפשר לארגונים להריץ EWM מתקדם גם כשה-ERP שלהם ישן או זר, בלי להמתין למעבר S/4 — תוך שמירה על מנוע-מחסן עשיר.",
           processExampleHe:
             "ERP לא-SAP שולח ASN כ-IDoc ➔ middleware ממפה ל-Inbound Delivery של EWM ➔ EWM מבצע putaway ➔ Goods Receipt מוחזר כ-IDoc חוזר לעדכון מלאי ב-ERP הזר.",
-          cbcHe:
-            "תרחיש היסטורי ב-CBC: מחסן שהורץ על SCM-EWM 9.x מול ECC, עם CIF להעברת חומרי-אריזה ומשקאות; כיום נשקל מעבר ל-embedded EWM ב-S/4.",
+          scenarioHe:
+            "תרחיש היסטורי בארגון: מחסן שהורץ על SCM-EWM 9.x מול ECC, עם CIF להעברת חומרי-אריזה ומשקאות; כיום נשקל מעבר ל-embedded EWM ב-S/4.",
           navHe: [
             "SCM ► Advanced Planning and Optimization ► Master Data ► Core Interface (CIF)",
             "SCM Extended Warehouse Management ► Interfaces ► ERP Integration",
@@ -212,8 +212,8 @@ export const CH1: TextbookChapter = {
             "לאזן בין פשטות-תפעול (embedded) ובידוד-ביצועים/גמישות (decentralized) בהתאם לגודל ולמורכבות המחסן.",
           processExampleHe:
             "ב-embedded: Outbound Delivery נוצרת ב-SD, נראית מיד ל-EWM באותה מערכת, EWM מבצע ליקוט ומאשר Goods Issue פנימית. ב-decentralized: ה-Delivery משוכפלת דרך qRFC למערכת-EWM הנפרדת, וה-GI מוחזר ל-S/4 המרכזי.",
-          cbcHe:
-            "ב-CBC: מחסן-סניף ⟵ embedded (פשטות); מרכז-הפצה ארצי עם מסועים ו-AS/RS ⟵ decentralized EWM כדי לבודד עומס-Peak (חגים/קיץ) מה-S/4 הפיננסי.",
+          scenarioHe:
+            "בארגון: מחסן-סניף ⟵ embedded (פשטות); מרכז-הפצה ארצי עם מסועים ו-AS/RS ⟵ decentralized EWM כדי לבודד עומס-Peak (חגים/קיץ) מה-S/4 הפיננסי.",
           navHe: [
             "IMG ► SCM Extended Warehouse Management ► Extended Warehouse Management ► Master Data ► Define Warehouse Number Control",
             "IMG ► Integration with Other SAP Components ► EWM Integration",
@@ -272,8 +272,8 @@ export const CH1: TextbookChapter = {
             "להוריד TCO ותקורת-תפעול, לקצר time-to-value עם best-practice content, ולקבל עדכונים שוטפים — במחיר גמישות-התאמה מופחתת.",
           processExampleHe:
             "ארגון חדש מאמץ S/4HANA Cloud public: מפעיל scope item של EWM, מגדיר Warehouse Number ו-bins דרך Fiori, ומתחיל תהליכי-מחסן ליבה תוך ימים — ללא התקנת-תשתית.",
-          cbcHe:
-            "ב-CBC: מחסן-משנה קטן או יחידה חדשה יכולים לרוץ על EWM בענן (best-practice) במהירות; מרכז-ההפצה האוטומטי הראשי נשאר on-premise/private בשל צורכי-MFS והתאמות.",
+          scenarioHe:
+            "בארגון: מחסן-משנה קטן או יחידה חדשה יכולים לרוץ על EWM בענן (best-practice) במהירות; מרכז-ההפצה האוטומטי הראשי נשאר on-premise/private בשל צורכי-MFS והתאמות.",
           navHe: [
             "SAP S/4HANA Cloud ► Manage Your Solution ► Configure Your Solution ► Extended Warehouse Management",
             "SAP Central Business Configuration ► Scoping ► Warehouse Management",
@@ -326,8 +326,8 @@ export const CH1: TextbookChapter = {
         "להתאים את ארכיטקטורת-EWM לאילוצי-הארגון: שליטה ובקרה (On-Premise), זריזות ו-TCO (Cloud), המשכיות-מורשת (NetWeaver), או אינטגרציה הטרוגנית (non-SAP).",
       processExampleHe:
         "צוות-אדריכלות ממפה: מחסן רגולטורי עם דרישות-דאטה-רזידנסי ➔ On-Premise/private; יחידה חדשה ➔ Cloud; מחסן מורשת ➔ נשאר NetWeaver עד המרה; אתר עם ERP זר ➔ decentralized EWM.",
-      cbcHe:
-        "ב-CBC: ה-S/4 הראשי On-Premise/private; מרכז-הפצה אוטומטי כ-decentralized EWM; שיקול דאטה-רזידנסי בישראל מטה לטובת private/On-Premise במקום public-cloud.",
+      scenarioHe:
+        "בארגון: ה-S/4 הראשי On-Premise/private; מרכז-הפצה אוטומטי כ-decentralized EWM; שיקול דאטה-רזידנסי בישראל מטה לטובת private/On-Premise במקום public-cloud.",
       navHe: [
         "IMG ► SCM Extended Warehouse Management ► Extended Warehouse Management ► Master Data",
         "SAP S/4HANA Cloud ► Configure Your Solution ► Extended Warehouse Management",
@@ -386,8 +386,8 @@ export const CH1: TextbookChapter = {
             "מתאים לארגונים עם מחסנים מורכבים/אוטומטיים, דרישות-רגולציה מחמירות, או צורך בהתאמות-עומק שאינן אפשריות בענן.",
           processExampleHe:
             "מרכז-הפצה אוטומטי On-Premise: MFS שולט במסועים ו-AS/RS בזמן-אמת; צוות-Basis מנהל גרסאות וחלונות-תחזוקה לפי לוח עונתי.",
-          cbcHe:
-            "ב-CBC מרכז-ההפצה הראשי רץ On-Premise/private עם MFS לקווי-המסוע ול-AS/RS של המשטחים — שליטה מלאה נדרשת בשל האוטומציה.",
+          scenarioHe:
+            "בארגון מרכז-ההפצה הראשי רץ On-Premise/private עם MFS לקווי-המסוע ול-AS/RS של המשטחים — שליטה מלאה נדרשת בשל האוטומציה.",
           navHe: [
             "IMG ► SCM Extended Warehouse Management ► Extended Warehouse Management ► Master Data ► Define Warehouse Number Control",
             "IMG ► SCM Extended Warehouse Management ► Interfaces ► ERP Integration",
@@ -435,8 +435,8 @@ export const CH1: TextbookChapter = {
             "time-to-value מהיר, TCO נמוך, ותחזוקה מינימלית — למחסנים סטנדרטיים שאינם דורשים התאמות-עומק.",
           processExampleHe:
             "יחידה חדשה מפעילה scope item של EWM ב-S/4HANA Cloud, מגדירה Warehouse Number ו-bins דרך Fiori, ומתחילה תהליכי-ליבה תוך ימים.",
-          cbcHe:
-            "ב-CBC: מחסן-משנה/יחידה חדשה על ענן (best-practice) להפעלה מהירה; הליבה האוטומטית נשארת private/On-Premise.",
+          scenarioHe:
+            "בארגון: מחסן-משנה/יחידה חדשה על ענן (best-practice) להפעלה מהירה; הליבה האוטומטית נשארת private/On-Premise.",
           navHe: [
             "SAP S/4HANA Cloud ► Configure Your Solution ► Extended Warehouse Management",
             "SAP Central Business Configuration ► Scoping",
@@ -487,8 +487,8 @@ export const CH1: TextbookChapter = {
             "להבטיח המשכיות-מורשת לארגונים על NetWeaver עד למעבר מתוכנן, ולתכנן את ה-conversion ל-S/4 EWM נכון.",
           processExampleHe:
             "ארגון על SCM EWM 9.5 / NetWeaver מתכנן conversion ל-embedded EWM ב-S/4: ממפה Warehouse Numbers מחדש, מעביר bins ו-stock, ובודק קוד-Z להתאמה.",
-          cbcHe:
-            "תרחיש-מורשת ב-CBC: מחסן שרץ על SCM EWM/NetWeaver מול ECC; תכנית-המעבר ל-S/4 כוללת conversion ולא שדרוג-בלבד.",
+          scenarioHe:
+            "תרחיש-מורשת בארגון: מחסן שרץ על SCM EWM/NetWeaver מול ECC; תכנית-המעבר ל-S/4 כוללת conversion ולא שדרוג-בלבד.",
           navHe: [
             "SCM ► Master Data ► Core Interface (CIF)",
             "SCM Extended Warehouse Management ► Interfaces ► ERP Integration",
@@ -536,8 +536,8 @@ export const CH1: TextbookChapter = {
             "לאפשר אימוץ מנוע-המחסן המתקדם של SAP בלי להחליף ERP זר — שדרוג-מחסן ממוקד עם השקעה מינימלית בליבת-ה-ERP.",
           processExampleHe:
             "ERP זר שולח Sales Order/Delivery כ-IDoc ➔ middleware ממפה ל-Outbound Delivery של EWM ➔ EWM מבצע ליקוט ו-GI ➔ אישור-GI מוחזר כ-IDoc לעדכון מלאי וחשבונאות ב-ERP הזר.",
-          cbcHe:
-            "תרחיש היפותטי ב-CBC: שותף-לוגיסטיקה (3PL) עם ERP זר מפעיל EWM כמחסן-מתקדם; אינטגרציית-IDoc מסנכרנת אספקות-משקאות ומלאי בין EWM ל-ERP של ה-3PL.",
+          scenarioHe:
+            "תרחיש היפותטי בארגון: שותף-לוגיסטיקה (3PL) עם ERP זר מפעיל EWM כמחסן-מתקדם; אינטגרציית-IDoc מסנכרנת אספקות-משקאות ומלאי בין EWM ל-ERP של ה-3PL.",
           navHe: [
             "IMG ► SCM Extended Warehouse Management ► Interfaces ► ERP Integration ► IDoc/BAPI",
             "IMG ► SCM Extended Warehouse Management ► Goods Receipt/Issue",
@@ -598,8 +598,8 @@ export const CH1: TextbookChapter = {
         "לשמור על מקור-אמת-יחיד למלאי בין EWM ל-ERP: כל תנועה במחסן משתקפת בערך-המלאי ובחשבונאות, וכל master data חדש זמין ל-EWM בזמן.",
       processExampleHe:
         "חומר חדש נפתח ב-ERP ➔ מועבר ל-EWM (DRF/CIF) כ-product עם EWM views ➔ Purchase Order ➔ Inbound Delivery זורמת ל-EWM (qRFC) ➔ putaway ➔ אישור-WT גוזר Goods Receipt חוזר ל-ERP (qRFC) ➔ מלאי וחשבונאות מתעדכנים.",
-      cbcHe:
-        "ב-CBC: מק\"ט-משקה חדש נפתח ב-S/4, מועבר ל-EWM עם נתוני-אריזה (packaging spec) ו-batch (תוקף); אספקות-לקוח זורמות מ-SD ל-EWM, וה-Goods Issue חוזר לעדכון מלאי ומכר.",
+      scenarioHe:
+        "בארגון: מק\"ט-משקה חדש נפתח ב-S/4, מועבר ל-EWM עם נתוני-אריזה (packaging spec) ו-batch (תוקף); אספקות-לקוח זורמות מ-SD ל-EWM, וה-Goods Issue חוזר לעדכון מלאי ומכר.",
       navHe: [
         "IMG ► Integration with Other SAP Components ► Extended Warehouse Management ► Goods Issue/Receipt",
         "IMG ► Data Replication Framework (DRF) ► Define Replication Models",
@@ -669,8 +669,8 @@ export const CH1: TextbookChapter = {
         "לחבר את המחסן לכל שרשרת-הערך הלוגיסטית, כך שתנועות-מחסן משקפות נכון רכש, ייצור, איכות ומשלוח — ללא ממשקים ידניים או פערים.",
       processExampleHe:
         "production staging: פק\"ע ב-PP דורשת רכיבים ➔ EWM מקבל בקשת-staging ➔ יוצר WT לליקוט הרכיבים ל-production supply area (PSA) ➔ הייצור צורך; בסיום, התוצר נקלט ל-EWM (production receipt) ומנותב ל-putaway.",
-      cbcHe:
-        "ב-CBC: EWM מנהל staging של תרכיז/סוכר/אריזה לקו-המילוי (PP-PI), קולט את המשקאות המוגמרים מהקו (production receipt) עם batch ותוקף, מפנה דגימות ל-QM, ומשלח להזמנות-לקוח דרך SD/LE — והכול עם TM לתכנון-המשאיות.",
+      scenarioHe:
+        "בארגון: EWM מנהל staging של תרכיז/סוכר/אריזה לקו-המילוי (PP-PI), קולט את המשקאות המוגמרים מהקו (production receipt) עם batch ותוקף, מפנה דגימות ל-QM, ומשלח להזמנות-לקוח דרך SD/LE — והכול עם TM לתכנון-המשאיות.",
       navHe: [
         "IMG ► Integration with Other SAP Components ► Extended Warehouse Management",
         "IMG ► SCM EWM ► Extended Warehouse Management ► Goods Receipt Process / Goods Issue Process",
@@ -741,8 +741,8 @@ export const CH1: TextbookChapter = {
         "ללמוד מתבניות-אימוץ מוכחות, להאיץ עיצוב-פתרון, ולהתאים את פיצ'רי-EWM לדרישות-הרגולציה והתפעול של הענף.",
       processExampleHe:
         "ב-e-commerce: גלי-ליקוט (waves) מקבצים מאות הזמנות קטנות, cross-docking מעביר פריטים מהיר מקבלה למשלוח, ו-slotting ממקם פריטים מהירי-תנועה קרוב לאזורי-הליקוט — להגדלת-תפוקה.",
-      cbcHe:
-        "ב-CBC (מזון/משקאות): FEFO לפי תוקף-המשקה, batch management לאצוות-ייצור, catch-weight היכן רלוונטי, ו-shelf-life expiration להבטחת-טריות — תבנית-אימוץ קלאסית של תעשיית-המשקאות.",
+      scenarioHe:
+        "בארגון (מזון/משקאות): FEFO לפי תוקף-המשקה, batch management לאצוות-ייצור, catch-weight היכן רלוונטי, ו-shelf-life expiration להבטחת-טריות — תבנית-אימוץ קלאסית של תעשיית-המשקאות.",
       navHe: [
         "IMG ► SCM EWM ► Extended Warehouse Management ► Cross-Process Settings ► Batch Management / Serial Numbers",
         "IMG ► SCM EWM ► Goods Receipt Process ► Strategies (FEFO/Putaway)",
@@ -797,8 +797,8 @@ export const CH1: TextbookChapter = {
         "להבטיח שהחלטות-הפריסה נשענות על מקור רשמי ומעודכן, למנוע תכנון תרחיש לא-נתמך, ולזהות מגבלות-release מוקדם.",
       processExampleHe:
         "לפני בחירת decentralized EWM on S/4: צוות-האדריכלות מחפש את ה-central note לתרחיש, מאמת תאימות-release בין ה-S/4 המרכזי למערכת-ה-EWM, ובודק restriction notes לפיצ'רים מתוכננים (MFS/Labor).",
-      cbcHe:
-        "ב-CBC: לפני אישור decentralized EWM למרכז-ההפצה, ה-Basis וצוות-ה-SAP מאמתים את ה-Notes לתאימות-release ולתמיכת-MFS, ומתעדים אותם ב-design document.",
+      scenarioHe:
+        "בארגון: לפני אישור decentralized EWM למרכז-ההפצה, ה-Basis וצוות-ה-SAP מאמתים את ה-Notes לתאימות-release ולתמיכת-MFS, ומתעדים אותם ב-design document.",
       navHe: [
         "SAP for Me ► Knowledge Base ► Search Notes (component SCM-EWM / LE-WM)",
         "SAP Support Portal ► SAP Notes & KBA Search",
@@ -851,8 +851,8 @@ export const CH1: TextbookChapter = {
         "לעגן את מסגרת-ההחלטות של EWM לפני הצלילה הטכנית, ולוודא שכל בחירה (פריסה/אינטגרציה/רישוי) נעשית מתוך הבנת-ההשלכות הרוחביות.",
       processExampleHe:
         "צוות-פרויקט מסכם את פרק-המבוא בהחלטת-אדריכלות מתועדת: decentralized EWM on S/4 למרכז-ההפצה, DRF+qRFC לאינטגרציה, Advanced EWM ל-MFS, ואימות מול ה-SAP Notes הרלוונטיים — מסמך שמנחה את כל ההמשך.",
-      cbcHe:
-        "ב-CBC: סיכום-המבוא מתורגם להחלטה — מחסני-סניף embedded, מרכז-הפצה ארצי decentralized עם Advanced EWM/MFS, תבנית-אימוץ מזון/משקאות (batch/FEFO/shelf-life), והכול מאומת מול SAP Notes ומתועד.",
+      scenarioHe:
+        "בארגון: סיכום-המבוא מתורגם להחלטה — מחסני-סניף embedded, מרכז-הפצה ארצי decentralized עם Advanced EWM/MFS, תבנית-אימוץ מזון/משקאות (batch/FEFO/shelf-life), והכול מאומת מול SAP Notes ומתועד.",
       navHe: [
         "SAP Easy Access ► Logistics ► SCM Extended Warehouse Management ► Extended Warehouse Management",
         "IMG ► SCM Extended Warehouse Management ► Extended Warehouse Management",

@@ -9,7 +9,7 @@ export const CH15: TextbookChapter = {
   titleHe: "אנליטיקת רכש ואספקה",
   titleEn: "Sourcing and Procurement Analytics",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לאנליטיקת רכש ואספקה ב-SAP S/4HANA. בעידן S/4HANA הדיווח אינו עוד 'אצווה לילית' מ-Data Warehouse נפרד, אלא embedded analytics בזמן-אמת מעל בסיס-הנתונים HANA, הבנוי על Virtual Data Model (VDM) של Core Data Services (CDS views). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת CBC (אנליטיקת הוצאות וביצועי-ספקים בחברת-בקבוק של קוקה-קולה), ניווט וקונפיגורציה, אפליקציות Fiori, KPI ו-SAP Analytics Cloud (SAC), טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לדעת לנתח רכש, להגדיר KPIs ולהבין את ה-VDM/CDS ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לאנליטיקת רכש ואספקה ב-SAP S/4HANA. בעידן S/4HANA הדיווח אינו עוד 'אצווה לילית' מ-Data Warehouse נפרד, אלא embedded analytics בזמן-אמת מעל בסיס-הנתונים HANA, הבנוי על Virtual Data Model (VDM) של Core Data Services (CDS views). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת הארגון (אנליטיקת הוצאות וביצועי-ספקים בחברת-בקבוק של מוצר לדוגמה), ניווט וקונפיגורציה, אפליקציות Fiori, KPI ו-SAP Analytics Cloud (SAC), טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לדעת לנתח רכש, להגדיר KPIs ולהבין את ה-VDM/CDS ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 15.1
     {
@@ -24,8 +24,8 @@ export const CH15: TextbookChapter = {
         "להמיר נתוני-עסקה גולמיים לתובנה אסטרטגית: זיהוי ספקים מובילים, ריכוז-הוצאה לקטגוריה, הזדמנויות-איחוד (consolidation), חוזים שלא מנוצלים והוצאה-עוקפת-תהליך. זהו הקלט ל-Sourcing ולניהול-קטגוריות.",
       processExampleHe:
         "מנהל-רכש פותח את 'Monitor Purchasing Spend', מסנן לרבעון אחרון, ומקבץ לפי Material Group. הוא רואה ש-40% מההוצאה מרוכזת בקטגוריית-אריזה אצל שלושה ספקים, ושיש 12% הוצאה ללא-חוזה — מועמד מיידי לפעולת-Sourcing.",
-      cbcHe:
-        "ב-CBC: לוח-Spend מציג הוצאה לפי קטגוריה — תרכיז, סוכר, CO2, בקבוקים, פקקים, תוויות, אנרגיה ולוגיסטיקה. ההנהלה מגלה שהוצאת-האנרגיה במפעל-המילוי קפצה 18% ושהוצאה על חומרי-אריזה מפוזרת על שמונה ספקים — בסיס לאיחוד-נפחים ולמשא-ומתן מרוכז.",
+      scenarioHe:
+        "בארגון: לוח-Spend מציג הוצאה לפי קטגוריה — תרכיז, סוכר, CO2, בקבוקים, פקקים, תוויות, אנרגיה ולוגיסטיקה. ההנהלה מגלה שהוצאת-האנרגיה במפעל-המילוי קפצה 18% ושהוצאה על חומרי-אריזה מפוזרת על שמונה ספקים — בסיס לאיחוד-נפחים ולמשא-ומתן מרוכז.",
       navHe: [
         "SAP Fiori Launchpad ► Procurement ► Purchasing Analytics ► Monitor Purchasing Spend",
         "VDM: C_PURCHASEORDERITEM / I_PurchaseOrderItem ► Spend analytical query",
@@ -100,8 +100,8 @@ export const CH15: TextbookChapter = {
         "למנוע פערי-כיסוי (חוזה פג ➔ רכש-ספוט) ולמקסם ניצול-חוזה (compliance) — להבטיח שהארגון קונה תחת התנאים שהושגו ולא מחוצה להם, ולנהל חידושים יזומים.",
       processExampleHe:
         "קנייָן מריץ 'Monitor Contract Compliance' ל-90 הימים הקרובים: שני חוזים פגים תוך 30 יום, ואחד נוצל ב-95% מערך-המטרה. הוא יוזם RFQ לחידוש לפני הפקיעה ומגדיל את ערך-המטרה של החוזה השלישי.",
-      cbcHe:
-        "ב-CBC חוזי-מסגרת לסוכר ולתרכיז הם קריטיים-לרצף-ייצור. לוח תפוגת-חוזים מתריע שחוזה-הסוכר השנתי פג בעוד 45 יום ושחוזה-ה-CO2 נוצל ב-88% — הרכש פותח משא-ומתן-חידוש מבעוד-מועד כדי למנוע עצירת קווי-מילוי.",
+      scenarioHe:
+        "בארגון חוזי-מסגרת לסוכר ולתרכיז הם קריטיים-לרצף-ייצור. לוח תפוגת-חוזים מתריע שחוזה-הסוכר השנתי פג בעוד 45 יום ושחוזה-ה-CO2 נוצל ב-88% — הרכש פותח משא-ומתן-חידוש מבעוד-מועד כדי למנוע עצירת קווי-מילוי.",
       navHe: [
         "SAP Fiori ► Procurement ► Contract Management ► Monitor Contract Compliance",
         "SAP Fiori ► Procurement ► Manage Purchase Contracts",
@@ -176,8 +176,8 @@ export const CH15: TextbookChapter = {
         "לבסס החלטות-מקור על נתונים: למזער עלות תוך איזון סיכון (single-source), לעודד תחרות, ולהבטיח כיסוי-אספקה לחומרים קריטיים. זהו הגשר בין Spend Visibility לבין פעולת-רכש בפועל.",
       processExampleHe:
         "קנייָן מנתח חומר-אריזה: שלושה ספקים פעילים, פער-מחיר 9% בין הזול ליקר, אך הזול עם 82% אספקה-בזמן בלבד. הוא מנהל-משא-ומתן עם הספק האמין להתאמת-מחיר ומעביר 60% מהנפח אליו — איזון עלות מול סיכון.",
-      cbcHe:
-        "ב-CBC חומרים קריטיים כמו תרכיז הם לרוב single-source (ספק-מותג בלעדי) — האנליטיקה מסמנת אותם כסיכון-אספקה גבוה ומחייבת מלאי-ביטחון מוגדל; לעומתם, סוכר ובקבוקים הם multi-source ומנוהלים תחרותית לפי מחיר וביצועים.",
+      scenarioHe:
+        "בארגון חומרים קריטיים כמו תרכיז הם לרוב single-source (ספק-מותג בלעדי) — האנליטיקה מסמנת אותם כסיכון-אספקה גבוה ומחייבת מלאי-ביטחון מוגדל; לעומתם, סוכר ובקבוקים הם multi-source ומנוהלים תחרותית לפי מחיר וביצועים.",
       navHe: [
         "SAP Fiori ► Procurement ► Sourcing ► Manage Sources of Supply",
         "SAP Fiori ► Procurement ► Process Purchasing Categories",
@@ -252,8 +252,8 @@ export const CH15: TextbookChapter = {
         "להפוך 'תחושה' לגבי ספק למדד אובייקטיבי, להניע שיפור-ספקים, להזין החלטות-מקור ולנהל סיכון-אספקה. ספק שאינו נמדד אינו מנוהל.",
       processExampleHe:
         "מנהל-רכש סוקר את לוח-ביצועי-הספקים: ספק-בקבוקים מוביל ירד ל-86% אספקה-בזמן ול-2.4% פגמים. הוא מזמן שיחת-שיפור עם יעדים מדידים, ומעביר זמנית 20% מהנפח לספק-גיבוי עד שיפור.",
-      cbcHe:
-        "ב-CBC ספק-תרכיז נמדד בעיקר על איכות וציות-מפרט (קריטי-למותג), בעוד ספקי-אריזה נמדדים על אספקה-בזמן ועל פגמי-מימדים. לוח-ביצועים מציג Heatmap של כל הספקים — ירוק/צהוב/אדום — והרכש פועל לפי הצבעים.",
+      scenarioHe:
+        "בארגון ספק-תרכיז נמדד בעיקר על איכות וציות-מפרט (קריטי-למותג), בעוד ספקי-אריזה נמדדים על אספקה-בזמן ועל פגמי-מימדים. לוח-ביצועים מציג Heatmap של כל הספקים — ירוק/צהוב/אדום — והרכש פועל לפי הצבעים.",
       navHe: [
         "SAP Fiori ► Procurement ► Supplier Management ► Monitor Supplier Performance / Supplier Evaluation",
         "VDM: C_SupplierEvaluationScore / Purchase order item delivery KPIs",
@@ -327,8 +327,8 @@ export const CH15: TextbookChapter = {
             "לתת לקנייָן ולמנהל כלי-עבודה תפעולי-אנליטי אחד: לראות מצב, לסנן, לצלול ולפעול — בלי לעבור בין מערכת-תפעול למערכת-דיווח נפרדת.",
           processExampleHe:
             "קנייָן פותח Analytical List Page של PO items, מסנן ל'מסירות-באיחור', ממיין לפי ערך, ומ-card של 'Overdue Deliveries' צולל ישר לשורת-ה-PO הבעייתית ופותח את ה-confirmation מול הספק.",
-          cbcHe:
-            "ב-CBC צוות-הרכש משתמש ב-Overview Page המאחד cards: PO פתוחים, מסירות-באיחור לקווי-המילוי, חשבוניות-בבלוקד וערך-הוצאה-יומי — מסך-בקרה אחד לתפעול-הרכש של המפעל.",
+          scenarioHe:
+            "בארגון צוות-הרכש משתמש ב-Overview Page המאחד cards: PO פתוחים, מסירות-באיחור לקווי-המילוי, חשבוניות-בבלוקד וערך-הוצאה-יומי — מסך-בקרה אחד לתפעול-הרכש של המפעל.",
           navHe: [
             "SAP Fiori ► Procurement ► Purchase Order Processing ► Manage Purchase Orders (Analytical List Page)",
             "SAP Fiori ► Procurement ► Procurement Overview Page",
@@ -394,8 +394,8 @@ export const CH15: TextbookChapter = {
             "להפוך רכש מ-reactive ל-proactive: לזהות סיכון לפני שהוא מתממש, להפחית אי-ודאות-אספקה ולמטב מלאי-ביטחון והחלטות-מקור על בסיס תחזית.",
           processExampleHe:
             "מודל late-delivery רץ על PO פתוחים ומסמן 30 שורות בסיכון-איחור-גבוה. הקנייָן מתעדף אותן ב-'Monitor Supplier Confirmations', יוצר קשר עם הספקים ומאיץ — לפני שהאיחור פוגע בייצור.",
-          cbcHe:
-            "ב-CBC מודל-סיכון מנבא איחורי-תרכיז על-בסיס היסטוריית-ספק ועונתיות; כשהסיכון גבוה לפני שיא-הקיץ, הרכש מקדים-הזמנה ומגדיל מלאי-ביטחון כדי להגן על קווי-המילוי.",
+          scenarioHe:
+            "בארגון מודל-סיכון מנבא איחורי-תרכיז על-בסיס היסטוריית-ספק ועונתיות; כשהסיכון גבוה לפני שיא-הקיץ, הרכש מקדים-הזמנה ומגדיל מלאי-ביטחון כדי להגן על קווי-המילוי.",
           navHe: [
             "SAP Fiori ► Predictive Analytics ► Intelligent Scenarios (ISLM)",
             "SAP Analytics Cloud ► Smart Predict (Classification / Regression)",
@@ -467,8 +467,8 @@ export const CH15: TextbookChapter = {
         "להתאים את אופן-ההגשה לקהל ולצורך: דיווח-תפעולי מהיר ובזמן-אמת לקנייָן, מול דיווח-אסטרטגי-מאוחד וחוצה-מערכות להנהלה — בלי לכפות כלי אחד על כל הצרכים.",
       processExampleHe:
         "אנליסט-רכש משתמש ב-Query Browser למצוא query מתאים, פותח אותו כ-Multidimensional Report, מסובב ממדים (ספק × קטגוריה × חודש), שומר variant אישי ומשתף אותו עם הצוות — הכל ללא תכנות.",
-      cbcHe:
-        "ב-CBC צוות-הרכש בונה Custom Analytical Query להוצאה-לפי-קטגוריה-וחודש, מפרסם אותה כ-Multidimensional Report, ובמקביל ההנהלה רואה תמונה-מאוחדת ב-SAC המשלבת רכש, מלאי וייצור.",
+      scenarioHe:
+        "בארגון צוות-הרכש בונה Custom Analytical Query להוצאה-לפי-קטגוריה-וחודש, מפרסם אותה כ-Multidimensional Report, ובמקביל ההנהלה רואה תמונה-מאוחדת ב-SAC המשלבת רכש, מלאי וייצור.",
       navHe: [
         "SAP Fiori ► Analytics Specialist ► Query Browser / View Browser",
         "SAP Fiori ► Multidimensional Report",
@@ -540,8 +540,8 @@ export const CH15: TextbookChapter = {
         "לאוטמט משימות-רכש שגרתיות (סיווג, התאמה), לשפר דיוק-החלטה, ולשחרר את הקנייָן לעבודה אסטרטגית. AI הוא מכפיל-כוח, לא מחליף-שיקול-דעת.",
       processExampleHe:
         "חשבונית נכנסת ללא PO-reference מדויק; מודל-ההתאמה מציע את ה-PO הסביר ביותר ואת חשבון-ה-G/L; הפקיד מאשר בלחיצה. במקביל, anomaly detection מסמן חשבונית עם סכום חריג-לספק לבדיקה.",
-      cbcHe:
-        "ב-CBC סיווג-הוצאה אוטומטי ממפה אלפי שורות-חשבונית לקטגוריות (אריזה/אנרגיה/חומרי-גלם) בלי מיון-ידני, ו-anomaly detection מסמן קפיצת-מחיר חריגה בספק-תרכיז — חוסך שעות-עבודה ומונע טעויות-תשלום.",
+      scenarioHe:
+        "בארגון סיווג-הוצאה אוטומטי ממפה אלפי שורות-חשבונית לקטגוריות (אריזה/אנרגיה/חומרי-גלם) בלי מיון-ידני, ו-anomaly detection מסמן קפיצת-מחיר חריגה בספק-תרכיז — חוסך שעות-עבודה ומונע טעויות-תשלום.",
       navHe: [
         "SAP Fiori ► Intelligent Scenarios (ISLM) ► Procurement scenarios",
         "SAP Business AI / Joule (copilot) בתוך Fiori Launchpad",
@@ -614,8 +614,8 @@ export const CH15: TextbookChapter = {
         "להעלות את הרכש מ-tactical ל-strategic: לבנות אסטרטגיה מנומקת-נתונים לכל קטגוריה, לתעדף מאמצי-Sourcing לפי ערך וסיכון, ולנהל ספקים כפורטפוליו ולא כעסקאות בודדות.",
       processExampleHe:
         "מנהל-קטגוריה פותח קטגוריית-אריזה ב-Ariba: רואה spend מאוחד מ-S/4, market intelligence על מחירי-שוק, וסגמנטציית-סיכון. הוא בונה action plan — איחוד מ-8 ל-3 ספקים — ומשיק eSourcing event שתוצאותיו חוזרות כחוזה ל-S/4HANA.",
-      cbcHe:
-        "ב-CBC קטגוריות-מפתח (סוכר, תרכיז, אריזה, אנרגיה, לוגיסטיקה) מנוהלות ב-Ariba Category Management; אסטרטגיית-הסוכר משלבת תחזית-מחירי-סחורות ו-supplier risk כדי להחליט בין חוזה-קבוע למחיר-משתנה — והתוצאה מתבצעת כחוזה-מסגרת ב-S/4HANA.",
+      scenarioHe:
+        "בארגון קטגוריות-מפתח (סוכר, תרכיז, אריזה, אנרגיה, לוגיסטיקה) מנוהלות ב-Ariba Category Management; אסטרטגיית-הסוכר משלבת תחזית-מחירי-סחורות ו-supplier risk כדי להחליט בין חוזה-קבוע למחיר-משתנה — והתוצאה מתבצעת כחוזה-מסגרת ב-S/4HANA.",
       navHe: [
         "SAP Ariba ► Category Management ► Category Strategy / Action Plans",
         "SAP Ariba ► Supplier Risk / Supplier Management",
@@ -688,8 +688,8 @@ export const CH15: TextbookChapter = {
         "לתת ליועץ/למפתח-הפונקציונלי את היכולת לבנות ולתחזק את שכבת-האנליטיקה בעצמו — להגדיר KPIs, queries, ולחבר מערכות — במקום להסתמך אך-ורק על תוכן-סטנדרטי.",
       processExampleHe:
         "צוות-יישום מקים KPI חדש (On-Time Delivery), פורס אותו כ-tile ב-launchpad, בונה Custom Analytical Query תומכת, ומחבר live connection ל-SAC לדיווח-הנהלה — כל זאת ללא ABAP מותאם.",
-      cbcHe:
-        "ב-CBC צוות-ה-IT מגדיר חבילת-KPIs לרכש (Spend, On-Time, Contract Compliance), בונה queries מעל ה-VDM, ומחבר live ל-SAC כדי שההנהלה תראה תמונת-רכש מאוחדת לצד ייצור ומלאי.",
+      scenarioHe:
+        "בארגון צוות-ה-IT מגדיר חבילת-KPIs לרכש (Spend, On-Time, Contract Compliance), בונה queries מעל ה-VDM, ומחבר live ל-SAC כדי שההנהלה תראה תמונת-רכש מאוחדת לצד ייצור ומלאי.",
       navHe: [
         "SAP Fiori ► Manage KPIs and Reports / Custom Analytical Queries",
         "SPRO / VDM ► Core Data Services views (basic ► composite ► consumption)",
@@ -760,8 +760,8 @@ export const CH15: TextbookChapter = {
             "להפוך מדד-עסקי מופשט לאובייקט-ניטור פעיל, גלוי וניתן-ל-drill-down — שכל בעל-תפקיד רואה את מצבו בזמן-אמת ופועל לפי הצבע.",
           processExampleHe:
             "יועץ בונה KPI 'On-Time Delivery': בוחר query, measure=OnTime%, מגדיר target 95% (ירוק) / 90% (צהוב) / מתחת (אדום), יוצר numeric tile עם drill-down לספק × חודש, ומשייך ל-catalog של הקנייָנים.",
-          cbcHe:
-            "ב-CBC נבנה KPI 'Contract Compliance' עם יעד 90%; אריח אדום מתריע מיד על הוצאה-עוקפת-חוזה בקטגוריית-אריזה, והקנייָן צולל מהאריח לרשימת-ה-PO החריגים.",
+          scenarioHe:
+            "בארגון נבנה KPI 'Contract Compliance' עם יעד 90%; אריח אדום מתריע מיד על הוצאה-עוקפת-חוזה בקטגוריית-אריזה, והקנייָן צולל מהאריח לרשימת-ה-PO החריגים.",
           navHe: [
             "SAP Fiori ► Analytics Specialist ► Create KPI / Manage KPIs and Reports",
             "Evaluation ► Thresholds (Target / Warning / Critical) + default filters",
@@ -831,8 +831,8 @@ export const CH15: TextbookChapter = {
             "לספק החלטות על נתונים-חיים: מצב-מסירות, הוצאה ו-compliance ברגע-זה — ולא תמונת-אתמול. זה היתרון המהותי של embedded analytics על Data Warehouse קלאסי.",
           processExampleHe:
             "יועץ מפעיל analytical query על PO items, מסמן dataCategory CUBE, מגדיר variable לתקופה, ומפרסם. הקנייָן פותח אותה כ-Multidimensional Report ורואה הוצאה-מתעדכנת תוך-כדי שעמיתיו רושמים PO חדשים.",
-          cbcHe:
-            "ב-CBC לוח-מסירות-לקווי-המילוי רץ בזמן-אמת: ברגע שנרשם GR לסוכר, מדד-המלאי וה-On-Time מתעדכנים מיד — מנהל-המשמרת רואה תמונה חיה, לא דוח-בוקר.",
+          scenarioHe:
+            "בארגון לוח-מסירות-לקווי-המילוי רץ בזמן-אמת: ברגע שנרשם GR לסוכר, מדד-המלאי וה-On-Time מתעדכנים מיד — מנהל-המשמרת רואה תמונה חיה, לא דוח-בוקר.",
           navHe: [
             "SAP Fiori ► Query Browser / View Browser (חשיפת queries)",
             "CDS: @Analytics.query: true מעל @Analytics.dataCategory: #CUBE / #DIMENSION",
@@ -902,8 +902,8 @@ export const CH15: TextbookChapter = {
             "לספק שכבת-סמנטיקה אחת, יציבה ושמישה-מחדש מעל המסד הטכני — כך שאנליטיקה, Fiori ו-APIs כולם צורכים את אותו 'מקור-אמת' עקבי, מבלי לגעת בטבלאות.",
           processExampleHe:
             "מפתח מחפש ב-View Browser את I_PurchaseOrderItem, רואה את ה-associations שלו (לספק, לחומר, ל-plant), בונה מעליו composite עם aggregation, ולבסוף consumption view (C_*) עם @Analytics.query לחשיפה ב-Query Browser.",
-          cbcHe:
-            "ב-CBC צוות-ה-IT מרחיב את ה-VDM של PO ב-custom CDS view המוסיף שדה 'production line' מטבלה-מותאמת, כדי לנתח הוצאה לפי קו-מילוי — בלי לשנות את ה-views הסטנדרטיים (extend-in).",
+          scenarioHe:
+            "בארגון צוות-ה-IT מרחיב את ה-VDM של PO ב-custom CDS view המוסיף שדה 'production line' מטבלה-מותאמת, כדי לנתח הוצאה לפי קו-מילוי — בלי לשנות את ה-views הסטנדרטיים (extend-in).",
           navHe: [
             "SAP Fiori ► View Browser (חיפוש CDS views ב-VDM)",
             "ADT (Eclipse) ► Core Data Services ► DDL Source",
@@ -975,8 +975,8 @@ export const CH15: TextbookChapter = {
             "להרחיב את האנליטיקה מעבר ל-S/4: דיווח-מאוחד חוצה-תחומים, תכנון (planning), ויזואליזציה-עשירה ושיתוף — בלי לכפות הכל על embedded analytics, ותוך שמירה על מקור-אמת אחד (ה-VDM).",
           processExampleHe:
             "צוות-BI יוצר live connection מ-SAC ל-S/4, מושך את C_PURCHASEORDERITEM, ובונה story המשלבת Spend, On-Time ו-Contract Compliance בלוח-הנהלה אחד — הנתונים חיים, בלי replication.",
-          cbcHe:
-            "ב-CBC ההנהלה צורכת story ב-SAC המשלבת רכש (מ-S/4 live), מכירות ומלאי; בנוסף, צוות-הכספים מריץ planning ב-SAC לתקצוב-רכש-שנתי — והכל מעל אותו VDM כמקור-אמת.",
+          scenarioHe:
+            "בארגון ההנהלה צורכת story ב-SAC המשלבת רכש (מ-S/4 live), מכירות ומלאי; בנוסף, צוות-הכספים מריץ planning ב-SAC לתקצוב-רכש-שנתי — והכל מעל אותו VDM כמקור-אמת.",
           navHe: [
             "SAP Analytics Cloud ► Connections ► Live (InA) / Import",
             "SAP Datasphere ► data fabric (S/4 + non-SAP) ◄► SAC",
@@ -1047,8 +1047,8 @@ export const CH15: TextbookChapter = {
             "להשיג נראות-spend מלאה — ישיר (חומרים) ועקיף (שירותים, נסיעות, כוח-אדם) — במקום אחד, כדי שניהול-הקטגוריות וה-Sourcing יתבססו על התמונה השלמה ולא על חלקה.",
           processExampleHe:
             "iFlow ב-Integration Suite מסנכרן contracts מ-Ariba ל-S/4 ו-services-spend מ-Fieldglass; אנליטיקת-ה-spend מציגה כעת ישיר+עקיף מאוחד, וחושפת שהוצאת-השירותים גדולה מהמשוער.",
-          cbcHe:
-            "ב-CBC הוצאת-לוגיסטיקה ושירותי-תחזוקה (Fieldglass) ונסיעות-מכירות (Concur) מאוחדות עם רכש-חומרים (S/4) ו-sourcing (Ariba) — ההנהלה רואה לראשונה את total spend האמיתי של החברה, כולל ההוצאה-העקיפה שהוסתרה קודם.",
+          scenarioHe:
+            "בארגון הוצאת-לוגיסטיקה ושירותי-תחזוקה (Fieldglass) ונסיעות-מכירות (Concur) מאוחדות עם רכש-חומרים (S/4) ו-sourcing (Ariba) — ההנהלה רואה לראשונה את total spend האמיתי של החברה, כולל ההוצאה-העקיפה שהוסתרה קודם.",
           navHe: [
             "SAP Integration Suite (BTP) ► Cloud Integration (iFlows) ► Ariba/Fieldglass/Concur",
             "SAP Business Network ◄► SAP S/4HANA",
@@ -1122,8 +1122,8 @@ export const CH15: TextbookChapter = {
         "לקשור את כל רכיבי-הפרק לתמונה אחת ולתת לקורא מפת-דרכים: ממה מורכבת אנליטיקת-רכש מודרנית, מה התשתית הטכנית, ואיך כל חלק תורם לניהול-רכש מבוסס-נתונים.",
       processExampleHe:
         "ארגון מטמיע את המסע המלא: מקים Spend dashboard, מפעיל התראות-תפוגת-חוזים, מנתח Sourcing וביצועי-ספקים, בונה KPIs מעל ה-VDM, מוסיף חיזוי-איחורים ו-anomaly detection, ומחבר Ariba ו-SAC — ומגיע לרכש יזום, מאוחד ומבוסס-נתונים.",
-      cbcHe:
-        "ב-CBC התוצאה: ההנהלה רואה total spend מאוחד (ישיר+עקיף), מקבלת התראות-חוזה לפני פקיעה, מנהלת ספקים לפי ציון-ביצועים אובייקטיבי, וצופה איחורי-תרכיז לפני שיא-הקיץ — כל זאת בזמן-אמת מעל ה-VDM, עם SAC להנהלה ו-Ariba לאסטרטגיה.",
+      scenarioHe:
+        "בארגון התוצאה: ההנהלה רואה total spend מאוחד (ישיר+עקיף), מקבלת התראות-חוזה לפני פקיעה, מנהלת ספקים לפי ציון-ביצועים אובייקטיבי, וצופה איחורי-תרכיז לפני שיא-הקיץ — כל זאת בזמן-אמת מעל ה-VDM, עם SAC להנהלה ו-Ariba לאסטרטגיה.",
       navHe: [
         "מסע: Spend ► Contracts ► Sourcing ► Supplier Performance ► Reporting ► ML/AI ► Category Management",
         "תשתית: VDM (CDS views) ► embedded analytics ► KPIs ► SAC / Cloud",

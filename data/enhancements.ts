@@ -23,7 +23,7 @@ export const ENHANCEMENTS: Enhancement[] = [
     how: "מאתרים את ה-Exit הרלוונטי (לרוב MV*/SAPMV* includes), נדרש Access Key לאובייקט, כותבים קוד ב-Z-include.",
     ecc: "נפוץ במיוחד ב-SD/PM/PP; דורש שינוי ישיר באובייקט SAP.", s4: "נתמך אך לא מומלץ — Clean Core מעדיף BAdI/Extension Point.",
     pmExample: "בדיקת שדה חובה בשמירת הזמנת אחזקה (IW31).", ppExample: "אימות לוגי בשחרור פקודת ייצור.",
-    scenario: "CBC דורשת שדה מותאם חובה בהזמנת אחזקה — User Exit חוסם שמירה אם ריק.", tcodes: ["SE38", "SE80"],
+    scenario: "הארגון דורשת שדה מותאם חובה בהזמנת אחזקה — User Exit חוסם שמירה אם ריק.", tcodes: ["SE38", "SE80"],
     note: "שמות Exit ספציפיים תלויי-גרסה — אמת ב-SMOD/SE38." },
   { slug: "customer-exit", title: "Customer Exit", he: "Customer Exit", kind: "Exit",
     def: "הרחבות מנוהלות דרך SMOD (הגדרה) ו-CMOD (פרויקט) — Function/Screen/Menu exits.",
@@ -101,7 +101,7 @@ export const ENHANCEMENTS: Enhancement[] = [
     how: "Custom Fields & Logic (Fiori), Custom CDS Views, Custom Business Objects; Developer Extensibility = ABAP Cloud בתוך עננת ההרחבה.",
     ecc: "לא קיים (הרחבה קלאסית בלבד).", s4: "הדרך המומלצת ל-Clean Core — In-App + Side-by-Side (BTP).",
     pmExample: "הוספת שדה מותאם להזמנת אחזקה דרך Custom Fields.", ppExample: "לוגיקת ולידציה בפקודת תהליך דרך Custom Logic (BAdI חשוף).",
-    scenario: "CBC מוסיפה שדה+לוגיקה לפקודה ללא שינוי ליבה, נשמר בשדרוג.", tcodes: ["Fiori: Custom Fields and Logic"] },
+    scenario: "הארגון מוסיפה שדה+לוגיקה לפקודה ללא שינוי ליבה, נשמר בשדרוג.", tcodes: ["Fiori: Custom Fields and Logic"] },
 ];
 
 export const enhancementBySlug = (s: string) => ENHANCEMENTS.find((e) => e.slug === s);

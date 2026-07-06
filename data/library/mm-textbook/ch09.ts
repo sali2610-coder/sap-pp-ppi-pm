@@ -2,7 +2,7 @@
 // Every node is a complete LearningNode with 18 facets of authored Hebrew —
 // enough to study Enterprise Contract Management (ECM) without the original book.
 // This domain is Fiori-driven; fiori[] is rich and tcodes are usually "—".
-// CBC = Coca-Cola bottling legal contract assembly for supplier agreements.
+// הארגון = Example Product bottling legal contract assembly for supplier agreements.
 // Transformative Hebrew (no source prose); SAP identifiers verbatim EN.
 import type { TextbookChapter } from "./types";
 
@@ -11,7 +11,7 @@ export const CH9: TextbookChapter = {
   titleHe: "ניהול חוזים ארגוני והרכבה",
   titleEn: "Enterprise Contract Management and Assembly",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה ל-Enterprise Contract Management (ECM) ב-SAP S/4HANA — הפתרון המשפטי לניהול חוזים, מסמכים משפטיים והרכבת-מסמכים (Document Assembly). בניגוד לרוב תהליכי ה-MM, ECM הוא Fiori-driven לחלוטין: אין כמעט T-Codes קלאסיים, והעבודה היומיומית נעשית כולה דרך אפליקציות Fiori; הקונפיגורציה יושבת ב-SPRO תחת Legal Content Management / Enterprise Contract Management. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי. ההקשר העסקי לאורך הפרק: CBC (מבקבק Coca-Cola) המרכיב הסכמי-ספקים משפטיים — הסכמי-אספקת-תרכיז, חוזי-לוגיסטיקה והסכמי-NDA — דרך הרכבת-מסמכים אוטומטית.",
+    "פרק זה הוא יחידת-לימוד מלאה ל-Enterprise Contract Management (ECM) ב-SAP S/4HANA — הפתרון המשפטי לניהול חוזים, מסמכים משפטיים והרכבת-מסמכים (Document Assembly). בניגוד לרוב תהליכי ה-MM, ECM הוא Fiori-driven לחלוטין: אין כמעט T-Codes קלאסיים, והעבודה היומיומית נעשית כולה דרך אפליקציות Fiori; הקונפיגורציה יושבת ב-SPRO תחת Legal Content Management / Enterprise Contract Management. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי. ההקשר העסקי לאורך הפרק: הארגון (מבקבק Example Product) המרכיב הסכמי-ספקים משפטיים — הסכמי-אספקת-תרכיז, חוזי-לוגיסטיקה והסכמי-NDA — דרך הרכבת-מסמכים אוטומטית.",
   subchapters: [
     // ============================================================ 9.1
     {
@@ -28,8 +28,8 @@ export const CH9: TextbookChapter = {
         "המטרה: למרכז את כל החוזים המשפטיים במאגר-אמת אחד, לתקנן נוסחים מאושרים מראש (להפחית סיכון משפטי), לקשר חוזה לאובייקט-העסקי שהוא תומך בו, ולנהל תזכורות-חידוש כך שלא יפוג חוזה קריטי בלי שמישהו ידע. ECM מגשר בין המחלקה-המשפטית למחלקות-הרכש והתפעול.",
       processExampleHe:
         "Procure-to-Contract: מחלקת-רכש מגישה Request Legal Contract להסכם-אספקה חדש ► המערכת יוצרת Legal Transaction עם מטא-דאטה ► היועץ-המשפטי מרכיב Legal Document מ-Clauses מאושרים דרך Document Assembly ► המסמך עובר Legal Tasks לאישור (Workflow) ► לאחר חתימה ה-Transaction מקושר להזמנת-הרכש (Linked Object Type) ► Reminder Type שולח תזכורת 60 יום לפני פקיעה.",
-      cbcHe:
-        "ב-CBC: הסכם-אספקת-תרכיז עם ספק-תרכיז גלובלי מנוהל כ-Legal Transaction. ה-Legal Document מורכב מ-Clauses סטנדרטיים (תנאי-תשלום, SLA-אספקה, סודיות) + Clauses ספציפיים לשוק-הישראלי. ה-Transaction מקושר לחוזה-הרכש (Purchase Contract) ב-MM דרך Linked Object Type, וכל ה-NDAs מול ספקי-לוגיסטיקה מורכבים מאותה Clause Library.",
+      scenarioHe:
+        "בארגון: הסכם-אספקת-תרכיז עם ספק-תרכיז גלובלי מנוהל כ-Legal Transaction. ה-Legal Document מורכב מ-Clauses סטנדרטיים (תנאי-תשלום, SLA-אספקה, סודיות) + Clauses ספציפיים לשוק-הישראלי. ה-Transaction מקושר לחוזה-הרכש (Purchase Contract) ב-MM דרך Linked Object Type, וכל ה-NDAs מול ספקי-לוגיסטיקה מורכבים מאותה Clause Library.",
       navHe: [
         "SPRO ► Cross-Application Components ► Legal Content Management ► Basic Settings",
         "SPRO ► Cross-Application Components ► Enterprise Contract Management ► Basic Settings",
@@ -102,8 +102,8 @@ export const CH9: TextbookChapter = {
         "המטרה: לספק חוויית-עבודה מודרנית, מבוססת-תפקיד, לכל בעלי-העניין במחזור-החיים המשפטי — משפטנים, רוכשים, מנהלים — כשכל תפקיד מקבל את האפליקציות הרלוונטיות לו דרך Business Catalogs.",
       processExampleHe:
         "משפטן נכנס ל-Launchpad ► Home Page מציגה משימות-פתוחות ו-KPIs ► לוחץ על משימה ► נפתחת Manage Legal Tasks ► מסיים ביקורת ► עובר ל-Manage Legal Documents להרכבה ► ל-Manage Legal Transactions לעדכון-סטטוס. כל המעבר חלק, על אותם נתונים.",
-      cbcHe:
-        "ב-CBC: צוות-הרכש משתמש ב-Request Legal Contract לפתיחת-בקשות; הצוות-המשפטי ב-Manage Legal Documents ל-Assembly; ומנהל-החוזים ב-Home Page למעקב-KPIs על חוזי-הספקים הפעילים והפגים-קרובים.",
+      scenarioHe:
+        "בארגון: צוות-הרכש משתמש ב-Request Legal Contract לפתיחת-בקשות; הצוות-המשפטי ב-Manage Legal Documents ל-Assembly; ומנהל-החוזים ב-Home Page למעקב-KPIs על חוזי-הספקים הפעילים והפגים-קרובים.",
       navHe: [
         "SAP Fiori Launchpad ► Enterprise Contract Management (Space)",
         "SPRO ► Cross-Application Components ► Enterprise Contract Management ► Basic Settings",
@@ -161,8 +161,8 @@ export const CH9: TextbookChapter = {
             "לתת תמונת-מצב מיידית ולקצר זמן-טיפול: במקום לחפש משימות בכל אפליקציה, מנהל-החוזים רואה הכל במקום אחד ומנווט בלחיצה.",
           processExampleHe:
             "מנהל-חוזים פותח את Home Page ► רואה Card 'Contracts Expiring in 60 Days = 4' ► לוחץ ► נפתחת רשימה ► בוחר חוזה ► מתחיל תהליך-חידוש דרך Request Legal Contract.",
-          cbcHe:
-            "ב-CBC: ה-Home Page מציג Card 'Supplier Agreements Expiring' המתריע על הסכם-תרכיז הפג בעוד 45 יום, ומנהל-החוזים יוזם חידוש בעוד מועד.",
+          scenarioHe:
+            "בארגון: ה-Home Page מציג Card 'Supplier Agreements Expiring' המתריע על הסכם-תרכיז הפג בעוד 45 יום, ומנהל-החוזים יוזם חידוש בעוד מועד.",
           navHe: ["SAP Fiori Launchpad ► Enterprise Contract Management ► Overview / Home"],
           tables: ["LCM_TRANS", "LCM_TASK"],
           tcodes: ["—"],
@@ -193,8 +193,8 @@ export const CH9: TextbookChapter = {
             "לבנות שלד-סיווג שמאפשר ניהול-לפי-הקשר: הרשאות ממוקדות, דיווח-לפי-יחידה וברירות-מחדל אוטומטיות — כך שחוזה 'יודע' מאליו לאיזה אזור הוא שייך.",
           processExampleHe:
             "אדמין יוצר Context 'Procurement-Israel' תחת 'Corporate-Legal' ► מקשר Profile ו-Document Types מותרים ► מעתה כל Legal Transaction שנפתח תחת ה-Context יורש את ההגדרות ואת ההרשאות.",
-          cbcHe:
-            "ב-CBC: עץ ה-Contexts = 'CBC-Israel' → 'Supplier-Agreements' → 'Concentrate-Suppliers' | 'Logistics-Suppliers'. כל הסכם-תרכיז נפתח תחת הצומת המתאים ויורש הרשאות וברירות-מחדל.",
+          scenarioHe:
+            "בארגון: עץ ה-Contexts = 'הארגון-Israel' → 'Supplier-Agreements' → 'Concentrate-Suppliers' | 'Logistics-Suppliers'. כל הסכם-תרכיז נפתח תחת הצומת המתאים ויורש הרשאות וברירות-מחדל.",
           navHe: ["SAP Fiori Launchpad ► Manage Contexts", "SPRO ► Legal Content Management ► Configure Contexts / Entity Types"],
           tables: ["LCM_CTX", "LCM_ENTITY"],
           tcodes: ["—"],
@@ -228,8 +228,8 @@ export const CH9: TextbookChapter = {
             "לאפשר חיתוך-תוכני רוחבי: 'הראה לי את כל ה-NDAs בארגון, ללא קשר ליחידה'. זה משלים את ה-Context הארגוני בממד-נושאי.",
           processExampleHe:
             "משפטן מסנן ב-Manage Legal Documents לפי Category='NDA' ► מקבל את כל הסכמי-הסודיות מכל היחידות ► מוודא שכולם משתמשים בנוסח-העדכני.",
-          cbcHe:
-            "ב-CBC: Categories = 'Concentrate-Supply', 'Logistics', 'NDA', 'Equipment-Lease'. מנהל-החוזים מסנן לפי 'Concentrate-Supply' ורואה את כל הסכמי-התרכיז בכל המדינות.",
+          scenarioHe:
+            "בארגון: Categories = 'Concentrate-Supply', 'Logistics', 'NDA', 'Equipment-Lease'. מנהל-החוזים מסנן לפי 'Concentrate-Supply' ורואה את כל הסכמי-התרכיז בכל המדינות.",
           navHe: ["SAP Fiori Launchpad ► Manage Categories", "SPRO ► Legal Content Management ► Categories for Legal Content"],
           tables: ["LCM_CATEGORY", "LCM_DOC"],
           tcodes: ["—"],
@@ -261,8 +261,8 @@ export const CH9: TextbookChapter = {
             "לספק סביבת-עריכה משפטית מובנית: הרכבה אוטומטית מסטנדרטים מאושרים → הפחתת-סיכון; Versioning → מעקב-שינויים; Stamps → ניהול-סטטוס ויזואלי.",
           processExampleHe:
             "משפטן פותח Manage Legal Documents ► יוצר מסמך מ-Document Type 'Supply Agreement' ► Assembly מרכיב אוטומטית Clauses חובה (תשלום, סודיות) ► מוסיף Clause ספציפי ► שומר Version 1 ► מחיל Stamp 'Draft' ► לאחר אישור Stamp 'Final'.",
-          cbcHe:
-            "ב-CBC: הסכם-אספקת-תרכיז מורכב מ-Clauses: 'Payment Terms NET-30', 'Concentrate SLA', 'Confidentiality', + Clause ישראלי על-מע\"מ. כל גרסה נשמרת; Stamp 'Approved' מוחל לפני חתימה.",
+          scenarioHe:
+            "בארגון: הסכם-אספקת-תרכיז מורכב מ-Clauses: 'Payment Terms NET-30', 'Concentrate SLA', 'Confidentiality', + Clause ישראלי על-מע\"מ. כל גרסה נשמרת; Stamp 'Approved' מוחל לפני חתימה.",
           navHe: ["SAP Fiori Launchpad ► Manage Legal Documents", "SPRO ► Enterprise Contract Management ► Document Types / Content Types"],
           tables: ["LCM_DOC", "LCM_CLAUSE", "LCM_VERSION"],
           tcodes: ["—"],
@@ -306,8 +306,8 @@ export const CH9: TextbookChapter = {
             "להבטיח שאף שלב לא נופל בין הכיסאות: כל פעולה נדרשת הופכת ל-Task עם אחראי ו-Due Date, ומחזור-החיים מתקדם בשקיפות.",
           processExampleHe:
             "מסמך מוכן ► Workflow יוצר Task 'Legal Review' למשפטן + Task 'Approve' למנהל ► המשפטן מסיים את שלו ► ה-Task של המנהל נפתח ► לאחר אישור נוצר Task 'Sign'.",
-          cbcHe:
-            "ב-CBC: בהסכם-תרכיז נוצרות Tasks: 'Procurement Review' → 'Legal Review' → 'CFO Approval' (לסכומים גבוהים) → 'Sign'. כל Task עם Due Date; חריגה מפעילה Escalation.",
+          scenarioHe:
+            "בארגון: בהסכם-תרכיז נוצרות Tasks: 'Procurement Review' → 'Legal Review' → 'CFO Approval' (לסכומים גבוהים) → 'Sign'. כל Task עם Due Date; חריגה מפעילה Escalation.",
           navHe: ["SAP Fiori Launchpad ► Manage Legal Tasks", "SPRO ► Enterprise Contract Management ► Configure Workflow"],
           tables: ["LCM_TASK", "LCM_TRANS"],
           tcodes: ["—", "SWDD"],
@@ -347,8 +347,8 @@ export const CH9: TextbookChapter = {
             "לדמוקרטיזציה של פתיחת-חוזים: לאפשר למשתמש-העסקי ליזום חוזה דרך טופס-מובנה, להבטיח שכל בקשה נכנסת לתהליך מסודר עם כל המידע הדרוש.",
           processExampleHe:
             "רוכש זקוק להסכם-שירות חדש ► ממלא Request Legal Contract (ספק, ערך, סוג) ► המערכת יוצרת Legal Transaction + מפעילה Workflow ► נוצר Task 'Legal Review' ► המשפטן מתחיל הרכבה.",
-          cbcHe:
-            "ב-CBC: מנהל-לוגיסטיקה זקוק להסכם-הובלה חדש ► ממלא Request Legal Contract עם פרטי-המוביל וערך-החוזה ► נוצר Legal Transaction תחת Context 'Logistics-Suppliers' ► עובר לצוות-המשפטי.",
+          scenarioHe:
+            "בארגון: מנהל-לוגיסטיקה זקוק להסכם-הובלה חדש ► ממלא Request Legal Contract עם פרטי-המוביל וערך-החוזה ► נוצר Legal Transaction תחת Context 'Logistics-Suppliers' ► עובר לצוות-המשפטי.",
           navHe: ["SAP Fiori Launchpad ► Request Legal Contract"],
           tables: ["LCM_TRANS", "LCM_LNK"],
           tcodes: ["—"],
@@ -387,8 +387,8 @@ export const CH9: TextbookChapter = {
             "לספק תצוגת-360 על העסקה-המשפטית: כל מה שקשור לחוזה במקום אחד — מסמכים, צדדים, תאריכים, תזכורות וקישורים — לניהול ובקרה מלאים.",
           processExampleHe:
             "משפטן פותח Legal Transaction ► מוסיף External Contact (נציג-הספק) ► מגדיר Date Type 'Expiration' = 31.12 ► מקשר את ה-Legal Document המורכב ► מקשר Linked Object להזמנת-הרכש ► קובע Reminder 60 יום לפני פקיעה.",
-          cbcHe:
-            "ב-CBC: ה-Legal Transaction של הסכם-התרכיז מאגד את ה-Document המורכב, את נציג-הספק (External Contact), את מנהל-הרכש (Internal Contact), תאריך-פקיעה, Reminder, וקישור לחוזה-הרכש ב-MM.",
+          scenarioHe:
+            "בארגון: ה-Legal Transaction של הסכם-התרכיז מאגד את ה-Document המורכב, את נציג-הספק (External Contact), את מנהל-הרכש (Internal Contact), תאריך-פקיעה, Reminder, וקישור לחוזה-הרכש ב-MM.",
           navHe: ["SAP Fiori Launchpad ► Manage Legal Transactions", "SPRO ► Enterprise Contract Management ► Profiles / Document Types"],
           tables: ["LCM_TRANS", "LCM_DOC", "LCM_LNK", "LCM_DATE"],
           tcodes: ["—"],
@@ -436,8 +436,8 @@ export const CH9: TextbookChapter = {
             "לתקנן ולאכוף תהליכי-אישור: כל סוג-חוזה עובר את שרשרת-האישורים הנכונה אוטומטית, עם בקרת-תנאים (סכום, סוג) ו-Escalation — ממשל-תאגידי אכיף.",
           processExampleHe:
             "Template 'Supply Agreement Approval': Step 1 Legal Review → Step 2 Procurement Approval → Step 3 (אם ערך>1M) CFO Approval → Step 4 Sign. בעת יצירת מסמך מסוג זה, ה-Tasks נוצרות אוטומטית בסדר.",
-          cbcHe:
-            "ב-CBC: Template להסכמי-תרכיז מחייב CFO-Approval מעל 500K€ ו-Legal-Review תמיד; הסכמי-NDA עוברים מסלול-מקוצר (Legal-Review → Sign בלבד). התנאים מבוססים על ערך-החוזה ו-Category.",
+          scenarioHe:
+            "בארגון: Template להסכמי-תרכיז מחייב CFO-Approval מעל 500K€ ו-Legal-Review תמיד; הסכמי-NDA עוברים מסלול-מקוצר (Legal-Review → Sign בלבד). התנאים מבוססים על ערך-החוזה ו-Category.",
           navHe: ["SAP Fiori Launchpad ► Manage Workflows / Manage Workflow Templates", "SPRO ► Enterprise Contract Management ► Configure Flexible Workflow"],
           tables: ["LCM_TASK", "SWD_HEADER", "LCM_TRANS"],
           tcodes: ["—", "SWDD", "SWDD_SCENARIO"],
@@ -481,8 +481,8 @@ export const CH9: TextbookChapter = {
         "להגדיר את כל אבני-הבניין המאפשרות את ECM: מטווחי-מספרים ועד תבניות-מסמך. קונפיגורציה נכונה = אפליקציות עובדות; חסרה = שגיאות וחוסר-יכולת ליצור Transactions/Documents.",
       processExampleHe:
         "מימוש ECM: מגדירים Number Ranges → Entity Types → Contexts → Content Types → Profiles → Document Types → Date/Reminder Types → Contacts → Linked Object Types → Document Stamps → Background Jobs. רק אז האפליקציות מוכנות לעבודה.",
-      cbcHe:
-        "ב-CBC: צוות-המימוש מגדיר טווח-מספרים נפרד להסכמי-ספקים, Reminder Type ל-60/30 יום לפני פקיעה, Date Types 'Effective/Expiration', Linked Object Type לחוזה-רכש, ו-Document Type לכל סוג-הסכם (תרכיז/לוגיסטיקה/NDA).",
+      scenarioHe:
+        "בארגון: צוות-המימוש מגדיר טווח-מספרים נפרד להסכמי-ספקים, Reminder Type ל-60/30 יום לפני פקיעה, Date Types 'Effective/Expiration', Linked Object Type לחוזה-רכש, ו-Document Type לכל סוג-הסכם (תרכיז/לוגיסטיקה/NDA).",
       navHe: [
         "SPRO ► Cross-Application Components ► Enterprise Contract Management",
         "SPRO ► Cross-Application Components ► Legal Content Management",
@@ -535,8 +535,8 @@ export const CH9: TextbookChapter = {
             "להבטיח מזהה ייחודי וניתן-למעקב לכל עסקה/מסמך, ולאפשר הפרדת-טווחים לפי סוג-חוזה לצורכי-זיהוי ודיווח.",
           processExampleHe:
             "אדמין מגדיר Interval 1000000–1999999 כפנימי לעסקאות-רכש ► בעת יצירת Legal Transaction המערכת מקצה 1000001 ► החוזה הבא יקבל 1000002.",
-          cbcHe:
-            "ב-CBC: טווח-מספרים נפרד להסכמי-ספקים (3000000–3999999) להבדילם מחוזים-משפטיים-תאגידיים (1000000–1999999), לזיהוי-מהיר בדיווח.",
+          scenarioHe:
+            "בארגון: טווח-מספרים נפרד להסכמי-ספקים (3000000–3999999) להבדילם מחוזים-משפטיים-תאגידיים (1000000–1999999), לזיהוי-מהיר בדיווח.",
           navHe: ["SPRO ► Enterprise Contract Management ► Basic Settings ► Define Number Ranges", "SNRO (Number Range Object)"],
           tables: ["TNRO", "NRIV", "LCM_TRANS"],
           tcodes: ["SNRO", "SPRO"],
@@ -568,8 +568,8 @@ export const CH9: TextbookChapter = {
             "לנהל פרואקטיבית חידושי-חוזים ומועדים-קריטיים: התראה-בזמן מאפשרת חידוש/משא-ומתן לפני פקיעה, ומונעת המשך-אספקה-ללא-חוזה או קנסות.",
           processExampleHe:
             "Reminder Type 'Pre-Expiration-60' מקושר ל-Date Type 'Expiration' עם offset=-60 ► Background Job יומי מזהה חוזה הפג בעוד 60 יום ► שולח התראה למנהל-החוזים + יוצר Task 'Initiate Renewal'.",
-          cbcHe:
-            "ב-CBC: שני Reminder Types להסכם-תרכיז — 'Pre-Expiration-90' (התראה אסטרטגית למנהל-רכש) ו-'Pre-Expiration-30' (התראה דחופה + Task-חידוש). מבטיח שהסכם-התרכיז הקריטי לעולם לא פג.",
+          scenarioHe:
+            "בארגון: שני Reminder Types להסכם-תרכיז — 'Pre-Expiration-90' (התראה אסטרטגית למנהל-רכש) ו-'Pre-Expiration-30' (התראה דחופה + Task-חידוש). מבטיח שהסכם-התרכיז הקריטי לעולם לא פג.",
           navHe: ["SPRO ► Enterprise Contract Management ► Define Reminder Types"],
           tables: ["LCM_RTYPE", "LCM_DATE", "LCM_TRANS"],
           tcodes: ["SPRO"],
@@ -612,8 +612,8 @@ export const CH9: TextbookChapter = {
             "לתקנן את שפת-התאריכים בחוזים, לאפשר תזכורות ותנאי-Workflow מבוססי-תאריך, ולתמוך בדיווח 'אילו חוזים פגים ברבעון הבא'.",
           processExampleHe:
             "Date Type 'Effective'=1.1, 'Term'=12 חודשים → Date-Rule מחשבת 'Expiration'=31.12 → Reminder Type מתבסס על 'Expiration' להתראת-חידוש.",
-          cbcHe:
-            "ב-CBC: הסכם-תרכיז נושא Date Types 'Effective', 'Expiration', 'Auto-Renewal-Notice'. ה-Expiration נגזרת אוטומטית מ-Effective + תקופה, וה-Auto-Renewal-Notice מזין תזכורת.",
+          scenarioHe:
+            "בארגון: הסכם-תרכיז נושא Date Types 'Effective', 'Expiration', 'Auto-Renewal-Notice'. ה-Expiration נגזרת אוטומטית מ-Effective + תקופה, וה-Auto-Renewal-Notice מזין תזכורת.",
           navHe: ["SPRO ► Enterprise Contract Management ► Define Date Types"],
           tables: ["LCM_DTYPE", "LCM_DATE", "LCM_TRANS"],
           tcodes: ["SPRO"],
@@ -647,8 +647,8 @@ export const CH9: TextbookChapter = {
             "להגדיר בעלות ואחריות פנימית ברורה לכל חוזה, ולספק את הנמענים ל-Workflow ול-Reminders אוטומטית.",
           processExampleHe:
             "Internal Contact Type 'Contract Owner' = מנהל-החוזים, 'Legal Counsel' = המשפטן ► Workflow מנתב Tasks אליהם ► Reminders נשלחות ל-'Contract Owner'.",
-          cbcHe:
-            "ב-CBC: בהסכם-תרכיז Internal Contacts = 'Procurement Lead' (רוכש-תרכיז), 'Legal Counsel' (משפטן-CBC), 'Contract Owner' (מנהל-חוזים). כולם מקבלים תזכורות ומשימות לפי-תפקיד.",
+          scenarioHe:
+            "בארגון: בהסכם-תרכיז Internal Contacts = 'Procurement Lead' (רוכש-תרכיז), 'Legal Counsel' (משפטן-הארגון), 'Contract Owner' (מנהל-חוזים). כולם מקבלים תזכורות ומשימות לפי-תפקיד.",
           navHe: ["SPRO ► Enterprise Contract Management ► Define Internal Contact Types"],
           tables: ["LCM_CONTACT", "LCM_TRANS"],
           tcodes: ["SPRO"],
@@ -680,8 +680,8 @@ export const CH9: TextbookChapter = {
             "לספק מבנה עקבי ואכיף להיררכיית-ה-Context: להגדיר אילו סוגי-יחידות קיימים וכיצד הם מתקננים, כדי שעץ-ההקשרים יהיה הגיוני ובר-תחזוקה.",
           processExampleHe:
             "אדמין מגדיר Entity Types 'Company'→'Region'→'Business Unit' ► בבניית-Contexts הוא יוצר צמתים מסוגים אלה לפי-סדר-ההיררכיה המותר.",
-          cbcHe:
-            "ב-CBC: Entity Types = 'Corporation' (CBC) → 'Country' (Israel) → 'Function' (Procurement) → 'Supplier-Group'. עליהם נבנה עץ ה-Contexts של הסכמי-הספקים.",
+          scenarioHe:
+            "בארגון: Entity Types = 'Corporation' → 'Country' (Israel) → 'Function' (Procurement) → 'Supplier-Group'. עליהם נבנה עץ ה-Contexts של הסכמי-הספקים.",
           navHe: ["SPRO ► Legal Content Management ► Define Entity Types"],
           tables: ["LCM_ENTITY", "LCM_CTX"],
           tcodes: ["SPRO"],
@@ -714,8 +714,8 @@ export const CH9: TextbookChapter = {
             "לזהות ולתעד את הצדדים-החיצוניים לחוזה, לאפשר ניתוח-ספק רוחבי ('כמה חוזים פעילים מול ספק זה') ולתמוך בהתכתבות-חוזית.",
           processExampleHe:
             "External Contact Type 'Supplier Representative' מקושר ל-Business Partner של הספק ► משויך ל-Transaction ► מאפשר דיווח 'כל החוזים מול ספק זה' ושליחת-מסמכים אליו.",
-          cbcHe:
-            "ב-CBC: External Contacts בהסכם-תרכיז = 'Supplier Account Manager' (נציג-ספק-התרכיז) ו-'External Legal Counsel' (עו\"ד-חיצוני). מקושרים ל-BP של הספק לזיהוי וניתוח.",
+          scenarioHe:
+            "בארגון: External Contacts בהסכם-תרכיז = 'Supplier Account Manager' (נציג-ספק-התרכיז) ו-'External Legal Counsel' (עו\"ד-חיצוני). מקושרים ל-BP של הספק לזיהוי וניתוח.",
           navHe: ["SPRO ► Enterprise Contract Management ► Define External Contact Types"],
           tables: ["LCM_CONTACT", "BUT000", "LCM_TRANS"],
           tcodes: ["SPRO", "BP"],
@@ -748,8 +748,8 @@ export const CH9: TextbookChapter = {
             "להפריד את ה'איך-טכני' מה'מה-עסקי' בקישורים: שכבה-טכנית בת-שימוש-חוזר שמגדירה כיצד ניגשים לאובייקט, שעליה נבנים סוגי-קישור עסקיים מרובים.",
           processExampleHe:
             "מגדירים Technical Type 'PurchaseOrder' המצביע על ה-CDS/BO של PO עם API-קריאה ו-Navigation ► Linked Object Type 'Sourcing PO' (9.3.8) מבוסס עליו ► קישור ל-Transaction מאפשר ניווט ל-PO.",
-          cbcHe:
-            "ב-CBC: Technical Types ל-'PurchaseContract', 'PurchaseOrder' ו-'Supplier' (Business Partner) — התשתית-הטכנית שמאפשרת לקשר הסכם-תרכיז לחוזה-הרכש ולספק.",
+          scenarioHe:
+            "בארגון: Technical Types ל-'PurchaseContract', 'PurchaseOrder' ו-'Supplier' (Business Partner) — התשתית-הטכנית שמאפשרת לקשר הסכם-תרכיז לחוזה-הרכש ולספק.",
           navHe: ["SPRO ► Legal Content Management ► Define Technical Types for Linked Object Types"],
           tables: ["LCM_TECHTYPE", "LCM_LNK"],
           tcodes: ["SPRO"],
@@ -782,8 +782,8 @@ export const CH9: TextbookChapter = {
             "לחבר חוזה לאובייקט-העסקי שהוא מסדיר — כך שרוכש הרואה הזמנת-רכש יכול לקפוץ לחוזה-המסדיר, ומשפטן הרואה חוזה רואה את כל ההזמנות-הנשענות עליו.",
           processExampleHe:
             "Linked Object Type 'Governing Purchase Contract' מקשר Legal Transaction לחוזה-רכש ► מתוך הזמנת-הרכש רואים את החוזה-המשפטי המסדיר ► מתוך החוזה רואים את כל ה-POs שנשענים עליו.",
-          cbcHe:
-            "ב-CBC: הסכם-התרכיז (Legal Transaction) מקושר דרך Linked Object Type לחוזה-הרכש (Purchase Contract) ולספק (Business Partner). הרוכש קופץ מההזמנה לחוזה-המשפטי, והמשפטן רואה את כל הזמנות-התרכיז תחת ההסכם.",
+          scenarioHe:
+            "בארגון: הסכם-התרכיז (Legal Transaction) מקושר דרך Linked Object Type לחוזה-הרכש (Purchase Contract) ולספק (Business Partner). הרוכש קופץ מההזמנה לחוזה-המשפטי, והמשפטן רואה את כל הזמנות-התרכיז תחת ההסכם.",
           navHe: ["SPRO ► Legal Content Management ► Define Linked Object Types", "SPRO ► Enterprise Contract Management ► Assign Linked Object Types"],
           tables: ["LCM_LNK", "LCM_TECHTYPE", "LCM_TRANS"],
           tcodes: ["SPRO"],
@@ -826,8 +826,8 @@ export const CH9: TextbookChapter = {
             "להגדיר את אבני-הבניין של מסמך-משפטי ולאפשר הרכבה-מובנית: רק סוגי-תוכן-מותרים נכנסים, מה שמבטיח עקביות-מבנית ותומך ב-Assembly אוטומטי.",
           processExampleHe:
             "Document Type 'Supply Agreement' מתיר Content Types 'Standard Clause' + 'Negotiated Free Text' + 'Attachment' ► מנוע-ה-Assembly מרכיב Clauses חובה ► המשפטן מוסיף Free Text במו\"מ.",
-          cbcHe:
-            "ב-CBC: הסכם-תרכיז מתיר Content Types 'Standard Clause' (מהספרייה), 'Israel-Specific Clause', ו-'Attachment' (נספח-מחירים). מבטיח שכל הסכם בנוי מאותן אבני-בניין מאושרות.",
+          scenarioHe:
+            "בארגון: הסכם-תרכיז מתיר Content Types 'Standard Clause' (מהספרייה), 'Israel-Specific Clause', ו-'Attachment' (נספח-מחירים). מבטיח שכל הסכם בנוי מאותן אבני-בניין מאושרות.",
           navHe: ["SPRO ► Legal Content Management ► Define Content Types"],
           tables: ["LCM_CONTENT", "LCM_DOC", "LCM_CLAUSE"],
           tcodes: ["SPRO"],
@@ -860,8 +860,8 @@ export const CH9: TextbookChapter = {
             "לספק אינדיקציה-ויזואלית חד-משמעית של מצב-המסמך, למנוע שימוש-בטעות בטיוטה כסופי, ולתמוך בבקרת-גרסאות ובהיבטי-ציות.",
           processExampleHe:
             "מסמך נוצר עם Stamp 'Draft' ► עובר Workflow ► לאחר אישור מקבל אוטומטית Stamp 'Approved' ► לאחר חתימה 'Final' (נועל-עריכה). הפלט-PDF נושא Watermark מתאים.",
-          cbcHe:
-            "ב-CBC: הסכם-תרכיז נושא 'Draft' במו\"מ, 'Approved' לאחר CFO-Approval, ו-'Final/Executed' לאחר חתימת-שני-הצדדים. ה-Watermark מונע שליחת-טיוטה בטעות לספק.",
+          scenarioHe:
+            "בארגון: הסכם-תרכיז נושא 'Draft' במו\"מ, 'Approved' לאחר CFO-Approval, ו-'Final/Executed' לאחר חתימת-שני-הצדדים. ה-Watermark מונע שליחת-טיוטה בטעות לספק.",
           navHe: ["SPRO ► Enterprise Contract Management ► Define Document Stamps"],
           tables: ["LCM_STAMP", "LCM_DOC"],
           tcodes: ["SPRO"],
@@ -894,8 +894,8 @@ export const CH9: TextbookChapter = {
             "לרכז את כל הגדרות-ההתנהגות של סוג-עסקה במקום-אחד, להבטיח עקביות בין חוזים-דומים, ולפשט תחזוקה (שינוי במקום-אחד משפיע על-הכל).",
           processExampleHe:
             "Profile 'Supplier Agreement' מקבץ Document Types (Supply/Service/NDA), Date Types (Effective/Expiration), Reminder (60/30), Linked Object (Purchase Contract) ► כל Transaction-ספק נוצר עם Profile זה ויורש הכל.",
-          cbcHe:
-            "ב-CBC: Profile 'CBC-Supplier-Agreement' מאגד את כל ההגדרות להסכמי-ספקים — Document Types, תאריכים, תזכורות-90/30, וקישור-לחוזה-רכש. כל הסכם-ספק חדש משתמש בו אוטומטית.",
+          scenarioHe:
+            "בארגון: Profile 'הארגון-Supplier-Agreement' מאגד את כל ההגדרות להסכמי-ספקים — Document Types, תאריכים, תזכורות-90/30, וקישור-לחוזה-רכש. כל הסכם-ספק חדש משתמש בו אוטומטית.",
           navHe: ["SPRO ► Legal Content Management ► Define Profiles", "SPRO ► Enterprise Contract Management ► Assign Profile Settings"],
           tables: ["LCM_PROFILE", "LCM_TRANS", "LCM_CTX"],
           tcodes: ["SPRO"],
@@ -938,8 +938,8 @@ export const CH9: TextbookChapter = {
             "לתקנן כל סוג-חוזה: מבנה אחיד, רכיבים-מותרים, תהליך-אישור ותבנית-הרכבה — כך שכל 'Supply Agreement' נראה ומתנהג זהה, ללא תלות-במנסח.",
           processExampleHe:
             "Document Type 'NDA' קובע: Content Types = Clauses-סודיות בלבד, Workflow = מסלול-מקוצר, Stamps = Draft/Final, Assembly-Template = NDA-standard ► כל NDA חדש נבנה לפי-תבנית זו אוטומטית.",
-          cbcHe:
-            "ב-CBC: Document Types = 'Concentrate Supply Agreement' (מבנה-מלא, Workflow עם CFO), 'Logistics Agreement', ו-'Supplier NDA' (מסלול-מקוצר). כל סוג נושא תבנית-Assembly ותהליך-אישור משלו.",
+          scenarioHe:
+            "בארגון: Document Types = 'Concentrate Supply Agreement' (מבנה-מלא, Workflow עם CFO), 'Logistics Agreement', ו-'Supplier NDA' (מסלול-מקוצר). כל סוג נושא תבנית-Assembly ותהליך-אישור משלו.",
           navHe: ["SPRO ► Enterprise Contract Management ► Define Document Types", "SPRO ► Legal Content Management ► Assign Content Types to Document Types"],
           tables: ["LCM_DTYPE", "LCM_DOC", "LCM_CONTENT"],
           tcodes: ["SPRO"],
@@ -983,8 +983,8 @@ export const CH9: TextbookChapter = {
             "להריץ את האוטומציות-המתוזמנות של ECM — בעיקר את מנוע-התזכורות — כך שהמערכת פרואקטיבית: מתריעה על פקיעות בלי התערבות-ידנית.",
           processExampleHe:
             "Job 'ECM Reminder Run' מתוזמן יומית ב-06:00 ► סורק את כל ה-Date Types מול ה-Reminder-offsets ► לחוזה הפג בעוד 60 יום מפיק Notification + Task 'Initiate Renewal'.",
-          cbcHe:
-            "ב-CBC: Job יומי 'Supplier-Agreement Reminders' רץ כל לילה, סורק את תאריכי-הפקיעה של הסכמי-התרכיז והלוגיסטיקה, ומפיק את התראות-90/30-יום. ניטור-הצלחת-ה-Job הוא חלק מתחזוקת-המערכת.",
+          scenarioHe:
+            "בארגון: Job יומי 'Supplier-Agreement Reminders' רץ כל לילה, סורק את תאריכי-הפקיעה של הסכמי-התרכיז והלוגיסטיקה, ומפיק את התראות-90/30-יום. ניטור-הצלחת-ה-Job הוא חלק מתחזוקת-המערכת.",
           navHe: ["SPRO ► Enterprise Contract Management ► Define Background Job Settings", "SAP Fiori Launchpad ► Schedule Background Jobs / Application Jobs"],
           tables: ["TBTCO", "LCM_RTYPE", "LCM_DATE"],
           tcodes: ["SM36", "SM37", "SJOBREPO"],
@@ -1031,8 +1031,8 @@ export const CH9: TextbookChapter = {
         "לאחד את העולם-המשפטי והעולם-התפעולי: להבטיח שכל חוזה מתוקנן, מאושר-כראוי, מקושר-לעסקי, ולא-פג-בהפתעה — ובכך להפחית סיכון-משפטי, תפעולי ופיננסי.",
       processExampleHe:
         "מחזור-חיים מלא: Request ► Legal Transaction (Profile/Document Type) ► Document Assembly מ-Clauses ► Legal Tasks/Workflow לאישור ► Stamps (Draft→Final) ► Linked Object ל-Purchase Contract ► Date Types + Reminders ► Background Job מתריע על-חידוש ► חידוש דרך Request מחדש.",
-      cbcHe:
-        "ב-CBC: הסכם-אספקת-התרכיז עבר את כל המסע — נפתח בבקשה, הורכב מ-Clauses-מאושרים+סעיף-ישראלי, אושר ב-CFO-Approval, סומן Final, קושר לחוזה-הרכש, וקיבל תזכורות-90/30. כך CBC מנהל את כל הסכמי-הספקים שלו: מתוקננים, מקושרים, ופרואקטיביים.",
+      scenarioHe:
+        "בארגון: הסכם-אספקת-התרכיז עבר את כל המסע — נפתח בבקשה, הורכב מ-Clauses-מאושרים+סעיף-ישראלי, אושר ב-CFO-Approval, סומן Final, קושר לחוזה-הרכש, וקיבל תזכורות-90/30. כך הארגון מנהל את כל הסכמי-הספקים שלו: מתוקננים, מקושרים, ופרואקטיביים.",
       navHe: [
         "SAP Fiori Launchpad ► Enterprise Contract Management",
         "SPRO ► Cross-Application Components ► Legal Content Management / Enterprise Contract Management",

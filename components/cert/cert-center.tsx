@@ -159,7 +159,7 @@ export function CertCenter() {
           </div>
         ) : <p className="rounded-xl bg-slate-50 px-4 py-8 text-center text-sm text-slate-400">עדיין אין פעילות — התחל מבחן כדי לראות היסטוריה, הישגים ותגים.</p>}
       </section>
-      <p className="text-center text-[11px] text-slate-400">כל השאלות נגזרות ממאגר NEO המאומת (DDIC · ER · S/4 · תקלות CBC). אין שאלות גנריות.</p>
+      <p className="text-center text-[11px] text-slate-400">כל השאלות נגזרות ממאגר NEO המאומת (DDIC · ER · S/4 · תקלות הארגון). אין שאלות גנריות.</p>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import type { CenterItem } from "@/components/topic-center";
 
 const A = "#d62027";
 const mk = (slug: string, module: string, he: string, title: string, sub: string, story: string, master: string[], steps: string[], integration: string[], trouble: string[], qa: string[], ecc: { unchanged?: string; changed?: string; fiori?: string; migration?: string }): CenterItem => ({
-  slug, module, eyebrow: `CBC Manufacturing · ${module}`, he, title, sub, accent: A, tag: module,
+  slug, module, eyebrow: `Manufacturing · ${module}`, he, title, sub, accent: A, tag: module,
   sections: [
     { title: "תרחיש (Scenario)", type: "text", tone: A, text: story },
     { title: "נתוני אב מעורבים", type: "linkchips", tone: "#0891b2", items: master },
@@ -14,9 +14,9 @@ const mk = (slug: string, module: string, he: string, title: string, sub: string
   eccS4: { ...ecc },
 });
 
-export const CBC_SCENARIOS: CenterItem[] = [
+export const MFG_SCENARIOS: CenterItem[] = [
   mk("beverage-production", "PP-PI", "ייצור משקה תוסס", "Beverage Production", "מחזור ייצור משקה תוסס 500ml — מתרכיז ועד בקבוק ארוז עם אצווה.",
-    "CBC מייצרת 50,000 בקבוקי משקה תוסס. תחזית מזינה MRP שמתכנן תרכיז+מים+CO2+אריזה. פקודת תהליך משוחררת שולחת הוראות (טמפ'/לחץ) לבקר הקו; ערבוב→פסטור→מילוי→סגירה. GR יוצר אצווה עם תאריך תפוגה.",
+    "המפעל מייצר 50,000 בקבוקי משקה תוסס. תחזית מזינה MRP שמתכנן תרכיז+מים+CO2+אריזה. פקודת תהליך משוחררת שולחת הוראות (טמפ'/לחץ) לבקר הקו; ערבוב→פסטור→מילוי→סגירה. GR יוצר אצווה עם תאריך תפוגה.",
     ["MARA", "MKAL", "PLKO", "CRHD", "MCH1"],
     ["תחזית + MRP (MD01N)", "פקודת תהליך (COR1)", "שחרור + מרשם בקרה (CO53)", "ערבוב→פסטור→מילוי→סגירה", "אישור + Backflush (COR6N)", "GR לאצווה + התחשבנות"],
     ["PP-PI↔MES: מרשם בקרה/הודעות תהליך", "PP↔MM: GI תרכיז / GR תוצר (MATDOC)", "PP↔QM: בדיקת אצווה", "PP↔CO: עלות/סטיות (ACDOCA+ML)"],
@@ -55,7 +55,7 @@ export const CBC_SCENARIOS: CenterItem[] = [
     ["מעקב חסר → CHVW לא פעיל", "אצווה לא נחסמה → סטטוס", "Where-Used ריק → רמת אצווה"],
     ["Integration: חסימת אצווה → לא נבחרת/נמכרת", "Regression: Where-Used קדימה+אחורה מלא", "Validation: כל אצווה מסווגת עם תפוגה"],
     { unchanged: "מעקב אצוות + QM זהה.", changed: "BIC משופר ב-Fiori.", fiori: "Batch Information Cockpit", migration: "QA: Where-Used + חסימה." }),
-  mk("maint-order-lifecycle", "PM", "מחזור הזמנת אחזקה", "Maintenance Order Lifecycle", "מחזור פקודת אחזקה מלא על ציוד ייצור ב-CBC.",
+  mk("maint-order-lifecycle", "PM", "מחזור הזמנת אחזקה", "Maintenance Order Lifecycle", "מחזור פקודת אחזקה מלא על ציוד ייצור בארגון.",
     "ממלאת #2 דורשת אחזקה. הודעה→פקודת PM01 עם החלפת ראש מילוי (חלף מלאי) + כיול (שירות חיצוני→PR). שחרור (היתר עבודה), ביצוע, אישור שעות+חומרים, TECO, התחשבנות למרכז עלות הקו.",
     ["EQUI", "AUFK", "AFIH", "RESB", "COBRB"],
     ["הודעת תקלה (IW21)", "פקודת PM01 (IW31)", "תכנון: חלף מלאי + שירות (PR)", "שחרור (היתר)", "אישור (IW41)", "TECO + התחשבנות (KO88)"],

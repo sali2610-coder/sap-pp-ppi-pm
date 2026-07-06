@@ -3,7 +3,7 @@
 // Every node is a complete LearningNode with 18 facets of authored Hebrew —
 // beginner + consultant friendly. SAP objects verbatim English (Advanced
 // Analytics, Advanced Dashboards, chart types, SAP Fiori analytics apps).
-// CBC = Coca-Cola bottling S&OP dashboards. SAP IBP is cloud.
+// הארגון = Example Product bottling S&OP dashboards. SAP IBP is cloud.
 import type { TextbookChapter } from "./types";
 
 export const CH13: TextbookChapter = {
@@ -11,7 +11,7 @@ export const CH13: TextbookChapter = {
   titleHe: "לוחות-מחוונים ואנליטיקה",
   titleEn: "Dashboards and Analytics",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לאנליטיקה (Analytics) וללוחות-המחוונים (Dashboards) ב-SAP IBP — הממשק שבו תוצאות-התכנון הופכות לתמונה שמנהל יכול לקרוא בשנייה. אם ה-Key Figures הם הנתונים הגולמיים וה-KPIs הם המספרים, הרי שה-Analytics וה-Dashboards הם העין שמסתכלת עליהם: הם מציגים תחזית מול actuals, מלאי מול יעד ו-supply מול demand בגרפים, לוחות וצבעי-התראה. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC (מפעל-מילוי משקאות של Coca-Cola), ניווט בעצי-היישומים של IBP, אובייקטים/אפליקציות, פרטי הגדרה, תרשים-זרימה לבניית גרף או לוח, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. SAP IBP הוא פתרון-ענן (cloud); ה-Advanced Analytics וה-Advanced Dashboards נצרכים דרך ה-Web UI, ומשלימים את ה-Excel add-in. המטרה: ללמוד לבנות, להשתמש ולתחזק גרפים ולוחות-מחוונים שמניעים את מפגשי-הסקירה של ה-S&OP — ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לאנליטיקה (Analytics) וללוחות-המחוונים (Dashboards) ב-SAP IBP — הממשק שבו תוצאות-התכנון הופכות לתמונה שמנהל יכול לקרוא בשנייה. אם ה-Key Figures הם הנתונים הגולמיים וה-KPIs הם המספרים, הרי שה-Analytics וה-Dashboards הם העין שמסתכלת עליהם: הם מציגים תחזית מול actuals, מלאי מול יעד ו-supply מול demand בגרפים, לוחות וצבעי-התראה. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון (מפעל-מילוי משקאות של Example Product), ניווט בעצי-היישומים של IBP, אובייקטים/אפליקציות, פרטי הגדרה, תרשים-זרימה לבניית גרף או לוח, טעויות נפוצות, פתרון-תקלות, שיטות-מומלצות, שאלות-ראיון ומסקנות-מפתח. SAP IBP הוא פתרון-ענן (cloud); ה-Advanced Analytics וה-Advanced Dashboards נצרכים דרך ה-Web UI, ומשלימים את ה-Excel add-in. המטרה: ללמוד לבנות, להשתמש ולתחזק גרפים ולוחות-מחוונים שמניעים את מפגשי-הסקירה של ה-S&OP — ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 13.1
     {
@@ -28,8 +28,8 @@ export const CH13: TextbookChapter = {
         "המטרה: לתרגם נתוני-תכנון לתובנה ויזואלית מהירה — לזהות מגמות, פערים וחריגות ללא ניתוח-טבלאות ידני. Advanced Analytics נותן לכל בעל-תפקיד (Demand, Supply, Finance) לראות את אותה תמונה ולדון בעובדות במקום בפרשנויות.",
       processExampleHe:
         "מתכנן-ביקוש פותח גרף-קו של Demand: ציר-זמן 18 חודשים, סדרה אחת actuals וסדרה שנייה statistical forecast. הוא מסנן ל-SKU בודד, מזהה ביקוש-יתר עונתי שהמודל לא תפס, ומוסיף סדרת consensus demand. מאותו גרף הוא גולש (drill-down) לרמת-לקוח לאיתור המקור — הכול בלי לעזוב את ה-Web UI.",
-      cbcHe:
-        "ב-CBC (מפעל-מילוי Coca-Cola) Advanced Analytics מציג: גרף-קו של תחזית-מכירות מול actuals למשקה לפי שבוע, גרף-עמודות מוערם (stacked bar) של מלאי מוצר-מוגמר לפי מותג ואריזה, וגרף-מפל (waterfall) של פער supply מול demand לעונת-השיא. כל גרף ניתן לפילוח לפי מותג, אריזה ואזור-הפצה לפני מפגש-ה-Demand Review.",
+      scenarioHe:
+        "בארגון (מפעל-מילוי Example Product) Advanced Analytics מציג: גרף-קו של תחזית-מכירות מול actuals למשקה לפי שבוע, גרף-עמודות מוערם (stacked bar) של מלאי מוצר-מוגמר לפי מותג ואריזה, וגרף-מפל (waterfall) של פער supply מול demand לעונת-השיא. כל גרף ניתן לפילוח לפי מותג, אריזה ואזור-הפצה לפני מפגש-ה-Demand Review.",
       navHe: [
         "SAP IBP Web UI ► Analytics (Advanced) ► New Chart (בחירת Planning Area + Key Figures)",
         "SAP IBP Web UI ► Analytics ► Chart Settings ► Chart Type / Axes / Filters",
@@ -102,8 +102,8 @@ export const CH13: TextbookChapter = {
             "להתאים את הצורה-הוויזואלית לסוג-השאלה — מגמה, השוואה, הרכב, פער או קשר — כדי שהמסר ייקרא נכון ומהר.",
           processExampleHe:
             "מתכנן בוחר: למגמת-תחזית 18 חודשים → Line; להשוואת fill rate בין אזורים → Column; להרכב-מלאי לפי קטגוריה → Stacked Bar; לפער demand-supply לעונה → Waterfall; ולקשר בין מחיר-מבצע לביקוש → Scatter.",
-          cbcHe:
-            "ב-CBC: Line לתחזית-מכירות שבועית של Coke Zero; Column להשוואת OTIF בין מרכזי-הפצה; Stacked Bar למלאי מוצר-מוגמר לפי מותג; Waterfall לפער supply-demand בקיץ; Combination ל-Days of Supply (עמודות) מול forecast accuracy (קו).",
+          scenarioHe:
+            "בארגון: Line לתחזית-מכירות שבועית של Coke Zero; Column להשוואת OTIF בין מרכזי-הפצה; Stacked Bar למלאי מוצר-מוגמר לפי מותג; Waterfall לפער supply-demand בקיץ; Combination ל-Days of Supply (עמודות) מול forecast accuracy (קו).",
           navHe: [
             "SAP IBP Web UI ► Analytics ► New Chart ► Chart Type (Line / Bar / Column / Stacked / Pie / Waterfall / Scatter / Combination)",
             "SAP IBP Web UI ► Analytics ► Chart Settings ► Axes (בחירת ציר ראשי/משני)",
@@ -162,8 +162,8 @@ export const CH13: TextbookChapter = {
             "לאפשר למשתמש-העסקי לייצר תצוגה ויזואלית בעצמו, מותאמת לשאלה הספציפית, בלי תלות במפתח או בדוח קבוע.",
           processExampleHe:
             "מתכנן בונה גרף 'תחזית מול בפועל לרבעון': New Chart → Planning Area של Demand → Key Figures: Sales Actuals + Consensus Demand → Time Profile רבעוני → Chart Type Column-Combination → פילטר מותג → Version נעול → Save בשם משותף.",
-          cbcHe:
-            "ב-CBC מתכנן-הביקוש בונה גרף 'Coke 1.5L — actuals מול forecast' לפי שבוע, עם פילטר אזור-מרכז ו-Version של מחזור-S&OP הנוכחי, ושומר אותו ל-Dashboard של ה-Demand Review.",
+          scenarioHe:
+            "בארגון מתכנן-הביקוש בונה גרף 'Coke 1.5L — actuals מול forecast' לפי שבוע, עם פילטר אזור-מרכז ו-Version של מחזור-S&OP הנוכחי, ושומר אותו ל-Dashboard של ה-Demand Review.",
           navHe: [
             "SAP IBP Web UI ► Analytics ► New Chart",
             "SAP IBP Web UI ► Analytics ► Select Planning Area ► Add Key Figures",
@@ -234,8 +234,8 @@ export const CH13: TextbookChapter = {
             "לשמור ספריית-אנליטיקה נקייה, מאובטחת ועקבית — שכל גרף הוא 'מקור-אמת' אחד, נמצא בקלות ומתוחזק על-ידי בעלים מוגדר.",
           processExampleHe:
             "אדמין מבצע סדר רבעוני: ממזג שני גרפי-מלאי כפולים, מעדכן מוסכמת-שמות, מסיר גרפים שלא נצרכו, מגדיר Owner לכל גרף נותר, ומוודא שכל Dashboard עדיין מצביע לגרף הנכון.",
-          cbcHe:
-            "ב-CBC צוות-התכנון מתחזק ספריית-גרפים מאורגנת לפי מפגש (Demand/Supply/Operating Review); אדמין-IBP מנהל הרשאות כך שמנהל-אזור רואה רק את אזורו, ומסיר גרפי-עונה ישנים בסוף כל שנה.",
+          scenarioHe:
+            "בארגון צוות-התכנון מתחזק ספריית-גרפים מאורגנת לפי מפגש (Demand/Supply/Operating Review); אדמין-IBP מנהל הרשאות כך שמנהל-אזור רואה רק את אזורו, ומסיר גרפי-עונה ישנים בסוף כל שנה.",
           navHe: [
             "SAP IBP Web UI ► Analytics ► Manage Charts (Edit / Copy / Delete)",
             "SAP IBP Web UI ► Analytics ► Chart ► Sharing & Authorizations",
@@ -306,8 +306,8 @@ export const CH13: TextbookChapter = {
         "לרכז את כל המידע הרלוונטי למפגש או לתפקיד בתצוגה אחת ועקבית — לקצר זמן-הכנה, למקד דיון, ולוודא שכולם דנים באותה תמונה מסונכרנת.",
       processExampleHe:
         "מנהל-תפעול פותח את Dashboard ה-Operating Review: בראש — KPI-tiles של forecast accuracy, fill rate, OTIF ו-Days of Supply; מתחת — גרף-קו demand מול supply, גרף-עמודות מלאי לפי קטגוריה, וטבלת-חריגות (Alerts). בחירת-אזור ב-Global Filter מעדכנת מיד את כל הרכיבים.",
-      cbcHe:
-        "ב-CBC קיים Dashboard לכל מפגש: Demand Review (תחזית מול actuals לפי מותג), Supply Review (קיבולת-מילוי מול תוכנית), ו-Executive S&OP (KPI-tiles ראשיים + פער-תוכנית-כספית). Global Filter של אזור-הפצה מאפשר למנהל-אזור לראות את כל הלוח דרך עיניו בלחיצה אחת.",
+      scenarioHe:
+        "בארגון קיים Dashboard לכל מפגש: Demand Review (תחזית מול actuals לפי מותג), Supply Review (קיבולת-מילוי מול תוכנית), ו-Executive S&OP (KPI-tiles ראשיים + פער-תוכנית-כספית). Global Filter של אזור-הפצה מאפשר למנהל-אזור לראות את כל הלוח דרך עיניו בלחיצה אחת.",
       navHe: [
         "SAP IBP Web UI ► Dashboards ► New Dashboard (בחירת Layout)",
         "SAP IBP Web UI ► Dashboards ► Add Charts / Tables / KPI Tiles",
@@ -379,8 +379,8 @@ export const CH13: TextbookChapter = {
             "להפוך גרפים בודדים לתצוגת-ניהול שלמה — שמפגש-סקירה ייפתח מלוח-אחד מוכן, ולא מבנייה-מחדש בכל פעם.",
           processExampleHe:
             "אדמין בונה Operating Review Dashboard: Layout בן 4 אזורים → KPI-tiles (accuracy/fill rate/OTIF/DoS) למעלה → גרף demand-supply ומלאי באמצע → טבלת-Alerts למטה → Global Filter אזור+מותג → Save & Share לקבוצת-התפעול.",
-          cbcHe:
-            "ב-CBC אדמין-IBP בונה את Dashboard ה-Demand Review של מחזור-S&OP: KPI-tiles של forecast accuracy לפי מותג, גרף actuals-מול-forecast, וטבלת-חריגות, עם Global Filter של אזור-הפצה, ומשתף לצוות-הביקוש.",
+          scenarioHe:
+            "בארגון אדמין-IBP בונה את Dashboard ה-Demand Review של מחזור-S&OP: KPI-tiles של forecast accuracy לפי מותג, גרף actuals-מול-forecast, וטבלת-חריגות, עם Global Filter של אזור-הפצה, ומשתף לצוות-הביקוש.",
           navHe: [
             "SAP IBP Web UI ► Dashboards ► New Dashboard ► Select Layout",
             "SAP IBP Web UI ► Dashboards ► Add Components (Charts / Tables / KPI Tiles)",
@@ -449,8 +449,8 @@ export const CH13: TextbookChapter = {
             "לאפשר למקבל-ההחלטות לצרוך תובנה ולפעול — לסנן, לגלוש, לזהות-חריגה ולהחליט — מתוך תצוגה אחת, בלי לבנות דבר.",
           processExampleHe:
             "במפגש Supply Review מנהל פותח את הלוח, מסנן לאזור-בעייתי, רואה Alert-tile אדום של מלאי-נמוך, גולש ל-SKU הבעייתי, מחליף Version ל-What-if של הגדלת-קיבולת, ורואה את ההשפעה על כל הגרפים מיד.",
-          cbcHe:
-            "ב-CBC במפגש-ה-S&OP מנהל-תפעול פותח את Dashboard ה-Operating Review, מסנן לאזור-מרכז, מזהה Alert של OTIF נמוך לרשת-קמעונאות, גולש למותג ולקו-מילוי, ומשווה Version 'תוכנית' מול 'What-if תוספת-משמרת'.",
+          scenarioHe:
+            "בארגון במפגש-ה-S&OP מנהל-תפעול פותח את Dashboard ה-Operating Review, מסנן לאזור-מרכז, מזהה Alert של OTIF נמוך לרשת-קמעונאות, גולש למותג ולקו-מילוי, ומשווה Version 'תוכנית' מול 'What-if תוספת-משמרת'.",
           navHe: [
             "SAP IBP Web UI ► Dashboards ► Open Dashboard",
             "SAP IBP Web UI ► Dashboard ► Global Filter / Drill-down",
@@ -521,8 +521,8 @@ export const CH13: TextbookChapter = {
             "לשמור ספריית-לוחות נקייה ואמינה — שכל מפגש-סקירה ימצא את הלוח הנכון, מעודכן, מאובטח ובעל-בעלים, לאורך מחזורי-S&OP רבים.",
           processExampleHe:
             "אדמין מבצע תחזוקה רבעונית: מעדכן לוחות שגרף-מקור שלהם השתנה, ממזג לוחות-כפולים, מיישר מוסכמת-שמות, מגדיר Owner לכל לוח, מסיר לוחות-עונה ישנים, ובודק לוחות מול יכולות חדשות שהגיעו ב-release האחרון.",
-          cbcHe:
-            "ב-CBC צוות-התכנון מתחזק ספריית-לוחות לפי מפגש (Demand/Supply/Operating/Executive); אדמין-IBP מנהל הרשאות לפי תפקיד, מעדכן לוחות אחרי שדרוג-ענן, ומסיר לוחות-עונה ישנים בסוף שנה.",
+          scenarioHe:
+            "בארגון צוות-התכנון מתחזק ספריית-לוחות לפי מפגש (Demand/Supply/Operating/Executive); אדמין-IBP מנהל הרשאות לפי תפקיד, מעדכן לוחות אחרי שדרוג-ענן, ומסיר לוחות-עונה ישנים בסוף שנה.",
           navHe: [
             "SAP IBP Web UI ► Dashboards ► Manage Dashboards (Edit / Copy / Delete)",
             "SAP IBP Web UI ► Dashboard ► Sharing & Authorizations",
@@ -594,8 +594,8 @@ export const CH13: TextbookChapter = {
         "לקבע את העיקרון שאנליטיקה ולוחות-מחוונים אינם קישוט אלא מנוע-ההחלטות של ה-S&OP — הממשק שבו נתוני-התכנון הופכים לפעולה-ניהולית מבוססת-עובדות.",
       processExampleHe:
         "מחזור-S&OP מלא נצרך דרך לוחות: Demand Review נפתח מלוח-דיוק-תחזית, Supply Review מלוח-קיבולת-ומלאי, ו-Executive S&OP מלוח-KPI-ראשי ופער-תוכנית — כל אחד בנוי על גרפי-Advanced-Analytics נקיים ומסונן ב-Global Filter.",
-      cbcHe:
-        "ב-CBC כל מחזור-S&OP מתנהל סביב ארבעה לוחות (Demand/Supply/Operating/Executive), הבנויים על גרפים של תחזית-מול-actuals, מלאי, fill rate ו-OTIF, מסוננים לפי מותג, אריזה ואזור — כך שכל מפגש נפתח מתמונה-אחת מסונכרנת.",
+      scenarioHe:
+        "בארגון כל מחזור-S&OP מתנהל סביב ארבעה לוחות (Demand/Supply/Operating/Executive), הבנויים על גרפים של תחזית-מול-actuals, מלאי, fill rate ו-OTIF, מסוננים לפי מותג, אריזה ואזור — כך שכל מפגש נפתח מתמונה-אחת מסונכרנת.",
       navHe: [
         "SAP IBP Web UI ► Analytics (Advanced) — גרפים",
         "SAP IBP Web UI ► Dashboards (Advanced) — לוחות",

@@ -38,7 +38,7 @@ const DICT: Dict = {
   "search.close": { he: "סגור", en: "Close" },
   "tcode.viewTables": { he: "הצג טבלאות משויכות", en: "View Associated Tables" },
   "tcode.usedBy": { he: "טבלאות עיקריות", en: "Primary tables" },
-  "hero.badge": { he: "CBC Israel · Project NEO", en: "CBC Israel · Project NEO" },
+  "hero.badge": { he: "SAP by Sali · Project NEO", en: "SAP by Sali · Project NEO" },
   "hero.tagline": {
     he: "מקור אמת יחיד למיגרציית SAP ECC ➔ S/4HANA — ניהול סטטוס מיגרציה ומילון נתונים טכני, במקום אחד, 100% Offline.",
     en: "Single source of truth for the SAP ECC ➔ S/4HANA migration — status tracking and a technical data dictionary, in one place, 100% offline.",

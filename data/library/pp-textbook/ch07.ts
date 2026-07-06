@@ -9,13 +9,13 @@ export const CH7: TextbookChapter = {
   titleHe: "תכנון ייצור — ייצור תהליכי",
   titleEn: "Production Planning for Process Manufacturing",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לייצור התהליכי (Process Manufacturing, PP-PI) ב-SAP S/4HANA. בניגוד לייצור-בדיד שמרכיב חלקים, הייצור התהליכי מערבב, מבשל וממלא נוזלים ואבקות לפי מתכון (Recipe), עם אצוות (Batches), משאבים (Resources) במקום מרכזי-עבודה, ומנגנון שלם של ניהול-תהליך: מתכון-אב (Master Recipe), פקודת-תהליך (Process Order, COR1/COR2), מתכון-בקרה (Control Recipe), גליון-הוראות-תהליך (PI Sheet), הודעות-תהליך (Process Messages) ורשומת-אצווה (Batch Record). כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, השפעת נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לייצור התהליכי (Process Manufacturing, PP-PI) ב-SAP S/4HANA. בניגוד לייצור-בדיד שמרכיב חלקים, הייצור התהליכי מערבב, מבשל וממלא נוזלים ואבקות לפי מתכון (Recipe), עם אצוות (Batches), משאבים (Resources) במקום מרכזי-עבודה, ומנגנון שלם של ניהול-תהליך: מתכון-אב (Master Recipe), פקודת-תהליך (Process Order, COR1/COR2), מתכון-בקרה (Control Recipe), גליון-הוראות-תהליך (PI Sheet), הודעות-תהליך (Process Messages) ורשומת-אצווה (Batch Record). כל תת-פרק וכל תת-סעיף מהספר המקורי הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, השפעת נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 7.1
     {
       id: "7.1", titleHe: "סקירת ייצור תהליכי", titleEn: "Process Manufacturing Overview",
       execHe:
-        "ייצור תהליכי (PP-PI) הוא ענף-הייצור של תעשיות-הרצף: מזון ומשקאות, תרופות, כימיה ונפט. במקום להרכיב חלקים בדידים, הוא מערבב ומעבד חומרים לפי מתכון, מנהל אצוות (Batches) לאורך כל השרשרת, ומשלב מערכת ניהול-תהליך מלאה. זהו הענף שבו פועלת CBC.",
+        "ייצור תהליכי (PP-PI) הוא ענף-הייצור של תעשיות-הרצף: מזון ומשקאות, תרופות, כימיה ונפט. במקום להרכיב חלקים בדידים, הוא מערבב ומעבד חומרים לפי מתכון, מנהל אצוות (Batches) לאורך כל השרשרת, ומשלב מערכת ניהול-תהליך מלאה. זהו הענף שבו פועלת הארגון.",
       beginnerHe:
         "דמיין מטבח-תעשייתי ענק: מזג מצרכים, ערבב, חמם, מלא לבקבוקים. אין כאן 'הברגת ברגים' אלא 'בישול לפי מתכון'. SAP מכנה את המתכון Master Recipe, את פקודת-הביצוע Process Order, ואת ההוראות-לרצפה Control Recipe / PI Sheet. כל מנה מקבלת מספר-אצווה לעקיבות.",
       consultantHe:
@@ -24,8 +24,8 @@ export const CH7: TextbookChapter = {
         "לתת לתעשיות-הרצף כלי-תכנון-וביצוע מותאם: מתכונים, אצוות, ניהול-תהליך, רשומות-אצווה לרגולציה (FDA/GMP), וחישוב-כמות-חומר דינמי (Material Quantity Calculation) שאין בייצור-בדיד.",
       processExampleHe:
         "MRP מזהה דרישה למשקה; נוצרת הזמנה-מתוכננת; המרה ל-Process Order (COR1) הבוחרת Production Version (מתכון-אב + BOM); שחרור מייצר Control Recipe; הרצפה ממלאת PI Sheet ושולחת Process Messages; דיווח-כמות, GR אוטומטי ל-Batch, וסגירה/Settlement.",
-      cbcHe:
-        "ב-CBC כל ייצור-המשקאות הוא PP-PI: ערבול תרכיז+סוכר+מים מטופלים, פיחמום (Carbonation) ב-CO2, מילוי לבקבוקים — הכל לפי Master Recipe, עם אצווה לכל מנת-סירופ ולכל מנת-משקה לצורך עקיבות-מזון.",
+      scenarioHe:
+        "בארגון כל ייצור-המשקאות הוא PP-PI: ערבול תרכיז+סוכר+מים מטופלים, פיחמום (Carbonation) ב-CO2, מילוי לבקבוקים — הכל לפי Master Recipe, עם אצווה לכל מנת-סירופ ולכל מנת-משקה לצורך עקיבות-מזון.",
       navHe: [
         "Production Planning for Process Industries ► Process Order ► Order Category (Category 40)",
         "Production Planning for Process Industries ► Master Recipes ► General Data",
@@ -74,7 +74,7 @@ export const CH7: TextbookChapter = {
         "PP-PI = ייצור-רצף לפי מתכון, עם אצוות וניהול-תהליך.",
         "Order Category 40; Resource + Master Recipe + Production Version.",
         "זרימה: Process Order → Control Recipe → PI Sheet → Process Messages → GR/Settlement.",
-        "CBC כולה PP-PI — ערבול, פיחמום, מילוי.",
+        "הארגון כולה PP-PI — ערבול, פיחמום, מילוי.",
       ],
       relatedHe: [
         { labelHe: "PP · ייצור בדיד (פרק 3)", href: "/library/pp/chapter-03/" },
@@ -95,8 +95,8 @@ export const CH7: TextbookChapter = {
         "לספק ל-MRP, לפקודת-התהליך, לתמחיר ולניהול-התהליך את כל הפרמטרים לתכנן, לבחור ולבצע ייצור-תהליכי מדויק ועקיב.",
       processExampleHe:
         "MRP יוצר הזמנה-מתוכננת; ההמרה ל-Process Order קוראת את Production Version, שמצביעה על Master Recipe (פעולות+שלבים על Resources) ועל BOM (רכיבים), ומחשבת תזמון, קיבולת ועלות.",
-      cbcHe:
-        "ב-CBC: FERT=משקה מוגמר, HALB=סירופ-בסיס, ROH=תרכיז/סוכר/CO2 (כולם Batch-managed); Resource=קו-מילוי/מערבל; Master Recipe=הוראות-הערבול-והמילוי; Production Version לכל צירוף מוצר↔קו.",
+      scenarioHe:
+        "בארגון: FERT=משקה מוגמר, HALB=סירופ-בסיס, ROH=תרכיז/סוכר/CO2 (כולם Batch-managed); Resource=קו-מילוי/מערבל; Master Recipe=הוראות-הערבול-והמילוי; Production Version לכל צירוף מוצר↔קו.",
       navHe: [
         "Production Planning for Process Industries ► Master Data",
         "Logistics – General ► Material Master (PP-PI + Classification views)",
@@ -160,7 +160,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "השדה MARA-XCHPF מסמן Batch management; תצוגת Classification מקצה Class מסוג 023 (Batch). ב-S/4HANA Batch managed-by-material/plant נקבע ברמת-ה-Client/Plant. תצוגות MRP + Work Scheduling חיוניות כמו ב-PP-בדיד.",
           purposeHe: "להגדיר חומר שניתן לנהלו באצוות, לתכננו ב-MRP, ולשייך לו מאפייני-איכות לקביעת-אצווה ולעקיבות.",
           processExampleHe: "פתיחת FERT-משקה עם XCHPF פעיל; כל GR יוצר אצווה אוטומטית; ה-Class מאפשר חיפוש-אצווה לפי תוקף/חוזק.",
-          cbcHe: "ב-CBC כל משקה ותרכיז = Batch-managed עם Class הנושא מאפייני 'תאריך-תפוגה' ו-'Brix' (ריכוז-סוכר) לקביעת-אצווה ולעקיבות.",
+          scenarioHe: "בארגון כל משקה ותרכיז = Batch-managed עם Class הנושא מאפייני 'תאריך-תפוגה' ו-'Brix' (ריכוז-סוכר) לקביעת-אצווה ולעקיבות.",
           navHe: ["Logistics – General ► Material Master ► Create (MM01) ► Views: MRP, Work Scheduling, Classification"],
           tables: ["MARA", "MARC", "MCH1", "MCHA"],
           tcodes: ["MM01", "MM02", "MSC1N", "CL20N"],
@@ -179,7 +179,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "אותו מבנה STKO/STPO/MAST. ב-PP-PI ה-BOM מקושר ל-Master Recipe דרך Production Version, ומשמש בסיס ל-Material Quantity Calculation (7.4) שמעדכן כמויות-רכיב לפי נוסחאות-תהליך. פחת-רכיב על חומרי-אריזה נפוץ.",
           purposeHe: "להגדיר את הרכבת-המוצר ולשמש קלט לחישוב-כמות-החומר הדינמי של המתכון.",
           processExampleHe: "BOM של משקה: תרכיז+סוכר+מים+CO2+בקבוק+פקק+תווית; ה-Master Recipe גוזר כמויות לפי תפוקת-המנה דרך Material Quantity Calculation.",
-          cbcHe: "ב-CBC ה-BOM מגדיר מצרכי-המשקה; ה-Material Quantity Calculation מתאים כמות-סוכר ל-Brix היעד של כל מנה.",
+          scenarioHe: "בארגון ה-BOM מגדיר מצרכי-המשקה; ה-Material Quantity Calculation מתאים כמות-סוכר ל-Brix היעד של כל מנה.",
           navHe: ["Production ► Basic Data ► Bill of Material ► Create (CS01)"],
           tables: ["STKO", "STPO", "MAST"],
           tcodes: ["CS01", "CS02", "CS03"],
@@ -198,7 +198,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "נשמר ב-CRHD/CRCO/CRCA/KAKO כמו Work Center, אך עם Resource category (CRC1) ואינדיקטור-Resource. נושא Standard Value Key, Formulas (תזמון/קיבולת/עלות) ושיוך Cost Center + Activity Types. תומך ב-capacity scheduling לתהליכי-רצף.",
           purposeHe: "לתרגם ערכי-תקן של פעולות/שלבים למשך-תהליך, לעומס-קיבולת ולעלות-תהליך, בהתאמה לאופי-הרצף.",
           processExampleHe: "פעולת-ערבול במתכון מצביעה על Resource 'מערבל-01'; הנוסחאות מתרגמות זמן-ערבול למשך, לעומס ולעלות דרך תעריף-Activity (KP26).",
-          cbcHe: "ב-CBC: מערבלי-הסירופ, טנקי-הפיחמום וקווי-המילוי = Resources עם Activity Types למכונה/אדם; תחנות-QA = Resource ללא קיבולת.",
+          scenarioHe: "בארגון: מערבלי-הסירופ, טנקי-הפיחמום וקווי-המילוי = Resources עם Activity Types למכונה/אדם; תחנות-QA = Resource ללא קיבולת.",
           navHe: ["Production Planning for Process Industries ► Master Data ► Resource ► Create (CRC1)"],
           tables: ["CRHD", "CRCO", "CRCA", "KAKO"],
           tcodes: ["CRC1", "CRC2", "CRC3", "KP26"],
@@ -218,7 +218,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "נוצרת ב-C223 או MKAL, פר-חומר/מפעל, עם Validity ו-Lot-size range. ב-S/4HANA הבחירה דטרמיניסטית דרך Production Version בלבד (אין Selection ID חופשי). בדיקת-עקביות (Check) מוודאת שה-Recipe וה-BOM קיימים ותקפים.",
           purposeHe: "להבטיח בחירת-מתכון-ומבנה חד-משמעית להמרה/ליצירה של פקודת-תהליך, ולתמחיר.",
           processExampleHe: "מוצר עם שני קווי-מילוי = שתי Production Versions; ההמרה בוחרת לפי טווח-כמות איזה Recipe+BOM להפעיל.",
-          cbcHe: "ב-CBC כל צירוף משקה↔קו-מילוי = Production Version נפרדת; קו מהיר וקו איטי נבדלים ב-Recipe ובטווח-הכמות.",
+          scenarioHe: "בארגון כל צירוף משקה↔קו-מילוי = Production Version נפרדת; קו מהיר וקו איטי נבדלים ב-Recipe ובטווח-הכמות.",
           navHe: ["Production Planning for Process Industries ► Master Recipes ► Production Version (C223)"],
           tables: ["MKAL", "MAPL", "MAST"],
           tcodes: ["C223", "MKAL", "MM02"],
@@ -240,7 +240,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Task List Type 2. מבנה: PLKO (כותרת), PLPO (Operations + Phases), PLAS (בחירה), PLMZ (הקצאת-רכיב). תזמון ועלות יושבים ברמת-ה-Phase, וה-Operation היא קבוצת-Phases על אותו Resource. נושא Process Instructions (PI) ו-Material Quantity Calculation. Recipe Group (PLNNR) מקבץ חלופות.",
           purposeHe: "להגדיר את תהליך-הייצור התהליכי לפרטיו — שלבים, משאבים, זמנים, הוראות-תהליך וחישובי-כמות — כבסיס לפקודת-התהליך ולמתכון-הבקרה.",
           processExampleHe: "C201: Operation 0010 'הכנה' עם Phase 0011 'שטיפה' ו-0012 'איזון'; 0020 'ערבול'; 0030 'מילוי'. כל Phase על Resource עם זמן-תקן; PI מזריקים הוראות ל-PI Sheet.",
-          cbcHe: "ב-CBC Master Recipe של משקה: שטיפת-טנק ➔ ערבול-תרכיז ➔ פיחמום-CO2 ➔ מילוי ➔ בקרת-איכות; כל שלב נושא Process Instructions שמופיעים בגליון-ההוראות לרצפה.",
+          scenarioHe: "בארגון Master Recipe של משקה: שטיפת-טנק ➔ ערבול-תרכיז ➔ פיחמום-CO2 ➔ מילוי ➔ בקרת-איכות; כל שלב נושא Process Instructions שמופיעים בגליון-ההוראות לרצפה.",
           navHe: ["Production Planning for Process Industries ► Master Recipes ► Create Master Recipe (C201)"],
           tables: ["PLKO", "PLPO", "PLAS", "PLMZ", "PLPH"],
           tcodes: ["C201", "C202", "C203", "C223"],
@@ -271,8 +271,8 @@ export const CH7: TextbookChapter = {
         "לקבוע את התנאים הכלליים — מפעל, ייעוד, סטטוס, טווח-כמות — שבהם המתכון נבחר ומשמש בייצור ובתמחיר.",
       processExampleHe:
         "מתכון בסטטוס 4 (Released) לטווח 1–10,000 ל'; פק\"ע ל-5,000 ל' בוחרת אותו, פק\"ע ל-20,000 ל' תזדקק לחלופה אחרת באותו Recipe Group.",
-      cbcHe:
-        "ב-CBC כותרת-המתכון מסמנת Plant של מפעל-המילוי, Usage 'ייצור', Status 'משוחרר' אחרי אישור-QA, וטווח-כמות התואם לקיבולת-המנה של הטנק.",
+      scenarioHe:
+        "בארגון כותרת-המתכון מסמנת Plant של מפעל-המילוי, Usage 'ייצור', Status 'משוחרר' אחרי אישור-QA, וטווח-כמות התואם לקיבולת-המנה של הטנק.",
       navHe: ["Production Planning for Process Industries ► Master Recipes ► Create/Change ► Header (C201/C202)"],
       tables: ["PLKO", "MAPL"],
       tcodes: ["C201", "C202", "C203"],
@@ -333,8 +333,8 @@ export const CH7: TextbookChapter = {
         "לחשב כמויות-רכיב מדויקות לפי תפוקה ומאפיינים, ולאזן מתכון בזמן-אמת — חיסכון, עמידה-במפרט ודיוק-עלות.",
       processExampleHe:
         "פק\"ע ל-10,000 ל' משקה; MQC מחשב סוכר = 10,000 × 0.11 ק\"ג/ל' = 1,100 ק\"ג, ומתאים מים להשלמת-נפח; אם התרכיז חזק יותר (לפי אצווה) — הכמות מתעדכנת.",
-      cbcHe:
-        "ב-CBC MQC מחשב כמות-סוכר ומים לפי Brix-היעד של כל משקה ולפי גודל-המנה; אם אצוות-התרכיז נבדלות בריכוז, MQC מאזן את הנוסחה כך שה-Brix-הסופי יישאר במפרט.",
+      scenarioHe:
+        "בארגון MQC מחשב כמות-סוכר ומים לפי Brix-היעד של כל משקה ולפי גודל-המנה; אם אצוות-התרכיז נבדלות בריכוז, MQC מאזן את הנוסחה כך שה-Brix-הסופי יישאר במפרט.",
       navHe: ["Production Planning for Process Industries ► Master Recipes ► Material Quantity Calculation (C201 ► MQC)"],
       tables: ["PLMK", "PLPO", "STPO", "RESB"],
       tcodes: ["C201", "C202", "COR1"],
@@ -387,7 +387,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Process Instructions (PI) מוגדרים ב-Phases של המתכון; ה-Control Recipe נוצר בשחרור ומקובץ ל-Control Recipe Destination; ה-PI Sheet הוא ייצוג ה-Control Recipe לבן-אדם; Process Messages מחזירים נתונים (כמות/Activity/GR) ל-SAP דרך Message Categories ו-Destinations.",
           purposeHe: "לחבר את התכנון (מתכון) לביצוע (רצפה) ובחזרה (דיווח), עם תיעוד מלא לרגולציה.",
           processExampleHe: "PI במתכון 'מלא 1000 ל'' ➔ Control Recipe בשחרור ➔ PI Sheet למפעיל ➔ מילוי-בפועל ➔ Process Message שמדווח כמות ל-SAP.",
-          cbcHe: "ב-CBC ארבעת האלמנטים מנהלים את מילוי-המשקה: הוראות-מילוי ➔ Control Recipe לקו ➔ PI Sheet למפעיל ➔ Messages שמדווחים כמות-מילוי ו-GR.",
+          scenarioHe: "בארגון ארבעת האלמנטים מנהלים את מילוי-המשקה: הוראות-מילוי ➔ Control Recipe לקו ➔ PI Sheet למפעיל ➔ Messages שמדווחים כמות-מילוי ו-GR.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Overview"],
           tables: ["AFFL", "AFRU", "TCAUFART"],
           tcodes: ["CO53", "CO60", "CO54"],
@@ -406,7 +406,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "ה-Production Scheduling Profile (פרק 4) קושר Control Recipe Destination, Scope of Generation (אוטומטי/ידני בשחרור) ו-message handling. ללא שיוכו באב-החומר (MARC-SFCPF), השחרור לא מייצר Control Recipe ו-Process Management 'שקט'.",
           purposeHe: "לאוטמט את הקמת ניהול-התהליך לכל פק\"ע — Control Recipe, PI Sheet ו-Messages — בלי הזנה ידנית.",
           processExampleHe: "אב-חומר עם Profile שמסמן 'Control Recipe אוטומטי בשחרור'; שחרור פק\"ע מייצר מיד Control Recipe ל-Destination המוגדר.",
-          cbcHe: "ב-CBC כל משקה נושא Production Scheduling Profile המייצר Control Recipe אוטומטי בשחרור לקו-המילוי הרלוונטי.",
+          scenarioHe: "בארגון כל משקה נושא Production Scheduling Profile המייצר Control Recipe אוטומטי בשחרור לקו-המילוי הרלוונטי.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Production Scheduling Profile"],
           tables: ["MARC", "T399X"],
           tcodes: ["OPKP", "MM02"],
@@ -426,7 +426,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "PI נושאים PI Category ו-Characteristics; הם משויכים ל-Phase. בעת שחרור הם נארזים ל-Control Recipe; ב-PI Sheet הם הופכים לשדות/הוראות; Process Message Characteristics קושרים נתוני-קלט להודעות-חזרה. ב-S/4HANA נפוץ מעבר ל-XSteps (7.7) כמנגנון מתקדם יותר.",
           purposeHe: "להגדיר במדויק אילו הוראות, קלטים, חישובים ודיווחים מועברים לרצפה וחזרה, ברמת-ה-Phase.",
           processExampleHe: "PI ב-Phase 'מילוי': הוראה 'מלא ל-Target', שדה-קלט 'כמות-בפועל', וטריגר Process Message שמדווח את הכמות ל-SAP.",
-          cbcHe: "ב-CBC PI במילוי כוללים הוראת-מילוי, קלט כמות-בפועל ו-Brix-נמדד, וטריגר-הודעה שמזרים אותם לרשומת-האצווה.",
+          scenarioHe: "בארגון PI במילוי כוללים הוראת-מילוי, קלט כמות-בפועל ו-Brix-נמדד, וטריגר-הודעה שמזרים אותם לרשומת-האצווה.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Process Instructions (C201 ► Phase ► PI)"],
           tables: ["PLMK", "PLPO", "PLPH"],
           tcodes: ["C201", "C202", "O10C"],
@@ -445,7 +445,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "ה-PI Sheet (CO60) נוצר מה-Control Recipe; הוא PI-sheet קלאסי או XStep-based. עם השלמתו (Complete) ה-Process Messages נשלחים (CO54) ומעדכנים דיווח/GR/Activity. ניתן לנהל אישורים, חתימות-אלקטרוניות (GMP) ובקרת-ערכים בתחום-המפרט.",
           purposeHe: "לתת לרצפה ממשק מודרך לביצוע-המתכון, לתעד ערכי-בפועל, ולהזרים אותם חזרה ל-SAP בצורה מבוקרת ועקיבה.",
           processExampleHe: "מפעיל פותח PI Sheet ב-CO60, מבצע שלבי-המילוי, מזין כמות וטמפ', מאשר, ומשלים; Process Messages מעדכנים את הדיווח וה-GR.",
-          cbcHe: "ב-CBC מפעיל-הקו ממלא PI Sheet עם כמות-מילוי, Brix ומספר-אצווה; ההשלמה מזרימה Messages לדיווח-כמות ול-GR אוטומטי של המשקה.",
+          scenarioHe: "בארגון מפעיל-הקו ממלא PI Sheet עם כמות-מילוי, Brix ומספר-אצווה; ההשלמה מזרימה Messages לדיווח-כמות ול-GR אוטומטי של המשקה.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Maintain Process Instruction Sheet (CO60)"],
           tables: ["AFRU", "AFFL"],
           tcodes: ["CO53", "CO55", "CO60"],
@@ -476,8 +476,8 @@ export const CH7: TextbookChapter = {
         "לאפשר ניהול מרוכז של מבנה-התהליך — רצף, משאבים, זמנים, קשרים והקצאות — ולוודא קוהרנטיות לפני שחרור.",
       processExampleHe:
         "סקירה מציגה 0010 הכנה, 0020 ערבול, 0030 מילוי; קשר 'סיום-להתחלה' בין הערבול למילוי מבטיח שהמילוי לא מתחיל לפני סיום-הערבול.",
-      cbcHe:
-        "ב-CBC הסקירה מציגה שטיפה→ערבול→פיחמום→מילוי→QA→אריזה, עם קשרי-קדימה שמונעים מילוי לפני שהמשקה מוכן.",
+      scenarioHe:
+        "בארגון הסקירה מציגה שטיפה→ערבול→פיחמום→מילוי→QA→אריזה, עם קשרי-קדימה שמונעים מילוי לפני שהמשקה מוכן.",
       navHe: ["Production Planning for Process Industries ► Master Recipes ► Operations Overview (C201/C202 ► Operations)"],
       tables: ["PLPO", "PLPH", "PLAB", "PLMZ"],
       tcodes: ["C201", "C202", "C203"],
@@ -538,8 +538,8 @@ export const CH7: TextbookChapter = {
         "לבצע את הייצור התהליכי מקצה-לקצה: לתזמן ולתמחר נכון, לשחרר, לתעד ביצוע, לדווח כמויות, לקבל מוצר-מוגמר עם אצווה, ולסגור עלויות.",
       processExampleHe:
         "פק\"ע ל-10,000 ל': COR1 יוצרת ומשחררת; Control Recipe נשלח לקו; מפעיל ממלא PI Sheet; Messages מדווחים כמות; GR אוטומטי יוצר אצווה; Settlement מעביר סטיות ל-CO.",
-      cbcHe:
-        "ב-CBC המסע: COR1 לפק\"ע-משקה ➔ Control Recipe לקו-המילוי ➔ PI Sheet למפעיל ➔ Messages לדיווח-כמות ול-Brix ➔ GR אוטומטי ל-Batch-משקה ➔ Settlement חודשי של סטיות-עלות.",
+      scenarioHe:
+        "בארגון המסע: COR1 לפק\"ע-משקה ➔ Control Recipe לקו-המילוי ➔ PI Sheet למפעיל ➔ Messages לדיווח-כמות ול-Brix ➔ GR אוטומטי ל-Batch-משקה ➔ Settlement חודשי של סטיות-עלות.",
       navHe: [
         "Production Planning for Process Industries ► Process Order ► Create/Release (COR1)",
         "Production Planning for Process Industries ► Process Management ► Control Recipes / PI Sheets",
@@ -602,7 +602,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "COR1 (create), COR7 (convert planned order), COR8 (collective convert). היצירה כותבת AFKO/AFPO/RESB, מבצעת Scheduling ו-Costing. השחרור (REL) משנה Status, מבצע בדיקת-זמינות, ומייצר Control Recipe לפי Scope of Generation. שחרור-אוטומטי נקבע ב-Production Scheduling Profile.",
           purposeHe: "להפוך דרישה/הזמנה-מתוכננת לפקודת-ביצוע תקפה, מתוזמנת ומתומחרת, ולהתיר את הביצוע ברצפה.",
           processExampleHe: "המרת הזמנה-מתוכננת ב-COR7 ל-Process Order; בדיקת-זמינות-רכיב; שחרור מייצר Control Recipe ושולח לקו.",
-          cbcHe: "ב-CBC המתכנן ממיר הזמנות-מתוכננות-משקה ב-COR8 בצובר; השחרור מייצר Control Recipes לכל קווי-המילוי.",
+          scenarioHe: "בארגון המתכנן ממיר הזמנות-מתוכננות-משקה ב-COR8 בצובר; השחרור מייצר Control Recipes לכל קווי-המילוי.",
           navHe: ["Production Planning for Process Industries ► Process Order ► Create (COR1) / Convert (COR7/COR8)"],
           tables: ["AFKO", "AFPO", "RESB"],
           tcodes: ["COR1", "COR7", "COR8", "COR2"],
@@ -621,7 +621,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "נוצר אוטומטית (בשחרור) או ידנית (CO53). מקובץ לפי Control Recipe Destination (יעד: PI Sheet ידני, מחשב-תהליך/PI-PO, או הדפסה). Status: Created→Sent. Scope of Generation קובע מתי ואילו Destinations מיוצרים.",
           purposeHe: "לארוז את הוראות-התהליך של פק\"ע ספציפית לחבילה מוכנה-לשליחה לרצפה או למערכת-בקרה.",
           processExampleHe: "שחרור פק\"ע ➔ Control Recipe ב-Status 'Created' ל-Destination 'PI Sheet'; ממתין לשליחה ב-CO53.",
-          cbcHe: "ב-CBC שחרור פק\"ע-משקה מייצר Control Recipe ל-Destination של קו-המילוי, מוכן להפיכה ל-PI Sheet.",
+          scenarioHe: "בארגון שחרור פק\"ע-משקה מייצר Control Recipe ל-Destination של קו-המילוי, מוכן להפיכה ל-PI Sheet.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Control Recipe (CO53)"],
           tables: ["AFKO", "TCAUFART"],
           tcodes: ["CO53", "COR2"],
@@ -641,7 +641,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "CO53 מנהל Control Recipes לפי Status; השליחה תלויה ב-Destination type: יעד PI Sheet יוצר גליון (CO60), יעד מחשב-תהליך שולח דרך PI-PO/IDoc, יעד הדפסה מפיק טופס. שליחה כושלת מותירה Status Created — בדוק Destination ו-RFC/IDoc.",
           purposeHe: "להעביר בפועל את הוראות-התהליך ליעד-הביצוע ולהתחיל את שלב-הרצפה.",
           processExampleHe: "ב-CO53 בוחרים Control Recipe ב-Status Created ולוחצים Send; נוצר PI Sheet ב-CO60 והמפעיל יכול להתחיל.",
-          cbcHe: "ב-CBC שליחת ה-Control Recipe יוצרת PI Sheet בעמדת-קו-המילוי; ביעדי-אוטומציה הוא יורד ישירות למחשב-הבקרה של הקו.",
+          scenarioHe: "בארגון שליחת ה-Control Recipe יוצרת PI Sheet בעמדת-קו-המילוי; ביעדי-אוטומציה הוא יורד ישירות למחשב-הבקרה של הקו.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Send Control Recipe (CO53)"],
           tables: ["AFKO", "EDIDC"],
           tcodes: ["CO53", "CO60"],
@@ -660,7 +660,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "CO60 פותח PI Sheets פעילים לפי בחירה; כל קלט נשמר ויכול להפעיל בקרת-ערכים מול מפרט. ניתן לחתום-אלקטרונית (GMP), לדחות-שלב, או לתעד-חריגה. הנתונים אינם נשלחים ל-SAP עד ההשלמה (7.6.5).",
           purposeHe: "לבצע ולתעד את שלבי-התהליך ברצפה בזמן-אמת, עם בקרת-ערכים ועקיבות מלאה.",
           processExampleHe: "מפעיל פותח PI Sheet, מזין טמפ'-בישול 78° (מפרט 75–80, עובר), מאשר שלב-ערבול, ומזין מספר-אצווה לרכיב.",
-          cbcHe: "ב-CBC מפעיל-הקו מזין ב-PI Sheet כמות-מילוי, Brix-נמדד ומספר-אצווה לכל רכיב — בקרת-הערכים חוסמת חריגה ממפרט-המשקה.",
+          scenarioHe: "בארגון מפעיל-הקו מזין ב-PI Sheet כמות-מילוי, Brix-נמדד ומספר-אצווה לכל רכיב — בקרת-הערכים חוסמת חריגה ממפרט-המשקה.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Maintain PI Sheet (CO60)"],
           tables: ["AFRU", "AFFL"],
           tcodes: ["CO60", "CO55"],
@@ -680,7 +680,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "CO55 (Complete) משנה Status PI Sheet ומייצר את ה-Process Messages הממתינות ל-CO54. ניתן Partial complete לדיווח-ביניים. השלמה לאחר חתימה-אלקטרונית מבטיחה תיעוד-GMP. אי-השלמה משאירה Messages לא-מיוצרות ➔ אין דיווח/GR.",
           purposeHe: "לסגור את שלב-הרצפה, להקפיא את הערכים שהוזנו, ולהכין את הזרמתם ל-SAP.",
           processExampleHe: "מפעיל מסיים, לוחץ Complete ב-CO55; ה-PI Sheet ננעל ו-Process Messages נוצרות וממתינות לשליחה.",
-          cbcHe: "ב-CBC בסוף-מנה המפעיל משלים את ה-PI Sheet; כמות-המילוי, ה-Brix וה-GR מוכנים להזרמה ל-SAP ולרשומת-האצווה.",
+          scenarioHe: "בארגון בסוף-מנה המפעיל משלים את ה-PI Sheet; כמות-המילוי, ה-Brix וה-GR מוכנים להזרמה ל-SAP ולרשומת-האצווה.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Complete PI Sheet (CO55)"],
           tables: ["AFRU", "AFFL"],
           tcodes: ["CO55", "CO60", "CO54"],
@@ -699,7 +699,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "CO54 שולח Messages לפי Message Category (כל קטגוריה ויעדה: דיווח-CORK, GR-MB31, Activity, batch classification, עדכון-LIMS). Destination יכול להיות פנימי (עדכון-פק\"ע) או חיצוני (IDoc ל-LIMS/MES). Messages עם שגיאה עוברות ל-reprocessing (CO54XT). זהו מנגנון א-סינכרוני הניתן לניטור.",
           purposeHe: "להזרים את תוצאות-הביצוע ליעדיהן — דיווח, GR, עלות-Activity, סיווג-אצווה — ולסגור את מעגל-הנתונים.",
           processExampleHe: "CO54 שולח Message 'כמות-דיווח 9,950 ל'' לעדכון CORK, Message 'GR' ליצירת-אצווה ב-MB31, ו-Message 'Brix' לסיווג-האצווה.",
-          cbcHe: "ב-CBC ההודעות מזרימות כמות-מילוי לדיווח, יוצרות GR אוטומטי של אצוות-המשקה, ומעדכנות את מאפייני-האצווה (Brix/תוקף) לעקיבות וללקוחות.",
+          scenarioHe: "בארגון ההודעות מזרימות כמות-מילוי לדיווח, יוצרות GR אוטומטי של אצוות-המשקה, ומעדכנות את מאפייני-האצווה (Brix/תוקף) לעקיבות וללקוחות.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Send Process Messages (CO54)"],
           tables: ["AFRU", "MSEG", "MCHA", "EDIDC"],
           tcodes: ["CO54", "CO54XT", "CORK"],
@@ -730,8 +730,8 @@ export const CH7: TextbookChapter = {
         "לבנות את תשתית-המאפיינים והוראות-התהליך באופן סטנדרטי, מודולרי ובר-שימוש-חוזר, ולהפחית תחזוקה כפולה.",
       processExampleHe:
         "מגדירים Characteristic 'Brix' ב-CT04; יוצרים XStep 'בדיקת-Brix' בספרייה; משתמשים בו בכל מתכון-משקה במקום לכתוב PI מחדש.",
-      cbcHe:
-        "ב-CBC ספריית-XSteps כוללת לבני-תהליך חוזרות — 'שטיפת-טנק', 'בדיקת-Brix', 'דיווח-מילוי' — המשמשות בכל מתכוני-המשקאות, עם Characteristics אחידים מ-CT04.",
+      scenarioHe:
+        "בארגון ספריית-XSteps כוללת לבני-תהליך חוזרות — 'שטיפת-טנק', 'בדיקת-Brix', 'דיווח-מילוי' — המשמשות בכל מתכוני-המשקאות, עם Characteristics אחידים מ-CT04.",
       navHe: [
         "Cross-Application Components ► Classification System ► Characteristics (CT04)",
         "Production Planning for Process Industries ► Process Management ► XSteps ► Standard XStep Repository",
@@ -788,7 +788,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "ה-Repository מאוחסן ברמת-Client; כל XStep נושא פרמטרים, Valuation ו-PI generation. ניתן לנהל גרסאות, להעתיק ולשייך XSteps למתכונים. זהו הבסיס לסטנדרטיזציה ארגונית של הוראות-תהליך.",
           purposeHe: "לרכז הוראות-תהליך מאושרות במקום-אחד לשימוש-חוזר, תקנון ובקרת-גרסאות.",
           processExampleHe: "צוות-תהליך בונה XStep 'CIP-Cleaning' במאגר; כל מתכון-משקה משייך אותו במקום להגדיר ניקוי מחדש.",
-          cbcHe: "ב-CBC המאגר מכיל לבני-תהליך-תקן (שטיפה, פיחמום, מילוי) המשמשות בכל מתכוני-המשקאות.",
+          scenarioHe: "בארגון המאגר מכיל לבני-תהליך-תקן (שטיפה, פיחמום, מילוי) המשמשות בכל מתכוני-המשקאות.",
           navHe: ["Production Planning for Process Industries ► Process Management ► XSteps ► Standard XStep Repository"],
           tables: ["TCABS", "CABN"],
           tcodes: ["O25C", "C201"],
@@ -807,7 +807,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "הייבוא יוצר Reference או Copy של ה-XStep במתכון; Reference שומר קישור-חי למקור, Copy מנתק. ב-C201 מייבאים מה-Repository ל-Phase. שינוי במקור משפיע על References אך לא על Copies.",
           purposeHe: "לחבר לבני-XStep מאושרות מהמאגר לתוך מתכון ספציפי, עם בחירה בין קישור-חי להעתק-עצמאי.",
           processExampleHe: "במתכון-משקה מייבאים 'CIP-Cleaning' כ-Reference; עדכון הניקוי במאגר מתעדכן אוטומטית בכל המתכונים המקושרים.",
-          cbcHe: "ב-CBC מתכון חדש מייבא את לבני-התהליך-התקן כ-References, כך ששיפור-מרכזי מתפשט לכל המתכונים.",
+          scenarioHe: "בארגון מתכון חדש מייבא את לבני-התהליך-התקן כ-References, כך ששיפור-מרכזי מתפשט לכל המתכונים.",
           navHe: ["Production Planning for Process Industries ► Master Recipes ► Import Standard XSteps (C201 ► XStep ► Import)"],
           tables: ["TCABS", "PLPO"],
           tcodes: ["C201", "O25C"],
@@ -826,7 +826,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "המעבר נעשה ברמת-המתכון; לאחריו ההוראות מנוהלות כ-XSteps המייצרים PI דינמית בעת שחרור (XStep→PI generation). שני המנגנונים אינם מעורבים באותו מתכון בו-זמנית. נדרשת מיפוי-Characteristics קיימות ל-XStep parameters.",
           purposeHe: "לאמץ את מנגנון-ההוראות המודרני לקבלת מודולריות, שימוש-חוזר וגמישות, בהתאם למגמת-S/4HANA.",
           processExampleHe: "מתכון ותיק מבוסס-PI מומר ל-XSteps; מעתה הוראותיו נשלפות מהספרייה ומתעדכנות מרכזית.",
-          cbcHe: "ב-CBC מתכוני-המשקאות הוותיקים מומרים בהדרגה ל-XSteps כדי לנצל את ספריית-התהליך המרכזית.",
+          scenarioHe: "בארגון מתכוני-המשקאות הוותיקים מומרים בהדרגה ל-XSteps כדי לנצל את ספריית-התהליך המרכזית.",
           navHe: ["Production Planning for Process Industries ► Master Recipes ► Switch to XSteps (C202 ► XStep)"],
           tables: ["PLPO", "TCABS"],
           tcodes: ["C202", "O25C"],
@@ -845,7 +845,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "כולל מזהה, תיאור רב-לשוני, סוג-XStep (Standard/Reference) וקיבוץ. במאפיין (CT04) — שם, תיאור, וקבוצת-מאפיינים. מטא-נתונים אלו מאפשרים חיפוש וארגון בספרייה.",
           purposeHe: "לזהות ולסווג את אבן-ההוראה/המאפיין לצורך ניהול, חיפוש ושימוש-חוזר.",
           processExampleHe: "XStep 'Brix-Check' מקבל תיאור 'בדיקת ריכוז-סוכר' וקבוצה 'QA-Tests' לחיפוש קל.",
-          cbcHe: "ב-CBC כל XStep נושא תיאור-עברית/אנגלית וקבוצה (שטיפה/בדיקה/מילוי) לארגון הספרייה.",
+          scenarioHe: "בארגון כל XStep נושא תיאור-עברית/אנגלית וקבוצה (שטיפה/בדיקה/מילוי) לארגון הספרייה.",
           navHe: ["Process Management ► XSteps ► General Information / CT04 ► Basic Data"],
           tables: ["TCABS", "CABN"],
           tcodes: ["O25C", "CT04"],
@@ -864,7 +864,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "פרמטרים מקושרים ל-Characteristics (CT04) ומקבלים ערכים בעת השיוך למתכון; הם מזינים PI generation, Process Messages ו-MQC. פרמטריזציה היא מה שהופך XStep ל-reusable אמיתי.",
           purposeHe: "להפוך XStep לגנרי ובר-שימוש-חוזר על-ידי הפרדת המבנה (ההוראה) מהערכים (הפרמטרים).",
           processExampleHe: "XStep 'Heat' עם פרמטר 'Target-Temp'; מתכון א' מציב 78°, מתכון ב' מציב 92° — אותה לבנה, ערכים שונים.",
-          cbcHe: "ב-CBC XStep 'Fill' עם פרמטר 'Target-Volume' משמש לכל גודלי-בקבוק על-ידי הצבת-ערך שונה.",
+          scenarioHe: "בארגון XStep 'Fill' עם פרמטר 'Target-Volume' משמש לכל גודלי-בקבוק על-ידי הצבת-ערך שונה.",
           navHe: ["Process Management ► XSteps ► Parameters"],
           tables: ["TCABS", "CABN", "CAWN"],
           tcodes: ["O25C", "CT04"],
@@ -883,7 +883,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "Valuation מגדיר נוסחאות, default-determination, ובדיקות מול גבולות-Characteristic. הוא רץ ב-PI Sheet בזמן-הזנה ובעת PI generation. משולב עם MQC ועם בקרת-ערכים. Valuation שגוי שובר חישובים ובקרות בבת-אחת.",
           purposeHe: "להעניק ל-XStep לוגיקת-חישוב ובקרת-תקינות, ולאכוף עמידה-במפרט בזמן-אמת.",
           processExampleHe: "Valuation ב-XStep 'Brix-Check': אם הערך מחוץ ל-10.5–11.5 — חוסם/מתריע ומחייב תיעוד-חריגה.",
-          cbcHe: "ב-CBC Valuation אוכף את חלון-ה-Brix וטמפ'-המילוי; חריגה נחסמת או מתועדת לרשומת-האצווה.",
+          scenarioHe: "בארגון Valuation אוכף את חלון-ה-Brix וטמפ'-המילוי; חריגה נחסמת או מתועדת לרשומת-האצווה.",
           navHe: ["Process Management ► XSteps ► Valuation"],
           tables: ["TCABS", "CABN"],
           tcodes: ["O25C", "CT04"],
@@ -902,7 +902,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "מוגדר ב-Process Management ומשויך ב-Production Scheduling Profile וב-Recipe; סוגיו: 1 (PI Sheet ידני), 2/3 (מחשב-תהליך דרך PI-PO/IDoc), 4 (הדפסה). ה-Scope of Generation קובע אילו Destinations מיוצרים בשחרור. זהו החיבור בין ההוראה לערוץ-המסירה.",
           purposeHe: "להגדיר כיצד וללאן מגיעות הוראות-התהליך — מסך, מחשב או נייר — ולחבר אותן לזרימת-הביצוע.",
           processExampleHe: "Destination סוג-1 מייצר PI Sheet ב-CO60; Destination סוג-2 מוריד את ה-Control Recipe למחשב-הקו דרך IDoc.",
-          cbcHe: "ב-CBC קווים אוטומטיים = Destination למחשב-תהליך (IDoc); עמדות-ידניות = Destination ל-PI Sheet.",
+          scenarioHe: "בארגון קווים אוטומטיים = Destination למחשב-תהליך (IDoc); עמדות-ידניות = Destination ל-PI Sheet.",
           navHe: ["Production Planning for Process Industries ► Process Management ► Define Control Recipe Destinations"],
           tables: ["TCAUFART", "EDIDC"],
           tcodes: ["O10C", "CO53"],
@@ -922,7 +922,7 @@ export const CH7: TextbookChapter = {
           consultantHe: "ב-XStep-based, ה-PI generation בשחרור הופך את ה-XSteps (עם פרמטרים ו-Valuation) ל-Process Instructions בתוך ה-Control Recipe. ב-PI קלאסי, ה-PI מוגדרות ישירות ב-Phases. בשני המקרים ה-Characteristics מ-CT04 הם הבסיס לקלטים ולהודעות.",
           purposeHe: "להפיק את ההוראות-בפועל לרצפה מתוך תשתית-ה-XSteps/Characteristics, כחבילה ל-Control Recipe ול-PI Sheet.",
           processExampleHe: "בשחרור, XSteps 'Heat'+'Brix-Check' מייצרים PI עם הערכים-בפועל; הן נכנסות ל-Control Recipe ומופיעות למפעיל ב-PI Sheet.",
-          cbcHe: "ב-CBC PI generation מתרגם את לבני-התהליך להוראות-מילוי קונקרטיות עם ערכי-יעד-המנה, המופיעות ב-PI Sheet של הקו.",
+          scenarioHe: "בארגון PI generation מתרגם את לבני-התהליך להוראות-מילוי קונקרטיות עם ערכי-יעד-המנה, המופיעות ב-PI Sheet של הקו.",
           navHe: ["Process Management ► XSteps ► Process Instructions / Master Recipe ► Phase ► PI"],
           tables: ["PLMK", "PLPO", "TCABS"],
           tcodes: ["C201", "O25C", "CO53"],

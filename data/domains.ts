@@ -268,7 +268,7 @@ export const DOMAINS: Domain[] = [
   },
   {
     slug: "pppi-batch-management", module: "PP-PI", title: "Batch Management", he: "ניהול אצוות",
-    summary: "ניהול אצוות מאפשר מעקב, סיווג וקביעת אצווה (Batch Determination) לחומרים — קריטי לתעשיית מזון/משקאות (CBC), עם שלמות, שחרור והיסטוריה מלאה.",
+    summary: "ניהול אצוות מאפשר מעקב, סיווג וקביעת אצווה (Batch Determination) לחומרים — קריטי לתעשיית מזון/משקאות, עם שלמות, שחרור והיסטוריה מלאה.",
     flow: [{ step: "Master", he: "אב אצווה (MSC1N)" }, { step: "Classify", he: "סיווג מאפיינים" }, { step: "Determine", he: "קביעת אצווה (COB1)" }, { step: "Track", he: "מעקב ושחרור" }, { step: "Derive", he: "גזירת אצווה" }],
     tables: ["MCHA", "MCH1", "MCHB", "AUSP", "INOB"],
     tcodes: ["MSC1N", "MSC2N", "MSC3N", "MSC4N", "COB1", "CL20N"],

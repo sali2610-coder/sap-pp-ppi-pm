@@ -2,7 +2,7 @@
 // Consolidation: Integrated Reconciliation, Executive Review, and operationalizing
 // the approved constrained plan. Every node is a complete LearningNode with 18
 // facets of authored Hebrew (beginner + consultant friendly). SAP object names
-// kept verbatim in English. CBC = Coca-Cola bottling S&OP context.
+// kept verbatim in English. הארגון = Example Product bottling S&OP context.
 import type { TextbookChapter } from "./types";
 
 export const CH6: TextbookChapter = {
@@ -10,7 +10,7 @@ export const CH6: TextbookChapter = {
   titleHe: "איחוד (Consolidation)",
   titleEn: "Consolidation",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לשלב האיחוד (Consolidation) בתהליך ה-S&OP ב-SAP IBP. כאן כל זרמי-התכנון — ביקוש, היצע, מלאי וכספים — מתכנסים לתוכנית-אחת מאוזנת ומאושרת. השלב מורכב משני מפגשים מרכזיים: Integrated Reconciliation (איחוד התכניות מכלל המחלקות ופתרון פערים) ו-Executive Review (אישור התוכנית המוגבלת על-ידי ההנהלה הבכירה), ולאחריהם Operationalize — תרגום התוכנית המאושרת לפעולה דרך אינטגרציה ל-IBP for Demand, IBP for Inventory, IBP for Response ול-Financial Planning. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת CBC, ניווט באפליקציות IBP, אובייקטים וטבלאות, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את שלב האיחוד ב-S&OP מקצה-לקצה ללא תלות בספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לשלב האיחוד (Consolidation) בתהליך ה-S&OP ב-SAP IBP. כאן כל זרמי-התכנון — ביקוש, היצע, מלאי וכספים — מתכנסים לתוכנית-אחת מאוזנת ומאושרת. השלב מורכב משני מפגשים מרכזיים: Integrated Reconciliation (איחוד התכניות מכלל המחלקות ופתרון פערים) ו-Executive Review (אישור התוכנית המוגבלת על-ידי ההנהלה הבכירה), ולאחריהם Operationalize — תרגום התוכנית המאושרת לפעולה דרך אינטגרציה ל-IBP for Demand, IBP for Inventory, IBP for Response ול-Financial Planning. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך, דוגמת הארגון, ניווט באפליקציות IBP, אובייקטים וטבלאות, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: ללמוד את שלב האיחוד ב-S&OP מקצה-לקצה ללא תלות בספר המקורי.",
   subchapters: [
     // ============================================================ 6.1
     {
@@ -27,8 +27,8 @@ export const CH6: TextbookChapter = {
         "המטרה היא ליצור תוכנית-עסקית-אחת, מאוזנת ומאושרת, המגשרת בין הרצוי (ביקוש) למצוי (יכולת והיצע), ומתורגמת לערך-כספי. ללא איחוד, כל מחלקה פועלת לפי מספר משלה — מה שמוביל לעודפי-מלאי, מחסור, או יעדים פיננסיים לא-ריאליים.",
       processExampleHe:
         "במחזור החודשי, מנהל ה-S&OP אוסף את תחזית-הביקוש המוסכמת ואת תוכנית-ההיצע המוגבלת, מזהה פער של 5% בין הביקוש לקיבולת בקטגוריה מסוימת, מציג שלושה Scenarios (תוספת-משמרת, מיקור-חוץ, דחיית-מבצע), ומביא אותם ל-Integrated Reconciliation. שם נבחר תרחיש, ולאחר מכן ה-Executive Review מאשר אותו כתוכנית מחייבת.",
-      cbcHe:
-        "ב-CBC (מבקבקת Coca-Cola): לקראת עונת-הקיץ, תחזית-הביקוש למשקאות-קלים עולה ב-20%, אך קיבולת קווי-המילוי מוגבלת. מפגש ה-Consensus מאחד את ביקוש-השיווק עם יכולת-התפעול, וה-Executive Review מחליט על הקצאת-עדיפויות בין מותגי-הליבה למותגי-נישה — והופך זאת לתוכנית מאושרת לרבעון.",
+      scenarioHe:
+        "בארגון (מבקבקת Example Product): לקראת עונת-הקיץ, תחזית-הביקוש למשקאות-קלים עולה ב-20%, אך קיבולת קווי-המילוי מוגבלת. מפגש ה-Consensus מאחד את ביקוש-השיווק עם יכולת-התפעול, וה-Executive Review מחליט על הקצאת-עדיפויות בין מותגי-הליבה למותגי-נישה — והופך זאת לתוכנית מאושרת לרבעון.",
       navHe: [
         "SAP IBP for Sales and Operations ► Dashboards ► S&OP Process Cockpit",
         "SAP IBP ► Process Management ► Process Modeling (הגדרת שלבי Reconciliation ו-Review)",
@@ -102,8 +102,8 @@ export const CH6: TextbookChapter = {
             "לסגור פערים בין-מחלקתיים ברמת-העבודה כך שה-Executive Review יעסוק בהכרעות אסטרטגיות בלבד, לא בטכניקה. המפגש מבטיח שהתוכנית שמגיעה להנהלה כבר מאוזנת ופנימית-עקבית.",
           processExampleHe:
             "מנהל ה-S&OP מציג דשבורד עם פער של 8% בין ביקוש לקיבולת ברבעון הבא. Custom Alert סימן את הפער מראש. שלושה Scenarios מוצגים: תוספת-משמרת (+עלות), מיקור-חוץ (+lead time), ודחיית-מבצע (-הכנסות). הצוות ממליץ על מיקור-חוץ חלקי ומתעד את ההמלצה.",
-          cbcHe:
-            "ב-CBC: צוות ה-Reconciliation מזהה שביקוש-הקיץ למשקה-דגל עולה על קיבולת קו-המילוי. מוצגים תרחישים — העברת-ייצור למפעל-אחות, תוספת-משמרת-לילה, או הקטנת מותגי-נישה — והצוות ממליץ על שילוב, לקראת ה-Executive Review.",
+          scenarioHe:
+            "בארגון: צוות ה-Reconciliation מזהה שביקוש-הקיץ למשקה-דגל עולה על קיבולת קו-המילוי. מוצגים תרחישים — העברת-ייצור למפעל-אחות, תוספת-משמרת-לילה, או הקטנת מותגי-נישה — והצוות ממליץ על שילוב, לקראת ה-Executive Review.",
           navHe: [
             "SAP IBP for Sales and Operations ► Dashboards ► Reconciliation Dashboard",
             "SAP IBP ► Analytics ► Charts (Demand vs Supply vs Inventory vs Financials)",
@@ -172,8 +172,8 @@ export const CH6: TextbookChapter = {
             "להבטיח שהתוכנית הסופית נושאת מנדט-הנהלה — מחויבות לתקציב, לקיבולת ולעדיפויות. בלי אישור-הנהלה, התוכנית נשארת המלצה ואין לה כוח-מחייב על המחלקות.",
           processExampleHe:
             "ה-CFO וה-COO רואים דשבורד עם ההמלצה (מיקור-חוץ חלקי) מול ה-baseline: +2% עלות אך +6% הכנסות-נטו. ההנהלה מאשרת, ומנהל ה-S&OP מקדם את ה-Scenario ל-Approved Plan ומקפיא snapshot.",
-          cbcHe:
-            "ב-CBC: הנהלת המבקבקת מחליטה ב-Executive Review להקצות עדיפות-קיבולת למשקאות-הליבה על-חשבון מותגי-נישה לעונת-הקיץ, מאשרת תוספת-משמרת מוגבלת, וקובעת זאת כתוכנית-הרבעון המחייבת.",
+          scenarioHe:
+            "בארגון: הנהלת המבקבקת מחליטה ב-Executive Review להקצות עדיפות-קיבולת למשקאות-הליבה על-חשבון מותגי-נישה לעונת-הקיץ, מאשרת תוספת-משמרת מוגבלת, וקובעת זאת כתוכנית-הרבעון המחייבת.",
           navHe: [
             "SAP IBP for Sales and Operations ► Dashboards ► Executive Dashboard",
             "SAP IBP ► Process Management ► Approve Step (Executive Review)",
@@ -242,8 +242,8 @@ export const CH6: TextbookChapter = {
             "להבטיח שהתוכנית המאושרת אכן מניעה ביצוע — שאין נתק בין מה שההנהלה אישרה לבין מה שהמפעל, הרכש והמלאי מבצעים בפועל.",
           processExampleHe:
             "ה-Approved Constrained Plan מפורק (disaggregate) לתחזית-שבועית ב-IBP for Demand, מזין יעדי-מלאי-בטחון ב-IBP for Inventory, ומשמש בסיס ל-deployment ב-IBP for Response. Application Job מתוזמן מריץ את ההעברה בלילה.",
-          cbcHe:
-            "ב-CBC: תוכנית-הקיץ המאושרת מפורקת לתחזית-שבועית לכל SKU ומרכז-הפצה, יעדי-מלאי-הבטחון מתעדכנים לפני העונה, וה-Response קובע סדר-deployment בין מרכזי-ההפצה.",
+          scenarioHe:
+            "בארגון: תוכנית-הקיץ המאושרת מפורקת לתחזית-שבועית לכל SKU ומרכז-הפצה, יעדי-מלאי-הבטחון מתעדכנים לפני העונה, וה-Response קובע סדר-deployment בין מרכזי-ההפצה.",
           navHe: [
             "SAP IBP ► Application Jobs ► Copy Operator / Key Figure Calculation (S&OP → Demand/Inventory)",
             "SAP IBP ► Integration ► Time-Series to Order-Based (Demand to Response)",
@@ -315,8 +315,8 @@ export const CH6: TextbookChapter = {
         "להבטיח שהתוכנית התפעולית מתורגמת לערך-כספי ונבדקת מול היעדים הפיננסיים — כך שלא נאשר תוכנית שעומדת ביחידות אך נכשלת ברווחיות.",
       processExampleHe:
         "תחזית-המכירות (יחידות) מוכפלת במחיר-ממוצע ל-Revenue, ובעלות-תקן ל-COGS; המרווח מושווה ל-Budget. פער-מרווח של 3% מתחת ליעד מובא ל-Reconciliation, ושם נבחנת העלאת-מחיר או שינוי-תמהיל.",
-      cbcHe:
-        "ב-CBC: תחזית-המשקאות מתורגמת להכנסות לפי מחיר-מכירה-לארגז ולעלות לפי תרכיז/אריזה/לוגיסטיקה. ה-Management Business Review בוחן את מרווח-התרומה לקטגוריה מול תקציב-הרבעון.",
+      scenarioHe:
+        "בארגון: תחזית-המשקאות מתורגמת להכנסות לפי מחיר-מכירה-לארגז ולעלות לפי תרכיז/אריזה/לוגיסטיקה. ה-Management Business Review בוחן את מרווח-התרומה לקטגוריה מול תקציב-הרבעון.",
       navHe: [
         "SAP IBP for Sales and Operations ► Dashboards ► Financial Dashboard",
         "SAP IBP ► Configuration ► Calculated Key Figures (Revenue = Qty × Price; COGS = Qty × Cost)",
@@ -385,8 +385,8 @@ export const CH6: TextbookChapter = {
             "לתת לתוכנית 'תווית-מחיר' — להראות את הערך הכספי של כל תרחיש כדי שההחלטות יתקבלו על-בסיס ערך ולא רק על-בסיס יחידות.",
           processExampleHe:
             "תחזית של 100K ארגזים × 12₪ מחיר = 1.2M₪ הכנסות; × 8₪ עלות = 800K₪ COGS; מרווח 400K₪. שינוי-תמהיל למוצר-פרמיום מעלה את המרווח ל-450K₪.",
-          cbcHe:
-            "ב-CBC: תחזית-המשקאות מתורגמת להכנסה-לארגז ולעלות-תרכיז+אריזה; שינוי-תמהיל לטובת משקאות-פרמיום משפר את מרווח-התרומה הצפוי לקטגוריה.",
+          scenarioHe:
+            "בארגון: תחזית-המשקאות מתורגמת להכנסה-לארגז ולעלות-תרכיז+אריזה; שינוי-תמהיל לטובת משקאות-פרמיום משפר את מרווח-התרומה הצפוי לקטגוריה.",
           navHe: [
             "SAP IBP ► Configuration ► Manage Key Figures (Calculated: Revenue, COGS, Margin)",
             "SAP IBP Excel Add-In ► Planning View ► Financial Key Figures",
@@ -453,8 +453,8 @@ export const CH6: TextbookChapter = {
             "להבטיח שההמלצה שעולה ל-Review מאוזנת תפעולית וגם פיננסית — שלא נמליץ על תרחיש שמסדר קיבולת אך הורס רווחיות.",
           processExampleHe:
             "תרחיש מיקור-חוץ פותר את פער-הקיבולת אך מעלה COGS ב-4% ומוריד מרווח מתחת ליעד. ב-Reconciliation מוצג גם תרחיש-מחיר חלופי; הצוות ממליץ על שילוב ששומר על המרווח.",
-          cbcHe:
-            "ב-CBC: תרחיש העברת-ייצור למפעל-אחות מוסיף עלות-לוגיסטיקה. ה-Reconciliation הפיננסי בודק את ההשפעה על מרווח-התרומה ומציע התאמת-מחיר נקודתית בערוץ מסוים.",
+          scenarioHe:
+            "בארגון: תרחיש העברת-ייצור למפעל-אחות מוסיף עלות-לוגיסטיקה. ה-Reconciliation הפיננסי בודק את ההשפעה על מרווח-התרומה ומציע התאמת-מחיר נקודתית בערוץ מסוים.",
           navHe: [
             "SAP IBP ► Dashboards ► Reconciliation Dashboard (Operational + Financial KFs)",
             "SAP IBP ► Alerts ► Custom Alerts (Margin Gap)",
@@ -520,8 +520,8 @@ export const CH6: TextbookChapter = {
             "להעמיד את התוכנית במבחן העסקי הכולל — לוודא שהיא לא רק ישימה אלא גם משיגה את היעדים הפיננסיים והאסטרטגיים לפני שמתחייבים אליה.",
           processExampleHe:
             "ה-CFO מציג Revenue actual-vs-plan, מרווח מול תקציב, ו-Forecast Accuracy של הרבעון הקודם. ההנהלה מזהה הזדמנות בקטגוריה צומחת ומחליטה להגדיל השקעה-שיווקית, מה שמעדכן את תחזית-הביקוש.",
-          cbcHe:
-            "ב-CBC: ה-Management Business Review בוחן את מרווח-התרומה לקטגוריה מול תקציב-השנה, מגמות-נתח-שוק, וסיכוני-מחיר-חומרי-גלם (סוכר/אלומיניום), ומכוון את עדיפויות-ההשקעה לעונה.",
+          scenarioHe:
+            "בארגון: ה-Management Business Review בוחן את מרווח-התרומה לקטגוריה מול תקציב-השנה, מגמות-נתח-שוק, וסיכוני-מחיר-חומרי-גלם (סוכר/אלומיניום), ומכוון את עדיפויות-ההשקעה לעונה.",
           navHe: [
             "SAP IBP ► Dashboards ► Management Business Review Dashboard",
             "SAP IBP ► Analytics ► KPI Trends (Revenue, Margin, Forecast Accuracy, DIO)",
@@ -590,8 +590,8 @@ export const CH6: TextbookChapter = {
         "להבטיח זרימת-תוכנית רציפה מ-S&OP הטקטי אל כל נקודות-הביצוע, ללא העתקות-ידניות וללא נתק בין-מודולי.",
       processExampleHe:
         "ה-Approved Plan זורם ל-Demand (תחזית מפורטת), משם ל-Inventory (יעדי-מלאי), ול-Response (deployment מבוסס-הזמנות), ובמקביל ל-Financial Planning. הכל מתוזמן ב-Application Jobs.",
-      cbcHe:
-        "ב-CBC: התוכנית הטקטית מזינה תחזית-ביקוש שבועית ל-Demand, יעדי-מלאי-בטחון ל-Inventory, סדר-deployment בין מרכזי-הפצה ל-Response, ותחזית-הכנסות ל-Financial Planning — הכל מאותו מקור-אמת.",
+      scenarioHe:
+        "בארגון: התוכנית הטקטית מזינה תחזית-ביקוש שבועית ל-Demand, יעדי-מלאי-בטחון ל-Inventory, סדר-deployment בין מרכזי-הפצה ל-Response, ותחזית-הכנסות ל-Financial Planning — הכל מאותו מקור-אמת.",
       navHe: [
         "SAP IBP ► Application Jobs ► Copy Operators (cross-module)",
         "SAP IBP ► Configuration ► Planning Areas & Master Data Types (shared)",
@@ -660,8 +660,8 @@ export const CH6: TextbookChapter = {
             "לתת מפה-קונספטואלית של כל החיבורים כך שמתכננים ויועצים יבינו את זרימת-הנתונים לפני מימוש כל חיבור.",
           processExampleHe:
             "מנהל-מימוש משרטט diagram: Demand→S&OP (תחזית), S&OP→Inventory (ביקוש מוסכם), Inventory→S&OP (יעדי-מלאי), S&OP→Response (תוכנית מפורקת), S&OP→Financial (הכנסות/עלויות). מכאן הוא גוזר את ה-Copy Operators הנדרשים.",
-          cbcHe:
-            "ב-CBC: מפת-האינטגרציה מראה כיצד תחזית-הקיץ זורמת מ-Demand ל-S&OP, מתאזנת מול ההיצע, ומשם מתפזרת ל-Inventory, Response ו-Financial — מקור-אמת אחד לכל המבקבקת.",
+          scenarioHe:
+            "בארגון: מפת-האינטגרציה מראה כיצד תחזית-הקיץ זורמת מ-Demand ל-S&OP, מתאזנת מול ההיצע, ומשם מתפזרת ל-Inventory, Response ו-Financial — מקור-אמת אחד לכל המבקבקת.",
           navHe: [
             "SAP IBP ► Configuration ► Planning Areas (overview of modules)",
             "SAP IBP ► Integration ► Architecture Overview",
@@ -724,8 +724,8 @@ export const CH6: TextbookChapter = {
             "לחבר תחזית-סטטיסטית מדויקת (Demand) עם איזון-עסקי (S&OP) — כך שה-consensus נשען על בסיס-נתוני חזק והתחזית מעודכנת בהחלטות-העסק.",
           processExampleHe:
             "Demand מייצר Statistical Forecast; S&OP צורך אותו כ-baseline, מוסיף שיפוט-עסקי (מבצעים, אירועים) ל-Consensus Demand; המספר המוסכם מוחזר ומשמש בסיס ל-Demand Sensing.",
-          cbcHe:
-            "ב-CBC: Demand מנבא ביקוש-משקאות לפי עונתיות והיסטוריה; S&OP מוסיף ידע על מבצע-קיץ ואירוע-ספורט ל-Consensus; המספר המעודכן מזין את תכנון-ההפצה היומי.",
+          scenarioHe:
+            "בארגון: Demand מנבא ביקוש-משקאות לפי עונתיות והיסטוריה; S&OP מוסיף ידע על מבצע-קיץ ואירוע-ספורט ל-Consensus; המספר המעודכן מזין את תכנון-ההפצה היומי.",
           navHe: [
             "SAP IBP for Demand ► Statistical Forecasting (Forecast Models)",
             "SAP IBP ► Configuration ► Shared Planning Area (Demand + S&OP Key Figures)",
@@ -793,8 +793,8 @@ export const CH6: TextbookChapter = {
             "לאזן בין רמת-שירות לעלות-מלאי — לוודא שהתוכנית מחזיקה מספיק מלאי לשירות הלקוח אך לא עודף שמקפיא הון.",
           processExampleHe:
             "S&OP מספק Consensus Demand ו-CoV; Inventory מחשב safety stock ל-95% שירות; היעדים מוחזרים ל-S&OP ומגדילים את דרישת-ההיצע בהתאם, מה שנבחן ב-Reconciliation.",
-          cbcHe:
-            "ב-CBC: לפני עונת-הקיץ, Inventory מחשב מלאי-בטחון מוגבר למשקאות-ליבה לפי שונות-ביקוש עונתית; היעדים מוחזרים ל-S&OP ומגדילים את תוכנית-הייצור המוקדמת.",
+          scenarioHe:
+            "בארגון: לפני עונת-הקיץ, Inventory מחשב מלאי-בטחון מוגבר למשקאות-ליבה לפי שונות-ביקוש עונתית; היעדים מוחזרים ל-S&OP ומגדילים את תוכנית-הייצור המוקדמת.",
           navHe: [
             "SAP IBP for Inventory ► Inventory Optimization (Safety Stock Calculation)",
             "SAP IBP ► Application Jobs ► Inventory Optimization Run",
@@ -862,8 +862,8 @@ export const CH6: TextbookChapter = {
             "לאפשר שהתוכנית הטקטית תניע ביצוע אופרטיבי (confirmation, deployment, allocation) למרות ההבדל המהותי בין שני מודלי-התכנון.",
           processExampleHe:
             "Consensus Demand חודשי (time-series) מפורק לתחזית-יומית ומומר לדרישות-הזמנה ב-Response; ה-Response מריץ allocation/ATP ומחזיר confirmation; reconciliation מוודא שסכום ההזמנות = הביקוש-הטקטי.",
-          cbcHe:
-            "ב-CBC: תוכנית-הקיץ החודשית מפורקת לדרישות-יומיות לכל SKU ומרכז-הפצה ומומרת ל-Response, שקובע סדר-deployment בין מרכזי-ההפצה לפי זמינות בפועל.",
+          scenarioHe:
+            "בארגון: תוכנית-הקיץ החודשית מפורקת לדרישות-יומיות לכל SKU ומרכז-הפצה ומומרת ל-Response, שקובע סדר-deployment בין מרכזי-ההפצה לפי זמינות בפועל.",
           navHe: [
             "SAP IBP for Response ► Order-Based Planning",
             "SAP IBP ► Integration ► Time-Series PA → Order-Based PA",
@@ -931,8 +931,8 @@ export const CH6: TextbookChapter = {
             "להפוך את ה-S&OP לתהליך פיננסי-מודע ולסגור את הפער בין התכנון-התפעולי לתקצוב — כך שההחלטות יתקבלו על-בסיס ערך ולא רק יחידות.",
           processExampleHe:
             "Consensus Demand מתורגם ל-Revenue/COGS ב-IBP; הנתונים מוזרמים ל-SAP Analytics Cloud להשוואה מול תקציב; פער-מרווח מוחזר ל-S&OP ומוביל להתאמת-תמהיל ב-Reconciliation.",
-          cbcHe:
-            "ב-CBC: תחזית-המשקאות מתורגמת להכנסות-ולעלויות-רבעון ומוזרמת ל-FP&A; פער מול תקציב-המבקבקת מוחזר ומכוון את החלטות-העדיפות ב-Executive Review.",
+          scenarioHe:
+            "בארגון: תחזית-המשקאות מתורגמת להכנסות-ולעלויות-רבעון ומוזרמת ל-FP&A; פער מול תקציב-המבקבקת מוחזר ומכוון את החלטות-העדיפות ב-Executive Review.",
           navHe: [
             "SAP IBP ► Configuration ► Calculated Financial Key Figures",
             "SAP IBP ► Data Integration ► SAP Cloud Integration (CPI-DS) to Finance",
@@ -1003,8 +1003,8 @@ export const CH6: TextbookChapter = {
         "לקבע את עקרונות-הליבה של שלב האיחוד כך שהלומד יוכל לתכנן, להריץ ולפתור-תקלות במחזור-S&OP מלא ב-IBP מקצה-לקצה.",
       processExampleHe:
         "מחזור מלא: זרמים מוכנים → Integrated Reconciliation (פערים+תרחישים) → Executive Review (אישור) → Approved Plan מוקפא → Operationalize ל-Demand/Inventory/Response/Financial → ביצוע → actuals חוזרים ל-Management Business Review.",
-      cbcHe:
-        "ב-CBC: מחזור-הקיץ מסתיים בתוכנית מאושרת שמזינה תחזית, מלאי, deployment והכנסות — ומדודה בחזרה מול תקציב-המבקבקת ב-Review הבא, וכך נסגרת הלולאה התמידית.",
+      scenarioHe:
+        "בארגון: מחזור-הקיץ מסתיים בתוכנית מאושרת שמזינה תחזית, מלאי, deployment והכנסות — ומדודה בחזרה מול תקציב-המבקבקת ב-Review הבא, וכך נסגרת הלולאה התמידית.",
       navHe: [
         "SAP IBP ► Dashboards ► S&OP Process Cockpit (מבט מחזורי כולל)",
         "SAP IBP ► Process Management ► Full Cycle Template",

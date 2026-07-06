@@ -1,7 +1,7 @@
 // ===== MM Digital Textbook — Chapter 14 (Centralized Procurement) =====
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
 // Hierarchy preserved verbatim from the source; SAP objects kept in English.
-// CBC = Coca-Cola bottling central procurement across plants/companies.
+// הארגון = Example Product bottling central procurement across plants/companies.
 import type { TextbookChapter } from "./types";
 
 export const CH14: TextbookChapter = {
@@ -9,7 +9,7 @@ export const CH14: TextbookChapter = {
   titleHe: "רכש מרכזי",
   titleEn: "Centralized Procurement",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לרכש מרכזי (Centralized Procurement) ב-SAP S/4HANA. הרעיון: ארגון בעל מספר חברות ומפעלים — שכל אחד מריץ מערכת-ERP נפרדת — מנהל את הרכש מתוך רכזת אחת (Central Procurement hub) המחוברת לכל מערכות-הביצוע. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. דגש מיוחד: אפליקציות Fiori מסוג Central (Manage Purchase Requisitions Central, Manage Purchase Orders Central וכו'), חיבוריות SOAP/RFC בין הרכזת למערכות-המחוברות, ושילוב SAP Ariba ו-SAP Business Network. המטרה: ללמוד את הנושא ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לרכש מרכזי (Centralized Procurement) ב-SAP S/4HANA. הרעיון: ארגון בעל מספר חברות ומפעלים — שכל אחד מריץ מערכת-ERP נפרדת — מנהל את הרכש מתוך רכזת אחת (Central Procurement hub) המחוברת לכל מערכות-הביצוע. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים: שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. דגש מיוחד: אפליקציות Fiori מסוג Central (Manage Purchase Requisitions Central, Manage Purchase Orders Central וכו'), חיבוריות SOAP/RFC בין הרכזת למערכות-המחוברות, ושילוב SAP Ariba ו-SAP Business Network. המטרה: ללמוד את הנושא ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 14.1
     {
@@ -24,8 +24,8 @@ export const CH14: TextbookChapter = {
         "המטרה: לאחד את כוח-הקנייה ואת השקיפות מבלי לאחד את מערכות-הביצוע. ארגונים גדולים אינם יכולים (או רוצים) למזג עשרות ERP-ים בבת-אחת; רכש מרכזי נותן ערך מהיר — חוזים גלובליים, ניתוח-הוצאה רוחבי, ובקרת-תאימות — תוך שמירה על אוטונומיה תפעולית מקומית.",
       processExampleHe:
         "תהליך מקצה-לקצה: מבקש במפעל בגרמניה יוצר דרישת-רכש מקומית; היא מסונכרנת לרכזת דרך Central Requisitioning; רוכש-מרכזי באמצעות Manage Purchase Requisitions Central רואה דרישות מכל המערכות, מאחד אותן ב-Central Sourcing, מנהל RFQ, מנפיק Central Purchase Order שמורד חזרה אל ה-Connected System; שם מבוצעת Goods Receipt ו-Invoice — והרכזת רואה את הסטטוס המעודכן.",
-      cbcHe:
-        "ב-CBC: מפעלי-בקבוק בכמה מדינות (כל מדינה company code/ERP נפרד) מנהלים רכש תרכיז, סוכר, CO2 ופחיות מתוך רכזת אחת. הרכזת מאחדת את הביקוש לפחיות מכל המפעלים, חותמת חוזה-מסגרת גלובלי מול ספק-אלומיניום, וכל מפעל מושך מהחוזה דרך ה-Connected System שלו — מחיר אחיד, נראות מלאה למטה.",
+      scenarioHe:
+        "בארגון: מפעלי-בקבוק בכמה מדינות (כל מדינה company code/ERP נפרד) מנהלים רכש תרכיז, סוכר, CO2 ופחיות מתוך רכזת אחת. הרכזת מאחדת את הביקוש לפחיות מכל המפעלים, חותמת חוזה-מסגרת גלובלי מול ספק-אלומיניום, וכל מפעל מושך מהחוזה דרך ה-Connected System שלו — מחיר אחיד, נראות מלאה למטה.",
       navHe: [
         "SAP S/4HANA (Hub) ► Fiori Launchpad ► Central Procurement ► Procurement Overview Page",
         "SPRO ► Materials Management ► Central Procurement ► Basic Settings",
@@ -97,8 +97,8 @@ export const CH14: TextbookChapter = {
         "לרכז את שלב-ה'בקשה' של הרכש — לתת לרוכש-מרכזי נראות מלאה לכל הביקוש בארגון, לאפשר איחוד-דרישות לחיסכון-מסה, ולתת למבקשים חוויית self-service אחידה ללא תלות במערכת-המקור.",
       processExampleHe:
         "מבקש במפעל ספרד יוצר דרישה לפחיות ב-Create Purchase Requisition; הדרישה נשמרת מקומית ומשתכפלת לרכזת. רוכש-מרכזי ב-Manage Purchase Requisitions Central מסנן לפי קבוצת-חומר, מאתר דרישות דומות ממפעלים אחרים, ומסמן אותן לאיחוד ב-Central Sourcing.",
-      cbcHe:
-        "ב-CBC כל מפעל-בקבוק יוצר דרישות לחומרי-אריזה דרך Central Requisitioning; מטה-הרכש רואה את כלל הביקוש לפחיות ופקקים בכל המדינות, ויכול לאחד הזמנה-רבעונית גדולה במקום עשרות הזמנות מפוצלות.",
+      scenarioHe:
+        "בארגון כל מפעל-בקבוק יוצר דרישות לחומרי-אריזה דרך Central Requisitioning; מטה-הרכש רואה את כלל הביקוש לפחיות ופקקים בכל המדינות, ויכול לאחד הזמנה-רבעונית גדולה במקום עשרות הזמנות מפוצלות.",
       navHe: [
         "Fiori Launchpad (Hub) ► Procurement ► Create Purchase Requisition",
         "Fiori Launchpad (Hub) ► Central Procurement ► Manage Purchase Requisitions Central",
@@ -167,8 +167,8 @@ export const CH14: TextbookChapter = {
         "לתת לרוכש-המרכזי כלי-ביצוע אחיד להזמנות על-פני כל המערכות — יצירה, שינוי-המוני, וניטור-סטטוס — תוך שמירה על הביצוע התפעולי (קבלה, חשבונית) במערכת-המקור.",
       processExampleHe:
         "רוכש-מרכזי יוצר Central PO לספק-סוכר עבור מפעל איטליה; ההזמנה מורדת ל-ERP האיטלקי, נשלחת לספק, ומבוצעת שם Goods Receipt. הרוכש רואה ב-Manage Purchase Orders Central את סטטוס-הקבלה והחשבונית בזמן-אמת מבלי להיכנס ל-ERP המקומי.",
-      cbcHe:
-        "ב-CBC רוכש-מרכזי מנפיק הזמנות-CO2 לכל מפעלי-הבקבוק מתוך הרכזת; כל הזמנה מורדת ל-ERP של המפעל המקומי, וניטור-הקבלות נעשה ריכוזית — חיווי מיידי אם מפעל לא קיבל אספקה בזמן.",
+      scenarioHe:
+        "בארגון רוכש-מרכזי מנפיק הזמנות-CO2 לכל מפעלי-הבקבוק מתוך הרכזת; כל הזמנה מורדת ל-ERP של המפעל המקומי, וניטור-הקבלות נעשה ריכוזית — חיווי מיידי אם מפעל לא קיבל אספקה בזמן.",
       navHe: [
         "Fiori Launchpad (Hub) ► Central Procurement ► Manage Purchase Orders Central",
         "Fiori Launchpad (Hub) ► Central Procurement ► Create Central Purchase Order",
@@ -237,8 +237,8 @@ export const CH14: TextbookChapter = {
         "למנף את הביקוש המאוחד לכוח-מיקוח, לנהל תחרות-ספקים שקופה, ולחבר את בחירת-המקור ישירות לחוזה/הזמנה — כך שהחיסכון מהמקור מתורגם אוטומטית לביצוע.",
       processExampleHe:
         "רוכש מאחד דרישות-פחיות משלושה מפעלים ל-Sourcing Project יחיד; מנפיק RFQ לארבעה ספקי-אלומיניום; משווה הצעות לפי מחיר ותנאי-אספקה; מעניק זכייה לספק הזול ביותר וממיר ל-Central Purchase Contract שכל מפעל מושך ממנו.",
-      cbcHe:
-        "ב-CBC Central Sourcing מאחד את ביקוש-הפחיות הרבעוני מכל מפעלי-הבקבוק, מריץ RFQ מול ספקי-אלומיניום גלובליים, ומעגן את הזוכה בחוזה-מסגרת — מינוף-מסה שמפעל בודד לא היה משיג לבדו.",
+      scenarioHe:
+        "בארגון Central Sourcing מאחד את ביקוש-הפחיות הרבעוני מכל מפעלי-הבקבוק, מריץ RFQ מול ספקי-אלומיניום גלובליים, ומעגן את הזוכה בחוזה-מסגרת — מינוף-מסה שמפעל בודד לא היה משיג לבדו.",
       navHe: [
         "Fiori Launchpad (Hub) ► Central Procurement ► Manage RFQs",
         "Fiori Launchpad (Hub) ► Central Procurement ► Manage Supplier Quotations",
@@ -307,8 +307,8 @@ export const CH14: TextbookChapter = {
         "לעגן תנאים שהושגו ב-Central Sourcing בהסכם-מחייב אחד, להבטיח מחיר אחיד בכל האתרים, ולנטר את המימוש הגלובלי מול היעד — כל זאת תוך ביצוע מקומי בכל מערכת.",
       processExampleHe:
         "אחרי Award לספק-סוכר, נוצר Central Contract עם target quantity של 50,000 טון/שנה; הוא מופץ לחמש מערכות-מחוברות; כל מפעל מנפיק Release Orders לפי צרכיו; הרוכש-המרכזי מנטר ב-Monitor Central Purchase Contract Items את הניצול המצטבר מול היעד.",
-      cbcHe:
-        "ב-CBC חוזה-מסגרת גלובלי לתרכיז (מספק-המותג) מנוהל כ-Central Contract; כל מפעל-בקבוק מושך ממנו call-offs לפי תוכנית-המילוי שלו, וכולם נהנים מאותם תנאים — והמטה רואה את הניצול המאוחד מול ה-target.",
+      scenarioHe:
+        "בארגון חוזה-מסגרת גלובלי לתרכיז (מספק-המותג) מנוהל כ-Central Contract; כל מפעל-בקבוק מושך ממנו call-offs לפי תוכנית-המילוי שלו, וכולם נהנים מאותם תנאים — והמטה רואה את הניצול המאוחד מול ה-target.",
       navHe: [
         "Fiori Launchpad (Hub) ► Central Procurement ► Manage Central Purchase Contracts",
         "Fiori Launchpad (Hub) ► Central Procurement ► Monitor Central Purchase Contract Items",
@@ -377,8 +377,8 @@ export const CH14: TextbookChapter = {
         "להפוך נתוני-רכש מבוזרים לתובנה אחידה — לזהות הזדמנויות-איחוד, סיכוני-ספק וחריגות-הוצאה, ולכוון את אסטרטגיית-המקור ברמה הגלובלית.",
       processExampleHe:
         "מנהל-רכש פותח Procurement Overview Page ברכזת, רואה ניתוח-Spend לפי קבוצת-חומר על-פני כל המפעלים, מזהה שלושה מפעלים שקונים אותו חומר מספקים שונים, ויוזם Central Sourcing לאיחוד — החלטה שנתוני-מערכת-בודדת לא היו חושפים.",
-      cbcHe:
-        "ב-CBC Central Analytics מציג את ה-Spend המאוחד על פחיות, סוכר ו-CO2 בכל המדינות, חושף שונות-מחיר בין מפעלים, ומכוון את המטה לאחד הזמנות ולחתום חוזה גלובלי במקום מקומי.",
+      scenarioHe:
+        "בארגון Central Analytics מציג את ה-Spend המאוחד על פחיות, סוכר ו-CO2 בכל המדינות, חושף שונות-מחיר בין מפעלים, ומכוון את המטה לאחד הזמנות ולחתום חוזה גלובלי במקום מקומי.",
       navHe: [
         "Fiori Launchpad (Hub) ► Central Procurement ► Procurement Overview Page",
         "Fiori Launchpad (Hub) ► Central Procurement ► Spend / Supplier KPIs",
@@ -446,8 +446,8 @@ export const CH14: TextbookChapter = {
         "להרחיב את הרכש המרכזי מעבר לגבולות-ה-ERP — אל מקור-אסטרטגי בענן ואל שיתוף-פעולה דיגיטלי עם ספקים — לקיצור מחזורי-רכש, להפחתת-טעויות ולתאימות-חשבוניות אוטומטית.",
       processExampleHe:
         "רוכש מריץ RFx ב-SAP Ariba Sourcing; ה-Award חוזר לרכזת ל-Central Contract; ההזמנה נשלחת אל הספק דרך SAP Business Network; הספק מאשר (order confirmation) ושולח e-invoice חזרה — והכל מנוטר מהרכזת ומה-Integration Suite.",
-      cbcHe:
-        "ב-CBC מכרזי-אלומיניום אסטרטגיים מנוהלים ב-SAP Ariba Sourcing; הזמנות-הפחיות נשלחות לספקים דרך SAP Business Network עם אישור-הזמנה ו-e-invoice — מחליף תקשורת ידנית ומאיץ את מחזור ה-Procure-to-Pay.",
+      scenarioHe:
+        "בארגון מכרזי-אלומיניום אסטרטגיים מנוהלים ב-SAP Ariba Sourcing; הזמנות-הפחיות נשלחות לספקים דרך SAP Business Network עם אישור-הזמנה ו-e-invoice — מחליף תקשורת ידנית ומאיץ את מחזור ה-Procure-to-Pay.",
       navHe: [
         "SAP Integration Suite ► Cloud Integration ► Discover (Ariba / Business Network packages)",
         "SAP Business Network ► Buyer Account ► Transaction Configuration",
@@ -516,8 +516,8 @@ export const CH14: TextbookChapter = {
         "לספק מסלול-מימוש ברור ומסודר לתצורת הרכש-המרכזי-בענן, כך שצוות-הפרויקט יוכל להקים את הרכזת, לחבר את המערכות ולהפעיל את SAP Ariba Buying בשלבים נשלטים עם נקודות-בקרה.",
       processExampleHe:
         "פרויקט-מימוש פותח ב-Prerequisites (גרסאות, רישוי, הרשאות), עובר ל-Establishing Connectivity (SOAMANAGER/SM59), ממשיך ל-Validating Data and Identifying Gaps, מגדיר את הרכזת, ולבסוף מחבר את SAP Ariba Buying — כל שלב נבדק לפני המעבר לבא.",
-      cbcHe:
-        "ב-CBC הקמת רכזת-רכש-בענן מתבצעת בשלבים: חיבור מפעלי-הבקבוק תחילה (חיבוריות), מיפוי קטלוגי-החומרים (אימות-נתונים), הגדרת הרכזת, ואז הפעלת SAP Ariba Buying ל-self-service של רוכשי-המפעלים.",
+      scenarioHe:
+        "בארגון הקמת רכזת-רכש-בענן מתבצעת בשלבים: חיבור מפעלי-הבקבוק תחילה (חיבוריות), מיפוי קטלוגי-החומרים (אימות-נתונים), הגדרת הרכזת, ואז הפעלת SAP Ariba Buying ל-self-service של רוכשי-המפעלים.",
       navHe: [
         "SPRO ► Materials Management ► Central Procurement ► SAP Ariba Central Procurement (Private Cloud)",
         "SAP Integration Suite ► Discover ► SAP Ariba Buying content packages",
@@ -579,7 +579,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "בודקים: גרסת-רכזת S/4HANA (Private Cloud) תואמת ל-Central Procurement; גרסאות Connected Systems (S/4HANA או ECC עם רמת-תיקונים נדרשת); רישוי Ariba Central Procurement ו-Integration Suite; משתמשי-תקשורת (Communication Users) והרשאות; וזמינות SAP Notes רלוונטיים. תיעוד התנאים מונע הפתעות בשלבים מתקדמים.",
           purposeHe: "להבטיח שכל היסודות הטכניים והרישוייים קיימים לפני ההשקעה בחיבוריות ובקונפיגורציה — מניעת כשל-מימוש בשלב מאוחר ויקר.",
           processExampleHe: "צוות-הפרויקט ממלא רשימת-תיוג: גרסת-רכזת ✓, גרסת-ECC-מחובר ✓, רישוי Ariba ✓, Integration Suite tenant ✓, Communication Users ✓ — ורק אז עובר ל-14.8.2.",
-          cbcHe: "ב-CBC לפני ההקמה בודקים שכל מפעל-בקבוק מריץ גרסת-ERP נתמכת, שהרישוי המרכזי קיים, ושיש גישת-Integration-Suite — מונע גילוי-מאוחר שמפעל מסוים לא תואם.",
+          scenarioHe: "בארגון לפני ההקמה בודקים שכל מפעל-בקבוק מריץ גרסת-ERP נתמכת, שהרישוי המרכזי קיים, ושיש גישת-Integration-Suite — מונע גילוי-מאוחר שמפעל מסוים לא תואם.",
           navHe: ["SPRO ► Central Procurement ► SAP Ariba Central Procurement ► Prerequisites Checklist", "SAP for Me ► Licenses / SAP Notes"],
           tables: ["TBE11", "PRGN_CUST"],
           tcodes: ["SU01", "PFCG", "SNOTE"],
@@ -599,7 +599,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "מגדירים Logical System לכל מערכת (BD54) ומקצים Business System ID; יוצרים RFC Destinations (SM59) דו-כיווניים; מפעילים שירותי-SOAP ב-SOAMANAGER (provider+consumer) עם binding ו-Communication User; ובודקים קישוריות (connection test). כל אובייקט מרכזי נושא את ה-System Alias המבוסס על הגדרות אלו. תקלות-חיבור נפוצות: SSL/certificate, user/auth, או binding שגוי.",
           purposeHe: "להקים את תשתית-התקשורת שעליה נשען כל הרכש המרכזי — שכפול-דרישות, הורדת-הזמנות, הפצת-חוזים ועדכוני-סטטוס.",
           processExampleHe: "טכנאי מגדיר Logical System למפעל-גרמניה, יוצר RFC Destination ב-SM59, מפעיל את שירותי-ה-SOAP ב-SOAMANAGER עם Communication User, ומריץ connection test מוצלח — Connected System מוכן.",
-          cbcHe: "ב-CBC כל מפעל-בקבוק מקבל Logical System ו-RFC/SOAP destinations ייעודיים; אחרי connection test מוצלח, דרישות-הרכש שלו מתחילות לזרום לרכזת.",
+          scenarioHe: "בארגון כל מפעל-בקבוק מקבל Logical System ו-RFC/SOAP destinations ייעודיים; אחרי connection test מוצלח, דרישות-הרכש שלו מתחילות לזרום לרכזת.",
           navHe: ["Hub ► SM59 ► RFC Destinations", "Hub ► SOAMANAGER ► Web Service Configuration", "Hub ► BD54 ► Define Logical Systems"],
           tables: ["TBDLS", "RFCDES", "TBE11", "SRT_CONFIG"],
           tcodes: ["SM59", "SOAMANAGER", "BD54", "SLDCHECK"],
@@ -622,7 +622,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "מריצים השוואת-נתונים בין הרכזת ל-Connected Systems: Material numbers, Business Partner (Supplier) IDs, Plants, Company Codes, Purchasing Orgs. מקימים Value Mapping (דרך SAP Integration Suite או טבלאות-מיפוי ברכזת) לכל פער. שוקלים MDG לממשל-מרכזי. מתעדים פערים שלא ניתן למפות (חומר חסר במערכת-יעד) כדרישות-תיקון-נתונים. כלי-עזר: DRF (Data Replication Framework) לבדיקת-עקביות.",
           purposeHe: "להבטיח שכל אובייקט מרכזי יוכל לרדת בהצלחה ל-Connected System ושה-Analytics יקבץ נכון — מניעת כשלי-הורדה וקיבוץ-Spend שגוי בהמשך.",
           processExampleHe: "צוות מריץ השוואה ומגלה שספק מסוים קיים ברכזת אך לא במערכת-ספרד; מקים Value Mapping או מבקש להקים את הספק שם — ורק אז מפעיל תרחישי-הורדה.",
-          cbcHe: "ב-CBC משווים קטלוגי-חומרים בין מפעלי-הבקבוק: אותה פחית עם מספרים שונים בכל מדינה. מקימים מיפוי-ערכים מרכזי כדי שאובייקטים יורדו נכון וה-Spend יקובץ אחיד.",
+          scenarioHe: "בארגון משווים קטלוגי-חומרים בין מפעלי-הבקבוק: אותה פחית עם מספרים שונים בכל מדינה. מקימים מיפוי-ערכים מרכזי כדי שאובייקטים יורדו נכון וה-Spend יקובץ אחיד.",
           navHe: ["Hub ► DRFOUT ► Data Replication / Consistency", "SAP Integration Suite ► Value Mapping", "SPRO ► Central Procurement ► Configure Value Mapping"],
           tables: ["MARA", "BUT000", "T001W", "T001", "DRF_OUTB_LOG"],
           tcodes: ["DRFOUT", "DRFF", "MDG_BS_WD", "BP"],
@@ -645,7 +645,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "מפעילים את Scope items/שירותי ה-Central הרלוונטיים ב-SPRO; משייכים System Aliases ל-Use Cases; מגדירים Document Types, Number Ranges ו-Field Control לאובייקטים מרכזיים; מקימים Flexible Workflow לאישורי-דרישות/הזמנות מרכזיות; ומגדירים שירותי-עדכון-סטטוס דו-כיווניים. בודקים end-to-end על מערכת-בדיקה לפני production. זהו הליבה הפונקציונלית של ההקמה.",
           purposeHe: "להפוך את התשתית (חיבוריות + נתונים) לרכש-מרכזי מתפקד — להפעיל את היכולות הנדרשות ולכוון אותן לתהליכי-הארגון.",
           processExampleHe: "יועץ מפעיל Central Requisitioning ו-Central Purchasing, משייך שלוש מערכות-מחוברות, מגדיר Flexible Workflow לאישור-דרישות מעל סכום מסוים, ומריץ בדיקת-קצה-לקצה לפני העלאה ל-production.",
-          cbcHe: "ב-CBC מפעילים Central Requisitioning, Sourcing ו-Contracts; משייכים את כל מפעלי-הבקבוק; ומגדירים Flexible Workflow שמנתב אישורי-חוזה גלובליים למטה-הרכש — לפני הפעלה מסחרית.",
+          scenarioHe: "בארגון מפעילים Central Requisitioning, Sourcing ו-Contracts; משייכים את כל מפעלי-הבקבוק; ומגדירים Flexible Workflow שמנתב אישורי-חוזה גלובליים למטה-הרכש — לפני הפעלה מסחרית.",
           navHe: ["SPRO ► Central Procurement ► Activate Central Procurement Services", "SPRO ► Central Procurement ► Assign Connected Systems / Document Types", "Hub ► Manage Flexible Workflow for Purchase Requisitions"],
           tables: ["TBE11", "T160", "T161", "SWF_FLEX"],
           tcodes: ["SPRO", "SWDD", "OMEC", "NACE"],
@@ -668,7 +668,7 @@ export const CH14: TextbookChapter = {
           consultantHe: "מקימים את חבילות-התוכן של SAP Ariba Buying ב-SAP Integration Suite; מגדירים מיפוי-מסמכים (Requisition/PO/Confirmation/Invoice) ב-cXML; מחברים קטלוגים (catalog enablement); ומכוונים את הזרימה: Ariba Buying Requisition → Central Requisitioning → Central PO → Connected System. נדרש סנכרון נתוני-אב ל-Ariba (suppliers, commodity codes) וניטור דרך Integration Suite. זהו השילוב שהופך את הפריסה למלאה: Source-to-Pay בענן מעל hub מרכזי.",
           purposeHe: "להוסיף חוויית-self-service מודרנית מבוססת-קטלוג (Ariba Buying) מעל הרכש-המרכזי — להאיץ קנייה, להגדיל-תאימות (on-contract buying), ולסגור את מחזור ה-Source-to-Pay בענן.",
           processExampleHe: "עובד בוחר פריט מקטלוג ב-SAP Ariba Buying; דרישת-ה-Ariba זורמת דרך Integration Suite ל-Central Requisitioning ברכזת; הרוכש-המרכזי ממיר ל-Central PO היורד ל-Connected System; הספק מאשר דרך SAP Business Network.",
-          cbcHe: "ב-CBC רוכשי-המפעלים מזמינים חומרי-MRO ואריזה דרך קטלוגי SAP Ariba Buying; הדרישות זורמות לרכש-המרכזי, מומרות להזמנות במערכות-המפעלים, ונשלחות לספקים ברשת — חוויית-קנייה אחידה ומבוקרת בכל הקבוצה.",
+          scenarioHe: "בארגון רוכשי-המפעלים מזמינים חומרי-MRO ואריזה דרך קטלוגי SAP Ariba Buying; הדרישות זורמות לרכש-המרכזי, מומרות להזמנות במערכות-המפעלים, ונשלחות לספקים ברשת — חוויית-קנייה אחידה ומבוקרת בכל הקבוצה.",
           navHe: ["SAP Integration Suite ► Discover ► SAP Ariba Buying packages", "SAP Ariba Buying ► Administration ► Integration / Catalog enablement", "SPRO ► Central Procurement ► Integration with SAP Ariba Buying"],
           tables: ["EBAN", "EKKO", "EDIDC", "BBP_PDIGP", "COMM_PRODUCT"],
           tcodes: ["SOAMANAGER", "SXMB_MONI", "WE02", "SPRO"],
@@ -702,8 +702,8 @@ export const CH14: TextbookChapter = {
         "לקבע את התמונה המלאה: מה הרכש המרכזי נותן (איחוד-כוח ושקיפות ללא מיזוג-מערכות), כיצד הוא בנוי (hub + Connected Systems + Ariba), וכיצד מממשים אותו בשלבים נשלטים.",
       processExampleHe:
         "מהדרישה ועד התשלום: דרישה מקומית → Central Requisitioning → Central Sourcing (RFQ/Award) → Central Contract → Central PO → הורדה ל-Connected System → GR/IR → Central Analytics. כל שלב נוגע ברכזת לניהול ובמערכת-המחוברת לביצוע.",
-      cbcHe:
-        "ב-CBC: רכזת אחת מנהלת רכש פחיות, תרכיז, סוכר ו-CO2 לכל מפעלי-הבקבוק; חוזים גלובליים, נראות-Spend מאוחדת, ו-self-service קטלוגי דרך Ariba Buying — איחוד-כוח-קנייה אמיתי תוך שמירה על ביצוע מקומי בכל מדינה.",
+      scenarioHe:
+        "בארגון: רכזת אחת מנהלת רכש פחיות, תרכיז, סוכר ו-CO2 לכל מפעלי-הבקבוק; חוזים גלובליים, נראות-Spend מאוחדת, ו-self-service קטלוגי דרך Ariba Buying — איחוד-כוח-קנייה אמיתי תוך שמירה על ביצוע מקומי בכל מדינה.",
       navHe: [
         "Fiori Launchpad (Hub) ► Central Procurement ► Procurement Overview Page",
         "SPRO ► Materials Management ► Central Procurement",

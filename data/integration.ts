@@ -24,7 +24,7 @@ export interface IntgModule {
   debug: string[];
   notes: string[];         // SAP Note search keywords + component
   incidents: IntgIncident[];
-  cbc: string;
+  scenario: string;
   links: IntgLink[];
 }
 
@@ -61,7 +61,7 @@ export const MODULES: IntgModule[] = [
       { slug: "idoc-64-eoio-queue", label: "IDoc 64 — תור EOIO" },
       { slug: "idoc-68-no-further-processing", label: "IDoc 68 — No Further Processing" },
     ],
-    cbc: "ב-CBC: IDoc אב-חומר (MATMAS) ל-Daymax נכשל ב-51 — שדה יחידת-מידה לא קיים ביעד; תוקן ה-mapping ועובד מחדש ב-BD87.",
+    scenario: "בארגון: IDoc אב-חומר (MATMAS) ל-Daymax נכשל ב-51 — שדה יחידת-מידה לא קיים ביעד; תוקן ה-mapping ועובד מחדש ב-BD87.",
     links: [{ label: "MM — אב חומר", href: "/sap-infrastructure/" }, { label: "SD — משלוחים", href: "/sap-infrastructure/" }, MIG, INC],
   },
   {
@@ -80,7 +80,7 @@ export const MODULES: IntgModule[] = [
     debug: ["BD64 → בדיקת עקביות המודל", "BDM2 לאיתור IDoc אב↔בן", "BD21 / RBDMIDOC להפקת change pointers", "Breakpoint: MASTERIDOC_CREATE_*"],
     notes: ["ALE distribution model not active BD64 · BC-MID-ALE", "change pointers RBDMIDOC not generated · BC-MID-ALE"],
     incidents: [{ slug: "idoc-68-no-further-processing", label: "IDoc 68 (ריצת ניקוי ALE)" }],
-    cbc: "ב-CBC: הפצת אב-ספק (CREMAS) בין מערכות נעצרה — Distribution Model עודכן אך לא הופץ; בוצע BD64→Distribute וזרימה התחדשה.",
+    scenario: "בארגון: הפצת אב-ספק (CREMAS) בין מערכות נעצרה — Distribution Model עודכן אך לא הופץ; בוצע BD64→Distribute וזרימה התחדשה.",
     links: [{ label: "MM — אב ספק", href: "/sap-infrastructure/" }, MIG, INC],
   },
   {
@@ -99,7 +99,7 @@ export const MODULES: IntgModule[] = [
     debug: ["SM59 → Connection + Authorization Test", "SU53 ל-RFC user; SM21 ל-system log", "SMGW לחיבורים תקועים", "External: בדוק JCo/NCo trace"],
     notes: ["RFC destination connection test failed SM59 · BC-MID-RFC", "S_RFC authorization missing · BC-SEC-AUT", "gateway security reg_info sec_info · BC-CST-GW"],
     incidents: [{ slug: "rfc-connection-sm59-failed", label: "חיבור RFC נכשל (SM59)" }],
-    cbc: "ב-CBC: ממשק לבנק נכשל — RFC user ננעל אחרי שינוי סיסמה מדיניותי; שוחרר ב-SU01 ו-SM59 Connection Test עבר.",
+    scenario: "בארגון: ממשק לבנק נכשל — RFC user ננעל אחרי שינוי סיסמה מדיניותי; שוחרר ב-SU01 ו-SM59 Connection Test עבר.",
     links: [{ label: "FI — ממשק בנק", href: "/sap-infrastructure/" }, { label: "הרשאות SU53", href: "/troubleshooting/su53-missing-authorization-deep/" }, S4, INC],
   },
   {
@@ -117,7 +117,7 @@ export const MODULES: IntgModule[] = [
     debug: ["SM58 → Status text של ה-LUW", "SM58 → Execute LUW (זהירות: once-only)", "בדוק יעד ב-SM59 לפני ביצוע מחדש", "ST22 ביעד אם ה-FM נכשל"],
     notes: ["tRFC LUW stuck SM58 reprocess · BC-MID-RFC", "RSARFCEX scheduling tRFC · BC-MID-RFC"],
     incidents: [],
-    cbc: "ב-CBC: IDocs outbound נצברו — מערכת היעד הייתה ב-downtime; LUWs המתינו ב-SM58 ועובדו אוטומטית עם חזרת היעד.",
+    scenario: "בארגון: IDocs outbound נצברו — מערכת היעד הייתה ב-downtime; LUWs המתינו ב-SM58 ועובדו אוטומטית עם חזרת היעד.",
     links: [{ label: "ALE/IDoc", href: "/integration/#ale" }, INC],
   },
   {
@@ -136,7 +136,7 @@ export const MODULES: IntgModule[] = [
     debug: ["SMQ2 → לחץ על התור → סיבת השגיאה", "תקן את ה-LUW החוסם → Activate התור", "SMQR/SMQS לוודא scheduler רשום", "ST22 ביעד לשגיאת ה-FM"],
     notes: ["qRFC inbound queue SYSFAIL stuck SMQ2 · BC-MID-RFC", "qRFC scheduler registration SMQR SMQS · BC-MID-RFC"],
     incidents: [{ slug: "idoc-64-eoio-queue", label: "IDoc 64 — תור EOIO תקוע" }],
-    cbc: "ב-CBC: תור inbound של אישורי ייצור נתקע ב-SMQ2 (SYSFAIL) — רשומה ראשונה נכשלה וחסמה את כל היתר; תוקן הנתון ותור הופעל מחדש.",
+    scenario: "בארגון: תור inbound של אישורי ייצור נתקע ב-SMQ2 (SYSFAIL) — רשומה ראשונה נכשלה וחסמה את כל היתר; תוקן הנתון ותור הופעל מחדש.",
     links: [{ label: "PP-PI — אישורי ייצור", href: "/pp-pi/" }, { label: "tRFC", href: "/integration/#trfc" }, INC],
   },
   {
@@ -155,7 +155,7 @@ export const MODULES: IntgModule[] = [
     debug: ["SXMB_MONI → סטטוס + payload + trace level", "RWB → Channel Monitoring", "SMQ2 ל-queue ב-Integration Engine", "IDX2 לרענון IDoc metadata"],
     notes: ["PI PO message system error channel · BC-XI-IBC", "Adapter Engine queue stuck · BC-XI-IS", "IDX2 idoc metadata refresh · BC-XI-CON-IDO"],
     incidents: [{ slug: "pi-po-channel-error-not-sent", label: "ערוץ PI/PO תקוע" }],
-    cbc: "ב-CBC: הודעת מכירות ל-Daymax נתקעה ב-PO — ה-Communication Channel היה ב-Error אחרי שינוי endpoint; הופעל מחדש ונשלח.",
+    scenario: "בארגון: הודעת מכירות ל-Daymax נתקעה ב-PO — ה-Communication Channel היה ב-Error אחרי שינוי endpoint; הופעל מחדש ונשלח.",
     links: [{ label: "SD — מכירות", href: "/sap-infrastructure/" }, { label: "CPI (יורש)", href: "/integration/#cpi" }, INC],
   },
   {
@@ -174,7 +174,7 @@ export const MODULES: IntgModule[] = [
     debug: ["Message Monitoring → Failed → MPL/trace", "בדוק Security Material + Cloud Connector", "trace level=Trace, אתר את שלב ה-mapping", "Resend אחרי תיקון + deploy מחדש"],
     notes: ["CPI iFlow failed message monitoring · LOD-HCI-PI", "Cloud Connector connectivity · BC-MID-SCC", "CPI security material credential expired · LOD-HCI-PI"],
     incidents: [{ slug: "cpi-iflow-failed", label: "iFlow ב-CPI נכשל" }],
-    cbc: "ב-CBC: iFlow ששולח אישורי ייצור ל-MES נכשל — Security Material פג; חודש ובוצע Resend.",
+    scenario: "בארגון: iFlow ששולח אישורי ייצור ל-MES נכשל — Security Material פג; חודש ובוצע Resend.",
     links: [{ label: "PP-PI — MES", href: "/pp-pi/" }, { label: "Integration Suite", href: "/integration/#suite" }, S4, INC],
   },
   {
@@ -193,7 +193,7 @@ export const MODULES: IntgModule[] = [
     debug: ["BTP Cockpit → Entitlements + Subscriptions", "בדוק role collections למשתמש", "Migration Assessment מ-PI/PO", "Cloud Connector — Subaccount status"],
     notes: ["Integration Suite capability activation BTP · LOD-HCI", "PI PO migration to Integration Suite assessment · LOD-HCI-PI"],
     incidents: [],
-    cbc: "ב-CBC: בהערכת מעבר מ-PI/PO ל-Integration Suite מופו ה-iFlows ל-Cloud Integration וה-B2B ל-Trading Partner Management.",
+    scenario: "בארגון: בהערכת מעבר מ-PI/PO ל-Integration Suite מופו ה-iFlows ל-Cloud Integration וה-B2B ל-Trading Partner Management.",
     links: [{ label: "CPI", href: "/integration/#cpi" }, { label: "Event Mesh", href: "/integration/#eventmesh" }, S4],
   },
   {
@@ -212,7 +212,7 @@ export const MODULES: IntgModule[] = [
     debug: ["/IWFND/ERROR_LOG עם timestamp הבקשה", "/IWFND/GW_CLIENT להרצת הבקשה ידנית", "Cache cleanup לאחר שינוי metadata", "ST05 / SQL trace ל-CDS איטי"],
     notes: ["OData service error log /IWFND/ERROR_LOG · OPU-GW", "gateway service not active MAINT_SERVICE · OPU-GW-BE", "OData metadata cache cleanup · OPU-GW"],
     incidents: [],
-    cbc: "ב-CBC: אפליקציית Fiori להזמנות עבודה (PM) החזירה 404 — ה-OData service לא הופעל ב-/IWFND/MAINT_SERVICE; הורשם, הופעל ו-cache רוענן.",
+    scenario: "בארגון: אפליקציית Fiori להזמנות עבודה (PM) החזירה 404 — ה-OData service לא הופעל ב-/IWFND/MAINT_SERVICE; הורשם, הופעל ו-cache רוענן.",
     links: [{ label: "PM — Fiori הזמנות", href: "/pm/" }, { label: "CDS Views", href: "/s4hana/" }, S4],
   },
   {
@@ -230,7 +230,7 @@ export const MODULES: IntgModule[] = [
     debug: ["API Monitoring → trace הבקשה דרך ה-policies", "בדוק OAuth token + scopes", "בדוק quota/spike-arrest policy", "Debug session ב-API proxy"],
     notes: ["API Management policy OAuth quota · BC-NEO-INT / LOD-HCI-API", "API proxy deployment failed · LOD-HCI-API"],
     incidents: [],
-    cbc: "ב-CBC: API חיצוני לשותף לוגיסטי קיבל 429 — spike-arrest policy חסם; הותאם ה-quota והוגדר retry בצד הצרכן.",
+    scenario: "בארגון: API חיצוני לשותף לוגיסטי קיבל 429 — spike-arrest policy חסם; הותאם ה-quota והוגדר retry בצד הצרכן.",
     links: [{ label: "OData", href: "/integration/#odata" }, { label: "Integration Suite", href: "/integration/#suite" }, S4],
   },
   {
@@ -249,7 +249,7 @@ export const MODULES: IntgModule[] = [
     debug: ["S/4 Event Monitor → האם האירוע נפלט", "Event Mesh Dashboard → queue depth + DMQ", "בדוק topic subscription pattern", "SWEL/SWELS ל-trace אירועים קלאסי (workflow)"],
     notes: ["SAP Event Mesh queue subscription topic · BC-CP-EM / LOD-EM", "S/4HANA enterprise eventing business event binding · BC-ESI-ESF"],
     incidents: [],
-    cbc: "ב-CBC: אירוע 'הזמנת עבודה שוחררה' (PM) נועד להפעיל התראה ל-MES — Event Binding לא הופעל; הופעל ו-consumer קיבל את האירועים.",
+    scenario: "בארגון: אירוע 'הזמנת עבודה שוחררה' (PM) נועד להפעיל התראה ל-MES — Event Binding לא הופעל; הופעל ו-consumer קיבל את האירועים.",
     links: [{ label: "PM — הזמנות עבודה", href: "/pm/" }, { label: "Integration Suite", href: "/integration/#suite" }, S4],
   },
 ];

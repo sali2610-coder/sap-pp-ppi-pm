@@ -1,7 +1,7 @@
 // Consultant Workbenches — Debugging / QM / PM-Advanced / PP-PI-Advanced.
 // Each workbench = 12 sections (concepts, architecture, process flow, tables,
 // transactions, FMs, BAdIs, user exits, common incidents, debug entry points,
-// ECC vs S/4, CBC examples). Authored + agent-reviewed; uncertain SAP objects
+// ECC vs S/4, הארגון examples). Authored + agent-reviewed; uncertain SAP objects
 // carry a "verify SE.." hedge per the sap-ecc-troubleshooter no-invention rule.
 
 export interface WbConcept { term: string; he: string; desc: string }
@@ -28,7 +28,7 @@ export interface Workbench {
   incidents: string[]; // slugs in troubleshooting
   debugEntry: string[];
   eccS4: WbDelta[];
-  cbc: string[];
+  scenario: string[];
 }
 
 const DEBUGGING: Workbench = {
@@ -89,7 +89,7 @@ const DEBUGGING: Workbench = {
     { ecc: "New ABAP Debugger ב-SAP GUI; ST22/SM13/ST05 זהים.", s4: "אותם כלים; בנוסף debugging ב-ADT/Eclipse לאובייקטי ABAP מודרניים (CDS/RAP)." },
     { ecc: "דיבוג קלאסי על דוחות/dynpro.", s4: "דיבוג גם על OData/RAP handlers; CDS view debugging דרך ADT." },
   ],
-  cbc: [
+  scenario: [
     "אישור מילוי 'הצליח' אך חסר מסמך חומר — SM13 חשף update V2 שנכשל על GBB-VBR; תוקן OBYC וה-update חזר.",
     "קריאת tRFC שמעדכנת מלאי תרכיז במתכנן תקועה ב-SM58 (SYSFAIL) — ST22 ביעד הצביע על דאמפ; תוקן ובוצע Execute LUW.",
     "רישום תנועת תרכיז נחסם ב'נעול ע\"י משתמש' — SM12 הראה נעילה יתומה לאחר דאמפ; נמחקה אחרי אימות ב-SM04.",

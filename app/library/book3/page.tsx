@@ -218,8 +218,8 @@ export default function Book3Page() {
 
       <p className="text-center text-xs text-muted-foreground">
         {lang === "he"
-          ? "טקסט ואיורים חולצו מקובץ ה-PDF המקורי (poppler/pdfimages). תרגום עברי מקצועי נכתב עבור CBC."
-          : "Text & figures extracted from the original PDF (poppler/pdfimages). Hebrew professionally translated for CBC."}
+          ? "טקסט ואיורים חולצו מקובץ ה-PDF המקורי (poppler/pdfimages). תרגום עברי מקצועי נכתב עבור הארגון."
+          : "Text & figures extracted from the original PDF (poppler/pdfimages). Hebrew professionally translated for the organization."}
       </p>
     </div>
   );

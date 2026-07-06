@@ -1,12 +1,12 @@
 import { CenterHeader } from "@/components/knowledge";
 import { CenterIndexGrid } from "@/components/topic-center";
-import { CBC_SCENARIOS } from "@/data/centers/cbc";
+import { MFG_SCENARIOS } from "@/data/centers/manufacturing";
 
 export default function Page() {
   return (
     <div>
-      <CenterHeader eyebrow="CBC Manufacturing Center" title="מרכז תרחישי CBC" sub={`תרחישי ייצור אמיתיים — משקה, תרכיז, אצוות, CIP, אריזה, מחזורי פקודה · ${CBC_SCENARIOS.length} פריטים`} accent="#d62027" />
-      <CenterIndexGrid items={CBC_SCENARIOS} base="/cbc/" />
+      <CenterHeader eyebrow="Manufacturing Center" title="מרכז תרחישי ייצור" sub={`תרחישי ייצור אמיתיים — משקה, תרכיז, אצוות, CIP, אריזה, מחזורי פקודה · ${MFG_SCENARIOS.length} פריטים`} accent="#d62027" />
+      <CenterIndexGrid items={MFG_SCENARIOS} base="/manufacturing/" />
     </div>
   );
 }

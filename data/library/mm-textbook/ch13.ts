@@ -1,7 +1,7 @@
 // ===== MM Digital Textbook — Chapter 13 (Supplier Management) =====
 // Every node is a complete LearningNode with 18 facets of authored Hebrew.
 // Source hierarchy preserved (ids + order); x.y.z nested under x.y.
-// CBC context = Coca-Cola bottling supplier onboarding & scoring for
+// הארגון context = Example Product bottling supplier onboarding & scoring for
 // ingredient & packaging vendors. SAP identifiers verbatim English.
 import type { TextbookChapter } from "./types";
 
@@ -10,7 +10,7 @@ export const CH13: TextbookChapter = {
   titleHe: "ניהול ספקים",
   titleEn: "Supplier Management",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לניהול ספקים (Supplier Management) ב-SAP S/4HANA, בלב תחום הרכש והמקורות (Sourcing & Procurement). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. נושאי הליבה: גילוי-הכשרה-וקליטה של ספקים (Supplier Lifecycle and Collaboration · SLC), סיווג וסגמנטציה דרך Purchasing Category, והערכת-ספקים (Supplier Evaluation) על-פי ציון-משולב (Scorecard), זמן, איכות, מחיר ושאלון. המטרה: ללמוד את הנושא במלואו ללא הספר המקורי, ברמה המתאימה גם למתחיל וגם ליועץ.",
+    "פרק זה הוא יחידת-לימוד מלאה לניהול ספקים (Supplier Management) ב-SAP S/4HANA, בלב תחום הרכש והמקורות (Sourcing & Procurement). כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. נושאי הליבה: גילוי-הכשרה-וקליטה של ספקים (Supplier Lifecycle and Collaboration · SLC), סיווג וסגמנטציה דרך Purchasing Category, והערכת-ספקים (Supplier Evaluation) על-פי ציון-משולב (Scorecard), זמן, איכות, מחיר ושאלון. המטרה: ללמוד את הנושא במלואו ללא הספר המקורי, ברמה המתאימה גם למתחיל וגם ליועץ.",
   subchapters: [
     // ============================================================ 13.1
     {
@@ -25,8 +25,8 @@ export const CH13: TextbookChapter = {
         "המטרה: להבטיח שלכל פעילות-רכש יש ספק כשיר, מסווג ומדורג — כדי שהמערכת תוכל לנתב מקורות (Sourcing) חכם, להפחית סיכון, ולקבל החלטות-רכש מבוססות-נתונים במקום תחושות-בטן.",
       processExampleHe:
         "ארגון זקוק לספק חדש לחומר-גלם קריטי: צוות-הרכש מפרסם בקשת-רישום, ספקים נרשמים בפורטל, עוברים הכשרה (שאלוני-תאימות, אישורי-תקן), מאושרים והופכים ל-Business Partner פעיל, מסווגים ל-Purchasing Category, ומאותו רגע ביצועיהם נמדדים אוטומטית דרך Supplier Evaluation.",
-      cbcHe:
-        "ב-CBC: ספק תרכיז, ספק סוכר, ספק בקבוקי-PET וספק פקקים עוברים כל אחד גילוי, הכשרת-מזון (HACCP/ISO 22000), קליטה כ-Business Partner, סיווג ל-Purchasing Category ('Sweeteners', 'Packaging') ודירוג שוטף לפי זמן-אספקה, איכות-אצווה ומחיר — כדי להבטיח שהבקבוק שיוצא מהקו עומד בתקני קוקה-קולה העולמיים.",
+      scenarioHe:
+        "בארגון: ספק תרכיז, ספק סוכר, ספק בקבוקי-PET וספק פקקים עוברים כל אחד גילוי, הכשרת-מזון (HACCP/ISO 22000), קליטה כ-Business Partner, סיווג ל-Purchasing Category ('Sweeteners', 'Packaging') ודירוג שוטף לפי זמן-אספקה, איכות-אצווה ומחיר — כדי להבטיח שהבקבוק שיוצא מהקו עומד בתקני מוצר לדוגמה העולמיים.",
       navHe: [
         "Materials Management ► Purchasing ► Supplier Evaluation ► Maintain Purchasing Organization Data",
         "SAP Menu ► Logistics ► Materials Management ► Supplier Evaluation",
@@ -95,8 +95,8 @@ export const CH13: TextbookChapter = {
             "להבטיח שרק ספקים כשירים נכנסים לבסיס-הנתונים, ושכל ספק מתועד עם הוכחות-תאימות לפני הרכישה הראשונה — שורש בקרת-הסיכון.",
           processExampleHe:
             "מנהל-קטגוריה מפרסם בקשת-רישום; ספקים נרשמים, ממלאים שאלון-הכשרה (כספים, ISO, ביטוח); המערכת מחשבת ציון; ספקים שעברו מאושרים, נוצר עבורם Business Partner, והם מסווגים ל-Purchasing Category — מוכנים להזמנות.",
-          cbcHe:
-            "ב-CBC ספק-סוכר חדש נרשם בפורטל, מעלה אישורי HACCP ו-ISO 22000, מצרף ביטוח-אחריות-מוצר; QA בודק; לאחר אישור נפתח BP ומסווג ל-Purchasing Category 'Sweeteners'. אישור-המזון נשמר כ-Qualification עם תאריך-תפוגה לחידוש שנתי.",
+          scenarioHe:
+            "בארגון ספק-סוכר חדש נרשם בפורטל, מעלה אישורי HACCP ו-ISO 22000, מצרף ביטוח-אחריות-מוצר; QA בודק; לאחר אישור נפתח BP ומסווג ל-Purchasing Category 'Sweeteners'. אישור-המזון נשמר כ-Qualification עם תאריך-תפוגה לחידוש שנתי.",
           navHe: [
             "Fiori ► Supplier Management ► Manage Supplier Registrations",
             "SPRO ► Supplier and Category Management ► Supplier Registration / Qualification ► Define Process",
@@ -158,8 +158,8 @@ export const CH13: TextbookChapter = {
             "למקד משאבי-ניהול: ספקים אסטרטגיים מקבלים ניהול-קשר אינטנסיבי והערכה תכופה, בעוד ספקים סטנדרטיים מנוהלים בקלות יחסית.",
           processExampleHe:
             "מנהל-רכש מסווג 200 ספקים ל-8 Purchasing Categories, ובכל קטגוריה מסמן את ה-Top 20% כ-Strategic — אלה יקבלו Scorecard רבעוני ופגישות-עסקים קבועות.",
-          cbcHe:
-            "ב-CBC ספק-תרכיז (מקור-יחיד, קריטי) = Strategic; ספק-קרטונים (מקורות-רבים) = Standard. שניהם בקטגוריות נפרדות, אך רמת-הניהול שונה לחלוטין.",
+          scenarioHe:
+            "בארגון ספק-תרכיז (מקור-יחיד, קריטי) = Strategic; ספק-קרטונים (מקורות-רבים) = Standard. שניהם בקטגוריות נפרדות, אך רמת-הניהול שונה לחלוטין.",
           navHe: [
             "Fiori ► Supplier Management ► Manage Purchasing Categories",
             "SPRO ► Supplier and Category Management ► Purchasing Category ► Define Categories",
@@ -204,8 +204,8 @@ export const CH13: TextbookChapter = {
             "לספק תמונה אובייקטיבית של ביצועי-הספק כבסיס לבחירת-מקור (Source Determination), למשא-ומתן, לתוכניות-שיפור ולהחלטות הסרת-ספק.",
           processExampleHe:
             "בסוף-רבעון המערכת מחשבת לכל ספק ציון: איכות 85, אספקה 90, מחיר 75 → ציון-משולב 83. ספק עם ציון < 60 נכנס לתוכנית-שיפור; ספק קבוע-נמוך מועמד להסרה.",
-          cbcHe:
-            "ב-CBC ספק-בקבוקים מדורג: % אצוות-תקינות (איכות), עמידה-בלוח-זמנים (אספקה), סטיית-מחיר. ציון נמוך באיכות-אצווה מפעיל ביקורת-ספק לפני המשך-עבודה — קריטי לבטיחות-מזון.",
+          scenarioHe:
+            "בארגון ספק-בקבוקים מדורג: % אצוות-תקינות (איכות), עמידה-בלוח-זמנים (אספקה), סטיית-מחיר. ציון נמוך באיכות-אצווה מפעיל ביקורת-ספק לפני המשך-עבודה — קריטי לבטיחות-מזון.",
           navHe: [
             "SAP Menu ► Logistics ► MM ► Supplier Evaluation ► Maintain (ME61)",
             "Fiori ► Operational Supplier Evaluation",
@@ -258,8 +258,8 @@ export const CH13: TextbookChapter = {
         "לספק יחידת-ניהול אסטרטגית אחת לכל תחום-אספקה — לריכוז ספקים, ניתוח-הוצאה, ניהול-מקורות והערכה — במקום ניהול-פרטני מבוזר.",
       processExampleHe:
         "Category Manager אחראי על קטגוריית 'Packaging': רואה את כל ספקי-האריזות, ההוצאה הכוללת, ה-Scorecards, ומסמכי-החוזים — לוח-מחוונים אחד לכל ההחלטות בתחום.",
-      cbcHe:
-        "ב-CBC קטגוריות אופייניות: 'Sweeteners' (סוכר/HFCS), 'Concentrate', 'Packaging-PET', 'Closures', 'CO2'. כל קטגוריה עם מנהל-קטגוריה ייעודי המנהל את ספקיה ומדדיהם.",
+      scenarioHe:
+        "בארגון קטגוריות אופייניות: 'Sweeteners' (סוכר/HFCS), 'Concentrate', 'Packaging-PET', 'Closures', 'CO2'. כל קטגוריה עם מנהל-קטגוריה ייעודי המנהל את ספקיה ומדדיהם.",
       navHe: [
         "Fiori ► Supplier Management ► Manage Purchasing Categories (F4144)",
         "SPRO ► Supplier and Category Management ► Purchasing Category ► Settings",
@@ -318,8 +318,8 @@ export const CH13: TextbookChapter = {
             "להקים את מסגרת-הניהול לתחום-אספקה — מבלי קטגוריה אין ריכוז-ספקים, אין ניתוח-הוצאה ואין Combined Scorecard.",
           processExampleHe:
             "מנהל-רכש יוצר קטגוריה 'Packaging-PET', ממנה Category Manager, משייך 5 ספקי-PET ואת חומרי-ה-PET, ומגדיר KPI יעד לזמן-אספקה — הקטגוריה פעילה.",
-          cbcHe:
-            "ב-CBC נוצרת קטגוריה 'Sweeteners', מנהל-הקטגוריה ממונה, ומשויכים ספקי-הסוכר וה-HFCS עם חומרי-הגלם שלהם; היעד: 98% אצוות-תקינות.",
+          scenarioHe:
+            "בארגון נוצרת קטגוריה 'Sweeteners', מנהל-הקטגוריה ממונה, ומשויכים ספקי-הסוכר וה-HFCS עם חומרי-הגלם שלהם; היעד: 98% אצוות-תקינות.",
           navHe: [
             "Fiori ► Manage Purchasing Categories ► Create (F4144)",
             "SPRO ► Supplier and Category Management ► Purchasing Category ► Define Number Ranges",
@@ -372,8 +372,8 @@ export const CH13: TextbookChapter = {
             "לשמור את הקטגוריה רלוונטית ומדויקת לאורך-זמן — בסיס-ספקים מעודכן, יעדים נכונים, ותמונת-ביצועים שוטפת לקבלת-החלטות.",
           processExampleHe:
             "מנהל-קטגוריה רואה שספק ירד ב-Scorecard, מוסיף ספק-חלופי לקטגוריה, מצרף את חוזהו, ומעדכן את יעד-המחיר בעקבות מגמת-שוק.",
-          cbcHe:
-            "ב-CBC מנהל קטגוריית 'Closures' מסיר ספק-פקקים שכשל בביקורת-איכות, מוסיף ספק-חלופי שאושר, ומצרף את אישורי-המזון שלו — הכל בתוך הקטגוריה.",
+          scenarioHe:
+            "בארגון מנהל קטגוריית 'Closures' מסיר ספק-פקקים שכשל בביקורת-איכות, מוסיף ספק-חלופי שאושר, ומצרף את אישורי-המזון שלו — הכל בתוך הקטגוריה.",
           navHe: [
             "Fiori ► Manage Purchasing Categories ► Edit (F4144)",
             "Fiori ► Supplier Management ► Category KPIs / Spend",
@@ -418,8 +418,8 @@ export const CH13: TextbookChapter = {
             "לאפשר עבודה רב-לשונית על אותו אובייקט-קטגוריה בלי לשכפל אותו — שקיפות ועקביות בארגון גלובלי.",
           processExampleHe:
             "קטגוריית 'Packaging' מתורגמת ל'אריזה' לעברית ול-'Verpackung' לגרמנית; מנהל בישראל ומנהל בגרמניה רואים אותה קטגוריה בשפתם, עם אותם נתונים.",
-          cbcHe:
-            "ב-CBC הפועלת באזורים דוברי-עברית ודוברי-ערבית, קטגוריית 'Sweeteners' מתורגמת ל'ממתיקים' ול'محليات' — אותו אובייקט, תצוגה מקומית.",
+          scenarioHe:
+            "בארגון הפועלת באזורים דוברי-עברית ודוברי-ערבית, קטגוריית 'Sweeteners' מתורגמת ל'ממתיקים' ול'محليات' — אותו אובייקט, תצוגה מקומית.",
           navHe: [
             "Fiori ► Manage Purchasing Categories ► Translations (F4144)",
             "SPRO ► Supplier and Category Management ► Purchasing Category ► Languages",
@@ -467,8 +467,8 @@ export const CH13: TextbookChapter = {
         "לספק ציון-ספק עקבי, שקוף וניתן-להשוואה — לבחירת-מקור, למשא-ומתן, לתוכניות-שיפור ולהחלטות הסרה.",
       processExampleHe:
         "המערכת אוספת רבעונית: סטיות-זמן-אספקה (LIS), שיעור-דחיות-איכות (QM), סטיית-מחיר, וציוני-שאלון; משקללת לפי המשקלים; ומציגה Combined Scorecard לכל ספק ולכל קטגוריה.",
-      cbcHe:
-        "ב-CBC ספק-תרכיז מדורג: 95 איכות, 92 זמן, 80 מחיר, 88 שאלון → משולב 90. ספק-פקקים עם 70 באיכות נכנס לתוכנית-שיפור לפני המשך-הזמנות.",
+      scenarioHe:
+        "בארגון ספק-תרכיז מדורג: 95 איכות, 92 זמן, 80 מחיר, 88 שאלון → משולב 90. ספק-פקקים עם 70 באיכות נכנס לתוכנית-שיפור לפני המשך-הזמנות.",
       navHe: [
         "SAP Menu ► Logistics ► MM ► Supplier Evaluation ► Maintain (ME61)",
         "Fiori ► Operational Supplier Evaluation",
@@ -532,8 +532,8 @@ export const CH13: TextbookChapter = {
             "לתמצת את כל נתוני-ההערכה לתצוגה אחת קריאה לקבלת-החלטות — מבלי לחפור בטבלאות גולמיות.",
           processExampleHe:
             "מנהל-רכש פותח Scorecard של ספק: ציון-כללי 84; drill-down מגלה איכות 90, זמן 88, מחיר 72 — מזהה שהמחיר הוא נקודת-החולשה ויוצא למשא-ומתן.",
-          cbcHe:
-            "ב-CBC ה-Scorecard של ספק-סוכר מציג 96 איכות-אצווה, 91 זמן, 78 מחיר — תמונה שמובילה לשיחת-מחיר תוך שמירה על הספק בשל איכותו.",
+          scenarioHe:
+            "בארגון ה-Scorecard של ספק-סוכר מציג 96 איכות-אצווה, 91 זמן, 78 מחיר — תמונה שמובילה לשיחת-מחיר תוך שמירה על הספק בשל איכותו.",
           navHe: [
             "Fiori ► Operational Supplier Evaluation ► Scorecard",
             "SAP Menu ► MM ► Supplier Evaluation ► Display (ME63)",
@@ -578,8 +578,8 @@ export const CH13: TextbookChapter = {
             "ללכוד היבטי-ביצוע איכותניים שאין להם נתון-טרנזקציוני — כדי שהציון-המשולב ישקף גם 'רכות' ולא רק מספרים.",
           processExampleHe:
             "קונה מזין ב-ME61 לספק ציון 85 ל-'Flexibility' ו-90 ל-'Technical support' בעקבות ניסיון-עבודה רבעוני; אלה מתמזגים לציון-המשולב.",
-          cbcHe:
-            "ב-CBC צוות-הרכש מזין ידנית לספק-תרכיז ציון-'Responsiveness' גבוה בשל מענה-מהיר במשבר-אספקה — היבט שלא נמדד אוטומטית אך קריטי.",
+          scenarioHe:
+            "בארגון צוות-הרכש מזין ידנית לספק-תרכיז ציון-'Responsiveness' גבוה בשל מענה-מהיר במשבר-אספקה — היבט שלא נמדד אוטומטית אך קריטי.",
           navHe: [
             "SAP Menu ► MM ► Supplier Evaluation ► Maintain (ME61)",
             "Fiori ► Operational Supplier Evaluation ► Maintain Scores",
@@ -624,8 +624,8 @@ export const CH13: TextbookChapter = {
             "למדוד אובייקטיבית את שני הממדים החשובים-ביותר באמינות-ספק: עמידה-בזמנים ואיכות-המוצר — בלי הזנה ידנית.",
           processExampleHe:
             "ספק סיפק 100 הזמנות ברבעון: 92 בזמן → ציון-זמן 92; מתוכן 3 אצוות נדחו → ציון-איכות 97. שניהם מחושבים אוטומטית מ-GR ו-QM.",
-          cbcHe:
-            "ב-CBC איכות-אצווה של חומר-גלם קריטית: דחיית אצוות-סוכר על סמך בדיקת-מעבדה מורידה מיד את ציון-האיכות; איחור-אספקה של בקבוקים מוריד ציון-זמן ומסכן את לוח-המילוי.",
+          scenarioHe:
+            "בארגון איכות-אצווה של חומר-גלם קריטית: דחיית אצוות-סוכר על סמך בדיקת-מעבדה מורידה מיד את ציון-האיכות; איחור-אספקה של בקבוקים מוריד ציון-זמן ומסכן את לוח-המילוי.",
           navHe: [
             "SPRO ► MM ► Purchasing ► Supplier Evaluation ► Define Criteria (Delivery, Quality)",
             "SAP Menu ► MM ► Supplier Evaluation ► Automatic (ME6H)",
@@ -673,8 +673,8 @@ export const CH13: TextbookChapter = {
             "לאזן את הציון-המשולב — ספק מצוין באיכות אך יקר-מדי או תנודתי מקבל איתות במחיר, לתמיכה במשא-ומתן ובבחירת-מקור.",
           processExampleHe:
             "ספק מתמחר 8% מעל ממוצע-קבוצת-החומר → ציון Price-level נמוך; אך שמר מחיר יציב שנה → ציון Price-history גבוה. השילוב מצייר תמונה מאוזנת.",
-          cbcHe:
-            "ב-CBC, סוכר הוא commodity תנודתי: ספק ששמר מחיר יציב למרות עליות-שוק מקבל ציון Price-history גבוה — יתרון בבחירת-מקור גם אם מחירו הרגעי מעט גבוה.",
+          scenarioHe:
+            "בארגון, סוכר הוא commodity תנודתי: ספק ששמר מחיר יציב למרות עליות-שוק מקבל ציון Price-history גבוה — יתרון בבחירת-מקור גם אם מחירו הרגעי מעט גבוה.",
           navHe: [
             "SPRO ► MM ► Purchasing ► Supplier Evaluation ► Define Criteria (Price)",
             "SAP Menu ► MM ► Supplier Evaluation ► Automatic (ME6H)",
@@ -719,8 +719,8 @@ export const CH13: TextbookChapter = {
             "לשלב את הממד-האיכותני בהערכה בצורה מובְנית ועקבית — כדי שהציון-המשולב ישקף גם ערכים אסטרטגיים (קיימות, אתיקה) ולא רק תפעול.",
           processExampleHe:
             "צוות-הרכש שולח שאלון-ESG ל-30 ספקים; התשובות מומרות לציון-קיימות; ספק עם ציון-נמוך נדרש לתוכנית-שיפור-סביבתי.",
-          cbcHe:
-            "ב-CBC, מחויבות לקיימות קריטית למותג: שאלון-מים-ופחמן נשלח לספקי-אריזה; ציון נמוך פוגע בציון-המשולב ומשפיע על בחירת-מקור — מעבר לפלסטיק-ממוחזר (rPET).",
+          scenarioHe:
+            "בארגון, מחויבות לקיימות קריטית למותג: שאלון-מים-ופחמן נשלח לספקי-אריזה; ציון נמוך פוגע בציון-המשולב ומשפיע על בחירת-מקור — מעבר לפלסטיק-ממוחזר (rPET).",
           navHe: [
             "Fiori ► Supplier Management ► Manage Questionnaires",
             "SPRO ► Supplier and Category Management ► Evaluation ► Questionnaires",
@@ -765,8 +765,8 @@ export const CH13: TextbookChapter = {
             "לספק מדד-על אחד, מאוזן ומשוקלל, לכל ספק — שמאפשר השוואה הוגנת, דירוג, והחלטות-מקור אסטרטגיות.",
           processExampleHe:
             "ספק: זמן 90 (×30%), איכות 95 (×40%), מחיר 75 (×20%), שאלון 80 (×10%) → משולב 89. מדורג מול ספקי-הקטגוריה לבחירת-מקור-מועדף.",
-          cbcHe:
-            "ב-CBC ה-Combined Scorecard נותן משקל-יתר לאיכות (40%) על מחיר (20%) בקטגוריות-מזון — כי בטיחות-המוצר קודמת לחיסכון. ספק עם איכות-מצוינת שורד גם במחיר בינוני.",
+          scenarioHe:
+            "בארגון ה-Combined Scorecard נותן משקל-יתר לאיכות (40%) על מחיר (20%) בקטגוריות-מזון — כי בטיחות-המוצר קודמת לחיסכון. ספק עם איכות-מצוינת שורד גם במחיר בינוני.",
           navHe: [
             "Fiori ► Operational Supplier Evaluation ► Combined Scorecard",
             "SAP Menu ► MM ► Supplier Evaluation ► Display (ME63)",
@@ -812,8 +812,8 @@ export const CH13: TextbookChapter = {
             "לתת תמונת-הערכה עדכנית-תמיד, אינטראקטיבית ומבוססת-נתונים-חיים — להחלטות-מקור מהירות ומדויקות בלי השהיית-batch.",
           processExampleHe:
             "קונה פותח את ה-Operational Supplier Evaluation: רואה מיד שספק ירד ב-on-time השבוע בעקבות שתי-אספקות-מאחרות; פועל מיד מול הספק במקום להמתין לדוח-רבעוני.",
-          cbcHe:
-            "ב-CBC, בשיא-עונת-הקיץ ביקוש המשקאות גבוה; ה-Operational Evaluation מתריעה בזמן-אמת על ירידת on-time של ספק-בקבוקים, ומאפשרת ניתוב-מהיר לספק-חלופי לפני שייפגע לוח-המילוי.",
+          scenarioHe:
+            "בארגון, בשיא-עונת-הקיץ ביקוש המשקאות גבוה; ה-Operational Evaluation מתריעה בזמן-אמת על ירידת on-time של ספק-בקבוקים, ומאפשרת ניתוב-מהיר לספק-חלופי לפני שייפגע לוח-המילוי.",
           navHe: [
             "Fiori ► Supplier Management ► Operational Supplier Evaluation",
             "Fiori ► Supplier Evaluation Scorecard",
@@ -877,8 +877,8 @@ export const CH13: TextbookChapter = {
         "להפוך את התכן-העסקי למערכת-עובדת: הגדרות שמחברות BP, קטגוריות וקריטריונים כך שהתהליכים ירוצו אוטומטית ועקבית.",
       processExampleHe:
         "יועץ-יישום מקים את הסביבה: מפעיל SLC, מגדיר BP roles, יוצר Purchasing Categories, מגדיר Main Criteria עם משקלים, ומפעיל את אפליקציות ה-Operational Evaluation — ואז התהליך מקצה-לקצה זמין.",
-      cbcHe:
-        "ב-CBC הקונפיגורציה מותאמת-ענף: קריטריון-איכות במשקל-גבוה, Qualification types לתקני-מזון, וקטגוריות-רכש ייעודיות לתרכיז/סוכר/אריזה — הכל מוגדר ב-SPRO לפני העלייה-לאוויר.",
+      scenarioHe:
+        "בארגון הקונפיגורציה מותאמת-ענף: קריטריון-איכות במשקל-גבוה, Qualification types לתקני-מזון, וקטגוריות-רכש ייעודיות לתרכיז/סוכר/אריזה — הכל מוגדר ב-SPRO לפני העלייה-לאוויר.",
       navHe: [
         "SPRO ► Materials Management ► Purchasing ► Supplier Evaluation",
         "SPRO ► Supplier and Category Management",
@@ -934,8 +934,8 @@ export const CH13: TextbookChapter = {
             "לבסס את התשתית הטכנית לכל מעגל-חיי-הספק — בלעדיה אין רישום, הכשרה, קליטה או קטגוריות.",
           processExampleHe:
             "יועץ מפעיל SLC, מגדיר BP roles ו-Number ranges, מקים תהליך-רישום ושאלוני-הכשרה, ומחבר את ה-Web-UI — ואז ספקים יכולים להירשם ולהיקלט.",
-          cbcHe:
-            "ב-CBC ההקמה כוללת Qualification types לתקני-מזון (HACCP/ISO 22000) כחלק מתהליך-ההכשרה, כך שכל ספק-מזון חייב לעבור אותם לפני קליטה.",
+          scenarioHe:
+            "בארגון ההקמה כוללת Qualification types לתקני-מזון (HACCP/ISO 22000) כחלק מתהליך-ההכשרה, כך שכל ספק-מזון חייב לעבור אותם לפני קליטה.",
           navHe: [
             "SPRO ► Supplier and Category Management ► Basic Settings ► Activate",
             "SPRO ► Cross-Application Components ► SAP Business Partner ► Define BP Roles",
@@ -981,8 +981,8 @@ export const CH13: TextbookChapter = {
             "לבסס מבנה-סיווג אחיד וניתן-לניהול — כך שכל הקטגוריות יישבו בהיררכיה עקבית, עם סגמנטציה ותרגום מוגדרים-מראש.",
           processExampleHe:
             "יועץ מגדיר היררכיה דו-רמתית (Direct/Indirect → קטגוריות-משנה), תכונות-סגמנטציה ושלוש שפות; מנהלי-הקטגוריה מתחילים לפתוח קטגוריות לפי המבנה.",
-          cbcHe:
-            "ב-CBC ההיררכיה מפרידה Direct (תרכיז, סוכר, אריזה) מ-Indirect (אחזקה, שירותים), עם סגמנטציה שמסמנת תרכיז כ-Strategic — מבנה שמכוון את כל ניהול-הספקים.",
+          scenarioHe:
+            "בארגון ההיררכיה מפרידה Direct (תרכיז, סוכר, אריזה) מ-Indirect (אחזקה, שירותים), עם סגמנטציה שמסמנת תרכיז כ-Strategic — מבנה שמכוון את כל ניהול-הספקים.",
           navHe: [
             "SPRO ► Supplier and Category Management ► Purchasing Category ► Define Settings",
             "SPRO ► ... ► Purchasing Category ► Number Ranges / Hierarchy / Languages",
@@ -1028,8 +1028,8 @@ export const CH13: TextbookChapter = {
             "להגדיר במדויק כיצד נמדד כל ספק — קריטריונים, משקלים ושיטות-ניקוד — כך שה-Scorecards יהיו עקביים, אובייקטיביים ומותאמי-אסטרטגיה.",
           processExampleHe:
             "יועץ מגדיר 4 Main Criteria (Quality/Delivery/Price/Service), תת-קריטריונים עם scoring methods, ו-Weighting key במשקל-יתר-לאיכות; מפעיל Analytics — ה-Operational Evaluation מתחיל לחשב.",
-          cbcHe:
-            "ב-CBC הקונפיגורציה נותנת לאיכות 40% ולמחיר 20%, מחברת את ציון-האיכות ל-QM Quality Score (ראה /library/qm-academy/chapter-19/), ומפעילה Analytics לקווי-המילוי — הערכת-ספק מותאמת בטיחות-מזון.",
+          scenarioHe:
+            "בארגון הקונפיגורציה נותנת לאיכות 40% ולמחיר 20%, מחברת את ציון-האיכות ל-QM Quality Score (ראה /library/qm-academy/chapter-19/), ומפעילה Analytics לקווי-המילוי — הערכת-ספק מותאמת בטיחות-מזון.",
           navHe: [
             "SPRO ► MM ► Purchasing ► Supplier Evaluation ► Define Purchasing Organization Data",
             "SPRO ► MM ► Purchasing ► Supplier Evaluation ► Maintain Main Criteria / Subcriteria / Weighting Keys",
@@ -1095,8 +1095,8 @@ export const CH13: TextbookChapter = {
         "לקשור את כל החלקים לתמונה-אחת: ניהול-ספקים אינו פעולה בודדת אלא מערכת-משולבת המפחיתה סיכון, מבטיחה תאימות, וממקסמת ערך-רכש דרך החלטות מבוססות-נתונים.",
       processExampleHe:
         "סיכום-המסע: ספק נמצא, מוכשר, נקלט כ-BP, מסווג לקטגוריה ומסומן Strategic; ביצועיו נמדדים אוטומטית בזמן/איכות/מחיר ובשאלון; ה-Combined Scorecard מדרג אותו; וה-Operational Evaluation שומרת את התמונה עדכנית בזמן-אמת.",
-      cbcHe:
-        "ב-CBC כל זה מבטיח שהבקבוק שיוצא מהקו מכיל רק תרכיז, סוכר ואריזה מספקים כשירים, מדורגים-גבוה ועומדים-בתקני-מזון — מעגל ניהול-ספקים שמגן על המותג ועל הצרכן.",
+      scenarioHe:
+        "בארגון כל זה מבטיח שהבקבוק שיוצא מהקו מכיל רק תרכיז, סוכר ואריזה מספקים כשירים, מדורגים-גבוה ועומדים-בתקני-מזון — מעגל ניהול-ספקים שמגן על המותג ועל הצרכן.",
       navHe: [
         "SPRO ► Materials Management ► Purchasing ► Supplier Evaluation",
         "Fiori ► Supplier Management (Categories · Scorecard · Operational Evaluation)",

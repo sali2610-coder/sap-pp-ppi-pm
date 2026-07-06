@@ -19,7 +19,7 @@ export interface CourseTopic {
   examples?: { scenario?: string; bullets?: string[] };
   transactions?: { tcodes?: string[]; tables?: string[]; tools?: string[] };
   debug?: { issues?: string[]; steps?: string[]; oss?: string[] };
-  cbc?: { text?: string; incidents?: { slug: string; label: string }[] };
+  scenario?: { text?: string; incidents?: { slug: string; label: string }[] };
   related?: { label: string; href: string }[];
 }
 export interface CourseConfig {
@@ -39,7 +39,7 @@ const TABS: TopicTab[] = [
   { id: "transactions", label: "טרנזקציות", icon: <Terminal className="size-3.5" /> },
   { id: "debug", label: "Debug", icon: <Bug className="size-3.5" /> },
   { id: "interview", label: "ראיון", icon: <GraduationCap className="size-3.5" /> },
-  { id: "cbc", label: "CBC", icon: <ShieldCheck className="size-3.5" /> },
+  { id: "scenario", label: "הארגון", icon: <ShieldCheck className="size-3.5" /> },
   { id: "related", label: "קשור", icon: <Network className="size-3.5" /> },
 ];
 
@@ -114,10 +114,10 @@ export function CourseCenter({ config }: { config: CourseConfig }) {
 
             {tab === "interview" && <ManagerExpects text={a.managerExpects} interview={a.interview} />}
 
-            {tab === "cbc" && <div className="space-y-2">
-              {a.cbc?.text && <div className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-3"><div className="mb-1 flex items-center gap-1.5 text-[11px] font-bold uppercase text-emerald-600"><ShieldCheck className="size-3.5" />דוגמת ייצור — CBC</div><p className="text-[12.5px] leading-relaxed text-emerald-900">{a.cbc.text}</p></div>}
-              {a.cbc?.incidents?.length ? <div><div className="eyebrow mb-1 text-rose-500">תקלות מתועדות</div><div className="flex flex-wrap gap-1.5">{a.cbc.incidents.map((inc) => <Link key={inc.slug} href={`/troubleshooting/${inc.slug}/`} className="rounded-lg bg-rose-50 px-2.5 py-1 text-[11px] font-bold text-rose-700 ring-1 ring-rose-200 hover:bg-rose-100">{inc.label} ←</Link>)}</div></div> : null}
-              {!a.cbc?.text && !a.cbc?.incidents?.length && <Empty />}
+            {tab === "scenario" && <div className="space-y-2">
+              {a.scenario?.text && <div className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-3"><div className="mb-1 flex items-center gap-1.5 text-[11px] font-bold uppercase text-emerald-600"><ShieldCheck className="size-3.5" />דוגמת ייצור — הארגון</div><p className="text-[12.5px] leading-relaxed text-emerald-900">{a.scenario.text}</p></div>}
+              {a.scenario?.incidents?.length ? <div><div className="eyebrow mb-1 text-rose-500">תקלות מתועדות</div><div className="flex flex-wrap gap-1.5">{a.scenario.incidents.map((inc) => <Link key={inc.slug} href={`/troubleshooting/${inc.slug}/`} className="rounded-lg bg-rose-50 px-2.5 py-1 text-[11px] font-bold text-rose-700 ring-1 ring-rose-200 hover:bg-rose-100">{inc.label} ←</Link>)}</div></div> : null}
+              {!a.scenario?.text && !a.scenario?.incidents?.length && <Empty />}
             </div>}
 
             {tab === "related" && <div className="space-y-3">

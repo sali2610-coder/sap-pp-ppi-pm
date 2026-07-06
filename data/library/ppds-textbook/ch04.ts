@@ -10,7 +10,7 @@ export const CH4: TextbookChapter = {
   titleHe: "העברת נתוני-תנועה",
   titleEn: "Data Transfer for Transaction Data",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה להעברת נתוני-תנועה (Transaction Data) מ-ERP/ECC אל PP/DS דרך ה-Core Interface (CIF). לאחר שנתוני-האב (חומרים, מרכזי-עבודה, PPMs/PDS) כבר עברו, יש להזרים את התמונה הדינמית: דרישות-עצמאיות-מתוכננות (PIRs), הזמנות-מתוכננות, פקודות-ייצור, הזמנות-רכש, מלאים ואצוות, מנות-בדיקה, הזמנות-תחזוקה והזמנות-מכירה. כל תת-פרק הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת CBC, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך-העברה, השפעת נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בהעברת נתוני-התנועה ובבדיקות-העקביות (/SAPAPO/CCR) ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה להעברת נתוני-תנועה (Transaction Data) מ-ERP/ECC אל PP/DS דרך ה-Core Interface (CIF). לאחר שנתוני-האב (חומרים, מרכזי-עבודה, PPMs/PDS) כבר עברו, יש להזרים את התמונה הדינמית: דרישות-עצמאיות-מתוכננות (PIRs), הזמנות-מתוכננות, פקודות-ייצור, הזמנות-רכש, מלאים ואצוות, מנות-בדיקה, הזמנות-תחזוקה והזמנות-מכירה. כל תת-פרק הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך אמיתית, דוגמת הארגון, ניווט ו-SPRO, טבלאות/T-Codes/Fiori, פרטי קונפיגורציה, תרשים-תהליך-העברה, השפעת נתוני-אב, טעויות נפוצות, פתרון תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לשלוט בהעברת נתוני-התנועה ובבדיקות-העקביות (/SAPAPO/CCR) ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 4.1
     {
@@ -27,8 +27,8 @@ export const CH4: TextbookChapter = {
         "המטרה: לקבוע במדויק אילו נתוני-תנועה רלוונטיים ל-Advanced Planning ולהזרים רק אותם — לא להציף את ה-liveCache. הפעלה סלקטיבית שומרת על ביצועים, על תמונת-תכנון נקייה, ועל הפרדה בין אובייקטים מתוכננים-מתקדם לבין כאלה שמתוכננים ב-ECC בלבד.",
       processExampleHe:
         "צוות הבסיס יוצר ב-CFM1 מודל-אינטגרציה 'TXN_PPDS' המסמן Planned Orders + Production Orders + Stocks עבור מפעל 1000 וטווח-חומרים נבחר. לאחר Generate מריצים CFM2 להפעלה. מאותו רגע, פקודת-ייצור חדשה שנוצרת ב-CO01 משוכפלת אוטומטית ל-PP/DS, ומופיעה כ-order ב-Product View.",
-      cbcHe:
-        "ב-CBC: לאחר שאב-החומר של המשקאות וקווי-המילוי כבר ב-PP/DS, צוות-הבסיס מפעיל מודל-אינטגרציה לנתוני-תנועה המכסה את מפעלי-הבקבוק. רק קווי-המילוי המתוכננים-מתקדם נכללים; מחסני חומרי-הניקיון (לא רלוונטיים ל-detailed scheduling) נשארים מחוץ למודל כדי לא להעמיס את ה-liveCache.",
+      scenarioHe:
+        "בארגון: לאחר שאב-החומר של המשקאות וקווי-המילוי כבר ב-PP/DS, צוות-הבסיס מפעיל מודל-אינטגרציה לנתוני-תנועה המכסה את מפעלי-הבקבוק. רק קווי-המילוי המתוכננים-מתקדם נכללים; מחסני חומרי-הניקיון (לא רלוונטיים ל-detailed scheduling) נשארים מחוץ למודל כדי לא להעמיס את ה-liveCache.",
       navHe: [
         "Integration with Other SAP Components ► Advanced Planning and Optimization ► Basic Settings for the Data Transfer ► Change Transfer for Transaction Data ► Activate Online Transfer Using BTE",
         "SAP Menu ► Logistics ► Central Functions ► Supply Chain Planning Interface (CIF) ► Integration Model ► Create (CFM1) / Activate (CFM2)",
@@ -104,8 +104,8 @@ export const CH4: TextbookChapter = {
         "המטרה: להזרים את אות-הביקוש ל-PP/DS כך שתכנון-הדרישות-נטו יזהה חוסרים ויפיק הזמנות-מתוכננות בזמן ובכמות הנכונים, תוך התחשבות באסטרטגיית-התכנון (make-to-stock / planning with final assembly).",
       processExampleHe:
         "מתכנן-ביקוש מזין ב-MD61 תחזית של 10,000 יח' מוצר לחודש. דרך release/CIF היא מגיעה ל-PP/DS כדרישת-FA. הרצת PP/DS (heuristic) מזהה חוסר-כיסוי, יוצרת הזמנות-מתוכננות מתוזמנות אחורנית מתאריך-הדרישה, ומקזזת אותן מול הזמנות-לקוח שנכנסות לפי consumption mode.",
-      cbcHe:
-        "ב-CBC תחזית-המכירות של בקבוק 1.5 ליטר נשמרת כ-PIR לכל שבוע-קמפיין. ההעברה ל-PP/DS מאפשרת לתזמן את קווי-המילוי מול הביקוש החזוי; הזמנות-לקוח בפועל מקזזות את ה-PIR לפי backward/forward consumption כך שלא נכפיל את הביקוש.",
+      scenarioHe:
+        "בארגון תחזית-המכירות של בקבוק 1.5 ליטר נשמרת כ-PIR לכל שבוע-קמפיין. ההעברה ל-PP/DS מאפשרת לתזמן את קווי-המילוי מול הביקוש החזוי; הזמנות-לקוח בפועל מקזזות את ה-PIR לפי backward/forward consumption כך שלא נכפיל את הביקוש.",
       navHe: [
         "SAP Menu ► Logistics ► Production ► Production Planning ► Demand Management ► Planned Independent Requirements ► Create (MD61)",
         "Integration with SAP Components ► APO ► Application-Specific Settings ► Demand Planning / PP-DS ► Transfer of PIRs",
@@ -181,8 +181,8 @@ export const CH4: TextbookChapter = {
         "המטרה: לתחזק שכבת-תכנון גמישה שניתן לאופטם ולתזמן בלי להתחייב למשאבים, ולשמור על סנכרון דו-כיווני בין מנוע-התכנון (PP/DS) למערכת-הביצוע (ECC) כך שהמרה לפק\"ע תשקף את התוכנית המעודכנת.",
       processExampleHe:
         "PP/DS heuristic יוצר הזמנה-מתוכננת ל-5,000 יח', מתזמן אותה על משאב פנוי ומבצע pegging מול ה-PIR. ההזמנה מתפרסמת אוטומטית ל-ECC (PLAF). מתכנן-הייצור ממיר אותה ב-/SAPAPO/RRP3 או ב-MD04 לפק\"ע; ההמרה זורמת חזרה דרך CIF ושתי המערכות מציגות את אותה פק\"ע.",
-      cbcHe:
-        "ב-CBC הזמנות-מתוכננות לקווי-המילוי נוצרות ב-PP/DS, מתוזמנות לפי קיבולת-הקו ורצף-טעמים, ומתפרסמות ל-ECC. שבוע לפני הקמפיין הצוות ממיר אותן לפקודות-ייצור; ה-firming מבטיח ש-PP/DS לא יזיז הזמנות שכבר נכנסו לחלון-הקמפיין הקפוא.",
+      scenarioHe:
+        "בארגון הזמנות-מתוכננות לקווי-המילוי נוצרות ב-PP/DS, מתוזמנות לפי קיבולת-הקו ורצף-טעמים, ומתפרסמות ל-ECC. שבוע לפני הקמפיין הצוות ממיר אותן לפקודות-ייצור; ה-firming מבטיח ש-PP/DS לא יזיז הזמנות שכבר נכנסו לחלון-הקמפיין הקפוא.",
       navHe: [
         "Demand & Supply ► PP/DS ► Product Planning Table / Product View (/SAPAPO/RRP3)",
         "Integration with SAP Components ► APO ► Settings for Transfer ► Planned Orders ► Publication to ERP",
@@ -258,8 +258,8 @@ export const CH4: TextbookChapter = {
         "המטרה: לוודא שמנוע-התכנון רואה את כל הקיבולת התפוסה ע\"י עבודה שכבר שוחררה, מתזמן עבודה חדשה רק על חלונות פנויים, ומשקף את ההתקדמות (confirmations) כך שתכנון-יתרת-הביקוש מדויק.",
       processExampleHe:
         "פק\"ע ב-ECC משוחררת (REL) ומועברת דרך CIF. ב-/SAPAPO/RRP3 היא נראית תופסת את משאב-המכונה לחלון-זמן. דיווח-ביצוע ב-CO11N על 2,000 מתוך 5,000 יח' זורם חזרה; ה-liveCache מקטין את הכמות-הפתוחה ל-3,000 ומתזמן את הנותר על הקיבולת הנותרת.",
-      cbcHe:
-        "ב-CBC פקודות-המילוי המשוחררות בקו עוברות ל-PP/DS כ-fixed; המתכנן רואה את העומס בפועל ומתזמן את הקמפיין הבא רק לחלונות פנויים. דיווחי-CO11N מהקו מעדכנים את יתרת-המילוי ב-liveCache בזמן-אמת.",
+      scenarioHe:
+        "בארגון פקודות-המילוי המשוחררות בקו עוברות ל-PP/DS כ-fixed; המתכנן רואה את העומס בפועל ומתזמן את הקמפיין הבא רק לחלונות פנויים. דיווחי-CO11N מהקו מעדכנים את יתרת-המילוי ב-liveCache בזמן-אמת.",
       navHe: [
         "SAP Menu ► Logistics ► Production ► Shop Floor Control ► Order ► Create / Change (CO01/CO02)",
         "Integration with SAP Components ► APO ► Settings for Transfer ► In-House Production ► Production Orders",
@@ -335,8 +335,8 @@ export const CH4: TextbookChapter = {
         "המטרה: לתת ל-PP/DS תמונת-היצע מלאה הכוללת רכש-חיצוני, כך שתכנון-הדרישות יזהה כיסוי מספקים ולא יפיק הצעות-רכש/ייצור מיותרות; וכדי שהזמנות-רכש שנוצרות בתכנון יזרמו לביצוע-רכש ב-ECC.",
       processExampleHe:
         "PP/DS מזהה חוסר בחומר-נרכש ויוצר Purchase Requisition; היא מתפרסמת ל-ECC (EBAN). הרכש ממיר אותה ל-PO (ME21N); ה-PO זורמת חזרה דרך CIF ומופיעה כ-fixed receipt עם תאריך לפי Planned Delivery Time. אישור-ספק מעדכן את התאריך, ו-PP/DS מתאם את התכנון.",
-      cbcHe:
-        "ב-CBC תרכיז, פקקים ותוויות נרכשים מספקים. הזמנות-הרכש שלהם עוברות ל-PP/DS כ-fixed receipts; המתכנן רואה מתי יגיעו ומתזמן את הקמפיין מולן. PRs שנוצרות בתכנון זורמות ל-ECC להמרה ל-PO ע\"י הרכש.",
+      scenarioHe:
+        "בארגון תרכיז, פקקים ותוויות נרכשים מספקים. הזמנות-הרכש שלהם עוברות ל-PP/DS כ-fixed receipts; המתכנן רואה מתי יגיעו ומתזמן את הקמפיין מולן. PRs שנוצרות בתכנון זורמות ל-ECC להמרה ל-PO ע\"י הרכש.",
       navHe: [
         "SAP Menu ► Logistics ► Materials Management ► Purchasing ► Purchase Requisition / Order (ME51N/ME21N)",
         "Integration with SAP Components ► APO ► Settings for Transfer ► External Procurement ► Purchase Requisitions/Orders",
@@ -412,8 +412,8 @@ export const CH4: TextbookChapter = {
         "המטרה: לספק ל-PP/DS מצב-פתיחה מדויק של מלאי זמין (לפי stock type ו-ATP scope), כולל מידע-אצווה לתכנון-תוקף, כך שחישוב-הדרישות-נטו יפיק רק את הקבלות החסרות באמת.",
       processExampleHe:
         "במחסן 2,000 יח' unrestricted ו-500 ב-QI. ההעברה ל-PP/DS סופרת רק את ה-2,000 כזמין (אם QI מחוץ ל-scope). דרישה ל-3,000 ➔ PP/DS מתכנן קבלה ל-1,000 בלבד. שחרור-QI דרך MIGO מעדכן את ה-liveCache, וה-1,000 מצטמצם בהתאם.",
-      cbcHe:
-        "ב-CBC תרכיז ומים-מטופלים מנוהלי-אצווה עם shelf-life קצר; המלאי והאצוות עוברים ל-PP/DS כך שהמתכנן רואה כמה אצווה זמינה ועד מתי. אצווה שמתקרבת לתפוגה מתעדפת ב-pegging (FEFO), ומלאי QI לא נספר כזמין עד שחרור-QA.",
+      scenarioHe:
+        "בארגון תרכיז ומים-מטופלים מנוהלי-אצווה עם shelf-life קצר; המלאי והאצוות עוברים ל-PP/DS כך שהמתכנן רואה כמה אצווה זמינה ועד מתי. אצווה שמתקרבת לתפוגה מתעדפת ב-pegging (FEFO), ומלאי QI לא נספר כזמין עד שחרור-QA.",
       navHe: [
         "SAP Menu ► Logistics ► Materials Management ► Inventory Management ► Goods Movement (MIGO)",
         "Integration with SAP Components ► APO ► Settings for Transfer ► Stocks ► Transfer of Stocks/Batches",
@@ -489,8 +489,8 @@ export const CH4: TextbookChapter = {
         "המטרה: לוודא ש-PP/DS מתייחס למלאי-בבדיקה כלא-זמין עד שחרור, וכולל את זמן-הבדיקה בחישוב lead time, כך שתאריכי-הזמינות ריאליים והתכנון אינו מסתמך על מלאי שטרם אושר.",
       processExampleHe:
         "GR של 1,000 יח' מספק יוצר מנת-בדיקה; המלאי נכנס כ-QI. PP/DS לא סופר אותו כזמין. לאחר Usage Decision (QA11) המלאי עובר ל-unrestricted; תנועת-המלאי זורמת דרך CIF, וה-1,000 הופכים זמינים — PP/DS מצמצם בהתאם את הצורך בקבלה נוספת.",
-      cbcHe:
-        "ב-CBC כל אצווה של תרכיז נכנסת ל-QI עד אישור-מעבדה. PP/DS לא משבץ את האצווה לקמפיין לפני Usage Decision; זמן-המעבדה מתוכלל כ-GR/inspection lead time, כך שתאריך-זמינות-התרכיז משקף את חלון-הבדיקה.",
+      scenarioHe:
+        "בארגון כל אצווה של תרכיז נכנסת ל-QI עד אישור-מעבדה. PP/DS לא משבץ את האצווה לקמפיין לפני Usage Decision; זמן-המעבדה מתוכלל כ-GR/inspection lead time, כך שתאריך-זמינות-התרכיז משקף את חלון-הבדיקה.",
       navHe: [
         "SAP Menu ► Logistics ► Quality Management ► Quality Inspection ► Inspection Lot / Usage Decision (QA11)",
         "Integration with SAP Components ► APO ► Settings for Transfer ► Stocks ► QI Stock Handling",
@@ -567,8 +567,8 @@ export const CH4: TextbookChapter = {
         "המטרה: לשקף ב-PP/DS את חלונות אי-הזמינות של משאבים עקב תחזוקה, כך שהתזמון לא ישבץ ייצור על מכונה מושבתת, וכדי לתאם בין תוכנית-התחזוקה לתוכנית-הייצור על אותם משאבים.",
       processExampleHe:
         "הזמנת-PM מתוכננת לקו-מילוי ביום ג' 08:00–12:00. החלון מתורגם ל-resource downtime ב-PP/DS; כשה-heuristic מתזמן את הקמפיין, הוא מדלג על החלון הזה ומשבץ את הייצור לפניו או אחריו. תקלה פתאומית (breakdown order) מעדכנת את זמינות-המשאב בזמן-אמת ומחייבת rescheduling.",
-      cbcHe:
-        "ב-CBC ניקוי-CIP שבועי של קו-המילוי מנוהל כהזמנת-PM מונעת; החלון משוקף כ-downtime ב-PP/DS כך שלוח-הקמפיינים לא משבץ מילוי בזמן-הניקוי. תקלת-משאבה בלתי-מתוכננת חוסמת מיידית את הקו ומחייבת תזמון-מחדש של הקמפיין.",
+      scenarioHe:
+        "בארגון ניקוי-CIP שבועי של קו-המילוי מנוהל כהזמנת-PM מונעת; החלון משוקף כ-downtime ב-PP/DS כך שלוח-הקמפיינים לא משבץ מילוי בזמן-הניקוי. תקלת-משאבה בלתי-מתוכננת חוסמת מיידית את הקו ומחייבת תזמון-מחדש של הקמפיין.",
       navHe: [
         "SAP Menu ► Logistics ► Plant Maintenance ► Maintenance Processing ► Order ► Create / Change (IW31/IW32)",
         "Integration with SAP Components ► APO ► Settings for Transfer ► Resources ► Downtime / PM Integration",
@@ -644,8 +644,8 @@ export const CH4: TextbookChapter = {
         "המטרה: להזרים ביקוש-לקוח ממשי ל-PP/DS כדי לקזז תחזית, להניע תכנון-ייצור (במיוחד MTO), ולאפשר בדיקות-זמינות מתקדמות (gATP/CTP) שמבטיחות ללקוח תאריך-אספקה ריאלי מבוסס-קיבולת.",
       processExampleHe:
         "לקוח מזמין 1,000 יח' make-to-order; ה-gATP בודק מול ה-liveCache, מפעיל CTP ומתזמן הזמנה-מתוכננת על משאב פנוי, ומחזיר תאריך-אספקה מחויב. ההזמנה זורמת ל-PP/DS כדרישת-BM עם sales-order stock segment; הייצור מתוכנן ומיועד בלעדית ללקוח זה.",
-      cbcHe:
-        "ב-CBC הזמנות make-to-stock של רשתות-קמעונאות מקזזות את ה-PIR של המשקה; הזמנה גדולה make-to-order לאריזה ייחודית מפעילה gATP/CTP שמתזמן את קו-המילוי ומחזיר תאריך-אספקה מבוסס-קיבולת ללקוח.",
+      scenarioHe:
+        "בארגון הזמנות make-to-stock של רשתות-קמעונאות מקזזות את ה-PIR של המשקה; הזמנה גדולה make-to-order לאריזה ייחודית מפעילה gATP/CTP שמתזמן את קו-המילוי ומחזיר תאריך-אספקה מבוסס-קיבולת ללקוח.",
       navHe: [
         "SAP Menu ► Logistics ► Sales and Distribution ► Sales ► Order ► Create / Change (VA01/VA02)",
         "Integration with SAP Components ► APO ► Settings for Transfer ► Sales Orders ► Requirements Transfer",
@@ -722,8 +722,8 @@ export const CH4: TextbookChapter = {
         "המטרה: למקסם יעילות ייצור ע\"י קיבוץ הזמנות לרצף-קמפיין אחד, מינימום זמני setup/ניקוי בין מנות, וניהול עלויות-מעבר — קריטי בתעשיות-תהליך עם זמני-החלפה ארוכים ויקרים.",
       processExampleHe:
         "במקום שלוש הזמנות נפרדות לאותו טעם-משקה (כל אחת עם setup+cleanout), PP/DS מקבץ אותן לקמפיין יחיד: setup פעם אחת בתחילה, ייצור-רצף, cleanout פעם אחת בסוף. ה-setup matrix מבטיח שהקמפיין הבא יהיה הטעם הקרוב ביותר (בהיר→כהה) למינימום-ניקוי.",
-      cbcHe:
-        "ב-CBC קמפיין-מילוי מקבץ את כל ההזמנות לטעם 'תפוז' לשבוע אחד ברצף; הניקוי-CIP מתבצע פעם אחת בתחילת-הקמפיין ובסופו. רצף-הקמפיינים נקבע לפי setup matrix (בהיר לכהה, ללא-אלרגן לפני אלרגן) למינימום זמני-החלפה ושטיפה.",
+      scenarioHe:
+        "בארגון קמפיין-מילוי מקבץ את כל ההזמנות לטעם 'תפוז' לשבוע אחד ברצף; הניקוי-CIP מתבצע פעם אחת בתחילת-הקמפיין ובסופו. רצף-הקמפיינים נקבע לפי setup matrix (בהיר לכהה, ללא-אלרגן לפני אלרגן) למינימום זמני-החלפה ושטיפה.",
       navHe: [
         "Demand & Supply ► PP/DS ► Detailed Scheduling ► Production Campaign (/SAPAPO/CDPS0)",
         "Advanced Planning ► PP/DS ► Maintain Setup Matrix / Setup Groups",
@@ -799,8 +799,8 @@ export const CH4: TextbookChapter = {
         "המטרה: להעניק שליטה דקה על מה מועבר ל-PP/DS — לאזן בין כיסוי-תכנון לביצועים, לתמוך בתרחישים היברידיים (חלק PP/DS חלק ECC), ולמנוע הצפת-liveCache בנתונים שאינם רלוונטיים לתכנון-המתקדם.",
       processExampleHe:
         "ארגון מתכנן-מתקדם רק מוצרי-Premium. דרך Flexible Integration, מודל-האינטגרציה מסנן ומעביר ל-PP/DS רק הזמנות של מוצרי-Premium לפי קריטריון; הזמנות מוצרי-Standard נשארות ב-ECC עם MRP רגיל. בדיקת /SAPAPO/CCR מאשרת שאין אי-עקביות בין מה שעבר למה שלא.",
-      cbcHe:
-        "ב-CBC רק קווי-המילוי הצוואר-בקבוק (high-speed) מתוכננים ב-PP/DS עם detailed scheduling; קווי-משנה איטיים נשארים ב-ECC. Flexible Integration מעבירה סלקטיבית רק את הזמנות-קווי-הליבה, שומרת על liveCache רזה ותמונת-תכנון ממוקדת.",
+      scenarioHe:
+        "בארגון רק קווי-המילוי הצוואר-בקבוק (high-speed) מתוכננים ב-PP/DS עם detailed scheduling; קווי-משנה איטיים נשארים ב-ECC. Flexible Integration מעבירה סלקטיבית רק את הזמנות-קווי-הליבה, שומרת על liveCache רזה ותמונת-תכנון ממוקדת.",
       navHe: [
         "Integration with SAP Components ► APO ► Basic Settings for Data Transfer ► Activate Online Transfer Using BTE",
         "SAP Menu ► CIF ► Integration Model ► Create with Selection Criteria (CFM1)",
@@ -876,8 +876,8 @@ export const CH4: TextbookChapter = {
         "המטרה: למלא את ה-liveCache בתמונת-תנועה מלאה בעת ההפעלה (initial), ולשמור על עקביות מתמשכת בין ECC ל-PP/DS (retransfer + CCR) — כך שהמתכנן תמיד עובד על נתונים נכונים ועדכניים, גם אחרי תקלות.",
       processExampleHe:
         "באקטיבציה (CFM2) כל ההזמנות-המתוכננות, הפקודות והמלאי הקיימים נשלחים ל-liveCache (initial transfer). שבועות אחר-כך, queue תקוע גורם לפער; /SAPAPO/CCR מזהה 12 הזמנות חסרות ב-liveCache, והמתכנן מריץ retransfer/reconcile שמשלים אותן ומחזיר עקביות.",
-      cbcHe:
-        "ב-CBC עם עליית-PP/DS לאוויר, ה-initial transfer ממלא את ה-liveCache בכל פקודות-המילוי והמלאי הפתוחים. בכל בוקר רץ /SAPAPO/CCR כבקרת-שגרה; אם מתגלה פער (למשל אחרי תחזוקת-מערכת), הצוות מריץ retransfer ממוקד לאובייקטים החסרים בלבד.",
+      scenarioHe:
+        "בארגון עם עליית-PP/DS לאוויר, ה-initial transfer ממלא את ה-liveCache בכל פקודות-המילוי והמלאי הפתוחים. בכל בוקר רץ /SAPAPO/CCR כבקרת-שגרה; אם מתגלה פער (למשל אחרי תחזוקת-מערכת), הצוות מריץ retransfer ממוקד לאובייקטים החסרים בלבד.",
       navHe: [
         "SAP Menu ► CIF ► Integration Model ► Activate (CFM2) — Initial Transfer",
         "Advanced Planning ► APO Administration ► Integration ► CIF Comparison/Reconciliation (/SAPAPO/CCR)",
@@ -953,8 +953,8 @@ export const CH4: TextbookChapter = {
         "המטרה: לקשור את כל קטגוריות-התנועה לתמונת-תכנון אחת עקבית ב-liveCache, ולהפנים שתחזוקת-העקביות (CIF + CCR) היא תהליך מתמשך, לא אירוע חד-פעמי.",
       processExampleHe:
         "מחזור-חיים מלא: הפעלת-מודל → initial transfer של מלאי+הזמנות → הזרמת PIRs והזמנות-מכירה (ביקוש) → תכנון שמפיק הזמנות-מתוכננות → המרה לפק\"ע → דיווחי-ביצוע ותנועות-מלאי חוזרים → /SAPAPO/CCR יומי לשמירת-עקביות. כל שלב נשען על העברה תקינה של נתוני-התנועה.",
-      cbcHe:
-        "ב-CBC: קווי-המילוי מתוכננים-מתקדם רק לאחר שכל נתוני-התנועה — מלאי-תרכיז (כולל QI ואצוות), פקודות-מילוי פתוחות, תחזית ו-הזמנות-רשתות — זורמים נכון ל-liveCache, התחזוקה-המונעת משוקפת כ-downtime, והקמפיינים מקובצים לפי setup matrix. /SAPAPO/CCR הבוקרי מבטיח שתוכנית-הקמפיינים נשענת על מציאות.",
+      scenarioHe:
+        "בארגון: קווי-המילוי מתוכננים-מתקדם רק לאחר שכל נתוני-התנועה — מלאי-תרכיז (כולל QI ואצוות), פקודות-מילוי פתוחות, תחזית ו-הזמנות-רשתות — זורמים נכון ל-liveCache, התחזוקה-המונעת משוקפת כ-downtime, והקמפיינים מקובצים לפי setup matrix. /SAPAPO/CCR הבוקרי מבטיח שתוכנית-הקמפיינים נשענת על מציאות.",
       navHe: [
         "SAP Menu ► CIF ► Integration Model (CFM1/CFM2)",
         "Advanced Planning ► APO Administration ► Integration ► /SAPAPO/CCR",

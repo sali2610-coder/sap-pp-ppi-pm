@@ -17,7 +17,7 @@ export const PPPI_DATA = {
           "tcodes": "MM01, MM02, MM03",
           "fioriApp": "Manage Product Master Data",
           "s4Note": "MATNR מורחב 18->40 (SAP Note 2267140); בדוק ממשקים, ברקודים והמרות EAN.",
-          "guideHe": "טבלת הליבה של כל חומר ב-CBC (חומרי גלם, תרכיזים, חומרי אריזה, מוצרים מוגמרים). מפתח MATNR מורחב מ-18 ל-40 תווים ב-S/4HANA - קריטי לממשקי IDoc ל-Zetes/Daymax ולברקודים. כל פעולת ייצור (COR1/COR2) נשענת על רשומת חומר תקינה.",
+          "guideHe": "טבלת הליבה של כל חומר בארגון (חומרי גלם, תרכיזים, חומרי אריזה, מוצרים מוגמרים). מפתח MATNR מורחב מ-18 ל-40 תווים ב-S/4HANA - קריטי לממשקי IDoc ל-Zetes/Daymax ולברקודים. כל פעולת ייצור (COR1/COR2) נשענת על רשומת חומר תקינה.",
           "helpLbl": "SAP Help - Material Master",
           "sqlJoinSnippet": "(header - root of material model)",
           "funcs": [
@@ -300,7 +300,7 @@ export const PPPI_DATA = {
           "tcodes": "MM01, MM02, MM03, MD04",
           "fioriApp": "Manage Product Master Data — Plant",
           "s4Note": "MRP Live מחליף MRP קלאסי; שדות תכנון נשמרים אך הביצוע ב-MATDOC/ACDOCA.",
-          "guideHe": "פרמטרי התכנון והייצור של החומר במפעל CBC הספציפי: סוג רכש, MRP, אופק תכנון, גרסת ייצור ברירת מחדל. שדה SBDKZ/SFCPF שולט בזרימת הייצור (Process Order).",
+          "guideHe": "פרמטרי התכנון והייצור של החומר במפעל לדוגמה הספציפי: סוג רכש, MRP, אופק תכנון, גרסת ייצור ברירת מחדל. שדה SBDKZ/SFCPF שולט בזרימת הייצור (Process Order).",
           "helpLbl": "SAP Help - Plant Data",
           "sqlJoinSnippet": "FROM MARC JOIN MARA ON MARC.MATNR = MARA.MATNR",
           "funcs": [
@@ -733,7 +733,7 @@ export const PPPI_DATA = {
           "tcodes": "MM03, CK11N, CK24, MR21",
           "fioriApp": "Manage Material Valuation",
           "s4Note": "Material Ledger חובה ב-S/4HANA; הערכה ב-ACDOCA/ACDOCC.",
-          "guideHe": "מחיר התקן/ממוצע נע של החומר לתמחיר ייצור והתחשבנות פק\"ע. ב-CBC משמש לחישוב עלות תרכיז/מוצר מוגמר.",
+          "guideHe": "מחיר התקן/ממוצע נע של החומר לתמחיר ייצור והתחשבנות פק\"ע. בארגון משמש לחישוב עלות תרכיז/מוצר מוגמר.",
           "helpLbl": "SAP Note - Material Ledger",
           "sqlJoinSnippet": "FROM MBEW JOIN MARA ON MBEW.MATNR = MARA.MATNR",
           "funcs": [
@@ -826,7 +826,7 @@ export const PPPI_DATA = {
           "tcodes": "MM01, MM02, MM03, VK11",
           "fioriApp": "Manage Product Master Data — Sales",
           "s4Note": "ללא שינוי; לקוחות דרך Business Partner.",
-          "guideHe": "נתוני מכירה של מוצר מוגמר (ארגון מכירות, ערוץ הפצה) - מחבר את הייצור לשרשרת ההפצה של CBC.",
+          "guideHe": "נתוני מכירה של מוצר מוגמר (ארגון מכירות, ערוץ הפצה) - מחבר את הייצור לשרשרת ההפצה של הארגון.",
           "helpLbl": "SAP Help - Sales Data",
           "sqlJoinSnippet": "FROM MVKE JOIN MARA ON MVKE.MATNR = MARA.MATNR",
           "funcs": [
@@ -2308,7 +2308,7 @@ export const PPPI_DATA = {
           "tcodes": "C201, C202, C203, CA01",
           "fioriApp": "Manage Master Recipes",
           "s4Note": "ללא שינוי מבני; Fiori 'Manage Master Recipes'.",
-          "guideHe": "כותרת מתכון הייצור (Master Recipe, PLNTY='2'). מגדיר אצווה תקנית, סטטוס ושימוש. 'מתכון ייצור' = Master Recipe. ב-CBC כל משקה מיוצר לפי מתכון מאושר.",
+          "guideHe": "כותרת מתכון הייצור (Master Recipe, PLNTY='2'). מגדיר אצווה תקנית, סטטוס ושימוש. 'מתכון ייצור' = Master Recipe. בארגון כל משקה מיוצר לפי מתכון מאושר.",
           "helpLbl": "SAP Help - Master Recipe",
           "sqlJoinSnippet": "FROM PLKO JOIN MAPL ON PLKO.PLNTY = MAPL.PLNTY AND PLKO.PLNNR = MAPL.PLNNR",
           "funcs": [
@@ -2856,7 +2856,7 @@ export const PPPI_DATA = {
           "tcodes": "QP01, QP02, C202",
           "fioriApp": "",
           "s4Note": "ללא שינוי מבני.",
-          "guideHe": "מאפייני בדיקת איכות המשובצים בפעולות המתכון (Brix, pH, CO2, טמפ'). מפעיל מסמכי בדיקה אוטומטיים בפק\"ע - לב בקרת האיכות של CBC.",
+          "guideHe": "מאפייני בדיקת איכות המשובצים בפעולות המתכון (Brix, pH, CO2, טמפ'). מפעיל מסמכי בדיקה אוטומטיים בפק\"ע - לב בקרת האיכות של הארגון.",
           "helpLbl": "SAP Help - Inspection Characteristics",
           "sqlJoinSnippet": "FROM PLMK JOIN PLPO ON PLMK.PLNKN = PLPO.PLNKN",
           "funcs": [
@@ -3338,7 +3338,7 @@ export const PPPI_DATA = {
           "tcodes": "C223, MM02",
           "fioriApp": "Manage Production Versions",
           "s4Note": "חובה 100% ב-S/4HANA - הרץ C223 ובדוק תוקף/עקביות לכל חומר מיוצר לפני ההמרה (Pre-check קריטי).",
-          "guideHe": "'גרסת ייצור' (Production Version) מקשרת חומר -> עץ מוצר (STLAL) + מתכון (PLNNR) + קו ייצור. ב-S/4HANA היא חובה מוחלטת (100%) לכל ביצוע ייצור - מחליפה את לוגיקת בחירת BOM/Routing האוטומטית של ECC. ב-CBC כל שילוב מוצר/קו = גרסה. ללא PV תקפה הפק\"ע (COR1) לא תיווצר.",
+          "guideHe": "'גרסת ייצור' (Production Version) מקשרת חומר -> עץ מוצר (STLAL) + מתכון (PLNNR) + קו ייצור. ב-S/4HANA היא חובה מוחלטת (100%) לכל ביצוע ייצור - מחליפה את לוגיקת בחירת BOM/Routing האוטומטית של ECC. בארגון כל שילוב מוצר/קו = גרסה. ללא PV תקפה הפק\"ע (COR1) לא תיווצר.",
           "helpLbl": "SAP Note - Production Versions Mandatory",
           "sqlJoinSnippet": "FROM MKAL JOIN MARC ON MKAL.MATNR = MARC.MATNR AND MKAL.WERKS = MARC.WERKS",
           "funcs": [
@@ -3518,7 +3518,7 @@ export const PPPI_DATA = {
           "tcodes": "CR01, CR02, CR03, CRC1",
           "fioriApp": "Manage Work Centers / Resources",
           "s4Note": "ללא שינוי מבני; Fiori 'Manage Work Centers'.",
-          "guideHe": "המשאב (קו מילוי, ערבל, פסטרייזר) שעליו מתבצעות פעולות המתכון. OBJTY='A'. מקושר לקיבולת ולמרכז עלות. ב-CBC כל קו ייצור = משאב עם קיבולת מתוזמנת.",
+          "guideHe": "המשאב (קו מילוי, ערבל, פסטרייזר) שעליו מתבצעות פעולות המתכון. OBJTY='A'. מקושר לקיבולת ולמרכז עלות. בארגון כל קו ייצור = משאב עם קיבולת מתוזמנת.",
           "helpLbl": "SAP Help - Work Center",
           "sqlJoinSnippet": "(header - root of resource model)",
           "funcs": [
@@ -4167,7 +4167,7 @@ export const PPPI_DATA = {
           "tcodes": "",
           "fioriApp": "",
           "s4Note": "תעריפים ב-Universal Journal; הגדרה נשמרת.",
-          "guideHe": "מגדיר את סוגי הפעילות (שעת מכונה, שעת אדם, אנרגיה) ותעריפיהם - בסיס לתמחיר עלות ייצור משתנה ב-CBC.",
+          "guideHe": "מגדיר את סוגי הפעילות (שעת מכונה, שעת אדם, אנרגיה) ותעריפיהם - בסיס לתמחיר עלות ייצור משתנה בארגון.",
           "helpLbl": "SAP Help - Activity Types",
           "sqlJoinSnippet": "FROM CSLA JOIN CRCO ON CSLA.LSTAR = CRCO.LSTAR",
           "funcs": [
@@ -5127,7 +5127,7 @@ export const PPPI_DATA = {
           "tcodes": "",
           "fioriApp": "",
           "s4Note": "ללא שינוי (Customizing).",
-          "guideHe": "מגדיר את סוגי החומר ושולט באילו תצוגות/שדות חובה ובאיזה טווח מספרים. סיווג מזון ומשקאות ב-CBC: ROH (חומר גלם - תרכיז, סוכר, CO2, חומרי אריזה גולמיים), HALB (מוצר ביניים - בסיס משקה/סירופ מעורבב), FERT (מוצר מוגמר - בקבוק/פחית מוכן למשלוח), VERP (חומרי אריזה - תוויות, מכסים), UNBW/HAWA (לא מוערך/סחורה). כל סוג מפעיל תצוגות (Basic/MRP/Recipe/QM/Costing) ושדות חובה שונים.",
+          "guideHe": "מגדיר את סוגי החומר ושולט באילו תצוגות/שדות חובה ובאיזה טווח מספרים. סיווג מזון ומשקאות בארגון: ROH (חומר גלם - תרכיז, סוכר, CO2, חומרי אריזה גולמיים), HALB (מוצר ביניים - בסיס משקה/סירופ מעורבב), FERT (מוצר מוגמר - בקבוק/פחית מוכן למשלוח), VERP (חומרי אריזה - תוויות, מכסים), UNBW/HAWA (לא מוערך/סחורה). כל סוג מפעיל תצוגות (Basic/MRP/Recipe/QM/Costing) ושדות חובה שונים.",
           "helpLbl": "SAP Help - Material Types",
           "sqlJoinSnippet": "FROM MARA JOIN T134 ON MARA.MTART = T134.MTART",
           "funcs": [
@@ -5628,7 +5628,7 @@ export const PPPI_DATA = {
           "tcodes": "",
           "fioriApp": "",
           "s4Note": "ללא שינוי (Customizing).",
-          "guideHe": "מגדיר סוגי פק\"ע ייצור (PI01 תהליך, PI02 שיפוץ) - קטגוריה, טווח מספרים ופרופיל סטטוס. ב-CBC מפריד תהליכי ייצור (ערבול/מילוי) מתהליכי תחזוקה. שחרור הפק\"ע מפעיל IDoc LOIPRO לקו.",
+          "guideHe": "מגדיר סוגי פק\"ע ייצור (PI01 תהליך, PI02 שיפוץ) - קטגוריה, טווח מספרים ופרופיל סטטוס. בארגון מפריד תהליכי ייצור (ערבול/מילוי) מתהליכי תחזוקה. שחרור הפק\"ע מפעיל IDoc LOIPRO לקו.",
           "helpLbl": "SAP Help - Order Types",
           "sqlJoinSnippet": "FROM AUFK JOIN T003O ON AUFK.AUART = T003O.AUART",
           "funcs": [
@@ -5787,7 +5787,7 @@ export const PPPI_DATA = {
           "tcodes": "",
           "fioriApp": "",
           "s4Note": "ללא שינוי.",
-          "guideHe": "מגדיר סטטוסי משתמש מותאמים (למשל 'אושר QA', 'ממתין חומר') וחסימת/התרת תהליכים. ב-CBC אוכף תהליכי עבודה ברמת התא/קו (cell-level) - חוסם שחרור פק\"ע עד אישור.",
+          "guideHe": "מגדיר סטטוסי משתמש מותאמים (למשל 'אושר QA', 'ממתין חומר') וחסימת/התרת תהליכים. בארגון אוכף תהליכי עבודה ברמת התא/קו (cell-level) - חוסם שחרור פק\"ע עד אישור.",
           "helpLbl": "SAP Help - Status Management",
           "sqlJoinSnippet": "FROM JEST JOIN TJ30 ON JEST.STAT = TJ30.ESTAT",
           "funcs": [
@@ -5958,7 +5958,7 @@ export const PPPI_DATA = {
           "tcodes": "",
           "fioriApp": "",
           "s4Note": "הוחלף - Business Partner חובה (CVI); ראה SAP Note 2265093.",
-          "guideHe": "ב-S/4HANA ספקי חומרי הגלם/אריזה של CBC מנוהלים כ-Business Partner (BP) במקום ספק קלאסי. נדרש CVI להמרת LFA1->BUT000 לפני ההמרה. כל רכש חומר גלם לייצור מצריך BP פעיל עם תפקיד ספק (FLVN01).",
+          "guideHe": "ב-S/4HANA ספקי חומרי הגלם/אריזה של הארגון מנוהלים כ-Business Partner (BP) במקום ספק קלאסי. נדרש CVI להמרת LFA1->BUT000 לפני ההמרה. כל רכש חומר גלם לייצור מצריך BP פעיל עם תפקיד ספק (FLVN01).",
           "helpLbl": "SAP Note 2265093 (BP)",
           "sqlJoinSnippet": "FROM EKKO JOIN BUT000 ON EKKO.LIFNR = BUT000.PARTNER",
           "funcs": [
@@ -6205,7 +6205,7 @@ export const PPPI_DATA = {
           "tcodes": "BS02, BS22",
           "fioriApp": "",
           "s4Note": "ללא שינוי.",
-          "guideHe": "כותרת אובייקט הסטטוס - מקשרת את הפק\"ע לפרופיל הסטטוס (STSMA) ולסוג האובייקט. דרכה נאכפים סטטוסי המשתמש של CBC לבקרת תהליכי הקו.",
+          "guideHe": "כותרת אובייקט הסטטוס - מקשרת את הפק\"ע לפרופיל הסטטוס (STSMA) ולסוג האובייקט. דרכה נאכפים סטטוסי המשתמש של הארגון לבקרת תהליכי הקו.",
           "helpLbl": "SAP Help - Status Object",
           "sqlJoinSnippet": "FROM JSTO JOIN AUFK ON JSTO.OBJNR = AUFK.OBJNR",
           "funcs": [
@@ -7292,7 +7292,7 @@ export const PPPI_DATA = {
         "1",
         "CS01 / CS02 / CS03",
         "Both",
-        "יצירה / שינוי / תצוגה של עץ מוצר חומר (Material BOM). הליבה להגדרת מבנה הרכיבים של כל מוצר CBC - תרכיז, סוכר, CO2, חומרי אריזה - כולל כמויות, יחידות ופחת רכיב (1%). מקור הפיצוץ לכל פק\"ע.",
+        "יצירה / שינוי / תצוגה של עץ מוצר חומר (Material BOM). הליבה להגדרת מבנה הרכיבים של כל מוצר הארגון - תרכיז, סוכר, CO2, חומרי אריזה - כולל כמויות, יחידות ופחת רכיב (1%). מקור הפיצוץ לכל פק\"ע.",
         "ללא שינוי מבני; MATNR מורחב ל-40 תווים משפיע על IDNRK והממשקים.",
         "Maintain Bill of Material / Manage Material BOMs  (F1743 / F1813)",
         "ב-Fiori פוצל לאפליקציות נפרדות: 'Maintain Bill of Material' (תחזוקה) ו-'Manage Material BOMs' (סקירה וניהול). יש גם Object Page לכל BOM עם היסטוריית שינויים."
@@ -7301,7 +7301,7 @@ export const PPPI_DATA = {
         "2",
         "CS11",
         "Both",
-        "פיצוץ עץ מוצר רב-רמתי (Multilevel BOM Explosion) - מציג את כל רמות ההיררכיה של הרכיבים מהמוצר המוגמר ועד חומרי הגלם. כלי ניתוח מרכזי לתכנון חומרים ולבדיקת עלות מוצר ב-CBC.",
+        "פיצוץ עץ מוצר רב-רמתי (Multilevel BOM Explosion) - מציג את כל רמות ההיררכיה של הרכיבים מהמוצר המוגמר ועד חומרי הגלם. כלי ניתוח מרכזי לתכנון חומרים ולבדיקת עלות מוצר בארגון.",
         "הפיצוץ עובר ל-HANA-optimized; ב-S/4 התצוגה דרך Fiori עם CDS Views במקום הרצת דוח כבדה.",
         "Display Bill of Material (multilevel)  ((אמת ID))",
         "הפיצוץ הרב-רמתי מוצג כעץ אינטראקטיבי ב-Fiori; ניתן לקפוץ מכל רכיב ל-Object Page שלו (drill-down) במקום מסך SAPGUI סטטי."
@@ -7328,7 +7328,7 @@ export const PPPI_DATA = {
         "5",
         "CS14",
         "Both",
-        "השוואת עצי מוצר (BOM Comparison) - משווה שני עצי מוצר (או שתי חלופות/גרסאות) ומסמן הבדלים ברכיבים ובכמויות. קריטי לאימות שינויי מתכון מאושרים ב-CBC לפני העברה לייצור.",
+        "השוואת עצי מוצר (BOM Comparison) - משווה שני עצי מוצר (או שתי חלופות/גרסאות) ומסמן הבדלים ברכיבים ובכמויות. קריטי לאימות שינויי מתכון מאושרים בארגון לפני העברה לייצור.",
         "ללא שינוי; ב-S/4 ניתן להשוות גם דרך Engineering/Change Records.",
         "Compare Bill of Materials  ((אמת ID))",
         "ב-Fiori ההשוואה ויזואלית (side-by-side) עם הדגשת דלתות; משולב בתהליך ניהול שינויים הנדסיים (ECM)."
@@ -7346,7 +7346,7 @@ export const PPPI_DATA = {
         "7",
         "CO24",
         "Both",
-        "מידע חוסרים (Missing Parts Info System) - מציג רכיבים חסרים לפק\"ע שלא ניתן לפלוט (מלאי לא מספיק). כלי תפעולי לזיהוי עיכובי ייצור בקו ב-CBC לפני שחרור.",
+        "מידע חוסרים (Missing Parts Info System) - מציג רכיבים חסרים לפק\"ע שלא ניתן לפלוט (מלאי לא מספיק). כלי תפעולי לזיהוי עיכובי ייצור בקו בארגון לפני שחרור.",
         "ב-S/4 משולב ב-MRP Live וב-Fiori Material Coverage; בדיקת זמינות בזמן אמת.",
         "Monitor Material Coverage - Net Segments  (F0251)",
         "ב-Fiori זה הופך ל-Monitor Material Coverage עם MRP cockpit מבוסס תפקיד; כל חוסר מציג פעולות מוצעות (Solve) ישירות."
@@ -7373,7 +7373,7 @@ export const PPPI_DATA = {
         "10",
         "COOISPI",
         "PP-PI",
-        "מערכת מידע פקודות תהליך (Process Order Information System) - המקבילה של COOIS לפק\"ע תהליכיות (Process Orders). הדוח התפעולי המרכזי של CBC לסינון ועיבוד המוני של פק\"ע ייצור משקאות.",
+        "מערכת מידע פקודות תהליך (Process Order Information System) - המקבילה של COOIS לפק\"ע תהליכיות (Process Orders). הדוח התפעולי המרכזי של הארגון לסינון ועיבוד המוני של פק\"ע ייצור משקאות.",
         "נתמך; מוחלף ב-Manage Process Orders ובלוחות מעקב.",
         "Manage Process Orders  (F4512)",
         "ב-Fiori 'Manage Process Orders' (F4512) הוא ה-List Report הראשי; משולב עם Process Order Object Page ועם דיווח (Confirm)."
@@ -7382,7 +7382,7 @@ export const PPPI_DATA = {
         "11",
         "COIO",
         "PP-PI",
-        "לוח מעקב פקודות (Order Tracking Cockpit / Process Order Cockpit) - מסך תפעולי מאוחד למעקב אחר פק\"ע התהליך, סטטוסים, חומרים ודיווחים. לב המעקב התפעולי של מנהל הקו ב-CBC.",
+        "לוח מעקב פקודות (Order Tracking Cockpit / Process Order Cockpit) - מסך תפעולי מאוחד למעקב אחר פק\"ע התהליך, סטטוסים, חומרים ודיווחים. לב המעקב התפעולי של מנהל הקו בארגון.",
         "מוחלף בלוחות Fiori מבוססי תפקיד (Production Operator / Supervisor).",
         "Process Order Cockpit / Operator Dashboard  ((אמת ID))",
         "ב-Fiori המעקב מתפצל לדאשבורדים לפי תפקיד: מפעיל קו (Confirm), מתכנן (Schedule), ומנהל (KPIs) - launchpad מבוסס תפקיד."
@@ -7391,7 +7391,7 @@ export const PPPI_DATA = {
         "12",
         "COR1 / COR2 / COR3",
         "PP-PI",
-        "יצירה / שינוי / תצוגה של פקודת ייצור תהליכית (Process Order) - ליבת ביצוע הייצור ב-CBC. שחרור הפק\"ע (REL) מייצר Control Recipe ושולח הוראות תהליך (IDoc LOIPRO) לקו/MES.",
+        "יצירה / שינוי / תצוגה של פקודת ייצור תהליכית (Process Order) - ליבת ביצוע הייצור בארגון. שחרור הפק\"ע (REL) מייצר Control Recipe ושולח הוראות תהליך (IDoc LOIPRO) לקו/MES.",
         "מודל מותאם; עלויות ל-ACDOCA; שחרור/Control Recipe נשמרים.",
         "Create / Manage Process Orders  (F4512)",
         "ב-Fiori יצירה/שינוי דרך 'Manage Process Orders' + Object Page; פעולות ייעודיות (Release, Confirm, Print) כ-tiles נפרדים."
@@ -7400,7 +7400,7 @@ export const PPPI_DATA = {
         "13",
         "CO01 / CO02 / CO03",
         "PP",
-        "יצירה / שינוי / תצוגה של פקודת ייצור בדידה (Discrete Production Order). משמש בייצור בדיד (לא משקאות) - מובא כאן לצורך הבחנה מ-PP-PI; ב-CBC הליבה היא Process Orders.",
+        "יצירה / שינוי / תצוגה של פקודת ייצור בדידה (Discrete Production Order). משמש בייצור בדיד (לא משקאות) - מובא כאן לצורך הבחנה מ-PP-PI; בארגון הליבה היא Process Orders.",
         "מודל מותאם; דומה ל-Process Order ב-S/4.",
         "Create / Manage Production Orders  ((אמת ID))",
         "ב-Fiori מקביל ל-Manage Production Orders; בייצור משקאות לא בשימוש (PP-PI מוביל)."
@@ -7409,7 +7409,7 @@ export const PPPI_DATA = {
         "14",
         "C201 / C202 / C203",
         "PP-PI",
-        "יצירה / שינוי / תצוגה של מתכון ייצור (Master Recipe) - הגדרת הנוסחה, הפאזות, ההוראות וערכי התקן. כל משקה ב-CBC מיוצר לפי מתכון מאושר; שינוי דורש ניהול שינויים הנדסי (ECM).",
+        "יצירה / שינוי / תצוגה של מתכון ייצור (Master Recipe) - הגדרת הנוסחה, הפאזות, ההוראות וערכי התקן. כל משקה בארגון מיוצר לפי מתכון מאושר; שינוי דורש ניהול שינויים הנדסי (ECM).",
         "ללא שינוי מבני; Fiori 'Manage Master Recipes'.",
         "Manage Master Recipes  ((אמת ID))",
         "ב-Fiori 'Manage Master Recipes' עם Object Page לכל מתכון; שילוב עם Manage Process Instructions ו-PI characteristics."
@@ -7418,7 +7418,7 @@ export const PPPI_DATA = {
         "15",
         "CA01 / CA02 / CA03",
         "PP",
-        "יצירה / שינוי / תצוגה של רשימת פעולות (Routing) לייצור בדיד. המקבילה הבדידה של מתכון ה-PP-PI; מובא להבחנה - ב-CBC משתמשים ב-Master Recipe ולא ב-Routing.",
+        "יצירה / שינוי / תצוגה של רשימת פעולות (Routing) לייצור בדיד. המקבילה הבדידה של מתכון ה-PP-PI; מובא להבחנה - בארגון משתמשים ב-Master Recipe ולא ב-Routing.",
         "ללא שינוי; Fiori 'Manage Routings'.",
         "Manage Routings  ((אמת ID))",
         "ב-Fiori 'Manage Routings'; אינו בשימוש בייצור משקאות תהליכי."
@@ -7427,7 +7427,7 @@ export const PPPI_DATA = {
         "16",
         "C223",
         "PP-PI",
-        "ניהול גרסאות ייצור (Production Versions) - מקשר חומר -> עץ מוצר חלופי + מתכון + קו ייצור. ב-S/4HANA חובה מוחלטת לכל ביצוע ייצור; ב-CBC כל שילוב מוצר/קו = גרסה.",
+        "ניהול גרסאות ייצור (Production Versions) - מקשר חומר -> עץ מוצר חלופי + מתכון + קו ייצור. ב-S/4HANA חובה מוחלטת לכל ביצוע ייצור; בארגון כל שילוב מוצר/קו = גרסה.",
         "גרסת ייצור (VERID) חובה 100% ב-S/4; הרץ בדיקת עקביות לפני ההמרה (RCC22300).",
         "Manage Production Versions  (F2703)",
         "ב-Fiori 'Manage Production Versions' (F2703) מרכז את כל הגרסאות עם בדיקת תקינות (consistency) ויזואלית - חיוני ל-Pre-check המיגרציה."
@@ -7436,7 +7436,7 @@ export const PPPI_DATA = {
         "17",
         "CO11N",
         "PP",
-        "דיווח ביצוע לפעולה בייצור בדיד (Time Ticket Confirmation). מובא להבחנה; ב-CBC הדיווח התהליכי מתבצע דרך COR6N/CORK והודעות תהליך מהקו.",
+        "דיווח ביצוע לפעולה בייצור בדיד (Time Ticket Confirmation). מובא להבחנה; בארגון הדיווח התהליכי מתבצע דרך COR6N/CORK והודעות תהליך מהקו.",
         "מוחלף ב-Fiori 'Confirm Production Operation'.",
         "Confirm Production Operation  (F3372)",
         "ב-Fiori 'Confirm Production Operation' (F3372) - דיווח מהיר מבוסס תפקיד מפעיל, מותאם למסך מגע בקו."
@@ -7454,7 +7454,7 @@ export const PPPI_DATA = {
         "19",
         "MD04",
         "Both",
-        "רשימת מלאי/דרישות (Stock / Requirements List) - המסך התפעולי המרכזי לתכנון: מציג מלאי, דרישות, פק\"ע, הזמנות רכש וגרעונות לחומר. מנהל החומר ב-CBC עובד מולו יומית.",
+        "רשימת מלאי/דרישות (Stock / Requirements List) - המסך התפעולי המרכזי לתכנון: מציג מלאי, דרישות, פק\"ע, הזמנות רכש וגרעונות לחומר. מנהל החומר בארגון עובד מולו יומית.",
         "ב-S/4 נשען על MRP Live; הצגה דרך Fiori Material Coverage עם נתוני זמן אמת מ-HANA.",
         "Monitor Material Coverage - Net Segments  (F0251)",
         "ב-Fiori 'Monitor Material Coverage' (F0251) מחליף את MD04 עם MRP cockpit מבוסס תפקיד, אזורי כיסוי (segments) ופעולות פתרון מוצעות."
@@ -7481,7 +7481,7 @@ export const PPPI_DATA = {
         "22",
         "CM01 / CM07",
         "Both",
-        "הערכת עומסי קיבולת (Capacity Load / Evaluation) - מציג את העומס מול הזמינות של קווי הייצור/המשאבים. כלי לזיהוי צווארי בקבוק ולתזמון ייצור משקאות יעיל ב-CBC.",
+        "הערכת עומסי קיבולת (Capacity Load / Evaluation) - מציג את העומס מול הזמינות של קווי הייצור/המשאבים. כלי לזיהוי צווארי בקבוק ולתזמון ייצור משקאות יעיל בארגון.",
         "ללא שינוי לוגי; ב-S/4 לוח תזמון גרפי (Scheduling Board) מודרני.",
         "Capacity Scheduling Board / Monitor Capacity Utilisation  ((אמת ID))",
         "ב-Fiori 'Capacity Scheduling Board' מספק תזמון גרירה-ושחרור (drag&drop) ויזואלי במקום דוחות הטקסט של CM01/CM07."
@@ -7490,7 +7490,7 @@ export const PPPI_DATA = {
         "23",
         "COHV / COHVPI",
         "Both",
-        "עיבוד המוני של פקודות (Mass Processing) - מאפשר שחרור, הדפסה, דיווח או ביטול של מאות פק\"ע בו-זמנית. חיוני לתפעול יומי של עשרות פק\"ע ייצור ב-CBC.",
+        "עיבוד המוני של פקודות (Mass Processing) - מאפשר שחרור, הדפסה, דיווח או ביטול של מאות פק\"ע בו-זמנית. חיוני לתפעול יומי של עשרות פק\"ע ייצור בארגון.",
         "נתמך; משולב עם רקע (Application Jobs) ב-S/4.",
         "Mass Processing - Orders  ((אמת ID))",
         "ב-Fiori העיבוד ההמוני נגיש דרך List Report עם בחירה מרובה + תזמון Application Jobs לרקע."
@@ -7508,7 +7508,7 @@ export const PPPI_DATA = {
         "25",
         "CO53",
         "PP-PI",
-        "רשימת עבודה למתכוני בקרה / גיליון PI (Control Recipe / PI Sheet Worklist) - מציג למפעיל הקו את הוראות התהליך לביצוע ולתיעוד (ערכים נמדדים, אישורים). הממשק הישיר בין SAP לאוטומציית הקו ב-CBC.",
+        "רשימת עבודה למתכוני בקרה / גיליון PI (Control Recipe / PI Sheet Worklist) - מציג למפעיל הקו את הוראות התהליך לביצוע ולתיעוד (ערכים נמדדים, אישורים). הממשק הישיר בין SAP לאוטומציית הקו בארגון.",
         "ב-S/4 מומלץ Manufacturing Execution / Digital Manufacturing במקום PI Sheet קלאסי.",
         "Process Operator Dashboard / Digital Mfg  ((אמת ID))",
         "ב-Fiori גיליון ה-PI הופך לדאשבורד מפעיל מבוסס תפקיד (Process Operator) עם קליטת ערכים ואישורים בזמן אמת מהמסך."
@@ -7517,7 +7517,7 @@ export const PPPI_DATA = {
         "26",
         "MB1A / MIGO",
         "Both",
-        "תנועות מלאי: MB1A = פליטת חומר (261) לפק\"ע; MIGO = תנועת מלאי כללית (פליטה/קליטה). פליטת חומרי גלם וקליטת מוצר מוגמר ב-CBC, מסונכרן עם מסופי Zetes.",
+        "תנועות מלאי: MB1A = פליטת חומר (261) לפק\"ע; MIGO = תנועת מלאי כללית (פליטה/קליטה). פליטת חומרי גלם וקליטת מוצר מוגמר בארגון, מסונכרן עם מסופי Zetes.",
         "תנועות מנוהלות ב-MATDOC; MIGO נתמך; Fiori 'Post Goods Movement'.",
         "Post Goods Movement  ((אמת ID))",
         "ב-Fiori 'Post Goods Movement' מאוחד; קליטות/פליטות מהקו מבוצעות גם דרך מסופים ניידים (Zetes) המחוברים ל-OData."
@@ -7603,7 +7603,7 @@ export const PPPI_DATA = {
       [
         "8",
         "SM37",
-        "מוניטור משימות רקע (Background Job Monitor) - מעקב, תזמון וניתוח של ג'obs ברקע (הרצות MRP, יצירת IDocs, עיבוד המוני). חיוני לתפעול אצוות לילה ב-CBC.",
+        "מוניטור משימות רקע (Background Job Monitor) - מעקב, תזמון וניתוח של ג'obs ברקע (הרצות MRP, יצירת IDocs, עיבוד המוני). חיוני לתפעול אצוות לילה בארגון.",
         "נשמר; ב-S/4 ניהול ותזמון דרך Fiori 'Application Jobs'.",
         "Application Jobs / Job Scheduling Monitor  (F1239)",
         "ב-Fiori 'Application Jobs' (F1239) מנהל תזמון, ניטור והתראות על ג'obs מבוסס תפקיד; SM37 נשמר ב-Backend."
@@ -7683,7 +7683,7 @@ export const PPPI_DATA = {
       [
         "18",
         "BP",
-        "שותף עסקי (Business Partner) - נקודת הכניסה היחידה לניהול לקוחות/ספקים ב-S/4HANA (מחליף XK01/MK01/XD01). ניהול תפקידים (Roles), קבוצות וכתובות. קריטי לספקי חומרי הגלם של CBC.",
+        "שותף עסקי (Business Partner) - נקודת הכניסה היחידה לניהול לקוחות/ספקים ב-S/4HANA (מחליף XK01/MK01/XD01). ניהול תפקידים (Roles), קבוצות וכתובות. קריטי לספקי חומרי הגלם של הארגון.",
         "מחליף - ב-S/4 BP חובה; נדרש CVI להמרת LFA1/KNA1 ל-BUT000 (SAP Note 2265093).",
         "Manage Business Partner Master Data  ((אמת ID))",
         "ב-Fiori ניהול ה-BP מבוסס תפקיד עם Object Page לכל שותף; תפקידי ספק/לקוח מנוהלים כ-BP Roles באותה רשומה."
@@ -7697,7 +7697,7 @@ export const PPPI_DATA = {
       "היבט (Aspect)",
       "SAP PP - ייצור בדיד (Discrete)",
       "SAP PP-PI - ייצור תהליכי (Process)",
-      "הערת CBC / S/4HANA"
+      "הערת יישום / S/4HANA"
     ],
     "rows": [
       [
@@ -7705,21 +7705,21 @@ export const PPPI_DATA = {
         "סוג ייצור (Production type)",
         "ייצור בדיד / יחידות (Discrete)",
         "ייצור תהליכי / אצוות ונוזלים (Process)",
-        "CBC: ייצור משקאות הוא תהליכי מובהק - PP-PI הוא המודול הנכון (לא PP בדיד)."
+        "הארגון: ייצור משקאות הוא תהליכי מובהק - PP-PI הוא המודול הנכון (לא PP בדיד)."
       ],
       [
         "2",
         "ענפים אופייניים (Industries)",
         "רכב, אלקטרוניקה, מכונות, הרכבה",
         "מזון ומשקאות, כימיה, פארמה, קוסמטיקה",
-        "CBC (Coca-Cola) נמצא בליבת ה-Process Industries."
+        "הארגון (Example Product) נמצא בליבת ה-Process Industries."
       ],
       [
         "3",
         "נתוני אב חומר (Material)",
         "חומר סטנדרטי (לרוב ללא אצווה)",
         "חומר מנוהל אצווה (Batch-managed) - חובה",
-        "כל תרכיז/מוצר ב-CBC מנוהל אצווה לניהול BBD/תפוגה ומעקב Track&Trace."
+        "כל תרכיז/מוצר בארגון מנוהל אצווה לניהול BBD/תפוגה ומעקב Track&Trace."
       ],
       [
         "4",
@@ -7761,7 +7761,7 @@ export const PPPI_DATA = {
         "מערכת מעקב (Monitoring cockpit)",
         "COOIS (Order Information System)",
         "COIO (Process Order Information System) + PI Cockpit",
-        "COIO הוא לוח המעקב התפעולי המרכזי של CBC."
+        "COIO הוא לוח המעקב התפעולי המרכזי של הארגון."
       ],
       [
         "10",

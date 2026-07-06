@@ -10,7 +10,7 @@ export const CH2: TextbookChapter = {
   titleHe: "מודל וניווט ב-SAP IBP",
   titleEn: "SAP IBP Model and Navigation",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה למודל-התכנון של SAP IBP (Integrated Business Planning) ולדרכי-הניווט בו. SAP IBP הוא פתרון-ענן (cloud) לתכנון שרשרת-אספקה ול-S&OP, והמודל שלו בנוי מאבני-בניין שזורות: attributes, master data types, time profiles, planning areas, planning levels, key figures, versions ו-scenarios. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC (מפעל-מילוי משקאות מבית Coca-Cola), ניווט באפליקציית IBP Configuration ו-Excel add-in, טבלאות/אובייקטים, פרטי-קונפיגורציה, תרשים-בנייה, טעויות נפוצות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לבנות ולנווט במודל-IBP ללא הספר המקורי. אובייקטי-SAP נשמרים באנגלית מקור (Planning Area SAPIBP1, attribute, master data type, time profile, planning level, key figure, Excel add-in).",
+    "פרק זה הוא יחידת-לימוד מלאה למודל-התכנון של SAP IBP (Integrated Business Planning) ולדרכי-הניווט בו. SAP IBP הוא פתרון-ענן (cloud) לתכנון שרשרת-אספקה ול-S&OP, והמודל שלו בנוי מאבני-בניין שזורות: attributes, master data types, time profiles, planning areas, planning levels, key figures, versions ו-scenarios. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון (מפעל-מילוי משקאות מבית Example Product), ניווט באפליקציית IBP Configuration ו-Excel add-in, טבלאות/אובייקטים, פרטי-קונפיגורציה, תרשים-בנייה, טעויות נפוצות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. המטרה: לבנות ולנווט במודל-IBP ללא הספר המקורי. אובייקטי-SAP נשמרים באנגלית מקור (Planning Area SAPIBP1, attribute, master data type, time profile, planning level, key figure, Excel add-in).",
   subchapters: [
     // ============================================================ 2.1
     {
@@ -27,8 +27,8 @@ export const CH2: TextbookChapter = {
         "המטרה: לספק פלטפורמת-תכנון מהירה, אלסטית וזמינה-גלובלית, שבה כל בעלי-העניין (תכנון-ביקוש, אספקה, מלאי, S&OP) עובדים על אותו מודל-נתונים אחד (single source of truth) בזמן-אמת, בלי תחזוקת-תשתית מקומית.",
       processExampleHe:
         "תכננית מתחברת מהבית דרך הדפדפן ל-Fiori Launchpad של IBP, פותחת את ה-Excel add-in, מושכת תצוגת-תכנון, משנה תחזית — והשינוי נכתב מיידית ל-planning area ב-HANA. במקביל, מנהל-תפעול במדינה אחרת רואה את אותו מספר ב-dashboard של Fiori, כי שניהם קוראים מאותו מסד-נתונים בענן.",
-      cbcHe:
-        "ב-CBC (מפעל-מילוי משקאות): נתוני-המכירות ההיסטוריים נמשכים מ-SAP S/4HANA דרך CI-DS אל ה-planning area בענן; התכננים בכל מדינה עובדים ב-Excel add-in מול אותו מודל; הנהלת-האזור צופה ב-Web UI. שדרוג-רבעוני של IBP נבדק תחילה ב-tenant של בדיקות לפני productive.",
+      scenarioHe:
+        "בארגון (מפעל-מילוי משקאות): נתוני-המכירות ההיסטוריים נמשכים מ-SAP S/4HANA דרך CI-DS אל ה-planning area בענן; התכננים בכל מדינה עובדים ב-Excel add-in מול אותו מודל; הנהלת-האזור צופה ב-Web UI. שדרוג-רבעוני של IBP נבדק תחילה ב-tenant של בדיקות לפני productive.",
       navHe: [
         "SAP Fiori Launchpad ► Application Jobs ► לניטור משימות-מערכת ו-planning runs",
         "SAP Fiori Launchpad ► Communication Channels / Data Integration ► להגדרת חיבורי CI-DS / SDI",
@@ -95,8 +95,8 @@ export const CH2: TextbookChapter = {
         "המטרה: להגדיר מבנה-נתונים גמיש המשרת את כל תהליכי-התכנון (demand, supply, inventory, S&OP) במודל אחד עקבי, כך שמספר אחד מחושב פעם אחת ומשמש את כולם — ללא כפילות וללא אי-התאמות.",
       processExampleHe:
         "יועם בונה מודל-demand: מגדיר attributes (PRDID, LOCID, CUSTID), יוצר master data types לכל אחד, קושר time profile חודשי, מאחד ב-planning area, מגדיר planning level לפי Product-Customer-Month, ועליו key figure בשם CONSENSUSDEMAND. מרגע זה כל תצוגה ב-Excel נשענת על אותו מבנה.",
-      cbcHe:
-        "ב-CBC המודל כולל attributes: Product (SKU משקה), Location (מפעל/DC), Customer (רשת-קמעונאות), Brand. נתוני-האב נטענים מ-S/4HANA, ציר-הזמן חודשי-שבועי, וה-planning area משוכפל מ-SAPIBP1 ומותאם לעולם-המשקאות.",
+      scenarioHe:
+        "בארגון המודל כולל attributes: Product (SKU משקה), Location (מפעל/DC), Customer (רשת-קמעונאות), Brand. נתוני-האב נטענים מ-S/4HANA, ציר-הזמן חודשי-שבועי, וה-planning area משוכפל מ-SAPIBP1 ומותאם לעולם-המשקאות.",
       navHe: [
         "Web UI ► Configuration ► Planning Areas ► לצפייה ובנייה של המודל",
         "Web UI ► Configuration ► Attributes / Master Data Types / Time Profiles",
@@ -169,8 +169,8 @@ export const CH2: TextbookChapter = {
             "המטרה: לתקנן את אוצר-המילים של המודל — כל מאפיין-עסקי מוגדר פעם אחת ומשמש בכל מקום, כך שאין שני שדות-שונים לאותו מושג.",
           processExampleHe:
             "יועם יוצר attribute חדש BRANDID (NVARCHAR אורך 20) לתיאור-מותג, ואז משייך אותו ל-master data type של המוצר, כדי לאפשר תכנון-לפי-מותג בהמשך.",
-          cbcHe:
-            "ב-CBC ה-attributes הם: PRDID (SKU כמו 'Cola-1.5L'), LOCID (מפעל/DC), CUSTID (רשת), BRANDID (Coca-Cola / Fanta / Sprite), PACKTYPE (בקבוק/פחית). כולם באנגלית מקור.",
+          scenarioHe:
+            "בארגון ה-attributes הם: PRDID (SKU כמו 'Drink-1.5L'), LOCID (מפעל/DC), CUSTID (רשת), BRANDID (Example Product / Fanta / Sprite), PACKTYPE (בקבוק/פחית). כולם באנגלית מקור.",
           navHe: [
             "Web UI ► Configuration ► Attributes ► New ► הגדרת Attribute ID, Data Type, Length",
             "Web UI ► Configuration ► Attributes ► Copy ► שכפול attribute מ-SAPIBP1",
@@ -223,8 +223,8 @@ export const CH2: TextbookChapter = {
             "המטרה: לארגן את ה-attributes למבני נתוני-אב עקביים שאליהם נטענים הערכים האמיתיים, ושעליהם נבנות רמות-התכנון וה-key figures.",
           processExampleHe:
             "יועם יוצר master data type מסוג simple בשם Product עם key attribute PRDID ועם attributes תיאוריים BRANDID, PRDFAMILY; טוען אליו את רשימת-המוצרים מ-S/4HANA; וכעת אפשר לתכנן לפי מוצר.",
-          cbcHe:
-            "ב-CBC: master data type מסוג simple בשם Product (PRDID + BRANDID + PACKTYPE), simple בשם Location (LOCID), ו-compound בשם Customer-Product לתכנון-לקוח-מוצר. כולם נטענים מ-S/4HANA דרך CI-DS.",
+          scenarioHe:
+            "בארגון: master data type מסוג simple בשם Product (PRDID + BRANDID + PACKTYPE), simple בשם Location (LOCID), ו-compound בשם Customer-Product לתכנון-לקוח-מוצר. כולם נטענים מ-S/4HANA דרך CI-DS.",
           navHe: [
             "Web UI ► Configuration ► Master Data Types ► New ► בחירת Type (simple/compound/reference/external/virtual)",
             "Web UI ► Configuration ► Master Data Types ► שיוך attributes כ-key / non-key",
@@ -278,8 +278,8 @@ export const CH2: TextbookChapter = {
             "המטרה: לקבוע את הרזולוציה-הזמנית האחידה של כל התכנון, כך שתחזית, אספקה ומלאי כולם מדברים באותן תקופות-זמן ומתקפלים זה לתוך זה בעקביות.",
           processExampleHe:
             "מודל-demand נשמר ברמת-חודש; ה-time profile מקפל את החודשים לרבעונים ולשנים אוטומטית, כך שמנהל רואה consensus ברמת-רבעון בלי חישוב-ידני.",
-          cbcHe:
-            "ב-CBC ה-time profile שבועי-חודשי: תכנון-תפעולי שבועי לקווי-המילוי, ו-S&OP חודשי-רבעוני להנהלה. עונתיות-המשקאות (קיץ) ניכרת ברזולוציה החודשית.",
+          scenarioHe:
+            "בארגון ה-time profile שבועי-חודשי: תכנון-תפעולי שבועי לקווי-המילוי, ו-S&OP חודשי-רבעוני להנהלה. עונתיות-המשקאות (קיץ) ניכרת ברזולוציה החודשית.",
           navHe: [
             "Web UI ► Configuration ► Time Profiles ► New ► הגדרת Levels (Year/Quarter/Month/Week)",
             "Web UI ► Configuration ► Time Profiles ► Generate Time Profile Data ► יצירת תקופות בפועל",
@@ -332,9 +332,9 @@ export const CH2: TextbookChapter = {
           purposeHe:
             "המטרה: לספק single source of truth — מודל אחד שבו כל תהליכי-התכנון חולקים את אותם נתוני-אב, ציר-זמן ו-key figures, כך שמספר מחושב פעם אחת ומשמש את כולם.",
           processExampleHe:
-            "צוות-מימוש משכפל את SAPIBP1 ל-planning area חדש ZIBP_CBC, מסיר key figures לא-רלוונטיים, מוסיף BRANDID, מריץ consistency check, ומפעיל (Activate). מאותו רגע התכננים עובדים מולו ב-Excel.",
-          cbcHe:
-            "ב-CBC ה-planning area ZIBP_CBC משוכפל מ-SAPIBP1, כולל demand, supply ו-inventory; מותאם ל-SKU-משקאות, מפעלים-DC, ורשתות-קמעונאות; ומשמש את כל מדינות-האזור על מודל-אחד.",
+            "צוות-מימוש משכפל את SAPIBP1 ל-planning area חדש ZIBP_MFG, מסיר key figures לא-רלוונטיים, מוסיף BRANDID, מריץ consistency check, ומפעיל (Activate). מאותו רגע התכננים עובדים מולו ב-Excel.",
+          scenarioHe:
+            "בארגון ה-planning area ZIBP_MFG משוכפל מ-SAPIBP1, כולל demand, supply ו-inventory; מותאם ל-SKU-משקאות, מפעלים-DC, ורשתות-קמעונאות; ומשמש את כל מדינות-האזור על מודל-אחד.",
           navHe: [
             "Web UI ► Configuration ► Planning Areas ► Copy ► שכפול SAPIBP1",
             "Web UI ► Configuration ► Planning Areas ► Edit ► שיוך master data, time profile, key figures",
@@ -399,8 +399,8 @@ export const CH2: TextbookChapter = {
             "המטרה: לאפשר אחסון-נתונים ברמת-פירוט אחת, וצפייה/חישוב במגוון-רמות, בלי לאחסן כל צירוף בנפרד — חיסכון בנפח ועקביות בצבירה.",
           processExampleHe:
             "key figure של תחזית נשמר ב-base planning level של Product-Customer-Month; מנהל פותח תצוגה ברמת-Brand-Quarter — IBP מצבר אוטומטית מהרמה-הבסיסית לרמה-המבוקשת.",
-          cbcHe:
-            "ב-CBC: base planning level = Product-Location-Customer-Week לתכנון-תפעולי; רמות-צבירה = Brand-Region-Month ל-S&OP. אותו מספר נראה בכל רמה בעקביות.",
+          scenarioHe:
+            "בארגון: base planning level = Product-Location-Customer-Week לתכנון-תפעולי; רמות-צבירה = Brand-Region-Month ל-S&OP. אותו מספר נראה בכל רמה בעקביות.",
           navHe: [
             "Web UI ► Configuration ► Planning Levels ► New ► בחירת attributes + time profile level",
             "Web UI ► Configuration ► Key Figures ► שיוך base planning level",
@@ -457,8 +457,8 @@ export const CH2: TextbookChapter = {
             "המטרה: לייצג כל גודל-תכנוני כמדד-יחיד עם התנהגות-צבירה ופירוק עקבית, כך שהמשתמש עורך במספר אחד וכל הרמות מתעדכנות נכון.",
           processExampleHe:
             "key figure בשם CONSENSUSDEMAND נערך ברמת Product-Customer-Month; key figure מחושב TOTALDEMAND = CONSENSUSDEMAND + PROMOTIONUPLIFT מתעדכן אוטומטית; פירוק לשבועות נעשה לפי PROPORTIONALFACTOR.",
-          cbcHe:
-            "ב-CBC ה-key figures כוללים: STATISTICALFORECAST (תחזית-בסיס), CONSENSUSDEMAND (מוסכם), SAFETYSTOCK, PROJECTEDINVENTORY, SUPPLYPLAN. uplift-קיץ מוזן כ-key figure-תוספת ומחובר לתחזית-הבסיס.",
+          scenarioHe:
+            "בארגון ה-key figures כוללים: STATISTICALFORECAST (תחזית-בסיס), CONSENSUSDEMAND (מוסכם), SAFETYSTOCK, PROJECTEDINVENTORY, SUPPLYPLAN. uplift-קיץ מוזן כ-key figure-תוספת ומחובר לתחזית-הבסיס.",
           navHe: [
             "Web UI ► Configuration ► Key Figures ► New ► base planning level + aggregation",
             "Web UI ► Configuration ► Key Figures ► Calculations ► הגדרת נוסחה מ-KF אחרים",
@@ -525,8 +525,8 @@ export const CH2: TextbookChapter = {
             "המטרה: לאפשר ניתוח-חלופות והשוואה לפני-החלטה — לב תהליך ה-S&OP — בלי לסכן את תכנית-הבסיס, ולתעד תרחישים שונים זה-מול-זה.",
           processExampleHe:
             "בישיבת-S&OP התכנן יוצר scenario 'High Growth' מעל ה-Baseline, מעלה תחזית ב-10%, משווה side-by-side את ההשפעה על המלאי והאספקה, וכשמתקבלת החלטה — מאמץ (adopt) את ה-scenario ל-version.",
-          cbcHe:
-            "ב-CBC: version 'Baseline' מול 'Budget' לשנה; לקראת-קיץ התכנן בונה scenario 'Heatwave +15%' לבדיקת-מוכנות קווי-המילוי, ומשווה למלאי-הצפוי לפני אימוץ.",
+          scenarioHe:
+            "בארגון: version 'Baseline' מול 'Budget' לשנה; לקראת-קיץ התכנן בונה scenario 'Heatwave +15%' לבדיקת-מוכנות קווי-המילוי, ומשווה למלאי-הצפוי לפני אימוץ.",
           navHe: [
             "Web UI ► Configuration ► Planning Areas ► Versions ► הגדרת/העתקת versions",
             "Excel add-in ► Scenarios ► Create Scenario ► יצירת תרחיש מעל version",
@@ -585,8 +585,8 @@ export const CH2: TextbookChapter = {
             "המטרה: לאפשר אימוץ-משתמשים גלובלי — כל משתמש רואה את המודל בשפתו — תוך שמירה על ID-טכני אחיד שאינו תלוי-שפה, למניעת כפילות ובלבול.",
           processExampleHe:
             "המודל מתוחזק עם Key Figure ID = CONSENSUSDEMAND; התיאור מתורגם ל'ביקוש מוסכם' (HE), 'Consensus Demand' (EN), 'Konsensbedarf' (DE). כל משתמש רואה את שפתו, החישוב זהה.",
-          cbcHe:
-            "ב-CBC הרב-לאומי: תכננים בעברית, ערבית, אנגלית ויוונית רואים תיאורים מתורגמים של אותם key figures (CONSENSUSDEMAND, SAFETYSTOCK), והדיווח-האזורי עקבי כי ה-ID זהה לכולם.",
+          scenarioHe:
+            "בארגון הרב-לאומי: תכננים בעברית, ערבית, אנגלית ויוונית רואים תיאורים מתורגמים של אותם key figures (CONSENSUSDEMAND, SAFETYSTOCK), והדיווח-האזורי עקבי כי ה-ID זהה לכולם.",
           navHe: [
             "Web UI ► Configuration ► Attributes / Key Figures ► Translation ► תחזוקת תיאורים בשפות",
             "Excel add-in / Web UI ► Logon Language ► קובע את שפת-התצוגה של התיאורים",
@@ -641,8 +641,8 @@ export const CH2: TextbookChapter = {
         "המטרה: להתאים את כלי-הניווט לסוג-המשימה ולמשתמש — תכנן מקבל פירוט ב-Excel, מנהל מקבל תמונה ב-Fiori, וכולם מתקשרים ב-Collaboration — כל זאת מעל מודל-אחד עקבי.",
       processExampleHe:
         "תכנן עורך תחזית ב-Excel; מנהל-מכירות בודק את ה-dashboard ב-Fiori ומזהה חריגה; הוא פותח case ב-Collaboration ומתייג את התכנן; התכנן מגיב, מתקן ב-Excel, וה-case נסגר — הכול מקושר לאותו key figure.",
-      cbcHe:
-        "ב-CBC: תכנני-המדינות עובדים ב-Excel add-in; מנהלי-האזור צופים ב-Fiori dashboards של S&OP; חריגות-תחזית-קיץ נדונות ב-Social Collaboration עם תיוג בעלי-עניין — מחזור-S&OP חודשי מנוהל מקצה-לקצה.",
+      scenarioHe:
+        "בארגון: תכנני-המדינות עובדים ב-Excel add-in; מנהלי-האזור צופים ב-Fiori dashboards של S&OP; חריגות-תחזית-קיץ נדונות ב-Social Collaboration עם תיוג בעלי-עניין — מחזור-S&OP חודשי מנוהל מקצה-לקצה.",
       navHe: [
         "Excel ► SAP IBP ribbon ► Planning View ► עבודת-תכנון מפורטת",
         "Web UI ► Fiori Launchpad ► Dashboards / Analytics / S&OP Process",
@@ -707,8 +707,8 @@ export const CH2: TextbookChapter = {
             "המטרה: לתת לתכננים סביבת-עבודה מוכרת (Excel) עם גישה-חיה למודל — לערוך, לסמלץ ולשמור נתוני-תכנון בלי לעזוב את הגיליון.",
           processExampleHe:
             "תכנן פותח Favorite 'Monthly Demand', מסנן ל-Brand מסוים, רואה CONSENSUSDEMAND לפי-חודש, מעלה ערך, לוחץ Simulate לראות-השפעה, ואז Save — הנתון נכתב ל-planning area.",
-          cbcHe:
-            "ב-CBC כל תכנן-מדינה מחזיק Favorites ל-SKU-המשקאות שלו; לפני-קיץ הוא מסמלץ uplift ב-Simulate, משווה ב-scenario, ושומר את התחזית-המוסכמת.",
+          scenarioHe:
+            "בארגון כל תכנן-מדינה מחזיק Favorites ל-SKU-המשקאות שלו; לפני-קיץ הוא מסמלץ uplift ב-Simulate, משווה ב-scenario, ושומר את התחזית-המוסכמת.",
           navHe: [
             "Excel ► SAP IBP ribbon ► Log On ► התחברות ל-tenant",
             "Excel ► SAP IBP ribbon ► Favorites / New View ► פתיחת planning view",
@@ -764,8 +764,8 @@ export const CH2: TextbookChapter = {
             "המטרה: לספק ניתוח-ויזואלי, ניטור-חריגות, ניהול-תהליך-S&OP וקונפיגורציה — משימות שאינן עריכת-תאים — בדפדפן, למנהלים ולמיישמים.",
           processExampleHe:
             "מנהל פותח dashboard ב-Fiori, רואה גרף תחזית-מול-אספקה, custom alert מתריע על חוסר-קיבולת בחודש מסוים; הוא לוחץ-דרך ל-analytics, מבין את הסיבה, ומפעיל את שלב ה-S&OP-review.",
-          cbcHe:
-            "ב-CBC מנהלי-האזור צופים ב-Fiori dashboards של תחזית, מלאי וקיבולת-מילוי; custom alerts מתריעים על חוסר-קיבולת בשיא-הקיץ; ניהול מחזור-ה-S&OP החודשי מתבצע ב-S&OP Process app.",
+          scenarioHe:
+            "בארגון מנהלי-האזור צופים ב-Fiori dashboards של תחזית, מלאי וקיבולת-מילוי; custom alerts מתריעים על חוסר-קיבולת בשיא-הקיץ; ניהול מחזור-ה-S&OP החודשי מתבצע ב-S&OP Process app.",
           navHe: [
             "Web UI ► Fiori Launchpad ► Dashboards ► גרפים ו-KPIs",
             "Web UI ► Fiori Launchpad ► Custom Alerts / Analytics ► חריגות וניתוח",
@@ -822,8 +822,8 @@ export const CH2: TextbookChapter = {
             "המטרה: לעגן את הדיון וההחלטה בתוך הקשר-התכנון — לתעד 'למה החלטנו כך', להטיל משימות-מעקב, ולמנוע פיזור-תקשורת מחוץ למערכת.",
           processExampleHe:
             "alert מזהה חוסר-קיבולת; מנהל פותח case מתוך ה-dashboard, מתייג את מנהל-הייצור ומטיל task 'בדוק משמרת-נוספת'; הדיון מתועד, המשימה מסומנת-הושלמה, וה-case נסגר עם החלטה — הכול קשור לאותו key figure.",
-          cbcHe:
-            "ב-CBC חריגת-תחזית-קיץ פותחת case: תכנן-המדינה, מנהל-הייצור ומנהל-האזור דנים, מטילים task להגדלת-קיבולת-מילוי, והחלטת-ה-S&OP מתועדת בתוך IBP לצורך-מעקב ו-audit.",
+          scenarioHe:
+            "בארגון חריגת-תחזית-קיץ פותחת case: תכנן-המדינה, מנהל-הייצור ומנהל-האזור דנים, מטילים task להגדלת-קיבולת-מילוי, והחלטת-ה-S&OP מתועדת בתוך IBP לצורך-מעקב ו-audit.",
           navHe: [
             "Web UI ► Collaboration ► Cases ► פתיחת case המקושר לאובייקט-תכנון",
             "Web UI ► Dashboard / Alert ► Create Case ► פתיחת-case מתוך-הקשר",
@@ -879,8 +879,8 @@ export const CH2: TextbookChapter = {
         "המטרה של פרק-הסיכום: לקשור את אבני-הבניין לתמונה-אחת קוהרנטית, ולחדד את עקרונות-העבודה (שכפול-דוגמה, בדיקת-עקביות, הפעלה, התאמת-כלי-למשימה) שילוו כל מימוש.",
       processExampleHe:
         "מקצה-לקצה: מיישם משכפל SAPIBP1, מתאים attributes/master data/key figures, קובע time profile ו-planning levels, מפעיל, וטוען-נתונים; תכננים עובדים ב-Excel, מנהלים מנטרים ב-Fiori, וחריגות נדונות ב-Collaboration — מחזור-S&OP חי מעל מודל-אחד.",
-      cbcHe:
-        "ב-CBC: planning area אחד משוכפל מ-SAPIBP1 משרת את כל מדינות-האזור; משקאות-עונתיים מתוכננים ב-Excel, מנוטרים ב-Fiori, ונדונים ב-Collaboration — תהליך-S&OP אזורי אחיד מעל מודל-IBP יחיד בענן.",
+      scenarioHe:
+        "בארגון: planning area אחד משוכפל מ-SAPIBP1 משרת את כל מדינות-האזור; משקאות-עונתיים מתוכננים ב-Excel, מנוטרים ב-Fiori, ונדונים ב-Collaboration — תהליך-S&OP אזורי אחיד מעל מודל-IBP יחיד בענן.",
       navHe: [
         "Web UI ► Configuration ► לסקירת כל אובייקטי-המודל שנבנו בפרק",
         "Excel add-in + Fiori Launchpad ► לתרגול שלוש חזיתות-הניווט",
