@@ -2,6 +2,11 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { AppShell } from "@/components/app-shell";
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalytics } from "@/components/google-analytics";
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+const GSC = process.env.NEXT_PUBLIC_GSC_VERIFICATION;
+const BING = process.env.NEXT_PUBLIC_BING_VERIFICATION;
 
 const SITE = "https://sapbysali.app";
 const AUTHOR = "Sali Halif";
@@ -42,6 +47,12 @@ export const metadata: Metadata = {
   },
   appleWebApp: { capable: true, statusBarStyle: "default", title: "SAP by Sali" },
   formatDetection: { telephone: false },
+  // Search-engine ownership verification (HTML-tag method). Set the tokens in
+  // Vercel env: NEXT_PUBLIC_GSC_VERIFICATION (Google) / NEXT_PUBLIC_BING_VERIFICATION (Bing).
+  verification: {
+    ...(GSC ? { google: GSC } : {}),
+    ...(BING ? { other: { "msvalidate.01": BING } } : {}),
+  },
 };
 
 export const viewport: Viewport = {
@@ -112,6 +123,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="flex min-h-full flex-col">
         <AppShell>{children}</AppShell>
         <Analytics />
+        <GoogleAnalytics id={GA_ID} />
       </body>
     </html>
   );
