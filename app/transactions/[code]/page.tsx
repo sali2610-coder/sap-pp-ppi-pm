@@ -11,6 +11,14 @@ import { SapTip } from "@/components/sap-tip";
 export function generateStaticParams() { return TRANSACTIONS.map((t) => ({ code: t.code })); }
 export const dynamicParams = false;
 
+export async function generateMetadata({ params }: { params: Promise<{ code: string }> }): Promise<import("next").Metadata> {
+  const { code } = await params;
+  const c = decodeURIComponent(code);
+  const title = `${c} — SAP Transaction`;
+  const description = `${c} — SAP transaction: purpose, tables, lifecycle and S/4HANA changes on SAP by Sali · Project NEO.`;
+  return { title, description, openGraph: { title: `SAP by Sali | ${title}`, description } };
+}
+
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", PP: "#2563eb", "PP-PI": "#6d28d9" };
 
 function ChipRow({ title, items, link }: { title: string; items?: string[]; link?: boolean }) {

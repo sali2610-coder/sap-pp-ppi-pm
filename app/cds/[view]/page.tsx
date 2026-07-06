@@ -6,6 +6,14 @@ import type { Module } from "@/lib/types";
 export function generateStaticParams() { return listCdsViews().map((view) => ({ view })); }
 export const dynamicParams = false;
 
+export async function generateMetadata({ params }: { params: Promise<{ view: string }> }): Promise<import("next").Metadata> {
+  const { view } = await params;
+  const v = decodeURIComponent(view);
+  const title = `${v} — SAP CDS View`;
+  const description = `${v} — SAP S/4HANA CDS view: underlying tables, fields and analytics mapping on SAP by Sali · Project NEO.`;
+  return { title, description, openGraph: { title: `SAP by Sali | ${title}`, description } };
+}
+
 export default async function Page({ params }: { params: Promise<{ view: string }> }) {
   const { view } = await params;
   const v = cdsByView(decodeURIComponent(view));

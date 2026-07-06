@@ -61,6 +61,9 @@ export function HomeHero({ stats }: { stats: HeroStats }) {
         <p className="mt-3 max-w-2xl text-balance text-sm leading-relaxed text-white/85 sm:text-lg">
           מרכז השליטה לארכיטקטורת SAP של הארגון — מודולים, תהליכים, טבלאות וקשרים במקום אחד. ECC6 → S/4HANA.
         </p>
+        <p className="mt-1.5 max-w-2xl text-[12px] leading-relaxed text-white/60 sm:text-sm">
+          SAP by Sali — an interactive SAP PP, PP-PI and PM knowledge platform: architecture explorer, table explorer, business processes and SAP learning resources, by Sali Halif.
+        </p>
 
         <div className="mt-6 grid grid-cols-3 gap-2.5 sm:grid-cols-6 sm:gap-3">
           <Stat label="מודולים" value={stats.modules} />

@@ -1,5 +1,22 @@
+import type { Metadata } from "next";
 import { ALL_TABLES } from "@/lib/data";
 import { HomeHero } from "@/components/home-hero";
+
+// Homepage — optimized for: SAP by Sali · Project NEO · SAP PP / PM / PP-PI ·
+// SAP Architecture Explorer · SAP Learning Platform · Sali Halif. Natural copy,
+// no keyword stuffing.
+export const metadata: Metadata = {
+  // absolute — the root page is in the same segment as the layout, so the
+  // "SAP by Sali | %s" template does not auto-apply here; include the brand.
+  title: { absolute: "SAP by Sali | Project NEO — SAP PP, PP-PI & PM Platform" },
+  description:
+    "Project NEO by Sali Halif — an interactive SAP knowledge platform for PP, PP-PI and PM: architecture explorer, table explorer, business processes and SAP learning resources.",
+  openGraph: {
+    title: "SAP by Sali | Project NEO — SAP PP, PP-PI & PM Platform",
+    description:
+      "Interactive SAP knowledge platform for PP, PP-PI and PM by Sali Halif — architecture explorer, table explorer, business processes and learning resources.",
+  },
+};
 import { ExecutiveSummary } from "@/components/executive-summary";
 import { CommandCenter } from "@/components/command-center";
 import { QuickAccess } from "@/components/quick-access";

@@ -8,6 +8,15 @@ import { trustDomain } from "@/lib/trust";
 export function generateStaticParams() { return INCIDENTS.map((i) => ({ slug: i.slug })); }
 export const dynamicParams = false;
 
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<import("next").Metadata> {
+  const { slug } = await params;
+  const i = incidentBySlug(decodeURIComponent(slug));
+  if (!i) return { title: "SAP Troubleshooting" };
+  const title = `${i.he} — SAP ${i.module} Troubleshooting`;
+  const description = (i.symptom || i.he).slice(0, 155);
+  return { title, description, openGraph: { title: `SAP by Sali | ${title}`, description } };
+}
+
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", PP: "#2563eb", "PP-PI": "#6d28d9", QM: "#0d9488", Cross: "#475569" };
 
 function Chips({ items }: { items: string[] }) {
