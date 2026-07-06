@@ -8,7 +8,7 @@ export const CH4: TextbookChapter = {
   titleHe: "תכנון אספקה לא-מוגבל",
   titleEn: "Unconstrained Supply Planning",
   introHe:
-    "פרק זה הוא יחידת-לימוד מלאה לתכנון אספקה לא-מוגבל ב-SAP IBP for Sales and Operations באמצעות ה-S&OP heuristic. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת CBC (חברת-בקבוק של Coca-Cola), ניווט באפליקציות-הענן של IBP, מפתחות-נתונים (key figures), פרטי-תצורה, תרשים-זרימה של התפשטות הביקוש וההיצע, טעויות נפוצות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. ה-S&OP heuristic הוא מנוע פשוט, שקוף וניתן-להסבר: הוא מתפשט מהביקוש כלפי מטה ברשת-האספקה (network) ומחשב היצע נדרש בכל צומת בלי להתחשב במגבלות-קיבולת — ומכאן השם 'unconstrained' (אספקה אינסופית / infinite). המטרה: ללמוד את הנושא לעומק ולהיות מסוגל להגדיר, להריץ ולתחזק את ה-heuristic ללא הספר המקורי.",
+    "פרק זה הוא יחידת-לימוד מלאה לתכנון אספקה לא-מוגבל ב-SAP IBP for Sales and Operations באמצעות ה-S&OP heuristic. כל תת-פרק וכל תת-סעיף הורחב ליחידת-לימוד עצמאית בת 18 מקטעים — שלוש רמות הסבר (מנהלים, מתחילים, יועצים), מטרה עסקית, דוגמת-תהליך מקצה-לקצה, דוגמת הארגון (חברת-בקבוק של Example Product), ניווט באפליקציות-הענן של IBP, מפתחות-נתונים (key figures), פרטי-תצורה, תרשים-זרימה של התפשטות הביקוש וההיצע, טעויות נפוצות, פתרון-תקלות, שיטות מומלצות, שאלות-ראיון ומסקנות-מפתח. ה-S&OP heuristic הוא מנוע פשוט, שקוף וניתן-להסבר: הוא מתפשט מהביקוש כלפי מטה ברשת-האספקה (network) ומחשב היצע נדרש בכל צומת בלי להתחשב במגבלות-קיבולת — ומכאן השם 'unconstrained' (אספקה אינסופית / infinite). המטרה: ללמוד את הנושא לעומק ולהיות מסוגל להגדיר, להריץ ולתחזק את ה-heuristic ללא הספר המקורי.",
   subchapters: [
     // ============================================================ 4.1
     {
@@ -25,8 +25,8 @@ export const CH4: TextbookChapter = {
         "המטרה העסקית: לספק במהירות תוכנית-אספקה ברורה שעונה 'מה הביקוש דורש מהרשת' — בלי לסבך אותה במגבלות. זה הבסיס לדיון-הפערים ב-S&OP: קודם רואים את הדרישה הלא-מוגבלת, ואז משווים אותה לקיבולת בפועל (דרך RCCP או optimizer) כדי לזהות צווארי-בקבוק. בלי שלב לא-מוגבל קשה להפריד בין 'מה אנחנו צריכים' ל'מה אנחנו יכולים'.",
       processExampleHe:
         "מנהל ה-S&OP מאשר את ה-consensus demand ל-12 החודשים הבאים, ומריץ את ה-S&OP heuristic; המנוע מתפשט מהביקוש לכל לקוח, דרך מרכזי-ההפצה, אל המפעלים ואל הספקים, ומחשב כמה לייצר/להעביר/לרכוש בכל צומת. התוצאה: Projected Inventory ו-Total Receipts בכל location-product. כעת אפשר לבדוק היכן הדרישה הלא-מוגבלת חורגת מהקיבולת — ולהעביר את הפער לדיון הניהולי.",
-      cbcHe:
-        "ב-CBC: הביקוש המוסכם לכל SKU של משקה (לפי לקוח/רשת-קמעונאות) מתפשט אחורה דרך מרכזי-ההפצה האזוריים אל מפעלי-המילוי, ומשם אל דרישות תרכיז, סוכר, CO2 ובקבוקים. ה-heuristic מראה כמה כל מפעל 'צריך' לייצר בלי מגבלות — בסיס מצוין לזהות אילו קווי-מילוי ייכנסו לעומס-יתר עוד לפני שלב ה-RCCP.",
+      scenarioHe:
+        "בארגון: הביקוש המוסכם לכל SKU של משקה (לפי לקוח/רשת-קמעונאות) מתפשט אחורה דרך מרכזי-ההפצה האזוריים אל מפעלי-המילוי, ומשם אל דרישות תרכיז, סוכר, CO2 ובקבוקים. ה-heuristic מראה כמה כל מפעל 'צריך' לייצר בלי מגבלות — בסיס מצוין לזהות אילו קווי-מילוי ייכנסו לעומס-יתר עוד לפני שלב ה-RCCP.",
       navHe: [
         "SAP IBP Web UI ► Application Jobs ► Schedule IBP Jobs ► Job Type: S&OP Operator (Run)",
         "SAP IBP for Sales and Operations ► Supply Planning Heuristic (S&OP heuristic)",
@@ -101,8 +101,8 @@ export const CH4: TextbookChapter = {
         "לספק מנוע-אספקה מהיר ושקוף שכל מתכנן יכול להריץ ולהסביר. המטרה: לקבל תוכנית-אספקה לא-מוגבלת תוך דקות, לתמוך ב-what-if, ולהוות בסיס ל-RCCP ולדיון הניהולי.",
       processExampleHe:
         "מתכנן מריץ את ה-heuristic לאחר עדכון-תחזית. תוך דקות מתקבלים Total Demand, Total Receipts ו-Projected Inventory לכל SKU/מיקום. הוא בודק היכן המלאי-החזוי שלילי (חוסר) או חורג מהקיבולת, ומעביר ל-RCCP לבדיקת-עומס.",
-      cbcHe:
-        "ב-CBC ה-heuristic רץ אחרי כל סבב-תחזית: ממיר ביקוש-משקאות לדרישות-ייצור בכל מפעל ולדרישות תרכיז/סוכר/CO2 מהספקים, תוך שניות — ומאפשר לצוות ה-S&OP לראות מיד היכן צפוי חוסר.",
+      scenarioHe:
+        "בארגון ה-heuristic רץ אחרי כל סבב-תחזית: ממיר ביקוש-משקאות לדרישות-ייצור בכל מפעל ולדרישות תרכיז/סוכר/CO2 מהספקים, תוך שניות — ומאפשר לצוות ה-S&OP לראות מיד היכן צפוי חוסר.",
       navHe: [
         "SAP IBP Web UI ► Application Jobs ► S&OP Operator ► Supply Heuristic",
         "IBP Excel Add-In ► Advanced ► Run ► S&OP Heuristic Operator",
@@ -176,8 +176,8 @@ export const CH4: TextbookChapter = {
         "לתת ל-heuristic מסלול ברור להתפשטות: לכל location-product צריך מקור-אספקה, ולכל ביקוש-לקוח צריך מיקום שמשרת אותו. ללא רשת שלמה אין תכנון-אספקה תקף.",
       processExampleHe:
         "מגדירים: מוצר משקה ב-DC אזורי המקבל בהובלה ממפעל-מילוי, המייצר מתרכיז הנרכש מספק. כל קשת = sourcing rule. כשמריצים heuristic, הביקוש ב-DC מתפשט דרך ההובלה למפעל ומשם לרכש.",
-      cbcHe:
-        "ב-CBC הרשת: לקוחות/רשתות-קמעונאות ← מרכזי-הפצה אזוריים ← מפעלי-מילוי ← ספקי-תרכיז/סוכר. כל קו = sourcing. אם DC חדש לא חובר ב-transportation lane למפעל, הביקוש שלו יישאר unsourced.",
+      scenarioHe:
+        "בארגון הרשת: לקוחות/רשתות-קמעונאות ← מרכזי-הפצה אזוריים ← מפעלי-מילוי ← ספקי-תרכיז/סוכר. כל קו = sourcing. אם DC חדש לא חובר ב-transportation lane למפעל, הביקוש שלו יישאר unsourced.",
       navHe: [
         "SAP IBP Web UI ► Master Data ► Manage Master Data (Product, Location, Customer)",
         "SAP IBP ► Master Data ► Sourcing (Production Source, Transportation Lane, External Source)",
@@ -249,9 +249,9 @@ export const CH4: TextbookChapter = {
           purposeHe:
             "להגדיר את ישויות-היסוד שעליהן מתבצע כל חישוב: יחידת-התכנון location-product, ומקור-הביקוש customer-product.",
           processExampleHe:
-            "מוצר 'Cola 1.5L' מוגדר ב-Location 'DC-North'; Customer 'Retail-A' קונה אותו. ה-heuristic מתכנן את location-product 'Cola1.5L@DC-North' כדי לכסות את ביקוש Retail-A.",
-          cbcHe:
-            "ב-CBC: Product = SKU של משקה; Location = מפעל-מילוי/DC; Customer = רשת-קמעונאות. כל שילוב location-product (משקה@DC) הוא יחידת-תכנון של ה-heuristic.",
+            "מוצר 'Drink 1.5L' מוגדר ב-Location 'DC-North'; Customer 'Retail-A' קונה אותו. ה-heuristic מתכנן את location-product 'Bev1.5L@DC-North' כדי לכסות את ביקוש Retail-A.",
+          scenarioHe:
+            "בארגון: Product = SKU של משקה; Location = מפעל-מילוי/DC; Customer = רשת-קמעונאות. כל שילוב location-product (משקה@DC) הוא יחידת-תכנון של ה-heuristic.",
           navHe: [
             "SAP IBP Web UI ► Master Data ► Manage Master Data ► Product",
             "SAP IBP Web UI ► Master Data ► Manage Master Data ► Location",
@@ -302,8 +302,8 @@ export const CH4: TextbookChapter = {
             "להגדיר את מסלולי-ההתפשטות של הביקוש אחורה ברשת — בלעדיהם הביקוש 'נתקע' ונשאר unsourced.",
           processExampleHe:
             "מוצר ב-DC עם transportation source ממפעל; המפעל עם production source (מתרכיז); התרכיז עם external source מספק. הביקוש מתפשט: DC→מפעל→ספק.",
-          cbcHe:
-            "ב-CBC: DC מקבל ב-transportation source ממפעל-מילוי; מפעל-מילוי מייצר ב-production source (תרכיז+סוכר+CO2); תרכיז ב-external source מספק-תרכיז.",
+          scenarioHe:
+            "בארגון: DC מקבל ב-transportation source ממפעל-מילוי; מפעל-מילוי מייצר ב-production source (תרכיז+סוכר+CO2); תרכיז ב-external source מספק-תרכיז.",
           navHe: [
             "SAP IBP ► Master Data ► Sourcing ► Production Source of Supply",
             "SAP IBP ► Master Data ► Sourcing ► Transportation Source / Lane",
@@ -361,8 +361,8 @@ export const CH4: TextbookChapter = {
             "לוודא שהרשת מוכנה לתכנון — לזהות ולתקן פערים לפני שהם פוגעים בתוצאות.",
           processExampleHe:
             "לפני סבב-S&OP חודשי מריצים check mode; הלוג מדווח על 3 location-products בלי source. המתכנן מוסיף sourcing, מריץ שוב — נקי — ואז מריץ תכנון אמיתי.",
-          cbcHe:
-            "ב-CBC לאחר הוספת DC חדש, check mode מגלה שאין transportation lane אליו ממפעל; מתקנים לפני ההרצה הרשמית.",
+          scenarioHe:
+            "בארגון לאחר הוספת DC חדש, check mode מגלה שאין transportation lane אליו ממפעל; מתקנים לפני ההרצה הרשמית.",
           navHe: [
             "SAP IBP Web UI ► Application Jobs ► S&OP Operator ► Check Mode",
             "SAP IBP ► Supply Planning ► Network Consistency Check",
@@ -412,8 +412,8 @@ export const CH4: TextbookChapter = {
             "לאפשר תכנון ממוקד ומהיר של חלקי-רשת, ולחלק אחריות בין מתכננים.",
           processExampleHe:
             "מתכנן-אזור-צפון מריץ heuristic רק על subnetwork הצפון (DCs ומפעלים צפוניים); מתכנן-דרום על שלו. כל אחד מהיר ועצמאי.",
-          cbcHe:
-            "ב-CBC כל אזור-בקבוק (צפון/מרכז/דרום) הוא subnetwork; כל מתכנן-אזורי מריץ heuristic על המפעלים וה-DCs שלו, עם ספקי-תרכיז משותפים מטופלים בזהירות.",
+          scenarioHe:
+            "בארגון כל אזור-בקבוק (צפון/מרכז/דרום) הוא subnetwork; כל מתכנן-אזורי מריץ heuristic על המפעלים וה-DCs שלו, עם ספקי-תרכיז משותפים מטופלים בזהירות.",
           navHe: [
             "SAP IBP ► Application Jobs ► S&OP Operator ► Planning Filter / Scope",
             "SAP IBP ► Master Data ► Attributes for Network Segmentation",
@@ -466,8 +466,8 @@ export const CH4: TextbookChapter = {
         "למנוע ספירה-כפולה של ביקוש ולחשב net demand ריאלי שכנגדו מתכננים אספקה — לא יותר ולא פחות.",
       processExampleHe:
         "תחזית 100 לחודש; מגיעות הזמנות 60. Backward consumption מנכה 60 מהתחזית ➔ open forecast 40. Net demand = 60 הזמנות + 40 תחזית = 100. ה-heuristic מתכנן 100, לא 160.",
-      cbcHe:
-        "ב-CBC לקראת סוף-החודש הזמנות-רשתות בפועל צורכות את התחזית שנותרה; ה-heuristic מתכנן ייצור-משקאות כנגד net demand ולא כנגד תחזית+הזמנות מנופחות — מונע עודף-ייצור.",
+      scenarioHe:
+        "בארגון לקראת סוף-החודש הזמנות-רשתות בפועל צורכות את התחזית שנותרה; ה-heuristic מתכנן ייצור-משקאות כנגד net demand ולא כנגד תחזית+הזמנות מנופחות — מונע עודף-ייצור.",
       navHe: [
         "SAP IBP ► Demand Planning ► Forecast Consumption ► Consumption Profile",
         "SAP IBP ► Configuration ► Key Figures ► Net Demand / Open Forecast",
@@ -532,8 +532,8 @@ export const CH4: TextbookChapter = {
             "להתאים את לוגיקת-הצריכה לדפוס-ההזמנות בפועל, כדי לקבל net demand מדויק לכל תקופה.",
           processExampleHe:
             "הזמנה בשבוע 3 גדולה מהתחזית שלו; Backward עם 2 periods מנכה את העודף מתחזית שבועות 2 ו-1. Combined היה ממשיך קדימה לשבוע 4 אילו עדיין נותר עודף.",
-          cbcHe:
-            "ב-CBC הזמנות-רשת מגיעות לרוב מעט לאחר התחזית השבועית; backward consumption מתאים — ההזמנות צורכות את תחזית-השבוע שחלף.",
+          scenarioHe:
+            "בארגון הזמנות-רשת מגיעות לרוב מעט לאחר התחזית השבועית; backward consumption מתאים — ההזמנות צורכות את תחזית-השבוע שחלף.",
           navHe: [
             "SAP IBP ► Demand ► Forecast Consumption ► Consumption Method",
             "SAP IBP ► Configuration ► Consumption Profile ► Backward/Forward Periods",
@@ -582,8 +582,8 @@ export const CH4: TextbookChapter = {
             "לרכז ולתקנן את הגדרת-הצריכה, ולשייך אותה למוצרים/מיקומים נכונים בלי כפילות.",
           processExampleHe:
             "Profile 'STD-BACK-2' (backward, 2 periods) משויך לכל מוצרי-המשקה; ה-heuristic מחיל אותו אוטומטית בכל הרצה.",
-          cbcHe:
-            "ב-CBC profile אחיד backward-2 לכל SKU של משקה; מוצרים עונתיים מקבלים profile עם חלון רחב יותר.",
+          scenarioHe:
+            "בארגון profile אחיד backward-2 לכל SKU של משקה; מוצרים עונתיים מקבלים profile עם חלון רחב יותר.",
           navHe: [
             "SAP IBP ► Configuration ► Forecast Consumption Profile",
             "SAP IBP ► Demand ► Assign Consumption Profile to Products",
@@ -635,8 +635,8 @@ export const CH4: TextbookChapter = {
         "להמיר ביקוש-לקוח לדרישות קונקרטיות בכל צומת ברשת — בסיס לחישוב ההיצע הנדרש (receipts) בשלב הבא.",
       processExampleHe:
         "ביקוש 1,000 משקה ב-DC ➔ customer sourcing מצמיד ל-DC ➔ location sourcing יוצר transport demand מהמפעל ➔ production sourcing מפצץ ל-dependent demand: תרכיז, סוכר, בקבוקים — כל אחד dependent demand בצומת שלו.",
-      cbcHe:
-        "ב-CBC ביקוש-משקה אצל רשת-קמעונאות מתפשט: customer→DC→transport→מפעל→production→דרישות-תרכיז/סוכר/CO2/בקבוקים מהספקים. כל קישור הוא sourcing rule.",
+      scenarioHe:
+        "בארגון ביקוש-משקה אצל רשת-קמעונאות מתפשט: customer→DC→transport→מפעל→production→דרישות-תרכיז/סוכר/CO2/בקבוקים מהספקים. כל קישור הוא sourcing rule.",
       navHe: [
         "SAP IBP ► Supply Planning ► S&OP Heuristic ► Demand Propagation",
         "SAP IBP ► Master Data ► Sourcing (Customer/Location/Production)",
@@ -703,8 +703,8 @@ export const CH4: TextbookChapter = {
             "לספק מודל-עבודה אחיד להדגמת לוגיקת-ה-heuristic לאורך הפרק.",
           processExampleHe:
             "ביקוש 500 של P אצל Customer C ➔ DC ➔ transport מ-Plant ➔ production של P ➔ dependent demand של R1,R2 מהספק. נעקוב אחרי המספרים בכל שלב.",
-          cbcHe:
-            "ב-CBC הרשת-לדוגמה: רשת-קמעונאות → DC-מרכז → מפעל-מילוי → ספק-תרכיז; משקה אחד, רכיב-תרכיז אחד — להמחשה.",
+          scenarioHe:
+            "בארגון הרשת-לדוגמה: רשת-קמעונאות → DC-מרכז → מפעל-מילוי → ספק-תרכיז; משקה אחד, רכיב-תרכיז אחד — להמחשה.",
           navHe: [
             "SAP IBP ► Master Data ► Supply Network (Sample)",
             "SAP IBP ► Analytics ► Network Visualization",
@@ -751,8 +751,8 @@ export const CH4: TextbookChapter = {
             "לספק קלט-ביקוש יחיד, מאושר ומוסכם, שכל הארגון פועל לפיו — בסיס one-number לתכנון.",
           processExampleHe:
             "אחרי demand review מאושר consensus demand 1,000 ל-SKU/לקוח. ה-heuristic לוקח אותו, מחיל consumption, ומתפשט אחורה.",
-          cbcHe:
-            "ב-CBC ה-consensus demand לכל משקה/רשת מאושר בישיבת-demand החודשית ומוזן ל-heuristic לתכנון-מילוי.",
+          scenarioHe:
+            "בארגון ה-consensus demand לכל משקה/רשת מאושר בישיבת-demand החודשית ומוזן ל-heuristic לתכנון-מילוי.",
           navHe: [
             "SAP IBP ► Demand Review ► Consensus Demand",
             "SAP IBP ► Planning View ► Consensus Demand Key Figure",
@@ -800,8 +800,8 @@ export const CH4: TextbookChapter = {
             "להמיר ביקוש-לקוח לביקוש-מיקום — הגשר בין עולם-הביקוש לעולם-האספקה.",
           processExampleHe:
             "Customer C זקוק ל-500; customer sourcing מצמיד ל-DC-North (quota 100%) ➔ ביקוש 500 על P@DC-North. אם פוצל 70/30 בין שני DCs — 350/150.",
-          cbcHe:
-            "ב-CBC רשת-קמעונאות ארצית מקבלת מ-DC האזורי הקרוב; customer sourcing מצמיד כל חנות/אזור-לקוח ל-DC המשרת, עם quota בין DCs בגבול-אזורים.",
+          scenarioHe:
+            "בארגון רשת-קמעונאות ארצית מקבלת מ-DC האזורי הקרוב; customer sourcing מצמיד כל חנות/אזור-לקוח ל-DC המשרת, עם quota בין DCs בגבול-אזורים.",
           navHe: [
             "SAP IBP ► Master Data ► Sourcing ► Customer Sourcing",
             "SAP IBP ► Sourcing ► Quota Arrangement (Customer)",
@@ -850,8 +850,8 @@ export const CH4: TextbookChapter = {
             "לחשב כמה אספקה חדשה באמת נדרשת בכל תקופה, בהתחשב במלאי-קיים וב-safety stock — לא לייצר/להזמין מה שכבר יש.",
           processExampleHe:
             "ביקוש 1,000, מלאי-פתיחה 300, safety stock 100 ➔ net demand = 1,000 − 300 + 100 = 800 receipts נדרשים. ה-projected inventory בסוף = safety stock 100.",
-          cbcHe:
-            "ב-CBC מפעל עם מלאי-מוגמר פתיחה מנכה אותו מהביקוש; ה-heuristic מתכנן מילוי רק על ההפרש מעל ה-safety stock — מונע ייצור-עודף.",
+          scenarioHe:
+            "בארגון מפעל עם מלאי-מוגמר פתיחה מנכה אותו מהביקוש; ה-heuristic מתכנן מילוי רק על ההפרש מעל ה-safety stock — מונע ייצור-עודף.",
           navHe: [
             "SAP IBP ► Supply Planning ► Net Demand Calculation",
             "SAP IBP ► Key Figures ► Projected Inventory / Safety Stock",
@@ -903,8 +903,8 @@ export const CH4: TextbookChapter = {
             "להמשיך את הביקוש מה-DC אל המיקום-המספק דרך הובלה, תוך התחשבות ב-lead time.",
           processExampleHe:
             "net demand 800 ב-DC ➔ location sourcing (transport מ-Plant, lead 3 ימים) ➔ transport demand 800 על Plant; transport receipt ב-DC מוסט ב-lead time.",
-          cbcHe:
-            "ב-CBC DC-מרכז מקבל בהובלה ממפעל-המילוי; location sourcing יוצר transport demand על המפעל, עם lead time של ההובלה האזורית.",
+          scenarioHe:
+            "בארגון DC-מרכז מקבל בהובלה ממפעל-המילוי; location sourcing יוצר transport demand על המפעל, עם lead time של ההובלה האזורית.",
           navHe: [
             "SAP IBP ► Master Data ► Sourcing ► Transportation Source / Lane",
             "SAP IBP ► Sourcing ► Quota Arrangement (Location)",
@@ -953,8 +953,8 @@ export const CH4: TextbookChapter = {
             "להמיר ביקוש-ייצור לדרישות-רכיבים (dependent demand) ולצריכת-משאבים — החיבור בין המוצר לחומרי-הגלם ולקיבולת.",
           processExampleHe:
             "production demand 800 משקה; production source: 1 משקה = 0.01 תרכיז + 1 בקבוק ➔ dependent demand 8 תרכיז + 800 בקבוקים; resource usage נרשם ל-RCCP.",
-          cbcHe:
-            "ב-CBC production source של משקה: תרכיז+סוכר+CO2+בקבוק+פקק; ה-heuristic מפצץ ביקוש-מילוי ל-dependent demand של כל רכיב, ורושם שעות-קו ל-RCCP.",
+          scenarioHe:
+            "בארגון production source של משקה: תרכיז+סוכר+CO2+בקבוק+פקק; ה-heuristic מפצץ ביקוש-מילוי ל-dependent demand של כל רכיב, ורושם שעות-קו ל-RCCP.",
           navHe: [
             "SAP IBP ► Master Data ► Sourcing ► Production Source of Supply",
             "SAP IBP ► Production Source ► Components & Resources",
@@ -1009,8 +1009,8 @@ export const CH4: TextbookChapter = {
             "להפוך דרישה-נטו תאורטית לכמויות-אספקה מעשיות התואמות מגבלות-ייצור/רכש (מינימום, כפולות, אצווה-כלכלית).",
           processExampleHe:
             "net demand 850; minimum lot 1,000, rounding 100 ➔ receipt 1,000; 150 העודף ל-projected inventory. periods-of-supply=2 היה צובר ביקוש של חודשיים ל-receipt אחד.",
-          cbcHe:
-            "ב-CBC קו-מילוי עובד באצוות-מינימום (batch run); lot size minimum מבטיח שלא יתוכננו ריצות זעירות לא-כלכליות; rounding לכפולות-מארז.",
+          scenarioHe:
+            "בארגון קו-מילוי עובד באצוות-מינימום (batch run); lot size minimum מבטיח שלא יתוכננו ריצות זעירות לא-כלכליות; rounding לכפולות-מארז.",
           navHe: [
             "SAP IBP ► Master Data ► Location Product ► Lot Size Settings",
             "SAP IBP ► Sourcing ► Lot Size (Min/Max/Rounding/POS)",
@@ -1065,8 +1065,8 @@ export const CH4: TextbookChapter = {
         "להמיר את הדרישה לכל צומת לקבלות-אספקה קונקרטיות ולמלאי-חזוי — התוצר המוחשי של ה-heuristic.",
       processExampleHe:
         "net demand 800 ב-DC ➔ transport receipt 800 (מ-Plant, lead-shifted); ב-Plant production receipt 800 ➔ component dependent demand ➔ external receipt מהספק. projected inventory מתעדכן בכל צומת.",
-      cbcHe:
-        "ב-CBC: production receipts במפעל-המילוי, transport receipts ב-DCs, external receipts לתרכיז מהספק; projected inventory של משקאות וחומרי-גלם מחושב לכל שבוע.",
+      scenarioHe:
+        "בארגון: production receipts במפעל-המילוי, transport receipts ב-DCs, external receipts לתרכיז מהספק; projected inventory של משקאות וחומרי-גלם מחושב לכל שבוע.",
       navHe: [
         "SAP IBP ► Supply Planning ► S&OP Heuristic ► Supply Propagation",
         "SAP IBP ► Key Figures ► Total Receipts / Projected Inventory",
@@ -1131,8 +1131,8 @@ export const CH4: TextbookChapter = {
             "לכסות ביקוש על פריטים-נרכשים דרך אספקת-ספק, ולחבר את הרשת לחומרי-הגלם החיצוניים.",
           processExampleHe:
             "dependent demand 8 תרכיז בשבוע 5; external source עם lead 2 שבועות ➔ external receipt 8 בשבוע 5, עם הזמנה שיוצאת בשבוע 3.",
-          cbcHe:
-            "ב-CBC תרכיז, סוכר ו-CO2 נכנסים כ-external receipts מספקים; ה-heuristic מתזמן אותם לפי ה-procurement lead time של כל ספק.",
+          scenarioHe:
+            "בארגון תרכיז, סוכר ו-CO2 נכנסים כ-external receipts מספקים; ה-heuristic מתזמן אותם לפי ה-procurement lead time של כל ספק.",
           navHe: [
             "SAP IBP ► Master Data ► Sourcing ► External Receipt Source",
             "SAP IBP ► Key Figures ► External Receipt",
@@ -1180,8 +1180,8 @@ export const CH4: TextbookChapter = {
             "לחבר את כמות-הייצור לדרישות-הרכיבים — הגשר בין המוצר לחומרי-הגלם.",
           processExampleHe:
             "production receipt 800 משקה; component 'בקבוק' ratio 1 ➔ dependent demand 800 בקבוקים; component 'תרכיז' ratio 0.01 ➔ 8 תרכיז.",
-          cbcHe:
-            "ב-CBC רכיבי-הייצור של משקה: תרכיז (ratio קטן), סוכר, CO2, בקבוק, פקק, תווית; כל אחד מקבל dependent demand יחסי לכמות-המילוי.",
+          scenarioHe:
+            "בארגון רכיבי-הייצור של משקה: תרכיז (ratio קטן), סוכר, CO2, בקבוק, פקק, תווית; כל אחד מקבל dependent demand יחסי לכמות-המילוי.",
           navHe: [
             "SAP IBP ► Master Data ► Production Source ► Components",
             "SAP IBP ► Key Figures ► Dependent Demand",
@@ -1233,8 +1233,8 @@ export const CH4: TextbookChapter = {
             "לתכנן את כמות-הייצור הנדרשת, ולהניע ממנה את דרישות-הרכיבים ועומס-המשאבים.",
           processExampleHe:
             "net demand 800 משקה במפעל ➔ production receipt 800 (lead 1 שבוע) ➔ component dependent demand + resource hours ל-RCCP.",
-          cbcHe:
-            "ב-CBC production receipt = תוכנית-המילוי לכל קו; ממנו נגזרות דרישות-תרכיז/אריזה ושעות-קו ל-RCCP.",
+          scenarioHe:
+            "בארגון production receipt = תוכנית-המילוי לכל קו; ממנו נגזרות דרישות-תרכיז/אריזה ושעות-קו ל-RCCP.",
           navHe: [
             "SAP IBP ► Supply Planning ► Production Receipt",
             "SAP IBP ► Key Figures ► Production Receipt / Resource Usage",
@@ -1282,8 +1282,8 @@ export const CH4: TextbookChapter = {
             "להזרים מלאי בין מיקומים ברשת — לכסות ביקוש ב-DC ממקור-ייצור/מחסן, תוך עמידה בזמני-הובלה.",
           processExampleHe:
             "net demand 800 ב-DC בשבוע 5; lane מ-Plant עם lead 1 שבוע ➔ transport receipt 800 ב-DC שבוע 5; transport demand 800 ב-Plant שבוע 4.",
-          cbcHe:
-            "ב-CBC משקאות עוברים ממפעל-מילוי ל-DCs אזוריים כ-transport receipts; ה-transport demand במפעל מצטרף ל-production demand שלו.",
+          scenarioHe:
+            "בארגון משקאות עוברים ממפעל-מילוי ל-DCs אזוריים כ-transport receipts; ה-transport demand במפעל מצטרף ל-production demand שלו.",
           navHe: [
             "SAP IBP ► Master Data ► Sourcing ► Transportation Lane",
             "SAP IBP ► Key Figures ► Transport Receipt / Transport Demand",
@@ -1335,8 +1335,8 @@ export const CH4: TextbookChapter = {
             "להציג את הפער בין הביקוש הלא-מוגבל למה שאפשרי תחת מגבלות — בסיס להחלטות-קיבולת ולתעדוף.",
           processExampleHe:
             "unconstrained production receipt 800; constrained demand (מ-optimizer/RCCP) 650 ➔ gap 150 שהקיבולת לא מאפשרת — נושא לדיון ניהולי.",
-          cbcHe:
-            "ב-CBC כשקו-מילוי מגיע למלוא-הקיבולת, constrained demand מראה כמה משקה ניתן באמת למלא; הפער מול הביקוש הלא-מוגבל מוצג להנהלה.",
+          scenarioHe:
+            "בארגון כשקו-מילוי מגיע למלוא-הקיבולת, constrained demand מראה כמה משקה ניתן באמת למלא; הפער מול הביקוש הלא-מוגבל מוצג להנהלה.",
           navHe: [
             "SAP IBP ► Supply Planning ► Constrained Demand (Key Figure)",
             "SAP IBP ► Analytics ► Unconstrained vs Constrained",
@@ -1387,8 +1387,8 @@ export const CH4: TextbookChapter = {
             "לאפשר התערבות-מתכנן מבוקרת — כפיית מינימומים או override — בלי לעקוף את כל ה-heuristic.",
           processExampleHe:
             "minimum receipt 1,000 לחודש; גם אם net demand 600, ה-heuristic מתכנן 1,000. adjusted production 500 בשבוע מסוים ➔ ה-heuristic מקבע 500 ומחשב סביבו.",
-          cbcHe:
-            "ב-CBC minimum production מבטיח ריצת-קו מינימלית כלכלית; adjusted receipt משמש לקיבוע כמות-מילוי שהוסכמה ידנית בישיבת-supply.",
+          scenarioHe:
+            "בארגון minimum production מבטיח ריצת-קו מינימלית כלכלית; adjusted receipt משמש לקיבוע כמות-מילוי שהוסכמה ידנית בישיבת-supply.",
           navHe: [
             "SAP IBP ► Key Figures ► Min Receipt / Adjusted Receipt",
             "SAP IBP ► Planning View ► Manual Override",
@@ -1441,8 +1441,8 @@ export const CH4: TextbookChapter = {
         "לחשוף היכן התוכנית הלא-מוגבלת חורגת מהקיבולת — כדי שההנהלה תחליט כיצד לגשר (תוספת-קיבולת או תעדוף-ביקוש).",
       processExampleHe:
         "production receipts של חודש מתורגמים ל-1,200 שעות-קו; הקו זמין 1,000 שעות ➔ overload 200 (120% utilization) — דגל-אדום לדיון-S&OP.",
-      cbcHe:
-        "ב-CBC RCCP מתרגם תוכנית-מילוי לשעות-קו ולנפח-אחסון; כשקו-מילוי מגיע ל-115% utilization בעונת-שיא, הפער מוצג להנהלה להחלטה (משמרת-נוספת/העברה למפעל אחר).",
+      scenarioHe:
+        "בארגון RCCP מתרגם תוכנית-מילוי לשעות-קו ולנפח-אחסון; כשקו-מילוי מגיע ל-115% utilization בעונת-שיא, הפער מוצג להנהלה להחלטה (משמרת-נוספת/העברה למפעל אחר).",
       navHe: [
         "SAP IBP ► Supply Planning ► Rough-Cut Capacity Planning",
         "SAP IBP ► Analytics ► Capacity Utilization / Overload",
@@ -1508,8 +1508,8 @@ export const CH4: TextbookChapter = {
             "למדוד עומס-ייצור מול קיבולת-קווים, ולחשוף היכן הייצור הלא-מוגבל בלתי-אפשרי.",
           processExampleHe:
             "production receipt 10,000 יח'; rate 0.1 שעה/יח' ➔ 1,000 שעות; קו זמין 900 ➔ overload 100 שעות.",
-          cbcHe:
-            "ב-CBC כל קו-מילוי = production resource עם קצב-מילוי (bottles/hour); RCCP מסכם את שעות-המילוי הנדרשות מול זמינות-הקו לכל שבוע.",
+          scenarioHe:
+            "בארגון כל קו-מילוי = production resource עם קצב-מילוי (bottles/hour); RCCP מסכם את שעות-המילוי הנדרשות מול זמינות-הקו לכל שבוע.",
           navHe: [
             "SAP IBP ► Master Data ► Resource (Production)",
             "SAP IBP ► Production Source ► Resource Rate",
@@ -1558,8 +1558,8 @@ export const CH4: TextbookChapter = {
             "לחשוף מגבלות-לוגיסטיקה (ניטול/אחסון) שלא נראות בקיבולת-ייצור בלבד.",
           processExampleHe:
             "projected inventory 5,000 פלטות; מחסן מחזיק 4,000 ➔ storage overload 1,000 — צריך אחסון חיצוני או הקטנת-מלאי.",
-          cbcHe:
-            "ב-CBC בעונת-שיא נפח-המשקאות המאוחסן חורג מקיבולת-המחסן; RCCP על storage resource חושף זאת לפני שהמלאי 'נתקע' ללא מקום.",
+          scenarioHe:
+            "בארגון בעונת-שיא נפח-המשקאות המאוחסן חורג מקיבולת-המחסן; RCCP על storage resource חושף זאת לפני שהמלאי 'נתקע' ללא מקום.",
           navHe: [
             "SAP IBP ► Master Data ► Resource (Handling / Storage)",
             "SAP IBP ► Analytics ► Storage / Handling Utilization",
@@ -1609,8 +1609,8 @@ export const CH4: TextbookChapter = {
             "לכמת ולהציג את מצב-הקיבולת — בסיס ל-alerts, ל-analytics ולשיחה-הניהולית על פערים.",
           processExampleHe:
             "Utilization 118% על קו ➔ alert; הדשבורד מציג usage מול available; overload key figure מזין את רשימת-הפערים לדיון.",
-          cbcHe:
-            "ב-CBC דשבורד-ה-S&OP מציג utilization לכל קו-מילוי ומחסן; alert נדלק כשעובר 100%, ומפנה את צוות-ה-supply לפעולה.",
+          scenarioHe:
+            "בארגון דשבורד-ה-S&OP מציג utilization לכל קו-מילוי ומחסן; alert נדלק כשעובר 100%, ומפנה את צוות-ה-supply לפעולה.",
           navHe: [
             "SAP IBP ► Configuration ► Key Figures (Capacity)",
             "SAP IBP ► Analytics / Alerts ► Capacity Utilization",
@@ -1663,8 +1663,8 @@ export const CH4: TextbookChapter = {
         "לכוונן את ה-heuristic להתנהגות הרצויה — דיוק, מהירות וטיפול-קצה — ולאפשר דיבוג תוצאות.",
       processExampleHe:
         "יועץ מגדיר operator: processing mode=full, planning level=product-location-month, quota check פעיל, carryforward של מלאי-שלילי כבוי; מריץ ובודק שהתוצאות תואמות-ציפייה.",
-      cbcHe:
-        "ב-CBC ה-operator ל-S&OP חודשי מוגדר ברמת product-location-month עם validity dates פעילים (קווים עונתיים) ו-balanced receipts לחלוקה חלקה בין מפעלים.",
+      scenarioHe:
+        "בארגון ה-operator ל-S&OP חודשי מוגדר ברמת product-location-month עם validity dates פעילים (קווים עונתיים) ו-balanced receipts לחלוקה חלקה בין מפעלים.",
       navHe: [
         "SAP IBP ► Configuration ► Operators ► S&OP Heuristic Profile",
         "SAP IBP ► Application Jobs ► Operator Parameters",
@@ -1726,8 +1726,8 @@ export const CH4: TextbookChapter = {
             "לאזן בין שלמות-החישוב (full) למהירות-עדכון (delta) לפי הצורך.",
           processExampleHe:
             "סבב-S&OP חודשי ➔ full (חישוב מלא). תיקון-ביקוש נקודתי לפני ישיבה ➔ delta (עדכון מהיר של המושפעים).",
-          cbcHe:
-            "ב-CBC הרצת-הבסיס החודשית היא full; עדכוני-ביקוש אד-הוק בין הישיבות רצים delta למהירות.",
+          scenarioHe:
+            "בארגון הרצת-הבסיס החודשית היא full; עדכוני-ביקוש אד-הוק בין הישיבות רצים delta למהירות.",
           navHe: [
             "SAP IBP ► Operators ► S&OP Heuristic ► Processing Mode",
           ],
@@ -1773,8 +1773,8 @@ export const CH4: TextbookChapter = {
             "להתאים את אלגוריתם-ה-heuristic למקרה-השימוש (תכנון-רגיל מול shelf-life מול distribution).",
           processExampleHe:
             "מוצר-מדף-קצר ➔ בחירת shelf-life infinite heuristic במקום standard, כדי שהתכנון יתחשב בתוקף.",
-          cbcHe:
-            "ב-CBC משקאות עם תוקף מתוכננים ב-shelf-life heuristic; משקאות יציבים — ב-standard heuristic.",
+          scenarioHe:
+            "בארגון משקאות עם תוקף מתוכננים ב-shelf-life heuristic; משקאות יציבים — ב-standard heuristic.",
           navHe: [
             "SAP IBP ► Operators ► S&OP Heuristic ► Heuristic Type",
           ],
@@ -1822,8 +1822,8 @@ export const CH4: TextbookChapter = {
             "לאזן דיוק מול ביצועים ולהתאים את רמת-התכנון למטרת-ה-S&OP (נפח מול פירוט).",
           processExampleHe:
             "S&OP נפחי רץ ב-product-location-month — מהיר; כשנדרש פירוט שבועי לתכנון-אספקה קצר-טווח, מורידים ל-week.",
-          cbcHe:
-            "ב-CBC ה-S&OP החודשי רץ ב-product-location-month; תכנון-מילוי קצר-טווח באזור עומס יורד לרמה שבועית.",
+          scenarioHe:
+            "בארגון ה-S&OP החודשי רץ ב-product-location-month; תכנון-מילוי קצר-טווח באזור עומס יורד לרמה שבועית.",
           navHe: [
             "SAP IBP ► Operators ► S&OP Heuristic ► Planning Level",
           ],
@@ -1871,8 +1871,8 @@ export const CH4: TextbookChapter = {
             "להבטיח שחלוקת-הביקוש בין מקורות תהיה תקינה, מאוזנת ומלאה (ללא ביקוש-יתום).",
           processExampleHe:
             "net demand 1,000, quota 60/40 ➔ 600/400; אם מקור-A לא-תקף בתקופה, quota check מנתב את כל ה-1,000 ל-B (לפי הגדרת-גמישות).",
-          cbcHe:
-            "ב-CBC משקה המסופק משני מפעלים בחלוקת-quota; quota check מבטיח חלוקה נכונה, ומנתב ל-מפעל הזמין כשהשני בתחזוקה.",
+          scenarioHe:
+            "בארגון משקה המסופק משני מפעלים בחלוקת-quota; quota check מבטיח חלוקה נכונה, ומנתב ל-מפעל הזמין כשהשני בתחזוקה.",
           navHe: [
             "SAP IBP ► Operators ► S&OP Heuristic ► Quota Check",
             "SAP IBP ► Sourcing ► Quota Arrangement",
@@ -1925,8 +1925,8 @@ export const CH4: TextbookChapter = {
             "לקבוע אם חוסרים נצברים לאורך-זמן (תמונת-מציאות) או מטופלים נקודתית — משפיע על נראות-החוסר.",
           processExampleHe:
             "חוסר 100 בחודש 1; carryforward פעיל ➔ חודש 2 פותח ב-(−100), והצורך מצטבר. כבוי ➔ חודש 2 פותח ב-0 והחוסר 'נעלם'.",
-          cbcHe:
-            "ב-CBC carryforward פעיל מראה חוסר-משקה מצטבר על-פני שבועות-שיא, כך שצוות-ה-supply רואה את גודל-הפער האמיתי ולא תמונה-מקוטעת.",
+          scenarioHe:
+            "בארגון carryforward פעיל מראה חוסר-משקה מצטבר על-פני שבועות-שיא, כך שצוות-ה-supply רואה את גודל-הפער האמיתי ולא תמונה-מקוטעת.",
           navHe: [
             "SAP IBP ► Operators ► S&OP Heuristic ► Carryforward Negative Projected Inventory",
           ],
@@ -1975,8 +1975,8 @@ export const CH4: TextbookChapter = {
             "ליצור תוכנית-ייצור/אספקה חלקה ומאוזנת, להפחית תנודתיות ועומסי-שיא.",
           processExampleHe:
             "ביקוש מרוכז בשבוע 4; balanced receipts מפזר חלק מהייצור לשבועות 1–3 ➔ עומס-קו אחיד במקום spike בשבוע 4.",
-          cbcHe:
-            "ב-CBC balanced receipts מאזן מילוי-משקאות על-פני השבוע במקום ריצות-ענק, מפחית עומסי-שיא על הקווים ועל המחסן.",
+          scenarioHe:
+            "בארגון balanced receipts מאזן מילוי-משקאות על-פני השבוע במקום ריצות-ענק, מפחית עומסי-שיא על הקווים ועל המחסן.",
           navHe: [
             "SAP IBP ► Operators ► S&OP Heuristic ► Balanced Receipts",
           ],
@@ -2025,8 +2025,8 @@ export const CH4: TextbookChapter = {
             "למנוע תכנון לא-ריאלי בטווח-הקצר שמתחת ל-lead time, ולשקף נכון מה ניתן ומה לא בתוך האופק.",
           processExampleHe:
             "lead time 2 שבועות; ביקוש בשבוע הקרוב לא ניתן לכסות ב-receipt חדש ➔ מסומן חוסר, וה-heuristic מתכנן רק מהשבוע השלישי ואילך.",
-          cbcHe:
-            "ב-CBC עם lead time של תרכיז 3 שבועות, ה-heuristic לא מתכנן רכש-תרכיז חדש לתוך 3 השבועות הקרובים; חוסר בטווח זה מסומן ומועבר לטיפול-חירום.",
+          scenarioHe:
+            "בארגון עם lead time של תרכיז 3 שבועות, ה-heuristic לא מתכנן רכש-תרכיז חדש לתוך 3 השבועות הקרובים; חוסר בטווח זה מסומן ומועבר לטיפול-חירום.",
           navHe: [
             "SAP IBP ► Operators ► S&OP Heuristic ► Initialize Lead Time Horizon",
           ],
@@ -2073,8 +2073,8 @@ export const CH4: TextbookChapter = {
             "לספק תמונת-היצע ריאלית-בזמן (מתי יגיע) ולא רק כמותית — לחישוב מלאי והשוואה מדויקים.",
           processExampleHe:
             "receipt 800 מתוכנן לשבוע 5, lead 1 שבוע ➔ expected supply 800 זמין שבוע 5; אם source מתעכב, ה-expected supply משקף את העיכוב.",
-          cbcHe:
-            "ב-CBC expected supply מראה מתי תרכיז שנרכש יהיה זמין בפועל למילוי, בהתחשב ב-lead time הספק — בסיס לחישוב מלאי-משקה ריאלי.",
+          scenarioHe:
+            "בארגון expected supply מראה מתי תרכיז שנרכש יהיה זמין בפועל למילוי, בהתחשב ב-lead time הספק — בסיס לחישוב מלאי-משקה ריאלי.",
           navHe: [
             "SAP IBP ► Operators ► S&OP Heuristic ► Compute Expected Supply",
           ],
@@ -2121,8 +2121,8 @@ export const CH4: TextbookChapter = {
             "להבטיח שבכל תקופה נבחרים רק מקורות-אספקה תקפים — תמיכה ב-phase-in/out, עונתיות ומעברי-ספקים.",
           processExampleHe:
             "ספק A תקף עד סוף-Q2, ספק B מ-Q3; עם validity dates ה-heuristic בוחר A ב-Q1–Q2 ו-B מ-Q3 — מעבר חלק.",
-          cbcHe:
-            "ב-CBC קו-מילוי עונתי תקף רק בקיץ; validity dates מבטיחים שה-heuristic מתכנן עליו רק בחודשי-הקיץ, ועובר למפעל אחר בשאר השנה.",
+          scenarioHe:
+            "בארגון קו-מילוי עונתי תקף רק בקיץ; validity dates מבטיחים שה-heuristic מתכנן עליו רק בחודשי-הקיץ, ועובר למפעל אחר בשאר השנה.",
           navHe: [
             "SAP IBP ► Operators ► S&OP Heuristic ► Use of Validity Dates",
             "SAP IBP ► Sourcing ► Valid-From / Valid-To",
@@ -2176,8 +2176,8 @@ export const CH4: TextbookChapter = {
         "למנוע פג-תוקף ו-write-offs, ולהבטיח שהמלאי מגיע ליעד עם תוקף-שיורי מספק למכירה.",
       processExampleHe:
         "מוצר עם 90 ימי-תוקף; היעד דורש 60 ימי-תוקף-שיורי בקבלה ➔ ה-heuristic מתזמן ייצור/הובלה כך שלא יישלח מלאי בן יותר מ-30 יום.",
-      cbcHe:
-        "ב-CBC משקאות עם תוקף מוגבל: shelf-life planning מבטיח שמילוי והפצה מתוזמנים כך שהמשקה מגיע לרשת-הקמעונאות עם מספיק ימי-מדף, ומונע החזרות/השמדה.",
+      scenarioHe:
+        "בארגון משקאות עם תוקף מוגבל: shelf-life planning מבטיח שמילוי והפצה מתוזמנים כך שהמשקה מגיע לרשת-הקמעונאות עם מספיק ימי-מדף, ומונע החזרות/השמדה.",
       navHe: [
         "SAP IBP ► Operators ► S&OP Heuristic ► Heuristic Type (Shelf-Life)",
         "SAP IBP ► Master Data ► Shelf-Life Attributes",
@@ -2241,8 +2241,8 @@ export const CH4: TextbookChapter = {
             "לקבל תוכנית-אספקה לא-מוגבלת אך תקפת-תוקף — תמונה נקייה של 'מה צריך' שמכבדת חיי-מדף.",
           processExampleHe:
             "ביקוש בחודש 6; מוצר 90 ימי-תוקף; ה-heuristic לא יתכנן ייצור בחודש 1 לכיסוי חודש 6 (יפוג), אלא קרוב יותר לצריכה.",
-          cbcHe:
-            "ב-CBC ה-infinite shelf-life heuristic מתכנן מילוי-משקאות קרוב-לצריכה ככל-האפשר, לא-מוגבל בקיבולת, אך תמיד בתוך חלון-התוקף.",
+          scenarioHe:
+            "בארגון ה-infinite shelf-life heuristic מתכנן מילוי-משקאות קרוב-לצריכה ככל-האפשר, לא-מוגבל בקיבולת, אך תמיד בתוך חלון-התוקף.",
           navHe: [
             "SAP IBP ► Operators ► Shelf-Life Infinite Heuristic",
           ],
@@ -2289,8 +2289,8 @@ export const CH4: TextbookChapter = {
             "למקסם ניצול-מלאי-תקף בהפצה ולמזער write-offs, תוך עמידה בדרישות-תוקף בכל יעד.",
           processExampleHe:
             "שני DCs צריכים מלאי; מלאי-מקור עם 40 ו-70 ימי-תוקף ➔ ה-heuristic שולח את ה-40-ימים ליעד הקרוב (lead קצר, צריכה מהירה) ואת ה-70 לרחוק.",
-          cbcHe:
-            "ב-CBC distribution heuristic מחלק מלאי-משקאות בין DCs לפי תוקף: אצוות קרובות-לתפוגה ל-DCs בעלי-מחזור-מהיר, רחוקות-תפוגה ל-DCs מרוחקים — מזעור השמדה.",
+          scenarioHe:
+            "בארגון distribution heuristic מחלק מלאי-משקאות בין DCs לפי תוקף: אצוות קרובות-לתפוגה ל-DCs בעלי-מחזור-מהיר, רחוקות-תפוגה ל-DCs מרוחקים — מזעור השמדה.",
           navHe: [
             "SAP IBP ► Operators ► Shelf-Life Distribution Heuristic",
           ],
@@ -2342,8 +2342,8 @@ export const CH4: TextbookChapter = {
         "לקבע את התמונה-הכוללת: ה-heuristic הלא-מוגבל הוא הצעד הראשון ב-S&OP — 'מה הביקוש דורש' — לפני בחינת-היתכנות ואופטימיזציה.",
       processExampleHe:
         "מקצה-לקצה: consensus demand ➔ consumption ➔ demand propagation ➔ supply propagation ➔ projected inventory ➔ RCCP ➔ זיהוי-פערים ➔ דיון-S&OP ➔ (בהמשך) optimizer/constrained.",
-      cbcHe:
-        "ב-CBC הזרימה החודשית: ביקוש-משקאות מוסכם ➔ heuristic לא-מוגבל ➔ תוכנית-מילוי ודרישות-תרכיז ➔ RCCP על קווים/מחסנים ➔ פערי-קיבולת להנהלה ➔ החלטות (משמרות/sourcing/תעדוף).",
+      scenarioHe:
+        "בארגון הזרימה החודשית: ביקוש-משקאות מוסכם ➔ heuristic לא-מוגבל ➔ תוכנית-מילוי ודרישות-תרכיז ➔ RCCP על קווים/מחסנים ➔ פערי-קיבולת להנהלה ➔ החלטות (משמרות/sourcing/תעדוף).",
       navHe: [
         "SAP IBP ► Sales and Operations ► S&OP Heuristic (סקירה כוללת)",
         "SAP IBP ► Application Jobs ► Run S&OP Operator",

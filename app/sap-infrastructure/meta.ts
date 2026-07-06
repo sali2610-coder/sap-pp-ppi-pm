@@ -128,7 +128,7 @@ export const MOD_REPORTS: Record<string, string[]> = {
 
 // Sample values for synthetic example records (looks like real SAP data)
 const SAMPLE: Record<string, string[]> = {
-  MATNR: ["100023", "FG-COLA-330"], MTART: ["FERT", "ROH"], MATKL: ["00107", "00203"], MEINS: ["EA", "L"],
+  MATNR: ["100023", "FG-BEV-330"], MTART: ["FERT", "ROH"], MATKL: ["00107", "00203"], MEINS: ["EA", "L"],
   WERKS: ["1010", "1010"], LGORT: ["0001", "0002"], CHARG: ["0000004711", "0000004712"], MENGE: ["1.500", "200"],
   EBELN: ["4500000123", "4500000124"], EBELP: ["10", "20"], BANFN: ["10000455", "10000456"], LIFNR: ["0000100021", "0000100099"],
   AUFNR: ["000010004567", "000010004568"], VBELN: ["0000012345", "0000012346"], POSNR: ["10", "20"], KUNNR: ["0000020045", "0000020099"],
