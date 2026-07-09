@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "gen:routes": "npx --yes tsx scripts/gen-route-manifest.mts",
+    "check:routes": "node scripts/check-route-manifest.mjs",
+    "crawl:deadlinks": "node scripts/crawl-dead-links.mjs",
+    "verify:export": "node scripts/check-route-manifest.mjs && node scripts/crawl-dead-links.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
