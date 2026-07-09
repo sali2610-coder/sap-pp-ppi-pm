@@ -29,6 +29,9 @@ export function FieldsTable({ fields }: { fields: SAPField[] }) {
       </p>
     );
   }
+  // Some blueprints (e.g. PM) carry no data-type/length columns at source. Hide
+  // the Type/Len columns entirely rather than render a wall of blank cells.
+  const hasType = fields.some((f) => (f.dt || "").trim() !== "" || (f.len || "").trim() !== "");
 
   return (
     <>
@@ -39,8 +42,8 @@ export function FieldsTable({ fields }: { fields: SAPField[] }) {
             <TableRow>
               <TableHead>{t("field.field")}</TableHead>
               <TableHead>{t("field.desc")}</TableHead>
-              <TableHead>{t("field.type")}</TableHead>
-              <TableHead>{t("field.len")}</TableHead>
+              {hasType && <TableHead>{t("field.type")}</TableHead>}
+              {hasType && <TableHead>{t("field.len")}</TableHead>}
               <TableHead>{t("field.key")}</TableHead>
             </TableRow>
           </TableHeader>
@@ -52,8 +55,8 @@ export function FieldsTable({ fields }: { fields: SAPField[] }) {
                   <div>{lang === "en" ? f.en : f.he}</div>
                   <div className="text-xs text-muted-foreground">{lang === "en" ? f.he : f.en}</div>
                 </TableCell>
-                <TableCell className="tech text-muted-foreground">{f.dt}</TableCell>
-                <TableCell className="tech text-muted-foreground">{f.len}</TableCell>
+                {hasType && <TableCell className="tech text-muted-foreground">{f.dt}</TableCell>}
+                {hasType && <TableCell className="tech text-muted-foreground">{f.len}</TableCell>}
                 <TableCell>
                   <KeyBadge k={f.key} />
                 </TableCell>
@@ -73,10 +76,12 @@ export function FieldsTable({ fields }: { fields: SAPField[] }) {
             </div>
             <div className="mt-1 text-sm">{lang === "en" ? f.en : f.he}</div>
             <div className="text-xs text-muted-foreground">{lang === "en" ? f.he : f.en}</div>
-            <div className="mt-1.5 flex gap-3 text-xs text-muted-foreground">
-              <span className="tech">{f.dt}</span>
-              <span className="tech">len: {f.len}</span>
-            </div>
+            {hasType && (
+              <div className="mt-1.5 flex gap-3 text-xs text-muted-foreground">
+                <span className="tech">{f.dt}</span>
+                <span className="tech">len: {f.len}</span>
+              </div>
+            )}
           </li>
         ))}
       </ul>

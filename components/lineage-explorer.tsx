@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { Search, ArrowLeft, Database, Terminal, Boxes, LayoutGrid, GitBranch } from "lucide-react";
+import { Search, ArrowLeft, Database, Terminal, Boxes, LayoutGrid } from "lucide-react";
 import { ALL_TABLES } from "@/data/sapData";
 import { kgraph, tableByName } from "@/lib/knowledge-graph";
 import { cdsForTable } from "@/data/cds-map";

@@ -2,7 +2,7 @@
 // return the direct actions a consultant would want, each routing to a REAL page
 // or in-page anchor that already exists (no dead links). Powers the action strip
 // under the active search result.
-import { Eye, Network, GitBranch, BookOpen, Sigma, Plug, Terminal, LayoutGrid, FlaskConical, ShieldCheck, Workflow, Gauge, Boxes, Cable } from "lucide-react";
+import { Eye, Network, BookOpen, Sigma, Plug, Terminal, LayoutGrid, FlaskConical, ShieldCheck, Workflow, Gauge, Boxes, Cable } from "lucide-react";
 import { hasApp } from "@/lib/apps-intel";
 
 export type ActionKind = "table" | "tcode" | "cds" | "bapi" | "fm" | "idoc" | "fiori" | "page";

@@ -200,6 +200,8 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
   ];
   const execSummary = `${t.tableName} (${t.descriptionHe || t.descriptionEn}) — אובייקט ${t.module} עם ${fields.length} שדות. ${s4Impact}. רדיוס השפעה ${blast} אובייקטים מקושרים, ${g?.downstream.length || 0} מהם תלויים בו (השפעת מיגרציה ${blast >= 8 ? "גבוהה" : blast >= 3 ? "בינונית" : "נמוכה"}). סטטוס מיגרציה נוכחי: ${STATUS_META[status].he}.`;
   const pk = fields.filter((f) => f.key === "PK" || /pk/i.test(String(f.key)));
+  // hide Type/Len columns when the blueprint carries none (e.g. PM) — no blank wall
+  const hasType = fields.some((f) => (f.dt || "").trim() !== "" || (f.len || "").trim() !== "");
   const upPath = tracePath(name, "up"); const downPath = tracePath(name, "down");
   const trouble = TROUBLE[name] || [
     "בדוק Where-Used (SE11 → Where-Used List) לפני שינוי מבנה.",
@@ -401,10 +403,10 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
           <>
             <Section title={`שדות · ${fields.length} (PK ${pk.length})`} icon={<KeyRound className="size-4" />}>
               <div className="overflow-auto rounded-xl border border-hairline"><table className="w-full text-right font-mono text-xs" dir="ltr">
-                <thead className="bg-surface-2 text-[10px] uppercase text-ink-3"><tr><th className="px-3 py-2">Field</th><th className="px-3 py-2">Type</th><th className="px-3 py-2">Len</th><th className="px-3 py-2">Key</th><th className="px-3 py-2 text-right">תיאור</th></tr></thead>
+                <thead className="bg-surface-2 text-[10px] uppercase text-ink-3"><tr><th className="px-3 py-2">Field</th>{hasType && <th className="px-3 py-2">Type</th>}{hasType && <th className="px-3 py-2">Len</th>}<th className="px-3 py-2">Key</th><th className="px-3 py-2 text-right">תיאור</th></tr></thead>
                 <tbody>{fields.slice(0, 40).map((f, i) => <tr key={i} className="border-t border-hairline">
                   <td className={`px-3 py-1.5 font-bold ${f.key === "PK" ? "text-amber-600" : f.key === "FK" ? "text-blue-600" : "text-ink-2"}`}><Highlight text={f.tech} query={hl} /></td>
-                  <td className="px-3 py-1.5 text-ink-3">{f.dt}</td><td className="px-3 py-1.5 text-ink-3">{f.len}</td>
+                  {hasType && <td className="px-3 py-1.5 text-ink-3">{f.dt}</td>}{hasType && <td className="px-3 py-1.5 text-ink-3">{f.len}</td>}
                   <td className="px-3 py-1.5">{f.key && f.key !== "-" && <span className={`rounded px-1 text-[9px] font-bold ${f.key === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f.key}</span>}</td>
                   <td className="px-3 py-1.5 text-right text-ink-3" dir="rtl"><Highlight text={f.he} query={hl} /></td></tr>)}</tbody>
               </table></div>

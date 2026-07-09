@@ -10,7 +10,6 @@ import { PROCESS_MAPS } from "@/data/processes";
 import { LIFECYCLE } from "@/data/lifecycle";
 import { MFG_SCENARIOS } from "@/data/centers/manufacturing";
 import { CDS_VIEWS } from "@/data/cds-map";
-import { OIC_OBJECTS } from "@/lib/cross-links";
 
 const merged = allTcodesMerged();
 const funcs = listFuncs();

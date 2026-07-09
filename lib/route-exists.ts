@@ -4,7 +4,7 @@
 // links without dropping the information.
 // Imports ONLY the generated string manifest (a few KB), never the datasets —
 // so the client <SmartLink> resolver stays lightweight. Regenerate the manifest
-// with `npx tsx scripts/gen-route-manifest.mts` (runs on prebuild).
+// with `npm run gen:routes` after any dataset change (committed artifact).
 import { ROUTE_MANIFEST as M } from "@/lib/route-manifest.generated";
 
 let _obj: Set<string> | null = null, _tc: Set<string> | null = null, _fn: Set<string> | null = null,
@@ -44,16 +44,18 @@ const DYNAMIC: Record<string, (seg: string) => boolean> = {
 
 export function pageExists(href: string): boolean {
   const h = norm(href);
-  if (!h || !h.startsWith("/")) return true;            // external, hash, mailto, etc.
-  const path = h.split("#")[0].split("?")[0];
-  const segs = path.split("/").filter(Boolean).map((s) => { try { return decodeURIComponent(s); } catch { return s; } });
-  if (segs.length === 0) return true;                    // "/"
-  const fam = segs[0];
+  if (!h || !h.startsWith("/") || h.startsWith("//")) return true; // external / protocol-relative / hash / mailto
+  const path = h.split("#")[0].split("?")[0].replace(/^\//, "");
+  const slash = path.indexOf("/");
+  const fam = slash === -1 ? path : path.slice(0, slash);
   const check = DYNAMIC[fam];
   if (!check) return true;                               // unmodeled family → trust it
-  if (segs.length < 2) return true;                      // family index route
-  // a dynamic [param] cannot hold a "/", so slash-bearing codes (e.g. "V/06",
-  // "/IWFND/ERROR_LOG") never generate a single-segment page — treat as missing.
-  if (segs.length > 2 || segs[1].includes("/")) return false;
-  return check(segs[1]);
+  // The remainder after the family is the code. Codes MAY contain "/" (e.g.
+  // "V/06", "/SCWM/MON") — those pages exist under URL-encoded params — so keep
+  // the whole remainder and decode it, rather than splitting on "/".
+  const raw = (slash === -1 ? "" : path.slice(slash + 1)).replace(/\/$/, "");
+  if (!raw) return true;                                 // family index route
+  let code = raw;
+  try { code = decodeURIComponent(raw); } catch { /* keep raw */ }
+  return check(code);
 }

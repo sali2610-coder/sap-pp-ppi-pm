@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { BookOpen, Terminal, LayoutDashboard, Network, Database, Cable, Wrench, FlaskConical, Boxes, ArrowLeft } from "lucide-react";
+import { BookOpen, Terminal, LayoutDashboard, Network, Database, Wrench, FlaskConical, Boxes, ArrowLeft } from "lucide-react";
 import { playClick } from "@/lib/sound";
 
 // Command Center — the platform's primary entry. Clear hierarchy: three HERO

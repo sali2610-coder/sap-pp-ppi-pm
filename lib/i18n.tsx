@@ -47,7 +47,7 @@ const DICT: Dict = {
   "hero.stat.modules": { he: "2 מודולים · PM · PP-PI", en: "2 modules · PM · PP-PI" },
   "hero.stat.search": { he: "⌘K חיפוש מהיר", en: "⌘K quick search" },
   "hub.pm.title": { he: "SAP PM Hub", en: "SAP PM Hub" },
-  "hub.pm.subtitle": { he: "אחזקת מפעל · Plant Maintenance", en: "Plant Maintenance" },
+  "hub.pm.subtitle": { he: "תחזוקת מפעל · Plant Maintenance", en: "Plant Maintenance" },
   "hub.pm.desc": { he: "ציוד, מיקומים פונקציונליים, הודעות ופקודות עבודה, אחזקה מונעת.", en: "Equipment, functional locations, notifications & work orders, preventive maintenance." },
   "hub.ppi.title": { he: "SAP PP-PI Hub", en: "SAP PP-PI Hub" },
   "hub.ppi.subtitle": { he: "תכנון ייצור תהליכי · Process Industries", en: "Process Industries Planning" },

@@ -129,9 +129,14 @@ export type S4Row = { code: string; he: string; alt?: string; note?: string };
 export function eccS4(m: SAPModuleData): { kept: S4Row[]; replaced: S4Row[]; removed: S4Row[] } {
   const kept: S4Row[] = [], replaced: S4Row[] = [], removed: S4Row[] = [];
   for (const t of moduleTables(m)) {
-    const row: S4Row = { code: t.tableName, he: t.descriptionHe || "", alt: t.s4AltTable, note: t.s4Note };
-    if (t.s4AltTable) replaced.push(row);
-    else if (/הוסר|בוטל|removed|deprecat/i.test(t.s4Note || "")) removed.push(row);
+    const alt = (t.s4AltTable || "").trim();
+    // "TABLE (זהה)" / "identical" / same-name means the table is UNCHANGED in
+    // S/4HANA, not replaced — bucket it as kept and drop the misleading arrow.
+    const base = alt.replace(/\s*\(.*?\)\s*/g, "").trim().toUpperCase();
+    const identical = !!alt && (/(זהה|identical|unchanged|ללא שינוי|\(=\))/i.test(alt) || base === t.tableName.toUpperCase());
+    const row: S4Row = { code: t.tableName, he: t.descriptionHe || "", alt: identical ? undefined : (alt || undefined), note: t.s4Note };
+    if (/הוסר|בוטל|removed|deprecat/i.test(t.s4Note || "")) removed.push(row);
+    else if (alt && !identical) replaced.push(row);
     else kept.push(row);
   }
   return { kept, replaced, removed };

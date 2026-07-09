@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { GraduationCap, ArrowLeft, Clock, Layers } from "lucide-react";
+import { GraduationCap, ArrowLeft, Clock } from "lucide-react";
 import { PM_TEXTBOOK, PM_TEXTBOOK_STATS } from "@/data/library/pm-textbook";
 import { useI18n } from "@/lib/i18n";
 
