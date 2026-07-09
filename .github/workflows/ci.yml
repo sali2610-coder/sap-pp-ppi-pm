@@ -2,12 +2,23 @@ name: CI
 
 # Phase 8 quality gates: typecheck, lint (0 errors), production build,
 # manifest-drift guard (M1), and dead-link crawl (M2). Runs on every push and PR.
+#
+# Resilience: dependency install is hardened against transient npm-registry
+# network blips (the ETIMEDOUT class of failure) WITHOUT weakening any gate —
+# npm's own retry/backoff is tuned up, ~/.npm is cached, installs prefer the
+# cache, and a coarse step-level retry wraps it all. Every quality check below
+# still runs exactly as before.
 on:
   push:
     branches: ["**"]
   pull_request:
     branches: ["**"]
 
+# Least-privilege token — CI only needs to read the repo.
+permissions:
+  contents: read
+
+# One in-flight run per ref; new pushes cancel stale runs (saves runner minutes).
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
@@ -16,16 +27,45 @@ jobs:
   quality-gates:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      # Tune npm's built-in fetch retry/backoff so a transient registry read
+      # timeout retries at the request level instead of failing the job.
+      NPM_CONFIG_FETCH_RETRIES: "5"
+      NPM_CONFIG_FETCH_RETRY_MINTIMEOUT: "20000"
+      NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT: "120000"
+      NPM_CONFIG_FETCH_TIMEOUT: "600000"
+      # Drop registry chatter that isn't a gate (audit/funding hit the network).
+      NPM_CONFIG_AUDIT: "false"
+      NPM_CONFIG_FUND: "false"
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node + npm cache
+        uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
+          cache: "npm" # caches ~/.npm keyed on package-lock.json → warm cache = few/no registry reads
 
-      - name: Install
-        run: npm ci
+      - name: Install dependencies (cached, prefer-offline, retried)
+        run: |
+          set -e
+          # up to 3 attempts; npm's own 5 retries run inside each. --prefer-offline
+          # uses the restored cache first, so a warm cache barely touches the network.
+          for attempt in 1 2 3; do
+            echo "::group::npm ci (attempt $attempt)"
+            if npm ci --prefer-offline --no-audit --no-fund; then
+              echo "::endgroup::"
+              echo "dependencies installed on attempt $attempt"
+              exit 0
+            fi
+            echo "::endgroup::"
+            echo "::warning::npm ci failed on attempt $attempt (likely transient network); retrying"
+            rm -rf node_modules   # avoid a partially-installed tree between attempts
+            sleep $((attempt * 15))
+          done
+          echo "::error::npm ci failed after 3 attempts"
+          exit 1
 
       - name: TypeScript (tsc --noEmit)
         run: npx tsc --noEmit
