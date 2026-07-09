@@ -132,7 +132,16 @@ function relatedHref(r: RelatedLink, nav: AcademyNav): string | null {
   const slugs = new Set(nav.objectSlugs ?? []);
   const m = r.href.match(/\/library\/[^/]+\/object\/([^/]+)\/?$/);
   if (m) return nav.objectHref && slugs.has(m[1]) ? r.href : null;
-  if (/^\/(library\/[\w-]+\/chapter-\d+|pp-pi|pm|library)/.test(r.href)) return r.href;
+  // chapter cross-links: content data sometimes uses the bare module slug
+  // (/library/wm/chapter-10) while the real route is the academy base
+  // (/library/wm-academy/chapter-10). Retarget same-book links to nav.base;
+  // drop cross-book/unknown ones to a plain chip so no route ever 404s.
+  const cm = r.href.match(/^\/library\/([\w-]+?)(?:-academy)?\/chapter-(\d+)\/?(#[\w.\-]+)?$/);
+  if (cm) {
+    const baseSlug = nav.base.replace(/^\/library\//, "").replace(/-academy$/, "");
+    return cm[1] === baseSlug ? `${nav.base}/chapter-${pad(Number(cm[2]))}/${cm[3] ?? ""}` : null;
+  }
+  if (r.href === "/library" || r.href === "/library/" || /^\/(pm|pp-pi)\/?$/.test(r.href)) return r.href;
   return null;
 }
 

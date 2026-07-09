@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { SmartLink as Link } from "@/components/smart-link";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRightLeft, Terminal, GitBranch, ShieldCheck, Tag, Layers, CircleAlert, FlaskConical, Lightbulb, Network } from "lucide-react";
 import { hasApp } from "@/lib/apps-intel";

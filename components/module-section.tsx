@@ -10,21 +10,26 @@ import {
   relationships, enhancements, bestPractices, eccS4,
 } from "@/lib/module-portal";
 
+import { tcodeHasPage, funcHasPage, idocHasPage, cdsHasPage, objectHasPage } from "@/lib/route-exists";
+
 const ICONS: Record<string, typeof LayoutGrid> = { LayoutGrid, Workflow, Boxes, Terminal, Table, Plug, Sigma, AppWindow, Settings, Cable, AlertTriangle, GitBranch, Puzzle, Lightbulb, ArrowRightLeft };
 const fmt = (n: number) => n.toLocaleString("en-US");
 const S4_DOT: Record<string, string> = { kept: "#1aa179", replaced: "#c77a0a", removed: "#dc2626" };
 
-function CodeChip({ href, code, he }: { href: string; code: string; he?: string }) {
-  return (
-    <Link href={href} className="card-interactive group flex items-center gap-2.5 p-2.5" dir="rtl">
+function CodeChip({ href, code, he, ok = true }: { href: string; code: string; he?: string; ok?: boolean }) {
+  const body = (
+    <>
       <span className="size-1.5 shrink-0 rounded-full bg-brand" />
       <div className="min-w-0 flex-1">
         <span className="tech block truncate font-mono text-[13px] font-bold text-ink-1" dir="ltr">{code}</span>
         {he && <span className="block truncate text-[11.5px] text-ink-3">{he}</span>}
       </div>
       <ArrowLeft className="size-3.5 shrink-0 text-ink-3/50 transition group-hover:text-brand" />
-    </Link>
+    </>
   );
+  return ok
+    ? <Link href={href} className="card-interactive group flex items-center gap-2.5 p-2.5" dir="rtl">{body}</Link>
+    : <div className="flex items-center gap-2.5 rounded-xl border border-hairline bg-surface-2/40 p-2.5" dir="rtl"><span className="size-1.5 shrink-0 rounded-full bg-ink-3/40" /><div className="min-w-0 flex-1"><span className="tech block truncate font-mono text-[13px] font-bold text-ink-3" dir="ltr">{code}</span>{he && <span className="block truncate text-[11.5px] text-ink-3/70">{he}</span>}</div></div>;
 }
 
 function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) {
@@ -57,15 +62,15 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
     }
     case "transactions": {
       const tx = transactions(module);
-      return <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">{tx.map((t) => <CodeChip key={t.code} href={`/tcode/${encodeURIComponent(t.code)}/`} code={t.code} />)}</div>;
+      return <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">{tx.map((t) => <CodeChip key={t.code} href={`/tcode/${encodeURIComponent(t.code)}/`} code={t.code} ok={tcodeHasPage(t.code)} />)}</div>;
     }
     case "bapis": {
       const fn = funcs(module, ["BAPI", "FM"]);
-      return <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{fn.map((f) => <CodeChip key={f.name} href={`/bapi/${encodeURIComponent(f.name)}/`} code={f.name} he={f.kind} />)}</div>;
+      return <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{fn.map((f) => <CodeChip key={f.name} href={`/bapi/${encodeURIComponent(f.name)}/`} code={f.name} he={f.kind} ok={funcHasPage(f.name)} />)}</div>;
     }
     case "cds": {
       const v = cdsViews(module);
-      return v.length ? <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{v.map((x) => <CodeChip key={x.view} href={`/cds/${encodeURIComponent(x.view)}/`} code={x.view} he={x.tables.slice(0, 3).join(" · ")} />)}</div> : <Empty text="אין CDS Views מאומתות למודול זה עדיין." />;
+      return v.length ? <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{v.map((x) => <CodeChip key={x.view} href={`/cds/${encodeURIComponent(x.view)}/`} code={x.view} he={x.tables.slice(0, 3).join(" · ")} ok={cdsHasPage(x.view)} />)}</div> : <Empty text="אין CDS Views מאומתות למודול זה עדיין." />;
     }
     case "fiori": {
       const f = fioriApps(module);
@@ -106,9 +111,9 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
       return (
         <div className="space-y-6">
           <div><h3 className="mb-2 flex items-center gap-2 text-[13px] font-extrabold text-ink-1"><Cable className="size-4 text-ink-3" />IDocs<span className="font-mono text-[11px] font-bold text-ink-3">{idocs.length}</span></h3>
-            {idocs.length ? <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{idocs.map((f) => <CodeChip key={f.name} href={`/idoc/${encodeURIComponent(f.name)}/`} code={f.name} />)}</div> : <Empty text="אין IDocs מאומתים." />}</div>
+            {idocs.length ? <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{idocs.map((f) => <CodeChip key={f.name} href={`/idoc/${encodeURIComponent(f.name)}/`} code={f.name} ok={idocHasPage(f.name)} />)}</div> : <Empty text="אין IDocs מאומתים." />}</div>
           <div><h3 className="mb-2 flex items-center gap-2 text-[13px] font-extrabold text-ink-1"><Plug className="size-4 text-ink-3" />BAPIs<span className="font-mono text-[11px] font-bold text-ink-3">{bapi.length}</span></h3>
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{bapi.map((f) => <CodeChip key={f.name} href={`/bapi/${encodeURIComponent(f.name)}/`} code={f.name} />)}</div></div>
+            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{bapi.map((f) => <CodeChip key={f.name} href={`/bapi/${encodeURIComponent(f.name)}/`} code={f.name} ok={funcHasPage(f.name)} />)}</div></div>
         </div>
       );
     }
@@ -123,7 +128,7 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
     }
     case "related": {
       const rel = relatedObjects(module);
-      return rel.length ? <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{rel.map((r) => <CodeChip key={r.code} href={`/object/${encodeURIComponent(r.code)}/`} code={r.code} he={r.he} />)}</div> : <Empty text="אין אובייקטים חוצי-מודול." />;
+      return rel.length ? <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{rel.map((r) => <CodeChip key={r.code} href={`/object/${encodeURIComponent(r.code)}/`} code={r.code} he={r.he} ok={objectHasPage(r.code)} />)}</div> : <Empty text="אין אובייקטים חוצי-מודול." />;
     }
     case "relationships": {
       const edges = relationships(module);

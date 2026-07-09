@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { SmartLink as Link } from "@/components/smart-link";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowLeft, Database, Terminal, Boxes, Network, Workflow, Cable, FileCode2 } from "lucide-react";
 import type { TableRef } from "@/lib/object-intel";

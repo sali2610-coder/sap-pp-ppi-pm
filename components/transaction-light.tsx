@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { SmartLink as Link } from "@/components/smart-link";
 import { Terminal, ArrowLeft, Boxes, GitBranch, Workflow, AlertTriangle, Info } from "lucide-react";
 import { registryTx, txRegistry } from "@/lib/tx-registry";
 import { tcodeIntel } from "@/lib/object-intel";

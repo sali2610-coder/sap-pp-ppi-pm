@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { SmartLink as Link } from "@/components/smart-link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import {
   Monitor, LayoutGrid, ListChecks, AlertTriangle, Camera, Play, Route, MapPin, Lightbulb,

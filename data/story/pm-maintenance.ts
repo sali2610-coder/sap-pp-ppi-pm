@@ -9,7 +9,7 @@ export const PM_MAINTENANCE: Story = {
   sub: "ממכונה שנתקעה ועד סגירת העלויות — תהליך מקצה לקצה",
   accent: "#f97316",
   module: "pm",
-  learnPath: "/learn/pm/",
+  learnPath: "/learn/pm-fundamentals/",
   steps: [
     {
       id: "s1", n: 1, phaseHe: "אירוע", title: "מכונה נתקעת בקו הייצור",

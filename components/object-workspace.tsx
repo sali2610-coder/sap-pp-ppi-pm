@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import { SmartLink as Link } from "@/components/smart-link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
