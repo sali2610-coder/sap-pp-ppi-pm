@@ -386,6 +386,25 @@ h1, h2, h3 {
   line-height: 1.4;
   color: var(--muted-foreground);
 }
+/* Premium display refinement — no new font (100% offline): tighter optical
+   tracking + kerning on the system stack for hero/section titles. */
+@utility font-display {
+  letter-spacing: -0.035em;
+  font-weight: 900;
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+/* Elegant red accent line beneath important headings (use sparingly). */
+@utility accent-rule {
+  display: block;
+  height: 3px;
+  width: 2.75rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--brand) 45%, transparent), var(--brand));
+}
+/* Soft, non-distracting glow for the red brand monogram. */
+@utility logo-glow {
+  filter: drop-shadow(0 6px 16px color-mix(in srgb, var(--brand) 28%, transparent));
+}
 
 /* Entry animations */
 @keyframes float-in {

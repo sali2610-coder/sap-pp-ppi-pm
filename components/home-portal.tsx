@@ -7,6 +7,7 @@ import {
   Cable, Sigma, LayoutGrid, Puzzle, Compass, BrainCircuit, Library, AlertTriangle,
 } from "lucide-react";
 import { playClick } from "@/lib/sound";
+import { SiteLogo } from "@/components/site-logo";
 
 export type PortalCounts = {
   tables: number; fields: number; tcodes: number; bapis: number; fms: number;
@@ -23,11 +24,18 @@ function SearchHero({ counts }: { counts: PortalCounts }) {
   const chips = ["EQUI", "IFLOT", "QMEL", "MARA", "AFKO"];
   return (
     <section dir="rtl" className="pt-2 text-center">
+      {/* product identity — full branding in the hero */}
+      <div className="mb-5 flex justify-center [&_svg]:logo-glow">
+        <SiteLogo tone="dark" />
+      </div>
       <span className="eyebrow-2 inline-flex items-center gap-1.5"><span className="size-1.5 rounded-full bg-brand" />SAP Knowledge Platform</span>
-      <h1 className="mx-auto mt-3 max-w-3xl text-balance text-3xl font-black leading-[1.08] tracking-tight text-ink-1 sm:text-5xl">
-        כל הידע של <span className="text-brand">SAP</span> — במקום אחד, נגיש בחיפוש אחד
+      <h1 className="mx-auto mt-3 max-w-3xl text-balance font-display text-[2.15rem] leading-[1.04] text-ink-1 sm:text-[3.4rem]">
+        <span className="block">כל הידע של <span className="text-brand">SAP</span></span>
+        <span className="block">במקום אחד, נגיש בחיפוש אחד</span>
       </h1>
-      <p className="mx-auto mt-3 max-w-2xl text-[15px] leading-relaxed text-ink-3 sm:text-base">
+      {/* elegant red accent line beneath the headline */}
+      <span aria-hidden className="accent-rule mx-auto mt-4" />
+      <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-ink-3 sm:text-base">
         פורטל תיעוד לארכיטקטורת SAP: טבלאות, טרנזקציות, BAPIs, IDocs, CDS ו-Fiori — עם הקשרים ביניהם. ECC6 → S/4HANA.
       </p>
 
@@ -54,7 +62,7 @@ function SearchHero({ counts }: { counts: PortalCounts }) {
           [counts.bapis + counts.fms, "BAPIs / FMs"], [counts.cds, "CDS"], [counts.fiori, "Fiori"],
         ].map(([n, label], i) => (
           <span key={label as string} className="inline-flex items-center gap-1.5">
-            {i > 0 && <span className="text-ink-3/50">·</span>}
+            {i > 0 && <span className="text-brand/40">·</span>}
             <b className="font-mono font-bold text-ink-2 [unicode-bidi:isolate]" dir="ltr">{fmt(n as number)}</b>
             <span>{label}</span>
           </span>
@@ -69,7 +77,7 @@ function Section({ eyebrow, title, sub, children }: { eyebrow: string; title: st
     <section dir="rtl" className="space-y-4">
       <div>
         <span className="eyebrow-2">{eyebrow}</span>
-        <h2 className="mt-1 text-xl font-extrabold tracking-tight text-ink-1 sm:text-2xl">{title}</h2>
+        <h2 className="mt-1 font-display text-xl text-ink-1 sm:text-2xl">{title}</h2>
         {sub && <p className="mt-1 text-[14px] text-ink-3">{sub}</p>}
       </div>
       {children}
