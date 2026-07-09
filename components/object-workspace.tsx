@@ -37,7 +37,7 @@ const mc = (m: string) => MOD_COLOR[m] || "#64748b";
 const RED = "#d62027";
 
 const TABS = [
-  ["wiki", "ויקי", ScrollText],
+  ["wiki", "תיעוד", ScrollText],
   ["overview", "סקירה", LayoutGrid],
   ["consultant", "מצב יועץ", Lightbulb],
   ["intel", "תבונת אובייקט", BrainCircuit],
@@ -136,8 +136,8 @@ function Graph({ name, onGo }: { name: string; onGo: (n: string) => void }) {
 
 function Section({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) {
   return (
-    <div className="card-premium p-5">
-      <h3 className="mb-3 flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide text-slate-500">{icon}{title}</h3>
+    <div className="card p-5">
+      <h3 className="mb-3 flex items-center gap-2 text-[13px] font-extrabold tracking-tight text-ink-1">{icon}{title}</h3>
       {children}
     </div>
   );
@@ -254,44 +254,41 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
         </div>
       </div>
 
-      {/* header */}
-      <header className="relative overflow-hidden rounded-3xl p-6 text-white shadow-xl" style={{ background: `linear-gradient(135deg, ${RED}, #8f1318)` }}>
-        <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: c }} />
-        <div className="pointer-events-none absolute -right-16 -top-16 size-56 rounded-full bg-white/10 blur-3xl" />
-        <div className="relative flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <span className="eyebrow text-white/70">SAP Consultant Workbench · Object</span>
-            <div className="mt-1 flex items-center gap-3">
-              <h1 className="font-mono text-4xl font-extrabold tracking-tight" dir="ltr">{t.tableName}</h1>
-              <span className="rounded-lg bg-white/20 px-2 py-1 text-xs font-bold backdrop-blur-sm">Table · {t.module}</span>
+      {/* header — neutral documentation header (Design System v2) */}
+      <header dir="rtl" className="rounded-2xl border border-hairline bg-surface p-5 sm:p-6">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="min-w-0">
+            <span className="eyebrow-2">SAP {t.module} · Reference</span>
+            <div className="mt-1.5 flex flex-wrap items-center gap-2.5">
+              <h1 className="tech font-mono text-3xl font-black tracking-tight text-ink-1 sm:text-4xl" dir="ltr">{t.tableName}</h1>
+              <span className="rounded-md border border-hairline bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-3">Table</span>
+              <span className="rounded-md px-2 py-0.5 text-[11px] font-bold" style={{ background: c + "14", color: c }}>{t.module}</span>
               <FavStar name={t.tableName} />
-              <Link href={`/impact/${encodeURIComponent(t.tableName)}/`} className="tap inline-flex items-center gap-1 rounded-lg bg-white/20 px-2 py-1 text-xs font-bold text-white backdrop-blur-sm transition hover:bg-white/30 active:scale-90"><TrendingUp className="size-3.5" />ניתוח השפעה</Link>
             </div>
-            <p className="mt-1.5 max-w-2xl text-sm text-white/85">{t.descriptionHe || t.descriptionEn}</p>
+            <p className="mt-2 max-w-2xl text-[14px] leading-relaxed text-ink-2">{t.descriptionHe || t.descriptionEn}</p>
+            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12.5px] font-medium text-ink-3">
+              {[["שדות", fields.length], ["תלויות מעלה", g?.upstream.length || 0], ["השפעה מטה", g?.downstream.length || 0], ["רדיוס השפעה", blast]].map(([l, n]) => (
+                <span key={l as string} className="inline-flex items-center gap-1.5"><b className="font-mono font-bold text-ink-2 [unicode-bidi:isolate]" dir="ltr">{n as number}</b>{l as string}</span>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {[["שדות", fields.length], ["מעלה", g?.upstream.length || 0], ["מטה", g?.downstream.length || 0]].map(([l, n]) => (
-              <div key={l as string} className="min-w-[64px] flex-1 rounded-2xl border border-white/15 bg-white/10 px-3.5 py-2 text-center backdrop-blur-sm sm:flex-none">
-                <div className="font-mono text-xl font-extrabold">{n as number}</div><div className="eyebrow text-white/70">{l as string}</div>
-              </div>
-            ))}
+          <div className="flex shrink-0 flex-wrap items-center gap-2">
+            <Link href={`/impact/${encodeURIComponent(t.tableName)}/`} className="tap inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface px-3 py-1.5 text-[12.5px] font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand active:scale-95"><TrendingUp className="size-4" />ניתוח השפעה</Link>
+            <button onClick={() => window.print()} title="ייצוא מצגת / PDF (P)" className="tap inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface px-3 py-1.5 text-[12.5px] font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand active:scale-95"><Presentation className="size-4" />מצגת</button>
           </div>
         </div>
       </header>
 
-      {/* tabs + presentation export */}
-      <div className="no-print sticky top-[4.25rem] z-30 flex snap-x items-center gap-1 overflow-x-auto rounded-2xl border border-slate-200 bg-white/90 p-1 shadow-sm backdrop-blur [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {/* views — quiet underline nav (docs), not a workbook tab bar */}
+      <div className="no-print sticky top-14 z-30 -mx-1 flex snap-x items-center gap-0.5 overflow-x-auto border-b border-hairline bg-background/85 px-1 backdrop-blur [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {TABS.map(([id, label, Icon], i) => (
           <button key={id} onClick={() => { playTick(); setTab(id); }} title={`${i + 1}`}
-            className={`flex min-h-[44px] shrink-0 snap-start items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold transition active:scale-95 ${tab === id ? "bg-brand text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>
+            className={`relative flex shrink-0 snap-start items-center gap-1.5 px-3 py-2.5 text-[13px] font-semibold transition ${tab === id ? "text-brand" : "text-ink-3 hover:text-ink-1"}`}>
             <Icon className="size-4" />{label}
+            {tab === id && <span aria-hidden className="absolute inset-x-2 -bottom-px h-[2px] rounded-full bg-brand" />}
           </button>
         ))}
-        <button onClick={() => window.print()} title="ייצוא מצגת / PDF (P)" className="tap ms-auto flex min-h-[44px] shrink-0 items-center gap-1.5 rounded-xl border border-slate-200 px-3.5 py-2 text-sm font-bold text-slate-600 transition hover:border-brand hover:text-brand">
-          <Presentation className="size-4" /> מצגת
-        </button>
       </div>
-      <p className="no-print -mt-3 px-2 text-[11px] text-slate-400">קיצורים: 1-9 לשוניות · ←/→ מעבר · P ייצוא מצגת</p>
 
       <motion.div key={tab} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }} className="space-y-5">
         {tab === "wiki" && (() => {
@@ -313,10 +310,11 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
           });
           return (
             <div className="space-y-5">
-              {/* in-page wiki nav */}
-              <div className="no-print flex flex-wrap gap-1.5 rounded-2xl border border-slate-200 bg-white p-2">
-                {NAV.map(([id, lbl]) => <button key={id} onClick={() => jump(id)} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-brand/10 hover:text-brand">{lbl}</button>)}
-                <span className="ms-auto self-center px-2 text-[10px] font-bold text-slate-300">{ix ? "תוכן יועצי מאומת" : "ידע נגזר · חלק מהשדות גנריים"}</span>
+              {/* in-page section nav — "on this page", sticky */}
+              <div className="no-print sticky top-[6.5rem] z-20 flex flex-wrap items-center gap-1 rounded-xl border border-hairline bg-surface/90 p-1.5 backdrop-blur">
+                <span className="eyebrow-2 px-1.5">בעמוד</span>
+                {NAV.map(([id, lbl]) => <button key={id} onClick={() => jump(id)} className="rounded-lg px-2.5 py-1 text-[11.5px] font-semibold text-ink-3 transition hover:bg-brand/10 hover:text-brand">{lbl}</button>)}
+                <span className="ms-auto self-center px-2 text-[10px] font-medium text-ink-3">{ix ? "תוכן יועצי מאומת" : "ידע נגזר · חלק מהשדות גנריים"}</span>
               </div>
 
               {/* purpose + functional */}
