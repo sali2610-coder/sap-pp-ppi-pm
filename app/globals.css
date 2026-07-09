@@ -6,17 +6,26 @@
    Segoe UI native on Windows SAP clients; clean system fallback elsewhere. */
 
 :root {
-  /* Surfaces — zinc-50 ground, layered glass */
-  --background: #f8fafc;
-  --background-2: #eef1f6;
-  --foreground: #0f172a; /* slate-900 */
-  --card: #ffffff;
-  --card-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b; /* slate-500 */
-  --border: #e2e8f0; /* slate-200 */
-  --input: #e2e8f0;
+  /* Surfaces — Design System v2: neutral-first canvas, red is accent only */
+  --background: #fcfcfd;      /* app canvas */
+  --background-2: #f4f5f7;
+  --foreground: #0b0c0e;      /* ink-1 */
+  --card: #ffffff;            /* surface */
+  --card-foreground: #0b0c0e;
+  --muted: #f4f5f7;           /* surface-2 */
+  --muted-foreground: #6b727c;/* ink-3 */
+  --border: #eaecef;          /* hairline */
+  --input: #eaecef;
   --ring: #d62027;
+
+  /* v2 semantic surface aliases (explicit names for the shell + cards) */
+  --surface: #ffffff;
+  --surface-2: #f4f5f7;
+  --hairline: #eaecef;
+  --ink-1: #0b0c0e;
+  --ink-2: #3a3f47;
+  --ink-3: #6b727c;
+  --sidebar-w: 17rem;
 
   /* Glass */
   --glass-bg: rgba(255, 255, 255, 0.65);
@@ -53,6 +62,14 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  /* v2 shell tokens as Tailwind color utilities */
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-hairline: var(--hairline);
+  --color-ink-1: var(--ink-1);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
 
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
@@ -191,6 +208,34 @@ pre {
 @utility glow {
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--glow) 35%, transparent),
     0 0 16px -2px color-mix(in srgb, var(--glow) 45%, transparent);
+}
+
+/* ===== Design System v2 — one card system ===== */
+@utility card {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(11, 12, 14, 0.05);
+}
+/* interactive card: lifts + accent hairline on hover */
+@utility card-interactive {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 1rem;
+  box-shadow: 0 1px 2px rgba(11, 12, 14, 0.05);
+  transition: box-shadow 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+.card-interactive:hover {
+  box-shadow: 0 10px 26px -14px rgba(11, 12, 14, 0.22);
+  border-color: color-mix(in srgb, var(--brand) 30%, var(--hairline));
+}
+/* small-caps section eyebrow used across the shell + docs */
+@utility eyebrow-2 {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
 }
 
 /* ============================================================

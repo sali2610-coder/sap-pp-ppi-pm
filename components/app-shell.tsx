@@ -1,21 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { motion } from "framer-motion";
-import { Sparkles, BrainCircuit, GraduationCap, Award, Wrench } from "lucide-react";
-import { CentersMegaMenu } from "@/components/centers-mega-menu";
+import { Menu } from "lucide-react";
 import { GlobalBack } from "@/components/global-back";
 import { WorkspaceInspector } from "@/components/workspace-inspector";
-import { I18nProvider, useI18n } from "@/lib/i18n";
+import { I18nProvider } from "@/lib/i18n";
 import { SiteLogo } from "@/components/site-logo";
-import { CreatorCredit } from "@/components/creator-credit";
+import { KnowledgeSidebar } from "@/components/knowledge-sidebar";
 import dynamic from "next/dynamic";
 import { OmniSearch } from "@/components/omni-search";
 // Non-critical shell UI — deferred so the dataset + search engine (pulled by the
-// command palette) and floating helpers stay out of the shared layout chunk and
-// off the first-paint / hydration path on every page. ssr:false: none render on
-// first paint, all are interaction- or effect-triggered.
+// command palette) and floating helpers stay off the first-paint path.
 const CommandPalette = dynamic(() => import("@/components/command-palette").then((m) => m.CommandPalette), { ssr: false });
 const FindHighlighter = dynamic(() => import("@/components/find-highlighter").then((m) => m.FindHighlighter), { ssr: false });
 const OnboardingDrawer = dynamic(() => import("@/components/onboarding-drawer").then((m) => m.OnboardingDrawer), { ssr: false });
@@ -23,114 +18,57 @@ const PageHelp = dynamic(() => import("@/components/page-help").then((m) => m.Pa
 const UXSettings = dynamic(() => import("@/components/ux-settings").then((m) => m.UXSettings), { ssr: false });
 import { MobileTabBar } from "@/components/mobile-tab-bar";
 import { WowToast } from "@/components/wow-toast";
-import { Search } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { LangSwitch } from "@/components/lang-switch";
 import { playClick } from "@/lib/sound";
 
-function NavLink({ href, children, exact, group }: { href: string; children: React.ReactNode; exact?: boolean; group: string }) {
-  const path = usePathname() || "/";
-  const active = exact ? path === href : path === href || path.startsWith(href);
-  return (
-    <Link href={href} onClick={() => playClick()} aria-current={active ? "page" : undefined}
-      className={`relative flex shrink-0 items-center gap-1 whitespace-nowrap rounded-lg px-2.5 py-1.5 transition-colors active:scale-95 2xl:px-3 ${active ? "text-brand" : "text-white/90 hover:bg-white/15 hover:text-white"}`}>
-      {active && (
-        <motion.span layoutId={`nav-active-${group}`} aria-hidden
-          className="absolute inset-0 -z-10 rounded-lg bg-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.25)]"
-          transition={{ type: "spring", stiffness: 420, damping: 34 }} />
-      )}
-      {children}
-    </Link>
-  );
-}
-
-// Centers Command Hub (full-width mega panel) replaces the old dropdown —
-// see components/centers-mega-menu.tsx.
-
+// Slim, neutral top bar (Design System v2). Hairline + faint brand accent line;
+// primary navigation lives in the persistent left knowledge tree, not here.
 function Header() {
-  const { t } = useI18n();
   return (
-    <header className="sticky top-0 z-50 border-b border-black/10 bg-gradient-to-l from-brand-dark via-brand to-brand text-brand-foreground shadow-lg shadow-brand/25 before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-white/25">
-      <div className="container-app flex flex-col gap-3 py-3 xl:flex-row xl:items-center xl:justify-between">
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5">
-            <Link href="/" className="shrink-0 transition-transform hover:scale-[1.02]" onClick={() => playClick()}>
-              <SiteLogo />
-            </Link>
-          </div>
-          <div className="xl:hidden">
-            <LangSwitch />
-          </div>
-        </div>
-        <div className="min-w-0 xl:flex xl:flex-1 xl:justify-center">
+    <header className="sticky top-0 z-50 h-14 border-b border-hairline bg-surface/85 backdrop-blur-md before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-gradient-to-l before:from-brand before:via-brand before:to-brand-dark">
+      <div className="flex h-14 items-center gap-2 px-3 sm:gap-3 sm:px-4">
+        <button onClick={() => window.dispatchEvent(new Event("neo:open-sidebar"))} aria-label="פתח ניווט"
+          className="tap grid size-9 shrink-0 place-items-center rounded-lg text-ink-2 hover:bg-black/[0.05] lg:hidden">
+          <Menu className="size-5" />
+        </button>
+        <Link href="/" onClick={() => playClick()} className="shrink-0 transition-transform hover:scale-[1.01]">
+          <SiteLogo tone="dark" />
+        </Link>
+        <div className="mx-auto min-w-0 max-w-2xl flex-1">
           <OmniSearch />
         </div>
-        <nav aria-label="ניווט ראשי" className="hidden shrink-0 items-center gap-0.5 text-sm font-medium xl:flex 2xl:gap-1">
-          <NavLink href="/" exact group="d">{t("nav.home")}</NavLink>
-          <NavLink href="/learn/" group="d"><GraduationCap className="size-3.5" />{t("nav.learn")}</NavLink>
-          <NavLink href="/certification/" group="d"><Award className="size-3.5" />הסמכה</NavLink>
-          <NavLink href="/pm/" group="d">{t("nav.pm")}</NavLink>
-          <NavLink href="/pp-pi/" group="d">{t("nav.ppi")}</NavLink>
-          <NavLink href="/sap-infrastructure/" group="d">{t("nav.infra")}</NavLink>
-          <CentersMegaMenu />
-          <NavLink href="/library/" group="d">{t("nav.library")}</NavLink>
-          <NavLink href="/knowledge/" group="d"><BrainCircuit className="size-3.5" />{t("nav.knowledge")}</NavLink>
-          <NavLink href="/incidents/" group="d"><Wrench className="size-3.5" />תקלות</NavLink>
-          <NavLink href="/chat/" group="d"><Sparkles className="size-3.5" />{t("nav.chat")}</NavLink>
-          <div className="ms-2">
-            <LangSwitch />
-          </div>
-        </nav>
-      </div>
-      {/* creator credit — sits on a white strip directly under the red bar, glowing red */}
-      <div className="border-t border-black/10 bg-white">
-        <div className="container-app flex justify-center py-1.5">
-          <CreatorCredit />
+        <div className="shrink-0">
+          <LangSwitch />
         </div>
       </div>
-      {/* mobile/tablet navigation now lives in the bottom tab bar (thumb-reachable) */}
     </header>
-  );
-}
-
-function PageTransition({ children }: { children: React.ReactNode }) {
-  // No JS-gated opacity / exit-fade wrapper here. An AnimatePresence exit
-  // animation can leave (or bfcache can restore) the page at opacity:0 on
-  // browser BACK navigation → permanent white screen. Content must always
-  // render visible. Per-page entrance polish lives inside each page, never
-  // as a global reveal gate.
-  return <main id="main" className="container-app flex-1 pt-6 pb-24 sm:pt-8 xl:pb-8"><GlobalBack />{children}</main>;
-}
-
-// Omnipresent search trigger — opens ⌘K palette from any page (bottom-start,
-// opposite the UX-settings dock). Reinforces search as the portal entry point.
-function SearchFab() {
-  return (
-    <button
-      onClick={() => window.dispatchEvent(new Event("neo:open-palette"))}
-      aria-label="חיפוש (⌘K)"
-      className="no-print group fixed bottom-5 start-5 z-40 flex items-center gap-2 rounded-full bg-brand px-4 py-3 text-sm font-bold text-brand-foreground shadow-xl shadow-brand/35 transition-transform hover:scale-105 active:scale-95">
-      <Search className="size-5" />
-      <span className="hidden sm:inline">חיפוש</span>
-      <kbd className="hidden rounded border border-white/30 bg-white/15 px-1.5 py-0.5 text-[11px] font-semibold sm:inline">⌘K</kbd>
-    </button>
   );
 }
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <I18nProvider>
-      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-3 focus:z-[60] focus:rounded-lg focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:font-bold focus:text-brand focus:shadow-lg">דלג לתוכן</a>
-      <Header />
-      <PageTransition>{children}</PageTransition>
-      <Footer />
-      {/* secondary floating actions — desktop only; on phone/tablet they live in the bottom tab bar / "עוד" sheet */}
+      <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-3 focus:z-[90] focus:rounded-lg focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:font-bold focus:text-brand focus:shadow-lg">דלג לתוכן</a>
+      <div className="flex min-h-full flex-col">
+        <Header />
+        <div className="flex flex-1">
+          <KnowledgeSidebar />
+          <main id="main" className="min-w-0 flex-1">
+            <div className="container-app pt-6 pb-24 sm:pt-8 xl:pb-10">
+              <GlobalBack />
+              {children}
+            </div>
+          </main>
+        </div>
+        <Footer />
+      </div>
+      {/* secondary floating actions — desktop only; on phone/tablet they live in the bottom tab bar */}
       <div className="max-xl:hidden">
-        <SearchFab />
         <PageHelp />
         <UXSettings />
       </div>
-      {/* always-mounted (modal/effect; opened via events from the tab bar on mobile) */}
+      {/* always-mounted (modal/effect; opened via events / ⌘K) */}
       <CommandPalette />
       <FindHighlighter />
       <OnboardingDrawer />
