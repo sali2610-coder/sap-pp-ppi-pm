@@ -38,6 +38,14 @@ function Header() {
         <div className="mx-auto min-w-0 max-w-2xl flex-1">
           <OmniSearch />
         </div>
+        {/* creator signature — premium product mark, not an ad. Always in the header. */}
+        <div dir="ltr" className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap text-[11.5px] font-semibold leading-none md:flex"
+          aria-label="Built by Sali Halif · Project NEO">
+          <span className="text-ink-3">Built by</span>
+          <b className="font-extrabold tracking-tight text-brand">Sali&nbsp;Halif</b>
+          <span aria-hidden className="text-ink-3/50">·</span>
+          <span className="text-ink-3">Project&nbsp;NEO</span>
+        </div>
         <div className="shrink-0">
           <LangSwitch />
         </div>
