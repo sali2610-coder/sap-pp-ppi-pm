@@ -10,15 +10,25 @@ import {
 } from "lucide-react";
 import { playClick } from "@/lib/sound";
 
-type Item = { href: string; icon: typeof Home; label: string };
+type Child = { href: string; label: string };
+type Item = { href: string; icon: typeof Home; label: string; children?: Child[] };
 type Group = { id: string; label: string; items: Item[] };
+
+// module documentation sections (kept in sync with lib/module-portal SECTIONS;
+// inlined here so the heavy module dataset never enters the client bundle).
+const MODULE_SECTIONS: [string, string][] = [
+  ["business-process", "תהליך עסקי"], ["master-data", "נתוני אב"], ["transactions", "טרנזקציות"],
+  ["tables", "טבלאות"], ["bapis", "BAPIs / FMs"], ["cds", "CDS Views"], ["fiori", "Fiori Apps"],
+  ["configuration", "תצורה"], ["integration", "אינטגרציה"], ["troubleshooting", "תקלות"], ["related", "אובייקטים קשורים"],
+];
+const moduleChildren = (base: string): Child[] => MODULE_SECTIONS.map(([slug, label]) => ({ href: `${base}${slug}/`, label }));
 
 // Docs-portal information architecture — knowledge tree, not a workbook.
 // Grouped sections instead of nested tab bars. Real routes only.
 const NAV: Group[] = [
   { id: "modules", label: "מודולים", items: [
-    { href: "/pm/", icon: Wrench, label: "אחזקה · PM" },
-    { href: "/pp-pi/", icon: FlaskConical, label: "ייצור · PP-PI" },
+    { href: "/pm/", icon: Wrench, label: "אחזקה · PM", children: moduleChildren("/pm/") },
+    { href: "/pp-pi/", icon: FlaskConical, label: "ייצור · PP-PI", children: moduleChildren("/pp-pi/") },
     { href: "/sap-infrastructure/", icon: GitBranch, label: "מודל נתונים" },
   ]},
   { id: "reference", label: "עיון · Reference", items: [
@@ -56,14 +66,37 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
   const Row = ({ it }: { it: Item }) => {
     const active = isActive(path, it.href);
     const Ic = it.icon;
+    const hasChildren = !collapsed && !!it.children?.length;
+    const underHere = path.startsWith(it.href);
+    const expanded = open[it.href] !== undefined ? open[it.href] : underHere; // auto-open when inside
     return (
-      <Link href={it.href} onClick={() => { playClick(); onNavigate?.(); }} title={collapsed ? it.label : undefined}
-        aria-current={active ? "page" : undefined}
-        className={`group relative flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-[13.5px] font-medium transition-colors ${collapsed ? "justify-center" : ""} ${active ? "bg-brand/8 text-brand" : "text-ink-2 hover:bg-black/[0.04] hover:text-ink-1"}`}>
-        {active && <span aria-hidden className="absolute inset-y-1 start-0 w-[3px] rounded-full bg-brand" />}
-        <Ic className={`size-[17px] shrink-0 ${active ? "text-brand" : "text-ink-3 group-hover:text-ink-2"}`} />
-        {!collapsed && <span className="truncate">{it.label}</span>}
-      </Link>
+      <div>
+        <div className={`group relative flex items-center rounded-lg text-[13.5px] font-medium transition-colors ${active && path === it.href ? "bg-brand/8 text-brand" : "text-ink-2 hover:bg-black/[0.04] hover:text-ink-1"}`}>
+          {active && path === it.href && <span aria-hidden className="absolute inset-y-1 start-0 w-[3px] rounded-full bg-brand" />}
+          <Link href={it.href} onClick={() => { playClick(); onNavigate?.(); }} title={collapsed ? it.label : undefined}
+            aria-current={path === it.href ? "page" : undefined}
+            className={`flex min-w-0 flex-1 items-center gap-2.5 px-2.5 py-1.5 ${collapsed ? "justify-center" : ""}`}>
+            <Ic className={`size-[17px] shrink-0 ${active ? "text-brand" : "text-ink-3 group-hover:text-ink-2"}`} />
+            {!collapsed && <span className="truncate">{it.label}</span>}
+          </Link>
+          {hasChildren && (
+            <button onClick={() => toggle(it.href)} aria-label="הרחב" className="me-1 rounded p-1 text-ink-3 hover:text-ink-1">
+              <ChevronDown className={`size-3.5 transition-transform ${expanded ? "" : "-rotate-90"}`} />
+            </button>
+          )}
+        </div>
+        {hasChildren && expanded && (
+          <div className="mt-0.5 flex flex-col gap-0.5 border-s border-hairline pe-2 ps-3.5">
+            {it.children!.map((ch) => { const chActive = path === ch.href; return (
+              <Link key={ch.href} href={ch.href} onClick={() => { playClick(); onNavigate?.(); }} aria-current={chActive ? "page" : undefined}
+                className={`relative rounded-lg px-2 py-1 text-[12.5px] transition-colors ${chActive ? "font-bold text-brand" : "text-ink-3 hover:bg-black/[0.04] hover:text-ink-1"}`}>
+                {chActive && <span aria-hidden className="absolute inset-y-1 start-0 w-[2px] rounded-full bg-brand" />}
+                {ch.label}
+              </Link>
+            ); })}
+          </div>
+        )}
+      </div>
     );
   };
 

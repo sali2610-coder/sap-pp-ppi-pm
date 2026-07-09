@@ -1,8 +1,11 @@
 import { PM_DATA } from "@/data/sapData.pm";
-import { ModuleHub } from "@/components/module-hub";
+import { ModulePortal } from "@/components/module-portal";
 
-export const metadata = { title: "SAP PM Hub · Project NEO" };
+export const metadata = {
+  title: "SAP PM — Plant Maintenance",
+  description: "פורטל תיעוד ל-SAP PM (אחזקת מפעל): ארכיטקטורה, תהליך, נתוני אב, טבלאות, טרנזקציות, BAPIs, CDS, Fiori, תצורה, אינטגרציה ותקלות. ECC6 → S/4HANA.",
+};
 
 export default function PMPage() {
-  return <ModuleHub module={PM_DATA} />;
+  return <ModulePortal module={PM_DATA} slug="pm" />;
 }

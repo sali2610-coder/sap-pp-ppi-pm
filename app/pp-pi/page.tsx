@@ -1,8 +1,11 @@
 import { PPPI_DATA } from "@/data/sapData.pppi";
-import { ModuleHub } from "@/components/module-hub";
+import { ModulePortal } from "@/components/module-portal";
 
-export const metadata = { title: "SAP PP-PI Hub · Project NEO" };
+export const metadata = {
+  title: "SAP PP-PI — Process Industries",
+  description: "פורטל תיעוד ל-SAP PP-PI (ייצור תהליכי): ארכיטקטורה, תהליך, נתוני אב, טבלאות, טרנזקציות, BAPIs, CDS, Fiori, תצורה, אינטגרציה ותקלות. ECC6 → S/4HANA.",
+};
 
 export default function PPPIPage() {
-  return <ModuleHub module={PPPI_DATA} />;
+  return <ModulePortal module={PPPI_DATA} slug="pp-pi" />;
 }
