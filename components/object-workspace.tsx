@@ -10,6 +10,7 @@ import {
   Presentation, FileCode2, BrainCircuit,
 } from "lucide-react";
 import { ObjectIntelligence } from "@/components/object-intelligence";
+import { ObjectExpert } from "@/components/object-expert";
 import { objectIntel } from "@/lib/data";
 import { classifyFunc, cleanFunc, funcHref } from "@/lib/object-intel";
 import { cdsForTable } from "@/data/cds-map";
@@ -291,117 +292,7 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
       </div>
 
       <motion.div key={tab} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }} className="space-y-5">
-        {tab === "wiki" && (() => {
-          const jump = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-          const NAV: [string, string][] = [["w-purpose", "מטרה"], ["w-scenarios", "תרחישים"], ["w-actors", "מי עושה מה"], ["w-path", "מסלול E2E"], ["w-s4", "ECC↔S/4"], ["w-related", "קשרים"], ["w-trouble", "תקלות ו-Debug"], ["w-best", "Best Practices"], ["w-mfg", "הארגון"], ["w-interview", "ראיון"]];
-          const Chips = ({ items, color, ltr }: { items: string[]; color?: string; ltr?: boolean }) => (
-            <div className="flex flex-wrap gap-1.5">{items.map((x) => <span key={x} dir={ltr ? "ltr" : undefined} className="rounded-lg border px-2 py-0.5 text-[11px] font-bold" style={{ borderColor: (color || "#cbd5e1") + "55", background: (color || "#f1f5f9") + "12", color: color || "#475569" }}>{x}</span>)}</div>
-          );
-          const List = ({ items, color }: { items: string[]; color: string }) => (
-            <ul className="space-y-1">{items.map((x, i) => <li key={i} className="flex gap-1.5 text-[13px] leading-relaxed text-slate-700"><span className="mt-1.5 size-1.5 shrink-0 rounded-full" style={{ background: color }} />{x}</li>)}</ul>
-          );
-          const path = ix?.learningPath?.length ? ix.learningPath : [...[...upPath].reverse(), ...downPath.slice(1)];
-          // learning-path progress: locate the current object in the chain → ✔ before / ▶ current / ○ after
-          let curIdx = path.findIndex((s) => s === name || s.includes(name) || s === t.descriptionHe);
-          if (curIdx < 0) curIdx = path.findIndex((s) => s.includes(t.descriptionHe?.slice(0, 6) || " "));
-          const timelineSteps: TimelineStep[] = path.map((s, i) => {
-            const tok = (s.match(/\b[A-Z][A-Z0-9_]{2,}\b/) || [])[0];
-            return { label: s, code: tok, href: tok && tableByName(tok) ? `/object/${encodeURIComponent(tok)}/` : undefined, state: curIdx < 0 ? "todo" : i < curIdx ? "done" : i === curIdx ? "current" : "todo" };
-          });
-          return (
-            <div className="space-y-5">
-              {/* in-page section nav — "on this page", sticky */}
-              <div className="no-print sticky top-[6.5rem] z-20 flex flex-wrap items-center gap-1 rounded-xl border border-hairline bg-surface/90 p-1.5 backdrop-blur">
-                <span className="eyebrow-2 px-1.5">בעמוד</span>
-                {NAV.map(([id, lbl]) => <button key={id} onClick={() => jump(id)} className="rounded-lg px-2.5 py-1 text-[11.5px] font-semibold text-ink-3 transition hover:bg-brand/10 hover:text-brand">{lbl}</button>)}
-                <span className="ms-auto self-center px-2 text-[10px] font-medium text-ink-3">{ix ? "תוכן יועצי מאומת" : "ידע נגזר · חלק מהשדות גנריים"}</span>
-              </div>
-
-              {/* purpose + functional */}
-              <div id="w-purpose"><Section title="מטרה עסקית והסבר פונקציונלי" icon={<Lightbulb className="size-4" style={{ color: c }} />}>
-                {k ? <><p className="text-[14px] font-bold text-slate-800">{k.role}</p><p className="mt-1 text-[13px] leading-relaxed text-slate-600">{k.why}</p>{k.whenUsed && <p className="mt-1 text-[13px] text-slate-500"><span className="font-bold text-slate-600">מתי: </span>{k.whenUsed}</p>}</> : <p className="text-[13px] text-slate-600">{t.descriptionHe || t.descriptionEn}</p>}
-                {t.guideHe && <p className="mt-2 rounded-xl bg-slate-50 p-3 text-[13px] leading-relaxed text-slate-600">{t.guideHe}</p>}
-              </Section></div>
-
-              {/* scenarios */}
-              {ix?.scenarios?.length ? <div id="w-scenarios"><Section title="תרחישים עסקיים טיפוסיים" icon={<Sparkles className="size-4" style={{ color: c }} />}><List items={ix.scenarios} color={c} /></Section></div> : <div id="w-scenarios" />}
-
-              {/* actors */}
-              <div id="w-actors"><Section title="מי יוצר · מי קורא · מי מעדכן" icon={<Users className="size-4" style={{ color: c }} />}>
-                {!ix && <p className="mb-2 text-[11px] font-bold text-amber-600">תפקידים גנריים נגזרים מהמודול — לא מאומת-ספציפי</p>}
-                <div className="grid gap-3 sm:grid-cols-3">
-                  {([["יוצר", actors.creates, "#16a34a"], ["קורא", actors.reads, "#2563eb"], ["מעדכן", actors.updates, "#d97706"]] as [string, string[], string][]).map(([lbl, arr, col]) => (
-                    <div key={lbl} className="rounded-xl border border-slate-100 bg-slate-50/60 p-3"><div className="mb-1.5 text-[11px] font-bold uppercase" style={{ color: col }}>{lbl}</div><ul className="space-y-1">{arr.map((a, i) => <li key={i} className="text-[12px] text-slate-600">• {a}</li>)}</ul></div>
-                  ))}
-                </div>
-              </Section></div>
-
-              {/* E2E path / learning-path progress */}
-              <div id="w-path"><Section title="מיקום בתהליך · מסלול למידה" icon={<Route className="size-4" style={{ color: c }} />}>
-                <p className="mb-2 text-[11px] font-bold text-slate-400">✔ הושלם · ▶ אתה כאן · ○ בהמשך</p>
-                <ProcessTimeline steps={timelineSteps} accent={c} dense />
-                <Link href={`/process/${encodeURIComponent(`${t.module}-${t.topicIdx}`)}`} className="mt-2 inline-flex items-center gap-1 text-[12px] font-bold text-brand hover:underline">{t.topicTitle} ↗</Link>
-              </Section></div>
-
-              {/* ECC vs S/4 */}
-              <div id="w-s4"><Section title="ECC מול S/4HANA" icon={<ArrowRightLeft className="size-4" style={{ color: c }} />}>
-                <p className="text-[13px] leading-relaxed text-slate-700">{k?.s4 || t.s4Note || s4Impact}</p>
-                {t.s4AltTable && <p className="mt-1 text-[12px] text-slate-500">חלופה ב-S/4: <span className="font-bold text-slate-700" dir="ltr">{t.s4AltTable}</span></p>}
-              </Section></div>
-
-              {/* related grid */}
-              <div id="w-related"><Section title="אובייקטים וממשקים קשורים" icon={<GitBranch className="size-4" style={{ color: c }} />}>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {relatedObjs.length > 0 && <div><div className="eyebrow mb-1 text-slate-400">טבלאות מקושרות</div><div className="flex flex-wrap gap-1.5">{relatedObjs.map((n) => <SapTip key={n} name={n} bare><button onClick={() => go(n)} className="tech rounded-lg bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600 hover:bg-brand/10 hover:text-brand" dir="ltr">{n}</button></SapTip>)}</div></div>}
-                  {cds.length > 0 && <div><div className="eyebrow mb-1 text-slate-400">CDS Views</div><Chips items={cds.map((v) => v.view)} color="#0d9488" ltr /></div>}
-                  {intel?.bapis?.length ? <div><div className="eyebrow mb-1 text-slate-400">BAPIs / FM</div><Chips items={intel.bapis} color="#2563eb" ltr /></div> : null}
-                  {intel?.tcodes?.length ? <div><div className="eyebrow mb-1 text-slate-400">טרנזקציות</div><div className="flex flex-wrap gap-1.5">{intel.tcodes.map((tc) => <Link key={tc} href={`/tcode/${encodeURIComponent(tc)}/`} className="tech rounded-lg bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600 hover:text-brand" dir="ltr">{tc}</Link>)}</div></div> : null}
-                  {t.fioriApp && <div><div className="eyebrow mb-1 text-slate-400">Fiori</div><Chips items={[t.fioriApp]} color="#0369a1" /></div>}
-                  {ix?.classesApis?.length ? <div><div className="eyebrow mb-1 text-slate-400">Classes / APIs</div><Chips items={ix.classesApis} color="#7c3aed" ltr /></div> : null}
-                  {wikiInteg.length > 0 && <div><div className="eyebrow mb-1 text-slate-400">נקודות אינטגרציה</div><Chips items={wikiInteg} color="#6d28d9" /></div>}
-                </div>
-                <div className="mt-3 flex flex-wrap gap-1.5 border-t border-slate-100 pt-3">
-                  <button onClick={() => setTab("relations")} className="rounded-lg bg-slate-900 px-2.5 py-1 text-[11px] font-bold text-white">גרף קשרים</button>
-                  <Link href={`/graph/?node=${encodeURIComponent(name)}`} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 hover:bg-slate-200">גרף גלובלי</Link>
-                  <Link href={`/impact/${encodeURIComponent(name)}/`} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 hover:bg-slate-200">ניתוח השפעה</Link>
-                </div>
-              </Section></div>
-
-              {/* troubleshooting + debug */}
-              <div id="w-trouble"><Section title="תקלות נפוצות · Debug · OSS" icon={<AlertTriangle className="size-4 text-amber-500" />}>
-                <div className="grid gap-3 lg:grid-cols-2">
-                  {wikiMistakes.length > 0 && <div><div className="eyebrow mb-1 text-rose-500">טעויות / גורמי שורש</div><List items={wikiMistakes} color="#dc2626" /></div>}
-                  {wikiDebug.length > 0 && <div><div className="eyebrow mb-1 text-violet-500">נקודות Debug</div><List items={wikiDebug} color="#7c3aed" /></div>}
-                </div>
-                {wikiBreak.length > 0 && <div className="mt-2"><div className="eyebrow mb-1 text-pink-500">Breakpoints</div><Chips items={wikiBreak} color="#be185d" ltr /></div>}
-                {wikiOss.length > 0 && <div className="mt-2"><div className="eyebrow mb-1 text-amber-600">OSS — מילות חיפוש</div><Chips items={wikiOss} color="#b45309" ltr /></div>}
-                {inc.length > 0 && <div className="mt-2 flex flex-wrap gap-1.5">{inc.slice(0, 5).map((i) => <Link key={i.slug} href={`/troubleshooting/${i.slug}/`} className="rounded-lg bg-rose-50 px-2.5 py-1 text-[11px] font-bold text-rose-700 ring-1 ring-rose-200 hover:bg-rose-100">{i.he} ←</Link>)}</div>}
-                {wikiMistakes.length === 0 && wikiDebug.length === 0 && inc.length === 0 && <List items={trouble} color="#d97706" />}
-              </Section></div>
-
-              {/* best practices + consultant notes */}
-              <div id="w-best"><Section title="Best Practices · הערות יועץ" icon={<Sparkles className="size-4 text-emerald-500" />}>
-                {ix?.bestPractices?.length ? <List items={ix.bestPractices} color="#16a34a" /> : <p className="text-[12px] text-slate-400">— אין Best Practices ייעודיים לאובייקט זה עדיין</p>}
-                {(cn?.fnNotes?.length || cn?.techNotes?.length) ? <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  {cn?.fnNotes?.length ? <div><div className="eyebrow mb-1 text-amber-600">הערות פונקציונליות</div><List items={cn.fnNotes} color="#d97706" /></div> : null}
-                  {cn?.techNotes?.length ? <div><div className="eyebrow mb-1 text-blue-600">הערות טכניות</div><List items={cn.techNotes} color="#2563eb" /></div> : null}
-                </div> : null}
-              </Section></div>
-
-              {/* הארגון */}
-              <div id="w-mfg"><Section title="דוגמאות ייצור — הארגון" icon={<StickyNote className="size-4" style={{ color: RED }} />}>
-                {inc.some((i) => i.scenario) ? <div className="space-y-1.5">{inc.filter((i) => i.scenario).slice(0, 4).map((i) => <p key={i.slug} className="rounded-xl bg-emerald-50/70 px-3 py-2 text-[12.5px] leading-relaxed text-emerald-900">{i.scenario}</p>)}</div> : <p className="text-[12px] text-slate-400">— הוסף דוגמת הארגון בלשונית “הערות יישום”</p>}
-              </Section></div>
-
-              {/* interview */}
-              {iqs.length > 0 && <div id="w-interview"><Section title="שאלות ראיון" icon={<GraduationCap className="size-4" style={{ color: c }} />}>
-                <div className="space-y-2">{iqs.map((iq, i) => { const lc = iq.level === "junior" ? "bg-blue-100 text-blue-700" : iq.level === "senior" ? "bg-violet-100 text-violet-700" : "bg-rose-100 text-rose-700"; const ll = iq.level === "junior" ? "Junior" : iq.level === "senior" ? "Senior" : "Architect"; return (
-                  <div key={i} className="rounded-xl border border-slate-100 bg-slate-50/60 p-3"><p className="text-[13px] font-bold text-slate-800"><span className={`me-1.5 rounded px-1.5 py-0.5 text-[9px] font-extrabold ${lc}`}>{ll}</span>{iq.q}</p>{iq.aHe && <p className="mt-1 text-[12px] leading-relaxed text-slate-500">{iq.aHe}</p>}</div>
-                ); })}</div>
-              </Section></div>}
-            </div>
-          );
-        })()}
+        {tab === "wiki" && <ObjectExpert name={t.tableName} accent={c} />}
         {tab === "overview" && (
           <>
             {/* executive summary */}
