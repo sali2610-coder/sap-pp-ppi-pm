@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
+import { SmartLink as Link } from "@/components/smart-link";
 import { Sigma, Database, LayoutGrid, Layers, Search, ArrowLeft, GitBranch } from "lucide-react";
 import { SapTip } from "@/components/sap-tip";
 import { EmptyState } from "@/components/ui/empty-state";

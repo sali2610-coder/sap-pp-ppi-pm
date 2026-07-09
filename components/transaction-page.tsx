@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
+import { SmartLink as Link } from "@/components/smart-link";
 import { Terminal, ArrowLeft, ArrowRightLeft, Lightbulb, GraduationCap, Sparkles, Boxes, GitBranch, Route, FileText, Workflow, Star, ChevronDown, AppWindow, Database, ShieldCheck, Cable, Wrench } from "lucide-react";
 import { txIntel, txRecommend, txLeadingInto, txExists } from "@/lib/tx-intel";
 import { registryTx } from "@/lib/tx-registry";

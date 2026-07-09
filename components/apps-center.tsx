@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import Link from "next/link";
+import { SmartLink as Link } from "@/components/smart-link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Search, Terminal, LayoutGrid, Sigma, ArrowLeft, Sparkles, Star, GitCompare } from "lucide-react";
 import { searchApps, appObject, criticality, FEATURED, type SearchHit } from "@/lib/apps-intel";

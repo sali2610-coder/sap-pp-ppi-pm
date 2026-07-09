@@ -20,7 +20,7 @@ const MOD_ICON: Record<string, typeof Wrench> = { PM: Wrench, "PP-PI": FlaskConi
 
 function SearchHero({ counts }: { counts: PortalCounts }) {
   const open = () => { playClick(); window.dispatchEvent(new Event("neo:open-palette")); };
-  const chips = ["EQUI", "IW31", "MARA", "AFKO", "BAPI_EQUI_CREATE"];
+  const chips = ["EQUI", "IFLOT", "QMEL", "MARA", "AFKO"];
   return (
     <section dir="rtl" className="pt-2 text-center">
       <span className="eyebrow-2 inline-flex items-center gap-1.5"><span className="size-1.5 rounded-full bg-brand" />SAP Knowledge Platform</span>
@@ -115,7 +115,7 @@ function ModulePortals({ modules }: { modules: ModuleCard[] }) {
 function ReferenceGrid({ counts }: { counts: PortalCounts }) {
   const items = [
     { href: "/tables/", icon: Table, label: "טבלאות", n: counts.tables, en: "Tables" },
-    { href: "/tcode-dir/", icon: Terminal, label: "טרנזקציות", n: counts.transactions, en: "T-Codes" },
+    { href: "/transactions/", icon: Terminal, label: "טרנזקציות", n: counts.transactions, en: "T-Codes" },
     { href: "/bapi/", icon: Plug, label: "BAPIs / FMs", n: counts.bapis + counts.fms, en: "Function modules" },
     { href: "/idoc/", icon: Cable, label: "IDocs", n: counts.idocs, en: "Interfaces" },
     { href: "/cds/", icon: Sigma, label: "CDS Views", n: counts.cds, en: "S/4HANA views" },

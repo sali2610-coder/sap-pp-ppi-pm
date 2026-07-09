@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { SmartLink as Link } from "@/components/smart-link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Terminal, LayoutGrid, ArrowLeft, ArrowDown, Target, Briefcase, GraduationCap, Wrench, AlertTriangle,

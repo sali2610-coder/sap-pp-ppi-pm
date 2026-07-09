@@ -34,7 +34,7 @@ const NAV: Group[] = [
   ]},
   { id: "reference", label: "עיון · Reference", items: [
     { href: "/tables/", icon: Table, label: "טבלאות" },
-    { href: "/tcode-dir/", icon: Terminal, label: "טרנזקציות" },
+    { href: "/transactions/", icon: Terminal, label: "טרנזקציות" },
     { href: "/bapi/", icon: Plug, label: "BAPIs / FMs" },
     { href: "/idoc/", icon: Cable, label: "IDocs" },
     { href: "/cds/", icon: Sigma, label: "CDS Views" },

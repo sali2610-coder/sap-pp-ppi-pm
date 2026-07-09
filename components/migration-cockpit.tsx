@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState, useEffect } from "react";
-import Link from "next/link";
+import { SmartLink as Link } from "@/components/smart-link";
 import { Database, Boxes, Network, Gauge, ShieldCheck, AlertTriangle, Play, ArrowLeft, Search, Layers, CheckCircle2, ListChecks, FileStack, GitCompare } from "lucide-react";
 import { APPROACHES, MIG_OBJECTS, MIG_ERRORS, QUALITY_DIMS, READINESS, MIG_CHECKLIST, MIG_LOAD_LAYERS, MIG_META, type MigObj, type MigCat } from "@/data/migration-cockpit";
 import { RelatedCenters } from "@/components/related-centers";

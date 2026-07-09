@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState, useRef, useEffect } from "react";
-import Link from "next/link";
+import { SmartLink as Link } from "@/components/smart-link";
 import { Layers, GitCompare, Database, Boxes, Plug, ShieldCheck, LayoutGrid, FileSearch, Rocket, FlaskConical, ClipboardCheck, Lightbulb, ArrowLeft, Search, TrendingUp, AlertTriangle, Code2, ArrowRightLeft } from "lucide-react";
 import { ECC_S4_TOPICS, STATUS_HE, STATUS_COLOR, type ChangeStatus } from "@/data/ecc-s4";
 import { S4_IMPACT } from "@/data/s4-impact";
