@@ -20,7 +20,7 @@ const MOD_ICON: Record<string, typeof Wrench> = { PM: Wrench, "PP-PI": FlaskConi
 
 function SearchHero({ counts }: { counts: PortalCounts }) {
   const open = () => { playClick(); window.dispatchEvent(new Event("neo:open-palette")); };
-  const chips = ["EQUI", "IW31", "MARA", "AFKO", "BAPI_EQUI_CREATE"];
+  const chips = ["EQUI", "IFLOT", "QMEL", "MARA", "AFKO"];
   return (
     <section dir="rtl" className="pt-2 text-center">
       <span className="eyebrow-2 inline-flex items-center gap-1.5"><span className="size-1.5 rounded-full bg-brand" />SAP Knowledge Platform</span>
@@ -51,7 +51,7 @@ function SearchHero({ counts }: { counts: PortalCounts }) {
       <div className="mx-auto mt-6 flex max-w-2xl flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-[12.5px] font-medium text-ink-3">
         {[
           [counts.tables, "טבלאות"], [counts.fields, "שדות"], [counts.transactions, "טרנזקציות"],
-          [counts.bapis + counts.fms, "BAPIs/FMs"], [counts.cds, "CDS"], [counts.fiori, "Fiori"],
+          [counts.bapis + counts.fms, "BAPIs / FMs"], [counts.cds, "CDS"], [counts.fiori, "Fiori"],
         ].map(([n, label], i) => (
           <span key={label as string} className="inline-flex items-center gap-1.5">
             {i > 0 && <span className="text-ink-3/50">·</span>}
@@ -115,7 +115,7 @@ function ModulePortals({ modules }: { modules: ModuleCard[] }) {
 function ReferenceGrid({ counts }: { counts: PortalCounts }) {
   const items = [
     { href: "/tables/", icon: Table, label: "טבלאות", n: counts.tables, en: "Tables" },
-    { href: "/tcode-dir/", icon: Terminal, label: "טרנזקציות", n: counts.transactions, en: "T-Codes" },
+    { href: "/transactions/", icon: Terminal, label: "טרנזקציות", n: counts.transactions, en: "T-Codes" },
     { href: "/bapi/", icon: Plug, label: "BAPIs / FMs", n: counts.bapis + counts.fms, en: "Function modules" },
     { href: "/idoc/", icon: Cable, label: "IDocs", n: counts.idocs, en: "Interfaces" },
     { href: "/cds/", icon: Sigma, label: "CDS Views", n: counts.cds, en: "S/4HANA views" },

@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import { SmartLink as Link } from "@/components/smart-link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
-  ArrowRight, ArrowLeft, KeyRound, Link2, Terminal, Boxes, FileCode, AppWindow,
+  ArrowRight, ArrowLeft, KeyRound, Terminal, Boxes, FileCode, AppWindow,
   GitBranch, Workflow, BookOpen, Wrench, StickyNote, LayoutGrid, Database, AlertTriangle, MapPin, TrendingUp, Cable,
   Presentation, FileCode2, BrainCircuit,
 } from "lucide-react";
@@ -28,10 +28,7 @@ import { objectConnections } from "@/lib/object-graph";
 import { CONSULTANT_NOTES } from "@/data/consultant-notes";
 import { INCIDENTS } from "@/data/troubleshooting";
 import { s4For } from "@/lib/s4";
-import { objectIntelExt, deriveActors } from "@/lib/object-intel-ext";
-import { ScrollText, Users, Sparkles, Route } from "lucide-react";
-import { ProcessTimeline, type TimelineStep } from "@/components/process-timeline";
-import { SapTip } from "@/components/sap-tip";
+import { ScrollText } from "lucide-react";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9" };
 const mc = (m: string) => MOD_COLOR[m] || "#64748b";
@@ -62,11 +59,11 @@ const TROUBLE: Record<string, string[]> = {
 function NodeChip({ name, module, exists, onGo, q = "" }: { name: string; module: string; exists: boolean; onGo: (n: string) => void; q?: string }) {
   const c = mc(module);
   return exists ? (
-    <button onClick={() => onGo(name)} className="tech tap inline-flex items-center gap-1.5 rounded-lg border bg-white px-2.5 py-1 text-xs font-bold transition hover:shadow-sm" style={{ borderColor: c, color: c }} dir="ltr">
+    <button onClick={() => onGo(name)} className="tech tap inline-flex items-center gap-1.5 rounded-lg border bg-surface px-2.5 py-1 text-xs font-bold transition hover:shadow-sm" style={{ borderColor: c, color: c }} dir="ltr">
       <span className="size-1.5 rounded-full" style={{ background: c }} /><Highlight text={name} query={q} />
     </button>
   ) : (
-    <span className="tech inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-bold text-slate-400" dir="ltr">{name}</span>
+    <span className="tech inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-2 px-2.5 py-1 text-xs font-bold text-ink-3" dir="ltr">{name}</span>
   );
 }
 
@@ -102,8 +99,8 @@ function Graph({ name, onGo }: { name: string; onGo: (n: string) => void }) {
   };
 
   return (
-    <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-[radial-gradient(circle_at_1px_1px,#e2e8f0_1px,transparent_0)] [background-size:20px_20px] p-2">
-      <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ minWidth: 560, maxHeight: 420 }}>
+    <div className="overflow-x-auto rounded-2xl border border-hairline bg-[radial-gradient(circle_at_1px_1px,#e2e8f0_1px,transparent_0)] [background-size:20px_20px] p-2">
+      <svg viewBox={`0 0 ${W} ${H}`} width="100%" role="img" aria-label="תרשים קשרי האובייקט — ניווט מקלדת זמין ברשימות הקשרים בלשונית 'קשרים'" style={{ minWidth: 560, maxHeight: 420 }}>
         <defs><filter id="og" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.5" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter></defs>
         {/* labels */}
         <text x={colX.up} y={20} textAnchor="middle" style={{ font: "700 10px sans-serif", fill: "#94a3b8", letterSpacing: "1.5px" }}>UPSTREAM ←</text>
@@ -124,9 +121,9 @@ function Graph({ name, onGo }: { name: string; onGo: (n: string) => void }) {
         <Node x={cx} y={cy} label={g.center.tableName} module={g.center.module} exists center />
       </svg>
       <div className="flex flex-wrap items-center justify-between gap-2 px-2 pb-1 pt-2">
-        <span className="text-[11px] font-semibold text-slate-500">רדיוס השפעה (Blast radius): <span className="font-mono font-bold text-slate-700">{g.upstream.length}</span> מעלה · <span className="font-mono font-bold text-slate-700">{g.downstream.length}</span> מטה</span>
+        <span className="text-[11px] font-semibold text-ink-3">רדיוס השפעה (Blast radius): <span className="font-mono font-bold text-ink-2">{g.upstream.length}</span> מעלה · <span className="font-mono font-bold text-ink-2">{g.downstream.length}</span> מטה</span>
         {(upMore > 0 || downMore > 0 || exp) && (
-          <button onClick={() => setExp((v) => !v)} className="tap rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-bold text-brand transition hover:border-brand">
+          <button onClick={() => setExp((v) => !v)} className="tap rounded-lg border border-hairline bg-surface px-2.5 py-1 text-[11px] font-bold text-brand transition hover:border-brand">
             {exp ? "הצג פחות" : `הצג הכל (+${upMore + downMore})`}
           </button>
         )}
@@ -181,8 +178,8 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
 
   if (!t) return (
     <div className="flex flex-col items-center gap-3 py-20 text-center">
-      <span className="grid size-14 place-items-center rounded-2xl bg-slate-100 text-slate-400"><Database className="size-7" /></span>
-      <p className="text-sm font-bold text-slate-700">האובייקט “{name}” לא נמצא</p>
+      <span className="grid size-14 place-items-center rounded-2xl bg-surface-2 text-ink-3"><Database className="size-7" /></span>
+      <p className="text-sm font-bold text-ink-2">האובייקט “{name}” לא נמצא</p>
       <Link href="/sap-infrastructure/" className="text-sm font-bold text-brand hover:underline">חזרה לארכיטקטורה</Link>
     </div>
   );
@@ -203,6 +200,8 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
   ];
   const execSummary = `${t.tableName} (${t.descriptionHe || t.descriptionEn}) — אובייקט ${t.module} עם ${fields.length} שדות. ${s4Impact}. רדיוס השפעה ${blast} אובייקטים מקושרים, ${g?.downstream.length || 0} מהם תלויים בו (השפעת מיגרציה ${blast >= 8 ? "גבוהה" : blast >= 3 ? "בינונית" : "נמוכה"}). סטטוס מיגרציה נוכחי: ${STATUS_META[status].he}.`;
   const pk = fields.filter((f) => f.key === "PK" || /pk/i.test(String(f.key)));
+  // hide Type/Len columns when the blueprint carries none (e.g. PM) — no blank wall
+  const hasType = fields.some((f) => (f.dt || "").trim() !== "" || (f.len || "").trim() !== "");
   const upPath = tracePath(name, "up"); const downPath = tracePath(name, "down");
   const trouble = TROUBLE[name] || [
     "בדוק Where-Used (SE11 → Where-Used List) לפני שינוי מבנה.",
@@ -211,42 +210,27 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
     "ב-S/4HANA — ודא טבלה/CDS חלופית: " + (t.s4AltTable || t.s4Note || "ללא שינוי מהותי"),
   ];
 
-  // ── Wiki view aggregation — every facet on one page (mini SAP Wiki) ──
-  const k = knowledgeFor(name);
-  const ix = objectIntelExt(name);
-  const actors = ix ? { creates: ix.creates, reads: ix.reads, updates: ix.updates } : deriveActors(t.module);
-  const cn = CONSULTANT_NOTES[name];
-  const inc = INCIDENTS.filter((i) => i.tables.includes(name));
-  const iqs = interviewFor(name);
-  const conn = objectConnections(name);
-  const wikiMistakes = [...new Set([...(cn?.mistakes || []), ...inc.flatMap((i) => i.rootCauses)])].slice(0, 6);
-  const wikiDebug = [...new Set([...(cn?.debug || []), ...inc.flatMap((i) => i.debugEntry || [])])].slice(0, 5);
-  const wikiBreak = [...new Set(inc.flatMap((i) => i.breakpoints || []))].slice(0, 6);
-  const wikiOss = [...new Set([...inc.flatMap((i) => i.oss || []), ...inc.flatMap((i) => i.notes || [])])].slice(0, 6);
-  const wikiInteg = [...new Set([...(cn?.integration || []), ...conn.interfaces.map((m) => m.label)])].slice(0, 6);
-  const relatedObjs = [...new Set([...(g?.upstream || []), ...(g?.downstream || [])])].slice(0, 14);
-
   return (
     <div className="space-y-5">
       {/* breadcrumb */}
-      <div className="flex items-center gap-1.5 text-xs text-slate-400">
-        <Link href="/" className="hover:text-slate-700">בית</Link><ArrowRight className="size-3 rotate-180" />
-        <Link href="/sap-infrastructure/" className="hover:text-slate-700">ארכיטקטורה</Link><ArrowRight className="size-3 rotate-180" />
-        <span className="font-bold text-slate-700">{t.tableName}</span>
+      <div className="flex items-center gap-1.5 text-xs text-ink-3">
+        <Link href="/" className="hover:text-ink-2">בית</Link><ArrowRight className="size-3 rotate-180" />
+        <Link href="/sap-infrastructure/" className="hover:text-ink-2">ארכיטקטורה</Link><ArrowRight className="size-3 rotate-180" />
+        <span className="font-bold text-ink-2">{t.tableName}</span>
       </div>
 
       {/* ===== presentation-only executive slide (print) ===== */}
       <div className="print-block slide-print" dir="rtl">
         <div className="mb-6 flex items-center justify-between border-b-4 pb-3" style={{ borderColor: RED }}>
-          <div><div className="text-3xl font-extrabold" dir="ltr">{t.tableName}</div><div className="text-sm text-slate-500">{t.descriptionHe || t.descriptionEn} · {t.module}</div></div>
-          <div className="text-left"><div className="text-xs font-bold text-slate-400">NEO COCKPIT</div><div className="text-[10px] text-slate-400">SAP ECC6 → S/4HANA</div></div>
+          <div><div className="text-3xl font-extrabold" dir="ltr">{t.tableName}</div><div className="text-sm text-ink-3">{t.descriptionHe || t.descriptionEn} · {t.module}</div></div>
+          <div className="text-left"><div className="text-xs font-bold text-ink-3">NEO COCKPIT</div><div className="text-[10px] text-ink-3">SAP ECC6 → S/4HANA</div></div>
         </div>
         <div className="mb-5 grid grid-cols-4 gap-3">
           {[["שדות", fields.length], ["תלויות מעלה", g?.upstream.length || 0], ["השפעה מטה", g?.downstream.length || 0], ["רדיוס השפעה", blast]].map(([l, n]) => (
-            <div key={l as string} className="rounded-xl border border-slate-200 p-3 text-center"><div className="text-2xl font-extrabold" style={{ color: RED }}>{n as number}</div><div className="text-[11px] font-bold text-slate-500">{l as string}</div></div>
+            <div key={l as string} className="rounded-xl border border-hairline p-3 text-center"><div className="text-2xl font-extrabold" style={{ color: RED }}>{n as number}</div><div className="text-[11px] font-bold text-ink-3">{l as string}</div></div>
           ))}
         </div>
-        <p className="mb-4 text-sm leading-relaxed text-slate-700">{execSummary}</p>
+        <p className="mb-4 text-sm leading-relaxed text-ink-2">{execSummary}</p>
         <div className="grid grid-cols-2 gap-3 text-xs">
           <div><div className="mb-1 font-bold" style={{ color: RED }}>תלויות מעלה</div>{g?.upstream.join(" · ") || "—"}</div>
           <div><div className="mb-1 font-bold" style={{ color: RED }}>השפעה מטה</div>{g?.downstream.join(" · ") || "—"}</div>
@@ -301,30 +285,30 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
                 <h3 className="flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide" style={{ color: c }}><Presentation className="size-4" /> תקציר מנהלים</h3>
                 <span className="rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: statusColor(status) + "22", color: statusColor(status) }}>{STATUS_META[status].he}</span>
               </div>
-              <p className="mt-2 text-sm leading-relaxed text-slate-700">{execSummary}</p>
-              <p className="mt-1 text-[10px] text-slate-400">תקציר נגזר אוטומטית מהמאגר · לא תוכן מאומת ידנית</p>
+              <p className="mt-2 text-sm leading-relaxed text-ink-2">{execSummary}</p>
+              <p className="mt-1 text-[10px] text-ink-3">תקציר נגזר אוטומטית מהמאגר · לא תוכן מאומת ידנית</p>
             </section>
             <ExplainCard name={t.tableName} accent={c} tcodes={intel?.tcodes || []} bapis={intel?.bapis || []} cds={cds} related={intel?.related || []} />
             {/* consultant insights */}
             <div className="grid gap-3 sm:grid-cols-2">
               {insights.map((ins, i) => { const tone = { red: "#d62027", blue: "#2563eb", amber: "#d97706", green: "#059669" }[ins.tone]; return (
-                <div key={i} className="lift flex items-start gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                <div key={i} className="lift flex items-start gap-3 rounded-2xl border border-hairline bg-surface p-4 shadow-sm">
                   <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white" style={{ background: tone }}>{ins.icon}</span>
-                  <p className="text-sm font-medium leading-relaxed text-slate-700">{ins.text}</p>
+                  <p className="text-sm font-medium leading-relaxed text-ink-2">{ins.text}</p>
                 </div>); })}
             </div>
             <div className="grid gap-5 lg:grid-cols-3">
               <div className="min-w-0 lg:col-span-2"><Section title="גרף קשרים" icon={<GitBranch className="size-4" />}><Graph name={name} onGo={go} /></Section></div>
               <div className="min-w-0 space-y-5">
-                <Section title="מהות" icon={<LayoutGrid className="size-4" />}><p className="text-sm leading-relaxed text-slate-600">{t.guideHe || t.descriptionHe || t.descriptionEn}</p></Section>
+                <Section title="מהות" icon={<LayoutGrid className="size-4" />}><p className="text-sm leading-relaxed text-ink-2">{t.guideHe || t.descriptionHe || t.descriptionEn}</p></Section>
                 <Section title="נמצא ב" icon={<MapPin className="size-4" />}>
-                  <div className="flex flex-wrap gap-1.5">{intel?.foundIn.map((f) => <Link key={f.label} href={f.href} className="rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-600 hover:bg-slate-200">✓ {f.label}</Link>)}</div>
+                  <div className="flex flex-wrap gap-1.5">{intel?.foundIn.map((f) => <Link key={f.label} href={f.href} className="rounded-lg bg-surface-2 px-2.5 py-1 text-xs font-bold text-ink-2 hover:bg-hairline">✓ {f.label}</Link>)}</div>
                 </Section>
               </div>
             </div>
             <div className="grid gap-3 sm:grid-cols-4">
               {[["שדות", fields.length, Database], ["קשרים", (g?.upstream.length || 0) + (g?.downstream.length || 0), GitBranch], ["T-Codes", intel?.tcodes.length || 0, Terminal], ["BAPIs", intel?.bapis.length || 0, Boxes]].map(([l, n, I]) => { const Ic = I as typeof Database; return (
-                <div key={l as string} className="lift card-premium p-4"><Ic className="size-5 text-slate-300" /><div className="mt-2 font-mono text-2xl font-extrabold text-slate-900">{n as number}</div><div className="eyebrow mt-1 text-slate-400">{l as string}</div></div>); })}
+                <div key={l as string} className="lift card-premium p-4"><Ic className="size-5 text-ink-3" /><div className="mt-2 font-mono text-2xl font-extrabold text-ink-1">{n as number}</div><div className="eyebrow mt-1 text-ink-3">{l as string}</div></div>); })}
             </div>
           </>
         )}
@@ -341,9 +325,9 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
           const integ = [...new Set([...(cn?.integration || []), ...inc.flatMap((i) => i.exits || [])])].slice(0, 6);
           const verify = cn?.trust === "needs-verification";
           const Block = ({ title, icon, color, items }: { title: string; icon: React.ReactNode; color: string; items: string[] }) => items.length ? (
-            <div className="rounded-2xl border border-slate-200 bg-white p-4" style={{ borderInlineStartColor: color, borderInlineStartWidth: 3 }}>
+            <div className="rounded-2xl border border-hairline bg-surface p-4" style={{ borderInlineStartColor: color, borderInlineStartWidth: 3 }}>
               <h4 className="mb-1.5 flex items-center gap-1.5 text-[12px] font-extrabold uppercase tracking-wide" style={{ color }}>{icon}{title}</h4>
-              <ul className="space-y-1">{items.map((x, i) => <li key={i} className="flex gap-1.5 text-[13px] leading-relaxed text-slate-700"><span className="mt-1.5 size-1.5 shrink-0 rounded-full" style={{ background: color }} />{x}</li>)}</ul>
+              <ul className="space-y-1">{items.map((x, i) => <li key={i} className="flex gap-1.5 text-[13px] leading-relaxed text-ink-2"><span className="mt-1.5 size-1.5 shrink-0 rounded-full" style={{ background: color }} />{x}</li>)}</ul>
             </div>
           ) : null;
           return (
@@ -353,21 +337,21 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
                 <div className="min-w-0 flex-1"><div className="text-sm font-extrabold">מצב יועץ · {t.tableName}</div><div className="text-[11px] text-white/70">תקציר יועץ SAP בכיר — מטרה, טעויות, דיבוג, אינטגרציה ו-ECC↔S/4 במבט אחד.</div></div>
                 {verify && <span className="rounded bg-amber-300 px-1.5 py-0.5 text-[9px] font-bold text-amber-950">needs verification</span>}
               </div>
-              {k && <Section title="מה זה · מתי משתמשים" icon={<LayoutGrid className="size-4" />}><p className="text-sm leading-relaxed text-slate-700">{k.role} {k.why}</p>{k.whenUsed && <p className="mt-1 text-sm text-slate-500">מתי: {k.whenUsed}</p>}</Section>}
+              {k && <Section title="מה זה · מתי משתמשים" icon={<LayoutGrid className="size-4" />}><p className="text-sm leading-relaxed text-ink-2">{k.role} {k.why}</p>{k.whenUsed && <p className="mt-1 text-sm text-ink-3">מתי: {k.whenUsed}</p>}</Section>}
               <div className="grid gap-3 lg:grid-cols-2">
                 <Block title="טעויות נפוצות" icon={<AlertTriangle className="size-3.5" />} color="#dc2626" items={mistakes} />
                 <Block title="גישת דיבוג" icon={<Wrench className="size-3.5" />} color="#7c3aed" items={debug} />
                 <Block title="הערות יועץ פונקציונלי" icon={<Lightbulb className="size-3.5" />} color="#d97706" items={cn?.fnNotes || []} />
                 <Block title="הערות יועץ טכני / ABAP" icon={<Database className="size-3.5" />} color="#2563eb" items={cn?.techNotes || []} />
                 <Block title="נקודות אינטגרציה" icon={<GitBranch className="size-3.5" />} color="#0891b2" items={integ} />
-                <div className="rounded-2xl border border-slate-200 bg-white p-4" style={{ borderInlineStartColor: "#ea580c", borderInlineStartWidth: 3 }}>
+                <div className="rounded-2xl border border-hairline bg-surface p-4" style={{ borderInlineStartColor: "#ea580c", borderInlineStartWidth: 3 }}>
                   <h4 className="mb-1.5 flex items-center gap-1.5 text-[12px] font-extrabold uppercase tracking-wide text-orange-600"><ArrowRightLeft className="size-3.5" />ECC ↔ S/4HANA</h4>
-                  <p className="text-[13px] leading-relaxed text-slate-700">{k?.s4 || s4.impact?.changed || t.s4Note || "אין שינוי מהותי ידוע — נדרש אימות מול Simplification List."}</p>
+                  <p className="text-[13px] leading-relaxed text-ink-2">{k?.s4 || s4.impact?.changed || t.s4Note || "אין שינוי מהותי ידוע — נדרש אימות מול Simplification List."}</p>
                   {conn.s4 && <Link href={conn.s4.href!} className="mt-1.5 inline-block text-[11px] font-bold text-blue-600">{conn.s4.label} ↗</Link>}
                 </div>
               </div>
-              {inc.length > 0 && <Section title={`תקלות ייצור · ${inc.length}`} icon={<Wrench className="size-4" />}><div className="space-y-1.5">{inc.slice(0, 5).map((i) => <Link key={i.slug} href={`/troubleshooting/${i.slug}/`} className="block rounded-lg border border-slate-100 bg-slate-50/60 px-3 py-2 transition hover:border-rose-300 hover:bg-rose-50"><div className="text-[13px] font-bold text-slate-800">{i.he}</div>{i.scenario && <div className="mt-0.5 text-[11px] text-emerald-700">הארגון: {i.scenario}</div>}</Link>)}</div></Section>}
-              {iqs.length > 0 && <Section title={`שאלות ראיון · ${iqs.length}`} icon={<GraduationCap className="size-4" />}><div className="space-y-1.5">{iqs.map((iq, i) => <div key={i} className="rounded-lg bg-slate-50 px-3 py-2 text-[13px]"><span className="font-bold text-slate-800">{iq.q}</span>{iq.aHe && <span className="mt-0.5 block text-slate-600">{iq.aHe}</span>}</div>)}</div></Section>}
+              {inc.length > 0 && <Section title={`תקלות ייצור · ${inc.length}`} icon={<Wrench className="size-4" />}><div className="space-y-1.5">{inc.slice(0, 5).map((i) => <Link key={i.slug} href={`/troubleshooting/${i.slug}/`} className="block rounded-lg border border-hairline bg-surface-2/60 px-3 py-2 transition hover:border-rose-300 hover:bg-rose-50"><div className="text-[13px] font-bold text-ink-1">{i.he}</div>{i.scenario && <div className="mt-0.5 text-[11px] text-emerald-700">הארגון: {i.scenario}</div>}</Link>)}</div></Section>}
+              {iqs.length > 0 && <Section title={`שאלות ראיון · ${iqs.length}`} icon={<GraduationCap className="size-4" />}><div className="space-y-1.5">{iqs.map((iq, i) => <div key={i} className="rounded-lg bg-surface-2 px-3 py-2 text-[13px]"><span className="font-bold text-ink-1">{iq.q}</span>{iq.aHe && <span className="mt-0.5 block text-ink-2">{iq.aHe}</span>}</div>)}</div></Section>}
               <div className="flex flex-wrap gap-1.5">
                 {cds.length > 0 && <span className="rounded-lg bg-teal-50 px-2.5 py-1 text-[11px] font-bold text-teal-700">CDS: {cds.length}</span>}
                 {(intel?.bapis?.length || 0) > 0 && <span className="rounded-lg bg-blue-50 px-2.5 py-1 text-[11px] font-bold text-blue-700">BAPIs: {intel!.bapis.length}</span>}
@@ -384,10 +368,10 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
             <Section title="גרף קשרים אינטראקטיבי" icon={<GitBranch className="size-4" />}><Graph name={name} onGo={go} /></Section>
             <div className="grid gap-5 sm:grid-cols-2">
               <Section title={`תלויות מעלה · ${g?.upstream.length || 0} (האובייקט תלוי ב)`} icon={<ArrowLeft className="size-4 rotate-45" />}>
-                <div className="flex flex-wrap gap-1.5">{g?.upstream.length ? g.upstream.map((n) => <NodeChip key={n} name={n} module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} onGo={go} q={hl} />) : <span className="text-xs italic text-slate-400">אין תלויות מעלה</span>}</div>
+                <div className="flex flex-wrap gap-1.5">{g?.upstream.length ? g.upstream.map((n) => <NodeChip key={n} name={n} module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} onGo={go} q={hl} />) : <span className="text-xs italic text-ink-3">אין תלויות מעלה</span>}</div>
               </Section>
               <Section title={`השפעה מטה · ${g?.downstream.length || 0} (תלויים באובייקט)`} icon={<TrendingUp className="size-4" />}>
-                <div className="flex flex-wrap gap-1.5">{g?.downstream.length ? g.downstream.map((n) => <NodeChip key={n} name={n} module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} onGo={go} q={hl} />) : <span className="text-xs italic text-slate-400">אין השפעה מטה</span>}</div>
+                <div className="flex flex-wrap gap-1.5">{g?.downstream.length ? g.downstream.map((n) => <NodeChip key={n} name={n} module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} onGo={go} q={hl} />) : <span className="text-xs italic text-ink-3">אין השפעה מטה</span>}</div>
               </Section>
             </div>
           </>
@@ -397,19 +381,19 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
           <Section title="זרימה עסקית · שרשרת תלות" icon={<Workflow className="size-4" />}>
             <div className="space-y-5">
               <div>
-                <p className="eyebrow mb-2 text-slate-400">שרשרת מעלה (Master → ...)</p>
+                <p className="eyebrow mb-2 text-ink-3">שרשרת מעלה (Master → ...)</p>
                 <div className="flex flex-wrap items-center gap-2">{[...upPath].reverse().map((n, i, a) => (<span key={n + i} className="flex items-center gap-2">
-                  <NodeChip name={n} module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} onGo={go} />{i < a.length - 1 && <ArrowLeft className="size-4 rotate-180 text-slate-300" />}</span>))}</div>
+                  <NodeChip name={n} module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} onGo={go} />{i < a.length - 1 && <ArrowLeft className="size-4 rotate-180 text-ink-3" />}</span>))}</div>
               </div>
               <div>
-                <p className="eyebrow mb-2 text-slate-400">שרשרת מטה (... → Transaction)</p>
+                <p className="eyebrow mb-2 text-ink-3">שרשרת מטה (... → Transaction)</p>
                 <div className="flex flex-wrap items-center gap-2">{downPath.map((n, i, a) => (<span key={n + i} className="flex items-center gap-2">
-                  <NodeChip name={n} module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} onGo={go} />{i < a.length - 1 && <ArrowLeft className="size-4 rotate-180 text-slate-300" />}</span>))}</div>
+                  <NodeChip name={n} module={tableByName(n)?.module || "?"} exists={!!tableByName(n)} onGo={go} />{i < a.length - 1 && <ArrowLeft className="size-4 rotate-180 text-ink-3" />}</span>))}</div>
               </div>
-              <div className="rounded-xl bg-slate-50 p-3">
-                <p className="eyebrow mb-1 text-slate-400">תהליך / זרם</p>
+              <div className="rounded-xl bg-surface-2 p-3">
+                <p className="eyebrow mb-1 text-ink-3">תהליך / זרם</p>
                 <Link href={`/process/${encodeURIComponent(`${t.module}-${t.topicIdx}`)}`} className="text-sm font-bold text-brand hover:underline">{t.topicTitle} ↗</Link>
-                {intel && <div className="mt-2 flex flex-wrap gap-1.5">{intel.tcodes.map((tc) => <Link key={tc} href={`/tcode/${encodeURIComponent(tc)}`} className="tech rounded bg-white px-2 py-0.5 text-[11px] font-bold text-slate-600 ring-1 ring-slate-200 transition hover:text-brand hover:ring-brand" dir="ltr">{tc}</Link>)}</div>}
+                {intel && <div className="mt-2 flex flex-wrap gap-1.5">{intel.tcodes.map((tc) => <Link key={tc} href={`/tcode/${encodeURIComponent(tc)}`} className="tech rounded bg-surface px-2 py-0.5 text-[11px] font-bold text-ink-2 ring-1 ring-hairline transition hover:text-brand hover:ring-brand" dir="ltr">{tc}</Link>)}</div>}
               </div>
             </div>
           </Section>
@@ -418,51 +402,51 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
         {tab === "technical" && (
           <>
             <Section title={`שדות · ${fields.length} (PK ${pk.length})`} icon={<KeyRound className="size-4" />}>
-              <div className="overflow-auto rounded-xl border border-slate-100"><table className="w-full text-right font-mono text-xs" dir="ltr">
-                <thead className="bg-slate-50 text-[10px] uppercase text-slate-400"><tr><th className="px-3 py-2">Field</th><th className="px-3 py-2">Type</th><th className="px-3 py-2">Len</th><th className="px-3 py-2">Key</th><th className="px-3 py-2 text-right">תיאור</th></tr></thead>
-                <tbody>{fields.slice(0, 40).map((f, i) => <tr key={i} className="border-t border-slate-50">
-                  <td className={`px-3 py-1.5 font-bold ${f.key === "PK" ? "text-amber-600" : f.key === "FK" ? "text-blue-600" : "text-slate-700"}`}><Highlight text={f.tech} query={hl} /></td>
-                  <td className="px-3 py-1.5 text-slate-400">{f.dt}</td><td className="px-3 py-1.5 text-slate-400">{f.len}</td>
+              <div className="overflow-auto rounded-xl border border-hairline"><table className="w-full text-right font-mono text-xs" dir="ltr">
+                <thead className="bg-surface-2 text-[10px] uppercase text-ink-3"><tr><th className="px-3 py-2">Field</th>{hasType && <th className="px-3 py-2">Type</th>}{hasType && <th className="px-3 py-2">Len</th>}<th className="px-3 py-2">Key</th><th className="px-3 py-2 text-right">תיאור</th></tr></thead>
+                <tbody>{fields.slice(0, 40).map((f, i) => <tr key={i} className="border-t border-hairline">
+                  <td className={`px-3 py-1.5 font-bold ${f.key === "PK" ? "text-amber-600" : f.key === "FK" ? "text-blue-600" : "text-ink-2"}`}><Highlight text={f.tech} query={hl} /></td>
+                  {hasType && <td className="px-3 py-1.5 text-ink-3">{f.dt}</td>}{hasType && <td className="px-3 py-1.5 text-ink-3">{f.len}</td>}
                   <td className="px-3 py-1.5">{f.key && f.key !== "-" && <span className={`rounded px-1 text-[9px] font-bold ${f.key === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f.key}</span>}</td>
-                  <td className="px-3 py-1.5 text-right text-slate-500" dir="rtl"><Highlight text={f.he} query={hl} /></td></tr>)}</tbody>
+                  <td className="px-3 py-1.5 text-right text-ink-3" dir="rtl"><Highlight text={f.he} query={hl} /></td></tr>)}</tbody>
               </table></div>
             </Section>
             <div className="grid gap-5 sm:grid-cols-2">
               <Section title="טרנזקציות + BAPIs" icon={<Terminal className="size-4" />}>
                 <div className="space-y-2.5">
-                  <div className="flex flex-wrap gap-1.5">{intel?.tcodes.map((tc) => <Link key={tc} href={`/tcode/${encodeURIComponent(tc)}`} className="tech rounded bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-600 transition hover:bg-brand-soft hover:text-brand" dir="ltr"><Highlight text={tc} query={hl} /></Link>) || "—"}</div>
-                  <div className="flex flex-wrap gap-1.5">{[...new Set(t.funcs.map(([n]) => cleanFunc(n)))].slice(0, 8).map((n) => { const k = classifyFunc(n); return <Link key={n} href={funcHref(n)} className={`tech rounded px-2 py-0.5 text-xs font-bold transition hover:brightness-95 ${k === "IDoc" ? "bg-violet-50 text-violet-700" : k === "FM" ? "bg-slate-100 text-slate-600" : "bg-blue-50 text-blue-700"}`} dir="ltr">{k === "IDoc" ? <Cable className="me-1 inline size-3" /> : <Boxes className="me-1 inline size-3" />}<Highlight text={n} query={hl} /></Link>; })}</div>
-                  {t.progs?.length > 0 && <div className="flex flex-wrap gap-1.5">{t.progs.slice(0, 6).map(([n]) => <span key={n} className="tech rounded bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-600" dir="ltr"><FileCode className="me-1 inline size-3" />{n}</span>)}</div>}
+                  <div className="flex flex-wrap gap-1.5">{intel?.tcodes.map((tc) => <Link key={tc} href={`/tcode/${encodeURIComponent(tc)}`} className="tech rounded bg-surface-2 px-2 py-0.5 text-xs font-bold text-ink-2 transition hover:bg-brand-soft hover:text-brand" dir="ltr"><Highlight text={tc} query={hl} /></Link>) || "—"}</div>
+                  <div className="flex flex-wrap gap-1.5">{[...new Set(t.funcs.map(([n]) => cleanFunc(n)))].slice(0, 8).map((n) => { const k = classifyFunc(n); return <Link key={n} href={funcHref(n)} className={`tech rounded px-2 py-0.5 text-xs font-bold transition hover:brightness-95 ${k === "IDoc" ? "bg-violet-50 text-violet-700" : k === "FM" ? "bg-surface-2 text-ink-2" : "bg-blue-50 text-blue-700"}`} dir="ltr">{k === "IDoc" ? <Cable className="me-1 inline size-3" /> : <Boxes className="me-1 inline size-3" />}<Highlight text={n} query={hl} /></Link>; })}</div>
+                  {t.progs?.length > 0 && <div className="flex flex-wrap gap-1.5">{t.progs.slice(0, 6).map(([n]) => <span key={n} className="tech rounded bg-surface-2 px-2 py-0.5 text-xs font-bold text-ink-2" dir="ltr"><FileCode className="me-1 inline size-3" />{n}</span>)}</div>}
                 </div>
               </Section>
               <Section title="S/4HANA + Fiori" icon={<AppWindow className="size-4" />}>
-                <p className="text-sm text-slate-600">{t.s4Note || "אין שינוי מהותי ב-S/4HANA."}</p>
-                {t.s4AltTable && <p className="mt-1 text-xs text-slate-500">חלופה: <span className="tech font-bold text-slate-700">{t.s4AltTable}</span></p>}
-                {cds.length > 0 && <div className="mt-2"><p className="eyebrow mb-1 text-slate-400">CDS · Table → CDS → Consumption → Fiori</p><div className="space-y-1">{cds.map((v) => (
+                <p className="text-sm text-ink-2">{t.s4Note || "אין שינוי מהותי ב-S/4HANA."}</p>
+                {t.s4AltTable && <p className="mt-1 text-xs text-ink-3">חלופה: <span className="tech font-bold text-ink-2">{t.s4AltTable}</span></p>}
+                {cds.length > 0 && <div className="mt-2"><p className="eyebrow mb-1 text-ink-3">CDS · Table → CDS → Consumption → Fiori</p><div className="space-y-1">{cds.map((v) => (
                   <div key={v.view} className="flex flex-wrap items-center gap-1.5 text-xs" dir="ltr">
                     <Link href={`/cds/${encodeURIComponent(v.view)}`} className="tech tap rounded bg-teal-50 px-2 py-0.5 font-bold text-teal-700 transition hover:brightness-95"><FileCode className="me-1 inline size-3" /><Highlight text={v.view} query={hl} /></Link>
-                    {v.consumption && <><span className="text-slate-300">→</span><span className="tech rounded bg-cyan-50 px-2 py-0.5 font-bold text-cyan-700">{v.consumption}</span></>}
-                    {v.fiori && <><span className="text-slate-300">→</span><span className="rounded bg-blue-50 px-2 py-0.5 font-bold text-blue-700"><AppWindow className="me-1 inline size-3" />{v.fiori}</span></>}
+                    {v.consumption && <><span className="text-ink-3">→</span><span className="tech rounded bg-cyan-50 px-2 py-0.5 font-bold text-cyan-700">{v.consumption}</span></>}
+                    {v.fiori && <><span className="text-ink-3">→</span><span className="rounded bg-blue-50 px-2 py-0.5 font-bold text-blue-700"><AppWindow className="me-1 inline size-3" />{v.fiori}</span></>}
                   </div>
                 ))}</div></div>}
-                {t.fioriApp && <p className="mt-2 flex items-center gap-1.5 text-sm text-slate-600"><AppWindow className="size-4 text-brand" />{t.fioriApp}</p>}
+                {t.fioriApp && <p className="mt-2 flex items-center gap-1.5 text-sm text-ink-2"><AppWindow className="size-4 text-brand" />{t.fioriApp}</p>}
                 {t.sqlJoinSnippet && <pre className="mt-2 overflow-auto rounded-lg bg-slate-900 p-2.5 text-[11px] leading-relaxed text-slate-100" dir="ltr">{t.sqlJoinSnippet}</pre>}
               </Section>
               {/* Connected Object — links every object to the platform centers (no isolated cards) */}
               <Section title="אובייקט מקושר · S/4 · הגירה · BW" icon={<Boxes className="size-4" />}>
                 {(() => { const c = objectConnections(name); return (
                   <div className="space-y-2.5 text-sm">
-                    {c.s4 && <Link href={c.s4.href!} className="block rounded-lg border border-blue-200 bg-blue-50/60 px-3 py-2 transition hover:bg-blue-50"><span className="font-extrabold text-blue-800">{c.s4.label}</span>{c.s4.sub && <span className="block text-[12px] text-slate-600">{c.s4.sub}</span>}</Link>}
-                    {c.migration.length > 0 && <div><p className="eyebrow mb-1 text-slate-400">אובייקטי הגירה</p><div className="flex flex-wrap gap-1.5">{c.migration.map((m, i) => <Link key={i} href={m.href!} className="rounded-md bg-cyan-50 px-2 py-0.5 text-xs font-bold text-cyan-700 transition hover:brightness-95" title={m.sub}>{m.label}</Link>)}</div></div>}
-                    {c.bw.length > 0 && <div><p className="eyebrow mb-1 text-slate-400">אובייקטי BW</p><div className="flex flex-wrap gap-1.5">{c.bw.map((m, i) => <Link key={i} href={m.href!} className="rounded-md bg-indigo-50 px-2 py-0.5 text-xs font-bold text-indigo-700 transition hover:brightness-95" title={m.sub}>{m.label}</Link>)}</div></div>}
-                    {c.interfaces.length > 0 && <div><p className="eyebrow mb-1 text-slate-400">ממשקים</p><div className="flex flex-wrap gap-1.5">{c.interfaces.map((m, i) => <span key={i} className="rounded-md bg-violet-50 px-2 py-0.5 text-xs font-bold text-violet-700" title={m.sub}>{m.label}</span>)}</div></div>}
-                    <div className="flex flex-wrap gap-1.5 border-t border-slate-100 pt-2.5">
+                    {c.s4 && <Link href={c.s4.href!} className="block rounded-lg border border-blue-200 bg-blue-50/60 px-3 py-2 transition hover:bg-blue-50"><span className="font-extrabold text-blue-800">{c.s4.label}</span>{c.s4.sub && <span className="block text-[12px] text-ink-2">{c.s4.sub}</span>}</Link>}
+                    {c.migration.length > 0 && <div><p className="eyebrow mb-1 text-ink-3">אובייקטי הגירה</p><div className="flex flex-wrap gap-1.5">{c.migration.map((m, i) => <Link key={i} href={m.href!} className="rounded-md bg-cyan-50 px-2 py-0.5 text-xs font-bold text-cyan-700 transition hover:brightness-95" title={m.sub}>{m.label}</Link>)}</div></div>}
+                    {c.bw.length > 0 && <div><p className="eyebrow mb-1 text-ink-3">אובייקטי BW</p><div className="flex flex-wrap gap-1.5">{c.bw.map((m, i) => <Link key={i} href={m.href!} className="rounded-md bg-indigo-50 px-2 py-0.5 text-xs font-bold text-indigo-700 transition hover:brightness-95" title={m.sub}>{m.label}</Link>)}</div></div>}
+                    {c.interfaces.length > 0 && <div><p className="eyebrow mb-1 text-ink-3">ממשקים</p><div className="flex flex-wrap gap-1.5">{c.interfaces.map((m, i) => <span key={i} className="rounded-md bg-violet-50 px-2 py-0.5 text-xs font-bold text-violet-700" title={m.sub}>{m.label}</span>)}</div></div>}
+                    <div className="flex flex-wrap gap-1.5 border-t border-hairline pt-2.5">
                       <Link href={`/graph/?node=${encodeURIComponent(name)}`} className="rounded-lg bg-slate-900 px-2.5 py-1 text-[11px] font-bold text-white transition hover:bg-slate-700">צפה בגרף הגלובלי</Link>
-                      <Link href={`/impact/${encodeURIComponent(name)}/`} className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">ניתוח השפעה</Link>
-                      <Link href="/s4hana/" className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">S/4 Object Explorer</Link>
-                      <Link href="/ecc-s4/" className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">ECC ↔ S/4</Link>
-                      <Link href="/migration-cockpit/" className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">Migration Cockpit</Link>
-                      <Link href="/sap-infrastructure/" className="rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200">מודל נתונים</Link>
+                      <Link href={`/impact/${encodeURIComponent(name)}/`} className="rounded-lg bg-surface-2 px-2.5 py-1 text-[11px] font-bold text-ink-2 transition hover:bg-hairline">ניתוח השפעה</Link>
+                      <Link href="/s4hana/" className="rounded-lg bg-surface-2 px-2.5 py-1 text-[11px] font-bold text-ink-2 transition hover:bg-hairline">S/4 Object Explorer</Link>
+                      <Link href="/ecc-s4/" className="rounded-lg bg-surface-2 px-2.5 py-1 text-[11px] font-bold text-ink-2 transition hover:bg-hairline">ECC ↔ S/4</Link>
+                      <Link href="/migration-cockpit/" className="rounded-lg bg-surface-2 px-2.5 py-1 text-[11px] font-bold text-ink-2 transition hover:bg-hairline">Migration Cockpit</Link>
+                      <Link href="/sap-infrastructure/" className="rounded-lg bg-surface-2 px-2.5 py-1 text-[11px] font-bold text-ink-2 transition hover:bg-hairline">מודל נתונים</Link>
                     </div>
                   </div>
                 ); })()}
@@ -479,9 +463,9 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
                   const lc = iq.level === "junior" ? "bg-blue-100 text-blue-700" : iq.level === "senior" ? "bg-violet-100 text-violet-700" : "bg-rose-100 text-rose-700";
                   const ll = iq.level === "junior" ? "Junior" : iq.level === "senior" ? "Senior" : "Architect";
                   return (
-                    <div key={i} className="rounded-xl border border-slate-100 bg-slate-50/60 p-3">
-                      <p className="text-sm font-bold text-slate-800"><span className={`me-1.5 rounded px-1.5 py-0.5 text-[9px] font-extrabold ${lc}`}>{ll}</span>{iq.q}</p>
-                      {iq.aHe && <p className="mt-1 text-[12px] leading-relaxed text-slate-500">{iq.aHe}</p>}
+                    <div key={i} className="rounded-xl border border-hairline bg-surface-2/60 p-3">
+                      <p className="text-sm font-bold text-ink-1"><span className={`me-1.5 rounded px-1.5 py-0.5 text-[9px] font-extrabold ${lc}`}>{ll}</span>{iq.q}</p>
+                      {iq.aHe && <p className="mt-1 text-[12px] leading-relaxed text-ink-3">{iq.aHe}</p>}
                     </div>
                   );
                 })}
@@ -490,8 +474,8 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
           )}
           <Section title="למידה קשורה" icon={<BookOpen className="size-4" />}>
             <div className="space-y-3">
-              {intel?.books.length ? <div><p className="eyebrow mb-1.5 text-slate-400">ספרים</p><div className="flex flex-wrap gap-2">{intel.books.map((b) => <Link key={b} href="/library/book1/" className="lift inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-700"><BookOpen className="size-4 text-brand" />{b}</Link>)}</div></div> : null}
-              <div><p className="eyebrow mb-1.5 text-slate-400">מסלול אקדמיה</p>
+              {intel?.books.length ? <div><p className="eyebrow mb-1.5 text-ink-3">ספרים</p><div className="flex flex-wrap gap-2">{intel.books.map((b) => <Link key={b} href="/library/book1/" className="lift inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-3 py-2 text-sm font-bold text-ink-2"><BookOpen className="size-4 text-brand" />{b}</Link>)}</div></div> : null}
+              <div><p className="eyebrow mb-1.5 text-ink-3">מסלול אקדמיה</p>
                 <Link href={t.module === "PM" ? "/library/pm-academy/" : "/library/pp/"} className="lift inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-bold text-white" style={{ background: c }}>
                   <BookOpen className="size-4" /> אקדמיית {t.module} <ArrowLeft className="size-4" /></Link>
               </div>
@@ -502,9 +486,9 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
 
         {tab === "trouble" && (
           <Section title="פתרון תקלות · Troubleshooting" icon={<AlertTriangle className="size-4 text-amber-500" />}>
-            <p className="mb-2 text-[11px] font-semibold text-slate-400">{TROUBLE[name] ? "טיפים ספציפיים לאובייקט" : "טיפים גנריים נגזרים אוטומטית · לא תוכן מאומת"}</p>
+            <p className="mb-2 text-[11px] font-semibold text-ink-3">{TROUBLE[name] ? "טיפים ספציפיים לאובייקט" : "טיפים גנריים נגזרים אוטומטית · לא תוכן מאומת"}</p>
             <ul className="space-y-2.5">{trouble.map((tip, i) => (
-              <li key={i} className="flex gap-2.5 rounded-xl border border-amber-100 bg-amber-50/50 p-3 text-sm text-slate-700">
+              <li key={i} className="flex gap-2.5 rounded-xl border border-amber-100 bg-amber-50/50 p-3 text-sm text-ink-2">
                 <span className="grid size-5 shrink-0 place-items-center rounded-full bg-amber-400 text-[11px] font-bold text-white">{i + 1}</span>{tip}</li>))}</ul>
           </Section>
         )}
@@ -513,8 +497,8 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
           <Section title="הערות יישום · נשמר מקומית" icon={<StickyNote className="size-4" />}>
             <textarea value={note} onChange={(e) => { setNote(e.target.value); try { localStorage.setItem(`neo:obj:notes:${name}`, e.target.value); } catch { /* noop */ } }}
               placeholder={`הערות פנימיות של הארגון על ${t.tableName} — נשמרות בדפדפן…`}
-              className="min-h-[220px] w-full resize-y rounded-xl border border-slate-200 bg-white p-4 text-sm leading-relaxed outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
-            <p className="mt-2 text-xs text-slate-400">נשמר אוטומטית ב-localStorage · ייצוא/גיבוי דרך מסך הסטטוס.</p>
+              className="min-h-[220px] w-full resize-y rounded-xl border border-hairline bg-surface p-4 text-sm leading-relaxed outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
+            <p className="mt-2 text-xs text-ink-3">נשמר אוטומטית ב-localStorage · ייצוא/גיבוי דרך מסך הסטטוס.</p>
           </Section>
         )}
       </motion.div>
@@ -526,7 +510,7 @@ function FavStar({ name }: { name: string }) {
   const fav = useIsFavorite(name);
   return (
     <button onClick={() => { playTick(); toggleFavorite(name); }} aria-pressed={fav} title={fav ? "הסר ממועדפים" : "הוסף למועדפים"}
-      className={`tap inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold backdrop-blur-sm transition active:scale-90 ${fav ? "bg-amber-400 text-amber-950 shadow-sm" : "bg-white/20 text-white hover:bg-white/30"}`}>
+      className={`tap inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold backdrop-blur-sm transition active:scale-90 ${fav ? "bg-amber-400 text-amber-950 shadow-sm" : "bg-surface/20 text-white hover:bg-surface/30"}`}>
       <Star className={`size-3.5 transition-transform ${fav ? "scale-110 fill-amber-950" : ""}`} />{fav ? "במועדפים" : "מועדף"}
     </button>
   );
@@ -541,31 +525,31 @@ function ExplainCard({ name, accent, tcodes, bapis, cds, related }: { name: stri
   const ic = IMPORTANCE_COLOR[k.importance];
   const Group = ({ label, items }: { label: string; items: string[] }) => items.length ? (
     <div>
-      <div className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">{label}</div>
-      <div className="flex flex-wrap gap-1">{items.slice(0, 8).map((x) => <span key={x} className="tech rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600" dir="ltr">{x}</span>)}</div>
+      <div className="mb-1 text-[10px] font-bold uppercase tracking-wide text-ink-3">{label}</div>
+      <div className="flex flex-wrap gap-1">{items.slice(0, 8).map((x) => <span key={x} className="tech rounded-md border border-hairline bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] font-bold text-ink-2" dir="ltr">{x}</span>)}</div>
     </div>
   ) : null;
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" dir="rtl">
+    <section className="rounded-2xl border border-hairline bg-surface p-5 shadow-sm" dir="rtl">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="flex items-center gap-2 text-sm font-extrabold text-slate-900"><GraduationCap className="size-4" style={{ color: accent }} />הסבר — מה זה {name}?</h3>
+        <h3 className="flex items-center gap-2 text-sm font-extrabold text-ink-1"><GraduationCap className="size-4" style={{ color: accent }} />הסבר — מה זה {name}?</h3>
         <div className="flex items-center gap-1.5">
-          {k.step && <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-500">{k.step}</span>}
+          {k.step && <span className="rounded-full bg-surface-2 px-2 py-0.5 text-[10px] font-bold text-ink-3">{k.step}</span>}
           <span className="rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: ic }}>{IMPORTANCE_HE[k.importance]}</span>
         </div>
       </div>
       <div className="mt-3 space-y-2.5">
-        <div className="flex gap-2"><Lightbulb className="mt-0.5 size-4 shrink-0 text-amber-500" /><div><span className="text-sm font-bold text-slate-800">{k.role}</span><p className="text-sm leading-relaxed text-slate-600">{k.why}</p></div></div>
-        <div className="flex gap-2"><Clock4 className="mt-0.5 size-4 shrink-0 text-slate-400" /><p className="text-sm leading-relaxed text-slate-600"><span className="font-bold text-slate-700">מתי משתמשים: </span>{k.whenUsed}</p></div>
+        <div className="flex gap-2"><Lightbulb className="mt-0.5 size-4 shrink-0 text-amber-500" /><div><span className="text-sm font-bold text-ink-1">{k.role}</span><p className="text-sm leading-relaxed text-ink-2">{k.why}</p></div></div>
+        <div className="flex gap-2"><Clock4 className="mt-0.5 size-4 shrink-0 text-ink-3" /><p className="text-sm leading-relaxed text-ink-2"><span className="font-bold text-ink-2">מתי משתמשים: </span>{k.whenUsed}</p></div>
         {k.s4 && <div className="flex gap-2 rounded-xl bg-amber-50 p-2.5"><ArrowRightLeft className="mt-0.5 size-4 shrink-0 text-amber-600" /><p className="text-[13px] leading-relaxed text-amber-900"><span className="font-extrabold">ECC ↔ S/4: </span>{k.s4}</p></div>}
       </div>
-      <div className="mt-3 grid gap-3 border-t border-slate-100 pt-3 sm:grid-cols-2">
+      <div className="mt-3 grid gap-3 border-t border-hairline pt-3 sm:grid-cols-2">
         <Group label="טרנזקציות" items={tcodes} />
         <Group label="BAPIs / FM" items={bapis} />
         <Group label="CDS Views" items={cds.map((v) => v.view)} />
         <Group label="טבלאות מקושרות" items={related} />
       </div>
-      <p className="mt-2 text-[10px] text-slate-400">הסבר: {TRUST_NOTE[k.trust]} · ממשקים נגזרים מהמאגר (כתיבה/קריאה תלוית-הקשר)</p>
+      <p className="mt-2 text-[10px] text-ink-3">הסבר: {TRUST_NOTE[k.trust]} · ממשקים נגזרים מהמאגר (כתיבה/קריאה תלוית-הקשר)</p>
     </section>
   );
 }

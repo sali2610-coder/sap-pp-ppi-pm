@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { SmartLink as Link } from "@/components/smart-link";
 import { Check, Play, Circle, ArrowLeft } from "lucide-react";
 
 export interface TimelineStep {

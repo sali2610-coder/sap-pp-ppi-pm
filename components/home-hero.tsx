@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { Network, BookOpen, ArrowLeft, Sparkles } from "lucide-react";
+import { Network, BookOpen, ArrowLeft } from "lucide-react";
 import { playClick } from "@/lib/sound";
 
 export type HeroStats = {

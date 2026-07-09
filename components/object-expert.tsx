@@ -15,6 +15,7 @@ import { cdsForTable } from "@/data/cds-map";
 import { classifyFunc, cleanFunc } from "@/lib/object-intel";
 import { interviewFor } from "@/data/knowledge/interview";
 import { EXITS } from "@/data/exits";
+import { tcodeHasPage, funcHasPage, idocHasPage, cdsHasPage, isCleanCode } from "@/lib/route-exists";
 
 const splitTc = (s: string) => [...new Set((s || "").split(/[,\s/]+/).map((x) => x.trim().toUpperCase()).filter((x) => /^[A-Z][A-Z0-9_]{1,}$/.test(x)))];
 
@@ -49,15 +50,22 @@ function ObjChip({ code }: { code: string }) {
     ? <Link href={`/object/${encodeURIComponent(code)}/`} className="tech inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface px-2.5 py-1 font-mono text-[12px] font-bold text-ink-1 transition hover:border-brand/40 hover:text-brand" dir="ltr"><span className="size-1.5 rounded-full bg-brand" />{code}</Link>
     : <span className="tech inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-2 px-2.5 py-1 font-mono text-[12px] font-bold text-ink-3" dir="ltr">{code}</span>;
 }
-function AssetChip({ href, code, kind }: { href: string; code: string; kind: string }) {
+function AssetChip({ href, code, kind, ok = true }: { href: string; code: string; kind: string; ok?: boolean }) {
+  if (!ok) return <span className="tech inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-2 px-2.5 py-1 font-mono text-[12px] font-bold text-ink-3" dir="ltr">{code}<span className="font-sans text-[9px] font-bold text-ink-3">{kind}</span></span>;
   return <Link href={href} className="tech inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface px-2.5 py-1 font-mono text-[12px] font-bold text-ink-1 transition hover:border-brand/40 hover:text-brand" dir="ltr">{code}<span className="font-sans text-[9px] font-bold text-ink-3">{kind}</span></Link>;
 }
+const enc = encodeURIComponent;
+// guarded helpers — link only when the target page is statically generated
+const TcodeRef = ({ c }: { c: string }) => <AssetChip code={c} kind="TX" href={`/tcode/${enc(c)}/`} ok={isCleanCode(c) && tcodeHasPage(c)} />;
+const FuncRef = ({ n, kind }: { n: string; kind: string }) => <AssetChip code={n} kind={kind} href={`/bapi/${enc(n)}/`} ok={isCleanCode(n) && funcHasPage(n)} />;
+const IdocRef = ({ n }: { n: string }) => <AssetChip code={n} kind="IDoc" href={`/idoc/${enc(n)}/`} ok={isCleanCode(n) && idocHasPage(n)} />;
+const CdsRef = ({ v }: { v: string }) => <AssetChip code={v} kind="CDS" href={`/cds/${enc(v)}/`} ok={cdsHasPage(v)} />;
 function AssetGroup({ icon, label, empty, children }: { icon: React.ReactNode; label: string; empty: string; children: React.ReactNode[] }) {
   const has = Array.isArray(children) && children.length > 0;
   return (
     <div>
       <div className="mb-1.5 flex items-center gap-1.5 text-[11px] font-bold text-ink-3">{icon}{label}{has && <span className="font-mono text-[10px]">{children.length}</span>}</div>
-      {has ? <div className="flex flex-wrap gap-1.5">{children}</div> : <span className="text-[12px] text-ink-3/70">{empty}</span>}
+      {has ? <div className="flex flex-wrap gap-1.5">{children}</div> : <span className="text-[12px] text-ink-3">{empty}</span>}
     </div>
   );
 }
@@ -178,11 +186,11 @@ export function ObjectExpert({ name, accent }: { name: string; accent: string })
       <Card id="x-assets" title="נכסים טכניים מקושרים" en="Related Technical Assets" icon={<Boxes className="size-4" style={{ color: accent }} />}>
         <div className="grid gap-4 sm:grid-cols-2">
           <AssetGroup icon={<GitBranch className="size-3.5" />} label="טבלאות קשורות" empty="—">{rels.map((r) => <ObjChip key={r.table} code={r.table} />)}</AssetGroup>
-          <AssetGroup icon={<Terminal className="size-3.5" />} label="טרנזקציות" empty="—">{tcodes.map((c) => <AssetChip key={c} href={`/tcode/${encodeURIComponent(c)}/`} code={c} kind="TX" />)}</AssetGroup>
-          <AssetGroup icon={<Plug className="size-3.5" />} label="BAPIs" empty="—">{bapis.map((f) => <AssetChip key={f.name} href={`/bapi/${encodeURIComponent(f.name)}/`} code={f.name} kind="BAPI" />)}</AssetGroup>
-          <AssetGroup icon={<FunctionSquare className="size-3.5" />} label="Function Modules" empty="—">{fms.map((f) => <AssetChip key={f.name} href={`/bapi/${encodeURIComponent(f.name)}/`} code={f.name} kind="FM" />)}</AssetGroup>
-          <AssetGroup icon={<Cable className="size-3.5" />} label="IDocs" empty="—">{idocs.map((f) => <AssetChip key={f.name} href={`/idoc/${encodeURIComponent(f.name)}/`} code={f.name} kind="IDoc" />)}</AssetGroup>
-          <AssetGroup icon={<Sigma className="size-3.5" />} label="CDS Views" empty="—">{cds.map((v) => <AssetChip key={v.view} href={`/cds/${encodeURIComponent(v.view)}/`} code={v.view} kind="CDS" />)}</AssetGroup>
+          <AssetGroup icon={<Terminal className="size-3.5" />} label="טרנזקציות" empty="—">{tcodes.map((c) => <TcodeRef key={c} c={c} />)}</AssetGroup>
+          <AssetGroup icon={<Plug className="size-3.5" />} label="BAPIs" empty="—">{bapis.map((f) => <FuncRef key={f.name} n={f.name} kind="BAPI" />)}</AssetGroup>
+          <AssetGroup icon={<FunctionSquare className="size-3.5" />} label="Function Modules" empty="—">{fms.map((f) => <FuncRef key={f.name} n={f.name} kind="FM" />)}</AssetGroup>
+          <AssetGroup icon={<Cable className="size-3.5" />} label="IDocs" empty="—">{idocs.map((f) => <IdocRef key={f.name} n={f.name} />)}</AssetGroup>
+          <AssetGroup icon={<Sigma className="size-3.5" />} label="CDS Views" empty="—">{cds.map((v) => <CdsRef key={v.view} v={v.view} />)}</AssetGroup>
           <AssetGroup icon={<Puzzle className="size-3.5" />} label="Enhancements / BAdIs" empty="—">{exits.map((e) => <span key={e.name} className="tech inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface px-2.5 py-1 font-mono text-[12px] font-bold text-ink-1" dir="ltr">{e.name}<span className="font-sans text-[9px] font-bold text-ink-3">{e.kind}</span></span>)}</AssetGroup>
           <AssetGroup icon={<AppWindow className="size-3.5" />} label="Fiori Apps" empty="—">{t.fioriApp ? [<Link key="f" href="/fiori-apps/" className="inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface px-2.5 py-1 text-[12px] font-bold text-ink-1 transition hover:border-brand/40 hover:text-brand">{t.fioriApp}</Link>] : []}</AssetGroup>
         </div>
@@ -209,9 +217,9 @@ export function ObjectExpert({ name, accent }: { name: string; accent: string })
               {i.debugEntry?.length ? <Sub label="שלבי אימות"><Bullets items={i.debugEntry.slice(0, 5)} tone="#2563eb" /></Sub> : null}
             </div>
             <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 border-t border-hairline pt-3">
-              {i.analyzeTcodes?.length ? <PlayRow label="טרנזקציות">{i.analyzeTcodes.map((c) => <AssetChip key={c} href={`/tcode/${encodeURIComponent(c)}/`} code={c} kind="TX" />)}</PlayRow> : null}
+              {i.analyzeTcodes?.length ? <PlayRow label="טרנזקציות">{i.analyzeTcodes.filter(isCleanCode).map((c) => <TcodeRef key={c} c={c} />)}</PlayRow> : null}
               {i.tables?.filter((x) => x !== name).length ? <PlayRow label="טבלאות">{i.tables.filter((x) => x !== name).map((c) => <ObjChip key={c} code={c} />)}</PlayRow> : null}
-              {i.funcs?.length ? <PlayRow label="BAPIs / FMs">{i.funcs.map((c) => <AssetChip key={c} href={`/bapi/${encodeURIComponent(c)}/`} code={c} kind="FN" />)}</PlayRow> : null}
+              {i.funcs?.length ? <PlayRow label="BAPIs / FMs">{i.funcs.map((c) => <FuncRef key={c} n={c} kind={classifyFunc(c)} />)}</PlayRow> : null}
             </div>
             {i.fix?.length ? <div className="mt-3 rounded-xl bg-emerald-50/60 p-2.5"><div className="eyebrow-2 mb-1 text-emerald-700">פתרון</div><Bullets items={i.fix.slice(0, 4)} tone="#1aa179" /></div> : null}
           </div>
@@ -240,7 +248,7 @@ function FlowCol({ label, tone, objs, roles, empty }: { label: string; tone: str
   return (
     <div className="rounded-2xl border border-hairline bg-surface-2/30 p-3">
       <div className="mb-1.5 text-[11px] font-bold" style={{ color: tone }}>{label}</div>
-      {objs.length ? <div className="mb-2 flex flex-wrap gap-1.5">{objs.slice(0, 6).map((c) => <ObjChip key={c} code={c} />)}</div> : <p className="mb-2 text-[12px] text-ink-3/70">{empty}</p>}
+      {objs.length ? <div className="mb-2 flex flex-wrap gap-1.5">{objs.slice(0, 6).map((c) => <ObjChip key={c} code={c} />)}</div> : <p className="mb-2 text-[12px] text-ink-3">{empty}</p>}
       {roles?.length ? <div className="flex flex-wrap gap-1">{roles.map((r, i) => <span key={i} className="rounded-md bg-surface px-1.5 py-0.5 text-[10.5px] text-ink-3">{r}</span>)}</div> : null}
     </div>
   );

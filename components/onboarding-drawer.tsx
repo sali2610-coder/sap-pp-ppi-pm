@@ -16,8 +16,10 @@ export function OnboardingDrawer() {
   useEffect(() => {
     if (typeof window !== "undefined" && !hasOnboarded()) setOpen(true);
     const h = () => setOpen(true);
+    const onEsc = (e: KeyboardEvent) => { if (e.key === "Escape") { markOnboarded(); setOpen(false); } };
     window.addEventListener("neo:open-guide", h);
-    return () => window.removeEventListener("neo:open-guide", h);
+    window.addEventListener("keydown", onEsc);
+    return () => { window.removeEventListener("neo:open-guide", h); window.removeEventListener("keydown", onEsc); };
   }, []);
   const close = () => { markOnboarded(); setOpen(false); };
 
@@ -37,11 +39,11 @@ export function OnboardingDrawer() {
       {open && (
         <>
           <motion.div className="fixed inset-0 z-[70] bg-slate-900/40 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={close} />
-          <motion.aside dir="rtl" className="fixed inset-y-0 start-0 z-[71] flex w-[460px] max-w-[92vw] flex-col bg-white shadow-2xl"
+          <motion.aside dir="rtl" role="dialog" aria-modal="true" aria-label="ברוך הבא ל-NEO" className="fixed inset-y-0 start-0 z-[71] flex w-[460px] max-w-[92vw] flex-col bg-white shadow-2xl"
             initial={reduce ? false : { x: "-100%" }} animate={{ x: 0 }} exit={reduce ? undefined : { x: "-100%" }} transition={{ type: "spring", stiffness: 320, damping: 34 }}>
             {/* header */}
             <div className="relative shrink-0 bg-gradient-to-l from-brand-dark via-brand to-brand px-5 py-4 text-white">
-              <button onClick={close} className="absolute end-4 top-4 rounded-lg p-1 text-white/80 hover:bg-white/15"><X className="size-5" /></button>
+              <button onClick={close} aria-label="סגור" className="absolute end-4 top-4 rounded-lg p-1 text-white/80 hover:bg-white/15"><X className="size-5" /></button>
               <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-white/70"><Sparkles className="size-3.5" />Project NEO</div>
               <h2 className="mt-1 text-2xl font-extrabold">ברוך הבא ל-NEO</h2>
               <p className="mt-1 text-sm text-white/85">קוקפיט הידע למיגרציית SAP ECC → S/4HANA של הארגון — תהליכים, אובייקטים, מודל נתונים והשפעת S/4 במקום אחד.</p>

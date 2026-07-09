@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
-import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, ArrowRight, Hand, ChevronDown, Database, GitBranch, Workflow, Clock, RotateCcw, Copy, Check, Gauge, Terminal, AlertTriangle, ArrowRightLeft, Network, Boxes, BookOpen, GraduationCap, Wrench, Cpu, Bug, Lightbulb, ArrowUpRight } from "lucide-react";
-import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, TECH_FIELDS, FIELDS_PLUS, OBJECTS } from "./meta";
-import { Highlight } from "@/components/highlight";
+import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, ArrowRight, Hand, ChevronDown, Database, GitBranch, Workflow, Clock, RotateCcw, Gauge, Terminal, AlertTriangle, ArrowRightLeft, Network, Boxes, BookOpen, GraduationCap, Wrench, Cpu, Bug, Lightbulb, ArrowUpRight } from "lucide-react";
+import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, FIELDS_PLUS, OBJECTS } from "./meta";
 import { s4For, TRUST_HE, RISK_HE, RISK_COLOR } from "@/lib/s4";
 import { knowledgeFor, IMPORTANCE_HE, IMPORTANCE_COLOR } from "@/lib/knowledge";
 import { interviewFor, type Level } from "@/data/knowledge/interview";

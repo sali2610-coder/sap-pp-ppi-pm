@@ -2,7 +2,6 @@
 // object (keyed by its primary table). Powers the Object Intelligence Center,
 // Resolution Path Engine and SAP Notes Graph. Pure functions over authored data.
 
-import { ALL_TABLES } from "@/data/sapData";
 import { tableByName, kgraph } from "@/lib/knowledge-graph";
 import { FUNCTION_INTEL } from "@/data/function-intel";
 import { classifyFunc, listTcodes, listFuncs } from "@/lib/object-intel";
