@@ -13,7 +13,6 @@ import {
 import { tcodeHasPage, funcHasPage, idocHasPage, cdsHasPage, objectHasPage } from "@/lib/route-exists";
 
 const ICONS: Record<string, typeof LayoutGrid> = { LayoutGrid, Workflow, Boxes, Terminal, Table, Plug, Sigma, AppWindow, Settings, Cable, AlertTriangle, GitBranch, Puzzle, Lightbulb, ArrowRightLeft };
-const fmt = (n: number) => n.toLocaleString("en-US");
 const S4_DOT: Record<string, string> = { kept: "#1aa179", replaced: "#c77a0a", removed: "#dc2626" };
 
 function CodeChip({ href, code, he, ok = true }: { href: string; code: string; he?: string; ok?: boolean }) {
@@ -29,7 +28,7 @@ function CodeChip({ href, code, he, ok = true }: { href: string; code: string; h
   );
   return ok
     ? <Link href={href} className="card-interactive group flex items-center gap-2.5 p-2.5" dir="rtl">{body}</Link>
-    : <div className="flex items-center gap-2.5 rounded-xl border border-hairline bg-surface-2/40 p-2.5" dir="rtl"><span className="size-1.5 shrink-0 rounded-full bg-ink-3/40" /><div className="min-w-0 flex-1"><span className="tech block truncate font-mono text-[13px] font-bold text-ink-3" dir="ltr">{code}</span>{he && <span className="block truncate text-[11.5px] text-ink-3/70">{he}</span>}</div></div>;
+    : <div className="flex items-center gap-2.5 rounded-xl border border-hairline bg-surface-2/40 p-2.5" dir="rtl"><span className="size-1.5 shrink-0 rounded-full bg-ink-3/40" /><div className="min-w-0 flex-1"><span className="tech block truncate font-mono text-[13px] font-bold text-ink-3" dir="ltr">{code}</span>{he && <span className="block truncate text-[11.5px] text-ink-3">{he}</span>}</div></div>;
 }
 
 function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) {
@@ -100,7 +99,7 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
       return (
         <div className="overflow-x-auto rounded-2xl border border-hairline">
           <table className="w-full text-[12.5px]" dir="rtl">
-            <thead className="bg-surface-2 text-ink-3"><tr>{headers.map((h) => <th key={h} className="whitespace-nowrap px-3 py-2 text-start font-bold">{h}</th>)}</tr></thead>
+            <thead className="bg-surface-2 text-ink-2"><tr>{headers.map((h) => <th key={h} className="whitespace-nowrap px-3 py-2 text-start font-bold">{h}</th>)}</tr></thead>
             <tbody>{rows.map((r, i) => <tr key={i} className="border-t border-hairline hover:bg-surface-2/50">{r.map((c, j) => <td key={j} className="px-3 py-2 text-ink-2">{c}</td>)}</tr>)}</tbody>
           </table>
         </div>

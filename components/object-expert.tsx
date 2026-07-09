@@ -51,7 +51,7 @@ function ObjChip({ code }: { code: string }) {
     : <span className="tech inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-2 px-2.5 py-1 font-mono text-[12px] font-bold text-ink-3" dir="ltr">{code}</span>;
 }
 function AssetChip({ href, code, kind, ok = true }: { href: string; code: string; kind: string; ok?: boolean }) {
-  if (!ok) return <span className="tech inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-2 px-2.5 py-1 font-mono text-[12px] font-bold text-ink-3" dir="ltr">{code}<span className="font-sans text-[9px] font-bold text-ink-3/70">{kind}</span></span>;
+  if (!ok) return <span className="tech inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface-2 px-2.5 py-1 font-mono text-[12px] font-bold text-ink-3" dir="ltr">{code}<span className="font-sans text-[9px] font-bold text-ink-3">{kind}</span></span>;
   return <Link href={href} className="tech inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface px-2.5 py-1 font-mono text-[12px] font-bold text-ink-1 transition hover:border-brand/40 hover:text-brand" dir="ltr">{code}<span className="font-sans text-[9px] font-bold text-ink-3">{kind}</span></Link>;
 }
 const enc = encodeURIComponent;
@@ -65,7 +65,7 @@ function AssetGroup({ icon, label, empty, children }: { icon: React.ReactNode; l
   return (
     <div>
       <div className="mb-1.5 flex items-center gap-1.5 text-[11px] font-bold text-ink-3">{icon}{label}{has && <span className="font-mono text-[10px]">{children.length}</span>}</div>
-      {has ? <div className="flex flex-wrap gap-1.5">{children}</div> : <span className="text-[12px] text-ink-3/70">{empty}</span>}
+      {has ? <div className="flex flex-wrap gap-1.5">{children}</div> : <span className="text-[12px] text-ink-3">{empty}</span>}
     </div>
   );
 }
@@ -219,7 +219,7 @@ export function ObjectExpert({ name, accent }: { name: string; accent: string })
             <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 border-t border-hairline pt-3">
               {i.analyzeTcodes?.length ? <PlayRow label="טרנזקציות">{i.analyzeTcodes.filter(isCleanCode).map((c) => <TcodeRef key={c} c={c} />)}</PlayRow> : null}
               {i.tables?.filter((x) => x !== name).length ? <PlayRow label="טבלאות">{i.tables.filter((x) => x !== name).map((c) => <ObjChip key={c} code={c} />)}</PlayRow> : null}
-              {i.funcs?.length ? <PlayRow label="BAPIs / FMs">{i.funcs.map((c) => <FuncRef key={c} n={c} kind="FN" />)}</PlayRow> : null}
+              {i.funcs?.length ? <PlayRow label="BAPIs / FMs">{i.funcs.map((c) => <FuncRef key={c} n={c} kind={classifyFunc(c)} />)}</PlayRow> : null}
             </div>
             {i.fix?.length ? <div className="mt-3 rounded-xl bg-emerald-50/60 p-2.5"><div className="eyebrow-2 mb-1 text-emerald-700">פתרון</div><Bullets items={i.fix.slice(0, 4)} tone="#1aa179" /></div> : null}
           </div>
@@ -248,7 +248,7 @@ function FlowCol({ label, tone, objs, roles, empty }: { label: string; tone: str
   return (
     <div className="rounded-2xl border border-hairline bg-surface-2/30 p-3">
       <div className="mb-1.5 text-[11px] font-bold" style={{ color: tone }}>{label}</div>
-      {objs.length ? <div className="mb-2 flex flex-wrap gap-1.5">{objs.slice(0, 6).map((c) => <ObjChip key={c} code={c} />)}</div> : <p className="mb-2 text-[12px] text-ink-3/70">{empty}</p>}
+      {objs.length ? <div className="mb-2 flex flex-wrap gap-1.5">{objs.slice(0, 6).map((c) => <ObjChip key={c} code={c} />)}</div> : <p className="mb-2 text-[12px] text-ink-3">{empty}</p>}
       {roles?.length ? <div className="flex flex-wrap gap-1">{roles.map((r, i) => <span key={i} className="rounded-md bg-surface px-1.5 py-0.5 text-[10.5px] text-ink-3">{r}</span>)}</div> : null}
     </div>
   );

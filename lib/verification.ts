@@ -12,7 +12,6 @@ import { EXITS } from "@/data/exits";
 import { SAP_NOTES } from "@/data/sap-notes";
 import { INCIDENTS } from "@/data/troubleshooting";
 import { SOLUTIONS } from "@/data/solutions";
-import { OIC_OBJECTS } from "@/lib/cross-links";
 
 export type VClass = "Verified" | "Partially Verified" | "Needs Verification";
 export interface VRow { kind: string; total: number; verified: number; partial: number; needs: number }
@@ -25,9 +24,6 @@ const SUSPICIOUS = /(^CRAP_|_ZF_|^CO_ZF_|^CO_BT_|^ISU_|^CARO_|^ISCHED_|^PPCC1$|^
 
 export function classifyRows(): VRow[] {
   const funcs = listFuncs();
-  const fnV = funcs.filter((f) => FUNCTION_INTEL[f] && !FUNCTION_INTEL[f].inferred).length;
-  const fnP = 0;
-  const fnN = funcs.length - fnV;
   const bapi = funcs.filter((f) => classifyFunc(f) === "BAPI");
   const fm = funcs.filter((f) => classifyFunc(f) === "FM");
   const idoc = funcs.filter((f) => classifyFunc(f) === "IDoc");

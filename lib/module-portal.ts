@@ -1,8 +1,6 @@
 // Reusable module-portal engine. PM & PP-PI are the reference implementation;
 // every future SAP module (MM/SD/FI/QM/WM…) plugs into the SAME registry +
 // derivation and inherits the identical documentation portal + design language.
-import { PM_DATA } from "@/data/sapData.pm";
-import { PPPI_DATA } from "@/data/sapData.pppi";
 import { FLOWS, zoneOf } from "@/lib/studio-graph";
 import { cdsForTable } from "@/data/cds-map";
 import { classifyFunc, cleanFunc } from "@/lib/object-intel";
@@ -11,9 +9,6 @@ import { EXITS } from "@/data/exits";
 import { CONSULTANT_NOTES } from "@/data/consultant-notes";
 import type { SAPModuleData, SAPTable } from "@/lib/types";
 
-export const MODULE_BY_SLUG: Record<string, SAPModuleData> = { pm: PM_DATA, "pp-pi": PPPI_DATA };
-export const MODULE_SLUGS = Object.keys(MODULE_BY_SLUG);
-export const moduleBySlug = (slug: string): SAPModuleData | undefined => MODULE_BY_SLUG[slug];
 export const moduleTables = (m: SAPModuleData): SAPTable[] => {
   const seen = new Set<string>(); const out: SAPTable[] = [];
   for (const tp of m.topics) for (const t of tp.tables) if (!seen.has(t.tableName)) { seen.add(t.tableName); out.push(t); }
@@ -39,7 +34,7 @@ export const SECTIONS: SectionMeta[] = [
   { slug: "troubleshooting", he: "תקלות", en: "Troubleshooting", icon: "AlertTriangle", desc: "תקלות נפוצות, שורש ופתרון." },
   { slug: "related", he: "אובייקטים קשורים", en: "Related Objects", icon: "Boxes", desc: "קשרים חוצי-מודול." },
   { slug: "best-practices", he: "Best Practices", en: "Best Practices", icon: "Lightbulb", desc: "המלצות והערות מקצועיות לפי אובייקט." },
-  { slug: "ecc-s4", he: "ECC ↔ S/4HANA", en: "ECC vs S/4HANA", icon: "ArrowRightLeft", desc: "מה נשמר, הוחלף או הוסר במעבר ל-S/4HANA." },
+  { slug: "ecc-s4", he: "ECC ↔ S/4HANA", en: "ECC ↔ S/4HANA", icon: "ArrowRightLeft", desc: "מה נשמר, הוחלף או הוסר במעבר ל-S/4HANA." },
 ];
 export const sectionBySlug = (slug: string) => SECTIONS.find((s) => s.slug === slug);
 export const NAV_SECTIONS = SECTIONS.filter((s) => s.slug !== "overview");

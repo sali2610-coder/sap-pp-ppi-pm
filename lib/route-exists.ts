@@ -2,30 +2,25 @@
 // page (dynamicParams=false). Mirrors each route's generateStaticParams source
 // so link chips render as plain (non-link) when no page exists. Prevents dead
 // links without dropping the information.
-import { registryCodes } from "@/lib/tx-registry";
-import { listTcodes, listFuncs } from "@/lib/object-intel";
-import { listCdsViews } from "@/data/cds-map";
-import { ALL_TABLES } from "@/lib/data";
-import { HR_BW_NAMES } from "@/lib/hr-bw-adapter";
-import { verifiedNames } from "@/data/verified-objects";
-import { appCodes } from "@/lib/apps-intel";
-import { allImpactNames } from "@/lib/impact";
-import { TRANSACTIONS } from "@/data/transactions";
+// Imports ONLY the generated string manifest (a few KB), never the datasets —
+// so the client <SmartLink> resolver stays lightweight. Regenerate the manifest
+// with `npx tsx scripts/gen-route-manifest.mts` (runs on prebuild).
+import { ROUTE_MANIFEST as M } from "@/lib/route-manifest.generated";
 
-let _tc: Set<string> | null = null, _fn: Set<string> | null = null, _id: Set<string> | null = null, _cds: Set<string> | null = null,
-    _obj: Set<string> | null = null, _apps: Set<string> | null = null, _imp: Set<string> | null = null, _tx: Set<string> | null = null;
+let _obj: Set<string> | null = null, _tc: Set<string> | null = null, _fn: Set<string> | null = null,
+    _id: Set<string> | null = null, _cds: Set<string> | null = null, _apps: Set<string> | null = null,
+    _imp: Set<string> | null = null, _tx: Set<string> | null = null;
 const norm = (s: string) => (s || "").trim();
 
-// object route: generateStaticParams = ALL_TABLES ∪ HR_BW_NAMES ∪ verifiedNames
-export const objectHasPage = (c: string) => { _obj ??= new Set([...ALL_TABLES.map((t) => t.tableName), ...HR_BW_NAMES, ...verifiedNames()]); return _obj.has(norm(c)); };
-export const appHasPage = (c: string) => { _apps ??= new Set(appCodes()); const n = norm(c); return _apps.has(n) || _apps.has(n.toUpperCase()); };
-export const impactHasPage = (c: string) => { _imp ??= new Set(allImpactNames()); return _imp.has(norm(c)); };
-export const transactionHasPage = (c: string) => { _tx ??= new Set(TRANSACTIONS.map((t) => t.code)); const n = norm(c); return _tx.has(n) || _tx.has(n.toUpperCase()); };
+export const objectHasPage = (c: string) => { _obj ??= new Set(M.objects); return _obj.has(norm(c)); };
+const appHasPage = (c: string) => { _apps ??= new Set(M.apps); const n = norm(c); return _apps.has(n) || _apps.has(n.toUpperCase()); };
+const impactHasPage = (c: string) => { _imp ??= new Set(M.impact); return _imp.has(norm(c)); };
+const transactionHasPage = (c: string) => { _tx ??= new Set(M.transactions); const n = norm(c); return _tx.has(n) || _tx.has(n.toUpperCase()); };
 
-export const tcodeHasPage = (c: string) => { _tc ??= new Set([...registryCodes().map((x) => x.toUpperCase()), ...listTcodes().map((x) => x.toUpperCase())]); return _tc.has(norm(c).toUpperCase()); };
-export const funcHasPage = (n: string) => { _fn ??= new Set([...listFuncs("BAPI"), ...listFuncs("FM")]); return _fn.has(norm(n)); };
-export const idocHasPage = (n: string) => { _id ??= new Set(listFuncs("IDoc")); return _id.has(norm(n)); };
-export const cdsHasPage = (v: string) => { _cds ??= new Set(listCdsViews()); return _cds.has(norm(v)); };
+export const tcodeHasPage = (c: string) => { _tc ??= new Set(M.tcodes); return _tc.has(norm(c).toUpperCase()); };
+export const funcHasPage = (n: string) => { _fn ??= new Set(M.bapiFm); return _fn.has(norm(n)); };
+export const idocHasPage = (n: string) => { _id ??= new Set(M.idocs); return _id.has(norm(n)); };
+export const cdsHasPage = (v: string) => { _cds ??= new Set(M.cds); return _cds.has(norm(v)); };
 
 // a clean SAP code token (no descriptive noise like "IA05 verify SE93")
 export const isCleanCode = (s: string) => /^[A-Za-z][A-Za-z0-9_/]{1,}$/.test(norm(s));

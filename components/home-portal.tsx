@@ -51,7 +51,7 @@ function SearchHero({ counts }: { counts: PortalCounts }) {
       <div className="mx-auto mt-6 flex max-w-2xl flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-[12.5px] font-medium text-ink-3">
         {[
           [counts.tables, "טבלאות"], [counts.fields, "שדות"], [counts.transactions, "טרנזקציות"],
-          [counts.bapis + counts.fms, "BAPIs/FMs"], [counts.cds, "CDS"], [counts.fiori, "Fiori"],
+          [counts.bapis + counts.fms, "BAPIs / FMs"], [counts.cds, "CDS"], [counts.fiori, "Fiori"],
         ].map(([n, label], i) => (
           <span key={label as string} className="inline-flex items-center gap-1.5">
             {i > 0 && <span className="text-ink-3/50">·</span>}

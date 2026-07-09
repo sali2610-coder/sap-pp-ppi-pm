@@ -231,7 +231,7 @@ export function CommandPalette() {
             onChange={(e) => setQ(e.target.value)}
             onKeyDown={onInputKey}
             placeholder={t("search.placeholder")}
-            className="h-14 w-full bg-transparent text-lg outline-none placeholder:text-muted-foreground"
+            className="h-14 w-full rounded-lg bg-transparent text-lg outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand/30 placeholder:text-muted-foreground"
           />
           <kbd className="hidden shrink-0 rounded-md border border-border bg-muted/70 px-1.5 py-0.5 text-[11px] font-medium text-muted-foreground sm:block">ESC</kbd>
         </div>
@@ -428,7 +428,7 @@ export function CommandPalette() {
               </motion.div>
             ) : (
               <motion.div key="list" initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}>
-                <div className="sticky top-0 z-10 mb-1 flex flex-wrap items-center gap-2 border-b border-border/50 bg-white/80 px-3 py-2 backdrop-blur-sm">
+                <div aria-live="polite" className="sticky top-0 z-10 mb-1 flex flex-wrap items-center gap-2 border-b border-border/50 bg-white/80 px-3 py-2 backdrop-blur-sm">
                   <motion.span key={flat.length} initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 500, damping: 24 }}
                     className="inline-flex items-center gap-1.5 rounded-lg bg-brand/10 px-2.5 py-1 text-xs font-extrabold text-brand">
                     <Search className="size-3.5" />נמצאו {flat.length + (intel ? 1 : 0) + (tcode && !intel ? 1 : 0)} תוצאות

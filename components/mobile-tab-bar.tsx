@@ -70,7 +70,7 @@ export function MobileTabBar() {
               <div className="mx-auto mt-2.5 h-1.5 w-11 rounded-full bg-slate-200" />
               <div className="flex items-center justify-between px-5 py-3">
                 <span className="text-sm font-extrabold text-slate-900">ניווט</span>
-                <button onClick={() => setMore(false)} className="tap rounded-lg p-1 text-slate-400 active:bg-slate-100"><X className="size-5" /></button>
+                <button onClick={() => setMore(false)} aria-label="סגור" className="tap rounded-lg p-1 text-slate-400 active:bg-slate-100"><X className="size-5" /></button>
               </div>
               <div className="px-4 pb-2">
                 <button onClick={() => { setMore(false); setCenters(true); }} className="tap flex w-full items-center gap-3 rounded-2xl border border-brand/30 bg-gradient-to-l from-brand/10 to-transparent p-3 text-right active:scale-[0.98]">

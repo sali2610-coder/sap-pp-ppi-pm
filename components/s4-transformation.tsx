@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useRef, useEffect } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
-import { Layers, GitCompare, Database, Boxes, Plug, ShieldCheck, LayoutGrid, FileSearch, Rocket, FlaskConical, ClipboardCheck, Lightbulb, ArrowLeft, Search, TrendingUp, AlertTriangle, Code2, ArrowRightLeft } from "lucide-react";
+import { GitCompare, Database, Boxes, Plug, LayoutGrid, FileSearch, Rocket, FlaskConical, ClipboardCheck, Lightbulb, ArrowLeft, Search, TrendingUp, AlertTriangle, Code2, ArrowRightLeft } from "lucide-react";
 import { ECC_S4_TOPICS, STATUS_HE, STATUS_COLOR, type ChangeStatus } from "@/data/ecc-s4";
 import { S4_IMPACT } from "@/data/s4-impact";
 import { TRANSACTIONS } from "@/data/transactions";
@@ -83,7 +83,7 @@ export function S4Transformation() {
           <h1 className="mt-1 text-3xl font-extrabold sm:text-4xl">מרכז טרנספורמציה · ECC → S/4HANA</h1>
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-white/85">{EXEC_NARRATIVE}</p>
           <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-6">
-            {([["נושאי שינוי", kpi.topics, "#0ea5e9"], ["הוחלפו", kpi.replaced, "#2563eb"], ["שונו", kpi.changed, "#d97706"], ["הוסרו", kpi.deprecated, "#dc2626"], ["טבלאות מושפעות", kpi.impactTables, "#7c3aed"], ["Simplification", kpi.simpl, "#16a34a"]] as const).map(([l, n, c]) => (
+            {([["נושאי שינוי", kpi.topics, "#0ea5e9"], ["הוחלפו", kpi.replaced, "#2563eb"], ["שונו", kpi.changed, "#d97706"], ["הוסרו", kpi.deprecated, "#dc2626"], ["טבלאות מושפעות", kpi.impactTables, "#7c3aed"], ["Simplification", kpi.simpl, "#16a34a"]] as const).map(([l, n]) => (
               <div key={l} className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-sm"><div className="text-2xl font-extrabold tabular-nums" style={{ color: "#fff" }}>{n}</div><div className="text-[10px] font-bold uppercase tracking-wide text-white/60">{l}</div></div>
             ))}
           </div>
