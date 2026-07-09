@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Search, ZoomIn, ZoomOut, Scan, X, Network, Boxes, Flame, Trophy, AlertTriangle, GitBranch, ArrowLeft } from "lucide-react";
+import { Search, ZoomIn, ZoomOut, Scan, Network, Boxes, Flame, Trophy, AlertTriangle } from "lucide-react";
 import { buildGraph, neighbors, degree, graphStats, KIND_META, type GraphIndex, type GNode, type RawTable } from "@/lib/knowledge-graph-global";
 import { knowledgeFor } from "@/lib/knowledge";
 import { s4For } from "@/lib/s4";

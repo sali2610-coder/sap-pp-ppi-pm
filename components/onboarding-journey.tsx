@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { Sparkles, Compass, Database, Workflow, BrainCircuit, Award, BadgeCheck, Lock, Check, ArrowLeft, Clock, Trophy, Flame, GraduationCap, Star, RotateCcw, Target, Network, MessageSquare, Zap } from "lucide-react";
+import { Sparkles, Compass, Database, Workflow, BrainCircuit, Award, BadgeCheck, Lock, Check, ArrowLeft, Clock, Trophy, GraduationCap, Star, RotateCcw, Target, Network, MessageSquare, Zap } from "lucide-react";
 import { useJourney, markStage, resetJourney } from "@/lib/onboard-store";
 import { useCertState, masteryPct } from "@/lib/cert/store";
 import { getRecentObjects } from "@/lib/prefs";
@@ -10,7 +10,7 @@ import { getRecentObjects } from "@/lib/prefs";
 type Stage = { id: string; n: number; icon: typeof Compass; title: string; desc: string; action: string; href?: string; mentor?: boolean; final?: boolean; mins: number };
 const STAGES: Stage[] = [
   { id: "welcome", n: 1, icon: Sparkles, title: "ברוך הבא ל-NEO", desc: "סיור מהיר: מודל נתונים, אקדמיה, מנטור, תקלות והסמכה — הכל במקום אחד.", action: "התחל את המסע", mins: 5 },
-  { id: "track", n: 2, icon: Compass, title: "בחירת התמחות", desc: "PM (אחזקת מפעל) או PP-PI (ייצור תהליכי) — בחר את מסלול הליבה שלך.", action: "בחר מסלול", href: "/learn/", mins: 10 },
+  { id: "track", n: 2, icon: Compass, title: "בחירת התמחות", desc: "PM (תחזוקת מפעל) או PP-PI (ייצור תהליכי) — בחר את מסלול הליבה שלך.", action: "בחר מסלול", href: "/learn/", mins: 10 },
   { id: "model", n: 3, icon: Database, title: "היכרות עם מודל הנתונים", desc: "טבלאות, מפתחות, קשרים והשפעת S/4 — בגרף אינטראקטיבי.", action: "פתח מודל נתונים", href: "/sap-infrastructure/", mins: 20 },
   { id: "process", n: 4, icon: Workflow, title: "הבנת התהליך העסקי", desc: "סיור מודרך בתהליך אחזקה/ייצור מקצה לקצה, בהקשר ייצור.", action: "פתח סיור מודרך", href: "/story/", mins: 25 },
   { id: "mentor", n: 5, icon: BrainCircuit, title: "עבודה עם המנטור", desc: "שאל על כל אובייקט, תסמין או תהליך — תשובות מבוססות מאגר בלבד.", action: "שאל את המנטור", mentor: true, mins: 10 },

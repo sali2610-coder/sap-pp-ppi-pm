@@ -8,7 +8,6 @@ import { SAP_NOTES } from "@/data/sap-notes";
 import { SOLUTIONS } from "@/data/solutions";
 import { PROCESS_MAPS } from "@/data/processes";
 import { OIC_OBJECTS } from "@/lib/cross-links";
-import { cdsByView } from "@/data/cds-map";
 
 const tableSet = new Set(ALL_TABLES.map((t) => t.tableName));
 const fnSet = new Set(listFuncs());

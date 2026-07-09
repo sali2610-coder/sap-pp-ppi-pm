@@ -140,7 +140,7 @@ export default function ChatPage() {
             <p className="mt-0.5 text-[11px] text-muted-foreground">PP / PP-PI · 1087 pages · {book ? book.chapters.length : "…"} ch</p>
           </div>
           {[
-            lang === "he" ? "ספר 1 · אחזקת מפעל (PM)" : "Book 1 · Plant Maintenance",
+            lang === "he" ? "ספר 1 · תחזוקת מפעל (PM)" : "Book 1 · Plant Maintenance",
             lang === "he" ? "ספר 5 · ניהול איכות (QM)" : "Book 5 · Quality Management",
           ].map((b) => (
             <div key={b} className="rounded-xl border border-border bg-card/50 p-3 text-xs text-muted-foreground">

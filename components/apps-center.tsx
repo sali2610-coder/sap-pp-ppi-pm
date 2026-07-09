@@ -3,7 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Search, Terminal, LayoutGrid, Sigma, ArrowLeft, Sparkles, Star, GitCompare } from "lucide-react";
+import { Search, Terminal, LayoutGrid, Sigma, ArrowLeft, Sparkles, Star } from "lucide-react";
 import { searchApps, appObject, criticality, FEATURED, type SearchHit } from "@/lib/apps-intel";
 
 const MOD_C: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9", QM: "#0d9488", MM: "#2563eb", FI: "#16a34a", CO: "#d97706", SD: "#0891b2", PS: "#be185d" };

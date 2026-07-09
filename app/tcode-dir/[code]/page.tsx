@@ -2,7 +2,6 @@ import Link from "next/link";
 import { TCODE_DIRECTORY, tcodeDirBySlug, dirSlug } from "@/data/tcode-directory";
 import { tcodeDirLinks } from "@/lib/tcode-search";
 import { Crumb, CenterHeader, Block } from "@/components/knowledge";
-import { EccS4Block } from "@/components/ecc-s4-block";
 import { LifecycleBlock } from "@/components/lifecycle-block";
 import { TrustBadge } from "@/components/trust-badge";
 import { trustTcode } from "@/lib/trust";
