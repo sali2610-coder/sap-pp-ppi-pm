@@ -7,12 +7,18 @@ import { FLOWS, zoneOf } from "@/lib/studio-graph";
 import { cdsForTable } from "@/data/cds-map";
 import { classifyFunc, cleanFunc } from "@/lib/object-intel";
 import { INCIDENTS } from "@/data/troubleshooting";
+import { EXITS } from "@/data/exits";
+import { CONSULTANT_NOTES } from "@/data/consultant-notes";
 import type { SAPModuleData, SAPTable } from "@/lib/types";
 
 export const MODULE_BY_SLUG: Record<string, SAPModuleData> = { pm: PM_DATA, "pp-pi": PPPI_DATA };
 export const MODULE_SLUGS = Object.keys(MODULE_BY_SLUG);
 export const moduleBySlug = (slug: string): SAPModuleData | undefined => MODULE_BY_SLUG[slug];
-export const moduleTables = (m: SAPModuleData): SAPTable[] => m.topics.flatMap((tp) => tp.tables);
+export const moduleTables = (m: SAPModuleData): SAPTable[] => {
+  const seen = new Set<string>(); const out: SAPTable[] = [];
+  for (const tp of m.topics) for (const t of tp.tables) if (!seen.has(t.tableName)) { seen.add(t.tableName); out.push(t); }
+  return out;
+};
 export const moduleAccent = (m: SAPModuleData) => (m.module === "PM" ? "#f97316" : "#6d28d9");
 
 export type SectionMeta = { slug: string; he: string; en: string; icon: string; desc: string };
@@ -23,13 +29,17 @@ export const SECTIONS: SectionMeta[] = [
   { slug: "master-data", he: "נתוני אב", en: "Master Data", icon: "Boxes", desc: "הליבה שעליה נשען כל התהליך." },
   { slug: "transactions", he: "טרנזקציות", en: "Transactions", icon: "Terminal", desc: "T-Codes ראשיים ומשניים של המודול." },
   { slug: "tables", he: "טבלאות", en: "Tables", icon: "Table", desc: "מילון הנתונים המלא, מקובץ לפי נושא." },
+  { slug: "relationships", he: "קשרים", en: "Relationships", icon: "GitBranch", desc: "מפת ה-ER — מי מתחבר למי, קרדינליות ו-JOIN." },
+  { slug: "configuration", he: "תצורה", en: "Configuration", icon: "Settings", desc: "נקודות קונפיגורציה (SPRO) מרכזיות." },
+  { slug: "integration", he: "אינטגרציה", en: "Integration", icon: "Cable", desc: "IDocs, ממשקים ונקודות אינטגרציה." },
   { slug: "bapis", he: "BAPIs / FMs", en: "Function Modules", icon: "Plug", desc: "ממשקי BAPI ו-Function Modules." },
   { slug: "cds", he: "CDS Views", en: "CDS Views", icon: "Sigma", desc: "תצוגות CDS של S/4HANA מעל הטבלאות." },
   { slug: "fiori", he: "Fiori Apps", en: "Fiori Apps", icon: "AppWindow", desc: "אפליקציות Fiori הקשורות." },
-  { slug: "configuration", he: "תצורה", en: "Configuration", icon: "Settings", desc: "נקודות קונפיגורציה (SPRO) מרכזיות." },
-  { slug: "integration", he: "אינטגרציה", en: "Integration", icon: "Cable", desc: "IDocs, ממשקים ונקודות אינטגרציה." },
+  { slug: "enhancements", he: "Enhancements", en: "Enhancement Spots", icon: "Puzzle", desc: "User-Exits, BAdIs ונקודות הרחבה." },
   { slug: "troubleshooting", he: "תקלות", en: "Troubleshooting", icon: "AlertTriangle", desc: "תקלות נפוצות, שורש ופתרון." },
-  { slug: "related", he: "אובייקטים קשורים", en: "Related Objects", icon: "GitBranch", desc: "קשרים חוצי-מודול." },
+  { slug: "related", he: "אובייקטים קשורים", en: "Related Objects", icon: "Boxes", desc: "קשרים חוצי-מודול." },
+  { slug: "best-practices", he: "Best Practices", en: "Best Practices", icon: "Lightbulb", desc: "המלצות והערות מקצועיות לפי אובייקט." },
+  { slug: "ecc-s4", he: "ECC ↔ S/4HANA", en: "ECC vs S/4HANA", icon: "ArrowRightLeft", desc: "מה נשמר, הוחלף או הוסר במעבר ל-S/4HANA." },
 ];
 export const sectionBySlug = (slug: string) => SECTIONS.find((s) => s.slug === slug);
 export const NAV_SECTIONS = SECTIONS.filter((s) => s.slug !== "overview");
@@ -97,6 +107,41 @@ export function relatedObjects(m: SAPModuleData): { code: string; he: string; mo
   return [...seen.values()];
 }
 
+export type Edge = { from: string; to: string; card?: string; desc: string; toExists: boolean };
+export function relationships(m: SAPModuleData): Edge[] {
+  const tset = new Set(moduleTables(m).map((t) => t.tableName));
+  const seen = new Set<string>(); const out: Edge[] = [];
+  for (const t of moduleTables(m)) for (const r of t.relations || []) {
+    const key = `${t.tableName}|${r.table}`; if (seen.has(key)) continue; seen.add(key);
+    out.push({ from: t.tableName, to: r.table, card: r.card, desc: r.desc || "", toExists: tset.has(r.table) });
+  }
+  return out;
+}
+
+const exitMatch = (m: SAPModuleData) => (mod: string) => (m.module === "PP-PI" ? mod === "PP-PI" || mod === "PP" || mod === "Cross" : mod === m.module || mod === "Cross");
+export function enhancements(m: SAPModuleData) {
+  const match = exitMatch(m);
+  return EXITS.filter((e) => match(e.module)).map((e) => ({ name: e.name, kind: e.kind, he: e.he, object: e.object, tcodes: e.tcodes, example: e.example }));
+}
+
+export function bestPractices(m: SAPModuleData): { code: string; he: string; notes: string[] }[] {
+  const out: { code: string; he: string; notes: string[] }[] = [];
+  for (const t of moduleTables(m)) { const n = CONSULTANT_NOTES[t.tableName]; if (n?.fnNotes?.length) out.push({ code: t.tableName, he: t.descriptionHe || "", notes: n.fnNotes }); }
+  return out;
+}
+
+export type S4Row = { code: string; he: string; alt?: string; note?: string };
+export function eccS4(m: SAPModuleData): { kept: S4Row[]; replaced: S4Row[]; removed: S4Row[] } {
+  const kept: S4Row[] = [], replaced: S4Row[] = [], removed: S4Row[] = [];
+  for (const t of moduleTables(m)) {
+    const row: S4Row = { code: t.tableName, he: t.descriptionHe || "", alt: t.s4AltTable, note: t.s4Note };
+    if (t.s4AltTable) replaced.push(row);
+    else if (/הוסר|בוטל|removed|deprecat/i.test(t.s4Note || "")) removed.push(row);
+    else kept.push(row);
+  }
+  return { kept, replaced, removed };
+}
+
 export function overviewStats(m: SAPModuleData) {
   const tabs = moduleTables(m);
   return {
@@ -118,13 +163,17 @@ export function sectionCount(m: SAPModuleData, slug: string): number {
     case "master-data": return masterData(m).length;
     case "transactions": return transactions(m).length;
     case "tables": return moduleTables(m).length;
+    case "relationships": return relationships(m).length;
     case "bapis": return funcs(m, ["BAPI", "FM"]).length;
     case "cds": return cdsViews(m).length;
     case "fiori": return fioriApps(m).length;
+    case "enhancements": return enhancements(m).length;
     case "configuration": return configRows(m).length;
     case "integration": return funcs(m, ["IDoc", "BAPI"]).length;
     case "troubleshooting": return incidents(m).length;
     case "related": return relatedObjects(m).length;
+    case "best-practices": return bestPractices(m).length;
+    case "ecc-s4": return moduleTables(m).length;
     default: return 0;
   }
 }

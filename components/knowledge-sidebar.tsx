@@ -18,8 +18,9 @@ type Group = { id: string; label: string; items: Item[] };
 // inlined here so the heavy module dataset never enters the client bundle).
 const MODULE_SECTIONS: [string, string][] = [
   ["business-process", "תהליך עסקי"], ["master-data", "נתוני אב"], ["transactions", "טרנזקציות"],
-  ["tables", "טבלאות"], ["bapis", "BAPIs / FMs"], ["cds", "CDS Views"], ["fiori", "Fiori Apps"],
-  ["configuration", "תצורה"], ["integration", "אינטגרציה"], ["troubleshooting", "תקלות"], ["related", "אובייקטים קשורים"],
+  ["tables", "טבלאות"], ["relationships", "קשרים"], ["configuration", "תצורה"], ["integration", "אינטגרציה"],
+  ["bapis", "BAPIs / FMs"], ["cds", "CDS Views"], ["fiori", "Fiori Apps"], ["enhancements", "Enhancements"],
+  ["troubleshooting", "תקלות"], ["related", "אובייקטים קשורים"], ["best-practices", "Best Practices"], ["ecc-s4", "ECC ↔ S/4HANA"],
 ];
 const moduleChildren = (base: string): Child[] => MODULE_SECTIONS.map(([slug, label]) => ({ href: `${base}${slug}/`, label }));
 

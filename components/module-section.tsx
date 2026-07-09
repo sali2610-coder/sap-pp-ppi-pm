@@ -1,15 +1,16 @@
 import Link from "next/link";
 import {
   LayoutGrid, Workflow, Boxes, Terminal, Table, Plug, Sigma, AppWindow, Settings,
-  Cable, AlertTriangle, GitBranch, ArrowLeft, ArrowRight,
+  Cable, AlertTriangle, GitBranch, ArrowLeft, ArrowRight, Puzzle, Lightbulb, ArrowRightLeft, Clock,
 } from "lucide-react";
 import type { SAPModuleData } from "@/lib/types";
 import {
   NAV_SECTIONS, sectionBySlug, moduleAccent, tablesByTopic, transactions, funcs,
   cdsViews, fioriApps, masterData, processSteps, configRows, configHeaders, incidents, relatedObjects,
+  relationships, enhancements, bestPractices, eccS4,
 } from "@/lib/module-portal";
 
-const ICONS: Record<string, typeof LayoutGrid> = { LayoutGrid, Workflow, Boxes, Terminal, Table, Plug, Sigma, AppWindow, Settings, Cable, AlertTriangle, GitBranch };
+const ICONS: Record<string, typeof LayoutGrid> = { LayoutGrid, Workflow, Boxes, Terminal, Table, Plug, Sigma, AppWindow, Settings, Cable, AlertTriangle, GitBranch, Puzzle, Lightbulb, ArrowRightLeft };
 const fmt = (n: number) => n.toLocaleString("en-US");
 const S4_DOT: Record<string, string> = { kept: "#1aa179", replaced: "#c77a0a", removed: "#dc2626" };
 
@@ -124,8 +125,65 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
       const rel = relatedObjects(module);
       return rel.length ? <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{rel.map((r) => <CodeChip key={r.code} href={`/object/${encodeURIComponent(r.code)}/`} code={r.code} he={r.he} />)}</div> : <Empty text="אין אובייקטים חוצי-מודול." />;
     }
+    case "relationships": {
+      const edges = relationships(module);
+      if (!edges.length) return <Empty text="אין קשרים מתועדים." />;
+      const Obj = ({ code, exists }: { code: string; exists?: boolean }) => exists === false
+        ? <span className="tech rounded-md border border-hairline bg-surface-2 px-2 py-0.5 font-mono text-[12px] font-bold text-ink-3" dir="ltr">{code}</span>
+        : <Link href={`/object/${encodeURIComponent(code)}/`} className="tech rounded-md border border-hairline bg-surface px-2 py-0.5 font-mono text-[12px] font-bold text-ink-1 transition hover:border-brand/40 hover:text-brand" dir="ltr">{code}</Link>;
+      return (
+        <div className="overflow-hidden rounded-2xl border border-hairline">
+          {edges.map((e, i) => (
+            <div key={i} className={`flex flex-wrap items-center gap-2 px-3.5 py-2.5 ${i ? "border-t border-hairline" : ""} hover:bg-surface-2/50`} dir="rtl">
+              <Obj code={e.from} /><ArrowLeft className="size-3.5 text-ink-3/50" /><Obj code={e.to} exists={e.toExists} />
+              {e.card && <span className="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-[10px] font-bold text-ink-3">{e.card}</span>}
+              {e.desc && <span className="min-w-0 flex-1 truncate text-[12px] text-ink-3">{e.desc}</span>}
+            </div>
+          ))}
+        </div>
+      );
+    }
+    case "enhancements": {
+      const ex = enhancements(module);
+      return ex.length ? <div className="grid gap-3 sm:grid-cols-2">{ex.map((e) => (
+        <div key={e.name} className="card flex flex-col gap-1.5 p-4" dir="rtl">
+          <div className="flex items-center gap-2"><span className="tech font-mono text-[13.5px] font-extrabold text-ink-1" dir="ltr">{e.name}</span><span className="rounded-md bg-surface-2 px-1.5 py-0.5 text-[10px] font-bold text-ink-3">{e.kind}</span></div>
+          <p className="text-[13px] font-bold text-ink-1">{e.he}</p>
+          {e.example && <p className="text-[12px] leading-relaxed text-ink-3">{e.example}</p>}
+          {e.tcodes?.length ? <div className="flex flex-wrap gap-1">{e.tcodes.map((tc) => <span key={tc} className="tech rounded bg-surface-2 px-1.5 py-0.5 font-mono text-[10.5px] font-bold text-ink-3" dir="ltr">{tc}</span>)}</div> : null}
+        </div>
+      ))}</div> : <Soon />;
+    }
+    case "best-practices": {
+      const bp = bestPractices(module);
+      return bp.length ? <div className="space-y-3">{bp.map((o) => (
+        <div key={o.code} className="card p-4" dir="rtl">
+          <div className="mb-2 flex items-center gap-2"><Link href={`/object/${encodeURIComponent(o.code)}/`} className="tech font-mono text-[13.5px] font-extrabold text-ink-1 hover:text-brand" dir="ltr">{o.code}</Link><span className="truncate text-[12px] text-ink-3">{o.he}</span></div>
+          <ul className="space-y-1.5">{o.notes.map((n, i) => <li key={i} className="flex gap-2 text-[13px] leading-relaxed text-ink-2"><Lightbulb className="mt-0.5 size-3.5 shrink-0 text-amber-500" />{n}</li>)}</ul>
+        </div>
+      ))}</div> : <Soon />;
+    }
+    case "ecc-s4": {
+      const { kept, replaced, removed } = eccS4(module);
+      const Grp = ({ title, rows, tint, showNote }: { title: string; rows: { code: string; he: string; alt?: string; note?: string }[]; tint: string; showNote?: boolean }) => rows.length ? (
+        <div><h3 className="mb-2 flex items-center gap-2 text-[13px] font-extrabold text-ink-1"><span className="size-2.5 rounded-full" style={{ background: tint }} />{title}<span className="font-mono text-[11px] font-bold text-ink-3">{rows.length}</span></h3>
+          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{rows.map((r) => (
+            <Link key={r.code} href={`/object/${encodeURIComponent(r.code)}/`} className="card-interactive flex flex-col gap-0.5 p-2.5" dir="rtl">
+              <div className="flex items-center gap-1.5"><span className="tech font-mono text-[13px] font-bold text-ink-1" dir="ltr">{r.code}</span>{r.alt && <span className="tech font-mono text-[11px] font-bold" style={{ color: tint }} dir="ltr">→ {r.alt}</span>}</div>
+              <span className="truncate text-[11px] text-ink-3">{showNote && r.note ? r.note : r.he}</span>
+            </Link>
+          ))}</div></div>
+      ) : null;
+      return (
+        <div className="space-y-6">
+          <Grp title="הוחלף / טבלה חלופית" rows={replaced} tint="#c77a0a" showNote />
+          <Grp title="הוסר / בוטל" rows={removed} tint="#dc2626" showNote />
+          <Grp title="נשמר ללא שינוי מהותי" rows={kept} tint="#1aa179" />
+        </div>
+      );
+    }
     default:
-      return <Empty text="חלק זה יתווסף בקרוב." />;
+      return <Soon />;
   }
 }
 
@@ -134,6 +192,18 @@ function Empty({ text }: { text: string }) {
     <div className="flex flex-col items-center gap-2 rounded-2xl border border-dashed border-hairline bg-surface-2/40 py-14 text-center">
       <span className="grid size-11 place-items-center rounded-xl bg-surface-2 text-ink-3"><LayoutGrid className="size-6" /></span>
       <p className="text-[13px] font-medium text-ink-3">{text}</p>
+    </div>
+  );
+}
+
+// Clean "Coming Soon" — for sections whose verified data isn't authored yet.
+// No placeholder/fake content; honest signal.
+function Soon() {
+  return (
+    <div className="flex flex-col items-center gap-2.5 rounded-2xl border border-dashed border-hairline bg-surface-2/30 py-16 text-center">
+      <span className="grid size-12 place-items-center rounded-2xl bg-surface-2 text-ink-3"><Clock className="size-6" /></span>
+      <p className="text-[14px] font-bold text-ink-2">בקרוב</p>
+      <p className="max-w-xs text-[12.5px] leading-relaxed text-ink-3">התוכן המאומת לחלק זה בכתיבה. לא מוצג מידע שלא אומת.</p>
     </div>
   );
 }
