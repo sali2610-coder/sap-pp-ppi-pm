@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "gen:routes": "npx --yes tsx scripts/gen-route-manifest.mts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

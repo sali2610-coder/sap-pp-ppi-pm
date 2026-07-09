@@ -81,7 +81,7 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
             {!collapsed && <span className="truncate">{it.label}</span>}
           </Link>
           {hasChildren && (
-            <button onClick={() => toggle(it.href)} aria-label="הרחב" className="me-1 rounded p-1 text-ink-3 hover:text-ink-1">
+            <button onClick={() => toggle(it.href)} aria-label={`${expanded ? "כווץ" : "הרחב"} ${it.label}`} aria-expanded={expanded} className="me-1 rounded p-1 text-ink-3 hover:text-ink-1">
               <ChevronDown className={`size-3.5 transition-transform ${expanded ? "" : "-rotate-90"}`} />
             </button>
           )}
@@ -116,7 +116,7 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
         return (
           <div key={g.id} className="mt-2">
             {!collapsed ? (
-              <button onClick={() => toggle(g.id)} className="flex w-full items-center justify-between rounded-md px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-ink-3 hover:text-ink-2">
+              <button onClick={() => toggle(g.id)} aria-expanded={isOpen} className="flex w-full items-center justify-between rounded-md px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-ink-3 hover:text-ink-2">
                 {g.label}
                 <ChevronDown className={`size-3.5 transition-transform ${isOpen ? "" : "-rotate-90"}`} />
               </button>
@@ -137,8 +137,10 @@ export function KnowledgeSidebar() {
   useEffect(() => {
     try { setCollapsed(localStorage.getItem("neo:sidebar:collapsed") === "1"); } catch { /* noop */ }
     const openDrawer = () => setDrawer(true);
+    const onEsc = (e: KeyboardEvent) => { if (e.key === "Escape") setDrawer(false); };
     window.addEventListener("neo:open-sidebar", openDrawer);
-    return () => window.removeEventListener("neo:open-sidebar", openDrawer);
+    window.addEventListener("keydown", onEsc);
+    return () => { window.removeEventListener("neo:open-sidebar", openDrawer); window.removeEventListener("keydown", onEsc); };
   }, []);
   const toggleCollapse = () => setCollapsed((c) => { const n = !c; try { localStorage.setItem("neo:sidebar:collapsed", n ? "1" : "0"); } catch { /* noop */ } return n; });
 
@@ -157,7 +159,7 @@ export function KnowledgeSidebar() {
 
       {/* mobile — slide-over drawer */}
       {drawer && (
-        <div className="fixed inset-0 z-[80] lg:hidden" role="dialog" aria-modal="true">
+        <div className="fixed inset-0 z-[80] lg:hidden" role="dialog" aria-modal="true" aria-label="ניווט">
           <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-sm" onClick={() => setDrawer(false)} />
           <aside className="absolute inset-y-0 end-0 flex w-[82vw] max-w-[20rem] flex-col bg-surface shadow-2xl">
             <div className="flex items-center justify-between border-b border-hairline px-3 py-2.5">

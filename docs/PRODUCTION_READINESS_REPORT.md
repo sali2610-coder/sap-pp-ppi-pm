@@ -1,105 +1,107 @@
-# Production Readiness Report — Phase 7
+# Production Readiness Report — Project NEO Cockpit (PM / PP / PP-PI)
 
-**Scope:** Polishing + production certification of the PM / PP / PP-PI documentation
-portal. No new features, no new SAP modules, no redesign. Flagship modules remain
-**PM, PP, PP-PI** only; legacy modules (MM/SD/FI/QM/WM/BW) stay out of scope but the
-platform must have **no broken navigation**.
+**Scope:** End-to-end production-readiness certification of the flagship PM / PP /
+PP-PI documentation portal. No new SAP modules, no redesign, no new features —
+consistency, reliability, accessibility, performance and release quality only.
+Legacy modules (MM/SD/FI/QM/WM/BW) stay out of scope but must have **no broken
+navigation**.
 
-**Result:** Certified. `tsc` 0 errors · `eslint` 0 errors · static export builds
-(4,373 pages) · **0 dead internal links** · 39/39 multi-viewport checks pass.
-
----
-
-## 1. Navigation audit — the headline fix
-
-### Issue found
-A crawl of the static export (`out/`, `trailingSlash: true`, `dynamicParams = false`
-→ any link to a non-generated route is a hard 404) surfaced **3,143 dead internal
-link instances** across the product:
-
-| Target family | Instances | Root cause |
-|---|---:|---|
-| `/object/` | 1,913 | cross-links to tables outside `generateStaticParams` (ALL_TABLES ∪ HR/BW ∪ verified) |
-| `/apps/` | 660 | legacy apps-catalog cross-links to non-generated tcodes |
-| `/bapi/` | 321 | BAPI/FM references + a missing `/bapi/` index route |
-| `/library/` | 121 | academy content data using the bare module slug (`/library/wm/…`) instead of the academy base (`/library/wm-academy/…`), plus `#fragment` bypass |
-| `/impact/` | 65 | object→impact links where no impact page exists |
-| `/tcode/` | 62 | tcodes whose code contains `/` (e.g. `V/06`, `/IWFND/ERROR_LOG`) can never be a single dynamic segment |
-| `/learn/` | 1 | wrong module slug (`/learn/pm` vs `/learn/pm-fundamentals`) |
-
-### Fix — one shared link-resolution layer (no legacy content work)
-- **`lib/route-exists.ts`** — a single resolver that mirrors every dynamic route's
-  `generateStaticParams` source (object, tcode, apps, bapi, idoc, cds, impact,
-  transactions). `pageExists(href)` returns **false only when it can affirmatively
-  prove the target is missing** (modeled family + item absent, multi-segment code,
-  or a code containing `/`); it **fails open** for every unmodeled family so valid
-  links are never downgraded.
-- **`components/smart-link.tsx`** — `<SmartLink>` renders a real `<Link>` when the
-  target exists and a plain, non-navigating chip (`aria-disabled`, honest "page in
-  progress" title) when it does not. The information stays visible; navigation never
-  404s.
-- **Wired at the choke points** via a one-line `SmartLink as Link` alias so each
-  emitting component self-heals: `related-view`, `app-object`, `app-practical`,
-  `apps-center`, `idoc-explorer`, `transaction-page`, `transaction-light`,
-  `process-timeline`, `migration-cockpit`, `s4-transformation`, `verified-object-view`,
-  `object-workspace`, `cds-explorer`.
-- **Flagship components** guarded explicitly: `object-expert` and `module-section`
-  now render cross-links as links only when `tcodeHasPage`/`funcHasPage`/`idocHasPage`/
-  `cdsHasPage`/`objectHasPage` confirm the page exists.
-- **New `/bapi/` index** (`app/bapi/page.tsx`) — the bare route was linked from the
-  sidebar and homepage but had no page. Added a directory index over the existing
-  BAPI/FM dataset (no new SAP content).
-- **Repointed** dead bare targets: `/tcode-dir/` → `/transactions/` (sidebar + home).
-- **Homepage** example chips repointed from non-object codes (`IW31`,
-  `BAPI_EQUI_CREATE`) to verified objects (`EQUI, IFLOT, QMEL, MARA, AFKO`).
-- **Academy** (`academy-chapter.tsx`) — same-book chapter cross-links retargeted to the
-  correct academy base (fragments preserved); cross-book/unknown links degrade to a
-  plain chip. `/learn/pm` slug corrected to `/learn/pm-fundamentals`.
-
-### Verification
-Re-crawl after each pass: **3,143 → 162 → 2 → 0** dead links across all 4,373 pages.
+**Verdict: RELEASE-READY.** `tsc` 0 errors · `eslint` **0 errors** · production
+build + static export succeed (4,373 pages) · **0 dead internal links** · **90/90**
+multi-viewport checks (0 overflow, 0 console errors).
 
 ---
 
-## 2. Responsive audit
-Headless Chrome, 13 representative pages (home, PM/PP-PI portals, a section page,
-object, tcode, bapi index, transactions, idoc, cds, academy chapter, VK11) × 3
-viewports (desktop 1440, tablet 820, mobile 390): **39/39 pass** — 0 horizontal
-overflow, 0 layout errors.
+## 1. What was audited
+Ten dimensions, via six parallel read-only audit agents + tooling: documentation
+consistency, navigation, knowledge quality, visual consistency, responsive QA,
+performance/code-health, accessibility, search coverage, data integrity, and final
+build/link/console validation.
 
-## 3. Accessibility audit
-0 console/page errors across all 39 renders. The `SmartLink` dead-state is a
-non-interactive `span` (not a focus trap) with `aria-disabled` and a descriptive
-title. Focus rings and `aria-current` on navigation are intact.
+## 2. What was fixed
 
-## 4. Data audit
-- PP-PI = **68 tables / 326 fields** (matches blueprint exactly).
-- PM = 58 raw topic rows / **56 unique** tables (QMEL and AUFK are intentionally
-  mapped to two topics; `moduleTables` dedups by name so each renders once — no
-  user-facing duplicate).
-- **0 cross-module orphan relation targets** — every relation resolves within its
-  module, and any object cross-link is guarded by `objectHasPage`.
-- No fabricated SAP data introduced; the `/bapi/` index and all guards derive purely
-  from the verified datasets.
+### Navigation (0 dead links)
+- Full static-export crawl: **3,143 dead internal links → 0**, held at 0 after this pass.
+- Shared resolution layer: `lib/route-exists.ts` (`pageExists`, mirrors every dynamic
+  route's `generateStaticParams`, fails open for unmodeled families) + `components/smart-link.tsx`
+  (`<SmartLink>` renders a real link when the target exists, else a non-navigating chip).
+- Wired at 14 emitting components via `SmartLink as Link`; flagship `object-expert`/
+  `module-section` guarded explicitly; new `/bapi/` index; academy chapter cross-links
+  retargeted to the correct academy base; slash-bearing tcodes (`V/06`) correctly de-linked.
+- Breadcrumbs, sidebar, command palette, and search all resolve to correct pages; no orphan routes.
 
-## 5. Search audit
-The unified search index (`searchObjects`) covers tables, T-Codes, BAPIs/FMs, IDocs,
-CDS views, domains and processes, each with its correct route — consistent with the
-now-guarded link layer.
+### Documentation consistency
+- `ecc-s4` section English label unified `"ECC vs S/4HANA"` → **`"ECC ↔ S/4HANA"`** (matched he/sidebar).
+- Playbook function chips: removed the stray `kind="FN"` badge → now classified per name (**BAPI/FM/IDoc**).
+- Homepage metric label `"BAPIs/FMs"` → **`"BAPIs / FMs"`** (canonical spacing).
+- Confirmed: sidebar `MODULE_SECTIONS` and `SECTIONS` registry are a perfect 15-section
+  match; both module portals render through the same `SectionBody` switch (no one-off layouts).
 
-## 6. Performance / offline
-Static export builds clean (4,373 pages). **No external resource references** in
-sampled pages (CDNs/fonts/googleapis absent) — 100% offline preserved. The shared
-resolver reuses datasets already shipped for search, adding no new client payload.
+### Knowledge quality
+- **Removed the only placeholder that reached UI:** troubleshooting table token `A0xx` → real
+  condition table **`A305`** (`data/troubleshooting-ext3.ts`).
+- Verified lifecycle status flows are real, correctly-ordered SAP standard statuses
+  (ORDER `CRTD→REL→CNF→TECO→CLSD`, NOTIF `OSNO→NOPR→NOCO→DLFL`).
+- Verified troubleshooting playbooks reference correct transactions/tables/objects.
+- No lorem/TODO/FIXME in user-visible strings. Honest "בקרוב/Coming Soon" retained only for
+  genuine data gaps (see Known limitations).
 
-## 7. Quality gates
-`tsc --noEmit` → 0 errors · `eslint` → **0 errors** (344 pre-existing warnings, none
-introduced by Phase 7) · `next build` (output: export) → success.
+### Visual consistency (Design System v2 parity)
+- Migrated the four legacy slate-palette components — **`knowledge.tsx`, `object-workspace.tsx`,
+  `transaction-page.tsx`, `related-view.tsx`** — off `bg-white / border-slate-* / text-slate-*`
+  onto v2 tokens (`bg-surface`, `border-hairline`, `text-ink-1/2/3`). Object pages now render
+  the workspace header and the `ObjectExpert` reference in one consistent palette (previously a
+  visible v2↔slate seam). Dark CTAs, gradients and semantic status tints (green/amber/red) preserved.
 
----
+### Accessibility
+- Icon-only close buttons labelled (`mobile-tab-bar`, `onboarding-drawer`).
+- Sidebar row chevron: dynamic `aria-label` + `aria-expanded`; group toggles expose `aria-expanded`.
+- Modal drawers: `role="dialog"` + `aria-modal` + accessible name + **Esc-to-close** (`onboarding-drawer`, sidebar drawer).
+- Command palette: focus-visible ring on the search input; `aria-live="polite"` on the results count.
+- Relationship SVG marked `role="img"` with a label (keyboard nav available via the real-button chip lists).
+- Contrast: essential text bumped off `text-ink-3/70` (≈3.3:1) to solid `text-ink-3`; table headers `ink-3`→`ink-2` on `surface-2`.
+- `<SmartLink>` dead-state is a genuinely non-interactive, non-focusable span (`aria-disabled`).
 
-## Out of scope (by standing constraint), now safe
-Legacy all-module areas (`/apps/`, `/tcode/`, `/impact/`, WM/QM/PPDS academies) were
-**not expanded and no content was authored** for them. They are now covered by the
-shared `SmartLink` guard, so their previously-broken cross-links resolve to honest
-non-navigating chips instead of 404s. PM/PP/PP-PI remain the only flagship modules.
+### Performance / code-health
+- **Client bundle:** the client `<SmartLink>` resolver no longer imports the SAP datasets. Added
+  `scripts/gen-route-manifest.mts` → `lib/route-manifest.generated.ts` (a **24 KB** string-only
+  mirror of all route params); `route-exists.ts` imports only that instead of ~2 MB of
+  `sapData`/`tx-intel`/impact modules. Behaviour identical, verified by the 0-dead-link crawl.
+- Removed dead exports (`MODULE_SLUGS`, `moduleBySlug`, `MODULE_BY_SLUG`) and ~24 unused
+  imports/vars (largest: the obsolete wiki-aggregation block in `object-workspace.tsx`).
+  ESLint warnings 344 → **320**.
+
+## 3. Known limitations (honest gaps — no data fabricated)
+- **Coming Soon (real data gaps):** `IFLOT` and `MARA` have no verified troubleshooting incident,
+  so their Playbooks / Real-Examples sections show "בקרוב". `AFVC/PLPO/CRHD` lack consultant notes;
+  `PLKO/MARC/CRHD/AFVC` lack interview Q&A. These are surfaced honestly, never invented.
+- **Data:** all 280 PM fields lack `dt`/`len` type/length metadata (PP-PI has all 326) — an
+  upstream `extract-xlsx.mjs` extraction gap in the PM blueprint, not a per-record defect. Out of
+  scope for this UI pass; flagged for a dataset regeneration.
+- **Lifecycle precision:** operation/sub-item tables (AFVC/AFVV, QMFE/QMUR/QMSM) are shown their
+  parent header's lifecycle — a documented simplification, not a wrong status.
+- **Legacy areas** (`/apps/`, `/tcode/`, WM/QM/PPDS academies) remain out of flagship scope but
+  are fully covered by the shared link guard — no broken navigation anywhere.
+
+## 4. Performance summary
+- Static export: 4,373 pages, 100% offline (no CDN/font/remote references).
+- Route-resolution data severed from the client link layer (~2 MB → 24 KB manifest).
+- Heavy explorers/graphs are already route-code-split; command palette + dataset ship as a
+  lazy (`ssr:false`) async chunk, not initial load.
+
+## 5. Build summary
+`npx tsc --noEmit` → 0 errors · `eslint .` → **0 errors**, 320 warnings (pre-existing, none new) ·
+`next build` (`output: 'export'`) → success, 4,373 static pages · route manifest regen via `npm run gen:routes`.
+
+## 6. QA summary
+- **Navigation:** crawl of all 4,373 pages → **0 dead internal links**.
+- **Responsive:** 17 representative pages × 3 viewports (desktop/tablet/mobile) = **51 checks, 0 fail**
+  (this pass) — 0 horizontal overflow, 0 clipping, 0 console errors. Combined with the prior pass: **90/90**.
+- **Accessibility:** keyboard operability, focus rings, labels, dialog semantics, Esc, contrast verified.
+- **Visual:** object/tcode/bapi/ecc-s4 pages screenshot-verified for v2 palette coherence.
+
+## 7. Final readiness assessment
+**RELEASE-READY.** Functionality, documentation, navigation, accessibility, performance and
+release quality are verified. Zero errors, zero broken links, zero runtime console errors across
+the full static export. Remaining items are honest, documented data gaps that do not affect
+reliability or navigation.
