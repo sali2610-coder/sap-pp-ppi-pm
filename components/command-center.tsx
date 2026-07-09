@@ -27,16 +27,18 @@ export function CommandCenter() {
   return (
     <Reveal className="space-y-3">
       <div dir="rtl" className="space-y-3">
-      <h2 className="flex items-center gap-2 text-sm font-extrabold tracking-tight text-slate-500"><Clock className="size-4 text-brand" />המשך מהיכן שעצרת</h2>
+      <h2 className="flex items-center gap-2 text-sm font-extrabold tracking-tight text-ink-3"><Clock className="size-4 text-brand" />המשך מהיכן שעצרת</h2>
       <div className="flex flex-wrap gap-2">
         {recentObj.map((n) => (
-          <Link key={"o" + n} href={`/object/${encodeURIComponent(n)}`} className="lift inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm transition-colors hover:border-brand/30">
-            <span className="size-2 rounded-full bg-brand" /><span className="tech font-bold text-slate-700" dir="ltr">{n}</span><ArrowLeft className="size-3.5 text-slate-300" />
+          <Link key={"o" + n} href={`/object/${encodeURIComponent(n)}`} className="card-interactive inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm">
+
+            <span className="size-2 rounded-full bg-brand" /><span className="tech font-bold text-ink-2" dir="ltr">{n}</span><ArrowLeft className="size-3.5 text-ink-3" />
           </Link>
         ))}
         {pages.map((h) => (
-          <Link key={"p" + h} href={h} className="lift inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm transition-colors hover:border-brand/30">
-            <span className="size-2 rounded-full bg-slate-300" /><span className="font-bold text-slate-700">{HREF_LABEL[h]}</span><ArrowLeft className="size-3.5 text-slate-300" />
+          <Link key={"p" + h} href={h} className="card-interactive inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm">
+
+            <span className="size-2 rounded-full bg-slate-300" /><span className="font-bold text-ink-2">{HREF_LABEL[h]}</span><ArrowLeft className="size-3.5 text-ink-3" />
           </Link>
         ))}
       </div>

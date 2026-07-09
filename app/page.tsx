@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { ALL_TABLES } from "@/lib/data";
-import { HomeHero } from "@/components/home-hero";
+import { HomePortal, type ModuleCard } from "@/components/home-portal";
+import { listFuncs } from "@/lib/object-intel";
+import { listCdsViews } from "@/data/cds-map";
 
 // Homepage — optimized for: SAP by Sali · Project NEO · SAP PP / PM / PP-PI ·
 // SAP Architecture Explorer · SAP Learning Platform · Sali Halif. Natural copy,
@@ -17,28 +19,42 @@ export const metadata: Metadata = {
       "Interactive SAP knowledge platform for PP, PP-PI and PM by Sali Halif — architecture explorer, table explorer, business processes and learning resources.",
   },
 };
-import { ExecutiveSummary } from "@/components/executive-summary";
 import { CommandCenter } from "@/components/command-center";
-import { QuickAccess } from "@/components/quick-access";
 import { registryStats } from "@/lib/tx-registry";
 import { FIORI_APPS } from "@/data/centers/fiori";
-import { appCodes } from "@/lib/apps-intel";
+
+const fieldsOf = (arr: typeof ALL_TABLES) => arr.reduce((a, t) => a + (t.fields?.length || 0), 0);
 
 export default function HomePage() {
-  const tables = ALL_TABLES.length;
-  const relations = ALL_TABLES.reduce((a, t) => a + (t.relations?.length || 0), 0);
-  const tcodes = new Set(
-    ALL_TABLES.flatMap((t) => (t.tcodes || "").split(/[^A-Za-z0-9_./]+/).filter((x) => x.length >= 3 && /^[A-Z]/i.test(x)))
-  ).size;
-  const bapis = new Set(ALL_TABLES.flatMap((t) => (t.funcs || []).map((f) => f[0]).filter(Boolean))).size;
-  const txTotal = registryStats().total;
+  const pm = ALL_TABLES.filter((t) => t.module === "PM");
+  const ppi = ALL_TABLES.filter((t) => t.module === "PP-PI");
+
+  const counts = {
+    tables: ALL_TABLES.length,
+    fields: fieldsOf(ALL_TABLES),
+    relations: ALL_TABLES.reduce((a, t) => a + (t.relations?.length || 0), 0),
+    transactions: registryStats().total,
+    bapis: listFuncs("BAPI").length,
+    fms: listFuncs("FM").length,
+    idocs: listFuncs("IDoc").length,
+    cds: listCdsViews().length,
+    fiori: FIORI_APPS.length,
+    tcodes: 0,
+  };
+
+  const modules: ModuleCard[] = [
+    { code: "PM", label: "אחזקה", he: "Plant Maintenance", href: "/pm/", tint: "#f97316", tables: pm.length, fields: fieldsOf(pm),
+      desc: "ציוד, מיקומים פונקציונליים, הודעות ופקודות עבודה, אחזקה מונעת — ומיפוי ECC→S/4HANA." },
+    { code: "PP-PI", label: "ייצור תהליכי", he: "Process Industries", href: "/pp-pi/", tint: "#6d28d9", tables: ppi.length, fields: fieldsOf(ppi),
+      desc: "אב חומר, עצי מוצר, מתכוני ייצור, פקודות תהליך, מתכון בקרה וממשקי Zetes/Daymax." },
+    { code: "DM", label: "מודל נתונים", he: "Cross-module data model", href: "/sap-infrastructure/", tint: "#2563eb", tables: ALL_TABLES.length, fields: fieldsOf(ALL_TABLES),
+      desc: "מפת התשתית: אזורי מודל → מודולי SAP → אובייקטים, קשרים ותהליכים חוצי-מודול." },
+  ];
 
   return (
-    <div className="space-y-10 sm:space-y-12">
-      <HomeHero stats={{ modules: 2, tables, relations, tcodes, bapis, books: 2 }} />
-      <QuickAccess counts={{ transactions: txTotal, apps: FIORI_APPS.length, apps2: appCodes().length, tables }} />
+    <div className="space-y-12 sm:space-y-16">
+      <HomePortal counts={counts} modules={modules} />
       <CommandCenter />
-      <ExecutiveSummary />
     </div>
   );
 }
