@@ -26,7 +26,7 @@ export default function PMUAcademyIndex() {
           <span className="inline-flex items-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1"><Clock className="size-3" />~{totMin} {lang === "he" ? "דק'" : "min"}</span>
         </div>
       </section>
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+      <div className="grid-adaptive">
         {keys.map((n) => { const ch = PMU_TEXTBOOK[String(n)]; const st = PMU_TEXTBOOK_STATS[String(n)];
           return (<Link key={n} href={`/library/pmu-academy/chapter-${pad(n)}/`} dir="rtl" className="glass group flex items-center justify-between gap-3 rounded-2xl p-4 transition-shadow hover:shadow-lg">
             <span className="flex items-center gap-3"><span dir="ltr" className="tech grid size-9 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-orange-500 to-orange-700 text-sm font-bold text-white">{n}</span>

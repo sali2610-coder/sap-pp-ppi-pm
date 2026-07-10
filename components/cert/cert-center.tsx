@@ -28,7 +28,7 @@ export function CertCenter() {
 
   if (run) return <div className="py-2"><Exam questions={run.qs} module={run.module} level={run.level} mode={run.mode} onExit={() => setRun(null)} /></div>;
   // first paint = static SSR; defer the localStorage-driven dashboard one tick to avoid hydration text mismatch
-  if (!mounted) return <div className="mx-auto max-w-[1700px] space-y-6" dir="rtl"><div className="h-48 animate-pulse rounded-[1.75rem] bg-slate-100" /><div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{[0, 1, 2, 3].map((i) => <div key={i} className="h-64 animate-pulse rounded-3xl bg-slate-100" />)}</div></div>;
+  if (!mounted) return <div className="mx-auto space-y-6" dir="rtl"><div className="h-48 animate-pulse rounded-[1.75rem] bg-slate-100" /><div className="grid-adaptive">{[0, 1, 2, 3].map((i) => <div key={i} className="h-64 animate-pulse rounded-3xl bg-slate-100" />)}</div></div>;
 
   // ── analytics from real store ──
   const mods = MODS.map((m) => ({ ...m, s: st.mods[m.id], mastery: masteryPct(st.mods[m.id]) }));
@@ -55,7 +55,7 @@ export function CertCenter() {
   );
 
   return (
-    <div className="mx-auto max-w-[1700px] space-y-6" dir="rtl">
+    <div className="mx-auto space-y-6" dir="rtl">
       {/* SECTION 1 — full-width hero */}
       <header className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-l from-slate-900 via-slate-800 to-slate-900 p-6 text-white shadow-xl sm:p-8">
         <div className="pointer-events-none absolute -left-24 -top-24 size-72 rounded-full bg-brand/25 blur-3xl" />
@@ -89,7 +89,7 @@ export function CertCenter() {
       </div>
 
       {/* SECTION 2 — certification grid (4 equal cards) */}
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid-adaptive">
         {mods.map((m) => { const Icon = m.icon;
           return (
             <div key={m.id} className="group flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
@@ -121,7 +121,7 @@ export function CertCenter() {
       </div>
 
       {/* SECTION 3 — analytics */}
-      <section className="grid gap-4 lg:grid-cols-3">
+      <section className="grid-adaptive">
         <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
           <h3 className="mb-3 flex items-center gap-2 text-base font-extrabold text-slate-900"><BarChart3 className="size-4 text-brand" />מדדי ביצוע</h3>
           <div className="space-y-3">

@@ -71,7 +71,7 @@ export function OnboardingJourney() {
   const earnedN = ACH.filter((a) => a.earned).length;
 
   return (
-    <div className="mx-auto max-w-[1600px] space-y-7" dir="rtl">
+    <div className="mx-auto space-y-7" dir="rtl">
       {celebrate && <Confetti />}
 
       {/* hero */}
@@ -156,7 +156,7 @@ export function OnboardingJourney() {
           <h2 className="flex items-center gap-2 text-lg font-extrabold text-slate-900"><Star className="size-5 text-amber-500" />הישגים</h2>
           <span className="text-sm font-bold text-slate-400">{earnedN}/{ACH.length}</span>
         </div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="grid-adaptive-sm">
           {ACH.map((a) => { const Icon = a.icon; return (
             <div key={a.id} className={`flex flex-col items-center gap-2 rounded-2xl border p-3 text-center transition ${a.earned ? "border-amber-200 bg-amber-50" : "border-slate-200 bg-slate-50 opacity-60"}`}>
               <span className={`grid size-12 place-items-center rounded-full ${a.earned ? "bg-amber-400 text-amber-950" : "bg-slate-200 text-slate-400"}`}>{a.earned ? <Icon className="size-6" /> : <Lock className="size-5" />}</span>

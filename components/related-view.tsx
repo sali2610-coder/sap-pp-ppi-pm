@@ -76,7 +76,7 @@ export function RelatedView({ kind, code, accent, tables, chips, before, backHre
       <section className="card-premium p-5">
         <h3 className="mb-3 flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide text-ink-3"><Database className="size-4" /> טבלאות מקושרות · {tables.length}</h3>
         {tables.length ? (
-          <motion.div initial="h" animate="s" variants={{ h: {}, s: { transition: { staggerChildren: 0.03 } } }} className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          <motion.div initial="h" animate="s" variants={{ h: {}, s: { transition: { staggerChildren: 0.03 } } }} className="grid-adaptive-sm">
             {tables.map((t) => <motion.div key={t.name} variants={{ h: { opacity: 0, y: 10 }, s: { opacity: 1, y: 0 } }}><TableChip t={t} /></motion.div>)}
           </motion.div>
         ) : <p className="text-sm italic text-ink-3">אין טבלאות מקושרות במאגר.</p>}

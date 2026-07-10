@@ -184,7 +184,7 @@ export function KnowledgeExplorer({ centers, groups }: { centers: Center[]; grou
       <AnimatePresence mode="wait">
         {query ? (
           results && results.length > 0 ? (
-            <motion.div key="results" variants={container} initial="hidden" animate="show" className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" dir="rtl">
+            <motion.div key="results" variants={container} initial="hidden" animate="show" className="mt-6 grid-adaptive" dir="rtl">
               {results.map((c) => {
                 const g = groups.find((x) => x.slug === c.group);
                 return <motion.div key={c.href} variants={item}><Card c={c} q={query} accent={g?.accent ?? "#d62027"} /></motion.div>;
@@ -219,7 +219,7 @@ export function KnowledgeExplorer({ centers, groups }: { centers: Center[]; grou
                     <span className="ms-auto rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-bold text-slate-500">{cards.length}</span>
                   </div>
                   <p className="mb-4 text-sm leading-relaxed text-slate-500">{g.intent}</p>
-                  <motion.div variants={container} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  <motion.div variants={container} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} className="grid-adaptive">
                     {cards.map((c) => <motion.div key={c.href} variants={item}><Card c={c} q="" accent={g.accent} /></motion.div>)}
                   </motion.div>
                 </section>

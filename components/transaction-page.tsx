@@ -133,7 +133,7 @@ export function TransactionPage({ code }: { code: string }) {
       {/* recommended next actions */}
       {rec.length > 0 && (
         <Sec id="s-rec" title="המשך מומלץ — רוב היועצים ממשיכים ל" icon={<Sparkles className="size-4 text-amber-500" />}>
-          <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid-adaptive-sm">
             {rec.map((r) => { const ex = txExists(r.code) || !!registryTx(r.code); const inner = (
               <div className="flex items-center gap-2.5 rounded-xl border border-hairline bg-surface p-3 transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-sm">
                 <span className="grid size-9 shrink-0 place-items-center rounded-lg text-white" style={{ background: c }}><Terminal className="size-4" /></span>

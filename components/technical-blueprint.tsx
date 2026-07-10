@@ -198,7 +198,7 @@ function BlueprintSection({ topic, code, query, index, total, open, onToggle, re
 
                 {/* Core objects — tables */}
                 <Block title={`אובייקטי ליבה · טבלאות (${topic.tables.length})`} icon={<Database className="size-4" />} accent={accent}>
-                  <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                  <div className="grid-adaptive">
                     {topic.tables.map((t, i) => <TableCardRich key={t.id} t={t} query={query} accent={accent} idx={i} />)}
                   </div>
                 </Block>

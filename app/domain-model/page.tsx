@@ -16,7 +16,7 @@ export default function Page() {
             <div className="mt-3 flex flex-wrap items-center gap-1.5">
               {a.flow.map((s, i) => <span key={i} className="flex items-center gap-1.5"><span className="rounded-lg border border-slate-200 px-2.5 py-1 text-[11px] font-bold text-slate-600">{s}</span>{i < a.flow.length - 1 && <span className="text-slate-300">←</span>}</span>)}
             </div>
-            <div className="mt-3 grid gap-3 sm:grid-cols-3">
+            <div className="mt-3 grid-adaptive-sm">
               <div><p className="eyebrow mb-1 text-slate-400">אובייקטי SAP</p><div className="flex flex-wrap gap-1.5">{a.objects.map((o) => <Link key={o.href + o.label} href={o.href} className="rounded-lg border border-indigo-200 bg-indigo-50 px-2 py-0.5 text-[11px] font-bold text-indigo-700 hover:bg-indigo-100">{o.label}</Link>)}</div></div>
               <div><p className="eyebrow mb-1 text-slate-400">מפות תהליך</p><div className="flex flex-wrap gap-1.5">{a.processes.map((o) => <Link key={o.href + o.label} href={o.href} className="rounded-lg border border-blue-200 bg-blue-50 px-2 py-0.5 text-[11px] font-bold text-blue-700 hover:bg-blue-100">{o.label}</Link>)}</div></div>
               <div><p className="eyebrow mb-1 text-slate-400">תקלות</p><div className="flex flex-wrap gap-1.5">{a.incidents.map((o) => <Link key={o.href + o.label} href={o.href} className="rounded-lg border border-red-200 bg-red-50 px-2 py-0.5 text-[11px] font-bold text-red-600 hover:bg-red-100">{o.label}</Link>)}</div></div>

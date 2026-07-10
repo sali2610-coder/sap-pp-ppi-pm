@@ -71,7 +71,7 @@ export function Bullets({ items }: { items: string[] }) {
 
 // Card grid for the center index pages
 export function CardGrid({ children }: { children: React.ReactNode }) {
-  return <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" dir="rtl">{children}</div>;
+  return <div className="grid-adaptive" dir="rtl">{children}</div>;
 }
 
 export function IndexCard({ href, title, he, tag, tagColor, desc }: { href: string; title: string; he: string; tag?: string; tagColor?: string; desc?: string }) {

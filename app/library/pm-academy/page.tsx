@@ -35,7 +35,7 @@ export default function PMAcademyIndex() {
         </div>
       </section>
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+      <div className="grid-adaptive">
         {keys.map((n) => {
           const ch = PM_TEXTBOOK[String(n)];
           const st = PM_TEXTBOOK_STATS[String(n)];

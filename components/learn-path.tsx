@@ -185,7 +185,7 @@ export function LearnPathView({ module }: { module: string }) {
   );
 
   return (
-    <div className="mx-auto max-w-[1700px]" dir="rtl">
+    <div className="mx-auto" dir="rtl">
       {/* course hero */}
       <header className="relative overflow-hidden rounded-3xl border p-6 shadow-sm sm:p-8" style={{ borderColor: accent + "33", background: `linear-gradient(135deg, ${accent}14, #fff 60%)` }}>
         <div className="pointer-events-none absolute -left-12 -top-12 size-48 rounded-full opacity-10 blur-3xl" style={{ background: accent }} />

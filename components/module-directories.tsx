@@ -91,7 +91,7 @@ function GuideSection({ kind, sheet, open, onToggle }: { kind: Kind; sheet: SAPS
                 <Sparkles className="mt-0.5 size-4 shrink-0" style={{ color: m.accent }} />
                 <p className="text-sm leading-relaxed text-slate-700">{m.intro}</p>
               </div>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid-adaptive">
                 {shown.map((r, i) => <RowCard key={i} headers={headers} row={r} accent={m.accent} />)}
               </div>
               {rows.length > limit && (

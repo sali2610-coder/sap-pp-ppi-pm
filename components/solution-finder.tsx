@@ -27,7 +27,7 @@ export function SolutionFinder() {
         ))}
       </div>
       <p className="mb-3 mt-4 text-xs font-bold text-slate-400">{rows.length} פתרונות</p>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid-adaptive">
         {rows.map((s) => (
           <Link key={s.slug} href={`/solutions/${s.slug}/`} className="lift card-premium group block p-5">
             <div className="flex items-start justify-between gap-2">

@@ -96,7 +96,7 @@ export function AppObjectPage({ o }: { o: AppObject }) {
   ].filter(Boolean) as [string, string][];
 
   return (
-    <div dir="rtl" className="mx-auto max-w-[1500px] space-y-4 pb-10">
+    <div dir="rtl" className="mx-auto space-y-4 pb-10">
       {/* breadcrumb */}
       <div className="flex items-center gap-2 text-xs text-slate-400">
         <Link href="/apps/" className="hover:text-brand">מרכז אפליקציות וטרנזקציות</Link><ArrowLeft className="size-3" />
@@ -246,7 +246,7 @@ export function AppObjectPage({ o }: { o: AppObject }) {
       {/* ── SECTION 13 · Related ── */}
       {NAV.length > 0 && (
         <Section id="related" icon={<Network className="size-5" />} title="אובייקטים קשורים" sub="המשך לחקור" accent={c}>
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid-adaptive-sm">
             {[...new Set([...(t.after || []), ...(t.together || []), ...(t.similar || [])])].slice(0, 12).map((code) => (
               <Link key={code} href={`/apps/${encodeURIComponent(code)}/`} className="group flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand/30 hover:shadow-md">
                 <span className="grid size-8 shrink-0 place-items-center rounded-lg text-white" style={{ background: c }}><Terminal className="size-4" /></span>

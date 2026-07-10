@@ -374,7 +374,7 @@ export function ArchitectureStudio() {
   const btn = "tap transition active:scale-95";
 
   return (
-    <motion.div initial={reduce ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.2, 0.7, 0.2, 1] }} className="mx-auto max-w-[1800px]" dir="rtl">
+    <motion.div initial={reduce ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.2, 0.7, 0.2, 1] }} className="mx-auto" dir="rtl">
       {!present && (<>
       {/* header */}
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">

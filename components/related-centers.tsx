@@ -11,7 +11,7 @@ export function RelatedCenters({ exclude, title = "מרכזים קשורים" }:
   return (
     <section dir="rtl" className="mt-6 rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
       <div className="mb-2.5 text-[11px] font-bold uppercase tracking-wide text-slate-400">{title}</div>
-      <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid-adaptive-sm">
         {items.map((c) => { const Ic = c.Icon; return (
           <Link key={c.id} href={c.href} className="group flex items-start gap-2.5 rounded-xl border border-slate-200 bg-white p-3 transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-sm">
             <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-brand/10 text-brand"><Ic className="size-4" /></span>

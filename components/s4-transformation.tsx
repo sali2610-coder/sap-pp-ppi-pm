@@ -74,7 +74,7 @@ export function S4Transformation() {
   );
 
   return (
-    <div className="mx-auto max-w-[1700px]" dir="rtl">
+    <div className="mx-auto" dir="rtl">
       {/* hero */}
       <header className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-l from-slate-900 via-slate-800 to-[#1e3a8a] p-6 text-white shadow-xl sm:p-8">
         <div className="pointer-events-none absolute -left-24 -top-24 size-72 rounded-full bg-blue-500/25 blur-3xl" />
@@ -106,7 +106,7 @@ export function S4Transformation() {
         {/* content */}
         <div ref={scrollRef} className="min-w-0 max-h-[calc(100vh-2rem)] space-y-5 overflow-y-auto lg:pe-1">
           <Card id="exec" title="סקירת הנהלה" icon={<TrendingUp className="size-4" />} sub="ECC6 → S/4HANA במבט-על" accent="#2563eb">
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid-adaptive">
               {([["DB", "Any DB", "SAP HANA (in-memory)"], ["UI", "SAP GUI", "SAP Fiori (+ GUI)"], ["מודל נתונים", "טבלאות סיכום/אינדקס", "טבלאות ליבה רזות (MATDOC/ACDOCA)"], ["דיווח", "BW נפרד + Extractors", "Embedded Analytics + Datasphere/SAC"], ["אינטגרציה", "PI/PO · RFC/IDoc", "Integration Suite · OData/CPI"], ["נתוני אב", "ידני / MDM", "MDG מוטמע"]] as const).map(([k, a, b]) => (
                 <div key={k} className="rounded-2xl border border-slate-200 bg-slate-50/60 p-3">
                   <div className="text-[11px] font-bold uppercase tracking-wide text-slate-400">{k}</div>
@@ -268,7 +268,7 @@ export function S4Transformation() {
           </Card>
 
           <Card id="fiori" title="GUI ← Fiori" icon={<Boxes className="size-4" />} sub={`${kpi.fioriTx} טרנזקציות עם אפליקציית Fiori מקבילה`} accent="#0ea5e9">
-            <div className="grid gap-4 lg:grid-cols-3">{Object.entries(fioriByMod).map(([mod, txs]) => (
+            <div className="grid-adaptive">{Object.entries(fioriByMod).map(([mod, txs]) => (
               <div key={mod}><div className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-slate-400">{mod} · {txs.length}</div>
                 <div className="space-y-1.5">{txs.slice(0, 10).map((t) => (
                   <div key={t.code} className="flex items-center gap-2 rounded-lg border border-slate-100 bg-slate-50/60 px-2.5 py-1.5">

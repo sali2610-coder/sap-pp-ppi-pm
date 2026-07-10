@@ -134,7 +134,7 @@ export function LineageExplorer({ initial = "EQUI" }: { initial?: string }) {
           </div>
 
           {/* producers / analytics strips */}
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid-adaptive-sm">
             <Strip icon={<Terminal className="size-4" />} title="מתחזק (T-Codes)" items={producers} tone="#0f766e" hrefFn={(c) => `/tcode/${encodeURIComponent(c)}/`} />
             <Strip icon={<Boxes className="size-4" />} title="ממשקים (BAPI/FM)" items={bapis} tone="#6d28d9" />
             <Strip icon={<LayoutGrid className="size-4" />} title="צריכה אנליטית (CDS)" items={cds} tone="#0891b2" hrefFn={(c) => `/cds/${encodeURIComponent(c)}/`} />

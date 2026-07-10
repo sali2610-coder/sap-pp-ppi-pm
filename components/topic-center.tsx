@@ -71,7 +71,7 @@ export function CenterDetail({ item, base, backLabel }: { item: CenterItem; base
 
 export function CenterIndexGrid({ items, base }: { items: CenterItem[]; base: string }) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" dir="rtl">
+    <div className="grid-adaptive" dir="rtl">
       {items.map((it) => (
         <Link key={it.slug} href={`${base}${it.slug}/`} className="lift card-premium group relative block overflow-hidden p-5">
           <span className="absolute inset-x-0 top-0 h-1" style={{ background: it.accent }} />
