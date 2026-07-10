@@ -89,7 +89,7 @@ function ModulePortals({ modules }: { modules: ModuleCard[] }) {
   const soon = ["MM", "SD", "FI", "QM", "WM"];
   return (
     <Section eyebrow="פורטלי מודולים · Module Portals" title="עיין לפי מודול SAP" sub="כל מודול הוא פורטל תיעוד עצמאי — ארכיטקטורה, תהליך, נתוני אב, טבלאות, ממשקים ותקלות.">
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid-adaptive">
         {modules.map((m) => {
           const Ic = MOD_ICON[m.code] || GitBranch;
           return (
@@ -132,7 +132,7 @@ function ReferenceGrid({ counts }: { counts: PortalCounts }) {
   ];
   return (
     <Section eyebrow="עיון · Reference" title="דפדף לפי סוג אובייקט">
-      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4">
+      <div className="grid-adaptive-sm">
         {items.map((it) => { const Ic = it.icon; return (
           <Link key={it.href} href={it.href} onClick={() => playClick()} className="card-interactive group flex items-center gap-3 p-3.5">
             <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-surface-2 text-ink-2 transition group-hover:bg-brand/10 group-hover:text-brand"><Ic className="size-[18px]" /></span>
@@ -156,7 +156,7 @@ function ExploreGrid() {
   ];
   return (
     <Section eyebrow="כלים · Explore" title="כלים ומרכזי ידע">
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid-adaptive">
         {items.map((it) => { const Ic = it.icon; return (
           <Link key={it.href} href={it.href} onClick={() => playClick()} className="card-interactive group flex items-start gap-3.5 p-5">
             <span className="grid size-11 shrink-0 place-items-center rounded-xl" style={{ background: it.tint + "12", color: it.tint }}><Ic className="size-6" /></span>

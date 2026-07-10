@@ -41,7 +41,7 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
           {groups.map((g) => (
             <div key={g.topic}>
               <h3 className="mb-2 flex items-center gap-2 text-[13px] font-extrabold text-ink-1"><Table className="size-4 text-ink-3" />{g.topic}<span className="font-mono text-[11px] font-bold text-ink-3">{g.rows.length}</span></h3>
-              <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid-adaptive-sm">
                 {g.rows.map((r) => (
                   <Link key={r.code} href={`/object/${encodeURIComponent(r.code)}/`} className="card-interactive group flex items-center gap-2.5 p-2.5" dir="rtl">
                     <span className="size-2 shrink-0 rounded-full" style={{ background: r.s4 ? S4_DOT[r.s4] : "#94a3b8" }} title={r.s4} />
@@ -57,23 +57,23 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
     }
     case "master-data": {
       const rows = masterData(module);
-      return <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{rows.map((r) => <CodeChip key={r.code} href={`/object/${encodeURIComponent(r.code)}/`} code={r.code} he={r.he} />)}</div>;
+      return <div className="grid-adaptive-sm">{rows.map((r) => <CodeChip key={r.code} href={`/object/${encodeURIComponent(r.code)}/`} code={r.code} he={r.he} />)}</div>;
     }
     case "transactions": {
       const tx = transactions(module);
-      return <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">{tx.map((t) => <CodeChip key={t.code} href={`/tcode/${encodeURIComponent(t.code)}/`} code={t.code} ok={tcodeHasPage(t.code)} />)}</div>;
+      return <div className="grid-adaptive-sm">{tx.map((t) => <CodeChip key={t.code} href={`/tcode/${encodeURIComponent(t.code)}/`} code={t.code} ok={tcodeHasPage(t.code)} />)}</div>;
     }
     case "bapis": {
       const fn = funcs(module, ["BAPI", "FM"]);
-      return <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{fn.map((f) => <CodeChip key={f.name} href={`/bapi/${encodeURIComponent(f.name)}/`} code={f.name} he={f.kind} ok={funcHasPage(f.name)} />)}</div>;
+      return <div className="grid-adaptive-sm">{fn.map((f) => <CodeChip key={f.name} href={`/bapi/${encodeURIComponent(f.name)}/`} code={f.name} he={f.kind} ok={funcHasPage(f.name)} />)}</div>;
     }
     case "cds": {
       const v = cdsViews(module);
-      return v.length ? <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{v.map((x) => <CodeChip key={x.view} href={`/cds/${encodeURIComponent(x.view)}/`} code={x.view} he={x.tables.slice(0, 3).join(" · ")} ok={cdsHasPage(x.view)} />)}</div> : <Empty text="אין CDS Views מאומתות למודול זה עדיין." />;
+      return v.length ? <div className="grid-adaptive-sm">{v.map((x) => <CodeChip key={x.view} href={`/cds/${encodeURIComponent(x.view)}/`} code={x.view} he={x.tables.slice(0, 3).join(" · ")} ok={cdsHasPage(x.view)} />)}</div> : <Empty text="אין CDS Views מאומתות למודול זה עדיין." />;
     }
     case "fiori": {
       const f = fioriApps(module);
-      return f.length ? <div className="grid gap-2 sm:grid-cols-2">{f.map((x) => (
+      return f.length ? <div className="grid-adaptive-sm">{f.map((x) => (
         <Link key={x.app} href="/fiori-apps/" className="card-interactive flex items-center gap-3 p-3.5" dir="rtl"><span className="grid size-9 shrink-0 place-items-center rounded-lg bg-surface-2 text-ink-2"><AppWindow className="size-[18px]" /></span><div className="min-w-0"><span className="block truncate text-[13.5px] font-bold text-ink-1">{x.app}</span><span className="tech block text-[11px] text-ink-3" dir="ltr">{x.table}</span></div></Link>
       ))}</div> : <Empty text="אין אפליקציות Fiori מקושרות עדיין." />;
     }
@@ -110,15 +110,15 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
       return (
         <div className="space-y-6">
           <div><h3 className="mb-2 flex items-center gap-2 text-[13px] font-extrabold text-ink-1"><Cable className="size-4 text-ink-3" />IDocs<span className="font-mono text-[11px] font-bold text-ink-3">{idocs.length}</span></h3>
-            {idocs.length ? <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{idocs.map((f) => <CodeChip key={f.name} href={`/idoc/${encodeURIComponent(f.name)}/`} code={f.name} ok={idocHasPage(f.name)} />)}</div> : <Empty text="אין IDocs מאומתים." />}</div>
+            {idocs.length ? <div className="grid-adaptive-sm">{idocs.map((f) => <CodeChip key={f.name} href={`/idoc/${encodeURIComponent(f.name)}/`} code={f.name} ok={idocHasPage(f.name)} />)}</div> : <Empty text="אין IDocs מאומתים." />}</div>
           <div><h3 className="mb-2 flex items-center gap-2 text-[13px] font-extrabold text-ink-1"><Plug className="size-4 text-ink-3" />BAPIs<span className="font-mono text-[11px] font-bold text-ink-3">{bapi.length}</span></h3>
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{bapi.map((f) => <CodeChip key={f.name} href={`/bapi/${encodeURIComponent(f.name)}/`} code={f.name} ok={funcHasPage(f.name)} />)}</div></div>
+            <div className="grid-adaptive-sm">{bapi.map((f) => <CodeChip key={f.name} href={`/bapi/${encodeURIComponent(f.name)}/`} code={f.name} ok={funcHasPage(f.name)} />)}</div></div>
         </div>
       );
     }
     case "troubleshooting": {
       const inc = incidents(module);
-      return inc.length ? <div className="grid gap-3 sm:grid-cols-2">{inc.map((i) => (
+      return inc.length ? <div className="grid-adaptive">{inc.map((i) => (
         <Link key={i.slug} href={`/troubleshooting/${encodeURIComponent(i.slug)}/`} className="card-interactive flex flex-col gap-1.5 p-4" dir="rtl">
           <div className="flex items-center justify-between gap-2"><span className="text-[13.5px] font-extrabold text-ink-1">{i.he}</span>{i.impact && <span className="shrink-0 rounded-md bg-rose-50 px-1.5 py-0.5 text-[10px] font-bold text-rose-600">{i.impact}</span>}</div>
           <p className="line-clamp-2 text-[12.5px] leading-relaxed text-ink-3">{i.symptom}</p>
@@ -127,7 +127,7 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
     }
     case "related": {
       const rel = relatedObjects(module);
-      return rel.length ? <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{rel.map((r) => <CodeChip key={r.code} href={`/object/${encodeURIComponent(r.code)}/`} code={r.code} he={r.he} ok={objectHasPage(r.code)} />)}</div> : <Empty text="אין אובייקטים חוצי-מודול." />;
+      return rel.length ? <div className="grid-adaptive-sm">{rel.map((r) => <CodeChip key={r.code} href={`/object/${encodeURIComponent(r.code)}/`} code={r.code} he={r.he} ok={objectHasPage(r.code)} />)}</div> : <Empty text="אין אובייקטים חוצי-מודול." />;
     }
     case "relationships": {
       const edges = relationships(module);
@@ -149,7 +149,7 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
     }
     case "enhancements": {
       const ex = enhancements(module);
-      return ex.length ? <div className="grid gap-3 sm:grid-cols-2">{ex.map((e) => (
+      return ex.length ? <div className="grid-adaptive">{ex.map((e) => (
         <div key={e.name} className="card flex flex-col gap-1.5 p-4" dir="rtl">
           <div className="flex items-center gap-2"><span className="tech font-mono text-[13.5px] font-extrabold text-ink-1" dir="ltr">{e.name}</span><span className="rounded-md bg-surface-2 px-1.5 py-0.5 text-[10px] font-bold text-ink-3">{e.kind}</span></div>
           <p className="text-[13px] font-bold text-ink-1">{e.he}</p>
@@ -171,7 +171,7 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
       const { kept, replaced, removed } = eccS4(module);
       const Grp = ({ title, rows, tint, showNote }: { title: string; rows: { code: string; he: string; alt?: string; note?: string }[]; tint: string; showNote?: boolean }) => rows.length ? (
         <div><h3 className="mb-2 flex items-center gap-2 text-[13px] font-extrabold text-ink-1"><span className="size-2.5 rounded-full" style={{ background: tint }} />{title}<span className="font-mono text-[11px] font-bold text-ink-3">{rows.length}</span></h3>
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{rows.map((r) => (
+          <div className="grid-adaptive-sm">{rows.map((r) => (
             <Link key={r.code} href={`/object/${encodeURIComponent(r.code)}/`} className="card-interactive flex flex-col gap-0.5 p-2.5" dir="rtl">
               <div className="flex items-center gap-1.5"><span className="tech font-mono text-[13px] font-bold text-ink-1" dir="ltr">{r.code}</span>{r.alt && <span className="tech font-mono text-[11px] font-bold" style={{ color: tint }} dir="ltr">→ {r.alt}</span>}</div>
               <span className="truncate text-[11px] text-ink-3">{showNote && r.note ? r.note : r.he}</span>
