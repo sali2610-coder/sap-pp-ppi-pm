@@ -456,6 +456,49 @@ header :focus-visible {
 @media (min-width: 1024px) { .container-app { padding-inline: 2rem; } }
 @media (min-width: 1536px) { .container-app { padding-inline: 2.5rem; } }
 
+/* ============================================================================
+   PHASE 9 — Adaptive Layout Engine
+   One engine every page inherits. Two global levers do the heavy lifting:
+   (1) the container grows with the display so content isn't stranded in a
+       narrow column, and (2) the ROOT font-size ramps up on large screens so
+       ALL rem-based typography AND spacing scale together — no browser zoom on
+       meeting-room displays. Opt-in .grid-adaptive lets card grids add columns.
+   Viewport classes: Compact(phone) · Medium(tablet) · Large(laptop) ·
+   XL(desktop) · XXL(ultra-wide) · Presentation(55"–86"/projector).
+   ============================================================================ */
+
+/* Container widens on big screens; comfortable padding grows with it. */
+@media (min-width: 1920px) { .container-app { max-width: 1960px; } }              /* XL desktop */
+@media (min-width: 2560px) { .container-app { max-width: 2320px; padding-inline: 3rem; } }   /* XXL ultra-wide / 55" */
+@media (min-width: 3200px) { .container-app { max-width: 2760px; padding-inline: 3.5rem; } } /* 65"–75" */
+@media (min-width: 3840px) { .container-app { max-width: 3280px; padding-inline: 4rem; } }   /* 4K / 86" / projector */
+
+/* Presentation scaling — rem base ramps up so type + spacing grow uniformly.
+   Normal desktops (≤2559px) stay at the tuned 16px base; only genuinely large
+   displays scale, so meeting rooms read clearly from distance without zoom. */
+@media (min-width: 2560px) { :root { font-size: 17.5px; } }
+@media (min-width: 3200px) { :root { font-size: 19.5px; } }
+@media (min-width: 3840px) { :root { font-size: 21.5px; } }
+
+/* Adaptive card grid — columns grow with available width automatically, cards
+   keep a premium size instead of shrinking into a sparse row. Opt-in utility;
+   the shared home + module grids use it so flagship pages inherit it. */
+@utility grid-adaptive {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(260px, 21vw, 360px), 1fr));
+}
+@media (min-width: 1024px) { .grid-adaptive { gap: 1rem; } }
+@media (min-width: 2560px) { .grid-adaptive { gap: 1.25rem; } }
+
+/* Denser variant for smaller chip/reference cards. */
+@utility grid-adaptive-sm {
+  display: grid;
+  gap: 0.625rem;
+  grid-template-columns: repeat(auto-fill, minmax(clamp(150px, 13vw, 220px), 1fr));
+}
+@media (min-width: 1024px) { .grid-adaptive-sm { gap: 0.75rem; } }
+
 /* Premium card surface — one consistent enclosure across the platform */
 @utility card-premium {
   background: #fff;
