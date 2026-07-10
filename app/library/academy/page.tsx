@@ -73,7 +73,7 @@ export default function AcademyDashboard() {
         <span className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-soft px-3 py-1 text-xs font-semibold text-brand"><GraduationCap className="size-3.5" />{lang === "he" ? "אקדמיית SAP אחודה" : "Unified SAP Learning Academy"}</span>
         <h1 className="mt-2 text-2xl font-bold tracking-tight">{lang === "he" ? "לוח בקרה מרכזי" : "Central Dashboard"}</h1>
 
-        <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="mt-4 grid-adaptive-sm">
           {[
             [t.totalBooks, lang === "he" ? "ספרים" : "books", BookOpen],
             [t.completed, lang === "he" ? "הושלמו" : "completed", CheckCircle2],
@@ -99,7 +99,7 @@ export default function AcademyDashboard() {
         </div>
       </section>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid-adaptive">
         {BOOKS.map((b) => <BookCard key={b.id} b={b} />)}
         {/* queued */}
         <div dir="rtl" className="glass rounded-2xl border-dashed p-5 opacity-80">

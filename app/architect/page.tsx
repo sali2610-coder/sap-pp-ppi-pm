@@ -48,7 +48,7 @@ export default function Page() {
   return (
     <div dir="rtl">
       <CenterHeader eyebrow="Phase 7 · Architect Dashboard" title="לוח מחוונים — ארכיטקט" sub="תמונת כיסוי הידע של NEO לקבלת החלטות: ישויות, ECC↔S/4, טרנזקציות, Fiori, תקלות ו-הארגון — עם זיהוי פערים אוטומטי." accent="#1e293b" />
-      <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mb-6 grid-adaptive">
         {[{ l: "ציון כיסוי כולל", v: `${overall}%` }, { l: "ישויות", v: `${ALL_TABLES.length + merged.length + funcs.length}` }, { l: "T-Codes", v: `${merged.length}` }, { l: "תקלות + Notes", v: `${INCIDENTS.length}+${SAP_NOTES.length}` }].map((k) => (
           <div key={k.l} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><div className="text-3xl font-extrabold text-slate-900">{k.v}</div><div className="mt-1 text-sm font-bold text-slate-600">{k.l}</div></div>
         ))}

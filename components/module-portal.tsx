@@ -69,7 +69,7 @@ export function ModulePortal({ module, slug }: { module: SAPModuleData; slug: st
       {/* section directory */}
       <section className="space-y-4">
         <div><span className="eyebrow-2">תוכן · Contents</span><h2 className="mt-1 text-xl font-extrabold tracking-tight text-ink-1">חלקי הפורטל</h2></div>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid-adaptive">
           {NAV_SECTIONS.map((s) => {
             const Ic = ICONS[s.icon] || GitBranch;
             const n = sectionCount(module, s.slug);

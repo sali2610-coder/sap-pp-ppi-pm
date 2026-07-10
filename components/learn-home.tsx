@@ -84,7 +84,7 @@ export function LearnHome() {
   );
 
   return (
-    <div className="mx-auto max-w-[1700px] space-y-7" dir="rtl">
+    <div className="mx-auto space-y-7" dir="rtl">
       {/* hero dashboard */}
       <header className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-l from-brand-dark via-brand to-[#a8161c] p-6 text-white shadow-xl sm:p-8">
         <div className="pointer-events-none absolute -left-24 -top-24 size-72 rounded-full bg-white/10 blur-3xl" />

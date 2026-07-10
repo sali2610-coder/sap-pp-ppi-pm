@@ -111,7 +111,7 @@ export function PracticalLayer({ o, accent }: { o: AppObject; accent: string }) 
     <>
       {/* 1 · Screens */}
       <Block id="screens" icon={<Monitor className="size-5" />} title="מסכים — מה רואים ב-SAP" sub="ללא צילומים מומצאים — מקומות שמורים עם הוראות צילום" accent={accent}>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid-adaptive">
           <ShotSlot icon={<Terminal className="size-3.5" />} c="#475569" title="מסך ראשי · SAP GUI"
             what={`מסך הפתיחה של ${t.code} ב-SAP GUI (Easy Access → קוד טרנזקציה)`}
             where={`${t.code} (SAP GUI)`}

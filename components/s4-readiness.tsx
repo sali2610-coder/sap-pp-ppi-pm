@@ -51,7 +51,7 @@ export function S4Readiness() {
   );
 
   return (
-    <div className="mx-auto max-w-[1700px]" dir="rtl">
+    <div className="mx-auto" dir="rtl">
       {/* hero */}
       <header className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-l from-slate-900 via-slate-800 to-[#0f766e] p-6 text-white shadow-xl sm:p-8">
         <div className="pointer-events-none absolute -left-24 -top-24 size-72 rounded-full bg-emerald-500/25 blur-3xl" />
@@ -68,7 +68,7 @@ export function S4Readiness() {
 
       {/* module score grid */}
       <h2 className="mb-3 mt-6 flex items-center gap-2 text-xl font-extrabold text-slate-900"><Layers className="size-5 text-emerald-600" />מוכנות לפי מודול</h2>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid-adaptive xl:grid-cols-4">
         {mods.map((m) => { const band = BAND_HE[m.band]; return (
           <button key={m.mod} onClick={() => setSel(m.mod)} className={`group rounded-3xl border bg-white p-4 text-right shadow-sm transition hover:-translate-y-1 hover:shadow-lg ${sel === m.mod ? "border-emerald-300 ring-1 ring-emerald-200" : "border-slate-200"}`}>
             <div className="flex items-start justify-between gap-2">

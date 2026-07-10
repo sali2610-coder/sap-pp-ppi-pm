@@ -68,7 +68,7 @@ export function AppsCenter() {
           {/* featured daily drivers */}
           <section>
             <div className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-400"><Star className="size-4 text-brand" />שולחן העבודה היומי · אובייקטים מרכזיים</div>
-            <motion.div variants={grid} initial="hidden" animate="show" className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            <motion.div variants={grid} initial="hidden" animate="show" className="grid-adaptive">
               {featured.map((o) => { const crit = criticality(o); const c = mc(o.intel.module); return (
                 <motion.div key={o.code} variants={item}>
                   <Link href={`/apps/${encodeURIComponent(o.code)}/`} className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">

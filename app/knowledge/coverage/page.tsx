@@ -65,7 +65,7 @@ export default function Page() {
       <CenterHeader eyebrow="NEO · Object Intelligence" title="דוח כיסוי ידע" sub="כל אובייקט מקבל פרופיל יועץ ב-12 ממדים. הטבלה מבדילה בין ידע מאומת (ספציפי, מהמאגר/מתועד) לבין ידע כללי-אך-נכון לפי סוג. אין נתונים מומצאים — פערים מסומנים במפורש." accent="#d62027" />
 
       {/* headline KPIs */}
-      <div className="mb-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4" dir="rtl">
+      <div className="mb-7 grid-adaptive" dir="rtl">
         {[
           { label: "סך ישויות", value: entitiesTotal, sub: "טבלאות·T-Codes·פונקציות·CDS·הרשאות" },
           { label: "פרופיל / כיסוי", value: "100%", sub: "כל ישות — פרופיל 12-ממדי + רשומה מתועדת (0 פערים)" },

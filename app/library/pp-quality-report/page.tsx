@@ -103,7 +103,7 @@ function ChapterCard({ c }: { c: ChapterQA }) {
         </div>
       </div>
 
-      <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-4 grid-adaptive">
         <Findings title="אובייקטי SAP" icon={<Boxes className="size-3.5" />} items={c.sapObjectIssues} />
         <Findings title="קישורים שבורים" icon={<Link2 className="size-3.5" />} items={c.crossLinkIssues} resolved={PP_QUALITY_META.crossLinksResolved} />
         <TextList title="היררכיה" icon={<ListTree className="size-3.5" />} items={c.hierarchyIssues} />

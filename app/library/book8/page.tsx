@@ -86,13 +86,13 @@ function SectionCard({ s }: { s: Section }) {
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22 }} className="overflow-hidden">
             <div className="space-y-4 rounded-xl bg-white/60 p-4">
               {/* three explanation levels */}
-              <div className="grid gap-3 sm:grid-cols-3">
+              <div className="grid-adaptive-sm">
                 <Facet label="מנהלים (Executive)" text={s.execHe} tone="brand" />
                 <Facet label="מתחילים (Beginner)" text={s.beginnerHe} />
                 <Facet label="יועצים (Consultant)" text={s.consultantHe} />
               </div>
               {/* context + examples */}
-              <div className="grid gap-3 sm:grid-cols-3 border-t border-border/30 pt-3">
+              <div className="grid-adaptive-sm border-t border-border/30 pt-3">
                 <Facet label="מטרה עסקית" text={s.purposeHe} />
                 <Facet label="דוגמת תהליך" text={s.processExampleHe} />
                 <Facet label="דוגמת הארגון" text={s.scenarioHe} tone="amber" />
@@ -132,7 +132,7 @@ function SectionCard({ s }: { s: Section }) {
                 <Bullets label="השפעת נתוני-אב" items={s.masterDataHe} icon={<Database className="size-3" />} />
               </div>
               {/* mistakes / troubleshoot / best practice */}
-              <div className="grid gap-3 sm:grid-cols-3 border-t border-border/30 pt-3">
+              <div className="grid-adaptive-sm border-t border-border/30 pt-3">
                 <Bullets label="טעויות נפוצות" items={s.mistakesHe} icon={<AlertTriangle className="size-3" />} tone="rose" />
                 <Bullets label="פתרון תקלות" items={s.troubleshootHe} icon={<Wrench className="size-3" />} tone="amber" />
                 <Bullets label="שיטות מומלצות" items={s.bestPracticeHe} icon={<CheckCircle2 className="size-3" />} tone="green" />

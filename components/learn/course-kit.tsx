@@ -36,7 +36,7 @@ export function StartHere({ items, onPick }: { items: StartCard[]; onPick: (id: 
   return (
     <section className="rounded-3xl border border-slate-200 bg-gradient-to-bl from-slate-50 to-white p-5 shadow-sm sm:p-6" dir="rtl">
       <div className="mb-4 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400"><Target className="size-4 text-brand" />התחל כאן · Start Here</div>
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid-adaptive">
         {items.map((c) => (
           <button key={c.id} onClick={() => onPick(c.id)} className="group flex items-start gap-3 rounded-2xl border-2 border-slate-200 bg-white p-4 text-right transition hover:-translate-y-0.5 hover:shadow-lg" style={{ borderColor: c.color + "33" }}>
             <span className="grid size-11 shrink-0 place-items-center rounded-xl text-white shadow-sm transition-transform group-hover:scale-105" style={{ background: `linear-gradient(135deg,${c.color},${c.color}cc)` }}>{c.icon}</span>

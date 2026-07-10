@@ -174,7 +174,7 @@ export function ObjectExpert({ name, accent }: { name: string; accent: string })
 
       {/* 4 · Dependencies — graph */}
       <Card id="x-deps" title="תלויות" en="Dependencies" icon={<GitBranch className="size-4" style={{ color: accent }} />}>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid-adaptive-sm">
           <DepBox label="אב · נדרשים" en="Required / Parents" tone="#c77a0a" codes={parents.map((r) => r.table)} />
           <DepBox label="ילד" en="Children" tone="#2563eb" codes={children.map((r) => r.table)} />
           <DepBox label="מפנה אליהם" en="Referenced" tone="#6b727c" codes={referenced} />

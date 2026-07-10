@@ -19,7 +19,7 @@ function Group({ label, en, data }: { label: string; en: string; data: Row[] }) 
         <span className="text-[11px] font-medium uppercase tracking-wide text-ink-3">{en} · {data.length}</span>
       </div>
       {data.length ? (
-        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid-adaptive-sm">
           {data.map((r) => (
             <Link key={r.name} href={`/bapi/${encodeURIComponent(r.name)}/`} className="card-interactive group flex items-center gap-2.5 p-2.5" dir="rtl">
               <span className="size-1.5 shrink-0 rounded-full bg-brand" />

@@ -477,7 +477,7 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
     <div className="fixed inset-0 z-[60] flex flex-col bg-slate-50" dir="rtl" style={{ animation: "fadeIn .2s ease both" }}>
       {/* header */}
       <header className="shrink-0 border-b border-slate-200 bg-white/95 backdrop-blur">
-        <div className="mx-auto flex max-w-[1500px] items-center gap-3 px-4 py-3 lg:px-8">
+        <div className="mx-auto flex items-center gap-3 px-4 py-3 lg:px-8">
           <button onClick={onClose} className="tap inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand active:scale-95"><ArrowRight className="size-4" />סגור וחזור</button>
           <span className="grid size-11 shrink-0 place-items-center rounded-2xl text-white shadow-sm" style={{ background: c }}><Database className="size-5" /></span>
           <div className="min-w-0 flex-1">
@@ -499,14 +499,14 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
           </div>
         </div>
         {/* section tabs (mobile + scroll) */}
-        <div className="mx-auto flex max-w-[1500px] gap-1 overflow-x-auto px-4 pb-2 lg:hidden">
+        <div className="mx-auto flex gap-1 overflow-x-auto px-4 pb-2 lg:hidden">
           {secs.map((s) => <button key={s.id} onClick={() => go(s.id)} className={`shrink-0 rounded-full px-3 py-1 text-[12px] font-bold transition ${active === s.id ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-500"}`}>{s.he}</button>)}
         </div>
       </header>
 
       {/* body */}
       <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
-        <div className="mx-auto grid max-w-[1500px] gap-6 px-4 py-6 lg:grid-cols-[212px_1fr] lg:px-8">
+        <div className="mx-auto grid gap-6 px-4 py-6 lg:grid-cols-[212px_1fr] lg:px-8">
           {/* rail */}
           <nav className="hidden lg:block">
             <div className="sticky top-4 space-y-1">
@@ -522,7 +522,7 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
           {/* content */}
           <div className="min-w-0 space-y-5">
             <Card id="overview" title="סקירה" icon={<BookOpen className="size-4" />} sub="מה האובייקט, למה הוא קיים ומתי משתמשים בו">
-              <div className="grid gap-4 lg:grid-cols-3">
+              <div className="grid-adaptive">
                 <div className="rounded-2xl bg-slate-50 p-4"><Lbl>מה זה</Lbl><p className="text-sm leading-relaxed text-slate-700">{k?.role || `${cm.he} במודול ${t.mod} — ${t.he || t.en}.`}</p></div>
                 <div className="rounded-2xl bg-slate-50 p-4"><Lbl>מטרה עסקית</Lbl><p className="text-sm leading-relaxed text-slate-700">{k?.why || data.blueprints.find((b) => b.code === t.mod)?.purpose || "נדרש אימות — מטרת הטבלה לא תועדה במאגר."}</p></div>
                 <div className="rounded-2xl bg-slate-50 p-4"><Lbl>מתי משתמשים</Lbl><p className="text-sm leading-relaxed text-slate-700">{k?.whenUsed || "—"}</p>{k?.step && <span className="mt-2 inline-block rounded-md bg-white px-2 py-0.5 text-[11px] font-bold text-slate-600 ring-1 ring-slate-200">{k.step}</span>}</div>
@@ -568,7 +568,7 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
             </Card>}
 
             <Card id="s4" title="ECC מול S/4HANA" icon={<ArrowRightLeft className="size-4" />} sub="מה השתנה, מה נשאר ושיקולי הגירה" accent="#d97706">
-              <div className="grid gap-4 lg:grid-cols-3">
+              <div className="grid-adaptive">
                 <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4"><div className="mb-1 flex items-center justify-between"><Lbl>מה השתנה</Lbl><span className="rounded-full px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: RISK_COLOR[s4!.risk] }}>{RISK_HE[s4!.risk]}</span></div><p className="text-[13px] leading-relaxed text-amber-900">{k?.s4 || s4!.impact?.changed || t.s4 || "אין הערת S/4 ברמת הטבלה — נדרש אימות מול Simplification List / OSS."}</p></div>
                 <div className="rounded-2xl bg-slate-50 p-4"><Lbl>מה נשאר</Lbl><p className="text-[13px] leading-relaxed text-slate-700">{s4!.impacted ? "מבנה המפתח והקשרים הלוגיים נשמרים ברוב המקרים; קוד מותאם הקורא ישירות לטבלה דורש בדיקה." : "הטבלה נשמרת ב-S/4 ללא שינוי מבני מהותי הידוע במאגר."}</p></div>
                 <div className="rounded-2xl bg-slate-50 p-4"><Lbl>שיקולי הגירה</Lbl><p className="text-[13px] leading-relaxed text-slate-700">{s4!.impact?.note || (s4!.impacted ? "בדוק גישות ישירות בקוד Z, CDS חלופי ו-Compatibility Views לפני העלייה." : "אין פעולה ייעודית ידועה — אמת מול תוכנית ההגירה הספציפית.")}</p>{t.s4alt && <span className="mt-2 inline-block rounded-md bg-white px-2 py-0.5 font-mono text-[11px] font-bold text-slate-600 ring-1 ring-slate-200" dir="ltr">חלופה: {t.s4alt}</span>}</div>

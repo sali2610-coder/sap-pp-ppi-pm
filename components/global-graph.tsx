@@ -52,7 +52,7 @@ export function GlobalGraph() {
   };
 
   return (
-    <div className="mx-auto max-w-[1800px]" dir="rtl">
+    <div className="mx-auto" dir="rtl">
       <header className="relative mb-3 overflow-hidden rounded-2xl bg-gradient-to-l from-slate-900 to-slate-800 px-5 py-3 text-white">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div><div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-white/60"><Network className="size-4" />Global Knowledge Graph</div>

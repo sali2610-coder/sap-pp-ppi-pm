@@ -72,7 +72,7 @@ export function CentersMegaMenu() {
               onMouseEnter={cancelClose} onMouseLeave={scheduleClose}
               className="fixed inset-x-0 z-50 border-b border-slate-200 bg-white shadow-[0_24px_60px_-20px_rgba(15,23,42,0.35)]"
               style={{ top }} dir="rtl" role="menu" aria-label="מרכזי ייעוץ">
-              <div className="mx-auto max-w-[1400px] px-5 py-6 sm:px-8">
+              <div className="mx-auto px-5 py-6 sm:px-8">
                 {/* eyebrow */}
                 <div className="mb-4 flex items-center justify-between">
                   <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400"><Compass className="size-4 text-brand" />מרכזי ייעוץ · Command Hub</div>
@@ -81,7 +81,7 @@ export function CentersMegaMenu() {
 
                 <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
                   {/* card grid — 2 rows */}
-                  <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                  <div className="grid-adaptive">
                     {CENTERS.map((c, i) => {
                       const Ic = c.Icon; const on = c.id === activeCenter?.id; const focused = c.id === preview;
                       return (

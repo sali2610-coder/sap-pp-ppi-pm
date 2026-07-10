@@ -68,7 +68,7 @@ export default function FioriIndex() {
 
       <p dir="rtl" className="text-center text-xs text-muted-foreground">{results.length}{results.length >= 400 ? "+" : ""} {lang === "he" ? "תוצאות" : "results"}</p>
 
-      <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid-adaptive-sm">
         {results.map((a) => {
           const refs = REFS[a.id]?.slice(0, 3) ?? [];
           return (

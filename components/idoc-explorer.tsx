@@ -48,7 +48,7 @@ export function IDocExplorer() {
       <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-[var(--elev-1)] sm:p-6">
         <h2 className="mb-1 flex items-center gap-2 text-lg font-extrabold text-slate-900"><Layers className="size-5" style={{ color: ACCENT }} />אנטומיית IDoc</h2>
         <p className="mb-4 text-[13px] leading-relaxed text-slate-500">{IDOC.architecture}</p>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid-adaptive-sm">
           {IDOC_RECORDS.map((r) => (
             <div key={r.table} className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
               <Link href={`/object/${r.table}/`} className="tech font-mono text-base font-extrabold text-brand hover:underline" dir="ltr">{r.table}</Link>

@@ -67,7 +67,7 @@ export function MigrationCockpit() {
   );
 
   return (
-    <div className="mx-auto max-w-[1700px]" dir="rtl">
+    <div className="mx-auto" dir="rtl">
       <header className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-l from-slate-900 via-slate-800 to-[#0e7490] p-6 text-white shadow-xl sm:p-8">
         <div className="pointer-events-none absolute -left-24 -top-24 size-72 rounded-full bg-cyan-500/25 blur-3xl" />
         <div className="relative">
@@ -94,7 +94,7 @@ export function MigrationCockpit() {
 
         <div ref={scrollRef} className="min-w-0 max-h-[calc(100vh-2rem)] space-y-5 overflow-y-auto lg:pe-1">
           <Card id="explorer" title="Cockpit Explorer · גישות העברה" icon={<Database className="size-4" />} sub="LTMC · Staging · File · Migration Object Modeler · Direct Transfer" accent="#0e7490">
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{APPROACHES.map((a) => (
+            <div className="grid-adaptive">{APPROACHES.map((a) => (
               <div key={a.id} className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
                 <div className="flex items-center justify-between gap-2"><span className="font-extrabold text-slate-900">{a.he}</span>{a.trust === "needs-verification" && <span className="rounded bg-amber-200 px-1.5 py-0.5 text-[8px] font-bold text-amber-950">verify</span>}</div>
                 <div className="font-mono text-[11px] text-cyan-700" dir="ltr">{a.en}</div>
@@ -169,7 +169,7 @@ export function MigrationCockpit() {
           </Card>
 
           <Card id="quality" title="מרכז איכות נתונים" icon={<ShieldCheck className="size-4" />} sub="ממדי איכות שיש לאמת לפני טעינה">
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{QUALITY_DIMS.map((d) => (
+            <div className="grid-adaptive">{QUALITY_DIMS.map((d) => (
               <div key={d.he} className="rounded-2xl border border-slate-100 bg-slate-50/60 p-3"><div className="text-[13px] font-extrabold text-slate-800">{d.he}</div><p className="text-[12px] text-slate-500">{d.sub}</p></div>
             ))}</div>
           </Card>
