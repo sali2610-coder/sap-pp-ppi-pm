@@ -23,27 +23,31 @@ function SearchHero({ counts }: { counts: PortalCounts }) {
   const open = () => { playClick(); window.dispatchEvent(new Event("neo:open-palette")); };
   const chips = ["EQUI", "IFLOT", "QMEL", "MARA", "AFKO"];
   return (
-    <section dir="rtl" className="pt-2 text-center">
-      {/* product identity — full branding in the hero */}
-      <div className="mb-5 flex justify-center [&_svg]:logo-glow">
-        <SiteLogo tone="dark" />
+    <section dir="rtl" className="pt-6 text-center sm:pt-10">
+      {/* level 1 — brand identity (prominent, glowing red monogram) */}
+      <div className="mb-7 flex justify-center [&_svg]:logo-glow">
+        <SiteLogo tone="dark" size="hero" />
       </div>
       <span className="eyebrow-2 inline-flex items-center gap-1.5"><span className="size-1.5 rounded-full bg-brand" />SAP Knowledge Platform</span>
-      <h1 className="mx-auto mt-3 max-w-3xl text-balance font-display text-[2.15rem] leading-[1.04] text-ink-1 sm:text-[3.4rem]">
-        <span className="block">כל הידע של <span className="text-brand">SAP</span></span>
-        <span className="block">במקום אחד, נגיש בחיפוש אחד</span>
+      {/* level 2 — editorial headline (very bold, concise) */}
+      <h1 className="mx-auto mt-4 max-w-3xl text-balance font-display text-[2.5rem] leading-[0.98] text-ink-1 sm:text-[3.75rem]">
+        <span className="block">כל עולם <span className="text-brand">SAP</span></span>
+        <span className="block">במקום אחד.</span>
       </h1>
       {/* elegant red accent line beneath the headline */}
-      <span aria-hidden className="accent-rule mx-auto mt-4" />
-      <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-ink-3 sm:text-base">
+      <span aria-hidden className="accent-rule mx-auto mt-6" />
+      {/* level 3 — description (lighter, generous) */}
+      <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-ink-3 sm:text-[17px]">
         פורטל תיעוד לארכיטקטורת SAP: טבלאות, טרנזקציות, BAPIs, IDocs, CDS ו-Fiori — עם הקשרים ביניהם. ECC6 → S/4HANA.
       </p>
 
-      {/* the product is search */}
+      {/* the center of the homepage — search */}
       <button onClick={open} aria-label="חיפוש (⌘K)"
-        className="mx-auto mt-7 flex w-full max-w-2xl items-center gap-3 rounded-2xl border border-hairline bg-surface px-4 py-3.5 text-start shadow-[0_1px_2px_rgba(11,12,14,0.05)] transition hover:border-brand/40 hover:shadow-[0_10px_30px_-14px_rgba(11,12,14,0.22)]">
-        <Search className="size-5 shrink-0 text-ink-3" />
-        <span className="flex-1 text-[15px] text-ink-3">חפש טבלה, T-Code, BAPI, אובייקט או תהליך…</span>
+        className="group mx-auto mt-9 flex w-full max-w-2xl items-center gap-3 rounded-2xl border border-hairline bg-surface px-4 py-4 text-start shadow-[0_1px_2px_rgba(11,12,14,0.05)] transition-all hover:border-brand/40 hover:shadow-[0_16px_40px_-18px_rgba(214,32,39,0.28)] focus-visible:border-brand focus-visible:shadow-[0_0_0_4px_color-mix(in_srgb,var(--brand)_16%,transparent)] focus-visible:outline-none active:scale-[0.995]">
+        <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-surface-2 transition-colors group-hover:bg-brand-soft">
+          <Search className="size-[18px] text-ink-1 transition-colors group-hover:text-brand" strokeWidth={2.4} />
+        </span>
+        <span className="flex-1 text-[15.5px] font-medium text-ink-2">חפש טבלה, T-Code, BAPI, אובייקט או תהליך…</span>
         <kbd className="hidden shrink-0 rounded-md border border-hairline bg-surface-2 px-2 py-1 font-mono text-[11px] font-semibold text-ink-3 sm:inline">⌘K</kbd>
       </button>
       <div className="mx-auto mt-3 flex max-w-2xl flex-wrap items-center justify-center gap-1.5">
