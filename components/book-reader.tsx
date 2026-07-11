@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDown, ListTree, X, PlayCircle, StickyNote, Clock, FileText, Languages, Layers3, ArrowLeft, Sparkles, CheckCircle2 } from "lucide-react";
+import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDown, ListTree, X, PlayCircle, StickyNote, Clock, FileText, Languages, Layers3, ArrowLeft, Sparkles, CheckCircle2, Maximize2, Minimize2, Home, Library } from "lucide-react";
 import { useReader } from "@/lib/reader-store";
 import { LIBRARY } from "@/data/library";
 import { playTick } from "@/lib/sound";
@@ -33,9 +34,38 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   const [showContinue, setShowContinue] = useState(false);
   const [notes, setNotes] = useState("");
   const [notesOpen, setNotesOpen] = useState(false);
+  const [focus, setFocus] = useState(false);
+  const [prog, setProg] = useState(0);
   const mainRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { try { setNotes(localStorage.getItem(`neo:reader:notes:${bookId}`) || ""); } catch { /* noop */ } }, [bookId]);
+  useEffect(() => { try { setFocus(localStorage.getItem("neo:reader:focus") === "1"); } catch { /* noop */ } }, []);
+  const toggleFocus = useCallback(() => setFocus((v) => { const n = !v; try { localStorage.setItem("neo:reader:focus", n ? "1" : "0"); } catch { /* noop */ } return n; }), []);
+
+  // linear reading-progress (scroll fraction of the document) — cheap, rAF-throttled
+  useEffect(() => {
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        setProg(h > 0 ? Math.min(100, Math.max(0, (window.scrollY / h) * 100)) : 0);
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); if (raf) cancelAnimationFrame(raf); };
+  }, []);
+
+  // Esc exits focus mode
+  useEffect(() => {
+    if (!focus) return;
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") toggleFocus(); };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [focus, toggleFocus]);
 
   const total = chapters.length || 1;
   const score = Math.round((read.length / total) * 100);
@@ -79,9 +109,24 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
 
   return (
     <div className="space-y-6 sm:space-y-8">
+      {/* fixed linear reading-progress rail (module-colored) */}
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-[55] h-[3px] bg-transparent" aria-hidden>
+        <div className="h-full origin-right transition-transform duration-150 ease-out" style={{ transform: `scaleX(${prog / 100})`, background: `linear-gradient(90deg, ${c}, ${c}aa)` }} />
+      </div>
+
+      {/* ===================== BREADCRUMBS ===================== */}
+      {!focus && (
+        <nav aria-label="breadcrumb" className="flex items-center gap-1.5 text-[12px] font-semibold text-ink-3">
+          <Link href="/library/" className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 transition hover:bg-surface-2 hover:text-brand"><Home className="size-3.5" /> ספרייה</Link>
+          {meta?.module && <><span className="text-ink-3/50">/</span><span className="rounded-md px-1.5 py-0.5" style={{ color: c }}>{meta.module}</span></>}
+          <span className="text-ink-3/50">/</span>
+          <span className="truncate text-ink-2">{meta ? meta.titleHe : title}</span>
+        </nav>
+      )}
+
       {/* ===================== PREMIUM BOOK LANDING (Phase 12.2) ===================== */}
       <motion.section initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.2, 0.7, 0.2, 1] }}
-        className="relative overflow-hidden rounded-[1.75rem] border border-hairline bg-surface shadow-[0_18px_48px_-26px_rgba(15,23,42,0.45)]">
+        className={`relative overflow-hidden rounded-[1.75rem] border border-hairline bg-surface shadow-[0_18px_48px_-26px_rgba(15,23,42,0.45)] ${focus ? "hidden" : ""}`}>
         {/* top identity accent (module color) */}
         <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${c}, ${c}88)` }} />
         <span className="pointer-events-none absolute -left-20 -top-16 size-52 rounded-full opacity-[0.12] blur-3xl" style={{ background: c }} />
@@ -133,12 +178,13 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
               </button>
             )}
             <button onClick={() => scrollToId("book-contents")} className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><ListTree className="size-4" /> עיין בתוכן</button>
+            <button onClick={toggleFocus} className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95" title="מצב קריאה מרוכז (Esc ליציאה)"><Maximize2 className="size-4" /> מצב מיקוד</button>
           </div>
         </div>
       </motion.section>
 
       {/* ===================== PREMIUM CHAPTER CARDS (Table of Contents) ===================== */}
-      <section id="book-contents" className="scroll-mt-24 space-y-3">
+      <section id="book-contents" className={`scroll-mt-24 space-y-3 ${focus ? "hidden" : ""}`}>
         <h2 className="flex items-center gap-2 font-display text-lg text-ink-1"><ListTree className="size-5 text-brand" /> תוכן העניינים <span className="text-sm font-semibold text-ink-3">· {total} פרקים</span></h2>
         <div className="grid-adaptive-sm">
           {chapters.map((ch) => {
@@ -163,10 +209,27 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         </div>
       </section>
 
+      {/* ===================== FOCUS-MODE CONTROL BAR ===================== */}
+      {focus && (
+        <div className="sticky top-[3.5rem] z-40 -mx-2 mb-2 flex items-center gap-2 rounded-2xl border border-hairline bg-surface/90 px-3 py-2 shadow-sm backdrop-blur-md sm:mx-0">
+          <button onClick={toggleFocus} className="tap inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-2.5 py-1.5 text-xs font-bold text-ink-2 hover:border-brand/40" title="יציאה ממצב מיקוד (Esc)"><Minimize2 className="size-3.5" /> יציאה</button>
+          <Link href="/library/" className="tap hidden shrink-0 items-center gap-1 rounded-xl border border-hairline bg-surface px-2.5 py-1.5 text-xs font-bold text-ink-2 hover:border-brand/40 sm:inline-flex"><Library className="size-3.5" /> ספרייה</Link>
+          <div className="min-w-0 flex-1 text-center">
+            <span className="block truncate text-xs font-extrabold text-ink-1">{meta ? meta.titleHe : title}</span>
+            <div className="mx-auto mt-1 h-1 max-w-xs overflow-hidden rounded-full bg-surface-2">
+              <div className="h-full rounded-full" style={{ width: `${prog}%`, background: c }} />
+            </div>
+          </div>
+          <select value={active} onChange={(e) => jump(Number(e.target.value))} aria-label="קפוץ לפרק" className="tap max-w-[9rem] shrink-0 rounded-xl border border-hairline bg-surface px-2 py-1.5 text-xs font-bold text-ink-2 outline-none focus:border-brand/40">
+            {chapters.map((ch) => <option key={ch.n} value={ch.n}>{ch.n}. {ch.title}</option>)}
+          </select>
+        </div>
+      )}
+
       {/* ===================== READER (existing engine — unchanged) ===================== */}
-      <div className="grid gap-6 lg:grid-cols-[270px_1fr]">
+      <div className={focus ? "block" : "grid gap-6 lg:grid-cols-[270px_1fr]"}>
         {/* ===== sticky chapter tree ===== */}
-        <aside className="lg:sticky lg:top-[5rem] lg:h-[calc(100vh-6rem)]">
+        <aside className={`lg:sticky lg:top-[5rem] lg:h-[calc(100vh-6rem)] ${focus ? "hidden" : ""}`}>
           <div className="card-premium flex h-full flex-col overflow-hidden p-0">
             {/* header + progress + score */}
             <div className="border-b border-hairline p-4">
@@ -223,7 +286,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         </aside>
 
         {/* ===== reading pane ===== */}
-        <div ref={mainRef} className="min-w-0">
+        <div ref={mainRef} className={`neo-reader min-w-0 ${focus ? "mx-auto max-w-3xl" : ""}`}>
           {/* continue reading banner */}
           {showContinue && (
             <div className="mb-4 flex items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/50 p-3">
