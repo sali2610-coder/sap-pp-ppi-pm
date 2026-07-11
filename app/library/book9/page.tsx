@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, BookOpen, ChevronDown, FileText, Layers } from "lucide-react";
+import { ArrowRight, ChevronDown, Layers } from "lucide-react";
 import { BookReader } from "@/components/book-reader";
 import book9 from "@/data/library/book9-full.json";
 import { useI18n } from "@/lib/i18n";
@@ -95,25 +95,19 @@ export default function Book9Page() {
         {lang === "he" ? "חזרה לספרייה" : "Back to library"}
       </Link>
 
-      <section className="space-y-3 text-center animate-float-in">
-        <span className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">
-          <BookOpen className="size-3.5" />
-          Book #9 · PM · 669 pages
-        </span>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{DATA.book}</h1>
-        <p className="mx-auto max-w-2xl text-sm text-muted-foreground">
-          {lang === "he"
-            ? "מצג ספר דו-עמודי: עמוד שמאל — אנגלית מקורית מתוך ה-PDF; עמוד ימין — תרגום עברי מקצועי, מיושר במקביל. מזהי SAP נשמרו באנגלית."
-            : "Dual-page spread: left — original English from the PDF; right — professional Hebrew, aligned in parallel. SAP identifiers verbatim EN."}
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">{translatedChapters}/{DATA.chapters.length} {lang === "he" ? "פרקים מתורגמים" : "chapters translated"}</span>
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">{totalSections} {lang === "he" ? "סעיפים" : "sections"}</span>
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1"><FileText className="me-1 inline size-3" />{lang === "he" ? "כל 669 העמודים" : "all 669 pages"}</span>
-        </div>
-      </section>
-
-      <BookReader bookId="book9" title={DATA.book} subtitle="PM · 669 pages" chapters={DATA.chapters.map((c) => ({ n: c.n, title: c.title }))}>
+      <BookReader
+        bookId="book9"
+        title={DATA.book}
+        subtitle="PM · 669 pages"
+        chapters={DATA.chapters.map((c) => ({ n: c.n, title: c.title }))}
+        note={lang === "he"
+          ? "מצג ספר דו-עמודי: עמוד שמאל — אנגלית מקורית מתוך ה-PDF; עמוד ימין — תרגום עברי מקצועי, מיושר במקביל. מזהי SAP נשמרו באנגלית."
+          : "Dual-page spread: left — original English from the PDF; right — professional Hebrew, aligned in parallel. SAP identifiers verbatim EN."}
+        stats={[
+          { label: lang === "he" ? "פרקים מתורגמים" : "chapters translated", value: `${translatedChapters}/${DATA.chapters.length}` },
+          { label: lang === "he" ? "סעיפים" : "sections", value: totalSections },
+        ]}
+      >
         <div className="space-y-4">
           {DATA.chapters.map((ch) => <ChapterBlock key={ch.n} ch={ch} />)}
         </div>

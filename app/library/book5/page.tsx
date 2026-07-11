@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, BookOpen, ChevronDown, FileText, Image as ImageIcon, Layers, ZoomIn, Download, X } from "lucide-react";
+import { ArrowRight, ChevronDown, Image as ImageIcon, Layers, ZoomIn, Download, X } from "lucide-react";
 import { BookReader } from "@/components/book-reader";
 import book5 from "@/data/library/book5-full.json";
 import figuresData from "@/data/library/book5-figures.json";
@@ -181,32 +181,20 @@ export default function Book2Page() {
         {lang === "he" ? "חזרה לספרייה" : "Back to library"}
       </Link>
 
-      <section className="space-y-3 text-center animate-float-in">
-        <span className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">
-          <BookOpen className="size-3.5" />
-          Book #5 · 939 pages · QM
-        </span>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{DATA.book}</h1>
-        <p className="mx-auto max-w-2xl text-sm text-muted-foreground">
-          {lang === "he"
-            ? "מצג ספר דו-עמודי: עמוד שמאל — אנגלית מקורית עם איורי המדריך; עמוד ימין — תרגום עברי מקצועי, מיושר במקביל."
-            : "Dual-page book spread: left page — original English with the manual's figures; right page — professional Hebrew, aligned in parallel."}
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">{translatedChapters}/15 {lang === "he" ? "פרקים מתורגמים" : "chapters translated"}</span>
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">{totalSections} {lang === "he" ? "סעיפים" : "sections"}</span>
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">
-            <ImageIcon className="me-1 inline size-3" />
-            {totalFigures} {lang === "he" ? "איורים שחולצו" : "figures extracted"}
-          </span>
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">
-            <FileText className="me-1 inline size-3" />
-            {lang === "he" ? "כל 939 העמודים" : "all 939 pages"}
-          </span>
-        </div>
-      </section>
-
-      <BookReader bookId="book5" title={DATA.book} subtitle="QM · 939 pages" chapters={DATA.chapters.map((c) => ({ n: c.n, title: c.title }))}>
+      <BookReader
+        bookId="book5"
+        title={DATA.book}
+        subtitle="QM · 939 pages"
+        chapters={DATA.chapters.map((c) => ({ n: c.n, title: c.title }))}
+        note={lang === "he"
+          ? "מצג ספר דו-עמודי: עמוד שמאל — אנגלית מקורית עם איורי המדריך; עמוד ימין — תרגום עברי מקצועי, מיושר במקביל."
+          : "Dual-page book spread: left page — original English with the manual's figures; right page — professional Hebrew, aligned in parallel."}
+        stats={[
+          { label: lang === "he" ? "פרקים מתורגמים" : "chapters translated", value: `${translatedChapters}/15` },
+          { label: lang === "he" ? "סעיפים" : "sections", value: totalSections },
+          { label: lang === "he" ? "איורים שחולצו" : "figures extracted", value: totalFigures },
+        ]}
+      >
         <div className="space-y-4">
           {DATA.chapters.map((ch) => (
             <ChapterBlock key={ch.n} ch={ch} onZoom={setLb} />

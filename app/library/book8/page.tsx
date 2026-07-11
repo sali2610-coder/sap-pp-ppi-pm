@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, BookOpen, ChevronDown, GraduationCap, Layers, Lightbulb, Wrench, AlertTriangle, CheckCircle2, MessageCircleQuestion, KeyRound, Workflow, Database } from "lucide-react";
+import { ArrowRight, ChevronDown, Layers, Lightbulb, Wrench, AlertTriangle, CheckCircle2, MessageCircleQuestion, KeyRound, Workflow, Database } from "lucide-react";
 import { BookReader } from "@/components/book-reader";
 import book8 from "@/data/library/book8-full.json";
 import { useI18n } from "@/lib/i18n";
@@ -218,26 +218,20 @@ export default function Book8Page() {
         {lang === "he" ? "חזרה לספרייה" : "Back to library"}
       </Link>
 
-      <section className="space-y-3 text-center animate-float-in">
-        <span className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">
-          <GraduationCap className="size-3.5" />
-          Book #8 · PM · Business User Guide
-        </span>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{DATA.titleHe}</h1>
-        <p dir="ltr" className="text-sm text-muted-foreground">{DATA.book}</p>
-        <p className="mx-auto max-w-2xl text-sm text-muted-foreground">
-          {lang === "he"
-            ? "ספר עברי מלא — כל יחידת-לימוד בנויה ב-18 מקטעים מנקודת-מבט של משתמש עסקי המתחזק ציוד בקו-מילוי. מזהי SAP במקור באנגלית."
-            : "Fully authored Hebrew — each unit follows the academy 18-facet structure from a business-user perspective. SAP identifiers verbatim EN."}
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">{DATA.chapters.length} {lang === "he" ? "פרקים" : "chapters"}</span>
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">{totalSections} {lang === "he" ? "יחידות לימוד" : "units"}</span>
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1"><BookOpen className="me-1 inline size-3" />{lang === "he" ? "עברית מלאה · 18 מקטעים" : "full Hebrew · 18 facets"}</span>
-        </div>
-      </section>
-
-      <BookReader bookId="book8" title={DATA.titleHe} subtitle="PM · Business User Guide" chapters={DATA.chapters.map((c) => ({ n: c.n, title: c.titleHe }))}>
+      <BookReader
+        bookId="book8"
+        title={DATA.titleHe}
+        subtitle="PM · Business User Guide"
+        chapters={DATA.chapters.map((c) => ({ n: c.n, title: c.titleHe }))}
+        note={lang === "he"
+          ? "ספר עברי מלא — כל יחידת-לימוד בנויה ב-18 מקטעים מנקודת-מבט של משתמש עסקי המתחזק ציוד בקו-מילוי. מזהי SAP במקור באנגלית."
+          : "Fully authored Hebrew — each unit follows the academy 18-facet structure from a business-user perspective. SAP identifiers verbatim EN."}
+        stats={[
+          { label: lang === "he" ? "פרקים" : "chapters", value: DATA.chapters.length },
+          { label: lang === "he" ? "יחידות לימוד" : "units", value: totalSections },
+          { label: lang === "he" ? "עברית מלאה · 18 מקטעים" : "full Hebrew · 18 facets", value: "" },
+        ]}
+      >
         <div className="space-y-4">
           {DATA.chapters.map((ch) => <ChapterBlock key={ch.n} ch={ch} />)}
         </div>
