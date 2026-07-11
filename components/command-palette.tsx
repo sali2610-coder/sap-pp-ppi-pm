@@ -64,7 +64,7 @@ function ModuleTag({ m }: { m: Module }) {
 function IntelRow({ icon, label, children }: { icon: React.ReactNode; label: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-wrap items-center gap-1.5">
-      <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-400">{icon}{label}</span>
+      <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-ink-3">{icon}{label}</span>
       {children}
     </div>
   );
@@ -219,7 +219,7 @@ export function CommandPalette() {
         </VisuallyHidden>
 
         {/* mobile grip handle */}
-        <div className="mx-auto mt-2 h-1.5 w-11 shrink-0 rounded-full bg-slate-200 sm:hidden" />
+        <div className="mx-auto mt-2 h-1.5 w-11 shrink-0 rounded-full bg-hairline sm:hidden" />
 
         {/* input */}
         <div className="flex items-center gap-3 border-b border-border/60 px-5">
@@ -246,8 +246,8 @@ export function CommandPalette() {
                   <div className="flex items-center gap-2">
                     <span className="tech rounded-lg bg-brand px-2.5 py-1 text-base font-extrabold text-brand-foreground" dir="ltr">{intel.table.tableName}</span>
                     <div className="leading-tight">
-                      <div className="text-[11px] font-bold text-slate-500">{intel.type} · <ModuleTag m={intel.table.module} /></div>
-                      <div className="text-xs text-slate-600">{pick(intel.table.descriptionHe, intel.table.descriptionEn)}</div>
+                      <div className="text-[11px] font-bold text-ink-3">{intel.type} · <ModuleTag m={intel.table.module} /></div>
+                      <div className="text-xs text-ink-2">{pick(intel.table.descriptionHe, intel.table.descriptionEn)}</div>
                     </div>
                   </div>
                   <button onClick={() => go(`/object/${encodeURIComponent(intel.table.tableName)}`, intel.table.tableName)} className="flex shrink-0 items-center gap-1.5 rounded-xl bg-brand px-3 py-2 text-xs font-bold text-brand-foreground shadow-lg shadow-brand/30 transition hover:bg-brand-dark active:scale-95"><Workflow className="size-3.5" /> סביבת עבודה</button>
@@ -255,37 +255,37 @@ export function CommandPalette() {
                 {/* counts strip */}
                 <div className="grid grid-cols-4 gap-1.5">
                   {[["הפניות", intel.counts.references], ["תהליכים", intel.counts.processes], ["ספרים", intel.counts.books], ["מקושרים", intel.counts.related]].map(([l, n]) => (
-                    <div key={l as string} className="rounded-lg border border-border/60 bg-white/70 px-2 py-1.5 text-center">
+                    <div key={l as string} className="rounded-lg border border-border/60 bg-surface/70 px-2 py-1.5 text-center">
                       <div className="font-mono text-lg font-extrabold text-brand">{n as number}</div>
-                      <div className="eyebrow text-slate-400">{l as string}</div>
+                      <div className="eyebrow text-ink-3">{l as string}</div>
                     </div>
                   ))}
                 </div>
                 {/* found in */}
                 <IntelRow icon={<MapPin className="size-3" />} label="נמצא ב">
-                  {intel.foundIn.map((f) => <button key={f.label} onClick={() => go(f.href)} className="rounded-md bg-white px-2 py-0.5 text-[11px] font-bold text-slate-700 ring-1 ring-slate-200 transition hover:ring-brand">✓ {f.label}</button>)}
+                  {intel.foundIn.map((f) => <button key={f.label} onClick={() => go(f.href)} className="rounded-md bg-surface px-2 py-0.5 text-[11px] font-bold text-ink-2 ring-1 ring-hairline transition hover:ring-brand">✓ {f.label}</button>)}
                 </IntelRow>
                 {intel.related.length > 0 && (
                   <IntelRow icon={<GitBranch className="size-3" />} label="אובייקטים קשורים">
-                    {intel.related.slice(0, 8).map((r) => <button key={r} onClick={() => setQ(r)} className="tech rounded-md bg-white px-2 py-0.5 text-[11px] font-bold text-brand ring-1 ring-slate-200 transition hover:ring-brand" dir="ltr">{r}</button>)}
+                    {intel.related.slice(0, 8).map((r) => <button key={r} onClick={() => setQ(r)} className="tech rounded-md bg-surface px-2 py-0.5 text-[11px] font-bold text-brand ring-1 ring-hairline transition hover:ring-brand" dir="ltr">{r}</button>)}
                   </IntelRow>
                 )}
                 {intel.tcodes.length > 0 && (
                   <IntelRow icon={<Terminal className="size-3" />} label="T-Codes">
-                    {intel.tcodes.map((c) => <span key={c} className="tech rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600" dir="ltr">{c}</span>)}
+                    {intel.tcodes.map((c) => <span key={c} className="tech rounded-md bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-2" dir="ltr">{c}</span>)}
                   </IntelRow>
                 )}
                 {intel.bapis.length > 0 && (
                   <IntelRow icon={<Boxes className="size-3" />} label="BAPIs / FM">
-                    {intel.bapis.map((c) => <span key={c} className="tech rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600" dir="ltr">{c}</span>)}
+                    {intel.bapis.map((c) => <span key={c} className="tech rounded-md bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-2" dir="ltr">{c}</span>)}
                   </IntelRow>
                 )}
                 <IntelRow icon={<Workflow className="size-3" />} label="תהליך">
-                  <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-600">{intel.process}</span>
+                  <span className="rounded-md bg-surface-2 px-2 py-0.5 text-[11px] font-semibold text-ink-2">{intel.process}</span>
                 </IntelRow>
                 {intel.books.length > 0 && (
                   <IntelRow icon={<BookMarked className="size-3" />} label="ספרים">
-                    {intel.books.map((bk) => <button key={bk} onClick={() => go("/library/book1/")} className="rounded-md bg-white px-2 py-0.5 text-[11px] font-bold text-slate-700 ring-1 ring-slate-200 hover:ring-brand">{bk}</button>)}
+                    {intel.books.map((bk) => <button key={bk} onClick={() => go("/library/book1/")} className="rounded-md bg-surface px-2 py-0.5 text-[11px] font-bold text-ink-2 ring-1 ring-hairline hover:ring-brand">{bk}</button>)}
                   </IntelRow>
                 )}
               </div>
@@ -366,7 +366,7 @@ export function CommandPalette() {
                     <div className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground"><Boxes className="size-3.5" />אובייקטים אחרונים</div>
                     <div className="flex flex-wrap gap-1.5 px-3">
                       {recentObj.slice(0, 10).map((n) => (
-                        <button key={n} onClick={() => go(`/object/${encodeURIComponent(n)}`, n)} className="tech inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 shadow-sm transition-all hover:-translate-y-px hover:border-brand/40 hover:text-brand active:scale-95" dir="ltr">
+                        <button key={n} onClick={() => go(`/object/${encodeURIComponent(n)}`, n)} className="tech inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-surface px-2.5 py-1 text-xs font-bold text-ink-2 shadow-sm transition-all hover:-translate-y-px hover:border-brand/40 hover:text-brand active:scale-95" dir="ltr">
                           <Boxes className="size-3 opacity-50" />{n}
                         </button>
                       ))}
@@ -377,11 +377,11 @@ export function CommandPalette() {
                   <div>
                     <div className="flex items-center justify-between px-3 py-1.5">
                       <span className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground"><Clock className="size-3.5" />{t("search.recent")}</span>
-                      <button onClick={clearRecent} className="rounded-md px-1.5 py-0.5 text-[11px] font-semibold text-slate-400 transition-colors hover:bg-muted/70 hover:text-brand">{t("search.recent.clear")}</button>
+                      <button onClick={clearRecent} className="rounded-md px-1.5 py-0.5 text-[11px] font-semibold text-ink-3 transition-colors hover:bg-muted/70 hover:text-brand">{t("search.recent.clear")}</button>
                     </div>
                     <div className="flex flex-wrap gap-1.5 px-3">
                       {recent.map((r) => (
-                        <button key={r} onClick={() => setQ(r)} className="inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-muted/40 px-2.5 py-1 text-xs font-medium text-slate-600 transition-colors hover:border-brand/30 hover:text-brand">
+                        <button key={r} onClick={() => setQ(r)} className="inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-muted/40 px-2.5 py-1 text-xs font-medium text-ink-2 transition-colors hover:border-brand/30 hover:text-brand">
                           <Clock className="size-3 opacity-50" /><span dir="auto">{r}</span>
                         </button>
                       ))}
@@ -393,7 +393,7 @@ export function CommandPalette() {
                   <div className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground"><Sparkles className="size-3.5" />{t("search.suggested")}</div>
                   <div className="flex flex-wrap gap-1.5 px-3">
                     {SUGGESTIONS.map((s) => (
-                      <button key={s} onClick={() => setQ(s)} className="rounded-lg border border-border/60 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 shadow-sm transition-all hover:-translate-y-px hover:border-brand/40 hover:text-brand" dir="auto">{s}</button>
+                      <button key={s} onClick={() => setQ(s)} className="rounded-lg border border-border/60 bg-surface px-2.5 py-1 text-xs font-bold text-ink-2 shadow-sm transition-all hover:-translate-y-px hover:border-brand/40 hover:text-brand" dir="auto">{s}</button>
                     ))}
                   </div>
                 </div>
@@ -402,13 +402,13 @@ export function CommandPalette() {
                   <div className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground"><Compass className="size-3.5" />{t("search.jump")}</div>
                   <div className="grid grid-cols-1 gap-1.5 px-3 sm:grid-cols-2">
                     {PAGES.slice(0, 6).map((p) => (
-                      <button key={p.href} onClick={() => go(p.href)} className="group flex items-center gap-3 rounded-xl border border-border/60 bg-white px-3 py-2.5 text-start shadow-sm transition-all hover:-translate-y-px hover:border-brand/30">
+                      <button key={p.href} onClick={() => go(p.href)} className="group flex items-center gap-3 rounded-xl border border-border/60 bg-surface px-3 py-2.5 text-start shadow-sm transition-all hover:-translate-y-px hover:border-brand/30">
                         <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand/10 text-brand transition-transform duration-300 group-hover:scale-105"><p.Icon className="size-4" /></span>
                         <span className="min-w-0 flex-1">
-                          <span className="block truncate text-sm font-bold text-slate-800">{pick(p.he, p.en)}</span>
-                          <span className="block truncate text-[11px] font-medium text-slate-400">{p.sub}</span>
+                          <span className="block truncate text-sm font-bold text-ink-1">{pick(p.he, p.en)}</span>
+                          <span className="block truncate text-[11px] font-medium text-ink-3">{p.sub}</span>
                         </span>
-                        <ArrowLeft className="size-3.5 shrink-0 text-slate-300 transition-all duration-300 group-hover:-translate-x-0.5 group-hover:text-brand" />
+                        <ArrowLeft className="size-3.5 shrink-0 text-ink-3 transition-all duration-300 group-hover:-translate-x-0.5 group-hover:text-brand" />
                       </button>
                     ))}
                   </div>
@@ -416,19 +416,19 @@ export function CommandPalette() {
               </motion.div>
             ) : flat.length === 0 && !intel && !tcode ? (
               <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center gap-3 px-4 py-10 text-center">
-                <span className="grid size-12 place-items-center rounded-2xl bg-muted/60 text-slate-300"><Search className="size-6" /></span>
+                <span className="grid size-12 place-items-center rounded-2xl bg-muted/60 text-ink-3"><Search className="size-6" /></span>
                 {/^[A-Za-z][A-Za-z0-9_/]{2,}$/.test(q.trim())
-                  ? <p className="max-w-sm text-sm text-slate-500">אין מטא-דאטה מאומת עדיין ל-<span className="tech font-bold text-slate-700" dir="ltr">{q.trim().toUpperCase()}</span>. ייתכן שהאובייקט קיים ב-SAP אך טרם תועד כאן — <b>לא ממציאים נתונים</b>. נסה שם עסקי, כינוי או אובייקט מהרשימה:</p>
-                  : <p className="text-sm text-muted-foreground">{t("search.empty")} — <span className="font-bold text-slate-600" dir="auto">&quot;{q}&quot;</span></p>}
+                  ? <p className="max-w-sm text-sm text-ink-3">אין מטא-דאטה מאומת עדיין ל-<span className="tech font-bold text-ink-2" dir="ltr">{q.trim().toUpperCase()}</span>. ייתכן שהאובייקט קיים ב-SAP אך טרם תועד כאן — <b>לא ממציאים נתונים</b>. נסה שם עסקי, כינוי או אובייקט מהרשימה:</p>
+                  : <p className="text-sm text-muted-foreground">{t("search.empty")} — <span className="font-bold text-ink-2" dir="auto">&quot;{q}&quot;</span></p>}
                 <div className="flex flex-wrap justify-center gap-1.5">
                   {SUGGESTIONS.slice(0, 5).map((s) => (
-                    <button key={s} onClick={() => setQ(s)} className="rounded-lg border border-border/60 bg-white px-2.5 py-1 text-xs font-bold text-slate-700 shadow-sm transition-all hover:-translate-y-px hover:border-brand/40 hover:text-brand" dir="auto">{s}</button>
+                    <button key={s} onClick={() => setQ(s)} className="rounded-lg border border-border/60 bg-surface px-2.5 py-1 text-xs font-bold text-ink-2 shadow-sm transition-all hover:-translate-y-px hover:border-brand/40 hover:text-brand" dir="auto">{s}</button>
                   ))}
                 </div>
               </motion.div>
             ) : (
               <motion.div key="list" initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }}>
-                <div aria-live="polite" className="sticky top-0 z-10 mb-1 flex flex-wrap items-center gap-2 border-b border-border/50 bg-white/80 px-3 py-2 backdrop-blur-sm">
+                <div aria-live="polite" className="sticky top-0 z-10 mb-1 flex flex-wrap items-center gap-2 border-b border-border/50 bg-surface/80 px-3 py-2 backdrop-blur-sm">
                   <motion.span key={flat.length} initial={{ scale: 0.7, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 500, damping: 24 }}
                     className="inline-flex items-center gap-1.5 rounded-lg bg-brand/10 px-2.5 py-1 text-xs font-extrabold text-brand">
                     <Search className="size-3.5" />נמצאו {flat.length + (intel ? 1 : 0) + (tcode && !intel ? 1 : 0)} תוצאות
@@ -464,14 +464,14 @@ export function CommandPalette() {
                               <span className="min-w-0 flex-1 truncate text-sm text-muted-foreground">
                                 <Highlight text={item.sub} query={hl} />
                               </span>
-                              {item.kind === "page" ? <ArrowLeft className="size-3.5 shrink-0 text-slate-300" /> : <ModuleTag m={item.module} />}
+                              {item.kind === "page" ? <ArrowLeft className="size-3.5 shrink-0 text-ink-3" /> : <ModuleTag m={item.module} />}
                               {isActive && <CornerDownLeft className="size-3.5 shrink-0 text-brand" />}
                             </button>
                             {/* Universal Actions — direct routes for the active result */}
                             {acts.length > 0 && (
                               <div className="flex flex-wrap gap-1 px-3 pb-2.5 pt-0.5">
                                 {acts.map((a) => { const AIcon = a.icon; return (
-                                  <button key={a.label} onClick={() => go(a.href, item.label)} className="tap inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-[11px] font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand">
+                                  <button key={a.label} onClick={() => go(a.href, item.label)} className="tap inline-flex items-center gap-1 rounded-lg border border-hairline bg-surface px-2 py-1 text-[11px] font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand">
                                     <AIcon className="size-3" />{a.label}
                                   </button>
                                 ); })}

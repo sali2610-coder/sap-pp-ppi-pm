@@ -191,7 +191,7 @@ export default function ChatPage() {
         </div>
 
         {/* API key — frosted glass fallback (localStorage) */}
-        <div className="mt-4 rounded-xl border border-white/20 bg-white/10 p-3 backdrop-blur-md">
+        <div className="mt-4 rounded-xl border border-white/20 bg-surface/10 p-3 backdrop-blur-md">
           <p className="mb-1.5 flex items-center gap-1.5 text-[11px] font-bold">
             <KeyRound className="size-3.5 text-brand" />
             {lang === "he" ? "מפתח Gemini API" : "Gemini API key"}

@@ -52,7 +52,7 @@ export function AcademyQualityReport({ bookId }: { bookId: string }) {
           {checks.map(([ok, label, detail], i) => (
             <div key={i} className="flex items-start gap-2.5 rounded-lg border border-border/50 bg-card/40 p-3">
               {ok ? <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-emerald-600" /> : <AlertTriangle className="mt-0.5 size-4 shrink-0 text-amber-600" />}
-              <div><p className="text-sm font-bold">{label}</p><p className="text-[13px] text-slate-700">{detail}</p></div>
+              <div><p className="text-sm font-bold">{label}</p><p className="text-[13px] text-ink-2">{detail}</p></div>
             </div>
           ))}
         </div>
@@ -69,7 +69,7 @@ export function AcademyQualityReport({ bookId }: { bookId: string }) {
 
       <section dir="rtl" className="glass rounded-2xl p-5">
         <h2 className="mb-2 flex items-center gap-2 text-sm font-bold text-muted-foreground"><AlertTriangle className="size-4" />{lang === "he" ? "לאימות מול ה-tenant" : "Verify vs tenant"}</h2>
-        <p className="text-[13px] leading-relaxed text-slate-700">
+        <p className="text-[13px] leading-relaxed text-ink-2">
           {lang === "he"
             ? "המבנה, ההיררכיה ושלמות המקטעים מאומתים דטרמיניסטית (ירוק). מזהי SAP (T-Codes, טבלאות, מזהי-Fiori, נתיבי-IMG) חוברו מידע-מקצועי על-בסיס תוכן-העניינים האמיתי של הספר — מומלץ לאמת אותם מול ה-tenant לפני שימוש בתצורה. ניתן להריץ ביקורת-עומק פר-פרק (כמו ב-PP) לפי בקשה."
             : "Structure, hierarchy and facet completeness are deterministically verified (green). SAP identifiers (T-Codes, tables, Fiori IDs, IMG paths) were authored from domain knowledge grounded in the book's real TOC — verify against the tenant before config use. A deep per-chapter review (PP-style) is available on request."}

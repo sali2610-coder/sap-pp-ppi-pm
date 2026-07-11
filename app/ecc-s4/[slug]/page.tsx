@@ -7,7 +7,7 @@ export const dynamicParams = false;
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const t = eccS4BySlug(slug);
-  if (!t) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">הנושא לא נמצא.</div>;
+  if (!t) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">הנושא לא נמצא.</div>;
   return (
     <div>
       <Crumb trail={[{ href: "/knowledge/", label: "מרכז הידע" }, { href: "/ecc-s4/", label: "ECC מול S/4" }, { label: t.he }]} />

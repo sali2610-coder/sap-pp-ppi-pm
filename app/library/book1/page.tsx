@@ -22,12 +22,12 @@ const FIGS = figuresData as Record<string, Figure[]>;
 // aspectRatio reserves the box so lazy images load + never collapse to 0-height.
 function FigurePlate({ fig, onZoom }: { fig: Figure; onZoom: (f: Figure) => void }) {
   return (
-    <figure className="group mx-auto my-3 max-w-xl overflow-hidden rounded-xl border border-border/60 bg-white p-2 shadow-sm transition-shadow hover:shadow-md">
+    <figure className="group mx-auto my-3 max-w-xl overflow-hidden rounded-xl border border-border/60 bg-surface p-2 shadow-sm transition-shadow hover:shadow-md">
       <button onClick={() => onZoom(fig)} className="relative block w-full overflow-hidden rounded-lg" style={{ aspectRatio: `${fig.w} / ${fig.h}` }} aria-label="הגדל איור">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={fig.file} alt={`SAP figure p.${fig.page}`} loading="lazy" width={fig.w} height={fig.h} className="absolute inset-0 size-full object-contain transition-transform duration-500 group-hover:scale-[1.03]" />
         <span className="absolute inset-0 flex items-center justify-center bg-slate-900/0 opacity-0 transition group-hover:bg-slate-900/15 group-hover:opacity-100">
-          <span className="grid size-9 place-items-center rounded-full bg-white/90 text-slate-700 shadow-lg"><ZoomIn className="size-4" /></span>
+          <span className="grid size-9 place-items-center rounded-full bg-surface/90 text-ink-2 shadow-lg"><ZoomIn className="size-4" /></span>
         </span>
       </button>
       <figcaption className="mt-1 flex items-center justify-between px-1 text-[10px] text-muted-foreground">
@@ -47,12 +47,12 @@ function Lightbox({ fig, onClose }: { fig: Figure; onClose: () => void }) {
       <div className="flex w-full max-w-5xl items-center justify-between text-white">
         <span className="text-xs font-semibold" dir="ltr">SAP figure · page {fig.page}</span>
         <div className="flex items-center gap-2">
-          <a href={fig.file} download onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-3 py-1.5 text-xs font-bold hover:bg-white/25"><Download className="size-4" /> הורד</a>
-          <button onClick={onClose} className="inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-3 py-1.5 text-xs font-bold hover:bg-white/25"><X className="size-4" /> סגור</button>
+          <a href={fig.file} download onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1.5 rounded-lg bg-surface/15 px-3 py-1.5 text-xs font-bold hover:bg-surface/25"><Download className="size-4" /> הורד</a>
+          <button onClick={onClose} className="inline-flex items-center gap-1.5 rounded-lg bg-surface/15 px-3 py-1.5 text-xs font-bold hover:bg-surface/25"><X className="size-4" /> סגור</button>
         </div>
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={fig.file} alt={`SAP figure p.${fig.page}`} onClick={(e) => e.stopPropagation()} className="max-h-[82vh] max-w-full rounded-xl bg-white object-contain shadow-2xl" />
+      <img src={fig.file} alt={`SAP figure p.${fig.page}`} onClick={(e) => e.stopPropagation()} className="max-h-[82vh] max-w-full rounded-xl bg-surface object-contain shadow-2xl" />
     </div>
   );
 }
@@ -69,7 +69,7 @@ function SectionSpread({ s }: { s: Section }) {
         {/* English page */}
         <div dir="ltr" className="px-4 text-start">
           <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">English (original)</p>
-          <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-slate-700">{s.en}</p>
+          <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-ink-2">{s.en}</p>
         </div>
         {/* spine */}
         <div className="book-spine hidden sm:block" aria-hidden />
@@ -77,7 +77,7 @@ function SectionSpread({ s }: { s: Section }) {
         <div dir="rtl" className="px-4 text-start">
           <p className="text-[11px] font-bold uppercase tracking-wide text-brand">עברית · תרגום מקצועי</p>
           {s.he ? (
-            <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-slate-800">{s.he}</p>
+            <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-ink-1">{s.he}</p>
           ) : (
             <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
               <span className="size-1.5 rounded-full bg-status-in-analysis" />
@@ -148,7 +148,7 @@ function ChapterBlock({ ch, onZoom }: { ch: Chapter; onZoom: (f: Figure) => void
             <div className="paper relative rounded-xl p-4 sm:p-6">
               {/* figure plates band */}
               {figs.length > 0 && (
-                <details open className="mb-3 rounded-lg border border-border/50 bg-white/60 p-2">
+                <details open className="mb-3 rounded-lg border border-border/50 bg-surface/60 p-2">
                   <summary className="flex cursor-pointer items-center gap-2 text-xs font-semibold text-brand">
                     <ImageIcon className="size-3.5" />
                     {lang === "he" ? `איורים מקוריים מהספר (${figs.length})` : `Original figures from the book (${figs.length})`}

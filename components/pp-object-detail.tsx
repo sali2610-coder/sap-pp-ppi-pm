@@ -31,7 +31,7 @@ export function PPObjectDetail({ obj }: { obj: PPObject }) {
             <span key={k} className="rounded-md bg-brand/10 px-1.5 py-0.5 text-[11px] font-semibold text-brand">{kindLabel(k)}</span>
           ))}
         </div>
-        {obj.he && <p dir="rtl" className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-slate-700">{obj.he}</p>}
+        {obj.he && <p dir="rtl" className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-ink-2">{obj.he}</p>}
       </section>
 
       <section dir="rtl" className="glass rounded-2xl p-5">

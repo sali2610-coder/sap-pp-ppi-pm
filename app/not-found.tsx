@@ -20,17 +20,17 @@ export default function NotFound() {
         <div className="mx-auto flex items-center justify-center gap-2.5">
           <Monogram />
           <div className="text-start">
-            <div className="text-[13px] font-extrabold tracking-tight text-slate-800">SAP by Sali</div>
-            <div className="text-[11px] font-semibold text-slate-400">Project NEO</div>
+            <div className="text-[13px] font-extrabold tracking-tight text-ink-1">SAP by Sali</div>
+            <div className="text-[11px] font-semibold text-ink-3">Project NEO</div>
           </div>
         </div>
         <p className="mt-6 bg-gradient-to-b from-brand to-brand-dark bg-clip-text text-6xl font-black tracking-tighter text-transparent">404</p>
-        <h1 className="mt-1 text-2xl font-extrabold text-slate-900">העמוד לא נמצא</h1>
-        <p className="mt-1.5 text-sm leading-relaxed text-slate-500">ייתכן שהקישור השתנה או שהאובייקט הועבר. חזור לקוקפיט או חקור את נוף ה-SAP.</p>
+        <h1 className="mt-1 text-2xl font-extrabold text-ink-1">העמוד לא נמצא</h1>
+        <p className="mt-1.5 text-sm leading-relaxed text-ink-3">ייתכן שהקישור השתנה או שהאובייקט הועבר. חזור לקוקפיט או חקור את נוף ה-SAP.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <Link href="/" className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-sm font-extrabold text-white shadow-sm shadow-brand/25 active:scale-95"><Home className="size-4" />לקוקפיט</Link>
-          <Link href="/studio/" className="tap inline-flex items-center gap-1.5 rounded-xl border-2 border-slate-200 px-4 py-2.5 text-sm font-bold text-slate-600 hover:border-brand/40 hover:text-brand active:scale-95"><Compass className="size-4" />סטודיו ארכיטקטורה</Link>
-          <Link href="/apps/" className="tap inline-flex items-center gap-1.5 rounded-xl border-2 border-slate-200 px-4 py-2.5 text-sm font-bold text-slate-600 hover:border-brand/40 hover:text-brand active:scale-95"><LayoutGrid className="size-4" />אפליקציות</Link>
+          <Link href="/studio/" className="tap inline-flex items-center gap-1.5 rounded-xl border-2 border-hairline px-4 py-2.5 text-sm font-bold text-ink-2 hover:border-brand/40 hover:text-brand active:scale-95"><Compass className="size-4" />סטודיו ארכיטקטורה</Link>
+          <Link href="/apps/" className="tap inline-flex items-center gap-1.5 rounded-xl border-2 border-hairline px-4 py-2.5 text-sm font-bold text-ink-2 hover:border-brand/40 hover:text-brand active:scale-95"><LayoutGrid className="size-4" />אפליקציות</Link>
         </div>
       </div>
     </div>

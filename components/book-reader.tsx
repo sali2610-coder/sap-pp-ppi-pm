@@ -60,54 +60,54 @@ export function BookReader({ bookId, title, subtitle, chapters, children }: { bo
       <aside className="lg:sticky lg:top-[5rem] lg:h-[calc(100vh-6rem)]">
         <div className="card-premium flex h-full flex-col overflow-hidden p-0">
           {/* header + progress + score */}
-          <div className="border-b border-slate-100 p-4">
+          <div className="border-b border-hairline p-4">
             <div className="flex items-center gap-2">
               <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-brand to-brand-dark text-white shadow-md"><BookOpen className="size-4.5" /></span>
-              <div className="min-w-0"><h2 className="truncate text-sm font-extrabold text-slate-900">{title}</h2>{subtitle && <p className="truncate text-[11px] text-slate-400">{subtitle}</p>}</div>
+              <div className="min-w-0"><h2 className="truncate text-sm font-extrabold text-ink-1">{title}</h2>{subtitle && <p className="truncate text-[11px] text-ink-3">{subtitle}</p>}</div>
             </div>
             <div className="mt-3 flex items-center justify-between text-[11px] font-bold">
-              <span className="flex items-center gap-1 text-slate-500"><GraduationCap className="size-3.5 text-brand" /> ציון ידע</span>
+              <span className="flex items-center gap-1 text-ink-3"><GraduationCap className="size-3.5 text-brand" /> ציון ידע</span>
               <span className="font-mono text-brand">{score}%</span>
             </div>
-            <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-slate-100">
+            <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-surface-2">
               <div className="h-full rounded-full bg-gradient-to-l from-brand to-brand-dark transition-all duration-700" style={{ width: `${score}%` }} />
             </div>
-            <p className="mt-1 text-[10px] text-slate-400">{read.length}/{total} פרקים נקראו · {bm.length} סימניות</p>
+            <p className="mt-1 text-[10px] text-ink-3">{read.length}/{total} פרקים נקראו · {bm.length} סימניות</p>
           </div>
           {/* in-book search */}
-          <div className="relative border-b border-slate-100 p-2.5">
-            <Search className="pointer-events-none absolute end-4 top-1/2 size-3.5 -translate-y-1/2 text-slate-400" />
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש בתוך הספר…" className="w-full rounded-lg border border-slate-200 bg-white py-1.5 pe-3 ps-8 text-xs outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
-            {q && <button onClick={() => setQ("")} className="absolute start-4 top-1/2 -translate-y-1/2"><X className="size-3.5 text-slate-400" /></button>}
+          <div className="relative border-b border-hairline p-2.5">
+            <Search className="pointer-events-none absolute end-4 top-1/2 size-3.5 -translate-y-1/2 text-ink-3" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש בתוך הספר…" className="w-full rounded-lg border border-hairline bg-surface py-1.5 pe-3 ps-8 text-xs outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
+            {q && <button onClick={() => setQ("")} className="absolute start-4 top-1/2 -translate-y-1/2"><X className="size-3.5 text-ink-3" /></button>}
           </div>
           {/* tree */}
           <nav className="min-h-0 flex-1 overflow-y-auto p-2">
-            <div className="eyebrow mb-1 flex items-center gap-1 px-2 text-slate-400"><ListTree className="size-3" /> פרקים</div>
+            <div className="eyebrow mb-1 flex items-center gap-1 px-2 text-ink-3"><ListTree className="size-3" /> פרקים</div>
             {filtered.map((c) => {
               const isRead = read.includes(c.n); const isBm = bm.includes(c.n); const isActive = active === c.n;
               return (
-                <div key={c.n} className={`group flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition ${isActive ? "bg-brand/10" : "hover:bg-slate-50"}`}>
+                <div key={c.n} className={`group flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition ${isActive ? "bg-brand/10" : "hover:bg-surface-2"}`}>
                   <button onClick={() => { playTick(); jump(c.n); }} className="flex min-w-0 flex-1 items-center gap-2 text-start">
-                    <span className={`grid size-5 shrink-0 place-items-center rounded-md text-[10px] font-bold ${isRead ? "bg-emerald-100 text-emerald-600" : isActive ? "bg-brand text-white" : "bg-slate-100 text-slate-400"}`}>{isRead ? <Check className="size-3" /> : c.n}</span>
-                    <span className={`truncate text-xs ${isActive ? "font-bold text-slate-900" : "font-medium text-slate-600"}`}>{c.title}</span>
+                    <span className={`grid size-5 shrink-0 place-items-center rounded-md text-[10px] font-bold ${isRead ? "bg-emerald-100 text-emerald-600" : isActive ? "bg-brand text-white" : "bg-surface-2 text-ink-3"}`}>{isRead ? <Check className="size-3" /> : c.n}</span>
+                    <span className={`truncate text-xs ${isActive ? "font-bold text-ink-1" : "font-medium text-ink-2"}`}>{c.title}</span>
                   </button>
                   <button onClick={() => toggleBm(c.n)} aria-label="סימנייה" className="shrink-0 opacity-0 transition group-hover:opacity-100" style={{ opacity: isBm ? 1 : undefined }}>
-                    <Bookmark className={`size-3.5 ${isBm ? "fill-amber-400 text-amber-400" : "text-slate-300"}`} />
+                    <Bookmark className={`size-3.5 ${isBm ? "fill-amber-400 text-amber-400" : "text-ink-3"}`} />
                   </button>
                 </div>
               );
             })}
-            {filtered.length === 0 && <p className="px-2 py-4 text-center text-xs text-slate-400">אין פרק תואם</p>}
+            {filtered.length === 0 && <p className="px-2 py-4 text-center text-xs text-ink-3">אין פרק תואם</p>}
           </nav>
           {/* notes */}
-          <div className="border-t border-slate-100 p-2.5">
-            <button onClick={() => setNotesOpen((v) => !v)} className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-50">
+          <div className="border-t border-hairline p-2.5">
+            <button onClick={() => setNotesOpen((v) => !v)} className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-xs font-bold text-ink-2 hover:bg-surface-2">
               <span className="flex items-center gap-1.5"><StickyNote className="size-3.5 text-brand" /> הערות הספר</span>
               <ChevronDown className={`size-3.5 transition-transform ${notesOpen ? "rotate-180" : ""}`} />
             </button>
             {notesOpen && (
               <textarea value={notes} onChange={(e) => { setNotes(e.target.value); try { localStorage.setItem(`neo:reader:notes:${bookId}`, e.target.value); } catch { /* noop */ } }}
-                placeholder="הערות אישיות על הספר — נשמר בדפדפן…" className="mt-1.5 h-28 w-full resize-none rounded-lg border border-slate-200 bg-white p-2 text-xs outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
+                placeholder="הערות אישיות על הספר — נשמר בדפדפן…" className="mt-1.5 h-28 w-full resize-none rounded-lg border border-hairline bg-surface p-2 text-xs outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
             )}
           </div>
         </div>
@@ -118,20 +118,20 @@ export function BookReader({ bookId, title, subtitle, chapters, children }: { bo
         {/* continue reading banner */}
         {showContinue && (
           <div className="mb-4 flex items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/50 p-3">
-            <span className="flex items-center gap-2 text-sm font-bold text-slate-700"><PlayCircle className="size-5 text-brand" /> המשך קריאה — פרק {last}</span>
+            <span className="flex items-center gap-2 text-sm font-bold text-ink-2"><PlayCircle className="size-5 text-brand" /> המשך קריאה — פרק {last}</span>
             <div className="flex gap-2">
               <button onClick={() => { jump(last); setShowContinue(false); }} className="tap rounded-xl bg-brand px-3.5 py-2 text-xs font-bold text-white shadow-sm hover:bg-brand-dark">המשך</button>
-              <button onClick={() => setShowContinue(false)} className="tap rounded-xl px-2 py-2 text-slate-400 hover:bg-slate-100"><X className="size-4" /></button>
+              <button onClick={() => setShowContinue(false)} className="tap rounded-xl px-2 py-2 text-ink-3 hover:bg-surface-2"><X className="size-4" /></button>
             </div>
           </div>
         )}
         {children}
         {/* next / prev */}
         <div className="mt-6 flex items-center justify-between gap-3">
-          <button disabled={!prev} onClick={() => prev && jump(prev.n)} className="tap inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 shadow-sm transition enabled:hover:border-brand enabled:hover:text-brand disabled:opacity-40">
+          <button disabled={!prev} onClick={() => prev && jump(prev.n)} className="tap inline-flex items-center gap-2 rounded-xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition enabled:hover:border-brand enabled:hover:text-brand disabled:opacity-40">
             <ChevronUp className="size-4" /> {prev ? `פרק ${prev.n}` : "התחלה"}
           </button>
-          <span className="text-xs font-bold text-slate-400">פרק {active} / {total}</span>
+          <span className="text-xs font-bold text-ink-3">פרק {active} / {total}</span>
           <button disabled={!next} onClick={() => next && jump(next.n)} className="tap inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2.5 text-sm font-bold text-white shadow-sm transition enabled:hover:bg-brand-dark disabled:opacity-40">
             {next ? `פרק ${next.n}` : "סוף"} <ChevronDown className="size-4" />
           </button>

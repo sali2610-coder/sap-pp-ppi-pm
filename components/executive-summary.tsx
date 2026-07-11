@@ -39,7 +39,7 @@ export function ExecutiveSummary() {
   return (
     <motion.section
       initial={reduce ? false : { opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="surface grid gap-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-[var(--elev-2)] lg:grid-cols-[auto_1fr_1.1fr]">
+      className="surface grid gap-6 rounded-3xl border border-hairline bg-surface p-6 shadow-[var(--elev-2)] lg:grid-cols-[auto_1fr_1.1fr]">
       {/* readiness ring */}
       <div className="flex items-center gap-4">
         <div className="relative grid size-32 shrink-0 place-items-center">
@@ -49,20 +49,20 @@ export function ExecutiveSummary() {
               strokeDasharray={C} initial={false} animate={{ strokeDashoffset: C - (C * pct) / 100 }} transition={reduce ? { duration: 0 } : { duration: 1, ease: [0.22, 1, 0.36, 1] }} />
           </svg>
           <div className="absolute text-center">
-            {mounted ? <span className="block text-3xl font-extrabold tabular-nums text-slate-900">{readiness}%</span> : <span className="skeleton block h-8 w-14 rounded" />}
-            <span className="text-[10px] font-bold uppercase tracking-wide text-slate-400">מוכנות</span>
+            {mounted ? <span className="block text-3xl font-extrabold tabular-nums text-ink-1">{readiness}%</span> : <span className="skeleton block h-8 w-14 rounded" />}
+            <span className="text-[10px] font-bold uppercase tracking-wide text-ink-3">מוכנות</span>
           </div>
         </div>
         <div>
           <div className="eyebrow flex items-center gap-1.5 text-brand"><Activity className="size-3.5" />Migration Readiness</div>
-          <h2 className="mt-1 text-lg font-extrabold tracking-tight text-slate-900">מצב מיגרציה — מבט מנהלים</h2>
-          <p className="mt-0.5 text-xs text-slate-500">{total} טבלאות · PM + PP-PI · ECC6 → S/4HANA</p>
+          <h2 className="mt-1 text-lg font-extrabold tracking-tight text-ink-1">מצב מיגרציה — מבט מנהלים</h2>
+          <p className="mt-0.5 text-xs text-ink-3">{total} טבלאות · PM + PP-PI · ECC6 → S/4HANA</p>
         </div>
       </div>
 
       {/* status breakdown */}
-      <div className="flex flex-col justify-center gap-2 border-slate-100 lg:border-x lg:px-6">
-        <div className="flex h-2.5 overflow-hidden rounded-full bg-slate-100">
+      <div className="flex flex-col justify-center gap-2 border-hairline lg:border-x lg:px-6">
+        <div className="flex h-2.5 overflow-hidden rounded-full bg-surface-2">
           {MIGRATION_STATUSES.map((s) => mounted && counts[s] > 0 ? (
             <motion.span key={s} initial={reduce ? false : { width: 0 }} animate={{ width: `${(counts[s] / total) * 100}%` }} transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
               style={{ background: statusColor(s) }} title={`${STATUS_META[s].he}: ${counts[s]}`} />
@@ -73,8 +73,8 @@ export function ExecutiveSummary() {
           {MIGRATION_STATUSES.map((s) => (
             <div key={s} className="flex items-center gap-1.5 text-[11px]">
               <span className="size-2 shrink-0 rounded-full" style={{ background: statusColor(s) }} />
-              <span className="font-semibold text-slate-500">{STATUS_META[s].he}</span>
-              <span className="ms-auto font-mono font-bold text-slate-700 tabular-nums">{mounted ? counts[s] : "·"}</span>
+              <span className="font-semibold text-ink-3">{STATUS_META[s].he}</span>
+              <span className="ms-auto font-mono font-bold text-ink-2 tabular-nums">{mounted ? counts[s] : "·"}</span>
             </div>
           ))}
         </div>
@@ -83,18 +83,18 @@ export function ExecutiveSummary() {
       {/* objects to watch (spotlight on high-impact objects) */}
       <div>
         <div className="mb-2 flex items-center justify-between">
-          <h3 className="flex items-center gap-1.5 text-sm font-extrabold tracking-tight text-slate-900"><ShieldCheck className="size-4 text-brand" />אובייקטים לתשומת לב</h3>
-          <span className="eyebrow text-slate-400">לפי רדיוס השפעה</span>
+          <h3 className="flex items-center gap-1.5 text-sm font-extrabold tracking-tight text-ink-1"><ShieldCheck className="size-4 text-brand" />אובייקטים לתשומת לב</h3>
+          <span className="eyebrow text-ink-3">לפי רדיוס השפעה</span>
         </div>
         <div className="space-y-1.5">
           {watch.map((t, i) => (
             <motion.div key={t.id} initial={reduce ? false : { opacity: 0, x: 12 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: reduce ? 0 : i * 0.05, duration: 0.4 }}>
-              <Link href={`/lineage/?find=${encodeURIComponent(t.tableName)}`} className="group flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm transition-all hover:-translate-y-px hover:border-brand/30">
+              <Link href={`/lineage/?find=${encodeURIComponent(t.tableName)}`} className="group flex items-center gap-3 rounded-xl border border-hairline bg-surface px-3 py-2 shadow-sm transition-all hover:-translate-y-px hover:border-brand/30">
                 <span className="grid size-7 shrink-0 place-items-center rounded-lg text-[10px] font-extrabold text-white" style={{ background: mc(t.module) }}>{t.module === "PP-PI" ? "PPI" : t.module}</span>
-                <span className="tech shrink-0 text-sm font-bold text-slate-900" dir="ltr">{t.tableName}</span>
-                <span className="min-w-0 flex-1 truncate text-xs text-slate-500">{t.descriptionHe || t.descriptionEn}</span>
+                <span className="tech shrink-0 text-sm font-bold text-ink-1" dir="ltr">{t.tableName}</span>
+                <span className="min-w-0 flex-1 truncate text-xs text-ink-3">{t.descriptionHe || t.descriptionEn}</span>
                 <span className="shrink-0 rounded-full bg-brand/10 px-2 py-0.5 text-[10px] font-bold text-brand tabular-nums"><GitBranch className="me-0.5 inline size-2.5" />{t.relations?.length || 0}</span>
-                <ArrowLeft className="size-3.5 shrink-0 text-slate-300 transition-all group-hover:-translate-x-0.5 group-hover:text-brand" />
+                <ArrowLeft className="size-3.5 shrink-0 text-ink-3 transition-all group-hover:-translate-x-0.5 group-hover:text-brand" />
               </Link>
             </motion.div>
           ))}

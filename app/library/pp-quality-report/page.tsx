@@ -14,7 +14,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
 const sevColor: Record<Severity, string> = {
   high: "bg-rose-500/15 text-rose-700 border-rose-300/40",
   med: "bg-amber-500/15 text-amber-700 border-amber-300/40",
-  low: "bg-slate-500/10 text-slate-600 border-slate-300/40",
+  low: "bg-surface-20/10 text-ink-2 border-hairline/40",
 };
 const sevHe: Record<Severity, string> = { high: "גבוה", med: "בינוני", low: "נמוך" };
 
@@ -99,7 +99,7 @@ function ChapterCard({ c }: { c: ChapterQA }) {
             <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${hierBadge}`}>היררכיה: {c.hierarchyMatch === "high" ? "תואמת" : c.hierarchyMatch === "medium" ? "חלקית" : "חורגת"}</span>
             {highCount > 0 && <span className="rounded-full bg-rose-500/15 px-2 py-0.5 text-[10px] font-bold text-rose-700">{highCount} חמורות</span>}
           </div>
-          <p className="mt-1.5 text-[13px] leading-relaxed text-slate-700">{c.summary}</p>
+          <p className="mt-1.5 text-[13px] leading-relaxed text-ink-2">{c.summary}</p>
         </div>
       </div>
 
@@ -143,7 +143,7 @@ export default function PPQualityReportPage() {
             [avg, lang === "he" ? "ציון ממוצע" : "Avg score", confColor(avg)],
             [`${atBar}/15`, lang === "he" ? `≥ ${PP_QUALITY_META.publishBar} (סף פרסום)` : "at publish bar", atBar >= 8 ? "text-emerald-600" : "text-amber-600"],
             [totalHigh, lang === "he" ? "פגמים חמורים" : "high-severity", "text-rose-600"],
-            [totalIssues, lang === "he" ? "סה\"כ ממצאים" : "total findings", "text-slate-700"],
+            [totalIssues, lang === "he" ? "סה\"כ ממצאים" : "total findings", "text-ink-2"],
           ].map(([v, l, col], i) => (
             <div key={i} className="rounded-xl border border-border/50 bg-card/50 p-3">
               <p className={`text-2xl font-bold ${col}`}>{v}</p>

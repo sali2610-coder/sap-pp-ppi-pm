@@ -11,14 +11,14 @@ export const dynamicParams = false;
 function Chips({ items, hrefFn, tone }: { items?: string[]; hrefFn?: (s: string) => string; tone: string }) {
   if (!items || !items.length) return null;
   return <div className="flex flex-wrap gap-1.5">{items.map((it) => { const h = hrefFn ? hrefFn(it) : ""; return h
-    ? <Link key={it} href={h} className="tech rounded-md border bg-slate-50 px-2 py-0.5 text-[11px] font-bold text-slate-600 hover:border-brand hover:text-brand" style={{ borderColor: tone + "44" }} dir="ltr">{it}</Link>
-    : <span key={it} className="tech rounded-md border border-dashed border-slate-200 bg-white px-2 py-0.5 text-[11px] font-bold text-slate-500" dir="ltr">{it}</span>; })}</div>;
+    ? <Link key={it} href={h} className="tech rounded-md border bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-2 hover:border-brand hover:text-brand" style={{ borderColor: tone + "44" }} dir="ltr">{it}</Link>
+    : <span key={it} className="tech rounded-md border border-dashed border-hairline bg-surface px-2 py-0.5 text-[11px] font-bold text-ink-3" dir="ltr">{it}</span>; })}</div>;
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const p = processBySlug(decodeURIComponent(slug));
-  if (!p) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">תהליך לא נמצא.</div>;
+  if (!p) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">תהליך לא נמצא.</div>;
   const tbl = (t: string) => tableByName(t) ? `/object/${encodeURIComponent(t)}/` : "";
   const inc = (i: string) => incidentBySlug(i) ? `/resolution/${i}/` : "";
   return (
@@ -29,8 +29,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         {p.steps.map((s, i) => (
           <li key={i} className="relative">
             <span className="absolute -right-[27px] top-3 grid size-5 place-items-center rounded-full bg-indigo-600 text-[10px] font-extrabold text-white ring-4 ring-white">{i + 1}</span>
-            <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-              <h3 className="mb-2 text-sm font-extrabold text-slate-900">{s.he}</h3>
+            <div className="rounded-2xl border border-hairline bg-surface p-4 shadow-sm">
+              <h3 className="mb-2 text-sm font-extrabold text-ink-1">{s.he}</h3>
               <div className="grid gap-2 sm:grid-cols-2">
                 <Field label="T-Codes"><Chips items={s.tcodes} hrefFn={tcodeHref} tone="#0f766e" /></Field>
                 <Field label="טבלאות"><Chips items={s.tables} hrefFn={tbl} tone="#0891b2" /></Field>
@@ -49,5 +49,5 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   );
 }
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return <div><p className="eyebrow mb-1 text-slate-400">{label}</p>{children}</div>;
+  return <div><p className="eyebrow mb-1 text-ink-3">{label}</p>{children}</div>;
 }

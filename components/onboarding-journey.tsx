@@ -82,19 +82,19 @@ export function OnboardingJourney() {
             <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-white/60"><Compass className="size-4" />Consultant Onboarding</div>
             <h1 className="mt-1 text-3xl font-extrabold sm:text-4xl">המסע שלך להיות יועץ SAP</h1>
             <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-2.5 py-0.5 font-bold ring-1 ring-white/25"><Award className="size-3.5" />{tier}</span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-0.5 text-white/80"><Target className="size-3.5" />מסלול: PP-PI · PM</span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-0.5 text-white/80"><Clock className="size-3.5" />~{Math.round(remainMins / 60 * 10) / 10 || 0} שעות נותרו</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-surface/15 px-2.5 py-0.5 font-bold ring-1 ring-white/25"><Award className="size-3.5" />{tier}</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-surface/10 px-2.5 py-0.5 text-white/80"><Target className="size-3.5" />מסלול: PP-PI · PM</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-surface/10 px-2.5 py-0.5 text-white/80"><Clock className="size-3.5" />~{Math.round(remainMins / 60 * 10) / 10 || 0} שעות נותרו</span>
             </div>
             {/* big progress bar */}
             <div className="mt-4 max-w-xl">
               <div className="mb-1 flex items-center justify-between text-[12px] font-bold text-white/70"><span>שלב {Math.min(current + 1, TOTAL)} מתוך {TOTAL}</span><span className="tabular-nums">{pct}%</span></div>
-              <div className="h-3.5 overflow-hidden rounded-full bg-white/15"><span className="block h-full rounded-full transition-all duration-700" style={{ width: `${pct}%`, background: complete ? GREEN : `linear-gradient(90deg,${RED},#f97316)` }} /></div>
+              <div className="h-3.5 overflow-hidden rounded-full bg-surface/15"><span className="block h-full rounded-full transition-all duration-700" style={{ width: `${pct}%`, background: complete ? GREEN : `linear-gradient(90deg,${RED},#f97316)` }} /></div>
             </div>
           </div>
           <div className="grid grid-cols-3 gap-2 text-center">
             {[["שלבים", `${doneCount}/${TOTAL}`], ["הישגים", `${earnedN}/${ACH.length}`], ["ציון", score || "—"]].map(([l, v]) => (
-              <div key={l} className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-sm"><div className="text-2xl font-extrabold tabular-nums">{v}</div><div className="text-[10px] font-bold uppercase tracking-wide text-white/60">{l}</div></div>
+              <div key={l} className="rounded-2xl border border-white/15 bg-surface/10 px-4 py-3 backdrop-blur-sm"><div className="text-2xl font-extrabold tabular-nums">{v}</div><div className="text-[10px] font-bold uppercase tracking-wide text-white/60">{l}</div></div>
             ))}
           </div>
         </div>
@@ -127,21 +127,21 @@ export function OnboardingJourney() {
           const isDone = doneSet.has(s.id); const isCur = i === current && !complete; const lock = !unlocked(i) && !isDone;
           const Icon = s.icon; const col = isDone ? GREEN : isCur ? RED : GRAY;
           return (
-            <div key={s.id} className={`relative overflow-hidden rounded-3xl border bg-white p-5 shadow-sm transition-all duration-300 ${lock ? "opacity-60" : "hover:-translate-y-1 hover:shadow-lg"} ${isCur ? "ring-2" : "border-slate-200"}`}
+            <div key={s.id} className={`relative overflow-hidden rounded-3xl border bg-surface p-5 shadow-sm transition-all duration-300 ${lock ? "opacity-60" : "hover:-translate-y-1 hover:shadow-lg"} ${isCur ? "ring-2" : "border-hairline"}`}
               style={isCur ? ({ ["--tw-ring-color"]: RED, boxShadow: `0 0 0 4px ${RED}14, 0 10px 30px -12px ${RED}55` } as React.CSSProperties) : undefined}>
               <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: col }} />
               <div className="flex items-start justify-between">
                 <span className="grid size-12 place-items-center rounded-2xl text-white shadow-sm transition" style={{ background: col }}>{lock ? <Lock className="size-5" /> : <Icon className="size-6" />}</span>
-                <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${isDone ? "bg-emerald-100 text-emerald-700" : isCur ? "text-white" : "bg-slate-100 text-slate-400"}`} style={isCur ? { background: RED } : undefined}>
+                <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${isDone ? "bg-emerald-100 text-emerald-700" : isCur ? "text-white" : "bg-surface-2 text-ink-3"}`} style={isCur ? { background: RED } : undefined}>
                   {isDone ? "הושלם ✓" : isCur ? "השלב הנוכחי" : lock ? "נעול" : "זמין"}
                 </span>
               </div>
-              <div className="mt-3 flex items-center gap-2"><span className="text-[11px] font-bold text-slate-400">שלב {s.n}</span></div>
-              <h3 className="text-lg font-extrabold text-slate-900">{s.title}</h3>
-              <p className="mt-1 min-h-[2.5em] text-[13px] leading-relaxed text-slate-500">{s.desc}</p>
+              <div className="mt-3 flex items-center gap-2"><span className="text-[11px] font-bold text-ink-3">שלב {s.n}</span></div>
+              <h3 className="text-lg font-extrabold text-ink-1">{s.title}</h3>
+              <p className="mt-1 min-h-[2.5em] text-[13px] leading-relaxed text-ink-3">{s.desc}</p>
               <div className="mt-3 flex items-center justify-between">
-                <span className="flex items-center gap-1 text-[11px] font-bold text-slate-400"><Clock className="size-3.5" />~{s.mins} דק'</span>
-                {lock ? <span className="text-[11px] font-bold text-slate-400">השלם שלבים קודמים</span>
+                <span className="flex items-center gap-1 text-[11px] font-bold text-ink-3"><Clock className="size-3.5" />~{s.mins} דק'</span>
+                {lock ? <span className="text-[11px] font-bold text-ink-3">השלם שלבים קודמים</span>
                   : s.href ? <Link href={s.href} onClick={() => go(s)} className="tap inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-extrabold text-white shadow-sm transition active:scale-95" style={{ background: col }}>{s.action}<ArrowLeft className="size-3.5" /></Link>
                   : <button onClick={() => go(s)} className="tap inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-extrabold text-white shadow-sm transition active:scale-95" style={{ background: col }}>{isDone ? "סומן ✓" : s.action}</button>}
               </div>
@@ -151,16 +151,16 @@ export function OnboardingJourney() {
       </div>
 
       {/* achievements */}
-      <section className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+      <section className="rounded-3xl border border-hairline bg-surface p-5 shadow-sm">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="flex items-center gap-2 text-lg font-extrabold text-slate-900"><Star className="size-5 text-amber-500" />הישגים</h2>
-          <span className="text-sm font-bold text-slate-400">{earnedN}/{ACH.length}</span>
+          <h2 className="flex items-center gap-2 text-lg font-extrabold text-ink-1"><Star className="size-5 text-amber-500" />הישגים</h2>
+          <span className="text-sm font-bold text-ink-3">{earnedN}/{ACH.length}</span>
         </div>
         <div className="grid-adaptive-sm">
           {ACH.map((a) => { const Icon = a.icon; return (
-            <div key={a.id} className={`flex flex-col items-center gap-2 rounded-2xl border p-3 text-center transition ${a.earned ? "border-amber-200 bg-amber-50" : "border-slate-200 bg-slate-50 opacity-60"}`}>
-              <span className={`grid size-12 place-items-center rounded-full ${a.earned ? "bg-amber-400 text-amber-950" : "bg-slate-200 text-slate-400"}`}>{a.earned ? <Icon className="size-6" /> : <Lock className="size-5" />}</span>
-              <span className="text-[11px] font-bold leading-tight text-slate-700">{a.he}</span>
+            <div key={a.id} className={`flex flex-col items-center gap-2 rounded-2xl border p-3 text-center transition ${a.earned ? "border-amber-200 bg-amber-50" : "border-hairline bg-surface-2 opacity-60"}`}>
+              <span className={`grid size-12 place-items-center rounded-full ${a.earned ? "bg-amber-400 text-amber-950" : "bg-hairline text-ink-3"}`}>{a.earned ? <Icon className="size-6" /> : <Lock className="size-5" />}</span>
+              <span className="text-[11px] font-bold leading-tight text-ink-2">{a.he}</span>
             </div>
           ); })}
         </div>
@@ -174,8 +174,8 @@ export function OnboardingJourney() {
               <span className="grid size-16 place-items-center rounded-2xl bg-emerald-500 text-white shadow-md"><BadgeCheck className="size-9" /></span>
               <div>
                 <div className="text-[11px] font-bold uppercase tracking-wide text-emerald-600">NEO Certified</div>
-                <h2 className="text-2xl font-extrabold text-slate-900">תג יועץ SAP מוסמך 🎓</h2>
-                <p className="text-sm text-slate-500">השלמת את מסע הקליטה · ציון הסמכה: <span className="font-extrabold text-slate-700">{score || "—"}</span> · {earnedN}/{ACH.length} הישגים</p>
+                <h2 className="text-2xl font-extrabold text-ink-1">תג יועץ SAP מוסמך 🎓</h2>
+                <p className="text-sm text-ink-3">השלמת את מסע הקליטה · ציון הסמכה: <span className="font-extrabold text-ink-2">{score || "—"}</span> · {earnedN}/{ACH.length} הישגים</p>
               </div>
             </div>
             <Link href="/learn/pm-fundamentals/" className="tap inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-extrabold text-white shadow-sm transition active:scale-95"><GraduationCap className="size-4" />המסלול המומלץ הבא<ArrowLeft className="size-4" /></Link>
@@ -183,7 +183,7 @@ export function OnboardingJourney() {
         </section>
       )}
 
-      {doneCount > 0 && <div className="text-center"><button onClick={resetJourney} className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-400 transition hover:text-brand"><RotateCcw className="size-3.5" />אפס מסע</button></div>}
+      {doneCount > 0 && <div className="text-center"><button onClick={resetJourney} className="inline-flex items-center gap-1.5 text-xs font-bold text-ink-3 transition hover:text-brand"><RotateCcw className="size-3.5" />אפס מסע</button></div>}
     </div>
   );
 }

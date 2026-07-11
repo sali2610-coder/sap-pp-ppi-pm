@@ -34,27 +34,27 @@ function RowCard({ headers, row, accent }: { headers: string[]; row: string[]; a
   const title = row[0] || "";
   const rest = headers.map((h, i) => ({ h, v: row[i] ?? "", i })).slice(1).filter((f) => f.v);
   return (
-    <motion.div layout className="lift group rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_8px_22px_-16px_rgba(15,23,42,.4)]">
+    <motion.div layout className="lift group rounded-2xl border border-hairline bg-surface p-4 shadow-[0_8px_22px_-16px_rgba(15,23,42,.4)]">
       <div className="mb-2.5 flex items-center gap-2">
         <span className="size-2 shrink-0 rounded-full" style={{ background: accent }} />
         {isCode(title)
           ? <span className="tech rounded-lg px-2 py-0.5 text-sm font-extrabold text-white" style={{ background: accent }} dir="ltr">{title}</span>
-          : <span className="text-sm font-extrabold text-slate-900">{title}</span>}
+          : <span className="text-sm font-extrabold text-ink-1">{title}</span>}
       </div>
       <dl className="space-y-2">
         {rest.map(({ h, v }) => {
           const k = colKind(h);
           return (
             <div key={h}>
-              <dt className="eyebrow text-slate-400">{h}</dt>
+              <dt className="eyebrow text-ink-3">{h}</dt>
               {k === "fiori" ? (
                 <dd className="mt-0.5 inline-flex items-center gap-1.5 rounded-lg bg-fuchsia-50 px-2 py-0.5 text-xs font-bold text-fuchsia-700"><AppWindow className="size-3.5" />{v}</dd>
               ) : k === "s4" ? (
                 <dd className="mt-0.5 rounded-lg border-s-2 border-amber-400 bg-amber-50/70 px-2.5 py-1.5 text-xs leading-relaxed text-amber-800">{v}</dd>
               ) : k === "code" || isCode(v) ? (
-                <dd className="mt-0.5"><span className="tech rounded bg-slate-100 px-1.5 py-0.5 text-xs font-bold text-slate-700" dir="ltr">{v}</span></dd>
+                <dd className="mt-0.5"><span className="tech rounded bg-surface-2 px-1.5 py-0.5 text-xs font-bold text-ink-2" dir="ltr">{v}</span></dd>
               ) : (
-                <dd className="mt-0.5 text-sm leading-relaxed text-slate-600">{v}</dd>
+                <dd className="mt-0.5 text-sm leading-relaxed text-ink-2">{v}</dd>
               )}
             </div>
           );
@@ -73,29 +73,29 @@ function GuideSection({ kind, sheet, open, onToggle }: { kind: Kind; sheet: SAPS
   const shown = rows.slice(0, limit);
 
   return (
-    <section id={`guide-${kind}`} className="scroll-mt-28 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-      <button onClick={onToggle} className="flex w-full items-center gap-3 p-5 text-start transition hover:bg-slate-50/70">
+    <section id={`guide-${kind}`} className="scroll-mt-28 overflow-hidden rounded-3xl border border-hairline bg-surface shadow-sm">
+      <button onClick={onToggle} className="flex w-full items-center gap-3 p-5 text-start transition hover:bg-surface-2/70">
         <span className="grid size-11 shrink-0 place-items-center rounded-2xl text-white shadow-lg" style={{ background: m.accent, boxShadow: `0 8px 20px ${m.accent}55` }}><m.icon className="size-5" /></span>
         <span className="min-w-0 flex-1">
-          <span className="flex items-center gap-2"><span className="text-lg font-extrabold tracking-tight text-slate-900">{m.label}</span><span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-500">{rows.length}</span></span>
-          <span className="mt-0.5 line-clamp-1 block text-xs text-slate-400">{sheet.title}</span>
+          <span className="flex items-center gap-2"><span className="text-lg font-extrabold tracking-tight text-ink-1">{m.label}</span><span className="rounded-full bg-surface-2 px-2 py-0.5 text-[10px] font-bold text-ink-3">{rows.length}</span></span>
+          <span className="mt-0.5 line-clamp-1 block text-xs text-ink-3">{sheet.title}</span>
         </span>
-        <ChevronDown className={`size-5 shrink-0 text-slate-400 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+        <ChevronDown className={`size-5 shrink-0 text-ink-3 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
       </button>
       <AnimatePresence initial={false}>
         {open && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }} className="overflow-hidden">
-            <div className="border-t border-slate-100 p-5">
+            <div className="border-t border-hairline p-5">
               {/* intro / what-why */}
               <div className="mb-4 flex items-start gap-2.5 rounded-2xl p-3.5" style={{ background: `${m.accent}0d` }}>
                 <Sparkles className="mt-0.5 size-4 shrink-0" style={{ color: m.accent }} />
-                <p className="text-sm leading-relaxed text-slate-700">{m.intro}</p>
+                <p className="text-sm leading-relaxed text-ink-2">{m.intro}</p>
               </div>
               <div className="grid-adaptive">
                 {shown.map((r, i) => <RowCard key={i} headers={headers} row={r} accent={m.accent} />)}
               </div>
               {rows.length > limit && (
-                <button onClick={() => setLimit((l) => l + 12)} className="tap mx-auto mt-4 flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-brand transition hover:border-brand">
+                <button onClick={() => setLimit((l) => l + 12)} className="tap mx-auto mt-4 flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-4 py-2 text-sm font-bold text-brand transition hover:border-brand">
                   הצג עוד ({rows.length - limit}) <ChevronDown className="size-4" />
                 </button>
               )}
@@ -121,15 +121,15 @@ export function ModuleDirectories({ module }: { module: SAPModuleData }) {
   return (
     <div className="space-y-4">
       {/* knowledge-center header + sticky anchor nav */}
-      <div className="rounded-3xl border border-slate-200 bg-gradient-to-bl from-slate-50 to-white p-5">
+      <div className="rounded-3xl border border-hairline bg-gradient-to-bl from-slate-50 to-white p-5">
         <div className="flex items-center gap-2">
           <span className="grid size-9 place-items-center rounded-xl bg-brand text-white"><BookOpen className="size-5" /></span>
-          <div><span className="eyebrow text-slate-400">Knowledge Center</span><h2 className="text-lg font-extrabold tracking-tight text-slate-900">מדריכים וכלים · {module.module}</h2></div>
+          <div><span className="eyebrow text-ink-3">Knowledge Center</span><h2 className="text-lg font-extrabold tracking-tight text-ink-1">מדריכים וכלים · {module.module}</h2></div>
         </div>
         <div className="mt-3 flex flex-wrap gap-1.5">
           {items.map(([k]) => { const m = META[k]; return (
-            <a key={k} href={`#guide-${k}`} onClick={() => setOpen((s) => new Set(s).add(k))} className="tap inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-bold text-slate-600 transition hover:border-brand hover:text-brand">
-              <m.icon className="size-3.5" style={{ color: m.accent }} />{m.label}<ArrowLeft className="size-3 text-slate-300" />
+            <a key={k} href={`#guide-${k}`} onClick={() => setOpen((s) => new Set(s).add(k))} className="tap inline-flex items-center gap-1.5 rounded-full border border-hairline bg-surface px-3 py-1.5 text-xs font-bold text-ink-2 transition hover:border-brand hover:text-brand">
+              <m.icon className="size-3.5" style={{ color: m.accent }} />{m.label}<ArrowLeft className="size-3 text-ink-3" />
             </a>); })}
         </div>
       </div>

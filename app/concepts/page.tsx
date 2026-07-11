@@ -14,7 +14,7 @@ export default function Page() {
         if (!items.length) return null;
         return (
           <section key={g} className="mb-8" dir="rtl">
-            <h2 className="mb-3 flex items-center gap-2 text-lg font-extrabold tracking-tight text-slate-900">
+            <h2 className="mb-3 flex items-center gap-2 text-lg font-extrabold tracking-tight text-ink-1">
               <span className="size-2.5 rounded-full" style={{ background: GROUP_COLOR[g] }} />{GROUP_HE[g]}
             </h2>
             <CardGrid>

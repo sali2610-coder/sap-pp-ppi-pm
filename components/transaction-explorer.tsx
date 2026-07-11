@@ -32,26 +32,26 @@ export function TransactionExplorer() {
     <div dir="rtl">
       {/* controls */}
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="flex flex-1 items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 shadow-sm">
+        <div className="flex flex-1 items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 shadow-sm">
           <Search className="size-4 text-brand" />
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש T-Code · מטרה · אובייקט…"
-            className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
+            className="w-full bg-transparent text-sm outline-none placeholder:text-ink-3" />
         </div>
         <div className="flex gap-1.5">
           {MODULES.map((m) => (
             <button key={m} onClick={() => setMod(m)}
-              className={`rounded-xl px-3 py-2 text-xs font-bold transition ${mod === m ? "text-white shadow-sm" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`}
+              className={`rounded-xl px-3 py-2 text-xs font-bold transition ${mod === m ? "text-white shadow-sm" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}
               style={mod === m ? { background: m === "ALL" ? "#d62027" : MOD_COLOR[m] } : undefined}>{MOD_HE[m]}</button>
           ))}
         </div>
       </div>
 
-      <p className="mb-2 text-xs font-bold text-slate-400">{rows.length} טרנזקציות</p>
+      <p className="mb-2 text-xs font-bold text-ink-3">{rows.length} טרנזקציות</p>
 
       {/* quick-reference table */}
-      <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <div className="overflow-x-auto rounded-2xl border border-hairline bg-surface shadow-sm">
         <table className="w-full min-w-[860px] text-sm">
-          <thead className="bg-slate-50 text-xs font-bold text-slate-500">
+          <thead className="bg-surface-2 text-xs font-bold text-ink-3">
             <tr>
               <th className="p-3 text-start">T-Code</th>
               <th className="p-3 text-start">מטרה</th>
@@ -63,12 +63,12 @@ export function TransactionExplorer() {
           </thead>
           <tbody className="divide-y divide-slate-100">
             {rows.map((t) => (
-              <tr key={t.code} className="group hover:bg-slate-50/60">
-                <td className="p-3 align-top"><Link href={`/transactions/${encodeURIComponent(t.code)}/`} className="tech font-extrabold text-brand hover:underline" dir="ltr">{t.code}</Link><div className="text-[11px] font-semibold text-slate-500">{t.title}</div><div className="text-[10px] font-bold text-slate-400">{t.topic}</div></td>
-                <td className="p-3 align-top text-[12px] leading-snug text-slate-600">{t.purpose}</td>
-                <td className="p-3 align-top text-[12px] leading-snug text-slate-500">{t.whenToUse}</td>
+              <tr key={t.code} className="group hover:bg-surface-2/60">
+                <td className="p-3 align-top"><Link href={`/transactions/${encodeURIComponent(t.code)}/`} className="tech font-extrabold text-brand hover:underline" dir="ltr">{t.code}</Link><div className="text-[11px] font-semibold text-ink-3">{t.title}</div><div className="text-[10px] font-bold text-ink-3">{t.topic}</div></td>
+                <td className="p-3 align-top text-[12px] leading-snug text-ink-2">{t.purpose}</td>
+                <td className="p-3 align-top text-[12px] leading-snug text-ink-3">{t.whenToUse}</td>
                 <td className="p-3 text-center align-top"><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: MOD_COLOR[t.module] }}>{t.module}</span></td>
-                <td className="p-3 align-top text-[11px] leading-snug text-slate-500">{s4Summary(t)}{t.fiori ? <span className="ms-1 rounded bg-violet-50 px-1.5 py-0.5 font-bold text-violet-600">Fiori</span> : null}</td>
+                <td className="p-3 align-top text-[11px] leading-snug text-ink-3">{s4Summary(t)}{t.fiori ? <span className="ms-1 rounded bg-violet-50 px-1.5 py-0.5 font-bold text-violet-600">Fiori</span> : null}</td>
                 <td className="p-3 align-top"><Link href={`/transactions/${encodeURIComponent(t.code)}/`} className="inline-flex items-center gap-1 text-[11px] font-bold text-brand opacity-0 transition group-hover:opacity-100">פתח<ArrowLeft className="size-3" /></Link></td>
               </tr>
             ))}

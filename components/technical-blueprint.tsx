@@ -66,9 +66,9 @@ const readMin = (tables: number, funcs: number) => Math.max(3, Math.round(tables
 /* small executive KPI widget */
 function Kpi({ icon, value, label, c }: { icon: React.ReactNode; value: number | string; label: string; c: string }) {
   return (
-    <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-2.5 py-1.5">
+    <div className="flex items-center gap-2 rounded-xl border border-hairline bg-surface px-2.5 py-1.5">
       <span className="grid size-6 shrink-0 place-items-center rounded-lg text-white" style={{ background: c }}>{icon}</span>
-      <span className="leading-none"><span className="block text-[15px] font-extrabold tabular-nums text-slate-900">{value}</span><span className="text-[9px] font-bold uppercase tracking-wide text-slate-400">{label}</span></span>
+      <span className="leading-none"><span className="block text-[15px] font-extrabold tabular-nums text-ink-1">{value}</span><span className="text-[9px] font-bold uppercase tracking-wide text-ink-3">{label}</span></span>
     </div>
   );
 }
@@ -92,15 +92,15 @@ function TableCardRich({ t, query, accent, idx = 0 }: { t: SAPTable; query: stri
     <motion.div layout
       initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
       transition={{ delay: Math.min(idx * 0.03, 0.3), duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
-      className="lift group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_8px_22px_-16px_rgba(15,23,42,.4)] transition-all hover:border-slate-300 hover:shadow-[0_16px_36px_-20px_rgba(15,23,42,.45)]">
+      className="lift group overflow-hidden rounded-2xl border border-hairline bg-surface shadow-[0_8px_22px_-16px_rgba(15,23,42,.4)] transition-all hover:border-hairline hover:shadow-[0_16px_36px_-20px_rgba(15,23,42,.45)]">
       <div className="p-4">
         <div className="flex items-start justify-between gap-2">
           <Link href={`/object/${encodeURIComponent(t.tableName)}`} className="tech rounded-lg px-2 py-0.5 text-sm font-extrabold text-white shadow-sm transition group-hover:brightness-105" style={{ background: accent }} dir="ltr">
             <Highlight text={t.tableName} query={query} />
           </Link>
-          {t.tcodes && <span className="tech truncate text-[11px] font-bold text-slate-400" dir="ltr">{t.tcodes.split(/[,\s]+/)[0]}</span>}
+          {t.tcodes && <span className="tech truncate text-[11px] font-bold text-ink-3" dir="ltr">{t.tcodes.split(/[,\s]+/)[0]}</span>}
         </div>
-        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600"><Highlight text={pick(t.descriptionHe, t.descriptionEn)} query={query} /></p>
+        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink-2"><Highlight text={pick(t.descriptionHe, t.descriptionEn)} query={query} /></p>
         <div className="mt-2.5 flex flex-wrap gap-1">
           {pk.slice(0, 3).map((f) => <span key={f.tech} className="tech rounded bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-700" dir="ltr">PK {f.tech}</span>)}
           {fk.slice(0, 2).map((f) => <span key={f.tech} className="tech rounded bg-blue-100 px-1.5 py-0.5 text-[10px] font-bold text-blue-700" dir="ltr">FK {f.tech}</span>)}
@@ -110,7 +110,7 @@ function TableCardRich({ t, query, accent, idx = 0 }: { t: SAPTable; query: stri
         </button>
       </div>
       <AnimatePresence initial={false}>
-        {open && <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden border-t border-slate-100 p-3">
+        {open && <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden border-t border-hairline p-3">
           <FieldsTable fields={t.fields} />
         </motion.div>}
       </AnimatePresence>
@@ -120,7 +120,7 @@ function TableCardRich({ t, query, accent, idx = 0 }: { t: SAPTable; query: stri
 
 function Block({ title, icon, accent, children }: { title: string; icon: React.ReactNode; accent?: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_2px_10px_-8px_rgba(15,23,42,.25)]">
+    <div className="rounded-2xl border border-hairline bg-surface p-4 shadow-[0_2px_10px_-8px_rgba(15,23,42,.25)]">
       <h4 className="mb-3 flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide" style={{ color: accent || "#64748b" }}>{icon}{title}</h4>
       {children}
     </div>
@@ -144,14 +144,14 @@ function BlueprintSection({ topic, code, query, index, total, open, onToggle, re
         <span className="absolute right-3 top-4 grid size-8 place-items-center rounded-full text-[12px] font-extrabold text-white shadow-md ring-4 ring-slate-50" style={{ background: open ? accent : "#cbd5e1" }}>{String(index + 1).padStart(2, "0")}</span>
       </div>
 
-      <motion.div layout className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_10px_30px_-22px_rgba(15,23,42,.5)]" style={{ borderColor: open ? `${accent}44` : undefined }}>
+      <motion.div layout className="overflow-hidden rounded-3xl border border-hairline bg-surface shadow-[0_10px_30px_-22px_rgba(15,23,42,.5)]" style={{ borderColor: open ? `${accent}44` : undefined }}>
         {/* executive card header */}
-        <button onClick={onToggle} aria-expanded={open} className="group flex w-full items-start gap-3.5 p-5 text-start transition hover:bg-slate-50/60">
+        <button onClick={onToggle} aria-expanded={open} className="group flex w-full items-start gap-3.5 p-5 text-start transition hover:bg-surface-2/60">
           <span className="absolute inset-y-0 right-0 w-1 sm:hidden" style={{ background: accent }} />
           <span className="grid size-12 shrink-0 place-items-center rounded-2xl text-white shadow-lg transition-transform duration-300 group-hover:scale-105" style={{ background: `linear-gradient(135deg,${accent},${accent}cc)`, boxShadow: `0 10px 24px -8px ${accent}88` }}><Icon className="size-6" /></span>
           <span className="min-w-0 flex-1">
             <span className="flex flex-wrap items-center gap-2">
-              <span className="text-lg font-extrabold tracking-tight text-slate-900">{cleanTitle(topic.title)}</span>
+              <span className="text-lg font-extrabold tracking-tight text-ink-1">{cleanTitle(topic.title)}</span>
               <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: diff.c }}><Signal className="size-2.5" />{diff.he}</span>
               {agg.s4.length > 0 && <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700">{agg.s4.length} שינויי S/4</span>}
             </span>
@@ -164,18 +164,18 @@ function BlueprintSection({ topic, code, query, index, total, open, onToggle, re
               <Kpi icon={<Clock className="size-3" />} value={`~${readMin(topic.tables.length, agg.funcs.length)}′`} label="קריאה" c="#7c3aed" />
             </span>
           </span>
-          <ChevronDown className={`mt-1 size-5 shrink-0 text-slate-400 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+          <ChevronDown className={`mt-1 size-5 shrink-0 text-ink-3 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
         </button>
 
         <AnimatePresence initial={false}>
           {open && (
             <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.34, ease: [0.32, 0.72, 0, 1] }} className="overflow-hidden">
-              <div className="space-y-5 border-t border-slate-100 bg-gradient-to-b from-slate-50/60 to-white p-5">
+              <div className="space-y-5 border-t border-hairline bg-gradient-to-b from-slate-50/60 to-white p-5">
 
                 {/* Executive summary */}
                 <div className="rounded-2xl border p-4" style={{ borderColor: `${accent}33`, background: `linear-gradient(135deg, ${accent}0d, #fff)` }}>
                   <h4 className="mb-1.5 flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide" style={{ color: accent }}><Sparkles className="size-4" /> תקציר מנהלים</h4>
-                  <p className="text-sm leading-relaxed text-slate-700">{summary}</p>
+                  <p className="text-sm leading-relaxed text-ink-2">{summary}</p>
                 </div>
 
                 {/* Process flow */}
@@ -184,12 +184,12 @@ function BlueprintSection({ topic, code, query, index, total, open, onToggle, re
                     <div className="chip-rail flex flex-nowrap items-stretch gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
                       {domain.flow.map((s, i) => (
                         <motion.div key={i} initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.05 }} className="flex shrink-0 items-stretch gap-2">
-                          <div className="flex w-36 flex-col rounded-xl border bg-white p-2.5 shadow-sm" style={{ borderColor: `${accent}55` }}>
+                          <div className="flex w-36 flex-col rounded-xl border bg-surface p-2.5 shadow-sm" style={{ borderColor: `${accent}55` }}>
                             <span className="font-mono text-xl font-black leading-none" style={{ color: `${accent}2e` }}>{String(i + 1).padStart(2, "0")}</span>
-                            <span className="text-xs font-bold text-slate-800">{s.he}</span>
-                            <span className="text-[10px] text-slate-400" dir="ltr">{s.step}</span>
+                            <span className="text-xs font-bold text-ink-1">{s.he}</span>
+                            <span className="text-[10px] text-ink-3" dir="ltr">{s.step}</span>
                           </div>
-                          {i < domain.flow.length - 1 && <ArrowLeft className="size-4 shrink-0 self-center rotate-180 text-slate-300" />}
+                          {i < domain.flow.length - 1 && <ArrowLeft className="size-4 shrink-0 self-center rotate-180 text-ink-3" />}
                         </motion.div>
                       ))}
                     </div>
@@ -208,16 +208,16 @@ function BlueprintSection({ topic, code, query, index, total, open, onToggle, re
                   <Block title="אובייקטים מקושרים" icon={<Boxes className="size-4" />} accent={accent}>
                     <div className="space-y-3">
                       {agg.tcodes.length > 0 && <ChipRow icon={<Terminal className="size-3" />} label="T-Codes" accent={accent}>
-                        {agg.tcodes.slice(0, 24).map((c) => <Link key={c} href={`/tcode/${encodeURIComponent(c)}`} className="tech rounded-lg border border-slate-200 bg-white px-2 py-0.5 text-xs font-bold text-slate-600 transition hover:border-brand hover:text-brand" dir="ltr">{c}</Link>)}
+                        {agg.tcodes.slice(0, 24).map((c) => <Link key={c} href={`/tcode/${encodeURIComponent(c)}`} className="tech rounded-lg border border-hairline bg-surface px-2 py-0.5 text-xs font-bold text-ink-2 transition hover:border-brand hover:text-brand" dir="ltr">{c}</Link>)}
                       </ChipRow>}
                       {agg.funcs.length > 0 && <ChipRow icon={<Cable className="size-3" />} label="BAPIs / FM / IDocs" accent={accent}>
-                        {agg.funcs.slice(0, 18).map((n) => { const k = classifyFunc(n); return <Link key={n} href={funcHref(n)} className={`tech rounded-lg px-2 py-0.5 text-xs font-bold transition hover:brightness-95 ${k === "IDoc" ? "bg-violet-50 text-violet-700" : k === "FM" ? "bg-slate-100 text-slate-600" : "bg-blue-50 text-blue-700"}`} dir="ltr">{n}</Link>; })}
+                        {agg.funcs.slice(0, 18).map((n) => { const k = classifyFunc(n); return <Link key={n} href={funcHref(n)} className={`tech rounded-lg px-2 py-0.5 text-xs font-bold transition hover:brightness-95 ${k === "IDoc" ? "bg-violet-50 text-violet-700" : k === "FM" ? "bg-surface-2 text-ink-2" : "bg-blue-50 text-blue-700"}`} dir="ltr">{n}</Link>; })}
                       </ChipRow>}
                       {agg.cds.length > 0 && <ChipRow icon={<FileCode2 className="size-3" />} label="CDS Views" accent={accent}>
                         {agg.cds.map((v) => <Link key={v} href={`/cds/${encodeURIComponent(v)}`} className="tech rounded-lg bg-teal-50 px-2 py-0.5 text-xs font-bold text-teal-700" dir="ltr">{v}</Link>)}
                       </ChipRow>}
                       {agg.progs.length > 0 && <ChipRow icon={<FileCode className="size-3" />} label="Programs" accent={accent}>
-                        {agg.progs.slice(0, 12).map((pr) => <span key={pr} className="tech rounded-lg bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-600" dir="ltr">{pr}</span>)}
+                        {agg.progs.slice(0, 12).map((pr) => <span key={pr} className="tech rounded-lg bg-surface-2 px-2 py-0.5 text-xs font-bold text-ink-2" dir="ltr">{pr}</span>)}
                       </ChipRow>}
                     </div>
                   </Block>
@@ -232,19 +232,19 @@ function BlueprintSection({ topic, code, query, index, total, open, onToggle, re
                     </div>
                     <div className="rounded-xl border border-amber-100 bg-amber-50/50 p-3">
                       <div className="eyebrow mb-1 text-amber-700">השתנה / הוחלף · {agg.s4.length}</div>
-                      {agg.s4.length ? <ul className="space-y-1 text-xs text-amber-900">{agg.s4.slice(0, 6).map((s) => <li key={s.name}><span className="tech font-bold" dir="ltr">{s.name}</span>{s.alt ? <> → <span className="tech font-bold" dir="ltr">{s.alt}</span></> : ""} · {s.note.slice(0, 70)}</li>)}</ul> : <p className="text-xs italic text-slate-400">—</p>}
+                      {agg.s4.length ? <ul className="space-y-1 text-xs text-amber-900">{agg.s4.slice(0, 6).map((s) => <li key={s.name}><span className="tech font-bold" dir="ltr">{s.name}</span>{s.alt ? <> → <span className="tech font-bold" dir="ltr">{s.alt}</span></> : ""} · {s.note.slice(0, 70)}</li>)}</ul> : <p className="text-xs italic text-ink-3">—</p>}
                     </div>
                     {agg.fiori.length > 0 && <div className="rounded-xl border border-fuchsia-100 bg-fuchsia-50/40 p-3">
                       <div className="eyebrow mb-1 flex items-center gap-1 text-fuchsia-700"><AppWindow className="size-3" /> Fiori Apps</div>
-                      <div className="flex flex-wrap gap-1">{agg.fiori.slice(0, 8).map((f) => <span key={f.name} className="rounded bg-white px-1.5 py-0.5 text-[11px] font-bold text-fuchsia-700 ring-1 ring-fuchsia-200">{f.app}</span>)}</div>
+                      <div className="flex flex-wrap gap-1">{agg.fiori.slice(0, 8).map((f) => <span key={f.name} className="rounded bg-surface px-1.5 py-0.5 text-[11px] font-bold text-fuchsia-700 ring-1 ring-fuchsia-200">{f.app}</span>)}</div>
                     </div>}
                     {agg.cds.length > 0 && <div className="rounded-xl border border-teal-100 bg-teal-50/40 p-3">
                       <div className="eyebrow mb-1 flex items-center gap-1 text-teal-700"><FileCode2 className="size-3" /> CDS Replacements</div>
-                      <div className="flex flex-wrap gap-1">{agg.cds.map((v) => <span key={v} className="tech rounded bg-white px-1.5 py-0.5 text-[11px] font-bold text-teal-700 ring-1 ring-teal-200" dir="ltr">{v}</span>)}</div>
+                      <div className="flex flex-wrap gap-1">{agg.cds.map((v) => <span key={v} className="tech rounded bg-surface px-1.5 py-0.5 text-[11px] font-bold text-teal-700 ring-1 ring-teal-200" dir="ltr">{v}</span>)}</div>
                     </div>}
-                    {agg.simpl.length > 0 && <div className="rounded-xl border border-slate-200 bg-white p-3 md:col-span-2">
-                      <div className="eyebrow mb-1 text-slate-500">Simplification / SUM</div>
-                      <ul className="space-y-1 text-xs text-slate-600">{agg.simpl.slice(0, 4).map((s) => <li key={s.name}><span className="tech font-bold text-slate-700" dir="ltr">{s.name}</span> · {s.note.slice(0, 90)}</li>)}</ul>
+                    {agg.simpl.length > 0 && <div className="rounded-xl border border-hairline bg-surface p-3 md:col-span-2">
+                      <div className="eyebrow mb-1 text-ink-3">Simplification / SUM</div>
+                      <ul className="space-y-1 text-xs text-ink-2">{agg.simpl.slice(0, 4).map((s) => <li key={s.name}><span className="tech font-bold text-ink-2" dir="ltr">{s.name}</span> · {s.note.slice(0, 90)}</li>)}</ul>
                     </div>}
                   </div>
                 </Block>
@@ -252,14 +252,14 @@ function BlueprintSection({ topic, code, query, index, total, open, onToggle, re
                 {/* Consultant notes */}
                 {domain?.learning?.length ? (
                   <Block title="הערות יועץ · נקודות מפתח" icon={<GraduationCap className="size-4" />} accent={accent}>
-                    <ul className="grid gap-2 sm:grid-cols-2">{domain.learning.map((l, i) => <li key={i} className="flex gap-2 rounded-xl bg-slate-50 p-2.5 text-sm text-slate-700"><span className="mt-0.5 size-1.5 shrink-0 rounded-full" style={{ background: accent }} />{l}</li>)}</ul>
+                    <ul className="grid gap-2 sm:grid-cols-2">{domain.learning.map((l, i) => <li key={i} className="flex gap-2 rounded-xl bg-surface-2 p-2.5 text-sm text-ink-2"><span className="mt-0.5 size-1.5 shrink-0 rounded-full" style={{ background: accent }} />{l}</li>)}</ul>
                   </Block>
                 ) : null}
 
                 {/* Troubleshooting */}
                 {domain?.trouble?.length ? (
                   <Block title="פתרון תקלות" icon={<AlertTriangle className="size-4 text-amber-500" />}>
-                    <ul className="space-y-2">{domain.trouble.map((t, i) => <li key={i} className="rounded-xl border border-amber-100 bg-amber-50/50 p-3 text-sm"><span className="font-bold text-slate-800">⚠ {t.issue}</span><span className="mt-1 block text-slate-600">↳ {t.fix}</span></li>)}</ul>
+                    <ul className="space-y-2">{domain.trouble.map((t, i) => <li key={i} className="rounded-xl border border-amber-100 bg-amber-50/50 p-3 text-sm"><span className="font-bold text-ink-1">⚠ {t.issue}</span><span className="mt-1 block text-ink-2">↳ {t.fix}</span></li>)}</ul>
                   </Block>
                 ) : null}
 
@@ -309,10 +309,10 @@ export function TechnicalBlueprint({ module, query }: { module: SAPModuleData; q
 
   if (q && topics.length === 0) {
     return (
-      <div className="grid place-items-center rounded-3xl border border-slate-200 bg-white py-16 text-center">
-        <ListTree className="size-9 text-slate-300" />
-        <p className="mt-3 text-sm font-bold text-slate-500">{tr("search.empty")} — &quot;{query}&quot;</p>
-        <p className="mt-1 text-[12px] text-slate-400">נסה שם טבלה, T-Code או תיאור אחר.</p>
+      <div className="grid place-items-center rounded-3xl border border-hairline bg-surface py-16 text-center">
+        <ListTree className="size-9 text-ink-3" />
+        <p className="mt-3 text-sm font-bold text-ink-3">{tr("search.empty")} — &quot;{query}&quot;</p>
+        <p className="mt-1 text-[12px] text-ink-3">נסה שם טבלה, T-Code או תיאור אחר.</p>
       </div>
     );
   }
@@ -320,16 +320,16 @@ export function TechnicalBlueprint({ module, query }: { module: SAPModuleData; q
   return (
     <div className="space-y-4">
       {/* premium sticky command header — module KPIs + scroll-spy category rail */}
-      <div className="sticky top-[4.5rem] z-20 overflow-hidden rounded-3xl border border-slate-200 bg-white/85 shadow-[0_10px_30px_-20px_rgba(15,23,42,.5)] backdrop-blur-xl">
+      <div className="sticky top-[4.5rem] z-20 overflow-hidden rounded-3xl border border-hairline bg-surface/85 shadow-[0_10px_30px_-20px_rgba(15,23,42,.5)] backdrop-blur-xl">
         <span className="absolute inset-x-0 top-0 h-1" style={{ background: `linear-gradient(90deg, ${accent}, ${accent}44)` }} />
         <div className="flex flex-wrap items-center justify-between gap-3 p-4">
           <div className="flex items-center gap-2.5">
             <span className="grid size-10 place-items-center rounded-2xl text-white shadow-md" style={{ background: `linear-gradient(135deg,${accent},${accent}cc)` }}><ListTree className="size-5" /></span>
-            <div><span className="eyebrow text-slate-400">Blueprint Knowledge Center</span><h2 className="text-lg font-extrabold tracking-tight text-slate-900">תכנון טכני · {code}</h2></div>
+            <div><span className="eyebrow text-ink-3">Blueprint Knowledge Center</span><h2 className="text-lg font-extrabold tracking-tight text-ink-1">תכנון טכני · {code}</h2></div>
           </div>
           <div className="flex items-center gap-1.5">
-            <button onClick={expandAll} className="tap rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-bold text-slate-600 transition hover:border-brand hover:text-brand">פתח הכל</button>
-            <button onClick={collapseAll} className="tap rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-bold text-slate-600 transition hover:border-brand hover:text-brand">סגור הכל</button>
+            <button onClick={expandAll} className="tap rounded-lg border border-hairline px-3 py-1.5 text-xs font-bold text-ink-2 transition hover:border-brand hover:text-brand">פתח הכל</button>
+            <button onClick={collapseAll} className="tap rounded-lg border border-hairline px-3 py-1.5 text-xs font-bold text-ink-2 transition hover:border-brand hover:text-brand">סגור הכל</button>
           </div>
         </div>
         {/* module KPI band */}
@@ -347,7 +347,7 @@ export function TechnicalBlueprint({ module, query }: { module: SAPModuleData; q
             <a key={t.idx} href={`#bp-${t.idx}`} onClick={() => setOpen((s) => new Set(s).add(t.idx))}
               className="tap relative shrink-0 rounded-full px-3 py-1 text-xs font-bold transition" style={on ? { color: "#fff" } : { color: "#64748b" }}>
               {on && <motion.span layoutId="bp-spy" transition={{ type: "spring", stiffness: 420, damping: 34 }} className="absolute inset-0 -z-10 rounded-full" style={{ background: accent }} />}
-              {!on && <span className="absolute inset-0 -z-10 rounded-full border border-slate-200 bg-white" />}
+              {!on && <span className="absolute inset-0 -z-10 rounded-full border border-hairline bg-surface" />}
               {cleanTitle(t.title)}
             </a>
           ); })}

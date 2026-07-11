@@ -60,28 +60,28 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
       {/* premium executive hero */}
       <header className="relative overflow-hidden rounded-[2rem] p-6 text-white shadow-[0_30px_60px_-24px_rgba(15,23,42,0.5)] ring-1 ring-white/10 sm:p-8" style={{ background: `linear-gradient(135deg, ${accent}, ${accent}cc 55%, #0f172a)` }}>
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-          <motion.span className="absolute -right-24 -top-24 size-72 rounded-full bg-white/10 blur-3xl" animate={{ scale: [1, 1.12, 1], opacity: [0.5, 0.75, 0.5] }} transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }} />
+          <motion.span className="absolute -right-24 -top-24 size-72 rounded-full bg-surface/10 blur-3xl" animate={{ scale: [1, 1.12, 1], opacity: [0.5, 0.75, 0.5] }} transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }} />
           <span className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: "linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)", backgroundSize: "40px 40px" }} />
         </div>
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.2, 0.7, 0.2, 1] }} className="relative">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="min-w-0">
               <div className="flex items-center gap-3">
-                <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-white/15 text-lg font-extrabold text-white shadow-inner ring-1 ring-white/25 backdrop-blur">{module.module}</span>
+                <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-surface/15 text-lg font-extrabold text-white shadow-inner ring-1 ring-white/25 backdrop-blur">{module.module}</span>
                 <div className="min-w-0">
                   <h1 className="text-2xl font-extrabold leading-tight tracking-tight sm:text-4xl">{module.title}</h1>
                   <p className="mt-0.5 text-sm font-semibold text-white/85">{t(subtitleKey)}</p>
                 </div>
               </div>
               <div className="mt-3 flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-bold backdrop-blur"><Sparkles className="size-3.5" />Architecture Blueprint · ECC → S/4HANA</span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-surface/15 px-3 py-1 text-xs font-bold backdrop-blur"><Sparkles className="size-3.5" />Architecture Blueprint · ECC → S/4HANA</span>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-400/25 px-3 py-1 text-xs font-bold text-amber-50 ring-1 ring-amber-300/40"><ArrowRightLeft className="size-3.5" />{heroStats.s4} שינויי S/4</span>
               </div>
             </div>
             {/* glass stat cards */}
             <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
               {[[Database, heroStats.tables, "טבלאות"], [Layers, heroStats.topics, "נושאים"], [Terminal, heroStats.tc, "T-Codes"], [Cable, heroStats.fn, "BAPIs/FM"]].map(([Ic, v, l], i) => { const I = Ic as typeof Database; return (
-                <motion.div key={l as string} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.06 }} className="flex min-w-[84px] flex-col items-center rounded-2xl border border-white/15 bg-white/10 px-3 py-2.5 backdrop-blur-sm">
+                <motion.div key={l as string} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.06 }} className="flex min-w-[84px] flex-col items-center rounded-2xl border border-white/15 bg-surface/10 px-3 py-2.5 backdrop-blur-sm">
                   <I className="mb-0.5 size-4 text-white/70" />
                   <span className="font-mono text-2xl font-extrabold tabular-nums leading-none">{v as number}</span>
                   <span className="mt-0.5 text-[10px] font-bold uppercase tracking-wide text-white/70">{l as string}</span>
@@ -92,7 +92,7 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
           {/* S/4 impact coverage bar */}
           <div className="mt-5">
             <div className="mb-1 flex items-center justify-between text-[11px] font-bold text-white/80"><span>עומק ניתוח S/4HANA</span><span>{heroStats.tables - heroStats.s4} ללא שינוי · {heroStats.s4} משתנה ({s4Pct}%)</span></div>
-            <div className="h-2 overflow-hidden rounded-full bg-white/15">
+            <div className="h-2 overflow-hidden rounded-full bg-surface/15">
               <motion.div initial={{ width: 0 }} animate={{ width: `${s4Pct}%` }} transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }} className="h-full rounded-full bg-gradient-to-l from-amber-300 to-amber-400" />
             </div>
           </div>
@@ -100,7 +100,7 @@ export function ModuleHub({ module }: { module: SAPModuleData }) {
       </header>
 
       {/* Architecture Studio CTA — the living ER map for this module */}
-      <Link href="/studio/" className="group mt-3 flex items-center gap-3 overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-l from-slate-900 to-slate-800 p-4 text-white shadow-md transition hover:shadow-lg">
+      <Link href="/studio/" className="group mt-3 flex items-center gap-3 overflow-hidden rounded-3xl border border-hairline bg-gradient-to-l from-slate-900 to-slate-800 p-4 text-white shadow-md transition hover:shadow-lg">
         <span className="grid size-11 shrink-0 place-items-center rounded-2xl text-white shadow-sm" style={{ background: accent }}><Network className="size-5" /></span>
         <span className="min-w-0 flex-1"><span className="block text-[15px] font-extrabold">SAP Architecture Studio — מפת הקשרים החיה</span><span className="block text-[12px] text-white/70">חקור את כל טבלאות {module.module} כמפה אינטראקטיבית: זום, רחף, לחץ — והדגש מיד את כל מה שמחובר.</span></span>
         <ArrowLeft className="size-5 shrink-0 text-white/60 transition-transform group-hover:-translate-x-1" />

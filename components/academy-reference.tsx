@@ -65,7 +65,7 @@ export function AcademyReference({ bookId }: { bookId: string }) {
                   <span className="rounded bg-muted px-1.5 py-0 text-[10px] text-muted-foreground">{g.kind}</span>
                   {crossMap.has(g.term) && <span className="rounded bg-brand/10 px-1.5 py-0 text-[9px] font-bold text-brand">{crossMap.get(g.term)!.join("·")}</span>}
                 </div>
-                <p className="mt-0.5 text-[13px] text-slate-700">{g.he}</p>
+                <p className="mt-0.5 text-[13px] text-ink-2">{g.he}</p>
               </div>
             ))}
           </div>

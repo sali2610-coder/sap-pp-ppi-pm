@@ -12,7 +12,7 @@ const MOD: Record<string, string> = { PM: "#f97316", PP: "#2563eb", "PP-PI": "#6
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const i = incidentBySlug(decodeURIComponent(slug));
-  if (!i) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">נתיב לא נמצא.</div>;
+  if (!i) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">נתיב לא נמצא.</div>;
   const c = MOD[i.module] || "#475569";
   const objs = OIC_OBJECTS.filter((o) => i.tables.includes(o.table));
   const notes = SAP_NOTES.filter((n) => (n.relatedIncidents || []).includes(i.slug));
@@ -36,10 +36,10 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         ))}
       </div>
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        <Block title="אובייקטים מושפעים" accent="#4338ca">{objs.length ? <div className="flex flex-wrap gap-1.5">{objs.map((o) => <Link key={o.slug} href={`/oic/${o.slug}/`} className="tech rounded-lg border border-indigo-200 bg-indigo-50 px-2.5 py-1 text-xs font-bold text-indigo-700 hover:bg-indigo-100">{o.he}</Link>)}</div> : <span className="text-slate-400">—</span>}</Block>
-        <Block title="SAP Notes קשורים" accent="#b45309">{notes.length ? <div className="flex flex-wrap gap-1.5">{notes.map((n) => <Link key={n.slug} href={`/sap-notes/${n.slug}/`} className="tech rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-700 hover:bg-amber-100">{n.component}</Link>)}</div> : <span className="text-slate-400">—</span>}</Block>
+        <Block title="אובייקטים מושפעים" accent="#4338ca">{objs.length ? <div className="flex flex-wrap gap-1.5">{objs.map((o) => <Link key={o.slug} href={`/oic/${o.slug}/`} className="tech rounded-lg border border-indigo-200 bg-indigo-50 px-2.5 py-1 text-xs font-bold text-indigo-700 hover:bg-indigo-100">{o.he}</Link>)}</div> : <span className="text-ink-3">—</span>}</Block>
+        <Block title="SAP Notes קשורים" accent="#b45309">{notes.length ? <div className="flex flex-wrap gap-1.5">{notes.map((n) => <Link key={n.slug} href={`/sap-notes/${n.slug}/`} className="tech rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-700 hover:bg-amber-100">{n.component}</Link>)}</div> : <span className="text-ink-3">—</span>}</Block>
       </div>
-      <div className="mt-3"><Block title="Exits / BAdIs ל-Debug" accent="#7c3aed"><div className="flex flex-wrap gap-1.5">{i.exits.filter((e) => e !== "—").map((e) => <SapTip key={e} name={e}><span className="tech rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-bold text-slate-600" dir="ltr">{e}</span></SapTip>)}</div></Block></div>
+      <div className="mt-3"><Block title="Exits / BAdIs ל-Debug" accent="#7c3aed"><div className="flex flex-wrap gap-1.5">{i.exits.filter((e) => e !== "—").map((e) => <SapTip key={e} name={e}><span className="tech rounded-lg border border-hairline bg-surface-2 px-2.5 py-1 text-xs font-bold text-ink-2" dir="ltr">{e}</span></SapTip>)}</div></Block></div>
       <Link href="/resolution/" className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:underline">→ חזרה למנוע נתיב הפתרון</Link>
     </div>
   );

@@ -95,7 +95,7 @@ function Row({ icon, label, children }: { icon: React.ReactNode; label: string; 
   return (
     <div className="grid gap-1.5 border-t border-border/30 pt-4 first:border-0 first:pt-0 sm:grid-cols-[160px_1fr] sm:gap-4">
       <p className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wide text-brand">{icon}{label}</p>
-      <div className="text-[15px] leading-7 text-slate-700">{children}</div>
+      <div className="text-[15px] leading-7 text-ink-2">{children}</div>
     </div>
   );
 }
@@ -120,7 +120,7 @@ function Interview({ items, lang }: { items: QA[]; lang: string }) {
             <span className="flex-1">{q.qHe}</span>
             <ChevronDown className="size-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" />
           </summary>
-          <p className="mt-2 border-t border-border/40 pt-2 text-[15px] leading-7 text-slate-700">{q.aHe}</p>
+          <p className="mt-2 border-t border-border/40 pt-2 text-[15px] leading-7 text-ink-2">{q.aHe}</p>
         </details>
       ))}
     </div>
@@ -138,7 +138,7 @@ function NodeBody({ n, lang }: { n: LearningNode; lang: string }) {
     <div dir="rtl" className="space-y-4 border-t border-border/40 p-5">
       {/* three-level explanations */}
       <div className="grid gap-2.5 sm:grid-cols-3">
-        <Explain icon={<BookOpen className="size-3.5" />} label={lang === "he" ? "הסבר מנהלים" : "Executive"} tint="border-brand/20 bg-brand-soft/40 text-slate-800">{n.execHe}</Explain>
+        <Explain icon={<BookOpen className="size-3.5" />} label={lang === "he" ? "הסבר מנהלים" : "Executive"} tint="border-brand/20 bg-brand-soft/40 text-ink-1">{n.execHe}</Explain>
         <Explain icon={<Brain className="size-3.5" />} label={lang === "he" ? "הסבר למתחילים" : "Beginner"} tint="border-sky-300/40 bg-sky-50/60 text-sky-950">{n.beginnerHe}</Explain>
         <Explain icon={<UserCog className="size-3.5" />} label={lang === "he" ? "הסבר ליועצים" : "Consultant"} tint="border-violet-300/40 bg-violet-50/60 text-violet-950">{n.consultantHe}</Explain>
       </div>
@@ -146,7 +146,7 @@ function NodeBody({ n, lang }: { n: LearningNode; lang: string }) {
       <Row icon={<Target className="size-3.5" />} label={lang === "he" ? "מטרה עסקית" : "Business purpose"}>{n.purposeHe}</Row>
       <Row icon={<Workflow className="size-3.5" />} label={lang === "he" ? "דוגמת תהליך" : "Process example"}>{n.processExampleHe}</Row>
       <Row icon={<Factory className="size-3.5" />} label={lang === "he" ? "דוגמת הארגון" : "הארגון example"}>
-        <div className="rounded-lg border border-brand/20 bg-brand-soft/50 p-2.5 text-slate-800">{n.scenarioHe}</div>
+        <div className="rounded-lg border border-brand/20 bg-brand-soft/50 p-2.5 text-ink-1">{n.scenarioHe}</div>
       </Row>
 
       {n.flow && <Row icon={<GitBranch className="size-3.5" />} label={lang === "he" ? "תרשים תהליך" : "Process flow"}><MiniFlow steps={n.flow} /></Row>}
@@ -257,7 +257,7 @@ export function PPTextbookLessons({ n }: { n: number }) {
     <div id="learning" className="scroll-mt-24 space-y-3">
       <section dir="rtl" className="glass rounded-2xl p-5">
         <h2 className="mb-1 flex items-center gap-2 text-sm font-bold text-brand"><GraduationCap className="size-4" />{lang === "he" ? "תוכן הפרק — יחידות לימוד אינטראקטיביות" : "Chapter contents — interactive learning units"}</h2>
-        <p className="text-sm leading-relaxed text-slate-700">{tb.introHe}</p>
+        <p className="text-sm leading-relaxed text-ink-2">{tb.introHe}</p>
         <div className="mt-3 flex flex-wrap items-center gap-2">
           <button onClick={() => setOpen(new Set(ids))} className="flex items-center gap-1.5 rounded-lg border border-brand/25 bg-brand-soft/50 px-2.5 py-1 text-[11px] font-semibold text-brand transition-colors hover:bg-brand/10">
             <Maximize2 className="size-3" />{lang === "he" ? "פתח הכל" : "Expand all"}

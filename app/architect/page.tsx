@@ -50,22 +50,22 @@ export default function Page() {
       <CenterHeader eyebrow="Phase 7 · Architect Dashboard" title="לוח מחוונים — ארכיטקט" sub="תמונת כיסוי הידע של NEO לקבלת החלטות: ישויות, ECC↔S/4, טרנזקציות, Fiori, תקלות ו-הארגון — עם זיהוי פערים אוטומטי." accent="#1e293b" />
       <div className="mb-6 grid-adaptive">
         {[{ l: "ציון כיסוי כולל", v: `${overall}%` }, { l: "ישויות", v: `${ALL_TABLES.length + merged.length + funcs.length}` }, { l: "T-Codes", v: `${merged.length}` }, { l: "תקלות + Notes", v: `${INCIDENTS.length}+${SAP_NOTES.length}` }].map((k) => (
-          <div key={k.l} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><div className="text-3xl font-extrabold text-slate-900">{k.v}</div><div className="mt-1 text-sm font-bold text-slate-600">{k.l}</div></div>
+          <div key={k.l} className="rounded-2xl border border-hairline bg-surface p-5 shadow-sm"><div className="text-3xl font-extrabold text-ink-1">{k.v}</div><div className="mt-1 text-sm font-bold text-ink-2">{k.l}</div></div>
         ))}
       </div>
-      <h2 className="mb-3 text-lg font-extrabold tracking-tight text-slate-900">כיסוי לפי תחום</h2>
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <h2 className="mb-3 text-lg font-extrabold tracking-tight text-ink-1">כיסוי לפי תחום</h2>
+      <div className="overflow-hidden rounded-2xl border border-hairline bg-surface shadow-sm">
         <table className="w-full text-sm">
-          <thead className="bg-slate-50 text-xs font-bold text-slate-500"><tr><th className="p-3 text-start">תחום</th><th className="p-3 text-center">ערך</th><th className="p-3 text-start">הערה</th><th className="p-3 text-center w-40">ציון</th></tr></thead>
+          <thead className="bg-surface-2 text-xs font-bold text-ink-3"><tr><th className="p-3 text-start">תחום</th><th className="p-3 text-center">ערך</th><th className="p-3 text-start">הערה</th><th className="p-3 text-center w-40">ציון</th></tr></thead>
           <tbody className="divide-y divide-slate-100">
             {ROWS.map((r) => (
-              <tr key={r.area}><td className="p-3 font-bold text-slate-800">{r.area}</td><td className="p-3 text-center font-mono font-bold text-slate-700">{r.val}</td><td className="p-3 text-[12px] text-slate-500">{r.note}</td>
-                <td className="p-3"><div className="flex items-center gap-2"><span className="w-9 text-end font-mono text-xs font-bold" style={{ color: col(r.score) }}>{r.score}%</span><div className="h-2 w-full overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full" style={{ width: `${r.score}%`, background: col(r.score) }} /></div></div></td></tr>
+              <tr key={r.area}><td className="p-3 font-bold text-ink-1">{r.area}</td><td className="p-3 text-center font-mono font-bold text-ink-2">{r.val}</td><td className="p-3 text-[12px] text-ink-3">{r.note}</td>
+                <td className="p-3"><div className="flex items-center gap-2"><span className="w-9 text-end font-mono text-xs font-bold" style={{ color: col(r.score) }}>{r.score}%</span><div className="h-2 w-full overflow-hidden rounded-full bg-surface-2"><div className="h-full rounded-full" style={{ width: `${r.score}%`, background: col(r.score) }} /></div></div></td></tr>
             ))}
           </tbody>
         </table>
       </div>
-      <h2 className="mb-3 mt-7 text-lg font-extrabold tracking-tight text-slate-900">פערים שזוהו אוטומטית</h2>
+      <h2 className="mb-3 mt-7 text-lg font-extrabold tracking-tight text-ink-1">פערים שזוהו אוטומטית</h2>
       <ul className="space-y-2 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
         {GAPS.map((g, i) => <li key={i} className="flex gap-2"><span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-amber-500" />{g}</li>)}
       </ul>

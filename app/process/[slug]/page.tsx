@@ -7,7 +7,7 @@ export const dynamicParams = false;
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const intel = processIntel(decodeURIComponent(slug));
-  if (!intel) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">תהליך לא נמצא.</div>;
+  if (!intel) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">תהליך לא נמצא.</div>;
   const accent = intel.module === "PM" ? "#f97316" : "#6d28d9";
   return <RelatedView kind="Process" code={intel.title} accent={accent} tables={intel.tables}
     chips={[

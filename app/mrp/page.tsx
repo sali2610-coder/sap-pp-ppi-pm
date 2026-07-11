@@ -10,7 +10,7 @@ function TcodeChip({ code }: { code: string }) {
   const has = !!tcodeByCode(code);
   return has
     ? <Link href={`/transactions/${encodeURIComponent(code)}/`} className="tech tap rounded-lg border border-blue-200 bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-700 hover:bg-blue-100" dir="ltr">{code}</Link>
-    : <span className="tech rounded-lg border border-dashed border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-500" dir="ltr">{code}</span>;
+    : <span className="tech rounded-lg border border-dashed border-hairline bg-surface px-2.5 py-1 text-xs font-bold text-ink-3" dir="ltr">{code}</span>;
 }
 
 export default function Page() {
@@ -24,16 +24,16 @@ export default function Page() {
 
       <div className="space-y-4">
         {MRP_SECTIONS.map((s) => (
-          <section key={s.id} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h2 className="mb-2 flex items-center gap-2 text-base font-extrabold tracking-tight text-slate-900"><span className="size-2.5 rounded-full" style={{ background: ACC }} />{s.he}</h2>
-            <p className="text-sm leading-relaxed text-slate-600">{s.body}</p>
+          <section key={s.id} className="rounded-2xl border border-hairline bg-surface p-5 shadow-sm">
+            <h2 className="mb-2 flex items-center gap-2 text-base font-extrabold tracking-tight text-ink-1"><span className="size-2.5 rounded-full" style={{ background: ACC }} />{s.he}</h2>
+            <p className="text-sm leading-relaxed text-ink-2">{s.body}</p>
             <ul className="mt-3 space-y-1.5">
-              {s.points.map((p, i) => <li key={i} className="flex gap-2 text-[13px] text-slate-700"><span className="mt-1.5 size-1.5 shrink-0 rounded-full" style={{ background: ACC }} />{p}</li>)}
+              {s.points.map((p, i) => <li key={i} className="flex gap-2 text-[13px] text-ink-2"><span className="mt-1.5 size-1.5 shrink-0 rounded-full" style={{ background: ACC }} />{p}</li>)}
             </ul>
             {(s.tcodes?.length || s.tables?.length) && (
-              <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-slate-100 pt-3">
-                {s.tcodes?.length ? <div className="flex flex-wrap items-center gap-1.5"><span className="text-[11px] font-bold text-slate-400">T-Codes:</span>{s.tcodes.map((t) => <TcodeChip key={t} code={t} />)}</div> : null}
-                {s.tables?.length ? <div className="flex flex-wrap items-center gap-1.5"><span className="text-[11px] font-bold text-slate-400">טבלאות:</span>{s.tables.map((t) => <span key={t} className="tech rounded bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-500" dir="ltr">{t}</span>)}</div> : null}
+              <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-hairline pt-3">
+                {s.tcodes?.length ? <div className="flex flex-wrap items-center gap-1.5"><span className="text-[11px] font-bold text-ink-3">T-Codes:</span>{s.tcodes.map((t) => <TcodeChip key={t} code={t} />)}</div> : null}
+                {s.tables?.length ? <div className="flex flex-wrap items-center gap-1.5"><span className="text-[11px] font-bold text-ink-3">טבלאות:</span>{s.tables.map((t) => <span key={t} className="tech rounded bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-3" dir="ltr">{t}</span>)}</div> : null}
               </div>
             )}
             {s.eccS4 && <div className="mt-4"><EccS4Block data={s.eccS4} title={`ECC6 → S/4HANA · ${s.he}`} /></div>}
@@ -42,20 +42,20 @@ export default function Page() {
       </div>
 
       {/* planning strategies table */}
-      <h2 className="mb-3 mt-7 text-lg font-extrabold tracking-tight text-slate-900">אסטרטגיות תכנון — טבלת עזר</h2>
-      <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <h2 className="mb-3 mt-7 text-lg font-extrabold tracking-tight text-ink-1">אסטרטגיות תכנון — טבלת עזר</h2>
+      <div className="overflow-x-auto rounded-2xl border border-hairline bg-surface shadow-sm">
         <table className="w-full min-w-[720px] text-sm">
-          <thead className="bg-slate-50 text-xs font-bold text-slate-500">
+          <thead className="bg-surface-2 text-xs font-bold text-ink-3">
             <tr><th className="p-3 text-center">אסטרטגיה</th><th className="p-3 text-start">שם</th><th className="p-3 text-start">תיאור</th><th className="p-3 text-center">Req. Type</th><th className="p-3 text-start">צריכה</th></tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {PLANNING_STRATEGIES.map((s) => (
               <tr key={s.key}>
                 <td className="p-3 text-center"><span className="tech rounded-full bg-blue-600 px-2.5 py-1 text-xs font-extrabold text-white">{s.key}</span></td>
-                <td className="p-3 font-bold text-slate-800">{s.he}</td>
-                <td className="p-3 text-[12px] leading-snug text-slate-600">{s.desc}</td>
-                <td className="p-3 text-center"><span className="tech text-xs font-bold text-slate-500" dir="ltr">{s.reqType}</span></td>
-                <td className="p-3 text-[12px] leading-snug text-slate-500">{s.consumption}</td>
+                <td className="p-3 font-bold text-ink-1">{s.he}</td>
+                <td className="p-3 text-[12px] leading-snug text-ink-2">{s.desc}</td>
+                <td className="p-3 text-center"><span className="tech text-xs font-bold text-ink-3" dir="ltr">{s.reqType}</span></td>
+                <td className="p-3 text-[12px] leading-snug text-ink-3">{s.consumption}</td>
               </tr>
             ))}
           </tbody>

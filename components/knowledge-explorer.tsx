@@ -37,19 +37,19 @@ function Card({ c, q, accent }: { c: Center; q: string; accent: string }) {
         e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
         e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
       }}
-      className="spotlight lift group relative block overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm outline-none transition-shadow focus-visible:shadow-[var(--ring-soft)]"
+      className="spotlight lift group relative block overflow-hidden rounded-2xl border border-hairline bg-surface p-5 shadow-sm outline-none transition-shadow focus-visible:shadow-[var(--ring-soft)]"
       dir="rtl"
     >
       <span aria-hidden className="absolute inset-y-0 end-0 w-1 origin-top scale-y-0 transition-transform duration-300 group-hover:scale-y-100" style={{ background: accent }} />
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <h3 className="text-base font-extrabold tracking-tight text-slate-900"><Highlight text={c.he} q={q} /></h3>
-          <p className="tech text-xs font-bold text-slate-400" dir="ltr"><Highlight text={c.title} q={q} /></p>
+          <h3 className="text-base font-extrabold tracking-tight text-ink-1"><Highlight text={c.he} q={q} /></h3>
+          <p className="tech text-xs font-bold text-ink-3" dir="ltr"><Highlight text={c.title} q={q} /></p>
         </div>
         {c.tag && <span className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: c.tagColor || "#64748b" }}>{c.tag}</span>}
       </div>
       {c.desc && (
-        <p className="mt-2 text-xs leading-relaxed text-slate-500 transition-all duration-300 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] group-hover:[-webkit-line-clamp:5]">
+        <p className="mt-2 text-xs leading-relaxed text-ink-3 transition-all duration-300 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] group-hover:[-webkit-line-clamp:5]">
           {c.desc}
         </p>
       )}
@@ -108,16 +108,16 @@ export function KnowledgeExplorer({ centers, groups }: { centers: Center[]; grou
   return (
     <div>
       {/* ── Search-first hero ── */}
-      <section dir="rtl" className="surface relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 sm:p-7">
+      <section dir="rtl" className="surface relative overflow-hidden rounded-3xl border border-hairline bg-surface p-6 sm:p-7">
         <span aria-hidden className="pointer-events-none absolute -top-24 -start-16 size-64 rounded-full opacity-[0.07] blur-3xl" style={{ background: "radial-gradient(circle, #d62027, transparent 70%)" }} />
         <div className="relative">
           <p className="eyebrow mb-1.5 text-brand">מצא מהר · SEARCH-FIRST</p>
-          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-[1.75rem]">מה תרצה לעשות?</h2>
-          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-slate-500">הקלד כדי לסנן את כל {centers.length} המרכזים בזמן אמת — לפי שם, נושא או T-Code. או בחר מסע לפי משימה.</p>
+          <h2 className="text-2xl font-extrabold tracking-tight text-ink-1 sm:text-[1.75rem]">מה תרצה לעשות?</h2>
+          <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-ink-3">הקלד כדי לסנן את כל {centers.length} המרכזים בזמן אמת — לפי שם, נושא או T-Code. או בחר מסע לפי משימה.</p>
 
           {/* live filter input */}
           <div className="relative mt-5">
-            <span className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-4 text-slate-400"><Search className="size-5" /></span>
+            <span className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-4 text-ink-3"><Search className="size-5" /></span>
             <input
               ref={inputRef}
               type="search"
@@ -125,11 +125,11 @@ export function KnowledgeExplorer({ centers, groups }: { centers: Center[]; grou
               onChange={(e) => setQ(e.target.value)}
               placeholder="חפש מרכז, נושא או T-Code…  (הקש / למיקוד)"
               aria-label="חיפוש במרכז הידע"
-              className="h-14 w-full rounded-2xl border border-slate-200 bg-slate-50/60 ps-12 pe-28 text-sm font-medium text-slate-900 shadow-inner outline-none transition-all placeholder:text-slate-400 focus:border-brand/40 focus:bg-white focus:shadow-[var(--ring-soft)]"
+              className="h-14 w-full rounded-2xl border border-hairline bg-surface-2/60 ps-12 pe-28 text-sm font-medium text-ink-1 shadow-inner outline-none transition-all placeholder:text-ink-3 focus:border-brand/40 focus:bg-surface focus:shadow-[var(--ring-soft)]"
             />
             <div className="absolute inset-y-0 end-0 flex items-center gap-2 pe-3">
               {query && (
-                <button onClick={() => { setQ(""); inputRef.current?.focus(); }} aria-label="נקה חיפוש" className="tap grid size-8 place-items-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-slate-700">
+                <button onClick={() => { setQ(""); inputRef.current?.focus(); }} aria-label="נקה חיפוש" className="tap grid size-8 place-items-center rounded-full text-ink-3 hover:bg-surface-2 hover:text-ink-2">
                   <X className="size-4" />
                 </button>
               )}
@@ -137,19 +137,19 @@ export function KnowledgeExplorer({ centers, groups }: { centers: Center[]; grou
                 ? <span className="rounded-full bg-brand/10 px-2.5 py-1 text-xs font-bold text-brand">
                     <motion.span key={results?.length ?? 0} initial={reduce ? false : { scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 500, damping: 24 }} className="inline-block tabular-nums">{results?.length ?? 0}</motion.span> תוצאות
                   </span>
-                : <kbd className="hidden items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-[10px] font-bold text-slate-400 sm:flex"><CornerDownLeft className="size-3" />פתח</kbd>}
+                : <kbd className="hidden items-center gap-1 rounded-lg border border-hairline bg-surface px-2 py-1 text-[10px] font-bold text-ink-3 sm:flex"><CornerDownLeft className="size-3" />פתח</kbd>}
             </div>
           </div>
 
           {/* contextual hint: suggestion chips (only when idle) */}
           {!query && (
             <div className="mt-4 flex flex-wrap items-center gap-2">
-              <span className="me-1 text-xs font-bold text-slate-400">נסה:</span>
+              <span className="me-1 text-xs font-bold text-ink-3">נסה:</span>
               {suggestions.map((s) => (
-                <button key={s} onClick={() => { setQ(s); inputRef.current?.focus(); }} className="tap rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-bold text-slate-500 transition-colors hover:border-brand/40 hover:text-brand">{s}</button>
+                <button key={s} onClick={() => { setQ(s); inputRef.current?.focus(); }} className="tap rounded-full border border-hairline bg-surface px-3 py-1 text-xs font-bold text-ink-3 transition-colors hover:border-brand/40 hover:text-brand">{s}</button>
               ))}
-              <span className="ms-auto hidden items-center gap-2 text-xs text-slate-400 sm:flex">
-                <Link href="/copilot/" className="inline-flex items-center gap-1 font-bold text-slate-500 hover:text-brand"><Sparkles className="size-3.5" />או שאל את הקופיילוט</Link>
+              <span className="ms-auto hidden items-center gap-2 text-xs text-ink-3 sm:flex">
+                <Link href="/copilot/" className="inline-flex items-center gap-1 font-bold text-ink-3 hover:text-brand"><Sparkles className="size-3.5" />או שאל את הקופיילוט</Link>
               </span>
             </div>
           )}
@@ -162,9 +162,9 @@ export function KnowledgeExplorer({ centers, groups }: { centers: Center[]; grou
           <motion.nav
             initial={reduce ? false : { opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={reduce ? undefined : { opacity: 0, y: -8 }}
             dir="rtl" aria-label="ניווט מודרך"
-            className="sticky top-3 z-20 mt-5 flex items-center gap-2 chip-rail overflow-x-auto rounded-2xl border border-slate-200 bg-white/85 p-2 shadow-sm backdrop-blur-md"
+            className="sticky top-3 z-20 mt-5 flex items-center gap-2 chip-rail overflow-x-auto rounded-2xl border border-hairline bg-surface/85 p-2 shadow-sm backdrop-blur-md"
           >
-            <Compass className="ms-1 size-4 shrink-0 text-slate-400" />
+            <Compass className="ms-1 size-4 shrink-0 text-ink-3" />
             {groups.map((g) => {
               const on = active === g.slug;
               return (
@@ -193,16 +193,16 @@ export function KnowledgeExplorer({ centers, groups }: { centers: Center[]; grou
           ) : (
             // ── Empty state ──
             <motion.div key="empty" initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-              dir="rtl" className="mt-6 flex flex-col items-center justify-center gap-4 rounded-3xl border-2 border-dashed border-slate-200 bg-white/60 p-12 text-center">
-              <span className="grid size-14 place-items-center rounded-2xl border border-slate-200 bg-white text-slate-400 shadow-sm"><Search className="size-7" /></span>
+              dir="rtl" className="mt-6 flex flex-col items-center justify-center gap-4 rounded-3xl border-2 border-dashed border-hairline bg-surface/60 p-12 text-center">
+              <span className="grid size-14 place-items-center rounded-2xl border border-hairline bg-surface text-ink-3 shadow-sm"><Search className="size-7" /></span>
               <div>
-                <h3 className="text-lg font-extrabold tracking-tight text-slate-900">לא נמצאו מרכזים עבור “{query}”</h3>
-                <p className="mt-1 text-sm text-slate-500">נסה מונח רחב יותר, או חפש לפי צורך עסקי / שאל את הקופיילוט.</p>
+                <h3 className="text-lg font-extrabold tracking-tight text-ink-1">לא נמצאו מרכזים עבור “{query}”</h3>
+                <p className="mt-1 text-sm text-ink-3">נסה מונח רחב יותר, או חפש לפי צורך עסקי / שאל את הקופיילוט.</p>
               </div>
               <div className="flex flex-wrap items-center justify-center gap-2">
                 <button onClick={() => { setQ(""); inputRef.current?.focus(); }} className="tap rounded-full bg-slate-900 px-4 py-2 text-xs font-bold text-white hover:bg-slate-700">נקה חיפוש</button>
-                <Link href="/solutions/" className="tap rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-600 hover:border-brand/40 hover:text-brand">חיפוש לפי צורך עסקי</Link>
-                <Link href="/copilot/" className="tap inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-bold text-slate-600 hover:border-brand/40 hover:text-brand"><Sparkles className="size-3.5" />שאל את הקופיילוט</Link>
+                <Link href="/solutions/" className="tap rounded-full border border-hairline bg-surface px-4 py-2 text-xs font-bold text-ink-2 hover:border-brand/40 hover:text-brand">חיפוש לפי צורך עסקי</Link>
+                <Link href="/copilot/" className="tap inline-flex items-center gap-1 rounded-full border border-hairline bg-surface px-4 py-2 text-xs font-bold text-ink-2 hover:border-brand/40 hover:text-brand"><Sparkles className="size-3.5" />שאל את הקופיילוט</Link>
               </div>
             </motion.div>
           )
@@ -214,11 +214,11 @@ export function KnowledgeExplorer({ centers, groups }: { centers: Center[]; grou
                 <section key={g.slug} id={`j-${g.slug}`} data-slug={g.slug} ref={(el) => { sectionRefs.current[g.slug] = el; }} className="scroll-mt-20" dir="rtl">
                   <div className="mb-3.5 flex items-baseline gap-3">
                     <span className="inline-block size-2.5 shrink-0 rounded-full" style={{ background: g.accent }} />
-                    <h2 className="text-xl font-extrabold tracking-tight text-slate-900">{g.he}</h2>
-                    <span className="tech text-xs font-bold text-slate-400" dir="ltr">{g.en}</span>
-                    <span className="ms-auto rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-bold text-slate-500">{cards.length}</span>
+                    <h2 className="text-xl font-extrabold tracking-tight text-ink-1">{g.he}</h2>
+                    <span className="tech text-xs font-bold text-ink-3" dir="ltr">{g.en}</span>
+                    <span className="ms-auto rounded-full bg-surface-2 px-2.5 py-0.5 text-[11px] font-bold text-ink-3">{cards.length}</span>
                   </div>
-                  <p className="mb-4 text-sm leading-relaxed text-slate-500">{g.intent}</p>
+                  <p className="mb-4 text-sm leading-relaxed text-ink-3">{g.intent}</p>
                   <motion.div variants={container} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} className="grid-adaptive">
                     {cards.map((c) => <motion.div key={c.href} variants={item}><Card c={c} q="" accent={g.accent} /></motion.div>)}
                   </motion.div>

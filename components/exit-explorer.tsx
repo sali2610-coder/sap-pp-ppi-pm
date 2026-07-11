@@ -22,29 +22,29 @@ export function ExitExplorer() {
   return (
     <div dir="rtl">
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="flex flex-1 items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 shadow-sm">
+        <div className="flex flex-1 items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 shadow-sm">
           <Search className="size-4 text-brand" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש Exit/BAdI · מטרה · T-Code…" className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש Exit/BAdI · מטרה · T-Code…" className="w-full bg-transparent text-sm outline-none placeholder:text-ink-3" />
         </div>
         <div className="flex flex-wrap gap-1.5">
           {MODULES.map((m) => (
-            <button key={m} onClick={() => setMod(m)} className={`rounded-xl px-3 py-2 text-xs font-bold transition ${mod === m ? "text-white shadow-sm" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`} style={mod === m ? { background: m === "ALL" ? "#d62027" : MOD_COLOR[m] } : undefined}>{MOD_HE[m]}</button>
+            <button key={m} onClick={() => setMod(m)} className={`rounded-xl px-3 py-2 text-xs font-bold transition ${mod === m ? "text-white shadow-sm" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`} style={mod === m ? { background: m === "ALL" ? "#d62027" : MOD_COLOR[m] } : undefined}>{MOD_HE[m]}</button>
           ))}
         </div>
       </div>
-      <p className="mb-2 text-xs font-bold text-slate-400">{rows.length} Exits / BAdIs</p>
-      <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <p className="mb-2 text-xs font-bold text-ink-3">{rows.length} Exits / BAdIs</p>
+      <div className="overflow-x-auto rounded-2xl border border-hairline bg-surface shadow-sm">
         <table className="w-full min-w-[820px] text-sm">
-          <thead className="bg-slate-50 text-xs font-bold text-slate-500">
+          <thead className="bg-surface-2 text-xs font-bold text-ink-3">
             <tr><th className="p-3 text-start">שם</th><th className="p-3 text-center">סוג</th><th className="p-3 text-start">מטרה</th><th className="p-3 text-start">נקודת הפעלה</th><th className="p-3 text-center">מודול</th><th className="p-3"></th></tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {rows.map((e) => (
-              <tr key={e.name} className="group hover:bg-slate-50/60">
+              <tr key={e.name} className="group hover:bg-surface-2/60">
                 <td className="p-3 align-top"><Link href={`/exits/${exitSlug(e.name)}/`} className="tech font-extrabold text-brand hover:underline" dir="ltr">{e.name}</Link></td>
                 <td className="p-3 text-center align-top"><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: KIND_COLOR[e.kind] }}>{e.kind}</span></td>
-                <td className="p-3 align-top text-[12px] leading-snug text-slate-600">{e.he}</td>
-                <td className="p-3 align-top text-[11px] leading-snug text-slate-500">{e.trigger}</td>
+                <td className="p-3 align-top text-[12px] leading-snug text-ink-2">{e.he}</td>
+                <td className="p-3 align-top text-[11px] leading-snug text-ink-3">{e.trigger}</td>
                 <td className="p-3 text-center align-top"><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: MOD_COLOR[e.module] }}>{e.module}</span></td>
                 <td className="p-3 align-top"><Link href={`/exits/${exitSlug(e.name)}/`} className="inline-flex items-center gap-1 text-[11px] font-bold text-brand opacity-0 transition group-hover:opacity-100">פתח<ArrowLeft className="size-3" /></Link></td>
               </tr>

@@ -29,20 +29,20 @@ function PathRow({ id }: { id: string }) {
   const done = useDoneSet(id);
   const st = pathState(done, p.steps.map((s) => s.id));
   return (
-    <Link href={`/learn/${id}/`} className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3.5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md active:scale-[.99]">
+    <Link href={`/learn/${id}/`} className="group flex items-center gap-3 rounded-2xl border border-hairline bg-surface p-3.5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md active:scale-[.99]">
       <Ring pct={st.pct} color={p.accent} size={40} sw={4}>
         {st.complete ? <CheckCircle2 className="size-4" style={{ color: p.accent }} /> : <span className="text-[10px] font-extrabold tabular-nums" style={{ color: p.accent }}>{st.pct}</span>}
       </Ring>
       <span className="min-w-0 flex-1">
-        <span className="flex items-center gap-2"><span className="block text-sm font-extrabold text-slate-900">{p.he}</span>
-          {p.level && <span className="rounded-full bg-slate-100 px-1.5 py-0.5 text-[9px] font-bold text-slate-500">{p.level}</span>}</span>
-        <span className="block truncate text-xs text-slate-500">{p.sub}</span>
-        <span className="mt-1 flex items-center gap-3 text-[10px] font-bold text-slate-400">
+        <span className="flex items-center gap-2"><span className="block text-sm font-extrabold text-ink-1">{p.he}</span>
+          {p.level && <span className="rounded-full bg-surface-2 px-1.5 py-0.5 text-[9px] font-bold text-ink-3">{p.level}</span>}</span>
+        <span className="block truncate text-xs text-ink-3">{p.sub}</span>
+        <span className="mt-1 flex items-center gap-3 text-[10px] font-bold text-ink-3">
           <span>{st.doneCount}/{st.total} יחידות</span>
           {p.durationHe && <span className="hidden items-center gap-0.5 sm:flex"><Clock className="size-3" />{p.durationHe}</span>}
         </span>
       </span>
-      <ArrowLeft className="size-4 shrink-0 text-slate-300 transition group-hover:text-brand" />
+      <ArrowLeft className="size-4 shrink-0 text-ink-3 transition group-hover:text-brand" />
     </Link>
   );
 }
@@ -77,7 +77,7 @@ export function LearnHome() {
   const tier = agg.overall >= 85 ? "ארכיטקט פתרון" : agg.overall >= 60 ? "יועץ בכיר" : agg.overall >= 30 ? "יועץ פונקציונלי" : "יועץ זוטר · PP / PM";
 
   const STAT = (icon: React.ReactNode, label: string, value: React.ReactNode, c: string) => (
-    <div className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur-sm">
+    <div className="flex items-center gap-3 rounded-2xl border border-white/15 bg-surface/10 px-4 py-3 backdrop-blur-sm">
       <span className="grid size-10 shrink-0 place-items-center rounded-xl" style={{ background: c }}>{icon}</span>
       <div className="min-w-0"><div className="text-[10px] font-bold uppercase tracking-wide text-white/60">{label}</div><div className="text-xl font-extrabold tabular-nums leading-tight">{value}</div></div>
     </div>
@@ -87,14 +87,14 @@ export function LearnHome() {
     <div className="mx-auto space-y-7" dir="rtl">
       {/* hero dashboard */}
       <header className="relative overflow-hidden rounded-[1.75rem] bg-gradient-to-l from-brand-dark via-brand to-[#a8161c] p-6 text-white shadow-xl sm:p-8">
-        <div className="pointer-events-none absolute -left-24 -top-24 size-72 rounded-full bg-white/10 blur-3xl" />
+        <div className="pointer-events-none absolute -left-24 -top-24 size-72 rounded-full bg-surface/10 blur-3xl" />
         <div className="pointer-events-none absolute -right-16 bottom-0 size-56 rounded-full bg-black/10 blur-3xl" />
         <div className="relative">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.22em] text-white/70"><GraduationCap className="size-4" />NEO Academy</div>
               <h1 className="mt-1 text-3xl font-extrabold sm:text-4xl">שלום 👋 ברוך הבא לאקדמיה</h1>
-              <p className="mt-1 flex items-center gap-2 text-sm text-white/85"><Award className="size-4" />הרמה שלך: <span className="rounded-full bg-white/15 px-2.5 py-0.5 font-extrabold ring-1 ring-white/25">{tier}</span></p>
+              <p className="mt-1 flex items-center gap-2 text-sm text-white/85"><Award className="size-4" />הרמה שלך: <span className="rounded-full bg-surface/15 px-2.5 py-0.5 font-extrabold ring-1 ring-white/25">{tier}</span></p>
             </div>
             <Ring pct={agg.overall} color="#fff" size={92} sw={7}>
               <span className="text-center"><span className="block text-2xl font-extrabold tabular-nums">{agg.overall}%</span><span className="block text-[9px] font-bold uppercase tracking-wide text-white/70">התקדמות</span></span>
@@ -113,8 +113,8 @@ export function LearnHome() {
       {/* premium path cards */}
       <section>
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="flex items-center gap-2 text-xl font-extrabold text-slate-900"><Layers className="size-5 text-brand" />מסלולי למידה</h2>
-          <span className="text-sm font-bold text-slate-400">{agg.cats.reduce((n, c) => n + c.tracks, 0)} מסלולים · {agg.total} יחידות</span>
+          <h2 className="flex items-center gap-2 text-xl font-extrabold text-ink-1"><Layers className="size-5 text-brand" />מסלולי למידה</h2>
+          <span className="text-sm font-bold text-ink-3">{agg.cats.reduce((n, c) => n + c.tracks, 0)} מסלולים · {agg.total} יחידות</span>
         </div>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {agg.cats.map(({ cat, pct, total, hours, lvl, tracks, done }) => {
@@ -129,17 +129,17 @@ export function LearnHome() {
                     <span className="text-sm font-extrabold tabular-nums" style={{ color: cat.accent }}>{pct}%</span>
                   </Ring>
                 </div>
-                <div className="mt-3 flex items-center gap-2 text-lg font-extrabold text-slate-900">{cat.he}{onboard && <span className="rounded-full bg-brand/10 px-2 py-0.5 text-[10px] font-bold text-brand">התחל כאן</span>}</div>
-                <div className="text-[13px] leading-snug text-slate-500">{cat.sub}</div>
-                <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] font-bold text-slate-400">
+                <div className="mt-3 flex items-center gap-2 text-lg font-extrabold text-ink-1">{cat.he}{onboard && <span className="rounded-full bg-brand/10 px-2 py-0.5 text-[10px] font-bold text-brand">התחל כאן</span>}</div>
+                <div className="text-[13px] leading-snug text-ink-3">{cat.sub}</div>
+                <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] font-bold text-ink-3">
                   <span className="flex items-center gap-1"><BookOpen className="size-3.5" />{tracks} מסלולים</span>
                   <span className="flex items-center gap-1"><Layers className="size-3.5" />{done}/{total} יחידות</span>
                   {hours > 0 && <span className="flex items-center gap-1"><Clock className="size-3.5" />~{hours} שעות</span>}
                   <span className="rounded-full px-2 py-0.5 text-white" style={{ background: cat.accent }}>{lvl}</span>
                 </div>
-                <span className="mt-3 flex items-center gap-1 text-[12px] font-bold text-slate-400 transition group-hover:text-brand">{onboard ? "פתח את מסע הקליטה" : active ? "הסתר מסלולים" : "הצג מסלולים"}<ChevronLeft className={`size-4 transition-transform ${active && !onboard ? "-rotate-90" : ""}`} /></span>
+                <span className="mt-3 flex items-center gap-1 text-[12px] font-bold text-ink-3 transition group-hover:text-brand">{onboard ? "פתח את מסע הקליטה" : active ? "הסתר מסלולים" : "הצג מסלולים"}<ChevronLeft className={`size-4 transition-transform ${active && !onboard ? "-rotate-90" : ""}`} /></span>
             </>);
-            const cardCls = `group relative overflow-hidden rounded-3xl border bg-white p-5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${active && !onboard ? "border-transparent ring-2" : "border-slate-200"}`;
+            const cardCls = `group relative overflow-hidden rounded-3xl border bg-surface p-5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${active && !onboard ? "border-transparent ring-2" : "border-hairline"}`;
             if (onboard) return <Link key={cat.id} href="/onboarding/" className={cardCls}>{inner}</Link>;
             return (
               <button key={cat.id} onClick={() => setOpen(active ? null : cat.id)}
@@ -153,15 +153,15 @@ export function LearnHome() {
                     <span className="text-sm font-extrabold tabular-nums" style={{ color: cat.accent }}>{pct}%</span>
                   </Ring>
                 </div>
-                <div className="mt-3 text-lg font-extrabold text-slate-900">{cat.he}</div>
-                <div className="text-[13px] leading-snug text-slate-500">{cat.sub}</div>
-                <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] font-bold text-slate-400">
+                <div className="mt-3 text-lg font-extrabold text-ink-1">{cat.he}</div>
+                <div className="text-[13px] leading-snug text-ink-3">{cat.sub}</div>
+                <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] font-bold text-ink-3">
                   <span className="flex items-center gap-1"><BookOpen className="size-3.5" />{tracks} מסלולים</span>
                   <span className="flex items-center gap-1"><Layers className="size-3.5" />{done}/{total} יחידות</span>
                   {hours > 0 && <span className="flex items-center gap-1"><Clock className="size-3.5" />~{hours} שעות</span>}
                   <span className="rounded-full px-2 py-0.5 text-white" style={{ background: cat.accent }}>{lvl}</span>
                 </div>
-                <span className="mt-3 flex items-center gap-1 text-[12px] font-bold text-slate-400 transition group-hover:text-brand">{active ? "הסתר מסלולים" : "הצג מסלולים"}<ChevronLeft className={`size-4 transition-transform ${active ? "-rotate-90" : ""}`} /></span>
+                <span className="mt-3 flex items-center gap-1 text-[12px] font-bold text-ink-3 transition group-hover:text-brand">{active ? "הסתר מסלולים" : "הצג מסלולים"}<ChevronLeft className={`size-4 transition-transform ${active ? "-rotate-90" : ""}`} /></span>
               </button>
             );
           })}
@@ -169,15 +169,15 @@ export function LearnHome() {
 
         {/* expanded tracks of selected category */}
         {open && (() => { const c = LEARN_CATEGORIES.find((x) => x.id === open); if (!c) return null; return (
-          <div className="mt-4 rounded-3xl border border-slate-200 bg-slate-50/60 p-4" style={{ animation: "fadeUp .25s ease both" }}>
-            <div className="mb-3 flex items-center gap-2 text-sm font-extrabold text-slate-700"><span className="size-2.5 rounded-full" style={{ background: c.accent }} />{c.he} · מסלולים</div>
+          <div className="mt-4 rounded-3xl border border-hairline bg-surface-2/60 p-4" style={{ animation: "fadeUp .25s ease both" }}>
+            <div className="mb-3 flex items-center gap-2 text-sm font-extrabold text-ink-2"><span className="size-2.5 rounded-full" style={{ background: c.accent }} />{c.he} · מסלולים</div>
             <div className="grid gap-2.5 lg:grid-cols-2 xl:grid-cols-3">{c.tracks.map((id) => <PathRow key={id} id={id} />)}</div>
           </div>
         ); })()}
       </section>
 
       {/* certification center */}
-      <Link href="/certification/" className="group relative flex flex-wrap items-center gap-4 overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-l from-slate-900 to-slate-800 p-5 text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
+      <Link href="/certification/" className="group relative flex flex-wrap items-center gap-4 overflow-hidden rounded-3xl border border-hairline bg-gradient-to-l from-slate-900 to-slate-800 p-5 text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
         <span className="pointer-events-none absolute -left-10 -top-10 size-32 rounded-full bg-brand/30 blur-3xl" />
         <span className="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-brand text-white shadow-sm"><Award className="size-6" /></span>
         <span className="relative min-w-0 flex-1">
@@ -192,10 +192,10 @@ export function LearnHome() {
       </Link>
 
       {/* story mode */}
-      <Link href="/story/" className="group flex items-center gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md">
+      <Link href="/story/" className="group flex items-center gap-4 rounded-3xl border border-hairline bg-surface p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md">
         <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-slate-900 text-white shadow-sm"><Workflow className="size-6" /></span>
-        <span className="min-w-0 flex-1"><span className="block font-extrabold text-slate-900">סיור מודרך בתהליך · Story Mode</span><span className="block text-sm text-slate-500">תהליך אחזקה ופקודת תהליך — מקצה לקצה, בהקשר עסקי מלא</span></span>
-        <ArrowLeft className="size-5 shrink-0 text-slate-300 transition group-hover:text-brand" />
+        <span className="min-w-0 flex-1"><span className="block font-extrabold text-ink-1">סיור מודרך בתהליך · Story Mode</span><span className="block text-sm text-ink-3">תהליך אחזקה ופקודת תהליך — מקצה לקצה, בהקשר עסקי מלא</span></span>
+        <ArrowLeft className="size-5 shrink-0 text-ink-3 transition group-hover:text-brand" />
       </Link>
     </div>
   );

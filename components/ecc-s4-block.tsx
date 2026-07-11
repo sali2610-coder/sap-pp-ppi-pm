@@ -27,11 +27,11 @@ const ROWS: { key: keyof EccS4; he: string; Icon: typeof Check; color: string }[
 export function EccS4Block({ data, title = "ECC6 → S/4HANA" }: { data?: EccS4; title?: string }) {
   const rows = ROWS.filter((r) => data?.[r.key]);
   return (
-    <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm" dir="rtl">
-      <header className="flex items-center gap-2 border-b border-slate-100 bg-gradient-to-l from-blue-50 to-white px-5 py-3">
+    <section className="overflow-hidden rounded-2xl border border-hairline bg-surface shadow-sm" dir="rtl">
+      <header className="flex items-center gap-2 border-b border-hairline bg-gradient-to-l from-blue-50 to-white px-5 py-3">
         <ArrowRightLeft className="size-4 text-blue-600" />
-        <h3 className="text-sm font-extrabold tracking-tight text-slate-900">{title}</h3>
-        <span className="ms-auto text-[11px] font-bold text-slate-400">מעבר מבני · 8 ממדים</span>
+        <h3 className="text-sm font-extrabold tracking-tight text-ink-1">{title}</h3>
+        <span className="ms-auto text-[11px] font-bold text-ink-3">מעבר מבני · 8 ממדים</span>
       </header>
       {rows.length ? (
         <div className="divide-y divide-slate-100">
@@ -40,7 +40,7 @@ export function EccS4Block({ data, title = "ECC6 → S/4HANA" }: { data?: EccS4;
               <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-lg" style={{ background: color + "1a" }}><Icon className="size-3.5" style={{ color }} /></span>
               <div className="min-w-0">
                 <div className="text-[11px] font-bold" style={{ color }}>{he}</div>
-                <div className="text-[13px] leading-relaxed text-slate-600">{data![key]}</div>
+                <div className="text-[13px] leading-relaxed text-ink-2">{data![key]}</div>
               </div>
             </div>
           ))}

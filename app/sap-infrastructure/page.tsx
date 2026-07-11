@@ -80,7 +80,7 @@ export default function Page() {
     return out.slice(0, 12);
   }, [q, data]);
 
-  if (!data) return <div className="flex h-[60vh] items-center justify-center text-slate-400" dir="rtl">טוען את ה-Explorer…</div>;
+  if (!data) return <div className="flex h-[60vh] items-center justify-center text-ink-3" dir="rtl">טוען את ה-Explorer…</div>;
   // Single-surface rule: when a table is focused in a module, the Workspace's own
   // bottom drawer owns the detail — never float the page Inspector over it.
   const drawerActive = nav.level === "module" && !!nav.focus?.length;
@@ -91,34 +91,34 @@ export default function Page() {
     : null;
 
   return (
-    <div dir="rtl" className="relative mx-[calc(50%-50vw)] -my-8 w-screen max-w-[100vw] overflow-hidden border-y border-slate-200 bg-white text-slate-900">
+    <div dir="rtl" className="relative mx-[calc(50%-50vw)] -my-8 w-screen max-w-[100vw] overflow-hidden border-y border-hairline bg-surface text-ink-1">
       <style>{ANIM}</style>
       {/* unified slim header: brand · breadcrumb · compact search */}
-      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-slate-200 bg-gradient-to-l from-white to-slate-50 px-4 py-1.5">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-hairline bg-gradient-to-l from-white to-slate-50 px-4 py-1.5">
         <span className="rounded-md bg-brand px-1.5 py-0.5 font-mono text-[10px] font-bold text-white">NEO</span>
-        <span className="text-sm font-extrabold text-slate-900">SAP Architecture Explorer</span>
+        <span className="text-sm font-extrabold text-ink-1">SAP Architecture Explorer</span>
         <nav className="flex items-center gap-1 text-[11px]">
-          <button onClick={() => setNav({ level: "universe" })} className="flex items-center gap-1 rounded px-1 py-0.5 font-semibold text-slate-400 hover:bg-slate-100 hover:text-slate-700"><Home className="size-3" />Universe</button>
-          {nav.module && <><ChevronLeft className="size-3 text-slate-300" /><span className="font-bold text-slate-700">{nav.module}</span></>}
-          {nav.module && nav.tab && <><ChevronLeft className="size-3 text-slate-300" /><span className="font-semibold text-brand">{(TABS.find((x) => x[0] === nav.tab) || ["", nav.tab])[1]}</span></>}
+          <button onClick={() => setNav({ level: "universe" })} className="flex items-center gap-1 rounded px-1 py-0.5 font-semibold text-ink-3 hover:bg-surface-2 hover:text-ink-2"><Home className="size-3" />Universe</button>
+          {nav.module && <><ChevronLeft className="size-3 text-ink-3" /><span className="font-bold text-ink-2">{nav.module}</span></>}
+          {nav.module && nav.tab && <><ChevronLeft className="size-3 text-ink-3" /><span className="font-semibold text-brand">{(TABS.find((x) => x[0] === nav.tab) || ["", nav.tab])[1]}</span></>}
         </nav>
         <div className="relative ms-auto w-full max-w-xs">
-          <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-1 shadow-sm">
-            <Search className="size-3.5 text-slate-400" />
-            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש מהיר · מודול · טבלה" className="w-full bg-transparent text-[13px] outline-none placeholder:text-slate-400" />
-            {q && <button onClick={() => setQ("")}><X className="size-3.5 text-slate-400" /></button>}
+          <div className="flex items-center gap-2 rounded-lg border border-hairline bg-surface px-2.5 py-1 shadow-sm">
+            <Search className="size-3.5 text-ink-3" />
+            <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש מהיר · מודול · טבלה" className="w-full bg-transparent text-[13px] outline-none placeholder:text-ink-3" />
+            {q && <button onClick={() => setQ("")}><X className="size-3.5 text-ink-3" /></button>}
           </div>
           {results.length > 0 && (
-            <div className="absolute z-50 mt-1 max-h-80 w-full overflow-auto rounded-xl border border-slate-200 bg-white shadow-2xl">
-              {results.map((r, i) => (<button key={i} onClick={() => { r.go(); setQ(""); }} className="flex w-full items-center justify-between gap-2 border-b border-slate-100 px-3 py-2 text-right last:border-0 hover:bg-slate-50">
-                <span className="min-w-0"><span className="block truncate font-mono text-sm font-bold text-slate-800">{r.label}</span><span className="block truncate text-xs text-slate-500">{r.sub}</span></span>
-                <span className="shrink-0 rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold text-slate-500">{r.type}</span></button>))}
+            <div className="absolute z-50 mt-1 max-h-80 w-full overflow-auto rounded-xl border border-hairline bg-surface shadow-2xl">
+              {results.map((r, i) => (<button key={i} onClick={() => { r.go(); setQ(""); }} className="flex w-full items-center justify-between gap-2 border-b border-hairline px-3 py-2 text-right last:border-0 hover:bg-surface-2">
+                <span className="min-w-0"><span className="block truncate font-mono text-sm font-bold text-ink-1">{r.label}</span><span className="block truncate text-xs text-ink-3">{r.sub}</span></span>
+                <span className="shrink-0 rounded bg-surface-2 px-1.5 py-0.5 text-[10px] font-bold text-ink-3">{r.type}</span></button>))}
             </div>
           )}
         </div>
       </div>
 
-      <div className="bg-slate-50/40 px-4 py-2">
+      <div className="bg-surface-2/40 px-4 py-2">
         {nav.level === "universe" && <Universe data={data} color={color} onModule={openModule} />}
         {nav.level === "module" && nav.module && <Workspace data={data} color={color} code={nav.module} tab={nav.tab || "erd"} focus={nav.focus} byName={byName}
           setTab={(t) => setNav({ level: "module", module: nav.module, tab: t })} openErd={(focus) => setNav({ level: "module", module: nav.module, tab: "erd", focus })}
@@ -135,7 +135,7 @@ function ExportBar() {
   return (
     <div className="flex shrink-0 items-center gap-1">
       {[["SAP-Enterprise-Architecture-A0.pdf", "PDF"], ["SAP-Enterprise-Architecture-A0.png", "PNG"], ["SAP-Enterprise-Architecture-A0.svg", "SVG"], ["dataset.json", "JSON"]].map(([f, l]) => (
-        <a key={f} href={`${BASE}/${f}`} download title={`הורד ${l}`} className="rounded-md border border-slate-200 bg-white px-2 py-1 text-[10px] font-bold text-slate-500 transition hover:border-brand hover:text-brand">{l}</a>
+        <a key={f} href={`${BASE}/${f}`} download title={`הורד ${l}`} className="rounded-md border border-hairline bg-surface px-2 py-1 text-[10px] font-bold text-ink-3 transition hover:border-brand hover:text-brand">{l}</a>
       ))}
     </div>
   );
@@ -159,7 +159,7 @@ function Universe({ data, color, onModule }: { data: Data; color: (m?: string | 
       )}
       {/* SAP CORE hero */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-l from-brand via-[#c01c22] to-[#9a1419] p-7 text-white shadow-lg" style={{ animation: "fadeUp .5s ease both" }}>
-        <div className="absolute -left-16 -top-16 size-56 rounded-full bg-white/10 blur-2xl" />
+        <div className="absolute -left-16 -top-16 size-56 rounded-full bg-surface/10 blur-2xl" />
         <div className="absolute -bottom-20 right-10 size-64 rounded-full bg-black/10 blur-3xl" />
         <div className="relative flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -168,7 +168,7 @@ function Universe({ data, color, onModule }: { data: Data; color: (m?: string | 
             <p className="mt-1 max-w-xl text-sm text-white/80">כל מודולי ה-SAP נשענים על אותם אובייקטי ליבה. בחר מודול כדי לצלול: תהליך → אובייקטים → טבלאות → שדות.</p>
           </div>
           <div className="flex flex-wrap gap-1.5">
-            {data.shared.slice(0, 8).map((s, i) => <span key={s.name} className="rounded-lg bg-white/15 px-2.5 py-1 font-mono text-xs font-bold text-white ring-1 ring-white/20" style={{ animation: `pop .4s ease ${i * 50 + 200}ms both` }}>{s.name}</span>)}
+            {data.shared.slice(0, 8).map((s, i) => <span key={s.name} className="rounded-lg bg-surface/15 px-2.5 py-1 font-mono text-xs font-bold text-white ring-1 ring-white/20" style={{ animation: `pop .4s ease ${i * 50 + 200}ms both` }}>{s.name}</span>)}
           </div>
         </div>
         <div className="relative mt-4 flex flex-wrap gap-4 text-sm">
@@ -183,19 +183,19 @@ function Universe({ data, color, onModule }: { data: Data; color: (m?: string | 
         {UNIVERSE.map((m, i) => { const c = color(m);
           return (
             <button key={m} onClick={() => onModule(m)} style={{ animation: `fadeUp .45s ease ${i * 45 + 120}ms both` }}
-              className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-slate-300 hover:shadow-xl">
+              className="group relative overflow-hidden rounded-2xl border border-hairline bg-surface p-5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-hairline hover:shadow-xl">
               <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: c }} />
               <span className="pointer-events-none absolute -left-8 -top-8 size-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-20" style={{ background: c }} />
               <div className="flex items-start justify-between">
-                <span className="font-mono text-2xl font-extrabold text-slate-900">{m}</span>
+                <span className="font-mono text-2xl font-extrabold text-ink-1">{m}</span>
                 <span className="grid size-10 place-items-center rounded-xl text-xs font-extrabold text-white shadow-sm" style={{ background: c }}>{m.slice(0, 3)}</span>
               </div>
-              <div className="mt-1.5 text-sm font-bold text-slate-700">{MOD_NAME_HE[m]}</div>
+              <div className="mt-1.5 text-sm font-bold text-ink-2">{MOD_NAME_HE[m]}</div>
               <div className="mt-3 flex flex-wrap gap-1.5">
-                <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-500 tabular-nums"><Count n={tc(m)} /> טבלאות</span>
+                <span className="rounded-full bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-3 tabular-nums"><Count n={tc(m)} /> טבלאות</span>
                 <span className="rounded-full bg-red-50 px-2 py-0.5 text-[11px] font-bold text-brand tabular-nums"><Count n={pc(m)} /> תהליכים</span>
               </div>
-              <span className="mt-3 block text-[11px] font-bold text-slate-300 transition group-hover:text-brand">כניסה למודול →</span>
+              <span className="mt-3 block text-[11px] font-bold text-ink-3 transition group-hover:text-brand">כניסה למודול →</span>
             </button>
           );
         })}
@@ -209,22 +209,22 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
   const c = color(code); const bp = data.blueprints.find((b) => b.code === code); const purpose = bp?.purpose || MOD_PURPOSE[code] || "";
   return (
     <div className="space-y-2.5" style={{ animation: "fadeUp .35s ease both" }}>
-      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 shadow-sm" style={{ borderInlineStartColor: c, borderInlineStartWidth: 4 }}>
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-xl border border-hairline bg-surface px-3.5 py-1.5 shadow-sm" style={{ borderInlineStartColor: c, borderInlineStartWidth: 4 }}>
         <div className="flex min-w-0 items-baseline gap-2">
-          <span className="font-mono text-lg font-extrabold text-slate-900">{code}</span>
-          <span className="text-sm font-bold text-slate-600">{MOD_NAME_HE[code]}</span>
-          <span className="hidden truncate text-[11px] text-slate-400 lg:inline">· {purpose}</span>
+          <span className="font-mono text-lg font-extrabold text-ink-1">{code}</span>
+          <span className="text-sm font-bold text-ink-2">{MOD_NAME_HE[code]}</span>
+          <span className="hidden truncate text-[11px] text-ink-3 lg:inline">· {purpose}</span>
         </div>
-        <div className="flex rounded-lg border border-slate-200 bg-slate-50 p-0.5">
-          {TABS.map(([id, label]) => <button key={id} onClick={() => setTab(id)} className={`rounded-md px-3 py-1 text-[13px] font-bold transition ${tab === id ? "bg-brand text-white shadow-sm" : "text-slate-500 hover:text-slate-900"}`}>{label}</button>)}
+        <div className="flex rounded-lg border border-hairline bg-surface-2 p-0.5">
+          {TABS.map(([id, label]) => <button key={id} onClick={() => setTab(id)} className={`rounded-md px-3 py-1 text-[13px] font-bold transition ${tab === id ? "bg-brand text-white shadow-sm" : "text-ink-3 hover:text-ink-1"}`}>{label}</button>)}
         </div>
       </div>
       {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} />}
       {tab === "process" && (MOD_FLOW_EXT[code] ? (
         <div className="rounded-2xl border p-6 text-center" dir="rtl" style={{ borderColor: MOD_FLOW_EXT[code].accent + "55", background: MOD_FLOW_EXT[code].accent + "0d" }}>
           <Workflow className="mx-auto size-8" style={{ color: MOD_FLOW_EXT[code].accent }} />
-          <h3 className="mt-2 text-lg font-extrabold text-slate-900">{MOD_FLOW_EXT[code].title}</h3>
-          <p className="mx-auto mt-1 max-w-xl text-sm text-slate-500">התהליך המלא של מודול {code} מוצג בלשונית <b>אובייקטים</b> כרצף אינטראקטיבי, עם תיוג landscape לכל אובייקט (ECC · S/4 · BW/4HANA · SAC — ללא ערבוב).</p>
+          <h3 className="mt-2 text-lg font-extrabold text-ink-1">{MOD_FLOW_EXT[code].title}</h3>
+          <p className="mx-auto mt-1 max-w-xl text-sm text-ink-3">התהליך המלא של מודול {code} מוצג בלשונית <b>אובייקטים</b> כרצף אינטראקטיבי, עם תיוג landscape לכל אובייקט (ECC · S/4 · BW/4HANA · SAC — ללא ערבוב).</p>
           <button onClick={() => setTab("objects")} className="tap mt-3 inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-bold text-white shadow-sm transition active:scale-95" style={{ background: MOD_FLOW_EXT[code].accent }}><Boxes className="size-4" />פתח את התהליך</button>
         </div>
       ) : <ProcessWorkspace code={code} byName={byName} color={color} />)}
@@ -248,10 +248,10 @@ function ObjectDetailPanel({ name, data, color, byName, onClose, onOpen }: { nam
   const whereUsed = [...new Set(data.tables.filter((x) => x.rel.some((r) => r.table === t.name)).map((x) => x.name))];
   const tcodes = splitTcodes(t.tcodes);
   const bp = data.blueprints.find((b) => b.code === t.mod);
-  const Lbl = ({ children: ch }: { children: React.ReactNode }) => <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400">{ch}</div>;
-  const Pills = ({ a }: { a: string[] }) => a.length ? <div className="flex flex-wrap gap-1" dir="ltr">{a.map((x) => byName[x] ? <button key={x} onClick={() => onOpen(x)} className="tech rounded-md border bg-white px-1.5 py-0.5 font-mono text-[11px] font-bold transition hover:bg-slate-50" style={{ borderColor: color(byName[x].mod), color: color(byName[x].mod) }}>{x}</button> : <span key={x} className="tech rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600">{x}</span>)}</div> : <span className="text-[11px] italic text-slate-300">—</span>;
+  const Lbl = ({ children: ch }: { children: React.ReactNode }) => <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wide text-ink-3">{ch}</div>;
+  const Pills = ({ a }: { a: string[] }) => a.length ? <div className="flex flex-wrap gap-1" dir="ltr">{a.map((x) => byName[x] ? <button key={x} onClick={() => onOpen(x)} className="tech rounded-md border bg-surface px-1.5 py-0.5 font-mono text-[11px] font-bold transition hover:bg-surface-2" style={{ borderColor: color(byName[x].mod), color: color(byName[x].mod) }}>{x}</button> : <span key={x} className="tech rounded-md bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] font-bold text-ink-2">{x}</span>)}</div> : <span className="text-[11px] italic text-ink-3">—</span>;
   return (
-    <div ref={ref} dir="rtl" className="z-40 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl max-lg:fixed max-lg:inset-x-0 max-lg:bottom-0 max-lg:z-[55] max-lg:max-h-[85%] max-lg:overflow-auto max-lg:rounded-b-none"
+    <div ref={ref} dir="rtl" className="z-40 overflow-hidden rounded-3xl border border-hairline bg-surface shadow-2xl max-lg:fixed max-lg:inset-x-0 max-lg:bottom-0 max-lg:z-[55] max-lg:max-h-[85%] max-lg:overflow-auto max-lg:rounded-b-none"
       style={{ animation: "sheetUp .34s cubic-bezier(.32,.72,0,1) both" }}>
       {/* header */}
       <div className="relative px-5 py-4 text-white" style={{ background: `linear-gradient(135deg, ${c}, ${c}cc)` }}>
@@ -259,28 +259,28 @@ function ObjectDetailPanel({ name, data, color, byName, onClose, onOpen }: { nam
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
               <span className="tech font-mono text-2xl font-extrabold" dir="ltr">{t.name}</span>
-              <span className="rounded-md bg-white/20 px-2 py-0.5 text-[11px] font-bold ring-1 ring-white/25">{t.mod}</span>
+              <span className="rounded-md bg-surface/20 px-2 py-0.5 text-[11px] font-bold ring-1 ring-white/25">{t.mod}</span>
               {t.landscape && <span className="rounded-md px-2 py-0.5 text-[10px] font-bold" style={{ background: "rgba(255,255,255,.92)", color: LAND_META[t.landscape]?.c }}>{LAND_META[t.landscape]?.he}</span>}
             </div>
             <p className="mt-0.5 text-sm font-medium text-white/85">{t.he || t.en}{t.en && t.he ? ` · ${t.en}` : ""}</p>
           </div>
           <div className="flex shrink-0 items-center gap-1.5">
-            <Link href={`/object/${encodeURIComponent(t.name)}/`} className="tap inline-flex items-center gap-1 rounded-xl bg-white/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-white/25"><Maximize2 className="size-3.5" />דף ידע מלא</Link>
-            <button onClick={onClose} className="tap inline-flex items-center gap-1 rounded-xl bg-white px-3 py-1.5 text-xs font-extrabold shadow-sm transition active:scale-95" style={{ color: c }}><X className="size-4" />סגור</button>
+            <Link href={`/object/${encodeURIComponent(t.name)}/`} className="tap inline-flex items-center gap-1 rounded-xl bg-surface/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-surface/25"><Maximize2 className="size-3.5" />דף ידע מלא</Link>
+            <button onClick={onClose} className="tap inline-flex items-center gap-1 rounded-xl bg-surface px-3 py-1.5 text-xs font-extrabold shadow-sm transition active:scale-95" style={{ color: c }}><X className="size-4" />סגור</button>
           </div>
         </div>
       </div>
       {/* body — full width multi-column */}
       <div className="grid gap-x-6 gap-y-4 p-5 lg:grid-cols-3 xl:grid-cols-4">
-        <div className="lg:col-span-2 xl:col-span-2"><Lbl>מטרה עסקית</Lbl><p className="text-sm leading-relaxed text-slate-700">{t.guideHe || knowledgeFor(t.name)?.why || bp?.purpose || `${t.mod} — ${t.he || t.en}`}</p></div>
+        <div className="lg:col-span-2 xl:col-span-2"><Lbl>מטרה עסקית</Lbl><p className="text-sm leading-relaxed text-ink-2">{t.guideHe || knowledgeFor(t.name)?.why || bp?.purpose || `${t.mod} — ${t.he || t.en}`}</p></div>
         <div><Lbl>מפתח ראשי (PK)</Lbl><Pills a={pk.map((f) => f[0])} /></div>
         <div><Lbl>מפתח זר (FK)</Lbl><Pills a={fk.map((f) => f[0])} /></div>
         <div className="lg:col-span-3 xl:col-span-2"><Lbl>שדות · {flds.length}</Lbl>
-          <div className="overflow-hidden rounded-xl border border-slate-200"><table className="w-full text-right font-mono text-[12px]" dir="ltr"><tbody>{flds.slice(0, 14).map((f) => <tr key={f[0]} className="border-b border-slate-50 last:border-0 odd:bg-slate-50/40"><td className={`px-3 py-1.5 font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`}>{f[0]}</td><td className="px-2 py-1.5 text-slate-400">{f[1]}</td><td className="px-2 py-1.5 text-left">{f[3] !== "-" && <span className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></div>
+          <div className="overflow-hidden rounded-xl border border-hairline"><table className="w-full text-right font-mono text-[12px]" dir="ltr"><tbody>{flds.slice(0, 14).map((f) => <tr key={f[0]} className="border-b border-hairline last:border-0 odd:bg-surface-2/40"><td className={`px-3 py-1.5 font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-ink-2"}`}>{f[0]}</td><td className="px-2 py-1.5 text-ink-3">{f[1]}</td><td className="px-2 py-1.5 text-left">{f[3] !== "-" && <span className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></div>
         </div>
         <div><Lbl>טבלאות אב</Lbl><Pills a={parents} /></div>
         <div><Lbl>טבלאות צאצא</Lbl><Pills a={children} /></div>
-        <div><Lbl>T-Codes</Lbl>{tcodes.length ? <div className="flex flex-wrap gap-1" dir="ltr">{tcodes.map((x) => <span key={x} className="tech rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600">{x}</span>)}</div> : <span className="text-[11px] italic text-slate-300">—</span>}</div>
+        <div><Lbl>T-Codes</Lbl>{tcodes.length ? <div className="flex flex-wrap gap-1" dir="ltr">{tcodes.map((x) => <span key={x} className="tech rounded-md bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] font-bold text-ink-2">{x}</span>)}</div> : <span className="text-[11px] italic text-ink-3">—</span>}</div>
         <div><Lbl>Where-Used</Lbl><Pills a={whereUsed} /></div>
       </div>
     </div>
@@ -291,7 +291,7 @@ function ObjectsView({ data, color, code, byName, onObjectErd }: { data: Data; c
   const objs = MOD_OBJECTS_EXT[code] || OBJECTS[code] || []; const [open, setOpen] = useState<number | null>(null); const [detail, setDetail] = useState<string | null>(null); const c = color(code);
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between"><h3 className="text-base font-bold text-slate-800">אובייקטים עסקיים · {code}</h3><span className="text-xs text-slate-500">לחץ אובייקט → טבלאות הליבה</span></div>
+      <div className="flex items-center justify-between"><h3 className="text-base font-bold text-ink-1">אובייקטים עסקיים · {code}</h3><span className="text-xs text-ink-3">לחץ אובייקט → טבלאות הליבה</span></div>
       {MOD_FLOW_EXT[code] && (() => { const fx = MOD_FLOW_EXT[code]; const lands = [...new Set(objs.flatMap((o) => o.tables).map((tn) => byName[tn]?.landscape).filter(Boolean))] as string[]; return (
         <div className="rounded-2xl border p-4" style={{ borderColor: fx.accent + "44", background: fx.accent + "0d" }}>
           <div className="mb-2 flex flex-wrap items-center gap-2 text-[12px] font-bold" style={{ color: fx.accent }}><Workflow className="size-4" />{fx.title}
@@ -299,8 +299,8 @@ function ObjectsView({ data, color, code, byName, onObjectErd }: { data: Data; c
           </div>
           <div className="flex flex-wrap items-center gap-1.5">{fx.flow.map((s, i) => (
             <span key={s.en} className="flex items-center gap-1.5">
-              <button onClick={() => onObjectErd(s.tables.filter((t) => byName[t]))} className="rounded-xl border bg-white px-2.5 py-1.5 text-right transition hover:shadow-sm active:scale-95" style={{ borderColor: fx.accent + "55" }}>
-                <span className="block text-[12px] font-extrabold text-slate-800">{s.he}</span><span className="block font-mono text-[9px]" style={{ color: fx.accent }}>{s.en}</span>
+              <button onClick={() => onObjectErd(s.tables.filter((t) => byName[t]))} className="rounded-xl border bg-surface px-2.5 py-1.5 text-right transition hover:shadow-sm active:scale-95" style={{ borderColor: fx.accent + "55" }}>
+                <span className="block text-[12px] font-extrabold text-ink-1">{s.he}</span><span className="block font-mono text-[9px]" style={{ color: fx.accent }}>{s.en}</span>
               </button>{i < fx.flow.length - 1 && <ArrowLeft className="size-4 shrink-0" style={{ color: fx.accent + "88" }} />}
             </span>))}</div>
         </div>
@@ -310,22 +310,22 @@ function ObjectsView({ data, color, code, byName, onObjectErd }: { data: Data; c
           <div key={i} className="flex items-stretch gap-3">
             <div>
               <button onClick={() => setOpen(open === i ? null : i)} style={{ animation: `fadeUp .4s ease ${i * 55}ms both`, borderColor: c }}
-                className={`group flex w-56 flex-col rounded-2xl border bg-white p-5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${open === i ? "ring-2" : ""}`}>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">{String(i + 1).padStart(2, "0")}</span>
-                <span className="mt-1 text-2xl font-extrabold leading-tight text-slate-900">{o.he}</span>
-                <span className="font-mono text-xs text-slate-400">{o.en}</span>
+                className={`group flex w-56 flex-col rounded-2xl border bg-surface p-5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${open === i ? "ring-2" : ""}`}>
+                <span className="text-[11px] font-bold uppercase tracking-wider text-ink-3">{String(i + 1).padStart(2, "0")}</span>
+                <span className="mt-1 text-2xl font-extrabold leading-tight text-ink-1">{o.he}</span>
+                <span className="font-mono text-xs text-ink-3">{o.en}</span>
                 <span className="mt-3 inline-flex items-center gap-1.5 self-start rounded-full px-2.5 py-1 text-[11px] font-bold" style={{ background: c + "1a", color: c }}>{real.length} טבלאות {open === i ? "▲" : "▼"}</span>
               </button>
               {open === i && (
-                <div className="mt-2 w-56 rounded-xl border border-slate-200 bg-white p-3 shadow-sm" style={{ animation: "fadeUp .3s ease both" }}>
-                  <div className="mb-2 flex items-center justify-between"><span className="text-[10px] font-bold uppercase text-slate-400">טבלאות ליבה</span><button onClick={() => onObjectErd(real)} className="rounded-md px-2 py-0.5 text-[11px] font-bold text-white" style={{ background: c }}>ERD →</button></div>
-                  <div className="space-y-1.5">{real.map((tn) => { const t = byName[tn]; return <button key={tn} onClick={() => setDetail(tn)} className={`flex w-full items-center justify-between gap-2 rounded-lg border bg-slate-50 px-2.5 py-1.5 text-right hover:border-slate-300 ${detail === tn ? "border-slate-400 ring-1 ring-slate-300" : "border-slate-200"}`}>
-                    <span className="flex min-w-0 items-center gap-1.5"><span className="font-mono text-sm font-bold" style={{ color: color(t!.mod) }}>{tn}</span><span className="truncate text-[10px] text-slate-400">{t!.he || ""}</span></span>
+                <div className="mt-2 w-56 rounded-xl border border-hairline bg-surface p-3 shadow-sm" style={{ animation: "fadeUp .3s ease both" }}>
+                  <div className="mb-2 flex items-center justify-between"><span className="text-[10px] font-bold uppercase text-ink-3">טבלאות ליבה</span><button onClick={() => onObjectErd(real)} className="rounded-md px-2 py-0.5 text-[11px] font-bold text-white" style={{ background: c }}>ERD →</button></div>
+                  <div className="space-y-1.5">{real.map((tn) => { const t = byName[tn]; return <button key={tn} onClick={() => setDetail(tn)} className={`flex w-full items-center justify-between gap-2 rounded-lg border bg-surface-2 px-2.5 py-1.5 text-right hover:border-hairline ${detail === tn ? "border-slate-400 ring-1 ring-slate-300" : "border-hairline"}`}>
+                    <span className="flex min-w-0 items-center gap-1.5"><span className="font-mono text-sm font-bold" style={{ color: color(t!.mod) }}>{tn}</span><span className="truncate text-[10px] text-ink-3">{t!.he || ""}</span></span>
                     {t!.landscape && <span className="shrink-0 rounded px-1 py-0.5 text-[8px] font-bold text-white" style={{ background: LAND_META[t!.landscape]?.c }}>{LAND_META[t!.landscape]?.he}</span>}</button>; })}</div>
                 </div>
               )}
             </div>
-            {i < objs.length - 1 && <ArrowLeft className="size-6 shrink-0 self-center text-slate-300" />}
+            {i < objs.length - 1 && <ArrowLeft className="size-6 shrink-0 self-center text-ink-3" />}
           </div>
         ); })}
       </div>
@@ -345,11 +345,11 @@ function ObjectsView({ data, color, code, byName, onObjectErd }: { data: Data; c
 function ProcessFlow({ color, code }: { color: (m?: string | null) => string; code: string }) {
   const c = color(code); const flow = MOD_FLOW[code] || [];
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <h3 className="mb-4 text-sm font-bold text-slate-700">זרימה עסקית · {code}</h3>
+    <div className="rounded-2xl border border-hairline bg-surface p-5 shadow-sm">
+      <h3 className="mb-4 text-sm font-bold text-ink-2">זרימה עסקית · {code}</h3>
       <div className="flex flex-wrap items-stretch gap-2">{flow.map((s, i) => (<div key={i} className="flex items-stretch gap-2" style={{ animation: `fadeUp .4s ease ${i * 50}ms both` }}>
-        <div className="flex w-40 flex-col justify-center rounded-xl border bg-slate-50 p-3 text-center" style={{ borderColor: c }}><div className="text-base font-bold text-slate-900">{s.he}</div><div className="font-mono text-[10px] text-slate-500">{s.en}</div></div>
-        {i < flow.length - 1 && <ArrowLeft className="size-5 self-center text-slate-300" />}</div>))}</div>
+        <div className="flex w-40 flex-col justify-center rounded-xl border bg-surface-2 p-3 text-center" style={{ borderColor: c }}><div className="text-base font-bold text-ink-1">{s.he}</div><div className="font-mono text-[10px] text-ink-3">{s.en}</div></div>
+        {i < flow.length - 1 && <ArrowLeft className="size-5 self-center text-ink-3" />}</div>))}</div>
     </div>
   );
 }
@@ -459,48 +459,48 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
   const importantFields = fields.filter((f) => f[3] === "-").slice(0, 18);
 
   const Card = ({ id, title, icon, accent, children: ch, sub }: { id: string; title: string; icon: React.ReactNode; accent?: string; sub?: string; children: React.ReactNode }) => (
-    <section id={id} ref={(el) => { secRef.current[id] = el; }} className="scroll-mt-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+    <section id={id} ref={(el) => { secRef.current[id] = el; }} className="scroll-mt-4 rounded-3xl border border-hairline bg-surface p-5 shadow-sm sm:p-6">
       <div className="mb-3 flex items-center gap-2.5">
         <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: accent || c }}>{icon}</span>
-        <div><h3 className="text-lg font-extrabold text-slate-900">{title}</h3>{sub && <p className="text-xs font-medium text-slate-400">{sub}</p>}</div>
+        <div><h3 className="text-lg font-extrabold text-ink-1">{title}</h3>{sub && <p className="text-xs font-medium text-ink-3">{sub}</p>}</div>
       </div>
       {ch}
     </section>
   );
-  const Chips = ({ a, dir: d, mono }: { a: string[]; dir?: string; mono?: boolean }) => a.length ? <div className="flex flex-wrap gap-1.5" dir={d}>{a.map((x) => <span key={x} className={`rounded-lg border border-slate-200 bg-slate-50 px-2 py-1 text-[12px] font-bold text-slate-700 ${mono ? "tech font-mono" : ""}`}>{x}</span>)}</div> : <span className="text-sm italic text-slate-300">—</span>;
-  const Lbl = ({ children: ch }: { children: React.ReactNode }) => <div className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-slate-400">{ch}</div>;
+  const Chips = ({ a, dir: d, mono }: { a: string[]; dir?: string; mono?: boolean }) => a.length ? <div className="flex flex-wrap gap-1.5" dir={d}>{a.map((x) => <span key={x} className={`rounded-lg border border-hairline bg-surface-2 px-2 py-1 text-[12px] font-bold text-ink-2 ${mono ? "tech font-mono" : ""}`}>{x}</span>)}</div> : <span className="text-sm italic text-ink-3">—</span>;
+  const Lbl = ({ children: ch }: { children: React.ReactNode }) => <div className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-ink-3">{ch}</div>;
   const FieldTable = ({ rows: fr }: { rows: Field[] }) => (
-    <div className="overflow-hidden rounded-xl border border-slate-200"><table className="w-full text-right font-mono text-[13px]" dir="ltr"><tbody>{fr.map((f) => <tr key={f[0]} className="border-b border-slate-50 last:border-0 odd:bg-slate-50/40"><td className={`px-3 py-1.5 font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`}>{f[0]}</td><td className="px-2 py-1.5 text-slate-400">{f[1]}</td><td className="px-2 py-1.5 text-left">{f[3] !== "-" && <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></div>
+    <div className="overflow-hidden rounded-xl border border-hairline"><table className="w-full text-right font-mono text-[13px]" dir="ltr"><tbody>{fr.map((f) => <tr key={f[0]} className="border-b border-hairline last:border-0 odd:bg-surface-2/40"><td className={`px-3 py-1.5 font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-ink-2"}`}>{f[0]}</td><td className="px-2 py-1.5 text-ink-3">{f[1]}</td><td className="px-2 py-1.5 text-left">{f[3] !== "-" && <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></div>
   );
 
   return (
-    <div className="fixed inset-0 z-[60] flex flex-col bg-slate-50" dir="rtl" style={{ animation: "fadeIn .2s ease both" }}>
+    <div className="fixed inset-0 z-[60] flex flex-col bg-surface-2" dir="rtl" style={{ animation: "fadeIn .2s ease both" }}>
       {/* header */}
-      <header className="shrink-0 border-b border-slate-200 bg-white/95 backdrop-blur">
+      <header className="shrink-0 border-b border-hairline bg-surface/95 backdrop-blur">
         <div className="mx-auto flex items-center gap-3 px-4 py-3 lg:px-8">
-          <button onClick={onClose} className="tap inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand active:scale-95"><ArrowRight className="size-4" />סגור וחזור</button>
+          <button onClick={onClose} className="tap inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-3 py-2 text-sm font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand active:scale-95"><ArrowRight className="size-4" />סגור וחזור</button>
           <span className="grid size-11 shrink-0 place-items-center rounded-2xl text-white shadow-sm" style={{ background: c }}><Database className="size-5" /></span>
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="tech font-mono text-2xl font-extrabold text-slate-900" dir="ltr">{t.name}</span>
+              <span className="tech font-mono text-2xl font-extrabold text-ink-1" dir="ltr">{t.name}</span>
               <span className="rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: cm.c }}>{cm.he}</span>
               <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: c }}>{t.mod}</span>
               {k && <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: IMPORTANCE_COLOR[k.importance] }}>{IMPORTANCE_HE[k.importance]}</span>}
               {t.landscape && <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: LAND_META[t.landscape]?.c }}>{LAND_META[t.landscape]?.he}</span>}
               {s4?.impacted && <span className="rounded-md bg-amber-400 px-2 py-0.5 text-[10px] font-extrabold text-amber-950">S/4 שינוי</span>}
             </div>
-            <p className="truncate text-sm font-medium text-slate-500">{t.he || t.en}</p>
+            <p className="truncate text-sm font-medium text-ink-3">{t.he || t.en}</p>
           </div>
           <div className="hidden items-center gap-1.5 sm:flex">
             <button onClick={() => onTable(t.name)} className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-3 py-2 text-sm font-bold text-white transition hover:bg-brand-dark active:scale-95"><Maximize2 className="size-4" />דף אובייקט</button>
-            <Link href={`/sap-infrastructure/?focus=${encodeURIComponent(t.name)}`} title="פתח בגרף ERD" className="tap grid size-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-brand/40 hover:text-brand"><GitBranch className="size-4" /></Link>
-            <Link href={`/impact/${encodeURIComponent(t.name)}/`} title="ניתוח השפעה S/4" className="tap grid size-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-brand/40 hover:text-brand"><Gauge className="size-4" /></Link>
+            <Link href={`/sap-infrastructure/?focus=${encodeURIComponent(t.name)}`} title="פתח בגרף ERD" className="tap grid size-9 place-items-center rounded-xl border border-hairline bg-surface text-ink-3 transition hover:border-brand/40 hover:text-brand"><GitBranch className="size-4" /></Link>
+            <Link href={`/impact/${encodeURIComponent(t.name)}/`} title="ניתוח השפעה S/4" className="tap grid size-9 place-items-center rounded-xl border border-hairline bg-surface text-ink-3 transition hover:border-brand/40 hover:text-brand"><Gauge className="size-4" /></Link>
             
           </div>
         </div>
         {/* section tabs (mobile + scroll) */}
         <div className="mx-auto flex gap-1 overflow-x-auto px-4 pb-2 lg:hidden">
-          {secs.map((s) => <button key={s.id} onClick={() => go(s.id)} className={`shrink-0 rounded-full px-3 py-1 text-[12px] font-bold transition ${active === s.id ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-500"}`}>{s.he}</button>)}
+          {secs.map((s) => <button key={s.id} onClick={() => go(s.id)} className={`shrink-0 rounded-full px-3 py-1 text-[12px] font-bold transition ${active === s.id ? "bg-slate-900 text-white" : "bg-surface-2 text-ink-3"}`}>{s.he}</button>)}
         </div>
       </header>
 
@@ -511,11 +511,11 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
           <nav className="hidden lg:block">
             <div className="sticky top-4 space-y-1">
               {secs.map((s) => { const Ic = s.icon; const on = active === s.id; return (
-                <button key={s.id} onClick={() => go(s.id)} className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-right text-sm font-bold transition ${on ? "bg-white text-slate-900 shadow-sm ring-1 ring-slate-200" : "text-slate-500 hover:bg-white/70 hover:text-slate-900"}`}>
+                <button key={s.id} onClick={() => go(s.id)} className={`flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-right text-sm font-bold transition ${on ? "bg-surface text-ink-1 shadow-sm ring-1 ring-hairline" : "text-ink-3 hover:bg-surface/70 hover:text-ink-1"}`}>
                   <Ic className="size-4 shrink-0" style={on ? { color: c } : undefined} />{s.he}
                 </button>
               ); })}
-              <div className="!mt-3 rounded-xl border border-slate-200 bg-white p-3 text-center"><div className="text-[10px] font-bold uppercase text-slate-400">דרגת חשיבות</div><div className="mt-0.5 text-sm font-extrabold" style={{ color: k ? IMPORTANCE_COLOR[k.importance] : "#64748b" }}>{k ? IMPORTANCE_HE[k.importance] : "כללי"}</div></div>
+              <div className="!mt-3 rounded-xl border border-hairline bg-surface p-3 text-center"><div className="text-[10px] font-bold uppercase text-ink-3">דרגת חשיבות</div><div className="mt-0.5 text-sm font-extrabold" style={{ color: k ? IMPORTANCE_COLOR[k.importance] : "#64748b" }}>{k ? IMPORTANCE_HE[k.importance] : "כללי"}</div></div>
             </div>
           </nav>
 
@@ -523,23 +523,23 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
           <div className="min-w-0 space-y-5">
             <Card id="overview" title="סקירה" icon={<BookOpen className="size-4" />} sub="מה האובייקט, למה הוא קיים ומתי משתמשים בו">
               <div className="grid-adaptive">
-                <div className="rounded-2xl bg-slate-50 p-4"><Lbl>מה זה</Lbl><p className="text-sm leading-relaxed text-slate-700">{k?.role || `${cm.he} במודול ${t.mod} — ${t.he || t.en}.`}</p></div>
-                <div className="rounded-2xl bg-slate-50 p-4"><Lbl>מטרה עסקית</Lbl><p className="text-sm leading-relaxed text-slate-700">{k?.why || data.blueprints.find((b) => b.code === t.mod)?.purpose || "נדרש אימות — מטרת הטבלה לא תועדה במאגר."}</p></div>
-                <div className="rounded-2xl bg-slate-50 p-4"><Lbl>מתי משתמשים</Lbl><p className="text-sm leading-relaxed text-slate-700">{k?.whenUsed || "—"}</p>{k?.step && <span className="mt-2 inline-block rounded-md bg-white px-2 py-0.5 text-[11px] font-bold text-slate-600 ring-1 ring-slate-200">{k.step}</span>}</div>
+                <div className="rounded-2xl bg-surface-2 p-4"><Lbl>מה זה</Lbl><p className="text-sm leading-relaxed text-ink-2">{k?.role || `${cm.he} במודול ${t.mod} — ${t.he || t.en}.`}</p></div>
+                <div className="rounded-2xl bg-surface-2 p-4"><Lbl>מטרה עסקית</Lbl><p className="text-sm leading-relaxed text-ink-2">{k?.why || data.blueprints.find((b) => b.code === t.mod)?.purpose || "נדרש אימות — מטרת הטבלה לא תועדה במאגר."}</p></div>
+                <div className="rounded-2xl bg-surface-2 p-4"><Lbl>מתי משתמשים</Lbl><p className="text-sm leading-relaxed text-ink-2">{k?.whenUsed || "—"}</p>{k?.step && <span className="mt-2 inline-block rounded-md bg-surface px-2 py-0.5 text-[11px] font-bold text-ink-2 ring-1 ring-hairline">{k.step}</span>}</div>
               </div>
               {!k && <p className="mt-3 text-[11px] font-bold text-amber-600">⚠ חלק מהטקסט נגזר מהמודול — אובייקט זה טרם תויג ידנית.</p>}
             </Card>
 
             {has.fields && <Card id="fields" title="שדות מפתח" icon={<KeyRound className="size-4" />} sub={`${fields.length} שדות · ${pk.length} PK · ${fk.length} FK`}>
               <div className="grid gap-4 lg:grid-cols-2">
-                <div><Lbl>מפתח ראשי (PK)</Lbl>{pk.length ? <FieldTable rows={pk} /> : <span className="text-sm italic text-slate-300">—</span>}</div>
-                <div><Lbl>מפתח זר (FK)</Lbl>{fk.length ? <FieldTable rows={fk} /> : <span className="text-sm italic text-slate-300">—</span>}</div>
+                <div><Lbl>מפתח ראשי (PK)</Lbl>{pk.length ? <FieldTable rows={pk} /> : <span className="text-sm italic text-ink-3">—</span>}</div>
+                <div><Lbl>מפתח זר (FK)</Lbl>{fk.length ? <FieldTable rows={fk} /> : <span className="text-sm italic text-ink-3">—</span>}</div>
               </div>
               {importantFields.length > 0 && <div className="mt-4"><Lbl>שדות חשובים נוספים</Lbl><div className="lg:columns-2 lg:gap-4">{[importantFields].map((r, i) => <div key={i} className="break-inside-avoid"><FieldTable rows={r} /></div>)}</div></div>}
             </Card>}
 
             {has.relations && <Card id="relations" title="קשרים" icon={<Network className="size-4" />} sub="טבלאות אב, צאצא והדמיה גרפית — לחיצה על אובייקט פותחת אותו">
-              <div className="rounded-2xl border border-slate-100 bg-slate-50/50 p-2"><MiniRel t={t} color={color} byName={byName} onOpen={onOpen} /></div>
+              <div className="rounded-2xl border border-hairline bg-surface-2/50 p-2"><MiniRel t={t} color={color} byName={byName} onOpen={onOpen} /></div>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 <div><Lbl>טבלאות אב</Lbl><Chips a={relsOf(t).parents} dir="ltr" mono /></div>
                 <div><Lbl>טבלאות צאצא</Lbl><Chips a={relsOf(t).children} dir="ltr" mono /></div>
@@ -551,17 +551,17 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
                 <div><Lbl><span className="inline-flex items-center gap-1"><Terminal className="size-3" />T-Codes</span></Lbl><Chips a={tcodes} dir="ltr" mono /></div>
                 <div><Lbl><span className="inline-flex items-center gap-1"><Cpu className="size-3" />BAPIs / Function Modules</span></Lbl><Chips a={t.funcs || []} dir="ltr" mono /></div>
                 <div><Lbl>CDS Views</Lbl><Chips a={t.cds || []} dir="ltr" mono /></div>
-                <div><Lbl>Fiori Apps</Lbl>{t.fiori ? <p className="text-sm font-medium text-slate-700">{t.fiori}</p> : <span className="text-sm italic text-slate-300">—</span>}</div>
+                <div><Lbl>Fiori Apps</Lbl>{t.fiori ? <p className="text-sm font-medium text-ink-2">{t.fiori}</p> : <span className="text-sm italic text-ink-3">—</span>}</div>
               </div>
             </Card>}
 
             {has.trouble && <Card id="trouble" title="פתרון תקלות" icon={<Wrench className="size-4" />} sub={`${incidents.length} תקלות נפוצות הקשורות לאובייקט`} accent="#dc2626">
               <div className="grid gap-4 lg:grid-cols-2">
                 <div><Lbl><span className="inline-flex items-center gap-1"><AlertTriangle className="size-3 text-amber-500" />תקלות נפוצות</span></Lbl>
-                  <div className="space-y-1.5">{incidents.slice(0, 6).map((i) => <Link key={i.slug} href={`/troubleshooting/${i.slug}/`} className="flex items-center justify-between gap-2 rounded-xl border border-slate-100 bg-white px-3 py-2 text-[13px] font-bold text-slate-700 transition hover:border-red-300 hover:bg-red-50"><span className="min-w-0 truncate">{i.he}</span><ArrowUpRight className="size-3.5 shrink-0 text-slate-300" /></Link>)}</div>
+                  <div className="space-y-1.5">{incidents.slice(0, 6).map((i) => <Link key={i.slug} href={`/troubleshooting/${i.slug}/`} className="flex items-center justify-between gap-2 rounded-xl border border-hairline bg-surface px-3 py-2 text-[13px] font-bold text-ink-2 transition hover:border-red-300 hover:bg-red-50"><span className="min-w-0 truncate">{i.he}</span><ArrowUpRight className="size-3.5 shrink-0 text-ink-3" /></Link>)}</div>
                 </div>
                 <div className="space-y-4">
-                  {mistakes.length > 0 && <div><Lbl><span className="inline-flex items-center gap-1"><Lightbulb className="size-3 text-amber-500" />טעויות נפוצות</span></Lbl><ul className="space-y-1">{mistakes.map((m, i) => <li key={i} className="flex gap-2 text-[13px] leading-relaxed text-slate-600"><span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-amber-400" />{m}</li>)}</ul></div>}
+                  {mistakes.length > 0 && <div><Lbl><span className="inline-flex items-center gap-1"><Lightbulb className="size-3 text-amber-500" />טעויות נפוצות</span></Lbl><ul className="space-y-1">{mistakes.map((m, i) => <li key={i} className="flex gap-2 text-[13px] leading-relaxed text-ink-2"><span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-amber-400" />{m}</li>)}</ul></div>}
                   {(debugSteps.length > 0 || debugTx.length > 0) && <div><Lbl><span className="inline-flex items-center gap-1"><Bug className="size-3 text-rose-500" />נקודות דיבוג</span></Lbl>{debugSteps.length > 0 && <ul className="mb-2 space-y-1">{debugSteps.map((d, i) => <li key={i} className="rounded-lg bg-slate-900 px-2.5 py-1.5 font-mono text-[11px] text-emerald-300" dir="ltr">{d}</li>)}</ul>}<Chips a={debugTx} dir="ltr" mono /></div>}
                 </div>
               </div>
@@ -570,20 +570,20 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
             <Card id="s4" title="ECC מול S/4HANA" icon={<ArrowRightLeft className="size-4" />} sub="מה השתנה, מה נשאר ושיקולי הגירה" accent="#d97706">
               <div className="grid-adaptive">
                 <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4"><div className="mb-1 flex items-center justify-between"><Lbl>מה השתנה</Lbl><span className="rounded-full px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: RISK_COLOR[s4!.risk] }}>{RISK_HE[s4!.risk]}</span></div><p className="text-[13px] leading-relaxed text-amber-900">{k?.s4 || s4!.impact?.changed || t.s4 || "אין הערת S/4 ברמת הטבלה — נדרש אימות מול Simplification List / OSS."}</p></div>
-                <div className="rounded-2xl bg-slate-50 p-4"><Lbl>מה נשאר</Lbl><p className="text-[13px] leading-relaxed text-slate-700">{s4!.impacted ? "מבנה המפתח והקשרים הלוגיים נשמרים ברוב המקרים; קוד מותאם הקורא ישירות לטבלה דורש בדיקה." : "הטבלה נשמרת ב-S/4 ללא שינוי מבני מהותי הידוע במאגר."}</p></div>
-                <div className="rounded-2xl bg-slate-50 p-4"><Lbl>שיקולי הגירה</Lbl><p className="text-[13px] leading-relaxed text-slate-700">{s4!.impact?.note || (s4!.impacted ? "בדוק גישות ישירות בקוד Z, CDS חלופי ו-Compatibility Views לפני העלייה." : "אין פעולה ייעודית ידועה — אמת מול תוכנית ההגירה הספציפית.")}</p>{t.s4alt && <span className="mt-2 inline-block rounded-md bg-white px-2 py-0.5 font-mono text-[11px] font-bold text-slate-600 ring-1 ring-slate-200" dir="ltr">חלופה: {t.s4alt}</span>}</div>
+                <div className="rounded-2xl bg-surface-2 p-4"><Lbl>מה נשאר</Lbl><p className="text-[13px] leading-relaxed text-ink-2">{s4!.impacted ? "מבנה המפתח והקשרים הלוגיים נשמרים ברוב המקרים; קוד מותאם הקורא ישירות לטבלה דורש בדיקה." : "הטבלה נשמרת ב-S/4 ללא שינוי מבני מהותי הידוע במאגר."}</p></div>
+                <div className="rounded-2xl bg-surface-2 p-4"><Lbl>שיקולי הגירה</Lbl><p className="text-[13px] leading-relaxed text-ink-2">{s4!.impact?.note || (s4!.impacted ? "בדוק גישות ישירות בקוד Z, CDS חלופי ו-Compatibility Views לפני העלייה." : "אין פעולה ייעודית ידועה — אמת מול תוכנית ההגירה הספציפית.")}</p>{t.s4alt && <span className="mt-2 inline-block rounded-md bg-surface px-2 py-0.5 font-mono text-[11px] font-bold text-ink-2 ring-1 ring-hairline" dir="ltr">חלופה: {t.s4alt}</span>}</div>
               </div>
             </Card>
 
             {has.interview && <Card id="interview" title="הכנה לראיון" icon={<GraduationCap className="size-4" />} sub={`${iqs.length} שאלות לפי רמת בכירות · ידע SAP מתוקף`} accent="#7c3aed">
               <div className="space-y-2.5">{iqs.map((iq, i) => (
-                <details key={i} className="group rounded-2xl border border-slate-200 bg-white p-0 [&_summary]:list-none">
+                <details key={i} className="group rounded-2xl border border-hairline bg-surface p-0 [&_summary]:list-none">
                   <summary className="flex cursor-pointer items-start gap-2.5 p-4">
                     <span className="mt-0.5 shrink-0 rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: LEVEL_HE[iq.level].c }}>{LEVEL_HE[iq.level].he}</span>
-                    <span className="flex-1 text-[14px] font-bold text-slate-800">{iq.q}</span>
-                    {iq.aHe && <ChevronDown className="size-4 shrink-0 text-slate-300 transition-transform group-open:rotate-180" />}
+                    <span className="flex-1 text-[14px] font-bold text-ink-1">{iq.q}</span>
+                    {iq.aHe && <ChevronDown className="size-4 shrink-0 text-ink-3 transition-transform group-open:rotate-180" />}
                   </summary>
-                  {iq.aHe && <p className="border-t border-slate-100 px-4 py-3 text-[13px] leading-relaxed text-slate-600">{iq.aHe}</p>}
+                  {iq.aHe && <p className="border-t border-hairline px-4 py-3 text-[13px] leading-relaxed text-ink-2">{iq.aHe}</p>}
                 </details>
               ))}</div>
             </Card>}
@@ -609,7 +609,7 @@ function TechCenter({ data, color, code, byName, onTable }: { data: Data; color:
   return (
     <div className="space-y-4" dir="rtl">
       {/* intro */}
-      <div className="flex flex-wrap items-end justify-between gap-3 rounded-2xl border border-slate-200 bg-gradient-to-l from-slate-900 to-slate-800 px-5 py-4 text-white">
+      <div className="flex flex-wrap items-end justify-between gap-3 rounded-2xl border border-hairline bg-gradient-to-l from-slate-900 to-slate-800 px-5 py-4 text-white">
         <div><div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-white/60"><Boxes className="size-4" />Technical Knowledge Center</div>
           <h3 className="mt-0.5 text-xl font-extrabold">מרכז ידע טכני · {MOD_NAME_HE[code] || code}</h3>
           <p className="text-xs text-white/70">לחץ על אובייקט לפתיחת תצוגת ידע מלאה — מבנה, קשרים, שימוש, תקלות, S/4 והכנה לראיון.</p></div>
@@ -619,13 +619,13 @@ function TechCenter({ data, color, code, byName, onTable }: { data: Data; color:
       {/* search + filter */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
         <div className="relative flex-1">
-          <Search className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-slate-300" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש טבלה, תיאור או T-Code…" className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pe-3 ps-9 text-sm font-medium outline-none focus:border-brand/40" />
+          <Search className="pointer-events-none absolute start-3 top-1/2 size-4 -translate-y-1/2 text-ink-3" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש טבלה, תיאור או T-Code…" className="w-full rounded-xl border border-hairline bg-surface py-2.5 pe-3 ps-9 text-sm font-medium outline-none focus:border-brand/40" />
         </div>
         <div className="flex flex-wrap gap-1.5">
           {([["all", "הכל"], ["master", TECH_CAT.master.he], ["transaction", TECH_CAT.transaction.he], ["config", TECH_CAT.config.he], ["core", TECH_CAT.core.he], ["cross", TECH_CAT.cross.he]] as const).map(([id, label]) => {
             const active = cat === id; const cc = id === "all" ? "#0f172a" : TECH_CAT[id as TechCat].c;
-            return <button key={id} onClick={() => setCat(id)} className={`rounded-full px-2.5 py-1 text-[11px] font-bold transition active:scale-95 ${active ? "text-white shadow-sm" : "bg-white text-slate-500 ring-1 ring-slate-200 hover:ring-brand/40"}`} style={active ? { background: cc } : undefined}>{label}{id !== "all" && counts[id] ? ` ${counts[id]}` : ""}</button>;
+            return <button key={id} onClick={() => setCat(id)} className={`rounded-full px-2.5 py-1 text-[11px] font-bold transition active:scale-95 ${active ? "text-white shadow-sm" : "bg-surface text-ink-3 ring-1 ring-hairline hover:ring-brand/40"}`} style={active ? { background: cc } : undefined}>{label}{id !== "all" && counts[id] ? ` ${counts[id]}` : ""}</button>;
           })}
         </div>
       </div>
@@ -639,30 +639,30 @@ function TechCenter({ data, color, code, byName, onTable }: { data: Data; color:
           const iqN = interviewFor(t.name).length;
           return (
             <button key={t.name} onClick={() => setSel(t.name)} style={{ animation: "fadeUp .35s ease both" }}
-              className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-3.5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg active:scale-[.98]">
+              className="group relative flex flex-col overflow-hidden rounded-2xl border border-hairline bg-surface p-3.5 text-right shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-hairline hover:shadow-lg active:scale-[.98]">
               <span className="absolute inset-x-0 top-0 h-1" style={{ background: c }} />
               <div className="flex items-start justify-between gap-2">
-                <span className="tech font-mono text-lg font-extrabold text-slate-900" dir="ltr">{t.name}</span>
+                <span className="tech font-mono text-lg font-extrabold text-ink-1" dir="ltr">{t.name}</span>
                 <span className="size-2.5 shrink-0 rounded-full" style={{ background: cm.c }} title={cm.he} />
               </div>
-              <p className="mt-0.5 line-clamp-2 min-h-[2.2em] text-[12px] font-medium leading-tight text-slate-500">{t.he || t.en}</p>
+              <p className="mt-0.5 line-clamp-2 min-h-[2.2em] text-[12px] font-medium leading-tight text-ink-3">{t.he || t.en}</p>
               <div className="mt-2 flex flex-wrap items-center gap-1">
                 <span className="rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: c }}>{t.mod}</span>
                 {s4.impacted && <span className="rounded-md bg-amber-400 px-1.5 py-0.5 text-[9px] font-extrabold text-amber-950">S/4</span>}
                 {k && <span className="rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: IMPORTANCE_COLOR[k.importance] }}>{k.importance === "core" ? "ליבה" : k.importance === "supporting" ? "תומך" : "מתקדם"}</span>}
               </div>
-              <div className="mt-2.5 flex items-center gap-2.5 border-t border-slate-100 pt-2 text-[10px] font-bold text-slate-400">
+              <div className="mt-2.5 flex items-center gap-2.5 border-t border-hairline pt-2 text-[10px] font-bold text-ink-3">
                 {t.pk.length > 0 && <span className="flex items-center gap-0.5" title="מפתח ראשי"><KeyRound className="size-3 text-amber-500" />{t.pk.length}</span>}
                 <span className="flex items-center gap-0.5" title="קשרים"><Network className="size-3" />{t.degree}</span>
                 {incN > 0 && <span className="flex items-center gap-0.5 text-rose-400" title="תקלות"><AlertTriangle className="size-3" />{incN}</span>}
                 {iqN > 0 && <span className="flex items-center gap-0.5 text-violet-400" title="שאלות ראיון"><GraduationCap className="size-3" />{iqN}</span>}
-                <ArrowUpRight className="ms-auto size-3.5 text-slate-300 transition group-hover:text-brand" />
+                <ArrowUpRight className="ms-auto size-3.5 text-ink-3 transition group-hover:text-brand" />
               </div>
             </button>
           );
         })}
       </div>
-      {shown.length === 0 && <p className="py-10 text-center text-sm text-slate-400">לא נמצאו טבלאות.</p>}
+      {shown.length === 0 && <p className="py-10 text-center text-sm text-ink-3">לא נמצאו טבלאות.</p>}
 
       {sel && <KnowledgeView name={sel} data={data} color={color} byName={byName} onTable={onTable} onClose={() => setSel(null)} onOpen={(n) => setSel(n)} />}
     </div>
@@ -910,77 +910,77 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
         const filtLabel = FILTERS.find((f) => f[0] === s4Filter)?.[1] || "הכל";
         return (
         <div className="sticky top-2 z-30">
-          <div className="flex flex-wrap items-center gap-1.5 rounded-2xl border border-slate-200 bg-white/95 px-2 py-1.5 shadow-sm backdrop-blur">
+          <div className="flex flex-wrap items-center gap-1.5 rounded-2xl border border-hairline bg-surface/95 px-2 py-1.5 shadow-sm backdrop-blur">
             {/* module dropdown */}
             <div className="relative">
-              <button onClick={() => { setModOpen((v) => !v); setFiltOpen(false); }} className="flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-2.5 py-1.5 text-xs font-bold text-slate-700 transition hover:border-slate-300">
+              <button onClick={() => { setModOpen((v) => !v); setFiltOpen(false); }} className="flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-2.5 py-1.5 text-xs font-bold text-ink-2 transition hover:border-hairline">
                 <span className="grid size-5 shrink-0 place-items-center rounded text-[9px] font-extrabold text-white" style={{ background: color(code) }}>{(code === "PP-PI" ? "PP" : code).slice(0, 2)}</span>
-                <span className="text-slate-400">מודול:</span><span>{modLabel}</span><ChevronDown className={`size-3.5 text-slate-400 transition ${modOpen ? "rotate-180" : ""}`} />
+                <span className="text-ink-3">מודול:</span><span>{modLabel}</span><ChevronDown className={`size-3.5 text-ink-3 transition ${modOpen ? "rotate-180" : ""}`} />
               </button>
-              {modOpen && <div className="absolute z-50 mt-1 grid w-56 grid-cols-3 gap-1 rounded-xl border border-slate-200 bg-white p-2 shadow-xl" style={{ animation: "fadeUp .15s ease both" }}>
+              {modOpen && <div className="absolute z-50 mt-1 grid w-56 grid-cols-3 gap-1 rounded-xl border border-hairline bg-surface p-2 shadow-xl" style={{ animation: "fadeUp .15s ease both" }}>
                 {UNIVERSE.map((m) => { const on = selMods.has(m); const cc = color(m); return <button key={m} onClick={() => toggleMod(m)} className="rounded-md border px-1 py-1 text-[10px] font-bold transition active:scale-95" style={{ borderColor: on ? cc : "#e2e8f0", background: on ? cc : "#fff", color: on ? "#fff" : "#94a3b8" }}>{m}</button>; })}
               </div>}
             </div>
-            <span className="hidden text-[11px] font-semibold text-slate-400 sm:inline">{shown.length} טבלאות · {links.length} קשרים</span>
+            <span className="hidden text-[11px] font-semibold text-ink-3 sm:inline">{shown.length} טבלאות · {links.length} קשרים</span>
 
             {!ctrlFocus && <>
-              <span className="mx-0.5 h-5 w-px bg-slate-200" />
+              <span className="mx-0.5 h-5 w-px bg-hairline" />
               {/* analysis modes — horizontal scroll strip below 1400px */}
               <div className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[1400px]:flex-none min-[1400px]:overflow-visible">
-                {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(modeInfo === id ? null : id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`shrink-0 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-bold transition ${mode === id ? "bg-brand text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>{he}</button>)}
+                {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(modeInfo === id ? null : id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`shrink-0 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-bold transition ${mode === id ? "bg-brand text-white shadow-sm" : "text-ink-3 hover:bg-surface-2"}`}>{he}</button>)}
               </div>
               {/* S/4 filter dropdown */}
               <div className="relative">
-                <button onClick={() => { setFiltOpen((v) => !v); setModOpen(false); }} className={`flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-xs font-bold transition ${s4Filter !== "all" ? "border-amber-300 bg-amber-50 text-amber-800" : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"}`}>
-                  <span className="text-slate-400">מצב:</span><span>{filtLabel}</span><ChevronDown className={`size-3.5 transition ${filtOpen ? "rotate-180" : ""}`} />
+                <button onClick={() => { setFiltOpen((v) => !v); setModOpen(false); }} className={`flex items-center gap-1.5 rounded-xl border px-2.5 py-1.5 text-xs font-bold transition ${s4Filter !== "all" ? "border-amber-300 bg-amber-50 text-amber-800" : "border-hairline bg-surface text-ink-2 hover:border-hairline"}`}>
+                  <span className="text-ink-3">מצב:</span><span>{filtLabel}</span><ChevronDown className={`size-3.5 transition ${filtOpen ? "rotate-180" : ""}`} />
                 </button>
-                {filtOpen && <div className="absolute end-0 z-50 mt-1 w-44 rounded-xl border border-slate-200 bg-white p-1 shadow-xl" style={{ animation: "fadeUp .15s ease both" }}>
-                  {FILTERS.map(([id, he]) => <button key={id} onClick={() => { setS4Filter(id); setFiltOpen(false); }} className={`block w-full rounded-lg px-2.5 py-1.5 text-right text-xs font-bold transition ${s4Filter === id ? "bg-amber-100 text-amber-800" : "text-slate-600 hover:bg-slate-50"}`}>{he}</button>)}
+                {filtOpen && <div className="absolute end-0 z-50 mt-1 w-44 rounded-xl border border-hairline bg-surface p-1 shadow-xl" style={{ animation: "fadeUp .15s ease both" }}>
+                  {FILTERS.map(([id, he]) => <button key={id} onClick={() => { setS4Filter(id); setFiltOpen(false); }} className={`block w-full rounded-lg px-2.5 py-1.5 text-right text-xs font-bold transition ${s4Filter === id ? "bg-amber-100 text-amber-800" : "text-ink-2 hover:bg-surface-2"}`}>{he}</button>)}
                 </div>}
               </div>
             </>}
 
-            <button onClick={() => { setCtrlFocus((v) => !v); setModOpen(false); setFiltOpen(false); }} title="מצב מיקוד — הסתר פקדים" className={`ms-auto flex shrink-0 items-center gap-1 rounded-xl px-2.5 py-1.5 text-xs font-bold transition active:scale-95 ${ctrlFocus ? "bg-brand text-white" : "border border-slate-200 bg-white text-slate-600 hover:border-brand/40 hover:text-brand"}`}>
+            <button onClick={() => { setCtrlFocus((v) => !v); setModOpen(false); setFiltOpen(false); }} title="מצב מיקוד — הסתר פקדים" className={`ms-auto flex shrink-0 items-center gap-1 rounded-xl px-2.5 py-1.5 text-xs font-bold transition active:scale-95 ${ctrlFocus ? "bg-brand text-white" : "border border-hairline bg-surface text-ink-2 hover:border-brand/40 hover:text-brand"}`}>
               {ctrlFocus ? <Shrink className="size-3.5" /> : <Expand className="size-3.5" />}{ctrlFocus ? "צא ממיקוד" : "מצב מיקוד"}
             </button>
           </div>
           {!ctrlFocus && modeInfo && (() => { const m = modeInfo; const need = MODE_DESC[m].needsSel && !sel; return (
-            <div className="mt-1 flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-1.5 ring-1 ring-slate-200" style={{ animation: "fadeIn .2s ease both" }}>
-              <span className="size-2 shrink-0 rounded-full bg-brand" /><span className="flex-1 text-[12px] leading-snug text-slate-600">{MODE_DESC[m].d}</span>
+            <div className="mt-1 flex items-center gap-2 rounded-xl bg-surface-2 px-3 py-1.5 ring-1 ring-hairline" style={{ animation: "fadeIn .2s ease both" }}>
+              <span className="size-2 shrink-0 rounded-full bg-brand" /><span className="flex-1 text-[12px] leading-snug text-ink-2">{MODE_DESC[m].d}</span>
               {need && <span className="shrink-0 rounded-md bg-amber-100 px-1.5 py-0.5 text-[10px] font-bold text-amber-800">בחר טבלה</span>}
-              <button onClick={() => setModeInfo(null)} className="shrink-0 rounded p-0.5 text-slate-400 hover:bg-slate-200"><X className="size-3.5" /></button>
+              <button onClick={() => setModeInfo(null)} className="shrink-0 rounded p-0.5 text-ink-3 hover:bg-hairline"><X className="size-3.5" /></button>
             </div>
           ); })()}
         </div>
       ); })()}
-    <div className="rounded-3xl bg-slate-100/60 p-1 ring-1 ring-black/[0.04]">
-      <div ref={wrapRef} className={`relative overflow-hidden rounded-2xl border border-slate-200/80 ${fs ? "h-screen bg-slate-50" : ctrlFocus ? "h-[calc(100vh-9rem)] min-h-[600px]" : "h-[calc(100vh-11rem)] min-h-[560px]"}`}
+    <div className="rounded-3xl bg-surface-2/60 p-1 ring-1 ring-black/[0.04]">
+      <div ref={wrapRef} className={`relative overflow-hidden rounded-2xl border border-hairline/80 ${fs ? "h-screen bg-surface-2" : ctrlFocus ? "h-[calc(100vh-9rem)] min-h-[600px]" : "h-[calc(100vh-11rem)] min-h-[560px]"}`}
         style={{ backgroundImage: "radial-gradient(circle at 1px 1px,#d7deea 1px,transparent 0)", backgroundSize: "30px 30px" }}>
         {/* fullscreen-only floating mode selector (canvas is the fullscreen layer) */}
-        {fs && <div className={`absolute left-1/2 z-30 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-white/60 bg-white/85 p-1 shadow-lg shadow-black/5 backdrop-blur-md transition-all ${sel ? "top-14" : "top-3"}`}>
-          {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-brand text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`}>{he}</button>)}
+        {fs && <div className={`absolute left-1/2 z-30 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-white/60 bg-surface/85 p-1 shadow-lg shadow-black/5 backdrop-blur-md transition-all ${sel ? "top-14" : "top-3"}`}>
+          {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-brand text-white shadow-sm" : "text-ink-3 hover:bg-surface-2"}`}>{he}</button>)}
         </div>}
         {/* mode explainer popup (fullscreen) */}
         {fs && modeInfo && (() => { const m = modeInfo; const need = MODE_DESC[m].needsSel && !sel; return (
-          <div className="absolute left-1/2 top-[6rem] z-40 w-[330px] max-w-[88%] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white p-3 shadow-xl" style={{ animation: "fadeUp .25s ease both" }}>
-            <div className="absolute -top-1.5 left-1/2 size-3 -translate-x-1/2 rotate-45 border-l border-t border-slate-200 bg-white" />
+          <div className="absolute left-1/2 top-[6rem] z-40 w-[330px] max-w-[88%] -translate-x-1/2 rounded-2xl border border-hairline bg-surface p-3 shadow-xl" style={{ animation: "fadeUp .25s ease both" }}>
+            <div className="absolute -top-1.5 left-1/2 size-3 -translate-x-1/2 rotate-45 border-l border-t border-hairline bg-surface" />
             <div className="flex items-center justify-between gap-2">
-              <span className="flex items-center gap-1.5 text-sm font-extrabold text-slate-900"><span className="size-2 rounded-full bg-brand" />מצב {MODES.find((x) => x[0] === m)?.[1]}</span>
-              <button onClick={() => setModeInfo(null)} className="rounded p-0.5 text-slate-400 hover:bg-slate-100"><X className="size-3.5" /></button>
+              <span className="flex items-center gap-1.5 text-sm font-extrabold text-ink-1"><span className="size-2 rounded-full bg-brand" />מצב {MODES.find((x) => x[0] === m)?.[1]}</span>
+              <button onClick={() => setModeInfo(null)} className="rounded p-0.5 text-ink-3 hover:bg-surface-2"><X className="size-3.5" /></button>
             </div>
-            <p className="mt-1 text-[12px] leading-relaxed text-slate-600">{MODE_DESC[m].d}</p>
+            <p className="mt-1 text-[12px] leading-relaxed text-ink-2">{MODE_DESC[m].d}</p>
             {need && <p className="mt-1.5 rounded-lg bg-amber-50 px-2 py-1 text-[11px] font-bold text-amber-800">↳ בחר טבלה בגרף כדי להפעיל מצב זה.</p>}
           </div>
         ); })()}
         {/* keyboard help trigger (bottom-left) */}
         <button onClick={() => setHelp((v) => !v)} title="קיצורי מקלדת (?)" aria-label="קיצורי מקלדת"
-          className="absolute bottom-3 left-3 z-20 grid size-9 place-items-center rounded-xl border border-slate-200 bg-white/90 text-sm font-extrabold text-slate-500 shadow-sm backdrop-blur-sm transition hover:bg-brand hover:text-white active:scale-90">?</button>
+          className="absolute bottom-3 left-3 z-20 grid size-9 place-items-center rounded-xl border border-hairline bg-surface/90 text-sm font-extrabold text-ink-3 shadow-sm backdrop-blur-sm transition hover:bg-brand hover:text-white active:scale-90">?</button>
         {help && (
-          <div className="absolute bottom-14 left-3 z-30 w-64 rounded-2xl border border-slate-200 bg-white/95 p-3 shadow-xl backdrop-blur-md" dir="rtl">
-            <div className="mb-2 flex items-center justify-between"><span className="text-xs font-extrabold text-slate-900">קיצורי מקלדת</span><button onClick={() => setHelp(false)} className="rounded p-0.5 text-slate-400 hover:bg-slate-100"><X className="size-3.5" /></button></div>
-            <ul className="space-y-1.5 text-[12px] text-slate-600">
+          <div className="absolute bottom-14 left-3 z-30 w-64 rounded-2xl border border-hairline bg-surface/95 p-3 shadow-xl backdrop-blur-md" dir="rtl">
+            <div className="mb-2 flex items-center justify-between"><span className="text-xs font-extrabold text-ink-1">קיצורי מקלדת</span><button onClick={() => setHelp(false)} className="rounded p-0.5 text-ink-3 hover:bg-surface-2"><X className="size-3.5" /></button></div>
+            <ul className="space-y-1.5 text-[12px] text-ink-2">
               {[["F", "מצב מיקוד"], ["R", "קשרים / תלויות"], ["L", "שושלת מלאה"], ["S", "סינון השפעת S/4"], ["T", "פרטי טבלה נבחרת"], ["/", "חיפוש מהיר"], ["Esc", "סגור / נקה בחירה"], ["?", "עזרה זו"]].map(([k, d]) => (
-                <li key={k} className="flex items-center justify-between gap-2"><span>{d}</span><kbd className="rounded-md border border-slate-300 bg-slate-50 px-1.5 py-0.5 font-mono text-[10px] font-bold text-slate-700">{k}</kbd></li>
+                <li key={k} className="flex items-center justify-between gap-2"><span>{d}</span><kbd className="rounded-md border border-hairline bg-surface-2 px-1.5 py-0.5 font-mono text-[10px] font-bold text-ink-2">{k}</kbd></li>
               ))}
             </ul>
           </div>
@@ -989,28 +989,28 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
         {multiActive && (() => {
           const seq = [...multi].filter((n) => byName[n]).sort((a, b) => ((P(a)?.x ?? 0) - (P(b)?.x ?? 0)));
           return (
-            <div className="absolute bottom-3 left-1/2 z-30 w-[min(680px,92%)] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white/95 px-3 py-2 shadow-xl backdrop-blur-md" dir="rtl">
+            <div className="absolute bottom-3 left-1/2 z-30 w-[min(680px,92%)] -translate-x-1/2 rounded-2xl border border-hairline bg-surface/95 px-3 py-2 shadow-xl backdrop-blur-md" dir="rtl">
               <div className="mb-1.5 flex items-center justify-between">
-                <span className="flex items-center gap-1.5 text-[11px] font-extrabold text-slate-900"><Workflow className="size-3.5 text-brand" />מסלול תהליך · {seq.length} טבלאות</span>
-                <button onClick={() => setMulti(new Set())} className="rounded-md px-1.5 py-0.5 text-[11px] font-bold text-slate-400 transition hover:bg-slate-100 hover:text-brand">נקה</button>
+                <span className="flex items-center gap-1.5 text-[11px] font-extrabold text-ink-1"><Workflow className="size-3.5 text-brand" />מסלול תהליך · {seq.length} טבלאות</span>
+                <button onClick={() => setMulti(new Set())} className="rounded-md px-1.5 py-0.5 text-[11px] font-bold text-ink-3 transition hover:bg-surface-2 hover:text-brand">נקה</button>
               </div>
               <div className="flex items-center gap-1 overflow-x-auto pb-1">
                 {seq.map((n, i) => { const tt = byName[n]; const cc = color(own[n] || tt.mod); return (
                   <span key={n} className="flex shrink-0 items-center gap-1">
-                    <button onClick={() => { setMulti(new Set()); setSel(n); setDrawer(null); centerOn(n); }} className="flex flex-col items-start rounded-lg border bg-white px-2 py-1 text-right transition hover:shadow-sm active:scale-95" style={{ borderColor: cc }}>
+                    <button onClick={() => { setMulti(new Set()); setSel(n); setDrawer(null); centerOn(n); }} className="flex flex-col items-start rounded-lg border bg-surface px-2 py-1 text-right transition hover:shadow-sm active:scale-95" style={{ borderColor: cc }}>
                       <span className="font-mono text-[12px] font-extrabold" style={{ color: cc }} dir="ltr">{n}</span>
-                      <span className="max-w-[120px] truncate text-[9px] font-semibold text-slate-400">{tt.he || tt.en}</span>
+                      <span className="max-w-[120px] truncate text-[9px] font-semibold text-ink-3">{tt.he || tt.en}</span>
                     </button>
-                    {i < seq.length - 1 && <ArrowLeft className="size-3.5 shrink-0 text-slate-300" />}
+                    {i < seq.length - 1 && <ArrowLeft className="size-3.5 shrink-0 text-ink-3" />}
                   </span>); })}
               </div>
-              <p className="mt-0.5 text-[9px] text-slate-400">סדר לפי תלות במודל הנתונים (Shift+קליק להוספה/הסרה)</p>
+              <p className="mt-0.5 text-[9px] text-ink-3">סדר לפי תלות במודל הנתונים (Shift+קליק להוספה/הסרה)</p>
             </div>
           );
         })()}
         {/* legend (top-right) */}
         <div className={`pointer-events-none absolute right-3 z-20 flex flex-wrap gap-1.5 text-[10px] font-bold transition-all ${sel ? "top-14" : "top-3"}`}>
-          {[["🔑 PK", "#d97706"], ["FK", "#2563eb"], ["חוצה-מודול", "#7c3aed"]].map(([k, v]) => (<span key={k} className="flex items-center gap-1 rounded-lg bg-white/90 px-2 py-1 shadow-sm ring-1 ring-slate-200 backdrop-blur-sm"><i className="size-2 rounded-full" style={{ background: v }} /><span style={{ color: v }}>{k}</span></span>))}
+          {[["🔑 PK", "#d97706"], ["FK", "#2563eb"], ["חוצה-מודול", "#7c3aed"]].map(([k, v]) => (<span key={k} className="flex items-center gap-1 rounded-lg bg-surface/90 px-2 py-1 shadow-sm ring-1 ring-hairline backdrop-blur-sm"><i className="size-2 rounded-full" style={{ background: v }} /><span style={{ color: v }}>{k}</span></span>))}
         </div>
         {/* minimap (#2) — scaled overview + draggable viewport, click to jump */}
         {(() => {
@@ -1018,7 +1018,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
           const MMW = 184; const s = MMW / Math.max(vbW, 1); const MMH = Math.max(64, Math.min(168, vbH * s));
           const jump = (e: React.PointerEvent) => { const r = (e.currentTarget as HTMLElement).getBoundingClientRect(); const gx = (e.clientX - r.left) / s, gy = (e.clientY - r.top) / s; setTr((cur) => ({ k: cur.k, x: vw / 2 - gx * cur.k, y: vh / 2 - gy * cur.k })); };
           return (
-            <div className={`absolute right-3 z-20 hidden cursor-pointer overflow-hidden rounded-xl border border-slate-200 bg-white/95 shadow-lg backdrop-blur-md transition-all sm:block ${sel ? "top-[7rem]" : "top-12"}`} style={{ width: MMW, height: MMH }} title="מפת ניווט — לחץ לקפיצה" onPointerDown={jump}>
+            <div className={`absolute right-3 z-20 hidden cursor-pointer overflow-hidden rounded-xl border border-hairline bg-surface/95 shadow-lg backdrop-blur-md transition-all sm:block ${sel ? "top-[7rem]" : "top-12"}`} style={{ width: MMW, height: MMH }} title="מפת ניווט — לחץ לקפיצה" onPointerDown={jump}>
               <svg width={MMW} height={MMH}>
                 {shown.map((t) => { const p = P(t.name); if (!p) return null; const cc = color(own[t.name] || t.mod); const on = multi.has(t.name) || sel === t.name; return <rect key={t.name} x={p.x * s} y={p.y * s} width={Math.max(3, W * s)} height={Math.max(2, H * s)} rx={1.5} fill={on ? cc : cc + "66"} />; })}
                 <rect x={(-tr.x / tr.k) * s} y={(-tr.y / tr.k) * s} width={(vw / tr.k) * s} height={(vh / tr.k) * s} fill="rgba(214,32,39,.10)" stroke="#d62027" strokeWidth={1.5} rx={2} />
@@ -1027,11 +1027,11 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
           );
         })()}
         {/* floating: control dock (bottom-center) */}
-        <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-1 rounded-2xl border border-white/60 bg-white/90 p-1.5 shadow-xl shadow-black/10 backdrop-blur-md">
-          <button onClick={() => setPanMode((v) => !v)} title="מצב גרירה" className={`grid size-9 place-items-center rounded-xl transition active:scale-90 ${panMode ? "bg-brand text-white" : "text-slate-600 hover:bg-slate-100"}`}><Hand className="size-4" /></button>
-          <span className="mx-0.5 h-5 w-px bg-slate-200" />
-          {[[<ZoomOut key="zo" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.max(0.2, p.k / 1.2) })), "הקטן"], [<Scan key="f" className="size-4" />, fit, "התאם"], [<ZoomIn key="zi" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) })), "הגדל"], [<RotateCcw key="rl" className="size-4" />, () => { setDragPos({}); saveLayout(code, {}); fit(); }, "אפס פריסה"], [fs ? <Shrink key="s" className="size-4" /> : <Expand key="e" className="size-4" />, fullscreen, "מסך מלא"], [<Home key="h" className="size-4" />, onHome, "בית"]].map((b, i) => <button key={i} title={b[2] as string} onClick={b[1] as () => void} className="grid size-9 place-items-center rounded-xl text-slate-600 transition hover:bg-brand hover:text-white active:scale-90">{b[0] as React.ReactNode}</button>)}
-          <span className="px-2 font-mono text-xs font-bold tabular-nums text-slate-400">{Math.round(tr.k * 100)}%</span>
+        <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-1 rounded-2xl border border-white/60 bg-surface/90 p-1.5 shadow-xl shadow-black/10 backdrop-blur-md">
+          <button onClick={() => setPanMode((v) => !v)} title="מצב גרירה" className={`grid size-9 place-items-center rounded-xl transition active:scale-90 ${panMode ? "bg-brand text-white" : "text-ink-2 hover:bg-surface-2"}`}><Hand className="size-4" /></button>
+          <span className="mx-0.5 h-5 w-px bg-hairline" />
+          {[[<ZoomOut key="zo" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.max(0.2, p.k / 1.2) })), "הקטן"], [<Scan key="f" className="size-4" />, fit, "התאם"], [<ZoomIn key="zi" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) })), "הגדל"], [<RotateCcw key="rl" className="size-4" />, () => { setDragPos({}); saveLayout(code, {}); fit(); }, "אפס פריסה"], [fs ? <Shrink key="s" className="size-4" /> : <Expand key="e" className="size-4" />, fullscreen, "מסך מלא"], [<Home key="h" className="size-4" />, onHome, "בית"]].map((b, i) => <button key={i} title={b[2] as string} onClick={b[1] as () => void} className="grid size-9 place-items-center rounded-xl text-ink-2 transition hover:bg-brand hover:text-white active:scale-90">{b[0] as React.ReactNode}</button>)}
+          <span className="px-2 font-mono text-xs font-bold tabular-nums text-ink-3">{Math.round(tr.k * 100)}%</span>
         </div>
         {panMode && <div className="pointer-events-none absolute bottom-[4.25rem] left-1/2 z-20 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-brand px-2.5 py-0.5 text-[10px] font-bold text-white shadow-md"><Hand className="size-3" />מצב גרירה</div>}
         {/* Focus Mode header — full-width sub-view bar (Figma/Miro style). Sits above
@@ -1041,26 +1041,26 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
             <span className="flex min-w-0 items-center gap-2 text-sm font-bold">
               <Search className="size-4 shrink-0 opacity-90" />
               <span className="shrink-0 opacity-90">מצב מיקוד:</span>
-              <span className="tech truncate rounded-md bg-white/20 px-2 py-0.5 font-mono font-extrabold ring-1 ring-white/25" dir="ltr">{sel}</span>
+              <span className="tech truncate rounded-md bg-surface/20 px-2 py-0.5 font-mono font-extrabold ring-1 ring-white/25" dir="ltr">{sel}</span>
             </span>
             <div className="flex shrink-0 items-center gap-1">
-              <button onClick={fitSelection} title="התאם לבחירה" className="grid size-8 place-items-center rounded-lg text-white/80 transition hover:bg-white/15"><Scan className="size-4" /></button>
-              <button onClick={() => setTr((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) }))} title="הגדל" className="grid size-8 place-items-center rounded-lg text-white/80 transition hover:bg-white/15"><ZoomIn className="size-4" /></button>
-              <button onClick={() => setTr((p) => ({ ...p, k: Math.max(0.2, p.k / 1.2) }))} title="הקטן" className="grid size-8 place-items-center rounded-lg text-white/80 transition hover:bg-white/15"><ZoomOut className="size-4" /></button>
-              <button onClick={exitFocus} className="tap inline-flex items-center gap-1.5 rounded-xl bg-white px-3.5 py-2 text-sm font-extrabold text-brand shadow-sm transition hover:bg-white/90 active:scale-95"><ArrowRight className="size-4" />חזרה למפת הקשרים</button>
+              <button onClick={fitSelection} title="התאם לבחירה" className="grid size-8 place-items-center rounded-lg text-white/80 transition hover:bg-surface/15"><Scan className="size-4" /></button>
+              <button onClick={() => setTr((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) }))} title="הגדל" className="grid size-8 place-items-center rounded-lg text-white/80 transition hover:bg-surface/15"><ZoomIn className="size-4" /></button>
+              <button onClick={() => setTr((p) => ({ ...p, k: Math.max(0.2, p.k / 1.2) }))} title="הקטן" className="grid size-8 place-items-center rounded-lg text-white/80 transition hover:bg-surface/15"><ZoomOut className="size-4" /></button>
+              <button onClick={exitFocus} className="tap inline-flex items-center gap-1.5 rounded-xl bg-surface px-3.5 py-2 text-sm font-extrabold text-brand shadow-sm transition hover:bg-surface/90 active:scale-95"><ArrowRight className="size-4" />חזרה למפת הקשרים</button>
             </div>
           </div>
         )}
         {/* empty workspace — no module selected: clean canvas + centered module picker */}
         {selMods.size === 0 && (
           <div className="pointer-events-none absolute inset-0 z-30 grid place-items-center p-5" style={{ animation: "fadeIn .3s ease both" }}>
-            <div className="pointer-events-auto w-full max-w-md rounded-3xl border border-slate-200 bg-white/95 p-6 text-center shadow-xl backdrop-blur-md sm:p-8" dir="rtl">
+            <div className="pointer-events-auto w-full max-w-md rounded-3xl border border-hairline bg-surface/95 p-6 text-center shadow-xl backdrop-blur-md sm:p-8" dir="rtl">
               <div className="mx-auto mb-3 grid size-12 place-items-center rounded-2xl bg-slate-900 text-white"><GitBranch className="size-6" /></div>
-              <h3 className="text-xl font-extrabold text-slate-900">בחר מודול לחקירה</h3>
-              <p className="mx-auto mt-1.5 max-w-xs text-sm text-slate-500">בחר PM, PP-PI, MM, SD או מודול אחר כדי לטעון את מודל הנתונים — טבלאות, קשרים והשפעת S/4.</p>
+              <h3 className="text-xl font-extrabold text-ink-1">בחר מודול לחקירה</h3>
+              <p className="mx-auto mt-1.5 max-w-xs text-sm text-ink-3">בחר PM, PP-PI, MM, SD או מודול אחר כדי לטעון את מודל הנתונים — טבלאות, קשרים והשפעת S/4.</p>
               <div className="mt-5 grid grid-cols-3 gap-2.5">
                 {["PM", "PP-PI", "MM", "SD", "FI", "CS"].map((m) => { const cc = color(m); return (
-                  <button key={m} onClick={() => toggleMod(m)} className="tap flex flex-col items-center gap-1 rounded-2xl border-2 bg-white px-2 py-3.5 font-extrabold transition hover:-translate-y-0.5 hover:shadow-md active:scale-95" style={{ borderColor: cc + "44", color: cc }}>
+                  <button key={m} onClick={() => toggleMod(m)} className="tap flex flex-col items-center gap-1 rounded-2xl border-2 bg-surface px-2 py-3.5 font-extrabold transition hover:-translate-y-0.5 hover:shadow-md active:scale-95" style={{ borderColor: cc + "44", color: cc }}>
                     <span className="grid size-7 place-items-center rounded-lg text-[11px] text-white" style={{ background: cc }}>{m === "PP-PI" ? "PP" : m}</span>
                     <span className="text-sm">{m}</span>
                   </button>); })}
@@ -1114,39 +1114,39 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                     onPointerMove={(e) => { const d = nodeDrag.current; if (!d || d.name !== t.name) return; if (Math.abs(e.clientX - d.sx) + Math.abs(e.clientY - d.sy) > 4) d.moved = true; if (d.moved) { const nx = d.ox + (e.clientX - d.sx) / tr.k, ny = d.oy + (e.clientY - d.sy) / tr.k; setDragPos((m) => ({ ...m, [t.name]: { x: nx, y: ny } })); } }}
                     onPointerUp={() => { const d = nodeDrag.current; nodeDrag.current = null; if (d && !d.moved) { if (d.shift) { setMulti((s) => { const n = new Set(s); if (n.size === 0 && sel) n.add(sel); n.has(t.name) ? n.delete(t.name) : n.add(t.name); return n; }); } else { setMulti(new Set()); if (sel !== t.name) enterFocus(t.name); else exitFocus(); } } else if (d && d.moved) { setDragPos((m) => { saveLayout(code, m); return m; }); } }}
                     onMouseEnter={() => setHv(t.name)} onMouseLeave={() => setHv(null)}
-                    className="group absolute select-none overflow-hidden rounded-2xl bg-white transition-[box-shadow,opacity] duration-200 ease-[cubic-bezier(.32,.72,0,1)]"
+                    className="group absolute select-none overflow-hidden rounded-2xl bg-surface transition-[box-shadow,opacity] duration-200 ease-[cubic-bezier(.32,.72,0,1)]"
                     style={{ left: p.x, top: p.y, width: W, opacity: fade ? 0.12 : dim ? 0.28 : 1, zIndex: dragging ? 40 : isSel ? 30 : st.impacted ? 5 : 2, cursor: dragging ? "grabbing" : "grab", border: `1.5px solid ${isSel ? c : st.impacted ? "#f59e0b" : "#e2e8f0"}`, boxShadow: baseShadow + glow, touchAction: "none", animation: Object.keys(dragPos).length ? undefined : `pop .42s cubic-bezier(.32,.72,0,1) ${Math.min(gi * 20, 480)}ms both` }}>
                     {/* collapsed: title only (table code + business name) */}
                     <div className="relative px-3.5 pb-2.5 pt-3">
                       <span className="absolute inset-x-0 top-0 h-1.5 rounded-t-2xl" style={{ background: c }} />
                       <div className="flex items-center justify-between gap-2">
-                        <span className="truncate font-mono text-xl font-extrabold tracking-tight text-slate-900" dir="ltr">{t.name}</span>
+                        <span className="truncate font-mono text-xl font-extrabold tracking-tight text-ink-1" dir="ltr">{t.name}</span>
                         <span className="flex shrink-0 items-center gap-1">
                           {st.impacted && <span className="rounded-md bg-amber-400 px-1.5 py-0.5 text-[8px] font-extrabold text-amber-950">S/4</span>}
-                          {!st.impact && <span title="נדרש אימות SAP" className="rounded-md bg-slate-200 px-1 py-0.5 text-[8px] font-extrabold text-slate-500">?</span>}
+                          {!st.impact && <span title="נדרש אימות SAP" className="rounded-md bg-hairline px-1 py-0.5 text-[8px] font-extrabold text-ink-3">?</span>}
                           <span className="rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: c }}>{own[t.name] || t.mod}</span>
                         </span>
                       </div>
-                      <div className="truncate text-[13px] font-bold text-slate-600">{t.he || t.en}</div>
-                      <div className="mt-1 flex items-center gap-2 text-[10px] font-bold text-slate-400">
+                      <div className="truncate text-[13px] font-bold text-ink-2">{t.he || t.en}</div>
+                      <div className="mt-1 flex items-center gap-2 text-[10px] font-bold text-ink-3">
                         <span>{tf.length} שדות</span><span className="text-amber-500">{pkN} PK</span><span className="text-blue-500">{fkN} FK</span>
-                        {!isSel && <span className="ms-auto text-slate-300 transition group-hover:text-brand">לחץ ↡</span>}
+                        {!isSel && <span className="ms-auto text-ink-3 transition group-hover:text-brand">לחץ ↡</span>}
                       </div>
                     </div>
                     {/* expanded (1st click): reveal fields */}
                     {isSel && (
                       <div data-nodrag style={{ animation: "fadeUp .28s ease both" }}>
                         {st.impacted && <div className="flex items-center gap-1.5 border-t border-amber-200 bg-amber-50 px-3 py-1.5 text-[10px] font-bold text-amber-800"><span className="size-1.5 rounded-full" style={{ background: RISK_COLOR[st.risk] }} />S/4HANA Impact · {RISK_HE[st.risk]} · {TRUST_HE[st.trust]}</div>}
-                        <div className="space-y-0.5 border-t border-slate-100 px-3 py-2">
+                        <div className="space-y-0.5 border-t border-hairline px-3 py-2">
                           {top.map((f) => { const fi = impFields.has(f[0]); return <div key={f[0]} className={`flex items-center gap-2 ${fi ? "-mx-1 rounded bg-amber-100/70 px-1" : ""}`}>
-                            <span className={`grid size-4 shrink-0 place-items-center rounded text-[8px] font-extrabold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : f[3] === "FK" ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-400"}`}>{f[3] === "PK" ? "PK" : f[3] === "FK" ? "FK" : "·"}</span>
-                            <span className={`truncate font-mono text-[12.5px] font-bold ${fi ? "text-amber-800" : f[3] === "PK" ? "text-amber-700" : f[3] === "FK" ? "text-blue-700" : "text-slate-700"}`} dir="ltr">{f[0]}</span>
+                            <span className={`grid size-4 shrink-0 place-items-center rounded text-[8px] font-extrabold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : f[3] === "FK" ? "bg-blue-100 text-blue-700" : "bg-surface-2 text-ink-3"}`}>{f[3] === "PK" ? "PK" : f[3] === "FK" ? "FK" : "·"}</span>
+                            <span className={`truncate font-mono text-[12.5px] font-bold ${fi ? "text-amber-800" : f[3] === "PK" ? "text-amber-700" : f[3] === "FK" ? "text-blue-700" : "text-ink-2"}`} dir="ltr">{f[0]}</span>
                             {fi && <span title="הושפע מ-S/4HANA" className="text-[10px] text-amber-600">ⓘ</span>}
-                            <span className="ms-auto truncate text-[10px] text-slate-400">{f[2] || f[1]}</span>
+                            <span className="ms-auto truncate text-[10px] text-ink-3">{f[2] || f[1]}</span>
                           </div>; })}
                         </div>
-                        <div className="flex items-center justify-between gap-2 border-t border-slate-100 bg-slate-50/70 px-3 py-1.5 text-[10px] font-bold">
-                          {t.tcodes && <span className="truncate font-mono text-slate-500" dir="ltr">{t.tcodes.split(/[,\s]+/)[0]}</span>}
+                        <div className="flex items-center justify-between gap-2 border-t border-hairline bg-surface-2/70 px-3 py-1.5 text-[10px] font-bold">
+                          {t.tcodes && <span className="truncate font-mono text-ink-3" dir="ltr">{t.tcodes.split(/[,\s]+/)[0]}</span>}
                           <button onClick={(e) => { e.stopPropagation(); setDrawer(t.name); }} className="ms-auto inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-white shadow-sm transition active:scale-95" style={{ background: c }}><Maximize2 className="size-3" />פרטים מלאים</button>
                         </div>
                       </div>
@@ -1160,65 +1160,65 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
               const children = [...new Set(t.rel.filter((r) => r.role === "parent").map((r) => r.table))];
               const whereUsed = [...new Set(data.tables.filter((x) => x.rel.some((r) => r.table === t.name)).map((x) => x.name))];
               const bp = data.blueprints.find((b) => b.code === ownMod);
-              const Sec = ({ title, icon, children: ch }: { title: string; icon?: React.ReactNode; children: React.ReactNode }) => <div className="break-inside-avoid border-t border-slate-100 px-5 py-3.5"><h4 className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em]" style={{ color: c }}>{icon}{title}</h4>{ch}</div>;
-              const Pills = ({ a, nav }: { a: string[]; nav?: boolean }) => a.length ? <div className="flex flex-wrap gap-1">{a.map((x) => nav && byName[x] ? <button key={x} onClick={() => { const tt = byName[x]; if (tt && tt.mod !== t.mod && !selMods.has(tt.mod)) toggleMod(tt.mod); setSel(x); setDrawer(x); }} className="rounded-md border px-1.5 py-0.5 font-mono text-[11px] font-bold transition hover:bg-slate-50" style={{ borderColor: byName[x] ? color(byName[x].mod) : c, color: byName[x] ? color(byName[x].mod) : c }}>{x}</button> : <span key={x} className="rounded-md bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600">{x}</span>)}</div> : <span className="text-[11px] italic text-slate-300">—</span>;
+              const Sec = ({ title, icon, children: ch }: { title: string; icon?: React.ReactNode; children: React.ReactNode }) => <div className="break-inside-avoid border-t border-hairline px-5 py-3.5"><h4 className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em]" style={{ color: c }}>{icon}{title}</h4>{ch}</div>;
+              const Pills = ({ a, nav }: { a: string[]; nav?: boolean }) => a.length ? <div className="flex flex-wrap gap-1">{a.map((x) => nav && byName[x] ? <button key={x} onClick={() => { const tt = byName[x]; if (tt && tt.mod !== t.mod && !selMods.has(tt.mod)) toggleMod(tt.mod); setSel(x); setDrawer(x); }} className="rounded-md border px-1.5 py-0.5 font-mono text-[11px] font-bold transition hover:bg-surface-2" style={{ borderColor: byName[x] ? color(byName[x].mod) : c, color: byName[x] ? color(byName[x].mod) : c }}>{x}</button> : <span key={x} className="rounded-md bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] font-bold text-ink-2">{x}</span>)}</div> : <span className="text-[11px] italic text-ink-3">—</span>;
               const s4 = s4For(t.name, t.s4, t.s4alt); const imp = s4.impact;
               return (
                 <>
                   {/* dim + soft blur behind the drawer; click to close */}
                   <div className="absolute inset-0 z-30 bg-slate-900/30 backdrop-blur-[2px] lg:fixed lg:top-[4.25rem] lg:z-[55] lg:bg-slate-900/20" style={{ animation: "fadeIn .25s ease both" }} onPointerDown={(e) => { e.stopPropagation(); setDrawer(null); }} />
-                <div data-drawer dir="rtl" className="drawer-anim absolute z-40 flex flex-col overflow-hidden bg-white shadow-2xl inset-x-0 bottom-0 top-auto max-h-[86%] rounded-t-3xl border-t border-slate-200 sm:max-h-[74%] lg:fixed lg:top-[4.25rem] lg:bottom-0 lg:left-auto lg:right-0 lg:h-auto lg:max-h-none lg:w-[440px] lg:max-w-[40vw] lg:rounded-none lg:rounded-s-[1.75rem] lg:border-s lg:border-t-0 lg:z-[60]" onPointerDown={(e) => e.stopPropagation()}>
+                <div data-drawer dir="rtl" className="drawer-anim absolute z-40 flex flex-col overflow-hidden bg-surface shadow-2xl inset-x-0 bottom-0 top-auto max-h-[86%] rounded-t-3xl border-t border-hairline sm:max-h-[74%] lg:fixed lg:top-[4.25rem] lg:bottom-0 lg:left-auto lg:right-0 lg:h-auto lg:max-h-none lg:w-[440px] lg:max-w-[40vw] lg:rounded-none lg:rounded-s-[1.75rem] lg:border-s lg:border-t-0 lg:z-[60]" onPointerDown={(e) => e.stopPropagation()}>
                   {/* grab handle */}
                   <div className="mx-auto mt-2 h-1 w-10 shrink-0 rounded-full bg-slate-300 lg:hidden" />
                   <div className="relative shrink-0 px-5 py-3.5 text-white" style={{ background: "linear-gradient(135deg,#d62027,#8f1318)" }}>
                     <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: c }} />
                     <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><span className="font-mono text-3xl font-extrabold" dir="ltr">{t.name}</span><span className="rounded-md bg-white/20 px-2 py-0.5 text-[11px] font-bold" title={mctx.primaryHe}>{ownMod}</span>{mctx.related.length > 0 && <span className="rounded-md bg-white/10 px-1.5 py-0.5 text-[10px] font-bold text-white/80">קשור ל-{mctx.related.join(" · ")}</span>}</div><p className="mt-0.5 truncate text-sm text-white/85">{t.he || t.en}</p></div>
-                      <button onClick={() => { setDrawer(null); }} aria-label="סגור" className="tap grid size-9 shrink-0 place-items-center rounded-xl bg-white/15 text-white ring-1 ring-white/25 transition hover:bg-white/25 active:scale-90"><X className="size-5" /></button>
+                      <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><span className="font-mono text-3xl font-extrabold" dir="ltr">{t.name}</span><span className="rounded-md bg-surface/20 px-2 py-0.5 text-[11px] font-bold" title={mctx.primaryHe}>{ownMod}</span>{mctx.related.length > 0 && <span className="rounded-md bg-surface/10 px-1.5 py-0.5 text-[10px] font-bold text-white/80">קשור ל-{mctx.related.join(" · ")}</span>}</div><p className="mt-0.5 truncate text-sm text-white/85">{t.he || t.en}</p></div>
+                      <button onClick={() => { setDrawer(null); }} aria-label="סגור" className="tap grid size-9 shrink-0 place-items-center rounded-xl bg-surface/15 text-white ring-1 ring-white/25 transition hover:bg-surface/25 active:scale-90"><X className="size-5" /></button>
                     </div>
                     {/* promoted critical actions — always visible, no scroll */}
                     <div className="mt-2.5 flex flex-wrap gap-1.5">
-                      <button onClick={() => { setDrawer(null); enterFocus(t.name); }} className="tap inline-flex items-center gap-1 rounded-lg bg-white px-2.5 py-1.5 text-xs font-extrabold text-brand transition hover:bg-white/90 active:scale-95"><GitBranch className="size-3.5" />ERD</button>
-                      <Link href={`/object/${encodeURIComponent(t.name)}/`} className="tap inline-flex items-center gap-1 rounded-lg bg-white/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-white/25"><Database className="size-3.5" />ידע</Link>
+                      <button onClick={() => { setDrawer(null); enterFocus(t.name); }} className="tap inline-flex items-center gap-1 rounded-lg bg-surface px-2.5 py-1.5 text-xs font-extrabold text-brand transition hover:bg-surface/90 active:scale-95"><GitBranch className="size-3.5" />ERD</button>
+                      <Link href={`/object/${encodeURIComponent(t.name)}/`} className="tap inline-flex items-center gap-1 rounded-lg bg-surface/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-surface/25"><Database className="size-3.5" />ידע</Link>
                       
-                      <Link href="/troubleshooting/" className="tap inline-flex items-center gap-1 rounded-lg bg-white/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-white/25"><AlertTriangle className="size-3.5" />תקלות</Link>
-                      <Link href={`/impact/${encodeURIComponent(t.name)}/`} className="tap inline-flex items-center gap-1 rounded-lg bg-white/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-white/25"><Gauge className="size-3.5" />S/4</Link>
+                      <Link href="/troubleshooting/" className="tap inline-flex items-center gap-1 rounded-lg bg-surface/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-surface/25"><AlertTriangle className="size-3.5" />תקלות</Link>
+                      <Link href={`/impact/${encodeURIComponent(t.name)}/`} className="tap inline-flex items-center gap-1 rounded-lg bg-surface/15 px-2.5 py-1.5 text-xs font-bold text-white ring-1 ring-white/25 transition hover:bg-surface/25"><Gauge className="size-3.5" />S/4</Link>
                     </div>
                   </div>
                   <div className="min-h-0 flex-1 overflow-auto">
                     {/* S/4HANA Impact — top section */}
-                    <div className={`break-inside-avoid px-4 py-3 ${imp && s4.impacted ? "bg-amber-50/80" : "bg-slate-50/60"}`} style={imp && s4.impacted ? { boxShadow: "inset 0 0 0 1px #fbbf24" } : undefined}>
+                    <div className={`break-inside-avoid px-4 py-3 ${imp && s4.impacted ? "bg-amber-50/80" : "bg-surface-2/60"}`} style={imp && s4.impacted ? { boxShadow: "inset 0 0 0 1px #fbbf24" } : undefined}>
                       <div className="mb-1.5 flex items-center justify-between">
                         <h4 className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-[0.12em] text-amber-700">S/4HANA Impact</h4>
                         <div className="flex items-center gap-1">
                           <span className="rounded-full px-2 py-0.5 text-[9px] font-extrabold text-white" style={{ background: RISK_COLOR[s4.risk] }}>{RISK_HE[s4.risk]}</span>
-                          <span className={`rounded-full px-2 py-0.5 text-[9px] font-extrabold ${s4.trust === "verified" ? "bg-green-100 text-green-700" : s4.trust === "partial" ? "bg-amber-100 text-amber-700" : "bg-slate-200 text-slate-500"}`}>{TRUST_HE[s4.trust]}</span>
+                          <span className={`rounded-full px-2 py-0.5 text-[9px] font-extrabold ${s4.trust === "verified" ? "bg-green-100 text-green-700" : s4.trust === "partial" ? "bg-amber-100 text-amber-700" : "bg-hairline text-ink-3"}`}>{TRUST_HE[s4.trust]}</span>
                         </div>
                       </div>
                       {imp ? (
-                        <div className="space-y-2 text-[12px] leading-relaxed text-slate-700">
-                          <p><span className="font-bold text-slate-900">מה השתנה: </span>{imp.changed}</p>
-                          {imp.why && <p><span className="font-bold text-slate-900">למה זה חשוב: </span>{imp.why}</p>}
+                        <div className="space-y-2 text-[12px] leading-relaxed text-ink-2">
+                          <p><span className="font-bold text-ink-1">מה השתנה: </span>{imp.changed}</p>
+                          {imp.why && <p><span className="font-bold text-ink-1">למה זה חשוב: </span>{imp.why}</p>}
                           {imp.note && <p className="text-[10px] font-bold text-amber-700">📎 {imp.note}</p>}
-                          {imp.fields?.length ? <div><p className="mb-1 text-[10px] font-bold uppercase text-slate-400">שדות מושפעים</p><div className="flex flex-wrap gap-1">{imp.fields.map((f) => <span key={f.field} className="rounded-md bg-amber-100 px-1.5 py-0.5 font-mono text-[10px] font-bold text-amber-800">{f.field}</span>)}</div></div> : null}
-                          {(imp.tcodes?.length || imp.funcs?.length || imp.cds?.length) ? <div><p className="mb-1 text-[10px] font-bold uppercase text-slate-400">אובייקטים קשורים</p><div className="flex flex-wrap gap-1">{[...(imp.tcodes || []), ...(imp.funcs || []), ...(imp.cds || [])].map((x) => <span key={x} className="rounded-md bg-white px-1.5 py-0.5 font-mono text-[10px] font-bold text-slate-600 ring-1 ring-slate-200" dir="ltr">{x}</span>)}</div></div> : null}
-                          {imp.qa?.length ? <div><p className="mb-1 text-[10px] font-bold uppercase text-slate-400">בדיקות QA מומלצות</p><ul className="space-y-0.5">{imp.qa.map((q, i) => <li key={i} className="flex gap-1.5 text-[11px]"><span className="text-amber-500">✓</span>{q}</li>)}</ul></div> : null}
+                          {imp.fields?.length ? <div><p className="mb-1 text-[10px] font-bold uppercase text-ink-3">שדות מושפעים</p><div className="flex flex-wrap gap-1">{imp.fields.map((f) => <span key={f.field} className="rounded-md bg-amber-100 px-1.5 py-0.5 font-mono text-[10px] font-bold text-amber-800">{f.field}</span>)}</div></div> : null}
+                          {(imp.tcodes?.length || imp.funcs?.length || imp.cds?.length) ? <div><p className="mb-1 text-[10px] font-bold uppercase text-ink-3">אובייקטים קשורים</p><div className="flex flex-wrap gap-1">{[...(imp.tcodes || []), ...(imp.funcs || []), ...(imp.cds || [])].map((x) => <span key={x} className="rounded-md bg-surface px-1.5 py-0.5 font-mono text-[10px] font-bold text-ink-2 ring-1 ring-hairline" dir="ltr">{x}</span>)}</div></div> : null}
+                          {imp.qa?.length ? <div><p className="mb-1 text-[10px] font-bold uppercase text-ink-3">בדיקות QA מומלצות</p><ul className="space-y-0.5">{imp.qa.map((q, i) => <li key={i} className="flex gap-1.5 text-[11px]"><span className="text-amber-500">✓</span>{q}</li>)}</ul></div> : null}
                         </div>
                       ) : (
-                        <p className="text-[12px] text-slate-500">אין נתון S/4 מאומת לטבלה זו — <span className="font-bold text-slate-600">נדרש אימות SAP</span> (Simplification List / OSS).</p>
+                        <p className="text-[12px] text-ink-3">אין נתון S/4 מאומת לטבלה זו — <span className="font-bold text-ink-2">נדרש אימות SAP</span> (Simplification List / OSS).</p>
                       )}
                     </div>
                     <Sec title="תיעוד · מטרה עסקית">
-                      <p className="text-xs leading-relaxed text-slate-600">{bp?.purpose || `טבלת ${t.mod} — ${t.he || t.en}`}</p>
+                      <p className="text-xs leading-relaxed text-ink-2">{bp?.purpose || `טבלת ${t.mod} — ${t.he || t.en}`}</p>
                     </Sec>
                     <div className="grid break-inside-avoid grid-cols-2"><Sec title="PK" icon={<KeyRound className="size-3 text-amber-500" />}><Pills a={pk.map((f) => f[0])} /></Sec><Sec title="FK" icon={<Link2 className="size-3 text-blue-500" />}><Pills a={fk.map((f) => f[0])} /></Sec></div>
                     <Sec title={`שדות · ${tf.length}`}>
-                      <div className="overflow-hidden rounded-xl border border-slate-100"><table className="w-full text-right font-mono text-xs" dir="ltr"><tbody>{tf.slice(0, 28).map((f) => <tr key={f[0]} onClick={() => onField(t.name, f[0])} className="cursor-pointer border-b border-slate-50 last:border-0 transition hover:bg-slate-50"><td className={`px-2.5 py-1.5 font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`}>{f[0]}</td><td className="px-2 py-1.5 text-slate-400">{f[1]}</td><td className="px-2 py-1.5 text-left">{f[3] !== "-" && <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></div>
+                      <div className="overflow-hidden rounded-xl border border-hairline"><table className="w-full text-right font-mono text-xs" dir="ltr"><tbody>{tf.slice(0, 28).map((f) => <tr key={f[0]} onClick={() => onField(t.name, f[0])} className="cursor-pointer border-b border-hairline last:border-0 transition hover:bg-surface-2"><td className={`px-2.5 py-1.5 font-bold ${f[3] === "PK" ? "text-amber-600" : f[3] === "FK" ? "text-blue-600" : "text-ink-2"}`}>{f[0]}</td><td className="px-2 py-1.5 text-ink-3">{f[1]}</td><td className="px-2 py-1.5 text-left">{f[3] !== "-" && <span className={`rounded-md px-1.5 py-0.5 text-[10px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></div>
                     </Sec>
-                    <Sec title="טרנזקציות (T-Codes)"><span className="font-mono text-xs text-slate-700" dir="ltr">{t.tcodes || "—"}</span></Sec>
+                    <Sec title="טרנזקציות (T-Codes)"><span className="font-mono text-xs text-ink-2" dir="ltr">{t.tcodes || "—"}</span></Sec>
                     <Sec title="BAPIs / Function Modules"><Pills a={(t.funcs || []).slice(0, 8)} /></Sec>
                     <Sec title="CDS Views"><Pills a={t.cds || []} /></Sec>
-                    {t.fiori && <Sec title="Fiori Apps"><span className="text-xs text-slate-700">{t.fiori}</span></Sec>}
+                    {t.fiori && <Sec title="Fiori Apps"><span className="text-xs text-ink-2">{t.fiori}</span></Sec>}
                     <Sec title="דוחות"><Pills a={MOD_REPORTS[ownMod] || []} /></Sec>
                     <Sec title="אובייקטים קשורים · אב"><Pills a={parents} nav /></Sec>
                     <Sec title="אובייקטים קשורים · צאצא"><Pills a={children} nav /></Sec>
@@ -1248,34 +1248,34 @@ function FieldInspector({ data, color, t, field, byName, onClose, onGo }: { data
   const importance = key === "PK" ? "מפתח ראשי (Primary Key) — מזהה ייחודי של כל רשומה בטבלה. כל הקשרים והשליפות נשענים עליו." : key === "FK" ? "מפתח זר (Foreign Key) — מקשר את הרשומה לטבלה אחרת ומאפשר join ושלמות נתונים." : "שדה נתונים — נתון עסקי או טכני של הרשומה.";
   const onDown = (e: React.PointerEvent) => { drag.current = { x: e.clientX, y: e.clientY, ox: p.x, oy: p.y }; (e.target as Element).setPointerCapture?.(e.pointerId); };
   const onMove = (e: React.PointerEvent) => { if (drag.current) setP({ x: drag.current.ox + (e.clientX - drag.current.x), y: drag.current.oy + (e.clientY - drag.current.y) }); };
-  const S = ({ title, children }: { title: string; children: React.ReactNode }) => <div className="border-t border-slate-100 px-3.5 py-2.5"><h4 className="mb-1.5 text-[10px] font-bold uppercase tracking-wide" style={{ color: c }}>{title}</h4>{children}</div>;
-  const Pills = ({ a }: { a: string[] }) => a.length ? <div className="flex flex-wrap gap-1">{a.map((x) => byName[x] ? <button key={x} onClick={() => onGo(x)} className="rounded border px-1.5 py-0.5 font-mono text-[11px] font-bold hover:bg-slate-50" style={{ borderColor: c, color: c }}>{x}</button> : <span key={x} className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600">{x}</span>)}</div> : <span className="text-[11px] italic text-slate-400">—</span>;
+  const S = ({ title, children }: { title: string; children: React.ReactNode }) => <div className="border-t border-hairline px-3.5 py-2.5"><h4 className="mb-1.5 text-[10px] font-bold uppercase tracking-wide" style={{ color: c }}>{title}</h4>{children}</div>;
+  const Pills = ({ a }: { a: string[] }) => a.length ? <div className="flex flex-wrap gap-1">{a.map((x) => byName[x] ? <button key={x} onClick={() => onGo(x)} className="rounded border px-1.5 py-0.5 font-mono text-[11px] font-bold hover:bg-surface-2" style={{ borderColor: c, color: c }}>{x}</button> : <span key={x} className="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] font-bold text-ink-2">{x}</span>)}</div> : <span className="text-[11px] italic text-ink-3">—</span>;
   return (
-    <div className="absolute z-40 max-h-[88%] w-[340px] overflow-auto rounded-2xl border border-slate-200 bg-white/95 shadow-2xl backdrop-blur-md" style={{ insetInlineStart: 12 + p.x, top: 12 + p.y, animation: "pop .25s ease both" }} dir="rtl">
-      <div className="sticky top-0 z-10 cursor-grab border-b border-slate-200 px-3.5 py-3 active:cursor-grabbing" style={{ background: `linear-gradient(135deg,${c},${c}cc)` }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={() => (drag.current = null)}>
+    <div className="absolute z-40 max-h-[88%] w-[340px] overflow-auto rounded-2xl border border-hairline bg-surface/95 shadow-2xl backdrop-blur-md" style={{ insetInlineStart: 12 + p.x, top: 12 + p.y, animation: "pop .25s ease both" }} dir="rtl">
+      <div className="sticky top-0 z-10 cursor-grab border-b border-hairline px-3.5 py-3 active:cursor-grabbing" style={{ background: `linear-gradient(135deg,${c},${c}cc)` }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={() => (drag.current = null)}>
         <div className="flex items-start justify-between">
-          <div className="min-w-0"><div className="flex items-center gap-2"><GripVertical className="size-3.5 text-white/70" /><span className="font-mono text-xl font-extrabold text-white" dir="ltr">{f[0]}</span>{key !== "-" && <span className="rounded bg-white/25 px-1.5 py-0.5 text-[10px] font-bold text-white">{key}</span>}</div>
+          <div className="min-w-0"><div className="flex items-center gap-2"><GripVertical className="size-3.5 text-white/70" /><span className="font-mono text-xl font-extrabold text-white" dir="ltr">{f[0]}</span>{key !== "-" && <span className="rounded bg-surface/25 px-1.5 py-0.5 text-[10px] font-bold text-white">{key}</span>}</div>
             <p className="mt-1 text-xs text-white/90">{f[2] || f[1]}</p></div>
-          <button onClick={onClose} className="rounded p-1 text-white/80 hover:bg-white/20"><X className="size-4" /></button>
+          <button onClick={onClose} className="rounded p-1 text-white/80 hover:bg-surface/20"><X className="size-4" /></button>
         </div>
-        <button onClick={() => onGo(t.name)} className="mt-2 inline-flex items-center gap-1 rounded-lg bg-white/15 px-2 py-1 text-[11px] font-bold text-white hover:bg-white/25"><span className="font-mono">{t.name}</span> · {t.he || t.en} ↗</button>
+        <button onClick={() => onGo(t.name)} className="mt-2 inline-flex items-center gap-1 rounded-lg bg-surface/15 px-2 py-1 text-[11px] font-bold text-white hover:bg-surface/25"><span className="font-mono">{t.name}</span> · {t.he || t.en} ↗</button>
       </div>
-      <S title="חשיבות"><p className="text-xs leading-relaxed text-slate-600">{importance}</p></S>
-      <div className="grid grid-cols-2"><S title="שם טכני"><span className="font-mono text-sm font-bold text-slate-800" dir="ltr">{f[0]}</span></S><S title="תפקיד"><span className="text-sm font-bold" style={{ color: key === "PK" ? "#d97706" : key === "FK" ? "#2563eb" : "#475569" }}>{key === "PK" ? "מפתח ראשי" : key === "FK" ? "מפתח זר" : "שדה"}</span></S></div>
+      <S title="חשיבות"><p className="text-xs leading-relaxed text-ink-2">{importance}</p></S>
+      <div className="grid grid-cols-2"><S title="שם טכני"><span className="font-mono text-sm font-bold text-ink-1" dir="ltr">{f[0]}</span></S><S title="תפקיד"><span className="text-sm font-bold" style={{ color: key === "PK" ? "#d97706" : key === "FK" ? "#2563eb" : "#475569" }}>{key === "PK" ? "מפתח ראשי" : key === "FK" ? "מפתח זר" : "שדה"}</span></S></div>
       <S title={key === "PK" ? "מופנה מטבלאות (Where-Used)" : key === "FK" ? "מחובר אל" : "טבלאות קשורות"}><Pills a={connects} /></S>
-      <S title="הטבלה"><div className="flex items-center justify-between"><button onClick={() => onGo(t.name)} className="font-mono text-sm font-bold" style={{ color: c }}>{t.name}</button><span className="text-xs text-slate-500">{t.mod} · {MOD_NAME_HE[t.mod] || ""}</span></div><p className="mt-1 text-xs text-slate-600">{bp?.purpose || t.he || t.en}</p></S>
-      {objs.length > 0 && <S title="אובייקטים עסקיים"><div className="flex flex-wrap gap-1">{objs.map((o) => <span key={o} className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600">{o}</span>)}</div></S>}
+      <S title="הטבלה"><div className="flex items-center justify-between"><button onClick={() => onGo(t.name)} className="font-mono text-sm font-bold" style={{ color: c }}>{t.name}</button><span className="text-xs text-ink-3">{t.mod} · {MOD_NAME_HE[t.mod] || ""}</span></div><p className="mt-1 text-xs text-ink-2">{bp?.purpose || t.he || t.en}</p></S>
+      {objs.length > 0 && <S title="אובייקטים עסקיים"><div className="flex flex-wrap gap-1">{objs.map((o) => <span key={o} className="rounded-full bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-2">{o}</span>)}</div></S>}
       <S title="פונקציות / BAPIs"><Pills a={(t.funcs || []).slice(0, 6)} /></S>
-      <S title="טרנזקציות"><span className="font-mono text-xs text-slate-700">{t.tcodes || "—"}</span></S>
+      <S title="טרנזקציות"><span className="font-mono text-xs text-ink-2">{t.tcodes || "—"}</span></S>
       {(() => { const fi = s4For(t.name, t.s4, t.s4alt).impact?.fields?.find((x) => x.field === field); return (
         <S title="S/4HANA — התנהגות השדה">{fi ? (
-          <div className="space-y-1 text-xs text-slate-600">
-            <p><span className="font-bold text-slate-800">ECC:</span> {fi.ecc}</p>
-            <p><span className="font-bold text-slate-800">S/4HANA:</span> {fi.s4}</p>
-            <p><span className="font-bold text-slate-800">מה השתנה:</span> {fi.changed}</p>
+          <div className="space-y-1 text-xs text-ink-2">
+            <p><span className="font-bold text-ink-1">ECC:</span> {fi.ecc}</p>
+            <p><span className="font-bold text-ink-1">S/4HANA:</span> {fi.s4}</p>
+            <p><span className="font-bold text-ink-1">מה השתנה:</span> {fi.changed}</p>
             <p className="rounded bg-amber-50 px-2 py-1 text-amber-800"><span className="font-bold">לבדוק:</span> {fi.test}</p>
           </div>
-        ) : <p className="text-xs text-slate-600">{t.s4 || "אין שינוי מהותי ברמת הטבלה."} <span className="text-[10px] font-bold text-slate-400">· ברמת השדה: נדרש אימות SAP</span></p>}</S>
+        ) : <p className="text-xs text-ink-2">{t.s4 || "אין שינוי מהותי ברמת הטבלה."} <span className="text-[10px] font-bold text-ink-3">· ברמת השדה: נדרש אימות SAP</span></p>}</S>
       ); })()}
     </div>
   );
@@ -1295,31 +1295,31 @@ function Inspector({ data, color, t, byName, onClose, onGo, onFull }: { data: Da
   const ex = genExampleRecords(flds, t.name); const bp = data.blueprints.find((b) => b.code === ownMod);
   const onDown = (e: React.PointerEvent) => { drag.current = { x: e.clientX, y: e.clientY, ox: p.x, oy: p.y }; (e.target as Element).setPointerCapture?.(e.pointerId); };
   const onMove = (e: React.PointerEvent) => { if (drag.current) setP({ x: drag.current.ox + (e.clientX - drag.current.x), y: drag.current.oy + (e.clientY - drag.current.y) }); };
-  const S = ({ title, children }: { title: string; children: React.ReactNode }) => <div className="border-t border-slate-100 px-3.5 py-2.5"><h4 className="mb-1.5 text-[10px] font-bold uppercase tracking-wide" style={{ color: c }}>{title}</h4>{children}</div>;
-  const Pills = ({ a, click }: { a: string[]; click?: boolean }) => a.length ? <div className="flex flex-wrap gap-1">{a.map((x) => click && byName[x] ? <button key={x} onClick={() => onGo(x)} className="rounded border px-1.5 py-0.5 font-mono text-[11px] font-bold hover:bg-slate-50" style={{ borderColor: c, color: c }}>{x}</button> : <span key={x} className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[11px] font-bold text-slate-600">{x}</span>)}</div> : <span className="text-[11px] italic text-slate-400">—</span>;
+  const S = ({ title, children }: { title: string; children: React.ReactNode }) => <div className="border-t border-hairline px-3.5 py-2.5"><h4 className="mb-1.5 text-[10px] font-bold uppercase tracking-wide" style={{ color: c }}>{title}</h4>{children}</div>;
+  const Pills = ({ a, click }: { a: string[]; click?: boolean }) => a.length ? <div className="flex flex-wrap gap-1">{a.map((x) => click && byName[x] ? <button key={x} onClick={() => onGo(x)} className="rounded border px-1.5 py-0.5 font-mono text-[11px] font-bold hover:bg-surface-2" style={{ borderColor: c, color: c }}>{x}</button> : <span key={x} className="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] font-bold text-ink-2">{x}</span>)}</div> : <span className="text-[11px] italic text-ink-3">—</span>;
   return (
-    <div className="absolute z-40 max-h-[88%] w-[340px] overflow-auto rounded-2xl border border-slate-200 bg-white/95 shadow-2xl backdrop-blur-md" style={{ insetInlineStart: 12 + p.x, top: 12 + p.y, animation: "pop .25s ease both" }} dir="rtl">
+    <div className="absolute z-40 max-h-[88%] w-[340px] overflow-auto rounded-2xl border border-hairline bg-surface/95 shadow-2xl backdrop-blur-md" style={{ insetInlineStart: 12 + p.x, top: 12 + p.y, animation: "pop .25s ease both" }} dir="rtl">
       <div className="sticky top-0 z-10 h-1" style={{ background: c }} />
-      <div className="sticky top-1 z-10 flex cursor-grab items-start justify-between gap-2 border-b border-slate-200 px-3.5 py-2.5 active:cursor-grabbing" style={{ background: `linear-gradient(180deg, ${c}12, #fff)` }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={() => (drag.current = null)}>
-        <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><GripVertical className="size-3.5 text-slate-400" /><span className="font-mono text-lg font-extrabold text-slate-900" dir="ltr">{t.name}</span><span className="rounded px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: c }} title={mctx.primaryHe}>{ownMod}</span>{mctx.related.length > 0 && <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[9px] font-bold text-slate-500">קשור ל-{mctx.related.join(" · ")}</span>}{t.landscape && <span className="rounded px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: LAND_META[t.landscape]?.c }}>{LAND_META[t.landscape]?.he}</span>}</div><p className="mt-0.5 truncate text-xs text-slate-500">{t.he || t.en}</p></div>
+      <div className="sticky top-1 z-10 flex cursor-grab items-start justify-between gap-2 border-b border-hairline px-3.5 py-2.5 active:cursor-grabbing" style={{ background: `linear-gradient(180deg, ${c}12, #fff)` }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={() => (drag.current = null)}>
+        <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><GripVertical className="size-3.5 text-ink-3" /><span className="font-mono text-lg font-extrabold text-ink-1" dir="ltr">{t.name}</span><span className="rounded px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: c }} title={mctx.primaryHe}>{ownMod}</span>{mctx.related.length > 0 && <span className="rounded bg-surface-2 px-1.5 py-0.5 text-[9px] font-bold text-ink-3">קשור ל-{mctx.related.join(" · ")}</span>}{t.landscape && <span className="rounded px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: LAND_META[t.landscape]?.c }}>{LAND_META[t.landscape]?.he}</span>}</div><p className="mt-0.5 truncate text-xs text-ink-3">{t.he || t.en}</p></div>
         <div className="flex shrink-0 items-center gap-1">
           <button onClick={() => onFull(t.name)} title="פתח תצוגה מלאה" className="tap inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-extrabold text-white shadow-sm transition active:scale-95" style={{ background: c }}><Maximize2 className="size-3.5" />פתח מלא</button>
-          <button onClick={onClose} className="rounded p-1 text-slate-400 hover:bg-slate-100"><X className="size-4" /></button>
+          <button onClick={onClose} className="rounded p-1 text-ink-3 hover:bg-surface-2"><X className="size-4" /></button>
         </div>
       </div>
-      <S title="מטרה עסקית"><p className="text-xs leading-relaxed text-slate-600">{bp?.purpose || `טבלת ${mctx.primaryHe} — ${t.he || t.en}`}</p></S>
+      <S title="מטרה עסקית"><p className="text-xs leading-relaxed text-ink-2">{bp?.purpose || `טבלת ${mctx.primaryHe} — ${t.he || t.en}`}</p></S>
       <div className="grid grid-cols-2"><S title="PK"><div className="flex items-center gap-1"><KeyRound className="size-3 text-amber-500" /><Pills a={pk} /></div></S><S title="FK"><div className="flex items-center gap-1"><Link2 className="size-3 text-blue-500" /><Pills a={fk} /></div></S></div>
-      <S title={`שדות (${flds.length})`}><table className="w-full text-right font-mono text-[11px]" dir="ltr"><tbody>{flds.slice(0, 20).map((f) => <tr key={f[0]} className="border-b border-slate-50 last:border-0"><td className={`py-0.5 ${f[3] === "PK" ? "font-bold text-amber-600 underline" : f[3] === "FK" ? "text-blue-600" : "text-slate-700"}`}>{f[0]}</td><td className="py-0.5 text-slate-400">{f[1]}</td><td className="py-0.5 text-left">{f[3] !== "-" && <span className={`rounded px-1 text-[9px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></S>
+      <S title={`שדות (${flds.length})`}><table className="w-full text-right font-mono text-[11px]" dir="ltr"><tbody>{flds.slice(0, 20).map((f) => <tr key={f[0]} className="border-b border-hairline last:border-0"><td className={`py-0.5 ${f[3] === "PK" ? "font-bold text-amber-600 underline" : f[3] === "FK" ? "text-blue-600" : "text-ink-2"}`}>{f[0]}</td><td className="py-0.5 text-ink-3">{f[1]}</td><td className="py-0.5 text-left">{f[3] !== "-" && <span className={`rounded px-1 text-[9px] font-bold ${f[3] === "PK" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"}`}>{f[3]}</span>}</td></tr>)}</tbody></table></S>
       <S title="טבלאות אב"><Pills a={parents} click /></S>
       <S title="טבלאות צאצא"><Pills a={children} click /></S>
       <S title="Where-Used"><Pills a={whereUsed} click /></S>
-      <S title="טרנזקציות"><span className="font-mono text-xs text-slate-700">{t.tcodes || "—"}</span></S>
+      <S title="טרנזקציות"><span className="font-mono text-xs text-ink-2">{t.tcodes || "—"}</span></S>
       <S title="דוחות"><Pills a={MOD_REPORTS[ownMod] || []} /></S>
       <S title="BAPIs / FM"><Pills a={(t.funcs || []).slice(0, 6)} /></S>
       <S title="CDS Views"><Pills a={t.cds || []} /></S>
-      {t.fiori && <S title="Fiori"><span className="text-xs text-slate-700">{t.fiori}</span></S>}
-      <S title="ECC → S/4HANA"><p className="text-xs text-slate-600">{t.s4 || "אין שינוי מהותי."}</p>{t.s4alt && <p className="mt-0.5 text-[11px] text-slate-500">חלופה: <span className="font-mono font-bold text-slate-700">{t.s4alt}</span></p>}</S>
-      <S title="רשומות לדוגמה"><div className="overflow-auto rounded border border-slate-200"><table className="w-full text-left font-mono text-[10.5px]" dir="ltr"><thead className="bg-slate-50"><tr>{ex.cols.map((c2) => <th key={c2} className="px-2 py-1 font-bold text-slate-500">{c2}</th>)}</tr></thead><tbody>{ex.rows.map((r, i) => <tr key={i} className="border-t border-slate-100">{r.map((v, j) => <td key={j} className="px-2 py-1 text-slate-700">{v}</td>)}</tr>)}</tbody></table></div></S>
+      {t.fiori && <S title="Fiori"><span className="text-xs text-ink-2">{t.fiori}</span></S>}
+      <S title="ECC → S/4HANA"><p className="text-xs text-ink-2">{t.s4 || "אין שינוי מהותי."}</p>{t.s4alt && <p className="mt-0.5 text-[11px] text-ink-3">חלופה: <span className="font-mono font-bold text-ink-2">{t.s4alt}</span></p>}</S>
+      <S title="רשומות לדוגמה"><div className="overflow-auto rounded border border-hairline"><table className="w-full text-left font-mono text-[10.5px]" dir="ltr"><thead className="bg-surface-2"><tr>{ex.cols.map((c2) => <th key={c2} className="px-2 py-1 font-bold text-ink-3">{c2}</th>)}</tr></thead><tbody>{ex.rows.map((r, i) => <tr key={i} className="border-t border-hairline">{r.map((v, j) => <td key={j} className="px-2 py-1 text-ink-2">{v}</td>)}</tr>)}</tbody></table></div></S>
     </div>
   );
 }

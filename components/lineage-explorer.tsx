@@ -64,19 +64,19 @@ export function LineageExplorer({ initial = "EQUI" }: { initial?: string }) {
     <div className="space-y-5" dir="rtl">
       {/* search / object picker */}
       <div className="relative">
-        <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm focus-within:border-brand/40">
+        <div className="flex items-center gap-3 rounded-2xl border border-hairline bg-surface px-4 py-3 shadow-sm focus-within:border-brand/40">
           <Search className="size-5 shrink-0 text-brand" />
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש אובייקט / טבלה לניתוח שושלת נתונים — EQUI, MARA, AUFK…"
-            className="h-7 w-full bg-transparent text-sm outline-none placeholder:text-slate-400" />
+            className="h-7 w-full bg-transparent text-sm outline-none placeholder:text-ink-3" />
           {q && <span className="shrink-0 rounded-lg bg-brand/10 px-2 py-1 text-xs font-extrabold text-brand">{matches.length} תוצאות</span>}
         </div>
         {matches.length > 0 && (
-          <div className="absolute z-20 mt-1.5 w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl">
+          <div className="absolute z-20 mt-1.5 w-full overflow-hidden rounded-xl border border-hairline bg-surface shadow-xl">
             {matches.map((m) => (
               <button key={m.tableName} onClick={() => { setSel(m.tableName); setQ(""); setActive(null); }}
                 className="flex w-full items-center gap-3 px-3 py-2.5 text-start transition-colors hover:bg-brand/5">
                 <span className="tech shrink-0 text-sm font-bold text-brand"><Highlight text={m.tableName} query={q} /></span>
-                <span className="min-w-0 flex-1 truncate text-sm text-slate-500"><Highlight text={m.descriptionHe || m.descriptionEn} query={q} /></span>
+                <span className="min-w-0 flex-1 truncate text-sm text-ink-3"><Highlight text={m.descriptionHe || m.descriptionEn} query={q} /></span>
                 <span className="shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: mc(m.module) }}>{m.module}</span>
               </button>
             ))}
@@ -85,17 +85,17 @@ export function LineageExplorer({ initial = "EQUI" }: { initial?: string }) {
       </div>
 
       {!g || !t ? (
-        <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-10 text-center text-sm text-slate-400">בחר אובייקט להצגת שושלת הנתונים.</div>
+        <div className="rounded-2xl border border-dashed border-hairline bg-surface p-10 text-center text-sm text-ink-3">בחר אובייקט להצגת שושלת הנתונים.</div>
       ) : (
         <>
           {/* summary band */}
           <motion.div initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
-            className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-gradient-to-l from-slate-50 to-white p-5 shadow-sm">
+            className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-hairline bg-gradient-to-l from-slate-50 to-white p-5 shadow-sm">
             <div className="flex items-center gap-3">
               <span className="grid size-12 place-items-center rounded-2xl text-white shadow-lg" style={{ background: mc(t.module), boxShadow: `0 8px 20px ${mc(t.module)}55` }}><Database className="size-6" /></span>
               <div>
-                <div className="flex items-center gap-2"><span className="tech text-xl font-extrabold text-slate-900" dir="ltr">{t.tableName}</span><span className="rounded-md px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: mc(t.module) }}>{t.module}</span></div>
-                <p className="text-xs text-slate-500">{t.descriptionHe || t.descriptionEn}</p>
+                <div className="flex items-center gap-2"><span className="tech text-xl font-extrabold text-ink-1" dir="ltr">{t.tableName}</span><span className="rounded-md px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: mc(t.module) }}>{t.module}</span></div>
+                <p className="text-xs text-ink-3">{t.descriptionHe || t.descriptionEn}</p>
               </div>
             </div>
             <div className="flex gap-2">
@@ -106,7 +106,7 @@ export function LineageExplorer({ initial = "EQUI" }: { initial?: string }) {
           </motion.div>
 
           {/* lineage flow */}
-          <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-[radial-gradient(circle_at_1px_1px,#e2e8f0_1px,transparent_0)] [background-size:20px_20px] p-2">
+          <div className="overflow-x-auto rounded-2xl border border-hairline bg-[radial-gradient(circle_at_1px_1px,#e2e8f0_1px,transparent_0)] [background-size:20px_20px] p-2">
             <svg viewBox={`0 0 ${W} ${H}`} width="100%" style={{ minWidth: 620, maxHeight: 460 }}>
               <text x={colX.src} y={22} textAnchor="middle" style={{ font: "800 10px sans-serif", fill: "#94a3b8", letterSpacing: "1.5px" }}>מקור · SOURCE</text>
               <text x={cx} y={22} textAnchor="middle" style={{ font: "800 10px sans-serif", fill: "#94a3b8", letterSpacing: "1.5px" }}>אובייקט · OBJECT</text>
@@ -128,8 +128,8 @@ export function LineageExplorer({ initial = "EQUI" }: { initial?: string }) {
               <Node x={cx} y={cy} label={t.tableName} module={t.module} exists center />
             </svg>
             <div className="flex items-center justify-between gap-2 px-2 pb-1 pt-2">
-              <span className="text-[11px] font-semibold text-slate-500">{active ? <>נתיב מסומן: <span className="tech font-bold text-slate-700" dir="ltr">{active}</span> ↔ {t.tableName}</> : "לחץ על צומת כדי לסמן את הנתיב"}</span>
-              {active && <button onClick={() => setActive(null)} className="tap rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-bold text-brand hover:border-brand">נקה סימון</button>}
+              <span className="text-[11px] font-semibold text-ink-3">{active ? <>נתיב מסומן: <span className="tech font-bold text-ink-2" dir="ltr">{active}</span> ↔ {t.tableName}</> : "לחץ על צומת כדי לסמן את הנתיב"}</span>
+              {active && <button onClick={() => setActive(null)} className="tap rounded-lg border border-hairline bg-surface px-2.5 py-1 text-[11px] font-bold text-brand hover:border-brand">נקה סימון</button>}
             </div>
           </div>
 
@@ -146,20 +146,20 @@ export function LineageExplorer({ initial = "EQUI" }: { initial?: string }) {
 }
 
 function Stat({ n, label }: { n: number; label: string }) {
-  return <span className="rounded-2xl border border-slate-200 bg-white px-4 py-2 text-center shadow-sm"><span className="block text-xl font-extrabold text-slate-900 tabular-nums">{n}</span><span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">{label}</span></span>;
+  return <span className="rounded-2xl border border-hairline bg-surface px-4 py-2 text-center shadow-sm"><span className="block text-xl font-extrabold text-ink-1 tabular-nums">{n}</span><span className="text-[10px] font-semibold uppercase tracking-wide text-ink-3">{label}</span></span>;
 }
 
 function Strip({ icon, title, items, tone, hrefFn }: { icon: React.ReactNode; title: string; items: string[]; tone: string; hrefFn?: (s: string) => string }) {
   return (
     <div className="card-premium p-4">
-      <h3 className="mb-2 flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wide" style={{ color: tone }}>{icon}{title}<span className="text-slate-300">· {items.length}</span></h3>
+      <h3 className="mb-2 flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wide" style={{ color: tone }}>{icon}{title}<span className="text-ink-3">· {items.length}</span></h3>
       {items.length ? (
         <div className="flex flex-wrap gap-1.5">{items.slice(0, 10).map((it) => hrefFn ? (
-          <Link key={it} href={hrefFn(it)} className="tech rounded-md border bg-slate-50 px-2 py-0.5 text-[11px] font-bold text-slate-600 transition hover:text-brand" style={{ borderColor: tone + "44" }} dir="ltr">{it}</Link>
+          <Link key={it} href={hrefFn(it)} className="tech rounded-md border bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-2 transition hover:text-brand" style={{ borderColor: tone + "44" }} dir="ltr">{it}</Link>
         ) : (
-          <span key={it} className="tech rounded-md border border-dashed border-slate-200 bg-white px-2 py-0.5 text-[11px] font-bold text-slate-500" dir="ltr">{it}</span>
+          <span key={it} className="tech rounded-md border border-dashed border-hairline bg-surface px-2 py-0.5 text-[11px] font-bold text-ink-3" dir="ltr">{it}</span>
         ))}</div>
-      ) : <p className="text-[11px] text-slate-400">—</p>}
+      ) : <p className="text-[11px] text-ink-3">—</p>}
     </div>
   );
 }
