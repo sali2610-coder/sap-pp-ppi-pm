@@ -72,7 +72,14 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
 
   // real metadata from the Library (publisher / module / pages / summary) when available
   const meta = useMemo(() => LIBRARY.find((b) => b.id === LIB_BY_BOOK[bookId]), [bookId]);
-  const c = mc(meta?.module);
+  // books outside LIBRARY (e.g. the Academy guide) still get an identity color +
+  // module chip, derived from their subtitle ("PM · …") so no book looks generic.
+  const derivedMod = useMemo(() => {
+    if (meta?.module) return meta.module;
+    const tok = subtitle?.split(/[·|/]/)[0]?.trim().split(/\s+/)[0];
+    return tok && MOD_COLOR[tok] ? tok : undefined;
+  }, [meta, subtitle]);
+  const c = mc(derivedMod);
   const readMin = meta?.pages ? Math.max(1, Math.round((meta.pages * 2) / 60)) : null; // UI estimate: ~2 min/page
   const started = last > 0 || read.length > 0;
   const first = chapters[0]?.n ?? 1;
@@ -118,7 +125,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
       {!focus && (
         <nav aria-label="breadcrumb" className="flex items-center gap-1.5 text-[12px] font-semibold text-ink-3">
           <Link href="/library/" className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 transition hover:bg-surface-2 hover:text-brand"><Home className="size-3.5" /> ספרייה</Link>
-          {meta?.module && <><span className="text-ink-3/50">/</span><span className="rounded-md px-1.5 py-0.5" style={{ color: c }}>{meta.module}</span></>}
+          {derivedMod && <><span className="text-ink-3/50">/</span><span className="rounded-md px-1.5 py-0.5" style={{ color: c }}>{derivedMod}</span></>}
           <span className="text-ink-3/50">/</span>
           <span className="truncate text-ink-2">{meta ? meta.titleHe : title}</span>
         </nav>
@@ -133,7 +140,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         <div className="relative p-6 sm:p-8">
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1 rounded-full bg-brand-soft px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-brand"><Sparkles className="size-3" /> {bookType(meta?.publisher)}</span>
-            {meta?.module && <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{meta.module}</span>}
+            {derivedMod && <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{derivedMod}</span>}
             {meta?.publisher && meta.publisher !== bookType(meta.publisher) && <span className="text-[11.5px] font-semibold text-ink-3">{meta.publisher}</span>}
           </div>
           <h1 className="mt-3 max-w-3xl font-display text-2xl leading-tight tracking-tight text-ink-1 sm:text-[2rem]">{meta ? meta.titleHe : title}</h1>

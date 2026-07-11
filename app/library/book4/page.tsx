@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, ChevronDown, Image as ImageIcon, Layers, ZoomIn, Download, X } from "lucide-react";
+import { ChevronDown, Image as ImageIcon, Layers, ZoomIn, Download, X } from "lucide-react";
 import { BookReader } from "@/components/book-reader";
 import book4 from "@/data/library/book4-full.json";
 import figuresData from "@/data/library/book4-figures.json";
@@ -176,11 +175,6 @@ export default function Book3Page() {
   const totalFigures = Object.values(FIGS).reduce((s, a) => s + a.length, 0);
   return (
     <div className="space-y-6">
-      <Link href="/library/" className="inline-flex items-center gap-1.5 text-sm text-brand hover:underline">
-        <ArrowRight className="size-4 rtl:rotate-180" />
-        {lang === "he" ? "חזרה לספרייה" : "Back to library"}
-      </Link>
-
       <BookReader
         bookId="book4"
         title={DATA.book}
