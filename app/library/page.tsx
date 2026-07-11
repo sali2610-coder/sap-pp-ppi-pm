@@ -43,25 +43,25 @@ function ChapterRow({ c }: { c: LibChapter }) {
   return (
     <li>
       <button onClick={() => { if (!hasBody) return; playPing(); setOpen((v) => !v); }}
-        className={`grid w-full gap-1 px-5 py-3 text-start transition-colors sm:grid-cols-2 sm:gap-4 ${hasBody ? "hover:bg-slate-50" : ""}`}>
+        className={`grid w-full gap-1 px-5 py-3 text-start transition-colors sm:grid-cols-2 sm:gap-4 ${hasBody ? "hover:bg-surface-2" : ""}`}>
         <div dir="ltr" className="flex items-start gap-2 text-start">
-          <span className="tech mt-0.5 shrink-0 rounded bg-slate-100 px-1.5 text-[11px] font-bold text-slate-500">{c.n}</span>
+          <span className="tech mt-0.5 shrink-0 rounded bg-surface-2 px-1.5 text-[11px] font-bold text-ink-3">{c.n}</span>
           <span className="text-sm font-medium">{c.en}</span>
-          {c.page ? <span className="ms-auto shrink-0 text-[11px] text-slate-400">p.{c.page}</span> : null}
+          {c.page ? <span className="ms-auto shrink-0 text-[11px] text-ink-3">p.{c.page}</span> : null}
         </div>
         <div dir="rtl" className="flex items-start gap-2 text-start">
           <FileText className="mt-0.5 size-3.5 shrink-0 text-brand" />
           <span className="text-sm font-medium">{c.he}</span>
-          {hasBody && <ChevronDown className={`ms-auto size-4 shrink-0 text-slate-400 transition-transform ${open ? "rotate-180" : ""}`} />}
+          {hasBody && <ChevronDown className={`ms-auto size-4 shrink-0 text-ink-3 transition-transform ${open ? "rotate-180" : ""}`} />}
         </div>
       </button>
       <AnimatePresence initial={false}>
         {open && hasBody && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden">
             <div className="grid gap-3 px-5 pb-4 sm:grid-cols-2 sm:gap-4">
-              <div dir="ltr" className="flex max-h-96 flex-col rounded-xl border border-slate-200/70 bg-slate-50/60 p-3 text-start">
-                <p className="mb-1 shrink-0 text-[10px] font-bold uppercase tracking-wide text-slate-400">Original (SAP manual)</p>
-                <p className="overflow-y-auto whitespace-pre-line text-xs leading-relaxed text-slate-500">{c.bodyEn || "—"}</p>
+              <div dir="ltr" className="flex max-h-96 flex-col rounded-xl border border-hairline/70 bg-surface-2/60 p-3 text-start">
+                <p className="mb-1 shrink-0 text-[10px] font-bold uppercase tracking-wide text-ink-3">Original (SAP manual)</p>
+                <p className="overflow-y-auto whitespace-pre-line text-xs leading-relaxed text-ink-3">{c.bodyEn || "—"}</p>
               </div>
               <div dir="rtl" className="flex max-h-96 flex-col rounded-xl border border-brand/20 bg-brand-soft/50 p-3 text-start">
                 <p className="mb-1 shrink-0 text-[10px] font-bold uppercase tracking-wide text-brand">תרגום מקצועי לעברית</p>
@@ -77,7 +77,7 @@ function ChapterRow({ c }: { c: LibChapter }) {
 
 /* ====== language / quality / status chips ====== */
 function Chip({ children, tone = "slate" }: { children: React.ReactNode; tone?: "slate" | "green" | "amber" | "brand" }) {
-  const t = { slate: "bg-slate-100 text-slate-600", green: "bg-emerald-50 text-emerald-700", amber: "bg-amber-50 text-amber-700", brand: "bg-brand-soft text-brand" }[tone];
+  const t = { slate: "bg-surface-2 text-ink-2", green: "bg-emerald-50 text-emerald-700", amber: "bg-amber-50 text-amber-700", brand: "bg-brand-soft text-brand" }[tone];
   return <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold ${t}`}>{children}</span>;
 }
 
@@ -87,10 +87,10 @@ function AcademyCard({ b, onOpen }: { b: AcademyBook; onOpen: (r: Recent) => voi
   const pct = b.chaptersTotal ? Math.round((b.chaptersDone / b.chaptersTotal) * 100) : 0;
   const live = b.status === "live" && b.href;
   const inner = (
-    <div className="group relative flex h-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_10px_30px_-18px_rgba(15,23,42,0.4)] transition-all duration-500 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-1.5 hover:shadow-[0_24px_50px_-20px_rgba(15,23,42,0.45)]">
+    <div className="group relative flex h-full overflow-hidden rounded-2xl border border-hairline bg-surface shadow-[0_10px_30px_-18px_rgba(15,23,42,0.4)] transition-all duration-500 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-1.5 hover:shadow-[0_24px_50px_-20px_rgba(15,23,42,0.45)]">
       {/* book spine */}
       <div className="relative w-3 shrink-0" style={{ background: `linear-gradient(180deg, ${c}, ${c}99)` }}>
-        <span className="absolute inset-y-0 left-0 w-px bg-white/40" />
+        <span className="absolute inset-y-0 left-0 w-px bg-surface/40" />
       </div>
       <span className="pointer-events-none absolute -right-12 -top-12 size-32 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-20" style={{ background: c }} />
       <div className="relative flex flex-1 flex-col p-5">
@@ -101,8 +101,8 @@ function AcademyCard({ b, onOpen }: { b: AcademyBook; onOpen: (r: Recent) => voi
             {b.status === "live" ? <Chip tone="green"><CheckCircle2 className="size-3" /> פעיל</Chip> : <Chip tone="amber"><Clock className="size-3" /> בתכנון</Chip>}
           </div>
         </div>
-        <h3 className="mt-3 text-lg font-extrabold leading-tight tracking-tight text-slate-900">{b.titleHe}</h3>
-        <p className="mt-0.5 line-clamp-1 text-xs text-slate-400" dir="ltr">{b.titleEn}</p>
+        <h3 className="mt-3 text-lg font-extrabold leading-tight tracking-tight text-ink-1">{b.titleHe}</h3>
+        <p className="mt-0.5 line-clamp-1 text-xs text-ink-3" dir="ltr">{b.titleEn}</p>
         <div className="mt-3 flex flex-wrap gap-1.5">
           <Chip><Languages className="size-3" /> EN · HE</Chip>
           {b.qualityScore != null && <Chip tone="brand"><Star className="size-3" /> איכות {b.qualityScore}</Chip>}
@@ -110,16 +110,16 @@ function AcademyCard({ b, onOpen }: { b: AcademyBook; onOpen: (r: Recent) => voi
         </div>
         {/* progress */}
         <div className="mt-auto pt-4">
-          <div className="mb-1 flex items-center justify-between text-[11px] font-semibold text-slate-500">
+          <div className="mb-1 flex items-center justify-between text-[11px] font-semibold text-ink-3">
             <span>{b.chaptersDone}/{b.chaptersTotal || "—"} פרקים · {b.nodes} יחידות</span>
             <span style={{ color: c }}>{pct}%</span>
           </div>
-          <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+          <div className="h-1.5 overflow-hidden rounded-full bg-surface-2">
             <div className="h-full rounded-full transition-all duration-700" style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${c}, ${c}aa)` }} />
           </div>
-          <div className={`mt-3 flex items-center justify-between rounded-xl px-3.5 py-2 text-sm font-bold transition ${live ? "text-white" : "bg-slate-100 text-slate-400"}`} style={live ? { background: c } : undefined}>
+          <div className={`mt-3 flex items-center justify-between rounded-xl px-3.5 py-2 text-sm font-bold transition ${live ? "text-white" : "bg-surface-2 text-ink-3"}`} style={live ? { background: c } : undefined}>
             {live ? "פתח מסלול" : "בקרוב"}
-            {live && <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover:translate-x-0.5"><ArrowLeft className="size-3.5" /></span>}
+            {live && <span className="grid size-6 place-items-center rounded-full bg-surface/20 transition group-hover:translate-x-0.5"><ArrowLeft className="size-3.5" /></span>}
           </div>
         </div>
       </div>
@@ -135,35 +135,35 @@ function ReferenceCard({ book, onOpen }: { book: LibBook; onOpen: (r: Recent) =>
   const c = mc(book.module);
   const reader = READER[book.id];
   return (
-    <motion.div layout className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_10px_30px_-18px_rgba(15,23,42,0.4)] transition-shadow hover:shadow-[0_24px_50px_-20px_rgba(15,23,42,0.45)]">
+    <motion.div layout className="overflow-hidden rounded-2xl border border-hairline bg-surface shadow-[0_10px_30px_-18px_rgba(15,23,42,0.4)] transition-shadow hover:shadow-[0_24px_50px_-20px_rgba(15,23,42,0.45)]">
       <div className="group relative flex">
-        <div className="relative w-3 shrink-0" style={{ background: `linear-gradient(180deg, ${c}, ${c}99)` }}><span className="absolute inset-y-0 left-0 w-px bg-white/40" /></div>
+        <div className="relative w-3 shrink-0" style={{ background: `linear-gradient(180deg, ${c}, ${c}99)` }}><span className="absolute inset-y-0 left-0 w-px bg-surface/40" /></div>
         <div className="relative flex-1 p-5">
           <div className="flex items-start justify-between gap-3">
             <div className="flex size-11 shrink-0 items-center justify-center rounded-xl text-white shadow-lg" style={{ background: c, boxShadow: `0 8px 20px ${c}55` }}><BookOpen className="size-5" /></div>
             <div className="flex flex-col items-end gap-1">
               <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{book.module}</span>
-              <span className="text-[10px] text-slate-400">{book.publisher}</span>
+              <span className="text-[10px] text-ink-3">{book.publisher}</span>
             </div>
           </div>
-          <h3 className="mt-3 text-base font-extrabold leading-tight tracking-tight text-slate-900">{pick(book.titleHe, book.title)}</h3>
-          <p className="mt-0.5 line-clamp-1 text-xs text-slate-400" dir={lang === "he" ? "ltr" : "rtl"}>{lang === "he" ? book.title : book.titleHe}</p>
+          <h3 className="mt-3 text-base font-extrabold leading-tight tracking-tight text-ink-1">{pick(book.titleHe, book.title)}</h3>
+          <p className="mt-0.5 line-clamp-1 text-xs text-ink-3" dir={lang === "he" ? "ltr" : "rtl"}>{lang === "he" ? book.title : book.titleHe}</p>
           <div className="mt-3 flex flex-wrap gap-1.5">
             <Chip><Languages className="size-3" /> EN · HE</Chip>
             <Chip><FileText className="size-3" /> {book.pages} עמ׳</Chip>
             <Chip tone="brand"><BookMarked className="size-3" /> {book.chapters.length} פרקים</Chip>
             {reader && <Chip tone="green"><CheckCircle2 className="size-3" /> טקסט מלא</Chip>}
           </div>
-          <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-slate-500">{book.summaryHe}</p>
+          <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-ink-3">{book.summaryHe}</p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <button onClick={() => { playPing(); setOpen((v) => !v); }} className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 px-3.5 py-2 text-sm font-bold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 active:scale-95">
+            <button onClick={() => { playPing(); setOpen((v) => !v); }} className="inline-flex items-center gap-1.5 rounded-xl border border-hairline px-3.5 py-2 text-sm font-bold text-ink-2 transition hover:border-hairline hover:bg-surface-2 active:scale-95">
               <Layers className="size-4" /> תוכן הספר {open ? "▲" : "▼"}
             </button>
             {reader && (
               <Link href={reader} onClick={() => { playPing(); onOpen({ id: book.id, title: pick(book.titleHe, book.title), module: book.module, href: reader }); }}
                 className="group/btn inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
                 קרא ספר
-                <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover/btn:translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
+                <span className="grid size-6 place-items-center rounded-full bg-surface/20 transition group-hover/btn:translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
               </Link>
             )}
           </div>
@@ -171,7 +171,7 @@ function ReferenceCard({ book, onOpen }: { book: LibBook; onOpen: (r: Recent) =>
       </div>
       <AnimatePresence initial={false}>
         {open && (
-          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden border-t border-slate-100">
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden border-t border-hairline">
             <ul className="max-h-[28rem] divide-y divide-slate-100 overflow-auto">{book.chapters.map((ch) => <ChapterRow key={ch.n} c={ch} />)}</ul>
           </motion.div>
         )}
@@ -210,9 +210,9 @@ export default function LibraryPage() {
       {/* ===== premium hero ===== */}
       <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-bl from-[#0e7490] via-[#0891b2] to-[#155e75] p-7 text-white shadow-2xl animate-float-in sm:p-9">
         <div className="pointer-events-none absolute inset-0 opacity-[0.07]" style={{ backgroundImage: "linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)", backgroundSize: "40px 40px" }} />
-        <div className="pointer-events-none absolute -right-20 -top-20 size-64 rounded-full bg-white/10 blur-3xl" />
+        <div className="pointer-events-none absolute -right-20 -top-20 size-64 rounded-full bg-surface/10 blur-3xl" />
         <div className="relative">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/90">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-surface/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/90">
             <LibraryIcon className="size-3.5" /> SAP Digital Library
           </span>
           <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-5xl">ספריית SAP הדיגיטלית</h1>
@@ -226,7 +226,7 @@ export default function LibraryPage() {
               [ac.nodes, "יחידות לימוד"],
               [LIBRARY_STATS.pages, "עמודים"],
             ].map(([v, l]) => (
-              <div key={l} className="flex flex-col items-center rounded-2xl border border-white/15 bg-white/10 px-3 py-3 backdrop-blur-sm">
+              <div key={l} className="flex flex-col items-center rounded-2xl border border-white/15 bg-surface/10 px-3 py-3 backdrop-blur-sm">
                 <span className="font-mono text-2xl font-extrabold tabular-nums sm:text-3xl"><Count n={v as number} /></span>
                 <span className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/70">{l as string}</span>
               </div>
@@ -238,13 +238,13 @@ export default function LibraryPage() {
       {/* ===== search + module filter ===== */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
-          <Search className="pointer-events-none absolute inset-y-0 right-3 my-auto size-4 text-slate-400" />
+          <Search className="pointer-events-none absolute inset-y-0 right-3 my-auto size-4 text-ink-3" />
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש ספר · מודול · מו״ל…"
-            className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pe-3 ps-10 text-sm shadow-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
-          {q && <button onClick={() => setQ("")} className="absolute inset-y-0 left-3 my-auto"><X className="size-4 text-slate-400" /></button>}
+            className="w-full rounded-xl border border-hairline bg-surface py-2.5 pe-3 ps-10 text-sm shadow-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
+          {q && <button onClick={() => setQ("")} className="absolute inset-y-0 left-3 my-auto"><X className="size-4 text-ink-3" /></button>}
         </div>
         <div className="flex flex-wrap gap-1.5 overflow-x-auto pb-1">
-          <button onClick={() => setMod(null)} className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-bold transition ${!mod ? "bg-slate-900 text-white" : "border border-slate-200 bg-white text-slate-500 hover:bg-slate-50"}`}>הכל</button>
+          <button onClick={() => setMod(null)} className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-bold transition ${!mod ? "bg-slate-900 text-white" : "border border-hairline bg-surface text-ink-3 hover:bg-surface-2"}`}>הכל</button>
           {mods.map((m) => { const on = mod === m; const c = mc(m); return (
             <button key={m} onClick={() => setMod(on ? null : m)} className="shrink-0 rounded-full border px-3 py-1.5 text-xs font-bold transition active:scale-95" style={{ borderColor: on ? c : "#e2e8f0", background: on ? c : "#fff", color: on ? "#fff" : "#64748b" }}>{m}</button>); })}
         </div>
@@ -253,13 +253,13 @@ export default function LibraryPage() {
       {/* ===== recently opened ===== */}
       {recent.length > 0 && (
         <section className="space-y-2.5">
-          <h2 className="flex items-center gap-2 text-sm font-extrabold tracking-tight text-slate-900"><Clock className="size-4 text-slate-400" /> נפתחו לאחרונה</h2>
+          <h2 className="flex items-center gap-2 text-sm font-extrabold tracking-tight text-ink-1"><Clock className="size-4 text-ink-3" /> נפתחו לאחרונה</h2>
           <div className="flex flex-wrap gap-2">
             {recent.map((r) => (
-              <Link key={r.id} href={r.href} className="group inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+              <Link key={r.id} href={r.href} className="group inline-flex items-center gap-2 rounded-xl border border-hairline bg-surface px-3 py-2 text-sm shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
                 <span className="size-2.5 rounded-full" style={{ background: mc(r.module) }} />
-                <span className="font-semibold text-slate-700">{r.title}</span>
-                <ArrowLeft className="size-3.5 text-slate-300 transition group-hover:text-slate-500" />
+                <span className="font-semibold text-ink-2">{r.title}</span>
+                <ArrowLeft className="size-3.5 text-ink-3 transition group-hover:text-ink-3" />
               </Link>
             ))}
           </div>
@@ -270,7 +270,7 @@ export default function LibraryPage() {
       {academy.length > 0 && (
         <section className="space-y-4">
           <div className="flex items-baseline justify-between">
-            <h2 className="flex items-center gap-2 text-lg font-extrabold tracking-tight text-slate-900"><GraduationCap className="size-5 text-brand" /> מסלולי למידה · Academy</h2>
+            <h2 className="flex items-center gap-2 text-lg font-extrabold tracking-tight text-ink-1"><GraduationCap className="size-5 text-brand" /> מסלולי למידה · Academy</h2>
             <div className="flex items-center gap-3">
               <Link href="/library/academy/search/" className="inline-flex items-center gap-1 text-xs font-bold text-brand hover:underline"><Search className="size-3.5" /> חיפוש מאוחד</Link>
               <Link href="/library/academy/fiori/" className="inline-flex items-center gap-1 text-xs font-bold text-brand hover:underline"><LayoutGrid className="size-3.5" /> אינדקס Fiori</Link>
@@ -286,7 +286,7 @@ export default function LibraryPage() {
       {/* ===== reference manuals ===== */}
       {reference.length > 0 && (
         <section className="space-y-4">
-          <h2 className="flex items-center gap-2 text-lg font-extrabold tracking-tight text-slate-900"><BookOpen className="size-5 text-brand" /> ספרי עיון · מדריכי SAP S/4HANA</h2>
+          <h2 className="flex items-center gap-2 text-lg font-extrabold tracking-tight text-ink-1"><BookOpen className="size-5 text-brand" /> ספרי עיון · מדריכי SAP S/4HANA</h2>
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {reference.map((b) => <ReferenceCard key={b.id} book={b} onOpen={push} />)}
           </div>
@@ -295,13 +295,13 @@ export default function LibraryPage() {
 
       {academy.length === 0 && reference.length === 0 && (
         <div className="flex flex-col items-center gap-3 py-16 text-center">
-          <span className="grid size-14 place-items-center rounded-2xl bg-slate-100 text-slate-400"><Search className="size-7" /></span>
-          <p className="text-sm font-bold text-slate-700">לא נמצאו ספרים</p>
-          <p className="text-xs text-slate-400">נסה מונח אחר או נקה את הסינון</p>
+          <span className="grid size-14 place-items-center rounded-2xl bg-surface-2 text-ink-3"><Search className="size-7" /></span>
+          <p className="text-sm font-bold text-ink-2">לא נמצאו ספרים</p>
+          <p className="text-xs text-ink-3">נסה מונח אחר או נקה את הסינון</p>
         </div>
       )}
 
-      <p className="text-center text-xs text-slate-400">
+      <p className="text-center text-xs text-ink-3">
         מסלולי הלמידה נבנו לפי תבנית 18 המקטעים של NEO Academy · מדריכי העיון מאונדקסים מתוכן העניינים של קובצי ה-PDF המקוריים. תרגום עברי מקצועי נכתב עבור הארגון.
       </p>
     </div>

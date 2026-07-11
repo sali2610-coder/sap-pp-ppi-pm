@@ -50,22 +50,22 @@ export default function Page() {
       <CenterHeader eyebrow="Final · Knowledge Quality Audit" title="ביקורת איכות ידע" sub={`סריקה סטטית של עקביות המאגר — כפילויות, הפניות יתומות, קישורים שבורים. ${warns} ממצאים לתשומת לב.`} accent="#0f766e" />
       <div className="mb-5 grid gap-4 sm:grid-cols-3">
         {[{ l: "ישויות נסרקות", v: `${ALL_TABLES.length + TRANSACTIONS.length + TCODE_DIRECTORY.length + INCIDENTS.length}` }, { l: "כפילות slug", v: `${dupIncidents.length}` }, { l: "קישורים שבורים", v: "0", s: "כל הקישורים החוצים מוגנים-קיום" }].map((k) => (
-          <div key={k.l} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><div className="text-3xl font-extrabold text-slate-900">{k.v}</div><div className="mt-1 text-sm font-bold text-slate-600">{k.l}</div>{k.s && <div className="text-[11px] text-slate-400">{k.s}</div>}</div>
+          <div key={k.l} className="rounded-2xl border border-hairline bg-surface p-5 shadow-sm"><div className="text-3xl font-extrabold text-ink-1">{k.v}</div><div className="mt-1 text-sm font-bold text-ink-2">{k.l}</div>{k.s && <div className="text-[11px] text-ink-3">{k.s}</div>}</div>
         ))}
       </div>
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-2xl border border-hairline bg-surface shadow-sm">
         <table className="w-full text-sm">
-          <thead className="bg-slate-50 text-xs font-bold text-slate-500"><tr><th className="p-3 text-start">בדיקה</th><th className="p-3 text-center">תוצאה</th><th className="p-3 text-center">חומרה</th><th className="p-3 text-start">פירוט</th></tr></thead>
+          <thead className="bg-surface-2 text-xs font-bold text-ink-3"><tr><th className="p-3 text-start">בדיקה</th><th className="p-3 text-center">תוצאה</th><th className="p-3 text-center">חומרה</th><th className="p-3 text-start">פירוט</th></tr></thead>
           <tbody className="divide-y divide-slate-100">
             {checks.map((c) => (
-              <tr key={c.area}><td className="p-3 font-bold text-slate-800">{c.area}</td><td className="p-3 text-center font-mono font-bold text-slate-700">{c.result}</td>
+              <tr key={c.area}><td className="p-3 font-bold text-ink-1">{c.area}</td><td className="p-3 text-center font-mono font-bold text-ink-2">{c.result}</td>
                 <td className="p-3 text-center"><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: SEV[c.severity].color }}>{SEV[c.severity].he}</span></td>
-                <td className="p-3 text-[12px] leading-snug text-slate-500">{c.detail}</td></tr>
+                <td className="p-3 text-[12px] leading-snug text-ink-3">{c.detail}</td></tr>
             ))}
           </tbody>
         </table>
       </div>
-      <p className="mt-4 text-xs text-slate-400">הערה: כל קישורי ה-cross-link החיצוניים מוגנים-קיום (רנדור כצ'יפ-מידע אם היעד חסר), ולכן 0 לינקים שבורים ב-build. הפניות-תוכן יתומות מוצגות לעיל לשיפור תוכן.</p>
+      <p className="mt-4 text-xs text-ink-3">הערה: כל קישורי ה-cross-link החיצוניים מוגנים-קיום (רנדור כצ'יפ-מידע אם היעד חסר), ולכן 0 לינקים שבורים ב-build. הפניות-תוכן יתומות מוצגות לעיל לשיפור תוכן.</p>
     </div>
   );
 }

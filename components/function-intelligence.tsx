@@ -64,25 +64,25 @@ export function FunctionIntelligence({ name }: { name: string }) {
       <Card icon={<Sparkles className="size-4" />} title="Function Intelligence" accent="#d62027" tag={intel && !intel.inferred ? <Verified /> : intel ? <NeedsCheck /> : <Unverified />}>
         <div className="flex flex-wrap items-center gap-2">
           <span className="tech rounded-lg bg-brand px-2.5 py-1 text-sm font-extrabold text-white" dir="ltr">{name}</span>
-          <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600">{kindLabel}</span>
+          <span className="rounded-md bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-2">{kindLabel}</span>
           {(intel?.module || ds?.modules?.[0]) && <span className="rounded-md px-2 py-0.5 text-[11px] font-bold text-white" style={{ background: accent }}>{intel?.module || ds?.modules?.[0]}</span>}
         </div>
-        <p className="mt-2.5 text-sm leading-relaxed text-slate-700">{intel?.what || dsHe || <Missing />}</p>
-        {!intel && dsHe && <p className="mt-1.5 text-[11px] text-slate-400">תיאור מהמאגר (מאומת). פירוט מלא: {MISSING}</p>}
+        <p className="mt-2.5 text-sm leading-relaxed text-ink-2">{intel?.what || dsHe || <Missing />}</p>
+        {!intel && dsHe && <p className="mt-1.5 text-[11px] text-ink-3">תיאור מהמאגר (מאומת). פירוט מלא: {MISSING}</p>}
       </Card>
 
       <div className="grid gap-4 lg:grid-cols-2">
         {/* 2 · Purpose */}
         <Card icon={<Info className="size-4" />} title="מטרה עסקית · למה קיים" accent={accent}>
-          {intel?.why ? <p className="text-sm leading-relaxed text-slate-700">{intel.why}</p> : <Missing />}
+          {intel?.why ? <p className="text-sm leading-relaxed text-ink-2">{intel.why}</p> : <Missing />}
         </Card>
         {/* 3 · Where it belongs */}
         <Card icon={<Workflow className="size-4" />} title="היכן משתייך" accent={accent}>
           {intel ? (
             <div className="space-y-2 text-sm">
-              <div className="flex gap-2"><span className="eyebrow w-20 text-slate-400">מודול</span><span className="font-bold text-slate-700">{intel.module}</span></div>
-              <div className="flex gap-2"><span className="eyebrow w-20 text-slate-400">אזור תהליך</span><span className="font-bold text-slate-700">{intel.processArea}</span></div>
-              {intel.flow && <div className="flex gap-2"><span className="eyebrow w-20 text-slate-400">זרימה</span><span className="text-slate-600" dir="ltr">{intel.flow}</span></div>}
+              <div className="flex gap-2"><span className="eyebrow w-20 text-ink-3">מודול</span><span className="font-bold text-ink-2">{intel.module}</span></div>
+              <div className="flex gap-2"><span className="eyebrow w-20 text-ink-3">אזור תהליך</span><span className="font-bold text-ink-2">{intel.processArea}</span></div>
+              {intel.flow && <div className="flex gap-2"><span className="eyebrow w-20 text-ink-3">זרימה</span><span className="text-ink-2" dir="ltr">{intel.flow}</span></div>}
             </div>
           ) : <Missing />}
         </Card>
@@ -91,14 +91,14 @@ export function FunctionIntelligence({ name }: { name: string }) {
       {/* 4 · Parameters */}
       <Card icon={<Boxes className="size-4" />} title="פרמטרים · Inputs / Outputs" accent={accent}>
         {params.length ? (
-          <div className="overflow-hidden rounded-xl border border-slate-100">
+          <div className="overflow-hidden rounded-xl border border-hairline">
             <table className="w-full text-right text-xs" dir="ltr">
-              <thead className="bg-slate-50 text-[10px] uppercase text-slate-400"><tr><th className="px-3 py-2 text-left">Parameter</th><th className="px-3 py-2">Dir</th><th className="px-3 py-2 text-right">תיאור</th></tr></thead>
+              <thead className="bg-surface-2 text-[10px] uppercase text-ink-3"><tr><th className="px-3 py-2 text-left">Parameter</th><th className="px-3 py-2">Dir</th><th className="px-3 py-2 text-right">תיאור</th></tr></thead>
               <tbody>{params.map((p) => (
-                <tr key={p.name} className="border-t border-slate-50" title={p.he}>
-                  <td className="px-3 py-1.5 font-mono font-bold text-slate-800">{p.name}{p.req && <span className="text-brand"> *</span>}</td>
+                <tr key={p.name} className="border-t border-hairline" title={p.he}>
+                  <td className="px-3 py-1.5 font-mono font-bold text-ink-1">{p.name}{p.req && <span className="text-brand"> *</span>}</td>
                   <td className="px-3 py-1.5"><span className={`rounded px-1.5 py-0.5 text-[9px] font-bold ${dirMeta[p.dir].cls}`}>{dirMeta[p.dir].he}</span></td>
-                  <td className="px-3 py-1.5 text-right text-slate-600" dir="rtl">{p.he}</td>
+                  <td className="px-3 py-1.5 text-right text-ink-2" dir="rtl">{p.he}</td>
                 </tr>))}</tbody>
             </table>
           </div>
@@ -110,7 +110,7 @@ export function FunctionIntelligence({ name }: { name: string }) {
         <Card icon={<ArrowRightLeft className="size-4" />} title="ECC ↔ S/4HANA" accent="#d97706">
           {intel ? (
             <div className="grid grid-cols-2 gap-2 text-xs">
-              <div className="rounded-xl border border-slate-100 bg-slate-50/60 p-3"><div className="eyebrow mb-1 text-slate-500">ECC</div><p className="text-slate-700">{intel.ecc}</p></div>
+              <div className="rounded-xl border border-hairline bg-surface-2/60 p-3"><div className="eyebrow mb-1 text-ink-3">ECC</div><p className="text-ink-2">{intel.ecc}</p></div>
               <div className="rounded-xl border border-amber-100 bg-amber-50/50 p-3"><div className="eyebrow mb-1 text-amber-700">S/4HANA</div><p className="text-amber-900">{intel.s4}</p></div>
             </div>
           ) : <Missing />}
@@ -119,10 +119,10 @@ export function FunctionIntelligence({ name }: { name: string }) {
         <Card icon={<ClipboardCheck className="size-4" />} title="QA · בדיקות" accent="#059669">
           {intel ? (
             <div className="space-y-2.5 text-xs">
-              <div><div className="eyebrow mb-1 text-emerald-700">מה לבדוק</div><ul className="space-y-1">{intel.qa.test.map((t, i) => <li key={i} className="flex gap-1.5 text-slate-700"><CheckCircle2 className="mt-0.5 size-3.5 shrink-0 text-emerald-500" />{t}</li>)}</ul></div>
-              <div><div className="eyebrow mb-1 text-rose-600">נקודות כשל נפוצות</div><ul className="space-y-1">{intel.qa.failures.map((t, i) => <li key={i} className="flex gap-1.5 text-slate-700"><AlertTriangle className="mt-0.5 size-3.5 shrink-0 text-rose-400" />{t}</li>)}</ul></div>
-              <div><div className="eyebrow mb-1 text-slate-500">תלויות (הרשאות/אב/קונפיג)</div><div className="flex flex-wrap gap-1">{intel.qa.deps.map((d) => <span key={d} className="rounded bg-slate-100 px-1.5 py-0.5 text-[11px] font-semibold text-slate-600">{d}</span>)}</div></div>
-              <div className="rounded-xl bg-slate-50 p-2.5"><div className="eyebrow mb-1 text-slate-500">תרחיש בדיקה</div><p className="text-slate-700">{intel.qa.scenario}</p></div>
+              <div><div className="eyebrow mb-1 text-emerald-700">מה לבדוק</div><ul className="space-y-1">{intel.qa.test.map((t, i) => <li key={i} className="flex gap-1.5 text-ink-2"><CheckCircle2 className="mt-0.5 size-3.5 shrink-0 text-emerald-500" />{t}</li>)}</ul></div>
+              <div><div className="eyebrow mb-1 text-rose-600">נקודות כשל נפוצות</div><ul className="space-y-1">{intel.qa.failures.map((t, i) => <li key={i} className="flex gap-1.5 text-ink-2"><AlertTriangle className="mt-0.5 size-3.5 shrink-0 text-rose-400" />{t}</li>)}</ul></div>
+              <div><div className="eyebrow mb-1 text-ink-3">תלויות (הרשאות/אב/קונפיג)</div><div className="flex flex-wrap gap-1">{intel.qa.deps.map((d) => <span key={d} className="rounded bg-surface-2 px-1.5 py-0.5 text-[11px] font-semibold text-ink-2">{d}</span>)}</div></div>
+              <div className="rounded-xl bg-surface-2 p-2.5"><div className="eyebrow mb-1 text-ink-3">תרחיש בדיקה</div><p className="text-ink-2">{intel.qa.scenario}</p></div>
             </div>
           ) : <Missing />}
         </Card>
@@ -144,14 +144,14 @@ export function FunctionIntelligence({ name }: { name: string }) {
       {/* expandable technical details */}
       <div className="card-premium overflow-hidden p-0">
         <button onClick={() => setTech((v) => !v)} className="flex w-full items-center justify-between p-4 text-start">
-          <span className="flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide text-slate-500"><FileCode2 className="size-4" /> פרטים טכניים</span>
-          <ChevronDown className={`size-4 text-slate-400 transition-transform ${tech ? "rotate-180" : ""}`} />
+          <span className="flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide text-ink-3"><FileCode2 className="size-4" /> פרטים טכניים</span>
+          <ChevronDown className={`size-4 text-ink-3 transition-transform ${tech ? "rotate-180" : ""}`} />
         </button>
         {tech && (
-          <div className="space-y-2 border-t border-slate-100 p-4 text-xs text-slate-600">
-            <div><span className="eyebrow text-slate-400">סוג: </span>{kindLabel}</div>
-            <div><span className="eyebrow text-slate-400">מקור נתונים: </span>{intel ? "תוכן יועץ מאומת ידנית (curated)" : "מאגר בלבד — שאר השדות דורשים אימות מול SE37/BAPI Explorer"}</div>
-            <div><span className="eyebrow text-slate-400">טבלאות שמפנות לפונקציה (מהמאגר): </span><span className="tech" dir="ltr">{ds?.tables.map((t) => t.name).join(", ") || "—"}</span></div>
+          <div className="space-y-2 border-t border-hairline p-4 text-xs text-ink-2">
+            <div><span className="eyebrow text-ink-3">סוג: </span>{kindLabel}</div>
+            <div><span className="eyebrow text-ink-3">מקור נתונים: </span>{intel ? "תוכן יועץ מאומת ידנית (curated)" : "מאגר בלבד — שאר השדות דורשים אימות מול SE37/BAPI Explorer"}</div>
+            <div><span className="eyebrow text-ink-3">טבלאות שמפנות לפונקציה (מהמאגר): </span><span className="tech" dir="ltr">{ds?.tables.map((t) => t.name).join(", ") || "—"}</span></div>
           </div>
         )}
       </div>
@@ -160,11 +160,11 @@ export function FunctionIntelligence({ name }: { name: string }) {
 }
 
 function Row({ icon, label, children }: { icon: React.ReactNode; label: string; children: React.ReactNode }) {
-  return <div><div className="eyebrow mb-1.5 flex items-center gap-1.5 text-slate-400">{icon}{label}</div><div className="flex flex-wrap gap-1.5">{children}</div></div>;
+  return <div><div className="eyebrow mb-1.5 flex items-center gap-1.5 text-ink-3">{icon}{label}</div><div className="flex flex-wrap gap-1.5">{children}</div></div>;
 }
 function Chip({ text, href, tip }: { text: string; href?: string; tip?: string }) {
   const cls = "tech tap rounded-lg px-2 py-0.5 text-xs font-bold";
   return href
-    ? <Link href={href} title={tip} className={`${cls} border border-slate-200 bg-white text-slate-700 transition hover:border-brand hover:text-brand`} dir="ltr">{text}</Link>
-    : <span title={tip} className={`${cls} bg-slate-100 text-slate-500`} dir="ltr">{text}</span>;
+    ? <Link href={href} title={tip} className={`${cls} border border-hairline bg-surface text-ink-2 transition hover:border-brand hover:text-brand`} dir="ltr">{text}</Link>
+    : <span title={tip} className={`${cls} bg-surface-2 text-ink-3`} dir="ltr">{text}</span>;
 }

@@ -8,7 +8,7 @@ export const dynamicParams = false;
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const a = authBySlug(slug);
-  if (!a) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">הפריט לא נמצא.</div>;
+  if (!a) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">הפריט לא נמצא.</div>;
   return (
     <div>
       <Crumb trail={[{ href: "/knowledge/", label: "מרכז הידע" }, { href: "/security/", label: "הרשאות ואבטחה" }, { label: a.he }]} />

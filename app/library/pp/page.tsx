@@ -79,7 +79,7 @@ function ChapterCard({ ch, query }: { ch: PPChapter; query: string }) {
       </button>
 
       <div className="px-4 pb-3">
-        <p dir="rtl" className="text-sm leading-relaxed text-slate-700">
+        <p dir="rtl" className="text-sm leading-relaxed text-ink-2">
           <Highlight text={ch.summaryHe} query={query} />
         </p>
         <Link

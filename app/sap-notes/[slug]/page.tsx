@@ -13,7 +13,7 @@ const MOD: Record<string, string> = { PM: "#f97316", PP: "#2563eb", "PP-PI": "#6
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const n = noteBySlug(decodeURIComponent(slug));
-  if (!n) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">נושא Note לא נמצא.</div>;
+  if (!n) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">נושא Note לא נמצא.</div>;
   const c = MOD[n.module] || "#b45309";
   const incs = INCIDENTS.filter((i) => (n.relatedIncidents || []).includes(i.slug));
   const objs = OIC_OBJECTS.filter((o) => incs.some((i) => i.tables.includes(o.table)));
@@ -31,8 +31,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         <Block title="מילות חיפוש OSS (לא מספרים)" accent="#b45309"><div className="flex flex-wrap gap-1.5">{n.keywords.map((k) => <span key={k} className="tech rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700" dir="ltr">{k}</span>)}</div></Block>
         <Block title="קישורים צולבים" accent="#4338ca">
           <div className="space-y-2">
-            <div><p className="eyebrow mb-1 text-slate-400">תקלות</p><div className="flex flex-wrap gap-1.5">{incs.length ? incs.map((i) => <Link key={i.slug} href={`/resolution/${i.slug}/`} className="rounded-lg border border-red-200 bg-red-50 px-2 py-0.5 text-[11px] font-bold text-red-600 hover:bg-red-100">{i.he}</Link>) : <span className="text-[11px] text-slate-400">—</span>}</div></div>
-            <div><p className="eyebrow mb-1 text-slate-400">אובייקטים</p><div className="flex flex-wrap gap-1.5">{objs.length ? objs.map((o) => <Link key={o.slug} href={`/oic/${o.slug}/`} className="rounded-lg border border-indigo-200 bg-indigo-50 px-2 py-0.5 text-[11px] font-bold text-indigo-700 hover:bg-indigo-100">{o.he}</Link>) : <span className="text-[11px] text-slate-400">—</span>}</div></div>
+            <div><p className="eyebrow mb-1 text-ink-3">תקלות</p><div className="flex flex-wrap gap-1.5">{incs.length ? incs.map((i) => <Link key={i.slug} href={`/resolution/${i.slug}/`} className="rounded-lg border border-red-200 bg-red-50 px-2 py-0.5 text-[11px] font-bold text-red-600 hover:bg-red-100">{i.he}</Link>) : <span className="text-[11px] text-ink-3">—</span>}</div></div>
+            <div><p className="eyebrow mb-1 text-ink-3">אובייקטים</p><div className="flex flex-wrap gap-1.5">{objs.length ? objs.map((o) => <Link key={o.slug} href={`/oic/${o.slug}/`} className="rounded-lg border border-indigo-200 bg-indigo-50 px-2 py-0.5 text-[11px] font-bold text-indigo-700 hover:bg-indigo-100">{o.he}</Link>) : <span className="text-[11px] text-ink-3">—</span>}</div></div>
           </div>
         </Block>
       </div>

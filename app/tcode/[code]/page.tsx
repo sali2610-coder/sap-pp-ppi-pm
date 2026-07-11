@@ -30,6 +30,6 @@ export default async function Page({ params }: { params: Promise<{ code: string 
   if (registryTx(cu)) return <TransactionLight code={cu} />;
   // 3) …otherwise the dataset-derived related view.
   const intel = tcodeIntel(cu);
-  if (!intel) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">T-Code לא נמצא במאגר.</div>;
+  if (!intel) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">T-Code לא נמצא במאגר.</div>;
   return <RelatedView kind="T-Code" code={intel.code} tables={intel.tables} />;
 }

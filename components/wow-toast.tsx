@@ -36,7 +36,7 @@ export function WowToast() {
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: -10, scale: 0.98 }}
             transition={{ type: "spring", stiffness: 360, damping: 28 }}
             className="pointer-events-auto flex max-w-[88vw] items-center gap-3 rounded-2xl border border-white/15 bg-gradient-to-l from-brand-dark to-brand px-4 py-2.5 text-white shadow-xl shadow-brand/30">
-            <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-white/20"><Sparkles className="size-4" /></span>
+            <span className="grid size-8 shrink-0 place-items-center rounded-xl bg-surface/20"><Sparkles className="size-4" /></span>
             <span className="min-w-0"><span className="block text-sm font-extrabold">{t.title}</span>{t.sub && <span className="block truncate text-xs text-white/80">{t.sub}</span>}</span>
           </motion.div>
         ))}

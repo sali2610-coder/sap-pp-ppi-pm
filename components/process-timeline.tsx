@@ -24,9 +24,9 @@ export function ProcessTimeline({ steps, accent, dense }: { steps: TimelineStep[
         const inner = (
           <div className={`flex min-w-0 flex-1 items-center gap-2 rounded-xl border px-3 ${dense ? "py-1.5" : "py-2"} transition ${s.state === "current" ? "font-extrabold" : ""}`}
             style={s.state === "current" ? { borderColor: accent, background: accent + "0d", color: accent } : { borderColor: "#e2e8f0", background: "#fff" }}>
-            <span className="min-w-0 flex-1 truncate text-[13px] text-slate-700" style={s.state === "current" ? { color: accent } : undefined}>{s.label}</span>
+            <span className="min-w-0 flex-1 truncate text-[13px] text-ink-2" style={s.state === "current" ? { color: accent } : undefined}>{s.label}</span>
             {s.code && <span className="tech rounded-md px-1.5 py-0.5 font-mono text-[10px] font-bold" style={{ background: mColor + "1a", color: mColor }} dir="ltr">{s.code}</span>}
-            {s.href && <ArrowLeft className="size-3.5 shrink-0 text-slate-300" />}
+            {s.href && <ArrowLeft className="size-3.5 shrink-0 text-ink-3" />}
           </div>
         );
         return (

@@ -28,7 +28,7 @@ function Stat({ label, value }: { label: string; value: number }) {
     <motion.div
       whileHover={reduce ? undefined : { y: -3, scale: 1.025 }}
       transition={{ type: "spring", stiffness: 320, damping: 20 }}
-      className="group relative flex flex-col items-center overflow-hidden rounded-2xl border border-white/15 bg-white/10 px-3 py-3.5 backdrop-blur-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] sm:px-5"
+      className="group relative flex flex-col items-center overflow-hidden rounded-2xl border border-white/15 bg-surface/10 px-3 py-3.5 backdrop-blur-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] sm:px-5"
     >
       <span aria-hidden className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-l from-transparent via-white/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       <span className="font-mono text-2xl font-extrabold tabular-nums text-white sm:text-3xl">{v.toLocaleString()}</span>
@@ -42,7 +42,7 @@ export function HomeHero({ stats }: { stats: HeroStats }) {
   return (
     <section className="relative overflow-hidden rounded-[2rem] bg-gradient-to-bl from-[#d62027] via-[#b81920] to-[#7c0f13] p-7 text-white shadow-[0_34px_70px_-24px_rgba(124,15,19,0.6)] ring-1 ring-white/10 sm:p-10">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <motion.div className="absolute -right-24 -top-24 size-72 rounded-full bg-white/10 blur-3xl"
+        <motion.div className="absolute -right-24 -top-24 size-72 rounded-full bg-surface/10 blur-3xl"
           animate={reduce ? undefined : { scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }} transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }} />
         <motion.div className="absolute -bottom-28 left-10 size-80 rounded-full bg-black/20 blur-3xl"
           animate={reduce ? undefined : { scale: [1, 1.2, 1] }} transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }} />
@@ -50,7 +50,7 @@ export function HomeHero({ stats }: { stats: HeroStats }) {
       </div>
 
       <motion.div initial={false} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }} className="relative">
-        <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-xs font-semibold text-white/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
+        <span className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-surface/15 px-3 py-1 text-xs font-semibold text-white/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
           <span className="relative flex size-2">
             <span className={`absolute inline-flex h-full w-full rounded-full bg-emerald-300 ${reduce ? "" : "animate-ping"} opacity-75`} />
             <span className="relative inline-flex size-2 rounded-full bg-emerald-400" />
@@ -76,12 +76,12 @@ export function HomeHero({ stats }: { stats: HeroStats }) {
 
         <div className="mt-7 flex flex-wrap gap-3">
           <Link href="/sap-infrastructure/" onClick={() => playClick()}
-            className="group inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-[#b81920] shadow-lg transition hover:shadow-xl active:scale-[0.98]">
+            className="group inline-flex items-center gap-2 rounded-full bg-surface px-5 py-2.5 text-sm font-bold text-[#b81920] shadow-lg transition hover:shadow-xl active:scale-[0.98]">
             <Network className="size-4" /> פתח SAP Architecture
             <span className="grid size-6 place-items-center rounded-full bg-[#b81920]/10 transition group-hover:bg-[#b81920]/20"><ArrowLeft className="size-3.5" /></span>
           </Link>
           <Link href="/library/" onClick={() => playClick()}
-            className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-5 py-2.5 text-sm font-bold text-white backdrop-blur-sm transition hover:bg-white/20 active:scale-[0.98]">
+            className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-surface/10 px-5 py-2.5 text-sm font-bold text-white backdrop-blur-sm transition hover:bg-surface/20 active:scale-[0.98]">
             <BookOpen className="size-4" /> ספריית SAP
           </Link>
         </div>

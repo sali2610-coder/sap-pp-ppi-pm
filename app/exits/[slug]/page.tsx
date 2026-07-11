@@ -14,7 +14,7 @@ const MOD_COLOR: Record<string, string> = { PM: "#f97316", PP: "#2563eb", "PP-PI
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const e = exitBySlug(decodeURIComponent(slug));
-  if (!e) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">ההרחבה לא נמצאה.</div>;
+  if (!e) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">ההרחבה לא נמצאה.</div>;
   const c = MOD_COLOR[e.module];
   return (
     <div>
@@ -29,7 +29,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       </div>
       {e.tcodes.length > 0 && (
         <div className="mt-4"><Block title="טרנזקציות קשורות" accent="#475569">
-          <div className="flex flex-wrap gap-1.5">{e.tcodes.map((t) => <SapTip key={t} name={t}><span className="tech rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-bold text-slate-600" dir="ltr">{t}</span></SapTip>)}</div>
+          <div className="flex flex-wrap gap-1.5">{e.tcodes.map((t) => <SapTip key={t} name={t}><span className="tech rounded-lg border border-hairline bg-surface-2 px-2.5 py-1 text-xs font-bold text-ink-2" dir="ltr">{t}</span></SapTip>)}</div>
         </Block></div>
       )}
       <div className="mt-4"><EccS4Block data={e.eccS4} title={`ECC6 → S/4HANA · ${e.name}`} /></div>

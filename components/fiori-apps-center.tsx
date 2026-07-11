@@ -33,32 +33,32 @@ export function FioriAppsCenter() {
 
       {/* search + filters */}
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        <div className="flex min-w-[220px] flex-1 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5"><Search className="size-4 shrink-0 text-slate-400" /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש אפליקציה · App ID · Role · Catalog · OData · CDS · T-Code" className="w-full bg-transparent text-sm outline-none placeholder:text-slate-300" /></div>
-        <button onClick={() => setMod("")} className={`rounded-lg px-2.5 py-1.5 text-[12px] font-bold transition ${!mod ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`}>הכול</button>
+        <div className="flex min-w-[220px] flex-1 items-center gap-2 rounded-xl border border-hairline bg-surface px-3 py-2.5"><Search className="size-4 shrink-0 text-ink-3" /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש אפליקציה · App ID · Role · Catalog · OData · CDS · T-Code" className="w-full bg-transparent text-sm outline-none placeholder:text-ink-3" /></div>
+        <button onClick={() => setMod("")} className={`rounded-lg px-2.5 py-1.5 text-[12px] font-bold transition ${!mod ? "bg-slate-900 text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}>הכול</button>
         {modules.map((m) => <button key={m} onClick={() => setMod(mod === m ? "" : m)} className={`rounded-lg px-2.5 py-1.5 text-[12px] font-bold transition ${mod === m ? "bg-emerald-600 text-white" : "bg-emerald-50 text-emerald-700 hover:bg-emerald-100"}`}>{m}</button>)}
-        <span className="ms-auto text-[12px] font-bold text-slate-400">{list.length} אפליקציות</span>
+        <span className="ms-auto text-[12px] font-bold text-ink-3">{list.length} אפליקציות</span>
       </div>
 
       <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
         {list.map((a) => { const isOpen = open === a.slug; return (
-          <div key={a.slug} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md">
+          <div key={a.slug} className="overflow-hidden rounded-2xl border border-hairline bg-surface shadow-sm transition hover:shadow-md">
             <button onClick={() => setOpen(isOpen ? null : a.slug)} className="flex w-full items-start gap-3 p-4 text-right">
               <span className="grid size-11 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: "linear-gradient(135deg,#16a34a,#15803d)" }}><AppWindow className="size-5" /></span>
               <span className="min-w-0 flex-1">
-                <span className="flex items-center gap-1.5"><span className="text-[14px] font-extrabold text-slate-900">{a.title}</span><span className="rounded px-1.5 py-0.5 text-[9px] font-bold text-emerald-700" style={{ background: "#16a34a14" }}>{a.module}</span></span>
-                <span className="block text-[12px] text-slate-500">{a.he} · <span className="font-mono text-slate-400" dir="ltr">{a.sub}</span></span>
+                <span className="flex items-center gap-1.5"><span className="text-[14px] font-extrabold text-ink-1">{a.title}</span><span className="rounded px-1.5 py-0.5 text-[9px] font-bold text-emerald-700" style={{ background: "#16a34a14" }}>{a.module}</span></span>
+                <span className="block text-[12px] text-ink-3">{a.he} · <span className="font-mono text-ink-3" dir="ltr">{a.sub}</span></span>
               </span>
-              <ChevronDown className={`size-4 shrink-0 text-slate-300 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+              <ChevronDown className={`size-4 shrink-0 text-ink-3 transition-transform ${isOpen ? "rotate-180" : ""}`} />
             </button>
             {isOpen && (
-              <div className="space-y-2.5 border-t border-slate-100 p-4 pt-3">
+              <div className="space-y-2.5 border-t border-hairline p-4 pt-3">
                 {a.sections.map((s, i) => (
                   <div key={i}>
                     <div className="mb-0.5 text-[10px] font-bold uppercase tracking-wide" style={{ color: SEC_TONE(s.tone) }}>{s.title}</div>
-                    {"text" in s && s.text && <p className="text-[12.5px] leading-relaxed text-slate-600" dir="auto">{s.text}</p>}
+                    {"text" in s && s.text && <p className="text-[12.5px] leading-relaxed text-ink-2" dir="auto">{s.text}</p>}
                     {"items" in s && Array.isArray(s.items) && (s.type === "linkchips"
-                      ? <div className="flex flex-wrap gap-1.5">{s.items.map((it) => <Link key={it} href={`/tcode/${encodeURIComponent(it)}/`} className="tech rounded-lg bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600 hover:bg-emerald-50 hover:text-emerald-700" dir="ltr">{it}</Link>)}</div>
-                      : <ul className="space-y-0.5">{s.items.map((it, j) => <li key={j} className="flex gap-1.5 text-[12px] text-slate-600"><span className="mt-1.5 size-1 shrink-0 rounded-full" style={{ background: SEC_TONE(s.tone) }} />{it}</li>)}</ul>)}
+                      ? <div className="flex flex-wrap gap-1.5">{s.items.map((it) => <Link key={it} href={`/tcode/${encodeURIComponent(it)}/`} className="tech rounded-lg bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-2 hover:bg-emerald-50 hover:text-emerald-700" dir="ltr">{it}</Link>)}</div>
+                      : <ul className="space-y-0.5">{s.items.map((it, j) => <li key={j} className="flex gap-1.5 text-[12px] text-ink-2"><span className="mt-1.5 size-1 shrink-0 rounded-full" style={{ background: SEC_TONE(s.tone) }} />{it}</li>)}</ul>)}
                   </div>
                 ))}
                 {a.eccS4?.migration && <div className="rounded-xl bg-amber-50/60 p-2.5"><div className="mb-0.5 flex items-center gap-1 text-[10px] font-bold uppercase text-amber-700"><ArrowRightLeft className="size-3" />הגירה ECC↔S/4</div><p className="text-[12px] leading-relaxed text-amber-900">{a.eccS4.migration}</p></div>}
@@ -68,7 +68,7 @@ export function FioriAppsCenter() {
         ); })}
       </div>
       {list.length === 0 && <div className="mt-6"><EmptyState title="לא נמצאו אפליקציות" hint="נסה שם אפליקציה, App ID, Business Role, Catalog או טרנזקציית GUI" suggestions={[{ label: "נקה חיפוש", onClick: () => { setQ(""); setMod(""); } }]} /></div>}
-      <p className="mt-4 pb-6 text-center text-[11px] text-slate-400">מיפוי טרנזקציה → Fiori מאומת · App ID/Catalog/Role/OData/CDS אמיתיים. <Link href="/fiori/" className="font-bold text-brand">קורס Fiori & UX</Link></p>
+      <p className="mt-4 pb-6 text-center text-[11px] text-ink-3">מיפוי טרנזקציה → Fiori מאומת · App ID/Catalog/Role/OData/CDS אמיתיים. <Link href="/fiori/" className="font-bold text-brand">קורס Fiori & UX</Link></p>
     </div>
   );
 }

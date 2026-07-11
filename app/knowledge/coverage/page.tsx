@@ -52,7 +52,7 @@ const rows: Row[] = [
 ];
 
 function Bar({ v, color }: { v: number; color: string }) {
-  return <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full" style={{ width: `${v}%`, background: color }} /></div>;
+  return <div className="h-2 w-full overflow-hidden rounded-full bg-surface-2"><div className="h-full rounded-full" style={{ width: `${v}%`, background: color }} /></div>;
 }
 const scoreColor = (s: number) => (s >= 85 ? "#16a34a" : s >= 65 ? "#d97706" : "#dc2626");
 
@@ -72,28 +72,28 @@ export default function Page() {
           { label: "פונקציות מתועדות", value: `${funcsCurated}/${funcsTotal}`, sub: `BAPI ${kindTotal("BAPI")} · FM ${kindTotal("FM")} · IDoc ${kindTotal("IDoc")} · ${inferredCount} מסומנים 'נדרש אימות'` },
           { label: "ציון איכות כולל", value: `${overall}%`, sub: "משוקלל; bench-verified מול ברמת-סוג" },
         ].map((k) => (
-          <div key={k.label} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div className="text-3xl font-extrabold tracking-tight text-slate-900">{k.value}</div>
-            <div className="mt-1 text-sm font-bold text-slate-700">{k.label}</div>
-            <div className="mt-0.5 text-[11px] leading-snug text-slate-400">{k.sub}</div>
+          <div key={k.label} className="rounded-2xl border border-hairline bg-surface p-5 shadow-sm">
+            <div className="text-3xl font-extrabold tracking-tight text-ink-1">{k.value}</div>
+            <div className="mt-1 text-sm font-bold text-ink-2">{k.label}</div>
+            <div className="mt-0.5 text-[11px] leading-snug text-ink-3">{k.sub}</div>
           </div>
         ))}
       </div>
 
       {/* quality by area */}
-      <h2 className="mb-3 text-lg font-extrabold tracking-tight text-slate-900" dir="rtl">ציון איכות לפי תחום</h2>
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm" dir="rtl">
+      <h2 className="mb-3 text-lg font-extrabold tracking-tight text-ink-1" dir="rtl">ציון איכות לפי תחום</h2>
+      <div className="overflow-hidden rounded-2xl border border-hairline bg-surface shadow-sm" dir="rtl">
         <table className="w-full text-sm">
-          <thead className="bg-slate-50 text-xs font-bold text-slate-500">
+          <thead className="bg-surface-2 text-xs font-bold text-ink-3">
             <tr><th className="p-3 text-start">תחום</th><th className="p-3 text-center">סה״כ</th><th className="p-3 text-center">מאומת</th><th className="p-3 text-start">הערה</th><th className="p-3 text-center w-40">ציון</th></tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {rows.map((r) => (
               <tr key={r.area}>
-                <td className="p-3 font-bold text-slate-800">{r.area}</td>
-                <td className="p-3 text-center font-mono font-bold text-slate-700">{r.total}</td>
-                <td className="p-3 text-center font-mono font-bold text-slate-700">{r.verified}</td>
-                <td className="p-3 text-[12px] leading-snug text-slate-500">{r.note}</td>
+                <td className="p-3 font-bold text-ink-1">{r.area}</td>
+                <td className="p-3 text-center font-mono font-bold text-ink-2">{r.total}</td>
+                <td className="p-3 text-center font-mono font-bold text-ink-2">{r.verified}</td>
+                <td className="p-3 text-[12px] leading-snug text-ink-3">{r.note}</td>
                 <td className="p-3">
                   <div className="flex items-center gap-2"><span className="w-9 text-end font-mono text-xs font-bold" style={{ color: scoreColor(r.score) }}>{r.score}%</span><Bar v={r.score} color={scoreColor(r.score)} /></div>
                 </td>
@@ -104,7 +104,7 @@ export default function Page() {
       </div>
 
       {/* status of gaps */}
-      <h2 className="mb-3 mt-7 text-lg font-extrabold tracking-tight text-slate-900" dir="rtl">מצב פערים — שקיפות</h2>
+      <h2 className="mb-3 mt-7 text-lg font-extrabold tracking-tight text-ink-1" dir="rtl">מצב פערים — שקיפות</h2>
       <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-sm leading-relaxed text-emerald-900" dir="rtl">
         <p className="font-bold">0 ישויות ללא רשומה — לכל {funcsTotal} הפונקציות, {tablesTotal} הטבלאות, {cdsTotal} ה-CDS ו-{authTotal} אובייקטי ההרשאה יש רשומה מתועדת + פרופיל 12-ממדי.</p>
       </div>

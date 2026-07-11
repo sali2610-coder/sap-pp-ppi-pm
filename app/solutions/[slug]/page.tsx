@@ -17,16 +17,16 @@ const bapiHref = (b: string) => FN.has(b) ? `/bapi/${encodeURIComponent(b)}/` : 
 const incHref = (i: string) => incidentBySlug(i) ? `/resolution/${i}/` : "";
 
 function L({ items, hrefFn }: { items: string[]; hrefFn?: (s: string) => string }) {
-  if (!items.length) return <span className="text-slate-400">—</span>;
+  if (!items.length) return <span className="text-ink-3">—</span>;
   return <div className="flex flex-wrap gap-1.5">{items.map((it) => { const h = hrefFn ? hrefFn(it) : ""; return h
-    ? <Link key={it} href={h} className="tech rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-bold text-slate-600 hover:border-brand hover:text-brand" dir="ltr">{it}</Link>
-    : <span key={it} className="tech rounded-lg border border-dashed border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-500" dir="ltr">{it}</span>; })}</div>;
+    ? <Link key={it} href={h} className="tech rounded-lg border border-hairline bg-surface-2 px-2.5 py-1 text-xs font-bold text-ink-2 hover:border-brand hover:text-brand" dir="ltr">{it}</Link>
+    : <span key={it} className="tech rounded-lg border border-dashed border-hairline bg-surface px-2.5 py-1 text-xs font-bold text-ink-3" dir="ltr">{it}</span>; })}</div>;
 }
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const s = solutionBySlug(decodeURIComponent(slug));
-  if (!s) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">פתרון לא נמצא.</div>;
+  if (!s) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">פתרון לא נמצא.</div>;
   const c = "#b45309";
   return (
     <div dir="rtl">
@@ -44,7 +44,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         <Block title="User Exits / BAdIs" accent="#7c3aed"><L items={s.exits} /></Block>
         <Block title="תקלות נפוצות" accent="#dc2626"><L items={s.incidents} hrefFn={incHref} /></Block>
         <Block title="הרשאות (Authorization)" accent="#dc2626"><Link href="/authorizations/" className="text-sm font-bold text-brand hover:underline">אובייקטי הרשאה + אבחון SU53→PFCG →</Link></Block>
-        <Block title="מקרי בדיקה (QA)" accent="#be185d"><span className="text-[13px] text-slate-600">תרחישי Positive/Negative/Integration → </span><Link href="/qa-testing/" className="text-sm font-bold text-brand hover:underline">QA Center</Link><span className="text-[13px] text-slate-600"> · התקלות לעיל = תרחישי כשל (Negative).</span></Block>
+        <Block title="מקרי בדיקה (QA)" accent="#be185d"><span className="text-[13px] text-ink-2">תרחישי Positive/Negative/Integration → </span><Link href="/qa-testing/" className="text-sm font-bold text-brand hover:underline">QA Center</Link><span className="text-[13px] text-ink-2"> · התקלות לעיל = תרחישי כשל (Negative).</span></Block>
       </div>
       <div className="mt-4"><Block title="הערות מיגרציה (ECC → S/4HANA)" accent="#2563eb">{s.s4Alt} מורכבות יישום: {s.complexity}. ראה lifecycle לכל T-Code + מרכז המיגרציה.</Block></div>
       <Link href="/solutions/" className="mt-6 inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:underline">→ חזרה למאתר הפתרונות</Link>

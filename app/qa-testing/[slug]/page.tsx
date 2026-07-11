@@ -14,7 +14,7 @@ const ORDER: QaKind[] = ["Validation", "Positive", "Negative", "Integration", "R
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const p = qaPackBySlug(decodeURIComponent(slug));
-  if (!p) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">חבילת הבדיקה לא נמצאה.</div>;
+  if (!p) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">חבילת הבדיקה לא נמצאה.</div>;
   const c = MOD_COLOR[p.module];
   return (
     <div dir="rtl">
@@ -22,8 +22,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       <CenterHeader eyebrow={`חבילת בדיקות · ${p.module} · ${p.area}`} title={p.he} sub={p.intro} accent={c} />
 
       <div className="mb-4 grid gap-4 lg:grid-cols-2">
-        <Block title="T-Codes" accent="#0891b2"><div className="flex flex-wrap gap-1.5">{p.tcodes.map((t) => <SapTip key={t} name={t}><span className="tech rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-bold text-slate-600" dir="ltr">{t}</span></SapTip>)}</div></Block>
-        <Block title="טבלאות" accent="#0891b2"><div className="flex flex-wrap gap-1.5">{p.tables.map((t) => <SapTip key={t} name={t}><span className="tech rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-bold text-slate-600" dir="ltr">{t}</span></SapTip>)}</div></Block>
+        <Block title="T-Codes" accent="#0891b2"><div className="flex flex-wrap gap-1.5">{p.tcodes.map((t) => <SapTip key={t} name={t}><span className="tech rounded-lg border border-hairline bg-surface-2 px-2.5 py-1 text-xs font-bold text-ink-2" dir="ltr">{t}</span></SapTip>)}</div></Block>
+        <Block title="טבלאות" accent="#0891b2"><div className="flex flex-wrap gap-1.5">{p.tables.map((t) => <SapTip key={t} name={t}><span className="tech rounded-lg border border-hairline bg-surface-2 px-2.5 py-1 text-xs font-bold text-ink-2" dir="ltr">{t}</span></SapTip>)}</div></Block>
       </div>
 
       <div className="space-y-4">
@@ -32,14 +32,14 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           if (!items.length) return null;
           const col = KIND_COLOR[kind];
           return (
-            <section key={kind} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-              <h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold tracking-tight text-slate-900">
+            <section key={kind} className="rounded-2xl border border-hairline bg-surface p-5 shadow-sm">
+              <h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold tracking-tight text-ink-1">
                 <span className="rounded-full px-2.5 py-0.5 text-[11px] font-bold text-white" style={{ background: col }}>{KIND_HE[kind]}</span>
-                <span className="text-slate-400">{kind} · {items.length}</span>
+                <span className="text-ink-3">{kind} · {items.length}</span>
               </h2>
               <ul className="space-y-2">
                 {items.map((s, i) => (
-                  <li key={i} className="flex gap-2.5 rounded-xl border border-slate-100 bg-slate-50/50 p-3 text-sm text-slate-700">
+                  <li key={i} className="flex gap-2.5 rounded-xl border border-hairline bg-surface-2/50 p-3 text-sm text-ink-2">
                     <span className="mt-1 size-2 shrink-0 rounded-full" style={{ background: col }} />{s.he}
                   </li>
                 ))}

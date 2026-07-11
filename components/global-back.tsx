@@ -59,7 +59,7 @@ export function GlobalBack() {
   return (
     <div className="no-print sticky z-30 mb-3 flex" style={{ top }} dir="rtl">
       <button onClick={back} aria-label="חזור אחורה" title="חזור אחורה (Backspace)"
-        className="group inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/90 px-3.5 py-2 text-[13px] font-bold text-slate-600 shadow-sm backdrop-blur transition hover:-translate-x-0.5 hover:border-brand/40 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 active:scale-95">
+        className="group inline-flex items-center gap-1.5 rounded-full border border-hairline bg-surface/90 px-3.5 py-2 text-[13px] font-bold text-ink-2 shadow-sm backdrop-blur transition hover:-translate-x-0.5 hover:border-brand/40 hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/40 active:scale-95">
         <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />חזור אחורה
       </button>
     </div>

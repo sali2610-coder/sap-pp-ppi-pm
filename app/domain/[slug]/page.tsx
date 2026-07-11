@@ -7,6 +7,6 @@ export const dynamicParams = false;
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const d = domainBySlug(decodeURIComponent(slug));
-  if (!d) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">תחום לא נמצא.</div>;
+  if (!d) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">תחום לא נמצא.</div>;
   return <DomainView d={d} />;
 }

@@ -14,10 +14,10 @@ const NV = "לא אומת עדיין"; // not yet verified — never invent
 function Block({ id, icon, title, sub, accent, children }: { id: string; icon: React.ReactNode; title: string; sub?: string; accent: string; children: React.ReactNode }) {
   return (
     <motion.section id={id} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      className="scroll-mt-24 rounded-3xl border border-slate-200 bg-white p-5 shadow-[var(--elev-1)] sm:p-6">
+      className="scroll-mt-24 rounded-3xl border border-hairline bg-surface p-5 shadow-[var(--elev-1)] sm:p-6">
       <div className="mb-4 flex items-center gap-2.5">
         <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: accent }}>{icon}</span>
-        <div><h2 className="text-lg font-extrabold tracking-tight text-slate-900">{title}</h2>{sub && <p className="text-[11.5px] text-slate-400">{sub}</p>}</div>
+        <div><h2 className="text-lg font-extrabold tracking-tight text-ink-1">{title}</h2>{sub && <p className="text-[11.5px] text-ink-3">{sub}</p>}</div>
       </div>
       {children}
     </motion.section>
@@ -28,25 +28,25 @@ function Block({ id, icon, title, sub, accent, children }: { id: string; icon: R
 function ShotSlot({ icon, c, title, what, where, look }: { icon: React.ReactNode; c: string; title: string; what: string; where: string; look: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-200">
-      <div className="relative grid h-36 place-items-center border-b border-dashed border-slate-300 bg-slate-50/80" style={{ backgroundImage: "repeating-linear-gradient(135deg,transparent,transparent 10px,rgba(148,163,184,0.06) 10px,rgba(148,163,184,0.06) 20px)" }}>
-        <div className="flex flex-col items-center gap-1 text-slate-400">
+    <div className="overflow-hidden rounded-2xl border border-hairline">
+      <div className="relative grid h-36 place-items-center border-b border-dashed border-hairline bg-surface-2/80" style={{ backgroundImage: "repeating-linear-gradient(135deg,transparent,transparent 10px,rgba(148,163,184,0.06) 10px,rgba(148,163,184,0.06) 20px)" }}>
+        <div className="flex flex-col items-center gap-1 text-ink-3">
           <Camera className="size-7" />
           <span className="text-[11px] font-bold">צילום מסך נדרש</span>
         </div>
         <span className="absolute right-2 top-2 grid size-7 place-items-center rounded-lg text-white shadow-sm" style={{ background: c }}>{icon}</span>
       </div>
       <button onClick={() => setOpen((v) => !v)} className="flex w-full items-center justify-between gap-2 px-3.5 py-2.5 text-right">
-        <span className="text-[13px] font-extrabold text-slate-800">{title}</span>
-        <ChevronDown className={`size-4 shrink-0 text-slate-400 transition-transform ${open ? "rotate-180" : ""}`} />
+        <span className="text-[13px] font-extrabold text-ink-1">{title}</span>
+        <ChevronDown className={`size-4 shrink-0 text-ink-3 transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
       <AnimatePresence initial={false}>
         {open && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden">
-            <div className="space-y-2 border-t border-slate-100 px-3.5 py-3 text-[11.5px] leading-relaxed">
-              <p><span className="font-bold text-slate-500">מה לצלם: </span><span className="text-slate-600">{what}</span></p>
-              <p><span className="font-bold text-slate-500">היכן: </span><span className="tech text-slate-600" dir="ltr">{where}</span></p>
-              <p><span className="font-bold text-slate-500">על מה להסתכל: </span><span className="text-slate-600">{look}</span></p>
+            <div className="space-y-2 border-t border-hairline px-3.5 py-3 text-[11.5px] leading-relaxed">
+              <p><span className="font-bold text-ink-3">מה לצלם: </span><span className="text-ink-2">{what}</span></p>
+              <p><span className="font-bold text-ink-3">היכן: </span><span className="tech text-ink-2" dir="ltr">{where}</span></p>
+              <p><span className="font-bold text-ink-3">על מה להסתכל: </span><span className="text-ink-2">{look}</span></p>
             </div>
           </motion.div>
         )}
@@ -57,10 +57,10 @@ function ShotSlot({ icon, c, title, what, where, look }: { icon: React.ReactNode
 
 function PathRow({ label, value, verified, mono }: { label: string; value: string; verified: boolean; mono?: boolean }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5">
-      <span className="text-[11px] font-bold text-slate-400">{label}</span>
+    <div className="flex items-center justify-between gap-3 rounded-xl border border-hairline bg-surface-2/50 px-3.5 py-2.5">
+      <span className="text-[11px] font-bold text-ink-3">{label}</span>
       {verified
-        ? <span className={`text-[13px] font-bold text-slate-800 ${mono ? "tech font-mono" : ""}`} dir={mono ? "ltr" : "rtl"}>{value}</span>
+        ? <span className={`text-[13px] font-bold text-ink-1 ${mono ? "tech font-mono" : ""}`} dir={mono ? "ltr" : "rtl"}>{value}</span>
         : <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10.5px] font-bold text-amber-600">{NV}</span>}
     </div>
   );
@@ -73,7 +73,7 @@ function StepChip({ code, role, accent }: { code: string; role: "prev" | "curren
   const style = role === "current"
     ? { background: accent, color: "#fff" }
     : role === "alt" ? { background: "#f1f5f9", color: "#475569" } : { background: "#fff", color: "#334155" };
-  const cls = role === "current" ? base + " shadow-md" : base + " border border-slate-200 shadow-sm" + (live ? " hover:border-brand/40 hover:text-brand" : " opacity-70");
+  const cls = role === "current" ? base + " shadow-md" : base + " border border-hairline shadow-sm" + (live ? " hover:border-brand/40 hover:text-brand" : " opacity-70");
   const content = <span className="flex items-center gap-1" dir="ltr">{role === "current" && <Terminal className="size-3.5" />}{code}</span>;
   return live && role !== "current"
     ? <Link href={`/apps/${encodeURIComponent(code)}/`} className={cls} style={style}>{content}</Link>
@@ -143,16 +143,16 @@ export function PracticalLayer({ o, accent }: { o: AppObject; accent: string }) 
                     initial={false}
                     animate={reduce ? {} : isCur ? { scale: [1, 1.06, 1], boxShadow: [`0 0 0 0 ${accent}00`, `0 0 0 6px ${accent}22`, `0 0 0 0 ${accent}00`] } : {}}
                     transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-                    className={`rounded-xl border-2 px-3 py-2 text-[12px] font-bold ${isCur ? "text-white" : "border-slate-200 bg-slate-50 text-slate-600"}`}
+                    className={`rounded-xl border-2 px-3 py-2 text-[12px] font-bold ${isCur ? "text-white" : "border-hairline bg-surface-2 text-ink-2"}`}
                     style={isCur ? { background: accent, borderColor: accent } : undefined}>
                     {step}
                   </motion.span>
-                  {i < flowSteps.length - 1 && <ArrowLeft className="size-4 shrink-0 text-slate-300" />}
+                  {i < flowSteps.length - 1 && <ArrowLeft className="size-4 shrink-0 text-ink-3" />}
                 </div>
               );
             })}
           </div>
-          <p className="mt-3 text-[11px] text-slate-400">הנקודה הפעילה מסמנת היכן {t.code} נמצא בתהליך. GIF/הקלטה אמיתית יתווספו בהמשך — ללא צילומים מומצאים.</p>
+          <p className="mt-3 text-[11px] text-ink-3">הנקודה הפעילה מסמנת היכן {t.code} נמצא בתהליך. GIF/הקלטה אמיתית יתווספו בהמשך — ללא צילומים מומצאים.</p>
         </Block>
       )}
 
@@ -172,22 +172,22 @@ export function PracticalLayer({ o, accent }: { o: AppObject; accent: string }) 
       <Block id="wheremap" icon={<MapPin className="size-5" />} title="איפה אני בתהליך?" sub="צעד קודם · נוכחי · הבא · חלופות — לחיץ" accent={accent}>
         <div className="flex flex-wrap items-end gap-x-3 gap-y-4">
           <div className="flex flex-col items-center gap-1">
-            <span className="text-[10px] font-bold text-slate-400">קודם</span>
-            {prev ? <StepChip code={prev} role="prev" accent={accent} /> : <span className="rounded-xl border border-dashed border-slate-200 px-3 py-2 text-[11px] text-slate-300">—</span>}
+            <span className="text-[10px] font-bold text-ink-3">קודם</span>
+            {prev ? <StepChip code={prev} role="prev" accent={accent} /> : <span className="rounded-xl border border-dashed border-hairline px-3 py-2 text-[11px] text-ink-3">—</span>}
           </div>
-          <ArrowLeft className="mb-2 size-5 text-slate-300" />
+          <ArrowLeft className="mb-2 size-5 text-ink-3" />
           <div className="flex flex-col items-center gap-1">
             <span className="text-[10px] font-bold" style={{ color: accent }}>אני כאן</span>
             <StepChip code={t.code} role="current" accent={accent} />
           </div>
-          <ArrowLeft className="mb-2 size-5 text-slate-300" />
+          <ArrowLeft className="mb-2 size-5 text-ink-3" />
           <div className="flex flex-col items-center gap-1">
-            <span className="text-[10px] font-bold text-slate-400">הבא</span>
-            {next ? <StepChip code={next} role="next" accent={accent} /> : <span className="rounded-xl border border-dashed border-slate-200 px-3 py-2 text-[11px] text-slate-300">—</span>}
+            <span className="text-[10px] font-bold text-ink-3">הבא</span>
+            {next ? <StepChip code={next} role="next" accent={accent} /> : <span className="rounded-xl border border-dashed border-hairline px-3 py-2 text-[11px] text-ink-3">—</span>}
           </div>
           {alts.length > 0 && (
             <div className="ms-auto flex flex-col items-start gap-1">
-              <span className="text-[10px] font-bold text-slate-400">חלופות</span>
+              <span className="text-[10px] font-bold text-ink-3">חלופות</span>
               <div className="flex flex-wrap gap-1.5">{alts.map((a) => <StepChip key={a} code={a} role="alt" accent={accent} />)}</div>
             </div>
           )}
@@ -199,9 +199,9 @@ export function PracticalLayer({ o, accent }: { o: AppObject; accent: string }) 
         <Block id="tips" icon={<Lightbulb className="size-5" />} title="טיפים של יועץ SAP" sub="מתוך הידע המאומת — ללא המצאה" accent={accent}>
           <div className="grid gap-3 md:grid-cols-2">
             {tips.map((tip, i) => (
-              <div key={i} className="rounded-2xl border border-slate-200 bg-slate-50/50 p-4">
+              <div key={i} className="rounded-2xl border border-hairline bg-surface-2/50 p-4">
                 <div className="mb-1 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide" style={{ color: tip.c }}>{tip.icon}{tip.label}</div>
-                <p className="text-[12.5px] leading-relaxed text-slate-600">{tip.text}</p>
+                <p className="text-[12.5px] leading-relaxed text-ink-2">{tip.text}</p>
               </div>
             ))}
           </div>

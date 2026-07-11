@@ -55,25 +55,25 @@ export function TransactionWorkspace() {
     <div dir="rtl">
       <div className="mb-4 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
         {[["טרנזקציות במאגר", stats.total], ["מתועדות לעומק", stats.deep], ["מועדפים", favs.length], ["מודולים", modules.length]].map(([l, n]) => (
-          <div key={l as string} className="rounded-2xl border border-slate-200 bg-white p-3 text-center shadow-sm"><div className="font-mono text-2xl font-extrabold text-slate-900">{n as number}</div><div className="text-[11px] font-bold text-slate-400">{l as string}</div></div>
+          <div key={l as string} className="rounded-2xl border border-hairline bg-surface p-3 text-center shadow-sm"><div className="font-mono text-2xl font-extrabold text-ink-1">{n as number}</div><div className="text-[11px] font-bold text-ink-3">{l as string}</div></div>
         ))}
       </div>
 
       <div className="mb-3 flex flex-wrap gap-1.5">
-        {VIEWS.map(([v, l, Ic]) => <button key={v} onClick={() => setView(v)} className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-[13px] font-bold transition ${view === v ? "bg-brand text-white shadow-sm" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`}><Ic className="size-3.5" />{l}</button>)}
+        {VIEWS.map(([v, l, Ic]) => <button key={v} onClick={() => setView(v)} className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-[13px] font-bold transition ${view === v ? "bg-brand text-white shadow-sm" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}><Ic className="size-3.5" />{l}</button>)}
       </div>
 
       <div className="mb-3 flex flex-wrap items-center gap-2">
-        <div className="flex min-w-[200px] flex-1 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2">
-          <Search className="size-4 shrink-0 text-slate-400" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש לפי קוד / אזור / תיאור" className="w-full bg-transparent text-sm outline-none placeholder:text-slate-300" />
+        <div className="flex min-w-[200px] flex-1 items-center gap-2 rounded-xl border border-hairline bg-surface px-3 py-2">
+          <Search className="size-4 shrink-0 text-ink-3" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש לפי קוד / אזור / תיאור" className="w-full bg-transparent text-sm outline-none placeholder:text-ink-3" />
         </div>
-        <button onClick={() => setFlag(flag === "deep" ? "" : "deep")} className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-[12px] font-bold transition ${flag === "deep" ? "bg-brand text-white" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`}><Layers className="size-3.5" />מתועד לעומק</button>
-        <button onClick={() => setFlag(flag === "fiori" ? "" : "fiori")} className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-[12px] font-bold transition ${flag === "fiori" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`}><AppWindow className="size-3.5" />Fiori זמין</button>
+        <button onClick={() => setFlag(flag === "deep" ? "" : "deep")} className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-[12px] font-bold transition ${flag === "deep" ? "bg-brand text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}><Layers className="size-3.5" />מתועד לעומק</button>
+        <button onClick={() => setFlag(flag === "fiori" ? "" : "fiori")} className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-[12px] font-bold transition ${flag === "fiori" ? "bg-blue-600 text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}><AppWindow className="size-3.5" />Fiori זמין</button>
       </div>
 
       <div className="mb-4 flex flex-wrap gap-1.5">
-        <button onClick={() => setMod("")} className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition ${!mod ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`}>הכול</button>
+        <button onClick={() => setMod("")} className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition ${!mod ? "bg-slate-900 text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}>הכול</button>
         {modules.map((m) => { const on = mod === m; const col = mc(m); return <button key={m} onClick={() => setMod(on ? "" : m)} className="rounded-lg px-2.5 py-1 text-[11px] font-bold transition" style={on ? { background: col, color: "#fff" } : { background: col + "14", color: col }}>{m} · {stats.byModule[m]}</button>; })}
       </div>
 
@@ -82,28 +82,28 @@ export function TransactionWorkspace() {
       ) : (
         <div className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3">
           {list.map((t) => { const col = mc(t.module); const isFav = favs.includes(t.code); const deep = t.depth === "deep"; const d = TX_INTEL[t.code]; const pop = txPopularity(t.code); return (
-            <div key={t.code} onMouseEnter={() => setActiveEntity(t.code)} className="group relative min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white p-3.5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md">
-              <button onClick={() => toggleTxFavorite(t.code)} aria-label="מועדף" className="absolute left-2.5 top-2.5 z-10 rounded-lg p-1 text-slate-300 transition hover:bg-amber-50 hover:text-amber-500"><Star className={`size-4 ${isFav ? "fill-amber-400 text-amber-500" : ""}`} /></button>
+            <div key={t.code} onMouseEnter={() => setActiveEntity(t.code)} className="group relative min-w-0 overflow-hidden rounded-2xl border border-hairline bg-surface p-3.5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md">
+              <button onClick={() => toggleTxFavorite(t.code)} aria-label="מועדף" className="absolute left-2.5 top-2.5 z-10 rounded-lg p-1 text-ink-3 transition hover:bg-amber-50 hover:text-amber-500"><Star className={`size-4 ${isFav ? "fill-amber-400 text-amber-500" : ""}`} /></button>
               <Link href={t.href} className="block">
                 <div className="flex items-center gap-2.5">
                   <span className="grid size-10 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: `linear-gradient(135deg,${col},${col}cc)` }}><Terminal className="size-5" /></span>
                   <div className="min-w-0">
-                    <div className="flex items-center gap-1.5"><span className="font-mono text-[15px] font-extrabold text-slate-900" dir="ltr">{t.code}</span><span className="rounded px-1.5 py-0.5 text-[9px] font-bold" style={{ background: col + "1a", color: col }}>{t.module}</span></div>
-                    <div className="truncate text-[11px] font-bold text-slate-400">{t.he}</div>
+                    <div className="flex items-center gap-1.5"><span className="font-mono text-[15px] font-extrabold text-ink-1" dir="ltr">{t.code}</span><span className="rounded px-1.5 py-0.5 text-[9px] font-bold" style={{ background: col + "1a", color: col }}>{t.module}</span></div>
+                    <div className="truncate text-[11px] font-bold text-ink-3">{t.he}</div>
                   </div>
                 </div>
                 <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                  {deep ? <span className="rounded-md bg-brand/10 px-1.5 py-0.5 text-[10px] font-bold text-brand">מתועד לעומק</span> : <span className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold text-slate-400">מאומת</span>}
+                  {deep ? <span className="rounded-md bg-brand/10 px-1.5 py-0.5 text-[10px] font-bold text-brand">מתועד לעומק</span> : <span className="rounded-md bg-surface-2 px-1.5 py-0.5 text-[10px] font-bold text-ink-3">מאומת</span>}
                   {d?.fiori && d.fiori.trim() && <span className="rounded-md bg-blue-50 px-1.5 py-0.5 text-[10px] font-bold text-blue-600">Fiori</span>}
                   {pop > 0 && <span className="inline-flex items-center gap-0.5 rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold text-amber-600"><Flame className="size-2.5" />{pop}</span>}
-                  <span className="ms-auto inline-flex items-center gap-0.5 text-[10px] font-bold text-slate-300 transition group-hover:text-brand">פתח<ArrowLeft className="size-3" /></span>
+                  <span className="ms-auto inline-flex items-center gap-0.5 text-[10px] font-bold text-ink-3 transition group-hover:text-brand">פתח<ArrowLeft className="size-3" /></span>
                 </div>
               </Link>
             </div>
           ); })}
         </div>
       )}
-      {list.length >= 300 && <p className="mt-3 text-center text-[11px] text-slate-400">מוצגות 300 הראשונות — צמצם עם חיפוש/מסננים</p>}
+      {list.length >= 300 && <p className="mt-3 text-center text-[11px] text-ink-3">מוצגות 300 הראשונות — צמצם עם חיפוש/מסננים</p>}
     </div>
   );
 }

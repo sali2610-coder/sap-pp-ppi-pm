@@ -25,13 +25,13 @@ function SectionSpread({ s }: { s: Section }) {
       <div className="grid gap-0 sm:grid-cols-[1fr_1px_1fr]">
         <div dir="ltr" className="px-4 text-start">
           <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">English (original)</p>
-          <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-slate-700">{s.en}</p>
+          <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-ink-2">{s.en}</p>
         </div>
         <div className="book-spine hidden sm:block" aria-hidden />
         <div dir="rtl" className="px-4 text-start">
           <p className="text-[11px] font-bold uppercase tracking-wide text-brand">עברית · תרגום מקצועי</p>
           {s.he ? (
-            <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-slate-800">{s.he}</p>
+            <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-ink-1">{s.he}</p>
           ) : (
             <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
               <span className="size-1.5 rounded-full bg-status-in-analysis" />

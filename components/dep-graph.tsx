@@ -23,7 +23,7 @@ export function DepGraph({ graph }: { graph: ObjectGraph }) {
   const pos = (i: number) => { const a = (i / n) * 2 * Math.PI - Math.PI / 2; return { x: cx + R * Math.cos(a), y: cy + R * Math.sin(a) }; };
   const cm = graph.module === "PM" ? "#f97316" : graph.module === "QM" ? "#0d9488" : "#6d28d9";
   return (
-    <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white p-2 shadow-sm" dir="ltr">
+    <section className="overflow-hidden rounded-2xl border border-hairline bg-surface p-2 shadow-sm" dir="ltr">
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full" role="img" aria-label="dependency graph">
         {nodes.map((nd, i) => { const p = pos(i); return <line key={"l" + i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke={nd.color} strokeOpacity="0.3" strokeWidth="1.5" />; })}
         {/* center */}

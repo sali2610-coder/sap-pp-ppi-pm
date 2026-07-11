@@ -11,7 +11,7 @@ export function TrustBadge({ trust }: { trust: Trust }) {
       <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-bold" style={{ color: m.color, background: m.bg }}>
         <I className="size-3.5" />{trust.level} · {m.he}
       </span>
-      <span className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-2 py-0.5 text-[10px] font-bold text-slate-500">
+      <span className="inline-flex items-center gap-1 rounded-full border border-hairline bg-surface px-2 py-0.5 text-[10px] font-bold text-ink-3">
         <Tag className="size-3" />{SOURCE_HE[trust.source]}
       </span>
     </span>

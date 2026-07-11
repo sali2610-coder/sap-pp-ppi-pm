@@ -67,7 +67,7 @@ function DeepUnitCard({ u, lang }: { u: DeepUnit; lang: string }) {
         {open && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22 }} className="overflow-hidden">
             <div className="space-y-3 border-t border-border/40 p-3">
-              <p className="text-sm leading-relaxed text-slate-700">{u.explanationHe}</p>
+              <p className="text-sm leading-relaxed text-ink-2">{u.explanationHe}</p>
               {u.scenarioHe && (
                 <div className="rounded-lg border border-border/50 bg-muted/30 p-2.5">
                   <p className="text-[11px] font-bold text-brand">{lang === "he" ? "תרחיש עסקי" : "Business scenario"}</p>
@@ -138,7 +138,7 @@ export function PPChapterDetail({ ch }: { ch: PPChapter }) {
         <div className="space-y-5">
           <section id="overview" dir="rtl" className="glass scroll-mt-24 rounded-2xl p-5">
             <h2 className="mb-2 flex items-center gap-2 text-sm font-bold text-brand"><BookOpen className="size-4" />{lang === "he" ? "תקציר מנהלים" : "Executive summary"}</h2>
-            <p className="text-sm leading-relaxed text-slate-700">{ch.summaryHe}</p>
+            <p className="text-sm leading-relaxed text-ink-2">{ch.summaryHe}</p>
           </section>
 
           {/* chapter table of contents — real subchapters (hidden for textbook chapters; the accordion below is the TOC) */}

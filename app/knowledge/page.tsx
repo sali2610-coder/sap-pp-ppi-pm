@@ -118,8 +118,8 @@ export default function Page() {
 
       <KnowledgeExplorer centers={centers} groups={GROUPS.map((g) => ({ ...g }))} />
 
-      <a href="/knowledge/coverage/" className="lift mt-10 flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm" dir="rtl">
-        <span className="text-sm font-bold text-slate-700">📊 דוח כיסוי ידע — סך ישויות, מאומת מול כללי, פערים גלויים וציון איכות לפי תחום</span>
+      <a href="/knowledge/coverage/" className="lift mt-10 flex items-center justify-between rounded-2xl border border-hairline bg-surface px-5 py-4 shadow-sm" dir="rtl">
+        <span className="text-sm font-bold text-ink-2">📊 דוח כיסוי ידע — סך ישויות, מאומת מול כללי, פערים גלויים וציון איכות לפי תחום</span>
         <span className="text-sm font-bold text-brand">פתח →</span>
       </a>
     </div>

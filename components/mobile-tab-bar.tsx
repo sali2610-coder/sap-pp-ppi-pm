@@ -36,7 +36,7 @@ function Tab({ active, icon: Icon, label, onClick, href }: { active: boolean; ic
       <span className={`text-[10px] leading-none ${active ? "font-extrabold" : "font-bold"}`}>{label}</span>
     </motion.span>
   );
-  const cls = `tap relative flex items-center justify-center transition-colors ${active ? "text-brand" : "text-slate-400"}`;
+  const cls = `tap relative flex items-center justify-center transition-colors ${active ? "text-brand" : "text-ink-3"}`;
   return href
     ? <Link href={href} onClick={haptic} className={cls} aria-current={active ? "page" : undefined}>{inner}</Link>
     : <button onClick={() => { haptic(); onClick?.(); }} className={cls}>{inner}</button>;
@@ -53,7 +53,7 @@ export function MobileTabBar() {
       {/* floating glass dock — fixed height (no resize / no scroll-jump), safe-area aware */}
       <div className="no-print pointer-events-none fixed inset-x-0 bottom-0 z-50 px-3 pb-[max(env(safe-area-inset-bottom),0.5rem)] xl:hidden" style={{ willChange: "transform" }}>
         <nav aria-label="ניווט תחתון" dir="rtl"
-          className="pointer-events-auto mx-auto grid h-16 max-w-md grid-cols-5 rounded-[1.75rem] border border-white/50 bg-white/75 shadow-[0_10px_34px_-8px_rgba(15,23,42,0.28)] backdrop-blur-2xl">
+          className="pointer-events-auto mx-auto grid h-16 max-w-md grid-cols-5 rounded-[1.75rem] border border-white/50 bg-surface/75 shadow-[0_10px_34px_-8px_rgba(15,23,42,0.28)] backdrop-blur-2xl">
           {TABS.map((t) => <Tab key={t.href} active={t.match(path)} icon={t.icon} label={t.label} href={t.href} />)}
           <Tab active={more} icon={Menu} label="עוד" onClick={() => setMore(true)} />
         </nav>
@@ -64,30 +64,30 @@ export function MobileTabBar() {
         {more && (
           <>
             <motion.div className="fixed inset-0 z-[70] bg-slate-900/40 backdrop-blur-sm xl:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setMore(false)} />
-            <motion.div dir="rtl" role="dialog" aria-label="ניווט" className="fixed inset-x-0 bottom-0 z-[71] rounded-t-[1.75rem] bg-white pb-[max(env(safe-area-inset-bottom),1rem)] shadow-2xl xl:hidden"
+            <motion.div dir="rtl" role="dialog" aria-label="ניווט" className="fixed inset-x-0 bottom-0 z-[71] rounded-t-[1.75rem] bg-surface pb-[max(env(safe-area-inset-bottom),1rem)] shadow-2xl xl:hidden"
               initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }} transition={{ type: "spring", stiffness: 360, damping: 36 }}
               drag="y" dragConstraints={{ top: 0, bottom: 0 }} dragElastic={{ top: 0, bottom: 0.4 }} onDragEnd={(_, i) => { if (i.offset.y > 90) setMore(false); }}>
-              <div className="mx-auto mt-2.5 h-1.5 w-11 rounded-full bg-slate-200" />
+              <div className="mx-auto mt-2.5 h-1.5 w-11 rounded-full bg-hairline" />
               <div className="flex items-center justify-between px-5 py-3">
-                <span className="text-sm font-extrabold text-slate-900">ניווט</span>
-                <button onClick={() => setMore(false)} aria-label="סגור" className="tap rounded-lg p-1 text-slate-400 active:bg-slate-100"><X className="size-5" /></button>
+                <span className="text-sm font-extrabold text-ink-1">ניווט</span>
+                <button onClick={() => setMore(false)} aria-label="סגור" className="tap rounded-lg p-1 text-ink-3 active:bg-surface-2"><X className="size-5" /></button>
               </div>
               <div className="px-4 pb-2">
                 <button onClick={() => { setMore(false); setCenters(true); }} className="tap flex w-full items-center gap-3 rounded-2xl border border-brand/30 bg-gradient-to-l from-brand/10 to-transparent p-3 text-right active:scale-[0.98]">
                   <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white shadow-sm"><Compass className="size-5" /></span>
-                  <span className="min-w-0 flex-1"><span className="block text-sm font-extrabold text-slate-900">מרכזי ייעוץ · Command Hub</span><span className="block text-[11px] text-slate-500">5 מרכזים — מסירה · אינטגרציה · אבטחה · ALM · Fiori</span></span>
+                  <span className="min-w-0 flex-1"><span className="block text-sm font-extrabold text-ink-1">מרכזי ייעוץ · Command Hub</span><span className="block text-[11px] text-ink-3">5 מרכזים — מסירה · אינטגרציה · אבטחה · ALM · Fiori</span></span>
                 </button>
               </div>
               <div className="grid grid-cols-2 gap-2 px-4 pb-2">
                 {MORE.map((m) => (
-                  <Link key={m.href} href={m.href} onClick={() => setMore(false)} className="tap flex min-h-[52px] items-center gap-2.5 rounded-2xl border border-slate-200 bg-white p-3 text-sm font-bold text-slate-700 transition active:scale-95">
+                  <Link key={m.href} href={m.href} onClick={() => setMore(false)} className="tap flex min-h-[52px] items-center gap-2.5 rounded-2xl border border-hairline bg-surface p-3 text-sm font-bold text-ink-2 transition active:scale-95">
                     <m.icon className="size-5 text-brand" />{m.label}
                   </Link>
                 ))}
               </div>
-              <div className="grid grid-cols-2 gap-2 border-t border-slate-100 px-4 pt-3">
-                <button onClick={() => { setMore(false); fire("neo:open-palette"); }} className="tap flex min-h-[60px] flex-col items-center justify-center gap-1 rounded-2xl bg-slate-50 p-3 text-xs font-bold text-slate-600 active:scale-95"><Search className="size-5" />חיפוש</button>
-                <button onClick={() => { setMore(false); fire("neo:open-guide"); }} className="tap flex min-h-[60px] flex-col items-center justify-center gap-1 rounded-2xl bg-slate-50 p-3 text-xs font-bold text-slate-600 active:scale-95"><HelpCircle className="size-5" />מדריך</button>
+              <div className="grid grid-cols-2 gap-2 border-t border-hairline px-4 pt-3">
+                <button onClick={() => { setMore(false); fire("neo:open-palette"); }} className="tap flex min-h-[60px] flex-col items-center justify-center gap-1 rounded-2xl bg-surface-2 p-3 text-xs font-bold text-ink-2 active:scale-95"><Search className="size-5" />חיפוש</button>
+                <button onClick={() => { setMore(false); fire("neo:open-guide"); }} className="tap flex min-h-[60px] flex-col items-center justify-center gap-1 rounded-2xl bg-surface-2 p-3 text-xs font-bold text-ink-2 active:scale-95"><HelpCircle className="size-5" />מדריך</button>
               </div>
             </motion.div>
           </>

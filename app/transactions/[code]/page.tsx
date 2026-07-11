@@ -25,11 +25,11 @@ function ChipRow({ title, items, link }: { title: string; items?: string[]; link
   if (!items?.length) return null;
   return (
     <div>
-      <p className="eyebrow mb-1.5 text-slate-400">{title}</p>
+      <p className="eyebrow mb-1.5 text-ink-3">{title}</p>
       <div className="flex flex-wrap gap-1.5">
         {items.map((it) => link
-          ? <SapTip key={it} name={it}><span className="tech rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-bold text-slate-600" dir="ltr">{it}</span></SapTip>
-          : <span key={it} className="tech rounded-lg border border-dashed border-slate-200 bg-white px-2.5 py-1 text-xs font-bold text-slate-500" dir="ltr">{it}</span>)}
+          ? <SapTip key={it} name={it}><span className="tech rounded-lg border border-hairline bg-surface-2 px-2.5 py-1 text-xs font-bold text-ink-2" dir="ltr">{it}</span></SapTip>
+          : <span key={it} className="tech rounded-lg border border-dashed border-hairline bg-surface px-2.5 py-1 text-xs font-bold text-ink-3" dir="ltr">{it}</span>)}
       </div>
     </div>
   );
@@ -38,7 +38,7 @@ function ChipRow({ title, items, link }: { title: string; items?: string[]; link
 export default async function Page({ params }: { params: Promise<{ code: string }> }) {
   const { code } = await params;
   const t = tcodeByCode(decodeURIComponent(code));
-  if (!t) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">הטרנזקציה לא נמצאה.</div>;
+  if (!t) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">הטרנזקציה לא נמצאה.</div>;
   const c = MOD_COLOR[t.module];
   return (
     <div>

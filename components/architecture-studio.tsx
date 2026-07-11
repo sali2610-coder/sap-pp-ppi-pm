@@ -326,7 +326,7 @@ export function ArchitectureStudio() {
         transition={{ scale: { type: "spring", stiffness: 420, damping: 26, delay: reduce ? 0 : Math.min(i, 22) * 0.022 }, opacity: { duration: 0.25 } }}
         whileHover={reduce ? undefined : { scale: 1.045 }} whileTap={reduce ? undefined : { scale: 0.97 }}
         onMouseEnter={() => setHover(n.id)} onMouseLeave={() => setHover(null)} onClick={() => onNodeClick(n.id)} onDoubleClick={() => zoomInto(n.id)}
-        className="group absolute flex flex-col items-start justify-center rounded-xl border-2 bg-white/95 px-2 text-right shadow-sm backdrop-blur-sm transition-[box-shadow,border-color,left,top] duration-300 hover:z-10 hover:shadow-xl"
+        className="group absolute flex flex-col items-start justify-center rounded-xl border-2 bg-surface/95 px-2 text-right shadow-sm backdrop-blur-sm transition-[box-shadow,border-color,left,top] duration-300 hover:z-10 hover:shadow-xl"
         style={{ left: n.x - n.w / 2, top: n.y - n.h / 2, width: n.w, height: n.h, borderColor: on || isHover ? col : col + "44", boxShadow: on ? `0 8px 26px -8px ${col}88, 0 0 0 4px ${col}1f` : isHover ? `0 10px 24px -10px ${col}66` : restShadow, background: on ? `linear-gradient(135deg,#fff, ${col}0c)` : undefined }}>
         {on && !reduce && <span className="studio-halo pointer-events-none absolute -inset-1 -z-10 rounded-2xl" style={{ background: `radial-gradient(closest-side, ${col}33, transparent)` }} />}
         {!sel && !booting && n.id === DEFAULT_FOCUS[module] && (
@@ -337,12 +337,12 @@ export function ArchitectureStudio() {
         )}
         <span className="flex w-full items-center gap-1">
           <Ic className={`shrink-0 ${core ? "size-3.5" : "size-3"}`} style={{ color: col }} />
-          <span className={`tech truncate font-mono font-extrabold text-slate-900 ${core ? "text-[13px]" : leaf ? "text-[11px]" : "text-[12px]"}`} dir="ltr">{n.label}</span>
+          <span className={`tech truncate font-mono font-extrabold text-ink-1 ${core ? "text-[13px]" : leaf ? "text-[11px]" : "text-[12px]"}`} dir="ltr">{n.label}</span>
           {hasHidden(n.id)
             ? <span className="ms-auto grid size-4 shrink-0 place-items-center rounded-full text-white shadow-sm" style={{ background: col }} title="לחץ לחשיפת שכנים"><Plus className="size-2.5" /></span>
             : deg > 0 && <span className="ms-auto shrink-0 rounded-full px-1 text-[8.5px] font-extrabold tabular-nums" style={{ background: col + "1f", color: col }} title={`${deg} קשרים`}>{deg}</span>}
         </span>
-        {n.kind === "table" && n.he && <span className="w-full truncate text-[9px] text-slate-400">{n.he}</span>}
+        {n.kind === "table" && n.he && <span className="w-full truncate text-[9px] text-ink-3">{n.he}</span>}
         {n.kind === "table" && n.s4 && mode.colorBy === "s4" && <span className="absolute -left-1 -top-1 size-2.5 rounded-full ring-2 ring-white" style={{ background: S4_COLOR[n.s4] }} />}
       </motion.button>
     );
@@ -379,63 +379,63 @@ export function ArchitectureStudio() {
       {/* header */}
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         {/* §10 breadcrumb — Home ▸ Module ▸ Architecture ▸ Layer ▸ Object */}
-        <nav aria-label="נתיב ניווט" className="flex flex-wrap items-center gap-1.5 text-xs text-slate-400">
-          <Link href="/" className="hover:text-slate-700">בית</Link>
+        <nav aria-label="נתיב ניווט" className="flex flex-wrap items-center gap-1.5 text-xs text-ink-3">
+          <Link href="/" className="hover:text-ink-2">בית</Link>
           <ArrowLeft className="size-3 shrink-0" />
-          <Link href={module === "PM" ? "/pm/" : "/pp-pi/"} className="font-bold hover:text-slate-700" style={{ color: accent }}>{module}</Link>
+          <Link href={module === "PM" ? "/pm/" : "/pp-pi/"} className="font-bold hover:text-ink-2" style={{ color: accent }}>{module}</Link>
           <ArrowLeft className="size-3 shrink-0" />
-          <span className="flex items-center gap-1.5 font-bold text-slate-600"><Compass className="size-3.5" style={{ color: accent }} />ארכיטקטורה</span>
+          <span className="flex items-center gap-1.5 font-bold text-ink-2"><Compass className="size-3.5" style={{ color: accent }} />ארכיטקטורה</span>
           <ArrowLeft className="size-3 shrink-0" />
-          <span className="font-semibold text-slate-500">{mode.he}</span>
-          {tipNode && sel && <><ArrowLeft className="size-3 shrink-0" /><span className="tech font-mono font-extrabold text-slate-800" dir="ltr">{tipNode.label}</span></>}
+          <span className="font-semibold text-ink-3">{mode.he}</span>
+          {tipNode && sel && <><ArrowLeft className="size-3 shrink-0" /><span className="tech font-mono font-extrabold text-ink-1" dir="ltr">{tipNode.label}</span></>}
         </nav>
         <div className="flex items-center gap-2">
           <button onClick={() => { enterDemo(); dismissCoach(); }} title="Live Demo — סיור מונפש בתהליך העסקי (Esc ליציאה)" aria-label="Live Demo" className={`${btn} flex h-9 items-center gap-1.5 rounded-xl px-3 text-[12.5px] font-extrabold text-white shadow-sm`} style={{ background: "#0f172a" }}><Play className="size-3.5" />Live Demo</button>
           <button onClick={() => { setPresent(true); dismissCoach(); }} title="מצב מצגת — הגרף על מלוא המסך (Esc ליציאה)" aria-label="מצב מצגת" className={`${btn} flex h-9 items-center gap-1.5 rounded-xl px-3 text-[12.5px] font-extrabold text-white shadow-sm`} style={{ background: accent }}><Maximize2 className="size-4" />מצגת</button>
-          <button onClick={() => setShowKeys((v) => !v)} title="קיצורי מקלדת" aria-label="קיצורי מקלדת" className={`${btn} grid size-9 place-items-center rounded-xl border border-slate-200 bg-white text-slate-500 hover:text-brand`}><Keyboard className="size-4" /></button>
-          <div className="flex items-center gap-1.5 rounded-xl bg-slate-100 p-1">
-            {(["PM", "PP-PI"] as Module[]).map((m) => <button key={m} onClick={() => setModule(m)} className={`${btn} rounded-lg px-3 py-1.5 text-[13px] font-extrabold ${module === m ? "text-white shadow-sm" : "text-slate-500 hover:text-slate-700"}`} style={module === m ? { background: MOD_COLOR[m] } : undefined}>{m}</button>)}
+          <button onClick={() => setShowKeys((v) => !v)} title="קיצורי מקלדת" aria-label="קיצורי מקלדת" className={`${btn} grid size-9 place-items-center rounded-xl border border-hairline bg-surface text-ink-3 hover:text-brand`}><Keyboard className="size-4" /></button>
+          <div className="flex items-center gap-1.5 rounded-xl bg-surface-2 p-1">
+            {(["PM", "PP-PI"] as Module[]).map((m) => <button key={m} onClick={() => setModule(m)} className={`${btn} rounded-lg px-3 py-1.5 text-[13px] font-extrabold ${module === m ? "text-white shadow-sm" : "text-ink-3 hover:text-ink-2"}`} style={module === m ? { background: MOD_COLOR[m] } : undefined}>{m}</button>)}
           </div>
         </div>
       </div>
 
       {/* exploration modes — segmented; horizontal chip-rail on mobile, wrap on desktop */}
       <div className="chip-rail mb-2 flex flex-nowrap gap-1.5 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0">
-        {MODES.map((m) => <button key={m.id} onClick={() => setModeId(m.id)} title={MODE_HINT[m.id]} className={`${btn} shrink-0 rounded-xl px-3 py-1.5 text-[12.5px] font-bold ${modeId === m.id ? "text-white shadow-sm" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`} style={modeId === m.id ? { background: accent } : undefined}>{m.he}</button>)}
+        {MODES.map((m) => <button key={m.id} onClick={() => setModeId(m.id)} title={MODE_HINT[m.id]} className={`${btn} shrink-0 rounded-xl px-3 py-1.5 text-[12.5px] font-bold ${modeId === m.id ? "text-white shadow-sm" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`} style={modeId === m.id ? { background: accent } : undefined}>{m.he}</button>)}
       </div>
 
       {/* business-flow rail — horizontal scroll on mobile */}
-      <div className="chip-rail mb-2 flex flex-nowrap items-center gap-1.5 overflow-x-auto rounded-2xl border border-slate-200 bg-white p-2.5 sm:flex-wrap sm:overflow-visible">
-        <span className="shrink-0 px-1 text-[11px] font-extrabold text-slate-400">זרימה עסקית:</span>
+      <div className="chip-rail mb-2 flex flex-nowrap items-center gap-1.5 overflow-x-auto rounded-2xl border border-hairline bg-surface p-2.5 sm:flex-wrap sm:overflow-visible">
+        <span className="shrink-0 px-1 text-[11px] font-extrabold text-ink-3">זרימה עסקית:</span>
         {(FLOWS[module] || []).map((s, i, arr) => { const on = sel === s.code; return <span key={s.code} className="flex shrink-0 items-center gap-1.5">
-          <button onClick={() => pickSearch(s.code)} title={`מקד ב-${s.label} (${s.code})`} className={`${btn} rounded-lg px-2.5 py-1 text-[11.5px] font-bold ${on ? "text-white shadow-sm" : "bg-slate-100 text-slate-600 hover:bg-slate-200"}`} style={on ? { background: accent } : undefined}>{s.label}<span className="ms-1 font-mono text-[9px] opacity-70" dir="ltr">{s.code}</span></button>
-          {i < arr.length - 1 && <ArrowLeft className="size-3.5 shrink-0 text-slate-300" />}</span>; })}
+          <button onClick={() => pickSearch(s.code)} title={`מקד ב-${s.label} (${s.code})`} className={`${btn} rounded-lg px-2.5 py-1 text-[11.5px] font-bold ${on ? "text-white shadow-sm" : "bg-surface-2 text-ink-2 hover:bg-hairline"}`} style={on ? { background: accent } : undefined}>{s.label}<span className="ms-1 font-mono text-[9px] opacity-70" dir="ltr">{s.code}</span></button>
+          {i < arr.length - 1 && <ArrowLeft className="size-3.5 shrink-0 text-ink-3" />}</span>; })}
       </div>
 
       {/* advanced filters — progressive disclosure (hidden until needed) */}
       <div className="mb-3">
-        <button onClick={() => setShowFilters((v) => !v)} className={`${btn} flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-[11.5px] font-bold text-slate-500 hover:text-brand`}>
+        <button onClick={() => setShowFilters((v) => !v)} className={`${btn} flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-3 py-1.5 text-[11.5px] font-bold text-ink-3 hover:text-brand`}>
           <SlidersHorizontal className="size-3.5" />מסננים מתקדמים
           {(zoneFilter.size > 0 || kindFilter.size !== mode.kinds.length || lifeOnly) && <span className="size-1.5 rounded-full" style={{ background: accent }} />}
-          <span className="text-slate-300">{showFilters ? "▲" : "▼"}</span>
+          <span className="text-ink-3">{showFilters ? "▲" : "▼"}</span>
         </button>
         <AnimatePresence initial={false}>
           {showFilters && (
             <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22, ease: [0.2, 0.7, 0.2, 1] }} className="overflow-hidden">
-              <div className="mt-2 space-y-2 rounded-2xl border border-slate-200 bg-white p-3">
+              <div className="mt-2 space-y-2 rounded-2xl border border-hairline bg-surface p-3">
                 {/* zones */}
                 <div className="flex flex-wrap items-center gap-1.5">
-                  <span className="text-[11px] font-extrabold text-slate-400">אזורים:</span>
+                  <span className="text-[11px] font-extrabold text-ink-3">אזורים:</span>
                   {zonesPresent.map((z) => { const on = zoneFilter.has(z.id); return <button key={z.id} onClick={() => setZoneFilter((s) => { const n = new Set(s); if (n.has(z.id)) n.delete(z.id); else n.add(z.id); return n; })} title={`הצג רק ${z.he}`} className={`${btn} rounded-full px-2.5 py-1 text-[11px] font-bold`} style={on ? { background: z.c, color: "#fff" } : { background: z.c + "14", color: z.c }}>{z.he}</button>; })}
-                  {zoneFilter.size > 0 && <button onClick={() => setZoneFilter(new Set())} className={`${btn} rounded-full bg-slate-100 px-2 py-1 text-[11px] font-bold text-slate-500 hover:bg-slate-200`}>נקה</button>}
+                  {zoneFilter.size > 0 && <button onClick={() => setZoneFilter(new Set())} className={`${btn} rounded-full bg-surface-2 px-2 py-1 text-[11px] font-bold text-ink-3 hover:bg-hairline`}>נקה</button>}
                 </div>
                 {/* layers + edges + lifecycle */}
-                <div className="flex flex-wrap items-center gap-2 border-t border-slate-100 pt-2">
-                  <span className="text-[11px] font-extrabold text-slate-400">שכבות:</span>
+                <div className="flex flex-wrap items-center gap-2 border-t border-hairline pt-2">
+                  <span className="text-[11px] font-extrabold text-ink-3">שכבות:</span>
                   {mode.kinds.map((kd) => { const on = kindFilter.has(kd); const Ic = KIND_ICON[kd]; return <button key={kd} onClick={() => setKindFilter((s) => { const n = new Set(s); if (n.has(kd)) { if (kd !== "table") n.delete(kd); } else n.add(kd); return n; })} title={`הצג/הסתר ${KIND_META[kd].he}`} className={`${btn} flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-bold`} style={on ? { background: KIND_META[kd].c, color: "#fff" } : { background: KIND_META[kd].c + "14", color: KIND_META[kd].c }}><Ic className="size-3" />{KIND_META[kd].he}</button>; })}
-                  <button onClick={() => setEdgesOn((v) => !v)} title="הצג/הסתר קווי קשר" className={`${btn} rounded-lg px-2 py-1 text-[11px] font-bold ${edgesOn ? "bg-slate-700 text-white" : "bg-slate-100 text-slate-400"}`}>קשתות</button>
-                  <button onClick={() => setLifeOnly((v) => !v)} title="הדגש רק את זרימת התהליך העסקי" className={`${btn} rounded-lg px-2.5 py-1 text-[11px] font-bold ${lifeOnly ? "text-white" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`} style={lifeOnly ? { background: accent } : undefined}>מחזור חיים</button>
-                  {mode.behavior === "expand" && <button onClick={() => { const f = DEFAULT_FOCUS[module]; setRevealed(new Set([f, ...scopeNbrs(f)])); setSel(null); }} title="אפס לתצוגת ההתחלה" className={`${btn} flex items-center gap-1 rounded-lg bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-500 hover:bg-slate-200`}><RotateCcw className="size-3" />אפס</button>}
+                  <button onClick={() => setEdgesOn((v) => !v)} title="הצג/הסתר קווי קשר" className={`${btn} rounded-lg px-2 py-1 text-[11px] font-bold ${edgesOn ? "bg-slate-700 text-white" : "bg-surface-2 text-ink-3"}`}>קשתות</button>
+                  <button onClick={() => setLifeOnly((v) => !v)} title="הדגש רק את זרימת התהליך העסקי" className={`${btn} rounded-lg px-2.5 py-1 text-[11px] font-bold ${lifeOnly ? "text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`} style={lifeOnly ? { background: accent } : undefined}>מחזור חיים</button>
+                  {mode.behavior === "expand" && <button onClick={() => { const f = DEFAULT_FOCUS[module]; setRevealed(new Set([f, ...scopeNbrs(f)])); setSel(null); }} title="אפס לתצוגת ההתחלה" className={`${btn} flex items-center gap-1 rounded-lg bg-surface-2 px-2.5 py-1 text-[11px] font-bold text-ink-3 hover:bg-hairline`}><RotateCcw className="size-3" />אפס</button>}
                   {mode.colorBy === "s4" && <span className="ms-auto flex items-center gap-2 text-[10px] font-bold">{[["kept", "נשמר"], ["replaced", "הוחלף"], ["removed", "הוסר"]].map(([k, l]) => <span key={k} className="flex items-center gap-1"><span className="size-2 rounded-full" style={{ background: S4_COLOR[k as keyof typeof S4_COLOR] }} />{l}</span>)}</span>}
                 </div>
               </div>
@@ -447,16 +447,16 @@ export function ArchitectureStudio() {
 
       {/* split view: graph left, inspector right (single column in presentation mode) */}
       <div className={`grid gap-3 ${present ? "" : "lg:grid-cols-[minmax(0,1fr)_360px]"}`}>
-        <div className={present ? "fixed inset-0 z-[55] bg-slate-50 p-3" : "relative"}>
+        <div className={present ? "fixed inset-0 z-[55] bg-surface-2 p-3" : "relative"}>
           {/* presentation-mode floating control bar — exit + module + mode selector (hidden during live demo) */}
           {present && !demo && (
             <div className="absolute left-3 top-3 z-40 flex max-w-[calc(100%-1.5rem)] flex-wrap items-center gap-2">
               <button onClick={() => setPresent(false)} title="צא ממצב מצגת (Esc)" className={`${btn} flex items-center gap-1.5 rounded-xl bg-slate-900 px-3 py-2 text-[12.5px] font-extrabold text-white shadow-lg`}><X className="size-4" />צא ממצגת</button>
-              <div className="flex items-center gap-1 rounded-xl border border-slate-200 bg-white/95 p-1 shadow-sm backdrop-blur">
-                {(["PM", "PP-PI"] as Module[]).map((m) => <button key={m} onClick={() => setModule(m)} className={`${btn} rounded-lg px-2.5 py-1 text-[12px] font-extrabold ${module === m ? "text-white shadow-sm" : "text-slate-500 hover:text-slate-700"}`} style={module === m ? { background: MOD_COLOR[m] } : undefined}>{m}</button>)}
+              <div className="flex items-center gap-1 rounded-xl border border-hairline bg-surface/95 p-1 shadow-sm backdrop-blur">
+                {(["PM", "PP-PI"] as Module[]).map((m) => <button key={m} onClick={() => setModule(m)} className={`${btn} rounded-lg px-2.5 py-1 text-[12px] font-extrabold ${module === m ? "text-white shadow-sm" : "text-ink-3 hover:text-ink-2"}`} style={module === m ? { background: MOD_COLOR[m] } : undefined}>{m}</button>)}
               </div>
-              <div className="chip-rail flex max-w-[46vw] items-center gap-1 overflow-x-auto rounded-xl border border-slate-200 bg-white/95 p-1 shadow-sm backdrop-blur">
-                {MODES.map((m) => <button key={m.id} onClick={() => setModeId(m.id)} title={MODE_HINT[m.id]} className={`${btn} shrink-0 rounded-lg px-2.5 py-1 text-[11.5px] font-bold ${modeId === m.id ? "text-white shadow-sm" : "text-slate-500 hover:bg-slate-100"}`} style={modeId === m.id ? { background: accent } : undefined}>{m.he}</button>)}
+              <div className="chip-rail flex max-w-[46vw] items-center gap-1 overflow-x-auto rounded-xl border border-hairline bg-surface/95 p-1 shadow-sm backdrop-blur">
+                {MODES.map((m) => <button key={m.id} onClick={() => setModeId(m.id)} title={MODE_HINT[m.id]} className={`${btn} shrink-0 rounded-lg px-2.5 py-1 text-[11.5px] font-bold ${modeId === m.id ? "text-white shadow-sm" : "text-ink-3 hover:bg-surface-2"}`} style={modeId === m.id ? { background: accent } : undefined}>{m.he}</button>)}
               </div>
             </div>
           )}
@@ -473,11 +473,11 @@ export function ArchitectureStudio() {
             const capText = tip?.he || sN?.he || `${step.label} — ${step.code}`;
             return (
               <>
-                <div className="absolute inset-x-0 top-0 z-40 h-1 bg-slate-200/80"><motion.div className="h-full" style={{ background: accent }} initial={false} animate={{ width: `${pct}%` }} transition={{ duration: reduce ? 0 : 0.45, ease: [0.2, 0.7, 0.2, 1] }} /></div>
+                <div className="absolute inset-x-0 top-0 z-40 h-1 bg-hairline/80"><motion.div className="h-full" style={{ background: accent }} initial={false} animate={{ width: `${pct}%` }} transition={{ duration: reduce ? 0 : 0.45, ease: [0.2, 0.7, 0.2, 1] }} /></div>
                 <div className="pointer-events-none absolute inset-x-0 top-4 z-40 flex justify-center px-3">
                   <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 rounded-full border border-white/10 bg-slate-900/90 px-4 py-2 text-white shadow-xl backdrop-blur">
                     <span className="flex items-center gap-1.5 text-[12px] font-extrabold"><Film className="size-4" style={{ color: accent }} />Live Demo</span>
-                    <span className="h-3.5 w-px bg-white/20" />
+                    <span className="h-3.5 w-px bg-surface/20" />
                     <span className="text-[12px] font-bold tabular-nums">שלב {demoStep + 1}/{demoFlow.length}</span>
                     <span className="text-[11px] text-white/55">{module}</span>
                     {zone && <span className="text-[11px] text-white/55">· {zone}</span>}
@@ -494,45 +494,45 @@ export function ArchitectureStudio() {
                 </AnimatePresence>
                 <div className="absolute inset-x-0 bottom-4 z-40 flex justify-center px-3">
                   <motion.div key={step.code} initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", stiffness: 300, damping: 28 }}
-                    className="w-[min(94%,42rem)] rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-2xl backdrop-blur">
+                    className="w-[min(94%,42rem)] rounded-2xl border border-hairline bg-surface/95 p-4 shadow-2xl backdrop-blur">
                     <div className="flex items-center gap-2">
                       <span className="grid size-8 shrink-0 place-items-center rounded-lg text-[12px] font-extrabold text-white" style={{ background: accent }}>{demoStep + 1}</span>
-                      <span className="tech font-mono text-lg font-extrabold text-slate-900" dir="ltr">{step.code}</span>
-                      <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-500">{step.label}</span>
+                      <span className="tech font-mono text-lg font-extrabold text-ink-1" dir="ltr">{step.code}</span>
+                      <span className="rounded-md bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-3">{step.label}</span>
                       {s4he && <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: S4_COLOR[sN!.s4!] }}>{s4he}</span>}
                     </div>
-                    {(tip?.he || sN?.he) && <p className="mt-2 text-[13px] leading-relaxed text-slate-600">{tip?.he || sN?.he}</p>}
-                    {tip?.purpose && <p className="mt-1.5 flex gap-1.5 text-[12.5px] leading-relaxed text-slate-500"><Target className="mt-0.5 size-3.5 shrink-0 text-blue-500" />{tip.purpose}</p>}
+                    {(tip?.he || sN?.he) && <p className="mt-2 text-[13px] leading-relaxed text-ink-2">{tip?.he || sN?.he}</p>}
+                    {tip?.purpose && <p className="mt-1.5 flex gap-1.5 text-[12.5px] leading-relaxed text-ink-3"><Target className="mt-0.5 size-3.5 shrink-0 text-blue-500" />{tip.purpose}</p>}
                     {/* §23 ECC ↔ S/4 side-by-side — verified deltas only */}
                     <AnimatePresence initial={false}>
                       {compare && trow && (
                         <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22 }} className="overflow-hidden">
                           <div className="mt-3 grid grid-cols-2 gap-2 text-[11.5px]">
-                            <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-2.5">
-                              <div className="mb-1 text-[10px] font-extrabold uppercase tracking-wide text-slate-500">ECC 6</div>
-                              <div className="tech font-mono font-bold text-slate-800" dir="ltr">{trow.tableName}</div>
-                              {trow.tcodes && <div className="mt-1 truncate text-slate-500" dir="ltr" title={trow.tcodes}>{trow.tcodes}</div>}
+                            <div className="rounded-xl border border-hairline bg-surface-2/70 p-2.5">
+                              <div className="mb-1 text-[10px] font-extrabold uppercase tracking-wide text-ink-3">ECC 6</div>
+                              <div className="tech font-mono font-bold text-ink-1" dir="ltr">{trow.tableName}</div>
+                              {trow.tcodes && <div className="mt-1 truncate text-ink-3" dir="ltr" title={trow.tcodes}>{trow.tcodes}</div>}
                             </div>
                             <div className="rounded-xl border p-2.5" style={{ borderColor: (sN?.s4 ? S4_COLOR[sN.s4] : "#16a34a") + "44", background: (sN?.s4 ? S4_COLOR[sN.s4] : "#16a34a") + "0c" }}>
                               <div className="mb-1 text-[10px] font-extrabold uppercase tracking-wide" style={{ color: sN?.s4 ? S4_COLOR[sN.s4] : "#16a34a" }}>S/4HANA</div>
-                              <div className="font-bold text-slate-800">{s4he || "נשמר"}</div>
-                              {trow.s4AltTable && <div className="mt-0.5 text-slate-600" dir="ltr">→ {trow.s4AltTable}</div>}
-                              {trow.s4AltTcode && <div className="text-slate-600" dir="ltr">→ {trow.s4AltTcode}</div>}
+                              <div className="font-bold text-ink-1">{s4he || "נשמר"}</div>
+                              {trow.s4AltTable && <div className="mt-0.5 text-ink-2" dir="ltr">→ {trow.s4AltTable}</div>}
+                              {trow.s4AltTcode && <div className="text-ink-2" dir="ltr">→ {trow.s4AltTcode}</div>}
                               {trow.fioriApp && <div className="mt-0.5 truncate text-amber-700" title={trow.fioriApp}>Fiori · {trow.fioriApp}</div>}
                             </div>
                           </div>
-                          {trow.s4Note && <p className="mt-1.5 text-[11.5px] leading-relaxed text-slate-500">{trow.s4Note}</p>}
-                          {!trow.s4AltTable && !trow.s4AltTcode && !trow.s4Note && <p className="mt-1.5 text-[11px] text-slate-400">אין דלתא S/4 מאומתת לאובייקט זה.</p>}
+                          {trow.s4Note && <p className="mt-1.5 text-[11.5px] leading-relaxed text-ink-3">{trow.s4Note}</p>}
+                          {!trow.s4AltTable && !trow.s4AltTcode && !trow.s4Note && <p className="mt-1.5 text-[11px] text-ink-3">אין דלתא S/4 מאומתת לאובייקט זה.</p>}
                         </motion.div>
                       )}
                     </AnimatePresence>
-                    <div className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-3">
-                      <button onClick={() => { setPlaying(false); goStep(0); }} title="התחל מחדש" className={`${btn} grid size-9 place-items-center rounded-xl border border-slate-200 text-slate-500 hover:text-brand`}><RotateCcw className="size-4" /></button>
-                      <button onClick={() => { setPlaying(false); goStep(demoStep - 1); }} title="הקודם (→)" className={`${btn} grid size-9 place-items-center rounded-xl border border-slate-200 text-slate-500 hover:text-brand`}><ChevronRight className="size-5" /></button>
+                    <div className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-hairline pt-3">
+                      <button onClick={() => { setPlaying(false); goStep(0); }} title="התחל מחדש" className={`${btn} grid size-9 place-items-center rounded-xl border border-hairline text-ink-3 hover:text-brand`}><RotateCcw className="size-4" /></button>
+                      <button onClick={() => { setPlaying(false); goStep(demoStep - 1); }} title="הקודם (→)" className={`${btn} grid size-9 place-items-center rounded-xl border border-hairline text-ink-3 hover:text-brand`}><ChevronRight className="size-5" /></button>
                       <button onClick={() => setPlaying((p) => !p)} title="נגן / השהה (רווח)" className={`${btn} flex items-center gap-1.5 rounded-xl px-4 py-2 text-[13px] font-extrabold text-white shadow-sm`} style={{ background: accent }}>{playing ? <Pause className="size-4" /> : <Play className="size-4" />}{playing ? "השהה" : "נגן"}</button>
-                      <button onClick={() => { setPlaying(false); goStep(demoStep + 1); }} title="הבא (←)" className={`${btn} grid size-9 place-items-center rounded-xl border border-slate-200 text-slate-500 hover:text-brand`}><ChevronLeft className="size-5" /></button>
-                      <button onClick={() => setCompare((v) => !v)} title="השוואת ECC ↔ S/4" className={`${btn} flex items-center gap-1 rounded-xl px-2.5 py-2 text-[11.5px] font-bold ${compare ? "text-white shadow-sm" : "border border-slate-200 text-slate-500 hover:text-brand"}`} style={compare ? { background: accent } : undefined}><ArrowLeftRight className="size-4" />ECC↔S/4</button>
-                      <button onClick={() => setCaptions((v) => !v)} title="כתוביות / קריינות" className={`${btn} flex items-center gap-1 rounded-xl px-2.5 py-2 text-[11.5px] font-bold ${captions ? "text-white shadow-sm" : "border border-slate-200 text-slate-500 hover:text-brand"}`} style={captions ? { background: accent } : undefined}><BookOpen className="size-4" />כתוביות</button>
+                      <button onClick={() => { setPlaying(false); goStep(demoStep + 1); }} title="הבא (←)" className={`${btn} grid size-9 place-items-center rounded-xl border border-hairline text-ink-3 hover:text-brand`}><ChevronLeft className="size-5" /></button>
+                      <button onClick={() => setCompare((v) => !v)} title="השוואת ECC ↔ S/4" className={`${btn} flex items-center gap-1 rounded-xl px-2.5 py-2 text-[11.5px] font-bold ${compare ? "text-white shadow-sm" : "border border-hairline text-ink-3 hover:text-brand"}`} style={compare ? { background: accent } : undefined}><ArrowLeftRight className="size-4" />ECC↔S/4</button>
+                      <button onClick={() => setCaptions((v) => !v)} title="כתוביות / קריינות" className={`${btn} flex items-center gap-1 rounded-xl px-2.5 py-2 text-[11.5px] font-bold ${captions ? "text-white shadow-sm" : "border border-hairline text-ink-3 hover:text-brand"}`} style={captions ? { background: accent } : undefined}><BookOpen className="size-4" />כתוביות</button>
                       <button onClick={exitDemo} title="צא מ-Demo (Esc)" className={`${btn} ms-auto flex items-center gap-1.5 rounded-xl bg-slate-900 px-3 py-2 text-[12px] font-extrabold text-white`}><X className="size-4" />צא</button>
                     </div>
                   </motion.div>
@@ -543,42 +543,42 @@ export function ArchitectureStudio() {
 
           {/* search — hidden in presentation mode to keep the stage clean */}
           <div className={`absolute right-3 top-3 z-30 w-64 max-w-[70%] ${present ? "hidden" : ""}`}>
-            <div className="flex items-center gap-2 rounded-2xl border border-white/70 bg-white/65 px-3 py-2 shadow-[0_10px_34px_-14px_rgba(15,23,42,0.3),inset_0_1px_0_rgba(255,255,255,0.75)] ring-1 ring-slate-900/5 backdrop-blur-xl"><Search className="size-4 shrink-0 text-slate-400" /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש אובייקט…" className="w-full bg-transparent text-sm outline-none placeholder:text-slate-300" dir="ltr" /></div>
-            <AnimatePresence>{hits.length > 0 && <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-1 max-h-64 overflow-auto rounded-xl border border-slate-200 bg-white p-1 shadow-2xl">{hits.map((n) => { const Ic = KIND_ICON[n.kind]; return <button key={n.id} onClick={() => pickSearch(n.id)} className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-right hover:bg-slate-50"><Ic className="size-3.5 shrink-0" style={{ color: KIND_META[n.kind].c }} /><span className="tech flex-1 truncate font-mono text-sm font-bold text-slate-800" dir="ltr">{n.label}</span><span className="rounded bg-slate-100 px-1.5 text-[9px] font-bold text-slate-500">{KIND_META[n.kind].he}</span></button>; })}</motion.div>}</AnimatePresence>
+            <div className="flex items-center gap-2 rounded-2xl border border-white/70 bg-surface/65 px-3 py-2 shadow-[0_10px_34px_-14px_rgba(15,23,42,0.3),inset_0_1px_0_rgba(255,255,255,0.75)] ring-1 ring-slate-900/5 backdrop-blur-xl"><Search className="size-4 shrink-0 text-ink-3" /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש אובייקט…" className="w-full bg-transparent text-sm outline-none placeholder:text-ink-3" dir="ltr" /></div>
+            <AnimatePresence>{hits.length > 0 && <motion.div initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-1 max-h-64 overflow-auto rounded-xl border border-hairline bg-surface p-1 shadow-2xl">{hits.map((n) => { const Ic = KIND_ICON[n.kind]; return <button key={n.id} onClick={() => pickSearch(n.id)} className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-right hover:bg-surface-2"><Ic className="size-3.5 shrink-0" style={{ color: KIND_META[n.kind].c }} /><span className="tech flex-1 truncate font-mono text-sm font-bold text-ink-1" dir="ltr">{n.label}</span><span className="rounded bg-surface-2 px-1.5 text-[9px] font-bold text-ink-3">{KIND_META[n.kind].he}</span></button>; })}</motion.div>}</AnimatePresence>
           </div>
 
           {/* contextual hint */}
           <div className="pointer-events-none absolute left-1/2 top-3 z-20 -translate-x-1/2">
             <AnimatePresence mode="wait">
               <motion.div key={hintText} initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}
-                className="flex items-center gap-1.5 rounded-full border border-white/70 bg-white/70 px-3.5 py-1.5 text-[11.5px] font-bold text-slate-600 shadow-[0_8px_24px_-12px_rgba(15,23,42,0.28),inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-slate-900/5 backdrop-blur-xl">
+                className="flex items-center gap-1.5 rounded-full border border-white/70 bg-surface/70 px-3.5 py-1.5 text-[11.5px] font-bold text-ink-2 shadow-[0_8px_24px_-12px_rgba(15,23,42,0.28),inset_0_1px_0_rgba(255,255,255,0.7)] ring-1 ring-slate-900/5 backdrop-blur-xl">
                 <Sparkles className="size-3.5" style={{ color: accent }} />{hintText}
               </motion.div>
             </AnimatePresence>
           </div>
 
           {/* §4 zoom controls — premium liquid-glass toolbar */}
-          <div className="absolute bottom-3 right-3 z-30 flex items-center gap-0.5 rounded-2xl border border-white/70 bg-white/65 p-1 shadow-[0_10px_34px_-14px_rgba(15,23,42,0.3),inset_0_1px_0_rgba(255,255,255,0.75)] ring-1 ring-slate-900/5 backdrop-blur-xl">
-            <button onClick={() => zoom(1.25)} title="התקרב (+)" className={`${btn} grid size-8 place-items-center rounded-xl text-slate-600 hover:bg-white hover:text-brand hover:shadow-sm`}><ZoomIn className="size-4" /></button>
-            <button onClick={() => zoom(0.8)} title="התרחק (−)" className={`${btn} grid size-8 place-items-center rounded-xl text-slate-600 hover:bg-white hover:text-brand hover:shadow-sm`}><ZoomOut className="size-4" /></button>
-            <button onClick={() => zoom(1 / tr.k)} title="אחוז מקורי (100%)" className={`${btn} min-w-11 rounded-xl px-1 py-1 text-center font-mono text-[11px] font-extrabold text-slate-500 tabular-nums hover:bg-white hover:text-brand`}>{Math.round(tr.k * 100)}%</button>
+          <div className="absolute bottom-3 right-3 z-30 flex items-center gap-0.5 rounded-2xl border border-white/70 bg-surface/65 p-1 shadow-[0_10px_34px_-14px_rgba(15,23,42,0.3),inset_0_1px_0_rgba(255,255,255,0.75)] ring-1 ring-slate-900/5 backdrop-blur-xl">
+            <button onClick={() => zoom(1.25)} title="התקרב (+)" className={`${btn} grid size-8 place-items-center rounded-xl text-ink-2 hover:bg-surface hover:text-brand hover:shadow-sm`}><ZoomIn className="size-4" /></button>
+            <button onClick={() => zoom(0.8)} title="התרחק (−)" className={`${btn} grid size-8 place-items-center rounded-xl text-ink-2 hover:bg-surface hover:text-brand hover:shadow-sm`}><ZoomOut className="size-4" /></button>
+            <button onClick={() => zoom(1 / tr.k)} title="אחוז מקורי (100%)" className={`${btn} min-w-11 rounded-xl px-1 py-1 text-center font-mono text-[11px] font-extrabold text-ink-3 tabular-nums hover:bg-surface hover:text-brand`}>{Math.round(tr.k * 100)}%</button>
             <span className="mx-0.5 h-5 w-px bg-slate-900/10" />
-            <button onClick={fit} title="התאם הכול למסך" className={`${btn} grid size-8 place-items-center rounded-xl text-slate-600 hover:bg-white hover:text-brand hover:shadow-sm`}><Maximize2 className="size-4" /></button>
+            <button onClick={fit} title="התאם הכול למסך" className={`${btn} grid size-8 place-items-center rounded-xl text-ink-2 hover:bg-surface hover:text-brand hover:shadow-sm`}><Maximize2 className="size-4" /></button>
           </div>
 
           {/* mini map */}
           {layout.nodes.length > 0 && (
-            <div className="absolute bottom-3 left-3 z-30 overflow-hidden rounded-xl border border-slate-200 bg-white/95 shadow-sm backdrop-blur" style={{ width: MM_W, height: MM_H }} onClick={miniClick} role="button" aria-label="מפת ניווט — לחץ לקפיצה">
+            <div className="absolute bottom-3 left-3 z-30 overflow-hidden rounded-xl border border-hairline bg-surface/95 shadow-sm backdrop-blur" style={{ width: MM_W, height: MM_H }} onClick={miniClick} role="button" aria-label="מפת ניווט — לחץ לקפיצה">
               <svg width={MM_W} height={MM_H}>
                 {layout.nodes.map((n) => { const on = n.id === sel; return <rect key={n.id} x={(n.x - n.w / 2) * mmK} y={(n.y - n.h / 2) * mmK} width={Math.max(2, n.w * mmK)} height={Math.max(2, n.h * mmK)} rx={1} fill={on ? accent : nodeColor(n.kind, n.s4) + (activeNbr.has(n.id) ? "cc" : "77")} />; })}
                 <motion.rect initial={false} x={vp.x} y={vp.y} width={vp.w} height={vp.h} animate={{ x: vp.x, y: vp.y, width: vp.w, height: vp.h }} transition={{ duration: reduce ? 0 : 0.18 }} fill={accent + "1a"} stroke={accent} strokeWidth={1.5} rx={2} />
               </svg>
-              <span className="absolute bottom-1 left-1.5 font-mono text-[8px] font-bold text-slate-400">{Math.round(tr.k * 100)}%</span>
+              <span className="absolute bottom-1 left-1.5 font-mono text-[8px] font-bold text-ink-3">{Math.round(tr.k * 100)}%</span>
             </div>
           )}
 
           {/* canvas */}
-          <div ref={wrapRef} className={`relative cursor-grab touch-none overflow-hidden border border-slate-200 bg-slate-50/70 active:cursor-grabbing ${present ? "h-full rounded-2xl" : "h-[calc(100vh-17rem)] min-h-[480px] rounded-3xl"}`}
+          <div ref={wrapRef} className={`relative cursor-grab touch-none overflow-hidden border border-hairline bg-surface-2/70 active:cursor-grabbing ${present ? "h-full rounded-2xl" : "h-[calc(100vh-17rem)] min-h-[480px] rounded-3xl"}`}
             style={{ backgroundImage: "radial-gradient(circle at 1px 1px,#d7deea 1px,transparent 0)", backgroundSize: "26px 26px" }}
             onWheel={onWheel} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerLeave={() => { drag.current = null; setHover(null); }}>
             <div dir="ltr" style={{ transform: `translate(${tr.x}px,${tr.y}px) scale(${tr.k})`, transformOrigin: "0 0", width: layout.width, height: layout.height, position: "absolute", left: 0, top: 0, right: "auto", transition: drag.current ? "none" : "transform .42s cubic-bezier(0.22,0.61,0.18,1)" }}>
@@ -606,7 +606,7 @@ export function ArchitectureStudio() {
                       {Array.from({ length: 4 - (c % 2) }).map((_, r) => <div key={r} className="skeleton h-10 w-full" style={{ opacity: 1 - r * 0.14 }} />)}
                     </div>
                   ))}
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }} className="pointer-events-none absolute inset-x-0 bottom-6 flex items-center justify-center gap-2 text-[12px] font-bold text-slate-400">
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }} className="pointer-events-none absolute inset-x-0 bottom-6 flex items-center justify-center gap-2 text-[12px] font-bold text-ink-3">
                     <Compass className="size-4 animate-pulse" style={{ color: accent }} />בונה את מפת ה-SAP…
                   </motion.div>
                 </motion.div>
@@ -621,8 +621,8 @@ export function ArchitectureStudio() {
                     <span className="studio-halo absolute inset-0 rounded-full" style={{ background: `radial-gradient(closest-side, ${accent}33, transparent)` }} />
                     <Compass className="size-10" style={{ color: accent }} />
                   </div>
-                  <p className="text-base font-extrabold text-slate-700">המפה ריקה כרגע</p>
-                  <p className="mt-1 text-[13px] leading-relaxed text-slate-500">נקה מסננים, או בחר מצב חקירה אחר כדי להתחיל לחקור את נוף ה-SAP של {module}. כל טבלה, טרנזקציה או אובייקט עסקי הוא נקודת התחלה.</p>
+                  <p className="text-base font-extrabold text-ink-2">המפה ריקה כרגע</p>
+                  <p className="mt-1 text-[13px] leading-relaxed text-ink-3">נקה מסננים, או בחר מצב חקירה אחר כדי להתחיל לחקור את נוף ה-SAP של {module}. כל טבלה, טרנזקציה או אובייקט עסקי הוא נקודת התחלה.</p>
                   <button onClick={() => { setZoneFilter(new Set()); setKindFilter(new Set(mode.kinds)); }} className={`${btn} mt-3 rounded-xl px-4 py-2 text-[12px] font-bold text-white shadow-sm`} style={{ background: accent }}>נקה מסננים</button>
                 </div>
               </div>
@@ -632,12 +632,12 @@ export function ArchitectureStudio() {
             <AnimatePresence>
               {coach && visible.size > 0 && (
                 <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 16 }} transition={{ type: "spring", stiffness: 300, damping: 28 }}
-                  className="absolute bottom-3 left-1/2 z-40 w-[min(92%,30rem)] -translate-x-1/2 rounded-2xl border border-slate-200 bg-white/95 p-4 shadow-2xl backdrop-blur">
+                  className="absolute bottom-3 left-1/2 z-40 w-[min(92%,30rem)] -translate-x-1/2 rounded-2xl border border-hairline bg-surface/95 p-4 shadow-2xl backdrop-blur">
                   <div className="mb-2 flex items-center justify-between">
-                    <span className="flex items-center gap-1.5 text-[13px] font-extrabold text-slate-800"><Sparkles className="size-4" style={{ color: accent }} />איך לחקור את הסטודיו</span>
-                    <button onClick={dismissCoach} aria-label="סגור" className="rounded-lg p-1 text-slate-400 hover:bg-slate-100"><X className="size-4" /></button>
+                    <span className="flex items-center gap-1.5 text-[13px] font-extrabold text-ink-1"><Sparkles className="size-4" style={{ color: accent }} />איך לחקור את הסטודיו</span>
+                    <button onClick={dismissCoach} aria-label="סגור" className="rounded-lg p-1 text-ink-3 hover:bg-surface-2"><X className="size-4" /></button>
                   </div>
-                  <ul className="space-y-1.5 text-[12.5px] text-slate-600">
+                  <ul className="space-y-1.5 text-[12.5px] text-ink-2">
                     <li className="flex items-center gap-2"><MousePointerClick className="size-3.5 shrink-0" style={{ color: accent }} />לחץ על אובייקט — המצלמה מתמקדת והשכנים מודגשים.</li>
                     <li className="flex items-center gap-2"><Search className="size-3.5 shrink-0" style={{ color: accent }} />חפש כל טבלה/טרנזקציה, או עקוב אחרי הזרימה העסקית למעלה.</li>
                     <li className="flex items-center gap-2"><Keyboard className="size-3.5 shrink-0" style={{ color: accent }} />רווח = מרכוז · Esc = ביטול · גלגל = זום.</li>
@@ -651,20 +651,20 @@ export function ArchitectureStudio() {
 
         {/* inspector — hidden in presentation mode (the graph is the stage) */}
         {!present && (
-        <aside className="rounded-3xl border border-slate-200 bg-white shadow-sm lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-hidden">
+        <aside className="rounded-3xl border border-hairline bg-surface shadow-sm lg:sticky lg:top-4 lg:max-h-[calc(100vh-2rem)] lg:overflow-hidden">
           <AnimatePresence mode="wait">
             {tipNode ? (
               <motion.div key={tipNode!.id} initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -8 }} transition={{ duration: 0.22, ease: [0.2, 0.7, 0.2, 1] }} className="flex max-h-[calc(100vh-2rem)] flex-col">
                 {/* sticky header */}
-                <div className="sticky top-0 z-10 flex items-center justify-between gap-2 border-b border-slate-100 bg-white/95 p-4 backdrop-blur">
+                <div className="sticky top-0 z-10 flex items-center justify-between gap-2 border-b border-hairline bg-surface/95 p-4 backdrop-blur">
                   <div className="flex min-w-0 items-center gap-2">
                     <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: nodeColor(tipNode!.kind, tipNode!.s4) }}>{(() => { const Ic = KIND_ICON[tipNode!.kind]; return <Ic className="size-5" />; })()}</span>
                     <div className="min-w-0">
-                      <span className="tech block truncate font-mono text-base font-extrabold text-slate-900" dir="ltr">{tipNode!.label}</span>
-                      <span className="text-[10px] font-bold text-slate-400">{KIND_META[tipNode!.kind].he}{tipNode!.kind === "table" ? ` · ${ZONE_HE[zoneOf(tipNode!.label)] || ""}` : ""}</span>
+                      <span className="tech block truncate font-mono text-base font-extrabold text-ink-1" dir="ltr">{tipNode!.label}</span>
+                      <span className="text-[10px] font-bold text-ink-3">{KIND_META[tipNode!.kind].he}{tipNode!.kind === "table" ? ` · ${ZONE_HE[zoneOf(tipNode!.label)] || ""}` : ""}</span>
                     </div>
                   </div>
-                  {sel && <button onClick={() => setSel(null)} className="rounded-lg p-1 text-slate-400 hover:bg-slate-100"><X className="size-4" /></button>}
+                  {sel && <button onClick={() => setSel(null)} className="rounded-lg p-1 text-ink-3 hover:bg-surface-2"><X className="size-4" /></button>}
                 </div>
 
                 <div className="min-h-0 flex-1 overflow-auto p-4">
@@ -675,9 +675,9 @@ export function ArchitectureStudio() {
                       { v: selNbrs.length, l: "מוצגים" },
                       { v: tipNode!.kind === "table" && tipNode!.s4 ? ({ kept: "נשמר", replaced: "הוחלף", removed: "הוסר" } as Record<string, string>)[tipNode!.s4] : "—", l: "S/4" },
                     ].map((s) => (
-                      <div key={s.l} className="rounded-xl border border-slate-200 bg-slate-50/60 p-2 text-center">
-                        <div className="text-base font-extrabold tabular-nums text-slate-900">{s.v}</div>
-                        <div className="text-[9px] font-bold text-slate-400">{s.l}</div>
+                      <div key={s.l} className="rounded-xl border border-hairline bg-surface-2/60 p-2 text-center">
+                        <div className="text-base font-extrabold tabular-nums text-ink-1">{s.v}</div>
+                        <div className="text-[9px] font-bold text-ink-3">{s.l}</div>
                       </div>
                     ))}
                   </div>
@@ -701,18 +701,18 @@ export function ArchitectureStudio() {
                     return (
                       <div className="space-y-2">
                         {rows.map((r) => { const Ic = r.icon; return (
-                          <div key={r.l} className="rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
+                          <div key={r.l} className="rounded-xl border border-hairline bg-surface-2/50 p-2.5">
                             <div className="mb-1 flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wide" style={{ color: r.c }}><Ic className="size-3.5" />{r.l}</div>
-                            <p className="text-[12.5px] font-medium leading-relaxed text-slate-700">{r.body}</p>
+                            <p className="text-[12.5px] font-medium leading-relaxed text-ink-2">{r.body}</p>
                           </div>
                         ); })}
                         {(prev || next) && (
-                          <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-2.5">
-                            <div className="mb-1.5 flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wide text-slate-500"><GitBranch className="size-3.5" />לפני / אחרי בתהליך</div>
+                          <div className="rounded-xl border border-hairline bg-surface-2/50 p-2.5">
+                            <div className="mb-1.5 flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wide text-ink-3"><GitBranch className="size-3.5" />לפני / אחרי בתהליך</div>
                             <div className="flex items-center gap-1.5">
-                              {prev ? <button onClick={() => pickSearch(prev.code)} title={`שלב קודם: ${prev.label}`} className="tech rounded-md bg-white px-2 py-1 text-[11px] font-bold text-slate-600 shadow-sm hover:text-brand" dir="ltr">← {prev.code}</button> : <span className="text-[11px] text-slate-300">התחלה</span>}
-                              <span className="text-[10px] font-bold text-slate-400">{tipNode!.label}</span>
-                              {next ? <button onClick={() => pickSearch(next.code)} title={`שלב הבא: ${next.label}`} className="tech rounded-md bg-white px-2 py-1 text-[11px] font-bold text-slate-600 shadow-sm hover:text-brand" dir="ltr">{next.code} →</button> : <span className="text-[11px] text-slate-300">סיום</span>}
+                              {prev ? <button onClick={() => pickSearch(prev.code)} title={`שלב קודם: ${prev.label}`} className="tech rounded-md bg-surface px-2 py-1 text-[11px] font-bold text-ink-2 shadow-sm hover:text-brand" dir="ltr">← {prev.code}</button> : <span className="text-[11px] text-ink-3">התחלה</span>}
+                              <span className="text-[10px] font-bold text-ink-3">{tipNode!.label}</span>
+                              {next ? <button onClick={() => pickSearch(next.code)} title={`שלב הבא: ${next.label}`} className="tech rounded-md bg-surface px-2 py-1 text-[11px] font-bold text-ink-2 shadow-sm hover:text-brand" dir="ltr">{next.code} →</button> : <span className="text-[11px] text-ink-3">סיום</span>}
                             </div>
                           </div>
                         )}
@@ -727,14 +727,14 @@ export function ArchitectureStudio() {
                   {mode.behavior === "expand" && tipNode && (
                     <div className="mt-3 flex gap-2">
                       {scopeNbrs(active!).some((b) => !visible.has(b)) && <button onClick={() => expand(active!)} className={`${btn} flex flex-1 items-center justify-center gap-1.5 rounded-xl border-2 px-3 py-2 text-[12px] font-bold`} style={{ borderColor: accent, color: accent }}><Plus className="size-4" />חשוף ({scopeNbrs(active!).filter((b) => !visible.has(b)).length})</button>}
-                      {scopeNbrs(active!).some((b) => visible.has(b)) && <button onClick={() => collapse(active!)} className={`${btn} flex items-center justify-center gap-1.5 rounded-xl border-2 border-slate-200 px-3 py-2 text-[12px] font-bold text-slate-500 hover:border-slate-300`}><Minus className="size-4" />כווץ</button>}
+                      {scopeNbrs(active!).some((b) => visible.has(b)) && <button onClick={() => collapse(active!)} className={`${btn} flex items-center justify-center gap-1.5 rounded-xl border-2 border-hairline px-3 py-2 text-[12px] font-bold text-ink-3 hover:border-hairline`}><Minus className="size-4" />כווץ</button>}
                     </div>
                   )}
 
                   {/* related grouped by kind */}
                   {nbrByKind.length > 0 && (
                     <div className="mt-3 space-y-2">
-                      <div className="flex items-center gap-1 text-[10px] font-bold uppercase text-slate-400"><GitBranch className="size-3" />מחובר ל-{selNbrs.length} אובייקטים</div>
+                      <div className="flex items-center gap-1 text-[10px] font-bold uppercase text-ink-3"><GitBranch className="size-3" />מחובר ל-{selNbrs.length} אובייקטים</div>
                       {nbrByKind.map(([kd, ids]) => { const Ic = KIND_ICON[kd]; return (
                         <div key={kd}>
                           <div className="mb-1 flex items-center gap-1 text-[10px] font-bold" style={{ color: KIND_META[kd].c }}><Ic className="size-3" />{KIND_META[kd].he} · {ids.length}</div>
@@ -746,18 +746,18 @@ export function ArchitectureStudio() {
                 </div>
 
                 {/* quick actions */}
-                <div className="flex gap-2 border-t border-slate-100 p-3">
-                  <button onClick={() => focusOn(active!)} className={`${btn} flex items-center justify-center gap-1.5 rounded-xl border-2 border-slate-200 px-3 py-2.5 text-[12px] font-bold text-slate-500 hover:border-brand/40 hover:text-brand`}><Crosshair className="size-4" />מרכז</button>
+                <div className="flex gap-2 border-t border-hairline p-3">
+                  <button onClick={() => focusOn(active!)} className={`${btn} flex items-center justify-center gap-1.5 rounded-xl border-2 border-hairline px-3 py-2.5 text-[12px] font-bold text-ink-3 hover:border-brand/40 hover:text-brand`}><Crosshair className="size-4" />מרכז</button>
                   {tip?.href && <Link href={tip.href} className={`${btn} flex flex-1 items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-[13px] font-extrabold text-white shadow-sm`} style={{ background: accent }}><ExternalLink className="size-4" />עמוד מלא</Link>}
                 </div>
               </motion.div>
             ) : (
-              <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex h-full flex-col items-center justify-center gap-3 p-6 py-12 text-center text-slate-400">
+              <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex h-full flex-col items-center justify-center gap-3 p-6 py-12 text-center text-ink-3">
                 <div className="relative grid size-14 place-items-center">
                   <span className="studio-halo absolute inset-0 rounded-full" style={{ background: `radial-gradient(closest-side, ${accent}2e, transparent)` }} />
-                  <Crosshair className="size-9 text-slate-300" />
+                  <Crosshair className="size-9 text-ink-3" />
                 </div>
-                <p className="text-sm font-bold text-slate-500">בחר אובייקט כדי לחקור</p>
+                <p className="text-sm font-bold text-ink-3">בחר אובייקט כדי לחקור</p>
                 <p className="text-[12px] leading-relaxed">רחף לתצוגה מקדימה, לחץ למיקוד. הגרף תמיד גלוי — הפאנל כאן מתעדכן מיד עם תיאור, קשרים, טעויות נפוצות ופעולות מהירות.</p>
                 <button onClick={() => centerOn(DEFAULT_FOCUS[module])} className={`${btn} mt-1 rounded-xl px-4 py-2 text-[12px] font-bold text-white shadow-sm`} style={{ background: accent }}>התחל מ-{DEFAULT_FOCUS[module]}</button>
               </motion.div>
@@ -771,11 +771,11 @@ export function ArchitectureStudio() {
       <AnimatePresence>
         {showKeys && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[70] grid place-items-center bg-slate-950/40 backdrop-blur-sm p-4" onClick={() => setShowKeys(false)}>
-            <motion.div initial={{ scale: 0.94, y: 10 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.94, opacity: 0 }} onClick={(e) => e.stopPropagation()} dir="rtl" className="w-full max-w-sm rounded-2xl border border-slate-200 bg-white p-5 shadow-2xl">
-              <div className="mb-3 flex items-center gap-2 text-sm font-extrabold text-slate-800"><Keyboard className="size-4" style={{ color: accent }} />קיצורי מקלדת</div>
+            <motion.div initial={{ scale: 0.94, y: 10 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.94, opacity: 0 }} onClick={(e) => e.stopPropagation()} dir="rtl" className="w-full max-w-sm rounded-2xl border border-hairline bg-surface p-5 shadow-2xl">
+              <div className="mb-3 flex items-center gap-2 text-sm font-extrabold text-ink-1"><Keyboard className="size-4" style={{ color: accent }} />קיצורי מקלדת</div>
               <div className="space-y-1.5 text-[13px]">
                 {[["לחיצה על צומת", "מיקוד + הדגשת שכנים"], ["דאבל-קליק", "זום קולנועי אל האובייקט"], ["Space", "מרכז את האובייקט הנבחר"], ["Esc", "חזרה לתצוגה הקודמת / ביטול / יציאת מצגת"], ["+ / −", "זום פנימה / החוצה"], ["גלגלת", "זום אל הסמן"], ["גרירה", "הזזת הקנבס"]].map(([k, v]) => (
-                  <div key={k} className="flex items-center justify-between gap-3 rounded-lg bg-slate-50 px-3 py-1.5"><span className="text-slate-600">{v}</span><kbd className="rounded bg-white px-2 py-0.5 font-mono text-[11px] font-bold text-slate-700 shadow-sm">{k}</kbd></div>
+                  <div key={k} className="flex items-center justify-between gap-3 rounded-lg bg-surface-2 px-3 py-1.5"><span className="text-ink-2">{v}</span><kbd className="rounded bg-surface px-2 py-0.5 font-mono text-[11px] font-bold text-ink-2 shadow-sm">{k}</kbd></div>
                 ))}
               </div>
             </motion.div>
@@ -783,7 +783,7 @@ export function ArchitectureStudio() {
         )}
       </AnimatePresence>
 
-      <p className="mt-3 pb-4 text-center text-[11px] text-slate-400">קשרים אמיתיים מתוך מודל הנתונים — ללא המצאה · המצב נשמר אוטומטית. <Link href={module === "PM" ? "/pm/" : "/pp-pi/"} className="font-bold text-brand">חזרה למרכז {module}</Link></p>
+      <p className="mt-3 pb-4 text-center text-[11px] text-ink-3">קשרים אמיתיים מתוך מודל הנתונים — ללא המצאה · המצב נשמר אוטומטית. <Link href={module === "PM" ? "/pm/" : "/pp-pi/"} className="font-bold text-brand">חזרה למרכז {module}</Link></p>
     </motion.div>
   );
 }

@@ -13,6 +13,6 @@ export async function generateMetadata({ params }: { params: Promise<{ code: str
 export default async function Page({ params }: { params: Promise<{ code: string }> }) {
   const { code } = await params;
   const o = appObject(decodeURIComponent(code));
-  if (!o) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">אובייקט לא נמצא במאגר.</div>;
+  if (!o) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">אובייקט לא נמצא במאגר.</div>;
   return <AppObjectPage o={o} />;
 }

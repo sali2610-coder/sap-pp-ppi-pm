@@ -17,7 +17,7 @@ const mc = (m: string) => MOD_COLOR[m] || MOD_COLOR[(m || "").split(/[ /]/)[0]] 
 // intelligence is not yet authored.
 export function TransactionLight({ code }: { code: string }) {
   const r = registryTx(code);
-  if (!r) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">T-Code לא נמצא במאגר.</div>;
+  if (!r) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">T-Code לא נמצא במאגר.</div>;
   const c = mc(r.module);
   const cu = r.code;
   const intel = tcodeIntel(cu);
@@ -28,14 +28,14 @@ export function TransactionLight({ code }: { code: string }) {
 
   return (
     <div className="mx-auto max-w-[1000px] space-y-4" dir="rtl">
-      <div className="flex items-center gap-1.5 text-xs text-slate-400">
-        <Link href="/" className="hover:text-slate-700">בית</Link><ArrowLeft className="size-3" />
-        <Link href="/transactions/" className="hover:text-slate-700">מרכז טרנזקציות</Link><ArrowLeft className="size-3" />
-        <span className="font-bold text-slate-700" dir="ltr">{cu}</span>
+      <div className="flex items-center gap-1.5 text-xs text-ink-3">
+        <Link href="/" className="hover:text-ink-2">בית</Link><ArrowLeft className="size-3" />
+        <Link href="/transactions/" className="hover:text-ink-2">מרכז טרנזקציות</Link><ArrowLeft className="size-3" />
+        <span className="font-bold text-ink-2" dir="ltr">{cu}</span>
       </div>
 
       <header className="relative overflow-hidden rounded-3xl p-6 text-white shadow-xl" style={{ background: `linear-gradient(135deg, ${c}, ${c}cc)` }}>
-        <div className="pointer-events-none absolute -left-16 -top-16 size-56 rounded-full bg-white/10 blur-3xl" />
+        <div className="pointer-events-none absolute -left-16 -top-16 size-56 rounded-full bg-surface/10 blur-3xl" />
         <div className="relative">
           <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-white/70"><Terminal className="size-4" />Transaction · {r.module}</div>
           <h1 className="mt-1 font-mono text-4xl font-extrabold tracking-tight" dir="ltr">{cu}</h1>
@@ -49,31 +49,31 @@ export function TransactionLight({ code }: { code: string }) {
       </div>
 
       {tables.length > 0 && (
-        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold text-slate-900"><Boxes className="size-4" style={{ color: c }} />טבלאות מקושרות (נגזר מהמאגר)</h2>
-          <div className="flex flex-wrap gap-1.5">{tables.map((n) => <Link key={n} href={`/object/${encodeURIComponent(n)}/`} className="tech rounded-lg bg-slate-100 px-2 py-0.5 text-[11px] font-bold text-slate-600 hover:bg-brand/10 hover:text-brand" dir="ltr">{n}</Link>)}</div>
+        <section className="rounded-2xl border border-hairline bg-surface p-5 shadow-sm">
+          <h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold text-ink-1"><Boxes className="size-4" style={{ color: c }} />טבלאות מקושרות (נגזר מהמאגר)</h2>
+          <div className="flex flex-wrap gap-1.5">{tables.map((n) => <Link key={n} href={`/object/${encodeURIComponent(n)}/`} className="tech rounded-lg bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-2 hover:bg-brand/10 hover:text-brand" dir="ltr">{n}</Link>)}</div>
         </section>
       )}
 
       {(incidents.length > 0 || exits.length > 0) && (
-        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold text-slate-900"><AlertTriangle className="size-4 text-amber-500" />תקלות ו-Exits (נגזר מהמאגר)</h2>
+        <section className="rounded-2xl border border-hairline bg-surface p-5 shadow-sm">
+          <h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold text-ink-1"><AlertTriangle className="size-4 text-amber-500" />תקלות ו-Exits (נגזר מהמאגר)</h2>
           {incidents.length > 0 && <div className="mb-2 flex flex-wrap gap-1.5">{incidents.map((i) => <Link key={i.slug} href={`/troubleshooting/${i.slug}/`} className="rounded-lg bg-rose-50 px-2.5 py-1 text-[11px] font-bold text-rose-700 ring-1 ring-rose-200 hover:bg-rose-100">{i.he} ←</Link>)}</div>}
           {exits.length > 0 && <div className="flex flex-wrap gap-1.5">{exits.map((e) => <span key={e.name} className="tech rounded-lg border border-violet-200 bg-violet-50 px-2 py-0.5 text-[11px] font-bold text-violet-700" dir="ltr">{e.name}</span>)}</div>}
         </section>
       )}
 
       {sameModule.length > 0 && (
-        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold text-slate-900"><GitBranch className="size-4" style={{ color: c }} />טרנזקציות נוספות ב-{r.module}</h2>
+        <section className="rounded-2xl border border-hairline bg-surface p-5 shadow-sm">
+          <h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold text-ink-1"><GitBranch className="size-4" style={{ color: c }} />טרנזקציות נוספות ב-{r.module}</h2>
           <div className="flex flex-wrap gap-1.5">{sameModule.map((t) => <Link key={t.code} href={t.href} className="tech rounded-lg px-2.5 py-1 text-[12px] font-bold transition" style={{ background: mc(t.module) + "14", color: mc(t.module) }} dir="ltr">{t.code}</Link>)}</div>
         </section>
       )}
 
       <div className="flex flex-wrap gap-2 pb-6">
         <Link href="/transactions/" className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 px-3 py-2 text-[12px] font-bold text-white"><Terminal className="size-4" />מרכז טרנזקציות</Link>
-        <Link href={`/graph/?node=${encodeURIComponent(cu)}`} className="inline-flex items-center gap-1.5 rounded-xl bg-slate-100 px-3 py-2 text-[12px] font-bold text-slate-600 hover:bg-slate-200"><GitBranch className="size-4" />גרף</Link>
-        <Link href={r.module.startsWith("PM") ? "/pm/" : r.module.startsWith("PP") ? "/pp-pi/" : "/sap-infrastructure/"} className="inline-flex items-center gap-1.5 rounded-xl bg-slate-100 px-3 py-2 text-[12px] font-bold text-slate-600 hover:bg-slate-200"><Workflow className="size-4" />מודול {r.module}</Link>
+        <Link href={`/graph/?node=${encodeURIComponent(cu)}`} className="inline-flex items-center gap-1.5 rounded-xl bg-surface-2 px-3 py-2 text-[12px] font-bold text-ink-2 hover:bg-hairline"><GitBranch className="size-4" />גרף</Link>
+        <Link href={r.module.startsWith("PM") ? "/pm/" : r.module.startsWith("PP") ? "/pp-pi/" : "/sap-infrastructure/"} className="inline-flex items-center gap-1.5 rounded-xl bg-surface-2 px-3 py-2 text-[12px] font-bold text-ink-2 hover:bg-hairline"><Workflow className="size-4" />מודול {r.module}</Link>
       </div>
     </div>
   );

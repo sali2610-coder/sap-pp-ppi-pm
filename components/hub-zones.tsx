@@ -51,7 +51,7 @@ const STATUS_ORDER: MigrationStatus[] = ["Not started", "In analysis", "In conve
 
 function MiniBar({ counts, total }: { counts: Record<MigrationStatus, number>; total: number }) {
   return (
-    <div className="flex h-1.5 overflow-hidden rounded-full bg-slate-100">
+    <div className="flex h-1.5 overflow-hidden rounded-full bg-surface-2">
       {STATUS_ORDER.map((s) => { const w = (counts[s] / (total || 1)) * 100; return w > 0 ? <div key={s} style={{ width: `${w}%`, background: statusColor(s) }} /> : null; })}
     </div>
   );
@@ -84,18 +84,18 @@ export function HubZones({ module, accent }: { module: SAPModuleData; accent: st
     <section className="card-premium p-5">
       <div className="mb-4 flex items-baseline justify-between">
         <div>
-          <span className="eyebrow text-slate-400">{sub}</span>
-          <h3 className="text-lg font-extrabold tracking-tight text-slate-900">{title}</h3>
+          <span className="eyebrow text-ink-3">{sub}</span>
+          <h3 className="text-lg font-extrabold tracking-tight text-ink-1">{title}</h3>
         </div>
-        <span className="text-xs font-medium text-slate-400">{topics.length} אזורים</span>
+        <span className="text-xs font-medium text-ink-3">{topics.length} אזורים</span>
       </div>
 
       {/* KPI strip */}
       <div className="mb-4 grid grid-cols-3 gap-2 sm:grid-cols-5">
         {KPIS.map(([l, n]) => (
-          <div key={l as string} className="rounded-xl border border-slate-100 bg-slate-50/70 px-3 py-2 text-center">
-            <div className="font-mono text-xl font-extrabold text-slate-900">{n as React.ReactNode}</div>
-            <div className="eyebrow mt-0.5 text-slate-400">{l as string}</div>
+          <div key={l as string} className="rounded-xl border border-hairline bg-surface-2/70 px-3 py-2 text-center">
+            <div className="font-mono text-xl font-extrabold text-ink-1">{n as React.ReactNode}</div>
+            <div className="eyebrow mt-0.5 text-ink-3">{l as string}</div>
           </div>
         ))}
       </div>
@@ -108,26 +108,26 @@ export function HubZones({ module, accent }: { module: SAPModuleData; accent: st
           const top = tp.tables.slice(0, 3).map((t) => t.tableName);
           return (
             <motion.button key={tp.idx} variants={item} onClick={() => { playClick(); router.push(`/process/${encodeURIComponent(`${module.module}-${tp.idx}`)}`); }}
-              className={`lift tap group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 text-start ${isFlow ? "min-w-[230px] shrink-0" : ""}`}
+              className={`lift tap group relative overflow-hidden rounded-2xl border border-hairline bg-surface p-4 text-start ${isFlow ? "min-w-[230px] shrink-0" : ""}`}
               style={{ boxShadow: "var(--shadow-card)" }}>
               <span className="absolute inset-x-0 top-0 h-1" style={{ background: accent }} />
               <span className="pointer-events-none absolute -left-8 -top-8 size-24 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-15" style={{ background: accent }} />
               <div className="flex items-center justify-between">
                 <span className="grid size-10 place-items-center rounded-xl text-white shadow-md" style={{ background: accent }}><Icon className="size-5" /></span>
                 {isFlow ? <span className="font-mono text-2xl font-extrabold text-slate-200">{String(i + 1).padStart(2, "0")}</span>
-                  : <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-500">{st.total} טבלאות</span>}
+                  : <span className="rounded-full bg-surface-2 px-2 py-0.5 text-[10px] font-bold text-ink-3">{st.total} טבלאות</span>}
               </div>
-              <h4 className="mt-3 line-clamp-2 text-sm font-extrabold leading-tight text-slate-900">{clean(tp.title)}</h4>
-              {isFlow && <p className="mt-0.5 text-[11px] font-semibold text-slate-400">{st.total} טבלאות</p>}
+              <h4 className="mt-3 line-clamp-2 text-sm font-extrabold leading-tight text-ink-1">{clean(tp.title)}</h4>
+              {isFlow && <p className="mt-0.5 text-[11px] font-semibold text-ink-3">{st.total} טבלאות</p>}
               <div className="mt-3">
-                <div className="mb-1 flex items-center justify-between text-[10px] font-bold text-slate-400"><span>התקדמות</span><span style={{ color: accent }}>{st.pct}%</span></div>
+                <div className="mb-1 flex items-center justify-between text-[10px] font-bold text-ink-3"><span>התקדמות</span><span style={{ color: accent }}>{st.pct}%</span></div>
                 <MiniBar counts={st.counts} total={st.total} />
               </div>
               <div className="mt-2.5 flex flex-wrap gap-1">
-                {top.map((n) => <span key={n} className="tech rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-bold text-slate-500" dir="ltr">{n}</span>)}
+                {top.map((n) => <span key={n} className="tech rounded bg-surface-2 px-1.5 py-0.5 text-[10px] font-bold text-ink-3" dir="ltr">{n}</span>)}
               </div>
               <span className="mt-3 flex items-center gap-1 text-[11px] font-bold opacity-0 transition group-hover:opacity-100" style={{ color: accent }}>פתח אזור <ArrowLeft className="size-3" /></span>
-              {isFlow && i < topics.length - 1 && <ArrowLeft className="pointer-events-none absolute -left-2.5 top-1/2 z-10 size-5 -translate-y-1/2 text-slate-300" />}
+              {isFlow && i < topics.length - 1 && <ArrowLeft className="pointer-events-none absolute -left-2.5 top-1/2 z-10 size-5 -translate-y-1/2 text-ink-3" />}
             </motion.button>
           );
         })}
@@ -135,16 +135,16 @@ export function HubZones({ module, accent }: { module: SAPModuleData; accent: st
 
       {/* SAP functional domains (authored knowledge) */}
       {domains.length > 0 && (
-        <div className="mt-6 border-t border-slate-100 pt-5">
+        <div className="mt-6 border-t border-hairline pt-5">
           <div className="mb-3 flex items-baseline justify-between">
-            <h4 className="text-sm font-extrabold tracking-tight text-slate-900">תחומים מקצועיים · SAP {module.module} Domains</h4>
-            <span className="text-xs font-medium text-slate-400">{domains.length} תחומים</span>
+            <h4 className="text-sm font-extrabold tracking-tight text-ink-1">תחומים מקצועיים · SAP {module.module} Domains</h4>
+            <span className="text-xs font-medium text-ink-3">{domains.length} תחומים</span>
           </div>
           <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
             {domains.map((d) => (
-              <Link key={d.slug} href={`/domain/${d.slug}`} className="lift tap group flex items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 shadow-sm">
-                <span className="min-w-0"><span className="block truncate text-sm font-bold text-slate-900">{d.he}</span><span className="block truncate text-[11px] text-slate-400" dir="ltr">{d.title}</span></span>
-                <ArrowLeft className="size-4 shrink-0 text-slate-300 transition group-hover:-translate-x-0.5" style={{ color: accent }} />
+              <Link key={d.slug} href={`/domain/${d.slug}`} className="lift tap group flex items-center justify-between gap-2 rounded-xl border border-hairline bg-surface px-3.5 py-2.5 shadow-sm">
+                <span className="min-w-0"><span className="block truncate text-sm font-bold text-ink-1">{d.he}</span><span className="block truncate text-[11px] text-ink-3" dir="ltr">{d.title}</span></span>
+                <ArrowLeft className="size-4 shrink-0 text-ink-3 transition group-hover:-translate-x-0.5" style={{ color: accent }} />
               </Link>
             ))}
           </div>

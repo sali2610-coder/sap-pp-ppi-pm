@@ -28,11 +28,11 @@ const DATA = book8 as { book: string; titleHe: string; module: string; chapters:
 /* one labeled prose facet */
 function Facet({ label, text, tone = "slate" }: { label: string; text?: string; tone?: "slate" | "brand" | "amber" }) {
   if (!text) return null;
-  const t = { slate: "text-slate-500", brand: "text-brand", amber: "text-amber-600" }[tone];
+  const t = { slate: "text-ink-3", brand: "text-brand", amber: "text-amber-600" }[tone];
   return (
     <div>
       <p className={`text-[10px] font-bold uppercase tracking-wide ${t}`}>{label}</p>
-      <p className="mt-0.5 whitespace-pre-line text-xs leading-relaxed text-slate-700">{text}</p>
+      <p className="mt-0.5 whitespace-pre-line text-xs leading-relaxed text-ink-2">{text}</p>
     </div>
   );
 }
@@ -40,13 +40,13 @@ function Facet({ label, text, tone = "slate" }: { label: string; text?: string; 
 /* labeled bullet list */
 function Bullets({ label, items, icon, tone = "slate" }: { label: string; items?: string[]; icon?: React.ReactNode; tone?: "slate" | "green" | "amber" | "rose" }) {
   if (!items?.length) return null;
-  const t = { slate: "text-slate-500", green: "text-emerald-600", amber: "text-amber-600", rose: "text-rose-600" }[tone];
+  const t = { slate: "text-ink-3", green: "text-emerald-600", amber: "text-amber-600", rose: "text-rose-600" }[tone];
   return (
     <div>
       <p className={`flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide ${t}`}>{icon}{label}</p>
       <ul className="mt-1 space-y-1">
         {items.map((it, i) => (
-          <li key={i} className="flex gap-1.5 text-xs leading-relaxed text-slate-700">
+          <li key={i} className="flex gap-1.5 text-xs leading-relaxed text-ink-2">
             <span className="mt-1.5 size-1 shrink-0 rounded-full bg-slate-300" />
             <span className="whitespace-pre-line">{it}</span>
           </li>
@@ -61,7 +61,7 @@ function Codes({ label, items, cls }: { label: string; items: string[]; cls: str
   if (!items?.length) return null;
   return (
     <div className="flex flex-wrap items-center gap-1">
-      <span className="text-[10px] font-bold text-slate-400">{label}</span>
+      <span className="text-[10px] font-bold text-ink-3">{label}</span>
       {items.map((c) => (
         <span key={c} dir="ltr" className={`tech rounded px-1.5 py-0.5 text-[11px] font-bold ${cls}`}>{c}</span>
       ))}
@@ -84,7 +84,7 @@ function SectionCard({ s }: { s: Section }) {
       <AnimatePresence initial={false}>
         {open && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22 }} className="overflow-hidden">
-            <div className="space-y-4 rounded-xl bg-white/60 p-4">
+            <div className="space-y-4 rounded-xl bg-surface/60 p-4">
               {/* three explanation levels */}
               <div className="grid-adaptive-sm">
                 <Facet label="מנהלים (Executive)" text={s.execHe} tone="brand" />
@@ -100,12 +100,12 @@ function SectionCard({ s }: { s: Section }) {
               {/* reference identifiers (verbatim EN) */}
               {(s.tcodes?.length || s.tables?.length || s.fiori?.length || s.navHe?.length) ? (
                 <div className="space-y-1.5 border-t border-border/30 pt-3">
-                  <Codes label="T-Codes" items={s.tcodes} cls="bg-slate-100 text-slate-700" />
+                  <Codes label="T-Codes" items={s.tcodes} cls="bg-surface-2 text-ink-2" />
                   <Codes label="Tables" items={s.tables} cls="bg-indigo-50 text-indigo-700" />
                   <Codes label="Fiori" items={s.fiori} cls="bg-pink-50 text-pink-700" />
                   {s.navHe?.length ? (
                     <ul className="mt-1 space-y-0.5">
-                      {s.navHe.map((n, i) => <li key={i} dir="ltr" className="tech text-[11px] leading-relaxed text-slate-500">▸ {n}</li>)}
+                      {s.navHe.map((n, i) => <li key={i} dir="ltr" className="tech text-[11px] leading-relaxed text-ink-3">▸ {n}</li>)}
                     </ul>
                   ) : null}
                 </div>
@@ -113,14 +113,14 @@ function SectionCard({ s }: { s: Section }) {
               {/* flow */}
               {s.flow?.length ? (
                 <div className="border-t border-border/30 pt-3">
-                  <p className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-500"><Workflow className="size-3" />תרשים תהליך</p>
+                  <p className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-ink-3"><Workflow className="size-3" />תרשים תהליך</p>
                   <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
                     {s.flow.map((f, i) => (
                       <span key={i} className="flex items-center gap-1.5">
                         <span className="rounded-lg border border-border/60 bg-card px-2 py-1 text-xs">
                           {f.he}{f.code ? <span dir="ltr" className="tech ms-1 text-[10px] font-bold text-brand">{f.code}</span> : null}
                         </span>
-                        {i < s.flow!.length - 1 && <ArrowRight className="size-3 rotate-180 text-slate-300" />}
+                        {i < s.flow!.length - 1 && <ArrowRight className="size-3 rotate-180 text-ink-3" />}
                       </span>
                     ))}
                   </div>
@@ -140,12 +140,12 @@ function SectionCard({ s }: { s: Section }) {
               {/* interview Q&A */}
               {s.interviewHe?.length ? (
                 <div className="border-t border-border/30 pt-3">
-                  <p className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-slate-500"><MessageCircleQuestion className="size-3" />שאלות ראיון</p>
+                  <p className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wide text-ink-3"><MessageCircleQuestion className="size-3" />שאלות ראיון</p>
                   <div className="mt-1.5 space-y-2">
                     {s.interviewHe.map((q, i) => (
                       <details key={i} className="rounded-lg border border-border/50 bg-card px-3 py-1.5">
-                        <summary className="cursor-pointer text-xs font-semibold text-slate-700">{q.qHe}</summary>
-                        <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-slate-600">{q.aHe}</p>
+                        <summary className="cursor-pointer text-xs font-semibold text-ink-2">{q.qHe}</summary>
+                        <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-ink-2">{q.aHe}</p>
                       </details>
                     ))}
                   </div>
@@ -159,7 +159,7 @@ function SectionCard({ s }: { s: Section }) {
               {s.relatedHe?.length ? (
                 <div className="flex flex-wrap gap-1.5">
                   {s.relatedHe.map((r, i) => (
-                    <Link key={i} href={r.href} className="rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-600 hover:bg-slate-200">{r.labelHe}</Link>
+                    <Link key={i} href={r.href} className="rounded-md bg-surface-2 px-2 py-0.5 text-[11px] font-semibold text-ink-2 hover:bg-hairline">{r.labelHe}</Link>
                   ))}
                 </div>
               ) : null}
@@ -198,7 +198,7 @@ function ChapterBlock({ ch }: { ch: Chapter }) {
         {open && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden px-3 pb-4">
             <div className="paper relative rounded-xl p-4 sm:p-6">
-              {ch.introHe ? <p className="mb-3 whitespace-pre-line text-xs leading-relaxed text-slate-600">{ch.introHe}</p> : null}
+              {ch.introHe ? <p className="mb-3 whitespace-pre-line text-xs leading-relaxed text-ink-2">{ch.introHe}</p> : null}
               {ch.sections.map((s) => <SectionCard key={s.id} s={s} />)}
             </div>
           </motion.div>

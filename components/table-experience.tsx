@@ -17,11 +17,11 @@ const ObjectWorkspace = dynamic(() => import("@/components/object-workspace").th
   ssr: false,
   loading: () => (
     <div className="space-y-3 p-2">
-      <div className="h-28 animate-pulse rounded-3xl bg-slate-200/70" />
-      <div className="h-10 w-2/3 animate-pulse rounded-xl bg-slate-200/60" />
+      <div className="h-28 animate-pulse rounded-3xl bg-hairline/70" />
+      <div className="h-10 w-2/3 animate-pulse rounded-xl bg-hairline/60" />
       <div className="grid gap-3 sm:grid-cols-2">
-        <div className="h-40 animate-pulse rounded-2xl bg-slate-200/50" />
-        <div className="h-40 animate-pulse rounded-2xl bg-slate-200/50" />
+        <div className="h-40 animate-pulse rounded-2xl bg-hairline/50" />
+        <div className="h-40 animate-pulse rounded-2xl bg-hairline/50" />
       </div>
     </div>
   ),
@@ -63,7 +63,7 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
           const rels = tb.relations || [];
           return (
             <motion.div key={tb.id} variants={item}
-              className={`spotlight group relative overflow-hidden rounded-2xl border bg-white shadow-sm transition-[box-shadow,border-color,transform] duration-200 ${isOpen ? "border-transparent shadow-[var(--elev-2)] ring-1 sm:col-span-2 xl:col-span-3" : core ? "border-amber-200/70 ring-1 ring-amber-100 hover:-translate-y-1 hover:shadow-[var(--elev-2)]" : "border-slate-200 hover:-translate-y-1 hover:shadow-[var(--elev-2)]"}`}
+              className={`spotlight group relative overflow-hidden rounded-2xl border bg-surface shadow-sm transition-[box-shadow,border-color,transform] duration-200 ${isOpen ? "border-transparent shadow-[var(--elev-2)] ring-1 sm:col-span-2 xl:col-span-3" : core ? "border-amber-200/70 ring-1 ring-amber-100 hover:-translate-y-1 hover:shadow-[var(--elev-2)]" : "border-hairline hover:-translate-y-1 hover:shadow-[var(--elev-2)]"}`}
               style={isOpen ? ({ ["--tw-ring-color"]: accent } as React.CSSProperties) : undefined}
               onPointerMove={(e) => { const r = e.currentTarget.getBoundingClientRect(); e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`); e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`); }}>
               <span className="absolute inset-x-0 top-0 h-1" style={{ background: accent }} />
@@ -74,14 +74,14 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
                   <span className="grid size-11 shrink-0 place-items-center rounded-xl text-white shadow-sm transition-transform group-hover:scale-105" style={{ background: accent }}><Database className="size-5" /></span>
                   <span className="min-w-0">
                     <span className="flex items-center gap-1.5">
-                      <span className="tech text-base font-extrabold text-slate-900" dir="ltr"><Highlight text={tb.tableName} query={query} /></span>
+                      <span className="tech text-base font-extrabold text-ink-1" dir="ltr"><Highlight text={tb.tableName} query={query} /></span>
                       {core && <span className="rounded-full bg-amber-100 px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wide text-amber-700 ring-1 ring-amber-300/60">★ ליבה</span>}
                     </span>
-                    <span className="mt-0.5 block truncate text-sm font-semibold text-slate-500"><Highlight text={pick(tb.descriptionHe, tb.descriptionEn)} query={query} /></span>
+                    <span className="mt-0.5 block truncate text-sm font-semibold text-ink-3"><Highlight text={pick(tb.descriptionHe, tb.descriptionEn)} query={query} /></span>
                   </span>
                 </button>
                 <button onClick={() => { if (isOpen) { setOpen(null); } else setOpen(tb.tableName); }} aria-label={isOpen ? "כווץ" : "הרחב"}
-                  className="tap grid size-8 shrink-0 place-items-center rounded-lg text-slate-300 transition hover:bg-slate-50 hover:text-slate-500">
+                  className="tap grid size-8 shrink-0 place-items-center rounded-lg text-ink-3 transition hover:bg-surface-2 hover:text-ink-3">
                   <ChevronDown className={`size-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
                 </button>
               </div>
@@ -90,22 +90,22 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
               <AnimatePresence initial={false}>
                 {isOpen && (
                   <motion.div initial={reduce ? false : { height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={reduce ? undefined : { height: 0, opacity: 0 }} transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}>
-                    <div className="space-y-3 border-t border-slate-100 p-4">
+                    <div className="space-y-3 border-t border-hairline p-4">
                       <div className="grid gap-3 sm:grid-cols-2">
-                        <Cell label="מטרה עסקית"><Highlight text={pick(tb.descriptionHe, tb.descriptionEn)} query={query} />{tb.guideHe ? <span className="mt-1 block text-xs leading-relaxed text-slate-400"><Highlight text={tb.guideHe.slice(0, 160) + (tb.guideHe.length > 160 ? "…" : "")} query={query} /></span> : null}</Cell>
+                        <Cell label="מטרה עסקית"><Highlight text={pick(tb.descriptionHe, tb.descriptionEn)} query={query} />{tb.guideHe ? <span className="mt-1 block text-xs leading-relaxed text-ink-3"><Highlight text={tb.guideHe.slice(0, 160) + (tb.guideHe.length > 160 ? "…" : "")} query={query} /></span> : null}</Cell>
                         <div className="grid grid-cols-3 gap-2">
                           <Metric n={pk} label="PK" icon={<KeyRound className="size-3.5 text-amber-500" />} />
                           <Metric n={fk} label="FK" icon={<Link2 className="size-3.5 text-cyan-500" />} />
-                          <Metric n={tb.fields.length} label="שדות" icon={<Layers className="size-3.5 text-slate-400" />} />
+                          <Metric n={tb.fields.length} label="שדות" icon={<Layers className="size-3.5 text-ink-3" />} />
                         </div>
                       </div>
                       {rels.length > 0 && (
                         <div>
-                          <p className="eyebrow mb-1 flex items-center gap-1 text-slate-400"><GitBranch className="size-3" />קשרים עיקריים · {rels.length}</p>
+                          <p className="eyebrow mb-1 flex items-center gap-1 text-ink-3"><GitBranch className="size-3" />קשרים עיקריים · {rels.length}</p>
                           <div className="flex flex-wrap gap-1.5">
                             {rels.slice(0, 8).map((r, i) => (
-                              <span key={r.table + i} className="tech inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[11px] font-bold text-slate-600" dir="ltr">
-                                <span className="text-slate-400">{r.role === "parent" ? "→" : "←"}</span><Highlight text={r.table} query={query} />{r.card ? <span className="font-mono text-[9px] text-slate-400">{r.card}</span> : null}
+                              <span key={r.table + i} className="tech inline-flex items-center gap-1 rounded-md border border-hairline bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-2" dir="ltr">
+                                <span className="text-ink-3">{r.role === "parent" ? "→" : "←"}</span><Highlight text={r.table} query={query} />{r.card ? <span className="font-mono text-[9px] text-ink-3">{r.card}</span> : null}
                               </span>
                             ))}
                           </div>
@@ -118,7 +118,7 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
                         <button onClick={() => setDeep(tb.tableName)} className="lift inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-bold text-white shadow-lg" style={{ background: accent, boxShadow: `0 8px 18px ${accent}55` }}>
                           <Maximize2 className="size-3.5" />צלילה לעומק — סביבת עבודה
                         </button>
-                        <Link href={`/object/${encodeURIComponent(tb.tableName)}/`} className="tap inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand">עמוד מלא<ArrowLeft className="size-3.5" /></Link>
+                        <Link href={`/object/${encodeURIComponent(tb.tableName)}/`} className="tap inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-3 py-2 text-xs font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand">עמוד מלא<ArrowLeft className="size-3.5" /></Link>
                       </div>
                     </div>
                   </motion.div>
@@ -131,14 +131,14 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
 
       {/* L3 — full Object Workspace, full-screen */}
       <Dialog open={!!deep} onOpenChange={(o) => !o && setDeep(null)}>
-        <DialogContent className="inset-0 start-0 end-0 top-0 bottom-0 left-0 right-0 m-0 h-[100dvh] max-h-[100dvh] w-screen max-w-none translate-x-0 rtl:translate-x-0 overflow-y-auto rounded-none border-0 bg-slate-50 p-0 shadow-2xl data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=open]:zoom-in-100 data-[state=closed]:zoom-out-100"
+        <DialogContent className="inset-0 start-0 end-0 top-0 bottom-0 left-0 right-0 m-0 h-[100dvh] max-h-[100dvh] w-screen max-w-none translate-x-0 rtl:translate-x-0 overflow-y-auto rounded-none border-0 bg-surface-2 p-0 shadow-2xl data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=open]:zoom-in-100 data-[state=closed]:zoom-out-100"
           overlayClassName="bg-slate-900/60">
           <VisuallyHidden><DialogTitle>{deep}</DialogTitle></VisuallyHidden>
-          <div className="sticky top-0 z-10 flex items-center justify-between gap-2 border-b border-slate-200 bg-white/90 px-5 py-3 backdrop-blur-md">
-            <span className="inline-flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1 text-xs font-bold text-slate-500 ring-1 ring-slate-200"><Maximize2 className="size-3.5 text-brand" />צלילה לעומק — <span className="tech font-extrabold text-slate-900" dir="ltr">{deep}</span></span>
+          <div className="sticky top-0 z-10 flex items-center justify-between gap-2 border-b border-hairline bg-surface/90 px-5 py-3 backdrop-blur-md">
+            <span className="inline-flex items-center gap-2 rounded-full bg-surface-2 px-3 py-1 text-xs font-bold text-ink-3 ring-1 ring-hairline"><Maximize2 className="size-3.5 text-brand" />צלילה לעומק — <span className="tech font-extrabold text-ink-1" dir="ltr">{deep}</span></span>
             <div className="flex items-center gap-2">
-              <button onClick={() => setDeep(null)} className="tap inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand"><ArrowLeft className="size-4" />חזרה ל{module.module}</button>
-              {deep && <Link href={`/object/${encodeURIComponent(deep)}/`} onClick={() => setDeep(null)} className="tap inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-600 transition hover:border-brand/40 hover:text-brand">עמוד מלא</Link>}
+              <button onClick={() => setDeep(null)} className="tap inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-3 py-2 text-xs font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand"><ArrowLeft className="size-4" />חזרה ל{module.module}</button>
+              {deep && <Link href={`/object/${encodeURIComponent(deep)}/`} onClick={() => setDeep(null)} className="tap inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-3 py-2 text-xs font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand">עמוד מלא</Link>}
               <button onClick={() => setDeep(null)} aria-label="סגור" className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-3.5 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-brand-dark"><X className="size-4" />סגור</button>
             </div>
           </div>
@@ -152,8 +152,8 @@ export function TableExperience({ module, query }: { module: SAPModuleData; quer
 }
 
 function Cell({ label, children }: { label: string; children: React.ReactNode }) {
-  return <div><p className="eyebrow mb-1 text-slate-400">{label}</p><div className="text-sm font-medium text-slate-700">{children}</div></div>;
+  return <div><p className="eyebrow mb-1 text-ink-3">{label}</p><div className="text-sm font-medium text-ink-2">{children}</div></div>;
 }
 function Metric({ n, label, icon }: { n: number; label: string; icon: React.ReactNode }) {
-  return <div className="rounded-xl border border-slate-200 bg-slate-50 p-2 text-center"><div className="flex items-center justify-center gap-1 text-lg font-extrabold tabular-nums text-slate-900">{icon}{n}</div><div className="eyebrow text-slate-400">{label}</div></div>;
+  return <div className="rounded-xl border border-hairline bg-surface-2 p-2 text-center"><div className="flex items-center justify-center gap-1 text-lg font-extrabold tabular-nums text-ink-1">{icon}{n}</div><div className="eyebrow text-ink-3">{label}</div></div>;
 }

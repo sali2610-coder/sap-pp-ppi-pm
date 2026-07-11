@@ -8,7 +8,7 @@ export const dynamicParams = false;
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const c = conceptBySlug(slug);
-  if (!c) return <div className="py-20 text-center text-sm text-slate-500" dir="rtl">המושג לא נמצא.</div>;
+  if (!c) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">המושג לא נמצא.</div>;
   return (
     <div>
       <Crumb trail={[{ href: "/knowledge/", label: "מרכז הידע" }, { href: "/concepts/", label: "מושגי SAP" }, { label: c.he }]} />
@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           <Chips items={c.related} render={(r) => {
             const target = conceptBySlug(r);
             return target ? <Link href={`/concepts/${r}/`} className="tech rounded-lg border border-cyan-200 bg-cyan-50 px-2.5 py-1 text-xs font-bold text-cyan-700 hover:bg-cyan-100" dir="ltr">{target.he}</Link>
-              : <span className="tech rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-bold text-slate-600" dir="ltr">{r}</span>;
+              : <span className="tech rounded-lg border border-hairline bg-surface-2 px-2.5 py-1 text-xs font-bold text-ink-2" dir="ltr">{r}</span>;
           }} />
         </Block>
       </div>
