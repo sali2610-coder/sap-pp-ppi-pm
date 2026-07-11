@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, ChevronDown, Layers } from "lucide-react";
+import { ChevronDown, Layers } from "lucide-react";
 import { BookReader } from "@/components/book-reader";
 import book10 from "@/data/library/book10-full.json";
 import { useI18n } from "@/lib/i18n";
@@ -90,11 +89,6 @@ export default function Book9Page() {
   const totalSections = DATA.chapters.reduce((s, c) => s + c.sections.length, 0);
   return (
     <div className="space-y-6">
-      <Link href="/library/" className="inline-flex items-center gap-1.5 text-sm text-brand hover:underline">
-        <ArrowRight className="size-4 rtl:rotate-180" />
-        {lang === "he" ? "חזרה לספרייה" : "Back to library"}
-      </Link>
-
       <BookReader
         bookId="book10"
         title={DATA.book}
