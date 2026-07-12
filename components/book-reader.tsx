@@ -6,6 +6,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDown, ListTree, X, PlayCircle, StickyNote, Clock, FileText, Languages, Layers3, ArrowLeft, Sparkles, CheckCircle2, Maximize2, Minimize2, Home, Library } from "lucide-react";
 import { useReader } from "@/lib/reader-store";
 import { LIBRARY } from "@/data/library";
+import { writeContinuity } from "@/lib/continuity-store";
 import { playTick } from "@/lib/sound";
 
 export interface ReaderChapter { n: number; title: string; he?: string }
@@ -85,6 +86,12 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   const first = chapters[0]?.n ?? 1;
 
   useEffect(() => { if (last && last > 1) setShowContinue(true); }, [last]);
+
+  // continuity — remember this book + live chapter for the global "המשך לקרוא"
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    writeContinuity({ bookId, title: meta?.titleHe || title, module: derivedMod || "", href: window.location.pathname, chapter: active });
+  }, [bookId, active, meta, title, derivedMod]);
 
   useEffect(() => {
     const els = Array.from(document.querySelectorAll<HTMLElement>("[data-chapter]"));
