@@ -2,24 +2,23 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { BookOpen, ChevronDown, FileText, Library as LibraryIcon, Layers, ArrowLeft, GraduationCap, Search, X, Clock, CheckCircle2, Star, Languages, BookMarked, LayoutGrid, Sparkles, Compass, Timer, Layers3 } from "lucide-react";
-import { LIBRARY, LIBRARY_STATS, type LibBook, type LibChapter } from "@/data/library";
+import { useRouter } from "next/navigation";
+import { motion, useReducedMotion } from "framer-motion";
+import { BookOpen, FileText, Library as LibraryIcon, ArrowLeft, GraduationCap, Search, X, Clock, CheckCircle2, Star, Languages, BookMarked, LayoutGrid, Sparkles, Compass, Timer, Layers3, PlayCircle } from "lucide-react";
+import { LIBRARY, LIBRARY_STATS, type LibBook } from "@/data/library";
 import { ACADEMY_BOOKS, ACADEMY_META, type AcademyBook } from "@/data/library/academy";
 import { useI18n } from "@/lib/i18n";
 import { playPing } from "@/lib/sound";
+import { BookCover, BookSpine, Shelf, moduleColor as mc, type CoverBook } from "@/components/book-cover";
+import { readContinuity, writeContinuity, type Continuity } from "@/lib/continuity-store";
 
-/* ---- module identity palette (soft, enterprise) ---- */
-const MOD_COLOR: Record<string, string> = {
-  PP: "#d62027", PM: "#f97316", "PP-PI": "#6d28d9", QM: "#059669",
-  MM: "#d97706", WM: "#7c3aed", IBP: "#0891b2", Fiori: "#db2777", Foundation: "#475569",
-};
-const mc = (m: string) => MOD_COLOR[m] || "#64748b";
 /* UI-only estimate (NOT SAP data): ~12 min per learning unit */
 const estHours = (nodes: number) => Math.max(1, Math.round((nodes || 0) * 0.2));
 
 /* ---- deep-reader routes for reference manuals that have full text ---- */
 const READER: Record<string, string> = { "config-pm": "/library/book1/", "production-planning": "/library/book2/", "quality-management": "/library/book5/", "sourcing-procurement": "/library/book3/", "pp-ds": "/library/book4/", "warehouse-management": "/library/book6/", "fiori-apps": "/library/book7/", "pm-business-user": "/library/book9/", "ibp-sop": "/library/book10/", "s4-foundation": "/library/book11/" };
+
+const asCover = (b: LibBook): CoverBook => ({ title: b.titleHe, titleEn: b.title, module: b.module, publisher: b.publisher, pages: b.pages, chapters: b.chapters.length });
 
 /* ====== recently-opened (localStorage, SSR-safe) ====== */
 type Recent = { id: string; title: string; module: string; href: string };
@@ -38,60 +37,17 @@ function useRecent() {
   return { recent, push };
 }
 
-/* ====== premium book spine — reads as the edge of a physical technical book ====== */
-function Spine({ c, w = "w-7" }: { c: string; w?: string }) {
-  return (
-    <div className={`relative ${w} shrink-0 overflow-hidden`} style={{ background: `linear-gradient(155deg, ${c}, ${c}cc 45%, ${c}90)` }}>
-      {/* top gloss */}
-      <span className="pointer-events-none absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-white/25 to-transparent" />
-      {/* binding rule on the outer edge */}
-      <span className="absolute inset-y-0 left-0 w-px bg-white/50" />
-      <span className="absolute inset-y-2 left-[3px] w-px bg-white/20" />
-      {/* page-edge hint where the spine meets the body */}
-      <span className="absolute inset-y-0 right-0 flex flex-col justify-center gap-[3px] pe-px opacity-60">
-        <span className="h-10 w-px bg-white/40" /><span className="h-10 w-px bg-white/25" /><span className="h-10 w-px bg-white/40" />
-      </span>
-    </div>
-  );
-}
-
-/* ====== chapter row (reference manual inline index) ====== */
-function ChapterRow({ c }: { c: LibChapter }) {
-  const [open, setOpen] = useState(false);
-  const hasBody = Boolean(c.bodyEn || c.bodyHe);
-  return (
-    <li>
-      <button onClick={() => { if (!hasBody) return; playPing(); setOpen((v) => !v); }}
-        className={`grid w-full gap-1 px-5 py-3 text-start transition-colors sm:grid-cols-2 sm:gap-4 ${hasBody ? "hover:bg-surface-2" : ""}`}>
-        <div dir="ltr" className="flex items-start gap-2 text-start">
-          <span className="tech mt-0.5 shrink-0 rounded bg-surface-2 px-1.5 text-[11px] font-bold text-ink-3">{c.n}</span>
-          <span className="text-sm font-medium">{c.en}</span>
-          {c.page ? <span className="ms-auto shrink-0 text-[11px] text-ink-3">p.{c.page}</span> : null}
-        </div>
-        <div dir="rtl" className="flex items-start gap-2 text-start">
-          <FileText className="mt-0.5 size-3.5 shrink-0 text-brand" />
-          <span className="text-sm font-medium">{c.he}</span>
-          {hasBody && <ChevronDown className={`ms-auto size-4 shrink-0 text-ink-3 transition-transform ${open ? "rotate-180" : ""}`} />}
-        </div>
-      </button>
-      <AnimatePresence initial={false}>
-        {open && hasBody && (
-          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden">
-            <div className="grid gap-3 px-5 pb-4 sm:grid-cols-2 sm:gap-4">
-              <div dir="ltr" className="flex max-h-96 flex-col rounded-xl border border-hairline bg-surface-2/60 p-3 text-start">
-                <p className="mb-1 shrink-0 text-[10px] font-bold uppercase tracking-wide text-ink-3">Original (SAP manual)</p>
-                <p className="overflow-y-auto whitespace-pre-line text-xs leading-relaxed text-ink-3">{c.bodyEn || "—"}</p>
-              </div>
-              <div dir="rtl" className="flex max-h-96 flex-col rounded-xl border border-brand/20 bg-brand-soft/50 p-3 text-start">
-                <p className="mb-1 shrink-0 text-[10px] font-bold uppercase tracking-wide text-brand">תרגום מקצועי לעברית</p>
-                <p className="overflow-y-auto whitespace-pre-line text-xs leading-relaxed">{c.bodyHe || "—"}</p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </li>
-  );
+/* open a book: record recency + continuity, then route */
+function useOpenBook(push: (r: Recent) => void) {
+  const router = useRouter();
+  return (b: LibBook) => {
+    const href = READER[b.id];
+    if (!href) return;
+    playPing();
+    push({ id: b.id, title: b.titleHe, module: b.module, href });
+    writeContinuity({ bookId: b.id, title: b.titleHe, module: b.module, href });
+    router.push(href);
+  };
 }
 
 /* ====== language / quality / status chips ====== */
@@ -115,6 +71,117 @@ function SectionHead({ icon, eyebrow, title, tint, children }: { icon: React.Rea
   );
 }
 
+/* ====== animated counter ====== */
+function Count({ n }: { n: number }) {
+  const [v, setV] = useState(0);
+  useEffect(() => { let raf = 0; const t0 = performance.now(); const step = (t: number) => { const p = Math.min(1, (t - t0) / 1100); setV(Math.round((1 - Math.pow(1 - p, 3)) * n)); if (p < 1) raf = requestAnimationFrame(step); }; raf = requestAnimationFrame(step); return () => cancelAnimationFrame(raf); }, [n]);
+  return <>{v.toLocaleString()}</>;
+}
+
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const reduce = useReducedMotion();
+  return <motion.div initial={reduce ? false : { opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, delay, ease: [0.2, 0.7, 0.2, 1] }}>{children}</motion.div>;
+}
+
+/* ====== adaptive hero — cinematic on first visit, compact editorial after ====== */
+function LibraryHero({ stats }: { stats: { v: number; l: string }[] }) {
+  const [compact, setCompact] = useState<boolean | null>(null);
+  useEffect(() => {
+    let seen = false;
+    try { seen = localStorage.getItem("neo:lib:visited") === "1"; localStorage.setItem("neo:lib:visited", "1"); } catch { /* noop */ }
+    setCompact(seen);
+  }, []);
+  const isCompact = compact ?? false; // SSR/first paint → cinematic
+
+  if (isCompact) {
+    // compact editorial header — maximum space to the books
+    return (
+      <header className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline pb-4">
+        <div className="flex items-center gap-3">
+          <span className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-ink-1 to-[#2a2d33] text-white shadow-md"><LibraryIcon className="size-5 text-brand" /></span>
+          <div>
+            <h1 className="font-display text-xl tracking-tight text-ink-1 sm:text-2xl">מרכז הידע של <span className="text-brand">SAP</span></h1>
+            <p className="hidden text-[11px] font-semibold text-ink-3 sm:block">אקדמיית הכשרה · ספריית עיון טכנית · EN + עברית</p>
+          </div>
+        </div>
+        <div className="hidden items-center gap-4 md:flex">
+          {stats.map((s) => (
+            <div key={s.l} className="text-center">
+              <div className="font-mono text-base font-extrabold tabular-nums text-ink-1">{s.v.toLocaleString()}</div>
+              <div className="text-[9.5px] font-semibold uppercase tracking-wider text-ink-3">{s.l}</div>
+            </div>
+          ))}
+        </div>
+      </header>
+    );
+  }
+
+  // cinematic first-visit masthead
+  return (
+    <section className="relative overflow-hidden rounded-[2rem] border border-hairline bg-gradient-to-bl from-ink-1 via-[#15171b] to-[#0b0c0e] p-7 text-white shadow-2xl animate-float-in sm:p-9">
+      <div className="pointer-events-none absolute inset-0 opacity-[0.06]" style={{ backgroundImage: "linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)", backgroundSize: "44px 44px" }} />
+      <span className="pointer-events-none absolute -right-16 -top-16 size-64 rounded-full bg-brand/25 blur-3xl" />
+      <div className="relative">
+        <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/90">
+          <LibraryIcon className="size-3.5 text-brand" /> SAP Knowledge Center
+        </span>
+        <h1 className="mt-3 font-display text-3xl tracking-tight sm:text-[3.25rem]">מרכז הידע של <span className="text-brand">SAP</span></h1>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
+          שני עולמות תחת קורת גג אחת — <b className="text-white">אקדמיית הכשרה מובנית</b> ו<b className="text-white">ספריית עיון טכנית</b>. אנגלית מקורית לצד תרגום עברי מקצועי לארגון.
+        </p>
+        <div className="mt-5 grid grid-cols-2 gap-2.5 sm:max-w-xl sm:grid-cols-4">
+          {stats.map((s) => (
+            <div key={s.l} className="flex flex-col items-center rounded-2xl border border-white/12 bg-white/8 px-3 py-3 backdrop-blur-sm">
+              <span className="font-mono text-2xl font-extrabold tabular-nums sm:text-3xl"><Count n={s.v} /></span>
+              <span className="mt-0.5 text-center text-[10px] font-semibold uppercase tracking-wider text-white/60">{s.l}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ====== continue-reading — exact-resume hero + recent chips ====== */
+function ResumeStrip({ recent }: { recent: Recent[] }) {
+  const [cont, setCont] = useState<Continuity | null>(null);
+  useEffect(() => { setCont(readContinuity()); }, []);
+  const primary = cont || (recent[0] ? { bookId: recent[0].id, title: recent[0].title, module: recent[0].module, href: recent[0].href, updatedAt: 0 } as Continuity : null);
+  if (!primary) return null;
+  const c = mc(primary.module);
+  const rest = recent.filter((r) => r.id !== primary.bookId);
+  return (
+    <Reveal>
+      <section className="relative flex flex-col gap-3 overflow-hidden rounded-3xl border border-hairline bg-surface p-4 shadow-[0_12px_34px_-22px_rgba(15,23,42,0.5)] sm:flex-row sm:items-center sm:gap-5 sm:p-5">
+        <span className="pointer-events-none absolute -left-16 -top-16 size-40 rounded-full opacity-[0.1] blur-3xl" style={{ background: c }} />
+        <Link href={primary.href} className="group flex min-w-0 flex-1 items-center gap-4">
+          <span className="w-14 shrink-0 sm:w-16"><BookCover book={{ title: primary.title, module: primary.module }} size="sm" /></span>
+          <span className="min-w-0">
+            <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: c }}><PlayCircle className="size-3.5" /> המשך לקרוא</span>
+            <span className="mt-0.5 block truncate text-base font-extrabold tracking-tight text-ink-1">{primary.title}</span>
+            <span className="mt-0.5 block text-xs font-semibold text-ink-3">{primary.chapter ? `פרק ${primary.chapter} · ` : ""}חזרה לנקודה שבה הפסקת</span>
+          </span>
+        </Link>
+        <div className="flex items-center gap-2">
+          {rest.length > 0 && (
+            <div className="hidden max-w-md flex-wrap gap-1.5 lg:flex">
+              {rest.slice(0, 3).map((r) => (
+                <Link key={r.id} href={r.href} className="group inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-2.5 py-1.5 text-xs font-semibold text-ink-2 transition hover:-translate-y-0.5 hover:border-brand/40">
+                  <span className="size-2 rounded-full" style={{ background: mc(r.module) }} />
+                  <span className="max-w-[9rem] truncate">{r.title}</span>
+                </Link>
+              ))}
+            </div>
+          )}
+          <Link href={primary.href} className="group inline-flex shrink-0 items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
+            המשך <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover:-translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
+          </Link>
+        </div>
+      </section>
+    </Reveal>
+  );
+}
+
 /* ====== ACADEMY learning-path card ====== */
 function AcademyCard({ b, onOpen }: { b: AcademyBook; onOpen: (r: Recent) => void }) {
   const c = mc(b.module);
@@ -122,7 +189,7 @@ function AcademyCard({ b, onOpen }: { b: AcademyBook; onOpen: (r: Recent) => voi
   const live = b.status === "live" && b.href;
   const inner = (
     <div className="group relative flex h-full overflow-hidden rounded-2xl border border-hairline bg-surface shadow-[0_10px_30px_-18px_rgba(15,23,42,0.4)] transition-all duration-500 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-2 hover:shadow-[0_28px_56px_-22px_rgba(15,23,42,0.5)]">
-      <Spine c={c} />
+      <span className="w-2 shrink-0" style={{ background: `linear-gradient(160deg, ${c}, ${c}bb)` }} />
       <span className="pointer-events-none absolute -right-12 -top-12 size-32 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-20" style={{ background: c }} />
       <div className="relative flex flex-1 flex-col p-5">
         <div className="flex items-start justify-between gap-2">
@@ -158,88 +225,36 @@ function AcademyCard({ b, onOpen }: { b: AcademyBook; onOpen: (r: Recent) => voi
   return live ? <Link href={b.href!} onClick={() => { playPing(); onOpen({ id: "ac-" + b.id, title: b.titleHe, module: b.module, href: b.href! }); }} className="block h-full">{inner}</Link> : <div className="h-full cursor-not-allowed opacity-80">{inner}</div>;
 }
 
-/* ====== REFERENCE manual card (cover style + inline index) ====== */
-function ReferenceCard({ book, onOpen }: { book: LibBook; onOpen: (r: Recent) => void }) {
-  const { lang, pick } = useI18n();
-  const [open, setOpen] = useState(false);
+/* ====== FEATURED reference book — editorial cover + panel ====== */
+function FeaturedBook({ book, onOpen }: { book: LibBook; onOpen: (b: LibBook) => void }) {
   const c = mc(book.module);
   const reader = READER[book.id];
   return (
-    <motion.div layout className="overflow-hidden rounded-2xl border border-hairline bg-surface shadow-[0_10px_30px_-18px_rgba(15,23,42,0.4)] transition-all duration-500 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-2 hover:shadow-[0_28px_56px_-22px_rgba(15,23,42,0.5)]">
-      <div className="group relative flex">
-        <Spine c={c} />
-        <div className="relative flex-1 p-5">
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex size-11 shrink-0 items-center justify-center rounded-xl text-white shadow-lg" style={{ background: c, boxShadow: `0 8px 20px ${c}55` }}><BookOpen className="size-5" /></div>
-            <div className="flex flex-col items-end gap-1">
-              <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{book.module}</span>
-              <span className="text-[10px] text-ink-3">{book.publisher}</span>
-            </div>
-          </div>
-          <h3 className="mt-3 text-base font-extrabold leading-tight tracking-tight text-ink-1">{pick(book.titleHe, book.title)}</h3>
-          <p className="mt-0.5 line-clamp-1 text-xs text-ink-3" dir={lang === "he" ? "ltr" : "rtl"}>{lang === "he" ? book.title : book.titleHe}</p>
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            <Chip><Languages className="size-3" /> EN · HE</Chip>
-            <Chip><FileText className="size-3" /> {book.pages} עמ׳</Chip>
-            <Chip tone="brand"><BookMarked className="size-3" /> {book.chapters.length} פרקים</Chip>
-            {reader && <Chip tone="green"><CheckCircle2 className="size-3" /> טקסט מלא</Chip>}
-          </div>
-          <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-ink-3">{book.summaryHe}</p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <button onClick={() => { playPing(); setOpen((v) => !v); }} className="inline-flex items-center gap-1.5 rounded-xl border border-hairline px-3.5 py-2 text-sm font-bold text-ink-2 transition hover:border-brand/40 hover:bg-surface-2 active:scale-95">
-              <Layers className="size-4" /> תוכן הספר <ChevronDown className={`size-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
-            </button>
-            {reader && (
-              <Link href={reader} onClick={() => { playPing(); onOpen({ id: book.id, title: pick(book.titleHe, book.title), module: book.module, href: reader }); }}
-                className="group/btn inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
-                קרא ספר
-                <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover/btn:translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
-              </Link>
-            )}
-          </div>
-        </div>
-      </div>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden border-t border-hairline">
-            <ul className="max-h-[28rem] divide-y divide-hairline overflow-auto">{book.chapters.map((ch) => <ChapterRow key={ch.n} c={ch} />)}</ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
-  );
-}
-
-/* ====== FEATURED reference book — large editorial publication card ====== */
-function FeaturedBook({ book, onOpen }: { book: LibBook; onOpen: (r: Recent) => void }) {
-  const { pick } = useI18n();
-  const c = mc(book.module);
-  const reader = READER[book.id];
-  return (
-    <div className="group relative flex overflow-hidden rounded-[1.75rem] border border-hairline bg-surface shadow-[0_16px_44px_-24px_rgba(15,23,42,0.5)] transition-all duration-500 hover:shadow-[0_32px_64px_-26px_rgba(15,23,42,0.55)]">
-      <Spine c={c} w="w-14" />
-      <span className="pointer-events-none absolute -left-16 -top-16 size-48 rounded-full opacity-15 blur-3xl" style={{ background: c }} />
-      <div className="relative flex flex-1 flex-col gap-3 p-6 sm:p-8">
+    <div className="group relative grid gap-6 overflow-hidden rounded-[1.75rem] border border-hairline bg-surface p-6 shadow-[0_16px_44px_-24px_rgba(15,23,42,0.5)] transition-all duration-500 hover:shadow-[0_32px_64px_-26px_rgba(15,23,42,0.55)] sm:grid-cols-[minmax(150px,210px)_1fr] sm:p-8">
+      <span className="pointer-events-none absolute -left-16 -top-16 size-48 rounded-full opacity-[0.12] blur-3xl" style={{ background: c }} />
+      <button onClick={() => onOpen(book)} className="relative mx-auto w-40 max-w-full transition-transform duration-500 ease-[cubic-bezier(.32,.72,0,1)] group-hover:-translate-y-1.5 group-hover:rotate-[-1deg] sm:w-full" aria-label={`פתח ${book.titleHe}`}>
+        <BookCover book={asCover(book)} size="lg" />
+      </button>
+      <div className="relative flex flex-col justify-center gap-3">
         <div className="flex items-center gap-2">
           <span className="inline-flex items-center gap-1 rounded-full bg-brand-soft px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-brand"><Sparkles className="size-3" /> ספר נבחר</span>
           <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{book.module}</span>
           <span className="text-[11px] font-semibold text-ink-3">{book.publisher}</span>
         </div>
-        <h3 className="max-w-3xl text-2xl font-black leading-tight tracking-tight text-ink-1 sm:text-[1.9rem]">{pick(book.titleHe, book.title)}</h3>
+        <h3 className="max-w-2xl text-2xl font-black leading-tight tracking-tight text-ink-1 sm:text-[1.9rem]">{book.titleHe}</h3>
         <p className="max-w-2xl text-[13.5px] leading-relaxed text-ink-2 sm:text-sm">{book.summaryHe}</p>
-        <div className="mt-1 flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <Chip><FileText className="size-3" /> {book.pages} עמ׳</Chip>
           <Chip tone="brand"><BookMarked className="size-3" /> {book.chapters.length} פרקים</Chip>
           <Chip><Languages className="size-3" /> EN · HE</Chip>
           {reader && <Chip tone="green"><CheckCircle2 className="size-3" /> טקסט מלא</Chip>}
         </div>
         {reader && (
-          <div className="mt-2">
-            <Link href={reader} onClick={() => { playPing(); onOpen({ id: book.id, title: pick(book.titleHe, book.title), module: book.module, href: reader }); }}
-              className="group/btn inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
+          <div className="mt-1">
+            <button onClick={() => onOpen(book)} className="group/btn inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
               <BookOpen className="size-4" /> פתח את הספר
-              <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover/btn:translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
-            </Link>
+              <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover/btn:-translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
+            </button>
           </div>
         )}
       </div>
@@ -247,20 +262,9 @@ function FeaturedBook({ book, onOpen }: { book: LibBook; onOpen: (r: Recent) => 
   );
 }
 
-/* ====== animated counter ====== */
-function Count({ n }: { n: number }) {
-  const [v, setV] = useState(0);
-  useEffect(() => { let raf = 0; const t0 = performance.now(); const step = (t: number) => { const p = Math.min(1, (t - t0) / 1100); setV(Math.round((1 - Math.pow(1 - p, 3)) * n)); if (p < 1) raf = requestAnimationFrame(step); }; raf = requestAnimationFrame(step); return () => cancelAnimationFrame(raf); }, [n]);
-  return <>{v.toLocaleString()}</>;
-}
-
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const reduce = useReducedMotion();
-  return <motion.div initial={reduce ? false : { opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, delay, ease: [0.2, 0.7, 0.2, 1] }}>{children}</motion.div>;
-}
-
 export default function LibraryPage() {
   const { recent, push } = useRecent();
+  const openBook = useOpenBook(push);
   const [q, setQ] = useState("");
   const [mod, setMod] = useState<string | null>(null);
   const ac = ACADEMY_META.totals();
@@ -275,42 +279,22 @@ export default function LibraryPage() {
   const academy = ACADEMY_BOOKS.filter((b) => (!mod || b.module === mod) && match([b.titleHe, b.titleEn, b.module]));
   const reference = LIBRARY.filter((b) => (!mod || b.module === mod) && match([b.title, b.titleHe, b.module, b.publisher]));
 
-  // reference collections by publisher (real data)
   const publishers = useMemo(() => [...new Set(reference.map((b) => b.publisher))], [reference]);
   const featured = useMemo(() => (!q && !mod ? [...LIBRARY].sort((a, b) => b.pages - a.pages)[0] : null), [q, mod]);
   const totalAcademyHours = useMemo(() => ACADEMY_BOOKS.reduce((s, b) => s + estHours(b.nodes), 0), []);
   const acLive = ACADEMY_BOOKS.filter((b) => b.status === "live");
   const filtering = Boolean(q || mod);
 
+  const heroStats = [
+    { v: ACADEMY_BOOKS.length + LIBRARY_STATS.books, l: "ספרים" },
+    { v: ac.chapters + LIBRARY_STATS.chapters, l: "פרקים" },
+    { v: ac.nodes, l: "יחידות לימוד" },
+    { v: LIBRARY_STATS.pages, l: "עמודים" },
+  ];
+
   return (
-    <div className="space-y-10">
-      {/* ===== library masthead ===== */}
-      <section className="relative overflow-hidden rounded-[2rem] border border-hairline bg-gradient-to-bl from-ink-1 via-[#15171b] to-[#0b0c0e] p-7 text-white shadow-2xl animate-float-in sm:p-9">
-        <div className="pointer-events-none absolute inset-0 opacity-[0.06]" style={{ backgroundImage: "linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)", backgroundSize: "44px 44px" }} />
-        <span className="pointer-events-none absolute -right-16 -top-16 size-64 rounded-full bg-brand/25 blur-3xl" />
-        <div className="relative">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/90">
-            <LibraryIcon className="size-3.5 text-brand" /> SAP Knowledge Center
-          </span>
-          <h1 className="mt-3 font-display text-3xl tracking-tight sm:text-[3.25rem]">מרכז הידע של <span className="text-brand">SAP</span></h1>
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
-            שני עולמות תחת קורת גג אחת — <b className="text-white">אקדמיית הכשרה מובנית</b> ו<b className="text-white">ספריית עיון טכנית</b>. אנגלית מקורית לצד תרגום עברי מקצועי לארגון.
-          </p>
-          <div className="mt-5 grid grid-cols-3 gap-2.5 sm:max-w-xl sm:grid-cols-4">
-            {[
-              [ACADEMY_BOOKS.length + LIBRARY_STATS.books, "ספרים"],
-              [ac.chapters + LIBRARY_STATS.chapters, "פרקים"],
-              [ac.nodes, "יחידות לימוד"],
-              [LIBRARY_STATS.pages, "עמודים"],
-            ].map(([v, l]) => (
-              <div key={l as string} className="flex flex-col items-center rounded-2xl border border-white/12 bg-white/8 px-3 py-3 backdrop-blur-sm">
-                <span className="font-mono text-2xl font-extrabold tabular-nums sm:text-3xl"><Count n={v as number} /></span>
-                <span className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/60">{l as string}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+    <div className="space-y-9">
+      <LibraryHero stats={heroStats} />
 
       {/* ===== search + module filter ===== */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -320,33 +304,18 @@ export default function LibraryPage() {
             className="w-full rounded-xl border border-hairline bg-surface py-2.5 pe-3 ps-10 text-sm shadow-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
           {q && <button onClick={() => setQ("")} aria-label="נקה" className="absolute inset-y-0 left-3 my-auto"><X className="size-4 text-ink-3" /></button>}
         </div>
-        <div className="flex flex-wrap gap-1.5 overflow-x-auto pb-1">
+        <div className="chip-rail flex flex-nowrap gap-1.5 overflow-x-auto pb-1">
           <button onClick={() => setMod(null)} className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-bold transition ${!mod ? "bg-ink-1 text-white" : "border border-hairline bg-surface text-ink-3 hover:bg-surface-2"}`}>הכל</button>
           {mods.map((m) => { const on = mod === m; const c = mc(m); return (
             <button key={m} onClick={() => setMod(on ? null : m)} className="shrink-0 rounded-full border px-3 py-1.5 text-xs font-bold transition active:scale-95" style={{ borderColor: on ? c : "var(--hairline)", background: on ? c : "var(--surface)", color: on ? "#fff" : "var(--ink-3)" }}>{m}</button>); })}
         </div>
       </div>
 
-      {/* ===== continue / recently opened ===== */}
-      {recent.length > 0 && !filtering && (
-        <Reveal>
-          <section className="space-y-2.5">
-            <h2 className="flex items-center gap-2 text-sm font-extrabold tracking-tight text-ink-1"><Clock className="size-4 text-brand" /> המשך מהיכן שהפסקת</h2>
-            <div className="flex flex-wrap gap-2">
-              {recent.map((r) => (
-                <Link key={r.id} href={r.href} className="group inline-flex items-center gap-2 rounded-xl border border-hairline bg-surface px-3 py-2 text-sm shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md">
-                  <span className="size-2.5 rounded-full" style={{ background: mc(r.module) }} />
-                  <span className="font-semibold text-ink-2">{r.title}</span>
-                  <ArrowLeft className="size-3.5 text-ink-3 transition group-hover:translate-x-0.5 group-hover:text-brand" />
-                </Link>
-              ))}
-            </div>
-          </section>
-        </Reveal>
-      )}
+      {/* ===== continue reading ===== */}
+      {!filtering && <ResumeStrip recent={recent} />}
 
       {/* ============================================================= */}
-      {/* WORLD 1 — 🎓 SAP ACADEMY (structured learning platform)        */}
+      {/* WORLD 1 — SAP ACADEMY (structured learning platform)          */}
       {/* ============================================================= */}
       {academy.length > 0 && (
         <Reveal>
@@ -357,7 +326,6 @@ export default function LibraryPage() {
               <Link href="/library/academy/" className="inline-flex items-center gap-1 rounded-lg bg-brand px-2.5 py-1.5 text-xs font-bold text-white transition hover:brightness-110">לוח בקרה <ArrowLeft className="size-3.5" /></Link>
             </SectionHead>
 
-            {/* learning dashboard strip */}
             {!filtering && (
               <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
                 {[
@@ -382,40 +350,41 @@ export default function LibraryPage() {
       )}
 
       {/* ============================================================= */}
-      {/* WORLD 2 — 📚 DIGITAL REFERENCE LIBRARY (technical books)       */}
+      {/* WORLD 2 — DIGITAL REFERENCE LIBRARY (the bookshelf)           */}
       {/* ============================================================= */}
       {reference.length > 0 && (
         <Reveal>
           <section className="space-y-6">
             <SectionHead icon={<BookOpen className="size-5" />} eyebrow="Enterprise Technical Library · ספריית עיון" title="ספרייה דיגיטלית" tint="#0b0c0e" />
 
-            {/* featured book */}
-            {featured && <FeaturedBook book={featured} onOpen={push} />}
+            {featured && <FeaturedBook book={featured} onOpen={openBook} />}
 
-            {/* collections by publisher */}
             {!filtering ? (
-              <div className="space-y-8">
+              <div className="space-y-7">
                 {publishers.map((pub) => {
                   const books = reference.filter((b) => b.publisher === pub && b.id !== featured?.id);
                   if (!books.length) return null;
                   return (
-                    <div key={pub} className="space-y-3">
+                    <div key={pub} className="space-y-1">
                       <div className="flex items-center gap-2.5">
                         <span className="h-4 w-1 rounded-full bg-brand" />
                         <h3 className="text-[13px] font-extrabold uppercase tracking-[0.14em] text-ink-2">{pub} Collection</h3>
                         <span className="text-[11px] font-semibold text-ink-3">· {books.length} ספרים</span>
                         <span className="h-px flex-1 bg-hairline" />
                       </div>
-                      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-                        {books.map((b) => <ReferenceCard key={b.id} book={b} onOpen={push} />)}
-                      </div>
+                      <Shelf>
+                        {books.map((b) => <BookSpine key={b.id} book={asCover(b)} onOpen={() => openBook(b)} />)}
+                      </Shelf>
                     </div>
                   );
                 })}
               </div>
             ) : (
-              <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-                {reference.map((b) => <ReferenceCard key={b.id} book={b} onOpen={push} />)}
+              <div>
+                <p className="mb-1 text-[11px] font-semibold text-ink-3">{reference.length} ספרים תואמים</p>
+                <Shelf>
+                  {reference.map((b) => <BookSpine key={b.id} book={asCover(b)} onOpen={() => openBook(b)} />)}
+                </Shelf>
               </div>
             )}
           </section>

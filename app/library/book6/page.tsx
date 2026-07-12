@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, BookOpen, ChevronDown, FileText, Image as ImageIcon, Layers, ZoomIn, Download, X } from "lucide-react";
+import { ChevronDown, Image as ImageIcon, Layers, ZoomIn, Download } from "lucide-react";
 import { BookReader } from "@/components/book-reader";
+import { SectionSpread } from "@/components/section-spread";
+import { FigureViewer } from "@/components/figure-viewer";
 import book6 from "@/data/library/book6-full.json";
 import figuresData from "@/data/library/book6-figures.json";
 import { useI18n } from "@/lib/i18n";
@@ -18,10 +19,10 @@ const DATA = book6 as { book: string; pages: number; chapters: Chapter[] };
 const FIGS = figuresData as Record<string, Figure[]>;
 
 // One figure rendered across the spread (book-style), bilingual caption.
-function FigurePlate({ fig, onZoom }: { fig: Figure; onZoom: (f: Figure) => void }) {
+function FigurePlate({ fig, onZoom }: { fig: Figure; onZoom: () => void }) {
   return (
     <figure className="group mx-auto my-3 max-w-xl overflow-hidden rounded-xl border border-border/60 bg-surface p-2 shadow-sm transition-shadow hover:shadow-md">
-      <button onClick={() => onZoom(fig)} className="relative block w-full overflow-hidden rounded-lg" style={{ aspectRatio: `${fig.w} / ${fig.h}` }} aria-label="הגדל איור">
+      <button onClick={onZoom} className="relative block w-full overflow-hidden rounded-lg" style={{ aspectRatio: `${fig.w} / ${fig.h}` }} aria-label="הגדל איור">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={fig.file} alt={`SAP figure p.${fig.page}`} loading="lazy" width={fig.w} height={fig.h} className="absolute inset-0 size-full object-contain transition-transform duration-500 group-hover:scale-[1.03]" />
         <span className="absolute inset-0 flex items-center justify-center bg-slate-900/0 opacity-0 transition group-hover:bg-slate-900/15 group-hover:opacity-100">
@@ -37,58 +38,8 @@ function FigurePlate({ fig, onZoom }: { fig: Figure; onZoom: (f: Figure) => void
   );
 }
 
-// Full-screen image lightbox (zoom / download / close).
-function Lightbox({ fig, onClose }: { fig: Figure; onClose: () => void }) {
-  useEffect(() => { const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); }; window.addEventListener("keydown", h); return () => window.removeEventListener("keydown", h); }, [onClose]);
-  return (
-    <div onClick={onClose} className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-3 bg-slate-950/85 p-4 backdrop-blur-sm" style={{ animation: "fadeUp .2s ease both" }}>
-      <div className="flex w-full max-w-5xl items-center justify-between text-white">
-        <span className="text-xs font-semibold" dir="ltr">SAP figure · page {fig.page}</span>
-        <div className="flex items-center gap-2">
-          <a href={fig.file} download onClick={(e) => e.stopPropagation()} className="inline-flex items-center gap-1.5 rounded-lg bg-surface/15 px-3 py-1.5 text-xs font-bold hover:bg-surface/25"><Download className="size-4" /> הורד</a>
-          <button onClick={onClose} className="inline-flex items-center gap-1.5 rounded-lg bg-surface/15 px-3 py-1.5 text-xs font-bold hover:bg-surface/25"><X className="size-4" /> סגור</button>
-        </div>
-      </div>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={fig.file} alt={`SAP figure p.${fig.page}`} onClick={(e) => e.stopPropagation()} className="max-h-[82vh] max-w-full rounded-xl bg-surface object-contain shadow-2xl" />
-    </div>
-  );
-}
 
-// A paired section row — English page (ltr) | Hebrew page (rtl), aligned.
-function SectionSpread({ s }: { s: Section }) {
-  return (
-    <div className="border-t border-border/40 py-4 first:border-t-0">
-      <div className="mb-2 flex items-center gap-2 px-1">
-        <span className="tech rounded-md bg-brand/10 px-2 py-0.5 text-xs font-bold text-brand">{s.id}</span>
-        <span className="text-sm font-semibold">{s.title}</span>
-      </div>
-      <div className="grid gap-0 sm:grid-cols-[1fr_1px_1fr]">
-        {/* English page */}
-        <div dir="ltr" className="px-4 text-start">
-          <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">English (original)</p>
-          <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-ink-2">{s.en}</p>
-        </div>
-        {/* spine */}
-        <div className="book-spine hidden sm:block" aria-hidden />
-        {/* Hebrew page */}
-        <div dir="rtl" className="px-4 text-start">
-          <p className="text-[11px] font-bold uppercase tracking-wide text-brand">עברית · תרגום מקצועי</p>
-          {s.he ? (
-            <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-ink-1">{s.he}</p>
-          ) : (
-            <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
-              <span className="size-1.5 rounded-full bg-status-in-analysis" />
-              תרגום בהכנה — בקש &quot;תרגם פרק {s.id.split(".")[0]}&quot;.
-            </p>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ChapterBlock({ ch, onZoom }: { ch: Chapter; onZoom: (f: Figure) => void }) {
+function ChapterBlock({ ch, onOpen }: { ch: Chapter; onOpen: (figs: Figure[], i: number) => void }) {
   const { lang } = useI18n();
   const [open, setOpen] = useState(ch.n === 1);
   const figs = FIGS[String(ch.n)] ?? [];
@@ -151,7 +102,7 @@ function ChapterBlock({ ch, onZoom }: { ch: Chapter; onZoom: (f: Figure) => void
                   </summary>
                   <div className="mt-2 grid gap-3 sm:grid-cols-2">
                     {figs.map((f, i) => (
-                      <FigurePlate key={i} fig={f} onZoom={onZoom} />
+                      <FigurePlate key={i} fig={f} onZoom={() => onOpen(figs, i)} />
                     ))}
                   </div>
                 </details>
@@ -170,51 +121,34 @@ function ChapterBlock({ ch, onZoom }: { ch: Chapter; onZoom: (f: Figure) => void
 
 export default function Book3Page() {
   const { lang } = useI18n();
-  const [lb, setLb] = useState<Figure | null>(null);
+  const [viewer, setViewer] = useState<{ figs: Figure[]; index: number } | null>(null);
   const translatedChapters = DATA.chapters.filter((c) => c.translated).length;
   const totalSections = DATA.chapters.reduce((s, c) => s + c.sections.length, 0);
   const totalFigures = Object.values(FIGS).reduce((s, a) => s + a.length, 0);
   return (
     <div className="space-y-6">
-      <Link href="/library/" className="inline-flex items-center gap-1.5 text-sm text-brand hover:underline">
-        <ArrowRight className="size-4 rtl:rotate-180" />
-        {lang === "he" ? "חזרה לספרייה" : "Back to library"}
-      </Link>
-
-      <section className="space-y-3 text-center animate-float-in">
-        <span className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">
-          <BookOpen className="size-3.5" />
-          Book #6 · 1341 pages · WM/EWM
-        </span>
-        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{DATA.book}</h1>
-        <p className="mx-auto max-w-2xl text-sm text-muted-foreground">
-          {lang === "he"
-            ? "מצג ספר דו-עמודי: עמוד שמאל — אנגלית מקורית עם איורי המדריך; עמוד ימין — תרגום עברי מקצועי, מיושר במקביל."
-            : "Dual-page book spread: left page — original English with the manual's figures; right page — professional Hebrew, aligned in parallel."}
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">{translatedChapters}/10 {lang === "he" ? "פרקים מתורגמים" : "chapters translated"}</span>
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">{totalSections} {lang === "he" ? "סעיפים" : "sections"}</span>
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">
-            <ImageIcon className="me-1 inline size-3" />
-            {totalFigures} {lang === "he" ? "איורים שחולצו" : "figures extracted"}
-          </span>
-          <span className="rounded-lg border border-border bg-card px-2.5 py-1">
-            <FileText className="me-1 inline size-3" />
-            {lang === "he" ? "כל 1341 העמודים" : "all 1341 pages"}
-          </span>
-        </div>
-      </section>
-
-      <BookReader bookId="book6" title={DATA.book} subtitle="WM/EWM · 1341 pages" chapters={DATA.chapters.map((c) => ({ n: c.n, title: c.title }))}>
+      <BookReader
+        bookId="book6"
+        title={DATA.book}
+        subtitle="WM/EWM · 1341 pages"
+        chapters={DATA.chapters.map((c) => ({ n: c.n, title: c.title }))}
+        note={lang === "he"
+          ? "מצג ספר דו-עמודי: עמוד שמאל — אנגלית מקורית עם איורי המדריך; עמוד ימין — תרגום עברי מקצועי, מיושר במקביל."
+          : "Dual-page book spread: left page — original English with the manual's figures; right page — professional Hebrew, aligned in parallel."}
+        stats={[
+          { label: lang === "he" ? "פרקים מתורגמים" : "chapters translated", value: `${translatedChapters}/10` },
+          { label: lang === "he" ? "סעיפים" : "sections", value: totalSections },
+          { label: lang === "he" ? "איורים שחולצו" : "figures extracted", value: totalFigures },
+        ]}
+      >
         <div className="space-y-4">
           {DATA.chapters.map((ch) => (
-            <ChapterBlock key={ch.n} ch={ch} onZoom={setLb} />
+            <ChapterBlock key={ch.n} ch={ch} onOpen={(figs, i) => setViewer({ figs, index: i })} />
           ))}
         </div>
       </BookReader>
 
-      {lb && <Lightbox fig={lb} onClose={() => setLb(null)} />}
+      {viewer && <FigureViewer figs={viewer.figs} index={viewer.index} onIndex={(i) => setViewer((v) => (v ? { ...v, index: i } : v))} onClose={() => setViewer(null)} />}
 
       <p className="text-center text-xs text-muted-foreground">
         {lang === "he"
