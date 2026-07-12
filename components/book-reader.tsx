@@ -6,7 +6,8 @@ import { motion, useReducedMotion } from "framer-motion";
 import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDown, ListTree, X, PlayCircle, StickyNote, Clock, FileText, Languages, Layers3, ArrowLeft, Sparkles, CheckCircle2, Maximize2, Minimize2, Home, Library, AlignLeft, Settings2, StretchHorizontal } from "lucide-react";
 import { useReader } from "@/lib/reader-store";
 import { LIBRARY } from "@/data/library";
-import { writeContinuity, readContinuity } from "@/lib/continuity-store";
+import { writeContinuity, readContinuity, resolveReaderView, saveReaderView, type ReaderView } from "@/lib/continuity-store";
+import { ReaderViewContext } from "@/lib/reader-view";
 import { playTick } from "@/lib/sound";
 
 export interface ReaderChapter { n: number; title: string; he?: string }
@@ -32,10 +33,11 @@ type RSize = "sm" | "md" | "lg";
 
 /* Reader display settings — theme / type-size / measure. Scoped to the reading
    pane only (never a global dark mode). Reused in the landing CTA + focus bar. */
-function ReaderSettings({ theme, setTheme, size, setSize, wide, toggleWide, accent }: { theme: RTheme; setTheme: (t: RTheme) => void; size: RSize; setSize: (s: RSize) => void; wide: boolean; toggleWide: () => void; accent: string }) {
+function ReaderSettings({ view, setView, theme, setTheme, size, setSize, wide, toggleWide, accent }: { view: ReaderView; setView: (v: ReaderView) => void; theme: RTheme; setTheme: (t: RTheme) => void; size: RSize; setSize: (s: RSize) => void; wide: boolean; toggleWide: () => void; accent: string }) {
   const [open, setOpen] = useState(false);
   const themes: [RTheme, string, string, string][] = [["original", "מקור", "#ffffff", "#0b0c0e"], ["sepia", "ספיה", "#f6efe1", "#2b2620"], ["night", "לילה", "#14181f", "#e8ecf1"]];
   const sizes: [RSize, number][] = [["sm", 12], ["md", 15], ["lg", 19]];
+  const views: [ReaderView, string, string][] = [["hebrew", "עברית", "טור קריאה יחיד"], ["bilingual", "דו-לשוני", "אנגלית ‖ עברית"]];
   return (
     <div className="relative">
       <button onClick={() => setOpen((o) => !o)} aria-expanded={open} className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><Settings2 className="size-4" /> תצוגת קריאה</button>
@@ -43,7 +45,16 @@ function ReaderSettings({ theme, setTheme, size, setSize, wide, toggleWide, acce
         <>
           <button className="fixed inset-0 z-40 cursor-default" aria-label="סגור" onClick={() => setOpen(false)} />
           <div className="absolute end-0 z-50 mt-2 w-64 rounded-2xl border border-hairline bg-surface p-3 text-ink-1 shadow-xl">
-            <div className="eyebrow mb-1.5 text-ink-3">ערכת נושא</div>
+            <div className="eyebrow mb-1.5 text-ink-3">מצב קריאה</div>
+            <div className="grid grid-cols-2 gap-1.5">
+              {views.map(([k, label, sub]) => (
+                <button key={k} onClick={() => setView(k)} className="rounded-xl border-2 px-2 py-1.5 text-start transition" style={{ borderColor: view === k ? accent : "var(--hairline)" }}>
+                  <span className="block text-[12px] font-extrabold text-ink-1">{label}</span>
+                  <span className="block text-[9.5px] font-semibold text-ink-3">{sub}</span>
+                </button>
+              ))}
+            </div>
+            <div className="eyebrow mb-1.5 mt-3 text-ink-3">ערכת נושא</div>
             <div className="grid grid-cols-3 gap-1.5">
               {themes.map(([k, label, bg, fg]) => (
                 <button key={k} onClick={() => setTheme(k)} className="flex flex-col items-center gap-1 rounded-xl border-2 p-1.5 text-[11px] font-bold transition" style={{ borderColor: theme === k ? accent : "var(--hairline)" }}>
@@ -102,6 +113,10 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   const saveTheme = useCallback((t: RTheme) => { setRtheme(t); try { localStorage.setItem("neo:reader:theme", t); } catch { /* noop */ } }, []);
   const saveSize = useCallback((s: RSize) => { setRsize(s); try { localStorage.setItem("neo:reader:size", s); } catch { /* noop */ } }, []);
   const toggleWide = useCallback(() => setRwide((v) => { const n = !v; try { localStorage.setItem("neo:reader:wide", n ? "1" : "0"); } catch { /* noop */ } return n; }), []);
+  // reading view — device-adaptive default (desktop→bilingual, mobile→hebrew), remembered
+  const [rview, setRview] = useState<ReaderView>("bilingual");
+  useEffect(() => { setRview(resolveReaderView()); }, []);
+  const saveView = useCallback((v: ReaderView) => { setRview(v); saveReaderView(v); }, []);
 
   useEffect(() => { try { setNotes(localStorage.getItem(`neo:reader:notes:${bookId}`) || ""); } catch { /* noop */ } }, [bookId]);
   useEffect(() => { try { setFocus(localStorage.getItem("neo:reader:focus") === "1"); } catch { /* noop */ } }, []);
@@ -257,6 +272,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   );
 
   return (
+    <ReaderViewContext.Provider value={rview}>
     <div className="space-y-6 sm:space-y-8">
       {/* fixed linear reading-progress rail (module-colored) */}
       <div className="pointer-events-none fixed inset-x-0 top-0 z-[55] h-[3px] bg-transparent" aria-hidden>
@@ -328,7 +344,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
             )}
             <button onClick={() => scrollToId("book-contents")} className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><ListTree className="size-4" /> עיין בתוכן</button>
             <button onClick={toggleFocus} className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95" title="מצב קריאה מרוכז (Esc ליציאה)"><Maximize2 className="size-4" /> מצב מיקוד</button>
-            <ReaderSettings theme={rtheme} setTheme={saveTheme} size={rsize} setSize={saveSize} wide={rwide} toggleWide={toggleWide} accent={c} />
+            <ReaderSettings view={rview} setView={saveView} theme={rtheme} setTheme={saveTheme} size={rsize} setSize={saveSize} wide={rwide} toggleWide={toggleWide} accent={c} />
           </div>
         </div>
       </motion.section>
@@ -436,7 +452,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         </aside>
 
         {/* ===== reading pane ===== */}
-        <div ref={mainRef} data-theme={rtheme} data-size={rsize} data-wide={rwide ? "1" : "0"} className={`neo-reader neo-pane min-w-0 ${focus ? "mx-auto max-w-3xl" : "mx-auto w-full"}`}>
+        <div ref={mainRef} data-theme={rtheme} data-size={rsize} data-wide={rwide ? "1" : "0"} data-view={rview} className={`neo-reader neo-pane min-w-0 ${focus ? "mx-auto max-w-3xl" : "mx-auto w-full"}`}>
           {/* continue reading banner */}
           {showContinue && (
             <div className="mb-4 flex items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/50 p-3">
@@ -498,5 +514,6 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         )}
       </div>
     </div>
+    </ReaderViewContext.Provider>
   );
 }

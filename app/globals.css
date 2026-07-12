@@ -642,19 +642,28 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
    ===================================================================== */
 .neo-reader { scroll-behavior: smooth; --reader-fs: 1; }
 
-/* Reading comfort — dual-page prose paragraphs (EN + HE) */
+/* Reading comfort — prose paragraphs. Base = bilingual study columns. */
 .neo-reader p.whitespace-pre-line {
-  font-size: calc(0.8125rem * var(--reader-fs));
-  line-height: 1.8;
-  letter-spacing: 0.004em;
+  font-size: calc(0.9rem * var(--reader-fs));
+  line-height: 1.85;
+  letter-spacing: 0.003em;
   text-wrap: pretty;
+  hanging-punctuation: first;
   /* reading-comfort measure cap — keeps line length premium on 27"/34"/ultrawide */
   max-inline-size: 74ch;
 }
+/* Single-column Hebrew comfort view — larger type, generous rhythm, ideal measure */
+.neo-reader[data-view="hebrew"] p.reader-he {
+  font-size: calc(1.075rem * var(--reader-fs));
+  line-height: 1.95;
+  letter-spacing: 0;
+  max-inline-size: none;
+}
+.neo-reader[data-view="hebrew"] .reader-src p { font-size: calc(0.9rem * var(--reader-fs)); }
 /* Focus mode: calmer, larger, more generous rhythm */
 .neo-reader.max-w-3xl p.whitespace-pre-line {
-  font-size: calc(0.9rem * var(--reader-fs));
-  line-height: 1.85;
+  font-size: calc(0.95rem * var(--reader-fs));
+  line-height: 1.9;
 }
 
 /* ---- Reader display settings (SCOPED to the reading pane — never global) ---- */

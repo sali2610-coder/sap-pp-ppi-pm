@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Image as ImageIcon, Layers, ZoomIn, Download } from "lucide-react";
 import { BookReader } from "@/components/book-reader";
+import { SectionSpread } from "@/components/section-spread";
 import { FigureViewer } from "@/components/figure-viewer";
 import book6 from "@/data/library/book6-full.json";
 import figuresData from "@/data/library/book6-figures.json";
@@ -37,38 +38,6 @@ function FigurePlate({ fig, onZoom }: { fig: Figure; onZoom: () => void }) {
   );
 }
 
-// A paired section row — English page (ltr) | Hebrew page (rtl), aligned.
-function SectionSpread({ s }: { s: Section }) {
-  return (
-    <div id={`sec-${s.id}`} data-section={s.id} data-section-title={s.title} className="border-t border-border/40 py-4 first:border-t-0">
-      <div className="mb-2 flex items-center gap-2 px-1">
-        <span className="tech rounded-md bg-brand/10 px-2 py-0.5 text-xs font-bold text-brand">{s.id}</span>
-        <span className="text-sm font-semibold">{s.title}</span>
-      </div>
-      <div className="grid gap-0 sm:grid-cols-[1fr_1px_1fr]">
-        {/* English page */}
-        <div dir="ltr" className="px-4 text-start">
-          <p className="text-[11px] font-bold uppercase tracking-wide text-muted-foreground">English (original)</p>
-          <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-ink-2">{s.en}</p>
-        </div>
-        {/* spine */}
-        <div className="book-spine hidden sm:block" aria-hidden />
-        {/* Hebrew page */}
-        <div dir="rtl" className="px-4 text-start">
-          <p className="text-[11px] font-bold uppercase tracking-wide text-brand">עברית · תרגום מקצועי</p>
-          {s.he ? (
-            <p className="mt-1 whitespace-pre-line text-xs leading-relaxed text-ink-1">{s.he}</p>
-          ) : (
-            <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
-              <span className="size-1.5 rounded-full bg-status-in-analysis" />
-              תרגום בהכנה — בקש &quot;תרגם פרק {s.id.split(".")[0]}&quot;.
-            </p>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function ChapterBlock({ ch, onOpen }: { ch: Chapter; onOpen: (figs: Figure[], i: number) => void }) {
   const { lang } = useI18n();
