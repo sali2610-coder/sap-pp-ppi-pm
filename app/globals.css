@@ -640,11 +640,11 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
    UX/UI only. Upgrades typography, tables, code, figures, callouts, lists
    for every book without touching per-page content markup.
    ===================================================================== */
-.neo-reader { scroll-behavior: smooth; }
+.neo-reader { scroll-behavior: smooth; --reader-fs: 1; }
 
 /* Reading comfort — dual-page prose paragraphs (EN + HE) */
 .neo-reader p.whitespace-pre-line {
-  font-size: 0.8125rem;
+  font-size: calc(0.8125rem * var(--reader-fs));
   line-height: 1.8;
   letter-spacing: 0.004em;
   text-wrap: pretty;
@@ -653,9 +653,34 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
 }
 /* Focus mode: calmer, larger, more generous rhythm */
 .neo-reader.max-w-3xl p.whitespace-pre-line {
-  font-size: 0.9rem;
+  font-size: calc(0.9rem * var(--reader-fs));
   line-height: 1.85;
 }
+
+/* ---- Reader display settings (SCOPED to the reading pane — never global) ---- */
+/* Pane measure: default cap, "wide" mode for big SAP tables / ER diagrams */
+.neo-reader.neo-pane { max-width: 74rem; margin-inline: auto; }
+.neo-reader.neo-pane[data-wide="1"] { max-width: 96rem; }
+.neo-reader.neo-pane[data-wide="1"] p.whitespace-pre-line { max-inline-size: 100ch; }
+/* Type size */
+.neo-reader[data-size="sm"] { --reader-fs: 0.92; }
+.neo-reader[data-size="lg"] { --reader-fs: 1.14; }
+/* Sepia — warm paper, redefines the design tokens for pane content only */
+.neo-reader[data-theme="sepia"] {
+  --surface: #f6efe1; --card: #f6efe1; --surface-2: #efe6d4; --muted: #efe6d4;
+  --hairline: #e3d8c3; --border: #e3d8c3; --input: #e3d8c3;
+  --ink-1: #2b2620; --card-foreground: #2b2620; --ink-2: #4a4236; --ink-3: #6f6555; --muted-foreground: #6f6555;
+  --brand-soft: #f2e5dd; --glass-bg: rgba(246,239,225,0.72); --glass-border: rgba(120,100,70,0.14);
+}
+/* Night — dark reading column (does NOT touch the tree, rail, or app chrome) */
+.neo-reader[data-theme="night"] {
+  --surface: #14181f; --card: #14181f; --surface-2: #1b2029; --muted: #1b2029;
+  --hairline: #2b323d; --border: #2b323d; --input: #2b323d;
+  --ink-1: #e8ecf1; --card-foreground: #e8ecf1; --ink-2: #c2c9d3; --ink-3: #949cab; --muted-foreground: #949cab;
+  --brand-soft: #2a1618; --glass-bg: rgba(20,24,31,0.62); --glass-border: rgba(255,255,255,0.08);
+}
+.neo-reader[data-theme="night"] .paper { background: #171b22; }
+.neo-reader[data-theme="sepia"] .paper { background: #f3ebda; }
 .neo-reader.max-w-3xl :is(.glass, .card-premium) { box-shadow: var(--elev-1, 0 1px 3px rgba(15,23,42,0.06)); }
 .neo-reader.max-w-3xl .paper { box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 8px 24px -18px rgba(15,23,42,0.25); }
 

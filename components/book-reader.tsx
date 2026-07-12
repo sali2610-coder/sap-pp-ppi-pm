@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDown, ListTree, X, PlayCircle, StickyNote, Clock, FileText, Languages, Layers3, ArrowLeft, Sparkles, CheckCircle2, Maximize2, Minimize2, Home, Library, AlignLeft } from "lucide-react";
+import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDown, ListTree, X, PlayCircle, StickyNote, Clock, FileText, Languages, Layers3, ArrowLeft, Sparkles, CheckCircle2, Maximize2, Minimize2, Home, Library, AlignLeft, Settings2, StretchHorizontal } from "lucide-react";
 import { useReader } from "@/lib/reader-store";
 import { LIBRARY } from "@/data/library";
 import { writeContinuity, readContinuity } from "@/lib/continuity-store";
@@ -27,6 +27,48 @@ function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+type RTheme = "original" | "sepia" | "night";
+type RSize = "sm" | "md" | "lg";
+
+/* Reader display settings — theme / type-size / measure. Scoped to the reading
+   pane only (never a global dark mode). Reused in the landing CTA + focus bar. */
+function ReaderSettings({ theme, setTheme, size, setSize, wide, toggleWide, accent }: { theme: RTheme; setTheme: (t: RTheme) => void; size: RSize; setSize: (s: RSize) => void; wide: boolean; toggleWide: () => void; accent: string }) {
+  const [open, setOpen] = useState(false);
+  const themes: [RTheme, string, string, string][] = [["original", "מקור", "#ffffff", "#0b0c0e"], ["sepia", "ספיה", "#f6efe1", "#2b2620"], ["night", "לילה", "#14181f", "#e8ecf1"]];
+  const sizes: [RSize, number][] = [["sm", 12], ["md", 15], ["lg", 19]];
+  return (
+    <div className="relative">
+      <button onClick={() => setOpen((o) => !o)} aria-expanded={open} className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><Settings2 className="size-4" /> תצוגת קריאה</button>
+      {open && (
+        <>
+          <button className="fixed inset-0 z-40 cursor-default" aria-label="סגור" onClick={() => setOpen(false)} />
+          <div className="absolute end-0 z-50 mt-2 w-64 rounded-2xl border border-hairline bg-surface p-3 text-ink-1 shadow-xl">
+            <div className="eyebrow mb-1.5 text-ink-3">ערכת נושא</div>
+            <div className="grid grid-cols-3 gap-1.5">
+              {themes.map(([k, label, bg, fg]) => (
+                <button key={k} onClick={() => setTheme(k)} className="flex flex-col items-center gap-1 rounded-xl border-2 p-1.5 text-[11px] font-bold transition" style={{ borderColor: theme === k ? accent : "var(--hairline)" }}>
+                  <span className="grid h-7 w-full place-items-center rounded-md text-[11px] font-black" style={{ background: bg, color: fg }}>Aa</span>
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="eyebrow mb-1.5 mt-3 text-ink-3">גודל טקסט</div>
+            <div className="flex items-stretch gap-1.5">
+              {sizes.map(([k, fs]) => (
+                <button key={k} onClick={() => setSize(k)} className="flex-1 rounded-xl border py-1.5 font-black leading-none transition" style={{ borderColor: size === k ? accent : "var(--hairline)", color: size === k ? accent : "var(--ink-2)", fontSize: `${fs}px` }}>A</button>
+              ))}
+            </div>
+            <button onClick={toggleWide} className="mt-3 flex w-full items-center justify-between rounded-xl border border-hairline px-3 py-2 text-xs font-bold text-ink-2 transition hover:border-brand/40">
+              <span className="flex items-center gap-1.5"><StretchHorizontal className="size-3.5" /> רוחב מלא</span>
+              <span className="relative h-4 w-7 rounded-full transition-colors" style={{ background: wide ? accent : "var(--surface-2)" }}><span className="absolute top-0.5 size-3 rounded-full bg-white shadow transition-all" style={{ insetInlineStart: wide ? "0.125rem" : "auto", insetInlineEnd: wide ? "auto" : "0.125rem" }} /></span>
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 export function BookReader({ bookId, title, subtitle, chapters, note, stats, children }: { bookId: string; title: string; subtitle?: string; chapters: ReaderChapter[]; note?: string; stats?: ReaderStat[]; children: React.ReactNode }) {
   const { read, bm, last, markRead, toggleBm } = useReader(bookId);
   const reduce = useReducedMotion();
@@ -45,6 +87,21 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   const activeSecRef = useRef(activeSec);
   useEffect(() => { activeRef.current = active; }, [active]);
   useEffect(() => { activeSecRef.current = activeSec; }, [activeSec]);
+
+  // reader display prefs (theme / type-size / measure) — scoped to the pane
+  const [rtheme, setRtheme] = useState<RTheme>("original");
+  const [rsize, setRsize] = useState<RSize>("md");
+  const [rwide, setRwide] = useState(false);
+  useEffect(() => {
+    try {
+      const t = localStorage.getItem("neo:reader:theme"); if (t === "sepia" || t === "night" || t === "original") setRtheme(t);
+      const s = localStorage.getItem("neo:reader:size"); if (s === "sm" || s === "lg" || s === "md") setRsize(s);
+      setRwide(localStorage.getItem("neo:reader:wide") === "1");
+    } catch { /* noop */ }
+  }, []);
+  const saveTheme = useCallback((t: RTheme) => { setRtheme(t); try { localStorage.setItem("neo:reader:theme", t); } catch { /* noop */ } }, []);
+  const saveSize = useCallback((s: RSize) => { setRsize(s); try { localStorage.setItem("neo:reader:size", s); } catch { /* noop */ } }, []);
+  const toggleWide = useCallback(() => setRwide((v) => { const n = !v; try { localStorage.setItem("neo:reader:wide", n ? "1" : "0"); } catch { /* noop */ } return n; }), []);
 
   useEffect(() => { try { setNotes(localStorage.getItem(`neo:reader:notes:${bookId}`) || ""); } catch { /* noop */ } }, [bookId]);
   useEffect(() => { try { setFocus(localStorage.getItem("neo:reader:focus") === "1"); } catch { /* noop */ } }, []);
@@ -271,6 +328,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
             )}
             <button onClick={() => scrollToId("book-contents")} className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><ListTree className="size-4" /> עיין בתוכן</button>
             <button onClick={toggleFocus} className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95" title="מצב קריאה מרוכז (Esc ליציאה)"><Maximize2 className="size-4" /> מצב מיקוד</button>
+            <ReaderSettings theme={rtheme} setTheme={saveTheme} size={rsize} setSize={saveSize} wide={rwide} toggleWide={toggleWide} accent={c} />
           </div>
         </div>
       </motion.section>
@@ -378,7 +436,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         </aside>
 
         {/* ===== reading pane ===== */}
-        <div ref={mainRef} className={`neo-reader min-w-0 ${focus ? "mx-auto max-w-3xl" : "mx-auto w-full max-w-[74rem]"}`}>
+        <div ref={mainRef} data-theme={rtheme} data-size={rsize} data-wide={rwide ? "1" : "0"} className={`neo-reader neo-pane min-w-0 ${focus ? "mx-auto max-w-3xl" : "mx-auto w-full"}`}>
           {/* continue reading banner */}
           {showContinue && (
             <div className="mb-4 flex items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/50 p-3">
