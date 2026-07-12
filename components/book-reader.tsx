@@ -3,10 +3,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDown, ListTree, X, PlayCircle, StickyNote, Clock, FileText, Languages, Layers3, ArrowLeft, Sparkles, CheckCircle2, Maximize2, Minimize2, Home, Library } from "lucide-react";
+import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDown, ListTree, X, PlayCircle, StickyNote, Clock, FileText, Languages, Layers3, ArrowLeft, Sparkles, CheckCircle2, Maximize2, Minimize2, Home, Library, AlignLeft } from "lucide-react";
 import { useReader } from "@/lib/reader-store";
 import { LIBRARY } from "@/data/library";
-import { writeContinuity } from "@/lib/continuity-store";
+import { writeContinuity, readContinuity } from "@/lib/continuity-store";
 import { playTick } from "@/lib/sound";
 
 export interface ReaderChapter { n: number; title: string; he?: string }
@@ -38,6 +38,13 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   const [focus, setFocus] = useState(false);
   const [prog, setProg] = useState(0);
   const mainRef = useRef<HTMLDivElement>(null);
+  // "בעמוד זה" scroll-spy — section anchors discovered from the rendered book DOM
+  const [secs, setSecs] = useState<{ id: string; title: string; chapter: number }[]>([]);
+  const [activeSec, setActiveSec] = useState<string>("");
+  const activeRef = useRef(active);
+  const activeSecRef = useRef(activeSec);
+  useEffect(() => { activeRef.current = active; }, [active]);
+  useEffect(() => { activeSecRef.current = activeSec; }, [activeSec]);
 
   useEffect(() => { try { setNotes(localStorage.getItem(`neo:reader:notes:${bookId}`) || ""); } catch { /* noop */ } }, [bookId]);
   useEffect(() => { try { setFocus(localStorage.getItem("neo:reader:focus") === "1"); } catch { /* noop */ } }, []);
@@ -85,6 +92,28 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   const started = last > 0 || read.length > 0;
   const first = chapters[0]?.n ?? 1;
 
+  // open the owning chapter (via hash) then land on the exact section anchor
+  const goSection = useCallback((id: string, chapter: number) => {
+    if (document.getElementById(id)) { scrollToId(id); return; }
+    if (chapter) jump(chapter); // triggers the page's hash-listener to expand it
+    window.setTimeout(() => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); }, 360);
+  }, []);
+
+  // exact resume — land on the last section / scroll spot, not just chapter-top
+  const resumeExact = useCallback(() => {
+    const cont = readContinuity();
+    if (cont && cont.bookId === bookId) {
+      if (cont.sectionId) { goSection(cont.sectionId, cont.chapter || 0); return; }
+      if (cont.chapter && cont.chapter > 1) { jump(cont.chapter); return; }
+      if (cont.scrollRatio && cont.scrollRatio > 0.01) {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        window.scrollTo({ top: h * cont.scrollRatio, behavior: "smooth" });
+        return;
+      }
+    }
+    jump(last || first);
+  }, [bookId, last, first, goSection]);
+
   useEffect(() => { if (last && last > 1) setShowContinue(true); }, [last]);
 
   // continuity — remember this book + live chapter for the global "המשך לקרוא"
@@ -92,6 +121,55 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
     if (typeof window === "undefined") return;
     writeContinuity({ bookId, title: meta?.titleHe || title, module: derivedMod || "", href: window.location.pathname, chapter: active });
   }, [bookId, active, meta, title, derivedMod]);
+
+  // discover section anchors ([data-section]) from the rendered book — powers the
+  // "בעמוד זה" rail + exact resume. Re-scans on DOM change (chapters open/close),
+  // so books without anchors simply fall back to a chapter-level rail.
+  useEffect(() => {
+    let raf = 0;
+    const scan = () => {
+      raf = 0;
+      const els = Array.from(document.querySelectorAll<HTMLElement>("[data-section]"));
+      const found = els.map((el) => ({
+        id: el.id || el.dataset.section || "",
+        title: el.dataset.sectionTitle || (el.textContent || "").trim().slice(0, 70),
+        chapter: Number(el.closest<HTMLElement>("[data-chapter]")?.dataset.chapter || 0),
+      })).filter((s) => s.id);
+      setSecs((prev) => (prev.length === found.length && prev.every((p, i) => p.id === found[i].id) ? prev : found));
+    };
+    scan();
+    const mo = new MutationObserver(() => { if (!raf) raf = requestAnimationFrame(scan); });
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => { mo.disconnect(); if (raf) cancelAnimationFrame(raf); };
+  }, []);
+
+  // active section (scroll-spy) — highlights the passage currently being read
+  useEffect(() => {
+    const els = Array.from(document.querySelectorAll<HTMLElement>("[data-section]"));
+    if (!els.length) return;
+    const io = new IntersectionObserver((entries) => {
+      const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (vis) setActiveSec((vis.target as HTMLElement).id);
+    }, { rootMargin: "-18% 0px -68% 0px", threshold: [0, 0.25, 0.75] });
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, [secs.length]);
+
+  // exact-resume writer — trailing-edge debounce so the section scroll-spy has
+  // settled before we snapshot scroll ratio + last visible section anchor
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    let t = 0;
+    const write = () => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      const ratio = h > 0 ? Math.min(1, Math.max(0, window.scrollY / h)) : 0;
+      writeContinuity({ bookId, title: meta?.titleHe || title, module: derivedMod || "", href: window.location.pathname, chapter: activeRef.current, sectionId: activeSecRef.current || undefined, scrollRatio: ratio });
+    };
+    const onScroll = () => { window.clearTimeout(t); t = window.setTimeout(write, 500); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("pagehide", write);
+    return () => { window.clearTimeout(t); window.removeEventListener("scroll", onScroll); window.removeEventListener("pagehide", write); };
+  }, [bookId, meta, title, derivedMod]);
 
   useEffect(() => {
     const els = Array.from(document.querySelectorAll<HTMLElement>("[data-chapter]"));
@@ -179,7 +257,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
           <div className="mt-5 flex flex-wrap gap-2.5">
             {started ? (
               <>
-                <button onClick={() => jump(last || first)} className="group inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
+                <button onClick={resumeExact} className="group inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
                   <PlayCircle className="size-4.5" /> המשך קריאה{last ? ` · פרק ${last}` : ""}
                   <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover:translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
                 </button>
@@ -241,7 +319,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
       )}
 
       {/* ===================== READER (existing engine — unchanged) ===================== */}
-      <div className={focus ? "block" : "grid gap-6 lg:grid-cols-[270px_1fr]"}>
+      <div className={focus ? "block" : "grid gap-6 lg:grid-cols-[248px_minmax(0,1fr)] xl:grid-cols-[248px_minmax(0,1fr)_236px]"}>
         {/* ===== sticky chapter tree ===== */}
         <aside className={`lg:sticky lg:top-[5rem] lg:h-[calc(100vh-6rem)] ${focus ? "hidden" : ""}`}>
           <div className="card-premium flex h-full flex-col overflow-hidden p-0">
@@ -300,13 +378,13 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         </aside>
 
         {/* ===== reading pane ===== */}
-        <div ref={mainRef} className={`neo-reader min-w-0 ${focus ? "mx-auto max-w-3xl" : ""}`}>
+        <div ref={mainRef} className={`neo-reader min-w-0 ${focus ? "mx-auto max-w-3xl" : "mx-auto w-full max-w-[74rem]"}`}>
           {/* continue reading banner */}
           {showContinue && (
             <div className="mb-4 flex items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/50 p-3">
               <span className="flex items-center gap-2 text-sm font-bold text-ink-2"><PlayCircle className="size-5 text-brand" /> המשך קריאה — פרק {last}</span>
               <div className="flex gap-2">
-                <button onClick={() => { jump(last); setShowContinue(false); }} className="tap rounded-xl bg-brand px-3.5 py-2 text-xs font-bold text-white shadow-sm hover:bg-brand-dark">המשך</button>
+                <button onClick={() => { resumeExact(); setShowContinue(false); }} className="tap rounded-xl bg-brand px-3.5 py-2 text-xs font-bold text-white shadow-sm hover:bg-brand-dark">המשך</button>
                 <button onClick={() => setShowContinue(false)} className="tap rounded-xl px-2 py-2 text-ink-3 hover:bg-surface-2"><X className="size-4" /></button>
               </div>
             </div>
@@ -323,6 +401,43 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
             </button>
           </div>
         </div>
+
+        {/* ===== "בעמוד זה" — on-this-page scroll-spy rail (xl+, docs-grade) ===== */}
+        {!focus && (
+          <aside className="hidden xl:block">
+            <div className="sticky top-[5rem] max-h-[calc(100vh-6rem)] overflow-y-auto pb-4">
+              <div className="mb-2.5 flex items-center justify-between pe-1">
+                <span className="flex items-center gap-1.5 text-[10.5px] font-extrabold uppercase tracking-[0.16em] text-ink-3"><AlignLeft className="size-3.5" /> בעמוד זה</span>
+                <span className="font-mono text-[11px] font-bold tabular-nums" style={{ color: c }}>{Math.round(prog)}%</span>
+              </div>
+              <nav className="relative border-s border-hairline" aria-label="בעמוד זה">
+                {chapters.map((ch) => {
+                  const on = active === ch.n;
+                  const chSecs = secs.filter((s) => s.chapter === ch.n);
+                  return (
+                    <div key={ch.n}>
+                      <button onClick={() => { playTick(); jump(ch.n); }} className="group relative -ms-px flex w-full items-center border-s-2 py-[5px] ps-3 text-start transition-colors" style={{ borderColor: on ? c : "transparent" }}>
+                        <span className={`truncate text-[12px] leading-snug transition-colors ${on ? "font-extrabold text-ink-1" : "font-medium text-ink-3 group-hover:text-ink-1"}`}>{ch.n}. {ch.title}</span>
+                      </button>
+                      {on && chSecs.length > 0 && (
+                        <div className="mb-0.5">
+                          {chSecs.map((s) => {
+                            const sa = activeSec === s.id;
+                            return (
+                              <button key={s.id} onClick={() => goSection(s.id, ch.n)} className="group relative -ms-px flex w-full items-center border-s-2 py-[3px] ps-5 text-start transition-colors" style={{ borderColor: sa ? c : "transparent" }}>
+                                <span className={`truncate text-[11px] leading-snug transition-colors ${sa ? "font-bold text-ink-1" : "font-normal text-ink-3 group-hover:text-ink-2"}`}>{s.title}</span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </nav>
+            </div>
+          </aside>
+        )}
       </div>
     </div>
   );

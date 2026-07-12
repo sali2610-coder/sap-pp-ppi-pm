@@ -648,6 +648,8 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
   line-height: 1.8;
   letter-spacing: 0.004em;
   text-wrap: pretty;
+  /* reading-comfort measure cap — keeps line length premium on 27"/34"/ultrawide */
+  max-inline-size: 74ch;
 }
 /* Focus mode: calmer, larger, more generous rhythm */
 .neo-reader.max-w-3xl p.whitespace-pre-line {
@@ -658,7 +660,7 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
 .neo-reader.max-w-3xl .paper { box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 8px 24px -18px rgba(15,23,42,0.25); }
 
 /* Section id anchors clear the sticky header */
-.neo-reader [id^="ch-"] { scroll-margin-top: 6rem; }
+.neo-reader [id^="ch-"], .neo-reader [data-section] { scroll-margin-top: 6rem; }
 
 /* ---- Premium tables (responsive · sticky header · scrolls when wide) ---- */
 .neo-reader table {

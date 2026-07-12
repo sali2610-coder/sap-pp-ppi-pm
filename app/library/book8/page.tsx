@@ -72,7 +72,7 @@ function Codes({ label, items, cls }: { label: string; items: string[]; cls: str
 function SectionCard({ s }: { s: Section }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border-t border-border/40 first:border-t-0" style={{ marginInlineStart: s.depth ? `${s.depth * 0.75}rem` : undefined }}>
+    <div id={`sec-${s.id}`} data-section={s.id} data-section-title={s.titleHe} className="border-t border-border/40 first:border-t-0" style={{ marginInlineStart: s.depth ? `${s.depth * 0.75}rem` : undefined }}>
       <button onClick={() => { playPing(); setOpen((v) => !v); }} className="flex w-full items-center gap-2 py-3 text-start">
         <span className="tech rounded-md bg-brand/10 px-2 py-0.5 text-xs font-bold text-brand">{s.id}</span>
         <span className="min-w-0 flex-1">

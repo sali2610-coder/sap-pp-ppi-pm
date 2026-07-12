@@ -16,7 +16,7 @@ const DATA = book9 as { book: string; pages: number; chapters: Chapter[] };
 // A paired section row — English page (ltr) | Hebrew page (rtl), aligned.
 function SectionSpread({ s }: { s: Section }) {
   return (
-    <div className="border-t border-border/40 py-4 first:border-t-0">
+    <div id={`sec-${s.id}`} data-section={s.id} data-section-title={s.title} className="border-t border-border/40 py-4 first:border-t-0">
       <div className="mb-2 flex items-center gap-2 px-1">
         <span className="tech rounded-md bg-brand/10 px-2 py-0.5 text-xs font-bold text-brand">{s.id}</span>
         <span className="text-sm font-semibold">{s.title}</span>
