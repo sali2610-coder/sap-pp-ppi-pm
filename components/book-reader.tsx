@@ -94,6 +94,49 @@ function ReaderSettings({ view, setView, theme, setTheme, size, setSize, wide, t
   );
 }
 
+/* Draggable reader position rail — a real scrollbar, docked to the RTL outer
+   (right) gutter on large screens; reflects position + viewport proportion.
+   Native scroll/keyboard untouched; hidden on mobile (top rail is the indicator). */
+function ReaderScrollRail({ accent, hidden }: { accent: string; hidden: boolean }) {
+  const [prog, setProg] = useState(0);
+  const [thumb, setThumb] = useState(0.15);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const dragging = useRef(false);
+  useEffect(() => {
+    const upd = () => {
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - window.innerHeight;
+      setProg(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
+      setThumb(Math.min(1, window.innerHeight / Math.max(1, doc.scrollHeight)));
+    };
+    upd();
+    window.addEventListener("scroll", upd, { passive: true });
+    window.addEventListener("resize", upd);
+    return () => { window.removeEventListener("scroll", upd); window.removeEventListener("resize", upd); };
+  }, []);
+  const seek = useCallback((clientY: number) => {
+    const t = trackRef.current; if (!t) return;
+    const r = t.getBoundingClientRect();
+    const ratio = Math.min(1, Math.max(0, (clientY - r.top) / r.height));
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    window.scrollTo({ top: ratio * max });
+  }, []);
+  const onDown = (e: React.PointerEvent) => { dragging.current = true; (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); seek(e.clientY); };
+  const onMove = (e: React.PointerEvent) => { if (dragging.current) seek(e.clientY); };
+  const onUp = () => { dragging.current = false; };
+  if (hidden) return null;
+  return (
+    <div className="fixed inset-y-0 z-40 hidden xl:flex" style={{ insetInlineStart: 4 }} aria-hidden>
+      <div ref={trackRef} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}
+        className="group my-24 flex w-3 cursor-pointer touch-none justify-center" role="scrollbar" aria-label="מיקום קריאה" aria-valuenow={Math.round(prog * 100)}>
+        <div className="relative h-full w-1 rounded-full bg-hairline transition-all group-hover:w-1.5">
+          <div className="absolute inset-x-0 mx-auto rounded-full transition-[width] group-hover:w-1.5" style={{ top: `${prog * (1 - thumb) * 100}%`, height: `${Math.max(6, thumb * 100)}%`, minHeight: 28, width: "100%", background: accent }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function BookReader({ bookId, title, subtitle, chapters, note, stats, children }: { bookId: string; title: string; subtitle?: string; chapters: ReaderChapter[]; note?: string; stats?: ReaderStat[]; children: React.ReactNode }) {
   const { read, bm, last, markRead, toggleBm, reset } = useReader(bookId);
   const reduce = useReducedMotion();
@@ -320,6 +363,8 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
       <div className="pointer-events-none fixed inset-x-0 top-0 z-[55] h-[3px] bg-transparent" aria-hidden>
         <div className="h-full origin-right transition-transform duration-150 ease-out" style={{ transform: `scaleX(${prog / 100})`, background: `linear-gradient(90deg, ${c}, ${c}aa)` }} />
       </div>
+      {/* draggable position rail (large screens) — the top bar is the mobile indicator */}
+      <ReaderScrollRail accent={c} hidden={focus} />
 
       {/* ===================== BREADCRUMBS ===================== */}
       {!focus && (
@@ -448,7 +493,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
       )}
 
       {/* ===================== READER (existing engine — unchanged) ===================== */}
-      <div className={focus ? "block" : "grid gap-6 lg:grid-cols-[248px_minmax(0,1fr)] xl:grid-cols-[248px_minmax(0,1fr)_236px]"}>
+      <div className={focus ? "block" : "grid gap-6 lg:grid-cols-[248px_minmax(0,1fr)] xl:grid-cols-[248px_minmax(0,1fr)_236px] 2xl:gap-8 2xl:grid-cols-[300px_minmax(0,1fr)_300px] min-[2560px]:grid-cols-[380px_minmax(0,1fr)_380px]"}>
         {/* ===== sticky chapter tree ===== */}
         <aside className={`lg:sticky lg:top-[5rem] lg:h-[calc(100vh-6rem)] ${focus ? "hidden" : ""}`}>
           <div className="card-premium flex h-full flex-col overflow-hidden p-0">
