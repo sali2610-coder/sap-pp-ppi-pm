@@ -775,3 +775,42 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
 @media (prefers-reduced-motion: reduce) {
   .neo-reader { scroll-behavior: auto; }
 }
+
+/* ============================================================= */
+/* Phase 13.2 — signature motion tokens + reader motion helpers  */
+/* ============================================================= */
+:root {
+  --motion-fast: 120ms;
+  --motion-base: 240ms;
+  --motion-page: 320ms;
+  --motion-slow: 500ms;
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);          /* signature — appearing/settling */
+  --ease-emphasized: cubic-bezier(0.05, 0.7, 0.1, 1); /* content entrance */
+  --ease-accel: cubic-bezier(0.3, 0, 0.8, 0.15);   /* exits */
+}
+
+/* destination highlight — after a TOC / rail / resume jump. Fade-out only, no strobe. */
+@keyframes neoFlash {
+  0%   { box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 30%, transparent); background-color: color-mix(in srgb, var(--brand) 10%, transparent); }
+  100% { box-shadow: 0 0 0 3px transparent; background-color: transparent; }
+}
+.neo-flash { animation: neoFlash 1200ms var(--ease-out) both; border-radius: 0.9rem; }
+
+/* image skeleton — progressive load; shimmer reuses the global @keyframes shimmer */
+.neo-skel { position: relative; overflow: hidden; background: color-mix(in srgb, var(--muted-foreground) 12%, var(--muted)); }
+.neo-skel::after {
+  content: ""; position: absolute; inset: 0; transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, #fff 45%, transparent), transparent);
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+/* keep anchors stable while images decode */
+.neo-reader { overflow-anchor: auto; }
+
+/* reader entrance — gently reveal the reading column on open (once, on mount) */
+.reader-enter { animation: fadeUpSoft var(--motion-page) var(--ease-emphasized) both; }
+@media (prefers-reduced-motion: reduce) { .reader-enter { animation: fadeIn 120ms both; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .neo-flash { animation: none; }
+  .neo-skel::after { animation: none; display: none; }
+}

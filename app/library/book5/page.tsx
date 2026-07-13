@@ -47,7 +47,7 @@ export default function Book2Page() {
         </div>
       </BookReader>
 
-      {viewer && <FigureViewer figs={viewer.figs} index={viewer.index} onIndex={(i) => setViewer((v) => (v ? { ...v, index: i } : v))} onClose={() => setViewer(null)} />}
+      <FigureViewer open={!!viewer} figs={viewer?.figs ?? []} index={viewer?.index ?? 0} onIndex={(i) => setViewer((v) => (v ? { ...v, index: i } : v))} onClose={() => setViewer(null)} />
 
       <p className="text-center text-xs text-muted-foreground">
         {lang === "he"
