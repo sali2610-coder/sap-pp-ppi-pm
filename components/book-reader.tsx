@@ -3,10 +3,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDown, ListTree, X, PlayCircle, StickyNote, Clock, FileText, Languages, Layers3, ArrowLeft, Sparkles, CheckCircle2, Maximize2, Minimize2, Home, Library, AlignLeft, Settings2, StretchHorizontal } from "lucide-react";
+import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDown, ListTree, X, PlayCircle, StickyNote, Clock, FileText, Languages, Layers3, ArrowLeft, Sparkles, CheckCircle2, Maximize2, Minimize2, Home, Library, AlignLeft, Settings2, StretchHorizontal, RotateCcw, HelpCircle, AlertTriangle } from "lucide-react";
 import { useReader } from "@/lib/reader-store";
 import { LIBRARY } from "@/data/library";
-import { writeContinuity, readContinuity, resolveReaderView, saveReaderView, type ReaderView } from "@/lib/continuity-store";
+import { writeContinuity, readContinuity, resolveReaderView, saveReaderView, clearContinuityFor, type ReaderView } from "@/lib/continuity-store";
 import { ReaderViewContext } from "@/lib/reader-view";
 import { playTick } from "@/lib/sound";
 
@@ -42,7 +42,7 @@ type RSize = "sm" | "md" | "lg";
 
 /* Reader display settings — theme / type-size / measure. Scoped to the reading
    pane only (never a global dark mode). Reused in the landing CTA + focus bar. */
-function ReaderSettings({ view, setView, theme, setTheme, size, setSize, wide, toggleWide, accent }: { view: ReaderView; setView: (v: ReaderView) => void; theme: RTheme; setTheme: (t: RTheme) => void; size: RSize; setSize: (s: RSize) => void; wide: boolean; toggleWide: () => void; accent: string }) {
+function ReaderSettings({ view, setView, theme, setTheme, size, setSize, wide, toggleWide, accent, onReset }: { view: ReaderView; setView: (v: ReaderView) => void; theme: RTheme; setTheme: (t: RTheme) => void; size: RSize; setSize: (s: RSize) => void; wide: boolean; toggleWide: () => void; accent: string; onReset: () => void }) {
   const [open, setOpen] = useState(false);
   const themes: [RTheme, string, string, string][] = [["original", "מקור", "#ffffff", "#0b0c0e"], ["sepia", "ספיה", "#f6efe1", "#2b2620"], ["night", "לילה", "#14181f", "#e8ecf1"]];
   const sizes: [RSize, number][] = [["sm", 12], ["md", 15], ["lg", 19]];
@@ -78,9 +78,13 @@ function ReaderSettings({ view, setView, theme, setTheme, size, setSize, wide, t
                 <button key={k} onClick={() => setSize(k)} className="flex-1 rounded-xl border py-1.5 font-black leading-none transition" style={{ borderColor: size === k ? accent : "var(--hairline)", color: size === k ? accent : "var(--ink-2)", fontSize: `${fs}px` }}>A</button>
               ))}
             </div>
-            <button onClick={toggleWide} className="mt-3 flex w-full items-center justify-between rounded-xl border border-hairline px-3 py-2 text-xs font-bold text-ink-2 transition hover:border-brand/40">
+            <button onClick={toggleWide} role="switch" aria-checked={wide} aria-label="רוחב קריאה מלא" title="הרחב את טור הקריאה לטבלאות ותרשימים גדולים" className="mt-3 flex w-full items-center justify-between rounded-xl border border-hairline px-3 py-2 text-xs font-bold text-ink-2 transition hover:border-brand/40">
               <span className="flex items-center gap-1.5"><StretchHorizontal className="size-3.5" /> רוחב מלא</span>
               <span className="relative h-4 w-7 rounded-full transition-colors" style={{ background: wide ? accent : "var(--surface-2)" }}><span className="absolute top-0.5 size-3 rounded-full bg-white shadow transition-all" style={{ insetInlineStart: wide ? "0.125rem" : "auto", insetInlineEnd: wide ? "auto" : "0.125rem" }} /></span>
+            </button>
+            {/* reset — deliberately quiet, at the foot of the menu */}
+            <button onClick={() => { setOpen(false); onReset(); }} title="נקה פרק, מיקום וגלילה עבור ספר זה" className="mt-3 flex w-full items-center gap-1.5 rounded-xl px-3 py-2 text-[11px] font-bold text-ink-3 transition hover:bg-surface-2 hover:text-brand">
+              <RotateCcw className="size-3.5" /> אפס התקדמות קריאה
             </button>
           </div>
         </>
@@ -90,11 +94,14 @@ function ReaderSettings({ view, setView, theme, setTheme, size, setSize, wide, t
 }
 
 export function BookReader({ bookId, title, subtitle, chapters, note, stats, children }: { bookId: string; title: string; subtitle?: string; chapters: ReaderChapter[]; note?: string; stats?: ReaderStat[]; children: React.ReactNode }) {
-  const { read, bm, last, markRead, toggleBm } = useReader(bookId);
+  const { read, bm, last, markRead, toggleBm, reset } = useReader(bookId);
   const reduce = useReducedMotion();
   const [active, setActive] = useState<number>(chapters[0]?.n ?? 1);
   const [q, setQ] = useState("");
-  const [showContinue, setShowContinue] = useState(false);
+  const [confirmReset, setConfirmReset] = useState(false);
+  const [resetNotesToo, setResetNotesToo] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [hintSeen, setHintSeen] = useState(true);
   const [notes, setNotes] = useState("");
   const [notesOpen, setNotesOpen] = useState(false);
   const [focus, setFocus] = useState(false);
@@ -148,6 +155,24 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); if (raf) cancelAnimationFrame(raf); };
   }, []);
 
+  // first-use hint (one line, dismissible, remembered)
+  useEffect(() => { try { setHintSeen(localStorage.getItem("neo:reader:helpseen") === "1"); } catch { /* noop */ } }, []);
+  const dismissHint = useCallback(() => { setHintSeen(true); try { localStorage.setItem("neo:reader:helpseen", "1"); } catch { /* noop */ } }, []);
+
+  // keyboard shortcuts — F focus · C contents · ? help (ignored while typing)
+  useEffect(() => {
+    const h = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement | null;
+      if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable)) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === "f" || e.key === "F") { e.preventDefault(); toggleFocus(); }
+      else if (e.key === "c" || e.key === "C") { scrollToId("book-contents"); }
+      else if (e.key === "?") { setHelpOpen(true); }
+    };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [toggleFocus]);
+
   // Esc exits focus mode
   useEffect(() => {
     if (!focus) return;
@@ -195,7 +220,14 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
     jump(last || first);
   }, [bookId, last, first, goSection]);
 
-  useEffect(() => { if (last && last > 1) setShowContinue(true); }, [last]);
+  // reset reading progress for this book (chapter/section/scroll/figure position)
+  const doReset = useCallback((withNotes: boolean) => {
+    reset({ notes: withNotes });
+    clearContinuityFor(bookId);
+    setActive(chapters[0]?.n ?? 1);
+    setConfirmReset(false); setResetNotesToo(false);
+    try { window.scrollTo({ top: 0 }); } catch { /* noop */ }
+  }, [reset, bookId, chapters]);
 
   // continuity — remember this book + live chapter for the global "המשך לקרוא"
   useEffect(() => {
@@ -339,22 +371,29 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
           <div className="mt-5 flex flex-wrap gap-2.5">
             {started ? (
               <>
-                <button onClick={resumeExact} className="group inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
+                <button onClick={resumeExact} aria-label={`המשך קריאה מהמקום האחרון${last ? `, פרק ${last}` : ""}`} title="חזרה למקום המדויק שבו הפסקת" className="group inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
                   <PlayCircle className="size-4.5" /> המשך קריאה{last ? ` · פרק ${last}` : ""}
                   <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover:translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
                 </button>
-                <button onClick={() => jump(first)} className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><BookOpen className="size-4" /> התחל מהתחלה</button>
+                <button onClick={() => jump(first)} aria-label="התחל את הספר מהפרק הראשון" title="קפוץ לתחילת הספר" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><BookOpen className="size-4" /> התחל מהתחלה</button>
               </>
             ) : (
-              <button onClick={() => jump(first)} className="group inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
+              <button onClick={() => jump(first)} aria-label="התחל לקרוא מהפרק הראשון" title="פתח את הפרק הראשון" className="group inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
                 <BookOpen className="size-4.5" /> התחל לקרוא
                 <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover:translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
               </button>
             )}
-            <button onClick={() => scrollToId("book-contents")} className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><ListTree className="size-4" /> עיין בתוכן</button>
-            <button onClick={toggleFocus} className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95" title="מצב קריאה מרוכז (Esc ליציאה)"><Maximize2 className="size-4" /> מצב מיקוד</button>
-            <ReaderSettings view={rview} setView={saveView} theme={rtheme} setTheme={saveTheme} size={rsize} setSize={saveSize} wide={rwide} toggleWide={toggleWide} accent={c} />
+            <button onClick={() => scrollToId("book-contents")} aria-label="עיין בתוכן העניינים של הספר" title="קפוץ לתוכן העניינים (מקש C)" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><ListTree className="size-4" /> עיין בתוכן</button>
+            <button onClick={toggleFocus} aria-pressed={focus} aria-label="מצב קריאה מרוכז" title="הסתר הכל מלבד הטקסט (מקש F · Esc ליציאה)" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><Maximize2 className="size-4" /> מצב מיקוד</button>
+            <ReaderSettings view={rview} setView={saveView} theme={rtheme} setTheme={saveTheme} size={rsize} setSize={saveSize} wide={rwide} toggleWide={toggleWide} accent={c} onReset={() => setConfirmReset(true)} />
+            <button onClick={() => setHelpOpen(true)} aria-label="עזרה — איך משתמשים בקורא" title="עזרה ומקשי קיצור" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-3 py-2.5 text-sm font-bold text-ink-3 shadow-sm transition hover:border-brand/40 hover:text-brand active:scale-95"><HelpCircle className="size-4" /></button>
           </div>
+          {!hintSeen && (
+            <div className="mt-3 flex items-center gap-2 rounded-xl border border-brand/20 bg-brand-soft/40 px-3 py-2 text-[12px] font-semibold text-ink-2">
+              <HelpCircle className="size-3.5 shrink-0 text-brand" /> טיפ: רחף מעל כל כפתור לקבלת הסבר · לחצו <b>?</b> לעזרה מלאה ומקשי קיצור.
+              <button onClick={dismissHint} aria-label="הבנתי, אל תציג שוב" className="tap ms-auto shrink-0 rounded-md px-1.5 py-0.5 text-ink-3 hover:bg-surface-2"><X className="size-3.5" /></button>
+            </div>
+          )}
         </div>
       </motion.section>
 
@@ -462,16 +501,6 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
 
         {/* ===== reading pane ===== */}
         <div ref={mainRef} data-theme={rtheme} data-size={rsize} data-wide={rwide ? "1" : "0"} data-view={rview} className={`neo-reader neo-pane reader-enter min-w-0 ${focus ? "mx-auto max-w-3xl" : "mx-auto w-full"}`}>
-          {/* continue reading banner */}
-          {showContinue && (
-            <div className="mb-4 flex items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/50 p-3">
-              <span className="flex items-center gap-2 text-sm font-bold text-ink-2"><PlayCircle className="size-5 text-brand" /> המשך קריאה — פרק {last}</span>
-              <div className="flex gap-2">
-                <button onClick={() => { resumeExact(); setShowContinue(false); }} className="tap rounded-xl bg-brand px-3.5 py-2 text-xs font-bold text-white shadow-sm hover:bg-brand-dark">המשך</button>
-                <button onClick={() => setShowContinue(false)} className="tap rounded-xl px-2 py-2 text-ink-3 hover:bg-surface-2"><X className="size-4" /></button>
-              </div>
-            </div>
-          )}
           {children}
           {/* next / prev */}
           <div className="mt-6 flex items-center justify-between gap-3">
@@ -522,6 +551,50 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
           </aside>
         )}
       </div>
+
+      {/* confirm reset progress — safe, per-book, bookmarks always kept */}
+      {confirmReset && (
+        <div role="dialog" aria-modal="true" aria-label="אישור איפוס התקדמות" className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/50 p-4 backdrop-blur-sm" onClick={() => { setConfirmReset(false); setResetNotesToo(false); }}>
+          <div onClick={(e) => e.stopPropagation()} className="w-full max-w-sm rounded-2xl border border-hairline bg-surface p-5 shadow-2xl">
+            <div className="flex items-center gap-2.5 text-ink-1"><span className="grid size-9 place-items-center rounded-xl bg-brand-soft text-brand"><AlertTriangle className="size-5" /></span><h3 className="font-display text-lg">איפוס התקדמות קריאה</h3></div>
+            <p className="mt-2.5 text-[13px] leading-relaxed text-ink-2">ננקה את הפרק, המיקום והגלילה עבור <b>{meta?.titleHe || title}</b> בלבד. ספרים אחרים לא יושפעו.</p>
+            <label className="mt-3 flex items-center gap-2 text-xs font-semibold text-ink-2"><input type="checkbox" checked={resetNotesToo} onChange={(e) => setResetNotesToo(e.target.checked)} className="size-4 accent-brand" /> מחק גם את ההערות של הספר</label>
+            <p className="mt-1 text-[11px] text-ink-3">הסימניות נשמרות תמיד.</p>
+            <div className="mt-4 flex justify-end gap-2">
+              <button onClick={() => { setConfirmReset(false); setResetNotesToo(false); }} className="tap rounded-xl border border-hairline bg-surface px-4 py-2 text-sm font-bold text-ink-2 hover:bg-surface-2">ביטול</button>
+              <button onClick={() => doReset(resetNotesToo)} className="tap rounded-xl bg-brand px-4 py-2 text-sm font-bold text-white hover:bg-brand-dark">אפס התקדמות</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* reader help — controls + keyboard shortcuts (no forced onboarding) */}
+      {helpOpen && (
+        <div role="dialog" aria-modal="true" aria-label="עזרה לקורא" className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/50 p-4 backdrop-blur-sm" onClick={() => setHelpOpen(false)}>
+          <div onClick={(e) => e.stopPropagation()} className="w-full max-w-md rounded-2xl border border-hairline bg-surface p-5 shadow-2xl">
+            <div className="flex items-center justify-between">
+              <h3 className="flex items-center gap-2 font-display text-lg text-ink-1"><HelpCircle className="size-5 text-brand" /> איך קוראים כאן</h3>
+              <button onClick={() => setHelpOpen(false)} aria-label="סגור" className="tap rounded-lg p-1 text-ink-3 hover:bg-surface-2"><X className="size-4" /></button>
+            </div>
+            <ul className="mt-3 space-y-1.5 text-[13px] leading-relaxed text-ink-2">
+              <li><b className="text-ink-1">המשך קריאה</b> — חזרה למקום המדויק שבו הפסקת.</li>
+              <li><b className="text-ink-1">עיין בתוכן</b> — קפיצה לתוכן העניינים; הפרק הנוכחי מודגש.</li>
+              <li><b className="text-ink-1">מצב מיקוד</b> — הסתרת הכל מלבד הטקסט.</li>
+              <li><b className="text-ink-1">תצוגת קריאה</b> — עברית/דו-לשוני · ערכת נושא · גודל · רוחב.</li>
+              <li><b className="text-ink-1">סרגל &quot;בעמוד זה&quot;</b> — המיקום בפרק; לחיצה מנווטת.</li>
+            </ul>
+            <div className="mt-4 rounded-xl bg-surface-2 p-3">
+              <div className="eyebrow mb-2 text-ink-3">מקשי קיצור</div>
+              <div className="grid grid-cols-2 gap-2 text-xs text-ink-2">
+                <span className="flex items-center gap-1.5"><kbd className="rounded border border-hairline bg-surface px-1.5 py-0.5 font-mono text-[10px]">F</kbd> מצב מיקוד</span>
+                <span className="flex items-center gap-1.5"><kbd className="rounded border border-hairline bg-surface px-1.5 py-0.5 font-mono text-[10px]">C</kbd> תוכן העניינים</span>
+                <span className="flex items-center gap-1.5"><kbd className="rounded border border-hairline bg-surface px-1.5 py-0.5 font-mono text-[10px]">Esc</kbd> יציאה ממיקוד</span>
+                <span className="flex items-center gap-1.5"><kbd className="rounded border border-hairline bg-surface px-1.5 py-0.5 font-mono text-[10px]">?</kbd> חלון עזרה זה</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
     </ReaderViewContext.Provider>
   );
