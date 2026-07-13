@@ -8,6 +8,7 @@ import { useReader } from "@/lib/reader-store";
 import { LIBRARY } from "@/data/library";
 import { writeContinuity, readContinuity, resolveReaderView, saveReaderView, clearContinuityFor, type ReaderView } from "@/lib/continuity-store";
 import { ReaderViewContext } from "@/lib/reader-view";
+import { BookCover } from "@/components/book-cover";
 import { playTick } from "@/lib/sound";
 
 export interface ReaderChapter { n: number; title: string; he?: string }
@@ -336,7 +337,12 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         {/* top identity accent (module color) */}
         <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${c}, ${c}88)` }} />
         <span className="pointer-events-none absolute -left-20 -top-16 size-52 rounded-full opacity-[0.12] blur-3xl" style={{ background: c }} />
-        <div className="relative p-6 sm:p-8">
+        <div className="relative grid gap-5 p-6 sm:grid-cols-[132px_minmax(0,1fr)] sm:gap-7 sm:p-8">
+          {/* the closed book you opened — real cover, module identity */}
+          <div className="mx-auto w-24 sm:mx-0 sm:w-full">
+            <BookCover book={{ title: meta?.titleHe || title, titleEn: meta?.title, module: derivedMod || "", publisher: meta?.publisher, pages: meta?.pages, chapters: total }} size="md" />
+          </div>
+          <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1 rounded-full bg-brand-soft px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-brand"><Sparkles className="size-3" /> {bookType(meta?.publisher)}</span>
             {derivedMod && <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{derivedMod}</span>}
@@ -394,6 +400,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
               <button onClick={dismissHint} aria-label="הבנתי, אל תציג שוב" className="tap ms-auto shrink-0 rounded-md px-1.5 py-0.5 text-ink-3 hover:bg-surface-2"><X className="size-3.5" /></button>
             </div>
           )}
+          </div>
         </div>
       </motion.section>
 
