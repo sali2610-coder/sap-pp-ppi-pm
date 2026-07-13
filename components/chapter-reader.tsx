@@ -14,10 +14,11 @@
  *   filmstrip/keyboard/download preserved). Numbered captions + source page.
  */
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, Layers, ZoomIn, Download } from "lucide-react";
 import { SectionSpread, type Section } from "@/components/section-spread";
 import { playPing } from "@/lib/sound";
+import { DUR, EASE } from "@/lib/motion";
 
 export interface ChapterFigure { page: number; file: string; w: number; h: number }
 export interface ReaderChapterData { n: number; title: string; pages: number[]; translated?: boolean; sections: Section[] }
@@ -43,25 +44,36 @@ function placeFigures(ch: ReaderChapterData, ordered: ChapterFigure[]) {
 }
 
 function InlineFigure({ fig, n, label, confident, onOpen }: { fig: ChapterFigure; n: string; label: string; confident: boolean; onOpen: () => void }) {
+  const reduce = useReducedMotion();
+  const [loaded, setLoaded] = useState(false);
   return (
     <figure id={`fig-${n}`} data-figure={label} data-confident={confident ? "1" : "0"} className="reader-figure mx-auto my-6 w-full max-w-2xl">
-      <button onClick={onOpen} aria-label={`הגדל ${label}`} className="group relative block w-full overflow-hidden rounded-xl border border-border/60 bg-white shadow-sm transition hover:shadow-md" style={{ aspectRatio: `${fig.w} / ${fig.h}` }}>
+      <button onClick={onOpen} aria-label={`הגדל ${label}`} className="group relative block w-full overflow-hidden rounded-xl border border-border/60 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md" style={{ aspectRatio: `${fig.w} / ${fig.h}` }}>
+        {/* skeleton — reserved by aspect-ratio (zero CLS), fades out on decode */}
+        {!loaded && <span className="neo-skel absolute inset-0 rounded-xl" aria-hidden />}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={fig.file} alt={`${label} · SAP figure p.${fig.page}`} loading="lazy" width={fig.w} height={fig.h} className="absolute inset-0 size-full object-contain transition-transform duration-500 group-hover:scale-[1.02]" />
-        <span className="absolute inset-0 flex items-center justify-center bg-slate-900/0 opacity-0 transition group-hover:bg-slate-900/10 group-hover:opacity-100">
+        <motion.img
+          layoutId={reduce ? undefined : `figimg-${fig.file}`}
+          src={fig.file} alt={`${label} · SAP figure p.${fig.page}`} loading="lazy" width={fig.w} height={fig.h}
+          onLoad={() => setLoaded(true)}
+          className="absolute inset-0 size-full object-contain"
+          initial={false} animate={{ opacity: loaded ? 1 : 0 }} transition={{ duration: DUR.base, ease: EASE.out }}
+        />
+        <span className="absolute inset-0 flex items-center justify-center bg-slate-900/0 opacity-0 transition-opacity duration-200 group-hover:bg-slate-900/10 group-hover:opacity-100">
           <span className="grid size-9 place-items-center rounded-full bg-white/90 text-ink-2 shadow-lg"><ZoomIn className="size-4" /></span>
         </span>
       </button>
       <figcaption className="mt-2 flex items-center justify-between gap-2 px-1 text-[11px] text-muted-foreground">
         <span className="font-bold text-ink-2">{label}</span>
         <span dir="ltr" className="text-ink-3">Source p.{fig.page}</span>
-        <a href={fig.file} download onClick={(e) => e.stopPropagation()} className="flex items-center gap-1 rounded px-1.5 py-0.5 font-semibold text-brand hover:bg-brand-soft"><Download className="size-3" /> הורד</a>
+        <a href={fig.file} download onClick={(e) => e.stopPropagation()} className="flex items-center gap-1 rounded px-1.5 py-0.5 font-semibold text-brand transition-colors hover:bg-brand-soft"><Download className="size-3" /> הורד</a>
       </figcaption>
     </figure>
   );
 }
 
 export function ChapterReader({ ch, figures = [], onOpenFigure, diagram }: { ch: ReaderChapterData; figures?: ChapterFigure[]; onOpenFigure?: (figs: ChapterFigure[], i: number) => void; diagram?: React.ReactNode }) {
+  const reduce = useReducedMotion();
   const [open, setOpen] = useState(ch.n === 1);
   useEffect(() => {
     const openIfHash = () => {
@@ -100,7 +112,7 @@ export function ChapterReader({ ch, figures = [], onOpenFigure, diagram }: { ch:
 
       <AnimatePresence initial={false}>
         {open && (
-          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden px-3 pb-4">
+          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={reduce ? { duration: 0 } : { height: { duration: DUR.base, ease: EASE.out }, opacity: { duration: DUR.fast, ease: EASE.out } }} className="overflow-hidden px-3 pb-4">
             {diagram}
             <div className="paper relative rounded-xl p-4 sm:p-6">
               {ch.sections.map((s, si) => (

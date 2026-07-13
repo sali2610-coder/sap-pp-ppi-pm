@@ -20,12 +20,21 @@ const mc = (m?: string) => (m && MOD_COLOR[m]) || "#64748b";
 const LIB_BY_BOOK: Record<string, string> = { book1: "config-pm", book2: "production-planning", book3: "sourcing-procurement", book4: "pp-ds", book5: "quality-management", book6: "warehouse-management", book7: "fiori-apps", book9: "pm-business-user", book10: "ibp-sop", book11: "s4-foundation" };
 const bookType = (pub?: string) => (pub === "SAP PRESS" ? "SAP PRESS" : pub === "ZaranTech" ? "ZaranTech" : "Reference Guide");
 
+// brief destination highlight after a jump — aids orientation (CSS-gated for reduced-motion)
+function flash(el: HTMLElement | null | undefined) {
+  if (!el) return;
+  el.classList.remove("neo-flash");
+  void el.offsetWidth; // restart the animation
+  el.classList.add("neo-flash");
+  window.setTimeout(() => el.classList.remove("neo-flash"), 1400);
+}
 function jump(n: number) {
   const el = document.querySelector<HTMLElement>(`[data-chapter="${n}"]`);
-  if (el) { history.replaceState(null, "", `#ch-${n}`); el.scrollIntoView({ behavior: "smooth", block: "start" }); }
+  if (el) { history.replaceState(null, "", `#ch-${n}`); el.scrollIntoView({ behavior: "smooth", block: "start" }); flash(el); }
 }
 function scrollToId(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const el = document.getElementById(id);
+  if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); flash(el); }
 }
 
 type RTheme = "original" | "sepia" | "night";
@@ -168,7 +177,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   const goSection = useCallback((id: string, chapter: number) => {
     if (document.getElementById(id)) { scrollToId(id); return; }
     if (chapter) jump(chapter); // triggers the page's hash-listener to expand it
-    window.setTimeout(() => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); }, 360);
+    window.setTimeout(() => { const el = document.getElementById(id); if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); flash(el); } }, 360);
   }, []);
 
   // exact resume — land on the last section / scroll spot, not just chapter-top
@@ -452,7 +461,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         </aside>
 
         {/* ===== reading pane ===== */}
-        <div ref={mainRef} data-theme={rtheme} data-size={rsize} data-wide={rwide ? "1" : "0"} data-view={rview} className={`neo-reader neo-pane min-w-0 ${focus ? "mx-auto max-w-3xl" : "mx-auto w-full"}`}>
+        <div ref={mainRef} data-theme={rtheme} data-size={rsize} data-wide={rwide ? "1" : "0"} data-view={rview} className={`neo-reader neo-pane reader-enter min-w-0 ${focus ? "mx-auto max-w-3xl" : "mx-auto w-full"}`}>
           {/* continue reading banner */}
           {showContinue && (
             <div className="mb-4 flex items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/50 p-3">
