@@ -30,6 +30,13 @@ export function readContinuity(): Continuity | null {
   }
 }
 
+/** Clear the global "continue reading" pointer if it points at this book
+ *  (used by per-book "reset reading progress"). */
+export function clearContinuityFor(bookId: string) {
+  if (typeof window === "undefined") return;
+  try { const c = readContinuity(); if (c && c.bookId === bookId) localStorage.removeItem(KEY); } catch { /* noop */ }
+}
+
 export function writeContinuity(patch: Partial<Continuity> & { bookId: string; title: string; module: string; href: string }) {
   if (typeof window === "undefined") return;
   try {

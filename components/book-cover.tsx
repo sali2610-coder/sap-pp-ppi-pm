@@ -80,7 +80,7 @@ export function BookCover({ book, className = "", size = "md" }: { book: CoverBo
 
 /* ============================ SHELF SPINE ============================ */
 /* Upright bound volume standing on a shelf. Width scales with page count. */
-export function BookSpine({ book, onOpen, tall = false }: { book: CoverBook; onOpen?: () => void; tall?: boolean }) {
+export function BookSpine({ book, onOpen, tall = false, active = false, id }: { book: CoverBook; onOpen?: () => void; tall?: boolean; active?: boolean; id?: string }) {
   const c = moduleColor(book.module);
   // thickness from pages, hard-clamped so the shelf never becomes a picket fence
   const w = Math.round(Math.max(38, Math.min(64, 34 + (book.pages || 300) / 26)));
@@ -89,11 +89,14 @@ export function BookSpine({ book, onOpen, tall = false }: { book: CoverBook; onO
     <button
       type="button"
       onClick={onOpen}
-      aria-label={`${book.title} — ${book.module}${book.pages ? " · " + book.pages + " עמודים" : ""}`}
-      title={book.title}
-      className="neo-spine group/spine relative shrink-0 origin-bottom overflow-hidden rounded-t-[4px] text-white outline-none transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-2.5 focus-visible:-translate-y-2.5"
-      style={{ width: w, height: h, background: cloth(c), boxShadow: "0 14px 22px -14px rgba(15,23,42,0.7), inset 0 1px 0 rgba(255,255,255,0.28)" }}
+      data-book-id={id}
+      aria-current={active ? "true" : undefined}
+      aria-label={`${book.title} — ${book.module}${book.pages ? " · " + book.pages + " עמודים" : ""}${active ? " · נפתח לאחרונה" : ""}`}
+      title={active ? `${book.title} · נפתח לאחרונה` : book.title}
+      className={`neo-spine group/spine relative shrink-0 origin-bottom overflow-hidden rounded-t-[4px] text-white outline-none transition-[transform,box-shadow] duration-500 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-2.5 focus-visible:-translate-y-2.5 ${active ? "-translate-y-2" : ""}`}
+      style={{ width: w, height: h, background: cloth(c), boxShadow: active ? `0 18px 26px -14px rgba(15,23,42,0.75), inset 0 1px 0 rgba(255,255,255,0.3), 0 0 0 2px ${c}, 0 0 0 4px color-mix(in srgb, ${c} 28%, transparent)` : "0 14px 22px -14px rgba(15,23,42,0.7), inset 0 1px 0 rgba(255,255,255,0.28)" }}
     >
+      {active && <span className="pointer-events-none absolute inset-x-0 top-1 flex justify-center"><span className="size-1.5 rounded-full bg-white shadow" /></span>}
       {/* head/tail bands */}
       <span className="pointer-events-none absolute inset-x-0 top-0 h-2 bg-black/25" />
       <span className="pointer-events-none absolute inset-x-0 bottom-0 h-2 bg-black/30" />

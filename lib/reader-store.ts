@@ -20,5 +20,13 @@ export function useReader(bookId: string) {
   const markRead = useCallback((n: number) => setS((p) => p.read.includes(n) && p.last === n ? p : persist({ ...p, read: p.read.includes(n) ? p.read : [...p.read, n], last: n })), [persist]);
   const toggleBm = useCallback((n: number) => setS((p) => persist({ ...p, bm: p.bm.includes(n) ? p.bm.filter((x) => x !== n) : [...p.bm, n] })), [persist]);
 
-  return { ...s, markRead, toggleBm };
+  // reset reading progress for THIS book only — clears read chapters + last
+  // position. Bookmarks/notes preserved unless explicitly opted in.
+  const reset = useCallback((opts?: { bookmarks?: boolean; notes?: boolean }) => setS((p) => {
+    const next: ReaderState = { read: [], last: 0, bm: opts?.bookmarks ? [] : p.bm };
+    if (opts?.notes) { try { localStorage.removeItem(`neo:reader:notes:${bookId}`); } catch { /* noop */ } }
+    return persist(next);
+  }), [persist, bookId]);
+
+  return { ...s, markRead, toggleBm, reset };
 }

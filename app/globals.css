@@ -810,6 +810,22 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
 .reader-enter { animation: fadeUpSoft var(--motion-page) var(--ease-emphasized) both; }
 @media (prefers-reduced-motion: reduce) { .reader-enter { animation: fadeIn 120ms both; } }
 
+/* ---- Page View (paginated mode) — CSS multi-column, horizontal pages ---- */
+.neo-pageframe { block-size: calc(100dvh - 13rem); overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scrollbar-width: thin; }
+.neo-pagecols { block-size: 100%; column-width: var(--pw, 100%); column-gap: 2.5rem; column-fill: auto; }
+/* never cut a figure, table or code block across a page break */
+.neo-pagecols :is(figure, table, pre, .reader-figure) { break-inside: avoid; }
+.neo-pagecols [data-chapter] > button { break-inside: avoid; }
+/* In scroll mode the chapter card uses overflow:hidden (collapse animation) — but
+   an overflow:hidden block cannot fragment across columns, so in page mode we must
+   force it visible + auto-height, else content is clipped into too few pages. */
+.neo-pagecols [data-chapter],
+.neo-pagecols [data-chapter] .overflow-hidden,
+.neo-pagecols .paper,
+.neo-pagecols .glass { overflow: visible !important; height: auto !important; }
+/* chapter cards may fragment; keep atomic elements whole */
+.neo-pagecols [data-chapter] { break-inside: auto; border-radius: 0; }
+
 @media (prefers-reduced-motion: reduce) {
   .neo-flash { animation: none; }
   .neo-skel::after { animation: none; display: none; }

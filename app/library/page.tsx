@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { BookOpen, FileText, Library as LibraryIcon, ArrowLeft, GraduationCap, Search, X, Clock, CheckCircle2, Star, Languages, BookMarked, LayoutGrid, Sparkles, Compass, Timer, Layers3, PlayCircle } from "lucide-react";
 import { LIBRARY, LIBRARY_STATS, type LibBook } from "@/data/library";
 import { ACADEMY_BOOKS, ACADEMY_META, type AcademyBook } from "@/data/library/academy";
@@ -262,10 +262,59 @@ function FeaturedBook({ book, onOpen }: { book: LibBook; onOpen: (b: LibBook) =>
   );
 }
 
+/* ====== spine → bring the book FORWARD (face-out) before opening ====== */
+function BookPeek({ book, onOpen, onClose }: { book: LibBook; onOpen: (b: LibBook) => void; onClose: () => void }) {
+  const reduce = useReducedMotion();
+  const c = mc(book.module);
+  const reader = READER[book.id];
+  return (
+    <motion.div role="dialog" aria-modal="true" aria-label={book.titleHe} onClick={onClose}
+      className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/55 p-4 backdrop-blur-sm"
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.22, ease: [0.2, 0, 0, 1] }}>
+      <motion.div onClick={(e) => e.stopPropagation()}
+        initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.94, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96 }} transition={{ duration: 0.26, ease: [0.2, 0, 0, 1] }}
+        className="grid w-full max-w-lg gap-5 rounded-3xl border border-hairline bg-surface p-5 shadow-2xl sm:grid-cols-[150px_1fr] sm:p-6">
+        <div className="mx-auto w-32 sm:mx-0 sm:w-full"><BookCover book={asCover(book)} size="lg" /></div>
+        <div className="flex min-w-0 flex-col justify-center gap-2.5">
+          <div className="flex items-center gap-2">
+            <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{book.module}</span>
+            <span className="text-[11px] font-semibold text-ink-3">{book.publisher}</span>
+          </div>
+          <h3 className="text-xl font-black leading-tight tracking-tight text-ink-1">{book.titleHe}</h3>
+          <p className="line-clamp-3 text-[13px] leading-relaxed text-ink-2">{book.summaryHe}</p>
+          <div className="flex flex-wrap gap-1.5">
+            <Chip><FileText className="size-3" /> {book.pages} עמ׳</Chip>
+            <Chip tone="brand"><BookMarked className="size-3" /> {book.chapters.length} פרקים</Chip>
+            <Chip><Languages className="size-3" /> EN · HE</Chip>
+          </div>
+          <div className="mt-1 flex items-center gap-2">
+            {reader ? (
+              <button onClick={() => onOpen(book)} autoFocus className="group inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
+                <BookOpen className="size-4" /> פתח את הספר
+                <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover:-translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
+              </button>
+            ) : <span className="text-sm font-semibold text-ink-3">אין טקסט מלא לספר זה</span>}
+            <button onClick={onClose} className="rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 transition hover:bg-surface-2">חזרה למדף</button>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function LibraryPage() {
   const { recent, push } = useRecent();
   const openBook = useOpenBook(push);
+  const [peek, setPeek] = useState<LibBook | null>(null);
   const [q, setQ] = useState("");
+  // returning to the library — bring the last-opened book back to view on its shelf
+  const flashed = useRef(false);
+  useEffect(() => {
+    if (flashed.current || !recent[0]) return;
+    flashed.current = true;
+    const el = document.querySelector<HTMLElement>(`[data-book-id="${recent[0].id}"]`);
+    if (el) { el.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" }); el.classList.add("neo-flash"); window.setTimeout(() => el.classList.remove("neo-flash"), 1400); }
+  }, [recent]);
   const [mod, setMod] = useState<string | null>(null);
   const ac = ACADEMY_META.totals();
 
@@ -373,7 +422,7 @@ export default function LibraryPage() {
                         <span className="h-px flex-1 bg-hairline" />
                       </div>
                       <Shelf>
-                        {books.map((b) => <BookSpine key={b.id} book={asCover(b)} onOpen={() => openBook(b)} />)}
+                        {books.map((b) => <BookSpine key={b.id} id={b.id} active={recent[0]?.id === b.id} book={asCover(b)} onOpen={() => setPeek(b)} />)}
                       </Shelf>
                     </div>
                   );
@@ -383,7 +432,7 @@ export default function LibraryPage() {
               <div>
                 <p className="mb-1 text-[11px] font-semibold text-ink-3">{reference.length} ספרים תואמים</p>
                 <Shelf>
-                  {reference.map((b) => <BookSpine key={b.id} book={asCover(b)} onOpen={() => openBook(b)} />)}
+                  {reference.map((b) => <BookSpine key={b.id} id={b.id} active={recent[0]?.id === b.id} book={asCover(b)} onOpen={() => setPeek(b)} />)}
                 </Shelf>
               </div>
             )}
@@ -404,6 +453,11 @@ export default function LibraryPage() {
       <p className="text-center text-xs text-ink-3">
         מסלולי הלמידה נבנו לפי תבנית 18 המקטעים של NEO Academy · מדריכי העיון מאונדקסים מתוכן העניינים של קובצי ה-PDF המקוריים. תרגום עברי מקצועי נכתב עבור הארגון.
       </p>
+
+      {/* spine → forward preview → open */}
+      <AnimatePresence>
+        {peek && <BookPeek key={peek.id} book={peek} onOpen={openBook} onClose={() => setPeek(null)} />}
+      </AnimatePresence>
     </div>
   );
 }
