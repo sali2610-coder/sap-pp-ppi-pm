@@ -7,8 +7,9 @@ import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDow
 import { useReader } from "@/lib/reader-store";
 import { LIBRARY } from "@/data/library";
 import { writeContinuity, readContinuity, resolveReaderView, saveReaderView, clearContinuityFor, type ReaderView } from "@/lib/continuity-store";
-import { ReaderViewContext } from "@/lib/reader-view";
+import { ReaderViewContext, PageModeContext } from "@/lib/reader-view";
 import { BookCover } from "@/components/book-cover";
+import { PageView } from "@/components/page-view";
 import { playTick } from "@/lib/sound";
 
 export interface ReaderChapter { n: number; title: string; he?: string }
@@ -43,7 +44,7 @@ type RSize = "sm" | "md" | "lg";
 
 /* Reader display settings — theme / type-size / measure. Scoped to the reading
    pane only (never a global dark mode). Reused in the landing CTA + focus bar. */
-function ReaderSettings({ view, setView, theme, setTheme, size, setSize, wide, toggleWide, accent, onReset }: { view: ReaderView; setView: (v: ReaderView) => void; theme: RTheme; setTheme: (t: RTheme) => void; size: RSize; setSize: (s: RSize) => void; wide: boolean; toggleWide: () => void; accent: string; onReset: () => void }) {
+function ReaderSettings({ view, setView, mode, setMode, theme, setTheme, size, setSize, wide, toggleWide, accent, onReset }: { view: ReaderView; setView: (v: ReaderView) => void; mode: "scroll" | "page"; setMode: (m: "scroll" | "page") => void; theme: RTheme; setTheme: (t: RTheme) => void; size: RSize; setSize: (s: RSize) => void; wide: boolean; toggleWide: () => void; accent: string; onReset: () => void }) {
   const [open, setOpen] = useState(false);
   const themes: [RTheme, string, string, string][] = [["original", "מקור", "#ffffff", "#0b0c0e"], ["sepia", "ספיה", "#f6efe1", "#2b2620"], ["night", "לילה", "#14181f", "#e8ecf1"]];
   const sizes: [RSize, number][] = [["sm", 12], ["md", 15], ["lg", 19]];
@@ -59,6 +60,15 @@ function ReaderSettings({ view, setView, theme, setTheme, size, setSize, wide, t
             <div className="grid grid-cols-2 gap-1.5">
               {views.map(([k, label, sub]) => (
                 <button key={k} onClick={() => setView(k)} className="rounded-xl border-2 px-2 py-1.5 text-start transition" style={{ borderColor: view === k ? accent : "var(--hairline)" }}>
+                  <span className="block text-[12px] font-extrabold text-ink-1">{label}</span>
+                  <span className="block text-[9.5px] font-semibold text-ink-3">{sub}</span>
+                </button>
+              ))}
+            </div>
+            <div className="eyebrow mb-1.5 mt-3 text-ink-3">אופן מעבר</div>
+            <div className="grid grid-cols-2 gap-1.5">
+              {([["scroll", "גלילה", "טקסט רציף"], ["page", "עמודים", "דפדוף כמו ספר"]] as const).map(([k, label, sub]) => (
+                <button key={k} onClick={() => setMode(k)} className="rounded-xl border-2 px-2 py-1.5 text-start transition" style={{ borderColor: mode === k ? accent : "var(--hairline)" }}>
                   <span className="block text-[12px] font-extrabold text-ink-1">{label}</span>
                   <span className="block text-[9.5px] font-semibold text-ink-3">{sub}</span>
                 </button>
@@ -177,6 +187,11 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   const [rview, setRview] = useState<ReaderView>("bilingual");
   useEffect(() => { setRview(resolveReaderView()); }, []);
   const saveView = useCallback((v: ReaderView) => { setRview(v); saveReaderView(v); }, []);
+  // reading mode — continuous scroll (default) vs paginated Page View, remembered
+  const [rmode, setRmode] = useState<"scroll" | "page">("scroll");
+  useEffect(() => { try { const m = localStorage.getItem("neo:reader:mode"); if (m === "page" || m === "scroll") setRmode(m); } catch { /* noop */ } }, []);
+  const saveMode = useCallback((m: "scroll" | "page") => { setRmode(m); try { localStorage.setItem("neo:reader:mode", m); } catch { /* noop */ } }, []);
+  const pageMode = rmode === "page";
 
   useEffect(() => { try { setNotes(localStorage.getItem(`neo:reader:notes:${bookId}`) || ""); } catch { /* noop */ } }, [bookId]);
   useEffect(() => { try { setFocus(localStorage.getItem("neo:reader:focus") === "1"); } catch { /* noop */ } }, []);
@@ -358,13 +373,14 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
 
   return (
     <ReaderViewContext.Provider value={rview}>
+    <PageModeContext.Provider value={pageMode}>
     <div className="space-y-6 sm:space-y-8">
       {/* fixed linear reading-progress rail (module-colored) */}
       <div className="pointer-events-none fixed inset-x-0 top-0 z-[55] h-[3px] bg-transparent" aria-hidden>
         <div className="h-full origin-right transition-transform duration-150 ease-out" style={{ transform: `scaleX(${prog / 100})`, background: `linear-gradient(90deg, ${c}, ${c}aa)` }} />
       </div>
       {/* draggable position rail (large screens) — the top bar is the mobile indicator */}
-      <ReaderScrollRail accent={c} hidden={focus} />
+      <ReaderScrollRail accent={c} hidden={focus || pageMode} />
 
       {/* ===================== BREADCRUMBS ===================== */}
       {!focus && (
@@ -436,7 +452,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
             )}
             <button onClick={() => scrollToId("book-contents")} aria-label="עיין בתוכן העניינים של הספר" title="קפוץ לתוכן העניינים (מקש C)" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><ListTree className="size-4" /> עיין בתוכן</button>
             <button onClick={toggleFocus} aria-pressed={focus} aria-label="מצב קריאה מרוכז" title="הסתר הכל מלבד הטקסט (מקש F · Esc ליציאה)" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><Maximize2 className="size-4" /> מצב מיקוד</button>
-            <ReaderSettings view={rview} setView={saveView} theme={rtheme} setTheme={saveTheme} size={rsize} setSize={saveSize} wide={rwide} toggleWide={toggleWide} accent={c} onReset={() => setConfirmReset(true)} />
+            <ReaderSettings view={rview} setView={saveView} mode={rmode} setMode={saveMode} theme={rtheme} setTheme={saveTheme} size={rsize} setSize={saveSize} wide={rwide} toggleWide={toggleWide} accent={c} onReset={() => setConfirmReset(true)} />
             <button onClick={() => setHelpOpen(true)} aria-label="עזרה — איך משתמשים בקורא" title="עזרה ומקשי קיצור" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-3 py-2.5 text-sm font-bold text-ink-3 shadow-sm transition hover:border-brand/40 hover:text-brand active:scale-95"><HelpCircle className="size-4" /></button>
           </div>
           {!hintSeen && (
@@ -493,6 +509,11 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
       )}
 
       {/* ===================== READER (existing engine — unchanged) ===================== */}
+      {pageMode ? (
+        <div data-theme={rtheme} data-size={rsize} data-view={rview} className="neo-reader neo-pane reader-enter mx-auto w-full min-w-0">
+          <PageView chapters={chapters} accent={c}>{children}</PageView>
+        </div>
+      ) : (
       <div className={focus ? "block" : "grid gap-6 lg:grid-cols-[248px_minmax(0,1fr)] xl:grid-cols-[248px_minmax(0,1fr)_236px] 2xl:gap-8 2xl:grid-cols-[300px_minmax(0,1fr)_300px] min-[2560px]:grid-cols-[380px_minmax(0,1fr)_380px]"}>
         {/* ===== sticky chapter tree ===== */}
         <aside className={`lg:sticky lg:top-[5rem] lg:h-[calc(100vh-6rem)] ${focus ? "hidden" : ""}`}>
@@ -603,6 +624,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
           </aside>
         )}
       </div>
+      )}
 
       {/* confirm reset progress — safe, per-book, bookmarks always kept */}
       {confirmReset && (
@@ -648,6 +670,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         </div>
       )}
     </div>
+    </PageModeContext.Provider>
     </ReaderViewContext.Provider>
   );
 }

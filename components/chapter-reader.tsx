@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, Layers, ZoomIn, Download } from "lucide-react";
 import { SectionSpread, type Section } from "@/components/section-spread";
+import { usePageMode } from "@/lib/reader-view";
 import { playPing } from "@/lib/sound";
 import { DUR, EASE } from "@/lib/motion";
 
@@ -74,7 +75,9 @@ function InlineFigure({ fig, n, label, confident, onOpen }: { fig: ChapterFigure
 
 export function ChapterReader({ ch, figures = [], onOpenFigure, diagram }: { ch: ReaderChapterData; figures?: ChapterFigure[]; onOpenFigure?: (figs: ChapterFigure[], i: number) => void; diagram?: React.ReactNode }) {
   const reduce = useReducedMotion();
+  const pageMode = usePageMode();
   const [open, setOpen] = useState(ch.n === 1);
+  const shown = pageMode || open;
   useEffect(() => {
     const openIfHash = () => {
       if (typeof window === "undefined") return;
@@ -94,7 +97,7 @@ export function ChapterReader({ ch, figures = [], onOpenFigure, diagram }: { ch:
 
   return (
     <section id={`ch-${ch.n}`} data-chapter={ch.n} className="glass scroll-mt-24 overflow-hidden rounded-2xl">
-      <button onClick={() => { playPing(); setOpen((v) => !v); }} className="flex w-full items-center gap-3 p-4 text-start">
+      <button onClick={() => { if (pageMode) return; playPing(); setOpen((v) => !v); }} className="flex w-full items-center gap-3 p-4 text-start">
         <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-brand-dark text-brand-foreground shadow-lg shadow-brand/30"><Layers className="size-5" /></span>
         <span className="min-w-0 flex-1">
           <span className="block font-bold">{ch.n}. {ch.title}</span>
@@ -107,11 +110,11 @@ export function ChapterReader({ ch, figures = [], onOpenFigure, diagram }: { ch:
         <span className={`shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-bold ${ch.translated ? "bg-status-done/15 text-status-done" : "bg-status-in-analysis/15 text-status-in-analysis"}`}>
           {ch.translated ? "EN · עברית" : "EN ✓ · עברית בהכנה"}
         </span>
-        <ChevronDown className={`size-5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
+        {!pageMode && <ChevronDown className={`size-5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />}
       </button>
 
       <AnimatePresence initial={false}>
-        {open && (
+        {shown && (
           <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={reduce ? { duration: 0 } : { height: { duration: DUR.base, ease: EASE.out }, opacity: { duration: DUR.fast, ease: EASE.out } }} className="overflow-hidden px-3 pb-4">
             {diagram}
             <div className="paper relative rounded-xl p-4 sm:p-6">
