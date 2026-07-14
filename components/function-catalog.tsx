@@ -9,8 +9,9 @@
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Plug, Braces, Search, X, ChevronDown, ShieldCheck, AlertTriangle, Info, Clock, ArrowLeft, Copy, Check, GitBranch, BookOpen, Boxes, Sparkles, Star, ListChecks, Wrench, Code2, GraduationCap, Lightbulb, Link2, Pin, NotebookPen, Server, Globe, FileJson, Terminal, RotateCcw, PackageOpen, SearchX } from "lucide-react";
+import { Plug, Braces, Search, X, ChevronDown, ShieldCheck, AlertTriangle, Info, Clock, ArrowLeft, Copy, Check, GitBranch, BookOpen, Boxes, Sparkles, Star, ListChecks, Wrench, Code2, GraduationCap, Lightbulb, Link2, Pin, NotebookPen, Server, Globe, FileJson, Terminal, RotateCcw, PackageOpen, SearchX, Eye } from "lucide-react";
 import type { SapFuncObject, VerificationStatus, OperationType, BusinessCategory, Difficulty, Stability } from "@/lib/bapi-registry";
 
 const CAT: Record<BusinessCategory, { he: string; c: string }> = {
@@ -84,7 +85,7 @@ function useObjState() {
 }
 
 /* ---- teaching card ---- */
-function Card({ o, onOpen, faved, pinned, learned, onFav, onPin }: { o: SapFuncObject; onOpen: () => void; faved: boolean; pinned: boolean; learned: boolean; onFav: () => void; onPin: () => void }) {
+function Card({ o, onOpen, onPreview, faved, pinned, learned, onFav, onPin }: { o: SapFuncObject; onOpen: () => void; onPreview: () => void; faved: boolean; pinned: boolean; learned: boolean; onFav: () => void; onPin: () => void }) {
   const bapi = isBapi(o); const cat = CAT[o.category]; const reduce = useReducedMotion();
   return (
     <motion.button
@@ -105,6 +106,12 @@ function Card({ o, onOpen, faved, pinned, learned, onFav, onPin }: { o: SapFuncO
           onClick={(e) => { e.stopPropagation(); onPin(); }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); e.preventDefault(); onPin(); } }}
           className={`tap grid size-7 place-items-center rounded-lg hover:bg-surface-2 ${pinned ? "text-brand" : "text-ink-3 opacity-0 focus:opacity-100 group-hover:opacity-100"}`}>
           <Pin className={`size-3.5 ${pinned ? "fill-brand" : ""}`} />
+        </span>
+        {/* §13 — quick preview (secondary); the card itself opens the full page */}
+        <span role="button" tabIndex={0} aria-label="תצוגה מהירה" title="תצוגה מקדימה"
+          onClick={(e) => { e.stopPropagation(); onPreview(); }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); e.preventDefault(); onPreview(); } }}
+          className="tap grid size-7 place-items-center rounded-lg text-ink-3 opacity-0 hover:bg-surface-2 focus:opacity-100 group-hover:opacity-100">
+          <Eye className="size-3.5" />
         </span>
       </div>
       <div className="flex items-center gap-2 pe-7">
@@ -479,6 +486,11 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
   const [learn, setLearn] = useState<"all" | "learned" | "unlearned">("all");
   const [sel, setSel] = useState<SapFuncObject | null>(null);
   const wide = useWide();
+  const router = useRouter();
+  // §10 — deep-link a module filter from the module portals (/bapi?module=PM)
+  useEffect(() => {
+    try { const m = new URLSearchParams(window.location.search).get("module"); if (m) setMod(m); } catch { /* noop */ }
+  }, []);
   const { fav, pin, learned, notes, toggleFav, togglePin, toggleLearned, setNote } = useObjState();
   const resetFilters = () => { setQ(""); setType("all"); setVerif("all"); setMod("all"); setOp("all"); setCommitOnly(false); setFavOnly(false); setPinOnly(false); setLearn("all"); };
   const anyFilter = !!q || type !== "all" || verif !== "all" || mod !== "all" || op !== "all" || commitOnly || favOnly || pinOnly || learn !== "all";
@@ -620,7 +632,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
                 <span className="h-px flex-1 bg-hairline" />
               </div>
               <div className="grid-adaptive-sm">
-                {list.map((o) => <Card key={o.id} o={o} onOpen={() => setSel(o)} faved={fav.has(o.id)} pinned={pin.has(o.id)} learned={learned.has(o.id)} onFav={() => toggleFav(o.id)} onPin={() => togglePin(o.id)} />)}
+                {list.map((o) => <Card key={o.id} o={o} onOpen={() => router.push(`/bapi/${encodeURIComponent(o.id)}/`)} onPreview={() => setSel(o)} faved={fav.has(o.id)} pinned={pin.has(o.id)} learned={learned.has(o.id)} onFav={() => toggleFav(o.id)} onPin={() => togglePin(o.id)} />)}
               </div>
             </div>
           ))}

@@ -10,7 +10,7 @@ import {
   relationships, enhancements, bestPractices, eccS4,
 } from "@/lib/module-portal";
 
-import { tcodeHasPage, funcHasPage, idocHasPage, cdsHasPage, objectHasPage } from "@/lib/route-exists";
+import { tcodeHasPage, idocHasPage, cdsHasPage, objectHasPage } from "@/lib/route-exists";
 
 const ICONS: Record<string, typeof LayoutGrid> = { LayoutGrid, Workflow, Boxes, Terminal, Table, Plug, Sigma, AppWindow, Settings, Cable, AlertTriangle, GitBranch, Puzzle, Lightbulb, ArrowRightLeft };
 const S4_DOT: Record<string, string> = { kept: "#1aa179", replaced: "#c77a0a", removed: "#dc2626" };
@@ -64,8 +64,19 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
       return <div className="grid-adaptive-sm">{tx.map((t) => <CodeChip key={t.code} href={`/tcode/${encodeURIComponent(t.code)}/`} code={t.code} ok={tcodeHasPage(t.code)} />)}</div>;
     }
     case "bapis": {
+      // §1 — no duplicate module BAPI list. The central BAPI/FM hub is the single
+      // authoritative location; link there with this module pre-filtered.
       const fn = funcs(module, ["BAPI", "FM"]);
-      return <div className="grid-adaptive-sm">{fn.map((f) => <CodeChip key={f.name} href={`/bapi/${encodeURIComponent(f.name)}/`} code={f.name} he={f.kind} ok={funcHasPage(f.name)} />)}</div>;
+      return (
+        <Link href={`/bapi/?module=${encodeURIComponent(module.module)}`} className="card-interactive group flex items-center gap-3 p-4" dir="rtl">
+          <span className="grid size-11 shrink-0 place-items-center rounded-xl text-white" style={{ background: accent }}><Plug className="size-5" /></span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-[14px] font-extrabold text-ink-1">כל ה-BAPI / FM של {module.module} — במרכז המאוחד</span>
+            <span className="block text-[12px] text-ink-3">≈{fn.length} אובייקטים · סטטוס אימות · תאימות ECC↔S/4 · דף מלא לכל אובייקט</span>
+          </span>
+          <ArrowLeft className="size-4 text-ink-3 transition group-hover:-translate-x-0.5 group-hover:text-brand" />
+        </Link>
+      );
     }
     case "cds": {
       const v = cdsViews(module);
@@ -111,8 +122,12 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
         <div className="space-y-6">
           <div><h3 className="mb-2 flex items-center gap-2 text-[13px] font-extrabold text-ink-1"><Cable className="size-4 text-ink-3" />IDocs<span className="font-mono text-[11px] font-bold text-ink-3">{idocs.length}</span></h3>
             {idocs.length ? <div className="grid-adaptive-sm">{idocs.map((f) => <CodeChip key={f.name} href={`/idoc/${encodeURIComponent(f.name)}/`} code={f.name} ok={idocHasPage(f.name)} />)}</div> : <Empty text="אין IDocs מאומתים." />}</div>
-          <div><h3 className="mb-2 flex items-center gap-2 text-[13px] font-extrabold text-ink-1"><Plug className="size-4 text-ink-3" />BAPIs<span className="font-mono text-[11px] font-bold text-ink-3">{bapi.length}</span></h3>
-            <div className="grid-adaptive-sm">{bapi.map((f) => <CodeChip key={f.name} href={`/bapi/${encodeURIComponent(f.name)}/`} code={f.name} ok={funcHasPage(f.name)} />)}</div></div>
+          <div><h3 className="mb-2 flex items-center gap-2 text-[13px] font-extrabold text-ink-1"><Plug className="size-4 text-ink-3" />BAPIs / FMs<span className="font-mono text-[11px] font-bold text-ink-3">{bapi.length}</span></h3>
+            <Link href={`/bapi/?module=${encodeURIComponent(module.module)}`} className="card-interactive group flex items-center gap-3 p-4" dir="rtl">
+              <span className="grid size-10 shrink-0 place-items-center rounded-xl text-white" style={{ background: accent }}><Plug className="size-[18px]" /></span>
+              <span className="min-w-0 flex-1"><span className="block text-[13.5px] font-extrabold text-ink-1">פתח במרכז ה-BAPI / FM המאוחד</span><span className="block text-[11.5px] text-ink-3">מסונן ל-{module.module} · דף מלא לכל אובייקט</span></span>
+              <ArrowLeft className="size-4 text-ink-3 transition group-hover:-translate-x-0.5 group-hover:text-brand" />
+            </Link></div>
         </div>
       );
     }

@@ -12,7 +12,7 @@
 
 import type { SapFuncObject, TriState, VerificationStatus, OperationType, BusinessCategory } from "@/lib/bapi-registry";
 
-const VSRC = "SAP Help (BUS2038 · S/4HANA On-Premise) + SE37 metadata (fn group IWOPM)";
+const VSRC = "SAP Help (BUS2038 · S/4HANA On-Premise) + SE37 metadata (fn group IWOPM) · SAP KBA 1923267 (save/commit contract)";
 const LV = "2026-07-14";
 
 // canonical write sequence for a PM notification
