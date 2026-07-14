@@ -7,12 +7,10 @@
     "gen:routes": "npx --yes tsx scripts/gen-route-manifest.mts",
     "check:routes": "node scripts/check-route-manifest.mjs",
     "crawl:deadlinks": "node scripts/crawl-dead-links.mjs",
-    "verify:export": "node scripts/check-route-manifest.mjs && node scripts/crawl-dead-links.mjs && npx --yes tsx scripts/check-bapi-trust.mts",
+    "verify:export": "node scripts/check-route-manifest.mjs && node scripts/crawl-dead-links.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "test:complexity": "npx --yes tsx scripts/test-complexity.mts",
-    "check:bapi": "npx --yes tsx scripts/check-bapi-trust.mts"
+    "lint": "eslint"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

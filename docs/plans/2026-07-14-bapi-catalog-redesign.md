@@ -1,5 +1,17 @@
 # BAPI / FM Catalog — UX, Clarity & Data-Trust Redesign
 
+> **CORRECTION (2026-07-14, post-approval):** initial recon was on the `feat/book5`
+> branch, which had an older simple catalog. `origin/main` already contains the
+> **Phase 15.1 canonical registry** (`lib/bapi-registry.ts` — `SapFuncObject` with
+> verificationStatus/source/lastVerified, requiresCommit, difficulty, stability,
+> invalid-name handling, aliases) + `FunctionCatalog` + `bapi-object-page`. That
+> registry is the single source of truth. **The generic parallel `CatalogObject`
+> model in §9 is SUPERSEDED and was removed.** All approved improvements (trust
+> transparency, computed complexity + reasons + learn-time, card redesign, detail
+> enhancements) are implemented by **extending the existing registry**, never a
+> second model. §2–§9 below are retained for the design intent; the data lives on
+> `SapFuncObject`.
+
 **Status:** Awaiting approval. No product code will be written until this plan is approved.
 **Date:** 2026-07-14 · **Author:** Sali Halif (Web Coding) · **Branch:** `bapi-catalog-redesign`
 **Scope guard:** PM / PP / PP-PI only. 100% offline. Design System v2. Hebrew RTL.
