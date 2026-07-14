@@ -6,6 +6,7 @@ import { ALL_TABLES, MODULES } from "@/data/sapData";
 import type { Module } from "@/lib/types";
 import { CDS_VIEWS } from "@/data/cds-map";
 import { DOMAINS } from "@/data/domains";
+import { INVALID_NAMES } from "@/data/function-trust";
 
 export type FuncKind = "BAPI" | "IDoc" | "FM";
 
@@ -57,10 +58,12 @@ export function funcIntel(name: string): FuncIntel | null {
   const he = owners.flatMap((t) => t.funcs).find((f) => cleanFunc(f[0]) === key)?.[1] || "";
   return { name: key, kind: classifyFunc(key), he, tables: owners.map(ref), modules: [...new Set(owners.map((t) => t.module))] };
 }
-// canonical clean func names (deduped), optionally by kind
+// canonical clean func names (deduped), optionally by kind.
+// Invalid names (Plan §2.5 — e.g. "Control Recipe", "BOMMAT", "PPCC1") are
+// excluded so no catalog card or detail route is generated for them.
 export function listFuncs(kind?: FuncKind): string[] {
   const s = new Set<string>();
-  ALL_TABLES.forEach((t) => (t.funcs || []).forEach((f) => { const c = cleanFunc(f[0]); if (c && (!kind || classifyFunc(c) === kind)) s.add(c); }));
+  ALL_TABLES.forEach((t) => (t.funcs || []).forEach((f) => { const c = cleanFunc(f[0]); if (c && !INVALID_NAMES.has(c) && (!kind || classifyFunc(c) === kind)) s.add(c); }));
   return [...s];
 }
 
