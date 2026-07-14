@@ -282,7 +282,7 @@ function Drawer({ o, expert, related, faved, pinned, learned, note, objects, onF
           <div className="mt-2 flex flex-wrap items-center gap-1.5">
             <button onClick={onFav} aria-pressed={faved} className="tap inline-flex items-center gap-1 rounded-md border border-hairline px-2 py-0.5 text-[11px] font-bold text-ink-2 hover:border-brand/40"><Star className={`size-3 ${faved ? "fill-amber-400 text-amber-400" : ""}`} /> {faved ? "במועדפים" : "מועדפים"}</button>
             <button onClick={onPin} aria-pressed={pinned} className={`tap inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-bold hover:border-brand/40 ${pinned ? "border-brand/40 bg-brand-soft text-brand" : "border-hairline text-ink-2"}`}><Pin className={`size-3 ${pinned ? "fill-brand" : ""}`} /> {pinned ? "נעוץ" : "נעץ"}</button>
-            <button onClick={onLearned} aria-pressed={learned} className={`tap inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-bold hover:border-emerald-300 ${learned ? "border-emerald-300 bg-emerald-50 text-emerald-700" : "border-hairline text-ink-2"}`}><GraduationCap className="size-3" /> {learned ? "נלמד ✓" : "סמן כנלמד"}</button>
+            <button onClick={onLearned} aria-pressed={learned} className={`tap inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-bold hover:border-emerald-300 ${learned ? "border-emerald-300 bg-emerald-50 text-emerald-700" : "border-hairline text-ink-2"}`}><GraduationCap className="size-3" /> {learned ? "נלמד" : "סמן כנלמד"}</button>
             <button onClick={copy} className="tap inline-flex items-center gap-1 rounded-md border border-hairline px-2 py-0.5 text-[11px] font-bold text-ink-2 hover:border-brand/40">{copied ? <Check className="size-3 text-emerald-600" /> : <Copy className="size-3" />} העתק שם</button>
           </div>
           {o.verificationStatus === "invalid-name" && <p className="mt-2 rounded-lg border border-brand/25 bg-brand-soft px-3 py-2 text-[12px] font-semibold text-brand"><AlertTriangle className="me-1 inline size-3.5" />שם זה אינו אובייקט SAP סטנדרטי. ראה חלופות בהמשך.</p>}
@@ -626,7 +626,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
               {favOnly ? "אין עדיין מועדפים" : pinOnly ? "אין אובייקטים נעוצים" : learn === "learned" ? "עוד לא סימנת אובייקטים כנלמדים" : "לא נמצאו אובייקטים תואמים"}
             </p>
             <p className="mx-auto mt-1 max-w-sm text-[12.5px] leading-relaxed text-ink-3">
-              {favOnly ? "לחץ על הכוכב בכל כרטיס כדי לאסוף אותו לרשימה שלך." : pinOnly ? "נעץ אובייקטים חשובים כדי שיצופו לראש כל קבוצה." : learn === "learned" ? "פתח אובייקט וסמן ‏‏‏‏«נלמד»‏ כדי לעקוב אחר ההתקדמות שלך." : "נסה מונח אחר, או נקה את הסינון כדי לראות את כל האוסף."}
+              {favOnly ? "לחץ על הכוכב בכל כרטיס כדי לאסוף אותו לרשימה שלך." : pinOnly ? "נעץ אובייקטים חשובים כדי שיצופו לראש כל קבוצה." : learn === "learned" ? "פתח אובייקט וסמן «נלמד» כדי לעקוב אחר ההתקדמות שלך." : "נסה מונח אחר, או נקה את הסינון כדי לראות את כל האוסף."}
             </p>
           </div>
           {anyFilter && <button onClick={resetFilters} className="tap inline-flex items-center gap-1.5 rounded-full border border-hairline bg-surface px-4 py-2 text-[12.5px] font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand"><RotateCcw className="size-3.5" /> נקה סינון</button>}
