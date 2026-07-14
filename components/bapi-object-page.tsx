@@ -33,7 +33,7 @@ const VERIF: Record<VerificationStatus, { he: string; cls: string; Icon: typeof 
   "deprecated": { he: "הוחלף / הוצא משימוש", cls: "bg-brand-soft text-brand border-brand/30", Icon: AlertTriangle, tone: "bad" },
 };
 const OP_HE: Record<string, string> = { Read: "קריאה", Create: "יצירה", Change: "שינוי", Delete: "מחיקה", Post: "רישום", Confirm: "דיווח", Mixed: "מעורב", Unknown: "—" };
-const DIFF_HE: Record<string, string> = { Beginner: "מתחיל", Intermediate: "בינוני", Advanced: "מתקדם", Expert: "מומחה" };
+const DIFF_HE: Record<string, string> = { Beginner: "בסיסי", Intermediate: "בינוני", Advanced: "מורכב", Expert: "מומחה" };
 const STAB_HE: Record<string, string> = { Released: "Released API", "SAP-Recommended": "מומלץ SAP", Internal: "פנימי", "Use-With-Caution": "בזהירות", Obsolete: "מיושן" };
 const CAT_HE: Record<string, string> = { Notification: "הודעות", Equipment: "ציוד", Execution: "פקודות עבודה", Confirmation: "דיווחי ביצוע", GoodsMovement: "תנועות סחורה", MasterData: "נתוני אב", Planning: "תכנון", TransactionControl: "בקרת LUW", BusinessAPI: "ממשק עסקי", General: "כללי", Reservation: "הזמנות", Batch: "אצוות", BOM: "עצי מוצר", Status: "סטטוס", Analytics: "אנליטיקה" };
 
