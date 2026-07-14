@@ -9,7 +9,7 @@ import { LIBRARY, LIBRARY_STATS, type LibBook } from "@/data/library";
 import { ACADEMY_BOOKS, ACADEMY_META, type AcademyBook } from "@/data/library/academy";
 import { useI18n } from "@/lib/i18n";
 import { playPing } from "@/lib/sound";
-import { BookCover, BookSpine, Shelf, moduleColor as mc, type CoverBook } from "@/components/book-cover";
+import { BookCover, moduleColor as mc, type CoverBook } from "@/components/book-cover";
 import { readContinuity, writeContinuity, type Continuity } from "@/lib/continuity-store";
 
 /* UI-only estimate (NOT SAP data): ~12 min per learning unit */
@@ -282,7 +282,7 @@ function BookPeek({ book, onOpen, onClose }: { book: LibBook; onOpen: (b: LibBoo
       <motion.div onClick={(e) => e.stopPropagation()}
         initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.94, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96 }} transition={{ duration: 0.26, ease: [0.2, 0, 0, 1] }}
         className="grid w-full max-w-lg gap-5 rounded-3xl border border-hairline bg-surface p-5 shadow-2xl sm:grid-cols-[150px_1fr] sm:p-6">
-        <div className="mx-auto w-32 sm:mx-0 sm:w-full"><BookCover book={asCover(book)} size="lg" /></div>
+        <motion.div layoutId={reduce ? undefined : `cover-${book.id}`} className="mx-auto w-32 sm:mx-0 sm:w-full"><BookCover book={asCover(book)} size="lg" /></motion.div>
         <div className="flex min-w-0 flex-col justify-center gap-2.5">
           <div className="flex items-center gap-2">
             <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{book.module}</span>
@@ -308,6 +308,30 @@ function BookPeek({ book, onOpen, onClose }: { book: LibBook; onOpen: (b: LibBoo
       </motion.div>
     </motion.div>
   );
+}
+
+/* ====== every book as a real face-out cover (§1) — one reusable card ====== */
+function BookCard({ book, reading, onOpen }: { book: LibBook; reading: boolean; onOpen: () => void }) {
+  const reduce = useReducedMotion();
+  const c = mc(book.module);
+  const hasReader = !!READER[book.id];
+  return (
+    <button data-book-id={book.id} onClick={onOpen} aria-label={`פתח ${book.titleHe}`} className="group relative flex flex-col text-start">
+      <motion.div layoutId={reduce ? undefined : `cover-${book.id}`} whileHover={reduce ? undefined : { y: -6 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} className={`relative ${reading ? "rounded-[10px] ring-2 ring-brand ring-offset-2 ring-offset-surface" : ""}`}>
+        <BookCover book={asCover(book)} size="md" />
+        {reading && <span className="absolute end-2 top-2 z-10 inline-flex items-center gap-1 rounded-full bg-brand px-2 py-0.5 text-[10px] font-extrabold text-white shadow-md"><BookOpen className="size-3" />בקריאה</span>}
+        {!hasReader && <span className="pointer-events-none absolute inset-x-2 bottom-2 rounded-md bg-slate-900/70 px-2 py-1 text-center text-[10px] font-bold text-white backdrop-blur-sm">בקרוב · טקסט מלא</span>}
+      </motion.div>
+      <span className="mt-2 line-clamp-2 text-[12.5px] font-bold leading-snug text-ink-1 transition group-hover:text-brand">{book.titleHe}</span>
+      <span className="mt-1 flex flex-wrap items-center gap-1.5 text-[10.5px] font-semibold text-ink-3">
+        <span className="rounded px-1.5 py-0.5 font-bold text-white" style={{ background: c }}>{book.module}</span>
+        <span>{book.pages} עמ׳ · {book.chapters.length} פרקים</span>
+      </span>
+    </button>
+  );
+}
+function BookGrid({ children }: { children: React.ReactNode }) {
+  return <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">{children}</div>;
 }
 
 export default function LibraryPage() {
@@ -429,19 +453,19 @@ export default function LibraryPage() {
                         <span className="text-[11px] font-semibold text-ink-3">· {books.length} ספרים</span>
                         <span className="h-px flex-1 bg-hairline" />
                       </div>
-                      <Shelf>
-                        {books.map((b) => <BookSpine key={b.id} id={b.id} active={recent[0]?.id === b.id} book={asCover(b)} onOpen={() => setPeek(b)} />)}
-                      </Shelf>
+                      <BookGrid>
+                        {books.map((b) => <BookCard key={b.id} book={b} reading={recent[0]?.id === b.id} onOpen={() => setPeek(b)} />)}
+                      </BookGrid>
                     </div>
                   );
                 })}
               </div>
             ) : (
               <div>
-                <p className="mb-1 text-[11px] font-semibold text-ink-3">{reference.length} ספרים תואמים</p>
-                <Shelf>
-                  {reference.map((b) => <BookSpine key={b.id} id={b.id} active={recent[0]?.id === b.id} book={asCover(b)} onOpen={() => setPeek(b)} />)}
-                </Shelf>
+                <p className="mb-2 text-[11px] font-semibold text-ink-3">{reference.length} ספרים תואמים</p>
+                <BookGrid>
+                  {reference.map((b) => <BookCard key={b.id} book={b} reading={recent[0]?.id === b.id} onOpen={() => setPeek(b)} />)}
+                </BookGrid>
               </div>
             )}
           </section>

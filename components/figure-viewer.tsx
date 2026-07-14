@@ -105,7 +105,9 @@ export function FigureViewer({ open, figs, index, onIndex, onClose }: { open: bo
         >
           {/* top bar */}
           <div className="flex items-center justify-between gap-2 px-4 py-3 text-white">
-            <span className="text-xs font-semibold tabular-nums" dir="ltr">Figure {index + 1} / {figs.length} · p.{fig.page}</span>
+            <span className="flex items-center gap-2 text-xs font-semibold tabular-nums" dir="ltr">Figure {index + 1} / {figs.length} · p.{fig.page}
+              {fig.w > 0 && fig.w < 600 && <span dir="rtl" className="rounded-full bg-amber-500/25 px-2 py-0.5 text-[10.5px] font-bold text-amber-200" title={`רזולוציית המקור מוגבלת (${fig.w}×${fig.h}) — מוצג בגודל טבעי, ללא מתיחה`}>מקור מוגבל · עמ׳ {fig.page}</span>}
+            </span>
             <div className="flex items-center gap-1.5">
               <button className={btn} onClick={() => zoomBy(-0.5)} disabled={scale <= 1} aria-label="הקטן"><ZoomOut className="size-4" /></button>
               <span className="w-10 text-center font-mono text-xs tabular-nums">{Math.round(scale * 100)}%</span>
@@ -132,7 +134,11 @@ export function FigureViewer({ open, figs, index, onIndex, onClose }: { open: bo
               <motion.img
                 layoutId={reduce ? undefined : `figimg-${fig.file}`}
                 src={fig.file} alt={`SAP figure p.${fig.page}`} draggable={false}
+                width={fig.w || undefined} height={fig.h || undefined}
                 className="max-h-[calc(100vh-8rem)] max-w-full rounded-lg bg-white object-contain shadow-2xl"
+                /* §10 — never upscale beyond the source's natural pixels: a low-res
+                   figure shows crisp at its true size in a neutral frame, not stretched. */
+                style={{ maxWidth: fig.w ? `min(100%, ${fig.w}px)` : undefined, maxHeight: fig.h ? `min(calc(100vh - 8rem), ${fig.h}px)` : undefined }}
                 transition={reduce ? { duration: 0.15 } : SPRING_MORPH}
               />
             </div>

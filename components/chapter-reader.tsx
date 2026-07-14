@@ -48,7 +48,10 @@ function InlineFigure({ fig, n, label, confident, onOpen }: { fig: ChapterFigure
   const reduce = useReducedMotion();
   const [loaded, setLoaded] = useState(false);
   return (
-    <figure id={`fig-${n}`} data-figure={label} data-confident={confident ? "1" : "0"} className="reader-figure mx-auto my-6 w-full max-w-2xl">
+    <figure id={`fig-${n}`} data-figure={label} data-confident={confident ? "1" : "0"} data-lowres={fig.w > 0 && fig.w < 600 ? "1" : "0"} className="reader-figure mx-auto my-6 w-full max-w-2xl"
+      /* §10 — never upscale beyond the source's natural width: low-res figures render
+         crisp at true size, not stretched to the column width. */
+      style={{ maxWidth: fig.w ? `min(42rem, ${fig.w}px)` : undefined }}>
       <button onClick={onOpen} aria-label={`הגדל ${label}`} className="group relative block w-full overflow-hidden rounded-xl border border-border/60 bg-white shadow-sm transition-shadow duration-200 hover:shadow-md" style={{ aspectRatio: `${fig.w} / ${fig.h}` }}>
         {/* skeleton — reserved by aspect-ratio (zero CLS), fades out on decode */}
         {!loaded && <span className="neo-skel absolute inset-0 rounded-xl" aria-hidden />}
@@ -64,8 +67,9 @@ function InlineFigure({ fig, n, label, confident, onOpen }: { fig: ChapterFigure
           <span className="grid size-9 place-items-center rounded-full bg-white/90 text-ink-2 shadow-lg"><ZoomIn className="size-4" /></span>
         </span>
       </button>
-      <figcaption className="mt-2 flex items-center justify-between gap-2 px-1 text-[11px] text-muted-foreground">
+      <figcaption className="mt-2 flex flex-wrap items-center justify-between gap-x-2 gap-y-1 px-1 text-[11px] text-muted-foreground">
         <span className="font-bold text-ink-2">{label}</span>
+        {fig.w > 0 && fig.w < 600 && <span className="rounded-full bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold text-amber-700" title={`רזולוציית המקור מוגבלת (${fig.w}×${fig.h})`}>מקור ברזולוציה מוגבלת</span>}
         <span dir="ltr" className="text-ink-3">Source p.{fig.page}</span>
         <a href={fig.file} download onClick={(e) => e.stopPropagation()} className="flex items-center gap-1 rounded px-1.5 py-0.5 font-semibold text-brand transition-colors hover:bg-brand-soft"><Download className="size-3" /> הורד</a>
       </figcaption>
@@ -76,7 +80,11 @@ function InlineFigure({ fig, n, label, confident, onOpen }: { fig: ChapterFigure
 export function ChapterReader({ ch, figures = [], onOpenFigure, diagram }: { ch: ReaderChapterData; figures?: ChapterFigure[]; onOpenFigure?: (figs: ChapterFigure[], i: number) => void; diagram?: React.ReactNode }) {
   const reduce = useReducedMotion();
   const pageMode = usePageMode();
-  const [open, setOpen] = useState(ch.n === 1);
+  // Continuous reading (§3 Mode A): chapters render EXPANDED by default so the
+  // whole book is a real vertical scroll — every section's [data-section] anchor
+  // is in the DOM, which is what powers reliable chapter scroll-spy (§6) and the
+  // "בעמוד זה" section rail for EVERY chapter (§7). The header still toggles collapse.
+  const [open, setOpen] = useState(true);
   const shown = pageMode || open;
   useEffect(() => {
     const openIfHash = () => {
@@ -88,7 +96,10 @@ export function ChapterReader({ ch, figures = [], onOpenFigure, diagram }: { ch:
     };
     openIfHash();
     window.addEventListener("hashchange", openIfHash);
-    return () => window.removeEventListener("hashchange", openIfHash);
+    // explicit jump (chapter selector / "בעמוד זה") always expands the target
+    const onGoto = (e: Event) => { if (Number((e as CustomEvent).detail) === ch.n) setOpen(true); };
+    window.addEventListener("neo:reader:goto", onGoto);
+    return () => { window.removeEventListener("hashchange", openIfHash); window.removeEventListener("neo:reader:goto", onGoto); };
   }, [ch.n, ch.sections, figures.length]);
 
   const ordered = [...figures].sort((a, b) => a.page - b.page);

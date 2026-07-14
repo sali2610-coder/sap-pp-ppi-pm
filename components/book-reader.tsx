@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
-import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDown, ListTree, X, PlayCircle, StickyNote, Clock, FileText, Languages, Layers3, ArrowLeft, Sparkles, CheckCircle2, Maximize2, Minimize2, Home, Library, AlignLeft, Settings2, StretchHorizontal, RotateCcw, HelpCircle, AlertTriangle } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDown, ListTree, X, PlayCircle, StickyNote, Clock, FileText, Languages, Layers3, ArrowLeft, Sparkles, CheckCircle2, Maximize2, Minimize2, Home, Library, AlignLeft, Settings2, RotateCcw, HelpCircle, AlertTriangle } from "lucide-react";
 import { useReader } from "@/lib/reader-store";
 import { LIBRARY } from "@/data/library";
 import { writeContinuity, readContinuity, resolveReaderView, saveReaderView, clearContinuityFor, type ReaderView } from "@/lib/continuity-store";
@@ -30,9 +30,13 @@ function flash(el: HTMLElement | null | undefined) {
   el.classList.add("neo-flash");
   window.setTimeout(() => el.classList.remove("neo-flash"), 1400);
 }
+// Explicit chapter navigation (selector / "בעמוד זה" / resume). Routed through a
+// single event so the reader can (a) expand the target chapter, (b) set it active,
+// (c) suppress scroll-spy briefly so the smooth-scroll doesn't leave the highlight
+// on an intermediate chapter — the root of the "select 5 → shows 6" bug (§6).
 function jump(n: number) {
-  const el = document.querySelector<HTMLElement>(`[data-chapter="${n}"]`);
-  if (el) { history.replaceState(null, "", `#ch-${n}`); el.scrollIntoView({ behavior: "smooth", block: "start" }); flash(el); }
+  if (!n) return;
+  window.dispatchEvent(new CustomEvent("neo:reader:goto", { detail: n }));
 }
 function scrollToId(id: string) {
   const el = document.getElementById(id);
@@ -40,88 +44,101 @@ function scrollToId(id: string) {
 }
 
 type RTheme = "original" | "sepia" | "night";
-type RSize = "sm" | "md" | "lg";
+type RSize = "sm" | "md" | "lg" | "xl";
+type RMeasure = "narrow" | "normal" | "wide";
 
 /* Reader display settings — theme / type-size / measure. Scoped to the reading
    pane only (never a global dark mode). Reused in the landing CTA + focus bar. */
-function ReaderSettings({ view, setView, mode, setMode, theme, setTheme, size, setSize, wide, toggleWide, accent, onReset }: { view: ReaderView; setView: (v: ReaderView) => void; mode: "scroll" | "page"; setMode: (m: "scroll" | "page") => void; theme: RTheme; setTheme: (t: RTheme) => void; size: RSize; setSize: (s: RSize) => void; wide: boolean; toggleWide: () => void; accent: string; onReset: () => void }) {
+function RsOpt({ on, onClick, title, sub, accent }: { on: boolean; onClick: () => void; title: string; sub?: string; accent: string }) {
+  return (
+    <button onClick={onClick} role="radio" aria-checked={on} className="tap min-h-[44px] rounded-xl border-2 px-2.5 py-2 text-start transition" style={{ borderColor: on ? accent : "var(--hairline)", background: on ? accent + "0f" : "transparent" }}>
+      <span className="flex items-center justify-between gap-1"><span className="text-[12.5px] font-extrabold text-ink-1">{title}</span>{on && <Check className="size-3.5 shrink-0" style={{ color: accent }} />}</span>
+      {sub && <span className="mt-0.5 block text-[10px] font-semibold leading-snug text-ink-3">{sub}</span>}
+    </button>
+  );
+}
+function RsGroup({ label, children }: { label: string; children: React.ReactNode }) {
+  return <div className="mt-3.5 first:mt-0"><div className="eyebrow-2 mb-1.5 text-ink-3">{label}</div>{children}</div>;
+}
+function ReaderSettings({ view, setView, mode, setMode, theme, setTheme, size, setSize, measure, setMeasure, accent, onReset }: { view: ReaderView; setView: (v: ReaderView) => void; mode: "scroll" | "page"; setMode: (m: "scroll" | "page") => void; theme: RTheme; setTheme: (t: RTheme) => void; size: RSize; setSize: (s: RSize) => void; measure: RMeasure; setMeasure: (m: RMeasure) => void; accent: string; onReset: () => void }) {
   const [open, setOpen] = useState(false);
-  // overlay a11y — Esc closes; lock background scroll while the mobile sheet is up
+  const panelRef = useRef<HTMLDivElement>(null);
+  // a11y — Esc closes, lock background scroll, focus the panel. Rendered FIXED (not
+  // absolute) so it can never be clipped by sticky headers / sidebars / overflow
+  // containers / Focus-Mode layers (§9): bottom sheet on mobile, side panel on desktop.
   useEffect(() => {
     if (!open) return;
-    const mobile = typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches;
     const prev = document.body.style.overflow;
-    if (mobile) document.body.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    panelRef.current?.focus();
     const h = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
     window.addEventListener("keydown", h);
     return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", h); };
   }, [open]);
-  const themes: [RTheme, string, string, string][] = [["original", "מקור", "#ffffff", "#0b0c0e"], ["sepia", "ספיה", "#f6efe1", "#2b2620"], ["night", "לילה", "#14181f", "#e8ecf1"]];
-  const sizes: [RSize, number][] = [["sm", 12], ["md", 15], ["lg", 19]];
-  const views: [ReaderView, string, string][] = [["hebrew", "עברית", "טור קריאה יחיד"], ["bilingual", "דו-לשוני", "אנגלית ‖ עברית"]];
+  const themes: [RTheme, string, string, string, string][] = [["original", "בהיר", "#ffffff", "#0b0c0e", "מקור לבן"], ["sepia", "ספיה", "#f6efe1", "#2b2620", "נייר חם"], ["night", "לילה", "#14181f", "#e8ecf1", "רקע כהה"]];
+  const sizes: [RSize, string, number][] = [["sm", "קטן", 12], ["md", "רגיל", 15], ["lg", "גדול", 18], ["xl", "גדול מאוד", 22]];
+  const measures: [RMeasure, string, string][] = [["narrow", "צר", "טור צר וממוקד"], ["normal", "נוח", "מידה מומלצת"], ["wide", "רחב", "לטבלאות ותרשימים"]];
+  const views: [ReaderView, string, string][] = [["hebrew", "עברית בלבד", "קריאה נוחה בטור אחד"], ["bilingual", "עברית ואנגלית", "מקור ותרגום זה לצד זה"]];
+  const modes: ["scroll" | "page", string, string][] = [["scroll", "גלילה רציפה", "טקסט אחד ארוך"], ["page", "דפדוף בספר", "מעבר בין עמודים במקום גלילה"]];
   return (
-    <div className="relative">
-      <button onClick={() => setOpen((o) => !o)} aria-expanded={open} className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><Settings2 className="size-4" /> תצוגת קריאה</button>
-      {open && (
-        <>
-          <button className="fixed inset-0 z-[60] cursor-default bg-slate-900/30 backdrop-blur-sm sm:z-40 sm:bg-transparent sm:backdrop-blur-0" aria-label="סגור" onClick={() => setOpen(false)} />
-          {/* bottom sheet on mobile (above the global tab bar) · anchored dropdown on sm+ */}
-          <div role="dialog" aria-label="תצוגת קריאה" className="fixed inset-x-0 bottom-0 z-[61] max-h-[85dvh] overflow-y-auto rounded-t-[1.5rem] border-t border-hairline bg-surface p-4 pb-[max(env(safe-area-inset-bottom),1rem)] text-ink-1 shadow-2xl sm:absolute sm:inset-x-auto sm:bottom-auto sm:end-0 sm:mt-2 sm:max-h-none sm:w-64 sm:rounded-2xl sm:border sm:p-3 sm:pb-3 sm:shadow-xl">
-            <div className="mx-auto mb-3 h-1.5 w-11 rounded-full bg-hairline sm:hidden" />
-            <div className="eyebrow mb-1.5 text-ink-3">מצב קריאה</div>
-            <div className="grid grid-cols-2 gap-1.5">
-              {views.map(([k, label, sub]) => (
-                <button key={k} onClick={() => setView(k)} className="rounded-xl border-2 px-2 py-1.5 text-start transition" style={{ borderColor: view === k ? accent : "var(--hairline)" }}>
-                  <span className="block text-[12px] font-extrabold text-ink-1">{label}</span>
-                  <span className="block text-[9.5px] font-semibold text-ink-3">{sub}</span>
+    <>
+      <button onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-haspopup="dialog" title="בחר שפה, מצב דפדוף, ערכת צבעים וגודל טקסט" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><Settings2 className="size-4" /> תצוגת קריאה</button>
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.button className="fixed inset-0 z-[70] cursor-default bg-slate-900/40 backdrop-blur-sm" aria-label="סגור" onClick={() => setOpen(false)} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} />
+            <motion.div ref={panelRef} tabIndex={-1} role="dialog" aria-modal="true" aria-label="תצוגת קריאה" dir="rtl"
+              className="fixed inset-x-0 bottom-0 z-[71] flex max-h-[88dvh] flex-col rounded-t-[1.5rem] border-t border-hairline bg-surface text-ink-1 shadow-2xl outline-none sm:inset-y-0 sm:bottom-auto sm:end-0 sm:start-auto sm:max-h-none sm:w-[22rem] sm:max-w-[92vw] sm:rounded-none sm:border-s sm:border-t-0"
+              initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }} transition={{ type: "spring", stiffness: 360, damping: 38 }}>
+              <div className="flex shrink-0 items-center justify-between border-b border-hairline px-4 py-3">
+                <div className="mx-auto mt-1 h-1.5 w-11 rounded-full bg-hairline sm:hidden" />
+                <span className="hidden text-[15px] font-extrabold text-ink-1 sm:block">תצוגת קריאה</span>
+                <button onClick={() => setOpen(false)} aria-label="סגור" className="tap hidden size-8 place-items-center rounded-lg text-ink-3 hover:bg-surface-2 sm:grid"><X className="size-4.5" /></button>
+              </div>
+              <div className="min-h-0 flex-1 overflow-y-auto p-4 pb-[max(env(safe-area-inset-bottom),1rem)]">
+                <RsGroup label="שפת קריאה"><div className="grid grid-cols-2 gap-1.5" role="radiogroup">{views.map(([k, t, s]) => <RsOpt key={k} on={view === k} onClick={() => setView(k)} title={t} sub={s} accent={accent} />)}</div></RsGroup>
+                <RsGroup label="אופן מעבר"><div className="grid grid-cols-2 gap-1.5" role="radiogroup">{modes.map(([k, t, s]) => <RsOpt key={k} on={mode === k} onClick={() => setMode(k)} title={t} sub={s} accent={accent} />)}</div></RsGroup>
+                <RsGroup label="ערכת נושא">
+                  <div className="grid grid-cols-3 gap-1.5" role="radiogroup">
+                    {themes.map(([k, label, bg, fg, sub]) => (
+                      <button key={k} onClick={() => setTheme(k)} role="radio" aria-checked={theme === k} title={sub} className="tap flex flex-col items-center gap-1 rounded-xl border-2 p-1.5 text-[11px] font-bold transition" style={{ borderColor: theme === k ? accent : "var(--hairline)" }}>
+                        <span className="grid h-8 w-full place-items-center rounded-md text-[12px] font-black" style={{ background: bg, color: fg }}>Aa</span>{label}
+                      </button>
+                    ))}
+                  </div>
+                </RsGroup>
+                <RsGroup label="גודל טקסט">
+                  <div className="grid grid-cols-4 gap-1.5" role="radiogroup">
+                    {sizes.map(([k, label, fs]) => (
+                      <button key={k} onClick={() => setSize(k)} role="radio" aria-checked={size === k} title={label} className="tap flex flex-col items-center justify-end gap-0.5 rounded-xl border-2 py-1.5 transition" style={{ borderColor: size === k ? accent : "var(--hairline)", color: size === k ? accent : "var(--ink-2)" }}>
+                        <span className="font-black leading-none" style={{ fontSize: `${fs}px` }}>A</span>
+                        <span className="text-[8.5px] font-bold text-ink-3">{label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </RsGroup>
+                <RsGroup label="רוחב עמוד"><div className="grid grid-cols-3 gap-1.5" role="radiogroup">{measures.map(([k, t, s]) => <RsOpt key={k} on={measure === k} onClick={() => setMeasure(k)} title={t} sub={s} accent={accent} />)}</div></RsGroup>
+                <button onClick={() => { setOpen(false); onReset(); }} title="נקה פרק, מיקום וגלילה עבור ספר זה" className="tap mt-5 flex w-full items-center justify-center gap-1.5 rounded-xl border border-hairline px-3 py-2.5 text-[12px] font-bold text-ink-3 transition hover:border-brand/40 hover:text-brand">
+                  <RotateCcw className="size-3.5" /> אפס התקדמות קריאה
                 </button>
-              ))}
-            </div>
-            <div className="eyebrow mb-1.5 mt-3 text-ink-3">אופן מעבר</div>
-            <div className="grid grid-cols-2 gap-1.5">
-              {([["scroll", "גלילה", "טקסט רציף"], ["page", "עמודים", "דפדוף כמו ספר"]] as const).map(([k, label, sub]) => (
-                <button key={k} onClick={() => setMode(k)} className="rounded-xl border-2 px-2 py-1.5 text-start transition" style={{ borderColor: mode === k ? accent : "var(--hairline)" }}>
-                  <span className="block text-[12px] font-extrabold text-ink-1">{label}</span>
-                  <span className="block text-[9.5px] font-semibold text-ink-3">{sub}</span>
-                </button>
-              ))}
-            </div>
-            <div className="eyebrow mb-1.5 mt-3 text-ink-3">ערכת נושא</div>
-            <div className="grid grid-cols-3 gap-1.5">
-              {themes.map(([k, label, bg, fg]) => (
-                <button key={k} onClick={() => setTheme(k)} className="flex flex-col items-center gap-1 rounded-xl border-2 p-1.5 text-[11px] font-bold transition" style={{ borderColor: theme === k ? accent : "var(--hairline)" }}>
-                  <span className="grid h-7 w-full place-items-center rounded-md text-[11px] font-black" style={{ background: bg, color: fg }}>Aa</span>
-                  {label}
-                </button>
-              ))}
-            </div>
-            <div className="eyebrow mb-1.5 mt-3 text-ink-3">גודל טקסט</div>
-            <div className="flex items-stretch gap-1.5">
-              {sizes.map(([k, fs]) => (
-                <button key={k} onClick={() => setSize(k)} className="flex-1 rounded-xl border py-1.5 font-black leading-none transition" style={{ borderColor: size === k ? accent : "var(--hairline)", color: size === k ? accent : "var(--ink-2)", fontSize: `${fs}px` }}>A</button>
-              ))}
-            </div>
-            <button onClick={toggleWide} role="switch" aria-checked={wide} aria-label="רוחב קריאה מלא" title="הרחב את טור הקריאה לטבלאות ותרשימים גדולים" className="mt-3 flex w-full items-center justify-between rounded-xl border border-hairline px-3 py-2 text-xs font-bold text-ink-2 transition hover:border-brand/40">
-              <span className="flex items-center gap-1.5"><StretchHorizontal className="size-3.5" /> רוחב מלא</span>
-              <span className="relative h-4 w-7 rounded-full transition-colors" style={{ background: wide ? accent : "var(--surface-2)" }}><span className="absolute top-0.5 size-3 rounded-full bg-white shadow transition-all" style={{ insetInlineStart: wide ? "0.125rem" : "auto", insetInlineEnd: wide ? "auto" : "0.125rem" }} /></span>
-            </button>
-            {/* reset — deliberately quiet, at the foot of the menu */}
-            <button onClick={() => { setOpen(false); onReset(); }} title="נקה פרק, מיקום וגלילה עבור ספר זה" className="mt-3 flex w-full items-center gap-1.5 rounded-xl px-3 py-2 text-[11px] font-bold text-ink-3 transition hover:bg-surface-2 hover:text-brand">
-              <RotateCcw className="size-3.5" /> אפס התקדמות קריאה
-            </button>
-          </div>
-        </>
-      )}
-    </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
-/* Draggable reader position rail — a real scrollbar, docked to the RTL outer
-   (right) gutter on large screens; reflects position + viewport proportion.
-   Native scroll/keyboard untouched; hidden on mobile (top rail is the indicator). */
-function ReaderScrollRail({ accent, hidden }: { accent: string; hidden: boolean }) {
+/* §5 Digital Progress Rail — a premium reading scrubber docked to the RTL leading
+   (right) gutter on wide screens. Shows book %, chapter boundaries, the current
+   chapter segment, saved bookmarks, a draggable thumb, hover chapter labels, and
+   estimated reading time remaining. Native scroll/keyboard untouched. */
+function DigitalProgressRail({ accent, hidden, chapters, bm, active, activeSec, secs, totalMin }: { accent: string; hidden: boolean; chapters: ReaderChapter[]; bm: number[]; active: number; activeSec: string; secs: { id: string; title: string; chapter: number }[]; totalMin: number | null }) {
   const [prog, setProg] = useState(0);
-  const [thumb, setThumb] = useState(0.15);
+  const [thumb, setThumb] = useState(0.12);
+  const [marks, setMarks] = useState<{ n: number; pos: number; title: string }[]>([]);
+  const [hoverY, setHoverY] = useState<number | null>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
   useEffect(() => {
@@ -130,12 +147,18 @@ function ReaderScrollRail({ accent, hidden }: { accent: string; hidden: boolean 
       const max = doc.scrollHeight - window.innerHeight;
       setProg(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
       setThumb(Math.min(1, window.innerHeight / Math.max(1, doc.scrollHeight)));
+      const total = doc.scrollHeight || 1;
+      setMarks(Array.from(document.querySelectorAll<HTMLElement>("[data-chapter]")).map((el) => {
+        const n = Number(el.dataset.chapter); const ch = chapters.find((c) => c.n === n);
+        return { n, pos: Math.min(1, el.offsetTop / total), title: ch?.title || `פרק ${n}` };
+      }));
     };
     upd();
     window.addEventListener("scroll", upd, { passive: true });
     window.addEventListener("resize", upd);
-    return () => { window.removeEventListener("scroll", upd); window.removeEventListener("resize", upd); };
-  }, []);
+    const t = window.setTimeout(upd, 600);
+    return () => { window.removeEventListener("scroll", upd); window.removeEventListener("resize", upd); window.clearTimeout(t); };
+  }, [chapters]);
   const seek = useCallback((clientY: number) => {
     const t = trackRef.current; if (!t) return;
     const r = t.getBoundingClientRect();
@@ -144,15 +167,49 @@ function ReaderScrollRail({ accent, hidden }: { accent: string; hidden: boolean 
     window.scrollTo({ top: ratio * max });
   }, []);
   const onDown = (e: React.PointerEvent) => { dragging.current = true; (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); seek(e.clientY); };
-  const onMove = (e: React.PointerEvent) => { if (dragging.current) seek(e.clientY); };
+  const onMove = (e: React.PointerEvent) => { const t = trackRef.current; if (t) { const r = t.getBoundingClientRect(); setHoverY(Math.min(1, Math.max(0, (e.clientY - r.top) / r.height))); } if (dragging.current) seek(e.clientY); };
   const onUp = () => { dragging.current = false; };
   if (hidden) return null;
+  const curCh = chapters.find((c) => c.n === active);
+  const curIdx = chapters.findIndex((c) => c.n === active);
+  const curSec = secs.find((s) => s.id === activeSec);
+  const minsLeft = totalMin ? Math.max(1, Math.round(totalMin * (1 - prog))) : null;
+  const pct = Math.round(prog * 100);
+  // chapter title at the hovered position
+  const hoverCh = hoverY == null ? null : [...marks].reverse().find((m) => m.pos <= hoverY + 0.001) || marks[0];
   return (
-    <div className="fixed inset-y-0 z-40 hidden xl:flex" style={{ insetInlineStart: 4 }} aria-hidden>
-      <div ref={trackRef} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}
-        className="group my-24 flex w-3 cursor-pointer touch-none justify-center" role="scrollbar" aria-label="מיקום קריאה" aria-valuenow={Math.round(prog * 100)}>
-        <div className="relative h-full w-1 rounded-full bg-hairline transition-all group-hover:w-1.5">
-          <div className="absolute inset-x-0 mx-auto rounded-full transition-[width] group-hover:w-1.5" style={{ top: `${prog * (1 - thumb) * 100}%`, height: `${Math.max(6, thumb * 100)}%`, minHeight: 28, width: "100%", background: accent }} />
+    <div className="fixed inset-y-0 z-40 hidden lg:block" style={{ insetInlineEnd: 6 }}>
+      <div ref={trackRef} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp} onPointerLeave={() => setHoverY(null)}
+        className="group relative my-24 h-[calc(100%-12rem)] w-4 cursor-pointer touch-none"
+        role="slider" aria-label="מיקום קריאה בספר" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-valuetext={`${pct}% · ${curCh ? `${curCh.n}. ${curCh.title}` : ""}${minsLeft ? ` · כ-${minsLeft} דקות נותרו` : ""}`} tabIndex={0}
+        onKeyDown={(e) => { const max = document.documentElement.scrollHeight - window.innerHeight; if (e.key === "ArrowDown" || e.key === "PageDown") { e.preventDefault(); window.scrollBy({ top: e.key === "PageDown" ? window.innerHeight * 0.9 : max * 0.02 }); } else if (e.key === "ArrowUp" || e.key === "PageUp") { e.preventDefault(); window.scrollBy({ top: -(e.key === "PageUp" ? window.innerHeight * 0.9 : max * 0.02) }); } }}>
+        {/* track */}
+        <div className="absolute inset-y-0 start-1/2 w-1 -translate-x-1/2 rounded-full bg-hairline transition-all group-hover:w-1.5 rtl:translate-x-1/2">
+          {/* fill to current position */}
+          <div className="absolute inset-x-0 top-0 rounded-full" style={{ height: `${prog * 100}%`, background: `${accent}b3` }} />
+          {/* chapter boundary ticks */}
+          {marks.map((m) => (
+            <span key={m.n} className="absolute -inset-x-1 h-[2px] rounded-full" style={{ top: `${m.pos * 100}%`, background: m.n === active ? accent : "var(--ink-3)", opacity: m.n === active ? 1 : 0.4 }} />
+          ))}
+          {/* bookmark flags */}
+          {bm.map((n) => { const m = marks.find((x) => x.n === n); if (!m) return null; return <Bookmark key={"bm" + n} className="absolute size-2.5 -translate-y-1/2 fill-amber-400 text-amber-500" style={{ top: `${m.pos * 100}%`, insetInlineStart: "-0.55rem" }} />; })}
+          {/* draggable thumb */}
+          <div className="absolute size-3 -translate-x-1/2 rounded-full border-2 border-white shadow-md rtl:translate-x-1/2" style={{ top: `${prog * 100}%`, insetInlineStart: "50%", marginTop: "-6px", background: accent }} />
+        </div>
+        {/* hover chapter label */}
+        {hoverCh && (
+          <div className="pointer-events-none absolute whitespace-nowrap rounded-lg bg-ink-1 px-2 py-1 text-[10.5px] font-bold text-white shadow-lg" style={{ top: `${(hoverY || 0) * 100}%`, insetInlineEnd: "1.4rem", transform: "translateY(-50%)" }}>
+            {hoverCh.n}. {hoverCh.title}
+          </div>
+        )}
+        {/* persistent position card near the thumb (on hover) */}
+        <div className="pointer-events-none absolute opacity-0 transition-opacity group-hover:opacity-100" style={{ top: `${prog * 100}%`, insetInlineEnd: "1.4rem", transform: "translateY(-50%)" }}>
+          <div className="rounded-xl border border-hairline bg-surface px-3 py-2 shadow-xl">
+            <div className="font-mono text-sm font-black" style={{ color: accent }}>{pct}%</div>
+            {curCh && <div className="mt-0.5 whitespace-nowrap text-[11px] font-bold text-ink-1">פרק {curIdx + 1} מתוך {chapters.length}</div>}
+            {curSec && <div className="max-w-[13rem] truncate text-[10.5px] font-semibold text-ink-3">{curSec.title}</div>}
+            {minsLeft && <div className="mt-0.5 flex items-center gap-1 text-[10.5px] font-bold text-ink-3"><Clock className="size-3" />כ-{minsLeft} דקות נותרו</div>}
+          </div>
         </div>
       </div>
     </div>
@@ -170,6 +227,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   const [hintSeen, setHintSeen] = useState(true);
   const [notes, setNotes] = useState("");
   const [notesOpen, setNotesOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [focus, setFocus] = useState(false);
   const [prog, setProg] = useState(0);
   const mainRef = useRef<HTMLDivElement>(null);
@@ -178,23 +236,43 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   const [activeSec, setActiveSec] = useState<string>("");
   const activeRef = useRef(active);
   const activeSecRef = useRef(activeSec);
+  const spySuppressRef = useRef(0); // timestamp until which chapter scroll-spy is suppressed after an explicit jump
   useEffect(() => { activeRef.current = active; }, [active]);
   useEffect(() => { activeSecRef.current = activeSec; }, [activeSec]);
+
+  // handle explicit chapter jumps (§6 fix): set active immediately, expand target
+  // (ChapterReader also listens), suppress scroll-spy, then smooth-scroll to it.
+  useEffect(() => {
+    const onGoto = (e: Event) => {
+      const n = Number((e as CustomEvent).detail);
+      if (!n) return;
+      setActive(n);
+      spySuppressRef.current = Date.now() + 1000;
+      history.replaceState(null, "", `#ch-${n}`);
+      window.setTimeout(() => {
+        const el = document.querySelector<HTMLElement>(`[data-chapter="${n}"]`);
+        if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); flash(el); }
+      }, 90);
+    };
+    window.addEventListener("neo:reader:goto", onGoto);
+    return () => window.removeEventListener("neo:reader:goto", onGoto);
+  }, []);
 
   // reader display prefs (theme / type-size / measure) — scoped to the pane
   const [rtheme, setRtheme] = useState<RTheme>("original");
   const [rsize, setRsize] = useState<RSize>("md");
-  const [rwide, setRwide] = useState(false);
+  const [rmeasure, setRmeasure] = useState<RMeasure>("normal");
   useEffect(() => {
     try {
       const t = localStorage.getItem("neo:reader:theme"); if (t === "sepia" || t === "night" || t === "original") setRtheme(t);
-      const s = localStorage.getItem("neo:reader:size"); if (s === "sm" || s === "lg" || s === "md") setRsize(s);
-      setRwide(localStorage.getItem("neo:reader:wide") === "1");
+      const s = localStorage.getItem("neo:reader:size"); if (s === "sm" || s === "lg" || s === "md" || s === "xl") setRsize(s);
+      const m = localStorage.getItem("neo:reader:measure"); if (m === "narrow" || m === "normal" || m === "wide") setRmeasure(m);
+      else if (localStorage.getItem("neo:reader:wide") === "1") setRmeasure("wide"); // migrate old boolean
     } catch { /* noop */ }
   }, []);
   const saveTheme = useCallback((t: RTheme) => { setRtheme(t); try { localStorage.setItem("neo:reader:theme", t); } catch { /* noop */ } }, []);
   const saveSize = useCallback((s: RSize) => { setRsize(s); try { localStorage.setItem("neo:reader:size", s); } catch { /* noop */ } }, []);
-  const toggleWide = useCallback(() => setRwide((v) => { const n = !v; try { localStorage.setItem("neo:reader:wide", n ? "1" : "0"); } catch { /* noop */ } return n; }), []);
+  const saveMeasure = useCallback((m: RMeasure) => { setRmeasure(m); try { localStorage.setItem("neo:reader:measure", m); } catch { /* noop */ } }, []);
   // reading view — device-adaptive default (desktop→bilingual, mobile→hebrew), remembered
   const [rview, setRview] = useState<ReaderView>("bilingual");
   useEffect(() => { setRview(resolveReaderView()); }, []);
@@ -204,6 +282,18 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   useEffect(() => { try { const m = localStorage.getItem("neo:reader:mode"); if (m === "page" || m === "scroll") setRmode(m); } catch { /* noop */ } }, []);
   const saveMode = useCallback((m: "scroll" | "page") => { setRmode(m); try { localStorage.setItem("neo:reader:mode", m); } catch { /* noop */ } }, []);
   const pageMode = rmode === "page";
+  // §3 — preserve reading location across a reading-mode switch (scroll ⇄ page).
+  const prevModeRef = useRef<"scroll" | "page">(rmode);
+  useEffect(() => {
+    if (prevModeRef.current === rmode) return;
+    prevModeRef.current = rmode;
+    const id = activeSecRef.current;
+    if (!id) return;
+    window.setTimeout(() => {
+      if (rmode === "page") window.dispatchEvent(new CustomEvent("neo:reader:restore-section", { detail: id }));
+      else { const el = document.getElementById(id); if (el) el.scrollIntoView({ block: "start" }); }
+    }, 640);
+  }, [rmode]);
 
   useEffect(() => { try { setNotes(localStorage.getItem(`neo:reader:notes:${bookId}`) || ""); } catch { /* noop */ } }, [bookId]);
   useEffect(() => { try { setFocus(localStorage.getItem("neo:reader:focus") === "1"); } catch { /* noop */ } }, []);
@@ -232,13 +322,13 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
 
   // overlay a11y — Esc closes the help / reset dialogs + lock background scroll
   useEffect(() => {
-    if (!helpOpen && !confirmReset) return;
+    if (!helpOpen && !confirmReset && !searchOpen && !notesOpen) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const h = (e: KeyboardEvent) => { if (e.key === "Escape") { setHelpOpen(false); setConfirmReset(false); } };
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") { setHelpOpen(false); setConfirmReset(false); setSearchOpen(false); setNotesOpen(false); } };
     window.addEventListener("keydown", h);
     return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", h); };
-  }, [helpOpen, confirmReset]);
+  }, [helpOpen, confirmReset, searchOpen, notesOpen]);
 
   // keyboard shortcuts — F focus · C contents · ? help (ignored while typing)
   useEffect(() => {
@@ -369,6 +459,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
     const els = Array.from(document.querySelectorAll<HTMLElement>("[data-chapter]"));
     if (!els.length) return;
     const io = new IntersectionObserver((entries) => {
+      if (Date.now() < spySuppressRef.current) return; // an explicit jump is in progress — don't override the highlight
       const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
       if (vis) {
         const n = Number((vis.target as HTMLElement).dataset.chapter);
@@ -402,7 +493,9 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         <div className="h-full origin-right transition-transform duration-150 ease-out" style={{ transform: `scaleX(${prog / 100})`, background: `linear-gradient(90deg, ${c}, ${c}aa)` }} />
       </div>
       {/* draggable position rail (large screens) — the top bar is the mobile indicator */}
-      <ReaderScrollRail accent={c} hidden={focus || pageMode} />
+      {/* §5+§12 — the rich digital rail lives in Focus Mode, where the reader's
+          side panels are hidden so it has a clean, uncrowded home. */}
+      <DigitalProgressRail accent={c} hidden={!focus || pageMode} chapters={chapters} bm={bm} active={active} activeSec={activeSec} secs={secs} totalMin={meta?.pages ? meta.pages * 2 : null} />
 
       {/* ===================== BREADCRUMBS ===================== */}
       {!focus && (
@@ -472,9 +565,11 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
                 <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover:translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
               </button>
             )}
-            <button onClick={() => scrollToId("book-contents")} aria-label="עיין בתוכן העניינים של הספר" title="קפוץ לתוכן העניינים (מקש C)" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><ListTree className="size-4" /> עיין בתוכן</button>
+            <button onClick={() => scrollToId("book-contents")} aria-label="עיין בתוכן העניינים של הספר" title="פתח את פרקי הספר וקפוץ לפרק או סעיף (מקש C)" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><ListTree className="size-4" /> עיין בתוכן</button>
             <button onClick={toggleFocus} aria-pressed={focus} aria-label="מצב קריאה מרוכז" title="הסתר הכל מלבד הטקסט (מקש F · Esc ליציאה)" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><Maximize2 className="size-4" /> מצב מיקוד</button>
-            <ReaderSettings view={rview} setView={saveView} mode={rmode} setMode={saveMode} theme={rtheme} setTheme={saveTheme} size={rsize} setSize={saveSize} wide={rwide} toggleWide={toggleWide} accent={c} onReset={() => setConfirmReset(true)} />
+            <ReaderSettings view={rview} setView={saveView} mode={rmode} setMode={saveMode} theme={rtheme} setTheme={saveTheme} size={rsize} setSize={saveSize} measure={rmeasure} setMeasure={saveMeasure} accent={c} onReset={() => setConfirmReset(true)} />
+            <button onClick={() => setSearchOpen(true)} aria-label="חיפוש בתוך הספר" title="חיפוש פרק בתוך הספר" className="tap inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-3 py-2.5 text-sm font-bold text-ink-3 shadow-sm transition hover:border-brand/40 hover:text-brand active:scale-95"><Search className="size-4" /></button>
+            <button onClick={() => setNotesOpen(true)} aria-label="הערות הספר" title="הערות אישיות על הספר" className="tap inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-3 py-2.5 text-sm font-bold text-ink-3 shadow-sm transition hover:border-brand/40 hover:text-brand active:scale-95"><StickyNote className="size-4" />{notes.trim() && <span className="size-1.5 rounded-full" style={{ background: c }} />}</button>
             <button onClick={() => setHelpOpen(true)} aria-label="עזרה — איך משתמשים בקורא" title="עזרה ומקשי קיצור" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-3 py-2.5 text-sm font-bold text-ink-3 shadow-sm transition hover:border-brand/40 hover:text-brand active:scale-95"><HelpCircle className="size-4" /></button>
           </div>
           {!hintSeen && (
@@ -532,70 +627,17 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
 
       {/* ===================== READER (existing engine — unchanged) ===================== */}
       {pageMode ? (
-        <div data-theme={rtheme} data-size={rsize} data-view={rview} className="neo-reader neo-pane reader-enter mx-auto w-full min-w-0">
+        <div data-theme={rtheme} data-size={rsize} data-measure={rmeasure} data-view={rview} className="neo-reader neo-pane reader-enter mx-auto w-full min-w-0">
           <PageView chapters={chapters} accent={c}>{children}</PageView>
         </div>
       ) : (
-      <div className={focus ? "block" : "grid gap-6 lg:grid-cols-[248px_minmax(0,1fr)] xl:grid-cols-[248px_minmax(0,1fr)_236px] 2xl:gap-8 2xl:grid-cols-[300px_minmax(0,1fr)_300px] min-[2560px]:grid-cols-[380px_minmax(0,1fr)_380px]"}>
-        {/* ===== sticky chapter tree ===== */}
-        <aside className={`lg:sticky lg:top-[5rem] lg:h-[calc(100vh-6rem)] ${focus ? "hidden" : ""}`}>
-          <div className="card-premium flex h-full flex-col overflow-hidden p-0">
-            {/* header + progress + score */}
-            <div className="border-b border-hairline p-4">
-              <div className="flex items-center gap-2">
-                <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-brand to-brand-dark text-white shadow-md"><BookOpen className="size-4.5" /></span>
-                <div className="min-w-0"><h2 className="truncate text-sm font-extrabold text-ink-1">{title}</h2>{subtitle && <p className="truncate text-[11px] text-ink-3">{subtitle}</p>}</div>
-              </div>
-              <div className="mt-3 flex items-center justify-between text-[11px] font-bold">
-                <span className="flex items-center gap-1 text-ink-3"><GraduationCap className="size-3.5 text-brand" /> ציון ידע</span>
-                <span className="font-mono text-brand">{score}%</span>
-              </div>
-              <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-surface-2">
-                <div className="h-full rounded-full bg-gradient-to-l from-brand to-brand-dark transition-all duration-700" style={{ width: `${score}%` }} />
-              </div>
-              <p className="mt-1 text-[10px] text-ink-3">{read.length}/{total} פרקים נקראו · {bm.length} סימניות</p>
-            </div>
-            {/* in-book search */}
-            <div className="relative border-b border-hairline p-2.5">
-              <Search className="pointer-events-none absolute end-4 top-1/2 size-3.5 -translate-y-1/2 text-ink-3" />
-              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש בתוך הספר…" className="w-full rounded-lg border border-hairline bg-surface py-1.5 pe-3 ps-8 text-xs outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
-              {q && <button onClick={() => setQ("")} className="absolute start-4 top-1/2 -translate-y-1/2"><X className="size-3.5 text-ink-3" /></button>}
-            </div>
-            {/* tree */}
-            <nav className="min-h-0 flex-1 overflow-y-auto p-2">
-              <div className="eyebrow mb-1 flex items-center gap-1 px-2 text-ink-3"><ListTree className="size-3" /> פרקים</div>
-              {filtered.map((ch) => {
-                const isRead = read.includes(ch.n); const isBm = bm.includes(ch.n); const isActive = active === ch.n;
-                return (
-                  <div key={ch.n} className={`group flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition ${isActive ? "bg-brand/10" : "hover:bg-surface-2"}`}>
-                    <button onClick={() => { playTick(); jump(ch.n); }} className="flex min-w-0 flex-1 items-center gap-2 text-start">
-                      <span className={`grid size-5 shrink-0 place-items-center rounded-md text-[10px] font-bold ${isRead ? "bg-emerald-100 text-emerald-600" : isActive ? "bg-brand text-white" : "bg-surface-2 text-ink-3"}`}>{isRead ? <Check className="size-3" /> : ch.n}</span>
-                      <span className={`truncate text-xs ${isActive ? "font-bold text-ink-1" : "font-medium text-ink-2"}`}>{ch.title}</span>
-                    </button>
-                    <button onClick={() => toggleBm(ch.n)} aria-label="סימנייה" className="shrink-0 opacity-0 transition group-hover:opacity-100" style={{ opacity: isBm ? 1 : undefined }}>
-                      <Bookmark className={`size-3.5 ${isBm ? "fill-amber-400 text-amber-400" : "text-ink-3"}`} />
-                    </button>
-                  </div>
-                );
-              })}
-              {filtered.length === 0 && <p className="px-2 py-4 text-center text-xs text-ink-3">אין פרק תואם</p>}
-            </nav>
-            {/* notes */}
-            <div className="border-t border-hairline p-2.5">
-              <button onClick={() => setNotesOpen((v) => !v)} className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-xs font-bold text-ink-2 hover:bg-surface-2">
-                <span className="flex items-center gap-1.5"><StickyNote className="size-3.5 text-brand" /> הערות הספר</span>
-                <ChevronDown className={`size-3.5 transition-transform ${notesOpen ? "rotate-180" : ""}`} />
-              </button>
-              {notesOpen && (
-                <textarea value={notes} onChange={(e) => { setNotes(e.target.value); try { localStorage.setItem(`neo:reader:notes:${bookId}`, e.target.value); } catch { /* noop */ } }}
-                  placeholder="הערות אישיות על הספר — נשמר בדפדפן…" className="mt-1.5 h-28 w-full resize-none rounded-lg border border-hairline bg-surface p-2 text-xs outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
-              )}
-            </div>
-          </div>
-        </aside>
-
+      <div className={focus ? "block" : "block xl:grid xl:gap-6 xl:grid-cols-[minmax(0,1fr)_248px] 2xl:gap-8 2xl:grid-cols-[minmax(0,1fr)_300px] min-[2560px]:grid-cols-[minmax(0,1fr)_360px]"}>
+        {/* §8 — the old left knowledge panel (chapter tree + score + search + notes)
+            was removed: it duplicated the contents grid + the "בעמוד זה" rail and ate
+            reading width. Its functions moved to the toolbar (search + notes popovers)
+            and the "בעמוד זה" rail (chapter nav + read/bookmark states + score summary). */}
         {/* ===== reading pane ===== */}
-        <div ref={mainRef} data-theme={rtheme} data-size={rsize} data-wide={rwide ? "1" : "0"} data-view={rview} className={`neo-reader neo-pane reader-enter min-w-0 ${focus ? "mx-auto max-w-3xl" : "mx-auto w-full"}`}>
+        <div ref={mainRef} data-theme={rtheme} data-size={rsize} data-measure={rmeasure} data-view={rview} className={`neo-reader neo-pane reader-enter min-w-0 ${focus ? "mx-auto max-w-3xl" : "mx-auto w-full"}`}>
           {children}
           {/* next / prev */}
           <div className="mt-6 flex items-center justify-between gap-3">
@@ -613,19 +655,32 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         {!focus && (
           <aside className="hidden xl:block">
             <div className="sticky top-[5rem] max-h-[calc(100vh-6rem)] overflow-y-auto pb-4">
-              <div className="mb-2.5 flex items-center justify-between pe-1">
+              <div className="mb-2 flex items-center justify-between pe-1">
                 <span className="flex items-center gap-1.5 text-[10.5px] font-extrabold uppercase tracking-[0.16em] text-ink-3"><AlignLeft className="size-3.5" /> בעמוד זה</span>
                 <span className="font-mono text-[11px] font-bold tabular-nums" style={{ color: c }}>{Math.round(prog)}%</span>
+              </div>
+              {/* progress summary (relocated from the removed left panel) */}
+              <div className="mb-3 rounded-xl border border-hairline bg-surface-2/40 p-2.5">
+                <div className="flex items-center justify-between text-[11px] font-bold"><span className="flex items-center gap-1 text-ink-3"><GraduationCap className="size-3.5 text-brand" /> ציון ידע</span><span className="font-mono" style={{ color: c }}>{score}%</span></div>
+                <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-surface-2"><div className="h-full rounded-full transition-all duration-700" style={{ width: `${score}%`, background: c }} /></div>
+                <p className="mt-1 text-[10px] text-ink-3">{read.length}/{total} פרקים נקראו · {bm.length} סימניות</p>
               </div>
               <nav className="relative border-s border-hairline" aria-label="בעמוד זה">
                 {chapters.map((ch) => {
                   const on = active === ch.n;
+                  const isRead = read.includes(ch.n); const isBm = bm.includes(ch.n);
                   const chSecs = secs.filter((s) => s.chapter === ch.n);
                   return (
                     <div key={ch.n}>
-                      <button onClick={() => { playTick(); jump(ch.n); }} className="group relative -ms-px flex w-full items-center border-s-2 py-[5px] ps-3 text-start transition-colors" style={{ borderColor: on ? c : "transparent" }}>
-                        <span className={`truncate text-[12px] leading-snug transition-colors ${on ? "font-extrabold text-ink-1" : "font-medium text-ink-3 group-hover:text-ink-1"}`}>{ch.n}. {ch.title}</span>
-                      </button>
+                      <div className="group/ch flex items-center">
+                        <button onClick={() => { playTick(); jump(ch.n); }} className="group relative -ms-px flex min-w-0 flex-1 items-center gap-1.5 border-s-2 py-[5px] ps-3 text-start transition-colors" style={{ borderColor: on ? c : "transparent" }}>
+                          {isRead && <Check className="size-3 shrink-0 text-emerald-500" />}
+                          <span className={`truncate text-[12px] leading-snug transition-colors ${on ? "font-extrabold text-ink-1" : "font-medium text-ink-3 group-hover:text-ink-1"}`}>{ch.n}. {ch.title}</span>
+                        </button>
+                        <button onClick={() => toggleBm(ch.n)} aria-label={isBm ? "הסר סימנייה" : "סמן פרק"} className="tap shrink-0 px-1 opacity-0 transition group-hover/ch:opacity-100" style={{ opacity: isBm ? 1 : undefined }}>
+                          <Bookmark className={`size-3.5 ${isBm ? "fill-amber-400 text-amber-400" : "text-ink-3"}`} />
+                        </button>
+                      </div>
                       {on && chSecs.length > 0 && (
                         <div className="mb-0.5">
                           {chSecs.map((s) => {
@@ -646,6 +701,50 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
           </aside>
         )}
       </div>
+      )}
+
+      {/* §8 — in-book search (relocated from the removed panel) */}
+      {searchOpen && (
+        <div role="dialog" aria-modal="true" aria-label="חיפוש בספר" className="fixed inset-0 z-[80] flex items-start justify-center bg-slate-950/50 p-4 pt-[12vh] backdrop-blur-sm" onClick={() => { setSearchOpen(false); setQ(""); }}>
+          <div onClick={(e) => e.stopPropagation()} dir="rtl" className="w-full max-w-md overflow-hidden rounded-2xl border border-hairline bg-surface shadow-2xl">
+            <div className="flex items-center gap-2 border-b border-hairline px-4">
+              <Search className="size-4 shrink-0 text-brand" />
+              {/* eslint-disable-next-line jsx-a11y/no-autofocus */}
+              <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש פרק בתוך הספר…" className="h-12 w-full bg-transparent text-sm outline-none placeholder:text-ink-3" />
+              <button onClick={() => { setSearchOpen(false); setQ(""); }} aria-label="סגור" className="tap grid size-8 place-items-center rounded-lg text-ink-3 hover:bg-surface-2"><X className="size-4" /></button>
+            </div>
+            <div className="max-h-[50vh] overflow-y-auto p-2">
+              {filtered.map((ch) => {
+                const isRead = read.includes(ch.n); const isBm = bm.includes(ch.n);
+                return (
+                  <button key={ch.n} onClick={() => { setSearchOpen(false); setQ(""); jump(ch.n); }} className="tap flex w-full items-center gap-2 rounded-lg px-3 py-2 text-start transition hover:bg-surface-2">
+                    <span className="grid size-5 shrink-0 place-items-center rounded-md bg-surface-2 text-[10px] font-bold text-ink-3">{ch.n}</span>
+                    <span className="min-w-0 flex-1 truncate text-[13px] font-semibold text-ink-1">{ch.title}</span>
+                    {isRead && <Check className="size-3.5 shrink-0 text-emerald-500" />}
+                    {isBm && <Bookmark className="size-3.5 shrink-0 fill-amber-400 text-amber-400" />}
+                  </button>
+                );
+              })}
+              {filtered.length === 0 && <p className="px-3 py-8 text-center text-[13px] text-ink-3">אין פרק תואם ל־<b className="text-ink-2">{q}</b></p>}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* §8 — book notes (relocated from the removed panel) */}
+      {notesOpen && (
+        <div role="dialog" aria-modal="true" aria-label="הערות הספר" className="fixed inset-0 z-[80] flex items-end justify-center bg-slate-950/50 p-0 backdrop-blur-sm sm:items-center sm:p-4" onClick={() => setNotesOpen(false)}>
+          <div onClick={(e) => e.stopPropagation()} dir="rtl" className="w-full max-w-md rounded-t-2xl border border-hairline bg-surface p-5 shadow-2xl sm:rounded-2xl">
+            <div className="mx-auto mb-3 h-1.5 w-11 rounded-full bg-hairline sm:hidden" />
+            <div className="flex items-center justify-between">
+              <h3 className="flex items-center gap-2 font-display text-lg text-ink-1"><StickyNote className="size-5 text-brand" /> הערות הספר</h3>
+              <button onClick={() => setNotesOpen(false)} aria-label="סגור" className="tap grid size-8 place-items-center rounded-lg text-ink-3 hover:bg-surface-2"><X className="size-4" /></button>
+            </div>
+            <textarea value={notes} onChange={(e) => { setNotes(e.target.value); try { localStorage.setItem(`neo:reader:notes:${bookId}`, e.target.value); } catch { /* noop */ } }}
+              placeholder="הערות אישיות על הספר — נשמר בדפדפן, פרטי…" className="mt-3 h-44 w-full resize-none rounded-xl border border-hairline bg-surface-2/40 p-3 text-[13px] leading-relaxed outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
+            <p className="mt-1.5 text-[10.5px] text-ink-3">נשמר מקומית בדפדפן · פרטי</p>
+          </div>
+        </div>
       )}
 
       {/* confirm reset progress — safe, per-book, bookmarks always kept */}

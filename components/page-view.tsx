@@ -75,6 +75,19 @@ export function PageView({ chapters, accent, children }: { chapters: { n: number
     go(Math.round(el.offsetLeft / f.clientWidth));
   };
 
+  // §3 — preserve reading location when switching scroll → page: open the page
+  // that contains the section the reader was on.
+  useEffect(() => {
+    const onRestore = (e: Event) => {
+      const id = String((e as CustomEvent).detail || "");
+      const f = frameRef.current; if (!f || !id) return;
+      const el = f.querySelector<HTMLElement>(`[data-section="${id}"]`) || (typeof CSS !== "undefined" && CSS.escape ? f.querySelector<HTMLElement>(`#${CSS.escape(id)}`) : null);
+      if (el) go(Math.round(el.offsetLeft / f.clientWidth));
+    };
+    window.addEventListener("neo:reader:restore-section", onRestore);
+    return () => window.removeEventListener("neo:reader:restore-section", onRestore);
+  }, [go]);
+
   const pagerBtn = "grid size-9 place-items-center rounded-xl border border-hairline bg-surface text-ink-2 transition enabled:hover:border-brand enabled:hover:text-brand disabled:opacity-35";
 
   return (
