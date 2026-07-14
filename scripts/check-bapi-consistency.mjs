@@ -4,7 +4,8 @@ import { spawnSync } from "node:child_process";
 const run = spawnSync(process.execPath, ["--experimental-strip-types", "-e", `
 import { PM_ENRICHMENT, PM_ADDITIONS } from "./data/bapi-enrichment.pm.ts";
 import { PPPI_ENRICHMENT, PPPI_ADDITIONS } from "./data/bapi-enrichment.pppi.ts";
-const overlays = { ...PM_ENRICHMENT, ...PPPI_ENRICHMENT };
+import { SWEEP_ENRICHMENT } from "./data/bapi-enrichment.sweep.ts";
+const overlays = { ...PM_ENRICHMENT, ...PPPI_ENRICHMENT, ...SWEEP_ENRICHMENT };
 const additions = [...PM_ADDITIONS, ...PPPI_ADDITIONS];
 const problems = [];
 const seen = new Set();
