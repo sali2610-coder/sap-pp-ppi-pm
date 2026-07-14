@@ -48,8 +48,29 @@ export function TransactionExplorer() {
 
       <p className="mb-2 text-xs font-bold text-ink-3">{rows.length} טרנזקציות</p>
 
-      {/* quick-reference table */}
-      <div className="overflow-x-auto rounded-2xl border border-hairline bg-surface shadow-sm">
+      {/* mobile: native card list — long-press a T-Code to preview */}
+      <div className="space-y-2.5 lg:hidden">
+        {rows.map((t) => (
+          <Link key={t.code} href={`/transactions/${encodeURIComponent(t.code)}/`} data-peek={t.code}
+            className="tap block rounded-2xl border border-hairline bg-surface p-3.5 shadow-sm transition active:scale-[0.98]">
+            <div className="flex items-start justify-between gap-2">
+              <span className="tech text-[15px] font-extrabold text-brand" dir="ltr">{t.code}</span>
+              <span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: MOD_COLOR[t.module] }}>{t.module}</span>
+            </div>
+            <div className="mt-0.5 text-[12px] font-bold text-ink-2">{t.title}</div>
+            <p className="mt-1 line-clamp-2 text-[12.5px] leading-snug text-ink-3">{t.purpose}</p>
+            <div className="mt-2 flex flex-wrap items-center gap-1.5">
+              <span className="rounded-md bg-surface-2 px-1.5 py-0.5 text-[10.5px] font-bold text-ink-3">{t.topic}</span>
+              {t.fiori && <span className="rounded-md bg-violet-50 px-1.5 py-0.5 text-[10.5px] font-bold text-violet-600">Fiori</span>}
+              <span className="ms-auto inline-flex items-center gap-1 text-[11px] font-bold text-brand">פתח<ArrowLeft className="size-3" /></span>
+            </div>
+          </Link>
+        ))}
+        {rows.length === 0 && <p className="py-12 text-center text-[13px] text-ink-3">לא נמצאו טרנזקציות תואמות.</p>}
+      </div>
+
+      {/* desktop: quick-reference table */}
+      <div className="hidden overflow-x-auto rounded-2xl border border-hairline bg-surface shadow-sm lg:block">
         <table className="w-full min-w-[860px] text-sm">
           <thead className="bg-surface-2 text-xs font-bold text-ink-3">
             <tr>

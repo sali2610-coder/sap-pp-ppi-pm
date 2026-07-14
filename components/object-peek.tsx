@@ -22,6 +22,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { X, Star, Copy, Check, Table2, Terminal, Plug, Braces, Network, GitBranch, ArrowLeft, Sparkles, MapPin, ShieldCheck, Clock, BookMarked, Layers, Workflow } from "lucide-react";
 import { objectIntel } from "@/lib/data";
 import { registryObject } from "@/lib/bapi-registry";
+import { lookupTCode } from "@/lib/tcode-index";
 import { actionsFor, type ActionKind } from "@/lib/universal-actions";
 import { toggleFavorite, useIsFavorite } from "@/lib/prefs";
 
@@ -82,7 +83,17 @@ function resolve(nameRaw: string): Resolved | null {
       primaryHref: `/bapi/${encodeURIComponent(o.technicalName)}/`, primaryLabel: "פתח אובייקט מלא",
     };
   }
-  // 3) not in a verified source — honest fallback
+  // 3) transaction code — verified tcode index
+  const tc = lookupTCode(name);
+  if (tc) {
+    return {
+      name: tc.code, kind: "tcode", module: tc.module, typeHe: "טרנזקציה",
+      desc: tc.descHe || tc.descEn || "",
+      tcodes: [], funcs: [], related: [], tables: (tc.tables || []).slice(0, 8),
+      primaryHref: tc.href || `/transactions/${encodeURIComponent(tc.code)}/`, primaryLabel: "פתח טרנזקציה",
+    };
+  }
+  // 4) not in a verified source — honest fallback
   return {
     name, kind: "unknown", module: "", typeHe: "אובייקט", desc: "",
     tcodes: [], funcs: [], related: [], tables: [],
@@ -223,7 +234,7 @@ export function ObjectPeek() {
       // 2) any object-family anchor, app-wide, no per-component wiring
       if (!n) {
         const href = (t?.closest?.("a[href]") as HTMLAnchorElement | null)?.getAttribute("href") || "";
-        const m = /^\/(?:object|bapi|tcode|cds|idoc)\/([^/?#]+)/.exec(href);
+        const m = /^\/(?:object|bapi|tcode|cds|idoc|transactions)\/([^/?#]+)/.exec(href);
         if (m) { try { n = decodeURIComponent(m[1]); } catch { n = m[1]; } }
       }
       if (!n) return;

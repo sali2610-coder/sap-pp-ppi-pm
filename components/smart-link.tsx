@@ -14,7 +14,7 @@ type SmartLinkProps = Omit<ComponentProps<typeof Link>, "href"> & {
 // Object route families whose leaf slug is a real SAP object name. Baking
 // data-peek here makes EVERY such link across the app long-press-peekable (the
 // global listener in object-peek.tsx handles it) — no per-page wiring needed.
-const PEEK_RE = /^\/(?:object|bapi|tcode|cds|idoc)\/([^/?#]+)\/?(?:[?#].*)?$/;
+const PEEK_RE = /^\/(?:object|bapi|tcode|cds|idoc|transactions)\/([^/?#]+)\/?(?:[?#].*)?$/;
 function peekName(href: string): string | undefined {
   const m = PEEK_RE.exec(href);
   if (!m) return undefined;
