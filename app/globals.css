@@ -498,6 +498,8 @@ header :focus-visible {
   grid-template-columns: repeat(auto-fill, minmax(clamp(150px, 13vw, 220px), 1fr));
 }
 @media (min-width: 1024px) { .grid-adaptive-sm { gap: 0.75rem; } }
+/* mobile: guarantee a comfortable compact 2-col (never cramped chip cards) */
+@media (max-width: 640px) { .grid-adaptive-sm { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); } }
 
 /* Premium card surface — one consistent enclosure across the platform */
 @utility card-premium {
@@ -521,6 +523,11 @@ header :focus-visible {
 button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: transparent; }
 @media (hover: none) {
   button:active, a:active, [role="button"]:active { transform: scale(0.98); }
+}
+/* Phase 14 — touch targets: every intentional .tap control reaches ≥44px on
+   coarse pointers. Inline prose links are not .tap, so reading flow is untouched. */
+@media (pointer: coarse) {
+  .tap { min-height: 44px; }
 }
 
 /* ── Mobile Flagship — native-iOS feel (phones only; desktop untouched) ──────── */
