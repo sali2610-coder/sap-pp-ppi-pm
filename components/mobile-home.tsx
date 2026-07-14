@@ -11,11 +11,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { Search, ArrowLeft, Wrench, Boxes, Network, Table2, Terminal, Braces, Database, LayoutGrid, Cable, GraduationCap, Compass, Star, Clock, Sparkles } from "lucide-react";
+import { Search, ArrowLeft, Wrench, Boxes, Network, Table2, Terminal, Braces, Database, LayoutGrid, Cable, GraduationCap, Compass, Star, Clock, Sparkles, Flame } from "lucide-react";
 import { useFavorites, getRecentObjects } from "@/lib/prefs";
+import { useAllProgress } from "@/lib/learn-store";
 import type { ModuleCard } from "@/components/home-portal";
 
 type Counts = { tables: number; fields: number; transactions: number; bapis: number; fms: number; idocs: number; cds: number; fiori: number };
+type LearnPathMeta = { id: string; he: string; accent: string; total: number };
 const haptic = () => { try { navigator.vibrate?.(7); } catch { /* noop */ } };
 const openPalette = () => window.dispatchEvent(new Event("neo:open-palette"));
 
@@ -46,12 +48,35 @@ function greet(): string {
 const rise = (i: number, reduce: boolean | null) =>
   reduce ? {} : { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { type: "spring" as const, stiffness: 320, damping: 30, delay: i * 0.05 } };
 
-export function MobileHome({ counts, modules }: { counts: Counts; modules: ModuleCard[] }) {
+function Ring({ pct, accent }: { pct: number; accent: string }) {
+  const r = 26, C = 2 * Math.PI * r;
+  return (
+    <svg viewBox="0 0 64 64" className="size-16 shrink-0 -rotate-90" aria-hidden>
+      <circle cx="32" cy="32" r={r} fill="none" stroke="var(--hairline)" strokeWidth="6" />
+      <motion.circle cx="32" cy="32" r={r} fill="none" stroke={accent} strokeWidth="6" strokeLinecap="round"
+        strokeDasharray={C} initial={{ strokeDashoffset: C }} animate={{ strokeDashoffset: C * (1 - pct / 100) }} transition={{ type: "spring", stiffness: 90, damping: 20 }} />
+      <text x="32" y="32" textAnchor="middle" dominantBaseline="central" className="rotate-90" transform="rotate(90 32 32)" fontSize="15" fontWeight="800" fill="var(--ink-1)">{pct}%</text>
+    </svg>
+  );
+}
+
+export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Counts; modules: ModuleCard[]; learnPaths?: LearnPathMeta[] }) {
   const reduce = useReducedMotion();
   const favs = useFavorites();
+  const progress = useAllProgress();
   const [recent, setRecent] = useState<string[]>([]);
   const [hi, setHi] = useState("ברוך הבא");
-  useEffect(() => { setRecent(getRecentObjects().slice(0, 10)); setHi(greet()); }, []);
+  const [streak, setStreak] = useState(0);
+  useEffect(() => {
+    setRecent(getRecentObjects().slice(0, 10)); setHi(greet());
+    try { const s = JSON.parse(localStorage.getItem("neo:learn:streak") || "{}"); if (typeof s.days === "number") setStreak(s.days); } catch { /* noop */ }
+  }, []);
+
+  // top in-progress learning path (0 < done < total), highest completion
+  const resume = learnPaths
+    .map((p) => { const done = Math.min((progress[p.id] || []).length, p.total); return { ...p, done, pct: p.total ? Math.round((done / p.total) * 100) : 0 }; })
+    .filter((p) => p.done > 0 && p.done < p.total)
+    .sort((a, b) => b.pct - a.pct)[0];
 
   return (
     <div dir="rtl" className="space-y-7 xl:hidden">
@@ -66,6 +91,25 @@ export function MobileHome({ counts, modules }: { counts: Counts; modules: Modul
           <kbd className="hidden rounded-md border border-hairline bg-surface px-1.5 py-0.5 text-[11px] font-bold text-ink-3 sm:block">⌘K</kbd>
         </button>
       </motion.section>
+
+      {/* continue learning — progress ring + streak (delight + personalization) */}
+      {resume && (
+        <motion.section {...rise(1, reduce)}>
+          <Link href="/learn/" onClick={haptic}
+            className="tap flex items-center gap-4 rounded-2xl border border-hairline bg-surface p-4 shadow-sm transition active:scale-[0.98]">
+            <Ring pct={resume.pct} accent={resume.accent} />
+            <span className="min-w-0 flex-1">
+              <span className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wide text-ink-3"><GraduationCap className="size-3.5" />המשך ללמוד</span>
+              <span className="mt-0.5 block truncate text-[15px] font-extrabold text-ink-1">{resume.he}</span>
+              <span className="mt-0.5 flex items-center gap-2 text-[11.5px] text-ink-3">
+                <span>{resume.done}/{resume.total} שלבים</span>
+                {streak > 1 && <span className="inline-flex items-center gap-0.5 font-bold text-amber-600"><Flame className="size-3.5" />{streak} ימים ברצף</span>}
+              </span>
+            </span>
+            <ArrowLeft className="size-4 shrink-0 text-ink-3" />
+          </Link>
+        </motion.section>
+      )}
 
       {/* continue — recently opened objects (personalization) */}
       {recent.length > 0 && (

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ALL_TABLES } from "@/lib/data";
 import { HomePortal, type ModuleCard } from "@/components/home-portal";
 import { MobileHome } from "@/components/mobile-home";
+import { LEARN_PATHS } from "@/data/learn/paths";
 import { listFuncs } from "@/lib/object-intel";
 import { listCdsViews } from "@/data/cds-map";
 
@@ -55,7 +56,7 @@ export default function HomePage() {
   return (
     <>
       {/* Mobile + tablet get a purpose-built native app home; desktop keeps the portal. */}
-      <MobileHome counts={counts} modules={modules} />
+      <MobileHome counts={counts} modules={modules} learnPaths={Object.values(LEARN_PATHS).map((p) => ({ id: p.id, he: p.he, accent: p.accent, total: p.steps.length }))} />
       <div className="space-y-12 max-xl:hidden sm:space-y-16">
         <HomePortal counts={counts} modules={modules} />
         <CommandCenter />
