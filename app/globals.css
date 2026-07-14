@@ -830,3 +830,29 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
   .neo-flash { animation: none; }
   .neo-skel::after { animation: none; display: none; }
 }
+
+/* ============================================================= */
+/* Phase 14 — mobile typography scale (≤640px). Unlayered so it   */
+/* overrides Tailwind's layered size utilities; enforces readable */
+/* minimums, calmer Hebrew rhythm, higher grey contrast.          */
+/* ============================================================= */
+@media (max-width: 640px) {
+  /* higher-contrast secondary ink (avoid gray-on-gray) */
+  :root { --ink-3: #5b6570; --muted-foreground: #5b6570; }
+
+  /* readable minimums + Hebrew line-height */
+  .text-xs { font-size: 0.8125rem; line-height: 1.55; }   /* 12 → 13 */
+  .text-sm { font-size: 0.9375rem; line-height: 1.6; }    /* 14 → 15 */
+  .text-\[10px\], .text-\[10\.5px\] { font-size: 11px; }
+  .text-\[11px\], .text-\[11\.5px\] { font-size: 12px; }
+  .text-\[12px\], .text-\[12\.5px\] { font-size: 13px; line-height: 1.5; }
+  .text-\[13px\], .text-\[13\.5px\] { font-size: 14px; line-height: 1.55; }
+  .text-\[14px\], .text-\[14\.5px\], .text-\[15px\], .text-\[15\.5px\] { font-size: 15px; line-height: 1.6; }
+
+  /* calmer tracking on tiny uppercase eyebrows/labels */
+  .eyebrow, .eyebrow-2 { letter-spacing: 0.08em; }
+  .uppercase.tracking-\[0\.2em\], .uppercase.tracking-\[0\.22em\], .uppercase.tracking-\[0\.24em\] { letter-spacing: 0.12em; }
+
+  /* iOS never zooms an input on focus when the font is ≥16px */
+  input, textarea, select { font-size: 16px; }
+}
