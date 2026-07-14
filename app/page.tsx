@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ALL_TABLES } from "@/lib/data";
 import { HomePortal, type ModuleCard } from "@/components/home-portal";
+import { MobileHome } from "@/components/mobile-home";
 import { listFuncs } from "@/lib/object-intel";
 import { listCdsViews } from "@/data/cds-map";
 
@@ -52,9 +53,13 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="space-y-12 sm:space-y-16">
-      <HomePortal counts={counts} modules={modules} />
-      <CommandCenter />
-    </div>
+    <>
+      {/* Mobile + tablet get a purpose-built native app home; desktop keeps the portal. */}
+      <MobileHome counts={counts} modules={modules} />
+      <div className="space-y-12 max-xl:hidden sm:space-y-16">
+        <HomePortal counts={counts} modules={modules} />
+        <CommandCenter />
+      </div>
+    </>
   );
 }
