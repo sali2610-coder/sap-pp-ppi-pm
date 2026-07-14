@@ -33,7 +33,29 @@ export function ExitExplorer() {
         </div>
       </div>
       <p className="mb-2 text-xs font-bold text-ink-3">{rows.length} Exits / BAdIs</p>
-      <div className="overflow-x-auto rounded-2xl border border-hairline bg-surface shadow-sm">
+
+      {/* mobile: native card list */}
+      <div className="space-y-2.5 lg:hidden">
+        {rows.map((e) => (
+          <Link key={e.name} href={`/exits/${exitSlug(e.name)}/`}
+            className="tap block rounded-2xl border border-hairline bg-surface p-3.5 shadow-sm transition active:scale-[0.98]">
+            <div className="flex items-start justify-between gap-2">
+              <span className="tech text-[14px] font-extrabold text-brand" dir="ltr">{e.name}</span>
+              <span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: MOD_COLOR[e.module] }}>{e.module}</span>
+            </div>
+            <div className="mt-1 flex flex-wrap items-center gap-1.5">
+              <span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: KIND_COLOR[e.kind] }}>{e.kind}</span>
+            </div>
+            <p className="mt-1.5 line-clamp-2 text-[12.5px] leading-snug text-ink-2">{e.he}</p>
+            {e.trigger && <p className="mt-1 text-[11px] leading-snug text-ink-3">נקודת הפעלה: {e.trigger}</p>}
+            <span className="mt-2 inline-flex items-center gap-1 text-[11px] font-bold text-brand">פתח<ArrowLeft className="size-3" /></span>
+          </Link>
+        ))}
+        {rows.length === 0 && <p className="py-12 text-center text-[13px] text-ink-3">לא נמצאו Exits/BAdIs תואמים.</p>}
+      </div>
+
+      {/* desktop: table */}
+      <div className="hidden overflow-x-auto rounded-2xl border border-hairline bg-surface shadow-sm lg:block">
         <table className="w-full min-w-[820px] text-sm">
           <thead className="bg-surface-2 text-xs font-bold text-ink-3">
             <tr><th className="p-3 text-start">שם</th><th className="p-3 text-center">סוג</th><th className="p-3 text-start">מטרה</th><th className="p-3 text-start">נקודת הפעלה</th><th className="p-3 text-center">מודול</th><th className="p-3"></th></tr>
