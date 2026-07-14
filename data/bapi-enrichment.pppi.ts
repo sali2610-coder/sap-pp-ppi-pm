@@ -5,9 +5,19 @@
 // S/4 Public Cloud whitelisting left unknown. Verified 2026-07-14 · HIGH.
 // ============================================================================
 
-import type { SapFuncObject, TriState, VerificationStatus, OperationType, RegistryModule } from "@/lib/bapi-registry";
+import type { SapFuncObject, TriState, VerificationStatus, OperationType, RegistryModule, BusinessCategory, Difficulty } from "@/lib/bapi-registry";
 
 const LV = "2026-07-14";
+// local facet helpers (inlined to avoid a circular import with the registry)
+const catOf = (proc: string): BusinessCategory => {
+  const p = proc.toLowerCase();
+  if (p.includes("confirm")) return "Confirmation"; if (p.includes("goods")) return "GoodsMovement";
+  if (p.includes("material")) return "MasterData"; if (p.includes("bill of material") || p.includes("bom")) return "BOM";
+  if (p.includes("batch")) return "Batch"; if (p.includes("reservation")) return "Reservation";
+  if (p.includes("planned")) return "Planning"; if (p.includes("routing")) return "Planning";
+  if (p.includes("order")) return "Execution"; return "BusinessAPI";
+};
+const diffOf = (op: OperationType): Difficulty => op === "Read" ? "Beginner" : (op === "Post" || op === "Confirm" || op === "Mixed") ? "Advanced" : "Intermediate";
 const PO_SEQ = ["BAPI_PROCORD_CREATE", "BAPI_PROCORD_RELEASE", "BAPI_PROCORDCONF_CREATE_TT", "BAPI_GOODSMVT_CREATE (אם נדרש)", "BAPI_TRANSACTION_COMMIT"];
 
 type Def = {
@@ -26,6 +36,9 @@ const def = (d: Def): SapFuncObject => ({
   eccSupport: "yes", s4OnPremSupport: "yes", cloudSupport: "unknown",
   verificationStatus: d.vs || "verified-docs", verificationSource: d.src, lastVerified: LV, confidence: "high",
   aliases: [], keywords: d.kw || [d.id, d.proc],
+  category: catOf(d.proc), difficulty: diffOf(d.op),
+  stability: d.vs === "internal-unsupported" ? "Use-With-Caution" : (/^BAPI_/.test(d.id) ? "Released" : "SAP-Recommended"),
+  processChain: d.proc.includes("Order") || d.proc.includes("Confirmation") || d.proc.includes("Goods") ? ["פקודת תהליך", "שחרור", "דיווח", "תנועת סחורה", "סילוק"] : undefined,
   parameterSummary: d.params,
   qaNotes: d.qa || (d.write ? "בדוק טבלת RETURN. חובה BAPI_TRANSACTION_COMMIT (WAIT='X' אם קוראים מיד) על אותו LUW. בשגיאה — BAPI_TRANSACTION_ROLLBACK." : "קריאה בלבד."),
 });
