@@ -835,6 +835,24 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
 /* chapter cards may fragment; keep atomic elements whole */
 .neo-pagecols [data-chapter] { break-inside: auto; border-radius: 0; }
 
+/* Measured page engine (.neo-pagewin) — natural single-column flow; the JS computes
+   page breaks at block boundaries and translates the inner to each page. Cap atomic
+   blocks so none is taller than a page (guarantees clean breaks + no clipped content). */
+.neo-pagewin-inner :is(.paper, [data-chapter], .glass, .overflow-hidden) { overflow: visible !important; height: auto !important; border-radius: 0; }
+.neo-pagewin-inner [data-chapter] { border: 0; box-shadow: none; }
+.neo-pagewin-inner :is(figure, .reader-figure, table, pre, svg) { max-block-size: calc(100dvh - 18rem); max-inline-size: 100%; }
+.neo-pagewin-inner .reader-figure > button { max-block-size: calc(100dvh - 19rem); block-size: auto; }
+.neo-pagewin-inner svg { height: auto; }
+.neo-pagewin-inner .paper { padding-block: 1rem; }
+/* P0 blank-page fix: an atomic block (figure/diagram/table/svg/img) TALLER or WIDER
+   than a page column forces a column break and leaves the rest of that column blank.
+   Cap every atomic block to fit inside one page so pagination never leaves a gap. */
+.neo-pagecols :is(figure, .reader-figure, table, pre, svg) { max-block-size: calc(100dvh - 17rem); max-inline-size: 100%; }
+.neo-pagecols svg { height: auto; }
+/* the inline figure is an aspect-ratio button with an absolute-filled image — cap
+   the button height so a tall figure fits one page; the image object-contains within. */
+.neo-pagecols .reader-figure > button { max-block-size: calc(100dvh - 18rem); block-size: auto; }
+
 @media (prefers-reduced-motion: reduce) {
   .neo-flash { animation: none; }
   .neo-skel::after { animation: none; display: none; }

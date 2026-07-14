@@ -13,7 +13,7 @@
  * - Reuses the premium FigureViewer through onOpenFigure (fullscreen/zoom/pan/
  *   filmstrip/keyboard/download preserved). Numbered captions + source page.
  */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, Layers, ZoomIn, Download } from "lucide-react";
 import { SectionSpread, type Section } from "@/components/section-spread";
@@ -80,34 +80,51 @@ function InlineFigure({ fig, n, label, confident, onOpen }: { fig: ChapterFigure
 export function ChapterReader({ ch, figures = [], onOpenFigure, diagram }: { ch: ReaderChapterData; figures?: ChapterFigure[]; onOpenFigure?: (figs: ChapterFigure[], i: number) => void; diagram?: React.ReactNode }) {
   const reduce = useReducedMotion();
   const pageMode = usePageMode();
-  // Continuous reading (§3 Mode A): chapters render EXPANDED by default so the
-  // whole book is a real vertical scroll — every section's [data-section] anchor
-  // is in the DOM, which is what powers reliable chapter scroll-spy (§6) and the
-  // "בעמוד זה" section rail for EVERY chapter (§7). The header still toggles collapse.
+  // Continuous reading (§3 Mode A) + P0 performance: the chapter is "open" by
+  // default (one long scroll) BUT its heavy content (bilingual sections + inline
+  // figures) is LAZY-MOUNTED via IntersectionObserver — mounted once when the
+  // chapter comes within ~1400px of the viewport and then kept. This is what makes
+  // a 500-section / 800-figure book open in <1s instead of mounting everything at
+  // once. A reserved-height placeholder keeps the scrollbar + navigation stable,
+  // and an explicit jump/hash mounts the target instantly.
   const [open, setOpen] = useState(true);
-  const shown = pageMode || open;
+  const [mounted, setMounted] = useState(false);
+  const secRef = useRef<HTMLElement>(null);
+  const render = pageMode || (open && mounted);
   useEffect(() => {
     const openIfHash = () => {
       if (typeof window === "undefined") return;
       const h = window.location.hash;
-      if (h === `#ch-${ch.n}`) { setOpen(true); return; }
-      if (h.startsWith("#sec-") && ch.sections.some((s) => `#sec-${s.id}` === h)) setOpen(true);
-      if (h.startsWith("#fig-") && figures.length && h.startsWith(`#fig-${ch.n}`)) setOpen(true);
+      if (h === `#ch-${ch.n}`) { setOpen(true); setMounted(true); return; }
+      if (h.startsWith("#sec-") && ch.sections.some((s) => `#sec-${s.id}` === h)) { setOpen(true); setMounted(true); }
+      if (h.startsWith("#fig-") && figures.length && h.startsWith(`#fig-${ch.n}`)) { setOpen(true); setMounted(true); }
     };
     openIfHash();
     window.addEventListener("hashchange", openIfHash);
-    // explicit jump (chapter selector / "בעמוד זה") always expands the target
-    const onGoto = (e: Event) => { if (Number((e as CustomEvent).detail) === ch.n) setOpen(true); };
+    // explicit jump (chapter selector / "בעמוד זה") — expand + mount the target now
+    const onGoto = (e: Event) => { if (Number((e as CustomEvent).detail) === ch.n) { setOpen(true); setMounted(true); } };
     window.addEventListener("neo:reader:goto", onGoto);
     return () => { window.removeEventListener("hashchange", openIfHash); window.removeEventListener("neo:reader:goto", onGoto); };
   }, [ch.n, ch.sections, figures.length]);
 
+  // lazy-mount when the chapter approaches the viewport (mount once, keep mounted)
+  useEffect(() => {
+    if (mounted || pageMode) return;
+    const el = secRef.current; if (!el) return;
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) { setMounted(true); io.disconnect(); }
+    }, { rootMargin: "1400px 0px 1400px 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [mounted, pageMode]);
+
   const ordered = [...figures].sort((a, b) => a.page - b.page);
   const { buckets, tail } = placeFigures(ch, ordered);
   const openFig = (i: number) => onOpenFigure?.(ordered, i);
+  const estHeight = Math.max(280, ch.sections.length * 300);
 
   return (
-    <section id={`ch-${ch.n}`} data-chapter={ch.n} className="glass scroll-mt-24 overflow-hidden rounded-2xl">
+    <section ref={secRef} id={`ch-${ch.n}`} data-chapter={ch.n} className="glass scroll-mt-24 overflow-hidden rounded-2xl">
       <button onClick={() => { if (pageMode) return; playPing(); setOpen((v) => !v); }} className="flex w-full items-center gap-3 p-4 text-start">
         <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand to-brand-dark text-brand-foreground shadow-lg shadow-brand/30"><Layers className="size-5" /></span>
         <span className="min-w-0 flex-1">
@@ -124,13 +141,20 @@ export function ChapterReader({ ch, figures = [], onOpenFigure, diagram }: { ch:
         {!pageMode && <ChevronDown className={`size-5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />}
       </button>
 
-      <AnimatePresence initial={false}>
-        {shown && (
-          <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={reduce ? { duration: 0 } : { height: { duration: DUR.base, ease: EASE.out }, opacity: { duration: DUR.fast, ease: EASE.out } }} className="overflow-hidden px-3 pb-4">
+      {/* reserved-height placeholder while the chapter is open but not yet lazy-mounted */}
+      {open && !mounted && !pageMode && (
+        <div style={{ minHeight: estHeight }} className="px-3 pb-4" aria-hidden>
+          <div className="neo-skel h-full min-h-[280px] rounded-xl" />
+        </div>
+      )}
+
+      {(() => {
+        const body = (
+          <>
             {diagram}
             <div className="paper relative rounded-xl p-4 sm:p-6">
               {ch.sections.map((s, si) => (
-                <div key={s.id}>
+                <div key={s.id} className={pageMode ? "" : undefined}>
                   <SectionSpread s={s} />
                   {(buckets[si] || []).map((i) => (
                     <InlineFigure key={i} fig={ordered[i]} n={`${ch.n}-${i + 1}`} label={`איור ${ch.n}.${i + 1}`} confident onOpen={() => openFig(i)} />
@@ -141,9 +165,22 @@ export function ChapterReader({ ch, figures = [], onOpenFigure, diagram }: { ch:
                 <InlineFigure key={i} fig={ordered[i]} n={`${ch.n}-${i + 1}`} label={`איור ${ch.n}.${i + 1}`} confident={false} onOpen={() => openFig(i)} />
               ))}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </>
+        );
+        // page mode → render PLAIN (no framer wrapper). A motion.div / overflow-hidden
+        // creates a fragmentation boundary that breaks CSS multicol pagination (blanks).
+        return pageMode ? (
+          <div className="neo-page-body px-3 pb-4">{body}</div>
+        ) : (
+          <AnimatePresence initial={false}>
+            {render && (
+              <motion.div initial={false} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={reduce ? { duration: 0 } : { height: { duration: DUR.base, ease: EASE.out }, opacity: { duration: DUR.fast, ease: EASE.out } }} className="overflow-hidden px-3 pb-4">
+                {body}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        );
+      })()}
     </section>
   );
 }

@@ -225,43 +225,6 @@ function AcademyCard({ b, onOpen }: { b: AcademyBook; onOpen: (r: Recent) => voi
   return live ? <Link href={b.href!} onClick={() => { playPing(); onOpen({ id: "ac-" + b.id, title: b.titleHe, module: b.module, href: b.href! }); }} className="block h-full">{inner}</Link> : <div className="h-full cursor-not-allowed opacity-80">{inner}</div>;
 }
 
-/* ====== FEATURED reference book — editorial cover + panel ====== */
-function FeaturedBook({ book, onOpen }: { book: LibBook; onOpen: (b: LibBook) => void }) {
-  const c = mc(book.module);
-  const reader = READER[book.id];
-  return (
-    <div className="group relative grid gap-6 overflow-hidden rounded-[1.75rem] border border-hairline bg-surface p-6 shadow-[0_16px_44px_-24px_rgba(15,23,42,0.5)] transition-all duration-500 hover:shadow-[0_32px_64px_-26px_rgba(15,23,42,0.55)] sm:grid-cols-[minmax(150px,210px)_1fr] sm:p-8">
-      <span className="pointer-events-none absolute -left-16 -top-16 size-48 rounded-full opacity-[0.12] blur-3xl" style={{ background: c }} />
-      <button onClick={() => onOpen(book)} className="relative mx-auto w-40 max-w-full transition-transform duration-500 ease-[cubic-bezier(.32,.72,0,1)] group-hover:-translate-y-1.5 group-hover:rotate-[-1deg] sm:w-full" aria-label={`פתח ${book.titleHe}`}>
-        <BookCover book={asCover(book)} size="lg" />
-      </button>
-      <div className="relative flex flex-col justify-center gap-3">
-        <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1 rounded-full bg-brand-soft px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-brand"><Sparkles className="size-3" /> ספר נבחר</span>
-          <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{book.module}</span>
-          <span className="text-[11px] font-semibold text-ink-3">{book.publisher}</span>
-        </div>
-        <h3 className="max-w-2xl text-2xl font-black leading-tight tracking-tight text-ink-1 sm:text-[1.9rem]">{book.titleHe}</h3>
-        <p className="max-w-2xl text-[13.5px] leading-relaxed text-ink-2 sm:text-sm">{book.summaryHe}</p>
-        <div className="flex flex-wrap items-center gap-2">
-          <Chip><FileText className="size-3" /> {book.pages} עמ׳</Chip>
-          <Chip tone="brand"><BookMarked className="size-3" /> {book.chapters.length} פרקים</Chip>
-          <Chip><Languages className="size-3" /> EN · HE</Chip>
-          {reader && <Chip tone="green"><CheckCircle2 className="size-3" /> טקסט מלא</Chip>}
-        </div>
-        {reader && (
-          <div className="mt-1">
-            <button onClick={() => onOpen(book)} className="group/btn inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
-              <BookOpen className="size-4" /> פתח את הספר
-              <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover/btn:-translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
 /* ====== spine → bring the book FORWARD (face-out) before opening ====== */
 function BookPeek({ book, onOpen, onClose }: { book: LibBook; onOpen: (b: LibBook) => void; onClose: () => void }) {
   const reduce = useReducedMotion();
@@ -278,11 +241,13 @@ function BookPeek({ book, onOpen, onClose }: { book: LibBook; onOpen: (b: LibBoo
   return (
     <motion.div role="dialog" aria-modal="true" aria-label={book.titleHe} onClick={onClose}
       className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/55 p-4 backdrop-blur-sm"
-      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.22, ease: [0.2, 0, 0, 1] }}>
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.18, ease: [0.2, 0, 0, 1] }}>
+      {/* P0 — no exit animation on the backdrop: close is instant so a lingering
+          overlay never swallows the next book's click (open another immediately). */}
       <motion.div onClick={(e) => e.stopPropagation()}
-        initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.94, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96 }} transition={{ duration: 0.26, ease: [0.2, 0, 0, 1] }}
+        initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.94, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.24, ease: [0.2, 0, 0, 1] }}
         className="grid w-full max-w-lg gap-5 rounded-3xl border border-hairline bg-surface p-5 shadow-2xl sm:grid-cols-[150px_1fr] sm:p-6">
-        <motion.div layoutId={reduce ? undefined : `cover-${book.id}`} className="mx-auto w-32 sm:mx-0 sm:w-full"><BookCover book={asCover(book)} size="lg" /></motion.div>
+        <div className="mx-auto w-32 sm:mx-0 sm:w-full"><BookCover book={asCover(book)} size="lg" /></div>
         <div className="flex min-w-0 flex-col justify-center gap-2.5">
           <div className="flex items-center gap-2">
             <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{book.module}</span>
@@ -317,7 +282,7 @@ function BookCard({ book, reading, onOpen }: { book: LibBook; reading: boolean; 
   const hasReader = !!READER[book.id];
   return (
     <button data-book-id={book.id} onClick={onOpen} aria-label={`פתח ${book.titleHe}`} className="group relative flex flex-col text-start">
-      <motion.div layoutId={reduce ? undefined : `cover-${book.id}`} whileHover={reduce ? undefined : { y: -6 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} className={`relative ${reading ? "rounded-[10px] ring-2 ring-brand ring-offset-2 ring-offset-surface" : ""}`}>
+      <motion.div whileHover={reduce ? undefined : { y: -6 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} className={`relative ${reading ? "rounded-[10px] ring-2 ring-brand ring-offset-2 ring-offset-surface" : ""}`}>
         <BookCover book={asCover(book)} size="md" />
         {reading && <span className="absolute end-2 top-2 z-10 inline-flex items-center gap-1 rounded-full bg-brand px-2 py-0.5 text-[10px] font-extrabold text-white shadow-md"><BookOpen className="size-3" />בקריאה</span>}
         {!hasReader && <span className="pointer-events-none absolute inset-x-2 bottom-2 rounded-md bg-slate-900/70 px-2 py-1 text-center text-[10px] font-bold text-white backdrop-blur-sm">בקרוב · טקסט מלא</span>}
@@ -361,7 +326,6 @@ export default function LibraryPage() {
   const reference = LIBRARY.filter((b) => (!mod || b.module === mod) && match([b.title, b.titleHe, b.module, b.publisher]));
 
   const publishers = useMemo(() => [...new Set(reference.map((b) => b.publisher))], [reference]);
-  const featured = useMemo(() => (!q && !mod ? [...LIBRARY].sort((a, b) => b.pages - a.pages)[0] : null), [q, mod]);
   const totalAcademyHours = useMemo(() => ACADEMY_BOOKS.reduce((s, b) => s + estHours(b.nodes), 0), []);
   const acLive = ACADEMY_BOOKS.filter((b) => b.status === "live");
   const filtering = Boolean(q || mod);
@@ -438,12 +402,12 @@ export default function LibraryPage() {
           <section className="space-y-6">
             <SectionHead icon={<BookOpen className="size-5" />} eyebrow="Enterprise Technical Library · ספריית עיון" title="ספרייה דיגיטלית" tint="#0b0c0e" />
 
-            {featured && <FeaturedBook book={featured} onOpen={openBook} />}
-
+            {/* P0 — the shelf starts fully CLOSED: no auto-featured/open book, no modal.
+                Every book is a closed cover; a book opens only on explicit click. */}
             {!filtering ? (
               <div className="space-y-7">
                 {publishers.map((pub) => {
-                  const books = reference.filter((b) => b.publisher === pub && b.id !== featured?.id);
+                  const books = reference.filter((b) => b.publisher === pub);
                   if (!books.length) return null;
                   return (
                     <div key={pub} className="space-y-1">
