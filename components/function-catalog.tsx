@@ -8,6 +8,7 @@
  * beginner⇄expert modes, and the verified Related-Flow view.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Plug, Braces, Search, X, ChevronDown, ShieldCheck, AlertTriangle, Info, Clock, ArrowLeft, Copy, Check, GitBranch, BookOpen, Boxes, Sparkles } from "lucide-react";
 import type { SapFuncObject, VerificationStatus, OperationType } from "@/lib/bapi-registry";
@@ -213,12 +214,21 @@ function LearnPanel() {
 }
 
 /* ---- main catalog ---- */
-export function FunctionCatalog({ objects, moduleLabel }: { objects: SapFuncObject[]; moduleLabel?: string }) {
+type SortKey = "alpha" | "process" | "verified" | "commit";
+const inMod = (o: SapFuncObject, m: string) => m === "all" || o.primaryModule === m || o.secondaryModules.includes(m as never) || (m === "cross" && (o.secondaryModules.length > 0 || o.primaryModule === "Basis" || o.primaryModule === "Cross-Application"));
+
+export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { objects: SapFuncObject[]; moduleLabel?: string; gateways?: boolean }) {
   const [q, setQ] = useState("");
   const [type, setType] = useState<"all" | "BAPI" | "FM">("all");
   const [verif, setVerif] = useState<"all" | "verified" | "needs">("all");
+  const [mod, setMod] = useState<string>("all");
+  const [op, setOp] = useState<"all" | OperationType>("all");
+  const [commitOnly, setCommitOnly] = useState(false);
+  const [sort, setSort] = useState<SortKey>("alpha");
   const [expert, setExpert] = useState(false);
   const [sel, setSel] = useState<SapFuncObject | null>(null);
+
+  const mods = useMemo(() => [...new Set(objects.flatMap((o) => [o.primaryModule, ...o.secondaryModules]))], [objects]);
 
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
@@ -226,10 +236,22 @@ export function FunctionCatalog({ objects, moduleLabel }: { objects: SapFuncObje
       if (type !== "all" && (type === "BAPI" ? !isBapi(o) : isBapi(o))) return false;
       if (verif === "verified" && !o.verificationStatus.startsWith("verified")) return false;
       if (verif === "needs" && o.verificationStatus.startsWith("verified")) return false;
+      if (!inMod(o, mod)) return false;
+      if (op !== "all" && o.operationType !== op) return false;
+      if (commitOnly && o.requiresCommit !== "yes") return false;
       if (!s) return true;
       return (o.technicalName + " " + o.shortDescriptionHe + " " + o.shortDescriptionEn + " " + o.businessProcess + " " + o.keywords.join(" ") + " " + o.transactions.join(" ")).toLowerCase().includes(s);
     });
-  }, [objects, q, type, verif]);
+  }, [objects, q, type, verif, mod, op, commitOnly]);
+
+  const cmp = useMemo(() => {
+    const vRank = (o: SapFuncObject) => (o.verificationStatus.startsWith("verified") ? 0 : o.verificationStatus === "invalid-name" ? 2 : 1);
+    return (a: SapFuncObject, b: SapFuncObject) =>
+      sort === "verified" ? vRank(a) - vRank(b) || a.technicalName.localeCompare(b.technicalName)
+        : sort === "commit" ? (b.requiresCommit === "yes" ? 1 : 0) - (a.requiresCommit === "yes" ? 1 : 0) || a.technicalName.localeCompare(b.technicalName)
+          : sort === "process" ? (a.businessProcess || "~").localeCompare(b.businessProcess || "~") || a.technicalName.localeCompare(b.technicalName)
+            : a.technicalName.localeCompare(b.technicalName);
+  }, [sort]);
 
   // group: BAPI then FM, each by business process
   const groups = useMemo(() => {
@@ -237,10 +259,11 @@ export function FunctionCatalog({ objects, moduleLabel }: { objects: SapFuncObje
       const list = filtered.filter((o) => (kind === "BAPI" ? isBapi(o) : !isBapi(o)));
       const byProc = new Map<string, SapFuncObject[]>();
       for (const o of list) { const p = o.businessProcess || "כללי"; (byProc.get(p) || byProc.set(p, []).get(p)!).push(o); }
+      for (const arr of byProc.values()) arr.sort(cmp);
       return { kind, count: list.length, procs: [...byProc.entries()].sort((a, b) => b[1].length - a[1].length) };
     };
     return [mk("BAPI"), mk("FM")];
-  }, [filtered]);
+  }, [filtered, cmp]);
 
   const F = ({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) => (
     <button onClick={onClick} className={`tap shrink-0 rounded-full border px-3 py-1.5 text-[12px] font-bold transition ${active ? "border-brand bg-brand text-white" : "border-hairline bg-surface text-ink-3 hover:bg-surface-2"}`}>{children}</button>
@@ -269,8 +292,39 @@ export function FunctionCatalog({ objects, moduleLabel }: { objects: SapFuncObje
             <F active={expert} onClick={() => setExpert((v) => !v)}>{expert ? "מצב מומחה" : "מצב מתחיל"}</F>
           </div>
         </div>
+        {/* row 2 — module · operation · commit · sort */}
+        <div className="chip-rail mt-2 flex items-center gap-1.5 overflow-x-auto pb-0.5">
+          <F active={mod === "all"} onClick={() => setMod("all")}>כל המודולים</F>
+          {mods.map((m) => <F key={m} active={mod === m} onClick={() => setMod(mod === m ? "all" : m)}>{m}</F>)}
+          <span className="mx-0.5 w-px bg-hairline" />
+          <F active={commitOnly} onClick={() => setCommitOnly((v) => !v)}>דורש COMMIT</F>
+          <select value={op} onChange={(e) => setOp(e.target.value as "all" | OperationType)} aria-label="סינון לפי פעולה" className="tap shrink-0 rounded-full border border-hairline bg-surface px-2.5 py-1.5 text-[12px] font-bold text-ink-2 outline-none focus:border-brand/40">
+            <option value="all">כל הפעולות</option>
+            {(["Read", "Create", "Change", "Delete", "Post", "Confirm"] as OperationType[]).map((k) => <option key={k} value={k}>{OP_HE[k]}</option>)}
+          </select>
+          <span className="mx-0.5 w-px bg-hairline" />
+          <select value={sort} onChange={(e) => setSort(e.target.value as SortKey)} aria-label="מיון" className="tap shrink-0 rounded-full border border-hairline bg-surface px-2.5 py-1.5 text-[12px] font-bold text-ink-2 outline-none focus:border-brand/40">
+            <option value="alpha">מיון: א״ב</option>
+            <option value="process">מיון: תהליך</option>
+            <option value="verified">מיון: מאומת קודם</option>
+            <option value="commit">מיון: COMMIT קודם</option>
+          </select>
+        </div>
         <p className="mt-1.5 text-[11.5px] font-semibold text-ink-3">{filtered.length} תוצאות{moduleLabel ? ` · ${moduleLabel}` : ""}</p>
       </div>
+
+      {/* module gateways (§6 — the global page points into the full module collections, not duplicates them) */}
+      {gateways && mod === "all" && !q && (
+        <div className="grid gap-3 sm:grid-cols-2">
+          {[["PM", "/pm/", "אחזקת מפעל", "var(--brand)"], ["PP-PI", "/pp-pi/", "ייצור תהליכי", "#6d28d9"]].map(([code, href, label, tint]) => (
+            <Link key={code} href={href} className="card-interactive group flex items-center gap-3 p-4">
+              <span className="grid size-11 shrink-0 place-items-center rounded-xl text-white" style={{ background: tint }}><Boxes className="size-6" /></span>
+              <span className="min-w-0 flex-1"><span className="block text-[14px] font-extrabold text-ink-1">אוסף ה-BAPI/FM המלא של {code}</span><span className="block text-[12px] text-ink-3">{label} — פורטל המודול</span></span>
+              <ArrowLeft className="size-4 text-ink-3 transition group-hover:-translate-x-0.5 group-hover:text-brand" />
+            </Link>
+          ))}
+        </div>
+      )}
 
       {groups.map((g) => g.count > 0 && (
         <section key={g.kind} className="space-y-3">
