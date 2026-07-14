@@ -10,7 +10,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Plug, Braces, Search, X, ChevronDown, ShieldCheck, AlertTriangle, Info, Clock, ArrowLeft, Copy, Check, GitBranch, BookOpen, Boxes, Sparkles, Star, ListChecks, Wrench, Code2, GraduationCap, Lightbulb, Link2 } from "lucide-react";
+import { Plug, Braces, Search, X, ChevronDown, ShieldCheck, AlertTriangle, Info, Clock, ArrowLeft, Copy, Check, GitBranch, BookOpen, Boxes, Sparkles, Star, ListChecks, Wrench, Code2, GraduationCap, Lightbulb, Link2, Pin, NotebookPen, Server, Globe, FileJson, Terminal, RotateCcw, PackageOpen, SearchX } from "lucide-react";
 import type { SapFuncObject, VerificationStatus, OperationType, BusinessCategory, Difficulty, Stability } from "@/lib/bapi-registry";
 
 const CAT: Record<BusinessCategory, { he: string; c: string }> = {
@@ -55,24 +55,58 @@ function Chip({ children }: { children: React.ReactNode }) {
   return <span className="inline-flex items-center gap-1 rounded-md bg-surface-2 px-1.5 py-0.5 text-[10.5px] font-bold text-ink-2">{children}</span>;
 }
 
-function useFavorites() {
+// §28 — consultant personal layer: favorites + pinned + mark-learned + private notes.
+// All client-only (localStorage), SSR-safe (hydrated in effect). Never leaves the browser.
+function useObjState() {
   const [fav, setFav] = useState<Set<string>>(new Set());
-  useEffect(() => { try { setFav(new Set(JSON.parse(localStorage.getItem("neo:bapi:fav") || "[]"))); } catch { /* noop */ } }, []);
-  const toggle = (id: string) => setFav((p) => { const n = new Set(p); if (n.has(id)) n.delete(id); else n.add(id); try { localStorage.setItem("neo:bapi:fav", JSON.stringify([...n])); } catch { /* noop */ } return n; });
-  return { fav, toggle };
+  const [pin, setPin] = useState<Set<string>>(new Set());
+  const [learned, setLearned] = useState<Set<string>>(new Set());
+  const [notes, setNotes] = useState<Record<string, string>>({});
+  useEffect(() => {
+    try { setFav(new Set(JSON.parse(localStorage.getItem("neo:bapi:fav") || "[]"))); } catch { /* noop */ }
+    try { setPin(new Set(JSON.parse(localStorage.getItem("neo:bapi:pin") || "[]"))); } catch { /* noop */ }
+    try { setLearned(new Set(JSON.parse(localStorage.getItem("neo:bapi:learned") || "[]"))); } catch { /* noop */ }
+    try { setNotes(JSON.parse(localStorage.getItem("neo:bapi:notes") || "{}")); } catch { /* noop */ }
+  }, []);
+  const mkToggle = (setter: React.Dispatch<React.SetStateAction<Set<string>>>, key: string) => (id: string) =>
+    setter((p) => { const n = new Set(p); if (n.has(id)) n.delete(id); else n.add(id); try { localStorage.setItem(key, JSON.stringify([...n])); } catch { /* noop */ } return n; });
+  const setNote = (id: string, v: string) => setNotes((p) => {
+    const n = { ...p }; const t = v.trim(); if (t) n[id] = v; else delete n[id];
+    try { localStorage.setItem("neo:bapi:notes", JSON.stringify(n)); } catch { /* noop */ } return n;
+  });
+  return {
+    fav, pin, learned, notes,
+    toggleFav: mkToggle(setFav, "neo:bapi:fav"),
+    togglePin: mkToggle(setPin, "neo:bapi:pin"),
+    toggleLearned: mkToggle(setLearned, "neo:bapi:learned"),
+    setNote,
+  };
 }
 
 /* ---- teaching card ---- */
-function Card({ o, onOpen, faved, onFav }: { o: SapFuncObject; onOpen: () => void; faved: boolean; onFav: () => void }) {
-  const bapi = isBapi(o); const cat = CAT[o.category];
+function Card({ o, onOpen, faved, pinned, learned, onFav, onPin }: { o: SapFuncObject; onOpen: () => void; faved: boolean; pinned: boolean; learned: boolean; onFav: () => void; onPin: () => void }) {
+  const bapi = isBapi(o); const cat = CAT[o.category]; const reduce = useReducedMotion();
   return (
-    <button onClick={onOpen} dir="rtl" className="card-interactive tap group relative flex h-full flex-col gap-2 overflow-hidden p-4 text-start">
+    <motion.button
+      layout={!reduce}
+      initial={reduce ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+      transition={{ type: "spring", stiffness: 320, damping: 30 }}
+      whileHover={reduce ? undefined : { y: -3 }} whileTap={{ scale: 0.985 }}
+      onClick={onOpen} dir="rtl"
+      className={`card-interactive tap group relative flex h-full flex-col gap-2 overflow-hidden p-4 text-start ${pinned ? "ring-1 ring-brand/30" : ""}`}>
       <span className="absolute inset-y-0 end-0 w-1.5" style={{ background: cat.c }} />
-      <span role="button" tabIndex={0} aria-label={faved ? "הסר ממועדפים" : "הוסף למועדפים"} aria-pressed={faved}
-        onClick={(e) => { e.stopPropagation(); onFav(); }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); e.preventDefault(); onFav(); } }}
-        className="tap absolute start-2 top-2 grid size-7 place-items-center rounded-lg text-ink-3 hover:bg-surface-2">
-        <Star className={`size-4 ${faved ? "fill-amber-400 text-amber-400" : ""}`} />
-      </span>
+      <div className="absolute start-2 top-2 flex flex-col gap-0.5">
+        <span role="button" tabIndex={0} aria-label={faved ? "הסר ממועדפים" : "הוסף למועדפים"} aria-pressed={faved}
+          onClick={(e) => { e.stopPropagation(); onFav(); }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); e.preventDefault(); onFav(); } }}
+          className="tap grid size-7 place-items-center rounded-lg text-ink-3 hover:bg-surface-2">
+          <Star className={`size-4 ${faved ? "fill-amber-400 text-amber-400" : ""}`} />
+        </span>
+        <span role="button" tabIndex={0} aria-label={pinned ? "בטל נעיצה" : "נעץ"} aria-pressed={pinned}
+          onClick={(e) => { e.stopPropagation(); onPin(); }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); e.preventDefault(); onPin(); } }}
+          className={`tap grid size-7 place-items-center rounded-lg hover:bg-surface-2 ${pinned ? "text-brand" : "text-ink-3 opacity-0 focus:opacity-100 group-hover:opacity-100"}`}>
+          <Pin className={`size-3.5 ${pinned ? "fill-brand" : ""}`} />
+        </span>
+      </div>
       <div className="flex items-center gap-2 pe-7">
         <span className="grid size-8 shrink-0 place-items-center rounded-lg text-white" style={{ background: cat.c }}>{bapi ? <Plug className="size-4" /> : <Braces className="size-4" />}</span>
         <span className="tech min-w-0 flex-1 truncate font-mono text-[13.5px] font-bold text-ink-1" dir="ltr">{o.technicalName}</span>
@@ -81,6 +115,7 @@ function Card({ o, onOpen, faved, onFav }: { o: SapFuncObject; onOpen: () => voi
       <div className="flex flex-wrap items-center gap-1.5">
         <span className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10.5px] font-bold text-white" style={{ background: cat.c }}>{cat.he}</span>
         <Chip>{o.primaryModule}</Chip>
+        {learned && <span className="inline-flex items-center gap-1 rounded-md border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10.5px] font-bold text-emerald-700"><GraduationCap className="size-3" />נלמד</span>}
       </div>
       <p className="line-clamp-2 text-[12.5px] leading-relaxed text-ink-2">{o.shortDescriptionHe || o.shortDescriptionEn || "—"}</p>
       <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-1">
@@ -88,7 +123,7 @@ function Card({ o, onOpen, faved, onFav }: { o: SapFuncObject; onOpen: () => voi
         {o.requiresCommit === "yes" && <Chip>COMMIT</Chip>}
         <VerifPill s={o.verificationStatus} />
       </div>
-    </button>
+    </motion.button>
   );
 }
 
@@ -140,8 +175,68 @@ function KnowledgeGraph({ o, resolve, onOpen }: { o: SapFuncObject; resolve: (id
   );
 }
 
+/* ---- §16 multi-protocol code examples ---- */
+// Honest by construction: the ABAP tab shows the verified skeleton when curated;
+// RFC/JSON/OData tabs show the correct CALL SHAPE plus an accurate caveat, because
+// classic BAPIs/FMs are NOT native REST/OData services — they must be exposed via
+// RAP / SEGW / SICF, or a Released S/4 API used instead. No endpoint is presented
+// as if it exists out of the box.
+type Snippet = { key: string; label: string; Icon: typeof Code2; code: string; note?: string; verified: boolean };
+function buildSnippets(o: SapFuncObject): Snippet[] {
+  const name = o.technicalName;
+  const bapi = isBapi(o);
+  const commit = o.requiresCommit === "yes" || bapi;
+  const out: Snippet[] = [];
+  out.push({
+    key: "abap", label: "ABAP", Icon: Code2, verified: !!o.codeAbap,
+    code: o.codeAbap || `DATA lt_return TYPE STANDARD TABLE OF bapiret2.\n\nCALL FUNCTION '${name}'\n*  EXPORTING\n*    ...    = ...        " השלם פרמטרים מ-SE37\n  TABLES\n    return = lt_return.${commit ? `\n\nCALL FUNCTION 'BAPI_TRANSACTION_COMMIT'\n  EXPORTING wait = 'X'.` : ""}`,
+    note: o.codeAbap ? "שלד מאומת מול מבנה הממשק שתועד." : "שלד כללי — אמת שמות/סוגי הפרמטרים ב-SE37 לפני שימוש.",
+  });
+  if (bapi || o.remoteEnabled === "yes") out.push({
+    key: "rfc", label: "RFC · JCo", Icon: Server, verified: false,
+    code: `// SAP JCo (Java) — קריאת RFC סינכרונית\nJCoFunction fn = destination.getRepository().getFunction("${name}");\n// fn.getImportParameterList().setValue("...", ...);  // פרמטרים כמו ב-SE37\nfn.execute(destination);\nJCoTable ret = fn.getTableParameterList().getTable("RETURN");${commit ? `\n\n// לאחר הצלחה — אשר את ה-LUW\ndestination.getRepository().getFunction("BAPI_TRANSACTION_COMMIT").execute(destination);` : ""}`,
+    note: "שמות הפרמטרים זהים לממשק ה-ABAP. דורש הרשאת S_RFC + יעד JCo מוגדר.",
+  });
+  out.push({
+    key: "json", label: "REST · JSON", Icon: FileJson, verified: false,
+    code: `POST /sap/bc/rest/z_${name.toLowerCase()}   // נקודת קצה מותאמת (SICF)\nContent-Type: application/json\n\n{\n  // גוף הבקשה משקף את פרמטרי ה-Import של ${name}\n  "import": { /* ... */ },\n  "return": []\n}`,
+    note: bapi
+      ? "BAPI קלאסי אינו שירות REST כברירת מחדל. חשוף דרך RAP / SEGW / handler ב-SICF, או השתמש ב-Released OData API של S/4HANA."
+      : "FM אינו נחשף כ-REST ישירות. עטוף בשירות (RAP/SEGW) ואמת שהוא Remote-Enabled.",
+  });
+  out.push({
+    key: "odata", label: "OData", Icon: Globe, verified: false,
+    code: `GET /sap/opu/odata/sap/Z_${(o.businessObject || "SRV")}_SRV/Set?$top=20\nAccept: application/json\n\n// כתיבה:\nPOST /sap/opu/odata/sap/Z_${(o.businessObject || "SRV")}_SRV/Set\n{ /* מיפוי מהפרמטרים העסקיים של ${name} */ }`,
+    note: "אין שירות OData סטנדרטי לאובייקט זה מחוץ לקופסה. בנה Service ב-SEGW/RAP הממפה ל-" + name + ", או בדוק Released API ב-SAP API Business Hub.",
+  });
+  return out;
+}
+function CodeTabs({ snippets }: { snippets: Snippet[] }) {
+  const [i, setI] = useState(0);
+  const [copied, setCopied] = useState(false);
+  const s = snippets[Math.min(i, snippets.length - 1)];
+  const copy = () => { navigator.clipboard?.writeText(s.code).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1400); }).catch(() => {}); };
+  return (
+    <div>
+      <div className="chip-rail mb-2 flex gap-1.5 overflow-x-auto">
+        {snippets.map((sn, k) => { const A = sn.Icon; return (
+          <button key={sn.key} onClick={() => { setI(k); setCopied(false); }} aria-pressed={k === i} className={`tap inline-flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-1 text-[11.5px] font-bold transition ${k === i ? "border-brand bg-brand text-white" : "border-hairline bg-surface text-ink-3 hover:bg-surface-2"}`}><A className="size-3" />{sn.label}</button>
+        ); })}
+      </div>
+      <div className="relative">
+        <button onClick={copy} aria-label="העתק קוד" className="tap absolute start-2 top-2 z-10 inline-flex items-center gap-1 rounded-md bg-white/10 px-2 py-1 text-[10.5px] font-bold text-white backdrop-blur transition hover:bg-white/20">{copied ? <Check className="size-3 text-emerald-300" /> : <Copy className="size-3" />}{copied ? "הועתק" : "העתק"}</button>
+        <pre dir="ltr" className="tech max-h-80 overflow-auto rounded-lg bg-ink-1 p-3 text-[11px] leading-relaxed text-white">{s.code}</pre>
+      </div>
+      <p className={`mt-2 flex items-start gap-1.5 rounded-lg px-3 py-2 text-[11.5px] font-semibold ${s.verified ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
+        {s.verified ? <ShieldCheck className="mt-0.5 size-3.5 shrink-0" /> : <AlertTriangle className="mt-0.5 size-3.5 shrink-0" />}
+        {s.note}
+      </p>
+    </div>
+  );
+}
+
 /* ---- detail drawer ---- */
-function Drawer({ o, expert, related, faved, objects, onFav, onOpen, onClose }: { o: SapFuncObject; expert: boolean; related: SapFuncObject[]; faved: boolean; objects: SapFuncObject[]; onFav: () => void; onOpen: (x: SapFuncObject) => void; onClose: () => void }) {
+function Drawer({ o, expert, related, faved, pinned, learned, note, objects, onFav, onPin, onLearned, onNote, onOpen, onClose }: { o: SapFuncObject; expert: boolean; related: SapFuncObject[]; faved: boolean; pinned: boolean; learned: boolean; note: string; objects: SapFuncObject[]; onFav: () => void; onPin: () => void; onLearned: () => void; onNote: (v: string) => void; onOpen: (x: SapFuncObject) => void; onClose: () => void }) {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
@@ -186,6 +281,8 @@ function Drawer({ o, expert, related, faved, objects, onFav, onOpen, onClose }: 
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-1.5">
             <button onClick={onFav} aria-pressed={faved} className="tap inline-flex items-center gap-1 rounded-md border border-hairline px-2 py-0.5 text-[11px] font-bold text-ink-2 hover:border-brand/40"><Star className={`size-3 ${faved ? "fill-amber-400 text-amber-400" : ""}`} /> {faved ? "במועדפים" : "מועדפים"}</button>
+            <button onClick={onPin} aria-pressed={pinned} className={`tap inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-bold hover:border-brand/40 ${pinned ? "border-brand/40 bg-brand-soft text-brand" : "border-hairline text-ink-2"}`}><Pin className={`size-3 ${pinned ? "fill-brand" : ""}`} /> {pinned ? "נעוץ" : "נעץ"}</button>
+            <button onClick={onLearned} aria-pressed={learned} className={`tap inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-[11px] font-bold hover:border-emerald-300 ${learned ? "border-emerald-300 bg-emerald-50 text-emerald-700" : "border-hairline text-ink-2"}`}><GraduationCap className="size-3" /> {learned ? "נלמד ✓" : "סמן כנלמד"}</button>
             <button onClick={copy} className="tap inline-flex items-center gap-1 rounded-md border border-hairline px-2 py-0.5 text-[11px] font-bold text-ink-2 hover:border-brand/40">{copied ? <Check className="size-3 text-emerald-600" /> : <Copy className="size-3" />} העתק שם</button>
           </div>
           {o.verificationStatus === "invalid-name" && <p className="mt-2 rounded-lg border border-brand/25 bg-brand-soft px-3 py-2 text-[12px] font-semibold text-brand"><AlertTriangle className="me-1 inline size-3.5" />שם זה אינו אובייקט SAP סטנדרטי. ראה חלופות בהמשך.</p>}
@@ -201,6 +298,14 @@ function Drawer({ o, expert, related, faved, objects, onFav, onOpen, onClose }: 
               {o.remoteEnabled === "yes" && <Chip>RFC</Chip>}
               {o.businessProcess && <Chip>{o.businessProcess}</Chip>}
             </div>
+          </Sec>
+
+          {/* §28 — private consultant notes (localStorage, never leaves the browser) */}
+          <Sec icon={<NotebookPen className="size-3.5" />} title="הערות אישיות">
+            <textarea value={note} onChange={(e) => onNote(e.target.value)} rows={note ? 4 : 2} dir="rtl"
+              placeholder="רשום כאן טיפים, מלכודות או תזכורות משלך לאובייקט הזה…"
+              className="w-full resize-y rounded-lg border border-hairline bg-surface-2/50 p-2.5 text-[12.5px] leading-relaxed text-ink-1 outline-none placeholder:text-ink-3 focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
+            <p className="mt-1 text-[10.5px] text-ink-3">נשמר מקומית בדפדפן בלבד · פרטי</p>
           </Sec>
 
           {o.sequence && o.sequence.length > 1 && (
@@ -244,9 +349,9 @@ function Drawer({ o, expert, related, faved, objects, onFav, onOpen, onClose }: 
             </Sec>
           ) : null}
 
-          {expert && o.codeAbap ? (
-            <Sec icon={<Code2 className="size-3.5" />} title="דוגמת ABAP">
-              <pre dir="ltr" className="tech overflow-x-auto rounded-lg bg-ink-1 p-3 text-[11px] leading-relaxed text-white">{o.codeAbap}</pre>
+          {expert ? (
+            <Sec icon={<Terminal className="size-3.5" />} title="דוגמאות קוד לפי פרוטוקול">
+              <CodeTabs snippets={buildSnippets(o)} />
             </Sec>
           ) : null}
 
@@ -360,8 +465,12 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
   const [sort, setSort] = useState<SortKey>("alpha");
   const [expert, setExpert] = useState(false);
   const [favOnly, setFavOnly] = useState(false);
+  const [pinOnly, setPinOnly] = useState(false);
+  const [learn, setLearn] = useState<"all" | "learned" | "unlearned">("all");
   const [sel, setSel] = useState<SapFuncObject | null>(null);
-  const { fav, toggle } = useFavorites();
+  const { fav, pin, learned, notes, toggleFav, togglePin, toggleLearned, setNote } = useObjState();
+  const resetFilters = () => { setQ(""); setType("all"); setVerif("all"); setMod("all"); setOp("all"); setCommitOnly(false); setFavOnly(false); setPinOnly(false); setLearn("all"); };
+  const anyFilter = !!q || type !== "all" || verif !== "all" || mod !== "all" || op !== "all" || commitOnly || favOnly || pinOnly || learn !== "all";
 
   const mods = useMemo(() => [...new Set(objects.flatMap((o) => [o.primaryModule, ...o.secondaryModules]))], [objects]);
   const related = useMemo(() => {
@@ -389,10 +498,13 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
       if (op !== "all" && o.operationType !== op) return false;
       if (commitOnly && o.requiresCommit !== "yes") return false;
       if (favOnly && !fav.has(o.id)) return false;
+      if (pinOnly && !pin.has(o.id)) return false;
+      if (learn === "learned" && !learned.has(o.id)) return false;
+      if (learn === "unlearned" && learned.has(o.id)) return false;
       if (!s) return true;
       return (o.technicalName + " " + o.shortDescriptionHe + " " + o.shortDescriptionEn + " " + o.businessProcess + " " + o.keywords.join(" ") + " " + o.transactions.join(" ")).toLowerCase().includes(s);
     });
-  }, [objects, q, type, verif, mod, op, commitOnly, favOnly, fav]);
+  }, [objects, q, type, verif, mod, op, commitOnly, favOnly, pinOnly, learn, fav, pin, learned]);
 
   const cmp = useMemo(() => {
     const vRank = (o: SapFuncObject) => (o.verificationStatus.startsWith("verified") ? 0 : o.verificationStatus === "invalid-name" ? 2 : 1);
@@ -409,11 +521,11 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
       const list = filtered.filter((o) => (kind === "BAPI" ? isBapi(o) : !isBapi(o)));
       const byProc = new Map<string, SapFuncObject[]>();
       for (const o of list) { const p = o.businessProcess || "כללי"; (byProc.get(p) || byProc.set(p, []).get(p)!).push(o); }
-      for (const arr of byProc.values()) arr.sort(cmp);
+      for (const arr of byProc.values()) arr.sort((a, b) => (pin.has(b.id) ? 1 : 0) - (pin.has(a.id) ? 1 : 0) || cmp(a, b));
       return { kind, count: list.length, procs: [...byProc.entries()].sort((a, b) => b[1].length - a[1].length) };
     };
     return [mk("BAPI"), mk("FM")];
-  }, [filtered, cmp]);
+  }, [filtered, cmp, pin]);
 
   const F = ({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) => (
     <button onClick={onClick} className={`tap shrink-0 rounded-full border px-3 py-1.5 text-[12px] font-bold transition ${active ? "border-brand bg-brand text-white" : "border-hairline bg-surface text-ink-3 hover:bg-surface-2"}`}>{children}</button>
@@ -440,6 +552,9 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
             <F active={verif === "needs"} onClick={() => setVerif(verif === "needs" ? "all" : "needs")}>דורש אימות</F>
             <span className="mx-0.5 w-px bg-hairline" />
             <F active={favOnly} onClick={() => setFavOnly((v) => !v)}>★ מועדפים</F>
+            <F active={pinOnly} onClick={() => setPinOnly((v) => !v)}>נעוצים</F>
+            <F active={learn === "learned"} onClick={() => setLearn(learn === "learned" ? "all" : "learned")}>נלמד</F>
+            <F active={learn === "unlearned"} onClick={() => setLearn(learn === "unlearned" ? "all" : "unlearned")}>ללמידה</F>
             <span className="mx-0.5 w-px bg-hairline" />
             <F active={expert} onClick={() => setExpert((v) => !v)}>{expert ? "מצב מומחה" : "מצב מתחיל"}</F>
           </div>
@@ -494,16 +609,31 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
                 <span className="h-px flex-1 bg-hairline" />
               </div>
               <div className="grid-adaptive-sm">
-                {list.map((o) => <Card key={o.id} o={o} onOpen={() => setSel(o)} faved={fav.has(o.id)} onFav={() => toggle(o.id)} />)}
+                {list.map((o) => <Card key={o.id} o={o} onOpen={() => setSel(o)} faved={fav.has(o.id)} pinned={pin.has(o.id)} learned={learned.has(o.id)} onFav={() => toggleFav(o.id)} onPin={() => togglePin(o.id)} />)}
               </div>
             </div>
           ))}
         </section>
       ))}
 
-      {filtered.length === 0 && <p className="py-16 text-center text-[14px] text-ink-3">לא נמצאו אובייקטים תואמים.</p>}
+      {filtered.length === 0 && (
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center gap-3 py-16 text-center">
+          <span className="grid size-16 place-items-center rounded-2xl bg-surface-2 text-ink-3">
+            {favOnly || pinOnly ? <PackageOpen className="size-8" /> : <SearchX className="size-8" />}
+          </span>
+          <div>
+            <p className="text-[15px] font-extrabold text-ink-1">
+              {favOnly ? "אין עדיין מועדפים" : pinOnly ? "אין אובייקטים נעוצים" : learn === "learned" ? "עוד לא סימנת אובייקטים כנלמדים" : "לא נמצאו אובייקטים תואמים"}
+            </p>
+            <p className="mx-auto mt-1 max-w-sm text-[12.5px] leading-relaxed text-ink-3">
+              {favOnly ? "לחץ על הכוכב בכל כרטיס כדי לאסוף אותו לרשימה שלך." : pinOnly ? "נעץ אובייקטים חשובים כדי שיצופו לראש כל קבוצה." : learn === "learned" ? "פתח אובייקט וסמן ‏‏‏‏«נלמד»‏ כדי לעקוב אחר ההתקדמות שלך." : "נסה מונח אחר, או נקה את הסינון כדי לראות את כל האוסף."}
+            </p>
+          </div>
+          {anyFilter && <button onClick={resetFilters} className="tap inline-flex items-center gap-1.5 rounded-full border border-hairline bg-surface px-4 py-2 text-[12.5px] font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand"><RotateCcw className="size-3.5" /> נקה סינון</button>}
+        </motion.div>
+      )}
 
-      <AnimatePresence>{sel && <Drawer o={sel} expert={expert} related={related} objects={objects} faved={fav.has(sel.id)} onFav={() => toggle(sel.id)} onOpen={(x) => setSel(x)} onClose={() => setSel(null)} />}</AnimatePresence>
+      <AnimatePresence>{sel && <Drawer o={sel} expert={expert} related={related} objects={objects} faved={fav.has(sel.id)} pinned={pin.has(sel.id)} learned={learned.has(sel.id)} note={notes[sel.id] || ""} onFav={() => toggleFav(sel.id)} onPin={() => togglePin(sel.id)} onLearned={() => toggleLearned(sel.id)} onNote={(v) => setNote(sel.id, v)} onOpen={(x) => setSel(x)} onClose={() => setSel(null)} />}</AnimatePresence>
     </div>
   );
 }
