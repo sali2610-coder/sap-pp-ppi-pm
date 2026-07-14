@@ -130,12 +130,15 @@ function ReaderSettings({ view, setView, mode, setMode, theme, setTheme, size, s
   );
 }
 
-/* Draggable reader position rail — a real scrollbar, docked to the RTL outer
-   (right) gutter on large screens; reflects position + viewport proportion.
-   Native scroll/keyboard untouched; hidden on mobile (top rail is the indicator). */
-function ReaderScrollRail({ accent, hidden }: { accent: string; hidden: boolean }) {
+/* §5 Digital Progress Rail — a premium reading scrubber docked to the RTL leading
+   (right) gutter on wide screens. Shows book %, chapter boundaries, the current
+   chapter segment, saved bookmarks, a draggable thumb, hover chapter labels, and
+   estimated reading time remaining. Native scroll/keyboard untouched. */
+function DigitalProgressRail({ accent, hidden, chapters, bm, active, activeSec, secs, totalMin }: { accent: string; hidden: boolean; chapters: ReaderChapter[]; bm: number[]; active: number; activeSec: string; secs: { id: string; title: string; chapter: number }[]; totalMin: number | null }) {
   const [prog, setProg] = useState(0);
-  const [thumb, setThumb] = useState(0.15);
+  const [thumb, setThumb] = useState(0.12);
+  const [marks, setMarks] = useState<{ n: number; pos: number; title: string }[]>([]);
+  const [hoverY, setHoverY] = useState<number | null>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
   useEffect(() => {
@@ -144,12 +147,18 @@ function ReaderScrollRail({ accent, hidden }: { accent: string; hidden: boolean 
       const max = doc.scrollHeight - window.innerHeight;
       setProg(max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0);
       setThumb(Math.min(1, window.innerHeight / Math.max(1, doc.scrollHeight)));
+      const total = doc.scrollHeight || 1;
+      setMarks(Array.from(document.querySelectorAll<HTMLElement>("[data-chapter]")).map((el) => {
+        const n = Number(el.dataset.chapter); const ch = chapters.find((c) => c.n === n);
+        return { n, pos: Math.min(1, el.offsetTop / total), title: ch?.title || `פרק ${n}` };
+      }));
     };
     upd();
     window.addEventListener("scroll", upd, { passive: true });
     window.addEventListener("resize", upd);
-    return () => { window.removeEventListener("scroll", upd); window.removeEventListener("resize", upd); };
-  }, []);
+    const t = window.setTimeout(upd, 600);
+    return () => { window.removeEventListener("scroll", upd); window.removeEventListener("resize", upd); window.clearTimeout(t); };
+  }, [chapters]);
   const seek = useCallback((clientY: number) => {
     const t = trackRef.current; if (!t) return;
     const r = t.getBoundingClientRect();
@@ -158,15 +167,49 @@ function ReaderScrollRail({ accent, hidden }: { accent: string; hidden: boolean 
     window.scrollTo({ top: ratio * max });
   }, []);
   const onDown = (e: React.PointerEvent) => { dragging.current = true; (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); seek(e.clientY); };
-  const onMove = (e: React.PointerEvent) => { if (dragging.current) seek(e.clientY); };
+  const onMove = (e: React.PointerEvent) => { const t = trackRef.current; if (t) { const r = t.getBoundingClientRect(); setHoverY(Math.min(1, Math.max(0, (e.clientY - r.top) / r.height))); } if (dragging.current) seek(e.clientY); };
   const onUp = () => { dragging.current = false; };
   if (hidden) return null;
+  const curCh = chapters.find((c) => c.n === active);
+  const curIdx = chapters.findIndex((c) => c.n === active);
+  const curSec = secs.find((s) => s.id === activeSec);
+  const minsLeft = totalMin ? Math.max(1, Math.round(totalMin * (1 - prog))) : null;
+  const pct = Math.round(prog * 100);
+  // chapter title at the hovered position
+  const hoverCh = hoverY == null ? null : [...marks].reverse().find((m) => m.pos <= hoverY + 0.001) || marks[0];
   return (
-    <div className="fixed inset-y-0 z-40 hidden xl:flex" style={{ insetInlineStart: 4 }} aria-hidden>
-      <div ref={trackRef} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}
-        className="group my-24 flex w-3 cursor-pointer touch-none justify-center" role="scrollbar" aria-label="מיקום קריאה" aria-valuenow={Math.round(prog * 100)}>
-        <div className="relative h-full w-1 rounded-full bg-hairline transition-all group-hover:w-1.5">
-          <div className="absolute inset-x-0 mx-auto rounded-full transition-[width] group-hover:w-1.5" style={{ top: `${prog * (1 - thumb) * 100}%`, height: `${Math.max(6, thumb * 100)}%`, minHeight: 28, width: "100%", background: accent }} />
+    <div className="fixed inset-y-0 z-40 hidden lg:block" style={{ insetInlineEnd: 6 }}>
+      <div ref={trackRef} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp} onPointerLeave={() => setHoverY(null)}
+        className="group relative my-24 h-[calc(100%-12rem)] w-4 cursor-pointer touch-none"
+        role="slider" aria-label="מיקום קריאה בספר" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct} aria-valuetext={`${pct}% · ${curCh ? `${curCh.n}. ${curCh.title}` : ""}${minsLeft ? ` · כ-${minsLeft} דקות נותרו` : ""}`} tabIndex={0}
+        onKeyDown={(e) => { const max = document.documentElement.scrollHeight - window.innerHeight; if (e.key === "ArrowDown" || e.key === "PageDown") { e.preventDefault(); window.scrollBy({ top: e.key === "PageDown" ? window.innerHeight * 0.9 : max * 0.02 }); } else if (e.key === "ArrowUp" || e.key === "PageUp") { e.preventDefault(); window.scrollBy({ top: -(e.key === "PageUp" ? window.innerHeight * 0.9 : max * 0.02) }); } }}>
+        {/* track */}
+        <div className="absolute inset-y-0 start-1/2 w-1 -translate-x-1/2 rounded-full bg-hairline transition-all group-hover:w-1.5 rtl:translate-x-1/2">
+          {/* fill to current position */}
+          <div className="absolute inset-x-0 top-0 rounded-full" style={{ height: `${prog * 100}%`, background: `${accent}b3` }} />
+          {/* chapter boundary ticks */}
+          {marks.map((m) => (
+            <span key={m.n} className="absolute -inset-x-1 h-[2px] rounded-full" style={{ top: `${m.pos * 100}%`, background: m.n === active ? accent : "var(--ink-3)", opacity: m.n === active ? 1 : 0.4 }} />
+          ))}
+          {/* bookmark flags */}
+          {bm.map((n) => { const m = marks.find((x) => x.n === n); if (!m) return null; return <Bookmark key={"bm" + n} className="absolute size-2.5 -translate-y-1/2 fill-amber-400 text-amber-500" style={{ top: `${m.pos * 100}%`, insetInlineStart: "-0.55rem" }} />; })}
+          {/* draggable thumb */}
+          <div className="absolute size-3 -translate-x-1/2 rounded-full border-2 border-white shadow-md rtl:translate-x-1/2" style={{ top: `${prog * 100}%`, insetInlineStart: "50%", marginTop: "-6px", background: accent }} />
+        </div>
+        {/* hover chapter label */}
+        {hoverCh && (
+          <div className="pointer-events-none absolute whitespace-nowrap rounded-lg bg-ink-1 px-2 py-1 text-[10.5px] font-bold text-white shadow-lg" style={{ top: `${(hoverY || 0) * 100}%`, insetInlineEnd: "1.4rem", transform: "translateY(-50%)" }}>
+            {hoverCh.n}. {hoverCh.title}
+          </div>
+        )}
+        {/* persistent position card near the thumb (on hover) */}
+        <div className="pointer-events-none absolute opacity-0 transition-opacity group-hover:opacity-100" style={{ top: `${prog * 100}%`, insetInlineEnd: "1.4rem", transform: "translateY(-50%)" }}>
+          <div className="rounded-xl border border-hairline bg-surface px-3 py-2 shadow-xl">
+            <div className="font-mono text-sm font-black" style={{ color: accent }}>{pct}%</div>
+            {curCh && <div className="mt-0.5 whitespace-nowrap text-[11px] font-bold text-ink-1">פרק {curIdx + 1} מתוך {chapters.length}</div>}
+            {curSec && <div className="max-w-[13rem] truncate text-[10.5px] font-semibold text-ink-3">{curSec.title}</div>}
+            {minsLeft && <div className="mt-0.5 flex items-center gap-1 text-[10.5px] font-bold text-ink-3"><Clock className="size-3" />כ-{minsLeft} דקות נותרו</div>}
+          </div>
         </div>
       </div>
     </div>
@@ -449,7 +492,9 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         <div className="h-full origin-right transition-transform duration-150 ease-out" style={{ transform: `scaleX(${prog / 100})`, background: `linear-gradient(90deg, ${c}, ${c}aa)` }} />
       </div>
       {/* draggable position rail (large screens) — the top bar is the mobile indicator */}
-      <ReaderScrollRail accent={c} hidden={focus || pageMode} />
+      {/* §5+§12 — the rich digital rail lives in Focus Mode, where the reader's
+          side panels are hidden so it has a clean, uncrowded home. */}
+      <DigitalProgressRail accent={c} hidden={!focus || pageMode} chapters={chapters} bm={bm} active={active} activeSec={activeSec} secs={secs} totalMin={meta?.pages ? meta.pages * 2 : null} />
 
       {/* ===================== BREADCRUMBS ===================== */}
       {!focus && (
