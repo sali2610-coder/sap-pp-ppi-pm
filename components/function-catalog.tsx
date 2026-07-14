@@ -236,17 +236,20 @@ function CodeTabs({ snippets }: { snippets: Snippet[] }) {
 }
 
 /* ---- detail drawer ---- */
-function Drawer({ o, expert, related, faved, pinned, learned, note, objects, onFav, onPin, onLearned, onNote, onOpen, onClose }: { o: SapFuncObject; expert: boolean; related: SapFuncObject[]; faved: boolean; pinned: boolean; learned: boolean; note: string; objects: SapFuncObject[]; onFav: () => void; onPin: () => void; onLearned: () => void; onNote: (v: string) => void; onOpen: (x: SapFuncObject) => void; onClose: () => void }) {
+function Drawer({ o, expert, related, faved, pinned, learned, note, objects, docked = false, onFav, onPin, onLearned, onNote, onOpen, onClose }: { o: SapFuncObject; expert: boolean; related: SapFuncObject[]; faved: boolean; pinned: boolean; learned: boolean; note: string; objects: SapFuncObject[]; docked?: boolean; onFav: () => void; onPin: () => void; onLearned: () => void; onNote: (v: string) => void; onOpen: (x: SapFuncObject) => void; onClose: () => void }) {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
   useEffect(() => {
-    const prev = document.body.style.overflow; document.body.style.overflow = "hidden";
-    ref.current?.focus();
+    // docked (tablet/desktop master-detail): non-modal — list stays interactive,
+    // no scroll-lock / focus-steal / backdrop. Only Esc closes.
     const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", h);
+    if (docked) return () => window.removeEventListener("keydown", h);
+    const prev = document.body.style.overflow; document.body.style.overflow = "hidden";
+    ref.current?.focus();
     return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", h); };
-  }, [onClose]);
+  }, [onClose, docked]);
   const copy = () => { navigator.clipboard?.writeText(o.technicalName).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1400); }).catch(() => {}); };
   const bapi = isBapi(o); const v = VERIF[o.verificationStatus];
   const stepKw: Partial<Record<BusinessCategory, string>> = { Notification: "הודעה", Execution: "פקודת", Confirmation: "דיווח", GoodsMovement: "סחורה", Planning: "תכנון", Reservation: "הזמנ" };
@@ -256,10 +259,10 @@ function Drawer({ o, expert, related, faved, pinned, learned, note, objects, onF
   );
   return (
     <>
-      <motion.div className="fixed inset-0 z-[70] bg-slate-900/40 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
-      <motion.div ref={ref} tabIndex={-1} role="dialog" aria-modal="true" aria-label={o.technicalName} dir="rtl"
-        className="fixed inset-x-0 bottom-0 z-[71] flex max-h-[92dvh] flex-col rounded-t-[1.5rem] bg-surface shadow-2xl outline-none sm:inset-y-0 sm:bottom-auto sm:end-0 sm:start-auto sm:max-h-none sm:w-[min(30rem,100vw)] sm:rounded-none sm:border-s sm:border-hairline"
-        initial={reduce ? { opacity: 0 } : { y: "100%" }} animate={{ y: 0, opacity: 1 }} exit={reduce ? { opacity: 0 } : { y: "100%" }} transition={{ type: "spring", stiffness: 360, damping: 38 }}>
+      {!docked && <motion.div className="fixed inset-0 z-[70] bg-slate-900/40 backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />}
+      <motion.div ref={ref} tabIndex={-1} role="dialog" aria-modal={docked ? undefined : "true"} aria-label={o.technicalName} dir="rtl"
+        className={`fixed inset-x-0 bottom-0 z-[71] flex max-h-[92dvh] flex-col rounded-t-[1.5rem] bg-surface shadow-2xl outline-none sm:inset-y-0 sm:bottom-auto sm:end-0 sm:start-auto sm:max-h-none sm:w-[min(30rem,100vw)] sm:rounded-none sm:border-s sm:border-hairline ${docked ? "lg:top-14 lg:shadow-xl" : ""}`}
+        initial={reduce || docked ? { opacity: 0 } : { y: "100%" }} animate={{ y: 0, opacity: 1 }} exit={reduce || docked ? { opacity: 0 } : { y: "100%" }} transition={{ type: "spring", stiffness: 360, damping: 38 }}>
         {/* header */}
         <div className="shrink-0 border-b border-hairline p-5" style={{ boxShadow: `inset 0 3px 0 ${bapi ? "var(--brand)" : "var(--ink-1)"}` }}>
           <div className="mx-auto mb-3 h-1.5 w-11 rounded-full bg-hairline sm:hidden" />
@@ -451,6 +454,13 @@ function LearnPanel() {
   );
 }
 
+// tablet/desktop master-detail gate — detail docks as a persistent side pane ≥1024px
+function useWide(bp = 1024) {
+  const [w, setW] = useState(false);
+  useEffect(() => { const mq = window.matchMedia(`(min-width:${bp}px)`); const on = () => setW(mq.matches); on(); mq.addEventListener("change", on); return () => mq.removeEventListener("change", on); }, [bp]);
+  return w;
+}
+
 /* ---- main catalog ---- */
 type SortKey = "alpha" | "process" | "verified" | "commit";
 const inMod = (o: SapFuncObject, m: string) => m === "all" || o.primaryModule === m || o.secondaryModules.includes(m as never) || (m === "cross" && (o.secondaryModules.length > 0 || o.primaryModule === "Basis" || o.primaryModule === "Cross-Application"));
@@ -468,6 +478,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
   const [pinOnly, setPinOnly] = useState(false);
   const [learn, setLearn] = useState<"all" | "learned" | "unlearned">("all");
   const [sel, setSel] = useState<SapFuncObject | null>(null);
+  const wide = useWide();
   const { fav, pin, learned, notes, toggleFav, togglePin, toggleLearned, setNote } = useObjState();
   const resetFilters = () => { setQ(""); setType("all"); setVerif("all"); setMod("all"); setOp("all"); setCommitOnly(false); setFavOnly(false); setPinOnly(false); setLearn("all"); };
   const anyFilter = !!q || type !== "all" || verif !== "all" || mod !== "all" || op !== "all" || commitOnly || favOnly || pinOnly || learn !== "all";
@@ -532,7 +543,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
   );
 
   return (
-    <div className="space-y-5" dir="rtl">
+    <div dir="rtl" className={`space-y-5 transition-[padding] duration-300 ${wide && sel ? "lg:pe-[31rem]" : ""}`}>
       <LearnPanel />
 
       {/* search + filters (sticky) */}
@@ -633,7 +644,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
         </motion.div>
       )}
 
-      <AnimatePresence>{sel && <Drawer o={sel} expert={expert} related={related} objects={objects} faved={fav.has(sel.id)} pinned={pin.has(sel.id)} learned={learned.has(sel.id)} note={notes[sel.id] || ""} onFav={() => toggleFav(sel.id)} onPin={() => togglePin(sel.id)} onLearned={() => toggleLearned(sel.id)} onNote={(v) => setNote(sel.id, v)} onOpen={(x) => setSel(x)} onClose={() => setSel(null)} />}</AnimatePresence>
+      <AnimatePresence>{sel && <Drawer o={sel} expert={expert} related={related} objects={objects} docked={wide} faved={fav.has(sel.id)} pinned={pin.has(sel.id)} learned={learned.has(sel.id)} note={notes[sel.id] || ""} onFav={() => toggleFav(sel.id)} onPin={() => togglePin(sel.id)} onLearned={() => toggleLearned(sel.id)} onNote={(v) => setNote(sel.id, v)} onOpen={(x) => setSel(x)} onClose={() => setSel(null)} />}</AnimatePresence>
     </div>
   );
 }
