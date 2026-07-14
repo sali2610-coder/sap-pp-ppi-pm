@@ -17,7 +17,7 @@ export default function Page() {
         accent="#0f766e"
       />
       <div className="mt-6">
-        <FunctionCatalog objects={objects} />
+        <FunctionCatalog objects={objects} gateways />
       </div>
     </div>
   );
