@@ -12,7 +12,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Plug, Braces, Search, X, ChevronDown, ShieldCheck, AlertTriangle, Info, Clock, ArrowLeft, Copy, Check, GitBranch, BookOpen, Boxes, Sparkles, Star, ListChecks, Wrench, Code2, GraduationCap, Lightbulb, Link2, Pin, NotebookPen, Server, Globe, FileJson, Terminal, RotateCcw, PackageOpen, SearchX, Eye } from "lucide-react";
-import type { SapFuncObject, VerificationStatus, OperationType, BusinessCategory, Difficulty, Stability } from "@/lib/bapi-registry";
+import type { SapFuncObject, VerificationStatus, OperationType, BusinessCategory, Difficulty, Stability, TriState } from "@/lib/bapi-registry";
+import { commitInfo } from "@/lib/bapi-complexity";
 
 const CAT: Record<BusinessCategory, { he: string; c: string }> = {
   BusinessAPI: { he: "ממשק עסקי", c: "#2563eb" }, MasterData: { he: "נתוני אב", c: "#16a34a" }, Planning: { he: "תכנון", c: "#6d28d9" },
@@ -42,11 +43,25 @@ const VERIF: Record<VerificationStatus, { label: string; cls: string; Icon: type
 };
 const OP_HE: Record<OperationType, string> = { Read: "קריאה", Create: "יצירה", Change: "שינוי", Delete: "מחיקה", Post: "רישום", Confirm: "דיווח", Mixed: "מעורב", Unknown: "—" };
 const isBapi = (o: SapFuncObject) => o.objectType === "BAPI";
+// underscore-safe wrap: BAPI_ALM_ORDER_|MAINTAIN, never mid-token
+const breakName = (s: string) => s.replace(/_/g, "_​");
+const triMark = (t?: TriState) => (t === "yes" ? "✓" : t === "no" ? "✗" : "?");
 
+// Honest type label from real classification (not the name prefix).
+function typeLabel(o: SapFuncObject): string {
+  if (o.verificationStatus === "invalid-name") return "שם לא תקין";
+  if (o.objectType === "IDoc") return "IDoc";
+  if (isBapi(o)) return o.stability === "Obsolete" ? "BAPI מיושן" : o.verificationStatus.startsWith("verified") ? "BAPI רשמי" : "BAPI";
+  return o.stability === "Internal" ? "FM פנימי" : o.stability === "Obsolete" ? "FM מיושן" : "FM רשמי";
+}
 function TypeBadge({ o }: { o: SapFuncObject }) {
-  return isBapi(o)
-    ? <span className="inline-flex items-center gap-1 rounded-md bg-brand px-1.5 py-0.5 text-[10px] font-black text-white">BAPI</span>
-    : <span className="inline-flex items-center gap-1 rounded-md bg-ink-1 px-1.5 py-0.5 text-[10px] font-black text-white">FM</span>;
+  const bapi = isBapi(o);
+  return (
+    <span className={`inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[10.5px] font-extrabold ${bapi ? "bg-brand-soft text-[#a3171c]" : "bg-surface-2 text-slate-600"}`}>
+      <span className="size-1.5 rounded-full" style={{ background: bapi ? "#d62027" : "#475569" }} />
+      {typeLabel(o)}
+    </span>
+  );
 }
 function VerifPill({ s }: { s: VerificationStatus }) {
   const v = VERIF[s]; const Icon = v.Icon;
@@ -84,53 +99,60 @@ function useObjState() {
   };
 }
 
-/* ---- teaching card ---- */
-function Card({ o, onOpen, onPreview, faved, pinned, learned, onFav, onPin }: { o: SapFuncObject; onOpen: () => void; onPreview: () => void; faved: boolean; pinned: boolean; learned: boolean; onFav: () => void; onPin: () => void }) {
-  const bapi = isBapi(o); const cat = CAT[o.category]; const reduce = useReducedMotion();
+/* ---- teaching card (redesigned §1–§5): full name, one favorite, one CTA, trust +
+   COMMIT + computed complexity + learn-time. Whole card opens the full page. ---- */
+function Card({ o, onOpen, onPreview, faved, pinned, learned, onFav }: { o: SapFuncObject; onOpen: () => void; onPreview: () => void; faved: boolean; pinned: boolean; learned: boolean; onFav: () => void; onPin: () => void }) {
+  const cat = CAT[o.category]; const reduce = useReducedMotion();
+  const [copied, setCopied] = useState(false);
+  const ci = commitInfo(o); const cx = o.complexity;
+  const copy = async (e: React.MouseEvent) => { e.stopPropagation(); try { await navigator.clipboard.writeText(o.technicalName); setCopied(true); setTimeout(() => setCopied(false), 1200); } catch { /* noop */ } };
   return (
-    <motion.button
+    <motion.div
       layout={!reduce}
       initial={reduce ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring", stiffness: 320, damping: 30 }}
-      whileHover={reduce ? undefined : { y: -3 }} whileTap={{ scale: 0.985 }}
-      onClick={onOpen} dir="rtl" data-peek={o.technicalName}
-      className={`card-interactive tap group relative flex h-full flex-col gap-2 overflow-hidden p-4 text-start ${pinned ? "ring-1 ring-brand/30" : ""}`}>
-      <span className="absolute inset-y-0 end-0 w-1.5" style={{ background: cat.c }} />
-      <div className="absolute start-2 top-2 flex flex-col gap-0.5">
-        <span role="button" tabIndex={0} aria-label={faved ? "הסר ממועדפים" : "הוסף למועדפים"} aria-pressed={faved}
-          onClick={(e) => { e.stopPropagation(); onFav(); }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); e.preventDefault(); onFav(); } }}
-          className="tap grid size-7 place-items-center rounded-lg text-ink-3 hover:bg-surface-2">
-          <Star className={`size-4 ${faved ? "fill-amber-400 text-amber-400" : ""}`} />
-        </span>
-        <span role="button" tabIndex={0} aria-label={pinned ? "בטל נעיצה" : "נעץ"} aria-pressed={pinned}
-          onClick={(e) => { e.stopPropagation(); onPin(); }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); e.preventDefault(); onPin(); } }}
-          className={`tap grid size-7 place-items-center rounded-lg hover:bg-surface-2 ${pinned ? "text-brand" : "text-ink-3 opacity-0 focus:opacity-100 group-hover:opacity-100"}`}>
-          <Pin className={`size-3.5 ${pinned ? "fill-brand" : ""}`} />
-        </span>
-        {/* §13 — quick preview (secondary); the card itself opens the full page */}
-        <span role="button" tabIndex={0} aria-label="תצוגה מהירה" title="תצוגה מקדימה"
-          onClick={(e) => { e.stopPropagation(); onPreview(); }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); e.preventDefault(); onPreview(); } }}
-          className="tap grid size-7 place-items-center rounded-lg text-ink-3 opacity-0 hover:bg-surface-2 focus:opacity-100 group-hover:opacity-100">
-          <Eye className="size-3.5" />
-        </span>
-      </div>
-      <div className="flex items-center gap-2 pe-7">
-        <span className="grid size-8 shrink-0 place-items-center rounded-lg text-white" style={{ background: cat.c }}>{bapi ? <Plug className="size-4" /> : <Braces className="size-4" />}</span>
-        <span className="tech min-w-0 flex-1 truncate font-mono text-[13.5px] font-bold text-ink-1" dir="ltr">{o.technicalName}</span>
+      transition={{ type: "spring", stiffness: 320, damping: 30 }} whileHover={reduce ? undefined : { y: -3 }}
+      role="button" tabIndex={0} onClick={onOpen} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(); } }}
+      dir="rtl" data-peek={o.technicalName} aria-label={`פתח ${o.technicalName}`}
+      className={`card-interactive tap group relative flex h-full cursor-pointer flex-col gap-2.5 p-4 text-start ${pinned ? "ring-1 ring-brand/30" : ""}`}>
+      {/* top row: type · module · favorite */}
+      <div className="flex items-center gap-2">
         <TypeBadge o={o} />
+        <span className={`rounded-md px-2 py-1 text-[10.5px] font-extrabold ${o.primaryModule === "PM" ? "bg-[#fff7ed] text-[#f97316]" : o.primaryModule === "PP-PI" ? "bg-[#f5f3ff] text-[#6d28d9]" : "bg-surface-2 text-ink-2"}`}>{o.primaryModule}</span>
+        {learned && <span className="inline-flex items-center gap-1 rounded-md border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700"><GraduationCap className="size-3" />נלמד</span>}
+        <button onClick={(e) => { e.stopPropagation(); onFav(); }} aria-pressed={faved} aria-label={faved ? "הסר ממועדפים" : "הוסף למועדפים"} title={faved ? "הסר ממועדפים" : "הוסף למועדפים"}
+          className={`relative z-10 ms-auto grid size-9 place-items-center rounded-xl border transition ${faved ? "border-amber-200 bg-amber-50 text-amber-500" : "border-hairline bg-surface text-ink-3 hover:border-ink-3/30"}`}>
+          <Star className="size-4" fill={faved ? "currentColor" : "none"} />
+        </button>
       </div>
-      <div className="flex flex-wrap items-center gap-1.5">
-        <span className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10.5px] font-bold text-white" style={{ background: cat.c }}>{cat.he}</span>
-        <Chip>{o.primaryModule}</Chip>
-        {learned && <span className="inline-flex items-center gap-1 rounded-md border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10.5px] font-bold text-emerald-700"><GraduationCap className="size-3" />נלמד</span>}
+      {/* full technical name + copy */}
+      <div className="flex items-start gap-2">
+        <span className="tech flex-1 font-mono text-[15px] font-extrabold leading-tight tracking-tight text-ink-1" dir="ltr" style={{ wordBreak: "break-word" }}>{breakName(o.technicalName)}</span>
+        <button onClick={copy} aria-label="העתק שם טכני" title={copied ? "הועתק" : "העתק שם טכני"} className="relative z-10 grid size-8 shrink-0 place-items-center rounded-lg border border-hairline bg-surface text-ink-3 transition hover:border-ink-3/30 hover:text-ink-2">
+          {copied ? <Check className="size-3.5 text-emerald-600" /> : <Copy className="size-3.5" />}
+        </button>
       </div>
       <p className="line-clamp-2 text-[12.5px] leading-relaxed text-ink-2">{o.shortDescriptionHe || o.shortDescriptionEn || "—"}</p>
-      <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-1">
-        <span className={`rounded-full border px-2 py-0.5 text-[10.5px] font-bold ${DIFF[o.difficulty].cls}`}>{DIFF[o.difficulty].he}</span>
-        {o.requiresCommit === "yes" && <Chip>COMMIT</Chip>}
+      <p className="text-[11px] text-ink-3"><span className="font-bold" style={{ color: cat.c }}>{cat.he}</span>{o.businessProcess ? ` · ${o.businessProcess}` : ""}</p>
+      <div className="h-px bg-hairline" />
+      {/* trust row */}
+      <div className="flex flex-wrap items-center gap-1.5">
         <VerifPill s={o.verificationStatus} />
+        {ci.value === "yes" && <span className="rounded-full border border-[#d9def8] bg-[#eef1ff] px-2 py-0.5 text-[10.5px] font-bold text-[#4338ca]" title={ci.derived ? "נגזר מסוג הפעולה — לאחר הקריאה בצע BAPI_TRANSACTION_COMMIT" : "לאחר הקריאה חובה BAPI_TRANSACTION_COMMIT כדי לשמור"}>נדרש COMMIT{ci.derived ? " ?" : ""}</span>}
+        <span className="rounded-full bg-surface-2 px-2 py-0.5 text-[10.5px] font-bold text-ink-2" title="תמיכת ECC / S/4HANA">ECC {triMark(o.eccSupport)} · S/4 {triMark(o.s4OnPremSupport)}</span>
       </div>
-    </motion.button>
+      {/* computed complexity + learn-time */}
+      {cx && (
+        <div className="flex items-center justify-between gap-2">
+          <span className={`inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10.5px] font-bold ${DIFF[cx.difficulty].cls}`} title={cx.reasons.join(" · ")}>{DIFF[cx.difficulty].he}</span>
+          <span className="font-mono text-[10.5px] tabular-nums text-ink-3" title="זמן למידה משוער">{cx.learnMinutes[0]}–{cx.learnMinutes[1]} דק׳</span>
+        </div>
+      )}
+      {/* footer: primary CTA (bubbles to card open) + summary preview */}
+      <div className="mt-auto flex gap-2 pt-1">
+        <span className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-brand py-2 text-[12.5px] font-extrabold text-white transition group-hover:bg-brand-dark">פתח פרטים <ArrowLeft className="size-3.5" /></span>
+        <button onClick={(e) => { e.stopPropagation(); onPreview(); }} aria-label="הצג תקציר" title="תצוגה מקדימה" className="relative z-10 inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-3 py-2 text-[12px] font-bold text-ink-2 transition hover:border-ink-3/30"><Eye className="size-3.5" />תקציר</button>
+      </div>
+    </motion.div>
   );
 }
 
@@ -631,7 +653,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
                 <span className="text-[11px] text-ink-3">· {list.length}</span>
                 <span className="h-px flex-1 bg-hairline" />
               </div>
-              <div className="grid-adaptive-sm">
+              <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
                 {list.map((o) => <Card key={o.id} o={o} onOpen={() => router.push(`/bapi/${encodeURIComponent(o.id)}/`)} onPreview={() => setSel(o)} faved={fav.has(o.id)} pinned={pin.has(o.id)} learned={learned.has(o.id)} onFav={() => toggleFav(o.id)} onPin={() => togglePin(o.id)} />)}
               </div>
             </div>
