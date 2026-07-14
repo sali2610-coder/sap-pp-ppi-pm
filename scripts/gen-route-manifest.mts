@@ -10,6 +10,7 @@ import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { registryCodes } from "@/lib/tx-registry";
 import { listTcodes, listFuncs } from "@/lib/object-intel";
+import { registry } from "@/lib/bapi-registry";
 import { listCdsViews } from "@/data/cds-map";
 import { ALL_TABLES } from "@/lib/data";
 import { HR_BW_NAMES } from "@/lib/hr-bw-adapter";
@@ -23,7 +24,10 @@ const uniq = (a: string[]) => [...new Set(a.filter(Boolean))].sort();
 const manifest = {
   objects: uniq([...ALL_TABLES.map((t) => t.tableName), ...HR_BW_NAMES, ...verifiedNames()]),
   tcodes: uniq([...registryCodes(), ...listTcodes()].map((x) => x.toUpperCase())),
-  bapiFm: uniq([...listFuncs("BAPI"), ...listFuncs("FM")]),
+  // /bapi/[name] pages are generated from the canonical registry (incl. verified
+  // additions not referenced by any table) — mirror that exactly so pageExists()
+  // and the dead-link crawler agree with the built pages.
+  bapiFm: uniq(registry().map((o) => o.id)),
   idocs: uniq(listFuncs("IDoc")),
   cds: uniq(listCdsViews()),
   apps: uniq(appCodes()),
