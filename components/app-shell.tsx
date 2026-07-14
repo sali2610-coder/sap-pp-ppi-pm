@@ -19,6 +19,7 @@ const UXSettings = dynamic(() => import("@/components/ux-settings").then((m) => 
 import { MobileTabBar } from "@/components/mobile-tab-bar";
 const ObjectPeek = dynamic(() => import("@/components/object-peek").then((m) => m.ObjectPeek), { ssr: false });
 const ContextFab = dynamic(() => import("@/components/context-fab").then((m) => m.ContextFab), { ssr: false });
+const PeekCoach = dynamic(() => import("@/components/peek-coach").then((m) => m.PeekCoach), { ssr: false });
 import { WowToast } from "@/components/wow-toast";
 import { Footer } from "@/components/Footer";
 import { LangSwitch } from "@/components/lang-switch";
@@ -86,6 +87,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <MobileTabBar />
       <ContextFab />
       <ObjectPeek />
+      <PeekCoach />
       <WorkspaceInspector />
     </I18nProvider>
   );
