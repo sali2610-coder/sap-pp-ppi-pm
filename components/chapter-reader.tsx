@@ -76,7 +76,11 @@ function InlineFigure({ fig, n, label, confident, onOpen }: { fig: ChapterFigure
 export function ChapterReader({ ch, figures = [], onOpenFigure, diagram }: { ch: ReaderChapterData; figures?: ChapterFigure[]; onOpenFigure?: (figs: ChapterFigure[], i: number) => void; diagram?: React.ReactNode }) {
   const reduce = useReducedMotion();
   const pageMode = usePageMode();
-  const [open, setOpen] = useState(ch.n === 1);
+  // Continuous reading (§3 Mode A): chapters render EXPANDED by default so the
+  // whole book is a real vertical scroll — every section's [data-section] anchor
+  // is in the DOM, which is what powers reliable chapter scroll-spy (§6) and the
+  // "בעמוד זה" section rail for EVERY chapter (§7). The header still toggles collapse.
+  const [open, setOpen] = useState(true);
   const shown = pageMode || open;
   useEffect(() => {
     const openIfHash = () => {
@@ -88,7 +92,10 @@ export function ChapterReader({ ch, figures = [], onOpenFigure, diagram }: { ch:
     };
     openIfHash();
     window.addEventListener("hashchange", openIfHash);
-    return () => window.removeEventListener("hashchange", openIfHash);
+    // explicit jump (chapter selector / "בעמוד זה") always expands the target
+    const onGoto = (e: Event) => { if (Number((e as CustomEvent).detail) === ch.n) setOpen(true); };
+    window.addEventListener("neo:reader:goto", onGoto);
+    return () => { window.removeEventListener("hashchange", openIfHash); window.removeEventListener("neo:reader:goto", onGoto); };
   }, [ch.n, ch.sections, figures.length]);
 
   const ordered = [...figures].sort((a, b) => a.page - b.page);

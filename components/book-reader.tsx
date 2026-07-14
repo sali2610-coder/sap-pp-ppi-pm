@@ -30,9 +30,13 @@ function flash(el: HTMLElement | null | undefined) {
   el.classList.add("neo-flash");
   window.setTimeout(() => el.classList.remove("neo-flash"), 1400);
 }
+// Explicit chapter navigation (selector / "בעמוד זה" / resume). Routed through a
+// single event so the reader can (a) expand the target chapter, (b) set it active,
+// (c) suppress scroll-spy briefly so the smooth-scroll doesn't leave the highlight
+// on an intermediate chapter — the root of the "select 5 → shows 6" bug (§6).
 function jump(n: number) {
-  const el = document.querySelector<HTMLElement>(`[data-chapter="${n}"]`);
-  if (el) { history.replaceState(null, "", `#ch-${n}`); el.scrollIntoView({ behavior: "smooth", block: "start" }); flash(el); }
+  if (!n) return;
+  window.dispatchEvent(new CustomEvent("neo:reader:goto", { detail: n }));
 }
 function scrollToId(id: string) {
   const el = document.getElementById(id);
@@ -178,8 +182,27 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   const [activeSec, setActiveSec] = useState<string>("");
   const activeRef = useRef(active);
   const activeSecRef = useRef(activeSec);
+  const spySuppressRef = useRef(0); // timestamp until which chapter scroll-spy is suppressed after an explicit jump
   useEffect(() => { activeRef.current = active; }, [active]);
   useEffect(() => { activeSecRef.current = activeSec; }, [activeSec]);
+
+  // handle explicit chapter jumps (§6 fix): set active immediately, expand target
+  // (ChapterReader also listens), suppress scroll-spy, then smooth-scroll to it.
+  useEffect(() => {
+    const onGoto = (e: Event) => {
+      const n = Number((e as CustomEvent).detail);
+      if (!n) return;
+      setActive(n);
+      spySuppressRef.current = Date.now() + 1000;
+      history.replaceState(null, "", `#ch-${n}`);
+      window.setTimeout(() => {
+        const el = document.querySelector<HTMLElement>(`[data-chapter="${n}"]`);
+        if (el) { el.scrollIntoView({ behavior: "smooth", block: "start" }); flash(el); }
+      }, 90);
+    };
+    window.addEventListener("neo:reader:goto", onGoto);
+    return () => window.removeEventListener("neo:reader:goto", onGoto);
+  }, []);
 
   // reader display prefs (theme / type-size / measure) — scoped to the pane
   const [rtheme, setRtheme] = useState<RTheme>("original");
@@ -369,6 +392,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
     const els = Array.from(document.querySelectorAll<HTMLElement>("[data-chapter]"));
     if (!els.length) return;
     const io = new IntersectionObserver((entries) => {
+      if (Date.now() < spySuppressRef.current) return; // an explicit jump is in progress — don't override the highlight
       const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
       if (vis) {
         const n = Number((vis.target as HTMLElement).dataset.chapter);
