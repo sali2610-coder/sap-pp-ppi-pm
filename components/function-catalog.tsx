@@ -11,7 +11,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Plug, Braces, Search, X, ChevronDown, ShieldCheck, AlertTriangle, Info, Clock, ArrowLeft, Copy, Check, GitBranch, BookOpen, Boxes, Sparkles, Star, ListChecks, Wrench, Code2, GraduationCap, Lightbulb, Link2, Pin, NotebookPen, Server, Globe, FileJson, Terminal, RotateCcw, PackageOpen, SearchX, Eye } from "lucide-react";
+import { Plug, Braces, Search, X, ChevronDown, ShieldCheck, AlertTriangle, Info, Clock, ArrowLeft, Copy, Check, GitBranch, BookOpen, Boxes, Sparkles, Star, ListChecks, Wrench, Code2, GraduationCap, Lightbulb, Link2, Pin, NotebookPen, Server, Globe, FileJson, Terminal, RotateCcw, PackageOpen, SearchX, Eye, LayoutGrid, Rows3, Table2 } from "lucide-react";
 import type { SapFuncObject, VerificationStatus, OperationType, BusinessCategory, Difficulty, Stability, TriState } from "@/lib/bapi-registry";
 import { commitInfo } from "@/lib/bapi-complexity";
 
@@ -507,6 +507,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
   const [pinOnly, setPinOnly] = useState(false);
   const [learn, setLearn] = useState<"all" | "learned" | "unlearned">("all");
   const [sel, setSel] = useState<SapFuncObject | null>(null);
+  const [view, setView] = useState<"groups" | "list" | "table">("groups");
   const wide = useWide();
   const router = useRouter();
   // §10 — deep-link a module filter from the module portals (/bapi?module=PM)
@@ -622,7 +623,15 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
             <option value="commit">מיון: COMMIT קודם</option>
           </select>
         </div>
-        <p className="mt-1.5 text-[11.5px] font-semibold text-ink-3">{filtered.length} תוצאות{moduleLabel ? ` · ${moduleLabel}` : ""}</p>
+        <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+          <p className="text-[11.5px] font-semibold text-ink-3">{filtered.length} תוצאות{moduleLabel ? ` · ${moduleLabel}` : ""}</p>
+          {anyFilter && <button onClick={resetFilters} className="inline-flex items-center gap-1 text-[11.5px] font-bold text-brand hover:underline"><RotateCcw className="size-3" /> נקה סינון</button>}
+          <div className="ms-auto flex items-center gap-0.5 rounded-xl border border-hairline bg-surface-2 p-0.5">
+            {([["groups", LayoutGrid, "קבוצות"], ["list", Rows3, "רשימה"], ["table", Table2, "טבלה"]] as const).map(([v, Icon, label]) => (
+              <button key={v} onClick={() => setView(v)} aria-pressed={view === v} title={label} className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12px] font-bold transition ${view === v ? "bg-surface text-ink-1 shadow-sm" : "text-ink-3 hover:text-ink-2"}`}><Icon className="size-3.5" /><span className="hidden sm:inline">{label}</span></button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* module gateways (§6 — the global page points into the full module collections, not duplicates them) */}
@@ -638,7 +647,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
         </div>
       )}
 
-      {groups.map((g) => g.count > 0 && (
+      {view === "groups" && groups.map((g) => g.count > 0 && (
         <section key={g.kind} className="space-y-3">
           <div className="flex items-center gap-2">
             <span className={`grid size-8 place-items-center rounded-lg text-white ${g.kind === "BAPI" ? "bg-brand" : "bg-ink-1"}`}>{g.kind === "BAPI" ? <Plug className="size-4" /> : <Braces className="size-4" />}</span>
@@ -660,6 +669,62 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
           ))}
         </section>
       ))}
+
+      {/* §10 — list view (compact rows) */}
+      {view === "list" && filtered.length > 0 && (
+        <div className="space-y-2">
+          {[...filtered].sort(cmp).map((o) => {
+            const ci = commitInfo(o);
+            return (
+              <button key={o.id} onClick={() => router.push(`/bapi/${encodeURIComponent(o.id)}/`)} data-peek={o.technicalName} dir="rtl"
+                className="tap group flex w-full items-center gap-3 rounded-xl border border-hairline bg-surface p-3 text-start transition hover:border-brand/30 hover:shadow-sm" style={{ contentVisibility: "auto", containIntrinsicSize: "0 64px" }}>
+                <span className="size-2 shrink-0 rounded-full" style={{ background: isBapi(o) ? "#d62027" : "#475569" }} />
+                <div className="min-w-0 flex-1">
+                  <span className="tech block font-mono text-[13.5px] font-extrabold text-ink-1" dir="ltr">{o.technicalName}</span>
+                  <span className="block truncate text-[11.5px] text-ink-3">{[o.primaryModule, o.businessProcess, o.shortDescriptionHe].filter(Boolean).join(" · ")}</span>
+                </div>
+                {ci.value === "yes" && <span className="hidden shrink-0 rounded-full border border-[#d9def8] bg-[#eef1ff] px-2 py-0.5 text-[10px] font-bold text-[#4338ca] md:inline">COMMIT{ci.derived ? " ?" : ""}</span>}
+                {o.complexity && <span className={`hidden shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-bold sm:inline ${DIFF[o.complexity.difficulty].cls}`}>{DIFF[o.complexity.difficulty].he}</span>}
+                <VerifPill s={o.verificationStatus} />
+                <ArrowLeft className="size-4 shrink-0 text-ink-3 transition group-hover:-translate-x-0.5 group-hover:text-brand" />
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* §10 — table view (expert comparison, sortable headers) */}
+      {view === "table" && filtered.length > 0 && (
+        <div className="overflow-x-auto rounded-2xl border border-hairline">
+          <table className="w-full border-collapse text-[12.5px]">
+            <thead>
+              <tr className="bg-surface-2">
+                {([["alpha", "שם טכני"], ["process", "תהליך"], ["verified", "אמון"], ["commit", "COMMIT"]] as [SortKey, string][]).map(([key, label]) => (
+                  <th key={key} onClick={() => setSort(key)} className="cursor-pointer whitespace-nowrap px-3.5 py-2.5 text-start text-[10.5px] font-extrabold uppercase tracking-wide text-ink-3">
+                    <span className="inline-flex items-center gap-1">{label}<ChevronDown className={`size-3 transition ${sort === key ? "text-brand" : "text-ink-3/40"}`} /></span>
+                  </th>
+                ))}
+                <th className="whitespace-nowrap px-3.5 py-2.5 text-start text-[10.5px] font-extrabold uppercase tracking-wide text-ink-3">מודול</th>
+                <th className="whitespace-nowrap px-3.5 py-2.5 text-start text-[10.5px] font-extrabold uppercase tracking-wide text-ink-3">מורכבות</th>
+                <th className="whitespace-nowrap px-3.5 py-2.5 text-start text-[10.5px] font-extrabold uppercase tracking-wide text-ink-3">ECC/S4</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...filtered].sort(cmp).map((o) => { const ci = commitInfo(o); return (
+                <tr key={o.id} data-peek={o.technicalName} onClick={() => router.push(`/bapi/${encodeURIComponent(o.id)}/`)} className="cursor-pointer border-t border-hairline hover:bg-surface-2/50" style={{ contentVisibility: "auto", containIntrinsicSize: "0 44px" }}>
+                  <td className="px-3.5 py-2.5"><span className="tech font-mono font-bold text-ink-1 group-hover:text-brand" dir="ltr">{o.technicalName}</span></td>
+                  <td className="px-3.5 py-2.5 text-ink-2">{o.businessProcess || "—"}</td>
+                  <td className="px-3.5 py-2.5"><VerifPill s={o.verificationStatus} /></td>
+                  <td className="px-3.5 py-2.5 text-ink-2">{ci.value === "yes" ? (ci.derived ? "נדרש ?" : "נדרש") : ci.value === "no" ? "—" : "?"}</td>
+                  <td className="px-3.5 py-2.5 text-ink-2">{o.primaryModule}</td>
+                  <td className="px-3.5 py-2.5">{o.complexity && <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${DIFF[o.complexity.difficulty].cls}`}>{DIFF[o.complexity.difficulty].he}</span>}</td>
+                  <td className="whitespace-nowrap px-3.5 py-2.5 font-mono text-ink-2">{triMark(o.eccSupport)} / {triMark(o.s4OnPremSupport)}</td>
+                </tr>
+              ); })}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {filtered.length === 0 && (
         <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center gap-3 py-16 text-center">

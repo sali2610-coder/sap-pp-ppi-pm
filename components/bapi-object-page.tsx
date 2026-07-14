@@ -13,8 +13,11 @@ import Link from "next/link";
 import { SmartLink } from "@/components/smart-link";
 import { Plug, Braces, Cable, Copy, Check, Star, Sparkles, Eye, ShieldCheck, AlertTriangle, Clock, Info, Layers, GitBranch, Network, Terminal, Table2, Code2, Wrench, ListChecks, BookOpen, ArrowLeft, ExternalLink, Server, Boxes, KeyRound, FileText } from "lucide-react";
 import type { SapFuncObject, VerificationStatus, TriState } from "@/lib/bapi-registry";
+import { commitInfo } from "@/lib/bapi-complexity";
 import { toggleFavorite, useIsFavorite } from "@/lib/prefs";
 import { peek } from "@/components/object-peek";
+
+const CONF_HE: Record<string, string> = { high: "גבוהה", medium: "בינונית", low: "נמוכה", derived: "נגזרת" };
 
 type RelatedLite = { id: string; technicalName: string; objectType: string; primaryModule: string; shortDescriptionHe: string; verificationStatus: VerificationStatus };
 
@@ -117,6 +120,50 @@ export function BapiObjectPage({ o, related }: { o: SapFuncObject; related: Rela
         </div>
         {o.verificationStatus === "invalid-name" && <p className="mt-3 rounded-xl border border-brand/25 bg-brand-soft px-3 py-2 text-[12.5px] font-semibold text-brand"><AlertTriangle className="me-1 inline size-3.5" />שם זה אינו אובייקט SAP סטנדרטי לפי המקורות הרשמיים. ראה סעיף אימות בהמשך + חלופה מומלצת.</p>}
       </section>
+
+      {/* ===== trust evidence (§8) — level + stored source + last-verified, honest ===== */}
+      <Section id="trust" icon={<ShieldCheck className="size-4" />} title="אמון ואימות" sub="רמת האמון והמקור — שקוף לחלוטין">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[12px] font-bold ${v.cls}`}><v.Icon className="size-3.5" />{v.he}</span>
+          {o.confidence && <span className="rounded-full border border-hairline px-2.5 py-1 text-[12px] font-bold text-ink-2">ודאות: {CONF_HE[o.confidence] || o.confidence}</span>}
+        </div>
+        <dl className="mt-3 grid gap-2 sm:grid-cols-3">
+          <div className="rounded-xl border border-hairline bg-surface-2/40 p-3"><dt className="text-[11px] font-bold text-ink-3">מקור אימות</dt><dd className="mt-0.5 text-[12.5px] font-semibold text-ink-1">{o.verificationSource || "לא אוחסן מקור רשמי — סיווג נגזר/אצור"}</dd></div>
+          <div className="rounded-xl border border-hairline bg-surface-2/40 p-3"><dt className="text-[11px] font-bold text-ink-3">אומת לאחרונה</dt><dd className="mt-0.5 font-mono text-[12.5px] font-semibold text-ink-1" dir="ltr">{o.lastVerified || "—"}</dd></div>
+          <div className="rounded-xl border border-hairline bg-surface-2/40 p-3"><dt className="text-[11px] font-bold text-ink-3">שיטת אימות</dt><dd className="mt-0.5 text-[12.5px] font-semibold text-ink-1">{o.verificationStatus.startsWith("verified") ? "מקור SAP מאוחסן" : o.verificationStatus === "invalid-name" ? "בדיקת קיום שם" : "נגזר מנתוני הפרויקט"}</dd></div>
+        </dl>
+        <p className="mt-2 text-[11.5px] text-ink-3"><Info className="me-1 inline size-3" />לא ממציאים מספרי SAP Note או מקורות. סטטוס «מאומת» מוצג רק כאשר מקור אמיתי מאוחסן ברשומה.</p>
+      </Section>
+
+      {/* ===== complexity explainer (§4) — computed, with the exact reasons + learn-time ===== */}
+      {o.complexity && (
+        <Section id="complexity" icon={<Layers className="size-4" />} title="רמת מורכבות — כיצד חושבה" sub="מחושב מכללים מתועדים · אינו שיפוט איכות או חשיבות">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full border border-hairline px-2.5 py-1 text-[12px] font-extrabold text-ink-1">{DIFF_HE[o.complexity.difficulty] || o.complexity.difficulty}</span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-surface-2 px-2.5 py-1 text-[12px] font-bold text-ink-2"><Clock className="size-3.5" />זמן למידה משוער: {o.complexity.learnMinutes[0]}–{o.complexity.learnMinutes[1]} דק׳</span>
+          </div>
+          <p className="mt-3 text-[12px] font-bold text-ink-3">הסיבות לרמה זו:</p>
+          <ul className="mt-1.5 space-y-1.5">
+            {o.complexity.reasons.map((r, i) => (
+              <li key={i} className="flex items-start gap-2 text-[12.5px] text-ink-2"><span className="mt-1 size-1.5 shrink-0 rounded-full bg-brand" />{r}</li>
+            ))}
+          </ul>
+          <p className="mt-3 rounded-lg border border-hairline bg-surface-2/40 px-3 py-2 text-[11.5px] text-ink-3">רמת המורכבות מציינת כמה ידע טכני ועסקי נדרש כדי להשתמש באובייקט נכון. היא אינה מציינת איכות או חשיבות.</p>
+        </Section>
+      )}
+
+      {/* ===== COMMIT behaviour (§5) — sequence · ROLLBACK · RETURN · common mistake ===== */}
+      {(() => { const ci = commitInfo(o); return ci.value === "yes" && (
+        <Section id="commit" icon={<KeyRound className="size-4" />} title="התנהגות COMMIT" sub="שמירה, ROLLBACK וטיפול ב-RETURN" tone="warn">
+          <p className="text-[12.5px] text-ink-2">{ci.derived ? "נגזר מסוג הפעולה — " : ""}לאחר קריאה מוצלחת יש לבצע <span className="font-mono font-bold" dir="ltr">BAPI_TRANSACTION_COMMIT</span> כדי לשמור את השינוי במסד הנתונים. ה-BAPI עצמו אינו שומר.</p>
+          <ol className="mt-3 space-y-1.5">
+            {["קרא את ה-BAPI עם נתוני הקלט", "בדוק את טבלת RETURN (BAPIRET2) — TYPE='E'/'A' מציין שגיאה", "אם אין שגיאה → קרא BAPI_TRANSACTION_COMMIT (עם WAIT='X' לסנכרון)", "אם יש שגיאה → קרא BAPI_TRANSACTION_ROLLBACK"].map((s, i) => (
+              <li key={i} className="flex items-start gap-2 text-[12.5px] text-ink-2"><span className="grid size-5 shrink-0 place-items-center rounded-full bg-brand/10 text-[10px] font-black text-brand">{i + 1}</span>{s}</li>
+            ))}
+          </ol>
+          <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[12px] font-semibold text-amber-800"><AlertTriangle className="me-1 inline size-3.5" />טעות נפוצה: שכחת COMMIT — ה-RETURN נראה תקין אך השינוי לא נשמר (מתגלה רק כשהנתון חסר בהמשך).</p>
+        </Section>
+      ); })()}
 
       {/* ===== §6 · ECC ↔ S/4HANA ===== */}
       <Section id="ecc-s4" icon={<Boxes className="size-4" />} title="תאימות ECC ↔ S/4HANA" sub="אין להניח שאובייקט מתנהג זהה ב-S/4HANA">
