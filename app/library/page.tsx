@@ -282,7 +282,7 @@ function BookPeek({ book, onOpen, onClose }: { book: LibBook; onOpen: (b: LibBoo
       <motion.div onClick={(e) => e.stopPropagation()}
         initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.94, y: 12 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96 }} transition={{ duration: 0.26, ease: [0.2, 0, 0, 1] }}
         className="grid w-full max-w-lg gap-5 rounded-3xl border border-hairline bg-surface p-5 shadow-2xl sm:grid-cols-[150px_1fr] sm:p-6">
-        <div className="mx-auto w-32 sm:mx-0 sm:w-full"><BookCover book={asCover(book)} size="lg" /></div>
+        <motion.div layoutId={reduce ? undefined : `cover-${book.id}`} className="mx-auto w-32 sm:mx-0 sm:w-full"><BookCover book={asCover(book)} size="lg" /></motion.div>
         <div className="flex min-w-0 flex-col justify-center gap-2.5">
           <div className="flex items-center gap-2">
             <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{book.module}</span>
@@ -317,7 +317,7 @@ function BookCard({ book, reading, onOpen }: { book: LibBook; reading: boolean; 
   const hasReader = !!READER[book.id];
   return (
     <button data-book-id={book.id} onClick={onOpen} aria-label={`פתח ${book.titleHe}`} className="group relative flex flex-col text-start">
-      <motion.div layout={!reduce} whileHover={reduce ? undefined : { y: -6 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} className={`relative ${reading ? "rounded-[10px] ring-2 ring-brand ring-offset-2 ring-offset-surface" : ""}`}>
+      <motion.div layoutId={reduce ? undefined : `cover-${book.id}`} whileHover={reduce ? undefined : { y: -6 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} className={`relative ${reading ? "rounded-[10px] ring-2 ring-brand ring-offset-2 ring-offset-surface" : ""}`}>
         <BookCover book={asCover(book)} size="md" />
         {reading && <span className="absolute end-2 top-2 z-10 inline-flex items-center gap-1 rounded-full bg-brand px-2 py-0.5 text-[10px] font-extrabold text-white shadow-md"><BookOpen className="size-3" />בקריאה</span>}
         {!hasReader && <span className="pointer-events-none absolute inset-x-2 bottom-2 rounded-md bg-slate-900/70 px-2 py-1 text-center text-[10px] font-bold text-white backdrop-blur-sm">בקרוב · טקסט מלא</span>}
