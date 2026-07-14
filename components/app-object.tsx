@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
+import { ObjectSectionNav } from "@/components/object-section-nav";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Terminal, LayoutGrid, ArrowLeft, ArrowDown, Target, Briefcase, GraduationCap, Wrench, AlertTriangle,
@@ -121,8 +122,10 @@ export function AppObjectPage({ o }: { o: AppObject }) {
         </div>
       </section>
 
-      {/* sticky section nav */}
-      <div className="chip-rail sticky top-[4.25rem] z-20 -mx-1 overflow-x-auto rounded-2xl border border-hairline bg-surface/90 px-2 py-1.5 shadow-sm backdrop-blur">
+      {/* contextual per-object navigation — enhanced scroll-spy rail on mobile/tablet */}
+      <ObjectSectionNav sections={anchors.map(([id, label]) => ({ id, label }))} />
+      {/* desktop keeps the simple anchor rail (has its own knowledge sidebar) */}
+      <div className="chip-rail sticky top-[4.25rem] z-20 -mx-1 hidden overflow-x-auto rounded-2xl border border-hairline bg-surface/90 px-2 py-1.5 shadow-sm backdrop-blur xl:block">
         <div className="flex gap-1">
           {anchors.map(([id, he]) => <a key={id} href={`#${id}`} className="shrink-0 rounded-lg px-2.5 py-1 text-[11.5px] font-bold text-ink-3 transition hover:bg-surface-2 hover:text-brand">{he}</a>)}
         </div>
