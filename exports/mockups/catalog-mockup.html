@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BAPI/FM Catalog — mockup</title>
+<style>
+  :root{
+    --background:#fcfcfd; --background-2:#f4f5f7; --surface:#fff; --surface-2:#f4f5f7;
+    --hairline:#eaecef; --ink-1:#0b0c0e; --ink-2:#3a3f47; --ink-3:#6b727c;
+    --brand:#d62027; --brand-dark:#a3171c; --brand-soft:#fef2f2;
+    --pm:#f97316; --pppi:#6d28d9;
+    --ok:#0f766e; --amber:#b45309; --slate:#475569;
+    --mono:"SFMono-Regular",ui-monospace,"Cascadia Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{max-width:100%;overflow-x:hidden}
+  body{font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;background:var(--background);color:var(--ink-1);-webkit-font-smoothing:antialiased;padding:28px}
+  .wrap{max-width:1200px;margin:0 auto}
+  /* header */
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+  h1{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:6px 0 4px}
+  .sub{font-size:13.5px;color:var(--ink-3);max-width:56ch;line-height:1.55}
+  /* toolbar */
+  .toolbar{margin:22px 0 8px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  .search{flex:1;min-width:260px;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--hairline);border-radius:12px;padding:9px 12px}
+  .search input{border:0;outline:0;background:none;width:100%;font-size:14px;color:var(--ink-1);font-family:inherit}
+  .search svg{color:var(--ink-3);flex:none}
+  .segs{display:flex;background:var(--surface-2);border:1px solid var(--hairline);border-radius:11px;padding:3px;gap:2px}
+  .seg{font-size:12.5px;font-weight:700;color:var(--ink-3);padding:6px 12px;border-radius:8px;cursor:pointer;border:0;background:none;font-family:inherit}
+  .seg.on{background:var(--surface);color:var(--ink-1);box-shadow:0 1px 2px rgba(11,12,14,.06)}
+  .drawerbtn{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:700;color:var(--ink-2);background:var(--surface);border:1px solid var(--hairline);border-radius:11px;padding:8px 13px;cursor:pointer;font-family:inherit}
+  .cnt{background:var(--brand);color:#fff;font-size:10px;font-weight:800;border-radius:999px;min-width:17px;height:17px;display:inline-flex;align-items:center;justify-content:center;padding:0 5px}
+  /* primary filter chips */
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin:6px 0 4px}
+  .chip{font-size:12.5px;font-weight:700;color:var(--ink-2);background:var(--surface);border:1px solid var(--hairline);border-radius:999px;padding:6px 13px;cursor:pointer;font-family:inherit}
+  .chip.on{background:var(--ink-1);color:#fff;border-color:var(--ink-1)}
+  .resultline{font-size:12px;color:var(--ink-3);margin:10px 2px 16px;display:flex;gap:10px;align-items:center}
+  .resultline b{color:var(--ink-2)}
+  /* grid */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:1080px){.grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:720px){.grid{grid-template-columns:1fr}}
+  /* CARD */
+  .card{position:relative;background:var(--surface);border:1px solid var(--hairline);border-radius:16px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:10px;transition:box-shadow .18s,border-color .18s,transform .18s;cursor:pointer}
+  .card:hover{border-color:#dfe2e7;box-shadow:0 12px 28px -14px rgba(11,12,14,.14);transform:translateY(-1px)}
+  .toprow{display:flex;align-items:center;gap:8px}
+  .badge{font-size:10.5px;font-weight:800;letter-spacing:.02em;border-radius:7px;padding:3px 8px;display:inline-flex;align-items:center;gap:5px}
+  .badge.bapi{background:var(--brand-soft);color:var(--brand-dark)}
+  .badge.bapi .dot{width:6px;height:6px;border-radius:50%;background:var(--brand)}
+  .badge.fm{background:var(--surface-2);color:var(--slate)}
+  .badge.fm .dot{width:6px;height:6px;border-radius:50%;background:var(--slate)}
+  .mod{font-size:10.5px;font-weight:800;border-radius:7px;padding:3px 8px}
+  .mod.pm{color:var(--pm);background:#fff7ed}
+  .mod.pppi{color:var(--pppi);background:#f5f3ff}
+  .fav{margin-inline-start:auto;width:34px;height:34px;border-radius:9px;border:1px solid var(--hairline);background:var(--surface);display:grid;place-items:center;color:var(--ink-3);cursor:pointer}
+  .fav.on{color:var(--brand);border-color:#f6d0d2;background:var(--brand-soft)}
+  .fav:hover{border-color:#dfe2e7}
+  .namerow{display:flex;align-items:flex-start;gap:8px}
+  .name{font-family:var(--mono);font-size:16px;font-weight:800;letter-spacing:-.01em;color:var(--ink-1);line-height:1.25;word-break:break-word;direction:ltr;text-align:left;flex:1}
+  .copy{width:30px;height:30px;border-radius:8px;border:1px solid var(--hairline);background:var(--surface);display:grid;place-items:center;color:var(--ink-3);cursor:pointer;flex:none}
+  .copy:hover{border-color:#dfe2e7;color:var(--ink-2)}
+  .purpose{font-size:13px;color:var(--ink-2);line-height:1.5}
+  .context{font-size:11.5px;color:var(--ink-3);display:flex;gap:7px;align-items:center}
+  .context .obj{color:var(--ink-2);font-weight:600}
+  .hr{height:1px;background:var(--hairline);margin:2px 0}
+  .trustrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .tchip{font-size:10.5px;font-weight:700;border-radius:999px;padding:3px 9px;display:inline-flex;align-items:center;gap:5px;border:1px solid transparent}
+  .tchip.curated{background:#f0f6f5;color:var(--ok);border-color:#cfe6e2}
+  .tchip.review{background:#fff8ec;color:var(--amber);border-color:#f5e2bf}
+  .tchip.commit{background:#eef1ff;color:#4338ca;border-color:#d9def8}
+  .tchip.compat{background:var(--surface-2);color:var(--ink-2)}
+  .cxrow{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .cx{font-size:11.5px;font-weight:800;display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px}
+  .cx .cd{width:8px;height:8px;border-radius:50%}
+  .cx.basic{background:#f0f7f0;color:#15803d}.cx.basic .cd{background:#22c55e}
+  .cx.inter{background:#fffbeb;color:#b45309}.cx.inter .cd{background:#f59e0b}
+  .cx.adv{background:#fef2f2;color:var(--brand-dark)}.cx.adv .cd{background:var(--brand)}
+  .cxtime{font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+  .footer{display:flex;gap:8px;margin-top:2px}
+  .cta{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:13px;font-weight:800;color:#fff;background:var(--brand);border:0;border-radius:11px;padding:10px;cursor:pointer;font-family:inherit}
+  .cta:hover{background:var(--brand-dark)}
+  .cta2{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--ink-2);background:var(--surface);border:1px solid var(--hairline);border-radius:11px;padding:10px 14px;cursor:pointer;font-family:inherit}
+  .cta2:hover{border-color:#dfe2e7}
+  .tip{position:absolute;inset-block-start:-2px;inset-inline-end:52px;font-size:10px;color:#fff;background:var(--ink-1);padding:3px 7px;border-radius:6px;opacity:.92}
+  /* table view */
+  .tblwrap{margin-top:26px}
+  .vtitle{font-size:13px;font-weight:800;color:var(--ink-2);margin-bottom:10px}
+  table{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;background:var(--surface);border:1px solid var(--hairline);border-radius:14px;overflow:hidden;font-size:12.5px}
+  td .tn{word-break:break-all;white-space:normal}
+  th:nth-child(1),td:nth-child(1){width:26%}
+  th{text-align:right;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:800;padding:11px 14px;background:var(--surface-2);border-bottom:1px solid var(--hairline)}
+  td{padding:12px 14px;border-bottom:1px solid var(--hairline);color:var(--ink-2);vertical-align:middle}
+  tr:last-child td{border-bottom:0}
+  td .tn{font-family:var(--mono);font-weight:700;color:var(--ink-1);direction:ltr;display:inline-block}
+  .mini{font-size:10px;font-weight:800;border-radius:6px;padding:2px 7px}
+  .mini.b{background:var(--brand-soft);color:var(--brand-dark)}.mini.f{background:var(--surface-2);color:var(--slate)}
+  .mini.c{background:#f0f6f5;color:var(--ok)}.mini.r{background:#fff8ec;color:var(--amber)}
+  .dotb{display:inline-flex;align-items:center;gap:6px;font-weight:700}
+  .dotb .cd{width:8px;height:8px;border-radius:50%}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">עיון · Function Modules</div>
+  <h1>BAPIs / Function Modules</h1>
+  <p class="sub">128 אובייקטים מהבלוּפרינט של PM / PP‑PI — כל אחד עם רמת אמון מוצהרת, מורכבות מחושבת, ודרישת COMMIT. מבוסס ידע SAP אצור ומאומת.</p>
+
+  <div class="toolbar">
+    <label class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input placeholder="חפש BAPI / FM לפי שם, תיאור או תהליך…"></label>
+    <div class="segs"><button class="seg on">קבוצות</button><button class="seg">רשימה</button><button class="seg">טבלה</button></div>
+    <button class="drawerbtn"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M6 12h12M10 18h4"/></svg>מסננים <span class="cnt">2</span></button>
+  </div>
+  <div class="chips">
+    <button class="chip on">הכל</button><button class="chip">BAPI</button><button class="chip">FM</button>
+    <button class="chip">מאומת</button><button class="chip">דורש בדיקה</button><button class="chip">מועדפים</button>
+  </div>
+  <div class="resultline"><span><b>128</b> תוצאות</span>·<span>מקובצות לפי <b>תהליך עסקי</b></span>·<span>2 מסננים פעילים — <b style="color:var(--brand)">נקה הכל</b></span></div>
+
+  <div class="grid">
+    <!-- advanced BAPI -->
+    <div class="card">
+      <div class="toprow"><span class="badge bapi"><span class="dot"></span>BAPI רשמי</span><span class="mod pm">PM</span>
+        <button class="fav on" title="הסר מהמועדפים"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6.5 7 .6-5.3 4.7 1.6 7L12 17.8 5.1 20.8l1.6-7L1.4 9.1l7-.6z"/></svg></button></div>
+      <div class="namerow"><span class="name">BAPI_ALM_ORDER_MAINTAIN</span><button class="copy" title="העתק שם טכני"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button></div>
+      <div class="purpose">יצירה/שינוי פקודת אחזקה דרך ממשק מרכזי — פעולות, רכיבים, אובייקט ייחוס וסטטוס.</div>
+      <div class="context">פקודות אחזקה · <span class="obj">Maintenance Order</span></div>
+      <div class="hr"></div>
+      <div class="trustrow">
+        <span class="tchip curated" title="מבוסס ידע SAP סטנדרטי; ללא ציטוט רשמי מאוחסן">✔ ידע אצור</span>
+        <span class="tchip commit" title="לאחר הקריאה חובה BAPI_TRANSACTION_COMMIT">נדרש COMMIT</span>
+        <span class="tchip compat">ECC ✓ · S/4 ✓</span>
+      </div>
+      <div class="cxrow"><span class="cx adv"><span class="cd"></span>מורכב</span><span class="cxtime">🔴 60–120 דק׳ ללמידה</span></div>
+      <div class="footer"><button class="cta">פתח פרטים ←</button><button class="cta2">העתק שם</button></div>
+    </div>
+
+    <!-- basic FM read (needs-review) -->
+    <div class="card">
+      <div class="toprow"><span class="badge fm"><span class="dot"></span>FM פנימי</span><span class="mod pm">PM</span>
+        <button class="fav" title="הוסף למועדפים"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6.5 7 .6-5.3 4.7 1.6 7L12 17.8 5.1 20.8l1.6-7L1.4 9.1l7-.6z"/></svg></button></div>
+      <div class="namerow"><span class="name">EQUIPMENT_TEXT_READ</span><button class="copy" title="העתק שם טכני"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button></div>
+      <div class="purpose">קריאת טקסט תיאור ציוד (EQKT) לפי מספר ציוד ושפה.</div>
+      <div class="context">ציוד · <span class="obj">Equipment</span></div>
+      <div class="hr"></div>
+      <div class="trustrow">
+        <span class="tchip review" title="שם/זמינות תלויי גרסה — אמת ב-SE37 / BAPI Explorer">⚑ דורש בדיקה</span>
+        <span class="tchip compat">ללא COMMIT</span>
+        <span class="tchip compat">ECC ✓ · S/4 ?</span>
+      </div>
+      <div class="cxrow"><span class="cx basic"><span class="cd"></span>בסיסי</span><span class="cxtime">🟢 5–15 דק׳ ללמידה</span></div>
+      <div class="footer"><button class="cta">פתח פרטים ←</button><button class="cta2">העתק שם</button></div>
+    </div>
+
+    <!-- intermediate BAPI -->
+    <div class="card">
+      <div class="toprow"><span class="badge bapi"><span class="dot"></span>BAPI רשמי</span><span class="mod pm">PM</span>
+        <button class="fav" title="הוסף למועדפים"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6.5 7 .6-5.3 4.7 1.6 7L12 17.8 5.1 20.8l1.6-7L1.4 9.1l7-.6z"/></svg></button></div>
+      <div class="namerow"><span class="name">BAPI_EQUI_CREATE</span><button class="copy" title="העתק שם טכני"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button></div>
+      <div class="purpose">יצירת ציוד (Equipment) דרך ממשק תקני — סוג, נתוני אב, מיקום והתקנה.</div>
+      <div class="context">ציוד · <span class="obj">Equipment</span></div>
+      <div class="hr"></div>
+      <div class="trustrow">
+        <span class="tchip curated" title="מבוסס ידע SAP סטנדרטי; ללא ציטוט רשמי מאוחסן">✔ ידע אצור</span>
+        <span class="tchip commit" title="לאחר הקריאה חובה BAPI_TRANSACTION_COMMIT">נדרש COMMIT</span>
+        <span class="tchip compat">ECC ✓ · S/4 ✓</span>
+      </div>
+      <div class="cxrow"><span class="cx inter"><span class="cd"></span>בינוני</span><span class="cxtime">🟡 20–45 דק׳ ללמידה</span></div>
+      <div class="footer"><button class="cta">פתח פרטים ←</button><button class="cta2">העתק שם</button></div>
+    </div>
+  </div>
+
+  <!-- table view -->
+  <div class="tblwrap">
+    <div class="vtitle">תצוגת טבלה — להשוואת מומחים (מיון לפי כל עמודה)</div>
+    <table>
+      <thead><tr><th>שם טכני</th><th>סוג</th><th>מודול</th><th>תהליך</th><th>אמון</th><th>COMMIT</th><th>ECC/S4</th><th>מורכבות</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tn">BAPI_ALM_ORDER_MAINTAIN</span></td><td><span class="mini b">BAPI</span></td><td>PM</td><td>פקודות אחזקה</td><td><span class="mini c">ידע אצור</span></td><td>נדרש</td><td>✓ / ✓</td><td><span class="dotb" style="color:#b91c1c"><span class="cd" style="background:#d62027"></span>מורכב</span></td></tr>
+        <tr><td><span class="tn">BAPI_EQUI_CREATE</span></td><td><span class="mini b">BAPI</span></td><td>PM</td><td>ציוד</td><td><span class="mini c">ידע אצור</span></td><td>נדרש</td><td>✓ / ✓</td><td><span class="dotb" style="color:#b45309"><span class="cd" style="background:#f59e0b"></span>בינוני</span></td></tr>
+        <tr><td><span class="tn">EQUIPMENT_TEXT_READ</span></td><td><span class="mini f">FM</span></td><td>PM</td><td>ציוד</td><td><span class="mini r">דורש בדיקה</span></td><td>—</td><td>✓ / ?</td><td><span class="dotb" style="color:#15803d"><span class="cd" style="background:#22c55e"></span>בסיסי</span></td></tr>
+        <tr><td><span class="tn">BAPI_PROCORD_CREATE</span></td><td><span class="mini b">BAPI</span></td><td>PP-PI</td><td>פקודות תהליך</td><td><span class="mini c">ידע אצור</span></td><td>נדרש</td><td>✓ / ✓</td><td><span class="dotb" style="color:#b91c1c"><span class="cd" style="background:#d62027"></span>מורכב</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>
