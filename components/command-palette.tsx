@@ -354,7 +354,7 @@ export function CommandPalette() {
                     <div className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-amber-600"><Star className="size-3.5 fill-amber-400 text-amber-500" />מועדפים</div>
                     <div className="flex flex-wrap gap-1.5 px-3">
                       {favs.slice(0, 12).map((n) => (
-                        <button key={n} onClick={() => go(`/object/${encodeURIComponent(n)}`, n)} className="tech inline-flex items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-900 transition-all hover:-translate-y-px hover:border-amber-400 active:scale-95" dir="ltr">
+                        <button key={n} data-peek={n} onClick={() => go(`/object/${encodeURIComponent(n)}`, n)} className="tech inline-flex items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-900 transition-all hover:-translate-y-px hover:border-amber-400 active:scale-95" dir="ltr">
                           <Star className="size-3 fill-amber-400 text-amber-500" />{n}
                         </button>
                       ))}
@@ -366,7 +366,7 @@ export function CommandPalette() {
                     <div className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-muted-foreground"><Boxes className="size-3.5" />אובייקטים אחרונים</div>
                     <div className="flex flex-wrap gap-1.5 px-3">
                       {recentObj.slice(0, 10).map((n) => (
-                        <button key={n} onClick={() => go(`/object/${encodeURIComponent(n)}`, n)} className="tech inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-surface px-2.5 py-1 text-xs font-bold text-ink-2 shadow-sm transition-all hover:-translate-y-px hover:border-brand/40 hover:text-brand active:scale-95" dir="ltr">
+                        <button key={n} data-peek={n} onClick={() => go(`/object/${encodeURIComponent(n)}`, n)} className="tech inline-flex items-center gap-1.5 rounded-lg border border-border/60 bg-surface px-2.5 py-1 text-xs font-bold text-ink-2 shadow-sm transition-all hover:-translate-y-px hover:border-brand/40 hover:text-brand active:scale-95" dir="ltr">
                           <Boxes className="size-3 opacity-50" />{n}
                         </button>
                       ))}
