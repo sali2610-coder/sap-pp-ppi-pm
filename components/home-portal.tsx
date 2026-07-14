@@ -23,27 +23,28 @@ function SearchHero({ counts }: { counts: PortalCounts }) {
   const open = () => { playClick(); window.dispatchEvent(new Event("neo:open-palette")); };
   const chips = ["EQUI", "IFLOT", "QMEL", "MARA", "AFKO"];
   return (
-    <section dir="rtl" className="pt-6 text-center sm:pt-10">
-      {/* level 1 — brand identity (prominent, glowing red monogram) */}
-      <div className="mb-7 flex justify-center [&_svg]:logo-glow">
+    <section dir="rtl" className="pt-4 text-center sm:pt-10">
+      {/* level 1 — brand monogram. Hidden on mobile: the header already carries the
+          brand mark, so the first phone screen isn't a duplicate lockup. */}
+      <div className="mb-7 hidden justify-center [&_svg]:logo-glow sm:flex">
         <SiteLogo tone="dark" size="hero" />
       </div>
       <span className="eyebrow-2 inline-flex items-center gap-1.5"><span className="size-1.5 rounded-full bg-brand" />SAP Knowledge Platform</span>
       {/* level 2 — editorial headline (very bold, concise) */}
-      <h1 className="mx-auto mt-4 max-w-3xl text-balance font-display text-[2.5rem] leading-[0.98] text-ink-1 sm:text-[3.75rem]">
+      <h1 className="mx-auto mt-3 max-w-3xl text-balance font-display text-[2.5rem] leading-[0.98] text-ink-1 sm:mt-4 sm:text-[3.75rem]">
         <span className="block">כל עולם <span className="text-brand">SAP</span></span>
         <span className="block">במקום אחד.</span>
       </h1>
       {/* elegant red accent line beneath the headline */}
-      <span aria-hidden className="accent-rule mx-auto mt-6" />
+      <span aria-hidden className="accent-rule mx-auto mt-4 sm:mt-6" />
       {/* level 3 — description (lighter, generous) */}
-      <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-ink-3 sm:text-[17px]">
+      <p className="mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-ink-3 sm:mt-6 sm:text-[17px]">
         פורטל תיעוד לארכיטקטורת SAP: טבלאות, טרנזקציות, BAPIs, IDocs, CDS ו-Fiori — עם הקשרים ביניהם. ECC6 → S/4HANA.
       </p>
 
       {/* the center of the homepage — search */}
       <button onClick={open} aria-label="חיפוש (⌘K)"
-        className="group mx-auto mt-9 flex w-full max-w-2xl items-center gap-3 rounded-2xl border border-hairline bg-surface px-4 py-4 text-start shadow-[0_1px_2px_rgba(11,12,14,0.05)] transition-all hover:border-brand/40 hover:shadow-[0_16px_40px_-18px_rgba(214,32,39,0.28)] focus-visible:border-brand focus-visible:shadow-[0_0_0_4px_color-mix(in_srgb,var(--brand)_16%,transparent)] focus-visible:outline-none active:scale-[0.995]">
+        className="group mx-auto mt-6 flex w-full max-w-2xl items-center gap-3 rounded-2xl border border-hairline bg-surface px-4 py-4 text-start sm:mt-9 shadow-[0_1px_2px_rgba(11,12,14,0.05)] transition-all hover:border-brand/40 hover:shadow-[0_16px_40px_-18px_rgba(214,32,39,0.28)] focus-visible:border-brand focus-visible:shadow-[0_0_0_4px_color-mix(in_srgb,var(--brand)_16%,transparent)] focus-visible:outline-none active:scale-[0.995]">
         <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-surface-2 transition-colors group-hover:bg-brand-soft">
           <Search className="size-[18px] text-ink-1 transition-colors group-hover:text-brand" strokeWidth={2.4} />
         </span>
@@ -179,7 +180,7 @@ export function HomePortal({ counts, modules }: { counts: PortalCounts; modules:
   const reduce = useReducedMotion();
   const stagger = (i: number) => (reduce ? {} : { initial: { opacity: 0, y: 14 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-40px" }, transition: { duration: 0.4, delay: i * 0.05, ease: [0.2, 0.7, 0.2, 1] as const } });
   return (
-    <div className="space-y-12 sm:space-y-16">
+    <div className="space-y-9 sm:space-y-16">
       <motion.div {...(reduce ? {} : { initial: { opacity: 0, y: 10 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.4 } })}><SearchHero counts={counts} /></motion.div>
       <motion.div {...stagger(0)}><ModulePortals modules={modules} /></motion.div>
       <motion.div {...stagger(1)}><ReferenceGrid counts={counts} /></motion.div>

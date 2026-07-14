@@ -34,8 +34,8 @@ function Header() {
           className="tap hidden size-9 shrink-0 place-items-center rounded-lg text-ink-2 hover:bg-black/[0.05] lg:hidden">
           <Menu className="size-5" />
         </button>
-        <Link href="/" onClick={() => playClick()} className="shrink-0 transition-transform hover:scale-[1.01]">
-          <SiteLogo tone="dark" size="lg" />
+        <Link href="/" onClick={() => playClick()} aria-label="SAP by Sali — דף הבית" className="shrink-0 transition-transform hover:scale-[1.01]">
+          <SiteLogo tone="dark" size="lg" wordmark="sm+" />
         </Link>
         <div className="mx-auto min-w-0 max-w-2xl flex-1">
           <OmniSearch />
