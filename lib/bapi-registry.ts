@@ -11,7 +11,12 @@
 
 import { ALL_TABLES } from "@/data/sapData";
 import { cleanFunc, classifyFunc, type FuncKind } from "@/lib/object-intel";
-import type { Module } from "@/lib/types";
+import { PM_ENRICHMENT, PM_ADDITIONS } from "@/data/bapi-enrichment.pm";
+
+// The registry spans more than the two documented portals (cross-application
+// objects like BAPI_TRANSACTION_COMMIT live in Basis). PM/PP-PI are the subset
+// used by the derived records.
+export type RegistryModule = "PM" | "PP-PI" | "MM" | "SD" | "FI" | "CO" | "QM" | "WM" | "EWM" | "CS" | "HR" | "Basis" | "Cross-Application";
 
 export type TriState = "yes" | "no" | "unknown";
 export type VerificationStatus =
@@ -20,6 +25,7 @@ export type VerificationStatus =
   | "requires-verification"  // derived from project data; not yet system/doc-confirmed
   | "version-dependent"      // exists but behaviour differs by release
   | "internal-unsupported"   // internal FM — not a released/callable integration API
+  | "invalid-name"           // this exact name is NOT a standard SAP object (verified absent)
   | "deprecated";            // superseded; an alternative is recommended
 export type Confidence = "high" | "medium" | "low" | "derived";
 export type OperationType = "Read" | "Create" | "Change" | "Delete" | "Post" | "Confirm" | "Mixed" | "Unknown";
@@ -28,8 +34,8 @@ export interface SapFuncObject {
   id: string;                       // stable slug = clean technical name
   technicalName: string;
   objectType: FuncKind;             // "BAPI" | "FM" | "IDoc" (regex-derived; flag in UI)
-  primaryModule: Module;
-  secondaryModules: Module[];
+  primaryModule: RegistryModule;
+  secondaryModules: RegistryModule[];
   businessProcess: string;          // auto-derived from the owning topic (needs curation)
   operationType: OperationType;     // heuristic from the name (needs curation)
   shortDescriptionHe: string;
@@ -90,7 +96,7 @@ function deriveOp(name: string): OperationType {
  */
 export function deriveRegistry(): SapFuncObject[] {
   const map = new Map<string, {
-    raw: Set<string>; modules: Map<Module, number>; procs: Set<string>;
+    raw: Set<string>; modules: Map<RegistryModule, number>; procs: Set<string>;
     hes: Set<string>; tables: Set<string>; tcodes: Set<string>;
   }>();
 
@@ -141,8 +147,19 @@ export function deriveRegistry(): SapFuncObject[] {
   return out.sort((a, b) => a.technicalName.localeCompare(b.technicalName));
 }
 
-// one-shot registry (module scope known via primaryModule/secondaryModules)
+// one-shot registry = derived base + curated enrichment overlay + verified additions
 let _cache: SapFuncObject[] | null = null;
-export function registry(): SapFuncObject[] { return (_cache ||= deriveRegistry()); }
-export function registryByModule(m: Module): SapFuncObject[] { return registry().filter((o) => o.primaryModule === m || o.secondaryModules.includes(m)); }
+export function registry(): SapFuncObject[] {
+  if (_cache) return _cache;
+  const byId = new Map(deriveRegistry().map((o) => [o.id, o]));
+  for (const [id, patch] of Object.entries(PM_ENRICHMENT)) {           // curate/verify existing derived records
+    const cur = byId.get(id);
+    if (cur) byId.set(id, { ...cur, ...patch, id });
+  }
+  for (const add of PM_ADDITIONS) if (!byId.has(add.id)) byId.set(add.id, add); // verified objects absent from the table refs
+  _cache = [...byId.values()].sort((a, b) => a.technicalName.localeCompare(b.technicalName));
+  return _cache;
+}
+export function registryObject(id: string): SapFuncObject | undefined { return registry().find((o) => o.id === id); }
+export function registryByModule(m: RegistryModule): SapFuncObject[] { return registry().filter((o) => o.primaryModule === m || o.secondaryModules.includes(m)); }
 export function crossModuleObjects(): SapFuncObject[] { return registry().filter((o) => o.secondaryModules.length > 0); }
