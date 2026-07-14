@@ -863,3 +863,17 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
   /* iOS never zooms an input on focus when the font is ≥16px */
   input, textarea, select { font-size: 16px; }
 }
+
+/* Phase 14 — mobile tables: keep the key (first) column pinned while the row
+   scrolls horizontally, so the identifier is always visible. RTL-correct via
+   logical inset. Opaque background so scrolling cells pass underneath. */
+@media (max-width: 768px) {
+  .neo-table thead th:first-child,
+  .neo-table tbody td:first-child {
+    position: sticky;
+    inset-inline-start: 0;
+    z-index: 1;
+    background: var(--surface);
+    box-shadow: 1px 0 0 0 var(--hairline);
+  }
+}

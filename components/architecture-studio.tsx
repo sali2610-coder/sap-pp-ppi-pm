@@ -71,6 +71,8 @@ export function ArchitectureStudio() {
   const [wrapSize, setWrapSize] = useState({ w: 800, h: 560 });
   const wrapRef = useRef<HTMLDivElement>(null);
   const drag = useRef<{ x: number; y: number; ox: number; oy: number; moved: boolean } | null>(null);
+  const pointers = useRef<Map<number, { x: number; y: number }>>(new Map());
+  const pinch = useRef<{ dist: number; k: number; cx: number; cy: number } | null>(null);
   const restored = useRef(false);
   const camHist = useRef<{ x: number; y: number; k: number }[]>([]); // §18 camera history — ESC returns to previous view
   const accent = MOD_COLOR[module];
@@ -201,9 +203,34 @@ export function ArchitectureStudio() {
   useEffect(() => { if (!captions) stopSpeak(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [captions]);
 
   const onWheel = (e: React.WheelEvent) => { const el = wrapRef.current; if (!el) return; const r = el.getBoundingClientRect(); const px = e.clientX - r.left, py = e.clientY - r.top; const nk = Math.min(2.6, Math.max(0.14, tr.k * (1 - e.deltaY * 0.0014))); const f = nk / tr.k; setTr(clampTr({ k: nk, x: px - (px - tr.x) * f, y: py - (py - tr.y) * f })); };
-  const onDown = (e: React.PointerEvent) => { if ((e.target as Element).closest("[data-node]")) return; drag.current = { x: e.clientX, y: e.clientY, ox: tr.x, oy: tr.y, moved: false }; };
-  const onMove = (e: React.PointerEvent) => { if (drag.current) { if (Math.abs(e.clientX - drag.current.x) + Math.abs(e.clientY - drag.current.y) > 3) drag.current.moved = true; setTr((p) => clampTr({ ...p, x: drag.current!.ox + (e.clientX - drag.current!.x), y: drag.current!.oy + (e.clientY - drag.current!.y) })); } };
-  const onUp = () => { if (drag.current && !drag.current.moved) setSel(null); drag.current = null; };
+  const onDown = (e: React.PointerEvent) => {
+    pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.current.size === 2) { // two fingers → pinch
+      const el = wrapRef.current; const r = el?.getBoundingClientRect();
+      const [a, b] = [...pointers.current.values()];
+      pinch.current = { dist: Math.hypot(a.x - b.x, a.y - b.y) || 1, k: tr.k, cx: (a.x + b.x) / 2 - (r?.left || 0), cy: (a.y + b.y) / 2 - (r?.top || 0) };
+      drag.current = null; return;
+    }
+    if ((e.target as Element).closest("[data-node]")) return;
+    drag.current = { x: e.clientX, y: e.clientY, ox: tr.x, oy: tr.y, moved: false };
+  };
+  const onMove = (e: React.PointerEvent) => {
+    if (pointers.current.has(e.pointerId)) pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (pointers.current.size === 2 && pinch.current) {
+      const [a, b] = [...pointers.current.values()];
+      const dist = Math.hypot(a.x - b.x, a.y - b.y);
+      const nk = Math.min(2.6, Math.max(0.14, pinch.current.k * (dist / pinch.current.dist)));
+      const f = nk / tr.k; const { cx, cy } = pinch.current;
+      setTr(clampTr({ k: nk, x: cx - (cx - tr.x) * f, y: cy - (cy - tr.y) * f })); return;
+    }
+    if (drag.current) { if (Math.abs(e.clientX - drag.current.x) + Math.abs(e.clientY - drag.current.y) > 3) drag.current.moved = true; setTr((p) => clampTr({ ...p, x: drag.current!.ox + (e.clientX - drag.current!.x), y: drag.current!.oy + (e.clientY - drag.current!.y) })); }
+  };
+  const onUp = (e?: React.PointerEvent) => {
+    if (e) pointers.current.delete(e.pointerId);
+    if (pointers.current.size < 2) pinch.current = null;
+    if (drag.current && !drag.current.moved) setSel(null);
+    drag.current = null;
+  };
   const zoom = (d: number) => { const el = wrapRef.current; if (!el) return; const cw = el.clientWidth / 2, ch = el.clientHeight / 2; const nk = Math.min(2.6, Math.max(0.14, tr.k * d)); const f = nk / tr.k; setTr(clampTr({ k: nk, x: cw - (cw - tr.x) * f, y: ch - (ch - tr.y) * f })); };
   // §18 camera history — snapshot before a deliberate move so ESC can rewind
   const pushCam = () => { camHist.current.push(tr); if (camHist.current.length > 24) camHist.current.shift(); };
@@ -580,7 +607,7 @@ export function ArchitectureStudio() {
           {/* canvas */}
           <div ref={wrapRef} className={`relative cursor-grab touch-none overflow-hidden border border-hairline bg-surface-2/70 active:cursor-grabbing ${present ? "h-full rounded-2xl" : "h-[calc(100vh-17rem)] min-h-[480px] rounded-3xl"}`}
             style={{ backgroundImage: "radial-gradient(circle at 1px 1px,#d7deea 1px,transparent 0)", backgroundSize: "26px 26px" }}
-            onWheel={onWheel} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerLeave={() => { drag.current = null; setHover(null); }}>
+            onWheel={onWheel} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp} onPointerLeave={() => { drag.current = null; pointers.current.clear(); pinch.current = null; setHover(null); }}>
             <div dir="ltr" style={{ transform: `translate(${tr.x}px,${tr.y}px) scale(${tr.k})`, transformOrigin: "0 0", width: layout.width, height: layout.height, position: "absolute", left: 0, top: 0, right: "auto", transition: drag.current ? "none" : "transform .42s cubic-bezier(0.22,0.61,0.18,1)" }}>
               {/* swimlane bands — §15 each layer has its own colour identity + icon */}
               {layout.bands.map((z) => { const Zi = ZONE_ICON[z.id] || Layers; return (
