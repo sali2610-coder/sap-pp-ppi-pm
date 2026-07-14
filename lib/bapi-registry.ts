@@ -14,6 +14,7 @@ import { cleanFunc, classifyFunc, type FuncKind } from "@/lib/object-intel";
 import { PM_ENRICHMENT, PM_ADDITIONS } from "@/data/bapi-enrichment.pm";
 import { PPPI_ENRICHMENT, PPPI_ADDITIONS } from "@/data/bapi-enrichment.pppi";
 import { SWEEP_ENRICHMENT } from "@/data/bapi-enrichment.sweep";
+import { computeComplexity, LEARN_MINUTES, type ComplexityInfo } from "@/lib/bapi-complexity";
 
 // The registry spans more than the two documented portals (cross-application
 // objects like BAPI_TRANSACTION_COMMIT live in Basis). PM/PP-PI are the subset
@@ -85,6 +86,7 @@ export interface SapFuncObject {
   relatedEnhancements?: string[];   // §14 BAdIs / exits
   authObjects?: string[];           // §13 authorization objects
   codeAbap?: string;                // §16 concise ABAP skeleton
+  complexity?: ComplexityInfo;      // computed: reasons[] + learn-time (attached in registry())
 }
 
 const stripProc = (t: string) => t.replace(/^\s*\d+\.\s*/, "").replace(/\s*\($/, "").trim();
@@ -204,16 +206,26 @@ export function deriveStability(kind: FuncKind, vs: VerificationStatus): Stabili
   return kind === "BAPI" ? "Released" : "Internal";
 }
 
-// one-shot registry = derived base + curated enrichment overlay + verified additions
+// one-shot registry = derived base + curated enrichment overlay + verified additions,
+// then a computed-complexity pass (documented rule → reasons[] + learn-time). Curated
+// difficulty from enrichment/additions wins; the rest use the computed level.
 let _cache: SapFuncObject[] | null = null;
 export function registry(): SapFuncObject[] {
   if (_cache) return _cache;
+  const enrichAll = { ...PM_ENRICHMENT, ...PPPI_ENRICHMENT, ...SWEEP_ENRICHMENT };
+  const curatedDifficulty = new Set<string>(Object.entries(enrichAll).filter(([, p]) => p.difficulty != null).map(([id]) => id));
   const byId = new Map(deriveRegistry().map((o) => [o.id, o]));
-  for (const [id, patch] of Object.entries({ ...PM_ENRICHMENT, ...PPPI_ENRICHMENT, ...SWEEP_ENRICHMENT })) {  // curate/verify existing derived records
+  for (const [id, patch] of Object.entries(enrichAll)) {  // curate/verify existing derived records
     const cur = byId.get(id);
     if (cur) byId.set(id, { ...cur, ...patch, id });
   }
-  for (const add of [...PM_ADDITIONS, ...PPPI_ADDITIONS]) if (!byId.has(add.id)) byId.set(add.id, add); // verified objects absent from the table refs
+  for (const add of [...PM_ADDITIONS, ...PPPI_ADDITIONS]) if (!byId.has(add.id)) { byId.set(add.id, add); curatedDifficulty.add(add.id); } // verified additions carry a curated difficulty
+  // computed-complexity pass — attach reasons + learn-time; keep curated difficulty where set
+  for (const [id, o] of byId) {
+    const c = computeComplexity(o);
+    const difficulty = curatedDifficulty.has(id) ? o.difficulty : c.difficulty;
+    byId.set(id, { ...o, difficulty, complexity: { difficulty, reasons: c.reasons, learnMinutes: LEARN_MINUTES[difficulty] } });
+  }
   _cache = [...byId.values()].sort((a, b) => a.technicalName.localeCompare(b.technicalName));
   return _cache;
 }
