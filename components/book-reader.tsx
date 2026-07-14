@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Children, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDown, ListTree, X, PlayCircle, StickyNote, Clock, FileText, Languages, Layers3, ArrowLeft, Sparkles, CheckCircle2, Maximize2, Minimize2, Home, Library, AlignLeft, Settings2, RotateCcw, HelpCircle, AlertTriangle } from "lucide-react";
@@ -37,6 +37,18 @@ function flash(el: HTMLElement | null | undefined) {
 function jump(n: number) {
   if (!n) return;
   window.dispatchEvent(new CustomEvent("neo:reader:goto", { detail: n }));
+}
+// Page mode paginates ONE chapter. Book pages may wrap the ChapterReaders in a
+// container div, so flatten one level and pick the active chapter's element.
+function pageChild(children: React.ReactNode, active: number): React.ReactNode {
+  const hasChN = (el: unknown): el is { props: { ch: { n: number } } } => isValidElement(el) && (el.props as { ch?: { n?: number } })?.ch?.n != null;
+  const flat: React.ReactNode[] = [];
+  for (const el of Children.toArray(children)) {
+    if (hasChN(el)) flat.push(el);
+    else if (isValidElement(el)) for (const inner of Children.toArray((el.props as { children?: React.ReactNode }).children)) if (hasChN(inner)) flat.push(inner);
+  }
+  const match = flat.find((el) => hasChN(el) && el.props.ch.n === active);
+  return match ?? children;
 }
 function scrollToId(id: string) {
   const el = document.getElementById(id);
@@ -509,7 +521,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
 
       {/* ===================== PREMIUM BOOK LANDING (Phase 12.2) ===================== */}
       <motion.section initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.2, 0.7, 0.2, 1] }}
-        className={`relative overflow-hidden rounded-[1.75rem] border border-hairline bg-surface shadow-[0_18px_48px_-26px_rgba(15,23,42,0.45)] ${focus ? "hidden" : ""}`}>
+        className={`relative overflow-hidden rounded-[1.75rem] border border-hairline bg-surface shadow-[0_18px_48px_-26px_rgba(15,23,42,0.45)] ${focus || pageMode ? "hidden" : ""}`}>
         {/* top identity accent (module color) */}
         <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${c}, ${c}88)` }} />
         <span className="pointer-events-none absolute -left-20 -top-16 size-52 rounded-full opacity-[0.12] blur-3xl" style={{ background: c }} />
@@ -583,7 +595,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
       </motion.section>
 
       {/* ===================== PREMIUM CHAPTER CARDS (Table of Contents) ===================== */}
-      <section id="book-contents" className={`scroll-mt-24 space-y-3 ${focus ? "hidden" : ""}`}>
+      <section id="book-contents" className={`scroll-mt-24 space-y-3 ${focus || pageMode ? "hidden" : ""}`}>
         <h2 className="flex items-center gap-2 font-display text-lg text-ink-1"><ListTree className="size-5 text-brand" /> תוכן העניינים <span className="text-sm font-semibold text-ink-3">· {total} פרקים</span></h2>
         <div className="grid-adaptive-sm">
           {chapters.map((ch) => {
@@ -628,7 +640,22 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
       {/* ===================== READER (existing engine — unchanged) ===================== */}
       {pageMode ? (
         <div data-theme={rtheme} data-size={rsize} data-measure={rmeasure} data-view={rview} className="neo-reader neo-pane reader-enter mx-auto w-full min-w-0">
-          <PageView chapters={chapters} accent={c}>{children}</PageView>
+          {/* page-mode control bar — the hero/TOC are hidden here, so settings + focus
+              + library must stay reachable (else the reader is a one-way trap). */}
+          {!focus && (
+            <div className="mb-3 flex flex-wrap items-center gap-2">
+              <Link href="/library/" className="tap inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-2.5 py-2 text-xs font-bold text-ink-2 hover:border-brand/40"><Library className="size-3.5" /> ספרייה</Link>
+              <span className="min-w-0 flex-1 truncate text-[13px] font-extrabold text-ink-1">{meta ? meta.titleHe : title}</span>
+              <button onClick={toggleFocus} title="מצב מיקוד (F)" className="tap inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-2.5 py-2 text-xs font-bold text-ink-2 hover:border-brand/40"><Maximize2 className="size-3.5" /> מיקוד</button>
+              <ReaderSettings view={rview} setView={saveView} mode={rmode} setMode={saveMode} theme={rtheme} setTheme={saveTheme} size={rsize} setSize={saveSize} measure={rmeasure} setMeasure={saveMeasure} accent={c} onReset={() => setConfirmReset(true)} />
+            </div>
+          )}
+          {/* chapter-scoped pagination: render ONLY the active chapter so the frame
+              paginates a small, measurable amount of content (no 900-page multicol). */}
+          <PageView chapters={chapters} active={active} accent={c}
+            onChapter={(n) => { setActive(n); try { history.replaceState(null, "", `#ch-${n}`); } catch { /* noop */ } }}>
+            {pageChild(children, active)}
+          </PageView>
         </div>
       ) : (
       <div className={focus ? "block" : "block xl:grid xl:gap-6 xl:grid-cols-[minmax(0,1fr)_248px] 2xl:gap-8 2xl:grid-cols-[minmax(0,1fr)_300px] min-[2560px]:grid-cols-[minmax(0,1fr)_360px]"}>

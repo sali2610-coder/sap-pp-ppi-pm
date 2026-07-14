@@ -148,13 +148,13 @@ export function ChapterReader({ ch, figures = [], onOpenFigure, diagram }: { ch:
         </div>
       )}
 
-      <AnimatePresence initial={false}>
-        {render && (
-          <motion.div initial={false} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={reduce ? { duration: 0 } : { height: { duration: DUR.base, ease: EASE.out }, opacity: { duration: DUR.fast, ease: EASE.out } }} className="overflow-hidden px-3 pb-4">
+      {(() => {
+        const body = (
+          <>
             {diagram}
             <div className="paper relative rounded-xl p-4 sm:p-6">
               {ch.sections.map((s, si) => (
-                <div key={s.id}>
+                <div key={s.id} className={pageMode ? "" : undefined}>
                   <SectionSpread s={s} />
                   {(buckets[si] || []).map((i) => (
                     <InlineFigure key={i} fig={ordered[i]} n={`${ch.n}-${i + 1}`} label={`איור ${ch.n}.${i + 1}`} confident onOpen={() => openFig(i)} />
@@ -165,9 +165,22 @@ export function ChapterReader({ ch, figures = [], onOpenFigure, diagram }: { ch:
                 <InlineFigure key={i} fig={ordered[i]} n={`${ch.n}-${i + 1}`} label={`איור ${ch.n}.${i + 1}`} confident={false} onOpen={() => openFig(i)} />
               ))}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </>
+        );
+        // page mode → render PLAIN (no framer wrapper). A motion.div / overflow-hidden
+        // creates a fragmentation boundary that breaks CSS multicol pagination (blanks).
+        return pageMode ? (
+          <div className="neo-page-body px-3 pb-4">{body}</div>
+        ) : (
+          <AnimatePresence initial={false}>
+            {render && (
+              <motion.div initial={false} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={reduce ? { duration: 0 } : { height: { duration: DUR.base, ease: EASE.out }, opacity: { duration: DUR.fast, ease: EASE.out } }} className="overflow-hidden px-3 pb-4">
+                {body}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        );
+      })()}
     </section>
   );
 }
