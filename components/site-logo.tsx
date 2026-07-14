@@ -9,7 +9,7 @@ const SIZES: Record<Size, { icon: number; name: string; sub: string; gap: string
   hero: { icon: 78, name: "text-[30px] sm:text-[34px]", sub: "text-[12px] tracking-[0.24em]", gap: "gap-4" },
 };
 
-export function SiteLogo({ className, tone = "light", size = "md" }: { className?: string; tone?: "light" | "dark"; size?: Size }) {
+export function SiteLogo({ className, tone = "light", size = "md", wordmark = "always" }: { className?: string; tone?: "light" | "dark"; size?: Size; wordmark?: "always" | "sm+" }) {
   const dark = tone === "dark";
   const s = SIZES[size];
   const gid = `lg-bg-${size}`;
@@ -40,7 +40,7 @@ export function SiteLogo({ className, tone = "light", size = "md" }: { className
             </>
           )}
         </svg>
-        <span className="flex flex-col leading-none">
+        <span className={`flex-col leading-none ${wordmark === "sm+" ? "hidden sm:flex" : "flex"}`}>
           <span className={`${s.name} font-extrabold tracking-tight ${dark ? "text-ink-1" : ""}`}>SAP by Sali</span>
           <span className={`mt-1 ${s.sub} font-semibold uppercase ${dark ? "text-ink-3" : "text-white/70"}`}>Project NEO</span>
         </span>

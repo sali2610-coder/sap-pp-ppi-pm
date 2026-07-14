@@ -46,6 +46,16 @@ type RSize = "sm" | "md" | "lg";
    pane only (never a global dark mode). Reused in the landing CTA + focus bar. */
 function ReaderSettings({ view, setView, mode, setMode, theme, setTheme, size, setSize, wide, toggleWide, accent, onReset }: { view: ReaderView; setView: (v: ReaderView) => void; mode: "scroll" | "page"; setMode: (m: "scroll" | "page") => void; theme: RTheme; setTheme: (t: RTheme) => void; size: RSize; setSize: (s: RSize) => void; wide: boolean; toggleWide: () => void; accent: string; onReset: () => void }) {
   const [open, setOpen] = useState(false);
+  // overlay a11y — Esc closes; lock background scroll while the mobile sheet is up
+  useEffect(() => {
+    if (!open) return;
+    const mobile = typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches;
+    const prev = document.body.style.overflow;
+    if (mobile) document.body.style.overflow = "hidden";
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", h);
+    return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", h); };
+  }, [open]);
   const themes: [RTheme, string, string, string][] = [["original", "מקור", "#ffffff", "#0b0c0e"], ["sepia", "ספיה", "#f6efe1", "#2b2620"], ["night", "לילה", "#14181f", "#e8ecf1"]];
   const sizes: [RSize, number][] = [["sm", 12], ["md", 15], ["lg", 19]];
   const views: [ReaderView, string, string][] = [["hebrew", "עברית", "טור קריאה יחיד"], ["bilingual", "דו-לשוני", "אנגלית ‖ עברית"]];
@@ -54,8 +64,10 @@ function ReaderSettings({ view, setView, mode, setMode, theme, setTheme, size, s
       <button onClick={() => setOpen((o) => !o)} aria-expanded={open} className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><Settings2 className="size-4" /> תצוגת קריאה</button>
       {open && (
         <>
-          <button className="fixed inset-0 z-40 cursor-default" aria-label="סגור" onClick={() => setOpen(false)} />
-          <div className="absolute end-0 z-50 mt-2 w-64 rounded-2xl border border-hairline bg-surface p-3 text-ink-1 shadow-xl">
+          <button className="fixed inset-0 z-[60] cursor-default bg-slate-900/30 backdrop-blur-sm sm:z-40 sm:bg-transparent sm:backdrop-blur-0" aria-label="סגור" onClick={() => setOpen(false)} />
+          {/* bottom sheet on mobile (above the global tab bar) · anchored dropdown on sm+ */}
+          <div role="dialog" aria-label="תצוגת קריאה" className="fixed inset-x-0 bottom-0 z-[61] max-h-[85dvh] overflow-y-auto rounded-t-[1.5rem] border-t border-hairline bg-surface p-4 pb-[max(env(safe-area-inset-bottom),1rem)] text-ink-1 shadow-2xl sm:absolute sm:inset-x-auto sm:bottom-auto sm:end-0 sm:mt-2 sm:max-h-none sm:w-64 sm:rounded-2xl sm:border sm:p-3 sm:pb-3 sm:shadow-xl">
+            <div className="mx-auto mb-3 h-1.5 w-11 rounded-full bg-hairline sm:hidden" />
             <div className="eyebrow mb-1.5 text-ink-3">מצב קריאה</div>
             <div className="grid grid-cols-2 gap-1.5">
               {views.map(([k, label, sub]) => (
@@ -217,6 +229,16 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   // first-use hint (one line, dismissible, remembered)
   useEffect(() => { try { setHintSeen(localStorage.getItem("neo:reader:helpseen") === "1"); } catch { /* noop */ } }, []);
   const dismissHint = useCallback(() => { setHintSeen(true); try { localStorage.setItem("neo:reader:helpseen", "1"); } catch { /* noop */ } }, []);
+
+  // overlay a11y — Esc closes the help / reset dialogs + lock background scroll
+  useEffect(() => {
+    if (!helpOpen && !confirmReset) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") { setHelpOpen(false); setConfirmReset(false); } };
+    window.addEventListener("keydown", h);
+    return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", h); };
+  }, [helpOpen, confirmReset]);
 
   // keyboard shortcuts — F focus · C contents · ? help (ignored while typing)
   useEffect(() => {
@@ -416,11 +438,11 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
           <div className="mt-4 flex flex-wrap items-center gap-2">
             {meta?.pages && <MetaChip icon={<FileText className="size-3.5 text-ink-3" />}>{meta.pages} עמ׳</MetaChip>}
             <MetaChip icon={<Layers3 className="size-3.5 text-ink-3" />}>{total} פרקים</MetaChip>
-            {readMin && <MetaChip icon={<Clock className="size-3.5 text-ink-3" />}>≈ {readMin} ש׳ קריאה</MetaChip>}
+            {readMin && <span className="hidden sm:contents"><MetaChip icon={<Clock className="size-3.5 text-ink-3" />}>≈ {readMin} ש׳ קריאה</MetaChip></span>}
             <MetaChip icon={<Languages className="size-3.5 text-ink-3" />}>EN · HE</MetaChip>
             <MetaChip icon={<GraduationCap className="size-3.5" style={{ color: c }} />}>{score}% נקרא</MetaChip>
-            {bm.length > 0 && <MetaChip icon={<Bookmark className="size-3.5 fill-amber-400 text-amber-400" />}>{bm.length} סימניות</MetaChip>}
-            {stats?.map((s, i) => <MetaChip key={i} icon={<Check className="size-3.5 text-ink-3" />}>{s.value} {s.label}</MetaChip>)}
+            {bm.length > 0 && <span className="hidden sm:contents"><MetaChip icon={<Bookmark className="size-3.5 fill-amber-400 text-amber-400" />}>{bm.length} סימניות</MetaChip></span>}
+            {stats?.map((s, i) => <span key={i} className="hidden sm:contents"><MetaChip icon={<Check className="size-3.5 text-ink-3" />}>{s.value} {s.label}</MetaChip></span>)}
           </div>
 
           {/* progress */}

@@ -498,6 +498,8 @@ header :focus-visible {
   grid-template-columns: repeat(auto-fill, minmax(clamp(150px, 13vw, 220px), 1fr));
 }
 @media (min-width: 1024px) { .grid-adaptive-sm { gap: 0.75rem; } }
+/* mobile: guarantee a comfortable compact 2-col (never cramped chip cards) */
+@media (max-width: 640px) { .grid-adaptive-sm { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); } }
 
 /* Premium card surface — one consistent enclosure across the platform */
 @utility card-premium {
@@ -521,6 +523,11 @@ header :focus-visible {
 button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: transparent; }
 @media (hover: none) {
   button:active, a:active, [role="button"]:active { transform: scale(0.98); }
+}
+/* Phase 14 — touch targets: every intentional .tap control reaches ≥44px on
+   coarse pointers. Inline prose links are not .tap, so reading flow is untouched. */
+@media (pointer: coarse) {
+  .tap { min-height: 44px; }
 }
 
 /* ── Mobile Flagship — native-iOS feel (phones only; desktop untouched) ──────── */
@@ -829,4 +836,44 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
 @media (prefers-reduced-motion: reduce) {
   .neo-flash { animation: none; }
   .neo-skel::after { animation: none; display: none; }
+}
+
+/* ============================================================= */
+/* Phase 14 — mobile typography scale (≤640px). Unlayered so it   */
+/* overrides Tailwind's layered size utilities; enforces readable */
+/* minimums, calmer Hebrew rhythm, higher grey contrast.          */
+/* ============================================================= */
+@media (max-width: 640px) {
+  /* higher-contrast secondary ink (avoid gray-on-gray) */
+  :root { --ink-3: #5b6570; --muted-foreground: #5b6570; }
+
+  /* readable minimums + Hebrew line-height */
+  .text-xs { font-size: 0.8125rem; line-height: 1.55; }   /* 12 → 13 */
+  .text-sm { font-size: 0.9375rem; line-height: 1.6; }    /* 14 → 15 */
+  .text-\[10px\], .text-\[10\.5px\] { font-size: 11px; }
+  .text-\[11px\], .text-\[11\.5px\] { font-size: 12px; }
+  .text-\[12px\], .text-\[12\.5px\] { font-size: 13px; line-height: 1.5; }
+  .text-\[13px\], .text-\[13\.5px\] { font-size: 14px; line-height: 1.55; }
+  .text-\[14px\], .text-\[14\.5px\], .text-\[15px\], .text-\[15\.5px\] { font-size: 15px; line-height: 1.6; }
+
+  /* calmer tracking on tiny uppercase eyebrows/labels */
+  .eyebrow, .eyebrow-2 { letter-spacing: 0.08em; }
+  .uppercase.tracking-\[0\.2em\], .uppercase.tracking-\[0\.22em\], .uppercase.tracking-\[0\.24em\] { letter-spacing: 0.12em; }
+
+  /* iOS never zooms an input on focus when the font is ≥16px */
+  input, textarea, select { font-size: 16px; }
+}
+
+/* Phase 14 — mobile tables: keep the key (first) column pinned while the row
+   scrolls horizontally, so the identifier is always visible. RTL-correct via
+   logical inset. Opaque background so scrolling cells pass underneath. */
+@media (max-width: 768px) {
+  .neo-table thead th:first-child,
+  .neo-table tbody td:first-child {
+    position: sticky;
+    inset-inline-start: 0;
+    z-index: 1;
+    background: var(--surface);
+    box-shadow: 1px 0 0 0 var(--hairline);
+  }
 }

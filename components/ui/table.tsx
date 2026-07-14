@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 export function Table({ className, ...props }: React.HTMLAttributes<HTMLTableElement>) {
   return (
-    <div className="relative w-full overflow-x-auto">
+    <div className="neo-table relative w-full overflow-x-auto [-webkit-overflow-scrolling:touch]">
       <table className={cn("w-full caption-bottom text-sm", className)} {...props} />
     </div>
   );
