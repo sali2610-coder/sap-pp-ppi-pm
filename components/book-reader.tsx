@@ -227,6 +227,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   const [hintSeen, setHintSeen] = useState(true);
   const [notes, setNotes] = useState("");
   const [notesOpen, setNotesOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const [focus, setFocus] = useState(false);
   const [prog, setProg] = useState(0);
   const mainRef = useRef<HTMLDivElement>(null);
@@ -321,13 +322,13 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
 
   // overlay a11y — Esc closes the help / reset dialogs + lock background scroll
   useEffect(() => {
-    if (!helpOpen && !confirmReset) return;
+    if (!helpOpen && !confirmReset && !searchOpen && !notesOpen) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const h = (e: KeyboardEvent) => { if (e.key === "Escape") { setHelpOpen(false); setConfirmReset(false); } };
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") { setHelpOpen(false); setConfirmReset(false); setSearchOpen(false); setNotesOpen(false); } };
     window.addEventListener("keydown", h);
     return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", h); };
-  }, [helpOpen, confirmReset]);
+  }, [helpOpen, confirmReset, searchOpen, notesOpen]);
 
   // keyboard shortcuts — F focus · C contents · ? help (ignored while typing)
   useEffect(() => {
@@ -567,6 +568,8 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
             <button onClick={() => scrollToId("book-contents")} aria-label="עיין בתוכן העניינים של הספר" title="פתח את פרקי הספר וקפוץ לפרק או סעיף (מקש C)" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><ListTree className="size-4" /> עיין בתוכן</button>
             <button onClick={toggleFocus} aria-pressed={focus} aria-label="מצב קריאה מרוכז" title="הסתר הכל מלבד הטקסט (מקש F · Esc ליציאה)" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><Maximize2 className="size-4" /> מצב מיקוד</button>
             <ReaderSettings view={rview} setView={saveView} mode={rmode} setMode={saveMode} theme={rtheme} setTheme={saveTheme} size={rsize} setSize={saveSize} measure={rmeasure} setMeasure={saveMeasure} accent={c} onReset={() => setConfirmReset(true)} />
+            <button onClick={() => setSearchOpen(true)} aria-label="חיפוש בתוך הספר" title="חיפוש פרק בתוך הספר" className="tap inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-3 py-2.5 text-sm font-bold text-ink-3 shadow-sm transition hover:border-brand/40 hover:text-brand active:scale-95"><Search className="size-4" /></button>
+            <button onClick={() => setNotesOpen(true)} aria-label="הערות הספר" title="הערות אישיות על הספר" className="tap inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-3 py-2.5 text-sm font-bold text-ink-3 shadow-sm transition hover:border-brand/40 hover:text-brand active:scale-95"><StickyNote className="size-4" />{notes.trim() && <span className="size-1.5 rounded-full" style={{ background: c }} />}</button>
             <button onClick={() => setHelpOpen(true)} aria-label="עזרה — איך משתמשים בקורא" title="עזרה ומקשי קיצור" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-3 py-2.5 text-sm font-bold text-ink-3 shadow-sm transition hover:border-brand/40 hover:text-brand active:scale-95"><HelpCircle className="size-4" /></button>
           </div>
           {!hintSeen && (
@@ -628,64 +631,11 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
           <PageView chapters={chapters} accent={c}>{children}</PageView>
         </div>
       ) : (
-      <div className={focus ? "block" : "grid gap-6 lg:grid-cols-[248px_minmax(0,1fr)] xl:grid-cols-[248px_minmax(0,1fr)_236px] 2xl:gap-8 2xl:grid-cols-[300px_minmax(0,1fr)_300px] min-[2560px]:grid-cols-[380px_minmax(0,1fr)_380px]"}>
-        {/* ===== sticky chapter tree ===== */}
-        <aside className={`lg:sticky lg:top-[5rem] lg:h-[calc(100vh-6rem)] ${focus ? "hidden" : ""}`}>
-          <div className="card-premium flex h-full flex-col overflow-hidden p-0">
-            {/* header + progress + score */}
-            <div className="border-b border-hairline p-4">
-              <div className="flex items-center gap-2">
-                <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-brand to-brand-dark text-white shadow-md"><BookOpen className="size-4.5" /></span>
-                <div className="min-w-0"><h2 className="truncate text-sm font-extrabold text-ink-1">{title}</h2>{subtitle && <p className="truncate text-[11px] text-ink-3">{subtitle}</p>}</div>
-              </div>
-              <div className="mt-3 flex items-center justify-between text-[11px] font-bold">
-                <span className="flex items-center gap-1 text-ink-3"><GraduationCap className="size-3.5 text-brand" /> ציון ידע</span>
-                <span className="font-mono text-brand">{score}%</span>
-              </div>
-              <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-surface-2">
-                <div className="h-full rounded-full bg-gradient-to-l from-brand to-brand-dark transition-all duration-700" style={{ width: `${score}%` }} />
-              </div>
-              <p className="mt-1 text-[10px] text-ink-3">{read.length}/{total} פרקים נקראו · {bm.length} סימניות</p>
-            </div>
-            {/* in-book search */}
-            <div className="relative border-b border-hairline p-2.5">
-              <Search className="pointer-events-none absolute end-4 top-1/2 size-3.5 -translate-y-1/2 text-ink-3" />
-              <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש בתוך הספר…" className="w-full rounded-lg border border-hairline bg-surface py-1.5 pe-3 ps-8 text-xs outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
-              {q && <button onClick={() => setQ("")} className="absolute start-4 top-1/2 -translate-y-1/2"><X className="size-3.5 text-ink-3" /></button>}
-            </div>
-            {/* tree */}
-            <nav className="min-h-0 flex-1 overflow-y-auto p-2">
-              <div className="eyebrow mb-1 flex items-center gap-1 px-2 text-ink-3"><ListTree className="size-3" /> פרקים</div>
-              {filtered.map((ch) => {
-                const isRead = read.includes(ch.n); const isBm = bm.includes(ch.n); const isActive = active === ch.n;
-                return (
-                  <div key={ch.n} className={`group flex items-center gap-1.5 rounded-lg px-2 py-1.5 transition ${isActive ? "bg-brand/10" : "hover:bg-surface-2"}`}>
-                    <button onClick={() => { playTick(); jump(ch.n); }} className="flex min-w-0 flex-1 items-center gap-2 text-start">
-                      <span className={`grid size-5 shrink-0 place-items-center rounded-md text-[10px] font-bold ${isRead ? "bg-emerald-100 text-emerald-600" : isActive ? "bg-brand text-white" : "bg-surface-2 text-ink-3"}`}>{isRead ? <Check className="size-3" /> : ch.n}</span>
-                      <span className={`truncate text-xs ${isActive ? "font-bold text-ink-1" : "font-medium text-ink-2"}`}>{ch.title}</span>
-                    </button>
-                    <button onClick={() => toggleBm(ch.n)} aria-label="סימנייה" className="shrink-0 opacity-0 transition group-hover:opacity-100" style={{ opacity: isBm ? 1 : undefined }}>
-                      <Bookmark className={`size-3.5 ${isBm ? "fill-amber-400 text-amber-400" : "text-ink-3"}`} />
-                    </button>
-                  </div>
-                );
-              })}
-              {filtered.length === 0 && <p className="px-2 py-4 text-center text-xs text-ink-3">אין פרק תואם</p>}
-            </nav>
-            {/* notes */}
-            <div className="border-t border-hairline p-2.5">
-              <button onClick={() => setNotesOpen((v) => !v)} className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-xs font-bold text-ink-2 hover:bg-surface-2">
-                <span className="flex items-center gap-1.5"><StickyNote className="size-3.5 text-brand" /> הערות הספר</span>
-                <ChevronDown className={`size-3.5 transition-transform ${notesOpen ? "rotate-180" : ""}`} />
-              </button>
-              {notesOpen && (
-                <textarea value={notes} onChange={(e) => { setNotes(e.target.value); try { localStorage.setItem(`neo:reader:notes:${bookId}`, e.target.value); } catch { /* noop */ } }}
-                  placeholder="הערות אישיות על הספר — נשמר בדפדפן…" className="mt-1.5 h-28 w-full resize-none rounded-lg border border-hairline bg-surface p-2 text-xs outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
-              )}
-            </div>
-          </div>
-        </aside>
-
+      <div className={focus ? "block" : "block xl:grid xl:gap-6 xl:grid-cols-[minmax(0,1fr)_248px] 2xl:gap-8 2xl:grid-cols-[minmax(0,1fr)_300px] min-[2560px]:grid-cols-[minmax(0,1fr)_360px]"}>
+        {/* §8 — the old left knowledge panel (chapter tree + score + search + notes)
+            was removed: it duplicated the contents grid + the "בעמוד זה" rail and ate
+            reading width. Its functions moved to the toolbar (search + notes popovers)
+            and the "בעמוד זה" rail (chapter nav + read/bookmark states + score summary). */}
         {/* ===== reading pane ===== */}
         <div ref={mainRef} data-theme={rtheme} data-size={rsize} data-measure={rmeasure} data-view={rview} className={`neo-reader neo-pane reader-enter min-w-0 ${focus ? "mx-auto max-w-3xl" : "mx-auto w-full"}`}>
           {children}
@@ -705,19 +655,32 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         {!focus && (
           <aside className="hidden xl:block">
             <div className="sticky top-[5rem] max-h-[calc(100vh-6rem)] overflow-y-auto pb-4">
-              <div className="mb-2.5 flex items-center justify-between pe-1">
+              <div className="mb-2 flex items-center justify-between pe-1">
                 <span className="flex items-center gap-1.5 text-[10.5px] font-extrabold uppercase tracking-[0.16em] text-ink-3"><AlignLeft className="size-3.5" /> בעמוד זה</span>
                 <span className="font-mono text-[11px] font-bold tabular-nums" style={{ color: c }}>{Math.round(prog)}%</span>
+              </div>
+              {/* progress summary (relocated from the removed left panel) */}
+              <div className="mb-3 rounded-xl border border-hairline bg-surface-2/40 p-2.5">
+                <div className="flex items-center justify-between text-[11px] font-bold"><span className="flex items-center gap-1 text-ink-3"><GraduationCap className="size-3.5 text-brand" /> ציון ידע</span><span className="font-mono" style={{ color: c }}>{score}%</span></div>
+                <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-surface-2"><div className="h-full rounded-full transition-all duration-700" style={{ width: `${score}%`, background: c }} /></div>
+                <p className="mt-1 text-[10px] text-ink-3">{read.length}/{total} פרקים נקראו · {bm.length} סימניות</p>
               </div>
               <nav className="relative border-s border-hairline" aria-label="בעמוד זה">
                 {chapters.map((ch) => {
                   const on = active === ch.n;
+                  const isRead = read.includes(ch.n); const isBm = bm.includes(ch.n);
                   const chSecs = secs.filter((s) => s.chapter === ch.n);
                   return (
                     <div key={ch.n}>
-                      <button onClick={() => { playTick(); jump(ch.n); }} className="group relative -ms-px flex w-full items-center border-s-2 py-[5px] ps-3 text-start transition-colors" style={{ borderColor: on ? c : "transparent" }}>
-                        <span className={`truncate text-[12px] leading-snug transition-colors ${on ? "font-extrabold text-ink-1" : "font-medium text-ink-3 group-hover:text-ink-1"}`}>{ch.n}. {ch.title}</span>
-                      </button>
+                      <div className="group/ch flex items-center">
+                        <button onClick={() => { playTick(); jump(ch.n); }} className="group relative -ms-px flex min-w-0 flex-1 items-center gap-1.5 border-s-2 py-[5px] ps-3 text-start transition-colors" style={{ borderColor: on ? c : "transparent" }}>
+                          {isRead && <Check className="size-3 shrink-0 text-emerald-500" />}
+                          <span className={`truncate text-[12px] leading-snug transition-colors ${on ? "font-extrabold text-ink-1" : "font-medium text-ink-3 group-hover:text-ink-1"}`}>{ch.n}. {ch.title}</span>
+                        </button>
+                        <button onClick={() => toggleBm(ch.n)} aria-label={isBm ? "הסר סימנייה" : "סמן פרק"} className="tap shrink-0 px-1 opacity-0 transition group-hover/ch:opacity-100" style={{ opacity: isBm ? 1 : undefined }}>
+                          <Bookmark className={`size-3.5 ${isBm ? "fill-amber-400 text-amber-400" : "text-ink-3"}`} />
+                        </button>
+                      </div>
                       {on && chSecs.length > 0 && (
                         <div className="mb-0.5">
                           {chSecs.map((s) => {
@@ -738,6 +701,50 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
           </aside>
         )}
       </div>
+      )}
+
+      {/* §8 — in-book search (relocated from the removed panel) */}
+      {searchOpen && (
+        <div role="dialog" aria-modal="true" aria-label="חיפוש בספר" className="fixed inset-0 z-[80] flex items-start justify-center bg-slate-950/50 p-4 pt-[12vh] backdrop-blur-sm" onClick={() => { setSearchOpen(false); setQ(""); }}>
+          <div onClick={(e) => e.stopPropagation()} dir="rtl" className="w-full max-w-md overflow-hidden rounded-2xl border border-hairline bg-surface shadow-2xl">
+            <div className="flex items-center gap-2 border-b border-hairline px-4">
+              <Search className="size-4 shrink-0 text-brand" />
+              {/* eslint-disable-next-line jsx-a11y/no-autofocus */}
+              <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש פרק בתוך הספר…" className="h-12 w-full bg-transparent text-sm outline-none placeholder:text-ink-3" />
+              <button onClick={() => { setSearchOpen(false); setQ(""); }} aria-label="סגור" className="tap grid size-8 place-items-center rounded-lg text-ink-3 hover:bg-surface-2"><X className="size-4" /></button>
+            </div>
+            <div className="max-h-[50vh] overflow-y-auto p-2">
+              {filtered.map((ch) => {
+                const isRead = read.includes(ch.n); const isBm = bm.includes(ch.n);
+                return (
+                  <button key={ch.n} onClick={() => { setSearchOpen(false); setQ(""); jump(ch.n); }} className="tap flex w-full items-center gap-2 rounded-lg px-3 py-2 text-start transition hover:bg-surface-2">
+                    <span className="grid size-5 shrink-0 place-items-center rounded-md bg-surface-2 text-[10px] font-bold text-ink-3">{ch.n}</span>
+                    <span className="min-w-0 flex-1 truncate text-[13px] font-semibold text-ink-1">{ch.title}</span>
+                    {isRead && <Check className="size-3.5 shrink-0 text-emerald-500" />}
+                    {isBm && <Bookmark className="size-3.5 shrink-0 fill-amber-400 text-amber-400" />}
+                  </button>
+                );
+              })}
+              {filtered.length === 0 && <p className="px-3 py-8 text-center text-[13px] text-ink-3">אין פרק תואם ל־<b className="text-ink-2">{q}</b></p>}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* §8 — book notes (relocated from the removed panel) */}
+      {notesOpen && (
+        <div role="dialog" aria-modal="true" aria-label="הערות הספר" className="fixed inset-0 z-[80] flex items-end justify-center bg-slate-950/50 p-0 backdrop-blur-sm sm:items-center sm:p-4" onClick={() => setNotesOpen(false)}>
+          <div onClick={(e) => e.stopPropagation()} dir="rtl" className="w-full max-w-md rounded-t-2xl border border-hairline bg-surface p-5 shadow-2xl sm:rounded-2xl">
+            <div className="mx-auto mb-3 h-1.5 w-11 rounded-full bg-hairline sm:hidden" />
+            <div className="flex items-center justify-between">
+              <h3 className="flex items-center gap-2 font-display text-lg text-ink-1"><StickyNote className="size-5 text-brand" /> הערות הספר</h3>
+              <button onClick={() => setNotesOpen(false)} aria-label="סגור" className="tap grid size-8 place-items-center rounded-lg text-ink-3 hover:bg-surface-2"><X className="size-4" /></button>
+            </div>
+            <textarea value={notes} onChange={(e) => { setNotes(e.target.value); try { localStorage.setItem(`neo:reader:notes:${bookId}`, e.target.value); } catch { /* noop */ } }}
+              placeholder="הערות אישיות על הספר — נשמר בדפדפן, פרטי…" className="mt-3 h-44 w-full resize-none rounded-xl border border-hairline bg-surface-2/40 p-3 text-[13px] leading-relaxed outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
+            <p className="mt-1.5 text-[10.5px] text-ink-3">נשמר מקומית בדפדפן · פרטי</p>
+          </div>
+        </div>
       )}
 
       {/* confirm reset progress — safe, per-book, bookmarks always kept */}
