@@ -12,6 +12,7 @@
 import { ALL_TABLES } from "@/data/sapData";
 import { cleanFunc, classifyFunc, type FuncKind } from "@/lib/object-intel";
 import { PM_ENRICHMENT, PM_ADDITIONS } from "@/data/bapi-enrichment.pm";
+import { PPPI_ENRICHMENT, PPPI_ADDITIONS } from "@/data/bapi-enrichment.pppi";
 
 // The registry spans more than the two documented portals (cross-application
 // objects like BAPI_TRANSACTION_COMMIT live in Basis). PM/PP-PI are the subset
@@ -152,11 +153,11 @@ let _cache: SapFuncObject[] | null = null;
 export function registry(): SapFuncObject[] {
   if (_cache) return _cache;
   const byId = new Map(deriveRegistry().map((o) => [o.id, o]));
-  for (const [id, patch] of Object.entries(PM_ENRICHMENT)) {           // curate/verify existing derived records
+  for (const [id, patch] of Object.entries({ ...PM_ENRICHMENT, ...PPPI_ENRICHMENT })) {  // curate/verify existing derived records
     const cur = byId.get(id);
     if (cur) byId.set(id, { ...cur, ...patch, id });
   }
-  for (const add of PM_ADDITIONS) if (!byId.has(add.id)) byId.set(add.id, add); // verified objects absent from the table refs
+  for (const add of [...PM_ADDITIONS, ...PPPI_ADDITIONS]) if (!byId.has(add.id)) byId.set(add.id, add); // verified objects absent from the table refs
   _cache = [...byId.values()].sort((a, b) => a.technicalName.localeCompare(b.technicalName));
   return _cache;
 }
