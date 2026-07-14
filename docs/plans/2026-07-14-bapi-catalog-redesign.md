@@ -376,3 +376,73 @@ list, official-sources list. **PR-B also:** one BAPI card + one FM card + the pa
 Wait for explicit approval of **this plan** before any code. Then implement **PR-A only**, present
 its deliverables, and **wait for approval again** before PR-B, and again before PR-C. No
 auto-merge at any stage.
+
+---
+
+## 8. Mandatory cross-cutting requirements (approved additions)
+
+These apply to **every** screen and PR. Non-negotiable acceptance gates.
+
+1. **North star:** not "a catalog" — the best SAP reference platform available. Every decision judged against that bar.
+2. **Benchmark before redesign:** no layout invented from scratch. Before redesigning any screen, compare against Stripe Dashboard · Linear · Postman · Figma · Apple HIG · SAP Fiori · Mobbin references, and record the comparison in the PR. (Live inspection via Mobbin / Figma / Browser MCP.)
+3. **Four form factors flawless:** desktop · laptop · tablet · mobile. Every component verified at 390 / 768 / 1024 / 1440 / 2560 with 0 overflow, 0 console errors.
+4. **Performance is a top priority (budget below).** Feels instantaneous.
+5. **Accessibility:** keyboard nav · visible focus · readable type · consistent spacing · correct RTL. Never color-only.
+6. **SAP.com-grade cards:** pixel-perfect spacing, balanced typography, clear hierarchy, zero clutter.
+7. **Scale to thousands from day one** — see §9.
+8. **High-fidelity mockups before PR-B.** Realistic mockups (Figma MCP or Browser MCP — **no ASCII wireframes**) produced and **approved** before any catalog UI code is written.
+9. **Every PR:** before/after (desktop+tablet+mobile) · perf comparison · files changed · risks · rollback.
+10. **Merge bar:** visually polished + fully responsive + production-ready, or it does not merge.
+
+### Performance budget (enforced, measured in each UI PR)
+- First interaction < 100 ms · list scroll 60 fps · 0 CLS.
+- **Virtualized rendering** for any list/grid/table that can exceed ~150 rows (windowed; only visible rows in the DOM).
+- Lazy-load heavy detail content; **intelligent prefetch** of a card's detail route on hover/focus/viewport-idle.
+- Memoized filtering/sorting; transform/opacity-only animation; no layout-triggering props.
+- Dependency check before adding any virtualization lib (verify `package.json`; offline-bundled only, no CDN).
+
+---
+
+## 9. Scalability architecture (thousands of objects, many kinds)
+
+Today ≈ 131 BAPI/FM. Tomorrow: 1,000+ BAPIs, FMs, IDocs, Tables, CDS Views, Transactions,
+Classes, Enhancements, BAdIs, User Exits, RAP objects, OData services. **The model is designed
+generic now; only the BAPI/FM adapter is populated in this initiative.**
+
+### Kind-agnostic core (PR-A builds this)
+```ts
+// lib/catalog/types.ts (NEW — the platform's universal object model)
+export type ObjectKind =
+  | "bapi" | "fm" | "idoc" | "table" | "cds" | "tcode"
+  | "class" | "enhancement" | "badi" | "user-exit" | "rap" | "odata";
+
+export interface CatalogObject {
+  id: string;               // stable slug (kind + name)
+  name: string;             // exact technical identifier
+  kind: ObjectKind;
+  module: string;
+  process?: string;
+  purpose: string;          // one-line
+  type: TypeRecord;         // released/internal/obsolete/… (kind-appropriate)
+  trust: TrustRecord;       // §2.1 — universal
+  commit?: Commit;          // BAPI/FM only; undefined for read-only kinds
+  complexity?: ComplexityResult; // computed where signals exist
+  aliases?: string[];
+  detailHref: string;
+}
+```
+- **Trust + complexity + type** are cross-kind concerns → defined once, reused by every future kind.
+- **Adapters** turn a source into `CatalogObject[]`: `lib/catalog/adapters/bapi-fm.ts` now; `tables.ts`,
+  `cds.ts`, … later. A registry (`lib/catalog/index.ts`) concatenates adapters → one `listObjects()`.
+- The **catalog UI (PR-B)** is a generic virtualized object browser keyed on `CatalogObject`, not on
+  BAPI/FM specifically — so adding a kind later is a data adapter, **no UI rewrite**.
+- **Indexing for scale:** a prebuilt in-memory index (by kind / module / process / trust / first-letter)
+  so filtering thousands of rows stays O(bucket), and a lightweight tokenized search index (name +
+  purpose) instead of linear scans. Built once at module load, memoized.
+- **Static export at scale:** per-object detail pages already use `generateStaticParams`; the pattern
+  scales. If object counts later make full prerender heavy, the plan allows a hybrid (prerender
+  high-traffic kinds, lazily hydrate the long tail) — flagged, not needed at 131.
+
+### Impact on PR-A scope
+PR-A now delivers the **generic core + the BAPI/FM adapter**, not a BAPI-only model. Same effort,
+future-proof seam. PR-B's catalog is built generic + virtualized from the first line.
