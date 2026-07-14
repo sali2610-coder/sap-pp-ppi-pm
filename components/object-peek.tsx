@@ -217,9 +217,16 @@ export function ObjectPeek() {
     let timer: ReturnType<typeof setTimeout> | null = null; let sx = 0, sy = 0;
     const clear = () => { if (timer) { clearTimeout(timer); timer = null; } };
     const down = (e: PointerEvent) => {
-      const el = (e.target as HTMLElement)?.closest?.("[data-peek]") as HTMLElement | null;
-      if (!el) return;
-      const n = el.getAttribute("data-peek"); if (!n) return;
+      const t = e.target as HTMLElement | null;
+      // 1) explicit opt-in
+      let n = (t?.closest?.("[data-peek]") as HTMLElement | null)?.getAttribute("data-peek") || null;
+      // 2) any object-family anchor, app-wide, no per-component wiring
+      if (!n) {
+        const href = (t?.closest?.("a[href]") as HTMLAnchorElement | null)?.getAttribute("href") || "";
+        const m = /^\/(?:object|bapi|tcode|cds|idoc)\/([^/?#]+)/.exec(href);
+        if (m) { try { n = decodeURIComponent(m[1]); } catch { n = m[1]; } }
+      }
+      if (!n) return;
       sx = e.clientX; sy = e.clientY;
       timer = setTimeout(() => {
         timer = null; setName(n); haptic();
