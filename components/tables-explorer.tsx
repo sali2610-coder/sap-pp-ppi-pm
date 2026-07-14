@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Search, ArrowLeft, GitBranch, Database, Activity, ShieldAlert } from "lucide-react";
+import { SwipeRow } from "@/components/swipe-row";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Highlight } from "@/components/highlight";
 
@@ -53,10 +54,11 @@ export function TablesExplorer({ rows }: { rows: TableRow[] }) {
         <EmptyState title="לא נמצאו טבלאות" hint="נסה מונח חיפוש אחר או נקה את סינון המודול" suggestions={[{ label: "נקה חיפוש", onClick: () => setQ("") }, { label: "כל המודולים", onClick: () => setMod("ALL") }]} />
       ) : (
         <>
-          {/* mobile: native card list (no horizontal scroll) */}
+          {/* mobile: native card list (no horizontal scroll) · swipe a row to favorite */}
           <div className="space-y-2.5 lg:hidden">
             {list.map((r) => (
-              <Link key={r.name} href={`/object/${encodeURIComponent(r.name)}/`} className="tap block rounded-2xl border border-hairline bg-surface p-3.5 shadow-sm transition active:scale-[0.98]">
+              <SwipeRow key={r.name} name={r.name}>
+              <Link href={`/object/${encodeURIComponent(r.name)}/`} data-peek={r.name} className="tap block rounded-2xl border border-hairline bg-surface p-3.5 shadow-sm transition active:scale-[0.98]">
                 <div className="flex items-start justify-between gap-2">
                   <span className="tech text-[15px] font-extrabold text-brand" dir="ltr"><Highlight text={r.name} query={q} /></span>
                   <span className="flex shrink-0 flex-wrap justify-end gap-1">{r.module.split(" · ").map((m) => <span key={m} className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: MOD_COLOR[m] || "#64748b" }}>{m}</span>)}</span>
@@ -69,6 +71,7 @@ export function TablesExplorer({ rows }: { rows: TableRow[] }) {
                 </div>
                 {r.s4 && <p className="mt-1.5 text-[11px] leading-snug text-ink-3">{r.s4}</p>}
               </Link>
+              </SwipeRow>
             ))}
           </div>
 
