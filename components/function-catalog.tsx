@@ -11,7 +11,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Plug, Braces, Search, X, ChevronDown, ShieldCheck, AlertTriangle, Info, Clock, ArrowLeft, Copy, Check, GitBranch, BookOpen, Boxes, Sparkles, Star, ListChecks, Wrench, Code2, GraduationCap, Lightbulb, Link2, Pin, NotebookPen, Server, Globe, FileJson, Terminal, RotateCcw, PackageOpen, SearchX, Eye, LayoutGrid, Rows3, Table2 } from "lucide-react";
+import { Plug, Braces, Search, X, ChevronDown, ShieldCheck, AlertTriangle, Info, Clock, ArrowLeft, Copy, Check, GitBranch, BookOpen, Boxes, Sparkles, Star, ListChecks, Wrench, Code2, GraduationCap, Lightbulb, Link2, Pin, NotebookPen, Server, Globe, FileJson, Terminal, RotateCcw, PackageOpen, SearchX, Eye, LayoutGrid, Rows3, Table2, SlidersHorizontal } from "lucide-react";
 import type { SapFuncObject, VerificationStatus, OperationType, BusinessCategory, Difficulty, Stability, TriState } from "@/lib/bapi-registry";
 import { commitInfo } from "@/lib/bapi-complexity";
 
@@ -23,8 +23,8 @@ const CAT: Record<BusinessCategory, { he: string; c: string }> = {
   TransactionControl: { he: "בקרת LUW", c: "#334155" }, Analytics: { he: "אנליטיקה", c: "#6b7280" }, General: { he: "כללי", c: "#64748b" },
 };
 const DIFF: Record<Difficulty, { he: string; cls: string }> = {
-  Beginner: { he: "מתחיל", cls: "bg-emerald-50 text-emerald-700 border-emerald-200" }, Intermediate: { he: "בינוני", cls: "bg-sky-50 text-sky-700 border-sky-200" },
-  Advanced: { he: "מתקדם", cls: "bg-amber-50 text-amber-700 border-amber-200" }, Expert: { he: "מומחה", cls: "bg-brand-soft text-brand border-brand/30" },
+  Beginner: { he: "בסיסי", cls: "bg-emerald-50 text-emerald-700 border-emerald-200" }, Intermediate: { he: "בינוני", cls: "bg-sky-50 text-sky-700 border-sky-200" },
+  Advanced: { he: "מורכב", cls: "bg-amber-50 text-amber-700 border-amber-200" }, Expert: { he: "מומחה", cls: "bg-brand-soft text-brand border-brand/30" },
 };
 const STAB: Record<Stability, { he: string; cls: string }> = {
   Released: { he: "Released API", cls: "bg-emerald-50 text-emerald-700 border-emerald-200" }, "SAP-Recommended": { he: "מומלץ SAP", cls: "bg-sky-50 text-sky-700 border-sky-200" },
@@ -508,6 +508,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
   const [learn, setLearn] = useState<"all" | "learned" | "unlearned">("all");
   const [sel, setSel] = useState<SapFuncObject | null>(null);
   const [view, setView] = useState<"groups" | "list" | "table">("groups");
+  const [drawer, setDrawer] = useState(false);
   const wide = useWide();
   const router = useRouter();
   // §10 — deep-link a module filter from the module portals (/bapi?module=PM)
@@ -517,6 +518,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
   const { fav, pin, learned, notes, toggleFav, togglePin, toggleLearned, setNote } = useObjState();
   const resetFilters = () => { setQ(""); setType("all"); setVerif("all"); setMod("all"); setOp("all"); setCommitOnly(false); setFavOnly(false); setPinOnly(false); setLearn("all"); };
   const anyFilter = !!q || type !== "all" || verif !== "all" || mod !== "all" || op !== "all" || commitOnly || favOnly || pinOnly || learn !== "all";
+  const secondaryCount = (mod !== "all" ? 1 : 0) + (op !== "all" ? 1 : 0) + (commitOnly ? 1 : 0) + (pinOnly ? 1 : 0) + (learn !== "all" ? 1 : 0) + (expert ? 1 : 0);
 
   const mods = useMemo(() => [...new Set(objects.flatMap((o) => [o.primaryModule, ...o.secondaryModules]))], [objects]);
   const related = useMemo(() => {
@@ -581,7 +583,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
     <div dir="rtl" className={`space-y-5 transition-[padding] duration-300 ${wide && sel ? "lg:pe-[31rem]" : ""}`}>
       <LearnPanel />
 
-      {/* search + filters (sticky) */}
+      {/* search + PRIMARY filters (always visible) + secondary drawer toggle (§9) */}
       <div className="sticky top-14 z-30 -mx-2 rounded-2xl border border-hairline bg-surface/90 px-3 py-2.5 shadow-sm backdrop-blur-md sm:mx-0">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
           <div className="relative flex-1">
@@ -589,40 +591,51 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש שם · תיאור · תהליך · טרנזקציה…" className="w-full rounded-xl border border-hairline bg-surface py-2 pe-3 ps-9 text-[14px] outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
             {q && <button onClick={() => setQ("")} aria-label="נקה" className="absolute inset-y-0 start-3 my-auto"><X className="size-4 text-ink-3" /></button>}
           </div>
-          <div className="chip-rail flex gap-1.5 overflow-x-auto pb-0.5">
+          <div className="chip-rail flex items-center gap-1.5 overflow-x-auto pb-0.5">
             <F active={type === "all"} onClick={() => setType("all")}>הכל</F>
             <F active={type === "BAPI"} onClick={() => setType("BAPI")}>BAPI</F>
             <F active={type === "FM"} onClick={() => setType("FM")}>FM</F>
-            <span className="mx-0.5 w-px bg-hairline" />
+            <span className="mx-0.5 w-px self-stretch bg-hairline" />
             <F active={verif === "verified"} onClick={() => setVerif(verif === "verified" ? "all" : "verified")}>מאומת</F>
             <F active={verif === "needs"} onClick={() => setVerif(verif === "needs" ? "all" : "needs")}>דורש אימות</F>
-            <span className="mx-0.5 w-px bg-hairline" />
             <F active={favOnly} onClick={() => setFavOnly((v) => !v)}>★ מועדפים</F>
-            <F active={pinOnly} onClick={() => setPinOnly((v) => !v)}>נעוצים</F>
-            <F active={learn === "learned"} onClick={() => setLearn(learn === "learned" ? "all" : "learned")}>נלמד</F>
-            <F active={learn === "unlearned"} onClick={() => setLearn(learn === "unlearned" ? "all" : "unlearned")}>ללמידה</F>
-            <span className="mx-0.5 w-px bg-hairline" />
-            <F active={expert} onClick={() => setExpert((v) => !v)}>{expert ? "מצב מומחה" : "מצב מתחיל"}</F>
+            <span className="mx-0.5 w-px self-stretch bg-hairline" />
+            <button onClick={() => setDrawer((d) => !d)} aria-expanded={drawer} className={`tap inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-bold transition ${drawer || secondaryCount ? "border-brand/40 bg-brand-soft text-brand" : "border-hairline bg-surface text-ink-2 hover:bg-surface-2"}`}>
+              <SlidersHorizontal className="size-3.5" /> מסננים{secondaryCount > 0 && <span className="grid min-w-[16px] place-items-center rounded-full bg-brand px-1 text-[10px] font-extrabold text-white">{secondaryCount}</span>}
+            </button>
           </div>
         </div>
-        {/* row 2 — module · operation · commit · sort */}
-        <div className="chip-rail mt-2 flex items-center gap-1.5 overflow-x-auto pb-0.5">
-          <F active={mod === "all"} onClick={() => setMod("all")}>כל המודולים</F>
-          {mods.map((m) => <F key={m} active={mod === m} onClick={() => setMod(mod === m ? "all" : m)}>{m}</F>)}
-          <span className="mx-0.5 w-px bg-hairline" />
-          <F active={commitOnly} onClick={() => setCommitOnly((v) => !v)}>דורש COMMIT</F>
-          <select value={op} onChange={(e) => setOp(e.target.value as "all" | OperationType)} aria-label="סינון לפי פעולה" className="tap shrink-0 rounded-full border border-hairline bg-surface px-2.5 py-1.5 text-[12px] font-bold text-ink-2 outline-none focus:border-brand/40">
-            <option value="all">כל הפעולות</option>
-            {(["Read", "Create", "Change", "Delete", "Post", "Confirm"] as OperationType[]).map((k) => <option key={k} value={k}>{OP_HE[k]}</option>)}
-          </select>
-          <span className="mx-0.5 w-px bg-hairline" />
-          <select value={sort} onChange={(e) => setSort(e.target.value as SortKey)} aria-label="מיון" className="tap shrink-0 rounded-full border border-hairline bg-surface px-2.5 py-1.5 text-[12px] font-bold text-ink-2 outline-none focus:border-brand/40">
-            <option value="alpha">מיון: א״ב</option>
-            <option value="process">מיון: תהליך</option>
-            <option value="verified">מיון: מאומת קודם</option>
-            <option value="commit">מיון: COMMIT קודם</option>
-          </select>
-        </div>
+
+        {/* SECONDARY drawer — module · operation · commit · personal · sort · presets */}
+        {drawer && (
+          <div className="mt-2.5 rounded-xl border border-hairline bg-surface-2/50 p-3">
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div><p className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-ink-3">מודול</p><div className="flex flex-wrap gap-1.5"><F active={mod === "all"} onClick={() => setMod("all")}>הכל</F>{mods.map((m) => <F key={m} active={mod === m} onClick={() => setMod(mod === m ? "all" : m)}>{m}</F>)}</div></div>
+              <div><p className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-ink-3">פעולה · COMMIT</p><div className="flex flex-wrap items-center gap-1.5"><F active={commitOnly} onClick={() => setCommitOnly((v) => !v)}>דורש COMMIT</F><select value={op} onChange={(e) => setOp(e.target.value as "all" | OperationType)} aria-label="סינון לפי פעולה" className="tap shrink-0 rounded-full border border-hairline bg-surface px-2.5 py-1.5 text-[12px] font-bold text-ink-2 outline-none focus:border-brand/40"><option value="all">כל הפעולות</option>{(["Read", "Create", "Change", "Delete", "Post", "Confirm"] as OperationType[]).map((k) => <option key={k} value={k}>{OP_HE[k]}</option>)}</select></div></div>
+              <div><p className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-ink-3">אישי · תצוגה</p><div className="flex flex-wrap gap-1.5"><F active={pinOnly} onClick={() => setPinOnly((v) => !v)}>נעוצים</F><F active={learn === "learned"} onClick={() => setLearn(learn === "learned" ? "all" : "learned")}>נלמד</F><F active={learn === "unlearned"} onClick={() => setLearn(learn === "unlearned" ? "all" : "unlearned")}>ללמידה</F><F active={expert} onClick={() => setExpert((v) => !v)}>{expert ? "מצב מומחה" : "מצב מתחיל"}</F></div></div>
+              <div><p className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-ink-3">מיון</p><select value={sort} onChange={(e) => setSort(e.target.value as SortKey)} aria-label="מיון" className="tap w-full rounded-xl border border-hairline bg-surface px-2.5 py-1.5 text-[12px] font-bold text-ink-2 outline-none focus:border-brand/40"><option value="alpha">א״ב</option><option value="process">תהליך</option><option value="verified">מאומת קודם</option><option value="commit">COMMIT קודם</option></select></div>
+            </div>
+            {/* saved presets */}
+            <div className="mt-3 border-t border-hairline pt-2.5">
+              <p className="mb-1.5 text-[11px] font-bold uppercase tracking-wide text-ink-3">תבניות מהירות</p>
+              <div className="flex flex-wrap gap-1.5">
+                {([
+                  ["PM · BAPIs", () => { resetFilters(); setType("BAPI"); setMod("PM"); }],
+                  ["PP-PI · ייצור", () => { resetFilters(); setType("BAPI"); setMod("PP-PI"); }],
+                  ["מאומתים בלבד", () => { resetFilters(); setVerif("verified"); }],
+                  ["דורש בדיקה", () => { resetFilters(); setVerif("needs"); }],
+                  ["נדרש COMMIT", () => { resetFilters(); setCommitOnly(true); }],
+                  ["מועדפים", () => { resetFilters(); setFavOnly(true); }],
+                ] as [string, () => void][]).map(([label, apply]) => (
+                  <button key={label} onClick={apply} className="tap rounded-lg border border-hairline bg-surface px-3 py-1.5 text-[12px] font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand">{label}</button>
+                ))}
+              </div>
+            </div>
+            {/* §4 — what "complexity" means, near the filters */}
+            <p className="mt-3 rounded-lg border border-hairline bg-surface px-3 py-2 text-[11.5px] leading-relaxed text-ink-3"><Info className="me-1 inline size-3.5" />רמת המורכבות (בסיסי · בינוני · מורכב) מציינת כמה ידע טכני ועסקי נדרש כדי להשתמש באובייקט נכון — מחושבת מכללים מתועדים. היא אינה מציינת איכות או חשיבות.</p>
+          </div>
+        )}
+
         <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1.5">
           <p className="text-[11.5px] font-semibold text-ink-3">{filtered.length} תוצאות{moduleLabel ? ` · ${moduleLabel}` : ""}</p>
           {anyFilter && <button onClick={resetFilters} className="inline-flex items-center gap-1 text-[11.5px] font-bold text-brand hover:underline"><RotateCcw className="size-3" /> נקה סינון</button>}
