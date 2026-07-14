@@ -18,6 +18,7 @@ const PageHelp = dynamic(() => import("@/components/page-help").then((m) => m.Pa
 const UXSettings = dynamic(() => import("@/components/ux-settings").then((m) => m.UXSettings), { ssr: false });
 import { MobileTabBar } from "@/components/mobile-tab-bar";
 const ObjectPeek = dynamic(() => import("@/components/object-peek").then((m) => m.ObjectPeek), { ssr: false });
+const ContextFab = dynamic(() => import("@/components/context-fab").then((m) => m.ContextFab), { ssr: false });
 import { WowToast } from "@/components/wow-toast";
 import { Footer } from "@/components/Footer";
 import { LangSwitch } from "@/components/lang-switch";
@@ -83,6 +84,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <OnboardingDrawer />
       <WowToast />
       <MobileTabBar />
+      <ContextFab />
       <ObjectPeek />
       <WorkspaceInspector />
     </I18nProvider>

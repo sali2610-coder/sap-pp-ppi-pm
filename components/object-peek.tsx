@@ -19,7 +19,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { X, Star, Copy, Check, Table2, Terminal, Plug, Braces, Network, GitBranch, ArrowLeft, Sparkles, ChevronDown, MapPin, ShieldCheck, Clock, BookMarked, Layers, Workflow } from "lucide-react";
+import { X, Star, Copy, Check, Table2, Terminal, Plug, Braces, Network, GitBranch, ArrowLeft, Sparkles, MapPin, ShieldCheck, Clock, BookMarked, Layers, Workflow } from "lucide-react";
 import { objectIntel } from "@/lib/data";
 import { registryObject } from "@/lib/bapi-registry";
 import { actionsFor, type ActionKind } from "@/lib/universal-actions";
@@ -104,7 +104,6 @@ function PeekBody({ r, onPeek, onClose }: { r: Resolved; onPeek: (n: string) => 
   const meta = KIND_META[r.kind];
   const fav = useIsFavorite(r.name);
   const [copied, setCopied] = useState(false);
-  const [showTech, setShowTech] = useState(false);
   const acts = r.kind === "unknown" ? [] : actionsFor(r.kind as ActionKind, r.name, r.module);
   const copy = () => { navigator.clipboard?.writeText(r.name).then(() => { setCopied(true); haptic(); setTimeout(() => setCopied(false), 1400); }).catch(() => {}); };
   const goPrimary = () => { haptic(); onClose(); router.push(r.primaryHref); };
