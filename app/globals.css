@@ -674,13 +674,15 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
 }
 
 /* ---- Reader display settings (SCOPED to the reading pane — never global) ---- */
-/* Pane measure: default cap, "wide" mode for big SAP tables / ER diagrams */
+/* Pane measure (§9 width): צר / נוח / רחב — comfortable line length control */
 .neo-reader.neo-pane { max-width: 74rem; margin-inline: auto; }
-.neo-reader.neo-pane[data-wide="1"] { max-width: 96rem; }
-.neo-reader.neo-pane[data-wide="1"] p.whitespace-pre-line { max-inline-size: 100ch; }
-/* Type size */
+.neo-reader.neo-pane[data-measure="narrow"] { max-width: 58rem; }
+.neo-reader.neo-pane[data-measure="wide"] { max-width: 96rem; }
+.neo-reader.neo-pane[data-measure="wide"] p.whitespace-pre-line { max-inline-size: 100ch; }
+/* Type size (§9): קטן · רגיל · גדול · גדול מאוד */
 .neo-reader[data-size="sm"] { --reader-fs: 0.92; }
 .neo-reader[data-size="lg"] { --reader-fs: 1.14; }
+.neo-reader[data-size="xl"] { --reader-fs: 1.32; }
 /* Sepia — warm paper, redefines the design tokens for pane content only */
 .neo-reader[data-theme="sepia"] {
   --surface: #f6efe1; --card: #f6efe1; --surface-2: #efe6d4; --muted: #efe6d4;

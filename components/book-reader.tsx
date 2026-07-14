@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
-import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDown, ListTree, X, PlayCircle, StickyNote, Clock, FileText, Languages, Layers3, ArrowLeft, Sparkles, CheckCircle2, Maximize2, Minimize2, Home, Library, AlignLeft, Settings2, StretchHorizontal, RotateCcw, HelpCircle, AlertTriangle } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { Search, Bookmark, Check, BookOpen, GraduationCap, ChevronUp, ChevronDown, ListTree, X, PlayCircle, StickyNote, Clock, FileText, Languages, Layers3, ArrowLeft, Sparkles, CheckCircle2, Maximize2, Minimize2, Home, Library, AlignLeft, Settings2, RotateCcw, HelpCircle, AlertTriangle } from "lucide-react";
 import { useReader } from "@/lib/reader-store";
 import { LIBRARY } from "@/data/library";
 import { writeContinuity, readContinuity, resolveReaderView, saveReaderView, clearContinuityFor, type ReaderView } from "@/lib/continuity-store";
@@ -44,79 +44,89 @@ function scrollToId(id: string) {
 }
 
 type RTheme = "original" | "sepia" | "night";
-type RSize = "sm" | "md" | "lg";
+type RSize = "sm" | "md" | "lg" | "xl";
+type RMeasure = "narrow" | "normal" | "wide";
 
 /* Reader display settings — theme / type-size / measure. Scoped to the reading
    pane only (never a global dark mode). Reused in the landing CTA + focus bar. */
-function ReaderSettings({ view, setView, mode, setMode, theme, setTheme, size, setSize, wide, toggleWide, accent, onReset }: { view: ReaderView; setView: (v: ReaderView) => void; mode: "scroll" | "page"; setMode: (m: "scroll" | "page") => void; theme: RTheme; setTheme: (t: RTheme) => void; size: RSize; setSize: (s: RSize) => void; wide: boolean; toggleWide: () => void; accent: string; onReset: () => void }) {
+function RsOpt({ on, onClick, title, sub, accent }: { on: boolean; onClick: () => void; title: string; sub?: string; accent: string }) {
+  return (
+    <button onClick={onClick} role="radio" aria-checked={on} className="tap min-h-[44px] rounded-xl border-2 px-2.5 py-2 text-start transition" style={{ borderColor: on ? accent : "var(--hairline)", background: on ? accent + "0f" : "transparent" }}>
+      <span className="flex items-center justify-between gap-1"><span className="text-[12.5px] font-extrabold text-ink-1">{title}</span>{on && <Check className="size-3.5 shrink-0" style={{ color: accent }} />}</span>
+      {sub && <span className="mt-0.5 block text-[10px] font-semibold leading-snug text-ink-3">{sub}</span>}
+    </button>
+  );
+}
+function RsGroup({ label, children }: { label: string; children: React.ReactNode }) {
+  return <div className="mt-3.5 first:mt-0"><div className="eyebrow-2 mb-1.5 text-ink-3">{label}</div>{children}</div>;
+}
+function ReaderSettings({ view, setView, mode, setMode, theme, setTheme, size, setSize, measure, setMeasure, accent, onReset }: { view: ReaderView; setView: (v: ReaderView) => void; mode: "scroll" | "page"; setMode: (m: "scroll" | "page") => void; theme: RTheme; setTheme: (t: RTheme) => void; size: RSize; setSize: (s: RSize) => void; measure: RMeasure; setMeasure: (m: RMeasure) => void; accent: string; onReset: () => void }) {
   const [open, setOpen] = useState(false);
-  // overlay a11y — Esc closes; lock background scroll while the mobile sheet is up
+  const panelRef = useRef<HTMLDivElement>(null);
+  // a11y — Esc closes, lock background scroll, focus the panel. Rendered FIXED (not
+  // absolute) so it can never be clipped by sticky headers / sidebars / overflow
+  // containers / Focus-Mode layers (§9): bottom sheet on mobile, side panel on desktop.
   useEffect(() => {
     if (!open) return;
-    const mobile = typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches;
     const prev = document.body.style.overflow;
-    if (mobile) document.body.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    panelRef.current?.focus();
     const h = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
     window.addEventListener("keydown", h);
     return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", h); };
   }, [open]);
-  const themes: [RTheme, string, string, string][] = [["original", "מקור", "#ffffff", "#0b0c0e"], ["sepia", "ספיה", "#f6efe1", "#2b2620"], ["night", "לילה", "#14181f", "#e8ecf1"]];
-  const sizes: [RSize, number][] = [["sm", 12], ["md", 15], ["lg", 19]];
-  const views: [ReaderView, string, string][] = [["hebrew", "עברית", "טור קריאה יחיד"], ["bilingual", "דו-לשוני", "אנגלית ‖ עברית"]];
+  const themes: [RTheme, string, string, string, string][] = [["original", "בהיר", "#ffffff", "#0b0c0e", "מקור לבן"], ["sepia", "ספיה", "#f6efe1", "#2b2620", "נייר חם"], ["night", "לילה", "#14181f", "#e8ecf1", "רקע כהה"]];
+  const sizes: [RSize, string, number][] = [["sm", "קטן", 12], ["md", "רגיל", 15], ["lg", "גדול", 18], ["xl", "גדול מאוד", 22]];
+  const measures: [RMeasure, string, string][] = [["narrow", "צר", "טור צר וממוקד"], ["normal", "נוח", "מידה מומלצת"], ["wide", "רחב", "לטבלאות ותרשימים"]];
+  const views: [ReaderView, string, string][] = [["hebrew", "עברית בלבד", "קריאה נוחה בטור אחד"], ["bilingual", "עברית ואנגלית", "מקור ותרגום זה לצד זה"]];
+  const modes: ["scroll" | "page", string, string][] = [["scroll", "גלילה רציפה", "טקסט אחד ארוך"], ["page", "דפדוף בספר", "מעבר בין עמודים במקום גלילה"]];
   return (
-    <div className="relative">
-      <button onClick={() => setOpen((o) => !o)} aria-expanded={open} className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><Settings2 className="size-4" /> תצוגת קריאה</button>
-      {open && (
-        <>
-          <button className="fixed inset-0 z-[60] cursor-default bg-slate-900/30 backdrop-blur-sm sm:z-40 sm:bg-transparent sm:backdrop-blur-0" aria-label="סגור" onClick={() => setOpen(false)} />
-          {/* bottom sheet on mobile (above the global tab bar) · anchored dropdown on sm+ */}
-          <div role="dialog" aria-label="תצוגת קריאה" className="fixed inset-x-0 bottom-0 z-[61] max-h-[85dvh] overflow-y-auto rounded-t-[1.5rem] border-t border-hairline bg-surface p-4 pb-[max(env(safe-area-inset-bottom),1rem)] text-ink-1 shadow-2xl sm:absolute sm:inset-x-auto sm:bottom-auto sm:end-0 sm:mt-2 sm:max-h-none sm:w-64 sm:rounded-2xl sm:border sm:p-3 sm:pb-3 sm:shadow-xl">
-            <div className="mx-auto mb-3 h-1.5 w-11 rounded-full bg-hairline sm:hidden" />
-            <div className="eyebrow mb-1.5 text-ink-3">מצב קריאה</div>
-            <div className="grid grid-cols-2 gap-1.5">
-              {views.map(([k, label, sub]) => (
-                <button key={k} onClick={() => setView(k)} className="rounded-xl border-2 px-2 py-1.5 text-start transition" style={{ borderColor: view === k ? accent : "var(--hairline)" }}>
-                  <span className="block text-[12px] font-extrabold text-ink-1">{label}</span>
-                  <span className="block text-[9.5px] font-semibold text-ink-3">{sub}</span>
+    <>
+      <button onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-haspopup="dialog" title="בחר שפה, מצב דפדוף, ערכת צבעים וגודל טקסט" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><Settings2 className="size-4" /> תצוגת קריאה</button>
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.button className="fixed inset-0 z-[70] cursor-default bg-slate-900/40 backdrop-blur-sm" aria-label="סגור" onClick={() => setOpen(false)} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} />
+            <motion.div ref={panelRef} tabIndex={-1} role="dialog" aria-modal="true" aria-label="תצוגת קריאה" dir="rtl"
+              className="fixed inset-x-0 bottom-0 z-[71] flex max-h-[88dvh] flex-col rounded-t-[1.5rem] border-t border-hairline bg-surface text-ink-1 shadow-2xl outline-none sm:inset-y-0 sm:bottom-auto sm:end-0 sm:start-auto sm:max-h-none sm:w-[22rem] sm:max-w-[92vw] sm:rounded-none sm:border-s sm:border-t-0"
+              initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }} transition={{ type: "spring", stiffness: 360, damping: 38 }}>
+              <div className="flex shrink-0 items-center justify-between border-b border-hairline px-4 py-3">
+                <div className="mx-auto mt-1 h-1.5 w-11 rounded-full bg-hairline sm:hidden" />
+                <span className="hidden text-[15px] font-extrabold text-ink-1 sm:block">תצוגת קריאה</span>
+                <button onClick={() => setOpen(false)} aria-label="סגור" className="tap hidden size-8 place-items-center rounded-lg text-ink-3 hover:bg-surface-2 sm:grid"><X className="size-4.5" /></button>
+              </div>
+              <div className="min-h-0 flex-1 overflow-y-auto p-4 pb-[max(env(safe-area-inset-bottom),1rem)]">
+                <RsGroup label="שפת קריאה"><div className="grid grid-cols-2 gap-1.5" role="radiogroup">{views.map(([k, t, s]) => <RsOpt key={k} on={view === k} onClick={() => setView(k)} title={t} sub={s} accent={accent} />)}</div></RsGroup>
+                <RsGroup label="אופן מעבר"><div className="grid grid-cols-2 gap-1.5" role="radiogroup">{modes.map(([k, t, s]) => <RsOpt key={k} on={mode === k} onClick={() => setMode(k)} title={t} sub={s} accent={accent} />)}</div></RsGroup>
+                <RsGroup label="ערכת נושא">
+                  <div className="grid grid-cols-3 gap-1.5" role="radiogroup">
+                    {themes.map(([k, label, bg, fg, sub]) => (
+                      <button key={k} onClick={() => setTheme(k)} role="radio" aria-checked={theme === k} title={sub} className="tap flex flex-col items-center gap-1 rounded-xl border-2 p-1.5 text-[11px] font-bold transition" style={{ borderColor: theme === k ? accent : "var(--hairline)" }}>
+                        <span className="grid h-8 w-full place-items-center rounded-md text-[12px] font-black" style={{ background: bg, color: fg }}>Aa</span>{label}
+                      </button>
+                    ))}
+                  </div>
+                </RsGroup>
+                <RsGroup label="גודל טקסט">
+                  <div className="grid grid-cols-4 gap-1.5" role="radiogroup">
+                    {sizes.map(([k, label, fs]) => (
+                      <button key={k} onClick={() => setSize(k)} role="radio" aria-checked={size === k} title={label} className="tap flex flex-col items-center justify-end gap-0.5 rounded-xl border-2 py-1.5 transition" style={{ borderColor: size === k ? accent : "var(--hairline)", color: size === k ? accent : "var(--ink-2)" }}>
+                        <span className="font-black leading-none" style={{ fontSize: `${fs}px` }}>A</span>
+                        <span className="text-[8.5px] font-bold text-ink-3">{label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </RsGroup>
+                <RsGroup label="רוחב עמוד"><div className="grid grid-cols-3 gap-1.5" role="radiogroup">{measures.map(([k, t, s]) => <RsOpt key={k} on={measure === k} onClick={() => setMeasure(k)} title={t} sub={s} accent={accent} />)}</div></RsGroup>
+                <button onClick={() => { setOpen(false); onReset(); }} title="נקה פרק, מיקום וגלילה עבור ספר זה" className="tap mt-5 flex w-full items-center justify-center gap-1.5 rounded-xl border border-hairline px-3 py-2.5 text-[12px] font-bold text-ink-3 transition hover:border-brand/40 hover:text-brand">
+                  <RotateCcw className="size-3.5" /> אפס התקדמות קריאה
                 </button>
-              ))}
-            </div>
-            <div className="eyebrow mb-1.5 mt-3 text-ink-3">אופן מעבר</div>
-            <div className="grid grid-cols-2 gap-1.5">
-              {([["scroll", "גלילה", "טקסט רציף"], ["page", "עמודים", "דפדוף כמו ספר"]] as const).map(([k, label, sub]) => (
-                <button key={k} onClick={() => setMode(k)} className="rounded-xl border-2 px-2 py-1.5 text-start transition" style={{ borderColor: mode === k ? accent : "var(--hairline)" }}>
-                  <span className="block text-[12px] font-extrabold text-ink-1">{label}</span>
-                  <span className="block text-[9.5px] font-semibold text-ink-3">{sub}</span>
-                </button>
-              ))}
-            </div>
-            <div className="eyebrow mb-1.5 mt-3 text-ink-3">ערכת נושא</div>
-            <div className="grid grid-cols-3 gap-1.5">
-              {themes.map(([k, label, bg, fg]) => (
-                <button key={k} onClick={() => setTheme(k)} className="flex flex-col items-center gap-1 rounded-xl border-2 p-1.5 text-[11px] font-bold transition" style={{ borderColor: theme === k ? accent : "var(--hairline)" }}>
-                  <span className="grid h-7 w-full place-items-center rounded-md text-[11px] font-black" style={{ background: bg, color: fg }}>Aa</span>
-                  {label}
-                </button>
-              ))}
-            </div>
-            <div className="eyebrow mb-1.5 mt-3 text-ink-3">גודל טקסט</div>
-            <div className="flex items-stretch gap-1.5">
-              {sizes.map(([k, fs]) => (
-                <button key={k} onClick={() => setSize(k)} className="flex-1 rounded-xl border py-1.5 font-black leading-none transition" style={{ borderColor: size === k ? accent : "var(--hairline)", color: size === k ? accent : "var(--ink-2)", fontSize: `${fs}px` }}>A</button>
-              ))}
-            </div>
-            <button onClick={toggleWide} role="switch" aria-checked={wide} aria-label="רוחב קריאה מלא" title="הרחב את טור הקריאה לטבלאות ותרשימים גדולים" className="mt-3 flex w-full items-center justify-between rounded-xl border border-hairline px-3 py-2 text-xs font-bold text-ink-2 transition hover:border-brand/40">
-              <span className="flex items-center gap-1.5"><StretchHorizontal className="size-3.5" /> רוחב מלא</span>
-              <span className="relative h-4 w-7 rounded-full transition-colors" style={{ background: wide ? accent : "var(--surface-2)" }}><span className="absolute top-0.5 size-3 rounded-full bg-white shadow transition-all" style={{ insetInlineStart: wide ? "0.125rem" : "auto", insetInlineEnd: wide ? "auto" : "0.125rem" }} /></span>
-            </button>
-            {/* reset — deliberately quiet, at the foot of the menu */}
-            <button onClick={() => { setOpen(false); onReset(); }} title="נקה פרק, מיקום וגלילה עבור ספר זה" className="mt-3 flex w-full items-center gap-1.5 rounded-xl px-3 py-2 text-[11px] font-bold text-ink-3 transition hover:bg-surface-2 hover:text-brand">
-              <RotateCcw className="size-3.5" /> אפס התקדמות קריאה
-            </button>
-          </div>
-        </>
-      )}
-    </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -207,17 +217,18 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   // reader display prefs (theme / type-size / measure) — scoped to the pane
   const [rtheme, setRtheme] = useState<RTheme>("original");
   const [rsize, setRsize] = useState<RSize>("md");
-  const [rwide, setRwide] = useState(false);
+  const [rmeasure, setRmeasure] = useState<RMeasure>("normal");
   useEffect(() => {
     try {
       const t = localStorage.getItem("neo:reader:theme"); if (t === "sepia" || t === "night" || t === "original") setRtheme(t);
-      const s = localStorage.getItem("neo:reader:size"); if (s === "sm" || s === "lg" || s === "md") setRsize(s);
-      setRwide(localStorage.getItem("neo:reader:wide") === "1");
+      const s = localStorage.getItem("neo:reader:size"); if (s === "sm" || s === "lg" || s === "md" || s === "xl") setRsize(s);
+      const m = localStorage.getItem("neo:reader:measure"); if (m === "narrow" || m === "normal" || m === "wide") setRmeasure(m);
+      else if (localStorage.getItem("neo:reader:wide") === "1") setRmeasure("wide"); // migrate old boolean
     } catch { /* noop */ }
   }, []);
   const saveTheme = useCallback((t: RTheme) => { setRtheme(t); try { localStorage.setItem("neo:reader:theme", t); } catch { /* noop */ } }, []);
   const saveSize = useCallback((s: RSize) => { setRsize(s); try { localStorage.setItem("neo:reader:size", s); } catch { /* noop */ } }, []);
-  const toggleWide = useCallback(() => setRwide((v) => { const n = !v; try { localStorage.setItem("neo:reader:wide", n ? "1" : "0"); } catch { /* noop */ } return n; }), []);
+  const saveMeasure = useCallback((m: RMeasure) => { setRmeasure(m); try { localStorage.setItem("neo:reader:measure", m); } catch { /* noop */ } }, []);
   // reading view — device-adaptive default (desktop→bilingual, mobile→hebrew), remembered
   const [rview, setRview] = useState<ReaderView>("bilingual");
   useEffect(() => { setRview(resolveReaderView()); }, []);
@@ -227,6 +238,18 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   useEffect(() => { try { const m = localStorage.getItem("neo:reader:mode"); if (m === "page" || m === "scroll") setRmode(m); } catch { /* noop */ } }, []);
   const saveMode = useCallback((m: "scroll" | "page") => { setRmode(m); try { localStorage.setItem("neo:reader:mode", m); } catch { /* noop */ } }, []);
   const pageMode = rmode === "page";
+  // §3 — preserve reading location across a reading-mode switch (scroll ⇄ page).
+  const prevModeRef = useRef<"scroll" | "page">(rmode);
+  useEffect(() => {
+    if (prevModeRef.current === rmode) return;
+    prevModeRef.current = rmode;
+    const id = activeSecRef.current;
+    if (!id) return;
+    window.setTimeout(() => {
+      if (rmode === "page") window.dispatchEvent(new CustomEvent("neo:reader:restore-section", { detail: id }));
+      else { const el = document.getElementById(id); if (el) el.scrollIntoView({ block: "start" }); }
+    }, 640);
+  }, [rmode]);
 
   useEffect(() => { try { setNotes(localStorage.getItem(`neo:reader:notes:${bookId}`) || ""); } catch { /* noop */ } }, [bookId]);
   useEffect(() => { try { setFocus(localStorage.getItem("neo:reader:focus") === "1"); } catch { /* noop */ } }, []);
@@ -496,9 +519,9 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
                 <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover:translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
               </button>
             )}
-            <button onClick={() => scrollToId("book-contents")} aria-label="עיין בתוכן העניינים של הספר" title="קפוץ לתוכן העניינים (מקש C)" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><ListTree className="size-4" /> עיין בתוכן</button>
+            <button onClick={() => scrollToId("book-contents")} aria-label="עיין בתוכן העניינים של הספר" title="פתח את פרקי הספר וקפוץ לפרק או סעיף (מקש C)" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><ListTree className="size-4" /> עיין בתוכן</button>
             <button onClick={toggleFocus} aria-pressed={focus} aria-label="מצב קריאה מרוכז" title="הסתר הכל מלבד הטקסט (מקש F · Esc ליציאה)" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 shadow-sm transition hover:border-brand/40 active:scale-95"><Maximize2 className="size-4" /> מצב מיקוד</button>
-            <ReaderSettings view={rview} setView={saveView} mode={rmode} setMode={saveMode} theme={rtheme} setTheme={saveTheme} size={rsize} setSize={saveSize} wide={rwide} toggleWide={toggleWide} accent={c} onReset={() => setConfirmReset(true)} />
+            <ReaderSettings view={rview} setView={saveView} mode={rmode} setMode={saveMode} theme={rtheme} setTheme={saveTheme} size={rsize} setSize={saveSize} measure={rmeasure} setMeasure={saveMeasure} accent={c} onReset={() => setConfirmReset(true)} />
             <button onClick={() => setHelpOpen(true)} aria-label="עזרה — איך משתמשים בקורא" title="עזרה ומקשי קיצור" className="inline-flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-3 py-2.5 text-sm font-bold text-ink-3 shadow-sm transition hover:border-brand/40 hover:text-brand active:scale-95"><HelpCircle className="size-4" /></button>
           </div>
           {!hintSeen && (
@@ -556,7 +579,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
 
       {/* ===================== READER (existing engine — unchanged) ===================== */}
       {pageMode ? (
-        <div data-theme={rtheme} data-size={rsize} data-view={rview} className="neo-reader neo-pane reader-enter mx-auto w-full min-w-0">
+        <div data-theme={rtheme} data-size={rsize} data-measure={rmeasure} data-view={rview} className="neo-reader neo-pane reader-enter mx-auto w-full min-w-0">
           <PageView chapters={chapters} accent={c}>{children}</PageView>
         </div>
       ) : (
@@ -619,7 +642,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         </aside>
 
         {/* ===== reading pane ===== */}
-        <div ref={mainRef} data-theme={rtheme} data-size={rsize} data-wide={rwide ? "1" : "0"} data-view={rview} className={`neo-reader neo-pane reader-enter min-w-0 ${focus ? "mx-auto max-w-3xl" : "mx-auto w-full"}`}>
+        <div ref={mainRef} data-theme={rtheme} data-size={rsize} data-measure={rmeasure} data-view={rview} className={`neo-reader neo-pane reader-enter min-w-0 ${focus ? "mx-auto max-w-3xl" : "mx-auto w-full"}`}>
           {children}
           {/* next / prev */}
           <div className="mt-6 flex items-center justify-between gap-3">
