@@ -30,6 +30,10 @@ export type VerificationStatus =
   | "deprecated";            // superseded; an alternative is recommended
 export type Confidence = "high" | "medium" | "low" | "derived";
 export type OperationType = "Read" | "Create" | "Change" | "Delete" | "Post" | "Confirm" | "Mixed" | "Unknown";
+// §25 visual category · §21 difficulty + stability
+export type BusinessCategory = "BusinessAPI" | "MasterData" | "Planning" | "Execution" | "Notification" | "Equipment" | "Reservation" | "Confirmation" | "GoodsMovement" | "Batch" | "BOM" | "Status" | "TransactionControl" | "Analytics" | "General";
+export type Difficulty = "Beginner" | "Intermediate" | "Advanced" | "Expert";
+export type Stability = "Released" | "SAP-Recommended" | "Internal" | "Use-With-Caution" | "Obsolete";
 
 export interface SapFuncObject {
   id: string;                       // stable slug = clean technical name
@@ -60,10 +64,26 @@ export interface SapFuncObject {
   lastVerified?: string;
   confidence: Confidence;
   aliases: string[];                // raw name variants seen in the dataset
-  keywords: string[];
+  keywords: string[];               // incl. synonyms/misspellings for search (§26)
   parameterSummary?: string;
   commonErrors?: string[];
   qaNotes?: string;
+  // ---- implementer mode (§13,21–25) — auto-derived defaults; curated on verified objects ----
+  category: BusinessCategory;
+  difficulty: Difficulty;
+  stability: Stability;
+  usageContexts?: string[];         // §13 typical usage scenarios (mobile, IoT, PI/PO, REST…)
+  businessScenario?: string;        // §13 one real scenario
+  commonMistakes?: string[];        // §13/24
+  checklist?: string[];             // §22 "before you use this object"
+  troubleshooting?: { errors?: string[]; causes?: string[]; debug?: string; tables?: string[]; notes?: string[] }; // §24
+  processChain?: string[];          // §23 business-process steps (this object's step is businessProcess)
+  recommendedReading?: string[];    // §13
+  relatedCds?: string[];            // §14
+  relatedIdocs?: string[];          // §14
+  relatedEnhancements?: string[];   // §14 BAdIs / exits
+  authObjects?: string[];           // §13 authorization objects
+  codeAbap?: string;                // §16 concise ABAP skeleton
 }
 
 const stripProc = (t: string) => t.replace(/^\s*\d+\.\s*/, "").replace(/\s*\($/, "").trim();
@@ -143,9 +163,44 @@ export function deriveRegistry(): SapFuncObject[] {
       confidence: "derived",
       aliases: [...r.raw].filter((n) => n !== key),
       keywords: [key, ...(([...r.hes][0] || "").split(/\s+/).slice(0, 6))],
+      category: deriveCategory(key, [...r.procs][0] || ""),
+      difficulty: deriveDifficulty(deriveOp(key)),
+      stability: deriveStability(kind, looksInternal ? "internal-unsupported" : "requires-verification"),
     });
   }
   return out.sort((a, b) => a.technicalName.localeCompare(b.technicalName));
+}
+
+// ---- auto-derivation for the implementer facets (heuristic; curated on verified objects) ----
+export function deriveCategory(name: string, proc: string): BusinessCategory {
+  const s = (name + " " + proc).toUpperCase();
+  const has = (...k: string[]) => k.some((x) => s.includes(x));
+  if (has("NOTIF", "הודעה")) return "Notification";
+  if (has("TRANSACTION_COMMIT", "TRANSACTION_ROLLBACK", "COMMIT WORK")) return "TransactionControl";
+  if (has("EQUI", "FUNCLOC", "ציוד", "מיקום")) return "Equipment";
+  if (has("RESERV", "הזמנה פנימית")) return "Reservation";
+  if (has("CONF", "דיווח")) return "Confirmation";
+  if (has("GOODSMVT", "GOODSMOV", "MOVEMENT", "תנועת סחורה")) return "GoodsMovement";
+  if (has("BATCH", "אצווה")) return "Batch";
+  if (has("BOM", "STPO", "STKO", "עץ מוצר")) return "BOM";
+  if (has("STATUS", "סטטוס")) return "Status";
+  if (has("PROCORD", "PRODORD", "ORDER", "פקודת")) return "Execution";
+  if (has("PLANNED", "PLAF", "MRP", "מתוכננ", "ROUTING", "RECIPE", "מתכון", "מסלול", "CAPACITY", "PRODVERS")) return "Planning";
+  if (has("MATERIAL", "MAT_", "MARA", "MARC", "CHARACT", "BUPA", "MASTER", "אב-חומר", "נתוני אב")) return "MasterData";
+  if (name.startsWith("BAPI_")) return "BusinessAPI";
+  return "General";
+}
+export function deriveDifficulty(op: OperationType): Difficulty {
+  if (op === "Read") return "Beginner";
+  if (op === "Create" || op === "Change" || op === "Delete") return "Intermediate";
+  if (op === "Post" || op === "Confirm" || op === "Mixed") return "Advanced";
+  return "Intermediate";
+}
+export function deriveStability(kind: FuncKind, vs: VerificationStatus): Stability {
+  if (vs === "invalid-name" || vs === "deprecated") return "Obsolete";
+  if (vs === "internal-unsupported") return "Use-With-Caution";
+  if (vs.startsWith("verified")) return kind === "BAPI" ? "Released" : "SAP-Recommended";
+  return kind === "BAPI" ? "Released" : "Internal";
 }
 
 // one-shot registry = derived base + curated enrichment overlay + verified additions

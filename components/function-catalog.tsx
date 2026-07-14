@@ -10,8 +10,24 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Plug, Braces, Search, X, ChevronDown, ShieldCheck, AlertTriangle, Info, Clock, ArrowLeft, Copy, Check, GitBranch, BookOpen, Boxes, Sparkles } from "lucide-react";
-import type { SapFuncObject, VerificationStatus, OperationType } from "@/lib/bapi-registry";
+import { Plug, Braces, Search, X, ChevronDown, ShieldCheck, AlertTriangle, Info, Clock, ArrowLeft, Copy, Check, GitBranch, BookOpen, Boxes, Sparkles, Star, ListChecks, Wrench, Code2, GraduationCap, Lightbulb, Link2 } from "lucide-react";
+import type { SapFuncObject, VerificationStatus, OperationType, BusinessCategory, Difficulty, Stability } from "@/lib/bapi-registry";
+
+const CAT: Record<BusinessCategory, { he: string; c: string }> = {
+  BusinessAPI: { he: "ממשק עסקי", c: "#2563eb" }, MasterData: { he: "נתוני אב", c: "#16a34a" }, Planning: { he: "תכנון", c: "#6d28d9" },
+  Execution: { he: "ביצוע", c: "#ea580c" }, Notification: { he: "הודעות", c: "#d62027" }, Equipment: { he: "ציוד", c: "#0891b2" },
+  Reservation: { he: "הזמנות", c: "#92400e" }, Confirmation: { he: "דיווחים", c: "#0d9488" }, GoodsMovement: { he: "תנועות סחורה", c: "#ca8a04" },
+  Batch: { he: "אצוות", c: "#7c3aed" }, BOM: { he: "עצי מוצר", c: "#0284c7" }, Status: { he: "סטטוס", c: "#475569" },
+  TransactionControl: { he: "בקרת LUW", c: "#334155" }, Analytics: { he: "אנליטיקה", c: "#6b7280" }, General: { he: "כללי", c: "#64748b" },
+};
+const DIFF: Record<Difficulty, { he: string; cls: string }> = {
+  Beginner: { he: "מתחיל", cls: "bg-emerald-50 text-emerald-700 border-emerald-200" }, Intermediate: { he: "בינוני", cls: "bg-sky-50 text-sky-700 border-sky-200" },
+  Advanced: { he: "מתקדם", cls: "bg-amber-50 text-amber-700 border-amber-200" }, Expert: { he: "מומחה", cls: "bg-brand-soft text-brand border-brand/30" },
+};
+const STAB: Record<Stability, { he: string; cls: string }> = {
+  Released: { he: "Released API", cls: "bg-emerald-50 text-emerald-700 border-emerald-200" }, "SAP-Recommended": { he: "מומלץ SAP", cls: "bg-sky-50 text-sky-700 border-sky-200" },
+  Internal: { he: "FM פנימי", cls: "bg-slate-100 text-slate-600 border-slate-200" }, "Use-With-Caution": { he: "בזהירות", cls: "bg-amber-50 text-amber-700 border-amber-200" }, Obsolete: { he: "מיושן", cls: "bg-brand-soft text-brand border-brand/30" },
+};
 
 /* ---- semantic meta ---- */
 const VERIF: Record<VerificationStatus, { label: string; cls: string; Icon: typeof Info }> = {
@@ -39,24 +55,36 @@ function Chip({ children }: { children: React.ReactNode }) {
   return <span className="inline-flex items-center gap-1 rounded-md bg-surface-2 px-1.5 py-0.5 text-[10.5px] font-bold text-ink-2">{children}</span>;
 }
 
+function useFavorites() {
+  const [fav, setFav] = useState<Set<string>>(new Set());
+  useEffect(() => { try { setFav(new Set(JSON.parse(localStorage.getItem("neo:bapi:fav") || "[]"))); } catch { /* noop */ } }, []);
+  const toggle = (id: string) => setFav((p) => { const n = new Set(p); if (n.has(id)) n.delete(id); else n.add(id); try { localStorage.setItem("neo:bapi:fav", JSON.stringify([...n])); } catch { /* noop */ } return n; });
+  return { fav, toggle };
+}
+
 /* ---- teaching card ---- */
-function Card({ o, onOpen }: { o: SapFuncObject; onOpen: () => void }) {
-  const bapi = isBapi(o);
+function Card({ o, onOpen, faved, onFav }: { o: SapFuncObject; onOpen: () => void; faved: boolean; onFav: () => void }) {
+  const bapi = isBapi(o); const cat = CAT[o.category];
   return (
     <button onClick={onOpen} dir="rtl" className="card-interactive tap group relative flex h-full flex-col gap-2 overflow-hidden p-4 text-start">
-      <span className="absolute inset-y-0 end-0 w-1" style={{ background: bapi ? "var(--brand)" : "var(--ink-1)" }} />
-      <div className="flex items-center gap-2">
-        <span className={`grid size-8 shrink-0 place-items-center rounded-lg ${bapi ? "bg-brand-soft text-brand" : "bg-surface-2 text-ink-1"}`}>{bapi ? <Plug className="size-4" /> : <Braces className="size-4" />}</span>
+      <span className="absolute inset-y-0 end-0 w-1.5" style={{ background: cat.c }} />
+      <span role="button" tabIndex={0} aria-label={faved ? "הסר ממועדפים" : "הוסף למועדפים"} aria-pressed={faved}
+        onClick={(e) => { e.stopPropagation(); onFav(); }} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.stopPropagation(); e.preventDefault(); onFav(); } }}
+        className="tap absolute start-2 top-2 grid size-7 place-items-center rounded-lg text-ink-3 hover:bg-surface-2">
+        <Star className={`size-4 ${faved ? "fill-amber-400 text-amber-400" : ""}`} />
+      </span>
+      <div className="flex items-center gap-2 pe-7">
+        <span className="grid size-8 shrink-0 place-items-center rounded-lg text-white" style={{ background: cat.c }}>{bapi ? <Plug className="size-4" /> : <Braces className="size-4" />}</span>
         <span className="tech min-w-0 flex-1 truncate font-mono text-[13.5px] font-bold text-ink-1" dir="ltr">{o.technicalName}</span>
         <TypeBadge o={o} />
       </div>
       <div className="flex flex-wrap items-center gap-1.5">
+        <span className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10.5px] font-bold text-white" style={{ background: cat.c }}>{cat.he}</span>
         <Chip>{o.primaryModule}</Chip>
-        {o.businessProcess && <Chip><Boxes className="size-3" /> {o.businessProcess}</Chip>}
       </div>
       <p className="line-clamp-2 text-[12.5px] leading-relaxed text-ink-2">{o.shortDescriptionHe || o.shortDescriptionEn || "—"}</p>
       <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-1">
-        {o.operationType !== "Unknown" && <Chip>{OP_HE[o.operationType]}</Chip>}
+        <span className={`rounded-full border px-2 py-0.5 text-[10.5px] font-bold ${DIFF[o.difficulty].cls}`}>{DIFF[o.difficulty].he}</span>
         {o.requiresCommit === "yes" && <Chip>COMMIT</Chip>}
         <VerifPill s={o.verificationStatus} />
       </div>
@@ -79,7 +107,7 @@ function Flow({ steps }: { steps: string[] }) {
 }
 
 /* ---- detail drawer ---- */
-function Drawer({ o, expert, onClose }: { o: SapFuncObject; expert: boolean; onClose: () => void }) {
+function Drawer({ o, expert, related, faved, onFav, onOpen, onClose }: { o: SapFuncObject; expert: boolean; related: SapFuncObject[]; faved: boolean; onFav: () => void; onOpen: (x: SapFuncObject) => void; onClose: () => void }) {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
@@ -92,6 +120,8 @@ function Drawer({ o, expert, onClose }: { o: SapFuncObject; expert: boolean; onC
   }, [onClose]);
   const copy = () => { navigator.clipboard?.writeText(o.technicalName).then(() => { setCopied(true); setTimeout(() => setCopied(false), 1400); }).catch(() => {}); };
   const bapi = isBapi(o); const v = VERIF[o.verificationStatus];
+  const stepKw: Partial<Record<BusinessCategory, string>> = { Notification: "הודעה", Execution: "פקודת", Confirmation: "דיווח", GoodsMovement: "סחורה", Planning: "תכנון", Reservation: "הזמנ" };
+  const curIdx = o.processChain?.findIndex((s) => { const k = stepKw[o.category]; return !!k && s.includes(k); }) ?? -1;
   const Sec = ({ icon, title, children }: { icon: React.ReactNode; title: string; children: React.ReactNode }) => (
     <section className="border-t border-hairline px-5 py-4"><h3 className="mb-2 flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-[0.12em] text-ink-3">{icon}{title}</h3>{children}</section>
   );
@@ -115,7 +145,13 @@ function Drawer({ o, expert, onClose }: { o: SapFuncObject; expert: boolean; onC
             <button onClick={onClose} aria-label="סגור" className="tap grid size-9 shrink-0 place-items-center rounded-xl text-ink-3 hover:bg-surface-2"><X className="size-5" /></button>
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-1.5">
+            <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10.5px] font-bold text-white" style={{ background: CAT[o.category].c }}>{CAT[o.category].he}</span>
+            <span className={`rounded-full border px-2 py-0.5 text-[10.5px] font-bold ${DIFF[o.difficulty].cls}`}>{DIFF[o.difficulty].he}</span>
+            <span className={`rounded-full border px-2 py-0.5 text-[10.5px] font-bold ${STAB[o.stability].cls}`}>{STAB[o.stability].he}</span>
             <VerifPill s={o.verificationStatus} />
+          </div>
+          <div className="mt-2 flex flex-wrap items-center gap-1.5">
+            <button onClick={onFav} aria-pressed={faved} className="tap inline-flex items-center gap-1 rounded-md border border-hairline px-2 py-0.5 text-[11px] font-bold text-ink-2 hover:border-brand/40"><Star className={`size-3 ${faved ? "fill-amber-400 text-amber-400" : ""}`} /> {faved ? "במועדפים" : "מועדפים"}</button>
             <button onClick={copy} className="tap inline-flex items-center gap-1 rounded-md border border-hairline px-2 py-0.5 text-[11px] font-bold text-ink-2 hover:border-brand/40">{copied ? <Check className="size-3 text-emerald-600" /> : <Copy className="size-3" />} העתק שם</button>
           </div>
           {o.verificationStatus === "invalid-name" && <p className="mt-2 rounded-lg border border-brand/25 bg-brand-soft px-3 py-2 text-[12px] font-semibold text-brand"><AlertTriangle className="me-1 inline size-3.5" />שם זה אינו אובייקט SAP סטנדרטי. ראה חלופות בהמשך.</p>}
@@ -136,6 +172,63 @@ function Drawer({ o, expert, onClose }: { o: SapFuncObject; expert: boolean; onC
           {o.sequence && o.sequence.length > 1 && (
             <Sec icon={<GitBranch className="size-3.5" />} title="רצף ביצוע (Related Flow)"><Flow steps={o.sequence} /></Sec>
           )}
+
+          {(o.businessScenario || o.usageContexts?.length || o.commonMistakes?.length || o.recommendedReading?.length) && (
+            <Sec icon={<Lightbulb className="size-3.5" />} title="תובנות יישום (Implementation Insights)">
+              {o.businessScenario && <p className="mb-2 text-[13px] leading-relaxed text-ink-1">{o.businessScenario}</p>}
+              {o.usageContexts?.length ? <div className="mb-2"><div className="mb-1 text-[11px] font-bold text-ink-3">שימוש טיפוסי</div><div className="flex flex-wrap gap-1">{o.usageContexts.map((u) => <Chip key={u}>{u}</Chip>)}</div></div> : null}
+              {o.commonMistakes?.length ? <div className="mb-2"><div className="mb-1 text-[11px] font-bold text-ink-3">טעויות נפוצות</div><ul className="space-y-1 text-[12.5px] text-ink-2">{o.commonMistakes.map((m, i) => <li key={i} className="flex gap-1.5"><AlertTriangle className="mt-0.5 size-3.5 shrink-0 text-amber-500" />{m}</li>)}</ul></div> : null}
+              {o.recommendedReading?.length ? <div className="flex flex-wrap items-center gap-1"><span className="text-[11px] font-bold text-ink-3">קריאה מומלצת:</span>{o.recommendedReading.map((r) => <Chip key={r}><BookOpen className="size-3" />{r}</Chip>)}</div> : null}
+            </Sec>
+          )}
+
+          {o.processChain?.length ? (
+            <Sec icon={<GitBranch className="size-3.5" />} title="תהליך עסקי (Business Process)">
+              <div className="flex flex-wrap items-center gap-1.5">
+                {o.processChain.map((s, i) => (
+                  <span key={i} className="flex items-center gap-1.5">
+                    <span className={`rounded-lg px-2 py-1 text-[11.5px] font-bold ${i === curIdx ? "bg-brand text-white shadow-sm" : "bg-surface-2 text-ink-2"}`}>{s}</span>
+                    {i < o.processChain!.length - 1 && <ArrowLeft className="size-3 text-ink-3" />}
+                  </span>
+                ))}
+              </div>
+            </Sec>
+          ) : null}
+
+          {o.checklist?.length ? (
+            <Sec icon={<ListChecks className="size-3.5" />} title="לפני השימוש — צ׳קליסט">
+              <ul className="space-y-1.5 text-[12.5px] text-ink-2">{o.checklist.map((c, i) => <li key={i} className="flex gap-2"><Check className="mt-0.5 size-3.5 shrink-0 text-emerald-600" />{c}</li>)}</ul>
+            </Sec>
+          ) : null}
+
+          {o.troubleshooting && (o.troubleshooting.errors?.length || o.troubleshooting.causes?.length || o.troubleshooting.debug) ? (
+            <Sec icon={<Wrench className="size-3.5" />} title="פתרון תקלות (Troubleshooting)">
+              {o.troubleshooting.errors?.length ? <div className="mb-2"><div className="text-[11px] font-bold text-ink-3">שגיאות נפוצות</div><ul dir="ltr" className="tech mt-1 space-y-0.5 font-mono text-[11.5px] text-ink-2">{o.troubleshooting.errors.map((e, i) => <li key={i}>{e}</li>)}</ul></div> : null}
+              {o.troubleshooting.causes?.length ? <div className="mb-2"><div className="text-[11px] font-bold text-ink-3">סיבות שכיחות</div><ul className="mt-1 list-inside list-disc text-[12.5px] text-ink-2">{o.troubleshooting.causes.map((c, i) => <li key={i}>{c}</li>)}</ul></div> : null}
+              {o.troubleshooting.debug ? <div className="mb-2 text-[12.5px] text-ink-2"><b className="text-ink-3">דיבוג: </b>{o.troubleshooting.debug}</div> : null}
+              {o.troubleshooting.notes?.length ? <div className="flex flex-wrap gap-1">{o.troubleshooting.notes.map((n, i) => <Chip key={i}>{n}</Chip>)}</div> : null}
+            </Sec>
+          ) : null}
+
+          {expert && o.codeAbap ? (
+            <Sec icon={<Code2 className="size-3.5" />} title="דוגמת ABAP">
+              <pre dir="ltr" className="tech overflow-x-auto rounded-lg bg-ink-1 p-3 text-[11px] leading-relaxed text-white">{o.codeAbap}</pre>
+            </Sec>
+          ) : null}
+
+          {related.length ? (
+            <Sec icon={<Link2 className="size-3.5" />} title="אובייקטים קשורים (מומלץ)">
+              <div className="flex flex-col gap-1.5">
+                {related.map((r) => (
+                  <button key={r.id} onClick={() => onOpen(r)} className="tap flex items-center gap-2 rounded-lg border border-hairline p-2 text-start transition hover:border-brand/40">
+                    <span className="grid size-6 shrink-0 place-items-center rounded text-white" style={{ background: CAT[r.category].c }}>{isBapi(r) ? <Plug className="size-3.5" /> : <Braces className="size-3.5" />}</span>
+                    <span className="tech min-w-0 flex-1 truncate font-mono text-[12px] font-bold text-ink-1" dir="ltr">{r.technicalName}</span>
+                    <span className="text-[10px] text-ink-3">{r.primaryModule}</span>
+                  </button>
+                ))}
+              </div>
+            </Sec>
+          ) : null}
 
           {expert && o.parameterSummary && (
             <Sec icon={<Braces className="size-3.5" />} title="פרמטרים עיקריים">
@@ -226,9 +319,27 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
   const [commitOnly, setCommitOnly] = useState(false);
   const [sort, setSort] = useState<SortKey>("alpha");
   const [expert, setExpert] = useState(false);
+  const [favOnly, setFavOnly] = useState(false);
   const [sel, setSel] = useState<SapFuncObject | null>(null);
+  const { fav, toggle } = useFavorites();
 
   const mods = useMemo(() => [...new Set(objects.flatMap((o) => [o.primaryModule, ...o.secondaryModules]))], [objects]);
+  const byId = useMemo(() => new Map(objects.map((o) => [o.id, o])), [objects]);
+  const related = useMemo(() => {
+    if (!sel) return [];
+    const score = (o: SapFuncObject) => {
+      if (o.id === sel.id) return 0;
+      let s = 0;
+      if (sel.relatedObjects.includes(o.id)) s += 6;
+      if (o.businessProcess && o.businessProcess === sel.businessProcess) s += 3;
+      if (o.category === sel.category) s += 2;
+      if (o.tables.some((t) => sel.tables.includes(t))) s += 1;
+      if (o.verificationStatus.startsWith("verified")) s += 1;
+      return s;
+    };
+    return objects.map((o) => [o, score(o)] as const).filter(([, s]) => s > 0).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([o]) => o);
+  }, [sel, objects]);
+  void byId;
 
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
@@ -239,10 +350,11 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
       if (!inMod(o, mod)) return false;
       if (op !== "all" && o.operationType !== op) return false;
       if (commitOnly && o.requiresCommit !== "yes") return false;
+      if (favOnly && !fav.has(o.id)) return false;
       if (!s) return true;
       return (o.technicalName + " " + o.shortDescriptionHe + " " + o.shortDescriptionEn + " " + o.businessProcess + " " + o.keywords.join(" ") + " " + o.transactions.join(" ")).toLowerCase().includes(s);
     });
-  }, [objects, q, type, verif, mod, op, commitOnly]);
+  }, [objects, q, type, verif, mod, op, commitOnly, favOnly, fav]);
 
   const cmp = useMemo(() => {
     const vRank = (o: SapFuncObject) => (o.verificationStatus.startsWith("verified") ? 0 : o.verificationStatus === "invalid-name" ? 2 : 1);
@@ -288,6 +400,8 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
             <span className="mx-0.5 w-px bg-hairline" />
             <F active={verif === "verified"} onClick={() => setVerif(verif === "verified" ? "all" : "verified")}>מאומת</F>
             <F active={verif === "needs"} onClick={() => setVerif(verif === "needs" ? "all" : "needs")}>דורש אימות</F>
+            <span className="mx-0.5 w-px bg-hairline" />
+            <F active={favOnly} onClick={() => setFavOnly((v) => !v)}>★ מועדפים</F>
             <span className="mx-0.5 w-px bg-hairline" />
             <F active={expert} onClick={() => setExpert((v) => !v)}>{expert ? "מצב מומחה" : "מצב מתחיל"}</F>
           </div>
@@ -342,7 +456,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
                 <span className="h-px flex-1 bg-hairline" />
               </div>
               <div className="grid-adaptive-sm">
-                {list.map((o) => <Card key={o.id} o={o} onOpen={() => setSel(o)} />)}
+                {list.map((o) => <Card key={o.id} o={o} onOpen={() => setSel(o)} faved={fav.has(o.id)} onFav={() => toggle(o.id)} />)}
               </div>
             </div>
           ))}
@@ -351,7 +465,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
 
       {filtered.length === 0 && <p className="py-16 text-center text-[14px] text-ink-3">לא נמצאו אובייקטים תואמים.</p>}
 
-      <AnimatePresence>{sel && <Drawer o={sel} expert={expert} onClose={() => setSel(null)} />}</AnimatePresence>
+      <AnimatePresence>{sel && <Drawer o={sel} expert={expert} related={related} faved={fav.has(sel.id)} onFav={() => toggle(sel.id)} onOpen={(x) => setSel(x)} onClose={() => setSel(null)} />}</AnimatePresence>
     </div>
   );
 }
