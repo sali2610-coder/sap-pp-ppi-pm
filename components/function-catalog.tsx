@@ -92,7 +92,7 @@ function Card({ o, onOpen, faved, pinned, learned, onFav, onPin }: { o: SapFuncO
       initial={reduce ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 320, damping: 30 }}
       whileHover={reduce ? undefined : { y: -3 }} whileTap={{ scale: 0.985 }}
-      onClick={onOpen} dir="rtl"
+      onClick={onOpen} dir="rtl" data-peek={o.technicalName}
       className={`card-interactive tap group relative flex h-full flex-col gap-2 overflow-hidden p-4 text-start ${pinned ? "ring-1 ring-brand/30" : ""}`}>
       <span className="absolute inset-y-0 end-0 w-1.5" style={{ background: cat.c }} />
       <div className="absolute start-2 top-2 flex flex-col gap-0.5">
