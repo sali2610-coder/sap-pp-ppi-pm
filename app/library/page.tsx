@@ -267,6 +267,14 @@ function BookPeek({ book, onOpen, onClose }: { book: LibBook; onOpen: (b: LibBoo
   const reduce = useReducedMotion();
   const c = mc(book.module);
   const reader = READER[book.id];
+  // overlay a11y — Esc closes + lock background scroll while the peek is open
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", h);
+    return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", h); };
+  }, [onClose]);
   return (
     <motion.div role="dialog" aria-modal="true" aria-label={book.titleHe} onClick={onClose}
       className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/55 p-4 backdrop-blur-sm"

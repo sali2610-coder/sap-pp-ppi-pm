@@ -26,7 +26,7 @@ import { playClick } from "@/lib/sound";
 // primary navigation lives in the persistent left knowledge tree, not here.
 function Header() {
   return (
-    <header className="sticky top-0 z-50 h-14 border-b border-hairline bg-surface/85 backdrop-blur-md before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-gradient-to-l before:from-brand before:via-brand before:to-brand-dark">
+    <header className="sticky top-0 z-50 border-b border-hairline bg-surface/85 pt-[env(safe-area-inset-top)] backdrop-blur-md before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-gradient-to-l before:from-brand before:via-brand before:to-brand-dark">
       <div className="flex h-14 items-center gap-2 px-3 sm:gap-3 sm:px-4">
         {/* mobile navigation lives entirely in the bottom bar (Home/Modules/Library/Search/More)
             — the desktop knowledge tree stays lg+; no duplicate hamburger drawer on touch. */}

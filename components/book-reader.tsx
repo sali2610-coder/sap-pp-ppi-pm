@@ -46,6 +46,16 @@ type RSize = "sm" | "md" | "lg";
    pane only (never a global dark mode). Reused in the landing CTA + focus bar. */
 function ReaderSettings({ view, setView, mode, setMode, theme, setTheme, size, setSize, wide, toggleWide, accent, onReset }: { view: ReaderView; setView: (v: ReaderView) => void; mode: "scroll" | "page"; setMode: (m: "scroll" | "page") => void; theme: RTheme; setTheme: (t: RTheme) => void; size: RSize; setSize: (s: RSize) => void; wide: boolean; toggleWide: () => void; accent: string; onReset: () => void }) {
   const [open, setOpen] = useState(false);
+  // overlay a11y — Esc closes; lock background scroll while the mobile sheet is up
+  useEffect(() => {
+    if (!open) return;
+    const mobile = typeof window !== "undefined" && window.matchMedia("(max-width: 639px)").matches;
+    const prev = document.body.style.overflow;
+    if (mobile) document.body.style.overflow = "hidden";
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", h);
+    return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", h); };
+  }, [open]);
   const themes: [RTheme, string, string, string][] = [["original", "מקור", "#ffffff", "#0b0c0e"], ["sepia", "ספיה", "#f6efe1", "#2b2620"], ["night", "לילה", "#14181f", "#e8ecf1"]];
   const sizes: [RSize, number][] = [["sm", 12], ["md", 15], ["lg", 19]];
   const views: [ReaderView, string, string][] = [["hebrew", "עברית", "טור קריאה יחיד"], ["bilingual", "דו-לשוני", "אנגלית ‖ עברית"]];
@@ -219,6 +229,16 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   // first-use hint (one line, dismissible, remembered)
   useEffect(() => { try { setHintSeen(localStorage.getItem("neo:reader:helpseen") === "1"); } catch { /* noop */ } }, []);
   const dismissHint = useCallback(() => { setHintSeen(true); try { localStorage.setItem("neo:reader:helpseen", "1"); } catch { /* noop */ } }, []);
+
+  // overlay a11y — Esc closes the help / reset dialogs + lock background scroll
+  useEffect(() => {
+    if (!helpOpen && !confirmReset) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") { setHelpOpen(false); setConfirmReset(false); } };
+    window.addEventListener("keydown", h);
+    return () => { document.body.style.overflow = prev; window.removeEventListener("keydown", h); };
+  }, [helpOpen, confirmReset]);
 
   // keyboard shortcuts — F focus · C contents · ? help (ignored while typing)
   useEffect(() => {
