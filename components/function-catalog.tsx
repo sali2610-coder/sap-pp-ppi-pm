@@ -106,8 +106,42 @@ function Flow({ steps }: { steps: string[] }) {
   );
 }
 
+/* ---- knowledge graph (§29) — object at center, clickable relationship nodes ---- */
+function KnowledgeGraph({ o, resolve, onOpen }: { o: SapFuncObject; resolve: (id: string) => SapFuncObject | undefined; onOpen: (x: SapFuncObject) => void }) {
+  type N = { label: string; full: string; c: string; href?: string; open?: () => void };
+  const short = (s: string) => (s.length > 12 ? "…" + s.slice(-11) : s);
+  const nodes: N[] = [];
+  o.relatedObjects.slice(0, 4).forEach((id) => { const r = resolve(id); nodes.push({ label: short(id), full: id, c: "#d62027", open: r ? () => onOpen(r) : undefined, href: r ? undefined : `/bapi/${encodeURIComponent(id)}/` }); });
+  o.tables.slice(0, 3).forEach((t) => nodes.push({ label: t, full: t, c: "#16a34a", href: `/object/${encodeURIComponent(t)}/` }));
+  o.transactions.slice(0, 3).forEach((c) => nodes.push({ label: c, full: c, c: "#0284c7", href: `/tcode/${encodeURIComponent(c)}/` }));
+  if (o.businessObject) nodes.push({ label: o.businessObject, full: `BOR ${o.businessObject}`, c: "#6d28d9" });
+  (o.relatedCds || []).slice(0, 2).forEach((v) => nodes.push({ label: short(v), full: v, c: "#ca8a04", href: `/cds/${encodeURIComponent(v)}/` }));
+  const n = Math.max(1, nodes.length); const cx = 160, cy = 150, R = 120;
+  return (
+    <div>
+      <svg viewBox="0 0 320 290" className="w-full" role="img" aria-label={`מפת קשרים של ${o.technicalName}`}>
+        {nodes.map((_, i) => { const a = (i / n) * 2 * Math.PI - Math.PI / 2; return <line key={"l" + i} x1={cx} y1={cy} x2={cx + R * Math.cos(a)} y2={cy + R * Math.sin(a)} stroke="var(--hairline)" strokeWidth="1.5" />; })}
+        <g><rect x={cx - 54} y={cy - 16} width="108" height="32" rx="8" fill="var(--ink-1)" /><text x={cx} y={cy + 4} textAnchor="middle" fontSize="9" fontWeight="800" fill="#fff" fontFamily="monospace">{short(o.technicalName)}</text></g>
+        {nodes.map((nd, i) => {
+          const a = (i / n) * 2 * Math.PI - Math.PI / 2; const x = cx + R * Math.cos(a), y = cy + R * Math.sin(a);
+          const inner = <><rect x={x - 33} y={y - 12} width="66" height="24" rx="7" fill="#fff" stroke={nd.c} strokeWidth="1.5" /><text x={x} y={y + 3.5} textAnchor="middle" fontSize="8" fontWeight="700" fill={nd.c} fontFamily="monospace">{nd.label}</text></>;
+          return nd.href
+            ? <a key={i} href={nd.href} aria-label={nd.full}><title>{nd.full}</title>{inner}</a>
+            : <g key={i} role={nd.open ? "button" : undefined} tabIndex={nd.open ? 0 : undefined} onClick={nd.open} onKeyDown={(e) => { if (nd.open && (e.key === "Enter" || e.key === " ")) nd.open(); }} style={{ cursor: nd.open ? "pointer" : "default" }}><title>{nd.full}</title>{inner}</g>;
+        })}
+      </svg>
+      <div className="flex flex-wrap justify-center gap-2 text-[10px] font-bold text-ink-3">
+        <span className="flex items-center gap-1"><span className="size-2 rounded-full bg-brand" /> BAPI/FM</span>
+        <span className="flex items-center gap-1"><span className="size-2 rounded-full" style={{ background: "#16a34a" }} /> טבלאות</span>
+        <span className="flex items-center gap-1"><span className="size-2 rounded-full" style={{ background: "#0284c7" }} /> טרנזקציות</span>
+        <span className="flex items-center gap-1"><span className="size-2 rounded-full" style={{ background: "#6d28d9" }} /> BOR</span>
+      </div>
+    </div>
+  );
+}
+
 /* ---- detail drawer ---- */
-function Drawer({ o, expert, related, faved, onFav, onOpen, onClose }: { o: SapFuncObject; expert: boolean; related: SapFuncObject[]; faved: boolean; onFav: () => void; onOpen: (x: SapFuncObject) => void; onClose: () => void }) {
+function Drawer({ o, expert, related, faved, objects, onFav, onOpen, onClose }: { o: SapFuncObject; expert: boolean; related: SapFuncObject[]; faved: boolean; objects: SapFuncObject[]; onFav: () => void; onOpen: (x: SapFuncObject) => void; onClose: () => void }) {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
@@ -213,6 +247,12 @@ function Drawer({ o, expert, related, faved, onFav, onOpen, onClose }: { o: SapF
           {expert && o.codeAbap ? (
             <Sec icon={<Code2 className="size-3.5" />} title="דוגמת ABAP">
               <pre dir="ltr" className="tech overflow-x-auto rounded-lg bg-ink-1 p-3 text-[11px] leading-relaxed text-white">{o.codeAbap}</pre>
+            </Sec>
+          ) : null}
+
+          {(o.relatedObjects.length || o.tables.length || o.transactions.length || o.businessObject) ? (
+            <Sec icon={<Link2 className="size-3.5" />} title="מפת קשרים (Knowledge Graph)">
+              <KnowledgeGraph o={o} resolve={(id) => objects.find((x) => x.id === id)} onOpen={onOpen} />
             </Sec>
           ) : null}
 
@@ -324,7 +364,6 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
   const { fav, toggle } = useFavorites();
 
   const mods = useMemo(() => [...new Set(objects.flatMap((o) => [o.primaryModule, ...o.secondaryModules]))], [objects]);
-  const byId = useMemo(() => new Map(objects.map((o) => [o.id, o])), [objects]);
   const related = useMemo(() => {
     if (!sel) return [];
     const score = (o: SapFuncObject) => {
@@ -339,7 +378,6 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
     };
     return objects.map((o) => [o, score(o)] as const).filter(([, s]) => s > 0).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([o]) => o);
   }, [sel, objects]);
-  void byId;
 
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
@@ -465,7 +503,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
 
       {filtered.length === 0 && <p className="py-16 text-center text-[14px] text-ink-3">לא נמצאו אובייקטים תואמים.</p>}
 
-      <AnimatePresence>{sel && <Drawer o={sel} expert={expert} related={related} faved={fav.has(sel.id)} onFav={() => toggle(sel.id)} onOpen={(x) => setSel(x)} onClose={() => setSel(null)} />}</AnimatePresence>
+      <AnimatePresence>{sel && <Drawer o={sel} expert={expert} related={related} objects={objects} faved={fav.has(sel.id)} onFav={() => toggle(sel.id)} onOpen={(x) => setSel(x)} onClose={() => setSel(null)} />}</AnimatePresence>
     </div>
   );
 }
