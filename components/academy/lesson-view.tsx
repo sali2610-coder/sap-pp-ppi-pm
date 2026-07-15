@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Copy, Check, ChevronDown, ChevronRight, ChevronLeft, ShieldCheck, Info, ExternalLink } from "lucide-react";
 import { BLOCK_META, orderedBlocks, type Lesson, type LessonBlock, type Trust } from "@/lib/academy/lesson-types";
 import { useLessonProgress } from "@/lib/academy/lesson-progress";
+import { recordActivity } from "@/lib/academy/gamification";
 
 const TRUST_TONE: Record<Trust, { cls: string; he: string }> = {
   "verified-docs": { cls: "bg-[#f0f6f5] text-[#0f766e] border-[#cfe6e2]", he: "מאומת" },
@@ -130,7 +131,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
             {lesson.titleEn && <p className="text-sm text-ink-3" dir="ltr">{lesson.titleEn}</p>}
           </header>
 
-          <div className="mt-5">{blocks.map((b) => <Block key={b.kind} b={b} onView={() => markDone(b.kind)} />)}</div>
+          <div className="mt-5">{blocks.map((b) => <Block key={b.kind} b={b} onView={() => { markDone(b.kind); recordActivity(); }} />)}</div>
         </div>
 
         {/* right rail */}
