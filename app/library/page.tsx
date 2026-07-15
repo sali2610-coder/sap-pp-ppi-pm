@@ -4,16 +4,12 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { BookOpen, FileText, Library as LibraryIcon, ArrowLeft, GraduationCap, Search, X, Clock, CheckCircle2, Star, Languages, BookMarked, LayoutGrid, Sparkles, Compass, Timer, Layers3, PlayCircle } from "lucide-react";
+import { BookOpen, FileText, Library as LibraryIcon, ArrowLeft, Search, X, Languages, BookMarked, PlayCircle } from "lucide-react";
 import { LIBRARY, LIBRARY_STATS, type LibBook } from "@/data/library";
-import { ACADEMY_BOOKS, ACADEMY_META, type AcademyBook } from "@/data/library/academy";
-import { useI18n } from "@/lib/i18n";
 import { playPing } from "@/lib/sound";
 import { BookCover, moduleColor as mc, type CoverBook } from "@/components/book-cover";
 import { readContinuity, writeContinuity, type Continuity } from "@/lib/continuity-store";
 
-/* UI-only estimate (NOT SAP data): ~12 min per learning unit */
-const estHours = (nodes: number) => Math.max(1, Math.round((nodes || 0) * 0.2));
 
 /* ---- deep-reader routes for reference manuals that have full text ---- */
 const READER: Record<string, string> = { "config-pm": "/library/book1/", "production-planning": "/library/book2/", "quality-management": "/library/book5/", "sourcing-procurement": "/library/book3/", "pp-ds": "/library/book4/", "warehouse-management": "/library/book6/", "fiori-apps": "/library/book7/", "pm-business-user": "/library/book9/", "ibp-sop": "/library/book10/", "s4-foundation": "/library/book11/" };
@@ -182,49 +178,6 @@ function ResumeStrip({ recent }: { recent: Recent[] }) {
   );
 }
 
-/* ====== ACADEMY learning-path card ====== */
-function AcademyCard({ b, onOpen }: { b: AcademyBook; onOpen: (r: Recent) => void }) {
-  const c = mc(b.module);
-  const pct = b.chaptersTotal ? Math.round((b.chaptersDone / b.chaptersTotal) * 100) : 0;
-  const live = b.status === "live" && b.href;
-  const inner = (
-    <div className="group relative flex h-full overflow-hidden rounded-2xl border border-hairline bg-surface shadow-[0_10px_30px_-18px_rgba(15,23,42,0.4)] transition-all duration-500 ease-[cubic-bezier(.32,.72,0,1)] hover:-translate-y-2 hover:shadow-[0_28px_56px_-22px_rgba(15,23,42,0.5)]">
-      <span className="w-2 shrink-0" style={{ background: `linear-gradient(160deg, ${c}, ${c}bb)` }} />
-      <span className="pointer-events-none absolute -right-12 -top-12 size-32 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-20" style={{ background: c }} />
-      <div className="relative flex flex-1 flex-col p-5">
-        <div className="flex items-start justify-between gap-2">
-          <span className="grid size-11 place-items-center rounded-xl text-white shadow-lg" style={{ background: c, boxShadow: `0 8px 20px ${c}55` }}><GraduationCap className="size-5" /></span>
-          <div className="flex flex-col items-end gap-1">
-            <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{b.module}</span>
-            {b.status === "live" ? <Chip tone="green"><CheckCircle2 className="size-3" /> פעיל</Chip> : <Chip tone="amber"><Clock className="size-3" /> בתכנון</Chip>}
-          </div>
-        </div>
-        <h3 className="mt-3 text-lg font-extrabold leading-tight tracking-tight text-ink-1">{b.titleHe}</h3>
-        <p className="mt-0.5 line-clamp-1 text-xs text-ink-3" dir="ltr">{b.titleEn}</p>
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          <Chip><Layers3 className="size-3" /> {b.chaptersTotal || "—"} פרקים</Chip>
-          <Chip><Timer className="size-3" /> ≈ {estHours(b.nodes)} ש׳</Chip>
-          {b.qualityScore != null && <Chip tone="brand"><Star className="size-3" /> {b.qualityScore}</Chip>}
-        </div>
-        <div className="mt-auto pt-4">
-          <div className="mb-1 flex items-center justify-between text-[11px] font-semibold text-ink-3">
-            <span>{b.chaptersDone}/{b.chaptersTotal || "—"} פרקים · {b.nodes} יחידות</span>
-            <span style={{ color: c }}>{pct}%</span>
-          </div>
-          <div className="h-1.5 overflow-hidden rounded-full bg-surface-2">
-            <div className="h-full rounded-full transition-all duration-700" style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${c}, ${c}aa)` }} />
-          </div>
-          <div className={`mt-3 flex items-center justify-between rounded-xl px-3.5 py-2 text-sm font-bold transition ${live ? "text-white" : "bg-surface-2 text-ink-3"}`} style={live ? { background: c } : undefined}>
-            {live ? (pct > 0 ? "המשך מסלול" : "התחל מסלול") : "בקרוב"}
-            {live && <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover:translate-x-0.5"><ArrowLeft className="size-3.5" /></span>}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-  return live ? <Link href={b.href!} onClick={() => { playPing(); onOpen({ id: "ac-" + b.id, title: b.titleHe, module: b.module, href: b.href! }); }} className="block h-full">{inner}</Link> : <div className="h-full cursor-not-allowed opacity-80">{inner}</div>;
-}
-
 /* ====== spine → bring the book FORWARD (face-out) before opening ====== */
 function BookPeek({ book, onOpen, onClose }: { book: LibBook; onOpen: (b: LibBook) => void; onClose: () => void }) {
   const reduce = useReducedMotion();
@@ -313,28 +266,23 @@ export default function LibraryPage() {
     if (el) { el.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" }); el.classList.add("neo-flash"); window.setTimeout(() => el.classList.remove("neo-flash"), 1400); }
   }, [recent]);
   const [mod, setMod] = useState<string | null>(null);
-  const ac = ACADEMY_META.totals();
-
   const ORDER = ["PM", "PP", "PP-PI", "MM", "QM", "WM", "Fiori", "Foundation"];
   const mods = useMemo(() => {
-    const set = new Set<string>([...ACADEMY_BOOKS.map((b) => b.module), ...LIBRARY.map((b) => b.module)]);
+    const set = new Set<string>(LIBRARY.map((b) => b.module));
     return ORDER.filter((m) => set.has(m)).concat([...set].filter((m) => !ORDER.includes(m)));
   }, []);
 
   const match = (hay: string[]) => { const s = q.trim().toLowerCase(); return !s || hay.some((h) => (h || "").toLowerCase().includes(s)); };
-  const academy = ACADEMY_BOOKS.filter((b) => (!mod || b.module === mod) && match([b.titleHe, b.titleEn, b.module]));
   const reference = LIBRARY.filter((b) => (!mod || b.module === mod) && match([b.title, b.titleHe, b.module, b.publisher]));
 
   const publishers = useMemo(() => [...new Set(reference.map((b) => b.publisher))], [reference]);
-  const totalAcademyHours = useMemo(() => ACADEMY_BOOKS.reduce((s, b) => s + estHours(b.nodes), 0), []);
-  const acLive = ACADEMY_BOOKS.filter((b) => b.status === "live");
   const filtering = Boolean(q || mod);
 
   const heroStats = [
-    { v: ACADEMY_BOOKS.length + LIBRARY_STATS.books, l: "ספרים" },
-    { v: ac.chapters + LIBRARY_STATS.chapters, l: "פרקים" },
-    { v: ac.nodes, l: "יחידות לימוד" },
+    { v: LIBRARY_STATS.books, l: "ספרים" },
+    { v: LIBRARY_STATS.chapters, l: "פרקים" },
     { v: LIBRARY_STATS.pages, l: "עמודים" },
+    { v: new Set(LIBRARY.map((b) => b.publisher)).size, l: "מו״לים" },
   ];
 
   return (
@@ -345,7 +293,7 @@ export default function LibraryPage() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
           <Search className="pointer-events-none absolute inset-y-0 right-3 my-auto size-4 text-ink-3" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש ספר · מסלול · מודול · מו״ל…"
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש ספר · מודול · מו״ל…"
             className="w-full rounded-xl border border-hairline bg-surface py-2.5 pe-3 ps-10 text-sm shadow-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/15" />
           {q && <button onClick={() => setQ("")} aria-label="נקה" className="absolute inset-y-0 left-3 my-auto"><X className="size-4 text-ink-3" /></button>}
         </div>
@@ -360,42 +308,8 @@ export default function LibraryPage() {
       {!filtering && <ResumeStrip recent={recent} />}
 
       {/* ============================================================= */}
-      {/* WORLD 1 — SAP ACADEMY (structured learning platform)          */}
-      {/* ============================================================= */}
-      {academy.length > 0 && (
-        <Reveal>
-          <section className="space-y-5 rounded-[2rem] border border-hairline bg-surface-2/40 p-5 sm:p-7">
-            <SectionHead icon={<GraduationCap className="size-5" />} eyebrow="Structured Learning · פלטפורמת הכשרה" title="SAP Academy" tint="#d62027">
-              <Link href="/library/academy/search/" className="hidden items-center gap-1 text-xs font-bold text-brand hover:underline sm:inline-flex"><Search className="size-3.5" /> חיפוש מאוחד</Link>
-              <Link href="/library/academy/fiori/" className="hidden items-center gap-1 text-xs font-bold text-brand hover:underline sm:inline-flex"><LayoutGrid className="size-3.5" /> אינדקס Fiori</Link>
-              <Link href="/library/academy/" className="inline-flex items-center gap-1 rounded-lg bg-brand px-2.5 py-1.5 text-xs font-bold text-white transition hover:brightness-110">לוח בקרה <ArrowLeft className="size-3.5" /></Link>
-            </SectionHead>
-
-            {!filtering && (
-              <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-                {[
-                  { icon: <Compass className="size-4" />, v: acLive.length, l: "מסלולים פעילים" },
-                  { icon: <Layers3 className="size-4" />, v: ac.chapters, l: "פרקים" },
-                  { icon: <BookMarked className="size-4" />, v: ac.nodes, l: "יחידות לימוד" },
-                  { icon: <Timer className="size-4" />, v: totalAcademyHours, l: "שעות לימוד (הערכה)" },
-                ].map((s) => (
-                  <div key={s.l} className="flex items-center gap-3 rounded-2xl border border-hairline bg-surface p-3.5">
-                    <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-brand-soft text-brand">{s.icon}</span>
-                    <div className="min-w-0"><div className="font-mono text-lg font-extrabold text-ink-1"><Count n={s.v} /></div><div className="truncate text-[11px] font-semibold text-ink-3">{s.l}</div></div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            <div className="grid-adaptive">
-              {academy.map((b) => <AcademyCard key={b.id} b={b} onOpen={push} />)}
-            </div>
-          </section>
-        </Reveal>
-      )}
-
-      {/* ============================================================= */}
-      {/* WORLD 2 — DIGITAL REFERENCE LIBRARY (the bookshelf)           */}
+      {/* DIGITAL REFERENCE LIBRARY — the bookshelf (books only).       */}
+      {/* Academy learning paths moved to the SAP Academy product (P1). */}
       {/* ============================================================= */}
       {reference.length > 0 && (
         <Reveal>
@@ -437,17 +351,17 @@ export default function LibraryPage() {
       )}
 
       {/* empty state */}
-      {academy.length === 0 && reference.length === 0 && (
+      {reference.length === 0 && (
         <div className="flex flex-col items-center gap-3 py-20 text-center">
           <span className="grid size-16 place-items-center rounded-3xl bg-surface-2 text-ink-3"><Search className="size-8" /></span>
-          <p className="text-base font-bold text-ink-1">לא נמצאו ספרים או מסלולים</p>
+          <p className="text-base font-bold text-ink-1">לא נמצאו ספרים</p>
           <p className="text-xs text-ink-3">נסה מונח אחר או נקה את הסינון</p>
           {(q || mod) && <button onClick={() => { setQ(""); setMod(null); }} className="mt-1 rounded-xl bg-brand px-4 py-2 text-sm font-bold text-white transition hover:brightness-110">נקה חיפוש</button>}
         </div>
       )}
 
       <p className="text-center text-xs text-ink-3">
-        מסלולי הלמידה נבנו לפי תבנית 18 המקטעים של NEO Academy · מדריכי העיון מאונדקסים מתוכן העניינים של קובצי ה-PDF המקוריים. תרגום עברי מקצועי נכתב עבור הארגון.
+        מדריכי העיון מאונדקסים מתוכן העניינים של קובצי ה-PDF המקוריים. תרגום עברי מקצועי נכתב עבור הארגון.
       </p>
 
       {/* spine → forward preview → open */}

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>P1 — IA split</title>
+<style>
+:root{--bg:#fcfcfd;--s:#fff;--s2:#f4f5f7;--hair:#eaecef;--i1:#0b0c0e;--i2:#3a3f47;--i3:#6b727c;--brand:#d62027;--bd:#a3171c;--pm:#f97316;--pp:#6d28d9;--mono:ui-monospace,"SFMono-Regular",Menlo,monospace}
+*{box-sizing:border-box;margin:0;padding:0}html,body{max-width:100%;overflow-x:hidden}
+body{font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;background:var(--bg);color:var(--i1);-webkit-font-smoothing:antialiased}
+.shell{display:grid;grid-template-columns:1fr 232px;min-height:100vh}
+/* sidebar (RTL right) */
+.side{border-inline-start:1px solid var(--hair);background:var(--s);padding:16px 12px;position:sticky;top:0;height:100vh}
+.brand{display:flex;align-items:center;gap:8px;padding:4px 8px 14px}.brand b{font-size:14px;font-weight:800}.brand .r{width:22px;height:22px;border-radius:6px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:900}
+.grp{font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--i3);text-transform:uppercase;padding:12px 8px 5px}
+.nav{display:flex;align-items:center;gap:9px;padding:7px 8px;border-radius:9px;font-size:12.5px;font-weight:600;color:var(--i2);cursor:pointer}
+.nav .ic{width:16px;height:16px;color:var(--i3)}.nav.on{background:#fef2f2;color:var(--brand);font-weight:800}.nav.on .ic{color:var(--brand)}
+.nav.new{position:relative}.nav.new::after{content:"חדש";position:absolute;inset-inline-start:8px;font-size:9px;font-weight:800;color:#fff;background:var(--brand);padding:1px 6px;border-radius:99px}
+/* main */
+.main{padding:26px 30px;max-width:1120px;margin-inline:auto;width:100%}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--i3)}
+h1{font-size:25px;font-weight:800;letter-spacing:-.02em;margin:5px 0 3px}.sub{font-size:13px;color:var(--i3);max-width:60ch;line-height:1.5}
+.tag{display:inline-block;font-size:10.5px;font-weight:800;border-radius:99px;padding:3px 9px;margin-inline-start:8px;vertical-align:middle}
+.tag.lib{background:#eef6ff;color:#1d4ed8}.tag.aca{background:#f0f7f0;color:#15803d}.tag.fio{background:#f5f3ff;color:var(--pp)}
+.panel{margin-top:22px;border:1px dashed var(--hair);border-radius:20px;padding:18px;background:var(--s)}
+.plabel{font-size:11px;font-weight:800;color:var(--i3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.plabel .dot{width:8px;height:8px;border-radius:50%}
+/* books shelf */
+.shelf{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.book{aspect-ratio:3/4.2;border-radius:8px;position:relative;box-shadow:0 8px 20px -10px rgba(0,0,0,.3);display:flex;flex-direction:column;justify-content:flex-end;padding:10px;color:#fff;overflow:hidden}
+.book .t{font-size:11px;font-weight:800;line-height:1.2;z-index:1}.book .p{font-size:8.5px;opacity:.8;z-index:1}
+.book::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:5px;background:rgba(0,0,0,.25)}
+/* academy paths */
+.paths{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.path{border:1px solid var(--hair);border-radius:16px;padding:14px;background:var(--s)}
+.path .h{display:flex;align-items:center;gap:8px;margin-bottom:8px}.path .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:#fff}
+.path .nm{font-size:13.5px;font-weight:800}.path .mt{font-size:10.5px;color:var(--i3)}
+.bar{height:6px;background:var(--s2);border-radius:99px;overflow:hidden;margin-top:10px}.bar>i{display:block;height:100%;border-radius:99px}
+.path .st{display:flex;justify-content:space-between;font-size:10px;color:var(--i3);margin-top:6px;font-weight:700}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.chip{font-size:9.5px;font-weight:700;background:var(--s2);color:var(--i2);border-radius:99px;padding:2px 8px}
+/* fiori grid */
+.fsearch{display:flex;align-items:center;gap:8px;border:1px solid var(--hair);border-radius:12px;padding:9px 12px;background:var(--s);margin-bottom:12px}
+.fsearch .q{flex:1;font-size:12.5px;color:var(--i3)}.frow{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.fapps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.fapp{border:1px solid var(--hair);border-radius:14px;padding:13px;background:var(--s)}
+.fapp .id{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--brand)}
+.fapp .nm{font-size:13px;font-weight:800;margin:3px 0 4px}.fapp .d{font-size:11px;color:var(--i3);line-height:1.45}
+.fapp .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.fapp .m{font-size:9.5px;font-weight:700;border-radius:6px;padding:2px 7px;background:var(--s2);color:var(--i2)}
+.vpill{font-size:9px;font-weight:800;border-radius:99px;padding:2px 7px;background:#f0f6f5;color:#0f766e;border:1px solid #cfe6e2}
+@media(max-width:1100px){.shelf{grid-template-columns:repeat(4,1fr)}.paths,.fapps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:820px){.shell{grid-template-columns:1fr}.side{display:none}.main{padding:18px 16px}.shelf{grid-template-columns:repeat(3,1fr)}.paths,.fapps{grid-template-columns:1fr}h1{font-size:21px}
+.mnav{position:fixed;bottom:0;inset-inline:0;display:flex;justify-content:space-around;background:var(--s);border-top:1px solid var(--hair);padding:8px 4px 10px;z-index:9}
+.mnav a{font-size:9.5px;font-weight:700;color:var(--i3);display:flex;flex-direction:column;align-items:center;gap:2px}.mnav a.on{color:var(--brand)}.mnav .e{font-size:17px}}
+@media(min-width:821px){.mnav{display:none}}
+</style></head>
+<body>
+<div class="shell">
+  <main class="main">
+    <!-- LIBRARY -->
+    <div class="eyebrow">מוצר 1</div>
+    <h1>ספרייה <span class="tag lib">Library — ספרים בלבד</span></h1>
+    <p class="sub">מדף ספרים דיגיטלי בלבד: ספרי SAP Press, ספרים טכניים, PDF, תיעוד ומקורות. ללא כרטיסי למידה, קורסים או התקדמות — אלה עוברים ל-SAP Academy.</p>
+    <div class="panel"><div class="plabel"><span class="dot" style="background:#1d4ed8"></span>Library landing — books-only bookshelf</div>
+      <div class="shelf">
+        <div class="book" style="background:linear-gradient(160deg,#f97316,#c2410c)"><div class="t">תצורת PM</div><div class="p">SAP Press · 412 עמ׳</div></div>
+        <div class="book" style="background:linear-gradient(160deg,#6d28d9,#4c1d95)"><div class="t">תכנון ייצור</div><div class="p">SAP Press · 388 עמ׳</div></div>
+        <div class="book" style="background:linear-gradient(160deg,#0891b2,#155e75)"><div class="t">ניהול איכות</div><div class="p">SAP Press · 356 עמ׳</div></div>
+        <div class="book" style="background:linear-gradient(160deg,#059669,#065f46)"><div class="t">רכש</div><div class="p">SAP Press · 402 עמ׳</div></div>
+        <div class="book" style="background:linear-gradient(160deg,#d62027,#a3171c)"><div class="t">PP/DS</div><div class="p">SAP Press · 460 עמ׳</div></div>
+        <div class="book" style="background:linear-gradient(160deg,#334155,#0f172a)"><div class="t">Fiori יסודות</div><div class="p">Ref · 240 עמ׳</div></div>
+      </div>
+    </div>
+
+    <!-- ACADEMY -->
+    <div class="eyebrow" style="margin-top:34px">מוצר 2 · חדש</div>
+    <h1>SAP Academy <span class="tag aca">פלטפורמת למידה מובנית</span></h1>
+    <p class="sub">מוצר עליון חדש, מתחת ל-Library. מסלולי למידה · קורסים · פרקים · שיעורים (מנוע בלוקים) · התקדמות · חידונים · סטטיסטיקות. לא עוד וריאציה של הספרייה — חוויית אקדמיה.</p>
+    <div class="panel"><div class="plabel"><span class="dot" style="background:#15803d"></span>SAP Academy landing — learning hub (מבנה קיים, מופרד)</div>
+      <div class="paths">
+        <div class="path"><div class="h"><span class="ic" style="background:var(--pm)">🔧</span><div><div class="nm">מסלול PM</div><div class="mt">אחזקת מפעל · 6 קורסים</div></div></div><div class="bar"><i style="width:62%;background:var(--pm)"></i></div><div class="st"><span>62% הושלם</span><span>18/29 שיעורים</span></div><div class="chips"><span class="chip">Beginner→Pro</span><span class="chip">חידונים</span></div></div>
+        <div class="path"><div class="h"><span class="ic" style="background:var(--pp)">⚗️</span><div><div class="nm">מסלול PP-PI</div><div class="mt">ייצור תהליכי · 5 קורסים</div></div></div><div class="bar"><i style="width:30%;background:var(--pp)"></i></div><div class="st"><span>30% הושלם</span><span>8/26 שיעורים</span></div><div class="chips"><span class="chip">מנוע בלוקים</span><span class="chip">CBC</span></div></div>
+        <div class="path"><div class="h"><span class="ic" style="background:#0891b2">🔬</span><div><div class="nm">מסלול QM</div><div class="mt">ניהול איכות · 4 קורסים</div></div></div><div class="bar"><i style="width:0%;background:#0891b2"></i></div><div class="st"><span>טרם התחלת</span><span>0/21 שיעורים</span></div><div class="chips"><span class="chip">בקרוב</span></div></div>
+      </div>
+      <p style="font-size:11px;color:var(--i3);margin-top:14px">מאחד: <b>/learn</b> · <b>/library/academy</b> · <b>/library/pm-academy</b> · mm/pmu/ppds/qm-academy → תחת <b>/academy</b>. תוכן קיים נשמר; העיצוב העמוק ומנוע-הבלוקים ב-P2.</p>
+    </div>
+
+    <!-- FIORI -->
+    <div class="eyebrow" style="margin-top:34px">מוצר 3</div>
+    <h1>Fiori Apps <span class="tag fio">מרכז ידע Fiori</span></h1>
+    <p class="sub">כבר פריט-ניווט עליון (/fiori-apps). מאחדים אליו את /fiori ו-/library/academy/fiori. חיפוש · פילטרים · עמוד מלא לכל אפליקציה — Business Role · Catalog · OData/CDS · ECC↔S/4 · אימות ומקור.</p>
+    <div class="panel"><div class="plabel"><span class="dot" style="background:var(--pp)"></span>Fiori Apps landing — knowledge center (מאוחד)</div>
+      <div class="fsearch"><span>🔍</span><span class="q">חפש לפי שם · Fiori ID · Business Role · Catalog · OData · CDS · T-Code · טבלה…</span></div>
+      <div class="frow"><span class="chip">הכל</span><span class="chip">PM</span><span class="chip">PP-PI</span><span class="chip">Transactional</span><span class="chip">Analytical</span><span class="chip">Fact Sheet</span><span class="chip">S/4 בלבד</span></div>
+      <div class="fapps">
+        <div class="fapp"><div class="id">F2018 · Fiori ID</div><div class="nm">Manage Maintenance Orders <span class="vpill">מאומת</span></div><div class="d">ניהול פקודות אחזקה — יצירה, שחרור, אישור וסגירה.</div><div class="meta"><span class="m">PM</span><span class="m">Transactional</span><span class="m">SAP_MAINT_ORDER</span></div></div>
+        <div class="fapp"><div class="id">F1234 · Fiori ID</div><div class="nm">Maintenance Scheduling <span class="vpill">מאומת</span></div><div class="d">תכנון וסידור עבודות אחזקה מונעת ומתוכננת.</div><div class="meta"><span class="m">PM</span><span class="m">Analytical</span><span class="m">C_MaintSchedule</span></div></div>
+        <div class="fapp"><div class="id">F0982 · Fiori ID</div><div class="nm">Create Notification <span class="vpill">מאומת</span></div><div class="d">פתיחת הודעת תקלה/אחזקה מהשטח.</div><div class="meta"><span class="m">PM</span><span class="m">Transactional</span><span class="m">IW21</span></div></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <div class="brand"><span class="r">S</span><b>SAP by Sali</b></div>
+    <div class="grp">מודולים</div>
+    <div class="nav"><span class="ic">🔧</span>אחזקה · PM</div>
+    <div class="nav"><span class="ic">⚗️</span>ייצור · PP-PI</div>
+    <div class="grp">עיון</div>
+    <div class="nav"><span class="ic">▦</span>טבלאות</div>
+    <div class="nav"><span class="ic">⌘</span>טרנזקציות</div>
+    <div class="nav"><span class="ic">🔌</span>BAPIs / FMs</div>
+    <div class="nav on"><span class="ic">▤</span>Fiori Apps</div>
+    <div class="grp">ידע ולמידה</div>
+    <div class="nav"><span class="ic">🧠</span>מרכז ידע</div>
+    <div class="nav on"><span class="ic">📚</span>ספרייה</div>
+    <div class="nav on new"><span class="ic">🎓</span>SAP Academy</div>
+    <div class="nav"><span class="ic">⚠️</span>תקלות</div>
+    <div class="nav"><span class="ic">🏅</span>הסמכה</div>
+    <div class="grp">כלים</div>
+    <div class="nav"><span class="ic">🧭</span>Studio</div>
+    <div class="nav"><span class="ic">✨</span>צ׳אט AI</div>
+    <p style="font-size:9.5px;color:var(--i3);margin-top:16px;padding:0 8px;line-height:1.5">3 מוצרים נפרדים:<br>ספרייה · SAP Academy · Fiori Apps.<br>"למידה" הישן ממוזג ל-Academy.</p>
+  </aside>
+</div>
+<nav class="mnav"><a class="on"><span class="e">🏠</span>בית</a><a><span class="e">📚</span>ספרייה</a><a class="on"><span class="e">🎓</span>Academy</a><a><span class="e">▤</span>Fiori</a><a><span class="e">⋯</span>עוד</a></nav>
+</body></html>

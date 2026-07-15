@@ -30,7 +30,7 @@ const GROUPS: { key: string; label: string; open: boolean; items: Row[] }[] = [
     { href: "/", icon: Home, label: "בית" },
     { href: "/library/", icon: Library, label: "ספרייה" },
     { href: "/knowledge/", icon: BookOpen, label: "מרכז ידע" },
-    { href: "/learn/", icon: GraduationCap, label: "למידה" },
+    { href: "/academy/", icon: GraduationCap, label: "SAP Academy" },
   ] },
   { key: "ref", label: "עיון", open: false, items: [
     { href: "/tables/", icon: Table2, label: "טבלאות" },
@@ -38,7 +38,7 @@ const GROUPS: { key: string; label: string; open: boolean; items: Row[] }[] = [
     { href: "/bapi/", icon: Braces, label: "BAPIs / FMs" },
     { href: "/idoc/", icon: Network, label: "IDocs" },
     { href: "/cds/", icon: Database, label: "CDS Views" },
-    { href: "/fiori/", icon: LayoutGrid, label: "Fiori Apps" },
+    { href: "/fiori-apps/", icon: LayoutGrid, label: "Fiori Apps" },
   ] },
   { key: "tools", label: "כלים", open: false, items: [
     { href: "/sap-infrastructure/", icon: Workflow, label: "Architecture Studio" },
