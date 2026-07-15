@@ -41,12 +41,12 @@ const NAV: Group[] = [
     { href: "/fiori-apps/", icon: LayoutGrid, label: "Fiori Apps" },
     { href: "/enhancements/", icon: Puzzle, label: "Enhancements" },
   ]},
-  { id: "knowledge", label: "ידע", items: [
+  { id: "knowledge", label: "ידע ולמידה", items: [
     { href: "/knowledge/", icon: BrainCircuit, label: "מרכז ידע" },
     { href: "/library/", icon: Library, label: "ספרייה" },
+    { href: "/academy/", icon: GraduationCap, label: "SAP Academy" },
     { href: "/incidents/", icon: AlertTriangle, label: "תקלות" },
     { href: "/certification/", icon: Award, label: "הסמכה" },
-    { href: "/learn/", icon: GraduationCap, label: "למידה" },
   ]},
   { id: "tools", label: "כלים", items: [
     { href: "/studio/", icon: Compass, label: "Architecture Studio" },
