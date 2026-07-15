@@ -71,6 +71,17 @@ export function AcademyDashboard() {
         <span className="inline-flex items-center gap-1.5 font-semibold text-brand"><GraduationCap className="size-4" />SAP Academy</span>
       </nav>
 
+      {/* P2 — structured lesson (block engine) entry point */}
+      <Link href="/academy/lesson/pm-maintenance-order/" dir="rtl" className="group flex items-center gap-4 rounded-2xl border border-hairline bg-gradient-to-bl from-[#fff7ed] to-card p-4 transition hover:border-[#f97316]/40 hover:shadow-sm">
+        <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-[#f97316] text-2xl text-white shadow-lg">🔧</span>
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2"><span className="rounded-md bg-[#fff7ed] px-1.5 py-0.5 text-[10px] font-extrabold text-[#f97316]">PM</span><span className="rounded-full border border-[#f5e2bf] bg-[#fffbeb] px-2 py-0.5 text-[10px] font-bold text-[#b45309]">שיעור מובנה · מנוע בלוקים</span></div>
+          <h3 className="mt-1 text-base font-extrabold text-foreground">פקודת אחזקה — Maintenance Order</h3>
+          <p className="text-[12.5px] text-muted-foreground">שיעור לדוגמה בתבנית הבלוקים החדשה — 🎯 מטרה · 🏭 CBC · 🗂 טבלאות · 💻 T-Codes · 📱 Fiori · ⚠️ טעויות · ❓ חזרה.</p>
+        </div>
+        <ArrowRight className="size-5 shrink-0 text-[#f97316] transition group-hover:-translate-x-0.5 rtl:rotate-180" />
+      </Link>
+
       <section dir="rtl" className="glass rounded-2xl p-6 text-center">
         <span className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-soft px-3 py-1 text-xs font-semibold text-brand"><GraduationCap className="size-3.5" />{lang === "he" ? "אקדמיית SAP אחודה" : "Unified SAP Learning Academy"}</span>
         <h1 className="mt-2 text-2xl font-bold tracking-tight">{lang === "he" ? "לוח בקרה מרכזי" : "Central Dashboard"}</h1>
