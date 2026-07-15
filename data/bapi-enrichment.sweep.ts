@@ -9,6 +9,10 @@ import type { SapFuncObject, TriState, VerificationStatus, OperationType, Busine
 
 const LV = "2026-07-14";
 const SRC = "SAP Help Portal + SE37 metadata (sapdatasheet.org) — verified 2026-07-14";
+// §6 verification round 2 (2026-07-15)
+const LV2 = "2026-07-15";
+const SRC_HELP = "SAP Help Portal — verified 2026-07-15";
+const SRC_MIRROR = "SE37 repository metadata (sapdatasheet.org / se80.co.uk) — verified 2026-07-15";
 
 type V = { he: string; en?: string; op?: OperationType; cat?: BusinessCategory; rfc?: boolean; commit?: boolean; internal?: boolean; idoc?: boolean; src?: string };
 const verified = (d: V): Partial<SapFuncObject> => ({
@@ -37,6 +41,24 @@ const uncertain = (he: string, rel: string[]): Partial<SapFuncObject> => ({
 });
 
 export const SWEEP_ENRICHMENT: Record<string, Partial<SapFuncObject>> = {
+  // ==== §6 verification round 2 (2026-07-15) — 61 requires-verification FMs researched ====
+  // 13 confirmed with a stored, retrievable source; the remaining 48 stay
+  // requires-verification (no official/mirror source found — honest, not invented).
+  // -- confirmed real utility FMs (source stored) --
+  ARCHIVE_OPEN_FOR_WRITE: { ...verified({ he: "פתיחת קובץ ארכיון לכתיבה (ADK). כלי עזר של ארכוב נתונים.", en: "Open an archive file for writing (ADK). Data-archiving utility.", op: "Create", cat: "General" }), lastVerified: LV2, verificationSource: SRC_HELP },
+  UNIT_CONVERSION_SIMPLE: { ...verified({ he: "המרת יחידת מידה פשוטה בין יחידות מקור/יעד. כלי עזר מתועד.", en: "Simple measurement-unit conversion between source/target UoM. Documented utility.", op: "Read", cat: "General" }), lastVerified: LV2, verificationSource: SRC_HELP },
+  ARCHIVE_GET_NEXT_OBJECT: { ...verified({ he: "קריאת האובייקט הבא מקובץ ארכיון (ADK, קבוצת פונקציות ARCH).", en: "Read the next object from an archive file (ADK, function group ARCH).", op: "Read", cat: "General" }), lastVerified: LV2, verificationSource: SRC_MIRROR },
+  DIMENSION_GET: { ...verified({ he: "שליפת ממד יחידת מידה (קבוצת פונקציות SCVU) — בסיס להמרות יחידות.", en: "Get the dimension of a unit of measure (FG SCVU) — basis for UoM conversion.", op: "Read", cat: "General" }), lastVerified: LV2, verificationSource: SRC_MIRROR },
+  EQUIPMENT_TEXT_READ: { ...verified({ he: "קריאת טקסט תיאור ציוד (EQKT) לפי מספר ציוד ושפה (קבוצת פונקציות ITX1).", en: "Read equipment description text (EQKT) by equipment number + language (FG ITX1).", op: "Read", cat: "Equipment" }), lastVerified: LV2, verificationSource: SRC_MIRROR },
+  MATERIAL_UNIT_CONVERSION: { ...verified({ he: "המרת יחידת מידה של חומר לפי נתוני אב (קבוצת פונקציות MAME).", en: "Convert a material's unit of measure using master data (FG MAME).", op: "Read", cat: "MasterData" }), lastVerified: LV2, verificationSource: SRC_MIRROR },
+  MD_CONVERT_MATERIAL_UNIT: { ...verified({ he: "המרת יחידת מידה של חומר (RFC-enabled, קבוצת פונקציות MDR1).", en: "Convert a material unit of measure (RFC-enabled, FG MDR1).", op: "Read", cat: "MasterData", rfc: true }), lastVerified: LV2, verificationSource: SRC_MIRROR },
+  STATUS_CHANGE_EXTERN: { ...verified({ he: "קביעת סטטוס משתמש חיצוני לאובייקט (קבוצת פונקציות BSVA). מקבילה החיצונית ל-_INTERN.", en: "Set an external user status on an object (FG BSVA). External counterpart of _INTERN.", op: "Change", cat: "Status", commit: true }), lastVerified: LV2, verificationSource: SRC_MIRROR },
+  // -- confirmed real but INTERNAL (not released integration APIs) --
+  MARC_SINGLE_READ: { ...verified({ he: "קריאה בודדת מאוגרת (buffered) של נתוני מפעל-חומר MARC. FM פנימי (קבוצת פונקציות MG22).", en: "Buffered single-read of MARC plant/material data. Internal FM (FG MG22).", op: "Read", cat: "MasterData", internal: true }), lastVerified: LV2, verificationSource: SRC_MIRROR },
+  EQUIPMENT_DISMANTLE: { ...verified({ he: "פירוק ציוד ממיקום התקנה. FM פנימי מאחורי ה-BAPIs של ציוד (קבוצת פונקציות IBEQ).", en: "Dismantle equipment from an installation location. Internal FM behind equipment BAPIs (FG IBEQ).", op: "Change", cat: "Equipment", internal: true, commit: true }), lastVerified: LV2, verificationSource: SRC_MIRROR },
+  ILOA_UPDATE: { ...verified({ he: "עדכון נתוני מיקום/חיוב (ILOA) לאובייקט טכני. FM פנימי (קבוצת פונקציות ILA0).", en: "Update location/account-assignment (ILOA) data for a technical object. Internal FM (FG ILA0).", op: "Change", cat: "Equipment", internal: true, commit: true }), lastVerified: LV2, verificationSource: SRC_MIRROR },
+  SERNR_ADD_TO_DOCUMENT: { ...verified({ he: "הוספת מספרים סידוריים למסמך. FM פנימי (קבוצת פונקציות IPW1).", en: "Add serial numbers to a document. Internal FM (FG IPW1).", op: "Change", cat: "General", internal: true }), lastVerified: LV2, verificationSource: SRC_MIRROR },
+  STATUS_OBJECT_CREATE: { ...verified({ he: "יצירת אובייקט סטטוס (JSTO) לניהול סטטוס כללי. FM פנימי (קבוצת פונקציות BSVA).", en: "Create a status object (JSTO) for general status management. Internal FM (FG BSVA).", op: "Create", cat: "Status", internal: true }), lastVerified: LV2, verificationSource: SRC_MIRROR },
   // ---- confirmed released BAPIs / RFC APIs ----
   BAPI_GOODSMVT_GETDETAIL: verified({ he: "הצגת פרטי מסמך חומר (תנועת סחורה) — כותרת + פריטים. קריאה בלבד.", en: "Display material-document (goods movement) header + items. Read-only.", op: "Read", cat: "GoodsMovement", rfc: true }),
   BAPI_GOODSMVT_GETITEMS: verified({ he: "רשימת פריטי מסמכי חומר לפי חומר/מפעל/סוג תנועה/תאריך. קריאה בלבד.", en: "List material-document items by material/plant/movement type/date. Read-only.", op: "Read", cat: "GoodsMovement", rfc: true }),
