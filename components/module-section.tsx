@@ -16,6 +16,7 @@ import { RelationshipMap } from "@/components/relationship-map";
 import { SectionScrollSpy } from "@/components/section-scrollspy";
 import { MasterDataFacets } from "@/components/master-data-facets";
 import { PM_MASTER_DATA_FACETS } from "@/data/pm-master-data-facets";
+import { PPPI_MASTER_DATA_FACETS } from "@/data/pppi-master-data-facets";
 
 // Deterministic anchor id (kept server-side; the client spy reads these ids).
 const spyId = (prefix: string, i: number) => `${prefix}-grp-${i}`;
@@ -73,6 +74,9 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
       // until their own pipeline runs.
       if (module.module === "PM" && PM_MASTER_DATA_FACETS.length) {
         return <MasterDataFacets facets={PM_MASTER_DATA_FACETS} accent={accent} />;
+      }
+      if (module.module === "PP-PI" && PPPI_MASTER_DATA_FACETS.length) {
+        return <MasterDataFacets facets={PPPI_MASTER_DATA_FACETS} accent={accent} />;
       }
       const rows = masterData(module);
       // Each master-data object surfaces its deep hand-authored guide (/domain —
