@@ -118,7 +118,9 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
               <span className="absolute -start-6 top-2 grid size-[19px] place-items-center rounded-full border border-hairline bg-surface font-mono text-[10px] font-bold text-ink-3">{i + 1}</span>
               {s.exists
                 ? <Link href={`/object/${encodeURIComponent(s.code)}/`} className="card-interactive flex items-center justify-between gap-2 p-3" dir="rtl"><span className="text-[13.5px] font-bold text-ink-1">{s.label}</span><span className="tech font-mono text-[12px] font-bold" style={{ color: accent }} dir="ltr">{s.code}</span></Link>
-                : <div className="rounded-xl border border-dashed border-hairline bg-surface-2/40 p-3 text-[13px] font-bold text-ink-3">{s.label} · {s.code}</div>}
+                : s.guide
+                  ? <Link href={`/domain/${s.guide}/`} className="card-interactive flex items-center justify-between gap-2 p-3" dir="rtl"><span className="flex items-center gap-1.5 text-[13.5px] font-bold text-ink-1"><BookOpen className="size-3.5 text-brand" />{s.label}</span><span className="tech font-mono text-[12px] font-bold" style={{ color: accent }} dir="ltr">{s.code}</span></Link>
+                  : <div className="rounded-xl border border-dashed border-hairline bg-surface-2/40 p-3 text-[13px] font-bold text-ink-3">{s.label} · {s.code}</div>}
             </li>
           ))}
         </ol>

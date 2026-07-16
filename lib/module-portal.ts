@@ -102,7 +102,10 @@ export function masterData(m: SAPModuleData): TableRow[] {
 export function processSteps(m: SAPModuleData) {
   const flow = FLOWS[m.module] || [];
   const tset = new Set(moduleTables(m).map((t) => t.tableName));
-  return flow.map((s) => ({ ...s, exists: tset.has(s.code) }));
+  // A step whose table isn't in the (generated) module dataset — e.g. AFRU/COGI —
+  // is not a dead end if a deep /domain guide covers it: expose that guide so the
+  // node links to real content instead of rendering as a dashed placeholder.
+  return flow.map((s) => ({ ...s, exists: tset.has(s.code), guide: deepDomainForTable(s.code) || undefined }));
 }
 
 export function configRows(m: SAPModuleData): string[][] {
