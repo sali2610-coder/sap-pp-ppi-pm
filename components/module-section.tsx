@@ -121,18 +121,33 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
     case "business-process": {
       const steps = processSteps(module);
       return (
-        <ol className="relative space-y-2 ps-6">
-          <span className="absolute inset-y-2 start-[9px] w-px bg-hairline" aria-hidden />
-          {steps.map((s, i) => (
-            <li key={s.code} className="relative">
-              <span className="absolute -start-6 top-2 grid size-[19px] place-items-center rounded-full border border-hairline bg-surface font-mono text-[10px] font-bold text-ink-3">{i + 1}</span>
-              {s.exists
-                ? <Link href={`/object/${encodeURIComponent(s.code)}/`} className="card-interactive flex items-center justify-between gap-2 p-3" dir="rtl"><span className="text-[13.5px] font-bold text-ink-1">{s.label}</span><span className="tech font-mono text-[12px] font-bold" style={{ color: accent }} dir="ltr">{s.code}</span></Link>
-                : s.guide
-                  ? <Link href={`/domain/${s.guide}/`} className="card-interactive flex items-center justify-between gap-2 p-3" dir="rtl"><span className="flex items-center gap-1.5 text-[13.5px] font-bold text-ink-1"><BookOpen className="size-3.5 text-brand" />{s.label}</span><span className="tech font-mono text-[12px] font-bold" style={{ color: accent }} dir="ltr">{s.code}</span></Link>
-                  : <div className="rounded-xl border border-dashed border-hairline bg-surface-2/40 p-3 text-[13px] font-bold text-ink-3">{s.label} · {s.code}</div>}
-            </li>
-          ))}
+        <ol className="relative space-y-3 ps-8">
+          {/* connector — accent gradient down the timeline */}
+          <span className="absolute inset-y-3 start-[13px] w-0.5 rounded-full" aria-hidden style={{ background: `linear-gradient(${accent}, ${accent}22)` }} />
+          {steps.map((s, i) => {
+            const last = i === steps.length - 1;
+            const badge = (
+              <span className="absolute -start-8 top-3 z-10 grid size-7 place-items-center rounded-full text-[11px] font-black text-white shadow-sm" style={{ background: last ? "#1aa179" : accent }}>{i + 1}</span>
+            );
+            const inner = (
+              <>
+                <span className="min-w-0">
+                  <span className="block text-[10px] font-bold uppercase tracking-wide text-ink-3">שלב {i + 1}{last ? " · סיום" : ""}</span>
+                  <span className="flex items-center gap-1.5 text-[14px] font-extrabold text-ink-1">{!s.exists && s.guide && <BookOpen className="size-3.5 text-brand" />}{s.label}</span>
+                </span>
+                <span className="tech shrink-0 rounded-md px-2 py-0.5 font-mono text-[12px] font-bold" style={{ background: accent + "12", color: accent }} dir="ltr">{s.code}</span>
+              </>
+            );
+            const href = s.exists ? `/object/${encodeURIComponent(s.code)}/` : s.guide ? `/domain/${s.guide}/` : null;
+            return (
+              <li key={`${s.code}-${i}`} className="relative">
+                {badge}
+                {href
+                  ? <Link href={href} className="card-interactive group flex items-center justify-between gap-2 p-3.5" dir="rtl">{inner}<ArrowLeft className="size-4 shrink-0 text-ink-3/40 transition group-hover:-translate-x-0.5 group-hover:text-brand" /></Link>
+                  : <div className="flex items-center justify-between gap-2 rounded-xl border border-dashed border-hairline bg-surface-2/40 p-3.5" dir="rtl">{inner}</div>}
+              </li>
+            );
+          })}
         </ol>
       );
     }
