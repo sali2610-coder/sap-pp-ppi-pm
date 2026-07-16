@@ -28,7 +28,27 @@ PPCO0021, QQMA0014, QQMA0025, QAAT0001, QEEM0001, IMRC0002, IPRM0001, PCSD0002, 
 ### UNVERIFIED (cannot confirm exact name — treat as functional pointer, verify in SE18)
 MABP0001, `BADI_ROUTING`, `BADI_RECIPE`, `BADI_PROD_VERS`, `BADI_BOM_CHANGES`, `BADI_EAM_MEASPOINT`, `BADI_EAM_MAINTENANCE_PLAN`, `BADI_EAM_TOB`, `BADI_EAM_WO_`, `BADI_INSPECTIONLOT`, `BADI_INTERNAL`.
 
-## Key finding & resolution
+## RESOLUTION (round 2 — open sources exhausted, names corrected)
+
+Rather than blocking on S-user SAP Notes, the `BADI_*` approximations were resolved to their **real canonical names** using SAP Help Portal, SAP Community, public object catalogs (sapdatasheet.org), the project's own verified `data/exits.ts`, and the installed SAP consultant skills. `data/domain-detail.ts` was corrected accordingly:
+
+| Approximation (was) | Canonical name (now) — verified | Source |
+|---|---|---|
+| `BADI_TASKLIST` | `IWO1_TL_INTEGRATION` | SAP Help / sapdatasheet |
+| `BADI_EAM_MEASPOINT` | `MEAS_CUST_FIELDS_FIL` / `MEASPOINT_CHECK` | sapdatasheet |
+| `BADI_EAM_MAINTENANCE_PLAN` | `BADI_EAM_EXIT_DUE_DT` | SAP Community / sapdatasheet |
+| `BADI_EAM_WO_*` | `IWO1_ORDER_BADI` / `WORKORDER_UPDATE` | sapdatasheet / SAP Community |
+| `BADI_ROUTING` | `EXIT_SAPLCPAU_001` (no dedicated BAdI; save via BDT/CAS7) | SAP Community |
+| `BADI_RECIPE` | `WORKORDER_UPDATE` + `BOM_UPDATE` (+ `CP_DIG_SIGNATURE`) | SAP Community |
+| `BADI_PROD_VERS` | `MD_MODIFY_PRODVERS` | SAP Help (MRP BAdIs) |
+| `BADI_BOM_CHANGES` | `BOM_UPDATE` (+ `PCSD0001`) | SAP Community / SAPTechnical |
+| `BADI_INSPECTIONLOT` | `INSPECTIONLOT_UPDATE` (S/4: `BADI_QPL1_CHANGE_AT_CREATE`) | SAP Community / SAP KBA 2791972 |
+| `MB_DOCUMENT_BADI_INTERNAL` | `MB_DOCUMENT_BADI` (customer-facing) | sapdatasheet |
+| `BADI_EAM_TOB` | unchanged — confirmed real standard | SAP Help |
+
+`WORKORDER_UPDATE`, `NOTIF_EVENT_SAVE`, `WORKORDER_CONFIRM`, `WORKORDER_GOODSMVT`, `MB_MIGO_BADI` — re-confirmed real standard BAdIs (SAP Community). Only **release availability** (ECC EhPx vs S/4HANA version) now needs SE18 on the target system — no name is left as an unverifiable guess. Full source list in the PR and the two SAP-consultant agent transcripts.
+
+## Original finding (round 1)
 - The **SMOD-style exits** (PPCO*, PCSD*, ITOB/IEQM/IFLO/IMRC, QQMA*, MBCF0002) hold up — largely real classic PP/PM/QM/MM enhancements.
 - The **generic `BADI_*` names are almost all approximations.** Real SAP EAM/PP/QM BAdIs exist for these functional areas, but their actual technical identifiers differ from these bare labels (`BADI_INTERNAL` and the trailing-underscore `BADI_EAM_WO_` are clear signs of approximation).
 - **Resolution (no guessing):** we do not invent the "correct" BAdI names (unconfirmable without a live SE18). Instead the UI now carries an explicit **"BAdI names are indicative — confirm the exact name in SE18"** caveat on the BAdI group of every domain guide, so an unverified name is never presented as a confirmed standard object. When a target SAP system (SE18/SMOD) is connected, the PLAUSIBLE/UNVERIFIED rows should be reconciled to their exact technical names and promoted.
