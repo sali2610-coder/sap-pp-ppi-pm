@@ -77,7 +77,7 @@ export function AcademyHome() {
 
       {/* ROADMAP */}
       <motion.div {...rise} className="mt-8">
-        <div className="mb-3.5 flex items-baseline justify-between"><h2 className="text-[19px] font-extrabold tracking-[-0.01em]">המסלול שלך</h2><Link href="/academy/dashboard/" className="text-[12px] font-bold text-brand">כל המסלולים →</Link></div>
+        <div className="mb-3.5 flex items-baseline justify-between"><h2 className="text-[19px] font-extrabold tracking-[-0.01em]">המסלול שלך</h2><Link href="/academy/path/pm/" className="text-[12px] font-bold text-brand">צפה במסלול המלא →</Link></div>
         <div className="rounded-3xl border border-hairline bg-surface p-5 sm:p-6">
           <div className="mb-5 flex items-center gap-2.5"><span className="grid size-9 place-items-center rounded-xl bg-[#f97316] text-white"><GraduationCap className="size-5" /></span><div><h3 className="text-[16px] font-extrabold">אחזקת מפעל · PM</h3><div className="text-[12px] text-ink-3">{PM_TRACK.length} פרקים · {bookStats("pm").nodes} יחידות</div></div></div>
           <div className="chip-rail flex items-start overflow-x-auto pb-1.5">
