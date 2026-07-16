@@ -13,6 +13,10 @@ import {
 import { tcodeHasPage, idocHasPage, cdsHasPage, objectHasPage } from "@/lib/route-exists";
 import { SectionReveal } from "@/components/section-reveal";
 import { RelationshipMap } from "@/components/relationship-map";
+import { SectionScrollSpy } from "@/components/section-scrollspy";
+
+// Deterministic anchor id (kept server-side; the client spy reads these ids).
+const spyId = (prefix: string, i: number) => `${prefix}-grp-${i}`;
 
 const ICONS: Record<string, typeof LayoutGrid> = { LayoutGrid, Workflow, Boxes, Terminal, Table, Plug, Sigma, AppWindow, Settings, Cable, AlertTriangle, GitBranch, Puzzle, Lightbulb, ArrowRightLeft };
 const S4_DOT: Record<string, string> = { kept: "#1aa179", replaced: "#c77a0a", removed: "#dc2626" };
@@ -38,22 +42,26 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
   switch (slug) {
     case "tables": {
       const groups = tablesByTopic(module);
+      const spy = groups.map((g, i) => ({ id: spyId("tbl", i), label: g.topic, count: g.rows.length }));
       return (
-        <div className="space-y-6">
-          {groups.map((g) => (
-            <div key={g.topic}>
-              <h3 className="mb-2 flex items-center gap-2 text-[13px] font-extrabold text-ink-1"><Table className="size-4 text-ink-3" />{g.topic}<span className="font-mono text-[11px] font-bold text-ink-3">{g.rows.length}</span></h3>
-              <div className="grid-adaptive-sm">
-                {g.rows.map((r) => (
-                  <Link key={r.code} href={`/object/${encodeURIComponent(r.code)}/`} className="card-interactive group flex items-center gap-2.5 p-2.5" dir="rtl">
-                    <span className="size-2 shrink-0 rounded-full" style={{ background: r.s4 ? S4_DOT[r.s4] : "#94a3b8" }} title={r.s4} />
-                    <div className="min-w-0 flex-1"><span className="tech block truncate font-mono text-[13px] font-bold text-ink-1" dir="ltr">{r.code}</span><span className="block truncate text-[11.5px] text-ink-3">{r.he}</span></div>
-                    <span className="shrink-0 font-mono text-[10.5px] font-bold text-ink-3">{r.fields}<span className="text-ink-3/60"> שד'</span></span>
-                  </Link>
-                ))}
+        <div className="lg:grid lg:grid-cols-[180px_1fr] lg:gap-6">
+          <SectionScrollSpy items={spy} />
+          <div className="space-y-6">
+            {groups.map((g, i) => (
+              <div key={g.topic} id={spyId("tbl", i)} className="scroll-mt-24">
+                <h3 className="mb-2 flex items-center gap-2 text-[13px] font-extrabold text-ink-1"><Table className="size-4 text-ink-3" />{g.topic}<span className="font-mono text-[11px] font-bold text-ink-3">{g.rows.length}</span></h3>
+                <div className="grid-adaptive-sm">
+                  {g.rows.map((r) => (
+                    <Link key={r.code} href={`/object/${encodeURIComponent(r.code)}/`} className="card-interactive group flex items-center gap-2.5 p-2.5" dir="rtl">
+                      <span className="size-2 shrink-0 rounded-full" style={{ background: r.s4 ? S4_DOT[r.s4] : "#94a3b8" }} title={r.s4} />
+                      <div className="min-w-0 flex-1"><span className="tech block truncate font-mono text-[13px] font-bold text-ink-1" dir="ltr">{r.code}</span><span className="block truncate text-[11.5px] text-ink-3">{r.he}</span></div>
+                      <span className="shrink-0 font-mono text-[10.5px] font-bold text-ink-3">{r.fields}<span className="text-ink-3/60"> שד'</span></span>
+                    </Link>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       );
     }
