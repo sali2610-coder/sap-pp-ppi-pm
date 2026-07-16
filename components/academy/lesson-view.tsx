@@ -20,6 +20,7 @@ const TONE: Record<string, string> = {
 const toneOf = (k: BlockKind) => TONE[k] || "#334155";
 import { useLessonProgress } from "@/lib/academy/lesson-progress";
 import { recordActivity } from "@/lib/academy/gamification";
+import { recordRecent } from "@/lib/academy/recent";
 
 const TRUST_TONE: Record<Trust, { cls: string; he: string }> = {
   "verified-docs": { cls: "bg-[#f0f6f5] text-[#0f766e] border-[#cfe6e2]", he: "מאומת" },
@@ -137,6 +138,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
   const blocks = useMemo(() => orderedBlocks(lesson), [lesson]);
   const kinds = useMemo(() => blocks.map((b) => b.kind), [blocks]);
   const { doneSet, pct, markDone } = useLessonProgress(lesson.slug, kinds);
+  useEffect(() => { recordRecent({ id: `lesson:${lesson.slug}`, title: lesson.title, module: lesson.module, href: `/academy/lesson/${lesson.slug}/`, kind: "lesson" }); }, [lesson]);
 
   return (
     <div dir="rtl">
