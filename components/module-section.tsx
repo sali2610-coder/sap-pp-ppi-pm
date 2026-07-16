@@ -12,6 +12,7 @@ import {
 
 import { tcodeHasPage, idocHasPage, cdsHasPage, objectHasPage } from "@/lib/route-exists";
 import { SectionReveal } from "@/components/section-reveal";
+import { RelationshipMap } from "@/components/relationship-map";
 
 const ICONS: Record<string, typeof LayoutGrid> = { LayoutGrid, Workflow, Boxes, Terminal, Table, Plug, Sigma, AppWindow, Settings, Cable, AlertTriangle, GitBranch, Puzzle, Lightbulb, ArrowRightLeft };
 const S4_DOT: Record<string, string> = { kept: "#1aa179", replaced: "#c77a0a", removed: "#dc2626" };
@@ -179,20 +180,7 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
     case "relationships": {
       const edges = relationships(module);
       if (!edges.length) return <Empty text="אין קשרים מתועדים." />;
-      const Obj = ({ code, exists }: { code: string; exists?: boolean }) => exists === false
-        ? <span className="tech rounded-md border border-hairline bg-surface-2 px-2 py-0.5 font-mono text-[12px] font-bold text-ink-3" dir="ltr">{code}</span>
-        : <Link href={`/object/${encodeURIComponent(code)}/`} className="tech rounded-md border border-hairline bg-surface px-2 py-0.5 font-mono text-[12px] font-bold text-ink-1 transition hover:border-brand/40 hover:text-brand" dir="ltr">{code}</Link>;
-      return (
-        <div className="overflow-hidden rounded-2xl border border-hairline">
-          {edges.map((e, i) => (
-            <div key={i} className={`flex flex-wrap items-center gap-2 px-3.5 py-2.5 ${i ? "border-t border-hairline" : ""} hover:bg-surface-2/50`} dir="rtl">
-              <Obj code={e.from} /><ArrowLeft className="size-3.5 text-ink-3/50" /><Obj code={e.to} exists={e.toExists} />
-              {e.card && <span className="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-[10px] font-bold text-ink-3">{e.card}</span>}
-              {e.desc && <span className="min-w-0 flex-1 truncate text-[12px] text-ink-3">{e.desc}</span>}
-            </div>
-          ))}
-        </div>
-      );
+      return <RelationshipMap edges={edges} accent={accent} />;
     }
     case "enhancements": {
       const ex = enhancements(module);
