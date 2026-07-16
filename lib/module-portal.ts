@@ -210,3 +210,22 @@ export function sectionCount(m: SAPModuleData, slug: string): number {
     default: return 0;
   }
 }
+
+// Honest computed reading estimate (minutes) from the section's real item count —
+// not authored, so never fabricated. ~1 min base + weight per rendered item.
+export function readingMinutes(m: SAPModuleData, slug: string): number {
+  const n = sectionCount(m, slug);
+  const perItem = slug === "tables" || slug === "ecc-s4" ? 0.12 : slug === "relationships" ? 0.08 : 0.25;
+  return Math.max(1, Math.min(20, Math.round(1 + n * perItem)));
+}
+
+// Learning-difficulty UX cue (a navigation hint, not an SAP fact): reflects how
+// much prior context a section assumes.
+export type SectionLevel = "מתחיל" | "בינוני" | "מתקדם";
+const LEVELS: Record<string, SectionLevel> = {
+  overview: "מתחיל", "master-data": "מתחיל", transactions: "מתחיל", fiori: "מתחיל",
+  "business-process": "בינוני", tables: "בינוני", relationships: "בינוני", cds: "בינוני", related: "בינוני",
+  configuration: "מתקדם", enhancements: "מתקדם", integration: "מתקדם", bapis: "מתקדם",
+  "ecc-s4": "מתקדם", "best-practices": "מתקדם", troubleshooting: "מתקדם",
+};
+export const sectionLevel = (slug: string): SectionLevel => LEVELS[slug] || "בינוני";

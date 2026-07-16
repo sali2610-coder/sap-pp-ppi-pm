@@ -7,10 +7,11 @@ import type { SAPModuleData } from "@/lib/types";
 import {
   NAV_SECTIONS, sectionBySlug, moduleAccent, tablesByTopic, transactions, funcs,
   cdsViews, fioriApps, masterData, processSteps, configRows, configHeaders, configTables, incidents, relatedObjects,
-  relationships, enhancements, bestPractices, eccS4,
+  relationships, enhancements, bestPractices, eccS4, sectionCount, readingMinutes, sectionLevel,
 } from "@/lib/module-portal";
 
 import { tcodeHasPage, idocHasPage, cdsHasPage, objectHasPage } from "@/lib/route-exists";
+import { SectionReveal } from "@/components/section-reveal";
 
 const ICONS: Record<string, typeof LayoutGrid> = { LayoutGrid, Workflow, Boxes, Terminal, Table, Plug, Sigma, AppWindow, Settings, Cable, AlertTriangle, GitBranch, Puzzle, Lightbulb, ArrowRightLeft };
 const S4_DOT: Record<string, string> = { kept: "#1aa179", replaced: "#c77a0a", removed: "#dc2626" };
@@ -266,6 +267,9 @@ export function ModuleSection({ module, slug, section }: { module: SAPModuleData
   const idx = NAV_SECTIONS.findIndex((s) => s.slug === section);
   const prev = idx > 0 ? NAV_SECTIONS[idx - 1] : null;
   const next = idx < NAV_SECTIONS.length - 1 ? NAV_SECTIONS[idx + 1] : null;
+  const count = sectionCount(module, section);
+  const mins = readingMinutes(module, section);
+  const level = sectionLevel(section);
 
   return (
     <div dir="rtl" className="space-y-6">
@@ -284,12 +288,33 @@ export function ModuleSection({ module, slug, section }: { module: SAPModuleData
         </div>
       </header>
 
-      <SectionBody module={module} slug={section} />
+      {/* learn-bar — where am I / how long / how deep (all computed, not authored) */}
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 rounded-xl border border-hairline bg-surface-2/50 px-3.5 py-2 text-[12px] text-ink-3">
+        <span className="inline-flex items-center gap-1.5"><Clock className="size-3.5" />זמן קריאה <b className="text-ink-2">{mins} דק׳</b></span>
+        <span className="inline-flex items-center gap-1.5"><Sigma className="size-3.5" /><b className="text-ink-2">{count}</b> פריטים</span>
+        <span className="inline-flex items-center gap-1.5"><LayoutGrid className="size-3.5" />רמה <b className="text-ink-2">{level}</b></span>
+        <span className="inline-flex items-center gap-1.5"><GitBranch className="size-3.5" />חלק <b className="text-ink-2">{idx + 1}</b> מתוך {NAV_SECTIONS.length}</span>
+      </div>
 
-      {/* prev / next section nav */}
-      <div className="flex items-center justify-between gap-2 border-t border-hairline pt-5">
-        {prev ? <Link href={`/${slug}/${prev.slug}/`} className="tap inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface px-3 py-2 text-[13px] font-bold text-ink-2 hover:border-brand/40 hover:text-brand"><ArrowRight className="size-4" />{prev.he}</Link> : <span />}
-        {next ? <Link href={`/${slug}/${next.slug}/`} className="tap inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface px-3 py-2 text-[13px] font-bold text-ink-2 hover:border-brand/40 hover:text-brand">{next.he}<ArrowLeft className="size-4" /></Link> : <span />}
+      <SectionReveal><SectionBody module={module} slug={section} /></SectionReveal>
+
+      {/* continue-learning — next section + prev */}
+      <div className="border-t border-hairline pt-5">
+        {next && (
+          <Link href={`/${slug}/${next.slug}/`} className="card-interactive group mb-3 flex items-center gap-3 p-4" dir="rtl">
+            <span className="grid size-10 shrink-0 place-items-center rounded-xl" style={{ background: accent + "12", color: accent }}>{(() => { const NI = ICONS[NAV_SECTIONS[idx + 1].icon] || GitBranch; return <NI className="size-5" />; })()}</span>
+            <span className="min-w-0 flex-1">
+              <span className="eyebrow-2 text-ink-3">המשך למידה · הבא</span>
+              <span className="block text-[14px] font-extrabold text-ink-1">{next.he}</span>
+              <span className="block truncate text-[12px] text-ink-3">{next.desc}</span>
+            </span>
+            <ArrowLeft className="size-4 shrink-0 text-ink-3 transition group-hover:-translate-x-0.5 group-hover:text-brand" />
+          </Link>
+        )}
+        <div className="flex items-center justify-between gap-2">
+          {prev ? <Link href={`/${slug}/${prev.slug}/`} className="tap inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface px-3 py-2 text-[13px] font-bold text-ink-2 hover:border-brand/40 hover:text-brand"><ArrowRight className="size-4" />{prev.he}</Link> : <span />}
+          <Link href={`/${slug}/`} className="tap inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-[12px] font-bold text-ink-3 hover:text-brand">כל המדור<LayoutGrid className="size-3.5" /></Link>
+        </div>
       </div>
     </div>
   );
