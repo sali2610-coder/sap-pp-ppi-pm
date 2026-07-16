@@ -7,7 +7,6 @@ import { verifiedNames } from "@/data/verified-objects";
 import { listTcodes, listFuncs } from "@/lib/object-intel";
 import { registryCodes } from "@/lib/tx-registry";
 import { listCdsViews } from "@/data/cds-map";
-import { TRANSACTIONS } from "@/data/transactions";
 import { INCIDENTS } from "@/data/troubleshooting";
 import { FIORI_APPS } from "@/data/centers/fiori";
 import { MFG_SCENARIOS } from "@/data/centers/manufacturing";
@@ -45,7 +44,6 @@ function dynamicRoutes(): string[] {
   push("bapi", [...listFuncs("BAPI"), ...listFuncs("FM")]);
   push("idoc", listFuncs("IDoc"));
   push("cds", listCdsViews());
-  push("transactions", TRANSACTIONS.map((t) => t.code));
   push("troubleshooting", INCIDENTS.map((i) => i.slug));
   push("fiori", FIORI_APPS.map((i) => i.slug));
   push("manufacturing", MFG_SCENARIOS.map((i) => i.slug));

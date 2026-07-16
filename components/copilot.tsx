@@ -46,7 +46,7 @@ export function Copilot({ index, lifecycle, solutions, codes }: { index: SearchH
               <h3 className="mb-2 text-sm font-extrabold text-ink-1">תשובה · <span className="tech" dir="ltr">{ans.tcode}</span></h3>
               <p className="text-sm leading-relaxed text-ink-2">סטטוס: <b style={{ color: ans.lc.status === "Obsolete" ? "#dc2626" : ans.lc.status === "Deprecated" ? "#d97706" : "#16a34a" }}>{ans.lc.status}</b>{ans.lc.alt && <> · חלופה מומלצת: <b className="tech" dir="ltr">{ans.lc.alt}</b></>}{ans.lc.fiori && <> · Fiori: {ans.lc.fiori}</>} · השפעת מיגרציה: {ans.lc.impact}.</p>
               <p className="mt-1.5 text-[13px] text-ink-3">{ans.lc.migration}</p>
-              <Link href={`/tcode-dir/${ans.tcode.replace(/[^A-Za-z0-9]+/g, "-")}/`} className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-brand">פרטים מלאים<ArrowLeft className="size-3" /></Link>
+              <Link href={`/tcode/${encodeURIComponent(ans.tcode.toUpperCase())}/`} className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-brand">פרטים מלאים<ArrowLeft className="size-3" /></Link>
             </section>
           )}
           {ans.sols.length > 0 && (

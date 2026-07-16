@@ -60,7 +60,7 @@ export function objectGraph(rawName: string, opts?: { he?: string; module?: stri
 
   // transactions referencing this object/table
   const tx = TRANSACTIONS.filter((x) => (x.objects || []).some((o) => o.includes(name)) || (x.tables || []).includes(name) || objTcodes.has(x.code));
-  const tcodes: LinkRef[] = uniq(tx, (x) => x.code).map((x) => ({ id: x.code, label: x.code, href: `/transactions/${encodeURIComponent(x.code)}/`, sub: x.title }));
+  const tcodes: LinkRef[] = uniq(tx, (x) => x.code).map((x) => ({ id: x.code, label: x.code, href: `/tcode/${encodeURIComponent(x.code.toUpperCase())}/`, sub: x.title }));
   // tcodes from table record not in catalog → plain
   for (const code of objTcodes) if (!tcodes.find((c) => c.id === code)) tcodes.push({ id: code, label: code, href: TC.has(code) ? `/tcode/${encodeURIComponent(code)}/` : "", sub: "" });
 

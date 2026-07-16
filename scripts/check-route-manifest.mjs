@@ -29,7 +29,6 @@ const FAMILIES = [
   { key: "cds", dir: "cds", fold: false },
   { key: "apps", dir: "apps", fold: true },
   { key: "impact", dir: "impact", fold: false },
-  { key: "transactions", dir: "transactions", fold: true },
 ];
 
 // built codes = the immediate subdirectories of out/<dir> that contain index.html

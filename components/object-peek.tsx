@@ -90,7 +90,7 @@ function resolve(nameRaw: string): Resolved | null {
       name: tc.code, kind: "tcode", module: tc.module, typeHe: "טרנזקציה",
       desc: tc.descHe || tc.descEn || "",
       tcodes: [], funcs: [], related: [], tables: (tc.tables || []).slice(0, 8),
-      primaryHref: tc.href || `/transactions/${encodeURIComponent(tc.code)}/`, primaryLabel: "פתח טרנזקציה",
+      primaryHref: tc.href || `/tcode/${encodeURIComponent(tc.code.toUpperCase())}/`, primaryLabel: "פתח טרנזקציה",
     };
   }
   // 4) not in a verified source — honest fallback

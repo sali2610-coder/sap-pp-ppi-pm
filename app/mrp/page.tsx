@@ -9,7 +9,7 @@ const ACC = "#1d4ed8";
 function TcodeChip({ code }: { code: string }) {
   const has = !!tcodeByCode(code);
   return has
-    ? <Link href={`/transactions/${encodeURIComponent(code)}/`} className="tech tap rounded-lg border border-blue-200 bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-700 hover:bg-blue-100" dir="ltr">{code}</Link>
+    ? <Link href={`/tcode/${encodeURIComponent(code.toUpperCase())}/`} className="tech tap rounded-lg border border-blue-200 bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-700 hover:bg-blue-100" dir="ltr">{code}</Link>
     : <span className="tech rounded-lg border border-dashed border-hairline bg-surface px-2.5 py-1 text-xs font-bold text-ink-3" dir="ltr">{code}</span>;
 }
 

@@ -13,7 +13,6 @@ function parentOf(path: string): string {
     [/^\/cds\//, "/s4hana/"],
     [/^\/troubleshooting\//, "/incidents/"],
     [/^\/process\//, "/knowledge/"],
-    [/^\/tcode-dir\//, "/transactions/"],
     [/^\/impact\/[^/]+/, "/impact/"],
   ];
   for (const [re, parent] of map) if (re.test(p)) return parent;

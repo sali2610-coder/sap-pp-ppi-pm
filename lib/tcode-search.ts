@@ -3,7 +3,7 @@
 // tables, incidents(errors), objects — into one slim index for intelligent search.
 
 import { TRANSACTIONS } from "@/data/transactions";
-import { TCODE_DIRECTORY, tcodeDirByCode, dirSlug } from "@/data/tcode-directory";
+import { TCODE_DIRECTORY, tcodeDirByCode } from "@/data/tcode-directory";
 import { TX_INTEL } from "@/data/tx-intel";
 import { TCODE_CATALOG } from "@/data/tcode-catalog";
 import { ALL_TABLES } from "@/data/sapData";
@@ -18,16 +18,19 @@ export interface SlimTcode { code: string; domain: string; he: string; purpose: 
 
 const deepCodes = new Set(TRANSACTIONS.map((t) => t.code.toUpperCase()));
 const dirCodes = new Set(TCODE_DIRECTORY.map((t) => t.code.toUpperCase()));
-const txCat = TX_INTEL; // catalog with full Transaction Intelligence pages (/tcode/<code>/)
-// Rich catalog page wins; then deep authored; then directory.
-export const tcodeHref = (code: string) => { const c = code.toUpperCase(); return txCat[c] ? `/tcode/${encodeURIComponent(c)}/` : deepCodes.has(c) ? `/transactions/${encodeURIComponent(code)}/` : dirCodes.has(c) ? `/tcode-dir/${dirSlug(code)}/` : ""; };
+const txCat = TX_INTEL; // deep Transaction Intelligence pages (/tcode/<code>/)
+// ONE canonical per-transaction page: /tcode/<code>/. Any code present in any
+// verified source resolves there (the registry/route merges them all). Legacy
+// /transactions/<code>/ and /tcode-dir/<slug>/ routes were removed in P3.
+export const tcodeHref = (code: string) => { const c = code.toUpperCase(); return (txCat[c] || deepCodes.has(c) || dirCodes.has(c)) ? `/tcode/${encodeURIComponent(c)}/` : ""; };
 
-// merged unique T-Code list — Transaction Intelligence catalog first
+// merged unique T-Code list — all resolve to the single /tcode/<code>/ page
 export function allTcodesMerged(): SlimTcode[] {
   const map = new Map<string, SlimTcode>();
-  for (const c of Object.keys(txCat)) { const t = txCat[c]; map.set(c, { code: t.code, domain: t.module, he: t.area || t.descHe, purpose: t.descHe, deep: true, href: `/tcode/${encodeURIComponent(c)}/` }); }
-  for (const t of TRANSACTIONS) { const k = t.code.toUpperCase(); if (!map.has(k)) map.set(k, { code: t.code, domain: t.module, he: t.title, purpose: t.purpose, deep: true, href: `/transactions/${encodeURIComponent(t.code)}/` }); }
-  for (const t of TCODE_DIRECTORY) { const k = t.code.toUpperCase(); if (!map.has(k)) map.set(k, { code: t.code, domain: t.domain, he: t.he, purpose: t.purpose, deep: false, href: `/tcode-dir/${dirSlug(t.code)}/` }); }
+  const href = (c: string) => `/tcode/${encodeURIComponent(c.toUpperCase())}/`;
+  for (const c of Object.keys(txCat)) { const t = txCat[c]; map.set(c, { code: t.code, domain: t.module, he: t.area || t.descHe, purpose: t.descHe, deep: true, href: href(c) }); }
+  for (const t of TRANSACTIONS) { const k = t.code.toUpperCase(); if (!map.has(k)) map.set(k, { code: t.code, domain: t.module, he: t.title, purpose: t.purpose, deep: true, href: href(k) }); }
+  for (const t of TCODE_DIRECTORY) { const k = t.code.toUpperCase(); if (!map.has(k)) map.set(k, { code: t.code, domain: t.domain, he: t.he, purpose: t.purpose, deep: false, href: href(k) }); }
   return [...map.values()];
 }
 
@@ -36,8 +39,8 @@ export function buildSearchIndex(): SearchHit[] {
   // T-Codes (Transaction Intelligence catalog → deep → directory)
   const seen = new Set<string>();
   for (const c of Object.keys(txCat)) { const t = txCat[c]; seen.add(c); out.push({ kind: "tcode", code: t.code, label: t.code, sub: `${t.area} · ${t.module}`, href: `/tcode/${encodeURIComponent(c)}/`, terms: `${t.code} ${t.area} ${t.descHe} ${t.process} ${(t.users || []).join(" ")} ${(t.tables || []).join(" ")} ${t.module}`.toLowerCase() }); }
-  for (const t of TRANSACTIONS) { const k = t.code.toUpperCase(); if (seen.has(k)) continue; seen.add(k); out.push({ kind: "tcode", code: t.code, label: t.code, sub: `${t.title} · ${t.module}`, href: `/transactions/${encodeURIComponent(t.code)}/`, terms: `${t.code} ${t.title} ${t.purpose} ${t.topic} ${(t.objects || []).join(" ")} ${(t.tables || []).join(" ")}`.toLowerCase() }); }
-  for (const t of TCODE_DIRECTORY) { const k = t.code.toUpperCase(); if (seen.has(k)) continue; seen.add(k); out.push({ kind: "tcode", code: t.code, label: t.code, sub: `${t.he} · ${t.domain}`, href: `/tcode-dir/${dirSlug(t.code)}/`, terms: `${t.code} ${t.he} ${t.purpose} ${t.keywords.join(" ")} ${t.domain}`.toLowerCase() }); }
+  for (const t of TRANSACTIONS) { const k = t.code.toUpperCase(); if (seen.has(k)) continue; seen.add(k); out.push({ kind: "tcode", code: t.code, label: t.code, sub: `${t.title} · ${t.module}`, href: `/tcode/${encodeURIComponent(k)}/`, terms: `${t.code} ${t.title} ${t.purpose} ${t.topic} ${(t.objects || []).join(" ")} ${(t.tables || []).join(" ")}`.toLowerCase() }); }
+  for (const t of TCODE_DIRECTORY) { const k = t.code.toUpperCase(); if (seen.has(k)) continue; seen.add(k); out.push({ kind: "tcode", code: t.code, label: t.code, sub: `${t.he} · ${t.domain}`, href: `/tcode/${encodeURIComponent(k)}/`, terms: `${t.code} ${t.he} ${t.purpose} ${t.keywords.join(" ")} ${t.domain}`.toLowerCase() }); }
   for (const t of TCODE_CATALOG) { const k = t.code.toUpperCase(); if (seen.has(k)) continue; seen.add(k); out.push({ kind: "tcode", code: t.code, label: t.code, sub: `${t.he} · ${t.module}`, href: `/tcode/${encodeURIComponent(k)}/`, terms: `${t.code} ${t.he} ${t.en} ${t.area} ${t.module}`.toLowerCase() }); }
   // Tables
   for (const t of ALL_TABLES) out.push({ kind: "table", code: t.tableName, label: t.tableName, sub: t.descriptionHe || t.descriptionEn || "", href: `/object/${encodeURIComponent(t.tableName)}/`, terms: `${t.tableName} ${t.descriptionHe} ${t.descriptionEn}`.toLowerCase() });
