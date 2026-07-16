@@ -83,9 +83,13 @@ _Read-only architect audit of production `main` (worktree `/tmp/neo-audit` @ `79
 - **Filters:** Module (PM/PP/PP-PI/QM/MM/SD/FI/WM/EWM/PS/CO/HR/Basis/Security/ABAP…) + **Topic** (Master Data/Orders/Notifications/Planning/Execution/MRP/Confirmations/Settlement/Costing/Printing/Reports/Monitoring/Interfaces/Administration/Customization/Analysis/Utilities/Favorites/Recent) + **Object** (Equipment/Material/Order/Notification/Work Center/Routing/Recipe/Batch/Resource…). Topic+Object are NEW facets (today only Module exists).
 - **Search:** fuzzy, typo-tolerant, ranked. Haystack adds English title (`en`) — today unsearchable for 1732 catalog codes. Understands `IW31`, "Create Maintenance Order", "Order Creation", "פקודת אחזקה", partial input.
 
-### 4.2 ONE process center
-- `/process-explorer` (+`/[slug]`) canonical. Delete `/process/[slug]`. Reconcile `ProcessWorkspace` as module-tour deep-linking into it.
-- Rebuild PM + PP-PI BP flows to the true E2E chain; remove dead COGI/AFRU nodes by adding the missing tables.
+### 4.2 Process centers — CORRECTION (post-implementation finding)
+Deeper inspection during PR-2 shows `/process/[slug]` and `/process-explorer/[slug]` are **not** clean duplicates:
+- `/process/[slug]` slug = `module-topicIdx` (e.g. `PM-3`) — a **derived topic-bundle** (tables/tcodes/bapis of one module topic), linked from object-workspace, hub-zones, function-intelligence, object-intel search.
+- `/process-explorer/[slug]` slug = authored map (e.g. `p2p`, `o2c`) — 6 hand-written **end-to-end business processes**.
+
+They serve different content; the slugs don't correspond. A blind delete+redirect would 404/mislead and break 4 live link sites — so it is **not** a mechanical merge. Correct plan: (a) keep both but disambiguate naming (the derived one is a "topic view", the authored one the "process explorer"); (b) optionally, later, map each derived topic to its authored E2E map where one exists and fold `ProcessWorkspace` (the third, embedded surface) into `/process-explorer`. This is a design decision, deferred — not shipped as a breaking dedup.
+- Rebuild PM + PP-PI BP flows to the true E2E chain; remove dead COGI/AFRU nodes by adding the missing tables (PR-4 data work).
 
 ### 4.3 Module portal = premium learning surface (Goal 3, no architecture change)
 - **Wire `domain-detail.ts` into `/pm` + `/pp-pi`** master-data & business-process sections (cross-link the rich content instead of hiding it).
