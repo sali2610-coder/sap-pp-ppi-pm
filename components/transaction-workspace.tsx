@@ -6,6 +6,7 @@ import { Terminal, Search, Star, Clock, Flame, AppWindow, Layers, ArrowLeft } fr
 import { TX_INTEL } from "@/data/tx-intel";
 import { txRegistry, registryStats } from "@/lib/tx-registry";
 import { txMostPopular, txPopularity } from "@/lib/tx-intel";
+import { facetsOf, presentFacets } from "@/lib/tx-facets";
 import { useTxFavorites, useRecentTx, toggleTxFavorite } from "@/lib/tx-prefs";
 import { EmptyState } from "@/components/ui/empty-state";
 import { setActiveEntity } from "@/lib/workspace";
@@ -48,8 +49,12 @@ export function TransactionWorkspace() {
   const [view, setView] = useState<View>("all");
   const [q, setQ] = useState("");
   const [mod, setMod] = useState<string>("");
+  const [topic, setTopic] = useState<string>("");
+  const [obj, setObj] = useState<string>("");
   const [flag, setFlag] = useState<"" | "deep" | "fiori">("");
   const reg = txRegistry();
+  // Topic/Object facets present across the whole registry (spec-ordered).
+  const facets = useMemo(() => presentFacets(all.map((t) => t.code)), [all]);
 
   const list = useMemo(() => {
     let base: string[];
@@ -59,6 +64,8 @@ export function TransactionWorkspace() {
     else base = all.map((t) => t.code);
     let rows = base.map((c) => reg.get(c)!).filter(Boolean);
     if (mod) rows = rows.filter((t) => t.module === mod);
+    if (topic) rows = rows.filter((t) => facetsOf(t.code).topics.includes(topic));
+    if (obj) rows = rows.filter((t) => facetsOf(t.code).objects.includes(obj));
     if (flag === "deep") rows = rows.filter((t) => t.depth === "deep");
     if (flag === "fiori") rows = rows.filter((t) => { const d = TX_INTEL[t.code]; return d && d.fiori && d.fiori.trim(); });
     const s = q.trim().toLowerCase();
@@ -74,7 +81,7 @@ export function TransactionWorkspace() {
       rows = [...rows].sort((a, b) => (b.depth === "deep" ? 1 : 0) - (a.depth === "deep" ? 1 : 0) || txPopularity(b.code) - txPopularity(a.code));
     }
     return rows.slice(0, 300);
-  }, [all, view, favs, recent, popular, mod, flag, q, reg]);
+  }, [all, view, favs, recent, popular, mod, topic, obj, flag, q, reg]);
 
   const VIEWS: [View, string, typeof Star][] = [["all", "הכול", Terminal], ["popular", "פופולרי", Flame], ["fav", "מועדפים", Star], ["recent", "נצפו לאחרונה", Clock]];
 
@@ -99,13 +106,28 @@ export function TransactionWorkspace() {
         <button onClick={() => setFlag(flag === "fiori" ? "" : "fiori")} className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-[12px] font-bold transition ${flag === "fiori" ? "bg-blue-600 text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}><AppWindow className="size-3.5" />Fiori זמין</button>
       </div>
 
-      <div className="mb-4 flex flex-wrap gap-1.5">
+      <div className="mb-2 flex flex-wrap items-center gap-1.5">
+        <span className="me-1 text-[10px] font-bold uppercase tracking-wide text-ink-3">מודול</span>
         <button onClick={() => setMod("")} className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition ${!mod ? "bg-slate-900 text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}>הכול</button>
         {modules.map((m) => { const on = mod === m; const col = mc(m); return <button key={m} onClick={() => setMod(on ? "" : m)} className="rounded-lg px-2.5 py-1 text-[11px] font-bold transition" style={on ? { background: col, color: "#fff" } : { background: col + "14", color: col }}>{m} · {stats.byModule[m]}</button>; })}
       </div>
+      {facets.topics.length > 0 && (
+        <div className="mb-2 flex flex-wrap items-center gap-1.5">
+          <span className="me-1 text-[10px] font-bold uppercase tracking-wide text-ink-3">נושא</span>
+          <button onClick={() => setTopic("")} className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition ${!topic ? "bg-slate-900 text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}>הכול</button>
+          {facets.topics.map((t) => { const on = topic === t; return <button key={t} onClick={() => setTopic(on ? "" : t)} className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition ${on ? "bg-brand text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}>{t}</button>; })}
+        </div>
+      )}
+      {facets.objects.length > 0 && (
+        <div className="mb-4 flex flex-wrap items-center gap-1.5">
+          <span className="me-1 text-[10px] font-bold uppercase tracking-wide text-ink-3">אובייקט</span>
+          <button onClick={() => setObj("")} className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition ${!obj ? "bg-slate-900 text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}>הכול</button>
+          {facets.objects.map((o) => { const on = obj === o; return <button key={o} onClick={() => setObj(on ? "" : o)} className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition ${on ? "bg-brand text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}>{o}</button>; })}
+        </div>
+      )}
 
       {list.length === 0 ? (
-        <EmptyState title={view === "fav" ? "אין מועדפים עדיין" : view === "recent" ? "לא נצפו טרנזקציות עדיין" : "אין תוצאות"} hint={view === "fav" ? "סמן כוכב בעמוד טרנזקציה כדי להוסיף למועדפים" : view === "recent" ? "טרנזקציות שתפתח יופיעו כאן" : "נסה קוד, אזור או מודול אחר"} suggestions={view === "all" ? [{ label: "הצג הכול", onClick: () => { setQ(""); setMod(""); setFlag(""); } }] : undefined} />
+        <EmptyState title={view === "fav" ? "אין מועדפים עדיין" : view === "recent" ? "לא נצפו טרנזקציות עדיין" : "אין תוצאות"} hint={view === "fav" ? "סמן כוכב בעמוד טרנזקציה כדי להוסיף למועדפים" : view === "recent" ? "טרנזקציות שתפתח יופיעו כאן" : "נסה קוד, אזור או מודול אחר"} suggestions={view === "all" ? [{ label: "הצג הכול", onClick: () => { setQ(""); setMod(""); setTopic(""); setObj(""); setFlag(""); } }] : undefined} />
       ) : (
         <div className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3">
           {list.map((t) => { const col = mc(t.module); const isFav = favs.includes(t.code); const deep = t.depth === "deep"; const d = TX_INTEL[t.code]; const pop = txPopularity(t.code); return (
