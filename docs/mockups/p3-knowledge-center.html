@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>P3 Mockups — PM/PP Knowledge Center</title>
+<style>
+  :root{
+    --background:#fcfcfd; --surface:#fff; --surface-2:#f4f5f7; --hairline:#eaecef;
+    --ink-1:#0b0c0e; --ink-2:#3a3f47; --ink-3:#6b727c;
+    --brand:#d62027; --brand-dark:#a3171c;
+    --pm:#f97316; --pp:#6d28d9; --qm:#0891b2; --mm:#059669;
+    --r:14px; --r-sm:10px;
+    --shadow:0 1px 2px rgba(11,12,14,.04),0 8px 24px -16px rgba(11,12,14,.18);
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--background);color:var(--ink-1);line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  /* mockup chrome */
+  .mock-top{position:sticky;top:0;z-index:50;background:rgba(252,252,253,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--hairline)}
+  .mock-top .wrap{display:flex;align-items:center;gap:16px;height:56px}
+  .mock-top b{font-size:14px;letter-spacing:-.01em}
+  .mock-top .sp{flex:1}
+  .vpbtns{display:flex;gap:6px}
+  .vpbtn{font-size:12px;padding:6px 12px;border:1px solid var(--hairline);border-radius:999px;background:var(--surface);color:var(--ink-2);cursor:pointer}
+  .vpbtn.on{background:var(--ink-1);color:#fff;border-color:var(--ink-1)}
+  .frame{margin:28px auto;background:var(--surface);border:1px solid var(--hairline);border-radius:20px;box-shadow:var(--shadow);overflow:hidden;transition:max-width .3s}
+  .frame-cap{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--hairline);background:var(--surface-2)}
+  .frame-cap .dot{width:10px;height:10px;border-radius:50%;background:var(--hairline)}
+  .frame-cap b{font-size:13px}
+  .frame-cap span{font-size:12px;color:var(--ink-3)}
+  .eyebrow{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brand)}
+  .muted{color:var(--ink-3)}
+  .card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r)}
+  /* app header */
+  .appbar{display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px solid var(--hairline)}
+  .brand{display:flex;flex-direction:column;line-height:1.1}
+  .brand b{font-size:15px;letter-spacing:-.02em}
+  .brand small{font-size:10px;color:var(--ink-3);letter-spacing:.12em}
+  .crumb{font-size:12px;color:var(--ink-3);display:flex;gap:6px;align-items:center}
+  .crumb .brand-red{color:var(--brand)}
+  /* ===== screen padding ===== */
+  .screen{padding:22px}
+  .h1{font-size:24px;font-weight:700;letter-spacing:-.02em;margin:0 0 4px}
+  .sub{color:var(--ink-3);font-size:13px;margin:0 0 18px}
+  /* search */
+  .search{position:relative;margin-bottom:16px}
+  .search input{width:100%;height:52px;border:1px solid var(--hairline);border-radius:var(--r);background:var(--surface-2);padding:0 48px;font-size:16px;color:var(--ink-1)}
+  .search .ico{position:absolute;top:15px;right:16px;color:var(--ink-3)}
+  .search .hint{position:absolute;top:15px;left:16px;font-size:11px;color:var(--ink-3);background:var(--surface);border:1px solid var(--hairline);border-radius:6px;padding:3px 8px}
+  .fuzzy{margin-top:8px;font-size:12px;color:var(--ink-3)}
+  .fuzzy b{color:var(--ink-2)}
+  /* filter rows */
+  .filters{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+  .frow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .frow>.lbl{font-size:11px;font-weight:700;color:var(--ink-3);min-width:64px;letter-spacing:.04em}
+  .chip{font-size:12px;padding:6px 12px;border:1px solid var(--hairline);border-radius:999px;background:var(--surface);color:var(--ink-2);cursor:pointer;white-space:nowrap}
+  .chip.on{background:var(--ink-1);color:#fff;border-color:var(--ink-1)}
+  .chip.pm.on{background:var(--pm);border-color:var(--pm)}
+  .chip.pp.on{background:var(--pp);border-color:var(--pp)}
+  /* stat strip */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+  .stat{padding:14px 16px}
+  .stat .n{font-size:22px;font-weight:700;letter-spacing:-.02em}
+  .stat .l{font-size:12px;color:var(--ink-3)}
+  /* tx grid */
+  .txgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .tx{padding:14px;display:flex;flex-direction:column;gap:8px;cursor:pointer;transition:transform .12s,box-shadow .12s}
+  .tx:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+  .tx .code{font-family:'Segoe UI',monospace;font-weight:700;font-size:15px;letter-spacing:.02em}
+  .tx .ttl{font-size:13px;color:var(--ink-2)}
+  .tx .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+  .tag{font-size:10px;padding:2px 8px;border-radius:6px;background:var(--surface-2);color:var(--ink-3);border:1px solid var(--hairline)}
+  .tag.mod{color:#fff;border:none}
+  .tag.pm{background:var(--pm)} .tag.pp{background:var(--pp)}
+  .star{margin-inline-start:auto;color:var(--ink-3)}
+  /* ==== section-template screen ==== */
+  .split{display:grid;grid-template-columns:200px 1fr;gap:20px}
+  .spy{position:sticky;top:14px;align-self:start;font-size:13px;display:flex;flex-direction:column;gap:2px}
+  .spy a{padding:7px 12px;border-radius:8px;color:var(--ink-3);border-inline-start:2px solid transparent}
+  .spy a.on{color:var(--ink-1);background:var(--surface-2);border-inline-start-color:var(--brand);font-weight:600}
+  .learnbar{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-3);margin-bottom:16px;padding:10px 14px;background:var(--surface-2);border-radius:var(--r-sm)}
+  .learnbar b{color:var(--ink-2)}
+  .sec{margin-bottom:26px}
+  .sec>h3{font-size:16px;margin:0 0 4px;display:flex;align-items:center;gap:8px}
+  .sec>.d{font-size:12px;color:var(--ink-3);margin:0 0 12px}
+  /* master-data facet card */
+  .mdcard{padding:16px}
+  .mdgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;font-size:13px}
+  .mdgrid .k{color:var(--ink-3);font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+  .mdgrid .v{color:var(--ink-1);margin-bottom:6px}
+  .facets{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .facet{font-size:11px;padding:4px 10px;border-radius:8px;background:var(--surface-2);border:1px solid var(--hairline)}
+  .callout{margin-top:12px;padding:10px 12px;border-radius:var(--r-sm);font-size:12px;border-inline-start:3px solid}
+  .callout.warn{background:#fef6f6;border-color:var(--brand);color:var(--brand-dark)}
+  .callout.tip{background:#f0f9f4;border-color:var(--mm);color:#0a6b43}
+  /* business process flow */
+  .flow{display:flex;gap:0;align-items:stretch;overflow-x:auto;padding-bottom:6px}
+  .step{min-width:150px;flex:1;position:relative;padding:14px;border:1px solid var(--hairline);border-radius:var(--r-sm);margin-inline-start:10px;background:var(--surface)}
+  .step:first-child{margin-inline-start:0}
+  .step .n{width:22px;height:22px;border-radius:50%;background:var(--ink-1);color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:700;margin-bottom:8px}
+  .step b{font-size:13px;display:block}
+  .step .obj{font-family:monospace;font-size:11px;color:var(--brand);margin-top:2px}
+  .step .tc{font-size:11px;color:var(--ink-3);margin-top:4px}
+  .step.done .n{background:var(--mm)}
+  /* config tree */
+  .tree{font-size:13px}
+  .tnode{padding:8px 12px;border:1px solid var(--hairline);border-radius:var(--r-sm);margin-bottom:6px;background:var(--surface)}
+  .tnode .path{font-size:11px;color:var(--ink-3);font-family:monospace}
+  .tnode .tc-b{font-family:monospace;font-size:11px;color:var(--brand);margin-inline-start:6px}
+  .tnode .warnmini{font-size:11px;color:var(--brand-dark);margin-top:4px}
+  .tnode.child{margin-inline-start:24px}
+  /* relationships diagram (svg-ish) */
+  .diagram{padding:16px;background:var(--surface-2);border-radius:var(--r);text-align:center}
+  .erbox{display:inline-block;padding:8px 14px;border:1.5px solid var(--ink-1);border-radius:8px;background:var(--surface);font-family:monospace;font-size:13px;font-weight:700;margin:6px}
+  .card-pk{font-size:10px;color:var(--ink-3);display:block;font-weight:400;font-family:'Segoe UI'}
+  .erline{color:var(--ink-3);font-size:12px;margin:2px}
+  table.fields{width:100%;border-collapse:collapse;font-size:12px}
+  table.fields th,table.fields td{text-align:right;padding:8px 10px;border-bottom:1px solid var(--hairline)}
+  table.fields th{font-size:11px;color:var(--ink-3);text-transform:uppercase;letter-spacing:.03em}
+  table.fields td.k{font-family:monospace;font-weight:600}
+  .pkbadge{font-size:9px;background:var(--brand);color:#fff;padding:1px 5px;border-radius:4px;margin-inline-start:4px}
+  .fkbadge{font-size:9px;background:var(--pp);color:#fff;padding:1px 5px;border-radius:4px;margin-inline-start:4px}
+  .foot{padding:16px 22px;border-top:1px solid var(--hairline);font-size:11px;color:var(--ink-3);text-align:center}
+  .note{max-width:1180px;margin:0 auto;padding:6px 24px 0;font-size:12px;color:var(--ink-3)}
+  /* responsive */
+  body.tablet .frame{max-width:834px}
+  body.mobile .frame{max-width:400px}
+  body.mobile .txgrid{grid-template-columns:1fr}
+  body.mobile .stats{grid-template-columns:1fr 1fr}
+  body.mobile .split{grid-template-columns:1fr}
+  body.mobile .spy{position:static;flex-direction:row;overflow-x:auto}
+  body.mobile .mdgrid{grid-template-columns:1fr}
+  body.tablet .txgrid{grid-template-columns:1fr 1fr}
+  @media(max-width:820px){.txgrid{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.split{grid-template-columns:1fr}.spy{position:static;flex-direction:row;overflow-x:auto}}
+</style>
+</head>
+<body class="desktop">
+
+<div class="mock-top"><div class="wrap">
+  <b>P3 · PM/PP Knowledge Center — Mockups</b>
+  <span class="muted" style="font-size:12px">DSv2 · RTL · offline</span>
+  <div class="sp"></div>
+  <div class="vpbtns">
+    <button class="vpbtn on" onclick="setvp('desktop',this)">Desktop</button>
+    <button class="vpbtn" onclick="setvp('tablet',this)">Tablet</button>
+    <button class="vpbtn" onclick="setvp('mobile',this)">Mobile</button>
+  </div>
+</div></div>
+
+<p class="note">High-fidelity, non-functional mockups. Chips/search are illustrative. Screens: (1) master Transaction Center · (2) Master-Data page template · (3) Business-Process flow · (4) Tables + Relationships · (5) Configuration. All reuse existing routes/engine — UX redesign only.</p>
+
+<!-- ============ SCREEN 1: TRANSACTION CENTER ============ -->
+<div class="frame">
+  <div class="frame-cap"><span class="dot"></span><b>1 · מרכז הטרנזקציות האחד</b><span>/transactions — מחליף /transactions + /tcode + /tcode-dir</span></div>
+  <div class="appbar">
+    <div class="brand"><b>SAP by Sali</b><small>PROJECT NEO</small></div>
+    <div class="crumb"><span class="brand-red">בית</span> ‹ <span>מרכז טרנזקציות</span></div>
+  </div>
+  <div class="screen">
+    <div class="eyebrow">מרכז אחד · חיפוש חכם</div>
+    <h1 class="h1">מרכז הטרנזקציות</h1>
+    <p class="sub">כל הטרנזקציות — מסונן לפי מודול · נושא · אובייקט. כל טרנזקציה בעמוד משלה.</p>
+
+    <div class="search">
+      <span class="ico">🔍</span>
+      <input value="פקודת אחזקה" readonly/>
+      <span class="hint">fuzzy</span>
+    </div>
+    <div class="fuzzy">מבין: <b>IW31</b> · <b>"Create Maintenance Order"</b> · <b>"Order Creation"</b> · <b>"פקודת אחזקה"</b> · קלט חלקי · שגיאות הקלדה</div>
+
+    <div class="filters">
+      <div class="frow"><span class="lbl">מודול</span>
+        <span class="chip pm on">PM</span><span class="chip pp">PP-PI</span><span class="chip">QM</span><span class="chip">MM</span><span class="chip">SD</span><span class="chip">FI</span><span class="chip">WM</span><span class="chip">PS</span><span class="chip">CO</span><span class="chip muted">+8</span>
+      </div>
+      <div class="frow"><span class="lbl">נושא</span>
+        <span class="chip on">Master Data</span><span class="chip">Orders</span><span class="chip">Notifications</span><span class="chip">Planning</span><span class="chip">Execution</span><span class="chip">Confirmations</span><span class="chip">Settlement</span><span class="chip muted">+10</span>
+      </div>
+      <div class="frow"><span class="lbl">אובייקט</span>
+        <span class="chip">Equipment</span><span class="chip on">Order</span><span class="chip">Notification</span><span class="chip">Work Center</span><span class="chip">Routing</span><span class="chip">Material</span><span class="chip muted">+6</span>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat card"><div class="n">1,904</div><div class="l">טרנזקציות</div></div>
+      <div class="stat card"><div class="n">487</div><div class="l">עם מודיעין עמוק</div></div>
+      <div class="stat card"><div class="n">58</div><div class="l">PM · טבלאות</div></div>
+      <div class="stat card"><div class="n">68</div><div class="l">PP-PI · טבלאות</div></div>
+    </div>
+
+    <div class="txgrid">
+      <div class="tx card"><div class="code">IW31 <span class="star">★</span></div><div class="ttl">יצירת פקודת אחזקה</div><div class="meta"><span class="tag mod pm">PM</span><span class="tag">Orders</span><span class="tag">Order</span></div></div>
+      <div class="tx card"><div class="code">IW21</div><div class="ttl">יצירת הודעת תקלה</div><div class="meta"><span class="tag mod pm">PM</span><span class="tag">Notifications</span></div></div>
+      <div class="tx card"><div class="code">IE01</div><div class="ttl">יצירת ציוד (Equipment)</div><div class="meta"><span class="tag mod pm">PM</span><span class="tag">Master Data</span></div></div>
+      <div class="tx card"><div class="code">IL01</div><div class="ttl">יצירת מיקום פונקציונלי</div><div class="meta"><span class="tag mod pm">PM</span><span class="tag">Master Data</span></div></div>
+      <div class="tx card"><div class="code">COR1</div><div class="ttl">יצירת פקודת תהליך</div><div class="meta"><span class="tag mod pp">PP-PI</span><span class="tag">Execution</span></div></div>
+      <div class="tx card"><div class="code">CORK</div><div class="ttl">אישור פקודת תהליך</div><div class="meta"><span class="tag mod pp">PP-PI</span><span class="tag">Confirmations</span></div></div>
+    </div>
+  </div>
+  <div class="foot">Built by Sali Halif · 100% offline</div>
+</div>
+
+<!-- ============ SCREEN 2: MASTER-DATA TEMPLATE ============ -->
+<div class="frame">
+  <div class="frame-cap"><span class="dot"></span><b>2 · תבנית עמוד — Master Data</b><span>/pm/master-data — מחווט לתוכן domain-detail.ts</span></div>
+  <div class="appbar">
+    <div class="brand"><b>SAP by Sali</b><small>PROJECT NEO</small></div>
+    <div class="crumb"><span class="brand-red">PM</span> ‹ <span>Master Data</span> ‹ <span>Equipment</span></div>
+  </div>
+  <div class="screen">
+    <div class="learnbar">
+      <span>⏱️ קריאה <b>6 דק'</b></span><span>📶 רמה <b>בינוני</b></span><span>🔑 דרישות קדם: <b>Functional Location</b></span><span>🔗 שיעור קשור: <b>הזמנת אחזקה</b></span>
+    </div>
+    <div class="split">
+      <nav class="spy">
+        <a class="on">Equipment</a><a>Functional Location</a><a>Work Center</a><a>Task List</a><a>BOM</a><a>Maintenance Plan</a><a>Measuring Point</a><a>Notification</a><a>Order</a><a>Business Partner</a>
+      </nav>
+      <div>
+        <div class="sec">
+          <h3>🏭 Equipment — ציוד</h3>
+          <p class="d">אובייקט טכני בר-תחזוקה בעל היסטוריה, מיקום ומדידות.</p>
+          <div class="card mdcard">
+            <div class="mdgrid">
+              <div><div class="k">מה זה</div><div class="v">אובייקט טכני יחיד (משאבה, מנוע) הנושא היסטוריית אחזקה.</div></div>
+              <div><div class="k">למה</div><div class="v">מעקב עלות/תקלות/מדידה ברמת הפריט הבודד.</div></div>
+              <div><div class="k">מתי נוצר</div><div class="v">בהקמת נכס פיזי חדש / קליטת ציוד.</div></div>
+              <div><div class="k">בעלים</div><div class="v">מהנדס אחזקה / Master-data team.</div></div>
+              <div><div class="k">תלויות</div><div class="v">Functional Location · Class · Serial (EQBS).</div></div>
+              <div><div class="k">טבלאות</div><div class="v" style="font-family:monospace">EQUI · EQKT · EQUZ · ILOA</div></div>
+            </div>
+            <div class="facets">
+              <span class="facet">🔢 טווח מספרים: פנימי/חיצוני</span><span class="facet">🏢 רמה ארגונית: Plant</span><span class="facet">📱 Fiori: Manage Technical Objects</span><span class="facet">T-Codes: IE01/IE02/IE03</span>
+            </div>
+            <div class="callout warn">⚠️ טעות נפוצה: שיוך ציוד ל-FLOC שגוי → עלויות אחזקה נזקפות למקום הלא נכון.</div>
+            <div class="callout tip">💼 דוגמת CBC: משאבת תהליך בקו מילוי — Equipment מתחת ל-FLOC "קו 3", מקושר ל-Work Center מכני.</div>
+          </div>
+        </div>
+        <p class="muted" style="font-size:12px">↓ ההמשך (Functional Location, Work Center …) באותה תבנית — גלילה עם scroll-spy מסנכרן את הניווט מימין.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot">Built by Sali Halif</div>
+</div>
+
+<!-- ============ SCREEN 3: BUSINESS PROCESS ============ -->
+<div class="frame">
+  <div class="frame-cap"><span class="dot"></span><b>3 · תבנית — Business Process</b><span>זרימת PM מלאה — כולל AFRU שהיה חסר</span></div>
+  <div class="appbar">
+    <div class="brand"><b>SAP by Sali</b><small>PROJECT NEO</small></div>
+    <div class="crumb"><span class="brand-red">PM</span> ‹ <span>תהליך עסקי</span></div>
+  </div>
+  <div class="screen">
+    <div class="eyebrow">מחזור חיים מלא · Notification → Settlement</div>
+    <h1 class="h1">תהליך האחזקה מקצה לקצה</h1>
+    <p class="sub">כל שלב: אובייקט עסקי · טבלה · טרנזקציה · פלט · השלב הבא. אנימציית זרימה בהובר.</p>
+    <div class="flow">
+      <div class="step"><div class="n">1</div><b>הודעת תקלה</b><span class="obj">QMEL</span><span class="tc">IW21 · פלט: מס' הודעה</span></div>
+      <div class="step"><div class="n">2</div><b>פקודת אחזקה</b><span class="obj">AUFK / AFIH</span><span class="tc">IW31 · פלט: מס' פקודה</span></div>
+      <div class="step"><div class="n">3</div><b>שחרור</b><span class="obj">JEST</span><span class="tc">IW32 · REL</span></div>
+      <div class="step"><div class="n">4</div><b>אישור עבודה</b><span class="obj">AFRU</span><span class="tc">IW41 · שעות/כמות</span></div>
+      <div class="step done"><div class="n">5</div><b>TECO</b><span class="obj">JEST</span><span class="tc">IW32 · סגירה טכנית</span></div>
+      <div class="step done"><div class="n">6</div><b>Settlement</b><span class="obj">COBRB</span><span class="tc">KO88 · זקיפת עלות</span></div>
+    </div>
+    <div class="callout tip" style="max-width:640px">✅ תוקן: <b>AFRU</b> (שלב 4) — קודם היה node מת (הטבלה חסרה ב-dataset). לאחר הוספת הטבלה הצומת מקושר לעמוד הטבלה + לאישורים.</div>
+  </div>
+  <div class="foot">Built by Sali Halif</div>
+</div>
+
+<!-- ============ SCREEN 4: TABLES + RELATIONSHIPS ============ -->
+<div class="frame">
+  <div class="frame-cap"><span class="dot"></span><b>4 · Tables + Relationships</b><span>שדות עם type/len/PK/FK + דיאגרמת ER אינטראקטיבית</span></div>
+  <div class="appbar">
+    <div class="brand"><b>SAP by Sali</b><small>PROJECT NEO</small></div>
+    <div class="crumb"><span class="brand-red">PM</span> ‹ <span>טבלאות</span> ‹ <span>AUFK</span></div>
+  </div>
+  <div class="screen">
+    <div class="sec">
+      <h3>🗂 AUFK — כותרת פקודה</h3>
+      <p class="d">שדות מפתח, טיפוס ואורך. PK/FK מסומנים.</p>
+      <div class="card" style="padding:4px 8px">
+        <table class="fields">
+          <tr><th>שדה</th><th>תיאור</th><th>טיפוס</th><th>אורך</th></tr>
+          <tr><td class="k">AUFNR <span class="pkbadge">PK</span></td><td>מספר פקודה</td><td>CHAR</td><td>12</td></tr>
+          <tr><td class="k">AUART</td><td>סוג פקודה</td><td>CHAR</td><td>4</td></tr>
+          <tr><td class="k">WERKS <span class="fkbadge">FK</span></td><td>מפעל</td><td>CHAR</td><td>4</td></tr>
+          <tr><td class="k">OBJNR <span class="fkbadge">FK</span></td><td>מספר אובייקט → JEST</td><td>CHAR</td><td>22</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="sec">
+      <h3>🔗 קשרים (ER)</h3>
+      <p class="d">אב→בן, קרדינליות ו-JOIN. לחיצה על צומת = blast-radius.</p>
+      <div class="diagram">
+        <div class="erbox">AUFK<span class="card-pk">AUFNR (PK)</span></div>
+        <div class="erline">— 1 : N ↓ AUFNR —</div>
+        <div class="erbox">AFIH<span class="card-pk">AUFNR (FK)</span></div>
+        <span class="erline" style="display:inline-block;margin:0 20px">— 1:N →</span>
+        <div class="erbox">AFVC<span class="card-pk">AUFPL (FK)</span></div>
+        <div class="erline">↘ OBJNR</div>
+        <div class="erbox">JEST<span class="card-pk">OBJNR (FK)</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">Built by Sali Halif</div>
+</div>
+
+<!-- ============ SCREEN 5: CONFIGURATION ============ -->
+<div class="frame">
+  <div class="frame-cap"><span class="dot"></span><b>5 · Configuration (SPRO)</b><span>עץ IMG מובנה — לא dump שטוח</span></div>
+  <div class="appbar">
+    <div class="brand"><b>SAP by Sali</b><small>PROJECT NEO</small></div>
+    <div class="crumb"><span class="brand-red">PM</span> ‹ <span>Configuration</span></div>
+  </div>
+  <div class="screen">
+    <div class="eyebrow">SPRO · היררכיה · השפעה · אזהרות</div>
+    <h1 class="h1">קונפיגורציה — פקודות אחזקה</h1>
+    <p class="sub">כל צומת: נתיב IMG · טרנזקציה · הסבר עסקי · השפעה · תלויות · טעויות נפוצות.</p>
+    <div class="tree">
+      <div class="tnode">
+        <b>סוגי פקודות אחזקה</b> <span class="tc-b">OIOA</span>
+        <div class="path">PM › Maintenance Orders › Functions and Settings › Order Types</div>
+        <div class="warnmini">⚠️ שינוי סוג פקודה משפיע על טווח מספרים + settlement profile.</div>
+      </div>
+      <div class="tnode child">
+        <b>טווחי מספרים</b> <span class="tc-b">KONK</span>
+        <div class="path">… › Configure Number Ranges</div>
+      </div>
+      <div class="tnode child">
+        <b>Settlement Profile</b> <span class="tc-b">OKO7</span>
+        <div class="path">… › Settlement Rule</div>
+        <div class="warnmini">⚠️ חובה לפני TECO — אחרת KO88 נכשל.</div>
+      </div>
+      <div class="tnode">
+        <b>סוגי הודעות</b> <span class="tc-b">OIM1</span>
+        <div class="path">PM › Maintenance Notifications › Notification Types</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot">Built by Sali Halif · 100% offline</div>
+</div>
+
+<p class="note" style="padding-bottom:40px">מוקאפים אלה ממתינים לאישור. לאחר אישור → יישום: (א) קונסולידציית מרכז טרנזקציות, (ב) חיווט domain-detail לפורטל, (ג) scroll-spy + מטא-למידה, (ד) הוספת נתונים חסרים (AFRU/COGI/config) + אימות Goal 2. ללא קוד לפני אישור.</p>
+
+<script>
+function setvp(mode,btn){document.body.className=mode;document.querySelectorAll('.vpbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');window.scrollTo({top:0,behavior:'smooth'});}
+</script>
+</body>
+</html>

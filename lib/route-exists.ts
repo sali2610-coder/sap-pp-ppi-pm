@@ -9,13 +9,12 @@ import { ROUTE_MANIFEST as M } from "@/lib/route-manifest.generated";
 
 let _obj: Set<string> | null = null, _tc: Set<string> | null = null, _fn: Set<string> | null = null,
     _id: Set<string> | null = null, _cds: Set<string> | null = null, _apps: Set<string> | null = null,
-    _imp: Set<string> | null = null, _tx: Set<string> | null = null;
+    _imp: Set<string> | null = null;
 const norm = (s: string) => (s || "").trim();
 
 export const objectHasPage = (c: string) => { _obj ??= new Set(M.objects); return _obj.has(norm(c)); };
 const appHasPage = (c: string) => { _apps ??= new Set(M.apps); const n = norm(c); return _apps.has(n) || _apps.has(n.toUpperCase()); };
 const impactHasPage = (c: string) => { _imp ??= new Set(M.impact); return _imp.has(norm(c)); };
-const transactionHasPage = (c: string) => { _tx ??= new Set(M.transactions); const n = norm(c); return _tx.has(n) || _tx.has(n.toUpperCase()); };
 
 export const tcodeHasPage = (c: string) => { _tc ??= new Set(M.tcodes); return _tc.has(norm(c).toUpperCase()); };
 export const funcHasPage = (n: string) => { _fn ??= new Set(M.bapiFm); return _fn.has(norm(n)); };
@@ -39,7 +38,6 @@ const DYNAMIC: Record<string, (seg: string) => boolean> = {
   idoc: idocHasPage,
   cds: cdsHasPage,
   impact: impactHasPage,
-  transactions: transactionHasPage,
 };
 
 export function pageExists(href: string): boolean {

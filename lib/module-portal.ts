@@ -7,7 +7,25 @@ import { classifyFunc, cleanFunc } from "@/lib/object-intel";
 import { INCIDENTS } from "@/data/troubleshooting";
 import { EXITS } from "@/data/exits";
 import { CONSULTANT_NOTES } from "@/data/consultant-notes";
+import { DOMAINS } from "@/data/domains";
+import { DOMAIN_DETAIL } from "@/data/domain-detail";
 import type { SAPModuleData, SAPTable } from "@/lib/types";
+
+// Bridge the stranded rich content: every domain with a hand-authored deep guide
+// (what/why/when/CBC-example/common-mistakes in data/domain-detail.ts) is mapped
+// by its LEAD table → slug, so the module portal can link a master-data object
+// straight to its /domain guide instead of only the technical /object page.
+const DEEP_DOMAIN_BY_TABLE: Record<string, string> = (() => {
+  const map: Record<string, string> = {};
+  for (const d of DOMAINS) {
+    if (!DOMAIN_DETAIL[d.slug]) continue;                 // only deep-authored domains
+    const lead = (d.tables[0] || "").toUpperCase();
+    if (lead && !map[lead]) map[lead] = d.slug;
+  }
+  return map;
+})();
+/** Deep /domain guide slug for a table (its lead table), or null. */
+export const deepDomainForTable = (name: string): string | null => DEEP_DOMAIN_BY_TABLE[(name || "").toUpperCase()] || null;
 
 export const moduleTables = (m: SAPModuleData): SAPTable[] => {
   const seen = new Set<string>(); const out: SAPTable[] = [];
@@ -42,7 +60,7 @@ export const NAV_SECTIONS = SECTIONS.filter((s) => s.slug !== "overview");
 const uniq = <T,>(a: T[]) => [...new Set(a)];
 const incMatch = (m: SAPModuleData) => (mod: string) => (m.module === "PP-PI" ? mod === "PP-PI" || mod === "PP" : mod === m.module);
 
-export type TableRow = { code: string; he: string; fields: number; s4?: string };
+export type TableRow = { code: string; he: string; fields: number; s4?: string; guide?: string };
 export type TopicGroup = { topic: string; rows: TableRow[] };
 
 export function tablesByTopic(m: SAPModuleData): TopicGroup[] {
@@ -76,19 +94,34 @@ export function fioriApps(m: SAPModuleData): { app: string; table: string }[] {
 }
 
 export function masterData(m: SAPModuleData): TableRow[] {
-  return moduleTables(m).filter((t) => zoneOf(t.tableName) === "master").map((t) => ({ code: t.tableName, he: t.descriptionHe || "", fields: t.fields.length }));
+  return moduleTables(m)
+    .filter((t) => zoneOf(t.tableName) === "master")
+    .map((t) => ({ code: t.tableName, he: t.descriptionHe || "", fields: t.fields.length, guide: deepDomainForTable(t.tableName) || undefined }));
 }
 
 export function processSteps(m: SAPModuleData) {
   const flow = FLOWS[m.module] || [];
   const tset = new Set(moduleTables(m).map((t) => t.tableName));
-  return flow.map((s) => ({ ...s, exists: tset.has(s.code) }));
+  // A step whose table isn't in the (generated) module dataset — e.g. AFRU/COGI —
+  // is not a dead end if a deep /domain guide covers it: expose that guide so the
+  // node links to real content instead of rendering as a dashed placeholder.
+  return flow.map((s) => ({ ...s, exists: tset.has(s.code), guide: deepDomainForTable(s.code) || undefined }));
 }
 
 export function configRows(m: SAPModuleData): string[][] {
   return (m.config?.rows || []).slice(0, 200);
 }
 export const configHeaders = (m: SAPModuleData) => m.config?.headers || [];
+
+// Fallback for modules without a structured SPRO config sheet (e.g. PP-PI):
+// the verified Customizing-topic tables, so the Configuration section shows real
+// content instead of an empty "coming soon" state.
+export function configTables(m: SAPModuleData): TableRow[] {
+  return m.topics
+    .filter((tp) => /customizing|קונפיגורציה/i.test(tp.title))
+    .flatMap((tp) => tp.tables)
+    .map((t) => ({ code: t.tableName, he: t.descriptionHe || t.descriptionEn || "", fields: t.fields.length }));
+}
 
 export function incidents(m: SAPModuleData) {
   const match = incMatch(m);

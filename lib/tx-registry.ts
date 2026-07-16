@@ -16,6 +16,7 @@ export interface RegistryTx {
   module: string;
   area: string;
   he: string;      // short title / area label
+  en: string;      // English title (from verified breadth catalog) — "" when not sourced
   depth: TxDepth;  // deep = full intelligence page; light = verified breadth entry
   href: string;
 }
@@ -30,12 +31,16 @@ function build(): Map<string, RegistryTx> {
     if (m.has(k) && !override) return;
     m.set(k, { code: k, href: `/tcode/${encodeURIComponent(k)}/`, ...e });
   };
+  // English titles come from the verified breadth catalog (only source that carries `en`).
+  const enByCode = new Map<string, string>();
+  for (const t of TCODE_CATALOG) { const k = t.code.toUpperCase(); if (t.en && !enByCode.has(k)) enByCode.set(k, t.en); }
+  const en = (code: string) => enByCode.get(code.toUpperCase()) || "";
   // deep first (wins)
-  for (const k of Object.keys(TX_INTEL)) { const t = TX_INTEL[k]; put(k, { module: t.module, area: t.area || "", he: t.area || t.descHe, depth: "deep" }, true); }
-  for (const t of TRANSACTIONS) { const k = t.code.toUpperCase(); if (!m.has(k)) put(k, { module: t.module, area: t.topic, he: t.title, depth: "deep" }); }
+  for (const k of Object.keys(TX_INTEL)) { const t = TX_INTEL[k]; put(k, { module: t.module, area: t.area || "", he: t.area || t.descHe, en: en(k), depth: "deep" }, true); }
+  for (const t of TRANSACTIONS) { const k = t.code.toUpperCase(); if (!m.has(k)) put(k, { module: t.module, area: t.topic, he: t.title, en: en(k), depth: "deep" }); }
   // light breadth
-  for (const t of TCODE_DIRECTORY) { if (!m.has(t.code.toUpperCase())) put(t.code, { module: t.domain, area: t.purpose, he: t.he, depth: "light" }); }
-  for (const t of TCODE_CATALOG) { if (!m.has(t.code.toUpperCase())) put(t.code, { module: t.module, area: t.area, he: t.he, depth: "light" }); }
+  for (const t of TCODE_DIRECTORY) { if (!m.has(t.code.toUpperCase())) put(t.code, { module: t.domain, area: t.purpose, he: t.he, en: en(t.code), depth: "light" }); }
+  for (const t of TCODE_CATALOG) { if (!m.has(t.code.toUpperCase())) put(t.code, { module: t.module, area: t.area, he: t.he, en: t.en || "", depth: "light" }); }
   return m;
 }
 

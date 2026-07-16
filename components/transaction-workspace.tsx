@@ -17,6 +17,24 @@ const MOD_COLOR: Record<string, string> = {
 };
 const mc = (m: string) => MOD_COLOR[m] || MOD_COLOR[(m || "").split(/[ /]/)[0]] || "#64748b";
 
+// Fuzzy, typo-tolerant score of one query token against a haystack (0 = no match).
+// prefix > substring(earlier=better) > in-order subsequence (tolerates gaps/typos).
+function tokenScore(hay: string, q: string): number {
+  const i = hay.indexOf(q);
+  if (i === 0) return 100;
+  if (i > 0) return 70 - Math.min(i, 30);
+  let qi = 0;
+  for (let h = 0; h < hay.length && qi < q.length; h++) if (hay[h] === q[qi]) qi++;
+  return qi === q.length ? 28 : 0;
+}
+// Every whitespace token must match somewhere; total score ranks the row.
+function fuzzyScore(hay: string, query: string): number {
+  const toks = query.split(/\s+/).filter(Boolean);
+  let total = 0;
+  for (const t of toks) { const s = tokenScore(hay, t); if (s === 0) return 0; total += s; }
+  return total;
+}
+
 type View = "all" | "fav" | "recent" | "popular";
 
 export function TransactionWorkspace() {
@@ -44,8 +62,17 @@ export function TransactionWorkspace() {
     if (flag === "deep") rows = rows.filter((t) => t.depth === "deep");
     if (flag === "fiori") rows = rows.filter((t) => { const d = TX_INTEL[t.code]; return d && d.fiori && d.fiori.trim(); });
     const s = q.trim().toLowerCase();
-    if (s) rows = rows.filter((t) => `${t.code} ${t.area} ${t.he} ${t.module}`.toLowerCase().includes(s));
-    if (view === "all" && !s) rows = [...rows].sort((a, b) => (b.depth === "deep" ? 1 : 0) - (a.depth === "deep" ? 1 : 0) || txPopularity(b.code) - txPopularity(a.code));
+    if (s) {
+      // fuzzy, typo-tolerant match over code + Hebrew + English + area + module,
+      // ranked by relevance (code hits win). Understands "iw31", partial, en/he names.
+      rows = rows
+        .map((t) => ({ t, sc: fuzzyScore(`${t.code} ${t.area} ${t.he} ${t.en} ${t.module}`.toLowerCase(), s) }))
+        .filter((r) => r.sc > 0)
+        .sort((a, b) => b.sc - a.sc || txPopularity(b.t.code) - txPopularity(a.t.code))
+        .map((r) => r.t);
+    } else if (view === "all") {
+      rows = [...rows].sort((a, b) => (b.depth === "deep" ? 1 : 0) - (a.depth === "deep" ? 1 : 0) || txPopularity(b.code) - txPopularity(a.code));
+    }
     return rows.slice(0, 300);
   }, [all, view, favs, recent, popular, mod, flag, q, reg]);
 
@@ -66,7 +93,7 @@ export function TransactionWorkspace() {
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <div className="flex min-w-[200px] flex-1 items-center gap-2 rounded-xl border border-hairline bg-surface px-3 py-2">
           <Search className="size-4 shrink-0 text-ink-3" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש לפי קוד / אזור / תיאור" className="w-full bg-transparent text-sm outline-none placeholder:text-ink-3" />
+          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש חכם — קוד (IW31) · שם עברי/אנגלי · תיאור · חלקי" className="w-full bg-transparent text-sm outline-none placeholder:text-ink-3" />
         </div>
         <button onClick={() => setFlag(flag === "deep" ? "" : "deep")} className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-[12px] font-bold transition ${flag === "deep" ? "bg-brand text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}><Layers className="size-3.5" />מתועד לעומק</button>
         <button onClick={() => setFlag(flag === "fiori" ? "" : "fiori")} className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-[12px] font-bold transition ${flag === "fiori" ? "bg-blue-600 text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}><AppWindow className="size-3.5" />Fiori זמין</button>

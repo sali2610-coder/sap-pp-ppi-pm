@@ -17,7 +17,6 @@ import { HR_BW_NAMES } from "@/lib/hr-bw-adapter";
 import { verifiedNames } from "@/data/verified-objects";
 import { appCodes } from "@/lib/apps-intel";
 import { allImpactNames } from "@/lib/impact";
-import { TRANSACTIONS } from "@/data/transactions";
 
 const uniq = (a: string[]) => [...new Set(a.filter(Boolean))].sort();
 
@@ -32,7 +31,6 @@ const manifest = {
   cds: uniq(listCdsViews()),
   apps: uniq(appCodes()),
   impact: uniq(allImpactNames()),
-  transactions: uniq(TRANSACTIONS.map((t) => t.code)),
 };
 
 const out =

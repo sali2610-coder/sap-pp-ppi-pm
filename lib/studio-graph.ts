@@ -131,7 +131,7 @@ export const ZONES: { id: Zone; he: string; c: string }[] = [
 const Z_PLANNING = new Set(["PLKO", "PLAS", "PLPO", "PLFH", "PLMZ", "PLMK", "PLZU", "MAPL", "MPLA", "MPOS", "MHIS", "MHIO", "T351", "MD04"]);
 const Z_EXEC = new Set(["AUFK", "AFIH", "AFKO", "AFVC", "AFVV", "AFPO", "AFRU", "AFFH", "AFFL", "AFWI", "AUFM", "RESB", "AFAB", "AFFW", "COGI"]);
 const Z_LOGI = new Set(["EBAN", "EBKN", "MSEG", "MKPF", "COSP", "COSS", "COBRA", "COBRB", "ADRC", "SER02", "VEKP", "VEPO"]);
-const Z_MASTER = new Set(["EQUI", "EQKT", "EQUZ", "EQST", "IFLOT", "IFLOTX", "IFLOS", "ILOA", "OBJK", "HRP1000", "IHPA", "TPST", "TAPL", "EAPL", "MARA", "MARC", "MAST", "MAKT", "MARD", "MARM", "MBEW", "MVKE", "MLAN", "MEAN", "MDMA", "MCH1", "MCHA", "MCHB", "STKO", "STPO", "STAS", "STZU", "KDST", "FHMI", "CRHD", "CRTX", "CRCA", "CRCO", "CRFH", "CRVD_A", "CSLA", "KAKO", "KAZT", "KLAH", "KLAT", "KSML", "AUSP", "CABN", "CABNT", "CAWN", "CAWNT", "INOB", "MPGD", "MKAL"]);
+const Z_MASTER = new Set(["EQUI", "EQKT", "EQUZ", "EQST", "IFLOT", "IFLOTX", "IFLOS", "ILOA", "OBJK", "HRP1000", "IHPA", "TPST", "TAPL", "EAPL", "IMPTT", "BUT000", "MARA", "MARC", "MAST", "MAKT", "MARD", "MARM", "MBEW", "MVKE", "MLAN", "MEAN", "MDMA", "MCH1", "MCHA", "MCHB", "STKO", "STPO", "STAS", "STZU", "KDST", "FHMI", "CRHD", "CRTX", "CRCA", "CRCO", "CRFH", "CRVD_A", "CSLA", "KAKO", "KAZT", "KLAH", "KLAT", "KSML", "AUSP", "CABN", "CABNT", "CAWN", "CAWNT", "INOB", "MPGD", "MKAL"]);
 
 export function zoneOf(name: string): Zone {
   const n = name.toUpperCase();
