@@ -3,8 +3,9 @@
 import { useMemo } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion, type MotionProps } from "framer-motion";
-import { Play, Flame, Target, ArrowLeft, Sparkles, Lock, Check, GraduationCap, LayoutDashboard, Trophy } from "lucide-react";
+import { Play, Flame, Target, ArrowLeft, Sparkles, Lock, Check, GraduationCap, LayoutDashboard, Trophy, Clock, TrendingUp, History } from "lucide-react";
 import { BOOKS, bookStats } from "@/data/library/academy-index";
+import { useRecent } from "@/lib/academy/recent";
 import { PILOT_LESSONS } from "@/data/academy/lessons/pm-maintenance-order";
 import { orderedBlocks } from "@/lib/academy/lesson-types";
 import { useGamification, useLessonPct } from "@/lib/academy/gamification";
@@ -26,6 +27,17 @@ function Ring({ pct, size = 64, stroke = 6, color }: { pct: number; size?: numbe
   );
 }
 
+function MiniTrack({ t, meta }: { t: typeof BOOKS[number]; meta: string }) {
+  const href = t.id === "pm" ? "/academy/path/pm/" : `${t.base}/`;
+  return (
+    <Link href={href} className="group flex items-center gap-3 rounded-xl border border-hairline bg-surface p-3 transition hover:border-brand/30">
+      <span className={`grid size-8 shrink-0 place-items-center rounded-lg bg-gradient-to-br ${t.tint} text-[10px] font-extrabold text-white`}>{t.module.slice(0, 2)}</span>
+      <span className="min-w-0 flex-1"><span className="block truncate text-[13px] font-bold text-ink-1">{t.titleHe}</span><span className="text-[10.5px] text-ink-3">{meta}</span></span>
+      <ArrowLeft className="size-4 shrink-0 text-ink-3 transition group-hover:-translate-x-0.5 group-hover:text-brand rtl:rotate-180" />
+    </Link>
+  );
+}
+
 export function AcademyHome() {
   const reduce = useReducedMotion();
   const g = useGamification();
@@ -34,6 +46,9 @@ export function AcademyHome() {
   const started = pilotPct > 0;
 
   const tracks = BOOKS;
+  const recent = useRecent();
+  const updated = useMemo(() => [...BOOKS].sort((a, b) => (b.lastUpdated || "").localeCompare(a.lastUpdated || "")).slice(0, 4), []);
+  const popular = useMemo(() => [...BOOKS].sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, 4), []);
   const rise: MotionProps = reduce ? {} : { initial: { opacity: 0, y: 14 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-40px" }, transition: { duration: 0.5, ease: [0.2, 0.7, 0.2, 1] } };
   const heroAnim: MotionProps = reduce ? {} : { initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.5 } };
 
@@ -131,6 +146,33 @@ export function AcademyHome() {
           ))}
         </div>
         {g.blocksDone === 0 && <p className="mt-3 text-[12px] text-ink-3">התחל את השיעור הראשון כדי לפתוח תגים ולבנות רצף למידה.</p>}
+      </motion.div>
+
+      {/* RECENTLY VIEWED (§4) — real history */}
+      {recent.length > 0 && (
+        <motion.div {...rise} className="mt-8">
+          <div className="mb-3.5 flex items-baseline gap-2"><h2 className="flex items-center gap-2 text-[19px] font-extrabold tracking-[-0.01em]"><History className="size-5 text-ink-3" />נצפו לאחרונה</h2></div>
+          <div className="flex gap-3 overflow-x-auto pb-1">
+            {recent.map((r) => (
+              <Link key={r.id} href={r.href} className="flex w-[220px] shrink-0 items-center gap-3 rounded-2xl border border-hairline bg-surface p-3 transition hover:border-brand/30 hover:shadow-sm">
+                <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-surface-2 text-ink-3">{r.kind === "lesson" ? <Play className="size-4" /> : <GraduationCap className="size-4" />}</span>
+                <span className="min-w-0 flex-1"><span className="block truncate text-[12.5px] font-extrabold text-ink-1">{r.title}</span><span className="text-[10.5px] text-ink-3">{r.module} · {r.kind === "lesson" ? "שיעור" : "מסלול"}</span></span>
+              </Link>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
+      {/* RECENTLY UPDATED + POPULAR (§4) — real academy-index data */}
+      <motion.div {...rise} className="mt-8 grid gap-6 lg:grid-cols-2">
+        <div>
+          <div className="mb-3 flex items-baseline gap-2"><h2 className="flex items-center gap-2 text-[16px] font-extrabold"><Clock className="size-4 text-ink-3" />עודכן לאחרונה</h2></div>
+          <div className="flex flex-col gap-2">{updated.map((t) => <MiniTrack key={t.id} t={t} meta={`עודכן ${t.lastUpdated}`} />)}</div>
+        </div>
+        <div>
+          <div className="mb-3 flex items-baseline gap-2"><h2 className="flex items-center gap-2 text-[16px] font-extrabold"><TrendingUp className="size-4 text-[#0f766e]" />פופולרי באקדמיה</h2></div>
+          <div className="flex flex-col gap-2">{popular.map((t) => <MiniTrack key={t.id} t={t} meta={`ציון איכות ${t.score}`} />)}</div>
+        </div>
       </motion.div>
 
       {/* AI assistant (design affordance) */}
