@@ -14,6 +14,8 @@ import { tcodeHasPage, idocHasPage, cdsHasPage, objectHasPage } from "@/lib/rout
 import { SectionReveal } from "@/components/section-reveal";
 import { RelationshipMap } from "@/components/relationship-map";
 import { SectionScrollSpy } from "@/components/section-scrollspy";
+import { MasterDataFacets } from "@/components/master-data-facets";
+import { PM_MASTER_DATA_FACETS } from "@/data/pm-master-data-facets";
 
 // Deterministic anchor id (kept server-side; the client spy reads these ids).
 const spyId = (prefix: string, i: number) => `${prefix}-grp-${i}`;
@@ -66,6 +68,12 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
       );
     }
     case "master-data": {
+      // PM has verified facet content (owner/when/mistakes/CBC) from the capability
+      // pipeline → premium facet cards. Other modules fall back to the chip grid
+      // until their own pipeline runs.
+      if (module.module === "PM" && PM_MASTER_DATA_FACETS.length) {
+        return <MasterDataFacets facets={PM_MASTER_DATA_FACETS} accent={accent} />;
+      }
       const rows = masterData(module);
       // Each master-data object surfaces its deep hand-authored guide (/domain —
       // what/why/when/CBC-example/common-mistakes) when one exists, alongside the
