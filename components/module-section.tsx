@@ -17,6 +17,8 @@ import { SectionScrollSpy } from "@/components/section-scrollspy";
 import { MasterDataFacets } from "@/components/master-data-facets";
 import { PM_MASTER_DATA_FACETS } from "@/data/pm-master-data-facets";
 import { PPPI_MASTER_DATA_FACETS } from "@/data/pppi-master-data-facets";
+import { ConfigTree } from "@/components/config-tree";
+import { PPPI_CONFIG_TREE } from "@/data/pppi-config-tree";
 
 // Deterministic anchor id (kept server-side; the client spy reads these ids).
 const spyId = (prefix: string, i: number) => `${prefix}-grp-${i}`;
@@ -173,8 +175,13 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
           </table>
         </div>
       );
-      // No structured SPRO sheet for this module (e.g. PP-PI) — surface the
-      // verified Customizing-topic tables instead of an empty state.
+      // PP-PI: verified IMG config tree (capability pipeline) instead of a flat
+      // sheet — path/tcode/impact/warnings per node.
+      if (module.module === "PP-PI" && PPPI_CONFIG_TREE.length) {
+        return <ConfigTree areas={PPPI_CONFIG_TREE} accent={accent} />;
+      }
+      // Other modules with no structured SPRO sheet — surface the verified
+      // Customizing-topic tables instead of an empty state.
       const ct = configTables(module);
       if (ct.length) return (
         <div className="space-y-3">
