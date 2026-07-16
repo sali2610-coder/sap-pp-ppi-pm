@@ -2,8 +2,22 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Copy, Check, ChevronDown, ChevronRight, ChevronLeft, ShieldCheck, Info, ExternalLink } from "lucide-react";
-import { BLOCK_META, orderedBlocks, type Lesson, type LessonBlock, type Trust } from "@/lib/academy/lesson-types";
+import { BLOCK_META, orderedBlocks, type Lesson, type LessonBlock, type Trust, type BlockKind } from "@/lib/academy/lesson-types";
+
+// per-section visual identity (§5): a colour per block category so core / illustrative /
+// technical / practice / summary blocks are instantly distinguishable while staying restrained.
+const TONE: Record<string, string> = {
+  objective: "#0b0c0e", why: "#334155", "business-value": "#334155", "where-used": "#334155", "key-concepts": "#334155",
+  "cbc-example": "#1d4ed8", flow: "#1d4ed8", diagram: "#1d4ed8",
+  tables: "#475569", tcodes: "#475569", fiori: "#475569", objects: "#475569", odata: "#475569", authorizations: "#475569", spro: "#475569", notes: "#475569",
+  "common-mistakes": "#b45309", troubleshooting: "#b45309",
+  "best-practices": "#0f766e", tips: "#0f766e",
+  related: "#6d28d9", quiz: "#6d28d9",
+  summary: "#d62027",
+};
+const toneOf = (k: BlockKind) => TONE[k] || "#334155";
 import { useLessonProgress } from "@/lib/academy/lesson-progress";
 import { recordActivity } from "@/lib/academy/gamification";
 
@@ -84,25 +98,37 @@ function QuizCard({ q }: { q: { question: string; options: { text: string; corre
   );
 }
 
-function Block({ b, onView }: { b: LessonBlock; onView: () => void }) {
+function Block({ b, onView, index }: { b: LessonBlock; onView: () => void; index: number }) {
   const [open, setOpen] = useState(true);
   const ref = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
   const meta = BLOCK_META[b.kind];
+  const tone = toneOf(b.kind);
   useEffect(() => {
     const el = ref.current; if (!el) return;
     const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { onView(); io.disconnect(); } }, { rootMargin: "-30% 0px -30% 0px" });
     io.observe(el); return () => io.disconnect();
   }, [onView]);
   return (
-    <section ref={ref} id={`b-${b.kind}`} className="mb-3.5 scroll-mt-4 overflow-hidden rounded-2xl border border-hairline bg-surface">
-      <button onClick={() => setOpen((v) => !v)} className="flex w-full items-center gap-3 p-3.5 text-start" aria-expanded={open}>
-        <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-surface-2 text-[18px]">{meta.emoji}</span>
+    <motion.section ref={ref} id={`b-${b.kind}`}
+      initial={reduce ? false : { opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: [0.2, 0.7, 0.2, 1], delay: Math.min(index * 0.03, 0.3) }}
+      className="relative mb-3.5 scroll-mt-4 overflow-hidden rounded-2xl border border-hairline bg-surface">
+      <span className="absolute inset-y-0 start-0 w-1" style={{ background: tone }} aria-hidden />
+      <button onClick={() => setOpen((v) => !v)} className="flex w-full items-center gap-3 p-3.5 ps-4 text-start" aria-expanded={open}>
+        <span className="grid size-9 shrink-0 place-items-center rounded-xl text-[18px]" style={{ background: `${tone}14`, color: tone }}>{meta.emoji}</span>
         <span className="flex-1 text-[15px] font-extrabold text-ink-1">{b.title || meta.he}</span>
         {meta.technical && <SourceChip b={b} />}
         {open ? <ChevronDown className="size-4 text-ink-3" /> : <ChevronRight className="size-4 text-ink-3" />}
       </button>
-      {open && <div className="px-4 pb-4"><BlockBody b={b} /></div>}
-    </section>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div key="body" initial={reduce ? false : { height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.28, ease: [0.2, 0.7, 0.2, 1] }} className="overflow-hidden">
+            <div className="px-4 pb-4 ps-4">{b.kind === "objective" ? <div className="rounded-xl bg-surface-2/50 p-3.5"><BlockBody b={b} /></div> : <BlockBody b={b} />}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.section>
   );
 }
 
@@ -120,18 +146,20 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
       <div className="mt-4 grid items-start gap-7 lg:grid-cols-[1fr_240px]">
         <div>
-          <header className="border-b border-hairline pb-4">
+          <header className="relative overflow-hidden rounded-3xl border border-hairline bg-gradient-to-bl from-surface to-[#fff7ed] p-5 sm:p-6">
+            <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-l from-[#f97316] to-[#c2410c]" />
             <div className="flex flex-wrap items-center gap-2">
               <span className="rounded-md bg-[#fff7ed] px-2 py-1 text-[10.5px] font-extrabold text-[#f97316]">{lesson.module}</span>
               <span className={`rounded-full px-2.5 py-1 text-[10.5px] font-bold ${LVL_TONE[lesson.level]}`}>{lesson.level}</span>
               <span className="rounded-full bg-surface-2 px-2.5 py-1 text-[10.5px] font-bold text-ink-2">⏱ ~{lesson.minutes} דק׳</span>
               <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10.5px] font-bold ${TRUST_TONE[lesson.trust].cls}`} title={[lesson.source, lesson.lastReviewed && `נבדק ${lesson.lastReviewed}`].filter(Boolean).join(" · ")}><ShieldCheck className="size-3" />{TRUST_TONE[lesson.trust].he}</span>
             </div>
-            <h1 className="mt-2.5 text-2xl font-extrabold tracking-tight text-ink-1">{lesson.title}</h1>
-            {lesson.titleEn && <p className="text-sm text-ink-3" dir="ltr">{lesson.titleEn}</p>}
+            <h1 className="mt-2.5 text-[26px] font-extrabold leading-tight tracking-[-0.02em] text-ink-1">{lesson.title}</h1>
+            {lesson.titleEn && <p className="mt-0.5 text-sm text-ink-3" dir="ltr">{lesson.titleEn}</p>}
+            <p className="mt-1.5 text-[12.5px] font-semibold text-ink-3">{lesson.course} · שיעור {lesson.index}</p>
           </header>
 
-          <div className="mt-5">{blocks.map((b) => <Block key={b.kind} b={b} onView={() => { markDone(b.kind); recordActivity(); }} />)}</div>
+          <div className="mt-5">{blocks.map((b, i) => <Block key={b.kind} b={b} index={i} onView={() => { markDone(b.kind); recordActivity(); }} />)}</div>
         </div>
 
         {/* right rail */}
