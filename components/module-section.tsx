@@ -19,6 +19,8 @@ import { PM_MASTER_DATA_FACETS } from "@/data/pm-master-data-facets";
 import { PPPI_MASTER_DATA_FACETS } from "@/data/pppi-master-data-facets";
 import { ConfigTree } from "@/components/config-tree";
 import { PPPI_CONFIG_TREE } from "@/data/pppi-config-tree";
+import { ProcessFlow } from "@/components/process-flow";
+import { PPPI_PROCESS_FLOW } from "@/data/pppi-process-flow";
 
 // Deterministic anchor id (kept server-side; the client spy reads these ids).
 const spyId = (prefix: string, i: number) => `${prefix}-grp-${i}`;
@@ -133,6 +135,11 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
       ))}</div> : <Empty text="אין אפליקציות Fiori מקושרות עדיין." />;
     }
     case "business-process": {
+      // PP-PI has a verified, rich E2E flow (capability pipeline) → phase-grouped
+      // interactive flow. PM keeps the derived timeline below.
+      if (module.module === "PP-PI" && PPPI_PROCESS_FLOW.length) {
+        return <ProcessFlow phases={PPPI_PROCESS_FLOW} accent={accent} />;
+      }
       const steps = processSteps(module);
       return (
         <ol className="relative space-y-3 ps-8">
