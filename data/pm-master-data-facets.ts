@@ -28,6 +28,14 @@ export interface MasterDataFacet {
   fiori?: string[];
   bapis?: string[];
   source: string;
+  // Optional richer facets (PP-PI populates these; PM cards omit → nothing renders)
+  businessValue?: string;
+  lifecycle?: string;
+  cds?: string[];
+  badis?: string[];
+  spro?: string;
+  troubleshooting?: string[];
+  crossLinks?: string;
 }
 
 export const PM_MASTER_DATA_FACETS: MasterDataFacet[] = [
