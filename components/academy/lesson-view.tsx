@@ -133,6 +133,7 @@ function Block({ b, onView, index }: { b: LessonBlock; onView: () => void; index
 }
 
 export function LessonView({ lesson }: { lesson: Lesson }) {
+  const reduce = useReducedMotion();
   const blocks = useMemo(() => orderedBlocks(lesson), [lesson]);
   const kinds = useMemo(() => blocks.map((b) => b.kind), [blocks]);
   const { doneSet, pct, markDone } = useLessonProgress(lesson.slug, kinds);
@@ -143,6 +144,12 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
         <Link href="/academy/" className="text-brand hover:underline">SAP Academy</Link><span>›</span>
         <span>{lesson.module}</span><span>›</span><span>{lesson.course}</span><span>›</span><span>שיעור {lesson.index}</span>
       </nav>
+
+      {/* mobile sticky progress (§13) */}
+      <div className="sticky top-14 z-20 -mx-3 mt-2 flex items-center gap-3 border-b border-hairline bg-surface/90 px-3 py-2 backdrop-blur-md lg:hidden">
+        <div className="min-w-0 flex-1"><div className="truncate text-[12px] font-extrabold text-ink-1">{lesson.title}</div><div className="mt-1 h-1.5 overflow-hidden rounded-full bg-surface-2"><div className="h-full rounded-full bg-[#f97316] transition-all duration-500" style={{ width: `${pct}%` }} /></div></div>
+        <span className="shrink-0 font-mono text-[13px] font-extrabold text-[#f97316]">{pct}%</span>
+      </div>
 
       <div className="mt-4 grid items-start gap-7 lg:grid-cols-[1fr_240px]">
         <div>
@@ -160,6 +167,18 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
           </header>
 
           <div className="mt-5">{blocks.map((b, i) => <Block key={b.kind} b={b} index={i} onView={() => { markDone(b.kind); recordActivity(); }} />)}</div>
+
+          {/* completion celebration (§14 delight) */}
+          <AnimatePresence>
+            {pct === 100 && (
+              <motion.div initial={reduce ? false : { opacity: 0, y: 16, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0 }} transition={{ type: "spring", stiffness: 260, damping: 22 }}
+                className="mt-4 flex flex-wrap items-center gap-3 rounded-2xl border border-[#cfe6e2] bg-gradient-to-bl from-[#f0f6f5] to-surface p-4">
+                <span className="text-3xl">🎉</span>
+                <div className="min-w-0 flex-1"><div className="text-[15px] font-extrabold text-ink-1">כל הכבוד! השלמת את השיעור</div><div className="text-[12px] text-ink-3">סימנת את כל {kinds.length} הבלוקים.</div></div>
+                {lesson.next ? <Link href={`/academy/lesson/${lesson.next}/`} className="rounded-xl bg-brand px-4 py-2 text-[12.5px] font-extrabold text-white transition hover:bg-brand-dark">השיעור הבא →</Link> : <Link href="/academy/path/pm/" className="rounded-xl bg-ink-1 px-4 py-2 text-[12.5px] font-extrabold text-white">חזרה למסלול</Link>}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* right rail */}
