@@ -1,12 +1,12 @@
 import Link from "next/link";
 import {
   LayoutGrid, Workflow, Boxes, Terminal, Table, Plug, Sigma, AppWindow, Settings,
-  Cable, AlertTriangle, GitBranch, ArrowLeft, ArrowRight, Puzzle, Lightbulb, ArrowRightLeft, Clock,
+  Cable, AlertTriangle, GitBranch, ArrowLeft, ArrowRight, Puzzle, Lightbulb, ArrowRightLeft, Clock, BookOpen,
 } from "lucide-react";
 import type { SAPModuleData } from "@/lib/types";
 import {
   NAV_SECTIONS, sectionBySlug, moduleAccent, tablesByTopic, transactions, funcs,
-  cdsViews, fioriApps, masterData, processSteps, configRows, configHeaders, incidents, relatedObjects,
+  cdsViews, fioriApps, masterData, processSteps, configRows, configHeaders, configTables, incidents, relatedObjects,
   relationships, enhancements, bestPractices, eccS4,
 } from "@/lib/module-portal";
 
@@ -57,7 +57,27 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
     }
     case "master-data": {
       const rows = masterData(module);
-      return <div className="grid-adaptive-sm">{rows.map((r) => <CodeChip key={r.code} href={`/object/${encodeURIComponent(r.code)}/`} code={r.code} he={r.he} />)}</div>;
+      // Each master-data object surfaces its deep hand-authored guide (/domain —
+      // what/why/when/CBC-example/common-mistakes) when one exists, alongside the
+      // technical table page. Previously only a bare /object chip.
+      return (
+        <div className="grid-adaptive-sm">
+          {rows.map((r) => (
+            <div key={r.code} className="card group flex flex-col gap-2 p-3" dir="rtl">
+              <div className="flex items-center gap-2">
+                <span className="size-1.5 shrink-0 rounded-full bg-brand" />
+                <span className="tech min-w-0 flex-1 truncate font-mono text-[13px] font-bold text-ink-1" dir="ltr">{r.code}</span>
+                <span className="shrink-0 font-mono text-[10.5px] font-bold text-ink-3">{r.fields}<span className="text-ink-3/60"> שד'</span></span>
+              </div>
+              {r.he && <span className="truncate text-[11.5px] text-ink-3">{r.he}</span>}
+              <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-1">
+                {r.guide && <Link href={`/domain/${r.guide}/`} className="inline-flex items-center gap-1 rounded-lg bg-brand/10 px-2 py-1 text-[11px] font-bold text-brand transition hover:bg-brand/15"><BookOpen className="size-3" />מדריך מלא</Link>}
+                <Link href={`/object/${encodeURIComponent(r.code)}/`} className="inline-flex items-center gap-1 rounded-lg bg-surface-2 px-2 py-1 text-[11px] font-bold text-ink-2 transition hover:bg-hairline"><Table className="size-3" />טבלה<ArrowLeft className="size-3 text-ink-3/50" /></Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      );
     }
     case "transactions": {
       const tx = transactions(module);
@@ -106,8 +126,7 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
     }
     case "configuration": {
       const headers = configHeaders(module); const rows = configRows(module);
-      if (!rows.length) return <Empty text="מדריך הקונפיגורציה יתווסף בקרוב." />;
-      return (
+      if (rows.length) return (
         <div className="overflow-x-auto rounded-2xl border border-hairline">
           <table className="w-full text-[12.5px]" dir="rtl">
             <thead className="bg-surface-2 text-ink-2"><tr>{headers.map((h) => <th key={h} className="whitespace-nowrap px-3 py-2 text-start font-bold">{h}</th>)}</tr></thead>
@@ -115,6 +134,16 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
           </table>
         </div>
       );
+      // No structured SPRO sheet for this module (e.g. PP-PI) — surface the
+      // verified Customizing-topic tables instead of an empty state.
+      const ct = configTables(module);
+      if (ct.length) return (
+        <div className="space-y-3">
+          <p className="rounded-xl border border-hairline bg-surface-2/60 p-3 text-[12.5px] leading-relaxed text-ink-3">מדריך SPRO מובנה (נתיב IMG · טרנזקציה · השפעה) יתווסף בקרוב. בינתיים — טבלאות ה-Customizing המאומתות של המודול:</p>
+          <div className="grid-adaptive-sm">{ct.map((t) => <CodeChip key={t.code} href={`/object/${encodeURIComponent(t.code)}/`} code={t.code} he={t.he} ok={objectHasPage(t.code)} />)}</div>
+        </div>
+      );
+      return <Empty text="מדריך הקונפיגורציה יתווסף בקרוב." />;
     }
     case "integration": {
       const idocs = funcs(module, ["IDoc"]); const bapi = funcs(module, ["BAPI"]);
