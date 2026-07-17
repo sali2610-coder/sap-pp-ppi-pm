@@ -17,12 +17,12 @@ export interface LearningPath { module: string; title: string; titleEn?: string;
 export const PM_PATH: LearningPath = {
   module: "PM", title: "אחזקת מפעל", titleEn: "Plant Maintenance", color: "#f97316", currentChapter: 3,
   chapters: [
-    { title: "יסודות PM", lessons: [{ title: "מבנה ארגון האחזקה" }, { title: "מחזור חיי אחזקה" }] },
-    { title: "אובייקטים טכניים", lessons: [{ title: "ציוד (Equipment)" }, { title: "מיקומים פונקציונליים" }] },
-    { title: "הודעות אחזקה", lessons: [{ title: "פתיחת הודעה" }, { title: "עיבוד הודעה לפקודה" }] },
-    { title: "ביצוע אחזקה", lessons: [{ title: "פקודת אחזקה — Maintenance Order", slug: PILOT_SLUG, minutes: 14, level: "בינוני" }, { title: "אישור עבודות" }, { title: "סגירת פקודה (TECO)" }] },
-    { title: "אחזקה מונעת", lessons: [{ title: "תכניות אחזקה" }, { title: "תזמון ומונים" }] },
-    { title: "ניתוח ו-KPI", lessons: [{ title: "מדדי אחזקה" }, { title: "דוחות Fiori" }] },
+    { title: "יסודות PM", lessons: [{ title: "מבנה ארגון האחזקה", slug: "pm-org-structure", minutes: 10, level: "בסיסי" }, { title: "מחזור חיי אחזקה", slug: "pm-maintenance-lifecycle", minutes: 10, level: "בסיסי" }] },
+    { title: "אובייקטים טכניים", lessons: [{ title: "ציוד (Equipment)", slug: "pm-equipment", minutes: 12, level: "בסיסי" }, { title: "מיקומים פונקציונליים", slug: "pm-functional-location", minutes: 12, level: "בסיסי" }] },
+    { title: "הודעות אחזקה", lessons: [{ title: "פתיחת הודעה", slug: "pm-notification-create", minutes: 10, level: "בסיסי" }, { title: "עיבוד הודעה לפקודה", slug: "pm-notification-to-order", minutes: 10, level: "בינוני" }] },
+    { title: "ביצוע אחזקה", lessons: [{ title: "פקודת אחזקה — Maintenance Order", slug: PILOT_SLUG, minutes: 14, level: "בינוני" }, { title: "אישור עבודות", slug: "pm-confirmation", minutes: 12, level: "בינוני" }, { title: "סגירת פקודה (TECO)", slug: "pm-teco", minutes: 10, level: "בינוני" }] },
+    { title: "אחזקה מונעת", lessons: [{ title: "תכניות אחזקה", slug: "pm-maintenance-plan", minutes: 14, level: "בינוני" }, { title: "תזמון ומונים", slug: "pm-scheduling-counters", minutes: 12, level: "בינוני" }] },
+    { title: "ניתוח ו-KPI", lessons: [{ title: "מדדי אחזקה", slug: "pm-kpi", minutes: 12, level: "מורכב" }, { title: "דוחות Fiori", slug: "pm-fiori-reports", minutes: 10, level: "בינוני" }] },
   ],
 };
 

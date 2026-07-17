@@ -21,7 +21,8 @@ export const PM_MAINTENANCE_ORDER: Lesson = {
   trust: "verified-docs",
   source: HELP,
   lastReviewed: LV,
-  // prev/next wired when neighbour lessons are authored (pilot = single lesson)
+  prev: "pm-notification-to-order",
+  next: "pm-confirmation",
   blocks: [
     { kind: "objective", trust: "curated", md: "פקודת אחזקה היא מסמך הביצוע המרכזי ב-PM: היא מתכננת עבודה, רכיבים ועלויות, מבצעת אותם ומדווחת חזרה. בסוף השיעור תדע לפתוח פקודה, לשחרר, לדווח ולסגור (TECO)." },
     { kind: "why", trust: "curated", md: "כל תקלה או אחזקה מונעת הופכת לפקודה. הפקודה מקשרת בין ההודעה, המלאי (רכיבים), ה-CO (עלויות) וה-HR (שעות). ללא הבנת מחזור החיים שלה — דיווחים נתקעים ב-COGI והעלויות אינן נכונות." },
