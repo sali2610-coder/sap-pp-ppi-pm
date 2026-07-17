@@ -26,6 +26,19 @@ export const PM_PATH: LearningPath = {
   ],
 };
 
+// PP-PI track — one lesson per source concept (23, no collapse). Full knowledge preserved.
+export const PP_PATH: LearningPath = {
+  module: "PP-PI", title: "תכנון ייצור", titleEn: "Production Planning (Process)", color: "#6d28d9", currentChapter: 0,
+  chapters: [
+    { title: "יסודות PP-PI", lessons: [{ title: "מבוא לתעשייה התהליכית", slug: "pp-intro", minutes: 10, level: "בסיסי" }, { title: "מבנה ארגון ייצור", slug: "pp-org-structure", minutes: 10, level: "בסיסי" }] },
+    { title: "נתוני אב", lessons: [{ title: "אב חומר בייצור", slug: "pp-material", minutes: 12, level: "בסיסי" }, { title: "עץ מוצר (BOM)", slug: "pp-bom", minutes: 12, level: "בסיסי" }, { title: "מסלול ייצור (Routing)", slug: "pp-routing", minutes: 12, level: "בינוני" }, { title: "מתכון אב (Master Recipe)", slug: "pp-master-recipe", minutes: 12, level: "בינוני" }, { title: "מרכז עבודה", slug: "pp-work-center", minutes: 10, level: "בינוני" }, { title: "משאב (Resource)", slug: "pp-resource", minutes: 10, level: "בינוני" }, { title: "גרסת ייצור", slug: "pp-prod-version", minutes: 10, level: "בינוני" }] },
+    { title: "תכנון", lessons: [{ title: "תכנון ביקוש (PIR)", slug: "pp-pir", minutes: 10, level: "בינוני" }, { title: "תכנון ראשי (MPS)", slug: "pp-mps", minutes: 10, level: "בינוני" }, { title: "MRP / MRP Live", slug: "pp-mrp", minutes: 14, level: "בינוני" }, { title: "אסטרטגיות תכנון", slug: "pp-strategies", minutes: 12, level: "מורכב" }, { title: "תכנון קיבולת", slug: "pp-capacity", minutes: 12, level: "מורכב" }] },
+    { title: "ביצוע ייצור", lessons: [{ title: "פקודת תהליך", slug: "pp-process-order", minutes: 14, level: "בינוני" }, { title: "מרשם בקרה / PI Sheet", slug: "pp-control-recipe", minutes: 12, level: "מורכב" }, { title: "אישור פקודה", slug: "pp-confirmation", minutes: 12, level: "בינוני" }, { title: "Backflush וצריכת רכיבים", slug: "pp-backflush", minutes: 10, level: "בינוני" }, { title: "ניפוק וקבלת תוצר (GI/GR)", slug: "pp-gi-gr", minutes: 10, level: "בינוני" }] },
+    { title: "ניהול אצוות", lessons: [{ title: "ניהול אצוות", slug: "pp-batch", minutes: 12, level: "בינוני" }] },
+    { title: "התחשבנות וניתוח", lessons: [{ title: "סגירה טכנית (TECO)", slug: "pp-teco", minutes: 10, level: "בינוני" }, { title: "חישוב סטיות (Variance)", slug: "pp-variance", minutes: 12, level: "מורכב" }, { title: "התחשבנות פקודה", slug: "pp-settlement", minutes: 12, level: "מורכב" }] },
+  ],
+};
+
 export function LearningPathView({ path }: { path: LearningPath }) {
   const reduce = useReducedMotion();
   const pilotTotal = useMemo(() => orderedBlocks(PILOT_LESSONS[PILOT_SLUG]).length, []);
