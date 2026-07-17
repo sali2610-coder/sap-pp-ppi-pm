@@ -40,6 +40,18 @@ export const PP_PATH: LearningPath = {
   ],
 };
 
+// QM track — one lesson per QM concept (16, no collapse). Full knowledge preserved.
+export const QM_PATH: LearningPath = {
+  module: "QM", title: "ניהול איכות", titleEn: "Quality Management", color: "#0891b2", currentChapter: 0,
+  chapters: [
+    { title: "יסודות QM", lessons: [{ title: "מבוא לניהול איכות", slug: "qm-intro", minutes: 10, level: "בסיסי" }, { title: "מבנה ארגון ואב-נתונים QM", slug: "qm-org-structure", minutes: 10, level: "בסיסי" }] },
+    { title: "נתוני אב QM", lessons: [{ title: "תצוגת QM באב חומר", slug: "qm-material-view", minutes: 10, level: "בסיסי" }, { title: "מאפייני בדיקה (MIC)", slug: "qm-mic", minutes: 12, level: "בינוני" }, { title: "שיטות בדיקה", slug: "qm-methods", minutes: 8, level: "בינוני" }, { title: "קטלוגים וקודים", slug: "qm-catalogs", minutes: 10, level: "בינוני" }, { title: "תכניות דגימה", slug: "qm-sampling", minutes: 12, level: "מורכב" }, { title: "תכנית בדיקה", slug: "qm-inspection-plan", minutes: 12, level: "בינוני" }] },
+    { title: "בדיקת איכות", lessons: [{ title: "לוט בדיקה (Inspection Lot)", slug: "qm-inspection-lot", minutes: 12, level: "בינוני" }, { title: "רישום תוצאות", slug: "qm-results-recording", minutes: 12, level: "בינוני" }, { title: "רישום פגמים", slug: "qm-defects", minutes: 8, level: "בינוני" }, { title: "החלטת שימוש (UD)", slug: "qm-usage-decision", minutes: 10, level: "בינוני" }] },
+    { title: "הודעות איכות", lessons: [{ title: "הודעת איכות (Quality Notification)", slug: "qm-notification", minutes: 12, level: "בינוני" }] },
+    { title: "QM בתהליכים", lessons: [{ title: "QM ברכש", slug: "qm-procurement", minutes: 12, level: "מורכב" }, { title: "QM בייצור (PP-PI)", slug: "qm-production", minutes: 12, level: "מורכב" }, { title: "תעודות איכות", slug: "qm-certificates", minutes: 10, level: "בינוני" }] },
+  ],
+};
+
 export function LearningPathView({ path }: { path: LearningPath }) {
   const reduce = useReducedMotion();
   const pilotTotal = useMemo(() => orderedBlocks(PILOT_LESSONS[PILOT_SLUG]).length, []);
