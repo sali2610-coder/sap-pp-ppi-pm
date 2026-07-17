@@ -64,9 +64,9 @@ function BlockBody({ b }: { b: LessonBlock }) {
     case "key-concepts": case "authorizations":
       return <ul className="flex flex-col gap-2">{b.items.map((it, i) => <li key={i} className="flex items-start gap-2 text-[13.5px] text-ink-2"><span className="mt-[7px] size-1.5 shrink-0 rounded-full bg-brand" />{md(it)}</li>)}</ul>;
     case "common-mistakes":
-      return <div className="flex items-start gap-2.5 rounded-xl border border-[#f5e2bf] bg-[#fff8ec] p-3 text-[12.5px] text-[#92400e]"><span>⚠️</span><ul className="flex flex-col gap-1.5">{b.items.map((it, i) => <li key={i}>{md(it)}</li>)}</ul></div>;
+      return <div className="flex items-start gap-2.5 rounded-xl border border-[#f5e2bf] bg-[#fff8ec] p-3 text-[12.5px] text-[#92400e]"><span aria-hidden>⚠️</span><ul className="flex flex-col gap-1.5">{b.items.map((it, i) => <li key={i}>{md(it)}</li>)}</ul></div>;
     case "best-practices": case "tips":
-      return <div className="flex items-start gap-2.5 rounded-xl border border-[#cfe6e2] bg-[#f0f6f5] p-3 text-[12.5px] text-[#0f5e57]"><span>{BLOCK_META[b.kind].emoji}</span><ul className="flex flex-col gap-1.5">{b.items.map((it, i) => <li key={i}>{md(it)}</li>)}</ul></div>;
+      return <div className="flex items-start gap-2.5 rounded-xl border border-[#cfe6e2] bg-[#f0f6f5] p-3 text-[12.5px] text-[#0f5e57]"><span aria-hidden>{BLOCK_META[b.kind].emoji}</span><ul className="flex flex-col gap-1.5">{b.items.map((it, i) => <li key={i}>{md(it)}</li>)}</ul></div>;
     case "flow":
       return <div className="flex flex-wrap items-center gap-2">{b.steps.map((s, i) => <span key={i} className="flex items-center gap-2">{i > 0 && <ChevronLeft className="size-3.5 text-ink-3" />}<span className={`rounded-lg border px-3 py-1.5 text-[12px] font-bold ${i === b.activeIndex ? "border-brand bg-brand text-white" : "border-hairline bg-surface-2 text-ink-2"}`}>{s}</span></span>)}</div>;
     case "diagram":
@@ -117,8 +117,8 @@ function Block({ b, onView, index }: { b: LessonBlock; onView: () => void; index
       className="relative mb-3.5 scroll-mt-4 overflow-hidden rounded-2xl border border-hairline bg-surface">
       <span className="absolute inset-y-0 start-0 w-1" style={{ background: tone }} aria-hidden />
       <button onClick={() => setOpen((v) => !v)} className="flex w-full items-center gap-3 p-3.5 ps-4 text-start" aria-expanded={open}>
-        <span className="grid size-9 shrink-0 place-items-center rounded-xl text-[18px]" style={{ background: `${tone}14`, color: tone }}>{meta.emoji}</span>
-        <span className="flex-1 text-[15px] font-extrabold text-ink-1">{b.title || meta.he}</span>
+        <span aria-hidden className="grid size-9 shrink-0 place-items-center rounded-xl text-[18px]" style={{ background: `${tone}14`, color: tone }}>{meta.emoji}</span>
+        <span role="heading" aria-level={2} className="flex-1 text-[15px] font-extrabold text-ink-1">{b.title || meta.he}</span>
         {meta.technical && <SourceChip b={b} />}
         {open ? <ChevronDown className="size-4 text-ink-3" /> : <ChevronRight className="size-4 text-ink-3" />}
       </button>
@@ -160,7 +160,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
             <div className="flex flex-wrap items-center gap-2">
               <span className="rounded-md bg-[#fff7ed] px-2 py-1 text-[10.5px] font-extrabold text-[#f97316]">{lesson.module}</span>
               <span className={`rounded-full px-2.5 py-1 text-[10.5px] font-bold ${LVL_TONE[lesson.level]}`}>{lesson.level}</span>
-              <span className="rounded-full bg-surface-2 px-2.5 py-1 text-[10.5px] font-bold text-ink-2">⏱ ~{lesson.minutes} דק׳</span>
+              <span className="rounded-full bg-surface-2 px-2.5 py-1 text-[10.5px] font-bold text-ink-2"><span aria-hidden>⏱</span> ~{lesson.minutes} דק׳</span>
               <span className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-[10.5px] font-bold ${TRUST_TONE[lesson.trust].cls}`} title={[lesson.source, lesson.lastReviewed && `נבדק ${lesson.lastReviewed}`].filter(Boolean).join(" · ")}><ShieldCheck className="size-3" />{TRUST_TONE[lesson.trust].he}</span>
             </div>
             <h1 className="mt-2.5 text-[26px] font-extrabold leading-tight tracking-[-0.02em] text-ink-1">{lesson.title}</h1>
@@ -175,7 +175,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
             {pct === 100 && (
               <motion.div initial={reduce ? false : { opacity: 0, y: 16, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0 }} transition={{ type: "spring", stiffness: 260, damping: 22 }}
                 className="mt-4 flex flex-wrap items-center gap-3 rounded-2xl border border-[#cfe6e2] bg-gradient-to-bl from-[#f0f6f5] to-surface p-4">
-                <span className="text-3xl">🎉</span>
+                <span aria-hidden className="text-3xl">🎉</span>
                 <div className="min-w-0 flex-1"><div className="text-[15px] font-extrabold text-ink-1">כל הכבוד! השלמת את השיעור</div><div className="text-[12px] text-ink-3">סימנת את כל {kinds.length} הבלוקים.</div></div>
                 {lesson.next ? <Link href={`/academy/lesson/${lesson.next}/`} className="rounded-xl bg-brand px-4 py-2 text-[12.5px] font-extrabold text-white transition hover:bg-brand-dark">השיעור הבא →</Link> : <Link href="/academy/path/pm/" className="rounded-xl bg-ink-1 px-4 py-2 text-[12.5px] font-extrabold text-white">חזרה למסלול</Link>}
               </motion.div>
@@ -197,7 +197,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
             <nav className="flex flex-col gap-0.5">
               {blocks.map((b) => { const done = doneSet.has(b.kind); return (
                 <a key={b.kind} href={`#b-${b.kind}`} className="flex items-center gap-2 rounded-lg px-2 py-1.5 text-[11.5px] font-semibold text-ink-2 hover:bg-surface-2">
-                  <span className={`size-1.5 rounded-full ${done ? "bg-emerald-500" : "bg-hairline"}`} />{BLOCK_META[b.kind].emoji} {b.title || BLOCK_META[b.kind].he}
+                  <span className={`size-1.5 rounded-full ${done ? "bg-emerald-500" : "bg-hairline"}`} /><span aria-hidden>{BLOCK_META[b.kind].emoji}</span> {b.title || BLOCK_META[b.kind].he}
                 </a>
               ); })}
             </nav>
