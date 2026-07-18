@@ -7,8 +7,10 @@ import { Lock, Play, ArrowLeft, GraduationCap, Clock } from "lucide-react";
 import { PILOT_LESSONS } from "@/data/academy/lessons/pm-maintenance-order";
 import { orderedBlocks } from "@/lib/academy/lesson-types";
 import { useLessonPct } from "@/lib/academy/gamification";
+import { Pill } from "@/components/ui";
 
 const PILOT_SLUG = "pm-maintenance-order";
+const LVL: Record<string, "good" | "warn" | "bad"> = { "בסיסי": "good", "בינוני": "warn", "מורכב": "bad" };
 
 export interface PathChapter { title: string; lessons: { title: string; slug?: string; minutes?: number; level?: string }[] }
 export interface LearningPath { module: string; title: string; titleEn?: string; color: string; chapters: PathChapter[]; currentChapter: number }
@@ -93,6 +95,7 @@ export function LearningPathView({ path }: { path: LearningPath }) {
                   <div className="flex items-center gap-2">
                     <h3 className="text-[15px] font-extrabold text-ink-1">{ch.title}</h3>
                     <span className="text-[11px] font-bold text-ink-3">· {ch.lessons.length} שיעורים</span>
+                    {(() => { const mins = ch.lessons.reduce((s, l) => s + (l.minutes || 0), 0); return mins ? <span className="hidden text-[11px] font-bold text-ink-3 sm:inline">· ~{mins} דק׳</span> : null; })()}
                     {state === "cur" && <span className="ms-auto rounded-full px-2.5 py-0.5 text-[9.5px] font-extrabold text-white" style={{ background: path.color }}>אתה כאן</span>}
                   </div>
                   {state !== "upcoming" && (
@@ -101,6 +104,7 @@ export function LearningPathView({ path }: { path: LearningPath }) {
                         <Link key={li} href={`/academy/lesson/${l.slug}/`} className="group flex items-center gap-2.5 rounded-xl border border-hairline bg-surface-2/40 p-2.5 transition hover:border-brand/40">
                           <span className="grid size-7 place-items-center rounded-lg text-white" style={{ background: path.color }}><Play className="size-3.5" /></span>
                           <span className="min-w-0 flex-1 text-[12.5px] font-bold text-ink-1">{l.title}</span>
+                          {l.level && <Pill tone={LVL[l.level] || "neutral"} className="hidden shrink-0 text-[9.5px] sm:inline-flex">{l.level}</Pill>}
                           {l.minutes && <span className="hidden items-center gap-1 text-[10.5px] text-ink-3 sm:inline-flex"><Clock className="size-3" />~{l.minutes} דק׳</span>}
                           {pilotPct > 0 && l.slug === PILOT_SLUG && <span className="rounded-full bg-brand-soft px-2 py-0.5 text-[9.5px] font-bold text-brand">{Math.round(pilotPct * 100)}%</span>}
                           <ArrowLeft className="size-4 shrink-0 text-ink-3 transition group-hover:-translate-x-0.5 group-hover:text-brand rtl:rotate-180" />

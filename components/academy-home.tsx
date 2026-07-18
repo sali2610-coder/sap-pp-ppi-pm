@@ -3,8 +3,11 @@
 import { useMemo } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion, type MotionProps } from "framer-motion";
-import { Play, Flame, Target, ArrowLeft, Sparkles, Lock, Check, GraduationCap, LayoutDashboard, Trophy, Clock, TrendingUp, History } from "lucide-react";
+import { Play, Flame, Target, ArrowLeft, Sparkles, Lock, Check, GraduationCap, LayoutDashboard, Trophy, Clock, TrendingUp, History, Library, Zap, type LucideIcon } from "lucide-react";
 import { BOOKS, bookStats } from "@/data/library/academy-index";
+
+// SVG badge icons (blueprint: no emoji-as-icon) keyed by gamification badge id
+const BADGE_ICON: Record<string, LucideIcon> = { first: Target, blocks10: Library, streak3: Flame, streak7: Zap, lesson: GraduationCap };
 import { useRecent } from "@/lib/academy/recent";
 import { PILOT_LESSONS } from "@/data/academy/lessons/pm-maintenance-order";
 import { orderedBlocks } from "@/lib/academy/lesson-types";
@@ -58,8 +61,8 @@ export function AcademyHome() {
       <div className="text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink-3">SAP Academy</div>
       <motion.div {...heroAnim} className="mt-1.5 grid items-stretch gap-4 lg:grid-cols-[1fr_300px]">
         <div>
-          <h1 className="text-[27px] font-extrabold tracking-[-0.02em]">ברוך שובך 👋</h1>
-          <p className="mt-1 text-[14px] text-ink-3">{g.streak > 0 ? <>רצף של <b className="text-[#f97316]">{g.streak} ימים</b> 🔥 · </> : null}עוד <b className="text-[#f97316]">{Math.max(0, g.weeklyTarget - g.weeklyDone)} ימי למידה</b> ליעד השבועי.</p>
+          <h1 className="text-[27px] font-extrabold tracking-[-0.02em]">ברוך שובך</h1>
+          <p className="mt-1 inline-flex flex-wrap items-center gap-1 text-[14px] text-ink-3">{g.streak > 0 ? <><Flame className="size-4 text-[#f97316]" />רצף של <b className="text-[#f97316]">{g.streak} ימים</b> · </> : null}עוד <b className="text-[#f97316]">{Math.max(0, g.weeklyTarget - g.weeklyDone)} ימי למידה</b> ליעד השבועי.</p>
 
           {/* continue learning / start */}
           <div className="relative mt-4 flex flex-col gap-4 overflow-hidden rounded-3xl border border-hairline bg-gradient-to-bl from-surface to-[#fff7ed] p-5 sm:flex-row sm:items-center">
@@ -137,13 +140,13 @@ export function AcademyHome() {
       <motion.div {...rise} className="mt-8">
         <div className="mb-3.5 flex items-baseline justify-between"><h2 className="flex items-center gap-2 text-[19px] font-extrabold tracking-[-0.01em]"><Trophy className="size-5 text-[#d97706]" />הישגים</h2></div>
         <div className="flex flex-wrap gap-4">
-          {g.badges.map((b) => (
+          {g.badges.map((b) => { const Ic = BADGE_ICON[b.id] || Target; return (
             <div key={b.id} className={`w-24 text-center ${b.earned ? "" : "opacity-60"}`}>
-              <div className={`mx-auto mb-2 grid size-16 place-items-center rounded-full border-2 text-[26px] ${b.earned ? "border-[#fcd34d] bg-gradient-to-br from-[#fef3c7] to-[#fde68a]" : "border-hairline bg-surface-2 grayscale"}`}>{b.emoji}</div>
+              <div className={`mx-auto mb-2 grid size-16 place-items-center rounded-full border-2 ${b.earned ? "border-[#fcd34d] bg-gradient-to-br from-[#fef3c7] to-[#fde68a] text-[#b45309]" : "border-hairline bg-surface-2 text-ink-3"}`}><Ic className="size-7" /></div>
               <div className="text-[11px] font-extrabold">{b.label}</div>
               <div className="text-[9.5px] text-ink-3">{b.earned ? b.hint : "נעול"}</div>
             </div>
-          ))}
+          ); })}
         </div>
         {g.blocksDone === 0 && <p className="mt-3 text-[12px] text-ink-3">התחל את השיעור הראשון כדי לפתוח תגים ולבנות רצף למידה.</p>}
       </motion.div>
