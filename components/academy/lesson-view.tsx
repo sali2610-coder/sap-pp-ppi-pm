@@ -8,13 +8,15 @@ import {
   Target, HelpCircle, TrendingUp, MapPin, KeyRound, Building2, Workflow, Network,
   Table2, Terminal, LayoutDashboard, Settings, Boxes, Braces, Lock, StickyNote,
   AlertTriangle, Wrench, Award, Lightbulb, Link2, CircleHelp, BookCheck, Clock, ShieldCheck,
+  GraduationCap, BookOpen, ListChecks, CheckCircle2, ArrowUpRight, ChevronsLeft, ChevronsRight,
   type LucideIcon,
 } from "lucide-react";
 import { orderedBlocks, type Lesson, type LessonBlock, type Trust, type BlockKind } from "@/lib/academy/lesson-types";
 import { useLessonProgress } from "@/lib/academy/lesson-progress";
 import { recordActivity } from "@/lib/academy/gamification";
 import { recordRecent } from "@/lib/academy/recent";
-import { Callout, Chip, Pill } from "@/components/ui";
+import { lessonNav, lessonRef, type LessonNav } from "@/lib/academy/lesson-nav";
+import { Callout, Chip, Pill, IconWell } from "@/components/ui";
 
 /* ── design language (blueprint) ─────────────────────────────────────────────
    Premium reading experience: flowing document sections (not an accordion),
@@ -98,7 +100,44 @@ function QuizCard({ q }: { q: { question: string; options: { text: string; corre
   );
 }
 
-function BlockBody({ b }: { b: LessonBlock }) {
+/** Related-ref card — a beautiful lesson card when the ref points to another
+ *  lesson; a labelled card otherwise. Data from existing refs only. */
+function RelatedCard({ r, accent }: { r: { code: string; label?: string; href?: string }; accent: string }) {
+  const isLesson = !!r.href?.includes("/academy/lesson/");
+  const slug = isLesson ? r.href!.split("/academy/lesson/")[1]?.replace(/\/$/, "") : undefined;
+  const meta = lessonRef(slug);
+  const title = meta?.title || r.label || r.code;
+  if (!r.href) return <Chip variant="label">{title}</Chip>;
+  return (
+    <Link href={r.href} className="group flex items-center gap-3 rounded-xl border border-hairline bg-surface p-3 transition-all hover:-translate-y-px hover:border-brand/40 hover:shadow-sm">
+      <IconWell icon={isLesson ? GraduationCap : Link2} accent={accent} size="md" />
+      <div className="min-w-0 flex-1">
+        <div className="truncate text-[13px] font-bold text-ink-1" dir="auto">{title}</div>
+        {isLesson && <div className="text-[11px] text-ink-3">{meta?.minutes ? `שיעור · ~${meta.minutes} דק׳` : "שיעור קשור"}</div>}
+      </div>
+      <ArrowUpRight className="size-4 shrink-0 text-ink-3 transition-colors group-hover:text-brand" />
+    </Link>
+  );
+}
+
+/** Premium SAP object reference card (Material / Plant / Order / …). */
+function ObjectRefCard({ r }: { r: { code: string; label?: string; href?: string } }) {
+  const inner = (
+    <>
+      <IconWell icon={Boxes} size="md" />
+      <div className="min-w-0 flex-1">
+        <div className="tech truncate font-mono text-[13px] font-extrabold text-ink-1" dir="ltr">{r.code}</div>
+        {r.label && <div className="truncate text-[11px] text-ink-3" dir="auto">{r.label}</div>}
+      </div>
+      {r.href && <ArrowUpRight className="size-4 shrink-0 text-ink-3" />}
+      <CopyBtn value={r.code} />
+    </>
+  );
+  const cls = "flex items-center gap-2.5 rounded-xl border border-hairline bg-surface p-2.5";
+  return r.href ? <Link href={r.href} className={`${cls} transition-colors hover:border-brand/40`}>{inner}</Link> : <div className={cls}>{inner}</div>;
+}
+
+function BlockBody({ b, accent }: { b: LessonBlock; accent: string }) {
   switch (b.kind) {
     case "objective":
       return <p className="max-w-[68ch] text-[15px] font-medium leading-[1.75] text-ink-1">{md(b.md)}</p>;
@@ -116,7 +155,11 @@ function BlockBody({ b }: { b: LessonBlock }) {
       return <div className="grid h-36 place-items-center rounded-xl border border-dashed border-hairline bg-gradient-to-br from-surface-2/40 to-surface-2/70 text-center text-[12px] font-semibold text-ink-3">◱ {b.caption}</div>;
     case "tables":
       return <div className="overflow-hidden rounded-xl border border-hairline"><table className="w-full border-collapse text-[12.5px]"><thead><tr className="bg-surface-2"><th className="px-3 py-2 text-start text-[10px] font-extrabold uppercase text-ink-3">טבלה</th><th className="px-3 py-2 text-start text-[10px] font-extrabold uppercase text-ink-3">תיאור</th></tr></thead><tbody>{b.rows.map((r) => <tr key={r.code} className="border-t border-hairline"><td className="px-3 py-2">{r.href ? <Link href={r.href} className="tech font-mono font-bold text-ink-1 hover:text-brand" dir="ltr">{r.code}</Link> : <span className="tech font-mono font-bold text-ink-1" dir="ltr">{r.code}</span>}<CopyBtn value={r.code} /></td><td className="px-3 py-2 text-ink-2">{r.he}</td></tr>)}</tbody></table></div>;
-    case "tcodes": case "fiori": case "objects": case "odata": case "related":
+    case "related":
+      return <div><div className="grid gap-2 sm:grid-cols-2">{b.refs.map((r) => <RelatedCard key={r.code} r={r} accent={accent} />)}</div>{b.note && <p className="mt-2 text-[11.5px] text-ink-3"><Info className="me-1 inline size-3" />{b.note}</p>}</div>;
+    case "objects":
+      return <div><div className="grid gap-2 sm:grid-cols-2">{b.refs.map((r) => <ObjectRefCard key={r.code} r={r} />)}</div>{b.note && <p className="mt-2 text-[11.5px] text-ink-3"><Info className="me-1 inline size-3" />{b.note}</p>}</div>;
+    case "tcodes": case "fiori": case "odata":
       return <div><div className="flex flex-wrap gap-2">{b.refs.map((r) => <CodeChip key={r.code} r={r} />)}</div>{b.note && <p className="mt-2 text-[11.5px] text-ink-3"><Info className="me-1 inline size-3" />{b.note}</p>}</div>;
     case "quiz":
       return <div className="flex flex-col gap-3">{b.items.map((q, i) => <QuizCard key={i} q={q} />)}</div>;
@@ -126,7 +169,7 @@ function BlockBody({ b }: { b: LessonBlock }) {
 }
 
 /** Flowing document section — open by default (no accordion), premium header. */
-function Section({ b, onView }: { b: LessonBlock; onView: () => void }) {
+function Section({ b, onView, accent }: { b: LessonBlock; onView: () => void; accent: string }) {
   const ref = useRef<HTMLElement>(null);
   const tone = toneOf(b.kind);
   const Icon = ICON[b.kind] || Info;
@@ -142,8 +185,67 @@ function Section({ b, onView }: { b: LessonBlock; onView: () => void }) {
         <h2 className="flex-1 text-[15.5px] font-extrabold tracking-tight text-ink-1" dir="auto">{b.title || HE[b.kind] || b.kind}</h2>
         <SourceChip b={b} />
       </header>
-      <div className="ps-[42px]"><BlockBody b={b} /></div>
+      <div className="ps-[42px]"><BlockBody b={b} accent={accent} /></div>
     </section>
+  );
+}
+
+/** At-a-glance card — prerequisites + learning outcomes + chapter context.
+ *  Derived entirely from existing data (prev lesson, key-concepts block, path). */
+function LessonAtAGlance({ prevSlug, concepts, nav, accent }: { prevSlug?: string; concepts: string[]; nav?: LessonNav; accent: string }) {
+  const prereq = lessonRef(prevSlug);
+  if (!concepts.length && !nav && !prereq) return null;
+  return (
+    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+      {concepts.length > 0 && (
+        <div className="rounded-2xl border border-hairline bg-surface p-4">
+          <div className="mb-2.5 flex items-center gap-2"><IconWell icon={ListChecks} accent={accent} size="sm" /><span className="text-[12px] font-extrabold text-ink-1">בסיום השיעור תשלוט ב־</span></div>
+          <ul className="flex flex-col gap-1.5">
+            {concepts.slice(0, 4).map((c, i) => <li key={i} className="flex items-start gap-2 text-[12.5px] leading-snug text-ink-2"><CheckCircle2 className="mt-0.5 size-3.5 shrink-0" style={{ color: accent }} /><span className="line-clamp-1">{c.replace(/\*\*/g, "")}</span></li>)}
+          </ul>
+        </div>
+      )}
+      <div className="rounded-2xl border border-hairline bg-surface p-4">
+        <div className="mb-2.5 flex items-center gap-2"><IconWell icon={BookOpen} accent={accent} size="sm" /><span className="text-[12px] font-extrabold text-ink-1">הקשר למידה</span></div>
+        {nav && <div className="mb-2 text-[12px] text-ink-2">פרק {nav.chapterIndex}/{nav.chapterCount} · <span className="font-semibold">{nav.chapterTitle}</span> · שיעור {nav.posInChapter}/{nav.chapterSize}</div>}
+        {prereq ? (
+          <Link href={`/academy/lesson/${prereq.slug}/`} className="group flex items-center gap-2 rounded-lg border border-hairline bg-surface-2/50 p-2 text-[12px] transition-colors hover:border-brand/40">
+            <span className="shrink-0 text-ink-3">דרוש קודם:</span><span className="min-w-0 flex-1 truncate font-bold text-ink-1" dir="auto">{prereq.title}</span><ArrowUpRight className="size-3.5 shrink-0 text-ink-3 group-hover:text-brand" />
+          </Link>
+        ) : <div className="text-[11.5px] text-ink-3">אין דרישות קדם — נקודת פתיחה טובה למסלול.</div>}
+      </div>
+    </div>
+  );
+}
+
+/** End-of-lesson footer — rich prev/next lesson cards + chapter nav + course. */
+function LessonFooterNav({ lesson, nav, accent }: { lesson: Lesson; nav?: LessonNav; accent: string }) {
+  const prev = lessonRef(lesson.prev), next = lessonRef(lesson.next);
+  if (!prev && !next && !nav) return null;
+  return (
+    <nav aria-label="ניווט שיעורים" className="mt-8 border-t border-hairline pt-6">
+      <div className="grid gap-3 sm:grid-cols-2">
+        {prev ? (
+          <Link href={`/academy/lesson/${lesson.prev}/`} className="group flex items-center gap-3 rounded-2xl border border-hairline bg-surface p-4 transition-all hover:-translate-y-px hover:border-brand/40 hover:shadow-sm">
+            <ArrowRight className="size-5 shrink-0 text-ink-3 transition-colors group-hover:text-brand" />
+            <div className="min-w-0"><div className="text-[10.5px] font-bold uppercase tracking-wide text-ink-3">השיעור הקודם</div><div className="truncate text-[13px] font-extrabold text-ink-1" dir="auto">{prev.title}</div></div>
+          </Link>
+        ) : <span className="hidden sm:block" />}
+        {next ? (
+          <Link href={`/academy/lesson/${lesson.next}/`} className="group flex items-center justify-end gap-3 rounded-2xl border border-hairline bg-surface p-4 text-end transition-all hover:-translate-y-px hover:border-brand/40 hover:shadow-sm">
+            <div className="min-w-0"><div className="text-[10.5px] font-bold uppercase tracking-wide text-ink-3">השיעור הבא</div><div className="truncate text-[13px] font-extrabold text-ink-1" dir="auto">{next.title}</div></div>
+            <ArrowLeft className="size-5 shrink-0 text-ink-3 transition-colors group-hover:text-brand" />
+          </Link>
+        ) : <span className="hidden sm:block" />}
+      </div>
+      {nav && (
+        <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-[12px]">
+          {nav.prevChapter?.lesson && <Link href={`/academy/lesson/${nav.prevChapter.lesson.slug}/`} className="tap inline-flex items-center gap-1 rounded-lg border border-hairline px-3 py-1.5 font-semibold text-ink-2 hover:border-brand/40"><ChevronsRight className="size-3.5" />פרק קודם</Link>}
+          <Link href={nav.courseHref} className="tap inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-bold text-white" style={{ background: accent }}><GraduationCap className="size-3.5" />חזרה למסלול {nav.courseTitle}</Link>
+          {nav.nextChapter?.lesson && <Link href={`/academy/lesson/${nav.nextChapter.lesson.slug}/`} className="tap inline-flex items-center gap-1 rounded-lg border border-hairline px-3 py-1.5 font-semibold text-ink-2 hover:border-brand/40">פרק הבא<ChevronsLeft className="size-3.5" /></Link>}
+        </div>
+      )}
+    </nav>
   );
 }
 
@@ -154,6 +256,11 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
   const kinds = useMemo(() => blocks.map((b) => b.kind), [blocks]);
   const { doneSet, pct, markDone } = useLessonProgress(lesson.slug, kinds);
   const [active, setActive] = useState<BlockKind | null>(null);
+  const nav = useMemo(() => lessonNav(lesson.slug), [lesson.slug]);
+  const concepts = useMemo(() => {
+    const kc = blocks.find((b) => b.kind === "key-concepts");
+    return kc && kc.kind === "key-concepts" ? kc.items : [];
+  }, [blocks]);
 
   useEffect(() => { recordRecent({ id: `lesson:${lesson.slug}`, title: lesson.title, module: lesson.module, href: `/academy/lesson/${lesson.slug}/`, kind: "lesson" }); }, [lesson]);
 
@@ -197,10 +304,16 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
             <p className="relative mt-2 text-[12.5px] font-semibold text-ink-3">{lesson.course} · שיעור {lesson.index}</p>
           </header>
 
+          {/* at a glance — outcomes + prerequisites + chapter context (derived) */}
+          <LessonAtAGlance prevSlug={lesson.prev} concepts={concepts} nav={nav} accent={accent} />
+
           {/* flowing document */}
           <div className="mt-7 flex flex-col gap-8">
-            {blocks.map((b) => <Section key={b.kind} b={b} onView={() => { markDone(b.kind); recordActivity(); }} />)}
+            {blocks.map((b) => <Section key={b.kind} b={b} accent={accent} onView={() => { markDone(b.kind); recordActivity(); }} />)}
           </div>
+
+          {/* end-of-lesson navigation */}
+          <LessonFooterNav lesson={lesson} nav={nav} accent={accent} />
 
           {/* completion */}
           <AnimatePresence>
