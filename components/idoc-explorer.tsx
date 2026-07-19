@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
 import { Cable, ArrowLeft, ArrowRight, Layers, Activity, FileSearch, ListTree, AlertTriangle, Wrench, BookOpen } from "lucide-react";
 import { SapTip } from "@/components/sap-tip";
-import { EmptyState } from "@/components/ui/empty-state";
+import { StatCard, SectionCard, FilterBar, FilterButton, EmptyState } from "@/components/ui";
 import { IDOC, IDOC_RECORDS, IDOC_STATUSES, idocMessageTypes } from "@/lib/idoc-intel";
 
 const ACCENT = "#0e7490"; // IDoc cyan (matches integration record color)
@@ -21,32 +21,27 @@ function Tx({ code }: { code: string }) {
   );
 }
 
+// IDoc Explorer — built on the production Design System (StatCard / SectionCard / FilterBar).
 export function IDocExplorer() {
   const msgTypes = useMemo(() => idocMessageTypes(), []);
   const [dir, setDir] = useState<"all" | "in" | "out">("all");
   const statuses = useMemo(() => IDOC_STATUSES.filter((s) => dir === "all" || s.dir === dir), [dir]);
 
   const STATS = [
-    { icon: <ListTree className="size-4" />, v: msgTypes.length, l: "סוגי הודעה במאגר", c: ACCENT },
-    { icon: <FileSearch className="size-4" />, v: IDOC.transactions.length, l: "כלי ניטור (T-Codes)", c: "#2563eb" },
-    { icon: <Activity className="size-4" />, v: IDOC_STATUSES.length, l: "קודי סטטוס מרכזיים", c: "#d62027" },
+    { icon: ListTree, v: msgTypes.length, l: "סוגי הודעה במאגר", c: ACCENT },
+    { icon: FileSearch, v: IDOC.transactions.length, l: "כלי ניטור (T-Codes)", c: "#2563eb" },
+    { icon: Activity, v: IDOC_STATUSES.length, l: "קודי סטטוס מרכזיים", c: "#d62027" },
   ];
 
   return (
     <div dir="rtl" className="space-y-6">
       {/* stat band */}
       <div className="grid grid-cols-3 gap-3">
-        {STATS.map((k) => (
-          <div key={k.l} className="flex items-center gap-3 rounded-2xl border border-hairline bg-surface p-4 shadow-[var(--elev-1)]">
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: k.c }}>{k.icon}</span>
-            <div><div className="text-2xl font-extrabold tabular-nums text-ink-1">{k.v}</div><div className="text-[11px] font-semibold text-ink-3">{k.l}</div></div>
-          </div>
-        ))}
+        {STATS.map((k) => <StatCard key={k.l} icon={k.icon} value={k.v} label={k.l} accent={k.c} />)}
       </div>
 
       {/* anatomy — the three physical IDoc records */}
-      <section className="rounded-3xl border border-hairline bg-surface p-5 shadow-[var(--elev-1)] sm:p-6">
-        <h2 className="mb-1 flex items-center gap-2 text-lg font-extrabold text-ink-1"><Layers className="size-5" style={{ color: ACCENT }} />אנטומיית IDoc</h2>
+      <SectionCard icon={Layers} accent={ACCENT} title="אנטומיית IDoc">
         <p className="mb-4 text-[13px] leading-relaxed text-ink-3">{IDOC.architecture}</p>
         <div className="grid-adaptive-sm">
           {IDOC_RECORDS.map((r) => (
@@ -61,33 +56,35 @@ export function IDocExplorer() {
           <span className="font-bold text-ink-2">ניתוב:</span>
           <span>Partner Profile</span><Tx code="WE20" /><span>·</span><span>Port</span><Tx code="WE21" /><span>·</span><span>Basic Type</span><Tx code="WE30" /><span>+ Extension</span><Tx code="WE31" />
         </div>
-      </section>
+      </SectionCard>
 
       {/* data flow */}
-      <section className="rounded-3xl border border-hairline bg-surface p-5 shadow-[var(--elev-1)] sm:p-6">
-        <h2 className="mb-4 flex items-center gap-2 text-lg font-extrabold text-ink-1"><Cable className="size-5" style={{ color: ACCENT }} />זרימת נתונים</h2>
+      <SectionCard icon={Cable} accent={ACCENT} title="זרימת נתונים">
         <div className="flex flex-wrap items-center gap-2">
           {IDOC.flow.map((node, i) => (
             <div key={node} className="flex items-center gap-2">
               <span className="rounded-xl border border-hairline bg-surface-2 px-3 py-2 text-[12px] font-bold text-ink-2">{node}</span>
-              {i < IDOC.flow.length - 1 && <ArrowLeft className="size-4 shrink-0 text-ink-3" />}
+              {i < IDOC.flow.length - 1 && <ArrowLeft className="size-4 shrink-0 text-ink-3" aria-hidden />}
             </div>
           ))}
         </div>
-      </section>
+      </SectionCard>
 
       {/* status reference */}
-      <section className="rounded-3xl border border-hairline bg-surface p-5 shadow-[var(--elev-1)] sm:p-6">
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <h2 className="flex items-center gap-2 text-lg font-extrabold text-ink-1"><Activity className="size-5" style={{ color: ACCENT }} />מדריך קודי סטטוס</h2>
-          <div className="flex gap-1.5">
+      <SectionCard
+        icon={Activity}
+        accent={ACCENT}
+        title="מדריך קודי סטטוס"
+        action={
+          <FilterBar>
             {(["all", "in", "out"] as const).map((d) => (
-              <button key={d} onClick={() => setDir(d)} className={`rounded-xl px-3 py-1.5 text-[12px] font-bold transition ${dir === d ? "text-white shadow-sm" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`} style={dir === d ? { background: d === "all" ? "#475569" : DIR_C[d] } : undefined}>
+              <FilterButton key={d} active={dir === d} accent={d === "all" ? "#475569" : DIR_C[d]} onClick={() => setDir(d)}>
                 {d === "all" ? "הכול" : DIR_HE[d]}
-              </button>
+              </FilterButton>
             ))}
-          </div>
-        </div>
+          </FilterBar>
+        }
+      >
         {statuses.length === 0 ? <EmptyState title="אין סטטוסים" hint="נקה סינון" /> : (
           <div className="grid gap-2.5 sm:grid-cols-2">
             {statuses.map((s) => (
@@ -102,28 +99,26 @@ export function IDocExplorer() {
                     <div className="text-[12.5px] font-bold leading-snug text-ink-1">{s.he}</div>
                   </div>
                 </div>
-                <p className="mt-2 flex gap-1.5 text-[11.5px] leading-relaxed text-ink-3"><AlertTriangle className="mt-0.5 size-3 shrink-0 text-rose-500" />{s.cause}</p>
-                <div className="mt-2 flex flex-wrap items-center gap-1.5"><Wrench className="size-3 text-ink-3" />{s.fix.map((f) => <Tx key={f} code={f} />)}</div>
+                <p className="mt-2 flex gap-1.5 text-[11.5px] leading-relaxed text-ink-3"><AlertTriangle className="mt-0.5 size-3 shrink-0 text-rose-500" aria-hidden />{s.cause}</p>
+                <div className="mt-2 flex flex-wrap items-center gap-1.5"><Wrench className="size-3 text-ink-3" aria-hidden />{s.fix.map((f) => <Tx key={f} code={f} />)}</div>
               </div>
             ))}
           </div>
         )}
-      </section>
+      </SectionCard>
 
       {/* monitoring tcodes + message types */}
       <div className="grid gap-4 lg:grid-cols-2">
-        <section className="rounded-3xl border border-hairline bg-surface p-5 shadow-[var(--elev-1)]">
-          <h2 className="mb-3 flex items-center gap-2 text-base font-extrabold text-ink-1"><FileSearch className="size-4" style={{ color: ACCENT }} />כלי ניטור ועיבוד</h2>
+        <SectionCard icon={FileSearch} accent={ACCENT} title="כלי ניטור ועיבוד" level={3}>
           <div className="mb-3 space-y-1.5">
             {IDOC.monitoring.map((m) => (
               <div key={m.t} className="flex items-start gap-2 text-[12px]"><span className="shrink-0"><Tx code={m.t.split(" / ")[0]} /></span><span className="text-ink-3">{m.what}</span></div>
             ))}
           </div>
           <div className="flex flex-wrap gap-1.5 border-t border-hairline pt-3">{IDOC.transactions.map((t) => <Tx key={t} code={t} />)}</div>
-        </section>
+        </SectionCard>
 
-        <section className="rounded-3xl border border-hairline bg-surface p-5 shadow-[var(--elev-1)]">
-          <h2 className="mb-3 flex items-center gap-2 text-base font-extrabold text-ink-1"><ListTree className="size-4" style={{ color: ACCENT }} />סוגי הודעה במאגר PM/PP-PI</h2>
+        <SectionCard icon={ListTree} accent={ACCENT} title="סוגי הודעה במאגר PM/PP-PI" level={3}>
           {msgTypes.length ? (
             <div className="flex flex-wrap gap-2">
               {msgTypes.map((m) => (
@@ -134,12 +129,12 @@ export function IDocExplorer() {
             </div>
           ) : <p className="text-[12px] text-ink-3">אין סוגי הודעה ייעודיים במאגר.</p>}
           <p className="mt-3 text-[11px] leading-relaxed text-ink-3">סוגי ההודעה שמופיעים בבלוּפרינט של PM/PP-PI. לחיצה פותחת את עמוד ה-IDoc המלא עם הטבלאות הקשורות.</p>
-        </section>
+        </SectionCard>
       </div>
 
       {/* הארגון reality + incidents */}
-      <section className="rounded-3xl border p-5 shadow-[var(--elev-1)]" style={{ borderColor: ACCENT + "30", background: ACCENT + "08" }}>
-        <h2 className="mb-2 flex items-center gap-2 text-base font-extrabold text-ink-1"><BookOpen className="size-4" style={{ color: ACCENT }} />מהשטח בארגון</h2>
+      <section className="rounded-2xl border p-5 shadow-[var(--elev-1)]" style={{ borderColor: ACCENT + "30", background: ACCENT + "08" }}>
+        <h2 className="mb-2 flex items-center gap-2 text-[15px] font-extrabold text-ink-1"><BookOpen className="size-4" style={{ color: ACCENT }} aria-hidden />מהשטח בארגון</h2>
         <p className="text-[12.5px] leading-relaxed text-ink-2">{IDOC.scenario}</p>
         {IDOC.incidents.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-2">

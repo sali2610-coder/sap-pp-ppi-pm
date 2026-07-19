@@ -2,9 +2,9 @@
 
 import { useMemo, useState } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
-import { Sigma, Database, LayoutGrid, Layers, Search, ArrowLeft, GitBranch } from "lucide-react";
+import { Sigma, Database, LayoutGrid, Layers, ArrowLeft, GitBranch } from "lucide-react";
 import { SapTip } from "@/components/sap-tip";
-import { EmptyState } from "@/components/ui/empty-state";
+import { StatCard, StatGrid, SearchField, FilterBar, FilterButton, SectionCard, EmptyState } from "@/components/ui";
 import { CDS_VIEWS, type CdsView } from "@/data/cds-map";
 
 const ACCENT = "#16a34a"; // CDS green
@@ -14,6 +14,7 @@ const MOD_C: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9" };
 // classic ECC table → Interface view (I_) → Consumption view (C_) → Fiori app.
 // 100% from the curated cds-map (hand-verified released views). Reference/
 // diagnostic surface, complementary to the /cds/<view> detail pages.
+// Built on the production Design System (StatCard / SearchField / FilterBar / SectionCard).
 export function CdsExplorer() {
   const [mod, setMod] = useState<"all" | "PM" | "PP-PI">("all");
   const [q, setQ] = useState("");
@@ -31,48 +32,38 @@ export function CdsExplorer() {
   }), []);
 
   const STATS = [
-    { icon: <Sigma className="size-4" />, v: stats.total, l: "תצוגות CDS", c: ACCENT },
-    { icon: <Layers className="size-4" />, v: stats.consumption, l: "תצוגות צריכה (C_)", c: "#0891b2" },
-    { icon: <LayoutGrid className="size-4" />, v: stats.fiori, l: "מחוברות ל-Fiori", c: "#d97706" },
-    { icon: <Database className="size-4" />, v: stats.tables, l: "טבלאות ECC ממופות", c: "#2563eb" },
+    { icon: Sigma, v: stats.total, l: "תצוגות CDS", c: ACCENT },
+    { icon: Layers, v: stats.consumption, l: "תצוגות צריכה (C_)", c: "#0891b2" },
+    { icon: LayoutGrid, v: stats.fiori, l: "מחוברות ל-Fiori", c: "#d97706" },
+    { icon: Database, v: stats.tables, l: "טבלאות ECC ממופות", c: "#2563eb" },
   ];
 
   return (
     <div dir="rtl" className="space-y-6">
-      {/* stats */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {STATS.map((k) => (
-          <div key={k.l} className="flex items-center gap-3 rounded-2xl border border-hairline bg-surface p-4 shadow-[var(--elev-1)]">
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: k.c }}>{k.icon}</span>
-            <div><div className="text-2xl font-extrabold tabular-nums text-ink-1">{k.v}</div><div className="text-[11px] font-semibold text-ink-3">{k.l}</div></div>
-          </div>
-        ))}
-      </div>
+      <StatGrid>
+        {STATS.map((k) => <StatCard key={k.l} icon={k.icon} value={k.v} label={k.l} accent={k.c} />)}
+      </StatGrid>
 
       {/* VDM layer explainer */}
-      <section className="rounded-3xl border border-hairline bg-surface p-5 shadow-[var(--elev-1)] sm:p-6">
-        <h2 className="mb-3 flex items-center gap-2 text-lg font-extrabold text-ink-1"><Sigma className="size-5" style={{ color: ACCENT }} />מודל הנתונים הווירטואלי (VDM)</h2>
+      <SectionCard icon={Sigma} accent={ACCENT} title="מודל הנתונים הווירטואלי (VDM)">
         <div className="flex flex-wrap items-center gap-2 text-[12.5px] font-bold">
           <span className="rounded-xl border border-hairline bg-surface-2 px-3 py-2 text-ink-2">טבלת ECC קלאסית</span>
-          <ArrowLeft className="size-4 text-ink-3" />
+          <ArrowLeft className="size-4 text-ink-3" aria-hidden />
           <span className="rounded-xl px-3 py-2 text-white shadow-sm" style={{ background: ACCENT }}>Interface View · I_</span>
-          <ArrowLeft className="size-4 text-ink-3" />
+          <ArrowLeft className="size-4 text-ink-3" aria-hidden />
           <span className="rounded-xl px-3 py-2 text-white shadow-sm" style={{ background: "#0891b2" }}>Consumption View · C_</span>
-          <ArrowLeft className="size-4 text-ink-3" />
+          <ArrowLeft className="size-4 text-ink-3" aria-hidden />
           <span className="rounded-xl px-3 py-2 text-white shadow-sm" style={{ background: "#d97706" }}>Fiori App</span>
         </div>
         <p className="mt-3 text-[12px] leading-relaxed text-ink-3">ב-S/4HANA הגישה לנתונים עוברת דרך תצוגות CDS במקום קריאה ישירה לטבלה. תצוגת Interface (I_) חושפת את הנתון הגולמי, תצוגת Consumption (C_) מוסיפה היגיון אנליטי, ואפליקציית Fiori צורכת את השרשרת.</p>
-      </section>
+      </SectionCard>
 
       {/* controls */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="flex flex-1 items-center gap-2 rounded-2xl border border-hairline bg-surface px-4 py-2.5 shadow-sm">
-          <Search className="size-4" style={{ color: ACCENT }} />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש תצוגה · טבלה · אפליקציה…" className="w-full bg-transparent text-sm outline-none placeholder:text-ink-3" />
-        </div>
-        <div className="flex gap-1.5">
-          {(["all", "PM", "PP-PI"] as const).map((m) => <button key={m} onClick={() => setMod(m)} className={`tap rounded-xl px-3 py-2 text-xs font-bold transition ${mod === m ? "text-white shadow-sm" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`} style={mod === m ? { background: m === "all" ? ACCENT : MOD_C[m] } : undefined}>{m === "all" ? "הכול" : m}</button>)}
-        </div>
+        <SearchField value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש תצוגה · טבלה · אפליקציה…" accent={ACCENT} aria-label="חיפוש תצוגות CDS" />
+        <FilterBar>
+          {(["all", "PM", "PP-PI"] as const).map((m) => <FilterButton key={m} active={mod === m} accent={m === "all" ? ACCENT : MOD_C[m]} onClick={() => setMod(m)}>{m === "all" ? "הכול" : m}</FilterButton>)}
+        </FilterBar>
       </div>
 
       <p className="text-xs font-bold text-ink-3">{list.length} תצוגות</p>
