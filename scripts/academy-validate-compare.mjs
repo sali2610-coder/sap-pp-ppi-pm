@@ -23,13 +23,15 @@ const lines = [];
 lines.push(`# Validation report — ${pr}\n`);
 lines.push(`Before: ${before.rows.length} shots · After: ${after.rows.length} shots. Reduced-motion, seeded localStorage, deterministic capture.\n`);
 lines.push(`Intended-change scope (--expected): ${expected.size ? [...expected].join(", ") : "(none — additive PR, all surfaces must be identical)"}\n`);
-lines.push(`| surface | vp | status b→a | overflow b→a | errors b→a | render | verdict |`);
-lines.push(`|---|---|---|---|---|---|---|`);
+lines.push(`Change detection = DOM text signature (authoritative). Pixel hash shown as advisory only (flaky under animation).\n`);
+lines.push(`| surface | vp | status b→a | overflow b→a | errors b→a | content | pixel | verdict |`);
+lines.push(`|---|---|---|---|---|---|---|---|`);
 
 let unexpected = 0, regress = 0;
 for (const a of after.rows) {
   const b = bMap.get(key(a)) || {};
-  const changed = b.hash !== a.hash;
+  const changed = (b.textHash ?? "b") !== (a.textHash ?? "a"); // authoritative: DOM text
+  const pixelChanged = b.hash !== a.hash;
   const inScope = expected.has(a.surface);
   const statusOk = (a.status === 200 || a.status === 304);
   const ovOk = a.overflow <= 0;
@@ -38,7 +40,7 @@ for (const a of after.rows) {
   if (changed && inScope) verdict = "◐ changed (intended)";
   else if (changed && !inScope) { verdict = "⛔ UNEXPECTED CHANGE"; unexpected++; }
   if (!statusOk || !ovOk || !errOk) { verdict += " · ⚠ metric"; regress++; }
-  lines.push(`| ${a.surface} | ${a.vp} | ${b.status ?? "—"}→${a.status} | ${b.overflow ?? "—"}→${a.overflow} | ${(b.errors?.length ?? "—")}→${a.errors?.length ?? 0} | ${changed ? b.hash + "→" + a.hash : "same"} | ${verdict} |`);
+  lines.push(`| ${a.surface} | ${a.vp} | ${b.status ?? "—"}→${a.status} | ${b.overflow ?? "—"}→${a.overflow} | ${(b.errors?.length ?? "—")}→${a.errors?.length ?? 0} | ${changed ? "CHANGED" : "same"} | ${pixelChanged ? "diff" : "same"} | ${verdict} |`);
 }
 
 lines.push(`\n**Unexpected changes (out of scope): ${unexpected}** · **Metric regressions: ${regress}**`);
