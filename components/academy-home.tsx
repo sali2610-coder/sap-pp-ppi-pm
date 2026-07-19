@@ -12,6 +12,8 @@ import { useRecent } from "@/lib/academy/recent";
 import { PILOT_LESSONS } from "@/data/academy/lessons/pm-maintenance-order";
 import { orderedBlocks } from "@/lib/academy/lesson-types";
 import { useGamification, useLessonPct } from "@/lib/academy/gamification";
+import { useContinueTarget } from "@/lib/academy/store";
+import { accentOf } from "@/lib/academy/theme";
 
 const PILOT_SLUG = "pm-maintenance-order";
 const DAYS = ["א׳", "ב׳", "ג׳", "ד׳", "ה׳", "ו׳", "ש׳"];
@@ -46,7 +48,12 @@ export function AcademyHome() {
   const g = useGamification();
   const pilotTotal = useMemo(() => orderedBlocks(PILOT_LESSONS[PILOT_SLUG]).length, []);
   const pilotPct = useLessonPct(PILOT_SLUG, pilotTotal);
-  const started = pilotPct > 0;
+
+  // Continue Learning — algorithmic target from the single store (§7), not hardcoded.
+  const target = useContinueTarget();
+  const tAccent = accentOf(target?.module ?? "PM");
+  const tPct = useLessonPct(target?.slug ?? "", target?.requiredBlocks ?? 0);
+  const tStarted = tPct > 0;
 
   const tracks = BOOKS;
   const recent = useRecent();
@@ -64,20 +71,22 @@ export function AcademyHome() {
           <h1 className="text-[27px] font-extrabold tracking-[-0.02em]">ברוך שובך</h1>
           <p className="mt-1 inline-flex flex-wrap items-center gap-1 text-[14px] text-ink-3">{g.streak > 0 ? <><Flame className="size-4 text-[#f97316]" />רצף של <b className="text-[#f97316]">{g.streak} ימים</b> · </> : null}עוד <b className="text-[#f97316]">{Math.max(0, g.weeklyTarget - g.weeklyDone)} ימי למידה</b> ליעד השבועי.</p>
 
-          {/* continue learning / start */}
-          <div className="relative mt-4 flex flex-col gap-4 overflow-hidden rounded-3xl border border-hairline bg-gradient-to-bl from-surface to-[#fff7ed] p-5 sm:flex-row sm:items-center">
-            <span className="absolute inset-y-0 end-0 w-1.5 bg-gradient-to-b from-[#f97316] to-[#c2410c]" />
-            <span className="grid h-[120px] w-24 shrink-0 flex-col place-items-start justify-end rounded-2xl bg-gradient-to-br from-[#f97316] to-[#c2410c] p-3 text-white shadow-[0_14px_30px_-12px_rgba(249,115,22,.5)]">
-              <span className="mt-auto"><span className="block text-[10px] font-bold opacity-85">PM · פרק 4</span><span className="block text-[13px] font-extrabold leading-tight">ביצוע אחזקה</span></span>
+          {/* continue learning — real target from the store (§7) */}
+          {target && (
+          <div className="relative mt-4 flex flex-col gap-4 overflow-hidden rounded-3xl border border-hairline bg-surface p-5 sm:flex-row sm:items-center">
+            <span className="absolute inset-y-0 end-0 w-1.5" style={{ background: tAccent }} />
+            <span className="grid h-[120px] w-24 shrink-0 flex-col place-items-start justify-end rounded-2xl p-3 text-white shadow-[0_14px_30px_-12px_rgba(0,0,0,.3)]" style={{ background: `linear-gradient(135deg, ${tAccent}, ${tAccent}cc)` }}>
+              <span className="mt-auto"><span className="block text-[10px] font-bold opacity-85">{target.module} · פרק {target.chapterIndex}</span><span className="block text-[13px] font-extrabold leading-tight" dir="auto">{target.chapterTitle}</span></span>
             </span>
             <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-1.5 text-[10.5px] font-extrabold uppercase tracking-[0.1em] text-[#f97316]"><Play className="size-3.5" />{started ? "המשך מהמקום שהפסקת" : "השיעור הראשון שלך"}</div>
-              <h3 className="mt-1.5 text-[19px] font-extrabold tracking-[-0.01em]">פקודת אחזקה — Maintenance Order</h3>
-              <p className="text-[12.5px] text-ink-3">מסלול אחזקת מפעל · שיעור 3 מתוך 6</p>
-              {started && (<><div className="mt-3 h-[7px] max-w-[340px] overflow-hidden rounded-full bg-[#fde8d5]"><div className="h-full rounded-full bg-gradient-to-l from-[#f97316] to-[#fb923c]" style={{ width: `${pilotPct * 100}%` }} /></div><div className="mt-1 flex max-w-[340px] justify-between text-[11px] font-bold text-ink-3"><span>{Math.round(pilotPct * 100)}% הושלם</span><span>{Math.round(pilotPct * pilotTotal)}/{pilotTotal} בלוקים</span></div></>)}
-              <Link href={`/academy/lesson/${PILOT_SLUG}/`} className="mt-3.5 inline-flex items-center gap-2 rounded-xl bg-ink-1 px-5 py-2.5 text-[13.5px] font-extrabold text-white transition hover:bg-black">{started ? "המשך ללמוד" : "התחל ללמוד"} <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
+              <div className="flex items-center gap-1.5 text-[10.5px] font-extrabold uppercase tracking-[0.1em]" style={{ color: tAccent }}><Play className="size-3.5" />{tStarted ? "המשך מהמקום שהפסקת" : "השיעור הבא שלך"}</div>
+              <h3 className="mt-1.5 text-[19px] font-extrabold tracking-[-0.01em]" dir="auto">{target.title}</h3>
+              <p className="text-[12.5px] text-ink-3">פרק {target.chapterIndex} · שיעור {target.posInChapter} מתוך {target.chapterSize}</p>
+              {tStarted && (<><div className="mt-3 h-[7px] max-w-[340px] overflow-hidden rounded-full bg-black/[0.06]"><div className="h-full rounded-full" style={{ width: `${Math.round(tPct * 100)}%`, background: tAccent }} /></div><div className="mt-1 flex max-w-[340px] justify-between text-[11px] font-bold text-ink-3"><span>{Math.round(tPct * 100)}% הושלם</span><span>{Math.round(tPct * (target.requiredBlocks || 0))}/{target.requiredBlocks} בלוקים</span></div></>)}
+              <Link href={`/academy/lesson/${target.slug}/`} className="mt-3.5 inline-flex items-center gap-2 rounded-xl bg-ink-1 px-5 py-2.5 text-[13.5px] font-extrabold text-white transition hover:bg-black">{tStarted ? "המשך ללמוד" : "התחל ללמוד"} <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
             </div>
           </div>
+          )}
         </div>
 
         {/* streak + goal */}

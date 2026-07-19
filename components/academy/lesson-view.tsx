@@ -16,6 +16,8 @@ import { useLessonProgress } from "@/lib/academy/lesson-progress";
 import { recordActivity } from "@/lib/academy/gamification";
 import { recordRecent } from "@/lib/academy/recent";
 import { lessonNav, lessonRef, type LessonNav } from "@/lib/academy/lesson-nav";
+import { getLesson, prevOf, nextOf, moduleIdOf } from "@/lib/academy/model";
+import { setLastLesson } from "@/lib/academy/store";
 import { accentOf } from "@/lib/academy/theme";
 import { Callout, Chip, Pill, IconWell, Breadcrumb } from "@/components/ui";
 
@@ -218,19 +220,21 @@ function LessonAtAGlance({ prevSlug, concepts, nav, accent }: { prevSlug?: strin
 
 /** End-of-lesson footer — rich prev/next lesson cards + chapter nav + course. */
 function LessonFooterNav({ lesson, nav, accent }: { lesson: Lesson; nav?: LessonNav; accent: string }) {
-  const prev = lessonRef(lesson.prev), next = lessonRef(lesson.next);
+  // prev/next from the canonical model (path order), never authored index/array.
+  const prevSlug = prevOf(lesson.slug), nextSlug = nextOf(lesson.slug);
+  const prev = lessonRef(prevSlug), next = lessonRef(nextSlug);
   if (!prev && !next && !nav) return null;
   return (
     <nav aria-label="ניווט שיעורים" className="mt-8 border-t border-hairline pt-6">
       <div className="grid gap-3 sm:grid-cols-2">
         {prev ? (
-          <Link href={`/academy/lesson/${lesson.prev}/`} className="group flex items-center gap-3 rounded-2xl border border-hairline bg-surface p-4 transition-all hover:-translate-y-px hover:border-brand/40 hover:shadow-sm">
+          <Link href={`/academy/lesson/${prevSlug}/`} className="group flex items-center gap-3 rounded-2xl border border-hairline bg-surface p-4 transition-all hover:-translate-y-px hover:border-brand/40 hover:shadow-sm">
             <ArrowRight className="size-5 shrink-0 text-ink-3 transition-colors group-hover:text-brand" />
             <div className="min-w-0"><div className="text-[10.5px] font-bold uppercase tracking-wide text-ink-3">השיעור הקודם</div><div className="truncate text-[13px] font-extrabold text-ink-1" dir="auto">{prev.title}</div></div>
           </Link>
         ) : <span className="hidden sm:block" />}
         {next ? (
-          <Link href={`/academy/lesson/${lesson.next}/`} className="group flex items-center justify-end gap-3 rounded-2xl border border-hairline bg-surface p-4 text-end transition-all hover:-translate-y-px hover:border-brand/40 hover:shadow-sm">
+          <Link href={`/academy/lesson/${nextSlug}/`} className="group flex items-center justify-end gap-3 rounded-2xl border border-hairline bg-surface p-4 text-end transition-all hover:-translate-y-px hover:border-brand/40 hover:shadow-sm">
             <div className="min-w-0"><div className="text-[10.5px] font-bold uppercase tracking-wide text-ink-3">השיעור הבא</div><div className="truncate text-[13px] font-extrabold text-ink-1" dir="auto">{next.title}</div></div>
             <ArrowLeft className="size-5 shrink-0 text-ink-3 transition-colors group-hover:text-brand" />
           </Link>
@@ -255,12 +259,18 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
   const { doneSet, pct, markDone } = useLessonProgress(lesson.slug, kinds);
   const [active, setActive] = useState<BlockKind | null>(null);
   const nav = useMemo(() => lessonNav(lesson.slug), [lesson.slug]);
+  // canonical display number = position within its chapter (not authored lesson.index)
+  const dispNum = getLesson(lesson.slug)?.posInChapter ?? lesson.index;
+  const prevSlug = prevOf(lesson.slug), nextSlug = nextOf(lesson.slug);
   const concepts = useMemo(() => {
     const kc = blocks.find((b) => b.kind === "key-concepts");
     return kc && kc.kind === "key-concepts" ? kc.items : [];
   }, [blocks]);
 
-  useEffect(() => { recordRecent({ id: `lesson:${lesson.slug}`, title: lesson.title, module: lesson.module, href: `/academy/lesson/${lesson.slug}/`, kind: "lesson" }); }, [lesson]);
+  useEffect(() => {
+    recordRecent({ id: `lesson:${lesson.slug}`, title: lesson.title, module: lesson.module, href: `/academy/lesson/${lesson.slug}/`, kind: "lesson" });
+    setLastLesson(moduleIdOf(lesson.module), lesson.slug); // powers Continue Learning (§7)
+  }, [lesson]);
 
   // "On this page" scroll-spy — track the section nearest the top (Stripe/Cursor docs feel)
   useEffect(() => {
@@ -274,7 +284,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
   return (
     <div dir="rtl">
-      <Breadcrumb items={[{ label: "SAP Academy", href: "/academy/" }, { label: lesson.module }, { label: lesson.course }, { label: `שיעור ${lesson.index}` }]} />
+      <Breadcrumb items={[{ label: "SAP Academy", href: "/academy/" }, { label: lesson.module }, { label: lesson.course }, { label: `שיעור ${dispNum}` }]} />
 
 
       {/* mobile sticky progress */}
@@ -297,11 +307,11 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
             </div>
             <h1 className="relative mt-3 text-[27px] font-extrabold leading-[1.12] tracking-[-0.02em] text-ink-1 sm:text-[30px]" dir="auto">{lesson.title}</h1>
             {lesson.titleEn && <p className="relative mt-1 text-sm text-ink-3" dir="ltr">{lesson.titleEn}</p>}
-            <p className="relative mt-2 text-[12.5px] font-semibold text-ink-3">{lesson.course} · שיעור {lesson.index}</p>
+            <p className="relative mt-2 text-[12.5px] font-semibold text-ink-3">{lesson.course} · שיעור {dispNum}</p>
           </header>
 
           {/* at a glance — outcomes + prerequisites + chapter context (derived) */}
-          <LessonAtAGlance prevSlug={lesson.prev} concepts={concepts} nav={nav} accent={accent} />
+          <LessonAtAGlance prevSlug={prevSlug} concepts={concepts} nav={nav} accent={accent} />
 
           {/* flowing document */}
           <div className="mt-7 flex flex-col gap-8">
@@ -318,7 +328,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
                 className="mt-8 flex flex-wrap items-center gap-3 rounded-2xl border border-[#cfe6e2] bg-gradient-to-bl from-[#f0f6f5] to-surface p-4">
                 <span aria-hidden className="grid size-11 place-items-center rounded-2xl bg-[#0f766e]/12 text-[#0f766e]"><PartyPopper className="size-6" /></span>
                 <div className="min-w-0 flex-1"><div className="text-[15px] font-extrabold text-ink-1">כל הכבוד! השלמת את השיעור</div><div className="text-[12px] text-ink-3">קראת את כל {kinds.length} החלקים.</div></div>
-                {lesson.next ? <Link href={`/academy/lesson/${lesson.next}/`} className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-[12.5px] font-extrabold text-white transition hover:bg-brand-dark">השיעור הבא <ArrowLeft className="size-4" /></Link> : <Link href={`/academy/path/${lesson.module.toLowerCase()}/`} className="tap rounded-xl bg-ink-1 px-4 py-2 text-[12.5px] font-extrabold text-white">חזרה למסלול</Link>}
+                {nextSlug ? <Link href={`/academy/lesson/${nextSlug}/`} className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-[12.5px] font-extrabold text-white transition hover:bg-brand-dark">השיעור הבא <ArrowLeft className="size-4" /></Link> : <Link href={`/academy/path/${moduleIdOf(lesson.module)}/`} className="tap rounded-xl bg-ink-1 px-4 py-2 text-[12.5px] font-extrabold text-white">חזרה למסלול</Link>}
               </motion.div>
             )}
           </AnimatePresence>
@@ -351,8 +361,8 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
             </div>
           </nav>
           <div className="flex gap-2">
-            {lesson.prev && <Link href={`/academy/lesson/${lesson.prev}/`} className="tap flex flex-1 items-center justify-center gap-1 rounded-xl border border-hairline py-2 text-[11.5px] font-bold text-ink-2 hover:border-brand/40"><ArrowRight className="size-3.5" /> הקודם</Link>}
-            {lesson.next && <Link href={`/academy/lesson/${lesson.next}/`} className="tap flex flex-1 items-center justify-center gap-1 rounded-xl py-2 text-[11.5px] font-bold text-white hover:opacity-90" style={{ background: accent }}>הבא <ArrowLeft className="size-3.5" /></Link>}
+            {prevSlug && <Link href={`/academy/lesson/${prevSlug}/`} className="tap flex flex-1 items-center justify-center gap-1 rounded-xl border border-hairline py-2 text-[11.5px] font-bold text-ink-2 hover:border-brand/40"><ArrowRight className="size-3.5" /> הקודם</Link>}
+            {nextSlug && <Link href={`/academy/lesson/${nextSlug}/`} className="tap flex flex-1 items-center justify-center gap-1 rounded-xl py-2 text-[11.5px] font-bold text-white hover:opacity-90" style={{ background: accent }}>הבא <ArrowLeft className="size-3.5" /></Link>}
           </div>
         </aside>
       </div>
