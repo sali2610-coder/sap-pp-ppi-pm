@@ -1,0 +1,168 @@
+{
+  "pr": "pr1",
+  "label": "after",
+  "base": "http://localhost:8899",
+  "at": "captured",
+  "rows": [
+    {
+      "surface": "home",
+      "vp": "d",
+      "note": "Home + Continue Learning card",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "hash": "3476bae1cbf4",
+      "file": "docs/academy/validation/pr1/after/home-d.png"
+    },
+    {
+      "surface": "home",
+      "vp": "m",
+      "note": "Home + Continue Learning card",
+      "status": 304,
+      "overflow": 0,
+      "errors": [],
+      "hash": "3c850fb9852c",
+      "file": "docs/academy/validation/pr1/after/home-m.png"
+    },
+    {
+      "surface": "dashboard",
+      "vp": "d",
+      "note": "Academy Dashboard",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "hash": "ff20096e6c9a",
+      "file": "docs/academy/validation/pr1/after/dashboard-d.png"
+    },
+    {
+      "surface": "dashboard",
+      "vp": "m",
+      "note": "Academy Dashboard",
+      "status": 304,
+      "overflow": 0,
+      "errors": [],
+      "hash": "548182456407",
+      "file": "docs/academy/validation/pr1/after/dashboard-m.png"
+    },
+    {
+      "surface": "library",
+      "vp": "d",
+      "note": "Library (FROZEN guard)",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "hash": "f279222cf972",
+      "file": "docs/academy/validation/pr1/after/library-d.png"
+    },
+    {
+      "surface": "library",
+      "vp": "m",
+      "note": "Library (FROZEN guard)",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "hash": "2d100bb96991",
+      "file": "docs/academy/validation/pr1/after/library-m.png"
+    },
+    {
+      "surface": "pm-academy",
+      "vp": "d",
+      "note": "PM Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "hash": "8aa6d20df2ad",
+      "file": "docs/academy/validation/pr1/after/pm-academy-d.png"
+    },
+    {
+      "surface": "pm-academy",
+      "vp": "m",
+      "note": "PM Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "hash": "a6c95ae736e9",
+      "file": "docs/academy/validation/pr1/after/pm-academy-m.png"
+    },
+    {
+      "surface": "pppi-academy",
+      "vp": "d",
+      "note": "PP-PI Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "hash": "e70226f62ce4",
+      "file": "docs/academy/validation/pr1/after/pppi-academy-d.png"
+    },
+    {
+      "surface": "pppi-academy",
+      "vp": "m",
+      "note": "PP-PI Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "hash": "61c69a3be5db",
+      "file": "docs/academy/validation/pr1/after/pppi-academy-m.png"
+    },
+    {
+      "surface": "qm-academy",
+      "vp": "d",
+      "note": "QM Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "hash": "9911aa41e8be",
+      "file": "docs/academy/validation/pr1/after/qm-academy-d.png"
+    },
+    {
+      "surface": "qm-academy",
+      "vp": "m",
+      "note": "QM Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "hash": "5fa8edd3f936",
+      "file": "docs/academy/validation/pr1/after/qm-academy-m.png"
+    },
+    {
+      "surface": "lesson",
+      "vp": "d",
+      "note": "Progress + Current lesson",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "hash": "11a3cf213490",
+      "file": "docs/academy/validation/pr1/after/lesson-d.png"
+    },
+    {
+      "surface": "lesson",
+      "vp": "m",
+      "note": "Progress + Current lesson",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "hash": "66798b6e8277",
+      "file": "docs/academy/validation/pr1/after/lesson-m.png"
+    },
+    {
+      "surface": "search",
+      "vp": "d",
+      "note": "Search (command palette)",
+      "status": 304,
+      "overflow": 0,
+      "errors": [],
+      "hash": "fb61b3a06825",
+      "file": "docs/academy/validation/pr1/after/search-d.png"
+    },
+    {
+      "surface": "search",
+      "vp": "m",
+      "note": "Search (command palette)",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "hash": "651cb0770210",
+      "file": "docs/academy/validation/pr1/after/search-m.png"
+    }
+  ]
+}

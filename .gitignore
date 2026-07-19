@@ -50,3 +50,4 @@ presentations/**/out/
 
 # sc4sap plugin local logs/inventory (not project code)
 .sc4sap/
+docs/academy/validation/**/*.png
