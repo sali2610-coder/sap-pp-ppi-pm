@@ -2,13 +2,13 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Terminal, Search, Star, Clock, Flame, AppWindow, Layers, ArrowLeft } from "lucide-react";
+import { Terminal, Star, Clock, Flame, AppWindow, Layers, ArrowLeft } from "lucide-react";
 import { TX_INTEL } from "@/data/tx-intel";
 import { txRegistry, registryStats } from "@/lib/tx-registry";
 import { txMostPopular, txPopularity } from "@/lib/tx-intel";
 import { facetsOf, presentFacets } from "@/lib/tx-facets";
 import { useTxFavorites, useRecentTx, toggleTxFavorite } from "@/lib/tx-prefs";
-import { EmptyState } from "@/components/ui/empty-state";
+import { SearchField, FilterBar, FilterButton, EmptyState } from "@/components/ui";
 import { setActiveEntity } from "@/lib/workspace";
 
 const MOD_COLOR: Record<string, string> = {
@@ -93,17 +93,14 @@ export function TransactionWorkspace() {
         ))}
       </div>
 
-      <div className="mb-3 flex flex-wrap gap-1.5">
-        {VIEWS.map(([v, l, Ic]) => <button key={v} onClick={() => setView(v)} className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-[13px] font-bold transition ${view === v ? "bg-brand text-white shadow-sm" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}><Ic className="size-3.5" />{l}</button>)}
-      </div>
+      <FilterBar className="mb-3">
+        {VIEWS.map(([v, l, Ic]) => <FilterButton key={v} active={view === v} onClick={() => setView(v)} className="inline-flex items-center gap-1.5 text-[13px]"><Ic className="size-3.5" />{l}</FilterButton>)}
+      </FilterBar>
 
       <div className="mb-3 flex flex-wrap items-center gap-2">
-        <div className="flex min-w-[200px] flex-1 items-center gap-2 rounded-xl border border-hairline bg-surface px-3 py-2">
-          <Search className="size-4 shrink-0 text-ink-3" />
-          <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש חכם — קוד (IW31) · שם עברי/אנגלי · תיאור · חלקי" className="w-full bg-transparent text-sm outline-none placeholder:text-ink-3" />
-        </div>
-        <button onClick={() => setFlag(flag === "deep" ? "" : "deep")} className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-[12px] font-bold transition ${flag === "deep" ? "bg-brand text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}><Layers className="size-3.5" />מתועד לעומק</button>
-        <button onClick={() => setFlag(flag === "fiori" ? "" : "fiori")} className={`flex items-center gap-1.5 rounded-xl px-3 py-2 text-[12px] font-bold transition ${flag === "fiori" ? "bg-blue-600 text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}><AppWindow className="size-3.5" />Fiori זמין</button>
+        <SearchField value={q} onChange={(e) => setQ(e.target.value)} placeholder="חיפוש חכם — קוד (IW31) · שם עברי/אנגלי · תיאור · חלקי" containerClassName="min-w-[200px]" aria-label="חיפוש טרנזקציות" />
+        <FilterButton active={flag === "deep"} onClick={() => setFlag(flag === "deep" ? "" : "deep")} className="inline-flex items-center gap-1.5 text-[12px]"><Layers className="size-3.5" />מתועד לעומק</FilterButton>
+        <FilterButton active={flag === "fiori"} accent="#2563eb" onClick={() => setFlag(flag === "fiori" ? "" : "fiori")} className="inline-flex items-center gap-1.5 text-[12px]"><AppWindow className="size-3.5" />Fiori זמין</FilterButton>
       </div>
 
       <div className="mb-2 flex flex-wrap items-center gap-1.5">
