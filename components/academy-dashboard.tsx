@@ -7,7 +7,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   GraduationCap, BookOpen, CheckCircle2, Clock, ShieldCheck, Layers, ArrowRight,
-  CircleDashed, Search, Network, Calendar, FileText, ListTree,
+  CircleDashed, Search, Network, Calendar, FileText, ListTree, Wrench,
 } from "lucide-react";
 import { BOOKS, ACADEMY_TOTALS, bookStats, crossBookObjects, type BookDef } from "@/data/library/academy-index";
 import { useI18n } from "@/lib/i18n";
@@ -73,11 +73,11 @@ export function AcademyDashboard() {
 
       {/* P2 — structured lesson (block engine) entry point */}
       <Link href="/academy/lesson/pm-maintenance-order/" dir="rtl" className="group flex items-center gap-4 rounded-2xl border border-hairline bg-gradient-to-bl from-[#fff7ed] to-card p-4 transition hover:border-[#f97316]/40 hover:shadow-sm">
-        <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-[#f97316] text-2xl text-white shadow-lg">🔧</span>
+        <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-[#f97316] text-white shadow-lg [&_svg]:size-6"><Wrench /></span>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2"><span className="rounded-md bg-[#fff7ed] px-1.5 py-0.5 text-[10px] font-extrabold text-[#f97316]">PM</span><span className="rounded-full border border-[#f5e2bf] bg-[#fffbeb] px-2 py-0.5 text-[10px] font-bold text-[#b45309]">שיעור מובנה · מנוע בלוקים</span></div>
           <h3 className="mt-1 text-base font-extrabold text-foreground">פקודת אחזקה — Maintenance Order</h3>
-          <p className="text-[12.5px] text-muted-foreground">שיעור לדוגמה בתבנית הבלוקים החדשה — 🎯 מטרה · 🏭 CBC · 🗂 טבלאות · 💻 T-Codes · 📱 Fiori · ⚠️ טעויות · ❓ חזרה.</p>
+          <p className="text-[12.5px] text-muted-foreground">שיעור לדוגמה בתבנית הבלוקים החדשה — מטרה · CBC · טבלאות · T-Codes · Fiori · טעויות נפוצות · חזרה.</p>
         </div>
         <ArrowRight className="size-5 shrink-0 text-[#f97316] transition group-hover:-translate-x-0.5 rtl:rotate-180" />
       </Link>
