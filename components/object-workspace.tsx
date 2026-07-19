@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import {
   ArrowRight, ArrowLeft, KeyRound, Terminal, Boxes, FileCode, AppWindow,
   GitBranch, Workflow, BookOpen, Wrench, StickyNote, LayoutGrid, Database, AlertTriangle, MapPin, TrendingUp, Cable,
-  Presentation, FileCode2, BrainCircuit,
+  Presentation, FileCode2, BrainCircuit, Check,
 } from "lucide-react";
 import { ObjectIntelligence } from "@/components/object-intelligence";
 import { ObjectExpert } from "@/components/object-expert";
@@ -302,7 +302,7 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
               <div className="min-w-0 space-y-5">
                 <Section title="מהות" icon={<LayoutGrid className="size-4" />}><p className="text-sm leading-relaxed text-ink-2">{t.guideHe || t.descriptionHe || t.descriptionEn}</p></Section>
                 <Section title="נמצא ב" icon={<MapPin className="size-4" />}>
-                  <div className="flex flex-wrap gap-1.5">{intel?.foundIn.map((f) => <Link key={f.label} href={f.href} className="rounded-lg bg-surface-2 px-2.5 py-1 text-xs font-bold text-ink-2 hover:bg-hairline">✓ {f.label}</Link>)}</div>
+                  <div className="flex flex-wrap gap-1.5">{intel?.foundIn.map((f) => <Link key={f.label} href={f.href} className="inline-flex items-center gap-1 rounded-lg bg-surface-2 px-2.5 py-1 text-xs font-bold text-ink-2 hover:bg-hairline"><Check className="size-3 text-emerald-600" aria-hidden />{f.label}</Link>)}</div>
                 </Section>
               </div>
             </div>

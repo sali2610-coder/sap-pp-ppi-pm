@@ -598,7 +598,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
             <span className="mx-0.5 w-px self-stretch bg-hairline" />
             <F active={verif === "verified"} onClick={() => setVerif(verif === "verified" ? "all" : "verified")}>מאומת</F>
             <F active={verif === "needs"} onClick={() => setVerif(verif === "needs" ? "all" : "needs")}>דורש אימות</F>
-            <F active={favOnly} onClick={() => setFavOnly((v) => !v)}>★ מועדפים</F>
+            <F active={favOnly} onClick={() => setFavOnly((v) => !v)}><Star className="size-3.5" /> מועדפים</F>
             <span className="mx-0.5 w-px self-stretch bg-hairline" />
             <button onClick={() => setDrawer((d) => !d)} aria-expanded={drawer} className={`tap inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-bold transition ${drawer || secondaryCount ? "border-brand/40 bg-brand-soft text-brand" : "border-hairline bg-surface text-ink-2 hover:bg-surface-2"}`}>
               <SlidersHorizontal className="size-3.5" /> מסננים{secondaryCount > 0 && <span className="grid min-w-[16px] place-items-center rounded-full bg-brand px-1 text-[10px] font-extrabold text-white">{secondaryCount}</span>}
