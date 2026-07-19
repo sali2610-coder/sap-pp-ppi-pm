@@ -7,6 +7,8 @@ import { Lock, Play, ArrowLeft, GraduationCap, Clock } from "lucide-react";
 import { PILOT_LESSONS } from "@/data/academy/lessons/pm-maintenance-order";
 import { orderedBlocks } from "@/lib/academy/lesson-types";
 import { useLessonPct } from "@/lib/academy/gamification";
+import { useModuleProgress } from "@/lib/academy/store";
+import { moduleIdOf } from "@/lib/academy/model";
 import { Pill, Breadcrumb } from "@/components/ui";
 
 import { PILOT_SLUG, PM_PATH, PP_PATH, QM_PATH, type PathChapter, type LearningPath } from "@/lib/academy/paths";
@@ -23,7 +25,9 @@ export function LearningPathView({ path }: { path: LearningPath }) {
   const pilotTotal = useMemo(() => orderedBlocks(PILOT_LESSONS[PILOT_SLUG]).length, []);
   const pilotPct = useLessonPct(PILOT_SLUG, pilotTotal);
   const totalLessons = path.chapters.reduce((s, c) => s + c.lessons.length, 0);
-  const pctTrack = Math.round(((path.currentChapter + pilotPct) / path.chapters.length) * 100);
+  // Single source of truth (PR-2): completed lessons / total lessons — replaces
+  // the old hardcoded (currentChapter + pilotPct)/chapters formula.
+  const pctTrack = useModuleProgress(moduleIdOf(path.module)).pct;
 
   return (
     <div dir="rtl" className="pb-16">
