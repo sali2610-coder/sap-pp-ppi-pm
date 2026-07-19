@@ -16,15 +16,13 @@ import { useLessonProgress } from "@/lib/academy/lesson-progress";
 import { recordActivity } from "@/lib/academy/gamification";
 import { recordRecent } from "@/lib/academy/recent";
 import { lessonNav, lessonRef, type LessonNav } from "@/lib/academy/lesson-nav";
-import { Callout, Chip, Pill, IconWell } from "@/components/ui";
+import { accentOf } from "@/lib/academy/theme";
+import { Callout, Chip, Pill, IconWell, Breadcrumb } from "@/components/ui";
 
 /* ── design language (blueprint) ─────────────────────────────────────────────
    Premium reading experience: flowing document sections (not an accordion),
    SVG icons (no emoji), reader-grade typography, active "on this page" rail.
    Block engine + lesson data are UNCHANGED — only presentation. */
-
-const MODULE_ACCENT: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9", QM: "#0891b2", MM: "#d97706", WM: "#7c3aed" };
-const accentOf = (m: string) => MODULE_ACCENT[m] || "var(--brand)";
 
 // per-block category colour — instant recognition, restrained (design-principles §1)
 const TONE: Record<string, string> = {
@@ -69,7 +67,7 @@ function md(text: string) {
 function CopyBtn({ value }: { value: string }) {
   const [ok, setOk] = useState(false);
   return <button onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigator.clipboard?.writeText(value).then(() => { setOk(true); setTimeout(() => setOk(false), 1100); }).catch(() => {}); }}
-    aria-label="העתק" title={ok ? "הועתק" : "העתק"} className="ms-1.5 inline-grid size-5 place-items-center rounded border border-hairline text-ink-3 hover:text-ink-1">{ok ? <Check className="size-3 text-emerald-600" /> : <Copy className="size-3" />}</button>;
+    aria-label="העתק" title={ok ? "הועתק" : "העתק"} className="ms-1.5 inline-grid size-6 place-items-center rounded border border-hairline text-ink-3 outline-none transition-colors hover:text-ink-1 focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-1">{ok ? <Check className="size-3 text-emerald-600" /> : <Copy className="size-3" />}</button>;
 }
 
 function CodeChip({ r }: { r: { code: string; label?: string; href?: string } }) {
@@ -152,15 +150,15 @@ function BlockBody({ b, accent }: { b: LessonBlock; accent: string }) {
     case "flow":
       return <div className="flex flex-wrap items-center gap-2">{b.steps.map((s, i) => <span key={i} className="flex items-center gap-2">{i > 0 && <ChevronLeft className="size-3.5 text-ink-3" />}<span className={`rounded-lg border px-3 py-1.5 text-[12px] font-bold ${i === b.activeIndex ? "border-brand bg-brand text-white" : "border-hairline bg-surface-2 text-ink-2"}`}>{s}</span></span>)}</div>;
     case "diagram":
-      return <div className="grid h-36 place-items-center rounded-xl border border-dashed border-hairline bg-gradient-to-br from-surface-2/40 to-surface-2/70 text-center text-[12px] font-semibold text-ink-3">◱ {b.caption}</div>;
+      return <figure className="flex h-36 flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-hairline bg-gradient-to-br from-surface-2/40 to-surface-2/70 px-4 text-center"><Network className="size-6 text-ink-3" aria-hidden /><figcaption className="text-[12px] font-semibold text-ink-3">{b.caption}</figcaption></figure>;
     case "tables":
-      return <div className="overflow-hidden rounded-xl border border-hairline"><table className="w-full border-collapse text-[12.5px]"><thead><tr className="bg-surface-2"><th className="px-3 py-2 text-start text-[10px] font-extrabold uppercase text-ink-3">טבלה</th><th className="px-3 py-2 text-start text-[10px] font-extrabold uppercase text-ink-3">תיאור</th></tr></thead><tbody>{b.rows.map((r) => <tr key={r.code} className="border-t border-hairline"><td className="px-3 py-2">{r.href ? <Link href={r.href} className="tech font-mono font-bold text-ink-1 hover:text-brand" dir="ltr">{r.code}</Link> : <span className="tech font-mono font-bold text-ink-1" dir="ltr">{r.code}</span>}<CopyBtn value={r.code} /></td><td className="px-3 py-2 text-ink-2">{r.he}</td></tr>)}</tbody></table></div>;
+      return <div className="overflow-hidden rounded-xl border border-hairline"><table className="w-full border-collapse text-[12.5px]"><thead><tr className="bg-surface-2"><th className="px-3 py-2 text-start text-[10px] font-extrabold uppercase text-ink-2">טבלה</th><th className="px-3 py-2 text-start text-[10px] font-extrabold uppercase text-ink-2">תיאור</th></tr></thead><tbody>{b.rows.map((r) => <tr key={r.code} className="border-t border-hairline"><td className="px-3 py-2">{r.href ? <Link href={r.href} className="tech font-mono font-bold text-ink-1 hover:text-brand" dir="ltr">{r.code}</Link> : <span className="tech font-mono font-bold text-ink-1" dir="ltr">{r.code}</span>}<CopyBtn value={r.code} /></td><td className="px-3 py-2 text-ink-2">{r.he}</td></tr>)}</tbody></table></div>;
     case "related":
-      return <div><div className="grid gap-2 sm:grid-cols-2">{b.refs.map((r) => <RelatedCard key={r.code} r={r} accent={accent} />)}</div>{b.note && <p className="mt-2 text-[11.5px] text-ink-3"><Info className="me-1 inline size-3" />{b.note}</p>}</div>;
+      return <div><div className="grid gap-2 sm:grid-cols-2">{b.refs.map((r) => <RelatedCard key={r.code} r={r} accent={accent} />)}</div>{b.note && <p className="mt-2 text-[11.5px] text-ink-3"><Info className="me-1 inline size-3" aria-hidden />{b.note}</p>}</div>;
     case "objects":
-      return <div><div className="grid gap-2 sm:grid-cols-2">{b.refs.map((r) => <ObjectRefCard key={r.code} r={r} />)}</div>{b.note && <p className="mt-2 text-[11.5px] text-ink-3"><Info className="me-1 inline size-3" />{b.note}</p>}</div>;
+      return <div><div className="grid gap-2 sm:grid-cols-2">{b.refs.map((r) => <ObjectRefCard key={r.code} r={r} />)}</div>{b.note && <p className="mt-2 text-[11.5px] text-ink-3"><Info className="me-1 inline size-3" aria-hidden />{b.note}</p>}</div>;
     case "tcodes": case "fiori": case "odata":
-      return <div><div className="flex flex-wrap gap-2">{b.refs.map((r) => <CodeChip key={r.code} r={r} />)}</div>{b.note && <p className="mt-2 text-[11.5px] text-ink-3"><Info className="me-1 inline size-3" />{b.note}</p>}</div>;
+      return <div><div className="flex flex-wrap gap-2">{b.refs.map((r) => <CodeChip key={r.code} r={r} />)}</div>{b.note && <p className="mt-2 text-[11.5px] text-ink-3"><Info className="me-1 inline size-3" aria-hidden />{b.note}</p>}</div>;
     case "quiz":
       return <div className="flex flex-col gap-3">{b.items.map((q, i) => <QuizCard key={i} q={q} />)}</div>;
     default:
@@ -276,10 +274,8 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
   return (
     <div dir="rtl">
-      <nav aria-label="נתיב" className="flex flex-wrap items-center gap-1.5 text-[11.5px] font-semibold text-ink-3">
-        <Link href="/academy/" className="text-brand hover:underline">SAP Academy</Link><span>›</span>
-        <span>{lesson.module}</span><span>›</span><span>{lesson.course}</span><span>›</span><span>שיעור {lesson.index}</span>
-      </nav>
+      <Breadcrumb items={[{ label: "SAP Academy", href: "/academy/" }, { label: lesson.module }, { label: lesson.course }, { label: `שיעור ${lesson.index}` }]} />
+
 
       {/* mobile sticky progress */}
       <div className="sticky top-14 z-20 -mx-3 mt-2 flex items-center gap-3 border-b border-hairline bg-surface/90 px-3 py-2 backdrop-blur-md lg:hidden">
