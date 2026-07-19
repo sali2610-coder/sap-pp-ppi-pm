@@ -53,10 +53,14 @@ for (const s of SURFACES) {
     if (s.palette) { try { await p.keyboard.down("Meta"); await p.keyboard.press("KeyK"); await p.keyboard.up("Meta"); } catch {} }
     await new Promise((r) => setTimeout(r, 900));
     const overflow = await p.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth).catch(() => -1);
+    // deterministic content signature = authoritative change signal (pixel hashing
+    // is flaky due to animation/subpixel/timing). Normalizes whitespace.
+    const text = await p.evaluate(() => (document.body.innerText || "").replace(/\s+/g, " ").trim()).catch(() => "");
+    const textHash = createHash("sha1").update(text).digest("hex").slice(0, 12);
     const file = `${outDir}/${s.id}-${vp.id}.png`;
     await p.screenshot({ path: file });
-    const hash = createHash("sha1").update(readFileSync(file)).digest("hex").slice(0, 12);
-    rows.push({ surface: s.id, vp: vp.id, note: s.note, status, overflow, errors: errs, hash, file });
+    const hash = createHash("sha1").update(readFileSync(file)).digest("hex").slice(0, 12); // advisory pixel hash
+    rows.push({ surface: s.id, vp: vp.id, note: s.note, status, overflow, errors: errs, textHash, hash, file });
     await p.close();
   }
 }
