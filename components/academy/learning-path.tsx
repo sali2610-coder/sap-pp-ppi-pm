@@ -7,7 +7,7 @@ import { Lock, Play, ArrowLeft, GraduationCap, Clock } from "lucide-react";
 import { PILOT_LESSONS } from "@/data/academy/lessons/pm-maintenance-order";
 import { orderedBlocks } from "@/lib/academy/lesson-types";
 import { useLessonPct } from "@/lib/academy/gamification";
-import { Pill } from "@/components/ui";
+import { Pill, Breadcrumb } from "@/components/ui";
 
 const PILOT_SLUG = "pm-maintenance-order";
 const LVL: Record<string, "good" | "warn" | "bad"> = { "בסיסי": "good", "בינוני": "warn", "מורכב": "bad" };
@@ -63,9 +63,7 @@ export function LearningPathView({ path }: { path: LearningPath }) {
 
   return (
     <div dir="rtl" className="pb-16">
-      <nav className="flex flex-wrap items-center gap-1.5 text-[11.5px] font-semibold text-ink-3">
-        <Link href="/academy/" className="text-brand hover:underline">SAP Academy</Link><span>›</span><span>{path.module}</span><span>›</span><span>מסלול</span>
-      </nav>
+      <Breadcrumb items={[{ label: "SAP Academy", href: "/academy/" }, { label: path.module }, { label: "מסלול" }]} />
 
       {/* track header */}
       <motion.header {...(reduce ? {} : { initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.5 } })}
