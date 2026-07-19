@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Search, X, ShieldCheck, ArrowLeft, LayoutGrid } from "lucide-react";
+import { ShieldCheck, ArrowLeft, LayoutGrid } from "lucide-react";
+import { Breadcrumb, SearchField, EmptyState } from "@/components/ui";
 import { FIORI_APPS } from "@/data/fiori/apps";
 import type { FioriApp } from "@/lib/fiori/types";
 import RAW_INDEX from "@/data/library/fiori-apps.json";
@@ -25,16 +26,12 @@ export function FioriAppsCenter() {
 
   return (
     <div dir="rtl">
-      <div className="flex items-center gap-1.5 text-[11.5px] font-semibold text-ink-3"><span className="font-bold text-brand">Fiori Apps</span><span>›</span><span>מרכז ידע</span></div>
+      <Breadcrumb items={[{ label: "Fiori Apps" }, { label: "מרכז ידע" }]} />
       <div className="mt-1.5 text-[11px] font-extrabold uppercase tracking-[0.13em] text-ink-3">מוצר · מרכז ידע Fiori</div>
       <h1 className="mt-1 text-[26px] font-extrabold tracking-tight text-ink-1">Fiori Apps</h1>
       <p className="mt-1 max-w-2xl text-[13.5px] text-ink-3">מרכז הידע לאפליקציות SAP Fiori — עמוד מלא לכל אפליקציה: מטרה עסקית, Business Role, Catalog, OData/CDS, ECC↔S/4, שגיאות נפוצות ודוגמת CBC.</p>
 
-      <label className="mt-4 flex items-center gap-2.5 rounded-2xl border border-hairline bg-surface px-4 py-3 shadow-sm">
-        <Search className="size-4 shrink-0 text-ink-3" />
-        <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש: שם · Fiori ID · Role · Catalog · OData · CDS · T-Code · טבלה · מודול…" className="w-full bg-transparent text-[14px] outline-none placeholder:text-ink-3" />
-        {q && <button onClick={() => setQ("")} aria-label="נקה"><X className="size-4 text-ink-3" /></button>}
-      </label>
+      <SearchField value={q} onChange={(e) => setQ(e.target.value)} placeholder="חפש: שם · Fiori ID · Role · Catalog · OData · CDS · T-Code · טבלה · מודול…" containerClassName="mt-4" aria-label="חיפוש אפליקציות Fiori" />
 
       <div className="mt-3 flex flex-wrap gap-1.5">
         <Chip on={!mod && !type} onClick={() => { setMod(null); setType(null); }}>הכל</Chip>
@@ -65,7 +62,7 @@ export function FioriAppsCenter() {
         ))}
       </div>
 
-      {full.length === 0 && <p className="mt-6 rounded-2xl border border-dashed border-hairline bg-surface-2/40 py-10 text-center text-[13px] font-bold text-ink-2">אין אפליקציה מלאה תואמת — נסה את האינדקס המלא למטה.</p>}
+      {full.length === 0 && <div className="mt-6"><EmptyState icon={LayoutGrid} title="אין אפליקציה מלאה תואמת" hint="נסה מונח אחר, נקה סינון, או עיין באינדקס המלא למטה" suggestions={[{ label: "נקה חיפוש", onClick: () => setQ("") }, { label: "כל הסינונים", onClick: () => { setMod(null); setType(null); } }]} /></div>}
 
       {/* full directory (1450) — thin metadata, honest */}
       <div className="mt-7 rounded-2xl border border-hairline bg-surface-2/40 p-4">
