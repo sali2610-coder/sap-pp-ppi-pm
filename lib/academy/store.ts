@@ -75,6 +75,11 @@ function lessonDoneIn(store: AcademyStore, slug: string): boolean {
   return req > 0 && done >= req;
 }
 export function isLessonDone(slug: string): boolean { return lessonDoneIn(snap, slug); }
+/** Reactive "is this lesson complete" predicate (for locking in the path view). */
+export function useIsDone(): (slug: string) => boolean {
+  const store = useStore();
+  return (slug: string) => lessonDoneIn(store, slug);
+}
 
 /** Record that the learner was active today (call on any progress). */
 export function recordActivity() {
