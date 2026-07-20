@@ -30,7 +30,9 @@ const SURFACES = [
   { id: "pppi-academy", url: "/academy/path/pp-pi/", note: "PP-PI Academy path" },
   { id: "qm-academy", url: "/academy/path/qm/", note: "QM Academy path" },
   { id: "lesson", url: "/academy/lesson/pm-maintenance-order/", note: "Progress + Current lesson" },
-  { id: "search", url: "/academy/", palette: true, note: "Search (command palette)" },
+  // palette opened on a NEUTRAL page (Tools, unaffected by Academy PRs) so the
+  // search overlay is tested independently of the home page behind it.
+  { id: "search", url: "/transactions/", palette: true, note: "Search (command palette)" },
 ];
 const VPS = [{ id: "d", w: 1280, h: 1000 }, { id: "m", w: 390, h: 780 }];
 

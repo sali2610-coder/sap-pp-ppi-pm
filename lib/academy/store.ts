@@ -16,7 +16,9 @@
  * once into v2 without deleting them (rollback-safe). Versioned for future migrations.
  */
 import { useCallback, useSyncExternalStore } from "react";
-import { getLesson, getModule } from "./model";
+import { getLesson, getModule, firstIncomplete, type AcademyLesson } from "./model";
+
+const DEFAULT_MODULE = "pm";
 
 const KEY = "neo:academy:v2";
 const V1_PROGRESS = "neo:academy:progress";
@@ -27,10 +29,11 @@ export interface AcademyStore {
   version: 2;
   lessons: Record<string, string[]>;      // slug -> completed block kinds
   activity: string[];                      // ISO day-stamps
-  lastLesson: Record<string, string>;      // moduleId -> last-opened slug
+  lastLesson: Record<string, string>;      // moduleId -> last-opened slug (per module)
+  lastOpened?: string;                     // single most-recent lesson slug (any module)
 }
 
-const EMPTY: AcademyStore = { version: 2, lessons: {}, activity: [], lastLesson: {} };
+const EMPTY: AcademyStore = { version: 2, lessons: {}, activity: [], lastLesson: {}, lastOpened: "" };
 
 function migrate(): AcademyStore {
   if (typeof window === "undefined") return EMPTY;
@@ -82,10 +85,33 @@ export function recordActivity() {
 }
 
 export function setLastLesson(moduleId: string, slug: string) {
-  if (!moduleId) return;
-  write({ ...snap, lastLesson: { ...snap.lastLesson, [moduleId]: slug } });
+  if (!moduleId || !slug) return;
+  if (snap.lastOpened === slug && snap.lastLesson?.[moduleId] === slug) return;
+  write({ ...snap, lastLesson: { ...snap.lastLesson, [moduleId]: slug }, lastOpened: slug });
 }
 export const getLastLesson = (moduleId: string): string | undefined => snap.lastLesson?.[moduleId];
+
+/**
+ * Continue-learning target (§7): the true next lesson to resume.
+ *   1. last-opened lesson, if not yet complete
+ *   2. else first incomplete lesson of the module you were last in
+ *   3. else first incomplete lesson of the default module (PM)
+ *   4. else (all complete) first lesson of the default module
+ */
+function continueTargetFrom(store: AcademyStore): AcademyLesson | undefined {
+  const done = (s: string) => lessonDoneIn(store, s);
+  const lo = store.lastOpened;
+  if (lo) {
+    const l = getLesson(lo);
+    if (l && !done(lo)) return l;
+    if (l) { const fi = firstIncomplete(l.moduleId, done); if (fi) return fi; }
+  }
+  return firstIncomplete(DEFAULT_MODULE, done);
+}
+export function useContinueTarget(): AcademyLesson | undefined {
+  const store = useStore();
+  return continueTargetFrom(store);
+}
 
 /* ---------- reset (3 levels + all) — UI wired in PR-5 ---------- */
 export function resetLesson(slug: string) { const { [slug]: _, ...rest } = snap.lessons; void _; write({ ...snap, lessons: rest }); }
