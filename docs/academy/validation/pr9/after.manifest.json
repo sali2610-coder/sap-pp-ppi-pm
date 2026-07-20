@@ -1,0 +1,184 @@
+{
+  "pr": "pr9",
+  "label": "after",
+  "base": "http://localhost:8899",
+  "at": "captured",
+  "rows": [
+    {
+      "surface": "home",
+      "vp": "d",
+      "note": "Home + Continue Learning card",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "1a445b6e6868",
+      "hash": "3476bae1cbf4",
+      "file": "docs/academy/validation/pr9/after/home-d.png"
+    },
+    {
+      "surface": "home",
+      "vp": "m",
+      "note": "Home + Continue Learning card",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "b64fca7c2a93",
+      "hash": "3c850fb9852c",
+      "file": "docs/academy/validation/pr9/after/home-m.png"
+    },
+    {
+      "surface": "dashboard",
+      "vp": "d",
+      "note": "Academy Dashboard",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "4912672bc014",
+      "hash": "ff20096e6c9a",
+      "file": "docs/academy/validation/pr9/after/dashboard-d.png"
+    },
+    {
+      "surface": "dashboard",
+      "vp": "m",
+      "note": "Academy Dashboard",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "2629a8f49c6e",
+      "hash": "548182456407",
+      "file": "docs/academy/validation/pr9/after/dashboard-m.png"
+    },
+    {
+      "surface": "library",
+      "vp": "d",
+      "note": "Library (FROZEN guard)",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "07bf46269f50",
+      "hash": "f279222cf972",
+      "file": "docs/academy/validation/pr9/after/library-d.png"
+    },
+    {
+      "surface": "library",
+      "vp": "m",
+      "note": "Library (FROZEN guard)",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "aab6d1f6bd1a",
+      "hash": "2d100bb96991",
+      "file": "docs/academy/validation/pr9/after/library-m.png"
+    },
+    {
+      "surface": "pm-academy",
+      "vp": "d",
+      "note": "PM Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "838df5050cd3",
+      "hash": "4a1ea669be67",
+      "file": "docs/academy/validation/pr9/after/pm-academy-d.png"
+    },
+    {
+      "surface": "pm-academy",
+      "vp": "m",
+      "note": "PM Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "493ac9e1ca51",
+      "hash": "c633cfb91ab0",
+      "file": "docs/academy/validation/pr9/after/pm-academy-m.png"
+    },
+    {
+      "surface": "pppi-academy",
+      "vp": "d",
+      "note": "PP-PI Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "c4b1a3291088",
+      "hash": "1ba206f34bec",
+      "file": "docs/academy/validation/pr9/after/pppi-academy-d.png"
+    },
+    {
+      "surface": "pppi-academy",
+      "vp": "m",
+      "note": "PP-PI Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "89990b861fba",
+      "hash": "e786bdfbafbf",
+      "file": "docs/academy/validation/pr9/after/pppi-academy-m.png"
+    },
+    {
+      "surface": "qm-academy",
+      "vp": "d",
+      "note": "QM Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "840ddcf7826c",
+      "hash": "2e2033d46665",
+      "file": "docs/academy/validation/pr9/after/qm-academy-d.png"
+    },
+    {
+      "surface": "qm-academy",
+      "vp": "m",
+      "note": "QM Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "f96e31013caf",
+      "hash": "9697dbe8b54f",
+      "file": "docs/academy/validation/pr9/after/qm-academy-m.png"
+    },
+    {
+      "surface": "lesson",
+      "vp": "d",
+      "note": "Progress + Current lesson",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "a1f53bb5ef07",
+      "hash": "1b50eca23105",
+      "file": "docs/academy/validation/pr9/after/lesson-d.png"
+    },
+    {
+      "surface": "lesson",
+      "vp": "m",
+      "note": "Progress + Current lesson",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "6aba8fa558d9",
+      "hash": "a03aa772371d",
+      "file": "docs/academy/validation/pr9/after/lesson-m.png"
+    },
+    {
+      "surface": "search",
+      "vp": "d",
+      "note": "Search (command palette)",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "e2feb98d79ff",
+      "hash": "36249d825997",
+      "file": "docs/academy/validation/pr9/after/search-d.png"
+    },
+    {
+      "surface": "search",
+      "vp": "m",
+      "note": "Search (command palette)",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "a87b74decc34",
+      "hash": "c7ee6f5a5743",
+      "file": "docs/academy/validation/pr9/after/search-m.png"
+    }
+  ]
+}
