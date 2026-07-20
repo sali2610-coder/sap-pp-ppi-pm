@@ -80,6 +80,26 @@ try {
   { const p = await page(); await goto(p, "/academy/lesson/pm-maintenance-order/"); await settle();
     const nextHref = await p.evaluate(() => { const el = [...document.querySelectorAll("a")].find((a) => /השיעור הבא/.test(a.textContent)); return el?.getAttribute("href") || ""; });
     rec("10 canonical next = pm-confirmation", nextHref.includes("pm-confirmation"), nextHref); await p.close(); }
+  // 11 · PM-User migrated path loads with its title + 10 chapters
+  { const p = await page(); await goto(p, "/academy/path/pm-user/"); await settle();
+    const t = await text(p);
+    rec("11 PM-User path loads (migrated)", t.includes("תחזוקת מפעל") && t.includes("מדריך משתמש"), ""); await p.close(); }
+
+  // 12 · PM-User lesson renders in the unified reader, breadcrumb = chapter position 1
+  { const p = await page(); await goto(p, "/academy/lesson/pmu-1-1/"); await settle();
+    const bc = await p.evaluate(() => document.querySelector('nav[aria-label="נתיב"]')?.innerText.replace(/\s+/g, " ") || "");
+    const blocks = await p.evaluate(() => document.body.innerText.length);
+    rec("12 PM-User lesson in unified reader", /שיעור\s*1(\D|$)/.test(bc) && bc.includes("PM-User") && blocks > 800, bc.slice(0, 50)); await p.close(); }
+
+  // 13 · de-split: PM-User book card routes to the new reader (not legacy accordion)
+  { const p = await page(); await goto(p, "/academy/"); await settle();
+    const hrefs = await p.evaluate(() => [...document.querySelectorAll('a[href^="/academy/path/"]')].map((a) => a.getAttribute("href")));
+    rec("13 de-split: PM-User card → /academy/path/pm-user", hrefs.includes("/academy/path/pm-user/"), ""); await p.close(); }
+
+  // 14 · canonical prev/next inside PM-User (pmu-1-1 → pmu-1-2), no cross-module bleed
+  { const p = await page(); await goto(p, "/academy/lesson/pmu-1-1/"); await settle();
+    const nextHref = await p.evaluate(() => { const el = [...document.querySelectorAll('a[href*="/academy/lesson/"]')].find((a) => /הבא/.test(a.textContent)); return el?.getAttribute("href") || ""; });
+    rec("14 PM-User canonical next = pmu-1-2", nextHref.includes("pmu-1-2"), nextHref); await p.close(); }
 } catch (e) {
   rec("suite", false, "EXCEPTION " + String(e).slice(0, 120));
 }
