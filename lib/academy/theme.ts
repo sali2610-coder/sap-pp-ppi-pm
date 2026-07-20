@@ -12,6 +12,8 @@ export const MODULE_ACCENT: Record<string, string> = {
   WM: "#7c3aed",
   "PM-User": "#ea580c",
   "PP-DS": "#0891b2",
+  "PP/DS": "#0891b2",
+  SOP: "#0d9488",
   "S&OP": "#0d9488",
 };
 
