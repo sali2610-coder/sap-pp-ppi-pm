@@ -12,10 +12,11 @@
  * it does not change any rendering yet.
  */
 import { PM_PATH, PP_PATH, QM_PATH, type LearningPath } from "./paths";
+import { PMU_PATH } from "@/data/academy/lessons/pmu-generated";
 import { ALL_LESSONS } from "@/data/academy/lessons";
 import { orderedBlocks } from "./lesson-types";
 
-const PATHS: LearningPath[] = [PM_PATH, PP_PATH, QM_PATH];
+const PATHS: LearningPath[] = [PM_PATH, PP_PATH, QM_PATH, PMU_PATH];
 
 /** Module id used in routes (/academy/path/[moduleId]): PM→"pm", PP-PI→"pp-pi", QM→"qm". */
 export const moduleIdOf = (module: string): string => module.toLowerCase();

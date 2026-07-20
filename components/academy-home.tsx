@@ -20,7 +20,7 @@ import { ResetButton } from "@/components/academy/reset-dialog";
 const PILOT_SLUG = "pm-maintenance-order";
 // Modules with the new Lesson Reader → the canonical /academy path. Others (MM/WM/
 // PP-DS/S&OP/PM-User) keep their reference route until migrated (no premature redirect).
-const ACADEMY_PATH: Record<string, string> = { pm: "/academy/path/pm/", pp: "/academy/path/pp-pi/", qm: "/academy/path/qm/" };
+const ACADEMY_PATH: Record<string, string> = { pm: "/academy/path/pm/", pp: "/academy/path/pp-pi/", qm: "/academy/path/qm/", pmu: "/academy/path/pm-user/" };
 const trackHref = (id: string, base: string) => ACADEMY_PATH[id] ?? `${base}/`;
 const DAYS = ["א׳", "ב׳", "ג׳", "ד׳", "ה׳", "ו׳", "ש׳"];
 // real PM track chapters (module academy structure); the pilot lesson sits in "ביצוע אחזקה"
