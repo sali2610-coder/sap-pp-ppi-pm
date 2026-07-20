@@ -7,9 +7,10 @@ import { Lock, Play, Check, ArrowLeft, GraduationCap, Clock } from "lucide-react
 import { PILOT_LESSONS } from "@/data/academy/lessons/pm-maintenance-order";
 import { orderedBlocks } from "@/lib/academy/lesson-types";
 import { useLessonPct } from "@/lib/academy/gamification";
-import { useModuleProgress, useIsDone } from "@/lib/academy/store";
+import { useModuleProgress, useIsDone, resetPath, resetChapter } from "@/lib/academy/store";
 import { moduleIdOf, getModule } from "@/lib/academy/model";
 import { Pill, Breadcrumb } from "@/components/ui";
+import { ResetButton } from "@/components/academy/reset-dialog";
 
 import { PILOT_SLUG, PM_PATH, PP_PATH, QM_PATH, type PathChapter, type LearningPath } from "@/lib/academy/paths";
 
@@ -55,6 +56,9 @@ export function LearningPathView({ path }: { path: LearningPath }) {
           <span>{path.chapters.length} פרקים</span><span className="opacity-60">·</span><span>{totalLessons} שיעורים</span><span className="opacity-60">·</span><span>{pctTrack}% הושלם</span>
         </div>
         <div className="relative mt-2.5 h-2 max-w-md overflow-hidden rounded-full bg-white/25"><div className="h-full rounded-full bg-white" style={{ width: `${pctTrack}%` }} /></div>
+        <div className="relative mt-3 flex justify-end">
+          <ResetButton label="אפס מסלול" title="איפוס התקדמות במסלול" scopeText={`מסלול ${path.title} · ${path.module}`} count={model?.totalLessons ?? 0} onConfirm={() => resetPath(moduleIdOf(path.module))} className="tap inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-2.5 py-1 text-[11px] font-bold text-white/90 backdrop-blur transition hover:bg-white/25" />
+        </div>
       </motion.header>
 
       {/* vertical roadmap */}
@@ -75,6 +79,7 @@ export function LearningPathView({ path }: { path: LearningPath }) {
                     <span className="text-[11px] font-bold text-ink-3">· {ch.lessons.length} שיעורים</span>
                     {(() => { const mins = ch.lessons.reduce((s, l) => s + (l.minutes || 0), 0); return mins ? <span className="hidden text-[11px] font-bold text-ink-3 sm:inline">· ~{mins} דק׳</span> : null; })()}
                     {state === "cur" && <span className="ms-auto rounded-full px-2.5 py-0.5 text-[9.5px] font-extrabold text-white" style={{ background: path.color }}>אתה כאן</span>}
+                    {state === "available" && <ResetButton label="אפס פרק" title="איפוס התקדמות בפרק" scopeText={`פרק ${ci + 1} · ${ch.title}`} count={ch.lessons.length} onConfirm={() => resetChapter(moduleIdOf(path.module), ci + 1)} className="ms-auto tap inline-flex items-center gap-1 rounded-lg border border-hairline px-2 py-0.5 text-[10px] font-bold text-ink-3 transition-colors hover:border-brand/40 hover:text-brand" />}
                   </div>
                   {state !== "upcoming" && (
                     <div className="mt-2.5 flex flex-col gap-1.5">

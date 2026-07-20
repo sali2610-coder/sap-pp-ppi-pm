@@ -17,7 +17,8 @@ import { recordActivity } from "@/lib/academy/gamification";
 import { recordRecent } from "@/lib/academy/recent";
 import { lessonNav, lessonRef, type LessonNav } from "@/lib/academy/lesson-nav";
 import { getLesson, prevOf, nextOf, moduleIdOf } from "@/lib/academy/model";
-import { setLastLesson } from "@/lib/academy/store";
+import { setLastLesson, resetLesson } from "@/lib/academy/store";
+import { ResetButton } from "@/components/academy/reset-dialog";
 import { accentOf } from "@/lib/academy/theme";
 import { Callout, Chip, Pill, IconWell, Breadcrumb } from "@/components/ui";
 
@@ -342,6 +343,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
               <div><div className="text-[11px] font-semibold text-ink-2">התקדמות שיעור</div><div className="text-[11px] text-ink-3">{doneSet.size} מתוך {kinds.length} חלקים</div></div>
             </div>
             <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-surface-2"><div className="h-full rounded-full transition-all duration-500" style={{ width: `${pct}%`, background: accent }} /></div>
+            {doneSet.size > 0 && <div className="mt-2.5 flex justify-end"><ResetButton label="אפס שיעור" title="איפוס התקדמות בשיעור" scopeText={lesson.title} count={1} onConfirm={() => resetLesson(lesson.slug)} /></div>}
           </div>
           <nav aria-label="בעמוד זה" className="mb-3 rounded-2xl border border-hairline bg-surface p-2.5">
             <div className="mb-1.5 px-1.5 text-[10px] font-extrabold uppercase tracking-wide text-ink-3">בעמוד זה</div>
