@@ -3,12 +3,12 @@
 import { useMemo } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { Lock, Play, ArrowLeft, GraduationCap, Clock } from "lucide-react";
+import { Lock, Play, Check, ArrowLeft, GraduationCap, Clock } from "lucide-react";
 import { PILOT_LESSONS } from "@/data/academy/lessons/pm-maintenance-order";
 import { orderedBlocks } from "@/lib/academy/lesson-types";
 import { useLessonPct } from "@/lib/academy/gamification";
-import { useModuleProgress } from "@/lib/academy/store";
-import { moduleIdOf } from "@/lib/academy/model";
+import { useModuleProgress, useIsDone } from "@/lib/academy/store";
+import { moduleIdOf, getModule } from "@/lib/academy/model";
 import { Pill, Breadcrumb } from "@/components/ui";
 
 import { PILOT_SLUG, PM_PATH, PP_PATH, QM_PATH, type PathChapter, type LearningPath } from "@/lib/academy/paths";
@@ -28,6 +28,18 @@ export function LearningPathView({ path }: { path: LearningPath }) {
   // Single source of truth (PR-2): completed lessons / total lessons — replaces
   // the old hardcoded (currentChapter + pilotPct)/chapters formula.
   const pctTrack = useModuleProgress(moduleIdOf(path.module)).pct;
+
+  // Sequential locking by REAL completion (§8): a chapter opens only when every
+  // earlier chapter is complete. "current" = first chapter with an incomplete
+  // lesson. Never derived from a hardcoded currentChapter.
+  const isDone = useIsDone();
+  const model = getModule(moduleIdOf(path.module));
+  const chapterDone = (n: number) => { const ls = model ? model.lessons.filter((l) => l.chapterIndex === n) : []; return ls.length > 0 && ls.every((l) => isDone(l.slug)); };
+  const blockingChapterOf = (ci: number) => { for (let n = 1; n <= ci; n++) if (!chapterDone(n)) return n; return undefined; };
+  const stateOf = (ci: number): "available" | "cur" | "upcoming" => {
+    if (blockingChapterOf(ci) !== undefined) return "upcoming";
+    return chapterDone(ci + 1) ? "available" : "cur";
+  };
 
   return (
     <div dir="rtl" className="pb-16">
@@ -50,7 +62,7 @@ export function LearningPathView({ path }: { path: LearningPath }) {
         <span className="absolute bottom-4 top-4 w-[3px] rounded-full bg-hairline" style={{ insetInlineStart: "22px" }} aria-hidden />
         <div className="flex flex-col gap-4">
           {path.chapters.map((ch, ci) => {
-            const state = ci < path.currentChapter ? "available" : ci === path.currentChapter ? "cur" : "upcoming";
+            const state = stateOf(ci);
             const clr = state === "upcoming" ? "var(--hairline)" : path.color;
             return (
               <motion.div key={ch.title} initial={reduce ? false : { opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4, delay: Math.min(ci * 0.05, 0.3) }} className="relative ps-14">
@@ -68,7 +80,7 @@ export function LearningPathView({ path }: { path: LearningPath }) {
                     <div className="mt-2.5 flex flex-col gap-1.5">
                       {ch.lessons.map((l, li) => l.slug ? (
                         <Link key={li} href={`/academy/lesson/${l.slug}/`} className="group flex items-center gap-2.5 rounded-xl border border-hairline bg-surface-2/40 p-2.5 transition hover:border-brand/40">
-                          <span className="grid size-7 place-items-center rounded-lg text-white" style={{ background: path.color }}><Play className="size-3.5" /></span>
+                          <span className="grid size-7 place-items-center rounded-lg text-white" style={{ background: isDone(l.slug!) ? "#16a34a" : path.color }}>{isDone(l.slug!) ? <Check className="size-3.5" /> : <Play className="size-3.5" />}</span>
                           <span className="min-w-0 flex-1 text-[12.5px] font-bold text-ink-1">{l.title}</span>
                           {l.level && <Pill tone={LVL[l.level] || "neutral"} className="hidden shrink-0 text-[9.5px] sm:inline-flex">{l.level}</Pill>}
                           {l.minutes && <span className="hidden items-center gap-1 text-[10.5px] text-ink-3 sm:inline-flex"><Clock className="size-3" />~{l.minutes} דק׳</span>}
@@ -84,7 +96,7 @@ export function LearningPathView({ path }: { path: LearningPath }) {
                       ))}
                     </div>
                   )}
-                  {state === "upcoming" && <p className="mt-1.5 text-[11.5px] text-ink-3">ייפתח לאחר השלמת הפרק הנוכחי.</p>}
+                  {state === "upcoming" && (() => { const bn = blockingChapterOf(ci); return <p className="mt-1.5 flex items-center gap-1.5 text-[11.5px] text-ink-3"><Lock className="size-3 shrink-0" aria-hidden />{bn ? `יש להשלים קודם את פרק ${bn} · ${path.chapters[bn - 1].title}` : "ייפתח לאחר השלמת הפרק הקודם"}</p>; })()}
                 </div>
               </motion.div>
             );
