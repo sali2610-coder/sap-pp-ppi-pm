@@ -12,6 +12,9 @@ import {
 import { BOOKS, ACADEMY_TOTALS, bookStats, crossBookObjects, type BookDef } from "@/data/library/academy-index";
 import { useI18n } from "@/lib/i18n";
 
+// Modules with the new Lesson Reader → canonical /academy path (de-split).
+const ACADEMY_PATH: Record<string, string> = { pm: "/academy/path/pm/", pp: "/academy/path/pp-pi/", qm: "/academy/path/qm/" };
+
 function qColor(q?: number) {
   if (q == null) return "text-ink-3";
   if (q >= 90) return "text-emerald-600";
@@ -52,7 +55,7 @@ function BookCard({ b }: { b: BookDef }) {
       <p className="mt-2 flex items-center gap-1 text-[10px] text-ink-3"><Calendar className="size-3" />{lang === "he" ? "עודכן" : "updated"}: {b.lastUpdated}</p>
 
       <div className="mt-3 flex flex-wrap gap-2 text-[12px] font-semibold">
-        <Link href={`${b.id === "pp" ? "/library/pp/" : b.base + "/"}`} className="flex items-center gap-1 rounded-lg bg-brand/10 px-2.5 py-1 text-brand hover:bg-brand/15">{lang === "he" ? "פתח" : "Open"}<ArrowRight className="size-3.5 rtl:rotate-180" /></Link>
+        <Link href={ACADEMY_PATH[b.id] ?? (b.id === "pp" ? "/library/pp/" : b.base + "/")} className="flex items-center gap-1 rounded-lg bg-brand/10 px-2.5 py-1 text-brand hover:bg-brand/15">{lang === "he" ? "פתח" : "Open"}<ArrowRight className="size-3.5 rtl:rotate-180" /></Link>
         <Link href={b.referenceHref} className="flex items-center gap-1 rounded-lg border border-hairline px-2.5 py-1 text-ink-3 hover:text-brand"><ListTree className="size-3.5" />{lang === "he" ? "אינדקסים" : "Indexes"}</Link>
         <Link href={b.reportHref} className="flex items-center gap-1 rounded-lg border border-hairline px-2.5 py-1 text-ink-3 hover:text-brand"><FileText className="size-3.5" />{lang === "he" ? "דוח איכות" : "Quality"}</Link>
       </div>

@@ -18,6 +18,10 @@ import { allLessons } from "@/lib/academy/model";
 import { ResetButton } from "@/components/academy/reset-dialog";
 
 const PILOT_SLUG = "pm-maintenance-order";
+// Modules with the new Lesson Reader → the canonical /academy path. Others (MM/WM/
+// PP-DS/S&OP/PM-User) keep their reference route until migrated (no premature redirect).
+const ACADEMY_PATH: Record<string, string> = { pm: "/academy/path/pm/", pp: "/academy/path/pp-pi/", qm: "/academy/path/qm/" };
+const trackHref = (id: string, base: string) => ACADEMY_PATH[id] ?? `${base}/`;
 const DAYS = ["א׳", "ב׳", "ג׳", "ד׳", "ה׳", "ו׳", "ש׳"];
 // real PM track chapters (module academy structure); the pilot lesson sits in "ביצוע אחזקה"
 const PM_TRACK = ["יסודות PM", "אובייקטים טכניים", "הודעות אחזקה", "ביצוע אחזקה", "אחזקה מונעת", "ניתוח ו-KPI"];
@@ -35,7 +39,7 @@ function Ring({ pct, size = 64, stroke = 6, color }: { pct: number; size?: numbe
 }
 
 function MiniTrack({ t, meta }: { t: typeof BOOKS[number]; meta: string }) {
-  const href = t.id === "pm" ? "/academy/path/pm/" : `${t.base}/`;
+  const href = trackHref(t.id, t.base);
   return (
     <Link href={href} className="group flex items-center gap-3 rounded-xl border border-hairline bg-surface p-3 transition hover:border-brand/30">
       <span className={`grid size-8 shrink-0 place-items-center rounded-lg bg-gradient-to-br ${t.tint} text-[10px] font-extrabold text-white`}>{t.module.slice(0, 2)}</span>
@@ -132,7 +136,7 @@ export function AcademyHome() {
       <motion.div {...rise} className="mt-8">
         <div className="mb-3.5 flex items-baseline justify-between"><h2 className="text-[19px] font-extrabold tracking-[-0.01em]">מסלולי הלמידה</h2></div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {tracks.map((t) => { const st = bookStats(t.id); const href = t.id === "pm" ? `/academy/lesson/${PILOT_SLUG}/` : `${t.base}/`; const pct = t.id === "pm" ? pilotPct : 0; return (
+          {tracks.map((t) => { const st = bookStats(t.id); const href = trackHref(t.id, t.base); const pct = t.id === "pm" ? pilotPct : 0; return (
             <Link key={t.id} href={href} className="group flex flex-col overflow-hidden rounded-2xl border border-hairline bg-surface transition duration-200 hover:-translate-y-1 hover:border-[#dfe2e7] hover:shadow-[0_22px_44px_-22px_rgba(11,12,14,.22)]">
               <div className={`relative flex h-28 items-end bg-gradient-to-br ${t.tint} p-3.5 text-white`}>
                 <span className="absolute inset-x-3.5 top-3 flex items-center justify-between"><span className="text-[10px] font-extrabold uppercase tracking-[0.1em] opacity-90">{t.module}</span>{pct > 0 && <span className="rounded-full bg-white/25 px-2 py-0.5 text-[9.5px] font-bold backdrop-blur">בתהליך</span>}</span>
