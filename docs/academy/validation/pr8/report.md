@@ -1,0 +1,30 @@
+# Validation report — pr8
+
+Before: 16 shots · After: 16 shots. Reduced-motion, seeded localStorage, deterministic capture.
+
+Intended-change scope (--expected): home, dashboard
+
+Change detection = DOM text signature (authoritative). Pixel hash shown as advisory only (flaky under animation).
+
+| surface | vp | status b→a | overflow b→a | errors b→a | content | pixel | verdict |
+|---|---|---|---|---|---|---|---|
+| home | d | 200→200 | 0→0 | 0→0 | same | same | ✅ identical |
+| home | m | 304→304 | 0→0 | 0→0 | same | same | ✅ identical |
+| dashboard | d | 200→200 | 0→0 | 0→0 | same | same | ✅ identical |
+| dashboard | m | 304→304 | 0→0 | 0→0 | same | same | ✅ identical |
+| library | d | 200→200 | 0→0 | 0→0 | same | same | ✅ identical |
+| library | m | 304→304 | 0→0 | 0→0 | same | same | ✅ identical |
+| pm-academy | d | 200→200 | 0→0 | 0→0 | same | same | ✅ identical |
+| pm-academy | m | 304→304 | 0→0 | 0→0 | same | same | ✅ identical |
+| pppi-academy | d | 200→200 | 0→0 | 0→0 | same | same | ✅ identical |
+| pppi-academy | m | 304→304 | 0→0 | 0→0 | same | same | ✅ identical |
+| qm-academy | d | 200→200 | 0→0 | 0→0 | same | same | ✅ identical |
+| qm-academy | m | 200→200 | 0→0 | 0→0 | same | same | ✅ identical |
+| lesson | d | 200→200 | 0→0 | 0→0 | same | same | ✅ identical |
+| lesson | m | 200→200 | 0→0 | 0→0 | same | same | ✅ identical |
+| search | d | 200→200 | 0→0 | 0→0 | same | same | ✅ identical |
+| search | m | 200→200 | 0→0 | 0→0 | same | same | ✅ identical |
+
+**Unexpected changes (out of scope): 0** · **Metric regressions: 0**
+
+✅ PASS — no unrelated feature changed; all metrics green.
