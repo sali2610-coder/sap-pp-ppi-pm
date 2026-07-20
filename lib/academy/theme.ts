@@ -10,6 +10,9 @@ export const MODULE_ACCENT: Record<string, string> = {
   QM: "#0891b2",
   MM: "#d97706",
   WM: "#7c3aed",
+  "PM-User": "#ea580c",
+  "PP-DS": "#0891b2",
+  "S&OP": "#0d9488",
 };
 
 export const accentOf = (module: string): string => MODULE_ACCENT[module] || "var(--brand)";

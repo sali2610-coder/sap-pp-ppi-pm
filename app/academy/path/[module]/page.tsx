@@ -1,6 +1,7 @@
 import { LearningPathView, PM_PATH, PP_PATH, QM_PATH, type LearningPath } from "@/components/academy/learning-path";
+import { PMU_PATH } from "@/data/academy/lessons/pmu-generated";
 
-const PATHS: Record<string, LearningPath> = { pm: PM_PATH, "pp-pi": PP_PATH, qm: QM_PATH };
+const PATHS: Record<string, LearningPath> = { pm: PM_PATH, "pp-pi": PP_PATH, qm: QM_PATH, "pm-user": PMU_PATH };
 
 export function generateStaticParams() { return Object.keys(PATHS).map((module) => ({ module })); }
 export const dynamicParams = false;
