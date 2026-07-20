@@ -26,7 +26,7 @@ const CFGS: Record<string, Cfg> = {
   mm: { key: "mm", module: "MM", moduleId: "mm", trackHe: "רכש ואספקה · MM", titleHe: "רכש ואספקה", titleEn: "Sourcing & Procurement", color: "#d97706", data: MM_TEXTBOOK },
   wm: { key: "wm", module: "WM", moduleId: "wm", trackHe: "ניהול מחסן · EWM", titleHe: "ניהול מחסן (EWM)", titleEn: "Warehouse Management", color: "#7c3aed", data: WM_TEXTBOOK },
   ppds: { key: "ppds", module: "PP-DS", moduleId: "pp-ds", trackHe: "תכנון מתקדם · PP/DS", titleHe: "תכנון מתקדם (PP/DS)", titleEn: "Production Planning & Detailed Scheduling", color: "#0891b2", data: PPDS_TEXTBOOK },
-  sop: { key: "sop", module: "S&OP", moduleId: "sop", trackHe: "תכנון מכירות ותפעול · IBP", titleHe: "תכנון מכירות ותפעול (IBP)", titleEn: "Sales & Operations Planning", color: "#0d9488", data: SOP_TEXTBOOK },
+  sop: { key: "sop", module: "SOP", moduleId: "sop", trackHe: "תכנון מכירות ותפעול · IBP", titleHe: "תכנון מכירות ותפעול (IBP)", titleEn: "Sales & Operations Planning", color: "#0d9488", data: SOP_TEXTBOOK },
 };
 
 const moduleKey = process.argv[2] || "pmu";

@@ -13,7 +13,7 @@ import { BOOKS, ACADEMY_TOTALS, bookStats, crossBookObjects, type BookDef } from
 import { useI18n } from "@/lib/i18n";
 
 // Modules with the new Lesson Reader → canonical /academy path (de-split).
-const ACADEMY_PATH: Record<string, string> = { pm: "/academy/path/pm/", pp: "/academy/path/pp-pi/", qm: "/academy/path/qm/", pmu: "/academy/path/pm-user/" };
+const ACADEMY_PATH: Record<string, string> = { pm: "/academy/path/pm/", pp: "/academy/path/pp-pi/", qm: "/academy/path/qm/", pmu: "/academy/path/pm-user/", mm: "/academy/path/mm/", wm: "/academy/path/wm/", ppds: "/academy/path/pp-ds/", sop: "/academy/path/sop/" };
 
 function qColor(q?: number) {
   if (q == null) return "text-ink-3";

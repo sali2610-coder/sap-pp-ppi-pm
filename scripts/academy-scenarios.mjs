@@ -100,6 +100,28 @@ try {
   { const p = await page(); await goto(p, "/academy/lesson/pmu-1-1/"); await settle();
     const nextHref = await p.evaluate(() => { const el = [...document.querySelectorAll('a[href*="/academy/lesson/"]')].find((a) => /הבא/.test(a.textContent)); return el?.getAttribute("href") || ""; });
     rec("14 PM-User canonical next = pmu-1-2", nextHref.includes("pmu-1-2"), nextHref); await p.close(); }
+  // 15 · all four migrated modules: path loads + first lesson renders in unified reader
+  { const mods = [
+      { route: "pp-ds", first: "ppds-1-1" }, { route: "mm", first: "mm-1-1" },
+      { route: "wm", first: "wm-1-1" }, { route: "sop", first: "sop-1-1" },
+    ];
+    let pass = true, detail = "";
+    for (const m of mods) {
+      const p = await page();
+      await goto(p, `/academy/path/${m.route}/`); await settle();
+      const pathOk = (await text(p)).length > 400;
+      await goto(p, `/academy/lesson/${m.first}/`); await settle();
+      const lessonOk = (await p.evaluate(() => document.querySelector('nav[aria-label="נתיב"]')?.innerText || "")).includes("שיעור");
+      await p.close();
+      if (!pathOk || !lessonOk) { pass = false; detail += `${m.route}:${pathOk ? "" : "path"}${lessonOk ? "" : "lesson"} `; }
+    }
+    rec("15 MM/WM/PP-DS/S&OP paths + first lessons render", pass, detail); }
+
+  // 16 · de-split: all four migrated book cards route to /academy/path/*
+  { const p = await page(); await goto(p, "/academy/"); await settle();
+    const hrefs = await p.evaluate(() => [...document.querySelectorAll('a[href^="/academy/path/"]')].map((a) => a.getAttribute("href")));
+    const need = ["/academy/path/mm/", "/academy/path/wm/", "/academy/path/pp-ds/", "/academy/path/sop/"];
+    rec("16 de-split: MM/WM/PP-DS/S&OP → /academy/path", need.every((h) => hrefs.includes(h)), need.filter((h) => !hrefs.includes(h)).join(",")); await p.close(); }
 } catch (e) {
   rec("suite", false, "EXCEPTION " + String(e).slice(0, 120));
 }
