@@ -12,8 +12,10 @@ import { useRecent } from "@/lib/academy/recent";
 import { PILOT_LESSONS } from "@/data/academy/lessons/pm-maintenance-order";
 import { orderedBlocks } from "@/lib/academy/lesson-types";
 import { useGamification, useLessonPct } from "@/lib/academy/gamification";
-import { useContinueTarget } from "@/lib/academy/store";
+import { useContinueTarget, resetAll } from "@/lib/academy/store";
 import { accentOf } from "@/lib/academy/theme";
+import { allLessons } from "@/lib/academy/model";
+import { ResetButton } from "@/components/academy/reset-dialog";
 
 const PILOT_SLUG = "pm-maintenance-order";
 const DAYS = ["א׳", "ב׳", "ג׳", "ד׳", "ה׳", "ו׳", "ש׳"];
@@ -189,7 +191,10 @@ export function AcademyHome() {
 
       {/* AI assistant (design affordance) */}
       <Link href="/chat/" className="fixed bottom-6 start-6 z-30 inline-flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-[13.5px] font-extrabold text-white shadow-[0_14px_34px_-12px_rgba(214,32,39,.6)] transition hover:bg-brand-dark"><Sparkles className="size-4" /> עוזר הלמידה</Link>
-      <Link href="/academy/dashboard/" className="mt-8 inline-flex items-center gap-1.5 text-[12px] font-bold text-ink-3 hover:text-brand"><LayoutDashboard className="size-3.5" /> לוח בקרה מלא · דוחות איכות</Link>
+      <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-hairline pt-5">
+        <Link href="/academy/dashboard/" className="inline-flex items-center gap-1.5 text-[12px] font-bold text-ink-3 hover:text-brand"><LayoutDashboard className="size-3.5" /> לוח בקרה מלא · דוחות איכות</Link>
+        <ResetButton danger label="אפס את כל SAP Academy" title="איפוס כל התקדמות ה-Academy" scopeText="כל המסלולים והשיעורים (PM · PP-PI · QM)" count={allLessons().length} onConfirm={resetAll} />
+      </div>
     </div>
   );
 }
