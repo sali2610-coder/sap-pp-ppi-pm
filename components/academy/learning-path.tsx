@@ -41,6 +41,9 @@ export function LearningPathView({ path }: { path: LearningPath }) {
     if (blockingChapterOf(ci) !== undefined) return "upcoming";
     return chapterDone(ci + 1) ? "available" : "cur";
   };
+  // fraction of the timeline spine to fill (completed chapters), animated
+  const completedChapters = path.chapters.reduce((n, _c, ci) => (chapterDone(ci + 1) ? n + 1 : n), 0);
+  const completedFrac = path.chapters.length ? Math.round((completedChapters / path.chapters.length) * 100) : 0;
 
   return (
     <div dir="rtl" className="pb-16">
@@ -71,17 +74,22 @@ export function LearningPathView({ path }: { path: LearningPath }) {
         </div>
       </motion.header>
 
-      {/* vertical roadmap */}
+      {/* vertical roadmap — animated completed→current→locked timeline (§7) */}
       <div className="relative mt-7 ps-1">
         <span className="absolute bottom-4 top-4 w-[3px] rounded-full bg-hairline" style={{ insetInlineStart: "22px" }} aria-hidden />
+        {/* accent fill proportional to completed chapters, animated */}
+        <motion.span className="absolute top-4 w-[3px] rounded-full" style={{ insetInlineStart: "22px", background: path.color, maxHeight: "calc(100% - 2rem)" }} initial={reduce ? { height: `${completedFrac}%` } : { height: 0 }} animate={{ height: `${completedFrac}%` }} transition={{ duration: 0.9, ease: [0.2, 0.7, 0.2, 1] }} aria-hidden />
         <div className="flex flex-col gap-4">
           {path.chapters.map((ch, ci) => {
             const state = stateOf(ci);
-            const clr = state === "upcoming" ? "var(--hairline)" : path.color;
+            const done = state === "available";
+            const clr = state === "upcoming" ? "var(--hairline)" : done ? "#16a34a" : path.color;
             return (
               <motion.div key={ch.title} initial={reduce ? false : { opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4, delay: Math.min(ci * 0.05, 0.3) }} className="relative ps-14">
-                <span className="absolute z-[1] grid size-11 place-items-center rounded-full border-[3px] bg-surface text-[15px] font-extrabold" style={{ insetInlineStart: "0", borderColor: clr, color: state === "upcoming" ? "var(--ink-3)" : path.color, boxShadow: state === "cur" ? `0 0 0 5px ${path.color}1a` : "none" }}>
-                  {state === "upcoming" ? <Lock className="size-4 opacity-55" /> : ci + 1}
+                <span className="absolute z-[1] grid size-11 place-items-center rounded-full border-[3px] bg-surface text-[15px] font-extrabold" style={{ insetInlineStart: "0", borderColor: clr, color: state === "upcoming" ? "var(--ink-3)" : done ? "#16a34a" : path.color, boxShadow: state === "cur" ? `0 0 0 5px ${path.color}1a` : "none" }}>
+                  {state === "upcoming" ? <Lock className="size-4 opacity-55" />
+                    : done ? <motion.span initial={reduce ? false : { scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 320, damping: 16 }}><Check className="size-5" /></motion.span>
+                    : ci + 1}
                 </span>
                 <div className={`rounded-2xl border p-4 ${state === "cur" ? "border-hairline bg-surface shadow-sm" : "border-hairline bg-surface"}`}>
                   <div className="flex items-center gap-2">
