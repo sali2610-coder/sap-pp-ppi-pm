@@ -20,6 +20,7 @@ export function ResetButton({
   confirmLabel,
   irreversible,
   icon,
+  note,
 }: {
   label: string;
   title: string;
@@ -32,6 +33,7 @@ export function ResetButton({
   confirmLabel?: string;    // custom confirm-button text (e.g. "אפס קורס")
   irreversible?: boolean;   // append the "cannot be undone" warning
   icon?: ReactNode;         // custom trigger icon (defaults to RotateCcw)
+  note?: string;            // muted reassurance line under the bullets
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -53,6 +55,7 @@ export function ResetButton({
               <ul className="mt-2.5 space-y-1 text-[12px] text-ink-3">
                 {(details ?? [`${count} שיעורים יחזרו למצב לא-הושלם.`, "מתאפסת רק ההתקדמות האישית שלך.", "תוכן הקורס לא נמחק."]).map((d, i) => <li key={i}>• {d}</li>)}
               </ul>
+              {note && <p className="mt-2.5 text-[12px] text-ink-2">{note}</p>}
               {irreversible && <p className="mt-2.5 flex items-center gap-1.5 text-[12px] font-bold text-red-600"><AlertTriangle className="size-3.5" aria-hidden />לא ניתן לבטל פעולה זו.</p>}
             </div>
           </div>
