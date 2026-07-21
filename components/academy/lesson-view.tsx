@@ -16,7 +16,7 @@ import { useLessonProgress } from "@/lib/academy/lesson-progress";
 import { recordRecent } from "@/lib/academy/recent";
 import { lessonNav, lessonRef, type LessonNav } from "@/lib/academy/lesson-nav";
 import { getLesson, prevOf, nextOf, moduleIdOf } from "@/lib/academy/model";
-import { setLastLesson, resetLesson, recordBlock } from "@/lib/academy/store";
+import { setLastLesson, resetLesson, recordBlock, getLastBlock } from "@/lib/academy/store";
 import { ResetButton } from "@/components/academy/reset-dialog";
 import { accentOf } from "@/lib/academy/theme";
 import { Callout, Chip, Pill, IconWell, Breadcrumb } from "@/components/ui";
@@ -269,8 +269,22 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
   useEffect(() => {
     recordRecent({ id: `lesson:${lesson.slug}`, title: lesson.title, module: lesson.module, href: `/academy/lesson/${lesson.slug}/`, kind: "lesson" });
-    setLastLesson(moduleIdOf(lesson.module), lesson.slug); // powers Continue Learning (§7)
+    setLastLesson(moduleIdOf(lesson.module), lesson.slug); // powers Continue Learning (§1)
   }, [lesson]);
+
+  // Exact-block resume (§5): if the learner left mid-lesson, land on the last block
+  // they viewed — not the top. Skip when fresh, complete, or on the first block.
+  useEffect(() => {
+    const kind = getLastBlock(lesson.slug);
+    if (!kind) return;
+    const idx = kinds.indexOf(kind as BlockKind);
+    const done = doneSet.size;
+    if (idx <= 0 || done === 0 || done >= kinds.length) return;
+    const el = document.getElementById(`b-${kind}`);
+    if (el) requestAnimationFrame(() => el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }));
+    // once per lesson — deliberately not depending on doneSet/kinds identity
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lesson.slug]);
 
   // "On this page" scroll-spy — track the section nearest the top (Stripe/Cursor docs feel)
   useEffect(() => {

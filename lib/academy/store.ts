@@ -271,19 +271,42 @@ export function useTodayStats(): TodayStats {
 
 /* ---------- reset (3 levels + all) — UI wired in PR-5 ---------- */
 export function resetLesson(slug: string) { const { [slug]: _, ...rest } = snap.lessons; void _; write({ ...snap, lessons: rest }); }
+const without = <T,>(obj: Record<string, T> | undefined, drop: (k: string) => boolean): Record<string, T> =>
+  Object.fromEntries(Object.entries(obj || {}).filter(([k]) => !drop(k)));
+
+/** Reset one chapter (§4) — clears its lessons, block positions, and events only. Course stays active. */
 export function resetChapter(moduleId: string, chapterIndex: number) {
   const m = getModule(moduleId); if (!m) return;
-  const slugs = new Set(m.chapters.find((c) => c.index === chapterIndex)?.lessons.map((l) => l.slug));
-  const lessons = Object.fromEntries(Object.entries(snap.lessons).filter(([s]) => !slugs.has(s)));
-  write({ ...snap, lessons });
+  const slugs = new Set(m.chapters.find((c) => c.index === chapterIndex)?.lessons.map((l) => l.slug) || []);
+  const has = (s: string) => slugs.has(s);
+  const lastLesson = has(snap.lastLesson?.[moduleId] || "") ? { ...snap.lastLesson, [moduleId]: "" } : snap.lastLesson;
+  write({
+    ...snap,
+    lessons: without(snap.lessons, has),
+    blockAt: without(snap.blockAt, has),
+    events: (snap.events || []).filter((e) => !has(e.slug)),
+    lastLesson,
+    lastOpened: has(snap.lastOpened || "") ? "" : snap.lastOpened,
+  });
 }
+
+/** Reset one course (§3) — course-only: lessons, blocks, quiz status, positions, Continue anchor. */
 export function resetPath(moduleId: string) {
   const m = getModule(moduleId); if (!m) return;
   const slugs = new Set(m.lessons.map((l) => l.slug));
-  const lessons = Object.fromEntries(Object.entries(snap.lessons).filter(([s]) => !slugs.has(s)));
-  write({ ...snap, lessons, lastLesson: { ...snap.lastLesson, [moduleId]: "" } });
+  const has = (s: string) => slugs.has(s);
+  write({
+    ...snap,
+    lessons: without(snap.lessons, has),
+    blockAt: without(snap.blockAt, has),
+    events: (snap.events || []).filter((e) => !has(e.slug)),
+    openedAt: without(snap.openedAt, (k) => k === moduleId),
+    lastLesson: { ...snap.lastLesson, [moduleId]: "" },
+    lastOpened: has(snap.lastOpened || "") ? "" : snap.lastOpened,
+    lastCourse: snap.lastCourse === moduleId ? "" : snap.lastCourse,
+  });
 }
-export function resetAll() { write({ version: 2, lessons: {}, activity: [], lastLesson: {} }); }
+export function resetAll() { write({ ...EMPTY }); }
 
 /* ---------- hooks ---------- */
 

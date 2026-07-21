@@ -57,7 +57,17 @@ export function LearningPathView({ path }: { path: LearningPath }) {
         </div>
         <div className="relative mt-2.5 h-2 max-w-md overflow-hidden rounded-full bg-white/25"><div className="h-full rounded-full bg-white" style={{ width: `${pctTrack}%` }} /></div>
         <div className="relative mt-3 flex justify-end">
-          <ResetButton label="אפס מסלול" title="איפוס התקדמות במסלול" scopeText={`מסלול ${path.title} · ${path.module}`} count={model?.totalLessons ?? 0} onConfirm={() => resetPath(moduleIdOf(path.module))} className="tap inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-2.5 py-1 text-[11px] font-bold text-white/90 backdrop-blur transition hover:bg-white/25" />
+          <ResetButton
+            label="אפס קורס"
+            title="לאפס את כל ההתקדמות בקורס?"
+            scopeText={`הפעולה תאפס את הקורס ${path.title} · ${path.module} בלבד — שאר הקורסים לא ייפגעו.`}
+            details={["שיעורים", "בלוקים", "סטטוס בחנים", "התקדמות", "השיעור הנוכחי", "נקודת ההמשך", "הישגים בקורס זה"]}
+            count={model?.totalLessons ?? 0}
+            confirmLabel="אפס קורס"
+            irreversible
+            danger
+            onConfirm={() => resetPath(moduleIdOf(path.module))}
+            className="tap inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-2.5 py-1 text-[11px] font-bold text-white/90 backdrop-blur transition hover:bg-white/25" />
         </div>
       </motion.header>
 
@@ -79,7 +89,7 @@ export function LearningPathView({ path }: { path: LearningPath }) {
                     <span className="text-[11px] font-bold text-ink-3">· {ch.lessons.length} שיעורים</span>
                     {(() => { const mins = ch.lessons.reduce((s, l) => s + (l.minutes || 0), 0); return mins ? <span className="hidden text-[11px] font-bold text-ink-3 sm:inline">· ~{mins} דק׳</span> : null; })()}
                     {state === "cur" && <span className="ms-auto rounded-full px-2.5 py-0.5 text-[9.5px] font-extrabold text-white" style={{ background: path.color }}>אתה כאן</span>}
-                    {state === "available" && <ResetButton label="אפס פרק" title="איפוס התקדמות בפרק" scopeText={`פרק ${ci + 1} · ${ch.title}`} count={ch.lessons.length} onConfirm={() => resetChapter(moduleIdOf(path.module), ci + 1)} className="ms-auto tap inline-flex items-center gap-1 rounded-lg border border-hairline px-2 py-0.5 text-[10px] font-bold text-ink-3 transition-colors hover:border-brand/40 hover:text-brand" />}
+                    {state === "available" && <ResetButton label="התחל פרק מחדש" title="להתחיל את הפרק מחדש?" scopeText={`הפעולה תאפס את פרק ${ci + 1} · ${ch.title} בלבד. שאר הפרקים והקורסים לא ייפגעו.`} details={[`${ch.lessons.length} שיעורים בפרק יחזרו למצב לא-הושלם.`, "בלוקים, בחנים ונקודת ההמשך בפרק יתאפסו.", "תוכן הפרק לא נמחק."]} count={ch.lessons.length} confirmLabel="התחל מחדש" onConfirm={() => resetChapter(moduleIdOf(path.module), ci + 1)} className="ms-auto tap inline-flex items-center gap-1 rounded-lg border border-hairline px-2 py-0.5 text-[10px] font-bold text-ink-3 transition-colors hover:border-brand/40 hover:text-brand" />}
                   </div>
                   {state !== "upcoming" && (
                     <div className="mt-2.5 flex flex-col gap-1.5">
