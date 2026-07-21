@@ -1,24 +1,14 @@
-import { notFound } from "next/navigation";
+// Legacy PP chapter route kept (old deep links resolve) but redirects to the unified reader.
 import { PP_CHAPTERS } from "@/data/library/pp-knowledge";
-import { PPChapterDetail } from "@/components/pp-chapter-detail";
+import { LegacyRedirect } from "@/components/academy/legacy-redirect";
 
 const pad = (n: number) => String(n).padStart(2, "0");
-
 export const dynamicParams = false;
-
 export function generateStaticParams() {
   return PP_CHAPTERS.map((c) => ({ slug: `chapter-${pad(c.n)}` }));
 }
+export const metadata = { title: "עבר ל-SAP Academy" };
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const ch = PP_CHAPTERS.find((c) => `chapter-${pad(c.n)}` === slug);
-  return { title: ch ? `${ch.he} · PP · Project NEO` : "PP · Project NEO" };
-}
-
-export default async function PPChapterPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const ch = PP_CHAPTERS.find((c) => `chapter-${pad(c.n)}` === slug);
-  if (!ch) notFound();
-  return <PPChapterDetail ch={ch} />;
+export default function Page() {
+  return <LegacyRedirect to="/academy/path/pp-pi/" label="תכנון ייצור ובקרה" />;
 }
