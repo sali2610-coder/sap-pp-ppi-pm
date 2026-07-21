@@ -8,7 +8,7 @@ import {
   Target, HelpCircle, TrendingUp, MapPin, KeyRound, Building2, Workflow, Network,
   Table2, Terminal, LayoutDashboard, Settings, Boxes, Braces, Lock, StickyNote,
   AlertTriangle, Wrench, Award, Lightbulb, Link2, CircleHelp, BookCheck, Clock, ShieldCheck,
-  GraduationCap, BookOpen, ListChecks, CheckCircle2, ArrowUpRight, ChevronsLeft, ChevronsRight,
+  GraduationCap, BookOpen, ListChecks, CheckCircle2, ArrowUpRight,
   type LucideIcon,
 } from "lucide-react";
 import { orderedBlocks, type Lesson, type LessonBlock, type Trust, type BlockKind } from "@/lib/academy/lesson-types";
@@ -207,8 +207,7 @@ function LessonAtAGlance({ prevSlug, concepts, nav, accent }: { prevSlug?: strin
         </div>
       )}
       <div className="rounded-2xl border border-hairline bg-surface p-4">
-        <div className="mb-2.5 flex items-center gap-2"><IconWell icon={BookOpen} accent={accent} size="sm" /><span className="text-[12px] font-extrabold text-ink-1">הקשר למידה</span></div>
-        {nav && <div className="mb-2 text-[12px] text-ink-2">פרק {nav.chapterIndex}/{nav.chapterCount} · <span className="font-semibold">{nav.chapterTitle}</span> · שיעור {nav.posInChapter}/{nav.chapterSize}</div>}
+        <div className="mb-2.5 flex items-center gap-2"><IconWell icon={BookOpen} accent={accent} size="sm" /><span className="text-[12px] font-extrabold text-ink-1">דרישות קדם</span></div>
         {prereq ? (
           <Link href={`/academy/lesson/${prereq.slug}/`} className="group flex items-center gap-2 rounded-lg border border-hairline bg-surface-2/50 p-2 text-[12px] transition-colors hover:border-brand/40">
             <span className="shrink-0 text-ink-3">דרוש קודם:</span><span className="min-w-0 flex-1 truncate font-bold text-ink-1" dir="auto">{prereq.title}</span><ArrowUpRight className="size-3.5 shrink-0 text-ink-3 group-hover:text-brand" />
@@ -219,34 +218,46 @@ function LessonAtAGlance({ prevSlug, concepts, nav, accent }: { prevSlug?: strin
   );
 }
 
-/** End-of-lesson footer — rich prev/next lesson cards + chapter nav + course. */
+/**
+ * THE single lesson-to-lesson navigation (one system). Prev · back-to-path · Next.
+ * Chapter transitions are FOLDED INTO the prev/next labels (no separate chapter buttons);
+ * the centre back-to-path button is the one location anchor (shows position). LMS-style.
+ */
 function LessonFooterNav({ lesson, nav, accent }: { lesson: Lesson; nav?: LessonNav; accent: string }) {
-  // prev/next from the canonical model (path order), never authored index/array.
   const prevSlug = prevOf(lesson.slug), nextSlug = nextOf(lesson.slug);
   const prev = lessonRef(prevSlug), next = lessonRef(nextSlug);
+  const prevNav = prevSlug ? lessonNav(prevSlug) : undefined;
+  const nextNav = nextSlug ? lessonNav(nextSlug) : undefined;
+  const prevNewChapter = !!(nav && prevNav && prevNav.chapterIndex !== nav.chapterIndex);
+  const nextNewChapter = !!(nav && nextNav && nextNav.chapterIndex !== nav.chapterIndex);
   if (!prev && !next && !nav) return null;
   return (
-    <nav aria-label="ניווט שיעורים" className="mt-8 border-t border-hairline pt-6">
-      <div className="grid gap-3 sm:grid-cols-2">
-        {prev ? (
-          <Link href={`/academy/lesson/${prevSlug}/`} className="group flex items-center gap-3 rounded-2xl border border-hairline bg-surface p-4 transition-all hover:-translate-y-px hover:border-brand/40 hover:shadow-sm">
-            <ArrowRight className="size-5 shrink-0 text-ink-3 transition-colors group-hover:text-brand" />
-            <div className="min-w-0"><div className="text-[10.5px] font-bold uppercase tracking-wide text-ink-3">השיעור הקודם</div><div className="truncate text-[13px] font-extrabold text-ink-1" dir="auto">{prev.title}</div></div>
-          </Link>
-        ) : <span className="hidden sm:block" />}
-        {next ? (
-          <Link href={`/academy/lesson/${nextSlug}/`} className="group flex items-center justify-end gap-3 rounded-2xl border border-hairline bg-surface p-4 text-end transition-all hover:-translate-y-px hover:border-brand/40 hover:shadow-sm">
-            <div className="min-w-0"><div className="text-[10.5px] font-bold uppercase tracking-wide text-ink-3">השיעור הבא</div><div className="truncate text-[13px] font-extrabold text-ink-1" dir="auto">{next.title}</div></div>
-            <ArrowLeft className="size-5 shrink-0 text-ink-3 transition-colors group-hover:text-brand" />
-          </Link>
-        ) : <span className="hidden sm:block" />}
-      </div>
-      {nav && (
-        <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-[12px]">
-          {nav.prevChapter?.lesson && <Link href={`/academy/lesson/${nav.prevChapter.lesson.slug}/`} className="tap inline-flex items-center gap-1 rounded-lg border border-hairline px-3 py-1.5 font-semibold text-ink-2 hover:border-brand/40"><ChevronsRight className="size-3.5" />פרק קודם</Link>}
-          <Link href={nav.courseHref} className="tap inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-bold text-white" style={{ background: accent }}><GraduationCap className="size-3.5" />חזרה למסלול {nav.courseTitle}</Link>
-          {nav.nextChapter?.lesson && <Link href={`/academy/lesson/${nav.nextChapter.lesson.slug}/`} className="tap inline-flex items-center gap-1 rounded-lg border border-hairline px-3 py-1.5 font-semibold text-ink-2 hover:border-brand/40">פרק הבא<ChevronsLeft className="size-3.5" /></Link>}
-        </div>
+    <nav aria-label="ניווט שיעורים" className="mt-8 grid items-stretch gap-3 border-t border-hairline pt-6 sm:grid-cols-[1fr_auto_1fr]">
+      {/* previous lesson (chapter-aware) */}
+      {prev ? (
+        <Link href={`/academy/lesson/${prevSlug}/`} className="group flex items-center gap-3 rounded-2xl border border-hairline bg-surface p-4 transition-all hover:-translate-y-px hover:border-brand/40 hover:shadow-sm">
+          <ArrowRight className="size-5 shrink-0 text-ink-3 transition-colors group-hover:text-brand" />
+          <div className="min-w-0 text-start"><div className="text-[10px] font-bold uppercase tracking-wide text-ink-3">{prevNewChapter ? `פרק קודם · ${prevNav!.chapterTitle}` : "השיעור הקודם"}</div><div className="truncate text-[13px] font-extrabold text-ink-1" dir="auto">{prev.title}</div></div>
+        </Link>
+      ) : <span className="hidden sm:block" />}
+
+      {/* centre — the single location anchor: back to path + position */}
+      <Link href={nav?.courseHref ?? "/academy/"} className="tap flex flex-col items-center justify-center gap-0.5 rounded-2xl px-6 py-3.5 text-center text-white transition hover:opacity-90" style={{ background: accent }}>
+        <span className="inline-flex items-center gap-1.5 text-[12.5px] font-extrabold"><GraduationCap className="size-4" />חזרה למסלול</span>
+        {nav && <span className="text-[10.5px] font-semibold opacity-90">שיעור {nav.posInChapter}/{nav.chapterSize} · פרק {nav.chapterIndex}/{nav.chapterCount}</span>}
+      </Link>
+
+      {/* next lesson (chapter-aware) — or end-of-path */}
+      {next ? (
+        <Link href={`/academy/lesson/${nextSlug}/`} className="group flex items-center justify-end gap-3 rounded-2xl border bg-surface p-4 text-end transition-all hover:-translate-y-px hover:shadow-sm" style={{ borderColor: nextNewChapter ? accent : "var(--hairline)" }}>
+          <div className="min-w-0"><div className="text-[10px] font-bold uppercase tracking-wide" style={{ color: nextNewChapter ? accent : "var(--ink-3)" }}>{nextNewChapter ? `פרק הבא · ${nextNav!.chapterTitle}` : "השיעור הבא"}</div><div className="truncate text-[13px] font-extrabold text-ink-1" dir="auto">{next.title}</div></div>
+          <ArrowLeft className="size-5 shrink-0 transition-colors" style={{ color: nextNewChapter ? accent : "var(--ink-3)" }} />
+        </Link>
+      ) : (
+        <Link href={nav?.courseHref ?? "/academy/"} className="group flex items-center justify-end gap-3 rounded-2xl border border-hairline bg-surface p-4 text-end transition-all hover:-translate-y-px hover:border-brand/40 hover:shadow-sm">
+          <div className="min-w-0"><div className="text-[10px] font-bold uppercase tracking-wide text-ink-3">סיום המסלול</div><div className="truncate text-[13px] font-extrabold text-ink-1">חזרה לסקירת המסלול</div></div>
+          <GraduationCap className="size-5 shrink-0 text-ink-3" />
+        </Link>
       )}
     </nav>
   );
@@ -339,7 +350,13 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
   return (
     <div dir="rtl">
       {celebration && <Celebration data={celebration} onClose={() => setCelebration(null)} />}
-      <Breadcrumb items={[{ label: "SAP Academy", href: "/academy/" }, { label: lesson.module }, { label: lesson.course }, { label: `שיעור ${dispNum}` }]} />
+      {/* ONE location hierarchy: Academy › Path › Chapter › Lesson */}
+      <Breadcrumb items={[
+        { label: "SAP Academy", href: "/academy/" },
+        { label: nav?.courseTitle ?? lesson.module, href: nav?.courseHref },
+        ...(nav ? [{ label: `פרק ${nav.chapterIndex} · ${nav.chapterTitle}`, href: nav.courseHref }] : []),
+        { label: `שיעור ${nav?.posInChapter ?? dispNum}` },
+      ]} />
 
 
       {/* mobile sticky progress */}
@@ -416,10 +433,6 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
               })}
             </div>
           </nav>
-          <div className="flex gap-2">
-            {prevSlug && <Link href={`/academy/lesson/${prevSlug}/`} className="tap flex flex-1 items-center justify-center gap-1 rounded-xl border border-hairline py-2 text-[11.5px] font-bold text-ink-2 hover:border-brand/40"><ArrowRight className="size-3.5" /> הקודם</Link>}
-            {nextSlug && <Link href={`/academy/lesson/${nextSlug}/`} className="tap flex flex-1 items-center justify-center gap-1 rounded-xl py-2 text-[11.5px] font-bold text-white hover:opacity-90" style={{ background: accent }}>הבא <ArrowLeft className="size-3.5" /></Link>}
-          </div>
         </aside>
       </div>
     </div>
