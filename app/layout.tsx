@@ -1,10 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { AppShell } from "@/components/app-shell";
-import { Analytics } from "@vercel/analytics/next";
-import { GoogleAnalytics } from "@/components/google-analytics";
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 const GSC = process.env.NEXT_PUBLIC_GSC_VERIFICATION;
 const BING = process.env.NEXT_PUBLIC_BING_VERIFICATION;
 
@@ -122,8 +119,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body className="flex min-h-full flex-col">
         <AppShell>{children}</AppShell>
-        <Analytics />
-        <GoogleAnalytics id={GA_ID} />
       </body>
     </html>
   );
