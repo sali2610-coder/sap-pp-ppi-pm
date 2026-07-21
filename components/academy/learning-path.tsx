@@ -62,12 +62,12 @@ export function LearningPathView({ path }: { path: LearningPath }) {
         <div className="relative mt-3 flex justify-end">
           <ResetButton
             label="אפס קורס"
-            title="לאפס את כל ההתקדמות בקורס?"
-            scopeText={`הפעולה תאפס את הקורס ${path.title} · ${path.module} בלבד — שאר הקורסים לא ייפגעו.`}
-            details={["שיעורים", "בלוקים", "סטטוס בחנים", "התקדמות", "השיעור הנוכחי", "נקודת ההמשך", "הישגים בקורס זה"]}
+            title={`לאפס את ההתקדמות של קורס ${path.module}?`}
+            scopeText="הפעולה תמחק:"
+            details={["כל השיעורים שסומנו כהושלמו", "אחוז ההתקדמות", "זמן הלמידה", "נקודת ההמשך האחרונה"]}
+            note="הקורס יחזור להופיע כאילו מעולם לא התחלת אותו."
             count={model?.totalLessons ?? 0}
             confirmLabel="אפס קורס"
-            irreversible
             danger
             onConfirm={() => resetPath(moduleIdOf(path.module))}
             className="tap inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-2.5 py-1 text-[11px] font-bold text-white/90 backdrop-blur transition hover:bg-white/25" />
