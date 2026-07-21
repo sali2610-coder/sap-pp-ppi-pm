@@ -122,6 +122,21 @@ try {
     const hrefs = await p.evaluate(() => [...document.querySelectorAll('a[href^="/academy/path/"]')].map((a) => a.getAttribute("href")));
     const need = ["/academy/path/mm/", "/academy/path/wm/", "/academy/path/pp-ds/", "/academy/path/sop/"];
     rec("16 de-split: MM/WM/PP-DS/S&OP → /academy/path", need.every((h) => hrefs.includes(h)), need.filter((h) => !hrefs.includes(h)).join(",")); await p.close(); }
+  // 17 · legacy accordion routes client-redirect to the unified reader (one reader)
+  { const pairs = [
+      ["/library/mm-academy/", "/academy/path/mm/"], ["/library/pmu-academy/", "/academy/path/pm-user/"],
+      ["/library/sop-academy/", "/academy/path/sop/"], ["/library/pp/", "/academy/path/pp-pi/"],
+      ["/library/mm-academy/chapter-01/", "/academy/path/mm/"],
+    ];
+    let pass = true, detail = "";
+    for (const [from, to] of pairs) {
+      const p = await page();
+      await goto(p, from); await new Promise((r) => setTimeout(r, 1200));
+      const url = p.url();
+      await p.close();
+      if (!url.includes(to)) { pass = false; detail += `${from}→${url.split("/").slice(3).join("/")} `; }
+    }
+    rec("17 legacy accordions redirect to unified reader", pass, detail.slice(0, 80)); }
 } catch (e) {
   rec("suite", false, "EXCEPTION " + String(e).slice(0, 120));
 }
