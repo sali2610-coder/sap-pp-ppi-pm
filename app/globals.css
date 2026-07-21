@@ -897,3 +897,8 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
     box-shadow: 1px 0 0 0 var(--hairline);
   }
 }
+
+/* §P0.1 Reader focus mode — inside a lesson (data-focus-reader) hide the global
+   knowledge rail so the reader is a calm 2-column (lesson + on-this-page). Pure CSS,
+   zero hydration flash; the breadcrumb + footer nav are the escape hatches. */
+body:has([data-focus-reader]) [data-knowledge-sidebar] { display: none !important; }

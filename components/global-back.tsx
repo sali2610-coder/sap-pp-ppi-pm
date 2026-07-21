@@ -54,6 +54,10 @@ export function GlobalBack() {
   }, [pathname]);
 
   if (pathname === "/") return null;
+  // §P0.2 — these routes render their own breadcrumb, the single clearer "go up"
+  // affordance. A second generic "Back" is redundant noise, so suppress it here.
+  const HAS_BREADCRUMB = [/^\/academy\//, /^\/object\//, /^\/tcode\//, /^\/bapi\//, /^\/cds\//, /^\/idoc\//, /^\/troubleshooting\//, /^\/fiori\//];
+  if (HAS_BREADCRUMB.some((re) => re.test(pathname))) return null;
 
   return (
     <div className="no-print sticky z-30 mb-3 flex" style={{ top }} dir="rtl">

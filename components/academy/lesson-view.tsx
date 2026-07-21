@@ -348,7 +348,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
   }, [blocks]);
 
   return (
-    <div dir="rtl">
+    <div dir="rtl" data-focus-reader>
       {celebration && <Celebration data={celebration} onClose={() => setCelebration(null)} />}
       {/* ONE location hierarchy: Academy › Path › Chapter › Lesson */}
       <Breadcrumb items={[

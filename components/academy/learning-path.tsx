@@ -58,6 +58,15 @@ export function LearningPathView({ path }: { path: LearningPath }) {
         <div className="relative mt-4 flex flex-wrap items-center gap-4 text-[13px] font-semibold">
           <span>{path.chapters.length} פרקים</span><span className="opacity-60">·</span><span>{totalLessons} שיעורים</span><span className="opacity-60">·</span><span>{pctTrack}% הושלם</span>
         </div>
+        {/* §P0.4 — teach the learning hierarchy in-context (מודול › מסלול › פרק › שיעור › בלוק) */}
+        <div className="relative mt-1.5 flex flex-wrap items-center gap-1.5 text-[11px] font-medium opacity-80">
+          <span className="opacity-70">מבנה:</span>
+          <span className="rounded bg-white/15 px-1.5 py-0.5">מודול · {path.module}</span><span className="opacity-60">›</span>
+          <span className="rounded bg-white/15 px-1.5 py-0.5">מסלול</span><span className="opacity-60">›</span>
+          <span className="rounded bg-white/15 px-1.5 py-0.5">פרק</span><span className="opacity-60">›</span>
+          <span className="rounded bg-white/15 px-1.5 py-0.5">שיעור</span><span className="opacity-60">›</span>
+          <span className="rounded bg-white/15 px-1.5 py-0.5">בלוק</span>
+        </div>
         <div className="relative mt-2.5 h-2 max-w-md overflow-hidden rounded-full bg-white/25"><div className="h-full rounded-full bg-white" style={{ width: `${pctTrack}%` }} /></div>
         <div className="relative mt-3 flex justify-end">
           <ResetButton
