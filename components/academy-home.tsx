@@ -92,6 +92,8 @@ export function AcademyHome() {
   const tPct = useLessonPct(cc?.resumeSlug ?? "", contLesson?.requiredBlocks ?? 0);
   const tStarted = (cc?.pct ?? 0) > 0 || tPct > 0;
   const activeCourses = useActiveCourses();
+  // §P0.3 — first-time vs returning: never greet a brand-new user with "welcome back".
+  const returning = g.blocksDone > 0 || activeCourses.length > 0;
 
   const tracks = BOOKS;
   const recent = useRecent();
@@ -106,8 +108,10 @@ export function AcademyHome() {
       <div className="text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink-3">SAP Academy</div>
       <motion.div {...heroAnim} className="mt-1.5 grid items-stretch gap-4 lg:grid-cols-[1fr_300px]">
         <div>
-          <h1 className="text-[27px] font-extrabold tracking-[-0.02em]">ברוך שובך</h1>
-          <p className="mt-1 inline-flex flex-wrap items-center gap-1 text-[14px] text-ink-3">{g.streak > 0 ? <><Flame className="size-4 text-[#f97316]" />רצף של <b className="text-[#f97316]">{g.streak} ימים</b> · </> : null}עוד <b className="text-[#f97316]">{Math.max(0, g.weeklyTarget - g.weeklyDone)} ימי למידה</b> ליעד השבועי.</p>
+          <h1 className="text-[27px] font-extrabold tracking-[-0.02em]">{returning ? "ברוך שובך" : "ברוך הבא ל-SAP Academy"}</h1>
+          {returning
+            ? <p className="mt-1 inline-flex flex-wrap items-center gap-1 text-[14px] text-ink-3">{g.streak > 0 ? <><Flame className="size-4 text-[#f97316]" />רצף של <b className="text-[#f97316]">{g.streak} ימים</b> · </> : null}עוד <b className="text-[#f97316]">{Math.max(0, g.weeklyTarget - g.weeklyDone)} ימי למידה</b> ליעד השבועי.</p>
+            : <p className="mt-1 max-w-xl text-[14px] text-ink-3">מסלולי לימוד מובנים ל-SAP — בחר קורס, התקדם פרק אחר פרק, וההתקדמות תישמר אוטומטית.</p>}
 
           {/* continue learning — course-level target from the store (§1) */}
           {cc && (
