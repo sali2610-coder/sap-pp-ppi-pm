@@ -50,9 +50,9 @@ try {
 
   // 5 · reset PATH clears the store (reactive, no reload)
   { const p = await page(seedDone("pm-org-structure")); await goto(p, "/academy/path/pm/"); await settle();
-    await p.evaluate(() => [...document.querySelectorAll("button")].find((x) => x.textContent.includes("אפס מסלול"))?.click()); await new Promise((r) => setTimeout(r, 350));
-    await p.evaluate(() => [...document.querySelectorAll("button")].find((x) => x.textContent.trim() === "אפס")?.click()); await new Promise((r) => setTimeout(r, 500));
-    const s = await store(p); rec("5 reset path clears store", Object.keys(s.lessons || {}).length === 0, `lessons=${Object.keys(s.lessons || {}).length}`); await p.close(); }
+    await p.evaluate(() => [...document.querySelectorAll("button")].find((x) => x.textContent.includes("אפס קורס"))?.click()); await new Promise((r) => setTimeout(r, 350));
+    await p.evaluate(() => [...document.querySelectorAll("button")].find((x) => x.textContent.trim() === "אפס קורס" && /bg-red/.test(x.className))?.click()); await new Promise((r) => setTimeout(r, 500));
+    const s = await store(p); rec("5 reset course clears store", Object.keys(s.lessons || {}).length === 0, `lessons=${Object.keys(s.lessons || {}).length}`); await p.close(); }
 
   // 6 · reset ALL from home clears the store
   { const p = await page(seedDone("qm-intro")); await goto(p, "/academy/"); await settle();
