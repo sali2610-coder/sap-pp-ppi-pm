@@ -16,7 +16,7 @@
  * once into v2 without deleting them (rollback-safe). Versioned for future migrations.
  */
 import { useCallback, useSyncExternalStore } from "react";
-import { getLesson, getModule, firstIncomplete, type AcademyLesson } from "./model";
+import { getLesson, getModule, firstIncomplete, allModuleIds, type AcademyLesson } from "./model";
 
 const DEFAULT_MODULE = "pm";
 
@@ -25,15 +25,23 @@ const V1_PROGRESS = "neo:academy:progress";
 const V1_ACTIVITY = "neo:academy:activity";
 export const WEEKLY_TARGET = 3;
 
+export interface AcademyEvent { t: number; k: "block" | "quiz"; slug: string }
+
 export interface AcademyStore {
   version: 2;
   lessons: Record<string, string[]>;      // slug -> completed block kinds
   activity: string[];                      // ISO day-stamps
   lastLesson: Record<string, string>;      // moduleId -> last-opened slug (per module)
   lastOpened?: string;                     // single most-recent lesson slug (any module)
+  // ---- PR-A additive analytics (all optional; migration spreads over EMPTY) ----
+  lastCourse?: string;                     // moduleId most recently opened (Continue priority)
+  openedAt?: Record<string, number>;       // moduleId -> epoch ms of last open
+  blockAt?: Record<string, string>;        // slug -> last viewed block kind (exact-resume)
+  events?: AcademyEvent[];                 // capped activity log (block / quiz)
+  msByDay?: Record<string, number>;        // ISO day -> active study ms
 }
 
-const EMPTY: AcademyStore = { version: 2, lessons: {}, activity: [], lastLesson: {}, lastOpened: "" };
+const EMPTY: AcademyStore = { version: 2, lessons: {}, activity: [], lastLesson: {}, lastOpened: "", lastCourse: "", openedAt: {}, blockAt: {}, events: [], msByDay: {} };
 
 function migrate(): AcademyStore {
   if (typeof window === "undefined") return EMPTY;
@@ -67,6 +75,9 @@ function write(next: AcademyStore) { snap = next; try { window.localStorage.setI
 function useStore() { return useSyncExternalStore(subscribe, getSnap, getServer); }
 
 const today = () => new Date().toISOString().slice(0, 10);
+const now = () => Date.now();
+const startOfToday = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d.getTime(); };
+const MAX_GAP = 120_000; // cap inter-event delta counted as active study time (2 min)
 
 /** A lesson is complete when its completed block count ≥ its required block count. */
 function lessonDoneIn(store: AcademyStore, slug: string): boolean {
@@ -91,10 +102,46 @@ export function recordActivity() {
 
 export function setLastLesson(moduleId: string, slug: string) {
   if (!moduleId || !slug) return;
-  if (snap.lastOpened === slug && snap.lastLesson?.[moduleId] === slug) return;
-  write({ ...snap, lastLesson: { ...snap.lastLesson, [moduleId]: slug }, lastOpened: slug });
+  // always refresh openedAt / lastCourse (drives Continue priority + "time ago")
+  write({
+    ...snap,
+    lastLesson: { ...snap.lastLesson, [moduleId]: slug },
+    lastOpened: slug,
+    lastCourse: moduleId,
+    openedAt: { ...(snap.openedAt || {}), [moduleId]: now() },
+  });
 }
+/** Alias with intent-revealing name (§1/§5). */
+export const recordOpen = setLastLesson;
 export const getLastLesson = (moduleId: string): string | undefined => snap.lastLesson?.[moduleId];
+
+/**
+ * Record a viewed/completed block (§6/§8). Appends to the capped event log,
+ * remembers the last block per lesson (exact-resume, §5), accrues active study
+ * minutes (capped inter-event gap), and stamps today's activity.
+ */
+export function recordBlock(slug: string, kind: string) {
+  if (typeof window === "undefined" || !slug || !kind) return;
+  const t = today();
+  const ev = snap.events || [];
+  const last = ev[ev.length - 1];
+  const delta = last ? now() - last.t : 0;
+  const addMs = delta > 0 && delta < MAX_GAP ? delta : 0;
+  const k: AcademyEvent["k"] = kind === "quiz" ? "quiz" : "block";
+  const activity = snap.activity?.includes(t) ? snap.activity : [...(snap.activity || []), t];
+  write({
+    ...snap,
+    events: [...ev, { t: now(), k, slug }].slice(-500),
+    blockAt: { ...(snap.blockAt || {}), [slug]: kind },
+    msByDay: { ...(snap.msByDay || {}), [t]: (snap.msByDay?.[t] || 0) + addMs },
+    activity,
+  });
+}
+export const getLastBlock = (slug: string): string | undefined => snap.blockAt?.[slug];
+export function useLastBlock(slug: string): string | undefined {
+  const store = useStore();
+  return store.blockAt?.[slug];
+}
 
 /**
  * Continue-learning target (§7): the true next lesson to resume.
@@ -116,6 +163,110 @@ function continueTargetFrom(store: AcademyStore): AcademyLesson | undefined {
 export function useContinueTarget(): AcademyLesson | undefined {
   const store = useStore();
   return continueTargetFrom(store);
+}
+
+/* ---------- course-level continue + multi-course (§1/§2) ---------- */
+
+export interface CourseCard {
+  moduleId: string; module: string;
+  resumeSlug: string; resumeBlock?: string;
+  chapterIndex: number; chapterTitle: string;
+  lessonNum: number; chapterSize: number; lessonTitle: string;
+  pct: number; completedLessons: number; totalLessons: number;
+  openedAt?: number;
+}
+
+function moduleProgressIn(store: AcademyStore, moduleId: string) {
+  const m = getModule(moduleId);
+  if (!m) return null;
+  const authored = m.lessons.filter((l) => l.hasLesson);
+  const total = authored.length;
+  const completed = authored.filter((l) => lessonDoneIn(store, l.slug)).length;
+  const blocks = authored.reduce((s, l) => s + (store.lessons[l.slug]?.length || 0), 0);
+  return { m, authored, total, completed, blocks, pct: total ? Math.round((completed / total) * 100) : 0 };
+}
+
+/** The lesson to resume within a module: last-opened if incomplete, else first incomplete, else last. */
+function resumeLessonOf(store: AcademyStore, moduleId: string): AcademyLesson | undefined {
+  const done = (s: string) => lessonDoneIn(store, s);
+  const lo = store.lastLesson?.[moduleId];
+  if (lo && getLesson(lo) && !done(lo)) return getLesson(lo);
+  const fi = firstIncomplete(moduleId, done);
+  if (fi) return fi;
+  const m = getModule(moduleId);
+  const last = m?.lessons.filter((l) => l.hasLesson).slice(-1)[0]?.slug;
+  return last ? getLesson(last) : undefined;
+}
+
+function cardFor(store: AcademyStore, moduleId: string): CourseCard | null {
+  const p = moduleProgressIn(store, moduleId);
+  if (!p) return null;
+  const lesson = resumeLessonOf(store, moduleId);
+  if (!lesson) return null;
+  return {
+    moduleId, module: lesson.module,
+    resumeSlug: lesson.slug, resumeBlock: store.blockAt?.[lesson.slug],
+    chapterIndex: lesson.chapterIndex, chapterTitle: lesson.chapterTitle,
+    lessonNum: lesson.posInChapter, chapterSize: lesson.chapterSize, lessonTitle: lesson.title,
+    pct: p.pct, completedLessons: p.completed, totalLessons: p.total,
+    openedAt: store.openedAt?.[moduleId],
+  };
+}
+
+/** A course is "active" if it has any recorded progress or was opened. */
+function activeCoursesFrom(store: AcademyStore): CourseCard[] {
+  const cards = allModuleIds()
+    .map((id) => cardFor(store, id))
+    .filter((c): c is CourseCard => !!c)
+    .filter((c) => c.completedLessons > 0 || (store.openedAt?.[c.moduleId] ?? 0) > 0 ||
+      (getModule(c.moduleId)?.lessons.some((l) => (store.lessons[l.slug]?.length || 0) > 0)));
+  // sort: most recently opened first, then highest progress
+  return cards.sort((a, b) => (b.openedAt ?? 0) - (a.openedAt ?? 0) || b.pct - a.pct);
+}
+export function useActiveCourses(): CourseCard[] {
+  const store = useStore();
+  return activeCoursesFrom(store);
+}
+
+/**
+ * Continue-course (§1) priority — NOT a hardcoded module:
+ *   1. lastCourse (last opened) if it still has an incomplete lesson
+ *   2. lastActiveCourse — highest openedAt with an incomplete lesson
+ *   3. highestRecentActivity — module of the most recent block event
+ *   4. default module (first-time users) — PM
+ */
+function continueCourseFrom(store: AcademyStore): CourseCard | null {
+  const hasIncomplete = (id: string) => { const p = moduleProgressIn(store, id); return p ? p.completed < p.total : false; };
+  // 1
+  if (store.lastCourse && hasIncomplete(store.lastCourse)) return cardFor(store, store.lastCourse);
+  // 2
+  const byOpened = Object.entries(store.openedAt || {}).sort((a, b) => b[1] - a[1]).map(([id]) => id);
+  for (const id of byOpened) if (hasIncomplete(id)) return cardFor(store, id);
+  // 3
+  const ev = store.events || [];
+  for (let i = ev.length - 1; i >= 0; i--) { const id = getLesson(ev[i].slug)?.moduleId; if (id && hasIncomplete(id)) return cardFor(store, id); }
+  // 4
+  return cardFor(store, DEFAULT_MODULE);
+}
+export function useContinueCourse(): CourseCard | null {
+  const store = useStore();
+  return continueCourseFrom(store);
+}
+
+/* ---------- today / activity widget (§6) ---------- */
+export interface TodayStats { lessons: number; blocks: number; quizzes: number; minutes: number }
+function todayStatsFrom(store: AcademyStore): TodayStats {
+  const from = startOfToday();
+  const ev = (store.events || []).filter((e) => e.t >= from);
+  const blocks = ev.filter((e) => e.k === "block").length;
+  const quizzes = ev.filter((e) => e.k === "quiz").length;
+  const lessons = new Set(ev.map((e) => e.slug).filter((s) => lessonDoneIn(store, s))).size;
+  const minutes = Math.round((store.msByDay?.[today()] || 0) / 60000);
+  return { lessons, blocks, quizzes, minutes };
+}
+export function useTodayStats(): TodayStats {
+  const store = useStore();
+  return todayStatsFrom(store);
 }
 
 /* ---------- reset (3 levels + all) — UI wired in PR-5 ---------- */
