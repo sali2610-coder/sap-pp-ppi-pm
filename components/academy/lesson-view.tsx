@@ -13,11 +13,10 @@ import {
 } from "lucide-react";
 import { orderedBlocks, type Lesson, type LessonBlock, type Trust, type BlockKind } from "@/lib/academy/lesson-types";
 import { useLessonProgress } from "@/lib/academy/lesson-progress";
-import { recordActivity } from "@/lib/academy/gamification";
 import { recordRecent } from "@/lib/academy/recent";
 import { lessonNav, lessonRef, type LessonNav } from "@/lib/academy/lesson-nav";
 import { getLesson, prevOf, nextOf, moduleIdOf } from "@/lib/academy/model";
-import { setLastLesson, resetLesson } from "@/lib/academy/store";
+import { setLastLesson, resetLesson, recordBlock } from "@/lib/academy/store";
 import { ResetButton } from "@/components/academy/reset-dialog";
 import { accentOf } from "@/lib/academy/theme";
 import { Callout, Chip, Pill, IconWell, Breadcrumb } from "@/components/ui";
@@ -316,7 +315,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
           {/* flowing document */}
           <div className="mt-7 flex flex-col gap-8">
-            {blocks.map((b) => <Section key={b.kind} b={b} accent={accent} onView={() => { markDone(b.kind); recordActivity(); }} />)}
+            {blocks.map((b) => <Section key={b.kind} b={b} accent={accent} onView={() => { markDone(b.kind); recordBlock(lesson.slug, b.kind); }} />)}
           </div>
 
           {/* end-of-lesson navigation */}

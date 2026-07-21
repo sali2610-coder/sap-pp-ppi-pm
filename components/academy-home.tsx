@@ -12,10 +12,42 @@ import { useRecent } from "@/lib/academy/recent";
 import { PILOT_LESSONS } from "@/data/academy/lessons/pm-maintenance-order";
 import { orderedBlocks } from "@/lib/academy/lesson-types";
 import { useGamification, useLessonPct } from "@/lib/academy/gamification";
-import { useContinueTarget, resetAll } from "@/lib/academy/store";
+import { useContinueCourse, useActiveCourses, resetAll, type CourseCard } from "@/lib/academy/store";
 import { accentOf } from "@/lib/academy/theme";
-import { allLessons } from "@/lib/academy/model";
+import { allLessons, getLesson } from "@/lib/academy/model";
 import { ResetButton } from "@/components/academy/reset-dialog";
+
+/** Relative "time ago" in Hebrew (client-only; store is empty on the server). */
+function timeAgo(at?: number): string {
+  if (!at) return "";
+  const s = Math.max(0, Math.floor((Date.now() - at) / 1000));
+  if (s < 60) return "הרגע";
+  const m = Math.floor(s / 60); if (m < 60) return `לפני ${m} דק׳`;
+  const h = Math.floor(m / 60); if (h < 24) return `לפני ${h} שע׳`;
+  const d = Math.floor(h / 24); if (d < 7) return `לפני ${d} ימים`;
+  return `לפני ${Math.floor(d / 7)} שב׳`;
+}
+
+/** One active-course resume card (§2). Live progress bar, current lesson/chapter, time-ago. */
+function CourseResumeCard({ c }: { c: CourseCard }) {
+  const accent = accentOf(c.module);
+  return (
+    <div className="group flex flex-col rounded-2xl border border-hairline bg-surface p-4 transition duration-200 hover:-translate-y-1 hover:border-[#dfe2e7] hover:shadow-[0_22px_44px_-22px_rgba(11,12,14,.22)]">
+      <div className="flex items-center justify-between">
+        <span className="inline-flex items-center gap-1.5"><span className="grid size-7 place-items-center rounded-lg text-[10px] font-extrabold text-white" style={{ background: accent }}>{c.module.slice(0, 2)}</span><span className="text-[13px] font-extrabold">{c.module}</span></span>
+        {c.openedAt ? <span className="text-[10.5px] text-ink-3">{timeAgo(c.openedAt)}</span> : null}
+      </div>
+      <div className="mt-2.5 text-[10.5px] font-bold uppercase tracking-[0.08em] text-ink-3">פרק {c.chapterIndex} · שיעור {c.lessonNum}/{c.chapterSize}</div>
+      <div className="text-[14px] font-extrabold leading-tight text-ink-1" dir="auto">{c.lessonTitle}</div>
+      <div className="truncate text-[11px] text-ink-3" dir="auto">{c.chapterTitle}</div>
+      <div className="mt-3 h-[7px] overflow-hidden rounded-full bg-black/[0.06]">
+        <motion.div className="h-full rounded-full" style={{ background: accent }} initial={false} animate={{ width: `${c.pct}%` }} transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }} />
+      </div>
+      <div className="mt-1 flex justify-between text-[11px] font-bold text-ink-3"><span>{c.pct}% הושלם</span><span>{c.completedLessons}/{c.totalLessons} שיעורים</span></div>
+      <Link href={`/academy/lesson/${c.resumeSlug}/`} className="mt-3 inline-flex items-center justify-center gap-2 rounded-xl py-2 text-[12.5px] font-extrabold text-white transition hover:opacity-90" style={{ background: accent }}>המשך <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
+    </div>
+  );
+}
 
 const PILOT_SLUG = "pm-maintenance-order";
 // Modules with the new Lesson Reader → the canonical /academy path. Others (MM/WM/
@@ -55,11 +87,14 @@ export function AcademyHome() {
   const pilotTotal = useMemo(() => orderedBlocks(PILOT_LESSONS[PILOT_SLUG]).length, []);
   const pilotPct = useLessonPct(PILOT_SLUG, pilotTotal);
 
-  // Continue Learning — algorithmic target from the single store (§7), not hardcoded.
-  const target = useContinueTarget();
-  const tAccent = accentOf(target?.module ?? "PM");
-  const tPct = useLessonPct(target?.slug ?? "", target?.requiredBlocks ?? 0);
-  const tStarted = tPct > 0;
+  // Continue Learning — course-level target (§1): last-opened course → last-active →
+  // highest-recent-activity → default. Never a hardcoded module.
+  const cc = useContinueCourse();
+  const contLesson = cc ? getLesson(cc.resumeSlug) : undefined;
+  const tAccent = accentOf(cc?.module ?? "PM");
+  const tPct = useLessonPct(cc?.resumeSlug ?? "", contLesson?.requiredBlocks ?? 0);
+  const tStarted = (cc?.pct ?? 0) > 0 || tPct > 0;
+  const activeCourses = useActiveCourses();
 
   const tracks = BOOKS;
   const recent = useRecent();
@@ -77,19 +112,19 @@ export function AcademyHome() {
           <h1 className="text-[27px] font-extrabold tracking-[-0.02em]">ברוך שובך</h1>
           <p className="mt-1 inline-flex flex-wrap items-center gap-1 text-[14px] text-ink-3">{g.streak > 0 ? <><Flame className="size-4 text-[#f97316]" />רצף של <b className="text-[#f97316]">{g.streak} ימים</b> · </> : null}עוד <b className="text-[#f97316]">{Math.max(0, g.weeklyTarget - g.weeklyDone)} ימי למידה</b> ליעד השבועי.</p>
 
-          {/* continue learning — real target from the store (§7) */}
-          {target && (
+          {/* continue learning — course-level target from the store (§1) */}
+          {cc && (
           <div className="relative mt-4 flex flex-col gap-4 overflow-hidden rounded-3xl border border-hairline bg-surface p-5 sm:flex-row sm:items-center">
             <span className="absolute inset-y-0 end-0 w-1.5" style={{ background: tAccent }} />
             <span className="grid h-[120px] w-24 shrink-0 flex-col place-items-start justify-end rounded-2xl p-3 text-white shadow-[0_14px_30px_-12px_rgba(0,0,0,.3)]" style={{ background: `linear-gradient(135deg, ${tAccent}, ${tAccent}cc)` }}>
-              <span className="mt-auto"><span className="block text-[10px] font-bold opacity-85">{target.module} · פרק {target.chapterIndex}</span><span className="block text-[13px] font-extrabold leading-tight" dir="auto">{target.chapterTitle}</span></span>
+              <span className="mt-auto"><span className="block text-[10px] font-bold opacity-85">{cc.module} · פרק {cc.chapterIndex}</span><span className="block text-[13px] font-extrabold leading-tight" dir="auto">{cc.chapterTitle}</span></span>
             </span>
             <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-1.5 text-[10.5px] font-extrabold uppercase tracking-[0.1em]" style={{ color: tAccent }}><Play className="size-3.5" />{tStarted ? "המשך מהמקום שהפסקת" : "השיעור הבא שלך"}</div>
-              <h3 className="mt-1.5 text-[19px] font-extrabold tracking-[-0.01em]" dir="auto">{target.title}</h3>
-              <p className="text-[12.5px] text-ink-3">פרק {target.chapterIndex} · שיעור {target.posInChapter} מתוך {target.chapterSize}</p>
-              {tStarted && (<><div className="mt-3 h-[7px] max-w-[340px] overflow-hidden rounded-full bg-black/[0.06]"><div className="h-full rounded-full" style={{ width: `${Math.round(tPct * 100)}%`, background: tAccent }} /></div><div className="mt-1 flex max-w-[340px] justify-between text-[11px] font-bold text-ink-3"><span>{Math.round(tPct * 100)}% הושלם</span><span>{Math.round(tPct * (target.requiredBlocks || 0))}/{target.requiredBlocks} בלוקים</span></div></>)}
-              <Link href={`/academy/lesson/${target.slug}/`} className="mt-3.5 inline-flex items-center gap-2 rounded-xl bg-ink-1 px-5 py-2.5 text-[13.5px] font-extrabold text-white transition hover:bg-black">{tStarted ? "המשך ללמוד" : "התחל ללמוד"} <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
+              <div className="flex items-center gap-1.5 text-[10.5px] font-extrabold uppercase tracking-[0.1em]" style={{ color: tAccent }}><Play className="size-3.5" />{tStarted ? "המשך מהמקום שהפסקת" : "השיעור הבא שלך"}{cc.openedAt ? <span className="font-bold normal-case tracking-normal text-ink-3">· {timeAgo(cc.openedAt)}</span> : null}</div>
+              <h3 className="mt-1.5 text-[19px] font-extrabold tracking-[-0.01em]" dir="auto">{cc.lessonTitle}</h3>
+              <p className="text-[12.5px] text-ink-3">פרק {cc.chapterIndex} · שיעור {cc.lessonNum} מתוך {cc.chapterSize}</p>
+              {tStarted && (<><div className="mt-3 h-[7px] max-w-[340px] overflow-hidden rounded-full bg-black/[0.06]"><motion.div className="h-full rounded-full" style={{ background: tAccent }} initial={false} animate={{ width: `${Math.round(tPct * 100)}%` }} transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }} /></div><div className="mt-1 flex max-w-[340px] justify-between text-[11px] font-bold text-ink-3"><span>{Math.round(tPct * 100)}% בשיעור</span><span>{cc.pct}% בקורס</span></div></>)}
+              <Link href={`/academy/lesson/${cc.resumeSlug}/`} className="mt-3.5 inline-flex items-center gap-2 rounded-xl bg-ink-1 px-5 py-2.5 text-[13.5px] font-extrabold text-white transition hover:bg-black">{tStarted ? "המשך ללמוד" : "התחל ללמוד"} <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
             </div>
           </div>
           )}
@@ -107,6 +142,30 @@ export function AcademyHome() {
           </div>
         </div>
       </motion.div>
+
+      {/* CONTINUE WHERE YOU LEFT OFF (§2) — one card per active course */}
+      {activeCourses.length > 0 ? (
+        <motion.div {...rise} className="mt-8">
+          <div className="mb-3.5 flex items-baseline justify-between">
+            <h2 className="text-[19px] font-extrabold tracking-[-0.01em]">המשך מהמקום שעצרת</h2>
+            <span className="text-[12px] text-ink-3">{activeCourses.length} {activeCourses.length === 1 ? "קורס פעיל" : "קורסים פעילים"}</span>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {activeCourses.map((c) => <CourseResumeCard key={c.moduleId} c={c} />)}
+          </div>
+        </motion.div>
+      ) : (
+        /* EMPTY STATE (§11) — no active course → recommended */
+        <motion.div {...rise} className="mt-8 rounded-3xl border border-dashed border-hairline bg-surface-2/40 p-8 text-center">
+          <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-brand-soft text-brand"><GraduationCap className="size-6" /></span>
+          <h3 className="mt-3 text-[16px] font-extrabold text-ink-1">עדיין לא התחלת ללמוד</h3>
+          <p className="mx-auto mt-1 max-w-sm text-[13px] text-ink-3">בחר קורס והתחל — ההתקדמות שלך תישמר אוטומטית ותופיע כאן כדי שתמשיך בדיוק מהמקום שעצרת.</p>
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+            <Link href="/academy/path/pm/" className="inline-flex items-center gap-2 rounded-xl bg-ink-1 px-5 py-2.5 text-[13px] font-extrabold text-white transition hover:bg-black">התחל ב-PM · אחזקת מפעל <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
+            <Link href="/academy/dashboard/" className="inline-flex items-center gap-2 rounded-xl border border-hairline px-5 py-2.5 text-[13px] font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand">עיין בכל הקורסים</Link>
+          </div>
+        </motion.div>
+      )}
 
       {/* ROADMAP */}
       <motion.div {...rise} className="mt-8">
