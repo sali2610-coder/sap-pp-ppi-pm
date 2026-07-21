@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion, type MotionProps } from "framer-motion";
-import { Play, Flame, Target, ArrowLeft, Sparkles, Lock, Check, GraduationCap, LayoutDashboard, Trophy, Clock, TrendingUp, History, Library, Zap, type LucideIcon } from "lucide-react";
+import { Play, Flame, Target, ArrowLeft, Sparkles, Check, GraduationCap, LayoutDashboard, Trophy, Clock, TrendingUp, History, Library, Zap, type LucideIcon } from "lucide-react";
 import { BOOKS, bookStats } from "@/data/library/academy-index";
 
 // SVG badge icons (blueprint: no emoji-as-icon) keyed by gamification badge id
@@ -55,9 +55,6 @@ const PILOT_SLUG = "pm-maintenance-order";
 const ACADEMY_PATH: Record<string, string> = { pm: "/academy/path/pm/", pp: "/academy/path/pp-pi/", qm: "/academy/path/qm/", pmu: "/academy/path/pm-user/", mm: "/academy/path/mm/", wm: "/academy/path/wm/", ppds: "/academy/path/pp-ds/", sop: "/academy/path/sop/" };
 const trackHref = (id: string, base: string) => ACADEMY_PATH[id] ?? `${base}/`;
 const DAYS = ["א׳", "ב׳", "ג׳", "ד׳", "ה׳", "ו׳", "ש׳"];
-// real PM track chapters (module academy structure); the pilot lesson sits in "ביצוע אחזקה"
-const PM_TRACK = ["יסודות PM", "אובייקטים טכניים", "הודעות אחזקה", "ביצוע אחזקה", "אחזקה מונעת", "ניתוח ו-KPI"];
-const PILOT_CHAPTER = 3; // 0-based index of "ביצוע אחזקה"
 
 function Ring({ pct, size = 64, stroke = 6, color }: { pct: number; size?: number; stroke?: number; color: string }) {
   pct = Math.max(0, Math.min(1, pct));
@@ -161,35 +158,14 @@ export function AcademyHome() {
           <h3 className="mt-3 text-[16px] font-extrabold text-ink-1">עדיין לא התחלת ללמוד</h3>
           <p className="mx-auto mt-1 max-w-sm text-[13px] text-ink-3">בחר קורס והתחל — ההתקדמות שלך תישמר אוטומטית ותופיע כאן כדי שתמשיך בדיוק מהמקום שעצרת.</p>
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-            <Link href="/academy/path/pm/" className="inline-flex items-center gap-2 rounded-xl bg-ink-1 px-5 py-2.5 text-[13px] font-extrabold text-white transition hover:bg-black">התחל ב-PM · אחזקת מפעל <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
-            <Link href="/academy/dashboard/" className="inline-flex items-center gap-2 rounded-xl border border-hairline px-5 py-2.5 text-[13px] font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand">עיין בכל הקורסים</Link>
+            <Link href="/academy/dashboard/" className="inline-flex items-center gap-2 rounded-xl bg-ink-1 px-5 py-2.5 text-[13px] font-extrabold text-white transition hover:bg-black">בחר קורס מתוך המסלולים <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
           </div>
         </motion.div>
       )}
 
-      {/* ROADMAP */}
-      <motion.div {...rise} className="mt-8">
-        <div className="mb-3.5 flex items-baseline justify-between"><h2 className="text-[19px] font-extrabold tracking-[-0.01em]">המסלול שלך</h2><Link href="/academy/path/pm/" className="text-[12px] font-bold text-brand">צפה במסלול המלא →</Link></div>
-        <div className="rounded-3xl border border-hairline bg-surface p-5 sm:p-6">
-          <div className="mb-5 flex items-center gap-2.5"><span className="grid size-9 place-items-center rounded-xl bg-[#f97316] text-white"><GraduationCap className="size-5" /></span><div><h3 className="text-[16px] font-extrabold">אחזקת מפעל · PM</h3><div className="text-[12px] text-ink-3">{PM_TRACK.length} פרקים · {bookStats("pm").nodes} יחידות</div></div></div>
-          <div className="chip-rail flex items-start overflow-x-auto pb-1.5">
-            {PM_TRACK.map((ch, i) => {
-              const state = i < PILOT_CHAPTER ? "todo" : i === PILOT_CHAPTER ? "cur" : "upcoming";
-              const clr = state === "cur" ? "#f97316" : "var(--hairline)";
-              return (
-                <div key={ch} className="relative w-[130px] shrink-0 text-center sm:w-[150px]">
-                  {i > 0 && <span className="absolute top-[22px] h-[3px] w-full" style={{ insetInlineStart: "-50%", background: i <= PILOT_CHAPTER ? "#f97316" : "var(--hairline)" }} />}
-                  <div className="relative z-[1] mx-auto mb-2.5 grid size-[46px] place-items-center rounded-full border-[3px] bg-surface text-[16px] font-extrabold" style={{ borderColor: clr, color: state === "cur" ? "#f97316" : "var(--ink-3)", boxShadow: state === "cur" ? "0 0 0 5px #fff7ed" : "none" }}>
-                    {state === "todo" ? i + 1 : state === "cur" ? i + 1 : <Lock className="size-4 opacity-55" />}
-                  </div>
-                  <div className="text-[12px] font-extrabold text-ink-2">{ch}</div>
-                  {state === "cur" && <span className="mt-1.5 inline-block rounded-full bg-[#f97316] px-2 py-0.5 text-[9.5px] font-extrabold text-white">אתה כאן</span>}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </motion.div>
+      {/* The per-course timeline / "אתה כאן" now lives ONLY on /academy/path/[module]
+          and inside the active-course resume cards above — never as a hardcoded PM
+          roadmap on the landing page. A learner with no active session sees no timeline. */}
 
       {/* COURSE CARDS */}
       <motion.div {...rise} className="mt-8">

@@ -17,6 +17,7 @@
  */
 import { useCallback, useSyncExternalStore } from "react";
 import { getLesson, getModule, firstIncomplete, allModuleIds, type AcademyLesson } from "./model";
+import { clearRecent, clearRecentModule } from "./recent";
 
 const DEFAULT_MODULE = "pm";
 
@@ -233,20 +234,21 @@ export function useActiveCourses(): CourseCard[] {
  *   1. lastCourse (last opened) if it still has an incomplete lesson
  *   2. lastActiveCourse — highest openedAt with an incomplete lesson
  *   3. highestRecentActivity — module of the most recent block event
- *   4. default module (first-time users) — PM
+ *   4. NO active session → null (true clean/landing state — never assume PM)
  */
 function continueCourseFrom(store: AcademyStore): CourseCard | null {
   const hasIncomplete = (id: string) => { const p = moduleProgressIn(store, id); return p ? p.completed < p.total : false; };
-  // 1
-  if (store.lastCourse && hasIncomplete(store.lastCourse)) return cardFor(store, store.lastCourse);
-  // 2
+  const started = (id: string) => (store.openedAt?.[id] ?? 0) > 0 || getModule(id)?.lessons.some((l) => (store.lessons[l.slug]?.length || 0) > 0);
+  // 1 — last-opened course, if actually started + still incomplete
+  if (store.lastCourse && started(store.lastCourse) && hasIncomplete(store.lastCourse)) return cardFor(store, store.lastCourse);
+  // 2 — most recently opened course with an incomplete lesson
   const byOpened = Object.entries(store.openedAt || {}).sort((a, b) => b[1] - a[1]).map(([id]) => id);
   for (const id of byOpened) if (hasIncomplete(id)) return cardFor(store, id);
-  // 3
+  // 3 — module of the most recent block event
   const ev = store.events || [];
-  for (let i = ev.length - 1; i >= 0; i--) { const id = getLesson(ev[i].slug)?.moduleId; if (id && hasIncomplete(id)) return cardFor(store, id); }
-  // 4
-  return cardFor(store, DEFAULT_MODULE);
+  for (let i = ev.length - 1; i >= 0; i--) { const id = getLesson(ev[i].slug)?.moduleId; if (id && started(id) && hasIncomplete(id)) return cardFor(store, id); }
+  // 4 — no active learning session at all → landing state (never fall back to PM)
+  return null;
 }
 export function useContinueCourse(): CourseCard | null {
   const store = useStore();
@@ -316,8 +318,18 @@ export function resetPath(moduleId: string) {
     lastOpened: has(snap.lastOpened || "") ? "" : snap.lastOpened,
     lastCourse: snap.lastCourse === moduleId ? "" : snap.lastCourse,
   });
+  clearRecentModule(moduleId);   // drop this course from "recently viewed" too
 }
-export function resetAll() { write({ ...EMPTY }); }
+
+/** Full reset — return the Academy to a brand-new-user state. Clears the v2 store,
+ *  the separate "recently viewed" store, AND the v1 legacy keys so nothing survives. */
+export function resetAll() {
+  write({ ...EMPTY });
+  clearRecent();
+  if (typeof window !== "undefined") {
+    try { window.localStorage.removeItem(V1_PROGRESS); window.localStorage.removeItem(V1_ACTIVITY); } catch { /* ignore */ }
+  }
+}
 
 /* ---------- hooks ---------- */
 
