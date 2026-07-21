@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { BOOKS, ACADEMY_TOTALS, bookStats, crossBookObjects, type BookDef } from "@/data/library/academy-index";
 import { useI18n } from "@/lib/i18n";
+import { AcademyActivityWidget } from "@/components/academy/activity-widget";
 
 // Modules with the new Lesson Reader → canonical /academy path (de-split).
 const ACADEMY_PATH: Record<string, string> = { pm: "/academy/path/pm/", pp: "/academy/path/pp-pi/", qm: "/academy/path/qm/", pmu: "/academy/path/pm-user/", mm: "/academy/path/mm/", wm: "/academy/path/wm/", ppds: "/academy/path/pp-ds/", sop: "/academy/path/sop/" };
@@ -84,6 +85,9 @@ export function AcademyDashboard() {
         </div>
         <ArrowRight className="size-5 shrink-0 text-[#f97316] transition group-hover:-translate-x-0.5 rtl:rotate-180" />
       </Link>
+
+      {/* §6 — Learning Activity widget (live) */}
+      <AcademyActivityWidget />
 
       <section dir="rtl" className="card p-6 text-center">
         <span className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand-soft px-3 py-1 text-xs font-semibold text-brand"><GraduationCap className="size-3.5" />{lang === "he" ? "אקדמיית SAP אחודה" : "Unified SAP Learning Academy"}</span>
