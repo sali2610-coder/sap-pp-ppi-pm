@@ -93,7 +93,7 @@ export function LearningPathView({ path }: { path: LearningPath }) {
                 </span>
                 <div className={`rounded-2xl border p-4 ${state === "cur" ? "border-hairline bg-surface shadow-sm" : "border-hairline bg-surface"}`}>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-[15px] font-extrabold text-ink-1">{ch.title}</h3>
+                    <h2 className="text-[15px] font-extrabold text-ink-1">{ch.title}</h2>
                     <span className="text-[11px] font-bold text-ink-3">· {ch.lessons.length} שיעורים</span>
                     {(() => { const mins = ch.lessons.reduce((s, l) => s + (l.minutes || 0), 0); return mins ? <span className="hidden text-[11px] font-bold text-ink-3 sm:inline">· ~{mins} דק׳</span> : null; })()}
                     {state === "cur" && <span className="ms-auto rounded-full px-2.5 py-0.5 text-[9.5px] font-extrabold text-white" style={{ background: path.color }}>אתה כאן</span>}
