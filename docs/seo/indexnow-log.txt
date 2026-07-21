@@ -1,0 +1,3 @@
+# IndexNow submission log — timestamp · HTTP code · url count · response
+[2026-07-21T14:12:00Z] HTTP 403 · urls=3439 · SiteVerificationNotCompleted (key just hosted — expected)
+[2026-07-21T14:17:54Z] HTTP 200 · urls=3439 · SUCCESS — accepted → propagating to Bing/Yandex/Seznam
