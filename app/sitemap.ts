@@ -7,6 +7,7 @@ import { verifiedNames } from "@/data/verified-objects";
 import { listTcodes, listFuncs } from "@/lib/object-intel";
 import { registryCodes } from "@/lib/tx-registry";
 import { listCdsViews } from "@/data/cds-map";
+import { allLessonSlugs } from "@/data/academy/lessons";
 import { INCIDENTS } from "@/data/troubleshooting";
 import { FIORI_APPS } from "@/data/centers/fiori";
 import { MFG_SCENARIOS } from "@/data/centers/manufacturing";
@@ -48,6 +49,10 @@ function dynamicRoutes(): string[] {
   push("fiori", FIORI_APPS.map((i) => i.slug));
   push("manufacturing", MFG_SCENARIOS.map((i) => i.slug));
   push("apps", appCodes());
+  // SAP Academy — lessons + learning paths (dynamic [slug] routes the static
+  // walker can't see). Without these the whole Academy was invisible to crawlers.
+  for (const slug of allLessonSlugs()) out.push(`/academy/lesson/${enc(slug)}/`);
+  for (const m of ["pm", "pp-pi", "qm", "pm-user", "mm", "wm", "pp-ds", "sop"]) out.push(`/academy/path/${m}/`);
   return out;
 }
 
