@@ -16,8 +16,9 @@ import { useLessonProgress } from "@/lib/academy/lesson-progress";
 import { recordRecent } from "@/lib/academy/recent";
 import { lessonNav, lessonRef, type LessonNav } from "@/lib/academy/lesson-nav";
 import { getLesson, prevOf, nextOf, moduleIdOf } from "@/lib/academy/model";
-import { setLastLesson, resetLesson, recordBlock, getLastBlock } from "@/lib/academy/store";
+import { setLastLesson, resetLesson, recordBlock, getLastBlock, isLessonDone, isModuleComplete, isChapterComplete, computeGamification } from "@/lib/academy/store";
 import { ResetButton } from "@/components/academy/reset-dialog";
+import { Celebration, type CelebrationData } from "@/components/academy/celebration";
 import { accentOf } from "@/lib/academy/theme";
 import { Callout, Chip, Pill, IconWell, Breadcrumb } from "@/components/ui";
 
@@ -258,6 +259,9 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
   const kinds = useMemo(() => blocks.map((b) => b.kind), [blocks]);
   const { doneSet, pct, markDone } = useLessonProgress(lesson.slug, kinds);
   const [active, setActive] = useState<BlockKind | null>(null);
+  const [celebration, setCelebration] = useState<CelebrationData | null>(null);
+  const celebratedRef = useRef(false);   // already celebrated / already-done at mount
+  const readyRef = useRef(false);        // suppress on-load auto-mark completions
   const nav = useMemo(() => lessonNav(lesson.slug), [lesson.slug]);
   // canonical display number = position within its chapter (not authored lesson.index)
   const dispNum = getLesson(lesson.slug)?.posInChapter ?? lesson.index;
@@ -271,6 +275,42 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
     recordRecent({ id: `lesson:${lesson.slug}`, title: lesson.title, module: lesson.module, href: `/academy/lesson/${lesson.slug}/`, kind: "lesson" });
     setLastLesson(moduleIdOf(lesson.module), lesson.slug); // powers Continue Learning (§1)
   }, [lesson]);
+
+  // Celebration gating (§10): don't celebrate a lesson that was already complete on
+  // arrival, and ignore the burst of on-load auto-marks (blocks in the first viewport).
+  useEffect(() => {
+    celebratedRef.current = isLessonDone(lesson.slug);
+    readyRef.current = false;
+    const id = setTimeout(() => { readyRef.current = true; }, 1400);
+    return () => clearTimeout(id);
+  }, [lesson.slug]);
+
+  // Mark a block viewed + fire the right celebration tier the moment a lesson completes.
+  const handleBlockView = (kind: string) => {
+    const wasDone = isLessonDone(lesson.slug);
+    markDone(kind);
+    recordBlock(lesson.slug, kind);
+    if (celebratedRef.current || !readyRef.current || wasDone) return;
+    if (!isLessonDone(lesson.slug)) return;           // store is synchronous (write→snap)
+    celebratedRef.current = true;
+    const mid = moduleIdOf(lesson.module);
+    const g = computeGamification();
+    const tier = isModuleComplete(mid) ? "course" : isChapterComplete(mid, getLesson(lesson.slug)?.chapterIndex ?? 0) ? "chapter" : "lesson";
+    const ns = nextOf(lesson.slug);
+    const stats = tier === "course"
+      ? [{ label: "ימי רצף", value: g.streak }, { label: "בלוקים", value: g.blocksDone }, { label: "תגים", value: g.badges.filter((x) => x.earned).length }]
+      : tier === "chapter"
+        ? [{ label: "בלוקים", value: g.blocksDone }, { label: "ימי רצף", value: g.streak }]
+        : undefined;
+    setCelebration({
+      tier,
+      title: tier === "course" ? lesson.module : tier === "chapter" ? (lesson.chapter || lesson.title) : lesson.title,
+      accent,
+      stats,
+      nextHref: ns ? `/academy/lesson/${ns}/` : (tier === "course" ? "/academy/" : undefined),
+      nextLabel: ns ? "השיעור הבא" : "חזרה ל-Academy",
+    });
+  };
 
   // Exact-block resume (§5): if the learner left mid-lesson, land on the last block
   // they viewed — not the top. Skip when fresh, complete, or on the first block.
@@ -298,6 +338,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
   return (
     <div dir="rtl">
+      {celebration && <Celebration data={celebration} onClose={() => setCelebration(null)} />}
       <Breadcrumb items={[{ label: "SAP Academy", href: "/academy/" }, { label: lesson.module }, { label: lesson.course }, { label: `שיעור ${dispNum}` }]} />
 
 
@@ -329,7 +370,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
 
           {/* flowing document */}
           <div className="mt-7 flex flex-col gap-8">
-            {blocks.map((b) => <Section key={b.kind} b={b} accent={accent} onView={() => { markDone(b.kind); recordBlock(lesson.slug, b.kind); }} />)}
+            {blocks.map((b) => <Section key={b.kind} b={b} accent={accent} onView={() => handleBlockView(b.kind)} />)}
           </div>
 
           {/* end-of-lesson navigation */}

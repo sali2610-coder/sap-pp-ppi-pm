@@ -253,6 +253,17 @@ export function useContinueCourse(): CourseCard | null {
   return continueCourseFrom(store);
 }
 
+/* ---------- completion detectors for celebrations (§10) ---------- */
+export function isModuleComplete(moduleId: string): boolean {
+  const p = moduleProgressIn(snap, moduleId);
+  return !!p && p.total > 0 && p.completed >= p.total;
+}
+export function isChapterComplete(moduleId: string, chapterIndex: number): boolean {
+  const m = getModule(moduleId); if (!m) return false;
+  const ls = m.lessons.filter((l) => l.chapterIndex === chapterIndex && l.hasLesson);
+  return ls.length > 0 && ls.every((l) => lessonDoneIn(snap, l.slug));
+}
+
 /* ---------- today / activity widget (§6) ---------- */
 export interface TodayStats { lessons: number; blocks: number; quizzes: number; minutes: number }
 function todayStatsFrom(store: AcademyStore): TodayStats {
