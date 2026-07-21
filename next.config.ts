@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
   output: "export",
   images: { unoptimized: true },
   trailingSlash: true,
+  // Strip the "X-Powered-By: Next.js" fingerprint (info-leak) — corporate posture.
+  poweredByHeader: false,
 };
 
 export default nextConfig;
