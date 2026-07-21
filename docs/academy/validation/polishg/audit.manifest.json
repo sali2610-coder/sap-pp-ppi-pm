@@ -1,0 +1,184 @@
+{
+  "pr": "polishg",
+  "label": "audit",
+  "base": "http://localhost:8907",
+  "at": "captured",
+  "rows": [
+    {
+      "surface": "home",
+      "vp": "d",
+      "note": "Home + Continue Learning card",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "83ca3aca8942",
+      "hash": "3476bae1cbf4",
+      "file": "docs/academy/validation/polishg/audit/home-d.png"
+    },
+    {
+      "surface": "home",
+      "vp": "m",
+      "note": "Home + Continue Learning card",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "d1e199436520",
+      "hash": "3c850fb9852c",
+      "file": "docs/academy/validation/polishg/audit/home-m.png"
+    },
+    {
+      "surface": "dashboard",
+      "vp": "d",
+      "note": "Academy Dashboard",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "e6448971dc73",
+      "hash": "18a6857c3877",
+      "file": "docs/academy/validation/polishg/audit/dashboard-d.png"
+    },
+    {
+      "surface": "dashboard",
+      "vp": "m",
+      "note": "Academy Dashboard",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "de370cc1dff3",
+      "hash": "fae148ea313c",
+      "file": "docs/academy/validation/polishg/audit/dashboard-m.png"
+    },
+    {
+      "surface": "library",
+      "vp": "d",
+      "note": "Library (FROZEN guard)",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "07bf46269f50",
+      "hash": "f279222cf972",
+      "file": "docs/academy/validation/polishg/audit/library-d.png"
+    },
+    {
+      "surface": "library",
+      "vp": "m",
+      "note": "Library (FROZEN guard)",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "aab6d1f6bd1a",
+      "hash": "2d100bb96991",
+      "file": "docs/academy/validation/polishg/audit/library-m.png"
+    },
+    {
+      "surface": "pm-academy",
+      "vp": "d",
+      "note": "PM Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "90aae5a52fcc",
+      "hash": "4a1ea669be67",
+      "file": "docs/academy/validation/polishg/audit/pm-academy-d.png"
+    },
+    {
+      "surface": "pm-academy",
+      "vp": "m",
+      "note": "PM Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "0c5e096d59f2",
+      "hash": "c633cfb91ab0",
+      "file": "docs/academy/validation/polishg/audit/pm-academy-m.png"
+    },
+    {
+      "surface": "pppi-academy",
+      "vp": "d",
+      "note": "PP-PI Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "99a1b303d277",
+      "hash": "1ba206f34bec",
+      "file": "docs/academy/validation/polishg/audit/pppi-academy-d.png"
+    },
+    {
+      "surface": "pppi-academy",
+      "vp": "m",
+      "note": "PP-PI Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "1dd88ec8afab",
+      "hash": "e786bdfbafbf",
+      "file": "docs/academy/validation/polishg/audit/pppi-academy-m.png"
+    },
+    {
+      "surface": "qm-academy",
+      "vp": "d",
+      "note": "QM Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "8480b3835615",
+      "hash": "2e2033d46665",
+      "file": "docs/academy/validation/polishg/audit/qm-academy-d.png"
+    },
+    {
+      "surface": "qm-academy",
+      "vp": "m",
+      "note": "QM Academy path",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "433acdce0c5c",
+      "hash": "9697dbe8b54f",
+      "file": "docs/academy/validation/polishg/audit/qm-academy-m.png"
+    },
+    {
+      "surface": "lesson",
+      "vp": "d",
+      "note": "Progress + Current lesson",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "a1f53bb5ef07",
+      "hash": "1b50eca23105",
+      "file": "docs/academy/validation/polishg/audit/lesson-d.png"
+    },
+    {
+      "surface": "lesson",
+      "vp": "m",
+      "note": "Progress + Current lesson",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "6aba8fa558d9",
+      "hash": "a03aa772371d",
+      "file": "docs/academy/validation/polishg/audit/lesson-m.png"
+    },
+    {
+      "surface": "search",
+      "vp": "d",
+      "note": "Search (command palette)",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "e2feb98d79ff",
+      "hash": "36249d825997",
+      "file": "docs/academy/validation/polishg/audit/search-d.png"
+    },
+    {
+      "surface": "search",
+      "vp": "m",
+      "note": "Search (command palette)",
+      "status": 200,
+      "overflow": 0,
+      "errors": [],
+      "textHash": "a87b74decc34",
+      "hash": "c7ee6f5a5743",
+      "file": "docs/academy/validation/polishg/audit/search-m.png"
+    }
+  ]
+}
