@@ -38,15 +38,19 @@ import { appCodes } from "@/lib/apps-intel";
 
 type Center = { href: string; he: string; title: string; tag?: string; tagColor?: string; desc?: string; group: string };
 
+// §P6 color restraint — one restrained, harmonious wayfinding hue per journey.
+// Brand red stays exact for the primary "find" entry; every other tone is
+// moderately desaturated and kept distinct (only ONE red on screen). These now
+// also drive each journey's card tag pills, so the palette reads calm, not neon.
 const GROUPS = [
   { slug: "find",    en: "Ask & Find",            he: "שאל ומצא",        intent: "התחל כאן — שאלה חופשית, חיפוש לפי צורך עסקי, או צלילה לאובייקט בודד.", accent: "#d62027" },
-  { slug: "learn",   en: "Understand the Process", he: "הבן תהליך",       intent: "תהליכי SAP מקצה-לקצה, מושגים, בלופרינטים ותכנון ייצור.",            accent: "#4338ca" },
-  { slug: "build",   en: "Build & Configure",     he: "בנה והגדר",       intent: "יישום בפועל — קונפיגורציה (SPRO), פיתוח ABAP, הרחבות וממשקים.",      accent: "#0d9488" },
-  { slug: "fix",     en: "Troubleshoot & Resolve", he: "פתור תקלה",       intent: "מתסמין לפתרון — אבחון, SAP Notes, Debug ובדיקות QA.",               accent: "#dc2626" },
-  { slug: "migrate", en: "Migrate to S/4HANA",    he: "נדוד ל-S/4HANA",  intent: "מה נשאר, מה השתנה, מה הוסר — והשפעת המעבר ECC↔S/4.",                 accent: "#2563eb" },
-  { slug: "data",    en: "Reference & Data",      he: "נתונים והפניות",  intent: "קטלוגים לחיפוש מהיר — T-Codes, טבלאות, הרשאות ושולחנות עבודה.",      accent: "#0891b2" },
-  { slug: "scenario",     en: "Manufacturing Context",           he: "הקשר ייצור",        intent: "אזורי המפעל לדוגמה ותרחישי ייצור אמיתיים, ממופים למודולי SAP.",      accent: "#be185d" },
-  { slug: "system",  en: "Governance & System",   he: "ממשל ומערכת",     intent: "כיסוי ידע, אימות, ארכיטקטורת מחבר וכלי יועץ — שכבת ניהול.",          accent: "#475569" },
+  { slug: "learn",   en: "Understand the Process", he: "הבן תהליך",       intent: "תהליכי SAP מקצה-לקצה, מושגים, בלופרינטים ותכנון ייצור.",            accent: "#4553a8" },
+  { slug: "build",   en: "Build & Configure",     he: "בנה והגדר",       intent: "יישום בפועל — קונפיגורציה (SPRO), פיתוח ABAP, הרחבות וממשקים.",      accent: "#0f857a" },
+  { slug: "fix",     en: "Troubleshoot & Resolve", he: "פתור תקלה",       intent: "מתסמין לפתרון — אבחון, SAP Notes, Debug ובדיקות QA.",               accent: "#c2410c" },
+  { slug: "migrate", en: "Migrate to S/4HANA",    he: "נדוד ל-S/4HANA",  intent: "מה נשאר, מה השתנה, מה הוסר — והשפעת המעבר ECC↔S/4.",                 accent: "#2f6fbf" },
+  { slug: "data",    en: "Reference & Data",      he: "נתונים והפניות",  intent: "קטלוגים לחיפוש מהיר — T-Codes, טבלאות, הרשאות ושולחנות עבודה.",      accent: "#0f7d92" },
+  { slug: "scenario",     en: "Manufacturing Context",           he: "הקשר ייצור",        intent: "אזורי המפעל לדוגמה ותרחישי ייצור אמיתיים, ממופים למודולי SAP.",      accent: "#a83a6b" },
+  { slug: "system",  en: "Governance & System",   he: "ממשל ומערכת",     intent: "כיסוי ידע, אימות, ארכיטקטורת מחבר וכלי יועץ — שכבת ניהול.",          accent: "#526074" },
 ] as const;
 
 export default function Page() {

@@ -46,7 +46,10 @@ function Card({ c, q, accent }: { c: Center; q: string; accent: string }) {
           <h3 className="text-base font-extrabold tracking-tight text-ink-1"><Highlight text={c.he} q={q} /></h3>
           <p className="tech text-xs font-bold text-ink-3" dir="ltr"><Highlight text={c.title} q={q} /></p>
         </div>
-        {c.tag && <span className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: c.tagColor || "#64748b" }}>{c.tag}</span>}
+        {/* §P6 color restraint — the tag pill inherits its journey accent instead
+            of an arbitrary per-card hue, so a screen shows one meaningful color per
+            journey (wayfinding), not a rainbow of ~18 unrelated tones. */}
+        {c.tag && <span className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: accent }}>{c.tag}</span>}
       </div>
       {c.desc && (
         <p className="kn-card-desc mt-2 text-xs leading-relaxed text-ink-3 transition-all duration-300 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] group-hover:[-webkit-line-clamp:5]">
