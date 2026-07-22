@@ -13,7 +13,7 @@
   --card: #ffffff;            /* surface */
   --card-foreground: #0b0c0e;
   --muted: #f4f5f7;           /* surface-2 */
-  --muted-foreground: #6b727c;/* ink-3 */
+  --muted-foreground: #686f79;/* ink-3 — WCAG AA (≥4.5:1) on surface-2 #f4f5f7 */
   --border: #eaecef;          /* hairline */
   --input: #eaecef;
   --ring: #d62027;
@@ -24,7 +24,7 @@
   --hairline: #eaecef;
   --ink-1: #0b0c0e;
   --ink-2: #3a3f47;
-  --ink-3: #6b727c;
+  --ink-3: #686f79;           /* WCAG AA (≥4.5:1) on surface-2 #f4f5f7 */
   --sidebar-w: 17rem;
 
   /* Glass */

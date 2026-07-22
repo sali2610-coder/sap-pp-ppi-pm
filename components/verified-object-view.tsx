@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRightLeft, Terminal, GitBranch, ShieldCheck, Tag, Layers, CircleAlert, FlaskConical, Lightbulb, Network } from "lucide-react";
 import { hasApp } from "@/lib/apps-intel";
 import { verifiedObject, dataDomain, type VerifiedObject } from "@/data/verified-objects";
+import { pillInk } from "@/lib/pill-ink";
 
 const MOD_C: Record<string, string> = { "LO-HU": "#0e7490", "LE-HU": "#0e7490", LE: "#0e7490", WM: "#7c3aed", EWM: "#7c3aed", SD: "#0891b2", MM: "#2563eb", "MM-IM": "#2563eb", FI: "#16a34a", CO: "#d97706", PP: "#6d28d9", "PP-PI": "#6d28d9", PM: "#f97316", QM: "#0d9488" };
 const mc = (m: string) => MOD_C[m] || "#475569";
@@ -37,7 +38,7 @@ export function VerifiedObjectView({ o }: { o: VerifiedObject }) {
         <div className="pointer-events-none absolute -left-16 -top-16 size-64 rounded-full bg-surface/10 blur-3xl" />
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="relative">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold text-white" style={{ background: STATUS_C[o.status] }}><ShieldCheck className="size-3" />{STATUS_HE[o.status] || o.status}</span>
+            <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold" style={{ background: STATUS_C[o.status], color: pillInk(STATUS_C[o.status]) }}><ShieldCheck className="size-3" />{STATUS_HE[o.status] || o.status}</span>
             <span className="rounded-full bg-surface/20 px-2.5 py-1 text-[11px] font-bold backdrop-blur">{o.area}</span>
           </div>
           <h1 className="tech mt-3 text-5xl font-extrabold tracking-tight sm:text-6xl" dir="ltr">{o.name}</h1>
@@ -71,7 +72,7 @@ export function VerifiedObjectView({ o }: { o: VerifiedObject }) {
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
             {domain.connections.map((cn) => (
               <div key={cn.module} className="rounded-2xl border border-hairline bg-surface-2/60 p-3">
-                <div className="mb-0.5 inline-flex items-center gap-1.5"><span className="rounded-md px-1.5 py-0.5 text-[10px] font-extrabold text-white" style={{ background: mc(cn.module) }}>{cn.module}</span></div>
+                <div className="mb-0.5 inline-flex items-center gap-1.5"><span className="rounded-md px-1.5 py-0.5 text-[10px] font-extrabold" style={{ background: mc(cn.module), color: pillInk(mc(cn.module)) }}>{cn.module}</span></div>
                 <p className="text-[12px] leading-relaxed text-ink-2">{cn.he}</p>
               </div>
             ))}

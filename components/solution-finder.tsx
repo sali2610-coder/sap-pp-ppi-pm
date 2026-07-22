@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Search, ArrowLeft, Lightbulb } from "lucide-react";
 import { SOLUTIONS } from "@/data/solutions";
+import { pillInk } from "@/lib/pill-ink";
 
 const CX: Record<string, string> = { Low: "#16a34a", Medium: "#d97706", High: "#dc2626" };
 
@@ -32,7 +33,7 @@ export function SolutionFinder() {
           <Link key={s.slug} href={`/solutions/${s.slug}/`} className="lift card-premium group block p-5">
             <div className="flex items-start justify-between gap-2">
               <Lightbulb className="size-5 text-amber-500" />
-              <span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: CX[s.complexity] }}>מורכבות {s.complexity}</span>
+              <span className="rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: CX[s.complexity], color: pillInk(CX[s.complexity]) }}>מורכבות {s.complexity}</span>
             </div>
             <h3 className="mt-2 text-base font-extrabold tracking-tight text-ink-1">{s.he}</h3>
             <p className="tech text-xs font-bold text-ink-3" dir="ltr">{s.title}</p>

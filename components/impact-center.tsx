@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, ArrowLeft, GitBranch, TrendingUp, Terminal, Boxes, FileCode, ArrowRightLeft, Workflow, AlertTriangle, BookOpen, Gauge } from "lucide-react";
 import { impactReport } from "@/lib/impact";
 import { RISK_HE, RISK_COLOR, TRUST_HE } from "@/lib/s4";
+import { pillInk } from "@/lib/pill-ink";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9" };
 const TIER = { high: { he: "השפעה גבוהה", c: "#dc2626" }, medium: { he: "השפעה בינונית", c: "#d97706" }, low: { he: "השפעה נמוכה", c: "#16a34a" } } as const;
@@ -10,7 +11,7 @@ const objHref = (n: string) => `/object/${encodeURIComponent(n)}/`;
 function Sec({ icon, title, count, accent, children }: { icon: React.ReactNode; title: string; count?: number; accent: string; children: React.ReactNode }) {
   return (
     <section className="rounded-2xl border border-hairline bg-surface p-4 shadow-sm">
-      <h3 className="mb-2 flex items-center gap-2 text-sm font-extrabold text-ink-1">{icon}{title}{count != null && <span className="rounded-full px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: accent }}>{count}</span>}</h3>
+      <h3 className="mb-2 flex items-center gap-2 text-sm font-extrabold text-ink-1">{icon}{title}{count != null && <span className="rounded-full px-1.5 py-0.5 text-[10px] font-bold" style={{ background: accent, color: pillInk(accent) }}>{count}</span>}</h3>
       {children}
     </section>
   );
@@ -37,14 +38,14 @@ export function ImpactCenter({ name }: { name: string }) {
       <header className="grid gap-4 rounded-3xl border border-hairline bg-surface p-5 shadow-sm md:grid-cols-[1fr_auto]">
         <div>
           <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-ink-3"><Gauge className="size-4" />Impact & Dependency Analysis</div>
-          <h1 className="mt-1 flex items-center gap-2 font-mono text-3xl font-extrabold text-ink-1" dir="ltr">{r.name}<span className="rounded-lg px-2 py-0.5 font-sans text-xs font-bold text-white" style={{ background: accent }}>{r.module}</span></h1>
+          <h1 className="mt-1 flex items-center gap-2 font-mono text-3xl font-extrabold text-ink-1" dir="ltr">{r.name}<span className="rounded-lg px-2 py-0.5 font-sans text-xs font-bold" style={{ background: accent, color: pillInk(accent) }}>{r.module}</span></h1>
           <p className="mt-1 max-w-xl text-sm text-ink-3">{r.descHe}</p>
           {r.process && <p className="mt-1.5 inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-2.5 py-1 text-[11px] font-bold text-ink-2"><Workflow className="size-3.5" />{r.businessProcess || r.process}</p>}
         </div>
         <div className="flex flex-col items-center justify-center rounded-2xl p-4 text-center" style={{ background: tier.c + "0f" }}>
           <div className="text-[11px] font-bold uppercase tracking-wide" style={{ color: tier.c }}>Impact Score</div>
           <div className="text-5xl font-extrabold tabular-nums" style={{ color: tier.c }}>{r.score}</div>
-          <div className="rounded-full px-2.5 py-0.5 text-[11px] font-extrabold text-white" style={{ background: tier.c }}>{tier.he}</div>
+          <div className="rounded-full px-2.5 py-0.5 text-[11px] font-extrabold" style={{ background: tier.c, color: pillInk(tier.c) }}>{tier.he}</div>
         </div>
       </header>
 
@@ -73,7 +74,7 @@ export function ImpactCenter({ name }: { name: string }) {
         <Sec icon={<FileCode className="size-4 text-violet-600" />} title="CDS Views" count={r.cds.length} accent="#7c3aed"><Chips items={r.cds} /></Sec>
         <Sec icon={<ArrowRightLeft className="size-4 text-amber-600" />} title="S/4HANA — השפעה ומיגרציה" accent="#d97706">
           <div className="space-y-1.5 text-sm text-ink-2">
-            <div className="flex items-center gap-2"><span className="rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: RISK_COLOR[r.s4Risk] }}>{RISK_HE[r.s4Risk]}</span><span className="rounded-full bg-surface-2 px-2 py-0.5 text-[10px] font-bold text-ink-3">{TRUST_HE[r.s4Trust]}</span></div>
+            <div className="flex items-center gap-2"><span className="rounded-full px-2 py-0.5 text-[10px] font-extrabold" style={{ background: RISK_COLOR[r.s4Risk], color: pillInk(RISK_COLOR[r.s4Risk]) }}>{RISK_HE[r.s4Risk]}</span><span className="rounded-full bg-surface-2 px-2 py-0.5 text-[10px] font-bold text-ink-3">{TRUST_HE[r.s4Trust]}</span></div>
             {r.s4Replacement && <div><span className="text-[11px] font-bold text-ink-3">חלופה ב-S/4: </span><span className="tech font-mono font-bold text-amber-700" dir="ltr">{r.s4Replacement}</span></div>}
             {r.s4Changed ? <p className="leading-relaxed">{r.s4Changed}</p> : <p className="text-[12px] italic text-ink-3">אין הערת S/4 ברמת הטבלה — נדרש אימות מול Simplification List / OSS.</p>}
           </div>

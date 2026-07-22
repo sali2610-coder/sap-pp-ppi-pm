@@ -5,6 +5,7 @@ import { SmartLink as Link } from "@/components/smart-link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Search, Terminal, LayoutGrid, Sigma, ArrowLeft, Sparkles, Star } from "lucide-react";
 import { searchApps, appObject, criticality, FEATURED, type SearchHit } from "@/lib/apps-intel";
+import { pillInk } from "@/lib/pill-ink";
 
 const MOD_C: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9", QM: "#0d9488", MM: "#2563eb", FI: "#16a34a", CO: "#d97706", SD: "#0891b2", PS: "#be185d" };
 const mc = (m: string) => MOD_C[m] || MOD_C[(m || "").split(/[ /-]/)[0]] || "#64748b";
@@ -18,7 +19,7 @@ function HitRow({ h }: { h: SearchHit }) {
     <Link href={h.href} className="flex items-center gap-2.5 rounded-xl px-3 py-2 transition hover:bg-surface-2">
       <span className="grid size-7 shrink-0 place-items-center rounded-lg text-white shadow-sm" style={{ background: mc(h.module) }}><Ic className="size-3.5" /></span>
       <span className="min-w-0 flex-1">
-        <span className="flex items-center gap-1.5"><span className="tech truncate font-mono text-[14px] font-extrabold text-ink-1" dir="ltr">{h.label}</span>{h.status && <span className="rounded px-1 text-[9px] font-bold text-white" style={{ background: STATUS_C[h.status] }}>{h.status}</span>}</span>
+        <span className="flex items-center gap-1.5"><span className="tech truncate font-mono text-[14px] font-extrabold text-ink-1" dir="ltr">{h.label}</span>{h.status && <span className="rounded px-1 text-[9px] font-bold" style={{ background: STATUS_C[h.status], color: pillInk(STATUS_C[h.status]) }}>{h.status}</span>}</span>
         <span className="block truncate text-[11px] text-ink-3">{h.sub}</span>
       </span>
       <span className="shrink-0 rounded-full bg-surface-2 px-1.5 py-0.5 text-[9px] font-bold text-ink-3">{KIND_HE[h.kind]}</span>
@@ -77,7 +78,7 @@ export function AppsCenter() {
                       <span className="grid size-12 place-items-center rounded-2xl text-white shadow-md transition-transform duration-300 group-hover:scale-105" style={{ background: `linear-gradient(135deg,${c},${c}cc)` }}><Terminal className="size-6" /></span>
                       <div className="flex flex-col items-end gap-1">
                         <span className="rounded-full px-2 py-0.5 text-[10px] font-extrabold" style={{ background: c + "14", color: c }}>{o.intel.module}</span>
-                        <span className="rounded-full px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: STATUS_C[o.lc.status] }}>{o.lc.status}</span>
+                        <span className="rounded-full px-1.5 py-0.5 text-[9px] font-bold" style={{ background: STATUS_C[o.lc.status], color: pillInk(STATUS_C[o.lc.status]) }}>{o.lc.status}</span>
                       </div>
                     </div>
                     <div className="relative mt-3 flex-1">

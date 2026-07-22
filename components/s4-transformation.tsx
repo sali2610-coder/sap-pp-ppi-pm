@@ -12,6 +12,7 @@ import { S4STATUS_META } from "@/data/s4-objects";
 import { searchCatalog, catalogByName, catalogStats } from "@/lib/s4-catalog";
 import { RelatedCenters } from "@/components/related-centers";
 import { BookOpen } from "lucide-react";
+import { pillInk } from "@/lib/pill-ink";
 
 const RISK_C = { high: "#dc2626", medium: "#d97706", low: "#16a34a" } as const;
 const RISK_HE = { high: "סיכון גבוה", medium: "בינוני", low: "נמוך" } as const;
@@ -128,7 +129,7 @@ export function S4Transformation() {
                   {ARCH.map((a) => { const on = a.id === archSel; const sc = ARCH_STATUS[a.status]; return (
                     <button key={a.id} onClick={() => setArchSel(a.id)} className={`grid w-full grid-cols-[1fr_auto_1fr] items-stretch gap-2 rounded-2xl border p-1.5 text-right transition ${on ? "border-blue-400 bg-blue-50/40 ring-1 ring-blue-300" : "border-hairline bg-surface hover:border-hairline"}`}>
                       <span className="rounded-xl bg-surface-2 px-3 py-2"><span className="block text-[9px] font-bold uppercase text-ink-3">{a.layerHe}</span><span className="block text-[13px] font-extrabold text-ink-2" dir="ltr">{a.ecc}</span></span>
-                      <span className="flex flex-col items-center justify-center px-0.5"><ArrowLeft className="size-4" style={{ color: sc.c }} /><span className="rounded-full px-1 text-[8px] font-bold text-white" style={{ background: sc.c }}>{sc.he}</span></span>
+                      <span className="flex flex-col items-center justify-center px-0.5"><ArrowLeft className="size-4" style={{ color: sc.c }} /><span className="rounded-full px-1 text-[8px] font-bold" style={{ background: sc.c, color: pillInk(sc.c) }}>{sc.he}</span></span>
                       <span className="rounded-xl px-3 py-2 text-white" style={{ background: a.status === "New" ? "#16a34a" : "#1e3a8a" }}><span className="block text-[9px] font-bold uppercase text-white/60">{a.layerHe}</span><span className="block text-[13px] font-extrabold" dir="ltr">{a.s4}</span></span>
                     </button>
                   ); })}
@@ -147,7 +148,7 @@ export function S4Transformation() {
                         <div className="rounded-lg bg-emerald-50 p-2"><div className="text-[10px] font-bold text-emerald-700">מה נשאר</div><p className="text-[11px] text-emerald-900">{sel.stays}</p></div>
                         <div className="rounded-lg bg-rose-50 p-2"><div className="text-[10px] font-bold text-rose-700">מה נעלם</div><p className="text-[11px] text-rose-900">{sel.gone}</p></div>
                       </div>
-                      <div className="flex items-center justify-between rounded-lg bg-amber-50 px-2.5 py-1.5"><span className="text-[11px] font-bold text-amber-800">סיכון מיגרציה</span><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: RISK_C[sel.risk] }}>{RISK_HE[sel.risk]}</span></div>
+                      <div className="flex items-center justify-between rounded-lg bg-amber-50 px-2.5 py-1.5"><span className="text-[11px] font-bold text-amber-800">סיכון מיגרציה</span><span className="rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: RISK_C[sel.risk], color: pillInk(RISK_C[sel.risk]) }}>{RISK_HE[sel.risk]}</span></div>
                       <div className="flex flex-wrap gap-1.5 pt-0.5">{sel.links.map((l) => l.href.startsWith("/s4hana#") || l.href.includes("#") ? <button key={l.label} onClick={() => go(l.href.split("#")[1])} className="rounded-lg bg-surface-2 px-2.5 py-1 text-[11px] font-bold text-ink-2 transition hover:bg-hairline">{l.label}</button> : <Link key={l.label} href={l.href} className="rounded-lg bg-surface-2 px-2.5 py-1 text-[11px] font-bold text-ink-2 transition hover:bg-hairline">{l.label}</Link>)}</div>
                     </div>
                   </div>
@@ -199,7 +200,7 @@ export function S4Transformation() {
 
                         <div className="grid gap-3 sm:grid-cols-2">
                           <div><div className="mb-1 text-[10px] font-bold uppercase text-ink-3">מודולים מושפעים</div><div className="flex flex-wrap gap-1">{o.modules.map((m) => <span key={m} className="rounded-md bg-surface-2 px-1.5 py-0.5 text-[11px] font-bold text-ink-2">{m}</span>)}</div></div>
-                          <div><div className="mb-1 text-[10px] font-bold uppercase text-ink-3">סיכון מיגרציה</div><span className="rounded-full px-2.5 py-0.5 text-[11px] font-bold text-white" style={{ background: RISK_C[o.risk] }}>{RISK_HE[o.risk]}</span></div>
+                          <div><div className="mb-1 text-[10px] font-bold uppercase text-ink-3">סיכון מיגרציה</div><span className="rounded-full px-2.5 py-0.5 text-[11px] font-bold" style={{ background: RISK_C[o.risk], color: pillInk(RISK_C[o.risk]) }}>{RISK_HE[o.risk]}</span></div>
                         </div>
 
                         {o.related.length > 0 && <div><div className="mb-1 text-[10px] font-bold uppercase text-ink-3">אובייקטים קשורים</div><div className="flex flex-wrap gap-1.5" dir="ltr">{o.related.map((r) => catalogByName(r) ? <button key={r} onClick={() => setExpSel(r)} className="tech rounded-md border border-hairline bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] font-bold text-ink-2 transition hover:border-violet-400 hover:text-violet-700">{r}</button> : <span key={r} className="tech rounded-md bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] font-bold text-ink-3">{r}</span>)}</div></div>}
@@ -242,7 +243,7 @@ export function S4Transformation() {
                 <Link key={t.slug} href={`/ecc-s4/${t.slug}/`} className="group rounded-2xl border border-hairline bg-surface p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md">
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-extrabold text-ink-1">{t.he} · <span className="font-mono text-[13px] text-ink-3" dir="ltr">{t.title}</span></span>
-                    <span className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: STATUS_COLOR[t.status] }}>{STATUS_HE[t.status]}</span>
+                    <span className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: STATUS_COLOR[t.status], color: pillInk(STATUS_COLOR[t.status]) }}>{STATUS_HE[t.status]}</span>
                   </div>
                   <div className="mt-2 grid gap-1.5 text-[12px]">
                     <div className="flex gap-2"><span className="shrink-0 rounded bg-hairline px-1.5 font-bold text-ink-2">ECC</span><span className="text-ink-3">{t.ecc}</span></div>
@@ -261,7 +262,7 @@ export function S4Transformation() {
             </div>
             <div className="space-y-2">{simplTopics.map((t) => (
               <Link key={t.slug} href={`/ecc-s4/${t.slug}/`} className="block rounded-xl border border-hairline bg-surface-2/60 px-3 py-2.5 transition hover:border-blue-300 hover:bg-surface">
-                <div className="flex items-center justify-between gap-2"><span className="text-[13px] font-extrabold text-ink-1">{t.simplification}</span><span className="shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: STATUS_COLOR[t.status] }}>{STATUS_HE[t.status]}</span></div>
+                <div className="flex items-center justify-between gap-2"><span className="text-[13px] font-extrabold text-ink-1">{t.simplification}</span><span className="shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-bold" style={{ background: STATUS_COLOR[t.status], color: pillInk(STATUS_COLOR[t.status]) }}>{STATUS_HE[t.status]}</span></div>
                 <p className="mt-0.5 text-[12px] text-ink-3">{t.he} — {t.impact}</p>
               </Link>
             ))}{simplTopics.length === 0 && <p className="py-6 text-center text-sm text-ink-3">לא נמצאו פריטים.</p>}</div>
@@ -283,7 +284,7 @@ export function S4Transformation() {
 
           <Card id="code" title="השפעה על קוד מותאם · ABAP Readiness" icon={<Code2 className="size-4" />} sub="מה משתנה לכל סוג אובייקט פיתוח" accent="#7c3aed">
             <div className="overflow-hidden rounded-xl border border-hairline"><table className="w-full text-right text-[13px]"><thead className="bg-surface-2 text-[11px] font-bold uppercase text-ink-3"><tr><th className="px-3 py-2">אובייקט</th><th className="px-3 py-2">ECC</th><th className="px-3 py-2">S/4HANA</th><th className="px-3 py-2">סיכון</th></tr></thead>
-              <tbody>{CUSTOM_CODE.map((r, i) => (<tr key={i} className="border-t border-hairline align-top"><td className="px-3 py-2 font-bold text-ink-1">{r.he}</td><td className="px-3 py-2 text-ink-3">{r.ecc}</td><td className="px-3 py-2 font-medium text-ink-2">{r.s4}</td><td className="px-3 py-2">{r.risk && <span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: RISK_C[r.risk] }}>{RISK_HE[r.risk]}</span>}</td></tr>))}</tbody></table></div>
+              <tbody>{CUSTOM_CODE.map((r, i) => (<tr key={i} className="border-t border-hairline align-top"><td className="px-3 py-2 font-bold text-ink-1">{r.he}</td><td className="px-3 py-2 text-ink-3">{r.ecc}</td><td className="px-3 py-2 font-medium text-ink-2">{r.s4}</td><td className="px-3 py-2">{r.risk && <span className="rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: RISK_C[r.risk], color: pillInk(RISK_C[r.risk]) }}>{RISK_HE[r.risk]}</span>}</td></tr>))}</tbody></table></div>
             <p className="mt-2 text-[11px] font-bold text-ink-3">{CUSTOM_CODE_NOTE}</p>
           </Card>
 
@@ -315,7 +316,7 @@ export function S4Transformation() {
           <Card id="lessons" title="לקחים מהשטח" icon={<Lightbulb className="size-4" />} sub="מלכודות נפוצות בפרויקטי המרה (trust: curated)" accent="#d97706">
             <div className="grid gap-2.5 lg:grid-cols-2">{LESSONS.map((l, i) => (
               <div key={i} className="rounded-xl border border-hairline bg-surface-2/60 p-3" style={{ borderInlineStartColor: RISK_C[l.risk], borderInlineStartWidth: 3 }}>
-                <div className="flex items-center justify-between gap-2"><span className="text-[13px] font-extrabold text-ink-1">{l.he}</span><span className="shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: RISK_C[l.risk] }}>{RISK_HE[l.risk]}</span></div>
+                <div className="flex items-center justify-between gap-2"><span className="text-[13px] font-extrabold text-ink-1">{l.he}</span><span className="shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-bold" style={{ background: RISK_C[l.risk], color: pillInk(RISK_C[l.risk]) }}>{RISK_HE[l.risk]}</span></div>
                 <p className="mt-0.5 text-[12px] text-ink-3">{l.sub}</p>
               </div>
             ))}</div>

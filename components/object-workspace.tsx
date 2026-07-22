@@ -28,6 +28,7 @@ import { objectConnections } from "@/lib/object-graph";
 import { CONSULTANT_NOTES } from "@/data/consultant-notes";
 import { INCIDENTS } from "@/data/troubleshooting";
 import { s4For } from "@/lib/s4";
+import { pillInk } from "@/lib/pill-ink";
 import { ScrollText } from "lucide-react";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9" };
@@ -535,7 +536,7 @@ function ExplainCard({ name, accent, tcodes, bapis, cds, related }: { name: stri
         <h3 className="flex items-center gap-2 text-sm font-extrabold text-ink-1"><GraduationCap className="size-4" style={{ color: accent }} />הסבר — מה זה {name}?</h3>
         <div className="flex items-center gap-1.5">
           {k.step && <span className="rounded-full bg-surface-2 px-2 py-0.5 text-[10px] font-bold text-ink-3">{k.step}</span>}
-          <span className="rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: ic }}>{IMPORTANCE_HE[k.importance]}</span>
+          <span className="rounded-full px-2 py-0.5 text-[10px] font-extrabold" style={{ background: ic, color: pillInk(ic) }}>{IMPORTANCE_HE[k.importance]}</span>
         </div>
       </div>
       <div className="mt-3 space-y-2.5">

@@ -9,6 +9,7 @@ import { tcodeIntel } from "@/lib/object-intel";
 import { ProcessTimeline, type TimelineStep } from "@/components/process-timeline";
 import { useTxFavorite, toggleTxFavorite, pushRecentTx } from "@/lib/tx-prefs";
 import { SapTip } from "@/components/sap-tip";
+import { pillInk } from "@/lib/pill-ink";
 
 const MOD_COLOR: Record<string, string> = {
   PP: "#6d28d9", "PP-PI": "#6d28d9", PM: "#f97316", QM: "#0d9488", MM: "#2563eb",
@@ -59,7 +60,7 @@ export function TransactionPage({ code }: { code: string }) {
   const Chips = ({ items, color, ltr }: { items: string[]; color: string; ltr?: boolean }) => items.length ? (
     <div className="flex flex-wrap gap-1.5">{items.map((x) => <span key={x} dir={ltr ? "ltr" : undefined} className="rounded-lg border px-2 py-0.5 text-[11px] font-bold" style={{ borderColor: color + "55", background: color + "12", color }}>{x}</span>)}</div>
   ) : <span className="text-[12px] text-ink-3">—</span>;
-  const CodeChip = ({ cd }: { cd: string }) => { const ex = txExists(cd) || !!registryTx(cd); const cls = "tech rounded-lg px-2.5 py-1 text-[12px] font-bold transition"; return <SapTip name={cd} bare>{ex ? <Link href={`/tcode/${encodeURIComponent(cd)}/`} className={`${cls} text-white hover:brightness-110`} style={{ background: c }} dir="ltr">{cd}</Link> : <span className={`${cls} border border-hairline bg-surface-2 text-ink-3`} dir="ltr">{cd}</span>}</SapTip>; };
+  const CodeChip = ({ cd }: { cd: string }) => { const ex = txExists(cd) || !!registryTx(cd); const cls = "tech rounded-lg px-2.5 py-1 text-[12px] font-bold transition"; return <SapTip name={cd} bare>{ex ? <Link href={`/tcode/${encodeURIComponent(cd)}/`} className={`${cls} hover:brightness-110`} style={{ background: c, color: pillInk(c) }} dir="ltr">{cd}</Link> : <span className={`${cls} border border-hairline bg-surface-2 text-ink-3`} dir="ltr">{cd}</span>}</SapTip>; };
   const RelRow = ({ label, items }: { label: string; items: string[] }) => items.length ? (
     <div className="flex flex-wrap items-center gap-2"><span className="min-w-[6.5rem] text-[11px] font-extrabold uppercase tracking-wide text-ink-3">{label}</span><div className="flex flex-wrap gap-1.5">{items.map((x) => <CodeChip key={x} cd={x} />)}</div></div>
   ) : null;
