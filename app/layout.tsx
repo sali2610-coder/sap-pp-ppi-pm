@@ -56,6 +56,10 @@ export const viewport: Viewport = {
   themeColor: "#d62027",
   width: "device-width",
   initialScale: 1,
+  // viewport-fit=cover draws edge-to-edge behind the notch / gesture bar AND
+  // activates env(safe-area-inset-*). The shell/tab-bar/FAB already pad with those
+  // insets, but without cover they resolve to 0 (no-op) on real devices.
+  viewportFit: "cover",
   colorScheme: "light",
 };
 
