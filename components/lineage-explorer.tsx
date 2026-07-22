@@ -8,6 +8,7 @@ import { ALL_TABLES } from "@/data/sapData";
 import { kgraph, tableByName } from "@/lib/knowledge-graph";
 import { cdsForTable } from "@/data/cds-map";
 import { Highlight } from "@/components/highlight";
+import { pillInk } from "@/lib/pill-ink";
 
 const RED = "#d62027";
 const mc = (m?: string) => (m === "PM" ? "#f97316" : m === "QM" ? "#0d9488" : m === "PP-PI" ? "#6d28d9" : "#475569");
@@ -77,7 +78,7 @@ export function LineageExplorer({ initial = "EQUI" }: { initial?: string }) {
                 className="flex w-full items-center gap-3 px-3 py-2.5 text-start transition-colors hover:bg-brand/5">
                 <span className="tech shrink-0 text-sm font-bold text-brand"><Highlight text={m.tableName} query={q} /></span>
                 <span className="min-w-0 flex-1 truncate text-sm text-ink-3"><Highlight text={m.descriptionHe || m.descriptionEn} query={q} /></span>
-                <span className="shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: mc(m.module) }}>{m.module}</span>
+                <span className="shrink-0 rounded-md px-1.5 py-0.5 text-[10px] font-bold" style={{ background: mc(m.module), color: pillInk(mc(m.module)) }}>{m.module}</span>
               </button>
             ))}
           </div>
@@ -94,7 +95,7 @@ export function LineageExplorer({ initial = "EQUI" }: { initial?: string }) {
             <div className="flex items-center gap-3">
               <span className="grid size-12 place-items-center rounded-2xl text-white shadow-lg" style={{ background: mc(t.module), boxShadow: `0 8px 20px ${mc(t.module)}55` }}><Database className="size-6" /></span>
               <div>
-                <div className="flex items-center gap-2"><span className="tech text-xl font-extrabold text-ink-1" dir="ltr">{t.tableName}</span><span className="rounded-md px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: mc(t.module) }}>{t.module}</span></div>
+                <div className="flex items-center gap-2"><span className="tech text-xl font-extrabold text-ink-1" dir="ltr">{t.tableName}</span><span className="rounded-md px-1.5 py-0.5 text-[10px] font-bold" style={{ background: mc(t.module), color: pillInk(mc(t.module)) }}>{t.module}</span></div>
                 <p className="text-xs text-ink-3">{t.descriptionHe || t.descriptionEn}</p>
               </div>
             </div>

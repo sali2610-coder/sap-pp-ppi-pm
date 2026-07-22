@@ -15,6 +15,7 @@ import { lookupEntity } from "@/lib/entity-lookup";
 import { tableByName } from "@/lib/knowledge-graph";
 import { setActiveEntity } from "@/lib/workspace";
 import type { Module } from "@/lib/types";
+import { pillInk } from "@/lib/pill-ink";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9" };
 const DEFAULT_FOCUS: Record<string, string> = { PM: "EQUI", "PP-PI": "AFKO" };
@@ -359,7 +360,7 @@ export function ArchitectureStudio() {
         {!sel && !booting && n.id === DEFAULT_FOCUS[module] && (
           <>
             {!reduce && <span className="studio-halo pointer-events-none absolute -inset-1.5 -z-10 rounded-2xl" style={{ background: `radial-gradient(closest-side, ${accent}40, transparent)` }} />}
-            <span className="pointer-events-none absolute -top-5 right-0 flex items-center gap-0.5 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[8.5px] font-extrabold text-white shadow-md" style={{ background: accent }}><Sparkles className="size-2.5" />התחל כאן</span>
+            <span className="pointer-events-none absolute -top-5 right-0 flex items-center gap-0.5 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[8.5px] font-extrabold shadow-md" style={{ background: accent, color: pillInk(accent) }}><Sparkles className="size-2.5" />התחל כאן</span>
           </>
         )}
         <span className="flex w-full items-center gap-1">
@@ -523,10 +524,10 @@ export function ArchitectureStudio() {
                   <motion.div key={step.code} initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", stiffness: 300, damping: 28 }}
                     className="w-[min(94%,42rem)] rounded-2xl border border-hairline bg-surface/95 p-4 shadow-2xl backdrop-blur">
                     <div className="flex items-center gap-2">
-                      <span className="grid size-8 shrink-0 place-items-center rounded-lg text-[12px] font-extrabold text-white" style={{ background: accent }}>{demoStep + 1}</span>
+                      <span className="grid size-8 shrink-0 place-items-center rounded-lg text-[12px] font-extrabold" style={{ background: accent, color: pillInk(accent) }}>{demoStep + 1}</span>
                       <span className="tech font-mono text-lg font-extrabold text-ink-1" dir="ltr">{step.code}</span>
                       <span className="rounded-md bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-3">{step.label}</span>
-                      {s4he && <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: S4_COLOR[sN!.s4!] }}>{s4he}</span>}
+                      {s4he && <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold" style={{ background: S4_COLOR[sN!.s4!], color: pillInk(S4_COLOR[sN!.s4!]) }}>{s4he}</span>}
                     </div>
                     {(tip?.he || sN?.he) && <p className="mt-2 text-[13px] leading-relaxed text-ink-2">{tip?.he || sN?.he}</p>}
                     {tip?.purpose && <p className="mt-1.5 flex gap-1.5 text-[12.5px] leading-relaxed text-ink-3"><Target className="mt-0.5 size-3.5 shrink-0 text-blue-500" />{tip.purpose}</p>}
@@ -614,7 +615,7 @@ export function ArchitectureStudio() {
               {/* swimlane bands — §15 each layer has its own colour identity + icon */}
               {layout.bands.map((z) => { const Zi = ZONE_ICON[z.id] || Layers; return (
                 <div key={z.id} className="absolute top-0 border-x border-dashed" style={{ left: z.x, width: z.w, height: layout.height, background: `linear-gradient(180deg, ${z.c}0f, ${z.c}05)`, borderColor: z.c + "22" }}>
-                  <div className="sticky top-2 mx-2 mt-2 flex items-center justify-center gap-1.5 rounded-lg px-2 py-1 text-[12px] font-extrabold text-white shadow-sm" style={{ background: z.c }}><Zi className="size-3.5 shrink-0 opacity-90" />{z.he}</div>
+                  <div className="sticky top-2 mx-2 mt-2 flex items-center justify-center gap-1.5 rounded-lg px-2 py-1 text-[12px] font-extrabold shadow-sm" style={{ background: z.c, color: pillInk(z.c) }}><Zi className="size-3.5 shrink-0 opacity-90" />{z.he}</div>
                 </div>
               ); })}
               {/* edges + nodes — memoized layers (§11): pan/zoom won't re-render them */}

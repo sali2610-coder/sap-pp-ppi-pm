@@ -6,6 +6,7 @@ import { Search, ArrowLeft, GitBranch, Database, Activity, ShieldAlert } from "l
 import { SwipeRow } from "@/components/swipe-row";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Highlight } from "@/components/highlight";
+import { pillInk } from "@/lib/pill-ink";
 
 export interface TableRow { name: string; module: string; he: string; s4: string; rel: number; tc: number; cds?: string }
 
@@ -61,7 +62,7 @@ export function TablesExplorer({ rows }: { rows: TableRow[] }) {
               <Link href={`/object/${encodeURIComponent(r.name)}/`} data-peek={r.name} className="tap block rounded-2xl border border-hairline bg-surface p-3.5 shadow-sm transition active:scale-[0.98]">
                 <div className="flex items-start justify-between gap-2">
                   <span className="tech text-[15px] font-extrabold text-brand" dir="ltr"><Highlight text={r.name} query={q} /></span>
-                  <span className="flex shrink-0 flex-wrap justify-end gap-1">{r.module.split(" · ").map((m) => <span key={m} className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: MOD_COLOR[m] || "#64748b" }}>{m}</span>)}</span>
+                  <span className="flex shrink-0 flex-wrap justify-end gap-1">{r.module.split(" · ").map((m) => <span key={m} className="rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: MOD_COLOR[m] || "#64748b", color: pillInk(MOD_COLOR[m] || "#64748b") }}>{m}</span>)}</span>
                 </div>
                 {r.he && <p className="mt-1 text-[12.5px] leading-snug text-ink-2"><Highlight text={r.he} query={q} /></p>}
                 <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -86,7 +87,7 @@ export function TablesExplorer({ rows }: { rows: TableRow[] }) {
                   <tr key={r.name} className="group hover:bg-surface-2/60">
                     <td className="p-3 align-top"><Link href={`/object/${encodeURIComponent(r.name)}/`} className="tech font-extrabold text-brand hover:underline" dir="ltr"><Highlight text={r.name} query={q} /></Link>{r.cds && <div className="tech text-[10px] font-bold text-green-600" dir="ltr">CDS: <Highlight text={r.cds} query={q} /></div>}</td>
                     <td className="p-3 align-top text-[12px] leading-snug text-ink-2"><Highlight text={r.he} query={q} /></td>
-                    <td className="p-3 text-center align-top"><span className="inline-flex flex-wrap justify-center gap-1">{r.module.split(" · ").map((m) => <span key={m} className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: MOD_COLOR[m] || "#64748b" }}>{m}</span>)}</span></td>
+                    <td className="p-3 text-center align-top"><span className="inline-flex flex-wrap justify-center gap-1">{r.module.split(" · ").map((m) => <span key={m} className="rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: MOD_COLOR[m] || "#64748b", color: pillInk(MOD_COLOR[m] || "#64748b") }}>{m}</span>)}</span></td>
                     <td className="p-3 text-center align-top"><span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold ${r.rel >= 6 ? "bg-amber-100 text-amber-700" : "text-ink-3"}`}>{r.rel >= 6 && "★"}<GitBranch className="size-3" />{r.rel}</span></td>
                     <td className="p-3 align-top text-[11px] leading-snug text-ink-3">{r.s4 || "ללא שינוי מהותי"}</td>
                     <td className="p-3 align-top"><Link href={`/object/${encodeURIComponent(r.name)}/`} className="inline-flex items-center gap-1 text-[11px] font-bold text-brand opacity-0 transition group-hover:opacity-100">מפת קשרים<ArrowLeft className="size-3" /></Link></td>

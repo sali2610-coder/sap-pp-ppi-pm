@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, ShieldAlert } from "lucide-react";
 import { SearchField, FilterBar, FilterButton, EmptyState } from "@/components/ui";
 import { INCIDENTS, type Incident } from "@/data/troubleshooting";
+import { pillInk } from "@/lib/pill-ink";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", PP: "#2563eb", "PP-PI": "#6d28d9", Cross: "#475569" };
 const MODULES: (Incident["module"] | "ALL")[] = ["ALL", "PM", "PP", "PP-PI", "Cross"];
@@ -36,7 +37,7 @@ export function IncidentExplorer() {
             <Link key={i.slug} href={`/troubleshooting/${i.slug}/`} className="lift group rounded-2xl border border-hairline bg-surface p-4 shadow-sm">
               <div className="mb-1.5 flex items-center gap-2">
                 <span className="grid size-7 place-items-center rounded-lg bg-red-50"><ShieldAlert className="size-4 text-red-500" /></span>
-                <span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: MOD_COLOR[i.module] }}>{i.module}</span>
+                <span className="rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: MOD_COLOR[i.module], color: pillInk(MOD_COLOR[i.module]) }}>{i.module}</span>
                 <ArrowLeft className="ms-auto size-3.5 text-ink-3 transition group-hover:-translate-x-1 group-hover:text-brand" />
               </div>
               <h3 className="text-sm font-extrabold tracking-tight text-ink-1">{i.he}</h3>

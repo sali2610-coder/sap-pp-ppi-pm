@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Gauge, Search, ArrowLeft } from "lucide-react";
 import { ALL_TABLES } from "@/lib/data";
+import { pillInk } from "@/lib/pill-ink";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9", PP: "#6d28d9" };
 const CORE = ["AUFK", "AFKO", "QMEL", "EQUI", "IFLOT", "MARA", "AFRU", "JEST", "MCH1", "RESB"];
@@ -42,7 +43,7 @@ export function ImpactChooser() {
           const c = MOD_COLOR[r.module] || "#64748b";
           return (
             <Link key={r.name} href={`/impact/${encodeURIComponent(r.name)}/`} className="group flex items-center gap-3 rounded-2xl border border-hairline bg-surface p-3 shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md active:scale-[.99]">
-              <span className="grid size-10 shrink-0 place-items-center rounded-xl font-mono text-[11px] font-extrabold text-white" style={{ background: c }} dir="ltr">{r.module === "PP-PI" ? "PP" : r.module}</span>
+              <span className="grid size-10 shrink-0 place-items-center rounded-xl font-mono text-[11px] font-extrabold" style={{ background: c, color: pillInk(c) }} dir="ltr">{r.module === "PP-PI" ? "PP" : r.module}</span>
               <span className="min-w-0 flex-1"><span className="tech block font-mono text-sm font-extrabold text-ink-1" dir="ltr">{r.name}</span><span className="block truncate text-xs text-ink-3">{r.he}</span></span>
               <ArrowLeft className="size-4 shrink-0 text-ink-3 transition group-hover:text-brand" />
             </Link>
