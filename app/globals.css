@@ -902,3 +902,7 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
    knowledge rail so the reader is a calm 2-column (lesson + on-this-page). Pure CSS,
    zero hydration flash; the breadcrumb + footer nav are the escape hatches. */
 body:has([data-focus-reader]) [data-knowledge-sidebar] { display: none !important; }
+
+/* §P1.5 Knowledge cards — on touch (no hover) the description can't expand on
+   hover, so reveal a fuller view there. Desktop keeps the 2→5 hover clamp. */
+@media (hover: none) { .kn-card-desc { -webkit-line-clamp: 6 !important; } }

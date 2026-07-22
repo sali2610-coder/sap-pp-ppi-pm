@@ -49,7 +49,7 @@ function Card({ c, q, accent }: { c: Center; q: string; accent: string }) {
         {c.tag && <span className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: c.tagColor || "#64748b" }}>{c.tag}</span>}
       </div>
       {c.desc && (
-        <p className="mt-2 text-xs leading-relaxed text-ink-3 transition-all duration-300 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] group-hover:[-webkit-line-clamp:5]">
+        <p className="kn-card-desc mt-2 text-xs leading-relaxed text-ink-3 transition-all duration-300 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2] group-hover:[-webkit-line-clamp:5]">
           {c.desc}
         </p>
       )}

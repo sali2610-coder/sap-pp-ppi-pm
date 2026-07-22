@@ -591,6 +591,8 @@ export function ArchitectureStudio() {
             <button onClick={() => zoom(1 / tr.k)} title="אחוז מקורי (100%)" className={`${btn} min-w-11 rounded-xl px-1 py-1 text-center font-mono text-[11px] font-extrabold text-ink-3 tabular-nums hover:bg-surface hover:text-brand`}>{Math.round(tr.k * 100)}%</button>
             <span className="mx-0.5 h-5 w-px bg-slate-900/10" />
             <button onClick={fit} title="התאם הכול למסך" className={`${btn} grid size-8 place-items-center rounded-xl text-ink-2 hover:bg-surface hover:text-brand hover:shadow-sm`}><Maximize2 className="size-4" /></button>
+            <span className="mx-0.5 h-5 w-px bg-slate-900/10" />
+            <button onClick={() => setCoach(true)} title="איך לחקור את הסטודיו — טיפים" aria-label="הצג טיפים" className={`${btn} grid size-8 place-items-center rounded-xl text-ink-2 hover:bg-surface hover:text-brand hover:shadow-sm`}><Info className="size-4" /></button>
           </div>
 
           {/* mini map */}
