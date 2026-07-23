@@ -1,0 +1,1225 @@
+{
+  "version": "2.0",
+  "generatedAt": "2026-07-23",
+  "source": "auto-discovery scan of SAP-HQ/ + .claude/ + docs/",
+  "entryPoint": {
+    "command": "/hq",
+    "advisor": "Universal SAP AI Advisor (public face of HQ)"
+  },
+  "counts": {
+    "skills": 25,
+    "commands": 1,
+    "expertPacks": 20,
+    "playbooks": 0,
+    "runbooks": 0,
+    "knowledge": 0,
+    "lessonsLearned": 0,
+    "references": 8,
+    "intents": 21,
+    "graphNodes": 52,
+    "graphEdges": 69
+  },
+  "skills": [
+    {
+      "id": "academic-pptx",
+      "type": "skill",
+      "path": ".claude/skills/academic-pptx/",
+      "category": "project",
+      "description": "\"Use this skill whenever the user wants to create or improve a presentation for an academic context — conference papers, seminar talks, thesis defenses, grant briefings, lab meetings, invited lectures",
+      "references": [],
+      "scripts": [],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "docx",
+      "type": "skill",
+      "path": ".claude/skills/docx/",
+      "category": "project",
+      "description": "\"Use this skill whenever the user wants to create, read, edit, or manipulate Word documents (.docx files). Triggers include: any mention of 'Word doc', 'word document', '.docx', or requests to produce",
+      "references": [],
+      "scripts": [
+        "__init__.py",
+        "accept_changes.py",
+        "comment.py",
+        "office",
+        "templates"
+      ],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "enterprise-adaptive-ui-reviewer",
+      "type": "skill",
+      "path": ".claude/skills/enterprise-adaptive-ui-reviewer/",
+      "category": "NEO",
+      "description": "THE permanent Enterprise Adaptive Design System authority for Project NEO (\"SAP by Sali\"). Reviews EVERY visual change before Production — every page, component, dashboard, table, diagram, hero, heade",
+      "references": [],
+      "scripts": [],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "enterprise-performance-reviewer",
+      "type": "skill",
+      "path": ".claude/skills/enterprise-performance-reviewer/",
+      "category": "NEO",
+      "description": "Use when reviewing technical PERFORMANCE of Project NEO — client-chunk/first-load JS weight, dataset bundling (SmartLink must import only the route-manifest, never sapData.pm/pppi), next/dynamic lazy ",
+      "references": [],
+      "scripts": [],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "enterprise-ux-reviewer",
+      "type": "skill",
+      "path": ".claude/skills/enterprise-ux-reviewer/",
+      "category": "NEO",
+      "description": "The permanent multi-persona UX authority for Project NEO (\"SAP by Sali\"). Reviews the user experience of every page before Production through TEN enterprise personas — SAP Consultant, SAP Implementer,",
+      "references": [],
+      "scripts": [],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "excalidraw-diagram",
+      "type": "skill",
+      "path": ".claude/skills/excalidraw-diagram/",
+      "category": "project",
+      "description": "Create Excalidraw diagram JSON files that make visual arguments. Use when the user wants to visualize workflows, architectures, or concepts.",
+      "references": [
+        "color-palette.md",
+        "element-templates.md",
+        "json-schema.md"
+      ],
+      "scripts": [],
+      "loaded": true,
+      "portable": false
+    },
+    {
+      "id": "hq",
+      "type": "skill",
+      "path": ".claude/skills/hq/",
+      "category": "HQ-flagship",
+      "description": "HQ (SAP Headquarters) — the single main entry point for the entire SAP AI system. Activate whenever the user types",
+      "references": [
+        "ai-brain.md",
+        "auto-investigation.md",
+        "expert-packs.md",
+        "interactive-investigation.md",
+        "knowledge-evolution.md",
+        "operational-intelligence.md",
+        "reasoning-engine.md",
+        "request-modes.md",
+        "routing.md"
+      ],
+      "scripts": [
+        "hq-ops.sh"
+      ],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "knowledge-library-builder",
+      "type": "skill",
+      "path": ".claude/skills/knowledge-library-builder/",
+      "category": "project",
+      "description": "Build a searchable knowledge library from a folder of books, PDFs, course material, or notes.",
+      "references": [
+        "output-spec.md"
+      ],
+      "scripts": [
+        "build_library.py",
+        "ingest.py"
+      ],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "learning-content-factory",
+      "type": "skill",
+      "path": ".claude/skills/learning-content-factory/",
+      "category": "project",
+      "description": "Turn a learning source (PDF, book, course material, PowerPoint, technical manual, or SAP book)",
+      "references": [
+        "domains.md",
+        "hebrew.md",
+        "outputs.md"
+      ],
+      "scripts": [
+        "build_pack.py",
+        "ingest.py",
+        "make_flashcards.py",
+        "make_quiz.py"
+      ],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "memory",
+      "type": "skill",
+      "path": ".claude/skills/memory/",
+      "category": "HQ-flagship",
+      "description": "Memory — Sali's organizational knowledge base (orchestration only). Enter Knowledge-Base mode when the user types",
+      "references": [
+        "playbook.md"
+      ],
+      "scripts": [],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "mermaid-diagrams",
+      "type": "skill",
+      "path": ".claude/skills/mermaid-diagrams/",
+      "category": "project",
+      "description": "Generate and render Mermaid diagrams to SVG / PNG / PDF. Use when the user asks to",
+      "references": [],
+      "scripts": [
+        "render.sh"
+      ],
+      "loaded": true,
+      "portable": false
+    },
+    {
+      "id": "neo-accessibility-reviewer",
+      "type": "skill",
+      "path": ".claude/skills/neo-accessibility-reviewer/",
+      "category": "NEO",
+      "description": "Use when reviewing WCAG 2.1 AA / a11y in Project NEO — keyboard nav, focus states, contrast, screen readers, semantic headings, RTL, or presentation-mode readability. Triggers on \"accessibility review",
+      "references": [],
+      "scripts": [],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "neo-architecture-studio-reviewer",
+      "type": "skill",
+      "path": ".claude/skills/neo-architecture-studio-reviewer/",
+      "category": "NEO",
+      "description": "Use when reviewing any diagram or visualization in Project NEO — the Architecture Studio graph, relationship maps, ERDs (PLKO→PLPO, EQUI→EQKT), business-process flows, object graphs, or blueprints — o",
+      "references": [],
+      "scripts": [],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "neo-documentation-guardian",
+      "type": "skill",
+      "path": ".claude/skills/neo-documentation-guardian/",
+      "category": "NEO",
+      "description": "Use when a PR/change touches routes, page counts, commands, tokens, viewport classes, data schemas, CI gates, or any behavior described in docs — or when someone says \"update the docs\", \"does the READ",
+      "references": [],
+      "scripts": [],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "neo-enterprise-ux-auditor",
+      "type": "skill",
+      "path": ".claude/skills/neo-enterprise-ux-auditor/",
+      "category": "NEO",
+      "description": "Use as the FINAL quality gate before merging any UI PR in Project NEO — when someone says \"audit this UI\", \"ready to merge?\", \"final review\", \"UX sign-off\", \"would this ship?\", or before opening/appro",
+      "references": [],
+      "scripts": [],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "neo-sap-content-quality-reviewer",
+      "type": "skill",
+      "path": ".claude/skills/neo-sap-content-quality-reviewer/",
+      "category": "NEO",
+      "description": "Use when reviewing, proofing, or QA-ing any SAP article/section in Project NEO (PM, PP, PP-PI module pages, object pages, consultant/troubleshooting content) — or when the user says \"review this artic",
+      "references": [],
+      "scripts": [],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "neo-sap-visual-designer",
+      "type": "skill",
+      "path": ".claude/skills/neo-sap-visual-designer/",
+      "category": "NEO",
+      "description": "Use when reviewing UI/visual work in Project NEO — new or changed components, pages, cards, tables, diagrams, icons, colors, spacing, or animations; when someone asks to \"review the visual design\", \"c",
+      "references": [],
+      "scripts": [],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "neo-search-experience-reviewer",
+      "type": "skill",
+      "path": ".claude/skills/neo-search-experience-reviewer/",
+      "category": "NEO",
+      "description": "Use when reviewing or changing Project NEO search — the command palette (Cmd/Ctrl-K), omni-search, hero search, ranking/relevance, coverage of objects/tcodes/BAPIs/IDocs/CDS/tables, suggestions, keybo",
+      "references": [],
+      "scripts": [],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "oracle",
+      "type": "skill",
+      "path": ".claude/skills/oracle/",
+      "category": "HQ-flagship",
+      "description": "Oracle — the SAP knowledge brain (orchestration only). Enter Research mode when the user types \"/oracle\",",
+      "references": [
+        "playbook.md"
+      ],
+      "scripts": [],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "pdf",
+      "type": "skill",
+      "path": ".claude/skills/pdf/",
+      "category": "project",
+      "description": "Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rota",
+      "references": [],
+      "scripts": [
+        "check_bounding_boxes.py",
+        "check_fillable_fields.py",
+        "convert_pdf_to_images.py",
+        "create_validation_image.py",
+        "extract_form_field_info.py",
+        "extract_form_structure.py",
+        "fill_fillable_fields.py",
+        "fill_pdf_form_with_annotations.py"
+      ],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "ppt-master",
+      "type": "skill",
+      "path": ".claude/skills/ppt-master/",
+      "category": "project",
+      "description": "AI-driven multi-format SVG content generation system. Converts source documents",
+      "references": [
+        "animations.md",
+        "canvas-formats.md",
+        "executor-base.md",
+        "executor-consultant-top.md",
+        "executor-consultant.md",
+        "executor-general.md",
+        "image-base.md",
+        "image-generator.md",
+        "image-layout-patterns.md",
+        "image-layout-spec.md",
+        "image-searcher.md",
+        "shared-standards.md",
+        "strategist.md",
+        "svg-image-embedding.md",
+        "template-designer.md",
+        "visual-review.md"
+      ],
+      "scripts": [
+        "README.md",
+        "__pycache__",
+        "analyze_images.py",
+        "animation_config.py",
+        "assets",
+        "batch_validate.py",
+        "check_annotations.py",
+        "config.py",
+        "docs",
+        "error_helper.py",
+        "finalize_svg.py",
+        "gemini_watermark_remover.py",
+        "generate_examples_index.py",
+        "image_backends",
+        "image_gen.py",
+        "image_search.py",
+        "image_sources",
+        "latex_render.py",
+        "notes_to_audio.py",
+        "pptx_animations.py",
+        "pptx_template_import.py",
+        "pptx_to_svg",
+        "pptx_to_svg.py",
+        "project_manager.py",
+        "project_utils.py",
+        "register_template.py",
+        "rotate_images.py",
+        "source_to_md",
+        "svg_editor",
+        "svg_finalize",
+        "svg_position_calculator.py",
+        "svg_quality_checker.py",
+        "svg_to_pptx",
+        "svg_to_pptx.py",
+        "template_fill_pptx",
+        "template_fill_pptx.py",
+        "template_import",
+        "total_md_split.py",
+        "tts_backends",
+        "update_repo.py",
+        "update_spec.py",
+        "visual_review.py"
+      ],
+      "loaded": true,
+      "portable": false
+    },
+    {
+      "id": "pptx",
+      "type": "skill",
+      "path": ".claude/skills/pptx/",
+      "category": "project",
+      "description": "\"Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from ",
+      "references": [],
+      "scripts": [
+        "__init__.py",
+        "add_slide.py",
+        "clean.py",
+        "office",
+        "thumbnail.py"
+      ],
+      "loaded": true,
+      "portable": false
+    },
+    {
+      "id": "research-academic-engine",
+      "type": "skill",
+      "path": ".claude/skills/research-academic-engine/",
+      "category": "project",
+      "description": "Transform academic sources (PDF, DOCX, PPTX, Markdown) into scholarly and study outputs —",
+      "references": [
+        "academic-outputs.md",
+        "citations.md",
+        "learning-outputs.md",
+        "source-analysis.md"
+      ],
+      "scripts": [
+        "cite.py",
+        "ingest.py",
+        "make_flashcards.py",
+        "make_quiz.py"
+      ],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "sap-knowledge-architect",
+      "type": "skill",
+      "path": ".claude/skills/sap-knowledge-architect/",
+      "category": "SAP",
+      "description": "Use when reviewing the STRUCTURE and GRAPH INTEGRITY of Project NEO's SAP knowledge base — duplicate objects/content across PM/PP/PP-PI, orphan/dangling relations, one-way links, missing cross-links, ",
+      "references": [],
+      "scripts": [],
+      "loaded": true,
+      "portable": true
+    },
+    {
+      "id": "sherlock",
+      "type": "skill",
+      "path": ".claude/skills/sherlock/",
+      "category": "HQ-flagship",
+      "description": "Sherlock — the SAP incident-investigation lead (orchestration only). Enter Investigation mode when the user types",
+      "references": [
+        "playbook.md"
+      ],
+      "scripts": [],
+      "loaded": true,
+      "portable": true
+    }
+  ],
+  "commands": [
+    {
+      "id": "/hq",
+      "type": "command",
+      "path": ".claude/commands/hq.md"
+    }
+  ],
+  "hooks": {
+    "files": [
+      "auto-push.sh"
+    ],
+    "registered": [],
+    "note": "HQ registers no hooks; auto-push.sh dormant/unregistered"
+  },
+  "saphq": {
+    "root": "SAP-HQ/",
+    "playbooks": [],
+    "runbooks": [],
+    "knowledge": [],
+    "lessonsLearned": [],
+    "templates": 0,
+    "incidents": 0
+  },
+  "mcp": {
+    "required": false,
+    "projectServers": [
+      {
+        "id": "pptxgenjs",
+        "status": "project-local",
+        "readWrite": "varies"
+      }
+    ],
+    "note": "HQ works without MCP; SAP MCP (sc4sap:sap) is global/optional and disconnected. Fallback: files/knowledge/pasted-evidence/web.",
+    "futureReady": [
+      {
+        "name": "SAP GUI MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "SAP Notes MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "GitHub MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "Filesystem MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "Browser MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "Playwright MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "Database MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "Jira MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "Confluence MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "Docker MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "Chrome MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "Teams MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "Outlook MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "Graph API MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "SAP BTP MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "SAP AI Core MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "SAP Datasphere MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      },
+      {
+        "name": "SAP Analytics Cloud MCP",
+        "status": "planned",
+        "autoRegistersInto": "capability-registry.json"
+      }
+    ]
+  },
+  "health": {
+    "result": "HEALTHY",
+    "flagship": [
+      {
+        "id": "hq",
+        "ok": true
+      },
+      {
+        "id": "sherlock",
+        "ok": true
+      },
+      {
+        "id": "oracle",
+        "ok": true
+      },
+      {
+        "id": "memory",
+        "ok": true
+      },
+      {
+        "id": "flagship",
+        "ok": true
+      }
+    ],
+    "brain": true,
+    "registry": true,
+    "scripts": [
+      {
+        "id": "hq-ops.sh",
+        "ok": true
+      },
+      {
+        "id": "healthcheck.sh",
+        "ok": true
+      }
+    ],
+    "brainJSONs": 6,
+    "brainJSONsValid": true,
+    "mcp": "optional",
+    "hooks": "none registered",
+    "secretsScan": "clean (no secrets in migrated files)"
+  },
+  "brainSummary": {
+    "intents": 21,
+    "evidenceTypes": 15,
+    "confidenceBands": 4
+  },
+  "registrySummary": {
+    "skills": 25,
+    "expertPacks": 20,
+    "references": 8
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": "user",
+        "type": "actor",
+        "label": "User"
+      },
+      {
+        "id": "hq",
+        "type": "core",
+        "label": "HQ"
+      },
+      {
+        "id": "brain",
+        "type": "core",
+        "label": "Brain"
+      },
+      {
+        "id": "registry",
+        "type": "core",
+        "label": "Capability Registry"
+      },
+      {
+        "id": "sherlock",
+        "type": "manager",
+        "label": "Sherlock"
+      },
+      {
+        "id": "oracle",
+        "type": "manager",
+        "label": "Oracle"
+      },
+      {
+        "id": "memory",
+        "type": "manager",
+        "label": "Memory"
+      },
+      {
+        "id": "pack:ABAP Expert",
+        "type": "pack",
+        "label": "ABAP Expert"
+      },
+      {
+        "id": "pack:Authorization Expert",
+        "type": "pack",
+        "label": "Authorization Expert"
+      },
+      {
+        "id": "pack:BTP Expert",
+        "type": "pack",
+        "label": "BTP Expert"
+      },
+      {
+        "id": "pack:Basis Expert",
+        "type": "pack",
+        "label": "Basis Expert"
+      },
+      {
+        "id": "pack:CO Expert",
+        "type": "pack",
+        "label": "CO Expert"
+      },
+      {
+        "id": "pack:ECC Expert",
+        "type": "pack",
+        "label": "ECC Expert"
+      },
+      {
+        "id": "pack:FI Expert",
+        "type": "pack",
+        "label": "FI Expert"
+      },
+      {
+        "id": "pack:Fiori Expert",
+        "type": "pack",
+        "label": "Fiori Expert"
+      },
+      {
+        "id": "pack:Gateway Expert",
+        "type": "pack",
+        "label": "Gateway Expert"
+      },
+      {
+        "id": "pack:IDOC Expert",
+        "type": "pack",
+        "label": "IDOC Expert"
+      },
+      {
+        "id": "pack:MM Expert",
+        "type": "pack",
+        "label": "MM Expert"
+      },
+      {
+        "id": "pack:OData Expert",
+        "type": "pack",
+        "label": "OData Expert"
+      },
+      {
+        "id": "pack:PI/PO Expert",
+        "type": "pack",
+        "label": "PI/PO Expert"
+      },
+      {
+        "id": "pack:PM Expert",
+        "type": "pack",
+        "label": "PM Expert"
+      },
+      {
+        "id": "pack:PP Expert",
+        "type": "pack",
+        "label": "PP Expert"
+      },
+      {
+        "id": "pack:Performance Expert",
+        "type": "pack",
+        "label": "Performance Expert"
+      },
+      {
+        "id": "pack:QM Expert",
+        "type": "pack",
+        "label": "QM Expert"
+      },
+      {
+        "id": "pack:S/4HANA Expert",
+        "type": "pack",
+        "label": "S/4HANA Expert"
+      },
+      {
+        "id": "pack:SD Expert",
+        "type": "pack",
+        "label": "SD Expert"
+      },
+      {
+        "id": "pack:Workflow Expert",
+        "type": "pack",
+        "label": "Workflow Expert"
+      },
+      {
+        "id": "skill:academic-pptx",
+        "type": "skill",
+        "label": "academic-pptx"
+      },
+      {
+        "id": "skill:docx",
+        "type": "skill",
+        "label": "docx"
+      },
+      {
+        "id": "skill:enterprise-adaptive-ui-reviewer",
+        "type": "skill",
+        "label": "enterprise-adaptive-ui-reviewer"
+      },
+      {
+        "id": "skill:enterprise-performance-reviewer",
+        "type": "skill",
+        "label": "enterprise-performance-reviewer"
+      },
+      {
+        "id": "skill:enterprise-ux-reviewer",
+        "type": "skill",
+        "label": "enterprise-ux-reviewer"
+      },
+      {
+        "id": "skill:excalidraw-diagram",
+        "type": "skill",
+        "label": "excalidraw-diagram"
+      },
+      {
+        "id": "skill:hq",
+        "type": "skill",
+        "label": "hq"
+      },
+      {
+        "id": "skill:knowledge-library-builder",
+        "type": "skill",
+        "label": "knowledge-library-builder"
+      },
+      {
+        "id": "skill:learning-content-factory",
+        "type": "skill",
+        "label": "learning-content-factory"
+      },
+      {
+        "id": "skill:memory",
+        "type": "skill",
+        "label": "memory"
+      },
+      {
+        "id": "skill:mermaid-diagrams",
+        "type": "skill",
+        "label": "mermaid-diagrams"
+      },
+      {
+        "id": "skill:neo-accessibility-reviewer",
+        "type": "skill",
+        "label": "neo-accessibility-reviewer"
+      },
+      {
+        "id": "skill:neo-architecture-studio-reviewer",
+        "type": "skill",
+        "label": "neo-architecture-studio-reviewer"
+      },
+      {
+        "id": "skill:neo-documentation-guardian",
+        "type": "skill",
+        "label": "neo-documentation-guardian"
+      },
+      {
+        "id": "skill:neo-enterprise-ux-auditor",
+        "type": "skill",
+        "label": "neo-enterprise-ux-auditor"
+      },
+      {
+        "id": "skill:neo-sap-content-quality-reviewer",
+        "type": "skill",
+        "label": "neo-sap-content-quality-reviewer"
+      },
+      {
+        "id": "skill:neo-sap-visual-designer",
+        "type": "skill",
+        "label": "neo-sap-visual-designer"
+      },
+      {
+        "id": "skill:neo-search-experience-reviewer",
+        "type": "skill",
+        "label": "neo-search-experience-reviewer"
+      },
+      {
+        "id": "skill:oracle",
+        "type": "skill",
+        "label": "oracle"
+      },
+      {
+        "id": "skill:pdf",
+        "type": "skill",
+        "label": "pdf"
+      },
+      {
+        "id": "skill:ppt-master",
+        "type": "skill",
+        "label": "ppt-master"
+      },
+      {
+        "id": "skill:pptx",
+        "type": "skill",
+        "label": "pptx"
+      },
+      {
+        "id": "skill:research-academic-engine",
+        "type": "skill",
+        "label": "research-academic-engine"
+      },
+      {
+        "id": "skill:sap-knowledge-architect",
+        "type": "skill",
+        "label": "sap-knowledge-architect"
+      },
+      {
+        "id": "skill:sherlock",
+        "type": "skill",
+        "label": "sherlock"
+      }
+    ],
+    "edges": [
+      {
+        "from": "user",
+        "to": "hq",
+        "kind": "asks"
+      },
+      {
+        "from": "hq",
+        "to": "brain",
+        "kind": "reads"
+      },
+      {
+        "from": "hq",
+        "to": "registry",
+        "kind": "reads"
+      },
+      {
+        "from": "hq",
+        "to": "sherlock",
+        "kind": "routes"
+      },
+      {
+        "from": "hq",
+        "to": "oracle",
+        "kind": "routes"
+      },
+      {
+        "from": "hq",
+        "to": "memory",
+        "kind": "routes"
+      },
+      {
+        "from": "hq",
+        "to": "pack:ABAP Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:Authorization Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:BTP Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:Basis Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:CO Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:ECC Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:FI Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:Fiori Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:Gateway Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:IDOC Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:MM Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:OData Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:PI/PO Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:PM Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:PP Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:Performance Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:QM Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:S/4HANA Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:SD Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "hq",
+        "to": "pack:Workflow Expert",
+        "kind": "selects"
+      },
+      {
+        "from": "registry",
+        "to": "skill:academic-pptx",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:docx",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:enterprise-adaptive-ui-reviewer",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:enterprise-performance-reviewer",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:enterprise-ux-reviewer",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:excalidraw-diagram",
+        "kind": "has"
+      },
+      {
+        "from": "hq",
+        "to": "skill:hq",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:knowledge-library-builder",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:learning-content-factory",
+        "kind": "has"
+      },
+      {
+        "from": "hq",
+        "to": "skill:memory",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:mermaid-diagrams",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:neo-accessibility-reviewer",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:neo-architecture-studio-reviewer",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:neo-documentation-guardian",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:neo-enterprise-ux-auditor",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:neo-sap-content-quality-reviewer",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:neo-sap-visual-designer",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:neo-search-experience-reviewer",
+        "kind": "has"
+      },
+      {
+        "from": "hq",
+        "to": "skill:oracle",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:pdf",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:ppt-master",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:pptx",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:research-academic-engine",
+        "kind": "has"
+      },
+      {
+        "from": "registry",
+        "to": "skill:sap-knowledge-architect",
+        "kind": "has"
+      },
+      {
+        "from": "hq",
+        "to": "skill:sherlock",
+        "kind": "has"
+      },
+      {
+        "from": "hq",
+        "to": "sherlock",
+        "kind": "depends"
+      },
+      {
+        "from": "hq",
+        "to": "oracle",
+        "kind": "depends"
+      },
+      {
+        "from": "hq",
+        "to": "memory",
+        "kind": "depends"
+      },
+      {
+        "from": "hq",
+        "to": "flagship",
+        "kind": "depends"
+      },
+      {
+        "from": "hq",
+        "to": "expert-packs",
+        "kind": "depends"
+      },
+      {
+        "from": "hq",
+        "to": "playbooks",
+        "kind": "depends"
+      },
+      {
+        "from": "hq",
+        "to": "knowledge",
+        "kind": "depends"
+      },
+      {
+        "from": "sherlock",
+        "to": "flagship",
+        "kind": "depends"
+      },
+      {
+        "from": "sherlock",
+        "to": "sap-incident-commander",
+        "kind": "depends"
+      },
+      {
+        "from": "sherlock",
+        "to": "sap-ecc-troubleshooter",
+        "kind": "depends"
+      },
+      {
+        "from": "sherlock",
+        "to": "sc4sap agents",
+        "kind": "depends"
+      },
+      {
+        "from": "oracle",
+        "to": "flagship",
+        "kind": "depends"
+      },
+      {
+        "from": "oracle",
+        "to": "deep-research",
+        "kind": "depends"
+      },
+      {
+        "from": "oracle",
+        "to": "WebSearch",
+        "kind": "depends"
+      },
+      {
+        "from": "memory",
+        "to": "flagship",
+        "kind": "depends"
+      },
+      {
+        "from": "memory",
+        "to": "SAP-HQ/knowledge",
+        "kind": "depends"
+      },
+      {
+        "from": "memory",
+        "to": "SAP-HQ/lessons-learned",
+        "kind": "depends"
+      },
+      {
+        "from": "memory",
+        "to": "docs",
+        "kind": "depends"
+      }
+    ]
+  },
+  "knowledgeJSON": [
+    "sap-agents.json",
+    "sap-ai-system.json",
+    "sap-capability-matrix.json",
+    "sap-mcp.json",
+    "sap-plugins.json",
+    "sap-skills.json"
+  ]
+}
