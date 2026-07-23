@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { AppShell } from "@/components/app-shell";
+import { SWRegister } from "@/components/sw-register";
 
 const GSC = process.env.NEXT_PUBLIC_GSC_VERIFICATION;
 const BING = process.env.NEXT_PUBLIC_BING_VERIFICATION;
@@ -123,6 +124,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body className="flex min-h-full flex-col">
         <AppShell>{children}</AppShell>
+        <SWRegister />
       </body>
     </html>
   );
