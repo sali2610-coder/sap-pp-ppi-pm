@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useI18n } from "@/lib/i18n";
 
 // Mandatory development credit — anchored at the base of every page via layout.
@@ -16,6 +17,8 @@ export function Footer() {
           Built by <b className="font-bold text-brand">Sali Halif</b>
           <span className="mx-1.5 text-muted-foreground/40">·</span>
           Project NEO • SAP Knowledge Platform
+          <span className="mx-1.5 text-muted-foreground/40">·</span>
+          <Link href="/privacy/" className="font-medium text-muted-foreground hover:text-brand hover:underline">מדיניות פרטיות</Link>
         </p>
         <span className="flex shrink-0 items-center gap-2 text-xs font-medium text-muted-foreground">
           <span className="size-1.5 rounded-full bg-status-done" />
