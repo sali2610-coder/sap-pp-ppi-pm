@@ -149,7 +149,10 @@ function Card({ o, onOpen, onPreview, faved, pinned, learned, onFav }: { o: SapF
       )}
       {/* footer: primary CTA (bubbles to card open) + summary preview */}
       <div className="mt-auto flex gap-2 pt-1">
-        <span className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-brand py-2 text-[12.5px] font-extrabold text-white transition group-hover:bg-brand-dark">פתח פרטים <ArrowLeft className="size-3.5" /></span>
+        {/* §color-restraint — the whole card is the click target, so this affordance
+            stays calm/neutral at rest and lights up brand-red only on the focused
+            (hovered) card. Avoids a wall of solid-red bars across the grid. */}
+        <span className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-surface-2 py-2 text-[12.5px] font-extrabold text-ink-2 transition group-hover:bg-brand group-hover:text-white">פתח פרטים <ArrowLeft className="size-3.5" /></span>
         <button onClick={(e) => { e.stopPropagation(); onPreview(); }} aria-label="הצג תקציר" title="תצוגה מקדימה" className="relative z-10 inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-3 py-2 text-[12px] font-bold text-ink-2 transition hover:border-ink-3/30"><Eye className="size-3.5" />תקציר</button>
       </div>
     </motion.div>

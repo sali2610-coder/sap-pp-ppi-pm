@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import {
   Search, ArrowLeft, Wrench, FlaskConical, GitBranch, Table, Terminal, Plug,
   Cable, Sigma, LayoutGrid, Puzzle, Compass, BrainCircuit, Library, AlertTriangle,
+  GraduationCap, BookOpen,
 } from "lucide-react";
 import { playClick } from "@/lib/sound";
 import { SiteLogo } from "@/components/site-logo";
@@ -73,6 +74,34 @@ function SearchHero({ counts }: { counts: PortalCounts }) {
           </span>
         ))}
       </div>
+    </section>
+  );
+}
+
+// Two-door intent split — the single most important orientation aid. A first-time
+// visitor arrives with one of two intents: LEARN SAP step-by-step, or LOOK UP a
+// specific object/process. The reference-first home buried "learn" (Academy) in the
+// sidebar; this surfaces both doors explicitly, right under the search.
+function IntentSplit() {
+  return (
+    <section dir="rtl" className="mx-auto grid max-w-4xl gap-3 sm:grid-cols-2">
+      <Link href="/academy/" onClick={() => playClick()}
+        className="card-interactive group relative flex items-center gap-4 overflow-hidden p-5 sm:p-6">
+        <span aria-hidden className="absolute inset-y-0 end-0 w-1 bg-brand" />
+        <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-brand/10 text-brand"><GraduationCap className="size-6" /></span>
+        <div className="min-w-0">
+          <div className="flex items-center gap-1.5 text-[16px] font-extrabold text-ink-1">רוצה ללמוד SAP<ArrowLeft className="size-4 text-brand transition group-hover:-translate-x-0.5" /></div>
+          <p className="mt-0.5 text-[13px] leading-relaxed text-ink-2">SAP Academy — מסלולי לימוד מובנים, פרק אחר פרק, עם מעקב התקדמות שנשמר אוטומטית.</p>
+        </div>
+      </Link>
+      <Link href="/knowledge/" onClick={() => playClick()}
+        className="card-interactive group flex items-center gap-4 p-5 sm:p-6">
+        <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-surface-2 text-ink-2 transition group-hover:bg-brand/10 group-hover:text-brand"><BookOpen className="size-6" /></span>
+        <div className="min-w-0">
+          <div className="flex items-center gap-1.5 text-[16px] font-extrabold text-ink-1">רוצה לעיין ולמצוא<ArrowLeft className="size-4 text-ink-3 transition group-hover:-translate-x-0.5 group-hover:text-brand" /></div>
+          <p className="mt-0.5 text-[13px] leading-relaxed text-ink-2">מרכז הידע — טבלאות, טרנזקציות, BAPIs, תהליכים ותקלות. או פשוט חפש למעלה.</p>
+        </div>
+      </Link>
     </section>
   );
 }
@@ -182,9 +211,10 @@ export function HomePortal({ counts, modules }: { counts: PortalCounts; modules:
   return (
     <div className="space-y-9 sm:space-y-16">
       <motion.div {...(reduce ? {} : { initial: { opacity: 0, y: 10 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.4 } })}><SearchHero counts={counts} /></motion.div>
-      <motion.div {...stagger(0)}><ModulePortals modules={modules} /></motion.div>
-      <motion.div {...stagger(1)}><ReferenceGrid counts={counts} /></motion.div>
-      <motion.div {...stagger(2)}><ExploreGrid /></motion.div>
+      <motion.div {...stagger(0)}><IntentSplit /></motion.div>
+      <motion.div {...stagger(1)}><ModulePortals modules={modules} /></motion.div>
+      <motion.div {...stagger(2)}><ReferenceGrid counts={counts} /></motion.div>
+      <motion.div {...stagger(3)}><ExploreGrid /></motion.div>
     </div>
   );
 }

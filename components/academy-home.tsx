@@ -179,10 +179,12 @@ export function AcademyHome() {
             <Link key={t.id} href={href} className="group flex flex-col overflow-hidden rounded-2xl border border-hairline bg-surface transition duration-200 hover:-translate-y-1 hover:border-[#dfe2e7] hover:shadow-[0_22px_44px_-22px_rgba(11,12,14,.22)]">
               <div className={`relative flex h-28 items-end bg-gradient-to-br ${t.tint} p-3.5 text-white`}>
                 <span className="absolute inset-x-3.5 top-3 flex items-center justify-between"><span className="text-[10px] font-extrabold uppercase tracking-[0.1em] opacity-90">{t.module}</span>{pct > 0 && <span className="rounded-full bg-white/25 px-2 py-0.5 text-[9.5px] font-bold backdrop-blur">בתהליך</span>}</span>
-                <span className="text-[15px] font-extrabold leading-tight">{t.titleHe}</span>
+                <span className="flex flex-col leading-tight"><span className="text-[15px] font-extrabold">{t.titleHe}</span><span className="tech mt-0.5 text-[10.5px] font-semibold text-white/75" dir="ltr">{t.titleEn}</span></span>
               </div>
               <div className="flex flex-1 flex-col p-4">
-                <div className="flex flex-wrap gap-1.5"><span className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[10px] font-bold text-ink-2">{st.chapters} פרקים</span><span className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[10px] font-bold text-ink-2">{st.nodes} יחידות</span><span className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[10px] font-bold text-ink-2">~{Math.round(st.readMin / 60)} ש׳</span></div>
+                {/* what you get, at a glance: scope (chapters/units) + time budget — so a
+                    student can judge the commitment before starting. */}
+                <div className="flex flex-wrap gap-1.5"><span className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[10px] font-bold text-ink-2">{st.chapters} פרקים</span><span className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[10px] font-bold text-ink-2">{st.nodes} יחידות</span><span className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[10px] font-bold text-ink-2">~{Math.round(st.readMin / 60)} ש׳ לימוד</span></div>
                 <div className="mt-auto flex items-center gap-3 pt-3.5"><Ring pct={pct} size={38} stroke={4} color={t.id === "pm" ? "#f97316" : "#94a3b8"} /><span className="flex-1 rounded-xl bg-surface-2 py-2 text-center text-[12.5px] font-extrabold text-ink-1 transition group-hover:bg-ink-1 group-hover:text-white">{pct > 0 ? "המשך" : "התחל"}</span></div>
               </div>
             </Link>

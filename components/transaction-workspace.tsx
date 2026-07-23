@@ -87,11 +87,20 @@ export function TransactionWorkspace() {
 
   return (
     <div dir="rtl">
-      <div className="mb-4 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-        {[["טרנזקציות במאגר", stats.total], ["מתועדות לעומק", stats.deep], ["מועדפים", favs.length], ["מודולים", modules.length]].map(([l, n]) => (
-          <div key={l as string} className="rounded-2xl border border-hairline bg-surface p-3 text-center shadow-sm"><div className="font-mono text-2xl font-extrabold text-ink-1">{n as number}</div><div className="text-[11px] font-bold text-ink-3">{l as string}</div></div>
-        ))}
-      </div>
+      {/* content-scale stats only. Favorites (user state, starts at 0) is shown
+          here ONLY once the user has some — a bare "0 מועדפים" was a meaningless
+          zero-stat; favorites already has its own filter tab below. */}
+      {(() => {
+        const cards: [string, number][] = [["טרנזקציות במאגר", stats.total], ["מתועדות לעומק", stats.deep], ["מודולים", modules.length]];
+        if (favs.length > 0) cards.splice(2, 0, ["מועדפים", favs.length]);
+        return (
+          <div className={`mb-4 grid grid-cols-2 gap-2.5 ${cards.length === 4 ? "sm:grid-cols-4" : "sm:grid-cols-3"}`}>
+            {cards.map(([l, n]) => (
+              <div key={l} className="rounded-2xl border border-hairline bg-surface p-3 text-center shadow-sm"><div className="font-mono text-2xl font-extrabold text-ink-1">{n}</div><div className="text-[11px] font-bold text-ink-3">{l}</div></div>
+            ))}
+          </div>
+        );
+      })()}
 
       <FilterBar className="mb-3">
         {VIEWS.map(([v, l, Ic]) => <FilterButton key={v} active={view === v} onClick={() => setView(v)} className="inline-flex items-center gap-1.5 text-[13px]"><Ic className="size-3.5" />{l}</FilterButton>)}
