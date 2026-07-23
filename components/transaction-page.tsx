@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
-import { Terminal, ArrowLeft, ArrowRightLeft, Lightbulb, GraduationCap, Sparkles, Boxes, GitBranch, Route, FileText, Workflow, Star, ChevronDown, AppWindow, Database, ShieldCheck, Cable, Wrench } from "lucide-react";
+import { Terminal, ArrowLeft, ArrowRightLeft, Lightbulb, GraduationCap, Sparkles, Boxes, GitBranch, Route, FileText, Workflow, Star, ChevronDown, AppWindow, Database, ShieldCheck, Cable, Wrench, AlertTriangle } from "lucide-react";
 import { txIntel, txRecommend, txLeadingInto, txExists } from "@/lib/tx-intel";
 import { registryTx } from "@/lib/tx-registry";
 import { tcodeIntel } from "@/lib/object-intel";
@@ -94,6 +94,8 @@ export function TransactionPage({ code }: { code: string }) {
             <h1 className="font-mono text-4xl font-extrabold tracking-tight" dir="ltr">{t.code}</h1>
             <span className="rounded-lg bg-surface/20 px-2.5 py-1 text-xs font-bold backdrop-blur-sm">ECC → S/4</span>
             {t.fiori && <span className="inline-flex items-center gap-1 rounded-lg bg-surface/20 px-2.5 py-1 text-xs font-bold backdrop-blur-sm"><AppWindow className="size-3.5" />Fiori</span>}
+            {t.verified === "verified" && <span title={t.sources?.join(" · ")} className="inline-flex items-center gap-1 rounded-lg bg-emerald-400/25 px-2.5 py-1 text-xs font-bold text-emerald-50 backdrop-blur-sm ring-1 ring-emerald-300/40"><ShieldCheck className="size-3.5" />מאומת</span>}
+            {(t.verified === "needs-verification" || t.verified === "pending") && <span className="inline-flex items-center gap-1 rounded-lg bg-amber-400/25 px-2.5 py-1 text-xs font-bold text-amber-50 backdrop-blur-sm ring-1 ring-amber-300/40"><AlertTriangle className="size-3.5" />דורש אימות</span>}
             <button onClick={() => toggleTxFavorite(t.code)} aria-label="מועדף" className={`tap inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold backdrop-blur-sm transition active:scale-90 ${fav ? "bg-amber-400 text-amber-950" : "bg-surface/20 text-white hover:bg-surface/30"}`}><Star className={`size-3.5 ${fav ? "fill-amber-950" : ""}`} />{fav ? "במועדפים" : "מועדף"}</button>
           </div>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/90">{t.descHe}</p>
@@ -123,6 +125,24 @@ export function TransactionPage({ code }: { code: string }) {
           </div>
         </details>
       </Sec>
+
+      {/* Phase 14 · enterprise detail — each block renders only when data exists,
+          so the page is visually unchanged until an entry is enriched. */}
+      {(t.selectionScreen?.length || t.typicalFlow?.length || t.businessExample || t.techExample || t.debugSteps?.length || t.perfNotes?.length || t.s4Delta || t.prodTips?.length) ? (
+        <Sec id="s-detail" title="פירוט Enterprise" icon={<FileText className="size-4" style={{ color: c }} />} sub="מסך בחירה · זרימה · דוגמאות · Debug · ביצועים · S/4 · טיפים">
+          <div className="grid gap-3 sm:grid-cols-2">
+            {t.selectionScreen?.length ? <div><div className="eyebrow mb-1 text-ink-3">מסך בחירה</div><List items={t.selectionScreen} color={c} /></div> : null}
+            {t.typicalFlow?.length ? <div><div className="eyebrow mb-1 text-ink-3">זרימה טיפוסית</div><List items={t.typicalFlow} color={c} /></div> : null}
+            {t.debugSteps?.length ? <div><div className="eyebrow mb-1 text-ink-3">נתיב Debug</div><List items={t.debugSteps} color="#7c3aed" /></div> : null}
+            {t.perfNotes?.length ? <div><div className="eyebrow mb-1 text-ink-3">ביצועים</div><List items={t.perfNotes} color="#0891b2" /></div> : null}
+            {t.prodTips?.length ? <div><div className="eyebrow mb-1 text-amber-600">טיפים לפרודקשן</div><List items={t.prodTips} color="#d97706" /></div> : null}
+          </div>
+          {t.businessExample && <div className="mt-3 rounded-xl border border-blue-100 bg-blue-50/50 p-3"><div className="eyebrow mb-1 text-blue-600">דוגמה עסקית</div><p className="text-[13px] leading-relaxed text-ink-1">{t.businessExample}</p></div>}
+          {t.techExample && <div className="mt-2 rounded-xl border border-hairline bg-surface-2/60 p-3"><div className="eyebrow mb-1 text-ink-3">דוגמה טכנית</div><p className="tech text-[12.5px] leading-relaxed text-ink-2" dir="ltr">{t.techExample}</p></div>}
+          {t.s4Delta && <div className="mt-2 rounded-xl border border-emerald-100 bg-emerald-50/50 p-3"><div className="eyebrow mb-1 text-emerald-600">ECC6 → S/4HANA 2025</div><p className="text-[13px] leading-relaxed text-ink-1">{t.s4Delta}</p></div>}
+          {t.sources?.length ? <p className="mt-3 text-[11px] text-ink-3"><span className="font-bold">מקורות:</span> {t.sources.join(" · ")}</p> : null}
+        </Sec>
+      ) : null}
 
       {/* business process timeline */}
       {timeline.length > 1 && (
