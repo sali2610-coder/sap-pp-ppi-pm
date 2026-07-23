@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { AppShell } from "@/components/app-shell";
+import { SWRegister } from "@/components/sw-register";
 
 const GSC = process.env.NEXT_PUBLIC_GSC_VERIFICATION;
 const BING = process.env.NEXT_PUBLIC_BING_VERIFICATION;
@@ -56,6 +57,10 @@ export const viewport: Viewport = {
   themeColor: "#d62027",
   width: "device-width",
   initialScale: 1,
+  // viewport-fit=cover draws edge-to-edge behind the notch / gesture bar AND
+  // activates env(safe-area-inset-*). The shell/tab-bar/FAB already pad with those
+  // insets, but without cover they resolve to 0 (no-op) on real devices.
+  viewportFit: "cover",
   colorScheme: "light",
 };
 
@@ -119,6 +124,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body className="flex min-h-full flex-col">
         <AppShell>{children}</AppShell>
+        <SWRegister />
       </body>
     </html>
   );
