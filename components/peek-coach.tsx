@@ -35,7 +35,7 @@ export function PeekCoach() {
 
   useEffect(() => {
     if (!show) return;
-    const t = setTimeout(close, 7000);
+    const t = setTimeout(close, 5000);
     return () => clearTimeout(t);
   }, [show]);
 

@@ -1,10 +1,11 @@
 import Link from "next/link";
 import {
   LayoutGrid, Workflow, Boxes, Terminal, Table, Plug, Sigma, AppWindow, Settings,
-  Cable, AlertTriangle, GitBranch, ArrowLeft, Compass, Search,
+  Cable, AlertTriangle, GitBranch, ArrowLeft, Compass, Search, GraduationCap,
 } from "lucide-react";
 import type { SAPModuleData } from "@/lib/types";
 import { NAV_SECTIONS, overviewStats, sectionCount, processSteps, moduleAccent } from "@/lib/module-portal";
+import { moduleIdOf } from "@/lib/academy/model";
 
 const ICONS: Record<string, typeof LayoutGrid> = {
   LayoutGrid, Workflow, Boxes, Terminal, Table, Plug, Sigma, AppWindow, Settings, Cable, AlertTriangle, GitBranch,
@@ -43,7 +44,11 @@ export function ModulePortal({ module, slug }: { module: SAPModuleData; slug: st
           ))}
         </div>
         <div className="mt-5 flex flex-wrap gap-2">
-          <Link href="/studio/" className="tap inline-flex items-center gap-1.5 rounded-lg bg-brand px-3.5 py-2 text-[13px] font-bold text-white shadow-sm transition hover:bg-brand-dark active:scale-95"><Compass className="size-4" />פתח ב-Architecture Studio</Link>
+          {/* Learn is now the lead action — a newcomer landing on the reference hub
+              gets an explicit door into the structured course. Studio + Knowledge stay
+              one click away as secondary (outline) actions. */}
+          <Link href={`/academy/path/${moduleIdOf(module.module)}/`} className="tap inline-flex items-center gap-1.5 rounded-lg bg-brand px-3.5 py-2 text-[13px] font-bold text-white shadow-sm transition hover:bg-brand-dark active:scale-95"><GraduationCap className="size-4" />למד בקורס · SAP Academy</Link>
+          <Link href="/studio/" className="tap inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface px-3.5 py-2 text-[13px] font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand active:scale-95"><Compass className="size-4" />Architecture Studio</Link>
           <Link href="/knowledge/" className="tap inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface px-3.5 py-2 text-[13px] font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand active:scale-95"><Search className="size-4" />מרכז ידע</Link>
         </div>
       </header>

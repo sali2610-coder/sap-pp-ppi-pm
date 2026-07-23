@@ -112,7 +112,11 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
       </Link>
 
       {NAV.map((g) => {
-        const isOpen = open[g.id] !== false;
+        // Default-open only the two groups a newcomer needs first (modules + the
+        // learning/knowledge group). Reference + tools collapse by default so the
+        // rail isn't a 25-item wall on first look. A user's manual toggle persists
+        // (neo:nav:open) and always wins.
+        const isOpen = open[g.id] !== undefined ? open[g.id] : (g.id === "modules" || g.id === "knowledge");
         return (
           <div key={g.id} className="mt-2">
             {!collapsed ? (
