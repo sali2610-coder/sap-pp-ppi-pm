@@ -7,13 +7,14 @@ import { motion } from "framer-motion";
 import {
   ArrowRight, ArrowLeft, KeyRound, Terminal, Boxes, FileCode, AppWindow,
   GitBranch, Workflow, BookOpen, Wrench, StickyNote, LayoutGrid, Database, AlertTriangle, MapPin, TrendingUp, Cable,
-  Presentation, FileCode2, BrainCircuit, Check,
+  Presentation, FileCode2, BrainCircuit, Check, ShieldCheck,
 } from "lucide-react";
 import { ObjectIntelligence } from "@/components/object-intelligence";
 import { ObjectExpert } from "@/components/object-expert";
 import { objectIntel } from "@/lib/data";
 import { classifyFunc, cleanFunc, funcHref } from "@/lib/object-intel";
 import { cdsForTable } from "@/data/cds-map";
+import { getTableEnrichment } from "@/data/table-enrichment";
 import { kgraph, tracePath, tableByName } from "@/lib/knowledge-graph";
 import { useStatusMap } from "@/lib/status-store";
 import { STATUS_META, statusColor } from "@/lib/status-meta";
@@ -412,6 +413,26 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
                   <td className="px-3 py-1.5 text-right text-ink-3" dir="rtl"><Highlight text={f.he} query={hl} /></td></tr>)}</tbody>
               </table></div>
             </Section>
+            {/* Phase 14 · verified table enrichment — renders only when present */}
+            {(() => { const enr = getTableEnrichment(t.tableName); if (!enr) return null; return (
+              <Section title="פירוט Enterprise · טבלה" icon={<KeyRound className="size-4 text-emerald-600" />}>
+                {enr.purposeDeep && <p className="text-sm leading-relaxed text-ink-2">{enr.purposeDeep}</p>}
+                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                  {enr.primaryKey?.length ? <div><div className="eyebrow mb-1 text-amber-600">Primary Key</div><ul className="space-y-0.5 text-[12.5px] text-ink-2">{enr.primaryKey.map((k) => <li key={k} className="tech" dir="ltr">{k}</li>)}</ul></div> : null}
+                  {enr.foreignKeys?.length ? <div><div className="eyebrow mb-1 text-blue-600">Foreign Keys</div><ul className="space-y-0.5 text-[12.5px] text-ink-2">{enr.foreignKeys.map((k) => <li key={k} className="tech" dir="ltr">{k}</li>)}</ul></div> : null}
+                  {enr.indexes?.length ? <div><div className="eyebrow mb-1 text-ink-3">גישה / Indexes</div><ul className="space-y-0.5 text-[12.5px] text-ink-2">{enr.indexes.map((k, i) => <li key={i}>{k}</li>)}</ul></div> : null}
+                  {enr.perfNotes?.length ? <div><div className="eyebrow mb-1 text-cyan-600">ביצועים</div><ul className="space-y-0.5 text-[12.5px] text-ink-2">{enr.perfNotes.map((k, i) => <li key={i}>{k}</li>)}</ul></div> : null}
+                </div>
+                {enr.matdocNote && <p className="mt-2 text-[12.5px] text-ink-3"><span className="font-bold text-ink-2">MATDOC/ACDOCA: </span>{enr.matdocNote}</p>}
+                {enr.abapExample && <div className="mt-3"><div className="eyebrow mb-1 text-ink-3">ABAP</div><pre className="tech overflow-auto rounded-lg bg-ink-1/95 p-3 text-[11.5px] leading-relaxed text-emerald-50" dir="ltr">{enr.abapExample}</pre></div>}
+                {enr.sqlExample && <div className="mt-2"><div className="eyebrow mb-1 text-ink-3">SQL / CDS Join</div><pre className="tech overflow-auto rounded-lg bg-ink-1/95 p-3 text-[11.5px] leading-relaxed text-cyan-50" dir="ltr">{enr.sqlExample}</pre></div>}
+                {enr.debugExample && <p className="mt-2 text-[12.5px] text-ink-3" dir="rtl"><span className="font-bold text-ink-2">Debug: </span>{enr.debugExample}</p>}
+                <div className="mt-3 flex items-center gap-2">
+                  {enr.verified === "verified" && <span className="inline-flex items-center gap-1 rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700"><ShieldCheck className="size-3" />מאומת</span>}
+                  {enr.sources?.length ? <span className="text-[11px] text-ink-3">מקורות: {enr.sources.join(" · ")}</span> : null}
+                </div>
+              </Section>
+            ); })()}
             <div className="grid gap-5 sm:grid-cols-2">
               <Section title="טרנזקציות + BAPIs" icon={<Terminal className="size-4" />}>
                 <div className="space-y-2.5">
