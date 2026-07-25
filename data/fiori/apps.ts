@@ -201,6 +201,47 @@ export const FIORI_APPS: FioriApp[] = [
     commonErrors: ["הלוח לא נטען → ודא הפעלת PP/DS ו-liveCache.", "פעולות חסרות → בדוק שהמשאב רלוונטי לתזמון סופי."],
     similar: ["capacity-scheduling-board", "manage-process-orders"],
   },
+
+  // ── Sprint Fiori-2 — 3 verified apps (F-IDs + roles confirmed via Fiori Apps Library / Help Portal) ──
+  {
+    id: "F3289", slug: "manage-work-center-capacity", name: "Manage Work Center Capacity", he: "ניהול קיבולת מרכז עבודה", module: "PP", type: "Transactional",
+    trust: "curated", source: "SAP Fiori Apps Library + SAP Community (verified F-ID + role + catalog)", lastReviewed: LV2,
+    purpose: "אפליקציית worklist לניהול עומס הקיבולת על מרכזי עבודה וזיהוי מצבי עומס-יתר — המתכנן רואה מרכזי עבודה לפי סינון, עם מצבים קריטיים מודגשים וגרף ניצולת בעמודת Utilization.",
+    problem: "הערכת קיבולת ב-CM01/CM07 טקסטואלית וקשה לתפעול. האפליקציה נותנת worklist ויזואלי עם התרעה על עומס-יתר לאורך אופק ההערכה, לניצול טוב יותר של הקיבולות הזמינות.",
+    process: "פקודות משוחררות → עומס על מרכז עבודה → זיהוי עומס-יתר → איזון",
+    explain: { beginner: "מסך שמראה אילו מכונות עמוסות מדי ומתי.", consultant: "role SAP_BR_PRODN_PLNR מ-catalog SAP_SCM_BC_CFS; עובד רק למרכזי עבודה של PP (לא PM). זמין מ-S/4HANA Cloud 2002.", technical: "worklist מבוסס Fiori מעל נתוני קיבולת. OData/CDS: בקרוב (טרם אומת)." },
+    role: "SAP_BR_PRODN_PLNR", catalog: "SAP_SCM_BC_CFS",
+    guiTx: ["CM01", "CM07"], relatedTables: ["CRHD", "KAKO"],
+    ecc: "ECC: CM01/CM07 (הערכת קיבולת, ללא גרף ניצולת אינטראקטיבי).", s4OnPrem: "yes", cloud: "yes", releaseInfo: "S/4HANA (On-Prem + Public Cloud 2002+)",
+    commonErrors: ["מרכז עבודה לא מופיע → האפליקציה תומכת רק במרכזי עבודה של PP, לא PM.", "אין נתוני עומס → ודא שקיימות פקודות/דרישות קיבולת רלוונטיות."],
+    similar: ["capacity-scheduling-board", "production-scheduling-board"],
+  },
+  {
+    id: "F5104A", slug: "perform-maintenance-jobs", name: "Perform Maintenance Jobs", he: "ביצוע עבודות אחזקה", module: "PM", type: "Transactional",
+    trust: "curated", source: "SAP Fiori Apps Library + SAP Community (verified F-ID + role)", lastReviewed: LV2,
+    purpose: "פתרון One-Stop-Shop לטכנאי אחזקה לביצוע רוב הפעילויות היומיומיות — צפייה וניהול פעולות, רישום זמן, ניהול רכיבים, רישום מדידות ולכידת נתוני תקלה — במסך אחד.",
+    problem: "טכנאי אחזקה נדרש לכמה טרנזקציות (IW41 לאישור, IK11 למדידות) לביצוע Job Card אחד. האפליקציה מאחדת זיהוי עבודות פתוחות, שיוך-עצמי, אישור מהיר ורישום ביצוע במקום אחד, גם ממובייל.",
+    process: "פקודה משוחררת → זיהוי/שיוך עבודה → ביצוע → אישור זמן/צריכה/תקלה",
+    explain: { beginner: "אפליקציה אחת שבה הטכנאי רואה מה לתקן ומדווח על הביצוע.", consultant: "role SAP_BR_MAINTENANCE_TECHNICIAN; מאחד אישורים, זמן, רכיבים, מדידות ותקלות. נמסר ב-S/4HANA 2021 / Cloud 2105.", technical: "SAPUI5 One-Stop-Shop מעל אובייקט ALM Order + Confirmation. catalog: SAP_EAM_BC_MAINT_WORKER (סביר). OData/CDS: בקרוב (טרם אומת)." },
+    role: "SAP_BR_MAINTENANCE_TECHNICIAN", catalog: "SAP_EAM_BC_MAINT_WORKER",
+    guiTx: ["IW41"], relatedTables: ["AUFK", "AFIH", "AFVC", "AFRU"], relatedObjects: ["BAPI_ALM_ORDER_MAINTAIN"],
+    ecc: "ECC: IW41 (אישור פקודת אחזקה) + טרנזקציות נפרדות למדידות/רכיבים.", s4OnPrem: "yes", cloud: "yes", releaseInfo: "S/4HANA 2021 / Cloud 2105+",
+    commonErrors: ["אין עבודות ברשימה → בדוק הקצאת role SAP_BR_MAINTENANCE_TECHNICIAN ופקודות משוחררות שהוקצו לטכנאי.", "לא ניתן לאשר → ודא סטטוס פקודה מתאים והרשאות אישור."],
+    similar: ["confirm-jobs", "create-maintenance-request", "manage-maintenance-orders"],
+  },
+  {
+    id: "F1339", slug: "schedule-mrp-runs", name: "Schedule MRP Runs", he: "תזמון ריצות MRP", module: "PP", type: "Transactional",
+    trust: "curated", source: "SAP Fiori Apps Library + SAP Help Portal (verified F-ID + role + job catalog)", lastReviewed: LV2,
+    purpose: "יצירה ותזמון של Job להרצת MRP — המתכנן מתזמן ריצת MRP מ-Fiori וסוקר את סטטוס הביצוע, מעל מסגרת ה-Application Jobs הגנרית.",
+    problem: "הרצת MRP ב-GUI (MD01N) דורשת גישה למערכת האחורית ותזמון batch ידני. האפליקציה נותנת תזמון ומעקב סטטוס בממשק Fiori אחיד.",
+    process: "הגדרת Job → תזמון ריצת MRP → מעקב סטטוס → תוצאות ב-Monitor",
+    explain: { beginner: "מתזמנים מתי המערכת תחשב מה צריך לייצר/לרכוש.", consultant: "role SAP_BR_MRP_CONTROLLER; מבוסס Application Jobs (job catalog SAP_SCM_MRP); דורש הרשאת MD01N בבקאנד.", technical: "Application Job framework; Job Catalog Entry SAP_SCM_MRP. Backend = MRP Live (MD01N). OData/CDS: בקרוב (טרם אומת)." },
+    role: "SAP_BR_MRP_CONTROLLER", catalog: "SAP_SCM_MRP (Job Catalog)",
+    guiTx: ["MD01N"], relatedTables: ["MDKP", "MDTB"],
+    ecc: "ECC: MD01/MD01N (הרצת MRP; ללא מסגרת Application Jobs של Fiori).", s4OnPrem: "yes", cloud: "yes", releaseInfo: "S/4HANA (On-Prem + Public Cloud)",
+    commonErrors: ["ה-Job נכשל/לא מתוזמן → ודא שה-Job Catalog Entry SAP_SCM_MRP הוגדר וש-SAPJ 'Scoping relevant' מסומן.", "אין הרשאה → המשתמש צריך הרשאת MD01N בבקאנד והרשאת תזמון batch."],
+    similar: ["monitor-material-coverage-net-segments", "manage-material-coverage"],
+  },
 ];
 
 export const FIORI_BY_SLUG: Record<string, FioriApp> = Object.fromEntries(FIORI_APPS.map((a) => [a.slug, a]));
