@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { BookOpen, FileText, Library as LibraryIcon, ArrowLeft, Search, X, Languages, BookMarked, PlayCircle } from "lucide-react";
+import { BookOpen, FileText, Library as LibraryIcon, ArrowLeft, Search, X, Languages, BookMarked, PlayCircle, Sparkles } from "lucide-react";
 import { LIBRARY, LIBRARY_STATS, type LibBook } from "@/data/library";
 import { playPing } from "@/lib/sound";
 import { BookCover, moduleColor as mc, type CoverBook } from "@/components/book-cover";
@@ -288,6 +288,22 @@ export default function LibraryPage() {
   return (
     <div className="space-y-9">
       <LibraryHero stats={heroStats} />
+
+      {/* ===== Ask-the-Books · AI chat entry point ===== */}
+      <Reveal>
+        <Link href="/library/ask" className="group relative flex items-center gap-4 overflow-hidden rounded-3xl border border-hairline bg-gradient-to-bl from-ink-1 via-[#15171b] to-[#0b0c0e] p-4 text-white shadow-[0_12px_34px_-22px_rgba(15,23,42,0.5)] transition hover:brightness-110 sm:p-5">
+          <span className="pointer-events-none absolute -right-16 -top-16 size-40 rounded-full bg-brand/25 blur-3xl" />
+          <span className="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-brand text-white shadow-lg"><Sparkles className="size-6" /></span>
+          <span className="relative min-w-0 flex-1">
+            <span className="flex items-center gap-2">
+              <span className="text-base font-black tracking-tight sm:text-lg">שאל את הספרים</span>
+              <span className="rounded-full bg-brand/20 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-brand">AI · חדש</span>
+            </span>
+            <span className="mt-0.5 block truncate text-xs font-semibold text-white/70">צ׳אט חכם שעונה מתוך 10 ספרי SAP · בעברית · עם ציון מקור</span>
+          </span>
+          <span className="relative grid size-9 shrink-0 place-items-center rounded-full bg-white/15 transition group-hover:-translate-x-0.5"><ArrowLeft className="size-4" /></span>
+        </Link>
+      </Reveal>
 
       {/* ===== search + module filter ===== */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
