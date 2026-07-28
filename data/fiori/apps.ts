@@ -244,4 +244,34 @@ export const FIORI_APPS: FioriApp[] = [
   },
 ];
 
+// ── Sprint Fiori-3 — 2 verified PM apps (F-IDs + roles confirmed) ──
+FIORI_APPS.push(
+  {
+    id: "F2023", slug: "report-and-repair-malfunction", name: "Report and Repair Malfunction", he: "דיווח ותיקון תקלה", module: "PM", type: "Transactional",
+    trust: "curated", source: "SAP Fiori Apps Library + SAP Community (verified F-ID + role)", lastReviewed: LV2,
+    purpose: "טיפול בתקלות עבור טכנאי אחזקה בתהליך תקלת חירום (Emergency Breakdown) — דיווח תקלה, ניהול דוחות תקלה, ורשימת עבודות תיקון שהוקצו לי/לצוות, בשלוש אריחים (tiles).",
+    problem: "בתקלת חירום הטכנאי צריך לדווח ולתקן מהר, בלי מסלול IW21→IW31 המלא. האפליקציה מקצרת: דיווח תקלה, מעקב, ושיוך עבודות תיקון — כולל סורק ברקוד לחלקי חילוף במובייל.",
+    process: "תקלה → דיווח (Report Malfunction) → הקצאת עבודה → תיקון → סגירה",
+    explain: { beginner: "אפליקציה לדווח על תקלה ולנהל את התיקון מהר.", consultant: "role SAP_BR_MAINTENANCE_TECHNICIAN; תהליך Emergency Breakdown; שלושה אריחים (Report / Manage Reports / My Job List). נמסר מ-S/4HANA Cloud 1708/1709.", technical: "SAPUI5 מעל הודעת/פקודת ALM. OData/CDS: בקרוב (טרם אומת)." },
+    role: "SAP_BR_MAINTENANCE_TECHNICIAN", catalog: "SAP_EAM_BC_MAINT_WORKER",
+    guiTx: ["IW21", "IW26"], relatedTables: ["QMEL", "AUFK", "AFIH"], relatedObjects: ["BAPI_ALM_NOTIF_CREATE"],
+    ecc: "ECC: IW21/IW26 (יצירת הודעת תקלה) + IW31 לפקודה — מסלול נפרד, ללא תהליך breakdown מקוצר.", s4OnPrem: "yes", cloud: "yes", releaseInfo: "S/4HANA Cloud 1708/1709+",
+    commonErrors: ["האריחים לא מופיעים → בדוק הקצאת role SAP_BR_MAINTENANCE_TECHNICIAN וסוגי הודעה מותרים.", "סריקת ברקוד לא זמינה → זמינה רק במכשיר נייד."],
+    similar: ["create-maintenance-request", "perform-maintenance-jobs", "confirm-jobs"],
+  },
+  {
+    id: "F2828", slug: "maintenance-planning-overview", name: "Maintenance Planning Overview", he: "סקירת תכנון אחזקה", module: "PM", type: "Analytical",
+    trust: "curated", source: "SAP Fiori Apps Library + SAP Community (verified F-ID + role + catalog)", lastReviewed: LV2,
+    purpose: "דשבורד One-Stop-Shop אנליטי למתכנן אחזקה — מאחד נתונים קריטיים בכרטיסים (cards) אינטראקטיביים המציגים KPIs ותצוגות נתונים בזמן אמת, מעל Overview Page (OVP).",
+    problem: "מתכנן אחזקה צריך תמונת-על פרואקטיבית של עומס, פקודות פתוחות והתראות במקום ניווט בין IW38/IP10. הדשבורד מרכז את התמונה בכרטיסים.",
+    process: "תכנון → סקירת KPIs (OVP) → drill לפקודות/תוכניות → פעולה",
+    explain: { beginner: "מסך סיכום שמראה למתכנן מה דחוף וכמה עבודה פתוחה.", consultant: "role SAP_BR_MAINTENANCE_PLANNER; catalog SAP_EAM_BC_ORD_MC (ייתכן שאינו כלול ב-role כברירת מחדל — תלוי scope items). floorplan = Overview Page (OVP).", technical: "SAP Fiori Overview Page עם analytical cards. תלוי scope items (BH1/BH2/BJ2 מול Phase Model). OData/CDS: בקרוב (טרם אומת)." },
+    role: "SAP_BR_MAINTENANCE_PLANNER", catalog: "SAP_EAM_BC_ORD_MC",
+    guiTx: ["IP10", "IP30", "IW38"], relatedTables: ["MPLA", "MHIS", "AUFK"],
+    ecc: "ECC: IP10/IP30 (תזמון/רשימת תוכניות) + IW38 — ללא דשבורד OVP מרוכז.", s4OnPrem: "yes", cloud: "yes", releaseInfo: "S/4HANA (OVP · תלוי scope items)",
+    commonErrors: ["האפליקציה לא מופיעה → catalog SAP_EAM_BC_ORD_MC אולי לא כלול ב-role; או scope items חדשים (Phase Model) ללא BH1/BH2/BJ2.", "כרטיסים ריקים → ודא נתוני תכנון אחזקה קיימים (תוכניות/פקודות)."],
+    similar: ["schedule-maintenance-plans", "manage-maintenance-orders", "manage-maintenance-notifications-orders"],
+  },
+);
+
 export const FIORI_BY_SLUG: Record<string, FioriApp> = Object.fromEntries(FIORI_APPS.map((a) => [a.slug, a]));
