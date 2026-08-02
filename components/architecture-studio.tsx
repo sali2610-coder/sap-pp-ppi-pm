@@ -16,6 +16,7 @@ import { tableByName } from "@/lib/knowledge-graph";
 import { setActiveEntity } from "@/lib/workspace";
 import type { Module } from "@/lib/types";
 import { pillInk } from "@/lib/pill-ink";
+import { onWindowResize } from "@/lib/raf-resize";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9" };
 const DEFAULT_FOCUS: Record<string, string> = { PM: "EQUI", "PP-PI": "AFKO" };
@@ -153,9 +154,9 @@ export function ArchitectureStudio() {
     const onResize = () => { measure(); setTr((p) => clampTr(p)); };
     let ro: ResizeObserver | null = null;
     try { ro = new ResizeObserver(onResize); ro.observe(el); } catch { /* noop */ }
-    window.addEventListener("resize", onResize);
+    const offResize = onWindowResize(onResize);
     window.addEventListener("orientationchange", onResize);
-    return () => { ro?.disconnect(); window.removeEventListener("resize", onResize); window.removeEventListener("orientationchange", onResize); };
+    return () => { ro?.disconnect(); offResize(); window.removeEventListener("orientationchange", onResize); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [layout.width, layout.height, wrapSize.w, wrapSize.h]);
   useEffect(() => { const id = setTimeout(fit, 50); return () => clearTimeout(id); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [layout.width, layout.height, module]);

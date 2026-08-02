@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Menu } from "lucide-react";
 import { GlobalBack } from "@/components/global-back";
 import { WorkspaceInspector } from "@/components/workspace-inspector";
+import { DeferMount, mark } from "@/components/defer-mount";
 import { I18nProvider } from "@/lib/i18n";
 import { SiteLogo } from "@/components/site-logo";
 import { KnowledgeSidebar } from "@/components/knowledge-sidebar";
@@ -37,7 +38,7 @@ function Header() {
           className="tap hidden size-9 shrink-0 place-items-center rounded-lg text-ink-2 hover:bg-black/[0.05] lg:hidden">
           <Menu className="size-5" />
         </button>
-        <Link href="/" onClick={() => playClick()} aria-label="SAP by Sali — דף הבית" className="shrink-0 transition-transform hover:scale-[1.01]">
+        <Link prefetch={false} href="/" onClick={() => playClick()} aria-label="SAP by Sali — דף הבית" className="shrink-0 transition-transform hover:scale-[1.01]">
           <SiteLogo tone="dark" size="lg" wordmark="sm+" />
         </Link>
         <div className="mx-auto min-w-0 max-w-2xl flex-1">
@@ -58,6 +59,7 @@ function Header() {
 }
 
 export function AppShell({ children }: { children: React.ReactNode }) {
+  mark("shell-render");
   return (
     <I18nProvider>
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-3 focus:z-[90] focus:rounded-lg focus:bg-surface focus:px-3 focus:py-2 focus:text-sm focus:font-bold focus:text-brand focus:shadow-lg">דלג לתוכן</a>
@@ -74,19 +76,27 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
         <Footer />
       </div>
-      {/* secondary floating actions — desktop only; on phone/tablet they live in the bottom tab bar */}
-      <div className="max-xl:hidden">
-        <PageHelp />
-        <UXSettings />
-      </div>
-      {/* always-mounted (modal/effect; opened via events / ⌘K) */}
-      <CommandPalette />
-      <FindHighlighter />
-      <OnboardingDrawer />
+      {/* Overlays the user has to open. They are dynamic() imports, but React
+          rendered them immediately, so their chunks (command palette + search
+          index, object peek, find highlighter, onboarding, help, settings) were
+          fetched right after hydration on EVERY page — ~3.9 MB measured on the
+          homepage, for UI nobody had opened. DeferMount holds them until the
+          first real interaction (or browser idle), which is strictly earlier
+          than any of them can be opened. */}
+      <DeferMount>
+        <div data-shell="desktop-only" className="max-xl:hidden">
+          <PageHelp />
+          <UXSettings />
+        </div>
+        <CommandPalette />
+        <FindHighlighter />
+        <OnboardingDrawer />
+        <ObjectPeek />
+      </DeferMount>
+      {/* Immediately visible / interactive chrome — never deferred. */}
       <WowToast />
       <MobileTabBar />
       <ContextFab />
-      <ObjectPeek />
       <PeekCoach />
       <WorkspaceInspector />
     </I18nProvider>
