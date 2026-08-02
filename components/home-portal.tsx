@@ -55,7 +55,7 @@ function SearchHero({ counts }: { counts: PortalCounts }) {
       <div className="mx-auto mt-3 flex max-w-2xl flex-wrap items-center justify-center gap-1.5">
         <span className="text-[12px] font-medium text-ink-3">נסה:</span>
         {chips.map((c) => (
-          <Link key={c} href={`/object/${encodeURIComponent(c)}/`} onClick={() => playClick()}
+          <Link prefetch={false} key={c} href={`/object/${encodeURIComponent(c)}/`} onClick={() => playClick()}
             className="tech rounded-lg border border-hairline bg-surface px-2.5 py-1 font-mono text-[12px] font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand" dir="ltr">{c}</Link>
         ))}
       </div>
@@ -85,7 +85,7 @@ function SearchHero({ counts }: { counts: PortalCounts }) {
 function IntentSplit() {
   return (
     <section dir="rtl" className="mx-auto grid max-w-4xl gap-3 sm:grid-cols-2">
-      <Link href="/academy/" onClick={() => playClick()}
+      <Link prefetch={false} href="/academy/" onClick={() => playClick()}
         className="card-interactive group relative flex items-center gap-4 overflow-hidden p-5 sm:p-6">
         <span aria-hidden className="absolute inset-y-0 end-0 w-1 bg-brand" />
         <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-brand/10 text-brand"><GraduationCap className="size-6" /></span>
@@ -94,7 +94,7 @@ function IntentSplit() {
           <p className="mt-0.5 text-[13px] leading-relaxed text-ink-2">SAP Academy — מסלולי לימוד מובנים, פרק אחר פרק, עם מעקב התקדמות שנשמר אוטומטית.</p>
         </div>
       </Link>
-      <Link href="/knowledge/" onClick={() => playClick()}
+      <Link prefetch={false} href="/knowledge/" onClick={() => playClick()}
         className="card-interactive group flex items-center gap-4 p-5 sm:p-6">
         <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-surface-2 text-ink-2 transition group-hover:bg-brand/10 group-hover:text-brand"><BookOpen className="size-6" /></span>
         <div className="min-w-0">
@@ -127,7 +127,7 @@ function ModulePortals({ modules }: { modules: ModuleCard[] }) {
         {modules.map((m) => {
           const Ic = MOD_ICON[m.code] || GitBranch;
           return (
-            <Link key={m.code} href={m.href} onClick={() => playClick()} className="card-interactive group flex flex-col gap-3 p-5">
+            <Link prefetch={false} key={m.code} href={m.href} onClick={() => playClick()} className="card-interactive group flex flex-col gap-3 p-5">
               <div className="flex items-center gap-3">
                 <span className="grid size-11 shrink-0 place-items-center rounded-xl" style={{ background: m.tint + "14", color: m.tint }}><Ic className="size-6" /></span>
                 <div className="min-w-0">
@@ -168,7 +168,7 @@ function ReferenceGrid({ counts }: { counts: PortalCounts }) {
     <Section eyebrow="עיון · Reference" title="דפדף לפי סוג אובייקט">
       <div className="grid-adaptive-sm">
         {items.map((it) => { const Ic = it.icon; return (
-          <Link key={it.href} href={it.href} onClick={() => playClick()} className="card-interactive group flex items-center gap-3 p-3.5">
+          <Link prefetch={false} key={it.href} href={it.href} onClick={() => playClick()} className="card-interactive group flex items-center gap-3 p-3.5">
             <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-surface-2 text-ink-2 transition group-hover:bg-brand/10 group-hover:text-brand"><Ic className="size-[18px]" /></span>
             <div className="min-w-0">
               <div className="truncate text-[13.5px] font-bold text-ink-1">{it.label}</div>
@@ -192,7 +192,7 @@ function ExploreGrid() {
     <Section eyebrow="כלים · Explore" title="כלים ומרכזי ידע">
       <div className="grid-adaptive">
         {items.map((it) => { const Ic = it.icon; return (
-          <Link key={it.href} href={it.href} onClick={() => playClick()} className="card-interactive group flex items-start gap-3.5 p-5">
+          <Link prefetch={false} key={it.href} href={it.href} onClick={() => playClick()} className="card-interactive group flex items-start gap-3.5 p-5">
             <span className="grid size-11 shrink-0 place-items-center rounded-xl" style={{ background: it.tint + "12", color: it.tint }}><Ic className="size-6" /></span>
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5 text-[15px] font-extrabold text-ink-1">{it.title}<ArrowLeft className="size-4 text-ink-3 transition group-hover:-translate-x-0.5 group-hover:text-brand" /></div>

@@ -95,7 +95,7 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
       {/* continue learning — progress ring + streak (delight + personalization) */}
       {resume && (
         <motion.section {...rise(1, reduce)}>
-          <Link href="/learn/" onClick={haptic}
+          <Link prefetch={false} href="/learn/" onClick={haptic}
             className="tap flex items-center gap-4 rounded-2xl border border-hairline bg-surface p-4 shadow-sm transition active:scale-[0.98]">
             <Ring pct={resume.pct} accent={resume.accent} />
             <span className="min-w-0 flex-1">
@@ -117,7 +117,7 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
           <div className="mb-2 flex items-center gap-1.5 px-0.5 text-[12px] font-extrabold uppercase tracking-wide text-ink-3"><Clock className="size-3.5" />המשך מהיכן שהפסקת</div>
           <div className="chip-rail -mx-1 flex gap-2.5 overflow-x-auto px-1 pb-1">
             {recent.map((n) => (
-              <Link key={n} href={`/object/${encodeURIComponent(n)}/`} data-peek={n} onClick={haptic}
+              <Link prefetch={false} key={n} href={`/object/${encodeURIComponent(n)}/`} data-peek={n} onClick={haptic}
                 className="tap group flex w-36 shrink-0 flex-col justify-between rounded-2xl border border-hairline bg-surface p-3.5 shadow-sm transition active:scale-[0.97]">
                 <span className="grid size-9 place-items-center rounded-xl bg-brand-soft text-brand"><Boxes className="size-4.5" /></span>
                 <span className="tech mt-3 truncate font-mono text-[13.5px] font-bold text-ink-1" dir="ltr">{n}</span>
@@ -134,7 +134,7 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
           <div className="mb-2 flex items-center gap-1.5 px-0.5 text-[12px] font-extrabold uppercase tracking-wide text-amber-600"><Star className="size-3.5 fill-amber-400 text-amber-500" />מועדפים</div>
           <div className="flex flex-wrap gap-1.5">
             {favs.slice(0, 12).map((n) => (
-              <Link key={n} href={`/object/${encodeURIComponent(n)}/`} data-peek={n} onClick={haptic}
+              <Link prefetch={false} key={n} href={`/object/${encodeURIComponent(n)}/`} data-peek={n} onClick={haptic}
                 className="tech tap inline-flex items-center gap-1.5 rounded-xl border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-[12.5px] font-bold text-amber-900 transition active:scale-95" dir="ltr">
                 <Star className="size-3 fill-amber-400 text-amber-500" />{n}
               </Link>
@@ -148,7 +148,7 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
         <div className="mb-2 px-0.5 text-[12px] font-extrabold uppercase tracking-wide text-ink-3">מודולים</div>
         <div className="grid gap-2.5 sm:grid-cols-3">
           {modules.map((m) => { const Icon = MOD_ICON[m.code] || Boxes; return (
-            <Link key={m.code} href={m.href} onClick={haptic}
+            <Link prefetch={false} key={m.code} href={m.href} onClick={haptic}
               className="tap group relative flex flex-col gap-2 overflow-hidden rounded-2xl border border-hairline bg-surface p-4 shadow-sm transition active:scale-[0.98]">
               <span className="absolute inset-y-0 end-0 w-1.5" style={{ background: m.tint }} />
               <div className="flex items-center gap-2.5">
@@ -170,7 +170,7 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
         <div className="mb-2 px-0.5 text-[12px] font-extrabold uppercase tracking-wide text-ink-3">עיון מהיר</div>
         <div className="grid grid-cols-3 gap-2.5">
           {REF.map((r) => (
-            <Link key={r.href} href={r.href} onClick={haptic}
+            <Link prefetch={false} key={r.href} href={r.href} onClick={haptic}
               className="tap flex flex-col items-center gap-1.5 rounded-2xl border border-hairline bg-surface p-3 text-center shadow-sm transition active:scale-[0.96]">
               <span className="grid size-10 place-items-center rounded-xl text-white" style={{ background: r.c }}><r.Icon className="size-5" /></span>
               <span className="text-[12px] font-extrabold text-ink-1">{r.label}</span>
@@ -185,7 +185,7 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
         <div className="mb-2 px-0.5 text-[12px] font-extrabold uppercase tracking-wide text-ink-3">מומלץ בשבילך</div>
         <div className="flex flex-col gap-2.5">
           {SUGGEST.map((s) => (
-            <Link key={s.href} href={s.href} onClick={haptic}
+            <Link prefetch={false} key={s.href} href={s.href} onClick={haptic}
               className="tap flex items-center gap-3 rounded-2xl border border-hairline bg-surface p-3.5 shadow-sm transition active:scale-[0.98]">
               <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand-soft text-brand"><s.Icon className="size-5" /></span>
               <span className="min-w-0 flex-1"><span className="block text-[14px] font-extrabold text-ink-1">{s.title}</span><span className="block text-[11.5px] text-ink-3">{s.sub}</span></span>

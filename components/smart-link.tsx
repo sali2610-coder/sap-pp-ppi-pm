@@ -22,7 +22,7 @@ function peekName(href: string): string | undefined {
 }
 
 /**
- * Single link-resolution layer for the whole app. Renders a real <Link> only
+ * Single link-resolution layer for the whole app. Renders a real <Link prefetch={false}> only
  * when the target static page exists (dynamicParams=false → missing = 404).
  * When the target is provably missing, renders a plain, non-navigating span so
  * the information stays visible but navigation never breaks. Fails open for any
@@ -32,7 +32,7 @@ function peekName(href: string): string | undefined {
  * Quick-Preview sheet in place (tap still navigates). Opt out with peek={false}.
  */
 export function SmartLink({ href, children, className, deadClassName, peek = true, ...rest }: SmartLinkProps & { peek?: boolean }) {
-  if (pageExists(href)) return <Link href={href} className={className} data-peek={peek ? peekName(href) : undefined} {...rest}>{children}</Link>;
+  if (pageExists(href)) return <Link prefetch={false} href={href} className={className} data-peek={peek ? peekName(href) : undefined} {...rest}>{children}</Link>;
   return (
     <span className={deadClassName ?? className} data-deadlink aria-disabled="true" title="עמוד ייעודי בכתיבה">
       {children}

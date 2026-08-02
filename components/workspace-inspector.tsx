@@ -6,7 +6,13 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { PanelRight, X, Target, Briefcase, AlertTriangle, GitBranch, ExternalLink, Network, Crosshair } from "lucide-react";
 import { useActiveEntity, setActiveEntity, useInspectorOpen, setInspectorOpen, entityFromPath } from "@/lib/workspace";
-import { lookupEntity, type TipKind } from "@/lib/entity-lookup";
+// NOTE: `entity-lookup` is imported LAZILY below, never at module scope.
+// It transitively pulls the entire knowledge base (sapData PM+PP-PI, tx-intel,
+// transactions, tcode catalog/directory, consultant notes, verified objects,
+// CDS map). Because this panel is mounted by AppShell on EVERY page, a static
+// import put ~21 MB of JavaScript on the critical path of every single visit.
+// Type-only import is safe — types are erased at build time.
+import type { TipKind } from "@/lib/entity-lookup";
 
 const KIND_C: Record<TipKind, string> = { table: "#0891b2", tcode: "#475569", bapi: "#2563eb", idoc: "#7c3aed", fm: "#0d9488", cds: "#16a34a" };
 const W_KEY = "neo:inspector:w";
@@ -25,7 +31,20 @@ export function WorkspaceInspector() {
   const [width, setWidth] = useState(360);
   const resizing = useRef(false);
   const name = explicit || entityFromPath(path);
-  const tip = useMemo(() => (name ? lookupEntity(name) : null), [name]);
+
+  // The knowledge base is fetched on first intent (panel opened), not at startup.
+  // Measured on production before this change: the homepage pulled 21.3 MB of JS
+  // — 16.3 MB of it in two chunks the CDN refused to compress — purely because
+  // this always-mounted panel needed a synchronous lookup.
+  const [lookup, setLookup] = useState<{ lookupEntity: (n: string) => ReturnType<typeof import("@/lib/entity-lookup").lookupEntity> } | null>(null);
+  useEffect(() => {
+    if (!open || lookup) return;
+    let alive = true;
+    import("@/lib/entity-lookup").then((m) => { if (alive) setLookup({ lookupEntity: m.lookupEntity }); }).catch(() => { /* keep the panel usable without the tip */ });
+    return () => { alive = false; };
+  }, [open, lookup]);
+
+  const tip = useMemo(() => (name && lookup ? lookup.lookupEntity(name) : null), [name, lookup]);
 
   useEffect(() => { try { const w = parseInt(localStorage.getItem(W_KEY) || "360", 10); if (w >= MINW && w <= MAXW) setWidth(w); } catch { /* noop */ } }, []);
   useEffect(() => { const mq = window.matchMedia("(min-width: 1280px)"); const on = () => setWide(mq.matches); on(); mq.addEventListener("change", on); return () => mq.removeEventListener("change", on); }, []);

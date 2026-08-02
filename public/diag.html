@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<title>SAP by Sali — Startup Diagnostics</title>
+<style>
+  :root{--ink:#0f172a;--ink2:#475569;--ink3:#94a3b8;--line:#e2e8f0;--bg:#fcfcfd;--surf:#fff;--brand:#d62027}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 'Segoe UI',system-ui,-apple-system,sans-serif}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px 20px 60px}
+  h1{font-size:20px;margin:0 0 4px;letter-spacing:-.01em}
+  h1 b{color:var(--brand)}
+  .sub{color:var(--ink2);margin:0 0 20px;font-size:13px}
+  .card{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+  .card h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);margin:0 0 10px;font-weight:700}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  td{padding:4px 8px 4px 0;vertical-align:top}
+  td.k{color:var(--ink2);white-space:nowrap;width:210px}
+  td.v{font-weight:600;font-variant-numeric:tabular-nums}
+  .bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:3px}
+  .bar span{display:block;height:100%;background:var(--brand)}
+  .res{font-size:12px;border-collapse:collapse;width:100%}
+  .res th{text-align:left;color:var(--ink3);font-weight:700;padding:4px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+  .res td{padding:3px 6px;border-bottom:1px solid #f1f5f9;font-variant-numeric:tabular-nums}
+  .res td.n{max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .warn{color:#b45309}.bad{color:#b91c1c;font-weight:700}.ok{color:#15803d}
+  button{font:inherit;font-weight:700;background:var(--brand);color:#fff;border:0;border-radius:9px;padding:9px 16px;cursor:pointer}
+  button.sec{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  textarea{width:100%;height:180px;font:12px/1.45 ui-monospace,Menlo,Consolas,monospace;border:1px solid var(--line);border-radius:9px;padding:10px}
+  .hint{font-size:12px;color:var(--ink2);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>SAP by Sali — <b>Startup Diagnostics</b></h1>
+  <p class="sub">
+    Standalone page: plain HTML + inline script, no framework, no bundle, no external requests.
+    Run it from inside the corporate environment (Omnissa Horizon / Ericom Shield / VDI) and from a
+    normal machine, then compare. It separates <em>network / infrastructure</em> time from
+    <em>application</em> time — nothing here depends on the app loading correctly.
+  </p>
+
+  <div class="row">
+    <button onclick="location.reload()">Re-run measurement</button>
+    <button class="sec" onclick="copyReport()">Copy full report</button>
+    <button class="sec" onclick="probeApp()">Measure the app page (/)</button>
+  </div>
+
+  <div class="card"><h2>Environment</h2><table id="env"></table></div>
+  <div class="card"><h2>Connection phases — this page</h2><table id="nav"></table></div>
+  <div class="card"><h2>Paint</h2><table id="paint"></table></div>
+  <div class="card" id="probeCard" style="display:none"><h2>Application page probe</h2><table id="probe"></table>
+    <p class="hint">Fetches <code>/</code> and its referenced scripts and times each one. If these are slow here but fast elsewhere, the delay is in the network path (proxy / isolation / scanning), not in rendering.</p>
+  </div>
+  <div class="card"><h2>Resources loaded by this page</h2>
+    <table class="res" id="res"><thead><tr><th>resource</th><th>type</th><th>wire KB</th><th>decoded KB</th><th>total ms</th><th>wait(TTFB) ms</th></tr></thead><tbody></tbody></table>
+  </div>
+  <div class="card"><h2>Report (paste this back)</h2><textarea id="out" readonly></textarea></div>
+</div>
+
+<script>
+(function(){
+  var R = [];                                   // report lines
+  function line(k,v){ R.push(k.padEnd(30," ")+": "+v); }
+  function row(tbl,k,v,cls){
+    var tr=document.createElement("tr");
+    tr.innerHTML='<td class="k">'+k+'</td><td class="v '+(cls||"")+'">'+v+'</td>';
+    document.getElementById(tbl).appendChild(tr); line(k,String(v).replace(/<[^>]+>/g,""));
+  }
+  var ms=function(n){ return (n==null||isNaN(n))?"n/a":Math.round(n)+" ms"; };
+  var kb=function(n){ return Math.round((n||0)/1024)+" KB"; };
+
+  // ---- environment -------------------------------------------------------
+  var nav=navigator, c=nav.connection||{};
+  row("env","timestamp",new Date().toISOString());
+  row("env","page URL",location.href);
+  row("env","user agent",nav.userAgent);
+  row("env","platform",(nav.userAgentData&&nav.userAgentData.platform)||nav.platform||"n/a");
+  row("env","logical viewport",window.innerWidth+" x "+window.innerHeight+" CSS px");
+  row("env","devicePixelRatio",window.devicePixelRatio);
+  row("env","screen",screen.width+" x "+screen.height);
+  row("env","hardwareConcurrency",nav.hardwareConcurrency||"n/a");
+  row("env","deviceMemory",(nav.deviceMemory?nav.deviceMemory+" GB":"n/a"));
+  row("env","connection.effectiveType",c.effectiveType||"n/a");
+  row("env","connection.downlink",(c.downlink!=null?c.downlink+" Mbps":"n/a"));
+  row("env","connection.rtt",(c.rtt!=null?c.rtt+" ms":"n/a"));
+  row("env","serviceWorker support",("serviceWorker" in nav)?"yes":"NO");
+  if("serviceWorker" in nav){
+    nav.serviceWorker.getRegistrations().then(function(rs){
+      row("env","serviceWorker registrations",rs.length);
+    }).catch(function(){ row("env","serviceWorker registrations","blocked"); });
+  }
+
+  // ---- navigation phases -------------------------------------------------
+  function phases(){
+    var n=(performance.getEntriesByType("navigation")||[])[0];
+    if(!n){ row("nav","navigation timing","unavailable"); return; }
+    var seg=[
+      ["redirect",n.redirectEnd-n.redirectStart],
+      ["service worker init",n.workerStart?n.fetchStart-n.workerStart:0],
+      ["DNS lookup",n.domainLookupEnd-n.domainLookupStart],
+      ["TCP connect",n.connectEnd-n.connectStart],
+      ["TLS handshake",n.secureConnectionStart?n.connectEnd-n.secureConnectionStart:0],
+      ["request → first byte",n.responseStart-n.requestStart],
+      ["HTML download",n.responseEnd-n.responseStart],
+      ["DOM interactive",n.domInteractive-n.responseEnd],
+      ["DOMContentLoaded",n.domContentLoadedEventEnd-n.domInteractive],
+      ["load event",n.loadEventEnd-n.domContentLoadedEventEnd]
+    ];
+    var total=n.loadEventEnd||n.responseEnd||1;
+    seg.forEach(function(s){
+      var pct=Math.max(0,Math.min(100,(s[1]/total)*100));
+      var cls=s[1]>1000?"bad":(s[1]>300?"warn":"");
+      var tr=document.createElement("tr");
+      tr.innerHTML='<td class="k">'+s[0]+'</td><td class="v '+cls+'">'+ms(s[1])+
+        '<div class="bar"><span style="width:'+pct.toFixed(1)+'%"></span></div></td>';
+      document.getElementById("nav").appendChild(tr);
+      line(s[0],ms(s[1]));
+    });
+    row("nav","TOTAL to load event",ms(n.loadEventEnd),n.loadEventEnd>3000?"bad":"ok");
+    row("nav","transfer size (HTML)",kb(n.transferSize));
+    row("nav","protocol",n.nextHopProtocol||"n/a");
+  }
+
+  // ---- paint -------------------------------------------------------------
+  function paints(){
+    (performance.getEntriesByType("paint")||[]).forEach(function(p){
+      row("paint",p.name,ms(p.startTime),p.startTime>2000?"bad":(p.startTime>1000?"warn":"ok"));
+    });
+    try{
+      new PerformanceObserver(function(l){
+        var e=l.getEntries().pop(); if(e) row("paint","largest-contentful-paint",ms(e.startTime),e.startTime>2500?"bad":"ok");
+      }).observe({type:"largest-contentful-paint",buffered:true});
+    }catch(e){ row("paint","largest-contentful-paint","not supported"); }
+  }
+
+  // ---- resources ---------------------------------------------------------
+  function resources(){
+    var tb=document.querySelector("#res tbody");
+    var rs=performance.getEntriesByType("resource")||[];
+    rs.sort(function(a,b){return b.duration-a.duration;});
+    rs.slice(0,40).forEach(function(r){
+      var tr=document.createElement("tr");
+      var wait=r.responseStart?r.responseStart-r.requestStart:0;
+      tr.innerHTML='<td class="n">'+r.name.split("/").pop()+'</td><td>'+r.initiatorType+'</td>'+
+        '<td>'+Math.round((r.transferSize||0)/1024)+'</td><td>'+Math.round((r.decodedBodySize||0)/1024)+'</td>'+
+        '<td class="'+(r.duration>1000?"bad":"")+'">'+Math.round(r.duration)+'</td>'+
+        '<td class="'+(wait>500?"bad":"")+'">'+Math.round(wait)+'</td>';
+      tb.appendChild(tr);
+    });
+    line("resource count",rs.length);
+    line("resource wire total",kb(rs.reduce(function(a,r){return a+(r.transferSize||0);},0)));
+  }
+
+  // ---- optional: probe the real app page ---------------------------------
+  window.probeApp=function(){
+    document.getElementById("probeCard").style.display="";
+    var t=document.getElementById("probe"); t.innerHTML="";
+    var t0=performance.now();
+    fetch("/",{cache:"no-store"}).then(function(r){
+      var ttfb=performance.now()-t0;
+      row("probe","GET / status",r.status);
+      row("probe","GET / content-encoding",r.headers.get("content-encoding")||"NONE (not compressed)",
+          r.headers.get("content-encoding")?"ok":"bad");
+      row("probe","GET / time to headers",ms(ttfb),ttfb>2000?"bad":"ok");
+      return r.text();
+    }).then(function(html){
+      row("probe","GET / HTML size",kb(html.length));
+      var srcs=(html.match(/src="([^"]+\.js)"/g)||[]).map(function(s){return s.slice(5,-1);}).slice(0,12);
+      row("probe","scripts referenced in HTML",srcs.length);
+      var done=0,totalBytes=0,slowest=0,uncompressed=0;
+      if(!srcs.length){ return; }
+      srcs.forEach(function(u){
+        var s0=performance.now();
+        fetch(u,{cache:"no-store"}).then(function(r){
+          var enc=r.headers.get("content-encoding");
+          if(!enc) uncompressed++;
+          return r.arrayBuffer().then(function(buf){
+            var dt=performance.now()-s0; if(dt>slowest) slowest=dt;
+            totalBytes+=buf.byteLength; done++;
+            if(done===srcs.length){
+              row("probe","scripts fetched",done);
+              row("probe","scripts total bytes",kb(totalBytes),totalBytes>3e6?"bad":"ok");
+              row("probe","slowest script",ms(slowest),slowest>2000?"bad":"ok");
+              row("probe","scripts served UNCOMPRESSED",uncompressed,uncompressed?"bad":"ok");
+              document.getElementById("out").value=R.join("\n");
+            }
+          });
+        }).catch(function(){ done++; });
+      });
+    }).catch(function(e){ row("probe","probe failed",String(e),"bad"); });
+  };
+
+  window.copyReport=function(){
+    var ta=document.getElementById("out"); ta.select();
+    try{ document.execCommand("copy"); }catch(e){}
+    if(navigator.clipboard) navigator.clipboard.writeText(ta.value).catch(function(){});
+  };
+
+  function run(){ phases(); paints(); resources(); document.getElementById("out").value=R.join("\n"); }
+  if(document.readyState==="complete") setTimeout(run,60);
+  else window.addEventListener("load",function(){ setTimeout(run,60); });
+})();
+</script>
+</body>
+</html>
