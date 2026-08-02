@@ -79,7 +79,7 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
     .sort((a, b) => b.pct - a.pct)[0];
 
   return (
-    <div dir="rtl" className="space-y-7 xl:hidden">
+    <div dir="rtl" data-shell="mobile-only" className="space-y-7 xl:hidden">
       {/* greeting + hero search — the single primary action */}
       <motion.section {...rise(0, reduce)}>
         <p className="text-[13px] font-bold text-ink-3">{hi},</p>

@@ -151,7 +151,7 @@ export function KnowledgeSidebar() {
   return (
     <>
       {/* desktop — persistent rail (hidden in reader focus-mode via globals.css) */}
-      <aside data-knowledge-sidebar className={`sticky top-14 z-30 hidden h-[calc(100dvh-3.5rem)] shrink-0 flex-col border-e border-hairline bg-surface/80 backdrop-blur-sm xl:flex ${collapsed ? "w-16" : "w-[17rem]"}`}>
+      <aside data-knowledge-sidebar data-shell="desktop-only" className={`sticky top-14 z-30 hidden h-[calc(100dvh-3.5rem)] shrink-0 flex-col border-e border-hairline bg-surface/80 backdrop-blur-sm xl:flex ${collapsed ? "w-16" : "w-[17rem]"}`}>
         <div className="min-h-0 flex-1 overflow-y-auto">
           <Tree collapsed={collapsed} />
         </div>

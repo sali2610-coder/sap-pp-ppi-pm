@@ -75,7 +75,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <Footer />
       </div>
       {/* secondary floating actions — desktop only; on phone/tablet they live in the bottom tab bar */}
-      <div className="max-xl:hidden">
+      <div data-shell="desktop-only" className="max-xl:hidden">
         <PageHelp />
         <UXSettings />
       </div>

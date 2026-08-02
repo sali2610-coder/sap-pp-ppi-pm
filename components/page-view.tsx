@@ -15,6 +15,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight, BookMarked, Volume2, VolumeX } from "lucide-react";
 import { useReaderSound } from "@/lib/reader-sound";
+import { onWindowResize } from "@/lib/raf-resize";
 
 const BLOCKS = "p, h1, h2, h3, h4, figure, .reader-figure, table, pre, blockquote, li, .neo-diagram";
 
@@ -68,8 +69,8 @@ export function PageView({ chapters, active, onChapter, accent, children }: { ch
     const ro = new ResizeObserver(() => measure()); if (winRef.current) ro.observe(winRef.current);
     const imgs = Array.from(inner.querySelectorAll("img"));
     const onImg = () => measure(); imgs.forEach((i) => i.addEventListener("load", onImg));
-    const onResize = () => measure(); window.addEventListener("resize", onResize);
-    return () => { window.clearTimeout(t1); window.clearTimeout(t2); ro.disconnect(); imgs.forEach((i) => i.removeEventListener("load", onImg)); window.removeEventListener("resize", onResize); };
+    const offResize = onWindowResize(measure);
+    return () => { window.clearTimeout(t1); window.clearTimeout(t2); ro.disconnect(); imgs.forEach((i) => i.removeEventListener("load", onImg)); offResize(); };
   }, [active, measure]);
 
   // page-turn feedback: bump the turn counter (drives the sweep overlay) + play

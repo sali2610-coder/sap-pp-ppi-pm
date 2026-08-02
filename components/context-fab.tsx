@@ -61,7 +61,7 @@ export function ContextFab() {
   const run = (a: Act) => { haptic(); setOpen(false); a.run(router); };
 
   return (
-    <div className="no-print fixed end-0 bottom-[5.5rem] z-[60] flex flex-col items-end gap-2.5 pe-4 pb-[env(safe-area-inset-bottom)] xl:hidden">
+    <div data-shell="mobile-only" className="no-print fixed end-0 bottom-[5.5rem] z-[60] flex flex-col items-end gap-2.5 pe-4 pb-[env(safe-area-inset-bottom)] xl:hidden">
       <AnimatePresence>
         {open && (
           <>

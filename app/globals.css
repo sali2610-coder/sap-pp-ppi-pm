@@ -906,3 +906,53 @@ body:has([data-focus-reader]) [data-knowledge-sidebar] { display: none !importan
 /* §P1.5 Knowledge cards — on touch (no hover) the description can't expand on
    hover, so reveal a fuller view there. Desktop keeps the 2→5 hover clamp. */
 @media (hover: none) { .kn-card-desc { -webkit-line-clamp: 6 !important; } }
+
+/* ============================================================================
+   DESKTOP-FIRST DEVICE LAYER
+   ----------------------------------------------------------------------------
+   The shell used to switch on CSS width alone (`xl:` = 1280px). That is wrong on
+   large displays, because CSS pixels are not physical size: a conference screen
+   or TV at 150–200% OS scaling — or a browser zoomed in so the room can read it —
+   reports a logical width far below 1280. Measured on the built site, the shell
+   flipped to the tablet layout at exactly 1279px, which is how an 85" display
+   ended up showing tablet cards during a management presentation.
+
+   From here on the DEVICE decides the shell and the WIDTH only decides spacing.
+   `data-device` is set on <html> before first paint (see lib/device.ts), so
+   there is no flash of the wrong layout.
+   ========================================================================== */
+
+/* A desktop OS always gets the desktop shell — any monitor size, resolution,
+   OS scaling or browser-zoom level. Touch on a laptop must not demote it. */
+html[data-device="desktop"] [data-shell="mobile-only"] { display: none !important; }
+html[data-device="desktop"] [data-shell="desktop-only"] { display: flex !important; }
+
+/* Real tablets and phones keep the touch shell regardless of how wide the
+   browser reports itself (an iPad in landscape is still a tablet). */
+html[data-device="tablet"] [data-shell="desktop-only"],
+html[data-device="phone"]  [data-shell="desktop-only"] { display: none !important; }
+html[data-device="tablet"] [data-shell="mobile-only"],
+html[data-device="phone"]  [data-shell="mobile-only"] { display: block !important; }
+
+/* ---------------------------------------------------------------------------
+   LARGE-SCREEN PERFORMANCE TIER
+   backdrop-filter cost scales with the painted area. At 4K/5K and on wall
+   displays the blurred surfaces (header, sidebar, sheets, ~78 usages) were the
+   dominant paint cost and made the UI feel sluggish while presenting. Above
+   1600px we keep the same visual language but pay for it with a solid surface
+   instead of a live blur, and we stop purely decorative infinite animations.
+   Nothing about the layout changes — only how it is painted.
+   ------------------------------------------------------------------------- */
+@media (min-width: 1600px) {
+  /* Reset Tailwind's blur VARIABLE, not the backdrop-filter property. The utility
+     composes `backdrop-filter: var(--tw-backdrop-blur) …`, and the CSS minifier
+     collapses a plain `backdrop-filter: none` override down to the -webkit- form
+     only — which Chrome ignores, so the blur survived. Zeroing the variable
+     removes the blur and leaves the rest of the filter chain valid. */
+  [class*="backdrop-blur"] { --tw-backdrop-blur: ; }
+  /* Restore opacity that the blur was compensating for, so text stays readable. */
+  .bg-surface\/80, .bg-surface\/85, .bg-surface\/90 { background-color: var(--surface) !important; }
+
+  /* Decorative loops only — functional motion (skeletons, progress) is untouched. */
+  .credit-glow, .credit-red-glow, .studio-halo, .studio-breathe { animation: none !important; }
+}
