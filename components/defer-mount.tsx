@@ -28,16 +28,23 @@ import { useEffect, useState } from "react";
  * genuine intent is the only version that actually keeps them off startup — which
  * is the entire point in a bandwidth- and scanning-constrained environment.
  */
+/** Boot marker — surfaced by /diag.html so a slow stage can be named, not guessed. */
+export function mark(name: string) {
+  try { performance.mark(`neo:${name}`); } catch { /* marks are diagnostics only */ }
+}
+
 export function DeferMount({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    mark("shell-hydrated");
     if (ready) return;
-    const fire = () => setReady(true);
+    const fire = () => { mark("first-interaction"); setReady(true); };
     const events: (keyof WindowEventMap)[] = ["pointerdown", "keydown", "touchstart", "wheel", "scroll"];
     events.forEach((e) => window.addEventListener(e, fire, { once: true, passive: true }));
     return () => events.forEach((e) => window.removeEventListener(e, fire));
   }, [ready]);
 
+  if (ready) mark("overlays-mounted");
   return ready ? <>{children}</> : null;
 }

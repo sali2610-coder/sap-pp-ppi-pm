@@ -124,7 +124,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {/* Device class, decided BEFORE first paint so the shell never flashes the
             wrong layout. Desktop-first: a desktop OS always gets the desktop UI,
             whatever the monitor size, resolution, OS scaling or browser zoom. */}
-        <script dangerouslySetInnerHTML={{ __html: `document.documentElement.dataset.device=${DEVICE_DETECT_SOURCE};` }} />
+        <script dangerouslySetInnerHTML={{ __html:
+          `try{performance.mark("neo:html-head")}catch(e){};` +
+          `document.documentElement.dataset.device=${DEVICE_DETECT_SOURCE};` +
+          `try{performance.mark("neo:device-detected");` +
+          `document.addEventListener("DOMContentLoaded",function(){try{performance.mark("neo:dom-ready")}catch(e){}});` +
+          `window.addEventListener("load",function(){try{performance.mark("neo:window-load")}catch(e){}});}catch(e){}`
+        }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
       </head>
       <body className="flex min-h-full flex-col">

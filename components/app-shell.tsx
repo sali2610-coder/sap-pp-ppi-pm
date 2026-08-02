@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Menu } from "lucide-react";
 import { GlobalBack } from "@/components/global-back";
 import { WorkspaceInspector } from "@/components/workspace-inspector";
-import { DeferMount } from "@/components/defer-mount";
+import { DeferMount, mark } from "@/components/defer-mount";
 import { I18nProvider } from "@/lib/i18n";
 import { SiteLogo } from "@/components/site-logo";
 import { KnowledgeSidebar } from "@/components/knowledge-sidebar";
@@ -59,6 +59,7 @@ function Header() {
 }
 
 export function AppShell({ children }: { children: React.ReactNode }) {
+  mark("shell-render");
   return (
     <I18nProvider>
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:start-4 focus:top-3 focus:z-[90] focus:rounded-lg focus:bg-surface focus:px-3 focus:py-2 focus:text-sm focus:font-bold focus:text-brand focus:shadow-lg">דלג לתוכן</a>
