@@ -179,15 +179,29 @@ finding.
 ## 6. How to close the remaining gaps
 
 ### 6.1 The pre-navigation gap — closes 3.1 and 3.5
+
+> **The console command works on `https://sapbysali.app/` only — NOT on `/diag/`.**
+> `__neoTimeline` is injected by the application's own layout. The diagnostics page is a
+> standalone static HTML file with no application code, so the function does **not** exist
+> there and the call returns `ReferenceError: __neoTimeline is not defined`. Verified
+> against production. Running it on the wrong URL wastes a full 10-minute quota session —
+> the same way the `/diag.html` vs `/diag/` error already did once.
+>
+> `/diag/` has the equivalent built into the page: **section 0**, with its own wall-clock
+> field and no console needed. Same anchoring, different interface. Use whichever you are
+> already on — but do not type the console command into `/diag/`.
+
 1. Note the wall-clock second you press Enter.
-2. When the page appears, open the console (F12) and run:
+2. Load `https://sapbysali.app/`.
+3. When the page appears, open the console (F12) and run:
    ```js
    __neoTimeline("HH:MM:SS")
    ```
-3. Read the row `BEFORE navigation (proxy/isolation)`.
+4. Read the row `BEFORE navigation (proxy/isolation)`.
 
-Run it twice: once on `https://sapbysali.app/diag/` and once on `https://sapbysali.app/`.
-The first anchors the gap; the difference between the two answers 3.5.
+One run on the application page answers both open items: the `BEFORE navigation` row gives
+the gap (3.1), and `TOTAL to load event` compared against the diagnostics page's 960 ms
+gives the response-count effect (3.5).
 
 **[UNVERIFIED — expected shape only, not a prediction of fact]** Given a 960 ms measured
 in-session load and a ~10 s reported wait, the row would be expected to show several
