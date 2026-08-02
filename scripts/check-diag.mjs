@@ -30,3 +30,6 @@ if (missing.length) {
   process.exit(1);
 }
 console.log(`check-diag: OK — ${PATH} present (${Math.round(size / 1024)} KB, all sections intact).`);
+// Served URL reminder: the project uses trailingSlash, so this file is reachable
+// at /diag/ — NOT at /diag.html, which returns the application 404 page.
+console.log("check-diag: served at https://sapbysali.app/diag/  (trailingSlash: /diag.html will 404)");

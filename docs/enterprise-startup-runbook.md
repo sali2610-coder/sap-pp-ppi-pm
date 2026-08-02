@@ -1,5 +1,10 @@
 # Enterprise startup investigation — runbook
 
+> **URL — use `https://sapbysali.app/diag/` (with the trailing slash).**
+> The project builds with `trailingSlash: true`, so `/diag.html` is NOT served and
+> returns the application's 404 page. This was originally documented incorrectly
+> and cost a real quota-time session in the corporate environment.
+
 **Goal:** prove *where* the ~10 s wait happens before the app appears in the corporate
 environment (Omnissa Horizon + Ericom Shield + VDI). Not to guess. Every step below
 produces an artifact you can paste back.
@@ -18,7 +23,7 @@ While the page is loading in the corporate browser, note:
 | # | Observation | What it means |
 |---|---|---|
 | 1 | **Wall-clock seconds** from pressing Enter until *anything* other than white appears | The total user-perceived wait |
-| 2 | The value of **`TOTAL to load event`** reported by `/diag.html` in that same session | The part the browser actually spent on our page |
+| 2 | The value of **`TOTAL to load event`** reported by `/diag/` in that same session | The part the browser actually spent on our page |
 
 **The gap between them is time spent before our document was ever requested** — session
 setup, container start, authentication, policy evaluation. Our code cannot influence
@@ -33,7 +38,7 @@ Example: wall clock 10 s, `TOTAL to load event` 800 ms → ~9.2 s happened befor
 Open, in the corporate browser:
 
 ```
-https://sapbysali.app/diag.html
+https://sapbysali.app/diag/
 ```
 
 1. Wait for it to finish (~2 s).
@@ -238,7 +243,7 @@ never a rendering problem to find.
 
 ## The 404 in the screenshot
 
-`https://sapbysali.app/diag.html` returned the application's 404 page because the
+`https://sapbysali.app/diag/` returned the application's 404 page because the
 diagnostics page is not on `main` yet (PR #149). This is **not** a deployment
 defect: `public/diag.html` exists and the static export copies it to
 `out/diag.html` — verified, 19 KB, all sections intact. It simply has not been
@@ -248,7 +253,7 @@ merged. A build guard now enforces this permanently (see below).
 
 | # | Action | Owner | Effect |
 |---|---|---|---|
-| 1 | Merge PR #149 so `/diag.html` exists in production | us | makes the tool reachable |
+| 1 | Merge PR #149 so `/diag/` exists in production | us | makes the tool reachable |
 | 2 | **Ask IT to re-categorise `sapbysali.app` and add it to the allowlist** — it is flagged "Newly Registered Websites" | IT / security | removes the block page and the quota prompt entirely |
 | 3 | Ask IT whether `sapbysali.app` can be **excluded from Ericom Shield isolation** (direct-fetch policy) | IT / security | removes container startup — this is the actual 10 s |
 | 4 | Keep the startup optimisation (#148) | us | 21.3 MB → 755 KB is what Ericom's container has to fetch and scan on every session; it makes the isolated session materially cheaper |
