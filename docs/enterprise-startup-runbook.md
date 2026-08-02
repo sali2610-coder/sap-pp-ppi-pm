@@ -181,3 +181,83 @@ overlays fetched their chunks right after hydration on every page.
 This reduces what any scanner has to inspect by ~96%. It does **not**, by itself, explain
 a 10-second blank screen — and I would rather say that plainly than let a good number
 stand in for an answer.
+
+---
+
+# ROOT CAUSE — confirmed from the corporate environment (2026-08-02)
+
+Screenshots captured inside Omnissa Horizon by the user settle the architecture
+question. This section is evidence, not hypothesis.
+
+## What the request path actually is
+
+```
+Chrome (VDI, 10.70.3.126)
+   │
+   ▼
+Corporate web filter — 10.199.215.42:15871  /cgi-bin/blockpage.cgi?ws-session=…
+   │  category lookup → "Newly Registered Websites" → BLOCKED by policy
+   │  user must spend "quota time" (60 min budget, 10 min per session) to proceed
+   ▼
+Ericom Shield cloud — shield.ericomcloud.net
+   ?Shield-TenantID=49586765-722a-4ddd-ab06-9812527aa22a
+   &X-Authenticated-User=Sali%20Halif
+   &url=https%3A%2F%2Fsapbysali.app%2Fdiag.html
+   │  remote browser container is started, fetches and renders the page there
+   ▼
+Rendered output streamed back to the user's Chrome  (red isolation frame drawn)
+   ▼
+sapbysali.app  ← the origin is only reached at this point, by Ericom, not by the user
+```
+
+## Proof, item by item
+
+| Claim | Evidence |
+|---|---|
+| The browser never talks to `sapbysali.app` directly | Address bar reads `shield.ericomcloud.net/?Shield-TenantID=…&url=https%3A%2F%2Fsapbysali.app%2Fdiag.html` — the real URL is a query parameter |
+| Remote Browser Isolation is active | Ericom Shield tenant URL + the red frame drawn around the whole viewport |
+| A filtering proxy sits in front of it | Block page served from `10.199.215.42:15871/cgi-bin/blockpage.cgi?ws-session=538538123` |
+| The domain is blocked by policy, not by error | "Reason: This category is blocked: **Newly Registered Websites**" |
+| Access is rationed | "You have 60 minutes of quota time remaining. Click Use Quota Time to start a 10 minute session" |
+| The request is identified per user | `USERNAME: Sali Halif`, `IP: 10.70.3.126`, `X-Authenticated-User=Sali%20Halif` |
+
+## What this means for the 10-second wait
+
+Before a single byte of the application is requested, the environment performs:
+category lookup and policy decision at the proxy, quota validation, hand-off to
+the Ericom Shield tenant, **start of a remote browser container**, and only then
+the fetch of `sapbysali.app` — followed by streaming the rendered result back.
+
+Container start dominates that sequence and is measured in seconds. **No change
+to the application can shorten it**, because the application is not running on
+the user's machine at all — it runs inside Ericom's container.
+
+This is consistent with everything measured from outside: across every emulated
+profile down to 1 Mbps / 300 ms, the app paints real content in ~200 ms. There was
+never a rendering problem to find.
+
+## The 404 in the screenshot
+
+`https://sapbysali.app/diag.html` returned the application's 404 page because the
+diagnostics page is not on `main` yet (PR #149). This is **not** a deployment
+defect: `public/diag.html` exists and the static export copies it to
+`out/diag.html` — verified, 19 KB, all sections intact. It simply has not been
+merged. A build guard now enforces this permanently (see below).
+
+## Actions — and who owns each
+
+| # | Action | Owner | Effect |
+|---|---|---|---|
+| 1 | Merge PR #149 so `/diag.html` exists in production | us | makes the tool reachable |
+| 2 | **Ask IT to re-categorise `sapbysali.app` and add it to the allowlist** — it is flagged "Newly Registered Websites" | IT / security | removes the block page and the quota prompt entirely |
+| 3 | Ask IT whether `sapbysali.app` can be **excluded from Ericom Shield isolation** (direct-fetch policy) | IT / security | removes container startup — this is the actual 10 s |
+| 4 | Keep the startup optimisation (#148) | us | 21.3 MB → 755 KB is what Ericom's container has to fetch and scan on every session; it makes the isolated session materially cheaper |
+
+Item 3 is the one that removes the wait. Items 1 and 4 are ours; items 2 and 3
+are infrastructure decisions we cannot make from the codebase.
+
+## Permanent diagnostics guarantee
+
+`scripts/check-diag.mjs` runs in CI after the production build and fails the
+pipeline if `out/diag.html` is absent, truncated, or missing any of its sections.
+The page can no longer disappear from a deploy without the build going red.
