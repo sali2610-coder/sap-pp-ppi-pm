@@ -129,7 +129,37 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           `document.documentElement.dataset.device=${DEVICE_DETECT_SOURCE};` +
           `try{performance.mark("neo:device-detected");` +
           `document.addEventListener("DOMContentLoaded",function(){try{performance.mark("neo:dom-ready")}catch(e){}});` +
-          `window.addEventListener("load",function(){try{performance.mark("neo:window-load")}catch(e){}});}catch(e){}`
+          `window.addEventListener("load",function(){try{performance.mark("neo:window-load")}catch(e){}});}catch(e){}` +
+          // window.__neoTimeline(enteredAt?) — prints the full startup timeline for
+          // THIS page. Built to be run from the console inside the corporate browser,
+          // where no tooling can be installed. Pass the wall-clock moment you pressed
+          // Enter ("HH:MM:SS") to expose the time spent BEFORE the navigation started —
+          // proxy decision, quota, isolation container startup — which the Navigation
+          // Timing API cannot see, because it defines navigationStart as 0.
+          `window.__neoTimeline=function(enteredAt){` +
+          `var n=performance.getEntriesByType("navigation")[0]||{};` +
+          `var P=function(k){var e=performance.getEntriesByType("paint").find(function(p){return p.name===k});return e?Math.round(e.startTime):null};` +
+          `var M=function(k){var m=performance.getEntriesByType("mark").filter(function(x){return x.name===k});return m.length?Math.round(m[0].startTime):null};` +
+          `var L=null;try{var l=performance.getEntriesByType("largest-contentful-paint");if(l.length)L=Math.round(l[l.length-1].startTime)}catch(e){}` +
+          `var r=[["Navigation Start",0],["DNS",Math.round(n.domainLookupEnd-n.domainLookupStart)],` +
+          `["TCP connect",Math.round(n.connectEnd-n.connectStart)],` +
+          `["TLS",n.secureConnectionStart?Math.round(n.connectEnd-n.secureConnectionStart):0],` +
+          `["Request Start",Math.round(n.requestStart)],["TTFB",Math.round(n.responseStart-n.requestStart)],` +
+          `["HTML Received",Math.round(n.responseEnd)],["First Paint",P("first-paint")],` +
+          `["First Contentful Paint",P("first-contentful-paint")],["Largest Contentful Paint",L],` +
+          `["React shell render",M("neo:shell-render")],["React hydration complete",M("neo:shell-hydrated")],` +
+          `["First interactive",M("neo:first-interaction")],["Total to load event",Math.round(n.loadEventEnd)]];` +
+          `var out=r.map(function(x){return String(x[0]).padEnd(30)+": "+(x[1]==null?"n/a":x[1]+" ms")}).join("\\n");` +
+          `var o=performance.timeOrigin;` +
+          `out+="\\nnavigation started at".padEnd(31)+": "+new Date(o).toLocaleTimeString("en-GB",{hour12:false});` +
+          `if(enteredAt){var m=String(enteredAt).match(/^(\\d{1,2}):(\\d{2}):(\\d{2})$/);` +
+          `if(m){var d=new Date(o);d.setHours(+m[1],+m[2],+m[3],0);var gap=o-d.getTime();` +
+          `var usable=M("neo:shell-hydrated")||Math.round(n.loadEventEnd)||0;` +
+          `out+="\\n"+"BEFORE navigation (proxy/isolation)".padEnd(30)+": "+Math.round(gap)+" ms";` +
+          `out+="\\n"+"TOTAL Enter -> usable".padEnd(30)+": "+Math.round(gap+usable)+" ms";` +
+          `out+="\\n"+"  application share".padEnd(30)+": "+usable+" ms ("+Math.round(usable/(gap+usable)*100)+"%)";` +
+          `out+="\\n"+"  delivery-path share".padEnd(30)+": "+Math.round(gap)+" ms ("+Math.round(gap/(gap+usable)*100)+"%)";}}` +
+          `console.log(out);try{copy(out)}catch(e){}return out;};`
         }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
       </head>
