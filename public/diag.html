@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<title>SAP by Sali — Enterprise Startup Diagnostics</title>
+<style>
+  :root{--ink:#0f172a;--ink2:#475569;--ink3:#94a3b8;--line:#e2e8f0;--bg:#fcfcfd;--surf:#fff;--brand:#d62027}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 'Segoe UI',system-ui,-apple-system,sans-serif}
+  .wrap{max-width:1120px;margin:0 auto;padding:22px 20px 70px}
+  h1{font-size:20px;margin:0 0 4px;letter-spacing:-.01em} h1 b{color:var(--brand)}
+  .sub{color:var(--ink2);margin:0 0 18px;font-size:13px;max-width:80ch}
+  .card{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+  .card h2{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);margin:0 0 10px;font-weight:800}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  td{padding:4px 8px 4px 0;vertical-align:top}
+  td.k{color:var(--ink2);white-space:nowrap;width:250px} td.v{font-weight:600;font-variant-numeric:tabular-nums;word-break:break-all}
+  .bar{height:7px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:3px}
+  .bar span{display:block;height:100%;background:var(--brand)}
+  .res{font-size:12px;width:100%;border-collapse:collapse}
+  .res th{text-align:left;color:var(--ink3);font-weight:800;padding:4px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+  .res td{padding:3px 6px;border-bottom:1px solid #f1f5f9;font-variant-numeric:tabular-nums}
+  .res td.n{max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .warn{color:#b45309}.bad{color:#b91c1c;font-weight:800}.ok{color:#15803d}
+  .verdict{border-radius:12px;padding:14px 16px;margin-bottom:14px;font-weight:700;border:2px solid}
+  .v-app{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+  .v-infra{background:#eff6ff;border-color:#bfdbfe;color:#1e40af}
+  .v-none{background:#f0fdf4;border-color:#bbf7d0;color:#166534}
+  button{font:inherit;font-weight:700;background:var(--brand);color:#fff;border:0;border-radius:9px;padding:9px 16px;cursor:pointer}
+  button.sec{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  textarea{width:100%;height:220px;font:12px/1.45 ui-monospace,Menlo,Consolas,monospace;border:1px solid var(--line);border-radius:9px;padding:10px}
+  .hint{font-size:12px;color:var(--ink2);margin-top:8px}
+  code{background:#f1f5f9;padding:1px 5px;border-radius:4px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>SAP by Sali — <b>Enterprise Startup Diagnostics</b></h1>
+  <p class="sub">
+    Standalone page: plain HTML + one inline script. No framework, no bundle, no third-party request.
+    Its job is to decide <strong>one question with evidence</strong>: is the startup delay caused by the
+    application, or by the delivery path (proxy / browser isolation / scanning)?
+    Run it inside the corporate environment <em>and</em> on a normal machine, then compare the two reports.
+  </p>
+
+  <div class="row">
+    <button onclick="location.reload()">Re-run</button>
+    <button class="sec" onclick="runAll()">Run deep probes</button>
+    <button class="sec" onclick="copyReport()">Copy full report</button>
+  </div>
+
+  <div id="verdict"></div>
+
+  <div class="card"><h2>1 · Delivery path — is anything between the browser and the origin?</h2><table id="path"></table>
+    <p class="hint">If the hostname is not <code>sapbysali.app</code>, or the page is inside a frame, or foreign scripts were injected,
+      then the HTML the browser executed is <strong>not</strong> the HTML that was published — it was rewritten in transit.</p>
+  </div>
+
+  <div class="card"><h2>2 · Connection + document phases (this page)</h2><table id="nav"></table></div>
+  <div class="card"><h2>3 · Paint</h2><table id="paint"></table></div>
+  <div class="card"><h2>4 · Application boot marks (performance.mark)</h2><table id="marks"></table>
+    <p class="hint">Populated when you load the app itself. Empty here is expected — this page is not the app.</p>
+  </div>
+  <div class="card"><h2>5 · Capability probes</h2><table id="probe"></table></div>
+  <div class="card"><h2>6 · Scanning / double-fetch test</h2><table id="scan"></table>
+    <p class="hint">Fetches the same file twice with caching disabled. A large, repeatable gap on first fetch is the fingerprint of
+      inline inspection (AV / DLP / isolation) rather than distance to the server.</p>
+  </div>
+  <div class="card"><h2>7 · Resource waterfall (slowest 40)</h2>
+    <table class="res" id="res"><thead><tr><th>resource</th><th>type</th><th>wire KB</th><th>decoded KB</th><th>enc</th><th>total ms</th><th>wait ms</th></tr></thead><tbody></tbody></table>
+  </div>
+  <div class="card"><h2>Report — copy this back</h2><textarea id="out" readonly></textarea></div>
+</div>
+
+<script>
+(function(){
+  var EXPECT_HOST = "sapbysali.app";
+  // Hosts that are legitimately "not production" — local runs and preview deploys.
+  // Without this the report would cry proxy on every localhost test.
+  var LOCAL = /^(localhost|127\.0\.0\.1|\[::1\]|0\.0\.0\.0)$/;
+  var isBaseline = LOCAL.test(location.hostname) || /\.vercel\.app$/.test(location.hostname);
+  var R=[], FLAGS={infra:[],app:[]};
+  function line(k,v){ R.push(String(k).padEnd(34," ")+": "+v); }
+  function row(t,k,v,cls){
+    var tr=document.createElement("tr");
+    tr.innerHTML='<td class="k">'+k+'</td><td class="v '+(cls||"")+'">'+v+'</td>';
+    document.getElementById(t).appendChild(tr); line(k,String(v).replace(/<[^>]+>/g,""));
+  }
+  var ms=function(n){return (n==null||isNaN(n))?"n/a":Math.round(n)+" ms";};
+  var kb=function(n){return Math.round((n||0)/1024)+" KB";};
+
+  // ============ 1 · DELIVERY PATH =========================================
+  function deliveryPath(){
+    var host=location.hostname, framed=(window.top!==window.self);
+    row("path","page URL",location.href);
+    var hostOk = host.indexOf(EXPECT_HOST)!==-1 || isBaseline;
+    row("path","hostname",host+(isBaseline?"  (baseline run — not production)":""), hostOk?"ok":"bad");
+    if(!hostOk){
+      FLAGS.infra.push("Hostname is '"+host+"', not "+EXPECT_HOST+" — the URL is rewritten in transit. That is proxy or browser-isolation behaviour, and it means the browser is NOT talking to the origin directly.");
+    }
+    row("path","protocol / port",location.protocol+" "+(location.port||"(default)"));
+    row("path","inside a frame?",framed?"YES":"no", framed?"bad":"ok");
+    if(framed) FLAGS.infra.push("The page runs inside a frame — typical of remote browser isolation or a portal wrapper.");
+    row("path","document.referrer",document.referrer||"(none)");
+    row("path","ancestor origins",(location.ancestorOrigins?Array.prototype.join.call(location.ancestorOrigins,", "):"n/a")||"(none)");
+
+    // foreign resources injected into THIS page (it ships with zero external refs)
+    var foreign=[];
+    ["script[src]","link[href]","iframe[src]"].forEach(function(sel){
+      Array.prototype.forEach.call(document.querySelectorAll(sel),function(el){
+        var u=el.src||el.href; if(!u) return;
+        try{ var h=new URL(u,location.href).hostname; if(h && h!==location.hostname) foreign.push(el.tagName.toLowerCase()+" → "+h); }catch(e){}
+      });
+    });
+    row("path","injected foreign resources",foreign.length?foreign.join("<br>"):"none", foreign.length?"bad":"ok");
+    if(foreign.length) FLAGS.infra.push("Foreign resources were injected into a page that ships with none: "+foreign.join(", "));
+
+    // vendor globals
+    var vend=[];
+    // Vendor names only. A generic /isolat/ pattern matches the standard
+    // `crossOriginIsolated` global and produced a false positive on a clean run.
+    var VENDOR=/ericom|shield|zscaler|netskope|forcepoint|bluecoat|symantec|menlo|broadcom|omnissa|horizon|citrix|cloudflareaccess|rbi_|_rbi/i;
+    var STD=/^(crossOriginIsolated|isSecureContext|originAgentCluster)$/;
+    try{ Object.keys(window).forEach(function(k){ if(VENDOR.test(k) && !STD.test(k)) vend.push(k); }); }catch(e){}
+    row("path","isolation/proxy globals",vend.length?vend.join(", "):"none detected", vend.length?"bad":"ok");
+    if(vend.length) FLAGS.infra.push("Browser globals injected by a security product: "+vend.join(", "));
+
+    // does the served HTML still match what we published? (size heuristic)
+    row("path","this document size",kb(document.documentElement.outerHTML.length));
+
+    // observable response headers from our own origin
+    fetch(location.href,{cache:"no-store"}).then(function(r){
+      var hs=[];
+      ["content-encoding","server","via","x-cache","x-vercel-cache","cf-ray","x-ericom","x-frame-options","content-security-policy"].forEach(function(h){
+        var v=r.headers.get(h); if(v) hs.push(h+": "+v);
+      });
+      row("path","observable response headers",hs.length?hs.join("<br>"):"(none exposed)");
+      var via=r.headers.get("via");
+      if(via) FLAGS.infra.push("Response carries a Via header ("+via+") — an intermediary proxy is in the path.");
+      var enc=r.headers.get("content-encoding");
+      if(!enc && !isBaseline) FLAGS.infra.push("This page came back uncompressed from production, which does serve brotli — an intermediary is stripping content-encoding, typically to inspect the body.");
+    }).catch(function(){ row("path","observable response headers","fetch blocked","bad"); });
+  }
+
+  // ============ 2 · NAVIGATION PHASES =====================================
+  function phases(){
+    var n=(performance.getEntriesByType("navigation")||[])[0];
+    if(!n){ row("nav","navigation timing","unavailable","bad"); return; }
+    var seg=[
+      ["redirects",n.redirectEnd-n.redirectStart],
+      ["service worker startup",n.workerStart?n.fetchStart-n.workerStart:0],
+      ["DNS lookup",n.domainLookupEnd-n.domainLookupStart],
+      ["TCP connect",n.connectEnd-n.connectStart],
+      ["TLS handshake",n.secureConnectionStart?n.connectEnd-n.secureConnectionStart:0],
+      ["request → first byte (TTFB)",n.responseStart-n.requestStart],
+      ["HTML download",n.responseEnd-n.responseStart],
+      ["parse → DOM interactive",n.domInteractive-n.responseEnd],
+      ["DOMContentLoaded",n.domContentLoadedEventEnd-n.domInteractive],
+      ["→ load event",n.loadEventEnd-n.domContentLoadedEventEnd]
+    ];
+    var total=Math.max(1,n.loadEventEnd||n.responseEnd);
+    seg.forEach(function(s){
+      var pct=Math.max(0,Math.min(100,(s[1]/total)*100));
+      var cls=s[1]>1000?"bad":(s[1]>300?"warn":"");
+      var tr=document.createElement("tr");
+      tr.innerHTML='<td class="k">'+s[0]+'</td><td class="v '+cls+'">'+ms(s[1])+'<div class="bar"><span style="width:'+pct.toFixed(1)+'%"></span></div></td>';
+      document.getElementById("nav").appendChild(tr); line(s[0],ms(s[1]));
+      if(s[1]>2000) FLAGS.infra.push("Phase '"+s[0]+"' took "+Math.round(s[1])+" ms on a 11 KB dependency-free page — that time is spent in the network path, not in the application.");
+    });
+    row("nav","TOTAL to load event",ms(n.loadEventEnd),n.loadEventEnd>3000?"bad":"ok");
+    row("nav","protocol",n.nextHopProtocol||"n/a");
+    row("nav","transfer / decoded",kb(n.transferSize)+" / "+kb(n.decodedBodySize));
+    row("nav","timeOrigin (wall clock)",new Date(performance.timeOrigin).toISOString());
+    row("nav","measured at",new Date().toISOString());
+    if(n.serverTiming&&n.serverTiming.length)
+      row("nav","Server-Timing",n.serverTiming.map(function(s){return s.name+"="+s.duration;}).join(", "));
+  }
+
+  // ============ 3 · PAINT =================================================
+  function paints(){
+    (performance.getEntriesByType("paint")||[]).forEach(function(p){
+      row("paint",p.name,ms(p.startTime),p.startTime>2000?"bad":(p.startTime>1000?"warn":"ok"));
+    });
+    try{ new PerformanceObserver(function(l){ var e=l.getEntries().pop();
+      if(e){ row("paint","largest-contentful-paint",ms(e.startTime),e.startTime>2500?"bad":"ok"); }
+    }).observe({type:"largest-contentful-paint",buffered:true});
+    }catch(e){ row("paint","LCP","not supported"); }
+  }
+
+  // ============ 4 · APP BOOT MARKS ========================================
+  function marks(){
+    var ms_=performance.getEntriesByType("mark").filter(function(m){return m.name.indexOf("neo:")===0;});
+    if(!ms_.length){ row("marks","app boot marks","none on this page (expected)"); return; }
+    ms_.sort(function(a,b){return a.startTime-b.startTime;});
+    ms_.forEach(function(m){ row("marks",m.name,ms(m.startTime)); });
+  }
+
+  // ============ 5 · CAPABILITY PROBES =====================================
+  function probes(){
+    // Service Worker
+    if(!("serviceWorker" in navigator)){ row("probe","Service Worker API","NOT AVAILABLE","bad");
+      FLAGS.infra.push("The Service Worker API is unavailable — commonly stripped by isolation/proxy layers.");
+    } else {
+      var t0=performance.now();
+      navigator.serviceWorker.getRegistrations().then(function(rs){
+        row("probe","SW registrations",rs.length+" (query took "+Math.round(performance.now()-t0)+" ms)");
+      }).catch(function(e){ row("probe","SW query","BLOCKED: "+e.message,"bad");
+        FLAGS.infra.push("Service Worker query was blocked by policy."); });
+    }
+    // CSP violations
+    var csp=[];
+    window.addEventListener("securitypolicyviolation",function(e){ csp.push(e.violatedDirective+" ← "+e.blockedURI); });
+    setTimeout(function(){ row("probe","CSP violations observed",csp.length?csp.join("<br>"):"none",csp.length?"bad":"ok");
+      if(csp.length) FLAGS.infra.push("Content-Security-Policy blocked: "+csp.join(", ")); },1500);
+    // dynamic import
+    var d0=performance.now();
+    var blob;
+    try{
+      blob=URL.createObjectURL(new Blob(["export const ok=1;"],{type:"text/javascript"}));
+      import(blob).then(function(){ row("probe","dynamic import()",ms(performance.now()-d0),(performance.now()-d0)>500?"warn":"ok"); })
+        .catch(function(e){ row("probe","dynamic import()","BLOCKED: "+e.message,"bad");
+          FLAGS.infra.push("Dynamic import() is blocked — code-splitting cannot work in this environment."); });
+    }catch(e){ row("probe","dynamic import()","not testable: "+e.message,"warn"); }
+    // inline eval (CSP indicator)
+    try{ /* eslint-disable no-new-func */ new Function("return 1")(); row("probe","new Function / eval","allowed"); }
+    catch(e){ row("probe","new Function / eval","BLOCKED (strict CSP)","warn"); }
+    // storage
+    try{ localStorage.setItem("neo:diag","1"); localStorage.removeItem("neo:diag"); row("probe","localStorage","available"); }
+    catch(e){ row("probe","localStorage","BLOCKED","bad"); FLAGS.infra.push("localStorage is blocked."); }
+    // connection
+    var c=navigator.connection||{};
+    row("probe","connection",(c.effectiveType||"n/a")+" · downlink "+(c.downlink!=null?c.downlink+" Mbps":"n/a")+" · rtt "+(c.rtt!=null?c.rtt+" ms":"n/a"));
+    row("probe","user agent",navigator.userAgent);
+    row("probe","hardwareConcurrency / memory",(navigator.hardwareConcurrency||"n/a")+" cores / "+(navigator.deviceMemory?navigator.deviceMemory+" GB":"n/a"));
+    row("probe","viewport (CSS px) · DPR",window.innerWidth+"x"+window.innerHeight+" · "+window.devicePixelRatio);
+  }
+
+  // ============ 6 · SCANNING / DOUBLE FETCH ===============================
+  function scanTest(){
+    var target="/diag.html?probe="+Date.now();
+    function once(url){
+      var t=performance.now();
+      return fetch(url,{cache:"no-store"}).then(function(r){ return r.arrayBuffer().then(function(b){
+        return {t:performance.now()-t,bytes:b.byteLength,enc:r.headers.get("content-encoding")||"none"}; }); });
+    }
+    once(target).then(function(a){
+      return once(target+"&2").then(function(b){
+        return once(target+"&3").then(function(c){
+          row("scan","fetch #1",ms(a.t)+"  ("+kb(a.bytes)+", enc="+a.enc+")");
+          row("scan","fetch #2",ms(b.t));
+          row("scan","fetch #3",ms(c.t));
+          var first=a.t, rest=(b.t+c.t)/2, delta=first-rest;
+          row("scan","first-fetch penalty",ms(delta), delta>400?"bad":(delta>150?"warn":"ok"));
+          if(delta>400) FLAGS.infra.push("First fetch of an identical file was "+Math.round(delta)+" ms slower than repeats — consistent with inline content inspection (AV / DLP / isolation).");
+          if(a.enc==="none" && !isBaseline) FLAGS.infra.push("Static assets arrive with no content-encoding in this environment, although production serves them compressed.");
+        });
+      });
+    }).catch(function(e){ row("scan","scan test","failed: "+e.message,"warn"); });
+  }
+
+  // ============ 7 · WATERFALL =============================================
+  function waterfall(){
+    var tb=document.querySelector("#res tbody");
+    var rs=(performance.getEntriesByType("resource")||[]).slice().sort(function(a,b){return b.duration-a.duration;});
+    rs.slice(0,40).forEach(function(r){
+      var wait=r.responseStart?r.responseStart-r.requestStart:0;
+      var enc=(r.encodedBodySize&&r.decodedBodySize&&r.decodedBodySize>r.encodedBodySize)?"yes":"NO";
+      var tr=document.createElement("tr");
+      tr.innerHTML='<td class="n" title="'+r.name+'">'+r.name.split("/").pop()+'</td><td>'+r.initiatorType+'</td>'+
+        '<td>'+Math.round((r.transferSize||0)/1024)+'</td><td>'+Math.round((r.decodedBodySize||0)/1024)+'</td>'+
+        '<td class="'+(enc==="NO"?"warn":"")+'">'+enc+'</td>'+
+        '<td class="'+(r.duration>1000?"bad":"")+'">'+Math.round(r.duration)+'</td>'+
+        '<td class="'+(wait>500?"bad":"")+'">'+Math.round(wait)+'</td>';
+      tb.appendChild(tr);
+    });
+    line("resource count",rs.length);
+  }
+
+  // ============ VERDICT ===================================================
+  function verdict(){
+    var el=document.getElementById("verdict"); var h="";
+    if(FLAGS.infra.length){
+      h='<div class="verdict v-infra"><div style="font-size:15px;margin-bottom:6px">Evidence of delivery-path interference ('+FLAGS.infra.length+')</div><ul style="margin:6px 0 0 18px;font-weight:600">'+
+        FLAGS.infra.map(function(f){return "<li>"+f+"</li>";}).join("")+'</ul></div>';
+      R.push("\n--- DELIVERY-PATH FINDINGS ---"); FLAGS.infra.forEach(function(f){R.push("* "+f);});
+    } else {
+      h='<div class="verdict v-none">No delivery-path interference detected from inside the page. If the user still waits, the delay happens BEFORE this document is requested (session setup / container start) — capture that with a HAR and the wall-clock note in the runbook.</div>';
+      R.push("\n--- DELIVERY-PATH FINDINGS ---\n* none detected inside the page");
+    }
+    el.innerHTML=h;
+    document.getElementById("out").value=R.join("\n");
+  }
+
+  window.runAll=function(){ probes(); scanTest(); setTimeout(function(){ verdict(); },2600); };
+  window.copyReport=function(){ var ta=document.getElementById("out"); ta.select();
+    try{document.execCommand("copy");}catch(e){}
+    if(navigator.clipboard) navigator.clipboard.writeText(ta.value).catch(function(){}); };
+
+  function run(){ deliveryPath(); phases(); paints(); marks(); waterfall(); setTimeout(verdict,900); }
+  if(document.readyState==="complete") setTimeout(run,60);
+  else window.addEventListener("load",function(){setTimeout(run,60);});
+})();
+</script>
+</body>
+</html>
