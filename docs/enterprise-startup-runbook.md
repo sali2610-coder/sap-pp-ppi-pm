@@ -266,3 +266,96 @@ are infrastructure decisions we cannot make from the codebase.
 `scripts/check-diag.mjs` runs in CI after the production build and fails the
 pipeline if `out/diag.html` is absent, truncated, or missing any of its sections.
 The page can no longer disappear from a deploy without the build going red.
+
+
+---
+
+# Capturing the startup timeline (the final piece of evidence)
+
+## The limitation you must know before reading any number
+
+`performance.timing` defines **`navigationStart = 0`**. It cannot measure anything that
+happened *before* the browser began the navigation — proxy category lookup, quota
+validation, or an isolation container starting. If that took 9 s and the page then
+loaded in 400 ms, the browser will report a fast load and be telling the truth.
+
+So a timeline on its own cannot prove where the 10 s went. It needs an **external
+anchor**: the wall-clock moment you pressed Enter. Both tools below take one.
+
+## Tool 1 — on the application itself
+
+Load `https://sapbysali.app/` in the corporate browser, note the time you pressed
+Enter, then open the console (F12) and run:
+
+```js
+__neoTimeline("21:45:30")     // the HH:MM:SS you pressed Enter
+```
+
+It prints (and copies) the full table:
+
+```
+Navigation Start              : 0 ms
+DNS                           : … ms
+TCP connect                   : … ms
+TLS                           : … ms
+Request Start                 : … ms
+TTFB                          : … ms
+HTML Received                 : … ms
+First Paint                   : … ms
+First Contentful Paint        : … ms
+Largest Contentful Paint      : … ms
+React shell render            : … ms
+React hydration complete      : … ms
+First interactive             : … ms
+Total to load event           : … ms
+navigation started at         : HH:MM:SS
+BEFORE navigation (proxy/isolation): … ms      <-- the decisive number
+TOTAL Enter -> usable         : … ms
+  application share           : … ms (…%)
+  delivery-path share         : … ms (…%)
+```
+
+Verified end to end locally with a simulated 9 s pre-navigation delay:
+
+```
+BEFORE navigation (proxy/isolation): 9390 ms
+TOTAL Enter -> usable              : 9642 ms
+  application share                :  252 ms (3%)
+  delivery-path share              : 9390 ms (97%)
+```
+
+That is the shape of the answer. If the corporate run produces something similar, the
+case is closed on measurement, not on argument.
+
+## Tool 2 — `/diag/` section 0
+
+The diagnostics page renders the same table with bar charts, plus a field for the
+wall-clock time. Same anchoring, no console needed.
+
+## Tool 3 — the HAR, which no in-page API can replace
+
+A page can only measure its own load. It cannot see the redirect chain that preceded
+it, or how long the Ericom tenant took to answer. Only a network capture shows that:
+
+1. F12 → **Network**, tick **Preserve log** and **Disable cache**.
+2. Load `https://sapbysali.app/`.
+3. Right-click the request list → **Save all as HAR with content**.
+
+In the HAR, look at the **first** entries — before anything from `sapbysali.app`:
+
+- the request to `shield.ericomcloud.net/?Shield-TenantID=…&url=…`
+- its **Waiting (TTFB)** value
+
+That waiting time *is* the isolation container starting. It is the number that
+settles the investigation, and it exists only in the HAR.
+
+For an even fuller record: `chrome://net-export` → **Start Logging to Disk** → reload
+the site → **Stop Logging**.
+
+## What each outcome means
+
+| Result | Conclusion |
+|---|---|
+| `BEFORE navigation` is multiple seconds | The delay is in the delivery path. Application changes cannot affect it. Owner: IT. |
+| `BEFORE navigation` is small but TTFB is seconds | The origin or the path to it is slow — check the HAR for which hop. |
+| Both small, yet the user still waited | The wait is in the VDI session or browser startup, before any navigation. Capture with `chrome://net-export`. |
