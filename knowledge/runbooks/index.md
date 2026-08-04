@@ -11,6 +11,7 @@
 | PI/PO, SOAP, Proxy, SXMB_MONI, mapping/channel error | `pipo-integration-failure.md` | Integration |
 | MIGO, MIRO, COGI (backflush), תנועת מלאי/חשבונית | `goods-movement-invoice-error.md` | MM/PP/FI |
 | COGI "הזן סדרה", batch determination, MBC1/MBC2/MBC3, COB1/COB2/COB3, אצווה לא נבחרת | `cogi-batch-determination.md` | PP-PI/PP/Batch |
+| חיוב/צריכה כפולה, backflush כפול, "מסמך חומר לא ניתן לעיבוד", ביטול CO13 מול MIGO, TECO חוסם | `backflush-double-consumption-reversal.md` | PP/PP-PI/MM |
 | Production Order, COHV, CO01/CO02, שחרור/availability | `pp-production-order.md` | PP |
 | Process Order, COR6N, Control Recipe, CO53, COGI | `pppi-process-order.md` | PP-PI |
 | PM Notification/Order, IW21/IW31/IW32, TECO, settlement | `pm-notification-order.md` | PM |
