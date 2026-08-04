@@ -25,3 +25,16 @@ Next.js 16 (App Router, `output: 'export'`) · React 19 · TypeScript · Tailwin
 - `npm run dev` — local dev
 - `node scripts/extract-data.mjs` — rebuild dataset from source HTML
 - `npm run build` — produce `out/` (static)
+
+## SAP HQ — Project Intelligence Entry Point
+`/hq` is the **single entry point** for every SAP request in this repo (incidents, learning, architecture, SAP Notes,
+migration, PP/PP-PI/PM/interfaces). It is project-local under `.claude/skills/{hq,sherlock,oracle,memory,flagship}/`
+and `.claude/commands/hq.md`; runtime data lives in `SAP-HQ/`. Rules for anyone (or any agent) using it:
+- HQ is an **orchestrator** — it routes internally to Sherlock (investigate) / Oracle (knowledge) / Memory (history)
+  and Expert Packs. **The user never picks an agent manually.**
+- **Hebrew by default.**
+- **Never guess SAP data.** Use Never-Guess + evidence-based analysis; ask for the exact missing evidence.
+- **Separate knowledge from a live check.** Label each conclusion: נבדק בפועל / מבוסס על קובץ / צילום מסך / ידע /
+  דורש אימות במערכת SAP. Never claim a live SAP check that did not happen; never invent a SAP Note/KBA number.
+- Works **with or without** a local SAP MCP (cloud/phone safe): degrades to project files, docs, pasted evidence,
+  screenshots, and web search. This is orchestration only — it does not touch the NEO Cockpit business code.

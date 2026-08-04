@@ -1,0 +1,327 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-07-23",
+  "source": "live scan of project .claude + SAP-HQ",
+  "projectLocal": true,
+  "entryPoint": {
+    "command": "/hq",
+    "file": ".claude/commands/hq.md",
+    "skill": ".claude/skills/hq/"
+  },
+  "skills": [
+    {
+      "id": "academic-pptx",
+      "type": "skill",
+      "path": ".claude/skills/academic-pptx/",
+      "category": "project",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "docx",
+      "type": "skill",
+      "path": ".claude/skills/docx/",
+      "category": "project",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "enterprise-adaptive-ui-reviewer",
+      "type": "skill",
+      "path": ".claude/skills/enterprise-adaptive-ui-reviewer/",
+      "category": "NEO",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "enterprise-performance-reviewer",
+      "type": "skill",
+      "path": ".claude/skills/enterprise-performance-reviewer/",
+      "category": "NEO",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "enterprise-ux-reviewer",
+      "type": "skill",
+      "path": ".claude/skills/enterprise-ux-reviewer/",
+      "category": "NEO",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "excalidraw-diagram",
+      "type": "skill",
+      "path": ".claude/skills/excalidraw-diagram/",
+      "category": "project",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "hq",
+      "type": "skill",
+      "path": ".claude/skills/hq/",
+      "category": "HQ-flagship",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "knowledge-library-builder",
+      "type": "skill",
+      "path": ".claude/skills/knowledge-library-builder/",
+      "category": "project",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "learning-content-factory",
+      "type": "skill",
+      "path": ".claude/skills/learning-content-factory/",
+      "category": "project",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "memory",
+      "type": "skill",
+      "path": ".claude/skills/memory/",
+      "category": "HQ-flagship",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "mermaid-diagrams",
+      "type": "skill",
+      "path": ".claude/skills/mermaid-diagrams/",
+      "category": "project",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "neo-accessibility-reviewer",
+      "type": "skill",
+      "path": ".claude/skills/neo-accessibility-reviewer/",
+      "category": "NEO",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "neo-architecture-studio-reviewer",
+      "type": "skill",
+      "path": ".claude/skills/neo-architecture-studio-reviewer/",
+      "category": "NEO",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "neo-documentation-guardian",
+      "type": "skill",
+      "path": ".claude/skills/neo-documentation-guardian/",
+      "category": "NEO",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "neo-enterprise-ux-auditor",
+      "type": "skill",
+      "path": ".claude/skills/neo-enterprise-ux-auditor/",
+      "category": "NEO",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "neo-sap-content-quality-reviewer",
+      "type": "skill",
+      "path": ".claude/skills/neo-sap-content-quality-reviewer/",
+      "category": "NEO",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "neo-sap-visual-designer",
+      "type": "skill",
+      "path": ".claude/skills/neo-sap-visual-designer/",
+      "category": "NEO",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "neo-search-experience-reviewer",
+      "type": "skill",
+      "path": ".claude/skills/neo-search-experience-reviewer/",
+      "category": "NEO",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "oracle",
+      "type": "skill",
+      "path": ".claude/skills/oracle/",
+      "category": "HQ-flagship",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "pdf",
+      "type": "skill",
+      "path": ".claude/skills/pdf/",
+      "category": "project",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "ppt-master",
+      "type": "skill",
+      "path": ".claude/skills/ppt-master/",
+      "category": "project",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "pptx",
+      "type": "skill",
+      "path": ".claude/skills/pptx/",
+      "category": "project",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "research-academic-engine",
+      "type": "skill",
+      "path": ".claude/skills/research-academic-engine/",
+      "category": "project",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "sap-knowledge-architect",
+      "type": "skill",
+      "path": ".claude/skills/sap-knowledge-architect/",
+      "category": "project",
+      "portable": true,
+      "loaded": true
+    },
+    {
+      "id": "sherlock",
+      "type": "skill",
+      "path": ".claude/skills/sherlock/",
+      "category": "HQ-flagship",
+      "portable": true,
+      "loaded": true
+    }
+  ],
+  "flagship": [
+    "hq",
+    "sherlock",
+    "oracle",
+    "memory",
+    "flagship(shared)"
+  ],
+  "references": [
+    "auto-investigation.md",
+    "expert-packs.md",
+    "interactive-investigation.md",
+    "knowledge-evolution.md",
+    "operational-intelligence.md",
+    "reasoning-engine.md",
+    "request-modes.md",
+    "routing.md"
+  ],
+  "scripts": [
+    ".claude/skills/hq/scripts/hq-ops.sh",
+    ".claude/skills/flagship/scripts/healthcheck.sh"
+  ],
+  "commands": [
+    "hq.md"
+  ],
+  "agents": {
+    "projectLocal": [],
+    "note": "sc4sap consultants + sap-sqlscript/sapui5 agents are GLOBAL/optional; HQ falls back without them"
+  },
+  "mcp": {
+    "required": false,
+    "projectServers": [],
+    "note": "HQ works without MCP; sc4sap:sap is disconnected/optional"
+  },
+  "hooks": {
+    "registered": [],
+    "note": "HQ registers NO hooks; project auto-push.sh exists but is UNREGISTERED/dormant"
+  },
+  "expertPacks": [
+    "ABAP Expert",
+    "Authorization Expert",
+    "BTP Expert",
+    "Basis Expert",
+    "CO Expert",
+    "ECC Expert",
+    "FI Expert",
+    "Fiori Expert",
+    "Gateway Expert",
+    "IDOC Expert",
+    "MM Expert",
+    "OData Expert",
+    "PI/PO Expert",
+    "PM Expert",
+    "PP Expert",
+    "Performance Expert",
+    "QM Expert",
+    "S/4HANA Expert",
+    "SD Expert",
+    "Workflow Expert"
+  ],
+  "workspace": {
+    "root": "SAP-HQ/",
+    "committed": [
+      "playbooks",
+      "runbooks",
+      "knowledge",
+      "lessons-learned",
+      "templates",
+      "README.md"
+    ],
+    "runtimeIgnored": [
+      "incidents",
+      "archive",
+      "knowledge-graph"
+    ]
+  },
+  "playbooks": [],
+  "knowledgeJSON": [
+    "sap-skills.json",
+    "sap-ai-system.json",
+    "sap-mcp.json",
+    "sap-capability-matrix.json",
+    "sap-agents.json",
+    "sap-plugins.json"
+  ],
+  "dependencies": {
+    "hq": [
+      "sherlock",
+      "oracle",
+      "memory",
+      "flagship",
+      "expert-packs",
+      "playbooks",
+      "knowledge"
+    ],
+    "sherlock": [
+      "flagship",
+      "(global) sap-incident-commander",
+      "sap-ecc-troubleshooter",
+      "sc4sap agents"
+    ],
+    "oracle": [
+      "flagship",
+      "(global/web) deep-research",
+      "WebSearch"
+    ],
+    "memory": [
+      "flagship",
+      "SAP-HQ/knowledge",
+      "SAP-HQ/lessons-learned",
+      "docs"
+    ]
+  },
+  "status": "project-local, portable, MCP-optional, hook-free core",
+  "healthCommand": "/hq doctor  (or /hq health)"
+}
