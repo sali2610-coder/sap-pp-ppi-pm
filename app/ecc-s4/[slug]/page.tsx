@@ -1,8 +1,17 @@
 import { ECC_S4_TOPICS, eccS4BySlug, STATUS_HE, STATUS_COLOR } from "@/data/ecc-s4";
 import { Crumb, CenterHeader, Block, TwoCol } from "@/components/knowledge";
+import { pageMeta } from "@/lib/seo";
 
 export function generateStaticParams() { return ECC_S4_TOPICS.map((t) => ({ slug: t.slug })); }
 export const dynamicParams = false;
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const x = eccS4BySlug(decodeURIComponent(slug));
+  if (!x) return {};
+  return pageMeta({ he: x.he, title: x.title, module: x.area, blurb: x.ecc, path: `/ecc-s4/${slug}/` });
+}
+
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

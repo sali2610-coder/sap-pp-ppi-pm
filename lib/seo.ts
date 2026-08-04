@@ -56,3 +56,32 @@ export function og(title: string, description: string, path?: string): Metadata[
 export function twitter(title: string, description: string): Metadata["twitter"] {
   return { card: "summary_large_image", title, description, images: [OG_IMAGE] };
 }
+
+/**
+ * Per-page title + description for the knowledge routes.
+ *
+ * Before this existed, 516 indexable pages across 14 dynamic route families
+ * fell back to the layout defaults, producing 726 duplicate <title> values
+ * (516 of them the literal "SAP by Sali | Project NEO") and 1,696 identical
+ * meta descriptions. Google treats that as duplicate metadata and it suppresses
+ * distinct snippets.
+ *
+ * Everything here is built from fields that already exist in the datasets —
+ * Hebrew name, English name, module, and the record's own summary text. No
+ * copy is invented, and a missing field is simply omitted rather than filled
+ * with a guess.
+ */
+export function pageMeta(o: { he?: string; title?: string; module?: string; blurb?: string; path: string }): Metadata {
+  const name = [o.he, o.title && o.title !== o.he ? `(${o.title})` : ""].filter(Boolean).join(" ").trim() || o.title || "";
+  const heading = [name, o.module].filter(Boolean).join(" · ");
+  // Meta descriptions are truncated by search engines around 155-160 chars.
+  // Cut on a word boundary so the snippet never ends mid-word.
+  const raw = (o.blurb || "").replace(/\s+/g, " ").trim();
+  const description = raw.length > 155 ? raw.slice(0, 155).replace(/\s+\S*$/, "") + "…" : raw || undefined;
+  return {
+    title: heading || undefined,
+    description,
+    alternates: { canonical: o.path },
+    openGraph: og(`SAP by Sali | ${heading}`, description || heading, o.path),
+  };
+}

@@ -6,9 +6,18 @@ import { listFuncs } from "@/lib/object-intel";
 import { cdsByView } from "@/data/cds-map";
 import { incidentBySlug } from "@/data/troubleshooting";
 import { Crumb, CenterHeader, Block } from "@/components/knowledge";
+import { pageMeta } from "@/lib/seo";
 
 export function generateStaticParams() { return SOLUTIONS.map((s) => ({ slug: s.slug })); }
 export const dynamicParams = false;
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const x = solutionBySlug(decodeURIComponent(slug));
+  if (!x) return {};
+  return pageMeta({ he: x.he, title: x.title, module: x.domain, blurb: x.process, path: `/solutions/${slug}/` });
+}
+
 const CX: Record<string, string> = { Low: "#16a34a", Medium: "#d97706", High: "#dc2626" };
 const FN = new Set(listFuncs());
 const tblHref = (t: string) => tableByName(t) ? `/object/${encodeURIComponent(t)}/` : "";

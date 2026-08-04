@@ -1,9 +1,18 @@
 import Link from "next/link";
 import { CONCEPTS, conceptBySlug } from "@/data/concepts";
 import { Crumb, CenterHeader, Block, TwoCol, Chips } from "@/components/knowledge";
+import { pageMeta } from "@/lib/seo";
 
 export function generateStaticParams() { return CONCEPTS.map((c) => ({ slug: c.slug })); }
 export const dynamicParams = false;
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const x = conceptBySlug(decodeURIComponent(slug));
+  if (!x) return {};
+  return pageMeta({ he: x.he, title: x.title, module: x.group, blurb: x.biz, path: `/concepts/${slug}/` });
+}
+
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

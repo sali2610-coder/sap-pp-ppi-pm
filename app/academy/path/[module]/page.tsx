@@ -1,4 +1,12 @@
-import { LearningPathView, PM_PATH, PP_PATH, QM_PATH, type LearningPath } from "@/components/academy/learning-path";
+import { LearningPathView } from "@/components/academy/learning-path";
+// PM/PP/QM come straight from the React-free source, NOT via the client
+// component that re-exports them. `learning-path.tsx` is "use client", so
+// Next replaces it with a client-reference proxy when a server function
+// imports through it — `generateMetadata` and the JSON-LD builder then read
+// `undefined` off the proxy. That shipped `<title>מסלול undefined</title>`
+// and a Course schema with 0 chapters on /academy/path/{pm,pp-pi,qm}, while
+// the other five modules (imported directly from data/) were correct.
+import { PM_PATH, PP_PATH, QM_PATH, type LearningPath } from "@/lib/academy/paths";
 import { PMU_PATH } from "@/data/academy/lessons/pmu-generated";
 import { MM_PATH } from "@/data/academy/lessons/mm-generated";
 import { WM_PATH } from "@/data/academy/lessons/wm-generated";

@@ -5,9 +5,18 @@ import { OIC_OBJECTS } from "@/lib/cross-links";
 import { Crumb, CenterHeader, Block, Bullets } from "@/components/knowledge";
 import { TrustBadge } from "@/components/trust-badge";
 import { trustNote } from "@/lib/trust";
+import { pageMeta } from "@/lib/seo";
 
 export function generateStaticParams() { return SAP_NOTES.map((n) => ({ slug: n.slug })); }
 export const dynamicParams = false;
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const x = noteBySlug(decodeURIComponent(slug));
+  if (!x) return {};
+  return pageMeta({ he: x.he, title: x.title, module: x.module, blurb: x.symptom, path: `/sap-notes/${slug}/` });
+}
+
 const MOD: Record<string, string> = { PM: "#f97316", PP: "#2563eb", "PP-PI": "#6d28d9", QM: "#0d9488", Cross: "#475569" };
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {

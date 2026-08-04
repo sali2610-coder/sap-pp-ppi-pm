@@ -1,8 +1,17 @@
 import { ENHANCEMENTS, enhancementBySlug } from "@/data/enhancements";
 import { Crumb, CenterHeader, Block, TwoCol, Chips } from "@/components/knowledge";
+import { pageMeta } from "@/lib/seo";
 
 export function generateStaticParams() { return ENHANCEMENTS.map((e) => ({ slug: e.slug })); }
 export const dynamicParams = false;
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const x = enhancementBySlug(decodeURIComponent(slug));
+  if (!x) return {};
+  return pageMeta({ he: x.he, title: x.title, module: x.kind, blurb: x.def, path: `/enhancements/${slug}/` });
+}
+
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
