@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { og } from "@/lib/seo";
 import { ALL_TABLES } from "@/lib/data";
 import { HomePortal, type ModuleCard } from "@/components/home-portal";
 import { MobileHome } from "@/components/mobile-home";
@@ -15,11 +16,11 @@ export const metadata: Metadata = {
   title: { absolute: "SAP by Sali | Project NEO — SAP PP, PP-PI & PM Platform" },
   description:
     "Project NEO by Sali Halif — an interactive SAP knowledge platform for PP, PP-PI and PM: architecture explorer, table explorer, business processes and SAP learning resources.",
-  openGraph: {
-    title: "SAP by Sali | Project NEO — SAP PP, PP-PI & PM Platform",
-    description:
-      "Interactive SAP knowledge platform for PP, PP-PI and PM by Sali Halif — architecture explorer, table explorer, business processes and learning resources.",
-  },
+  openGraph: og(
+    "SAP by Sali | Project NEO — SAP PP, PP-PI & PM Platform",
+    "Interactive SAP knowledge platform for PP, PP-PI and PM by Sali Halif — architecture explorer, table explorer, business processes and learning resources.",
+    "/",
+  ),
 };
 import { CommandCenter } from "@/components/command-center";
 import { registryStats } from "@/lib/tx-registry";

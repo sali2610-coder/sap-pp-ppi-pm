@@ -12,11 +12,12 @@
     "validate:books": "node scripts/validate-books.mjs",
     "audit:tree": "node scripts/audit-tree.mjs",
     "audit:library": "node scripts/audit-library.mjs",
-    "build": "next build",
+    "build": "next build && node scripts/gen-sitemap.mjs",
     "start": "next start",
     "lint": "eslint",
     "check:diag": "node scripts/check-diag.mjs",
-    "prebuild": "node scripts/migrate-books.mjs && node scripts/validate-books.mjs"
+    "prebuild": "node scripts/migrate-books.mjs && node scripts/validate-books.mjs",
+    "check:sitemap": "node scripts/check-sitemap.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

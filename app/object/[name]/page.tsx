@@ -4,6 +4,7 @@ import { HR_BW_NAMES } from "@/lib/hr-bw-adapter";
 import { ObjectWorkspace } from "@/components/object-workspace";
 import { VerifiedObjectView } from "@/components/verified-object-view";
 import { verifiedObject, verifiedNames } from "@/data/verified-objects";
+import { og } from "@/lib/seo";
 
 const BLUEPRINT = new Set(ALL_TABLES.map((t) => t.tableName));
 
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ name: str
   const mod = t?.module || "";
   const title = `${n} — SAP Table${mod ? ` (${mod})` : ""}`;
   const description = `${n}${he ? ` — ${he}` : " — SAP table reference"}. Fields, keys, relations, BAPIs, T-Codes and S/4HANA notes on SAP by Sali · Project NEO.`;
-  return { title, description, openGraph: { title: `SAP by Sali | ${title}`, description } };
+  return { title, description, openGraph: og(`SAP by Sali | ${title}`, description) };
 }
 
 export default async function Page({ params }: { params: Promise<{ name: string }> }) {
