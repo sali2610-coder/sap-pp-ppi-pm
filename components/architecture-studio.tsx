@@ -402,8 +402,12 @@ export function ArchitectureStudio() {
   const dismissCoach = () => { setCoach(false); try { localStorage.setItem(COACH_KEY, "1"); } catch { /* noop */ } };
   const btn = "tap transition active:scale-95";
 
+  // Was framer with initial opacity:0 — serialised into the static export,
+  // leaving the whole studio invisible until framer-motion hydrated. Same 0.4s
+  // rise, now CSS. Inner overlays keep framer: they are AnimatePresence
+  // transients that are meant to be hidden until triggered.
   return (
-    <motion.div initial={reduce ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.2, 0.7, 0.2, 1] }} className="mx-auto" dir="rtl">
+    <div className="neo-rise mx-auto" dir="rtl" style={{ "--neo-y": "10px" } as React.CSSProperties}>
       {!present && (<>
       {/* header */}
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
@@ -815,6 +819,6 @@ export function ArchitectureStudio() {
       </AnimatePresence>
 
       <p className="mt-3 pb-4 text-center text-[11px] text-ink-3">קשרים אמיתיים מתוך מודל הנתונים — ללא המצאה · המצב נשמר אוטומטית. <Link href={module === "PM" ? "/pm/" : "/pp-pi/"} className="font-bold text-brand">חזרה למרכז {module}</Link></p>
-    </motion.div>
+    </div>
   );
 }

@@ -4,7 +4,6 @@
 // mounted at the canonical top-level /academy while /library/academy stays as a
 // working alias (deep links preserved). Same data source — no duplication.
 import Link from "next/link";
-import { motion } from "framer-motion";
 import {
   GraduationCap, BookOpen, CheckCircle2, Clock, ShieldCheck, Layers, ArrowRight,
   CircleDashed, Search, Network, Calendar, FileText, ListTree, Wrench,
@@ -70,7 +69,7 @@ export function AcademyDashboard() {
   const cross = crossBookObjects().slice(0, 40);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
+    <div className="neo-rise space-y-5" style={{ "--neo-y": "8px" } as React.CSSProperties}>
       <nav className="flex items-center gap-2 text-sm text-ink-3">
         <span className="inline-flex items-center gap-1.5 font-semibold text-brand"><GraduationCap className="size-4" />SAP Academy</span>
       </nav>
@@ -141,6 +140,6 @@ export function AcademyDashboard() {
           ))}
         </div>
       </section>
-    </motion.div>
+    </div>
   );
 }

@@ -1,15 +1,20 @@
-"use client";
-
-import { motion, useReducedMotion, type MotionProps } from "framer-motion";
 import type { ReactNode } from "react";
 
-// Subtle mount reveal for section bodies (GOAL-3 tasteful motion). Uses mount
-// animate (not whileInView) so full-page static captures never leave content
-// hidden, and it honors prefers-reduced-motion.
+// Subtle mount reveal for section bodies (GOAL-3 tasteful motion).
+//
+// Was a framer-motion `motion.div` with `initial={{ opacity: 0, y: 8 }}`. In a
+// static export that initial state is serialised into the HTML as inline
+// opacity:0, so the section shipped fully populated but invisible and only
+// appeared once framer-motion had downloaded and hydrated. The `neo-rise` CSS
+// utility gives the identical 0.28s ease-out rise but starts at parse time,
+// so the content is never gated on JavaScript.
+//
+// No "use client" and no hook needed any more — reduced motion is handled by
+// the `prefers-reduced-motion` rule attached to `.neo-rise` in globals.css.
 export function SectionReveal({ children }: { children: ReactNode }) {
-  const reduce = useReducedMotion();
-  const anim: MotionProps = reduce
-    ? {}
-    : { initial: { opacity: 0, y: 8 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.28, ease: "easeOut" } };
-  return <motion.div {...anim}>{children}</motion.div>;
+  return (
+    <div className="neo-rise" style={{ "--neo-y": "8px", "--neo-dur": "0.28s" } as React.CSSProperties}>
+      {children}
+    </div>
+  );
 }

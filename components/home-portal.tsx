@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
 import {
   Search, ArrowLeft, Wrench, FlaskConical, GitBranch, Table, Terminal, Plug,
   Cable, Sigma, LayoutGrid, Puzzle, Compass, BrainCircuit, Library, AlertTriangle,
@@ -206,15 +205,25 @@ function ExploreGrid() {
 }
 
 export function HomePortal({ counts, modules }: { counts: PortalCounts; modules: ModuleCard[] }) {
-  const reduce = useReducedMotion();
-  const stagger = (i: number) => (reduce ? {} : { initial: { opacity: 0, y: 14 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-40px" }, transition: { duration: 0.4, delay: i * 0.05, ease: [0.2, 0.7, 0.2, 1] as const } });
+  // The hero renders with no entrance animation at all: it is the first useful
+  // content on the site and must be on screen the moment the HTML parses.
+  // Previously it was wrapped in `motion.div initial={{ opacity: 0, y: 10 }}`,
+  // which the static export serialised as inline opacity:0 — so the headline,
+  // search box and counts stayed invisible until framer-motion had loaded.
+  //
+  // The four sections below keep their staggered rise, now via the `neo-rise`
+  // CSS utility (same 0.4s duration, same easing, same 50ms cascade). This is
+  // a mount animation rather than the previous `whileInView` scroll trigger:
+  // the reveal no longer waits for a section to enter the viewport, because
+  // that required JavaScript to decide whether content may be seen at all.
+  // Reduced motion is handled by the CSS media query.
   return (
     <div className="space-y-9 sm:space-y-16">
-      <motion.div {...(reduce ? {} : { initial: { opacity: 0, y: 10 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.4 } })}><SearchHero counts={counts} /></motion.div>
-      <motion.div {...stagger(0)}><IntentSplit /></motion.div>
-      <motion.div {...stagger(1)}><ModulePortals modules={modules} /></motion.div>
-      <motion.div {...stagger(2)}><ReferenceGrid counts={counts} /></motion.div>
-      <motion.div {...stagger(3)}><ExploreGrid /></motion.div>
+      <div><SearchHero counts={counts} /></div>
+      <div className="neo-rise" style={{ "--neo-i": 0 } as React.CSSProperties}><IntentSplit /></div>
+      <div className="neo-rise" style={{ "--neo-i": 1 } as React.CSSProperties}><ModulePortals modules={modules} /></div>
+      <div className="neo-rise" style={{ "--neo-i": 2 } as React.CSSProperties}><ReferenceGrid counts={counts} /></div>
+      <div className="neo-rise" style={{ "--neo-i": 3 } as React.CSSProperties}><ExploreGrid /></div>
     </div>
   );
 }

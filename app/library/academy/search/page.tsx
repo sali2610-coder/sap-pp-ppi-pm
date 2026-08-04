@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { Search, GraduationCap, ArrowLeft } from "lucide-react";
 import { SEARCH_DOCS, BOOKS } from "@/data/library/academy-index";
 import { useI18n } from "@/lib/i18n";
@@ -42,7 +41,7 @@ export default function AcademySearch() {
   const href = (d: typeof SEARCH_DOCS[number]) => `${d.base}/chapter-${pad(d.ch)}/#sub-${d.id}`;
 
   return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-5xl space-y-5">
+    <div className="neo-rise mx-auto max-w-5xl space-y-5" style={{ "--neo-y": "8px" } as React.CSSProperties}>
       <nav className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/library/academy/" className="text-brand hover:underline">{lang === "he" ? "אקדמיה" : "Academy"}</Link><span>/</span>
         <span>{lang === "he" ? "חיפוש מאוחד" : "Unified search"}</span>
@@ -81,6 +80,6 @@ export default function AcademySearch() {
           </Link>
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 }

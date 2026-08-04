@@ -99,14 +99,19 @@ export function AcademyHome() {
   const recent = useRecent();
   const updated = useMemo(() => [...BOOKS].sort((a, b) => (b.lastUpdated || "").localeCompare(a.lastUpdated || "")).slice(0, 4), []);
   const popular = useMemo(() => [...BOOKS].sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, 4), []);
-  const rise: MotionProps = reduce ? {} : { initial: { opacity: 0, y: 14 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-40px" }, transition: { duration: 0.5, ease: [0.2, 0.7, 0.2, 1] } };
-  const heroAnim: MotionProps = reduce ? {} : { initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.5 } };
+  // Was framer `initial={{ opacity: 0 }}` (+ whileInView for the sections).
+  // The static export serialised those as inline opacity:0, so the Academy
+  // hero and every section below it shipped invisible until framer-motion
+  // hydrated. Same durations and easing, now CSS, so paint never waits on JS.
+  const RISE = "neo-rise";
+  const riseStyle = { "--neo-y": "14px", "--neo-dur": "0.5s" } as React.CSSProperties;
+  const heroStyle = { "--neo-y": "12px", "--neo-dur": "0.5s" } as React.CSSProperties;
 
   return (
     <div dir="rtl" className="pb-16">
       {/* HERO */}
       <div className="text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink-3">SAP Academy</div>
-      <motion.div {...heroAnim} className="mt-1.5 grid items-stretch gap-4 lg:grid-cols-[1fr_300px]">
+      <div className={`${RISE} mt-1.5 grid items-stretch gap-4 lg:grid-cols-[1fr_300px]`} style={heroStyle}>
         <div>
           <h1 className="text-[27px] font-extrabold tracking-[-0.02em]">{returning ? "ברוך שובך" : "ברוך הבא ל-SAP Academy"}</h1>
           {returning
@@ -142,11 +147,11 @@ export function AcademyHome() {
             <div><div className="flex items-center gap-1.5 text-[13px] font-extrabold"><Target className="size-3.5 text-[#f97316]" />יעד שבועי</div><div className="text-[11px] text-ink-3">{g.weeklyDone} מתוך {g.weeklyTarget} ימי למידה</div>{g.blocksDone > 0 && <div className="text-[11px] text-ink-3">{g.blocksDone} בלוקים הושלמו</div>}</div>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* CONTINUE WHERE YOU LEFT OFF (§2) — one card per active course */}
       {activeCourses.length > 0 ? (
-        <motion.div {...rise} className="mt-8">
+        <div className={`${RISE} mt-8`} style={riseStyle}>
           <div className="mb-3.5 flex items-baseline justify-between">
             <h2 className="text-[19px] font-extrabold tracking-[-0.01em]">המשך מהמקום שעצרת</h2>
             <span className="text-[12px] text-ink-3">{activeCourses.length} {activeCourses.length === 1 ? "קורס פעיל" : "קורסים פעילים"}</span>
@@ -154,17 +159,17 @@ export function AcademyHome() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {activeCourses.map((c) => <CourseResumeCard key={c.moduleId} c={c} />)}
           </div>
-        </motion.div>
+        </div>
       ) : (
         /* EMPTY STATE (§11) — no active course → recommended */
-        <motion.div {...rise} className="mt-8 rounded-3xl border border-dashed border-hairline bg-surface-2/40 p-8 text-center">
+        <div className={`${RISE} mt-8 rounded-3xl border border-dashed border-hairline bg-surface-2/40 p-8 text-center`} style={riseStyle}>
           <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-brand-soft text-brand"><GraduationCap className="size-6" /></span>
           <h3 className="mt-3 text-[16px] font-extrabold text-ink-1">עדיין לא התחלת ללמוד</h3>
           <p className="mx-auto mt-1 max-w-sm text-[13px] text-ink-3">בחר קורס והתחל — ההתקדמות שלך תישמר אוטומטית ותופיע כאן כדי שתמשיך בדיוק מהמקום שעצרת.</p>
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
             <Link href="/academy/dashboard/" className="inline-flex items-center gap-2 rounded-xl bg-ink-1 px-5 py-2.5 text-[13px] font-extrabold text-white transition hover:bg-black">בחר קורס מתוך המסלולים <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
           </div>
-        </motion.div>
+        </div>
       )}
 
       {/* The per-course timeline / "אתה כאן" now lives ONLY on /academy/path/[module]
@@ -172,7 +177,7 @@ export function AcademyHome() {
           roadmap on the landing page. A learner with no active session sees no timeline. */}
 
       {/* COURSE CARDS */}
-      <motion.div {...rise} className="mt-8">
+      <div className={`${RISE} mt-8`} style={riseStyle}>
         <div className="mb-3.5 flex items-baseline justify-between"><h2 className="text-[19px] font-extrabold tracking-[-0.01em]">מסלולי הלמידה</h2></div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {tracks.map((t) => { const st = bookStats(t.id); const href = trackHref(t.id, t.base); const pct = t.id === "pm" ? pilotPct : 0; return (
@@ -190,10 +195,10 @@ export function AcademyHome() {
             </Link>
           ); })}
         </div>
-      </motion.div>
+      </div>
 
       {/* ACHIEVEMENTS */}
-      <motion.div {...rise} className="mt-8">
+      <div className={`${RISE} mt-8`} style={riseStyle}>
         <div className="mb-3.5 flex items-baseline justify-between"><h2 className="flex items-center gap-2 text-[19px] font-extrabold tracking-[-0.01em]"><Trophy className="size-5 text-[#d97706]" />הישגים</h2></div>
         <div className="flex flex-wrap gap-4">
           {g.badges.map((b) => { const Ic = BADGE_ICON[b.id] || Target; return (
@@ -205,11 +210,11 @@ export function AcademyHome() {
           ); })}
         </div>
         {g.blocksDone === 0 && <p className="mt-3 text-[12px] text-ink-3">התחל את השיעור הראשון כדי לפתוח תגים ולבנות רצף למידה.</p>}
-      </motion.div>
+      </div>
 
       {/* RECENTLY VIEWED (§4) — real history */}
       {recent.length > 0 && (
-        <motion.div {...rise} className="mt-8">
+        <div className={`${RISE} mt-8`} style={riseStyle}>
           <div className="mb-3.5 flex items-baseline gap-2"><h2 className="flex items-center gap-2 text-[19px] font-extrabold tracking-[-0.01em]"><History className="size-5 text-ink-3" />נצפו לאחרונה</h2></div>
           <div className="flex gap-3 overflow-x-auto pb-1">
             {recent.map((r) => (
@@ -219,11 +224,11 @@ export function AcademyHome() {
               </Link>
             ))}
           </div>
-        </motion.div>
+        </div>
       )}
 
       {/* RECENTLY UPDATED + POPULAR (§4) — real academy-index data */}
-      <motion.div {...rise} className="mt-8 grid gap-6 lg:grid-cols-2">
+      <div className={`${RISE} mt-8 grid gap-6 lg:grid-cols-2`} style={riseStyle}>
         <div>
           <div className="mb-3 flex items-baseline gap-2"><h2 className="flex items-center gap-2 text-[16px] font-extrabold"><Clock className="size-4 text-ink-3" />עודכן לאחרונה</h2></div>
           <div className="flex flex-col gap-2">{updated.map((t) => <MiniTrack key={t.id} t={t} meta={`עודכן ${t.lastUpdated}`} />)}</div>
@@ -232,7 +237,7 @@ export function AcademyHome() {
           <div className="mb-3 flex items-baseline gap-2"><h2 className="flex items-center gap-2 text-[16px] font-extrabold"><TrendingUp className="size-4 text-[#0f766e]" />פופולרי באקדמיה</h2></div>
           <div className="flex flex-col gap-2">{popular.map((t) => <MiniTrack key={t.id} t={t} meta={`ציון איכות ${t.score}`} />)}</div>
         </div>
-      </motion.div>
+      </div>
 
       {/* AI assistant (design affordance) */}
       <Link href="/chat/" className="fixed bottom-6 start-6 z-30 inline-flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-[13.5px] font-extrabold text-white shadow-[0_14px_34px_-12px_rgba(214,32,39,.6)] transition hover:bg-brand-dark"><Sparkles className="size-4" /> עוזר הלמידה</Link>

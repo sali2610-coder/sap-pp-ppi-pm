@@ -521,8 +521,12 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
       )}
 
       {/* ===================== PREMIUM BOOK LANDING (Phase 12.2) ===================== */}
-      <motion.section initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, ease: [0.2, 0.7, 0.2, 1] }}
-        className={`relative overflow-hidden rounded-[1.75rem] border border-hairline bg-surface shadow-[0_18px_48px_-26px_rgba(15,23,42,0.45)] ${focus || pageMode ? "hidden" : ""}`}>
+      {/* Was a framer `motion.section` with initial opacity:0 — serialised into the
+          static export as inline opacity:0, so the book landing shipped invisible
+          until framer-motion hydrated. Same 0.5s rise, now pure CSS. */}
+      <section
+        className={`neo-rise relative overflow-hidden rounded-[1.75rem] border border-hairline bg-surface shadow-[0_18px_48px_-26px_rgba(15,23,42,0.45)] ${focus || pageMode ? "hidden" : ""}`}
+        style={{ "--neo-y": "12px", "--neo-dur": "0.5s" } as React.CSSProperties}>
         {/* top identity accent (module color) */}
         <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: `linear-gradient(90deg, ${c}, ${c}88)` }} />
         <span className="pointer-events-none absolute -left-20 -top-16 size-52 rounded-full opacity-[0.12] blur-3xl" style={{ background: c }} />
@@ -593,7 +597,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
           )}
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* ===================== PREMIUM CHAPTER CARDS (Table of Contents) ===================== */}
       <section id="book-contents" className={`scroll-mt-24 space-y-3 ${focus || pageMode ? "hidden" : ""}`}>

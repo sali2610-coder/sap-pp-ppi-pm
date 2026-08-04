@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import {
   ShieldCheck, AlertTriangle, Link2, ListTree, Boxes, Factory, FileWarning, GraduationCap, ArrowRight, CheckCircle2,
 } from "lucide-react";
@@ -123,7 +122,7 @@ export default function PPQualityReportPage() {
   const totalIssues = PP_QUALITY.reduce((s, c) => s + c.sapObjectIssues.length + c.crossLinkIssues.length + c.hierarchyIssues.length + c.terminologyIssues.length + c.orgIssues.length + c.missingContent.length, 0);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
+    <div className="neo-rise space-y-5" style={{ "--neo-y": "8px" } as React.CSSProperties}>
       <nav className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/library/" className="text-brand hover:underline">{lang === "he" ? "ספרייה" : "Library"}</Link><span>/</span>
         <Link href="/library/pp/" className="text-brand hover:underline">PP</Link><span>/</span>
@@ -181,6 +180,6 @@ export default function PPQualityReportPage() {
       <div className="space-y-4">
         {PP_QUALITY.map((c) => <ChapterCard key={c.n} c={c} />)}
       </div>
-    </motion.div>
+    </div>
   );
 }

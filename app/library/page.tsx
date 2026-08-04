@@ -74,9 +74,12 @@ function Count({ n }: { n: number }) {
   return <>{v.toLocaleString()}</>;
 }
 
+// Was framer `initial={{ opacity: 0, y: 10 }}` + whileInView. The static export
+// serialised that as inline opacity:0, so library rows shipped invisible until
+// framer-motion hydrated. Same 0.5s rise, now CSS, running on mount instead of
+// on scroll-into-view.
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const reduce = useReducedMotion();
-  return <motion.div initial={reduce ? false : { opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, delay, ease: [0.2, 0.7, 0.2, 1] }}>{children}</motion.div>;
+  return <div className="neo-rise" style={{ "--neo-y": "10px", "--neo-dur": "0.5s", animationDelay: `${delay}s` } as React.CSSProperties}>{children}</div>;
 }
 
 /* ====== adaptive hero — cinematic on first visit, compact editorial after ====== */
