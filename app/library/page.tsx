@@ -9,6 +9,7 @@ import { LIBRARY, LIBRARY_STATS, type LibBook } from "@/data/library";
 import { playPing } from "@/lib/sound";
 import { BookCover, moduleColor as mc, type CoverBook } from "@/components/book-cover";
 import { readContinuity, writeContinuity, type Continuity } from "@/lib/continuity-store";
+import { forWhiteText } from "@/lib/contrast";
 
 
 /* ---- deep-reader routes for reference manuals that have full text ---- */
@@ -245,7 +246,7 @@ function BookCard({ book, reading, onOpen }: { book: LibBook; reading: boolean; 
       </motion.div>
       <span className="mt-2 line-clamp-2 text-[12.5px] font-bold leading-snug text-ink-1 transition group-hover:text-brand">{book.titleHe}</span>
       <span className="mt-1 flex flex-wrap items-center gap-1.5 text-[10.5px] font-semibold text-ink-3">
-        <span className="rounded px-1.5 py-0.5 font-bold text-white" style={{ background: c }}>{book.module}</span>
+        <span className="rounded px-1.5 py-0.5 font-bold text-white" style={{ background: forWhiteText(c) }}>{book.module}</span>
         <span>{book.pages} עמ׳ · {book.chapters.length} פרקים</span>
       </span>
     </button>

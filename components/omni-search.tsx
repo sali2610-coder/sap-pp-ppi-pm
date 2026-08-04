@@ -13,12 +13,16 @@ export function OmniSearch() {
     setMac(/Mac|iPhone|iPad/.test(navigator.platform));
   }, []);
 
+  // No aria-label on the button: it duplicated the visible placeholder while
+  // the visible content also carries the "⌘ K" hint, so the accessible name
+  // did not contain all visible text (WCAG 2.5.3 / axe
+  // label-content-name-mismatch). Deriving the name from content fixes the
+  // mismatch and keeps it in sync with the label automatically.
   return (
     <button
       type="button"
       onClick={() => window.dispatchEvent(new Event("neo:open-palette"))}
       className="group flex h-10 w-full max-w-md items-center gap-2.5 rounded-xl border border-hairline bg-surface px-3.5 text-start shadow-[0_1px_2px_rgba(11,12,14,0.05)] transition-all hover:border-brand/40 hover:shadow-[0_8px_24px_-14px_rgba(214,32,39,0.30)] focus-visible:border-brand focus-visible:shadow-[0_0_0_4px_color-mix(in_srgb,var(--brand)_16%,transparent)] focus-visible:outline-none active:scale-[0.99]"
-      aria-label={t("search.placeholder")}
     >
       <Search className="size-4 shrink-0 text-ink-1 transition-colors group-hover:text-brand" strokeWidth={2.4} />
       <span className="flex-1 truncate text-sm font-medium text-ink-2">{t("search.placeholder")}</span>

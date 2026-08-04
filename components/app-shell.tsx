@@ -42,7 +42,11 @@ function Header() {
           className="tap hidden size-9 shrink-0 place-items-center rounded-lg text-ink-2 hover:bg-black/[0.05] lg:hidden">
           <Menu className="size-5" />
         </button>
-        <Link prefetch={false} href="/" onClick={() => playClick()} aria-label="SAP by Sali — דף הבית" className="shrink-0 transition-transform hover:scale-[1.01]">
+        {/* No aria-label here: <SiteLogo> already carries role="img" with its own
+            accessible name, so adding a second one on the link produced two
+            competing names and tripped axe label-content-name-mismatch. The link
+            now takes its name from the logo image, which is the standard pattern. */}
+        <Link prefetch={false} href="/" onClick={() => playClick()} className="shrink-0 transition-transform hover:scale-[1.01]">
           <SiteLogo tone="dark" size="lg" wordmark="sm+" />
         </Link>
         <div className="mx-auto min-w-0 max-w-2xl flex-1">
