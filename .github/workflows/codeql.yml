@@ -1,0 +1,56 @@
+# CodeQL static analysis.
+#
+# Free for public repositories. Complements the existing checks: ci.yml proves
+# the build is correct, Dependabot watches third-party packages, and CodeQL is
+# the only one that looks at this repo's own code for security defects
+# (injection sinks, unsafe DOM writes, path traversal in the build scripts).
+#
+# Scope note: this project is a Next.js static export with no server runtime,
+# so the classic server-side query results (SQL injection, SSRF, request
+# handling) will not apply. The queries that matter here are the client-side
+# ones — DOM XSS through `dangerouslySetInnerHTML`, unsafe URL handling — plus
+# the Node scripts under scripts/ that run at build time.
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly, so a newly published query still finds old code.
+    - cron: "017 5 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    name: Analyze JavaScript/TypeScript
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialise CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          # security-extended adds lower-severity security queries on top of the
+          # default set. Not security-and-quality: the quality queries produce a
+          # lot of style noise that duplicates what ESLint already covers here.
+          queries: security-extended
+
+      # No build step. `next build` renders 4,615 pages and takes minutes; for a
+      # JS/TS repo CodeQL extracts directly from source and gains nothing from
+      # the compiled output.
+      - name: Analyze
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript-typescript"
