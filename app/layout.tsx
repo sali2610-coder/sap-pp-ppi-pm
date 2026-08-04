@@ -4,6 +4,7 @@ import { DEVICE_DETECT_SOURCE } from "@/lib/device";
 import { AppShell } from "@/components/app-shell";
 import { SWRegister } from "@/components/sw-register";
 import { THEME_BOOT } from "@/lib/theme-boot";
+import { jsonLdScript } from "@/lib/json-ld";
 
 const GSC = process.env.NEXT_PUBLIC_GSC_VERIFICATION;
 const BING = process.env.NEXT_PUBLIC_BING_VERIFICATION;
@@ -165,7 +166,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           `out+="\\n"+"  delivery-path share".padEnd(30)+": "+Math.round(gap)+" ms ("+Math.round(gap/(gap+usable)*100)+"%)";}}` +
           `console.log(out);try{copy(out)}catch(e){}return out;};`
         }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(JSON_LD) }} />
       </head>
       <body className="flex min-h-full flex-col">
         <AppShell>{children}</AppShell>

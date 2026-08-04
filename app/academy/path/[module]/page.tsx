@@ -4,6 +4,7 @@ import { MM_PATH } from "@/data/academy/lessons/mm-generated";
 import { WM_PATH } from "@/data/academy/lessons/wm-generated";
 import { PPDS_PATH } from "@/data/academy/lessons/ppds-generated";
 import { SOP_PATH } from "@/data/academy/lessons/sop-generated";
+import { jsonLdScript } from "@/lib/json-ld";
 
 const PATHS: Record<string, LearningPath> = { pm: PM_PATH, "pp-pi": PP_PATH, qm: QM_PATH, "pm-user": PMU_PATH, mm: MM_PATH, wm: WM_PATH, "pp-ds": PPDS_PATH, sop: SOP_PATH };
 const SITE = "https://sapbysali.app";
@@ -51,7 +52,7 @@ export default async function PathPage({ params }: { params: Promise<{ module: s
   if (!path) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">המסלול לא נמצא.</div>;
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pathJsonLd(module, path)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(pathJsonLd(module, path)) }} />
       <LearningPathView path={path} />
     </>
   );
