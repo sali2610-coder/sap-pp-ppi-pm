@@ -10,7 +10,8 @@
     "verify:export": "node scripts/check-route-manifest.mjs && node scripts/crawl-dead-links.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check:diag": "node scripts/check-diag.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

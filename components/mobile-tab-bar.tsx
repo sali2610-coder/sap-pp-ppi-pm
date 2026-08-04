@@ -61,7 +61,7 @@ function Tab({ active, icon: Icon, label, onClick, href }: { active: boolean; ic
   );
   const cls = `tap relative flex items-center justify-center transition-colors ${active ? "text-brand" : "text-ink-3"}`;
   return href
-    ? <Link href={href} onClick={haptic} className={cls} aria-current={active ? "page" : undefined}>{inner}</Link>
+    ? <Link prefetch={false} href={href} onClick={haptic} className={cls} aria-current={active ? "page" : undefined}>{inner}</Link>
     : <button onClick={() => { haptic(); onClick?.(); }} className={cls} aria-current={active ? "page" : undefined}>{inner}</button>;
 }
 
@@ -115,7 +115,7 @@ function NavRow({ row, onNav }: { row: Row; onNav: () => void }) {
   const cls = "tap flex min-h-[48px] w-full items-center gap-3 px-5 text-[15px] font-bold text-ink-1 transition active:bg-surface-2";
   const inner = <><span className="grid size-9 shrink-0 place-items-center rounded-xl bg-surface-2 text-brand"><Icon className="size-5" /></span>{row.label}</>;
   return row.href
-    ? <Link href={row.href} onClick={onNav} className={cls}>{inner}</Link>
+    ? <Link prefetch={false} href={row.href} onClick={onNav} className={cls}>{inner}</Link>
     : <button onClick={() => { row.onClick?.(); onNav(); }} className={`${cls} text-right`}>{inner}</button>;
 }
 
@@ -149,7 +149,7 @@ export function MobileTabBar() {
 
   return (
     <>
-      <div className="no-print pointer-events-none fixed inset-x-0 bottom-0 z-50 px-3 pb-[max(env(safe-area-inset-bottom),0.5rem)] xl:hidden" style={{ willChange: "transform" }}>
+      <div data-shell="mobile-only" className="no-print pointer-events-none fixed inset-x-0 bottom-0 z-50 px-3 pb-[max(env(safe-area-inset-bottom),0.5rem)] xl:hidden" style={{ willChange: "transform" }}>
         <nav aria-label="ניווט ראשי" dir="rtl"
           className="pointer-events-auto mx-auto grid h-16 max-w-md grid-cols-5 rounded-[1.75rem] border border-white/50 bg-surface/75 shadow-[0_10px_34px_-8px_rgba(15,23,42,0.28)] backdrop-blur-2xl">
           {TABS.map((t) => <Tab key={t.key} active={t.active} icon={t.icon} label={t.label} href={t.href} onClick={t.onClick} />)}

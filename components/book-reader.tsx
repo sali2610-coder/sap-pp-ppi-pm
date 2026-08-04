@@ -11,6 +11,7 @@ import { ReaderViewContext, PageModeContext } from "@/lib/reader-view";
 import { BookCover } from "@/components/book-cover";
 import { PageView } from "@/components/page-view";
 import { playTick } from "@/lib/sound";
+import { onWindowResize } from "@/lib/raf-resize";
 
 export interface ReaderChapter { n: number; title: string; he?: string }
 export interface ReaderStat { label: string; value: React.ReactNode }
@@ -167,9 +168,9 @@ function DigitalProgressRail({ accent, hidden, chapters, bm, active, activeSec, 
     };
     upd();
     window.addEventListener("scroll", upd, { passive: true });
-    window.addEventListener("resize", upd);
+    const offResize = onWindowResize(upd);
     const t = window.setTimeout(upd, 600);
-    return () => { window.removeEventListener("scroll", upd); window.removeEventListener("resize", upd); window.clearTimeout(t); };
+    return () => { window.removeEventListener("scroll", upd); offResize(); window.clearTimeout(t); };
   }, [chapters]);
   const seek = useCallback((clientY: number) => {
     const t = trackRef.current; if (!t) return;

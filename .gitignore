@@ -51,3 +51,16 @@ presentations/**/out/
 # sc4sap plugin local logs/inventory (not project code)
 .sc4sap/
 docs/academy/validation/**/*.png
+
+# ==== SAP HQ — migration (runtime + secrets, never commit) ====
+SAP-HQ/incidents/
+SAP-HQ/archive/
+SAP-HQ/knowledge-graph/
+.claude/skills/**/node_modules/
+.claude/**/*.local
+.claude/settings.local.json
+**/.sc4sap/
+**/sap.env
+*.key
+.env
+.env.*

@@ -74,7 +74,7 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
       <div>
         <div className={`group relative flex items-center rounded-lg text-[13.5px] font-medium transition-colors ${active && path === it.href ? "bg-brand/8 text-brand" : "text-ink-2 hover:bg-black/[0.04] hover:text-ink-1"}`}>
           {active && path === it.href && <span aria-hidden className="absolute inset-y-1 start-0 w-[3px] rounded-full bg-brand" />}
-          <Link href={it.href} onClick={() => { playClick(); onNavigate?.(); }} title={collapsed ? it.label : undefined}
+          <Link prefetch={false} href={it.href} onClick={() => { playClick(); onNavigate?.(); }} title={collapsed ? it.label : undefined}
             aria-current={path === it.href ? "page" : undefined}
             className={`flex min-w-0 flex-1 items-center gap-2.5 px-2.5 py-1.5 ${collapsed ? "justify-center" : ""}`}>
             <Ic className={`size-[17px] shrink-0 ${active ? "text-brand" : "text-ink-3 group-hover:text-ink-2"}`} />
@@ -89,7 +89,7 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
         {hasChildren && expanded && (
           <div className="mt-0.5 flex flex-col gap-0.5 border-s border-hairline pe-2 ps-3.5">
             {it.children!.map((ch) => { const chActive = path === ch.href; return (
-              <Link key={ch.href} href={ch.href} onClick={() => { playClick(); onNavigate?.(); }} aria-current={chActive ? "page" : undefined}
+              <Link prefetch={false} key={ch.href} href={ch.href} onClick={() => { playClick(); onNavigate?.(); }} aria-current={chActive ? "page" : undefined}
                 className={`relative rounded-lg px-2 py-1 text-[12.5px] transition-colors ${chActive ? "font-bold text-brand" : "text-ink-3 hover:bg-black/[0.04] hover:text-ink-1"}`}>
                 {chActive && <span aria-hidden className="absolute inset-y-1 start-0 w-[2px] rounded-full bg-brand" />}
                 {ch.label}
@@ -103,7 +103,7 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
 
   return (
     <nav aria-label="עץ ידע" className="flex flex-col gap-0.5 px-2 py-3">
-      <Link href="/" onClick={() => { playClick(); onNavigate?.(); }} title={collapsed ? "בית" : undefined}
+      <Link prefetch={false} href="/" onClick={() => { playClick(); onNavigate?.(); }} title={collapsed ? "בית" : undefined}
         aria-current={path === "/" ? "page" : undefined}
         className={`group relative mb-1 flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-[13.5px] font-semibold transition-colors ${collapsed ? "justify-center" : ""} ${path === "/" ? "bg-brand/8 text-brand" : "text-ink-1 hover:bg-black/[0.04]"}`}>
         {path === "/" && <span aria-hidden className="absolute inset-y-1 start-0 w-[3px] rounded-full bg-brand" />}
@@ -151,7 +151,7 @@ export function KnowledgeSidebar() {
   return (
     <>
       {/* desktop — persistent rail (hidden in reader focus-mode via globals.css) */}
-      <aside data-knowledge-sidebar className={`sticky top-14 z-30 hidden h-[calc(100dvh-3.5rem)] shrink-0 flex-col border-e border-hairline bg-surface/80 backdrop-blur-sm xl:flex ${collapsed ? "w-16" : "w-[17rem]"}`}>
+      <aside data-knowledge-sidebar data-shell="desktop-only" className={`sticky top-14 z-30 hidden h-[calc(100dvh-3.5rem)] shrink-0 flex-col border-e border-hairline bg-surface/80 backdrop-blur-sm xl:flex ${collapsed ? "w-16" : "w-[17rem]"}`}>
         <div className="min-h-0 flex-1 overflow-y-auto">
           <Tree collapsed={collapsed} />
         </div>

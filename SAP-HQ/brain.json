@@ -1,0 +1,411 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-07-23",
+  "kind": "SAP AI Brain — decision engine (rules only; capabilities resolved dynamically)",
+  "capabilitySource": "SAP-HQ/capability-registry.json",
+  "rule": "Never hardcode worker names. At runtime HQ loads capabilitySource, resolves intent->expertPack->workers, and if a worker is absent it uses the fallback chain. Missing worker is NEVER fatal.",
+  "1_intentDetection": {
+    "note": "detect one or more intents from signals; drives mode + manager + expert pack",
+    "intents": [
+      {
+        "id": "incident",
+        "he": "תקלה",
+        "mode": "Incident",
+        "manager": "Sherlock",
+        "signals": [
+          "שגיאה",
+          "תקוע",
+          "dump",
+          "fails",
+          "status 51",
+          "status 64",
+          "לא מצליח"
+        ]
+      },
+      {
+        "id": "learning",
+        "he": "למידה",
+        "mode": "Learning",
+        "manager": "Oracle",
+        "signals": [
+          "הסבר",
+          "מה זה",
+          "איך עובד",
+          "למד אותי",
+          "ההבדל בין"
+        ]
+      },
+      {
+        "id": "architecture",
+        "he": "ארכיטקטורה",
+        "mode": "Architecture",
+        "manager": "Oracle",
+        "signals": [
+          "לתכנן",
+          "ארכיטקטורה",
+          "integration design"
+        ]
+      },
+      {
+        "id": "migration",
+        "he": "מיגרציה",
+        "mode": "Migration",
+        "manager": "Oracle",
+        "signals": [
+          "מעבר ל-S/4",
+          "simplification",
+          "impact",
+          "ECC→S4"
+        ]
+      },
+      {
+        "id": "sap-note",
+        "he": "SAP Note",
+        "mode": "SAP Note",
+        "manager": "Oracle",
+        "signals": [
+          "Note",
+          "KBA",
+          "מה אומר note"
+        ]
+      },
+      {
+        "id": "abap",
+        "he": "ABAP",
+        "mode": "Development",
+        "manager": "Oracle",
+        "signals": [
+          "ABAP",
+          "כתוב תוכנית",
+          "report",
+          "class",
+          "FM"
+        ]
+      },
+      {
+        "id": "debug",
+        "he": "Debug",
+        "mode": "Incident",
+        "manager": "Sherlock",
+        "signals": [
+          "debug",
+          "breakpoint",
+          "runtime",
+          "ST22"
+        ]
+      },
+      {
+        "id": "authorization",
+        "he": "הרשאות",
+        "mode": "Authorization",
+        "manager": "Sherlock",
+        "signals": [
+          "SU53",
+          "הרשאה",
+          "auth",
+          "PFCG",
+          "missing authorization"
+        ]
+      },
+      {
+        "id": "performance",
+        "he": "ביצועים",
+        "mode": "Performance",
+        "manager": "Sherlock",
+        "signals": [
+          "איטי",
+          "performance",
+          "ST05",
+          "SAT",
+          "SQLM",
+          "ST12"
+        ]
+      },
+      {
+        "id": "integration",
+        "he": "אינטגרציה",
+        "mode": "Integration",
+        "manager": "Sherlock",
+        "signals": [
+          "IDoc",
+          "PI",
+          "PO",
+          "CPI",
+          "RFC",
+          "SOAP",
+          "REST",
+          "Gateway",
+          "proxy",
+          "SXMB_MONI"
+        ]
+      },
+      {
+        "id": "pp",
+        "he": "PP",
+        "mode": "Business Process",
+        "manager": "Sherlock",
+        "signals": [
+          "process order",
+          "production order",
+          "MRP",
+          "CO11N",
+          "COR6",
+          "confirmation"
+        ]
+      },
+      {
+        "id": "pppi",
+        "he": "PP-PI",
+        "mode": "Business Process",
+        "manager": "Sherlock",
+        "signals": [
+          "PI sheet",
+          "process order",
+          "control recipe",
+          "PP-PI"
+        ]
+      },
+      {
+        "id": "pm",
+        "he": "PM",
+        "mode": "Business Process",
+        "manager": "Sherlock",
+        "signals": [
+          "notification",
+          "maintenance order",
+          "equipment",
+          "functional location",
+          "IW31"
+        ]
+      },
+      {
+        "id": "mm",
+        "he": "MM",
+        "mode": "Business Process",
+        "manager": "Sherlock",
+        "signals": [
+          "MIRO",
+          "MIGO",
+          "GR",
+          "PO",
+          "stock",
+          "M7-"
+        ]
+      },
+      {
+        "id": "fi",
+        "he": "FI",
+        "mode": "Business Process",
+        "manager": "Sherlock",
+        "signals": [
+          "posting",
+          "GL",
+          "FB",
+          "חשבונית",
+          "accounting"
+        ]
+      },
+      {
+        "id": "co",
+        "he": "CO",
+        "mode": "Business Process",
+        "manager": "Sherlock",
+        "signals": [
+          "cost center",
+          "internal order",
+          "CO-PA"
+        ]
+      },
+      {
+        "id": "qm",
+        "he": "QM",
+        "mode": "Business Process",
+        "manager": "Sherlock",
+        "signals": [
+          "inspection lot",
+          "usage decision",
+          "QA"
+        ]
+      },
+      {
+        "id": "btp",
+        "he": "BTP",
+        "mode": "Architecture",
+        "manager": "Oracle",
+        "signals": [
+          "BTP",
+          "destination",
+          "connectivity",
+          "Cloud Foundry",
+          "Integration Suite"
+        ]
+      },
+      {
+        "id": "fiori",
+        "he": "Fiori",
+        "mode": "Incident",
+        "manager": "Sherlock",
+        "signals": [
+          "Fiori",
+          "tile",
+          "UI5",
+          "launchpad",
+          "/IWFND"
+        ]
+      },
+      {
+        "id": "cds",
+        "he": "CDS",
+        "mode": "Development",
+        "manager": "Oracle",
+        "signals": [
+          "CDS",
+          "view entity",
+          "annotation",
+          "DDLS"
+        ]
+      },
+      {
+        "id": "rap",
+        "he": "RAP",
+        "mode": "Development",
+        "manager": "Oracle",
+        "signals": [
+          "RAP",
+          "behavior definition",
+          "EML",
+          "managed"
+        ]
+      }
+    ],
+    "expertPackResolution": "intent.id (or sapArea) -> match a pack name in capabilitySource.expertPacks (e.g. 'pp'->'PP Expert'); resolve pack->workers via .claude/skills/hq/references/expert-packs.md; unknown pack -> generic reasoning"
+  },
+  "2_capabilityMatching": {
+    "note": "choose skill/agent/pack DYNAMICALLY from capabilitySource — never a fixed list",
+    "steps": [
+      "load capabilitySource",
+      "filter capabilities whose tags/area match the detected intent(s)",
+      "prefer project-local, else global, else built-in fallback",
+      "the 3 managers (Sherlock/Oracle/Memory) are fixed roles; the workers under them are resolved live"
+    ]
+  },
+  "3_evidenceEvaluation": {
+    "types": [
+      {
+        "id": "sap-note",
+        "stars": 5
+      },
+      {
+        "id": "kba",
+        "stars": 5
+      },
+      {
+        "id": "st22-dump",
+        "stars": 4
+      },
+      {
+        "id": "we02-idoc",
+        "stars": 4
+      },
+      {
+        "id": "sm21-log",
+        "stars": 4
+      },
+      {
+        "id": "sm58",
+        "stars": 4
+      },
+      {
+        "id": "smq1",
+        "stars": 4
+      },
+      {
+        "id": "smq2",
+        "stars": 4
+      },
+      {
+        "id": "se16-data",
+        "stars": 4
+      },
+      {
+        "id": "debug-trace",
+        "stars": 4
+      },
+      {
+        "id": "code",
+        "stars": 4
+      },
+      {
+        "id": "screenshot",
+        "stars": 3
+      },
+      {
+        "id": "memory-past",
+        "stars": 3
+      },
+      {
+        "id": "pasted-text",
+        "stars": 2
+      },
+      {
+        "id": "guess",
+        "stars": 1
+      }
+    ],
+    "missingInfo": "if no evidence >= 3 stars for the intent, mark INSUFFICIENT and request the exact artifact for that fault type (see references/auto-investigation.md)"
+  },
+  "4_confidenceEngine": {
+    "bands": [
+      {
+        "id": "Low",
+        "range": "<50",
+        "action": "NEVER-GUESS: say 'אני צריך עוד ראיות' + request exact evidence"
+      },
+      {
+        "id": "Medium",
+        "range": "50-69",
+        "action": "present ranked hypotheses; ask ONE more targeted question"
+      },
+      {
+        "id": "High",
+        "range": "70-89",
+        "action": "recommend with caveat + Explain-Why"
+      },
+      {
+        "id": "Verified",
+        "range": "90-100",
+        "action": "evidence-backed conclusion (>=4-star evidence + confirming Note or past match)"
+      }
+    ]
+  },
+  "5_executionPlan": {
+    "template": [
+      "שלב 1 — Observe+Classify (intent detection)",
+      "שלב 2 — Evidence eval + Missing-Info (request if insufficient)",
+      "שלב 3 — Capability match + dispatch managers/packs (dynamic from registry)",
+      "שלב 4 — Reasoning/RCA + Confidence + HQ Summary"
+    ]
+  },
+  "6_reasoningRules": {
+    "decisionTree": "record WHY each was engaged",
+    "rules": [
+      "engage Sherlock when mode in [Incident,Debug,Performance,Authorization,Integration] or evidence is a live artifact",
+      "engage Oracle when mode in [Learning,Architecture,Migration,SAP Note,Development,BTP] or a Note is likely",
+      "engage Memory always for 'seen before?' before concluding",
+      "engage Expert Pack matched to the intent's SAP area",
+      "log each: {engaged, reason, basis: verified|file|screenshot|knowledge|needs-SAP-verification}"
+    ]
+  },
+  "routingRules": {
+    "style": "SOFT / decision-engine, not hard routing",
+    "match": "score intents by signals; pick highest; allow multi-intent (e.g. IDoc+SD) -> engage both packs; Sherlock owns the single conclusion",
+    "fallback": "any absent worker -> next in its capability-registry fallback chain -> built-in (files/web/pasted evidence)"
+  },
+  "guardrails": [
+    "orchestration only",
+    "no new plugins/MCP/agents",
+    "never invent SAP Note/KBA",
+    "label basis of every claim",
+    "cloud/phone safe (no MCP/hooks required)"
+  ]
+}

@@ -39,5 +39,8 @@ jobs:
       - name: M1 — route-manifest drift guard
         run: npm run check:routes
 
+      - name: Diagnostics page must ship with every build
+        run: npm run check:diag
+
       - name: M2 — dead-link crawl
         run: npm run crawl:deadlinks

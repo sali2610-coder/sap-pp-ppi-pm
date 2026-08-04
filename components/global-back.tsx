@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
+import { onWindowResize } from "@/lib/raf-resize";
 
 // Logical-parent fallback when there is no in-app history (direct deep link).
 function parentOf(path: string): string {
@@ -35,8 +36,8 @@ export function GlobalBack() {
   useEffect(() => { if (last.current !== null && last.current !== pathname) count.current += 1; last.current = pathname; }, [pathname]);
   useEffect(() => {
     const measure = () => { const hh = document.querySelector("header"); if (hh) setTop(hh.getBoundingClientRect().height + 8); };
-    measure(); window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
+    measure();
+    return onWindowResize(measure);
   }, []);
 
   const back = () => { if (count.current > 0 && typeof window !== "undefined" && window.history.length > 1) router.back(); else router.push(parentOf(pathname)); };
