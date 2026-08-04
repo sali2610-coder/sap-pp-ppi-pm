@@ -1,0 +1,60 @@
+# Dependabot — automated dependency and workflow updates.
+#
+# Context that shapes this config: the site is a Next.js static export
+# (`output: "export"`). The deployed artifact is plain HTML/CSS/JS on a CDN with
+# no Node.js runtime, so build-time packages (next, postcss, sharp, xlsx, the
+# eslint tree) have no request-serving attack surface in production. Their real
+# exposure is the build machine and the CI supply chain, which is exactly what
+# these updates protect.
+#
+# Grouping keeps the PR volume sane: one PR per ecosystem per week instead of
+# one per package. Major bumps for the framework are deliberately NOT automated
+# — a Next major is a migration, and this project pins to a specific Next 16
+# behaviour set (App Router + static export + trailingSlash).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    groups:
+      # Patch/minor across the board — safe to review as one PR.
+      production-minor:
+        applies-to: version-updates
+        dependency-type: production
+        update-types: [minor, patch]
+      development-minor:
+        applies-to: version-updates
+        dependency-type: development
+        update-types: [minor, patch]
+      # Security fixes get their own grouping so they are never buried behind
+      # routine version churn.
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+    ignore:
+      # Next major upgrades are a migration, not a dependency bump. AGENTS.md
+      # requires reading node_modules/next/dist/docs before touching Next; that
+      # is a human task, not an automated PR.
+      - dependency-name: next
+        update-types: [version-update:semver-major]
+      - dependency-name: react
+        update-types: [version-update:semver-major]
+      - dependency-name: react-dom
+        update-types: [version-update:semver-major]
+      # Tailwind v4 keeps its config in app/globals.css; a major bump changes
+      # that contract and needs manual work.
+      - dependency-name: tailwindcss
+        update-types: [version-update:semver-major]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 3
+    groups:
+      actions:
+        patterns: ["*"]
