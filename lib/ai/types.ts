@@ -53,6 +53,13 @@ export interface Answer {
   error?: string;
   /** The API hit its token ceiling; the answer is incomplete. */
   truncated?: boolean;
+  /**
+   * Set when the question asked for a picture. `kind` is what we inferred,
+   * `drawn` says whether the answer actually carried a diagram we could render.
+   * The UI owes the user an honest word when they asked for one and it is
+   * missing, rather than silently handing back the same bullet list.
+   */
+  diagram?: { kind: string; explicit: boolean; drawn: boolean; unsupported: boolean };
 }
 
 export interface QuickAction {

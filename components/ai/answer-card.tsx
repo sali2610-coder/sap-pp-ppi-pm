@@ -6,10 +6,18 @@ import {
   BookOpen, Check, ChevronLeft, Copy, ExternalLink, Quote,
   Download, FileText, Link2, Printer, RotateCcw, ScissorsLineDashed, Sparkles,
   ThumbsDown, ThumbsUp, TriangleAlert, WifiOff,
+  Workflow,
 } from "lucide-react";
 import { loadFeedback, setFeedback, type Verdict } from "@/lib/ai/history";
 import { copyShareLink, exportMarkdown, exportPdf, exportWord } from "@/lib/ai/export";
 import { AnswerBody } from "./answer-body";
+
+/** Shapes we cannot draw yet, named in Hebrew for the notice below. */
+const DIAGRAM_HE: Record<string, string> = {
+  timeline: "ציר זמן",
+  swimlane: "מסלולי אחריות",
+  "sequence diagram": "דיאגרמת רצף",
+};
 import { useReveal } from "@/lib/ai/use-reveal";
 import type { Answer, Citation } from "@/lib/ai/types";
 
@@ -141,6 +149,18 @@ export function AnswerCard({ answer, onRetry, isLatest }: {
       {!done && (
         <span aria-hidden
           className="ms-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-brand/60 motion-safe:animate-[caret_1s_steps(2)_infinite]" />
+      )}
+
+      {/* The user asked for a picture and did not get one. Saying so is the
+          whole point: silently returning the same prose reads as a refusal the
+          user cannot see, and they cannot tell it apart from a bug. */}
+      {done && answer.diagram?.explicit && !answer.diagram.drawn && (
+        <p className="mt-3 flex max-w-[74ch] items-start gap-1.5 rounded-xl bg-surface-2 px-2.5 py-2 text-[0.6875rem] leading-relaxed text-ink-3">
+          <Workflow className="mt-px size-3 shrink-0" />
+          {answer.diagram.unsupported
+            ? `תרשים מסוג ${DIAGRAM_HE[answer.diagram.kind] ?? answer.diagram.kind} עדיין לא נתמך לשרטוט, ולכן התשובה מוצגת כטקסט.`
+            : "לא צירפתי תרשים, כי המקורות שנמצאו אינם מתארים רצף שלבים שלם. תרשים חלקי היה מטעה."}
+        </p>
       )}
 
       {answer.truncated && (

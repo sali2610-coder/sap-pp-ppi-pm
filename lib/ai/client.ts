@@ -10,6 +10,7 @@
 //     are labelled as suggestions in the UI, not presented as model output.
 import type { Answer, Citation, Scope } from "./types";
 import { bookById, cachedTree, loadTree, sectionHref } from "./tree";
+import { detectDiagramIntent, answerHasDiagram } from "./diagram-intent";
 
 const API =
   process.env.NEXT_PUBLIC_BOOKS_API_URL || "https://sap-books-api.vercel.app/api/ask-v2";
@@ -100,9 +101,16 @@ function stripSourcesLine(text: string): string {
 
 let seq = 0;
 
-export async function askApi(question: string, scope: Scope, task = "HEBREW_EXPLAIN"): Promise<Answer> {
+export async function askApi(question: string, scope: Scope, task?: string): Promise<Answer> {
   const id = `a${++seq}`;
   const started = Date.now();
+
+  // A question about a process, a lifecycle or a set of relationships wants a
+  // picture. The routing config already had visual profiles; nothing selected
+  // them, so every question was answered as prose. An explicit task from a
+  // quick-action button always wins over what we infer.
+  const intent = task ? null : detectDiagramIntent(question);
+  const profile = task ?? intent?.task ?? "HEBREW_EXPLAIN";
 
   // Citations resolve their titles from this; make sure it is loaded.
   if (scope.bookId) { try { await loadTree(scope.bookId); } catch { /* titles degrade to null */ } }
@@ -129,7 +137,8 @@ export async function askApi(question: string, scope: Scope, task = "HEBREW_EXPL
         chapter: scope.chapter,
         section: scope.section,
         scope: scopeMode(scope),
-        task,
+        task: profile,
+        ...(intent && !intent.unsupported ? { diagramKind: intent.kind } : {}),
       }),
     });
 
