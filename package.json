@@ -8,6 +8,8 @@
     "check:routes": "node scripts/check-route-manifest.mjs",
     "crawl:deadlinks": "node scripts/crawl-dead-links.mjs",
     "verify:export": "node scripts/check-route-manifest.mjs && node scripts/crawl-dead-links.mjs",
+    "migrate:books": "node scripts/migrate-books.mjs",
+    "validate:books": "node scripts/validate-books.mjs",
     "audit:tree": "node scripts/audit-tree.mjs",
     "audit:library": "node scripts/audit-library.mjs",
     "build": "next build",
