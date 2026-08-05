@@ -33,8 +33,8 @@ export function ContextPanel({ scope, answer, onAction, onScope }: {
   const related = tree?.chapters.filter((c) => c.n !== activeChapterNo).slice(0, 4) ?? [];
 
   return (
-    <div className="flex h-full flex-col gap-3 overflow-y-auto p-3">
-      <section className="overflow-hidden rounded-2xl border border-hairline bg-surface">
+    <div className="flex flex-col gap-4 p-4">
+      <section className="overflow-hidden rounded-2xl bg-surface-2/50">
         {book ? (
           <>
             <div className="flex items-start gap-2.5 border-b border-hairline bg-brand-soft p-3">
@@ -76,7 +76,7 @@ export function ContextPanel({ scope, answer, onAction, onScope }: {
         )}
       </section>
 
-      <section className="rounded-2xl border border-hairline bg-surface p-3">
+      <section>
         <div className="mb-2 text-[10.5px] font-bold text-ink-3">פעולות מהירות</div>
         <div className="grid grid-cols-2 gap-1.5">
           {QUICK_ACTIONS.map((a) => {
@@ -101,7 +101,7 @@ export function ContextPanel({ scope, answer, onAction, onScope }: {
       </section>
 
       {related.length > 0 && (
-        <section className="rounded-2xl border border-hairline bg-surface p-3">
+        <section>
           <div className="mb-2 text-[10.5px] font-bold text-ink-3">פרקים קשורים</div>
           <ul className="space-y-0.5">
             {related.map((c) => (

@@ -76,15 +76,15 @@ export function AiWorkspace() {
         תשובות מבוססות אך ורק על 11 הספרים שבמאגר, עם הפניה לפרק ולסעיף המדויק.
       </p>
     </Reveal>
-    <div className="grid h-[calc(100vh-11rem)] max-h-[52rem] min-h-[34rem] grid-cols-1 overflow-hidden rounded-2xl border border-hairline bg-surface shadow-[0_10px_30px_-24px_rgba(15,23,42,.45)] xl:grid-cols-[268px_1fr_320px]">
+    <div className="grid grid-cols-1 gap-6 xl:grid-cols-[17rem_1fr_19rem]">
       {/* ---------- scope rail ---------- */}
       <aside aria-label="היקף התשובה" className="hidden min-h-0 border-e border-hairline bg-surface xl:block">
         <ScopeTree scope={scope} onScope={setScope} />
       </aside>
 
       {/* ---------- conversation ---------- */}
-      <section aria-label="שיחה" className="flex min-h-0 min-w-0 flex-col bg-surface">
-        <header className="flex items-center gap-2 border-b border-hairline bg-surface/90 px-3 py-2 backdrop-blur-md">
+      <section aria-label="שיחה" className="flex min-w-0 flex-col gap-6">
+        <header className="flex items-center gap-2 rounded-3xl border border-hairline bg-surface px-3 py-2 shadow-[0_12px_34px_-22px_rgba(15,23,42,0.5)]">
           <button onClick={() => setSheet("scope")} aria-label="בחר היקף"
             className="flex items-center gap-1.5 rounded-xl border border-hairline px-2 py-1.5 text-[11.5px] font-semibold text-ink-2 transition hover:text-brand xl:hidden">
             <Layers className="size-3.5" /> היקף
@@ -105,7 +105,7 @@ export function AiWorkspace() {
           </button>
         </header>
 
-        <div className="min-h-0 flex-1 overflow-y-auto px-3 py-4">
+        <div>
           <AIConversation busy={busy} autoScrollKey={turns.length}>
             {empty ? (
               <EmptyState onPick={(q) => ask(q)} scope={scope} />
@@ -137,8 +137,8 @@ export function AiWorkspace() {
             </AIConversation>
         </div>
 
-        <div className="border-t border-hairline bg-surface px-3 py-3">
-          <div className="mx-auto w-full max-w-[46rem]">
+        <div className="sticky bottom-4">
+          <div className="mx-auto w-full max-w-[48rem]">
             <Composer
               value={draft}
               onChange={setDraft}
@@ -154,8 +154,10 @@ export function AiWorkspace() {
       </section>
 
       {/* ---------- context rail ---------- */}
-      <aside aria-label="מידע והקשר" className="hidden min-h-0 border-s border-hairline bg-surface-2/40 xl:block">
+      <aside aria-label="מידע והקשר" className="hidden xl:block">
+        <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-3xl border border-hairline bg-surface shadow-[0_12px_34px_-22px_rgba(15,23,42,0.5)]">
         <ContextPanel scope={scope} answer={last} onAction={(p) => ask(p)} onScope={setScope} />
+        </div>
       </aside>
 
       {/* ---------- mobile sheets ---------- */}

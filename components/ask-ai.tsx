@@ -11,6 +11,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Sparkles, X, Send, ExternalLink } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { useAiContext, type AiContext } from "@/lib/ai-context";
 import { useBookScope, scopeLabel, type ScopeMode } from "@/lib/use-book-scope";
 import { findLinks } from "@/lib/ai-links";
@@ -99,6 +100,7 @@ export function AskAI({ variant = "floating", scope, bookId, className = "" }:
     ? { bookId: book.scope.mode === "library" ? undefined : bookId,
         chapter: book.scope.chapter, section: book.scope.section }
     : (scope ?? {});
+  const pathname = usePathname();
   const ctx = useAiContext(effectiveScope);
   const [open, setOpen] = useState(variant === "inline");
   const [msgs, setMsgs] = useState<Msg[]>([]);
@@ -244,6 +246,10 @@ export function AskAI({ variant = "floating", scope, bookId, className = "" }:
   if (variant === "inline") {
     return <div className={`overflow-hidden rounded-2xl border border-hairline bg-surface ${className}`}>{panel}</div>;
   }
+  // A floating "ask AI" button on top of the Ask page announces that the product
+  // has more than one AI surface. It does not belong on the dedicated ones.
+  if (variant === "floating" && /^\/(ai|chat|copilot)(\/|$)/.test(pathname || "")) return null;
+
   return (
     <>
       {!open && (

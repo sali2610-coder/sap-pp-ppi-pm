@@ -70,7 +70,7 @@ export function ScopeTree({ scope, onScope, onNavigate }: {
   }, [tree, needle]);
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex max-h-[calc(100vh-9rem)] flex-col">
       <div className="border-b border-hairline p-3">
         <div className="relative">
           <Search className="pointer-events-none absolute start-2.5 top-1/2 size-3.5 -translate-y-1/2 text-ink-3" />
