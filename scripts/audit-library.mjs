@@ -77,17 +77,24 @@ for (const id of BOOKS) {
   const heOf = (e) => (schema === "title/he" ? e.he : e.titleHe) ?? "";
 
   const seen = new Map();
+  const firstTitle = new Map();
   let broken = 0, misfiled = 0, he = 0;
 
   for (const e of idx) {
     const sid = String(e.id ?? "").trim();
     if (!sid) { add(err, id, "SECTION_NO_ID", `chapter ${e.ch} has a section with no id`); continue; }
 
-    // duplicate ids
+    // Duplicate ids. In a narrative book this is corruption. In a catalogue
+    // (book7 lists Fiori apps by category) the SAME app legitimately appears
+    // under two categories with the same title — reporting that as an error
+    // cries wolf, so it is separated by whether the titles agree.
     if (seen.has(sid)) {
-      add(err, id, "DUPLICATE_ID", `${sid} appears ${seen.get(sid) + 1}×`);
+      const prev = firstTitle.get(sid);
+      const sameEntry = prev != null && prev === titleOf(e);
+      add(sameEntry ? warn : err, id, sameEntry ? "CROSS_LISTED_ENTRY" : "DUPLICATE_ID",
+        `${sid}${sameEntry ? ` cross-listed (ch ${e.ch})` : ` appears ${seen.get(sid) + 1}× with differing titles`}`);
       seen.set(sid, seen.get(sid) + 1);
-    } else seen.set(sid, 1);
+    } else { seen.set(sid, 1); firstTitle.set(sid, titleOf(e)); }
 
     // a section must live under the chapter its number declares
     const lead = Number(String(sid).split(".")[0]);

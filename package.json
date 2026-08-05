@@ -8,6 +8,7 @@
     "check:routes": "node scripts/check-route-manifest.mjs",
     "crawl:deadlinks": "node scripts/crawl-dead-links.mjs",
     "verify:export": "node scripts/check-route-manifest.mjs && node scripts/crawl-dead-links.mjs",
+    "audit:tree": "node scripts/audit-tree.mjs",
     "audit:library": "node scripts/audit-library.mjs",
     "build": "next build",
     "start": "next start",

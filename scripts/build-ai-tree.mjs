@@ -31,17 +31,30 @@ for (let i = 1; i <= 11; i++) {
 
   const idx = JSON.parse(readFileSync(idxFile, "utf8"));
   let title = id;
-  try { title = JSON.parse(readFileSync(fullFile, "utf8")).book || id; } catch { /* title stays the id */ }
+  // The reader's own chapter titles. Without these the tree labelled each
+  // chapter with its FIRST SECTION's heading, so chapter 3 read as "Object
+  // Information" (section 3.1) where the reader said "Configuring Generic
+  // Functions" -- the same book describing itself two different ways.
+  let chapterTitles = new Map();
+  try {
+    const full = JSON.parse(readFileSync(fullFile, "utf8"));
+    title = full.book || id;
+    for (const c of full.chapters || []) {
+      const n = Number(c.n);
+      if (Number.isFinite(n) && String(c.title || "").trim()) chapterTitles.set(n, String(c.title).trim());
+    }
+  } catch { /* title stays the id; labels fall back below */ }
 
   const byChapter = new Map();
   for (const e of idx) {
     if (!byChapter.has(e.ch)) byChapter.set(e.ch, []);
     byChapter.get(e.ch).push({
       id: String(e.id),
-      // Prefer the Hebrew heading; the site is Hebrew-first. Fall back to English
-      // rather than showing a bare section number.
-      t: (typeof e.he === "string" && e.he.trim()) ? e.he.trim() : String(e.title || e.id),
-      en: String(e.title || ""),
+      // Books disagree on field names: most use {title, he}, book8 uses
+      // {titleEn, titleHe}. Read both so no book loses its Hebrew headings.
+      // Hebrew first — the site is Hebrew-first — then English, then the number.
+      t: String(e.he || e.titleHe || "").trim() || String(e.title || e.titleEn || e.id),
+      en: String(e.title || e.titleEn || ""),
     });
   }
 
@@ -49,9 +62,9 @@ for (let i = 1; i <= 11; i++) {
     .sort((a, b) => a[0] - b[0])
     .map(([n, sections]) => ({
       n,
-      // A chapter has no heading of its own in the source; its first section is
-      // the chapter opener, so its title is the closest honest label.
-      t: sections[0]?.t || `פרק ${n}`,
+      // Prefer the reader's chapter title so both surfaces name it identically.
+      // Fall back to the first section only when the source has no title.
+      t: chapterTitles.get(n) || sections[0]?.t || `פרק ${n}`,
       sections,
     }));
 
@@ -60,7 +73,7 @@ for (let i = 1; i <= 11; i++) {
     id, title, module: MODULE[id] || "SAP",
     chapters: chapters.length,
     sections: idx.length,
-    hebrew: idx.some((e) => e.he),
+    hebrew: idx.some((e) => e.he || e.titleHe),
   });
 }
 
