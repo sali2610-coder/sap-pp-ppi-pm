@@ -53,7 +53,7 @@ export function Thinking({ scopeLabel }: { scopeLabel?: string }) {
       {/* Reserves the answer's footprint so nothing jumps when it lands. */}
       <div className="max-w-[74ch] space-y-2.5" aria-hidden>
         {[100, 96, 88, 70].map((w, i) => (
-          <div key={i} className="h-3 rounded-full bg-hairline motion-safe:animate-[shimmer_1.6s_ease-in-out_infinite]"
+          <div key={i} className="h-3 rounded-full bg-hairline motion-safe:animate-[aiPulse_1.6s_ease-in-out_infinite]"
             style={{ width: `${w}%`, animationDelay: `${i * 90}ms` }} />
         ))}
       </div>
