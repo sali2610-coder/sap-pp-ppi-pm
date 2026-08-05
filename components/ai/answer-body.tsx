@@ -4,6 +4,8 @@ import { useMemo } from "react";
 import Link from "next/link";
 import { Info, Lightbulb, TriangleAlert } from "lucide-react";
 import { knownRoutes, type SapKind } from "@/lib/ai-known-routes";
+import { isDiagramFence } from "@/lib/ai/diagram";
+import { DiagramView } from "./diagram-view";
 
 /**
  * Long-form renderer for AI answers.
@@ -118,7 +120,7 @@ type Block =
   | { t: "p"; text: string }
   | { t: "ul"; items: string[] }
   | { t: "ol"; items: string[] }
-  | { t: "code"; text: string }
+  | { t: "code"; text: string; lang?: string }
   | { t: "table"; head: string[]; rows: string[][] }
   | { t: "callout"; kind: "note" | "warn" | "tip"; text: string };
 
@@ -143,11 +145,12 @@ function parse(src: string): Block[] {
 
     // fenced code
     if (trimmed.startsWith("```")) {
+      const lang = trimmed.slice(3).trim().toLowerCase() || undefined;
       const buf: string[] = [];
       i++;
       while (i < lines.length && !lines[i].trim().startsWith("```")) buf.push(lines[i++]);
       i++;
-      blocks.push({ t: "code", text: buf.join("\n") });
+      blocks.push({ t: "code", text: buf.join("\n"), lang });
       continue;
     }
 
@@ -259,11 +262,16 @@ export function AnswerBody({ text }: { text: string }) {
             );
 
           case "code":
-            return (
-              <pre key={i} className="tech overflow-x-auto rounded-xl bg-surface-2 p-3 text-[0.8125rem] leading-relaxed text-ink-1">
-                <code>{b.text}</code>
-              </pre>
-            );
+            // A flowchart is an output type, not a code sample. DiagramView
+            // falls back to showing the source if it cannot lay the graph out,
+            // so an unparseable diagram degrades instead of disappearing.
+            return isDiagramFence(b.text, b.lang)
+              ? <DiagramView key={i} source={b.text} />
+              : (
+                <pre key={i} className="tech overflow-x-auto rounded-xl bg-surface-2 p-3 text-[0.8125rem] leading-relaxed text-ink-1">
+                  <code>{b.text}</code>
+                </pre>
+              );
 
           case "table":
             return (
