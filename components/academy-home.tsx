@@ -127,7 +127,7 @@ export function AcademyHome() {
             </span>
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5 text-[10.5px] font-extrabold uppercase tracking-[0.1em]" style={{ color: tAccent }}><Play className="size-3.5" />{tStarted ? "המשך מהמקום שהפסקת" : "השיעור הבא שלך"}{cc.openedAt ? <span className="font-bold normal-case tracking-normal text-ink-3">· {timeAgo(cc.openedAt)}</span> : null}</div>
-              <h3 className="mt-1.5 text-[19px] font-extrabold tracking-[-0.01em]" dir="auto">{cc.lessonTitle}</h3>
+              <h2 className="mt-1.5 text-[19px] font-extrabold tracking-[-0.01em]" dir="auto">{cc.lessonTitle}</h2>
               <p className="text-[12.5px] text-ink-3">פרק {cc.chapterIndex} · שיעור {cc.lessonNum} מתוך {cc.chapterSize}</p>
               {tStarted && (<><div className="mt-3 h-[7px] max-w-[340px] overflow-hidden rounded-full bg-black/[0.06]"><motion.div className="h-full rounded-full" style={{ background: tAccent }} initial={false} animate={{ width: `${Math.round(tPct * 100)}%` }} transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }} /></div><div className="mt-1 flex max-w-[340px] justify-between text-[11px] font-bold text-ink-3"><span>{Math.round(tPct * 100)}% בשיעור</span><span>{cc.pct}% בקורס</span></div></>)}
               <Link href={`/academy/lesson/${cc.resumeSlug}/`} className="mt-3.5 inline-flex items-center gap-2 rounded-xl bg-ink-1 px-5 py-2.5 text-[13.5px] font-extrabold text-white transition hover:bg-black">{tStarted ? "המשך ללמוד" : "התחל ללמוד"} <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
@@ -164,7 +164,7 @@ export function AcademyHome() {
         /* EMPTY STATE (§11) — no active course → recommended */
         <div className={`${RISE} mt-8 rounded-3xl border border-dashed border-hairline bg-surface-2/40 p-8 text-center`} style={riseStyle}>
           <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-brand-soft text-brand"><GraduationCap className="size-6" /></span>
-          <h3 className="mt-3 text-[16px] font-extrabold text-ink-1">עדיין לא התחלת ללמוד</h3>
+          <h2 className="mt-3 text-[16px] font-extrabold text-ink-1">עדיין לא התחלת ללמוד</h2>
           <p className="mx-auto mt-1 max-w-sm text-[13px] text-ink-3">בחר קורס והתחל — ההתקדמות שלך תישמר אוטומטית ותופיע כאן כדי שתמשיך בדיוק מהמקום שעצרת.</p>
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
             <Link href="/academy/dashboard/" className="inline-flex items-center gap-2 rounded-xl bg-ink-1 px-5 py-2.5 text-[13px] font-extrabold text-white transition hover:bg-black">בחר קורס מתוך המסלולים <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
