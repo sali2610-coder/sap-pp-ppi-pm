@@ -79,7 +79,7 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
       {/* greeting + hero search — the single primary action */}
       <section className="neo-rise" style={{ "--neo-i": 0 } as React.CSSProperties}>
         <p className="text-[13px] font-bold text-ink-3">{hi},</p>
-        <h1 className="mt-0.5 text-[26px] font-black leading-tight text-ink-1">מה נלמד היום ב-SAP?</h1>
+        <h2 className="mt-0.5 text-[26px] font-black leading-tight text-ink-1">מה נלמד היום ב-SAP?</h2>
         <button onClick={() => { haptic(); openPalette(); }}
           className="tap mt-4 flex w-full items-center gap-3 rounded-2xl border border-hairline bg-surface-2/60 px-4 py-3.5 text-start shadow-sm transition active:scale-[0.99]">
           <Search className="size-5 shrink-0 text-brand" />

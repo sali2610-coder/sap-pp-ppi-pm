@@ -408,6 +408,10 @@ export function ArchitectureStudio() {
   // transients that are meant to be hidden until triggered.
   return (
     <div className="neo-rise mx-auto" dir="rtl" style={{ "--neo-y": "10px" } as React.CSSProperties}>
+      {/* Studio opens on the canvas with only a breadcrumb, so the route shipped
+          zero <h1>. sr-only gives it a document heading without altering the
+          canvas-first layout. */}
+      <h1 className="sr-only">סטודיו הארכיטקטורה — SAP Architecture Studio</h1>
       {!present && (<>
       {/* header */}
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">

@@ -31,10 +31,10 @@ function SearchHero({ counts }: { counts: PortalCounts }) {
       </div>
       <span className="eyebrow-2 inline-flex items-center gap-1.5"><span className="size-1.5 rounded-full bg-brand" />SAP Knowledge Platform</span>
       {/* level 2 — editorial headline (very bold, concise) */}
-      <h1 className="mx-auto mt-3 max-w-3xl text-balance font-display text-[2.5rem] leading-[0.98] text-ink-1 sm:mt-4 sm:text-[3.75rem]">
+      <h2 className="mx-auto mt-3 max-w-3xl text-balance font-display text-[2.5rem] leading-[0.98] text-ink-1 sm:mt-4 sm:text-[3.75rem]">
         <span className="block">כל עולם <span className="text-brand">SAP</span></span>
         <span className="block">במקום אחד.</span>
-      </h1>
+      </h2>
       {/* elegant red accent line beneath the headline */}
       <span aria-hidden className="accent-rule mx-auto mt-4 sm:mt-6" />
       {/* level 3 — description (lighter, generous) */}
