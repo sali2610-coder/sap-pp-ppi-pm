@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   Home, Wrench, FlaskConical, GitBranch, Table, Terminal, Plug, Cable, Sigma,
   LayoutGrid, Puzzle, BrainCircuit, Library, AlertTriangle, Award, GraduationCap,
-  Compass, Sparkles, PanelLeftClose, PanelLeftOpen, ChevronDown, X,
+  Compass, Sparkles, MessageSquare, PanelLeftClose, PanelLeftOpen, ChevronDown, X,
 } from "lucide-react";
 import { playClick } from "@/lib/sound";
 
@@ -41,16 +41,24 @@ const NAV: Group[] = [
     { href: "/fiori-apps/", icon: LayoutGrid, label: "Fiori Apps" },
     { href: "/enhancements/", icon: Puzzle, label: "Enhancements" },
   ]},
+  // Asking about the books is a feature OF the library, not a separate product,
+  // so the two sit together and read as one destination.
+  { id: "library", label: "ספרייה", items: [
+    { href: "/library/", icon: Library, label: "ספרייה דיגיטלית" },
+    { href: "/ai/", icon: Sparkles, label: "שאל את הספרייה" },
+  ]},
   { id: "knowledge", label: "ידע ולמידה", items: [
     { href: "/knowledge/", icon: BrainCircuit, label: "מרכז ידע" },
-    { href: "/library/", icon: Library, label: "ספרייה" },
     { href: "/academy/", icon: GraduationCap, label: "SAP Academy" },
     { href: "/incidents/", icon: AlertTriangle, label: "תקלות" },
     { href: "/certification/", icon: Award, label: "הסמכה" },
   ]},
   { id: "tools", label: "כלים", items: [
     { href: "/studio/", icon: Compass, label: "Architecture Studio" },
-    { href: "/chat/", icon: Sparkles, label: "צ'אט AI" },
+  ]},
+  // Last by intent: a general SAP assistant, not scoped to the books.
+  { id: "assistant", label: "עוזר SAP", items: [
+    { href: "/chat/", icon: MessageSquare, label: "צ'אט AI" },
   ]},
 ];
 
@@ -112,11 +120,17 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
       </Link>
 
       {NAV.map((g) => {
-        // Default-open only the two groups a newcomer needs first (modules + the
-        // learning/knowledge group). Reference + tools collapse by default so the
-        // rail isn't a 25-item wall on first look. A user's manual toggle persists
-        // (neo:nav:open) and always wins.
-        const isOpen = open[g.id] !== undefined ? open[g.id] : (g.id === "modules" || g.id === "knowledge");
+        // Default-open the groups a newcomer needs first: the modules, the
+        // library (browsing and asking are the primary entry points), and the
+        // learning group. Reference + tools collapse so the rail isn't a 25-item
+        // wall on first look. A user's manual toggle persists and always wins.
+        const isOpen = open[g.id] !== undefined
+          ? open[g.id]
+          // ...and always open the group holding the current page, so the active
+          // item can never be hidden behind a collapsed header. This also keeps
+          // future groups correct without another hard-coded id.
+          : (g.id === "modules" || g.id === "library" || g.id === "knowledge"
+             || g.items.some((it) => path.startsWith(it.href)));
         return (
           <div key={g.id} className="mt-2">
             {!collapsed ? (

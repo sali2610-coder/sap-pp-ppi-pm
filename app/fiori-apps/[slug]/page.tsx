@@ -15,5 +15,9 @@ export default async function FioriAppDetail({ params }: { params: Promise<{ slu
   const { slug } = await params;
   const app = FIORI_BY_SLUG[slug];
   if (!app) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">האפליקציה לא נמצאה.</div>;
-  return <FioriAppPage app={app} />;
+  return (
+    <>
+      <FioriAppPage app={app} />
+    </>
+  );
 }

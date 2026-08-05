@@ -4,6 +4,7 @@ import { useState } from "react";
 import { BookReader } from "@/components/book-reader";
 import { ChapterReader } from "@/components/chapter-reader";
 import { FigureViewer } from "@/components/figure-viewer";
+import { AskAI } from "@/components/ask-ai";
 import book6 from "@/data/library/book6-full.json";
 import figuresData from "@/data/library/book6-figures.json";
 import { useI18n } from "@/lib/i18n";
@@ -54,6 +55,7 @@ export default function Book3Page() {
           ? "טקסט ואיורים חולצו מקובץ ה-PDF המקורי (poppler/pdfimages). תרגום עברי מקצועי נכתב עבור הארגון."
           : "Text & figures extracted from the original PDF (poppler/pdfimages). Hebrew professionally translated for the organization."}
       </p>
+      <AskAI variant="inline" bookId="book6" className="mt-6" />
     </div>
   );
 }

@@ -2,6 +2,7 @@
 
 import { BookReader } from "@/components/book-reader";
 import { ChapterReader } from "@/components/chapter-reader";
+import { AskAI } from "@/components/ask-ai";
 import book11 from "@/data/library/book11-full.json";
 import { useI18n } from "@/lib/i18n";
 
@@ -41,6 +42,7 @@ export default function Book11Page() {
           ? "הטקסט חולץ מקובץ ה-PDF המקורי (pdf-parse). תרגום עברי מקצועי נכתב עבור הארגון."
           : "Text extracted from the original PDF (pdf-parse). Hebrew professionally translated for the organization."}
       </p>
+      <AskAI variant="inline" bookId="book11" className="mt-6" />
     </div>
   );
 }

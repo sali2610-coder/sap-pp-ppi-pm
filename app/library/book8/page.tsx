@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, ChevronDown, Layers, Lightbulb, Wrench, AlertTriangle, CheckCircle2, MessageCircleQuestion, KeyRound, Workflow, Database } from "lucide-react";
 import { BookReader } from "@/components/book-reader";
+import { AskAI } from "@/components/ask-ai";
 import book8 from "@/data/library/book8-full.json";
 import { useI18n } from "@/lib/i18n";
 import { playPing } from "@/lib/sound";
@@ -237,6 +238,7 @@ export default function Book8Page() {
           ? "התוכן נכתב במקור בעברית בתבנית 18 המקטעים של NEO Academy (מקור pmu-textbook), מוצג כאן כספר #8 לצד ספרי העיון. מזהי SAP נשמרו באנגלית."
           : "Content authored in Hebrew (NEO Academy 18-facet, pmu-textbook source), surfaced here as Book #8 alongside the reference shelf."}
       </p>
+      <AskAI variant="inline" bookId="book8" className="mt-6" />
     </div>
   );
 }

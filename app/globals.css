@@ -956,3 +956,19 @@ html[data-device="phone"]  [data-shell="mobile-only"] { display: block !importan
   /* Decorative loops only — functional motion (skeletons, progress) is untouched. */
   .credit-glow, .credit-red-glow, .studio-halo, .studio-breathe { animation: none !important; }
 }
+
+/* AI workspace — mobile sheet entrance. Short and eased so it reads as the
+   sheet arriving, not as an effect. Respects reduced-motion below. */
+@keyframes sheetUp { from { transform: translateY(12px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
+/* fadeIn is already defined above (line ~566); reused, not redefined. */
+@media (prefers-reduced-motion: reduce) {
+  [class*="animate-[sheetUp"], [class*="animate-[fadeIn"] { animation: none !important; }
+}
+
+/* AI workspace motion. All short (180-260ms) and all disabled under the global
+   prefers-reduced-motion block above; the infinite ones are additionally gated
+   behind Tailwind's motion-safe: at the call site. */
+@keyframes bubbleIn { from { transform: translateY(4px) scale(.985); opacity: 0 } to { transform: none; opacity: 1 } }
+@keyframes dot      { 0%,100% { opacity:.25; transform: translateY(0) } 50% { opacity:1; transform: translateY(-2px) } }
+@keyframes aiPulse  { 0%,100% { opacity:.5 } 50% { opacity:1 } }
+@keyframes caret    { 0%,100% { opacity:1 } 50% { opacity:0 } }

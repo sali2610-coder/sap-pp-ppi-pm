@@ -291,7 +291,7 @@ export default function LibraryPage() {
 
       {/* ===== Ask-the-Books · AI chat entry point ===== */}
       <Reveal>
-        <Link href="/library/ask" className="group relative flex items-center gap-4 overflow-hidden rounded-3xl border border-hairline bg-gradient-to-bl from-ink-1 via-[#15171b] to-[#0b0c0e] p-4 text-white shadow-[0_12px_34px_-22px_rgba(15,23,42,0.5)] transition hover:brightness-110 sm:p-5">
+        <Link href="/ai/" className="group relative flex items-center gap-4 overflow-hidden rounded-3xl border border-hairline bg-gradient-to-bl from-ink-1 via-[#15171b] to-[#0b0c0e] p-4 text-white shadow-[0_12px_34px_-22px_rgba(15,23,42,0.5)] transition hover:brightness-110 sm:p-5">
           <span className="pointer-events-none absolute -right-16 -top-16 size-40 rounded-full bg-brand/25 blur-3xl" />
           <span className="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-brand text-white shadow-lg"><Sparkles className="size-6" /></span>
           <span className="relative min-w-0 flex-1">

@@ -52,7 +52,9 @@ export function ContextFab() {
   }, [open]);
 
   // hide where it would duplicate a native composer
-  if (/^\/(chat|copilot)/.test(path)) return null;
+  // The AI surfaces own their own composer, which sits exactly where this FAB
+  // does. Two primary actions in one corner is a collision, not a choice.
+  if (/^\/(chat|copilot|ai)(\/|$)/.test(path)) return null;
   // §P2.10 hide inside the lesson reader — keep the reading surface calm (matches
   // the P0 focus-mode); its generic primary ("Ask AI") would also pull the learner
   // out of the lesson. The reader's own prev/next cards own progression here.

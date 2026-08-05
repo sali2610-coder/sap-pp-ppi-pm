@@ -31,5 +31,9 @@ export default async function Page({ params }: { params: Promise<{ code: string 
   // 3) …otherwise the dataset-derived related view.
   const intel = tcodeIntel(cu);
   if (!intel) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">T-Code לא נמצא במאגר.</div>;
-  return <RelatedView kind="T-Code" code={intel.code} tables={intel.tables} />;
+  return (
+    <>
+      <RelatedView kind="T-Code" code={intel.code} tables={intel.tables} />
+    </>
+  );
 }

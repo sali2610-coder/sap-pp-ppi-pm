@@ -22,5 +22,9 @@ export default async function Page({ params }: { params: Promise<{ name: string 
   if (!o) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">האובייקט לא נמצא במאגר המרכזי.</div>;
   // resolve related objects (for links) — serializable, keeps ALL_TABLES off the client bundle
   const related = o.relatedObjects.map((id) => registryObject(id)).filter(Boolean).map((r) => ({ id: r!.id, technicalName: r!.technicalName, objectType: r!.objectType, primaryModule: r!.primaryModule, shortDescriptionHe: r!.shortDescriptionHe, verificationStatus: r!.verificationStatus }));
-  return <BapiObjectPage o={o} related={related} />;
+  return (
+    <>
+      <BapiObjectPage o={o} related={related} />
+    </>
+  );
 }
