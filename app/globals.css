@@ -972,3 +972,60 @@ html[data-device="phone"]  [data-shell="mobile-only"] { display: block !importan
 @keyframes dot      { 0%,100% { opacity:.25; transform: translateY(0) } 50% { opacity:1; transform: translateY(-2px) } }
 @keyframes aiPulse  { 0%,100% { opacity:.5 } 50% { opacity:1 } }
 @keyframes caret    { 0%,100% { opacity:1 } 50% { opacity:0 } }
+
+/* ===== Dark mode =====================================================
+   A token override, not a per-component patch. Every surface in the app
+   already reads --surface / --ink-* / --hairline, so redefining them here
+   themes the whole product, including screens written before dark existed.
+
+   Applied via html[data-theme="dark"], which lib/theme.ts sets from the saved
+   choice or the OS when the choice is "system". Doing it on <html> before
+   paint avoids a light flash.
+
+   Every pair below was contrast-checked against WCAG AA:
+     ink-1 17.19  ink-2 11.62  ink-3 6.77 (6.23 on surface-2)
+     brand 6.15 (5.66 on surface-2)   emerald 10.78   amber 11.25
+   Brand lightens from #d62027 to #ff5a5f because the print red is only
+   2.9:1 on a dark surface — keeping it would have failed AA outright. */
+html[data-theme="dark"] {
+  --background: #0b0e11;
+  --background-2: #0f1216;
+  --foreground: #f3f5f8;
+
+  --surface: #0f1216;
+  --surface-2: #171b21;
+  --hairline: #262b33;
+  --ink-1: #f3f5f8;
+  --ink-2: #c6ccd5;
+  --ink-3: #949ca7;
+
+  --card: #0f1216;
+  --card-foreground: #f3f5f8;
+  --muted: #171b21;
+  --muted-foreground: #949ca7;
+  --border: #262b33;
+  --input: #262b33;
+
+  --brand: #ff5a5f;
+  --brand-foreground: #1a0b0c;
+  --brand-dark: #c01c22;
+  --brand-soft: #2a1416;
+
+  --glass-bg: rgba(20, 24, 29, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6), 0 2px 8px -2px rgba(0, 0, 0, 0.4);
+
+  --shadow-card: 0 10px 30px -18px rgba(0, 0, 0, 0.8), 0 1px 2px rgba(0, 0, 0, 0.5);
+  color-scheme: dark;
+}
+
+/* Tailwind's fixed palettes cannot see our tokens, so the few status tints the
+   AI surfaces use are remapped rather than left glowing on a dark ground. */
+html[data-theme="dark"] .bg-emerald-50 { background-color: #0d2a1c; }
+html[data-theme="dark"] .text-emerald-700 { color: #4ade80; }
+html[data-theme="dark"] .bg-amber-50 { background-color: #2b2008; }
+html[data-theme="dark"] .text-amber-700 { color: #fbbf24; }
+html[data-theme="dark"] .bg-sky-50 { background-color: #0b2436; }
+html[data-theme="dark"] .text-sky-700 { color: #56b6f5; }
+html[data-theme="dark"] .bg-violet-50 { background-color: #1e1435; }
+html[data-theme="dark"] .text-violet-700 { color: #a78bfa; }

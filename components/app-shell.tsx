@@ -27,6 +27,7 @@ const PeekCoach = dynamic(() => import("@/components/peek-coach").then((m) => m.
 import { WowToast } from "@/components/wow-toast";
 import { Footer } from "@/components/Footer";
 import { LangSwitch } from "@/components/lang-switch";
+import { ThemeSwitch } from "@/components/theme-switch";
 import { playClick } from "@/lib/sound";
 
 // Slim, neutral top bar (Design System v2). Hairline + faint brand accent line;
@@ -54,6 +55,7 @@ function Header() {
           <b className="font-extrabold tracking-tight text-brand">Sali&nbsp;Halif</b>
         </div>
         <div className="shrink-0">
+          <ThemeSwitch />
           <LangSwitch />
         </div>
       </div>

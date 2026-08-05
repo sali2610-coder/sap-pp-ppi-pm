@@ -3,6 +3,7 @@ import "./globals.css";
 import { DEVICE_DETECT_SOURCE } from "@/lib/device";
 import { AppShell } from "@/components/app-shell";
 import { SWRegister } from "@/components/sw-register";
+import { THEME_BOOT } from "@/lib/theme-boot";
 
 const GSC = process.env.NEXT_PUBLIC_GSC_VERIFICATION;
 const BING = process.env.NEXT_PUBLIC_BING_VERIFICATION;
@@ -126,6 +127,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             whatever the monitor size, resolution, OS scaling or browser zoom. */}
         <script dangerouslySetInnerHTML={{ __html:
           `try{performance.mark("neo:html-head")}catch(e){};` +
+          // Theme before paint, for the same reason as the device class below:
+          // applying it in an effect paints light first, then flashes to dark.
+          THEME_BOOT +
           `document.documentElement.dataset.device=${DEVICE_DETECT_SOURCE};` +
           `try{performance.mark("neo:device-detected");` +
           `document.addEventListener("DOMContentLoaded",function(){try{performance.mark("neo:dom-ready")}catch(e){}});` +
