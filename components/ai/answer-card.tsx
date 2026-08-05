@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   BookOpen, Check, ChevronLeft, Copy, ExternalLink, Quote,
-  RotateCcw, ScissorsLineDashed, Sparkles, ThumbsDown, ThumbsUp, TriangleAlert, WifiOff,
+  Download, FileText, Link2, Printer, RotateCcw, ScissorsLineDashed, Sparkles,
+  ThumbsDown, ThumbsUp, TriangleAlert, WifiOff,
 } from "lucide-react";
 import { loadFeedback, setFeedback, type Verdict } from "@/lib/ai/history";
+import { copyShareLink, exportMarkdown, exportPdf, exportWord } from "@/lib/ai/export";
 import { AnswerBody } from "./answer-body";
 import { useReveal } from "@/lib/ai/use-reveal";
 import type { Answer, Citation } from "@/lib/ai/types";
@@ -43,6 +45,8 @@ export function AnswerCard({ answer, onRetry, isLatest }: {
   const [openCites, setOpenCites] = useState(false);
   const [copied, setCopied] = useState(false);
   const [verdict, setVerdict] = useState<Verdict | null>(null);
+  const [shared, setShared] = useState(false);
+  const [openExport, setOpenExport] = useState(false);
 
   // Read in an effect, not during render: this page prerenders at build.
   useEffect(() => { setVerdict(loadFeedback()[answer.id] ?? null); }, [answer.id]);
@@ -144,6 +148,40 @@ export function AnswerCard({ answer, onRetry, isLatest }: {
           <ScissorsLineDashed className="mt-px size-3 shrink-0" />
           התשובה נקטעה. אפשר לצמצם את ההיקף לפרק או לסעיף כדי לקבל תשובה שלמה.
         </p>
+      )}
+
+      {/* --------------------------- take it away --------------------------- */}
+      {done && (
+        <div className="mt-3 flex flex-wrap items-center gap-1.5">
+          <button
+            onClick={async () => { setShared(await copyShareLink(answer)); setTimeout(() => setShared(false), 1800); }}
+            className="inline-flex items-center gap-1.5 rounded-2xl bg-surface-2 px-2.5 py-1.5 text-[0.6875rem] font-bold text-ink-2 transition hover:bg-brand-soft hover:text-brand active:scale-95">
+            {shared ? <Check className="size-3 text-emerald-600" /> : <Link2 className="size-3" />}
+            {shared ? "הקישור הועתק" : "העתק קישור"}
+          </button>
+
+          <button onClick={() => setOpenExport((v) => !v)} aria-expanded={openExport}
+            className="inline-flex items-center gap-1.5 rounded-2xl bg-surface-2 px-2.5 py-1.5 text-[0.6875rem] font-bold text-ink-2 transition hover:bg-brand-soft hover:text-brand active:scale-95">
+            <Download className="size-3" /> ייצוא
+          </button>
+
+          {openExport && (
+            <>
+              <button onClick={() => exportPdf(answer)}
+                className="inline-flex items-center gap-1.5 rounded-2xl px-2.5 py-1.5 text-[0.6875rem] font-bold text-ink-3 transition hover:text-brand active:scale-95">
+                <Printer className="size-3" /> PDF
+              </button>
+              <button onClick={() => exportWord(answer)}
+                className="inline-flex items-center gap-1.5 rounded-2xl px-2.5 py-1.5 text-[0.6875rem] font-bold text-ink-3 transition hover:text-brand active:scale-95">
+                <FileText className="size-3" /> Word
+              </button>
+              <button onClick={() => exportMarkdown(answer)}
+                className="inline-flex items-center gap-1.5 rounded-2xl px-2.5 py-1.5 text-[0.6875rem] font-bold text-ink-3 transition hover:text-brand active:scale-95">
+                <FileText className="size-3" /> Markdown
+              </button>
+            </>
+          )}
+        </div>
       )}
 
       {/* ---------------------------- citations ----------------------------- */}

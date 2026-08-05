@@ -45,6 +45,28 @@ export function AiWorkspace() {
   // resolve real chapter titles without a visible gap.
   useEffect(() => { if (scope.bookId) void loadTree(scope.bookId); }, [scope.bookId]);
 
+  // A shared link carries the scope it was asked in, and the question. Honour it
+  // before falling back to whatever was last saved, so opening someone else's
+  // link lands where they were rather than where you were.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const p = new URLSearchParams(window.location.search);
+    const book = p.get("book");
+    const q = p.get("q");
+    if (!book && !q) return;
+    if (book) {
+      const ch = p.get("ch");
+      setScope({
+        bookId: book,
+        chapter: ch != null ? Number(ch) : undefined,
+        section: p.get("sec") || undefined,
+      });
+    }
+    if (q) setDraft(q);
+    // Drop the params so a refresh does not re-apply them over later work.
+    window.history.replaceState({}, "", "/ai/");
+  }, []);
+
   // Restore on mount. localStorage is read in an effect, never during render,
   // because this page prerenders at build under output:"export".
   useEffect(() => {
