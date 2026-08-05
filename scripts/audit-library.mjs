@@ -156,6 +156,33 @@ for (const [label, list] of [["ERRORS", err], ["WARNINGS", warn]]) {
   }
 }
 
+// Dataset overlap is REPORTED, never judged. Two books in the same module are
+// expected to be siblings (a configuration guide and a business-user guide share
+// PM identity and nothing else). Only a near-total id overlap is worth a human
+// look, and even then the platform states the evidence and stops.
+console.log("\nDATASET OVERLAP (informational — identity is shared by module, content is not)");
+{
+  const ids = new Map();
+  for (const r of rows) {
+    try {
+      const idx = JSON.parse(readFileSync(path.join(LIB, `${r.id}-index.json`), "utf8"));
+      ids.set(r.id, new Set(idx.map((e) => `${e.ch}#${e.id}`)));
+    } catch { /* already reported above */ }
+  }
+  const seenPair = new Set();
+  let any = false;
+  for (const [a, sa] of ids) {
+    for (const [b, sb] of ids) {
+      if (a === b || seenPair.has(`${b}|${a}`)) continue;
+      seenPair.add(`${a}|${b}`);
+      const shared = [...sa].filter((x) => sb.has(x)).length;
+      const pct = Math.round((shared / Math.min(sa.size, sb.size)) * 100);
+      if (pct >= 90) { any = true; console.log(`  ${a} and ${b} share ${shared} section keys (${pct}%) — same content in two datasets, needs a human decision`); }
+    }
+  }
+  if (!any) console.log("  none — every book is an independent dataset");
+}
+
 const outliers = [...new Set(err.map((e) => e.book))];
 console.log(`\nNON-CONFORMING BOOKS: ${outliers.length ? outliers.join(", ") : "none"}`);
 process.exit(err.length ? 1 : 0);
