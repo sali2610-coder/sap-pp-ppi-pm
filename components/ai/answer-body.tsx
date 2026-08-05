@@ -1,7 +1,9 @@
 "use client";
 
 import { useMemo } from "react";
+import Link from "next/link";
 import { Info, Lightbulb, TriangleAlert } from "lucide-react";
+import { knownRoutes, type SapKind } from "@/lib/ai-known-routes";
 
 /**
  * Long-form renderer for AI answers.
@@ -25,6 +27,9 @@ import { Info, Lightbulb, TriangleAlert } from "lucide-react";
 const SAP_ID =
   /(\/[A-Z0-9_]{2,}\/[A-Z0-9_]{2,}|BAPI_[A-Z0-9_]+|\b[A-Z]{2,4}\d{1,3}[A-Z]{0,2}\b|\b[A-Z][A-Z0-9_]{3,}\b)/g;
 
+/** Unmistakably an SAP object by shape: T-code, BAPI/FM, or /NAMESPACE/OBJECT. */
+const STRICT_ID = /^(\/[A-Z0-9_]{2,}\/[A-Z0-9_]{2,}|BAPI_[A-Z0-9_]+|[A-Z]{2,4}\d{1,3}[A-Z]{0,2})$/;
+
 // Words that look like identifiers but are prose. Without this, ordinary
 // English in a Hebrew sentence would be rendered as monospace code.
 const NOT_ID = new Set([
@@ -34,8 +39,33 @@ const NOT_ID = new Set([
   "AND", "THE", "FOR", "WITH", "FROM", "THIS", "THAT", "USER", "DATA", "TYPE",
 ]);
 
+/**
+ * A detected SAP object that NEO actually has a page for becomes a link. One
+ * that it does not stays plain monospace — a badge that 404s is worse than no
+ * badge, so the route index decides, not a regex.
+ */
+const KIND_STYLE: Record<SapKind, string> = {
+  tcode: "bg-brand-soft text-brand ring-brand/20 hover:bg-brand hover:text-brand-foreground",
+  table: "bg-sky-50 text-sky-700 ring-sky-200 hover:bg-sky-700 hover:text-white",
+  bapi:  "bg-violet-50 text-violet-700 ring-violet-200 hover:bg-violet-700 hover:text-white",
+  cds:   "bg-emerald-50 text-emerald-700 ring-emerald-200 hover:bg-emerald-700 hover:text-white",
+};
+
+function SapBadge({ id, kind, href }: { id: string; kind: SapKind; href: string }) {
+  return (
+    <Link
+      href={href}
+      title={`${kind.toUpperCase()} · ${id}`}
+      className={`tech mx-px inline-flex items-baseline rounded-md px-1.5 py-px align-baseline text-[0.82em] font-bold ring-1 transition ${KIND_STYLE[kind]}`}
+    >
+      {id}
+    </Link>
+  );
+}
+
 /** Splits a line into plain text, bold runs, inline code and SAP identifiers. */
 function Inline({ text }: { text: string }) {
+  const routes = useMemo(() => knownRoutes(), []);
   const parts = useMemo(() => {
     const out: Array<{ k: "t" | "b" | "c" | "id"; v: string }> = [];
     // Bold and inline code first so identifier scanning never splits them.
@@ -64,7 +94,19 @@ function Inline({ text }: { text: string }) {
       {parts.map((p, i) => {
         if (p.k === "b") return <strong key={i} className="font-bold text-ink-1">{p.v}</strong>;
         if (p.k === "c") return <code key={i} className="tech rounded bg-surface-2 px-1 py-0.5 text-[0.85em]">{p.v}</code>;
-        if (p.k === "id") return <span key={i} className="tech font-semibold text-ink-1">{p.v}</span>;
+        if (p.k === "id") {
+          const key = p.v.toUpperCase();
+          const href = routes.href.get(key);
+          const kind = routes.kind.get(key);
+          if (href && kind) return <SapBadge key={i} id={p.v} kind={kind} href={href} />;
+          // Not a page we have. Only keep the monospace treatment when the token
+          // is unmistakably an SAP object by shape — otherwise an ordinary
+          // capitalised English word like PROJECT or REFERENCE would render as
+          // code, which is worse than leaving it alone.
+          return STRICT_ID.test(p.v)
+            ? <span key={i} className="tech font-semibold text-ink-1">{p.v}</span>
+            : <span key={i}>{p.v}</span>;
+        }
         return <span key={i}>{p.v}</span>;
       })}
     </>

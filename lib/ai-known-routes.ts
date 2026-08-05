@@ -10,9 +10,12 @@ import { registry } from "@/lib/bapi-registry";
 import { listCdsViews } from "@/data/cds-map";
 import { ALL_TABLES } from "@/data/sapData";
 
+export type SapKind = "tcode" | "table" | "bapi" | "cds";
+
 export interface KnownRoutes {
   all: Set<string>;
   href: Map<string, string>;
+  kind: Map<string, SapKind>;
 }
 
 let cache: KnownRoutes | null = null;
@@ -22,20 +25,22 @@ export function knownRoutes(): KnownRoutes {
   if (cache) return cache;
   const all = new Set<string>();
   const href = new Map<string, string>();
-  const add = (id: string | undefined, to: string) => {
-    const k = (id || "").trim().toUpperCase();
-    if (!k || href.has(k)) return;
-    all.add(k);
-    href.set(k, to.replace("%s", encodeURIComponent(k)));
+  const kind = new Map<string, SapKind>();
+  const add = (id: string | undefined, to: string, k: SapKind) => {
+    const key = (id || "").trim().toUpperCase();
+    if (!key || href.has(key)) return;
+    all.add(key);
+    href.set(key, to.replace("%s", encodeURIComponent(key)));
+    kind.set(key, k);
   };
 
-  for (const c of registryCodes()) add(c, "/tcode/%s");
-  for (const c of listTcodes()) add(c, "/tcode/%s");
-  for (const o of registry()) add(o.id, "/bapi/%s");
-  for (const v of listCdsViews()) add(v, "/cds/%s");
+  for (const c of registryCodes()) add(c, "/tcode/%s", "tcode");
+  for (const c of listTcodes()) add(c, "/tcode/%s", "tcode");
+  for (const o of registry()) add(o.id, "/bapi/%s", "bapi");
+  for (const v of listCdsViews()) add(v, "/cds/%s", "cds");
   // Tables live on a single indexed page, addressed by anchor.
-  for (const t of ALL_TABLES) add(t.tableName, "/tables#%s");
+  for (const t of ALL_TABLES) add(t.tableName, "/tables#%s", "table");
 
-  cache = { all, href };
+  cache = { all, href, kind };
   return cache;
 }

@@ -76,12 +76,12 @@ function confidenceOf(policy: Answer["policy"], citations: number): number {
 /** Suggestions derived from the current scope. Clearly ours, never quoted as the model's. */
 function followUps(scope: Scope, policy: Answer["policy"]): string[] {
   const general = [
-    "אילו טרנזקציות רלוונטיות לנושא הזה?",
-    "אילו טבלאות עומדות מאחורי הנתונים?",
-    "מה השתנה ב-S/4HANA לעומת ECC?",
-    "מהן הטעויות הנפוצות ביישום?",
-    "איך בודקים שהתהליך הוגדר נכון?",
-    "מה הקשר לתהליכים משיקים?",
+    "הסבר יותר לעומק",
+    "תן דוגמה מעשית",
+    "השווה ל-S/4HANA",
+    "הצג טרנזקציות קשורות",
+    "הצג טבלאות קשורות",
+    "מהן הטעויות הנפוצות?",
   ];
   if (policy === "REFUSE") {
     return [

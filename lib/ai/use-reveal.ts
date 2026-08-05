@@ -18,6 +18,7 @@ export function useReveal(text: string, enabled: boolean) {
   const [shown, setShown] = useState(enabled ? "" : text);
   const raf = useRef<number | null>(null);
   const startedAt = useRef(0);
+  const lastIdx = useRef(-1);
 
   useEffect(() => {
     if (!enabled || !text) { setShown(text); return; }
@@ -36,9 +37,11 @@ export function useReveal(text: string, enabled: boolean) {
     if (!stops.length) { setShown(text); return; }
 
     // Long answers must not take proportionally longer: cap the whole reveal so
-    // a 900-word answer still completes in about a second and a half.
-    const TOTAL_MS = Math.min(1500, 260 + stops.length * 7);
+    // a 900-word answer still completes in about a second and a half. Short
+    // answers get a floor so a two-line reply does not simply flash.
+    const TOTAL_MS = Math.max(320, Math.min(1500, 260 + stops.length * 7));
     startedAt.current = performance.now();
+    lastIdx.current = -1;
     setShown("");
 
     const tick = (now: number) => {
@@ -46,7 +49,14 @@ export function useReveal(text: string, enabled: boolean) {
       // Ease-out: fast start so the reader sees content immediately, gentle end.
       const eased = 1 - Math.pow(1 - p, 2);
       const idx = Math.max(1, Math.floor(eased * stops.length));
-      setShown(text.slice(0, stops[idx - 1]));
+      // Only touch state when the visible slice actually grows. At 120Hz the
+      // previous version re-rendered the whole answer on frames that revealed
+      // nothing new, which is what made long answers feel like they stuttered.
+      const next = stops[idx - 1];
+      if (next !== lastIdx.current) {
+        lastIdx.current = next;
+        setShown(text.slice(0, next));
+      }
       if (p < 1) raf.current = requestAnimationFrame(tick);
       else setShown(text);
     };
