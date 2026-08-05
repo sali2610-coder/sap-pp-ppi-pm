@@ -42,6 +42,7 @@ const NAV: Group[] = [
     { href: "/enhancements/", icon: Puzzle, label: "Enhancements" },
   ]},
   { id: "knowledge", label: "ידע ולמידה", items: [
+    { href: "/ai/", icon: Sparkles, label: "שאל את הספרייה" },
     { href: "/knowledge/", icon: BrainCircuit, label: "מרכז ידע" },
     { href: "/library/", icon: Library, label: "ספרייה" },
     { href: "/academy/", icon: GraduationCap, label: "SAP Academy" },

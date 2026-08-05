@@ -956,3 +956,11 @@ html[data-device="phone"]  [data-shell="mobile-only"] { display: block !importan
   /* Decorative loops only — functional motion (skeletons, progress) is untouched. */
   .credit-glow, .credit-red-glow, .studio-halo, .studio-breathe { animation: none !important; }
 }
+
+/* AI workspace — mobile sheet entrance. Short and eased so it reads as the
+   sheet arriving, not as an effect. Respects reduced-motion below. */
+@keyframes sheetUp { from { transform: translateY(12px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
+@keyframes fadeIn  { from { opacity: 0 } to { opacity: 1 } }
+@media (prefers-reduced-motion: reduce) {
+  [class*="animate-[sheetUp"], [class*="animate-[fadeIn"] { animation: none !important; }
+}
