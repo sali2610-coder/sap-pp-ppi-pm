@@ -76,7 +76,7 @@ export function AiWorkspace() {
         תשובות מבוססות אך ורק על 11 הספרים שבמאגר, עם הפניה לפרק ולסעיף המדויק.
       </p>
     </Reveal>
-    <div className="grid grid-cols-1 gap-6 xl:grid-cols-[17rem_1fr_19rem]">
+    <div className="grid grid-cols-1 gap-6 xl:grid-cols-[16rem_1fr] 2xl:grid-cols-[17rem_1fr_19rem]">
       {/* ---------- scope rail ---------- */}
       <aside aria-label="היקף התשובה" className="hidden min-h-0 border-e border-hairline bg-surface xl:block">
         <ScopeTree scope={scope} onScope={setScope} />
@@ -100,7 +100,7 @@ export function AiWorkspace() {
             </button>
           )}
           <button onClick={() => setSheet("context")} aria-label="מידע נוסף"
-            className="flex items-center gap-1.5 rounded-xl border border-hairline px-2 py-1.5 text-[11.5px] font-semibold text-ink-2 transition hover:text-brand xl:hidden">
+            className="flex items-center gap-1.5 rounded-xl border border-hairline px-2 py-1.5 text-[11.5px] font-semibold text-ink-2 transition hover:text-brand 2xl:hidden">
             <Info className="size-3.5" />
           </button>
         </header>
@@ -154,7 +154,7 @@ export function AiWorkspace() {
       </section>
 
       {/* ---------- context rail ---------- */}
-      <aside aria-label="מידע והקשר" className="hidden xl:block">
+      <aside aria-label="מידע והקשר" className="hidden 2xl:block">
         <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-3xl border border-hairline bg-surface shadow-[0_12px_34px_-22px_rgba(15,23,42,0.5)]">
         <ContextPanel scope={scope} answer={last} onAction={(p) => ask(p)} onScope={setScope} />
         </div>
