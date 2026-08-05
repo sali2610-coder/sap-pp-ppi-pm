@@ -14,7 +14,9 @@ import path from "node:path";
 const ROOT = path.resolve(import.meta.dirname, "..");
 const LIB = path.join(ROOT, "data", "library");
 const OUT = path.join(ROOT, "data", "books");
+const SHARDS = path.join(ROOT, "public", "books");
 mkdirSync(OUT, { recursive: true });
+mkdirSync(SHARDS, { recursive: true });
 
 // Identity is declared once, here, and mirrors lib/book-identity.ts.
 const META = {
@@ -33,13 +35,28 @@ const META = {
   book11: { module: "S/4HANA", kind: "foundation",    structure: "narrative", publisher: "ZaranTech" },
 };
 
+const HEB = /[\u0590-\u05FF]/;
+
 /**
- * Books disagree on field names: most use {title, he}, book8 uses
- * {titleEn, titleHe}. Normalising here is the whole point — after migration
- * there is exactly one way to express a heading.
+ * Books disagree on field names AND on what the field means.
+ *
+ * Most books use {title, he} where `he` is a BOOLEAN — "a Hebrew translation of
+ * the body exists" — while book8 uses {titleEn, titleHe} where the Hebrew field
+ * is an actual heading. Coercing both with String() turned `true` into the
+ * string "true" and handed every consumer a Hebrew title of "true", which then
+ * passed a validator that only asked whether the field was non-empty. Ten books
+ * were reported 100% translated on the strength of that.
+ *
+ * So: a Hebrew title exists only when the source holds Hebrew characters.
+ * Anything else is not a title, whatever its truthiness.
  */
 const en = (e) => String(e.title ?? e.titleEn ?? "").trim();
-const he = (e) => String(e.he ?? e.titleHe ?? "").trim();
+const he = (e) => {
+  const v = e.he ?? e.titleHe;
+  if (typeof v !== "string") return "";          // booleans are flags, not text
+  const t = v.trim();
+  return HEB.test(t) ? t : "";                   // and neither is romanised text
+};
 
 let books = 0, chapters = 0, sections = 0;
 const report = [];
@@ -57,22 +74,33 @@ for (let i = 1; i <= 11; i++) {
   // section, which is exactly the drift this file removes.
   const chapterTitle = new Map();
   const chapterSections = new Map();
+  // The reader holds the prose. For ten of the eleven books this is where the
+  // Hebrew actually is — a translated body under a still-English heading.
+  const body = new Map();
   for (const c of full?.chapters ?? []) {
     const n = Number(c.n);
     if (!Number.isFinite(n)) continue;
     if (String(c.title ?? "").trim()) chapterTitle.set(n, String(c.title).trim());
     chapterSections.set(n, c.sections ?? []);
+    for (const s of c.sections ?? []) {
+      if (!s?.id) continue;
+      const bEn = String(s.en ?? "").trim();
+      const bHe = String(s.he ?? "").trim();
+      if (bEn || bHe) body.set(String(s.id), { ...(bEn ? { en: bEn } : {}), ...(bHe ? { he: bHe } : {}) });
+    }
   }
 
   const byChapter = new Map();
   for (const e of idx) {
     const n = Number(e.ch);
     if (!byChapter.has(n)) byChapter.set(n, []);
+    const b = body.get(String(e.id));
     byChapter.get(n).push({
       id: String(e.id),
       title: { en: en(e), he: he(e) },
       ...(e.page != null ? { page: Number(e.page) } : {}),
       ...(e.snippet ? { snippet: String(e.snippet) } : {}),
+      ...(b ? { body: b } : {}),   // stripped into a shard below
     });
   }
 
@@ -100,12 +128,31 @@ for (let i = 1; i <= 11; i++) {
     chapters: chapterList,
   };
 
+  // Bodies are sharded per chapter and served from public/, not inlined into
+  // the book file. The reader needs one chapter at a time; the shelf, the nav
+  // and Ask AI never need prose at all. Inlining it is why the current book7
+  // route ships ~3.9 MB to open a page the user may only scroll two screens of.
+  const shardDir = path.join(SHARDS, id);
+  mkdirSync(shardDir, { recursive: true });
+  for (const c of chapterList) {
+    const prose = {};
+    for (const sec of c.sections) {
+      if (sec.body) { prose[sec.id] = sec.body; delete sec.body; }
+    }
+    if (Object.keys(prose).length) {
+      writeFileSync(path.join(shardDir, `ch${c.n}.json`), JSON.stringify(prose));
+    }
+  }
+
   writeFileSync(path.join(OUT, `${id}.json`), JSON.stringify(book));
   books++;
   chapters += chapterList.length;
   sections += idx.length;
-  const heCount = idx.filter((e) => he(e)).length;
-  report.push([id, "OK", `${chapterList.length}ch ${idx.length}sec he=${Math.round((heCount / idx.length) * 100)}% ${m.structure}`]);
+  const heTitles = idx.filter((e) => he(e)).length;
+  const heBodies = [...body.values()].filter((b) => HEB.test(b.he ?? "")).length;
+  const pct = (n) => Math.round((n / Math.max(1, idx.length)) * 100);
+  report.push([id, "OK",
+    `${chapterList.length}ch ${idx.length}sec  he-title=${pct(heTitles)}%  he-body=${pct(heBodies)}%  ${m.structure}`]);
 }
 
 console.log(`\nMIGRATION → data/books/`);

@@ -64,3 +64,4 @@ SAP-HQ/knowledge-graph/
 *.key
 .env
 .env.*
+public/books/

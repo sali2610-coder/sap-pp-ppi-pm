@@ -10,10 +10,13 @@ import path from "node:path";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const DIR = path.join(ROOT, "data", "books");
+const SHARDS = path.join(ROOT, "public", "books");
 
 const MODULES = new Set(["PM", "PP", "PP-PI", "QM", "MM", "EWM", "PP/DS", "S&OP", "Fiori", "S/4HANA"]);
 const KINDS = new Set(["sap-press", "configuration", "business-user", "reference", "foundation", "academy"]);
 const STRUCTURES = new Set(["narrative", "catalogue", "reference"]);
+
+const HEB = /[\u0590-\u05FF]/;
 
 const errors = [];
 const warns = [];
@@ -63,14 +66,33 @@ for (const file of files) {
 
   // ---- sections ----
   const seen = new Map();
-  let he = 0, total = 0, misfiled = 0, crossListed = 0;
+  let heTitle = 0, heBody = 0, total = 0, misfiled = 0, crossListed = 0;
+
+  // Prose lives in per-chapter shards under public/. Load them here so the
+  // Hebrew gate still measures real text — if the validator only saw the spine
+  // it would report every book as untranslated the moment sharding landed.
+  const prose = new Map();
+  const sdir = path.join(SHARDS, id);
+  if (existsSync(sdir)) {
+    for (const f of readdirSync(sdir).filter((x) => x.endsWith(".json"))) {
+      try {
+        const o = JSON.parse(readFileSync(path.join(sdir, f), "utf8"));
+        for (const [sid, b] of Object.entries(o)) prose.set(sid, b);
+      } catch (e) { E(id, "SHARD_PARSE", `${f}: ${e.message.slice(0, 40)}`); }
+    }
+  }
 
   for (const c of chapters) {
     if (!c.sections?.length) { E(id, "EMPTY_CHAPTER", `chapter ${c.n}`); continue; }
     for (const s of c.sections) {
       total++;
       if (!s.id) { E(id, "SECTION_NO_ID", `chapter ${c.n}`); continue; }
-      if (String(s.title?.he ?? "").trim()) he++;
+      // Two different things, previously conflated. Ten books carry a translated
+      // BODY under an English heading; book8 carries translated HEADINGS and no
+      // body. Counting them as one number reported the string "true" as a
+      // Hebrew title and every book as fully translated.
+      if (HEB.test(String(s.title?.he ?? ""))) heTitle++;
+      if (HEB.test(String(prose.get(s.id)?.he ?? ""))) heBody++;
       if (!String(s.title?.en ?? "").trim() && !String(s.title?.he ?? "").trim()) {
         E(id, "SECTION_UNTITLED", `${s.id} has no title in either language`);
       }
@@ -87,23 +109,39 @@ for (const file of files) {
 
       const prev = seen.get(s.id);
       if (prev !== undefined) {
-        // In a catalogue the same app under two categories is correct data.
-        const sameTitle = prev === String(s.title?.en ?? "");
-        if (m.structure === "catalogue" && sameTitle) crossListed++;
-        else E(id, "DUPLICATE_ID", `${s.id} appears twice with differing titles`);
+        // A catalogue lists the same app under several categories, and the
+        // publisher does not always spell the name identically ("Manage Product
+        // Master" vs "Manage Product Master Data"). That is the source book's
+        // data, not a defect, so it is reported rather than failed. In a
+        // narrative book a repeated id is still an error.
+        if (m.structure === "catalogue") {
+          crossListed++;
+          if (prev !== String(s.title?.en ?? "")) {
+            W(id, "CROSS_LISTED_RENAMED", `${s.id}: "${prev}" / "${s.title?.en ?? ""}"`);
+          }
+        } else E(id, "DUPLICATE_ID", `${s.id} appears twice with differing titles`);
       } else seen.set(s.id, String(s.title?.en ?? ""));
     }
   }
   if (misfiled > 2) E(id, "SECTION_MISFILED", `…and ${misfiled - 2} more`);
+
+  // The spine and the shards are written by one script but read by different
+  // code paths, which is exactly where drift starts. Check they still agree.
+  const orphaned = [...prose.keys()].filter((k) => !seen.has(k)).length;
+  if (orphaned) W(id, "ORPHAN_PROSE", `${orphaned} shard entries have no section in the spine`);
   if (crossListed) W(id, "CROSS_LISTED", `${crossListed} entries appear under two chapters (expected for a catalogue)`);
 
-  // Hebrew-first is a platform requirement, not a nice-to-have.
-  const hePct = total ? Math.round((he / total) * 100) : 0;
-  if (hePct === 0) E(id, "NO_HEBREW", "no section carries a Hebrew heading");
-  else if (hePct < 90) W(id, "PARTIAL_HEBREW", `${hePct}% translated`);
+  // Hebrew-first is a platform requirement, but a book satisfies it by
+  // translating either its headings or its prose. Demanding both would fail
+  // every book in the library for the wrong reason.
+  const pct = (n) => (total ? Math.round((n / total) * 100) : 0);
+  const titlePct = pct(heTitle), bodyPct = pct(heBody);
+  const hePct = Math.max(titlePct, bodyPct);
+  if (hePct === 0) E(id, "NO_HEBREW", "neither headings nor bodies carry Hebrew");
+  else if (hePct < 90) W(id, "PARTIAL_HEBREW", `titles ${titlePct}%, bodies ${bodyPct}%`);
 
   idSets.set(id, new Set([...seen.keys()]));
-  rows.push({ id, module: m.module, structure: m.structure, ch: chapters.length, sec: total, hePct, title: String(m.title?.en ?? "").slice(0, 40) });
+  rows.push({ id, module: m.module, structure: m.structure, ch: chapters.length, sec: total, titlePct, bodyPct, title: String(m.title?.en ?? "").slice(0, 34) });
 }
 
 // ---- dataset overlap: reported as evidence, never judged ----
@@ -120,9 +158,9 @@ for (let i = 0; i < ids.length; i++) {
 
 // ------------------------------------------------------------------ report
 console.log(`\nLIBRARY PLATFORM VALIDATION\n${"─".repeat(88)}`);
-console.log("  book     module    structure   ch   sec   he%   title");
+console.log("  book     module    structure   ch   sec  he-ttl  he-body  title");
 for (const r of rows) {
-  console.log(`  ${r.id.padEnd(8)} ${String(r.module).padEnd(9)} ${r.structure.padEnd(11)}${String(r.ch).padStart(3)}${String(r.sec).padStart(6)}${String(r.hePct).padStart(6)}   ${r.title}`);
+  console.log(`  ${r.id.padEnd(8)} ${String(r.module).padEnd(9)} ${r.structure.padEnd(11)}${String(r.ch).padStart(3)}${String(r.sec).padStart(6)}${String(r.titlePct + "%").padStart(7)}${String(r.bodyPct + "%").padStart(8)}   ${r.title}`);
 }
 console.log(`${"─".repeat(88)}`);
 console.log(`  ${rows.length} books · ${rows.reduce((n, r) => n + r.ch, 0)} chapters · ${rows.reduce((n, r) => n + r.sec, 0)} sections`);
