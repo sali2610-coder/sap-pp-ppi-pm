@@ -6,7 +6,8 @@ import { ScopeTree } from "./scope-tree";
 import { AnswerCard } from "./answer-card";
 import { Composer, QuestionChips } from "./composer";
 import { ContextPanel } from "./context-panel";
-import { SUGGESTED } from "@/lib/ai/prompts";
+import { Thinking } from "./thinking";
+import { ANSWER_ACTIONS, SUGGESTED } from "@/lib/ai/prompts";
 import { askApi } from "@/lib/ai/client";
 import { loadTree, scopeLabel } from "@/lib/ai/tree";
 import type { Answer, Scope } from "@/lib/ai/types";
@@ -47,7 +48,7 @@ export function AiWorkspace() {
     return () => document.removeEventListener("keydown", onEsc);
   }, [sheet]);
 
-  const ask = useCallback(async (question: string) => {
+  const ask = useCallback(async (question: string, task?: string) => {
     const q = question.trim();
     if (!q || busy) return;
     setDraft("");
@@ -55,7 +56,7 @@ export function AiWorkspace() {
     setTurns((t) => [...t, { q, a: null }]);
     setRecent((r) => [q, ...r.filter((x) => x !== q)].slice(0, 8));
     try {
-      const a = await askApi(q, scope);
+      const a = await askApi(q, scope, task);
       setTurns((t) => t.map((turn, i) => (i === t.length - 1 ? { ...turn, a } : turn)));
     } finally {
       setBusy(false);
@@ -82,12 +83,12 @@ export function AiWorkspace() {
     </header>
     <div className="grid h-[calc(100vh-11rem)] max-h-[52rem] min-h-[34rem] grid-cols-1 overflow-hidden rounded-2xl border border-hairline bg-surface shadow-[0_10px_30px_-24px_rgba(15,23,42,.45)] xl:grid-cols-[268px_1fr_320px]">
       {/* ---------- scope rail ---------- */}
-      <aside className="hidden min-h-0 border-e border-hairline bg-surface xl:block">
+      <aside aria-label="היקף התשובה" className="hidden min-h-0 border-e border-hairline bg-surface xl:block">
         <ScopeTree scope={scope} onScope={setScope} />
       </aside>
 
       {/* ---------- conversation ---------- */}
-      <section className="flex min-h-0 min-w-0 flex-col bg-surface-2/30">
+      <section aria-label="שיחה" className="flex min-h-0 min-w-0 flex-col bg-surface">
         <header className="flex items-center gap-2 border-b border-hairline bg-surface/90 px-3 py-2 backdrop-blur-md">
           <button onClick={() => setSheet("scope")} aria-label="בחר היקף"
             className="flex items-center gap-1.5 rounded-xl border border-hairline px-2 py-1.5 text-[11.5px] font-semibold text-ink-2 transition hover:text-brand xl:hidden">
@@ -110,20 +111,23 @@ export function AiWorkspace() {
         </header>
 
         <div className="min-h-0 flex-1 overflow-y-auto px-3 py-4">
-          <div className="mx-auto w-full max-w-[46rem] space-y-4">
+          <div className="mx-auto w-full max-w-[48rem] space-y-6" aria-live="polite" aria-busy={busy}>
             {empty ? (
               <EmptyState onPick={(q) => ask(q)} scope={scope} />
             ) : (
               turns.map((t, i) => (
                 <div key={i} className="space-y-2.5">
-                  <div className="flex justify-end">
-                    <p className="max-w-[85%] rounded-2xl rounded-se-md bg-brand px-3.5 py-2 text-[13px] leading-relaxed text-white">
-                      {t.q}
+                  <div className="flex justify-end motion-safe:animate-[bubbleIn_.22s_cubic-bezier(.32,.72,0,1)]">
+                    <p className="max-w-[74%] rounded-2xl rounded-se-md bg-gradient-to-b from-brand to-brand-dark px-4 py-2.5 text-[0.9375rem] leading-[1.6] text-brand-foreground shadow-[0_2px_10px_-3px_rgba(214,32,39,.4)]">
+                      <span className="sr-only">שאלה: </span>{t.q}
                     </p>
                   </div>
                   {t.a ? (
                     <>
-                      <AnswerCard answer={t.a} onRetry={() => ask(t.q)} />
+                      <><span className="sr-only">תשובה: </span><AnswerCard answer={t.a} onRetry={() => ask(t.q)} isLatest={i === turns.length - 1} /></>
+                      {!t.a.error && i === turns.length - 1 && !busy && (
+                        <AnswerActions onPick={(a) => ask(a.prompt, a.task)} />
+                      )}
                       {t.a.followUps.length > 0 && !t.a.error && i === turns.length - 1 && !busy && (
                         <QuestionChips
                           items={t.a.followUps}
@@ -134,7 +138,7 @@ export function AiWorkspace() {
                       )}
                     </>
                   ) : (
-                    <Thinking />
+                    <Thinking scopeLabel={scopeLabel(scope)} />
                   )}
                 </div>
               ))
@@ -160,7 +164,7 @@ export function AiWorkspace() {
       </section>
 
       {/* ---------- context rail ---------- */}
-      <aside className="hidden min-h-0 border-s border-hairline bg-surface xl:block">
+      <aside aria-label="מידע והקשר" className="hidden min-h-0 border-s border-hairline bg-surface-2/40 xl:block">
         <ContextPanel scope={scope} answer={last} onAction={(p) => ask(p)} onScope={setScope} />
       </aside>
 
@@ -192,17 +196,26 @@ export function AiWorkspace() {
   );
 }
 
-function Thinking() {
+
+/**
+ * Answer-level actions. Four primaries stay visible; the rest sit behind
+ * "עוד פעולות" so the answer is followed by a decision, not a control panel.
+ */
+function AnswerActions({ onPick }: { onPick: (a: typeof ANSWER_ACTIONS[number]) => void }) {
+  const [all, setAll] = useState(false);
+  const shown = all ? ANSWER_ACTIONS : ANSWER_ACTIONS.filter((a) => a.primary);
   return (
-    <div className="flex items-center gap-2 rounded-2xl border border-hairline bg-surface px-3.5 py-3">
-      <Sparkles className="size-3.5 text-brand" />
-      <span className="text-[12px] text-ink-3">קורא את המקורות…</span>
-      <span className="ms-1 flex gap-1" aria-hidden>
-        {[0, 1, 2].map((i) => (
-          <span key={i} className="size-1.5 animate-bounce rounded-full bg-brand/50"
-            style={{ animationDelay: `${i * 120}ms`, animationDuration: "900ms" }} />
-        ))}
-      </span>
+    <div className="flex flex-wrap items-center gap-1.5">
+      {shown.map((a) => (
+        <button key={a.id} onClick={() => onPick(a)}
+          className="rounded-full bg-surface-2 px-3 py-1.5 text-[0.75rem] font-semibold text-ink-2 transition hover:bg-brand-soft hover:text-brand">
+          {a.label}
+        </button>
+      ))}
+      <button onClick={() => setAll((v) => !v)}
+        className="rounded-full px-2.5 py-1.5 text-[0.75rem] font-semibold text-ink-3 transition hover:text-brand">
+        {all ? "פחות" : "עוד פעולות"}
+      </button>
     </div>
   );
 }

@@ -37,13 +37,13 @@ export function ContextPanel({ scope, answer, onAction, onScope }: {
       <section className="overflow-hidden rounded-2xl border border-hairline bg-surface">
         {book ? (
           <>
-            <div className="flex items-start gap-2.5 bg-gradient-to-bl from-brand to-brand-dark p-3">
-              <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-white/15 text-[11px] font-extrabold text-white">
+            <div className="flex items-start gap-2.5 border-b border-hairline bg-brand-soft p-3">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-brand text-[11px] font-extrabold text-brand-foreground">
                 {book.module}
               </span>
               <span className="min-w-0">
-                <span dir="auto" className="block text-[12.5px] font-extrabold leading-tight text-white">{book.title}</span>
-                <span className="mt-1 block text-[10.5px] text-white/75">{book.chapters} פרקים · {book.sections} סעיפים</span>
+                <span dir="auto" className="block text-[12.5px] font-extrabold leading-tight text-ink-1">{book.title}</span>
+                <span className="mt-1 block text-[10.5px] text-ink-3">{book.chapters} פרקים · {book.sections} סעיפים</span>
               </span>
             </div>
             <div className="space-y-2 p-3">

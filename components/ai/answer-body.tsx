@@ -1,0 +1,253 @@
+"use client";
+
+import { useMemo } from "react";
+import { Info, Lightbulb, TriangleAlert } from "lucide-react";
+
+/**
+ * Long-form renderer for AI answers.
+ *
+ * Two things make this different from a generic markdown component.
+ *
+ * 1. SAP identifiers are bidi-isolated. A bare "IW31" or "/SCWM/RF" inside
+ *    Hebrew prose gets reordered by the bidi algorithm, so the exact strings
+ *    this product exists to deliver arrive scrambled. The site already solves
+ *    this with `.tech` (direction:ltr; unicode-bidi:isolate) — that is applied
+ *    here rather than reinvented.
+ *
+ * 2. It reads like the site's own book reader: 74ch measure and 1.85 line
+ *    height. Hebrew has no ascender/descender relief, so the loose leading the
+ *    reader already uses is not decoration — at 1.6 the eye loses the line on
+ *    the return sweep.
+ */
+
+// Conservative: T-codes, table/field names, BAPI/FM, namespaced objects.
+// Deliberately narrow — a false positive turns a Hebrew word into LTR mono.
+const SAP_ID =
+  /(\/[A-Z0-9_]{2,}\/[A-Z0-9_]{2,}|BAPI_[A-Z0-9_]+|\b[A-Z]{2,4}\d{1,3}[A-Z]{0,2}\b|\b[A-Z][A-Z0-9_]{3,}\b)/g;
+
+// Words that look like identifiers but are prose. Without this, ordinary
+// English in a Hebrew sentence would be rendered as monospace code.
+const NOT_ID = new Set([
+  "SAP", "ECC", "ERP", "HANA", "FIORI", "ABAP", "IDOC", "IDOCS", "BAPI", "CDS",
+  "NOTE", "NOTES", "TIP", "NOTA", "WARN", "INFO", "SOURCES", "FULL", "PARTIAL",
+  "REFUSE", "PDF", "HTML", "JSON", "HTTP", "HTTPS", "URL", "API", "UI", "UX",
+  "AND", "THE", "FOR", "WITH", "FROM", "THIS", "THAT", "USER", "DATA", "TYPE",
+]);
+
+/** Splits a line into plain text, bold runs, inline code and SAP identifiers. */
+function Inline({ text }: { text: string }) {
+  const parts = useMemo(() => {
+    const out: Array<{ k: "t" | "b" | "c" | "id"; v: string }> = [];
+    // Bold and inline code first so identifier scanning never splits them.
+    const chunks = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
+    for (const chunk of chunks) {
+      if (!chunk) continue;
+      if (chunk.startsWith("**") && chunk.endsWith("**")) { out.push({ k: "b", v: chunk.slice(2, -2) }); continue; }
+      if (chunk.startsWith("`") && chunk.endsWith("`")) { out.push({ k: "c", v: chunk.slice(1, -1) }); continue; }
+      let last = 0;
+      SAP_ID.lastIndex = 0;
+      let m: RegExpExecArray | null;
+      while ((m = SAP_ID.exec(chunk)) !== null) {
+        const token = m[0];
+        if (NOT_ID.has(token.toUpperCase())) continue;
+        if (m.index > last) out.push({ k: "t", v: chunk.slice(last, m.index) });
+        out.push({ k: "id", v: token });
+        last = m.index + token.length;
+      }
+      if (last < chunk.length) out.push({ k: "t", v: chunk.slice(last) });
+    }
+    return out;
+  }, [text]);
+
+  return (
+    <>
+      {parts.map((p, i) => {
+        if (p.k === "b") return <strong key={i} className="font-bold text-ink-1">{p.v}</strong>;
+        if (p.k === "c") return <code key={i} className="tech rounded bg-surface-2 px-1 py-0.5 text-[0.85em]">{p.v}</code>;
+        if (p.k === "id") return <span key={i} className="tech font-semibold text-ink-1">{p.v}</span>;
+        return <span key={i}>{p.v}</span>;
+      })}
+    </>
+  );
+}
+
+type Block =
+  | { t: "h"; level: 2 | 3; text: string }
+  | { t: "p"; text: string }
+  | { t: "ul"; items: string[] }
+  | { t: "ol"; items: string[] }
+  | { t: "code"; text: string }
+  | { t: "table"; head: string[]; rows: string[][] }
+  | { t: "callout"; kind: "note" | "warn" | "tip"; text: string };
+
+const CALLOUT_RE = /^\s*(?:>\s*)?(?:\*\*)?(שים לב|הערה|אזהרה|זהירות|טיפ|המלצה|Note|Warning|Caution|Tip|Best Practice)(?:\*\*)?\s*[:：-]\s*(.+)$/i;
+const WARN = /אזהרה|זהירות|warning|caution/i;
+const TIP = /טיפ|המלצה|tip|best practice/i;
+
+/** Groups lines into blocks. The corpus emits a small, predictable subset. */
+function parse(src: string): Block[] {
+  const lines = src.split("\n");
+  const blocks: Block[] = [];
+  let i = 0;
+
+  while (i < lines.length) {
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    if (!trimmed) { i++; continue; }
+
+    // fenced code
+    if (trimmed.startsWith("```")) {
+      const buf: string[] = [];
+      i++;
+      while (i < lines.length && !lines[i].trim().startsWith("```")) buf.push(lines[i++]);
+      i++;
+      blocks.push({ t: "code", text: buf.join("\n") });
+      continue;
+    }
+
+    // markdown table: | a | b |  then a separator row
+    if (trimmed.startsWith("|") && lines[i + 1]?.trim().match(/^\|[\s:|-]+\|$/)) {
+      const cells = (s: string) => s.trim().replace(/^\||\|$/g, "").split("|").map((c) => c.trim());
+      const head = cells(trimmed);
+      i += 2;
+      const rows: string[][] = [];
+      while (i < lines.length && lines[i].trim().startsWith("|")) rows.push(cells(lines[i++]));
+      blocks.push({ t: "table", head, rows });
+      continue;
+    }
+
+    const h = trimmed.match(/^(#{2,3})\s+(.*)$/);
+    if (h) { blocks.push({ t: "h", level: h[1].length === 2 ? 2 : 3, text: h[2] }); i++; continue; }
+
+    const call = trimmed.match(CALLOUT_RE);
+    if (call) {
+      const label = call[1];
+      blocks.push({
+        t: "callout",
+        kind: WARN.test(label) ? "warn" : TIP.test(label) ? "tip" : "note",
+        text: call[2],
+      });
+      i++;
+      continue;
+    }
+
+    if (/^[-*•]\s+/.test(trimmed)) {
+      const items: string[] = [];
+      while (i < lines.length && /^\s*[-*•]\s+/.test(lines[i])) items.push(lines[i++].trim().replace(/^[-*•]\s+/, ""));
+      blocks.push({ t: "ul", items });
+      continue;
+    }
+
+    if (/^\d+[.)]\s+/.test(trimmed)) {
+      const items: string[] = [];
+      while (i < lines.length && /^\s*\d+[.)]\s+/.test(lines[i])) items.push(lines[i++].trim().replace(/^\d+[.)]\s+/, ""));
+      blocks.push({ t: "ol", items });
+      continue;
+    }
+
+    // paragraph: join until a blank line
+    const buf: string[] = [];
+    while (i < lines.length && lines[i].trim() && !/^\s*([-*•]|\d+[.)]|#{2,3}\s|\||```)/.test(lines[i])) buf.push(lines[i++].trim());
+    blocks.push({ t: "p", text: buf.join(" ") });
+  }
+  return blocks;
+}
+
+const CALLOUT_STYLE = {
+  note: { icon: Info, cls: "border-s-2 border-ink-3/30 bg-surface-2/60", ic: "text-ink-3" },
+  warn: { icon: TriangleAlert, cls: "border-s-2 border-amber-500 bg-amber-50", ic: "text-amber-600" },
+  tip: { icon: Lightbulb, cls: "border-s-2 border-emerald-500 bg-emerald-50", ic: "text-emerald-600" },
+} as const;
+
+export function AnswerBody({ text }: { text: string }) {
+  const blocks = useMemo(() => parse(text), [text]);
+
+  return (
+    // 74ch matches the site's own reader (globals.css). Beyond it the eye loses
+    // the line; the previous full-width layout ran to ~113ch at 1080px.
+    <div className="ai-prose max-w-[74ch] space-y-3.5">
+      {blocks.map((b, i) => {
+        switch (b.t) {
+          case "h":
+            return b.level === 2
+              ? <h2 key={i} className="pt-2 text-[1.0625rem] font-extrabold leading-snug text-ink-1">{b.text}</h2>
+              : <h3 key={i} className="pt-1 text-[0.9375rem] font-bold leading-snug text-ink-1">{b.text}</h3>;
+
+          case "p":
+            return <p key={i} className="text-[0.9375rem] leading-[1.85] text-ink-2"><Inline text={b.text} /></p>;
+
+          case "ul":
+            return (
+              <ul key={i} className="space-y-1.5">
+                {b.items.map((it, j) => (
+                  <li key={j} className="flex gap-2.5">
+                    <span className="mt-[0.72em] size-[5px] shrink-0 rounded-full bg-brand/70" />
+                    <span className="text-[0.9375rem] leading-[1.75] text-ink-2"><Inline text={it} /></span>
+                  </li>
+                ))}
+              </ul>
+            );
+
+          case "ol":
+            return (
+              <ol key={i} className="space-y-1.5">
+                {b.items.map((it, j) => (
+                  <li key={j} className="flex gap-2.5">
+                    <span className="mt-[0.28em] flex size-[1.35em] shrink-0 items-center justify-center rounded-full bg-brand-soft text-[0.72em] font-bold text-brand">{j + 1}</span>
+                    <span className="text-[0.9375rem] leading-[1.75] text-ink-2"><Inline text={it} /></span>
+                  </li>
+                ))}
+              </ol>
+            );
+
+          case "code":
+            return (
+              <pre key={i} className="tech overflow-x-auto rounded-xl bg-surface-2 p-3 text-[0.8125rem] leading-relaxed text-ink-1">
+                <code>{b.text}</code>
+              </pre>
+            );
+
+          case "table":
+            return (
+              <div key={i} className="overflow-x-auto rounded-xl border border-hairline">
+                <table className="w-full border-collapse text-[0.8125rem]">
+                  <thead>
+                    <tr className="bg-surface-2">
+                      {b.head.map((h, j) => (
+                        <th key={j} className="border-b border-hairline px-2.5 py-2 text-start font-bold text-ink-1">
+                          <Inline text={h} />
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {b.rows.map((r, j) => (
+                      <tr key={j} className="odd:bg-surface even:bg-surface-2/40">
+                        {r.map((c, k) => (
+                          <td key={k} className="border-b border-hairline px-2.5 py-1.5 align-top text-ink-2">
+                            <Inline text={c} />
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            );
+
+          case "callout": {
+            const s = CALLOUT_STYLE[b.kind];
+            const Icon = s.icon;
+            return (
+              <div key={i} className={`flex gap-2.5 rounded-xl px-3 py-2.5 ${s.cls}`}>
+                <Icon className={`mt-[0.2em] size-4 shrink-0 ${s.ic}`} />
+                <p className="text-[0.875rem] leading-[1.75] text-ink-2"><Inline text={b.text} /></p>
+              </div>
+            );
+          }
+        }
+      })}
+    </div>
+  );
+}

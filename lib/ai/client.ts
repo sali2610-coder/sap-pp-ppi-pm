@@ -100,7 +100,7 @@ function stripSourcesLine(text: string): string {
 
 let seq = 0;
 
-export async function askApi(question: string, scope: Scope): Promise<Answer> {
+export async function askApi(question: string, scope: Scope, task = "HEBREW_EXPLAIN"): Promise<Answer> {
   const id = `a${++seq}`;
   const started = Date.now();
 
@@ -129,7 +129,7 @@ export async function askApi(question: string, scope: Scope): Promise<Answer> {
         chapter: scope.chapter,
         section: scope.section,
         scope: scopeMode(scope),
-        task: "HEBREW_EXPLAIN",
+        task,
       }),
     });
 

@@ -2,174 +2,180 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { BookText, ChevronLeft, Copy, Check, Quote, Sparkles, TriangleAlert, WifiOff, Scissors } from "lucide-react";
+import {
+  BookOpen, Check, ChevronLeft, Copy, ExternalLink, Quote,
+  RotateCcw, ScissorsLineDashed, Sparkles, TriangleAlert, WifiOff,
+} from "lucide-react";
+import { AnswerBody } from "./answer-body";
+import { useReveal } from "@/lib/ai/use-reveal";
 import type { Answer, Citation } from "@/lib/ai/types";
 
-/** Confidence is shown as a plain word plus a bar; a bare percentage reads as false precision. */
-function confidenceTone(policy: Answer["policy"]) {
-  if (policy === "REFUSE") return { label: "לא נמצא בסיס", cls: "text-ink-3", bar: "bg-ink-3/40" };
-  if (policy === "PARTIAL") return { label: "מענה חלקי", cls: "text-amber-700", bar: "bg-amber-500" };
-  return { label: "מבוסס מקורות", cls: "text-emerald-700", bar: "bg-emerald-500" };
-}
+/**
+ * One AI turn.
+ *
+ * Deliberately NOT a card. The previous version nested a bordered card inside a
+ * bordered column inside a bordered workspace, which put a citation quote six
+ * containers deep and made the page read as an admin console. Here the answer
+ * sits directly on the surface with a single brand rail marking it as the
+ * system's turn — the content is the object, not the box around it.
+ */
 
-/** Minimal markdown: headings, bullets, numbers, bold. The corpus emits nothing else. */
-function Rich({ text }: { text: string }) {
-  const lines = text.split("\n");
-  return (
-    <div className="space-y-2">
-      {lines.map((raw, i) => {
-        const line = raw.trimEnd();
-        if (!line.trim()) return <div key={i} className="h-1" />;
-        if (line.startsWith("## ")) {
-          return <h3 key={i} className="pt-1 text-[13.5px] font-extrabold text-ink-1">{line.slice(3)}</h3>;
-        }
-        const bold = (s: string) =>
-          s.split(/(\*\*[^*]+\*\*)/g).map((p, j) =>
-            p.startsWith("**") && p.endsWith("**")
-              ? <strong key={j} className="font-bold text-ink-1">{p.slice(2, -2)}</strong>
-              : <span key={j}>{p}</span>);
-        if (/^[-•]\s/.test(line)) {
-          return (
-            <div key={i} className="flex gap-2 ps-1">
-              <span className="mt-[7px] size-1 shrink-0 rounded-full bg-brand" />
-              <span className="text-[13px] leading-relaxed text-ink-2">{bold(line.replace(/^[-•]\s/, ""))}</span>
-            </div>
-          );
-        }
-        const num = line.match(/^(\d+)\.\s(.*)$/);
-        if (num) {
-          return (
-            <div key={i} className="flex gap-2 ps-1">
-              <span className="mt-px flex size-4 shrink-0 items-center justify-center rounded-full bg-brand-soft text-[10px] font-bold text-brand">{num[1]}</span>
-              <span className="text-[13px] leading-relaxed text-ink-2">{bold(num[2])}</span>
-            </div>
-          );
-        }
-        return <p key={i} className="text-[13px] leading-relaxed text-ink-2">{bold(line)}</p>;
-      })}
-    </div>
-  );
-}
+const TONE = {
+  FULL: { label: "מבוסס מקורות", cls: "bg-emerald-50 text-emerald-700" },
+  PARTIAL: { label: "מענה חלקי", cls: "bg-amber-50 text-amber-700" },
+  REFUSE: { label: "לא נמצא בסיס", cls: "bg-surface-2 text-ink-3" },
+} as const;
 
-export function AnswerCard({ answer, onRetry }: { answer: Answer; onRetry?: () => void }) {
+/** Module tag per book — mirrors the tree so the label reads the same everywhere. */
+const MODULE_OF: Record<string, string> = {
+  book1: "PM", book2: "PP", book3: "MM", book4: "PP/DS", book5: "QM", book6: "EWM",
+  book7: "Fiori", book8: "PM", book9: "PM", book10: "S&OP", book11: "S/4HANA",
+};
+
+const fmtMs = (ms?: number) => (!ms ? null : ms < 1000 ? `${ms}ms` : `${(ms / 1000).toFixed(1)}s`);
+
+export function AnswerCard({ answer, onRetry, isLatest }: {
+  answer: Answer;
+  onRetry?: () => void;
+  isLatest?: boolean;
+}) {
   const [openCites, setOpenCites] = useState(false);
   const [copied, setCopied] = useState(false);
-  const tone = confidenceTone(answer.policy);
-  const refused = answer.policy === "REFUSE";
 
-  // A failed request is not an answer. Show what the reader can do about it, and
-  // never the status code, provider or upstream message behind it.
-  if (answer.error) {
-    return (
-      <article className="overflow-hidden rounded-2xl border border-hairline bg-surface">
-        <div className="flex items-start gap-2.5 p-3.5">
-          <span className="mt-px flex size-7 shrink-0 items-center justify-center rounded-lg bg-surface-2">
-            <WifiOff className="size-3.5 text-ink-3" />
-          </span>
-          <div className="min-w-0 flex-1">
-            <p className="text-[12.5px] leading-relaxed text-ink-2">{answer.error}</p>
-            {onRetry && (
-              <button onClick={onRetry}
-                className="mt-2 rounded-lg border border-hairline px-2.5 py-1 text-[11.5px] font-semibold text-ink-2 transition hover:border-brand/40 hover:text-brand">
-                נסה שוב
-              </button>
-            )}
-          </div>
-        </div>
-      </article>
-    );
-  }
+  // Only the newest answer animates in. Re-revealing history on every render
+  // would be noise, and it would fight the scroll position.
+  const { shown, done } = useReveal(answer.text, Boolean(isLatest) && !answer.error);
 
   async function copy() {
     try {
       await navigator.clipboard.writeText(answer.text);
       setCopied(true);
-      setTimeout(() => setCopied(false), 1600);
-    } catch { /* clipboard blocked; the button simply does nothing visible */ }
+      setTimeout(() => setCopied(false), 1800);
+    } catch { /* clipboard unavailable; label simply does not change */ }
   }
 
-  return (
-    <article className="overflow-hidden rounded-2xl border border-hairline bg-surface shadow-[0_10px_30px_-24px_rgba(15,23,42,.45)]">
-      <header className="flex items-center gap-2 border-b border-hairline bg-surface-2/50 px-3.5 py-2.5">
-        <span className={`flex size-6 items-center justify-center rounded-lg ${refused ? "bg-ink-3/10" : "bg-brand-soft"}`}>
-          {refused ? <TriangleAlert className="size-3.5 text-ink-3" /> : <Sparkles className="size-3.5 text-brand" />}
+  // ---------------------------------------------------------------- failure
+  if (answer.error) {
+    return (
+      <div role="alert" className="flex items-start gap-2.5 rounded-2xl bg-surface-2/70 px-3.5 py-3">
+        <span className="mt-px flex size-7 shrink-0 items-center justify-center rounded-lg bg-surface">
+          <WifiOff className="size-3.5 text-ink-3" />
         </span>
-        <span className={`text-[11.5px] font-bold ${tone.cls}`}>{tone.label}</span>
-        <span className="h-1 w-16 overflow-hidden rounded-full bg-hairline" aria-hidden>
-          <span className={`block h-full rounded-full ${tone.bar} transition-all duration-500`} style={{ width: `${Math.round(answer.confidence * 100)}%` }} />
-        </span>
-        <button onClick={copy} aria-label="העתק תשובה"
-          className="ms-auto flex items-center gap-1 rounded-lg px-1.5 py-1 text-[11px] text-ink-3 transition hover:bg-surface-2 hover:text-ink-1">
-          {copied ? <Check className="size-3.5 text-emerald-600" /> : <Copy className="size-3.5" />}
-          {copied ? "הועתק" : "העתק"}
-        </button>
-      </header>
+        <div className="min-w-0 flex-1">
+          <p className="text-[0.8125rem] leading-relaxed text-ink-2">{answer.error}</p>
+          {onRetry && (
+            <button onClick={onRetry}
+              className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-surface px-2.5 py-1.5 text-[0.75rem] font-semibold text-ink-2 ring-1 ring-hairline transition hover:text-brand hover:ring-brand/40">
+              <RotateCcw className="size-3" /> נסה שוב
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
 
-      <div className="px-3.5 py-3">
-        <Rich text={answer.text} />
-        {answer.truncated && (
-          <p className="mt-3 flex items-start gap-1.5 rounded-xl bg-surface-2 px-2.5 py-2 text-[11px] leading-relaxed text-ink-3">
-            <Scissors className="mt-px size-3 shrink-0" />
-            התשובה נקטעה באמצע. אפשר לצמצם את ההיקף לפרק או לסעיף כדי לקבל תשובה שלמה.
-          </p>
+  const refused = answer.policy === "REFUSE";
+  const tone = TONE[answer.policy];
+  const first = answer.citations[0];
+  const moduleTag = first?.bookId ? MODULE_OF[first.bookId] : null;
+
+  return (
+    <div className="border-s-2 border-brand/15 ps-3.5 sm:ps-4">
+      {/* ---- provenance strip: where this came from, before what it says ---- */}
+      <div className="mb-2.5 flex flex-wrap items-center gap-x-2 gap-y-1">
+        <span className="flex size-5 items-center justify-center rounded-md bg-brand-soft">
+          {refused ? <TriangleAlert className="size-3 text-ink-3" /> : <Sparkles className="size-3 text-brand" />}
+        </span>
+        {first ? (
+          <>
+            <span dir="auto" className="max-w-[22ch] truncate text-[0.75rem] font-bold text-ink-1 sm:max-w-[34ch]" title={first.book}>
+              {first.book}
+            </span>
+            <span className="text-[0.6875rem] text-ink-3">פרק {first.chapter}</span>
+            {answer.scope.section && <span className="tech text-[0.6875rem] text-ink-3">{answer.scope.section}</span>}
+            {moduleTag && <span className="rounded bg-surface-2 px-1.5 py-0.5 text-[0.625rem] font-bold text-ink-3">{moduleTag}</span>}
+          </>
+        ) : (
+          <span className="text-[0.75rem] font-bold text-ink-1">כל הספרייה</span>
         )}
+        <span className={`rounded-full px-2 py-0.5 text-[0.6875rem] font-bold ${tone.cls}`}>{tone.label}</span>
+        {answer.citations.length > 0 && (
+          <span className="text-[0.6875rem] text-ink-3">{answer.citations.length} מקורות</span>
+        )}
+        {fmtMs(answer.ms) && <span className="text-[0.6875rem] text-ink-3">· {fmtMs(answer.ms)}</span>}
+
+        <button onClick={copy} aria-label="העתק תשובה"
+          className="ms-auto flex items-center gap-1 rounded-lg px-1.5 py-1 text-[0.6875rem] text-ink-3 transition hover:bg-surface-2 hover:text-ink-1">
+          {copied ? <Check className="size-3.5 text-emerald-600" /> : <Copy className="size-3.5" />}
+          <span className="hidden sm:inline">{copied ? "הועתק" : "העתק"}</span>
+        </button>
       </div>
 
-      {answer.citations.length > 0 && (
-        <div className="border-t border-hairline">
-          <button
-            onClick={() => setOpenCites((v) => !v)}
-            aria-expanded={openCites}
-            className="flex w-full items-center gap-2 px-3.5 py-2.5 text-start transition hover:bg-surface-2/60">
-            <BookText className="size-3.5 text-ink-3" />
-            <span className="text-[11.5px] font-bold text-ink-1">{answer.citations.length} מקורות</span>
-            <span className="truncate text-[11px] text-ink-3">
-              {answer.citations[0].book}
-            </span>
-            <ChevronLeft className={`ms-auto size-3.5 shrink-0 text-ink-3 transition-transform duration-200 ${openCites ? "-rotate-90" : ""}`} />
+      {/* ---------------------------- the answer ---------------------------- */}
+      <AnswerBody text={shown} />
+      {!done && (
+        <span aria-hidden
+          className="ms-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-brand/60 motion-safe:animate-[caret_1s_steps(2)_infinite]" />
+      )}
+
+      {answer.truncated && (
+        <p className="mt-3 flex max-w-[74ch] items-start gap-1.5 rounded-xl bg-surface-2 px-2.5 py-2 text-[0.6875rem] leading-relaxed text-ink-3">
+          <ScissorsLineDashed className="mt-px size-3 shrink-0" />
+          התשובה נקטעה. אפשר לצמצם את ההיקף לפרק או לסעיף כדי לקבל תשובה שלמה.
+        </p>
+      )}
+
+      {/* ---------------------------- citations ----------------------------- */}
+      {answer.citations.length > 0 && done && (
+        <div className="mt-3.5 max-w-[74ch] animate-[fadeIn_.25s_ease-out]">
+          <button onClick={() => setOpenCites((v) => !v)} aria-expanded={openCites}
+            className="flex items-center gap-1.5 rounded-lg py-1 text-[0.75rem] font-semibold text-ink-2 transition hover:text-brand">
+            <BookOpen className="size-3.5" />
+            {answer.citations.length} מקורות
+            <ChevronLeft className={`size-3.5 text-ink-3 transition-transform duration-200 ${openCites ? "-rotate-90" : ""}`} />
           </button>
 
           {openCites && (
-            <ul className="space-y-1.5 px-3.5 pb-3">
+            <ul className="mt-1.5 divide-y divide-hairline overflow-hidden rounded-xl bg-surface-2/50">
               {answer.citations.map((c) => <CitationRow key={c.id} c={c} />)}
             </ul>
           )}
         </div>
       )}
-    </article>
+    </div>
   );
 }
 
+/** Flat row, not a nested card — one hairline separates each source. */
 function CitationRow({ c }: { c: Citation }) {
   const [open, setOpen] = useState(false);
   return (
-    <li className="rounded-xl border border-hairline bg-surface-2/40">
-      <div className="flex items-start gap-2 p-2.5">
-        <span className="mt-px rounded-md bg-surface px-1.5 py-0.5 font-mono text-[10px] font-bold text-brand ring-1 ring-hairline">
+    <li>
+      <div className="flex items-start gap-2.5 px-3 py-2.5">
+        <span className="tech mt-px shrink-0 rounded bg-surface px-1.5 py-0.5 text-[0.625rem] font-bold text-brand ring-1 ring-hairline">
           {c.section}
         </span>
         <span className="min-w-0 flex-1">
-          <span dir="auto" className="block truncate text-[12px] font-semibold text-ink-1">{c.title || `סעיף ${c.section}`}</span>
-          <span dir="auto" className="mt-0.5 block truncate text-[10.5px] text-ink-3">{c.book} · פרק {c.chapter}</span>
+          <span dir="auto" className="block truncate text-[0.8125rem] font-semibold text-ink-1" title={c.title || undefined}>
+            {c.title || `סעיף ${c.section}`}
+          </span>
+          <span dir="auto" className="mt-0.5 block truncate text-[0.6875rem] text-ink-3">פרק {c.chapter} · {c.book}</span>
         </span>
-        <Link href={c.href}
-          className="shrink-0 rounded-lg border border-hairline bg-surface px-2 py-1 text-[10.5px] font-semibold text-ink-2 transition hover:border-brand/40 hover:text-brand">
-          פתח
+        {c.quote && (
+          <button onClick={() => setOpen((v) => !v)} aria-label={open ? "הסתר ציטוט" : "הצג ציטוט"} aria-expanded={open}
+            className="shrink-0 rounded-lg p-1.5 text-ink-3 transition hover:bg-surface hover:text-ink-1">
+            <Quote className="size-3.5" />
+          </button>
+        )}
+        <Link href={c.href} aria-label={`פתח בקורא: ${c.title || c.section}`}
+          className="shrink-0 rounded-lg p-1.5 text-ink-3 transition hover:bg-surface hover:text-brand">
+          <ExternalLink className="size-3.5" />
         </Link>
       </div>
-      {c.quote && (
-        <>
-          <button onClick={() => setOpen((v) => !v)}
-            className="flex w-full items-center gap-1.5 border-t border-hairline px-2.5 py-1.5 text-[10.5px] text-ink-3 transition hover:text-ink-1">
-            <Quote className="size-3" />
-            {open ? "הסתר ציטוט" : "הצג ציטוט"}
-          </button>
-          {open && (
-            <p dir="auto" className="border-t border-hairline px-2.5 py-2 text-[11.5px] italic leading-relaxed text-ink-2">
-              “{c.quote}…”
-            </p>
-          )}
-        </>
+      {open && c.quote && (
+        <p dir="auto" className="animate-[fadeIn_.18s_ease-out] px-3 pb-2.5 text-[0.75rem] italic leading-[1.75] text-ink-2">
+          “{c.quote}…”
+        </p>
       )}
     </li>
   );

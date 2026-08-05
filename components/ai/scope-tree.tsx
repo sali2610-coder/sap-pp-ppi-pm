@@ -188,9 +188,9 @@ function SectionList({ sections, activeId, onPick }: {
             key={s.id}
             onClick={() => onPick(s.id)}
             className={`flex w-full items-baseline gap-1.5 rounded-lg px-2 py-1 text-start transition ${
-              active ? "bg-brand text-white" : "hover:bg-surface-2"}`}>
-            <span className={`shrink-0 font-mono text-[10px] ${active ? "text-white/80" : "text-ink-3"}`}>{s.id}</span>
-            <span dir="auto" className={`truncate text-[11.5px] ${active ? "text-white" : "text-ink-2"}`}>{s.t}</span>
+              active ? "bg-brand-soft font-semibold text-brand ring-1 ring-brand/20" : "hover:bg-surface-2"}`}>
+            <span className={`tech shrink-0 text-[10px] ${active ? "text-brand/70" : "text-ink-3"}`}>{s.id}</span>
+            <span dir="auto" className={`truncate text-[11.5px] ${active ? "text-brand" : "text-ink-2"}`}>{s.t}</span>
           </button>
         );
       })}
