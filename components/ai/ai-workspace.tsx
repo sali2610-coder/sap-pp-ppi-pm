@@ -4,9 +4,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Info, Layers, MessageSquarePlus, Sparkles, X } from "lucide-react";
 import { ScopeTree } from "./scope-tree";
 import { AnswerCard } from "./answer-card";
-import { Composer, QuestionChips } from "./composer";
+import { Composer } from "./composer";
 import { ContextPanel } from "./context-panel";
-import { Thinking } from "./thinking";
+import { PageHeader, Reveal, PromptSuggestions, AIActionBar } from "@/components/neo";
+import { AIConversation, AIThinking, UserBubble } from "@/components/neo/ai-ui";
 import { ANSWER_ACTIONS, SUGGESTED } from "@/lib/ai/prompts";
 import { askApi } from "@/lib/ai/client";
 import { loadTree, scopeLabel } from "@/lib/ai/tree";
@@ -31,15 +32,11 @@ export function AiWorkspace() {
   const [busy, setBusy] = useState(false);
   const [recent, setRecent] = useState<string[]>([]);
   const [sheet, setSheet] = useState<null | "scope" | "context">(null);
-  const endRef = useRef<HTMLDivElement>(null);
 
   // Warm the tree for the selected book so citations and the right rail can
   // resolve real chapter titles without a visible gap.
   useEffect(() => { if (scope.bookId) void loadTree(scope.bookId); }, [scope.bookId]);
 
-  useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, [turns.length, busy]);
 
   useEffect(() => {
     if (!sheet) return;
@@ -68,19 +65,17 @@ export function AiWorkspace() {
 
   return (
     <>
-    <header className="mb-4">
-      <div className="flex items-center gap-2">
-        <span className="flex size-9 items-center justify-center rounded-xl bg-brand-soft">
-          <Sparkles className="size-4 text-brand" />
-        </span>
-        <div className="min-w-0">
-          <h1 className="text-[19px] font-extrabold leading-tight text-ink-1">שאל את הספרייה</h1>
-          <p className="mt-0.5 text-[12px] text-ink-3">
-            תשובות מבוססות אך ורק על 11 הספרים שבמאגר, עם הפניה לפרק ולסעיף המדויק
-          </p>
-        </div>
-      </div>
-    </header>
+    <Reveal>
+      <PageHeader
+        as="h1"
+        icon={<Sparkles className="size-5" />}
+        eyebrow="Grounded Answers · שאל את הספרייה"
+        title="שאל את הספרייה"
+      />
+      <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-ink-3">
+        תשובות מבוססות אך ורק על 11 הספרים שבמאגר, עם הפניה לפרק ולסעיף המדויק.
+      </p>
+    </Reveal>
     <div className="grid h-[calc(100vh-11rem)] max-h-[52rem] min-h-[34rem] grid-cols-1 overflow-hidden rounded-2xl border border-hairline bg-surface shadow-[0_10px_30px_-24px_rgba(15,23,42,.45)] xl:grid-cols-[268px_1fr_320px]">
       {/* ---------- scope rail ---------- */}
       <aside aria-label="היקף התשובה" className="hidden min-h-0 border-e border-hairline bg-surface xl:block">
@@ -111,25 +106,21 @@ export function AiWorkspace() {
         </header>
 
         <div className="min-h-0 flex-1 overflow-y-auto px-3 py-4">
-          <div className="mx-auto w-full max-w-[48rem] space-y-6" aria-live="polite" aria-busy={busy}>
+          <AIConversation busy={busy} autoScrollKey={turns.length}>
             {empty ? (
               <EmptyState onPick={(q) => ask(q)} scope={scope} />
             ) : (
               turns.map((t, i) => (
                 <div key={i} className="space-y-2.5">
-                  <div className="flex justify-end motion-safe:animate-[bubbleIn_.22s_cubic-bezier(.32,.72,0,1)]">
-                    <p className="max-w-[74%] rounded-2xl rounded-se-md bg-gradient-to-b from-brand to-brand-dark px-4 py-2.5 text-[0.9375rem] leading-[1.6] text-brand-foreground shadow-[0_2px_10px_-3px_rgba(214,32,39,.4)]">
-                      <span className="sr-only">שאלה: </span>{t.q}
-                    </p>
-                  </div>
+                  <UserBubble>{t.q}</UserBubble>
                   {t.a ? (
                     <>
                       <><span className="sr-only">תשובה: </span><AnswerCard answer={t.a} onRetry={() => ask(t.q)} isLatest={i === turns.length - 1} /></>
                       {!t.a.error && i === turns.length - 1 && !busy && (
-                        <AnswerActions onPick={(a) => ask(a.prompt, a.task)} />
+                        <AnswerActionsBar onPick={(a) => ask(a.prompt, a.task)} />
                       )}
                       {t.a.followUps.length > 0 && !t.a.error && i === turns.length - 1 && !busy && (
-                        <QuestionChips
+                        <PromptSuggestions
                           items={t.a.followUps}
                           onPick={(q) => ask(q)}
                           title="שאלות המשך"
@@ -138,13 +129,12 @@ export function AiWorkspace() {
                       )}
                     </>
                   ) : (
-                    <Thinking scopeLabel={scopeLabel(scope)} />
+                    <AIThinking note={scopeLabel(scope)} />
                   )}
                 </div>
               ))
             )}
-            <div ref={endRef} />
-          </div>
+            </AIConversation>
         </div>
 
         <div className="border-t border-hairline bg-surface px-3 py-3">
@@ -201,22 +191,16 @@ export function AiWorkspace() {
  * Answer-level actions. Four primaries stay visible; the rest sit behind
  * "עוד פעולות" so the answer is followed by a decision, not a control panel.
  */
-function AnswerActions({ onPick }: { onPick: (a: typeof ANSWER_ACTIONS[number]) => void }) {
+function AnswerActionsBar({ onPick }: { onPick: (a: typeof ANSWER_ACTIONS[number]) => void }) {
   const [all, setAll] = useState(false);
-  const shown = all ? ANSWER_ACTIONS : ANSWER_ACTIONS.filter((a) => a.primary);
   return (
-    <div className="flex flex-wrap items-center gap-1.5">
-      {shown.map((a) => (
-        <button key={a.id} onClick={() => onPick(a)}
-          className="rounded-full bg-surface-2 px-3 py-1.5 text-[0.75rem] font-semibold text-ink-2 transition hover:bg-brand-soft hover:text-brand">
-          {a.label}
-        </button>
-      ))}
-      <button onClick={() => setAll((v) => !v)}
-        className="rounded-full px-2.5 py-1.5 text-[0.75rem] font-semibold text-ink-3 transition hover:text-brand">
-        {all ? "פחות" : "עוד פעולות"}
-      </button>
-    </div>
+    <AIActionBar
+      actions={ANSWER_ACTIONS}
+      primaryIds={ANSWER_ACTIONS.filter((a) => a.primary).map((a) => a.id)}
+      onPick={onPick}
+      expanded={all}
+      onToggle={() => setAll((v) => !v)}
+    />
   );
 }
 
@@ -232,7 +216,7 @@ function EmptyState({ onPick, scope }: { onPick: (q: string) => void; scope: Sco
         {!scope.bookId && " בחירת ספר או פרק תמקד את התשובה."}
       </p>
       <div className="mt-5 text-start">
-        <QuestionChips items={SUGGESTED} onPick={onPick} title="נסה להתחיל מ" icon={<Sparkles className="size-3" />} />
+        <PromptSuggestions items={SUGGESTED} onPick={onPick} title="נסה להתחיל מ" icon={<Sparkles className="size-3" />} />
       </div>
     </div>
   );
