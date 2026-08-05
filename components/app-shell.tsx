@@ -13,6 +13,9 @@ import { OmniSearch } from "@/components/omni-search";
 // Non-critical shell UI — deferred so the dataset + search engine (pulled by the
 // command palette) and floating helpers stay off the first-paint path.
 const CommandPalette = dynamic(() => import("@/components/command-palette").then((m) => m.CommandPalette), { ssr: false });
+// Single global AI surface. Context is derived from the route inside the
+// component, so every page gets a context-aware assistant with no per-page wiring.
+const AskAI = dynamic(() => import("@/components/ask-ai").then((m) => m.AskAI), { ssr: false });
 const FindHighlighter = dynamic(() => import("@/components/find-highlighter").then((m) => m.FindHighlighter), { ssr: false });
 const OnboardingDrawer = dynamic(() => import("@/components/onboarding-drawer").then((m) => m.OnboardingDrawer), { ssr: false });
 const PageHelp = dynamic(() => import("@/components/page-help").then((m) => m.PageHelp), { ssr: false });
@@ -89,6 +92,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <UXSettings />
         </div>
         <CommandPalette />
+        <AskAI />
         <FindHighlighter />
         <OnboardingDrawer />
         <ObjectPeek />
