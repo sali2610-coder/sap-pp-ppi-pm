@@ -122,6 +122,8 @@ type Block =
   | { t: "table"; head: string[]; rows: string[][] }
   | { t: "callout"; kind: "note" | "warn" | "tip"; text: string };
 
+const BLOCK_START = /^\s*([-*•]|\d+[.)]|#{2,3}\s|\||```)/;
+
 const CALLOUT_RE = /^\s*(?:>\s*)?(?:\*\*)?(שים לב|הערה|אזהרה|זהירות|טיפ|המלצה|Note|Warning|Caution|Tip|Best Practice)(?:\*\*)?\s*[:：-]\s*(.+)$/i;
 const WARN = /אזהרה|זהירות|warning|caution/i;
 const TIP = /טיפ|המלצה|tip|best practice/i;
@@ -133,6 +135,7 @@ function parse(src: string): Block[] {
   let i = 0;
 
   while (i < lines.length) {
+    const cursorAtStart = i;
     const line = lines[i];
     const trimmed = line.trim();
 
@@ -188,10 +191,22 @@ function parse(src: string): Block[] {
       continue;
     }
 
-    // paragraph: join until a blank line
-    const buf: string[] = [];
-    while (i < lines.length && lines[i].trim() && !/^\s*([-*•]|\d+[.)]|#{2,3}\s|\||```)/.test(lines[i])) buf.push(lines[i++].trim());
+    // Paragraph: join until a blank line or the start of another block.
+    //
+    // The guard set must never be able to leave `i` unmoved. It could: a line
+    // beginning with "|" that no earlier branch claimed — a table header whose
+    // separator row has not been revealed yet, or a mermaid edge label — fell
+    // through to here, matched the guard, consumed nothing, and span the outer
+    // loop forever. That locked the main thread with no error and no recovery.
+    // Consuming the first line unconditionally makes progress structural rather
+    // than something every future branch has to remember.
+    const buf: string[] = [lines[i++].trim()];
+    while (i < lines.length && lines[i].trim() && !BLOCK_START.test(lines[i])) buf.push(lines[i++].trim());
     blocks.push({ t: "p", text: buf.join(" ") });
+
+    // Invariant: every iteration consumes at least one line. If a future branch
+    // forgets, this degrades to one skipped line instead of a frozen tab.
+    if (i === cursorAtStart) i++;
   }
   return blocks;
 }
