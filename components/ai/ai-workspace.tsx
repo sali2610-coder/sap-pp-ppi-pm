@@ -1,12 +1,17 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Info, Layers, MessageSquarePlus, Sparkles, X } from "lucide-react";
+import { Clock, Info, Layers, MessageSquarePlus, Pencil, Sparkles, Star, Trash2, X } from "lucide-react";
 import { ScopeTree } from "./scope-tree";
 import { AnswerCard } from "./answer-card";
 import { Composer } from "./composer";
 import { ContextPanel } from "./context-panel";
 import { PageHeader, Reveal, PromptSuggestions, AIActionBar } from "@/components/neo";
+import { useDialog } from "@/lib/use-dialog";
+import {
+  type Thread, loadThreads, saveThread, deleteThread, renameThread, toggleFavorite,
+  loadScope, saveScope, loadActiveId, saveActiveId, titleFrom,
+} from "@/lib/ai/history";
 import { AIConversation, AIThinking, UserBubble } from "@/components/neo/ai-ui";
 import { ANSWER_ACTIONS, SUGGESTED } from "@/lib/ai/prompts";
 import { askApi } from "@/lib/ai/client";
@@ -27,6 +32,9 @@ type Turn = { q: string; a: Answer | null };
  */
 export function AiWorkspace() {
   const [scope, setScope] = useState<Scope>({});
+  const [threads, setThreads] = useState<Thread[]>([]);
+  const [threadId, setThreadId] = useState<string>("");
+  const [showHistory, setShowHistory] = useState(false);
   const [draft, setDraft] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
   const [busy, setBusy] = useState(false);
@@ -37,13 +45,24 @@ export function AiWorkspace() {
   // resolve real chapter titles without a visible gap.
   useEffect(() => { if (scope.bookId) void loadTree(scope.bookId); }, [scope.bookId]);
 
-
+  // Restore on mount. localStorage is read in an effect, never during render,
+  // because this page prerenders at build under output:"export".
   useEffect(() => {
-    if (!sheet) return;
-    const onEsc = (e: KeyboardEvent) => e.key === "Escape" && setSheet(null);
-    document.addEventListener("keydown", onEsc);
-    return () => document.removeEventListener("keydown", onEsc);
-  }, [sheet]);
+    setThreads(loadThreads());
+    const saved = loadScope();
+    if (saved.bookId) setScope(saved);
+    const active = loadActiveId();
+    if (active) {
+      const t = loadThreads().find((x) => x.id === active);
+      if (t) { setThreadId(t.id); setTurns(t.turns); }
+    }
+  }, []);
+
+  useEffect(() => { saveScope(scope); }, [scope]);
+
+
+  // Escape, focus trap, focus restore and scroll lock all live in one place.
+  const sheetRef = useDialog<HTMLDivElement>(Boolean(sheet), () => setSheet(null));
 
   const ask = useCallback(async (question: string, task?: string) => {
     const q = question.trim();
@@ -54,17 +73,36 @@ export function AiWorkspace() {
     setRecent((r) => [q, ...r.filter((x) => x !== q)].slice(0, 8));
     try {
       const a = await askApi(q, scope, task);
-      setTurns((t) => t.map((turn, i) => (i === t.length - 1 ? { ...turn, a } : turn)));
+      setTurns((t) => {
+        const next = t.map((turn, i) => (i === t.length - 1 ? { ...turn, a } : turn));
+        const id = threadId || `t${Date.now()}`;
+        if (!threadId) { setThreadId(id); saveActiveId(id); }
+        const existing = loadThreads().find((x) => x.id === id);
+        saveThread({
+          id,
+          title: existing?.title || titleFrom(next[0]?.q || q),
+          createdAt: existing?.createdAt ?? Date.now(),
+          updatedAt: Date.now(),
+          favorite: existing?.favorite,
+          turns: next,
+        });
+        setThreads(loadThreads());
+        return next;
+      });
     } finally {
       setBusy(false);
     }
-  }, [busy, scope]);
+  }, [busy, scope, threadId]);
 
   const last = [...turns].reverse().find((t) => t.a)?.a ?? null;
   const empty = turns.length === 0;
 
   return (
     <>
+    <a href="#ai-composer"
+      className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:rounded-xl focus:bg-surface focus:px-3 focus:py-2 focus:text-sm focus:font-bold focus:text-brand focus:shadow-lg">
+      דלג להקלדת שאלה
+    </a>
     <Reveal>
       <PageHeader
         as="h1"
@@ -93,8 +131,14 @@ export function AiWorkspace() {
             <div className="truncate text-[12.5px] font-extrabold text-ink-1">שאל את הספרייה</div>
             <div className="truncate text-[10.5px] text-ink-3">{scopeLabel(scope)}</div>
           </div>
+          {threads.length > 0 && (
+            <button onClick={() => setShowHistory((v) => !v)} aria-expanded={showHistory}
+              className="flex items-center gap-1 rounded-xl border border-hairline px-2 py-1.5 text-[11px] font-semibold text-ink-2 transition hover:border-brand/40 hover:text-brand">
+              <Clock className="size-3.5" /> שיחות ({threads.length})
+            </button>
+          )}
           {turns.length > 0 && (
-            <button onClick={() => setTurns([])}
+            <button onClick={() => { setTurns([]); setThreadId(""); saveActiveId(""); }}
               className="flex items-center gap-1 rounded-xl border border-hairline px-2 py-1.5 text-[11px] font-semibold text-ink-2 transition hover:border-brand/40 hover:text-brand">
               <MessageSquarePlus className="size-3.5" /> שיחה חדשה
             </button>
@@ -104,6 +148,21 @@ export function AiWorkspace() {
             <Info className="size-3.5" />
           </button>
         </header>
+
+        {showHistory && (
+          <ThreadList
+            threads={threads}
+            activeId={threadId}
+            onOpen={(t) => { setTurns(t.turns); setThreadId(t.id); saveActiveId(t.id); setShowHistory(false); }}
+            onRename={(id, title) => { renameThread(id, title); setThreads(loadThreads()); }}
+            onFavorite={(id) => { toggleFavorite(id); setThreads(loadThreads()); }}
+            onDelete={(id) => {
+              deleteThread(id);
+              setThreads(loadThreads());
+              if (id === threadId) { setTurns([]); setThreadId(""); }
+            }}
+          />
+        )}
 
         <div>
           <AIConversation busy={busy} autoScrollKey={turns.length}>
@@ -137,7 +196,7 @@ export function AiWorkspace() {
             </AIConversation>
         </div>
 
-        <div className="sticky bottom-4">
+        <div id="ai-composer" className="sticky bottom-4">
           <div className="mx-auto w-full max-w-[48rem]">
             <Composer
               value={draft}
@@ -162,12 +221,12 @@ export function AiWorkspace() {
 
       {/* ---------- mobile sheets ---------- */}
       {sheet && (
-        <div className="fixed inset-0 z-50 xl:hidden" role="dialog" aria-modal="true">
-          <button aria-label="סגור" onClick={() => setSheet(null)}
+        <div className="fixed inset-0 z-50 xl:hidden" role="dialog" aria-modal="true" aria-labelledby="ai-sheet-title">
+          <div aria-hidden onClick={() => setSheet(null)}
             className="absolute inset-0 bg-ink-1/40 backdrop-blur-[2px] animate-[fadeIn_.15s_ease-out]" />
-          <div className="absolute inset-x-0 bottom-0 flex max-h-[86vh] flex-col rounded-t-3xl border-t border-hairline bg-surface shadow-2xl animate-[sheetUp_.22s_cubic-bezier(.32,.72,0,1)]">
+          <div ref={sheetRef} tabIndex={-1} className="absolute inset-x-0 bottom-0 flex max-h-[86vh] flex-col rounded-t-3xl border-t border-hairline bg-surface shadow-2xl outline-none animate-[sheetUp_.22s_cubic-bezier(.32,.72,0,1)]">
             <div className="flex items-center gap-2 border-b border-hairline px-3 py-2.5">
-              <span className="text-[12.5px] font-extrabold text-ink-1">
+              <span id="ai-sheet-title" className="text-[12.5px] font-extrabold text-ink-1">
                 {sheet === "scope" ? "היקף התשובה" : "מידע והקשר"}
               </span>
               <button onClick={() => setSheet(null)} aria-label="סגור"
@@ -193,6 +252,69 @@ export function AiWorkspace() {
  * Answer-level actions. Four primaries stay visible; the rest sit behind
  * "עוד פעולות" so the answer is followed by a decision, not a control panel.
  */
+/** Recent conversations: open, rename, favourite, delete. */
+function ThreadList({ threads, activeId, onOpen, onRename, onFavorite, onDelete }: {
+  threads: Thread[]; activeId: string;
+  onOpen: (t: Thread) => void;
+  onRename: (id: string, title: string) => void;
+  onFavorite: (id: string) => void;
+  onDelete: (id: string) => void;
+}) {
+  const [editing, setEditing] = useState<string | null>(null);
+  const [draftTitle, setDraftTitle] = useState("");
+
+  return (
+    <div className="rounded-3xl border border-hairline bg-surface p-4 shadow-[0_12px_34px_-22px_rgba(15,23,42,0.5)] sm:p-5">
+      <div className="mb-2.5 flex items-center gap-2.5">
+        <span aria-hidden className="h-4 w-1 rounded-full bg-brand" />
+        <h3 className="text-[13px] font-extrabold uppercase tracking-[0.14em] text-ink-2">שיחות אחרונות</h3>
+        <span aria-hidden className="h-px flex-1 bg-hairline" />
+      </div>
+      <ul className="divide-y divide-hairline">
+        {threads.map((t) => (
+          <li key={t.id} className="flex items-center gap-2 py-2">
+            {editing === t.id ? (
+              <input
+                autoFocus
+                value={draftTitle}
+                onChange={(e) => setDraftTitle(e.target.value)}
+                onBlur={() => { onRename(t.id, draftTitle); setEditing(null); }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") { onRename(t.id, draftTitle); setEditing(null); }
+                  if (e.key === "Escape") setEditing(null);
+                }}
+                aria-label="שם השיחה"
+                className="min-w-0 flex-1 rounded-lg border border-hairline bg-surface px-2 py-1 text-[12.5px] text-ink-1 outline-none focus:border-brand/40"
+              />
+            ) : (
+              <button onClick={() => onOpen(t)}
+                aria-current={t.id === activeId ? "true" : undefined}
+                className={`min-w-0 flex-1 truncate rounded-lg px-2 py-1 text-start text-[12.5px] transition hover:bg-surface-2 ${
+                  t.id === activeId ? "font-bold text-brand" : "text-ink-2"}`}>
+                {t.title}
+                <span className="ms-2 text-[10.5px] font-normal text-ink-3">{t.turns.length} תשובות</span>
+              </button>
+            )}
+            <button onClick={() => onFavorite(t.id)} aria-label={t.favorite ? "הסר ממועדפים" : "הוסף למועדפים"}
+              aria-pressed={Boolean(t.favorite)}
+              className="rounded-lg p-1.5 text-ink-3 transition hover:bg-surface-2 hover:text-brand">
+              <Star className={`size-3.5 ${t.favorite ? "fill-brand text-brand" : ""}`} />
+            </button>
+            <button onClick={() => { setEditing(t.id); setDraftTitle(t.title); }} aria-label="שנה שם"
+              className="rounded-lg p-1.5 text-ink-3 transition hover:bg-surface-2 hover:text-ink-1">
+              <Pencil className="size-3.5" />
+            </button>
+            <button onClick={() => onDelete(t.id)} aria-label="מחק שיחה"
+              className="rounded-lg p-1.5 text-ink-3 transition hover:bg-surface-2 hover:text-brand">
+              <Trash2 className="size-3.5" />
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 function AnswerActionsBar({ onPick }: { onPick: (a: typeof ANSWER_ACTIONS[number]) => void }) {
   const [all, setAll] = useState(false);
   return (

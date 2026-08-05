@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   BookOpen, Check, ChevronLeft, Copy, ExternalLink, Quote,
-  RotateCcw, ScissorsLineDashed, Sparkles, TriangleAlert, WifiOff,
+  RotateCcw, ScissorsLineDashed, Sparkles, ThumbsDown, ThumbsUp, TriangleAlert, WifiOff,
 } from "lucide-react";
+import { loadFeedback, setFeedback, type Verdict } from "@/lib/ai/history";
 import { AnswerBody } from "./answer-body";
 import { useReveal } from "@/lib/ai/use-reveal";
 import type { Answer, Citation } from "@/lib/ai/types";
@@ -41,6 +42,16 @@ export function AnswerCard({ answer, onRetry, isLatest }: {
 }) {
   const [openCites, setOpenCites] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [verdict, setVerdict] = useState<Verdict | null>(null);
+
+  // Read in an effect, not during render: this page prerenders at build.
+  useEffect(() => { setVerdict(loadFeedback()[answer.id] ?? null); }, [answer.id]);
+
+  function rate(v: Verdict) {
+    const next = verdict === v ? null : v;
+    setVerdict(next);
+    setFeedback(answer.id, next);
+  }
 
   // Only the newest answer animates in. Re-revealing history on every render
   // would be noise, and it would fight the scroll position.
@@ -104,8 +115,18 @@ export function AnswerCard({ answer, onRetry, isLatest }: {
         )}
         {fmtMs(answer.ms) && <span className="text-[0.6875rem] text-ink-3">· {fmtMs(answer.ms)}</span>}
 
+        <span className="ms-auto flex items-center gap-0.5">
+          <button onClick={() => rate("up")} aria-label="תשובה מועילה" aria-pressed={verdict === "up"}
+            className={`rounded-lg p-1.5 transition hover:bg-surface-2 ${verdict === "up" ? "text-emerald-600" : "text-ink-3 hover:text-ink-1"}`}>
+            <ThumbsUp className="size-3.5" />
+          </button>
+          <button onClick={() => rate("down")} aria-label="תשובה לא מועילה" aria-pressed={verdict === "down"}
+            className={`rounded-lg p-1.5 transition hover:bg-surface-2 ${verdict === "down" ? "text-brand" : "text-ink-3 hover:text-ink-1"}`}>
+            <ThumbsDown className="size-3.5" />
+          </button>
+        </span>
         <button onClick={copy} aria-label="העתק תשובה"
-          className="ms-auto flex items-center gap-1 rounded-lg px-1.5 py-1 text-[0.6875rem] text-ink-3 transition hover:bg-surface-2 hover:text-ink-1">
+          className="flex items-center gap-1 rounded-lg px-1.5 py-1 text-[0.6875rem] text-ink-3 transition hover:bg-surface-2 hover:text-ink-1">
           {copied ? <Check className="size-3.5 text-emerald-600" /> : <Copy className="size-3.5" />}
           <span className="hidden sm:inline">{copied ? "הועתק" : "העתק"}</span>
         </button>

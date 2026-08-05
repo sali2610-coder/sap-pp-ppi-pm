@@ -92,6 +92,7 @@ export function ScopeTree({ scope, onScope, onNavigate }: {
       <div className="min-h-0 flex-1 overflow-y-auto p-2">
         <button
           onClick={() => { setOpenBook(null); setOpenChapter(null); onScope({}); }}
+          aria-current={!scope.bookId ? "true" : undefined}
           className={`mb-1 flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-[12.5px] font-semibold transition ${
             !scope.bookId ? "bg-brand-soft text-brand" : "text-ink-2 hover:bg-surface-2"}`}>
           <BookOpen className="size-3.5" />
@@ -107,6 +108,7 @@ export function ScopeTree({ scope, onScope, onNavigate }: {
               <button
                 onClick={() => toggleBook(b.id)}
                 aria-expanded={open}
+                aria-current={active ? "true" : undefined}
                 className={`flex w-full items-start gap-2 rounded-xl px-2.5 py-2 text-start transition ${
                   active ? "bg-brand-soft" : "hover:bg-surface-2"}`}>
                 <ChevronLeft className={`mt-0.5 size-3.5 shrink-0 text-ink-3 transition-transform duration-200 ${open ? "-rotate-90" : ""}`} />
@@ -134,6 +136,7 @@ export function ScopeTree({ scope, onScope, onNavigate }: {
                         <button
                           onClick={() => toggleChapter(c.n)}
                           aria-expanded={cOpen}
+                          aria-current={cActive ? "true" : undefined}
                           className={`flex w-full items-start gap-1.5 rounded-lg px-2 py-1.5 text-start transition ${
                             cActive ? "bg-brand-soft" : "hover:bg-surface-2"}`}>
                           <ChevronLeft className={`mt-0.5 size-3 shrink-0 text-ink-3 transition-transform duration-200 ${cOpen ? "-rotate-90" : ""}`} />
@@ -187,6 +190,7 @@ function SectionList({ sections, activeId, onPick }: {
           <button
             key={s.id}
             onClick={() => onPick(s.id)}
+            aria-current={active ? "true" : undefined}
             className={`flex w-full items-baseline gap-1.5 rounded-lg px-2 py-1 text-start transition ${
               active ? "bg-brand-soft font-semibold text-brand ring-1 ring-brand/20" : "hover:bg-surface-2"}`}>
             <span className={`tech shrink-0 text-[10px] ${active ? "text-brand/70" : "text-ink-3"}`}>{s.id}</span>
