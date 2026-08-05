@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { BookText, ChevronLeft, Copy, Check, Quote, Sparkles, TriangleAlert } from "lucide-react";
+import { BookText, ChevronLeft, Copy, Check, Quote, Sparkles, TriangleAlert, WifiOff, Scissors } from "lucide-react";
 import type { Answer, Citation } from "@/lib/ai/types";
 
 /** Confidence is shown as a plain word plus a bar; a bare percentage reads as false precision. */
@@ -51,11 +51,34 @@ function Rich({ text }: { text: string }) {
   );
 }
 
-export function AnswerCard({ answer }: { answer: Answer }) {
+export function AnswerCard({ answer, onRetry }: { answer: Answer; onRetry?: () => void }) {
   const [openCites, setOpenCites] = useState(false);
   const [copied, setCopied] = useState(false);
   const tone = confidenceTone(answer.policy);
   const refused = answer.policy === "REFUSE";
+
+  // A failed request is not an answer. Show what the reader can do about it, and
+  // never the status code, provider or upstream message behind it.
+  if (answer.error) {
+    return (
+      <article className="overflow-hidden rounded-2xl border border-hairline bg-surface">
+        <div className="flex items-start gap-2.5 p-3.5">
+          <span className="mt-px flex size-7 shrink-0 items-center justify-center rounded-lg bg-surface-2">
+            <WifiOff className="size-3.5 text-ink-3" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-[12.5px] leading-relaxed text-ink-2">{answer.error}</p>
+            {onRetry && (
+              <button onClick={onRetry}
+                className="mt-2 rounded-lg border border-hairline px-2.5 py-1 text-[11.5px] font-semibold text-ink-2 transition hover:border-brand/40 hover:text-brand">
+                נסה שוב
+              </button>
+            )}
+          </div>
+        </div>
+      </article>
+    );
+  }
 
   async function copy() {
     try {
@@ -84,6 +107,12 @@ export function AnswerCard({ answer }: { answer: Answer }) {
 
       <div className="px-3.5 py-3">
         <Rich text={answer.text} />
+        {answer.truncated && (
+          <p className="mt-3 flex items-start gap-1.5 rounded-xl bg-surface-2 px-2.5 py-2 text-[11px] leading-relaxed text-ink-3">
+            <Scissors className="mt-px size-3 shrink-0" />
+            התשובה נקטעה באמצע. אפשר לצמצם את ההיקף לפרק או לסעיף כדי לקבל תשובה שלמה.
+          </p>
+        )}
       </div>
 
       {answer.citations.length > 0 && (

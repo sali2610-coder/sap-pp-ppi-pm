@@ -5,7 +5,7 @@ import {
   CheckSquare, GitCompare, HelpCircle, Image as ImageIcon, LayoutList,
   Presentation, Sparkles, Workflow, BookOpen, ArrowUpRight,
 } from "lucide-react";
-import { QUICK_ACTIONS } from "@/lib/ai/mock";
+import { QUICK_ACTIONS } from "@/lib/ai/prompts";
 import { bookById, cachedTree, sectionHref } from "@/lib/ai/tree";
 import type { Answer, Scope } from "@/lib/ai/types";
 

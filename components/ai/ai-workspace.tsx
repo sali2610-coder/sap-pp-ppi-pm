@@ -6,7 +6,8 @@ import { ScopeTree } from "./scope-tree";
 import { AnswerCard } from "./answer-card";
 import { Composer, QuestionChips } from "./composer";
 import { ContextPanel } from "./context-panel";
-import { SUGGESTED, mockAsk } from "@/lib/ai/mock";
+import { SUGGESTED } from "@/lib/ai/prompts";
+import { askApi } from "@/lib/ai/client";
 import { loadTree, scopeLabel } from "@/lib/ai/tree";
 import type { Answer, Scope } from "@/lib/ai/types";
 
@@ -54,7 +55,7 @@ export function AiWorkspace() {
     setTurns((t) => [...t, { q, a: null }]);
     setRecent((r) => [q, ...r.filter((x) => x !== q)].slice(0, 8));
     try {
-      const a = await mockAsk(q, scope);
+      const a = await askApi(q, scope);
       setTurns((t) => t.map((turn, i) => (i === t.length - 1 ? { ...turn, a } : turn)));
     } finally {
       setBusy(false);
@@ -122,8 +123,8 @@ export function AiWorkspace() {
                   </div>
                   {t.a ? (
                     <>
-                      <AnswerCard answer={t.a} />
-                      {t.a.followUps.length > 0 && i === turns.length - 1 && !busy && (
+                      <AnswerCard answer={t.a} onRetry={() => ask(t.q)} />
+                      {t.a.followUps.length > 0 && !t.a.error && i === turns.length - 1 && !busy && (
                         <QuestionChips
                           items={t.a.followUps}
                           onPick={(q) => ask(q)}

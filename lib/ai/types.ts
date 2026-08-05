@@ -51,6 +51,8 @@ export interface Answer {
   ms?: number;
   pending?: boolean;
   error?: string;
+  /** The API hit its token ceiling; the answer is incomplete. */
+  truncated?: boolean;
 }
 
 export interface QuickAction {
