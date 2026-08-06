@@ -14,7 +14,7 @@
  */
 
 import { useMemo } from "react";
-import type { Swimlane, Timeline } from "@/lib/ai/timeline";
+import type { Sequence, Swimlane, Timeline } from "@/lib/ai/timeline";
 
 /* ---------------------------------------------------------------- timeline */
 
@@ -186,6 +186,97 @@ export function SwimlaneView({ data }: { data: Swimlane }) {
                 >
                   {s.label.length > 20 ? `${s.label.slice(0, 19)}…` : s.label}
                 </text>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+    </figure>
+  );
+}
+
+/* --------------------------------------------------------------- sequence */
+
+const ACTOR_W = 128;
+const ACTOR_GAP = 40;
+const HEAD_H = 34;
+const MSG_H = 46;
+
+/**
+ * Actors across the top, time running down, each message an arrow between two
+ * lifelines. Laid out RIGHT-TO-LEFT: the first participant sits on the right,
+ * because in an RTL document a left-anchored sequence reads backwards.
+ */
+export function SequenceView({ data }: { data: Sequence }) {
+  const cols = data.actors.length;
+  const width = cols * ACTOR_W + (cols + 1) * ACTOR_GAP;
+  const height = HEAD_H + 16 + data.messages.length * MSG_H + 20;
+
+  // Index 0 on the right.
+  const cx = (id: string) => {
+    const i = data.actors.indexOf(id);
+    const fromRight = i < 0 ? 0 : i;
+    return width - (ACTOR_GAP + fromRight * (ACTOR_W + ACTOR_GAP) + ACTOR_W / 2);
+  };
+
+  return (
+    <figure className="my-4 overflow-hidden rounded-xl border border-hairline bg-surface">
+      {data.title && (
+        <figcaption className="border-b border-hairline px-3 py-2 text-[0.8125rem] font-semibold text-ink-1">
+          {data.title}
+        </figcaption>
+      )}
+      <div className="overflow-x-auto p-2">
+        <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height} role="img"
+          aria-label={`דיאגרמת רצף${data.title ? `: ${data.title}` : ""}`} className="max-w-none">
+          <defs>
+            <marker id="sq-arrow" viewBox="0 0 10 10" refX="9" refY="5"
+              markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="var(--ink-3, #6b7280)" />
+            </marker>
+          </defs>
+
+          {data.actors.map((a) => {
+            const x = cx(a);
+            const name = data.labels[a] ?? a;
+            return (
+              <g key={a}>
+                <rect x={x - ACTOR_W / 2} y={4} width={ACTOR_W} height={HEAD_H} rx={8}
+                  fill="var(--surface-2, #f7f7f8)" stroke="var(--hairline, #e5e7eb)" />
+                <text x={x} y={4 + HEAD_H / 2} textAnchor="middle" dominantBaseline="middle"
+                  fontSize="11" fontWeight="600" fill="var(--ink-1, #111827)">
+                  {name.length > 16 ? `${name.slice(0, 15)}\u2026` : name}
+                </text>
+                {/* lifeline */}
+                <line x1={x} x2={x} y1={4 + HEAD_H} y2={height - 8}
+                  stroke="var(--hairline, #e5e7eb)" strokeDasharray="3 3" />
+              </g>
+            );
+          })}
+
+          {data.messages.map((m, i) => {
+            const y = HEAD_H + 30 + i * MSG_H;
+            const x1 = cx(m.from), x2 = cx(m.to);
+            const mid = (x1 + x2) / 2;
+            // A self-message has nowhere to point; draw it as a loop stub.
+            if (x1 === x2) {
+              return (
+                <g key={i}>
+                  <path d={`M ${x1} ${y} h 26 v 16 h -26`} fill="none"
+                    stroke="var(--ink-3, #6b7280)" strokeWidth="1.25" markerEnd="url(#sq-arrow)" />
+                  <text x={x1 + 32} y={y + 4} fontSize="10" fill="var(--ink-2, #374151)">{m.text}</text>
+                </g>
+              );
+            }
+            return (
+              <g key={i}>
+                <text x={mid} y={y - 6} textAnchor="middle" fontSize="10" fill="var(--ink-2, #374151)">
+                  {m.text.length > 40 ? `${m.text.slice(0, 39)}\u2026` : m.text}
+                </text>
+                <line x1={x1} x2={x2} y1={y} y2={y}
+                  stroke="var(--ink-3, #6b7280)" strokeWidth="1.25"
+                  strokeDasharray={m.dashed ? "5 4" : undefined}
+                  markerEnd="url(#sq-arrow)" />
               </g>
             );
           })}

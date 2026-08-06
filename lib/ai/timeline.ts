@@ -159,9 +159,82 @@ export function parseSwimlane(src: string): Swimlane | null {
 }
 
 /** Fence languages that mean "not a graph". */
-export const AXIS_LANGS = new Set(["timeline", "swimlane", "gantt", "roadmap"]);
+export const AXIS_LANGS = new Set(["timeline", "swimlane", "gantt", "roadmap", "sequence", "sequencediagram"]);
 
 export function isAxisFence(text: string, lang?: string): boolean {
   if (lang && AXIS_LANGS.has(lang.toLowerCase())) return true;
-  return /^\s*(timeline|swimlane)\b/im.test(text);
+  return /^\s*(timeline|swimlane|sequence(diagram)?)\b/im.test(text);
+}
+
+/* -------------------------------------------------------------- sequence */
+
+export interface SequenceMessage {
+  from: string;
+  to: string;
+  text: string;
+  /** A reply, drawn dashed — Mermaid's `-->>` versus `->>`. */
+  dashed?: boolean;
+}
+
+export interface Sequence {
+  kind: "sequence";
+  title?: string;
+  /** Stable ids, in first-seen order. */
+  actors: string[];
+  /** id → display name, when `participant X as Name` gave one. */
+  labels: Record<string, string>;
+  messages: SequenceMessage[];
+}
+
+/**
+ * A sequence diagram has a THIRD axis the other two lack: actors across the top
+ * and time running down, with each message an ordered exchange between two
+ * lifelines. A swimlane groups steps by owner but says nothing about ordering
+ * between lanes; a flowchart orders steps but has no lifelines. Neither can
+ * stand in for this, which is why it gets its own shape.
+ *
+ *   sequenceDiagram
+ *     participant Zetes
+ *     Zetes ->> SAP: IDoc
+ *     SAP -->> Zetes: ACK
+ *
+ * @returns the sequence, or null. Never throws.
+ */
+export function parseSequence(src: string): Sequence | null {
+  const lines = src.split("\n").map((l) => l.trim()).filter(Boolean);
+  if (!lines.length || !/^sequence(diagram)?\b/i.test(lines[0])) return null;
+
+  let title: string | undefined;
+  const actors: string[] = [];
+  const labels: Record<string, string> = {};
+  const messages: SequenceMessage[] = [];
+  const seeActor = (a: string) => { if (a && !actors.includes(a)) actors.push(a); return a; };
+
+  for (const raw of lines.slice(1)) {
+    const t = raw.match(/^title\s+(.+)$/i);
+    if (t) { title = clean(t[1]); continue; }
+
+    const p = raw.match(/^(?:participant|actor)\s+(.+)$/i);
+    if (p) {
+      // `participant PP as תכנון ייצור` declares ONE participant with a display
+      // name. Registering the display name as the actor left the messages
+      // referring to `PP`, which then registered again — one participant, two
+      // lifelines. The id is the identity; the alias is only how it is drawn.
+      const [id, ...rest] = clean(p[1]).split(/\s+as\s+/i);
+      const key = clean(id);
+      seeActor(key);
+      if (rest.length) labels[key] = clean(rest.join(" as "));
+      continue;
+    }
+
+    // `A ->> B: text`  /  `A -->> B: text`  /  `A -> B: text`
+    const m = raw.match(/^(.+?)\s*(-{1,2}>>?)\s*(.+?)\s*:\s*(.*)$/);
+    if (!m) continue;
+    const from = seeActor(clean(m[1]));
+    const to = seeActor(clean(m[3]));
+    if (!from || !to) continue;
+    messages.push({ from, to, text: clean(m[4]), dashed: m[2].startsWith("--") });
+  }
+
+  return actors.length >= 2 && messages.length ? { kind: "sequence", title, actors, labels, messages } : null;
 }

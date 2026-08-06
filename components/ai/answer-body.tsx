@@ -5,9 +5,9 @@ import Link from "next/link";
 import { Info, Lightbulb, TriangleAlert } from "lucide-react";
 import { knownRoutes, type SapKind } from "@/lib/ai-known-routes";
 import { isDiagramFence } from "@/lib/ai/diagram";
-import { isAxisFence, parseSwimlane, parseTimeline } from "@/lib/ai/timeline";
+import { isAxisFence, parseSequence, parseSwimlane, parseTimeline } from "@/lib/ai/timeline";
 import { DiagramView } from "./diagram-view";
-import { SwimlaneView, TimelineView } from "./axis-view";
+import { SequenceView, SwimlaneView, TimelineView } from "./axis-view";
 
 /**
  * Long-form renderer for AI answers.
@@ -275,6 +275,8 @@ export function AnswerBody({ text }: { text: string }) {
               if (tl) return <TimelineView key={i} data={tl} />;
               const sw = parseSwimlane(b.text);
               if (sw) return <SwimlaneView key={i} data={sw} />;
+              const sq = parseSequence(b.text);
+              if (sq) return <SequenceView key={i} data={sq} />;
               // Unparseable: fall through to the code block rather than guess.
             }
             return isDiagramFence(b.text, b.lang)
