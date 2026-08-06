@@ -237,8 +237,13 @@ function BookCard({ book, reading, onOpen }: { book: LibBook; reading: boolean; 
   const reduce = useReducedMotion();
   const c = mc(book.module);
   const hasReader = !!READER[book.id];
-  return (
-    <button data-book-id={book.id} onClick={onOpen} aria-label={`פתח ${book.titleHe}`} className="group relative flex flex-col text-start">
+    // No aria-label on the card button. It was `פתח {titleHe}`, but the visible
+    // content also carries the module badge and the "N עמ׳ · M פרקים" line, so the
+    // accessible name did not contain all visible text (WCAG 2.5.3 / axe
+    // label-content-name-mismatch, 10 nodes on /library/). Deriving the name from
+    // content covers every visible string and stays in sync as book metadata changes.
+    return (
+    <button data-book-id={book.id} onClick={onOpen} className="group relative flex flex-col text-start">
       <motion.div whileHover={reduce ? undefined : { y: -6 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} className={`relative ${reading ? "rounded-[10px] ring-2 ring-brand ring-offset-2 ring-offset-surface" : ""}`}>
         <BookCover book={asCover(book)} size="md" />
         {reading && <span className="absolute end-2 top-2 z-10 inline-flex items-center gap-1 rounded-full bg-brand px-2 py-0.5 text-[10px] font-extrabold text-white shadow-md"><BookOpen className="size-3" />בקריאה</span>}
