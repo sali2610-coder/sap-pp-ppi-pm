@@ -15,7 +15,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "check:diag": "node scripts/check-diag.mjs"
+    "check:diag": "node scripts/check-diag.mjs",
+    "prebuild": "node scripts/migrate-books.mjs && node scripts/validate-books.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
