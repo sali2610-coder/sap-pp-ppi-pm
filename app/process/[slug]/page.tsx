@@ -1,8 +1,17 @@
 import { listProcesses, processIntel, funcHref, cleanFunc } from "@/lib/object-intel";
 import { RelatedView } from "@/components/related-view";
+import { pageMeta } from "@/lib/seo";
 
 export function generateStaticParams() { return listProcesses().map((p) => ({ slug: p.slug })); }
 export const dynamicParams = false;
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const x = processIntel(decodeURIComponent(slug));
+  if (!x) return {};
+  return pageMeta({ title: x.title, module: x.module, blurb: `${x.tables.length} טבלאות · ${x.tcodes.length} טרנזקציות · ${x.bapis.length} BAPI/FM בתהליך ${x.title}.`, path: `/process/${slug}/` });
+}
+
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

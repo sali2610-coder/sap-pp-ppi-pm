@@ -1,5 +1,6 @@
 import { registry, registryObject } from "@/lib/bapi-registry";
 import { BapiObjectPage } from "@/components/bapi-object-page";
+import { og } from "@/lib/seo";
 
 // Every canonical object gets a full page — including verified additions that are
 // NOT referenced by any table (the old listFuncs() list missed them → 404). The
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ name: str
   const kind = o?.objectType === "FM" ? "Function Module" : o?.objectType === "IDoc" ? "IDoc" : "BAPI";
   const title = `${o?.technicalName || decodeURIComponent(name)} — SAP ${kind}`;
   const description = `${title}: purpose, ECC↔S/4HANA status, verification, parameters, related objects and safe usage — SAP by Sali · Project NEO.`;
-  return { title, description, openGraph: { title: `SAP by Sali | ${title}`, description } };
+  return { title, description, openGraph: og(`SAP by Sali | ${title}`, description) };
 }
 
 export default async function Page({ params }: { params: Promise<{ name: string }> }) {

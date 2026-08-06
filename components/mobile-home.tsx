@@ -10,7 +10,7 @@
  */
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Search, ArrowLeft, Wrench, Boxes, Network, Table2, Terminal, Braces, Database, LayoutGrid, Cable, GraduationCap, Compass, Star, Clock, Sparkles, Flame } from "lucide-react";
 import { useFavorites, getRecentObjects } from "@/lib/prefs";
 import { useAllProgress } from "@/lib/learn-store";
@@ -45,9 +45,6 @@ function greet(): string {
   return "לילה טוב";
 }
 
-const rise = (i: number, reduce: boolean | null) =>
-  reduce ? {} : { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { type: "spring" as const, stiffness: 320, damping: 30, delay: i * 0.05 } };
-
 function Ring({ pct, accent }: { pct: number; accent: string }) {
   const r = 26, C = 2 * Math.PI * r;
   return (
@@ -61,7 +58,6 @@ function Ring({ pct, accent }: { pct: number; accent: string }) {
 }
 
 export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Counts; modules: ModuleCard[]; learnPaths?: LearnPathMeta[] }) {
-  const reduce = useReducedMotion();
   const favs = useFavorites();
   const progress = useAllProgress();
   const [recent, setRecent] = useState<string[]>([]);
@@ -81,20 +77,20 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
   return (
     <div dir="rtl" data-shell="mobile-only" className="space-y-7 xl:hidden">
       {/* greeting + hero search — the single primary action */}
-      <motion.section {...rise(0, reduce)}>
+      <section className="neo-rise" style={{ "--neo-i": 0 } as React.CSSProperties}>
         <p className="text-[13px] font-bold text-ink-3">{hi},</p>
-        <h1 className="mt-0.5 text-[26px] font-black leading-tight text-ink-1">מה נלמד היום ב-SAP?</h1>
+        <h2 className="mt-0.5 text-[26px] font-black leading-tight text-ink-1">מה נלמד היום ב-SAP?</h2>
         <button onClick={() => { haptic(); openPalette(); }}
           className="tap mt-4 flex w-full items-center gap-3 rounded-2xl border border-hairline bg-surface-2/60 px-4 py-3.5 text-start shadow-sm transition active:scale-[0.99]">
           <Search className="size-5 shrink-0 text-brand" />
           <span className="min-w-0 flex-1 text-[14.5px] font-semibold text-ink-3">חיפוש טבלה · טרנזקציה · BAPI · CDS…</span>
           <kbd className="hidden rounded-md border border-hairline bg-surface px-1.5 py-0.5 text-[11px] font-bold text-ink-3 sm:block">⌘K</kbd>
         </button>
-      </motion.section>
+      </section>
 
       {/* continue learning — progress ring + streak (delight + personalization) */}
       {resume && (
-        <motion.section {...rise(1, reduce)}>
+        <section className="neo-rise" style={{ "--neo-i": 1 } as React.CSSProperties}>
           <Link prefetch={false} href="/learn/" onClick={haptic}
             className="tap flex items-center gap-4 rounded-2xl border border-hairline bg-surface p-4 shadow-sm transition active:scale-[0.98]">
             <Ring pct={resume.pct} accent={resume.accent} />
@@ -108,12 +104,12 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
             </span>
             <ArrowLeft className="size-4 shrink-0 text-ink-3" />
           </Link>
-        </motion.section>
+        </section>
       )}
 
       {/* continue — recently opened objects (personalization) */}
       {recent.length > 0 && (
-        <motion.section {...rise(1, reduce)}>
+        <section className="neo-rise" style={{ "--neo-i": 1 } as React.CSSProperties}>
           <div className="mb-2 flex items-center gap-1.5 px-0.5 text-[12px] font-extrabold uppercase tracking-wide text-ink-3"><Clock className="size-3.5" />המשך מהיכן שהפסקת</div>
           <div className="chip-rail -mx-1 flex gap-2.5 overflow-x-auto px-1 pb-1">
             {recent.map((n) => (
@@ -125,12 +121,12 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
               </Link>
             ))}
           </div>
-        </motion.section>
+        </section>
       )}
 
       {/* favorites (personalization) */}
       {favs.length > 0 && (
-        <motion.section {...rise(2, reduce)}>
+        <section className="neo-rise" style={{ "--neo-i": 2 } as React.CSSProperties}>
           <div className="mb-2 flex items-center gap-1.5 px-0.5 text-[12px] font-extrabold uppercase tracking-wide text-amber-600"><Star className="size-3.5 fill-amber-400 text-amber-500" />מועדפים</div>
           <div className="flex flex-wrap gap-1.5">
             {favs.slice(0, 12).map((n) => (
@@ -140,11 +136,11 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
               </Link>
             ))}
           </div>
-        </motion.section>
+        </section>
       )}
 
       {/* module portals — rich cards */}
-      <motion.section {...rise(3, reduce)}>
+      <section className="neo-rise" style={{ "--neo-i": 3 } as React.CSSProperties}>
         <div className="mb-2 px-0.5 text-[12px] font-extrabold uppercase tracking-wide text-ink-3">מודולים</div>
         <div className="grid gap-2.5 sm:grid-cols-3">
           {modules.map((m) => { const Icon = MOD_ICON[m.code] || Boxes; return (
@@ -163,10 +159,10 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
             </Link>
           ); })}
         </div>
-      </motion.section>
+      </section>
 
       {/* fast reference grid */}
-      <motion.section {...rise(4, reduce)}>
+      <section className="neo-rise" style={{ "--neo-i": 4 } as React.CSSProperties}>
         <div className="mb-2 px-0.5 text-[12px] font-extrabold uppercase tracking-wide text-ink-3">עיון מהיר</div>
         <div className="grid grid-cols-3 gap-2.5">
           {REF.map((r) => (
@@ -178,10 +174,10 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
             </Link>
           ))}
         </div>
-      </motion.section>
+      </section>
 
       {/* suggested next */}
-      <motion.section {...rise(5, reduce)}>
+      <section className="neo-rise" style={{ "--neo-i": 5 } as React.CSSProperties}>
         <div className="mb-2 px-0.5 text-[12px] font-extrabold uppercase tracking-wide text-ink-3">מומלץ בשבילך</div>
         <div className="flex flex-col gap-2.5">
           {SUGGEST.map((s) => (
@@ -193,7 +189,7 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
             </Link>
           ))}
         </div>
-      </motion.section>
+      </section>
 
       <p dir="ltr" className="pt-2 text-center text-[11px] font-semibold text-ink-3">Built by <b className="text-brand">Sali Halif</b></p>
     </div>

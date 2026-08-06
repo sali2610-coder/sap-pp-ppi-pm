@@ -44,7 +44,7 @@ export default function FioriIndex() {
   }, [q, type]);
 
   return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
+    <div className="neo-rise space-y-5" style={{ "--neo-y": "8px" } as React.CSSProperties}>
       <nav className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/library/academy/" className="text-brand hover:underline">{lang === "he" ? "אקדמיה" : "Academy"}</Link><span>/</span>
         <span>{lang === "he" ? "אינדקס Fiori" : "Fiori index"}</span>
@@ -94,7 +94,7 @@ export default function FioriIndex() {
       </div>
 
       <AnimatePresence>{sel && <FioriDetail app={sel} onClose={() => setSel(null)} />}</AnimatePresence>
-    </motion.div>
+    </div>
   );
 }
 

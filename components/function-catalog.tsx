@@ -109,7 +109,12 @@ function Card({ o, onOpen, onPreview, faved, pinned, learned, onFav }: { o: SapF
   return (
     <motion.div
       layout={!reduce}
-      initial={reduce ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+      // `initial={false}` (was `{ opacity: 0, y: 10 }`): framer serialises an
+      // initial state into the static export as inline opacity:0, which left all
+      // 147 cards on /bapi/ invisible until framer-motion hydrated. Rendering
+      // straight at the animate state removes that without touching `layout`
+      // (filter reordering) or `whileHover`, which do still need framer.
+      initial={false} animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 320, damping: 30 }} whileHover={reduce ? undefined : { y: -3 }}
       role="button" tabIndex={0} onClick={onOpen} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(); } }}
       dir="rtl" data-peek={o.technicalName} aria-label={`פתח ${o.technicalName}`}

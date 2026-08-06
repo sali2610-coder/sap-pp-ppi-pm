@@ -4,9 +4,18 @@ import { OIC_OBJECTS } from "@/lib/cross-links";
 import { SAP_NOTES } from "@/data/sap-notes";
 import { Crumb, CenterHeader, Block, Bullets } from "@/components/knowledge";
 import { SapTip } from "@/components/sap-tip";
+import { pageMeta } from "@/lib/seo";
 
 export function generateStaticParams() { return INCIDENTS.map((i) => ({ slug: i.slug })); }
 export const dynamicParams = false;
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const x = incidentBySlug(decodeURIComponent(slug));
+  if (!x) return {};
+  return pageMeta({ he: x.he, module: x.module, blurb: x.symptom, path: `/resolution/${slug}/` });
+}
+
 const MOD: Record<string, string> = { PM: "#f97316", PP: "#2563eb", "PP-PI": "#6d28d9", QM: "#0d9488", Cross: "#475569" };
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {

@@ -17,6 +17,7 @@ import { setActiveEntity } from "@/lib/workspace";
 import type { Module } from "@/lib/types";
 import { pillInk } from "@/lib/pill-ink";
 import { onWindowResize } from "@/lib/raf-resize";
+import { forWhiteText } from "@/lib/contrast";
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", "PP-PI": "#6d28d9" };
 const DEFAULT_FOCUS: Record<string, string> = { PM: "EQUI", "PP-PI": "AFKO" };
@@ -402,8 +403,16 @@ export function ArchitectureStudio() {
   const dismissCoach = () => { setCoach(false); try { localStorage.setItem(COACH_KEY, "1"); } catch { /* noop */ } };
   const btn = "tap transition active:scale-95";
 
+  // Was framer with initial opacity:0 — serialised into the static export,
+  // leaving the whole studio invisible until framer-motion hydrated. Same 0.4s
+  // rise, now CSS. Inner overlays keep framer: they are AnimatePresence
+  // transients that are meant to be hidden until triggered.
   return (
-    <motion.div initial={reduce ? false : { opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.2, 0.7, 0.2, 1] }} className="mx-auto" dir="rtl">
+    <div className="neo-rise mx-auto" dir="rtl" style={{ "--neo-y": "10px" } as React.CSSProperties}>
+      {/* Studio opens on the canvas with only a breadcrumb, so the route shipped
+          zero <h1>. sr-only gives it a document heading without altering the
+          canvas-first layout. */}
+      <h1 className="sr-only">סטודיו הארכיטקטורה — SAP Architecture Studio</h1>
       {!present && (<>
       {/* header */}
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
@@ -420,10 +429,10 @@ export function ArchitectureStudio() {
         </nav>
         <div className="flex items-center gap-2">
           <button onClick={() => { enterDemo(); dismissCoach(); }} title="Live Demo — סיור מונפש בתהליך העסקי (Esc ליציאה)" aria-label="Live Demo" className={`${btn} flex h-9 items-center gap-1.5 rounded-xl px-3 text-[12.5px] font-extrabold text-white shadow-sm`} style={{ background: "#0f172a" }}><Play className="size-3.5" />Live Demo</button>
-          <button onClick={() => { setPresent(true); dismissCoach(); }} title="מצב מצגת — הגרף על מלוא המסך (Esc ליציאה)" aria-label="מצב מצגת" className={`${btn} flex h-9 items-center gap-1.5 rounded-xl px-3 text-[12.5px] font-extrabold text-white shadow-sm`} style={{ background: accent }}><Maximize2 className="size-4" />מצגת</button>
+          <button onClick={() => { setPresent(true); dismissCoach(); }} title="מצב מצגת — הגרף על מלוא המסך (Esc ליציאה)" aria-label="מצב מצגת" className={`${btn} flex h-9 items-center gap-1.5 rounded-xl px-3 text-[12.5px] font-extrabold text-white shadow-sm`} style={{ background: forWhiteText(accent) }}><Maximize2 className="size-4" />מצגת</button>
           <button onClick={() => setShowKeys((v) => !v)} title="קיצורי מקלדת" aria-label="קיצורי מקלדת" className={`${btn} grid size-9 place-items-center rounded-xl border border-hairline bg-surface text-ink-3 hover:text-brand`}><Keyboard className="size-4" /></button>
           <div className="flex items-center gap-1.5 rounded-xl bg-surface-2 p-1">
-            {(["PM", "PP-PI"] as Module[]).map((m) => <button key={m} onClick={() => setModule(m)} className={`${btn} rounded-lg px-3 py-1.5 text-[13px] font-extrabold ${module === m ? "text-white shadow-sm" : "text-ink-3 hover:text-ink-2"}`} style={module === m ? { background: MOD_COLOR[m] } : undefined}>{m}</button>)}
+            {(["PM", "PP-PI"] as Module[]).map((m) => <button key={m} onClick={() => setModule(m)} className={`${btn} rounded-lg px-3 py-1.5 text-[13px] font-extrabold ${module === m ? "text-white shadow-sm" : "text-ink-3 hover:text-ink-2"}`} style={module === m ? { background: forWhiteText(MOD_COLOR[m]) } : undefined}>{m}</button>)}
           </div>
         </div>
       </div>
@@ -445,7 +454,7 @@ export function ArchitectureStudio() {
       <div className="mb-3">
         <button onClick={() => setShowFilters((v) => !v)} className={`${btn} flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-3 py-1.5 text-[11.5px] font-bold text-ink-3 hover:text-brand`}>
           <SlidersHorizontal className="size-3.5" />מסננים מתקדמים
-          {(zoneFilter.size > 0 || kindFilter.size !== mode.kinds.length || lifeOnly) && <span className="size-1.5 rounded-full" style={{ background: accent }} />}
+          {(zoneFilter.size > 0 || kindFilter.size !== mode.kinds.length || lifeOnly) && <span className="size-1.5 rounded-full" style={{ background: forWhiteText(accent) }} />}
           <span className="text-ink-3">{showFilters ? "▲" : "▼"}</span>
         </button>
         <AnimatePresence initial={false}>
@@ -502,7 +511,7 @@ export function ArchitectureStudio() {
             const capText = tip?.he || sN?.he || `${step.label} — ${step.code}`;
             return (
               <>
-                <div className="absolute inset-x-0 top-0 z-40 h-1 bg-hairline/80"><motion.div className="h-full" style={{ background: accent }} initial={false} animate={{ width: `${pct}%` }} transition={{ duration: reduce ? 0 : 0.45, ease: [0.2, 0.7, 0.2, 1] }} /></div>
+                <div className="absolute inset-x-0 top-0 z-40 h-1 bg-hairline/80"><motion.div className="h-full" style={{ background: forWhiteText(accent) }} initial={false} animate={{ width: `${pct}%` }} transition={{ duration: reduce ? 0 : 0.45, ease: [0.2, 0.7, 0.2, 1] }} /></div>
                 <div className="pointer-events-none absolute inset-x-0 top-4 z-40 flex justify-center px-3">
                   <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 rounded-full border border-white/10 bg-slate-900/90 px-4 py-2 text-white shadow-xl backdrop-blur">
                     <span className="flex items-center gap-1.5 text-[12px] font-extrabold"><Film className="size-4" style={{ color: accent }} />Live Demo</span>
@@ -558,7 +567,7 @@ export function ArchitectureStudio() {
                     <div className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-hairline pt-3">
                       <button onClick={() => { setPlaying(false); goStep(0); }} title="התחל מחדש" className={`${btn} grid size-9 place-items-center rounded-xl border border-hairline text-ink-3 hover:text-brand`}><RotateCcw className="size-4" /></button>
                       <button onClick={() => { setPlaying(false); goStep(demoStep - 1); }} title="הקודם (→)" className={`${btn} grid size-9 place-items-center rounded-xl border border-hairline text-ink-3 hover:text-brand`}><ChevronRight className="size-5" /></button>
-                      <button onClick={() => setPlaying((p) => !p)} title="נגן / השהה (רווח)" className={`${btn} flex items-center gap-1.5 rounded-xl px-4 py-2 text-[13px] font-extrabold text-white shadow-sm`} style={{ background: accent }}>{playing ? <Pause className="size-4" /> : <Play className="size-4" />}{playing ? "השהה" : "נגן"}</button>
+                      <button onClick={() => setPlaying((p) => !p)} title="נגן / השהה (רווח)" className={`${btn} flex items-center gap-1.5 rounded-xl px-4 py-2 text-[13px] font-extrabold text-white shadow-sm`} style={{ background: forWhiteText(accent) }}>{playing ? <Pause className="size-4" /> : <Play className="size-4" />}{playing ? "השהה" : "נגן"}</button>
                       <button onClick={() => { setPlaying(false); goStep(demoStep + 1); }} title="הבא (←)" className={`${btn} grid size-9 place-items-center rounded-xl border border-hairline text-ink-3 hover:text-brand`}><ChevronLeft className="size-5" /></button>
                       <button onClick={() => setCompare((v) => !v)} title="השוואת ECC ↔ S/4" className={`${btn} flex items-center gap-1 rounded-xl px-2.5 py-2 text-[11.5px] font-bold ${compare ? "text-white shadow-sm" : "border border-hairline text-ink-3 hover:text-brand"}`} style={compare ? { background: accent } : undefined}><ArrowLeftRight className="size-4" />ECC↔S/4</button>
                       <button onClick={() => setCaptions((v) => !v)} title="כתוביות / קריינות" className={`${btn} flex items-center gap-1 rounded-xl px-2.5 py-2 text-[11.5px] font-bold ${captions ? "text-white shadow-sm" : "border border-hairline text-ink-3 hover:text-brand"}`} style={captions ? { background: accent } : undefined}><BookOpen className="size-4" />כתוביות</button>
@@ -654,7 +663,7 @@ export function ArchitectureStudio() {
                   </div>
                   <p className="text-base font-extrabold text-ink-2">המפה ריקה כרגע</p>
                   <p className="mt-1 text-[13px] leading-relaxed text-ink-3">נקה מסננים, או בחר מצב חקירה אחר כדי להתחיל לחקור את נוף ה-SAP של {module}. כל טבלה, טרנזקציה או אובייקט עסקי הוא נקודת התחלה.</p>
-                  <button onClick={() => { setZoneFilter(new Set()); setKindFilter(new Set(mode.kinds)); }} className={`${btn} mt-3 rounded-xl px-4 py-2 text-[12px] font-bold text-white shadow-sm`} style={{ background: accent }}>נקה מסננים</button>
+                  <button onClick={() => { setZoneFilter(new Set()); setKindFilter(new Set(mode.kinds)); }} className={`${btn} mt-3 rounded-xl px-4 py-2 text-[12px] font-bold text-white shadow-sm`} style={{ background: forWhiteText(accent) }}>נקה מסננים</button>
                 </div>
               </div>
             )}
@@ -673,7 +682,7 @@ export function ArchitectureStudio() {
                     <li className="flex items-center gap-2"><Search className="size-3.5 shrink-0" style={{ color: accent }} />חפש כל טבלה/טרנזקציה, או עקוב אחרי הזרימה העסקית למעלה.</li>
                     <li className="flex items-center gap-2"><Keyboard className="size-3.5 shrink-0" style={{ color: accent }} />רווח = מרכוז · Esc = ביטול · גלגל = זום.</li>
                   </ul>
-                  <button onClick={dismissCoach} className={`${btn} mt-3 w-full rounded-xl py-2 text-[12px] font-bold text-white`} style={{ background: accent }}>הבנתי, בוא נחקור</button>
+                  <button onClick={dismissCoach} className={`${btn} mt-3 w-full rounded-xl py-2 text-[12px] font-bold text-white`} style={{ background: forWhiteText(accent) }}>הבנתי, בוא נחקור</button>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -779,7 +788,7 @@ export function ArchitectureStudio() {
                 {/* quick actions */}
                 <div className="flex gap-2 border-t border-hairline p-3">
                   <button onClick={() => focusOn(active!)} className={`${btn} flex items-center justify-center gap-1.5 rounded-xl border-2 border-hairline px-3 py-2.5 text-[12px] font-bold text-ink-3 hover:border-brand/40 hover:text-brand`}><Crosshair className="size-4" />מרכז</button>
-                  {tip?.href && <Link href={tip.href} className={`${btn} flex flex-1 items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-[13px] font-extrabold text-white shadow-sm`} style={{ background: accent }}><ExternalLink className="size-4" />עמוד מלא</Link>}
+                  {tip?.href && <Link href={tip.href} className={`${btn} flex flex-1 items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-[13px] font-extrabold text-white shadow-sm`} style={{ background: forWhiteText(accent) }}><ExternalLink className="size-4" />עמוד מלא</Link>}
                 </div>
               </motion.div>
             ) : (
@@ -790,7 +799,7 @@ export function ArchitectureStudio() {
                 </div>
                 <p className="text-sm font-bold text-ink-3">בחר אובייקט כדי לחקור</p>
                 <p className="text-[12px] leading-relaxed">רחף לתצוגה מקדימה, לחץ למיקוד. הגרף תמיד גלוי — הפאנל כאן מתעדכן מיד עם תיאור, קשרים, טעויות נפוצות ופעולות מהירות.</p>
-                <button onClick={() => centerOn(DEFAULT_FOCUS[module])} className={`${btn} mt-1 rounded-xl px-4 py-2 text-[12px] font-bold text-white shadow-sm`} style={{ background: accent }}>התחל מ-{DEFAULT_FOCUS[module]}</button>
+                <button onClick={() => centerOn(DEFAULT_FOCUS[module])} className={`${btn} mt-1 rounded-xl px-4 py-2 text-[12px] font-bold text-white shadow-sm`} style={{ background: forWhiteText(accent) }}>התחל מ-{DEFAULT_FOCUS[module]}</button>
               </motion.div>
             )}
           </AnimatePresence>
@@ -815,6 +824,6 @@ export function ArchitectureStudio() {
       </AnimatePresence>
 
       <p className="mt-3 pb-4 text-center text-[11px] text-ink-3">קשרים אמיתיים מתוך מודל הנתונים — ללא המצאה · המצב נשמר אוטומטית. <Link href={module === "PM" ? "/pm/" : "/pp-pi/"} className="font-bold text-brand">חזרה למרכז {module}</Link></p>
-    </motion.div>
+    </div>
   );
 }

@@ -5,9 +5,18 @@ import { EccS4Block } from "@/components/ecc-s4-block";
 import { SapTip } from "@/components/sap-tip";
 import { TrustBadge } from "@/components/trust-badge";
 import { trustExit } from "@/lib/trust";
+import { pageMeta } from "@/lib/seo";
 
 export function generateStaticParams() { return EXITS.map((e) => ({ slug: exitSlug(e.name) })); }
 export const dynamicParams = false;
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const x = exitBySlug(decodeURIComponent(slug));
+  if (!x) return {};
+  return pageMeta({ he: x.he, title: x.name, module: x.module, blurb: x.purpose, path: `/exits/${slug}/` });
+}
+
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", PP: "#2563eb", "PP-PI": "#6d28d9", Cross: "#475569" };
 

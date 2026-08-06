@@ -1,9 +1,18 @@
 import { AUTH_ITEMS, authBySlug } from "@/data/authorizations";
 import { Crumb, CenterHeader, Block, TwoCol, Bullets } from "@/components/knowledge";
 import { ObjectIntelligence } from "@/components/object-intelligence";
+import { pageMeta } from "@/lib/seo";
 
 export function generateStaticParams() { return AUTH_ITEMS.map((a) => ({ slug: a.slug })); }
 export const dynamicParams = false;
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const x = authBySlug(decodeURIComponent(slug));
+  if (!x) return {};
+  return pageMeta({ he: x.he, title: x.title, module: x.kind, blurb: x.purpose, path: `/security/${slug}/` });
+}
+
 
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

@@ -4,6 +4,7 @@ import { Crumb, CenterHeader, Block, Bullets } from "@/components/knowledge";
 import { SapTip } from "@/components/sap-tip";
 import { TrustBadge } from "@/components/trust-badge";
 import { trustDomain } from "@/lib/trust";
+import { og } from "@/lib/seo";
 
 export function generateStaticParams() { return INCIDENTS.map((i) => ({ slug: i.slug })); }
 export const dynamicParams = false;
@@ -14,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   if (!i) return { title: "SAP Troubleshooting" };
   const title = `${i.he} — SAP ${i.module} Troubleshooting`;
   const description = (i.symptom || i.he).slice(0, 155);
-  return { title, description, openGraph: { title: `SAP by Sali | ${title}`, description } };
+  return { title, description, openGraph: og(`SAP by Sali | ${title}`, description) };
 }
 
 const MOD_COLOR: Record<string, string> = { PM: "#f97316", PP: "#2563eb", "PP-PI": "#6d28d9", QM: "#0d9488", Cross: "#475569" };

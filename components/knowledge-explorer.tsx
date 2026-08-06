@@ -2,8 +2,18 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence, useReducedMotion, type Variants } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Search, Sparkles, ArrowLeft, X, Compass, CornerDownLeft } from "lucide-react";
+
+// Card entrance stagger, CSS-driven. Replaces the framer `container`/`item`
+// variants whose hidden state (`opacity: 0`) was serialised into the static
+// export, leaving every knowledge card invisible until framer-motion
+// hydrated. The cascade is capped so a long grid cannot push the last card
+// seconds out; the old `staggerChildren: 0.04` had no cap but only ran on
+// scroll-into-view, so in practice it never queued the whole grid at once.
+const STAGGER = (i: number) =>
+  ({ "--neo-i": Math.min(i, 10), "--neo-y": "16px" }) as React.CSSProperties;
+
 
 // ── D3 UX Flows · Knowledge Explorer ──────────────────────────────────────
 // Search-first workflow + guided (scroll-spy) navigation + progressive
@@ -101,10 +111,6 @@ export function KnowledgeExplorer({ centers, groups }: { centers: Center[]; grou
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const container: Variants = { hidden: {}, show: { transition: { staggerChildren: reduce ? 0 : 0.04 } } };
-  const item: Variants = reduce
-    ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-    : { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 120, damping: 18 } } };
 
   const suggestions = ["אצווה", "MRP", "Fiori", "תקלה", "ECC", "הרשאות"];
 
@@ -187,12 +193,12 @@ export function KnowledgeExplorer({ centers, groups }: { centers: Center[]; grou
       <AnimatePresence mode="wait">
         {query ? (
           results && results.length > 0 ? (
-            <motion.div key="results" variants={container} initial="hidden" animate="show" className="mt-6 grid-adaptive" dir="rtl">
-              {results.map((c) => {
+            <div key="results" className="mt-6 grid-adaptive" dir="rtl">
+              {results.map((c, i) => {
                 const g = groups.find((x) => x.slug === c.group);
-                return <motion.div key={c.href} variants={item}><Card c={c} q={query} accent={g?.accent ?? "#d62027"} /></motion.div>;
+                return <div key={c.href} className="neo-rise" style={STAGGER(i)}><Card c={c} q={query} accent={g?.accent ?? "#d62027"} /></div>;
               })}
-            </motion.div>
+            </div>
           ) : (
             // ── Empty state ──
             <motion.div key="empty" initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
@@ -210,7 +216,7 @@ export function KnowledgeExplorer({ centers, groups }: { centers: Center[]; grou
             </motion.div>
           )
         ) : (
-          <motion.div key="journeys" initial={reduce ? false : { opacity: 0 }} animate={{ opacity: 1 }} className="mt-8 space-y-10">
+          <div key="journeys" className="neo-fade mt-8 space-y-10">
             {groups.map((g) => {
               const cards = centers.filter((c) => c.group === g.slug);
               return (
@@ -222,13 +228,13 @@ export function KnowledgeExplorer({ centers, groups }: { centers: Center[]; grou
                     <span className="ms-auto rounded-full bg-surface-2 px-2.5 py-0.5 text-[11px] font-bold text-ink-3">{cards.length}</span>
                   </div>
                   <p className="mb-4 text-sm leading-relaxed text-ink-3">{g.intent}</p>
-                  <motion.div variants={container} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-80px" }} className="grid-adaptive">
-                    {cards.map((c) => <motion.div key={c.href} variants={item}><Card c={c} q="" accent={g.accent} /></motion.div>)}
-                  </motion.div>
+                  <div className="grid-adaptive">
+                    {cards.map((c, i) => <div key={c.href} className="neo-rise" style={STAGGER(i)}><Card c={c} q="" accent={g.accent} /></div>)}
+                  </div>
                 </section>
               );
             })}
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>

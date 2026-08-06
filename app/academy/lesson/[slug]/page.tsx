@@ -2,6 +2,7 @@ import { ALL_LESSONS } from "@/data/academy/lessons";
 import { LessonView } from "@/components/academy/lesson-view";
 import { getLesson } from "@/lib/academy/model";
 import type { Lesson } from "@/lib/academy/lesson-types";
+import { jsonLdScript } from "@/lib/json-ld";
 
 const SITE = "https://sapbysali.app";
 
@@ -55,7 +56,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
   if (!lesson) return <div className="py-20 text-center text-sm text-ink-3" dir="rtl">השיעור לא נמצא.</div>;
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(lessonJsonLd(slug, lesson)) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(lessonJsonLd(slug, lesson)) }} />
       <LessonView lesson={lesson} />
     </>
   );

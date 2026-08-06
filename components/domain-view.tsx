@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { ArrowRight, ArrowLeft, Database, Terminal, Boxes, Workflow, GraduationCap, AlertTriangle, Presentation, Network, Target, ShieldAlert, ClipboardCheck, Factory, LayoutGrid, Cable } from "lucide-react";
 import type { Domain } from "@/data/domains";
 import { domainDetail } from "@/data/domain-detail";
@@ -58,14 +57,14 @@ export function DomainView({ d }: { d: Domain }) {
       <Card title="זרימה עסקית" icon={<Workflow className="size-4" />}>
         <div className="flex flex-wrap items-stretch gap-2">
           {d.flow.map((s, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }} className="flex items-stretch gap-2">
+            <div key={i} className="neo-rise flex items-stretch gap-2" style={{ "--neo-i": Math.min(i, 10), "--neo-y": "10px" } as React.CSSProperties}>
               <div className="flex w-40 flex-col rounded-xl border p-3" style={{ borderColor: c + "55" }}>
                 <span className="font-mono text-lg font-extrabold text-slate-200">{String(i + 1).padStart(2, "0")}</span>
                 <span className="mt-0.5 text-sm font-bold text-ink-1">{s.he}</span>
                 <span className="text-[11px] text-ink-3" dir="ltr">{s.step}</span>
               </div>
               {i < d.flow.length - 1 && <ArrowLeft className="size-5 shrink-0 self-center rotate-180 text-ink-3" />}
-            </motion.div>
+            </div>
           ))}
         </div>
       </Card>

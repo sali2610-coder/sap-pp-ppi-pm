@@ -10,6 +10,7 @@ import { facetsOf, presentFacets } from "@/lib/tx-facets";
 import { useTxFavorites, useRecentTx, toggleTxFavorite } from "@/lib/tx-prefs";
 import { SearchField, FilterBar, FilterButton, EmptyState } from "@/components/ui";
 import { setActiveEntity } from "@/lib/workspace";
+import { onTint } from "@/lib/contrast";
 
 const MOD_COLOR: Record<string, string> = {
   PP: "#6d28d9", "PP-PI": "#6d28d9", PM: "#f97316", QM: "#0d9488", MM: "#2563eb",
@@ -115,7 +116,7 @@ export function TransactionWorkspace() {
       <div className="mb-2 flex flex-wrap items-center gap-1.5">
         <span className="me-1 text-[10px] font-bold uppercase tracking-wide text-ink-3">מודול</span>
         <button onClick={() => setMod("")} className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition ${!mod ? "bg-slate-900 text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`}>הכול</button>
-        {modules.map((m) => { const on = mod === m; const col = mc(m); return <button key={m} onClick={() => setMod(on ? "" : m)} className="rounded-lg px-2.5 py-1 text-[11px] font-bold transition" style={on ? { background: col, color: "#fff" } : { background: col + "14", color: col }}>{m} · {stats.byModule[m]}</button>; })}
+        {modules.map((m) => { const on = mod === m; const col = mc(m); return <button key={m} onClick={() => setMod(on ? "" : m)} className="rounded-lg px-2.5 py-1 text-[11px] font-bold transition" style={on ? { background: col, color: "#fff" } : { background: col + "14", color: onTint(col, 0x14 / 255) }}>{m} · {stats.byModule[m]}</button>; })}
       </div>
       {facets.topics.length > 0 && (
         <div className="mb-2 flex flex-wrap items-center gap-1.5">
@@ -143,14 +144,14 @@ export function TransactionWorkspace() {
                 <div className="flex items-center gap-2.5">
                   <span className="grid size-10 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: `linear-gradient(135deg,${col},${col}cc)` }}><Terminal className="size-5" /></span>
                   <div className="min-w-0">
-                    <div className="flex items-center gap-1.5"><span className="font-mono text-[15px] font-extrabold text-ink-1" dir="ltr">{t.code}</span><span className="rounded px-1.5 py-0.5 text-[9px] font-bold" style={{ background: col + "1a", color: col }}>{t.module}</span></div>
+                    <div className="flex items-center gap-1.5"><span className="font-mono text-[15px] font-extrabold text-ink-1" dir="ltr">{t.code}</span><span className="rounded px-1.5 py-0.5 text-[9px] font-bold" style={{ background: col + "1a", color: onTint(col) }}>{t.module}</span></div>
                     <div className="truncate text-[11px] font-bold text-ink-3">{t.he}</div>
                   </div>
                 </div>
                 <div className="mt-2 flex flex-wrap items-center gap-1.5">
-                  {deep ? <span className="rounded-md bg-brand/10 px-1.5 py-0.5 text-[10px] font-bold text-brand">מתועד לעומק</span> : <span className="rounded-md bg-surface-2 px-1.5 py-0.5 text-[10px] font-bold text-ink-3">מאומת</span>}
+                  {deep ? <span className="rounded-md bg-brand/10 px-1.5 py-0.5 text-[10px] font-bold" style={{ color: onTint("#d62027") }}>מתועד לעומק</span> : <span className="rounded-md bg-surface-2 px-1.5 py-0.5 text-[10px] font-bold text-ink-3">מאומת</span>}
                   {d?.fiori && d.fiori.trim() && <span className="rounded-md bg-blue-50 px-1.5 py-0.5 text-[10px] font-bold text-blue-600">Fiori</span>}
-                  {pop > 0 && <span className="inline-flex items-center gap-0.5 rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold text-amber-600"><Flame className="size-2.5" />{pop}</span>}
+                  {pop > 0 && <span className="inline-flex items-center gap-0.5 rounded-md bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold text-amber-700"><Flame className="size-2.5" />{pop}</span>}
                   <span className="ms-auto inline-flex items-center gap-0.5 text-[10px] font-bold text-ink-3 transition group-hover:text-brand">פתח<ArrowLeft className="size-3" /></span>
                 </div>
               </Link>

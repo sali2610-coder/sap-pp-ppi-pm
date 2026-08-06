@@ -69,12 +69,18 @@ export function PageHeader({
   );
 }
 
-/** Editorial group label with a flexing rule — used between shelf sections. */
+/** Editorial group label with a flexing rule — used between shelf sections.
+ *
+ * Renders <h2>, not <h3>. Its only caller is the /chat/ sidebar, where the
+ * three labels sit directly under the page <h1>, so <h3> skipped a level and
+ * axe reported heading-order (h1 -> h3 -> h3 -> h3). All sizing here is
+ * Tailwind classes rather than user-agent heading defaults, so the level
+ * change is semantics-only and the rule + label look identical. */
 export function ShelfDivider({ label, count }: { label: string; count?: string }) {
   return (
     <div className="flex items-center gap-2.5">
       <span aria-hidden className="h-4 w-1 rounded-full bg-brand" />
-      <h3 className="text-[13px] font-extrabold uppercase tracking-[0.14em] text-ink-2">{label}</h3>
+      <h2 className="text-[13px] font-extrabold uppercase tracking-[0.14em] text-ink-2">{label}</h2>
       {count && <span className="text-[11px] font-semibold text-ink-3">· {count}</span>}
       <span aria-hidden className="h-px flex-1 bg-hairline" />
     </div>

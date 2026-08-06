@@ -42,5 +42,8 @@ jobs:
       - name: Diagnostics page must ship with every build
         run: npm run check:diag
 
+      - name: Sitemap must cover every indexable page
+        run: npm run check:sitemap
+
       - name: M2 — dead-link crawl
         run: npm run crawl:deadlinks

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { ShieldCheck, CheckCircle2, AlertTriangle, ListTree, GitBranch, Layers, GraduationCap } from "lucide-react";
 import { bookById, structuralReport } from "@/data/library/academy-index";
 import { useI18n } from "@/lib/i18n";
@@ -24,7 +23,7 @@ export function AcademyQualityReport({ bookId }: { bookId: string }) {
   ] as const;
 
   return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mx-auto max-w-5xl space-y-5">
+    <div className="neo-rise mx-auto max-w-5xl space-y-5" style={{ "--neo-y": "8px" } as React.CSSProperties}>
       <nav className="flex items-center gap-2 text-sm text-muted-foreground">
         <Link href="/library/academy/" className="text-brand hover:underline">{lang === "he" ? "אקדמיה" : "Academy"}</Link><span>/</span>
         <span>{b.module} · {lang === "he" ? "דוח איכות" : "Quality report"}</span>
@@ -76,6 +75,6 @@ export function AcademyQualityReport({ bookId }: { bookId: string }) {
         </p>
         <Link href={b.referenceHref} className="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-brand/10 px-3 py-1.5 text-xs font-semibold text-brand">{lang === "he" ? "אינדקס T-Codes / טבלאות / Fiori" : "T-Codes / Tables / Fiori index"}</Link>
       </section>
-    </motion.div>
+    </div>
   );
 }

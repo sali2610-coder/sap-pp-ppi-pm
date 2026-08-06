@@ -89,7 +89,7 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
             {!collapsed && <span className="truncate">{it.label}</span>}
           </Link>
           {hasChildren && (
-            <button onClick={() => toggle(it.href)} aria-label={`${expanded ? "כווץ" : "הרחב"} ${it.label}`} aria-expanded={expanded} className="me-1 rounded p-1 text-ink-3 hover:text-ink-1">
+            <button onClick={() => toggle(it.href)} aria-label={`${expanded ? "כווץ" : "הרחב"} ${it.label}`} aria-expanded={expanded} className="me-1 rounded p-1.5 text-ink-3 hover:text-ink-1">
               <ChevronDown className={`size-3.5 transition-transform ${expanded ? "" : "-rotate-90"}`} />
             </button>
           )}

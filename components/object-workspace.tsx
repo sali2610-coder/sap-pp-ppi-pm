@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import {
   ArrowRight, ArrowLeft, KeyRound, Terminal, Boxes, FileCode, AppWindow,
   GitBranch, Workflow, BookOpen, Wrench, StickyNote, LayoutGrid, Database, AlertTriangle, MapPin, TrendingUp, Cable,
@@ -277,7 +276,7 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
         ))}
       </div>
 
-      <motion.div key={tab} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }} className="space-y-5">
+      <div key={tab} className="neo-rise space-y-5" style={{ "--neo-y": "8px", "--neo-dur": "0.2s" } as React.CSSProperties}>
         {tab === "wiki" && <ObjectExpert name={t.tableName} accent={c} />}
         {tab === "overview" && (
           <>
@@ -523,7 +522,7 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
             <p className="mt-2 text-xs text-ink-3">נשמר אוטומטית ב-localStorage · ייצוא/גיבוי דרך מסך הסטטוס.</p>
           </Section>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 }

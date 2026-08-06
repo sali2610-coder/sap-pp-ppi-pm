@@ -1,7 +1,6 @@
 "use client";
 
 import { SmartLink as Link } from "@/components/smart-link";
-import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRightLeft, Terminal, GitBranch, ShieldCheck, Tag, Layers, CircleAlert, FlaskConical, Lightbulb, Network } from "lucide-react";
 import { hasApp } from "@/lib/apps-intel";
 import { verifiedObject, dataDomain, type VerifiedObject } from "@/data/verified-objects";
@@ -36,7 +35,7 @@ export function VerifiedObjectView({ o }: { o: VerifiedObject }) {
       {/* hero */}
       <section className="relative overflow-hidden rounded-[2rem] p-6 text-white shadow-[0_30px_60px_-24px_rgba(15,23,42,0.5)] sm:p-8" style={{ background: `linear-gradient(135deg, ${c}, ${c}cc 60%, #0f172a)` }}>
         <div className="pointer-events-none absolute -left-16 -top-16 size-64 rounded-full bg-surface/10 blur-3xl" />
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="relative">
+        <div className="neo-rise relative" style={{ "--neo-y": "10px" } as React.CSSProperties}>
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold" style={{ background: STATUS_C[o.status], color: pillInk(STATUS_C[o.status]) }}><ShieldCheck className="size-3" />{STATUS_HE[o.status] || o.status}</span>
             <span className="rounded-full bg-surface/20 px-2.5 py-1 text-[11px] font-bold backdrop-blur">{o.area}</span>
@@ -50,7 +49,7 @@ export function VerifiedObjectView({ o }: { o: VerifiedObject }) {
             <span className="rounded-lg bg-surface/25 px-2.5 py-1 text-[12px] font-extrabold backdrop-blur">{o.primary}</span>
             {secondary.length > 0 && <><span className="text-[11px] font-bold text-white/70">· משני:</span>{secondary.map((m) => <span key={m} className="rounded-lg bg-surface/12 px-2 py-0.5 text-[11px] font-bold text-white/85">{m}</span>)}</>}
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* Connection to PP-PI production/process flow (emphasized) */}

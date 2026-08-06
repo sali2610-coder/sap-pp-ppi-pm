@@ -50,8 +50,9 @@ export function LearningPathView({ path }: { path: LearningPath }) {
       <Breadcrumb items={[{ label: "SAP Academy", href: "/academy/" }, { label: path.module }, { label: "מסלול" }]} />
 
       {/* track header */}
-      <motion.header {...(reduce ? {} : { initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.5 } })}
-        className="relative mt-3 overflow-hidden rounded-3xl border border-hairline p-6 text-white" style={{ background: `linear-gradient(150deg, ${path.color}, ${path.color}bb)` }}>
+      <header
+        className="neo-rise relative mt-3 overflow-hidden rounded-3xl border border-hairline p-6 text-white"
+        style={{ background: `linear-gradient(150deg, ${path.color}, ${path.color}bb)`, "--neo-y": "12px", "--neo-dur": "0.5s" } as React.CSSProperties}>
         <span className="pointer-events-none absolute -start-10 -top-10 size-40 rounded-full bg-white/15 blur-2xl" />
         <div className="relative flex items-center gap-3"><span className="grid size-12 place-items-center rounded-2xl bg-white/20 text-2xl backdrop-blur"><GraduationCap className="size-6" /></span>
           <div><div className="text-[11px] font-extrabold uppercase tracking-[0.14em] opacity-90">מסלול · {path.module}</div><h1 className="text-[27px] font-extrabold tracking-[-0.02em]">{path.title}</h1></div></div>
@@ -81,7 +82,7 @@ export function LearningPathView({ path }: { path: LearningPath }) {
             onConfirm={() => resetPath(moduleIdOf(path.module))}
             className="tap inline-flex items-center gap-1.5 rounded-lg bg-white/15 px-2.5 py-1 text-[11px] font-bold text-white/90 backdrop-blur transition hover:bg-white/25" />
         </div>
-      </motion.header>
+      </header>
 
       {/* vertical roadmap — animated completed→current→locked timeline (§7) */}
       <div className="relative mt-7 ps-1">
@@ -94,7 +95,8 @@ export function LearningPathView({ path }: { path: LearningPath }) {
             const done = state === "available";
             const clr = state === "upcoming" ? "var(--hairline)" : done ? "#16a34a" : path.color;
             return (
-              <motion.div key={ch.title} initial={reduce ? false : { opacity: 0, x: 14 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4, delay: Math.min(ci * 0.05, 0.3) }} className="relative ps-14">
+              <div key={ch.title} className="neo-rise relative ps-14"
+                style={{ "--neo-x": "14px", "--neo-y": "0px", "--neo-dur": "0.4s", "--neo-i": Math.min(ci, 6) } as React.CSSProperties}>
                 <span className="absolute z-[1] grid size-11 place-items-center rounded-full border-[3px] bg-surface text-[15px] font-extrabold" style={{ insetInlineStart: "0", borderColor: clr, color: state === "upcoming" ? "var(--ink-3)" : done ? "#16a34a" : path.color, boxShadow: state === "cur" ? `0 0 0 5px ${path.color}1a` : "none" }}>
                   {state === "upcoming" ? <Lock className="size-4 opacity-55" />
                     : done ? <motion.span initial={reduce ? false : { scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 320, damping: 16 }}><Check className="size-5" /></motion.span>
@@ -130,7 +132,7 @@ export function LearningPathView({ path }: { path: LearningPath }) {
                   )}
                   {state === "upcoming" && (() => { const bn = blockingChapterOf(ci); return <p className="mt-1.5 flex items-center gap-1.5 text-[11.5px] text-ink-3"><Lock className="size-3 shrink-0" aria-hidden />{bn ? `יש להשלים קודם את פרק ${bn} · ${path.chapters[bn - 1].title}` : "ייפתח לאחר השלמת הפרק הקודם"}</p>; })()}
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

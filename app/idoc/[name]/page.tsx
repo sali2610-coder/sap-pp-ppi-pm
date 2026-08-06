@@ -1,6 +1,7 @@
 import { listFuncs, funcIntel } from "@/lib/object-intel";
 import { RelatedView } from "@/components/related-view";
 import { FunctionIntelligence } from "@/components/function-intelligence";
+import { og } from "@/lib/seo";
 
 export function generateStaticParams() { return listFuncs("IDoc").map((name) => ({ name })); }
 export const dynamicParams = false;
@@ -10,7 +11,7 @@ export async function generateMetadata({ params }: { params: Promise<{ name: str
   const n = decodeURIComponent(name);
   const title = `${n} — SAP IDoc`;
   const description = `${n} — SAP IDoc interface: segments, message type and integration usage in PP, PP-PI and PM on SAP by Sali · Project NEO.`;
-  return { title, description, openGraph: { title: `SAP by Sali | ${title}`, description } };
+  return { title, description, openGraph: og(`SAP by Sali | ${title}`, description) };
 }
 
 export default async function Page({ params }: { params: Promise<{ name: string }> }) {

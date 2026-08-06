@@ -9,6 +9,7 @@ import { LIBRARY, LIBRARY_STATS, type LibBook } from "@/data/library";
 import { playPing } from "@/lib/sound";
 import { BookCover, moduleColor as mc, type CoverBook } from "@/components/book-cover";
 import { readContinuity, writeContinuity, type Continuity } from "@/lib/continuity-store";
+import { forWhiteText } from "@/lib/contrast";
 
 
 /* ---- deep-reader routes for reference manuals that have full text ---- */
@@ -74,9 +75,12 @@ function Count({ n }: { n: number }) {
   return <>{v.toLocaleString()}</>;
 }
 
+// Was framer `initial={{ opacity: 0, y: 10 }}` + whileInView. The static export
+// serialised that as inline opacity:0, so library rows shipped invisible until
+// framer-motion hydrated. Same 0.5s rise, now CSS, running on mount instead of
+// on scroll-into-view.
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const reduce = useReducedMotion();
-  return <motion.div initial={reduce ? false : { opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-60px" }} transition={{ duration: 0.5, delay, ease: [0.2, 0.7, 0.2, 1] }}>{children}</motion.div>;
+  return <div className="neo-rise" style={{ "--neo-y": "10px", "--neo-dur": "0.5s", animationDelay: `${delay}s` } as React.CSSProperties}>{children}</div>;
 }
 
 /* ====== adaptive hero — cinematic on first visit, compact editorial after ====== */
@@ -233,8 +237,13 @@ function BookCard({ book, reading, onOpen }: { book: LibBook; reading: boolean; 
   const reduce = useReducedMotion();
   const c = mc(book.module);
   const hasReader = !!READER[book.id];
-  return (
-    <button data-book-id={book.id} onClick={onOpen} aria-label={`פתח ${book.titleHe}`} className="group relative flex flex-col text-start">
+    // No aria-label on the card button. It was `פתח {titleHe}`, but the visible
+    // content also carries the module badge and the "N עמ׳ · M פרקים" line, so the
+    // accessible name did not contain all visible text (WCAG 2.5.3 / axe
+    // label-content-name-mismatch, 10 nodes on /library/). Deriving the name from
+    // content covers every visible string and stays in sync as book metadata changes.
+    return (
+    <button data-book-id={book.id} onClick={onOpen} className="group relative flex flex-col text-start">
       <motion.div whileHover={reduce ? undefined : { y: -6 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} className={`relative ${reading ? "rounded-[10px] ring-2 ring-brand ring-offset-2 ring-offset-surface" : ""}`}>
         <BookCover book={asCover(book)} size="md" />
         {reading && <span className="absolute end-2 top-2 z-10 inline-flex items-center gap-1 rounded-full bg-brand px-2 py-0.5 text-[10px] font-extrabold text-white shadow-md"><BookOpen className="size-3" />בקריאה</span>}
@@ -242,7 +251,7 @@ function BookCard({ book, reading, onOpen }: { book: LibBook; reading: boolean; 
       </motion.div>
       <span className="mt-2 line-clamp-2 text-[12.5px] font-bold leading-snug text-ink-1 transition group-hover:text-brand">{book.titleHe}</span>
       <span className="mt-1 flex flex-wrap items-center gap-1.5 text-[10.5px] font-semibold text-ink-3">
-        <span className="rounded px-1.5 py-0.5 font-bold text-white" style={{ background: c }}>{book.module}</span>
+        <span className="rounded px-1.5 py-0.5 font-bold text-white" style={{ background: forWhiteText(c) }}>{book.module}</span>
         <span>{book.pages} עמ׳ · {book.chapters.length} פרקים</span>
       </span>
     </button>

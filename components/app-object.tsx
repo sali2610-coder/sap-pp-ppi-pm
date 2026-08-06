@@ -19,15 +19,20 @@ const STATUS_C: Record<string, string> = { Active: "#16a34a", Deprecated: "#d977
 const IMPACT_C: Record<string, string> = { None: "#16a34a", Low: "#0891b2", Medium: "#d97706", High: "#dc2626" };
 
 function Section({ id, icon, title, sub, accent, children }: { id: string; icon: React.ReactNode; title: string; sub?: string; accent: string; children: React.ReactNode }) {
+  // Was a framer `motion.section` with `initial={{ opacity: 0, y: 16 }}` +
+  // `whileInView`. The static export serialised that as inline opacity:0, so
+  // every section of every object page shipped invisible until framer-motion
+  // downloaded and hydrated. Same 0.45s rise, now pure CSS, no JS dependency.
   return (
-    <motion.section id={id} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-      className="scroll-mt-24 rounded-3xl border border-hairline bg-surface p-5 shadow-[var(--elev-1)] sm:p-6">
+    <section id={id}
+      className="neo-rise scroll-mt-24 rounded-3xl border border-hairline bg-surface p-5 shadow-[var(--elev-1)] sm:p-6"
+      style={{ "--neo-y": "16px", "--neo-dur": "0.45s" } as React.CSSProperties}>
       <div className="mb-4 flex items-center gap-2.5">
         <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: accent }}>{icon}</span>
         <div><h2 className="text-lg font-extrabold tracking-tight text-ink-1">{title}</h2>{sub && <p className="text-[11.5px] text-ink-3">{sub}</p>}</div>
       </div>
       {children}
-    </motion.section>
+    </section>
   );
 }
 

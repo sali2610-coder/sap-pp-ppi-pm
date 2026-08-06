@@ -569,6 +569,40 @@ button, a, [role="button"], summary, label[for] { -webkit-tap-highlight-color: t
 @media (prefers-reduced-motion: reduce) { [style*="fadeUp"], [style*="fadeIn"], [style*="drawerIn"] { animation: none !important; } }
 @keyframes shimmer { 100% { transform: translateX(100%); } }
 
+/* ===== JS-free entrance animations =====================================
+   These replace framer-motion `initial={{ opacity: 0, y: … }}` wrappers.
+
+   Why: framer-motion serialises `initial` into the static export as an inline
+   `style="opacity:0;transform:translateY(…)"`. The prerendered HTML therefore
+   shipped fully populated but invisible, and stayed invisible until the
+   framer-motion chunk downloaded, React hydrated, and the animation ran.
+   Measured on the built homepage: 83% of <body> sat inside such a wrapper,
+   and with JavaScript disabled the entire main column rendered blank while
+   the header and sidebar (which are outside the wrapper) painted normally.
+
+   A CSS animation starts at parse time instead, so the same visual result no
+   longer waits for any JavaScript. Timings and easing below mirror the framer
+   values they replace, so the motion design is unchanged.
+
+   Stagger: set `--neo-i` inline (0,1,2…) for the 50ms cascade.
+   Distance: set `--neo-y` to match the original `y` value. */
+@keyframes neo-rise { from { opacity: 0; transform: translate(var(--neo-x, 0), var(--neo-y, 14px)); } to { opacity: 1; transform: translate(0, 0); } }
+
+@utility neo-rise {
+  animation: neo-rise var(--neo-dur, 0.4s) cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--neo-i, 0) * 50ms);
+}
+
+/* Opacity-only, no transform — used for the per-navigation page wrapper so a
+   route change never shifts layout while it fades in. */
+@utility neo-fade {
+  animation: fadeIn var(--neo-dur, 0.28s) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neo-rise, .neo-fade { animation: none; }
+}
+
 /* ===== Presentation / PowerPoint-export print layout ===== */
 @media print {
   /* hide chrome */

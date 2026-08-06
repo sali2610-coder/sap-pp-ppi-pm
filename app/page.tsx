@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { og } from "@/lib/seo";
 import { ALL_TABLES } from "@/lib/data";
 import { HomePortal, type ModuleCard } from "@/components/home-portal";
 import { MobileHome } from "@/components/mobile-home";
@@ -15,11 +16,11 @@ export const metadata: Metadata = {
   title: { absolute: "SAP by Sali | Project NEO — SAP PP, PP-PI & PM Platform" },
   description:
     "Project NEO by Sali Halif — an interactive SAP knowledge platform for PP, PP-PI and PM: architecture explorer, table explorer, business processes and SAP learning resources.",
-  openGraph: {
-    title: "SAP by Sali | Project NEO — SAP PP, PP-PI & PM Platform",
-    description:
-      "Interactive SAP knowledge platform for PP, PP-PI and PM by Sali Halif — architecture explorer, table explorer, business processes and learning resources.",
-  },
+  openGraph: og(
+    "SAP by Sali | Project NEO — SAP PP, PP-PI & PM Platform",
+    "Interactive SAP knowledge platform for PP, PP-PI and PM by Sali Halif — architecture explorer, table explorer, business processes and learning resources.",
+    "/",
+  ),
 };
 import { CommandCenter } from "@/components/command-center";
 import { registryStats } from "@/lib/tx-registry";
@@ -55,6 +56,15 @@ export default function HomePage() {
 
   return (
     <>
+      {/* Single document heading for the page.
+          Both home variants are always in the DOM — MobileHome is `xl:hidden`,
+          the portal wrapper is `max-xl:hidden` — so each previously carried its
+          own <h1> and the page shipped two. Demoting one is not enough, because
+          a `display:none` element is still an <h1> tag to a crawler.
+          One page-level heading is therefore the only structure that yields
+          exactly one <h1> on every device. It is sr-only so the visual design
+          is untouched; the two hero headlines are now <h2> section headings. */}
+      <h1 className="sr-only">SAP by Sali · Project NEO — פורטל ידע ל-SAP PP, PP-PI ו-PM</h1>
       {/* Mobile + tablet get a purpose-built native app home; desktop keeps the portal. */}
       <MobileHome counts={counts} modules={modules} learnPaths={Object.values(LEARN_PATHS).map((p) => ({ id: p.id, he: p.he, accent: p.accent, total: p.steps.length }))} />
       <div className="space-y-12 max-xl:hidden sm:space-y-16">
