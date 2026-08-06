@@ -24,6 +24,16 @@
  * `out/tcode/%2FSCWM%2FADGI/`), and those must be used verbatim — running them
  * through encodeURIComponent would double-encode `%2F` into `%252F`.
  *
+ * DEPLOYMENT NOTE — this script runs AFTER `next build`, which makes it the one
+ * part of the output that a platform build command can silently skip. It did:
+ * /sitemap.xml returned 404 in production while robots.txt advertised it, even
+ * though `check:sitemap` passed over 4,495 URLs in out/. Everything else that
+ * ships comes from public/ and is emitted by `next build` itself. `buildCommand`
+ * is therefore pinned in vercel.json so the build is reproducible from the repo
+ * rather than from dashboard configuration, and `npm run check:prod` asserts the
+ * sitemap is actually reachable on the deployed origin. If this step ever has to
+ * move, it must become a `next build` artifact — not another post-build hook.
+ *
  * But not all of them are: a BAPI named "Control Recipe" lands on disk as
  * `out/bapi/Control Recipe/`, with a literal space that is not legal in a URL.
  * So only the characters that are unsafe in a URL path are escaped, and `%` is
