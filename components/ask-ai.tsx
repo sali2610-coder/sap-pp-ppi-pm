@@ -17,7 +17,12 @@ import { useBookScope, scopeLabel, type ScopeMode } from "@/lib/use-book-scope";
 import { findLinks } from "@/lib/ai-links";
 import { knownRoutes } from "@/lib/ai-known-routes";
 
-const API = process.env.NEXT_PUBLIC_BOOKS_API_URL || "https://sap-books-api.vercel.app/api/ask";
+// v2, not v1. The chat workspace has been on /api/ask-v2 since it shipped, while
+// this widget — which appears on every book, T-Code and object page, so it
+// fields far more questions — was still on v1. v1 answers are ungrounded and
+// uncited, so the same product was giving a weaker answer on the surface people
+// actually use. The request body is unchanged; v2 accepts it as-is.
+const API = process.env.NEXT_PUBLIC_BOOKS_API_URL || "https://sap-books-api.vercel.app/api/ask-v2";
 const CREDIT_MSG = "שירות ה-AI אינו זמין כרגע. ניתן להמשיך להשתמש בשאר מאגר הידע ולנסות שוב מאוחר יותר.";
 const GENERIC_ERR = "אירעה שגיאה זמנית. נסה שוב בעוד רגע.";
 
@@ -162,10 +167,18 @@ export function AskAI({ variant = "floating", scope, bookId, className = "" }:
       });
       const data = await r.json().catch(() => ({}));
       if (r.ok && data.answer) {
+        // v2 returns a structured sources array and strips the SOURCES line
+        // itself. The regex fallback stays for the case where the line does
+        // survive — losing citations silently is worse than a second scan.
+        const fromArray = Array.isArray(data.sources)
+          ? (data.sources as { id?: string }[]).map((x) => String(x?.id || "")).filter(Boolean)
+          : [];
         const src = String(data.answer).match(/^SOURCES:\s*(.+)$/mi);
+        const fromLine = src ? src[1].split(",").map((s: string) => s.trim()).filter(Boolean) : [];
+        const cites = fromArray.length ? fromArray : fromLine;
         setMsgs((m) => [...m, { role: "ai",
           text: String(data.answer).replace(/^SOURCES:.*$/mi, "").trim(),
-          sources: src ? src[1].split(",").map((s: string) => s.trim()) : undefined }]);
+          sources: cites.length ? cites : undefined }]);
       } else {
         setMsgs((m) => [...m, { role: "ai", text: data.error === "AI_UNAVAILABLE" ? CREDIT_MSG : GENERIC_ERR }]);
       }
