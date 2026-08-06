@@ -12,10 +12,14 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { BookOpen, ChevronLeft, Hash, Layers, Loader2 } from "lucide-react";
-import type { Book, BookSection, SectionBody, AcademyBody, ProseBody } from "@/lib/library/book";
-import { FACET_ORDER, chapterTitle, loadChapterBodies, proseText, sectionTitle } from "@/lib/library/book";
+import Image from "next/image";
+import { BookOpen, ChevronLeft, Hash, Images, Layers, Loader2 } from "lucide-react";
+import type { Book, BookSection, SectionBody, AcademyBody } from "@/lib/library/book";
+import { FACET_ORDER, chapterTitle, loadChapterBodies } from "@/lib/library/book";
 import { accentVars, identityOf } from "@/lib/book-identity";
+import { useI18n } from "@/lib/i18n";
+import { FigureViewer, type ViewerFigure } from "@/components/figure-viewer";
+import { chapterExtra } from "@/components/library/chapter-extras";
 import { EmptyState, ErrorState, LoadingState, NeoChip, Reveal } from "@/components/neo";
 
 /* ------------------------------------------------------------------ prose */
@@ -100,12 +104,16 @@ function Academy({ body }: { body: AcademyBody }) {
 
 /* --------------------------------------------------------------- section */
 
-function SectionView({ section, body }: { section: BookSection; body?: SectionBody }) {
+function SectionView({ section, body, pick }: {
+  section: BookSection;
+  body?: SectionBody;
+  pick: (he?: string, en?: string) => string;
+}) {
   return (
     <article className="scroll-mt-24 border-b border-hairline py-5 last:border-0" id={`s-${section.id}`}>
       <header className="mb-3 flex items-baseline gap-2">
         <span className="tech shrink-0 text-[0.6875rem] font-semibold text-[var(--accent)]">{section.id}</span>
-        <h3 className="text-[0.9375rem] font-semibold leading-snug text-ink-1">{sectionTitle(section)}</h3>
+        <h3 className="text-[0.9375rem] font-semibold leading-snug text-ink-1">{pick(section.title.he, section.title.en)}</h3>
         {section.page != null && (
           <span className="ms-auto shrink-0 text-[0.6875rem] text-ink-3">עמ׳ {section.page}</span>
         )}
@@ -116,8 +124,8 @@ function SectionView({ section, body }: { section: BookSection; body?: SectionBo
         <p className="text-[0.8125rem] text-ink-3">אין תוכן מורחב לסעיף זה.</p>
       ) : body.format === "academy" ? (
         <Academy body={body} />
-      ) : proseText(body) ? (
-        <Prose text={proseText(body)} />
+      ) : pick(body.he, body.en) ? (
+        <Prose text={pick(body.he, body.en)} />
       ) : body.snippet ? (
         <p className="max-w-[74ch] text-[0.875rem] leading-relaxed text-ink-3">{body.snippet}</p>
       ) : (
@@ -133,8 +141,10 @@ export function BookView({ book }: { book: Book }) {
   const identity = identityOf(book.id);
   const [active, setActive] = useState(book.chapters[0]?.n ?? 1);
   const [bodies, setBodies] = useState<Record<string, SectionBody>>({});
+  const [figs, setFigs] = useState<ViewerFigure[]>([]);
+  const [figAt, setFigAt] = useState<number | null>(null);
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
-  const navRef = useRef<HTMLDivElement>(null);
+  const { pick } = useI18n();
 
   const chapter = useMemo(
     () => book.chapters.find((c) => c.n === active) ?? book.chapters[0],
@@ -144,6 +154,13 @@ export function BookView({ book }: { book: Book }) {
   const load = useCallback((n: number) => {
     const ctl = new AbortController();
     setState("loading");
+    setFigs([]);
+    // Figures are optional. A book without them must not surface an error, and
+    // a failed figure fetch must not stop the prose from rendering.
+    fetch(`/books/${book.id}/fig${n}.json`, { signal: ctl.signal })
+      .then((r) => (r.ok ? r.json() : []))
+      .then((f) => setFigs(Array.isArray(f) ? f : []))
+      .catch(() => { /* no figures for this chapter */ });
     loadChapterBodies(book.id, n, ctl.signal)
       .then((b) => { setBodies(b); setState("idle"); })
       .catch(() => setState("error"));
@@ -161,7 +178,7 @@ export function BookView({ book }: { book: Book }) {
   return (
     <div style={accentVars(identity)} className="grid gap-6 lg:grid-cols-[15rem_1fr]">
       {/* ---------------------------------------------------------- nav */}
-      <nav ref={navRef} aria-label="פרקי הספר"
+      <nav aria-label="פרקי הספר"
         className="lg:sticky lg:top-20 lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto">
         <ul className="space-y-0.5">
           {book.chapters.map((c) => {
@@ -175,7 +192,7 @@ export function BookView({ book }: { book: Book }) {
                     ${on ? "bg-[var(--accent-soft)] font-semibold text-[var(--accent)]" : "text-ink-2 hover:bg-surface-2"}`}
                 >
                   <span className="tech w-5 shrink-0 text-[0.6875rem] opacity-70">{c.n}</span>
-                  <span className="line-clamp-2 leading-snug">{chapterTitle(c)}</span>
+                  <span className="line-clamp-2 leading-snug">{pick(c.title.he, c.title.en) || chapterTitle(c)}</span>
                   <span className="ms-auto shrink-0 text-[0.625rem] text-ink-3">{c.sections.length}</span>
                 </button>
               </li>
@@ -206,12 +223,43 @@ export function BookView({ book }: { book: Book }) {
           </div>
         )}
 
+        {/* A bespoke diagram, when this chapter has one. Comes from the extras
+            registry, so the reader stays ignorant of which book it is. */}
+        {(() => {
+          const extra = chapterExtra(book.id, chapter.n);
+          return extra ? <div className="mb-5">{extra}</div> : null;
+        })()}
+
+        {/* Page scans for this chapter. Optional data, so absent is not an error. */}
+        {figs.length > 0 && (
+          <section className="mb-5" aria-label="איורים בפרק">
+            <h3 className="mb-2 flex items-center gap-1.5 text-[0.75rem] font-semibold text-ink-2">
+              <Images className="size-3.5" />
+              {figs.length} איורים בפרק
+            </h3>
+            <ul className="flex gap-2 overflow-x-auto pb-1">
+              {figs.map((f, i) => (
+                <li key={f.file} className="shrink-0">
+                  <button
+                    onClick={() => setFigAt(i)}
+                    aria-label={`הגדל איור מעמוד ${f.page}`}
+                    className="block overflow-hidden rounded-lg border border-hairline transition hover:border-[var(--accent)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent)]"
+                  >
+                    <Image src={f.file} alt="" width={128} height={90}
+                      className="h-[5.5rem] w-auto max-w-[10rem] bg-surface-2 object-contain" unoptimized />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         {state === "error" ? (
           <ErrorState message="לא הצלחתי לטעון את תוכן הפרק." onRetry={() => load(active)} />
         ) : (
           <div>
             {chapter.sections.map((s) => (
-              <SectionView key={s.id} section={s} body={bodies[s.id]} />
+              <SectionView key={s.id} section={s} body={bodies[s.id]} pick={pick} />
             ))}
           </div>
         )}
@@ -234,6 +282,14 @@ export function BookView({ book }: { book: Book }) {
           </button>
         </div>
       </div>
+
+      <FigureViewer
+        open={figAt !== null}
+        figs={figs}
+        index={figAt ?? 0}
+        onIndex={setFigAt}
+        onClose={() => setFigAt(null)}
+      />
     </div>
   );
 }

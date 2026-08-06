@@ -116,6 +116,12 @@ for (let i = 1; i <= 11; i++) {
   const idx = JSON.parse(readFileSync(idxFile, "utf8"));
   const full = existsSync(fullFile) ? JSON.parse(readFileSync(fullFile, "utf8")) : null;
 
+  // Figures are per-chapter page scans, keyed by chapter number. They are
+  // sidecar metadata, not part of the spine: the reader only needs the current
+  // chapter's, and seven of the eleven books have none at all.
+  const figFile = path.join(LIB, `${id}-figures.json`);
+  const figures = existsSync(figFile) ? JSON.parse(readFileSync(figFile, "utf8")) : null;
+
   // The reader owns chapter titles. The tree used to invent them from the first
   // section, which is exactly the drift this file removes.
   const chapterTitle = new Map();
@@ -199,6 +205,17 @@ for (let i = 1; i <= 11; i++) {
     }
   }
 
+  // Figure metadata per chapter, alongside the prose shards.
+  let figCount = 0;
+  if (figures && typeof figures === "object") {
+    for (const [ch, list] of Object.entries(figures)) {
+      if (!Array.isArray(list) || !list.length) continue;
+      figCount += list.length;
+      writeFileSync(path.join(shardDir, `fig${ch}.json`), JSON.stringify(list));
+    }
+  }
+  if (figCount) book.meta.figures = figCount;
+
   writeFileSync(path.join(OUT, `${id}.json`), JSON.stringify(book));
   books++;
   chapters += chapterList.length;
@@ -212,7 +229,7 @@ for (let i = 1; i <= 11; i++) {
       : HEB.test(b.he ?? "")).length;
   const pct = (n) => Math.round((n / Math.max(1, idx.length)) * 100);
   report.push([id, "OK",
-    `${chapterList.length}ch ${idx.length}sec  he-title=${pct(heTitles)}%  he-body=${pct(heBodies)}%  ${academy ? "academy" : "prose"}/${m.structure}`]);
+    `${chapterList.length}ch ${idx.length}sec  he-title=${pct(heTitles)}%  he-body=${pct(heBodies)}%  ${figCount ? figCount + "fig  " : ""}${academy ? "academy" : "prose"}/${m.structure}`]);
 }
 
 console.log(`\nMIGRATION → data/books/`);
