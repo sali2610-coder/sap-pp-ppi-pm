@@ -5,7 +5,9 @@ import Link from "next/link";
 import { Info, Lightbulb, TriangleAlert } from "lucide-react";
 import { knownRoutes, type SapKind } from "@/lib/ai-known-routes";
 import { isDiagramFence } from "@/lib/ai/diagram";
+import { isAxisFence, parseSwimlane, parseTimeline } from "@/lib/ai/timeline";
 import { DiagramView } from "./diagram-view";
+import { SwimlaneView, TimelineView } from "./axis-view";
 
 /**
  * Long-form renderer for AI answers.
@@ -265,6 +267,16 @@ export function AnswerBody({ text }: { text: string }) {
             // A flowchart is an output type, not a code sample. DiagramView
             // falls back to showing the source if it cannot lay the graph out,
             // so an unparseable diagram degrades instead of disappearing.
+            // Axis shapes first: a timeline and a swimlane carry an axis a
+            // directed graph cannot express, so they must not fall through to
+            // the flowchart renderer.
+            if (isAxisFence(b.text, b.lang)) {
+              const tl = parseTimeline(b.text);
+              if (tl) return <TimelineView key={i} data={tl} />;
+              const sw = parseSwimlane(b.text);
+              if (sw) return <SwimlaneView key={i} data={sw} />;
+              // Unparseable: fall through to the code block rather than guess.
+            }
             return isDiagramFence(b.text, b.lang)
               ? <DiagramView key={i} source={b.text} />
               : (

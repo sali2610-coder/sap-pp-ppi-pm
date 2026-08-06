@@ -7,12 +7,15 @@
  * into a routing task the backend already understands (config/routing.json has
  * eleven `capability: visual` profiles that nothing was selecting until now).
  *
- * Scope note, deliberately honest: everything here maps to a NODE-AND-EDGE
- * picture, because that is what the renderer can actually draw. Process flows,
- * decision trees, lifecycles, entity relationships, org charts, mind maps,
- * architecture and state machines are all directed graphs, so one renderer
- * serves them. Timelines, Gantt charts, swimlanes and sequence diagrams are NOT
- * graphs and are reported as unsupported rather than quietly drawn wrong.
+ * Three renderers, chosen by shape rather than by request:
+ *   graph     — process flows, decision trees, lifecycles, entity relationships,
+ *               org charts, mind maps, architecture, state machines. All of these
+ *               are directed graphs, so one renderer serves them all.
+ *   timeline  — has a TIME axis a graph cannot express.
+ *   swimlane  — has an OWNER axis a graph cannot express.
+ *
+ * A sequence diagram is still none of these and is reported as unsupported
+ * rather than approximated with a shape that would misstate it.
  */
 
 /** Task profiles that exist in the backend routing config. */
@@ -89,11 +92,19 @@ const GRAPH_KINDS: {
   },
 ];
 
-/** Shapes that are genuinely not graphs. We say so rather than draw them wrong. */
-const NOT_A_GRAPH: { kind: string; hit: string[] }[] = [
-  { kind: "timeline", hit: ["ציר זמן", "לוח זמנים", "גאנט", "timeline", "gantt", "roadmap", "schedule"] },
-  { kind: "swimlane", hit: ["מסלולי אחריות", "swimlane", "swim lane", "raci", "by role"] },
-  { kind: "sequence diagram", hit: ["דיאגרמת רצף", "sequence diagram", "uml sequence", "message flow"] },
+/**
+ * Shapes that are not graphs. A timeline has a time axis and a swimlane has an
+ * owner axis; neither survives being drawn as a flowchart, so both have their
+ * own parser and layout (lib/ai/timeline.ts). A sequence diagram still does
+ * not, and is reported as unsupported rather than approximated.
+ */
+const NOT_A_GRAPH: { kind: string; hit: string[]; supported?: boolean }[] = [
+  { kind: "timeline", supported: true,
+    hit: ["ציר זמן", "לוח זמנים", "גאנט", "מפת דרכים", "timeline", "gantt", "roadmap", "schedule", "phases over time"] },
+  { kind: "swimlane", supported: true,
+    hit: ["מסלולי אחריות", "מי אחראי", "חלוקת אחריות", "swimlane", "swim lane", "raci", "by role", "who does what"] },
+  { kind: "sequence diagram",
+    hit: ["דיאגרמת רצף", "sequence diagram", "uml sequence", "message flow"] },
 ];
 
 /**
@@ -135,7 +146,9 @@ export function detectDiagramIntent(question: string): DiagramIntent | null {
   // explicitly — "roadmap" inside a normal sentence is not a chart request.
   if (explicit) {
     for (const s of NOT_A_GRAPH) {
-      if (hasAny(q, s.hit)) return { explicit, task: "DIAGRAM", kind: s.kind, unsupported: true };
+      if (hasAny(q, s.hit)) {
+        return { explicit, task: "DIAGRAM", kind: s.kind, unsupported: !s.supported };
+      }
     }
   }
 
@@ -152,6 +165,7 @@ export function detectDiagramIntent(question: string): DiagramIntent | null {
 
 /** True when the model's answer actually contains something we can draw. */
 export function answerHasDiagram(text: string): boolean {
-  return /```\s*(mermaid|flowchart|graph|diagram|process)\b/i.test(text)
-    || /^\s*(flowchart|graph)\s+(TB|TD|LR|RL|BT)\b/im.test(text);
+  return /```\s*(mermaid|flowchart|graph|diagram|process|timeline|swimlane)\b/i.test(text)
+    || /^\s*(flowchart|graph)\s+(TB|TD|LR|RL|BT)\b/im.test(text)
+    || /^\s*(timeline|swimlane)\b/im.test(text);
 }
