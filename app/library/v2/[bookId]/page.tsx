@@ -16,9 +16,7 @@ import { AskAI } from "@/components/ask-ai";
 import { KIND_LABEL, identityOf } from "@/lib/book-identity";
 
 // No `dynamicParams = false`: under output:"export" only the params returned by
-// generateStaticParams are ever emitted, so the flag changes nothing in
-// production — but it makes `next dev` 404 the entire route, because dev does
-// not run generateStaticParams and therefore treats every id as unknown.
+// generateStaticParams are ever emitted, so the flag is redundant here.
 
 export function generateStaticParams() {
   return allBookIds().map((bookId) => ({ bookId }));

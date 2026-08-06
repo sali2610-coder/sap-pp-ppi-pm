@@ -8,7 +8,8 @@
         "run",
         "dev"
       ],
-      "port": 3000
+      "port": 3000,
+      "cwd": "/Users/salihalif/Desktop/My-Projects/neo-phase6"
     },
     {
       "name": "neo-dev",
@@ -17,7 +18,8 @@
         "run",
         "dev"
       ],
-      "port": 3000
+      "port": 3000,
+      "cwd": "/Users/salihalif/Desktop/My-Projects/neo-phase6"
     },
     {
       "name": "neo-static",
