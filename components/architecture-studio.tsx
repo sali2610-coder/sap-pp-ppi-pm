@@ -439,14 +439,14 @@ export function ArchitectureStudio() {
 
       {/* exploration modes — segmented; horizontal chip-rail on mobile, wrap on desktop */}
       <div className="chip-rail mb-2 flex flex-nowrap gap-1.5 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0">
-        {MODES.map((m) => <button key={m.id} onClick={() => setModeId(m.id)} title={MODE_HINT[m.id]} className={`${btn} shrink-0 rounded-xl px-3 py-1.5 text-[12.5px] font-bold ${modeId === m.id ? "text-white shadow-sm" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`} style={modeId === m.id ? { background: accent } : undefined}>{m.he}</button>)}
+        {MODES.map((m) => <button key={m.id} onClick={() => setModeId(m.id)} title={MODE_HINT[m.id]} className={`${btn} shrink-0 rounded-xl px-3 py-1.5 text-[12.5px] font-bold ${modeId === m.id ? "text-white shadow-sm" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`} style={modeId === m.id ? { background: forWhiteText(accent) } : undefined}>{m.he}</button>)}
       </div>
 
       {/* business-flow rail — horizontal scroll on mobile */}
       <div className="chip-rail mb-2 flex flex-nowrap items-center gap-1.5 overflow-x-auto rounded-2xl border border-hairline bg-surface p-2.5 sm:flex-wrap sm:overflow-visible">
         <span className="shrink-0 px-1 text-[11px] font-extrabold text-ink-3">זרימה עסקית:</span>
         {(FLOWS[module] || []).map((s, i, arr) => { const on = sel === s.code; return <span key={s.code} className="flex shrink-0 items-center gap-1.5">
-          <button onClick={() => pickSearch(s.code)} title={`מקד ב-${s.label} (${s.code})`} className={`${btn} rounded-lg px-2.5 py-1 text-[11.5px] font-bold ${on ? "text-white shadow-sm" : "bg-surface-2 text-ink-2 hover:bg-hairline"}`} style={on ? { background: accent } : undefined}>{s.label}<span className="ms-1 font-mono text-[9px] opacity-70" dir="ltr">{s.code}</span></button>
+          <button onClick={() => pickSearch(s.code)} title={`מקד ב-${s.label} (${s.code})`} className={`${btn} rounded-lg px-2.5 py-1 text-[11.5px] font-bold ${on ? "text-white shadow-sm" : "bg-surface-2 text-ink-2 hover:bg-hairline"}`} style={on ? { background: forWhiteText(accent) } : undefined}>{s.label}<span className={`ms-1 font-mono text-[9px] ${on ? "" : "text-ink-3"}`} dir="ltr">{s.code}</span></button>
           {i < arr.length - 1 && <ArrowLeft className="size-3.5 shrink-0 text-ink-3" />}</span>; })}
       </div>
 
@@ -472,7 +472,7 @@ export function ArchitectureStudio() {
                   <span className="text-[11px] font-extrabold text-ink-3">שכבות:</span>
                   {mode.kinds.map((kd) => { const on = kindFilter.has(kd); const Ic = KIND_ICON[kd]; return <button key={kd} onClick={() => setKindFilter((s) => { const n = new Set(s); if (n.has(kd)) { if (kd !== "table") n.delete(kd); } else n.add(kd); return n; })} title={`הצג/הסתר ${KIND_META[kd].he}`} className={`${btn} flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-bold`} style={on ? { background: KIND_META[kd].c, color: "#fff" } : { background: KIND_META[kd].c + "14", color: KIND_META[kd].c }}><Ic className="size-3" />{KIND_META[kd].he}</button>; })}
                   <button onClick={() => setEdgesOn((v) => !v)} title="הצג/הסתר קווי קשר" className={`${btn} rounded-lg px-2 py-1 text-[11px] font-bold ${edgesOn ? "bg-slate-700 text-white" : "bg-surface-2 text-ink-3"}`}>קשתות</button>
-                  <button onClick={() => setLifeOnly((v) => !v)} title="הדגש רק את זרימת התהליך העסקי" className={`${btn} rounded-lg px-2.5 py-1 text-[11px] font-bold ${lifeOnly ? "text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`} style={lifeOnly ? { background: accent } : undefined}>מחזור חיים</button>
+                  <button onClick={() => setLifeOnly((v) => !v)} title="הדגש רק את זרימת התהליך העסקי" className={`${btn} rounded-lg px-2.5 py-1 text-[11px] font-bold ${lifeOnly ? "text-white" : "bg-surface-2 text-ink-3 hover:bg-hairline"}`} style={lifeOnly ? { background: forWhiteText(accent) } : undefined}>מחזור חיים</button>
                   {mode.behavior === "expand" && <button onClick={() => { const f = DEFAULT_FOCUS[module]; setRevealed(new Set([f, ...scopeNbrs(f)])); setSel(null); }} title="אפס לתצוגת ההתחלה" className={`${btn} flex items-center gap-1 rounded-lg bg-surface-2 px-2.5 py-1 text-[11px] font-bold text-ink-3 hover:bg-hairline`}><RotateCcw className="size-3" />אפס</button>}
                   {mode.colorBy === "s4" && <span className="ms-auto flex items-center gap-2 text-[10px] font-bold">{[["kept", "נשמר"], ["replaced", "הוחלף"], ["removed", "הוסר"]].map(([k, l]) => <span key={k} className="flex items-center gap-1"><span className="size-2 rounded-full" style={{ background: S4_COLOR[k as keyof typeof S4_COLOR] }} />{l}</span>)}</span>}
                 </div>
@@ -491,10 +491,10 @@ export function ArchitectureStudio() {
             <div className="absolute left-3 top-3 z-40 flex max-w-[calc(100%-1.5rem)] flex-wrap items-center gap-2">
               <button onClick={() => setPresent(false)} title="צא ממצב מצגת (Esc)" className={`${btn} flex items-center gap-1.5 rounded-xl bg-slate-900 px-3 py-2 text-[12.5px] font-extrabold text-white shadow-lg`}><X className="size-4" />צא ממצגת</button>
               <div className="flex items-center gap-1 rounded-xl border border-hairline bg-surface/95 p-1 shadow-sm backdrop-blur">
-                {(["PM", "PP-PI"] as Module[]).map((m) => <button key={m} onClick={() => setModule(m)} className={`${btn} rounded-lg px-2.5 py-1 text-[12px] font-extrabold ${module === m ? "text-white shadow-sm" : "text-ink-3 hover:text-ink-2"}`} style={module === m ? { background: MOD_COLOR[m] } : undefined}>{m}</button>)}
+                {(["PM", "PP-PI"] as Module[]).map((m) => <button key={m} onClick={() => setModule(m)} className={`${btn} rounded-lg px-2.5 py-1 text-[12px] font-extrabold ${module === m ? "text-white shadow-sm" : "text-ink-3 hover:text-ink-2"}`} style={module === m ? { background: forWhiteText(MOD_COLOR[m]) } : undefined}>{m}</button>)}
               </div>
               <div className="chip-rail flex max-w-[46vw] items-center gap-1 overflow-x-auto rounded-xl border border-hairline bg-surface/95 p-1 shadow-sm backdrop-blur">
-                {MODES.map((m) => <button key={m.id} onClick={() => setModeId(m.id)} title={MODE_HINT[m.id]} className={`${btn} shrink-0 rounded-lg px-2.5 py-1 text-[11.5px] font-bold ${modeId === m.id ? "text-white shadow-sm" : "text-ink-3 hover:bg-surface-2"}`} style={modeId === m.id ? { background: accent } : undefined}>{m.he}</button>)}
+                {MODES.map((m) => <button key={m.id} onClick={() => setModeId(m.id)} title={MODE_HINT[m.id]} className={`${btn} shrink-0 rounded-lg px-2.5 py-1 text-[11.5px] font-bold ${modeId === m.id ? "text-white shadow-sm" : "text-ink-3 hover:bg-surface-2"}`} style={modeId === m.id ? { background: forWhiteText(accent) } : undefined}>{m.he}</button>)}
               </div>
             </div>
           )}
@@ -569,8 +569,8 @@ export function ArchitectureStudio() {
                       <button onClick={() => { setPlaying(false); goStep(demoStep - 1); }} title="הקודם (→)" className={`${btn} grid size-9 place-items-center rounded-xl border border-hairline text-ink-3 hover:text-brand`}><ChevronRight className="size-5" /></button>
                       <button onClick={() => setPlaying((p) => !p)} title="נגן / השהה (רווח)" className={`${btn} flex items-center gap-1.5 rounded-xl px-4 py-2 text-[13px] font-extrabold text-white shadow-sm`} style={{ background: forWhiteText(accent) }}>{playing ? <Pause className="size-4" /> : <Play className="size-4" />}{playing ? "השהה" : "נגן"}</button>
                       <button onClick={() => { setPlaying(false); goStep(demoStep + 1); }} title="הבא (←)" className={`${btn} grid size-9 place-items-center rounded-xl border border-hairline text-ink-3 hover:text-brand`}><ChevronLeft className="size-5" /></button>
-                      <button onClick={() => setCompare((v) => !v)} title="השוואת ECC ↔ S/4" className={`${btn} flex items-center gap-1 rounded-xl px-2.5 py-2 text-[11.5px] font-bold ${compare ? "text-white shadow-sm" : "border border-hairline text-ink-3 hover:text-brand"}`} style={compare ? { background: accent } : undefined}><ArrowLeftRight className="size-4" />ECC↔S/4</button>
-                      <button onClick={() => setCaptions((v) => !v)} title="כתוביות / קריינות" className={`${btn} flex items-center gap-1 rounded-xl px-2.5 py-2 text-[11.5px] font-bold ${captions ? "text-white shadow-sm" : "border border-hairline text-ink-3 hover:text-brand"}`} style={captions ? { background: accent } : undefined}><BookOpen className="size-4" />כתוביות</button>
+                      <button onClick={() => setCompare((v) => !v)} title="השוואת ECC ↔ S/4" className={`${btn} flex items-center gap-1 rounded-xl px-2.5 py-2 text-[11.5px] font-bold ${compare ? "text-white shadow-sm" : "border border-hairline text-ink-3 hover:text-brand"}`} style={compare ? { background: forWhiteText(accent) } : undefined}><ArrowLeftRight className="size-4" />ECC↔S/4</button>
+                      <button onClick={() => setCaptions((v) => !v)} title="כתוביות / קריינות" className={`${btn} flex items-center gap-1 rounded-xl px-2.5 py-2 text-[11.5px] font-bold ${captions ? "text-white shadow-sm" : "border border-hairline text-ink-3 hover:text-brand"}`} style={captions ? { background: forWhiteText(accent) } : undefined}><BookOpen className="size-4" />כתוביות</button>
                       <button onClick={exitDemo} title="צא מ-Demo (Esc)" className={`${btn} ms-auto flex items-center gap-1.5 rounded-xl bg-slate-900 px-3 py-2 text-[12px] font-extrabold text-white`}><X className="size-4" />צא</button>
                     </div>
                   </motion.div>
@@ -608,12 +608,19 @@ export function ArchitectureStudio() {
 
           {/* mini map */}
           {layout.nodes.length > 0 && (
-            <div className="absolute bottom-3 left-3 z-30 overflow-hidden rounded-xl border border-hairline bg-surface/95 shadow-sm backdrop-blur" style={{ width: MM_W, height: MM_H }} onClick={miniClick} role="button" aria-label="מפת ניווט — לחץ לקפיצה">
+            <div className="absolute bottom-3 left-3 z-30 overflow-hidden rounded-xl border border-hairline bg-surface/95 shadow-sm backdrop-blur" style={{ width: MM_W, height: MM_H }} onClick={miniClick} role="button" aria-label={`מפת ניווט — לחץ לקפיצה. זום ${Math.round(tr.k * 100)}%`}>
               <svg width={MM_W} height={MM_H}>
                 {layout.nodes.map((n) => { const on = n.id === sel; return <rect key={n.id} x={(n.x - n.w / 2) * mmK} y={(n.y - n.h / 2) * mmK} width={Math.max(2, n.w * mmK)} height={Math.max(2, n.h * mmK)} rx={1} fill={on ? accent : nodeColor(n.kind, n.s4) + (activeNbr.has(n.id) ? "cc" : "77")} />; })}
                 <motion.rect initial={false} x={vp.x} y={vp.y} width={vp.w} height={vp.h} animate={{ x: vp.x, y: vp.y, width: vp.w, height: vp.h }} transition={{ duration: reduce ? 0 : 0.18 }} fill={accent + "1a"} stroke={accent} strokeWidth={1.5} rx={2} />
               </svg>
-              <span className="absolute bottom-1 left-1.5 font-mono text-[8px] font-bold text-ink-3">{Math.round(tr.k * 100)}%</span>
+              {/* Zoom readout. It is live status, not a label for the jump
+                  action, but it sits inside the role="button" element — so
+                  axe counted "23%" as the control's visible text and reported
+                  label-content-name-mismatch (WCAG 2.5.3) because the
+                  accessible name did not contain it. Hidden from the
+                  accessibility tree here and folded into the aria-label above,
+                  so screen readers still get the zoom level. */}
+              <span aria-hidden="true" className="absolute bottom-1 left-1.5 font-mono text-[8px] font-bold text-ink-3">{Math.round(tr.k * 100)}%</span>
             </div>
           )}
 
