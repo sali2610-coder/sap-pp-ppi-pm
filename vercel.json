@@ -1,5 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+
+  "//buildCommand": "Pinned here so the sitemap survives. `npm run build` is `next build && node scripts/gen-sitemap.mjs`; the sitemap is written into out/ AFTER next build, because it is derived from the built pages (it reads each page's HTML to honour noindex). A dashboard-level build command set to bare `next build` would drop that step silently — the deploy stays green and only /sitemap.xml goes missing, which is exactly what happened. vercel.json takes precedence over the dashboard, so pinning it here makes the build reproducible from the repo alone.",
+  "buildCommand": "npm run build",
+
   "redirects": [
     {
       "source": "/(.*)",
