@@ -27,6 +27,12 @@ jobs:
       - name: Install
         run: npm ci
 
+      - name: Vercel config must be valid
+        # Runs before the slow steps: an invalid vercel.json is rejected by the
+        # platform before a build even starts, so there is no point spending
+        # four minutes on tsc and a static export first.
+        run: npm run check:vercel
+
       - name: TypeScript (tsc --noEmit)
         run: npx tsc --noEmit
 
