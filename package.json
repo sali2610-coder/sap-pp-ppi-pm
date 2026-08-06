@@ -12,7 +12,7 @@
     "validate:books": "node scripts/validate-books.mjs",
     "audit:tree": "node scripts/audit-tree.mjs",
     "audit:library": "node scripts/audit-library.mjs",
-    "build": "next build && node scripts/gen-sitemap.mjs",
+    "build": "next build && node scripts/gen-sitemap.mjs && next build",
     "start": "next start",
     "lint": "eslint",
     "check:diag": "node scripts/check-diag.mjs",

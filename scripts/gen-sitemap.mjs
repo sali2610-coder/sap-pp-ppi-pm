@@ -24,15 +24,36 @@
  * `out/tcode/%2FSCWM%2FADGI/`), and those must be used verbatim — running them
  * through encodeURIComponent would double-encode `%2F` into `%252F`.
  *
- * DEPLOYMENT NOTE — this script runs AFTER `next build`, which makes it the one
- * part of the output that a platform build command can silently skip. It did:
- * /sitemap.xml returned 404 in production while robots.txt advertised it, even
- * though `check:sitemap` passed over 4,495 URLs in out/. Everything else that
- * ships comes from public/ and is emitted by `next build` itself. `buildCommand`
- * is therefore pinned in vercel.json so the build is reproducible from the repo
- * rather than from dashboard configuration, and `npm run check:prod` asserts the
- * sitemap is actually reachable on the deployed origin. If this step ever has to
- * move, it must become a `next build` artifact — not another post-build hook.
+ * WHY THIS WRITES TO public/ AND THE BUILD RUNS next build TWICE
+ *
+ * Writing straight to `out/sitemap.xml` looks correct and passes every local
+ * gate, but the file never reached production: /sitemap.xml returned 404 on the
+ * live site for as long as robots.txt advertised it, while `check:sitemap`
+ * happily verified 4,495 URLs in `out/`.
+ *
+ * Measured on a real deploy, everything that ships is emitted by `next build`
+ * itself — `og.png` and `security.txt` are copied out of `public/`,
+ * `robots.txt` and `manifest.webmanifest` are route handlers. The sitemap was
+ * the only file added to `out/` after `next build` returned, and it was the
+ * only file missing. Files appended to `out/` post-build are not collected.
+ *
+ * (An earlier attempt blamed the build command and pinned it in vercel.json.
+ * That was wrong — the 404 survived it. The pin is harmless and stays, but it
+ * is not what fixes this.)
+ *
+ * So the sitemap has to be an input to a build rather than an output of one:
+ *
+ *   1. next build          → out/ holds every page, no sitemap yet
+ *   2. this script         → derives the sitemap from out/, writes public/
+ *   3. next build          → copies public/sitemap.xml into out/ as a normal
+ *                            build artifact, so the platform collects it
+ *
+ * The second pass costs about two minutes and is the price of deriving the
+ * sitemap from the built pages instead of from a hand-maintained list. The
+ * pages are deterministic, so pass 2 produces exactly the pages pass 1 measured,
+ * and `check:sitemap` re-verifies coverage against the final `out/` regardless.
+ *
+ * `public/sitemap.xml` is generated, not source — it is gitignored.
  *
  * But not all of them are: a BAPI named "Control Recipe" lands on disk as
  * `out/bapi/Control Recipe/`, with a literal space that is not legal in a URL.
@@ -44,7 +65,9 @@ import { join } from "node:path";
 
 const OUT = "out";
 const SITE = "https://sapbysali.app";
-const SITEMAP = join(OUT, "sitemap.xml");
+// Read the pages from out/, but write into public/ so the next build pass picks
+// the sitemap up as a real build artifact. See the header comment.
+const SITEMAP = join("public", "sitemap.xml");
 
 // Sitemaps protocol hard limits.
 const MAX_URLS = 50000;
