@@ -11,6 +11,7 @@
 | PI/PO, SOAP, Proxy, SXMB_MONI, mapping/channel error | `pipo-integration-failure.md` | Integration |
 | MIGO, MIRO, COGI (backflush), תנועת מלאי/חשבונית | `goods-movement-invoice-error.md` | MM/PP/FI |
 | COGI "הזן סדרה", batch determination, MBC1/MBC2/MBC3, COB1/COB2/COB3, אצווה לא נבחרת | `cogi-batch-determination.md` | PP-PI/PP/Batch |
+| COGI "גרעון" / "אספקת חסר" (deficit), M7-021, RU-522, אין מלאי, מקט לא-מנוהל-סדרות | `cogi-deficit-missing-stock.md` | PP-PI/PP/MM |
 | חיוב/צריכה כפולה, backflush כפול, "מסמך חומר לא ניתן לעיבוד", ביטול CO13 מול MIGO, TECO חוסם | `backflush-double-consumption-reversal.md` | PP/PP-PI/MM |
 | דוח ALV נפתח ריק, "מחק סינון" מציג נתונים, פריסת default עם סינון, פריסה גלובלית, S_ALV_LAYO | `alv-report-empty-default-filter.md` | PP/Cross |
 | Production Order, COHV, CO01/CO02, שחרור/availability | `pp-production-order.md` | PP |
