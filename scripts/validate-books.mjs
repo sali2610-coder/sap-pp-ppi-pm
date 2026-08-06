@@ -92,7 +92,13 @@ for (const file of files) {
       // body. Counting them as one number reported the string "true" as a
       // Hebrew title and every book as fully translated.
       if (HEB.test(String(s.title?.he ?? ""))) heTitle++;
-      if (HEB.test(String(prose.get(s.id)?.he ?? ""))) heBody++;
+      // A section carries Hebrew prose either as a translated paragraph or, in
+      // an academy book, across its named facets. Checking only `he` reported
+      // the richest book in the library as having no content at all.
+      const b = prose.get(s.id);
+      if (b && (b.format === "academy"
+        ? Object.values(b.facets ?? {}).some((t) => HEB.test(String(t)))
+        : HEB.test(String(b.he ?? "")))) heBody++;
       if (!String(s.title?.en ?? "").trim() && !String(s.title?.he ?? "").trim()) {
         E(id, "SECTION_UNTITLED", `${s.id} has no title in either language`);
       }

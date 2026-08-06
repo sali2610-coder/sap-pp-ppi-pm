@@ -58,6 +58,52 @@ const he = (e) => {
   return HEB.test(t) ? t : "";                   // and neither is romanised text
 };
 
+
+/**
+ * Two genuinely different book formats, not two spellings of one.
+ *
+ * Ten books are PROSE: a section is {en, he} — a paragraph and its translation.
+ *
+ * book8 is ACADEMY: a section is sixteen named Hebrew facets (executive summary,
+ * beginner, consultant, common mistakes, interview questions, …) plus structured
+ * references (tables, tcodes, fiori, flow, depth). Reading only {en, he} found
+ * neither field and dropped the entire book, which then validated as "titles
+ * only, no prose" — a book with more content than any other in the library
+ * reported as having none.
+ */
+const FACETS = [
+  "exec", "beginner", "consultant", "purpose", "processExample", "scenario",
+  "nav", "config", "mistakes", "troubleshoot", "bestPractice", "interview",
+  "takeaways", "related", "summary", "why",
+];
+const REFS = ["tables", "tcodes", "fiori", "flow"];
+
+function sectionBody(s) {
+  // prose form
+  const en = String(s.en ?? "").trim();
+  const he = String(s.he ?? "").trim();
+  if (en || he) return { format: "prose", ...(en ? { en } : {}), ...(he ? { he } : {}) };
+
+  // academy form
+  const facets = {};
+  for (const f of FACETS) {
+    const v = s[`${f}He`];
+    if (typeof v === "string" && v.trim()) facets[f] = v.trim();
+  }
+  const refs = {};
+  for (const r of REFS) {
+    const v = s[r];
+    if (Array.isArray(v) ? v.length : v != null && v !== "") refs[r] = v;
+  }
+  if (!Object.keys(facets).length && !Object.keys(refs).length) return null;
+  return {
+    format: "academy",
+    ...(Object.keys(facets).length ? { facets } : {}),
+    ...(Object.keys(refs).length ? { refs } : {}),
+    ...(s.depth != null ? { depth: s.depth } : {}),
+  };
+}
+
 let books = 0, chapters = 0, sections = 0;
 const report = [];
 
@@ -84,9 +130,8 @@ for (let i = 1; i <= 11; i++) {
     chapterSections.set(n, c.sections ?? []);
     for (const s of c.sections ?? []) {
       if (!s?.id) continue;
-      const bEn = String(s.en ?? "").trim();
-      const bHe = String(s.he ?? "").trim();
-      if (bEn || bHe) body.set(String(s.id), { ...(bEn ? { en: bEn } : {}), ...(bHe ? { he: bHe } : {}) });
+      const b = sectionBody(s);
+      if (b) body.set(String(s.id), b);
     }
   }
 
@@ -149,10 +194,15 @@ for (let i = 1; i <= 11; i++) {
   chapters += chapterList.length;
   sections += idx.length;
   const heTitles = idx.filter((e) => he(e)).length;
-  const heBodies = [...body.values()].filter((b) => HEB.test(b.he ?? "")).length;
+  const vals = [...body.values()];
+  const academy = vals.filter((b) => b.format === "academy").length;
+  const heBodies = vals.filter((b) =>
+    b.format === "academy"
+      ? Object.values(b.facets ?? {}).some((t) => HEB.test(t))
+      : HEB.test(b.he ?? "")).length;
   const pct = (n) => Math.round((n / Math.max(1, idx.length)) * 100);
   report.push([id, "OK",
-    `${chapterList.length}ch ${idx.length}sec  he-title=${pct(heTitles)}%  he-body=${pct(heBodies)}%  ${m.structure}`]);
+    `${chapterList.length}ch ${idx.length}sec  he-title=${pct(heTitles)}%  he-body=${pct(heBodies)}%  ${academy ? "academy" : "prose"}/${m.structure}`]);
 }
 
 console.log(`\nMIGRATION → data/books/`);
