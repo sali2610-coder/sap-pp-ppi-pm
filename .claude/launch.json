@@ -4,14 +4,29 @@
     {
       "name": "neo-phase6",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 3000
     },
     {
-      "name": "neo-out",
+      "name": "neo-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "neo-static",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "4321", "--directory", "out"],
-      "port": 4321
+      "runtimeArgs": [
+        "-u",
+        "scripts/serve-out.py"
+      ],
+      "port": 4173
     }
   ]
 }
