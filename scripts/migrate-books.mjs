@@ -135,6 +135,9 @@ for (let i = 1; i <= 11; i++) {
     }
   }
 
+  const snippets = new Map();
+  for (const e of idx) if (e.snippet) snippets.set(String(e.id), String(e.snippet));
+
   const byChapter = new Map();
   for (const e of idx) {
     const n = Number(e.ch);
@@ -144,7 +147,6 @@ for (let i = 1; i <= 11; i++) {
       id: String(e.id),
       title: { en: en(e), he: he(e) },
       ...(e.page != null ? { page: Number(e.page) } : {}),
-      ...(e.snippet ? { snippet: String(e.snippet) } : {}),
       ...(b ? { body: b } : {}),   // stripped into a shard below
     });
   }
@@ -182,7 +184,15 @@ for (let i = 1; i <= 11; i++) {
   for (const c of chapterList) {
     const prose = {};
     for (const sec of c.sections) {
-      if (sec.body) { prose[sec.id] = sec.body; delete sec.body; }
+      const snip = snippets.get(sec.id);
+      if (sec.body || snip) {
+        // The snippet is content, not structure: it is a preview of the section,
+        // and for a catalogue entry it may be the only text there is. Keeping it
+        // in the spine put 429 KB of book7's prose into the page payload of a
+        // reader that had not opened a chapter yet.
+        prose[sec.id] = { ...(sec.body ?? { format: "prose" }), ...(snip ? { snippet: snip } : {}) };
+        delete sec.body;
+      }
     }
     if (Object.keys(prose).length) {
       writeFileSync(path.join(shardDir, `ch${c.n}.json`), JSON.stringify(prose));

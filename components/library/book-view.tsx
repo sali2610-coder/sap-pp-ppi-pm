@@ -1,0 +1,239 @@
+"use client";
+
+/**
+ * The Library Platform reader. One component tree for every book.
+ *
+ * Two data-driven branches and no others:
+ *   meta.structure  → how chapters are presented (narrative vs catalogue)
+ *   body.format     → how a section's content is presented (prose vs academy)
+ *
+ * Adding a twelfth book means adding a row of data. Adding a new *shape* of
+ * book means adding one branch — not touching the eleven that already work.
+ */
+
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { BookOpen, ChevronLeft, Hash, Layers, Loader2 } from "lucide-react";
+import type { Book, BookSection, SectionBody, AcademyBody, ProseBody } from "@/lib/library/book";
+import { FACET_ORDER, chapterTitle, loadChapterBodies, proseText, sectionTitle } from "@/lib/library/book";
+import { accentVars, identityOf } from "@/lib/book-identity";
+import { EmptyState, ErrorState, LoadingState, NeoChip, Reveal } from "@/components/neo";
+
+/* ------------------------------------------------------------------ prose */
+
+/**
+ * Source prose is lightly marked up (**bold**, blank-line paragraphs). Rendered
+ * as structured text rather than dangerouslySetInnerHTML — the content is
+ * trusted, but the reader should not be the one place in the app where that
+ * assumption is load-bearing.
+ */
+function Prose({ text }: { text: string }) {
+  const paras = useMemo(
+    () => text.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean),
+    [text],
+  );
+  return (
+    <div className="max-w-[74ch] space-y-3">
+      {paras.map((p, i) => (
+        <p key={i} className="text-[0.9375rem] leading-[1.85] text-ink-2">
+          {p.split(/(\*\*[^*]+\*\*)/g).map((chunk, j) =>
+            chunk.startsWith("**") && chunk.endsWith("**")
+              ? <strong key={j} className="font-semibold text-ink-1">{chunk.slice(2, -2)}</strong>
+              : <span key={j}>{chunk}</span>,
+          )}
+        </p>
+      ))}
+    </div>
+  );
+}
+
+/* --------------------------------------------------------------- academy */
+
+const isList = (v: unknown): v is unknown[] => Array.isArray(v);
+
+function RefChips({ label, value }: { label: string; value: unknown }) {
+  const items = isList(value) ? value : value ? [value] : [];
+  if (!items.length) return null;
+  return (
+    <div className="flex flex-wrap items-center gap-1.5">
+      <span className="text-[0.6875rem] text-ink-3">{label}</span>
+      {items.slice(0, 24).map((x, i) => (
+        <NeoChip key={i}>
+          <span className="tech">{typeof x === "string" ? x : JSON.stringify(x)}</span>
+        </NeoChip>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * book8's sixteen facets. Rendered in FACET_ORDER, never in object order — a
+ * JSON reshuffle must not be able to change the reading order of a lesson.
+ */
+function Academy({ body }: { body: AcademyBody }) {
+  const facets = body.facets ?? {};
+  const present = FACET_ORDER.filter((f) => facets[f.key]?.trim());
+  const refs = body.refs ?? {};
+  const hasRefs = Object.values(refs).some((v) => (isList(v) ? v.length : v != null && v !== ""));
+
+  return (
+    <div className="space-y-5">
+      {present.map((f) => (
+        <section key={f.key}>
+          <h4 className="mb-1.5 flex items-center gap-1.5 text-[0.8125rem] font-semibold text-ink-1">
+            <span className="h-3 w-[3px] rounded-full bg-[var(--accent)]" aria-hidden />
+            {f.he}
+          </h4>
+          <Prose text={facets[f.key]} />
+        </section>
+      ))}
+
+      {hasRefs && (
+        <section className="space-y-2 rounded-xl bg-surface-2 p-3">
+          <RefChips label="טבלאות" value={refs.tables} />
+          <RefChips label="טרנזקציות" value={refs.tcodes} />
+          <RefChips label="אפליקציות Fiori" value={refs.fiori} />
+        </section>
+      )}
+    </div>
+  );
+}
+
+/* --------------------------------------------------------------- section */
+
+function SectionView({ section, body }: { section: BookSection; body?: SectionBody }) {
+  return (
+    <article className="scroll-mt-24 border-b border-hairline py-5 last:border-0" id={`s-${section.id}`}>
+      <header className="mb-3 flex items-baseline gap-2">
+        <span className="tech shrink-0 text-[0.6875rem] font-semibold text-[var(--accent)]">{section.id}</span>
+        <h3 className="text-[0.9375rem] font-semibold leading-snug text-ink-1">{sectionTitle(section)}</h3>
+        {section.page != null && (
+          <span className="ms-auto shrink-0 text-[0.6875rem] text-ink-3">עמ׳ {section.page}</span>
+        )}
+      </header>
+
+      {!body ? (
+        // Headings without content is a real state for some chapters, not a bug.
+        <p className="text-[0.8125rem] text-ink-3">אין תוכן מורחב לסעיף זה.</p>
+      ) : body.format === "academy" ? (
+        <Academy body={body} />
+      ) : proseText(body) ? (
+        <Prose text={proseText(body)} />
+      ) : body.snippet ? (
+        <p className="max-w-[74ch] text-[0.875rem] leading-relaxed text-ink-3">{body.snippet}</p>
+      ) : (
+        <p className="text-[0.8125rem] text-ink-3">אין תוכן מורחב לסעיף זה.</p>
+      )}
+    </article>
+  );
+}
+
+/* ------------------------------------------------------------------ view */
+
+export function BookView({ book }: { book: Book }) {
+  const identity = identityOf(book.id);
+  const [active, setActive] = useState(book.chapters[0]?.n ?? 1);
+  const [bodies, setBodies] = useState<Record<string, SectionBody>>({});
+  const [state, setState] = useState<"idle" | "loading" | "error">("idle");
+  const navRef = useRef<HTMLDivElement>(null);
+
+  const chapter = useMemo(
+    () => book.chapters.find((c) => c.n === active) ?? book.chapters[0],
+    [book.chapters, active],
+  );
+
+  const load = useCallback((n: number) => {
+    const ctl = new AbortController();
+    setState("loading");
+    loadChapterBodies(book.id, n, ctl.signal)
+      .then((b) => { setBodies(b); setState("idle"); })
+      .catch(() => setState("error"));
+    return () => ctl.abort();
+  }, [book.id]);
+
+  useEffect(() => load(active), [active, load]);
+
+  if (!chapter) {
+    return <EmptyState icon={<BookOpen className="size-5" />} title="הספר ריק" hint="לא נמצאו פרקים בקובץ הספר." />;
+  }
+
+  const catalogue = book.meta.structure === "catalogue";
+
+  return (
+    <div style={accentVars(identity)} className="grid gap-6 lg:grid-cols-[15rem_1fr]">
+      {/* ---------------------------------------------------------- nav */}
+      <nav ref={navRef} aria-label="פרקי הספר"
+        className="lg:sticky lg:top-20 lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto">
+        <ul className="space-y-0.5">
+          {book.chapters.map((c) => {
+            const on = c.n === active;
+            return (
+              <li key={c.n}>
+                <button
+                  onClick={() => setActive(c.n)}
+                  aria-current={on ? "true" : undefined}
+                  className={`flex w-full items-center gap-2 rounded-lg px-2.5 py-2 text-start text-[0.8125rem] transition
+                    ${on ? "bg-[var(--accent-soft)] font-semibold text-[var(--accent)]" : "text-ink-2 hover:bg-surface-2"}`}
+                >
+                  <span className="tech w-5 shrink-0 text-[0.6875rem] opacity-70">{c.n}</span>
+                  <span className="line-clamp-2 leading-snug">{chapterTitle(c)}</span>
+                  <span className="ms-auto shrink-0 text-[0.625rem] text-ink-3">{c.sections.length}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+
+      {/* ------------------------------------------------------- content */}
+      <div>
+        <header className="mb-4 border-b border-hairline pb-3">
+          <div className="mb-1 flex flex-wrap items-center gap-2 text-[0.6875rem] text-ink-3">
+            <span className="inline-flex items-center gap-1">
+              {catalogue ? <Layers className="size-3" /> : <BookOpen className="size-3" />}
+              {catalogue ? "קטלוג" : "פרק"} {chapter.n}
+            </span>
+            <span aria-hidden>·</span>
+            <span className="inline-flex items-center gap-1"><Hash className="size-3" />{chapter.sections.length} סעיפים</span>
+            {chapter.startPage != null && <><span aria-hidden>·</span><span>מתחיל בעמ׳ {chapter.startPage}</span></>}
+          </div>
+          <h2 className="text-lg font-semibold leading-tight text-ink-1">{chapterTitle(chapter)}</h2>
+        </header>
+
+        {state === "loading" && (
+          <div className="flex items-center gap-2 py-2 text-[0.75rem] text-ink-3" aria-live="polite">
+            <Loader2 className="size-3.5 animate-spin" />
+            טוען את תוכן הפרק…
+          </div>
+        )}
+
+        {state === "error" ? (
+          <ErrorState message="לא הצלחתי לטעון את תוכן הפרק." onRetry={() => load(active)} />
+        ) : (
+          <div>
+            {chapter.sections.map((s) => (
+              <SectionView key={s.id} section={s} body={bodies[s.id]} />
+            ))}
+          </div>
+        )}
+
+        {/* ------------------------------------------------------ paging */}
+        <div className="mt-6 flex items-center justify-between border-t border-hairline pt-4">
+          <button
+            disabled={chapter.n <= book.chapters[0].n}
+            onClick={() => setActive((n) => Math.max(book.chapters[0].n, n - 1))}
+            className="rounded-lg px-2.5 py-1.5 text-[0.8125rem] text-ink-2 transition hover:bg-surface-2 disabled:opacity-40"
+          >
+            הפרק הקודם
+          </button>
+          <button
+            disabled={chapter.n >= book.chapters[book.chapters.length - 1].n}
+            onClick={() => setActive((n) => Math.min(book.chapters[book.chapters.length - 1].n, n + 1))}
+            className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[0.8125rem] text-ink-2 transition hover:bg-surface-2 disabled:opacity-40"
+          >
+            הפרק הבא <ChevronLeft className="size-3.5" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
