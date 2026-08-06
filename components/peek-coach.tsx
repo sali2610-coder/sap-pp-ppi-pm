@@ -39,6 +39,12 @@ export function PeekCoach() {
     return () => clearTimeout(t);
   }, [show]);
 
+  // The toast sits above the contextual FAB rather than on top of it. The FAB
+  // is `bottom-[5.5rem]` and 56px tall (components/context-fab.tsx), so it owns
+  // 88px–144px from the bottom. This toast used to be at 5.75rem (92px), which
+  // put its dismiss button directly over the FAB — measured on production at
+  // 412px wide: FAB y 679–735, dismiss y 674–718. Two overlapping tap targets,
+  // so a tap in that area was ambiguous. 10rem clears the FAB with a 16px gap.
   return (
     <AnimatePresence>
       {show && (
@@ -46,7 +52,7 @@ export function PeekCoach() {
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }}
           transition={{ type: "spring", stiffness: 380, damping: 32 }}
           dir="rtl"
-          className="no-print fixed inset-x-0 bottom-[5.75rem] z-[55] mx-auto flex max-w-sm items-center gap-3 rounded-2xl border border-hairline bg-ink-1/95 px-4 py-3 text-white shadow-2xl backdrop-blur-md xl:hidden"
+          className="no-print fixed inset-x-0 bottom-[10rem] z-[55] mx-auto flex max-w-sm items-center gap-3 rounded-2xl border border-hairline bg-ink-1/95 px-4 py-3 text-white shadow-2xl backdrop-blur-md xl:hidden"
           style={{ marginInline: "1rem" }}>
           <motion.span animate={{ rotate: [0, -12, 0], y: [0, -2, 0] }} transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }} className="grid size-9 shrink-0 place-items-center rounded-xl bg-white/15">
             <Hand className="size-5" />
