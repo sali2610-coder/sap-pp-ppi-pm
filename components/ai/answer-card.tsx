@@ -145,7 +145,10 @@ export function AnswerCard({ answer, onRetry, isLatest }: {
       </div>
 
       {/* ---------------------------- the answer ---------------------------- */}
-      <AnswerBody text={shown} />
+      <AnswerBody
+          text={shown}
+          citations={answer.citations.map((c) => ({ id: c.id, href: c.href, title: c.title }))}
+        />
       {!done && (
         <span aria-hidden
           className="ms-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-brand/60 motion-safe:animate-[caret_1s_steps(2)_infinite]" />

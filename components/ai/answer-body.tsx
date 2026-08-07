@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { createContext, useContext, useMemo } from "react";
 import Link from "next/link";
 import { Info, Lightbulb, TriangleAlert } from "lucide-react";
 import { knownRoutes, type SapKind } from "@/lib/ai-known-routes";
@@ -67,15 +67,28 @@ function SapBadge({ id, kind, href }: { id: string; kind: SapKind; href: string 
   );
 }
 
-/** Splits a line into plain text, bold runs, inline code and SAP identifiers. */
+/**
+ * Maps a citation id to the number shown beside it and the section it links to.
+ * A context rather than a prop because Inline is reached through several block
+ * renderers, and threading it through each would be noise.
+ */
+const CiteCtx = createContext<Map<string, { n: number; href?: string | null; title?: string | null }>>(new Map());
+
+/** Splits a line into plain text, bold runs, inline code, SAP ids and citations. */
 function Inline({ text }: { text: string }) {
   const routes = useMemo(() => knownRoutes(), []);
+  const cites = useContext(CiteCtx);
   const parts = useMemo(() => {
-    const out: Array<{ k: "t" | "b" | "c" | "id"; v: string }> = [];
-    // Bold and inline code first so identifier scanning never splits them.
-    const chunks = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
+    const out: Array<{ k: "t" | "b" | "c" | "id" | "cite"; v: string }> = [];
+    // Citation markers come out FIRST. They are the only token that can legally
+    // sit mid-sentence next to punctuation, and splitting on bold/code first
+    // would let a marker straddle a chunk boundary and survive as raw "[[".
+    const chunks = text
+      .split(/(\[\[[^\]]{1,120}\]\])/g)
+      .flatMap((seg) => (seg.startsWith("[[") ? [seg] : seg.split(/(\*\*[^*]+\*\*|`[^`]+`)/g)));
     for (const chunk of chunks) {
       if (!chunk) continue;
+      if (chunk.startsWith("[[") && chunk.endsWith("]]")) { out.push({ k: "cite", v: chunk.slice(2, -2).trim() }); continue; }
       if (chunk.startsWith("**") && chunk.endsWith("**")) { out.push({ k: "b", v: chunk.slice(2, -2) }); continue; }
       if (chunk.startsWith("`") && chunk.endsWith("`")) { out.push({ k: "c", v: chunk.slice(1, -1) }); continue; }
       let last = 0;
@@ -96,6 +109,21 @@ function Inline({ text }: { text: string }) {
   return (
     <>
       {parts.map((p, i) => {
+        if (p.k === "cite") {
+          const c = cites.get(p.v);
+          // A marker we cannot resolve is dropped, not shown raw. The backend
+          // already removes ids it never served; this covers the case where the
+          // answer arrives before its citation list is attached.
+          if (!c) return null;
+          const chip = (
+            <sup className="mx-0.5 inline-flex min-w-[1.15em] items-center justify-center rounded-[0.3rem] bg-brand/10 px-1 align-super text-[0.62em] font-bold leading-[1.5] text-brand transition group-hover:bg-brand/20">
+              {c.n}
+            </sup>
+          );
+          return c.href
+            ? <Link key={i} href={c.href} className="group no-underline" title={c.title ?? `מקור ${c.n}`}>{chip}</Link>
+            : <span key={i} title={c.title ?? `מקור ${c.n}`}>{chip}</span>;
+        }
         if (p.k === "b") return <strong key={i} className="font-bold text-ink-1">{p.v}</strong>;
         if (p.k === "c") return <code key={i} className="tech rounded bg-surface-2 px-1 py-0.5 text-[0.85em]">{p.v}</code>;
         if (p.k === "id") {
@@ -222,12 +250,24 @@ const CALLOUT_STYLE = {
   tip: { icon: Lightbulb, cls: "border-s-2 border-emerald-500 bg-emerald-50", ic: "text-emerald-600" },
 } as const;
 
-export function AnswerBody({ text }: { text: string }) {
+export function AnswerBody({ text, citations = [] }: {
+  text: string;
+  /** Ordered exactly as shown under the answer, so the chip number matches. */
+  citations?: { id: string; href?: string | null; title?: string | null }[];
+}) {
   const blocks = useMemo(() => parse(text), [text]);
+  // Numbering follows the order the citations are listed under the answer, so
+  // chip "2" and the second entry in the source list are the same section.
+  const citeMap = useMemo(() => {
+    const m = new Map<string, { n: number; href?: string | null; title?: string | null }>();
+    citations.forEach((c, i) => m.set(c.id, { n: i + 1, href: c.href, title: c.title }));
+    return m;
+  }, [citations]);
 
   return (
     // 74ch matches the site's own reader (globals.css). Beyond it the eye loses
     // the line; the previous full-width layout ran to ~113ch at 1080px.
+    <CiteCtx.Provider value={citeMap}>
     <div className="ai-prose max-w-[74ch] space-y-3.5">
       {blocks.map((b, i) => {
         switch (b.t) {
@@ -328,5 +368,6 @@ export function AnswerBody({ text }: { text: string }) {
         }
       })}
     </div>
+    </CiteCtx.Provider>
   );
 }

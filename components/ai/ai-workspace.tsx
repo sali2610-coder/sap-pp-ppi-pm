@@ -225,7 +225,10 @@ export function AiWorkspace() {
                     // once hung the page did so on exactly that input.
                     <div className="border-s-2 border-brand/15 ps-3.5 sm:ps-4" aria-live="polite">
                       <p className="max-w-[74ch] whitespace-pre-wrap text-[0.9375rem] leading-[1.85] text-ink-2">
-                        {preview}
+                        {/* Markers are stripped from the preview: they are only
+                            meaningful once the citation list exists, and a raw
+                            "[[book1#3#3.2]]" mid-sentence reads as corruption. */}
+                        {preview.replace(/\s*\[\[[^\]]{1,120}\]\]/g, "")}
                         <span aria-hidden className="ms-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-brand/60 motion-safe:animate-[caret_1s_steps(2)_infinite]" />
                       </p>
                     </div>
