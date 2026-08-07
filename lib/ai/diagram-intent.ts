@@ -7,17 +7,17 @@
  * into a routing task the backend already understands (config/routing.json has
  * eleven `capability: visual` profiles that nothing was selecting until now).
  *
- * Three renderers, chosen by shape rather than by request:
+ * Five renderers, chosen by shape rather than by request:
  *   graph     — process flows, decision trees, lifecycles, entity relationships,
  *               org charts, mind maps, architecture, state machines. All of these
  *               are directed graphs, so one renderer serves them all.
  *   timeline  — has a TIME axis a graph cannot express.
+ *   gantt     — a timeline with DURATION, so overlap is expressible.
  *   swimlane  — has an OWNER axis a graph cannot express.
- *
  *   sequence  — actors across the top, time down, each message an ordered
  *               exchange between two lifelines.
  *
- * Anything that fits none of the four is reported honestly rather than
+ * Anything that fits none of the five is reported honestly rather than
  * approximated with a shape that would misstate it.
  */
 
@@ -98,12 +98,17 @@ const GRAPH_KINDS: {
 /**
  * Shapes that are not graphs. A timeline has a time axis and a swimlane has an
  * owner axis; neither survives being drawn as a flowchart, so both have their
- * own parser and layout (lib/ai/timeline.ts), as does a sequence diagram —
- * actors across the top, time running down.
+ * own parser and layout (lib/ai/timeline.ts), as do a Gantt chart (durations,
+ * so bars can overlap) and a sequence diagram (actors across, time down).
  */
 const NOT_A_GRAPH: { kind: string; hit: string[]; supported?: boolean }[] = [
+  // Gantt before timeline: a plan with durations is a Gantt, and "לוח זמנים"
+  // alone would otherwise capture it as a plain timeline and lose the overlap.
+  { kind: "gantt", supported: true,
+    hit: ["גאנט", "gantt", "תוכנית עבודה", "משך המשימות", "לוח זמנים לפרויקט",
+          "project plan", "work plan", "task durations", "how long will each"] },
   { kind: "timeline", supported: true,
-    hit: ["ציר זמן", "לוח זמנים", "גאנט", "מפת דרכים", "timeline", "gantt", "roadmap", "schedule", "phases over time"] },
+    hit: ["ציר זמן", "לוח זמנים", "מפת דרכים", "timeline", "roadmap", "schedule", "phases over time"] },
   { kind: "swimlane", supported: true,
     hit: ["מסלולי אחריות", "מי אחראי", "חלוקת אחריות", "swimlane", "swim lane", "raci", "by role", "who does what"] },
   { kind: "sequence diagram", supported: true,
@@ -169,7 +174,7 @@ export function detectDiagramIntent(question: string): DiagramIntent | null {
 
 /** True when the model's answer actually contains something we can draw. */
 export function answerHasDiagram(text: string): boolean {
-  return /```\s*(mermaid|flowchart|graph|diagram|process|timeline|swimlane|sequence)\b/i.test(text)
+  return /```\s*(mermaid|flowchart|graph|diagram|process|timeline|swimlane|sequence|gantt)\b/i.test(text)
     || /^\s*(flowchart|graph)\s+(TB|TD|LR|RL|BT)\b/im.test(text)
-    || /^\s*(timeline|swimlane|sequence(diagram)?)\b/im.test(text);
+    || /^\s*(timeline|swimlane|sequence(diagram)?|gantt)\b/im.test(text);
 }

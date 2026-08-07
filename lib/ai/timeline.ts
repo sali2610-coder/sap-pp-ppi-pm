@@ -163,7 +163,7 @@ export const AXIS_LANGS = new Set(["timeline", "swimlane", "gantt", "roadmap", "
 
 export function isAxisFence(text: string, lang?: string): boolean {
   if (lang && AXIS_LANGS.has(lang.toLowerCase())) return true;
-  return /^\s*(timeline|swimlane|sequence(diagram)?)\b/im.test(text);
+  return /^\s*(timeline|swimlane|sequence(diagram)?|gantt)\b/im.test(text);
 }
 
 /* -------------------------------------------------------------- sequence */
@@ -237,4 +237,135 @@ export function parseSequence(src: string): Sequence | null {
   }
 
   return actors.length >= 2 && messages.length ? { kind: "sequence", title, actors, labels, messages } : null;
+}
+
+/* ------------------------------------------------------------------ gantt */
+
+export interface GanttTask {
+  name: string;
+  section: string;
+  /** Days from the chart's start. */
+  offset: number;
+  /** Length in days. Always >= 1 so a milestone still has a hit area. */
+  days: number;
+  milestone?: boolean;
+}
+
+export interface Gantt {
+  kind: "gantt";
+  title?: string;
+  sections: string[];
+  tasks: GanttTask[];
+  /** Total span in days. */
+  span: number;
+  /** ISO date the chart starts on, when the source used real dates. */
+  startISO?: string;
+}
+
+/** Days between two ISO dates. Returns null when either is unparseable. */
+function daysBetween(a: string, b: string): number | null {
+  const t1 = Date.parse(a), t2 = Date.parse(b);
+  if (Number.isNaN(t1) || Number.isNaN(t2)) return null;
+  return Math.round((t2 - t1) / 86_400_000);
+}
+
+const DUR = /^(\d+(?:\.\d+)?)\s*(d|days?|w|weeks?|m|months?|y|years?|יום|ימים|שבוע|שבועות|חודש|חודשים)$/i;
+
+/** Duration token to days. SAP plans are quoted in weeks and months as often as days. */
+function toDays(tok: string): number | null {
+  const m = tok.trim().match(DUR);
+  if (!m) return null;
+  const n = Number(m[1]);
+  const u = m[2].toLowerCase();
+  if (/^(w|weeks?|שבוע|שבועות)$/.test(u)) return n * 7;
+  if (/^(m|months?|חודש|חודשים)$/.test(u)) return Math.round(n * 30.44);
+  if (/^(y|years?)$/.test(u)) return Math.round(n * 365);
+  return n;
+}
+
+/**
+ * A Gantt is a timeline with DURATION. A timeline says "this happened in Q2";
+ * a Gantt says "this ran for six weeks and overlapped that". Neither the
+ * timeline renderer nor the graph renderer can express an overlap, which is the
+ * whole reason a plan is drawn this way.
+ *
+ * Accepts the Mermaid shape people actually write:
+ *
+ *   gantt
+ *     title מפת דרכים
+ *     section גילוי
+ *       ניתוח פערים : 2026-01-01, 30d
+ *       סדנאות      : 4w
+ *     section עיצוב
+ *       עיצוב תהליכים : 2026-03-01, 2026-04-15
+ *
+ * A task with no start follows the previous one, which is how a plan is
+ * normally dictated.
+ *
+ * @returns the chart, or null. Never throws.
+ */
+export function parseGantt(src: string): Gantt | null {
+  const lines = src.split("\n").map((l) => l.trim()).filter(Boolean);
+  if (!lines.length || !/^gantt\b/i.test(lines[0])) return null;
+
+  let title: string | undefined;
+  let startISO: string | undefined;
+  const sections: string[] = [];
+  const tasks: GanttTask[] = [];
+  let section = "";
+  let cursor = 0;                       // days consumed so far
+
+  for (const raw of lines.slice(1)) {
+    const t = raw.match(/^title\s+(.+)$/i);
+    if (t) { title = clean(t[1]); continue; }
+    if (/^(dateFormat|axisFormat|excludes|todayMarker)\b/i.test(raw)) continue;
+
+    const sec = raw.match(/^section\s+(.+)$/i);
+    if (sec) {
+      section = clean(sec[1]);
+      if (section && !sections.includes(section)) sections.push(section);
+      continue;
+    }
+
+    const idx = raw.indexOf(":");
+    if (idx === -1) continue;
+    const name = clean(raw.slice(0, idx));
+    if (!name) continue;
+    const args = raw.slice(idx + 1).split(",").map(clean).filter(Boolean);
+    if (!args.length) continue;
+
+    // Mermaid allows a leading task id (`a1, 2026-01-01, 30d`). Drop a token
+    // that is neither a date nor a duration and is not the only argument.
+    const parts = args.filter((a, i) =>
+      i === args.length - 1 || !Number.isNaN(Date.parse(a)) || toDays(a) !== null || args.length <= 1);
+
+    let offset = cursor;
+    let days: number | null = null;
+
+    const first = parts[0];
+    const firstIsDate = first && !Number.isNaN(Date.parse(first));
+    if (firstIsDate) {
+      if (!startISO) startISO = first;
+      offset = daysBetween(startISO, first) ?? cursor;
+      const second = parts[1];
+      if (second) {
+        days = toDays(second);
+        if (days === null && !Number.isNaN(Date.parse(second))) days = daysBetween(first, second);
+      }
+    } else {
+      days = toDays(first);
+      const second = parts[1];
+      if (days === null && second) days = toDays(second);
+    }
+
+    const milestone = days === 0;
+    const length = Math.max(1, days ?? 1);
+    tasks.push({ name, section: section || "—", offset: Math.max(0, offset), days: length, milestone });
+    if (!sections.includes(section || "—")) sections.push(section || "—");
+    cursor = Math.max(0, offset) + length;
+  }
+
+  if (tasks.length < 2) return null;
+  const span = Math.max(...tasks.map((t) => t.offset + t.days), 1);
+  return { kind: "gantt", title, sections, tasks, span, startISO };
 }

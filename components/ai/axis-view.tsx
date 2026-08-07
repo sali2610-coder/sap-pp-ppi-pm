@@ -14,7 +14,7 @@
  */
 
 import { useMemo } from "react";
-import type { Sequence, Swimlane, Timeline } from "@/lib/ai/timeline";
+import type { Gantt, Sequence, Swimlane, Timeline } from "@/lib/ai/timeline";
 
 /* ---------------------------------------------------------------- timeline */
 
@@ -277,6 +277,103 @@ export function SequenceView({ data }: { data: Sequence }) {
                   stroke="var(--ink-3, #6b7280)" strokeWidth="1.25"
                   strokeDasharray={m.dashed ? "5 4" : undefined}
                   markerEnd="url(#sq-arrow)" />
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+    </figure>
+  );
+}
+
+/* ------------------------------------------------------------------ gantt */
+
+const ROW_H = 30;
+const BAR_H = 17;
+const LABEL_W = 150;
+const AXIS_H = 26;
+
+/**
+ * A Gantt is a timeline with duration, so overlap is the point: two bars on the
+ * same horizontal span say "these run together", which neither the timeline nor
+ * the graph renderer can state.
+ *
+ * Laid out right-to-left. Day zero sits on the RIGHT and time advances leftward,
+ * because in an RTL document a left-origin axis reads backwards.
+ */
+export function GanttView({ data }: { data: Gantt }) {
+  const rows = useMemo(() => {
+    const out: { section: string; first: boolean; task: Gantt["tasks"][number] }[] = [];
+    for (const sec of data.sections) {
+      const inSec = data.tasks.filter((t) => t.section === sec);
+      inSec.forEach((task, i) => out.push({ section: sec, first: i === 0, task }));
+    }
+    return out;
+  }, [data]);
+
+  const chartW = 460;
+  const width = LABEL_W + chartW + 16;
+  const height = AXIS_H + rows.length * ROW_H + 12;
+  const dayW = chartW / Math.max(1, data.span);
+  // x for a given day, measured from the right edge of the plot area.
+  const xFor = (day: number) => LABEL_W + chartW - day * dayW;
+
+  const dayLabel = (day: number) => {
+    if (!data.startISO) return `${day}ד׳`;
+    const d = new Date(Date.parse(data.startISO) + day * 86_400_000);
+    return Number.isNaN(d.getTime()) ? `${day}ד׳`
+      : d.toLocaleDateString("he-IL", { month: "short", year: "2-digit" });
+  };
+
+  // Four gridlines is enough to read a plan without crowding a narrow column.
+  const ticks = [0, 0.25, 0.5, 0.75, 1].map((f) => Math.round(data.span * f));
+
+  return (
+    <figure className="my-4 overflow-hidden rounded-xl border border-hairline bg-surface">
+      {data.title && (
+        <figcaption className="border-b border-hairline px-3 py-2 text-[0.8125rem] font-semibold text-ink-1">
+          {data.title}
+        </figcaption>
+      )}
+      <div className="overflow-x-auto p-2">
+        <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height} role="img"
+          aria-label={`תרשים גאנט${data.title ? `: ${data.title}` : ""}, ${data.tasks.length} משימות`}
+          className="max-w-none">
+          {ticks.map((d, i) => (
+            <g key={i}>
+              <line x1={xFor(d)} x2={xFor(d)} y1={AXIS_H - 6} y2={height - 6}
+                stroke="var(--hairline, #e5e7eb)" strokeDasharray="2 3" />
+              <text x={xFor(d)} y={AXIS_H - 12} textAnchor="middle" fontSize="9.5" fill="var(--ink-3, #6b7280)">
+                {dayLabel(d)}
+              </text>
+            </g>
+          ))}
+
+          {rows.map((r, i) => {
+            const y = AXIS_H + i * ROW_H;
+            const w = Math.max(3, r.task.days * dayW);
+            const x = xFor(r.task.offset + r.task.days);   // right-to-left
+            return (
+              <g key={`${r.section}-${r.task.name}-${i}`}>
+                {r.first && (
+                  <text x={width - 8} y={y + ROW_H / 2 - 7} textAnchor="end"
+                    fontSize="9.5" fontWeight="700" fill="var(--ink-3, #6b7280)">
+                    {r.section}
+                  </text>
+                )}
+                <text x={LABEL_W - 8} y={y + ROW_H / 2} textAnchor="end" dominantBaseline="middle"
+                  fontSize="11" fill="var(--ink-2, #374151)">
+                  {r.task.name.length > 22 ? `${r.task.name.slice(0, 21)}\u2026` : r.task.name}
+                </text>
+                {r.task.milestone ? (
+                  // A milestone has no duration; a diamond states that, a
+                  // one-day bar would imply work.
+                  <path d={`M ${x} ${y + ROW_H / 2 - 7} l 7 7 l -7 7 l -7 -7 z`}
+                    fill="var(--brand, #d62027)" />
+                ) : (
+                  <rect x={x} y={y + (ROW_H - BAR_H) / 2} width={w} height={BAR_H} rx={4}
+                    fill="var(--brand, #d62027)" opacity={0.82} />
+                )}
               </g>
             );
           })}
