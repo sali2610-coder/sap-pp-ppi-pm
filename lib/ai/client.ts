@@ -11,6 +11,7 @@
 import type { Answer, Citation, Scope } from "./types";
 import { bookById, cachedTree, loadTree, sectionHref } from "./tree";
 import { detectDiagramIntent, answerHasDiagram } from "./diagram-intent";
+import { StreamError, streamAnswer } from "./stream";
 
 const API =
   process.env.NEXT_PUBLIC_BOOKS_API_URL || "https://sap-books-api.vercel.app/api/ask-v2";
@@ -37,8 +38,12 @@ function scopeMode(scope: Scope): string | undefined {
 }
 
 /** Turn an API source into something a person can read and click. */
+// The API returns `book: x.book ?? null`, so null is a real value here. The old
+// signature said `string | undefined` and only type-checked because the buffered
+// path passed `any` through — the streaming path types its payload, which is
+// what surfaced this.
 function toCitation(s: {
-  id?: string; book?: string; chapter?: number | null; section?: string | null; title?: string | null;
+  id?: string; book?: string | null; chapter?: number | null; section?: string | null; title?: string | null;
 }): Citation | null {
   const id = String(s.id || "");
   // ids look like book1#5#5.2.10; fall back to the explicit fields if not.
@@ -185,5 +190,90 @@ export async function askApi(question: string, scope: Scope, task?: string): Pro
     };
   } finally {
     clearTimeout(timer);
+  }
+}
+
+/** Same host as the buffered endpoint, streaming route. */
+const STREAM_API = API.replace(/\/ask-v2$/, "/ask-stream");
+
+/**
+ * Streaming twin of askApi.
+ *
+ * Returns the same Answer, so every consumer — history, export, citations,
+ * follow-ups — is unchanged. The only difference is that `onDelta` fires while
+ * the answer is being written.
+ *
+ * The delta text is a PREVIEW: it has not been through the Hebrew gate,
+ * post-processing or grounding validation. The Answer returned here is built
+ * from the `done` event, never from the accumulated preview, so an answer the
+ * gates reject cannot survive as rendered text.
+ */
+export async function askApiStream(
+  question: string,
+  scope: Scope,
+  task: string | undefined,
+  handlers: { onDelta?: (text: string) => void; onStatus?: (stage: string) => void },
+  signal?: AbortSignal,
+): Promise<Answer> {
+  const id = `a${++seq}`;
+  const started = Date.now();
+  if (scope.bookId) { try { await loadTree(scope.bookId); } catch { /* titles degrade */ } }
+
+  const base: Omit<Answer, "text" | "policy" | "confidence" | "citations" | "followUps"> = {
+    id, question, scope, ms: 0,
+  };
+  if (typeof navigator !== "undefined" && navigator.onLine === false) {
+    return { ...base, text: "", policy: "REFUSE", confidence: 0, citations: [], followUps: [], error: MSG.offline };
+  }
+
+  const intent = task ? null : detectDiagramIntent(question);
+  const profile = task ?? intent?.task ?? "HEBREW_EXPLAIN";
+
+  try {
+    const out = await streamAnswer(STREAM_API, {
+      question,
+      bookId: scope.bookId,
+      chapter: scope.chapter,
+      section: scope.section,
+      scope: scopeMode(scope),
+      task: profile,
+      ...(intent && !intent.unsupported ? { diagramKind: intent.kind } : {}),
+    }, handlers, signal);
+
+    const text = stripSourcesLine(String(out.answer || "")).trim();
+    const policy: Answer["policy"] =
+      out.policy === "FULL" || out.policy === "PARTIAL" || out.policy === "REFUSE"
+        ? out.policy
+        : /^לא מצאתי|לא נמצא/.test(text) ? "REFUSE" : "FULL";
+    const citations = Array.isArray(out.sources)
+      ? (out.sources.map(toCitation).filter(Boolean) as Citation[])
+      : [];
+
+    return {
+      ...base,
+      ms: out.ms ?? Date.now() - started,
+      text,
+      policy,
+      citations: policy === "REFUSE" ? [] : citations,
+      confidence: confidenceOf(policy, citations.length),
+      followUps: followUps(scope, policy),
+      model: out.model ?? undefined,
+      ...(intent ? {
+        diagram: {
+          kind: intent.kind,
+          explicit: intent.explicit,
+          unsupported: intent.unsupported,
+          drawn: answerHasDiagram(text),
+        },
+      } : {}),
+    } as Answer;
+  } catch (e) {
+    const code = e instanceof StreamError ? e.code : "";
+    const aborted = (e as Error)?.name === "AbortError";
+    const msg = aborted ? MSG.timeout
+      : code === "AI_UNAVAILABLE" ? MSG.unavailable
+      : MSG.generic;
+    return { ...base, ms: Date.now() - started, text: "", policy: "REFUSE",
+      confidence: 0, citations: [], followUps: [], error: msg };
   }
 }

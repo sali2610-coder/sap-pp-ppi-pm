@@ -14,7 +14,7 @@ import {
 } from "@/lib/ai/history";
 import { AIConversation, AIThinking, UserBubble } from "@/components/neo/ai-ui";
 import { ANSWER_ACTIONS, SUGGESTED } from "@/lib/ai/prompts";
-import { askApi } from "@/lib/ai/client";
+import { askApiStream } from "@/lib/ai/client";
 import { loadTree, scopeLabel } from "@/lib/ai/tree";
 import type { Answer, Scope } from "@/lib/ai/types";
 
@@ -37,6 +37,8 @@ export function AiWorkspace() {
   const [showHistory, setShowHistory] = useState(false);
   const [draft, setDraft] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
+  // Ungated text for the in-flight answer. Never persisted, never exported.
+  const [preview, setPreview] = useState("");
   const [busy, setBusy] = useState(false);
   const [recent, setRecent] = useState<string[]>([]);
   const [sheet, setSheet] = useState<null | "scope" | "context">(null);
@@ -94,7 +96,13 @@ export function AiWorkspace() {
     setTurns((t) => [...t, { q, a: null }]);
     setRecent((r) => [q, ...r.filter((x) => x !== q)].slice(0, 8));
     try {
-      const a = await askApi(q, scope, task);
+      // Streamed. `preview` is ungated text shown while the answer is written;
+      // the Answer that lands in state comes from the validated `done` payload,
+      // so text the gates reject never survives on screen.
+      setPreview("");
+      const a = await askApiStream(q, scope, task, {
+        onDelta: (t) => setPreview((p) => p + t),
+      });
       setTurns((t) => {
         const next = t.map((turn, i) => (i === t.length - 1 ? { ...turn, a } : turn));
         const id = threadId || `t${Date.now()}`;
@@ -112,6 +120,7 @@ export function AiWorkspace() {
         return next;
       });
     } finally {
+      setPreview("");
       setBusy(false);
     }
   }, [busy, scope, threadId]);
@@ -209,6 +218,17 @@ export function AiWorkspace() {
                         />
                       )}
                     </>
+                  ) : preview ? (
+                    // Live preview. Rendered as plain text, NOT through
+                    // AnswerBody: half a table or an unclosed diagram fence
+                    // would be parsed as broken markup, and the parser that
+                    // once hung the page did so on exactly that input.
+                    <div className="border-s-2 border-brand/15 ps-3.5 sm:ps-4" aria-live="polite">
+                      <p className="max-w-[74ch] whitespace-pre-wrap text-[0.9375rem] leading-[1.85] text-ink-2">
+                        {preview}
+                        <span aria-hidden className="ms-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] bg-brand/60 motion-safe:animate-[caret_1s_steps(2)_infinite]" />
+                      </p>
+                    </div>
                   ) : (
                     <AIThinking note={scopeLabel(scope)} />
                   )}
