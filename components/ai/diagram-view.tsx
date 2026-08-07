@@ -104,8 +104,31 @@ export function DiagramView({ source }: { source: string }) {
   const laid = useMemo(() => (diagram ? layout(diagram) : null), [diagram]);
   const [zoom, setZoom] = useState(1);
   const [full, setFull] = useState(false);
+  // Hover is transient, selection is sticky. Selection wins so a pointer moving
+  // across the canvas cannot yank the highlight off what the user just clicked.
+  const [hoverId, setHoverId] = useState<string | null>(null);
+  const [pickedId, setPickedId] = useState<string | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const dialogRef = useDialog<HTMLDivElement>(full, () => setFull(false));
+
+  // Adjacency, built once. Used to answer "is this connected to the focused
+  // node" per element per render, which would otherwise be a scan of every edge.
+  const links = useMemo(() => {
+    const m = new Map<string, { near: Set<string>; edges: Set<number>; in: string[]; out: string[] }>();
+    const get = (id: string) => {
+      let v = m.get(id);
+      if (!v) { v = { near: new Set([id]), edges: new Set(), in: [], out: [] }; m.set(id, v); }
+      return v;
+    };
+    diagram?.nodes.forEach((n) => get(n.id));
+    diagram?.edges.forEach((e, i) => {
+      const a = get(e.from), b = get(e.to);
+      a.near.add(e.to); b.near.add(e.from);
+      a.edges.add(i); b.edges.add(i);
+      a.out.push(e.to); b.in.push(e.from);
+    });
+    return m;
+  }, [diagram]);
 
   // Not a diagram we can draw — show the source rather than an empty frame.
   if (!diagram || !laid) {
@@ -116,10 +139,19 @@ export function DiagramView({ source }: { source: string }) {
     );
   }
 
+  const focusId = pickedId ?? hoverId;
+  const focus = focusId ? links.get(focusId) : null;
+  /** 1 when nothing is focused, or when this element is part of the focus. */
+  const dimNode = (id: string) => (!focus ? 1 : focus.near.has(id) ? 1 : 0.22);
+  const dimEdge = (i: number) => (!focus ? 1 : focus.edges.has(i) ? 1 : 0.12);
+
   const svgMarkup = () => {
     const el = svgRef.current;
     if (!el) return "";
     const clone = el.cloneNode(true) as SVGSVGElement;
+    // Highlighting is a viewing aid, not part of the diagram. Exporting while a
+    // node is selected would otherwise bake the dimming into the file.
+    clone.querySelectorAll("[opacity]").forEach((n) => n.setAttribute("opacity", "1"));
     // Inline the resolved token colours so the file stands alone.
     const cs = getComputedStyle(document.documentElement);
     let s = new XMLSerializer().serializeToString(clone);
@@ -202,8 +234,10 @@ export function DiagramView({ source }: { source: string }) {
         const d = pts.map((p, j) => `${j === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
         const mid = pts[Math.floor(pts.length / 2)];
         return (
-          <g key={i}>
-            <path d={d} fill="none" stroke="var(--ink-3)" strokeWidth={1.6}
+          <g key={i} opacity={dimEdge(i)} className="transition-opacity duration-150">
+            <path d={d} fill="none"
+              stroke={focus?.edges.has(i) ? "var(--brand)" : "var(--ink-3)"}
+              strokeWidth={focus?.edges.has(i) ? 2.4 : 1.6}
               strokeDasharray={e.dashed ? "5 4" : undefined} markerEnd="url(#neo-arrow)" />
             {e.label && (
               <>
@@ -223,8 +257,35 @@ export function DiagramView({ source }: { source: string }) {
         const isDiamond = p.node.shape === "decision";
         const rx = p.node.shape === "terminal" ? p.h / 2 : 12;
         const startY = p.y - ((p.lines.length - 1) * LINE_H) / 2 + 4;
+        const on = focusId === p.node.id;
+        const conn = links.get(p.node.id);
         return (
-          <g key={p.node.id}>
+          <g
+            key={p.node.id}
+            opacity={dimNode(p.node.id)}
+            className="cursor-pointer transition-opacity duration-150 focus:outline-none"
+            tabIndex={0}
+            role="button"
+            aria-pressed={pickedId === p.node.id}
+            aria-label={`${p.node.label}. ${conn?.in.length ?? 0} נכנסות, ${conn?.out.length ?? 0} יוצאות`}
+            onMouseEnter={() => setHoverId(p.node.id)}
+            onMouseLeave={() => setHoverId((h) => (h === p.node.id ? null : h))}
+            onFocus={() => setHoverId(p.node.id)}
+            onBlur={() => setHoverId((h) => (h === p.node.id ? null : h))}
+            onClick={() => setPickedId((c) => (c === p.node.id ? null : p.node.id))}
+            onKeyDown={(ev) => {
+              if (ev.key === "Enter" || ev.key === " ") {
+                ev.preventDefault();
+                setPickedId((c) => (c === p.node.id ? null : p.node.id));
+              } else if (ev.key === "Escape") setPickedId(null);
+            }}
+          >
+            {/* Focus ring drawn as a shape, because an SVG group cannot take a
+                CSS outline that follows a diamond. */}
+            {on && (isDiamond
+              ? <path d={shapePath(p)} fill="none" stroke="var(--brand)" strokeWidth={4} opacity={0.35} />
+              : <rect x={p.x - p.w / 2 - 3} y={p.y - p.h / 2 - 3} width={p.w + 6} height={p.h + 6}
+                  rx={rx + 3} fill="none" stroke="var(--brand)" strokeWidth={3} opacity={0.35} />)}
             {isDiamond ? (
               <path d={shapePath(p)} fill={c.fill} stroke={c.stroke} strokeWidth={1.6} />
             ) : (
@@ -265,6 +326,47 @@ export function DiagramView({ source }: { source: string }) {
     </div>
   );
 
+  /**
+   * Shown only on an explicit click, never on hover — a panel that appeared
+   * under the pointer would flicker as the pointer crossed the canvas.
+   */
+  const detail = pickedId ? (() => {
+    const node = diagram.nodes.find((n) => n.id === pickedId);
+    const l = links.get(pickedId);
+    if (!node || !l) return null;
+    const nameOf = (id: string) => diagram.nodes.find((n) => n.id === id)?.label ?? id;
+    const Row = ({ label, ids }: { label: string; ids: string[] }) =>
+      ids.length ? (
+        <div className="flex flex-wrap items-baseline gap-1.5">
+          <span className="text-[11px] text-ink-3">{label}</span>
+          {ids.map((id) => (
+            <button key={id} onClick={() => setPickedId(id)}
+              className="rounded-md bg-surface-2 px-1.5 py-0.5 text-[11px] text-ink-2 transition hover:text-brand">
+              {nameOf(id)}
+            </button>
+          ))}
+        </div>
+      ) : null;
+    return (
+      <div className="border-t border-hairline bg-surface-2/40 px-3 py-2" aria-live="polite">
+        <div className="mb-1 flex items-center justify-between gap-2">
+          <span className="text-[0.8125rem] font-semibold text-ink-1">{node.label}</span>
+          <button onClick={() => setPickedId(null)}
+            className="rounded-md px-1.5 py-0.5 text-[11px] text-ink-3 transition hover:bg-surface-2 hover:text-ink-1">
+            נקה בחירה
+          </button>
+        </div>
+        <div className="space-y-1">
+          <Row label="מגיע מ־" ids={l.in} />
+          <Row label="ממשיך אל־" ids={l.out} />
+          {!l.in.length && !l.out.length && (
+            <span className="text-[11px] text-ink-3">שלב מבודד — אין לו קשרים בתרשים.</span>
+          )}
+        </div>
+      </div>
+    );
+  })() : null;
+
   return (
     <>
       <figure className="my-4 overflow-hidden rounded-2xl border border-hairline bg-surface">
@@ -273,6 +375,7 @@ export function DiagramView({ source }: { source: string }) {
           {toolbar}
         </figcaption>
         <div className="overflow-auto p-3" style={{ maxHeight: "32rem" }}>{svg}</div>
+        {detail}
       </figure>
 
       {full && (
@@ -286,6 +389,7 @@ export function DiagramView({ source }: { source: string }) {
                 className="rounded-lg p-1.5 text-ink-3 transition hover:bg-surface-2 hover:text-ink-1"><X className="size-4" /></button>
             </div>
             <div className="flex-1 overflow-auto p-4">{svg}</div>
+            {detail}
           </div>
         </div>
       )}
