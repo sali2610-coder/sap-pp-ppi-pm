@@ -16,7 +16,7 @@
     "start": "next start",
     "lint": "eslint",
     "check:diag": "node scripts/check-diag.mjs",
-    "prebuild": "node scripts/check-vercel-json.mjs && node scripts/migrate-books.mjs && node scripts/validate-books.mjs",
+    "prebuild": "node scripts/migrate-books.mjs && node scripts/validate-books.mjs && npm run gen:tx-index",
     "check:sitemap": "node scripts/check-sitemap.mjs",
     "check:prod": "node scripts/check-prod.mjs",
     "check:vercel": "node scripts/check-vercel-json.mjs",
@@ -25,7 +25,8 @@
     "gen:academy-blocks": "node --experimental-strip-types --no-warnings scripts/gen-academy-blocks.mjs",
     "check:academy-blocks": "node --experimental-strip-types --no-warnings scripts/gen-academy-blocks.mjs --check",
     "verify:reader": "node scripts/verify-reader.mjs",
-    "check:reader": "node scripts/check-reader-coverage.mjs"
+    "check:reader": "node scripts/check-reader-coverage.mjs",
+    "gen:tx-index": "node --experimental-strip-types --no-warnings --loader ./scripts/alias-loader.mjs scripts/gen-tx-search-index.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
