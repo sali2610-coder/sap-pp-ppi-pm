@@ -71,10 +71,15 @@ const he = (e) => {
  * only, no prose" — a book with more content than any other in the library
  * reported as having none.
  */
+// Nine of these are ARRAYS in the source, not strings, and they hold roughly
+// half of book8's content. Reading only strings captured the five prose facets
+// and silently dropped ~307k characters of the structured ones — which then
+// validated as "100% body coverage" because the five that survived were the
+// ones the check looked at.
 const FACETS = [
   "exec", "beginner", "consultant", "purpose", "processExample", "scenario",
-  "nav", "config", "mistakes", "troubleshoot", "bestPractice", "interview",
-  "takeaways", "related", "summary", "why",
+  "nav", "config", "masterData", "mistakes", "troubleshoot", "bestPractice",
+  "interview", "takeaways", "related", "summary", "why",
 ];
 const REFS = ["tables", "tcodes", "fiori", "flow"];
 
@@ -89,6 +94,10 @@ function sectionBody(s) {
   for (const f of FACETS) {
     const v = s[`${f}He`];
     if (typeof v === "string" && v.trim()) facets[f] = v.trim();
+    else if (Array.isArray(v)) {
+      const items = v.map((x) => (typeof x === "string" ? x.trim() : String(x ?? "").trim())).filter(Boolean);
+      if (items.length) facets[f] = items;
+    }
   }
   const refs = {};
   for (const r of REFS) {
@@ -225,7 +234,7 @@ for (let i = 1; i <= 11; i++) {
   const academy = vals.filter((b) => b.format === "academy").length;
   const heBodies = vals.filter((b) =>
     b.format === "academy"
-      ? Object.values(b.facets ?? {}).some((t) => HEB.test(t))
+      ? Object.values(b.facets ?? {}).some((t) => HEB.test(Array.isArray(t) ? t.join(" ") : t))
       : HEB.test(b.he ?? "")).length;
   const pct = (n) => Math.round((n / Math.max(1, idx.length)) * 100);
   report.push([id, "OK",

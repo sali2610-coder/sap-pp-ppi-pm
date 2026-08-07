@@ -75,21 +75,40 @@ function RefChips({ label, value }: { label: string; value: unknown }) {
  */
 function Academy({ body }: { body: AcademyBody }) {
   const facets = body.facets ?? {};
-  const present = FACET_ORDER.filter((f) => facets[f.key]?.trim());
+  const present = FACET_ORDER.filter((f) => {
+    const v = facets[f.key];
+    return Array.isArray(v) ? v.length > 0 : Boolean(v?.trim());
+  });
   const refs = body.refs ?? {};
   const hasRefs = Object.values(refs).some((v) => (isList(v) ? v.length : v != null && v !== ""));
 
   return (
     <div className="space-y-5">
-      {present.map((f) => (
-        <section key={f.key}>
-          <h4 className="mb-1.5 flex items-center gap-1.5 text-[0.8125rem] font-semibold text-ink-1">
-            <span className="h-3 w-[3px] rounded-full bg-[var(--accent)]" aria-hidden />
-            {f.he}
-          </h4>
-          <Prose text={facets[f.key]} />
-        </section>
-      ))}
+      {present.map((f) => {
+        const v = facets[f.key];
+        return (
+          <section key={f.key}>
+            <h4 className="mb-1.5 flex items-center gap-1.5 text-[0.8125rem] font-semibold text-ink-1">
+              <span className="h-3 w-[3px] rounded-full bg-[var(--accent)]" aria-hidden />
+              {f.he}
+            </h4>
+            {Array.isArray(v) ? (
+              // Steps, mistakes and interview questions are lists in the source.
+              // Rendering them as one paragraph would lose the item boundaries.
+              <ul className="max-w-[74ch] space-y-1.5">
+                {v.map((item, i) => (
+                  <li key={i} className="flex gap-2">
+                    <span className="mt-[0.62em] size-[4px] shrink-0 rounded-full bg-[var(--accent)]/70" aria-hidden />
+                    <span className="text-[0.9375rem] leading-[1.75] text-ink-2">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <Prose text={v} />
+            )}
+          </section>
+        );
+      })}
 
       {hasRefs && (
         <section className="space-y-2 rounded-xl bg-surface-2 p-3">

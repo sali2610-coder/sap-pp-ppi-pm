@@ -132,6 +132,16 @@ for (const vp of VIEWPORTS) {
         const known = heads.filter((h) => /תקציר מנהלים|זווית היועץ|למתחילים|מטרה|תרחיש/.test(h));
         return known.length > 0 ? known.slice(0, 3).join(", ") : false;
       });
+
+      // Nine of the fourteen facets are LISTS holding about half of book8's
+      // content. Asserting only on the prose facets is what let a 307k-character
+      // drop pass as "100% coverage".
+      await check(page, `${vp.label}/book8: list facets rendered`, async () => {
+        const heads = await page.locator("article h4").allInnerTexts();
+        const listy = heads.filter((h) => /טעויות נפוצות|שאלות ראיון|קונפיגורציה|נתוני-אב|ניווט|שיטות עבודה/.test(h));
+        const items = await page.locator("article h4 + ul li").count();
+        return listy.length > 0 && items > 0 ? `${listy.length} list facets, ${items} items` : false;
+      });
     }
 
     // The assertion that caught `delay={120}`: content can be present, correct

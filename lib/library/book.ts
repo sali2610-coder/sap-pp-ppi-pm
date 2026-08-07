@@ -28,7 +28,12 @@ export interface ProseBody {
 export interface AcademyBody {
   format: "academy";
   snippet?: string;
-  facets?: Record<string, string>;
+  /**
+   * A facet is prose OR a list. Nine of book8's fourteen are arrays — steps,
+   * common mistakes, interview questions — and flattening them to a string
+   * would lose the item boundaries that make them readable.
+   */
+  facets?: Record<string, string | string[]>;
   refs?: { tables?: unknown; tcodes?: unknown; fiori?: unknown; flow?: unknown };
   depth?: number;
 }
@@ -78,6 +83,7 @@ export const FACET_ORDER: { key: string; he: string }[] = [
   { key: "scenario", he: "תרחיש" },
   { key: "nav", he: "ניווט במערכת" },
   { key: "config", he: "קונפיגורציה" },
+  { key: "masterData", he: "השפעת נתוני-אב" },
   { key: "mistakes", he: "טעויות נפוצות" },
   { key: "troubleshoot", he: "טיפול בתקלות" },
   { key: "bestPractice", he: "שיטות עבודה מומלצות" },

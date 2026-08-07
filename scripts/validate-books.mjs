@@ -97,7 +97,7 @@ for (const file of files) {
       // the richest book in the library as having no content at all.
       const b = prose.get(s.id);
       if (b && (b.format === "academy"
-        ? Object.values(b.facets ?? {}).some((t) => HEB.test(String(t)))
+        ? Object.values(b.facets ?? {}).some((t) => HEB.test(Array.isArray(t) ? t.join(" ") : String(t)))
         : HEB.test(String(b.he ?? "")))) heBody++;
       if (!String(s.title?.en ?? "").trim() && !String(s.title?.he ?? "").trim()) {
         E(id, "SECTION_UNTITLED", `${s.id} has no title in either language`);
