@@ -1,9 +1,14 @@
 /**
- * The Library Platform reader route — phase 4 of docs/LIBRARY-PLATFORM.md.
+ * The Library Platform reader. One dynamic route serving every book.
  *
- * One dynamic route replaces eleven hand-maintained page files. Nothing links
- * here yet: the existing /library/bookN routes are untouched, so this can be
- * compared against them (phase 5) before anything is swapped (phase 6).
+ * This REPLACED eleven hand-maintained page files, at the same URLs. Keeping
+ * /library/bookN was not cosmetic: 3,889 internal references point at those
+ * paths, so a move plus redirects would have been strictly worse than a route
+ * that simply answers where the old ones did.
+ *
+ * Sibling static routes under /library (academy, the quality reports, the
+ * per-module academies) still win over this dynamic segment, and
+ * generateStaticParams emits only the eleven book ids.
  */
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";

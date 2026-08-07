@@ -24,7 +24,8 @@
     "typecheck:test": "tsc --noEmit -p tsconfig.test.json",
     "gen:academy-blocks": "node --experimental-strip-types --no-warnings scripts/gen-academy-blocks.mjs",
     "check:academy-blocks": "node --experimental-strip-types --no-warnings scripts/gen-academy-blocks.mjs --check",
-    "verify:reader": "node scripts/verify-reader.mjs"
+    "verify:reader": "node scripts/verify-reader.mjs",
+    "check:reader": "node scripts/check-reader-coverage.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

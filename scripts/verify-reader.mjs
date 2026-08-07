@@ -1,6 +1,6 @@
-// Phase 6 gate: does the platform reader actually RENDER?
+// Does the platform reader actually RENDER? (phases 4-6 gate)
 //
-// Everything about /library/v2 was verified structurally — routes emit, shards
+// Everything about the reader was verified structurally — routes emit, shards
 // resolve, 4,314/4,314 sections have content — but the reader loads its prose
 // client-side, so none of that proves a single word reaches the screen. This
 // drives the real exported build in a real browser and asserts on what painted.
@@ -91,7 +91,7 @@ for (const vp of VIEWPORTS) {
   page.on("pageerror", (e) => errors.push(String(e.message).slice(0, 120)));
 
   for (const book of ["book1", "book8"]) {
-    const url = `http://localhost:${PORT}/library/v2/${book}/`;
+    const url = `http://localhost:${PORT}/library/${book}/`;
     await page.goto(url, { waitUntil: "networkidle", timeout: 30_000 });
 
     await check(page, `${vp.label}/${book}: shell resolved to ${vp.expect}`, async () => {
@@ -163,7 +163,7 @@ for (const vp of VIEWPORTS) {
 
     if (WANT_SHOTS) {
       await mkdir(SHOTS, { recursive: true });
-      await page.screenshot({ path: path.join(SHOTS, `v2-${book}-${vp.label}.png`), fullPage: false });
+      await page.screenshot({ path: path.join(SHOTS, `reader-${book}-${vp.label}.png`), fullPage: false });
     }
   }
 
