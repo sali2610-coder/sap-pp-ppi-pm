@@ -33,10 +33,20 @@ export interface Timeline {
   events: TimelineEvent[];
 }
 
+export type StepShape = "task" | "event" | "gateway";
+
 export interface SwimlaneStep {
   id: string;
   label: string;
   lane: string;
+  /**
+   * BPMN shape vocabulary. A swimlane written as `bpmn` distinguishes an event
+   * (circle) from a gateway (diamond) from a task (rounded box); a plain
+   * swimlane is all tasks. This is the practical subset of BPMN that appears in
+   * SAP process documentation — pools, message flows and typed intermediate
+   * events are deliberately NOT claimed.
+   */
+  shape: StepShape;
 }
 
 export interface Swimlane {
@@ -90,7 +100,8 @@ const NODE = /^([A-Za-z0-9_֐-׿]+)\s*(?:\[([^\]]*)\]|\(([^)]*)\)|\{([^}]*)\})?/
  */
 export function parseSwimlane(src: string): Swimlane | null {
   const lines = src.split("\n").map((l) => l.trim()).filter(Boolean);
-  if (!lines.length || !/^swimlane\b/i.test(lines[0])) return null;
+  // `bpmn` is the same structure with the shape vocabulary switched on.
+  if (!lines.length || !/^(swimlane|bpmn)\b/i.test(lines[0])) return null;
 
   let title: string | undefined;
   const lanes: string[] = [];
@@ -98,13 +109,13 @@ export function parseSwimlane(src: string): Swimlane | null {
   const edges: Swimlane["edges"] = [];
   let lane = "";
 
-  const ensure = (id: string, label?: string) => {
+  const ensure = (id: string, label?: string, shape: StepShape = "task") => {
     const cur = steps.get(id);
     if (cur) {
-      if (label && cur.label === cur.id) cur.label = label;
+      if (label && cur.label === cur.id) { cur.label = label; cur.shape = shape; }
       return cur;
     }
-    const s: SwimlaneStep = { id, label: label ?? id, lane: lane || "—" };
+    const s: SwimlaneStep = { id, label: label ?? id, lane: lane || "—", shape };
     steps.set(id, s);
     return s;
   };
@@ -124,7 +135,9 @@ export function parseSwimlane(src: string): Swimlane | null {
       const m = chunk.trim().match(NODE);
       if (!m) return null;
       const label = clean(m[2] ?? m[3] ?? m[4] ?? "") || m[1];
-      return ensure(m[1], label);
+      // m[2]=[] task, m[3]=() event, m[4]={} gateway
+      const shape: StepShape = m[4] != null ? "gateway" : m[3] != null ? "event" : "task";
+      return ensure(m[1], label, shape);
     };
 
     ARROW.lastIndex = 0;
@@ -151,7 +164,10 @@ export function parseSwimlane(src: string): Swimlane | null {
     }
 
     const solo = raw.match(NODE);
-    if (solo && solo[1]) ensure(solo[1], clean(solo[2] ?? solo[3] ?? solo[4] ?? "") || solo[1]);
+    if (solo && solo[1]) {
+      const shape: StepShape = solo[4] != null ? "gateway" : solo[3] != null ? "event" : "task";
+      ensure(solo[1], clean(solo[2] ?? solo[3] ?? solo[4] ?? "") || solo[1], shape);
+    }
   }
 
   if (!lanes.length || steps.size < 2) return null;
@@ -159,11 +175,11 @@ export function parseSwimlane(src: string): Swimlane | null {
 }
 
 /** Fence languages that mean "not a graph". */
-export const AXIS_LANGS = new Set(["timeline", "swimlane", "gantt", "roadmap", "sequence", "sequencediagram"]);
+export const AXIS_LANGS = new Set(["timeline", "swimlane", "bpmn", "gantt", "roadmap", "sequence", "sequencediagram"]);
 
 export function isAxisFence(text: string, lang?: string): boolean {
   if (lang && AXIS_LANGS.has(lang.toLowerCase())) return true;
-  return /^\s*(timeline|swimlane|sequence(diagram)?|gantt)\b/im.test(text);
+  return /^\s*(timeline|swimlane|bpmn|sequence(diagram)?|gantt)\b/im.test(text);
 }
 
 /* -------------------------------------------------------------- sequence */

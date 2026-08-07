@@ -173,17 +173,31 @@ export function SwimlaneView({ data }: { data: Swimlane }) {
           {data.steps.map((s) => {
             const p = layout.pos.get(s.id);
             if (!p) return null;
+            const cx = p.x + BOX_W / 2, cy = p.y + BOX_H / 2;
             return (
               <g key={s.id}>
+                {s.shape === "event" ? (
+                  // BPMN start/end event. A circle, because a box would read as
+                  // work and an event is a moment.
+                  <circle cx={cx} cy={cy} r={BOX_H / 2}
+                    fill="var(--surface, #fff)" stroke="var(--brand, #d62027)" strokeWidth="1.75" />
+                ) : s.shape === "gateway" ? (
+                  <path d={`M ${cx} ${cy - BOX_H / 2} L ${cx + BOX_H / 2} ${cy} L ${cx} ${cy + BOX_H / 2} L ${cx - BOX_H / 2} ${cy} Z`}
+                    fill="var(--surface, #fff)" stroke="var(--brand, #d62027)" strokeWidth="1.25" />
+                ) : (
                 <rect
                   x={p.x} y={p.y} width={BOX_W} height={BOX_H} rx={8}
                   fill="var(--surface, #fff)" stroke="var(--brand, #d62027)" strokeWidth="1.25"
                 />
+                )}
                 <text
-                  x={p.x + BOX_W / 2} y={p.y + BOX_H / 2}
+                  x={cx}
+                  y={s.shape === "task" ? cy : cy + BOX_H / 2 + 11}
                   textAnchor="middle" dominantBaseline="middle"
                   fontSize="11" fill="var(--ink-1, #111827)"
                 >
+                  {/* A circle and a diamond are too small to hold Hebrew, so
+                      their label sits beneath the shape rather than inside it. */}
                   {s.label.length > 20 ? `${s.label.slice(0, 19)}…` : s.label}
                 </text>
               </g>
