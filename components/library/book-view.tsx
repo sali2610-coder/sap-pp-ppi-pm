@@ -11,7 +11,7 @@
  * book means adding one branch — not touching the eleven that already work.
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { BookOpen, ChevronLeft, Hash, Images, Layers, Loader2 } from "lucide-react";
 import type { Book, BookSection, SectionBody, AcademyBody } from "@/lib/library/book";
@@ -20,7 +20,7 @@ import { accentVars, identityOf } from "@/lib/book-identity";
 import { useI18n } from "@/lib/i18n";
 import { FigureViewer, type ViewerFigure } from "@/components/figure-viewer";
 import { chapterExtra } from "@/components/library/chapter-extras";
-import { EmptyState, ErrorState, LoadingState, NeoChip, Reveal } from "@/components/neo";
+import { EmptyState, ErrorState, NeoChip } from "@/components/neo";
 
 /* ------------------------------------------------------------------ prose */
 

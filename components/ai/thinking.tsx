@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BookOpen, PenLine, Search, Sparkles } from "lucide-react";
+import { BookOpen, PenLine, Search } from "lucide-react";
 
 /**
  * What the system shows while it works.

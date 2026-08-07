@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Clock, Info, Layers, MessageSquarePlus, Pencil, Sparkles, Star, Trash2, X } from "lucide-react";
 import { ScopeTree } from "./scope-tree";
 import { AnswerCard } from "./answer-card";

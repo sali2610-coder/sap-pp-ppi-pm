@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import dagre from "dagre";
-import { Download, Maximize2, Minus, Plus, Printer, RotateCcw, X } from "lucide-react";
+import { Maximize2, Minus, Plus, Printer, RotateCcw, X } from "lucide-react";
 import { parseDiagram, type Diagram, type DiagramNode } from "@/lib/ai/diagram";
 import { useDialog } from "@/lib/use-dialog";
 

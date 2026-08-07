@@ -6,7 +6,7 @@ import { Info, Lightbulb, TriangleAlert } from "lucide-react";
 import { knownRoutes, type SapKind } from "@/lib/ai-known-routes";
 import { isDiagramFence } from "@/lib/ai/diagram";
 import { isAxisFence, parseGantt, parseSequence, parseSwimlane, parseTimeline } from "@/lib/ai/timeline";
-import { parseAnswerBlocks, type Block } from "@/lib/ai/answer-parse";
+import { parseAnswerBlocks } from "@/lib/ai/answer-parse";
 import { DiagramView } from "./diagram-view";
 import { GanttView, SequenceView, SwimlaneView, TimelineView } from "./axis-view";
 
