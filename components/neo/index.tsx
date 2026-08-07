@@ -21,6 +21,12 @@ import type { ReactNode } from "react";
 /* ------------------------------------------------------------------ motion */
 
 /** The Library's entrance. One per top-level region, never nested. */
+/**
+ * @param delay SECONDS, not milliseconds — this is framer-motion's unit and it
+ *              is passed straight through. `delay={120}` is not a tenth of a
+ *              second, it is two minutes of invisible content, which is exactly
+ *              the mistake this note exists to prevent.
+ */
 export function Reveal({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
   const reduce = useReducedMotion();
   return (

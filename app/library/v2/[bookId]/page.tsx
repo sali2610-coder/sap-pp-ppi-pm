@@ -54,7 +54,7 @@ export default async function BookPage({ params }: { params: Promise<{ bookId: s
         </PageHeader>
       </Reveal>
 
-      <Reveal delay={60}>
+      <Reveal delay={0.06}>
         <div className="mb-6 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[0.75rem] text-ink-3">
           <span className="inline-flex items-center gap-1.5">
             <span className="size-2 rounded-full" style={{ background: identity?.accent }} aria-hidden />
@@ -71,7 +71,7 @@ export default async function BookPage({ params }: { params: Promise<{ bookId: s
         </div>
       </Reveal>
 
-      <Reveal delay={120}>
+      <Reveal delay={0.12}>
         <BookView book={book} />
       </Reveal>
 

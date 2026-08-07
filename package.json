@@ -23,7 +23,8 @@
     "test": "node --experimental-strip-types --test test/*.test.ts",
     "typecheck:test": "tsc --noEmit -p tsconfig.test.json",
     "gen:academy-blocks": "node --experimental-strip-types --no-warnings scripts/gen-academy-blocks.mjs",
-    "check:academy-blocks": "node --experimental-strip-types --no-warnings scripts/gen-academy-blocks.mjs --check"
+    "check:academy-blocks": "node --experimental-strip-types --no-warnings scripts/gen-academy-blocks.mjs --check",
+    "verify:reader": "node scripts/verify-reader.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -56,6 +57,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.7",
     "pdf-parse": "^2.4.5",
+    "playwright-core": "1.62.1",
     "tailwindcss": "^4",
     "typescript": "^5",
     "xlsx": "^0.18.5"
