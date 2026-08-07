@@ -33,8 +33,16 @@ jobs:
         # four minutes on tsc and a static export first.
         run: npm run check:vercel
 
+      - name: Unit tests
+        # Fast and dependency-free (node:test). Runs before the build because a
+        # broken parser should fail in seconds, not after a 4,600-page export.
+        run: npm test
+
       - name: TypeScript (tsc --noEmit)
         run: npx tsc --noEmit
+
+      - name: TypeScript (tests)
+        run: npx tsc --noEmit -p tsconfig.test.json
 
       - name: ESLint (fail on errors)
         run: npx eslint . --ext .ts,.tsx
