@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion, type MotionProps } from "framer-motion";
 import { Play, Flame, Target, ArrowLeft, Sparkles, Check, GraduationCap, LayoutDashboard, Trophy, Clock, TrendingUp, History, Library, Zap, type LucideIcon } from "lucide-react";
-import { BOOKS, bookStats } from "@/data/library/academy-index";
+import type { BookDef, bookStats } from "@/data/library/academy-index";
 
 // SVG badge icons (blueprint: no emoji-as-icon) keyed by gamification badge id
 const BADGE_ICON: Record<string, LucideIcon> = { first: Target, blocks10: Library, streak3: Flame, streak7: Zap, lesson: GraduationCap };
@@ -67,7 +67,18 @@ function Ring({ pct, size = 64, stroke = 6, color }: { pct: number; size?: numbe
   );
 }
 
-function MiniTrack({ t, meta }: { t: typeof BOOKS[number]; meta: string }) {
+/**
+ * A book as this screen needs it: every BookDef field except `data`, plus the
+ * counts that used to be derived from `data` at render time.
+ *
+ * `data` is the whole textbook. Importing BOOKS here pulled all of them into the
+ * client bundle to render five integers per card, so app/academy/page.tsx now
+ * resolves both on the server and passes the result down. Type-only import, so
+ * nothing from academy-index reaches the browser.
+ */
+export type AcademyTrack = Omit<BookDef, "data"> & ReturnType<typeof bookStats>;
+
+function MiniTrack({ t, meta }: { t: AcademyTrack; meta: string }) {
   const href = trackHref(t.id, t.base);
   return (
     <Link href={href} className="group flex items-center gap-3 rounded-xl border border-hairline bg-surface p-3 transition hover:border-brand/30">
@@ -78,7 +89,7 @@ function MiniTrack({ t, meta }: { t: typeof BOOKS[number]; meta: string }) {
   );
 }
 
-export function AcademyHome() {
+export function AcademyHome({ tracks }: { tracks: AcademyTrack[] }) {
   const reduce = useReducedMotion();
   const g = useGamification();
   const pilotTotal = useMemo(() => orderedBlocks(PILOT_LESSONS[PILOT_SLUG]).length, []);
@@ -95,10 +106,9 @@ export function AcademyHome() {
   // §P0.3 — first-time vs returning: never greet a brand-new user with "welcome back".
   const returning = g.blocksDone > 0 || activeCourses.length > 0;
 
-  const tracks = BOOKS;
   const recent = useRecent();
-  const updated = useMemo(() => [...BOOKS].sort((a, b) => (b.lastUpdated || "").localeCompare(a.lastUpdated || "")).slice(0, 4), []);
-  const popular = useMemo(() => [...BOOKS].sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, 4), []);
+  const updated = useMemo(() => [...tracks].sort((a, b) => (b.lastUpdated || "").localeCompare(a.lastUpdated || "")).slice(0, 4), [tracks]);
+  const popular = useMemo(() => [...tracks].sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, 4), [tracks]);
   // Was framer `initial={{ opacity: 0 }}` (+ whileInView for the sections).
   // The static export serialised those as inline opacity:0, so the Academy
   // hero and every section below it shipped invisible until framer-motion
@@ -180,7 +190,9 @@ export function AcademyHome() {
       <div className={`${RISE} mt-8`} style={riseStyle}>
         <div className="mb-3.5 flex items-baseline justify-between"><h2 className="text-[19px] font-extrabold tracking-[-0.01em]">מסלולי הלמידה</h2></div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {tracks.map((t) => { const st = bookStats(t.id); const href = trackHref(t.id, t.base); const pct = t.id === "pm" ? pilotPct : 0; return (
+          {/* Stats are precomputed on the server and spread onto each track, so
+              `st` reads the same fields bookStats() used to return. */}
+          {tracks.map((t) => { const st = t; const href = trackHref(t.id, t.base); const pct = t.id === "pm" ? pilotPct : 0; return (
             <Link key={t.id} href={href} className="group flex flex-col overflow-hidden rounded-2xl border border-hairline bg-surface transition duration-200 hover:-translate-y-1 hover:border-[#dfe2e7] hover:shadow-[0_22px_44px_-22px_rgba(11,12,14,.22)]">
               <div className={`relative flex h-28 items-end bg-gradient-to-br ${t.tint} p-3.5 text-white`}>
                 <span className="absolute inset-x-3.5 top-3 flex items-center justify-between"><span className="text-[10px] font-extrabold uppercase tracking-[0.1em] opacity-90">{t.module}</span>{pct > 0 && <span className="rounded-full bg-white/25 px-2 py-0.5 text-[9.5px] font-bold backdrop-blur">בתהליך</span>}</span>

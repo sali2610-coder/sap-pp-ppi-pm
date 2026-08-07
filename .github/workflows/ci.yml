@@ -53,6 +53,13 @@ jobs:
       - name: M1 — route-manifest drift guard
         run: npm run check:routes
 
+      # The academy block map is derived from the lesson bodies but committed, so
+      # that client bundles never import 7.6 MB of lesson content just to read a
+      # block count. If the lessons change and the map is not regenerated, the
+      # progress denominators go stale — fail the build instead.
+      - name: Academy block map must match the lesson data
+        run: npm run check:academy-blocks
+
       - name: Diagnostics page must ship with every build
         run: npm run check:diag
 

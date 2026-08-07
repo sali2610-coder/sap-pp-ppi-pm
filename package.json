@@ -21,7 +21,9 @@
     "check:prod": "node scripts/check-prod.mjs",
     "check:vercel": "node scripts/check-vercel-json.mjs",
     "test": "node --experimental-strip-types --test test/*.test.ts",
-    "typecheck:test": "tsc --noEmit -p tsconfig.test.json"
+    "typecheck:test": "tsc --noEmit -p tsconfig.test.json",
+    "gen:academy-blocks": "node --experimental-strip-types --no-warnings scripts/gen-academy-blocks.mjs",
+    "check:academy-blocks": "node --experimental-strip-types --no-warnings scripts/gen-academy-blocks.mjs --check"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
