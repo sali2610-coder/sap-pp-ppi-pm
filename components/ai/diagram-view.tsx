@@ -2,13 +2,14 @@
 
 import { useMemo, useRef, useState } from "react";
 import dagre from "dagre";
-import { Maximize2, Minus, Plus, Printer, RotateCcw, X , Play} from "lucide-react";
+import { Maximize2, Minus, Plus, Printer, RotateCcw, X , Play, GraduationCap} from "lucide-react";
 import { parseDiagram, type Diagram, type DiagramNode } from "@/lib/ai/diagram";
 import Link from "next/link";
 import { useDialog } from "@/lib/use-dialog";
 import { knownRoutes } from "@/lib/ai-known-routes";
 import { groupRefs, nodeFacts, KIND_HE, type Lookup } from "@/lib/ai/node-facts";
 import { PresentationMode } from "./diagram-present";
+import { LearningMode } from "./diagram-learn";
 
 /**
  * Renders a flowchart as real SVG.
@@ -113,6 +114,7 @@ export function DiagramView({ source }: { source: string }) {
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [pickedId, setPickedId] = useState<string | null>(null);
   const [present, setPresent] = useState(false);
+  const [learn, setLearn] = useState(false);
 
   // The live registry, adapted to the injected shape node-facts expects.
   const lookup: Lookup = useMemo(() => {
@@ -259,7 +261,12 @@ export function DiagramView({ source }: { source: string }) {
    * reading state, so presentation mode can step through the SAME svg the page
    * renders — two copies would drift the moment either changed.
    */
-  const renderSvg = (active: string | null = focusId, attachRef = true) => {
+  const renderSvg = (
+    active: string | null = focusId,
+    attachRef = true,
+    /** Learning mode: only these node ids exist yet. undefined = show all. */
+    revealed?: Set<string>,
+  ) => {
   const focus = dimFor(active).on;
   const dimNode = dimFor(active).node;
   const dimEdge = dimFor(active).edge;
@@ -286,7 +293,9 @@ export function DiagramView({ source }: { source: string }) {
         const d = pts.map((p, j) => `${j === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
         const mid = pts[Math.floor(pts.length / 2)];
         return (
-          <g key={i} opacity={dimEdge(i)} className="transition-opacity duration-150">
+          <g key={i}
+            opacity={revealed && !(revealed.has(e.from) && revealed.has(e.to)) ? 0 : dimEdge(i)}
+            className="transition-opacity duration-150">
             <path d={d} fill="none"
               stroke={focus?.edges.has(i) ? "var(--brand)" : "var(--ink-3)"}
               strokeWidth={focus?.edges.has(i) ? 2.4 : 1.6}
@@ -314,7 +323,7 @@ export function DiagramView({ source }: { source: string }) {
         return (
           <g
             key={p.node.id}
-            opacity={dimNode(p.node.id)}
+            opacity={revealed && !revealed.has(p.node.id) ? 0 : dimNode(p.node.id)}
             className="cursor-pointer transition-opacity duration-150 focus:outline-none"
             tabIndex={0}
             role="button"
@@ -382,6 +391,10 @@ export function DiagramView({ source }: { source: string }) {
       <button onClick={() => setPresent(true)}
         className="inline-flex items-center gap-1 rounded-lg bg-brand/10 px-2 py-1.5 text-[11px] font-bold text-brand transition hover:bg-brand/20">
         <Play className="size-3" /> מצגת
+      </button>
+      <button onClick={() => setLearn(true)}
+        className="inline-flex items-center gap-1 rounded-lg bg-brand/10 px-2 py-1.5 text-[11px] font-bold text-brand transition hover:bg-brand/20">
+        <GraduationCap className="size-3" /> לימוד
       </button>
       {!full && (
         <button onClick={() => setFull(true)} aria-label="מסך מלא"
@@ -469,6 +482,16 @@ export function DiagramView({ source }: { source: string }) {
         <div className="overflow-auto p-3" style={{ maxHeight: "32rem" }}>{svg}</div>
         {detail}
       </figure>
+
+      {learn && (
+        <LearningMode
+          diagram={diagram}
+          onClose={() => setLearn(false)}
+          // Only the steps reached so far are drawn. Showing the finished
+          // diagram behind the first step would give the process away.
+          canvas={({ focusId, revealed }) => renderSvg(focusId, false, revealed)}
+        />
+      )}
 
       {present && (
         <PresentationMode
