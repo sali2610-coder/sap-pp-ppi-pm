@@ -167,18 +167,49 @@ for (const vp of VIEWPORTS) {
     }
   }
 
-  // The AI chat, at every viewport — the other surface never screenshotted.
-  await page.goto(`http://localhost:${PORT}/ai/`, { waitUntil: "networkidle", timeout: 30_000 });
-  await check(page, `${vp.label}/ai: composer present`, async () =>
+  // The AI chat, at every viewport. /chat/ is the route the nav, the mobile tab
+  // bar and every object page link to, so it is the one that must be right.
+  await page.goto(`http://localhost:${PORT}/chat/`, { waitUntil: "networkidle", timeout: 30_000 });
+
+  await check(page, `${vp.label}/chat: no legacy Gemini key field`, async () => {
+    const n = await page.evaluate(() =>
+      document.body.innerText.includes("Gemini") || document.body.innerText.includes("מפתח גישה") ? 1 : 0);
+    return n === 0 ? "" : false;
+  });
+
+  await check(page, `${vp.label}/chat: browser holds no provider key`, async () => {
+    const leaked = await page.evaluate(() => {
+      try { return Object.keys(localStorage).filter((k) => /gemini|api[-_]?key/i.test(k)); }
+      catch { return []; }
+    });
+    return leaked.length === 0 ? "" : `found ${leaked.join(",")}`;
+  });
+
+  // Above lg the rail is a column; below it, it lives behind a button. Both
+  // are correct — asserting only the inline case would fail the design, not the
+  // build.
+  await check(page, `${vp.label}/chat: workspace rail reachable`, async () => {
+    const seen = async () => /מקורות ידע פעילים|ספק AI|חלון הקשר/.test(
+      await page.evaluate(() => document.body.innerText));
+    if (await seen()) return "inline";
+    const trigger = page.locator('button[aria-label="בחר היקף"]');
+    if (await trigger.count()) {
+      await trigger.first().click();
+      await page.waitForTimeout(400);
+      if (await seen()) return "via sheet";
+    }
+    return false;
+  });
+  await check(page, `${vp.label}/chat: composer present`, async () =>
     (await page.locator("textarea, input[type=text]").count()) > 0);
-  await check(page, `${vp.label}/ai: no horizontal overflow`, async () => {
+  await check(page, `${vp.label}/chat: no horizontal overflow`, async () => {
     const over = await page.evaluate(() =>
       document.documentElement.scrollWidth - document.documentElement.clientWidth);
     return over <= 2 ? "" : false;
   });
   if (WANT_SHOTS) {
     await mkdir(SHOTS, { recursive: true });
-    await page.screenshot({ path: path.join(SHOTS, `ai-${vp.label}.png`), fullPage: false });
+    await page.screenshot({ path: path.join(SHOTS, `chat-${vp.label}.png`), fullPage: false });
   }
 
   if (errors.length) fail(`${vp.label}: no uncaught page errors`, errors.slice(0, 2).join(" | "));

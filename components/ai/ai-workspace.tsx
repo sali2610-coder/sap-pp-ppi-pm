@@ -3,9 +3,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { Clock, Info, Layers, MessageSquarePlus, Pencil, Sparkles, Star, Trash2, X } from "lucide-react";
 import { ScopeTree } from "./scope-tree";
+import { WorkspaceRail } from "./workspace-rail";
 import { AnswerCard } from "./answer-card";
 import { Composer } from "./composer";
-import { ContextPanel } from "./context-panel";
 import { PageHeader, Reveal, PromptSuggestions, AIActionBar } from "@/components/neo";
 import { useDialog } from "@/lib/use-dialog";
 import {
@@ -145,18 +145,26 @@ export function AiWorkspace() {
         תשובות מבוססות אך ורק על 11 הספרים שבמאגר, עם הפניה לפרק ולסעיף המדויק.
       </p>
     </Reveal>
-    <div className="grid grid-cols-1 gap-6 xl:grid-cols-[16rem_1fr] 2xl:grid-cols-[17rem_1fr_19rem]">
-      {/* ---------- scope rail ---------- */}
-      <aside aria-label="היקף התשובה" className="hidden min-h-0 border-e border-hairline bg-surface xl:block">
-        <ScopeTree scope={scope} onScope={setScope} />
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[18rem_1fr] 2xl:grid-cols-[20rem_1fr]">
+      {/* ---------- workspace rail ----------
+          Scope picker and the request description share ONE column. They were
+          split across the far left and far right, and the right column only
+          appeared at 2xl — so on a 1440px laptop, which is most of them, the
+          workspace was simply not on screen. */}
+      <aside aria-label="סביבת העבודה"
+        className="hidden min-h-0 lg:block">
+        <div className="sticky top-24 max-h-[calc(100dvh-8rem)] overflow-y-auto rounded-3xl border border-hairline bg-surface shadow-[0_12px_34px_-22px_rgba(15,23,42,0.5)]">
+          <ScopeTree scope={scope} onScope={setScope} />
+          <WorkspaceRail scope={scope} answer={last} busy={busy} onScope={setScope} />
+        </div>
       </aside>
 
       {/* ---------- conversation ---------- */}
       <section aria-label="שיחה" className="flex min-w-0 flex-col gap-6">
         <header className="flex items-center gap-2 rounded-3xl border border-hairline bg-surface px-3 py-2 shadow-[0_12px_34px_-22px_rgba(15,23,42,0.5)]">
           <button onClick={() => setSheet("scope")} aria-label="בחר היקף"
-            className="flex items-center gap-1.5 rounded-xl border border-hairline px-2 py-1.5 text-[11.5px] font-semibold text-ink-2 transition hover:text-brand xl:hidden">
-            <Layers className="size-3.5" /> היקף
+            className="flex items-center gap-1.5 rounded-xl border border-hairline px-2 py-1.5 text-[11.5px] font-semibold text-ink-2 transition hover:text-brand lg:hidden">
+            <Layers className="size-3.5" /> סביבת עבודה
           </button>
           <div className="min-w-0 flex-1">
             <div className="truncate text-[12.5px] font-extrabold text-ink-1">שאל את הספרייה</div>
@@ -174,10 +182,6 @@ export function AiWorkspace() {
               <MessageSquarePlus className="size-3.5" /> שיחה חדשה
             </button>
           )}
-          <button onClick={() => setSheet("context")} aria-label="מידע נוסף"
-            className="flex items-center gap-1.5 rounded-xl border border-hairline px-2 py-1.5 text-[11.5px] font-semibold text-ink-2 transition hover:text-brand 2xl:hidden">
-            <Info className="size-3.5" />
-          </button>
         </header>
 
         {showHistory && (
@@ -257,16 +261,9 @@ export function AiWorkspace() {
         </div>
       </section>
 
-      {/* ---------- context rail ---------- */}
-      <aside aria-label="מידע והקשר" className="hidden 2xl:block">
-        <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto rounded-3xl border border-hairline bg-surface shadow-[0_12px_34px_-22px_rgba(15,23,42,0.5)]">
-        <ContextPanel scope={scope} answer={last} onAction={(p) => ask(p)} onScope={setScope} />
-        </div>
-      </aside>
-
       {/* ---------- mobile sheets ---------- */}
       {sheet && (
-        <div className="fixed inset-0 z-50 xl:hidden" role="dialog" aria-modal="true" aria-labelledby="ai-sheet-title">
+        <div className="fixed inset-0 z-50 lg:hidden" role="dialog" aria-modal="true" aria-labelledby="ai-sheet-title">
           <div aria-hidden onClick={() => setSheet(null)}
             className="absolute inset-0 bg-ink-1/40 backdrop-blur-[2px] animate-[fadeIn_.15s_ease-out]" />
           <div ref={sheetRef} tabIndex={-1} className="absolute inset-x-0 bottom-0 flex max-h-[86vh] flex-col rounded-t-3xl border-t border-hairline bg-surface shadow-2xl outline-none animate-[sheetUp_.22s_cubic-bezier(.32,.72,0,1)]">
@@ -279,10 +276,13 @@ export function AiWorkspace() {
                 <X className="size-4" />
               </button>
             </div>
-            <div className="min-h-0 flex-1 overflow-hidden">
-              {sheet === "scope"
-                ? <ScopeTree scope={scope} onScope={setScope} onNavigate={() => setSheet(null)} />
-                : <ContextPanel scope={scope} answer={last} onAction={(p) => { setSheet(null); ask(p); }} onScope={setScope} />}
+            {/* The same column the desktop layout shows, so the sheet is not a
+                reduced version of the workspace — it is the workspace. There is
+                only one trigger now, so splitting these across two sheet modes
+                would leave the rail unreachable on a phone. */}
+            <div className="min-h-0 flex-1 overflow-y-auto">
+              <ScopeTree scope={scope} onScope={setScope} onNavigate={() => setSheet(null)} />
+              <WorkspaceRail scope={scope} answer={last} busy={busy} onScope={setScope} />
             </div>
           </div>
         </div>
