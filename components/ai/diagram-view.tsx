@@ -2,9 +2,13 @@
 
 import { useMemo, useRef, useState } from "react";
 import dagre from "dagre";
-import { Maximize2, Minus, Plus, Printer, RotateCcw, X } from "lucide-react";
+import { Maximize2, Minus, Plus, Printer, RotateCcw, X , Play} from "lucide-react";
 import { parseDiagram, type Diagram, type DiagramNode } from "@/lib/ai/diagram";
+import Link from "next/link";
 import { useDialog } from "@/lib/use-dialog";
+import { knownRoutes } from "@/lib/ai-known-routes";
+import { groupRefs, nodeFacts, KIND_HE, type Lookup } from "@/lib/ai/node-facts";
+import { PresentationMode } from "./diagram-present";
 
 /**
  * Renders a flowchart as real SVG.
@@ -108,6 +112,17 @@ export function DiagramView({ source }: { source: string }) {
   // across the canvas cannot yank the highlight off what the user just clicked.
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [pickedId, setPickedId] = useState<string | null>(null);
+  const [present, setPresent] = useState(false);
+
+  // The live registry, adapted to the injected shape node-facts expects.
+  const lookup: Lookup = useMemo(() => {
+    const r = knownRoutes();
+    return (token) => {
+      const href = r.href.get(token);
+      const kind = r.kind.get(token);
+      return href && kind ? { href, kind } : null;
+    };
+  }, []);
   const svgRef = useRef<SVGSVGElement>(null);
   const dialogRef = useDialog<HTMLDivElement>(full, () => setFull(false));
 
@@ -140,10 +155,15 @@ export function DiagramView({ source }: { source: string }) {
   }
 
   const focusId = pickedId ?? hoverId;
-  const focus = focusId ? links.get(focusId) : null;
   /** 1 when nothing is focused, or when this element is part of the focus. */
-  const dimNode = (id: string) => (!focus ? 1 : focus.near.has(id) ? 1 : 0.22);
-  const dimEdge = (i: number) => (!focus ? 1 : focus.edges.has(i) ? 1 : 0.12);
+  const dimFor = (active: string | null) => {
+    const f = active ? links.get(active) : null;
+    return {
+      node: (id: string) => (!f ? 1 : f.near.has(id) ? 1 : 0.22),
+      edge: (i: number) => (!f ? 1 : f.edges.has(i) ? 1 : 0.12),
+      on: f,
+    };
+  };
 
   const svgMarkup = () => {
     const el = svgRef.current;
@@ -197,23 +217,55 @@ export function DiagramView({ source }: { source: string }) {
     img.src = url;
   };
 
-  const printDiagram = () => {
-    const w = window.open("", "_blank", "width=900,height=700");
-    if (!w) return;
-    w.document.write(
-      `<!doctype html><html><head><title>Diagram</title><style>
-        @page{size:A4 landscape;margin:12mm}
-        body{margin:0;display:grid;place-items:center;height:100vh}
-        svg{max-width:100%;max-height:100%;height:auto}
-      </style></head><body>${svgMarkup()}</body></html>`,
-    );
-    w.document.close();
-    w.onload = () => { w.focus(); w.print(); };
+  /**
+   * Print / PDF. Interactive state must not reach paper: highlighting is a
+   * viewing aid, so the printed sheet is always the neutral diagram.
+   *
+   * Three profiles because a process diagram is not one shape — a wide flow
+   * wants landscape, a tall one portrait, and a wall chart wants A3.
+   */
+  const printDiagram = (profile: "portrait" | "landscape" | "a3" = "landscape") => {
+    const markup = svgMarkup();
+    if (!markup) return;
+    const page = profile === "a3" ? "A3 landscape"
+      : profile === "portrait" ? "A4 portrait" : "A4 landscape";
+    const frame = document.createElement("iframe");
+    frame.setAttribute("aria-hidden", "true");
+    frame.style.cssText = "position:fixed;inset:0;width:0;height:0;border:0;opacity:0";
+    document.body.appendChild(frame);
+    const doc = frame.contentDocument;
+    if (!doc) { frame.remove(); return; }
+    doc.open();
+    doc.write(`<!doctype html><html dir="rtl"><head><meta charset="utf-8">
+      <title>${"תרשים תהליך"}</title>
+      <style>
+        @page { size: ${page}; margin: 12mm; }
+        html,body { margin:0; padding:0; background:#fff; }
+        body { display:flex; align-items:center; justify-content:center; min-height:100vh; }
+        svg { width:100%; height:auto; max-height:100vh; }
+        @media print { body { min-height:auto; } }
+      </style></head><body>${markup}</body></html>`);
+    doc.close();
+    // Wait for layout before printing, or the sheet can come out blank.
+    frame.onload = () => {
+      frame.contentWindow?.focus();
+      frame.contentWindow?.print();
+      setTimeout(() => frame.remove(), 1000);
+    };
   };
 
-  const svg = (
+  /**
+   * The diagram markup. Takes the focused node as an argument rather than
+   * reading state, so presentation mode can step through the SAME svg the page
+   * renders — two copies would drift the moment either changed.
+   */
+  const renderSvg = (active: string | null = focusId, attachRef = true) => {
+  const focus = dimFor(active).on;
+  const dimNode = dimFor(active).node;
+  const dimEdge = dimFor(active).edge;
+  return (
     <svg
-      ref={svgRef}
+      ref={attachRef ? svgRef : undefined}
       viewBox={`0 0 ${laid.width} ${laid.height}`}
       width={laid.width * zoom}
       height={laid.height * zoom}
@@ -304,6 +356,9 @@ export function DiagramView({ source }: { source: string }) {
       })}
     </svg>
   );
+  };
+
+  const svg = renderSvg();
 
   const toolbar = (
     <div className="flex flex-wrap items-center gap-1">
@@ -317,8 +372,17 @@ export function DiagramView({ source }: { source: string }) {
       <span className="mx-1 h-4 w-px bg-hairline" />
       <button onClick={exportPng} className="rounded-lg px-2 py-1.5 text-[11px] font-bold text-ink-3 transition hover:bg-surface-2 hover:text-brand">PNG</button>
       <button onClick={exportSvg} className="rounded-lg px-2 py-1.5 text-[11px] font-bold text-ink-3 transition hover:bg-surface-2 hover:text-brand">SVG</button>
-      <button onClick={printDiagram} aria-label="הדפס"
+      <button onClick={() => printDiagram("landscape")} aria-label="הדפס A4 לרוחב"
         className="rounded-lg p-1.5 text-ink-3 transition hover:bg-surface-2 hover:text-brand"><Printer className="size-3.5" /></button>
+      <button onClick={() => printDiagram("portrait")}
+        className="rounded-lg px-1.5 py-1.5 text-[11px] font-bold text-ink-3 transition hover:bg-surface-2 hover:text-brand">A4↕</button>
+      <button onClick={() => printDiagram("a3")}
+        className="rounded-lg px-1.5 py-1.5 text-[11px] font-bold text-ink-3 transition hover:bg-surface-2 hover:text-brand">A3</button>
+      <span className="mx-1 h-4 w-px bg-hairline" />
+      <button onClick={() => setPresent(true)}
+        className="inline-flex items-center gap-1 rounded-lg bg-brand/10 px-2 py-1.5 text-[11px] font-bold text-brand transition hover:bg-brand/20">
+        <Play className="size-3" /> מצגת
+      </button>
       {!full && (
         <button onClick={() => setFull(true)} aria-label="מסך מלא"
           className="rounded-lg p-1.5 text-ink-3 transition hover:bg-surface-2 hover:text-brand"><Maximize2 className="size-3.5" /></button>
@@ -363,6 +427,34 @@ export function DiagramView({ source }: { source: string }) {
             <span className="text-[11px] text-ink-3">שלב מבודד — אין לו קשרים בתרשים.</span>
           )}
         </div>
+
+        {/* Real SAP objects named in this step, resolved to their own pages.
+            Nothing here is generated: a label that names no known object shows
+            nothing rather than a plausible-sounding description. */}
+        {(() => {
+          const facts = nodeFacts(node.label, lookup);
+          if (!facts.refs.length && !facts.unresolved.length) return null;
+          return (
+            <div className="mt-2 space-y-1.5 border-t border-hairline pt-2">
+              {groupRefs(facts.refs).map(([kind, list]) => (
+                <div key={kind} className="flex flex-wrap items-baseline gap-1.5">
+                  <span className="text-[11px] text-ink-3">{KIND_HE[kind]}</span>
+                  {list.map((r) => (
+                    <Link key={r.id} href={r.href}
+                      className="tech rounded-md bg-brand/10 px-1.5 py-0.5 text-[11px] font-semibold text-brand transition hover:bg-brand/20">
+                      {r.id}
+                    </Link>
+                  ))}
+                </div>
+              ))}
+              {facts.unresolved.length > 0 && (
+                <p className="text-[11px] text-ink-3">
+                  ללא דף ייעודי: <span className="tech">{facts.unresolved.join(", ")}</span>
+                </p>
+              )}
+            </div>
+          );
+        })()}
       </div>
     );
   })() : null;
@@ -377,6 +469,21 @@ export function DiagramView({ source }: { source: string }) {
         <div className="overflow-auto p-3" style={{ maxHeight: "32rem" }}>{svg}</div>
         {detail}
       </figure>
+
+      {present && (
+        <PresentationMode
+          diagram={diagram}
+          title="תרשים תהליך"
+          onClose={() => setPresent(false)}
+          // The deck renders the SAME svg the page does, so a change to the
+          // diagram cannot leave the presentation showing something else.
+          canvas={({ focusId, zoom: z }) => (
+            <div style={{ transform: `scale(${z})`, transformOrigin: "center" }}>
+              {renderSvg(focusId, false)}
+            </div>
+          )}
+        />
+      )}
 
       {full && (
         <div className="fixed inset-0 z-[70]" role="dialog" aria-modal="true" aria-label="תרשים במסך מלא">
