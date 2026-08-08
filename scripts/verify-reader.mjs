@@ -192,6 +192,44 @@ for (const vp of VIEWPORTS) {
     return /SAP Notes|SAP Help/.test(t) && /אין גישה חיה/.test(t) ? "" : false;
   });
 
+  // ---- the two AI surfaces must be separate all the way down ----
+  // Intercepted, never sent: this proves which endpoint each page targets
+  // without paying for a model call.
+  await check(page, `${vp.label}: each surface calls its OWN endpoint`, async () => {
+    const hits = [];
+    await page.route("**/api/**", (route) => {
+      hits.push(new URL(route.request().url()).pathname);
+      route.abort();
+    });
+    const ask = async (path) => {
+      await page.goto(`http://localhost:${PORT}${path}`, { waitUntil: "networkidle", timeout: 30_000 });
+      const box = page.locator("textarea").first();
+      if (!(await box.count())) return;
+      await box.fill("בדיקת ניתוב");
+      await box.press("Enter");
+      await page.waitForTimeout(1200);
+    };
+    hits.length = 0; await ask("/library/ask/");
+    const lib = hits.filter((h) => h.includes("/api/"));
+    hits.length = 0; await ask("/chat/");
+    const con = hits.filter((h) => h.includes("/api/"));
+    await page.unroute("**/api/**");
+
+    const libOk = lib.some((h) => h.includes("library")) && !lib.some((h) => h.includes("consult"));
+    const conOk = con.some((h) => h.includes("consult")) && !con.some((h) => h.includes("library"));
+    return libOk && conOk ? `${lib[0]} vs ${con[0]}` : `lib=${lib.join(",")} con=${con.join(",")}`;
+  });
+
+  // Storage must be namespaced, or one surface restores the other's history.
+  await check(page, `${vp.label}: conversation stores are separate`, async () => {
+    const keys = await page.evaluate(() => {
+      try { return Object.keys(localStorage).filter((k) => k.startsWith("neo:ai")); }
+      catch { return []; }
+    });
+    const shared = keys.filter((k) => /^neo:ai:(threads|scope|active)$/.test(k));
+    return shared.length === 0 ? (keys.length ? keys.join(",") : "no shared keys") : `SHARED: ${shared.join(",")}`;
+  });
+
   // The navigation tree rendered the literal string "true" as 94% of its
   // section titles. It must never render a boolean again.
   await check(page, `${vp.label}: nav tree shows no boolean titles`, async () => {

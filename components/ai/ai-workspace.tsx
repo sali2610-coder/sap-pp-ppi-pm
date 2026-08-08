@@ -74,17 +74,17 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
   // Restore on mount. localStorage is read in an effect, never during render,
   // because this page prerenders at build under output:"export".
   useEffect(() => {
-    setThreads(loadThreads());
-    const saved = loadScope();
+    setThreads(loadThreads(mode));
+    const saved = loadScope(mode);
     if (saved.bookId) setScope(saved);
-    const active = loadActiveId();
+    const active = loadActiveId(mode);
     if (active) {
-      const t = loadThreads().find((x) => x.id === active);
+      const t = loadThreads(mode).find((x) => x.id === active);
       if (t) { setThreadId(t.id); setTurns(t.turns); }
     }
   }, []);
 
-  useEffect(() => { saveScope(scope); }, [scope]);
+  useEffect(() => { saveScope(mode, scope); }, [scope]);
 
 
   // Escape, focus trap, focus restore and scroll lock all live in one place.
@@ -102,15 +102,18 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
       // the Answer that lands in state comes from the validated `done` payload,
       // so text the gates reject never survives on screen.
       setPreview("");
-      const a = await askApiStream(q, scope, task ?? M.task, {
-        onDelta: (t) => setPreview((p) => p + t),
-      });
+      const a = await askApiStream(
+        q, scope, task ?? M.task,
+        { onDelta: (t) => setPreview((p) => p + t) },
+        undefined,
+        mode,
+      );
       setTurns((t) => {
         const next = t.map((turn, i) => (i === t.length - 1 ? { ...turn, a } : turn));
         const id = threadId || `t${Date.now()}`;
-        if (!threadId) { setThreadId(id); saveActiveId(id); }
-        const existing = loadThreads().find((x) => x.id === id);
-        saveThread({
+        if (!threadId) { setThreadId(id); saveActiveId(mode, id); }
+        const existing = loadThreads(mode).find((x) => x.id === id);
+        saveThread(mode, {
           id,
           title: existing?.title || titleFrom(next[0]?.q || q),
           createdAt: existing?.createdAt ?? Date.now(),
@@ -118,7 +121,7 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
           favorite: existing?.favorite,
           turns: next,
         });
-        setThreads(loadThreads());
+        setThreads(loadThreads(mode));
         return next;
       });
     } finally {
@@ -187,7 +190,7 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
             </button>
           )}
           {turns.length > 0 && (
-            <button onClick={() => { setTurns([]); setThreadId(""); saveActiveId(""); }}
+            <button onClick={() => { setTurns([]); setThreadId(""); saveActiveId(mode, ""); }}
               className="flex items-center gap-1 rounded-xl border border-hairline px-2 py-1.5 text-[11px] font-semibold text-ink-2 transition hover:border-brand/40 hover:text-brand">
               <MessageSquarePlus className="size-3.5" /> שיחה חדשה
             </button>
@@ -198,12 +201,12 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
           <ThreadList
             threads={threads}
             activeId={threadId}
-            onOpen={(t) => { setTurns(t.turns); setThreadId(t.id); saveActiveId(t.id); setShowHistory(false); }}
-            onRename={(id, title) => { renameThread(id, title); setThreads(loadThreads()); }}
-            onFavorite={(id) => { toggleFavorite(id); setThreads(loadThreads()); }}
+            onOpen={(t) => { setTurns(t.turns); setThreadId(t.id); saveActiveId(mode, t.id); setShowHistory(false); }}
+            onRename={(id, title) => { renameThread(mode, id, title); setThreads(loadThreads(mode)); }}
+            onFavorite={(id) => { toggleFavorite(mode, id); setThreads(loadThreads(mode)); }}
             onDelete={(id) => {
-              deleteThread(id);
-              setThreads(loadThreads());
+              deleteThread(mode, id);
+              setThreads(loadThreads(mode));
               if (id === threadId) { setTurns([]); setThreadId(""); }
             }}
           />

@@ -13,8 +13,22 @@ import { bookById, cachedTree, loadTree, sectionHref } from "./tree";
 import { detectDiagramIntent, answerHasDiagram } from "./diagram-intent";
 import { StreamError, streamAnswer } from "./stream";
 
-const API =
-  process.env.NEXT_PUBLIC_BOOKS_API_URL || "https://sap-books-api.vercel.app/api/ask-v2";
+const ORIGIN = (process.env.NEXT_PUBLIC_BOOKS_API_URL || "https://sap-books-api.vercel.app/api/ask-v2")
+  .replace(/\/api\/[a-z0-9-]+\/?$/i, "");
+
+/**
+ * Each surface has its own endpoints. The server pins the task per URL, so a
+ * client bug cannot make the library answer ungrounded — but the client should
+ * not be asking the wrong endpoint in the first place, and naming them here
+ * makes a crossed wire visible in one place instead of at a call site.
+ */
+const ENDPOINTS = {
+  library: { ask: `${ORIGIN}/api/library`, stream: `${ORIGIN}/api/library-stream` },
+  consult: { ask: `${ORIGIN}/api/consult`, stream: `${ORIGIN}/api/consult-stream` },
+} as const;
+
+/** Legacy default, still used by the embedded AskAI widget. */
+const API = `${ORIGIN}/api/library`;
 
 // The endpoint runs 15-80s depending on which provider serves. Give it room:
 // aborting early would show an error for a request that was going to succeed.
@@ -194,7 +208,7 @@ export async function askApi(question: string, scope: Scope, task?: string): Pro
 }
 
 /** Same host as the buffered endpoint, streaming route. */
-const STREAM_API = API.replace(/\/ask-v2$/, "/ask-stream");
+
 
 /**
  * Streaming twin of askApi.
@@ -214,6 +228,8 @@ export async function askApiStream(
   task: string | undefined,
   handlers: { onDelta?: (text: string) => void; onStatus?: (stage: string) => void },
   signal?: AbortSignal,
+  /** Which surface is asking. Decides the endpoint; the server pins the task. */
+  surface: keyof typeof ENDPOINTS = "library",
 ): Promise<Answer> {
   const id = `a${++seq}`;
   const started = Date.now();
@@ -230,7 +246,7 @@ export async function askApiStream(
   const profile = task ?? intent?.task ?? "HEBREW_EXPLAIN";
 
   try {
-    const out = await streamAnswer(STREAM_API, {
+    const out = await streamAnswer(ENDPOINTS[surface].stream, {
       question,
       bookId: scope.bookId,
       chapter: scope.chapter,

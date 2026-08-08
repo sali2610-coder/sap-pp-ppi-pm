@@ -15,9 +15,28 @@
  */
 import type { Answer, Scope } from "./types";
 
-const KEY_THREADS = "neo:ai:threads";
-const KEY_SCOPE = "neo:ai:scope";
-const KEY_ACTIVE = "neo:ai:active";
+/**
+ * Storage is namespaced PER SURFACE.
+ *
+ * It was not, and that was the bug: one set of keys served both Ask the Library
+ * and AI Chat, so opening one restored the other's conversation, and a reload
+ * on either page brought back whichever thread was written last. Two products
+ * were sharing one memory.
+ *
+ * `AiMode` is threaded through every call rather than read from a module-level
+ * "current mode", because a global would be wrong exactly when it matters — the
+ * moment a component from one surface renders while the other is mounting.
+ */
+export type StoreMode = "library" | "consult";
+
+const NS: Record<StoreMode, string> = {
+  library: "neo:ai:lib",
+  consult: "neo:ai:con",
+};
+
+const keyThreads = (m: StoreMode) => `${NS[m]}:threads`;
+const keyScope = (m: StoreMode) => `${NS[m]}:scope`;
+const keyActive = (m: StoreMode) => `${NS[m]}:active`;
 const MAX_THREADS = 20;
 const MAX_TURNS = 40;
 
@@ -55,45 +74,45 @@ export function titleFrom(question: string): string {
   return `${lastSpace > 20 ? cut.slice(0, lastSpace) : cut}…`;
 }
 
-export const loadThreads = (): Thread[] =>
-  read<Thread[]>(KEY_THREADS, []).sort((a, b) => b.updatedAt - a.updatedAt);
+export const loadThreads = (m: StoreMode): Thread[] =>
+  read<Thread[]>(keyThreads(m), []).sort((a, b) => b.updatedAt - a.updatedAt);
 
-export function saveThread(thread: Thread) {
-  const all = read<Thread[]>(KEY_THREADS, []).filter((t) => t.id !== thread.id);
+export function saveThread(m: StoreMode, thread: Thread) {
+  const all = read<Thread[]>(keyThreads(m), []).filter((t) => t.id !== thread.id);
   all.unshift({ ...thread, turns: thread.turns.slice(-MAX_TURNS) });
   // Favourites survive the cap; everything else is trimmed oldest-first.
   const keep = [...all.filter((t) => t.favorite), ...all.filter((t) => !t.favorite)].slice(0, MAX_THREADS);
-  write(KEY_THREADS, keep);
+  write(keyThreads(m), keep);
 }
 
-export function deleteThread(id: string) {
-  write(KEY_THREADS, read<Thread[]>(KEY_THREADS, []).filter((t) => t.id !== id));
-  if (read<string>(KEY_ACTIVE, "") === id) write(KEY_ACTIVE, "");
+export function deleteThread(m: StoreMode, id: string) {
+  write(keyThreads(m), read<Thread[]>(keyThreads(m), []).filter((t) => t.id !== id));
+  if (read<string>(keyActive(m), "") === id) write(keyActive(m), "");
 }
 
-export function renameThread(id: string, title: string) {
-  const all = read<Thread[]>(KEY_THREADS, []);
+export function renameThread(m: StoreMode, id: string, title: string) {
+  const all = read<Thread[]>(keyThreads(m), []);
   const t = all.find((x) => x.id === id);
   if (!t) return;
   t.title = title.trim().slice(0, 80) || t.title;
   t.updatedAt = Date.now();
-  write(KEY_THREADS, all);
+  write(keyThreads(m), all);
 }
 
-export function toggleFavorite(id: string) {
-  const all = read<Thread[]>(KEY_THREADS, []);
+export function toggleFavorite(m: StoreMode, id: string) {
+  const all = read<Thread[]>(keyThreads(m), []);
   const t = all.find((x) => x.id === id);
   if (!t) return;
   t.favorite = !t.favorite;
-  write(KEY_THREADS, all);
+  write(keyThreads(m), all);
 }
 
 /** Scope is remembered; the thread it belonged to is not implied by it. */
-export const loadScope = (): Scope => read<Scope>(KEY_SCOPE, {});
-export const saveScope = (s: Scope) => write(KEY_SCOPE, s);
+export const loadScope = (m: StoreMode): Scope => read<Scope>(keyScope(m), {});
+export const saveScope = (m: StoreMode, s: Scope) => write(keyScope(m), s);
 
-export const loadActiveId = (): string => read<string>(KEY_ACTIVE, "");
-export const saveActiveId = (id: string) => write(KEY_ACTIVE, id);
+export const loadActiveId = (m: StoreMode): string => read<string>(keyActive(m), "");
+export const saveActiveId = (m: StoreMode, id: string) => write(keyActive(m), id);
 
 /* ------------------------------------------------------------------ feedback */
 
