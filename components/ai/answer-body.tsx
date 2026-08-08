@@ -225,7 +225,7 @@ export function AnswerBody({ text, citations = [] }: {
               // Unparseable: fall through to the code block rather than guess.
             }
             return isDiagramFence(b.text, b.lang)
-              ? <DiagramView key={i} source={b.text} />
+              ? <DiagramView key={i} source={b.text} citations={citations as never} />
               : (
                 <pre key={i} className="tech overflow-x-auto rounded-xl bg-surface-2 p-3 text-[0.8125rem] leading-relaxed text-ink-1">
                   <code>{b.text}</code>

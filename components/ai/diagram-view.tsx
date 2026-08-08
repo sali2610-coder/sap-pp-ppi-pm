@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useDialog } from "@/lib/use-dialog";
 import { knownRoutes } from "@/lib/ai-known-routes";
 import { groupRefs, nodeFacts, KIND_HE, type Lookup } from "@/lib/ai/node-facts";
+import type { Citation } from "@/lib/ai/types";
 import { PresentationMode } from "./diagram-present";
 import { LearningMode } from "./diagram-learn";
 
@@ -104,7 +105,15 @@ function shapePath(p: Placed): string {
   return "";
 }
 
-export function DiagramView({ source }: { source: string }) {
+export function DiagramView({ source, citations = [] }: {
+  source: string;
+  /**
+   * The answer's citations. A node's `%% src=` tag is only honoured when it
+   * names one of these — the model claiming a source is not the same as the
+   * retrieval having served it.
+   */
+  citations?: Citation[];
+}) {
   const diagram = useMemo(() => parseDiagram(source), [source]);
   const laid = useMemo(() => (diagram ? layout(diagram) : null), [diagram]);
   const [zoom, setZoom] = useState(1);
@@ -114,6 +123,16 @@ export function DiagramView({ source }: { source: string }) {
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [pickedId, setPickedId] = useState<string | null>(null);
   const [present, setPresent] = useState(false);
+
+  /**
+   * Validated node provenance. A tag that names a passage the retrieval did not
+   * serve is dropped, exactly as a fabricated inline citation is: an unverified
+   * source is worse than none, because the reader would trust it.
+   */
+  const sourceOf = useMemo(() => {
+    const byId = new Map(citations.map((c) => [c.id, c]));
+    return (nodeSrc?: string) => (nodeSrc ? byId.get(nodeSrc) ?? null : null);
+  }, [citations]);
   const [learn, setLearn] = useState(false);
 
   // The live registry, adapted to the injected shape node-facts expects.
@@ -440,6 +459,26 @@ export function DiagramView({ source }: { source: string }) {
             <span className="text-[11px] text-ink-3">שלב מבודד — אין לו קשרים בתרשים.</span>
           )}
         </div>
+
+        {/* Where this step came from. Validated against what the retrieval
+            actually served — a tag naming an unserved passage is dropped. */}
+        {(() => {
+          const src = sourceOf(node.src);
+          if (!src) return null;
+          return (
+            <div className="mt-2 rounded-lg bg-brand/5 px-2 py-1.5">
+              <div className="mb-0.5 text-[10px] font-bold uppercase tracking-[0.06em] text-ink-3">מקור</div>
+              <Link href={src.href} className="block text-[11px] font-semibold text-brand hover:underline">
+                {src.sectionTitle || src.title || `סעיף ${src.section}`}
+              </Link>
+              <div className="mt-0.5 text-[10px] text-ink-3">
+                {src.book} · פרק {src.chapter}
+                {src.page && ` · עמ׳ ${src.page.from}${src.page.to !== src.page.from ? `–${src.page.to}` : ""}`}
+                {src.pageEstimated ? " (משוער)" : ""}
+              </div>
+            </div>
+          );
+        })()}
 
         {/* Real SAP objects named in this step, resolved to their own pages.
             Nothing here is generated: a label that names no known object shows

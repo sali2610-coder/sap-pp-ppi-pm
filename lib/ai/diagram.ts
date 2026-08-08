@@ -17,6 +17,16 @@ export interface DiagramNode {
   id: string;
   label: string;
   shape: NodeShape;
+  /**
+   * The passage this step came from, as the model tagged it: `%% src=book1#3#3.2`.
+   *
+   * Real provenance, not inference. It is NOT derived from the SAP object names
+   * in the label — a node mentioning IW31 tells you nothing about which book
+   * paragraph produced it. The caller must still validate the id against the
+   * passages that were actually served; an unvalidated tag is a claim, not a
+   * source.
+   */
+  src?: string;
 }
 
 export interface DiagramEdge {
@@ -43,11 +53,15 @@ export const DIAGRAM_LANGS = new Set([
  *   [A]  process     (A)  terminal / rounded
  *   {A}  decision    [(A)] data / store    >A]  note
  */
-const NODE_RE = /([A-Za-z0-9_֐-׿]+)\s*(\[\(|\[|\(\(|\(|\{|>)([^\]\)\}]*?)(\)\]|\]|\)\)|\)|\}|\])/;
+// Alternation order is load-bearing: the LONGEST opener must be tried first.
+// With `\(` ahead of `\(\[`, a stadium node `A([start])` matched the bare `(`
+// and captured "[start" — every terminal node carried a stray bracket in its
+// label, on screen and in exports, and no test looked at the label text.
+const NODE_RE = /([A-Za-z0-9_֐-׿]+)\s*(\[\(|\(\[|\(\(|\[|\(|\{|>)([^\]\)\}]*?)(\)\]|\]\)|\)\)|\]|\)|\}|\])/;
 
 function shapeFor(open: string): NodeShape {
   if (open === "{") return "decision";
-  if (open === "((" || open === "(") return "terminal";
+  if (open === "((" || open === "([" || open === "(") return "terminal";
   if (open === "[(") return "data";
   if (open === ">") return "note";
   return "process";
@@ -80,14 +94,23 @@ export function parseDiagram(src: string): Diagram | null {
   };
 
   for (const raw of lines) {
+    // A per-node source tag. Pulled off first so it cannot confuse the shape
+    // and edge parsing below, which never expected a trailing comment.
+    let srcTag: string | undefined;
+    const tagged = raw.replace(/\s*%%\s*src\s*=\s*([^\s%]+)\s*$/i, (_m, id) => {
+      srcTag = String(id).trim();
+      return "";
+    });
+    const line = tagged;
+
     // header: `flowchart TD` / `graph LR`
-    const head = raw.match(/^(?:flowchart|graph)\s+(TB|TD|LR|RL|BT)\b/i);
+    const head = line.match(/^(?:flowchart|graph)\s+(TB|TD|LR|RL|BT)\b/i);
     if (head) {
       const d = head[1].toUpperCase();
       direction = d === "LR" || d === "RL" ? "LR" : "TB";
       continue;
     }
-    if (/^(subgraph|end|classDef|class|style|linkStyle|%%)/i.test(raw)) continue;
+    if (/^(subgraph|end|classDef|class|style|linkStyle|%%)/i.test(line) || !line.trim()) continue;
 
     // One or more edges on a line, optionally labelled:
     //   A --> B          A -->|yes| B          A --> B --> C
@@ -102,18 +125,18 @@ export function parseDiagram(src: string): Diagram | null {
     };
 
     ARROW.lastIndex = 0;
-    if (ARROW.test(raw)) {
+    if (ARROW.test(line)) {
       ARROW.lastIndex = 0;
       const segments: string[] = [];
       const arrows: { arrow: string; label?: string }[] = [];
       let cursor = 0;
       let m: RegExpExecArray | null;
-      while ((m = ARROW.exec(raw)) !== null) {
-        segments.push(raw.slice(cursor, m.index));
+      while ((m = ARROW.exec(line)) !== null) {
+        segments.push(line.slice(cursor, m.index));
         arrows.push({ arrow: m[1], label: m[2] });
         cursor = m.index + m[0].length;
       }
-      segments.push(raw.slice(cursor));
+      segments.push(line.slice(cursor));
 
       let prev = parseSide(segments[0]);
       for (let k = 1; k < segments.length; k++) {
@@ -124,12 +147,18 @@ export function parseDiagram(src: string): Diagram | null {
         }
         if (next) prev = next;
       }
+      // On an edge line the tag describes the step just introduced, which is
+      // the node on the right-hand end.
+      if (srcTag && prev) prev.src = srcTag;
       continue;
     }
 
     // A bare node declaration on its own line
-    const solo = raw.match(NODE_RE);
-    if (solo) ensure(solo[1], clean(solo[3]) || solo[1], shapeFor(solo[2]));
+    const solo = line.match(NODE_RE);
+    if (solo) {
+      const n = ensure(solo[1], clean(solo[3]) || solo[1], shapeFor(solo[2]));
+      if (srcTag) n.src = srcTag;
+    }
   }
 
   if (nodes.size < 2 || !edges.length) return null;
