@@ -220,6 +220,38 @@ for (const vp of VIEWPORTS) {
     return libOk && conOk ? `${lib[0]} vs ${con[0]}` : `lib=${lib.join(",")} con=${con.join(",")}`;
   });
 
+  // Priority 1: switching surfaces must not carry a conversation across.
+  // Writes a thread into each store, then re-opens both pages and checks each
+  // sees only its own. No model calls — this is storage behaviour.
+  await check(page, `${vp.label}: switching surfaces keeps histories apart`, async () => {
+    await page.goto(`http://localhost:${PORT}/library/ask/`, { waitUntil: "networkidle", timeout: 30_000 });
+    await page.evaluate(() => {
+      const th = (id, t) => JSON.stringify([{ id, title: t, createdAt: 1, updatedAt: 2, turns: [{ q: t, a: null }] }]);
+      localStorage.setItem("neo:ai:lib:threads", th("L1", "שאלת ספרייה"));
+      localStorage.setItem("neo:ai:con:threads", th("C1", "שאלת ייעוץ"));
+      localStorage.setItem("neo:ai:lib:scope", JSON.stringify({ bookId: "book5", chapter: 3 }));
+      localStorage.setItem("neo:ai:con:scope", JSON.stringify({}));
+    });
+
+    await page.reload({ waitUntil: "networkidle" });
+    const libSees = await page.evaluate(() => ({
+      own: document.body.innerText.includes("שאלת ספרייה"),
+      other: document.body.innerText.includes("שאלת ייעוץ"),
+      scope: JSON.parse(localStorage.getItem("neo:ai:lib:scope") || "{}"),
+    }));
+
+    await page.goto(`http://localhost:${PORT}/chat/`, { waitUntil: "networkidle", timeout: 30_000 });
+    const conSees = await page.evaluate(() => ({
+      other: document.body.innerText.includes("שאלת ספרייה"),
+      scope: JSON.parse(localStorage.getItem("neo:ai:con:scope") || "{}"),
+    }));
+
+    const bookScopeStayed = libSees.scope.bookId === "book5" && !conSees.scope.bookId;
+    return !libSees.other && !conSees.other && bookScopeStayed
+      ? "no cross-over, scope not inherited"
+      : `libSawOther=${libSees.other} conSawOther=${conSees.other} conScope=${JSON.stringify(conSees.scope)}`;
+  });
+
   // Storage must be namespaced, or one surface restores the other's history.
   await check(page, `${vp.label}: conversation stores are separate`, async () => {
     const keys = await page.evaluate(() => {

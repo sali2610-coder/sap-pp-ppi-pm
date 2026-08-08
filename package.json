@@ -26,7 +26,8 @@
     "check:academy-blocks": "node --experimental-strip-types --no-warnings scripts/gen-academy-blocks.mjs --check",
     "verify:reader": "node scripts/verify-reader.mjs",
     "check:reader": "node scripts/check-reader-coverage.mjs",
-    "gen:tx-index": "node --experimental-strip-types --no-warnings --loader ./scripts/alias-loader.mjs scripts/gen-tx-search-index.mjs"
+    "gen:tx-index": "node --experimental-strip-types --no-warnings --loader ./scripts/alias-loader.mjs scripts/gen-tx-search-index.mjs",
+    "verify:separation": "node scripts/verify-separation.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
