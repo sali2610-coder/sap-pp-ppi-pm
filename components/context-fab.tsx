@@ -76,7 +76,7 @@ export function ContextFab() {
                 exit={reduce ? { opacity: 0 } : { opacity: 0, y: 10, scale: 0.85 }}
                 transition={{ type: "spring", stiffness: 460, damping: 30, delay: reduce ? 0 : (acts.length - 1 - i) * 0.035 }}
                 onClick={() => run(a)}
-                className={`tap flex items-center gap-2.5 rounded-full ps-4 pe-2 py-2 shadow-lg ring-1 backdrop-blur-md ${a.primary ? "bg-brand text-white ring-brand/40" : "bg-surface/95 text-ink-1 ring-hairline"}`}>
+                className={`tap flex items-center gap-2.5 rounded-full ps-4 pe-2 py-2 shadow-lg ring-1 backdrop-blur-md ${a.primary ? "bg-brand text-brand-foreground ring-brand/40" : "bg-surface/95 text-ink-1 ring-hairline"}`}>
                 <span className="text-[13px] font-extrabold">{a.label}</span>
                 <span className={`grid size-8 place-items-center rounded-full ${a.primary ? "bg-white/20" : "bg-surface-2 text-brand"}`}><a.Icon className="size-4" /></span>
               </motion.button>
@@ -89,7 +89,7 @@ export function ContextFab() {
         onClick={() => { haptic(); setOpen((v) => !v); }}
         aria-expanded={open} aria-label={open ? "סגור פעולות" : title}
         whileTap={{ scale: 0.9 }} transition={{ type: "spring", stiffness: 500, damping: 26 }}
-        className="tap grid size-14 place-items-center rounded-[1.35rem] bg-brand text-white shadow-[0_10px_30px_-6px_rgba(214,32,39,0.55)] ring-1 ring-white/20">
+        className="tap grid size-14 place-items-center rounded-[1.35rem] bg-brand text-brand-foreground shadow-[0_10px_30px_-6px_rgba(214,32,39,0.55)] ring-1 ring-white/20">
         <motion.span animate={{ rotate: open ? 135 : 0 }} transition={{ type: "spring", stiffness: 400, damping: 22 }}>
           {open ? <X className="size-6" /> : <Plus className="size-6" />}
         </motion.span>

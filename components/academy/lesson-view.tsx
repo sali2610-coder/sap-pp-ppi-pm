@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
@@ -151,7 +152,7 @@ function BlockBody({ b, accent }: { b: LessonBlock; accent: string }) {
     case "best-practices": case "tips":
       return <Callout tone="success" icon={b.kind === "tips" ? Lightbulb : Award} className="max-w-[70ch]"><ul className="flex flex-col gap-1.5">{b.items.map((it, i) => <li key={i}>{md(it)}</li>)}</ul></Callout>;
     case "flow":
-      return <div className="flex flex-wrap items-center gap-2">{b.steps.map((s, i) => <span key={i} className="flex items-center gap-2">{i > 0 && <ChevronLeft className="size-3.5 text-ink-3" />}<span className={`rounded-lg border px-3 py-1.5 text-[12px] font-bold ${i === b.activeIndex ? "border-brand bg-brand text-white" : "border-hairline bg-surface-2 text-ink-2"}`}>{s}</span></span>)}</div>;
+      return <div className="flex flex-wrap items-center gap-2">{b.steps.map((s, i) => <span key={i} className="flex items-center gap-2">{i > 0 && <ChevronLeft className="size-3.5 text-ink-3" />}<span className={`rounded-lg border px-3 py-1.5 text-[12px] font-bold ${i === b.activeIndex ? "border-brand bg-brand text-brand-foreground" : "border-hairline bg-surface-2 text-ink-2"}`}>{s}</span></span>)}</div>;
     case "diagram":
       return <figure className="flex h-36 flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-hairline bg-gradient-to-br from-surface-2/40 to-surface-2/70 px-4 text-center"><Network className="size-6 text-ink-3" aria-hidden /><figcaption className="text-[12px] font-semibold text-ink-3">{b.caption}</figcaption></figure>;
     case "tables":
@@ -242,7 +243,7 @@ function LessonFooterNav({ lesson, nav, accent }: { lesson: Lesson; nav?: Lesson
       ) : <span className="hidden sm:block" />}
 
       {/* centre — the single location anchor: back to path + position */}
-      <Link href={nav?.courseHref ?? "/academy/"} className="tap flex flex-col items-center justify-center gap-0.5 rounded-2xl px-6 py-3.5 text-center text-white transition hover:opacity-90" style={{ background: accent }}>
+      <Link href={nav?.courseHref ?? "/academy/"} className="tap flex flex-col items-center justify-center gap-0.5 rounded-2xl px-6 py-3.5 text-center text-white transition hover:opacity-90" style={{ background: forWhiteText(accent)}}>
         <span className="inline-flex items-center gap-1.5 text-[12.5px] font-extrabold"><GraduationCap className="size-4" />חזרה למסלול</span>
         {nav && <span className="text-[10.5px] font-semibold opacity-90">שיעור {nav.posInChapter}/{nav.chapterSize} · פרק {nav.chapterIndex}/{nav.chapterCount}</span>}
       </Link>
@@ -400,7 +401,7 @@ export function LessonView({ lesson }: { lesson: Lesson }) {
                 className="mt-8 flex flex-wrap items-center gap-3 rounded-2xl border border-[#cfe6e2] bg-gradient-to-bl from-[#f0f6f5] to-surface p-4">
                 <span aria-hidden className="grid size-11 place-items-center rounded-2xl bg-[#0f766e]/12 text-[#0f766e]"><PartyPopper className="size-6" /></span>
                 <div className="min-w-0 flex-1"><div className="text-[15px] font-extrabold text-ink-1">כל הכבוד! השלמת את השיעור</div><div className="text-[12px] text-ink-3">קראת את כל {kinds.length} החלקים.</div></div>
-                {nextSlug ? <Link href={`/academy/lesson/${nextSlug}/`} className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-[12.5px] font-extrabold text-white transition hover:bg-brand-dark">השיעור הבא <ArrowLeft className="size-4" /></Link> : <Link href={`/academy/path/${moduleIdOf(lesson.module)}/`} className="tap rounded-xl bg-ink-1 px-4 py-2 text-[12.5px] font-extrabold text-white">חזרה למסלול</Link>}
+                {nextSlug ? <Link href={`/academy/lesson/${nextSlug}/`} className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-[12.5px] font-extrabold text-brand-foreground transition hover:bg-brand-dark">השיעור הבא <ArrowLeft className="size-4" /></Link> : <Link href={`/academy/path/${moduleIdOf(lesson.module)}/`} className="tap rounded-xl bg-ink-1 px-4 py-2 text-[12.5px] font-extrabold text-surface">חזרה למסלול</Link>}
               </motion.div>
             )}
           </AnimatePresence>

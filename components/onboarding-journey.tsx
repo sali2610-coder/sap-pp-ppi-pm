@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Sparkles, Compass, Database, Workflow, BrainCircuit, Award, BadgeCheck, Lock, Check, ArrowLeft, Clock, Trophy, GraduationCap, Star, RotateCcw, Target, Network, MessageSquare, Zap } from "lucide-react";
@@ -131,7 +132,7 @@ export function OnboardingJourney() {
               style={isCur ? ({ ["--tw-ring-color"]: RED, boxShadow: `0 0 0 4px ${RED}14, 0 10px 30px -12px ${RED}55` } as React.CSSProperties) : undefined}>
               <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: col }} />
               <div className="flex items-start justify-between">
-                <span className="grid size-12 place-items-center rounded-2xl text-white shadow-sm transition" style={{ background: col }}>{lock ? <Lock className="size-5" /> : <Icon className="size-6" />}</span>
+                <span className="grid size-12 place-items-center rounded-2xl text-white shadow-sm transition" style={{ background: forWhiteText(col)}}>{lock ? <Lock className="size-5" /> : <Icon className="size-6" />}</span>
                 <span className={`rounded-full px-2 py-0.5 text-[10px] font-extrabold ${isDone ? "bg-emerald-100 text-emerald-700" : isCur ? "text-white" : "bg-surface-2 text-ink-3"}`} style={isCur ? { background: RED } : undefined}>
                   {isDone ? "הושלם ✓" : isCur ? "השלב הנוכחי" : lock ? "נעול" : "זמין"}
                 </span>

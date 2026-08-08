@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -45,7 +46,7 @@ export function GlobalGraph() {
       <button data-node onClick={() => recenter(n.id)} className="absolute -translate-x-1/2 -translate-y-1/2 transition active:scale-95" style={{ left: x, top: y }}>
         <span className={`flex flex-col items-center gap-0.5 rounded-2xl border-2 bg-surface px-3 shadow-md transition hover:shadow-lg ${big ? "py-2.5" : "py-1.5"}`} style={{ borderColor: c, boxShadow: big ? `0 0 0 6px ${c}1a` : undefined }}>
           <span className="tech font-mono font-extrabold text-ink-1" style={{ fontSize: big ? 16 : 12 }} dir="ltr">{n.label.length > 22 ? n.label.slice(0, 20) + "…" : n.label}</span>
-          <span className="rounded-full px-1.5 text-[8px] font-bold text-white" style={{ background: c }}>{n.kind === "table" || n.kind === "module" ? n.module : km.he}</span>
+          <span className="rounded-full px-1.5 text-[8px] font-bold text-white" style={{ background: forWhiteText(c)}}>{n.kind === "table" || n.kind === "module" ? n.module : km.he}</span>
         </span>
       </button>
     );
@@ -106,7 +107,7 @@ export function GlobalGraph() {
                   {inc.length > 0 && <div><div className="text-[10px] font-bold uppercase text-ink-3">תקלות קשורות</div>{inc.map((x) => <Link key={x.slug} href={`/troubleshooting/${x.slug}/`} className="block truncate rounded px-1 py-0.5 text-ink-2 hover:bg-surface-2">• {x.he}</Link>)}</div>}
                   {iq && <div><div className="text-[10px] font-bold uppercase text-ink-3">שאלת ראיון</div><p className="text-ink-2">{iq.q}</p></div>}
                   {/* expand neighbors by kind */}
-                  <div><div className="mb-1 text-[10px] font-bold uppercase text-ink-3">שכנים ({nbrs.length})</div><div className="flex flex-wrap gap-1">{[...new Set(nbrs.map((x) => x.node.kind))].map((kd) => <span key={kd} className="rounded-md px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: KIND_META[kd].c }}>{KIND_META[kd].he} {nbrs.filter((x) => x.node.kind === kd).length}</span>)}</div></div>
+                  <div><div className="mb-1 text-[10px] font-bold uppercase text-ink-3">שכנים ({nbrs.length})</div><div className="flex flex-wrap gap-1">{[...new Set(nbrs.map((x) => x.node.kind))].map((kd) => <span key={kd} className="rounded-md px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: forWhiteText(KIND_META[kd].c)}}>{KIND_META[kd].he} {nbrs.filter((x) => x.node.kind === kd).length}</span>)}</div></div>
                   <div className="flex flex-wrap gap-1.5 border-t border-hairline pt-2">
                     {isTable && <Link href={`/object/${encodeURIComponent(nm)}/`} className="rounded-lg bg-surface-2 px-2.5 py-1 text-[11px] font-bold text-ink-2 hover:bg-hairline">דף אובייקט</Link>}
                     {isTable && <Link href={`/impact/${encodeURIComponent(nm)}/`} className="rounded-lg bg-surface-2 px-2.5 py-1 text-[11px] font-bold text-ink-2 hover:bg-hairline">השפעה</Link>}

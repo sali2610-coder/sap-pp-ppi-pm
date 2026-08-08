@@ -2,6 +2,7 @@
 
 // Tiered completion celebration (§10): lesson = small toast · chapter = medium card ·
 // course = full celebration with confetti, badge, stats + next recommendation.
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
@@ -48,7 +49,7 @@ export function Celebration({ data, onClose }: { data: CelebrationData; onClose:
           exit={{ opacity: 0, y: 24 }}
           transition={{ type: "spring", stiffness: 260, damping: 22 }}
         >
-          <motion.span className="grid size-9 place-items-center rounded-xl text-white" style={{ background: data.accent }}
+          <motion.span className="grid size-9 place-items-center rounded-xl text-white" style={{ background: forWhiteText(data.accent)}}
             initial={reduce ? false : { scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 320, damping: 15, delay: 0.05 }}>
             <CheckCircle2 className="size-5" />
           </motion.span>
@@ -56,7 +57,7 @@ export function Celebration({ data, onClose }: { data: CelebrationData; onClose:
             <div className="text-[13px] font-extrabold text-ink-1">{head}</div>
             <div className="text-[11px] text-ink-3">{data.title}</div>
           </div>
-          {data.nextHref && <Link href={data.nextHref} onClick={onClose} className="ms-2 inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-[12px] font-extrabold text-white" style={{ background: data.accent }}>{data.nextLabel ?? "הבא"} <ArrowLeft className="size-3.5 rtl:rotate-180" /></Link>}
+          {data.nextHref && <Link href={data.nextHref} onClick={onClose} className="ms-2 inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-[12px] font-extrabold text-white" style={{ background: forWhiteText(data.accent)}}>{data.nextLabel ?? "הבא"} <ArrowLeft className="size-3.5 rtl:rotate-180" /></Link>}
         </motion.div>
       </AnimatePresence>
     );
@@ -93,7 +94,7 @@ export function Celebration({ data, onClose }: { data: CelebrationData; onClose:
           )}
 
           <div className="mt-5 flex flex-col gap-2">
-            {data.nextHref && <Link href={data.nextHref} onClick={onClose} className="inline-flex items-center justify-center gap-2 rounded-xl py-2.5 text-[13px] font-extrabold text-white transition hover:opacity-90" style={{ background: data.accent }}>{data.nextLabel ?? "המשך ללמוד"} <ArrowLeft className="size-4 rtl:rotate-180" /></Link>}
+            {data.nextHref && <Link href={data.nextHref} onClick={onClose} className="inline-flex items-center justify-center gap-2 rounded-xl py-2.5 text-[13px] font-extrabold text-white transition hover:opacity-90" style={{ background: forWhiteText(data.accent)}}>{data.nextLabel ?? "המשך ללמוד"} <ArrowLeft className="size-4 rtl:rotate-180" /></Link>}
             <button onClick={onClose} className="rounded-xl border border-hairline py-2 text-[12.5px] font-bold text-ink-2 transition hover:bg-surface-2">סגור</button>
           </div>
         </motion.div>

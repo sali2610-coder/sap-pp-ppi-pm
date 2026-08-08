@@ -394,7 +394,7 @@ export function ArchitectureStudio() {
           <Ic className={`shrink-0 ${core ? "size-3.5" : "size-3"}`} style={{ color: col }} />
           <span className={`tech truncate font-mono font-extrabold text-ink-1 ${core ? "text-[13px]" : leaf ? "text-[11px]" : "text-[12px]"}`} dir="ltr">{n.label}</span>
           {hasHidden(n.id)
-            ? <span className="ms-auto grid size-4 shrink-0 place-items-center rounded-full text-white shadow-sm" style={{ background: col }} title="לחץ לחשיפת שכנים"><Plus className="size-2.5" /></span>
+            ? <span className="ms-auto grid size-4 shrink-0 place-items-center rounded-full text-white shadow-sm" style={{ background: forWhiteText(col)}} title="לחץ לחשיפת שכנים"><Plus className="size-2.5" /></span>
             : deg > 0 && <span className="ms-auto shrink-0 rounded-full px-1 text-[8.5px] font-extrabold tabular-nums" style={{ background: col + "1f", color: col }} title={`${deg} קשרים`}>{deg}</span>}
         </span>
         {n.kind === "table" && n.he && <span className="w-full truncate text-[9px] text-ink-3">{n.he}</span>}
@@ -730,7 +730,7 @@ export function ArchitectureStudio() {
                 {/* sticky header */}
                 <div className="sticky top-0 z-10 flex items-center justify-between gap-2 border-b border-hairline bg-surface/95 p-4 backdrop-blur">
                   <div className="flex min-w-0 items-center gap-2">
-                    <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: nodeColor(tipNode!.kind, tipNode!.s4) }}>{(() => { const Ic = KIND_ICON[tipNode!.kind]; return <Ic className="size-5" />; })()}</span>
+                    <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: forWhiteText(nodeColor(tipNode!.kind, tipNode!.s4)) }}>{(() => { const Ic = KIND_ICON[tipNode!.kind]; return <Ic className="size-5" />; })()}</span>
                     <div className="min-w-0">
                       <span className="tech block truncate font-mono text-base font-extrabold text-ink-1" dir="ltr">{tipNode!.label}</span>
                       <span className="text-[10px] font-bold text-ink-3">{KIND_META[tipNode!.kind].he}{tipNode!.kind === "table" ? ` · ${ZONE_HE[zoneOf(tipNode!.label)] || ""}` : ""}</span>

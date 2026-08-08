@@ -14,13 +14,22 @@ export interface FilterButtonProps
 }
 
 export function FilterButton({ active, accent, className, style, ...props }: FilterButtonProps) {
+  // An active chip without an explicit accent sits on --brand, which the dark
+  // palette lightens from #d62027 to #ff5a5f so the red survives a dark surface.
+  // White text on that is 3.05:1 — the palette already ships --brand-foreground
+  // (#ffffff light, #1a0b0c dark) for exactly this pairing, so the default now
+  // uses the token instead of a hardcoded white. Light mode is unchanged.
+  //
+  // An explicit accent keeps white: those are module colours passed by callers,
+  // not theme tokens, and --brand-foreground would be the wrong ink on them.
+  const onBrand = active && !accent;
   return (
     <button
       type="button"
       aria-pressed={active}
       className={cn(
         "tap rounded-xl px-3 py-2 text-xs font-bold transition-colors",
-        active ? "text-white shadow-sm" : "bg-surface-2 text-ink-3 hover:bg-hairline",
+        active ? (onBrand ? "text-brand-foreground shadow-sm" : "text-white shadow-sm") : "bg-surface-2 text-ink-3 hover:bg-hairline",
         className,
       )}
       style={active ? { background: accent ?? "var(--brand)", ...style } : style}

@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useMemo, useRef, useState, useEffect } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
 import { Database, Boxes, Network, Gauge, ShieldCheck, AlertTriangle, Play, ArrowLeft, Search, Layers, CheckCircle2, ListChecks, FileStack, GitCompare } from "lucide-react";
@@ -61,7 +62,7 @@ export function MigrationCockpit() {
 
   const Card = ({ id, title, icon, sub, accent, children: ch }: { id: string; title: string; icon: React.ReactNode; sub?: string; accent?: string; children: React.ReactNode }) => (
     <section id={id} ref={(el) => { secRef.current[id] = el; }} className="scroll-mt-4 rounded-3xl border border-hairline bg-surface p-5 shadow-sm sm:p-6">
-      <div className="mb-4 flex items-center gap-2.5"><span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: accent || "#0f172a" }}>{icon}</span><div><h2 className="text-lg font-extrabold text-ink-1">{title}</h2>{sub && <p className="text-xs font-medium text-ink-3">{sub}</p>}</div></div>
+      <div className="mb-4 flex items-center gap-2.5"><span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: forWhiteText(accent || "#0f172a")}}>{icon}</span><div><h2 className="text-lg font-extrabold text-ink-1">{title}</h2>{sub && <p className="text-xs font-medium text-ink-3">{sub}</p>}</div></div>
       {ch}
     </section>
   );
@@ -113,13 +114,13 @@ export function MigrationCockpit() {
             <div className="grid gap-3 lg:grid-cols-[1fr_320px]">
               <div className="grid gap-2 sm:grid-cols-2">{lib.map((m) => { const on = sel === m.id; return (
                 <button key={m.id} onClick={() => setSel(m.id)} className={`rounded-2xl border p-3 text-right transition ${on ? "border-violet-300 bg-violet-50" : "border-hairline bg-surface hover:border-hairline"}`}>
-                  <div className="flex items-center justify-between gap-2"><span className="font-extrabold text-ink-1">{m.he}</span><span className="rounded-full px-2 py-0.5 text-[9px] font-bold text-white" style={{ background: RISK_C[m.risk] }}>{RISK_HE[m.risk]}</span></div>
+                  <div className="flex items-center justify-between gap-2"><span className="font-extrabold text-ink-1">{m.he}</span><span className="rounded-full px-2 py-0.5 text-[9px] font-bold text-white" style={{ background: forWhiteText(RISK_C[m.risk])}}>{RISK_HE[m.risk]}</span></div>
                   <div className="font-mono text-[11px] text-ink-3" dir="ltr">{m.name}</div>
                   <div className="mt-1 flex flex-wrap items-center gap-1 text-[10px] font-bold text-ink-3"><span className="rounded bg-surface-2 px-1.5 py-0.5">{m.module}</span><span className="rounded bg-surface-2 px-1.5 py-0.5">{CAT_HE[m.cat]}</span></div>
                 </button>
               ); })}</div>
               {o && <div className="lg:sticky lg:top-2 lg:self-start"><div className="overflow-hidden rounded-2xl border border-hairline bg-surface shadow-sm" key={o.id}>
-                <div className="px-4 py-3 text-white" style={{ background: "linear-gradient(135deg,#6d28d9,#7c3aed)" }}><div className="flex items-center justify-between"><span className="font-extrabold" dir="ltr">{o.name}</span><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white ring-1 ring-white/30" style={{ background: RISK_C[o.risk] }}>{RISK_HE[o.risk]}</span></div><p className="text-sm text-white/85">{o.he} · {o.module}{o.trust === "needs-verification" ? " · needs verification" : ""}</p></div>
+                <div className="px-4 py-3 text-white" style={{ background: "linear-gradient(135deg,#6d28d9,#7c3aed)" }}><div className="flex items-center justify-between"><span className="font-extrabold" dir="ltr">{o.name}</span><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white ring-1 ring-white/30" style={{ background: forWhiteText(RISK_C[o.risk])}}>{RISK_HE[o.risk]}</span></div><p className="text-sm text-white/85">{o.he} · {o.module}{o.trust === "needs-verification" ? " · needs verification" : ""}</p></div>
                 <div className="space-y-2 p-4 text-[12px]">
                   <div><span className="font-bold text-ink-2">מפתח: </span><span className="font-mono text-ink-2" dir="ltr">{o.keys}</span></div>
                   <div><div className="text-[10px] font-bold uppercase text-ink-3">תלוי ב (load first)</div>{o.dependsOn.length ? <div className="flex flex-wrap gap-1">{o.dependsOn.map((d) => <button key={d} onClick={() => setSel(d)} className="rounded-md border border-hairline bg-surface-2 px-1.5 py-0.5 text-[11px] font-bold text-ink-2 transition hover:border-violet-400">{byId[d]?.he || d}</button>)}</div> : <span className="text-ink-3">— ראשון בטעינה</span>}</div>
@@ -150,7 +151,7 @@ export function MigrationCockpit() {
               <div className="rounded-2xl border border-hairline bg-surface-2/60 p-3">
                 <div className="mb-1.5 flex items-center gap-1.5 text-[12px] font-extrabold text-ink-2"><FileStack className="size-4 text-emerald-600" />תוכנית טעינה · {plan.sorted.length} אובייקטים</div>
                 {plan.missing.length > 0 && <div className="mb-2 rounded-lg bg-amber-50 px-2.5 py-1.5 text-[11px] font-bold text-amber-800"><AlertTriangle className="mb-0.5 inline size-3.5" /> חסרות תלויות: {plan.missing.map((d) => byId[d]?.he || d).join(", ")} — הוסף לפני טעינה.</div>}
-                <ol className="space-y-1">{plan.sorted.map((m, i) => <li key={m.id} className="flex items-center gap-2 rounded-lg bg-surface px-2.5 py-1.5 text-[12px] ring-1 ring-hairline"><span className="grid size-5 shrink-0 place-items-center rounded-full bg-slate-900 text-[10px] font-bold text-white">{i + 1}</span><span className="flex-1 font-bold text-ink-2">{m.he}</span><span className="rounded px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: RISK_C[m.risk] }}>{RISK_HE[m.risk]}</span></li>)}</ol>
+                <ol className="space-y-1">{plan.sorted.map((m, i) => <li key={m.id} className="flex items-center gap-2 rounded-lg bg-surface px-2.5 py-1.5 text-[12px] ring-1 ring-hairline"><span className="grid size-5 shrink-0 place-items-center rounded-full bg-slate-900 text-[10px] font-bold text-white">{i + 1}</span><span className="flex-1 font-bold text-ink-2">{m.he}</span><span className="rounded px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: forWhiteText(RISK_C[m.risk])}}>{RISK_HE[m.risk]}</span></li>)}</ol>
                 {plan.sorted.length === 0 && <p className="py-4 text-center text-sm text-ink-3">בחר אובייקטים.</p>}
               </div>
             </div>

@@ -146,7 +146,7 @@ export function PageView({ chapters, active, onChapter, accent, children }: { ch
               />
             </motion.div>
           )}
-          {busy && <div className="pointer-events-none absolute inset-x-0 top-2 mx-auto w-max rounded-full bg-ink-1/80 px-3 py-1 text-[11px] font-bold text-white">מתאים את העמודים…</div>}
+          {busy && <div className="pointer-events-none absolute inset-x-0 top-2 mx-auto w-max rounded-full bg-ink-1/80 px-3 py-1 text-[11px] font-bold text-surface">מתאים את העמודים…</div>}
         </div>
       </motion.div>
 

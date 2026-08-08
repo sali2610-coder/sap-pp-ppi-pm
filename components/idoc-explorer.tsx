@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useMemo, useState } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
 import { Cable, ArrowLeft, ArrowRight, Layers, Activity, FileSearch, ListTree, AlertTriangle, Wrench, BookOpen } from "lucide-react";
@@ -90,7 +91,7 @@ export function IDocExplorer() {
             {statuses.map((s) => (
               <div key={s.code} className="rounded-2xl border border-hairline p-3.5">
                 <div className="flex items-center gap-2">
-                  <span className="tech grid size-9 shrink-0 place-items-center rounded-xl font-mono text-sm font-extrabold text-white" style={{ background: DIR_C[s.dir] }}>{s.code}</span>
+                  <span className="tech grid size-9 shrink-0 place-items-center rounded-xl font-mono text-sm font-extrabold text-white" style={{ background: forWhiteText(DIR_C[s.dir])}}>{s.code}</span>
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5">
                       {s.dir === "in" ? <ArrowRight className="size-3 text-green-600" /> : <ArrowLeft className="size-3 text-blue-600" />}

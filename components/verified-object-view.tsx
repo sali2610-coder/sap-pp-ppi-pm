@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { SmartLink as Link } from "@/components/smart-link";
 import { ArrowLeft, ArrowRightLeft, Terminal, GitBranch, ShieldCheck, Tag, Layers, CircleAlert, FlaskConical, Lightbulb, Network } from "lucide-react";
 import { hasApp } from "@/lib/apps-intel";
@@ -14,7 +15,7 @@ const STATUS_C: Record<string, string> = { verified: "#16a34a", "needs-review": 
 function Section({ icon, title, accent, children }: { icon: React.ReactNode; title: string; accent: string; children: React.ReactNode }) {
   return (
     <section className="rounded-3xl border border-hairline bg-surface p-5 shadow-[var(--elev-1)] sm:p-6">
-      <div className="mb-3 flex items-center gap-2.5"><span className="grid size-9 place-items-center rounded-xl text-white shadow-sm" style={{ background: accent }}>{icon}</span><h2 className="text-lg font-extrabold tracking-tight text-ink-1">{title}</h2></div>
+      <div className="mb-3 flex items-center gap-2.5"><span className="grid size-9 place-items-center rounded-xl text-white shadow-sm" style={{ background: forWhiteText(accent)}}>{icon}</span><h2 className="text-lg font-extrabold tracking-tight text-ink-1">{title}</h2></div>
       {children}
     </section>
   );

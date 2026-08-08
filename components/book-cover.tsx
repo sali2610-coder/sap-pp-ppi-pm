@@ -38,7 +38,7 @@ export function BookCover({ book, className = "", size = "md" }: { book: CoverBo
       dir="rtl"
       aria-label={`${book.title}${book.publisher ? " · " + book.publisher : ""}`}
       className={`neo-cover group/cover relative aspect-[3/4] w-full select-none overflow-hidden rounded-l-[6px] rounded-r-[3px] text-white shadow-[0_18px_40px_-20px_rgba(15,23,42,0.6)] ${className}`}
-      style={{ background: cloth(c) }}
+      style={{ background: cloth(c)}}
     >
       {/* binding (spine) on the RTL right edge */}
       <span className="pointer-events-none absolute inset-y-0 right-0 w-[7%] min-w-[7px] bg-gradient-to-l from-black/35 via-black/10 to-transparent" />

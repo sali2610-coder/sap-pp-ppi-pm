@@ -48,7 +48,7 @@ export function ResetButton({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-md" dir="rtl">
           <div className="flex items-start gap-3">
-            <span className={`grid size-10 shrink-0 place-items-center rounded-xl ${danger ? "bg-red-50 text-red-600" : "bg-amber-50 text-amber-600"}`}><AlertTriangle className="size-5" aria-hidden /></span>
+            <span className={`grid size-10 shrink-0 place-items-center rounded-xl ${danger ? "bg-brand-soft text-brand" : "bg-amber-50 text-amber-600"}`}><AlertTriangle className="size-5" aria-hidden /></span>
             <div className="min-w-0">
               <DialogTitle className="text-[15px] font-extrabold text-ink-1">{title}</DialogTitle>
               <DialogDescription className="mt-1 text-[13px] text-ink-2">{scopeText}</DialogDescription>

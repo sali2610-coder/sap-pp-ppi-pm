@@ -115,7 +115,7 @@ export function BapiObjectPage({ o, related }: { o: SapFuncObject; related: Rela
             <button onClick={() => { toggleFavorite(o.technicalName); haptic(); }} aria-pressed={fav} className="tap inline-flex items-center gap-1 rounded-xl border border-hairline bg-surface px-3 py-2 text-[12px] font-bold text-ink-2 transition hover:border-brand/40"><Star className={`size-3.5 ${fav ? "fill-amber-400 text-amber-400" : ""}`} />{fav ? "במועדפים" : "מועדף"}</button>
             <button onClick={copy} className="tap inline-flex items-center gap-1 rounded-xl border border-hairline bg-surface px-3 py-2 text-[12px] font-bold text-ink-2 transition hover:border-brand/40">{copied ? <Check className="size-3.5 text-emerald-600" /> : <Copy className="size-3.5" />}העתק</button>
             <button onClick={() => peek(o.technicalName)} className="tap inline-flex items-center gap-1 rounded-xl border border-hairline bg-surface px-3 py-2 text-[12px] font-bold text-ink-2 transition hover:border-brand/40"><Eye className="size-3.5" />תצוגה מהירה</button>
-            <Link href={`/chat/?q=${encodeURIComponent(o.technicalName)}`} className="tap inline-flex items-center gap-1 rounded-xl bg-brand px-3 py-2 text-[12px] font-bold text-white transition hover:brightness-110"><Sparkles className="size-3.5" />שאל AI</Link>
+            <Link href={`/chat/?q=${encodeURIComponent(o.technicalName)}`} className="tap inline-flex items-center gap-1 rounded-xl bg-brand px-3 py-2 text-[12px] font-bold text-brand-foreground transition hover:brightness-110"><Sparkles className="size-3.5" />שאל AI</Link>
           </div>
         </div>
         {o.verificationStatus === "invalid-name" && <p className="mt-3 rounded-xl border border-brand/25 bg-brand-soft px-3 py-2 text-[12.5px] font-semibold text-brand"><AlertTriangle className="me-1 inline size-3.5" />שם זה אינו אובייקט SAP סטנדרטי לפי המקורות הרשמיים. ראה סעיף אימות בהמשך + חלופה מומלצת.</p>}
@@ -233,7 +233,7 @@ export function BapiObjectPage({ o, related }: { o: SapFuncObject; related: Rela
       {/* ===== G · EXAMPLE ===== */}
       {o.codeAbap && (
         <Section icon={<Code2 className="size-4" />} title="דוגמת ABAP בטוחה" sub="טיפול ב-BAPIRET2 · COMMIT / ROLLBACK">
-          <pre dir="ltr" className="tech overflow-x-auto rounded-xl bg-ink-1 p-3.5 text-[11.5px] leading-relaxed text-white">{o.codeAbap}</pre>
+          <pre dir="ltr" className="tech overflow-x-auto rounded-xl bg-ink-1 p-3.5 text-[11.5px] leading-relaxed text-surface">{o.codeAbap}</pre>
         </Section>
       )}
 

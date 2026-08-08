@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useState } from "react";
 import Link from "next/link";
 import {
@@ -63,9 +64,9 @@ export function FunctionIntelligence({ name }: { name: string }) {
       {/* 1 · Executive summary */}
       <Card icon={<Sparkles className="size-4" />} title="Function Intelligence" accent="#d62027" tag={intel && !intel.inferred ? <Verified /> : intel ? <NeedsCheck /> : <Unverified />}>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="tech rounded-lg bg-brand px-2.5 py-1 text-sm font-extrabold text-white" dir="ltr">{name}</span>
+          <span className="tech rounded-lg bg-brand px-2.5 py-1 text-sm font-extrabold text-brand-foreground" dir="ltr">{name}</span>
           <span className="rounded-md bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-2">{kindLabel}</span>
-          {(intel?.module || ds?.modules?.[0]) && <span className="rounded-md px-2 py-0.5 text-[11px] font-bold text-white" style={{ background: accent }}>{intel?.module || ds?.modules?.[0]}</span>}
+          {(intel?.module || ds?.modules?.[0]) && <span className="rounded-md px-2 py-0.5 text-[11px] font-bold text-white" style={{ background: forWhiteText(accent)}}>{intel?.module || ds?.modules?.[0]}</span>}
         </div>
         <p className="mt-2.5 text-sm leading-relaxed text-ink-2">{intel?.what || dsHe || <Missing />}</p>
         {!intel && dsHe && <p className="mt-1.5 text-[11px] text-ink-3">תיאור מהמאגר (מאומת). פירוט מלא: {MISSING}</p>}

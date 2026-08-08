@@ -1,3 +1,4 @@
+import { forWhiteText } from "@/lib/contrast";
 import Link from "next/link";
 import type { Workbench } from "@/data/workbenches";
 import { incidentBySlug } from "@/data/troubleshooting";
@@ -18,7 +19,7 @@ function Chips({ items }: { items: string[] }) {
 
 const TAG_COLOR: Record<string, string> = {
   "READ-ONLY": "border-emerald-200 bg-emerald-50 text-emerald-700",
-  "UPDATE-RISKY": "border-red-200 bg-red-50 text-red-700",
+  "UPDATE-RISKY": "border-red-200 bg-brand-soft text-brand",
   "verify SE18": "border-amber-200 bg-amber-50 text-amber-700",
   "verify SE37": "border-amber-200 bg-amber-50 text-amber-700",
 };
@@ -67,7 +68,7 @@ export function WorkbenchView({ w }: { w: Workbench }) {
           <ol className="space-y-2">
             {w.processFlow.map((f, idx) => (
               <li key={idx} className="flex gap-3">
-                <span className="tech mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: w.accent }}>{idx + 1}</span>
+                <span className="tech mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: forWhiteText(w.accent)}}>{idx + 1}</span>
                 <span className="text-sm leading-relaxed text-ink-2"><b className="text-ink-1">{f.step}</b> — {f.detail}</span>
               </li>
             ))}
@@ -114,7 +115,7 @@ export function WorkbenchView({ w }: { w: Workbench }) {
             <div className="flex flex-wrap gap-2">
               {w.incidents.filter((s) => incidentBySlug(s)).map((s) => {
                 const inc = incidentBySlug(s)!;
-                return <Link key={s} href={`/troubleshooting/${s}/`} className="lift rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-bold text-red-700 hover:bg-red-100">{inc.he} →</Link>;
+                return <Link key={s} href={`/troubleshooting/${s}/`} className="lift rounded-lg border border-red-200 bg-brand-soft px-3 py-1.5 text-xs font-bold text-brand hover:bg-red-100">{inc.he} →</Link>;
               })}
             </div>
           </Block>

@@ -1,3 +1,4 @@
+import { forWhiteText } from "@/lib/contrast";
 import Link from "next/link";
 import { QA_PACKS, qaPackBySlug, type QaKind } from "@/data/qa-center";
 import { Crumb, CenterHeader, Block } from "@/components/knowledge";
@@ -34,7 +35,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           return (
             <section key={kind} className="rounded-2xl border border-hairline bg-surface p-5 shadow-sm">
               <h2 className="mb-3 flex items-center gap-2 text-sm font-extrabold tracking-tight text-ink-1">
-                <span className="rounded-full px-2.5 py-0.5 text-[11px] font-bold text-white" style={{ background: col }}>{KIND_HE[kind]}</span>
+                <span className="rounded-full px-2.5 py-0.5 text-[11px] font-bold text-white" style={{ background: forWhiteText(col)}}>{KIND_HE[kind]}</span>
                 <span className="text-ink-3">{kind} · {items.length}</span>
               </h2>
               <ul className="space-y-2">

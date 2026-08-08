@@ -1,3 +1,4 @@
+import { forWhiteText } from "@/lib/contrast";
 import Link from "next/link";
 import { STORIES } from "@/data/story/pppi-process-order";
 
@@ -18,7 +19,7 @@ export default function StoryHome() {
       <div className="space-y-3">
         {stories.map((s) => (
           <Link key={s.id} href={`/story/${s.id}/`} className="group flex items-center gap-4 rounded-3xl border border-hairline bg-surface p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md active:scale-[.99]">
-            <span className="grid size-12 shrink-0 place-items-center rounded-2xl text-lg font-extrabold text-white shadow-sm" style={{ background: s.accent }}>{s.module === "pm" ? "PM" : "PP"}</span>
+            <span className="grid size-12 shrink-0 place-items-center rounded-2xl text-lg font-extrabold text-white shadow-sm" style={{ background: forWhiteText(s.accent)}}>{s.module === "pm" ? "PM" : "PP"}</span>
             <span className="min-w-0 flex-1">
               <span className="block text-lg font-extrabold text-ink-1">{s.he}</span>
               <span className="block text-sm text-ink-3">{s.sub}</span>

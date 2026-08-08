@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
@@ -63,7 +64,7 @@ export function ProcessFlowExplorer() {
               className={`lift group relative overflow-hidden rounded-2xl border bg-surface p-3.5 text-start shadow-sm transition-all ${on ? "border-transparent ring-2" : "border-hairline hover:border-hairline"}`}
               style={on ? ({ ["--tw-ring-color"]: c } as React.CSSProperties) : undefined}>
               <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: c }} />
-              <span className="grid size-8 place-items-center rounded-lg text-[10px] font-extrabold text-white" style={{ background: c }}>{m.domain.slice(0, 3)}</span>
+              <span className="grid size-8 place-items-center rounded-lg text-[10px] font-extrabold text-white" style={{ background: forWhiteText(c)}}>{m.domain.slice(0, 3)}</span>
               <div className="mt-2 text-sm font-extrabold text-ink-1"><Highlight text={m.he} query={q} /></div>
               <div className="text-[11px] font-semibold text-ink-3">{m.title} · {m.steps.length} שלבים</div>
             </button>
@@ -76,7 +77,7 @@ export function ProcessFlowExplorer() {
         <div className="rounded-3xl border border-hairline bg-surface p-5 shadow-[var(--elev-1)]">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <span className="grid size-11 place-items-center rounded-2xl text-white shadow-lg" style={{ background: DC[active.domain] || "#64748b", boxShadow: `0 8px 20px ${(DC[active.domain] || "#64748b")}55` }}>
+              <span className="grid size-11 place-items-center rounded-2xl text-white shadow-lg" style={{ background: forWhiteText(DC[active.domain] || "#64748b"), boxShadow: `0 8px 20px ${(DC[active.domain] || "#64748b")}55` }}>
                 {active.domain === "QM" ? <Beaker className="size-5" /> : active.domain.includes("PP") ? <FlaskConical className="size-5" /> : <Workflow className="size-5" />}
               </span>
               <div><h2 className="text-lg font-extrabold tracking-tight text-ink-1">{active.he} · {active.title}</h2><p className="text-xs text-ink-3">{active.summary}</p></div>
@@ -88,7 +89,7 @@ export function ProcessFlowExplorer() {
             {steps.map(({ st, i }) => { const isOpen = open === i; const c = DC[active.domain] || "#4338ca";
               return (
                 <motion.li key={i} variants={item} className="relative">
-                  <span className="absolute -right-[27px] top-3.5 grid size-5 place-items-center rounded-full text-[10px] font-extrabold text-white ring-4 ring-white" style={{ background: c }}>{i + 1}</span>
+                  <span className="absolute -right-[27px] top-3.5 grid size-5 place-items-center rounded-full text-[10px] font-extrabold text-white ring-4 ring-white" style={{ background: forWhiteText(c)}}>{i + 1}</span>
                   <div className={`overflow-hidden rounded-2xl border bg-surface shadow-sm transition-colors ${isOpen ? "border-brand/30" : "border-hairline hover:border-hairline"}`}>
                     <button onClick={() => setOpen(isOpen ? null : i)} className="flex w-full items-center justify-between gap-2 px-4 py-3 text-start">
                       <h3 className="text-sm font-extrabold text-ink-1"><Highlight text={st.he} query={q} /></h3>

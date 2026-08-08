@@ -83,6 +83,56 @@ export function onTint(hex: string, alpha = 0x1a / 255, over = "#ffffff", target
   return out;
 }
 
+/** The dark theme's card surface — `--surface` under html[data-theme="dark"]. */
+export const DARK_SURFACE = "#0f1216";
+
+/**
+ * The dark-theme counterpart of `onTint`: *lighten* until the colour passes on
+ * its own tint over a dark surface.
+ *
+ * `onTint` bakes its answer at build time against a white backdrop, which is
+ * correct for the light theme and wrong for the dark one — a colour darkened to
+ * pass on white is exactly the wrong direction once the tint sits on #0f1216.
+ * Measured on /transactions/ in dark mode before this existed:
+ *
+ *     #d01f26 on #27191d   3.14:1   (the "מתועד לעומק" chip, 300 nodes)
+ *     #117f3a on #10211b   3.28:1   (the module chip)
+ *
+ * Both are `onTint(...)` output rendering against a dark tint. Since a colour
+ * cannot be baked once for two themes, callers compute both and let CSS pick —
+ * see the `.tint-ink` rule in app/globals.css.
+ *
+ * Lightening walks toward white by the same proportional steps `onTint` uses
+ * going down, so the hue is preserved and the chip stays recognisably the same
+ * colour, only lighter.
+ */
+/**
+ * Target 4.6 rather than 4.5. The tint a chip actually sits on varies slightly
+ * with the card it is in (--surface vs --surface-2), and axe rounds the ratio it
+ * reports — aiming exactly at the limit produced a measured 4.49 on the PP-PI
+ * chip, i.e. a fail by one hundredth. The extra 0.1 absorbs both.
+ */
+const DARK_TARGET = 4.6;
+
+export function onTintDark(hex: string, alpha = 0x1a / 255, over = DARK_SURFACE, target = DARK_TARGET): string {
+  const key = `dark|${hex}|${alpha}|${over}|${target}`;
+  const hit = cache.get(key);
+  if (hit) return hit;
+
+  const bg = composite(hex, alpha, over);
+  let out = hex;
+  if (contrastRatio(hex, bg) < target) {
+    const [r, g, b] = parse(hex);
+    for (let f = 0.01; f <= 0.8; f += 0.01) {
+      // Move each channel a fraction of the way to 255.
+      const cand = toHex([r + (255 - r) * f, g + (255 - g) * f, b + (255 - b) * f]);
+      if (contrastRatio(cand, bg) >= target) { out = cand; break; }
+    }
+  }
+  cache.set(key, out);
+  return out;
+}
+
 /**
  * Darken a solid background just enough for white text to pass on it.
  *

@@ -1,3 +1,4 @@
+import { forWhiteText } from "@/lib/contrast";
 import Link from "next/link";
 import {
   LayoutGrid, Workflow, Boxes, Terminal, Table, Plug, Sigma, AppWindow, Settings,
@@ -115,7 +116,7 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
       const fn = funcs(module, ["BAPI", "FM"]);
       return (
         <Link href={`/bapi/?module=${encodeURIComponent(module.module)}`} className="card-interactive group flex items-center gap-3 p-4" dir="rtl">
-          <span className="grid size-11 shrink-0 place-items-center rounded-xl text-white" style={{ background: accent }}><Plug className="size-5" /></span>
+          <span className="grid size-11 shrink-0 place-items-center rounded-xl text-white" style={{ background: forWhiteText(accent)}}><Plug className="size-5" /></span>
           <span className="min-w-0 flex-1">
             <span className="block text-[14px] font-extrabold text-ink-1">כל ה-BAPI / FM של {module.module} — במרכז המאוחד</span>
             <span className="block text-[12px] text-ink-3">≈{fn.length} אובייקטים · סטטוס אימות · תאימות ECC↔S/4 · דף מלא לכל אובייקט</span>
@@ -148,7 +149,7 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
           {steps.map((s, i) => {
             const last = i === steps.length - 1;
             const badge = (
-              <span className="absolute -start-8 top-3 z-10 grid size-7 place-items-center rounded-full text-[11px] font-black text-white shadow-sm" style={{ background: last ? "#1aa179" : accent }}>{i + 1}</span>
+              <span className="absolute -start-8 top-3 z-10 grid size-7 place-items-center rounded-full text-[11px] font-black text-white shadow-sm" style={{ background: forWhiteText(last ? "#1aa179" : accent)}}>{i + 1}</span>
             );
             const inner = (
               <>
@@ -206,7 +207,7 @@ function SectionBody({ module, slug }: { module: SAPModuleData; slug: string }) 
             {idocs.length ? <div className="grid-adaptive-sm">{idocs.map((f) => <CodeChip key={f.name} href={`/idoc/${encodeURIComponent(f.name)}/`} code={f.name} ok={idocHasPage(f.name)} />)}</div> : <Empty text="אין IDocs מאומתים." />}</div>
           <div><h3 className="mb-2 flex items-center gap-2 text-[13px] font-extrabold text-ink-1"><Plug className="size-4 text-ink-3" />BAPIs / FMs<span className="font-mono text-[11px] font-bold text-ink-3">{bapi.length}</span></h3>
             <Link href={`/bapi/?module=${encodeURIComponent(module.module)}`} className="card-interactive group flex items-center gap-3 p-4" dir="rtl">
-              <span className="grid size-10 shrink-0 place-items-center rounded-xl text-white" style={{ background: accent }}><Plug className="size-[18px]" /></span>
+              <span className="grid size-10 shrink-0 place-items-center rounded-xl text-white" style={{ background: forWhiteText(accent)}}><Plug className="size-[18px]" /></span>
               <span className="min-w-0 flex-1"><span className="block text-[13.5px] font-extrabold text-ink-1">פתח במרכז ה-BAPI / FM המאוחד</span><span className="block text-[11.5px] text-ink-3">מסונן ל-{module.module} · דף מלא לכל אובייקט</span></span>
               <ArrowLeft className="size-4 text-ink-3 transition group-hover:-translate-x-0.5 group-hover:text-brand" />
             </Link></div>

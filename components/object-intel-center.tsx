@@ -1,3 +1,4 @@
+import { forWhiteText } from "@/lib/contrast";
 import Link from "next/link";
 import { Database, Terminal, Boxes, Cable, FileCode2, ShieldAlert, BookText, Bug, Factory, GitBranch, ArrowRight } from "lucide-react";
 import type { ObjectGraph, LinkRef } from "@/lib/cross-links";
@@ -35,7 +36,7 @@ export function ObjectIntelView({ obj, graph }: { obj: OICObject; graph: ObjectG
       <header className="relative mb-5 overflow-hidden rounded-3xl border border-hairline bg-surface p-7 shadow-sm">
         <span className="absolute inset-y-0 end-0 w-1.5" style={{ background: c }} />
         <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full px-2.5 py-0.5 text-[11px] font-bold text-white" style={{ background: c }}>{obj.module}</span>
+          <span className="rounded-full px-2.5 py-0.5 text-[11px] font-bold text-white" style={{ background: forWhiteText(c)}}>{obj.module}</span>
           <h1 className="text-2xl font-extrabold tracking-tight text-ink-1">{obj.he} · <span className="tech" dir="ltr">{obj.title}</span></h1>
           {graph.exists
             ? <Link href={`/object/${encodeURIComponent(graph.name)}/`} className="ms-auto tech rounded-lg bg-surface-2 px-2.5 py-1 text-xs font-bold text-brand hover:bg-hairline" dir="ltr">{graph.name} ↗</Link>

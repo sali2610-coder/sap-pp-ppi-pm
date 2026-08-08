@@ -165,7 +165,7 @@ export function MobileTabBar() {
       <BottomSheet open={more} onClose={() => setMore(false)} title="ניווט">
         <div className="px-4 pb-1">
           <button onClick={() => { setMore(false); setCenters(true); }} className="tap flex min-h-[56px] w-full items-center gap-3 rounded-2xl border border-brand/25 bg-gradient-to-l from-brand/10 to-transparent p-3 text-right active:scale-[0.98]">
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-white shadow-sm"><Compass className="size-5" /></span>
+            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-brand text-brand-foreground shadow-sm"><Compass className="size-5" /></span>
             <span className="min-w-0 flex-1"><span className="block text-[15px] font-extrabold text-ink-1">מרכזי ייעוץ</span><span className="block text-[12px] text-ink-3">מסירה · אינטגרציה · אבטחה · ALM · Fiori</span></span>
           </button>
         </div>

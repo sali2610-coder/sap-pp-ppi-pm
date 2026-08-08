@@ -1,3 +1,4 @@
+import { forWhiteText } from "@/lib/contrast";
 import Link from "next/link";
 import { CheckCircle2, AlertTriangle, ArrowLeft, HelpCircle, Wrench, GraduationCap, GitFork, Boxes, Users, Clock, Repeat, FileText, GitCompare, FlaskConical, ShieldCheck } from "lucide-react";
 import { buildProfile, type ObjProfile, type ProfDim } from "@/lib/object-profile";
@@ -17,7 +18,7 @@ function Card({ n, title, icon, accent, badge, children }: { n: number; title: s
   return (
     <section className="relative rounded-2xl border border-hairline bg-surface p-4 shadow-sm" dir="rtl">
       <div className="mb-2 flex items-center gap-2">
-        <span className="grid size-6 place-items-center rounded-lg text-[11px] font-extrabold text-white" style={{ background: accent }}>{n}</span>
+        <span className="grid size-6 place-items-center rounded-lg text-[11px] font-extrabold text-white" style={{ background: forWhiteText(accent)}}>{n}</span>
         <h3 className="flex items-center gap-1.5 text-sm font-extrabold tracking-tight text-ink-1">{icon}{title}</h3>
         {badge && <span className="ms-auto">{badge}</span>}
       </div>
@@ -37,7 +38,7 @@ export function ObjectIntelligence({ name, kind }: { name: string; kind?: Profil
       <header className="relative overflow-hidden rounded-3xl border border-hairline bg-gradient-to-l from-slate-50 to-white p-5 shadow-sm">
         <span className="absolute inset-y-0 end-0 w-1.5" style={{ background: c }} />
         <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full px-2.5 py-0.5 text-[11px] font-bold text-white" style={{ background: c }}>{p.kindHe}</span>
+          <span className="rounded-full px-2.5 py-0.5 text-[11px] font-bold text-white" style={{ background: forWhiteText(c)}}>{p.kindHe}</span>
           <h2 className="tech text-xl font-extrabold tracking-tight text-ink-1" dir="ltr">{p.name}</h2>
           {p.module && <span className="rounded-full bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-3">{p.module}</span>}
           <span className="ms-auto text-xs font-bold text-ink-3">תבונת אובייקט · מדריך יועץ בכיר</span>

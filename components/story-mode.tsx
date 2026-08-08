@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
@@ -58,7 +59,7 @@ export function StoryMode({ id }: { id: string }) {
       {/* header */}
       <header className="relative overflow-hidden rounded-3xl border p-5 shadow-sm" style={{ borderColor: accent + "33", background: `linear-gradient(135deg, ${accent}0d, #fff)` }}>
         <div className="flex items-center gap-3">
-          <span className="grid size-11 place-items-center rounded-2xl text-white shadow-sm" style={{ background: accent }}><GraduationCap className="size-5" /></span>
+          <span className="grid size-11 place-items-center rounded-2xl text-white shadow-sm" style={{ background: forWhiteText(accent)}}><GraduationCap className="size-5" /></span>
           <div><h1 className="text-xl font-extrabold text-ink-1">{story.he}</h1><p className="text-xs text-ink-3">{story.sub}</p></div>
         </div>
         {/* phase rail — you are here */}
@@ -85,7 +86,7 @@ export function StoryMode({ id }: { id: string }) {
           drag={reduce ? false : "x"} dragConstraints={{ left: 0, right: 0 }} dragElastic={0.18} onDragEnd={(_e, info) => { if (info.offset.x < -80) go(1); else if (info.offset.x > 80) go(-1); }}
           className="touch-pan-y rounded-3xl border border-hairline bg-surface p-5 shadow-sm">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full px-2.5 py-0.5 text-[10px] font-extrabold text-white" style={{ background: accent }}>{s.phaseHe}</span>
+            <span className="rounded-full px-2.5 py-0.5 text-[10px] font-extrabold text-white" style={{ background: forWhiteText(accent)}}>{s.phaseHe}</span>
             <h2 className="text-lg font-extrabold text-ink-1">{s.title}</h2>
             {s.object && <Link href={`/object/${encodeURIComponent(s.object)}/`} className="tech rounded-md bg-surface-2 px-2 py-0.5 font-mono text-xs font-bold text-ink-2 transition hover:bg-hairline" dir="ltr">{s.object}</Link>}
           </div>
@@ -105,14 +106,14 @@ export function StoryMode({ id }: { id: string }) {
                 <div className="flex flex-wrap items-center gap-2 text-xs">
                   <span className="inline-flex items-center gap-1 text-[11px] font-bold text-ink-3"><Network className="size-3.5" />קשרים:</span>
                   {parents.map((p) => <Chip key={"p" + p} label={p} arrow="→" />)}
-                  <span className="rounded-md px-2 py-0.5 font-mono text-xs font-extrabold text-white" style={{ background: accent }} dir="ltr">{s.object}</span>
+                  <span className="rounded-md px-2 py-0.5 font-mono text-xs font-extrabold text-white" style={{ background: forWhiteText(accent)}} dir="ltr">{s.object}</span>
                   {children.map((c) => <Chip key={"c" + c} label={c} arrow="←" />)}
                 </div>
               ) : null}
               {tcodes.length ? <Row icon={<Terminal className="size-3.5" />} label="T-Codes" items={tcodes} /> : null}
               {related.length ? <Row icon={<Boxes className="size-3.5" />} label="אובייקטים קשורים" items={related} /> : null}
               <div className="flex flex-wrap gap-2 pt-0.5">
-                <Link href={`/sap-infrastructure/?focus=${encodeURIComponent(s.object)}`} className="tap inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold text-white shadow-sm" style={{ background: accent }}><GitBranch className="size-3.5" />הדגש בגרף</Link>
+                <Link href={`/sap-infrastructure/?focus=${encodeURIComponent(s.object)}`} className="tap inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold text-white shadow-sm" style={{ background: forWhiteText(accent)}}><GitBranch className="size-3.5" />הדגש בגרף</Link>
                 <Link href={`/object/${encodeURIComponent(s.object)}/`} className="tap inline-flex items-center gap-1.5 rounded-lg border border-hairline bg-surface px-3 py-1.5 text-xs font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand"><BookOpen className="size-3.5" />כרטיס אובייקט מלא</Link>
               </div>
             </div>

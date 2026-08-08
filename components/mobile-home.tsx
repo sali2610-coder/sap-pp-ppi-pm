@@ -8,6 +8,7 @@
  * carousel, favorites, quick module cards, a fast reference grid, and suggested
  * next — everything object-based is peekable (long-press) and staggers in.
  */
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -148,7 +149,7 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
               className="tap group relative flex flex-col gap-2 overflow-hidden rounded-2xl border border-hairline bg-surface p-4 shadow-sm transition active:scale-[0.98]">
               <span className="absolute inset-y-0 end-0 w-1.5" style={{ background: m.tint }} />
               <div className="flex items-center gap-2.5">
-                <span className="grid size-10 shrink-0 place-items-center rounded-xl text-white" style={{ background: m.tint }}><Icon className="size-5" /></span>
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl text-white" style={{ background: forWhiteText(m.tint)}}><Icon className="size-5" /></span>
                 <div className="min-w-0"><div className="text-[15px] font-extrabold text-ink-1">{m.label}</div><div className="text-[11px] font-semibold text-ink-3">{m.he}</div></div>
               </div>
               <p className="line-clamp-2 text-[12px] leading-relaxed text-ink-2">{m.desc}</p>
@@ -168,7 +169,7 @@ export function MobileHome({ counts, modules, learnPaths = [] }: { counts: Count
           {REF.map((r) => (
             <Link prefetch={false} key={r.href} href={r.href} onClick={haptic}
               className="tap flex flex-col items-center gap-1.5 rounded-2xl border border-hairline bg-surface p-3 text-center shadow-sm transition active:scale-[0.96]">
-              <span className="grid size-10 place-items-center rounded-xl text-white" style={{ background: r.c }}><r.Icon className="size-5" /></span>
+              <span className="grid size-10 place-items-center rounded-xl text-white" style={{ background: forWhiteText(r.c)}}><r.Icon className="size-5" /></span>
               <span className="text-[12px] font-extrabold text-ink-1">{r.label}</span>
               <span className="font-mono text-[11px] font-bold text-ink-3">{counts[r.key].toLocaleString()}</span>
             </Link>

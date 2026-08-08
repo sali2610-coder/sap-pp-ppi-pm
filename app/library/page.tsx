@@ -57,7 +57,7 @@ function SectionHead({ icon, eyebrow, title, tint, children }: { icon: React.Rea
   return (
     <div className="flex flex-wrap items-center justify-between gap-3">
       <div className="flex items-center gap-3">
-        <span className="grid size-11 place-items-center rounded-2xl text-white shadow-lg" style={{ background: tint, boxShadow: `0 10px 24px ${tint}44` }}>{icon}</span>
+        <span className="grid size-11 place-items-center rounded-2xl text-white shadow-lg" style={{ background: forWhiteText(tint), boxShadow: `0 10px 24px ${tint}44` }}>{icon}</span>
         <div>
           <div className="text-[10.5px] font-bold uppercase tracking-[0.22em]" style={{ color: tint }}>{eyebrow}</div>
           <h2 className="font-display text-xl text-ink-1 sm:text-2xl">{title}</h2>
@@ -173,7 +173,7 @@ function ResumeStrip({ recent }: { recent: Recent[] }) {
               ))}
             </div>
           )}
-          <Link href={primary.href} className="group inline-flex shrink-0 items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
+          <Link href={primary.href} className="group inline-flex shrink-0 items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: forWhiteText(c)}}>
             המשך <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover:-translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
           </Link>
         </div>
@@ -207,7 +207,7 @@ function BookPeek({ book, onOpen, onClose }: { book: LibBook; onOpen: (b: LibBoo
         <div className="mx-auto w-32 sm:mx-0 sm:w-full"><BookCover book={asCover(book)} size="lg" /></div>
         <div className="flex min-w-0 flex-col justify-center gap-2.5">
           <div className="flex items-center gap-2">
-            <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{book.module}</span>
+            <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: forWhiteText(c)}}>{book.module}</span>
             <span className="text-[11px] font-semibold text-ink-3">{book.publisher}</span>
           </div>
           <h3 className="text-xl font-black leading-tight tracking-tight text-ink-1">{book.titleHe}</h3>
@@ -246,7 +246,7 @@ function BookCard({ book, reading, onOpen }: { book: LibBook; reading: boolean; 
     <button data-book-id={book.id} onClick={onOpen} className="group relative flex flex-col text-start">
       <motion.div whileHover={reduce ? undefined : { y: -6 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} className={`relative ${reading ? "rounded-[10px] ring-2 ring-brand ring-offset-2 ring-offset-surface" : ""}`}>
         <BookCover book={asCover(book)} size="md" />
-        {reading && <span className="absolute end-2 top-2 z-10 inline-flex items-center gap-1 rounded-full bg-brand px-2 py-0.5 text-[10px] font-extrabold text-white shadow-md"><BookOpen className="size-3" />בקריאה</span>}
+        {reading && <span className="absolute end-2 top-2 z-10 inline-flex items-center gap-1 rounded-full bg-brand px-2 py-0.5 text-[10px] font-extrabold text-brand-foreground shadow-md"><BookOpen className="size-3" />בקריאה</span>}
         {!hasReader && <span className="pointer-events-none absolute inset-x-2 bottom-2 rounded-md bg-slate-900/70 px-2 py-1 text-center text-[10px] font-bold text-white backdrop-blur-sm">בקרוב · טקסט מלא</span>}
       </motion.div>
       <span className="mt-2 line-clamp-2 text-[12.5px] font-bold leading-snug text-ink-1 transition group-hover:text-brand">{book.titleHe}</span>
@@ -302,7 +302,7 @@ export default function LibraryPage() {
       <Reveal>
         <Link href="/ai/" className="group relative flex items-center gap-4 overflow-hidden rounded-3xl border border-hairline bg-gradient-to-bl from-ink-1 via-[#15171b] to-[#0b0c0e] p-4 text-white shadow-[0_12px_34px_-22px_rgba(15,23,42,0.5)] transition hover:brightness-110 sm:p-5">
           <span className="pointer-events-none absolute -right-16 -top-16 size-40 rounded-full bg-brand/25 blur-3xl" />
-          <span className="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-brand text-white shadow-lg"><Sparkles className="size-6" /></span>
+          <span className="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-brand text-brand-foreground shadow-lg"><Sparkles className="size-6" /></span>
           <span className="relative min-w-0 flex-1">
             <span className="flex items-center gap-2">
               <span className="text-base font-black tracking-tight sm:text-lg">שאל את הספרים</span>
@@ -323,7 +323,7 @@ export default function LibraryPage() {
           {q && <button onClick={() => setQ("")} aria-label="נקה" className="absolute inset-y-0 left-3 my-auto"><X className="size-4 text-ink-3" /></button>}
         </div>
         <div className="chip-rail flex flex-nowrap gap-1.5 overflow-x-auto pb-1">
-          <button onClick={() => setMod(null)} className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-bold transition ${!mod ? "bg-ink-1 text-white" : "border border-hairline bg-surface text-ink-3 hover:bg-surface-2"}`}>הכל</button>
+          <button onClick={() => setMod(null)} className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-bold transition ${!mod ? "bg-ink-1 text-surface" : "border border-hairline bg-surface text-ink-3 hover:bg-surface-2"}`}>הכל</button>
           {mods.map((m) => { const on = mod === m; const c = mc(m); return (
             <button key={m} onClick={() => setMod(on ? null : m)} className="shrink-0 rounded-full border px-3 py-1.5 text-xs font-bold transition active:scale-95" style={{ borderColor: on ? c : "var(--hairline)", background: on ? c : "var(--surface)", color: on ? "#fff" : "var(--ink-3)" }}>{m}</button>); })}
         </div>
@@ -381,7 +381,7 @@ export default function LibraryPage() {
           <span className="grid size-16 place-items-center rounded-3xl bg-surface-2 text-ink-3"><Search className="size-8" /></span>
           <p className="text-base font-bold text-ink-1">לא נמצאו ספרים</p>
           <p className="text-xs text-ink-3">נסה מונח אחר או נקה את הסינון</p>
-          {(q || mod) && <button onClick={() => { setQ(""); setMod(null); }} className="mt-1 rounded-xl bg-brand px-4 py-2 text-sm font-bold text-white transition hover:brightness-110">נקה חיפוש</button>}
+          {(q || mod) && <button onClick={() => { setQ(""); setMod(null); }} className="mt-1 rounded-xl bg-brand px-4 py-2 text-sm font-bold text-brand-foreground transition hover:brightness-110">נקה חיפוש</button>}
         </div>
       )}
 

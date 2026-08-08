@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { GitBranch, Gauge, AlertTriangle, Terminal, Boxes, FileCode, Network, Lightbulb, HelpCircle, Clock4, Briefcase, ArrowLeft, GraduationCap, ShieldCheck, ArrowRightLeft, StickyNote, Check } from "lucide-react";
@@ -90,7 +91,7 @@ export function ProcessWorkspace({ code, byName, color }: { code: string; byName
         {/* S/4 */}
         {s4 && (
           <div className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4">
-            <div className="mb-1.5 flex items-center gap-2"><ArrowRightLeft className="size-4 text-amber-600" /><h3 className="text-sm font-extrabold text-amber-800">ECC ↔ S/4HANA</h3><span className="rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: RISK_COLOR[s4.risk] }}>{RISK_HE[s4.risk]}</span><span className="rounded-full bg-surface px-2 py-0.5 text-[10px] font-bold text-ink-3">{TRUST_HE[s4.trust]}</span></div>
+            <div className="mb-1.5 flex items-center gap-2"><ArrowRightLeft className="size-4 text-amber-600" /><h3 className="text-sm font-extrabold text-amber-800">ECC ↔ S/4HANA</h3><span className="rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: forWhiteText(RISK_COLOR[s4.risk])}}>{RISK_HE[s4.risk]}</span><span className="rounded-full bg-surface px-2 py-0.5 text-[10px] font-bold text-ink-3">{TRUST_HE[s4.trust]}</span></div>
             <p className="text-[13px] leading-relaxed text-amber-900">{k?.s4 || s4.impact?.changed || t?.s4 || "אין הערת S/4 ברמת הטבלה — נדרש אימות מול Simplification List / OSS."}</p>
           </div>
         )}
@@ -131,7 +132,7 @@ export function ProcessWorkspace({ code, byName, color }: { code: string; byName
         {/* action row */}
         {s.object && (
           <div className="flex flex-wrap gap-2">
-            <Link href={`/sap-infrastructure/?focus=${encodeURIComponent(s.object)}`} className="tap inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2.5 text-xs font-bold text-white shadow-sm" style={{ background: accent }}><GitBranch className="size-4" />פתח בגרף</Link>
+            <Link href={`/sap-infrastructure/?focus=${encodeURIComponent(s.object)}`} className="tap inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2.5 text-xs font-bold text-white shadow-sm" style={{ background: forWhiteText(accent)}}><GitBranch className="size-4" />פתח בגרף</Link>
             <Link href={`/impact/${encodeURIComponent(s.object)}/`} className="tap inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-3.5 py-2.5 text-xs font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand"><Gauge className="size-4" />ניתוח השפעה</Link>
             
             {incidents[0] && <Link href={`/troubleshooting/${incidents[0].slug}/`} className="tap inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-3.5 py-2.5 text-xs font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand"><AlertTriangle className="size-4" />פתרון תקלות</Link>}

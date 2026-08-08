@@ -1,3 +1,4 @@
+import { forWhiteText } from "@/lib/contrast";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { PROCESS_GUIDES, guideBySlug } from "@/data/process-guides";
@@ -39,7 +40,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         <ol className="space-y-3">
           {g.steps.map((s, i) => (
             <li key={i} className="flex gap-3">
-              <span className="grid size-7 shrink-0 place-items-center rounded-lg text-xs font-extrabold text-white" style={{ background: c }}>{i + 1}</span>
+              <span className="grid size-7 shrink-0 place-items-center rounded-lg text-xs font-extrabold text-white" style={{ background: forWhiteText(c)}}>{i + 1}</span>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-semibold text-ink-1">{s.action}</p>
                 <div className="mt-1 flex flex-wrap items-center gap-1.5">

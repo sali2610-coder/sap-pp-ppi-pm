@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Trophy, CheckCircle2, XCircle, Clock, ArrowLeft, RotateCcw, Target, BookOpen, AlertTriangle, Award, X, Lightbulb, Network, Terminal, Home } from "lucide-react";
@@ -82,10 +83,10 @@ export function Exam({ questions, module, level, mode, onExit }: { questions: Qu
             )}
             <div className="rounded-2xl bg-surface-2 p-4">
               <div className="mb-1 flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-wide text-ink-3"><Target className="size-3.5" />מסלול למידה מומלץ</div>
-              <Link href={`/learn/${LEARN_TRACK[module]}/`} className="tap inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold text-white shadow-sm" style={{ background: accent }}><BookOpen className="size-4" />{pass ? "העמק עוד במסלול" : "חזור על יסודות המודול"}<ArrowLeft className="size-4" /></Link>
+              <Link href={`/learn/${LEARN_TRACK[module]}/`} className="tap inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold text-white shadow-sm" style={{ background: forWhiteText(accent)}}><BookOpen className="size-4" />{pass ? "העמק עוד במסלול" : "חזור על יסודות המודול"}<ArrowLeft className="size-4" /></Link>
             </div>
             <div className="flex flex-wrap gap-2 border-t border-hairline pt-4">
-              <button onClick={onExit} className="tap inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-extrabold text-white shadow-sm" style={{ background: accent }}><RotateCcw className="size-4" />מבחן חדש</button>
+              <button onClick={onExit} className="tap inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-extrabold text-white shadow-sm" style={{ background: forWhiteText(accent)}}><RotateCcw className="size-4" />מבחן חדש</button>
               <Link href="/certification/" onClick={onExit} className="tap inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 transition hover:border-brand/40"><Home className="size-4" />מרכז ההסמכה</Link>
             </div>
           </div>
@@ -115,7 +116,7 @@ export function Exam({ questions, module, level, mode, onExit }: { questions: Qu
 
       <div className="rounded-3xl border border-hairline bg-surface p-5 shadow-sm sm:p-7" style={{ animation: "fadeUp .2s ease both" }}>
         <div className="flex items-center gap-2">
-          <span className="rounded-full px-2.5 py-0.5 text-[10px] font-extrabold text-white" style={{ background: accent }}>{QTYPE_HE[q.type]}</span>
+          <span className="rounded-full px-2.5 py-0.5 text-[10px] font-extrabold text-white" style={{ background: forWhiteText(accent)}}>{QTYPE_HE[q.type]}</span>
           <span className="rounded-full bg-surface-2 px-2 py-0.5 text-[10px] font-bold text-ink-3">{LEVEL_HE[q.level]}</span>
         </div>
         <h2 className="mt-3 text-xl font-extrabold leading-snug text-ink-1 sm:text-2xl">{q.stem}</h2>
@@ -125,10 +126,10 @@ export function Exam({ questions, module, level, mode, onExit }: { questions: Qu
           {q.choices.map((ch, ci) => {
             const isPicked = picked[idx] === ci; const isCorrect = ci === correctIdx;
             const state = !revealed ? "idle" : isCorrect ? "correct" : isPicked ? "wrong" : "muted";
-            const cls = { idle: "border-hairline bg-surface hover:border-brand/40 hover:bg-surface-2", correct: "border-emerald-400 bg-emerald-50", wrong: "border-red-400 bg-red-50", muted: "border-hairline bg-surface opacity-60" }[state];
+            const cls = { idle: "border-hairline bg-surface hover:border-brand/40 hover:bg-surface-2", correct: "border-emerald-400 bg-emerald-50", wrong: "border-red-400 bg-brand-soft", muted: "border-hairline bg-surface opacity-60" }[state];
             return (
               <button key={ci} onClick={() => choose(ci)} disabled={revealed} className={`tap flex w-full items-center gap-3 rounded-2xl border-2 px-4 py-3 text-right transition active:scale-[.99] ${cls}`}>
-                <span className={`grid size-7 shrink-0 place-items-center rounded-full text-xs font-extrabold ${state === "correct" ? "bg-emerald-500 text-white" : state === "wrong" ? "bg-red-500 text-white" : "bg-surface-2 text-ink-3"}`}>{revealed && isCorrect ? <CheckCircle2 className="size-4" /> : revealed && isPicked ? <XCircle className="size-4" /> : String.fromCharCode(65 + ci)}</span>
+                <span className={`grid size-7 shrink-0 place-items-center rounded-full text-xs font-extrabold ${state === "correct" ? "bg-emerald-500 text-white" : state === "wrong" ? "bg-brand-soft0 text-white" : "bg-surface-2 text-ink-3"}`}>{revealed && isCorrect ? <CheckCircle2 className="size-4" /> : revealed && isPicked ? <XCircle className="size-4" /> : String.fromCharCode(65 + ci)}</span>
                 <span className="tech flex-1 text-[15px] font-bold text-ink-1" dir="auto">{ch}</span>
               </button>
             );
@@ -150,7 +151,7 @@ export function Exam({ questions, module, level, mode, onExit }: { questions: Qu
                 {q.tcodes?.length ? <span className="flex flex-wrap items-center gap-1.5" dir="ltr"><Terminal className="size-3.5 text-ink-3" />{q.tcodes.map((tc) => <span key={tc} className="tech rounded-md bg-surface-2 px-1.5 py-0.5 font-mono text-[11px] font-bold text-ink-2">{tc}</span>)}</span> : null}
               </div>
             ) : null}
-            <button onClick={next} className="tap inline-flex items-center gap-1.5 rounded-xl px-5 py-2.5 text-sm font-extrabold text-white shadow-sm active:scale-95" style={{ background: accent }}>{idx + 1 >= questions.length ? <><Trophy className="size-4" />סיים וקבל ציון</> : <>השאלה הבאה<ArrowLeft className="size-4" /></>}</button>
+            <button onClick={next} className="tap inline-flex items-center gap-1.5 rounded-xl px-5 py-2.5 text-sm font-extrabold text-white shadow-sm active:scale-95" style={{ background: forWhiteText(accent)}}>{idx + 1 >= questions.length ? <><Trophy className="size-4" />סיים וקבל ציון</> : <>השאלה הבאה<ArrowLeft className="size-4" /></>}</button>
           </div>
         )}
       </div>

@@ -1,3 +1,4 @@
+import { forWhiteText } from "@/lib/contrast";
 import Link from "next/link";
 import { CenterHeader } from "@/components/knowledge";
 import { LIFECYCLE, LC_COLOR, LC_HE, IMPACT_HE } from "@/data/lifecycle";
@@ -17,7 +18,7 @@ export default function Page() {
             {entries.map(([code, l]) => (
               <tr key={code} className="hover:bg-surface-2/60">
                 <td className="p-3 align-top"><Link href={tcodeHref(code) || "#"} className="tech font-extrabold text-brand hover:underline" dir="ltr">{code}</Link></td>
-                <td className="p-3 text-center align-top"><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: LC_COLOR[l.status] }}>{LC_HE[l.status]}</span></td>
+                <td className="p-3 text-center align-top"><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: forWhiteText(LC_COLOR[l.status])}}>{LC_HE[l.status]}</span></td>
                 <td className="p-3 align-top"><span className="tech font-bold text-blue-700" dir="ltr">{l.alt || "—"}</span></td>
                 <td className="p-3 align-top text-[12px] text-violet-700">{l.fiori || "—"}</td>
                 <td className="p-3 text-center align-top"><span className="text-[11px] font-bold" style={{ color: l.impact === "High" ? "#dc2626" : l.impact === "Medium" ? "#d97706" : "#0891b2" }}>{IMPACT_HE[l.impact]}</span></td>

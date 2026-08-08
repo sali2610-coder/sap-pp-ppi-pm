@@ -1,3 +1,4 @@
+import { forWhiteText } from "@/lib/contrast";
 import Link from "next/link";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import type { EccS4 } from "@/components/ecc-s4-block";
@@ -37,7 +38,7 @@ function SectionView({ s }: { s: CenterSection }) {
       <div className="text-[13px] leading-relaxed text-ink-2">
         {s.type === "text" && <p>{s.text}</p>}
         {s.type === "bullets" && <ul className="space-y-1.5">{(s.items || []).map((it, i) => <li key={i} className="flex gap-2"><span className="mt-1.5 size-1.5 shrink-0 rounded-full" style={{ background: tone }} />{it}</li>)}</ul>}
-        {s.type === "steps" && <ol className="space-y-2">{(s.items || []).map((it, i) => <li key={i} className="flex gap-2.5"><span className="grid size-6 shrink-0 place-items-center rounded-lg text-[11px] font-extrabold text-white" style={{ background: tone }}>{i + 1}</span><span className="pt-0.5">{it}</span></li>)}</ol>}
+        {s.type === "steps" && <ol className="space-y-2">{(s.items || []).map((it, i) => <li key={i} className="flex gap-2.5"><span className="grid size-6 shrink-0 place-items-center rounded-lg text-[11px] font-extrabold text-white" style={{ background: forWhiteText(tone)}}>{i + 1}</span><span className="pt-0.5">{it}</span></li>)}</ol>}
         {s.type === "chips" && <div className="flex flex-wrap gap-1.5">{(s.items || []).map((it) => <span key={it} className="tech rounded-lg border border-dashed border-hairline bg-surface px-2.5 py-1 text-xs font-bold text-ink-3" dir="ltr">{it}</span>)}</div>}
         {s.type === "linkchips" && <div className="flex flex-wrap gap-1.5">{(s.items || []).map((it) => <LinkChip key={it} text={it} />)}</div>}
       </div>
@@ -80,7 +81,7 @@ export function CenterIndexGrid({ items, base }: { items: CenterItem[]; base: st
               <h3 className="text-base font-extrabold tracking-tight text-ink-1">{it.he}</h3>
               <p className="tech text-xs font-bold text-ink-3" dir="ltr">{it.title}</p>
             </div>
-            {(it.tag || it.module) && <span className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: it.accent }}>{it.tag || it.module}</span>}
+            {(it.tag || it.module) && <span className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: forWhiteText(it.accent)}}>{it.tag || it.module}</span>}
           </div>
           <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-ink-3">{it.sub}</p>
           <span className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-brand">פתח<ArrowLeft className="size-3.5 rotate-180 transition-transform group-hover:-translate-x-1" /></span>

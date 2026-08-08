@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check, GraduationCap, MapPin, BookOpen, Workflow, RotateCcw, CheckCircle2, Lightbulb, Briefcase, Boxes, MessageSquare, ArrowRightLeft, Network, Flame, Clock, Layers, Target, Menu, X, Sparkles } from "lucide-react";
@@ -23,7 +24,7 @@ function Block({ icon, label, color, children, dir: d }: { icon: React.ReactNode
   return (
     <section className="overflow-hidden rounded-2xl border border-hairline bg-surface shadow-sm" style={{ borderInlineStartColor: color, borderInlineStartWidth: 4 }} dir={d}>
       <div className="flex items-center gap-2 px-4 pt-3.5">
-        <span className="grid size-6 place-items-center rounded-lg text-white" style={{ background: color }}>{icon}</span>
+        <span className="grid size-6 place-items-center rounded-lg text-white" style={{ background: forWhiteText(color)}}>{icon}</span>
         <h3 className="text-[12px] font-extrabold uppercase tracking-wide" style={{ color }}>{label}</h3>
       </div>
       <div className="px-4 pb-4 pt-2 text-[14px] leading-relaxed text-ink-2">{children}</div>
@@ -58,7 +59,7 @@ function Lesson({ s, total, accent, isDone, onToggle, onPrev, onNext, hasPrev, h
             <div className="mt-2 flex flex-wrap items-center gap-2">
               {s.object && <span className="tech rounded-md bg-slate-900 px-2 py-0.5 font-mono text-[12px] font-bold text-white" dir="ltr">{s.object}</span>}
               <span className="rounded-full px-2 py-0.5 text-[10px] font-bold" style={{ background: ic + "1a", color: ic }}>{IMPORTANCE_HE[s.importance]}</span>
-              {intel && <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: accent }}>{intel.table.module}</span>}
+              {intel && <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: forWhiteText(accent)}}>{intel.table.module}</span>}
             </div>
           </div>
           <button onClick={onToggle} className={`tap inline-flex shrink-0 items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-bold shadow-sm transition active:scale-95 ${isDone ? "text-white" : "border border-hairline bg-surface text-ink-2 hover:border-brand/40 hover:text-brand"}`} style={isDone ? { background: accent } : undefined}>
@@ -78,7 +79,7 @@ function Lesson({ s, total, accent, isDone, onToggle, onPrev, onNext, hasPrev, h
           <p className="font-bold text-ink-1">{iq.q}</p>{iq.aHe && <p className="mt-1.5 text-ink-2">{iq.aHe}</p>}
         </Block>}
         {s4 && (s4.impact || s4.impacted) && <Block icon={<ArrowRightLeft className="size-3.5" />} label="ECC מול S/4HANA" color="#ea580c">
-          <div className="mb-1 inline-flex items-center gap-1.5"><span className="rounded-full px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: RISK_COLOR[s4.risk] }}>{RISK_HE[s4.risk]}</span></div>
+          <div className="mb-1 inline-flex items-center gap-1.5"><span className="rounded-full px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: forWhiteText(RISK_COLOR[s4.risk])}}>{RISK_HE[s4.risk]}</span></div>
           <p>{k?.s4 || s4.impact?.changed || "אין שינוי מהותי ידוע — נדרש אימות מול Simplification List."}</p>
         </Block>}
       </div>
@@ -95,7 +96,7 @@ function Lesson({ s, total, accent, isDone, onToggle, onPrev, onNext, hasPrev, h
       {/* primary action / feature link */}
       <div className="flex flex-wrap gap-2">
         {s.object && <Link href={`/object/${encodeURIComponent(s.object)}/`} className="tap inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand"><BookOpen className="size-4" />דף הידע המלא של {s.object}<ArrowLeft className="size-3.5" /></Link>}
-        {s.href && <Link href={s.href} className="tap inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-bold text-white shadow-sm transition active:scale-95" style={{ background: accent }}><Workflow className="size-4" />{s.linkLabel || "פתח"}<ArrowLeft className="size-3.5" /></Link>}
+        {s.href && <Link href={s.href} className="tap inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-bold text-white shadow-sm transition active:scale-95" style={{ background: forWhiteText(accent)}}><Workflow className="size-4" />{s.linkLabel || "פתח"}<ArrowLeft className="size-3.5" /></Link>}
       </div>
 
       {/* lesson flow nav */}
@@ -148,7 +149,7 @@ export function LearnPathView({ module }: { module: string }) {
         const d = done.has(s.id); const on = i === sel; const here = i === st.current && !st.complete;
         return (
           <button key={s.id} onClick={() => go(i)} className={`flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-right transition ${on ? "bg-surface shadow-sm ring-1 ring-hairline" : "hover:bg-surface/70"}`}>
-            <span className={`grid size-7 shrink-0 place-items-center rounded-full border-2 text-[12px] font-extrabold transition ${d ? "text-white" : "text-ink-3"}`} style={{ background: d ? accent : "#fff", borderColor: d ? accent : "#cbd5e1" }}>{d ? <Check className="size-3.5" /> : s.n}</span>
+            <span className={`grid size-7 shrink-0 place-items-center rounded-full border-2 text-[12px] font-extrabold transition ${d ? "text-white" : "text-ink-3"}`} style={{ background: forWhiteText(d ? accent : "#fff"), borderColor: d ? accent : "#cbd5e1" }}>{d ? <Check className="size-3.5" /> : s.n}</span>
             <span className="min-w-0 flex-1">
               <span className={`block truncate text-[13px] font-bold ${on ? "text-ink-1" : "text-ink-2"}`}>{s.titleHe}</span>
               {s.object && <span className="tech block font-mono text-[10px] text-ink-3" dir="ltr">{s.object}</span>}
@@ -163,7 +164,7 @@ export function LearnPathView({ module }: { module: string }) {
   /* ── dashboard (right) ── */
   const Stat = ({ icon, label, value, c }: { icon: React.ReactNode; label: string; value: React.ReactNode; c?: string }) => (
     <div className="flex items-center gap-2.5 rounded-xl border border-hairline bg-surface px-3 py-2">
-      <span className="grid size-8 shrink-0 place-items-center rounded-lg text-white" style={{ background: c || accent }}>{icon}</span>
+      <span className="grid size-8 shrink-0 place-items-center rounded-lg text-white" style={{ background: forWhiteText(c || accent)}}>{icon}</span>
       <div className="min-w-0"><div className="text-[10px] font-bold uppercase tracking-wide text-ink-3">{label}</div><div className="text-sm font-extrabold text-ink-1">{value}</div></div>
     </div>
   );
@@ -198,7 +199,7 @@ export function LearnPathView({ module }: { module: string }) {
               <span className="flex items-center gap-1.5"><Layers className="size-4 text-ink-3" />{st.total} יחידות לימוד</span>
               <span className="flex items-center gap-1.5"><Boxes className="size-4 text-ink-3" />{objCount} אובייקטים</span>
               <span className="flex items-center gap-1.5"><Clock className="size-4 text-ink-3" />{p.durationHe}</span>
-              {p.level && <span className="rounded-full px-2.5 py-0.5 text-[11px] font-extrabold text-white" style={{ background: accent }}>{p.level}</span>}
+              {p.level && <span className="rounded-full px-2.5 py-0.5 text-[11px] font-extrabold text-white" style={{ background: forWhiteText(accent)}}>{p.level}</span>}
             </div>
             <div className="mt-2 flex items-center gap-1.5 text-[12px] text-ink-3"><Target className="size-3.5" /><span className="font-bold">מתאים ל:</span> {audienceOf(module)}</div>
           </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useMemo } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
@@ -107,14 +108,14 @@ export function LearningPathView({ path }: { path: LearningPath }) {
                     <h2 className="text-[15px] font-extrabold text-ink-1">{ch.title}</h2>
                     <span className="text-[11px] font-bold text-ink-3">· {ch.lessons.length} שיעורים</span>
                     {(() => { const mins = ch.lessons.reduce((s, l) => s + (l.minutes || 0), 0); return mins ? <span className="hidden text-[11px] font-bold text-ink-3 sm:inline">· ~{mins} דק׳</span> : null; })()}
-                    {state === "cur" && <span className="ms-auto rounded-full px-2.5 py-0.5 text-[9.5px] font-extrabold text-white" style={{ background: path.color }}>אתה כאן</span>}
+                    {state === "cur" && <span className="ms-auto rounded-full px-2.5 py-0.5 text-[9.5px] font-extrabold text-white" style={{ background: forWhiteText(path.color)}}>אתה כאן</span>}
                     {state === "available" && <ResetButton label="התחל פרק מחדש" title="להתחיל את הפרק מחדש?" scopeText={`הפעולה תאפס את פרק ${ci + 1} · ${ch.title} בלבד. שאר הפרקים והקורסים לא ייפגעו.`} details={[`${ch.lessons.length} שיעורים בפרק יחזרו למצב לא-הושלם.`, "בלוקים, בחנים ונקודת ההמשך בפרק יתאפסו.", "תוכן הפרק לא נמחק."]} count={ch.lessons.length} confirmLabel="התחל מחדש" onConfirm={() => resetChapter(moduleIdOf(path.module), ci + 1)} className="ms-auto tap inline-flex items-center gap-1 rounded-lg border border-hairline px-2 py-0.5 text-[10px] font-bold text-ink-3 transition-colors hover:border-brand/40 hover:text-brand" />}
                   </div>
                   {state !== "upcoming" && (
                     <div className="mt-2.5 flex flex-col gap-1.5">
                       {ch.lessons.map((l, li) => l.slug ? (
                         <Link key={li} href={`/academy/lesson/${l.slug}/`} className="group flex items-center gap-2.5 rounded-xl border border-hairline bg-surface-2/40 p-2.5 transition hover:border-brand/40">
-                          <span className="grid size-7 place-items-center rounded-lg text-white" style={{ background: isDone(l.slug!) ? "#16a34a" : path.color }}>{isDone(l.slug!) ? <Check className="size-3.5" /> : <Play className="size-3.5" />}</span>
+                          <span className="grid size-7 place-items-center rounded-lg text-white" style={{ background: forWhiteText(isDone(l.slug!) ? "#16a34a" : path.color)}}>{isDone(l.slug!) ? <Check className="size-3.5" /> : <Play className="size-3.5" />}</span>
                           <span className="min-w-0 flex-1 text-[12.5px] font-bold text-ink-1">{l.title}</span>
                           {l.level && <Pill tone={LVL[l.level] || "neutral"} className="hidden shrink-0 text-[9.5px] sm:inline-flex">{l.level}</Pill>}
                           {l.minutes && <span className="hidden items-center gap-1 text-[10.5px] text-ink-3 sm:inline-flex"><Clock className="size-3" />~{l.minutes} דק׳</span>}

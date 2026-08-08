@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Gauge, TrendingUp, AlertTriangle, Zap, Code2, Database, Network, ArrowLeft, ShieldCheck, Layers, Boxes } from "lucide-react";
@@ -75,14 +76,14 @@ export function S4Readiness() {
               <div><div className="font-mono text-lg font-extrabold text-ink-1">{m.mod}</div><div className="text-[12px] font-bold text-ink-3">{m.he}</div></div>
               <Ring pct={m.score} color={m.color} size={52} />
             </div>
-            <div className="mt-2 inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: band.c }}>{band.he}</div>
+            <div className="mt-2 inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: forWhiteText(band.c)}}>{band.he}</div>
             <div className="mt-2 grid grid-cols-3 gap-1 text-center text-[10px] font-bold text-ink-3">
               <div><div className="text-[13px] tabular-nums text-ink-2">{m.fioriPct}%</div>Fiori</div>
               <div><div className="text-[13px] tabular-nums text-ink-2">{m.cdsPct}%</div>CDS</div>
               <div><div className="text-[13px] tabular-nums text-ink-2">{m.tables}</div>טבלאות</div>
             </div>
             <div className="mt-2 flex items-center justify-between border-t border-hairline pt-2 text-[10px] font-bold">
-              <span className="rounded px-1.5 py-0.5 text-white" style={{ background: RISK_C[m.risk] }}>{RISK_HE[m.risk]}</span>
+              <span className="rounded px-1.5 py-0.5 text-white" style={{ background: forWhiteText(RISK_C[m.risk])}}>{RISK_HE[m.risk]}</span>
               <span className="text-ink-3">מורכבות {m.complexity} · {m.effort}</span>
             </div>
           </button>

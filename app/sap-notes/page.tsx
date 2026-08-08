@@ -1,3 +1,4 @@
+import { forWhiteText } from "@/lib/contrast";
 import Link from "next/link";
 import { CenterHeader } from "@/components/knowledge";
 import { SAP_NOTES } from "@/data/sap-notes";
@@ -28,7 +29,7 @@ export default function Page() {
           <section key={n.slug} className="rounded-2xl border border-hairline bg-surface p-5 shadow-sm">
             <div className="mb-2 flex items-center justify-between gap-2">
               <h2 className="text-base font-extrabold tracking-tight text-ink-1">{n.he}</h2>
-              <span className="tech shrink-0 rounded-lg px-2 py-0.5 text-xs font-bold text-white" dir="ltr" style={{ background: MOD_COLOR[n.module] ?? ACC }}>{n.module}</span>
+              <span className="tech shrink-0 rounded-lg px-2 py-0.5 text-xs font-bold text-white" dir="ltr" style={{ background: forWhiteText(MOD_COLOR[n.module] ?? ACC) }}>{n.module}</span>
             </div>
             <p className="tech mb-2 text-xs font-bold text-amber-700" dir="ltr">{n.component} · {n.title}</p>
 
@@ -59,7 +60,7 @@ export default function Page() {
                   {n.relatedIncidents.map((slug) => {
                     const inc = incidentBySlug(slug);
                     return inc
-                      ? <Link key={slug} href={`/troubleshooting/${slug}/`} className="tap rounded-lg border border-red-200 bg-red-50 px-2.5 py-1 text-xs font-bold text-red-700 hover:bg-red-100">{inc.he}</Link>
+                      ? <Link key={slug} href={`/troubleshooting/${slug}/`} className="tap rounded-lg border border-red-200 bg-brand-soft px-2.5 py-1 text-xs font-bold text-brand hover:bg-red-100">{inc.he}</Link>
                       : <span key={slug} className="tech rounded-lg border border-dashed border-hairline bg-surface px-2.5 py-1 text-xs font-semibold text-ink-3" dir="ltr">{slug}</span>;
                   })}
                 </div>

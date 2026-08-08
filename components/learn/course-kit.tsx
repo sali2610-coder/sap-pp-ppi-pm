@@ -82,7 +82,7 @@ export function TopicTabs({ tabs, active, onChange }: { tabs: TopicTab[]; active
   return (
     <div className="flex snap-x gap-1 overflow-x-auto rounded-2xl border border-hairline bg-surface/90 p-1 shadow-sm backdrop-blur [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" dir="rtl">
       {tabs.map((t) => (
-        <button key={t.id} onClick={() => onChange(t.id)} className={`flex min-h-[40px] shrink-0 snap-start items-center gap-1.5 rounded-xl px-3 py-1.5 text-[13px] font-bold transition active:scale-95 ${active === t.id ? "bg-brand text-white shadow-sm" : "text-ink-3 hover:bg-surface-2"}`}>{t.icon}{t.label}</button>
+        <button key={t.id} onClick={() => onChange(t.id)} className={`flex min-h-[40px] shrink-0 snap-start items-center gap-1.5 rounded-xl px-3 py-1.5 text-[13px] font-bold transition active:scale-95 ${active === t.id ? "bg-brand text-brand-foreground shadow-sm" : "text-ink-3 hover:bg-surface-2"}`}>{t.icon}{t.label}</button>
       ))}
     </div>
   );
@@ -139,7 +139,7 @@ export function ManagerExpects({ text, interview }: { text: string; interview?: 
 // ---------- Focus toggle ----------
 export function FocusToggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
   return (
-    <button onClick={onToggle} className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-[12px] font-bold transition active:scale-95 ${on ? "bg-brand text-white" : "bg-surface text-ink-2 ring-1 ring-hairline hover:bg-surface-2"}`}>
+    <button onClick={onToggle} className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-[12px] font-bold transition active:scale-95 ${on ? "bg-brand text-brand-foreground" : "bg-surface text-ink-2 ring-1 ring-hairline hover:bg-surface-2"}`}>
       {on ? <><Maximize2 className="size-3.5" />צא ממצב מיקוד</> : <><Minimize2 className="size-3.5" />מצב מיקוד</>}
     </button>
   );
