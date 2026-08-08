@@ -56,29 +56,59 @@ function scopeMode(scope: Scope): string | undefined {
 // signature said `string | undefined` and only type-checked because the buffered
 // path passed `any` through — the streaming path types its payload, which is
 // what surfaced this.
+/**
+ * Maps a served passage to a citation.
+ *
+ * The API now sends full provenance, so almost nothing is derived here. The
+ * local-index lookup survives only as a fallback for a passage that arrives
+ * without a section title — it used to be the primary path, because the API
+ * always sent `title: null`.
+ */
 function toCitation(s: {
-  id?: string; book?: string | null; chapter?: number | null; section?: string | null; title?: string | null;
+  id?: string;
+  retrievalId?: string;
+  bookId?: string | null;
+  book?: string | null;
+  chapter?: number | null;
+  chapterTitle?: string | null;
+  section?: string | null;
+  sectionTitle?: string | null;
+  page?: { from: number; to: number } | null;
+  pageEstimated?: boolean;
+  role?: string | null;
+  confidence?: number;
+  cited?: boolean;
+  title?: string | null;
 }): Citation | null {
   const id = String(s.id || "");
   // ids look like book1#5#5.2.10; fall back to the explicit fields if not.
   const [bookPart, chPart, secPart] = id.split("#");
-  const bookId = bookPart || "";
+  const bookId = s.bookId || bookPart || "";
   const chapter = Number(s.chapter ?? chPart ?? 0) || 0;
   const section = String(s.section ?? secPart ?? "");
   if (!bookId) return null;
 
-  // The API returns title: null. The library index has the real heading.
-  const tree = cachedTree(bookId);
-  const localTitle =
-    tree?.chapters.find((c) => c.n === chapter)?.sections.find((x) => x.id === section)?.t ?? null;
+  const heading = s.sectionTitle || s.title || null;
+  const localTitle = heading
+    ? null
+    : cachedTree(bookId)?.chapters.find((c) => c.n === chapter)
+        ?.sections.find((x) => x.id === section)?.t ?? null;
 
   return {
     id: id || `${bookId}#${chapter}#${section}`,
-    book: s.book || bookById(bookId)?.title || bookId,
+    retrievalId: s.retrievalId,
     bookId,
+    book: s.book || bookById(bookId)?.title || bookId,
     chapter,
+    chapterTitle: s.chapterTitle ?? null,
     section,
-    title: s.title || localTitle,
+    sectionTitle: heading ?? localTitle,
+    page: s.page ?? null,
+    pageEstimated: Boolean(s.pageEstimated),
+    role: s.role ?? null,
+    confidence: typeof s.confidence === "number" ? s.confidence : undefined,
+    cited: s.cited,
+    title: heading ?? localTitle,
     href: sectionHref(bookId, chapter, section),
   };
 }

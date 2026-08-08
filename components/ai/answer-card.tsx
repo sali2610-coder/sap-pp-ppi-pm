@@ -263,9 +263,30 @@ function CitationRow({ c }: { c: Citation }) {
         </span>
         <span className="min-w-0 flex-1">
           <span dir="auto" className="block truncate text-[0.8125rem] font-semibold text-ink-1" title={c.title || undefined}>
-            {c.title || `סעיף ${c.section}`}
+            {c.sectionTitle || c.title || `סעיף ${c.section}`}
           </span>
-          <span dir="auto" className="mt-0.5 block truncate text-[0.6875rem] text-ink-3">פרק {c.chapter} · {c.book}</span>
+          <span dir="auto" className="mt-0.5 block truncate text-[0.6875rem] text-ink-3">
+            {c.chapterTitle ? `פרק ${c.chapter} · ${c.chapterTitle}` : `פרק ${c.chapter}`} · {c.book}
+          </span>
+          {/* Provenance the backend actually served. The estimated flag matters:
+              some books have derived page numbers, and presenting a guess as a
+              printed page would be a small lie repeated on every citation. */}
+          <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[0.625rem] text-ink-3">
+            {c.page && (
+              <span className="tech">
+                {c.page.from === c.page.to ? `עמ׳ ${c.page.from}` : `עמ׳ ${c.page.from}–${c.page.to}`}
+                {c.pageEstimated ? " (משוער)" : ""}
+              </span>
+            )}
+            {c.role && (
+              <span>{c.role === "direct" ? "התאמה ישירה" : c.role === "neighbour" ? "סעיף סמוך" : "תומך"}</span>
+            )}
+            {typeof c.confidence === "number" && (
+              <span className="tech" title="עוצמת ההתאמה יחסית לשאר הקטעים שנשלפו">
+                {Math.round(c.confidence * 100)}%
+              </span>
+            )}
+          </span>
         </span>
         {c.quote && (
           <button onClick={() => setOpen((v) => !v)} aria-label={open ? "הסתר ציטוט" : "הצג ציטוט"} aria-expanded={open}

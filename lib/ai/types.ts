@@ -56,15 +56,38 @@ export interface Scope {
   section?: string;
 }
 
+/**
+ * Where an answer's information actually came from.
+ *
+ * Every field is carried from the passage the backend served — none is inferred
+ * from an SAP object name or re-derived locally. The client used to fill in
+ * `title` from its own index because the API always sent null; it now arrives
+ * as `sectionTitle`, from the same record the retrieval used.
+ */
 export interface Citation {
-  id: string;          // book1#5#5.2.10
-  book: string;
+  id: string;                    // book1#5#5.2.10
+  /** The retrieval event this came from — traces an artifact to its source. */
+  retrievalId?: string;
   bookId: string;
+  book: string;
   chapter: number;
+  chapterTitle?: string | null;
   section: string;
+  sectionTitle?: string | null;
+  /** Printed page range, when known. */
+  page?: { from: number; to: number } | null;
+  /** True when the page numbers are derived rather than printed. */
+  pageEstimated?: boolean;
+  /** direct | neighbour | supporting — how the passage was reached. */
+  role?: string | null;
+  /** 0-1, normalised within this retrieval and weighted by role. */
+  confidence?: number;
+  /** True when the answer leaned on it, false when it was merely served. */
+  cited?: boolean;
+  /** Kept for compatibility with existing renderers. */
   title: string | null;
   quote?: string;
-  href: string;        // deep link into the reader
+  href: string;                  // deep link into the reader
 }
 
 /** FULL / PARTIAL / REFUSE, surfaced honestly rather than hidden. */
