@@ -192,6 +192,31 @@ for (const vp of VIEWPORTS) {
     return /SAP Notes|SAP Help/.test(t) && /אין גישה חיה/.test(t) ? "" : false;
   });
 
+  // The navigation tree rendered the literal string "true" as 94% of its
+  // section titles. It must never render a boolean again.
+  await check(page, `${vp.label}: nav tree shows no boolean titles`, async () => {
+    await page.goto(`http://localhost:${PORT}/library/ask/`, { waitUntil: "networkidle", timeout: 30_000 });
+    const trigger = page.locator('button[aria-label="בחר היקף"]');
+    if (await trigger.count()) await trigger.first().evaluate((el) => el.click());
+    await page.waitForTimeout(400);
+    // Open the first book, then the first chapter.
+    const books = page.locator('button[aria-expanded]');
+    if (await books.count()) {
+      await books.first().evaluate((el) => el.click());
+      await page.waitForTimeout(600);
+      const chapters = page.locator('button[aria-expanded]');
+      if (await chapters.count() > 1) {
+        await chapters.nth(1).evaluate((el) => el.click());
+        await page.waitForTimeout(600);
+      }
+    }
+    const bad = await page.evaluate(() => {
+      const txt = [...document.querySelectorAll("button, span")].map((e) => e.textContent?.trim() ?? "");
+      return txt.filter((t) => /^(true|false)$/i.test(t)).length;
+    });
+    return bad === 0 ? "" : `${bad} boolean labels`;
+  });
+
   await check(page, `${vp.label}/chat: no legacy Gemini key field`, async () => {
     const n = await page.evaluate(() =>
       document.body.innerText.includes("Gemini") || document.body.innerText.includes("מפתח גישה") ? 1 : 0);

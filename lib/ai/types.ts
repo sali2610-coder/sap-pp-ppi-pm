@@ -13,8 +13,40 @@ export interface BookSummary {
   hebrew: boolean;
 }
 
-export interface TreeSection { id: string; t: string; en: string }
-export interface TreeChapter { n: number; t: string; sections: TreeSection[] }
+/** Counts a node can advertise before it is opened. Short keys: 4,314 of these ship. */
+export interface NodeMetrics {
+  w: number;    // words
+  d: number;    // diagram fences
+  tb: number;   // contains a table
+  tc: number;   // distinct T-Codes
+  o: number;    // distinct BAPI/FM objects
+  ab: number;   // contains ABAP
+  cf: number;   // contains an IMG/config path
+  fi: number;   // mentions Fiori
+  fg: number;   // contains a figure
+  min?: number; // estimated reading minutes (chapters only)
+}
+
+export interface TreeSection {
+  id: string;
+  t: string;
+  en: string;
+  /** Page number, when the source has one. */
+  p?: number;
+  m?: NodeMetrics;
+  /** Sub-sections, nested by dotted id. Absent when there are none. */
+  children?: TreeSection[];
+}
+
+export interface TreeChapter {
+  n: number;
+  t: string;
+  p?: number;
+  m?: NodeMetrics;
+  /** Nested view. `sections` stays flat because scope addresses by id. */
+  nodes?: TreeSection[];
+  sections: TreeSection[];
+}
 export interface BookTree { id: string; title: string; chapters: TreeChapter[] }
 
 /** What the AI is allowed to read. Narrower scope = tighter, faster answers. */

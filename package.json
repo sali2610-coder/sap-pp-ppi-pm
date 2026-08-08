@@ -16,7 +16,7 @@
     "start": "next start",
     "lint": "eslint",
     "check:diag": "node scripts/check-diag.mjs",
-    "prebuild": "node scripts/migrate-books.mjs && node scripts/validate-books.mjs && npm run gen:tx-index",
+    "prebuild": "node scripts/migrate-books.mjs && node scripts/validate-books.mjs && node scripts/build-ai-tree.mjs && npm run gen:tx-index",
     "check:sitemap": "node scripts/check-sitemap.mjs",
     "check:prod": "node scripts/check-prod.mjs",
     "check:vercel": "node scripts/check-vercel-json.mjs",

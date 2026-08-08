@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { badgesFor, readingTime, metricsSummary } from "@/lib/ai/node-badges";
 import { BookOpen, ChevronLeft, Loader2, Search, X } from "lucide-react";
 import { BOOKS, cachedTree, loadTree } from "@/lib/ai/tree";
-import type { BookTree, Scope } from "@/lib/ai/types";
+import type { BookTree, Scope, TreeSection } from "@/lib/ai/types";
 
 /**
  * Book -> chapter -> section navigator.
@@ -14,6 +15,35 @@ import type { BookTree, Scope } from "@/lib/ai/types";
  * Chapters load only when a book is expanded (book7 alone is 1,689 sections),
  * and long section lists are windowed rather than rendered whole.
  */
+/**
+ * Expanded state survives a reload. Navigation you have to rebuild every visit
+ * is navigation you stop using — the same reason an editor remembers its tree.
+ * Ids only, capped, and nothing about content.
+ */
+const OPEN_KEY = "neo:tree-open";
+const MAX_OPEN = 120;
+
+function loadOpen(): Set<string> {
+  if (typeof window === "undefined") return new Set();
+  try {
+    const raw = window.localStorage.getItem(OPEN_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    return new Set(Array.isArray(arr) ? arr.filter((x) => typeof x === "string") : []);
+  } catch { return new Set(); }
+}
+
+function saveOpen(set: Set<string>) {
+  if (typeof window === "undefined") return;
+  try { window.localStorage.setItem(OPEN_KEY, JSON.stringify([...set].slice(0, MAX_OPEN))); }
+  catch { /* full or blocked; expansion is a convenience, not state we owe */ }
+}
+
+/** Every ancestor id of a section: 1.2.3 -> ["1", "1.2"]. */
+function ancestorsOf(sectionId: string): string[] {
+  const parts = String(sectionId).split(".");
+  return parts.slice(0, -1).map((_, i) => parts.slice(0, i + 1).join("."));
+}
+
 export function ScopeTree({ scope, onScope, onNavigate }: {
   scope: Scope;
   onScope: (s: Scope) => void;
@@ -24,6 +54,53 @@ export function ScopeTree({ scope, onScope, onNavigate }: {
   const [tree, setTree] = useState<BookTree | null>(null);
   const [loading, setLoading] = useState(false);
   const [q, setQ] = useState("");
+  const [open, setOpenSet] = useState<Set<string>>(() => new Set());
+  const listRef = useRef<HTMLDivElement>(null);
+
+  // Restore on mount only. Reading storage during render would differ between
+  // server and client and break hydration.
+  useEffect(() => { setOpenSet(loadOpen()); }, []);
+
+  const isOpen = useCallback((id: string) => open.has(id), [open]);
+  const toggleNode = useCallback((id: string) => {
+    setOpenSet((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      saveOpen(next);
+      return next;
+    });
+  }, []);
+
+  // The path to the current section is always expanded, so a scope set from a
+  // citation or a restored session is visible rather than buried.
+  useEffect(() => {
+    if (!scope.section) return;
+    setOpenSet((prev) => {
+      const next = new Set(prev);
+      let changed = false;
+      for (const a of ancestorsOf(scope.section!)) if (!next.has(a)) { next.add(a); changed = true; }
+      if (changed) saveOpen(next);
+      return changed ? next : prev;
+    });
+  }, [scope.section]);
+
+  /**
+   * Arrow-key navigation across the visible rows, the way a file tree behaves.
+   * Only rows that are actually rendered participate, so collapsed subtrees are
+   * skipped without bookkeeping.
+   */
+  const onKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) return;
+    const items = Array.from(listRef.current?.querySelectorAll<HTMLElement>("[data-tree-item]") ?? []);
+    if (!items.length) return;
+    const at = items.indexOf(document.activeElement as HTMLElement);
+    e.preventDefault();
+    const next = e.key === "ArrowDown" ? Math.min(items.length - 1, at + 1)
+      : e.key === "ArrowUp" ? Math.max(0, at - 1)
+      : e.key === "Home" ? 0 : items.length - 1;
+    items[next]?.focus();
+    items[next]?.scrollIntoView({ block: "nearest" });
+  }, []);
 
   useEffect(() => {
     if (!openBook) { setTree(null); return; }
@@ -89,7 +166,7 @@ export function ScopeTree({ scope, onScope, onNavigate }: {
         </div>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto p-2">
+      <div ref={listRef} onKeyDown={onKeyDown} className="min-h-0 flex-1 overflow-y-auto p-2">
         <button
           onClick={() => { setOpenBook(null); setOpenChapter(null); onScope({}); }}
           aria-current={!scope.bookId ? "true" : undefined}
@@ -149,9 +226,12 @@ export function ScopeTree({ scope, onScope, onNavigate }: {
 
                         {cOpen && (
                           <SectionList
+                            nodes={c.nodes}
                             sections={c.sections}
                             activeId={scope.chapter === c.n ? scope.section : undefined}
                             onPick={(id) => chooseSection(c.n, id)}
+                            isOpen={isOpen}
+                            onToggle={toggleNode}
                           />
                         )}
                       </div>
@@ -167,41 +247,137 @@ export function ScopeTree({ scope, onScope, onNavigate }: {
   );
 }
 
+/** Badges a node advertises. Hidden from assistive tech — the label carries it. */
+function Badges({ m }: { m?: TreeSection["m"] }) {
+  const list = badgesFor(m);
+  if (!list.length) return null;
+  return (
+    <span className="ms-1 inline-flex shrink-0 items-center gap-[3px]" aria-hidden>
+      {list.slice(0, 5).map((b) => (
+        <span key={b.key} title={b.count ? `${b.label}: ${b.count}` : b.label}
+          className="text-[9.5px] leading-none opacity-70">
+          {b.icon}{b.count && b.count > 1 ? <span className="tech ms-px">{b.count}</span> : null}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 /**
- * Windowed section list. Book 7 has chapters with hundreds of sections; render
- * a slice and grow it on demand rather than mounting them all.
+ * One node and its children. Recursive, because the books nest to three levels
+ * and the ids already encode it.
+ *
+ * Expansion is remembered per node id, so returning to a book restores the shape
+ * you left it in.
  */
-function SectionList({ sections, activeId, onPick }: {
-  sections: { id: string; t: string }[];
+function Node({ node, depth, activeId, isOpen, onToggle, onPick }: {
+  node: TreeSection;
+  depth: number;
   activeId?: string;
+  isOpen: (id: string) => boolean;
+  onToggle: (id: string) => void;
+  onPick: (id: string) => void;
+}) {
+  const kids = node.children ?? [];
+  const has = kids.length > 0;
+  const open = has && isOpen(node.id);
+  const active = activeId === node.id;
+  const ref = useRef<HTMLButtonElement>(null);
+
+  // Bring the selection into view when it changes from elsewhere — picking a
+  // citation, or restoring a scope on load.
+  useEffect(() => {
+    if (active) ref.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }, [active]);
+
+  const time = readingTime(node.m);
+
+  return (
+    <div>
+      <div
+        className={`group flex items-baseline gap-1 rounded-lg pe-1 transition ${
+          active ? "bg-brand-soft ring-1 ring-brand/20" : "hover:bg-surface-2"}`}
+        style={{ paddingInlineStart: `${depth * 10}px` }}
+      >
+        {has ? (
+          <button
+            onClick={(e) => { e.stopPropagation(); onToggle(node.id); }}
+            aria-label={open ? `כווץ ${node.t}` : `הרחב ${node.t}`}
+            aria-expanded={open}
+            className="shrink-0 rounded p-0.5 text-ink-3 transition hover:text-ink-1"
+          >
+            <ChevronLeft className={`size-3 transition-transform duration-200 ${open ? "-rotate-90" : ""}`} />
+          </button>
+        ) : (
+          <span className="w-[18px] shrink-0" aria-hidden />
+        )}
+
+        <button
+          ref={ref}
+          data-tree-item
+          onClick={() => onPick(node.id)}
+          aria-current={active ? "true" : undefined}
+          title={metricsSummary(node.m) || undefined}
+          className="flex min-w-0 flex-1 items-baseline gap-1.5 py-1 text-start"
+        >
+          <span className={`tech shrink-0 text-[10px] ${active ? "text-brand/70" : "text-ink-3"}`}>{node.id}</span>
+          <span dir="auto" className={`truncate text-[11.5px] ${active ? "font-semibold text-brand" : "text-ink-2"}`}>
+            {node.t}
+          </span>
+          <Badges m={node.m} />
+          {time && <span className="ms-auto shrink-0 text-[9.5px] text-ink-3">{time}</span>}
+        </button>
+      </div>
+
+      {/* grid-rows trick: animates height without measuring, and collapses to
+          zero cleanly so a long chapter does not jump. */}
+      {has && (
+        <div className={`grid transition-[grid-template-rows] duration-200 ease-out ${
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
+          <div className="overflow-hidden">
+            <div className="ms-2 border-s border-hairline ps-1">
+              {kids.map((k) => (
+                <Node key={k.id} node={k} depth={depth + 1} activeId={activeId}
+                  isOpen={isOpen} onToggle={onToggle} onPick={onPick} />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Windowed root list. Book 7 has chapters with hundreds of entries; render a
+ * slice and grow it on demand rather than mounting them all.
+ */
+function SectionList({ nodes, sections, activeId, isOpen, onToggle, onPick }: {
+  nodes?: TreeSection[];
+  sections: TreeSection[];
+  activeId?: string;
+  isOpen: (id: string) => boolean;
+  onToggle: (id: string) => void;
   onPick: (id: string) => void;
 }) {
   const STEP = 40;
   const [limit, setLimit] = useState(STEP);
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => { setLimit(STEP); }, [sections]);
+  // Nested when the ids encode a hierarchy; flat for a catalogue, which is
+  // correct for it rather than a fallback.
+  const roots = nodes?.length ? nodes : sections;
+  useEffect(() => { setLimit(STEP); }, [roots]);
 
-  const shown = sections.slice(0, limit);
+  const shown = roots.slice(0, limit);
   return (
-    <div ref={ref} className="ms-3 border-s border-hairline ps-2">
-      {shown.map((s) => {
-        const active = activeId === s.id;
-        return (
-          <button
-            key={s.id}
-            onClick={() => onPick(s.id)}
-            aria-current={active ? "true" : undefined}
-            className={`flex w-full items-baseline gap-1.5 rounded-lg px-2 py-1 text-start transition ${
-              active ? "bg-brand-soft font-semibold text-brand ring-1 ring-brand/20" : "hover:bg-surface-2"}`}>
-            <span className={`tech shrink-0 text-[10px] ${active ? "text-brand/70" : "text-ink-3"}`}>{s.id}</span>
-            <span dir="auto" className={`truncate text-[11.5px] ${active ? "text-brand" : "text-ink-2"}`}>{s.t}</span>
-          </button>
-        );
-      })}
-      {sections.length > limit && (
+    <div className="ms-3 border-s border-hairline ps-1">
+      {shown.map((n) => (
+        <Node key={n.id} node={n} depth={0} activeId={activeId}
+          isOpen={isOpen} onToggle={onToggle} onPick={onPick} />
+      ))}
+      {roots.length > limit && (
         <button onClick={() => setLimit((l) => l + STEP * 3)}
           className="mt-0.5 w-full rounded-lg px-2 py-1.5 text-[11px] font-semibold text-brand transition hover:bg-brand-soft">
-          עוד {Math.min(STEP * 3, sections.length - limit)} סעיפים ({sections.length - limit} נותרו)
+          עוד {Math.min(STEP * 3, roots.length - limit)} סעיפים ({roots.length - limit} נותרו)
         </button>
       )}
     </div>
