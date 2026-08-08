@@ -205,7 +205,7 @@ export function AskAI({ variant = "floating", scope, bookId, className = "" }:
           {SCOPE_MODES.map((m) => (
             <button key={m.id} onClick={() => book.setMode(m.id)}
               className={`rounded-full px-2 py-0.5 text-[11px] font-semibold transition ${
-                book.mode === m.id ? "bg-brand text-white" : "border border-hairline bg-surface text-ink-3 hover:text-ink-1"}`}>
+                book.mode === m.id ? "bg-brand text-brand-foreground" : "border border-hairline bg-surface text-ink-3 hover:text-ink-1"}`}>
               {m.label}
             </button>
           ))}
@@ -229,7 +229,7 @@ export function AskAI({ variant = "floating", scope, bookId, className = "" }:
         {msgs.map((m, i) => (
           <div key={i} className={m.role === "user" ? "flex justify-start" : "flex justify-end"}>
             <div className={`max-w-[88%] rounded-2xl px-3 py-2 ${m.role === "user"
-              ? "bg-ink-1 text-white" : "border border-hairline bg-surface"}`}>
+              ? "bg-ink-1 text-surface" : "border border-hairline bg-surface"}`}>
               {m.role === "user" ? <span className="text-sm">{m.text}</span> : <Answer text={m.text} />}
               {m.sources?.length ? (
                 <div className="mt-2 flex flex-wrap gap-1">
@@ -249,7 +249,7 @@ export function AskAI({ variant = "floating", scope, bookId, className = "" }:
           placeholder="שאל שאלה על מה שאתה רואה…"
           className="flex-1 rounded-xl border border-input bg-card px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/25 disabled:opacity-50" />
         <button type="submit" disabled={busy || !q.trim()} aria-label="שלח"
-          className="grid size-9 place-items-center rounded-xl bg-brand text-white transition active:scale-95 disabled:opacity-50">
+          className="grid size-9 place-items-center rounded-xl bg-brand text-brand-foreground transition active:scale-95 disabled:opacity-50">
           <Send className="size-4 rtl:rotate-180" />
         </button>
       </form>
@@ -267,7 +267,7 @@ export function AskAI({ variant = "floating", scope, bookId, className = "" }:
     <>
       {!open && (
         <button onClick={() => setOpen(true)} aria-label="שאל את NEO"
-          className="fixed bottom-6 end-6 z-40 inline-flex items-center gap-2 rounded-full bg-brand px-4 py-3 text-sm font-extrabold text-white shadow-[0_14px_34px_-12px_rgba(214,32,39,.6)] transition hover:bg-brand-dark">
+          className="fixed bottom-6 end-6 z-40 inline-flex items-center gap-2 rounded-full bg-brand px-4 py-3 text-sm font-extrabold text-brand-foreground shadow-[0_14px_34px_-12px_rgba(214,32,39,.6)] transition hover:bg-brand-dark">
           <Sparkles className="size-4" /> שאל את NEO
           <kbd className="hidden rounded bg-white/20 px-1 text-[10px] sm:inline">⌘J</kbd>
         </button>

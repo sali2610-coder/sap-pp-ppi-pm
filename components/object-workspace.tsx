@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect, useMemo, useState } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
 import { useRouter } from "next/navigation";
@@ -294,7 +295,7 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
             <div className="grid gap-3 sm:grid-cols-2">
               {insights.map((ins, i) => { const tone = { red: "#d62027", blue: "#2563eb", amber: "#d97706", green: "#059669" }[ins.tone]; return (
                 <div key={i} className="lift flex items-start gap-3 rounded-2xl border border-hairline bg-surface p-4 shadow-sm">
-                  <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white" style={{ background: tone }}>{ins.icon}</span>
+                  <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white" style={{ background: forWhiteText(tone)}}>{ins.icon}</span>
                   <p className="text-sm font-medium leading-relaxed text-ink-2">{ins.text}</p>
                 </div>); })}
             </div>
@@ -497,7 +498,7 @@ export function ObjectWorkspace({ name, highlight }: { name: string; highlight?:
             <div className="space-y-3">
               {intel?.books.length ? <div><p className="eyebrow mb-1.5 text-ink-3">ספרים</p><div className="flex flex-wrap gap-2">{intel.books.map((b) => <Link key={b} href="/library/book1/" className="lift inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-3 py-2 text-sm font-bold text-ink-2"><BookOpen className="size-4 text-brand" />{b}</Link>)}</div></div> : null}
               <div><p className="eyebrow mb-1.5 text-ink-3">מסלול אקדמיה</p>
-                <Link href={t.module === "PM" ? "/library/pm-academy/" : "/library/pp/"} className="lift inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-bold text-white" style={{ background: c }}>
+                <Link href={t.module === "PM" ? "/library/pm-academy/" : "/library/pp/"} className="lift inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-sm font-bold text-white" style={{ background: forWhiteText(c)}}>
                   <BookOpen className="size-4" /> אקדמיית {t.module} <ArrowLeft className="size-4" /></Link>
               </div>
               <Link href={`/sap-infrastructure/`} className="inline-flex items-center gap-1.5 text-sm font-bold text-brand hover:underline"><GitBranch className="size-4" /> חקור באקספלורר הארכיטקטורה</Link>

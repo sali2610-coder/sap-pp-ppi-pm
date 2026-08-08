@@ -115,7 +115,7 @@ export function Composer({ value, onChange, onSend, busy, scope, onOpenScope, re
             disabled={!canSend}
             aria-label="שלח שאלה"
             className={`mb-0.5 flex size-9 shrink-0 items-center justify-center rounded-xl transition ${
-              canSend ? "bg-brand text-white hover:bg-brand-dark" : "bg-surface-2 text-ink-3"}`}>
+              canSend ? "bg-brand text-brand-foreground hover:bg-brand-dark" : "bg-surface-2 text-ink-3"}`}>
             {busy ? <Loader2 className="size-4 animate-spin" /> : <ArrowUp className="size-4" />}
           </button>
         </div>

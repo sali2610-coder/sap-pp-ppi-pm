@@ -154,7 +154,7 @@ function FioriDetail({ app, onClose }: { app: App; onClose: () => void }) {
         </div>
         {gui && appObject(gui) && (
           <div className="shrink-0 border-t border-hairline p-3">
-            <Link href={`/apps/${encodeURIComponent(gui)}/`} onClick={onClose} className="tap flex items-center justify-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-[13px] font-extrabold text-white shadow-sm active:scale-95"><ArrowLeft className="size-4" />עמוד האובייקט המלא · {gui}</Link>
+            <Link href={`/apps/${encodeURIComponent(gui)}/`} onClick={onClose} className="tap flex items-center justify-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-[13px] font-extrabold text-brand-foreground shadow-sm active:scale-95"><ArrowLeft className="size-4" />עמוד האובייקט המלא · {gui}</Link>
           </div>
         )}
       </motion.div>

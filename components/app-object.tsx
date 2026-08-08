@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useState } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
 import { ObjectSectionNav } from "@/components/object-section-nav";
@@ -28,7 +29,7 @@ function Section({ id, icon, title, sub, accent, children }: { id: string; icon:
       className="neo-rise scroll-mt-24 rounded-3xl border border-hairline bg-surface p-5 shadow-[var(--elev-1)] sm:p-6"
       style={{ "--neo-y": "16px", "--neo-dur": "0.45s" } as React.CSSProperties}>
       <div className="mb-4 flex items-center gap-2.5">
-        <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: accent }}>{icon}</span>
+        <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: forWhiteText(accent)}}>{icon}</span>
         <div><h2 className="text-lg font-extrabold tracking-tight text-ink-1">{title}</h2>{sub && <p className="text-[11.5px] text-ink-3">{sub}</p>}</div>
       </div>
       {children}
@@ -115,7 +116,7 @@ export function AppObjectPage({ o }: { o: AppObject }) {
         <div className="relative">
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full bg-surface/20 px-2.5 py-1 text-[11px] font-bold backdrop-blur">{t.module} · {t.area}</span>
-            <span className="rounded-full px-2.5 py-1 text-[11px] font-bold text-white" style={{ background: STATUS_C[o.lc.status] }}>{o.lc.status}</span>
+            <span className="rounded-full px-2.5 py-1 text-[11px] font-bold text-white" style={{ background: forWhiteText(STATUS_C[o.lc.status])}}>{o.lc.status}</span>
             <span className="rounded-full px-2.5 py-1 text-[11px] font-bold" style={{ background: crit.level === "high" ? "#dc2626" : crit.level === "medium" ? "#d97706" : "rgba(255,255,255,0.2)" }}>{crit.he}</span>
           </div>
           <h1 className="tech mt-3 text-5xl font-extrabold tracking-tight sm:text-6xl" dir="ltr">{o.code}</h1>
@@ -242,8 +243,8 @@ export function AppObjectPage({ o }: { o: AppObject }) {
       {/* ── SECTION 12 · Migration ── */}
       <Section id="migration" icon={<RefreshCw className="size-5" />} title="מיגרציה ECC → S/4HANA" accent="#2563eb">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full px-3 py-1.5 text-[12px] font-bold text-white" style={{ background: STATUS_C[o.lc.status] }}>{o.lc.status}</span>
-          <span className="rounded-full px-3 py-1.5 text-[12px] font-bold text-white" style={{ background: IMPACT_C[o.lc.impact] }}>השפעה: {o.lc.impact}</span>
+          <span className="rounded-full px-3 py-1.5 text-[12px] font-bold text-white" style={{ background: forWhiteText(STATUS_C[o.lc.status])}}>{o.lc.status}</span>
+          <span className="rounded-full px-3 py-1.5 text-[12px] font-bold text-white" style={{ background: forWhiteText(IMPACT_C[o.lc.impact])}}>השפעה: {o.lc.impact}</span>
           {o.lc.alt && <span className="rounded-full bg-surface-2 px-3 py-1.5 text-[12px] font-bold text-ink-2">חלופה: {o.lc.alt}</span>}
         </div>
         {o.lc.simplification && <p className="mt-3 flex gap-1.5 text-[12.5px] text-ink-2"><Sparkles className="mt-0.5 size-3.5 shrink-0 text-violet-500" />{o.lc.simplification}</p>}
@@ -257,7 +258,7 @@ export function AppObjectPage({ o }: { o: AppObject }) {
           <div className="grid-adaptive-sm">
             {[...new Set([...(t.after || []), ...(t.together || []), ...(t.similar || [])])].slice(0, 12).map((code) => (
               <Link key={code} href={`/apps/${encodeURIComponent(code)}/`} className="group flex items-center gap-2.5 rounded-xl border border-hairline bg-surface p-3 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand/30 hover:shadow-md">
-                <span className="grid size-8 shrink-0 place-items-center rounded-lg text-white" style={{ background: c }}><Terminal className="size-4" /></span>
+                <span className="grid size-8 shrink-0 place-items-center rounded-lg text-white" style={{ background: forWhiteText(c)}}><Terminal className="size-4" /></span>
                 <span className="tech flex-1 truncate font-mono text-[13px] font-extrabold text-ink-1 group-hover:text-brand" dir="ltr">{code}</span>
                 <ArrowLeft className="size-3.5 shrink-0 text-ink-3 transition group-hover:text-brand" />
               </Link>
@@ -314,7 +315,7 @@ export function AppObjectPage({ o }: { o: AppObject }) {
 
       <div className="flex flex-wrap gap-2 pt-2">
         <Link href={`/tcode/${encodeURIComponent(o.code)}/`} className="inline-flex items-center gap-1.5 rounded-xl border-2 border-hairline px-4 py-2.5 text-[13px] font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand"><ExternalLink className="size-4" />עמוד הטרנזקציה הקלאסי</Link>
-        <Link href="/apps/" className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-[13px] font-extrabold text-white shadow-sm" style={{ background: c }}><ArrowLeft className="size-4" />חזרה למרכז</Link>
+        <Link href="/apps/" className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-[13px] font-extrabold text-white shadow-sm" style={{ background: forWhiteText(c)}}><ArrowLeft className="size-4" />חזרה למרכז</Link>
       </div>
     </div>
   );

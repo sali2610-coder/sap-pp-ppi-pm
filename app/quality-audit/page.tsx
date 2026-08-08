@@ -1,3 +1,4 @@
+import { forWhiteText } from "@/lib/contrast";
 import { CenterHeader } from "@/components/knowledge";
 import { ALL_TABLES } from "@/data/sapData";
 import { TRANSACTIONS } from "@/data/transactions";
@@ -59,7 +60,7 @@ export default function Page() {
           <tbody className="divide-y divide-slate-100">
             {checks.map((c) => (
               <tr key={c.area}><td className="p-3 font-bold text-ink-1">{c.area}</td><td className="p-3 text-center font-mono font-bold text-ink-2">{c.result}</td>
-                <td className="p-3 text-center"><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: SEV[c.severity].color }}>{SEV[c.severity].he}</span></td>
+                <td className="p-3 text-center"><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: forWhiteText(SEV[c.severity].color)}}>{SEV[c.severity].he}</span></td>
                 <td className="p-3 text-[12px] leading-snug text-ink-3">{c.detail}</td></tr>
             ))}
           </tbody>

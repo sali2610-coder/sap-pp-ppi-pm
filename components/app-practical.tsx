@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useState } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
@@ -21,7 +22,7 @@ function Block({ id, icon, title, sub, accent, children }: { id: string; icon: R
       className="neo-rise scroll-mt-24 rounded-3xl border border-hairline bg-surface p-5 shadow-[var(--elev-1)] sm:p-6"
       style={{ "--neo-y": "16px", "--neo-dur": "0.45s" } as React.CSSProperties}>
       <div className="mb-4 flex items-center gap-2.5">
-        <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: accent }}>{icon}</span>
+        <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: forWhiteText(accent)}}>{icon}</span>
         <div><h2 className="text-lg font-extrabold tracking-tight text-ink-1">{title}</h2>{sub && <p className="text-[11.5px] text-ink-3">{sub}</p>}</div>
       </div>
       {children}
@@ -39,7 +40,7 @@ function ShotSlot({ icon, c, title, what, where, look }: { icon: React.ReactNode
           <Camera className="size-7" />
           <span className="text-[11px] font-bold">צילום מסך נדרש</span>
         </div>
-        <span className="absolute right-2 top-2 grid size-7 place-items-center rounded-lg text-white shadow-sm" style={{ background: c }}>{icon}</span>
+        <span className="absolute right-2 top-2 grid size-7 place-items-center rounded-lg text-white shadow-sm" style={{ background: forWhiteText(c)}}>{icon}</span>
       </div>
       <button onClick={() => setOpen((v) => !v)} className="flex w-full items-center justify-between gap-2 px-3.5 py-2.5 text-right">
         <span className="text-[13px] font-extrabold text-ink-1">{title}</span>

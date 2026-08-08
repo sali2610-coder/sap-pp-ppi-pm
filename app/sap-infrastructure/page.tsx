@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { Search, ChevronLeft, Home, ZoomIn, ZoomOut, X, KeyRound, Link2, Expand, Shrink, Scan, Maximize2, GripVertical, ArrowLeft, ArrowRight, Hand, ChevronDown, Database, GitBranch, Workflow, Clock, RotateCcw, Gauge, Terminal, AlertTriangle, ArrowRightLeft, Network, Boxes, BookOpen, GraduationCap, Wrench, Cpu, Bug, Lightbulb, ArrowUpRight } from "lucide-react";
 import { MOD_PURPOSE, MOD_FLOW, MOD_REPORTS, genExampleRecords, ERD_MODULES, FIELDS_PLUS, OBJECTS } from "./meta";
@@ -95,7 +96,7 @@ export default function Page() {
       <style>{ANIM}</style>
       {/* unified slim header: brand · breadcrumb · compact search */}
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-b border-hairline bg-gradient-to-l from-white to-slate-50 px-4 py-1.5">
-        <span className="rounded-md bg-brand px-1.5 py-0.5 font-mono text-[10px] font-bold text-white">NEO</span>
+        <span className="rounded-md bg-brand px-1.5 py-0.5 font-mono text-[10px] font-bold text-brand-foreground">NEO</span>
         <span className="text-sm font-extrabold text-ink-1">SAP Architecture Explorer</span>
         <nav className="flex items-center gap-1 text-[11px]">
           <button onClick={() => setNav({ level: "universe" })} className="flex items-center gap-1 rounded px-1 py-0.5 font-semibold text-ink-3 hover:bg-surface-2 hover:text-ink-2"><Home className="size-3" />Universe</button>
@@ -188,12 +189,12 @@ function Universe({ data, color, onModule }: { data: Data; color: (m?: string | 
               <span className="pointer-events-none absolute -left-8 -top-8 size-24 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-20" style={{ background: c }} />
               <div className="flex items-start justify-between">
                 <span className="font-mono text-2xl font-extrabold text-ink-1">{m}</span>
-                <span className="grid size-10 place-items-center rounded-xl text-xs font-extrabold text-white shadow-sm" style={{ background: c }}>{m.slice(0, 3)}</span>
+                <span className="grid size-10 place-items-center rounded-xl text-xs font-extrabold text-white shadow-sm" style={{ background: forWhiteText(c) }}>{m.slice(0, 3)}</span>
               </div>
               <div className="mt-1.5 text-sm font-bold text-ink-2">{MOD_NAME_HE[m]}</div>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 <span className="rounded-full bg-surface-2 px-2 py-0.5 text-[11px] font-bold text-ink-3 tabular-nums"><Count n={tc(m)} /> טבלאות</span>
-                <span className="rounded-full bg-red-50 px-2 py-0.5 text-[11px] font-bold text-brand tabular-nums"><Count n={pc(m)} /> תהליכים</span>
+                <span className="rounded-full bg-brand-soft px-2 py-0.5 text-[11px] font-bold text-brand tabular-nums"><Count n={pc(m)} /> תהליכים</span>
               </div>
               <span className="mt-3 block text-[11px] font-bold text-ink-3 transition group-hover:text-brand">כניסה למודול →</span>
             </button>
@@ -216,7 +217,7 @@ function Workspace({ data, color, code, tab, focus, byName, setTab, openErd, onT
           <span className="hidden truncate text-[11px] text-ink-3 lg:inline">· {purpose}</span>
         </div>
         <div className="flex rounded-lg border border-hairline bg-surface-2 p-0.5">
-          {TABS.map(([id, label]) => <button key={id} onClick={() => setTab(id)} className={`rounded-md px-3 py-1 text-[13px] font-bold transition ${tab === id ? "bg-brand text-white shadow-sm" : "text-ink-3 hover:text-ink-1"}`}>{label}</button>)}
+          {TABS.map(([id, label]) => <button key={id} onClick={() => setTab(id)} className={`rounded-md px-3 py-1 text-[13px] font-bold transition ${tab === id ? "bg-brand text-brand-foreground shadow-sm" : "text-ink-3 hover:text-ink-1"}`}>{label}</button>)}
         </div>
       </div>
       {tab === "objects" && <ObjectsView data={data} color={color} code={code} byName={byName} onObjectErd={(tables) => openErd(tables)} />}
@@ -295,7 +296,7 @@ function ObjectsView({ data, color, code, byName, onObjectErd }: { data: Data; c
       {MOD_FLOW_EXT[code] && (() => { const fx = MOD_FLOW_EXT[code]; const lands = [...new Set(objs.flatMap((o) => o.tables).map((tn) => byName[tn]?.landscape).filter(Boolean))] as string[]; return (
         <div className="rounded-2xl border p-4" style={{ borderColor: fx.accent + "44", background: fx.accent + "0d" }}>
           <div className="mb-2 flex flex-wrap items-center gap-2 text-[12px] font-bold" style={{ color: fx.accent }}><Workflow className="size-4" />{fx.title}
-            <span className="flex flex-wrap gap-1">{lands.map((l) => <span key={l} className="rounded-full px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: LAND_META[l]?.c || "#64748b" }}>{LAND_META[l]?.he || l}</span>)}</span>
+            <span className="flex flex-wrap gap-1">{lands.map((l) => <span key={l} className="rounded-full px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: forWhiteText(LAND_META[l]?.c || "#64748b")}}>{LAND_META[l]?.he || l}</span>)}</span>
           </div>
           <div className="flex flex-wrap items-center gap-1.5">{fx.flow.map((s, i) => (
             <span key={s.en} className="flex items-center gap-1.5">
@@ -321,7 +322,7 @@ function ObjectsView({ data, color, code, byName, onObjectErd }: { data: Data; c
                   <div className="mb-2 flex items-center justify-between"><span className="text-[10px] font-bold uppercase text-ink-3">טבלאות ליבה</span><button onClick={() => onObjectErd(real)} className="rounded-md px-2 py-0.5 text-[11px] font-bold text-white" style={{ background: c }}>ERD →</button></div>
                   <div className="space-y-1.5">{real.map((tn) => { const t = byName[tn]; return <button key={tn} onClick={() => setDetail(tn)} className={`flex w-full items-center justify-between gap-2 rounded-lg border bg-surface-2 px-2.5 py-1.5 text-right hover:border-hairline ${detail === tn ? "border-slate-400 ring-1 ring-slate-300" : "border-hairline"}`}>
                     <span className="flex min-w-0 items-center gap-1.5"><span className="font-mono text-sm font-bold" style={{ color: color(t!.mod) }}>{tn}</span><span className="truncate text-[10px] text-ink-3">{t!.he || ""}</span></span>
-                    {t!.landscape && <span className="shrink-0 rounded px-1 py-0.5 text-[8px] font-bold text-white" style={{ background: LAND_META[t!.landscape]?.c }}>{LAND_META[t!.landscape]?.he}</span>}</button>; })}</div>
+                    {t!.landscape && <span className="shrink-0 rounded px-1 py-0.5 text-[8px] font-bold text-white" style={{ background: forWhiteText(LAND_META[t!.landscape]?.c)}}>{LAND_META[t!.landscape]?.he}</span>}</button>; })}</div>
                 </div>
               )}
             </div>
@@ -329,7 +330,7 @@ function ObjectsView({ data, color, code, byName, onObjectErd }: { data: Data; c
           </div>
         ); })}
       </div>
-      <button onClick={() => onObjectErd(undefined)} className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:brightness-110"><Maximize2 className="size-4" /> פתח מודל נתונים (ERD) של {code}</button>
+      <button onClick={() => onObjectErd(undefined)} className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-bold text-brand-foreground shadow-sm transition hover:brightness-110"><Maximize2 className="size-4" /> פתח מודל נתונים (ERD) של {code}</button>
 
       {/* full-width detail panel — below the process, fills the empty space */}
       {detail && byName[detail] && (
@@ -461,7 +462,7 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
   const Card = ({ id, title, icon, accent, children: ch, sub }: { id: string; title: string; icon: React.ReactNode; accent?: string; sub?: string; children: React.ReactNode }) => (
     <section id={id} ref={(el) => { secRef.current[id] = el; }} className="scroll-mt-4 rounded-3xl border border-hairline bg-surface p-5 shadow-sm sm:p-6">
       <div className="mb-3 flex items-center gap-2.5">
-        <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: accent || c }}>{icon}</span>
+        <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: forWhiteText(accent || c)}}>{icon}</span>
         <div><h3 className="text-lg font-extrabold text-ink-1">{title}</h3>{sub && <p className="text-xs font-medium text-ink-3">{sub}</p>}</div>
       </div>
       {ch}
@@ -479,20 +480,20 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
       <header className="shrink-0 border-b border-hairline bg-surface/95 backdrop-blur">
         <div className="mx-auto flex items-center gap-3 px-4 py-3 lg:px-8">
           <button onClick={onClose} className="tap inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-3 py-2 text-sm font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand active:scale-95"><ArrowRight className="size-4" />סגור וחזור</button>
-          <span className="grid size-11 shrink-0 place-items-center rounded-2xl text-white shadow-sm" style={{ background: c }}><Database className="size-5" /></span>
+          <span className="grid size-11 shrink-0 place-items-center rounded-2xl text-white shadow-sm" style={{ background: forWhiteText(c)}}><Database className="size-5" /></span>
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
               <span className="tech font-mono text-2xl font-extrabold text-ink-1" dir="ltr">{t.name}</span>
-              <span className="rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: cm.c }}>{cm.he}</span>
-              <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: c }}>{t.mod}</span>
-              {k && <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: IMPORTANCE_COLOR[k.importance] }}>{IMPORTANCE_HE[k.importance]}</span>}
-              {t.landscape && <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: LAND_META[t.landscape]?.c }}>{LAND_META[t.landscape]?.he}</span>}
+              <span className="rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: forWhiteText(cm.c)}}>{cm.he}</span>
+              <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: forWhiteText(c)}}>{t.mod}</span>
+              {k && <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: forWhiteText(IMPORTANCE_COLOR[k.importance])}}>{IMPORTANCE_HE[k.importance]}</span>}
+              {t.landscape && <span className="rounded-md px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: forWhiteText(LAND_META[t.landscape]?.c)}}>{LAND_META[t.landscape]?.he}</span>}
               {s4?.impacted && <span className="rounded-md bg-amber-400 px-2 py-0.5 text-[10px] font-extrabold text-amber-950">S/4 שינוי</span>}
             </div>
             <p className="truncate text-sm font-medium text-ink-3">{t.he || t.en}</p>
           </div>
           <div className="hidden items-center gap-1.5 sm:flex">
-            <button onClick={() => onTable(t.name)} className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-3 py-2 text-sm font-bold text-white transition hover:bg-brand-dark active:scale-95"><Maximize2 className="size-4" />דף אובייקט</button>
+            <button onClick={() => onTable(t.name)} className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-3 py-2 text-sm font-bold text-brand-foreground transition hover:bg-brand-dark active:scale-95"><Maximize2 className="size-4" />דף אובייקט</button>
             <Link href={`/sap-infrastructure/?focus=${encodeURIComponent(t.name)}`} title="פתח בגרף ERD" className="tap grid size-9 place-items-center rounded-xl border border-hairline bg-surface text-ink-3 transition hover:border-brand/40 hover:text-brand"><GitBranch className="size-4" /></Link>
             <Link href={`/impact/${encodeURIComponent(t.name)}/`} title="ניתוח השפעה S/4" className="tap grid size-9 place-items-center rounded-xl border border-hairline bg-surface text-ink-3 transition hover:border-brand/40 hover:text-brand"><Gauge className="size-4" /></Link>
             
@@ -558,7 +559,7 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
             {has.trouble && <Card id="trouble" title="פתרון תקלות" icon={<Wrench className="size-4" />} sub={`${incidents.length} תקלות נפוצות הקשורות לאובייקט`} accent="#dc2626">
               <div className="grid gap-4 lg:grid-cols-2">
                 <div><Lbl><span className="inline-flex items-center gap-1"><AlertTriangle className="size-3 text-amber-500" />תקלות נפוצות</span></Lbl>
-                  <div className="space-y-1.5">{incidents.slice(0, 6).map((i) => <Link key={i.slug} href={`/troubleshooting/${i.slug}/`} className="flex items-center justify-between gap-2 rounded-xl border border-hairline bg-surface px-3 py-2 text-[13px] font-bold text-ink-2 transition hover:border-red-300 hover:bg-red-50"><span className="min-w-0 truncate">{i.he}</span><ArrowUpRight className="size-3.5 shrink-0 text-ink-3" /></Link>)}</div>
+                  <div className="space-y-1.5">{incidents.slice(0, 6).map((i) => <Link key={i.slug} href={`/troubleshooting/${i.slug}/`} className="flex items-center justify-between gap-2 rounded-xl border border-hairline bg-surface px-3 py-2 text-[13px] font-bold text-ink-2 transition hover:border-red-300 hover:bg-brand-soft"><span className="min-w-0 truncate">{i.he}</span><ArrowUpRight className="size-3.5 shrink-0 text-ink-3" /></Link>)}</div>
                 </div>
                 <div className="space-y-4">
                   {mistakes.length > 0 && <div><Lbl><span className="inline-flex items-center gap-1"><Lightbulb className="size-3 text-amber-500" />טעויות נפוצות</span></Lbl><ul className="space-y-1">{mistakes.map((m, i) => <li key={i} className="flex gap-2 text-[13px] leading-relaxed text-ink-2"><span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-amber-400" />{m}</li>)}</ul></div>}
@@ -569,7 +570,7 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
 
             <Card id="s4" title="ECC מול S/4HANA" icon={<ArrowRightLeft className="size-4" />} sub="מה השתנה, מה נשאר ושיקולי הגירה" accent="#d97706">
               <div className="grid-adaptive">
-                <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4"><div className="mb-1 flex items-center justify-between"><Lbl>מה השתנה</Lbl><span className="rounded-full px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: RISK_COLOR[s4!.risk] }}>{RISK_HE[s4!.risk]}</span></div><p className="text-[13px] leading-relaxed text-amber-900">{k?.s4 || s4!.impact?.changed || t.s4 || "אין הערת S/4 ברמת הטבלה — נדרש אימות מול Simplification List / OSS."}</p></div>
+                <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4"><div className="mb-1 flex items-center justify-between"><Lbl>מה השתנה</Lbl><span className="rounded-full px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: forWhiteText(RISK_COLOR[s4!.risk])}}>{RISK_HE[s4!.risk]}</span></div><p className="text-[13px] leading-relaxed text-amber-900">{k?.s4 || s4!.impact?.changed || t.s4 || "אין הערת S/4 ברמת הטבלה — נדרש אימות מול Simplification List / OSS."}</p></div>
                 <div className="rounded-2xl bg-surface-2 p-4"><Lbl>מה נשאר</Lbl><p className="text-[13px] leading-relaxed text-ink-2">{s4!.impacted ? "מבנה המפתח והקשרים הלוגיים נשמרים ברוב המקרים; קוד מותאם הקורא ישירות לטבלה דורש בדיקה." : "הטבלה נשמרת ב-S/4 ללא שינוי מבני מהותי הידוע במאגר."}</p></div>
                 <div className="rounded-2xl bg-surface-2 p-4"><Lbl>שיקולי הגירה</Lbl><p className="text-[13px] leading-relaxed text-ink-2">{s4!.impact?.note || (s4!.impacted ? "בדוק גישות ישירות בקוד Z, CDS חלופי ו-Compatibility Views לפני העלייה." : "אין פעולה ייעודית ידועה — אמת מול תוכנית ההגירה הספציפית.")}</p>{t.s4alt && <span className="mt-2 inline-block rounded-md bg-surface px-2 py-0.5 font-mono text-[11px] font-bold text-ink-2 ring-1 ring-hairline" dir="ltr">חלופה: {t.s4alt}</span>}</div>
               </div>
@@ -579,7 +580,7 @@ function KnowledgeView({ name, data, color, byName, onTable, onClose, onOpen }: 
               <div className="space-y-2.5">{iqs.map((iq, i) => (
                 <details key={i} className="group rounded-2xl border border-hairline bg-surface p-0 [&_summary]:list-none">
                   <summary className="flex cursor-pointer items-start gap-2.5 p-4">
-                    <span className="mt-0.5 shrink-0 rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: LEVEL_HE[iq.level].c }}>{LEVEL_HE[iq.level].he}</span>
+                    <span className="mt-0.5 shrink-0 rounded-full px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: forWhiteText(LEVEL_HE[iq.level].c)}}>{LEVEL_HE[iq.level].he}</span>
                     <span className="flex-1 text-[14px] font-bold text-ink-1">{iq.q}</span>
                     {iq.aHe && <ChevronDown className="size-4 shrink-0 text-ink-3 transition-transform group-open:rotate-180" />}
                   </summary>
@@ -647,9 +648,9 @@ function TechCenter({ data, color, code, byName, onTable }: { data: Data; color:
               </div>
               <p className="mt-0.5 line-clamp-2 min-h-[2.2em] text-[12px] font-medium leading-tight text-ink-3">{t.he || t.en}</p>
               <div className="mt-2 flex flex-wrap items-center gap-1">
-                <span className="rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: c }}>{t.mod}</span>
+                <span className="rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: forWhiteText(c)}}>{t.mod}</span>
                 {s4.impacted && <span className="rounded-md bg-amber-400 px-1.5 py-0.5 text-[9px] font-extrabold text-amber-950">S/4</span>}
-                {k && <span className="rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: IMPORTANCE_COLOR[k.importance] }}>{k.importance === "core" ? "ליבה" : k.importance === "supporting" ? "תומך" : "מתקדם"}</span>}
+                {k && <span className="rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: forWhiteText(IMPORTANCE_COLOR[k.importance])}}>{k.importance === "core" ? "ליבה" : k.importance === "supporting" ? "תומך" : "מתקדם"}</span>}
               </div>
               <div className="mt-2.5 flex items-center gap-2.5 border-t border-hairline pt-2 text-[10px] font-bold text-ink-3">
                 {t.pk.length > 0 && <span className="flex items-center gap-0.5" title="מפתח ראשי"><KeyRound className="size-3 text-amber-500" />{t.pk.length}</span>}
@@ -914,7 +915,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
             {/* module dropdown */}
             <div className="relative">
               <button onClick={() => { setModOpen((v) => !v); setFiltOpen(false); }} className="flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-2.5 py-1.5 text-xs font-bold text-ink-2 transition hover:border-hairline">
-                <span className="grid size-5 shrink-0 place-items-center rounded text-[9px] font-extrabold text-white" style={{ background: color(code) }}>{(code === "PP-PI" ? "PP" : code).slice(0, 2)}</span>
+                <span className="grid size-5 shrink-0 place-items-center rounded text-[9px] font-extrabold text-white" style={{ background: forWhiteText(color(code))}}>{(code === "PP-PI" ? "PP" : code).slice(0, 2)}</span>
                 <span className="text-ink-3">מודול:</span><span>{modLabel}</span><ChevronDown className={`size-3.5 text-ink-3 transition ${modOpen ? "rotate-180" : ""}`} />
               </button>
               {modOpen && <div className="absolute z-50 mt-1 grid w-56 grid-cols-3 gap-1 rounded-xl border border-hairline bg-surface p-2 shadow-xl" style={{ animation: "fadeUp .15s ease both" }}>
@@ -927,7 +928,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
               <span className="mx-0.5 h-5 w-px bg-hairline" />
               {/* analysis modes — horizontal scroll strip below 1400px */}
               <div className="flex min-w-0 flex-1 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden min-[1400px]:flex-none min-[1400px]:overflow-visible">
-                {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(modeInfo === id ? null : id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`shrink-0 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-bold transition ${mode === id ? "bg-brand text-white shadow-sm" : "text-ink-3 hover:bg-surface-2"}`}>{he}</button>)}
+                {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(modeInfo === id ? null : id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`shrink-0 whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-bold transition ${mode === id ? "bg-brand text-brand-foreground shadow-sm" : "text-ink-3 hover:bg-surface-2"}`}>{he}</button>)}
               </div>
               {/* S/4 filter dropdown */}
               <div className="relative">
@@ -940,7 +941,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
               </div>
             </>}
 
-            <button onClick={() => { setCtrlFocus((v) => !v); setModOpen(false); setFiltOpen(false); }} title="מצב מיקוד — הסתר פקדים" className={`ms-auto flex shrink-0 items-center gap-1 rounded-xl px-2.5 py-1.5 text-xs font-bold transition active:scale-95 ${ctrlFocus ? "bg-brand text-white" : "border border-hairline bg-surface text-ink-2 hover:border-brand/40 hover:text-brand"}`}>
+            <button onClick={() => { setCtrlFocus((v) => !v); setModOpen(false); setFiltOpen(false); }} title="מצב מיקוד — הסתר פקדים" className={`ms-auto flex shrink-0 items-center gap-1 rounded-xl px-2.5 py-1.5 text-xs font-bold transition active:scale-95 ${ctrlFocus ? "bg-brand text-brand-foreground" : "border border-hairline bg-surface text-ink-2 hover:border-brand/40 hover:text-brand"}`}>
               {ctrlFocus ? <Shrink className="size-3.5" /> : <Expand className="size-3.5" />}{ctrlFocus ? "צא ממיקוד" : "מצב מיקוד"}
             </button>
           </div>
@@ -958,7 +959,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
         style={{ backgroundImage: "radial-gradient(circle at 1px 1px,#d7deea 1px,transparent 0)", backgroundSize: "30px 30px" }}>
         {/* fullscreen-only floating mode selector (canvas is the fullscreen layer) */}
         {fs && <div className={`absolute left-1/2 z-30 flex -translate-x-1/2 items-center gap-0.5 rounded-full border border-white/60 bg-surface/85 p-1 shadow-lg shadow-black/5 backdrop-blur-md transition-all ${sel ? "top-14" : "top-3"}`}>
-          {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-brand text-white shadow-sm" : "text-ink-3 hover:bg-surface-2"}`}>{he}</button>)}
+          {MODES.map(([id, he, en]) => <button key={id} onClick={() => { setMode(id); setModeInfo(id); }} title={`${en} — ${MODE_DESC[id].d}`} className={`rounded-full px-3.5 py-1.5 text-xs font-bold transition ${mode === id ? "bg-brand text-brand-foreground shadow-sm" : "text-ink-3 hover:bg-surface-2"}`}>{he}</button>)}
         </div>}
         {/* mode explainer popup (fullscreen) */}
         {fs && modeInfo && (() => { const m = modeInfo; const need = MODE_DESC[m].needsSel && !sel; return (
@@ -974,7 +975,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
         ); })()}
         {/* keyboard help trigger (bottom-left) */}
         <button onClick={() => setHelp((v) => !v)} title="קיצורי מקלדת (?)" aria-label="קיצורי מקלדת"
-          className="absolute bottom-3 left-3 z-20 grid size-9 place-items-center rounded-xl border border-hairline bg-surface/90 text-sm font-extrabold text-ink-3 shadow-sm backdrop-blur-sm transition hover:bg-brand hover:text-white active:scale-90">?</button>
+          className="absolute bottom-3 left-3 z-20 grid size-9 place-items-center rounded-xl border border-hairline bg-surface/90 text-sm font-extrabold text-ink-3 shadow-sm backdrop-blur-sm transition hover:bg-brand hover:text-brand-foreground active:scale-90">?</button>
         {help && (
           <div className="absolute bottom-14 left-3 z-30 w-64 rounded-2xl border border-hairline bg-surface/95 p-3 shadow-xl backdrop-blur-md" dir="rtl">
             <div className="mb-2 flex items-center justify-between"><span className="text-xs font-extrabold text-ink-1">קיצורי מקלדת</span><button onClick={() => setHelp(false)} className="rounded p-0.5 text-ink-3 hover:bg-surface-2"><X className="size-3.5" /></button></div>
@@ -1028,12 +1029,12 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
         })()}
         {/* floating: control dock (bottom-center) */}
         <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-1 rounded-2xl border border-white/60 bg-surface/90 p-1.5 shadow-xl shadow-black/10 backdrop-blur-md">
-          <button onClick={() => setPanMode((v) => !v)} title="מצב גרירה" className={`grid size-9 place-items-center rounded-xl transition active:scale-90 ${panMode ? "bg-brand text-white" : "text-ink-2 hover:bg-surface-2"}`}><Hand className="size-4" /></button>
+          <button onClick={() => setPanMode((v) => !v)} title="מצב גרירה" className={`grid size-9 place-items-center rounded-xl transition active:scale-90 ${panMode ? "bg-brand text-brand-foreground" : "text-ink-2 hover:bg-surface-2"}`}><Hand className="size-4" /></button>
           <span className="mx-0.5 h-5 w-px bg-hairline" />
-          {[[<ZoomOut key="zo" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.max(0.2, p.k / 1.2) })), "הקטן"], [<Scan key="f" className="size-4" />, fit, "התאם"], [<ZoomIn key="zi" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) })), "הגדל"], [<RotateCcw key="rl" className="size-4" />, () => { setDragPos({}); saveLayout(code, {}); fit(); }, "אפס פריסה"], [fs ? <Shrink key="s" className="size-4" /> : <Expand key="e" className="size-4" />, fullscreen, "מסך מלא"], [<Home key="h" className="size-4" />, onHome, "בית"]].map((b, i) => <button key={i} title={b[2] as string} onClick={b[1] as () => void} className="grid size-9 place-items-center rounded-xl text-ink-2 transition hover:bg-brand hover:text-white active:scale-90">{b[0] as React.ReactNode}</button>)}
+          {[[<ZoomOut key="zo" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.max(0.2, p.k / 1.2) })), "הקטן"], [<Scan key="f" className="size-4" />, fit, "התאם"], [<ZoomIn key="zi" className="size-4" />, () => setTr((p) => ({ ...p, k: Math.min(2.6, p.k * 1.2) })), "הגדל"], [<RotateCcw key="rl" className="size-4" />, () => { setDragPos({}); saveLayout(code, {}); fit(); }, "אפס פריסה"], [fs ? <Shrink key="s" className="size-4" /> : <Expand key="e" className="size-4" />, fullscreen, "מסך מלא"], [<Home key="h" className="size-4" />, onHome, "בית"]].map((b, i) => <button key={i} title={b[2] as string} onClick={b[1] as () => void} className="grid size-9 place-items-center rounded-xl text-ink-2 transition hover:bg-brand hover:text-brand-foreground active:scale-90">{b[0] as React.ReactNode}</button>)}
           <span className="px-2 font-mono text-xs font-bold tabular-nums text-ink-3">{Math.round(tr.k * 100)}%</span>
         </div>
-        {panMode && <div className="pointer-events-none absolute bottom-[4.25rem] left-1/2 z-20 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-brand px-2.5 py-0.5 text-[10px] font-bold text-white shadow-md"><Hand className="size-3" />מצב גרירה</div>}
+        {panMode && <div className="pointer-events-none absolute bottom-[4.25rem] left-1/2 z-20 -translate-x-1/2 inline-flex items-center gap-1 rounded-full bg-brand px-2.5 py-0.5 text-[10px] font-bold text-brand-foreground shadow-md"><Hand className="size-3" />מצב גרירה</div>}
         {/* Focus Mode header — full-width sub-view bar (Figma/Miro style). Sits above
             the analysis toolbar (which shifts down while focused), never overlaps. */}
         {sel && (
@@ -1061,7 +1062,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
               <div className="mt-5 grid grid-cols-3 gap-2.5">
                 {["PM", "PP-PI", "MM", "SD", "FI", "CS"].map((m) => { const cc = color(m); return (
                   <button key={m} onClick={() => toggleMod(m)} className="tap flex flex-col items-center gap-1 rounded-2xl border-2 bg-surface px-2 py-3.5 font-extrabold transition hover:-translate-y-0.5 hover:shadow-md active:scale-95" style={{ borderColor: cc + "44", color: cc }}>
-                    <span className="grid size-7 place-items-center rounded-lg text-[11px] text-white" style={{ background: cc }}>{m === "PP-PI" ? "PP" : m}</span>
+                    <span className="grid size-7 place-items-center rounded-lg text-[11px] text-white" style={{ background: forWhiteText(cc)}}>{m === "PP-PI" ? "PP" : m}</span>
                     <span className="text-sm">{m}</span>
                   </button>); })}
               </div>
@@ -1124,7 +1125,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                         <span className="flex shrink-0 items-center gap-1">
                           {st.impacted && <span className="rounded-md bg-amber-400 px-1.5 py-0.5 text-[8px] font-extrabold text-amber-950">S/4</span>}
                           {!st.impact && <span title="נדרש אימות SAP" className="rounded-md bg-hairline px-1 py-0.5 text-[8px] font-extrabold text-ink-3">?</span>}
-                          <span className="rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: c }}>{own[t.name] || t.mod}</span>
+                          <span className="rounded-md px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: forWhiteText(c)}}>{own[t.name] || t.mod}</span>
                         </span>
                       </div>
                       <div className="truncate text-[13px] font-bold text-ink-2">{t.he || t.en}</div>
@@ -1191,7 +1192,7 @@ function Erd({ data, color, code, byName, focus, onField, onHome, onModule }: { 
                       <div className="mb-1.5 flex items-center justify-between">
                         <h4 className="flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-[0.12em] text-amber-700">S/4HANA Impact</h4>
                         <div className="flex items-center gap-1">
-                          <span className="rounded-full px-2 py-0.5 text-[9px] font-extrabold text-white" style={{ background: RISK_COLOR[s4.risk] }}>{RISK_HE[s4.risk]}</span>
+                          <span className="rounded-full px-2 py-0.5 text-[9px] font-extrabold text-white" style={{ background: forWhiteText(RISK_COLOR[s4.risk])}}>{RISK_HE[s4.risk]}</span>
                           <span className={`rounded-full px-2 py-0.5 text-[9px] font-extrabold ${s4.trust === "verified" ? "bg-green-100 text-green-700" : s4.trust === "partial" ? "bg-amber-100 text-amber-700" : "bg-hairline text-ink-3"}`}>{TRUST_HE[s4.trust]}</span>
                         </div>
                       </div>
@@ -1301,7 +1302,7 @@ function Inspector({ data, color, t, byName, onClose, onGo, onFull }: { data: Da
     <div className="absolute z-40 max-h-[88%] w-[340px] overflow-auto rounded-2xl border border-hairline bg-surface/95 shadow-2xl backdrop-blur-md" style={{ insetInlineStart: 12 + p.x, top: 12 + p.y, animation: "pop .25s ease both" }} dir="rtl">
       <div className="sticky top-0 z-10 h-1" style={{ background: c }} />
       <div className="sticky top-1 z-10 flex cursor-grab items-start justify-between gap-2 border-b border-hairline px-3.5 py-2.5 active:cursor-grabbing" style={{ background: `linear-gradient(180deg, ${c}12, #fff)` }} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={() => (drag.current = null)}>
-        <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><GripVertical className="size-3.5 text-ink-3" /><span className="font-mono text-lg font-extrabold text-ink-1" dir="ltr">{t.name}</span><span className="rounded px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: c }} title={mctx.primaryHe}>{ownMod}</span>{mctx.related.length > 0 && <span className="rounded bg-surface-2 px-1.5 py-0.5 text-[9px] font-bold text-ink-3">קשור ל-{mctx.related.join(" · ")}</span>}{t.landscape && <span className="rounded px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: LAND_META[t.landscape]?.c }}>{LAND_META[t.landscape]?.he}</span>}</div><p className="mt-0.5 truncate text-xs text-ink-3">{t.he || t.en}</p></div>
+        <div className="min-w-0"><div className="flex flex-wrap items-center gap-2"><GripVertical className="size-3.5 text-ink-3" /><span className="font-mono text-lg font-extrabold text-ink-1" dir="ltr">{t.name}</span><span className="rounded px-1.5 py-0.5 text-[10px] font-bold text-white" style={{ background: forWhiteText(c)}} title={mctx.primaryHe}>{ownMod}</span>{mctx.related.length > 0 && <span className="rounded bg-surface-2 px-1.5 py-0.5 text-[9px] font-bold text-ink-3">קשור ל-{mctx.related.join(" · ")}</span>}{t.landscape && <span className="rounded px-1.5 py-0.5 text-[9px] font-bold text-white" style={{ background: forWhiteText(LAND_META[t.landscape]?.c)}}>{LAND_META[t.landscape]?.he}</span>}</div><p className="mt-0.5 truncate text-xs text-ink-3">{t.he || t.en}</p></div>
         <div className="flex shrink-0 items-center gap-1">
           <button onClick={() => onFull(t.name)} title="פתח תצוגה מלאה" className="tap inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-extrabold text-white shadow-sm transition active:scale-95" style={{ background: c }}><Maximize2 className="size-3.5" />פתח מלא</button>
           <button onClick={onClose} className="rounded p-1 text-ink-3 hover:bg-surface-2"><X className="size-4" /></button>

@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, AlertTriangle, Lightbulb, Target, Briefcase, GitBranch, Network, MapPin, PanelRight } from "lucide-react";
@@ -41,7 +42,7 @@ export function SapTip({ name, children, linkless, bare }: { name: string; child
           className="absolute bottom-full start-0 z-[80] mb-1.5 block w-80 max-w-[90vw] space-y-2 rounded-2xl border border-hairline bg-surface p-3.5 text-start shadow-2xl">
           {/* header */}
           <span className="flex items-center gap-2">
-            <span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: accent }}>{tip.kindHe}</span>
+            <span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: forWhiteText(accent)}}>{tip.kindHe}</span>
             <span className="tech text-sm font-extrabold text-ink-1" dir="ltr">{tip.name}</span>
             {tip.module && <span className="ms-auto text-[10px] font-bold text-ink-3">{tip.module}</span>}
           </span>

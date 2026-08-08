@@ -16,6 +16,7 @@
  * objects re-peek in place so the consultant can traverse the graph without
  * ever losing context.
  */
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
@@ -126,13 +127,13 @@ function PeekBody({ r, onPeek, onClose }: { r: Resolved; onPeek: (n: string) => 
       {/* hero */}
       <div className="px-5 pb-1 pt-1">
         <div className="flex items-start gap-3">
-          <span className="grid size-11 shrink-0 place-items-center rounded-2xl text-white shadow-sm" style={{ background: meta.c }}><meta.Icon className="size-5" /></span>
+          <span className="grid size-11 shrink-0 place-items-center rounded-2xl text-white shadow-sm" style={{ background: forWhiteText(meta.c)}}><meta.Icon className="size-5" /></span>
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5">
               <h2 className="tech min-w-0 break-all font-mono text-[17px] font-black text-ink-1" dir="ltr">{r.name}</h2>
             </div>
             <div className="mt-1 flex flex-wrap items-center gap-1.5">
-              <span className="rounded-md px-1.5 py-0.5 text-[10.5px] font-bold text-white" style={{ background: meta.c }}>{r.typeHe}</span>
+              <span className="rounded-md px-1.5 py-0.5 text-[10.5px] font-bold text-white" style={{ background: forWhiteText(meta.c)}}>{r.typeHe}</span>
               {r.module && <span className="rounded-md bg-surface-2 px-1.5 py-0.5 text-[10.5px] font-bold text-ink-2">{r.module}</span>}
               {r.difficulty && <span className="rounded-md bg-surface-2 px-1.5 py-0.5 text-[10.5px] font-bold text-ink-2">{r.difficulty}</span>}
               {r.verified != null && (
@@ -149,7 +150,7 @@ function PeekBody({ r, onPeek, onClose }: { r: Resolved; onPeek: (n: string) => 
 
         {/* primary action + quick actions */}
         <div className="mt-4 flex flex-col gap-2">
-          <button onClick={goPrimary} className="tap flex h-12 items-center justify-center gap-2 rounded-2xl bg-brand text-[14px] font-extrabold text-white shadow-sm transition active:scale-[0.98]">
+          <button onClick={goPrimary} className="tap flex h-12 items-center justify-center gap-2 rounded-2xl bg-brand text-[14px] font-extrabold text-brand-foreground shadow-sm transition active:scale-[0.98]">
             <Layers className="size-4" />{r.primaryLabel}
           </button>
           <div className="grid grid-cols-3 gap-2">

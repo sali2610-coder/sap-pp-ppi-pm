@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useMemo, useState } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
 import { Sigma, Database, LayoutGrid, Layers, ArrowLeft, GitBranch } from "lucide-react";
@@ -49,11 +50,11 @@ export function CdsExplorer() {
         <div className="flex flex-wrap items-center gap-2 text-[12.5px] font-bold">
           <span className="rounded-xl border border-hairline bg-surface-2 px-3 py-2 text-ink-2">טבלת ECC קלאסית</span>
           <ArrowLeft className="size-4 text-ink-3" aria-hidden />
-          <span className="rounded-xl px-3 py-2 text-white shadow-sm" style={{ background: ACCENT }}>Interface View · I_</span>
+          <span className="rounded-xl px-3 py-2 text-white shadow-sm" style={{ background: forWhiteText(ACCENT)}}>Interface View · I_</span>
           <ArrowLeft className="size-4 text-ink-3" aria-hidden />
-          <span className="rounded-xl px-3 py-2 text-white shadow-sm" style={{ background: "#0891b2" }}>Consumption View · C_</span>
+          <span className="rounded-xl px-3 py-2 text-white shadow-sm" style={{ background: forWhiteText("#0891b2")}}>Consumption View · C_</span>
           <ArrowLeft className="size-4 text-ink-3" aria-hidden />
-          <span className="rounded-xl px-3 py-2 text-white shadow-sm" style={{ background: "#d97706" }}>Fiori App</span>
+          <span className="rounded-xl px-3 py-2 text-white shadow-sm" style={{ background: forWhiteText("#d97706")}}>Fiori App</span>
         </div>
         <p className="mt-3 text-[12px] leading-relaxed text-ink-3">ב-S/4HANA הגישה לנתונים עוברת דרך תצוגות CDS במקום קריאה ישירה לטבלה. תצוגת Interface (I_) חושפת את הנתון הגולמי, תצוגת Consumption (C_) מוסיפה היגיון אנליטי, ואפליקציית Fiori צורכת את השרשרת.</p>
       </SectionCard>
@@ -83,13 +84,13 @@ function ChainCard({ v }: { v: CdsView }) {
     <div className="group rounded-2xl border border-hairline bg-surface p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand/30 hover:shadow-md">
       <div className="flex items-start justify-between gap-2">
         <Link href={`/cds/${encodeURIComponent(v.view)}/`} className="flex items-center gap-2 min-w-0">
-          <span className="grid size-8 shrink-0 place-items-center rounded-lg text-white shadow-sm" style={{ background: ACCENT }}><Sigma className="size-4" /></span>
+          <span className="grid size-8 shrink-0 place-items-center rounded-lg text-white shadow-sm" style={{ background: forWhiteText(ACCENT)}}><Sigma className="size-4" /></span>
           <span className="min-w-0">
             <span className="tech block truncate font-mono text-[15px] font-extrabold text-ink-1 group-hover:text-brand" dir="ltr">{v.view}</span>
             <span className="block truncate text-[11.5px] font-semibold text-ink-3">{v.he}</span>
           </span>
         </Link>
-        <span className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: MOD_C[v.module] }}>{v.module}</span>
+        <span className="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: forWhiteText(MOD_C[v.module])}}>{v.module}</span>
       </div>
 
       {/* classic tables */}
@@ -105,9 +106,9 @@ function ChainCard({ v }: { v: CdsView }) {
       {/* consumption + fiori chain */}
       {(v.consumption || v.fiori) && (
         <div className="mt-2.5 flex flex-wrap items-center gap-1.5 border-t border-hairline pt-2.5 text-[11px] font-bold">
-          {v.consumption && <><span className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-white" style={{ background: "#0891b2" }}><Layers className="size-3" /><span className="tech font-mono" dir="ltr">{v.consumption}</span></span></>}
+          {v.consumption && <><span className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-white" style={{ background: forWhiteText("#0891b2")}}><Layers className="size-3" /><span className="tech font-mono" dir="ltr">{v.consumption}</span></span></>}
           {v.consumption && v.fiori && <ArrowLeft className="size-3 text-ink-3" />}
-          {v.fiori && <span className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-white" style={{ background: "#d97706" }}><LayoutGrid className="size-3" />{v.fiori}</span>}
+          {v.fiori && <span className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-white" style={{ background: forWhiteText("#d97706")}}><LayoutGrid className="size-3" />{v.fiori}</span>}
         </div>
       )}
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { Children, isValidElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
@@ -211,7 +212,7 @@ function DigitalProgressRail({ accent, hidden, chapters, bm, active, activeSec, 
         </div>
         {/* hover chapter label */}
         {hoverCh && (
-          <div className="pointer-events-none absolute whitespace-nowrap rounded-lg bg-ink-1 px-2 py-1 text-[10.5px] font-bold text-white shadow-lg" style={{ top: `${(hoverY || 0) * 100}%`, insetInlineEnd: "1.4rem", transform: "translateY(-50%)" }}>
+          <div className="pointer-events-none absolute whitespace-nowrap rounded-lg bg-ink-1 px-2 py-1 text-[10.5px] font-bold text-surface shadow-lg" style={{ top: `${(hoverY || 0) * 100}%`, insetInlineEnd: "1.4rem", transform: "translateY(-50%)" }}>
             {hoverCh.n}. {hoverCh.title}
           </div>
         )}
@@ -538,7 +539,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
           <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1 rounded-full bg-brand-soft px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-brand"><Sparkles className="size-3" /> {bookType(meta?.publisher)}</span>
-            {derivedMod && <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: c }}>{derivedMod}</span>}
+            {derivedMod && <span className="rounded-md px-2 py-0.5 text-[10px] font-extrabold text-white" style={{ background: forWhiteText(c)}}>{derivedMod}</span>}
             {meta?.publisher && meta.publisher !== bookType(meta.publisher) && <span className="text-[11.5px] font-semibold text-ink-3">{meta.publisher}</span>}
           </div>
           <h1 className="mt-3 max-w-3xl font-display text-2xl leading-tight tracking-tight text-ink-1 sm:text-[2rem]">{meta ? meta.titleHe : title}</h1>
@@ -570,7 +571,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
           <div className="mt-5 flex flex-wrap gap-2.5">
             {started ? (
               <>
-                <button onClick={resumeExact} aria-label={`המשך קריאה מהמקום האחרון${last ? `, פרק ${last}` : ""}`} title="חזרה למקום המדויק שבו הפסקת" className="group inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: c }}>
+                <button onClick={resumeExact} aria-label={`המשך קריאה מהמקום האחרון${last ? `, פרק ${last}` : ""}`} title="חזרה למקום המדויק שבו הפסקת" className="group inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-extrabold text-white shadow-sm transition hover:brightness-110 active:scale-95" style={{ background: forWhiteText(c)}}>
                   <PlayCircle className="size-4.5" /> המשך קריאה{last ? ` · פרק ${last}` : ""}
                   <span className="grid size-6 place-items-center rounded-full bg-white/20 transition group-hover:translate-x-0.5"><ArrowLeft className="size-3.5" /></span>
                 </button>
@@ -677,7 +678,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
               <ChevronUp className="size-4" /> {prev ? `פרק ${prev.n}` : "התחלה"}
             </button>
             <span className="text-xs font-bold text-ink-3">פרק {active} / {total}</span>
-            <button disabled={!next} onClick={() => next && jump(next.n)} className="tap inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2.5 text-sm font-bold text-white shadow-sm transition enabled:hover:bg-brand-dark disabled:opacity-40">
+            <button disabled={!next} onClick={() => next && jump(next.n)} className="tap inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2.5 text-sm font-bold text-brand-foreground shadow-sm transition enabled:hover:bg-brand-dark disabled:opacity-40">
               {next ? `פרק ${next.n}` : "סוף"} <ChevronDown className="size-4" />
             </button>
           </div>
@@ -789,7 +790,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
             <p className="mt-1 text-[11px] text-ink-3">הסימניות נשמרות תמיד.</p>
             <div className="mt-4 flex justify-end gap-2">
               <button onClick={() => { setConfirmReset(false); setResetNotesToo(false); }} className="tap rounded-xl border border-hairline bg-surface px-4 py-2 text-sm font-bold text-ink-2 hover:bg-surface-2">ביטול</button>
-              <button onClick={() => doReset(resetNotesToo)} className="tap rounded-xl bg-brand px-4 py-2 text-sm font-bold text-white hover:bg-brand-dark">אפס התקדמות</button>
+              <button onClick={() => doReset(resetNotesToo)} className="tap rounded-xl bg-brand px-4 py-2 text-sm font-bold text-brand-foreground hover:bg-brand-dark">אפס התקדמות</button>
             </div>
           </div>
         </div>

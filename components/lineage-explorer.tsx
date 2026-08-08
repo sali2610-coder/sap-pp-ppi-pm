@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
@@ -93,7 +94,7 @@ export function LineageExplorer({ initial = "EQUI" }: { initial?: string }) {
           <motion.div initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
             className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-hairline bg-gradient-to-l from-slate-50 to-white p-5 shadow-sm">
             <div className="flex items-center gap-3">
-              <span className="grid size-12 place-items-center rounded-2xl text-white shadow-lg" style={{ background: mc(t.module), boxShadow: `0 8px 20px ${mc(t.module)}55` }}><Database className="size-6" /></span>
+              <span className="grid size-12 place-items-center rounded-2xl text-white shadow-lg" style={{ background: forWhiteText(mc(t.module)), boxShadow: `0 8px 20px ${mc(t.module)}55` }}><Database className="size-6" /></span>
               <div>
                 <div className="flex items-center gap-2"><span className="tech text-xl font-extrabold text-ink-1" dir="ltr">{t.tableName}</span><span className="rounded-md px-1.5 py-0.5 text-[10px] font-bold" style={{ background: mc(t.module), color: pillInk(mc(t.module)) }}>{t.module}</span></div>
                 <p className="text-xs text-ink-3">{t.descriptionHe || t.descriptionEn}</p>

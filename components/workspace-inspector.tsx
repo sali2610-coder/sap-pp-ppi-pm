@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -102,7 +103,7 @@ export function WorkspaceInspector() {
               <div className="min-h-0 flex-1 overflow-auto p-4">
                 {tip ? (
                   <div className="space-y-2.5">
-                    <div className="flex items-center gap-2"><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: accent }}>{tip.kindHe}</span><span className="tech font-mono text-lg font-extrabold text-ink-1" dir="ltr">{tip.name}</span>{tip.module && <span className="ms-auto text-[10px] font-bold text-ink-3">{tip.module}</span>}</div>
+                    <div className="flex items-center gap-2"><span className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white" style={{ background: forWhiteText(accent)}}>{tip.kindHe}</span><span className="tech font-mono text-lg font-extrabold text-ink-1" dir="ltr">{tip.name}</span>{tip.module && <span className="ms-auto text-[10px] font-bold text-ink-3">{tip.module}</span>}</div>
                     {tip.he && <p className="text-[13px] font-semibold leading-relaxed text-ink-2">{tip.he}</p>}
                     {tip.purpose && <p className="flex gap-1.5 text-[12.5px] leading-relaxed text-ink-2"><Target className="mt-0.5 size-3.5 shrink-0 text-blue-500" />{tip.purpose}</p>}
                     {tip.consultantTip && <p className="flex gap-1.5 text-[12.5px] leading-relaxed text-ink-2"><Briefcase className="mt-0.5 size-3.5 shrink-0 text-violet-500" />{tip.consultantTip}</p>}

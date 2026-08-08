@@ -24,7 +24,7 @@ export function OnboardingDrawer() {
   const close = () => { markOnboarded(); setOpen(false); };
 
   const TabBtn = ({ id, label }: { id: typeof tab; label: string }) => (
-    <button onClick={() => setTab(id)} className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${tab === id ? "bg-brand text-white shadow-sm" : "text-ink-3 hover:bg-surface-2"}`}>{label}</button>
+    <button onClick={() => setTab(id)} className={`rounded-lg px-3 py-1.5 text-xs font-bold transition ${tab === id ? "bg-brand text-brand-foreground shadow-sm" : "text-ink-3 hover:bg-surface-2"}`}>{label}</button>
   );
   const Step = ({ s }: { s: { n: number; title: string; desc: string; href: string } }) => (
     <Link href={s.href} onClick={close} className="lift flex items-center gap-3 rounded-xl border border-hairline bg-surface p-3 shadow-sm transition hover:border-brand/30">
@@ -54,7 +54,7 @@ export function OnboardingDrawer() {
               <p className="mb-2 text-[11px] font-bold uppercase tracking-wide text-ink-3">בחר תפקיד — מתאים את ההכוונה</p>
               <div className="flex flex-wrap gap-1.5">
                 {ROLES.map((r) => (
-                  <button key={r.id} onClick={() => setRole(r.id as RoleId)} title={r.sub} className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition ${role === r.id ? "border-brand bg-brand text-white shadow-sm" : "border-hairline text-ink-2 hover:border-brand/40"}`}>{r.he}</button>
+                  <button key={r.id} onClick={() => setRole(r.id as RoleId)} title={r.sub} className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition ${role === r.id ? "border-brand bg-brand text-brand-foreground shadow-sm" : "border-hairline text-ink-2 hover:border-brand/40"}`}>{r.he}</button>
                 ))}
               </div>
               <p className="mt-1.5 text-[11px] text-ink-3">{ROLES.find((r) => r.id === role)?.sub}</p>
@@ -89,7 +89,7 @@ export function OnboardingDrawer() {
                     ))}
                   </div>
                   <div className="flex gap-2 pt-1">
-                    <button onClick={() => setTab("pm")} className="lift flex-1 rounded-xl bg-brand px-3 py-2.5 text-sm font-bold text-white shadow-lg">התחל מסלול PM</button>
+                    <button onClick={() => setTab("pm")} className="lift flex-1 rounded-xl bg-brand px-3 py-2.5 text-sm font-bold text-brand-foreground shadow-lg">התחל מסלול PM</button>
                     <button onClick={() => setTab("pppi")} className="lift flex-1 rounded-xl border border-hairline bg-surface px-3 py-2.5 text-sm font-bold text-ink-2">התחל מסלול PP-PI</button>
                   </div>
                 </div>

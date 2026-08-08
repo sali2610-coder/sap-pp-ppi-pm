@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useMemo, useState, useRef, useEffect } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
 import { GitCompare, Database, Boxes, Plug, LayoutGrid, FileSearch, Rocket, FlaskConical, ClipboardCheck, Lightbulb, ArrowLeft, Search, TrendingUp, AlertTriangle, Code2, ArrowRightLeft } from "lucide-react";
@@ -67,7 +68,7 @@ export function S4Transformation() {
   const Card = ({ id, title, icon, sub, accent, children: ch }: { id: string; title: string; icon: React.ReactNode; sub?: string; accent?: string; children: React.ReactNode }) => (
     <section id={id} ref={(el) => { secRef.current[id] = el; }} className="scroll-mt-4 rounded-3xl border border-hairline bg-surface p-5 shadow-sm sm:p-6">
       <div className="mb-4 flex items-center gap-2.5">
-        <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: accent || "#0f172a" }}>{icon}</span>
+        <span className="grid size-9 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: forWhiteText(accent || "#0f172a")}}>{icon}</span>
         <div><h2 className="text-lg font-extrabold text-ink-1">{title}</h2>{sub && <p className="text-xs font-medium text-ink-3">{sub}</p>}</div>
       </div>
       {ch}
@@ -130,7 +131,7 @@ export function S4Transformation() {
                     <button key={a.id} onClick={() => setArchSel(a.id)} className={`grid w-full grid-cols-[1fr_auto_1fr] items-stretch gap-2 rounded-2xl border p-1.5 text-right transition ${on ? "border-blue-400 bg-blue-50/40 ring-1 ring-blue-300" : "border-hairline bg-surface hover:border-hairline"}`}>
                       <span className="rounded-xl bg-surface-2 px-3 py-2"><span className="block text-[9px] font-bold uppercase text-ink-3">{a.layerHe}</span><span className="block text-[13px] font-extrabold text-ink-2" dir="ltr">{a.ecc}</span></span>
                       <span className="flex flex-col items-center justify-center px-0.5"><ArrowLeft className="size-4" style={{ color: sc.c }} /><span className="rounded-full px-1 text-[8px] font-bold" style={{ background: sc.c, color: pillInk(sc.c) }}>{sc.he}</span></span>
-                      <span className="rounded-xl px-3 py-2 text-white" style={{ background: a.status === "New" ? "#16a34a" : "#1e3a8a" }}><span className="block text-[9px] font-bold uppercase text-white/60">{a.layerHe}</span><span className="block text-[13px] font-extrabold" dir="ltr">{a.s4}</span></span>
+                      <span className="rounded-xl px-3 py-2 text-white" style={{ background: forWhiteText(a.status === "New" ? "#16a34a" : "#1e3a8a")}}><span className="block text-[9px] font-bold uppercase text-white/60">{a.layerHe}</span><span className="block text-[13px] font-extrabold" dir="ltr">{a.s4}</span></span>
                     </button>
                   ); })}
                 </div>
@@ -193,7 +194,7 @@ export function S4Transformation() {
                         <div className="grid items-stretch gap-2 sm:grid-cols-[1fr_auto_1fr]">
                           <div className="rounded-xl bg-surface-2 p-3"><div className="text-[10px] font-bold uppercase text-ink-3">ECC</div><p className="text-[13px] text-ink-2">{o.ecc || "—"}</p></div>
                           <div className="flex items-center justify-center"><ArrowLeft className="size-5" style={{ color: st.c }} /></div>
-                          <div className="rounded-xl p-3 text-white" style={{ background: "#1e3a8a" }}><div className="text-[10px] font-bold uppercase text-white/60">S/4HANA</div><p className="text-[13px] font-medium">{o.s4}</p></div>
+                          <div className="rounded-xl p-3 text-white" style={{ background: forWhiteText("#1e3a8a")}}><div className="text-[10px] font-bold uppercase text-white/60">S/4HANA</div><p className="text-[13px] font-medium">{o.s4}</p></div>
                         </div>
                         {o.replaces?.length ? <div className="rounded-lg bg-blue-50 px-3 py-1.5 text-[12px] text-blue-900"><b>מאחד/מחליף:</b> <span className="tech font-mono" dir="ltr">{o.replaces.join(", ")}</span></div> : null}
                         {o.why && <p className="text-[13px] leading-relaxed text-ink-2"><b className="text-ink-1">למה: </b>{o.why}</p>}

@@ -14,6 +14,7 @@
  * mix the two within one screen.
  */
 
+import { forWhiteText } from "@/lib/contrast";
 import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -59,7 +60,7 @@ export function PageHeader({
       <div className="flex items-center gap-3">
         <span
           className="grid size-11 shrink-0 place-items-center rounded-2xl text-white"
-          style={{ background: tint, boxShadow: `0 10px 24px ${tint}44` }}
+          style={{ background: forWhiteText(tint), boxShadow: `0 10px 24px ${tint}44` }}
         >
           {icon}
         </span>

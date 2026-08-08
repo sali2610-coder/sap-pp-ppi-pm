@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Wrench, Factory, ShieldCheck, Compass, ArrowLeft, GraduationCap, CheckCircle2, Workflow, Clock, Flame, Award, Trophy, Target, BookOpen, TrendingUp, Layers, ChevronLeft } from "lucide-react";
@@ -124,7 +125,7 @@ export function LearnHome() {
                 <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: cat.accent }} />
                 <span className="pointer-events-none absolute -left-10 -top-10 size-28 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-20" style={{ background: cat.accent }} />
                 <div className="flex items-start justify-between gap-3">
-                  <span className="grid size-14 shrink-0 place-items-center rounded-2xl text-white shadow-sm" style={{ background: cat.accent }}><Icon className="size-7" /></span>
+                  <span className="grid size-14 shrink-0 place-items-center rounded-2xl text-white shadow-sm" style={{ background: forWhiteText(cat.accent)}}><Icon className="size-7" /></span>
                   <Ring pct={pct} color={cat.accent} size={56} sw={5}>
                     <span className="text-sm font-extrabold tabular-nums" style={{ color: cat.accent }}>{pct}%</span>
                   </Ring>
@@ -135,7 +136,7 @@ export function LearnHome() {
                   <span className="flex items-center gap-1"><BookOpen className="size-3.5" />{tracks} מסלולים</span>
                   <span className="flex items-center gap-1"><Layers className="size-3.5" />{done}/{total} יחידות</span>
                   {hours > 0 && <span className="flex items-center gap-1"><Clock className="size-3.5" />~{hours} שעות</span>}
-                  <span className="rounded-full px-2 py-0.5 text-white" style={{ background: cat.accent }}>{lvl}</span>
+                  <span className="rounded-full px-2 py-0.5 text-white" style={{ background: forWhiteText(cat.accent)}}>{lvl}</span>
                 </div>
                 <span className="mt-3 flex items-center gap-1 text-[12px] font-bold text-ink-3 transition group-hover:text-brand">{onboard ? "פתח את מסע הקליטה" : active ? "הסתר מסלולים" : "הצג מסלולים"}<ChevronLeft className={`size-4 transition-transform ${active && !onboard ? "-rotate-90" : ""}`} /></span>
             </>);
@@ -148,7 +149,7 @@ export function LearnHome() {
                 <span className="absolute inset-x-0 top-0 h-1.5" style={{ background: cat.accent }} />
                 <span className="pointer-events-none absolute -left-10 -top-10 size-28 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-20" style={{ background: cat.accent }} />
                 <div className="flex items-start justify-between gap-3">
-                  <span className="grid size-14 shrink-0 place-items-center rounded-2xl text-white shadow-sm" style={{ background: cat.accent }}><Icon className="size-7" /></span>
+                  <span className="grid size-14 shrink-0 place-items-center rounded-2xl text-white shadow-sm" style={{ background: forWhiteText(cat.accent)}}><Icon className="size-7" /></span>
                   <Ring pct={pct} color={cat.accent} size={56} sw={5}>
                     <span className="text-sm font-extrabold tabular-nums" style={{ color: cat.accent }}>{pct}%</span>
                   </Ring>
@@ -159,7 +160,7 @@ export function LearnHome() {
                   <span className="flex items-center gap-1"><BookOpen className="size-3.5" />{tracks} מסלולים</span>
                   <span className="flex items-center gap-1"><Layers className="size-3.5" />{done}/{total} יחידות</span>
                   {hours > 0 && <span className="flex items-center gap-1"><Clock className="size-3.5" />~{hours} שעות</span>}
-                  <span className="rounded-full px-2 py-0.5 text-white" style={{ background: cat.accent }}>{lvl}</span>
+                  <span className="rounded-full px-2 py-0.5 text-white" style={{ background: forWhiteText(cat.accent)}}>{lvl}</span>
                 </div>
                 <span className="mt-3 flex items-center gap-1 text-[12px] font-bold text-ink-3 transition group-hover:text-brand">{active ? "הסתר מסלולים" : "הצג מסלולים"}<ChevronLeft className={`size-4 transition-transform ${active ? "-rotate-90" : ""}`} /></span>
               </button>
@@ -179,7 +180,7 @@ export function LearnHome() {
       {/* certification center */}
       <Link href="/certification/" className="group relative flex flex-wrap items-center gap-4 overflow-hidden rounded-3xl border border-hairline bg-gradient-to-l from-slate-900 to-slate-800 p-5 text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
         <span className="pointer-events-none absolute -left-10 -top-10 size-32 rounded-full bg-brand/30 blur-3xl" />
-        <span className="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-brand text-white shadow-sm"><Award className="size-6" /></span>
+        <span className="relative grid size-12 shrink-0 place-items-center rounded-2xl bg-brand text-brand-foreground shadow-sm"><Award className="size-6" /></span>
         <span className="relative min-w-0 flex-1">
           <span className="block font-extrabold">🎓 מרכז ההסמכה · NEO Certification</span>
           <span className="block text-sm text-white/75">מבחני ידע טכני אקראיים (PM · PP-PI · PP) · ציון מעבר 80 · תג יועץ מוסמך</span>

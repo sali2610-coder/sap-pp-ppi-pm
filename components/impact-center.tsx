@@ -1,3 +1,4 @@
+import { forWhiteText } from "@/lib/contrast";
 import Link from "next/link";
 import { ArrowRight, ArrowLeft, GitBranch, TrendingUp, Terminal, Boxes, FileCode, ArrowRightLeft, Workflow, AlertTriangle, BookOpen, Gauge } from "lucide-react";
 import { impactReport } from "@/lib/impact";
@@ -98,7 +99,7 @@ export function ImpactCenter({ name }: { name: string }) {
 
       {/* actions */}
       <div className="flex flex-wrap gap-2">
-        <Link href={`/sap-infrastructure/?focus=${encodeURIComponent(r.name)}`} className="tap inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-bold text-white shadow-sm" style={{ background: accent }}><GitBranch className="size-4" />הדגש בגרף</Link>
+        <Link href={`/sap-infrastructure/?focus=${encodeURIComponent(r.name)}`} className="tap inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-bold text-white shadow-sm" style={{ background: forWhiteText(accent)}}><GitBranch className="size-4" />הדגש בגרף</Link>
         <Link href={`/object/${encodeURIComponent(r.name)}/`} className="tap inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-4 py-2.5 text-sm font-bold text-ink-2 transition hover:border-brand/40 hover:text-brand"><BookOpen className="size-4" />כרטיס אובייקט מלא</Link>
       </div>
     </div>

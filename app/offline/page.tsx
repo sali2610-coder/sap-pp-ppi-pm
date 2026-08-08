@@ -1,3 +1,4 @@
+import { forWhiteText } from "@/lib/contrast";
 import Link from "next/link";
 import { WifiOff, Home, RotateCcw } from "lucide-react";
 
@@ -23,7 +24,7 @@ export default function OfflinePage() {
         <h1 className="mt-3 text-xl font-extrabold text-ink-1">אין חיבור לרשת</h1>
         <p className="mt-1.5 text-sm leading-relaxed text-ink-3">העמוד הזה עדיין לא נשמר במכשיר. עמודים שכבר ביקרת בהם זמינים גם ללא רשת — חזור לקוקפיט או נסה שוב כשהחיבור יחזור.</p>
         <div className="mt-5 flex justify-center gap-2">
-          <Link href="/" className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-sm font-extrabold text-white shadow-sm shadow-brand/25 active:scale-95"><Home className="size-4" />לקוקפיט</Link>
+          <Link href="/" className="tap inline-flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-sm font-extrabold text-brand-foreground shadow-sm shadow-brand/25 active:scale-95"><Home className="size-4" />לקוקפיט</Link>
           <a href="" className="tap inline-flex items-center gap-1.5 rounded-xl border-2 border-hairline px-4 py-2.5 text-sm font-bold text-ink-2 hover:border-brand/40 hover:text-brand active:scale-95"><RotateCcw className="size-4" />נסה שוב</a>
         </div>
       </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { SmartLink as Link } from "@/components/smart-link";
 import { Check, Play, Circle, ArrowLeft } from "lucide-react";
 
@@ -33,7 +34,7 @@ export function ProcessTimeline({ steps, accent, dense }: { steps: TimelineStep[
           <li key={i} className="flex items-stretch gap-3">
             {/* marker rail */}
             <div className="flex flex-col items-center">
-              <span className="grid size-7 shrink-0 place-items-center rounded-full text-white shadow-sm" style={{ background: mColor }}><Icon className={`size-3.5 ${s.state === "todo" ? "opacity-60" : ""}`} /></span>
+              <span className="grid size-7 shrink-0 place-items-center rounded-full text-white shadow-sm" style={{ background: forWhiteText(mColor)}}><Icon className={`size-3.5 ${s.state === "todo" ? "opacity-60" : ""}`} /></span>
               {!last && <span className="w-0.5 flex-1" style={{ background: `linear-gradient(${mColor}, #e2e8f0)`, minHeight: dense ? 8 : 12 }} />}
             </div>
             {/* step */}

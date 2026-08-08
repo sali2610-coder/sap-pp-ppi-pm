@@ -1,3 +1,4 @@
+import { forWhiteText } from "@/lib/contrast";
 import Link from "next/link";
 import {
   Lightbulb, Route, GitBranch, Boxes, Wrench, ClipboardCheck, Terminal, Plug,
@@ -164,7 +165,7 @@ export function ObjectExpert({ name, accent }: { name: string; accent: string })
         <ol className="flex flex-wrap items-center gap-1.5" dir="rtl">
           {lc.steps.map((s, i) => (
             <li key={i} className="flex items-center gap-1.5">
-              <span className="flex items-center gap-1.5 rounded-full border border-hairline bg-surface px-2.5 py-1 text-[12px] font-bold text-ink-2"><span className="grid size-4 place-items-center rounded-full font-mono text-[9px] font-black text-white" style={{ background: accent }}>{i + 1}</span>{s}</span>
+              <span className="flex items-center gap-1.5 rounded-full border border-hairline bg-surface px-2.5 py-1 text-[12px] font-bold text-ink-2"><span className="grid size-4 place-items-center rounded-full font-mono text-[9px] font-black text-white" style={{ background: forWhiteText(accent)}}>{i + 1}</span>{s}</span>
               {i < lc.steps.length - 1 && <ArrowLeft className="size-3.5 text-ink-3/40" />}
             </li>
           ))}

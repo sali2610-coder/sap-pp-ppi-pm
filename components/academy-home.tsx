@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useMemo } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion, type MotionProps } from "framer-motion";
@@ -34,7 +35,7 @@ function CourseResumeCard({ c }: { c: CourseCard }) {
   return (
     <div className="group flex flex-col rounded-2xl border border-hairline bg-surface p-4 transition duration-200 hover:-translate-y-1 hover:border-[#dfe2e7] hover:shadow-[0_22px_44px_-22px_rgba(11,12,14,.22)]">
       <div className="flex items-center justify-between">
-        <span className="inline-flex items-center gap-1.5"><span className="grid size-7 place-items-center rounded-lg text-[10px] font-extrabold text-white" style={{ background: accent }}>{c.module.slice(0, 2)}</span><span className="text-[13px] font-extrabold">{c.module}</span></span>
+        <span className="inline-flex items-center gap-1.5"><span className="grid size-7 place-items-center rounded-lg text-[10px] font-extrabold text-white" style={{ background: forWhiteText(accent)}}>{c.module.slice(0, 2)}</span><span className="text-[13px] font-extrabold">{c.module}</span></span>
         {c.openedAt ? <span className="text-[10.5px] text-ink-3">{timeAgo(c.openedAt)}</span> : null}
       </div>
       <div className="mt-2.5 text-[10.5px] font-bold uppercase tracking-[0.08em] text-ink-3">פרק {c.chapterIndex} · שיעור {c.lessonNum}/{c.chapterSize}</div>
@@ -44,7 +45,7 @@ function CourseResumeCard({ c }: { c: CourseCard }) {
         <motion.div className="h-full rounded-full" style={{ background: accent }} initial={false} animate={{ width: `${c.pct}%` }} transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }} />
       </div>
       <div className="mt-1 flex justify-between text-[11px] font-bold text-ink-3"><span>{c.pct}% הושלם</span><span>{c.completedLessons}/{c.totalLessons} שיעורים</span></div>
-      <Link href={`/academy/lesson/${c.resumeSlug}/`} className="mt-3 inline-flex items-center justify-center gap-2 rounded-xl py-2 text-[12.5px] font-extrabold text-white transition hover:opacity-90" style={{ background: accent }}>המשך <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
+      <Link href={`/academy/lesson/${c.resumeSlug}/`} className="mt-3 inline-flex items-center justify-center gap-2 rounded-xl py-2 text-[12.5px] font-extrabold text-white transition hover:opacity-90" style={{ background: forWhiteText(accent)}}>המשך <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
     </div>
   );
 }
@@ -140,7 +141,7 @@ export function AcademyHome({ tracks }: { tracks: AcademyTrack[] }) {
               <h2 className="mt-1.5 text-[19px] font-extrabold tracking-[-0.01em]" dir="auto">{cc.lessonTitle}</h2>
               <p className="text-[12.5px] text-ink-3">פרק {cc.chapterIndex} · שיעור {cc.lessonNum} מתוך {cc.chapterSize}</p>
               {tStarted && (<><div className="mt-3 h-[7px] max-w-[340px] overflow-hidden rounded-full bg-black/[0.06]"><motion.div className="h-full rounded-full" style={{ background: tAccent }} initial={false} animate={{ width: `${Math.round(tPct * 100)}%` }} transition={{ duration: 0.6, ease: [0.2, 0.7, 0.2, 1] }} /></div><div className="mt-1 flex max-w-[340px] justify-between text-[11px] font-bold text-ink-3"><span>{Math.round(tPct * 100)}% בשיעור</span><span>{cc.pct}% בקורס</span></div></>)}
-              <Link href={`/academy/lesson/${cc.resumeSlug}/`} className="mt-3.5 inline-flex items-center gap-2 rounded-xl bg-ink-1 px-5 py-2.5 text-[13.5px] font-extrabold text-white transition hover:bg-black">{tStarted ? "המשך ללמוד" : "התחל ללמוד"} <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
+              <Link href={`/academy/lesson/${cc.resumeSlug}/`} className="mt-3.5 inline-flex items-center gap-2 rounded-xl bg-ink-1 px-5 py-2.5 text-[13.5px] font-extrabold text-surface transition hover:bg-black">{tStarted ? "המשך ללמוד" : "התחל ללמוד"} <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
             </div>
           </div>
           )}
@@ -177,7 +178,7 @@ export function AcademyHome({ tracks }: { tracks: AcademyTrack[] }) {
           <h2 className="mt-3 text-[16px] font-extrabold text-ink-1">עדיין לא התחלת ללמוד</h2>
           <p className="mx-auto mt-1 max-w-sm text-[13px] text-ink-3">בחר קורס והתחל — ההתקדמות שלך תישמר אוטומטית ותופיע כאן כדי שתמשיך בדיוק מהמקום שעצרת.</p>
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-            <Link href="/academy/dashboard/" className="inline-flex items-center gap-2 rounded-xl bg-ink-1 px-5 py-2.5 text-[13px] font-extrabold text-white transition hover:bg-black">בחר קורס מתוך המסלולים <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
+            <Link href="/academy/dashboard/" className="inline-flex items-center gap-2 rounded-xl bg-ink-1 px-5 py-2.5 text-[13px] font-extrabold text-surface transition hover:bg-black">בחר קורס מתוך המסלולים <ArrowLeft className="size-4 rtl:rotate-180" /></Link>
           </div>
         </div>
       )}
@@ -202,7 +203,7 @@ export function AcademyHome({ tracks }: { tracks: AcademyTrack[] }) {
                 {/* what you get, at a glance: scope (chapters/units) + time budget — so a
                     student can judge the commitment before starting. */}
                 <div className="flex flex-wrap gap-1.5"><span className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[10px] font-bold text-ink-2">{st.chapters} פרקים</span><span className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[10px] font-bold text-ink-2">{st.nodes} יחידות</span><span className="rounded-full bg-surface-2 px-2.5 py-0.5 text-[10px] font-bold text-ink-2">~{Math.round(st.readMin / 60)} ש׳ לימוד</span></div>
-                <div className="mt-auto flex items-center gap-3 pt-3.5"><Ring pct={pct} size={38} stroke={4} color={t.id === "pm" ? "#f97316" : "#94a3b8"} /><span className="flex-1 rounded-xl bg-surface-2 py-2 text-center text-[12.5px] font-extrabold text-ink-1 transition group-hover:bg-ink-1 group-hover:text-white">{pct > 0 ? "המשך" : "התחל"}</span></div>
+                <div className="mt-auto flex items-center gap-3 pt-3.5"><Ring pct={pct} size={38} stroke={4} color={t.id === "pm" ? "#f97316" : "#94a3b8"} /><span className="flex-1 rounded-xl bg-surface-2 py-2 text-center text-[12.5px] font-extrabold text-ink-1 transition group-hover:bg-ink-1 group-hover:text-surface">{pct > 0 ? "המשך" : "התחל"}</span></div>
               </div>
             </Link>
           ); })}
@@ -252,7 +253,7 @@ export function AcademyHome({ tracks }: { tracks: AcademyTrack[] }) {
       </div>
 
       {/* AI assistant (design affordance) */}
-      <Link href="/chat/" className="fixed bottom-6 start-6 z-30 inline-flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-[13.5px] font-extrabold text-white shadow-[0_14px_34px_-12px_rgba(214,32,39,.6)] transition hover:bg-brand-dark"><Sparkles className="size-4" /> עוזר הלמידה</Link>
+      <Link href="/chat/" className="fixed bottom-6 start-6 z-30 inline-flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-[13.5px] font-extrabold text-brand-foreground shadow-[0_14px_34px_-12px_rgba(214,32,39,.6)] transition hover:bg-brand-dark"><Sparkles className="size-4" /> עוזר הלמידה</Link>
       <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-t border-hairline pt-5">
         <Link href="/academy/dashboard/" className="inline-flex items-center gap-1.5 text-[12px] font-bold text-ink-3 hover:text-brand"><LayoutDashboard className="size-3.5" /> לוח בקרה מלא · דוחות איכות</Link>
         <ResetButton danger label="אפס את כל SAP Academy" title="איפוס כל התקדמות ה-Academy" scopeText="כל המסלולים והשיעורים (PM · PP-PI · QM)" count={allLessons().length} onConfirm={resetAll} />

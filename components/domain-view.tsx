@@ -119,7 +119,7 @@ export function DomainView({ d }: { d: Domain }) {
               <ul className="space-y-1.5">{det.qa.map((q, i) => <li key={i} className="flex gap-2 text-sm text-ink-2"><span className="mt-0.5 size-1.5 shrink-0 rounded-full bg-fuchsia-500" />{q}</li>)}</ul>
             </Card>
             <Card title="תקלות נפוצות · Incidents" icon={<ShieldAlert className="size-4 text-red-500" />}>
-              <ul className="space-y-1.5">{det.incidents.map((q, i) => <li key={i} className="flex gap-2 text-sm text-ink-2"><span className="mt-0.5 size-1.5 shrink-0 rounded-full bg-red-500" />{q}</li>)}</ul>
+              <ul className="space-y-1.5">{det.incidents.map((q, i) => <li key={i} className="flex gap-2 text-sm text-ink-2"><span className="mt-0.5 size-1.5 shrink-0 rounded-full bg-brand-soft0" />{q}</li>)}</ul>
             </Card>
           </div>
 

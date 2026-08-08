@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
 import { Terminal, ArrowLeft, ArrowRightLeft, Lightbulb, GraduationCap, Sparkles, Boxes, GitBranch, Route, FileText, Workflow, Star, ChevronDown, AppWindow, Database, ShieldCheck, Cable, Wrench, AlertTriangle } from "lucide-react";
@@ -157,7 +158,7 @@ export function TransactionPage({ code }: { code: string }) {
           <div className="grid-adaptive-sm">
             {rec.map((r) => { const ex = txExists(r.code) || !!registryTx(r.code); const inner = (
               <div className="flex items-center gap-2.5 rounded-xl border border-hairline bg-surface p-3 transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-sm">
-                <span className="grid size-9 shrink-0 place-items-center rounded-lg text-white" style={{ background: c }}><Terminal className="size-4" /></span>
+                <span className="grid size-9 shrink-0 place-items-center rounded-lg text-white" style={{ background: forWhiteText(c)}}><Terminal className="size-4" /></span>
                 <div className="min-w-0"><div className="font-mono text-[13px] font-extrabold text-ink-1" dir="ltr">{r.code}</div><div className="text-[11px] text-ink-3">{r.reason}</div></div>
               </div>
             ); return ex ? <Link key={r.code} href={`/tcode/${encodeURIComponent(r.code)}/`}>{inner}</Link> : <div key={r.code} className="opacity-70">{inner}</div>; })}

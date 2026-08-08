@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useMemo, useRef, useState } from "react";
 import { SmartLink as Link } from "@/components/smart-link";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
@@ -17,7 +18,7 @@ function HitRow({ h }: { h: SearchHit }) {
   const Ic = KIND_ICON[h.kind];
   return (
     <Link href={h.href} className="flex items-center gap-2.5 rounded-xl px-3 py-2 transition hover:bg-surface-2">
-      <span className="grid size-7 shrink-0 place-items-center rounded-lg text-white shadow-sm" style={{ background: mc(h.module) }}><Ic className="size-3.5" /></span>
+      <span className="grid size-7 shrink-0 place-items-center rounded-lg text-white shadow-sm" style={{ background: forWhiteText(mc(h.module))}}><Ic className="size-3.5" /></span>
       <span className="min-w-0 flex-1">
         <span className="flex items-center gap-1.5"><span className="tech truncate font-mono text-[14px] font-extrabold text-ink-1" dir="ltr">{h.label}</span>{h.status && <span className="rounded px-1 text-[9px] font-bold" style={{ background: STATUS_C[h.status], color: pillInk(STATUS_C[h.status]) }}>{h.status}</span>}</span>
         <span className="block truncate text-[11px] text-ink-3">{h.sub}</span>

@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ClipboardList, Factory, Calculator, Terminal, Database, ArrowLeft, AlertTriangle, ChevronLeft } from "lucide-react";
@@ -25,7 +26,7 @@ function StepCard({ s, n, accent, last }: { s: ProcessStep; n: number; accent: s
   const objHref = objectHasPage(s.code) ? `/object/${encodeURIComponent(s.code)}/` : null;
   return (
     <li className="relative ps-9">
-      <span className="absolute -start-0 top-1 z-10 grid size-7 place-items-center rounded-full text-[11px] font-black text-white shadow-sm" style={{ background: last ? "#1aa179" : accent }}>{n}</span>
+      <span className="absolute -start-0 top-1 z-10 grid size-7 place-items-center rounded-full text-[11px] font-black text-white shadow-sm" style={{ background: forWhiteText(last ? "#1aa179" : accent)}}>{n}</span>
       <div className="card-premium overflow-hidden p-4">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <div className="min-w-0">

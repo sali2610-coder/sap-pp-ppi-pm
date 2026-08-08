@@ -300,6 +300,26 @@ pre {
 .lift:hover { box-shadow: var(--elev-3); transform: translateY(-2px); }
 .tap:active { transform: scale(.97); }
 
+/* Accent text on a tint of its own accent, picked per theme.
+
+   A colour that reads on a tint over white is the wrong colour on a tint over
+   #0f1216, and vice versa — the light answer is darker than the accent, the dark
+   answer is lighter. lib/contrast.ts computes both at build time (onTint and
+   onTintDark); the element carries them as --tint-ink-light / --tint-ink-dark
+   and this rule chooses. Doing the choosing in CSS is what makes it theme-aware:
+   an inline style cannot see the theme.
+
+   Before this existed, /transactions/ shipped 307 dark-mode contrast failures,
+   all of them build-time light-theme values rendering on dark tints — 3.14:1 on
+   the "מתועד לעומק" chip and 3.28:1 on the module chip. */
+.tint-ink { color: var(--tint-ink-light); }
+html[data-theme="dark"] .tint-ink { color: var(--tint-ink-dark); }
+
+/* card-premium keeps its light slate border literal so the light theme is
+   untouched; in dark that slate reads as a bright outline, so the token takes
+   over there. */
+html[data-theme="dark"] .card-premium { border-color: var(--hairline); }
+
 @media (prefers-reduced-motion: reduce) {
   .card-premium, .lift, .tap, .surface { transition: none !important; }
   .card-premium:hover, .lift:hover, .surface-hover { transform: none !important; }
@@ -503,7 +523,11 @@ header :focus-visible {
 
 /* Premium card surface — one consistent enclosure across the platform */
 @utility card-premium {
-  background: #fff;
+  /* Was `#fff`, which stayed white in dark mode and put every themed ink inside
+     the card onto a white surface — text-ink-3 measured 2.77:1 on /ecc-s4/, and
+     56 of that page's 67 dark violations were this one declaration. --surface is
+     #ffffff in light, so the light theme is pixel-identical. */
+  background: var(--surface);
   border: 1px solid rgb(226 232 240);
   border-radius: 1rem;
   box-shadow: var(--shadow-card);
@@ -1063,3 +1087,29 @@ html[data-theme="dark"] .bg-sky-50 { background-color: #0b2436; }
 html[data-theme="dark"] .text-sky-700 { color: #56b6f5; }
 html[data-theme="dark"] .bg-violet-50 { background-color: #1e1435; }
 html[data-theme="dark"] .text-violet-700 { color: #a78bfa; }
+
+/* The block above remapped the -700 inks but not the darker -800/-900 ones, so
+   callout bodies kept their near-black palette colour while the surface under
+   them flipped: text-amber-900 (#7b3306) on the remapped bg-amber-50 (#2b2008)
+   measured 1.76:1, and text-emerald-900 on bg-emerald-50 measured 1.59:1. These
+   lift the ink to the same family the -700 mappings use, which reads on the dark
+   tint. Light is untouched — the rules only apply under [data-theme="dark"].
+
+   Scoped to the tinted surface — on the element that carries the tint, or inside
+   it. A blanket `.text-amber-900 { color: … }` also lightens callout text that
+   sits on an ordinary light card, which took /sap-notes/ from 4 dark failures to
+   23. The ink only needs to flip where the ground flipped with it. */
+html[data-theme="dark"] .bg-amber-50.text-amber-800,
+html[data-theme="dark"] .bg-amber-50.text-amber-900,
+html[data-theme="dark"] .bg-amber-50 .text-amber-800,
+html[data-theme="dark"] .bg-amber-50 .text-amber-900 { color: #fcd34d; }
+html[data-theme="dark"] .bg-emerald-50.text-emerald-800,
+html[data-theme="dark"] .bg-emerald-50.text-emerald-900,
+html[data-theme="dark"] .bg-emerald-50 .text-emerald-800,
+html[data-theme="dark"] .bg-emerald-50 .text-emerald-900 { color: #6ee7a0; }
+html[data-theme="dark"] .bg-sky-50.text-blue-800,
+html[data-theme="dark"] .bg-sky-50.text-blue-900,
+html[data-theme="dark"] .bg-sky-50 .text-blue-800,
+html[data-theme="dark"] .bg-sky-50 .text-blue-900 { color: #7cb8f7; }
+html[data-theme="dark"] .bg-brand-soft.text-rose-900,
+html[data-theme="dark"] .bg-brand-soft .text-rose-900 { color: #fda4af; }

@@ -57,7 +57,7 @@ export function FioriAppsCenter() {
               <span className="rounded bg-surface-2 px-2 py-0.5 text-[9.5px] font-bold text-ink-2">{a.module}</span>
               <span className="rounded bg-surface-2 px-2 py-0.5 font-mono text-[9.5px] font-bold text-ink-2" dir="ltr">{a.role}</span>
             </div>
-            <span className="mt-3 inline-flex items-center justify-center gap-1.5 rounded-xl bg-surface-2 py-2 text-[12px] font-extrabold text-ink-1 transition group-hover:bg-brand group-hover:text-white">פתח עמוד מלא <ArrowLeft className="size-3.5 rtl:rotate-180" /></span>
+            <span className="mt-3 inline-flex items-center justify-center gap-1.5 rounded-xl bg-surface-2 py-2 text-[12px] font-extrabold text-ink-1 transition group-hover:bg-brand group-hover:text-brand-foreground">פתח עמוד מלא <ArrowLeft className="size-3.5 rtl:rotate-180" /></span>
           </Link>
         ))}
       </div>
@@ -83,5 +83,5 @@ export function FioriAppsCenter() {
 }
 
 function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; children: React.ReactNode }) {
-  return <button onClick={onClick} className={`rounded-full border px-3 py-1.5 text-[12px] font-bold transition ${on ? "border-ink-1 bg-ink-1 text-white" : "border-hairline bg-surface text-ink-2 hover:bg-surface-2"}`}>{children}</button>;
+  return <button onClick={onClick} className={`rounded-full border px-3 py-1.5 text-[12px] font-bold transition ${on ? "border-ink-1 bg-ink-1 text-surface" : "border-hairline bg-surface text-ink-2 hover:bg-surface-2"}`}>{children}</button>;
 }

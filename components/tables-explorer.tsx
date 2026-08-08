@@ -1,5 +1,6 @@
 "use client";
 
+import { forWhiteText } from "@/lib/contrast";
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Search, ArrowLeft, GitBranch, Database, Activity, ShieldAlert } from "lucide-react";
@@ -37,7 +38,7 @@ export function TablesExplorer({ rows }: { rows: TableRow[] }) {
           { icon: <Activity className="size-4" />, v: stats.avg, l: "ממוצע קשרים", c: "#6d28d9" },
         ].map((k) => (
           <div key={k.l} className="surface flex items-center gap-3 rounded-2xl border border-hairline bg-surface p-4 shadow-[var(--elev-1)]">
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: k.c }}>{k.icon}</span>
+            <span className="grid size-10 shrink-0 place-items-center rounded-xl text-white shadow-sm" style={{ background: forWhiteText(k.c)}}>{k.icon}</span>
             <div><div className="text-2xl font-extrabold tabular-nums text-ink-1">{k.v}</div><div className="text-[11px] font-semibold text-ink-3">{k.l}</div></div>
           </div>
         ))}

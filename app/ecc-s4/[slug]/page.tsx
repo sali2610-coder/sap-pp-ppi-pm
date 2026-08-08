@@ -1,3 +1,4 @@
+import { forWhiteText } from "@/lib/contrast";
 import { ECC_S4_TOPICS, eccS4BySlug, STATUS_HE, STATUS_COLOR } from "@/data/ecc-s4";
 import { Crumb, CenterHeader, Block, TwoCol } from "@/components/knowledge";
 import { pageMeta } from "@/lib/seo";
@@ -22,7 +23,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       <Crumb trail={[{ href: "/knowledge/", label: "מרכז הידע" }, { href: "/ecc-s4/", label: "ECC מול S/4" }, { label: t.he }]} />
       <CenterHeader eyebrow="השוואת ECC ↔ S/4HANA" title={`${t.he} · ${t.title}`} sub={t.s4} accent="#2563eb" />
       <div className="mb-4 flex items-center gap-2" dir="rtl">
-        <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold text-white" style={{ background: STATUS_COLOR[t.status] }}>
+        <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold text-white" style={{ background: forWhiteText(STATUS_COLOR[t.status])}}>
           סטטוס: {STATUS_HE[t.status]}
         </span>
       </div>

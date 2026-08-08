@@ -7,6 +7,7 @@
  * grouping, teaching cards, a detail drawer (side panel / mobile sheet),
  * beginner⇄expert modes, and the verified Related-Flow view.
  */
+import { forWhiteText } from "@/lib/contrast";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -157,7 +158,7 @@ function Card({ o, onOpen, onPreview, faved, pinned, learned, onFav }: { o: SapF
         {/* §color-restraint — the whole card is the click target, so this affordance
             stays calm/neutral at rest and lights up brand-red only on the focused
             (hovered) card. Avoids a wall of solid-red bars across the grid. */}
-        <span className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-surface-2 py-2 text-[12.5px] font-extrabold text-ink-2 transition group-hover:bg-brand group-hover:text-white">פתח פרטים <ArrowLeft className="size-3.5" /></span>
+        <span className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-surface-2 py-2 text-[12.5px] font-extrabold text-ink-2 transition group-hover:bg-brand group-hover:text-brand-foreground">פתח פרטים <ArrowLeft className="size-3.5" /></span>
         <button onClick={(e) => { e.stopPropagation(); onPreview(); }} aria-label="הצג תקציר" title="תצוגה מקדימה" className="relative z-10 inline-flex items-center gap-1.5 rounded-xl border border-hairline bg-surface px-3 py-2 text-[12px] font-bold text-ink-2 transition hover:border-ink-3/30"><Eye className="size-3.5" />תקציר</button>
       </div>
     </motion.div>
@@ -257,12 +258,12 @@ function CodeTabs({ snippets }: { snippets: Snippet[] }) {
     <div>
       <div className="chip-rail mb-2 flex gap-1.5 overflow-x-auto">
         {snippets.map((sn, k) => { const A = sn.Icon; return (
-          <button key={sn.key} onClick={() => { setI(k); setCopied(false); }} aria-pressed={k === i} className={`tap inline-flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-1 text-[11.5px] font-bold transition ${k === i ? "border-brand bg-brand text-white" : "border-hairline bg-surface text-ink-3 hover:bg-surface-2"}`}><A className="size-3" />{sn.label}</button>
+          <button key={sn.key} onClick={() => { setI(k); setCopied(false); }} aria-pressed={k === i} className={`tap inline-flex shrink-0 items-center gap-1 rounded-full border px-2.5 py-1 text-[11.5px] font-bold transition ${k === i ? "border-brand bg-brand text-brand-foreground" : "border-hairline bg-surface text-ink-3 hover:bg-surface-2"}`}><A className="size-3" />{sn.label}</button>
         ); })}
       </div>
       <div className="relative">
         <button onClick={copy} aria-label="העתק קוד" className="tap absolute start-2 top-2 z-10 inline-flex items-center gap-1 rounded-md bg-white/10 px-2 py-1 text-[10.5px] font-bold text-white backdrop-blur transition hover:bg-white/20">{copied ? <Check className="size-3 text-emerald-300" /> : <Copy className="size-3" />}{copied ? "הועתק" : "העתק"}</button>
-        <pre dir="ltr" className="tech max-h-80 overflow-auto rounded-lg bg-ink-1 p-3 text-[11px] leading-relaxed text-white">{s.code}</pre>
+        <pre dir="ltr" className="tech max-h-80 overflow-auto rounded-lg bg-ink-1 p-3 text-[11px] leading-relaxed text-surface">{s.code}</pre>
       </div>
       <p className={`mt-2 flex items-start gap-1.5 rounded-lg px-3 py-2 text-[11.5px] font-semibold ${s.verified ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"}`}>
         {s.verified ? <ShieldCheck className="mt-0.5 size-3.5 shrink-0" /> : <AlertTriangle className="mt-0.5 size-3.5 shrink-0" />}
@@ -314,7 +315,7 @@ function Drawer({ o, expert, related, faved, pinned, learned, note, objects, doc
             <button onClick={onClose} aria-label="סגור" className="tap grid size-9 shrink-0 place-items-center rounded-xl text-ink-3 hover:bg-surface-2"><X className="size-5" /></button>
           </div>
           <div className="mt-2 flex flex-wrap items-center gap-1.5">
-            <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10.5px] font-bold text-white" style={{ background: CAT[o.category].c }}>{CAT[o.category].he}</span>
+            <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10.5px] font-bold text-white" style={{ background: forWhiteText(CAT[o.category].c)}}>{CAT[o.category].he}</span>
             <span className={`rounded-full border px-2 py-0.5 text-[10.5px] font-bold ${DIFF[o.difficulty].cls}`}>{DIFF[o.difficulty].he}</span>
             <span className={`rounded-full border px-2 py-0.5 text-[10.5px] font-bold ${STAB[o.stability].cls}`}>{STAB[o.stability].he}</span>
             <VerifPill s={o.verificationStatus} />
@@ -366,7 +367,7 @@ function Drawer({ o, expert, related, faved, pinned, learned, note, objects, doc
               <div className="flex flex-wrap items-center gap-1.5">
                 {o.processChain.map((s, i) => (
                   <span key={i} className="flex items-center gap-1.5">
-                    <span className={`rounded-lg px-2 py-1 text-[11.5px] font-bold ${i === curIdx ? "bg-brand text-white shadow-sm" : "bg-surface-2 text-ink-2"}`}>{s}</span>
+                    <span className={`rounded-lg px-2 py-1 text-[11.5px] font-bold ${i === curIdx ? "bg-brand text-brand-foreground shadow-sm" : "bg-surface-2 text-ink-2"}`}>{s}</span>
                     {i < o.processChain!.length - 1 && <ArrowLeft className="size-3 text-ink-3" />}
                   </span>
                 ))}
@@ -406,7 +407,7 @@ function Drawer({ o, expert, related, faved, pinned, learned, note, objects, doc
               <div className="flex flex-col gap-1.5">
                 {related.map((r) => (
                   <button key={r.id} onClick={() => onOpen(r)} className="tap flex items-center gap-2 rounded-lg border border-hairline p-2 text-start transition hover:border-brand/40">
-                    <span className="grid size-6 shrink-0 place-items-center rounded text-white" style={{ background: CAT[r.category].c }}>{isBapi(r) ? <Plug className="size-3.5" /> : <Braces className="size-3.5" />}</span>
+                    <span className="grid size-6 shrink-0 place-items-center rounded text-white" style={{ background: forWhiteText(CAT[r.category].c)}}>{isBapi(r) ? <Plug className="size-3.5" /> : <Braces className="size-3.5" />}</span>
                     <span className="tech min-w-0 flex-1 truncate font-mono text-[12px] font-bold text-ink-1" dir="ltr">{r.technicalName}</span>
                     <span className="text-[10px] text-ink-3">{r.primaryModule}</span>
                   </button>
@@ -470,7 +471,7 @@ function LearnPanel() {
   const [open, setOpen] = useState(false);
   const col = (title: string, tint: string, Icon: typeof Plug, rows: string[]) => (
     <div className="flex-1 rounded-2xl border border-hairline p-4">
-      <div className="mb-2 flex items-center gap-2"><span className="grid size-8 place-items-center rounded-lg text-white" style={{ background: tint }}><Icon className="size-4" /></span><b className="text-[15px] font-extrabold text-ink-1">{title}</b></div>
+      <div className="mb-2 flex items-center gap-2"><span className="grid size-8 place-items-center rounded-lg text-white" style={{ background: forWhiteText(tint)}}><Icon className="size-4" /></span><b className="text-[15px] font-extrabold text-ink-1">{title}</b></div>
       <ul className="space-y-1.5 text-[12.5px] leading-relaxed text-ink-2">{rows.map((r, i) => <li key={i} className="flex gap-1.5"><span className="mt-2 size-1 shrink-0 rounded-full bg-ink-3" />{r}</li>)}</ul>
     </div>
   );
@@ -584,7 +585,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
   }, [filtered, cmp, pin]);
 
   const F = ({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) => (
-    <button onClick={onClick} className={`tap shrink-0 rounded-full border px-3 py-1.5 text-[12px] font-bold transition ${active ? "border-brand bg-brand text-white" : "border-hairline bg-surface text-ink-3 hover:bg-surface-2"}`}>{children}</button>
+    <button onClick={onClick} className={`tap shrink-0 rounded-full border px-3 py-1.5 text-[12px] font-bold transition ${active ? "border-brand bg-brand text-brand-foreground" : "border-hairline bg-surface text-ink-3 hover:bg-surface-2"}`}>{children}</button>
   );
 
   return (
@@ -609,7 +610,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
             <F active={favOnly} onClick={() => setFavOnly((v) => !v)}><Star className="size-3.5" /> מועדפים</F>
             <span className="mx-0.5 w-px self-stretch bg-hairline" />
             <button onClick={() => setDrawer((d) => !d)} aria-expanded={drawer} className={`tap inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-bold transition ${drawer || secondaryCount ? "border-brand/40 bg-brand-soft text-brand" : "border-hairline bg-surface text-ink-2 hover:bg-surface-2"}`}>
-              <SlidersHorizontal className="size-3.5" /> מסננים{secondaryCount > 0 && <span className="grid min-w-[16px] place-items-center rounded-full bg-brand px-1 text-[10px] font-extrabold text-white">{secondaryCount}</span>}
+              <SlidersHorizontal className="size-3.5" /> מסננים{secondaryCount > 0 && <span className="grid min-w-[16px] place-items-center rounded-full bg-brand px-1 text-[10px] font-extrabold text-brand-foreground">{secondaryCount}</span>}
             </button>
           </div>
         </div>
@@ -660,7 +661,7 @@ export function FunctionCatalog({ objects, moduleLabel, gateways = false }: { ob
         <div className="grid gap-3 sm:grid-cols-2">
           {[["PM", "/pm/", "אחזקת מפעל", "var(--brand)"], ["PP-PI", "/pp-pi/", "ייצור תהליכי", "#6d28d9"]].map(([code, href, label, tint]) => (
             <Link key={code} href={href} className="card-interactive group flex items-center gap-3 p-4">
-              <span className="grid size-11 shrink-0 place-items-center rounded-xl text-white" style={{ background: tint }}><Boxes className="size-6" /></span>
+              <span className="grid size-11 shrink-0 place-items-center rounded-xl text-white" style={{ background: forWhiteText(tint)}}><Boxes className="size-6" /></span>
               <span className="min-w-0 flex-1"><span className="block text-[14px] font-extrabold text-ink-1">אוסף ה-BAPI/FM המלא של {code}</span><span className="block text-[12px] text-ink-3">{label} — פורטל המודול</span></span>
               <ArrowLeft className="size-4 text-ink-3 transition group-hover:-translate-x-0.5 group-hover:text-brand" />
             </Link>
