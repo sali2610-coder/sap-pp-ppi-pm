@@ -1,12 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Clock, Info, Layers, MessageSquarePlus, Pencil, Sparkles, Star, Trash2, X } from "lucide-react";
+import { Clock, Info, Layers, MessageSquarePlus, Pencil, Sparkles, Star, Trash2, X , Compass, Library, ShieldAlert} from "lucide-react";
 import { ScopeTree } from "./scope-tree";
 import { WorkspaceRail } from "./workspace-rail";
 import { AnswerCard } from "./answer-card";
 import { Composer } from "./composer";
 import { PageHeader, Reveal, PromptSuggestions, AIActionBar } from "@/components/neo";
+import { MODES, CONSULT_DISCLAIMER, type AiMode } from "@/lib/ai/modes";
 import { useDialog } from "@/lib/use-dialog";
 import {
   type Thread, loadThreads, saveThread, deleteThread, renameThread, toggleFavorite,
@@ -30,7 +31,8 @@ type Turn = { q: string; a: Answer | null };
  *
  * Answers currently come from a mock that mirrors the /api/ask-v2 contract.
  */
-export function AiWorkspace() {
+export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
+  const M = MODES[mode];
   const [scope, setScope] = useState<Scope>({});
   const [threads, setThreads] = useState<Thread[]>([]);
   const [threadId, setThreadId] = useState<string>("");
@@ -100,7 +102,7 @@ export function AiWorkspace() {
       // the Answer that lands in state comes from the validated `done` payload,
       // so text the gates reject never survives on screen.
       setPreview("");
-      const a = await askApiStream(q, scope, task, {
+      const a = await askApiStream(q, scope, task ?? M.task, {
         onDelta: (t) => setPreview((p) => p + t),
       });
       setTurns((t) => {
@@ -137,13 +139,21 @@ export function AiWorkspace() {
     <Reveal>
       <PageHeader
         as="h1"
-        icon={<Sparkles className="size-5" />}
-        eyebrow="Grounded Answers · שאל את הספרייה"
-        title="שאל את הספרייה"
+        icon={mode === "consult" ? <Compass className="size-5" /> : <Library className="size-5" />}
+        eyebrow={mode === "consult" ? "SAP Expert · יועץ" : "Grounded Answers · ספרייה"}
+        title={M.title}
+        tint={M.accent}
       />
-      <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-ink-3">
-        תשובות מבוססות אך ורק על 11 הספרים שבמאגר, עם הפניה לפרק ולסעיף המדויק.
-      </p>
+      <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-ink-3">{M.tagline}</p>
+      {mode === "consult" && (
+        // Stated on the surface itself, not buried in a tooltip. The difference
+        // between "I know this" and "I checked this" is the reason the two
+        // modes exist at all.
+        <p className="mt-1.5 flex max-w-2xl items-start gap-1.5 text-[11.5px] leading-relaxed text-ink-3">
+          <ShieldAlert className="mt-px size-3 shrink-0" aria-hidden />
+          {CONSULT_DISCLAIMER}
+        </p>
+      )}
     </Reveal>
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[18rem_1fr] 2xl:grid-cols-[20rem_1fr]">
       {/* ---------- workspace rail ----------
@@ -202,14 +212,14 @@ export function AiWorkspace() {
         <div>
           <AIConversation busy={busy} autoScrollKey={turns.length}>
             {empty ? (
-              <EmptyState onPick={(q) => ask(q)} scope={scope} />
+              <EmptyState onPick={(q) => ask(q)} scope={scope} mode={mode} />
             ) : (
               turns.map((t, i) => (
                 <div key={i} className="space-y-2.5">
                   <UserBubble>{t.q}</UserBubble>
                   {t.a ? (
                     <>
-                      <><span className="sr-only">תשובה: </span><AnswerCard answer={t.a} onRetry={() => ask(t.q)} isLatest={i === turns.length - 1} /></>
+                      <><span className="sr-only">תשובה: </span><AnswerCard mode={mode} answer={t.a} onRetry={() => ask(t.q)} isLatest={i === turns.length - 1} /></>
                       {!t.a.error && i === turns.length - 1 && !busy && (
                         <AnswerActionsBar onPick={(a) => ask(a.prompt, a.task)} />
                       )}
@@ -373,19 +383,35 @@ function AnswerActionsBar({ onPick }: { onPick: (a: typeof ANSWER_ACTIONS[number
   );
 }
 
-function EmptyState({ onPick, scope }: { onPick: (q: string) => void; scope: Scope }) {
+function EmptyState({ onPick, scope, mode }: { onPick: (q: string) => void; scope: Scope; mode: AiMode }) {
+  const M = MODES[mode];
   return (
     <div className="pt-6 text-center">
-      <span className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-brand-soft">
-        <Sparkles className="size-5 text-brand" />
+      <span className="mx-auto flex size-12 items-center justify-center rounded-2xl"
+        style={{ background: `${M.accent}14` }}>
+        {mode === "consult"
+          ? <Compass className="size-5" style={{ color: M.accent }} />
+          : <Library className="size-5" style={{ color: M.accent }} />}
       </span>
-      <h2 className="mt-3 text-[16px] font-extrabold text-ink-1">שאל כל שאלה על הספרייה</h2>
+      <h2 className="mt-3 text-[16px] font-extrabold text-ink-1">{M.title}</h2>
+      {/* The promise IS the difference between the two surfaces, so it is the
+          first thing on an empty page rather than a generic greeting. */}
       <p className="mx-auto mt-1.5 max-w-md text-[12.5px] leading-relaxed text-ink-3">
-        התשובות מבוססות אך ורק על 11 הספרים שבמאגר, עם הפניה לפרק ולסעיף המדויק.
-        {!scope.bookId && " בחירת ספר או פרק תמקד את התשובה."}
+        {M.promise}
+        {mode === "library" && !scope.bookId && " בחירת ספר או פרק תמקד את התשובה."}
       </p>
+
+      <ul className="mx-auto mt-4 flex max-w-lg flex-wrap items-center justify-center gap-1.5">
+        {M.capabilities.map((c) => (
+          <li key={c} className="rounded-lg px-2 py-1 text-[11px] font-semibold"
+            style={{ background: `${M.accent}12`, color: M.accent }}>
+            {c}
+          </li>
+        ))}
+      </ul>
+
       <div className="mt-5 text-start">
-        <PromptSuggestions items={SUGGESTED} onPick={onPick} title="נסה להתחיל מ" icon={<Sparkles className="size-3" />} />
+        <PromptSuggestions items={M.starters.map((x) => x.prompt)} onPick={onPick} title="נסה להתחיל מ" icon={<Sparkles className="size-3" />} />
       </div>
     </div>
   );

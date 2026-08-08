@@ -1,41 +1,25 @@
-"use client";
-
 /**
- * Legacy route. The book-scoped Ask experience now lives at /ai/.
+ * Ask the Library — the grounded surface.
  *
- * What used to be here was an earlier chat that called the v1 endpoint
- * (/api/ask) with no scope tree. /ai/ supersedes it: v2 endpoint, book →
- * chapter → section scoping, and real citations.
+ * Answers come only from the curated books, and the backend refuses when they
+ * do not cover the question. That refusal is the feature: it is what makes a
+ * citation here worth trusting.
  *
- * This is a stub rather than a deletion so bookmarks and already-shared links
- * keep working. It cannot be a server redirect — the site builds with
- * `output: "export"`, where neither `redirect()` nor a next.config redirects
- * rule exists at runtime. The router call covers a normal visit; the meta
- * refresh covers JavaScript being unavailable and is what a plain static file
- * server honours.
- *
- * Retire once traffic here has stopped.
+ * This route was a redirect stub for a while. It is a page again because the
+ * product has two genuinely different assistants, not one assistant at two
+ * paths — see lib/ai/modes.ts.
  */
+import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 
-import { useEffect } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+const AiWorkspace = dynamic(() => import("@/components/ai/ai-workspace").then((m) => m.AiWorkspace));
 
-export default function LegacyAskPage() {
-  const router = useRouter();
-  useEffect(() => { router.replace("/ai/"); }, [router]);
+export const metadata: Metadata = {
+  title: "שאל את הספרייה — תשובות ממקורות מאומתים | SAP by Sali",
+  description:
+    "שאלות ותשובות על ספריית ה-SAP שלך: תשובות מבוססות ספרים בלבד, עם הפניה מדויקת לספר, לפרק ולסעיף. SAP by Sali · Project NEO.",
+};
 
-  return (
-    <>
-      <meta httpEquiv="refresh" content="0;url=/ai/" />
-      <div className="py-20 text-center">
-        <p className="text-sm text-ink-3">
-          העמוד עבר אל{" "}
-          <Link href="/ai/" className="font-bold text-brand hover:underline">
-            שאל את הספרייה
-          </Link>
-        </p>
-      </div>
-    </>
-  );
+export default function AskLibraryPage() {
+  return <AiWorkspace mode="library" />;
 }

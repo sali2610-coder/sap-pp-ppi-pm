@@ -20,6 +20,8 @@ import { accentVars, identityOf } from "@/lib/book-identity";
 import { useI18n } from "@/lib/i18n";
 import { FigureViewer, type ViewerFigure } from "@/components/figure-viewer";
 import { chapterExtra } from "@/components/library/chapter-extras";
+import Link from "next/link";
+import { MessageSquare } from "lucide-react";
 import { EmptyState, ErrorState, NeoChip } from "@/components/neo";
 
 /* ------------------------------------------------------------------ prose */
@@ -232,7 +234,21 @@ export function BookView({ book }: { book: Book }) {
             <span className="inline-flex items-center gap-1"><Hash className="size-3" />{chapter.sections.length} סעיפים</span>
             {chapter.startPage != null && <><span aria-hidden>·</span><span>מתחיל בעמ׳ {chapter.startPage}</span></>}
           </div>
-          <h2 className="text-lg font-semibold leading-tight text-ink-1">{chapterTitle(chapter)}</h2>
+          <div className="flex items-start justify-between gap-3">
+            <h2 className="text-lg font-semibold leading-tight text-ink-1">{chapterTitle(chapter)}</h2>
+            {/* Carries the chapter across as context, so the consultant starts
+                from what is on screen instead of asking the reader to restate
+                it. Goes to the consultant surface deliberately: the reader is
+                already inside the book, so the useful next step is the wider
+                discussion, not another search of the same text. */}
+            <Link
+              href={`/chat/?q=${encodeURIComponent(`בהקשר של ${chapterTitle(chapter)} (${book.meta.title.he?.trim() || book.meta.title.en}), `)}`}
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-hairline px-2.5 py-1.5 text-[0.75rem] font-semibold text-ink-2 transition hover:border-brand/40 hover:text-brand"
+            >
+              <MessageSquare className="size-3.5" aria-hidden />
+              דון בנושא עם AI
+            </Link>
+          </div>
         </header>
 
         {state === "loading" && (

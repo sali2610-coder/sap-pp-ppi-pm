@@ -1,19 +1,16 @@
 /**
- * AI Chat.
+ * AI Chat — the consultant surface.
  *
- * This route used to hold a self-contained chat built around Gemini: answers
- * rendered through react-markdown (so a diagram was never more than a code
- * block), a single hard-coded book as context, UI sounds, and a sidebar field
- * that asked the user to paste an API key which was then kept in localStorage.
+ * Unlike Ask the Library this may answer from general SAP knowledge:
+ * architecture, implementation, integration, ABAP, Fiori, BTP, troubleshooting
+ * and design. It routes to the SAP_CONSULT profile, the one profile allowed
+ * beyond the corpus.
  *
- * It now renders the same workspace as the rest of the product, so this page
- * gains streaming, diagrams, grounded citations, thread history and export —
- * none of which the previous implementation had — and the browser stops holding
- * credentials entirely.
+ * What it still cannot do, and says so on the page: reach SAP Help, SAP Notes or
+ * the SAP Community live, or invent an identifier. See lib/ai/modes.ts.
  *
- * The path is unchanged on purpose: the nav, the mobile tab bar, the contextual
- * FAB and every object page deep-link here with `?q=`, which the workspace
- * already honours.
+ * The path is unchanged because the nav, the mobile tab bar, the contextual FAB
+ * and every object page deep-link here with `?q=`.
  */
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
@@ -21,11 +18,11 @@ import dynamic from "next/dynamic";
 const AiWorkspace = dynamic(() => import("@/components/ai/ai-workspace").then((m) => m.AiWorkspace));
 
 export const metadata: Metadata = {
-  title: "צ'אט AI — שאל את הספרייה | SAP by Sali",
+  title: "יועץ SAP — ארכיטקטורה, יישום ואבחון תקלות | SAP by Sali",
   description:
-    "שאלות ותשובות מבוססות מקורות על ספריית SAP: בחירת ספר, פרק וסעיף, תשובות עם הפניה מדויקת ותרשימים אינטראקטיביים. SAP by Sali · Project NEO.",
+    "יועץ SAP: ארכיטקטורה, יישום, אינטגרציה, ABAP, Fiori, BTP, אבחון תקלות ושיטות עבודה. SAP by Sali · Project NEO.",
 };
 
 export default function ChatPage() {
-  return <AiWorkspace />;
+  return <AiWorkspace mode="consult" />;
 }

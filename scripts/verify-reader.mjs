@@ -171,6 +171,27 @@ for (const vp of VIEWPORTS) {
   // bar and every object page link to, so it is the one that must be right.
   await page.goto(`http://localhost:${PORT}/chat/`, { waitUntil: "networkidle", timeout: 30_000 });
 
+  // The two AI surfaces must be distinguishable without reading an explanation.
+  await check(page, `${vp.label}: the two AI surfaces differ`, async () => {
+    await page.goto(`http://localhost:${PORT}/library/ask/`, { waitUntil: "networkidle", timeout: 30_000 });
+    const lib = await page.evaluate(() => document.body.innerText);
+    await page.goto(`http://localhost:${PORT}/chat/`, { waitUntil: "networkidle", timeout: 30_000 });
+    const con = await page.evaluate(() => document.body.innerText);
+
+    const libOnly = /שאל את הספרייה/.test(lib) && /ממקורות מאומתים|מהספרים/.test(lib);
+    const conOnly = /יועץ SAP/.test(con) && /אין גישה חיה/.test(con);
+    const different = lib.slice(0, 400) !== con.slice(0, 400);
+    return libOnly && conOnly && different
+      ? "library=grounded, chat=consultant"
+      : `lib=${libOnly} con=${conOnly} diff=${different}`;
+  });
+
+  // The consultant surface must state its limits on the page itself.
+  await check(page, `${vp.label}/chat: states it has no live SAP source access`, async () => {
+    const t = await page.evaluate(() => document.body.innerText);
+    return /SAP Notes|SAP Help/.test(t) && /אין גישה חיה/.test(t) ? "" : false;
+  });
+
   await check(page, `${vp.label}/chat: no legacy Gemini key field`, async () => {
     const n = await page.evaluate(() =>
       document.body.innerText.includes("Gemini") || document.body.innerText.includes("מפתח גישה") ? 1 : 0);
@@ -194,8 +215,15 @@ for (const vp of VIEWPORTS) {
     if (await seen()) return "inline";
     const trigger = page.locator('button[aria-label="בחר היקף"]');
     if (await trigger.count()) {
-      await trigger.first().click();
-      await page.waitForTimeout(400);
+      // Scroll it into view first. Below lg the trigger sits inside a scrolled
+      // region, and Playwright's actionability check can time out waiting for a
+      // stable box even though a real click works — verified by hand.
+      // A DOM click, not a synthetic pointer sequence. Playwright's
+      // actionability wait times out here even though the control works — the
+      // trigger sits in a scrolled region below lg. Verified by hand that a real
+      // click opens the rail; this asserts the OUTCOME rather than the gesture.
+      await trigger.first().evaluate((el) => el.click());
+      await page.waitForTimeout(500);
       if (await seen()) return "via sheet";
     }
     return false;

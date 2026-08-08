@@ -6,11 +6,12 @@ import {
   BookOpen, Check, ChevronLeft, Copy, ExternalLink, Quote,
   Download, FileText, Link2, Printer, RotateCcw, ScissorsLineDashed, Sparkles,
   ThumbsDown, ThumbsUp, TriangleAlert, WifiOff,
-  Workflow,
+  Workflow, Library,
 } from "lucide-react";
 import { loadFeedback, setFeedback, type Verdict } from "@/lib/ai/history";
 import { copyShareLink, exportMarkdown, exportPdf, exportWord } from "@/lib/ai/export";
 import { AnswerBody } from "./answer-body";
+import type { AiMode } from "@/lib/ai/modes";
 
 /** Shapes we cannot draw yet, named in Hebrew for the notice below. */
 const DIAGRAM_HE: Record<string, string> = {
@@ -45,10 +46,12 @@ const MODULE_OF: Record<string, string> = {
 
 const fmtMs = (ms?: number) => (!ms ? null : ms < 1000 ? `${ms}ms` : `${(ms / 1000).toFixed(1)}s`);
 
-export function AnswerCard({ answer, onRetry, isLatest }: {
+export function AnswerCard({ answer, onRetry, isLatest, mode = "library" }: {
   answer: Answer;
   onRetry?: () => void;
   isLatest?: boolean;
+  /** Which surface rendered this. Only the consultant cross-links to the books. */
+  mode?: AiMode;
 }) {
   const [openCites, setOpenCites] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -164,6 +167,27 @@ export function AnswerCard({ answer, onRetry, isLatest }: {
             ? `תרשים מסוג ${DIAGRAM_HE[answer.diagram.kind] ?? answer.diagram.kind} עדיין לא נתמך לשרטוט, ולכן התשובה מוצגת כטקסט.`
             : "לא צירפתי תרשים, כי המקורות שנמצאו אינם מתארים רצף שלבים שלם. תרשים חלקי היה מטעה."}
         </p>
+      )}
+
+      {/* Cross-link. The consultant retrieves from the books even though it is
+          not required to cite them, so a citation here means the library really
+          does cover this — which is worth saying, since the reader chose the
+          surface that does NOT search their books first. */}
+      {done && mode === "consult" && answer.citations.length > 0 && (
+        <div className="mt-3 flex flex-wrap items-center gap-2 rounded-xl border border-hairline bg-surface-2/60 px-3 py-2">
+          <Library className="size-3.5 shrink-0 text-ink-3" aria-hidden />
+          <span className="text-[0.75rem] text-ink-2">
+            נמצא תוכן קשור גם בספרייה שלך
+          </span>
+          <div className="flex flex-wrap gap-1.5">
+            {answer.citations.slice(0, 3).map((c) => (
+              <Link key={c.id} href={c.href}
+                className="rounded-md bg-surface px-1.5 py-0.5 text-[0.6875rem] font-semibold text-brand transition hover:underline">
+                {c.title || `${c.book} · ${c.section}`}
+              </Link>
+            ))}
+          </div>
+        </div>
       )}
 
       {answer.truncated && (
