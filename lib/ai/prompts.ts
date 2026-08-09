@@ -21,8 +21,7 @@ export const ANSWER_ACTIONS: AnswerAction[] = [
   { id: "checklist",label: "צור צ׳ק ליסט",       task: "STUDY_GUIDE",      prompt: "בנה צ׳ק ליסט מעשי ליישום הנושא." },
   { id: "summary",  label: "סכם את הפרק",        task: "CHAPTER_SUMMARY",  prompt: "סכם את הפרק הנוכחי." },
   { id: "diagram",  label: "צור תרשים",          task: "DIAGRAM",          prompt: "תאר את התהליך כתרשים זרימה שלב אחר שלב." },
-  { id: "deck",     label: "צור 2 שקופיות",      task: "PRESENTATION_2",   prompt: "בנה שתי שקופיות שמסבירות את הנושא." },
-  { id: "info",     label: "צור אינפוגרפיקה",    task: "INFOGRAPHIC",      prompt: "תאר אינפוגרפיקה שמסבירה את הנושא." },
+  { id: "deck",     label: "בנה מצגת",           task: "PROCESS_FLOW",     prompt: "הצג את הנושא כתרשים זרימה שאפשר להציג מולו: שלבים ברורים, תוויות קצרות, החלטות מסומנות." },
   { id: "onepage",  label: "סיכום עמוד אחד",     task: "ONEPAGE",          prompt: "סכם את הנושא לעמוד אחד." },
 ];
 
@@ -34,8 +33,7 @@ export const QUICK_ACTIONS: QuickAction[] = [
   { id: "ecc", label: "השוואה ל-ECC", prompt: "מה השתנה בין SAP ECC לבין S/4HANA בנושא הזה?", icon: "git-compare" },
   { id: "checklist", label: "צ׳ק ליסט", prompt: "בנה צ׳ק ליסט מעשי ליישום הנושא הזה.", icon: "check-square" },
   { id: "interview", label: "שאלות ראיון", prompt: "נסח שאלות ראיון מקצועיות על הנושא הזה, עם תשובות.", icon: "help-circle" },
-  { id: "deck", label: "מצגת", prompt: "בנה שלד למצגת קצרה על הנושא הזה.", icon: "presentation" },
-  { id: "infographic", label: "אינפוגרפיקה", prompt: "תאר אינפוגרפיקה שמסבירה את הנושא הזה.", icon: "image" },
+  { id: "deck", label: "מצגת", prompt: "הצג את הנושא כתרשים זרימה שאפשר להציג מולו: שלבים ברורים ותוויות קצרות.", icon: "presentation" },
 ];
 
 export const SUGGESTED = [

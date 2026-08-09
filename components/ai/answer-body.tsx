@@ -153,10 +153,12 @@ const CALLOUT_STYLE = {
   tip: { icon: Lightbulb, cls: "border-s-2 border-emerald-500 bg-emerald-50", ic: "text-emerald-600" },
 } as const;
 
-export function AnswerBody({ text, citations = [] }: {
+export function AnswerBody({ text, citations = [], autoPresent = false }: {
   text: string;
   /** Ordered exactly as shown under the answer, so the chip number matches. */
   citations?: { id: string; href?: string | null; title?: string | null }[];
+  /** Open the first diagram in presentation mode on mount. */
+  autoPresent?: boolean;
 }) {
   const blocks = useMemo(() => parseAnswerBlocks(text), [text]);
   // Numbering follows the order the citations are listed under the answer, so
@@ -225,7 +227,7 @@ export function AnswerBody({ text, citations = [] }: {
               // Unparseable: fall through to the code block rather than guess.
             }
             return isDiagramFence(b.text, b.lang)
-              ? <DiagramView key={i} source={b.text} citations={citations as never} />
+              ? <DiagramView key={i} source={b.text} citations={citations as never} autoPresent={autoPresent} />
               : (
                 <pre key={i} className="tech overflow-x-auto rounded-xl bg-surface-2 p-3 text-[0.8125rem] leading-relaxed text-ink-1">
                   <code>{b.text}</code>

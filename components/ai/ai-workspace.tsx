@@ -41,6 +41,14 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
   const [turns, setTurns] = useState<Turn[]>([]);
   // Ungated text for the in-flight answer. Never persisted, never exported.
   const [preview, setPreview] = useState("");
+  /**
+   * The action that produced the answer being generated. "בנה מצגת" must open
+   * the presentation, not merely return a diagram and leave the user to find
+   * the toolbar — an action that stops one step short of its own name is the
+   * placeholder this audit was meant to remove.
+   */
+  const [pendingAction, setPendingAction] = useState<string | null>(null);
+  const [autoPresentFor, setAutoPresentFor] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [recent, setRecent] = useState<string[]>([]);
   const [sheet, setSheet] = useState<null | "scope" | "context">(null);
@@ -90,7 +98,7 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
   // Escape, focus trap, focus restore and scroll lock all live in one place.
   const sheetRef = useDialog<HTMLDivElement>(Boolean(sheet), () => setSheet(null));
 
-  const ask = useCallback(async (question: string, task?: string) => {
+  const ask = useCallback(async (question: string, task?: string, actionId?: string) => {
     const q = question.trim();
     if (!q || busy) return;
     setDraft("");
@@ -101,6 +109,7 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
       // Streamed. `preview` is ungated text shown while the answer is written;
       // the Answer that lands in state comes from the validated `done` payload,
       // so text the gates reject never survives on screen.
+      setPendingAction(actionId ?? null);
       setPreview("");
       const a = await askApiStream(
         q, scope, task ?? M.task,
@@ -108,6 +117,11 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
         undefined,
         mode,
       );
+      // Only when the action was "build a presentation" AND a diagram actually
+      // arrived. A prose answer opens nothing rather than an empty stage.
+      if (pendingAction === "deck" && /```\s*(flowchart|graph|mermaid|timeline|swimlane|bpmn|sequence|gantt)/i.test(a.text)) {
+        setAutoPresentFor(a.id);
+      }
       setTurns((t) => {
         const next = t.map((turn, i) => (i === t.length - 1 ? { ...turn, a } : turn));
         const id = threadId || `t${Date.now()}`;
@@ -128,7 +142,7 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
       setPreview("");
       setBusy(false);
     }
-  }, [busy, scope, threadId]);
+  }, [busy, scope, threadId, mode, M.task, pendingAction]);
 
   const last = [...turns].reverse().find((t) => t.a)?.a ?? null;
   const empty = turns.length === 0;
@@ -222,9 +236,9 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
                   <UserBubble>{t.q}</UserBubble>
                   {t.a ? (
                     <>
-                      <><span className="sr-only">תשובה: </span><AnswerCard mode={mode} answer={t.a} onRetry={() => ask(t.q)} isLatest={i === turns.length - 1} /></>
+                      <><span className="sr-only">תשובה: </span><AnswerCard mode={mode} autoPresent={autoPresentFor === t.a.id} answer={t.a} onRetry={() => ask(t.q)} isLatest={i === turns.length - 1} /></>
                       {!t.a.error && i === turns.length - 1 && !busy && (
-                        <AnswerActionsBar onPick={(a) => ask(a.prompt, a.task)} />
+                        <AnswerActionsBar onPick={(a) => ask(a.prompt, a.task, a.id)} />
                       )}
                       {t.a.followUps.length > 0 && !t.a.error && i === turns.length - 1 && !busy && (
                         <PromptSuggestions

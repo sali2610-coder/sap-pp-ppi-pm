@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import dagre from "dagre";
 import { Maximize2, Minus, Plus, Printer, RotateCcw, X , Play, GraduationCap} from "lucide-react";
 import { parseDiagram, type Diagram, type DiagramNode } from "@/lib/ai/diagram";
@@ -105,7 +105,7 @@ function shapePath(p: Placed): string {
   return "";
 }
 
-export function DiagramView({ source, citations = [] }: {
+export function DiagramView({ source, citations = [], autoPresent = false }: {
   source: string;
   /**
    * The answer's citations. A node's `%% src=` tag is only honoured when it
@@ -113,6 +113,8 @@ export function DiagramView({ source, citations = [] }: {
    * retrieval having served it.
    */
   citations?: Citation[];
+  /** Opens presentation mode on mount, for the "build a presentation" action. */
+  autoPresent?: boolean;
 }) {
   const diagram = useMemo(() => parseDiagram(source), [source]);
   const laid = useMemo(() => (diagram ? layout(diagram) : null), [diagram]);
@@ -134,6 +136,13 @@ export function DiagramView({ source, citations = [] }: {
     return (nodeSrc?: string) => (nodeSrc ? byId.get(nodeSrc) ?? null : null);
   }, [citations]);
   const [learn, setLearn] = useState(false);
+
+  // Fires once. Re-opening on every render would trap the user in the deck
+  // they just closed.
+  const presented = useRef(false);
+  useEffect(() => {
+    if (autoPresent && !presented.current) { presented.current = true; setPresent(true); }
+  }, [autoPresent]);
 
   // The live registry, adapted to the injected shape node-facts expects.
   const lookup: Lookup = useMemo(() => {

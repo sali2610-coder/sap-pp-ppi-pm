@@ -46,12 +46,14 @@ const MODULE_OF: Record<string, string> = {
 
 const fmtMs = (ms?: number) => (!ms ? null : ms < 1000 ? `${ms}ms` : `${(ms / 1000).toFixed(1)}s`);
 
-export function AnswerCard({ answer, onRetry, isLatest, mode = "library" }: {
+export function AnswerCard({ answer, onRetry, isLatest, mode = "library", autoPresent = false }: {
   answer: Answer;
   onRetry?: () => void;
   isLatest?: boolean;
   /** Which surface rendered this. Only the consultant cross-links to the books. */
   mode?: AiMode;
+  /** Open presentation mode as soon as the diagram mounts. */
+  autoPresent?: boolean;
 }) {
   const [openCites, setOpenCites] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -150,6 +152,7 @@ export function AnswerCard({ answer, onRetry, isLatest, mode = "library" }: {
       {/* ---------------------------- the answer ---------------------------- */}
       <AnswerBody
           text={shown}
+          autoPresent={autoPresent}
           citations={answer.citations.map((c) => ({ id: c.id, href: c.href, title: c.title }))}
         />
       {!done && (
