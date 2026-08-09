@@ -78,6 +78,7 @@ function toCitation(s: {
   role?: string | null;
   confidence?: number;
   cited?: boolean;
+  quote?: string | null;
   title?: string | null;
 }): Citation | null {
   const id = String(s.id || "");
@@ -108,8 +109,13 @@ function toCitation(s: {
     role: s.role ?? null,
     confidence: typeof s.confidence === "number" ? s.confidence : undefined,
     cited: s.cited,
+    quote: s.quote ?? undefined,
     title: heading ?? localTitle,
-    href: sectionHref(bookId, chapter, section),
+    // Carries the verified sentence so the reader can highlight it. Without
+    // this the link opens the chapter and the reader still has to hunt.
+    href: sectionHref(bookId, chapter, section)
+      + `?s=${encodeURIComponent(section)}`
+      + (s.quote ? `&q=${encodeURIComponent(String(s.quote).slice(0, 300))}` : ""),
   };
 }
 

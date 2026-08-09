@@ -20,6 +20,7 @@ import { accentVars, identityOf } from "@/lib/book-identity";
 import { useI18n } from "@/lib/i18n";
 import { FigureViewer, type ViewerFigure } from "@/components/figure-viewer";
 import { chapterExtra } from "@/components/library/chapter-extras";
+import { splitOnQuote } from "@/lib/library/highlight";
 import Link from "next/link";
 import { MessageSquare } from "lucide-react";
 import { EmptyState, ErrorState, NeoChip } from "@/components/neo";
@@ -32,14 +33,35 @@ import { EmptyState, ErrorState, NeoChip } from "@/components/neo";
  * trusted, but the reader should not be the one place in the app where that
  * assumption is load-bearing.
  */
-function Prose({ text }: { text: string }) {
+function Prose({ text, highlight }: { text: string; highlight?: string | null }) {
   const paras = useMemo(
     () => text.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean),
     [text],
   );
+
+  // Only the paragraph that actually contains the sentence is marked. Splitting
+  // per paragraph rather than over the whole body keeps the offsets valid after
+  // the text has been broken up for rendering.
+  const marked = useMemo(
+    () => paras.map((p) => splitOnQuote(p, highlight)),
+    [paras, highlight],
+  );
   return (
     <div className="max-w-[74ch] space-y-3">
-      {paras.map((p, i) => (
+      {paras.map((p, i) => {
+        const hit = marked[i];
+        if (hit) {
+          return (
+            <p key={i} data-quote-hit className="text-[0.9375rem] leading-[1.85] text-ink-2">
+              {hit.before}
+              <mark className="rounded-sm bg-amber-200/70 px-0.5 text-ink-1 ring-1 ring-amber-400/40 dark:bg-amber-400/25">
+                {hit.hit}
+              </mark>
+              {hit.after}
+            </p>
+          );
+        }
+        return (
         <p key={i} className="text-[0.9375rem] leading-[1.85] text-ink-2">
           {p.split(/(\*\*[^*]+\*\*)/g).map((chunk, j) =>
             chunk.startsWith("**") && chunk.endsWith("**")
@@ -47,7 +69,8 @@ function Prose({ text }: { text: string }) {
               : <span key={j}>{chunk}</span>,
           )}
         </p>
-      ))}
+        );
+      })}
     </div>
   );
 }
@@ -75,7 +98,7 @@ function RefChips({ label, value }: { label: string; value: unknown }) {
  * book8's sixteen facets. Rendered in FACET_ORDER, never in object order — a
  * JSON reshuffle must not be able to change the reading order of a lesson.
  */
-function Academy({ body }: { body: AcademyBody }) {
+function Academy({ body, highlight }: { body: AcademyBody; highlight?: string | null }) {
   const facets = body.facets ?? {};
   const present = FACET_ORDER.filter((f) => {
     const v = facets[f.key];
@@ -106,7 +129,7 @@ function Academy({ body }: { body: AcademyBody }) {
                 ))}
               </ul>
             ) : (
-              <Prose text={v} />
+              <Prose text={v} highlight={highlight} />
             )}
           </section>
         );
@@ -125,10 +148,12 @@ function Academy({ body }: { body: AcademyBody }) {
 
 /* --------------------------------------------------------------- section */
 
-function SectionView({ section, body, pick }: {
+function SectionView({ section, body, pick, highlight }: {
   section: BookSection;
   body?: SectionBody;
   pick: (he?: string, en?: string) => string;
+  /** Verified sentence to mark, when this is the section an answer cited. */
+  highlight?: string | null;
 }) {
   return (
     <article className="scroll-mt-24 border-b border-hairline py-5 last:border-0" id={`s-${section.id}`}>
@@ -144,9 +169,9 @@ function SectionView({ section, body, pick }: {
         // Headings without content is a real state for some chapters, not a bug.
         <p className="text-[0.8125rem] text-ink-3">אין תוכן מורחב לסעיף זה.</p>
       ) : body.format === "academy" ? (
-        <Academy body={body} />
+        <Academy body={body} highlight={highlight} />
       ) : pick(body.he, body.en) ? (
-        <Prose text={pick(body.he, body.en)} />
+        <Prose text={pick(body.he, body.en)} highlight={highlight} />
       ) : body.snippet ? (
         <p className="max-w-[74ch] text-[0.875rem] leading-relaxed text-ink-3">{body.snippet}</p>
       ) : (
@@ -166,6 +191,24 @@ export function BookView({ book }: { book: Book }) {
   const [figAt, setFigAt] = useState<number | null>(null);
   const [state, setState] = useState<"idle" | "loading" | "error">("idle");
   const { pick } = useI18n();
+
+  /**
+   * Deep link from a citation or a diagram node: ?s=<section>&q=<sentence>.
+   * The quote travels in the URL so the link is shareable and survives a reload
+   * — the reader has no other way to learn which sentence an answer used.
+   *
+   * Read in an effect, not a memo. This page is prerendered, and a memo that
+   * touches window during the hydrating render either mismatches the server
+   * output or returns nothing — which is exactly what it did: the params were
+   * in the URL and the highlight never appeared.
+   */
+  const [deepLink, setDeepLink] = useState<{ section: string | null; quote: string | null }>(
+    { section: null, quote: null },
+  );
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    setDeepLink({ section: p.get("s"), quote: p.get("q") });
+  }, []);
 
   const chapter = useMemo(
     () => book.chapters.find((c) => c.n === active) ?? book.chapters[0],
@@ -189,6 +232,27 @@ export function BookView({ book }: { book: Book }) {
   }, [book.id]);
 
   useEffect(() => load(active), [active, load]);
+
+  // A deep link names a section, which lives in a chapter that may not be the
+  // one showing. Open that chapter first, then scroll — in that order, or the
+  // target is not mounted yet.
+  useEffect(() => {
+    if (!deepLink.section) return;
+    const owner = book.chapters.find((c) => c.sections.some((s) => s.id === deepLink.section));
+    if (owner && owner.n !== active) setActive(owner.n);
+  }, [deepLink.section, book.chapters, active]);
+
+  useEffect(() => {
+    if (!deepLink.section || state === "loading") return;
+    // Prefer the highlighted sentence; fall back to the section heading, so a
+    // link still lands somewhere useful when the quote could not be located.
+    const t = window.setTimeout(() => {
+      const mark = document.querySelector("[data-quote-hit]");
+      const target = mark ?? document.getElementById(`s-${deepLink.section}`);
+      target?.scrollIntoView({ block: "center", behavior: "smooth" });
+    }, 120);
+    return () => window.clearTimeout(t);
+  }, [deepLink.section, deepLink.quote, state, bodies]);
 
   if (!chapter) {
     return <EmptyState icon={<BookOpen className="size-5" />} title="הספר ריק" hint="לא נמצאו פרקים בקובץ הספר." />;
@@ -294,7 +358,8 @@ export function BookView({ book }: { book: Book }) {
         ) : (
           <div>
             {chapter.sections.map((s) => (
-              <SectionView key={s.id} section={s} body={bodies[s.id]} pick={pick} />
+              <SectionView key={s.id} section={s} body={bodies[s.id]} pick={pick}
+                highlight={s.id === deepLink.section ? deepLink.quote : null} />
             ))}
           </div>
         )}

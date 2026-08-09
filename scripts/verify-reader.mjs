@@ -161,6 +161,43 @@ for (const vp of VIEWPORTS) {
       return over <= 2 ? "" : false;
     });
 
+    // Priority 2: a deep link must open the right chapter AND mark the exact
+    // sentence — not merely open the chapter.
+    if (book === "book1") {
+      await check(page, `${vp.label}/${book}: deep link highlights the exact sentence`, async () => {
+        // A sentence taken verbatim from the rendered section, so the premise
+        // cannot be wrong: if this does not match, the matcher is at fault.
+        const probe = await page.evaluate(() => {
+          const art = document.querySelector('article[id^="s-"]');
+          const p = art?.querySelector("p");
+          const t = (p?.textContent ?? "").trim();
+          return { id: art?.id?.replace(/^s-/, "") ?? "", text: t.slice(0, 90) };
+        });
+        if (!probe.id || probe.text.length < 25) return false;
+
+        const url = `http://localhost:${PORT}/library/${book}/`
+          + `?s=${encodeURIComponent(probe.id)}&q=${encodeURIComponent(probe.text)}`;
+        await page.goto(url, { waitUntil: "networkidle", timeout: 30_000 });
+        await page.waitForTimeout(900);
+
+        const marks = await page.evaluate(() => {
+          const m = document.querySelector("[data-quote-hit] mark");
+          return { count: document.querySelectorAll("[data-quote-hit] mark").length,
+                   text: (m?.textContent ?? "").trim().slice(0, 40) };
+        });
+        return marks.count > 0 ? `${marks.count} mark: "${marks.text}"` : false;
+      });
+
+      await check(page, `${vp.label}/${book}: a bogus quote highlights nothing`, async () => {
+        const url = `http://localhost:${PORT}/library/${book}/`
+          + `?s=1.1&q=${encodeURIComponent("משפט שהומצא ואינו מופיע בשום מקום בספר הזה")}`;
+        await page.goto(url, { waitUntil: "networkidle", timeout: 30_000 });
+        await page.waitForTimeout(700);
+        const n = await page.evaluate(() => document.querySelectorAll("[data-quote-hit] mark").length);
+        return n === 0 ? "" : `${n} false highlight(s)`;
+      });
+    }
+
     if (WANT_SHOTS) {
       await mkdir(SHOTS, { recursive: true });
       await page.screenshot({ path: path.join(SHOTS, `reader-${book}-${vp.label}.png`), fullPage: false });
