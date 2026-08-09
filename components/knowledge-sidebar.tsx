@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   Home, Wrench, FlaskConical, GitBranch, Table, Terminal, Plug, Cable, Sigma,
   LayoutGrid, Puzzle, BrainCircuit, Library, AlertTriangle, Award, GraduationCap,
-  Compass, Sparkles, MessageSquare, PanelLeftClose, PanelLeftOpen, ChevronDown, X,
+  Compass, Sparkles, MessageSquare, PanelLeftClose, PanelLeftOpen, ChevronDown,
 } from "lucide-react";
 import { playClick } from "@/lib/sound";
 
@@ -70,7 +70,20 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
   useEffect(() => {
     try { const s = JSON.parse(localStorage.getItem("neo:nav:open") || "null"); if (s) setOpen(s); } catch { /* noop */ }
   }, []);
-  const toggle = (id: string) => setOpen((o) => { const n = { ...o, [id]: o[id] === false ? true : false }; try { localStorage.setItem("neo:nav:open", JSON.stringify(n)); } catch { /* noop */ } return n; });
+  /**
+   * Takes the NEXT state explicitly rather than deriving it from the stored map.
+   *
+   * It used to compute `o[id] === false ? true : false`, which is only correct
+   * for entries already written to storage. Every default-collapsed group and
+   * every collapsed module child-list starts as `undefined`, so the first click
+   * evaluated `undefined === false` → false → wrote "closed" over something the
+   * UI was already rendering as closed. Nothing moved, and the user had to click
+   * twice. Default-open groups worked, which is why it survived this long.
+   *
+   * The caller knows the effective state — it already computes it to render the
+   * chevron — so it passes the intended next value and this only persists it.
+   */
+  const toggle = (id: string, next: boolean) => setOpen((o) => { const n = { ...o, [id]: next }; try { localStorage.setItem("neo:nav:open", JSON.stringify(n)); } catch { /* noop */ } return n; });
 
   const Row = ({ it }: { it: Item }) => {
     const active = isActive(path, it.href);
@@ -78,6 +91,10 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
     const hasChildren = !collapsed && !!it.children?.length;
     const underHere = path.startsWith(it.href);
     const expanded = open[it.href] !== undefined ? open[it.href] : underHere; // auto-open when inside
+    // Ties the toggle to the region it controls. Every aria-expanded in the
+    // navigation was previously orphaned — no aria-controls anywhere — so a
+    // screen reader announced "collapsed" without exposing what would open.
+    const panelId = `nav-children-${it.href.replace(/\W+/g, "-")}`;
     return (
       <div>
         <div className={`group relative flex items-center rounded-lg text-[13.5px] font-medium transition-colors ${active && path === it.href ? "bg-brand/8 text-brand" : "text-ink-2 hover:bg-black/[0.04] hover:text-ink-1"}`}>
@@ -89,13 +106,13 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
             {!collapsed && <span className="truncate">{it.label}</span>}
           </Link>
           {hasChildren && (
-            <button onClick={() => toggle(it.href)} aria-label={`${expanded ? "כווץ" : "הרחב"} ${it.label}`} aria-expanded={expanded} className="me-1 rounded p-1.5 text-ink-3 hover:text-ink-1">
+            <button onClick={() => toggle(it.href, !expanded)} aria-label={`${expanded ? "כווץ" : "הרחב"} ${it.label}`} aria-expanded={expanded} aria-controls={panelId} className="me-1 rounded p-1.5 text-ink-3 hover:text-ink-1">
               <ChevronDown className={`size-3.5 transition-transform ${expanded ? "" : "-rotate-90"}`} />
             </button>
           )}
         </div>
         {hasChildren && expanded && (
-          <div className="mt-0.5 flex flex-col gap-0.5 border-s border-hairline pe-2 ps-3.5">
+          <div id={panelId} className="mt-0.5 flex flex-col gap-0.5 border-s border-hairline pe-2 ps-3.5">
             {it.children!.map((ch) => { const chActive = path === ch.href; return (
               <Link prefetch={false} key={ch.href} href={ch.href} onClick={() => { playClick(); onNavigate?.(); }} aria-current={chActive ? "page" : undefined}
                 className={`relative rounded-lg px-2 py-1 text-[12.5px] transition-colors ${chActive ? "font-bold text-brand" : "text-ink-3 hover:bg-black/[0.04] hover:text-ink-1"}`}>
@@ -134,14 +151,14 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
         return (
           <div key={g.id} className="mt-2">
             {!collapsed ? (
-              <button onClick={() => toggle(g.id)} aria-expanded={isOpen} className="flex w-full items-center justify-between rounded-md px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-ink-3 hover:text-ink-2">
+              <button onClick={() => toggle(g.id, !isOpen)} aria-expanded={isOpen} aria-controls={`nav-group-${g.id}`} className="flex w-full items-center justify-between rounded-md px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-ink-3 hover:text-ink-2">
                 {g.label}
                 <ChevronDown className={`size-3.5 transition-transform ${isOpen ? "" : "-rotate-90"}`} />
               </button>
             ) : (
               <div className="mx-2 my-1 h-px bg-hairline" aria-hidden />
             )}
-            {(collapsed || isOpen) && <div className="mt-0.5 flex flex-col gap-0.5">{g.items.map((it) => <Row key={it.href} it={it} />)}</div>}
+            {(collapsed || isOpen) && <div id={`nav-group-${g.id}`} className="mt-0.5 flex flex-col gap-0.5">{g.items.map((it) => <Row key={it.href} it={it} />)}</div>}
           </div>
         );
       })}
@@ -151,14 +168,13 @@ function Tree({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?: () =
 
 export function KnowledgeSidebar() {
   const [collapsed, setCollapsed] = useState(false);
-  const [drawer, setDrawer] = useState(false); // mobile slide-over
+  // The mobile slide-over that used to live here has been removed. Its only
+  // trigger was a header button classed `hidden … lg:hidden`, which could not
+  // render at any width, so the drawer was unreachable — yet it still registered
+  // a `keydown` listener on every page, for every user, to close something that
+  // could never open. Touch navigation is the bottom bar; this rail is lg+ only.
   useEffect(() => {
     try { setCollapsed(localStorage.getItem("neo:sidebar:collapsed") === "1"); } catch { /* noop */ }
-    const openDrawer = () => setDrawer(true);
-    const onEsc = (e: KeyboardEvent) => { if (e.key === "Escape") setDrawer(false); };
-    window.addEventListener("neo:open-sidebar", openDrawer);
-    window.addEventListener("keydown", onEsc);
-    return () => { window.removeEventListener("neo:open-sidebar", openDrawer); window.removeEventListener("keydown", onEsc); };
   }, []);
   const toggleCollapse = () => setCollapsed((c) => { const n = !c; try { localStorage.setItem("neo:sidebar:collapsed", n ? "1" : "0"); } catch { /* noop */ } return n; });
 
@@ -175,19 +191,6 @@ export function KnowledgeSidebar() {
         </button>
       </aside>
 
-      {/* mobile — slide-over drawer */}
-      {drawer && (
-        <div className="fixed inset-0 z-[80] lg:hidden" role="dialog" aria-modal="true" aria-label="ניווט">
-          <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-sm" onClick={() => setDrawer(false)} />
-          <aside className="absolute inset-y-0 end-0 flex w-[82vw] max-w-[20rem] flex-col bg-surface shadow-2xl">
-            <div className="flex items-center justify-between border-b border-hairline px-3 py-2.5">
-              <span className="eyebrow-2">ניווט</span>
-              <button onClick={() => setDrawer(false)} aria-label="סגור" className="rounded-lg p-1.5 text-ink-3 hover:bg-black/[0.05]"><X className="size-5" /></button>
-            </div>
-            <div className="min-h-0 flex-1 overflow-y-auto"><Tree collapsed={false} onNavigate={() => setDrawer(false)} /></div>
-          </aside>
-        </div>
-      )}
     </>
   );
 }

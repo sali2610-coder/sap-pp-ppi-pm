@@ -440,10 +440,14 @@ h1, h2, h3 {
   outline-offset: 2px;
   border-radius: 4px;
 }
-/* On the red header, switch ring to white for contrast */
-header :focus-visible {
-  outline-color: #fff;
-}
+/* The header stopped being red. This rule forced a white focus ring onto what
+   is now `bg-surface/85` — #ffffff in light mode — so the logo, the ⌘K trigger,
+   the theme switch and the language switch had no visible focus indicator at
+   all. A WCAG 2.4.7 failure on the app's primary chrome, and invisible for the
+   exact users who depend on it most.
+
+   The header now inherits the global brand ring, which is contrast-correct in
+   both themes because --brand is token-driven (#d62027 light, #ff5a5f dark). */
 
 /* Respect OS "reduce motion" — kill non-essential animation/transition */
 @media (prefers-reduced-motion: reduce) {
