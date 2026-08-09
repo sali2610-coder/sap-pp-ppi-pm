@@ -18,6 +18,28 @@ export const EASE = {
 // the ONE spring — reserved for the shared-element figure morph
 export const SPRING_MORPH = { type: "spring", stiffness: 260, damping: 30 } as const;
 
+/**
+ * Navigation springs — "Spine & Signal".
+ *
+ * The navigation previously carried twelve hand-rolled springs, no two alike
+ * (500/28, 420/34, 360/36, 340/34, 460/30, 500/26, 400/22, 460/34, 380/38,
+ * 320/34, 500/24), while this file's one canonical spring was imported by two
+ * reader components and no navigation component at all. These three are the
+ * whole vocabulary. Nothing in the navigation may declare a spring inline.
+ *
+ * SPRING_MORPH above is reused deliberately: the Signal travelling along the
+ * spine IS a shared-element morph, so it should feel identical to the figure
+ * morph rather than merely similar.
+ */
+export const SPRING_SNAP = { type: "spring", stiffness: 480, damping: 32 } as const;
+export const SPRING_SHEET = { type: "spring", stiffness: 360, damping: 36 } as const;
+
+/**
+ * Every exit. Always shorter than its entrance — an interface that leaves
+ * slowly feels unresponsive, so exits run at roughly 60–70% of entry duration.
+ */
+export const EXIT = { duration: 0.16, ease: EASE.accelerate } as const;
+
 // transition helper
 export const t = (d: number = DUR.base, e = EASE.out) => ({ duration: d, ease: e });
 

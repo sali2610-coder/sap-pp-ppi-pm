@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { Menu } from "lucide-react";
 import { GlobalBack } from "@/components/global-back";
 import { WorkspaceInspector } from "@/components/workspace-inspector";
 import { DeferMount, mark } from "@/components/defer-mount";
@@ -38,12 +37,13 @@ function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-hairline bg-surface/85 pt-[env(safe-area-inset-top)] backdrop-blur-md before:pointer-events-none before:absolute before:inset-x-0 before:top-0 before:h-[2px] before:bg-gradient-to-l before:from-brand before:via-brand before:to-brand-dark">
       <div className="flex h-14 items-center gap-2 px-3 sm:gap-3 sm:px-4">
-        {/* mobile navigation lives entirely in the bottom bar (Home/Modules/Library/Search/More)
-            — the desktop knowledge tree stays lg+; no duplicate hamburger drawer on touch. */}
-        <button onClick={() => window.dispatchEvent(new Event("neo:open-sidebar"))} aria-label="פתח עץ ניווט"
-          className="tap hidden size-9 shrink-0 place-items-center rounded-lg text-ink-2 hover:bg-black/[0.05] lg:hidden">
-          <Menu className="size-5" />
-        </button>
+        {/* Mobile navigation lives entirely in the bottom bar
+            (Home/Modules/Library/Search/More); the desktop knowledge tree stays
+            lg+. A hamburger sat here dispatching `neo:open-sidebar`, but its
+            classes were `hidden … lg:hidden` with nothing ever turning it back
+            on — it could not render at any width, while still announcing
+            "פתח עץ ניווט" to assistive tech. It was the only emitter of that
+            event, so the slide-over it opened was unreachable too. Both removed. */}
         {/* No aria-label here: <SiteLogo> already carries role="img" with its own
             accessible name, so adding a second one on the link produced two
             competing names and tripped axe label-content-name-mismatch. The link
