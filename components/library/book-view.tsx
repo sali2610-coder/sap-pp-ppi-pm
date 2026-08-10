@@ -155,8 +155,16 @@ function SectionView({ section, body, pick, highlight }: {
   /** Verified sentence to mark, when this is the section an answer cited. */
   highlight?: string | null;
 }) {
+  // `data-section` and `data-section-title` are what BookReader reads to build
+  // its section index, run scroll-spy and mark passages as read. Without them
+  // the reading shell renders but its progress tracking is inert.
   return (
-    <article className="scroll-mt-24 border-b border-hairline py-5 last:border-0" id={`s-${section.id}`}>
+    <article
+      className="scroll-mt-24 border-b border-hairline py-5 last:border-0"
+      id={`s-${section.id}`}
+      data-section={section.id}
+      data-section-title={pick(section.title.he, section.title.en)}
+    >
       <header className="mb-3 flex items-baseline gap-2">
         <span className="tech shrink-0 text-[0.6875rem] font-semibold text-[var(--accent)]">{section.id}</span>
         <h3 className="text-[0.9375rem] font-semibold leading-snug text-ink-1">{pick(section.title.he, section.title.en)}</h3>
@@ -183,9 +191,37 @@ function SectionView({ section, body, pick, highlight }: {
 
 /* ------------------------------------------------------------------ view */
 
-export function BookView({ book }: { book: Book }) {
+/**
+ * The book body.
+ *
+ * CHAPTER STATE IS OWNED BY BookReader, NOT HERE.
+ *
+ * When `onActiveChange` is supplied this component is controlled: BookReader is
+ * the single owner of the active chapter, and its table of contents, progress
+ * rail, scroll-spy, focus mode and previous/next controls all drive the same
+ * value. This component then renders the body only, and suppresses its own
+ * chapter list and paging so the screen never shows two competing chapter
+ * pickers.
+ *
+ * The uncontrolled path is kept so the body still works standalone, but the
+ * reading experience is the controlled one — see components/book-reader.tsx.
+ */
+export function BookView({ book, active: activeProp, onActiveChange }: {
+  book: Book;
+  /** Active chapter number when controlled by BookReader. */
+  active?: number;
+  /** Supplying this makes the component controlled and hides its own chapter UI. */
+  onActiveChange?: (n: number) => void;
+}) {
   const identity = identityOf(book.id);
-  const [active, setActive] = useState(book.chapters[0]?.n ?? 1);
+  const controlled = onActiveChange != null;
+  const [ownActive, setOwnActive] = useState(book.chapters[0]?.n ?? 1);
+  const active = controlled ? (activeProp ?? book.chapters[0]?.n ?? 1) : ownActive;
+  const setActive = useCallback((next: number | ((n: number) => number)) => {
+    const resolve = (cur: number) => (typeof next === "function" ? next(cur) : next);
+    if (controlled) onActiveChange(resolve(active));
+    else setOwnActive(resolve);
+  }, [controlled, onActiveChange, active]);
   const [bodies, setBodies] = useState<Record<string, SectionBody>>({});
   const [figs, setFigs] = useState<ViewerFigure[]>([]);
   const [figAt, setFigAt] = useState<number | null>(null);
@@ -261,8 +297,11 @@ export function BookView({ book }: { book: Book }) {
   const catalogue = book.meta.structure === "catalogue";
 
   return (
-    <div style={accentVars(identity)} className="grid gap-6 lg:grid-cols-[15rem_1fr]">
-      {/* ---------------------------------------------------------- nav */}
+    <div style={accentVars(identity)} className={controlled ? "" : "grid gap-6 lg:grid-cols-[15rem_1fr]"}>
+      {/* Own chapter list — standalone only. In the reading experience the
+          table of contents and the progress rail belong to BookReader, and
+          rendering both would put two chapter pickers on one screen. */}
+      {!controlled && (
       <nav aria-label="פרקי הספר"
         className="lg:sticky lg:top-20 lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto">
         <ul className="space-y-0.5">
@@ -285,9 +324,12 @@ export function BookView({ book }: { book: Book }) {
           })}
         </ul>
       </nav>
+      )}
 
-      {/* ------------------------------------------------------- content */}
-      <div>
+      {/* Content. `data-chapter` is what BookReader's progress rail, scroll-spy
+          and chapter-jump handler bind to — without it the reading shell renders
+          but its table of contents and progress tracking are inert. */}
+      <div data-chapter={chapter.n}>
         <header className="mb-4 border-b border-hairline pb-3">
           <div className="mb-1 flex flex-wrap items-center gap-2 text-[0.6875rem] text-ink-3">
             <span className="inline-flex items-center gap-1">
@@ -364,7 +406,9 @@ export function BookView({ book }: { book: Book }) {
           </div>
         )}
 
-        {/* ------------------------------------------------------ paging */}
+        {/* Own paging — standalone only; BookReader owns previous/next in the
+            reading experience. */}
+        {!controlled && (
         <div className="mt-6 flex items-center justify-between border-t border-hairline pt-4">
           <button
             disabled={chapter.n <= book.chapters[0].n}
@@ -381,6 +425,7 @@ export function BookView({ book }: { book: Book }) {
             הפרק הבא <ChevronLeft className="size-3.5" />
           </button>
         </div>
+        )}
       </div>
 
       <FigureViewer
