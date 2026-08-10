@@ -2,13 +2,13 @@
 
 import { useMemo, useRef, useState, useEffect } from "react";
 import dagre from "dagre";
-import { Maximize2, Minus, Plus, Printer, RotateCcw, X , Play, GraduationCap} from "lucide-react";
+import { X , Play, GraduationCap} from "lucide-react";
 import { parseDiagram, type Diagram, type DiagramNode } from "@/lib/ai/diagram";
 import Link from "next/link";
-import { useDialog } from "@/lib/use-dialog";
 import { knownRoutes } from "@/lib/ai-known-routes";
 import { groupRefs, nodeFacts, KIND_HE, type Lookup } from "@/lib/ai/node-facts";
 import type { Citation } from "@/lib/ai/types";
+import { DiagramFrame } from "./diagram-frame";
 import { PresentationMode } from "./diagram-present";
 import { LearningMode } from "./diagram-learn";
 
@@ -118,8 +118,6 @@ export function DiagramView({ source, citations = [], autoPresent = false }: {
 }) {
   const diagram = useMemo(() => parseDiagram(source), [source]);
   const laid = useMemo(() => (diagram ? layout(diagram) : null), [diagram]);
-  const [zoom, setZoom] = useState(1);
-  const [full, setFull] = useState(false);
   // Hover is transient, selection is sticky. Selection wins so a pointer moving
   // across the canvas cannot yank the highlight off what the user just clicked.
   const [hoverId, setHoverId] = useState<string | null>(null);
@@ -154,7 +152,6 @@ export function DiagramView({ source, citations = [], autoPresent = false }: {
     };
   }, []);
   const svgRef = useRef<SVGSVGElement>(null);
-  const dialogRef = useDialog<HTMLDivElement>(full, () => setFull(false));
 
   // Adjacency, built once. Used to answer "is this connected to the focused
   // node" per element per render, which would otherwise be a scan of every edge.
@@ -195,57 +192,8 @@ export function DiagramView({ source, citations = [], autoPresent = false }: {
     };
   };
 
-  const svgMarkup = () => {
-    const el = svgRef.current;
-    if (!el) return "";
-    const clone = el.cloneNode(true) as SVGSVGElement;
-    // Highlighting is a viewing aid, not part of the diagram. Exporting while a
-    // node is selected would otherwise bake the dimming into the file.
-    clone.querySelectorAll("[opacity]").forEach((n) => n.setAttribute("opacity", "1"));
-    // Inline the resolved token colours so the file stands alone.
-    const cs = getComputedStyle(document.documentElement);
-    let s = new XMLSerializer().serializeToString(clone);
-    for (const v of ["--brand", "--brand-dark", "--brand-soft", "--surface", "--surface-2", "--hairline", "--ink-1", "--ink-2"]) {
-      s = s.split(`var(${v})`).join(cs.getPropertyValue(v).trim() || "#000");
-    }
-    return `<?xml version="1.0" encoding="UTF-8"?>\n${s}`;
-  };
 
-  const exportSvg = () => {
-    const blob = new Blob([svgMarkup()], { type: "image/svg+xml;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url; a.download = "diagram.svg"; a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  };
 
-  const exportPng = () => {
-    const img = new Image();
-    const svg = new Blob([svgMarkup()], { type: "image/svg+xml;charset=utf-8" });
-    const url = URL.createObjectURL(svg);
-    img.onload = () => {
-      // 2× for a crisp raster in documents and slides.
-      const c = document.createElement("canvas");
-      c.width = laid.width * 2;
-      c.height = laid.height * 2;
-      const ctx = c.getContext("2d");
-      if (ctx) {
-        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--surface").trim() || "#fff";
-        ctx.fillRect(0, 0, c.width, c.height);
-        ctx.drawImage(img, 0, 0, c.width, c.height);
-        c.toBlob((b) => {
-          if (!b) return;
-          const u = URL.createObjectURL(b);
-          const a = document.createElement("a");
-          a.href = u; a.download = "diagram.png"; a.click();
-          setTimeout(() => URL.revokeObjectURL(u), 1000);
-        });
-      }
-      URL.revokeObjectURL(url);
-    };
-    img.onerror = () => URL.revokeObjectURL(url);
-    img.src = url;
-  };
 
   /**
    * Print / PDF. Interactive state must not reach paper: highlighting is a
@@ -254,35 +202,6 @@ export function DiagramView({ source, citations = [], autoPresent = false }: {
    * Three profiles because a process diagram is not one shape — a wide flow
    * wants landscape, a tall one portrait, and a wall chart wants A3.
    */
-  const printDiagram = (profile: "portrait" | "landscape" | "a3" = "landscape") => {
-    const markup = svgMarkup();
-    if (!markup) return;
-    const page = profile === "a3" ? "A3 landscape"
-      : profile === "portrait" ? "A4 portrait" : "A4 landscape";
-    const frame = document.createElement("iframe");
-    frame.setAttribute("aria-hidden", "true");
-    frame.style.cssText = "position:fixed;inset:0;width:0;height:0;border:0;opacity:0";
-    document.body.appendChild(frame);
-    const doc = frame.contentDocument;
-    if (!doc) { frame.remove(); return; }
-    doc.open();
-    doc.write(`<!doctype html><html dir="rtl"><head><meta charset="utf-8">
-      <title>${"תרשים תהליך"}</title>
-      <style>
-        @page { size: ${page}; margin: 12mm; }
-        html,body { margin:0; padding:0; background:#fff; }
-        body { display:flex; align-items:center; justify-content:center; min-height:100vh; }
-        svg { width:100%; height:auto; max-height:100vh; }
-        @media print { body { min-height:auto; } }
-      </style></head><body>${markup}</body></html>`);
-    doc.close();
-    // Wait for layout before printing, or the sheet can come out blank.
-    frame.onload = () => {
-      frame.contentWindow?.focus();
-      frame.contentWindow?.print();
-      setTimeout(() => frame.remove(), 1000);
-    };
-  };
 
   /**
    * The diagram markup. Takes the focused node as an argument rather than
@@ -302,8 +221,8 @@ export function DiagramView({ source, citations = [], autoPresent = false }: {
     <svg
       ref={attachRef ? svgRef : undefined}
       viewBox={`0 0 ${laid.width} ${laid.height}`}
-      width={laid.width * zoom}
-      height={laid.height * zoom}
+      width={laid.width}
+      height={laid.height}
       role="img"
       aria-label="תרשים תהליך"
       xmlns="http://www.w3.org/2000/svg"
@@ -397,39 +316,6 @@ export function DiagramView({ source, citations = [], autoPresent = false }: {
 
   const svg = renderSvg();
 
-  const toolbar = (
-    <div className="flex flex-wrap items-center gap-1">
-      <button onClick={() => setZoom((z) => Math.max(0.4, z - 0.2))} aria-label="הקטן"
-        className="rounded-lg p-1.5 text-ink-3 transition hover:bg-surface-2 hover:text-ink-1"><Minus className="size-3.5" /></button>
-      <span className="tech min-w-[3ch] text-center text-[11px] font-bold text-ink-3">{Math.round(zoom * 100)}%</span>
-      <button onClick={() => setZoom((z) => Math.min(3, z + 0.2))} aria-label="הגדל"
-        className="rounded-lg p-1.5 text-ink-3 transition hover:bg-surface-2 hover:text-ink-1"><Plus className="size-3.5" /></button>
-      <button onClick={() => setZoom(1)} aria-label="אפס תצוגה"
-        className="rounded-lg p-1.5 text-ink-3 transition hover:bg-surface-2 hover:text-ink-1"><RotateCcw className="size-3.5" /></button>
-      <span className="mx-1 h-4 w-px bg-hairline" />
-      <button onClick={exportPng} className="rounded-lg px-2 py-1.5 text-[11px] font-bold text-ink-3 transition hover:bg-surface-2 hover:text-brand">PNG</button>
-      <button onClick={exportSvg} className="rounded-lg px-2 py-1.5 text-[11px] font-bold text-ink-3 transition hover:bg-surface-2 hover:text-brand">SVG</button>
-      <button onClick={() => printDiagram("landscape")} aria-label="הדפס A4 לרוחב"
-        className="rounded-lg p-1.5 text-ink-3 transition hover:bg-surface-2 hover:text-brand"><Printer className="size-3.5" /></button>
-      <button onClick={() => printDiagram("portrait")}
-        className="rounded-lg px-1.5 py-1.5 text-[11px] font-bold text-ink-3 transition hover:bg-surface-2 hover:text-brand">A4↕</button>
-      <button onClick={() => printDiagram("a3")}
-        className="rounded-lg px-1.5 py-1.5 text-[11px] font-bold text-ink-3 transition hover:bg-surface-2 hover:text-brand">A3</button>
-      <span className="mx-1 h-4 w-px bg-hairline" />
-      <button onClick={() => setPresent(true)}
-        className="inline-flex items-center gap-1 rounded-lg bg-brand/10 px-2 py-1.5 text-[11px] font-bold text-brand transition hover:bg-brand/20">
-        <Play className="size-3" /> מצגת
-      </button>
-      <button onClick={() => setLearn(true)}
-        className="inline-flex items-center gap-1 rounded-lg bg-brand/10 px-2 py-1.5 text-[11px] font-bold text-brand transition hover:bg-brand/20">
-        <GraduationCap className="size-3" /> לימוד
-      </button>
-      {!full && (
-        <button onClick={() => setFull(true)} aria-label="מסך מלא"
-          className="rounded-lg p-1.5 text-ink-3 transition hover:bg-surface-2 hover:text-brand"><Maximize2 className="size-3.5" /></button>
-      )}
-    </div>
-  );
 
   /**
    * Shown only on an explicit click, never on hover — a panel that appeared
@@ -522,14 +408,28 @@ export function DiagramView({ source, citations = [], autoPresent = false }: {
 
   return (
     <>
-      <figure className="my-4 overflow-hidden rounded-2xl border border-hairline bg-surface">
-        <figcaption className="flex items-center justify-between gap-2 border-b border-hairline bg-surface-2/50 px-3 py-1.5">
-          <span className="text-[11px] font-bold text-ink-3">תרשים תהליך</span>
-          {toolbar}
-        </figcaption>
-        <div className="overflow-auto p-3" style={{ maxHeight: "32rem" }}>{svg}</div>
-        {detail}
-      </figure>
+      {/* Zoom, pan, export, print and full screen come from the shared frame,
+          so this renderer keeps only what is graph-shaped: presentation mode,
+          Learning Mode, node selection and the detail panel. */}
+      <DiagramFrame
+        title="תרשים תהליך"
+        extraActions={
+          <>
+            <button onClick={() => setPresent(true)}
+              className="inline-flex items-center gap-1 rounded-lg bg-brand/10 px-2 py-1.5 text-[11px] font-bold text-brand transition hover:bg-brand/20">
+              <Play className="size-3" /> מצגת
+            </button>
+            <button onClick={() => setLearn(true)}
+              className="inline-flex items-center gap-1 rounded-lg bg-brand/10 px-2 py-1.5 text-[11px] font-bold text-brand transition hover:bg-brand/20">
+              <GraduationCap className="size-3" /> לימוד
+            </button>
+            <span className="mx-1 h-4 w-px bg-hairline" />
+          </>
+        }
+      >
+        {svg}
+      </DiagramFrame>
+      {detail}
 
       {learn && (
         <LearningMode
@@ -556,21 +456,6 @@ export function DiagramView({ source, citations = [], autoPresent = false }: {
         />
       )}
 
-      {full && (
-        <div className="fixed inset-0 z-[70]" role="dialog" aria-modal="true" aria-label="תרשים במסך מלא">
-          <div aria-hidden onClick={() => setFull(false)} className="absolute inset-0 bg-ink-1/60 backdrop-blur-sm" />
-          <div ref={dialogRef} tabIndex={-1}
-            className="absolute inset-4 flex flex-col overflow-hidden rounded-3xl border border-hairline bg-surface shadow-2xl outline-none">
-            <div className="flex items-center justify-between gap-2 border-b border-hairline px-3 py-2">
-              {toolbar}
-              <button onClick={() => setFull(false)} aria-label="סגור"
-                className="rounded-lg p-1.5 text-ink-3 transition hover:bg-surface-2 hover:text-ink-1"><X className="size-4" /></button>
-            </div>
-            <div className="flex-1 overflow-auto p-4">{svg}</div>
-            {detail}
-          </div>
-        </div>
-      )}
     </>
   );
 }

@@ -14,18 +14,14 @@
  */
 
 import { useMemo } from "react";
+import { DiagramFrame } from "./diagram-frame";
 import type { Gantt, Sequence, Swimlane, Timeline } from "@/lib/ai/timeline";
 
 /* ---------------------------------------------------------------- timeline */
 
 export function TimelineView({ data }: { data: Timeline }) {
   return (
-    <figure className="my-4 overflow-hidden rounded-xl border border-hairline bg-surface">
-      {data.title && (
-        <figcaption className="border-b border-hairline px-3 py-2 text-[0.8125rem] font-semibold text-ink-1">
-          {data.title}
-        </figcaption>
-      )}
+    <DiagramFrame title={data.title || "ציר זמן"} ariaLabel={data.title || "ציר זמן"}>
       <ol className="relative m-0 list-none p-4 pe-6">
         {/* The spine. Sits on the inline-end edge so it reads right-to-left. */}
         <span aria-hidden className="absolute bottom-4 end-[1.4rem] top-4 w-px bg-hairline" />
@@ -48,7 +44,7 @@ export function TimelineView({ data }: { data: Timeline }) {
           </li>
         ))}
       </ol>
-    </figure>
+    </DiagramFrame>
   );
 }
 
@@ -101,13 +97,8 @@ export function SwimlaneView({ data }: { data: Swimlane }) {
   }, [data]);
 
   return (
-    <figure className="my-4 overflow-hidden rounded-xl border border-hairline bg-surface">
-      {data.title && (
-        <figcaption className="border-b border-hairline px-3 py-2 text-[0.8125rem] font-semibold text-ink-1">
-          {data.title}
-        </figcaption>
-      )}
-      <div className="overflow-x-auto p-2">
+    <DiagramFrame title={data.title || "תרשים מסלולי אחריות"} ariaLabel={data.title || "תרשים מסלולי אחריות"}>
+      <div>
         <svg
           viewBox={`0 0 ${layout.width} ${layout.height}`}
           width={layout.width}
@@ -205,7 +196,7 @@ export function SwimlaneView({ data }: { data: Swimlane }) {
           })}
         </svg>
       </div>
-    </figure>
+    </DiagramFrame>
   );
 }
 
@@ -234,13 +225,8 @@ export function SequenceView({ data }: { data: Sequence }) {
   };
 
   return (
-    <figure className="my-4 overflow-hidden rounded-xl border border-hairline bg-surface">
-      {data.title && (
-        <figcaption className="border-b border-hairline px-3 py-2 text-[0.8125rem] font-semibold text-ink-1">
-          {data.title}
-        </figcaption>
-      )}
-      <div className="overflow-x-auto p-2">
+    <DiagramFrame title={data.title || "דיאגרמת רצף"} ariaLabel={data.title || "דיאגרמת רצף"}>
+      <div>
         <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height} role="img"
           aria-label={`דיאגרמת רצף${data.title ? `: ${data.title}` : ""}`} className="max-w-none">
           <defs>
@@ -296,7 +282,7 @@ export function SequenceView({ data }: { data: Sequence }) {
           })}
         </svg>
       </div>
-    </figure>
+    </DiagramFrame>
   );
 }
 
@@ -343,13 +329,8 @@ export function GanttView({ data }: { data: Gantt }) {
   const ticks = [0, 0.25, 0.5, 0.75, 1].map((f) => Math.round(data.span * f));
 
   return (
-    <figure className="my-4 overflow-hidden rounded-xl border border-hairline bg-surface">
-      {data.title && (
-        <figcaption className="border-b border-hairline px-3 py-2 text-[0.8125rem] font-semibold text-ink-1">
-          {data.title}
-        </figcaption>
-      )}
-      <div className="overflow-x-auto p-2">
+    <DiagramFrame title={data.title || "תרשים גאנט"} ariaLabel={data.title || "תרשים גאנט"}>
+      <div>
         <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height} role="img"
           aria-label={`תרשים גאנט${data.title ? `: ${data.title}` : ""}, ${data.tasks.length} משימות`}
           className="max-w-none">
@@ -393,6 +374,6 @@ export function GanttView({ data }: { data: Gantt }) {
           })}
         </svg>
       </div>
-    </figure>
+    </DiagramFrame>
   );
 }
