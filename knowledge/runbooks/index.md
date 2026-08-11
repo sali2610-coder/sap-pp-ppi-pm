@@ -19,6 +19,7 @@
 | PM Notification/Order, IW21/IW31/IW32, TECO, settlement | `pm-notification-order.md` | PM |
 | זרימת PM מלאה Notification→Order (עסקי, לא תקלה) | `../books/sap-pm/poc/runbooks/notification-to-order.md` | PM |
 | "not authorized", SU53, PFCG, S_TCODE/S_RFC/org level | `authorization-missing.md` | Security |
+| "אינך מורשה להשתמש בטרנזקציה Z" שעובדת באתר אחר, הרשאה לפי מפעל, ZPPPI_C223, Role לא הורחב לאתר | `authorization-missing-ztcode-plant.md` | Security/PP-PI |
 | איטי, TIME_OUT, dump, נעילה, job ארוך, ST22/ST05/SM50 | `performance-slow.md` | Performance |
 | "עבד ב-ECC נכשל ב-S/4", simplification, obsolete tcode | `migration-ecc-to-s4.md` | Migration |
 
