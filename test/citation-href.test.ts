@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { citationHref } from "../lib/ai/links.ts";
-import { readDeepLink, sectionElementId } from "../lib/library/deep-link.ts";
+import { bringIntoView, readDeepLink, sectionElementId } from "../lib/library/deep-link.ts";
 
 /** How the reader actually parses an incoming link. */
 const parse = (href: string) => {
@@ -78,4 +78,34 @@ test("the element id matches what the bespoke reader renders", () => {
   // `s-4.4.1`, so the browser jump matched nothing and the feature was dead.
   assert.equal(sectionElementId("4.4.1"), "sec-4.4.1");
   assert.match(citationHref("book2", 4, "4.4.1", null), /#sec-4\.4\.1$/);
+});
+
+test("a long jump is instant; a short one keeps the reader's smooth motion", () => {
+  // Regression: on book5 the cited line sat 30,909px below a 702,767px page and
+  // scrollIntoView({behavior:"smooth"}) never moved the page at all — Chrome
+  // drops an animated scroll over a distance that large. The section resolved
+  // and the mark was created correctly; it was simply never brought on screen.
+  const calls: Array<{ top: number; behavior: string }> = [];
+  const win = {
+    scrollY: 496101,
+    innerHeight: 1000,
+    scrollTo: (o: { top: number; behavior: string }) => calls.push(o),
+  } as unknown as Window;
+
+  const far = { getBoundingClientRect: () => ({ top: 30909, height: 40 }) } as unknown as HTMLElement;
+  bringIntoView(far, win);
+  assert.equal(calls[0].behavior, "auto", "a 30k px jump must not be animated");
+  assert.ok(calls[0].top > 500000, `expected to scroll past the mark, got ${calls[0].top}`);
+
+  const near = { getBoundingClientRect: () => ({ top: 1200, height: 40 }) } as unknown as HTMLElement;
+  bringIntoView(near, win);
+  assert.equal(calls[1].behavior, "smooth", "a short hop should stay smooth");
+});
+
+test("bringIntoView never scrolls above the top of the page", () => {
+  const calls: Array<{ top: number }> = [];
+  const win = { scrollY: 0, innerHeight: 1000, scrollTo: (o: { top: number }) => calls.push(o) } as unknown as Window;
+  const el = { getBoundingClientRect: () => ({ top: 10, height: 20 }) } as unknown as HTMLElement;
+  bringIntoView(el, win);
+  assert.ok(calls[0].top >= 0, `negative scroll target: ${calls[0].top}`);
 });

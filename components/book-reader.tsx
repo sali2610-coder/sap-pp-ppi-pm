@@ -10,7 +10,7 @@ import { LIBRARY } from "@/data/library";
 import { writeContinuity, readContinuity, resolveReaderView, saveReaderView, clearContinuityFor, type ReaderView } from "@/lib/continuity-store";
 import { ReaderViewContext, PageModeContext } from "@/lib/reader-view";
 import { BookCover } from "@/components/book-cover";
-import { afterScrollSettles, chapterOf, expandSection, markQuote, readDeepLink, sectionElementId } from "@/lib/library/deep-link";
+import { afterScrollSettles, bringIntoView, chapterOf, expandSection, markQuote, readDeepLink, sectionElementId } from "@/lib/library/deep-link";
 import { findQuote } from "@/lib/library/highlight";
 import { PageView } from "@/components/page-view";
 import { playTick } from "@/lib/sound";
@@ -275,7 +275,7 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         // the page is still, and nudge it back at most twice.
         let attempts = 0;
         const ensureVisible = () => {
-          hit.scrollIntoView({ behavior: "smooth", block: "center" });
+          bringIntoView(hit, window);
           stopWatch = afterScrollSettles(window, () => {
             if (cancelled || ++attempts >= 3) return;
             const r = hit.getBoundingClientRect();

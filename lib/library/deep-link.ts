@@ -168,3 +168,28 @@ export function afterScrollSettles(win: Window, done: () => void, maxMs = 4000):
   win.requestAnimationFrame(tick);
   return () => { stop = true; };
 }
+
+/**
+ * Brings an element into view over any distance.
+ *
+ * `scrollIntoView({behavior:"smooth"})` is the reader's own idiom and is right
+ * for a short hop, but it does not traverse a very long one: on the largest
+ * book the cited line sat 30,909px below a 702,767px page and the page never
+ * moved at all. Smooth scrolling is animated, and Chrome will not animate that
+ * far — the request is simply dropped.
+ *
+ * So the distance decides the method. A short hop keeps the smooth motion the
+ * reader uses everywhere; a long one is an instant jump, which is also what a
+ * reader expects when following a citation rather than browsing.
+ *
+ * @param smoothWithin px below which the animated scroll is kept
+ */
+export function bringIntoView(el: HTMLElement, win: Window, smoothWithin = 4000): void {
+  const rect = el.getBoundingClientRect();
+  const target = rect.top + win.scrollY - win.innerHeight / 2 + rect.height / 2;
+  const distance = Math.abs(rect.top - win.innerHeight / 2);
+  win.scrollTo({
+    top: Math.max(0, target),
+    behavior: distance > smoothWithin ? "auto" : "smooth",
+  });
+}
