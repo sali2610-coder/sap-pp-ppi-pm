@@ -273,11 +273,14 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
         // correctly created highlight sitting off-screen. Rather than race it
         // with a longer delay, check whether the mark is actually visible once
         // the page is still, and nudge it back at most twice.
+        // Re-assert until the mark is genuinely on screen. The largest book
+        // lazy-loads as it scrolls, so the document grows underneath a target
+        // computed a moment earlier and the first landing overshoots.
         let attempts = 0;
         const ensureVisible = () => {
           bringIntoView(hit, window);
           stopWatch = afterScrollSettles(window, () => {
-            if (cancelled || ++attempts >= 3) return;
+            if (cancelled || ++attempts >= 8) return;
             const r = hit.getBoundingClientRect();
             if (r.top < 0 || r.top > window.innerHeight) ensureVisible();
           });

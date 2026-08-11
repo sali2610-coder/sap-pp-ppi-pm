@@ -188,8 +188,17 @@ export function bringIntoView(el: HTMLElement, win: Window, smoothWithin = 4000)
   const rect = el.getBoundingClientRect();
   const target = rect.top + win.scrollY - win.innerHeight / 2 + rect.height / 2;
   const distance = Math.abs(rect.top - win.innerHeight / 2);
-  win.scrollTo({
-    top: Math.max(0, target),
-    behavior: distance > smoothWithin ? "auto" : "smooth",
-  });
+  const long = distance > smoothWithin;
+
+  // The Library sets `scroll-behavior: smooth` on <html>, and that CSS wins over
+  // the `behavior` option in Chrome — so a long jump animated across hundreds of
+  // thousands of pixels while the page was still lazy-loading content above it,
+  // and the target went stale before the animation arrived. Suspending the
+  // declaration for the duration of the jump is the narrowest way to get a
+  // deterministic landing; it is restored immediately and is never observable.
+  const root = el.ownerDocument?.documentElement;
+  const previous = root?.style.scrollBehavior ?? "";
+  if (long && root) root.style.scrollBehavior = "auto";
+  win.scrollTo({ top: Math.max(0, target), behavior: long ? "auto" : "smooth" });
+  if (long && root) root.style.scrollBehavior = previous;
 }
