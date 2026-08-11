@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { citationHref } from "../lib/ai/links.ts";
+import { readDeepLink, sectionElementId } from "../lib/library/deep-link.ts";
 
 /** How the reader actually parses an incoming link. */
 const parse = (href: string) => {
@@ -21,7 +22,7 @@ test("a citation link carries a readable query, not a query buried in the hash",
 });
 
 test("the section anchor survives, so the browser can jump before hydration", () => {
-  assert.equal(parse(citationHref("book1", 2, "2.4", null)).hash, "#s-2.4");
+  assert.equal(parse(citationHref("book1", 2, "2.4", null)).hash, "#sec-2.4");
 });
 
 test("no quote means no q parameter rather than an empty one", () => {
@@ -51,3 +52,30 @@ test("a very long quote is truncated but stays parseable", () => {
   assert.equal(got.section, "1.1");
 });
 
+
+
+/* ------------------------------------------------ bespoke reader deep link */
+
+test("a citation request is read only when it is genuinely one", () => {
+  assert.deepEqual(readDeepLink("?s=4.4.1&q=hello%20there%20friend"),
+    { section: "4.4.1", quote: "hello there friend" });
+  assert.deepEqual(readDeepLink("?s=3"), { section: "3", quote: null });
+  // An ordinary visit must leave the reader completely alone.
+  assert.equal(readDeepLink(""), null);
+  assert.equal(readDeepLink("?foo=bar"), null);
+});
+
+test("a malformed section id is refused rather than used", () => {
+  // The value becomes an element id, so anything that is not a dotted number
+  // is rejected instead of being trusted.
+  for (const bad of ["?s=../../etc", "?s=<script>", "?s=4.4.1'", "?s=%20", "?s=sec-1"]) {
+    assert.equal(readDeepLink(bad), null, `accepted ${bad}`);
+  }
+});
+
+test("the element id matches what the bespoke reader renders", () => {
+  // The reader gives sections `sec-4.4.1`. Citations previously pointed at
+  // `s-4.4.1`, so the browser jump matched nothing and the feature was dead.
+  assert.equal(sectionElementId("4.4.1"), "sec-4.4.1");
+  assert.match(citationHref("book2", 4, "4.4.1", null), /#sec-4\.4\.1$/);
+});

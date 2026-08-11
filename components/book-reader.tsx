@@ -10,6 +10,8 @@ import { LIBRARY } from "@/data/library";
 import { writeContinuity, readContinuity, resolveReaderView, saveReaderView, clearContinuityFor, type ReaderView } from "@/lib/continuity-store";
 import { ReaderViewContext, PageModeContext } from "@/lib/reader-view";
 import { BookCover } from "@/components/book-cover";
+import { markQuote, readDeepLink, sectionElementId } from "@/lib/library/deep-link";
+import { findQuote } from "@/lib/library/highlight";
 import { PageView } from "@/components/page-view";
 import { playTick } from "@/lib/sound";
 import { onWindowResize } from "@/lib/raf-resize";
@@ -242,6 +244,43 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
   const [notes, setNotes] = useState("");
   const [notesOpen, setNotesOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+
+  // --- Ask-the-Library deep link -------------------------------------------
+  // Behaviour only. A citation arrives as ?s=<section>&q=<verified sentence>;
+  // this jumps to that section using the reader's OWN scrollToId/flash and
+  // marks the sentence. An ordinary visit has no such query and nothing here
+  // runs, so a book opened normally behaves exactly as it always has.
+  //
+  // The section must be waited for: chapters mount progressively, so the
+  // element often does not exist on the first frame after hydration.
+  useEffect(() => {
+    const link = readDeepLink(window.location.search);
+    if (!link) return;
+    const id = sectionElementId(link.section);
+    let tries = 0;
+    let timer: ReturnType<typeof setTimeout>;
+    const attempt = () => {
+      const el = document.getElementById(id);
+      if (el) {
+        scrollToId(id);
+        // Mark after the smooth scroll starts, so the browser does not have to
+        // reflow mid-animation.
+        if (link.quote) timer = setTimeout(() => {
+          const hit = markQuote(el, link.quote!, document, findQuote);
+          // Bring the SENTENCE into view, not just the section. On a long
+          // section the cited line can sit several screens below its heading,
+          // which reads as "it didn't work".
+          if (hit) hit.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 420);
+        return;
+      }
+      // A section that never appears (bad id, or a book that does not have it)
+      // simply stops trying. Navigation is left untouched.
+      if (++tries < 40) timer = setTimeout(attempt, 150);
+    };
+    attempt();
+    return () => clearTimeout(timer);
+  }, []);
   const [focus, setFocus] = useState(false);
   const [prog, setProg] = useState(0);
   const mainRef = useRef<HTMLDivElement>(null);

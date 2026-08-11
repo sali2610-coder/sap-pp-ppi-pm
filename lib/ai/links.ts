@@ -23,7 +23,10 @@ export function citationHref(
   const base = `/library/${bookId}/`;
   if (!section) return `${base}#ch-${chapter}`;
   const q = quote ? `&q=${encodeURIComponent(String(quote).slice(0, 300))}` : "";
-  // The fragment is kept so the browser can make a native jump to the section
-  // before hydration, and so the link still lands usefully with JS disabled.
-  return `${base}?s=${encodeURIComponent(section)}${q}#s-${section}`;
+  // `sec-<id>` is the id the canonical bespoke reader gives a section. The
+  // fragment used to be `s-<id>`, which is what the generic reader used, so the
+  // browser's own jump matched nothing on the page citations actually open.
+  // Keeping it means a native jump lands before hydration and the link still
+  // works with JS disabled.
+  return `${base}?s=${encodeURIComponent(section)}${q}#sec-${section}`;
 }
