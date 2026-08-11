@@ -141,7 +141,13 @@ for (let i = 1; i <= 11; i++) {
   for (const c of full?.chapters ?? []) {
     const n = Number(c.n);
     if (!Number.isFinite(n)) continue;
-    if (String(c.title ?? "").trim()) chapterTitle.set(n, String(c.title).trim());
+    // Chapter headings are spelled differently per source: ten books use a
+    // single English `title`, book8 uses `titleEn` + `titleHe`. Reading only
+    // `title` is why book8's ten chapters arrived untitled and rendered as
+    // "פרק 1..פרק 10" while the real Hebrew headings sat unread in the source.
+    const cEn = String(c.title ?? c.titleEn ?? "").trim();
+    const cHe = String(c.titleHe ?? "").trim();
+    if (cEn || cHe) chapterTitle.set(n, { en: cEn, he: cHe });
     chapterSections.set(n, c.sections ?? []);
     for (const s of c.sections ?? []) {
       if (!s?.id) continue;
@@ -170,7 +176,7 @@ for (let i = 1; i <= 11; i++) {
     .sort((a, b) => a[0] - b[0])
     .map(([n, secs]) => ({
       n,
-      title: { en: chapterTitle.get(n) || "", he: "" },
+      title: { en: chapterTitle.get(n)?.en || "", he: chapterTitle.get(n)?.he || "" },
       ...(chapterSections.get(n)?.[0]?.page != null ? { startPage: Number(chapterSections.get(n)[0].page) } : {}),
       sections: secs,
     }));
@@ -180,7 +186,10 @@ for (let i = 1; i <= 11; i++) {
     id,
     schemaVersion: 1,
     meta: {
-      title: { en: String(full?.book ?? id), he: "" },
+      // Only book8 ships a Hebrew book title today. The rest are left empty
+      // rather than transliterated: an invented Hebrew title would be a claim
+      // about the publisher's own naming that no source supports.
+      title: { en: String(full?.book ?? id), he: String(full?.titleHe ?? "").trim() },
       module: m.module,
       kind: m.kind,
       structure: m.structure,

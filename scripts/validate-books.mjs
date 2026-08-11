@@ -61,8 +61,18 @@ for (const file of files) {
   for (let n = 1; n <= nums[nums.length - 1]; n++) {
     if (!nums.includes(n)) E(id, "MISSING_CHAPTER", `chapter ${n} absent`);
   }
-  const untitled = chapters.filter((c) => !String(c.title?.en ?? "").trim()).length;
-  if (untitled) W(id, "CHAPTER_UNTITLED", `${untitled} chapter(s) have no title`);
+  // An untitled chapter is an ERROR, not a warning. As a warning it sat
+  // unnoticed while all ten of book8's chapters rendered as "פרק 1..פרק 10"
+  // in every selector, even though the real Hebrew headings existed in the
+  // source and were simply not read. A chapter with no name is unusable in a
+  // picker, so the build should refuse it.
+  //
+  // Either language satisfies it: ten books title chapters in English only,
+  // book8 in Hebrew and English.
+  const untitled = chapters.filter(
+    (c) => !String(c.title?.en ?? "").trim() && !String(c.title?.he ?? "").trim(),
+  ).length;
+  if (untitled) E(id, "CHAPTER_UNTITLED", `${untitled} chapter(s) have no title`);
 
   // ---- sections ----
   const seen = new Map();
