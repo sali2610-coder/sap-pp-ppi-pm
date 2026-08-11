@@ -48,11 +48,18 @@ export const MODES: Record<AiMode, ModeDef> = {
     // profile; all of those are grounded, so the promise holds either way.
     task: undefined,
     accent: "#0e7490",
+    // Scope-NEUTRAL wording, deliberately. These said "הפרק הזה" / "הסעיף הזה",
+    // which is a claim about what the user selected. Ask for a chapter while
+    // scoped to subsection 1.2.1 and retrieval correctly serves only 1.2.1,
+    // the question goes unanswered, and the grounding gate refuses — so a
+    // chip labelled "סכם" returned "לא מצאתי במקורות שנבחרו מידע מספיק" on a
+    // section that plainly has text. The scope is already sent with every
+    // request; the wording must not contradict it.
     starters: [
       { label: "מחזור חיים של הזמנת תחזוקה", prompt: "מה מחזור החיים של הזמנת תחזוקה?" },
-      { label: "הסבר סעיף מהספר", prompt: "הסבר את הסעיף הזה במילים פשוטות" },
+      { label: "הסבר במילים פשוטות", prompt: "הסבר את החומר שנבחר במילים פשוטות" },
       { label: "השווה ECC ל-S/4HANA", prompt: "מה ההבדלים בין ECC ל-S/4HANA לפי הספרים?" },
-      { label: "מה הפרק מלמד", prompt: "סכם את עיקרי הפרק הזה" },
+      { label: "מה החומר מלמד", prompt: "סכם את עיקרי החומר שנבחר" },
     ],
     capabilities: [
       "פתיחת הפרק במקור",
