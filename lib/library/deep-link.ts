@@ -119,3 +119,52 @@ export function markQuote(root: HTMLElement, quote: string, doc: Document, match
   }
   return null;
 }
+
+/** The chapter a dotted section id belongs to. `4.4.1` -> 4. */
+export function chapterOf(sectionId: string): number | null {
+  const n = Number(String(sectionId).split(".")[0]);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+
+/**
+ * Opens a collapsed section by pressing its own header control.
+ *
+ * Some books render each section as an accordion whose body is not in the DOM
+ * until it is opened, so a citation into one of them found the section shell
+ * and nothing to highlight inside it. Rather than reach into any book's state,
+ * this presses the control the reader already renders — the same thing a click
+ * would do — so the accordion keeps its own behaviour and appearance.
+ *
+ * @returns true when something was pressed, so the caller knows to wait.
+ */
+export function expandSection(el: HTMLElement): boolean {
+  const header = Array.from(el.children).find(
+    (c): c is HTMLButtonElement => c.tagName === "BUTTON",
+  );
+  if (!header) return false;
+  header.click();
+  return true;
+}
+
+/**
+ * Resolves once the page has stopped scrolling.
+ *
+ * The reader scrolls smoothly, and on the largest book the target sits 339k
+ * characters in, so a fixed timeout is a guess that is either wrong or slow.
+ * This waits for the actual condition instead: two consecutive frames at the
+ * same offset.
+ */
+export function afterScrollSettles(win: Window, done: () => void, maxMs = 4000): () => void {
+  let last = -1, stable = 0, stop = false;
+  const started = Date.now();
+  const tick = () => {
+    if (stop) return;
+    const y = Math.round(win.scrollY);
+    stable = y === last ? stable + 1 : 0;
+    last = y;
+    if (stable >= 2 || Date.now() - started > maxMs) { done(); return; }
+    win.requestAnimationFrame(tick);
+  };
+  win.requestAnimationFrame(tick);
+  return () => { stop = true; };
+}

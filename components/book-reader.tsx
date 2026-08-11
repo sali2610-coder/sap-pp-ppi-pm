@@ -10,7 +10,7 @@ import { LIBRARY } from "@/data/library";
 import { writeContinuity, readContinuity, resolveReaderView, saveReaderView, clearContinuityFor, type ReaderView } from "@/lib/continuity-store";
 import { ReaderViewContext, PageModeContext } from "@/lib/reader-view";
 import { BookCover } from "@/components/book-cover";
-import { markQuote, readDeepLink, sectionElementId } from "@/lib/library/deep-link";
+import { afterScrollSettles, chapterOf, expandSection, markQuote, readDeepLink, sectionElementId } from "@/lib/library/deep-link";
 import { findQuote } from "@/lib/library/highlight";
 import { PageView } from "@/components/page-view";
 import { playTick } from "@/lib/sound";
@@ -247,39 +247,69 @@ export function BookReader({ bookId, title, subtitle, chapters, note, stats, chi
 
   // --- Ask-the-Library deep link -------------------------------------------
   // Behaviour only. A citation arrives as ?s=<section>&q=<verified sentence>;
-  // this jumps to that section using the reader's OWN scrollToId/flash and
-  // marks the sentence. An ordinary visit has no such query and nothing here
-  // runs, so a book opened normally behaves exactly as it always has.
-  //
-  // The section must be waited for: chapters mount progressively, so the
-  // element often does not exist on the first frame after hydration.
+  // this lands on that section using the reader's OWN scrollToId/flash and the
+  // accordion's own controls, then marks the sentence. An ordinary visit has no
+  // such query and nothing here runs, so a book opened normally behaves exactly
+  // as it always has.
   useEffect(() => {
     const link = readDeepLink(window.location.search);
     if (!link) return;
     const id = sectionElementId(link.section);
-    let tries = 0;
+    const ch = chapterOf(link.section);
+    let tries = 0, expanded = false, cancelled = false;
     let timer: ReturnType<typeof setTimeout>;
+    let stopWatch: (() => void) | undefined;
+
+    const finish = (el: HTMLElement) => {
+      scrollToId(id);
+      if (!link.quote) return;
+      // Mark once, then bring the SENTENCE into view — on a long section the
+      // cited line can sit several screens below its heading.
+      const place = () => {
+        const hit = markQuote(el, link.quote!, document, findQuote);
+        if (!hit) return;
+        // Re-assert, bounded. The reader restores its own last reading position,
+        // and on the largest book that restore lands AFTER this one — leaving a
+        // correctly created highlight sitting off-screen. Rather than race it
+        // with a longer delay, check whether the mark is actually visible once
+        // the page is still, and nudge it back at most twice.
+        let attempts = 0;
+        const ensureVisible = () => {
+          hit.scrollIntoView({ behavior: "smooth", block: "center" });
+          stopWatch = afterScrollSettles(window, () => {
+            if (cancelled || ++attempts >= 3) return;
+            const r = hit.getBoundingClientRect();
+            if (r.top < 0 || r.top > window.innerHeight) ensureVisible();
+          });
+        };
+        ensureVisible();
+      };
+      // Wait for the jump to settle rather than guessing a delay: the largest
+      // book scrolls a very long way and a fixed timeout is either wrong or slow.
+      stopWatch = afterScrollSettles(window, () => { if (!cancelled) place(); });
+    };
+
     const attempt = () => {
+      if (cancelled) return;
       const el = document.getElementById(id);
       if (el) {
-        scrollToId(id);
-        // Mark after the smooth scroll starts, so the browser does not have to
-        // reflow mid-animation.
-        if (link.quote) timer = setTimeout(() => {
-          const hit = markQuote(el, link.quote!, document, findQuote);
-          // Bring the SENTENCE into view, not just the section. On a long
-          // section the cited line can sit several screens below its heading,
-          // which reads as "it didn't work".
-          if (hit) hit.scrollIntoView({ behavior: "smooth", block: "center" });
-        }, 420);
+        // The section exists but its body may still be collapsed, in which case
+        // there is nothing to highlight yet. Press its own header once.
+        if (!expanded && link.quote && !findQuote(el.innerText || "", link.quote)) {
+          expanded = expandSection(el);
+          if (expanded) { timer = setTimeout(attempt, 260); return; }
+        }
+        finish(el);
         return;
       }
-      // A section that never appears (bad id, or a book that does not have it)
-      // simply stops trying. Navigation is left untouched.
+      // Not rendered yet. Books that collapse whole chapters listen for
+      // #ch-<n>, so ask for the chapter the same way the reader's own
+      // navigation does, once, then keep waiting.
+      if (ch && tries === 4) window.location.hash = `#ch-${ch}`;
       if (++tries < 40) timer = setTimeout(attempt, 150);
     };
     attempt();
-    return () => clearTimeout(timer);
+    return () => { cancelled = true; clearTimeout(timer); stopWatch?.(); };
   }, []);
   const [focus, setFocus] = useState(false);
   const [prog, setProg] = useState(0);
