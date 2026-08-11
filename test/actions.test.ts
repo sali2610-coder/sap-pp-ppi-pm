@@ -11,7 +11,7 @@
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { ANSWER_ACTIONS, QUICK_ACTIONS } from "../lib/ai/prompts.ts";
+import { ANSWER_ACTIONS, QUICK_ACTIONS, SCOPE_ACTIONS } from "../lib/ai/prompts.ts";
 
 /** Artifacts the app can actually draw, and the task that produces each. */
 const RENDERABLE = new Set([
@@ -49,12 +49,41 @@ test("the infographic action is gone, not merely relabelled", () => {
 });
 
 test("every action has a label, a prompt and a non-empty id", () => {
+  // Two kinds of action, two different contracts. A generative action must
+  // carry a real prompt AND a routing task, because the task is what selects
+  // the model and the quality floor. A navigating action must carry NEITHER —
+  // "פתח מקור" opens the source, and giving it a task would imply the model is
+  // involved. Asserting one rule for both is what let a stub through before.
   for (const a of ANSWER_ACTIONS) {
     assert.ok(a.id?.trim(), "action without an id");
     assert.ok(a.label?.trim(), `${a.id} has no label`);
-    assert.ok(a.prompt?.trim().length > 10, `${a.id} has a stub prompt`);
-    assert.ok(a.task?.trim(), `${a.id} has no routing task`);
+    if (a.navigates) {
+      assert.equal(a.prompt?.trim(), "", `${a.id} navigates but carries a prompt`);
+      assert.equal(a.task?.trim(), "", `${a.id} navigates but carries a routing task`);
+    } else {
+      assert.ok(a.prompt?.trim().length > 10, `${a.id} has a stub prompt`);
+      assert.ok(a.task?.trim(), `${a.id} has no routing task`);
+    }
   }
+});
+
+test("the scope actions are the ones the brief requires, in order", () => {
+  assert.deepEqual(
+    SCOPE_ACTIONS.map((a) => a.id),
+    ["summary", "simple", "diagram", "ecc", "review", "checklist", "source"],
+  );
+  // Exactly one navigating action, and it is the source opener.
+  const nav = SCOPE_ACTIONS.filter((a) => a.navigates);
+  assert.equal(nav.length, 1);
+  assert.equal(nav[0].id, "source");
+});
+
+test("no two scope actions share a routing task", () => {
+  // The whole point is that each button does something DIFFERENT. Two actions
+  // on the same profile would produce near-identical output and the difference
+  // would be cosmetic.
+  const tasks = SCOPE_ACTIONS.filter((a) => !a.navigates).map((a) => a.task);
+  assert.equal(new Set(tasks).size, tasks.length, `duplicate task profiles: ${tasks.join(", ")}`);
 });
 
 test("action ids are unique within each catalogue", () => {

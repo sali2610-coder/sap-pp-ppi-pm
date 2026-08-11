@@ -15,10 +15,11 @@ import {
   loadScope, saveScope, loadActiveId, saveActiveId, titleFrom,
 } from "@/lib/ai/history";
 import { AIConversation, AIThinking, UserBubble } from "@/components/neo/ai-ui";
-import { ANSWER_ACTIONS, SUGGESTED } from "@/lib/ai/prompts";
+import { ANSWER_ACTIONS, SCOPE_ACTIONS, SUGGESTED, type AnswerAction } from "@/lib/ai/prompts";
+import { citationHref } from "@/lib/ai/links";
 import { askApiStream } from "@/lib/ai/client";
 import { loadTree, scopeLabel } from "@/lib/ai/tree";
-import type { Answer, Scope } from "@/lib/ai/types";
+import type { Answer, Citation, Scope } from "@/lib/ai/types";
 
 type Turn = { q: string; a: Answer | null };
 
@@ -145,6 +146,34 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
     }
   }, [busy, scope, threadId, mode, M.task, pendingAction]);
 
+  /**
+   * One entry point for every quick action.
+   *
+   * "פתח מקור" is navigation, not generation: it opens the source the user is
+   * already scoped to, or the first citation of the answer on screen when the
+   * question was asked across the whole library. Everything else carries its
+   * backend task profile, which is what actually selects the model and the
+   * quality floor — the prompt is only a nudge.
+   */
+  const runAction = useCallback((a: AnswerAction, citations?: Citation[]) => {
+    if (!a.navigates) {
+      // Carry the topic. An action prompt on its own ("נסח שאלות חזרה על
+      // החומר") names no subject, so retrieval had nothing to match and the
+      // model answered about nothing — pressing שאלות חזרה after asking about
+      // MRP Live produced a refusal. In focused mode the scope supplies the
+      // subject; in whole-library mode only the conversation does.
+      const topic = turns.length ? turns[turns.length - 1].q : "";
+      const q = topic && !scope.bookId ? `${a.prompt}\n\nהנושא: ${topic}` : a.prompt;
+      void ask(q, a.task, a.id);
+      return;
+    }
+    const cited = citations?.find((c) => c.href)?.href;
+    const href = scope.bookId
+      ? citationHref(scope.bookId, scope.chapter ?? 1, scope.section)
+      : cited;
+    if (href) window.open(href, "_blank", "noopener,noreferrer");
+  }, [ask, scope, turns]);
+
   const last = [...turns].reverse().find((t) => t.a)?.a ?? null;
   const empty = turns.length === 0;
 
@@ -239,7 +268,16 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
         <div>
           <AIConversation busy={busy} autoScrollKey={turns.length}>
             {empty ? (
-              <EmptyState onPick={(q) => ask(q)} scope={scope} mode={mode} />
+              <div className="space-y-4">
+                <EmptyState onPick={(q) => ask(q)} scope={scope} mode={mode} />
+                {/* Focused mode: once a scope is chosen there is something
+                    concrete to act on, so the actions are offered immediately
+                    rather than only after a first question. They inherit the
+                    scope, so the user never retypes the chapter or section. */}
+                {mode === "library" && scope.bookId && (
+                  <AnswerActionsBar onPick={runAction} actions={SCOPE_ACTIONS} />
+                )}
+              </div>
             ) : (
               turns.map((t, i) => (
                 <div key={i} className="space-y-2.5">
@@ -248,7 +286,14 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
                     <>
                       <><span className="sr-only">תשובה: </span><AnswerCard mode={mode} autoPresent={autoPresentFor === t.a.id} answer={t.a} onRetry={() => ask(t.q)} isLatest={i === turns.length - 1} /></>
                       {!t.a.error && i === turns.length - 1 && !busy && (
-                        <AnswerActionsBar onPick={(a) => ask(a.prompt, a.task, a.id)} />
+                        <>{/* The library offers the same seven actions in both modes. Using the
+                           full ANSWER_ACTIONS list here left five of them collapsed
+                           behind a "more" toggle after a whole-library answer. */}
+                        <AnswerActionsBar
+                          onPick={runAction}
+                          answerCitations={t.a.citations}
+                          actions={mode === "library" ? SCOPE_ACTIONS : undefined}
+                        /></>
                       )}
                       {t.a.followUps.length > 0 && !t.a.error && i === turns.length - 1 && !busy && (
                         <PromptSuggestions
@@ -399,13 +444,17 @@ function ThreadList({ threads, activeId, onOpen, onRename, onFavorite, onDelete 
   );
 }
 
-function AnswerActionsBar({ onPick }: { onPick: (a: typeof ANSWER_ACTIONS[number]) => void }) {
+function AnswerActionsBar({ onPick, answerCitations, actions = ANSWER_ACTIONS }: {
+  onPick: (a: AnswerAction, citations?: Citation[]) => void;
+  answerCitations?: Citation[];
+  actions?: AnswerAction[];
+}) {
   const [all, setAll] = useState(false);
   return (
     <AIActionBar
-      actions={ANSWER_ACTIONS}
-      primaryIds={ANSWER_ACTIONS.filter((a) => a.primary).map((a) => a.id)}
-      onPick={onPick}
+      actions={actions}
+      primaryIds={actions.filter((a) => a.primary).map((a) => a.id)}
+      onPick={(a) => onPick(a as AnswerAction, answerCitations)}
       expanded={all}
       onToggle={() => setAll((v) => !v)}
     />
