@@ -93,3 +93,42 @@ test("inline code and underscores are ignored too", () => {
   const src = "השתמש ב-`IW31` כדי ליצור הזמנה, ואחר כך _שחרר_ אותה במערכת בהתאם לנוהל.";
   assert.ok(findQuote(src, "השתמש ב-IW31 כדי ליצור הזמנה, ואחר כך שחרר אותה במערכת"));
 });
+
+/* ------------------------------------------- cited-language selection */
+
+// Mirrors citedText() in components/library/book-view.tsx. The component cannot
+// be imported here (Node's type-stripping runner does not parse TSX), so the
+// rule it encodes is pinned as pure logic.
+function citedText(body: { he?: string; en?: string }, preferred: string, highlight?: string | null): string {
+  if (!highlight) return preferred;
+  if (findQuote(preferred, highlight)) return preferred;
+  for (const alt of [body.en, body.he]) {
+    if (alt && alt !== preferred && findQuote(alt, highlight)) return alt;
+  }
+  return preferred;
+}
+
+const HE = "מיקום פונקציונלי הוא אובייקט תחזוקה שמייצג מקום קבוע במפעל שבו מתבצעת פונקציה מוגדרת.";
+const EN = "A functional location is a maintenance object representing a fixed place in the plant where a function is performed.";
+
+test("a section is shown in the language that holds the cited sentence", () => {
+  // Retrieval serves English as the only quotable text for the ten prose books,
+  // while the reader renders Hebrew — so the quote was searched in the wrong
+  // language and the highlight silently never appeared.
+  assert.equal(citedText({ he: HE, en: EN }, HE, EN.slice(0, 70)), EN);
+});
+
+test("the preferred language wins when it already contains the quote", () => {
+  assert.equal(citedText({ he: HE, en: EN }, HE, HE.slice(0, 60)), HE);
+});
+
+test("no deep link means no language switching", () => {
+  assert.equal(citedText({ he: HE, en: EN }, HE, null), HE);
+  assert.equal(citedText({ he: HE, en: EN }, HE, undefined), HE);
+});
+
+test("a quote in neither language leaves the reading language alone", () => {
+  // Never swap the page to English on a near-miss: that would be a visible,
+  // wrong side effect from a failed match.
+  assert.equal(citedText({ he: HE, en: EN }, HE, "משפט שאינו מופיע באף אחת מהגרסאות הללו"), HE);
+});

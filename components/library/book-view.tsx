@@ -20,7 +20,7 @@ import { accentVars, identityOf } from "@/lib/book-identity";
 import { useI18n } from "@/lib/i18n";
 import { FigureViewer, type ViewerFigure } from "@/components/figure-viewer";
 import { chapterExtra } from "@/components/library/chapter-extras";
-import { splitOnQuote } from "@/lib/library/highlight";
+import { findQuote, splitOnQuote } from "@/lib/library/highlight";
 import Link from "next/link";
 import { MessageSquare } from "lucide-react";
 import { EmptyState, ErrorState, NeoChip } from "@/components/neo";
@@ -50,6 +50,34 @@ function Marked({ before, hit, after }: { before: string; hit: string; after: st
       {after}
     </>
   );
+}
+
+/**
+ * Which language of a section to show when an answer cited it.
+ *
+ * Retrieval serves the ENGLISH body as the only quotable text for the ten prose
+ * books — the Hebrew in the corpus is a comprehension aid carrying machine
+ * translation artefacts, and the prompt forbids quoting it. The reader renders
+ * Hebrew. So a verified English sentence was being searched inside Hebrew prose
+ * and never found: the citation opened the right section and highlighted
+ * nothing.
+ *
+ * Aligning the two by paragraph index was measured and rejected — Hebrew and
+ * English paragraph counts match in 0% of sections for 8 of the 10 books, so it
+ * would confidently mark the wrong paragraph.
+ *
+ * Instead the section is shown in the language that actually contains the cited
+ * sentence. That is the text the answer rested on, so it is the honest thing to
+ * put in front of someone who clicked "open the source" — and it only applies
+ * to the one section that was cited, while a deep link is active.
+ */
+function citedText(body: { he?: string; en?: string }, preferred: string, highlight?: string | null): string {
+  if (!highlight) return preferred;
+  if (findQuote(preferred, highlight)) return preferred;
+  for (const alt of [body.en, body.he]) {
+    if (alt && alt !== preferred && findQuote(alt, highlight)) return alt;
+  }
+  return preferred;
 }
 
 function Prose({ text, highlight }: { text: string; highlight?: string | null }) {
@@ -195,7 +223,7 @@ function SectionView({ section, body, pick, highlight }: {
       ) : body.format === "academy" ? (
         <Academy body={body} highlight={highlight} />
       ) : pick(body.he, body.en) ? (
-        <Prose text={pick(body.he, body.en)} highlight={highlight} />
+        <Prose text={citedText(body, pick(body.he, body.en), highlight)} highlight={highlight} />
       ) : body.snippet ? (
         <p className="max-w-[74ch] text-[0.875rem] leading-relaxed text-ink-3">{body.snippet}</p>
       ) : (
