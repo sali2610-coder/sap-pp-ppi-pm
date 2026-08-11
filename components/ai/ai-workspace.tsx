@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Clock, Info, Layers, MessageSquarePlus, Pencil, Sparkles, Star, Trash2, X , Compass, Library, ShieldAlert} from "lucide-react";
 import { ScopeTree } from "./scope-tree";
+import { ScopePicker } from "./scope-picker";
 import { WorkspaceRail } from "./workspace-rail";
 import { AnswerCard } from "./answer-card";
 import { Composer } from "./composer";
@@ -181,7 +182,12 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
       <aside aria-label="סביבת העבודה"
         className="hidden min-h-0 lg:block">
         <div className="sticky top-24 max-h-[calc(100dvh-8rem)] overflow-y-auto rounded-3xl border border-hairline bg-surface shadow-[0_12px_34px_-22px_rgba(15,23,42,0.5)]">
-          <ScopeTree scope={scope} onScope={setScope} />
+          {/* The stepped picker is the library's entry point: two visible modes
+              (whole library / one book) and a few clicks to a section. Consult
+              keeps the tree it already had — this phase must not change it. */}
+          {mode === "library"
+            ? <ScopePicker scope={scope} onScope={setScope} />
+            : <ScopeTree scope={scope} onScope={setScope} />}
           <WorkspaceRail scope={scope} answer={last} busy={busy} onScope={setScope} />
         </div>
       </aside>
@@ -308,7 +314,9 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
                 only one trigger now, so splitting these across two sheet modes
                 would leave the rail unreachable on a phone. */}
             <div className="min-h-0 flex-1 overflow-y-auto">
-              <ScopeTree scope={scope} onScope={setScope} onNavigate={() => setSheet(null)} />
+              {mode === "library"
+                ? <ScopePicker scope={scope} onScope={setScope} onDone={() => setSheet(null)} />
+                : <ScopeTree scope={scope} onScope={setScope} onNavigate={() => setSheet(null)} />}
               <WorkspaceRail scope={scope} answer={last} busy={busy} onScope={setScope} />
             </div>
           </div>
