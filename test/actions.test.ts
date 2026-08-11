@@ -11,6 +11,7 @@
  */
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { MODES } from "../lib/ai/modes.ts";
 import { ANSWER_ACTIONS, QUICK_ACTIONS, SCOPE_ACTIONS } from "../lib/ai/prompts.ts";
 
 /** Artifacts the app can actually draw, and the task that produces each. */
@@ -90,5 +91,50 @@ test("action ids are unique within each catalogue", () => {
   for (const [name, list] of [["ANSWER_ACTIONS", ANSWER_ACTIONS], ["QUICK_ACTIONS", QUICK_ACTIONS]] as const) {
     const ids = list.map((a) => a.id);
     assert.equal(new Set(ids).size, ids.length, `${name} has duplicate ids`);
+  }
+});
+
+/* --------------------------------- starter chips vs quick actions --------- */
+
+test("no starter prompt contradicts the scope the user selected", () => {
+  // Production bug: a chip reading "סכם את עיקרי הפרק הזה" was pressed while
+  // subsection 1.2.1 was selected. Retrieval correctly served only 1.2.1 while
+  // the question asked for a chapter, so the two disagreed and the answer came
+  // back "לא מצאתי במקורות שנבחרו מידע מספיק" on content the user could see.
+  //
+  // A starter is free text with no task profile, so it cannot narrow scope
+  // itself — it must therefore not make claims about scope either.
+  const SCOPE_CLAIMS = [/הפרק\s+הזה/, /הסעיף\s+הזה/, /הספר\s+הזה/, /תת-?הפרק\s+הזה/];
+  for (const s of MODES.library.starters) {
+    for (const claim of SCOPE_CLAIMS) {
+      assert.ok(!claim.test(s.prompt),
+        `starter "${s.label}" names a scope level it cannot guarantee: ${s.prompt}`);
+    }
+  }
+});
+
+test("starter chips and quick actions are distinguishable by label", () => {
+  // Two controls both containing "סכם" existed — a starter chip with no task
+  // profile and the quick action on CHAPTER_SUMMARY. They looked equivalent and
+  // behaved differently, which is how the report arrived as "סכם is broken".
+  // A starter must not be a prefix-or-equal of an action label.
+  const actionLabels = new Set(SCOPE_ACTIONS.map((a) => a.label.trim()));
+  for (const s of MODES.library.starters) {
+    assert.ok(!actionLabels.has(s.label.trim()),
+      `starter "${s.label}" is indistinguishable from a quick action of the same name`);
+  }
+});
+
+test("every quick action carries a task profile; starters carry none", () => {
+  // The task is what actually selects the model and the quality floor. A
+  // control that looks like an action but sends no task silently falls back to
+  // the default profile — which is exactly what made the two "סכם" buttons
+  // behave differently.
+  for (const a of SCOPE_ACTIONS) {
+    if (a.navigates) continue;
+    assert.ok(a.task?.trim(), `quick action "${a.label}" has no task profile`);
+  }
+  for (const s of MODES.library.starters) {
+    assert.ok(!("task" in s), `starter "${s.label}" should not carry a task profile`);
   }
 });
