@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { Book } from "@/lib/library/book";
 import { chapterTitle } from "@/lib/library/book";
 import { BookReader } from "@/components/book-reader";
@@ -45,6 +45,37 @@ import { KIND_LABEL, identityOf } from "@/lib/book-identity";
 export function ReadingExperience({ book }: { book: Book }) {
   const [active, setActive] = useState<number>(book.chapters[0]?.n ?? 1);
 
+  /**
+   * Chapter changes travel on `neo:reader:goto`, BookReader's own public
+   * contract for explicit navigation — its table of contents, the "בעמוד זה"
+   * rail, resume and previous/next all route through that one event so the
+   * reader can expand the target, set it active and suppress scroll-spy during
+   * the smooth scroll.
+   *
+   * Subscribing here is what keeps the body in step with the shell. Holding a
+   * second, private piece of state and hoping the two agreed is exactly the
+   * failure this restoration exists to undo: verified in a browser before this
+   * listener existed, clicking a chapter in the table of contents left
+   * `data-chapter` on 1 — the shell moved and the body did not.
+   */
+  useEffect(() => {
+    const onGoto = (e: Event) => {
+      const n = Number((e as CustomEvent<number>).detail);
+      if (Number.isFinite(n) && n > 0) setActive(n);
+    };
+    window.addEventListener("neo:reader:goto", onGoto);
+    return () => window.removeEventListener("neo:reader:goto", onGoto);
+  }, []);
+
+  /**
+   * Navigation originating in the body (a deep link resolving to a section in
+   * another chapter) is announced on the same event rather than set directly,
+   * so the shell's active chapter, progress rail and scroll-spy update too.
+   */
+  const requestChapter = useCallback((n: number) => {
+    window.dispatchEvent(new CustomEvent("neo:reader:goto", { detail: n }));
+  }, []);
+
   const identity = identityOf(book.id);
   const title = book.meta.title.he?.trim() || book.meta.title.en;
   const sections = book.chapters.reduce((n, c) => n + c.sections.length, 0);
@@ -73,7 +104,7 @@ export function ReadingExperience({ book }: { book: Book }) {
       }))}
       stats={stats}
     >
-      <BookView book={book} active={active} onActiveChange={setActive} />
+      <BookView book={book} active={active} onActiveChange={requestChapter} />
     </BookReader>
   );
 }

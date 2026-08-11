@@ -83,7 +83,16 @@ for (const file of files) {
   }
 
   for (const c of chapters) {
-    if (!c.sections?.length) { E(id, "EMPTY_CHAPTER", `chapter ${c.n}`); continue; }
+    // A chapter with no sections is an editorial state, not corruption, so it is
+    // reported and not fatal. book7 ch12 "Additional Resources" is the only one
+    // in the corpus. It WAS shown to readers before the migration — the bespoke
+    // page listed DATA.chapters unfiltered and counted "/12" — and the migration
+    // built its chapter list from the section index, so a chapter with no index
+    // entries silently vanished and took the book from 12 chapters to 11.
+    //
+    // Failing the build on it pushes the fix back toward dropping the chapter,
+    // which is the regression this restoration exists to undo.
+    if (!c.sections?.length) { W(id, "EMPTY_CHAPTER", `chapter ${c.n}`); continue; }
     for (const s of c.sections) {
       total++;
       if (!s.id) { E(id, "SECTION_NO_ID", `chapter ${c.n}`); continue; }
