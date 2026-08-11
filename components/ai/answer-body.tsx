@@ -7,7 +7,9 @@ import { knownRoutes, type SapKind } from "@/lib/ai-known-routes";
 import { isDiagramFence } from "@/lib/ai/diagram";
 import { isAxisFence, parseGantt, parseSequence, parseSwimlane, parseTimeline } from "@/lib/ai/timeline";
 import { parseAnswerBlocks } from "@/lib/ai/answer-parse";
+import { isErdFence, parseErd } from "@/lib/ai/erd";
 import { DiagramView } from "./diagram-view";
+import { ErdView } from "./erd-view";
 import { GanttView, SequenceView, SwimlaneView, TimelineView } from "./axis-view";
 
 /**
@@ -215,6 +217,15 @@ export function AnswerBody({ text, citations = [], autoPresent = false }: {
             // Axis shapes first: a timeline and a swimlane carry an axis a
             // directed graph cannot express, so they must not fall through to
             // the flowchart renderer.
+            // An ERD is checked before anything else: its relation lines contain
+            // `--`, which the flowchart parser reads as an edge. It would draw a
+            // plain graph and silently drop the cardinality that is the entire
+            // point of the diagram.
+            if (isErdFence(b.text, b.lang)) {
+              const er = parseErd(b.text);
+              if (er) return <ErdView key={i} data={er} />;
+              // Unparseable: fall through rather than guess at a model.
+            }
             if (isAxisFence(b.text, b.lang)) {
               const tl = parseTimeline(b.text);
               if (tl) return <TimelineView key={i} data={tl} />;

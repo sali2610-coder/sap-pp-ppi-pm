@@ -208,7 +208,9 @@ export function DiagramFrame({ title, ariaLabel, children, extraActions }: {
     <>
       <figure className="my-4 overflow-hidden rounded-2xl border border-hairline bg-surface">
         <figcaption className="flex items-center justify-between gap-2 border-b border-hairline bg-surface-2/50 px-3 py-1.5">
-          <span className="text-[11px] font-bold text-ink-3">{title}</span>
+          {/* Truncated rather than wrapped: on a narrow screen a long title
+              otherwise takes three lines and pushes the toolbar off the card. */}
+          <span className="min-w-0 truncate text-[11px] font-bold text-ink-3" title={title}>{title}</span>
           {toolbar}
         </figcaption>
         {stage}
