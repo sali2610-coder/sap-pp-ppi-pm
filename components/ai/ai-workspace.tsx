@@ -200,7 +200,11 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
             <Layers className="size-3.5" /> סביבת עבודה
           </button>
           <div className="min-w-0 flex-1">
-            <div className="truncate text-[12.5px] font-extrabold text-ink-1">שאל את הספרייה</div>
+            {/* The surface names itself. This was hardcoded to the library
+                title, so the consultant page announced "שאל את הספרייה" in its
+                own conversation header — the two surfaces are meant to be
+                unmistakable, and the header was saying the opposite. */}
+            <div className="truncate text-[12.5px] font-extrabold text-ink-1">{M.title}</div>
             <div className="truncate text-[10.5px] text-ink-3">{scopeLabel(scope)}</div>
           </div>
           {threads.length > 0 && (
