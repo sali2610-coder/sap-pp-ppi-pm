@@ -124,7 +124,10 @@ function Inline({ text }: { text: string }) {
             </sup>
           );
           return c.href
-            ? <Link key={i} href={c.href} className="group no-underline" title={c.title ?? `מקור ${c.n}`}>{chip}</Link>
+            // New tab, same reasoning as the source cards: an inline citation
+            // is a side trip out of the answer, not a way to leave it.
+            ? <Link key={i} href={c.href} target="_blank" rel="noopener noreferrer"
+                className="group no-underline" title={c.title ?? `מקור ${c.n}`}>{chip}</Link>
             : <span key={i} title={c.title ?? `מקור ${c.n}`}>{chip}</span>;
         }
         if (p.k === "b") return <strong key={i} className="font-bold text-ink-1">{p.v}</strong>;

@@ -184,7 +184,7 @@ export function AnswerCard({ answer, onRetry, isLatest, mode = "library", autoPr
           </span>
           <div className="flex flex-wrap gap-1.5">
             {answer.citations.slice(0, 3).map((c) => (
-              <Link key={c.id} href={c.href}
+              <Link key={c.id} href={c.href} target="_blank" rel="noopener noreferrer"
                 className="rounded-md bg-surface px-1.5 py-0.5 text-[0.6875rem] font-semibold text-brand transition hover:underline">
                 {c.title || `${c.book} · ${c.section}`}
               </Link>
@@ -297,7 +297,12 @@ function CitationRow({ c }: { c: Citation }) {
             <Quote className="size-3.5" />
           </button>
         )}
-        <Link href={c.href} aria-label={`פתח בקורא: ${c.title || c.section}`}
+        {/* A new tab, deliberately: reading the source is a side trip, and the
+            answer plus the question the user typed should still be here when
+            they come back. rel="noopener" because target="_blank" otherwise
+            hands the opened page a reference to this window. */}
+        <Link href={c.href} target="_blank" rel="noopener noreferrer"
+          aria-label={`פתח בקורא בלשונית חדשה: ${c.title || c.section}`}
           className="shrink-0 rounded-lg p-1.5 text-ink-3 transition hover:bg-surface hover:text-brand">
           <ExternalLink className="size-3.5" />
         </Link>
