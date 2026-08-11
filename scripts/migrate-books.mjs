@@ -153,7 +153,25 @@ for (let i = 1; i <= 11; i++) {
   const snippets = new Map();
   for (const e of idx) if (e.snippet) snippets.set(String(e.id), String(e.snippet));
 
+  /**
+   * Seed every chapter the source declares, before the index is walked.
+   *
+   * `byChapter` was built purely from `idx`, so a chapter with no index entries
+   * never got a key and silently vanished from the migrated book. Exactly one
+   * chapter in the corpus is affected — book7 ch12 "Additional Resources", which
+   * has 0 sections — but it WAS shown to readers before the migration: the
+   * bespoke book7 page passed `DATA.chapters` through unfiltered and reported
+   * "chapters translated /12".
+   *
+   * Dropping it silently changed that book's visible chapter count from 12 to
+   * 11. An empty chapter is an editorial state, not an error, and removing one
+   * is not this script's decision to make.
+   */
   const byChapter = new Map();
+  for (const c of full?.chapters ?? []) {
+    const n = Number(c.n);
+    if (Number.isFinite(n)) byChapter.set(n, []);
+  }
   for (const e of idx) {
     const n = Number(e.ch);
     if (!byChapter.has(n)) byChapter.set(n, []);
