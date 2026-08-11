@@ -33,6 +33,25 @@ import { EmptyState, ErrorState, NeoChip } from "@/components/neo";
  * trusted, but the reader should not be the one place in the app where that
  * assumption is load-bearing.
  */
+/**
+ * The supporting sentence, marked inside its surrounding text.
+ *
+ * Shared by prose paragraphs and by list items so the two cannot drift: the
+ * list branch previously had no highlighting at all, which is exactly the kind
+ * of gap a duplicated snippet leaves behind.
+ */
+function Marked({ before, hit, after }: { before: string; hit: string; after: string }) {
+  return (
+    <>
+      {before}
+      <mark className="rounded-sm bg-amber-200/70 px-0.5 text-ink-1 ring-1 ring-amber-400/40 dark:bg-amber-400/25">
+        {hit}
+      </mark>
+      {after}
+    </>
+  );
+}
+
 function Prose({ text, highlight }: { text: string; highlight?: string | null }) {
   const paras = useMemo(
     () => text.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean),
@@ -53,11 +72,7 @@ function Prose({ text, highlight }: { text: string; highlight?: string | null })
         if (hit) {
           return (
             <p key={i} data-quote-hit className="text-[0.9375rem] leading-[1.85] text-ink-2">
-              {hit.before}
-              <mark className="rounded-sm bg-amber-200/70 px-0.5 text-ink-1 ring-1 ring-amber-400/40 dark:bg-amber-400/25">
-                {hit.hit}
-              </mark>
-              {hit.after}
+              <Marked {...hit} />
             </p>
           );
         }
@@ -121,12 +136,21 @@ function Academy({ body, highlight }: { body: AcademyBody; highlight?: string | 
               // Steps, mistakes and interview questions are lists in the source.
               // Rendering them as one paragraph would lose the item boundaries.
               <ul className="max-w-[74ch] space-y-1.5">
-                {v.map((item, i) => (
-                  <li key={i} className="flex gap-2">
-                    <span className="mt-[0.62em] size-[4px] shrink-0 rounded-full bg-[var(--accent)]/70" aria-hidden />
-                    <span className="text-[0.9375rem] leading-[1.75] text-ink-2">{item}</span>
-                  </li>
-                ))}
+                {v.map((item, i) => {
+                  // Lists are indexed and served exactly like prose, so a model
+                  // quotes from them — but this branch used to render the raw
+                  // item, so nine facets of book8 (about 43% of the book) could
+                  // never show where an answer came from.
+                  const hit = typeof item === "string" ? splitOnQuote(item, highlight) : null;
+                  return (
+                    <li key={i} className="flex gap-2" {...(hit ? { "data-quote-hit": "" } : {})}>
+                      <span className="mt-[0.62em] size-[4px] shrink-0 rounded-full bg-[var(--accent)]/70" aria-hidden />
+                      <span className="text-[0.9375rem] leading-[1.75] text-ink-2">
+                        {hit ? <Marked {...hit} /> : (item as React.ReactNode)}
+                      </span>
+                    </li>
+                  );
+                })}
               </ul>
             ) : (
               <Prose text={v} highlight={highlight} />

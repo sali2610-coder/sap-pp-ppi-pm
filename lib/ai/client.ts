@@ -9,7 +9,8 @@
 //   - follow-up questions, which are composed from the answer's own scope. They
 //     are labelled as suggestions in the UI, not presented as model output.
 import type { Answer, Citation, Scope } from "./types";
-import { bookById, cachedTree, loadTree, sectionHref } from "./tree";
+import { bookById, cachedTree, loadTree } from "./tree";
+import { citationHref } from "./links";
 import { detectDiagramIntent, answerHasDiagram } from "./diagram-intent";
 import { StreamError, streamAnswer } from "./stream";
 
@@ -113,9 +114,7 @@ function toCitation(s: {
     title: heading ?? localTitle,
     // Carries the verified sentence so the reader can highlight it. Without
     // this the link opens the chapter and the reader still has to hunt.
-    href: sectionHref(bookId, chapter, section)
-      + `?s=${encodeURIComponent(section)}`
-      + (s.quote ? `&q=${encodeURIComponent(String(s.quote).slice(0, 300))}` : ""),
+    href: citationHref(bookId, chapter, section, s.quote),
   };
 }
 

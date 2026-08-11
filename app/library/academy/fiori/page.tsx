@@ -98,6 +98,27 @@ export default function FioriIndex() {
   );
 }
 
+/**
+ * Module scope, not inside FioriDetail's body.
+ *
+ * Declared inside the render, every re-render produced a NEW function identity,
+ * so React saw a different element type for each row and remounted the whole
+ * subtree instead of updating it. Nothing here holds state, so nothing visibly
+ * broke — but a keyboard user with a row link focused would lose focus on any
+ * re-render, and the pattern defeats the compiler. Row already takes everything
+ * it needs as props, so hoisting is pure code motion.
+ */
+function Row({ icon, c, label, children }: {
+  icon: React.ReactNode; c: string; label: string; children: React.ReactNode;
+}) {
+  return (
+    <div className="border-t border-hairline px-5 py-3">
+      <div className="mb-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide" style={{ color: c }}>{icon}{label}</div>
+      <div className="text-[12.5px] leading-relaxed text-ink-2">{children}</div>
+    </div>
+  );
+}
+
 function FioriDetail({ app, onClose }: { app: App; onClose: () => void }) {
   const cf = CURATED[app.id];               // verified curated metadata (or undefined)
   const gui = cf?.gui?.[0];
@@ -105,13 +126,7 @@ function FioriDetail({ app, onClose }: { app: App; onClose: () => void }) {
   const t = obj?.intel;
   const refs = REFS[app.id]?.slice(0, 4) ?? [];
 
-  const Row = ({ icon, c, label, children }: { icon: React.ReactNode; c: string; label: string; children: React.ReactNode }) => (
-    <div className="border-t border-hairline px-5 py-3">
-      <div className="mb-1 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide" style={{ color: c }}>{icon}{label}</div>
-      <div className="text-[12.5px] leading-relaxed text-ink-2">{children}</div>
-    </div>
-  );
-  const NVspan = <span className="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] font-bold text-amber-600">{NV}</span>;
+  const NVspan =<span className="rounded bg-amber-50 px-1.5 py-0.5 text-[11px] font-bold text-amber-600">{NV}</span>;
 
   return (
     <>

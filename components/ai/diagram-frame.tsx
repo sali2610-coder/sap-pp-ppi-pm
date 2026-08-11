@@ -19,14 +19,13 @@
 import { useCallback, useRef, useState } from "react";
 import { Maximize2, Minus, Plus, Printer, RotateCcw, X } from "lucide-react";
 import { useDialog } from "@/lib/use-dialog";
+import { type PrintProfile, printDocument } from "@/lib/ai/print-fit";
 
 /** Tokens inlined so an exported file stands alone, away from the app's CSS. */
 const EXPORT_TOKENS = [
   "--brand", "--brand-dark", "--brand-soft", "--surface", "--surface-2",
   "--hairline", "--ink-1", "--ink-2", "--ink-3", "--accent",
 ];
-
-export type PrintProfile = "portrait" | "landscape" | "a3";
 
 export function DiagramFrame({ title, ariaLabel, children, extraActions }: {
   title: string;
@@ -126,9 +125,12 @@ export function DiagramFrame({ title, ariaLabel, children, extraActions }: {
    */
   const printAt = (profile: PrintProfile) => {
     const markup = svgMarkup();
-    if (!markup) return;
-    const page = profile === "a3" ? "A3 landscape"
-      : profile === "portrait" ? "A4 portrait" : "A4 landscape";
+    const el = hostRef.current?.querySelector("svg");
+    if (!markup || !el) return;
+    // The intrinsic size, not the on-screen size: zoom and pan are how the
+    // diagram is being looked at and must not decide how large it prints.
+    const dw = Number(el.getAttribute("width")) || el.clientWidth || 1200;
+    const dh = Number(el.getAttribute("height")) || el.clientHeight || 800;
     const frame = document.createElement("iframe");
     frame.setAttribute("aria-hidden", "true");
     frame.style.cssText = "position:fixed;inset:0;width:0;height:0;border:0;opacity:0";
@@ -136,14 +138,7 @@ export function DiagramFrame({ title, ariaLabel, children, extraActions }: {
     const doc = frame.contentDocument;
     if (!doc) { frame.remove(); return; }
     doc.open();
-    doc.write(`<!doctype html><html dir="rtl"><head><meta charset="utf-8"><title>${title}</title>
-      <style>
-        @page { size: ${page}; margin: 12mm; }
-        html,body { margin:0; padding:0; background:#fff; }
-        body { display:flex; align-items:center; justify-content:center; min-height:100vh; }
-        svg { width:100%; height:auto; max-height:100vh; }
-        @media print { body { min-height:auto; } }
-      </style></head><body>${markup}</body></html>`);
+    doc.write(printDocument({ title, svg: markup, profile, dw, dh }));
     doc.close();
     // Print after layout, or the sheet can come out blank.
     frame.onload = () => {

@@ -14,6 +14,9 @@ import { createServer } from "node:http";
 import { readFile, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
+// The product's own citation-URL builder, so this harness cannot pass against a
+// URL shape the app never generates.
+import { citationHref } from "../lib/ai/links.ts";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const OUT = path.join(ROOT, "out");
@@ -163,6 +166,16 @@ for (const vp of VIEWPORTS) {
 
     // Priority 2: a deep link must open the right chapter AND mark the exact
     // sentence — not merely open the chapter.
+    await check(page, `${vp.label}/${book}: a citation link exposes a readable query`, async () => {
+      // Guards the URL grammar itself rather than the reader: if the query ever
+      // slips behind the fragment again, every citation in the product goes
+      // inert and no other check here would notice.
+      const href = citationHref(book, 1, "1.1", "בדיקת מבנה כתובת");
+      await page.goto(`http://localhost:${PORT}${href}`, { waitUntil: "domcontentloaded", timeout: 30_000 });
+      const search = await page.evaluate(() => location.search);
+      return search.includes("s=1.1") ? "" : `location.search was ${JSON.stringify(search)}`;
+    });
+
     if (book === "book1") {
       await check(page, `${vp.label}/${book}: deep link highlights the exact sentence`, async () => {
         // A sentence taken verbatim from the rendered section, so the premise
@@ -175,8 +188,12 @@ for (const vp of VIEWPORTS) {
         });
         if (!probe.id || probe.text.length < 25) return false;
 
-        const url = `http://localhost:${PORT}/library/${book}/`
-          + `?s=${encodeURIComponent(probe.id)}&q=${encodeURIComponent(probe.text)}`;
+        // Built by the SAME function the product uses. Hand-writing the URL
+        // here is what hid a total outage: this check passed green while
+        // citationHref emitted `#s-…?s=…`, putting the query inside the
+        // fragment so `location.search` was empty and nothing ever ran.
+        const url = `http://localhost:${PORT}`
+          + citationHref(book, Number(probe.id.split(".")[0]) || 1, probe.id, probe.text);
         await page.goto(url, { waitUntil: "networkidle", timeout: 30_000 });
         await page.waitForTimeout(900);
 
@@ -189,8 +206,8 @@ for (const vp of VIEWPORTS) {
       });
 
       await check(page, `${vp.label}/${book}: a bogus quote highlights nothing`, async () => {
-        const url = `http://localhost:${PORT}/library/${book}/`
-          + `?s=1.1&q=${encodeURIComponent("משפט שהומצא ואינו מופיע בשום מקום בספר הזה")}`;
+        const url = `http://localhost:${PORT}`
+          + citationHref(book, 1, "1.1", "משפט שהומצא ואינו מופיע בשום מקום בספר הזה");
         await page.goto(url, { waitUntil: "networkidle", timeout: 30_000 });
         await page.waitForTimeout(700);
         const n = await page.evaluate(() => document.querySelectorAll("[data-quote-hit] mark").length);

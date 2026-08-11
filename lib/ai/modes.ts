@@ -59,7 +59,11 @@ export const MODES: Record<AiMode, ModeDef> = {
       "פתיחת הספר",
       "הפניה לעמוד ולסעיף",
       "רמת ביסוס לכל תשובה",
-      "מצב לימוד",
+      // "מצב לימוד" was listed here and removed. This band describes what the
+      // EMPTY STATE offers, and Learning Mode is not reachable from it: its only
+      // entry point is the "לימוד" button on a rendered flowchart, which exists
+      // only once an answer comes back containing one. Listing it promised the
+      // screen could do something it cannot.
     ],
   },
 
