@@ -17,6 +17,7 @@ import {
 import { AIConversation, AIThinking, UserBubble } from "@/components/neo/ai-ui";
 import { ANSWER_ACTIONS, SCOPE_ACTIONS, SUGGESTED, type AnswerAction } from "@/lib/ai/prompts";
 import { citationHref } from "@/lib/ai/links";
+import { fastTaskFor } from "@/lib/ai/fast-route";
 import { askApiStream } from "@/lib/ai/client";
 import { loadTree, scopeLabel } from "@/lib/ai/tree";
 import type { Answer, Citation, Scope } from "@/lib/ai/types";
@@ -113,8 +114,12 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
       // so text the gates reject never survives on screen.
       setPendingAction(actionId ?? null);
       setPreview("");
+      // A narrow, measured allow-list may take the fast model route; everything
+      // else — follow-ups, summaries, comparisons, quizzes, whole-library — is
+      // unchanged. See lib/ai/fast-route for the A/B that set the boundary.
+      const routed = fastTaskFor({ task, scope, turns: turns.length }) ?? task ?? M.task;
       const a = await askApiStream(
-        q, scope, task ?? M.task,
+        q, scope, routed,
         { onDelta: (t) => setPreview((p) => p + t) },
         undefined,
         mode,
@@ -144,7 +149,7 @@ export function AiWorkspace({ mode = "library" }: { mode?: AiMode }) {
       setPreview("");
       setBusy(false);
     }
-  }, [busy, scope, threadId, mode, M.task, pendingAction]);
+  }, [busy, scope, threadId, mode, M.task, pendingAction, turns.length]);
 
   /**
    * One entry point for every quick action.
