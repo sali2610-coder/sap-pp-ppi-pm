@@ -1117,3 +1117,818 @@ html[data-theme="dark"] .bg-sky-50 .text-blue-800,
 html[data-theme="dark"] .bg-sky-50 .text-blue-900 { color: #7cb8f7; }
 html[data-theme="dark"] .bg-brand-soft.text-rose-900,
 html[data-theme="dark"] .bg-brand-soft .text-rose-900 { color: #fda4af; }
+
+/* ============================================================================
+   PROJECT NEO · DESIGN PHASE — CONCEPT D
+   ----------------------------------------------------------------------------
+   Everything below is ADDITIVE. Not one existing token is redeclared, so the 48
+   legacy route namespaces are byte-identical after this block. Two rules kept it
+   that way while porting /Users/salihalif/Desktop/NEO-Design-Phase:
+
+   1. No name may reuse a Tailwind v4 theme namespace (--color-* --font-* --text-*
+      --tracking-* --leading-* --radius-* --shadow-* --ease-* --animate-* --spacing
+      --breakpoint-* --container-* --blur-* --aspect-*). A plain :root declaration
+      that collides with one silently retunes every utility built on it app-wide,
+      with no build error — which is exactly why `text-xl`/`tracking-tight` are
+      already retuned by the :root at the top of this file. The prototype's --t-*
+      and --r-* naming exists to dodge that; it is kept, not "normalised".
+   2. Every RULE (as opposed to token) is scoped under .nx-app, which only ever
+      exists inside app/neo/layout.tsx. Tokens are global because they are inert
+      new names; rules are scoped because a second reset would reskin the product.
+
+   Dark mode is attribute-driven here exactly as everywhere else in this file:
+   the same names are redeclared under html[data-theme="dark"]. The `dark:`
+   Tailwind variant is NOT used anywhere below — there is no @custom-variant dark
+   in this project, so `dark:` still compiles to prefers-color-scheme and would
+   ignore an explicit user choice.
+   ========================================================================== */
+
+:root {
+  /* --- radius ramp (one scale, no ad-hoc values) --------------------------- */
+  --r-xs: 0.375rem;
+  --r-sm: 0.5rem;
+  --r-md: 0.75rem;
+  --r-lg: 1rem;
+  --r-xl: 1.25rem;
+  --r-2xl: 1.5rem;
+  --r-pill: 999px;
+
+  /* --- spacing rhythm (4px base, named so density is explicit) ------------- */
+  --sp-1: 0.25rem;  --sp-2: 0.5rem;   --sp-3: 0.75rem;  --sp-4: 1rem;
+  --sp-5: 1.25rem;  --sp-6: 1.5rem;   --sp-8: 2rem;     --sp-10: 2.5rem;
+  --sp-12: 3rem;    --sp-16: 4rem;
+
+  /* --- type scale (system stack only; hierarchy = weight + tracking) -------- */
+  --t-display: 2.125rem; --t-display-lh: 1.1;  --t-display-tr: -0.025em;
+  --t-h1: 1.5rem;        --t-h1-lh: 1.2;       --t-h1-tr: -0.02em;
+  --t-h2: 1.125rem;      --t-h2-lh: 1.3;       --t-h2-tr: -0.012em;
+  --t-body: 0.875rem;    --t-body-lh: 1.6;
+  --t-sm: 0.8125rem;
+  --t-xs: 0.75rem;
+  --t-micro: 0.6875rem;
+  --lh-he: 1.75;         /* Hebrew needs more leading than Latin at one size */
+
+  /* --- motion additions ---------------------------------------------------- */
+  --ease-emphasis: cubic-bezier(0.2, 0.9, 0.1, 1);
+  --dur-micro: 90ms;
+  --dur-panel: 280ms;
+  --dur-route: 420ms;
+
+  /* --- focus + selection language ------------------------------------------ */
+  --focus-ring: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand);
+  --sel-bg: var(--brand-soft);
+  --sel-bar: var(--brand);
+
+  /* --- MODULE IDENTITY -----------------------------------------------------
+     SATURATION encodes signal (the --status-* palette), HUE encodes identity.
+     Module hues are deliberately low-chroma so one can never read as a status,
+     and brand red is never a module colour. Scoping rule, enforced below:
+       module hue -> navigation + chrome      (which area of SAP you are in)
+       object hue -> visualisation surfaces   (ERD, class dots, flow)
+       status hue -> migration state only, as dot + label, never as text colour */
+  --mod-pm: #2f6b63;
+  --mod-pppi: #3f5b8a;
+  --mod-pp: #5c6b3a;
+  --mod-ppds: #6b5b3a;
+  --mod-mm: #4a5a6b;
+  --mod-qm: #6b3f5c;
+  --mod-ewm: #3a6b5b;
+  --mod-fiori: #55506b;
+  --mod-sop: #3a5f6b;
+  --mod-s4: #4f4f57;
+
+  /* --- OBJECT CLASS + RELATION (visualisation surfaces only) ---------------- */
+  --obj-master: #1f6f8b;
+  --obj-structure: #2d7a5f;
+  --obj-transaction: #8a5a1f;
+  --obj-movement: #7a3f6b;
+  --obj-status: #5f5f8a;
+  --obj-text: #6b6b6b;
+  --obj-config: #8a3f4a;
+  --rel-1-1: #3f6f6a;
+  --rel-n-1: #5a6b8a;
+  --rel-inferred: #9aa2ad;
+
+  /* --- CONCEPT D geometry --------------------------------------------------
+     Concept D defines its own rail widths rather than reusing the prototype's
+     --rail-compact/--rail-expanded pair; only this pair is ported so there is
+     one source of truth for the rail's size. */
+  --c-rail-x: 17.5rem;      /* expanded rail */
+  --c-rail-c: 4.25rem;      /* compact rail */
+  --c-rail-ctx: 20.5rem;    /* context rail — was hard-coded in the prototype */
+  --c-top-h: 3.25rem;
+  --c-tap: 2.75rem;         /* 44px minimum touch target */
+  --c-shelf-h: 10.5rem;
+  --c-peek-w: 14px;
+  --c-pv-w: 20.5rem;
+  --c-mask-t: 22px;
+  --c-mask-b: 26px;         /* deeper than the top: the shelf sits under it */
+  --c-hair: var(--hairline);
+  --c-spring: cubic-bezier(0.22, 1.2, 0.36, 1);
+}
+
+html[data-theme="dark"] {
+  --mod-pm: #7cc0b6;
+  --mod-pppi: #93b0e0;
+  --mod-pp: #b3c283;
+  --mod-ppds: #c8b183;
+  --mod-mm: #a3b4c4;
+  --mod-qm: #c895b4;
+  --mod-ewm: #8ec7b3;
+  --mod-fiori: #b0a9c8;
+  --mod-sop: #8fbcc8;
+  --mod-s4: #adadb8;
+
+  --obj-master: #6fc4e0;
+  --obj-structure: #74d0aa;
+  --obj-transaction: #e0ae6f;
+  --obj-movement: #d494c4;
+  --obj-status: #a9a9de;
+  --obj-text: #b8b8b8;
+  --obj-config: #e09aa4;
+  --rel-1-1: #7cc0b6;
+  --rel-n-1: #93b0e0;
+  --rel-inferred: #6b727c;
+
+  --focus-ring: 0 0 0 2px var(--background), 0 0 0 4px var(--brand);
+  --sel-bg: rgba(255, 90, 95, 0.14);
+}
+
+/* Rail geometry responds to the real viewport. The prototype drove this from a
+   JS-written data-w attribute on a simulated fixed-size stage; there is no stage
+   in the real app, so it becomes media queries. */
+@media (min-width: 1440px) { :root { --c-rail-x: 18.5rem; } }
+@media (min-width: 1920px) { :root { --c-rail-x: 20rem; } }
+@media (min-width: 2560px) { :root { --c-rail-x: 22rem; } }
+
+/* The root app/template.tsx wraps EVERY route in .neo-fade and cannot be opted
+   out of from a nested layout. Its 0.28s fade would stack on top of Concept D's
+   own choreography on each /neo -> /neo navigation, so it is suppressed for this
+   one subtree by presence, without touching template.tsx or any other route. */
+.neo-fade:has(> [data-neo-shell]) { animation: none; }
+
+/* ============================================================================
+   PROJECT NEO · CONCEPT D — APPLICATION SHELL + SIGNATURE NAVIGATION
+   ----------------------------------------------------------------------------
+   Every selector below is anchored on .nx-app, which is rendered only by
+   app/neo/layout.tsx. Nothing here can reach another route.
+
+   Logical properties throughout — RTL is native, not a mirror hack.
+   Animated properties are transform and opacity only. Width is a layout
+   property and is never transitioned: the rail changes track size once, and a
+   FLIP in components/neo-shell/flip.ts puts every pixel back and springs it
+   home. The prototype's fixed-size scaled .stage does not exist here, so all
+   the /--scale conversions were deleted rather than ported.
+   ========================================================================== */
+
+/* --------------------------------------------------------------- 1. SHELL */
+.nx-app {
+  --nx-rail-col: var(--c-rail-x);
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--nx-rail-col) 1fr;
+  /* minmax(0,1fr), not the implicit `auto`: an auto row is sized by its content,
+     so the rail (and the canvas) would grow past 100dvh and the page itself
+     would scroll instead of the two panes scrolling independently. */
+  grid-template-rows: minmax(0, 1fr);
+  block-size: 100dvh;
+  overflow: hidden;
+  background: var(--background);
+  /* UXSettings is not mounted on /neo, so --font-scale would otherwise be
+     whatever the user last set on another route with no control to change it. */
+  --font-scale: 1;
+  font-size: var(--t-body);
+  line-height: var(--lh-he);
+  color: var(--ink-1);
+}
+.nx-app[data-nav="compact"] { --nx-rail-col: var(--c-rail-c); }
+.nx-app[data-nav="context"] { --nx-rail-col: var(--c-rail-ctx); }
+.nx-app[data-nav="hidden"],
+.nx-app[data-nav="peek"]    { --nx-rail-col: 0px; }
+
+/* The device decides the shell (same policy as the legacy chrome): a desktop OS
+   keeps the rail at any width, a real tablet or phone never gets it. Specificity
+   (0,2,1) deliberately beats the .nx-app[data-nav=…] state rules above (0,2,0). */
+html[data-device="tablet"] .nx-app,
+html[data-device="phone"] .nx-app { --nx-rail-col: 0px; grid-template-columns: 1fr; }
+
+.nx-main { display: grid; grid-template-rows: var(--c-top-h) minmax(0, 1fr); min-inline-size: 0; min-block-size: 0; }
+.nx-app[data-nav="hidden"] .nx-main,
+.nx-app[data-nav="peek"] .nx-main { grid-column: 1 / -1; }
+html[data-device="tablet"] .nx-app .nx-main,
+html[data-device="phone"] .nx-app .nx-main { grid-column: 1 / -1; grid-template-rows: 3rem minmax(0, 1fr) 3.75rem; }
+
+.nx-canvas {
+  overflow: auto; overscroll-behavior: contain; min-block-size: 0;
+  padding: var(--sp-6);
+  display: grid; align-content: start; gap: var(--sp-5);
+  transition: opacity var(--dur-base) var(--ease-out-expo);
+}
+.nx-app[data-searching="1"] .nx-canvas { opacity: .38; }
+@media (min-width: 1440px) { .nx-canvas { padding: var(--sp-8); } }
+html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
+
+/* ---------------------------------------------------------------- 2. RAIL
+   The surface is a separate element so a width change can be absorbed by a
+   scaleX FLIP without distorting its children, and the hairline edge is its own
+   1px element so it travels instead of being stretched. */
+.nx-rail {
+  position: relative; z-index: 20;
+  display: flex; flex-direction: column;
+  background: transparent; min-inline-size: 0; min-block-size: 0;
+  --railtint: var(--ink-3);
+}
+.nx-rail-bg {
+  position: absolute; inset: 0; z-index: -2;
+  background: var(--surface); transform-origin: 100% 0;
+}
+[dir="ltr"] .nx-rail-bg { transform-origin: 0 0; }
+.nx-rail-bg::after {
+  content: ''; position: absolute; inset-inline: 0; inset-block-start: 0; block-size: 15rem;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--railtint) 11%, transparent), transparent);
+  opacity: 0; transition: opacity 420ms var(--ease-out-expo);
+}
+.nx-rail[data-tinted="1"] .nx-rail-bg::after { opacity: 1; }
+.nx-rail-edge {
+  position: absolute; inset-block: 0; inset-inline-end: 0; inline-size: 1px; z-index: -1;
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--railtint) 34%, var(--c-hair)) 0 12rem, var(--c-hair) 24rem);
+}
+
+.nx-rail-head {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-3) var(--sp-2);
+  min-block-size: var(--c-top-h); flex: none;
+}
+.nx-glyph { display: inline-flex; gap: 2px; align-items: flex-end; flex: none; }
+.nx-glyph i { inline-size: 3px; display: block; border-radius: 1px; background: var(--brand); }
+.nx-glyph i:nth-child(1) { block-size: 10px; }
+.nx-glyph i:nth-child(2) { block-size: 16px; opacity: .68; }
+.nx-glyph i:nth-child(3) { block-size: 7px; opacity: .42; }
+.nx-lock { display: grid; line-height: 1.2; min-inline-size: 0; }
+.nx-lock b { font-size: var(--t-sm); letter-spacing: -.012em; white-space: nowrap; }
+.nx-lock span { font-size: var(--t-micro); color: var(--ink-3); white-space: nowrap; }
+.nx-collapse { margin-inline-start: auto; }
+
+.nx-iconbtn {
+  display: inline-grid; place-items: center; flex: none;
+  inline-size: var(--c-tap); block-size: var(--c-tap);
+  border-radius: var(--r-sm); color: var(--ink-3);
+  transition: color var(--dur-fast), transform var(--dur-fast) var(--ease-out-expo),
+    background-color var(--dur-fast);
+}
+.nx-iconbtn:hover { color: var(--ink-1); background: var(--surface-2); transform: translateY(-1px); }
+.nx-iconbtn--xs { inline-size: 1.75rem; block-size: 1.75rem; }
+
+/* --- 3. SEARCH THAT GROWS OUT OF THE NAVIGATION, NOT NEXT TO IT ---------- */
+.nx-rail-cmd { position: relative; padding: var(--sp-2) var(--sp-3); flex: none; }
+.nx-railq {
+  inline-size: 100%; display: flex; align-items: center; gap: var(--sp-2);
+  min-block-size: var(--c-tap); padding-inline: var(--sp-2);
+  border: 1px solid var(--c-hair); border-radius: var(--r-sm);
+  background: var(--surface-2); color: var(--ink-2); font-size: var(--t-xs);
+  transition: transform var(--dur-fast) var(--ease-out-expo),
+    opacity 180ms var(--ease-out-expo), border-color var(--dur-fast);
+}
+.nx-railq:hover { transform: translateY(-1px); color: var(--ink-1); border-color: var(--railtint); }
+.nx-railq-i { display: inline-flex; color: var(--railtint); }
+.nx-railq-l { flex: 1 1 auto; text-align: start; white-space: nowrap; }
+.nx-railq kbd {
+  font-family: var(--font-mono); font-size: 10px; direction: ltr;
+  padding: 2px 5px; border: 1px solid var(--c-hair); border-radius: 4px;
+}
+/* The quick action yields its slot IN PLACE — it stays in flow so the slot
+   height never collapses and the rail does not jump. */
+.nx-railsrch {
+  position: absolute; inset-inline: var(--sp-3); inset-block-start: var(--sp-2);
+  display: grid; gap: 6px; opacity: 0; pointer-events: none;
+  transform: scaleY(.86); transform-origin: top;
+  transition: opacity 200ms var(--ease-out-expo), transform 320ms var(--c-spring);
+}
+.nx-app[data-nav="search"] .nx-railq { opacity: 0; pointer-events: none; transform: scaleY(.9); }
+.nx-app[data-nav="search"] .nx-railsrch { opacity: 1; pointer-events: auto; transform: none; }
+.nx-app[data-nav="search"] .nx-rail-cmd { padding-block-end: var(--sp-3); }
+.nx-app[data-nav="search"] .nx-shelf { display: none; }
+.nx-srch-f {
+  display: flex; align-items: center; gap: var(--sp-2); padding-inline: var(--sp-2);
+  min-block-size: var(--c-tap);
+  border: 1px solid var(--railtint); border-radius: var(--r-sm);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--railtint) 12%, transparent);
+}
+.nx-srch-f .nx-ico { color: var(--railtint); display: inline-flex; }
+.nx-srch-input {
+  flex: 1 1 auto; min-inline-size: 0; font-size: var(--t-xs);
+  background: transparent; border: 0; outline: none; color: var(--ink-1);
+}
+/* The field already has an explicit close control with a Hebrew label; the UA's
+   own clear glyph is a second, unlabelled affordance in a fixed colour. */
+.nx-srch-input::-webkit-search-cancel-button,
+.nx-srch-input::-webkit-search-decoration { -webkit-appearance: none; appearance: none; }
+.nx-srch-meta { font-size: var(--t-micro); color: var(--ink-3); padding-inline: 2px; }
+.nx-srch-res { display: grid; gap: 3px; }
+.nx-srch-h {
+  font-size: var(--t-micro); color: var(--ink-3); letter-spacing: .05em;
+  padding-block-start: 4px; border-block-start: 1px solid var(--c-hair);
+}
+.nx-srch-none { font-size: var(--t-micro); color: var(--ink-3); padding-block: 4px; }
+.nx-railres {
+  display: grid; grid-template-columns: auto 1fr; gap: 2px var(--sp-2);
+  align-items: baseline; text-align: start;
+  min-block-size: var(--c-tap); padding: 5px var(--sp-2);
+  border-radius: var(--r-xs); background: var(--surface-2); font-size: var(--t-micro);
+  transition: transform var(--dur-fast) var(--ease-out-expo), background-color var(--dur-fast);
+}
+.nx-railres:hover { transform: translateX(-2px); background: var(--muted); }
+[dir="ltr"] .nx-railres:hover { transform: translateX(2px); }
+.nx-railres-k {
+  grid-row: span 2; display: inline-flex; align-items: center; gap: 4px;
+  color: var(--ink-3); font-size: 10px; white-space: nowrap;
+}
+.nx-railres-t { color: var(--ink-1); font-size: var(--t-xs); }
+.nx-railres-s { color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* --- 4. SCROLL BODY: EDGE MASKS, STICKY HEADINGS, A CONSIDERED SCROLLBAR - */
+.nx-rail-scroll {
+  position: relative; flex: 1 1 0; min-block-size: 0;
+  overflow-y: auto; overflow-x: hidden;
+  padding-block: var(--sp-1) var(--sp-2);
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--ink-3) 34%, transparent) transparent;
+  -webkit-mask-image: linear-gradient(to bottom,
+    transparent 0, #000 var(--c-ft, 0px), #000 calc(100% - var(--c-fb, 0px)), transparent 100%);
+  mask-image: linear-gradient(to bottom,
+    transparent 0, #000 var(--c-ft, 0px), #000 calc(100% - var(--c-fb, 0px)), transparent 100%);
+}
+.nx-rail-scroll[data-top="1"] { --c-ft: var(--c-mask-t); }
+.nx-rail-scroll[data-bot="1"] { --c-fb: var(--c-mask-b); }
+.nx-app[data-nav="context"] .nx-rail-scroll { display: none; }
+.nx-rail-scroll::-webkit-scrollbar { inline-size: 10px; }
+.nx-rail-scroll::-webkit-scrollbar-track { background: transparent; }
+.nx-rail-scroll::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--ink-3) 30%, transparent);
+  border: 3px solid transparent; background-clip: padding-box; border-radius: 99px;
+}
+.nx-rail-scroll:hover::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--railtint) 62%, transparent); background-clip: padding-box;
+}
+
+/* ONE travelling pill. Never a per-item background swap. --y/--h/--sq are
+   written from measured offset space, so it scrolls with the list for free. */
+.nx-ind {
+  position: absolute; inset-inline: var(--sp-1); inset-block-start: 0; z-index: 0;
+  block-size: var(--h, 2.75rem); border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--m, var(--brand)) 13%, transparent);
+  transform: translateY(var(--y, 0)) scaleY(var(--sq, 1));
+  transform-origin: center;
+  transition: transform 420ms var(--c-spring), block-size 240ms var(--ease-out-expo),
+    opacity 180ms, background-color 260ms;
+  pointer-events: none;
+}
+.nx-ind::before {
+  content: ''; position: absolute; inset-block: 18%; inset-inline-start: 0;
+  inline-size: 3px; border-radius: var(--r-pill); background: var(--m, var(--brand));
+}
+.nx-ind[data-off="1"] { opacity: 0; }
+.nx-app[data-nav="compact"] .nx-ind { inset-inline: 6px; }
+
+.nx-group { margin-block-end: 2px; }
+.nx-group-h { position: sticky; inset-block-start: 0; z-index: 3; margin: 0; }
+.nx-group-btn {
+  inline-size: 100%; display: flex; align-items: center; gap: 6px;
+  padding: 6px var(--sp-3); min-block-size: 1.9rem;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(8px);
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
+  color: var(--ink-3);
+}
+.nx-group-btn .nx-chev { display: inline-flex; transition: transform 300ms var(--c-spring); }
+.nx-group[data-open="false"] .nx-chev { transform: rotate(90deg); }
+[dir="rtl"] .nx-group[data-open="false"] .nx-chev { transform: rotate(-90deg); }
+.nx-group-btn .nx-t { flex: 1 1 auto; text-align: start; }
+.nx-group-btn .nx-n { font-family: var(--font-mono); font-size: 10px; direction: ltr; opacity: .7; }
+/* Collapse is display:none on purpose. Height is never animated — that is what
+   lets the scroll-compensation guarantee in toggleGroup hold. Opening is
+   animated, closing is instant; do not "fix" this with a height transition. */
+.nx-group[data-open="false"] .nx-group-body { display: none; }
+.nx-group[hidden] { display: none; }
+
+.nx-navitem {
+  inline-size: 100%; display: flex; align-items: center; gap: var(--sp-2);
+  min-block-size: var(--c-tap); padding-inline: var(--sp-3);
+  color: var(--ink-2); font-size: var(--t-xs); text-align: start;
+  position: relative;
+}
+.nx-navitem::before {
+  content: ''; position: absolute; inset: 2px var(--sp-1);
+  border-radius: var(--r-sm); background: var(--surface-2);
+  opacity: 0; transform: scaleX(.96); transform-origin: inline-start;
+  transition: opacity var(--dur-fast), transform var(--dur-fast) var(--ease-out-expo);
+}
+.nx-navitem:hover::before, .nx-navitem:focus-visible::before { opacity: 1; transform: scaleX(1); }
+.nx-navitem > * { position: relative; }
+.nx-navitem-i {
+  display: inline-flex; color: var(--ink-3); flex: none;
+  transition: transform 260ms var(--c-spring);
+}
+.nx-navitem:hover .nx-navitem-i { transform: scale(1.12); }
+.nx-navitem[data-mod] .nx-navitem-i { color: var(--m); }
+.nx-navitem-l { flex: 1 1 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nx-navitem-n {
+  font-family: var(--font-mono); font-size: 10px; direction: ltr;
+  font-variant-numeric: tabular-nums; color: var(--ink-3);
+}
+.nx-navitem-n--none { opacity: .45; }
+.nx-navitem[aria-current] { color: var(--ink-1); font-weight: 600; }
+.nx-navitem[data-hit="1"] { color: var(--m, var(--brand)); }
+.nx-navitem[data-hit="1"]::before { opacity: 1; background: color-mix(in srgb, var(--m, var(--brand)) 12%, transparent); }
+.nx-navrow[hidden] { display: none; }
+
+/* --- 5. THE SHELF: PINNED / RECENT / CONTEXT SHARE ONE BOX --------------- */
+.nx-shelf {
+  border-block-start: 1px solid var(--c-hair);
+  display: grid; grid-template-rows: auto minmax(0, 1fr);
+  min-block-size: var(--c-shelf-h); flex: none;
+}
+.nx-app[data-nav="context"] .nx-shelf { min-block-size: 0; flex: 1 1 auto; }
+.nx-shelf-tabs { position: relative; display: flex; gap: 2px; padding: 5px var(--sp-2) 0; }
+.nx-shelf-tabs button {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 5px var(--sp-2); min-block-size: 1.9rem;
+  font-size: var(--t-micro); color: var(--ink-3); border-radius: var(--r-xs);
+  transition: color 180ms;
+}
+.nx-shelf-tabs button[aria-selected="true"] { color: var(--ink-1); }
+/* Travelling tab underline. --x is a DIRECTION-AGNOSTIC inline-start offset
+   measured with getBoundingClientRect, not offsetLeft: offsetLeft is always
+   measured from the container's physical left edge, which put this underline in
+   the wrong place in RTL in the prototype. */
+.nx-shelf-ind {
+  position: absolute; inset-block-end: 0; inset-inline-start: 0;
+  block-size: 2px; inline-size: var(--w, 4rem);
+  background: var(--railtint); border-radius: 2px;
+  transform: translateX(calc(var(--x, 0px) * -1));
+  transition: transform 380ms var(--c-spring), inline-size 260ms var(--ease-out-expo);
+}
+[dir="ltr"] .nx-shelf-ind { transform: translateX(var(--x, 0px)); }
+.nx-shelf-panes { position: relative; overflow: auto; padding: var(--sp-2) var(--sp-3) var(--sp-3); }
+.nx-shelf-pane { animation: nx-shelf-in 320ms var(--ease-out-expo) both; }
+@keyframes nx-shelf-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.nx-shelf-note { font-size: 10px; color: var(--ink-3); margin-block-start: var(--sp-2); }
+.nx-empty { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.7; }
+.nx-striplist { display: grid; }
+.nx-striprow {
+  inline-size: 100%; display: grid;
+  grid-template-columns: 3px auto 1fr auto; align-items: center; gap: var(--sp-2);
+  min-block-size: var(--c-tap); padding-inline: 0 4px;
+  font-size: var(--t-micro); color: var(--ink-2); text-align: start;
+  border-radius: var(--r-xs);
+  transition: transform var(--dur-fast) var(--ease-out-expo);
+}
+.nx-striprow:hover { transform: translateX(-3px); }
+[dir="ltr"] .nx-striprow:hover { transform: translateX(3px); }
+.nx-striprow > i { inline-size: 3px; block-size: 16px; border-radius: 2px; background: var(--m); }
+.nx-sap { font-family: var(--font-mono); direction: ltr; }
+.nx-striprow .nx-sap { font-size: var(--t-xs); color: var(--ink-1); }
+.nx-striprow .nx-s { color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nx-striprow .nx-w { color: var(--ink-3); font-size: 10px; }
+.nx-pins { display: flex; flex-wrap: wrap; gap: 4px; }
+.nx-pin {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px var(--sp-2); min-block-size: 1.9rem;
+  border: 1px solid var(--c-hair); border-radius: var(--r-xs);
+  background: var(--surface-2); font-size: var(--t-micro);
+  transition: transform var(--dur-fast) var(--ease-out-expo), border-color var(--dur-fast);
+}
+.nx-pin:hover { transform: translateY(-2px); border-color: var(--m); }
+.nx-pin .nx-sap { color: var(--m); }
+.nx-pin .nx-n { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); direction: ltr; }
+
+/* context pane · the real context of one object, not a second menu */
+.nx-ctx { display: grid; gap: var(--sp-3); }
+.nx-ctx-head { display: grid; gap: 3px; }
+.nx-ctx-head b { font-size: var(--t-h2); }
+.nx-eyebrow { font-size: var(--t-micro); letter-spacing: .06em; color: var(--ink-3); }
+.nx-ctx-he { font-size: var(--t-xs); color: var(--ink-2); }
+.nx-ctx-mods { display: flex; gap: 4px; margin-block-start: 3px; flex-wrap: wrap; }
+.nx-mchip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px var(--sp-2); border-radius: var(--r-pill);
+  font-size: 10px; color: var(--m);
+  background: color-mix(in srgb, var(--m) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m) 28%, transparent);
+}
+.nx-ctx-shared {
+  display: flex; gap: 6px; align-items: flex-start;
+  padding: var(--sp-2); border-radius: var(--r-xs);
+  background: var(--surface-2); font-size: var(--t-micro); color: var(--ink-2);
+}
+.nx-ctx-sec h5 {
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: .06em;
+  color: var(--ink-3); margin-block-end: 5px;
+}
+.nx-ctx-list { display: grid; gap: 5px; }
+.nx-ctx-list li {
+  display: grid; gap: 1px; padding-inline-start: var(--sp-2);
+  border-inline-start: 2px solid var(--m); font-size: var(--t-micro);
+}
+.nx-ctx-list b { color: var(--m); font-family: var(--font-mono); direction: ltr; }
+.nx-ctx-list span { color: var(--ink-2); }
+.nx-ctx-codes { display: flex; flex-wrap: wrap; gap: 4px; }
+.nx-tcode {
+  display: inline-flex; align-items: center; min-block-size: var(--c-tap);
+  padding: 4px var(--sp-2);
+  border: 1px solid var(--c-hair); border-radius: var(--r-xs);
+  background: var(--surface); font-size: var(--t-micro);
+  transition: transform var(--dur-fast) var(--ease-out-expo), border-color var(--dur-fast);
+}
+.nx-tcode:hover { transform: translateY(-1px); border-color: var(--ink-3); }
+.nx-ctx-joins { display: grid; gap: 6px; }
+.nx-ctx-joins li { display: grid; gap: 2px; }
+.nx-ctx-joins .nx-card { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); direction: ltr; }
+.nx-ctx-joins code { font-size: 10px; color: var(--ink-3); direction: ltr; display: block;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.nx-rail-foot {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border-block-start: 1px solid var(--c-hair); flex: none;
+}
+.nx-who { display: flex; align-items: center; gap: var(--sp-2); min-inline-size: 0; }
+.nx-avatar {
+  inline-size: 1.75rem; block-size: 1.75rem; border-radius: var(--r-pill);
+  display: grid; place-items: center; flex: none;
+  background: var(--surface-2); border: 1px solid var(--c-hair);
+  font-family: var(--font-mono); font-size: 10px; direction: ltr; color: var(--ink-2);
+}
+.nx-who-t { display: grid; line-height: 1.2; min-inline-size: 0; }
+.nx-who-t b { font-size: var(--t-micro); }
+.nx-who-t span { font-size: 10px; color: var(--ink-3); }
+.nx-rail-foot .nx-iconbtn { margin-inline-start: auto; }
+
+/* --------------------------------------------------------- 6. THE STATES */
+/* COMPACT — everything textual leaves the flow (display:none, not opacity, so
+   nothing is left announced to a screen reader at zero width). A chevron with
+   no label is noise, so the group heading collapses to a clipped strip and the
+   separation is carried by a hairline on the group itself. */
+.nx-app[data-nav="compact"] .nx-lock,
+.nx-app[data-nav="compact"] .nx-navitem-l,
+.nx-app[data-nav="compact"] .nx-navitem-n,
+.nx-app[data-nav="compact"] .nx-group-btn .nx-t,
+.nx-app[data-nav="compact"] .nx-group-btn .nx-n,
+.nx-app[data-nav="compact"] .nx-railq-l,
+.nx-app[data-nav="compact"] .nx-railq kbd,
+.nx-app[data-nav="compact"] .nx-shelf,
+.nx-app[data-nav="compact"] .nx-who-t,
+.nx-app[data-nav="compact"] .nx-rail-foot .nx-iconbtn,
+/* The prototype hid the collapse control in compact, which left the state with
+   no way out except a keyboard shortcut. The brand glyph yields instead: it is
+   duplicated in the topbar crumb, the toggle is not duplicated anywhere. */
+.nx-app[data-nav="compact"] .nx-glyph { display: none; }
+.nx-app[data-nav="compact"] .nx-collapse { margin-inline-start: 0; }
+.nx-app[data-nav="compact"] .nx-navitem,
+.nx-app[data-nav="compact"] .nx-railq,
+.nx-app[data-nav="compact"] .nx-rail-head,
+.nx-app[data-nav="compact"] .nx-rail-foot,
+.nx-app[data-nav="compact"] .nx-group-btn { justify-content: center; padding-inline: 0; }
+.nx-app[data-nav="compact"] .nx-navitem::before { inset: 2px 6px; }
+.nx-app[data-nav="compact"] .nx-group-h { block-size: 1px; overflow: hidden; clip-path: inset(50%); }
+.nx-app[data-nav="compact"] .nx-group { border-block-start: 1px solid var(--c-hair); padding-block-start: 4px; }
+.nx-app[data-nav="compact"] .nx-group:first-of-type { border-block-start: 0; }
+
+/* HIDDEN + PEEK — the rail leaves the grid entirely and slides on transform.
+   These two do NOT use the FLIP: there is no track to invert against. */
+.nx-app[data-nav="hidden"] .nx-rail,
+.nx-app[data-nav="peek"] .nx-rail {
+  position: absolute; inset-block: 0; inset-inline-start: 0;
+  inline-size: var(--c-rail-x); transform: translateX(100%);
+  box-shadow: var(--elev-3);
+  transition: transform 520ms var(--c-spring);
+}
+[dir="ltr"] .nx-app[data-nav="hidden"] .nx-rail,
+[dir="ltr"] .nx-app[data-nav="peek"] .nx-rail { transform: translateX(-100%); }
+.nx-railedge {
+  display: none; position: absolute; inset-block: 0; inset-inline-start: 0;
+  inline-size: var(--c-peek-w); z-index: 21; background: transparent;
+}
+.nx-app[data-nav="peek"] .nx-railedge { display: block; }
+.nx-railedge i {
+  position: absolute; inset-block: 25% 25%; inset-inline-start: 3px;
+  inline-size: 3px; border-radius: 3px; background: var(--c-hair);
+  transition: transform var(--dur-base) var(--ease-out-expo), background-color var(--dur-base);
+}
+.nx-railedge:hover i, .nx-railedge:focus-visible i { transform: scaleX(1.6); background: var(--brand); }
+/* Pure CSS reveal, no JS — hovering the strip springs the rail in OVER the
+   canvas without it ever taking a layout column back. :has() rather than the
+   prototype's `~` sibling combinator: the strip is a LATER sibling of the rail
+   in the DOM, so `~` could never have matched in that direction. */
+.nx-app[data-nav="peek"]:has(.nx-railedge:hover) .nx-rail,
+.nx-app[data-nav="peek"]:has(.nx-railedge:focus-visible) .nx-rail,
+.nx-app[data-nav="peek"] .nx-rail:hover,
+.nx-app[data-nav="peek"] .nx-rail:focus-within { transform: translateX(0); }
+[dir="ltr"] .nx-app[data-nav="peek"]:has(.nx-railedge:hover) .nx-rail,
+[dir="ltr"] .nx-app[data-nav="peek"]:has(.nx-railedge:focus-visible) .nx-rail,
+[dir="ltr"] .nx-app[data-nav="peek"] .nx-rail:hover,
+[dir="ltr"] .nx-app[data-nav="peek"] .nx-rail:focus-within { transform: translateX(0); }
+
+/* The skip link and its #main target both disappear with the legacy shell, so
+   the namespace re-provides them rather than regressing the accessibility gate. */
+.nx-skip {
+  position: absolute; inset-block-start: -100vh; inset-inline-start: var(--sp-4);
+  z-index: 90; padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm); background: var(--surface);
+  box-shadow: var(--elev-3); color: var(--brand);
+  font-size: var(--t-sm); font-weight: 700;
+}
+.nx-skip:focus { inset-block-start: var(--sp-3); }
+
+/* --- 7. HOVER PREVIEW · a contextual layer with real data, not a tooltip -- */
+.nx-pvhost {
+  position: absolute; inset-block-start: 0; inset-inline-start: 0; z-index: 35;
+  opacity: 0; pointer-events: none;
+  transition: opacity 180ms var(--ease-out-expo);
+}
+.nx-pvhost[data-on="1"] { opacity: 1; }
+.nx-pvhost[data-on="1"] .nx-pv { animation: nx-pv-in 340ms var(--c-spring) both; }
+@keyframes nx-pv-in {
+  from { transform: translateX(10px) scale(.97); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+[dir="ltr"] .nx-pvhost[data-on="1"] .nx-pv { animation-name: nx-pv-in-ltr; }
+@keyframes nx-pv-in-ltr {
+  from { transform: translateX(-10px) scale(.97); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.nx-pv {
+  inline-size: var(--c-pv-w); padding: var(--sp-3);
+  background: var(--surface); border: 1px solid var(--c-hair);
+  border-radius: var(--r-md); box-shadow: var(--elev-4);
+  display: grid; gap: var(--sp-2);
+}
+.nx-pv--mod { border-color: color-mix(in srgb, var(--m) 40%, var(--c-hair)); }
+.nx-pv header { display: flex; align-items: center; gap: 6px; }
+.nx-pv header i { inline-size: 3px; block-size: 14px; border-radius: 2px; background: var(--m, var(--brand)); }
+.nx-pv header b { font-size: var(--t-sm); }
+.nx-pv header span { font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: auto; }
+.nx-pv-nums { display: flex; gap: var(--sp-3); }
+.nx-pv-nums span { display: grid; font-size: 10px; color: var(--ink-3); }
+.nx-pv-nums b {
+  font-family: var(--font-mono); font-size: var(--t-h2); direction: ltr;
+  font-variant-numeric: tabular-nums; color: var(--ink-1);
+}
+.nx-pv-none b { color: var(--ink-3); }
+.nx-pv-list { display: grid; gap: 3px; }
+.nx-pv-list li {
+  display: grid; grid-template-columns: 6px 4.5rem 1fr auto; gap: var(--sp-2);
+  font-size: var(--t-micro); color: var(--ink-2); align-items: center;
+}
+/* OBJECT hue, not module hue — visualisation surfaces are the only place the
+   --obj-* palette is allowed to appear. */
+.nx-pv-cls { inline-size: 6px; block-size: 6px; border-radius: 50%; background: var(--o); }
+.nx-pv-list--flat li { grid-template-columns: 1fr; }
+.nx-pv-list em { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); direction: ltr; font-style: normal; }
+.nx-pv-last {
+  display: flex; align-items: center; gap: 5px;
+  font-size: var(--t-micro); color: var(--ink-3);
+  padding: 5px var(--sp-2); border-radius: var(--r-xs); background: var(--surface-2);
+}
+.nx-pv-f { font-size: var(--t-micro); color: var(--ink-3); border-block-start: 1px solid var(--c-hair); padding-block-start: 6px; }
+
+/* ------------------------------------------------------------- 8. TOPBAR */
+.nx-topbar {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding-inline: var(--sp-3); border-block-end: 1px solid var(--c-hair);
+  background: var(--surface); min-inline-size: 0;
+}
+.nx-crumbs { display: flex; align-items: center; gap: 4px; font-size: var(--t-xs); color: var(--ink-3); min-inline-size: 0; }
+.nx-crumbs a:hover { color: var(--ink-1); }
+.nx-crumbs .nx-cur { color: var(--ink-1); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nx-cmdbar {
+  display: flex; align-items: center; gap: var(--sp-2);
+  margin-inline-start: auto; min-inline-size: 0; max-inline-size: 22rem; flex: 1 1 12rem;
+  min-block-size: 2.25rem; padding-inline: var(--sp-2);
+  border: 1px solid var(--c-hair); border-radius: var(--r-sm);
+  background: var(--surface-2); color: var(--ink-3); font-size: var(--t-xs);
+  transition: border-color var(--dur-fast), color var(--dur-fast);
+}
+.nx-cmdbar:hover { border-color: var(--ink-3); color: var(--ink-1); }
+.nx-cmdbar .nx-ph { flex: 1 1 auto; text-align: start; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nx-cmdbar kbd { font-family: var(--font-mono); font-size: 10px; direction: ltr;
+  padding: 2px 5px; border: 1px solid var(--c-hair); border-radius: 4px; }
+.nx-topbar-tools { display: flex; align-items: center; gap: 2px; flex: none; }
+
+/* ------------------------------------------------- 9. MOBILE (a different
+   shell, not a rail state): top bar / body / bottom tabs, nav is a sheet. */
+.nx-mtop {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding-inline: var(--sp-3); border-block-end: 1px solid var(--c-hair);
+  background: var(--surface);
+}
+.nx-mtabs {
+  position: relative; z-index: 30;
+  border-block-start: 1px solid var(--c-hair); background: var(--surface);
+  padding-block-end: env(safe-area-inset-bottom);
+}
+.nx-mtabs > div { display: flex; align-items: stretch; block-size: 100%; }
+.nx-mtab {
+  flex: 1 1 0; display: grid; place-items: center; gap: 2px;
+  position: relative; font-size: 10px; color: var(--ink-3);
+  min-block-size: var(--c-tap);
+}
+.nx-mtab::before {
+  content: ''; position: absolute; inset-block-start: 0; inset-inline: 20%;
+  block-size: 2px; background: var(--brand); border-radius: 0 0 2px 2px;
+  transform: scaleX(0); transition: transform 240ms var(--ease-emphasis);
+}
+.nx-mtab[aria-current] { color: var(--brand); }
+.nx-mtab[aria-current]::before { transform: scaleX(1); }
+.nx-msheet {
+  position: absolute; inset-inline: 0; inset-block-end: 3.75rem; z-index: 40;
+  max-block-size: 68%; display: grid; grid-template-rows: auto 1fr;
+  background: var(--surface); border-block-start: 1px solid var(--c-hair);
+  border-start-start-radius: var(--r-lg); border-start-end-radius: var(--r-lg);
+  box-shadow: var(--elev-4);
+  animation: nx-sheet-in 380ms var(--c-spring) both;
+}
+@keyframes nx-sheet-in { from { transform: translateY(100%); } to { transform: none; } }
+.nx-msheet-h {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3); border-block-end: 1px solid var(--c-hair);
+  font-size: var(--t-sm); font-weight: 600;
+}
+.nx-msheet-b { overflow: auto; padding: var(--sp-2) var(--sp-2) var(--sp-4); overscroll-behavior: contain; }
+.nx-msheet-g { margin-block-end: var(--sp-2); }
+.nx-msheet-g h4 { font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
+  color: var(--ink-3); padding: var(--sp-2) var(--sp-2) 4px; }
+.nx-msheet-g a {
+  display: flex; align-items: center; gap: var(--sp-2);
+  min-block-size: var(--c-tap); padding-inline: var(--sp-2);
+  border-radius: var(--r-sm); font-size: var(--t-sm); color: var(--ink-2);
+}
+.nx-msheet-g a[aria-current] { color: var(--ink-1); font-weight: 600; background: var(--surface-2); }
+.nx-msheet-g a > svg { color: var(--m, var(--ink-3)); flex: none; }
+.nx-msheet-g a .nx-n { margin-inline-start: auto; font-family: var(--font-mono);
+  font-size: 10px; direction: ltr; color: var(--ink-3); }
+.nx-scrim { position: absolute; inset: 0; z-index: 39; background: rgba(0,0,0,.28); }
+
+/* ------------------------------------------- 10. CANVAS BUILDING BLOCKS */
+.nx-card {
+  background: var(--surface); border: 1px solid var(--c-hair);
+  border-radius: var(--r-md); padding: var(--sp-4);
+}
+.nx-h1 { font-size: var(--t-h1); line-height: var(--t-h1-lh); letter-spacing: var(--t-h1-tr); font-weight: 700; }
+.nx-h2 { font-size: var(--t-h2); line-height: var(--t-h2-lh); letter-spacing: var(--t-h2-tr); font-weight: 700; }
+.nx-lede { font-size: var(--t-body); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 62ch; }
+.nx-muted { font-size: var(--t-xs); color: var(--ink-3); }
+.nx-grid { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
+.nx-stat { display: grid; gap: 2px; justify-items: start; }
+.nx-stat b { font-family: var(--font-mono); font-size: var(--t-h1); direction: ltr;
+  font-variant-numeric: tabular-nums; color: var(--ink-1); }
+.nx-stat span { font-size: var(--t-micro); color: var(--ink-3); }
+.nx-modbar { block-size: 3px; inline-size: 2.5rem; border-radius: var(--r-pill); background: var(--m); }
+.nx-tablelist { display: grid; }
+.nx-tablerow {
+  display: grid; grid-template-columns: 8px 7rem 1fr auto auto; gap: var(--sp-3);
+  align-items: center; min-block-size: var(--c-tap); padding-inline: var(--sp-2);
+  border-block-end: 1px solid var(--c-hair); font-size: var(--t-xs);
+  color: var(--ink-2); text-align: start; inline-size: 100%;
+  transition: transform var(--dur-fast) var(--ease-out-expo), background-color var(--dur-fast);
+}
+.nx-tablerow:last-child { border-block-end: 0; }
+.nx-tablerow:hover { background: var(--surface-2); transform: translateX(-2px); }
+[dir="ltr"] .nx-tablerow:hover { transform: translateX(2px); }
+.nx-tablerow .nx-sap { color: var(--ink-1); font-size: var(--t-sm); }
+.nx-tablerow .nx-he { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nx-tablerow .nx-n { font-family: var(--font-mono); font-size: 10px; direction: ltr; color: var(--ink-3); }
+.nx-dot { inline-size: 8px; block-size: 8px; border-radius: 50%; background: var(--o, var(--ink-3)); }
+/* status = state, shown as dot + label. Never as a text colour. */
+.nx-status { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; color: var(--ink-3); }
+.nx-status i { inline-size: 7px; block-size: 7px; border-radius: 50%; background: var(--st); flex: none; }
+.nx-legend { display: flex; flex-wrap: wrap; gap: var(--sp-3); font-size: var(--t-micro); color: var(--ink-3); }
+.nx-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.nx-legend i { inline-size: 8px; block-size: 8px; border-radius: 50%; background: var(--o); }
+.nx-seg { display: inline-flex; gap: 2px; padding: 3px; border: 1px solid var(--c-hair);
+  border-radius: var(--r-sm); background: var(--surface-2); }
+.nx-seg button { min-block-size: 1.9rem; padding-inline: var(--sp-2); border-radius: var(--r-xs);
+  font-size: var(--t-micro); color: var(--ink-3); transition: color var(--dur-fast), background-color var(--dur-fast); }
+.nx-seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink-1); box-shadow: var(--elev-1); }
+.nx-kbdrow { display: flex; flex-wrap: wrap; gap: var(--sp-2); font-size: var(--t-micro); color: var(--ink-3); }
+.nx-kbdrow kbd { font-family: var(--font-mono); font-size: 10px; direction: ltr;
+  padding: 2px 6px; border: 1px solid var(--c-hair); border-radius: 4px; background: var(--surface-2); }
+
+/* --------------------------------------------------- 11. FOCUS + MOTION */
+.nx-app :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: var(--r-xs); }
+
+/* The rail's FLIP is driven by the Web Animations API rather than inline
+   transition strings, so the global reduced-motion rule (which only forces
+   transition-duration/animation-duration) cannot reach it. flip.ts checks the
+   same media query itself and returns without animating; these rules cover the
+   declarative half. */
+@media (prefers-reduced-motion: reduce) {
+  .nx-app *, .nx-app *::before, .nx-app *::after {
+    animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+@keyframes nx-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
