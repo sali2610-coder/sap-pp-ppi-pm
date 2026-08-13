@@ -45,8 +45,10 @@ html .nx-app .nx-canvas:has(> .nh) {
   /* Sticky-layer height. JS keeps it equal to the scroller; the fallback keeps
      the layout sane before hydration and in a document that never runs it. */
   --nh-vh: calc(100dvh - var(--c-top-h));
-  /* Section tint — the ambient module hue of the current formation. */
-  --nh-tint: var(--mod-pm);
+  /* The two ends of the ambient light, and where between them we are. */
+  --nh-a: var(--mod-pm);
+  --nh-b: var(--mod-pppi);
+  --nh-bal: .12;
   --nh-gut: var(--sp-8);
   /* Every breakpoint below is a CONTAINER query on this element, not a viewport
      media query. The rail owns up to 22rem of the window, so a 768px window can
@@ -55,10 +57,36 @@ html .nx-app .nx-canvas:has(> .nh) {
   container-type: inline-size;
   container-name: nh;
 }
-.nh[data-sec="2"] { --nh-tint: var(--mod-pppi); }
-.nh[data-sec="3"] { --nh-tint: var(--mod-pppi); }
-.nh[data-sec="4"] { --nh-tint: var(--mod-pm); }
-.nh[data-sec="5"] { --nh-tint: var(--mod-s4); }
+/* AMBIENT LIGHT, NOT A CLAIM.
+   The two module hues are both present for the whole page, and --nh-bal walks
+   the mix from one to the other as you descend. That is a compositional choice
+   about LIGHT and it is stated as one; the places where module colour makes a
+   CLAIM (the two module panels in 04, the two chains in 05, the module chips in
+   06, the two bodies) each take their own --m and never this mix.
+
+   Colour form, per app/globals.css:
+     MODULE  surface tint · ring · line · edge · section marker.  Never a dot.
+     STATUS  a small filled dot immediately followed by its word.  Nothing else.
+     OBJECT  the visualisation itself — dot cores, class markers, chain nodes.
+     BRAND   one global accent. Never a module, never a data category. */
+.nh,
+.nh-sec {
+  --nh-tint: color-mix(in oklab, var(--nh-b) calc(var(--nh-bal) * 100%), var(--nh-a));
+}
+.nh[data-sec="0"] { --nh-bal: .12; }
+.nh[data-sec="1"] { --nh-bal: .30; }
+.nh[data-sec="2"] { --nh-bal: .50; }
+.nh[data-sec="3"] { --nh-bal: .68; }
+.nh[data-sec="4"] { --nh-bal: .84; }
+.nh[data-sec="5"] { --nh-bal: 1; }
+/* The sections carry their own balance as well, so the light is a real gradient
+   down the document and not a value that snaps when the observer fires. */
+#nh-1 { --nh-bal: .12; }
+#nh-2 { --nh-bal: .30; }
+#nh-3 { --nh-bal: .50; }
+#nh-4 { --nh-bal: .68; }
+#nh-5 { --nh-bal: .84; }
+#nh-6 { --nh-bal: 1; }
 
 /* ==========================================================================
    LAYER 0 · THE FIELD — 105 real merged tables
@@ -136,6 +164,72 @@ html .nx-app .nx-canvas:has(> .nh) {
 }
 .nh[data-sec="2"] .nh-halo { opacity: 1; transform: scale(1); }
 
+/* --- the relationship layer ----------------------------------------------
+   One element per REAL ER relation between two of the 105 merged tables, taken
+   from the blueprint's parent-child map. A line is never drawn between two
+   tables the dictionary does not link, and it is only ever shown in the
+   formations that are about relationships (gravity, shared, process).
+
+   Geometry, so it stays on the compositor: a 1x1 box translated to the first
+   endpoint, rotated toward the second, scaled along x to the distance between
+   them. Three independent transform properties, zero layout, zero paint.
+   --------------------------------------------------------------------------- */
+.nh-edges { position: absolute; inset: 0; }
+.nh-edge {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: 1px;
+  block-size: 1px;
+  transform-origin: 0 50%;
+  background: var(--rel-n-1);
+  opacity: 0;
+  transition:
+    translate 820ms var(--ease-emphasis),
+    rotate 820ms var(--ease-emphasis),
+    scale 820ms var(--ease-emphasis),
+    opacity 520ms var(--ease-out-expo);
+}
+/* The cardinality the dictionary states, in the same two colours the process
+   connectors in section 05 use. One relation language for the whole page. */
+.nh-edge[data-k="0"] { background: var(--rel-1-1); }
+
+/* --- the field's own captions --------------------------------------------
+   The note the client raised was that the formation felt disconnected from the
+   information. A group with no name is a shape; a group with its own real count
+   attached is data. Every string here is written at paint time from
+   formations.captions(), which reads the same numbers the sections print. */
+.nh-caps { position: absolute; inset: 0; }
+.nh-cap {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  margin-inline-start: -3rem;
+  inline-size: 6rem;
+  padding-block-end: 3px;
+  /* MODULE as an EDGE — the one form the rule allows for a label like this. */
+  border-block-end: 2px solid color-mix(in srgb, var(--nh-tint) 40%, transparent);
+  font-weight: 600;
+  text-align: center;
+  opacity: 0;
+  transition:
+    translate 820ms var(--ease-emphasis),
+    opacity 460ms var(--ease-out-expo);
+}
+.nh-cap[data-on="1"] { opacity: 1; }
+.nh-cap[data-tone="pm"] { border-block-end-color: color-mix(in srgb, var(--mod-pm) 55%, transparent); }
+.nh-cap[data-tone="pp"] { border-block-end-color: color-mix(in srgb, var(--mod-pppi) 55%, transparent); }
+.nh-cap > b {
+  font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--t-xs);
+  color: var(--ink-1);
+}
+.nh-cap > em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+
 /* --- the three depth planes ----------------------------------------------
    Depth is not decoration: a dot's plane is its real documentation-coverage
    score, so the sharp, close plane is the part of the dictionary we actually
@@ -196,6 +290,30 @@ html .nx-app .nx-canvas:has(> .nh) {
   border-radius: 50%;
   border: 1px solid color-mix(in srgb, var(--o) 55%, transparent);
 }
+
+/* THE HANDOFF · the dot is on its way onto the element that renders the same
+   table. Faster than a formation move, because it is a single object crossing a
+   short distance rather than a hundred re-forming. */
+.nh-dot[data-fly="1"] {
+  z-index: 2;
+  transition:
+    translate 620ms var(--ease-emphasis),
+    scale 620ms var(--ease-emphasis),
+    opacity 300ms linear;
+}
+
+/* THE FIELD ANSWERS THE CONTENT · hovering a coverage axis or a topic in the
+   copy mutes every table that is not part of the answer. Opacity is written
+   inline by the scene, so the answer has to out-rank it. */
+.nh[data-ask="1"] .nh-dot[data-mute="1"] { opacity: .06 !important; }
+.nh[data-ask="1"] .nh-dot[data-hi="1"] {
+  opacity: 1 !important;
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--o) 78%, transparent),
+    0 0 18px 3px color-mix(in srgb, var(--o) 48%, transparent);
+}
+.nh[data-ask="1"] .nh-edge,
+.nh[data-ask="1"] .nh-cap { opacity: .12 !important; }
 
 /* The lens itself — a soft disc of the current section's module light. */
 .nh-lens {
@@ -408,12 +526,21 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-sec {
   position: relative;
   z-index: 1;
-  /* Ambient module light on the section itself. Small percentage, large area —
-     this is the difference between "nearly white" and "in a module". */
-  background: linear-gradient(to bottom,
-    color-mix(in srgb, var(--nh-tint) 5%, transparent),
-    color-mix(in srgb, var(--nh-tint) 1.5%, transparent) 38%,
-    transparent 72%);
+  /* THREE background layers, not one wash. A section is meant to read as a
+     place with its own light: a module tint that enters from the block start,
+     a second, cooler pool at the far corner that gives the surface depth, and
+     a low neutral floor so the type never sits on colour alone. The percentages
+     are deliberately well above the 1.5% Stage 2A used — the client's note was
+     that everything stayed white and grey, and it did. */
+  background:
+    linear-gradient(to bottom,
+      color-mix(in srgb, var(--nh-tint) 11%, transparent) 0,
+      color-mix(in srgb, var(--nh-tint) 3.5%, transparent) 30%,
+      transparent 68%),
+    radial-gradient(90% 60% at 8% 100%,
+      color-mix(in srgb, var(--nh-tint) 7%, transparent), transparent 70%),
+    linear-gradient(to bottom, transparent 55%,
+      color-mix(in srgb, var(--surface) 55%, transparent));
   display: grid;
   align-content: start;
   gap: var(--sp-6);
@@ -433,6 +560,27 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-hot li,
 .nh-scard,
 .nh-dcol li { min-inline-size: 0; }
+/* SECTION MARKER · module colour in edge form. A hairline rule enters from the
+   reading edge and fades out, so every section starts with a visible statement
+   of which light it is in, and two adjacent sections never abut on nothing. */
+.nh-sec::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  block-size: 2px;
+  background: linear-gradient(to left,
+    color-mix(in srgb, var(--nh-tint) 68%, transparent),
+    color-mix(in srgb, var(--nh-tint) 18%, transparent) 42%,
+    transparent 78%);
+  pointer-events: none;
+}
+[dir="ltr"] .nh-sec::before { background: linear-gradient(to right,
+  color-mix(in srgb, var(--nh-tint) 68%, transparent),
+  color-mix(in srgb, var(--nh-tint) 18%, transparent) 42%,
+  transparent 78%); }
+.nh-sec--open::before { opacity: 0; }
+
 .nh-sec--open {
   min-block-size: var(--nh-vh);
   align-content: center;
@@ -576,16 +724,45 @@ html .nx-app .nx-canvas:has(> .nh) {
 /* --- 02 · coverage -------------------------------------------------------- */
 .nh-cov { display: grid; gap: var(--sp-2); max-inline-size: 58rem; }
 .nh-cov li {
+  position: relative;
   display: grid;
   grid-template-columns: 11rem minmax(6rem, 1fr) auto 5rem;
   align-items: center;
   gap: var(--sp-3);
-  padding: var(--sp-2) var(--sp-3);
+  padding: var(--sp-3);
   border-radius: var(--r-sm);
-  background: color-mix(in srgb, var(--nh-tint) 3%, color-mix(in srgb, var(--surface) 78%, transparent));
-  border: 1px solid color-mix(in srgb, var(--nh-tint) 14%, var(--hairline));
+  /* MODULE as surface tint + ring. Strong enough to be a material. */
+  background: color-mix(in srgb, var(--nh-tint) 7%, color-mix(in srgb, var(--surface) 86%, transparent));
+  border: 1px solid color-mix(in srgb, var(--nh-tint) 24%, var(--hairline));
+  box-shadow: var(--elev-1);
   font-size: var(--t-sm);
+  cursor: default;
+  transition:
+    transform 260ms var(--ease-out-expo),
+    background-color 220ms, border-color 220ms, box-shadow 220ms;
 }
+/* Hovering a row asks the field a question; the row has to look like it did the
+   asking. It rises, its ring closes, and a module edge appears on the reading
+   side — the same edge language the section marker uses. */
+.nh-cov li::before {
+  content: '';
+  position: absolute;
+  inset-block: 6px;
+  inset-inline-start: 0;
+  inline-size: 3px;
+  border-start-start-radius: var(--r-sm);
+  border-end-start-radius: var(--r-sm);
+  background: var(--nh-tint);
+  opacity: 0;
+  transition: opacity 200ms var(--ease-out-expo);
+}
+.nh-cov li:hover {
+  transform: translateY(-2px);
+  background: color-mix(in srgb, var(--nh-tint) 13%, var(--surface));
+  border-color: color-mix(in srgb, var(--nh-tint) 46%, transparent);
+  box-shadow: var(--elev-3);
+}
+.nh-cov li:hover::before { opacity: 1; }
 .nh-cov-l { color: var(--ink-1); font-weight: 600; }
 .nh-cov-bar { display: block; block-size: 8px; border-radius: var(--r-pill); background: var(--surface-2); overflow: hidden; }
 .nh-cov-bar i {
@@ -593,8 +770,8 @@ html .nx-app .nx-canvas:has(> .nh) {
   block-size: 100%;
   border-radius: inherit;
   background: linear-gradient(to left,
-    color-mix(in srgb, var(--nh-tint) 78%, transparent),
-    color-mix(in srgb, var(--nh-tint) 34%, transparent));
+    var(--nh-tint),
+    color-mix(in srgb, var(--nh-tint) 46%, transparent));
   transform: scaleX(var(--p, 0));
   /* transform-origin has no logical keyword, so the one physical value on this
      page is stated per direction rather than hidden behind an invalid one. */
@@ -607,6 +784,68 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-cov-n em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 .nh-cov-s { font-size: var(--t-micro); color: var(--ink-3); text-align: end; }
 
+/* --- the two connective devices sections 02-06 share -----------------------
+   nh-hint  tells you the field is answerable, right where it is answerable.
+   nh-hand  is the transition ledge. Every section but the last ends with one
+            line naming what the field is about to do next, in the counts that
+            move is made of. This is the page's own answer to "a transition has
+            to explain where the information came from and where it is going":
+            it is said in motion AND in words, and the two agree. */
+.nh-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  justify-self: start;
+}
+.nh-hint svg { color: var(--nh-tint); flex: none; }
+
+.nh-hand {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--sp-2) var(--sp-3);
+  margin-block-start: var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  /* MODULE as surface tint + a leading edge, never as a dot. */
+  border: 1px solid color-mix(in srgb, var(--nh-tint) 22%, var(--hairline));
+  border-inline-start: 3px solid color-mix(in srgb, var(--nh-tint) 62%, transparent);
+  background: linear-gradient(to left,
+    color-mix(in srgb, var(--nh-tint) 9%, transparent),
+    transparent 62%),
+    color-mix(in srgb, var(--surface) 72%, transparent);
+  font-size: var(--t-xs);
+  color: var(--ink-2);
+  line-height: 1.65;
+  max-inline-size: 72ch;
+}
+[dir="ltr"] .nh-hand { background: linear-gradient(to right,
+  color-mix(in srgb, var(--nh-tint) 9%, transparent), transparent 62%),
+  color-mix(in srgb, var(--surface) 72%, transparent); }
+.nh-hand svg { color: var(--nh-tint); }
+.nh-hand-to {
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-1);
+  padding-inline-end: var(--sp-3);
+  border-inline-end: 1px solid color-mix(in srgb, var(--nh-tint) 30%, var(--hairline));
+}
+.nh-hand-t { min-inline-size: 0; }
+
+/* WHERE A DOT LANDS · the element that a field dot was handed to. The marker it
+   lands on is the same object-class colour the dot was, which is the whole
+   point of the handoff: one object, two places, no reset. */
+@keyframes nh-land {
+  0% { transform: scale(1); }
+  38% { transform: scale(2.4); }
+  100% { transform: scale(1); }
+}
+[data-nh-lit="1"] .nh-cls { animation: nh-land 560ms var(--ease-out-expo); }
+
 /* --- 03 · the real 19 ----------------------------------------------------- */
 .nh-shared {
   display: grid;
@@ -614,20 +853,36 @@ html .nx-app .nx-canvas:has(> .nh) {
   gap: var(--sp-3);
 }
 .nh-scard {
+  position: relative;
   display: grid;
   gap: var(--sp-2);
   padding: var(--sp-3);
   border-radius: var(--r-md);
-  border: 1px solid color-mix(in srgb, var(--o) 16%, var(--hairline));
-  background: color-mix(in srgb, var(--o) 3.5%, color-mix(in srgb, var(--surface) 88%, transparent));
+  /* OBJECT class as the ring and as a top light — this card IS the dot that
+     flew onto it, so it wears the dot's colour and nothing else's. */
+  border: 1px solid color-mix(in srgb, var(--o) 22%, var(--hairline));
+  background:
+    radial-gradient(120% 80% at 100% 0%,
+      color-mix(in srgb, var(--o) 12%, transparent), transparent 62%),
+    color-mix(in srgb, var(--surface) 90%, transparent);
   backdrop-filter: blur(8px);
   box-shadow: var(--elev-1);
-  transition: transform 240ms var(--ease-out-expo), border-color 200ms, box-shadow 200ms;
+  transition:
+    transform 260ms var(--ease-out-expo),
+    border-color 220ms, box-shadow 260ms, background-color 220ms;
 }
+[dir="ltr"] .nh-scard { background:
+  radial-gradient(120% 80% at 0% 0%, color-mix(in srgb, var(--o) 12%, transparent), transparent 62%),
+  color-mix(in srgb, var(--surface) 90%, transparent); }
 .nh-scard:hover {
-  transform: translateY(-3px);
-  border-color: color-mix(in srgb, var(--o) 45%, var(--hairline));
-  box-shadow: var(--elev-3);
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--o) 58%, var(--hairline));
+  box-shadow: var(--elev-4), 0 0 0 4px color-mix(in srgb, var(--o) 9%, transparent);
+}
+/* The frame it wears for the moment a dot arrives on it. */
+.nh-scard[data-nh-lit="1"] {
+  border-color: color-mix(in srgb, var(--o) 52%, var(--hairline));
+  box-shadow: var(--elev-3), 0 0 0 3px color-mix(in srgb, var(--o) 12%, transparent);
 }
 .nh-scard header { display: flex; align-items: center; gap: var(--sp-2); }
 .nh-scard header b { font-size: var(--t-h2); color: var(--ink-1); }
@@ -654,11 +909,30 @@ html .nx-app .nx-canvas:has(> .nh) {
 
 /* --- 04 · density --------------------------------------------------------- */
 .nh-dens { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr)); gap: var(--sp-6); }
-.nh-dcol { display: grid; gap: var(--sp-2); align-content: start; }
+/* Each module gets a real PANEL, not a bare list. This is the one place on the
+   page where module colour is a CLAIM rather than light: the teal panel is PM's
+   and the blue panel is PP-PI's, in surface + edge form. */
+.nh-dcol {
+  display: grid;
+  gap: var(--sp-2);
+  align-content: start;
+  padding: var(--sp-4);
+  border-radius: var(--r-lg);
+  border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
+  border-block-start: 3px solid color-mix(in srgb, var(--m) 72%, transparent);
+  background:
+    linear-gradient(to bottom,
+      color-mix(in srgb, var(--m) 9%, transparent),
+      transparent 34%),
+    color-mix(in srgb, var(--surface) 80%, transparent);
+  box-shadow: var(--elev-1);
+  transition: box-shadow 260ms, border-color 220ms;
+}
+.nh-dcol:hover { box-shadow: var(--elev-2); }
 .nh-dcol h3 {
   display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap;
   padding-block-end: var(--sp-2);
-  border-block-end: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
+  border-block-end: 1px solid color-mix(in srgb, var(--m) 30%, var(--hairline));
 }
 .nh-dcol h3 i { inline-size: 3px; block-size: 18px; border-radius: 2px; background: var(--m); }
 .nh-dcol h3 b { font-size: var(--t-h2); color: var(--m); }
@@ -670,13 +944,22 @@ html .nx-app .nx-canvas:has(> .nh) {
   align-items: center;
   gap: var(--sp-2);
   min-block-size: 2.25rem;
-  padding-inline: var(--sp-1);
+  padding-inline: var(--sp-2);
   border-radius: var(--r-xs);
   font-size: var(--t-xs);
-  transition: background-color 180ms, transform 180ms var(--ease-out-expo);
+  cursor: default;
+  transition: background-color 200ms, box-shadow 200ms, transform 200ms var(--ease-out-expo), color 200ms;
 }
-.nh-dcol li:hover { background: color-mix(in srgb, var(--m) 8%, transparent); transform: translateX(-2px); }
-[dir="ltr"] .nh-dcol li:hover { transform: translateX(2px); }
+.nh-dcol li:hover {
+  background: color-mix(in srgb, var(--m) 14%, transparent);
+  box-shadow: inset 2px 0 0 0 color-mix(in srgb, var(--m) 70%, transparent);
+  transform: translateX(-3px);
+}
+[dir="ltr"] .nh-dcol li:hover {
+  transform: translateX(3px);
+  box-shadow: inset -2px 0 0 0 color-mix(in srgb, var(--m) 70%, transparent);
+}
+.nh-dcol li:hover .nh-drow-t { color: var(--ink-1); }
 .nh-drow-i { font-size: 10px; color: var(--ink-3); }
 .nh-drow-t { color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nh-drow-k { display: flex; gap: 2px; align-items: center; }
@@ -688,13 +971,19 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-flows { display: grid; gap: var(--sp-6); }
 .nh-chain {
   display: grid; gap: var(--sp-3);
-  padding: var(--sp-4);
+  padding: var(--sp-5);
   border-radius: var(--r-lg);
-  border: 1px solid color-mix(in srgb, var(--m) 22%, var(--hairline));
+  border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
+  /* The chain's own module, as edge + surface. Same claim as the 04 panels. */
+  border-inline-start: 3px solid color-mix(in srgb, var(--m) 70%, transparent);
   background:
-    linear-gradient(to bottom, color-mix(in srgb, var(--m) 6%, transparent), transparent 40%),
-    color-mix(in srgb, var(--surface) 78%, transparent);
+    radial-gradient(80% 50% at 100% 0%, color-mix(in srgb, var(--m) 11%, transparent), transparent 66%),
+    color-mix(in srgb, var(--surface) 82%, transparent);
+  box-shadow: var(--elev-1);
 }
+[dir="ltr"] .nh-chain { background:
+  radial-gradient(80% 50% at 0% 0%, color-mix(in srgb, var(--m) 11%, transparent), transparent 66%),
+  color-mix(in srgb, var(--surface) 82%, transparent); }
 .nh-chain header { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
 .nh-chain header i { inline-size: 3px; block-size: 18px; border-radius: 2px; background: var(--m); }
 .nh-chain header b { font-size: var(--t-h2); color: var(--m); }
@@ -724,8 +1013,16 @@ html .nx-app .nx-canvas:has(> .nh) {
   box-shadow: var(--elev-1);
   transition: transform 220ms var(--ease-out-expo), box-shadow 200ms;
 }
-.nh-node:hover { transform: translateX(-3px); box-shadow: var(--elev-3); }
-[dir="ltr"] .nh-node:hover { transform: translateX(3px); }
+.nh-node:hover {
+  transform: translateX(-4px);
+  border-color: color-mix(in srgb, var(--o) 60%, var(--hairline));
+  box-shadow: var(--elev-3), 0 0 0 3px color-mix(in srgb, var(--o) 10%, transparent);
+}
+[dir="ltr"] .nh-node:hover { transform: translateX(4px); }
+.nh-node[data-nh-lit="1"] {
+  border-color: color-mix(in srgb, var(--o) 55%, var(--hairline));
+  box-shadow: var(--elev-2), 0 0 0 3px color-mix(in srgb, var(--o) 12%, transparent);
+}
 .nh-node .nh-cls { inline-size: 8px; block-size: 8px; grid-row: span 2; }
 .nh-node b { font-size: var(--t-sm); color: var(--ink-1); }
 .nh-node-he { font-size: var(--t-micro); color: var(--ink-2); grid-column: 2; }
@@ -760,7 +1057,10 @@ html .nx-app .nx-canvas:has(> .nh) {
   background: repeating-linear-gradient(to bottom, var(--rel-inferred) 0 3px, transparent 3px 8px);
 }
 .nh-link-t { font-size: var(--t-micro); color: var(--ink-3); grid-column: 2; }
-.nh-link[data-kind="gap"] .nh-link-t { color: var(--status-in-analysis); }
+/* A process boundary is stated by the dashed inferred rule and by the words.
+   It is NOT stated in a --status-* colour: status only ever takes the form of a
+   small filled dot followed by its label, and this is neither. */
+.nh-link[data-kind="gap"] .nh-link-t { color: var(--ink-2); font-weight: 600; }
 .nh-link code {
   grid-column: 2;
   font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate;
@@ -770,24 +1070,49 @@ html .nx-app .nx-canvas:has(> .nh) {
 
 /* --- 06 · migration ------------------------------------------------------- */
 .nh-imp { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr)); gap: var(--sp-3); max-inline-size: 58rem; }
+/* STAGE 2B CORRECTION. These three cards used to take their border, their
+   surface and their bar from a --status-* value. Under the form rule that is
+   exactly what status may never be. The card is now neutral, the emphasis on
+   the one number that matters is BRAND (the page's single accent), and the
+   status hue survives in the only shape it is allowed: a small filled dot
+   immediately followed by its word. */
 .nh-impcol {
+  position: relative;
   display: grid;
   gap: var(--sp-1);
-  padding: var(--sp-4);
+  align-content: start;
+  padding: var(--sp-5);
   border-radius: var(--r-md);
-  border: 1px solid color-mix(in srgb, var(--k) 22%, var(--hairline));
-  background: color-mix(in srgb, var(--k) 4%, color-mix(in srgb, var(--surface) 84%, transparent));
+  border: 1px solid var(--hairline);
+  background:
+    linear-gradient(to bottom,
+      color-mix(in srgb, var(--ink-1) 4%, transparent), transparent 46%),
+    color-mix(in srgb, var(--surface) 90%, transparent);
+  box-shadow: var(--elev-1);
   --k: var(--status-done);
+  --bar: color-mix(in srgb, var(--ink-1) 42%, transparent);
+  transition: transform 260ms var(--ease-out-expo), box-shadow 260ms, border-color 220ms;
 }
-.nh-impcol[data-k="replaced"] { --k: var(--status-in-conversion); }
+.nh-impcol:hover { transform: translateY(-2px); box-shadow: var(--elev-3); }
+.nh-impcol[data-k="replaced"] {
+  --k: var(--status-in-conversion);
+  --bar: var(--brand);
+  border-color: color-mix(in srgb, var(--brand) 34%, var(--hairline));
+  background:
+    linear-gradient(to bottom, color-mix(in srgb, var(--brand) 8%, transparent), transparent 52%),
+    color-mix(in srgb, var(--surface) 92%, transparent);
+}
+.nh-impcol[data-k="replaced"] > b { color: var(--brand); }
 .nh-impcol[data-k="removed"] { --k: var(--status-not-started); }
-.nh-impcol[data-empty="1"] { border-style: dashed; background: transparent; }
+.nh-impcol[data-empty="1"] { border-style: dashed; background: transparent; box-shadow: none; }
 .nh-impcol > b { font-size: clamp(2.25rem, 4.4cqi, 3.5rem); line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
 .nh-impcol[data-empty="1"] > b { color: var(--ink-3); }
-.nh-impcol-l { font-size: var(--t-sm); color: var(--ink-2); }
+/* The one legal appearance of a --status-* value: dot, then word, adjacent. */
+.nh-impcol-k { display: inline-flex; align-items: center; gap: 6px; font-size: var(--t-sm); color: var(--ink-2); }
+.nh-impcol-k i { inline-size: 8px; block-size: 8px; border-radius: 50%; background: var(--k); flex: none; }
 .nh-impcol-bar { display: block; block-size: 6px; border-radius: var(--r-pill); background: var(--surface-2); overflow: hidden; margin-block-start: var(--sp-2); }
 .nh-impcol-bar i {
-  display: block; block-size: 100%; border-radius: inherit; background: var(--k);
+  display: block; block-size: 100%; border-radius: inherit; background: var(--bar);
   transform: scaleX(var(--p, 0)); transform-origin: 100% 50%;
   transition: transform 900ms var(--ease-emphasis) var(--d, 0ms);
 }
@@ -798,15 +1123,27 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-hot { display: grid; gap: 2px; }
 .nh-hot li {
   display: grid;
-  grid-template-columns: 6.5rem 6rem minmax(8rem, 1fr) minmax(12rem, 1.6fr) minmax(9rem, 1fr) auto;
+  grid-template-columns: 10px 6.5rem 6rem minmax(8rem, 1fr) minmax(11rem, 1.6fr) minmax(9rem, 1fr) auto;
   align-items: center;
   gap: var(--sp-3);
   min-block-size: var(--c-tap);
   padding: var(--sp-2) var(--sp-3);
   border-radius: var(--r-sm);
-  border: 1px solid color-mix(in srgb, var(--nh-tint) 13%, var(--hairline));
-  background: color-mix(in srgb, var(--nh-tint) 2.5%, color-mix(in srgb, var(--surface) 82%, transparent));
+  /* OBJECT class ring, because a dot from the field lands on this row. */
+  border: 1px solid color-mix(in srgb, var(--o) 20%, var(--hairline));
+  background: color-mix(in srgb, var(--o) 4%, color-mix(in srgb, var(--surface) 88%, transparent));
   font-size: var(--t-xs);
+  transition: transform 220ms var(--ease-out-expo), border-color 200ms, box-shadow 220ms;
+}
+.nh-hot li:hover {
+  transform: translateX(-3px);
+  border-color: color-mix(in srgb, var(--o) 52%, var(--hairline));
+  box-shadow: var(--elev-2);
+}
+[dir="ltr"] .nh-hot li:hover { transform: translateX(3px); }
+.nh-hot li[data-nh-lit="1"] {
+  border-color: color-mix(in srgb, var(--o) 50%, var(--hairline));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--o) 11%, transparent);
 }
 .nh-hot-k { display: inline-flex; align-items: center; gap: 5px; font-size: var(--t-micro); color: var(--ink-3); }
 .nh-hot-k i { inline-size: 7px; block-size: 7px; border-radius: 50%; background: var(--status-in-conversion); flex: none; }
@@ -823,6 +1160,33 @@ html .nx-app .nx-canvas:has(> .nh) {
   border: 1px solid color-mix(in srgb, var(--m) 30%, transparent);
   background: color-mix(in srgb, var(--m) 9%, transparent);
 }
+
+/* THE LAST BEAT · the lattice the field resolves into stops being background
+   and becomes the doors. The block is a real panel so the page lands on an
+   object rather than trailing off into a row of loose pills. */
+.nh-out {
+  display: grid;
+  gap: var(--sp-4);
+  padding: var(--sp-6);
+  border-radius: var(--r-lg);
+  border: 1px solid color-mix(in srgb, var(--nh-tint) 24%, var(--hairline));
+  border-block-start: 3px solid color-mix(in srgb, var(--nh-tint) 62%, transparent);
+  background:
+    radial-gradient(90% 70% at 100% 0%, color-mix(in srgb, var(--nh-tint) 10%, transparent), transparent 68%),
+    color-mix(in srgb, var(--surface) 84%, transparent);
+  box-shadow: var(--elev-2);
+}
+[dir="ltr"] .nh-out { background:
+  radial-gradient(90% 70% at 0% 0%, color-mix(in srgb, var(--nh-tint) 10%, transparent), transparent 68%),
+  color-mix(in srgb, var(--surface) 84%, transparent); }
+.nh-out-t { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.7; max-inline-size: 68ch; }
+
+/* MODULE as ring + surface tint on a control. Never as a bare coloured dot. */
+.nh-btn--mod {
+  border-color: color-mix(in srgb, var(--m) 42%, var(--hairline));
+  background: color-mix(in srgb, var(--m) 10%, var(--surface));
+}
+.nh-btn--mod:hover { border-color: var(--m); background: color-mix(in srgb, var(--m) 16%, var(--surface)); }
 
 .nh-credit { font-size: var(--t-micro); color: var(--ink-3); padding-block-start: var(--sp-4); border-block-start: 1px solid var(--hairline); }
 
@@ -868,9 +1232,56 @@ html[data-theme="dark"] .nh-body {
   box-shadow: 0 24px 60px -24px rgba(0, 0, 0, .85), 0 2px 0 0 color-mix(in srgb, var(--m) 16%, transparent) inset;
 }
 html[data-theme="dark"] .nh-body[data-r="d"] { background: color-mix(in srgb, var(--m) 10%, var(--surface-2)); }
-html[data-theme="dark"] :is(.nh-cov li, .nh-scard, .nh-impcol, .nh-hot li, .nh-chain) {
-  background: color-mix(in srgb, var(--surface-2) 62%, transparent);
+/* Dark keeps module colour as LIGHT rather than as paint: the tint sits on the
+   elevated plane at a higher percentage than in light, because a near-black
+   ground eats chroma, and the ring carries most of the identity. */
+html[data-theme="dark"] :is(.nh-cov li, .nh-scard, .nh-impcol, .nh-hot li) {
+  background: color-mix(in srgb, var(--surface-2) 66%, transparent);
   border-color: color-mix(in srgb, var(--ink-3) 22%, transparent);
+}
+html[data-theme="dark"] .nh-cov li {
+  background: color-mix(in srgb, var(--nh-tint) 10%, var(--surface-2));
+  border-color: color-mix(in srgb, var(--nh-tint) 30%, transparent);
+}
+html[data-theme="dark"] .nh-cov li:hover {
+  background: color-mix(in srgb, var(--nh-tint) 18%, var(--surface-2));
+  border-color: color-mix(in srgb, var(--nh-tint) 52%, transparent);
+}
+html[data-theme="dark"] .nh-scard {
+  background:
+    radial-gradient(120% 80% at 100% 0%, color-mix(in srgb, var(--o) 18%, transparent), transparent 62%),
+    color-mix(in srgb, var(--surface-2) 74%, transparent);
+  border-color: color-mix(in srgb, var(--o) 28%, transparent);
+}
+html[data-theme="dark"] .nh-hot li {
+  background: color-mix(in srgb, var(--o) 9%, var(--surface-2));
+  border-color: color-mix(in srgb, var(--o) 26%, transparent);
+}
+html[data-theme="dark"] :is(.nh-chain, .nh-dcol) {
+  background:
+    linear-gradient(to bottom, color-mix(in srgb, var(--m) 14%, transparent), transparent 40%),
+    color-mix(in srgb, var(--surface-2) 70%, transparent);
+  border-color: color-mix(in srgb, var(--m) 30%, transparent);
+}
+html[data-theme="dark"] .nh-out,
+html[data-theme="dark"] .nh-hand {
+  background:
+    linear-gradient(to bottom, color-mix(in srgb, var(--nh-tint) 13%, transparent), transparent 55%),
+    color-mix(in srgb, var(--surface-2) 72%, transparent);
+  border-color: color-mix(in srgb, var(--nh-tint) 30%, transparent);
+}
+html[data-theme="dark"] .nh-impcol[data-k="replaced"] {
+  background: color-mix(in srgb, var(--brand) 12%, var(--surface-2));
+  border-color: color-mix(in srgb, var(--brand) 40%, transparent);
+}
+html[data-theme="dark"] .nh-edge { opacity: 0; mix-blend-mode: screen; }
+html[data-theme="dark"] .nh-sec {
+  background:
+    linear-gradient(to bottom,
+      color-mix(in srgb, var(--nh-tint) 8%, transparent) 0,
+      color-mix(in srgb, var(--nh-tint) 2.5%, transparent) 30%,
+      transparent 66%),
+    radial-gradient(90% 60% at 8% 100%, color-mix(in srgb, var(--nh-tint) 6%, transparent), transparent 70%);
 }
 html[data-theme="dark"] .nh-node { background: var(--surface-2); }
 html[data-theme="dark"] .nh-btn { background: var(--surface-2); border-color: color-mix(in srgb, var(--ink-3) 26%, transparent); }
@@ -904,7 +1315,14 @@ html[data-theme="dark"] .nh-read { background: color-mix(in srgb, var(--surface-
   .nh-cov li { grid-template-columns: 1fr auto; }
   .nh-cov-bar { grid-column: 1 / -1; }
   .nh-cov-s { text-align: start; }
-  .nh-hot li { grid-template-columns: 1fr; gap: 4px; padding-block: var(--sp-3); }
+  .nh-hot li { grid-template-columns: 10px 1fr; gap: 4px var(--sp-2); padding-block: var(--sp-3); }
+  .nh-hot li > *:not(.nh-cls) { grid-column: 2; }
+  .nh-dcol { padding: var(--sp-3); }
+  .nh-hand { grid-template-columns: auto minmax(0, 1fr); padding: var(--sp-3); }
+  .nh-hand-to { border-inline-end: 0; padding-inline-end: 0; }
+  .nh-hand-t { grid-column: 1 / -1; }
+  .nh-out { padding: var(--sp-4); }
+  .nh-cov li { padding: var(--sp-2); }
   .nh-link { min-inline-size: 4rem; }
   .nh-link code { display: none; }
   .nh-dcol li { grid-template-columns: 1.5rem 1fr 2rem; }
@@ -916,8 +1334,8 @@ html[data-theme="dark"] .nh-read { background: color-mix(in srgb, var(--surface-
 @container nh (min-width: 700px) and (max-width: 1049px) {
   .nh-sec { padding-inline-end: calc(var(--nh-gut) + 4rem); }
   .nh-sec--open { align-content: start; padding-block-start: var(--sp-12); }
-  .nh-hot li { grid-template-columns: 6rem 6rem 1fr; row-gap: 4px; padding-block: var(--sp-2); }
-  .nh-hot-note, .nh-hot-alt, .nh-hot-mods { grid-column: 2 / -1; }
+  .nh-hot li { grid-template-columns: 10px 6rem 6rem 1fr; row-gap: 4px; padding-block: var(--sp-2); }
+  .nh-hot-note, .nh-hot-alt, .nh-hot-mods { grid-column: 3 / -1; }
   .nh-link code { max-inline-size: 9rem; }
 }
 
@@ -969,6 +1387,9 @@ html[data-theme="dark"] .nh-read { background: color-mix(in srgb, var(--surface-
   .nh-plane { filter: none !important; }
   .nh-lens, .nh-read { display: none; }
   .nh-cov-bar i, .nh-impcol-bar i { transform: none !important; }
+  /* The handoff never runs under reduced motion (the scene skips it), so this
+     only guards a landing animation that could survive a zeroed duration. */
+  [data-nh-lit="1"] .nh-cls { animation: none !important; }
   .nh-sec[data-pre="1"] > *:not(.nh-ix),
   .nh-sec[data-pre="1"] :is(.nh-stat, .nh-cov li, .nh-scard, .nh-impcol, .nh-hot li) {
     opacity: 1 !important;
@@ -981,4 +1402,8 @@ html[data-theme="dark"] .nh-read { background: color-mix(in srgb, var(--surface-
 @media (forced-colors: active) {
   .nh-field, .nh-lens, .nh-read { display: none; }
   .nh-body { backdrop-filter: none; }
+  /* Every decorative edge below is colour-only; in a forced palette it either
+     disappears or fights the user's own choice, so it is stated as a border. */
+  .nh-sec::before, .nh-cov li::before { display: none; }
+  :is(.nh-hand, .nh-out, .nh-dcol, .nh-chain, .nh-impcol) { border: 1px solid CanvasText; }
 }

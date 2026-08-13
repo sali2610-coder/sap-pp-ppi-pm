@@ -1,0 +1,537 @@
+/* ============================================================================
+   PROJECT NEO · STAGE 2B — THE ERD / DATA-MODEL WORKSPACE
+   ----------------------------------------------------------------------------
+   Imported by app/neo/erd/page.tsx only. Every selector is anchored on .ne,
+   which exists on that one route, so nothing here can reach another page and
+   not one token in app/globals.css is redeclared — this file only CONSUMES
+   them.
+
+   THE FORM RULE (app/globals.css, above --mod-pm) IS THE LAW HERE:
+     · MODULE   --mod-*   node ring, list marker, section line, gradient ring on
+                          a table both blueprints document. Never a dot.
+     · STATUS   --status-* does not appear on this page at all.
+     · OBJECT   --obj-*   the class marker on a node.
+     · RELATION --rel-*   the edges and the cardinality pills. Nothing else.
+     · BRAND    --brand   focus ring and one accent. Never a data category.
+
+   MOTION: only transform and opacity. The single looping animation is the flow
+   pulse on the emphasised edges, and it is a translate between two endpoints
+   handed in as custom properties. Everything stops under reduced motion.
+   ========================================================================== */
+
+/* The shell canvas is a padded, gapped, scrolling grid for ordinary pages. The
+   workspace is a full-bleed instrument, so it — and only it — takes the canvas
+   over. Deliberately over-qualified for the same reason home.css is: the phone
+   rule in globals is (0,2,1) and a bare :has() would lose to it. */
+html .nx-app .nx-canvas:has(> .ne) {
+  display: block;
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+}
+
+.ne {
+  block-size: 100%;
+  min-block-size: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  container-type: inline-size;
+  container-name: ne;
+  background: var(--background);
+}
+
+/* ==========================================================================
+   TOOLBAR
+   ========================================================================== */
+
+.ne-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-5);
+  border-block-end: 1px solid var(--hairline);
+  background: var(--surface);
+}
+.ne-bar-id { display: grid; gap: 2px; margin-inline-end: auto; }
+.ne-h1 { font-size: var(--t-h2); font-weight: 700; letter-spacing: var(--t-h2-tr); color: var(--ink-1); }
+.ne-sub { font-size: var(--t-micro); color: var(--ink-3); }
+
+.ne-seg {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+}
+.ne-seg-b {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-block-size: 2rem;
+  padding-inline: var(--sp-3);
+  border-radius: var(--r-xs);
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+  transition: opacity var(--dur-fast), transform var(--dur-fast) var(--ease-out-expo);
+}
+.ne-seg-b:hover { color: var(--ink-1); }
+.ne-seg-b:active { transform: scale(.97); }
+.ne-seg-b[aria-pressed="true"] { background: var(--surface); color: var(--ink-1); font-weight: 600; box-shadow: var(--elev-1); }
+.ne-seg-b:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+/* MODULE identity on the filter — a line, never a dot. */
+.ne-seg-b i { inline-size: 3px; block-size: 13px; border-radius: 2px; background: var(--m); }
+.ne-seg-b svg { color: var(--ink-3); }
+
+.ne-zoom {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+}
+.ne-ico {
+  display: grid;
+  place-items: center;
+  inline-size: 2rem;
+  block-size: 2rem;
+  border-radius: var(--r-xs);
+  color: var(--ink-2);
+  transition: transform var(--dur-fast) var(--ease-out-expo), opacity var(--dur-fast);
+}
+.ne-ico:hover { background: var(--surface); color: var(--ink-1); }
+.ne-ico:active { transform: scale(.94); }
+.ne-ico:disabled { opacity: .38; }
+.ne-ico:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.ne-zoom-v {
+  min-inline-size: 3.25rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+  color: var(--ink-2);
+}
+
+@media (pointer: coarse) {
+  .ne-seg-b { min-block-size: var(--c-tap, 2.75rem); padding-inline: var(--sp-4); }
+  .ne-ico { inline-size: var(--c-tap, 2.75rem); block-size: var(--c-tap, 2.75rem); }
+}
+
+/* ==========================================================================
+   BODY · STAGE + INSPECTOR
+   ========================================================================== */
+
+.ne-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 23rem;
+  min-block-size: 0;
+}
+@media (min-width: 2560px) { .ne-body { grid-template-columns: minmax(0, 1fr) 28rem; } }
+
+.ne-stage {
+  position: relative;
+  overflow: hidden;
+  min-inline-size: 0;
+  min-block-size: 0;
+  cursor: grab;
+  /* A declared gesture region, not a hijacked scroll: the stage is a bounded
+     box and the page scrolls everywhere around it. Wheel without Ctrl/Cmd is
+     never intercepted at all — see the listener in erd-workspace.tsx. */
+  touch-action: none;
+  background-color: var(--surface-2);
+  background-image:
+    repeating-linear-gradient(to right, var(--hairline) 0 1px, transparent 1px 68px),
+    repeating-linear-gradient(to bottom, var(--hairline) 0 1px, transparent 1px 68px);
+}
+.ne-stage[data-drag="1"] { cursor: grabbing; }
+.ne-stage:focus-visible { outline: none; box-shadow: inset var(--focus-ring); }
+
+.ne-canvas { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; display: block; }
+
+/* --- edges ---------------------------------------------------------------- */
+.ne-edge-p { fill: none; stroke: var(--r); stroke-width: 1.5; opacity: .62; transition: opacity var(--dur-base) var(--ease-out-expo); }
+.ne-edge[data-kind="unstated"] .ne-edge-p { stroke-dasharray: 5 5; opacity: .45; }
+/* Direction without an arrowhead thicket: solid cap = primary key side,
+   hollow cap = foreign key side. */
+.ne-cap { transition: opacity var(--dur-base) var(--ease-out-expo); }
+.ne-cap--pk { fill: var(--r); opacity: .8; }
+.ne-cap--fk { fill: var(--surface-2); stroke: var(--r); stroke-width: 1.4; opacity: .8; }
+.ne-edge-t {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--ink-2);
+  direction: ltr;
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out-expo);
+  pointer-events: none;
+}
+.ne-edge[data-on="1"] .ne-edge-p { opacity: 1; stroke-width: 2.6; }
+.ne-edge[data-on="1"] .ne-edge-t { opacity: 1; fill: var(--ink-1); }
+.ne-edge[data-off="1"] { opacity: .06; }
+.ne[data-sel="1"] .ne-edge[data-on="0"] { opacity: .2; }
+
+.ne-pulse { fill: var(--r); }
+@keyframes ne-flow {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  14%  { opacity: 1; }
+  86%  { opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)); opacity: 0; }
+}
+.ne-pulse { animation: ne-flow 2100ms var(--ease-out-expo) infinite; }
+
+/* --- nodes ---------------------------------------------------------------- */
+.ne-node { transition: opacity var(--dur-base) var(--ease-out-expo); }
+.ne-node-r {
+  fill: var(--surface);
+  /* MODULE identity as the ring. A table both blueprints document carries a
+     two-stop gradient ring rather than being assigned to one of them. */
+  stroke: var(--m);
+  stroke-width: 1.6;
+  transition: stroke-width var(--dur-base) var(--ease-out-expo);
+}
+.ne-node-cls { fill: var(--o); }
+.ne-node-n {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  fill: var(--ink-1);
+  direction: ltr;
+  dominant-baseline: middle;
+}
+.ne-node-k {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--ink-3);
+  direction: ltr;
+  dominant-baseline: middle;
+}
+.ne-node-d {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--ink-3);
+  direction: ltr;
+  dominant-baseline: middle;
+}
+.ne-node[data-hit="1"] .ne-node-r { stroke-width: 3; }
+.ne-node[data-on="1"] .ne-node-r { stroke-width: 3.4; filter: drop-shadow(0 6px 18px rgba(15, 23, 42, .22)); }
+.ne-node[data-near="1"] .ne-node-r { stroke-width: 2.4; }
+.ne-node[data-off="1"] { opacity: .1; pointer-events: none; }
+.ne[data-sel="1"] .ne-node[data-on="0"][data-near="0"] { opacity: .26; }
+.ne[data-q="1"] .ne-node[data-hit="0"][data-on="0"] { opacity: .22; }
+
+/* --- minimap -------------------------------------------------------------- */
+.ne-mini {
+  position: absolute;
+  inset-block-end: var(--sp-3);
+  inset-inline-end: var(--sp-3);
+  inline-size: 13rem;
+  aspect-ratio: 4 / 3;
+  padding: 5px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  box-shadow: var(--elev-2);
+  touch-action: none;
+}
+.ne-mini svg { inline-size: 100%; block-size: 100%; display: block; cursor: crosshair; }
+.ne-mini-e { stroke: var(--ink-3); stroke-width: 3; opacity: .18; }
+.ne-mini-n { fill: var(--ms); opacity: .5; }
+.ne-mini-n[data-off="1"] { opacity: .12; }
+.ne-mini-n[data-on="1"] { opacity: 1; }
+.ne-mini-v { fill: color-mix(in srgb, var(--brand) 12%, transparent); stroke: var(--brand); stroke-width: 8; }
+
+.ne-hint {
+  position: absolute;
+  inset-block-end: var(--sp-3);
+  inset-inline-start: var(--sp-3);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px var(--sp-3);
+  border-radius: var(--r-pill);
+  border: 1px solid var(--hairline);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  pointer-events: none;
+}
+.ne-hint kbd {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: var(--r-xs);
+  border: 1px solid var(--hairline);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  direction: ltr;
+}
+
+/* ==========================================================================
+   INSPECTOR
+   ========================================================================== */
+
+.ne-insp {
+  display: grid;
+  grid-template-rows: minmax(0, 18rem) minmax(0, 1fr);
+  min-block-size: 0;
+  border-inline-start: 1px solid var(--hairline);
+  background: var(--surface);
+}
+
+.ne-find { display: grid; grid-template-rows: auto auto minmax(0, 1fr); gap: var(--sp-2); padding: var(--sp-3); min-block-size: 0; }
+.ne-search {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-block-size: 2.5rem;
+  padding-inline: var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  color: var(--ink-3);
+}
+.ne-search:focus-within { box-shadow: var(--focus-ring); }
+.ne-search input {
+  flex: 1;
+  min-inline-size: 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+  font-size: var(--t-xs);
+  color: var(--ink-1);
+}
+.ne-clear { display: grid; place-items: center; inline-size: 1.5rem; block-size: 1.5rem; border-radius: var(--r-xs); color: var(--ink-3); }
+.ne-clear:hover { color: var(--ink-1); }
+.ne-find-n { font-size: var(--t-micro); color: var(--ink-3); }
+
+.ne-list { overflow-y: auto; overscroll-behavior: contain; display: grid; gap: 2px; align-content: start; }
+.ne-list-b {
+  display: grid;
+  grid-template-columns: 3px minmax(4.5rem, auto) 1fr auto;
+  align-items: center;
+  gap: var(--sp-2);
+  inline-size: 100%;
+  min-block-size: 2.25rem;
+  padding-inline: var(--sp-2);
+  border-radius: var(--r-xs);
+  text-align: start;
+  transition: transform var(--dur-fast) var(--ease-out-expo);
+}
+.ne-list-b:hover { background: var(--surface-2); }
+.ne-list-b[aria-pressed="true"] { background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline); }
+.ne-list-b:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+/* MODULE identity in the list — a line, never a dot. */
+.ne-list-bar { inline-size: 3px; block-size: 1.1rem; border-radius: 2px; background: var(--ms); }
+.ne-list-b b { font-family: var(--font-mono); direction: ltr; font-size: var(--t-xs); color: var(--ink-1); }
+.ne-list-b em {
+  font-style: normal;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ne-list-b span { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); direction: ltr; }
+@media (pointer: coarse) { .ne-list-b { min-block-size: var(--c-tap, 2.75rem); } }
+
+.ne-detail {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: grid;
+  align-content: start;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  border-block-start: 1px solid var(--hairline);
+}
+
+.ne-det-h { display: grid; grid-template-columns: 10px auto 1fr; align-items: center; gap: var(--sp-2); }
+.ne-det-h > i { inline-size: 10px; block-size: 10px; border-radius: 50%; background: var(--o); }
+.ne-det-h b { font-family: var(--font-mono); direction: ltr; font-size: var(--t-h2); font-weight: 700; color: var(--ink-1); }
+.ne-det-h p { grid-column: 1 / -1; font-size: var(--t-xs); color: var(--ink-2); line-height: 1.7; }
+.ne-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  justify-self: end;
+  min-block-size: 2rem;
+  padding-inline: var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  color: var(--ink-1);
+  transition: transform var(--dur-fast) var(--ease-out-expo);
+}
+.ne-open:hover { transform: translateY(-1px); }
+.ne-open:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+.ne-det-mods { display: grid; gap: var(--sp-2); }
+.ne-det-mods li {
+  display: grid;
+  grid-template-columns: 3px 1fr;
+  align-items: center;
+  column-gap: var(--sp-2);
+  padding: var(--sp-2);
+  border: 1px solid color-mix(in srgb, var(--m) 30%, var(--hairline));
+  border-radius: var(--r-xs);
+  background: color-mix(in srgb, var(--m) 5%, transparent);
+}
+.ne-det-mods li i { grid-row: 1 / span 2; inline-size: 3px; block-size: 100%; min-block-size: 1.6rem; border-radius: 2px; background: var(--m); }
+.ne-det-mods li b { font-size: var(--t-xs); color: var(--ink-1); }
+.ne-det-mods li em { grid-column: 2; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+.ne-det-cls {
+  grid-template-columns: auto 1fr !important;
+  border-color: var(--hairline) !important;
+  background: var(--surface-2) !important;
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+}
+.ne-det-cls span { inline-size: 8px; block-size: 8px; border-radius: 50%; background: var(--o); }
+
+.ne-keys { display: grid; gap: var(--sp-3); grid-template-columns: 1fr 1fr; }
+.ne-keys h3, .ne-blk h3 { font-size: var(--t-micro); color: var(--ink-3); margin-block-end: 5px; font-weight: 600; }
+.ne-blk { display: grid; }
+.ne-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.ne-chips li {
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: 10px;
+  padding: 3px 7px;
+  border-radius: var(--r-xs);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  border: 1px solid var(--hairline);
+}
+.ne-chips li[data-k="PK"] { border-color: var(--o); background: color-mix(in srgb, var(--o) 14%, transparent); color: var(--ink-1); font-weight: 700; }
+.ne-chips li[data-k="FK"] { border-style: dashed; }
+
+.ne-none { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.7; font-style: italic; }
+
+.ne-joins { display: grid; gap: var(--sp-3); }
+.ne-joins > li { display: grid; gap: 5px; padding-inline-start: var(--sp-3); border-inline-start: 3px solid var(--r); }
+.ne-join-h { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.ne-dir {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--ink-2);
+  padding: 2px 6px;
+  border-radius: var(--r-xs);
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+}
+.ne-join-go { font-family: var(--font-mono); direction: ltr; font-size: var(--t-xs); font-weight: 700; color: var(--ink-1); }
+.ne-join-go:hover { color: var(--brand); }
+.ne-join-go:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--r-xs); }
+.ne-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--r) 14%, var(--surface-2));
+  color: var(--ink-1);
+}
+.ne-card i { inline-size: 12px; block-size: 2px; border-radius: 2px; background: var(--r); }
+/* A direction the two blueprints disagree about. Dashed and uncoloured — a
+   disagreement is a caveat, not a data category. */
+.ne-ct {
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  border: 1px dashed var(--ink-3);
+  color: var(--ink-3);
+}
+.ne-join-s { display: grid; gap: 3px; padding-inline-start: var(--sp-2); border-inline-start: 2px solid color-mix(in srgb, var(--m) 45%, transparent); }
+.ne-join-m { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; color: var(--ink-3); direction: ltr; }
+.ne-join-m i { inline-size: 10px; block-size: 2px; border-radius: 2px; background: var(--m); }
+.ne-join-s code {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  direction: ltr;
+  text-align: start;
+  unicode-bidi: isolate;
+  color: var(--ink-2);
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-xs);
+  padding: 3px 5px;
+  overflow-x: auto;
+  white-space: pre;
+}
+.ne-join-k { display: inline-flex; gap: var(--sp-3); font-size: 10px; color: var(--ink-3); }
+.ne-join-k em { font-style: normal; }
+.ne-join-k b { font-family: var(--font-mono); direction: ltr; color: var(--ink-2); }
+.ne-join-d { font-size: 10px; color: var(--ink-3); line-height: 1.6; }
+
+.ne-idle { display: grid; gap: var(--sp-3); align-content: start; }
+.ne-idle h2 { display: flex; align-items: center; gap: 6px; font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); }
+.ne-idle h2 svg { color: var(--ink-3); }
+.ne-idle > p { font-size: var(--t-xs); color: var(--ink-2); line-height: 1.75; }
+.ne-facts { display: grid; gap: 4px; }
+.ne-facts > div { display: grid; grid-template-columns: 1fr auto; gap: var(--sp-2); font-size: var(--t-xs); padding-block: 3px; border-block-end: 1px solid var(--hairline); }
+.ne-facts dt { color: var(--ink-3); }
+.ne-facts dd { font-family: var(--font-mono); direction: ltr; font-variant-numeric: tabular-nums; color: var(--ink-1); }
+.ne-legend { display: grid; gap: 6px; }
+.ne-legend li { display: flex; align-items: center; gap: 7px; font-size: var(--t-micro); color: var(--ink-3); }
+.ne-legend li i { inline-size: 20px; block-size: 2px; border-radius: 2px; background: var(--r); flex: none; }
+.ne-legend li[data-kind="unstated"] i { background: repeating-linear-gradient(to right, var(--r) 0 4px, transparent 4px 9px); }
+.ne-lg-pk, .ne-lg-fk { inline-size: 9px; block-size: 9px; border-radius: 50%; flex: none; }
+.ne-lg-pk { background: var(--ink-3); }
+.ne-lg-fk { border: 1.5px solid var(--ink-3); }
+.ne-note { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.75; padding-block-start: var(--sp-2); border-block-start: 1px solid var(--hairline); }
+
+.ne-credit {
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  text-align: center;
+  padding: var(--sp-2);
+  border-block-start: 1px solid var(--hairline);
+  background: var(--surface);
+}
+
+/* ==========================================================================
+   NARROW · the workspace becomes a scrolling page with a bounded stage
+   ========================================================================== */
+
+@container ne (max-width: 900px) {
+  .ne { grid-template-rows: auto auto auto; block-size: auto; }
+  .ne-body { grid-template-columns: 1fr; }
+  .ne-stage { block-size: 58svh; min-block-size: 20rem; }
+  .ne-insp {
+    grid-template-rows: auto auto;
+    border-inline-start: 0;
+    border-block-start: 1px solid var(--hairline);
+  }
+  .ne-find { grid-template-rows: auto auto auto; }
+  .ne-list { max-block-size: 16rem; }
+  .ne-detail { overflow: visible; }
+  .ne-mini { inline-size: 9rem; }
+  .ne-keys { grid-template-columns: 1fr; }
+  .ne-bar { padding: var(--sp-3); }
+  .ne-bar-id { flex-basis: 100%; margin-inline-end: 0; }
+}
+
+/* The canvas must scroll again once the workspace is a page rather than an
+   instrument. Mirrors the container query above at its viewport equivalent —
+   a container query cannot style an ancestor. */
+@media (max-width: 1100px) {
+  html .nx-app .nx-canvas:has(> .ne) { overflow: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ne *,
+  .ne *::before,
+  .ne *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .ne-pulse { display: none; }
+}

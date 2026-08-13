@@ -1,0 +1,639 @@
+/* ============================================================================
+   PROJECT NEO · THE UNIVERSAL SEARCH / COMMAND SURFACE — Stage 2B raise.
+   ----------------------------------------------------------------------------
+   Loaded by components/neo-shell/search/command-surface.tsx, which is the only
+   thing that renders these classes. Section 12 of app/neo/rail.css still ships
+   the Stage 2A surface; this file raises it rather than replacing it, so every
+   rule here is written under the extra `.nxc--r` class the component now sets.
+   That makes the specificity strictly higher than the rail's (four class-level
+   selectors against three) and takes stylesheet ORDER out of the outcome — the
+   raise cannot be undone by whichever chunk the bundler happens to emit first.
+
+   THE THREE THINGS THIS FILE IS FOR
+
+   1. SURFACE TRANSFORMATION, NOT A MODAL.
+      A modal covers. This surface RESPONDS. `--sm` is the module the answer
+      actually lives in, set on the root by the shell; it drives the panel's
+      spine and edge, the header wash, and a `.nxc-wash` layer that tints the
+      canvas in that module's hue instead of greying it out. Nothing here is
+      `position: fixed` over the rail — the rail stays live and stays lit.
+
+   2. MODULE COLOUR THAT ACTUALLY CARRIES.
+      Result rows are tinted at REST, not only when selected; group headers are
+      module bands; the section marker, the facet chips and the panel spine are
+      all module lines and edges. This obeys the form rule stated above
+      `--mod-pm` in globals.css:
+        · STATUS (--status-*) — only ever a small filled dot plus its word. It
+          therefore appears NOWHERE in this file. The surface carries no status.
+        · MODULE (--mod-*)   — only surface tint, ring, line, edge, marker.
+          Never a small standalone dot.
+      The only small dots here are `--obj-*` object-class swatches, which
+      globals.css already sanctions on visualisation surfaces. Brand red stays
+      the global accent and is used on exactly one element (the phone field's
+      leading glyph, inherited from Stage 2A).
+
+   3. SHAPE BEFORE WORDS.
+      Twelve families, THREE shapes: `data` (dictionary objects — square),
+      `code` (executable identifiers — pill), `doc` (something written — a
+      spine-and-page silhouette, mirrored by logical radii). Tile, chip and idle
+      card all share the shape, so the eye classifies the answer before it
+      reads a single character.
+
+   MOTION. transform and opacity only — nothing else is transitioned anywhere in
+   this file. The resting module tint is a STATIC background precisely so that
+   the difference between resting and selected can be carried by the opacity of
+   a stacked plate rather than by animating a colour. `prefers-reduced-motion`
+   is honoured at the end.
+
+   RTL. Logical properties throughout, including the asymmetric `doc` radii,
+   which mirror by themselves.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- 1. ROOT */
+
+.nx-app .nxc.nxc--r {
+  /* `--sm` is written inline by the surface; this is the fallback for the
+     moment before an answer has a module, and for an answer that honestly has
+     no single owning module. */
+  --sm: var(--ink-3);
+  /* The rail's own tint and this surface must never disagree, so both read the
+     same value the shell computed. */
+}
+
+/* --------------------------------------------------- 2. THE CANVAS RESPONSE
+   The brief's "typing transforms the current surface". Stage 2A dropped the
+   canvas to 38% flat opacity, which is what a modal does. Here the canvas keeps
+   more of itself, and the module the answer lives in is washed over it.
+   The extra [data-neo-shell] lifts this above the globals.css rule (0,3,1 vs
+   0,2,1) so order cannot decide it. */
+
+.nx-app[data-neo-shell][data-searching="1"] .nx-canvas { opacity: .62; }
+.nx-app[data-neo-shell][data-searching="1"][data-live="1"] .nx-canvas { opacity: .42; }
+
+.nx-app .nxc--r .nxc-wash {
+  position: fixed;
+  /* The rail is deliberately NOT covered: it is part of the answer. */
+  inset-block: var(--c-top-h) 0;
+  inset-inline: var(--nx-rail-col) 0;
+  z-index: -1;
+  border: 0; padding: 0; margin: 0;
+  cursor: default;
+  background:
+    radial-gradient(115% 85% at 100% 0%, color-mix(in srgb, var(--sm) 17%, transparent), transparent 68%),
+    linear-gradient(to bottom, color-mix(in srgb, var(--sm) 8%, transparent), transparent 62%);
+  opacity: 0;
+  transition: opacity var(--dur-panel) var(--ease-out-expo);
+}
+[dir="ltr"] .nx-app .nxc--r .nxc-wash {
+  background:
+    radial-gradient(115% 85% at 0% 0%, color-mix(in srgb, var(--sm) 17%, transparent), transparent 68%),
+    linear-gradient(to bottom, color-mix(in srgb, var(--sm) 8%, transparent), transparent 62%);
+}
+.nx-app .nxc--r[data-live="1"] .nxc-wash { opacity: 1; }
+
+/* --------------------------------------------------------------- 3. PANEL */
+
+.nx-app .nxc--r .nxc-panel {
+  position: relative;
+  max-inline-size: 72rem;
+  border-color: color-mix(in srgb, var(--sm) 20%, var(--c-hair));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--sm) 12%, transparent),
+    var(--elev-4), var(--nxr-plate);
+}
+/* MODULE AS EDGE — a spine down the side the panel grew out of. */
+.nx-app .nxc--r .nxc-panel::before {
+  content: '';
+  position: absolute; z-index: 3;
+  inset-block: 0; inset-inline-start: 0; inline-size: 3px;
+  background: linear-gradient(
+    to bottom,
+    var(--sm),
+    color-mix(in srgb, var(--sm) 25%, transparent)
+  );
+  opacity: 0;
+  transition: opacity var(--dur-panel) var(--ease-out-expo);
+  pointer-events: none;
+}
+.nx-app .nxc--r[data-mod="1"] .nxc-panel::before { opacity: .8; }
+
+@media (min-width: 1920px) { .nx-app .nxc--r .nxc-panel { max-inline-size: 80rem; } }
+@media (min-width: 2560px) { .nx-app .nxc--r .nxc-panel { max-inline-size: 92rem; } }
+
+/* -------------------------------------------------------------- 4. HEADER
+   Geometry is FIXED so that nothing below it moves while the query is typed:
+   the readout is exactly one non-wrapping line, and the scope strip is exactly
+   one non-wrapping line whose height is reserved even when it is a hint rather
+   than a row of chips. */
+
+.nx-app .nxc--r .nxc-head {
+  gap: var(--sp-2);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--sm) 10%, var(--surface-2)),
+    var(--surface)
+  );
+  border-block-end-color: color-mix(in srgb, var(--sm) 16%, var(--c-hair));
+}
+.nx-app .nxc--r .nxc-head-t {
+  min-block-size: 1.25rem; line-height: 1.25rem;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.nx-app .nxc--r .nxc-q {
+  background: color-mix(in srgb, var(--brand) 10%, transparent);
+  font-family: var(--font-mono);
+}
+
+.nx-app .nxc--r .nxc-scope { display: grid; gap: 6px; min-inline-size: 0; }
+.nx-app .nxc--r .nxc-chips {
+  flex-wrap: nowrap;
+  min-block-size: 2rem;
+  overflow-x: auto; overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+  align-items: center;
+}
+.nx-app .nxc--r .nxc-chips::-webkit-scrollbar { block-size: 0; }
+.nx-app .nxc--r .nxc-scope-hint {
+  display: flex; align-items: center;
+  min-block-size: 2rem;
+  font-size: var(--t-micro); color: var(--ink-3);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* --- family chips: SHAPE first, module tint second ----------------------- */
+.nx-app .nxc--r .nxc-chip { flex: none; }
+.nx-app .nxc--r .nxc-chip[data-shape="data"] { border-radius: 6px; }
+.nx-app .nxc--r .nxc-chip[data-shape="code"] { border-radius: var(--r-pill); }
+.nx-app .nxc--r .nxc-chip[data-shape="doc"] {
+  border-radius: 4px;
+  border-start-end-radius: 12px; border-end-end-radius: 12px;
+}
+.nx-app .nxc--r .nxc-chip > svg { color: var(--m, var(--ink-3)); }
+.nx-app .nxc--r .nxc-chip[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 13%, var(--surface));
+  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 50%, transparent);
+  color: var(--ink-1);
+}
+.nx-app .nxc--r .nxc-chip[aria-pressed="true"] b { color: var(--ink-2); opacity: 1; }
+.nx-app .nxc--r .nxc-chip[data-all][aria-pressed="true"] {
+  background: color-mix(in srgb, var(--ink-1) 10%, var(--surface));
+  border-color: color-mix(in srgb, var(--ink-1) 34%, transparent);
+}
+.nx-app .nxc--r .nxc-chip:disabled { opacity: .45; }
+
+/* --- module facets: LINE + RING + TINT, never a dot ---------------------- */
+.nx-app .nxc--r .nxc-mods {
+  display: flex; flex-wrap: nowrap; gap: 4px; align-items: center;
+  overflow-x: auto; scrollbar-width: none; min-block-size: 1.9rem;
+}
+.nx-app .nxc--r .nxc-mods::-webkit-scrollbar { block-size: 0; }
+.nx-app .nxc--r .nxc-modchip {
+  display: inline-flex; align-items: center; gap: 5px; flex: none;
+  min-block-size: 1.75rem; padding-inline: var(--sp-2);
+  border-radius: var(--r-xs);
+  border: 1px solid color-mix(in srgb, var(--m, var(--ink-3)) 22%, var(--c-hair));
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 4%, var(--surface));
+  color: var(--ink-2); font-size: var(--t-micro);
+  transition: transform 200ms var(--c-spring);
+}
+.nx-app .nxc--r .nxc-modchip:hover { transform: translateY(-1px); }
+.nx-app .nxc--r .nxc-modchip > i {
+  inline-size: 3px; block-size: .9rem; border-radius: 2px; flex: none;
+  background: var(--m, var(--ink-3));
+}
+.nx-app .nxc--r .nxc-modchip > b {
+  font-family: var(--font-mono); font-size: 10px; color: var(--ink-3);
+  direction: ltr; unicode-bidi: isolate; padding-inline-start: 3px;
+}
+.nx-app .nxc--r .nxc-modchip[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 14%, var(--surface));
+  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 55%, transparent);
+  color: var(--ink-1);
+}
+
+/* ------------------------------------------------------------- 5. RESULTS */
+
+.nx-app .nxc--r .nxc-results {
+  padding: var(--sp-3) var(--sp-3) var(--sp-4);
+  /* Belt and braces for the keyboard walk: the row is placed by JS against this
+     box, and this keeps any browser-initiated scroll off the sticky heading. */
+  scroll-padding-block-start: 2.25rem;
+}
+
+/* --- a family reads as one band ----------------------------------------- */
+.nx-app .nxc--r .nxc-sec {
+  position: relative;
+  padding-block-end: 0;
+  margin-block-end: var(--sp-3);
+}
+.nx-app .nxc--r .nxc-sec:last-child { margin-block-end: 0; }
+
+.nx-app .nxc--r .nxc-sec-h {
+  min-block-size: 1.9rem;
+  gap: 7px;
+  padding: 4px var(--sp-2);
+  margin-block-end: 5px;
+  border-radius: var(--r-xs);
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--m, var(--ink-3)) 13%, var(--surface)),
+    color-mix(in srgb, var(--m, var(--ink-3)) 7%, var(--surface))
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m, var(--ink-3)) 16%, transparent);
+  /* The band is opaque, so the Stage 2A blur has nothing left to do and only
+     costs a compositor pass on every scroll frame. */
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  color: var(--ink-2);
+}
+.nx-app .nxc--r .nxc-sec[data-mod="0"] .nxc-sec-h { box-shadow: inset 0 0 0 1px var(--c-hair); }
+.nx-app .nxc--r .nxc-sec-h > svg { color: var(--m, var(--ink-3)); flex: none; }
+.nx-app .nxc--r .nxc-sec-mark {
+  inline-size: 3px; block-size: .95rem; border-radius: 2px; flex: none;
+  background: var(--m, var(--ink-3));
+}
+.nx-app .nxc--r .nxc-sec-mod {
+  font-size: 10px; font-weight: 600; letter-spacing: 0;
+  padding: 1px 6px; border-radius: var(--r-pill);
+  color: var(--m, var(--ink-3));
+  border: 1px solid color-mix(in srgb, var(--m, var(--ink-3)) 34%, transparent);
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 8%, transparent);
+  white-space: nowrap;
+}
+.nx-app .nxc--r .nxc-sec-h em {
+  font-family: var(--font-mono); font-size: 10px;
+  direction: ltr; unicode-bidi: isolate;
+}
+
+/* The spine: one continuous module line down the family's rows, so the shape of
+   the answer — how many families, how deep each one is — is legible from the
+   far side of the room. MODULE AS LINE. */
+.nx-app .nxc--r .nxc-sec-body {
+  display: grid; gap: 3px;
+  padding-inline-start: var(--sp-2);
+  margin-inline-start: 7px;
+  border-inline-start: 2px solid color-mix(in srgb, var(--m, var(--ink-3)) 24%, transparent);
+}
+.nx-app .nxc--r .nxc-sec[data-mod="0"] .nxc-sec-body {
+  border-inline-start-color: var(--c-hair);
+}
+
+/* ----------------------------------------------------------------- 6. ROW */
+
+.nx-app .nxc--r .nxc-row {
+  grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  grid-template-areas: "k main meta act go";
+  gap: var(--sp-2);
+  padding: 7px var(--sp-2);
+  /* STATIC, deliberately: the resting module tint is what stops the surface
+     being white and grey, and because it never transitions, the selected state
+     can be carried entirely by the opacity of the plate below. */
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--m, var(--ink-3)) 7%, var(--surface)),
+    color-mix(in srgb, var(--m, var(--ink-3)) 3%, var(--surface))
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m, var(--ink-3)) 12%, transparent);
+}
+/* A record whose module the dataset does not declare is NOT given one. It reads
+   as the neutral row it honestly is. */
+.nx-app .nxc--r .nxc-row[data-mod="0"] {
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--c-hair);
+}
+
+.nx-app .nxc--r .nxc-row-k { grid-area: k; }
+.nx-app .nxc--r .nxc-row-main { grid-area: main; gap: 2px; }
+.nx-app .nxc--r .nxc-row-meta { grid-area: meta; }
+.nx-app .nxc--r .nxc-act { grid-area: act; }
+.nx-app .nxc--r .nxc-go { grid-area: go; }
+
+/* the selected plate — opacity only */
+.nx-app .nxc--r .nxc-row::before {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--m, var(--ink-3)) 20%, var(--surface)),
+    color-mix(in srgb, var(--m, var(--ink-3)) 9%, var(--surface))
+  );
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--m, var(--ink-3)) 38%, transparent),
+    var(--nxr-lift);
+  transform: scale(.997);
+}
+.nx-app .nxc--r .nxc-row:hover::before { opacity: .5; transform: none; }
+.nx-app .nxc--r .nxc-row[data-active="1"]::before { opacity: 1; transform: none; }
+/* the module edge on the selected row */
+.nx-app .nxc--r .nxc-row::after {
+  inset-block: 14%;
+  inline-size: 3px;
+}
+
+/* --- the type tile, shaped by family ------------------------------------ */
+.nx-app .nxc--r .nxc-row-k {
+  inline-size: 1.85rem; block-size: 1.85rem;
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 13%, var(--surface));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m, var(--ink-3)) 26%, transparent);
+}
+.nx-app .nxc--r .nxc-row[data-shape="data"] .nxc-row-k { border-radius: 6px; }
+.nx-app .nxc--r .nxc-row[data-shape="code"] .nxc-row-k { border-radius: var(--r-pill); }
+.nx-app .nxc--r .nxc-row[data-shape="doc"] .nxc-row-k {
+  border-radius: 4px;
+  border-start-end-radius: 13px; border-end-end-radius: 13px;
+}
+
+.nx-app .nxc--r .nxc-row-t { font-size: var(--t-sm); font-weight: 550; }
+.nx-app .nxc--r .nxc-row-kind {
+  background: color-mix(in srgb, var(--ink-3) 11%, transparent);
+  color: var(--ink-3); font-weight: 500;
+}
+.nx-app .nxc--r .nxc-row-s { color: var(--ink-2); }
+
+/* MODULE as a ring with a leading LINE. Never a dot — that form belongs to
+   --status-* and to nothing else. */
+.nx-app .nxc--r .nxc-mod {
+  gap: 5px;
+  padding: 3px 7px;
+  border-radius: var(--r-xs);
+  color: var(--m, var(--ink-3));
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 11%, transparent);
+  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 42%, transparent);
+  font-weight: 600;
+}
+.nx-app .nxc--r .nxc-mod > i {
+  inline-size: 2px; block-size: .75rem; border-radius: 1px; flex: none;
+  background: var(--m, var(--ink-3));
+}
+
+.nx-app .nxc--r .nxc-rel { color: var(--ink-3); max-inline-size: 17rem; }
+/* OBJECT class — the one palette globals.css sanctions as a small dot. */
+.nx-app .nxc--r .nxc-cls i { inline-size: 6px; block-size: 6px; }
+
+.nx-app .nxc--r .nxc-act {
+  min-block-size: 1.85rem;
+  border-radius: var(--r-xs);
+  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 30%, var(--c-hair));
+}
+.nx-app .nxc--r .nxc-more {
+  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 30%, var(--c-hair));
+  color: var(--ink-2);
+}
+
+/* --------------------------------------------------- 7. IDLE + EMPTY STATE
+   The idle board is not a poster. Every card opens the family it counts, and
+   the count is the real size of that family in the index. */
+
+.nx-app .nxc--r .nxc-idle { padding: 0; gap: var(--sp-3); }
+.nx-app .nxc--r .nxc-idle-h {
+  color: var(--ink-2); text-transform: none; letter-spacing: .02em;
+}
+.nx-app .nxc--r .nxc-idle-grid { grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); }
+.nx-app .nxc--r .nxc-idle-c {
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "i n" "i l";
+  align-items: center;
+  gap: 0 var(--sp-2);
+  padding: var(--sp-3);
+  min-block-size: var(--c-tap);
+}
+.nx-app .nxc--r .nxc-idle-i {
+  grid-area: i;
+  inline-size: 2.1rem; block-size: 2.1rem;
+  display: inline-grid; place-items: center;
+  color: var(--ink-2);
+  background: color-mix(in srgb, var(--ink-3) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink-3) 18%, transparent);
+}
+.nx-app .nxc--r .nxc-idle-c[data-shape="data"] .nxc-idle-i { border-radius: 6px; }
+.nx-app .nxc--r .nxc-idle-c[data-shape="code"] .nxc-idle-i { border-radius: var(--r-pill); }
+.nx-app .nxc--r .nxc-idle-c[data-shape="doc"] .nxc-idle-i {
+  border-radius: 4px;
+  border-start-end-radius: 14px; border-end-end-radius: 14px;
+}
+.nx-app .nxc--r .nxc-idle-c b { grid-area: n; font-size: var(--t-h2); }
+.nx-app .nxc--r .nxc-idle-l { grid-area: l; font-size: var(--t-micro); }
+.nx-app .nxc--r .nxc-idle-f {
+  font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he);
+  padding-block-start: var(--sp-2); border-block-start: 1px solid var(--c-hair);
+}
+.nx-app .nxc--r .nxc-none {
+  padding: var(--sp-6) var(--sp-3);
+  border-inline-start: 2px solid var(--c-hair);
+}
+
+/* ------------------------------------------------------- 8. THE DETAIL PANE */
+
+.nx-app .nxc--r .nxc-detail {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--sm) 7%, var(--surface-2)),
+    var(--surface) 12rem
+  );
+  border-inline-start-color: color-mix(in srgb, var(--sm) 16%, var(--c-hair));
+}
+.nx-app .nxc--r .nxc-detail-mark {
+  inline-size: 2.5rem; block-size: 2.5rem; border-radius: var(--r-md);
+  display: inline-grid; place-items: center; color: var(--ink-3);
+  background: color-mix(in srgb, var(--ink-3) 8%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink-3) 16%, transparent);
+}
+.nx-app .nxc--r .nxc-d-kind {
+  gap: 6px; padding: 3px 9px;
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 12%, transparent);
+  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 40%, transparent);
+  font-weight: 600;
+}
+.nx-app .nxc--r .nxc-detail-in[data-shape="data"] .nxc-d-kind { border-radius: 6px; }
+.nx-app .nxc--r .nxc-detail-in[data-shape="code"] .nxc-d-kind { border-radius: var(--r-pill); }
+.nx-app .nxc--r .nxc-detail-in[data-shape="doc"] .nxc-d-kind {
+  border-radius: 4px;
+  border-start-end-radius: 13px; border-end-end-radius: 13px;
+}
+.nx-app .nxc--r .nxc-d-facts {
+  border-block-color: color-mix(in srgb, var(--m, var(--ink-3)) 20%, var(--c-hair));
+}
+.nx-app .nxc--r .nxc-d-rels li {
+  border-inline-start-width: 3px;
+  border-inline-start-color: color-mix(in srgb, var(--m, var(--ink-3)) 55%, transparent);
+}
+
+/* ------------------------------------------------------------- 9. FOOTER
+   The honesty note is not a footnote in grey. A family the project has no
+   build-time index for is STATED, and it is meant to be read. */
+
+.nx-app .nxc--r .nxc-foot { gap: var(--sp-2) var(--sp-4); }
+.nx-app .nxc--r .nxc-gap {
+  align-items: flex-start;
+  padding: 4px 8px; border-radius: var(--r-xs);
+  border: 1px dashed color-mix(in srgb, var(--ink-3) 34%, transparent);
+  color: var(--ink-2); opacity: 1;
+  max-inline-size: 46rem; line-height: 1.5;
+}
+.nx-app .nxc--r .nxc-gap > svg { margin-block-start: 2px; }
+
+/* ------------------------------------------- 10. THE RAIL'S OWN RESPONSE
+   "Relevant modules brighten, unrelated areas reduce emphasis." Stage 2A did
+   this per destination; a group is a bigger, faster-read unit, so it answers
+   too. `--gm` is the module of the first hit destination inside the group. */
+
+.nx-app[data-live="1"] .nx-group[data-hit="1"] .nx-group-btn {
+  color: var(--ink-1);
+  box-shadow: inset 2px 0 0 0 var(--gm, var(--ink-3));
+}
+[dir="ltr"] .nx-app[data-live="1"] .nx-group[data-hit="1"] .nx-group-btn {
+  box-shadow: inset -2px 0 0 0 var(--gm, var(--ink-3));
+}
+.nx-app[data-live="1"] .nx-group[data-dim="1"] { opacity: .42; }
+.nx-app[data-live="1"] .nx-group { transition: opacity var(--dur-base) var(--ease-out-expo); }
+
+/* A hit destination gets a module EDGE and a module TINT, not just weight. */
+.nx-app[data-live="1"] .nx-navitem[data-hit="1"] {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m, var(--ink-3)) 30%, transparent);
+}
+
+/* -------------------------------------------------- 11. NARROW + PHONE
+   On a phone this is a full-screen sheet, not a squeezed desktop panel: the
+   detail pane does not exist below 1180px, so the ROW has to carry module,
+   context and relationship — Stage 2A hid exactly those. They move to a second
+   line instead of disappearing. */
+
+@media (max-width: 1179px) {
+  .nx-app .nxc--r .nxc-row {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "k main go" ". meta act";
+    row-gap: 5px;
+  }
+  .nx-app .nxc--r .nxc-row-meta {
+    display: flex; flex-wrap: wrap; gap: 5px var(--sp-2);
+  }
+  .nx-app .nxc--r .nxc-rel { max-inline-size: none; }
+  .nx-app .nxc--r .nxc-act { justify-self: end; }
+}
+
+@media (max-width: 900px) {
+  /* undo Stage 2A's `display: none` on the meta line */
+  .nx-app .nxc--r .nxc-row-meta { display: flex; }
+}
+
+html[data-device="tablet"] .nx-app .nxc--r .nxc-panel,
+html[data-device="phone"] .nx-app .nxc--r .nxc-panel {
+  max-inline-size: none;
+  box-shadow: none;
+}
+html[data-device="tablet"] .nx-app .nxc--r .nxc-panel::before,
+html[data-device="phone"] .nx-app .nxc--r .nxc-panel::before {
+  /* a full-screen sheet has no side to grow out of — the spine becomes the top
+     edge of the sheet instead */
+  inset: 0 0 auto 0; inline-size: auto; block-size: 3px;
+  background: linear-gradient(to inline-end, var(--sm), color-mix(in srgb, var(--sm) 20%, transparent));
+}
+html[data-device="phone"] .nx-app .nxc--r .nxc-row,
+html[data-device="tablet"] .nx-app .nxc--r .nxc-row {
+  min-block-size: 3.25rem;
+}
+html[data-device="phone"] .nx-app .nxc--r .nxc-row-meta,
+html[data-device="tablet"] .nx-app .nxc--r .nxc-row-meta { display: flex; }
+html[data-device="phone"] .nx-app .nxc--r .nxc-act,
+html[data-device="tablet"] .nx-app .nxc--r .nxc-act {
+  opacity: 1; transform: none; min-block-size: var(--c-tap); padding-inline: var(--sp-3);
+}
+html[data-device="phone"] .nx-app .nxc--r .nxc-results { padding-inline: var(--sp-3); }
+html[data-device="phone"] .nx-app .nxc--r .nxc-idle-grid {
+  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
+}
+html[data-device="phone"] .nx-app .nxc--r .nxc-mfield {
+  padding-block: var(--sp-3);
+  border-block-end-color: color-mix(in srgb, var(--sm) 18%, var(--c-hair));
+}
+/* The wash has nothing to wash on a full-screen sheet. */
+html[data-device="phone"] .nx-app .nxc--r .nxc-wash,
+html[data-device="tablet"] .nx-app .nxc--r .nxc-wash { display: none; }
+
+/* ------------------------------------------------------------- 12. DARK
+   The Stage 2A dark block is more specific than the light rules above, so the
+   ones it would otherwise win are restated here at a higher specificity. */
+
+html[data-theme="dark"] .nx-app .nxc--r .nxc-panel {
+  border-color: color-mix(in srgb, var(--sm) 26%, rgba(255, 255, 255, .07));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--sm) 16%, transparent),
+    0 30px 80px -30px rgba(0, 0, 0, .95);
+}
+html[data-theme="dark"] .nx-app .nxc--r .nxc-head {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--sm) 13%, var(--surface-2)),
+    var(--surface)
+  );
+}
+html[data-theme="dark"] .nx-app .nxc--r .nxc-detail {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--sm) 10%, var(--surface-2)),
+    var(--surface) 12rem
+  );
+}
+html[data-theme="dark"] .nx-app .nxc--r .nxc-sec-h {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--m, var(--ink-3)) 17%, var(--surface)),
+    color-mix(in srgb, var(--m, var(--ink-3)) 9%, var(--surface))
+  );
+}
+html[data-theme="dark"] .nx-app .nxc--r .nxc-chip[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 20%, var(--surface));
+  border-color: color-mix(in srgb, var(--m, var(--ink-3)) 55%, transparent);
+  color: var(--ink-1);
+}
+html[data-theme="dark"] .nx-app .nxc--r .nxc-chip[aria-pressed="true"] b { color: var(--ink-2); }
+html[data-theme="dark"] .nx-app .nxc--r .nxc-chip[data-all][aria-pressed="true"] {
+  background: color-mix(in srgb, var(--ink-1) 16%, var(--surface));
+  border-color: color-mix(in srgb, var(--ink-1) 34%, transparent);
+  color: var(--ink-1);
+}
+html[data-theme="dark"] .nx-app .nxc--r .nxc-row {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--m, var(--ink-3)) 10%, var(--surface)),
+    color-mix(in srgb, var(--m, var(--ink-3)) 4%, var(--surface))
+  );
+}
+html[data-theme="dark"] .nx-app .nxc--r .nxc-row[data-mod="0"] { background: var(--surface-2); }
+html[data-theme="dark"] .nx-app .nxc--r .nxc-row::before {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--m, var(--ink-3)) 26%, var(--surface)),
+    color-mix(in srgb, var(--m, var(--ink-3)) 12%, var(--surface))
+  );
+}
+html[data-theme="dark"] .nx-app .nxc--r .nxc-act,
+html[data-theme="dark"] .nx-app .nxc--r .nxc-modchip {
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 8%, var(--surface-2));
+}
+
+/* -------------------------------------------------------- 13. FOCUS + A11Y */
+
+.nx-app .nxc--r .nxc-chip:focus-visible,
+.nx-app .nxc--r .nxc-modchip:focus-visible,
+.nx-app .nxc--r .nxc-idle-c:focus-visible,
+.nx-app .nxc--r .nxc-more:focus-visible,
+.nx-app .nxc--r .nxc-act:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+/* The wash is a click target for the mouse only — the keyboard closes with Esc,
+   which is why it is tabIndex={-1} and aria-hidden in the markup. */
+.nx-app .nxc--r .nxc-wash:focus { outline: none; }
+
+/* --------------------------------------------------------- 14. REDUCED MOTION
+   globals.css already neutralises transitions under .nx-app. What it cannot do
+   is stop a transform or a zero opacity from being the RESTING state, so every
+   element this file leaves mid-flight is pinned to its end state. */
+
+@media (prefers-reduced-motion: reduce) {
+  .nx-app .nxc--r .nxc-wash { transition: none; }
+  .nx-app .nxc--r[data-live="1"] .nxc-wash { opacity: 1; }
+  .nx-app .nxc--r .nxc-panel::before { transition: none; }
+  .nx-app .nxc--r .nxc-row::before { transform: none; }
+  .nx-app .nxc--r .nxc-modchip:hover { transform: none; }
+  .nx-app[data-live="1"] .nx-group { transition: none; }
+}

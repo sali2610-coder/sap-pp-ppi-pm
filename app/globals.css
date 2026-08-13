@@ -1180,22 +1180,35 @@ html[data-theme="dark"] .bg-brand-soft .text-rose-900 { color: #fda4af; }
   --sel-bar: var(--brand);
 
   /* --- MODULE IDENTITY -----------------------------------------------------
-     SATURATION encodes signal (the --status-* palette), HUE encodes identity.
-     Module hues are deliberately low-chroma so one can never read as a status,
-     and brand red is never a module colour. Scoping rule, enforced below:
-       module hue -> navigation + chrome      (which area of SAP you are in)
-       object hue -> visualisation surfaces   (ERD, class dots, flow)
-       status hue -> migration state only, as dot + label, never as text colour */
-  --mod-pm: #2f6b63;
-  --mod-pppi: #3f5b8a;
-  --mod-pp: #5c6b3a;
-  --mod-ppds: #6b5b3a;
-  --mod-mm: #4a5a6b;
-  --mod-qm: #6b3f5c;
-  --mod-ewm: #3a6b5b;
-  --mod-fiori: #55506b;
-  --mod-sop: #3a5f6b;
-  --mod-s4: #4f4f57;
+     These used to be deliberately low-chroma, on a rule that saturation encoded
+     signal and hue encoded identity, so a module could never be mistaken for a
+     --status-* value. That rule does not survive contact with the brief: PM has
+     to read as green/teal and PP-PI as blue, which is exactly where `done` and
+     `in-conversion` live. Measured, 5 of 10 module hues land within 15 degrees
+     and 25% lightness of a status hue. No palette fixes that — ten modules and
+     five statuses do not fit on one wheel while staying vivid.
+
+     So the separation moved from colour to FORM, which is actually enforceable:
+
+       STATUS  is only ever a small filled dot immediately followed by its word.
+               Never a surface, never a ring, never a line, never text colour.
+       MODULE  is only ever surface tint, ring, line, edge or section marker.
+               Never a small standalone dot.
+
+     A blue ring therefore cannot be read as a blue status, because status never
+     takes ring form and module never takes labelled-dot form. Brand red stays
+     the global accent and is never a module colour nor a data category.
+     Every value below is >= 4.5:1 against its own theme surface. */
+  --mod-pm: #0f766e;
+  --mod-pppi: #1d4ed8;
+  --mod-pp: #4d7c0f;
+  --mod-ppds: #a16207;
+  --mod-mm: #0e7490;
+  --mod-qm: #9d174d;
+  --mod-ewm: #047857;
+  --mod-fiori: #5b21b6;
+  --mod-sop: #155e75;
+  --mod-s4: #3f3f46;
 
   /* --- OBJECT CLASS + RELATION (visualisation surfaces only) ---------------- */
   --obj-master: #1f6f8b;
@@ -1228,16 +1241,19 @@ html[data-theme="dark"] .bg-brand-soft .text-rose-900 { color: #fda4af; }
 }
 
 html[data-theme="dark"] {
-  --mod-pm: #7cc0b6;
-  --mod-pppi: #93b0e0;
-  --mod-pp: #b3c283;
-  --mod-ppds: #c8b183;
-  --mod-mm: #a3b4c4;
-  --mod-qm: #c895b4;
-  --mod-ewm: #8ec7b3;
-  --mod-fiori: #b0a9c8;
-  --mod-sop: #8fbcc8;
-  --mod-s4: #adadb8;
+  /* Dark is not the light ramp lightened. On a near-black ground a mid-tone hue
+     goes muddy, so each module rises to its bright end where it reads as light
+     rather than paint. All >= 10:1 against --surface. */
+  --mod-pm: #5eead4;
+  --mod-pppi: #7dd3fc;
+  --mod-pp: #bef264;
+  --mod-ppds: #fde047;
+  --mod-mm: #67e8f9;
+  --mod-qm: #f9a8d4;
+  --mod-ewm: #6ee7b7;
+  --mod-fiori: #c4b5fd;
+  --mod-sop: #7dd3fc;
+  --mod-s4: #d4d4d8;
 
   --obj-master: #6fc4e0;
   --obj-structure: #74d0aa;

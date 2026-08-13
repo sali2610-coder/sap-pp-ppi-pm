@@ -1,31 +1,50 @@
 "use client";
 
-// Project NEO · Stage 2A — the Home scene.
+// Project NEO · Stage 2B — the Home scene.
 //
-// One ordinary scroll container, three stacked layers:
-//   FIELD    105 dots, one per real merged SAP table, on three depth planes.
-//            Sticky, aria-hidden, pointer-events:none. It re-forms between
-//            sections and every formation is a claim about the data.
+// One ordinary scroll container, five stacked layers:
+//   FIELD    105 dots, one per real merged SAP table, on three depth planes,
+//            plus the ER edge layer and the field's own captions. Sticky,
+//            aria-hidden, pointer-events:none. Every formation is a claim about
+//            the data and every transition between two formations is legible.
 //   BODIES   the two module bodies. The SAME two elements survive the whole
 //            page in three registers, so the eye tracks one object throughout.
+//   HUD      the nearest-dot readout.
+//   INDEX    where you are.
 //   CONTENT  the sections, rendered on the SERVER and passed in as children.
-//            This component never owns the copy — it only reveals it.
+//
+// WHAT MAKES A TRANSITION EXPLAIN ITSELF (the Stage 2B brief)
+//   1. Nothing is ever created or destroyed. A section change moves the dots
+//      that are already on screen; a dot is one table for the whole page.
+//   2. Groups arrive in WAVES (formations.wave), so grouping is something you
+//      watch happen rather than find already finished.
+//   3. Related tables ATTRACT: in the shared and process formations a table is
+//      placed in the orbit of the neighbour the dictionary actually states.
+//   4. Relationships are DRAWN, from the real ER map, only where the section is
+//      about relationships.
+//   5. HANDOFF: where a section renders the very tables the field is holding,
+//      the dots fly to those elements, light them, and fade into them. When the
+//      next section starts, those dots are snapped back onto the (re-measured)
+//      elements they were handed to and fly out from there — a FLIP, so the
+//      information visibly leaves the place it went into.
 //
 // NOTHING here touches scroll behaviour. No wheel listener, no touch listener,
 // no preventDefault, no scroll lock, no scroll-linked animation loop. We read
 // scrollTop in a passive, rAF-coalesced listener and flip one attribute; CSS
-// and two element-level property writes do the rest.
+// and a bounded set of element-level property writes do the rest.
 //
-// Only `translate`, `scale`, `opacity` and `transform` are ever written — all
-// four are compositor properties. `translate`/`scale` carry the FORMATION (slow,
-// 820ms) and `transform` carries the POINTER LENS (fast, 240ms), which is why
-// the two can overlap without one cancelling the other.
+// Only `translate`, `rotate`, `scale`, `opacity` and `transform` are ever
+// written — all of them compositor properties. `translate`/`scale` carry the
+// FORMATION (slow) and `transform` carries the POINTER LENS (fast), which is
+// why the two can overlap without one cancelling the other.
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef } from "react";
 import { ArrowUpLeft } from "lucide-react";
 import {
-  GEOM, GEOM_NARROW, LENS_GROW, LENS_PUSH, LENS_R, place, prepare, type Prep,
+  GEOM, GEOM_NARROW, HANDOFF, LENS_GROW, LENS_PUSH, LENS_R,
+  captions, edgeVisible, place, prepare, topicSlots, wave,
+  type Env, type Prep,
 } from "./formations";
 import { ZONE_HE, zoneVar, type HomeData } from "./home-data";
 
@@ -43,6 +62,13 @@ const REGISTER = ["l", "m", "m", "d", "d", "d"] as const;
 const NARROW = 760;
 const DOCK = 1050;
 
+/** The formation flight, and the two beats of the handoff that follows it.
+ *  HAND_WAIT lets the formation land before anything is given away; HAND_FADE
+ *  is the flight from the field onto the content element. Both are matched to
+ *  the transition durations in app/neo/home.css. */
+const HAND_WAIT = 620;
+const HAND_FADE = 620;
+
 export function HomeScene({
   data, sections, children,
 }: { data: HomeData; sections: SceneSection[]; children: React.ReactNode }) {
@@ -52,13 +78,32 @@ export function HomeScene({
   // Deterministic and pure, so one memo serves both the markup and the effect —
   // and the indices the two of them exchange through data-nh-dot always agree.
   const preps = useMemo(
-    () => prepare(data.dots, data.flows.map((f) => f.steps.filter((s) => s.exists).map((s) => s.code))),
+    () => prepare(
+      data.dots,
+      data.flows.map((f) => f.steps.filter((s) => s.exists).map((s) => s.code)),
+      data.edges,
+    ),
     [data],
   );
   const planes = useMemo(
     () => ([2, 1, 0] as const).map((z) => ({ z, dots: preps.filter((p) => p.z === z) })),
     [preps],
   );
+  const topics = useMemo(() => {
+    const counts = data.density.map(() => 0);
+    for (const p of preps) counts[p.d.tp] = (counts[p.d.tp] || 0) + 1;
+    return topicSlots(data.density, counts);
+  }, [data, preps]);
+  // Only the edges some formation can actually show are given an element. The
+  // rest of the ER map is real but never drawn here, so it costs nothing.
+  const edges = useMemo(
+    () => data.edges.filter((e) =>
+      [0, 2, 4].some((s) => edgeVisible(s, preps[e.a], preps[e.b]))),
+    [data, preps],
+  );
+  // Section 03 needs one caption per real topic; no other formation needs more
+  // than four. The pool is sized once and reused, never rebuilt per section.
+  const capPool = useMemo(() => Math.max(4, topics.length), [topics]);
 
   useEffect(() => {
     const el = root.current;
@@ -75,9 +120,16 @@ export function HomeScene({
     const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const maxCov = Math.max(...data.dots.map((d) => d.d));
+    const maxTopic = Math.max(...data.density.map((t) => t.tables));
 
     const nodes = [...el.querySelectorAll<HTMLElement>("[data-nh-dot]")];
     const order = nodes.map((n) => preps[Number(n.dataset.nhDot)]);
+    /** prep index -> element index. The two orders differ: the markup groups the
+     *  dots by depth plane so blur can be applied once per plane. */
+    const slot = new Map(order.map((p, i) => [p.i, i]));
+    const byName = new Map(order.map((p, i) => [p.d.n, i]));
+    const edgeEls = [...el.querySelectorAll<HTMLElement>("[data-nh-edge]")];
+    const capEls = [...el.querySelectorAll<HTMLElement>("[data-nh-cap]")];
     const bodies = [...el.querySelectorAll<HTMLElement>("[data-nh-body]")];
     const secEls = [...el.querySelectorAll<HTMLElement>("[data-hsec]")];
     const jumps = [...el.querySelectorAll<HTMLElement>("[data-nh-jump]")];
@@ -87,17 +139,80 @@ export function HomeScene({
     const pos: { x: number; y: number; s: number }[] = nodes.map(() => ({ x: 0, y: 0, s: 1 }));
     let W = 0; let H = 0; let sec = -1;
     let lensed = new Set<number>();
+    /** element index -> the table name it was handed to, and in which section. */
+    let handed = new Map<number, string>();
+    let handSec = -1;
+    let t1 = 0; let t2 = 0;
 
     /** Inline-start-relative x → a physical translate. The stylesheet stays on
      *  logical properties; the direction flip lives here, once. */
     const tx = (x: number) => (rtl ? -x : x);
 
+    const env = (): Env => ({
+      W, H, maxF: data.maxFields, maxCov, maxTopic,
+      geom: W < NARROW ? GEOM_NARROW : GEOM,
+      all: preps, topics,
+    });
+
+    /* ---- anchors · where a section renders the tables the field holds ------ */
+    /** Field-local, inline-start-relative centre of every anchored marker in a
+     *  section. Measured once per section change, never during scroll. */
+    const anchorsOf = (secEl: HTMLElement | undefined) => {
+      const out = new Map<string, { x: number; y: number }>();
+      if (!secEl) return out;
+      const fr = field.getBoundingClientRect();
+      for (const a of secEl.querySelectorAll<HTMLElement>("[data-nh-anchor]")) {
+        const name = a.dataset.nhAnchor!;
+        const mark = a.querySelector<HTMLElement>(".nh-cls") || a;
+        const r = mark.getBoundingClientRect();
+        const px = r.left + r.width / 2 - fr.left;
+        out.set(name, {
+          x: rtl ? fr.width - px : px,
+          y: r.top + r.height / 2 - fr.top,
+        });
+      }
+      return out;
+    };
+
+    const unlight = (secEl: HTMLElement | undefined) => {
+      if (!secEl) return;
+      for (const a of secEl.querySelectorAll<HTMLElement>("[data-nh-anchor]")) {
+        delete a.dataset.nhLit;
+      }
+    };
+
     const paint = (k: number, instant: boolean) => {
-      const geom = W < NARROW ? GEOM_NARROW : GEOM;
+      const e = env();
       const dock = W < DOCK;
+
+      /* FLIP · the dots this page handed to the previous section's content are
+         invisible and parked at a stale position. Snap them back onto the very
+         elements they went into — measured NOW, so the snap is exact — and let
+         the formation below fly them out from there. Nothing on this page ever
+         re-appears somewhere it was not last seen. */
+      if (handed.size && handSec !== k) {
+        const fresh = anchorsOf(secEls[handSec]);
+        let moved = false;
+        for (const [i, name] of handed) {
+          const a = fresh.get(name);
+          if (!a) continue;
+          nodes[i].style.transitionDuration = "0ms";
+          nodes[i].style.setProperty("translate", `${tx(a.x).toFixed(1)}px ${a.y.toFixed(1)}px`);
+          nodes[i].style.setProperty("scale", "0.5");
+          moved = true;
+        }
+        unlight(secEls[handSec]);
+        // One forced reflow per section change, so the snap is a real starting
+        // frame rather than a value the next write coalesces away.
+        if (moved) field.getBoundingClientRect();
+        for (const [i] of handed) nodes[i].style.transitionDuration = "";
+        handed = new Map();
+        handSec = -1;
+      }
+
       for (let i = 0; i < nodes.length; i += 1) {
         const p = order[i];
-        const q = place(k, p, W, H, data.maxFields, maxCov, geom);
+        const q = place(k, p, e);
         pos[i] = { x: q.x, y: q.y, s: q.s };
         const n = nodes[i];
         if (instant) n.style.transitionDuration = "0ms";
@@ -105,14 +220,57 @@ export function HomeScene({
         n.style.setProperty("scale", q.s.toFixed(3));
         n.style.opacity = q.o.toFixed(2);
         // Motion hierarchy: the field does not move as one slab. The stagger is
-        // by depth plane first, so the front plane leads and the far plane
-        // trails, which is what makes the reformation read as volume.
-        if (!instant) n.style.transitionDelay = `${p.z * 90 + (i % 12) * 16}ms`;
+        // by GROUP first — the wave a dot belongs to in this formation — and by
+        // depth plane second, so a reformation reads as grouping and as volume.
+        if (!instant) {
+          n.style.transitionDelay = `${Math.round(wave(k, p, e) * 72 + p.z * 46 + (i % 9) * 11)}ms`;
+        }
       }
       if (instant) {
         requestAnimationFrame(() => nodes.forEach((n) => { n.style.transitionDuration = ""; }));
       }
-      const reg = REGISTER[Math.min(k, REGISTER.length - 1)];
+
+      /* ER edges · relationships appear only where the section is about them,
+         and they are drawn from the SAME cached positions the dots just took,
+         so a line can never point at a place a dot is not. */
+      for (let i = 0; i < edgeEls.length; i += 1) {
+        const ed = edges[i];
+        const ai = slot.get(ed.a); const bi = slot.get(ed.b);
+        const on = ai !== undefined && bi !== undefined
+          && edgeVisible(k, preps[ed.a], preps[ed.b]);
+        const g = edgeEls[i];
+        if (!on) { g.style.opacity = "0"; continue; }
+        const ax = tx(pos[ai!].x); const ay = pos[ai!].y;
+        const bx = tx(pos[bi!].x); const by = pos[bi!].y;
+        const len = Math.hypot(bx - ax, by - ay);
+        if (instant) g.style.transitionDuration = "0ms";
+        g.style.setProperty("translate", `${ax.toFixed(1)}px ${ay.toFixed(1)}px`);
+        g.style.setProperty("rotate", `${((Math.atan2(by - ay, bx - ax) * 180) / Math.PI).toFixed(2)}deg`);
+        g.style.setProperty("scale", `${Math.max(1, len).toFixed(1)} 1`);
+        g.style.opacity = (k === 2 ? 0.5 : 0.42).toFixed(2);
+        if (!instant) g.style.transitionDelay = `${140 + (i % 14) * 26}ms`;
+      }
+      if (instant) {
+        requestAnimationFrame(() => edgeEls.forEach((g) => { g.style.transitionDuration = ""; }));
+      }
+
+      /* Captions · the field names its own groups, in real counts. */
+      const caps = captions(k, e, [edges.filter((ed) => edgeVisible(k, preps[ed.a], preps[ed.b])).length]);
+      for (let i = 0; i < capEls.length; i += 1) {
+        const c = caps[i];
+        const g = capEls[i];
+        if (!c) { g.dataset.on = "0"; continue; }
+        g.dataset.on = "1";
+        g.dataset.tone = c.tone;
+        g.style.setProperty("translate", `${tx(c.x).toFixed(1)}px ${c.y.toFixed(1)}px`);
+        g.style.transitionDelay = instant ? "0ms" : `${420 + i * 34}ms`;
+        const b = g.children[0] as HTMLElement;
+        const em = g.children[1] as HTMLElement;
+        if (b.textContent !== c.t) b.textContent = c.t;
+        if (em.textContent !== c.s) em.textContent = c.s;
+      }
+
+      const reg = REGISTER[Math.min(Math.max(k, 0), REGISTER.length - 1)];
       // Register M and D both live in the CONTEXT GUTTER the sections reserve on
       // the far edge, so the pair never lands on top of the content it is meant
       // to accompany. The two registers differ in mass and in what they say,
@@ -130,7 +288,7 @@ export function HomeScene({
       bodies.forEach((b, i) => {
         const r = reg === "l" && dock ? "m" : reg;
         b.dataset.r = r;
-        const g = i === 0 ? geom.pm : geom.pp;
+        const g = i === 0 ? e.geom.pm : e.geom.pp;
         // Mass is real: PP-PI documents more tables than PM, so its body is
         // bigger. The number on the card and the size of the card agree.
         const { w: bw0, h: bh0, mass } = sizes[i];
@@ -161,6 +319,42 @@ export function HomeScene({
       });
       if (instant) {
         requestAnimationFrame(() => bodies.forEach((b) => { b.style.transitionDuration = ""; }));
+      }
+
+      /* HANDOFF · where this section renders the very tables the field is
+         holding, the dots go and sit on them, light them, and fade into them.
+         This is the beat the whole page is built around: a group of data
+         becomes an object, and the object becomes content you can read. */
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      if (!instant && !calm.matches && HANDOFF.has(k)) {
+        t1 = window.setTimeout(() => {
+          const marks = anchorsOf(secEls[k]);
+          const next = new Map<number, string>();
+          let d = 0;
+          for (const [name, a] of marks) {
+            const i = byName.get(name);
+            if (i === undefined) continue;
+            if (a.y < -40 || a.y > H + 40) continue;
+            nodes[i].dataset.fly = "1";
+            nodes[i].style.transitionDelay = `${d * 26}ms`;
+            nodes[i].style.setProperty("translate", `${tx(a.x).toFixed(1)}px ${a.y.toFixed(1)}px`);
+            nodes[i].style.setProperty("scale", "0.62");
+            next.set(i, name);
+            d += 1;
+          }
+          handed = next;
+          handSec = k;
+          t2 = window.setTimeout(() => {
+            for (const [i, name] of handed) {
+              nodes[i].style.opacity = "0";
+              nodes[i].style.setProperty("scale", "0.5");
+              delete nodes[i].dataset.fly;
+              const host = secEls[k].querySelector<HTMLElement>(`[data-nh-anchor="${CSS.escape(name)}"]`);
+              if (host) host.dataset.nhLit = "1";
+            }
+          }, HAND_FADE);
+        }, HAND_WAIT);
       }
     };
 
@@ -203,6 +397,50 @@ export function HomeScene({
       secEls.forEach((s) => io!.observe(s));
     }
 
+    /* ---- the field answers the content -----------------------------------
+       Hovering a coverage axis or a topic in the copy asks the field a
+       question, and the field answers by muting everything that is not part of
+       the answer. This is the shortest possible line between a number in the
+       text and the objects it is a number ABOUT. */
+    let askKey = "";
+    const ask = (key: string, test: ((p: Prep) => boolean) | null) => {
+      if (key === askKey) return;
+      askKey = key;
+      if (!test) {
+        for (const n of nodes) { delete n.dataset.mute; delete n.dataset.hi; }
+        delete el.dataset.ask;
+        return;
+      }
+      el.dataset.ask = "1";
+      for (let i = 0; i < nodes.length; i += 1) {
+        if (test(order[i])) { nodes[i].dataset.hi = "1"; delete nodes[i].dataset.mute; }
+        else { nodes[i].dataset.mute = "1"; delete nodes[i].dataset.hi; }
+      }
+    };
+    const testFor = (t: HTMLElement | null): [string, ((p: Prep) => boolean) | null] => {
+      const axEl = t?.closest<HTMLElement>("[data-nh-axis]");
+      if (axEl) {
+        const bit = 1 << Number(axEl.dataset.nhAxis);
+        return [`ax${bit}`, (p) => (p.d.ax & bit) !== 0];
+      }
+      const tpEl = t?.closest<HTMLElement>("[data-nh-topic]");
+      if (tpEl) {
+        const idx = Number(tpEl.dataset.nhTopic);
+        return [`tp${idx}`, (p) => p.d.tps.includes(idx)];
+      }
+      const anEl = t?.closest<HTMLElement>("[data-nh-anchor]");
+      if (anEl) {
+        const name = anEl.dataset.nhAnchor;
+        return [`an${name}`, (p) => p.d.n === name];
+      }
+      return ["", null];
+    };
+    const onOver = (ev: PointerEvent) => ask(...testFor(ev.target as HTMLElement));
+    const onOut = (ev: PointerEvent) => {
+      const [key, test] = testFor(ev.relatedTarget as HTMLElement | null);
+      if (!test) ask(key, null);
+    };
+
     /* ---- the pointer lens · proximity, not a gimmick ---------------------- */
     let pTick = false; let pxr = 0; let pyr = 0; let inside = false;
     const applyLens = () => {
@@ -211,6 +449,7 @@ export function HomeScene({
       let near = -1; let nearD = LENS_R;
       if (inside) {
         for (let i = 0; i < nodes.length; i += 1) {
+          if (nodes[i].dataset.fly) continue;
           const dx = pxr - pos[i].x; const dy = pyr - pos[i].y;
           const dist = Math.hypot(dx, dy);
           if (dist > LENS_R) continue;
@@ -247,7 +486,7 @@ export function HomeScene({
             a.textContent = p.d.n;
             (readEl.children[1] as HTMLElement).textContent = p.d.he;
             (readEl.children[2] as HTMLElement).textContent =
-              `${p.d.f} שדות · ${ZONE_HE[p.d.z]} · ${p.d.b === 1 ? "PM + PP-PI" : p.d.b === 0 ? "PM" : "PP-PI"}`;
+              `${p.d.f} שדות · ${ZONE_HE[p.d.z]} · ${p.d.r} קשרי ER · ${p.d.b === 1 ? "PM + PP-PI" : p.d.b === 0 ? "PM" : "PP-PI"}`;
           }
         } else {
           readEl.dataset.on = "0";
@@ -273,8 +512,12 @@ export function HomeScene({
       if (!pTick) { pTick = true; requestAnimationFrame(applyLens); }
     };
     // A coarse pointer has no hover, and reduced motion asked for none of this.
-    const wantsLens = !calm.matches && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    if (wantsLens) {
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (fine) {
+      el.addEventListener("pointerover", onOver, { passive: true });
+      el.addEventListener("pointerout", onOut, { passive: true });
+    }
+    if (!calm.matches && fine) {
       el.addEventListener("pointermove", onMove, { passive: true });
       el.addEventListener("pointerleave", onLeave, { passive: true });
     }
@@ -286,20 +529,40 @@ export function HomeScene({
       ro.observe(scroller);
     }
 
+    /* ---- the opening · the 105 arrive from outside the frame -------------- */
     requestAnimationFrame(() => {
-      measure(true);
-      sync();
-      el.dataset.ready = "1";
+      if (calm.matches) {
+        measure(true);
+        sync();
+        el.dataset.ready = "1";
+        return;
+      }
+      // DISPERSE -> GATHER. The 105 are painted once, instantly, outside the
+      // frame, and the first formation is them arriving. sync() below sees a
+      // section index that differs from the -1 the page starts in, so the
+      // arrival is the page's ordinary first transition and not a special case.
+      W = scroller.clientWidth; H = scroller.clientHeight;
+      if (!W || !H) { measure(true); sync(); el.dataset.ready = "1"; return; }
+      el.style.setProperty("--nh-vh", `${H}px`);
+      paint(-1, true);
+      requestAnimationFrame(() => {
+        el.dataset.ready = "1";
+        sync();
+      });
     });
 
     return () => {
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
       scroller.removeEventListener("scroll", onScroll);
       el.removeEventListener("pointermove", onMove);
       el.removeEventListener("pointerleave", onLeave);
+      el.removeEventListener("pointerover", onOver);
+      el.removeEventListener("pointerout", onOut);
       io?.disconnect();
       ro?.disconnect();
     };
-  }, [data, preps]);
+  }, [data, preps, topics, edges]);
 
   return (
     <div className="nh" ref={root} data-sec="0" data-ready="0">
@@ -309,6 +572,16 @@ export function HomeScene({
         <span className="nh-aura nh-aura--pm" style={{ "--m": "var(--mod-pm)" } as React.CSSProperties} />
         <span className="nh-aura nh-aura--pp" style={{ "--m": "var(--mod-pppi)" } as React.CSSProperties} />
         <span className="nh-halo" />
+        {/* The ER map. One element per real relation between two of the 105;
+            never a decorative line, and never a line the dictionary does not
+            hold. Each edge is a 1px box translated to its first endpoint,
+            rotated to its neighbour and scaled along x to the distance between
+            them — three compositor properties, no layout. */}
+        <span className="nh-edges">
+          {edges.map((e) => (
+            <i key={`${e.a}-${e.b}`} className="nh-edge" data-nh-edge data-k={e.k} />
+          ))}
+        </span>
         {planes.map((plane) => (
           <span className="nh-plane" data-z={plane.z} key={plane.z}>
             {plane.dots.map((p) => (
@@ -323,6 +596,13 @@ export function HomeScene({
             ))}
           </span>
         ))}
+        {/* The field names its own groups. Every string here is written from a
+            real count at paint time — see formations.captions(). */}
+        <span className="nh-caps">
+          {Array.from({ length: capPool }, (_, i) => (
+            <b className="nh-cap" data-nh-cap key={i} data-on="0"><b /><em /></b>
+          ))}
+        </span>
         <span className="nh-lens" data-nh-lens data-on="0" />
         <span className="nh-vig" />
       </div>

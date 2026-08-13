@@ -34,7 +34,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { flushSync } from "react-dom";
 import {
-  useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState,
+  useCallback, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState,
 } from "react";
 import { mark } from "@/components/defer-mount";
 import { Ico } from "../icon";
@@ -87,6 +87,10 @@ export function NeoShellClient({
 
   const [query, setQuery] = useState("");
   const [only, setOnly] = useState<CmdKind | null>(null);
+  /** Module facet. A string rather than ModuleKey: the facets are built from the
+   *  modules the matched records really declare, and the dataset is free to name
+   *  one the shell's own union does not know about. */
+  const [modOnly, setModOnly] = useState<string | null>(null);
   const [cursor, setCursor] = useState(0);
   const [shelf, setShelf] = useState<ShelfTab>("recent");
   const [ctxName, setCtxName] = useState<string>(data.defaultContext);
@@ -130,13 +134,20 @@ export function NeoShellClient({
     mark("shell-hydrated");
   }, []);
 
-  /* --------------------------------------------------------- search */
-  const q = query.trim().toLowerCase();
+  /* --------------------------------------------------------- search
+     The field is driven by `query` and everything EXPENSIVE is driven by
+     `dq`. useDeferredValue lets React paint the keystroke first and re-run the
+     ~7k-record scan in the following, interruptible pass — so a fast typist
+     never waits on a scan that a later keystroke is about to invalidate. The
+     rail's own filter reads the same deferred value, so the tree and the result
+     list can never disagree about which query is on screen. */
+  const dq = useDeferredValue(query);
+  const q = dq.trim().toLowerCase();
 
   /** The whole command index, assembled once from the two build-time payloads.
    *  ~thousands of plain rows — cheap to hold, and never rebuilt per keystroke. */
   const index = useMemo(() => buildIndex(data, cmd), [data, cmd]);
-  const result = useMemo(() => runQuery(index, query, only), [index, query, only]);
+  const result = useMemo(() => runQuery(index, dq, only, modOnly), [index, dq, only, modOnly]);
 
   /** Real per-family totals for the idle state of the surface. */
   const idle = useMemo(() => {
@@ -164,18 +175,37 @@ export function NeoShellClient({
   // that the results really live in brightens, everything else steps back.
   const hitMods = result.mods;
 
-  /** One module in the results = the whole rail takes its hue while searching. */
-  const searchMod = useMemo(() => {
-    if (mode !== "search" || !q) return undefined;
-    const list = [...hitMods].filter((m) => m === "PM" || m === "PP-PI" || m === "PP");
-    return list.length === 1 ? list[0] : undefined;
-  }, [mode, q, hitMods]);
+  /** The surface is doing work whenever there is a query OR a family is being
+   *  browsed. Both states transform the surrounding interface; only a bare open
+   *  field leaves it alone. */
+  const live = !!q || result.browse;
 
-  /* A new query or a new type filter always restarts the cursor at the top.
-     Done in the setters rather than in an effect, so there is no second render
-     pass between the keystroke and the first highlighted row. */
+  /** THE COLOUR OF THE ANSWER. The rail, the panel edge and the wash over the
+   *  canvas all take the hue of the module the matches actually live in.
+   *
+   *  It is the module that OWNS the answer, not merely one that appears in it:
+   *  a clear majority (60%) of the matches that declare a module at all. A query
+   *  that lands evenly across PM and PP-PI has no single owner, and the surface
+   *  correctly stays neutral rather than picking a side by accident. An explicit
+   *  module facet is an answer in itself and wins outright. */
+  const surfaceMod = useMemo(() => {
+    if (mode !== "search") return undefined;
+    if (modOnly) return modOnly;
+    if (!live) return undefined;
+    const pairs = Object.entries(result.modCounts);
+    if (!pairs.length) return undefined;
+    pairs.sort((a, b) => b[1] - a[1]);
+    const owned = pairs.reduce((a, x) => a + x[1], 0);
+    return pairs[0][1] / owned >= 0.6 ? pairs[0][0] : undefined;
+  }, [mode, live, modOnly, result.modCounts]);
+  const searchMod = surfaceMod;
+
+  /* A new query, a new family or a new module facet always restarts the cursor
+     at the top. Done in the setters rather than in an effect, so there is no
+     second render pass between the keystroke and the first highlighted row. */
   const applyQuery = useCallback((v: string) => { setQuery(v); setCursor(0); }, []);
   const applyOnly = useCallback((k: CmdKind | null) => { setOnly(k); setCursor(0); }, []);
+  const applyMod = useCallback((m: string | null) => { setModOnly(m); setCursor(0); }, []);
 
   /* ---------------------------------------------- the travelling pill */
   const syncInd = useCallback(() => {
@@ -275,7 +305,7 @@ export function NeoShellClient({
       setMode(next);
       if (next === "context") setShelf("context");
       else if (cur === "context") setShelf("recent");
-      if (next !== "search") { setQuery(""); setOnly(null); setCursor(0); }
+      if (next !== "search") { setQuery(""); setOnly(null); setModOnly(null); setCursor(0); }
     };
 
     if (!widthChange) { commit(); raf(syncInd); return; }
@@ -536,6 +566,10 @@ export function NeoShellClient({
       data-nav={mode}
       data-searching={searching ? "1" : "0"}
       data-typed={q ? "1" : "0"}
+      /* The surface is answering — typed, or browsing a family. The rail and the
+         canvas respond to THIS, not to the field merely being open. */
+      data-live={searching && live ? "1" : "0"}
+      style={searching && searchMod ? ({ "--sm": modVar(searchMod) } as React.CSSProperties) : undefined}
     >
       <a href="#main" className="nx-skip">דלג לתוכן</a>
 
@@ -638,8 +672,24 @@ export function NeoShellClient({
           {data.groups.map((g) => {
             const shown = g.items.filter((i) => !navFilter || navFilter.has(i.id));
             const isOpen = open[g.id] !== false;
+            // A group answers too: it brightens when any destination inside it is
+            // named by the query or lives in a module the results are in, and it
+            // steps back when none is. The heading is therefore readable as a map
+            // of where the answer is before a single row is read.
+            const gHit = g.items.some(
+              (i) => (!!visible && visible.has(i.id)) || (!!i.mod && hitMods.has(i.mod)),
+            );
+            const gMod = g.items.find((i) => !!i.mod && hitMods.has(i.mod))?.mod;
             return (
-              <section key={g.id} className="nx-group" data-open={isOpen} hidden={shown.length === 0}>
+              <section
+                key={g.id}
+                className="nx-group"
+                data-open={isOpen}
+                data-hit={searching && live && gHit ? "1" : "0"}
+                data-dim={searching && live && !gHit ? "1" : "0"}
+                style={gMod ? ({ "--gm": modVar(gMod) } as React.CSSProperties) : undefined}
+                hidden={shown.length === 0}
+              >
                 <h3 className="nx-group-h">
                   <button
                     type="button"
@@ -670,7 +720,7 @@ export function NeoShellClient({
                             data-nav={it.id}
                             data-mod={it.mod}
                             data-hit={hit ? "1" : "0"}
-                            data-dim={searching && q && !hit ? "1" : "0"}
+                            data-dim={searching && live && !hit ? "1" : "0"}
                             style={it.mod ? ({ "--m": modVar(it.mod) } as React.CSSProperties) : undefined}
                             aria-current={active?.id === it.id ? "page" : undefined}
                             title={mode === "compact" ? it.label : undefined}
@@ -815,6 +865,9 @@ export function NeoShellClient({
           result={result}
           only={only}
           onOnly={applyOnly}
+          modOnly={modOnly}
+          onModOnly={applyMod}
+          surfaceMod={surfaceMod}
           active={cursor}
           onActive={setCursor}
           onGo={goResult}

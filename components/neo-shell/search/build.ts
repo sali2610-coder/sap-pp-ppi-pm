@@ -35,6 +35,27 @@ export const KINDS: { k: CmdKind; he: string; icon: string }[] = [
 const KIND_ORDER = new Map(KINDS.map((x, i) => [x.k, i]));
 export const kindMeta = (k: CmdKind) => KINDS[KIND_ORDER.get(k) ?? 0];
 
+/** The SHAPE a family is drawn with. Three of them, not twelve: the eye reads
+ *  "this answer is dictionary data / an executable identifier / something
+ *  written" before it reads a single word. Twelve shapes would be twelve things
+ *  to learn; three is a legend you absorb in one glance. */
+export type CmdShape = "data" | "code" | "doc";
+
+export const KIND_SHAPE: Record<CmdKind, CmdShape> = {
+  table: "data",
+  cds: "data",
+  tcode: "code",
+  bapi: "code",
+  func: "code",
+  fiori: "code",
+  nav: "doc",
+  flow: "doc",
+  chapter: "doc",
+  book: "doc",
+  guide: "doc",
+  incident: "doc",
+};
+
 /** BAPI vs plain Function Module is decided by the identifier itself, which is
  *  a real SAP naming convention — not by a guess about what the object does. */
 const isBapi = (name: string) => /^BAPI[_ ]/i.test(name.trim());
@@ -174,22 +195,77 @@ export interface CmdResult {
   total: number;
   /** Modules that really appear in the matches. Drives the rail's response. */
   mods: Set<string>;
+  /** How many matches each module really owns — the module facet counts. Only
+   *  modules a record actually declares appear here. */
+  modCounts: Record<string, number>;
+  /** true when the surface is listing a whole family rather than answering a
+   *  query. Nothing is invented in this mode either: it is the real index. */
+  browse: boolean;
 }
 
 const PER_SECTION = 6;
+const BROWSE_CAP = 60;
 
-export function runQuery(index: CmdRecord[], raw: string, only: CmdKind | null): CmdResult {
+/** The modules a record declares, already split. A record with none returns an
+ *  empty list — it is never assigned a module to make a facet look fuller. */
+const modsOf = (r: CmdRecord): string[] => (r.mod ? r.mod.split(" · ") : []);
+
+/** The module a whole family is drawn in: the one most of its matches belong
+ *  to. A family whose records declare no module stays neutral ink — the section
+ *  is simply not tinted rather than borrowing a colour it has no claim to. */
+function dominantMod(rows: CmdRecord[]): string | undefined {
+  const n = new Map<string, number>();
+  for (const r of rows) for (const m of modsOf(r)) n.set(m, (n.get(m) || 0) + 1);
+  let best: string | undefined;
+  let bestN = 0;
+  for (const [m, c] of n) if (c > bestN) { best = m; bestN = c; }
+  return best;
+}
+
+export function runQuery(
+  index: CmdRecord[],
+  raw: string,
+  only: CmdKind | null,
+  modOnly: string | null = null,
+): CmdResult {
   const q = raw.trim().toLowerCase();
-  const empty: CmdResult = { sections: [], flat: [], total: 0, mods: new Set() };
-  if (!q) return empty;
+  const empty: CmdResult = {
+    sections: [], flat: [], total: 0, mods: new Set(), modCounts: {}, browse: false,
+  };
+  const keepMod = (r: CmdRecord) => !modOnly || modsOf(r).includes(modOnly);
+
+  /* BROWSE — a family chosen with no query. The idle board is not a poster of
+     numbers you cannot open: picking a family lists that family, straight out
+     of the same index the query walks. */
+  if (!q) {
+    if (!only) return empty;
+    const list = index.filter((r) => r.k === only && keepMod(r));
+    if (!list.length) return empty;
+    list.sort((a, b) => a.lt.localeCompare(b.lt, "he"));
+    const mods = new Set<string>();
+    const modCounts: Record<string, number> = {};
+    for (const r of list) for (const m of modsOf(r)) { mods.add(m); modCounts[m] = (modCounts[m] || 0) + 1; }
+    const meta = kindMeta(only);
+    const rows = list.slice(0, BROWSE_CAP);
+    return {
+      sections: [{ k: only, he: meta.he, icon: meta.icon, rows, total: list.length, mod: dominantMod(list) }],
+      flat: rows,
+      total: list.length,
+      mods,
+      modCounts,
+      browse: true,
+    };
+  }
 
   const tokens = q.split(/\s+/).filter(Boolean);
   const buckets = new Map<CmdKind, { rec: CmdRecord; s: number }[]>();
   let total = 0;
   const mods = new Set<string>();
+  const modCounts: Record<string, number> = {};
 
   for (const rec of index) {
     if (only && rec.k !== only) continue;
+    if (!keepMod(rec)) continue;
     let s = score(rec, q);
     if (s < 0 && tokens.length > 1) {
       // Multi-word: every token has to land somewhere on the record.
@@ -199,7 +275,7 @@ export function runQuery(index: CmdRecord[], raw: string, only: CmdKind | null):
     if (s < 0) continue;
     s += KIND_BOOST[rec.k] ?? 0;
     total += 1;
-    if (rec.mod) for (const m of rec.mod.split(" · ")) mods.add(m);
+    for (const m of modsOf(rec)) { mods.add(m); modCounts[m] = (modCounts[m] || 0) + 1; }
     const list = buckets.get(rec.k);
     if (list) list.push({ rec, s });
     else buckets.set(rec.k, [{ rec, s }]);
@@ -214,19 +290,25 @@ export function runQuery(index: CmdRecord[], raw: string, only: CmdKind | null):
       k: meta.k,
       he: meta.he,
       icon: meta.icon,
-      rows: list.slice(0, only ? 40 : PER_SECTION).map((x) => x.rec),
+      rows: list.slice(0, only ? BROWSE_CAP : PER_SECTION).map((x) => x.rec),
       total: list.length,
+      mod: dominantMod(list.map((x) => x.rec)),
     });
   }
   // Strongest section first, so the answer is at the top of the surface rather
   // than wherever the fixed kind order happens to put it.
-  sections.sort((a, b) => {
-    const sa = a.rows[0] ? score(a.rows[0], q) + (KIND_BOOST[a.k] ?? 0) : 0;
-    const sb = b.rows[0] ? score(b.rows[0], q) + (KIND_BOOST[b.k] ?? 0) : 0;
-    return sb - sa || (KIND_ORDER.get(a.k) ?? 0) - (KIND_ORDER.get(b.k) ?? 0);
-  });
+  //
+  // The score is QUANTISED before it is compared. Comparing raw scores made the
+  // sections trade places on almost every keystroke — "EQU" and "EQUI" differ by
+  // the length penalty alone — and a list that reshuffles under the cursor is
+  // the single worst thing a search surface can do. A 120-point band is wider
+  // than any length penalty and narrower than the gap between a real family
+  // match and an incidental one, so only a genuine change of answer reorders.
+  const band = (s: CmdSection) =>
+    Math.round((s.rows[0] ? score(s.rows[0], q) + (KIND_BOOST[s.k] ?? 0) : 0) / 120);
+  sections.sort((a, b) => band(b) - band(a) || (KIND_ORDER.get(a.k) ?? 0) - (KIND_ORDER.get(b.k) ?? 0));
 
-  return { sections, flat: sections.flatMap((s) => s.rows), total, mods };
+  return { sections, flat: sections.flatMap((s) => s.rows), total, mods, modCounts, browse: false };
 }
 
 /** Hebrew module label when the product has one, otherwise the key as written

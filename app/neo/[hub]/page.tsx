@@ -1,6 +1,9 @@
 import { HUB_META, NEO_HUBS, hubContent } from "@/components/neo-shell/nav-data";
 import { NeoTableList } from "@/components/neo-shell/table-list";
 import { modVar } from "@/components/neo-shell/mod-var";
+import { ModuleWorkspace } from "@/components/neo-shell/workspace/module-workspace";
+import { workspaceData } from "@/components/neo-shell/workspace/workspace-data";
+import "../workspace.css";
 
 // One route generates every navigation destination in the namespace. That is
 // not a shortcut: scripts/crawl-dead-links.mjs exits 1 on any internal href in
@@ -23,11 +26,21 @@ export async function generateMetadata({ params }: { params: Promise<{ hub: stri
 
 const nf = new Intl.NumberFormat("he-IL");
 
-// Deliberately simple. These pages exist so the navigation can be exercised —
-// the active indicator travelling between module hues, the preview layer, the
-// context shelf — not to be the finished destinations.
+// STAGE 2B. The two MODULE routes — /neo/pm/ and /neo/pp-pi/ — are real
+// workspaces now. Their content is built on the server by components/neo-shell/
+// workspace/workspace-data.ts and handed to a client shell as one plain
+// serialisable object, so the SAP datasets stay above the client boundary
+// exactly as they do on Home.
+//
+// Every other hub keeps the Stage-1 frame below. Those destinations exist so
+// the navigation can be exercised — the active indicator travelling between
+// module hues, the preview layer, the context shelf — and they say so.
 export default async function NeoHub({ params }: { params: Promise<{ hub: string }> }) {
   const { hub } = await params;
+  const meta = HUB_META()[hub];
+
+  if (meta?.mod) return <ModuleWorkspace data={workspaceData(meta.mod)} />;
+
   const c = hubContent(hub);
 
   return (

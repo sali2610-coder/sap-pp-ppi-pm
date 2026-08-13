@@ -1,0 +1,1005 @@
+/* ============================================================================
+   PROJECT NEO · STAGE 2B — THE MODULE WORKSPACES (PM · PP-PI)
+   ----------------------------------------------------------------------------
+   Imported by app/neo/[hub]/page.tsx. Every selector is anchored on .nw, which
+   only exists on the two module routes, so nothing here can reach another page.
+   Not one token from app/globals.css is redeclared — this file only CONSUMES
+   them, exactly the way app/neo/home.css does.
+
+   Rules of the house, kept:
+     · logical properties everywhere; not one physical inset in the layout
+     · only transform / opacity (and one filter on a decorative layer) animate
+     · nothing is required to be in motion for the page to be understood
+     · every breakpoint is a CONTAINER query on .nw — the rail can own 22rem of
+       the window, so a 1024px window can leave a 700px canvas. Sizing this
+       page on the window would lay out a desktop table inside a tablet column.
+
+   COLOUR FORM RULE (app/globals.css, above --mod-pm), obeyed literally:
+     MODULE (--mod-*, arriving as --m)  surface tint · ring · line · edge ·
+        section marker. Never a small standalone dot. Here it is the ambient
+        light, the masthead edge, the outlined code mark, the density fill, the
+        strip rules, the active chip ring and the sticky rail's top edge.
+     STATUS (--status-*)  ONLY a small filled dot immediately followed by its
+        word. In this file it appears in exactly two places, both of which are
+        dot + label: .nw-st (the working table's S/4HANA cell) and
+        .nw-chip--st (the filter that mirrors it).
+     OBJECT (--obj-*, arriving as --o)  the data itself: class dots, process
+        nodes, hub markers, row edges.
+     BRAND red stays the single global accent and is never a module colour.
+   ========================================================================== */
+
+/* The shell canvas is a padded, gapped grid for ordinary pages. The workspace
+   supplies its own gutters so the masthead light can bleed to the edge, so it
+   takes the canvas over — over-qualified for the same reason home.css is: the
+   phone rule in globals.css is (0,2,1) and a bare :has() would lose to it. */
+html .nx-app .nx-canvas:has(> .nw) {
+  display: block;
+  padding: 0;
+  gap: 0;
+  overflow-x: clip;
+}
+
+.nw {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  --nw-gut: var(--sp-8);
+  /* Row height floor. 2.75rem = the 44px touch target globals.css already
+     defines as --c-tap; the table never goes under it, on any canvas. */
+  --nw-row: var(--c-tap);
+  container-type: inline-size;
+  container-name: nw;
+  padding-block-end: var(--sp-10);
+}
+
+/* ==========================================================================
+   AMBIENT MODULE LIGHT — the largest, softest use of hue on the page, and the
+   reason entering PM does not look like entering PP-PI.
+   ========================================================================== */
+.nw-light {
+  position: absolute;
+  inset-block: 0 auto;
+  inset-inline: 0;
+  block-size: 46rem;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout paint style;
+}
+.nw-light i {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+}
+.nw-light-a {
+  inline-size: 46rem;
+  block-size: 46rem;
+  inset-block-start: -20rem;
+  inset-inline-start: -12rem;
+  background: radial-gradient(circle at 50% 50%,
+    color-mix(in srgb, var(--m) 26%, transparent) 0%,
+    color-mix(in srgb, var(--m) 9%, transparent) 44%,
+    transparent 70%);
+}
+.nw-light-b {
+  inline-size: 34rem;
+  block-size: 34rem;
+  inset-block-start: 2rem;
+  inset-inline-end: -14rem;
+  background: radial-gradient(circle at 50% 50%,
+    color-mix(in srgb, var(--m) 15%, transparent) 0%,
+    transparent 66%);
+}
+/* A hairline lattice under the masthead only. It admits the page is a grid,
+   which is the right admission for a data workspace. */
+.nw-light::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(to right, var(--hairline) 0 1px, transparent 1px 88px),
+    repeating-linear-gradient(to bottom, var(--hairline) 0 1px, transparent 1px 88px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+  opacity: .5;
+}
+
+/* ==========================================================================
+   THE MASTHEAD
+   ========================================================================== */
+.nw-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-6);
+  padding: var(--sp-10) var(--nw-gut) var(--sp-6);
+}
+.nw-head > * { min-inline-size: 0; }
+
+.nw-mast {
+  display: grid;
+  gap: var(--sp-4);
+  align-content: start;
+  /* The module edge. A LINE of module colour — the sanctioned form. */
+  padding-inline-start: var(--sp-5);
+  border-inline-start: 3px solid var(--m);
+}
+
+.nw-eye {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--t-micro);
+  letter-spacing: .16em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+.nw-eye i { inline-size: 20px; block-size: 1px; background: var(--m); opacity: .85; }
+
+.nw-id { display: flex; align-items: center; gap: var(--sp-4); flex-wrap: wrap; }
+
+/* The identity mark: the module code as an outlined section marker, in module
+   colour. A marker, not a dot — the form rule holds. */
+.nw-mark {
+  font-size: clamp(3.5rem, 7cqi, 6.5rem);
+  line-height: .78;
+  font-weight: 700;
+  letter-spacing: -.05em;
+  color: transparent;
+  -webkit-text-stroke: 2px color-mix(in srgb, var(--m) 58%, transparent);
+  flex: none;
+}
+.nw-idtext { display: grid; gap: 2px; min-inline-size: 0; }
+.nw-title {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  font-size: clamp(2rem, 5.2cqi, 4.25rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -.03em;
+  text-wrap: balance;
+}
+.nw-code {
+  font-size: .34em;
+  font-weight: 600;
+  color: var(--ink-1);
+  padding: 2px var(--sp-2);
+  border-radius: var(--r-pill);
+  /* MODULE as a tint + ring. */
+  background: color-mix(in srgb, var(--m) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m) 42%, transparent);
+}
+.nw-en { font-size: var(--t-xs); color: var(--ink-3); letter-spacing: .04em; }
+.nw-idicon {
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border-radius: var(--r-md);
+  color: var(--m);
+  background: color-mix(in srgb, var(--m) 9%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
+  flex: none;
+}
+.nw-lede { font-size: 1.0625rem; color: var(--ink-2); line-height: 1.62; max-inline-size: 64ch; }
+
+/* --- the counts rail ------------------------------------------------------ */
+.nw-stats { display: flex; flex-wrap: wrap; gap: var(--sp-4) var(--sp-7); }
+.nw-stat { display: grid; gap: 2px; }
+.nw-stat dt { font-size: var(--t-micro); color: var(--ink-3); order: 2; }
+.nw-stat dd { display: flex; align-items: baseline; gap: var(--sp-2); flex-wrap: wrap; }
+.nw-stat b {
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.375rem, 2.4cqi, 2rem);
+  line-height: 1;
+  letter-spacing: -.03em;
+  color: var(--ink-1);
+}
+.nw-stat em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+
+.nw-sap { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; }
+.nw-fine { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.7; max-inline-size: 76ch; }
+.nw-sr {
+  position: absolute; inline-size: 1px; block-size: 1px;
+  margin: -1px; padding: 0; overflow: hidden; white-space: nowrap;
+  clip-path: inset(50%); border: 0;
+}
+
+/* ==========================================================================
+   THE CONTEXT COLUMN — recents · transactions · books
+   Three lists separated by rules, not three cards. A card grid is exactly the
+   dashboard this page is not allowed to be.
+   ========================================================================== */
+.nw-aside { display: grid; gap: var(--sp-5); align-content: start; }
+.nw-panel { display: grid; gap: var(--sp-2); align-content: start; }
+.nw-panel + .nw-panel { padding-block-start: var(--sp-4); border-block-start: 1px solid var(--hairline); }
+.nw-panel-h,
+.nw-panel-sub {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--ink-2);
+  text-transform: uppercase;
+}
+.nw-panel-h svg { color: var(--m); flex: none; }
+.nw-panel-sub { margin-block-start: var(--sp-2); color: var(--ink-3); }
+.nw-more {
+  margin-inline-start: auto;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-3);
+  border-block-end: 1px solid transparent;
+  transition: color 180ms, border-color 180ms;
+}
+.nw-more:hover { color: var(--ink-1); border-block-end-color: color-mix(in srgb, var(--m) 60%, transparent); }
+
+.nw-rclist { display: grid; gap: 1px; }
+.nw-rclist button {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-2);
+  inline-size: 100%;
+  min-block-size: var(--nw-row);
+  padding-inline: var(--sp-2);
+  border-radius: var(--r-sm);
+  text-align: start;
+  font-size: var(--t-xs);
+  transition: background-color 170ms, transform 190ms var(--ease-out-expo);
+}
+.nw-rclist button:hover { background: color-mix(in srgb, var(--m) 8%, transparent); transform: translateX(-2px); }
+[dir="ltr"] .nw-rclist button:hover { transform: translateX(2px); }
+.nw-rclist b { color: var(--ink-1); font-size: var(--t-sm); }
+.nw-rc-he { color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nw-rclist em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+
+/* Object-class marker. Never the module hue — this is the data's own encoding. */
+.nw-cls {
+  inline-size: 9px;
+  block-size: 9px;
+  border-radius: 50%;
+  background: var(--o, var(--ink-3));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--o, var(--ink-3)) 18%, transparent);
+  flex: none;
+}
+
+.nw-tclist { display: grid; gap: 1px; }
+.nw-tclist li {
+  display: grid;
+  grid-template-columns: 5rem minmax(3rem, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-2);
+  min-block-size: 1.875rem;
+  padding-inline: var(--sp-2);
+  font-size: var(--t-xs);
+}
+.nw-tclist b { color: var(--ink-1); }
+.nw-tclist em { font-style: normal; font-size: 10px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+/* One tick per table that maps onto the code — the bar IS the count. */
+.nw-bars { display: flex; gap: 2px; align-items: center; }
+.nw-bars i { inline-size: 4px; block-size: 12px; border-radius: 1px; background: var(--m); opacity: .75; }
+
+.nw-bklist, .nw-cslist { display: grid; gap: var(--sp-3); }
+.nw-bklist li, .nw-cslist li {
+  display: grid;
+  gap: 2px;
+  padding-inline-start: var(--sp-3);
+  border-inline-start: 2px solid color-mix(in srgb, var(--m) 45%, transparent);
+}
+.nw-bklist b, .nw-cslist b { font-size: var(--t-xs); color: var(--ink-1); line-height: 1.5; }
+.nw-bklist span { font-size: 10px; color: var(--ink-3); }
+.nw-bklist em, .nw-cslist em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+.nw-cslist { gap: var(--sp-2); }
+
+/* ==========================================================================
+   THE DENSITY STRIP — also the topic scope control
+   ========================================================================== */
+.nw-strip-h {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  padding-block-end: var(--sp-2);
+  margin-block-end: var(--sp-3);
+  border-block-end: 1px solid color-mix(in srgb, var(--m) 24%, var(--hairline));
+  font-size: var(--t-xs);
+  font-weight: 700;
+  color: var(--ink-1);
+}
+.nw-strip-h svg { color: var(--m); flex: none; }
+.nw-strip-n { font-weight: 400; font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: auto; }
+
+.nw-densbar {
+  display: flex;
+  align-items: stretch;
+  gap: 3px;
+  margin-block-end: var(--sp-2);
+}
+/* Width = the topic's share of the module's dictionary rows. `--w` is the real
+   table count, so flex-grow does the ratio without a single computed pixel. */
+.nw-densbar > li { flex: var(--w) 1 0; min-inline-size: 0; }
+.nw-densbar button {
+  position: relative;
+  display: grid;
+  align-content: end;
+  gap: 2px;
+  inline-size: 100%;
+  min-block-size: 5.25rem;
+  padding: var(--sp-2);
+  border-radius: var(--r-sm);
+  border: 1px solid color-mix(in srgb, var(--m) 16%, var(--hairline));
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  overflow: hidden;
+  text-align: start;
+  transition: transform 200ms var(--ease-out-expo), border-color 180ms, box-shadow 180ms;
+}
+.nw-densbar button:hover { transform: translateY(-2px); box-shadow: var(--elev-2); border-color: color-mix(in srgb, var(--m) 42%, transparent); }
+/* MODULE as a surface tint whose HEIGHT is the datum. */
+.nw-dens-fill {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline: 0;
+  block-size: 100%;
+  z-index: -1;
+  background: linear-gradient(to top,
+    color-mix(in srgb, var(--m) 30%, transparent),
+    color-mix(in srgb, var(--m) 9%, transparent));
+  transform: scaleY(var(--p, 0));
+  transform-origin: 50% 100%;
+  transition: transform 620ms var(--ease-emphasis);
+}
+.nw-dens-i { font-size: 10px; color: var(--ink-3); }
+.nw-dens-t {
+  font-size: var(--t-micro);
+  color: var(--ink-1);
+  line-height: 1.35;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.nw-dens-n { font-size: var(--t-sm); color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nw-dens-n em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+/* Selected: a module RING, plus a deeper tint. Never a dot. */
+.nw-densbar button[data-on="1"] {
+  border-color: var(--m);
+  box-shadow: 0 0 0 1px var(--m) inset, var(--elev-2);
+}
+
+/* ==========================================================================
+   PROCESS STRIP + RELATIONSHIPS
+   ========================================================================== */
+.nw-lower { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-6); }
+
+.nw-steps {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: stretch;
+  overflow-x: auto;
+  padding-block-end: var(--sp-2);
+  scrollbar-width: thin;
+  scroll-snap-type: x proximity;
+}
+.nw-steps > li {
+  flex: 1 1 8.5rem;
+  min-inline-size: 8.5rem;
+  scroll-snap-align: start;
+  position: relative;
+}
+/* The connector. A line, and it stops at the last node — an arrow into nothing
+   is exactly the invented edge this project refuses to draw. inline-END in both
+   directions: the next step always sits on the inline-end side of this one, so
+   the logical property already carries the flip and no mirrored rule is needed. */
+.nw-steps > li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-end: calc(-1 * var(--sp-2));
+  inline-size: var(--sp-2);
+  block-size: 1px;
+  background: var(--rel-n-1);
+}
+.nw-step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2px var(--sp-2);
+  block-size: 100%;
+  min-block-size: var(--nw-row);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm);
+  border: 1px solid color-mix(in srgb, var(--o) 32%, var(--hairline));
+  background: color-mix(in srgb, var(--o) 4%, var(--surface));
+  box-shadow: var(--elev-1);
+}
+.nw-step b { font-size: var(--t-sm); color: var(--ink-1); }
+.nw-step-he { grid-column: 2; font-size: var(--t-micro); color: var(--ink-2); }
+.nw-step-n { grid-column: 2; font-size: 10px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nw-step .nw-cls { grid-row: span 3; }
+.nw-step[data-missing="1"] {
+  border-style: dashed;
+  background: transparent;
+  box-shadow: none;
+  opacity: .72;
+}
+
+.nw-relline { font-size: var(--t-xs); color: var(--ink-2); line-height: 1.75; margin-block-end: var(--sp-3); }
+.nw-relline b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nw-hubs { display: grid; gap: 2px; margin-block-end: var(--sp-2); }
+.nw-hubs li {
+  display: grid;
+  grid-template-columns: auto 5.5rem minmax(3rem, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-2);
+  min-block-size: 1.75rem;
+  font-size: var(--t-xs);
+}
+.nw-hubs b { color: var(--ink-1); }
+.nw-hubs em { font-style: normal; font-size: var(--t-xs); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nw-hub-bar { display: block; block-size: 6px; border-radius: var(--r-pill); background: var(--surface-2); overflow: hidden; }
+.nw-hub-bar i {
+  display: block;
+  block-size: 100%;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--o) 72%, transparent);
+  transform: scaleX(var(--p, 0));
+  transform-origin: 100% 50%;
+  transition: transform 620ms var(--ease-emphasis);
+}
+[dir="ltr"] .nw-hub-bar i { transform-origin: 0 50%; }
+
+/* ==========================================================================
+   THE SCOPE RAIL — the header's base line, and the table's control surface.
+   Sticky, so the scope of what is on screen is never more than a glance away.
+   ========================================================================== */
+.nw-work { display: grid; gap: 0; }
+.nw-rail {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 3;
+  display: grid;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--nw-gut);
+  /* Deliberately not opaque: the ambient module light has to keep travelling
+     under the rail, so the blur has something to do. */
+  background: color-mix(in srgb, var(--m) 5%, color-mix(in srgb, var(--background) 88%, transparent));
+  border-block: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
+  backdrop-filter: blur(10px);
+}
+
+.nw-scope { display: flex; align-items: baseline; gap: var(--sp-2); flex-wrap: wrap; font-size: var(--t-xs); }
+.nw-scope-k {
+  font-size: var(--t-micro);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.nw-scope > b { font-size: var(--t-h2); color: var(--ink-1); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.nw-scope-l { color: var(--ink-2); }
+.nw-scope-l b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nw-scope-t {
+  padding: 2px var(--sp-2);
+  border-radius: var(--r-pill);
+  font-size: var(--t-micro);
+  color: var(--ink-1);
+  background: color-mix(in srgb, var(--m) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m) 40%, transparent);
+}
+.nw-scope-all { font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: auto; }
+.nw-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-block-size: var(--nw-row);
+  padding-inline: var(--sp-3);
+  margin-inline-start: auto;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+  transition: transform 180ms var(--ease-out-expo), border-color 180ms, color 180ms;
+}
+.nw-clear:hover { transform: translateY(-1px); color: var(--ink-1); border-color: var(--m); }
+
+.nw-tools { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.nw-tools-k {
+  font-size: var(--t-micro);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  flex: none;
+}
+.nw-find {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: 1 1 18rem;
+  min-inline-size: 12rem;
+  min-block-size: var(--nw-row);
+  padding-inline: var(--sp-3);
+  border-radius: var(--r-pill);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  color: var(--ink-3);
+  transition: border-color 180ms, box-shadow 180ms;
+}
+.nw-find:focus-within { border-color: var(--m); box-shadow: 0 0 0 3px color-mix(in srgb, var(--m) 16%, transparent); }
+.nw-find input {
+  flex: 1;
+  min-inline-size: 0;
+  border: 0;
+  background: transparent;
+  font-size: var(--t-xs);
+  color: var(--ink-1);
+}
+.nw-find input::placeholder { color: var(--ink-3); }
+.nw-find input:focus { outline: none; }
+
+.nw-filters { display: flex; gap: var(--sp-4) var(--sp-6); flex-wrap: wrap; }
+.nw-sortset,
+.nw-filterset { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
+/* The chip row is the TOUCH sort control. On a wide canvas the column headers
+   do the job and this row would be a second, redundant surface. */
+.nw-sortset { display: none; }
+
+.nw-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-block-size: 2rem;
+  padding-inline: var(--sp-3);
+  border-radius: var(--r-pill);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+  transition: transform 180ms var(--ease-out-expo), border-color 180ms, background-color 180ms, color 180ms;
+}
+.nw-chip:hover:not(:disabled) { transform: translateY(-1px); color: var(--ink-1); }
+.nw-chip em { font-style: normal; font-size: 10px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nw-chip:disabled { opacity: .45; }
+/* Active: a module RING + tint. */
+.nw-chip[data-on="1"] {
+  color: var(--ink-1);
+  background: color-mix(in srgb, var(--m) 10%, transparent);
+  border-color: var(--m);
+}
+/* Object class: the chip's own dot is the OBJECT hue, which is a data encoding
+   and not a status. */
+.nw-chip--obj i {
+  inline-size: 8px; block-size: 8px; border-radius: 50%;
+  background: var(--o); flex: none;
+}
+/* S/4HANA verdict: STATUS colour, as a small filled dot immediately followed
+   by its word — the only form the rule allows. */
+.nw-chip--st i {
+  inline-size: 8px; block-size: 8px; border-radius: 50%;
+  background: var(--status-done); flex: none;
+}
+.nw-chip--st[data-k="1"] i { background: var(--status-in-conversion); }
+.nw-chip--st[data-k="2"] i { background: var(--status-not-started); }
+
+/* ==========================================================================
+   THE WORKING TABLE
+   ========================================================================== */
+.nw-tblwrap { padding-inline: var(--nw-gut); }
+.nw-tbl { inline-size: 100%; border-collapse: collapse; table-layout: fixed; }
+
+.nw-tbl thead th {
+  position: sticky;
+  /* UNDER the scope rail, not under the window: the rail is this page's own
+     chrome and the shell already owns the top bar above it. The offset is the
+     rail's measured height (module-workspace.tsx publishes it), because the
+     rail wraps to a different number of lines at every canvas width and a
+     per-breakpoint guess would leave a gap or an overlap at most of them. */
+  inset-block-start: var(--nw-railh, 0px);
+  z-index: 2;
+  padding: var(--sp-2) var(--sp-2);
+  text-align: start;
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  background: var(--background);
+  border-block-end: 1px solid color-mix(in srgb, var(--m) 30%, var(--hairline));
+  white-space: nowrap;
+}
+.nw-tbl thead button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-block-size: 1.75rem;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  transition: color 160ms;
+}
+.nw-tbl thead button:hover { color: var(--ink-1); }
+.nw-tbl thead button[data-on="1"] { color: var(--ink-1); }
+.nw-tbl thead em { font-style: normal; opacity: .6; }
+
+.nw-row > td {
+  padding: var(--sp-2);
+  border-block-end: 1px solid var(--hairline);
+  font-size: var(--t-xs);
+  color: var(--ink-2);
+  vertical-align: middle;
+}
+.nw-row { transition: background-color 160ms; }
+.nw-row:hover > td { background: color-mix(in srgb, var(--m) 5%, transparent); }
+/* The open row carries a module EDGE, which is the sanctioned line form. */
+.nw-row[data-open="1"] > td {
+  background: color-mix(in srgb, var(--m) 7%, transparent);
+  border-block-end-color: transparent;
+}
+.nw-row[data-open="1"] > td:first-child { box-shadow: inset 2px 0 0 0 var(--m); }
+[dir="ltr"] .nw-row[data-open="1"] > td:first-child { box-shadow: inset -2px 0 0 0 var(--m); }
+
+.nw-c-n { inline-size: 11.5rem; }
+.nw-c-he { inline-size: auto; }
+.nw-c-tp { inline-size: 9rem; }
+.nw-c-f { inline-size: 6rem; }
+.nw-c-tc { inline-size: 9.5rem; }
+.nw-c-fn { inline-size: 5rem; }
+.nw-c-rel { inline-size: 5rem; }
+.nw-c-cv { inline-size: 6rem; }
+.nw-c-s4 { inline-size: 6.5rem; }
+.nw-c-x { inline-size: 2.75rem; }
+
+.nw-open {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-block-size: var(--nw-row);
+  max-inline-size: 100%;
+  padding-inline: 2px;
+  border-radius: var(--r-xs);
+  text-align: start;
+  transition: transform 180ms var(--ease-out-expo);
+}
+.nw-open b { font-size: var(--t-sm); color: var(--ink-1); }
+.nw-open svg { color: var(--ink-3); opacity: 0; transition: opacity 160ms, transform 200ms var(--ease-out-expo); }
+.nw-row:hover .nw-open svg,
+.nw-open:focus-visible svg { opacity: 1; }
+.nw-open:hover { transform: translateX(-2px); }
+[dir="ltr"] .nw-open:hover { transform: translateX(2px); }
+
+.nw-shared {
+  display: inline-block;
+  margin-inline-start: var(--sp-2);
+  padding: 1px 6px;
+  border-radius: var(--r-pill);
+  font-size: 10px;
+  color: var(--ink-3);
+  border: 1px solid var(--hairline);
+}
+.nw-c-he span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nw-c-tp { color: var(--ink-3); }
+.nw-c-tp .nw-sap { font-size: 10px; }
+.nw-tp-t {
+  display: inline-block;
+  max-inline-size: 6.5rem;
+  margin-inline-start: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+  font-size: 10px;
+}
+.nw-c-f b, .nw-c-fn b, .nw-c-rel b { font-size: var(--t-sm); color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nw-c-f em { font-style: normal; font-size: 10px; color: var(--ink-3); margin-inline-start: 5px; }
+.nw-tc {
+  display: inline-block;
+  padding: 1px 5px;
+  margin-inline-end: 3px;
+  border-radius: var(--r-xs);
+  background: var(--surface-2);
+  font-size: 10px;
+  color: var(--ink-2);
+}
+.nw-c-tc em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+.nw-c-cv .nw-sap { font-variant-numeric: tabular-nums; color: var(--ink-1); }
+.nw-c-cv em { font-style: normal; font-size: 10px; color: var(--ink-3); margin-inline-start: 5px; }
+.nw-none { color: var(--ink-3); }
+
+/* STATUS: dot + word. Nothing else in the row is tinted by it. */
+.nw-st { display: inline-flex; align-items: center; gap: 5px; font-size: var(--t-micro); color: var(--ink-2); }
+.nw-st i { inline-size: 7px; block-size: 7px; border-radius: 50%; background: var(--status-done); flex: none; }
+.nw-st[data-k="1"] i { background: var(--status-in-conversion); }
+.nw-st[data-k="2"] i { background: var(--status-not-started); }
+
+.nw-x {
+  display: grid;
+  place-items: center;
+  inline-size: var(--nw-row);
+  block-size: var(--nw-row);
+  border-radius: var(--r-sm);
+  color: var(--ink-3);
+  transition: background-color 160ms, color 160ms, transform 200ms var(--ease-out-expo);
+}
+.nw-x:hover { color: var(--ink-1); background: var(--surface-2); }
+.nw-x[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+/* --- the expanded row ----------------------------------------------------- */
+.nw-detrow > td { padding: 0; border-block-end: 1px solid var(--hairline); }
+.nw-det {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
+  gap: var(--sp-5);
+  padding: var(--sp-4) var(--sp-3) var(--sp-5);
+  background: color-mix(in srgb, var(--m) 4%, transparent);
+  border-inline-start: 2px solid var(--m);
+}
+.nw-det > section { display: grid; gap: var(--sp-2); align-content: start; min-inline-size: 0; }
+.nw-det h3 {
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding-block-end: 4px;
+  border-block-end: 1px solid var(--hairline);
+}
+.nw-keys, .nw-joins, .nw-fns { display: grid; gap: var(--sp-2); }
+.nw-keys li {
+  display: grid;
+  grid-template-columns: 2rem 6.5rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--sp-2);
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+}
+.nw-kb {
+  font-size: 9px;
+  font-weight: 700;
+  text-align: center;
+  padding: 1px 0;
+  border-radius: var(--r-xs);
+  background: var(--surface-2);
+  color: var(--ink-3);
+}
+.nw-kb[data-k="pk"] { color: var(--ink-1); }
+.nw-keys b { color: var(--ink-1); font-size: var(--t-xs); }
+.nw-keys em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+
+.nw-joins li { display: grid; gap: 2px; font-size: var(--t-micro); color: var(--ink-2); }
+.nw-joins b { font-size: var(--t-xs); color: var(--ink-1); }
+.nw-card { font-size: 10px; color: var(--ink-3); }
+.nw-out { font-size: 10px; color: var(--ink-3); }
+.nw-join-d { color: var(--ink-2); }
+.nw-joins code { font-size: 10px; color: var(--ink-3); overflow-wrap: anywhere; }
+
+.nw-fns li {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 2px var(--sp-2);
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+}
+.nw-kind {
+  font-size: 9px;
+  color: var(--ink-3);
+  padding: 1px 4px;
+  border-radius: var(--r-xs);
+  background: var(--surface-2);
+  text-align: center;
+  grid-row: span 2;
+  align-self: start;
+}
+.nw-fns b { color: var(--ink-1); font-size: var(--t-xs); }
+.nw-alltc { font-size: var(--t-micro); color: var(--ink-3); margin-block-start: var(--sp-2); }
+.nw-s4note { font-size: var(--t-xs); color: var(--ink-2); line-height: 1.7; }
+
+.nw-empty {
+  display: grid;
+  justify-items: start;
+  gap: var(--sp-2);
+  margin: var(--sp-6) var(--nw-gut);
+  padding: var(--sp-6);
+  border-radius: var(--r-md);
+  border: 1px dashed color-mix(in srgb, var(--m) 34%, var(--hairline));
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+}
+
+.nw-credit {
+  margin: var(--sp-8) var(--nw-gut) 0;
+  padding-block-start: var(--sp-4);
+  border-block-start: 1px solid var(--hairline);
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+}
+
+/* ==========================================================================
+   DARK — layered, not inverted.
+   ========================================================================== */
+html[data-theme="dark"] .nw-light::after { opacity: .28; }
+html[data-theme="dark"] .nw-light-a {
+  background: radial-gradient(circle at 50% 50%,
+    color-mix(in srgb, var(--m) 16%, transparent) 0%,
+    color-mix(in srgb, var(--m) 6%, transparent) 44%,
+    transparent 70%);
+}
+html[data-theme="dark"] .nw-light-b {
+  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--m) 10%, transparent) 0%, transparent 66%);
+}
+html[data-theme="dark"] :is(.nw-densbar button, .nw-step, .nw-find, .nw-chip, .nw-clear) {
+  background: color-mix(in srgb, var(--surface-2) 74%, transparent);
+  border-color: color-mix(in srgb, var(--ink-3) 24%, transparent);
+}
+html[data-theme="dark"] .nw-densbar button[data-on="1"],
+html[data-theme="dark"] .nw-chip[data-on="1"] { border-color: var(--m); }
+html[data-theme="dark"] .nw-rail { background: color-mix(in srgb, var(--m) 8%, var(--background)); }
+html[data-theme="dark"] .nw-tbl thead th { background: var(--background); }
+html[data-theme="dark"] .nw-det { background: color-mix(in srgb, var(--m) 8%, transparent); }
+html[data-theme="dark"] :is(.nw-tc, .nw-kb, .nw-kind) { background: color-mix(in srgb, var(--ink-3) 16%, transparent); }
+
+/* ==========================================================================
+   RESPONSIVE — every step RECOMPOSES. All widths are CANVAS widths.
+   ========================================================================== */
+
+/* --- touch canvas: the table becomes cards, not a smaller table ----------- */
+@container nw (max-width: 899px) {
+  .nw { --nw-gut: var(--sp-4); }
+  .nw-head { padding-block-start: var(--sp-6); gap: var(--sp-5); }
+  .nw-mark { font-size: 3.25rem; -webkit-text-stroke-width: 1.5px; }
+  .nw-lede { font-size: var(--t-body); }
+  .nw-stats { gap: var(--sp-3) var(--sp-5); }
+  /* On a phone the instruments come before the context lists: identity, then
+     the numbers, then the two strips, and only then recents / codes / books.
+     The DOM order serves the desktop column, so the order is re-stated here. */
+  .nw-aside { order: 9; padding-block-start: var(--sp-4); border-block-start: 1px solid var(--hairline); }
+
+  /* The density strip stops being a proportional bar — twelve 6% slivers are
+     not a touch target. It becomes a scroll row of real, tappable segments,
+     and the proportion moves into the fill height, which survives. */
+  .nw-densbar {
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding-block-end: var(--sp-2);
+  }
+  .nw-densbar > li { flex: 0 0 8.5rem; scroll-snap-align: start; }
+  .nw-densbar button { min-block-size: 6rem; }
+
+  .nw-rail { padding-block: var(--sp-3); }
+  .nw-sortset { display: flex; }
+  .nw-scope-all { inline-size: 100%; margin-inline-start: 0; }
+  .nw-chip { min-block-size: var(--nw-row); padding-inline: var(--sp-3); }
+  .nw-filters { gap: var(--sp-3); }
+  .nw-filterset { overflow-x: auto; flex-wrap: nowrap; padding-block-end: 2px; }
+
+  .nw-tbl, .nw-tbl tbody, .nw-tbl tr, .nw-tbl td { display: block; }
+  .nw-tbl thead { display: none; }
+  .nw-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 2px var(--sp-2);
+    padding: var(--sp-3) var(--sp-3);
+    margin-block-end: var(--sp-2);
+    border-radius: var(--r-md);
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    box-shadow: var(--elev-1);
+  }
+  /* The card carries the state now, so the cells give their surfaces back.
+     Stated at matching specificity rather than with !important. */
+  .nw-row > td { border: 0; padding: 0; }
+  .nw-row:hover > td,
+  .nw-row[data-open="1"] > td { background: none; }
+  .nw-row[data-open="1"] { border-color: var(--m); box-shadow: 0 0 0 1px var(--m) inset, var(--elev-2); }
+  .nw-row[data-open="1"] > td:first-child { box-shadow: none; }
+  .nw-c-n { grid-column: 1; }
+  .nw-c-x { grid-column: 2; grid-row: 1 / span 2; justify-self: end; }
+  .nw-c-he { grid-column: 1; }
+  /* The remaining cells become a labelled meta row: the column head travels in
+     data-l, so the card never drops the meaning of a number. */
+  .nw-tbl .nw-row > :is(.nw-c-tp, .nw-c-f, .nw-c-tc, .nw-c-fn, .nw-c-rel, .nw-c-cv, .nw-c-s4) {
+    grid-column: 1 / -1;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+    inline-size: auto;
+    margin-inline-end: var(--sp-3);
+    margin-block-start: var(--sp-2);
+  }
+  .nw-tbl .nw-row > :is(.nw-c-tp, .nw-c-f, .nw-c-tc, .nw-c-fn, .nw-c-rel, .nw-c-cv, .nw-c-s4)::before {
+    content: attr(data-l);
+    font-size: 9px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .nw-tp-t { display: none; }
+  .nw-c-he span { white-space: normal; }
+  .nw-open svg { opacity: 1; }
+  .nw-detrow > td { border: 0; }
+  .nw-det { grid-template-columns: minmax(0, 1fr); padding-inline: var(--sp-3); }
+}
+
+/* --- laptop: the context column takes the far edge ------------------------ */
+@container nw (min-width: 900px) {
+  .nw-head {
+    grid-template-columns: minmax(0, 1fr) minmax(15rem, 19rem);
+    column-gap: var(--sp-8);
+  }
+  .nw-mast { grid-column: 1; }
+  .nw-aside {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    padding-inline-start: var(--sp-5);
+    border-inline-start: 1px solid var(--hairline);
+  }
+  .nw-dens, .nw-lower { grid-column: 1; }
+  .nw-lower { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); column-gap: var(--sp-6); }
+}
+
+/* --- desktop: more gutter, and the process strip stops scrolling ---------- */
+@container nw (min-width: 1200px) {
+  .nw { --nw-gut: var(--sp-10); }
+  .nw-steps { overflow-x: visible; }
+  .nw-steps > li { min-inline-size: 0; }
+}
+
+/* --- wide: the extra width becomes information, not margin ---------------- */
+@container nw (min-width: 1600px) {
+  .nw { --nw-gut: 4rem; }
+  .nw-head { grid-template-columns: minmax(0, 1fr) minmax(18rem, 22rem); gap: var(--sp-8); }
+  .nw-lede { font-size: 1.125rem; }
+  .nw-c-n { inline-size: 13rem; }
+  .nw-c-tp { inline-size: 12rem; }
+  .nw-c-tc { inline-size: 12rem; }
+  .nw-tp-t { max-inline-size: 9rem; }
+}
+
+/* --- ultrawide: the masthead and its instruments become two real columns --- */
+@container nw (min-width: 2200px) {
+  .nw { --nw-gut: 6rem; }
+  .nw-head {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(20rem, 24rem);
+    column-gap: var(--sp-10);
+  }
+  .nw-mast { grid-column: 1; grid-row: 1 / span 2; }
+  .nw-dens { grid-column: 2; grid-row: 1; }
+  .nw-lower { grid-column: 2; grid-row: 2; grid-template-columns: minmax(0, 1fr); }
+  .nw-aside { grid-column: 3; grid-row: 1 / span 2; }
+  .nw-mark { -webkit-text-stroke-width: 2.5px; }
+}
+
+@container nw (min-width: 3000px) {
+  .nw { --nw-gut: 9rem; }
+  .nw-tbl { font-size: var(--t-sm); }
+  .nw-row > td { padding-block: var(--sp-3); }
+}
+
+/* ==========================================================================
+   REDUCED MOTION — the workspace has to be fully readable with zero moving
+   pixels. globals.css already zeroes durations inside .nx-app; these rules
+   remove the two things a zero duration cannot: a bar that scales from nothing
+   and a fill that would sit at height zero.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .nw-dens-fill, .nw-hub-bar i { transition: none; }
+  .nw-densbar button:hover,
+  .nw-rclist button:hover,
+  .nw-open:hover,
+  .nw-clear:hover,
+  .nw-chip:hover { transform: none; }
+}
+
+/* Forced colours: the ambient light is decoration and must not fight the
+   user's palette. Everything else is plain semantic markup and survives. */
+@media (forced-colors: active) {
+  .nw-light { display: none; }
+  .nw-rail { backdrop-filter: none; }
+  .nw-dens-fill { display: none; }
+}

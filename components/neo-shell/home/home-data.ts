@@ -60,6 +60,23 @@ export interface HomeDot {
   s: S4Class;
   /** Documentation coverage, 0..6 — how many of the six axes it satisfies. */
   d: number;
+  /** Bitmask over the SAME six coverage axes, in `coverage` order. Lets the
+   *  field answer "which tables satisfy this axis" without shipping six lists. */
+  ax: number;
+  /** Primary topic — index into `density`. A table documented by both modules
+   *  belongs to two topics; the first one is the one it is drawn inside. */
+  tp: number;
+  /** Every topic that documents it (1 or 2 entries), same indices. */
+  tps: number[];
+}
+
+/** One real ER edge between two of the 105 merged tables, as the blueprint's
+ *  parent-child relation map states it. Indices point into `dots`. */
+export interface HomeEdge {
+  a: number;
+  b: number;
+  /** 0 = the dictionary calls it 1:1, 1 = anything else (N:1, 1:N, blank). */
+  k: 0 | 1;
 }
 
 export interface HomeModule {
@@ -146,6 +163,9 @@ export interface MigrationRow {
   note: string;
   /** Replacement table / transaction as the dictionary states it, or "". */
   alt: string;
+  /** Object class, so the row can carry the SAME marker the field dot that
+   *  flies onto it carries. The handoff has to land on the same colour. */
+  z: Zone;
   s: S4Class;
   mods: ModuleKey[];
 }
@@ -164,6 +184,10 @@ export interface HomeData {
   bookPages: number;
   modules: HomeModule[];
   dots: HomeDot[];
+  /** The ER map, restricted to pairs where BOTH ends are among the 105 and
+   *  deduplicated as undirected pairs. This is what the field draws when it
+   *  says "relationships"; nothing here is inferred. */
+  edges: HomeEdge[];
   /** Largest field count in the dictionary — the scale reference for the field. */
   maxFields: number;
   sharedRows: SharedRow[];
@@ -320,6 +344,33 @@ export function homeData(): HomeData {
   const s4 = s4ByTable();
   const merged = [...occ.keys()];
 
+  // Topics first, because a dot has to know which topic block it is drawn
+  // inside. The index a dot stores is an index into THIS array, so the field
+  // and section 04's two lists are addressing one and the same object.
+  const density: DensityTopic[] = [PM_DATA, PPPI_DATA].flatMap((m) =>
+    m.topics.map((tp) => ({
+      key: m.module as ModuleKey,
+      idx: tp.idx,
+      title: tp.title,
+      tables: tp.tables.length,
+      fields: tp.tables.reduce((a, t) => a + t.fields.length, 0),
+    })),
+  );
+  const topicsOf = new Map<string, number[]>();
+  {
+    let i = 0;
+    for (const m of [PM_DATA, PPPI_DATA] as SAPModuleData[]) {
+      for (const tp of m.topics) {
+        for (const t of tp.tables) {
+          const list = topicsOf.get(t.tableName) || [];
+          if (!list.includes(i)) list.push(i);
+          topicsOf.set(t.tableName, list);
+        }
+        i += 1;
+      }
+    }
+  }
+
   const dots: HomeDot[] = merged.map((name) => {
     const list = occ.get(name)!;
     const lead = list[0].table;
@@ -330,9 +381,11 @@ export function homeData(): HomeData {
     const hasCds = cdsForTable(name).length > 0;
     const hasFiori = list.some((o) => !!(o.table.fioriApp || "").trim());
     const hasNote = list.some((o) => !!(o.table.s4Note || "").trim());
-    const d =
-      (fields > 0 ? 1 : 0) + (codes > 0 ? 1 : 0) + (rels > 0 ? 1 : 0) +
-      (hasCds ? 1 : 0) + (hasFiori ? 1 : 0) + (hasNote ? 1 : 0);
+    // Bit order is the ORDER OF THE `coverage` ARRAY below, so a bit and a row
+    // in section 02 are the same statement addressed two ways.
+    const bits = [fields > 0, hasNote, codes > 0, rels > 0, hasCds, hasFiori];
+    const ax = bits.reduce((a, on, k) => a | (on ? 1 << k : 0), 0);
+    const tps = topicsOf.get(name) || [];
     return {
       n: name,
       he: lead.descriptionHe || lead.descriptionEn || "",
@@ -342,7 +395,10 @@ export function homeData(): HomeData {
       r: rels,
       t: codes,
       s: s4.get(name) ?? 0,
-      d,
+      d: bits.reduce((a, on) => a + (on ? 1 : 0), 0),
+      ax,
+      tp: tps[0] ?? 0,
+      tps,
     };
   });
 
@@ -350,6 +406,29 @@ export function homeData(): HomeData {
   // bodies with the shared band physically between them, then by depth so the
   // richest tables land at the front of every formation.
   dots.sort((a, b) => a.b - b.b || b.f - a.f || a.n.localeCompare(b.n));
+
+  // The ER map as an undirected edge list over the sorted dots. Only relations
+  // the blueprint actually stores, only pairs where BOTH ends are among the 105,
+  // no self-joins (a self-join is real but it is not a line between two dots).
+  const dotAt = new Map(dots.map((d, i) => [d.n, i]));
+  const edges: HomeEdge[] = [];
+  {
+    const seen = new Set<string>();
+    for (const m of [PM_DATA, PPPI_DATA] as SAPModuleData[]) {
+      for (const t of moduleTables(m)) {
+        const a = dotAt.get(t.tableName);
+        if (a === undefined) continue;
+        for (const r of t.relations || []) {
+          const b = dotAt.get(r.table);
+          if (b === undefined || b === a) continue;
+          const id = a < b ? `${a}-${b}` : `${b}-${a}`;
+          if (seen.has(id)) continue;
+          seen.add(id);
+          edges.push({ a, b, k: /1\s*:\s*1/.test(r.card || "") ? 0 : 1 });
+        }
+      }
+    }
+  }
 
   const sharedRows: SharedRow[] = dots
     .filter((d) => d.b === 1)
@@ -378,16 +457,6 @@ export function homeData(): HomeData {
     axis("אפליקציית Fiori", (d) => rowsOf(d.n).some((o) => !!(o.table.fioriApp || "").trim())),
   ];
 
-  const density: DensityTopic[] = [PM_DATA, PPPI_DATA].flatMap((m) =>
-    m.topics.map((tp) => ({
-      key: m.module as ModuleKey,
-      idx: tp.idx,
-      title: tp.title,
-      tables: tp.tables.length,
-      fields: tp.tables.reduce((a, t) => a + t.fields.length, 0),
-    })),
-  );
-
   const migration = {
     kept: dots.filter((d) => d.s === 0).length,
     replaced: dots.filter((d) => d.s === 1).length,
@@ -407,6 +476,7 @@ export function homeData(): HomeData {
         he: d.he,
         note: (lead.table.s4Note || "").replace(/\s+/g, " ").trim(),
         alt,
+        z: d.z,
         s: d.s,
         mods: uniq(list.map((o) => o.key)),
       };
@@ -430,6 +500,7 @@ export function homeData(): HomeData {
     bookPages: LIBRARY_STATS.pages,
     modules: [moduleOf(PM_DATA, "PM", total), moduleOf(PPPI_DATA, "PP-PI", total)],
     dots,
+    edges,
     maxFields: Math.max(...dots.map((d) => d.f)),
     sharedRows,
     coverage,

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
-  ArrowUpLeft, Award, GitBranch, LayoutGrid, Search, Table, Terminal, Waypoints,
+  ArrowDown, ArrowUpLeft, Award, GitBranch, LayoutGrid, MousePointer2,
+  Search, Table, Terminal, Waypoints,
 } from "lucide-react";
 import "./home.css";
 import { homeData, zoneVar } from "@/components/neo-shell/home/home-data";
@@ -14,12 +15,34 @@ export const metadata = {
 const nf = new Intl.NumberFormat("he-IL");
 const pct = (a: number, b: number) => Math.round((a / b) * 100);
 
-// STAGE 2A. The signature Home — an experience surface (L3), not a dashboard.
+// STAGE 2B. The signature Home — an experience surface (L3), not a dashboard.
 //
 // Everything on this page is rendered on the SERVER from the project dataset via
 // components/neo-shell/home/home-data.ts. The client scene receives one plain
 // object and owns nothing but motion. Not a single count, name, note or JOIN
 // below is authored here: where the dictionary holds nothing, the page says so.
+//
+// Three kinds of hook are handed to the scene, and they are the whole reason the
+// background field is not a decoration:
+//   data-nh-anchor  this element IS a table the field is holding. The dot flies
+//                   onto it, lights it, and fades into it.
+//   data-nh-axis    this row is one of the six coverage axes; hovering it makes
+//                   the field show exactly the tables that satisfy it.
+//   data-nh-topic   this row is one real topic; hovering it lights its tables.
+/** The transition ledge. Every section but the last ends with one of these,
+ *  naming what the field is about to do next in the counts that move is made
+ *  of. The page states its choreography in motion AND in words, and the two
+ *  are generated from the same numbers, so they cannot drift apart. */
+function Hand({ to, children }: { to: string; children: React.ReactNode }) {
+  return (
+    <p className="nh-hand" data-nh-solid>
+      <ArrowDown size={14} strokeWidth={1.75} aria-hidden="true" />
+      <span className="nh-hand-to">{to}</span>
+      <span className="nh-hand-t">{children}</span>
+    </p>
+  );
+}
+
 export default function NeoHome() {
   const d = homeData();
 
@@ -27,7 +50,7 @@ export default function NeoHome() {
     { id: "nh-1", label: "מפת הידע", field: "שיוך למודול" },
     { id: "nh-2", label: "כיסוי", field: "עומק תיעוד" },
     { id: "nh-3", label: "משותפות", field: `${d.shared} המשותפות` },
-    { id: "nh-4", label: "צפיפות", field: "שדות לטבלה" },
+    { id: "nh-4", label: "צפיפות", field: `${d.topics} גושי נושא` },
     { id: "nh-5", label: "התהליך", field: "שרשרת אמיתית" },
     { id: "nh-6", label: "S/4HANA", field: "השפעת מעבר" },
   ];
@@ -47,6 +70,9 @@ export default function NeoHome() {
     { he: "הוחלף", n: d.migration.replaced, k: "replaced" },
     { he: "הוסר", n: d.migration.removed, k: "removed" },
   ];
+
+  const steps = (k: "PM" | "PP-PI") =>
+    d.flows.find((f) => f.key === k)!.steps.filter((s) => s.exists).length;
 
   return (
     <HomeScene data={d} sections={sections}>
@@ -102,6 +128,10 @@ export default function NeoHome() {
             הגודל הוא עומק התיעוד בפועל — מספר השדות שהמילון מחזיק לאותה טבלה.
           </p>
         </div>
+        <Hand to="כיסוי">
+          אותן {nf.format(d.tables)} נקודות מסתדרות עכשיו לעמודות — עמודה לכל מספר
+          צירי תיעוד שהטבלה עומדת בהם.
+        </Hand>
       </section>
 
       {/* ============================================================ 02 */}
@@ -121,7 +151,11 @@ export default function NeoHome() {
         </div>
         <ul className="nh-cov" data-nh-solid>
           {d.coverage.map((c, i) => (
-            <li key={c.he} style={{ "--p": pct(c.n, d.tables) / 100, "--d": `${i * 70}ms` } as React.CSSProperties}>
+            <li
+              key={c.he}
+              data-nh-axis={i}
+              style={{ "--p": pct(c.n, d.tables) / 100, "--d": `${i * 70}ms` } as React.CSSProperties}
+            >
               <span className="nh-cov-l">{c.he}</span>
               <span className="nh-cov-bar" aria-hidden="true"><i /></span>
               <span className="nh-cov-n nh-sap">{c.n}<em>/{d.tables}</em></span>
@@ -129,10 +163,18 @@ export default function NeoHome() {
             </li>
           ))}
         </ul>
+        <p className="nh-hint" data-nh-solid>
+          <MousePointer2 size={13} strokeWidth={1.75} aria-hidden="true" />
+          העבר את הסמן על ציר — השדה שברקע ישאיר מוארות רק את הטבלאות שעומדות בו.
+        </p>
         <p className="nh-note" data-nh-solid>
           הרקע מסודר עכשיו בעמודות לפי מספר הצירים שכל טבלה עומדת בהם. העמודות הנמוכות
           ריקות כי אין טבלה שעומדת בפחות משלושה.
         </p>
+        <Hand to="משותפות">
+          העמודות מתפרקות: {d.shared} הטבלאות המשותפות עולות למרכז, וכל טבלה שהמילון
+          קושר אליהן נמשכת אל השכנה שלה במקום להתפזר.
+        </Hand>
       </section>
 
       {/* ============================================================ 03 */}
@@ -152,7 +194,12 @@ export default function NeoHome() {
         </div>
         <div className="nh-shared" data-nh-solid>
           {d.sharedRows.map((r, i) => (
-            <article key={r.n} className="nh-scard" style={{ "--o": zoneVar(r.z), "--d": `${i * 26}ms` } as React.CSSProperties}>
+            <article
+              key={r.n}
+              className="nh-scard"
+              data-nh-anchor={r.n}
+              style={{ "--o": zoneVar(r.z), "--d": `${i * 26}ms` } as React.CSSProperties}
+            >
               <header>
                 <i className="nh-cls" aria-hidden="true" />
                 <b className="nh-sap">{r.n}</b>
@@ -170,6 +217,15 @@ export default function NeoHome() {
             </article>
           ))}
         </div>
+        <p className="nh-note" data-nh-solid>
+          הקווים ברקע הם קשרי ER אמיתיים מתוך מפת הקשרים של המילון, ולא קווי קישוט:
+          קו נמתח רק בין שתי טבלאות שהבלופרינט באמת קושר ביניהן. כשהאשכול נוחת, כל
+          נקודה עוברת אל הכרטיס שלה כאן ונכבית לתוכו.
+        </p>
+        <Hand to="צפיפות">
+          האשכול מתפזר ל־{d.topics} גושי נושא — גוש לכל נושא במילון, בגודל מספר
+          הטבלאות שהוא מתעד.
+        </Hand>
       </section>
 
       {/* ============================================================ 04 */}
@@ -183,7 +239,8 @@ export default function NeoHome() {
           </h2>
           <p className="nh-lede">
             הסולם המלא הוא {d.maxTopicTables} טבלאות — הנושא העמוס ביותר במילון.
-            כל שאר הנושאים נמדדים מולו, בלי נירמול שמשטח את ההבדל.
+            כל שאר הנושאים נמדדים מולו, בלי נירמול שמשטח את ההבדל. ברקע כל נושא הוא
+            גוש אחד, והגודל שלו הוא אותו מספר.
           </p>
         </div>
         <div className="nh-dens" data-nh-solid>
@@ -195,22 +252,32 @@ export default function NeoHome() {
                 <span>{mo.topics} נושאים · {nf.format(mo.tables)} טבלאות · {nf.format(mo.fields)} שדות</span>
               </h3>
               <ul>
-                {d.density.filter((t) => t.key === mo.key).map((t) => (
-                  <li key={`${t.key}-${t.idx}`}>
-                    <span className="nh-drow-i nh-sap">{String(t.idx).padStart(2, "0")}</span>
-                    <span className="nh-drow-t">{t.title}</span>
-                    <span className="nh-drow-k" aria-hidden="true">
-                      {Array.from({ length: d.maxTopicTables }, (_, k) => (
-                        <i key={k} className={k < t.tables ? "" : "off"} />
-                      ))}
-                    </span>
-                    <span className="nh-drow-n nh-sap">{t.tables}</span>
-                  </li>
-                ))}
+                {d.density.map((t, gi) => [t, gi] as const)
+                  .filter(([t]) => t.key === mo.key)
+                  .map(([t, gi]) => (
+                    <li key={`${t.key}-${t.idx}`} data-nh-topic={gi}>
+                      <span className="nh-drow-i nh-sap">{String(t.idx).padStart(2, "0")}</span>
+                      <span className="nh-drow-t">{t.title}</span>
+                      <span className="nh-drow-k" aria-hidden="true">
+                        {Array.from({ length: d.maxTopicTables }, (_, k) => (
+                          <i key={k} className={k < t.tables ? "" : "off"} />
+                        ))}
+                      </span>
+                      <span className="nh-drow-n nh-sap">{t.tables}</span>
+                    </li>
+                  ))}
               </ul>
             </div>
           ))}
         </div>
+        <p className="nh-hint" data-nh-solid>
+          <MousePointer2 size={13} strokeWidth={1.75} aria-hidden="true" />
+          העבר את הסמן על נושא — הגוש שלו ברקע יישאר מואר, וכל השאר יעומעם.
+        </p>
+        <Hand to="התהליך">
+          גושי הנושא נפרשים לשתי מסילות תהליך: {steps("PM")} שלבים ב־<span className="nh-sap">PM</span>{" "}
+          ו־{steps("PP-PI")} ב־<span className="nh-sap">PP-PI</span>, לפי הסדר שהמילון מחזיק.
+        </Hand>
       </section>
 
       {/* ============================================================ 05 */}
@@ -244,6 +311,7 @@ export default function NeoHome() {
                     <div
                       className="nh-node"
                       data-missing={s.exists ? undefined : "1"}
+                      data-nh-anchor={s.exists ? s.code : undefined}
                       style={{ "--o": zoneVar(s.z) } as React.CSSProperties}
                     >
                       <i className="nh-cls" aria-hidden="true" />
@@ -274,6 +342,10 @@ export default function NeoHome() {
           המילון מחזיק {nf.format(d.relations)} קשרי ER בסך הכול. חלקם פשוט לא יושבים על ציר
           התהליך הזה — וזה נאמר כאן במפורש במקום להיסגר בחץ.
         </p>
+        <Hand to="S/4HANA">
+          המסילות נסגרות לסריג אחד, ו־{d.migration.replaced} הטבלאות שהמילון מסמן
+          כמוחלפות נשלפות ממנו החוצה אל השורות שלהן.
+        </Hand>
       </section>
 
       {/* ============================================================ 06 */}
@@ -300,8 +372,11 @@ export default function NeoHome() {
               data-empty={im.n === 0 ? "1" : undefined}
               style={{ "--p": pct(im.n, d.tables) / 100, "--d": `${i * 90}ms` } as React.CSSProperties}
             >
+              {/* STATUS colour appears here in the one form the design system
+                  allows it: a small filled dot immediately followed by its word.
+                  The card itself, its rule and its bar stay neutral. */}
+              <span className="nh-impcol-k"><i aria-hidden="true" />{im.he}</span>
               <b className="nh-sap">{im.n}</b>
-              <span className="nh-impcol-l">{im.he}</span>
               <span className="nh-impcol-bar" aria-hidden="true"><i /></span>
               <span className="nh-impcol-p nh-sap">{pct(im.n, d.tables)}%</span>
             </div>
@@ -310,7 +385,12 @@ export default function NeoHome() {
         {d.migrationRows.length > 0 ? (
           <ul className="nh-hot" data-nh-solid>
             {d.migrationRows.map((r, i) => (
-              <li key={r.n} style={{ "--d": `${i * 60}ms` } as React.CSSProperties}>
+              <li
+                key={r.n}
+                data-nh-anchor={r.n}
+                style={{ "--o": zoneVar(r.z), "--d": `${i * 60}ms` } as React.CSSProperties}
+              >
+                <i className="nh-cls" aria-hidden="true" />
                 <span className="nh-hot-k" data-k={r.s === 2 ? "removed" : "replaced"}>
                   <i aria-hidden="true" />
                   {r.s === 2 ? "הוסר" : "הוחלף"}
@@ -337,28 +417,34 @@ export default function NeoHome() {
             ? "אף טבלה במילון אינה מסומנת כמוסרת ב-S/4HANA. הרצועה הזאת ריקה במכוון — היא לא הוסתרה."
             : `${d.migration.removed} טבלאות מסומנות כמוסרות.`}
         </p>
-        <div className="nh-cta" data-nh-solid>
-          <Link className="nh-btn nh-btn--brand" href="/neo/pm/" prefetch={false} style={{ "--m": pm.m } as React.CSSProperties}>
-            <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
-            סביבת <span className="nh-sap">PM</span>
-          </Link>
-          <Link className="nh-btn" href="/neo/pp-pi/" prefetch={false} style={{ "--m": pp.m } as React.CSSProperties}>
-            <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
-            סביבת <span className="nh-sap">PP-PI</span>
-          </Link>
-          <Link className="nh-btn" href="/neo/tables/" prefetch={false}>
-            <Table size={15} strokeWidth={1.75} aria-hidden="true" />
-            מילון הטבלאות
-          </Link>
-          <Link className="nh-btn" href="/neo/library/" prefetch={false}>
-            <LayoutGrid size={15} strokeWidth={1.75} aria-hidden="true" />
-            ספרייה · {nf.format(d.books)} ספרים
-          </Link>
-          <Link className="nh-btn" href="/neo/academy/" prefetch={false}>
-            <Award size={15} strokeWidth={1.75} aria-hidden="true" />
-            אקדמיה
-            <ArrowUpLeft size={14} strokeWidth={1.75} aria-hidden="true" />
-          </Link>
+        <div className="nh-out" data-nh-solid>
+          <p className="nh-out-t">
+            הסריג שנשאר ברקע הוא {nf.format(d.migration.kept)} הטבלאות שנשמרות כפי שהן.
+            מכאן הן מפסיקות להיות רקע: אלה הדלתות אל אותו מידע בדיוק, בסביבת העבודה.
+          </p>
+          <div className="nh-cta">
+            <Link className="nh-btn nh-btn--brand" href="/neo/pm/" prefetch={false} style={{ "--m": pm.m } as React.CSSProperties}>
+              <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
+              סביבת <span className="nh-sap">PM</span>
+            </Link>
+            <Link className="nh-btn nh-btn--mod" href="/neo/pp-pi/" prefetch={false} style={{ "--m": pp.m } as React.CSSProperties}>
+              <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
+              סביבת <span className="nh-sap">PP-PI</span>
+            </Link>
+            <Link className="nh-btn" href="/neo/tables/" prefetch={false}>
+              <Table size={15} strokeWidth={1.75} aria-hidden="true" />
+              מילון הטבלאות
+            </Link>
+            <Link className="nh-btn" href="/neo/library/" prefetch={false}>
+              <LayoutGrid size={15} strokeWidth={1.75} aria-hidden="true" />
+              ספרייה · {nf.format(d.books)} ספרים
+            </Link>
+            <Link className="nh-btn" href="/neo/academy/" prefetch={false}>
+              <Award size={15} strokeWidth={1.75} aria-hidden="true" />
+              אקדמיה
+              <ArrowUpLeft size={14} strokeWidth={1.75} aria-hidden="true" />
+            </Link>
+          </div>
         </div>
         <p className="nh-credit" data-nh-solid>
           Project NEO · CBC Israel — פותח על ידי סאלי חליף · Web Coding

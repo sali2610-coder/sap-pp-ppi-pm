@@ -88,4 +88,8 @@ export interface CmdSection {
   icon: string;
   rows: CmdRecord[];
   total: number;
+  /** The module most of this family's matches belong to — the section marker's
+   *  hue. Absent when the family's records declare no module at all, in which
+   *  case the section stays neutral rather than borrowing a colour. */
+  mod?: string;
 }

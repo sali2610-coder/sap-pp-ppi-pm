@@ -1,0 +1,255 @@
+// Project NEO · Stage 2B — the build-time spine of the Books entry surface.
+//
+// Executed on the SERVER by app/neo/books/page.tsx. Nothing here is authored:
+// every title, module, chapter and section count is read through the EXISTING
+// book registry (lib/library/registry.ts), which is the same accessor the
+// reader route at /library/[bookId] uses. data/books/** is neither re-parsed
+// here nor touched — the registry is the one door in.
+//
+// HONESTY RULE, ported from components/neo-shell/nav-data.ts: a number is
+// rendered only when the project data backs one. A book without a page count in
+// its metadata carries `pages: null` and the surface says so in words rather
+// than filling the gap. A module with no technical dictionary behind it gets an
+// explicit sentence, never a link that implies coverage that does not exist.
+
+import { allBookIds, getBook } from "@/lib/library/registry";
+import { chapterTitle } from "@/lib/library/book";
+import { KIND_LABEL, identityOf, type BookKind } from "@/lib/book-identity";
+import { PM_DATA, PPPI_DATA } from "@/data/sapData";
+import { overviewStats } from "@/lib/module-portal";
+import { FIORI_APPS } from "@/data/fiori/apps";
+
+/* ------------------------------------------------------------------ palette */
+
+/** Module hue as a CSS var reference — one per module token declared in
+ *  app/globals.css. MODULE colour is only ever used here as a surface tint,
+ *  ring, edge or section marker; never as a small standalone dot, which is the
+ *  form reserved for --status-*. */
+const MOD_VAR: Record<string, string> = {
+  "PM": "var(--mod-pm)",
+  "PP": "var(--mod-pp)",
+  "PP-PI": "var(--mod-pppi)",
+  "PP/DS": "var(--mod-ppds)",
+  "MM": "var(--mod-mm)",
+  "QM": "var(--mod-qm)",
+  "EWM": "var(--mod-ewm)",
+  "Fiori": "var(--mod-fiori)",
+  "S&OP": "var(--mod-sop)",
+  "S/4HANA": "var(--mod-s4)",
+};
+
+/** Hebrew module names exactly as the product already writes them elsewhere
+ *  (lib/primary-module.ts MODULE_HE, data/library/academy-index.ts titles).
+ *  Nothing new is coined for a module. */
+const MOD_HE: Record<string, string> = {
+  "PM": "תחזוקת מפעל",
+  "PP": "תכנון ייצור",
+  "PP-PI": "ייצור תהליכי",
+  "PP/DS": "תכנון מתקדם",
+  "MM": "רכש ואספקה",
+  "QM": "ניהול איכות",
+  "EWM": "ניהול מחסן",
+  "S&OP": "תכנון מכירות ותפעול",
+  "Fiori": "אפליקציות Fiori",
+  "S/4HANA": "יסודות S/4HANA",
+};
+
+/** Shelf order. Modules the NEO dictionary actually documents come first — the
+ *  page is an entry into NEO, so the books that connect to it lead. */
+const MOD_ORDER = ["PM", "PP", "PP/DS", "QM", "MM", "EWM", "S&OP", "Fiori", "S/4HANA"];
+
+/** How the book is built, in the reader's words. `structure` is a real field on
+ *  the book metadata and is what explains book7's 1,689 sections. */
+const STRUCTURE_HE: Record<string, string> = {
+  narrative: "ספר קריאה — פרקים רציפים",
+  catalogue: "קטלוג — ערך לכל אפליקציה",
+  reference: "מדריך עיון",
+};
+
+/* -------------------------------------------------------------------- types */
+
+export interface BookChapterRow {
+  n: number;
+  title: string;
+  sections: number;
+}
+
+/** Where the NEO dictionary can take this book's module next. `null` when the
+ *  dictionary holds nothing for it — the caller then prints `dictNote`. */
+export interface BookDict {
+  href: string;
+  code: string;
+  he: string;
+  tables: number;
+  fields: number;
+  /** Set when the book's own module tag and the dictionary's module differ. */
+  caveat: string | null;
+}
+
+export interface BookCard {
+  id: string;
+  /** The EXISTING library URL. Unchanged, unwrapped, and the only way out. */
+  href: string;
+  titleEn: string;
+  titleHe: string | null;
+  module: string;
+  moduleHe: string;
+  mod: string;
+  kind: BookKind | null;
+  kindLabel: string | null;
+  structure: string;
+  structureHe: string;
+  publisher: string | null;
+  pages: number | null;
+  chapters: number;
+  sections: number;
+  /** Longest chapter, by section count — the one number that says where the
+   *  weight of the book actually sits. */
+  heaviest: BookChapterRow | null;
+  chapterRows: BookChapterRow[];
+  dict: BookDict | null;
+  dictNote: string | null;
+  /** A registry elsewhere in NEO that indexes the same subject. Only set when
+   *  one genuinely exists. */
+  near: { href: string; label: string; n: number } | null;
+  /** Titles too long to sit at the cover's largest size get a smaller step. */
+  fit: "s" | "m" | "l";
+}
+
+export interface BooksData {
+  books: BookCard[];
+  groups: { module: string; moduleHe: string; mod: string; ids: string[] }[];
+  totals: {
+    books: number;
+    chapters: number;
+    sections: number;
+    pages: number;
+    pagesMissing: number;
+    modules: number;
+    withDict: number;
+  };
+  dictModules: { code: string; he: string; mod: string; href: string; tables: number; fields: number }[];
+  /** book8 / book9 carry the same guide in two field schemas. The registry says
+   *  so; the surface repeats it rather than hiding one of them. */
+  twinNote: string | null;
+}
+
+/* --------------------------------------------------------------------- data */
+
+export function booksData(): BooksData {
+  const pm = overviewStats(PM_DATA);
+  const pp = overviewStats(PPPI_DATA);
+
+  const dictOf = (module: string): { dict: BookDict | null; note: string | null } => {
+    if (module === "PM") {
+      return {
+        dict: { href: "/neo/pm/", code: "PM", he: MOD_HE.PM, tables: pm.tables, fields: pm.fields, caveat: null },
+        note: null,
+      };
+    }
+    // The rail already treats a PP book as belonging to the PP-PI environment
+    // (components/neo-shell/nav-data.ts, booksFor). The overlap is real but it
+    // is not an identity, so it is stated instead of glossed over.
+    if (module === "PP" || module === "PP-PI") {
+      return {
+        dict: {
+          href: "/neo/pp-pi/",
+          code: "PP-PI",
+          he: MOD_HE["PP-PI"],
+          tables: pp.tables,
+          fields: pp.fields,
+          caveat: module === "PP" ? "הספר מתויג PP; המילון מתעד ייצור תהליכי (PP-PI). הכיסוי חופף אך אינו זהה." : null,
+        },
+        note: null,
+      };
+    }
+    return {
+      dict: null,
+      note: `אין מילון טכני ל-${module} ב-Project NEO. המילון מתעד היום את PM ואת PP-PI בלבד, והספר הזה נשען על עצמו.`,
+    };
+  };
+
+  const books: BookCard[] = [];
+
+  for (const id of allBookIds()) {
+    const b = getBook(id);
+    if (!b) continue;
+
+    const titleEn = b.meta.title.en;
+    const titleHe = b.meta.title.he?.trim() || null;
+    const shown = titleHe || titleEn;
+    const rows: BookChapterRow[] = b.chapters.map((c) => ({
+      n: c.n,
+      title: chapterTitle(c),
+      sections: c.sections.length,
+    }));
+    const sections = rows.reduce((n, r) => n + r.sections, 0);
+    const heaviest = rows.length ? rows.reduce((a, r) => (r.sections > a.sections ? r : a)) : null;
+    const identity = identityOf(b.id);
+    const { dict, note } = dictOf(b.meta.module);
+
+    books.push({
+      id: b.id,
+      href: `/library/${b.id}/`,
+      titleEn,
+      titleHe,
+      module: b.meta.module,
+      moduleHe: MOD_HE[b.meta.module] ?? b.meta.module,
+      mod: MOD_VAR[b.meta.module] ?? "var(--ink-3)",
+      kind: identity?.kind ?? null,
+      kindLabel: identity ? KIND_LABEL[identity.kind] : null,
+      structure: b.meta.structure,
+      structureHe: STRUCTURE_HE[b.meta.structure] ?? b.meta.structure,
+      publisher: b.meta.publisher?.trim() || null,
+      pages: typeof b.meta.pages === "number" ? b.meta.pages : null,
+      chapters: b.chapters.length,
+      sections,
+      heaviest,
+      chapterRows: rows,
+      dict,
+      dictNote: note,
+      near:
+        b.meta.module === "Fiori"
+          ? { href: "/neo/fiori-apps/", label: "מרשם ה-Fiori של NEO", n: FIORI_APPS.length }
+          : null,
+      fit: shown.length <= 34 ? "s" : shown.length <= 54 ? "m" : "l",
+    });
+  }
+
+  const order = (m: string) => {
+    const i = MOD_ORDER.indexOf(m);
+    return i < 0 ? MOD_ORDER.length : i;
+  };
+  books.sort((a, b) => order(a.module) - order(b.module) || a.id.localeCompare(b.id, "en", { numeric: true }));
+
+  const groups: BooksData["groups"] = [];
+  for (const bk of books) {
+    const g = groups.find((x) => x.module === bk.module);
+    if (g) g.ids.push(bk.id);
+    else groups.push({ module: bk.module, moduleHe: bk.moduleHe, mod: bk.mod, ids: [bk.id] });
+  }
+
+  const twins = books.filter((b) => b.module === "PM" && b.kind === "business-user").map((b) => b.id);
+
+  return {
+    books,
+    groups,
+    totals: {
+      books: books.length,
+      chapters: books.reduce((n, b) => n + b.chapters, 0),
+      sections: books.reduce((n, b) => n + b.sections, 0),
+      pages: books.reduce((n, b) => n + (b.pages ?? 0), 0),
+      pagesMissing: books.filter((b) => b.pages === null).length,
+      modules: groups.length,
+      withDict: books.filter((b) => b.dict).length,
+    },
+    dictModules: [
+      { code: "PM", he: MOD_HE.PM, mod: MOD_VAR.PM, href: "/neo/pm/", tables: pm.tables, fields: pm.fields },
+      { code: "PP-PI", he: MOD_HE["PP-PI"], mod: MOD_VAR["PP-PI"], href: "/neo/pp-pi/", tables: pp.tables, fields: pp.fields },
+    ],
+    twinNote:
+      twins.length === 2
+        ? `${twins[0]} ו-${twins[1]} הם אותו מדריך משתמש עסקי בשתי סכימות שדה שונות. שניהם מוצגים כאן כפי שהם קיימים במאגר, ולא מאוחדים לכרטיס אחד.`
+        : null,
+  };
+}
