@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="he" dir="rtl" data-theme="light">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Concept D · SAP by Sali NEO · הכיוון המאוחד</title>
+<meta name="description" content="Concept D · SAP by Sali NEO. הכיוון המאוחד: שתי אישיויות, מוצר אחד. אב-טיפוס אינטראקטיבי, 100% אופליין.">
+<meta name="color-scheme" content="light dark">
+<!-- 100% offline: no CDN, no webfont, no remote asset of any kind. -->
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/module-tokens.css">
+<link rel="stylesheet" href="../shared/viz-tokens.css">
+<link rel="stylesheet" href="../shared/reset.css">
+<link rel="stylesheet" href="concept-d.css">
+</head>
+<body>
+
+<!-- ======================================================= prototype chrome -->
+<header class="chrome" role="toolbar" aria-label="בקרת אב-טיפוס · Concept D">
+  <div class="chrome__r1">
+    <div class="chrome__id">
+      <span class="chrome__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="chrome__ttl"><b>Concept D</b><span>SAP by Sali NEO · הכיוון המאוחד</span></span>
+    </div>
+
+    <!-- persistent MODE + MOTION TIER readout, per screen -->
+    <div class="pills">
+      <span class="pill pill--mode" id="modepill" data-mode="experience" aria-live="polite"></span>
+      <span class="pill pill--tier" id="tierpill" data-tier="L3" aria-live="polite"></span>
+      <!-- required deliverable: two independent self-assessed scores per screen -->
+      <span class="pill pill--score" id="scorepill" aria-live="polite"></span>
+    </div>
+
+    <span class="grow"></span>
+
+    <button class="btn btn--s btn--brand" type="button" id="demoBtn" aria-pressed="false">הדגמה</button>
+    <div class="seg" id="vpseg" role="group" aria-label="רוחב במה"></div>
+    <button class="iconbtn" type="button" id="themeBtn" aria-label="עבור למצב כהה"></button>
+  </div>
+
+  <div class="chrome__r2">
+    <nav class="switcher" id="switcher" role="tablist" aria-label="מסכים"></nav>
+  </div>
+
+  <div class="chrome__r3">
+    <span class="chrome__lbl">מצבי ניווט</span>
+    <nav class="navseg" id="navseg" role="group" aria-label="מצבי ניווט"></nav>
+  </div>
+</header>
+
+<!-- ================================================================== stage -->
+<main class="stagewrap">
+  <p class="stagemeta" id="stagemeta" aria-live="polite"></p>
+  <div class="stagebox" id="stagebox">
+    <div class="stage" id="stage"></div>
+  </div>
+</main>
+
+<!-- demo coach bar -->
+<div class="coach" id="coach" role="status" hidden></div>
+
+<footer class="deckfoot">
+  <span class="deckfoot__b" id="footBrand"></span>
+  <span class="deckfoot__sep" aria-hidden="true"></span>
+  <span class="deckfoot__c" id="footCredit"></span>
+  <span class="deckfoot__n">Concept D · אב-טיפוס אופליין · ללא CDN וללא גופן מרוחק</span>
+</footer>
+
+<noscript>
+  <p style="padding:8rem 2rem 2rem;text-align:center">
+    האב-טיפוס דורש JavaScript. כל הקבצים מקומיים, אין טעינה מהרשת.
+  </p>
+</noscript>
+
+<script type="module" src="concept-d.js"></script>
+</body>
+</html>

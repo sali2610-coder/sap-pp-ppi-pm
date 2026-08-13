@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>מטריצת רפרנסים · SAP by Sali — PROJECT NEO</title>
+<link rel="stylesheet" href="../shared/tokens.css">
+<link rel="stylesheet" href="../shared/reset.css">
+<style>
+  body{background:var(--background-2)}
+  .wrap{max-width:1720px;margin-inline:auto;padding:var(--sp-8) var(--sp-6) var(--sp-16)}
+  .lock{display:flex;align-items:baseline;gap:var(--sp-2)}
+  .lock b{font-weight:800;letter-spacing:-.02em}
+  .lock span{font-size:var(--t-micro);font-weight:700;letter-spacing:.14em;color:var(--ink-3)}
+  h1{font-size:var(--t-display);line-height:var(--t-display-lh);letter-spacing:var(--t-display-tr);font-weight:800;margin-top:var(--sp-4)}
+  .lede{color:var(--ink-2);max-width:78ch;margin-top:var(--sp-3)}
+  h2{font-size:var(--t-h1);font-weight:800;letter-spacing:var(--t-h1-tr);margin:var(--sp-12) 0 var(--sp-2);padding-bottom:var(--sp-3);border-bottom:2px solid var(--ink-1)}
+  h2 .n{color:var(--brand);font-family:var(--font-mono);font-size:var(--t-body);margin-inline-end:var(--sp-3)}
+  .sub{color:var(--ink-3);font-size:var(--t-sm);margin-bottom:var(--sp-5)}
+  table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r-lg);overflow:hidden}
+  th,td{text-align:start;padding:.7rem .8rem;border-bottom:1px solid var(--hairline);vertical-align:top;font-size:var(--t-xs);line-height:1.55}
+  th{background:var(--surface-2);font-weight:700;color:var(--ink-2);font-size:var(--t-micro);letter-spacing:.05em;text-transform:uppercase;position:sticky;top:0;z-index:2}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:var(--surface-2)}
+  .ref{font-weight:800;color:var(--ink-1);white-space:nowrap}
+  .ref small{display:block;font-weight:500;color:var(--ink-3);font-family:var(--font-mono);font-size:10px;direction:ltr;text-align:start;margin-top:2px}
+  .m{font-family:var(--font-mono);direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums;font-size:11px}
+  .no{color:var(--brand);font-weight:600}
+  .pill{display:inline-block;padding:.1rem .45rem;border-radius:var(--r-pill);font-size:10px;font-weight:800;letter-spacing:.03em;white-space:nowrap}
+  .lo{background:color-mix(in srgb,var(--status-done) 15%,transparent);color:color-mix(in srgb,var(--status-done) 78%,var(--ink-1))}
+  .md{background:color-mix(in srgb,var(--status-in-analysis) 18%,transparent);color:color-mix(in srgb,var(--status-in-analysis) 82%,var(--ink-1))}
+  .hi{background:var(--brand-soft);color:var(--brand-dark)}
+  .measure{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r-lg);padding:var(--sp-5);margin-bottom:var(--sp-6)}
+  .measure h3{font-size:var(--t-h2);font-weight:800;margin-bottom:var(--sp-3)}
+  .grid{display:grid;gap:var(--sp-4);grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .stat{border-inline-start:2px solid var(--brand);padding-inline-start:var(--sp-3)}
+  .stat b{display:block;font-family:var(--font-mono);font-size:1.35rem;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+  .stat span{font-size:var(--t-xs);color:var(--ink-3)}
+  .verdict{background:var(--surface);border:1px solid var(--hairline);border-inline-start:3px solid var(--brand);border-radius:var(--r-lg);padding:var(--sp-5);margin-top:var(--sp-5)}
+  .verdict h3{font-size:var(--t-h2);font-weight:800;margin-bottom:var(--sp-2)}
+  .verdict p{color:var(--ink-2);max-width:82ch}
+  ul{margin-top:var(--sp-2)}
+  li{margin-bottom:.35rem;color:var(--ink-2);font-size:var(--t-sm);padding-inline-start:var(--sp-4);position:relative}
+  li::before{content:"";position:absolute;inset-inline-start:0;top:.62em;width:5px;height:1px;background:var(--brand)}
+  footer{border-top:1px solid var(--hairline);padding-top:var(--sp-6);margin-top:var(--sp-12);display:flex;justify-content:space-between;color:var(--ink-3);font-size:var(--t-xs);flex-wrap:wrap;gap:var(--sp-3)}
+  .scroller{overflow-x:auto}
+  a.back{font-size:var(--t-sm);font-weight:700;color:var(--brand)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="../index.html">← חזרה לגלריית הכיוונים</a>
+  <div class="lock" style="margin-top:var(--sp-4)"><b>SAP by Sali</b><span>PROJECT NEO</span></div>
+  <h1>מטריצת רפרנסים — החלטות מכוונות</h1>
+  <p class="lede">
+    כל אתר ברשימה נפתח ונמדד בפועל בדפדפן עם throttling של פי 4 ל-CPU, כדי לדמות מחשב תאגידי בינוני.
+    המספרים כאן נמדדו — הם לא הערכה. המסקנה המרכזית הפתיעה: הטכניקות של אתרי הראווה זולות בזמן ריצה,
+    והמחיר האמיתי שלהן הוא רוחב פס. זה משנה את מה שכדאי לאמץ ואת מה שצריך לדחות.
+  </p>
+
+  <h2><span class="n">01</span>מה נמדד בפועל</h2>
+  <p class="sub">Chrome headless · CPU throttle ×4 · גלילה אוטומטית לאורך כל העמוד · 5 שניות מדידה</p>
+  <div class="measure">
+    <h3>שני רפרנסי האנרגיה הוויזואלית</h3>
+    <div class="grid">
+      <div class="stat"><b>60 / 59</b><span>FPS בגלילה (La&nbsp;Poopé / Solo&nbsp;Italia) — חלק לחלוטין</span></div>
+      <div class="stat"><b>0</b><span>long tasks בשניהם. אפס. גם תחת throttle ×4</span></div>
+      <div class="stat"><b>26 / 40 MB</b><span>תעבורה — כאן נמצא כל המחיר</span></div>
+      <div class="stat"><b>6.6 / 2.0 MB</b><span>JS heap — זניח</span></div>
+    </div>
+  </div>
+  <div class="measure">
+    <h3>רפרנסי המוצר — התכנסות טיפוגרפית מדודה</h3>
+    <div class="grid">
+      <div class="stat"><b>64px</b><span>גובה כותרת ראשית ב-Linear, Vercel, Raycast, Lusion. Stripe 48px</span></div>
+      <div class="stat"><b>400–510</b><span>משקל הכותרת. קל, לא כבד — היררכיה מגיעה מ-tracking שלילי</span></div>
+      <div class="stat"><b>rgb(7–16)</b><span>רקע כהה בכל רפרנס — אף פעם לא שחור מוחלט</span></div>
+      <div class="stat"><b>0</b><span>WebGL ב-Linear, Vercel, Cursor, Dropbox Brand</span></div>
+    </div>
+  </div>
+
+  <h2><span class="n">02</span>המטריצה</h2>
+  <p class="sub">מה מצוין · מה NEO לומד · איפה זה משמש · מה לא להעתיק · מחיר ביצועים · סיכון נגישות · סיכון מובייל</p>
+  <div class="scroller">
+  <table>
+    <thead><tr>
+      <th style="min-width:120px">רפרנס</th><th style="min-width:190px">מה מצוין</th><th style="min-width:220px">מה NEO לומד</th>
+      <th style="min-width:150px">איפה בשימוש</th><th style="min-width:190px">מה לא להעתיק</th>
+      <th>ביצועים</th><th>נגישות</th><th>מובייל</th>
+    </tr></thead>
+    <tbody>
+      <tr>
+        <td class="ref">Solo Italia<small>GSAP+ScrollTrigger · he/RTL · 12vh · 667 nodes</small></td>
+        <td>הרפרנס הקרוב ביותר אלינו: עברית, RTL, וכותרות ענק. פותח ב"צוהר" ממוסך שנפתח בגלילה, ואז חתך חד ללבן. כותרת 144px/700 ב-tracking ‎-2.88px, וכותרת 80px שחוזרת בכל סקשן — החזרה היא הקצב.</td>
+        <td>מקצב הסקשנים; מילה אחת בצבע מודגש בתוך כותרת ענק; מספרים גדולים כעוגן ויזואלי; אריח שובר-תבנית בתוך רשת אחידה; צוהר שנפתח — אפקט על אלמנט אחד עם <span class="m">clip-path</span>, זול לחלוטין.</td>
+        <td>Home 01–07 בשלושת הכיוונים; כותרות הסקשנים; SAP&nbsp;Universe</td>
+        <td class="no">40MB תמונות; פונט תצוגה חיצוני; רישום מסחרי־שיווקי. NEO היא אפליקציה, לא דף נחיתה.</td>
+        <td><span class="pill lo">נמוך</span><br><span class="m">59fps · 0 LT</span></td>
+        <td><span class="pill md">בינוני</span><br>גילוי תלוי-גלילה</td>
+        <td><span class="pill md">בינוני</span><br>כותרות ענק</td>
+      </tr>
+      <tr>
+        <td class="ref">La Poopé<small>2D canvas · 314 images · 11vh · 310 nodes</small></td>
+        <td>האנרגיה מגיעה מ<b>אובייקט אחד</b> שמסתובב לאורך הגלילה — לא מעשרה דברים שזזים. ריסון הוא מה שגורם לזה להיראות יוקרתי. טיפוגרפיה סריפית במשקל 300 בגודל 60–96px.</td>
+        <td>העיקרון "דבר אחד זז": בכיוון A רק סמן ה-2px נוסע; בכיוון B רק הצוהר נפתח. ריסון תנועה במקום ריבוי אפקטים.</td>
+        <td>שכבת התנועה L3; מעברי סקשן ב-Home</td>
+        <td class="no">רצף 314 תמונות (26MB). ל-NEO אין צילומים — הוויזואל שלנו הוא SVG מונע-נתונים, כמעט חינם. גם: רקע כהה כאסתטיקה גורפת.</td>
+        <td><span class="pill md">בינוני</span><br><span class="m">60fps אך 26MB</span></td>
+        <td><span class="pill hi">גבוה</span><br>משמעות תלוית-תנועה</td>
+        <td><span class="pill hi">גבוה</span><br>תעבורה סלולרית</td>
+      </tr>
+      <tr>
+        <td class="ref">Linear<small>4,486 nodes · 64px/510/-1.4px · rgb(8,9,10)</small></td>
+        <td>בהירות. היררכיה חדה, מצבי hover/focus מדויקים, dark mode מעולה, צפיפות מידע גבוהה בלי עומס.</td>
+        <td>סקאלת הטיפוגרפיה של המוצר (64/510/tracking שלילי); משמעת מצבים; טיפול ב-dark כשכבה מכוילת ולא היפוך.</td>
+        <td>כיוון A במלואו; כל מסכי L1/L2 בשלושת הכיוונים</td>
+        <td class="no">4,486 צמתי DOM ו-468 בקשות. NEO צריכה להישאר קלה יותר.</td>
+        <td><span class="pill lo">נמוך</span><br><span class="m">0 WebGL</span></td>
+        <td><span class="pill lo">נמוך</span></td>
+        <td><span class="pill lo">נמוך</span></td>
+      </tr>
+      <tr>
+        <td class="ref">Vercel<small>1,120 nodes · 64px/400/-3.84px · 0.3MB</small></td>
+        <td>הריסון הקיצוני ביותר במדגם: 5.4 גבהי מסך, 1,120 צמתים, 0.3MB. tracking ‎-3.84px על 64px במשקל 400 — היררכיה בלי כובד.</td>
+        <td>שהאיפוק הוא עמדה עיצובית. תקציב DOM. tracking שלילי אגרסיבי ככלי היררכיה במקום משקל גופן.</td>
+        <td>Footer ומסכי L1; תקציב הביצועים הכולל</td>
+        <td class="no">הקומפוזיציה השיווקית עצמה. אנחנו לא בונים דף מוצר.</td>
+        <td><span class="pill lo">נמוך</span></td>
+        <td><span class="pill lo">נמוך</span></td>
+        <td><span class="pill lo">נמוך</span></td>
+      </tr>
+      <tr>
+        <td class="ref">Raycast<small>2,980 nodes · 64px/600 · rgb(7,8,10) · 1 WebGL</small></td>
+        <td>חוויית ה-command. מיידיות, רמזי מקלדת גלויים, תחושה שאפשר להפעיל הכול בלי עכבר.</td>
+        <td>כל DNA של כיוון C: משטח פקודה ריבוני, שבבי <span class="m">kbd</span> גלויים, ניווט מקלדת מלא, בחירה שנראית תמיד.</td>
+        <td>כיוון C; ⌘K הגלובלי בכל הכיוונים</td>
+        <td class="no">האסתטיקה ה"האקרית" והרקע הכהה כברירת מחדל. NEO היא כלי עבודה ארגוני בעברית.</td>
+        <td><span class="pill lo">נמוך</span></td>
+        <td><span class="pill lo">נמוך</span><br>מקלדת מצוינת</td>
+        <td><span class="pill md">בינוני</span><br>command במגע</td>
+      </tr>
+      <tr>
+        <td class="ref">Stripe<small>2,997 nodes · 48px/300 · 5 WebGL canvases</small></td>
+        <td>הצגת מידע. טבלאות, מספרים ומסמכים טכניים שנקראים בקלות — הסטנדרט להצגת נתונים צפופים.</td>
+        <td>טיפול בטבלאות צפופות; מספרים טבלאיים; הסבר טכני קריא. רלוונטי ישירות לטבלאות/BAPI/CDS.</td>
+        <td>מסכי L1: טבלאות, טרנזקציות, BAPIs, ERD</td>
+        <td class="no">5 קנבסי WebGL לרקעים דקורטיביים. אפס תועלת ל-NEO ומחיר GPU מתמשך.</td>
+        <td><span class="pill md">בינוני</span><br><span class="m">5 WebGL</span></td>
+        <td><span class="pill lo">נמוך</span></td>
+        <td><span class="pill lo">נמוך</span></td>
+      </tr>
+      <tr>
+        <td class="ref">Cursor<small>2,214 nodes · h1 26px/400</small></td>
+        <td>מרחב עבודה מקצועי. הכותרת הראשית היא 26px בלבד — ריסון קיצוני, המידע מוביל ולא הכרזה.</td>
+        <td>שבתוך סביבת עבודה הטיפוגרפיה יורדת. הוכחה שהרישום העריכותי שייך ל-Home בלבד ולא ל-workspace.</td>
+        <td>מסכי סביבת PM / PP-PI; דפי אובייקט</td>
+        <td class="no">—</td>
+        <td><span class="pill lo">נמוך</span></td>
+        <td><span class="pill lo">נמוך</span></td>
+        <td><span class="pill lo">נמוך</span></td>
+      </tr>
+      <tr>
+        <td class="ref">Dropbox Brand<small>501 nodes · 3vh · 0 WebGL</small></td>
+        <td>מערכת מותג מוצגת בבהירות: 501 צמתים בלבד, שלושה גבהי מסך. ביטוי מותג בלי ראווה.</td>
+        <td>איך מציגים מערכת עיצוב — רלוונטי לגיליון המערכת שלנו.</td>
+        <td>עמוד מערכת העיצוב (<span class="m">/system</span>)</td>
+        <td class="no">2.3MB על 51 בקשות — תמונות כבדות ביחס לתוכן.</td>
+        <td><span class="pill lo">נמוך</span></td>
+        <td><span class="pill lo">נמוך</span></td>
+        <td><span class="pill lo">נמוך</span></td>
+      </tr>
+      <tr>
+        <td class="ref">Apple Developer<small>לא נמדד ישירות</small></td>
+        <td>ליטוש והיררכיית מסמכים טכניים ארוכים; טיפול בקוד ובהפניות.</td>
+        <td>היררכיית דף עומק; ניווט "בעמוד זה"; קריאוּת מסמך ארוך.</td>
+        <td>דפי אובייקט; מרכז ידע</td>
+        <td class="no">אסתטיקה ניטרלית-אפורה שתמחק את זהות SAP by Sali.</td>
+        <td><span class="pill lo">נמוך</span></td>
+        <td><span class="pill lo">נמוך</span></td>
+        <td><span class="pill lo">נמוך</span></td>
+      </tr>
+      <tr>
+        <td class="ref">Lusion v2<small>THREE.js · 2/13 WebGL · 14.7MB · 462 nodes</small></td>
+        <td>הישג טכני מרשים. ניווט מרחבי, מצלמה, עומק — הסטנדרט של אתרי פרסים.</td>
+        <td><b>מה לא לעשות.</b> מוכיח שהמחיר של WebGL הוא 14.7MB ותלות בגודל Three.js, עבור אתר בגובה מסך אחד.</td>
+        <td>לא בשימוש. נדחה במפורש.</td>
+        <td class="no">Three.js/WebGL בכללותו. אף אחד מרפרנסי המוצר לא משתמש בזה. NEO תרוץ על מחשבים תאגידיים ועל מסך הצגה 85״.</td>
+        <td><span class="pill hi">גבוה</span><br><span class="m">14.7MB · GPU</span></td>
+        <td><span class="pill hi">גבוה</span></td>
+        <td><span class="pill hi">גבוה</span></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2><span class="n">03</span>ההחלטה שהמדידה שינתה</h2>
+  <div class="verdict">
+    <h3>הנחתי ש-La Poopé יקר בזמן ריצה. הוא לא.</h3>
+    <p>
+      לפני המדידה הנחתי שרצף של 314 תמונות על קנבס יטיל עומס GPU כבד ולכן צריך להידחות. המדידה הראתה
+      60fps ואפס long tasks תחת throttle ×4. קנבס דו-ממדי זול לציור; מה שיקר הוא ההורדה.
+      המסקנה הנכונה היא הפוכה ממה שהתחלתי איתה: <b>לא צריך לדחות תנועה מונעת-גלילה מטעמי מעבד — צריך לדחות
+      נכסים כבדים.</b> ול-NEO אין צילומים מלכתחילה: הוויזואל שלנו הוא SVG מונע-נתונים, שעולה קילובייטים.
+      לכן אימצנו את הטכניקות ודחינו את המטען.
+    </p>
+  </div>
+
+  <h2><span class="n">04</span>מה נדחה במפורש, ולמה</h2>
+  <div class="measure">
+    <ul>
+      <li><b>WebGL / Three.js / React&nbsp;Three&nbsp;Fiber</b> — ‏Linear, Vercel, Cursor ו-Dropbox Brand משתמשים ב-<b>אפס</b> WebGL. הרפרנס היחיד שכן, משלם 14.7MB. ל-15 צמתים ול-~10 ישויות ERD אין גיאומטריה שמצדיקה הקשר GPU. הכול נבנה כ-SVG וכ-DOM.</li>
+      <li><b>Scroll-jacking בכל צורה</b> — אין חטיפת wheel, אין נעילת גלילה, אין scroll-snap כפוי. הגילויים מונעים ב-IntersectionObserver בלבד. זום בגלגלת על ה-ERD דורש Ctrl/⌘, כך שגלגלת חשופה תמיד גוללת את העמוד.</li>
+      <li><b>רצף תמונות בגלילה</b> — הטכניקה תקינה, המטען לא. 26MB מול SVG מונע-נתונים ששוקל קילובייטים.</li>
+      <li><b>ריבוי אובייקטים בתנועה</b> — העיקרון שנלמד מ-La Poopé הוא ההפך: דבר אחד זז.</li>
+      <li><b>אינדיקטור התקדמות על סטטוס המיגרציה</b> — שדה ה-<span class="m">status</span> הוא "Not started" בכל 126 השורות. הצגתו כפס התקדמות הייתה ממציאה סיפור. נמחק.</li>
+      <li><b>מסכי מובייל לפי רוחב</b> — אין אף כלל <span class="m">@media</span> שמחליף לפריסת מובייל/טאבלט לפי רוחב חלון. מסך גדול לעולם לא יקבל ניווט מובייל.</li>
+    </ul>
+  </div>
+
+  <h2><span class="n">05</span>שתי סקאלות טיפוגרפיה — לא אחת</h2>
+  <div class="verdict">
+    <h3>המדידה חשפה מתח אמיתי בין הרפרנסים</h3>
+    <p>
+      רפרנסי המוצר מתכנסים ל-<b>64px במשקל 400–510</b>. הרפרנס העריכותי רץ על <b>144px במשקל 700</b>.
+      אלה לא סתירה — אלה שני רישומים. NEO משתמשת ברישום העריכותי ב-Home ובמסכי L3 בלבד, וברישום המוצרי
+      בתוך סביבות העבודה. זה מקביל בדיוק למדרג התנועה L1/L2/L3 שהגדרת, ולכן שתי המערכות מתיישרות:
+      <b>ככל שהמסך יותר "חוויה" — הטיפוגרפיה גדלה והתנועה מתחזקת; ככל שהוא יותר "כלי" — שניהם נסוגים.</b>
+    </p>
+  </div>
+
+  <footer>
+    <span>Built by Sali Halif</span>
+    <span>כל המדידות בוצעו ב-Chrome headless עם CPU throttle ×4</span>
+    <span><b>SAP by Sali</b> · PROJECT NEO</span>
+  </footer>
+</div>
+</body>
+</html>

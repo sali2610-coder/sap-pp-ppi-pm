@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" data-theme="light">
+<head>
+<meta name="robots" content="noindex, nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>גיליון מערכת העיצוב — SAP by Sali · PROJECT NEO</title>
+  <meta name="description" content="מערכת העיצוב של PROJECT NEO: אסימוני עיצוב, סטוריבורד תנועה, משפחת רכיבים, RTL ונגישות.">
+  <meta name="color-scheme" content="light dark">
+  <!-- 100% offline: no CDN, no webfont, no remote asset, no @import url(). -->
+  <link rel="stylesheet" href="../shared/tokens.css">
+  <link rel="stylesheet" href="../shared/reset.css">
+  <link rel="stylesheet" href="system.css">
+</head>
+<body>
+
+<!-- ==================================================================== bar -->
+<header class="topbar">
+  <div class="lockup">
+    <span class="lockup__mark" aria-hidden="true"><span>N</span></span>
+    <span class="lockup__txt">
+      <span class="lockup__a" data-brand-name></span>
+      <span class="lockup__b" data-brand-product></span>
+    </span>
+  </div>
+  <span class="topbar__title">גיליון מערכת העיצוב · Design System Sheet</span>
+  <span class="topbar__grow"></span>
+  <div class="topbar__tools">
+    <button class="tgl" type="button" id="motionBtn" aria-pressed="false">
+      <span class="dot" aria-hidden="true"></span>
+      <span>תנועה מופחתת</span>
+    </button>
+    <button class="tgl" type="button" id="themeBtn" aria-pressed="false">
+      <span data-slot="themeicon" aria-hidden="true"></span>
+      <span data-slot="themelabel">מצב כהה</span>
+    </button>
+  </div>
+</header>
+
+<div class="shell">
+
+  <!-- ============================================================ section nav -->
+  <nav class="secnav" aria-label="ניווט בין פרקי הגיליון">
+    <p class="eyebrow secnav__h">תוכן</p>
+    <ol id="secnav"></ol>
+    <p class="secnav__foot">
+      כל מחרוזת SAP בעמוד הזה נלקחה מילה במילה מ־<span class="sap">shared/content.js</span>.
+      אין כאן נתון שהומצא.
+    </p>
+  </nav>
+
+  <!-- =================================================================== doc -->
+  <main class="doc">
+
+    <div class="hero">
+      <p class="eyebrow">SAP by Sali · PROJECT NEO</p>
+      <h1>מערכת העיצוב</h1>
+      <p>
+        הגיליון הזה מתעד את מה שנבנה בפועל בשלושת הכיוונים — לא תיאוריה. הוא מציג את האסימונים
+        כדוגמאות חיות, את התנועה כהדגמות שניתן להריץ מחדש, ואת הרכיבים על כל המצבים שלהם.
+        הבסיס הוא <span class="sap">shared/tokens.css</span> — אותם אסימונים בדיוק שמשמשים את המוצר.
+      </p>
+      <div class="hero__meta" id="heroMeta"></div>
+    </div>
+
+    <!-- ======================================================= §1 tokens -->
+    <section class="sec" id="sec-tokens" aria-labelledby="h-tokens">
+      <div class="sec__head"><span class="sec__num">01</span><h2 id="h-tokens">אסימוני עיצוב</h2></div>
+      <p class="sec__lede">
+        שכבת הבסיס אינה מוגדרת מחדש באף כיוון. כיוון עיצובי רשאי רק להוסיף אסימונים בקידומת משלו
+        (<span class="sap">--ca-</span> / <span class="sap">--cb-</span> / <span class="sap">--cc-</span>).
+        כל מה שמופיע כאן מצויר מתוך המשתנים החיים, כך שהחלפת ערכה משנה את הדגימות עצמן.
+      </p>
+
+      <div class="sub">
+        <div class="sub__head"><h3>היררכיית משטחים</h3><span class="grow"></span>
+          <span class="tok"><b>--background</b> · <b>--surface</b> · <b>--surface-2</b> · <b>--hairline</b></span>
+        </div>
+        <p>ארבעה מישורים בלבד. עומק נבנה מהעלאת בהירות המשטח ומקו־שיער, ולא מהצללה גדולה — במיוחד במצב כהה, שבו צל כמעט לא נראה.</p>
+        <div class="planes" id="planes" style="margin-block-start:var(--sp-4)"></div>
+      </div>
+
+      <div class="sub">
+        <div class="sub__head"><h3>היררכיית דיו וניגודיות</h3><span class="grow"></span>
+          <span class="tok"><b>--ink-1</b> · <b>--ink-2</b> · <b>--ink-3</b></span>
+        </div>
+        <p>
+          יחסי הניגודיות מחושבים ב־JavaScript בזמן ריצה מהערכים החיים (נוסחת הבהירות היחסית של WCAG 2.1)
+          מול <span class="sap">--surface</span>. הסף לגוף טקסט הוא 4.5:1, לטקסט גדול 3:1.
+        </p>
+        <div class="card" id="contrast" style="margin-block-start:var(--sp-4)"></div>
+        <p class="note" style="margin-block-start:var(--sp-3)">
+          <span class="sap">--ink-3</span> הוא צבע מטא — מספרים, תוויות מִשנה, זמנים. הוא לא נועד לגוף טקסט,
+          וההצגה כאן מראה למה: הוא עובר AA בקושי, ולא עובר AAA.
+        </p>
+      </div>
+
+      <div class="sub">
+        <div class="sub__head"><h3>מותג — נגיעה בלבד</h3><span class="grow"></span>
+          <span class="tok"><b>--brand</b> · <b>--brand-dark</b> · <b>--brand-soft</b></span>
+        </div>
+        <p>
+          האדום מסמן מיקום, מיקוד ובחירה. הוא אף פעם לא משטח גדול ואף פעם לא צבע של גוף טקסט.
+          החוק המעשי: אם הרחקת את המסך ורואים כתם אדום לפני שרואים את התוכן — חצית את הגבול.
+        </p>
+        <div class="brandrow" id="brand" style="margin-block-start:var(--sp-4)"></div>
+        <div class="usecmp" id="brandUse" style="margin-block-start:var(--sp-4)"></div>
+      </div>
+
+      <div class="sub">
+        <div class="sub__head"><h3>פלטת סטטוס הגירה</h3><span class="grow"></span>
+          <span class="tok"><b>--status-*</b> · חמישה מצבים</span>
+        </div>
+        <p>חמשת הצבעים האלה שייכים לסטטוס ההגירה של אובייקט SAP — ורק לו. אסור למחזר אותם כזהות של מודול.</p>
+        <div class="statgrid" id="status" style="margin-block-start:var(--sp-4)"></div>
+        <p class="note note--warn" style="margin-block-start:var(--sp-3)">
+          זו נקודה שנשברה בפועל: שני כיוונים מיחזרו אסימוני סטטוס כגוון־זהות של המודולים
+          <span class="sap">PM</span> ו־<span class="sap">PP-PI</span>. התוצאה היא שכחול יכול להיקרא
+          גם «בהמרה» וגם «מודול אחזקה» באותו מסך. זהות מודול צריכה אסימון נפרד.
+        </p>
+      </div>
+
+      <div class="sub">
+        <div class="sub__head"><h3>רדיוס</h3><span class="grow"></span><span class="tok"><b>--r-xs … --r-pill</b></span></div>
+        <div class="radramp" id="radius" style="margin-block-start:var(--sp-3)"></div>
+      </div>
+
+      <div class="sub">
+        <div class="sub__head"><h3>מקצב מרווחים</h3><span class="grow"></span><span class="tok"><b>--sp-1 … --sp-16</b> · בסיס 4px</span></div>
+        <div class="spacerow" id="spacing" style="margin-block-start:var(--sp-3)"></div>
+      </div>
+
+      <div class="sub">
+        <div class="sub__head"><h3>סולם הרמה</h3><span class="grow"></span><span class="tok"><b>--elev-1 … --elev-4</b></span></div>
+        <p>ההרמה מכוילת בנפרד לכל ערכה. במצב כהה הערכים שונים לגמרי — לא היפוך של הבהיר.</p>
+        <div class="elevramp" id="elev" style="margin-block-start:var(--sp-5)"></div>
+      </div>
+
+      <div class="sub">
+        <div class="sub__head"><h3>סולם טיפוגרפי</h3><span class="grow"></span><span class="tok"><b>--t-display … --t-micro</b></span></div>
+        <p>מחסנית מערכת בלבד. ההיררכיה נישאת על משקל ומרווח־אותיות, לא על גופן חיצוני. עברית מקבלת גובה שורה גדול יותר מלטינית באותו גודל (<span class="sap">--lh-he</span> = 1.75).</p>
+        <div class="typespec" id="type" style="margin-block-start:var(--sp-4)"></div>
+      </div>
+    </section>
+
+    <!-- ======================================================= §2 motion -->
+    <section class="sec" id="sec-motion" aria-labelledby="h-motion">
+      <div class="sec__head"><span class="sec__num">02</span><h2 id="h-motion">סטוריבורד תנועה</h2></div>
+      <p class="sec__lede">
+        תשע תנועות. כל אחת היא הדגמה חיה — לחצן «הרץ מחדש» מפעיל אותה שוב. כל תנועה מונפשת על
+        <span class="sap">transform</span> ו־<span class="sap">opacity</span> בלבד, ומשתמשת בערכי האסימונים
+        האמיתיים. הכפתור «תנועה מופחתת» בראש העמוד מראה מה מקבל משתמש עם
+        <span class="sap">prefers-reduced-motion: reduce</span>.
+      </p>
+      <div id="motion"></div>
+      <p class="note note--warn">
+        מלכודת מעשית: הכלל הגלובלי ב־<span class="sap">tokens.css</span> מקצר כל מעבר ל־0.01ms.
+        קוד שמחכה ל־<span class="sap">transitionend</span> כדי לנקות אלמנט־רפאים חייב גם נתיב־בטיחות
+        מבוסס <span class="sap">setTimeout</span>, אחרת ההנפשה המשותפת תיתקע אצל משתמשי תנועה מופחתת.
+      </p>
+    </section>
+
+    <!-- =================================================== §3 components -->
+    <section class="sec" id="sec-components" aria-labelledby="h-components">
+      <div class="sec__head"><span class="sec__num">03</span><h2 id="h-components">משפחת הרכיבים</h2></div>
+      <p class="sec__lede">
+        כל רכיב מוצג עם המצבים האמיתיים שלו. המצבים מאולצים בכיתות עזר שמשקפות אחת לאחת את כללי
+        <span class="sap">:hover</span> / <span class="sap">:active</span> / <span class="sap">:focus-visible</span>,
+        כדי שהמצב ייראה בלי שהצופה ירחף מעליו.
+      </p>
+      <div id="components"></div>
+
+      <div class="sub">
+        <div class="sub__head"><h3>מערכת הפעולות</h3><span class="grow"></span><span class="tok">7 סוגי לחצן × 5 מצבים</span></div>
+        <p>הראשי הוא היחיד עם מילוי מותג, ויש בדיוק אחד כזה במסך. כל השאר נושאים משקל דרך קו־שיער, משטח או ריווח.</p>
+        <div id="actions" style="margin-block-start:var(--sp-4)"></div>
+      </div>
+    </section>
+
+    <!-- ========================================================== §4 rtl -->
+    <section class="sec" id="sec-rtl" aria-labelledby="h-rtl">
+      <div class="sec__head"><span class="sec__num">04</span><h2 id="h-rtl">דגימות RTL</h2></div>
+      <p class="sec__lede">
+        המוצר הוא <span class="sap">dir="rtl"</span> מלידה, לא תרגום. שני כללים נושאים כמעט הכול:
+        רק תכונות לוגיות ב־CSS, ובידוד דו־כיווני לכל מזהה SAP. מה שנשאר — כיווניות של אייקונים ושל תנועה —
+        דורש החלטה מפורשת פר מקרה.
+      </p>
+      <div id="rtl"></div>
+    </section>
+
+    <!-- ========================================================= §5 a11y -->
+    <section class="sec" id="sec-a11y" aria-labelledby="h-a11y">
+      <div class="sec__head"><span class="sec__num">05</span><h2 id="h-a11y">נגישות</h2></div>
+      <p class="sec__lede">
+        לא רשימת תקנים כללית — ההחלטות שנלקחו בפועל בשלושת הכיוונים, והמקומות שבהם הן עדיין לא מיושרות.
+      </p>
+      <div id="a11y"></div>
+    </section>
+
+  </main>
+</div>
+
+<footer class="pagefoot">
+  <div class="pagefoot__in">
+    <span class="lockup">
+      <span class="lockup__mark" aria-hidden="true"><span>N</span></span>
+      <span class="lockup__txt">
+        <span class="lockup__a" data-brand-name></span>
+        <span class="lockup__b" data-brand-product></span>
+      </span>
+    </span>
+    <span class="grow"></span>
+    <span class="dot" aria-hidden="true"></span>
+    <span><b data-brand-credit></b></span>
+    <span>·</span>
+    <span>גיליון מערכת העיצוב · 100% אופליין</span>
+  </div>
+</footer>
+
+<noscript>
+  <p style="padding:var(--sp-8);text-align:center">
+    הגיליון דורש JavaScript כדי לצייר את הדגימות. כל הקבצים מקומיים — אין טעינה מרשת.
+  </p>
+</noscript>
+
+<script type="module" src="system.js"></script>
+</body>
+</html>

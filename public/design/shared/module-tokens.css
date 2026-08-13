@@ -1,0 +1,28 @@
+/* Module identity tokens — SAP by Sali NEO.
+   Rule: SATURATION encodes signal (status palette), HUE encodes identity (module).
+   Module hues are deliberately low-chroma so they can never read as a status.
+   Every value verified >= 4.5:1 against its themes surface. Brand red is never a module colour. */
+:root{
+  --mod-pm: #2f6b63;
+  --mod-pppi: #3f5b8a;
+  --mod-pp: #5c6b3a;
+  --mod-ppds: #6b5b3a;
+  --mod-mm: #4a5a6b;
+  --mod-qm: #6b3f5c;
+  --mod-ewm: #3a6b5b;
+  --mod-fiori: #55506b;
+  --mod-sop: #3a5f6b;
+  --mod-s4: #4f4f57;
+}
+html[data-theme="dark"]{
+  --mod-pm: #7cc0b6;
+  --mod-pppi: #93b0e0;
+  --mod-pp: #b3c283;
+  --mod-ppds: #c8b183;
+  --mod-mm: #a3b4c4;
+  --mod-qm: #c895b4;
+  --mod-ewm: #8ec7b3;
+  --mod-fiori: #b0a9c8;
+  --mod-sop: #8fbcc8;
+  --mod-s4: #adadb8;
+}

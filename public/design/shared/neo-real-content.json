@@ -1,0 +1,2274 @@
+{
+ "PM": {
+  "topics": [
+   {
+    "idx": 1,
+    "title": "1. מבנה ארגוני ותשתית",
+    "tables": 6
+   },
+   {
+    "idx": 2,
+    "title": "2. ציוד ונתוני מאסטר",
+    "tables": 4
+   },
+   {
+    "idx": 3,
+    "title": "3. עצי מוצר של אחזקה (BOM)",
+    "tables": 5
+   },
+   {
+    "idx": 4,
+    "title": "4. נקודות מדידה ומונים",
+    "tables": 2
+   },
+   {
+    "idx": 5,
+    "title": "5. קטלוגים, קודים ופרופילים",
+    "tables": 4
+   },
+   {
+    "idx": 6,
+    "title": "6. הודעות אחזקה (Notifications)",
+    "tables": 6
+   },
+   {
+    "idx": 7,
+    "title": "7. פקודות עבודה (פק\"ע)",
+    "tables": 7
+   },
+   {
+    "idx": 8,
+    "title": "8. ניהול סטטוסים (Status Mgmt)",
+    "tables": 5
+   },
+   {
+    "idx": 9,
+    "title": "9. אינטגרציית מלאי ורכש (PM-MM)",
+    "tables": 6
+   },
+   {
+    "idx": 10,
+    "title": "10. עלויות והתחשבנות (PM-CO)",
+    "tables": 4
+   },
+   {
+    "idx": 11,
+    "title": "11. אחזקה מונעת ותוכניות",
+    "tables": 6
+   },
+   {
+    "idx": 12,
+    "title": "12. היסטוריה וארכיון",
+    "tables": 3
+   }
+  ],
+  "counts": {
+   "topics": 12,
+   "tables": 58,
+   "fields": 280
+  },
+  "tables": [
+   {
+    "name": "IFLOT",
+    "he": "רשומת אב של מיקום פונקציונלי",
+    "en": "Functional location master record",
+    "tcodes": "IL01/IL02/IL03; IH01, IH06",
+    "fiori": "Manage Technical Objects (F2079)",
+    "s4": "ללא שינוי במודל הנתונים (תואם)",
+    "fields": 6,
+    "topic": "1. מבנה ארגוני ותשתית",
+    "status": "Not started"
+   },
+   {
+    "name": "IFLOS",
+    "he": "תוויות מבנה למיקום פונקציונלי",
+    "en": "Functional Location Label",
+    "tcodes": "IL01/IL02/IL03; IH06",
+    "fiori": "Manage Technical Objects (F2079)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 5,
+    "topic": "1. מבנה ארגוני ותשתית",
+    "status": "Not started"
+   },
+   {
+    "name": "ILOA",
+    "he": "נתוני מיקום וחיוב משותפים",
+    "en": "PM object location & account assignment",
+    "tcodes": "IL02; IE02 (ירושה)",
+    "fiori": "Manage Technical Objects (F2079)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 6,
+    "topic": "1. מבנה ארגוני ותשתית",
+    "status": "Not started"
+   },
+   {
+    "name": "CRHD",
+    "he": "כותרת מרכז עבודה / משאב",
+    "en": "Work center header",
+    "tcodes": "IR01/IR02/IR03; CR05, CR06",
+    "fiori": "Manage Work Centers (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 6,
+    "topic": "1. מבנה ארגוני ותשתית",
+    "status": "Not started"
+   },
+   {
+    "name": "CRTX",
+    "he": "טקסטים למרכז עבודה",
+    "en": "Work center texts",
+    "tcodes": "IR02; IR03",
+    "fiori": "Manage Work Centers (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 3,
+    "topic": "1. מבנה ארגוני ותשתית",
+    "status": "Not started"
+   },
+   {
+    "name": "T370T",
+    "he": "טבלת טקסט להגדרות מבנה/קטגוריות PM (Customizing)",
+    "en": "PM structure/category customizing text table",
+    "tcodes": "SPRO; OIA1, OIMR",
+    "fiori": "אין Fiori ייעודי (Customizing)",
+    "s4": "ללא שינוי (Customizing תואם)",
+    "fields": 3,
+    "topic": "1. מבנה ארגוני ותשתית",
+    "status": "Not started"
+   },
+   {
+    "name": "EQUI",
+    "he": "רשומת אב של ציוד",
+    "en": "Equipment master record",
+    "tcodes": "IE01/IE02/IE03; IH08, IE05",
+    "fiori": "Manage Technical Objects (F2079)",
+    "s4": "ללא שינוי במודל הנתונים (תואם)",
+    "fields": 6,
+    "topic": "2. ציוד ונתוני מאסטר",
+    "status": "Not started"
+   },
+   {
+    "name": "EQKT",
+    "he": "טקסטים (תיאורים) של ציוד",
+    "en": "Equipment short texts",
+    "tcodes": "IE02; IE03",
+    "fiori": "Manage Technical Objects (F2079)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 3,
+    "topic": "2. ציוד ונתוני מאסטר",
+    "status": "Not started"
+   },
+   {
+    "name": "EQUZ",
+    "he": "פלח זמן של ציוד (התקנות/שיוך)",
+    "en": "Equipment time segment",
+    "tcodes": "IE02; IE4N (התקנה/פירוק)",
+    "fiori": "Manage Technical Objects (F2079)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 5,
+    "topic": "2. ציוד ונתוני מאסטר",
+    "status": "Not started"
+   },
+   {
+    "name": "OBJK",
+    "he": "רשימת אובייקטים / מספרים סידוריים",
+    "en": "Object list / serial assignment",
+    "tcodes": "IQ01/IQ02/IQ03; IQ08, IQ09",
+    "fiori": "Manage Technical Objects (F2079)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 5,
+    "topic": "2. ציוד ונתוני מאסטר",
+    "status": "Not started"
+   },
+   {
+    "name": "STKO",
+    "he": "כותרת עץ מוצר (BOM)",
+    "en": "BOM header",
+    "tcodes": "IB01/CS01; CS02/CS03",
+    "fiori": "Manage Bills of Material (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 5,
+    "topic": "3. עצי מוצר של אחזקה (BOM)",
+    "status": "Not started"
+   },
+   {
+    "name": "STPO",
+    "he": "פריטי עץ מוצר (BOM)",
+    "en": "BOM Item",
+    "tcodes": "IB02/CS02; CS11, CS15",
+    "fiori": "Manage Bills of Material (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 5,
+    "topic": "3. עצי מוצר של אחזקה (BOM)",
+    "status": "Not started"
+   },
+   {
+    "name": "MAST",
+    "he": "שיוך עץ מוצר (BOM) לחומר",
+    "en": "Material-to-BOM link",
+    "tcodes": "CS01; CS02/CS03",
+    "fiori": "Manage Bills of Material (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 5,
+    "topic": "3. עצי מוצר של אחזקה (BOM)",
+    "status": "Not started"
+   },
+   {
+    "name": "EQST",
+    "he": "קישור ציוד לעץ מוצר",
+    "en": "Equipment-to-BOM link",
+    "tcodes": "IB01; IB02/IB03",
+    "fiori": "Manage Bills of Material (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 4,
+    "topic": "3. עצי מוצר של אחזקה (BOM)",
+    "status": "Not started"
+   },
+   {
+    "name": "TPST",
+    "he": "קישור מיקום פונקציונלי לעץ מוצר",
+    "en": "Functional location-to-BOM link",
+    "tcodes": "IB11; IB12/IB13",
+    "fiori": "Manage Bills of Material (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 4,
+    "topic": "3. עצי מוצר של אחזקה (BOM)",
+    "status": "Not started"
+   },
+   {
+    "name": "IMPTT",
+    "he": "רשומת אב של נקודת מדידה / מונה",
+    "en": "Measuring point master",
+    "tcodes": "IK01/IK02/IK03; IK07, IK08",
+    "fiori": "Manage Measurement Documents (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 6,
+    "topic": "4. נקודות מדידה ומונים",
+    "status": "Not started"
+   },
+   {
+    "name": "IMRG",
+    "he": "מסמכי מדידה (קריאות מונה/ערך)",
+    "en": "Measurement documents / readings",
+    "tcodes": "IK11/IK12/IK13; IK21, IK41",
+    "fiori": "Enter Measurement Readings (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 6,
+    "topic": "4. נקודות מדידה ומונים",
+    "status": "Not started"
+   },
+   {
+    "name": "QPCD",
+    "he": "קודים בתוך קבוצת קוד",
+    "en": "Codes within a code group",
+    "tcodes": "QS51; QS61",
+    "fiori": "אין Fiori ייעודי (Customizing)",
+    "s4": "ללא שינוי (Customizing/Master תואם)",
+    "fields": 4,
+    "topic": "5. קטלוגים, קודים ופרופילים",
+    "status": "Not started"
+   },
+   {
+    "name": "QPGR",
+    "he": "קבוצות קודים לאיכות",
+    "en": "Code Group (Quality)",
+    "tcodes": "QS51; QS61",
+    "fiori": "אין Fiori ייעודי (Customizing)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 4,
+    "topic": "5. קטלוגים, קודים ופרופילים",
+    "status": "Not started"
+   },
+   {
+    "name": "T352B",
+    "he": "שיוך פרופיל קטלוג לקבוצות בחירה",
+    "en": "Catalog profile to selection-set link",
+    "tcodes": "OIM1; OIN4",
+    "fiori": "אין Fiori ייעודי (Customizing)",
+    "s4": "ללא שינוי (Customizing תואם)",
+    "fields": 4,
+    "topic": "5. קטלוגים, קודים ופרופילים",
+    "status": "Not started"
+   },
+   {
+    "name": "T352",
+    "he": "פרופיל קטלוג (כותרת)",
+    "en": "Catalog profile header",
+    "tcodes": "OIM1; QCC0",
+    "fiori": "אין Fiori ייעודי (Customizing)",
+    "s4": "ללא שינוי (Customizing תואם)",
+    "fields": 3,
+    "topic": "5. קטלוגים, קודים ופרופילים",
+    "status": "Not started"
+   },
+   {
+    "name": "QMEL",
+    "he": "כותרת הודעת אחזקה",
+    "en": "Notification header",
+    "tcodes": "IW21/IW22/IW23; IW24, IW28/IW29",
+    "fiori": "Report Malfunction (F2215)",
+    "s4": "ללא שינוי במודל הנתונים (תואם)",
+    "fields": 6,
+    "topic": "6. הודעות אחזקה (Notifications)",
+    "status": "Not started"
+   },
+   {
+    "name": "QMFE",
+    "he": "פריטי הודעת איכות (נזק / גורם)",
+    "en": "Quality Notification Item",
+    "tcodes": "IW22; IW66",
+    "fiori": "Find Maintenance Notification (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 6,
+    "topic": "6. הודעות אחזקה (Notifications)",
+    "status": "Not started"
+   },
+   {
+    "name": "QMUR",
+    "he": "סיבות לליקוי",
+    "en": "Notification causes",
+    "tcodes": "IW22; IW67",
+    "fiori": "Find Maintenance Notification (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 5,
+    "topic": "6. הודעות אחזקה (Notifications)",
+    "status": "Not started"
+   },
+   {
+    "name": "QMMA",
+    "he": "פעולות / אמצעים בהודעת איכות",
+    "en": "Notification Activity",
+    "tcodes": "IW22; IW67",
+    "fiori": "Report Malfunction (F2215)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 4,
+    "topic": "6. הודעות אחזקה (Notifications)",
+    "status": "Not started"
+   },
+   {
+    "name": "QMSM",
+    "he": "משימות בהודעת איכות",
+    "en": "Notification Task",
+    "tcodes": "IW22; IW66",
+    "fiori": "Find Maintenance Notification (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 5,
+    "topic": "6. הודעות אחזקה (Notifications)",
+    "status": "Not started"
+   },
+   {
+    "name": "TQ80",
+    "he": "סוגי הודעה (הגדרה)",
+    "en": "Notification Type (Customizing)",
+    "tcodes": "OIAL (פריסת מסך); SPRO, QCC0",
+    "fiori": "אין Fiori ייעודי (Customizing)",
+    "s4": "ללא שינוי (Customizing תואם)",
+    "fields": 4,
+    "topic": "6. הודעות אחזקה (Notifications)",
+    "status": "Not started"
+   },
+   {
+    "name": "AUFK",
+    "he": "נתוני אב של פקודה (כותרת ארגונית)",
+    "en": "Order master data",
+    "tcodes": "IW31/IW32/IW33; IW34, IW38/IW39",
+    "fiori": "Find Maintenance Order (F2393)",
+    "s4": "מותאם - מודל נתונים פשוט יותר לפקודות",
+    "fields": 5,
+    "topic": "7. פקודות עבודה (פק\"ע)",
+    "status": "Not started"
+   },
+   {
+    "name": "AFKO",
+    "he": "נתוני כותרת פקודת ייצור / תהליך",
+    "en": "Order header data",
+    "tcodes": "IW32; IW37N",
+    "fiori": "Create Maintenance Order (אמת ID)",
+    "s4": "מותאם (תואם עם פישוטי תזמון)",
+    "fields": 5,
+    "topic": "7. פקודות עבודה (פק\"ע)",
+    "status": "Not started"
+   },
+   {
+    "name": "AFVC",
+    "he": "פעולות הפקודה",
+    "en": "Order Operation",
+    "tcodes": "IW31/IW32/IW33; IW37N, CM01",
+    "fiori": "Find Maintenance Order (F2393)",
+    "s4": "מותאם (תואם)",
+    "fields": 6,
+    "topic": "7. פקודות עבודה (פק\"ע)",
+    "status": "Not started"
+   },
+   {
+    "name": "AFPO",
+    "he": "פריטי פקודת ייצור",
+    "en": "Order item",
+    "tcodes": "IW32; IW33",
+    "fiori": "Find Maintenance Order (F2393)",
+    "s4": "מותאם (תואם)",
+    "fields": 4,
+    "topic": "7. פקודות עבודה (פק\"ע)",
+    "status": "Not started"
+   },
+   {
+    "name": "AFIH",
+    "he": "כותרת פקודת אחזקה (PM)",
+    "en": "Maintenance Order Header",
+    "tcodes": "IW32; IW33",
+    "fiori": "Find Maintenance Order (F2393)",
+    "s4": "מותאם (תואם)",
+    "fields": 6,
+    "topic": "7. פקודות עבודה (פק\"ע)",
+    "status": "Not started"
+   },
+   {
+    "name": "AFWI",
+    "he": "תנועות מלאי המקושרות לדיווחי ביצוע",
+    "en": "Goods movements for confirmations",
+    "tcodes": "IW41; IW42",
+    "fiori": "Confirm Maintenance Order (אמת ID)",
+    "s4": "מותאם (תנועת מלאי ב-MATDOC)",
+    "fields": 4,
+    "topic": "7. פקודות עבודה (פק\"ע)",
+    "status": "Not started"
+   },
+   {
+    "name": "T003O",
+    "he": "סוגי פקודה (הגדרה)",
+    "en": "Order Types (Customizing)",
+    "tcodes": "SPRO; OIOA, KOT2_OPA",
+    "fiori": "אין Fiori ייעודי (Customizing)",
+    "s4": "ללא שינוי (Customizing תואם)",
+    "fields": 4,
+    "topic": "7. פקודות עבודה (פק\"ע)",
+    "status": "Not started"
+   },
+   {
+    "name": "JEST",
+    "he": "סטטוסי אובייקט פעילים",
+    "en": "Individual object status",
+    "tcodes": "BS22/BS23; IW33, IE03",
+    "fiori": "מוטמע באפליקציות PM (אין ייעודי)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 4,
+    "topic": "8. ניהול סטטוסים (Status Mgmt)",
+    "status": "Not started"
+   },
+   {
+    "name": "JSTO",
+    "he": "פרופיל סטטוס לאובייקט",
+    "en": "Status object header + profile",
+    "tcodes": "BS02/BS03; OIBS",
+    "fiori": "מוטמע באפליקציות PM (אין ייעודי)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 4,
+    "topic": "8. ניהול סטטוסים (Status Mgmt)",
+    "status": "Not started"
+   },
+   {
+    "name": "TJ02T",
+    "he": "טקסטים של סטטוסי מערכת",
+    "en": "System status texts",
+    "tcodes": "BS23; BS22",
+    "fiori": "מוטמע (אין ייעודי)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 4,
+    "topic": "8. ניהול סטטוסים (Status Mgmt)",
+    "status": "Not started"
+   },
+   {
+    "name": "TJ30T",
+    "he": "טקסטים לסטטוס משתמש",
+    "en": "User status texts",
+    "tcodes": "BS02; BS03",
+    "fiori": "מוטמע (אין ייעודי)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 5,
+    "topic": "8. ניהול סטטוסים (Status Mgmt)",
+    "status": "Not started"
+   },
+   {
+    "name": "TJ30",
+    "he": "סטטוסי משתמש (הגדרה)",
+    "en": "User Status (Customizing)",
+    "tcodes": "BS02/BS03; OIBS",
+    "fiori": "מוטמע באפליקציות PM (אין ייעודי)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 5,
+    "topic": "8. ניהול סטטוסים (Status Mgmt)",
+    "status": "Not started"
+   },
+   {
+    "name": "RESB",
+    "he": "הזמנת רכיבים (Reservation)",
+    "en": "Reservation / dependent requirements",
+    "tcodes": "MB1A/MIGO; MB21, IW32",
+    "fiori": "Post Goods Movement / MIGO (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 6,
+    "topic": "9. אינטגרציית מלאי ורכש (PM-MM)",
+    "status": "Not started"
+   },
+   {
+    "name": "EBAN",
+    "he": "דרישת רכש (Purchase Requisition)",
+    "en": "Purchase requisition",
+    "tcodes": "ME51N; ME52N/ME53N, ME57",
+    "fiori": "Manage Purchase Requisitions (אמת ID)",
+    "s4": "מותאם (Business Partner לספקים)",
+    "fields": 5,
+    "topic": "9. אינטגרציית מלאי ורכש (PM-MM)",
+    "status": "Not started"
+   },
+   {
+    "name": "EBKN",
+    "he": "חיוב דרישת רכש (לפק\"ע)",
+    "en": "Requisition account assignment",
+    "tcodes": "ME51N; ME52N",
+    "fiori": "Manage Purchase Requisitions (אמת ID)",
+    "s4": "מותאם (חיוב ל-ACDOCA)",
+    "fields": 5,
+    "topic": "9. אינטגרציית מלאי ורכש (PM-MM)",
+    "status": "Not started"
+   },
+   {
+    "name": "MSEG",
+    "he": "פריטי מסמך חומר (תנועות מלאי)",
+    "en": "Material document items",
+    "tcodes": "MIGO/MB1A; MB31, MB1C",
+    "fiori": "Post Goods Movement (אמת ID)",
+    "s4": "הוחלף - מסמכי חומר מאוחדים ב-MATDOC",
+    "fields": 6,
+    "topic": "9. אינטגרציית מלאי ורכש (PM-MM)",
+    "status": "Not started"
+   },
+   {
+    "name": "MKPF",
+    "he": "כותרת מסמך חומר",
+    "en": "Material document header",
+    "tcodes": "MIGO; MB1A",
+    "fiori": "Post Goods Movement (אמת ID)",
+    "s4": "הוחלף - מאוחד ב-MATDOC",
+    "fields": 5,
+    "topic": "9. אינטגרציית מלאי ורכש (PM-MM)",
+    "status": "Not started"
+   },
+   {
+    "name": "BUT000",
+    "he": "נתוני אב שותף עסקי",
+    "en": "Business Partner — General Data",
+    "tcodes": "BP; (ECC: XK01/MK01 לספקים)",
+    "fiori": "Manage Business Partner Master Data (אמת ID)",
+    "s4": "הוחלף - Business Partner מחליף ספקים/לקוחות (CVI חובה)",
+    "fields": 5,
+    "topic": "9. אינטגרציית מלאי ורכש (PM-MM)",
+    "status": "Not started"
+   },
+   {
+    "name": "COSP",
+    "he": "סך עלויות חיצוניות (Primary)",
+    "en": "CO object cost totals - external postings",
+    "tcodes": "KO88/KO8G; KOB1, S_ALR_87013611",
+    "fiori": "Maintenance Order Actuals (אמת ID)",
+    "s4": "הוחלף - עלויות ב-Universal Journal",
+    "fields": 5,
+    "topic": "10. עלויות והתחשבנות (PM-CO)",
+    "status": "Not started"
+   },
+   {
+    "name": "COSS",
+    "he": "סך עלויות פנימיות (Secondary)",
+    "en": "CO object cost totals - internal postings",
+    "tcodes": "KO88; KOB1",
+    "fiori": "Maintenance Order Actuals (אמת ID)",
+    "s4": "הוחלף - עלויות ב-Universal Journal",
+    "fields": 5,
+    "topic": "10. עלויות והתחשבנות (PM-CO)",
+    "status": "Not started"
+   },
+   {
+    "name": "COBRA",
+    "he": "כותרת חוק התחשבנות",
+    "en": "Settlement rule header",
+    "tcodes": "KO02; IW32",
+    "fiori": "Manage Settlement Rules (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 4,
+    "topic": "10. עלויות והתחשבנות (PM-CO)",
+    "status": "Not started"
+   },
+   {
+    "name": "COBRB",
+    "he": "פריטי חוק התחשבנות (חוקי חלוקה)",
+    "en": "Settlement / distribution rules",
+    "tcodes": "KO02; IW32",
+    "fiori": "Manage Settlement Rules (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 5,
+    "topic": "10. עלויות והתחשבנות (PM-CO)",
+    "status": "Not started"
+   },
+   {
+    "name": "PLKO",
+    "he": "כותרת רשימת פעולות (Routing)",
+    "en": "Task list header",
+    "tcodes": "IA05/IA01/IA11; IA06, IA08",
+    "fiori": "Manage Task Lists (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 5,
+    "topic": "11. אחזקה מונעת ותוכניות",
+    "status": "Not started"
+   },
+   {
+    "name": "PLPO",
+    "he": "פעולות ברשימת הפעולות",
+    "en": "Task list operations",
+    "tcodes": "IA01/IA05; IA06",
+    "fiori": "Manage Task Lists (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 6,
+    "topic": "11. אחזקה מונעת ותוכניות",
+    "status": "Not started"
+   },
+   {
+    "name": "MPLA",
+    "he": "כותרת תכנית אחזקה ונתוני תזמון",
+    "en": "Maintenance plan header",
+    "tcodes": "IP01/IP02/IP03; IP41, IP42",
+    "fiori": "Manage Maintenance Plans (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 5,
+    "topic": "11. אחזקה מונעת ותוכניות",
+    "status": "Not started"
+   },
+   {
+    "name": "MPOS",
+    "he": "פריט תכנית אחזקה",
+    "en": "Maintenance item",
+    "tcodes": "IP04; IP02",
+    "fiori": "Manage Maintenance Plans (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 6,
+    "topic": "11. אחזקה מונעת ותוכניות",
+    "status": "Not started"
+   },
+   {
+    "name": "MHIO",
+    "he": "אובייקטי קריאת תכנית האחזקה",
+    "en": "Maintenance plan call objects",
+    "tcodes": "IP10; IP30, IP24",
+    "fiori": "Schedule Maintenance Plans (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 5,
+    "topic": "11. אחזקה מונעת ותוכניות",
+    "status": "Not started"
+   },
+   {
+    "name": "MHIS",
+    "he": "היסטוריית תזמון תכנית אחזקה",
+    "en": "Maintenance plan scheduling history",
+    "tcodes": "IP10; IP30",
+    "fiori": "Schedule Maintenance Plans (אמת ID)",
+    "s4": "ללא שינוי (תואם)",
+    "fields": 4,
+    "topic": "11. אחזקה מונעת ותוכניות",
+    "status": "Not started"
+   },
+   {
+    "name": "QMEL",
+    "he": "הודעות (כולל היסטוריות) לניתוח אמינות",
+    "en": "Notifications incl. historical",
+    "tcodes": "IW64; IW66/IW67",
+    "fiori": "Maintenance Backlog (אמת ID)",
+    "s4": "ללא שינוי; ניתוח דרך Analytics/CDS",
+    "fields": 5,
+    "topic": "12. היסטוריה וארכיון",
+    "status": "Not started"
+   },
+   {
+    "name": "AUFK",
+    "he": "נתוני אב של פקודה (כותרת ארגונית)",
+    "en": "Orders incl. historical",
+    "tcodes": "IW39; IW13",
+    "fiori": "Find Maintenance Order (F2393)",
+    "s4": "מותאם; עלות ב-ACDOCA",
+    "fields": 5,
+    "topic": "12. היסטוריה וארכיון",
+    "status": "Not started"
+   },
+   {
+    "name": "ADMI_RUN",
+    "he": "ריצות ניהול ארכוב (Archiving)",
+    "en": "Archiving Run",
+    "tcodes": "SARA; AOBJ, DB15",
+    "fiori": "Data Archiving (אמת ID)",
+    "s4": "ללא שינוי; ILM אופציונלי ב-S/4",
+    "fields": 4,
+    "topic": "12. היסטוריה וארכיון",
+    "status": "Not started"
+   }
+  ],
+  "funcs": [
+   {
+    "name": "BAPI_FUNCLOC_CREATE",
+    "he": "יצירת מיקום פונקציונלי דרך ממשק תקני"
+   },
+   {
+    "name": "BAPI_FUNCLOC_CHANGE",
+    "he": "שינוי מיקום פונקציונלי"
+   },
+   {
+    "name": "BAPI_FUNCLOC_GETDETAIL",
+    "he": "שליפת פרטי מיקום כולל תוויות"
+   },
+   {
+    "name": "ISU_FUNCLOC_GETLIST",
+    "he": "שליפת רשימת מיקומים לפי בחירה"
+   },
+   {
+    "name": "FUNC_LOCATION_LABEL_READ",
+    "he": "קריאת תווית מיקום פונקציונלי"
+   },
+   {
+    "name": "ILOA_READ",
+    "he": "קריאת נתוני מיקום/חיוב"
+   },
+   {
+    "name": "ILOA_UPDATE",
+    "he": "עדכון נתוני מיקום/חיוב"
+   },
+   {
+    "name": "ILOA_INHERIT_FROM_FUNCLOC",
+    "he": "ירושת נתונים מהמיקום לציוד"
+   },
+   {
+    "name": "CR_WORKCENTER_READ",
+    "he": "קריאת נתוני מרכז עבודה"
+   },
+   {
+    "name": "CRAP_WORKCENTER_GET_DETAIL",
+    "he": "שליפת פרטי מרכז עבודה"
+   },
+   {
+    "name": "CR_TEXT_READ",
+    "he": "קריאת טקסט מרכז עבודה"
+   },
+   {
+    "name": "STRUCTURE_INDICATOR_READ",
+    "he": "קריאת מחוון מבנה והגדרותיו"
+   },
+   {
+    "name": "BAPI_EQUI_CREATE",
+    "he": "יצירת ציוד דרך ממשק תקני"
+   },
+   {
+    "name": "BAPI_EQUI_CHANGE",
+    "he": "שינוי ציוד"
+   },
+   {
+    "name": "BAPI_EQUI_GETDETAIL",
+    "he": "שליפת פרטי ציוד"
+   },
+   {
+    "name": "BAPI_EQMT_INSTALL",
+    "he": "התקנת ציוד במיקום/ציוד אב"
+   },
+   {
+    "name": "EQUIPMENT_TEXT_READ",
+    "he": "קריאת טקסט ציוד"
+   },
+   {
+    "name": "EQUI_TIMESEGMENT_READ",
+    "he": "קריאת פלחי הזמן של הציוד"
+   },
+   {
+    "name": "EQUIPMENT_DISMANTLE",
+    "he": "פירוק ציוד מהמיקום/ציוד אב"
+   },
+   {
+    "name": "SERIAL_NUMBER_CREATE",
+    "he": "יצירת מספר סידורי"
+   },
+   {
+    "name": "SERNR_ADD_TO_DOCUMENT",
+    "he": "שיוך סריאל לתעודת מלאי"
+   },
+   {
+    "name": "BAPI_OBJCL_CREATE",
+    "he": "שיוך סיווג לאובייקט"
+   },
+   {
+    "name": "CSAP_MAT_BOM_CREATE",
+    "he": "יצירת עץ מוצר"
+   },
+   {
+    "name": "CSAP_MAT_BOM_MAINTAIN",
+    "he": "תחזוקת עץ מוצר"
+   },
+   {
+    "name": "CS_BT_BOM_HEADER_READ",
+    "he": "קריאת כותרת עץ מוצר"
+   },
+   {
+    "name": "CSAP_BOM_ITEM_MAINTAIN",
+    "he": "תחזוקת פריטי עץ מוצר"
+   },
+   {
+    "name": "CS_BOM_EXPL_MAT_RC1",
+    "he": "פיצוץ עץ מוצר לחומר"
+   },
+   {
+    "name": "CSAP_MAT_BOM_READ",
+    "he": "קריאת קישור חומר-BOM"
+   },
+   {
+    "name": "CS_BOM_EXPL_EQU_RC1",
+    "he": "פיצוץ עץ מוצר של ציוד"
+   },
+   {
+    "name": "CS_BOM_EXPL_FLO_RC1",
+    "he": "פיצוץ עץ מוצר של מיקום"
+   },
+   {
+    "name": "BAPI_MEASUREMENTPOINT_CREATE",
+    "he": "יצירת נקודת מדידה"
+   },
+   {
+    "name": "BAPI_MEASUREMENTPOINT_GETLIST",
+    "he": "שליפת רשימת נקודות מדידה"
+   },
+   {
+    "name": "MEASUREMENT_POINT_READ",
+    "he": "קריאת פרטי נקודת מדידה"
+   },
+   {
+    "name": "BAPI_MEASUREMENTDOCUM_CREATE",
+    "he": "יצירת מסמך מדידה"
+   },
+   {
+    "name": "BAPI_MEASUREMENTDOCUM_CREATEM",
+    "he": "יצירת מסמכי מדידה מרובים"
+   },
+   {
+    "name": "MEASUREM_DOCUM_RFC_SINGLE_001",
+    "he": "קליטת קריאה בודדת RFC"
+   },
+   {
+    "name": "QPK1_CODE_TEXT_READ",
+    "he": "קריאת קוד וטקסט"
+   },
+   {
+    "name": "QPK1_CATALOG_READ",
+    "he": "קריאת קטלוג"
+   },
+   {
+    "name": "QPK1_CODEGROUP_READ",
+    "he": "קריאת קבוצת קוד"
+   },
+   {
+    "name": "CATALOG_PROFILE_READ",
+    "he": "קריאת פרופיל קטלוג"
+   },
+   {
+    "name": "T352_READ",
+    "he": "קריאת פרופיל קטלוג"
+   },
+   {
+    "name": "BAPI_ALM_NOTIF_CREATE",
+    "he": "יצירת הודעה דרך ממשק תקני"
+   },
+   {
+    "name": "BAPI_ALM_NOTIF_DATA_ADD",
+    "he": "הוספת פריט ליקוי"
+   },
+   {
+    "name": "BAPI_ALM_NOTIF_SAVE",
+    "he": "שמירת ההודעה"
+   },
+   {
+    "name": "BAPI_ALM_NOTIF_CLOSE",
+    "he": "סגירת ההודעה"
+   },
+   {
+    "name": "BAPI_ALM_NOTIF_GET_DETAIL",
+    "he": "שליפת פרטי הודעה היסטורית"
+   },
+   {
+    "name": "NOTIF_ITEM_READ",
+    "he": "קריאת פריטי הודעה"
+   },
+   {
+    "name": "NOTIF_CAUSE_READ",
+    "he": "קריאת סיבות הליקוי"
+   },
+   {
+    "name": "NOTIF_ACTIVITY_READ",
+    "he": "קריאת פעילויות שבוצעו"
+   },
+   {
+    "name": "NOTIF_TASK_READ",
+    "he": "קריאת משימות"
+   },
+   {
+    "name": "BAPI_ALM_NOTIF_TASK_ADD",
+    "he": "הוספת משימה"
+   },
+   {
+    "name": "PM_NOTIFICATION_TYPE_READ",
+    "he": "קריאת סוג הודעה והגדרותיו"
+   },
+   {
+    "name": "PRIORITY_DETERMINE",
+    "he": "קביעת עדיפות לפי סוג"
+   },
+   {
+    "name": "BAPI_ALM_ORDER_MAINTAIN",
+    "he": "הוספת/שינוי פעולות בפק\"ע (METHOD=OPERATION)"
+   },
+   {
+    "name": "BAPI_ALM_ORDER_GET_DETAIL",
+    "he": "שליפת נתוני אחזקה של הפק\"ע"
+   },
+   {
+    "name": "BAPI_ALM_ORDERHEAD_GET_LIST",
+    "he": "שליפת רשימת פק\"ע היסטוריות"
+   },
+   {
+    "name": "CO_ZF_ORDER_HEADER_READ",
+    "he": "קריאת כותרת הפקודה"
+   },
+   {
+    "name": "CO_ZF_OPERATIONS_READ",
+    "he": "קריאת פעולות הפקודה"
+   },
+   {
+    "name": "CO_ZF_ORDER_ITEM_READ",
+    "he": "קריאת פריט הפקודה"
+   },
+   {
+    "name": "BAPI_ALM_CONF_CREATE",
+    "he": "יצירת דיווח ביצוע עם תנועות מלאי"
+   },
+   {
+    "name": "ORDER_TYPE_READ",
+    "he": "קריאת סוג פקודה והגדרותיו"
+   },
+   {
+    "name": "CO_BT_ORDER_TYPE_CHECK",
+    "he": "בדיקת תקינות סוג פקודה"
+   },
+   {
+    "name": "STATUS_READ",
+    "he": "קריאת סטטוסי אובייקט"
+   },
+   {
+    "name": "STATUS_CHANGE_INTERN",
+    "he": "שינוי סטטוס מערכת פנימי"
+   },
+   {
+    "name": "STATUS_CHANGE_EXTERN",
+    "he": "שינוי סטטוס משתמש"
+   },
+   {
+    "name": "STATUS_OBJECT_CREATE",
+    "he": "יצירת אובייקט סטטוס"
+   },
+   {
+    "name": "STATUS_PROFILE_READ",
+    "he": "קריאת פרופיל וסטטוסי המשתמש"
+   },
+   {
+    "name": "STATUS_TEXT_READ",
+    "he": "קריאת טקסט סטטוס מערכת"
+   },
+   {
+    "name": "USER_STATUS_TEXT_READ",
+    "he": "קריאת טקסט סטטוס משתמש"
+   },
+   {
+    "name": "STATUS_USER_CHANGE",
+    "he": "שינוי סטטוס משתמש"
+   },
+   {
+    "name": "BAPI_RESERVATION_CREATE1",
+    "he": "יצירת הזמנת מלאי"
+   },
+   {
+    "name": "BAPI_GOODSMVT_CREATE",
+    "he": "רישום תנועת מלאי"
+   },
+   {
+    "name": "RESERVATION_READ",
+    "he": "קריאת הזמנת רכיבים"
+   },
+   {
+    "name": "BAPI_PR_CREATE",
+    "he": "יצירת דרישת רכש"
+   },
+   {
+    "name": "BAPI_REQUISITION_GETDETAIL",
+    "he": "שליפת פרטי דרישת רכש"
+   },
+   {
+    "name": "ACCOUNT_ASSIGNMENT_READ",
+    "he": "קריאת נתוני חיוב לדרישה"
+   },
+   {
+    "name": "BAPI_GOODSMVT_GETITEMS",
+    "he": "שליפת פריטי תנועה"
+   },
+   {
+    "name": "BAPI_GOODSMVT_GETDETAIL",
+    "he": "שליפת פרטי מסמך חומר"
+   },
+   {
+    "name": "BAPI_BUPA_CREATE_FROM_DATA",
+    "he": "יצירת שותף עסקי"
+   },
+   {
+    "name": "CVI_VENDOR_TO_BP_CONVERT",
+    "he": "המרת ספק ל-BP (CVI)"
+   },
+   {
+    "name": "K_COSTS_READ",
+    "he": "קריאת עלויות פנימיות"
+   },
+   {
+    "name": "K_ORDER_SETTLEMENT",
+    "he": "ביצוע התחשבנות פק\"ע"
+   },
+   {
+    "name": "K_SETTLEMENT_RULE_READ",
+    "he": "קריאת פריטי חוק התחשבנות"
+   },
+   {
+    "name": "BAPI_TASKLIST_CREATE",
+    "he": "יצירת רשימת פעולות"
+   },
+   {
+    "name": "CARO_TASKLIST_READ",
+    "he": "קריאת רשימת פעולות"
+   },
+   {
+    "name": "CP_DI_OPERATION_READ",
+    "he": "קריאת פעולות הרשימה"
+   },
+   {
+    "name": "BAPI_MAINTENANCEPLAN_CREATE",
+    "he": "יצירת תכנית אחזקה"
+   },
+   {
+    "name": "MAINTENANCE_PLAN_SCHEDULE",
+    "he": "תזמון ושחרור קריאות"
+   },
+   {
+    "name": "MAINTENANCE_ITEM_READ",
+    "he": "קריאת פריט תכנית אחזקה"
+   },
+   {
+    "name": "ISCHED_CALL_GENERATE",
+    "he": "יצירת קריאת אחזקה ופק\"ע"
+   },
+   {
+    "name": "SCHEDULING_HISTORY_READ",
+    "he": "קריאת היסטוריית תזמון"
+   },
+   {
+    "name": "BAPI_ALM_NOTIF_LIST_FILTER",
+    "he": "סינון הודעות לפי קריטריון"
+   },
+   {
+    "name": "ARCHIVE_OPEN_FOR_WRITE",
+    "he": "פתיחת ארכיון לכתיבה"
+   },
+   {
+    "name": "ARCHIVE_GET_NEXT_OBJECT",
+    "he": "קריאת אובייקט הבא מהארכיון"
+   },
+   {
+    "name": "ARCHIVE_DELETE_FROM_DB",
+    "he": "מחיקת רשומות מה-DB החי"
+   }
+  ]
+ },
+ "PPPI": {
+  "topics": [
+   {
+    "idx": 1,
+    "title": "1. נתוני אב חומר ויחידות מידה (",
+    "tables": 16
+   },
+   {
+    "idx": 2,
+    "title": "2. עץ מוצר (BOM)",
+    "tables": 7
+   },
+   {
+    "idx": 3,
+    "title": "3. מתכון ייצור ופעולות (Master ",
+    "tables": 11
+   },
+   {
+    "idx": 4,
+    "title": "4. גרסאות ייצור (Production Ver",
+    "tables": 1
+   },
+   {
+    "idx": 5,
+    "title": "5. משאבים  מרכזי עבודה (Resourc",
+    "tables": 9
+   },
+   {
+    "idx": 6,
+    "title": "6. פק\"ע ייצור ומתכון בקרה (Proc",
+    "tables": 8
+   },
+   {
+    "idx": 7,
+    "title": "7. קונפיגורציה (Customizing)",
+    "tables": 16
+   }
+  ],
+  "counts": {
+   "topics": 7,
+   "tables": 68,
+   "fields": 326
+  },
+  "tables": [
+   {
+    "name": "MARA",
+    "he": "נתוני חומר כלליים",
+    "en": "Material number",
+    "tcodes": "MM01, MM02, MM03",
+    "fiori": "Manage Product Master Data",
+    "s4": "MATNR מורחב 18->40 (SAP Note 2267140); בדוק ממשקים, ברקודים והמרות EAN.",
+    "fields": 8,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "MAKT",
+    "he": "טקסטים לתיאור חומר",
+    "en": "Material number",
+    "tcodes": "MM01, MM02, MM03",
+    "fiori": "Manage Product Master Data",
+    "s4": "ללא שינוי; MATNR מורחב משפיע על המפתח.",
+    "fields": 4,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "MARC",
+    "he": "נתוני חומר ברמת מפעל",
+    "en": "Material number",
+    "tcodes": "MM01, MM02, MM03, MD04",
+    "fiori": "Manage Product Master Data — Plant",
+    "s4": "MRP Live מחליף MRP קלאסי; שדות תכנון נשמרים אך הביצוע ב-MATDOC/ACDOCA.",
+    "fields": 8,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "MARD",
+    "he": "מלאי חומר ברמת אחסון",
+    "en": "Material number",
+    "tcodes": "MM03, MMBE, MB52",
+    "fiori": "Manage Stock",
+    "s4": "מלאי מנוהל ב-MATDOC; MARD הופך ל-Aggregate/View.",
+    "fields": 5,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "MARM",
+    "he": "יחידות מידה לחומר",
+    "en": "Material number",
+    "tcodes": "MM01, MM02, MM03",
+    "fiori": "Manage Product Master Data",
+    "s4": "ללא שינוי מבני; אמת מקדמי עיגול (rounding) למניעת סטיות מלאי.",
+    "fields": 6,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "MEAN",
+    "he": "מספרי EAN / ברקוד לחומר",
+    "en": "Material number",
+    "tcodes": "MM01, MM02, MM03",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 5,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "MBEW",
+    "he": "הערכת שווי חומר",
+    "en": "Material number",
+    "tcodes": "MM03, CK11N, CK24, MR21",
+    "fiori": "Manage Material Valuation",
+    "s4": "Material Ledger חובה ב-S/4HANA; הערכה ב-ACDOCA/ACDOCC.",
+    "fields": 6,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "MVKE",
+    "he": "נתוני מכירה לחומר",
+    "en": "Material number",
+    "tcodes": "MM01, MM02, MM03, VK11",
+    "fiori": "Manage Product Master Data — Sales",
+    "s4": "ללא שינוי; לקוחות דרך Business Partner.",
+    "fields": 4,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "MLAN",
+    "he": "נתוני מס מכירה לחומר",
+    "en": "Material number",
+    "tcodes": "MM01, MM02, MM03",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 3,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "MLGN",
+    "he": "נתוני חומר ברמת מספר מחסן (WM)",
+    "en": "Material number",
+    "tcodes": "MM01, MM02, LS24",
+    "fiori": "",
+    "s4": "EWM אסטרטגי; LE-WM קלאסי נתמך עם הגבלות.",
+    "fields": 4,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "MLGT",
+    "he": "נתוני חומר לסוג אחסון (WM)",
+    "en": "Material number",
+    "tcodes": "MM01, MM02, LS24",
+    "fiori": "",
+    "s4": "EWM אסטרטגי.",
+    "fields": 4,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "MDMA",
+    "he": "נתוני MRP לאזור MRP",
+    "en": "Material number",
+    "tcodes": "MM02, MD04, MD61",
+    "fiori": "Monitor Material Coverage",
+    "s4": "אזורי MRP פעילים כברירת מחדל ב-MRP Live.",
+    "fields": 4,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "QMAT",
+    "he": "הגדרת בדיקת איכות לחומר",
+    "en": "Material number",
+    "tcodes": "QM01, MM02",
+    "fiori": "",
+    "s4": "ללא שינוי מבני.",
+    "fields": 4,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "MCH1",
+    "he": "נתוני אצווה לחומר (חוצה-מפעל)",
+    "en": "Material number",
+    "tcodes": "MSC1N, MSC2N, MSC3N",
+    "fiori": "Manage Batches",
+    "s4": "ללא שינוי מבני; MATNR מורחב 18->40 במפתח.",
+    "fields": 7,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "MCHA",
+    "he": "נתוני אצווה ברמת מפעל",
+    "en": "Material number",
+    "tcodes": "MSC1N, MSC2N, MSC3N",
+    "fiori": "Manage Batches",
+    "s4": "ללא שינוי.",
+    "fields": 4,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "T006",
+    "he": "יחידת מידה",
+    "en": "Unit of measure",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי (Customizing).",
+    "fields": 5,
+    "topic": "1. נתוני אב חומר ויחידות מידה (",
+    "status": "Not started"
+   },
+   {
+    "name": "MAST",
+    "he": "שיוך עץ מוצר (BOM) לחומר",
+    "en": "Material number",
+    "tcodes": "CS01, CS02, CS03",
+    "fiori": "Manage Bills of Material",
+    "s4": "ללא שינוי; MATNR מורחב משפיע על המפתח ועל IDNRK.",
+    "fields": 5,
+    "topic": "2. עץ מוצר (BOM)",
+    "status": "Not started"
+   },
+   {
+    "name": "STKO",
+    "he": "כותרת עץ מוצר (BOM)",
+    "en": "BOM category",
+    "tcodes": "CS01, CS02, CS03, CS11",
+    "fiori": "Manage Bills of Material",
+    "s4": "ללא שינוי.",
+    "fields": 6,
+    "topic": "2. עץ מוצר (BOM)",
+    "status": "Not started"
+   },
+   {
+    "name": "STPO",
+    "he": "פריטי עץ מוצר (BOM)",
+    "en": "BOM category",
+    "tcodes": "CS01, CS02, CS03, CS12",
+    "fiori": "Manage Bills of Material",
+    "s4": "ללא שינוי; IDNRK מורחב 18->40.",
+    "fields": 9,
+    "topic": "2. עץ מוצר (BOM)",
+    "status": "Not started"
+   },
+   {
+    "name": "STAS",
+    "he": "שיוך פריטי עץ מוצר",
+    "en": "BOM category",
+    "tcodes": "CS01, CS02, CS03",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 5,
+    "topic": "2. עץ מוצר (BOM)",
+    "status": "Not started"
+   },
+   {
+    "name": "STZU",
+    "he": "ניהול והיסטוריית עץ מוצר",
+    "en": "BOM category",
+    "tcodes": "CC01, CC02, CS03",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 4,
+    "topic": "2. עץ מוצר (BOM)",
+    "status": "Not started"
+   },
+   {
+    "name": "STPU",
+    "he": "מספר צומת פריט",
+    "en": "Item node number",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 3,
+    "topic": "2. עץ מוצר (BOM)",
+    "status": "Not started"
+   },
+   {
+    "name": "KDST",
+    "he": "מסמך מכירה",
+    "en": "Sales document",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 4,
+    "topic": "2. עץ מוצר (BOM)",
+    "status": "Not started"
+   },
+   {
+    "name": "PLKO",
+    "he": "כותרת רשימת פעולות (Routing)",
+    "en": "Task list type (2=recipe)",
+    "tcodes": "C201, C202, C203, CA01",
+    "fiori": "Manage Master Recipes",
+    "s4": "ללא שינוי מבני; Fiori 'Manage Master Recipes'.",
+    "fields": 7,
+    "topic": "3. מתכון ייצור ופעולות (Master ",
+    "status": "Not started"
+   },
+   {
+    "name": "PLPO",
+    "he": "פעולות ברשימת הפעולות",
+    "en": "Task list type",
+    "tcodes": "C201, C202, C203, CA02",
+    "fiori": "Manage Master Recipes",
+    "s4": "ללא שינוי; ביצוע דרך Control Recipe / PI sheet.",
+    "fields": 9,
+    "topic": "3. מתכון ייצור ופעולות (Master ",
+    "status": "Not started"
+   },
+   {
+    "name": "PLAS",
+    "he": "שיוך פעולות לרשימת פעולות",
+    "en": "Task list type",
+    "tcodes": "C202, C203",
+    "fiori": "Manage Master Recipes",
+    "s4": "ללא שינוי.",
+    "fields": 6,
+    "topic": "3. מתכון ייצור ופעולות (Master ",
+    "status": "Not started"
+   },
+   {
+    "name": "PLFL",
+    "he": "רצפים ברשימת פעולות",
+    "en": "Task list type",
+    "tcodes": "C202, C203",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 4,
+    "topic": "3. מתכון ייצור ופעולות (Master ",
+    "status": "Not started"
+   },
+   {
+    "name": "PLMZ",
+    "he": "הקצאת רכיבי BOM לפעולות",
+    "en": "Task list type",
+    "tcodes": "C202, CS08",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 5,
+    "topic": "3. מתכון ייצור ופעולות (Master ",
+    "status": "Not started"
+   },
+   {
+    "name": "PLMK",
+    "he": "מאפייני בדיקה ברשימת פעולות",
+    "en": "Task list type",
+    "tcodes": "QP01, QP02, C202",
+    "fiori": "",
+    "s4": "ללא שינוי מבני.",
+    "fields": 6,
+    "topic": "3. מתכון ייצור ופעולות (Master ",
+    "status": "Not started"
+   },
+   {
+    "name": "MAPL",
+    "he": "שיוך רשימת פעולות לחומר",
+    "en": "Material number",
+    "tcodes": "CA01, CA02, CA03, C201",
+    "fiori": "Manage Routings / Recipes",
+    "s4": "ללא שינוי.",
+    "fields": 5,
+    "topic": "3. מתכון ייצור ופעולות (Master ",
+    "status": "Not started"
+   },
+   {
+    "name": "FHMI",
+    "he": "אב אמצעי ייצור (PRT) — מבוסס חומר",
+    "en": "Task list type",
+    "tcodes": "CFV1, CFV2, CFV3",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 4,
+    "topic": "3. מתכון ייצור ופעולות (Master ",
+    "status": "Not started"
+   },
+   {
+    "name": "PLZU",
+    "he": "ניהול שינויים לרשימת פעולות",
+    "en": "Task list type",
+    "tcodes": "C298, CC01",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 3,
+    "topic": "3. מתכון ייצור ופעולות (Master ",
+    "status": "Not started"
+   },
+   {
+    "name": "TC60",
+    "he": "מפתח בקרה",
+    "en": "Control key",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי (Customizing).",
+    "fields": 3,
+    "topic": "3. מתכון ייצור ופעולות (Master ",
+    "status": "Not started"
+   },
+   {
+    "name": "TCA01",
+    "he": "מזהה פרופיל",
+    "en": "Profile ID",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי (Customizing).",
+    "fields": 3,
+    "topic": "3. מתכון ייצור ופעולות (Master ",
+    "status": "Not started"
+   },
+   {
+    "name": "MKAL",
+    "he": "גרסאות ייצור לחומר",
+    "en": "Material number",
+    "tcodes": "C223, MM02",
+    "fiori": "Manage Production Versions",
+    "s4": "חובה 100% ב-S/4HANA - הרץ C223 ובדוק תוקף/עקביות לכל חומר מיוצר לפני ההמרה (Pre-check קריטי).",
+    "fields": 15,
+    "topic": "4. גרסאות ייצור (Production Ver",
+    "status": "Not started"
+   },
+   {
+    "name": "CRHD",
+    "he": "כותרת מרכז עבודה / משאב",
+    "en": "Object type (A=work center)",
+    "tcodes": "CR01, CR02, CR03, CRC1",
+    "fiori": "Manage Work Centers / Resources",
+    "s4": "ללא שינוי מבני; Fiori 'Manage Work Centers'.",
+    "fields": 7,
+    "topic": "5. משאבים  מרכזי עבודה (Resourc",
+    "status": "Not started"
+   },
+   {
+    "name": "CRTX",
+    "he": "טקסטים למרכז עבודה",
+    "en": "Object type",
+    "tcodes": "CR01, CR02, CR03",
+    "fiori": "Manage Work Centers / Resources",
+    "s4": "ללא שינוי.",
+    "fields": 4,
+    "topic": "5. משאבים  מרכזי עבודה (Resourc",
+    "status": "Not started"
+   },
+   {
+    "name": "CRCO",
+    "he": "הקצאת מרכז עלות למרכז עבודה",
+    "en": "Object type",
+    "tcodes": "CR01, CR02, KS01",
+    "fiori": "",
+    "s4": "התחשבנות ב-Universal Journal (ACDOCA); הקצאה נשמרת.",
+    "fields": 6,
+    "topic": "5. משאבים  מרכזי עבודה (Resourc",
+    "status": "Not started"
+   },
+   {
+    "name": "CRCA",
+    "he": "הקצאות קיבולת למרכז עבודה",
+    "en": "Object type",
+    "tcodes": "CR11, CR12, CR13",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 4,
+    "topic": "5. משאבים  מרכזי עבודה (Resourc",
+    "status": "Not started"
+   },
+   {
+    "name": "KAKO",
+    "he": "קטגוריית קיבולת (כותרת)",
+    "en": "Capacity ID",
+    "tcodes": "CR11, CR12, CR13",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 4,
+    "topic": "5. משאבים  מרכזי עבודה (Resourc",
+    "status": "Not started"
+   },
+   {
+    "name": "CRFH",
+    "he": "אב אמצעי ייצור (PRT) — מבוסס מרכז עבודה",
+    "en": "Object type (F=PRT)",
+    "tcodes": "CFC1, CFC2, CFC3",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 4,
+    "topic": "5. משאבים  מרכזי עבודה (Resourc",
+    "status": "Not started"
+   },
+   {
+    "name": "CRVD_A",
+    "he": "קשרי ברירת מחדל למרכז עבודה",
+    "en": "Object type",
+    "tcodes": "CR02, CR03",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 3,
+    "topic": "5. משאבים  מרכזי עבודה (Resourc",
+    "status": "Not started"
+   },
+   {
+    "name": "CSLA",
+    "he": "סוג פעילות",
+    "en": "Activity type",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "תעריפים ב-Universal Journal; הגדרה נשמרת.",
+    "fields": 3,
+    "topic": "5. משאבים  מרכזי עבודה (Resourc",
+    "status": "Not started"
+   },
+   {
+    "name": "KAZT",
+    "he": "מרווחי זמן ומשמרות לקיבולת",
+    "en": "Capacity ID",
+    "tcodes": "CR11, CR12, CR13",
+    "fiori": "",
+    "s4": "ללא שינוי מבני.",
+    "fields": 6,
+    "topic": "5. משאבים  מרכזי עבודה (Resourc",
+    "status": "Not started"
+   },
+   {
+    "name": "AUFK",
+    "he": "נתוני אב של פקודה (כותרת ארגונית)",
+    "en": "Order number",
+    "tcodes": "COR1, COR2, COR3, CO01, KO04",
+    "fiori": "Manage Process Orders",
+    "s4": "מודל מותאם; עלויות ב-ACDOCA.",
+    "fields": 5,
+    "topic": "6. פק\"ע ייצור ומתכון בקרה (Proc",
+    "status": "Not started"
+   },
+   {
+    "name": "AFKO",
+    "he": "נתוני כותרת פקודת ייצור / תהליך",
+    "en": "Order number",
+    "tcodes": "COR1, COR2, COR3, COR6N, COHVPI",
+    "fiori": "Manage Process Orders",
+    "s4": "מותאם (תואם).",
+    "fields": 6,
+    "topic": "6. פק\"ע ייצור ומתכון בקרה (Proc",
+    "status": "Not started"
+   },
+   {
+    "name": "AFPO",
+    "he": "פריטי פקודת ייצור",
+    "en": "Order number",
+    "tcodes": "COR2, COR3, COHVPI",
+    "fiori": "Manage Process Orders",
+    "s4": "מותאם (תואם).",
+    "fields": 5,
+    "topic": "6. פק\"ע ייצור ומתכון בקרה (Proc",
+    "status": "Not started"
+   },
+   {
+    "name": "AFVC",
+    "he": "פעולות הפקודה",
+    "en": "Routing number of operations",
+    "tcodes": "COR2, COR3, CA02",
+    "fiori": "Manage Process Orders",
+    "s4": "מותאם (תואם).",
+    "fields": 6,
+    "topic": "6. פק\"ע ייצור ומתכון בקרה (Proc",
+    "status": "Not started"
+   },
+   {
+    "name": "RESB",
+    "he": "מספר הזמנה",
+    "en": "Reservation number",
+    "tcodes": "COR3, MB21, MB22, CO27",
+    "fiori": "Manage Reservations",
+    "s4": "ללא שינוי; תנועת מלאי ב-MATDOC.",
+    "fields": 6,
+    "topic": "6. פק\"ע ייצור ומתכון בקרה (Proc",
+    "status": "Not started"
+   },
+   {
+    "name": "AFRU",
+    "he": "מספר דיווח",
+    "en": "Confirmation number",
+    "tcodes": "CORK, COR6N, CO11N, CO15",
+    "fiori": "Confirm Production Operation",
+    "s4": "ללא שינוי; עלויות ב-ACDOCA.",
+    "fields": 5,
+    "topic": "6. פק\"ע ייצור ומתכון בקרה (Proc",
+    "status": "Not started"
+   },
+   {
+    "name": "AFFH",
+    "he": "הקצאת PRT לפעולת פקודה",
+    "en": "Routing number",
+    "tcodes": "COR2, CFC2",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 3,
+    "topic": "6. פק\"ע ייצור ומתכון בקרה (Proc",
+    "status": "Not started"
+   },
+   {
+    "name": "AFFL",
+    "he": "רצף פעולות בפקודה",
+    "en": "Routing number of operations",
+    "tcodes": "COR2, COR3",
+    "fiori": "",
+    "s4": "מותאם (תואם).",
+    "fields": 4,
+    "topic": "6. פק\"ע ייצור ומתכון בקרה (Proc",
+    "status": "Not started"
+   },
+   {
+    "name": "T134",
+    "he": "סוגי חומר (הגדרה)",
+    "en": "Material type",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי (Customizing).",
+    "fields": 3,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   },
+   {
+    "name": "T134T",
+    "he": "טקסטים לסוג חומר",
+    "en": "Material type",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 3,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   },
+   {
+    "name": "T023",
+    "he": "קבוצות חומר (הגדרה)",
+    "en": "Material group",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 2,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   },
+   {
+    "name": "T023T",
+    "he": "טקסטים לקבוצת חומר",
+    "en": "Material group",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 3,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   },
+   {
+    "name": "T399X",
+    "he": "פרמטרי בקרת MRP למפעל",
+    "en": "Plant",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי (Customizing).",
+    "fields": 4,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   },
+   {
+    "name": "TCK03",
+    "he": "וריאנט תמחיר",
+    "en": "Costing variant",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "תואם; הערכה ב-Material Ledger/ACDOCA.",
+    "fields": 3,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   },
+   {
+    "name": "T438M",
+    "he": "סוג MRP",
+    "en": "MRP type",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "MRP Live - חלק מהפרמטרים מותאמים; אמת מול SAP Help.",
+    "fields": 2,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   },
+   {
+    "name": "T003O",
+    "he": "סוגי פקודה (הגדרה)",
+    "en": "Order type",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי (Customizing).",
+    "fields": 4,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   },
+   {
+    "name": "TCO01",
+    "he": "מפעל",
+    "en": "Plant",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי (Customizing).",
+    "fields": 4,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   },
+   {
+    "name": "TJ30",
+    "he": "סטטוסי משתמש (הגדרה)",
+    "en": "Status profile",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 4,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   },
+   {
+    "name": "TJ30T",
+    "he": "טקסטים לסטטוס משתמש",
+    "en": "Status profile",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 5,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   },
+   {
+    "name": "BUT000",
+    "he": "נתוני אב שותף עסקי",
+    "en": "Business partner number",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "הוחלף - Business Partner חובה (CVI); ראה SAP Note 2265093.",
+    "fields": 5,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   },
+   {
+    "name": "TC22",
+    "he": "מפתח בקרה",
+    "en": "Control key",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי (Customizing).",
+    "fields": 4,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   },
+   {
+    "name": "JEST",
+    "he": "סטטוסי אובייקט פעילים",
+    "en": "Object number",
+    "tcodes": "BS22, BS23, IW33, COR3",
+    "fiori": "",
+    "s4": "ללא שינוי; ניהול סטטוס זהה ב-S/4.",
+    "fields": 4,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   },
+   {
+    "name": "JSTO",
+    "he": "פרופיל סטטוס לאובייקט",
+    "en": "Object number",
+    "tcodes": "BS02, BS22",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 4,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   },
+   {
+    "name": "TJ02T",
+    "he": "סטטוס מערכת פנימי",
+    "en": "Internal system status",
+    "tcodes": "",
+    "fiori": "",
+    "s4": "ללא שינוי.",
+    "fields": 4,
+    "topic": "7. קונפיגורציה (Customizing)",
+    "status": "Not started"
+   }
+  ],
+  "funcs": [
+   {
+    "name": "BAPI_MATERIAL_SAVEDATA",
+    "he": "יצירה/עדכון אב חומר - ליבת הטעינה ההמונית והממשקים"
+   },
+   {
+    "name": "BAPI_MATERIAL_GET_DETAIL",
+    "he": "שליפת נתוני חומר לדוחות/ממשקים"
+   },
+   {
+    "name": "MATMAS (MATMAS05)",
+    "he": "הפצת אב חומר ל/מ-מערכות חיצוניות (Zetes/Daymax)"
+   },
+   {
+    "name": "MARA_SINGLE_READ / MARC_SINGLE_READ",
+    "he": "קריאת חומר/מפעל בודד"
+   },
+   {
+    "name": "BAPI_MATERIAL_SAVEDATA - עדכון תיאורי חומר",
+    "he": ""
+   },
+   {
+    "name": "MAKT_SINGLE_READ - קריאת תיאור חומר",
+    "he": ""
+   },
+   {
+    "name": "BAPI_MATERIAL_SAVEDATA - עדכון נתוני מפעל",
+    "he": ""
+   },
+   {
+    "name": "MARC_SINGLE_READ - קריאת נתוני מפעל",
+    "he": ""
+   },
+   {
+    "name": "BAPI_MATERIAL_SAVEDATA - יצירה/עדכון נתוני חומר",
+    "he": ""
+   },
+   {
+    "name": "BAPI_MATERIAL_GET_DETAIL - שליפת פרטי חומר",
+    "he": ""
+   },
+   {
+    "name": "BAPI_MATERIAL_SAVEDATA - עדכון המרות UoM",
+    "he": ""
+   },
+   {
+    "name": "MATERIAL_UNIT_CONVERSION - המרת כמות בין יחידות + עיגול",
+    "he": ""
+   },
+   {
+    "name": "MD_CONVERT_MATERIAL_UNIT - חישוב מקדם המרה (1% פחת)",
+    "he": ""
+   },
+   {
+    "name": "BAPI_MATERIAL_SAVEDATA - עדכון הערכה",
+    "he": ""
+   },
+   {
+    "name": "CKMVFM_MATERIAL_PRICE_READ - קריאת מחיר חומר",
+    "he": ""
+   },
+   {
+    "name": "BAPI_BATCH_CREATE - יצירת אצווה",
+    "he": ""
+   },
+   {
+    "name": "VB_BATCH_DETAIL_GET - שליפת פרטי אצווה",
+    "he": ""
+   },
+   {
+    "name": "BAPI_BATCH_GET_DETAIL - שליפת אצווה (BBD)",
+    "he": ""
+   },
+   {
+    "name": "VB_BATCH_VERIFY - אימות אצווה במפעל",
+    "he": ""
+   },
+   {
+    "name": "UNIT_CONVERSION_SIMPLE - המרת יחידות",
+    "he": ""
+   },
+   {
+    "name": "DIMENSION_GET - שליפת מימד יחידה",
+    "he": ""
+   },
+   {
+    "name": "BAPI_MATERIAL_BOM_GROUP_CREATE",
+    "he": "יצירת עץ מוצר (S/4 BOM API)"
+   },
+   {
+    "name": "CSAP_MAT_BOM_MAINTAIN",
+    "he": "תחזוקת עץ מוצר (ECC)"
+   },
+   {
+    "name": "BOMMAT",
+    "he": "הפצת עץ מוצר חומר בין מערכות"
+   },
+   {
+    "name": "CS_BOM_EXPL_MAT_RC1",
+    "he": "פיצוץ עץ מוצר לחומר"
+   },
+   {
+    "name": "BAPI_MATERIAL_BOM_GROUP_CREATE - יצירת עץ מוצר (S/4)",
+    "he": ""
+   },
+   {
+    "name": "CSAP_MAT_BOM_MAINTAIN - תחזוקת עץ מוצר",
+    "he": ""
+   },
+   {
+    "name": "BAPI_MATERIAL_BOM_GROUP_CREATE - יצירת פריטי עץ מוצר",
+    "he": ""
+   },
+   {
+    "name": "CS_BOM_EXPL_MAT_RC1 - פיצוץ עץ מוצר",
+    "he": ""
+   },
+   {
+    "name": "CP_RECIPE_READ",
+    "he": "קריאת מתכון ייצור"
+   },
+   {
+    "name": "BAPI_CENTRAL_CHARACT_CREATE",
+    "he": "יצירת מאפיין בדיקה ראשי (QM)"
+   },
+   {
+    "name": "LOIPRO",
+    "he": "פק\"ע/הוראות ייצור ל-MES"
+   },
+   {
+    "name": "Control Recipe / PI Sheet (PI Messages)",
+    "he": "שליחת הוראות תהליך לבקר/MES (Zetes/Daymax)"
+   },
+   {
+    "name": "CP_DI_OPERATION_READ - קריאת פעולות/פאזות",
+    "he": ""
+   },
+   {
+    "name": "BAPI_ROUTING_GETDETAIL - שליפת פרטי מתכון",
+    "he": ""
+   },
+   {
+    "name": "BAPI_PROCORD_CREATE - יצירת פק\"ע ייצור",
+    "he": ""
+   },
+   {
+    "name": "BAPI_PROCORD_GET_DETAIL - שליפת פרטי פק\"ע",
+    "he": ""
+   },
+   {
+    "name": "BAPI_CENTRAL_CHARACT_CREATE - יצירת מאפיין בדיקה",
+    "he": ""
+   },
+   {
+    "name": "QPK1_INSPCHAR_READ - קריאת מאפייני בדיקה",
+    "he": ""
+   },
+   {
+    "name": "BAPI_MATERIAL_SAVEDATA (PVERSIONS)",
+    "he": "יצירה/עדכון גרסת ייצור"
+   },
+   {
+    "name": "BAPI_PRODVERS_CREATE_REPLACE",
+    "he": "יצירה/החלפת גרסת ייצור (אמת)"
+   },
+   {
+    "name": "CM_FV_PROD_VERS_READ",
+    "he": "קריאת גרסאות ייצור לחומר/מפעל"
+   },
+   {
+    "name": "CR_WORK_CENTER_READ",
+    "he": "קריאת נתוני מרכז עבודה/משאב"
+   },
+   {
+    "name": "CRAP_WORKCENTER_GET_DETAIL",
+    "he": "שליפת פרטי משאב"
+   },
+   {
+    "name": "CY_CAPACITY_LOAD",
+    "he": "חישוב עומס קיבולת"
+   },
+   {
+    "name": "CR_COST_CENTER_READ - קריאת שיוך מרכז עלות",
+    "he": ""
+   },
+   {
+    "name": "CY_CAPACITY_HEADER_READ - קריאת כותרת קיבולת",
+    "he": ""
+   },
+   {
+    "name": "BAPI_PROCORD_CREATE / _RELEASE",
+    "he": "יצירה/שחרור פק\"ע ייצור"
+   },
+   {
+    "name": "BAPI_PROCORDCONF_CREATE_TT",
+    "he": "דיווח ביצוע פק\"ע (Time Ticket)"
+   },
+   {
+    "name": "PPCC1 (PP-PI message)",
+    "he": "הודעות תהליך/דיווח מהקו חזרה ל-SAP"
+   },
+   {
+    "name": "BAPI_PROCORD_CREATE - יצירת פק\"ע",
+    "he": ""
+   },
+   {
+    "name": "BAPI_PROCORD_GET_LIST - שליפת רשימת פק\"ע",
+    "he": ""
+   },
+   {
+    "name": "BAPI_RESERVATION_CREATE1 - יצירת הזמנת רכיבים",
+    "he": ""
+   },
+   {
+    "name": "BAPI_GOODSMVT_CREATE - פליטת חומר לפק\"ע (261)",
+    "he": ""
+   },
+   {
+    "name": "BAPI_PROCORDCONF_CREATE_TT - דיווח ביצוע (Time Ticket)",
+    "he": ""
+   },
+   {
+    "name": "BAPI_PROCORDCONF_GETLIST - רשימת דיווחים",
+    "he": ""
+   },
+   {
+    "name": "BAPI_BUPA_CREATE_FROM_DATA",
+    "he": "יצירת שותף עסקי (BP)"
+   },
+   {
+    "name": "CVI_VENDOR_TO_BP_CONVERT",
+    "he": "המרת ספק ל-BP (CVI)"
+   },
+   {
+    "name": "STATUS_CHANGE_INTERN",
+    "he": "שינוי סטטוס פנימי"
+   },
+   {
+    "name": "VIEW_MAINTENANCE_CALL (SM30) - תחזוקת טבלת קונפיגורציה",
+    "he": ""
+   },
+   {
+    "name": "RFC_READ_TABLE - קריאת תוכן הטבלה",
+    "he": ""
+   },
+   {
+    "name": "CO_BT_ORDER_TYPE_CHECK - בדיקת סוג פק\"ע",
+    "he": ""
+   },
+   {
+    "name": "STATUS_CHANGE_EXTERN - שינוי סטטוס משתמש",
+    "he": ""
+   },
+   {
+    "name": "USER_STATUS_CHECK - בדיקת סטטוס משתמש מותר",
+    "he": ""
+   },
+   {
+    "name": "BAPI_BUPA_CREATE_FROM_DATA - יצירת שותף עסקי",
+    "he": ""
+   },
+   {
+    "name": "CVI_VENDOR_TO_BP_CONVERT - המרת ספק ל-BP (CVI)",
+    "he": ""
+   },
+   {
+    "name": "STATUS_READ - קריאת סטטוסי אובייקט פעילים",
+    "he": ""
+   },
+   {
+    "name": "STATUS_CHANGE_INTERN - שינוי סטטוס מערכת פנימי",
+    "he": ""
+   },
+   {
+    "name": "STATUS_OBJECT_CREATE - יצירת אובייקט סטטוס",
+    "he": ""
+   },
+   {
+    "name": "STATUS_PROFILE_READ - קריאת פרופיל סטטוס",
+    "he": ""
+   },
+   {
+    "name": "STATUS_TEXT_READ - קריאת טקסט סטטוס מערכת",
+    "he": ""
+   }
+  ]
+ },
+ "books": [
+  {
+   "id": "book1",
+   "title": "Configuring Plant Maintenance in SAP S/4HANA",
+   "module": "PM",
+   "chapters": 9,
+   "sections": 140,
+   "hebrew": false,
+   "minutes": 1206
+  },
+  {
+   "id": "book10",
+   "title": "Sales and Operations Planning with SAP IBP",
+   "module": "S&OP",
+   "chapters": 11,
+   "sections": 211,
+   "hebrew": false,
+   "minutes": 960
+  },
+  {
+   "id": "book11",
+   "title": "Prerequisites for SAP S/4HANA End-to-End Implementation Training",
+   "module": "S/4HANA",
+   "chapters": 9,
+   "sections": 77,
+   "hebrew": false,
+   "minutes": 215
+  },
+  {
+   "id": "book2",
+   "title": "Production Planning with SAP S/4HANA",
+   "module": "PP",
+   "chapters": 15,
+   "sections": 496,
+   "hebrew": false,
+   "minutes": 2077
+  },
+  {
+   "id": "book3",
+   "title": "Sourcing and Procurement with SAP S/4HANA",
+   "module": "MM",
+   "chapters": 18,
+   "sections": 374,
+   "hebrew": false,
+   "minutes": 1681
+  },
+  {
+   "id": "book4",
+   "title": "PP/DS with SAP S/4HANA",
+   "module": "PP/DS",
+   "chapters": 11,
+   "sections": 195,
+   "hebrew": false,
+   "minutes": 1288
+  },
+  {
+   "id": "book5",
+   "title": "Quality Management with SAP S/4HANA",
+   "module": "QM",
+   "chapters": 20,
+   "sections": 502,
+   "hebrew": false,
+   "minutes": 1865
+  },
+  {
+   "id": "book6",
+   "title": "Integrating Warehouse Management in SAP S/4HANA",
+   "module": "EWM",
+   "chapters": 10,
+   "sections": 88,
+   "hebrew": false,
+   "minutes": 765
+  },
+  {
+   "id": "book7",
+   "title": "SAP Fiori Apps for SAP S/4HANA: The Quick Reference Guide",
+   "module": "Fiori",
+   "chapters": 11,
+   "sections": 1689,
+   "hebrew": false,
+   "minutes": 2937
+  },
+  {
+   "id": "book8",
+   "title": "Plant Maintenance with SAP S/4HANA — Business User Guide",
+   "module": "PM",
+   "chapters": 10,
+   "sections": 271,
+   "hebrew": true,
+   "minutes": 478
+  },
+  {
+   "id": "book9",
+   "title": "Plant Maintenance with SAP S/4HANA: Business User Guide",
+   "module": "PM",
+   "chapters": 10,
+   "sections": 271,
+   "hebrew": false,
+   "minutes": 1287
+  }
+ ]
+}

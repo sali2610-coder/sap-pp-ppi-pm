@@ -1,0 +1,27 @@
+/* Visualization tokens — SAP by Sali NEO.
+   SCOPING RULE (this is what keeps the palette explanatory rather than a rainbow):
+     module hue  -> navigation + chrome  (which area of SAP you are in)
+     object hue  -> visualization surfaces ONLY (ERD, universe, process flow)
+     status hue  -> state, as dot+label, never as text colour
+   The three never appear as competing encodings on the same element.
+   Chroma bands: module low (<=75) < object mid < status high (>=154). */
+:root{
+  --obj-master: #1f6f8b;
+  --obj-structure: #2d7a5f;
+  --obj-transaction: #8a5a1f;
+  --obj-movement: #7a3f6b;
+  --obj-status: #5f5f8a;
+  --obj-text: #6b6b6b;
+  --obj-config: #8a3f4a;
+  --rel-1-1:#3f6f6a;  --rel-n-1:#5a6b8a;  --rel-inferred:#9aa2ad;
+}
+html[data-theme="dark"]{
+  --obj-master: #6fc4e0;
+  --obj-structure: #74d0aa;
+  --obj-transaction: #e0ae6f;
+  --obj-movement: #d494c4;
+  --obj-status: #a9a9de;
+  --obj-text: #b8b8b8;
+  --obj-config: #e09aa4;
+  --rel-1-1:#7cc0b6;  --rel-n-1:#93b0e0;  --rel-inferred:#6b727c;
+}
