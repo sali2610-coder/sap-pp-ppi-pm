@@ -13,7 +13,8 @@
 // explicit sentence, never a link that implies coverage that does not exist.
 
 import { allBookIds, getBook } from "@/lib/library/registry";
-import { chapterTitle } from "@/lib/library/book";
+import { chapterTitle, sectionTitle } from "@/lib/library/book";
+import { isExactSection } from "./links";
 import { KIND_LABEL, identityOf, type BookKind } from "@/lib/book-identity";
 import { PM_DATA, PPPI_DATA } from "@/data/sapData";
 import { overviewStats } from "@/lib/module-portal";
@@ -68,10 +69,22 @@ const STRUCTURE_HE: Record<string, string> = {
 
 /* -------------------------------------------------------------------- types */
 
+/** One real subchapter, as a tuple: [id, title].
+ *
+ *  A tuple rather than an object on purpose. There are 4,314 sections across the
+ *  eleven books and this list is serialised into a statically exported page;
+ *  `{"id":…,"title":…}` would spend roughly 90 KB on repeating two key names,
+ *  and the href is derivable (./links.ts) so it is not shipped either. */
+export type SectionRow = [id: string, title: string];
+
 export interface BookChapterRow {
   n: number;
   title: string;
+  /** How many subchapters — the number the shelf already showed. */
   sections: number;
+  /** The subchapters themselves, in the book's own order. Never trimmed and
+   *  never generated: this IS data/books/<id>.json's `sections`. */
+  rows: SectionRow[];
 }
 
 /** Where the NEO dictionary can take this book's module next. `null` when the
@@ -90,6 +103,8 @@ export interface BookCard {
   id: string;
   /** The EXISTING library URL. Unchanged, unwrapped, and the only way out. */
   href: string;
+  /** NEO's own control surface for this book. Not a reader. */
+  hubHref: string;
   titleEn: string;
   titleHe: string | null;
   module: string;
@@ -101,11 +116,16 @@ export interface BookCard {
   structureHe: string;
   publisher: string | null;
   pages: number | null;
+  /** Only some books carry a figure count in their metadata. */
+  figures: number | null;
   chapters: number;
   sections: number;
-  /** Longest chapter, by section count — the one number that says where the
-   *  weight of the book actually sits. */
-  heaviest: BookChapterRow | null;
+  /** True when EVERY section id in this book is a dotted number, i.e. when the
+   *  reader's `?s=` lander will accept it and land on the subchapter itself. */
+  exact: boolean;
+  /** Set only when `exact` is false: says, in words, what the rows will do
+   *  instead. Never a promise the reader cannot keep. */
+  exactNote: string | null;
   chapterRows: BookChapterRow[];
   dict: BookDict | null;
   dictNote: string | null;
@@ -118,7 +138,9 @@ export interface BookCard {
 
 export interface BooksData {
   books: BookCard[];
-  groups: { module: string; moduleHe: string; mod: string; ids: string[] }[];
+  /** One shelf. `chapters`/`sections` are the sums of the books on it, so a
+   *  shelf header can state its own weight without the surface re-adding it. */
+  groups: { module: string; moduleHe: string; mod: string; ids: string[]; chapters: number; sections: number }[];
   totals: {
     books: number;
     chapters: number;
@@ -182,15 +204,21 @@ export function booksData(): BooksData {
       n: c.n,
       title: chapterTitle(c),
       sections: c.sections.length,
+      rows: c.sections.map((s): SectionRow => [s.id, sectionTitle(s)]),
     }));
     const sections = rows.reduce((n, r) => n + r.sections, 0);
-    const heaviest = rows.length ? rows.reduce((a, r) => (r.sections > a.sections ? r : a)) : null;
     const identity = identityOf(b.id);
     const { dict, note } = dictOf(b.meta.module);
+    const exact = rows.every((r) => r.rows.every(([id]) => isExactSection(id)));
+    // `figures` is present on some books' metadata and absent on others. The
+    // shared BookMeta type does not declare it, so it is read explicitly rather
+    // than widened — and stays null when the book does not carry one.
+    const figures = (b.meta as { figures?: unknown }).figures;
 
     books.push({
       id: b.id,
       href: `/library/${b.id}/`,
+      hubHref: `/neo/books/${b.id}/`,
       titleEn,
       titleHe,
       module: b.meta.module,
@@ -202,9 +230,13 @@ export function booksData(): BooksData {
       structureHe: STRUCTURE_HE[b.meta.structure] ?? b.meta.structure,
       publisher: b.meta.publisher?.trim() || null,
       pages: typeof b.meta.pages === "number" ? b.meta.pages : null,
+      figures: typeof figures === "number" ? figures : null,
       chapters: b.chapters.length,
       sections,
-      heaviest,
+      exact,
+      exactNote: exact
+        ? null
+        : "מזהי הערכים בספר הזה הם מזהי אפליקציות Fiori ולא מספרי סעיף, והקישור העמוק של הקורא מקבל מספרי סעיף בלבד. לחיצה על ערך פותחת את הפרק שלו בקורא, לא את הערך עצמו.",
       chapterRows: rows,
       dict,
       dictNote: note,
@@ -225,8 +257,20 @@ export function booksData(): BooksData {
   const groups: BooksData["groups"] = [];
   for (const bk of books) {
     const g = groups.find((x) => x.module === bk.module);
-    if (g) g.ids.push(bk.id);
-    else groups.push({ module: bk.module, moduleHe: bk.moduleHe, mod: bk.mod, ids: [bk.id] });
+    if (g) {
+      g.ids.push(bk.id);
+      g.chapters += bk.chapters;
+      g.sections += bk.sections;
+    } else {
+      groups.push({
+        module: bk.module,
+        moduleHe: bk.moduleHe,
+        mod: bk.mod,
+        ids: [bk.id],
+        chapters: bk.chapters,
+        sections: bk.sections,
+      });
+    }
   }
 
   const twins = books.filter((b) => b.module === "PM" && b.kind === "business-user").map((b) => b.id);
@@ -252,4 +296,47 @@ export function booksData(): BooksData {
         ? `${twins[0]} ו-${twins[1]} הם אותו מדריך משתמש עסקי בשתי סכימות שדה שונות. שניהם מוצגים כאן כפי שהם קיימים במאגר, ולא מאוחדים לכרטיס אחד.`
         : null,
   };
+}
+
+/* ----------------------------------------------------------------- one book */
+
+export interface BookHubData {
+  book: BookCard;
+  /** The other books on the same shelf. Real neighbours, not "related". */
+  shelf: { id: string; title: string; hubHref: string }[];
+  /** Shelf identity, so the hub carries the module it belongs to. */
+  module: { code: string; he: string; mod: string; books: number };
+}
+
+/**
+ * The build-time payload for /neo/books/<id>/.
+ *
+ * Deliberately per-book: the eleven books hold 4,314 subchapters between them
+ * and book7 alone is 1,689 of them, so a hub that carried all of them would put
+ * every other book's table of contents into the page you asked for.
+ */
+export function bookHubData(id: string): BookHubData | null {
+  const d = booksData();
+  const book = d.books.find((b) => b.id === id);
+  if (!book) return null;
+  const group = d.groups.find((g) => g.module === book.module);
+  return {
+    book,
+    shelf: (group?.ids ?? [])
+      .filter((x) => x !== id)
+      .map((x) => d.books.find((b) => b.id === x))
+      .filter((b): b is BookCard => Boolean(b))
+      .map((b) => ({ id: b.id, title: b.titleHe || b.titleEn, hubHref: b.hubHref })),
+    module: {
+      code: book.module,
+      he: book.moduleHe,
+      mod: book.mod,
+      books: group?.ids.length ?? 1,
+    },
+  };
+}
+
+/** Ids for generateStaticParams — the registry's own list, unfiltered. */
+export function bookIds(): string[] {
+  return allBookIds();
 }

@@ -1,27 +1,34 @@
 /* ============================================================================
-   PROJECT NEO · STAGE 2B — THE BOOKS ENTRY
+   PROJECT NEO · THE BOOKS AREA
    ----------------------------------------------------------------------------
-   Imported by app/neo/books/page.tsx only. Every selector is anchored on .nb,
-   which exists on that one route, so nothing here can reach another page, and
-   not one token in app/globals.css is redeclared — this file only CONSUMES.
+   Imported by app/neo/books/page.tsx and app/neo/books/[bookId]/page.tsx only.
+   Every selector is anchored on .nb, which exists on those routes alone, so
+   nothing here can reach another page, and not one token in app/globals.css is
+   redeclared — this file only CONSUMES.
+
+   Controls come from app/neo/ui.css (.nu-btn, .nu-btn2, .nu-ghost, .nu-link,
+   .nu-filter, .nu-chip, .nu-status, .nu-card). This sheet does not define a
+   second button language; where a control needs a different footprint it adds a
+   modifier class ALONGSIDE the .nu- class rather than replacing it.
 
    Rules of the house, kept from app/neo/home.css:
-     · logical properties throughout; the two places where a physical value is
-       unavoidable (transform-origin) carry an explicit [dir="ltr"] twin
+     · logical properties throughout; the handful of places where a physical
+       value is unavoidable (transform-origin, a directional shadow) carry an
+       explicit [dir="ltr"] twin
      · only transform / opacity are animated
-     · MODULE hue appears here as binding colour, surface tint, ring, line and
-       band marker — never as a small standalone dot, which is the form the
+     · MODULE hue appears here as binding colour, surface tint, ring, edge and
+       shelf marker — never as a small standalone dot, which is the form the
        design system reserves for --status-*
-     · brand red is the single global accent: one button, nothing else
+     · brand red is the single global accent and is never a module colour
      · no image, no remote asset, no webfont. A cover is DRAWN from the book's
        own metadata, because the project ships offline and no artwork exists
    ========================================================================== */
 
-/* The shell canvas is a padded, gapped grid for ordinary pages. The shelf is a
-   full-bleed environment and takes the canvas over, exactly the way Home does.
-   The selector is over-qualified on purpose: globals.css sets phone padding at
-   specificity (0,2,1), so a bare `.nx-canvas:has(> .nb)` would lose on phones
-   only — the one case a full-bleed page must not get wrong. */
+/* The shell canvas is a padded, gapped grid for ordinary pages. The books area
+   is a full-bleed environment and takes the canvas over, exactly the way Home
+   does. The selector is over-qualified on purpose: globals.css sets phone
+   padding at specificity (0,2,1), so a bare `.nx-canvas:has(> .nb)` would lose
+   on phones only — the one case a full-bleed page must not get wrong. */
 html .nx-app .nx-canvas:has(> .nb) {
   display: block;
   padding: 0;
@@ -29,7 +36,7 @@ html .nx-app .nx-canvas:has(> .nb) {
   overflow-x: clip;
 }
 
-/* Deliberately NOT `isolation: isolate`. The entry panel is a fixed overlay at
+/* Deliberately NOT `isolation: isolate`. The quick view is a fixed overlay at
    z-index 70 and has to out-stack the shell's rail (20) and preview (35); an
    isolated root here would trap it below both. */
 .nb {
@@ -128,65 +135,127 @@ html .nx-app .nx-canvas:has(> .nb) {
 .nb-dictbar-a em { font-style: normal; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
 /* ==========================================================================
-   FILTER — module chips
+   CONTINUE READING — the head of the shelf.
+   Rendered only when a stored location resolves against a book that is really
+   on disk, so this block is either true or absent.
+   ========================================================================== */
+.nb-cont {
+  display: grid;
+  gap: var(--sp-2);
+  justify-items: start;
+  padding: var(--sp-5) var(--sp-6);
+  border: 1px solid color-mix(in srgb, var(--m) 30%, var(--hairline));
+  border-radius: var(--r-lg);
+  background:
+    radial-gradient(30rem 12rem at 100% 0%, color-mix(in srgb, var(--m) 10%, transparent), transparent 70%),
+    color-mix(in srgb, var(--surface) 86%, transparent);
+  max-inline-size: 62rem;
+}
+[dir="ltr"] .nb-cont {
+  background:
+    radial-gradient(30rem 12rem at 0% 0%, color-mix(in srgb, var(--m) 10%, transparent), transparent 70%),
+    color-mix(in srgb, var(--surface) 86%, transparent);
+}
+.nb-cont-e {
+  display: flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--t-micro); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-3);
+}
+.nb-cont-e svg { color: var(--m); flex: none; }
+.nb-cont-t { font-size: var(--t-h3, 1.125rem); font-weight: 700; letter-spacing: -.015em; line-height: 1.3; }
+.nb-cont-l { font-size: var(--t-xs); color: var(--ink-2); line-height: 1.6; }
+.nb-cont-a { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin-block-start: var(--sp-2); }
+
+/* ==========================================================================
+   FILTER — module toggles, in the system's own .nu-filter form
    ========================================================================== */
 .nb-filter { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
-.nb-chip {
-  display: inline-flex; align-items: center; gap: var(--sp-2);
-  min-block-size: var(--c-tap);
-  padding-inline: var(--sp-4);
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-pill);
-  background: var(--surface);
-  color: var(--ink-2);
-  font-size: var(--t-xs);
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 180ms var(--ease-out-expo), background-color 180ms, border-color 180ms, color 180ms;
-}
-.nb-chip:hover { transform: translateY(-1px); color: var(--ink-1); }
-.nb-chip em { font-style: normal; font-weight: 500; color: var(--ink-3); font-variant-numeric: tabular-nums; }
-.nb-chip-code { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; }
-.nb-chip-he { color: var(--ink-3); font-weight: 500; }
-.nb-chip[data-mod="1"][aria-pressed="true"] {
-  color: var(--ink-1);
-  background: color-mix(in srgb, var(--m) 12%, var(--surface));
-  border-color: color-mix(in srgb, var(--m) 55%, transparent);
-}
-.nb-chip[data-mod="1"][aria-pressed="true"] .nb-chip-he { color: var(--ink-2); }
-.nb-chip[aria-pressed="true"]:not([data-mod]) {
-  color: var(--ink-1);
-  border-color: color-mix(in srgb, var(--ink-3) 45%, transparent);
-  background: var(--surface-2, var(--surface));
-}
-.nb-count { font-size: var(--t-micro); color: var(--ink-3); }
+.nb-f-he { color: var(--ink-3); font-weight: 500; }
+.nb-f-n { font-style: normal; font-weight: 500; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nu-filter[aria-pressed="true"] .nb-f-he { color: var(--ink-2); }
+.nb-count { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.6; max-inline-size: 70ch; }
 
 /* ==========================================================================
-   MODULE BAND — module colour as a LINE and a section marker
+   THE SHELVES — one continuous editorial run
+   --------------------------------------------------------------------------
+   The fault this replaces: a full-width module heading over a grid holding a
+   single book leaves a module-sized hole beside that book, and eight of the
+   nine modules here have exactly one book. So the module identity moves into a
+   COLUMN beside the books. A one-book module is then one shelf tall, and the
+   next module begins on the next line rather than a screen later.
+
+   Each shelf carries its own quiet identity — an inline-start edge in the
+   module hue, a low corner light, and a hairline that separates it from the
+   next. Never a filled coloured rectangle.
    ========================================================================== */
-.nb-band { display: grid; gap: var(--sp-5); }
-.nb-band-h { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
-.nb-band-line {
-  inline-size: 2.5rem; block-size: 3px; border-radius: 2px;
-  background: var(--m);
-  flex: none;
+.nb-shelves { display: grid; }
+
+.nb-shelf {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 12.5rem) minmax(0, 1fr);
+  gap: var(--sp-4) var(--sp-8);
+  align-items: start;
+  padding-block: var(--sp-7);
+  padding-inline-start: var(--sp-5);
+  border-block-start: 1px solid var(--hairline);
+  /* Module lighting: a single soft corner wash at the bound edge of the shelf,
+     under 6% so it reads as air rather than as a panel. */
+  background: radial-gradient(34rem 16rem at 100% 0%, color-mix(in srgb, var(--m) 6%, transparent), transparent 72%);
 }
-.nb-band-t { display: flex; align-items: baseline; gap: var(--sp-2); font-size: var(--t-h2); font-weight: 700; letter-spacing: -.012em; }
-.nb-band-t .nb-sap { color: var(--m); }
-.nb-band-t span:last-child { color: var(--ink-2); font-weight: 500; font-size: var(--t-sm); }
-.nb-band-n { font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: auto; }
+[dir="ltr"] .nb-shelf {
+  background: radial-gradient(34rem 16rem at 0% 0%, color-mix(in srgb, var(--m) 6%, transparent), transparent 72%);
+}
+.nb-shelf:first-child { border-block-start: 0; }
+.nb-shelf:last-child { border-block-end: 1px solid var(--hairline); }
+
+/* The shelf's spine colour: a hairline-thin module edge that fades at both
+   ends, so the run of shelves reads as one object with coloured joints. */
+.nb-shelf-edge {
+  position: absolute;
+  inset-block: var(--sp-5);
+  inset-inline-start: 0;
+  inline-size: 3px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, transparent, var(--m) 16%, var(--m) 84%, transparent);
+  opacity: .55;
+}
+
+.nb-shelf-h { display: grid; align-content: start; gap: 4px; }
+.nb-shelf-t { display: grid; gap: 1px; }
+.nb-shelf-code {
+  font-size: clamp(1.125rem, 1.6cqi, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: var(--m);
+  line-height: 1.1;
+}
+.nb-shelf-he { font-size: var(--t-sm); font-weight: 600; color: var(--ink-1); }
+.nb-shelf-n { font-size: var(--t-micro); color: var(--ink-3); }
+.nb-shelf-n2 { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; font-variant-numeric: tabular-nums; }
+/* A separator rule, deliberately a LINE and not a dot: a small filled dot is
+   reserved for --status-* and must never appear as decoration. */
+.nb-shelf-n2 i { inline-size: 1px; block-size: 9px; background: var(--hairline); flex: none; }
 
 /* ==========================================================================
-   THE SHELF
+   THE BOOKS
    ========================================================================== */
-.nb-grid, .nb-chlist { list-style: none; margin: 0; padding: 0; }
+.nb-grid, .nb-toc-l, .nb-sec-l { list-style: none; margin: 0; padding: 0; }
 .nb-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr));
-  gap: var(--sp-8) var(--sp-6);
+  grid-template-columns: repeat(auto-fill, minmax(min(13rem, 100%), 1fr));
+  gap: var(--sp-6) var(--sp-5);
   align-items: start;
 }
-.nb-card { display: grid; gap: var(--sp-3); align-content: start; min-inline-size: 0; }
+.nb-card { position: relative; display: grid; gap: var(--sp-3); align-content: start; min-inline-size: 0; }
+/* The book the surface is currently "on" keeps a quiet module ring, so a return
+   from the reader lands on a shelf where the book you left is still identifiable
+   without scrolling the page for you. */
+.nb-card[data-sel="1"] .nb-cov-board { box-shadow: var(--elev-3), 0 0 0 2px color-mix(in srgb, var(--m) 70%, transparent); }
+/* While a bookmark label is open it must sit above its neighbours. */
+.nb-card:has(.nb-mark:hover), .nb-card:has(.nb-mark:focus-visible) { z-index: 4; }
+
+.nb-slot { position: relative; }
 
 /* The slab is the tilt stage. Perspective lives HERE, not on the grid, so each
    book has its own vanishing point and a tilt on one never skews its neighbour. */
@@ -197,7 +266,7 @@ html .nx-app .nx-canvas:has(> .nb) {
   border: 0;
   background: none;
   cursor: pointer;
-  perspective: 1100px;
+  perspective: 1400px;
   border-radius: var(--r-md);
 }
 /* No focus style is declared here on purpose: globals.css already gives every
@@ -216,7 +285,54 @@ html .nx-app .nx-canvas:has(> .nb) {
   transition: opacity 300ms var(--ease-out-expo), transform 300ms var(--ease-out-expo);
   transform-origin: 50% 0;
 }
-.nb-slab:hover::after, .nb-slab:focus-visible::after { opacity: .8; transform: scaleX(.86); }
+.nb-slab:hover::after, .nb-slab:focus-visible::after { opacity: .78; transform: scaleX(.88); }
+
+/* --- THE BOOKMARK -------------------------------------------------------- */
+/* Present only when a real stored location resolved. Icon-sized so it never
+   covers the cover, with the sentence revealed on hover or keyboard focus —
+   and printed under the cover as well (.nb-card-res), because on a touch
+   screen there is no hover and a bookmark you cannot read is decoration. */
+.nb-mark {
+  position: absolute;
+  inset-block-start: -8px;
+  inset-inline-end: 6px;
+  z-index: 3;
+  inline-size: var(--c-tap);
+  block-size: var(--c-tap);
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-pill);
+  border: 1px solid color-mix(in srgb, var(--m) 48%, var(--hairline));
+  background: var(--surface);
+  box-shadow: var(--elev-2);
+  color: var(--m);
+  transition: transform 200ms var(--ease-out-expo), box-shadow 200ms var(--ease-out-expo);
+}
+.nb-mark:hover, .nb-mark:focus-visible { transform: translateY(-2px); box-shadow: var(--elev-3); }
+.nb-mark-t {
+  position: absolute;
+  inset-inline-end: calc(100% + 8px);
+  inset-block-start: 50%;
+  translate: 0 -50%;
+  inline-size: max-content;
+  max-inline-size: 17rem;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-md);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  box-shadow: var(--elev-3);
+  color: var(--ink-1);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: start;
+  white-space: normal;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(6px);
+  transition: opacity 180ms var(--ease-out-expo), transform 180ms var(--ease-out-expo);
+}
+.nb-mark:hover .nb-mark-t, .nb-mark:focus-visible .nb-mark-t { opacity: 1; transform: none; }
 
 /* ==========================================================================
    THE COVER — drawn, never photographed
@@ -236,6 +352,7 @@ html .nx-app .nx-canvas:has(> .nb) {
   container-name: nbcov;
   transform-style: preserve-3d;
   transform:
+    translateY(var(--lift, 0px))
     rotateX(var(--rx, 0deg))
     rotateY(var(--ry, 0deg))
     translateZ(var(--tz, 0px));
@@ -248,12 +365,20 @@ html .nx-app .nx-canvas:has(> .nb) {
   --paper: #efe9dd;
   --paper-2: #cfc6b6;
 }
-.nb-slab[data-tilt="1"]:hover .nb-cov { transition-duration: 110ms; --tz: 16px; }
-.nb-slab:focus-visible .nb-cov { --tz: 16px; }
+
+/* §20 — the hover. A slight lift, a hint of perspective, a deeper spine, a
+   little module light. The angles are deliberately small: past a couple of
+   degrees a book on a shelf starts reading as an effect. Only pointers that can
+   actually hover get it; a touch screen keeps the press state instead. */
+@media (hover: hover) and (pointer: fine) {
+  .nb-slab:hover .nb-cov { --lift: -4px; --tz: 10px; }
+  .nb-slab[data-tilt="1"]:hover .nb-cov { transition-duration: 120ms; }
+}
+.nb-slab:focus-visible .nb-cov { --lift: -4px; --tz: 10px; }
 /* Touch has no hover to lean on, so the press itself is the affordance. This
    uses the standalone `scale` property rather than a transform function, so it
    composes with the tilt instead of wiping it on a mouse-down mid-hover. */
-.nb-slab:active .nb-cov { --tz: 0px; scale: .975; }
+.nb-slab:active .nb-cov { --lift: 0px; --tz: 0px; scale: .975; }
 
 .nb-cov-board {
   position: absolute;
@@ -269,8 +394,13 @@ html .nx-app .nx-canvas:has(> .nb) {
   transition: box-shadow 340ms var(--ease-out-expo);
 }
 .nb-slab:hover .nb-cov-board,
-.nb-slab:focus-visible .nb-cov-board { box-shadow: var(--elev-4), 0 0 0 1px color-mix(in srgb, var(--m) 55%, transparent) inset; }
-/* The book whose entry panel is open keeps a module-coloured ring, so the slot
+.nb-slab:focus-visible .nb-cov-board {
+  box-shadow:
+    var(--elev-4),
+    0 0 0 1px color-mix(in srgb, var(--m) 55%, transparent) inset,
+    0 20px 40px -22px color-mix(in srgb, var(--m) 65%, transparent);
+}
+/* The book whose quick view is open keeps a module-coloured ring, so the slot
    the cover flew out of is still identifiable behind the scrim. A RING, not a
    dot: module colour never takes the dot form. */
 .nb-slab[data-open="1"] .nb-cov-board {
@@ -309,8 +439,19 @@ html .nx-app .nx-canvas:has(> .nb) {
   align-content: end;
   justify-items: center;
   padding-block-end: 10px;
+  transition: box-shadow 300ms var(--ease-out-expo);
 }
 [dir="ltr"] .nb-cov-spine { box-shadow: -1px 0 0 rgba(255,255,255,.13) inset; }
+/* The deeper spine shadow on hover. box-shadow has no logical form, so the
+   physical offset carries an explicit LTR twin. */
+.nb-slab:hover .nb-cov-spine,
+.nb-slab:focus-visible .nb-cov-spine {
+  box-shadow: 1px 0 0 rgba(255,255,255,.16) inset, 10px 0 18px -10px rgba(0,0,0,.6);
+}
+[dir="ltr"] .nb-slab:hover .nb-cov-spine,
+[dir="ltr"] .nb-slab:focus-visible .nb-cov-spine {
+  box-shadow: -1px 0 0 rgba(255,255,255,.16) inset, -10px 0 18px -10px rgba(0,0,0,.6);
+}
 .nb-cov-spine-n {
   font-family: var(--font-mono);
   direction: ltr;
@@ -413,7 +554,7 @@ html .nx-app .nx-canvas:has(> .nb) {
 .nb-slab:hover .nb-cov-gloss { opacity: 1; }
 
 /* Entry size: the same component, larger, with the thickness scaled up. */
-.nb-cov[data-size="entry"] { --tz: 0px; }
+.nb-cov[data-size="entry"] { --tz: 0px; --lift: 0px; }
 
 /* ==========================================================================
    CARD META + THE DIRECT LINK INTO THE READER
@@ -426,28 +567,23 @@ html .nx-app .nx-canvas:has(> .nb) {
   font-size: var(--t-micro); color: var(--ink-2); font-variant-numeric: tabular-nums;
   margin-block-start: 2px;
 }
-/* A separator rule, deliberately a LINE and not a dot: a small filled dot is
-   reserved for --status-* and must never appear as decoration. */
 .nb-card-n i { inline-size: 1px; block-size: 9px; background: var(--hairline); flex: none; }
 .nb-card-k { font-size: var(--t-micro); color: var(--ink-3); }
-
-.nb-go {
-  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  min-block-size: var(--c-tap);
-  padding-inline: var(--sp-4);
-  border: 1px solid color-mix(in srgb, var(--m) 30%, var(--hairline));
-  border-radius: var(--r-pill);
-  background: color-mix(in srgb, var(--m) 6%, transparent);
-  color: var(--ink-1);
-  font-size: var(--t-xs);
-  font-weight: 600;
-  transition: transform 200ms var(--ease-out-expo), background-color 200ms;
+/* The touch-visible half of the bookmark: the same sentence the hover label
+   carries, printed where no pointer is needed to read it. */
+.nb-card-res {
+  display: flex; align-items: start; gap: 5px;
+  font-size: var(--t-micro); line-height: 1.5; color: var(--ink-2);
+  margin-block-start: 2px;
 }
-.nb-go:hover { transform: translateY(-1px); background: color-mix(in srgb, var(--m) 13%, transparent); }
-.nb-go svg { color: var(--ink-3); flex: none; }
+.nb-card-res svg { flex: none; color: var(--m); margin-block-start: 2px; }
+
+/* Modifiers, not replacements. Written at two-class specificity so the sheet
+   order between ui.css and this file can never decide the outcome. */
+.nb-card .nb-go { border-radius: var(--r-pill); }
 
 /* ==========================================================================
-   THE ENTRY — where the cover flies to
+   QUICK VIEW — where the cover flies to
    ========================================================================== */
 .nb-entry {
   position: fixed;
@@ -473,11 +609,11 @@ html .nx-app .nx-canvas:has(> .nb) {
    it is the FLIP element, and on open it starts translated all the way back to
    its slot on the shelf — an `overflow: auto` here would clip the whole flight.
    The scroll lives on the body column instead, which also keeps the cover
-   pinned while a 20-chapter list is scrolled past it. */
+   pinned while a 1,689-row table of contents is scrolled past it. */
 .nb-sheet {
   position: relative;
-  inline-size: min(66rem, 100%);
-  max-block-size: min(48rem, 90dvh);
+  inline-size: min(70rem, 100%);
+  max-block-size: min(52rem, 92dvh);
   display: grid;
   grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr);
@@ -492,7 +628,8 @@ html .nx-app .nx-canvas:has(> .nb) {
 }
 [dir="ltr"] .nb-sheet { background-image: radial-gradient(70% 55% at 0% 0%, color-mix(in srgb, var(--m) 11%, transparent), transparent 66%); }
 .nb-sheet > * { min-inline-size: 0; }
-.nb-sheet-cov { align-self: start; }
+.nb-sheet-side { align-self: start; display: grid; gap: var(--sp-3); }
+.nb-sheet-state { line-height: 1.5; }
 .nb-sheet-body {
   display: grid;
   align-content: start;
@@ -542,29 +679,9 @@ html .nx-app .nx-canvas:has(> .nb) {
 .nb-facts dd:not(.nb-sap) { font-size: var(--t-sm); font-weight: 600; letter-spacing: 0; }
 .nb-none { color: var(--ink-3); font-weight: 500; }
 
-.nb-h3 {
-  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2) var(--sp-3);
-  font-size: var(--t-sm); font-weight: 700; letter-spacing: -.01em;
-}
-.nb-h3 span { font-size: var(--t-micro); font-weight: 500; color: var(--ink-3); }
-
-.nb-chs { display: grid; gap: var(--sp-3); }
-.nb-chlist { display: grid; gap: 1px; }
-.nb-chlist li {
-  display: grid;
-  grid-template-columns: 2rem minmax(0, 1fr) 5rem 3rem;
-  align-items: center;
-  gap: var(--sp-3);
-  min-block-size: 2.25rem;
-  padding-inline: var(--sp-2);
-  border-radius: var(--r-sm);
-  transition: background-color 160ms;
-}
-.nb-chlist li:hover { background: color-mix(in srgb, var(--m) 7%, transparent); }
-.nb-ch-n { font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
-.nb-ch-t { font-size: var(--t-xs); color: var(--ink-1); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.nb-ch-bar { display: block; block-size: 4px; border-radius: 2px; background: var(--hairline); overflow: hidden; }
-.nb-ch-bar i {
+/* Reading progress. A bar in the module hue — never a dot. */
+.nb-prog { display: block; block-size: 4px; border-radius: 2px; background: var(--hairline); overflow: hidden; }
+.nb-prog i {
   display: block;
   block-size: 100%;
   border-radius: inherit;
@@ -575,9 +692,156 @@ html .nx-app .nx-canvas:has(> .nb) {
   transform-origin: 100% 50%;
   transition: transform 520ms var(--ease-emphasis);
 }
-[dir="ltr"] .nb-ch-bar i { transform-origin: 0 50%; }
-.nb-ch-s { font-size: var(--t-micro); color: var(--ink-2); text-align: end; font-variant-numeric: tabular-nums; }
+[dir="ltr"] .nb-prog i { transform-origin: 0 50%; }
 
+/* --- resume block -------------------------------------------------------- */
+.nb-resume {
+  display: grid;
+  gap: var(--sp-2);
+  justify-items: start;
+  padding: var(--sp-4);
+  border: 1px solid color-mix(in srgb, var(--m) 32%, var(--hairline));
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--m) 6%, transparent);
+}
+.nb-resume-h {
+  display: flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--t-micro); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3);
+}
+.nb-resume-h svg { color: var(--m); flex: none; }
+.nb-resume-l { font-size: var(--t-sm); font-weight: 650; line-height: 1.5; color: var(--ink-1); }
+.nb-resume-none { padding-block: var(--sp-2); }
+
+.nb-h3 {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2) var(--sp-3);
+  font-size: var(--t-sm); font-weight: 700; letter-spacing: -.01em;
+}
+.nb-h3 span { font-size: var(--t-micro); font-weight: 500; color: var(--ink-3); }
+
+/* ==========================================================================
+   THE TABLE OF CONTENTS — real chapters, real subchapters
+   ========================================================================== */
+.nb-toc { display: grid; gap: var(--sp-3); }
+.nb-toc-h { display: grid; gap: var(--sp-3); }
+
+.nb-find {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-block-size: var(--c-tap);
+  padding-inline: var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  transition: border-color var(--dur-fast) linear;
+}
+.nb-find:focus-within { border-color: color-mix(in srgb, var(--m) 55%, var(--hairline)); }
+.nb-find > svg { color: var(--ink-3); flex: none; }
+.nb-find-i {
+  flex: 1;
+  min-inline-size: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-1);
+  font: inherit;
+  font-size: var(--t-xs);
+  outline: none;
+}
+.nb-find-i::placeholder { color: var(--ink-3); }
+.nb-find-i::-webkit-search-cancel-button { display: none; }
+.nb-find .nb-find-x { min-block-size: 2rem; padding-inline: 0.4rem; }
+
+.nb-toc-l { display: grid; gap: 2px; }
+.nb-ch { border-radius: var(--r-sm); }
+.nb-ch[data-open="1"] { background: color-mix(in srgb, var(--m) 5%, transparent); }
+
+.nb-ch-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--sp-2);
+  min-block-size: var(--c-tap);
+  padding-inline: var(--sp-2);
+}
+.nb-ch-row:hover { background: color-mix(in srgb, var(--m) 7%, transparent); border-radius: var(--r-sm); }
+
+.nb-ch-btn {
+  display: grid;
+  grid-template-columns: 1rem 2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-2);
+  min-inline-size: 0;
+  min-block-size: var(--c-tap);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+.nb-ch-btn[disabled] { cursor: default; }
+.nb-ch-chev {
+  color: var(--ink-3);
+  transition: transform 200ms var(--ease-out-expo);
+}
+[dir="ltr"] .nb-ch-chev { transform: rotate(180deg); }
+.nb-ch[data-open="1"] .nb-ch-chev { transform: rotate(-90deg); }
+[dir="ltr"] .nb-ch[data-open="1"] .nb-ch-chev { transform: rotate(90deg); }
+.nb-ch-num { font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nb-ch-name {
+  font-size: var(--t-xs);
+  font-weight: 600;
+  color: var(--ink-1);
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nb-ch-count { font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nb-ch-state { white-space: nowrap; }
+.nb-ch-row .nb-ch-open { font-size: var(--t-micro); color: var(--ink-3); }
+.nb-ch-open-t { display: none; }
+
+.nb-ch-body {
+  padding-inline-start: calc(1rem + var(--sp-2) + var(--sp-2));
+  padding-inline-end: var(--sp-2);
+  padding-block-end: var(--sp-3);
+  animation: nb-rise 220ms var(--ease-out-expo) both;
+}
+@keyframes nb-rise {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+.nb-sec-l { display: grid; gap: 1px; }
+.nb-sec {
+  display: grid;
+  grid-template-columns: minmax(3.25rem, auto) minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--sp-3);
+  min-block-size: var(--c-tap);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm);
+  /* The module hue as an inline-start marker, off until the row is engaged. */
+  box-shadow: inset 0 0 0 0 transparent;
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: background-color 160ms linear, color 160ms linear;
+}
+.nb-sec:hover { background: color-mix(in srgb, var(--m) 10%, transparent); color: var(--ink-1); }
+.nb-sec[aria-current="true"] {
+  background: color-mix(in srgb, var(--m) 12%, transparent);
+  color: var(--ink-1);
+  font-weight: 650;
+}
+.nb-sec-id { font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nb-sec-t { font-size: var(--t-xs); line-height: 1.5; }
+.nb-toc-note { margin-block-start: var(--sp-2); }
+
+/* ==========================================================================
+   NEO LINKS + NOTES
+   ========================================================================== */
 .nb-link { display: grid; gap: var(--sp-2); }
 .nb-dict {
   display: flex; align-items: center; gap: var(--sp-3);
@@ -607,23 +871,6 @@ html .nx-app .nx-canvas:has(> .nb) {
 .nb-warn[data-empty="1"] { color: var(--ink-2); }
 
 .nb-sheet-cta { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-block-start: var(--sp-2); }
-.nb-btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  min-block-size: var(--c-tap);
-  padding-inline: var(--sp-5);
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-pill);
-  background: var(--surface);
-  color: var(--ink-1);
-  font-size: var(--t-xs);
-  font-weight: 600;
-  transition: transform 200ms var(--ease-out-expo), background-color 200ms;
-}
-.nb-btn:hover { transform: translateY(-1px); }
-/* Brand red is the single global accent — one button on the surface, and it is
-   the one that leaves for the reader. */
-.nb-btn--brand { background: var(--brand); border-color: var(--brand); color: #fff; }
-.nb-btn--brand:hover { background: color-mix(in srgb, var(--brand) 88%, #000); }
 .nb-fine { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.6; }
 
 .nb-foot {
@@ -632,6 +879,49 @@ html .nx-app .nx-canvas:has(> .nb) {
   border-block-start: 1px solid var(--hairline);
 }
 .nb-credit { font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: auto; }
+
+/* ==========================================================================
+   THE BOOK HUB — one book, one control surface
+   ========================================================================== */
+.nb-hub { gap: var(--sp-6); padding-block-start: var(--sp-10); }
+.nb-crumb { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+
+.nb-hub-top {
+  display: grid;
+  grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+  gap: var(--sp-8);
+  align-items: start;
+  padding-block-end: var(--sp-6);
+  border-block-end: 1px solid var(--hairline);
+}
+.nb-hub-cov { position: relative; }
+.nb-hub-id { display: grid; gap: var(--sp-3); align-content: start; justify-items: start; }
+.nb-hub-t {
+  font-size: clamp(1.5rem, 3.6cqi, 2.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -.028em;
+  text-wrap: balance;
+}
+.nb-hub-chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.nb-hub-id .nb-prog { inline-size: min(24rem, 100%); }
+.nb-hub-cta { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.nb-hub-res {
+  display: flex; align-items: start; gap: 6px;
+  font-size: var(--t-xs); line-height: 1.55; color: var(--ink-2);
+}
+.nb-hub-res svg { flex: none; color: var(--m); margin-block-start: 3px; }
+
+.nb-hub-sib { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr)); gap: var(--sp-2); }
+.nb-sib {
+  display: grid;
+  gap: 2px;
+  padding: var(--sp-3) var(--sp-4);
+  min-block-size: var(--c-tap);
+  align-content: center;
+}
+.nb-sib-id { font-size: var(--t-micro); color: var(--ink-3); }
+.nb-sib-t { font-size: var(--t-xs); font-weight: 600; line-height: 1.4; }
 
 /* ==========================================================================
    DARK — the covers get darker boards and dimmer paper, because a bright
@@ -644,11 +934,10 @@ html[data-theme="dark"] .nb-cov {
   --paper: #b9b2a4;
   --paper-2: #8c8577;
 }
-html[data-theme="dark"] :is(.nb-chip, .nb-btn, .nb-x, .nb-dictbar) {
+html[data-theme="dark"] :is(.nb-x, .nb-dictbar, .nb-find, .nb-mark, .nb-mark-t) {
   background: var(--surface-2);
   border-color: color-mix(in srgb, var(--ink-3) 26%, transparent);
 }
-html[data-theme="dark"] .nb-btn--brand { background: var(--brand); border-color: var(--brand); }
 html[data-theme="dark"] .nb-sheet { background: var(--surface-2); }
 html[data-theme="dark"] .nb-slab::after {
   background: radial-gradient(60% 100% at 50% 0%, rgba(0,0,0,.7), transparent 72%);
@@ -658,12 +947,31 @@ html[data-theme="dark"] .nb-slab::after {
    RESPONSIVE — every step RECOMPOSES. All widths are CANVAS widths.
    ========================================================================== */
 
-/* Phone-width canvas: two books per row is still a shelf; one is a list. The
-   tilt is already off here (no fine pointer), so the press state and the
-   explicit "פתח בקורא" link carry the whole affordance. */
+/* Phone-width canvas: the shelf identity moves back on top of its books,
+   because a 12.5rem identity column beside a 9.5rem book is not a shelf, it is
+   two columns of nothing. The vertical rhythm stays tight — that is the whole
+   point of the shelf system and it must survive the narrowest canvas. */
 @container nb (max-width: 699px) {
   .nb { --nb-gut: var(--sp-4); padding-block: var(--sp-10) var(--sp-8); gap: var(--sp-6); }
+  .nb-shelf {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-4);
+    padding-block: var(--sp-6);
+    padding-inline-start: var(--sp-4);
+  }
+  .nb-shelf-h {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: baseline;
+    column-gap: var(--sp-3);
+  }
+  .nb-shelf-t { grid-column: 1; }
+  .nb-shelf-n { grid-column: 2; text-align: end; }
+  .nb-shelf-n2 { grid-column: 1 / -1; }
   .nb-grid { grid-template-columns: repeat(auto-fill, minmax(min(9.5rem, 100%), 1fr)); gap: var(--sp-6) var(--sp-4); }
+  /* No hover on a phone, so the floating bookmark label can never open. The
+     sentence under the cover is the affordance; the pill stays as the resume
+     tap target. */
+  .nb-mark-t { display: none; }
   .nb-entry { padding: 0; place-items: end stretch; }
   .nb-sheet {
     grid-template-columns: minmax(0, 1fr);
@@ -676,62 +984,83 @@ html[data-theme="dark"] .nb-slab::after {
     border-end-start-radius: 0;
     border-end-end-radius: 0;
   }
-  .nb-sheet-cov { inline-size: 8.5rem; }
-  .nb-chlist li { grid-template-columns: 1.75rem minmax(0, 1fr) 2.75rem; }
-  .nb-ch-bar { display: none; }
+  .nb-sheet-side { grid-template-columns: 8.5rem minmax(0, 1fr); align-items: center; }
+  .nb-sheet-side .nb-sheet-cov { grid-row: 1 / span 2; }
   .nb-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .nb-band-n { margin-inline-start: 0; inline-size: 100%; }
+  .nb-ch-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .nb-ch-state { display: none; }
+  .nb-hub-top { grid-template-columns: minmax(0, 1fr); gap: var(--sp-5); }
+  .nb-hub-cov { inline-size: 9.5rem; }
 }
 
 /* Mid canvas. */
 @container nb (min-width: 700px) and (max-width: 1049px) {
-  .nb-grid { grid-template-columns: repeat(auto-fill, minmax(min(12rem, 100%), 1fr)); }
+  .nb-shelf { grid-template-columns: minmax(0, 10.5rem) minmax(0, 1fr); gap: var(--sp-4) var(--sp-6); }
+  .nb-grid { grid-template-columns: repeat(auto-fill, minmax(min(11rem, 100%), 1fr)); }
   .nb-sheet { grid-template-columns: minmax(0, 12rem) minmax(0, 1fr); gap: var(--sp-6); padding: var(--sp-6); }
+  .nb-hub-top { grid-template-columns: minmax(0, 11rem) minmax(0, 1fr); gap: var(--sp-6); }
 }
 
 /* Full desktop: the gutter opens and the books get room to be objects. */
 @container nb (min-width: 1050px) {
   .nb { --nb-gut: var(--sp-12); }
+  .nb-ch-open-t { display: inline; }
 }
 
 /* Wide: extra width becomes more books per row, not more margin. */
 @container nb (min-width: 1500px) {
   .nb { --nb-gut: 5rem; gap: var(--sp-10); padding-block: 6rem var(--sp-16); }
-  .nb-grid { grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr)); gap: var(--sp-10) var(--sp-8); }
+  .nb-shelf { grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); padding-block: var(--sp-8); }
+  .nb-grid { grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr)); gap: var(--sp-8) var(--sp-6); }
 }
 
 /* Ultrawide: the masthead stops growing, the shelf keeps going. */
 @container nb (min-width: 2000px) {
   .nb { --nb-gut: 8rem; padding-block: 8rem var(--sp-16); }
-  .nb-mast, .nb-dictbar { max-inline-size: 74rem; }
-  .nb-grid { grid-template-columns: repeat(auto-fill, minmax(min(18rem, 100%), 1fr)); }
+  .nb-mast, .nb-dictbar, .nb-cont { max-inline-size: 74rem; }
+  .nb-shelf { grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); }
+  .nb-grid { grid-template-columns: repeat(auto-fill, minmax(min(17rem, 100%), 1fr)); }
   .nb-lede { font-size: 1.1875rem; }
 }
 @container nb (min-width: 2800px) {
   .nb { --nb-gut: 12rem; }
-  .nb-grid { grid-template-columns: repeat(auto-fill, minmax(min(20rem, 100%), 1fr)); }
+  .nb-grid { grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr)); }
 }
 
 /* ==========================================================================
    REDUCED MOTION — the tilt is not slowed, it is never armed: book-shelf.tsx
    does not attach the pointer listener at all, and the FLIP is skipped. These
    rules remove the things a cancelled listener cannot: the residual vars, the
-   scale-from-zero bars, and the panel's fade-in.
+   lift, the scale-from-zero bar, the reveal and the panel's fade-in.
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
-  .nb-cov { --rx: 0deg !important; --ry: 0deg !important; --tz: 0px !important; transform: none !important; }
+  .nb-cov {
+    --rx: 0deg !important;
+    --ry: 0deg !important;
+    --tz: 0px !important;
+    --lift: 0px !important;
+    transform: none !important;
+    transition: none;
+  }
   .nb-slab:active .nb-cov { scale: 1 !important; }
+  .nb-slab::after, .nb-cov-board, .nb-cov-spine, .nb-cov-gloss { transition: none; }
   .nb-scrim { animation: none; }
-  .nb-ch-bar i { transition: none; }
-  .nb-slab::after { transition: none; }
+  .nb-prog i { transition: none; }
+  .nb-ch-body { animation: none; }
+  .nb-ch-chev { transition: none; }
+  .nb-mark, .nb-mark-t { transition: none; }
+  .nb-mark:hover, .nb-mark:focus-visible { transform: none; }
+  .nb-dict:hover, .nb-dictbar-a:hover { transform: none; }
+  .nb-x:hover { transform: none; }
 }
 
 /* Forced colours: the drawn cover is decoration built from colour alone, so it
    is replaced by a plain framed plate. The title, counts and links underneath
    are ordinary semantic markup and survive untouched. */
 @media (forced-colors: active) {
-  .nb-cov-board, .nb-cov-cloth, .nb-cov-gloss, .nb-cov-edge, .nb-slab::after { display: none; }
+  .nb-cov-board, .nb-cov-cloth, .nb-cov-gloss, .nb-cov-edge, .nb-slab::after, .nb-shelf-edge { display: none; }
   .nb-cov { border: 1px solid CanvasText; }
   .nb-cov-face { color: CanvasText; }
   .nb-scrim { backdrop-filter: none; background: Canvas; }
+  .nb-mark, .nb-mark-t { border: 1px solid CanvasText; }
 }

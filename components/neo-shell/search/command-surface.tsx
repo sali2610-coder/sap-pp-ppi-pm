@@ -70,7 +70,14 @@ function Row({
       data-shape={KIND_SHAPE[r.k]}
       data-mod={m ? "1" : "0"}
       data-active={active ? "1" : "0"}
-      style={{ "--m": modVar(m), ...(r.obj ? { "--o": r.obj } : null) } as React.CSSProperties}
+      /* --i drives the progressive reveal. It is capped in the stylesheet, and
+         it only ever runs for a row React has just inserted: a row that survives
+         a keystroke keeps its DOM node and therefore does not re-animate. */
+      style={{
+        "--m": modVar(m),
+        "--i": Math.min(i, 16),
+        ...(r.obj ? { "--o": r.obj } : null),
+      } as React.CSSProperties}
       onPointerMove={() => onHover(i)}
       onClick={() => onGo(r)}
     >
@@ -100,6 +107,13 @@ function Row({
             <span className={isSap(r.rel) ? "nx-sap" : undefined}>{r.rel}</span>
           </span>
         ) : null}
+        {/* THE DESTINATION. The actual route Enter opens, printed on the row, so
+            a reader never has to guess where a result leads. A record the
+            project has no page for says exactly that instead. */}
+        <span className="nxc-dest" data-none={r.dest ? "0" : "1"}>
+          <Ico name={r.dest ? "ChevronLeft" : "CircleHelp"} size={11} />
+          {r.dest ? <span className="nx-sap">{r.dest}</span> : <span>אין עמוד ייעודי</span>}
+        </span>
       </span>
 
       {r.ctx ? (
@@ -174,6 +188,12 @@ function Detail({
             <span className={isSap(rec.rel) ? "nx-sap" : undefined}>{rec.rel}</span>
           </span>
         ) : null}
+        <span className="nxc-d-fact">
+          <em>יעד</em>
+          {rec.dest
+            ? <span className="nx-sap nxc-d-dest">{rec.dest}</span>
+            : <span className="nxc-d-dest" data-none="1">אין עמוד ייעודי לרשומה הזו</span>}
+        </span>
       </div>
 
       {ctx ? (
@@ -212,12 +232,16 @@ function Detail({
 /* --------------------------------------------------------------- surface */
 
 export function CommandSurface({
-  query, onQuery, result, only, onOnly, modOnly, onModOnly,
+  query, onQuery, onKey, result, only, onOnly, modOnly, onModOnly,
   active, onActive, onGo, onContext, onClose,
   contexts, extra, idle, navHits, navTotal, listRef, mobileInputRef, surfaceMod,
 }: {
   query: string;
   onQuery: (v: string) => void;
+  /** The SAME key handler the rail's field uses. Without it the phone field's
+   *  arrow keys fall through to the document and scroll the page — the one
+   *  thing the brief says must never happen. */
+  onKey: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   result: CmdResult;
   only: CmdKind | null;
   onOnly: (k: CmdKind | null) => void;
@@ -282,7 +306,8 @@ export function CommandSurface({
             className="nxc-minput"
             value={query}
             onChange={(e) => onQuery(e.target.value)}
-            placeholder="טבלה · טרנזקציה · BAPI · ספר"
+            onKeyDown={onKey}
+            placeholder="טבלה · שדה · טרנזקציה · BAPI · ספר"
             aria-label="חיפוש בפרויקט"
             role="combobox"
             aria-expanded
@@ -421,7 +446,7 @@ export function CommandSurface({
                 {nf.format(indexTotal)} רשומות אמיתיות — ולא על טקסט חופשי.
               </p>
             ) : (
-              result.sections.map((sec) => {
+              result.sections.map((sec, si) => {
                 let base = 0;
                 for (const s of result.sections) { if (s.k === sec.k) break; base += s.rows.length; }
                 return (
@@ -433,7 +458,7 @@ export function CommandSurface({
                     data-k={sec.k}
                     data-shape={KIND_SHAPE[sec.k]}
                     data-mod={sec.mod ? "1" : "0"}
-                    style={{ "--m": modVar(sec.mod) } as React.CSSProperties}
+                    style={{ "--m": modVar(sec.mod), "--i": Math.min(si, 6) } as React.CSSProperties}
                   >
                     <h3 className="nxc-sec-h">
                       <i className="nxc-sec-mark" aria-hidden="true" />

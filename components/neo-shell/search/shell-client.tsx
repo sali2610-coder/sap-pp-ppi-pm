@@ -862,6 +862,7 @@ export function NeoShellClient({
         <CommandSurface
           query={query}
           onQuery={applyQuery}
+          onKey={onFieldKey}
           result={result}
           only={only}
           onOnly={applyOnly}

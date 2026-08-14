@@ -1,22 +1,36 @@
 /* ============================================================================
-   PROJECT NEO · STAGE 2B — THE ERD / DATA-MODEL WORKSPACE
+   PROJECT NEO — THE ERD / DATA-MODEL WORKSPACE
    ----------------------------------------------------------------------------
    Imported by app/neo/erd/page.tsx only. Every selector is anchored on .ne,
    which exists on that one route, so nothing here can reach another page and
    not one token in app/globals.css is redeclared — this file only CONSUMES
    them.
 
-   THE FORM RULE (app/globals.css, above --mod-pm) IS THE LAW HERE:
-     · MODULE   --mod-*   node ring, list marker, section line, gradient ring on
-                          a table both blueprints document. Never a dot.
-     · STATUS   --status-* does not appear on this page at all.
-     · OBJECT   --obj-*   the class marker on a node.
-     · RELATION --rel-*   the edges and the cardinality pills. Nothing else.
-     · BRAND    --brand   focus ring and one accent. Never a data category.
+   NO PARALLEL BUTTON STYLES. Every control on this route is a class from
+   app/neo/ui.css (.nu-btn, .nu-btn2, .nu-ghost, .nu-filter, .nu-chip,
+   .nu-card). What this file adds to them is LAYOUT — a grid for a list row, a
+   square for an icon button — and the one state ui.css has no opinion about
+   (a pressed ghost row). It never redefines their fill, border or focus ring.
 
-   MOTION: only transform and opacity. The single looping animation is the flow
-   pulse on the emphasised edges, and it is a translate between two endpoints
-   handed in as custom properties. Everything stops under reduced motion.
+   THE FORM RULE (app/globals.css, above --mod-pm) IS THE LAW HERE:
+     · MODULE   --mod-*    node ring, node surface tint, EDGE stroke, list
+                           marker, filter line. NEVER a standalone dot — which
+                           is why .nu-filter's pressed dot is suppressed inside
+                           the module group and replaced by a line.
+     · STATUS   --status-* does not appear on this page at all.
+     · OBJECT   --obj-*    the class marker bar on a node.
+     · BRAND    --brand    focus ring, minimap viewport, search affordance.
+                           Never a data category.
+
+   RELATION STRENGTH IS SHAPE, NOT HUE. The edge already carries the module hue,
+   so cardinality is drawn the way a data modeller draws it: a filled dot plus a
+   key bar on the primary-key end, a crow's foot on an N side, two bars on a 1
+   side, a dashed line where the blueprint recorded no strength at all. That is
+   why --rel-* no longer paints the lines.
+
+   MOTION: transform and opacity only. The one looping animation is the flow
+   pulse on the emphasised edges — a translate between two endpoints handed in
+   as custom properties. Everything stops under reduced motion.
    ========================================================================== */
 
 /* The shell canvas is a padded, gapped, scrolling grid for ordinary pages. The
@@ -34,7 +48,7 @@ html .nx-app .nx-canvas:has(> .ne) {
   block-size: 100%;
   min-block-size: 0;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
   container-type: inline-size;
   container-name: ne;
   background: var(--background);
@@ -57,34 +71,51 @@ html .nx-app .nx-canvas:has(> .ne) {
 .ne-h1 { font-size: var(--t-h2); font-weight: 700; letter-spacing: var(--t-h2-tr); color: var(--ink-1); }
 .ne-sub { font-size: var(--t-micro); color: var(--ink-3); }
 
-.ne-seg {
-  display: inline-flex;
-  gap: 2px;
-  padding: 2px;
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-sm);
-  background: var(--surface-2);
-}
-.ne-seg-b {
-  display: inline-flex;
+/* --- search + suggestions ------------------------------------------------- */
+.ne-find-top { position: relative; inline-size: min(22rem, 100%); }
+.ne-search {
+  display: flex;
   align-items: center;
-  gap: 6px;
-  min-block-size: 2rem;
+  gap: var(--sp-2);
+  min-block-size: 2.5rem;
   padding-inline: var(--sp-3);
-  border-radius: var(--r-xs);
-  font-size: var(--t-micro);
-  color: var(--ink-2);
-  transition: opacity var(--dur-fast), transform var(--dur-fast) var(--ease-out-expo);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  color: var(--ink-3);
 }
-.ne-seg-b:hover { color: var(--ink-1); }
-.ne-seg-b:active { transform: scale(.97); }
-.ne-seg-b[aria-pressed="true"] { background: var(--surface); color: var(--ink-1); font-weight: 600; box-shadow: var(--elev-1); }
-.ne-seg-b:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-/* MODULE identity on the filter — a line, never a dot. */
-.ne-seg-b i { inline-size: 3px; block-size: 13px; border-radius: 2px; background: var(--m); }
-.ne-seg-b svg { color: var(--ink-3); }
+.ne-search:focus-within { box-shadow: var(--focus-ring); border-color: var(--brand); }
+.ne-search input {
+  flex: 1;
+  min-inline-size: 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+  font-size: var(--t-xs);
+  color: var(--ink-1);
+}
+.ne-search input::-webkit-search-cancel-button { display: none; }
+.ne-x { min-block-size: 1.75rem !important; inline-size: 1.75rem; padding-inline: 0 !important; }
 
-.ne-zoom {
+.ne-sugg {
+  position: absolute;
+  z-index: 20;
+  inset-inline: 0;
+  inset-block-start: calc(100% + 4px);
+  display: grid;
+  gap: 1px;
+  padding: 4px;
+  max-block-size: 19rem;
+  overflow-y: auto;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  box-shadow: var(--elev-3);
+}
+
+/* --- view controls -------------------------------------------------------- */
+.ne-view { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.ne-group {
   display: inline-flex;
   align-items: center;
   gap: 2px;
@@ -93,32 +124,62 @@ html .nx-app .nx-canvas:has(> .ne) {
   border-radius: var(--r-sm);
   background: var(--surface-2);
 }
-.ne-ico {
-  display: grid;
-  place-items: center;
-  inline-size: 2rem;
-  block-size: 2rem;
+/* Layout only: ui.css owns the colour, hover, focus and disabled language. */
+.ne-group .nu-ghost {
+  inline-size: 2.5rem;
+  min-block-size: 2.25rem;
+  padding-inline: 0;
   border-radius: var(--r-xs);
-  color: var(--ink-2);
-  transition: transform var(--dur-fast) var(--ease-out-expo), opacity var(--dur-fast);
 }
-.ne-ico:hover { background: var(--surface); color: var(--ink-1); }
-.ne-ico:active { transform: scale(.94); }
-.ne-ico:disabled { opacity: .38; }
-.ne-ico:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-.ne-zoom-v {
-  min-inline-size: 3.25rem;
-  text-align: center;
+.ne-pct {
+  inline-size: 3.5rem !important;
   font-family: var(--font-mono);
-  font-size: var(--t-micro);
+  font-size: var(--t-micro) !important;
   font-variant-numeric: tabular-nums;
   direction: ltr;
-  color: var(--ink-2);
+}
+@media (pointer: coarse) {
+  .ne-group .nu-ghost { inline-size: var(--c-tap, 2.75rem); min-block-size: var(--c-tap, 2.75rem); }
+  .ne-pct { inline-size: 4rem !important; }
 }
 
-@media (pointer: coarse) {
-  .ne-seg-b { min-block-size: var(--c-tap, 2.75rem); padding-inline: var(--sp-4); }
-  .ne-ico { inline-size: var(--c-tap, 2.75rem); block-size: var(--c-tap, 2.75rem); }
+/* ==========================================================================
+   FILTER BAR
+   ========================================================================== */
+
+.ne-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-5);
+  padding: var(--sp-2) var(--sp-5);
+  border-block-end: 1px solid var(--hairline);
+  background: var(--surface);
+}
+.ne-fgrp { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.ne-flabel {
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  margin-inline-end: 2px;
+}
+/* MODULE identity on a filter is a LINE, never a dot — so ui.css's pressed dot
+   is suppressed here and an explicit marker takes its place. */
+.ne-fgrp .nu-filter[aria-pressed="true"]::before { display: none; }
+.ne-fgrp .nu-filter > i {
+  inline-size: 3px;
+  block-size: 13px;
+  border-radius: 2px;
+  background: var(--m, var(--ink-3));
+  flex: none;
+}
+.ne-rel > i {
+  inline-size: 18px !important;
+  block-size: 2px !important;
+  border-radius: 2px;
+  background: var(--ink-3);
+}
+.ne-rel[data-kind="unstated"] > i {
+  background: repeating-linear-gradient(to right, var(--ink-3) 0 4px, transparent 4px 8px);
 }
 
 /* ==========================================================================
@@ -130,6 +191,7 @@ html .nx-app .nx-canvas:has(> .ne) {
   grid-template-columns: minmax(0, 1fr) 23rem;
   min-block-size: 0;
 }
+.ne[data-insp="0"] .ne-body { grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 2560px) { .ne-body { grid-template-columns: minmax(0, 1fr) 28rem; } }
 
 .ne-stage {
@@ -149,32 +211,62 @@ html .nx-app .nx-canvas:has(> .ne) {
 }
 .ne-stage[data-drag="1"] { cursor: grabbing; }
 .ne-stage:focus-visible { outline: none; box-shadow: inset var(--focus-ring); }
+/* While a layout tween runs, the graph is not a hit target: a hover mid-flight
+   would re-render React underneath the animation. */
+.ne-stage[data-moving] .ne-nodes { pointer-events: none; }
+.ne-stage[data-moving] .ne-cap,
+.ne-stage[data-moving] .ne-edge-t,
+.ne-stage[data-moving] .ne-pulse { opacity: 0; }
 
 .ne-canvas { position: absolute; inset: 0; inline-size: 100%; block-size: 100%; display: block; }
 
-/* --- edges ---------------------------------------------------------------- */
-.ne-edge-p { fill: none; stroke: var(--r); stroke-width: 1.5; opacity: .62; transition: opacity var(--dur-base) var(--ease-out-expo); }
-.ne-edge[data-kind="unstated"] .ne-edge-p { stroke-dasharray: 5 5; opacity: .45; }
-/* Direction without an arrowhead thicket: solid cap = primary key side,
-   hollow cap = foreign key side. */
-.ne-cap { transition: opacity var(--dur-base) var(--ease-out-expo); }
-.ne-cap--pk { fill: var(--r); opacity: .8; }
-.ne-cap--fk { fill: var(--surface-2); stroke: var(--r); stroke-width: 1.4; opacity: .8; }
+/* ==========================================================================
+   EDGES — module hue, cardinality as shape
+   ========================================================================== */
+
+.ne-edge-p {
+  fill: none;
+  stroke: var(--e);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  opacity: .62;
+  transition: opacity var(--dur-base) var(--ease-out-expo), stroke-width var(--dur-base) var(--ease-out-expo);
+}
+.ne-edge[data-kind="unstated"] .ne-edge-p { stroke-dasharray: 6 5; opacity: .42; }
+
+.ne-cap { transition: opacity var(--dur-base) var(--ease-out-expo); opacity: .8; }
+.ne-cap-d { fill: var(--e); }
+.ne-cap-l { fill: none; stroke: var(--e); stroke-width: 1.6; stroke-linecap: round; }
+
 .ne-edge-t {
   font-family: var(--font-mono);
   font-size: 11px;
-  fill: var(--ink-2);
+  fill: var(--ink-1);
   direction: ltr;
   opacity: 0;
   transition: opacity var(--dur-base) var(--ease-out-expo);
   pointer-events: none;
+  paint-order: stroke;
+  stroke: var(--surface-2);
+  stroke-width: 3.5;
+  stroke-linejoin: round;
 }
-.ne-edge[data-on="1"] .ne-edge-p { opacity: 1; stroke-width: 2.6; }
-.ne-edge[data-on="1"] .ne-edge-t { opacity: 1; fill: var(--ink-1); }
-.ne-edge[data-off="1"] { opacity: .06; }
-.ne[data-sel="1"] .ne-edge[data-on="0"] { opacity: .2; }
 
-.ne-pulse { fill: var(--r); }
+/* Emphasis ladder. Level 1 = touches the active table. Level 2 = one hop
+   further, drawn only when the reader asked for that depth. */
+.ne-edge[data-lvl="1"] .ne-edge-p { opacity: 1; stroke-width: 3.2; }
+.ne-edge[data-lvl="1"] .ne-edge-t { opacity: 1; }
+.ne-edge[data-lvl="1"] .ne-cap { opacity: 1; }
+.ne-edge[data-lvl="2"] .ne-edge-p { opacity: .8; stroke-width: 2.2; }
+.ne-edge[data-lvl="2"] .ne-cap { opacity: .9; }
+/* Unrelated: quiet, but still there. The map never goes blank around a
+   selection unless focus mode is on. */
+.ne-edge[data-lvl="x"] { opacity: .16; }
+.ne-edge[data-off="1"] { opacity: .05; pointer-events: none; }
+.ne[data-focus="1"] .ne-edge[data-off="1"],
+.ne[data-focus="1"] .ne-edge[data-lvl="x"] { opacity: 0; }
+
+.ne-pulse { fill: var(--e); }
 @keyframes ne-flow {
   0%   { transform: translate(0, 0); opacity: 0; }
   14%  { opacity: 1; }
@@ -183,15 +275,30 @@ html .nx-app .nx-canvas:has(> .ne) {
 }
 .ne-pulse { animation: ne-flow 2100ms var(--ease-out-expo) infinite; }
 
-/* --- nodes ---------------------------------------------------------------- */
-.ne-node { transition: opacity var(--dur-base) var(--ease-out-expo); }
+/* ==========================================================================
+   NODES — module tint + module ring, object class as the marker bar
+   ========================================================================== */
+
+.ne-node { transition: opacity var(--dur-base) var(--ease-out-expo); cursor: pointer; }
+
+/* The dominance halo. Invisible until the table is the selected one, then it
+   is the largest, softest shape on the canvas — the eye lands on it first. */
+.ne-node-h {
+  fill: color-mix(in srgb, var(--ms) 22%, transparent);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out-expo);
+}
+
 .ne-node-r {
-  fill: var(--surface);
-  /* MODULE identity as the ring. A table both blueprints document carries a
-     two-stop gradient ring rather than being assigned to one of them. */
+  /* Module identity twice over: a tinted surface and the ring. A table both
+     blueprints document takes a two-stop gradient ring rather than being
+     assigned to one of them. */
+  fill: color-mix(in srgb, var(--ms) 7%, var(--surface));
   stroke: var(--m);
   stroke-width: 1.6;
-  transition: stroke-width var(--dur-base) var(--ease-out-expo);
+  transition:
+    stroke-width var(--dur-base) var(--ease-out-expo),
+    fill var(--dur-base) var(--ease-out-expo);
 }
 .ne-node-cls { fill: var(--o); }
 .ne-node-n {
@@ -202,28 +309,68 @@ html .nx-app .nx-canvas:has(> .ne) {
   direction: ltr;
   dominant-baseline: middle;
 }
-.ne-node-k {
+.ne-node-k, .ne-node-fk {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9.5px;
   fill: var(--ink-3);
   direction: ltr;
   dominant-baseline: middle;
 }
+.ne-node-k { fill: color-mix(in srgb, var(--ms) 62%, var(--ink-3)); font-weight: 600; }
 .ne-node-d {
   font-family: var(--font-mono);
   font-size: 11px;
+  font-weight: 700;
   fill: var(--ink-3);
   direction: ltr;
   dominant-baseline: middle;
 }
-.ne-node[data-hit="1"] .ne-node-r { stroke-width: 3; }
-.ne-node[data-on="1"] .ne-node-r { stroke-width: 3.4; filter: drop-shadow(0 6px 18px rgba(15, 23, 42, .22)); }
-.ne-node[data-near="1"] .ne-node-r { stroke-width: 2.4; }
-.ne-node[data-off="1"] { opacity: .1; pointer-events: none; }
-.ne[data-sel="1"] .ne-node[data-on="0"][data-near="0"] { opacity: .26; }
-.ne[data-q="1"] .ne-node[data-hit="0"][data-on="0"] { opacity: .22; }
 
-/* --- minimap -------------------------------------------------------------- */
+/* Open the real object page. Present only on the table you are looking at, so
+   the map stays a map. */
+.ne-node-go { opacity: 0; transition: opacity var(--dur-fast) linear; cursor: pointer; }
+.ne-node-go rect { fill: color-mix(in srgb, var(--ms) 16%, var(--surface)); stroke: var(--ms); stroke-width: 1; }
+.ne-node-go path { fill: none; stroke: var(--ms); stroke-width: 1.6; stroke-linecap: round; }
+.ne-node:hover .ne-node-go,
+.ne-node[data-lvl="0"] .ne-node-go { opacity: 1; }
+.ne-node-go:focus-visible { outline: none; }
+.ne-node-go:focus-visible rect { stroke: var(--brand); stroke-width: 2.5; }
+
+/* --- the emphasis ladder -------------------------------------------------- */
+.ne-node:hover .ne-node-r { stroke-width: 2.6; }
+.ne-node[data-hit="1"] .ne-node-r { stroke-width: 3; }
+
+.ne-node[data-lvl="0"] .ne-node-h { opacity: 1; }
+.ne-node[data-lvl="0"] .ne-node-r {
+  fill: color-mix(in srgb, var(--ms) 17%, var(--surface));
+  stroke-width: 3.6;
+}
+.ne-node[data-lvl="0"] .ne-node-n { font-size: 14px; }
+.ne-node[data-lvl="1"] .ne-node-r { fill: color-mix(in srgb, var(--ms) 12%, var(--surface)); stroke-width: 2.8; }
+.ne-node[data-lvl="2"] { opacity: .82; }
+.ne-node[data-lvl="2"] .ne-node-r { stroke-width: 2; }
+/* Faded, NOT gone. Everything stays legible so the reader keeps their bearings
+   in the whole model — until they deliberately turn focus mode on. */
+.ne-node[data-lvl="x"] { opacity: .34; }
+.ne-node[data-off="1"] { opacity: .12; pointer-events: none; }
+.ne[data-q="1"] .ne-node[data-hit="0"][data-lvl=""] { opacity: .3; }
+.ne[data-focus="1"] .ne-node[data-off="1"],
+.ne[data-focus="1"] .ne-node[data-lvl="x"] { opacity: 0; pointer-events: none; }
+
+/* "Start here": the busiest documented table, marked only while nothing is
+   selected. A ring, per the form rule — never a badge dot. */
+.ne-node[data-start="1"] .ne-node-h {
+  fill: none;
+  stroke: var(--ms);
+  stroke-width: 1.4;
+  stroke-dasharray: 5 6;
+  opacity: .75;
+}
+
+/* ==========================================================================
+   MINIMAP + HINT
+   ========================================================================== */
+
 .ne-mini {
   position: absolute;
   inset-block-end: var(--sp-3);
@@ -239,8 +386,8 @@ html .nx-app .nx-canvas:has(> .ne) {
 }
 .ne-mini svg { inline-size: 100%; block-size: 100%; display: block; cursor: crosshair; }
 .ne-mini-e { stroke: var(--ink-3); stroke-width: 3; opacity: .18; }
-.ne-mini-n { fill: var(--ms); opacity: .5; }
-.ne-mini-n[data-off="1"] { opacity: .12; }
+.ne-mini-n { fill: var(--ms); opacity: .55; }
+.ne-mini-n[data-off="1"] { opacity: .1; }
 .ne-mini-n[data-on="1"] { opacity: 1; }
 .ne-mini-v { fill: color-mix(in srgb, var(--brand) 12%, transparent); stroke: var(--brand); stroke-width: 8; }
 
@@ -276,67 +423,49 @@ html .nx-app .nx-canvas:has(> .ne) {
 
 .ne-insp {
   display: grid;
-  grid-template-rows: minmax(0, 18rem) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 17rem) minmax(0, 1fr);
   min-block-size: 0;
   border-inline-start: 1px solid var(--hairline);
   background: var(--surface);
 }
 
-.ne-find { display: grid; grid-template-rows: auto auto minmax(0, 1fr); gap: var(--sp-2); padding: var(--sp-3); min-block-size: 0; }
-.ne-search {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-  min-block-size: 2.5rem;
-  padding-inline: var(--sp-3);
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-sm);
-  background: var(--surface-2);
-  color: var(--ink-3);
-}
-.ne-search:focus-within { box-shadow: var(--focus-ring); }
-.ne-search input {
-  flex: 1;
-  min-inline-size: 0;
-  background: transparent;
-  border: 0;
-  outline: none;
-  font-size: var(--t-xs);
-  color: var(--ink-1);
-}
-.ne-clear { display: grid; place-items: center; inline-size: 1.5rem; block-size: 1.5rem; border-radius: var(--r-xs); color: var(--ink-3); }
-.ne-clear:hover { color: var(--ink-1); }
-.ne-find-n { font-size: var(--t-micro); color: var(--ink-3); }
+.ne-find { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: var(--sp-2); padding: var(--sp-3); min-block-size: 0; }
+.ne-find-n { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); font-size: var(--t-micro); color: var(--ink-3); }
+.ne-find-n .nu-ghost { min-block-size: 1.75rem; font-size: var(--t-micro); }
 
-.ne-list { overflow-y: auto; overscroll-behavior: contain; display: grid; gap: 2px; align-content: start; }
-.ne-list-b {
-  display: grid;
-  grid-template-columns: 3px minmax(4.5rem, auto) 1fr auto;
+.ne-list { overflow-y: auto; overscroll-behavior: contain; display: grid; gap: 1px; align-content: start; }
+
+/* LAYOUT for a .nu-ghost that happens to be a dense row. ui.css keeps the
+   colour, hover, focus and disabled language; this only reshapes the box. */
+.ne-row {
+  display: grid !important;
+  grid-template-columns: 3px minmax(4.25rem, auto) minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--sp-2);
   inline-size: 100%;
   min-block-size: 2.25rem;
-  padding-inline: var(--sp-2);
+  padding-inline: var(--sp-2) !important;
   border-radius: var(--r-xs);
   text-align: start;
-  transition: transform var(--dur-fast) var(--ease-out-expo);
 }
-.ne-list-b:hover { background: var(--surface-2); }
-.ne-list-b[aria-pressed="true"] { background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--hairline); }
-.ne-list-b:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-/* MODULE identity in the list — a line, never a dot. */
-.ne-list-bar { inline-size: 3px; block-size: 1.1rem; border-radius: 2px; background: var(--ms); }
-.ne-list-b b { font-family: var(--font-mono); direction: ltr; font-size: var(--t-xs); color: var(--ink-1); }
-.ne-list-b em {
+.ne-row[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--ms, var(--brand)) 10%, var(--surface-2));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ms, var(--brand)) 34%, var(--hairline));
+}
+/* MODULE identity in a list — a line, never a dot. */
+.ne-row-bar { inline-size: 3px; block-size: 1.1rem; border-radius: 2px; background: var(--ms); }
+.ne-row b { font-family: var(--font-mono); direction: ltr; font-size: var(--t-xs); color: var(--ink-1); }
+.ne-row em {
   font-style: normal;
+  font-weight: 400;
   font-size: var(--t-micro);
   color: var(--ink-3);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.ne-list-b span { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); direction: ltr; }
-@media (pointer: coarse) { .ne-list-b { min-block-size: var(--c-tap, 2.75rem); } }
+.ne-row > span { font-family: var(--font-mono); font-size: 10px; color: var(--ink-3); direction: ltr; }
+@media (pointer: coarse) { .ne-row { min-block-size: var(--c-tap, 2.75rem); } }
 
 .ne-detail {
   overflow-y: auto;
@@ -349,25 +478,25 @@ html .nx-app .nx-canvas:has(> .ne) {
 }
 
 .ne-det-h { display: grid; grid-template-columns: 10px auto 1fr; align-items: center; gap: var(--sp-2); }
-.ne-det-h > i { inline-size: 10px; block-size: 10px; border-radius: 50%; background: var(--o); }
+.ne-det-h > i { inline-size: 10px; block-size: 10px; border-radius: 2px; background: var(--o); }
 .ne-det-h b { font-family: var(--font-mono); direction: ltr; font-size: var(--t-h2); font-weight: 700; color: var(--ink-1); }
-.ne-det-h p { grid-column: 1 / -1; font-size: var(--t-xs); color: var(--ink-2); line-height: 1.7; }
-.ne-open {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  justify-self: end;
-  min-block-size: 2rem;
-  padding-inline: var(--sp-3);
+.ne-det-h p { grid-column: 1 / -1; font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he); }
+
+.ne-det-act { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.ne-det-act > * { flex: 1 1 auto; }
+
+.ne-det-n { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-2); }
+.ne-det-n > div {
+  display: grid;
+  gap: 2px;
+  padding: var(--sp-2);
   border: 1px solid var(--hairline);
-  border-radius: var(--r-sm);
-  font-size: var(--t-micro);
-  font-weight: 600;
-  color: var(--ink-1);
-  transition: transform var(--dur-fast) var(--ease-out-expo);
+  border-radius: var(--r-xs);
+  background: var(--surface-2);
+  text-align: center;
 }
-.ne-open:hover { transform: translateY(-1px); }
-.ne-open:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.ne-det-n dt { font-size: 10px; color: var(--ink-3); }
+.ne-det-n dd { font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); font-variant-numeric: tabular-nums; }
 
 .ne-det-mods { display: grid; gap: var(--sp-2); }
 .ne-det-mods li {
@@ -390,42 +519,45 @@ html .nx-app .nx-canvas:has(> .ne) {
   font-size: var(--t-micro);
   color: var(--ink-2);
 }
-.ne-det-cls span { inline-size: 8px; block-size: 8px; border-radius: 50%; background: var(--o); }
+.ne-det-cls span { inline-size: 8px; block-size: 8px; border-radius: 2px; background: var(--o); }
 
 .ne-keys { display: grid; gap: var(--sp-3); grid-template-columns: 1fr 1fr; }
-.ne-keys h3, .ne-blk h3 { font-size: var(--t-micro); color: var(--ink-3); margin-block-end: 5px; font-weight: 600; }
+.ne-keys h3, .ne-blk h3 {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  margin-block-end: 5px;
+  font-weight: 600;
+}
 .ne-blk { display: grid; }
 .ne-chips { display: flex; flex-wrap: wrap; gap: 4px; }
-.ne-chips li {
-  font-family: var(--font-mono);
-  direction: ltr;
-  font-size: 10px;
-  padding: 3px 7px;
-  border-radius: var(--r-xs);
-  background: var(--surface-2);
-  color: var(--ink-2);
-  border: 1px solid var(--hairline);
+/* PK and FK are told apart by WEIGHT and BORDER, not by a second hue: solid
+   ring + object-class tint for the primary key, dashed ring for a foreign one.
+   That reads at a glance and survives both themes. */
+.ne-chips .nu-chip[data-k="PK"] {
+  border-color: var(--o);
+  background: color-mix(in srgb, var(--o) 14%, var(--surface-2));
+  color: var(--ink-1);
+  font-weight: 750;
 }
-.ne-chips li[data-k="PK"] { border-color: var(--o); background: color-mix(in srgb, var(--o) 14%, transparent); color: var(--ink-1); font-weight: 700; }
-.ne-chips li[data-k="FK"] { border-style: dashed; }
+.ne-chips .nu-chip[data-k="FK"] { border-style: dashed; }
 
-.ne-none { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.7; font-style: italic; }
+.ne-none { font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he); font-style: italic; }
 
 .ne-joins { display: grid; gap: var(--sp-3); }
-.ne-joins > li { display: grid; gap: 5px; padding-inline-start: var(--sp-3); border-inline-start: 3px solid var(--r); }
+.ne-joins > li { display: grid; gap: 5px; padding-inline-start: var(--sp-3); border-inline-start: 3px solid var(--hairline); }
+.ne-joins > li[data-kind="unstated"] { border-inline-start-style: dashed; }
 .ne-join-h { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
-.ne-dir {
-  font-size: 10px;
+.ne-join-go {
+  min-block-size: 1.75rem !important;
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: var(--t-xs);
   font-weight: 700;
-  color: var(--ink-2);
-  padding: 2px 6px;
-  border-radius: var(--r-xs);
-  background: var(--surface-2);
-  border: 1px solid var(--hairline);
+  color: var(--ink-1) !important;
 }
-.ne-join-go { font-family: var(--font-mono); direction: ltr; font-size: var(--t-xs); font-weight: 700; color: var(--ink-1); }
-.ne-join-go:hover { color: var(--brand); }
-.ne-join-go:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--r-xs); }
 .ne-card {
   display: inline-flex;
   align-items: center;
@@ -435,10 +567,10 @@ html .nx-app .nx-canvas:has(> .ne) {
   font-size: 10px;
   padding: 2px 7px;
   border-radius: var(--r-pill);
-  background: color-mix(in srgb, var(--r) 14%, var(--surface-2));
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
   color: var(--ink-1);
 }
-.ne-card i { inline-size: 12px; block-size: 2px; border-radius: 2px; background: var(--r); }
 /* A direction the two blueprints disagree about. Dashed and uncoloured — a
    disagreement is a caveat, not a data category. */
 .ne-ct {
@@ -473,19 +605,12 @@ html .nx-app .nx-canvas:has(> .ne) {
 .ne-idle { display: grid; gap: var(--sp-3); align-content: start; }
 .ne-idle h2 { display: flex; align-items: center; gap: 6px; font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); }
 .ne-idle h2 svg { color: var(--ink-3); }
-.ne-idle > p { font-size: var(--t-xs); color: var(--ink-2); line-height: 1.75; }
+.ne-idle > p { font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he); }
 .ne-facts { display: grid; gap: 4px; }
 .ne-facts > div { display: grid; grid-template-columns: 1fr auto; gap: var(--sp-2); font-size: var(--t-xs); padding-block: 3px; border-block-end: 1px solid var(--hairline); }
 .ne-facts dt { color: var(--ink-3); }
 .ne-facts dd { font-family: var(--font-mono); direction: ltr; font-variant-numeric: tabular-nums; color: var(--ink-1); }
-.ne-legend { display: grid; gap: 6px; }
-.ne-legend li { display: flex; align-items: center; gap: 7px; font-size: var(--t-micro); color: var(--ink-3); }
-.ne-legend li i { inline-size: 20px; block-size: 2px; border-radius: 2px; background: var(--r); flex: none; }
-.ne-legend li[data-kind="unstated"] i { background: repeating-linear-gradient(to right, var(--r) 0 4px, transparent 4px 9px); }
-.ne-lg-pk, .ne-lg-fk { inline-size: 9px; block-size: 9px; border-radius: 50%; flex: none; }
-.ne-lg-pk { background: var(--ink-3); }
-.ne-lg-fk { border: 1.5px solid var(--ink-3); }
-.ne-note { font-size: var(--t-micro); color: var(--ink-3); line-height: 1.75; padding-block-start: var(--sp-2); border-block-start: 1px solid var(--hairline); }
+.ne-note { font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he); padding-block-start: var(--sp-2); border-block-start: 1px solid var(--hairline); }
 
 .ne-credit {
   font-size: var(--t-micro);
@@ -497,11 +622,66 @@ html .nx-app .nx-canvas:has(> .ne) {
 }
 
 /* ==========================================================================
+   KEYBOARD + LEGEND SHEET
+   ========================================================================== */
+
+.ne-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: var(--sp-4);
+  background: color-mix(in srgb, var(--ink-1) 42%, transparent);
+}
+.ne-sheet .ne-sheet-b {
+  inline-size: min(30rem, 100%);
+  max-block-size: 86svh;
+  overflow-y: auto;
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-5);
+  box-shadow: var(--elev-3);
+}
+.ne-sheet-b header { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); }
+.ne-sheet-b h2 { font-size: var(--t-h2); font-weight: 700; color: var(--ink-1); }
+.ne-sheet-k { display: grid; gap: 3px; }
+.ne-sheet-k > div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 5px var(--sp-2);
+  border-radius: var(--r-xs);
+  background: var(--surface-2);
+}
+.ne-sheet-k dt { font-size: var(--t-xs); color: var(--ink-2); }
+.ne-sheet-k kbd {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: var(--r-xs);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  color: var(--ink-2);
+  direction: ltr;
+}
+
+.ne-legend { display: grid; gap: 6px; }
+.ne-legend li { display: flex; align-items: center; gap: 7px; font-size: var(--t-micro); color: var(--ink-3); }
+.ne-legend li i { inline-size: 22px; block-size: 2.5px; border-radius: 2px; background: var(--e); flex: none; }
+.ne-legend li[data-kind="unstated"] i { background: repeating-linear-gradient(to right, var(--e) 0 5px, transparent 5px 10px); }
+.ne-legend li.ne-lg-both i { background: linear-gradient(to left, var(--mod-pm), var(--mod-pppi)); }
+.ne-lg-pk, .ne-lg-fk { inline-size: 22px; block-size: 9px; flex: none; }
+.ne-lg-pk { background: var(--ink-3); border-radius: 2px; }
+.ne-lg-fk { border-inline-end: 2px solid var(--ink-3); border-block-end: 2px solid var(--ink-3); }
+
+/* ==========================================================================
    NARROW · the workspace becomes a scrolling page with a bounded stage
    ========================================================================== */
 
 @container ne (max-width: 900px) {
-  .ne { grid-template-rows: auto auto auto; block-size: auto; }
+  .ne { grid-template-rows: auto auto auto auto; block-size: auto; }
   .ne-body { grid-template-columns: 1fr; }
   .ne-stage { block-size: 58svh; min-block-size: 20rem; }
   .ne-insp {
@@ -509,13 +689,15 @@ html .nx-app .nx-canvas:has(> .ne) {
     border-inline-start: 0;
     border-block-start: 1px solid var(--hairline);
   }
-  .ne-find { grid-template-rows: auto auto auto; }
   .ne-list { max-block-size: 16rem; }
   .ne-detail { overflow: visible; }
   .ne-mini { inline-size: 9rem; }
-  .ne-keys { grid-template-columns: 1fr; }
-  .ne-bar { padding: var(--sp-3); }
+  .ne-keys, .ne-det-n { grid-template-columns: 1fr; }
+  .ne-det-n { grid-template-columns: repeat(3, 1fr); }
+  .ne-bar, .ne-filters { padding-inline: var(--sp-3); }
   .ne-bar-id { flex-basis: 100%; margin-inline-end: 0; }
+  .ne-find-top { inline-size: 100%; }
+  .ne-hint { display: none; }
 }
 
 /* The canvas must scroll again once the workspace is a page rather than an

@@ -3,6 +3,12 @@ import { NeoTableList } from "@/components/neo-shell/table-list";
 import { modVar } from "@/components/neo-shell/mod-var";
 import { ModuleWorkspace } from "@/components/neo-shell/workspace/module-workspace";
 import { workspaceData } from "@/components/neo-shell/workspace/workspace-data";
+// ui.css owns every control on this route (.nu-btn, .nu-btn2, .nu-ghost,
+// .nu-tab, .nu-link, .nu-filter, .nu-chip, .nu-status, .nu-card) — its states,
+// its focus ring and its disabled language. It is imported FIRST so that the
+// few layout-only overrides workspace.css makes at the same specificity land
+// after it rather than before it.
+import "../ui.css";
 import "../workspace.css";
 
 // One route generates every navigation destination in the namespace. That is

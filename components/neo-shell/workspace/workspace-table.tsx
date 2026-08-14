@@ -1,21 +1,28 @@
 "use client";
 
-// Project NEO · Stage 2B — the working table. The centre of gravity.
+// Project NEO · the working table. The centre of gravity of both workspaces.
 //
 // A real <table>: the data is tabular, the header is sortable, and screen
 // readers get row/column semantics instead of a wall of divs. On a narrow
 // canvas the same markup RECOMPOSES into touch cards through CSS alone (the
-// column labels travel in `data-l`), so the phone gets a touch surface rather
-// than a shrunken desktop grid.
+// column labels travel in `data-l`), so the phone gets its own composition
+// rather than a squeezed desktop grid.
 //
-// Selecting a table name does not navigate: it announces the object on the same
-// window event components/neo-shell/table-list.tsx uses, so the shell loads the
-// full context into its shelf and pushes the name onto the product's real
-// recents list. The expander next to it opens the row's own documentation —
-// key fields, the verbatim S/4HANA note, the modelled JOINs and the interfaces.
+// TWO CONTROLS PER ROW, and they no longer look alike:
+//   · the table NAME is a .nu-link — it leaves for the real object page at
+//     /neo/object/<NAME>/, which app/neo/object/[name] generates from the same
+//     dictionary these rows come from. It also pushes the name onto the
+//     product's real recents list on the way out, so the "recent activity"
+//     block below the table keeps working exactly as it did when the row
+//     opened a shelf instead of a page.
+//   · the expander is a .nu-ghost — a tertiary action that stays on the page
+//     and opens this row's own documentation.
+// Nothing else in a row is clickable, which is the whole point.
 
 import { Fragment, useState } from "react";
-import { ChevronDown, CornerDownLeft } from "lucide-react";
+import Link from "next/link";
+import { ArrowLeft, ChevronDown } from "lucide-react";
+import { pushRecentObject } from "../store";
 import type { S4Class, WsRow, WsTopic } from "./workspace-data";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -62,8 +69,10 @@ export function WorkspaceTable({
     return (
       <div className="nw-empty">
         <p>אף שורה במילון של המודול אינה עונה על הסינון הנוכחי.</p>
-        <p className="nw-fine">המילון מחזיק {nf.format(total)} שורות. הסינון מצמצם — הוא לא מסתיר חוסר בנתונים.</p>
-        <button type="button" className="nw-clear" onClick={onClear}>
+        <p className="nw-fine">
+          המילון מחזיק {nf.format(total)} שורות. הסינון מצמצם — הוא לא מסתיר חוסר בנתונים.
+        </p>
+        <button type="button" className="nu-btn2" onClick={onClear}>
           נקה סינון
         </button>
       </div>
@@ -86,7 +95,12 @@ export function WorkspaceTable({
                 aria-sort={c.k && sort === c.k ? (dir === -1 ? "descending" : "ascending") : undefined}
               >
                 {c.k ? (
-                  <button type="button" onClick={() => onSort(c.k as SortKey)} data-on={sort === c.k ? "1" : undefined}>
+                  <button
+                    type="button"
+                    className="nu-ghost nw-sortbtn"
+                    onClick={() => onSort(c.k as SortKey)}
+                    data-on={sort === c.k ? "1" : undefined}
+                  >
                     {c.he}
                     <em className="nw-sap" aria-hidden="true">
                       {sort === c.k ? (dir === -1 ? "↓" : "↑") : "·"}
@@ -114,18 +128,18 @@ export function WorkspaceTable({
                   style={{ "--o": r.obj } as React.CSSProperties}
                 >
                   <td className="nw-c-n" data-l="טבלה">
-                    <button
-                      type="button"
-                      className="nw-open"
-                      onClick={() => window.dispatchEvent(new CustomEvent("neo:nx:object", { detail: r.n }))}
-                      title={`פתיחת ההקשר המלא של ${r.n}`}
+                    <Link
+                      className="nu-link nw-name"
+                      href={r.href}
+                      prefetch={false}
+                      onClick={() => pushRecentObject(r.n)}
                     >
                       {/* OBJECT-class hue — the data's own encoding, never the module hue. */}
                       <i className="nw-cls" aria-hidden="true" />
                       <b className="nw-sap">{r.n}</b>
-                      <CornerDownLeft size={12} strokeWidth={1.75} aria-hidden="true" />
-                    </button>
-                    {r.shared ? <span className="nw-shared">משותפת</span> : null}
+                      <ArrowLeft className="nu-arw" size={13} strokeWidth={2} aria-hidden="true" />
+                    </Link>
+                    {r.shared ? <span className="nu-chip">משותפת</span> : null}
                   </td>
 
                   <td className="nw-c-he" data-l="תיאור">
@@ -152,7 +166,7 @@ export function WorkspaceTable({
                     {r.tc.length ? (
                       <>
                         {r.tc.slice(0, 2).map((c) => (
-                          <span key={c} className="nw-tc nw-sap">{c}</span>
+                          <span key={c} className="nu-chip is-sap">{c}</span>
                         ))}
                         {r.tc.length > 2 ? <em className="nw-sap">+{r.tc.length - 2}</em> : null}
                       </>
@@ -177,8 +191,7 @@ export function WorkspaceTable({
                   <td className="nw-c-s4" data-l="S/4HANA">
                     {/* STATUS colour: a small filled dot, immediately followed by its
                         word. It is never a surface, a ring, a line or text colour. */}
-                    <span className="nw-st" data-k={r.s4}>
-                      <i aria-hidden="true" />
+                    <span className="nu-status" style={{ "--s": s4Dot(r.s4) } as React.CSSProperties}>
                       {S4_HE[r.s4]}
                     </span>
                   </td>
@@ -186,13 +199,15 @@ export function WorkspaceTable({
                   <td className="nw-c-x">
                     <button
                       type="button"
-                      className="nw-x"
+                      className="nu-ghost nw-x"
                       aria-expanded={isOpen}
                       aria-controls={`nw-d-${r.tp}-${r.n}`}
                       onClick={() => setOpen((c) => (c === id ? null : id))}
                     >
                       <ChevronDown size={16} strokeWidth={1.75} aria-hidden="true" />
-                      <span className="nw-sr">{isOpen ? "סגירת הפירוט של" : "פתיחת הפירוט של"} {r.n}</span>
+                      <span className="nw-sr">
+                        {isOpen ? "סגירת הפירוט של" : "פתיחת הפירוט של"} {r.n}
+                      </span>
                     </button>
                   </td>
                 </tr>
@@ -215,7 +230,9 @@ export function WorkspaceTable({
                               ))}
                             </ul>
                           ) : (
-                            <p className="nw-fine">המילון אינו מסמן שדה מפתח לשורה הזאת. {r.f} שדות מתועדים בסך הכול.</p>
+                            <p className="nw-fine">
+                              המילון אינו מסמן שדה מפתח לשורה הזאת. {r.f} שדות מתועדים בסך הכול.
+                            </p>
                           )}
                         </section>
 
@@ -225,8 +242,22 @@ export function WorkspaceTable({
                             <ul className="nw-joins">
                               {r.rels.map((rel) => (
                                 <li key={`${rel.table}-${rel.join}`}>
-                                  <b className="nw-sap">{rel.table}</b>
-                                  <span className="nw-card nw-sap">{rel.card || "ללא ציון"}</span>
+                                  {/* A link only when the far end is a table the
+                                      dictionary documents; otherwise plain text. */}
+                                  {rel.href ? (
+                                    <Link
+                                      className="nu-link"
+                                      href={rel.href}
+                                      prefetch={false}
+                                      onClick={() => pushRecentObject(rel.table)}
+                                    >
+                                      <b className="nw-sap">{rel.table}</b>
+                                      <ArrowLeft className="nu-arw" size={12} strokeWidth={2} aria-hidden="true" />
+                                    </Link>
+                                  ) : (
+                                    <b className="nw-sap">{rel.table}</b>
+                                  )}
+                                  <span className="nu-chip is-sap">{rel.card || "ללא ציון"}</span>
                                   {rel.inside ? null : <span className="nw-out">מחוץ למילון המודול</span>}
                                   <span className="nw-join-d">{rel.desc}</span>
                                   <code className="nw-sap">{rel.join}</code>
@@ -257,7 +288,7 @@ export function WorkspaceTable({
                             <p className="nw-alltc">
                               כל הטרנזקציות:{" "}
                               {r.tc.map((c) => (
-                                <span key={c} className="nw-tc nw-sap">{c}</span>
+                                <span key={c} className="nu-chip is-sap">{c}</span>
                               ))}
                             </p>
                           ) : null}
@@ -277,6 +308,15 @@ export function WorkspaceTable({
                               Fiori: <span className="nw-sap">{r.fiori}</span>
                             </p>
                           ) : null}
+                          <Link
+                            className="nu-btn2 nw-detgo"
+                            href={r.href}
+                            prefetch={false}
+                            onClick={() => pushRecentObject(r.n)}
+                          >
+                            עמוד האובייקט המלא של <span className="nw-sap">{r.n}</span>
+                            <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
+                          </Link>
                         </section>
                       </div>
                     </td>
@@ -290,3 +330,8 @@ export function WorkspaceTable({
     </div>
   );
 }
+
+/** The STATUS token for a verdict. Fed to .nu-status, which is the only shape
+ *  a status colour is allowed to take: a small filled dot plus its word. */
+export const s4Dot = (k: S4Class) =>
+  k === 0 ? "var(--status-done)" : k === 1 ? "var(--status-in-conversion)" : "var(--status-not-started)";

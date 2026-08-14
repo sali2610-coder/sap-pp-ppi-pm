@@ -1,19 +1,22 @@
 "use client";
 
-// Project NEO · Stage 2B — "objects you opened recently, in THIS module".
+// Project NEO · "objects you opened recently, in THIS module".
 //
 // The list is not a new store. It reads `neo:obj:recent` through the shell's
 // own store, which is the same key components/object-workspace.tsx writes and
 // the rail's shelf reads — so a table opened on a legacy /object page shows up
-// here, and a table opened here shows up there.
+// here, and a table opened from the working table shows up there.
 //
-// Two honesty rules this panel keeps:
+// Three honesty rules this panel keeps:
 //   · it shows only names that this module's dictionary actually documents, so
 //     a PP-PI table can never appear under PM;
 //   · a row renders a time only when a real timestamp was stored for it. There
-//     is no plausible-looking fallback.
+//     is no plausible-looking fallback;
+//   · a row is a LINK to the object page it names — the same destination the
+//     working table sends you to, so "recent" and "open" mean one thing.
 
-import { History } from "lucide-react";
+import Link from "next/link";
+import { ArrowLeft, History } from "lucide-react";
 import { relTime, useRecent } from "../store";
 import type { WsRow } from "./workspace-data";
 
@@ -27,35 +30,33 @@ export function WorkspaceRecent({ names, rows }: { names: Set<string>; rows: WsR
   const list = recent.filter((n) => names.has(n)).slice(0, 6);
 
   return (
-    <section className="nw-panel" aria-labelledby="nw-recent-h">
-      <h2 className="nw-panel-h" id="nw-recent-h">
-        <History size={14} strokeWidth={1.75} aria-hidden="true" />
+    <section className="nw-sub" aria-labelledby="nw-recent-h">
+      <h3 className="nw-sub-h" id="nw-recent-h">
+        <History size={13} strokeWidth={1.75} aria-hidden="true" />
         אובייקטים אחרונים במודול
-      </h2>
+      </h3>
       {list.length ? (
-        <ul className="nw-rclist">
+        <ul className="nw-rank nw-rank--tight">
           {list.map((n) => {
             const r = byName.get(n)!;
             const ts = seen[n];
             return (
               <li key={n} style={{ "--o": r.obj } as React.CSSProperties}>
-                <button
-                  type="button"
-                  onClick={() => window.dispatchEvent(new CustomEvent("neo:nx:object", { detail: n }))}
-                >
+                <Link className="nu-card nw-rcrow" href={r.href} prefetch={false}>
                   <i className="nw-cls" aria-hidden="true" />
                   <b className="nw-sap">{n}</b>
                   <span className="nw-rc-he">{r.he}</span>
                   {ts ? <em>{relTime(ts)}</em> : null}
-                </button>
+                  <ArrowLeft className="nu-arw nw-steparw" size={13} strokeWidth={2} aria-hidden="true" />
+                </Link>
               </li>
             );
           })}
         </ul>
       ) : (
         <p className="nw-fine">
-          עדיין לא נפתח כאן אובייקט מהמודול הזה. לחיצה על שורה בטבלת העבודה פותחת את ההקשר המלא שלה
-          ומוסיפה אותה לרשימה.
+          עדיין לא נפתח כאן אובייקט מהמודול הזה. שם של טבלה בטבלת העבודה פותח את עמוד האובייקט המלא שלה
+          ומוסיף אותה לרשימה.
         </p>
       )}
     </section>

@@ -10,7 +10,9 @@ import type { ModuleKey } from "../types";
  *  and a section only ever exists when the project data really backs it. */
 export type CmdKind =
   | "nav"
+  | "module"
   | "table"
+  | "field"
   | "tcode"
   | "bapi"
   | "func"
@@ -38,15 +40,43 @@ export interface CmdExtraRecord {
   rel?: string;
 }
 
+/** A module the project really documents, as a first-class search result. */
+export interface CmdModuleRecord {
+  /** Module key exactly as the dataset writes it — "PM", "PP-PI". */
+  key: string;
+  /** The navigation label the rail already uses for it. */
+  label: string;
+  /** Hebrew name. */
+  he: string;
+  href: string;
+  /** Real counts, joined — never an estimate. */
+  rel: string;
+}
+
+/** One dictionary FIELD, as a tuple. Tuples rather than objects on purpose:
+ *  there are ~600 of them and this payload is inlined into the HTML of every
+ *  page in the namespace, so repeating five key names 600 times is not free.
+ *  [technical name, Hebrew name, owning table, type+length]. */
+export type CmdFieldTuple = [string, string, string, string];
+
 /** The build-time supplement handed to the client shell. It carries ONLY what
  *  ShellData cannot already answer — never a second copy of the same records. */
 export interface CommandExtra {
   recs: CmdExtraRecord[];
-  /** function / BAPI name -> [owning table, module]. Real ownership, from the
-   *  same `t.funcs` lists the dictionary pages render. */
-  fn: Record<string, [string, string]>;
-  /** transaction code -> [tables it appears on, modules]. */
-  tx: Record<string, [string, string]>;
+  /** The modules the project documents. Two of them, and both are real. */
+  mods: CmdModuleRecord[];
+  /** Every dictionary field, with the table that owns it. */
+  fields: CmdFieldTuple[];
+  /** function / BAPI name -> [owning table, module, real destination or ""].
+   *  Ownership is read from the same `t.funcs` lists the dictionary pages
+   *  render; the destination is resolved at build time against the routes that
+   *  are really generated, so a row never offers a link to a page that does not
+   *  exist. */
+  fn: Record<string, [string, string, string]>;
+  /** transaction code -> [tables it appears on, modules, real destination]. */
+  tx: Record<string, [string, string, string]>;
+  /** Fiori app id -> the slug its generated page is keyed by. */
+  fiori: Record<string, string>;
   /** functional-zone id -> Hebrew label (lib/studio-graph's own ZONES). */
   zone: Record<string, string>;
   /** Result families the client asked for that have NO build-time index in this
@@ -75,6 +105,11 @@ export interface CmdRecord {
   objHe?: string;
   /** Table this row can load into the context shelf — the row's quick action. */
   ctx?: string;
+  /** THE DESTINATION, printed on the row. It is the actual route Enter opens,
+   *  not a description of it, so a reader can see where a result goes before
+   *  committing to it. Absent when the project has no page for the record, in
+   *  which case the row says so instead of pretending. */
+  dest?: string;
   /** Lowercased title. Built once on the client, never shipped. */
   lt: string;
   /** Lowercased everything else (context, relationship, module). */

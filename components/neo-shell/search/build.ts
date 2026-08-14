@@ -19,7 +19,9 @@ import type { CmdKind, CmdRecord, CmdSection, CommandExtra } from "./types";
 
 export const KINDS: { k: CmdKind; he: string; icon: string }[] = [
   { k: "nav", he: "ניווט", icon: "Compass" },
+  { k: "module", he: "מודול", icon: "Layers" },
   { k: "table", he: "טבלה", icon: "Table" },
+  { k: "field", he: "שדה", icon: "Database" },
   { k: "tcode", he: "טרנזקציה", icon: "Terminal" },
   { k: "bapi", he: "BAPI", icon: "Plug" },
   { k: "func", he: "Function Module", icon: "SquareFunction" },
@@ -43,12 +45,14 @@ export type CmdShape = "data" | "code" | "doc";
 
 export const KIND_SHAPE: Record<CmdKind, CmdShape> = {
   table: "data",
+  field: "data",
   cds: "data",
   tcode: "code",
   bapi: "code",
   func: "code",
   fiori: "code",
   nav: "doc",
+  module: "doc",
   flow: "doc",
   chapter: "doc",
   book: "doc",
@@ -64,10 +68,22 @@ const low = (s: string) => (s || "").toLowerCase();
 
 /* --------------------------------------------------------------- assembly */
 
+/** The object page of a dictionary table. app/neo/object/[name] generates one
+ *  for every name in the dictionary, and `ShellData.search` only ever carries
+ *  `obj` for names that came out of that same dictionary — so this is always a
+ *  real page, never a hopeful guess. */
+const objectHref = (name: string) => `/neo/object/${encodeURIComponent(name)}/`;
+
 export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
   const out: CmdRecord[] = [];
   const push = (r: Omit<CmdRecord, "lt" | "hay">) => {
-    out.push({ ...r, lt: low(r.title), hay: low([r.sub, r.rel, r.mod, r.objHe].filter(Boolean).join(" ")) });
+    out.push({
+      ...r,
+      // A row with no page does not get a destination line invented for it.
+      dest: r.dest ?? (r.href || undefined),
+      lt: low(r.title),
+      hay: low([r.sub, r.rel, r.mod, r.objHe].filter(Boolean).join(" ")),
+    });
   };
 
   /* nav — the rail's own destinations, so ⌘K reaches the navigation too */
@@ -86,6 +102,21 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
     }
   }
 
+  /* module — a first-class result, not merely a facet. Its relationship line is
+     the module's real size, counted by the same helper its workspace renders. */
+  for (const m of extra.mods) {
+    push({
+      id: `module:${m.key}`,
+      k: "module",
+      title: m.label,
+      mono: false,
+      sub: m.he,
+      href: m.href,
+      mod: m.key,
+      rel: m.rel,
+    });
+  }
+
   /* the dictionary index the rail already ships */
   for (const r of data.search) {
     if (r.k === "table") {
@@ -98,7 +129,9 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
         title: r.t,
         mono: true,
         sub: r.s,
-        href: r.href,
+        // THE RECORD'S OWN PAGE, not the family's list page. `/neo/tables/` is
+        // where you browse tables; `/neo/object/EQUI/` is where EQUI lives.
+        href: r.obj ? objectHref(r.obj) : r.href,
         mod: o?.mods.join(" · "),
         rel: rel ? `${rel.table}${rel.card ? ` · ${rel.card}` : ""}` : c?.tcodes[0],
         obj: o?.obj,
@@ -109,13 +142,15 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
     }
     if (r.k === "tcode") {
       const own = extra.tx[r.t];
+      const href = own?.[2] || null;
       push({
         id: `tcode:${r.t}`,
         k: "tcode",
         title: r.t,
         mono: true,
         sub: r.s,
-        href: r.href,
+        // The real transaction page when the build generates one for this code.
+        href,
         mod: own?.[1] || undefined,
         rel: own?.[0] || undefined,
       });
@@ -129,10 +164,33 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
         title: r.t,
         mono: true,
         sub: r.s,
-        href: r.href,
+        href: own?.[2] || null,
         mod: own?.[1] || undefined,
         rel: own?.[0] || undefined,
         ctx: own?.[0],
+      });
+      continue;
+    }
+    if (r.k === "cds") {
+      push({
+        id: `cds:${r.t}`,
+        k: "cds",
+        title: r.t,
+        mono: true,
+        sub: r.s,
+        href: `/cds/${encodeURIComponent(r.t)}/`,
+      });
+      continue;
+    }
+    if (r.k === "fiori") {
+      const slug = extra.fiori[r.t];
+      push({
+        id: `fiori:${r.t}`,
+        k: "fiori",
+        title: r.t,
+        mono: true,
+        sub: r.s,
+        href: slug ? `/fiori-apps/${slug}/` : r.href,
       });
       continue;
     }
@@ -143,6 +201,24 @@ export function buildIndex(data: ShellData, extra: CommandExtra): CmdRecord[] {
       mono: r.m,
       sub: r.s,
       href: r.href,
+    });
+  }
+
+  /* field — the one family the rail's index has no entry for at all. Every row
+     is a real blueprint field, and it opens the object page of the table that
+     owns it, which is where that field is actually documented. */
+  for (const [tech, he, table, type] of extra.fields) {
+    push({
+      id: `field:${table}.${tech}`,
+      k: "field",
+      title: tech,
+      mono: true,
+      sub: he,
+      href: objectHref(table),
+      mod: data.objects[table]?.mods.join(" · "),
+      rel: type ? `${table} · ${type}` : table,
+      obj: data.objects[table]?.obj,
+      ctx: table,
     });
   }
 
@@ -185,7 +261,9 @@ function score(rec: CmdRecord, q: string): number {
 }
 
 /** Kinds that a bare navigation query should surface first. */
-const KIND_BOOST: Partial<Record<CmdKind, number>> = { nav: 90, table: 40, tcode: 30, flow: 20 };
+const KIND_BOOST: Partial<Record<CmdKind, number>> = {
+  nav: 90, module: 95, table: 40, tcode: 30, flow: 20, field: 5,
+};
 
 export interface CmdResult {
   sections: CmdSection[];

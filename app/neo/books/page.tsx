@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { Library, Table2 } from "lucide-react";
+// The interaction system first, this page's own sheet second, so a .nb rule can
+// refine a .nu- control without an !important.
+import "../ui.css";
 import "../books.css";
 import { booksData } from "@/components/neo-shell/books/books-data";
 import { BookShelf } from "@/components/neo-shell/books/book-shelf";
@@ -38,17 +41,19 @@ export default function NeoBooks() {
           <span className="nb-mega-2">לא רשימה — מדף.</span>
         </h1>
         <p className="nb-lede">
-          {nf.format(d.totals.chapters)} פרקים ו־{nf.format(d.totals.sections)} ערכים,
+          {nf.format(d.totals.chapters)} פרקים ו־{nf.format(d.totals.sections)} תת-פרקים,
           פרושים על {d.totals.modules} מודולים של SAP. כל כריכה כאן משורטטת מהמטא-דאטה של
           הספר עצמו — המודול הוא צבע הכריכה, הכותרת היא הכותרת האמיתית, ומספר העמודים הוא
           זה שמופיע במאגר. אין תמונות עטיפה בפרויקט, ולכן גם לא הומצאה אחת.
+          כרטיס הספר פותח את תוכן העניינים האמיתי עד רמת תת-הפרק, וכל שורה בו נכנסת
+          לקורא הקיים של Project NEO.
         </p>
 
         <div className="nb-stats">
           {([
             [nf.format(d.totals.books), "ספרים"],
             [nf.format(d.totals.chapters), "פרקים"],
-            [nf.format(d.totals.sections), "ערכים"],
+            [nf.format(d.totals.sections), "תת-פרקים"],
             [nf.format(d.totals.pages), "עמודים מתועדים"],
             [nf.format(d.totals.modules), "מודולים"],
           ] as [string, string][]).map(([n, l]) => (
@@ -99,7 +104,7 @@ export default function NeoBooks() {
       {d.twinNote && <p className="nb-note nb-note--wide">{d.twinNote}</p>}
 
       <footer className="nb-foot">
-        <Link className="nb-btn" href="/neo/library/" prefetch={false}>
+        <Link className="nu-btn2" href="/neo/library/" prefetch={false}>
           <Library size={15} strokeWidth={1.75} aria-hidden="true" />
           הספרייה הדיגיטלית
         </Link>

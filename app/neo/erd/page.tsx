@@ -1,3 +1,9 @@
+// ui.css owns every control on this route (.nu-btn, .nu-btn2, .nu-ghost,
+// .nu-filter, .nu-chip, .nu-card). Imported here rather than assumed: a CSS
+// import is deduplicated by the bundler, so this is safe even once the shell
+// layout pulls the same file in, and it means the ERD can never render its
+// controls unstyled.
+import "@/app/neo/ui.css";
 import "@/app/neo/erd.css";
 import { erdPayload } from "@/components/neo-shell/erd/erd-data";
 import { ErdWorkspace } from "@/components/neo-shell/erd/erd-workspace";

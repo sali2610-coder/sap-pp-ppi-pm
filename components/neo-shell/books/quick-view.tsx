@@ -1,0 +1,326 @@
+"use client";
+
+// BOOK QUICK VIEW — a reading-navigation surface, not a reader.
+//
+// It answers four questions and then gets out of the way:
+//   what is this book        cover, title, module, how it is built
+//   how big is it            chapters, subchapters, pages, figures, publisher
+//   where was I              reading state and the last location, from the
+//                            stores the app already keeps (./reading-state.ts)
+//   where do I want to go    the real table of contents, down to the subchapter
+//
+// The cover is a shared element: the same <BookCover> instance the shelf slab
+// renders, flown between the two rects with a measured FLIP on transform alone.
+// Under prefers-reduced-motion the flight is not slowed, it is skipped.
+//
+// Every outbound link is the existing /library/<id>/ URL. This file renders no
+// prose, fetches nothing, and wraps no part of the canonical reader.
+
+import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
+import Link from "next/link";
+import { ArrowUpLeft, BookOpen, Bookmark, Layers, LayoutList, PlayCircle, Table2, X } from "lucide-react";
+import { SPRING, reducedMotion } from "../flip";
+import { BookCover } from "./book-cover";
+import { BookToc } from "./book-toc";
+import { noteHandoff } from "./reading-state";
+import type { BookReading } from "./reading-state";
+import { resolveResume, resumeLine } from "./resume";
+import type { BookCard } from "./books-data";
+
+const nf = new Intl.NumberFormat("he-IL");
+const OPEN_MS = 520;
+const CLOSE_MS = 320;
+
+export function BookQuickView({
+  b,
+  reading,
+  triggerRef,
+  onClose,
+}: {
+  b: BookCard;
+  reading: BookReading | undefined;
+  triggerRef: React.RefObject<HTMLButtonElement | null>;
+  onClose: () => void;
+}) {
+  const coverRef = useRef<HTMLDivElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const leaving = useRef(false);
+
+  /* The FLIP. The trigger never moves when the panel opens — the panel is a
+     fixed overlay — so its rect can be read after mount and is still true.
+     Both rects are taken from the COVER box, not from the button (which also
+     carries the shelf shadow underneath it): matching the two cover boxes is
+     what keeps the scale uniform and the flight free of distortion. */
+  useLayoutEffect(() => {
+    const el = coverRef.current;
+    const trigger = triggerRef.current;
+    if (!el || !trigger || reducedMotion()) return;
+    const from = (trigger.firstElementChild ?? trigger).getBoundingClientRect();
+    const to = el.getBoundingClientRect();
+    if (!from.width || !to.width) return;
+    const sx = from.width / to.width;
+    const sy = from.height / to.height;
+    const dx = from.left + from.width / 2 - (to.left + to.width / 2);
+    const dy = from.top + from.height / 2 - (to.top + to.height / 2);
+    el.animate(
+      [
+        { transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` },
+        { transform: "translate3d(0, 0, 0) scale(1, 1)" },
+      ],
+      { duration: OPEN_MS, easing: SPRING, fill: "none" },
+    );
+  }, [triggerRef]);
+
+  /* Focus lands on the panel's own close control, so the first Tab is inside
+     the dialog rather than back out in the shelf behind it. */
+  useEffect(() => {
+    closeRef.current?.focus({ preventScroll: true });
+  }, []);
+
+  const leave = useCallback(() => {
+    if (leaving.current) return;
+    leaving.current = true;
+    const el = coverRef.current;
+    const sheet = sheetRef.current;
+    const trigger = triggerRef.current;
+    if (!el || !trigger || reducedMotion()) {
+      onClose();
+      return;
+    }
+    const from = el.getBoundingClientRect();
+    const to = (trigger.firstElementChild ?? trigger).getBoundingClientRect();
+    if (!from.width || !to.width) {
+      onClose();
+      return;
+    }
+    const sx = to.width / from.width;
+    const sy = to.height / from.height;
+    const dx = to.left + to.width / 2 - (from.left + from.width / 2);
+    const dy = to.top + to.height / 2 - (from.top + from.height / 2);
+    /* The panel holds its opacity for the first half of the flight and only
+       then lets go, so the cover is still solid while it is travelling and
+       fades exactly as it lands back on the shelf slot it came from. */
+    sheet?.animate(
+      [{ opacity: 1 }, { opacity: 1, offset: 0.5 }, { opacity: 0 }],
+      { duration: CLOSE_MS, easing: "linear", fill: "forwards" },
+    );
+    const a = el.animate(
+      [
+        { transform: "translate3d(0, 0, 0) scale(1, 1)" },
+        { transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` },
+      ],
+      { duration: CLOSE_MS, easing: SPRING, fill: "forwards" },
+    );
+    a.onfinish = onClose;
+    a.oncancel = onClose;
+  }, [onClose, triggerRef]);
+
+  /* Escape closes, and Tab is wrapped inside the panel. A modal that lets Tab
+     walk out into the shelf behind the scrim is a modal in name only, and this
+     one has to be usable from the keyboard because the tilt affordance is not
+     available there. */
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        leave();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const root = sheetRef.current;
+      if (!root) return;
+      const items = [...root.querySelectorAll<HTMLElement>("a[href], button:not([disabled]), input:not([disabled])")]
+        .filter((el) => el.tabIndex !== -1 && el.offsetParent !== null);
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const at = document.activeElement;
+      if (!e.shiftKey && at === last) { e.preventDefault(); first.focus(); }
+      else if (e.shiftKey && (at === first || !root.contains(at))) { e.preventDefault(); last.focus(); }
+    };
+    document.addEventListener("keydown", onKey, true);
+    return () => document.removeEventListener("keydown", onKey, true);
+  }, [leave]);
+
+  /* The NEO shell scrolls its canvas, not the document, so the lock is applied
+     to whichever element is actually the scroller and restored on the way out.
+     Nothing is mutated in source; this is a runtime style that always unwinds. */
+  useEffect(() => {
+    const canvas = sheetRef.current?.closest(".nx-canvas") as HTMLElement | null
+      ?? document.querySelector(".nx-canvas") as HTMLElement | null;
+    if (!canvas) return;
+    const prev = canvas.style.overflow;
+    canvas.style.overflow = "hidden";
+    return () => { canvas.style.overflow = prev; };
+  }, []);
+
+  const t = b.titleHe || b.titleEn;
+  const r = resolveResume(b, reading);
+  const line = resumeLine(r);
+  const done = r.read >= b.chapters && b.chapters > 0;
+
+  return (
+    <div className="nb-entry" style={{ "--m": b.mod } as React.CSSProperties}>
+      {/* Pointer dismissal only. It is deliberately out of the tab order: the
+          panel already has a real close button and Escape, and a full-screen
+          stop on the way in would be noise. */}
+      <button type="button" className="nb-scrim" tabIndex={-1} aria-hidden="true" onClick={leave} />
+      <div
+        className="nb-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="nb-entry-t"
+        ref={sheetRef}
+      >
+        {/* Outside the scrolling body on purpose: on a phone the panel is a
+            92dvh sheet, and a close control that scrolls away is a trap. */}
+        <button type="button" className="nb-x" onClick={leave} ref={closeRef} aria-label="סגירת כרטיס הספר">
+          <X size={16} strokeWidth={1.75} aria-hidden="true" />
+        </button>
+
+        <div className="nb-sheet-side">
+          <div className="nb-sheet-cov" ref={coverRef}>
+            <BookCover b={b} size="entry" />
+          </div>
+
+          <p
+            className="nu-status nb-sheet-state"
+            style={{
+              "--s": r.fresh
+                ? "var(--status-not-started)"
+                : done
+                  ? "var(--status-done)"
+                  : "var(--status-in-conversion)",
+            } as React.CSSProperties}
+          >
+            {r.fresh
+              ? "לא נפתח עדיין"
+              : done
+                ? `כל ${b.chapters} הפרקים סומנו כנקראו`
+                : r.read > 0
+                  ? `${r.read} מתוך ${b.chapters} פרקים סומנו כנקראו`
+                  : "נפתח, ללא פרקים מסומנים"}
+          </p>
+
+          {!r.fresh && b.chapters > 0 && (
+            <span className="nb-prog" aria-hidden="true" style={{ "--p": r.progress } as React.CSSProperties}>
+              <i />
+            </span>
+          )}
+        </div>
+
+        <div className="nb-sheet-body">
+          <p className="nb-eye nb-sheet-head">
+            <span className="nb-sap">{b.module}</span>
+            <i aria-hidden="true" />
+            {b.moduleHe}
+            {b.kindLabel && <><i aria-hidden="true" />{b.kindLabel}</>}
+          </p>
+
+          <h2 className="nb-sheet-t" id="nb-entry-t">{t}</h2>
+          {b.titleHe && <p className="nb-sheet-t2 nb-sap">{b.titleEn}</p>}
+
+          <dl className="nb-facts">
+            <div><dt>פרקים</dt><dd className="nb-sap">{b.chapters}</dd></div>
+            <div><dt>תת-פרקים</dt><dd className="nb-sap">{nf.format(b.sections)}</dd></div>
+            <div>
+              <dt>עמודים</dt>
+              <dd className={b.pages === null ? "nb-none" : "nb-sap"}>
+                {b.pages === null ? "לא מתועד" : nf.format(b.pages)}
+              </dd>
+            </div>
+            {b.figures !== null && (
+              <div><dt>איורים</dt><dd className="nb-sap">{nf.format(b.figures)}</dd></div>
+            )}
+            <div><dt>מוציא לאור</dt><dd>{b.publisher ?? "לא מתועד"}</dd></div>
+          </dl>
+          <p className="nb-sheet-k">{b.structureHe}</p>
+
+          {/* CONTINUE READING. Rendered only when a real location is stored —
+              there is no "start from the beginning" disguised as a resume. */}
+          {line ? (
+            <div className="nb-resume">
+              <p className="nb-resume-h">
+                <Bookmark size={14} strokeWidth={1.75} aria-hidden="true" />
+                המשך מהמקום האחרון
+              </p>
+              <p className="nb-resume-l">{line}</p>
+              <Link
+                className="nu-btn"
+                href={r.href}
+                prefetch={false}
+                onClick={() => noteHandoff(b.id, r.chapter, r.section)}
+              >
+                <PlayCircle size={15} strokeWidth={1.75} aria-hidden="true" />
+                {r.exact ? "חזרה לתת-הפרק" : "חזרה לפרק"}
+              </Link>
+              <p className="nb-fine">
+                {r.section && r.exact
+                  ? "המיקום נשמר עד רמת תת-הפרק, והקישור נוחת עליו בקורא."
+                  : r.section
+                    ? "נשמר תת-פרק, אך הקישור העמוק של הקורא בספר הזה נוחת ברמת הפרק."
+                    : "נשמר פרק בלבד. תת-פרק נשמר רק כשהקריאה בפועל הגיעה לאחד."}
+              </p>
+            </div>
+          ) : (
+            <p className="nb-fine nb-resume-none">
+              אין מיקום קריאה שמור לספר הזה. אחרי פתיחה ראשונה בקורא, המקום האחרון יופיע כאן.
+            </p>
+          )}
+
+          <BookToc b={b} reading={reading} resumeSection={r.section} />
+
+          <section className="nb-link" aria-label="החיבור למילון NEO">
+            <h3 className="nb-h3">החיבור ל-Project NEO</h3>
+            {b.dict ? (
+              <>
+                <Link className="nb-dict" href={b.dict.href} prefetch={false}>
+                  <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
+                  <span className="nb-dict-t">
+                    מילון <span className="nb-sap">{b.dict.code}</span> · {b.dict.he}
+                  </span>
+                  <span className="nb-dict-n nb-sap">
+                    {nf.format(b.dict.tables)} טבלאות · {nf.format(b.dict.fields)} שדות
+                  </span>
+                  <ArrowUpLeft size={14} strokeWidth={1.75} aria-hidden="true" />
+                </Link>
+                {b.dict.caveat && <p className="nb-warn">{b.dict.caveat}</p>}
+              </>
+            ) : (
+              <p className="nb-warn" data-empty="1">{b.dictNote}</p>
+            )}
+            {b.near && (
+              <Link className="nb-dict" href={b.near.href} prefetch={false}>
+                <Layers size={15} strokeWidth={1.75} aria-hidden="true" />
+                <span className="nb-dict-t">{b.near.label}</span>
+                <span className="nb-dict-n nb-sap">{nf.format(b.near.n)} אפליקציות מלאות</span>
+                <ArrowUpLeft size={14} strokeWidth={1.75} aria-hidden="true" />
+              </Link>
+            )}
+          </section>
+
+          <div className="nb-sheet-cta">
+            <Link
+              className="nu-btn"
+              href={b.href}
+              prefetch={false}
+              onClick={() => noteHandoff(b.id, null, null)}
+            >
+              <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
+              פתח את הספר בקורא
+            </Link>
+            <Link className="nu-btn2" href={b.hubHref} prefetch={false}>
+              <LayoutList size={15} strokeWidth={1.75} aria-hidden="true" />
+              מרכז הספר
+            </Link>
+          </div>
+          <p className="nb-fine">
+            הקורא הוא מסך קיים ב-Project NEO בכתובת <span className="nb-sap">{b.href}</span>.
+            העמוד הזה הוא הכניסה אליו בלבד ואינו עוטף אותו.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

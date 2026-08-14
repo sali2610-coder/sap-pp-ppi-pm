@@ -637,3 +637,151 @@ html[data-theme="dark"] .nx-app .nxc--r .nxc-modchip {
   .nx-app .nxc--r .nxc-modchip:hover { transform: none; }
   .nx-app[data-live="1"] .nx-group { transition: none; }
 }
+
+/* ============================================================================
+   15. THE TETHER — "it should feel connected to the rail, not a random modal"
+   ----------------------------------------------------------------------------
+   The panel already GROWS from the rail's edge (rail.css scales it from
+   transform-origin 100% 0). What was missing is the thing that says WHERE it
+   grew from once it has settled. `.nxc` is positioned to start one --sp-3 gap
+   inside the rail column, so a bar drawn across that gap physically joins the
+   rail's own search slot to the panel's spine. It is drawn on the wrapper, not
+   the panel, because the panel clips its own overflow.
+   ========================================================================== */
+
+.nx-app .nxc--r::before,
+.nx-app .nxc--r::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: calc(var(--sp-3) * -1);
+  background: var(--sm);
+  opacity: .55;
+  pointer-events: none;
+}
+/* the connector across the gap, level with the rail's search field */
+.nx-app .nxc--r::before {
+  inset-block-start: 1.85rem;
+  inline-size: var(--sp-3);
+  block-size: 2px;
+  border-radius: var(--r-pill);
+}
+/* and the anchor point where it meets the rail */
+.nx-app .nxc--r::after {
+  inset-block-start: 1.45rem;
+  inline-size: 2px;
+  block-size: 0.8rem;
+  border-radius: var(--r-pill);
+  opacity: .32;
+}
+/* A full-screen sheet has no rail to be tethered to. */
+html[data-device="phone"] .nx-app .nxc--r::before,
+html[data-device="phone"] .nx-app .nxc--r::after,
+html[data-device="tablet"] .nx-app .nxc--r::before,
+html[data-device="tablet"] .nx-app .nxc--r::after { display: none; }
+
+/* ============================================================================
+   16. THE DESTINATION, ON THE ROW
+   ----------------------------------------------------------------------------
+   The row already carried type, module, title and relationship. The fifth thing
+   a reader needs before committing to a result is WHERE IT GOES, and the honest
+   way to show that is the route itself — /neo/object/EQUI/, /tcode/IW31/ — not
+   a paraphrase of it. A record with no page in the project gets a dashed, empty
+   destination that says so, and Enter on it does nothing rather than pretending.
+   ========================================================================== */
+
+.nx-app .nxc--r .nxc-dest {
+  display: inline-flex; align-items: center; gap: 3px; flex: none;
+  min-inline-size: 0; max-inline-size: 14rem;
+  padding: 2px 6px;
+  border: 1px solid transparent;
+  border-radius: var(--r-xs);
+  background: color-mix(in srgb, var(--ink-3) 9%, transparent);
+  font-size: 10px; color: var(--ink-3);
+}
+.nx-app .nxc--r .nxc-dest > svg { flex: none; }
+.nx-app .nxc--r .nxc-dest > span {
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-inline-size: 0;
+}
+.nx-app .nxc--r .nxc-dest[data-none="1"] {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--ink-3) 30%, transparent);
+  border-style: dashed;
+}
+.nx-app .nxc--r .nxc-row[data-active="1"] .nxc-dest {
+  color: var(--ink-2);
+  background: color-mix(in srgb, var(--m, var(--ink-3)) 15%, transparent);
+}
+.nx-app .nxc--r .nxc-row[data-active="1"] .nxc-dest[data-none="1"] { background: transparent; }
+
+.nx-app .nxc--r .nxc-d-dest {
+  font-size: var(--t-micro);
+  overflow-wrap: anywhere;
+}
+.nx-app .nxc--r .nxc-d-dest[data-none="1"] { color: var(--ink-3); }
+
+/* ============================================================================
+   17. PROGRESSIVE RESULTS + AN ANCHORED SELECTION
+   ----------------------------------------------------------------------------
+   PROGRESSIVE. Rows arrive in sequence rather than as one block. React keys
+   every row by its record id, so a row that survives a keystroke keeps its DOM
+   node and does NOT re-animate — only genuinely new answers move. `--i` is set
+   on the row and capped at 16 by the component, so the last row of a long list
+   is never left waiting on a half-second cascade.
+
+   ANCHORED. The selected row is joined to the detail pane that describes it:
+   the row grows a module bar on the edge that faces the pane, and the pane's own
+   content grows the matching line on the edge that faces the row. Both are
+   module LINES, which is the form module identity is allowed to take.
+
+   Sections fade only. A section is the containing block of its own sticky
+   heading, and a transform on it would break that heading's sticky positioning
+   for the length of the animation.
+   ========================================================================== */
+
+@keyframes nxc-row-in {
+  from { opacity: 0; transform: translateY(6px) scale(.994); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes nxc-sec-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.nx-app .nxc--r .nxc-row {
+  animation: nxc-row-in 240ms var(--ease-out-expo) both;
+  animation-delay: calc(var(--i, 0) * 16ms);
+}
+.nx-app .nxc--r .nxc-sec {
+  animation: nxc-sec-in 260ms var(--ease-out-expo) both;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+/* The bar on the row's inline-END edge — the side the detail pane is on. It is
+   a pseudo of .nxc-go, which is deliberately NOT positioned, so it resolves
+   against .nxc-row and can reach the row's own edge. */
+.nx-app .nxc--r .nxc-row[data-active="1"] .nxc-go { color: var(--m, var(--ink-3)); opacity: 1; }
+.nx-app .nxc--r .nxc-row[data-active="1"] .nxc-go::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: 0; inset-block: 24%;
+  inline-size: 3px; border-radius: var(--r-pill);
+  background: var(--m, var(--ink-3));
+}
+
+.nx-app .nxc--r .nxc-detail-in {
+  position: relative;
+  padding-inline-start: var(--sp-3);
+}
+.nx-app .nxc--r .nxc-detail-in::before {
+  content: '';
+  position: absolute;
+  inset-block: 2px auto; inset-inline-start: 0;
+  inline-size: 2px; block-size: 3.5rem;
+  border-radius: var(--r-pill);
+  background: var(--m, var(--ink-3));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nx-app .nxc--r .nxc-row,
+  .nx-app .nxc--r .nxc-sec { animation: none; }
+}

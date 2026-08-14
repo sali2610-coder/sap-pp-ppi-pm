@@ -65,6 +65,10 @@ export interface WsRelation {
   desc: string;
   /** true when the related table is itself documented inside this module. */
   inside: boolean;
+  /** `/neo/object/<TABLE>/` when the dictionary documents the far end, else
+   *  null. A null renders as plain text — never as a link with nothing behind
+   *  it. */
+  href: string | null;
 }
 
 export interface WsFunc {
@@ -79,6 +83,9 @@ export interface WsFunc {
 export interface WsRow {
   /** Table name — a real SAP identifier, always rendered LTR-isolated. */
   n: string;
+  /** The object page for this table. Always a generated route: the row names
+   *  come from the same datasets app/neo/object/[name] builds its params from. */
+  href: string;
   he: string;
   en: string;
   /** Topic index inside the module. */
@@ -134,6 +141,9 @@ export interface WsFlowStep {
   z: Zone;
   obj: string;
   rel: number;
+  /** Object page, or null for a step the dictionary does not document — a gap
+   *  is stated, never linked. */
+  href: string | null;
 }
 
 export interface WsBook {
@@ -151,6 +161,8 @@ export interface WsCourse {
   en: string;
   module: string;
   chapters: number;
+  /** The course's own chapter-route base, verbatim from the academy registry. */
+  href: string;
 }
 
 export interface WsData {
@@ -208,8 +220,13 @@ export interface WsData {
     cards: { label: string; n: number }[];
     none: number;
     /** Busiest tables by distinct neighbours. */
-    hubs: { n: string; deg: number; obj: string }[];
+    hubs: { n: string; deg: number; obj: string; href: string }[];
   };
+
+  /** The single most connected table in the module — the workspace's "start
+   *  here". Derived, never chosen by hand: it is hubs[0]. null only if the
+   *  dictionary models no relation at all for this module. */
+  entry: { n: string; he: string; obj: string; href: string; deg: number } | null;
 
   flow: WsFlowStep[];
   /** Transactions ranked by how many tables in the module map onto them. */
@@ -297,6 +314,17 @@ const COURSE_MODULES: Record<ModuleKey, string[]> = {
   "PP-PI": ["PP", "PP-PI", "PP/DS"],
 };
 
+/** Every table name the dictionary documents, across BOTH blueprints — exactly
+ *  the set app/neo/object/[name] calls generateStaticParams with, derived from
+ *  the same moduleTables() helper. A route is emitted only for a name in here,
+ *  so a workspace link can never outrun a generated page. */
+let _known: Set<string> | null = null;
+const known = (): Set<string> =>
+  (_known ??= new Set([...moduleTables(PM_DATA), ...moduleTables(PPPI_DATA)].map((t) => t.tableName)));
+
+/** The object route, or null when the far end is not a documented table. */
+const objHref = (n: string): string | null => (known().has(n) ? `/neo/object/${n}/` : null);
+
 const cache = new Map<ModuleKey, WsData>();
 
 export function workspaceData(key: ModuleKey): WsData {
@@ -372,10 +400,12 @@ export function workspaceData(key: ModuleKey): WsData {
       join: clean(r.join).slice(0, 120),
       desc: clean(r.desc),
       inside: distinctNames.has(r.table),
+      href: objHref(r.table),
     }));
     const z = zoneOf(t.tableName);
     return {
       n: t.tableName,
+      href: `/neo/object/${t.tableName}/`,
       he: t.descriptionHe || t.descriptionEn || "",
       en: t.descriptionEn || "",
       tp: t.topicIdx,
@@ -420,6 +450,7 @@ export function workspaceData(key: ModuleKey): WsData {
       z,
       obj: objVar(z),
       rel: deg.get(s.code)?.size ?? 0,
+      href: s.exists ? objHref(s.code) : null,
     };
   });
 
@@ -436,6 +467,11 @@ export function workspaceData(key: ModuleKey): WsData {
     const z = zoneOf(t.tableName);
     zoneCount.set(z, (zoneCount.get(z) || 0) + 1);
   }
+
+  const hubs = [...deg.entries()]
+    .map(([n, s]) => ({ n, deg: s.size, obj: objVar(zoneOf(n)), href: `/neo/object/${n}/` }))
+    .sort((a, b) => b.deg - a.deg || a.n.localeCompare(b.n))
+    .slice(0, 6);
 
   const cdsSet = new Set<string>();
   const fioriSet = new Set<string>();
@@ -492,11 +528,21 @@ export function workspaceData(key: ModuleKey): WsData {
       inside: edges.filter((e) => e.toExists).length,
       cards: [...cardCount.entries()].sort((a, b) => b[1] - a[1]).map(([label, n]) => ({ label, n })),
       none: edges.filter((e) => !(e.card || "").trim()).length,
-      hubs: [...deg.entries()]
-        .map(([n, s]) => ({ n, deg: s.size, obj: objVar(zoneOf(n)) }))
-        .sort((a, b) => b.deg - a.deg || a.n.localeCompare(b.n))
-        .slice(0, 6),
+      hubs,
     },
+
+    // "Start here" is not an editorial pick: it is the table the dictionary
+    // models the most neighbours for. If nothing is modelled, there is no
+    // entry point and the workspace says nothing rather than nominating one.
+    entry: hubs.length
+      ? {
+          n: hubs[0].n,
+          he: wsRows.find((r) => r.n === hubs[0].n)?.he || "",
+          obj: hubs[0].obj,
+          href: hubs[0].href,
+          deg: hubs[0].deg,
+        }
+      : null,
 
     flow,
 
@@ -520,6 +566,8 @@ export function workspaceData(key: ModuleKey): WsData {
       en: b.titleEn,
       module: b.module,
       chapters: Object.keys(b.data || {}).length,
+      // The academy registry owns the route; it is not reconstructed here.
+      href: b.base.endsWith("/") ? b.base : `${b.base}/`,
     })),
 
     rows: wsRows,

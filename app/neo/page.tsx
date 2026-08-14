@@ -3,6 +3,9 @@ import {
   ArrowDown, ArrowUpLeft, Award, GitBranch, LayoutGrid, MousePointer2,
   Search, Table, Terminal, Waypoints,
 } from "lucide-react";
+// The interaction system first, the page's own sheet second: Home never invents
+// a control style, it consumes .nu-* and only overrides layout around them.
+import "./ui.css";
 import "./home.css";
 import { homeData, zoneVar } from "@/components/neo-shell/home/home-data";
 import { HomeScene, type SceneSection } from "@/components/neo-shell/home/home-scene";
@@ -49,7 +52,7 @@ export default function NeoHome() {
   const sections: SceneSection[] = [
     { id: "nh-1", label: "מפת הידע", field: "שיוך למודול" },
     { id: "nh-2", label: "כיסוי", field: "עומק תיעוד" },
-    { id: "nh-3", label: "משותפות", field: `${d.shared} המשותפות` },
+    { id: "nh-3", label: "משותפות", field: `${d.shared} משפחות` },
     { id: "nh-4", label: "צפיפות", field: `${d.topics} גושי נושא` },
     { id: "nh-5", label: "התהליך", field: "שרשרת אמיתית" },
     { id: "nh-6", label: "S/4HANA", field: "השפעת מעבר" },
@@ -101,15 +104,15 @@ export default function NeoHome() {
             ))}
           </div>
           <div className="nh-cta">
-            <Link className="nh-btn nh-btn--brand" href="/neo/tables/" prefetch={false}>
+            <Link className="nu-btn" href="/neo/tables/" prefetch={false}>
               <Search size={15} strokeWidth={1.75} aria-hidden="true" />
               פתח את מילון הטבלאות
             </Link>
-            <Link className="nh-btn" href="/neo/domain-model/" prefetch={false}>
+            <Link className="nu-btn2" href="/neo/domain-model/" prefetch={false}>
               <GitBranch size={15} strokeWidth={1.75} aria-hidden="true" />
               מודל הנתונים
             </Link>
-            <Link className="nh-btn" href="/neo/transactions/" prefetch={false}>
+            <Link className="nu-btn2" href="/neo/transactions/" prefetch={false}>
               <Terminal size={15} strokeWidth={1.75} aria-hidden="true" />
               מרשם הטרנזקציות
             </Link>
@@ -124,13 +127,15 @@ export default function NeoHome() {
             ))}
           </ul>
           <p className="nh-note">
-            צבע הנקודה הוא מחלקת האובייקט; טבעת הנקודה היא המודול שאליו היא שייכת.
-            הגודל הוא עומק התיעוד בפועל — מספר השדות שהמילון מחזיק לאותה טבלה.
+            השדה שברקע מסודר בשלושה גושי שיוך: <span className="nh-sap">PM</span> בלבד,
+            {" "}{d.shared} טבלאות שנמצאות בשני המודולים, ו־<span className="nh-sap">PP-PI</span> בלבד.
+            שטח הגוש הוא מספר הטבלאות שבו. צבע הנקודה הוא מחלקת האובייקט, טבעת הנקודה היא
+            המודול, והגודל הוא עומק התיעוד בפועל — מספר השדות שהמילון מחזיק לאותה טבלה.
           </p>
         </div>
         <Hand to="כיסוי">
-          אותן {nf.format(d.tables)} נקודות מסתדרות עכשיו לעמודות — עמודה לכל מספר
-          צירי תיעוד שהטבלה עומדת בהם.
+          שלושת הגושים נפרקים לעמודות: אותן {nf.format(d.tables)} נקודות עומדות על קו בסיס
+          אחד, עמודה לכל מספר צירי תיעוד שהטבלה עומדת בהם.
         </Hand>
       </section>
 
@@ -172,8 +177,8 @@ export default function NeoHome() {
           ריקות כי אין טבלה שעומדת בפחות משלושה.
         </p>
         <Hand to="משותפות">
-          העמודות מתפרקות: {d.shared} הטבלאות המשותפות עולות למרכז, וכל טבלה שהמילון
-          קושר אליהן נמשכת אל השכנה שלה במקום להתפזר.
+          העמודות נשכבות לשורה אחת: {d.shared} הטבלאות המשותפות נעשות ראשי משפחה, וכל
+          טבלה שהמילון קושר אליהן נערמת בטור שמתחת לראש שלה.
         </Hand>
       </section>
 
@@ -218,12 +223,14 @@ export default function NeoHome() {
           ))}
         </div>
         <p className="nh-note" data-nh-solid>
-          הקווים ברקע הם קשרי ER אמיתיים מתוך מפת הקשרים של המילון, ולא קווי קישוט:
-          קו נמתח רק בין שתי טבלאות שהבלופרינט באמת קושר ביניהן. כשהאשכול נוחת, כל
-          נקודה עוברת אל הכרטיס שלה כאן ונכבית לתוכו.
+          ברקע כל אחת מ־{d.shared} המשותפות היא ראש טור, וגובה הטור הוא מספר הטבלאות
+          שהמילון תולה בו. הקווים הם קשרי ER אמיתיים מתוך מפת הקשרים, ולא קווי קישוט:
+          קו נמתח רק בין שתי טבלאות שהבלופרינט באמת קושר ביניהן. הטבלאות שאינן קשורות
+          לאף משותפת יושבות ברצועה התחתונה — מעומעמות, אבל לא נעלמות. כשהשורה נוחתת,
+          כל ראש עובר אל הכרטיס שלו כאן ונכבה לתוכו.
         </p>
         <Hand to="צפיפות">
-          האשכול מתפזר ל־{d.topics} גושי נושא — גוש לכל נושא במילון, בגודל מספר
+          הטורים מתקפלים ל־{d.topics} גושי נושא — גוש לכל נושא במילון, בשטח של מספר
           הטבלאות שהוא מתעד.
         </Hand>
       </section>
@@ -276,7 +283,8 @@ export default function NeoHome() {
         </p>
         <Hand to="התהליך">
           גושי הנושא נפרשים לשתי מסילות תהליך: {steps("PM")} שלבים ב־<span className="nh-sap">PM</span>{" "}
-          ו־{steps("PP-PI")} ב־<span className="nh-sap">PP-PI</span>, לפי הסדר שהמילון מחזיק.
+          ו־{steps("PP-PI")} ב־<span className="nh-sap">PP-PI</span>, לפי הסדר שהמילון מחזיק. המסילה
+          העליונה חוזרת בדיוק לקו שעליו ישבו המשותפות.
         </Hand>
       </section>
 
@@ -423,23 +431,23 @@ export default function NeoHome() {
             מכאן הן מפסיקות להיות רקע: אלה הדלתות אל אותו מידע בדיוק, בסביבת העבודה.
           </p>
           <div className="nh-cta">
-            <Link className="nh-btn nh-btn--brand" href="/neo/pm/" prefetch={false} style={{ "--m": pm.m } as React.CSSProperties}>
+            <Link className="nu-btn2" href="/neo/pm/" prefetch={false} style={{ "--m": pm.m } as React.CSSProperties}>
               <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
               סביבת <span className="nh-sap">PM</span>
             </Link>
-            <Link className="nh-btn nh-btn--mod" href="/neo/pp-pi/" prefetch={false} style={{ "--m": pp.m } as React.CSSProperties}>
+            <Link className="nu-btn2" href="/neo/pp-pi/" prefetch={false} style={{ "--m": pp.m } as React.CSSProperties}>
               <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
               סביבת <span className="nh-sap">PP-PI</span>
             </Link>
-            <Link className="nh-btn" href="/neo/tables/" prefetch={false}>
+            <Link className="nu-btn" href="/neo/tables/" prefetch={false}>
               <Table size={15} strokeWidth={1.75} aria-hidden="true" />
               מילון הטבלאות
             </Link>
-            <Link className="nh-btn" href="/neo/library/" prefetch={false}>
+            <Link className="nu-btn2" href="/neo/library/" prefetch={false}>
               <LayoutGrid size={15} strokeWidth={1.75} aria-hidden="true" />
               ספרייה · {nf.format(d.books)} ספרים
             </Link>
-            <Link className="nh-btn" href="/neo/academy/" prefetch={false}>
+            <Link className="nu-btn2" href="/neo/academy/" prefetch={false}>
               <Award size={15} strokeWidth={1.75} aria-hidden="true" />
               אקדמיה
               <ArrowUpLeft size={14} strokeWidth={1.75} aria-hidden="true" />

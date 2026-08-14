@@ -1,4 +1,8 @@
 import { notFound } from "next/navigation";
+// ui.css is imported per route, not by the layout, so a route that omits it
+// ships without the interaction system and its controls fall back to bare
+// buttons. Imported first so each route's own CSS still overrides it.
+import "@/app/neo/ui.css";
 import "@/app/neo/object.css";
 import { objectView, tableNames } from "@/components/neo-shell/object/object-data";
 import { ObjectPage } from "@/components/neo-shell/object/object-view";

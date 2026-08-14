@@ -73,6 +73,14 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-sec {
   --nh-tint: color-mix(in oklab, var(--nh-b) calc(var(--nh-bal) * 100%), var(--nh-a));
 }
+/* A very low module wash under the whole document, so the page is never plain
+   white behind the sections' own lighting. Two fixed pools, one per module —
+   this is LIGHT, not a claim, which is why both hues are present at once. */
+.nh {
+  background:
+    radial-gradient(120% 70% at 88% -6%, color-mix(in srgb, var(--mod-pm) 7%, transparent), transparent 62%),
+    radial-gradient(110% 65% at 6% 104%, color-mix(in srgb, var(--mod-pppi) 6%, transparent), transparent 62%);
+}
 .nh[data-sec="0"] { --nh-bal: .12; }
 .nh[data-sec="1"] { --nh-bal: .30; }
 .nh[data-sec="2"] { --nh-bal: .50; }
@@ -148,21 +156,45 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh[data-sec="4"] .nh-aura { opacity: .55; }
 .nh[data-sec="5"] .nh-aura { opacity: .42; }
 
-/* One ring, on the section where the 19 shared tables come to the middle. */
-.nh-halo {
+/* --- the field's structural rules ----------------------------------------
+   STAGE 2C. The single decorative circle that used to appear here is gone: a
+   ring that encloses nothing is exactly the "meaningless circle" the review
+   named. What replaces it is four hairlines, and every one of them is a line a
+   formation actually stands on:
+
+     --base    the one baseline all six coverage columns rise from (02)
+     --spine   the line the shared family heads sit on (03) AND the first
+               process rail (05). Two formations, one line, on purpose.
+     --rail    the second process rail (05)
+     --plinth  the reservoir shelf that holds the tables outside the current
+               claim, in BOTH 03 and 05
+
+   Sharing two of them between formations is the continuity device: a fixed
+   reference survives the change, so the eye reads one dataset re-forming rather
+   than a new drawing. The percentages mirror COV_BASE / SPINE_Y / PLINTH_Y in
+   components/neo-shell/home/formations.ts. Opacity only — no layout, no paint. */
+.nh-rule {
   position: absolute;
-  inset-block-start: 50%;
-  inset-inline-start: 50%;
-  inline-size: 34rem;
-  block-size: 34rem;
-  margin: -17rem;
-  border: 1px solid color-mix(in srgb, var(--ink-3) 26%, transparent);
-  border-radius: 50%;
+  inset-inline: 4%;
+  block-size: 1px;
+  background: linear-gradient(to left,
+    transparent,
+    color-mix(in srgb, var(--nh-tint) 40%, transparent) 12%,
+    color-mix(in srgb, var(--nh-tint) 40%, transparent) 88%,
+    transparent);
   opacity: 0;
-  transform: scale(.72);
-  transition: opacity 700ms var(--ease-out-expo), transform 900ms var(--ease-emphasis);
+  transition: opacity 620ms var(--ease-out-expo);
 }
-.nh[data-sec="2"] .nh-halo { opacity: 1; transform: scale(1); }
+.nh-rule--spine { inset-block-start: 26%; }
+.nh-rule--rail { inset-block-start: 72%; }
+.nh-rule--base { inset-block-start: 80%; }
+.nh-rule--plinth { inset-block-start: 94%; }
+.nh[data-sec="1"] .nh-rule--base,
+.nh[data-sec="2"] .nh-rule--spine,
+.nh[data-sec="2"] .nh-rule--plinth,
+.nh[data-sec="4"] .nh-rule--spine,
+.nh[data-sec="4"] .nh-rule--rail,
+.nh[data-sec="4"] .nh-rule--plinth { opacity: 1; }
 
 /* --- the relationship layer ----------------------------------------------
    One element per REAL ER relation between two of the 105 merged tables, taken
@@ -207,11 +239,16 @@ html .nx-app .nx-canvas:has(> .nh) {
   display: grid;
   justify-items: center;
   gap: 1px;
-  margin-inline-start: -3rem;
-  inline-size: 6rem;
-  padding-block-end: 3px;
+  margin-inline-start: -3.75rem;
+  inline-size: 7.5rem;
+  padding: 3px 6px 4px;
+  border-radius: var(--r-xs);
+  /* A label has to survive being read with the page frozen, which means it has
+     to survive the dots behind it. A thin wash of the canvas colour does that
+     without becoming a chip — the label still belongs to the field. */
+  background: color-mix(in srgb, var(--background) 66%, transparent);
   /* MODULE as an EDGE — the one form the rule allows for a label like this. */
-  border-block-end: 2px solid color-mix(in srgb, var(--nh-tint) 40%, transparent);
+  border-block-end: 2px solid color-mix(in srgb, var(--nh-tint) 52%, transparent);
   font-weight: 600;
   text-align: center;
   opacity: 0;
@@ -220,15 +257,42 @@ html .nx-app .nx-canvas:has(> .nh) {
     opacity 460ms var(--ease-out-expo);
 }
 .nh-cap[data-on="1"] { opacity: 1; }
-.nh-cap[data-tone="pm"] { border-block-end-color: color-mix(in srgb, var(--mod-pm) 55%, transparent); }
-.nh-cap[data-tone="pp"] { border-block-end-color: color-mix(in srgb, var(--mod-pppi) 55%, transparent); }
+.nh-cap[data-tone="pm"] { border-block-end-color: color-mix(in srgb, var(--mod-pm) 72%, transparent); }
+.nh-cap[data-tone="pp"] { border-block-end-color: color-mix(in srgb, var(--mod-pppi) 72%, transparent); }
 .nh-cap > b {
   font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate;
   font-variant-numeric: tabular-nums;
-  font-size: var(--t-xs);
+  font-size: var(--t-sm);
   color: var(--ink-1);
 }
-.nh-cap > em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+.nh-cap > em { font-style: normal; font-size: 10px; color: var(--ink-2); line-height: 1.35; }
+
+/* THE LEAD LABEL · one per formation, and it is the sentence the formation
+   exists to prove. If a formation could not be given one of these it would not
+   be in formations.place() at all — that is the rule the review asked for,
+   enforced in the only place it can be enforced. */
+.nh-cap[data-lead="1"] {
+  margin-inline-start: -8rem;
+  inline-size: 16rem;
+  padding: 5px var(--sp-3) 6px;
+  border-block-end-width: 3px;
+  background: color-mix(in srgb, var(--background) 84%, transparent);
+  box-shadow: var(--elev-1);
+}
+.nh-cap[data-lead="1"] > b {
+  /* Hebrew, so the mono LTR isolate the count labels need is undone here. */
+  font-family: inherit;
+  direction: rtl;
+  font-size: var(--t-sm);
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+.nh-cap[data-lead="1"] > em {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+}
 
 /* --- the three depth planes ----------------------------------------------
    Depth is not decoration: a dot's plane is its real documentation-coverage
@@ -269,13 +333,13 @@ html .nx-app .nx-canvas:has(> .nh) {
 /* MODULE identity, as a ring around an OBJECT-class core. The two encodings
    never sit on the same pixel, which is the rule the design system asks for:
    the core says what kind of object it is, the ring says whose it is. */
-.nh-dot[data-b="0"] { box-shadow: 0 0 0 2.5px color-mix(in srgb, var(--mod-pm) 46%, transparent); }
-.nh-dot[data-b="2"] { box-shadow: 0 0 0 2.5px color-mix(in srgb, var(--mod-pppi) 46%, transparent); }
+.nh-dot[data-b="0"] { box-shadow: 0 0 0 2.5px color-mix(in srgb, var(--mod-pm) 66%, transparent); }
+.nh-dot[data-b="2"] { box-shadow: 0 0 0 2.5px color-mix(in srgb, var(--mod-pppi) 66%, transparent); }
 /* The 19 that live in both carry both rings, one inside the other. */
 .nh-dot[data-b="1"] {
   box-shadow:
-    0 0 0 2.5px color-mix(in srgb, var(--mod-pm) 70%, transparent),
-    0 0 0 5px color-mix(in srgb, var(--mod-pppi) 58%, transparent);
+    0 0 0 2.5px color-mix(in srgb, var(--mod-pm) 88%, transparent),
+    0 0 0 5px color-mix(in srgb, var(--mod-pppi) 76%, transparent);
 }
 .nh-dot[data-near="1"] {
   box-shadow:
@@ -512,8 +576,8 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nh-index a:hover { color: var(--ink-1); background: color-mix(in srgb, var(--surface) 82%, transparent); transform: translateY(-1px); }
 .nh-index a[aria-current="true"] {
   color: var(--ink-1);
-  background: color-mix(in srgb, var(--nh-tint) 9%, var(--surface));
-  border-color: color-mix(in srgb, var(--nh-tint) 34%, transparent);
+  background: color-mix(in srgb, var(--nh-tint) 14%, var(--surface));
+  border-color: color-mix(in srgb, var(--nh-tint) 52%, transparent);
 }
 .nh-index-n { grid-row: span 2; font-size: 10px; opacity: .75; }
 .nh-index a[aria-current="true"] .nh-index-n { color: var(--nh-tint); opacity: 1; }
@@ -534,13 +598,14 @@ html .nx-app .nx-canvas:has(> .nh) {
      that everything stayed white and grey, and it did. */
   background:
     linear-gradient(to bottom,
-      color-mix(in srgb, var(--nh-tint) 11%, transparent) 0,
-      color-mix(in srgb, var(--nh-tint) 3.5%, transparent) 30%,
+      color-mix(in srgb, var(--nh-tint) 14%, transparent) 0,
+      color-mix(in srgb, var(--nh-tint) 4.5%, transparent) 30%,
       transparent 68%),
     radial-gradient(90% 60% at 8% 100%,
-      color-mix(in srgb, var(--nh-tint) 7%, transparent), transparent 70%),
+      color-mix(in srgb, var(--nh-tint) 9%, transparent), transparent 70%),
     linear-gradient(to bottom, transparent 55%,
       color-mix(in srgb, var(--surface) 55%, transparent));
+  transition: background-color 420ms var(--ease-out-expo);
   display: grid;
   align-content: start;
   gap: var(--sp-6);
@@ -580,6 +645,27 @@ html .nx-app .nx-canvas:has(> .nh) {
   color-mix(in srgb, var(--nh-tint) 18%, transparent) 42%,
   transparent 78%); }
 .nh-sec--open::before { opacity: 0; }
+
+/* SECTION LIGHTING · the section you are actually in is lit. One attribute,
+   written once per section change by home-scene.tsx, and the module light on
+   the surface, on the marker rule and on the outline numeral all step up
+   together. This is the "make it more alive" note spent where it means
+   something: on WHERE YOU ARE, never as decoration everywhere at once. */
+.nh-sec[data-active="1"] {
+  background:
+    linear-gradient(to bottom,
+      color-mix(in srgb, var(--nh-tint) 20%, transparent) 0,
+      color-mix(in srgb, var(--nh-tint) 6.5%, transparent) 32%,
+      transparent 70%),
+    radial-gradient(90% 60% at 8% 100%,
+      color-mix(in srgb, var(--nh-tint) 13%, transparent), transparent 70%),
+    linear-gradient(to bottom, transparent 55%,
+      color-mix(in srgb, var(--surface) 55%, transparent));
+}
+.nh-sec[data-active="1"]::before { block-size: 3px; }
+.nh-sec[data-active="1"] .nh-ix {
+  -webkit-text-stroke-color: color-mix(in srgb, var(--nh-tint) 66%, var(--hairline));
+}
 
 .nh-sec--open {
   min-block-size: var(--nh-vh);
@@ -693,25 +779,11 @@ html .nx-app .nx-canvas:has(> .nh) {
 }
 .nh-stat em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
 
-.nh-cta { display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center; }
-.nh-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-block-size: var(--c-tap);
-  padding-inline: var(--sp-4);
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-pill);
-  background: var(--surface);
-  color: var(--ink-1);
-  font-size: var(--t-xs);
-  font-weight: 600;
-  box-shadow: var(--elev-1);
-  transition: transform 220ms var(--ease-out-expo), border-color 200ms, box-shadow 200ms;
-}
-.nh-btn:hover { transform: translateY(-2px); box-shadow: var(--elev-3); border-color: var(--m, var(--ink-3)); }
-.nh-btn--brand { background: var(--brand); border-color: var(--brand); color: var(--brand-foreground); }
-.nh-btn--brand:hover { border-color: var(--brand-dark); }
+/* CONTROLS · this page owns no button style. Every action here is a .nu-* from
+   app/neo/ui.css, which is what makes "is this clickable?" answerable across
+   the whole product instead of per screen. Home only says how the row of them
+   is laid out, and passes --m where a control carries a module identity. */
+.nh-cta { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3); align-items: center; }
 
 .nh-legend { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4); font-size: var(--t-micro); color: var(--ink-3); }
 .nh-legend li { display: inline-flex; align-items: center; gap: 6px; }
@@ -732,8 +804,8 @@ html .nx-app .nx-canvas:has(> .nh) {
   padding: var(--sp-3);
   border-radius: var(--r-sm);
   /* MODULE as surface tint + ring. Strong enough to be a material. */
-  background: color-mix(in srgb, var(--nh-tint) 7%, color-mix(in srgb, var(--surface) 86%, transparent));
-  border: 1px solid color-mix(in srgb, var(--nh-tint) 24%, var(--hairline));
+  background: color-mix(in srgb, var(--nh-tint) 10%, color-mix(in srgb, var(--surface) 86%, transparent));
+  border: 1px solid color-mix(in srgb, var(--nh-tint) 36%, var(--hairline));
   box-shadow: var(--elev-1);
   font-size: var(--t-sm);
   cursor: default;
@@ -810,8 +882,8 @@ html .nx-app .nx-canvas:has(> .nh) {
   padding: var(--sp-3) var(--sp-4);
   border-radius: var(--r-md);
   /* MODULE as surface tint + a leading edge, never as a dot. */
-  border: 1px solid color-mix(in srgb, var(--nh-tint) 22%, var(--hairline));
-  border-inline-start: 3px solid color-mix(in srgb, var(--nh-tint) 62%, transparent);
+  border: 1px solid color-mix(in srgb, var(--nh-tint) 32%, var(--hairline));
+  border-inline-start: 4px solid color-mix(in srgb, var(--nh-tint) 82%, transparent);
   background: linear-gradient(to left,
     color-mix(in srgb, var(--nh-tint) 9%, transparent),
     transparent 62%),
@@ -860,10 +932,10 @@ html .nx-app .nx-canvas:has(> .nh) {
   border-radius: var(--r-md);
   /* OBJECT class as the ring and as a top light — this card IS the dot that
      flew onto it, so it wears the dot's colour and nothing else's. */
-  border: 1px solid color-mix(in srgb, var(--o) 22%, var(--hairline));
+  border: 1px solid color-mix(in srgb, var(--o) 34%, var(--hairline));
   background:
     radial-gradient(120% 80% at 100% 0%,
-      color-mix(in srgb, var(--o) 12%, transparent), transparent 62%),
+      color-mix(in srgb, var(--o) 16%, transparent), transparent 62%),
     color-mix(in srgb, var(--surface) 90%, transparent);
   backdrop-filter: blur(8px);
   box-shadow: var(--elev-1);
@@ -918,11 +990,11 @@ html .nx-app .nx-canvas:has(> .nh) {
   align-content: start;
   padding: var(--sp-4);
   border-radius: var(--r-lg);
-  border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
-  border-block-start: 3px solid color-mix(in srgb, var(--m) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m) 38%, var(--hairline));
+  border-block-start: 4px solid color-mix(in srgb, var(--m) 88%, transparent);
   background:
     linear-gradient(to bottom,
-      color-mix(in srgb, var(--m) 9%, transparent),
+      color-mix(in srgb, var(--m) 13%, transparent),
       transparent 34%),
     color-mix(in srgb, var(--surface) 80%, transparent);
   box-shadow: var(--elev-1);
@@ -973,9 +1045,9 @@ html .nx-app .nx-canvas:has(> .nh) {
   display: grid; gap: var(--sp-3);
   padding: var(--sp-5);
   border-radius: var(--r-lg);
-  border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
+  border: 1px solid color-mix(in srgb, var(--m) 38%, var(--hairline));
   /* The chain's own module, as edge + surface. Same claim as the 04 panels. */
-  border-inline-start: 3px solid color-mix(in srgb, var(--m) 70%, transparent);
+  border-inline-start: 4px solid color-mix(in srgb, var(--m) 88%, transparent);
   background:
     radial-gradient(80% 50% at 100% 0%, color-mix(in srgb, var(--m) 11%, transparent), transparent 66%),
     color-mix(in srgb, var(--surface) 82%, transparent);
@@ -1008,8 +1080,8 @@ html .nx-app .nx-canvas:has(> .nh) {
   gap: 2px var(--sp-2);
   padding: var(--sp-2) var(--sp-3);
   border-radius: var(--r-sm);
-  border: 1px solid color-mix(in srgb, var(--o) 34%, var(--hairline));
-  background: color-mix(in srgb, var(--o) 4%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--o) 46%, var(--hairline));
+  background: color-mix(in srgb, var(--o) 7%, var(--surface));
   box-shadow: var(--elev-1);
   transition: transform 220ms var(--ease-out-expo), box-shadow 200ms;
 }
@@ -1130,8 +1202,8 @@ html .nx-app .nx-canvas:has(> .nh) {
   padding: var(--sp-2) var(--sp-3);
   border-radius: var(--r-sm);
   /* OBJECT class ring, because a dot from the field lands on this row. */
-  border: 1px solid color-mix(in srgb, var(--o) 20%, var(--hairline));
-  background: color-mix(in srgb, var(--o) 4%, color-mix(in srgb, var(--surface) 88%, transparent));
+  border: 1px solid color-mix(in srgb, var(--o) 32%, var(--hairline));
+  background: color-mix(in srgb, var(--o) 7%, color-mix(in srgb, var(--surface) 88%, transparent));
   font-size: var(--t-xs);
   transition: transform 220ms var(--ease-out-expo), border-color 200ms, box-shadow 220ms;
 }
@@ -1169,8 +1241,8 @@ html .nx-app .nx-canvas:has(> .nh) {
   gap: var(--sp-4);
   padding: var(--sp-6);
   border-radius: var(--r-lg);
-  border: 1px solid color-mix(in srgb, var(--nh-tint) 24%, var(--hairline));
-  border-block-start: 3px solid color-mix(in srgb, var(--nh-tint) 62%, transparent);
+  border: 1px solid color-mix(in srgb, var(--nh-tint) 34%, var(--hairline));
+  border-block-start: 4px solid color-mix(in srgb, var(--nh-tint) 82%, transparent);
   background:
     radial-gradient(90% 70% at 100% 0%, color-mix(in srgb, var(--nh-tint) 10%, transparent), transparent 68%),
     color-mix(in srgb, var(--surface) 84%, transparent);
@@ -1181,12 +1253,8 @@ html .nx-app .nx-canvas:has(> .nh) {
   color-mix(in srgb, var(--surface) 84%, transparent); }
 .nh-out-t { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.7; max-inline-size: 68ch; }
 
-/* MODULE as ring + surface tint on a control. Never as a bare coloured dot. */
-.nh-btn--mod {
-  border-color: color-mix(in srgb, var(--m) 42%, var(--hairline));
-  background: color-mix(in srgb, var(--m) 10%, var(--surface));
-}
-.nh-btn--mod:hover { border-color: var(--m); background: color-mix(in srgb, var(--m) 16%, var(--surface)); }
+/* The two module doors are .nu-btn2 carrying --m, so the module arrives on the
+   EDGE of the control exactly as the form rule requires — nothing to add here. */
 
 .nh-credit { font-size: var(--t-micro); color: var(--ink-3); padding-block-start: var(--sp-4); border-block-start: 1px solid var(--hairline); }
 
@@ -1284,8 +1352,15 @@ html[data-theme="dark"] .nh-sec {
     radial-gradient(90% 60% at 8% 100%, color-mix(in srgb, var(--nh-tint) 6%, transparent), transparent 70%);
 }
 html[data-theme="dark"] .nh-node { background: var(--surface-2); }
-html[data-theme="dark"] .nh-btn { background: var(--surface-2); border-color: color-mix(in srgb, var(--ink-3) 26%, transparent); }
-html[data-theme="dark"] .nh-btn--brand { background: var(--brand); border-color: var(--brand); }
+html[data-theme="dark"] .nh-cap { background: color-mix(in srgb, var(--surface-2) 80%, transparent); }
+html[data-theme="dark"] .nh-cap[data-lead="1"] { background: color-mix(in srgb, var(--surface-2) 92%, transparent); }
+html[data-theme="dark"] .nh-rule { opacity: 0; }
+html[data-theme="dark"] .nh[data-sec="1"] .nh-rule--base,
+html[data-theme="dark"] .nh[data-sec="2"] .nh-rule--spine,
+html[data-theme="dark"] .nh[data-sec="2"] .nh-rule--plinth,
+html[data-theme="dark"] .nh[data-sec="4"] .nh-rule--spine,
+html[data-theme="dark"] .nh[data-sec="4"] .nh-rule--rail,
+html[data-theme="dark"] .nh[data-sec="4"] .nh-rule--plinth { opacity: .8; }
 html[data-theme="dark"] .nh-index a[aria-current="true"] {
   background: color-mix(in srgb, var(--nh-tint) 16%, var(--surface-2));
   border-color: color-mix(in srgb, var(--nh-tint) 46%, transparent);
@@ -1387,6 +1462,9 @@ html[data-theme="dark"] .nh-read { background: color-mix(in srgb, var(--surface-
   .nh-plane { filter: none !important; }
   .nh-lens, .nh-read { display: none; }
   .nh-cov-bar i, .nh-impcol-bar i { transform: none !important; }
+  /* The structural rules and the formation labels are STATE, not motion: they
+     stay, they simply stop fading in and out. */
+  .nh-rule, .nh-cap { transition: none !important; }
   /* The handoff never runs under reduced motion (the scene skips it), so this
      only guards a landing animation that could survive a zeroed duration. */
   [data-nh-lit="1"] .nh-cls { animation: none !important; }
@@ -1400,6 +1478,9 @@ html[data-theme="dark"] .nh-read { background: color-mix(in srgb, var(--surface-
 /* Forced colours: the field is decoration and must not fight the user's own
    palette; the content is plain semantic markup and survives on its own. */
 @media (forced-colors: active) {
+  /* The field and its labels are a visualisation, not content: in a forced
+     palette they can only fight the user's own colours, and every fact they
+     carry is also printed in the sections. */
   .nh-field, .nh-lens, .nh-read { display: none; }
   .nh-body { backdrop-filter: none; }
   /* Every decorative edge below is colour-only; in a forced palette it either

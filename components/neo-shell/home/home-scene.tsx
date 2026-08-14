@@ -13,20 +13,30 @@
 //   INDEX    where you are.
 //   CONTENT  the sections, rendered on the SERVER and passed in as children.
 //
-// WHAT MAKES A TRANSITION EXPLAIN ITSELF (the Stage 2B brief)
+// WHAT MAKES A TRANSITION EXPLAIN ITSELF (the Stage 2C brief)
 //   1. Nothing is ever created or destroyed. A section change moves the dots
-//      that are already on screen; a dot is one table for the whole page.
-//   2. Groups arrive in WAVES (formations.wave), so grouping is something you
-//      watch happen rather than find already finished.
-//   3. Related tables ATTRACT: in the shared and process formations a table is
-//      placed in the orbit of the neighbour the dictionary actually states.
+//      that are already on screen; a dot is one table for the whole page. No
+//      formation ever drops a dot below opacity 0.34, so a group can recede but
+//      it can never pop in or vanish.
+//   2. Groups arrive in WAVES (formations.wave), in the reading order of the
+//      claim, so grouping is watched happening rather than found finished.
+//   3. Related tables are STACKED WITH the neighbour the dictionary states —
+//      a family column under its shared head, a dependent column at its process
+//      step. No orbits, no scatter, no jitter: formations.ts has no RNG at all.
 //   4. Relationships are DRAWN, from the real ER map, only where the section is
-//      about relationships.
-//   5. HANDOFF: where a section renders the very tables the field is holding,
+//      about relationships — and in those formations both endpoints are lattice
+//      slots, so a line is always a short run between two named things.
+//   5. STRUCTURAL RULES PERSIST. The spine and the plinth (.nh-rule) are shared
+//      by two formations each, so the eye keeps a fixed reference across the
+//      change instead of re-reading a fresh composition.
+//   6. HANDOFF: where a section renders the very tables the field is holding,
 //      the dots fly to those elements, light them, and fade into them. When the
 //      next section starts, those dots are snapped back onto the (re-measured)
 //      elements they were handed to and fly out from there — a FLIP, so the
 //      information visibly leaves the place it went into.
+//   7. Every formation NAMES ITSELF: formations.captions() returns a lead line
+//      stating what the arrangement proves plus one real count per group, so the
+//      field is legible with every pixel frozen.
 //
 // NOTHING here touches scroll behaviour. No wheel listener, no touch listener,
 // no preventDefault, no scroll lock, no scroll-linked animation loop. We read
@@ -42,8 +52,8 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef } from "react";
 import { ArrowUpLeft } from "lucide-react";
 import {
-  GEOM, GEOM_NARROW, HANDOFF, LENS_GROW, LENS_PUSH, LENS_R,
-  captions, edgeVisible, place, prepare, topicSlots, wave,
+  DOCK, HANDOFF, LENS_GROW, LENS_PUSH, LENS_R,
+  captions, edgeVisible, place, prepare, tally, topicSlots, wave,
   type Env, type Prep,
 } from "./formations";
 import { ZONE_HE, zoneVar, type HomeData } from "./home-data";
@@ -55,12 +65,6 @@ export interface SceneSection { id: string; label: string; field: string }
 /** Register the two module bodies are in, per section index. l = introduced,
  *  m = medium, d = docked context pair for the rest of the page. */
 const REGISTER = ["l", "m", "m", "d", "d", "d"] as const;
-
-// Canvas widths, matched one-for-one to the @container breakpoints in
-// app/neo/home.css. They are CANVAS widths, not window widths: the rail owns
-// up to 22rem of the window, so the two must never be confused.
-const NARROW = 760;
-const DOCK = 1050;
 
 /** The formation flight, and the two beats of the handoff that follows it.
  *  HAND_WAIT lets the formation land before anything is given away; HAND_FADE
@@ -101,9 +105,12 @@ export function HomeScene({
       [0, 2, 4].some((s) => edgeVisible(s, preps[e.a], preps[e.b]))),
     [data, preps],
   );
-  // Section 03 needs one caption per real topic; no other formation needs more
-  // than four. The pool is sized once and reused, never rebuilt per section.
-  const capPool = useMemo(() => Math.max(4, topics.length), [topics]);
+  // Group sizes, counted once. Every lattice is sized from these.
+  const counts = useMemo(() => tally(preps), [preps]);
+  // Section 04's formation needs one caption per real topic plus the formation's
+  // own lead line; no other formation needs more. The pool is sized once and
+  // reused, never rebuilt per section.
+  const capPool = useMemo(() => Math.max(6, topics.length + 2), [topics]);
 
   useEffect(() => {
     const el = root.current;
@@ -150,8 +157,7 @@ export function HomeScene({
 
     const env = (): Env => ({
       W, H, maxF: data.maxFields, maxCov, maxTopic,
-      geom: W < NARROW ? GEOM_NARROW : GEOM,
-      all: preps, topics,
+      all: preps, topics, counts,
     });
 
     /* ---- anchors · where a section renders the tables the field holds ------ */
@@ -262,6 +268,7 @@ export function HomeScene({
         if (!c) { g.dataset.on = "0"; continue; }
         g.dataset.on = "1";
         g.dataset.tone = c.tone;
+        g.dataset.lead = c.lead ? "1" : "0";
         g.style.setProperty("translate", `${tx(c.x).toFixed(1)}px ${c.y.toFixed(1)}px`);
         g.style.transitionDelay = instant ? "0ms" : `${420 + i * 34}ms`;
         const b = g.children[0] as HTMLElement;
@@ -280,6 +287,14 @@ export function HomeScene({
         return { w: b.offsetWidth, h: b.offsetHeight, mass };
       });
       let gutterY = H * (reg === "m" ? 0.14 : 0.12);
+      // Register L is a STACK on the far edge, fitted to the canvas: the two
+      // hero cards can therefore never overlap each other or the field, and the
+      // corridor formations.corridor() reserves for the membership blocks is the
+      // same corridor the cards leave free. One geometry, two files.
+      const stackH = sizes.reduce((a, z) => a + z.h * z.mass, 0) + 16;
+      const stackW = Math.max(...sizes.map((z) => z.w * z.mass));
+      const lk = Math.min(1.02, (H * 0.88) / stackH, (W * 0.28) / stackW);
+      let heroY = Math.max(10, (H - stackH * lk) / 2);
       // Narrow canvases have no gutter, so the pair becomes a small dock in the
       // block-end / inline-end corner: the reading edge (inline start, the right
       // in Hebrew) is the one thing it must never sit on.
@@ -288,15 +303,15 @@ export function HomeScene({
       bodies.forEach((b, i) => {
         const r = reg === "l" && dock ? "m" : reg;
         b.dataset.r = r;
-        const g = i === 0 ? e.geom.pm : e.geom.pp;
         // Mass is real: PP-PI documents more tables than PM, so its body is
         // bigger. The number on the card and the size of the card agree.
         const { w: bw0, h: bh0, mass } = sizes[i];
         let x: number; let y: number; let s: number;
         if (r === "l") {
-          s = mass;
-          x = g.fx * W - (bw0 * s) / 2;
-          y = g.fy * H - (bh0 * s) / 2;
+          s = mass * lk;
+          x = W - bw0 * s - Math.max(12, W * 0.018);
+          y = heroY;
+          heroY += bh0 * s + 16;
         } else if (dock) {
           s = dockS(i);
           x = W - dockW - 12 + (i === 0 ? 0 : sizes[0].w * dockS(0) + 10);
@@ -381,6 +396,10 @@ export function HomeScene({
       sec = k;
       el.dataset.sec = String(k);
       jumps.forEach((b, i) => b.setAttribute("aria-current", i === k ? "true" : "false"));
+      // The section you are IN is lit: the client asked for the colour to be
+      // alive, and the cheapest honest way to spend it is on where you are.
+      // One attribute, six elements, no layout — CSS does the rest.
+      secEls.forEach((s, i) => { s.dataset.active = i === k ? "1" : "0"; });
       paint(k, false);
     };
     const onScroll = () => { if (!queued) { queued = true; requestAnimationFrame(sync); } };
@@ -562,7 +581,7 @@ export function HomeScene({
       io?.disconnect();
       ro?.disconnect();
     };
-  }, [data, preps, topics, edges]);
+  }, [data, preps, topics, edges, counts]);
 
   return (
     <div className="nh" ref={root} data-sec="0" data-ready="0">
@@ -571,7 +590,18 @@ export function HomeScene({
         <span className="nh-grid" />
         <span className="nh-aura nh-aura--pm" style={{ "--m": "var(--mod-pm)" } as React.CSSProperties} />
         <span className="nh-aura nh-aura--pp" style={{ "--m": "var(--mod-pppi)" } as React.CSSProperties} />
-        <span className="nh-halo" />
+        {/* The field's structural rules. Not decoration and not a circle: each
+            one is a line a formation actually stands on, and two of them are
+            shared between formations on purpose — the spine carries the family
+            heads in 03 and the first process rail in 05, the plinth carries the
+            "outside this claim" reservoir in both. Seeing the same line survive
+            a section change is what makes the change read as one dataset
+            re-forming rather than a new drawing. Percentages here mirror
+            SPINE_Y / COV_BASE / PLINTH_Y in formations.ts. */}
+        <span className="nh-rule nh-rule--spine" />
+        <span className="nh-rule nh-rule--rail" />
+        <span className="nh-rule nh-rule--base" />
+        <span className="nh-rule nh-rule--plinth" />
         {/* The ER map. One element per real relation between two of the 105;
             never a decorative line, and never a line the dictionary does not
             hold. Each edge is a 1px box translated to its first endpoint,
@@ -600,7 +630,7 @@ export function HomeScene({
             real count at paint time — see formations.captions(). */}
         <span className="nh-caps">
           {Array.from({ length: capPool }, (_, i) => (
-            <b className="nh-cap" data-nh-cap key={i} data-on="0"><b /><em /></b>
+            <b className="nh-cap" data-nh-cap key={i} data-on="0" data-lead="0"><b /><em /></b>
           ))}
         </span>
         <span className="nh-lens" data-nh-lens data-on="0" />
