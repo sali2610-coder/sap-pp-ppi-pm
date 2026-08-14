@@ -34,7 +34,7 @@ import { useCallback, useSyncExternalStore } from "react";
 /** Mirror of lib/reader-store.ts's ReaderState. Read-only here. */
 interface ReaderRaw { read?: unknown; bm?: unknown; last?: unknown }
 /** Mirror of lib/continuity-store.ts's Continuity. Read-only here. */
-interface ContinuityRaw { bookId?: unknown; chapter?: unknown; sectionId?: unknown; updatedAt?: unknown }
+interface ContinuityRaw { bookId?: unknown; chapter?: unknown; sectionId?: unknown; scrollRatio?: unknown; updatedAt?: unknown }
 
 export interface BookReading {
   /** The book has been opened at least once, by any surface. */
@@ -49,6 +49,15 @@ export interface BookReading {
   section: string | null;
   /** Epoch ms of the newest evidence, when one carries a timestamp. */
   at: number | null;
+  /** §6 — how far into the document the reader had scrolled, 0..1.
+   *
+   *  This is the CANONICAL READER'S OWN value: lib/continuity-store.ts writes
+   *  `scrollRatio` while you read and calls it "a soft refinement only". It is
+   *  read here and never written, and it exists for the most recent book alone,
+   *  so it is null for every other book on the shelf rather than carried over
+   *  from one book to the next. A surface may report it; nothing may resume
+   *  from it, because the reader is the only thing that knows what it meant. */
+  scroll: number | null;
   /** The global continuity pointer currently names this book. */
   current: boolean;
   /** Where the chapter/section came from — shown as plain words in the UI. */
@@ -117,11 +126,16 @@ function build(ids: string[]): ReadingSnapshot {
     let section: string | null = null;
     let from: BookReading["from"] = null;
     let at: number | null = null;
+    let scroll: number | null = null;
 
     if (currentBook === id) {
       chapter = num(cont?.chapter);
       section = str(cont?.sectionId);
       at = num(cont?.updatedAt);
+      // 0 and 1 are both real ratios, so this cannot go through `num`, which
+      // rejects zero. An out-of-range value means a store from another version.
+      const sr = cont?.scrollRatio;
+      scroll = typeof sr === "number" && Number.isFinite(sr) && sr >= 0 && sr <= 1 ? sr : null;
       if (chapter || section) from = "reader";
     }
     if (!chapter && !section && mine) {
@@ -137,7 +151,7 @@ function build(ids: string[]): ReadingSnapshot {
 
     const opened = Boolean(chapter || section || read.length || marks.length || currentBook === id);
     if (opened) any = true;
-    map[id] = { opened, read, marks, chapter, section, at, current: currentBook === id, from };
+    map[id] = { opened, read, marks, chapter, section, at, scroll, current: currentBook === id, from };
   }
 
   return { map, currentBook, lastBook: str(neo.last), any };

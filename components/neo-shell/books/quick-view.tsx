@@ -16,7 +16,7 @@
 // Every outbound link is the existing /library/<id>/ URL. This file renders no
 // prose, fetches nothing, and wraps no part of the canonical reader.
 
-import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowUpLeft, BookOpen, Bookmark, Layers, LayoutList, PlayCircle, Table2, X } from "lucide-react";
 import { SPRING, reducedMotion } from "../flip";
@@ -24,7 +24,7 @@ import { BookCover } from "./book-cover";
 import { BookToc } from "./book-toc";
 import { noteHandoff } from "./reading-state";
 import type { BookReading } from "./reading-state";
-import { resolveResume, resumeLine } from "./resume";
+import { resolveResume, resumeLine, resumeScrollLine } from "./resume";
 import type { BookCard } from "./books-data";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -46,6 +46,12 @@ export function BookQuickView({
   const sheetRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const leaving = useRef(false);
+  /* §3 — the last beat of the opening. The book flies out of the shelf and
+     lands square to the reader; THEN its front cover swings back on the
+     binding. Splitting the two is the whole point: a cover that hinges while
+     the object is still travelling reads as a glitch, one that hinges after it
+     has settled reads as a book being opened. */
+  const [ajar, setAjar] = useState(false);
 
   /* The FLIP. The trigger never moves when the panel opens — the panel is a
      fixed overlay — so its rect can be read after mount and is still true.
@@ -71,6 +77,15 @@ export function BookQuickView({
       { duration: OPEN_MS, easing: SPRING, fill: "none" },
     );
   }, [triggerRef]);
+
+  /* The cover opens once the flight has landed. Under reduced motion the flight
+     never ran, so there is nothing to wait for — and the sheet's own media
+     query pins `--open` at 0deg anyway, so the state is set but the cover
+     stays shut. Nothing here animates a layout property. */
+  useEffect(() => {
+    const t = window.setTimeout(() => setAjar(true), reducedMotion() ? 0 : OPEN_MS - 140);
+    return () => window.clearTimeout(t);
+  }, []);
 
   /* Focus lands on the panel's own close control, so the first Tab is inside
      the dialog rather than back out in the shelf behind it. */
@@ -181,7 +196,7 @@ export function BookQuickView({
 
         <div className="nb-sheet-side">
           <div className="nb-sheet-cov" ref={coverRef}>
-            <BookCover b={b} size="entry" />
+            <BookCover b={b} size="entry" open={ajar} />
           </div>
 
           <p
@@ -261,6 +276,10 @@ export function BookQuickView({
                   : r.section
                     ? "נשמר תת-פרק, אך הקישור העמוק של הקורא בספר הזה נוחת ברמת הפרק."
                     : "נשמר פרק בלבד. תת-פרק נשמר רק כשהקריאה בפועל הגיעה לאחד."}
+                {/* §6 — the offset is REPORTED and never resumed from: the deep
+                    links the reader accepts address a chapter or a section, so
+                    the landing is at that grain and the sentence says so. */}
+                {resumeScrollLine(r) && <> {resumeScrollLine(r)} הנחיתה עצמה היא ברמת הפרק או תת-הפרק.</>}
               </p>
             </div>
           ) : (

@@ -28,6 +28,11 @@ export interface Resume {
   progress: number;
   /** Nothing at all is known about this book. */
   fresh: boolean;
+  /** §6 — the reader's own scroll offset, 0..1, when it has one for this book.
+   *  Reported, never resumed from: the deep links the reader accepts address a
+   *  chapter or a section, not an offset, so promising it would be a promise
+   *  the URL cannot keep. */
+  scroll: number | null;
 }
 
 export function resolveResume(b: BookCard, r: BookReading | undefined): Resume {
@@ -60,7 +65,15 @@ export function resolveResume(b: BookCard, r: BookReading | undefined): Resume {
     read,
     progress: b.chapters ? read / b.chapters : 0,
     fresh: !r?.opened,
+    scroll: r?.scroll ?? null,
   };
+}
+
+/** The one extra sentence the stored offset earns, in words rather than as a
+ *  bar. Absent unless the reader really wrote one for this book. */
+export function resumeScrollLine(r: Resume): string | null {
+  if (r.scroll === null) return null;
+  return `הקורא שמר גם את מיקום הגלילה — כ-${Math.round(r.scroll * 100)}% לאורך הטקסט.`;
 }
 
 /** The one-line context under "המשך מהמקום האחרון". Never a promise: when only

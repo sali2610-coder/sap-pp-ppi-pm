@@ -22,7 +22,7 @@
 // fetches prose, never wraps the reader. The way into a book is a plain <Link>
 // to the existing /library/<id>/ page, untouched.
 
-import { useCallback, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { ArrowLeft, BookOpen, Bookmark, PlayCircle } from "lucide-react";
 import { BookCover } from "./book-cover";
@@ -49,17 +49,85 @@ function armedSnapshot(): boolean {
   catch { return false; }
 }
 
-/** Pointer-driven tilt, written as CSS vars on the card. Armed only where a
+/** Pointer-driven turn, written as CSS vars on the card. Armed only where a
  *  real hover-capable fine pointer exists AND motion is allowed — on a phone
  *  there is no hover to lean on, so the card there is a plain tap target with
  *  its own pressed state, an always-visible "פתח בקורא" control and, when there
  *  is one, a bookmark line printed under the cover rather than on hover.
  *
  *  Read through useSyncExternalStore rather than set from an effect: the server
- *  snapshot is a hard `false`, so the markup that hydrates carries no tilt, and
+ *  snapshot is a hard `false`, so the markup that hydrates carries no turn, and
  *  a user who turns motion off mid-session disarms it live. */
 function useTiltArmed(): boolean {
   return useSyncExternalStore(armedSubscribe, armedSnapshot, () => false);
+}
+
+/* ---------------------------------------------------------- §8 · returning */
+
+const SCROLL_KEY = "neo:books:scroll";
+
+/** Where the shelf was when you left it.
+ *
+ *  §8's requirement is that coming back from a book must not dump you at the
+ *  top of the shelf. The NEO shell scrolls `.nx-canvas`, not the document, so
+ *  neither the browser's own scroll restoration nor the router's touches it —
+ *  the position has to be kept by hand.
+ *
+ *  sessionStorage, not localStorage: a scroll offset is true for this visit
+ *  only. It is stored per session and dropped when the tab closes, and it is
+ *  never mixed into `neo:books:v1`, which is the reading pointer and outlives
+ *  the session on purpose. */
+function useShelfScroll() {
+  useEffect(() => {
+    const canvas = document.querySelector<HTMLElement>(".nx-canvas");
+    if (!canvas) return;
+
+    /* The live position, tracked in a ref rather than written to storage on
+       every scroll event. That is not an optimisation — it is the fix for the
+       bug this originally shipped with: the router resets the canvas to 0 as
+       part of the client-side navigation, and it does so BEFORE this effect's
+       cleanup runs. Saving from the DOM on the way out therefore recorded 0
+       every single time and the shelf always came back at the top. */
+    let lastY = 0;
+    let raf = 0;
+
+    const onScroll = () => { lastY = canvas.scrollTop; };
+    /* THE MOMENT OF INTENT. A pointerdown or an Enter is the last instant at
+       which the position is still the user's own, so that is when it is
+       committed. Captured on the way down so a link's own handler cannot
+       navigate first. A deliberate scroll back to the top therefore records a
+       real 0 and the shelf honestly reopens at the top. */
+    const commit = () => {
+      try { sessionStorage.setItem(SCROLL_KEY, String(lastY)); }
+      catch { /* private mode, quota, disabled storage — it simply forgets */ }
+    };
+
+    try {
+      const y = Number(sessionStorage.getItem(SCROLL_KEY));
+      /* Two frames: the shelf is eleven covers and a table of contents, so the
+         first frame after mount is not yet tall enough to scroll to. */
+      if (Number.isFinite(y) && y > 0) {
+        raf = requestAnimationFrame(() => {
+          raf = requestAnimationFrame(() => {
+            canvas.scrollTop = y;
+            lastY = canvas.scrollTop;
+          });
+        });
+      }
+    } catch { /* storage disabled — the shelf simply opens at the top */ }
+
+    canvas.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("pointerdown", commit, true);
+    document.addEventListener("keydown", commit, true);
+    window.addEventListener("pagehide", commit);
+    return () => {
+      cancelAnimationFrame(raf);
+      canvas.removeEventListener("scroll", onScroll);
+      document.removeEventListener("pointerdown", commit, true);
+      document.removeEventListener("keydown", commit, true);
+      window.removeEventListener("pagehide", commit);
+    };
+  }, []);
 }
 
 /* ------------------------------------------------------------------ shelf */
@@ -74,6 +142,7 @@ export function BookShelf({ data }: { data: BooksData }) {
   const trigger = useRef<HTMLButtonElement | null>(null);
   const returnTo = useRef<HTMLElement | null>(null);
   const armed = useTiltArmed();
+  useShelfScroll();
 
   const ids = useMemo(() => data.books.map((b) => b.id), [data.books]);
   const reading = useReading(ids);
@@ -101,16 +170,20 @@ export function BookShelf({ data }: { data: BooksData }) {
     returnTo.current?.focus();
   }, []);
 
-  /* Small angles on purpose. The brief asks for a lift with a hint of
-     perspective, not a card that swings — anything past a couple of degrees
-     stops reading as a book on a shelf and starts reading as an effect. */
+  /* The pointer's own contribution to the object's attitude, ON TOP of the
+     resting turn the sheet already applies — the book does not snap to the
+     pointer, it leans with it. Small angles on purpose: the cover is already
+     swinging from 15° to 4° as it comes out of the shelf, and a few more
+     degrees of follow is the difference between a solid object and a card that
+     swings. --gx/--gy move the raking highlight so the light stays put in the
+     room while the book turns under it. */
   const tilt = (e: React.PointerEvent<HTMLElement>) => {
     const el = e.currentTarget;
     const r = el.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width - 0.5;
     const py = (e.clientY - r.top) / r.height - 0.5;
-    el.style.setProperty("--rx", `${(-py * 2.6).toFixed(2)}deg`);
-    el.style.setProperty("--ry", `${(px * 3.4).toFixed(2)}deg`);
+    el.style.setProperty("--rx", `${(-py * 3.2).toFixed(2)}deg`);
+    el.style.setProperty("--ry", `${(px * 5).toFixed(2)}deg`);
     el.style.setProperty("--gx", `${(px * 80 + 50).toFixed(1)}%`);
     el.style.setProperty("--gy", `${(py * 80 + 50).toFixed(1)}%`);
   };
@@ -265,6 +338,17 @@ export function BookShelf({ data }: { data: BooksData }) {
                             <span className="nb-mark-t">{line}</span>
                           </Link>
                         )}
+
+                        {/* §2 — the contextual line. Two facts that are real
+                            and are NOT already printed under the cover: how the
+                            book is built, and its shelf plate. aria-hidden
+                            because both are decoration for a pointer; the same
+                            facts reach a screen reader through the slab's own
+                            label and the card meta below. */}
+                        <p className="nb-peek" aria-hidden="true">
+                          <b>{b.kindLabel ?? b.structureHe}</b>
+                          <i>{b.id}</i>
+                        </p>
                       </div>
 
                       <div className="nb-card-meta">

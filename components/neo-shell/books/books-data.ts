@@ -134,6 +134,17 @@ export interface BookCard {
   near: { href: string; label: string; n: number } | null;
   /** Titles too long to sit at the cover's largest size get a smaller step. */
   fit: "s" | "m" | "l";
+  /** 0..1 — how thick the book's 3D block is drawn.
+   *
+   *  A real book's thickness IS its page count, so this is the book's own
+   *  `pages` normalised across the shelf's own min and max (both measured, not
+   *  hard-coded, so adding a twelfth book re-proportions the shelf rather than
+   *  falling off a fixed scale). It drives DEPTH ONLY. It is never printed, and
+   *  it never becomes a page number: a book whose metadata carries no page count
+   *  is drawn at the shelf's midpoint and says `thickFrom: "neutral"` so the
+   *  surface can decline to imply a size it does not know. */
+  thick: number;
+  thickFrom: "pages" | "neutral";
 }
 
 export interface BooksData {
@@ -245,7 +256,27 @@ export function booksData(): BooksData {
           ? { href: "/neo/fiori-apps/", label: "מרשם ה-Fiori של NEO", n: FIORI_APPS.length }
           : null,
       fit: shown.length <= 34 ? "s" : shown.length <= 54 ? "m" : "l",
+      // Filled by the pass below, which needs the whole shelf to exist first.
+      thick: 0.5,
+      thickFrom: "neutral",
     });
+  }
+
+  /* THICKNESS. Measured across the shelf that actually loaded, so the thinnest
+     real book is the thinnest block and the thickest real book is the thickest
+     one. A book without a page count is left at the midpoint it was seeded with
+     and keeps `thickFrom: "neutral"` — the cover then prints "עמודים לא
+     מתועדים" instead of a figure, and the block claims no size it cannot back. */
+  const counted = books.map((b) => b.pages).filter((p): p is number => p !== null);
+  if (counted.length > 1) {
+    const lo = Math.min(...counted);
+    const hi = Math.max(...counted);
+    const span = hi - lo;
+    for (const b of books) {
+      if (b.pages === null || span <= 0) continue;
+      b.thick = Math.round(((b.pages - lo) / span) * 100) / 100;
+      b.thickFrom = "pages";
+    }
   }
 
   const order = (m: string) => {
