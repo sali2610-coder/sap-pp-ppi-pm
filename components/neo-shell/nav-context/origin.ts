@@ -52,6 +52,40 @@ export function normalisePath(p: string): string {
 const matches = (to: string, path: string): boolean =>
   to.endsWith("*") ? path.startsWith(to.slice(0, -1)) : to === path;
 
+/* ------------------------------------------------------------- the scroller
+
+   The NEO shell scrolls its CANVAS, not the window (`.nx-canvas`, id="main", in
+   app/globals.css). A surface that stored `window.scrollY` would store 0 on
+   every page and restore nothing, so the one correct way to read and rewind the
+   viewport lives here instead of being rediscovered per surface. */
+
+/** The element the NEO shell actually scrolls. Null on the server. */
+export function neoScroller(): HTMLElement | null {
+  return typeof document === "undefined" ? null : document.getElementById("main");
+}
+
+/** Current scroll offset of the NEO canvas, or 0 when there is none. */
+export function scrollOffset(): number {
+  return neoScroller()?.scrollTop ?? 0;
+}
+
+/** Put the canvas back where it was, preferring a RECORD over a pixel: a list
+ *  that re-rendered at a different density has moved every offset, but the row
+ *  the user opened is still the row the user opened.
+ *
+ *  Runs on the next frame, because the restored filters have to render before
+ *  the element they produce can be found. Returns a cancel function, so a
+ *  caller can hand it straight back out of `useEffect`. */
+export function restoreScroll(y: number, selector?: string): () => void {
+  if (typeof window === "undefined") return () => {};
+  const id = requestAnimationFrame(() => {
+    const el = selector ? document.querySelector<HTMLElement>(selector) : null;
+    if (el) el.scrollIntoView({ block: "center", behavior: "auto" });
+    else neoScroller()?.scrollTo({ top: Number(y) || 0, behavior: "auto" });
+  });
+  return () => cancelAnimationFrame(id);
+}
+
 /* ------------------------------------------------------------- storage */
 
 let cache: Ctx = EMPTY;
@@ -108,12 +142,20 @@ export function rememberOrigin(o: OriginInput): void {
   if (!label || !o.href || !o.to) return;   // never store a nameless origin
   ensure();
   const to = normalisePath(o.to);
+  const href = normalisePath(o.href);
+  // A page is not its own origin. Without this, a surface that links sideways
+  // to a sibling of itself ("/neo/tables/EQUI/" → "/neo/tables/AUFK/") would
+  // arm a return that lands on the page you are already leaving.
+  if (!to.endsWith("*") && to === href) return;
   const entry: NeoOrigin = {
     ...o,
     to,
-    href: normalisePath(o.href),
+    href,
     label,
-    detail: (o.detail || "").trim() || undefined,
+    // The control truncates with an ellipsis at any width; storing an essay
+    // would still be an essay in the accessible name. A returning label that
+    // needs more than this is not a label.
+    detail: (o.detail || "").trim().slice(0, 120) || undefined,
     at: Date.now(),
   };
   // One origin per destination: re-entering the same page from a new place

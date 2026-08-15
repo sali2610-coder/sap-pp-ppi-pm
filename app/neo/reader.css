@@ -1,0 +1,965 @@
+/* ============================================================================
+   PROJECT NEO · THE READING SURFACE
+   ----------------------------------------------------------------------------
+   Loaded by app/neo/read/[bookId]/page.tsx, AFTER app/neo/ui.css so the control
+   language (.nu-btn, .nu-filter, .nu-chip, .nu-card …) is already in force and
+   this sheet only has to place it.
+
+   RULES THIS FILE KEEPS
+     1. Every selector is anchored on `.nr`, which exists only inside
+        /neo/read/**. Nothing here can reach the production reader, the shelf,
+        the hub or any other agent's surface.
+     2. Not one token is invented. Colour, depth, radius, spacing, easing and
+        duration all come from app/globals.css. Module identity arrives as --m.
+     3. Logical properties only — no left, no right, no physical margins. The
+        surface is RTL first and mirrors for free.
+     4. Only `transform` and `opacity` are transitioned or keyframed. Colour and
+        background changes are instant, box-shadow is set per state, and no
+        width, height or inset is ever animated.
+     5. Module identity takes surface, ring, line, edge and marker form only —
+        never a small standalone dot, which is the shape reserved for status
+        (the form rule above --mod-pm in app/globals.css).
+     6. prefers-reduced-motion removes the page cue and the lens outright, not
+        merely their easing.
+   ========================================================================== */
+
+.nr {
+  --m: var(--ink-3);
+  --nr-headh: 6rem;
+
+  /* Type scale for the reading column. Hebrew at a given pixel size reads
+     smaller than Latin, so every step sits above the app's --t-body. */
+  --nr-fs: 1.0625rem;
+  --nr-lh: 1.9;
+  --nr-measure: 62ch;
+
+  /* The reading sheet's own surface, so the paper tint can move one variable
+     instead of every rule that paints. */
+  --nr-paper: var(--surface);
+  --nr-ink: var(--ink-1);
+  --nr-ink-2: var(--ink-2);
+
+  --nr-rail-w: 5.5rem;
+
+  display: grid;
+  /* EXPLICIT, not implicit. An implicit `auto` track is sized by max-content,
+     and .nr-sheet's max-inline-size is a real max-content contribution — so an
+     auto track would hand the sheet its full reading measure even inside a
+     390px phone column, and the whole surface would overflow sideways. Every
+     grid in this file therefore declares minmax(0, 1fr). */
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-4);
+  min-inline-size: 0;
+  color: var(--ink-1);
+}
+
+/* The same rule for every single-column grid on this surface. Written once
+   rather than repeated per block, because forgetting it on ONE of them is
+   enough to reintroduce the sideways overflow described above. */
+.nr-head, .nr-resume, .nr-ch-head, .nr-ch-t, .nr-foot, .nr-err,
+.nr-list, .nr-refs, .nr-meters, .nr-meter,
+.nr-panel-body, .nr-toc, .nr-toc-sub, .nr-chmap, .nr-map, .nr-tip, .nr-end {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* --- type steps ----------------------------------------------------------- */
+.nr[data-size="sm"]  { --nr-fs: 0.9375rem; }
+.nr[data-size="md"]  { --nr-fs: 1.0625rem; }
+.nr[data-size="lg"]  { --nr-fs: 1.1875rem; }
+.nr[data-size="xl"]  { --nr-fs: 1.3125rem; }
+.nr[data-size="xxl"] { --nr-fs: 1.5rem; }
+
+.nr[data-lead="snug"]   { --nr-lh: 1.66; }
+.nr[data-lead="normal"] { --nr-lh: 1.9; }
+.nr[data-lead="air"]    { --nr-lh: 2.15; }
+
+.nr[data-measure="narrow"] { --nr-measure: 46ch; }
+.nr[data-measure="normal"] { --nr-measure: 62ch; }
+.nr[data-measure="wide"]   { --nr-measure: 76ch; }
+
+/* --- paper: a warm sheet, scoped to the reading surface and nothing else --- */
+.nr[data-paper="1"] {
+  --nr-paper: color-mix(in srgb, #f6efe1 82%, var(--surface));
+  --nr-ink: #2b2620;
+  --nr-ink-2: #4a4236;
+}
+html[data-theme="dark"] .nr[data-paper="1"] {
+  --nr-paper: color-mix(in srgb, #2a2118 55%, var(--surface));
+  --nr-ink: #ece2d2;
+  --nr-ink-2: #cbbfae;
+}
+
+/* SAP identifiers are LTR islands inside Hebrew prose; direction alone is not
+   enough, the bidi algorithm still reorders around their edges without it. */
+.nr .nu-chip.is-sap { unicode-bidi: isolate; }
+
+.nr-sr {
+  position: absolute; inline-size: 1px; block-size: 1px;
+  padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+}
+
+/* ========================================================== 1. THE HEADER */
+
+/* Sticky against .nx-canvas, which is the element that actually scrolls on
+   /neo. The box-shadow spill paints over the canvas padding above the header,
+   so scrolled text never appears in the gap. */
+.nr-head {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 20;
+  display: grid;
+  gap: var(--sp-2);
+  padding-block: var(--sp-2) var(--sp-2);
+  background: var(--background);
+  box-shadow: 0 -2.5rem 0 0 var(--background), 0 10px 18px -18px rgba(15, 23, 42, .45);
+}
+
+.nr-head-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2) var(--sp-3);
+  min-inline-size: 0;
+}
+
+.nr-back { flex: none; }
+
+/* --- breadcrumb ----------------------------------------------------------- */
+.nr-crumb {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  flex: 1 1 18rem;
+  min-inline-size: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-3);
+  overflow: hidden;
+}
+.nr-crumb svg { flex: none; opacity: .5; }
+.nr-crumb-l,
+.nr-crumb-b {
+  color: var(--ink-3);
+  background: none;
+  border: 0;
+  padding: 0.2rem 0;
+  font: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-inline-size: 14ch;
+  cursor: pointer;
+}
+.nr-crumb-b { max-inline-size: 22ch; cursor: pointer; }
+
+/* On a phone the crumb keeps the two legs that answer "where am I in this
+   book" and drops the two that answer "which book" — the return control right
+   above it already says that, and four truncated crumbs say nothing at all. */
+@media (max-width: 719px) {
+  .nr-crumb-l,
+  .nr-crumb > svg:first-of-type,
+  .nr-crumb > svg:nth-of-type(2) { display: none; }
+  .nr-crumb-b { max-inline-size: 26ch; }
+}
+.nr-crumb-l:hover,
+.nr-crumb-b:hover { color: var(--ink-1); text-decoration: underline; text-underline-offset: 3px; }
+.nr-crumb-l:focus-visible,
+.nr-crumb-b:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand); border-radius: var(--r-xs); }
+.nr-crumb-now {
+  color: var(--ink-1);
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-inline-size: 0;
+  /* The one place module identity marks the crumb: a leading edge, not a dot. */
+  border-inline-start: 2px solid var(--m);
+  padding-inline-start: var(--sp-2);
+}
+
+/* --- tools ---------------------------------------------------------------- */
+.nr-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  flex-wrap: wrap;
+  margin-inline-start: auto;
+}
+.nr-tool-l { display: none; }
+@media (min-width: 1280px) { .nr-tool-l { display: inline; } }
+
+.nr-steps {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding-inline: var(--sp-1);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--ink-3);
+}
+.nr-steps .nu-ghost { padding-inline: 0.45rem; min-block-size: 2.25rem; }
+
+/* 44px targets. ui.css already does this for `pointer: coarse`, but the mobile
+   COMPOSITION of this surface starts at a width, not at an input type — a
+   narrow desktop window gets the same layout and deserves the same targets. */
+@media (pointer: coarse), (max-width: 1099px) {
+  .nr .nu-btn, .nr .nu-btn2, .nr .nu-ghost, .nr .nu-filter,
+  .nr .nu-link, .nr .nr-steps .nu-ghost { min-block-size: 2.75rem; }
+  .nr .nr-toc-row, .nr .nr-chmap-row { min-block-size: 2.75rem; }
+}
+.nr-steps--wide { display: none; }
+@media (min-width: 1100px) { .nr-steps--wide { display: inline-flex; } }
+.nr-tool-min { display: none; }
+@media (min-width: 1100px) { .nr-tool-min { display: inline-flex; } }
+
+/* --- the three-scale strip ------------------------------------------------ */
+.nr-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  padding-block-end: var(--sp-1);
+}
+.nr-strip-seg {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: 1 1 9rem;
+  min-inline-size: 0;
+  font-size: 0.6875rem;
+  font-weight: 650;
+  color: var(--ink-3);
+}
+.nr-strip-seg b { font-weight: 700; color: var(--ink-2); flex: none; }
+.nr-strip-seg em { font-style: normal; font-variant-numeric: tabular-nums; color: var(--ink-2); flex: none; }
+.nr-strip-bar {
+  position: relative;
+  flex: 1 1 auto;
+  min-inline-size: 2.5rem;
+  block-size: 5px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  overflow: hidden;
+}
+.nr-strip-bar i {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: 100%;
+  border-radius: inherit;
+  background: var(--m);
+  transform: scaleX(var(--v, 0));
+  transform-origin: var(--nr-origin, right);
+  transition: transform var(--dur-base) var(--ease-out-expo);
+}
+/* Bars grow from the reading side. In an LTR mirror the origin flips with the
+   document, so the value is declared once here and read by every bar. */
+.nr { --nr-origin: right; }
+html[dir="ltr"] .nr { --nr-origin: left; }
+
+@media (min-width: 1100px) { .nr-strip { display: none; } }
+
+/* ========================================================== 2. THE RESUME */
+
+.nr-resume {
+  display: grid;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid color-mix(in srgb, var(--m) 34%, var(--hairline));
+  border-inline-start: 3px solid var(--m);
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--m) 5%, var(--surface));
+}
+.nr-resume-t { font-size: 0.8125rem; color: var(--ink-2); }
+.nr-resume-t b { color: var(--ink-1); font-weight: 700; }
+.nr-resume-a { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.nr-resume-n { font-size: 0.6875rem; line-height: 1.65; color: var(--ink-3); }
+
+/* ============================================================ 3. THE BODY */
+
+.nr-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-5);
+  align-items: start;
+  min-inline-size: 0;
+}
+@media (min-width: 1100px) {
+  /* Content first (inline-start = the reading side), rail at the far edge —
+     away from the shell's own navigation, where a vertical scroll indicator
+     belongs in an RTL document. */
+  .nr-body { grid-template-columns: minmax(0, 1fr) var(--nr-rail-w); }
+}
+@media (min-width: 1800px) { .nr { --nr-rail-w: 6.5rem; } }
+
+.nr-col { min-inline-size: 0; display: grid; grid-template-columns: minmax(0, 1fr); }
+
+/* --- the sheet ------------------------------------------------------------ */
+.nr-sheet {
+  inline-size: 100%;
+  max-inline-size: calc(var(--nr-measure) + 8rem);
+  margin-inline: auto;
+  padding: var(--sp-6) var(--sp-5) var(--sp-8);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  background: var(--nr-paper);
+  color: var(--nr-ink);
+  box-shadow: var(--elev-1);
+  position: relative;
+}
+@media (min-width: 900px) { .nr-sheet { padding: var(--sp-8) var(--sp-8) var(--sp-10); } }
+
+/* SUBTLE PHYSICALITY. Two hairlines stepped off the trailing edge read as the
+   leaves under the page you are on. It is one static box-shadow, it never
+   moves, it never animates, and it disappears the moment the column is narrow
+   enough that it would compete with the text. */
+@media (min-width: 900px) {
+  .nr-sheet::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow:
+      3px 0 0 -1px color-mix(in srgb, var(--ink-3) 16%, transparent),
+      7px 0 0 -2px color-mix(in srgb, var(--ink-3) 10%, transparent);
+  }
+  html[dir="ltr"] .nr-sheet::after {
+    box-shadow:
+      -3px 0 0 -1px color-mix(in srgb, var(--ink-3) 16%, transparent),
+      -7px 0 0 -2px color-mix(in srgb, var(--ink-3) 10%, transparent);
+  }
+}
+
+/* The page cue: a chapter arrives rather than blinking into place. transform
+   and opacity only, and gone entirely under reduced motion. */
+@keyframes nr-turn {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+.nr-sheet { animation: nr-turn var(--dur-slow) var(--ease-out-expo) both; }
+
+/* --- chapter head --------------------------------------------------------- */
+.nr-ch-head {
+  display: grid;
+  gap: var(--sp-2);
+  padding-block-end: var(--sp-4);
+  margin-block-end: var(--sp-5);
+  border-block-end: 1px solid var(--hairline);
+}
+.nr-eye { display: flex; flex-wrap: wrap; gap: var(--sp-1); }
+.nr-ch-t {
+  display: grid;
+  gap: var(--sp-2);
+  font-size: clamp(1.35rem, 1.05rem + 1.1vw, 2rem);
+  font-weight: 750;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--nr-ink);
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+}
+.nr-ch-n {
+  justify-self: start;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--m);
+  padding-inline-start: var(--sp-2);
+  border-inline-start: 3px solid var(--m);
+}
+.nr-ch-m { font-size: 0.75rem; color: var(--ink-3); line-height: 1.7; }
+
+/* --- figures -------------------------------------------------------------- */
+.nr-figs { margin-block-end: var(--sp-6); }
+.nr-figs-h {
+  display: flex; align-items: center; gap: var(--sp-2);
+  font-size: 0.75rem; font-weight: 700; color: var(--ink-2);
+  margin-block-end: var(--sp-2);
+}
+.nr-figs-l { display: flex; gap: var(--sp-2); overflow-x: auto; padding-block-end: var(--sp-2); }
+.nr-figs-l li { flex: none; }
+.nr-fig {
+  display: block; padding: 0; border: 1px solid var(--hairline); border-radius: var(--r-md);
+  background: var(--surface-2); overflow: hidden; cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-out-expo);
+}
+.nr-fig img { display: block; block-size: 5.5rem; inline-size: auto; max-inline-size: 11rem; object-fit: contain; }
+.nr-fig:hover { transform: translateY(-2px); border-color: var(--m); }
+.nr-fig:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--nr-paper), 0 0 0 4px var(--brand); }
+
+/* --- one subchapter ------------------------------------------------------- */
+.nr-sec {
+  padding-block: var(--sp-6);
+  border-block-end: 1px solid color-mix(in srgb, var(--hairline) 70%, transparent);
+  scroll-margin-block-start: calc(var(--nr-headh) + var(--sp-4));
+}
+.nr-sec:last-of-type { border-block-end: 0; }
+
+.nr-sec-h {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-block-end: var(--sp-3);
+}
+.nr-sec-n { flex: none; }
+.nr-sec-t {
+  flex: 1 1 12rem;
+  min-inline-size: 0;
+  font-size: calc(var(--nr-fs) * 1.12);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--nr-ink);
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+}
+.nr-sec-meta { display: inline-flex; gap: var(--sp-1); flex: none; }
+
+/* The subchapter in view is marked with a module-coloured EDGE, which is a form
+   module identity is allowed to take. */
+.nr-sec[aria-current="true"] .nr-sec-t {
+  border-inline-start: 3px solid var(--m);
+  padding-inline-start: var(--sp-3);
+}
+
+/* --- prose ---------------------------------------------------------------- */
+.nr-prose { max-inline-size: var(--nr-measure); }
+.nr-p {
+  font-size: var(--nr-fs);
+  line-height: var(--nr-lh);
+  color: var(--nr-ink-2);
+  /* Hebrew has no hyphenation here, so justification would open rivers. */
+  text-align: start;
+  /* This corpus is Hebrew prose with English SAP terms, table names and long
+     compound identifiers embedded in it. An identifier longer than the column
+     has no break opportunity, and in an RTL paragraph it does not merely clip —
+     it pushes a line fragment out past the inline start and makes the whole
+     page draggable sideways on a phone. Measured on book3 chapter 4. */
+  overflow-wrap: break-word;
+  margin-block-end: calc(var(--nr-fs) * 0.9);
+}
+.nr-p:last-child { margin-block-end: 0; }
+.nr-p strong { font-weight: 700; color: var(--nr-ink); }
+.nr-snip { color: var(--ink-3); }
+.nr-none {
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  color: var(--ink-3);
+  padding: var(--sp-3);
+  border: 1px dashed var(--hairline);
+  border-radius: var(--r-md);
+}
+
+.nr-facet { margin-block-end: var(--sp-5); }
+.nr-facet-h {
+  display: flex; align-items: center; gap: var(--sp-2);
+  font-size: calc(var(--nr-fs) * 0.9);
+  font-weight: 700; color: var(--nr-ink);
+  margin-block-end: var(--sp-2);
+}
+.nr-facet-h::before {
+  content: ""; flex: none;
+  inline-size: 3px; block-size: 0.95em; border-radius: 2px; background: var(--m);
+}
+.nr-list { display: grid; gap: var(--sp-2); padding-inline-start: var(--sp-4); list-style: disc; }
+.nr-list li { font-size: var(--nr-fs); line-height: var(--nr-lh); color: var(--nr-ink-2); overflow-wrap: break-word; }
+.nr-list li::marker { color: color-mix(in srgb, var(--m) 70%, transparent); }
+
+.nr-refs {
+  display: grid; gap: var(--sp-2);
+  padding: var(--sp-3);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+}
+.nr-refs-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1); }
+.nr-refs-l { font-size: 0.6875rem; font-weight: 650; color: var(--ink-3); margin-inline-end: var(--sp-1); }
+
+.nr-orig { margin-block-start: var(--sp-4); }
+.nr-orig > summary {
+  cursor: pointer; list-style: none;
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  font-size: 0.75rem; font-weight: 650; color: var(--ink-3);
+  padding: var(--sp-2) 0;
+  min-block-size: 2.5rem;
+}
+.nr-orig > summary::-webkit-details-marker { display: none; }
+.nr-orig > summary::before { content: ""; inline-size: 3px; block-size: 0.9em; border-radius: 2px; background: var(--hairline); }
+.nr-orig[open] > summary::before { background: var(--m); }
+.nr-orig > summary:hover { color: var(--ink-1); }
+.nr-orig-b {
+  padding-inline-start: var(--sp-3);
+  border-inline-start: 2px solid var(--hairline);
+}
+.nr-orig-b .nr-p { font-size: calc(var(--nr-fs) * 0.92); color: var(--ink-3); }
+
+/* --- states --------------------------------------------------------------- */
+.nr-load {
+  display: flex; align-items: center; gap: var(--sp-2);
+  font-size: 0.75rem; color: var(--ink-3); padding-block: var(--sp-3);
+}
+.nr-load svg { animation: nr-spin .8s linear infinite; }
+@keyframes nr-spin { to { transform: rotate(360deg); } }
+.nr-err {
+  display: grid; gap: var(--sp-3); justify-items: start;
+  padding: var(--sp-4);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  font-size: 0.8125rem; color: var(--ink-2);
+}
+
+/* --- chapter ends --------------------------------------------------------- */
+.nr-ends {
+  display: grid;
+  gap: var(--sp-3);
+  margin-block-start: var(--sp-8);
+  padding-block-start: var(--sp-5);
+  border-block-start: 1px solid var(--hairline);
+}
+@media (min-width: 720px) { .nr-ends { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.nr-end {
+  display: grid; gap: var(--sp-1);
+  padding: var(--sp-3) var(--sp-4);
+  min-block-size: 3.25rem;
+  font: inherit;
+}
+.nr-end-k {
+  display: inline-flex; align-items: center; gap: var(--sp-1);
+  font-size: 0.6875rem; font-weight: 700; color: var(--m);
+}
+.nr-end--next { text-align: end; }
+.nr-end--next .nr-end-k { justify-content: flex-end; }
+.nr-end-t { font-size: 0.8125rem; font-weight: 650; color: var(--ink-2); line-height: 1.5; }
+.nr-end--none {
+  display: grid; align-content: center;
+  padding: var(--sp-3) var(--sp-4);
+  font-size: 0.75rem; color: var(--ink-3);
+  border: 1px dashed var(--hairline); border-radius: var(--r-lg);
+}
+
+.nr-foot {
+  display: grid; gap: var(--sp-2);
+  margin-block-start: var(--sp-6);
+  padding-block-start: var(--sp-4);
+  border-block-start: 1px solid var(--hairline);
+  font-size: 0.6875rem; line-height: 1.8; color: var(--ink-3);
+}
+.nr-foot .nu-link { font-size: inherit; }
+
+/* ============================================================ 4. THE RAIL */
+
+.nr-rail {
+  display: none;
+  position: sticky;
+  inset-block-start: calc(var(--nr-headh) + var(--sp-3));
+  align-self: start;
+  block-size: min(38rem, calc(100dvh - var(--nr-headh) - 8rem));
+  min-block-size: 18rem;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-2);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: var(--elev-1);
+}
+@media (min-width: 1100px) { .nr-rail { display: grid; } }
+
+.nr-rail-head { display: grid; justify-items: center; gap: 2px; }
+.nr-rail-pct {
+  font-size: 1.35rem; font-weight: 750; line-height: 1;
+  font-variant-numeric: tabular-nums; color: var(--ink-1);
+}
+.nr-rail-pct i { font-style: normal; font-size: 0.7rem; font-weight: 650; color: var(--ink-3); margin-inline-start: 1px; }
+.nr-rail-cap { font-size: 0.625rem; font-weight: 650; color: var(--ink-3); }
+
+/* --- the track ------------------------------------------------------------ */
+.nr-track {
+  position: relative;
+  justify-self: center;
+  inline-size: 1.5rem;
+  block-size: 100%;
+  cursor: pointer;
+}
+.nr-track-bed {
+  position: absolute; inset-block: 0;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  inline-size: 10px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+/* The chapter you are in, as a band on the book — module identity in its
+   surface/edge form. */
+.nr-track-band {
+  position: absolute;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  inline-size: 10px;
+  inset-block-start: calc(var(--at) * 100%);
+  block-size: calc(var(--span) * 100%);
+  min-block-size: 3px;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--m) 22%, transparent);
+}
+.nr-track-fill {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 50%;
+  translate: -50% 0;
+  inline-size: 10px;
+  block-size: 100%;
+  border-radius: var(--r-pill);
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--m) 92%, transparent), var(--m));
+  transform-origin: top;
+  transform: scaleY(var(--v, 0));
+  transition: transform var(--dur-base) var(--ease-out-expo);
+}
+/* The exact position, as a line across the track. Placed with an inset rather
+   than a transform because a percentage translate would resolve against the
+   2px line itself, not the track — and it is SET, never transitioned, so no
+   animation ever runs on a layout property. */
+.nr-now {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: calc(var(--v, 0) * 100%);
+  block-size: 2px;
+  margin-block-start: -1px;
+  border-radius: 2px;
+  background: var(--ink-1);
+  box-shadow: 0 0 0 2px var(--surface);
+  z-index: 3;
+}
+
+/* --- ticks ---------------------------------------------------------------- */
+.nr-tick {
+  position: absolute;
+  inset-inline: -2px;
+  inset-block-start: calc(var(--at) * 100%);
+  block-size: 14px;
+  margin-block-start: -7px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  z-index: 2;
+}
+.nr-tick::before {
+  content: "";
+  position: absolute;
+  inset-inline: 3px;
+  inset-block-start: 6px;
+  block-size: 2px;
+  border-radius: 1px;
+  background: color-mix(in srgb, var(--ink-3) 45%, transparent);
+  transition: transform var(--dur-fast) var(--ease-out-expo);
+}
+.nr-tick:hover::before { transform: scaleX(1.35); background: var(--ink-2); }
+/* A chapter the canonical reader recorded as read is drawn SOLID rather than in
+   a status colour: status hue is reserved for the dot-plus-word form, and a
+   tick is a line. */
+.nr-tick[data-read="1"]::before { background: var(--ink-1); }
+.nr-tick[data-on="1"]::before { background: var(--m); block-size: 3px; }
+.nr-tick:focus-visible { outline: none; border-radius: var(--r-xs); box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand); }
+
+/* --- tooltip -------------------------------------------------------------- */
+.nr-tip {
+  position: absolute;
+  inset-block-start: calc(var(--at) * 100%);
+  inset-inline-end: calc(100% + var(--sp-2));
+  translate: 0 -50%;
+  display: grid;
+  gap: 1px;
+  inline-size: 13rem;
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--elev-3);
+  pointer-events: none;
+  z-index: 6;
+}
+.nr-tip b { font-size: 0.6875rem; font-weight: 700; color: var(--m); }
+.nr-tip i { font-style: normal; font-size: 0.75rem; color: var(--ink-2); line-height: 1.45; }
+
+/* --- the three meters ----------------------------------------------------- */
+.nr-meters { display: grid; gap: var(--sp-2); }
+.nr-meter { display: grid; gap: 3px; justify-items: center; }
+.nr-meter-t {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 0.5625rem; font-weight: 650; color: var(--ink-3);
+}
+.nr-meter-bar {
+  position: relative;
+  inline-size: 100%;
+  block-size: 4px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+  overflow: hidden;
+}
+.nr-meter-bar i {
+  position: absolute; inset-block: 0; inset-inline-start: 0; inline-size: 100%;
+  background: var(--m);
+  transform: scaleX(var(--v, 0));
+  transform-origin: var(--nr-origin, right);
+  transition: transform var(--dur-base) var(--ease-out-expo);
+}
+.nr-meter-n { font-size: 0.625rem; font-weight: 650; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+/* ============================================================ 5. THE DOCK */
+
+.nr-dock {
+  position: sticky;
+  inset-block-end: 0;
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding-block: var(--sp-2);
+  padding-block-end: max(var(--sp-2), env(safe-area-inset-bottom));
+  background: var(--background);
+  box-shadow: 0 2.5rem 0 0 var(--background), 0 -10px 18px -18px rgba(15, 23, 42, .45);
+}
+.nr-dock-b { flex: 1 1 0; min-inline-size: 0; }
+.nr-dock-c { flex: none; font-variant-numeric: tabular-nums; }
+@media (min-width: 1100px) {
+  .nr-dock { justify-content: center; }
+  .nr-dock-b { flex: 0 0 auto; min-inline-size: 9rem; }
+}
+
+/* ========================================================== 6. FOCUS MODE */
+
+/* Reduced distraction, not reduced information: the three progress scales stay,
+   the secondary controls and the decoration step back. */
+.nr[data-focus="1"] .nr-tools .nu-filter,
+.nr[data-focus="1"] .nr-steps,
+.nr[data-focus="1"] .nr-eye,
+.nr[data-focus="1"] .nr-foot,
+.nr[data-focus="1"] .nr-back { display: none; }
+.nr[data-focus="1"] .nr-head { box-shadow: 0 -2.5rem 0 0 var(--background); }
+.nr[data-focus="1"] .nr-sheet { border-color: transparent; box-shadow: none; }
+.nr[data-focus="1"] .nr-sheet::after { box-shadow: none; }
+.nr[data-focus="1"] .nr-sec-meta { opacity: .45; }
+
+.nr-unfocus {
+  position: fixed;
+  inset-block-end: max(var(--sp-4), env(safe-area-inset-bottom));
+  inset-inline-start: var(--sp-4);
+  z-index: 70;
+  box-shadow: var(--elev-3);
+}
+
+/* ================================================== 7. THE READING LENS */
+
+/* Two veils, each a full viewport tall, translated so their inner edges frame a
+   short reading window. Nothing but `transform` moves. */
+.nr-lens {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  overflow: hidden;
+}
+.nr-lens-veil {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 0;
+  block-size: 100vh;
+  /* Deliberately a plain translucent fill and no backdrop-filter: a filter on
+     a full-viewport element that moves with the pointer is the one thing that
+     would make this expensive. */
+  background: color-mix(in srgb, var(--background) 80%, transparent);
+  will-change: transform;
+}
+.nr-lens-top { box-shadow: 0 1px 0 0 color-mix(in srgb, var(--m) 45%, transparent); }
+.nr-lens-bot { box-shadow: 0 -1px 0 0 color-mix(in srgb, var(--m) 45%, transparent); }
+
+/* ============================================================ 8. THE PANEL */
+
+.nr-panel-wrap { position: fixed; inset: 0; z-index: 90; }
+.nr-scrim {
+  position: absolute; inset: 0;
+  border: 0; padding: 0;
+  background: color-mix(in srgb, #0b0e11 42%, transparent);
+  cursor: default;
+  animation: nr-fade var(--dur-base) var(--ease-out-expo) both;
+}
+@keyframes nr-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.nr-panel {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr);
+  max-block-size: 88dvh;
+  background: var(--surface);
+  border-start-start-radius: var(--r-lg);
+  border-start-end-radius: var(--r-lg);
+  border-block-start: 1px solid var(--hairline);
+  box-shadow: var(--elev-3);
+  outline: none;
+  animation: nr-rise var(--dur-base) var(--ease-emphasis) both;
+}
+@keyframes nr-rise { from { opacity: 0; transform: translate3d(0, 24px, 0); } to { opacity: 1; transform: none; } }
+
+@media (min-width: 900px) {
+  .nr-panel {
+    inset-block: 0;
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+    inline-size: min(30rem, 92vw);
+    max-block-size: none;
+    border-radius: 0;
+    border-block-start: 0;
+    border-inline-start: 1px solid var(--hairline);
+  }
+  @keyframes nr-rise { from { opacity: 0; transform: translate3d(-2%, 0, 0); } to { opacity: 1; transform: none; } }
+}
+
+.nr-panel-top {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  border-block-end: 1px solid var(--hairline);
+}
+.nr-grab {
+  position: absolute; inset-block-start: 6px; inset-inline: 0;
+  margin-inline: auto; inline-size: 2.5rem; block-size: 4px;
+  border-radius: var(--r-pill); background: var(--hairline);
+}
+@media (min-width: 900px) { .nr-grab { display: none; } }
+.nr-panel-t {
+  flex: 1 1 auto; min-inline-size: 0;
+  font-size: 0.875rem; font-weight: 700; color: var(--ink-1);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.nr-x { flex: none; }
+
+.nr-panel-tabs { display: flex; padding-inline: var(--sp-4); border-block-end: 1px solid var(--hairline); }
+.nr-panel-body { overflow: auto; overscroll-behavior: contain; padding: var(--sp-4); display: grid; gap: var(--sp-3); align-content: start; }
+
+.nr-find {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding-inline: var(--sp-3);
+  min-block-size: 2.75rem;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  color: var(--ink-3);
+}
+.nr-find input {
+  flex: 1 1 auto; min-inline-size: 0;
+  border: 0; background: none; outline: none;
+  font: inherit; font-size: 0.8125rem; color: var(--ink-1);
+}
+.nr-find:focus-within { border-color: var(--m); }
+
+.nr-note { font-size: 0.6875rem; line-height: 1.7; color: var(--ink-3); }
+.nr-note-hits { font-weight: 650; color: var(--ink-2); }
+.nr-note-sub { padding-inline-start: var(--sp-5); padding-block: var(--sp-2); }
+
+.nr-toc, .nr-toc-sub, .nr-chmap { display: grid; gap: 2px; }
+.nr-toc-sub { padding-inline-start: var(--sp-4); margin-block: 2px var(--sp-2); border-inline-start: 1px solid var(--hairline); }
+
+.nr-toc-row {
+  display: flex; align-items: center; gap: var(--sp-2);
+  inline-size: 100%;
+  min-block-size: 2.75rem;
+  padding: var(--sp-2) var(--sp-3);
+  border: 0; border-radius: var(--r-md);
+  background: none; color: var(--ink-2);
+  font: inherit; font-size: 0.8125rem; text-align: start;
+  cursor: pointer;
+}
+.nr-toc-row:hover { background: var(--surface-2); color: var(--ink-1); }
+.nr-toc-row[data-on="1"] {
+  background: color-mix(in srgb, var(--m) 10%, transparent);
+  color: var(--ink-1); font-weight: 700;
+  box-shadow: inset 2px 0 0 0 var(--m);
+}
+html[dir="ltr"] .nr-toc-row[data-on="1"] { box-shadow: inset -2px 0 0 0 var(--m); }
+.nr-toc-row:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand); }
+.nr-toc-id {
+  flex: none; min-inline-size: 2.25rem;
+  font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate;
+  font-size: 0.625rem; font-weight: 650; color: var(--ink-3);
+}
+.nr-toc-t { flex: 1 1 auto; min-inline-size: 0; line-height: 1.45; overflow-wrap: break-word; }
+.nr-toc-n, .nr-toc-in { flex: none; font-size: 0.625rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nr-toc-read { flex: none; display: inline-grid; place-items: center; color: var(--ink-2); }
+.nr-toc-row--sub { font-size: 0.78125rem; }
+
+.nr-map { display: grid; gap: var(--sp-2); }
+.nr-map > div {
+  display: flex; align-items: baseline; gap: var(--sp-3);
+  padding: var(--sp-3);
+  border: 1px solid var(--hairline); border-radius: var(--r-md);
+  background: var(--surface-2);
+}
+.nr-map dt { flex: none; min-inline-size: 6rem; font-size: 0.75rem; font-weight: 700; color: var(--ink-2); }
+.nr-map dd { display: grid; gap: 2px; min-inline-size: 0; }
+.nr-map dd b { font-size: 1rem; font-weight: 750; color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nr-map dd span { font-size: 0.6875rem; line-height: 1.6; color: var(--ink-3); }
+
+.nr-chmap-row {
+  display: flex; align-items: center; gap: var(--sp-2);
+  inline-size: 100%; min-block-size: 2.75rem;
+  padding: var(--sp-2) var(--sp-3);
+  border: 0; border-radius: var(--r-md); background: none;
+  font: inherit; font-size: 0.75rem; color: var(--ink-2); text-align: start; cursor: pointer;
+}
+.nr-chmap-row:hover { background: var(--surface-2); }
+.nr-chmap-row[data-on="1"] { background: color-mix(in srgb, var(--m) 10%, transparent); color: var(--ink-1); font-weight: 700; }
+.nr-chmap-row:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand); }
+.nr-chmap-n { flex: none; min-inline-size: 1.5rem; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+.nr-chmap-t { flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nr-chmap-b {
+  flex: none; position: relative; inline-size: 4rem; block-size: 4px;
+  border-radius: var(--r-pill); background: var(--surface-2); overflow: hidden;
+}
+.nr-chmap-b i {
+  position: absolute; inset-block: 0; inset-inline-start: 0; inline-size: 100%;
+  background: color-mix(in srgb, var(--m) 60%, transparent);
+  transform: scaleX(var(--v, 0)); transform-origin: var(--nr-origin, right);
+}
+.nr-chmap-row[data-read="1"] .nr-chmap-b i { background: color-mix(in srgb, var(--ink-1) 45%, transparent); }
+.nr-chmap-c { flex: none; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+
+/* ========================================================== 9. DARK THEME */
+
+/* Dark keeps the spill (it is what hides scrolled text in the canvas padding)
+   and drops the drop-shadows, which read as smears on a dark canvas. */
+html[data-theme="dark"] .nr-head { box-shadow: 0 -2.5rem 0 0 var(--background); }
+html[data-theme="dark"] .nr-dock { box-shadow: 0 2.5rem 0 0 var(--background); }
+html[data-theme="dark"] .nr-sheet { box-shadow: none; }
+html[data-theme="dark"] .nr-sheet::after {
+  box-shadow:
+    3px 0 0 -1px color-mix(in srgb, var(--ink-3) 26%, transparent),
+    7px 0 0 -2px color-mix(in srgb, var(--ink-3) 16%, transparent);
+}
+html[data-theme="dark"] .nr-tip { box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .7); }
+
+/* ================================================== 10. REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  /* The lens goes away entirely, not just its easing — a band that stops
+     tracking but keeps veiling would be worse than no lens at all. */
+  .nr-lens { display: none !important; }
+  /* And so does the page cue. */
+  .nr-sheet { animation: none; }
+  .nr-panel, .nr-scrim { animation: none; }
+  .nr-strip-bar i,
+  .nr-meter-bar i,
+  .nr-track-fill,
+  .nr-tick::before,
+  .nr-fig { transition: none; }
+  .nr-fig:hover { transform: none; }
+  .nr-load svg { animation: none; }
+}

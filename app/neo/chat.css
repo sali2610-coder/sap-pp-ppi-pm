@@ -1,0 +1,521 @@
+/* ============================================================================
+   PROJECT NEO · "שאל את הספרייה" — the conversation surface.
+   ----------------------------------------------------------------------------
+   Every selector is anchored on .nxq, which is rendered only by
+   components/neo-shell/chat/neo-chat.tsx. Nothing here can reach another route,
+   and app/neo/ui.css is imported before it so the control language (.nu-btn,
+   .nu-btn2, .nu-ghost, .nu-link, .nu-chip, .nu-status, .nu-card) arrives first
+   and the few layout-only overrides below land after it.
+
+   WHY `nxq` AND NOT `nxc`. `.nxc` is already taken: app/neo/rail.css §12 uses
+   it for the rail's command surface (.nxc, .nxc-panel, .nxc-row, and a
+   @keyframes nxc-in). This file was written as `nxc-*` first and the collision
+   was real, not theoretical — the shell's `.nx-app .nxc { position: absolute }`
+   tore the whole chat out of the document flow, and the two @keyframes of the
+   same name silently overwrote each other. Every /neo stylesheet is loaded into
+   one global cascade, so a route prefix here has to be unique across the
+   namespace, not merely unique within its own file.
+
+   RULES THIS FILE KEEPS
+     Logical properties only. RTL is native here, not a mirrored LTR layout, so
+     there is no `left`, no `right`, and no `margin-left` anywhere below.
+     Only transform and opacity are animated. Nothing transitions a width, a
+     height or a colour ramp that would force layout while an answer streams in.
+     Every animation is inside a motion-safe guard or is switched off by the
+     reduced-motion block at the end of the file.
+     Colour comes from the theme variables, so dark mode is the same rules with
+     different values rather than a second stylesheet.
+
+   THE TWO SIDES OF THE CONVERSATION
+     The reader's turn is a bubble: short, tinted with the brand, bounded to a
+     comfortable measure, and pushed to the inline-end edge — which is the left
+     in Hebrew, the same side a sent message sits on in every RTL messenger.
+     The answer is NOT a bubble. It is a calm full-measure surface, because an
+     answer here is a document — headings, tables, a flowchart, a source list —
+     and a chat bubble is the wrong container for a document.
+   ========================================================================== */
+
+/* One column for the whole surface, so the title, the conversation and the
+   input share a single edge. Centring only the thread left the heading pinned
+   to the canvas edge and the messages starting somewhere else — two rulers on
+   one page. The measure is capped because an answer is prose: past ~56rem the
+   eye loses the line on the return sweep, and on a 3840px monitor an uncapped
+   thread would run to 200 characters. */
+.nxq {
+  display: grid;
+  gap: var(--sp-5);
+  align-content: start;
+  min-inline-size: 0;
+  inline-size: 100%;
+  max-inline-size: 56rem;
+  margin-inline: auto;
+  /* The composer is sticky against the shell's scrollport, so the thread needs
+     room to scroll its last answer clear of it. */
+  --nxq-composer-h: 7.5rem;
+}
+
+/* --------------------------------------------------------------- 1. HEADER */
+
+.nxq-head { display: grid; gap: var(--sp-2); justify-items: start; }
+
+.nxq-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.nxq-h1 {
+  font-size: var(--t-h1); line-height: var(--t-h1-lh); letter-spacing: var(--t-h1-tr);
+  font-weight: 800; color: var(--ink-1); margin: 0;
+}
+
+.nxq-lede {
+  margin: 0; max-inline-size: 60ch;
+  font-size: var(--t-sm); line-height: var(--lh-he); color: var(--ink-2);
+}
+
+.nxq-disclaimer {
+  display: flex; align-items: start; gap: 0.45rem;
+  margin: 0; max-inline-size: 68ch;
+  font-size: var(--t-xs); line-height: 1.7; color: var(--ink-3);
+}
+.nxq-disclaimer svg { flex: none; margin-block-start: 0.2em; }
+
+.nxq-head-acts { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.nxq-head-count { font-size: var(--t-micro); color: var(--ink-3); }
+
+/* --------------------------------------------------------------- 2. THREAD */
+
+.nxq-thread {
+  display: grid;
+  gap: var(--sp-6);
+  align-content: start;
+  min-inline-size: 0;
+  /* Room under the last answer so the sticky composer never covers it. */
+  padding-block-end: var(--nxq-composer-h);
+}
+
+.nxq-end { block-size: 1px; }
+
+/* A turn is one question and its answer. Grouping is spacing, not a box: the
+   pair reads as a unit because the gap inside it is half the gap between
+   turns. */
+.nxq-turn { display: grid; gap: var(--sp-3); min-inline-size: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .nxq-turn { animation: nxq-in var(--dur-base) var(--ease-out-expo) both; }
+}
+@keyframes nxq-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---- the reader's turn --------------------------------------------------- */
+
+.nxq-user { display: flex; }
+
+.nxq-user-bubble {
+  margin: 0;
+  /* auto on the inline-start side pushes the bubble to the inline-end edge —
+     the left in Hebrew. One declaration, correct in both directions. */
+  margin-inline-start: auto;
+  max-inline-size: min(42rem, 88%);
+  padding: 0.7rem 0.95rem;
+  border-radius: var(--r-xl);
+  border-start-end-radius: var(--r-xs);
+  background: var(--brand);
+  color: var(--brand-foreground);
+  font-size: 0.9375rem; line-height: 1.65; font-weight: 550;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  box-shadow: var(--elev-2);
+}
+
+/* ---- the answer ---------------------------------------------------------- */
+
+.nxq-assistant { display: grid; gap: var(--sp-3); min-inline-size: 0; }
+
+.nxq-answer {
+  display: grid; gap: var(--sp-4);
+  /* minmax(0, 1fr) and the min-inline-size below are load-bearing, not tidiness.
+     A grid item's automatic minimum is its MIN-CONTENT, so the widest thing in
+     an answer — a five-column markdown table, a long SAP identifier, a
+     flowchart — sets the column width and the whole answer grows past the
+     viewport. On a 390px phone the prose measured 525px and the reader had to
+     pan sideways to read a sentence. With the floor at zero the column shrinks
+     and the table scrolls inside its own overflow-x wrapper instead. */
+  grid-template-columns: minmax(0, 1fr);
+  min-inline-size: 0;
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--hairline);
+  /* A calm reading surface, and a brand edge on the inline-start side so the
+     answer is identifiable at a glance without a second colour. */
+  border-inline-start: 3px solid color-mix(in srgb, var(--brand) 55%, var(--hairline));
+  background: var(--surface);
+  box-shadow: var(--elev-1);
+}
+.nxq-answer > * { min-inline-size: 0; }
+
+.nxq-ground { align-self: start; justify-self: start; }
+
+.nxq-empty {
+  margin: 0; font-size: 0.9375rem; line-height: var(--lh-he); color: var(--ink-2);
+}
+
+.nxq-meta {
+  margin: 0;
+  padding-inline: var(--sp-2);
+  font-size: var(--t-micro); color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- notes: truncated, missing diagram, error, stop ---------------------- */
+
+.nxq-note {
+  display: flex; align-items: start; gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--r-md);
+  font-size: var(--t-xs); line-height: 1.7;
+  border: 1px solid var(--hairline);
+  background: var(--surface-2);
+  color: var(--ink-2);
+}
+.nxq-note svg { flex: none; margin-block-start: 0.15em; }
+.nxq-note-warn { border-color: color-mix(in srgb, var(--mod-ppds) 40%, var(--hairline)); }
+.nxq-note-warn svg { color: var(--mod-ppds); }
+.nxq-note-bad { border-color: color-mix(in srgb, var(--brand) 40%, var(--hairline)); }
+.nxq-note-bad svg { color: var(--brand); }
+.nxq-note-plain svg { color: var(--ink-3); }
+
+/* ---- follow-up actions --------------------------------------------------- */
+
+.nxq-acts { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.nxq-act { font-size: var(--t-xs); }
+
+.nxq-follow { display: grid; gap: var(--sp-2); }
+.nxq-follow-t {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: var(--t-micro); font-weight: 700; color: var(--ink-3);
+}
+.nxq-follow-row { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.nxq-follow-b {
+  font-size: var(--t-xs); font-weight: 600;
+  white-space: normal; text-align: start;
+  max-inline-size: 100%;
+}
+
+/* ------------------------------------------------------------- 3. SOURCES */
+
+.nxq-sources { display: grid; gap: var(--sp-3); justify-items: start; }
+.nxq-sources-top { font-size: var(--t-xs); }
+
+.nxq-caret { transition: transform var(--dur-fast) var(--ease-out-expo); }
+.nxq-caret[data-on="1"] { transform: rotate(180deg); }
+
+.nxq-src-list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: var(--sp-2);
+  inline-size: 100%;
+}
+
+.nxq-src {
+  display: grid; gap: var(--sp-2);
+  padding: var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  min-inline-size: 0;
+}
+
+.nxq-src-head { display: flex; align-items: start; gap: var(--sp-2); }
+
+.nxq-src-n {
+  flex: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  inline-size: 1.35rem; block-size: 1.35rem;
+  border-radius: var(--r-xs);
+  background: color-mix(in srgb, var(--brand) 12%, transparent);
+  color: var(--brand);
+  font-size: var(--t-micro); font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.nxq-src-id { display: grid; gap: 2px; min-inline-size: 0; flex: 1 1 auto; }
+.nxq-src-book { font-size: var(--t-xs); font-weight: 700; color: var(--ink-1); overflow-wrap: anywhere; }
+.nxq-src-where { font-size: var(--t-micro); line-height: 1.6; color: var(--ink-3); overflow-wrap: anywhere; }
+.nxq-src-state { flex: none; }
+
+.nxq-sap { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; }
+
+.nxq-src-facts { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.nxq-src-acts { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3); }
+.nxq-src-open, .nxq-src-toggle { font-size: var(--t-micro); }
+
+.nxq-src-quote {
+  margin: 0;
+  padding: var(--sp-3);
+  border-radius: var(--r-sm);
+  border-inline-start: 2px solid color-mix(in srgb, var(--brand) 45%, var(--hairline));
+  background: var(--surface);
+  color: var(--ink-2);
+  font-size: var(--t-xs); line-height: 1.8;
+  /* The quotes are English sentences lifted from the books; isolating them
+     keeps the bidi algorithm from reordering the punctuation. */
+  unicode-bidi: isolate;
+  overflow-wrap: anywhere;
+}
+
+/* ------------------------------------------------------- 4. LIVE / WORKING */
+
+.nxq-live {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3);
+  padding: 0.55rem 0.8rem;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+}
+.nxq-live-label { font-size: var(--t-xs); font-weight: 650; color: var(--ink-2); }
+.nxq-live-chip { font-variant-numeric: tabular-nums; }
+.nxq-live-time {
+  margin-inline-start: auto;
+  font-size: var(--t-micro); color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.nxq-live-dots { display: inline-flex; gap: 3px; flex: none; }
+.nxq-live-dots span {
+  inline-size: 5px; block-size: 5px; border-radius: 50%;
+  background: color-mix(in srgb, var(--brand) 70%, transparent);
+  opacity: 0.45;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .nxq-live-dots span { animation: nxq-dot 1.1s ease-in-out infinite; }
+  .nxq-live-dots span:nth-child(2) { animation-delay: 0.14s; }
+  .nxq-live-dots span:nth-child(3) { animation-delay: 0.28s; }
+}
+@keyframes nxq-dot {
+  0%, 100% { opacity: 0.35; transform: translateY(0); }
+  50%      { opacity: 1;    transform: translateY(-2px); }
+}
+
+/* The ungated preview. Visibly a draft — lower contrast, dashed edge — because
+   the grounding gate can still discard it and replace the whole thing. */
+.nxq-draft {
+  display: grid; gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px dashed color-mix(in srgb, var(--brand) 30%, var(--hairline));
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+.nxq-draft-t {
+  margin: 0; max-inline-size: 74ch;
+  white-space: pre-wrap; overflow-wrap: anywhere;
+  font-size: 0.9375rem; line-height: var(--lh-he); color: var(--ink-2);
+}
+.nxq-draft-tag { font-size: var(--t-micro); color: var(--ink-3); }
+
+.nxq-caret-live {
+  display: inline-block;
+  inline-size: 2px; block-size: 1.05em;
+  margin-inline-start: 2px;
+  vertical-align: text-bottom;
+  background: var(--brand);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .nxq-caret-live { animation: nxq-blink 1s steps(2) infinite; }
+}
+@keyframes nxq-blink { 50% { opacity: 0; } }
+
+.nxq-skel { display: grid; gap: var(--sp-2); max-inline-size: 74ch; }
+.nxq-skel span {
+  block-size: 0.7rem; border-radius: var(--r-pill);
+  background: var(--surface-2);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .nxq-skel span { animation: nxq-pulse 1.6s ease-in-out infinite; }
+  .nxq-skel span:nth-child(2) { animation-delay: 0.09s; }
+  .nxq-skel span:nth-child(3) { animation-delay: 0.18s; }
+  .nxq-skel span:nth-child(4) { animation-delay: 0.27s; }
+}
+@keyframes nxq-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+/* ------------------------------------------------------------ 5. COMPOSER */
+
+.nxq-composer {
+  position: sticky;
+  inset-block-end: 0;
+  z-index: 5;
+  display: grid; gap: 0.35rem;
+  /* The shell's canvas scrolls; this pads past its own bottom padding so the
+     box does not float above a strip of scrolled content. */
+  padding-block: var(--sp-3) calc(var(--sp-3) + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to top, var(--background) 62%, transparent);
+}
+
+.nxq-box {
+  display: grid;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  box-shadow: var(--elev-2);
+  transition: border-color var(--dur-fast) linear, box-shadow var(--dur-base) var(--ease-out-expo);
+}
+.nxq-box:focus-within {
+  border-color: color-mix(in srgb, var(--brand) 45%, var(--hairline));
+  box-shadow: var(--elev-3);
+}
+
+.nxq-box-top {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding: 0.35rem 0.5rem;
+  border-block-end: 1px solid var(--hairline);
+}
+.nxq-scope-b { font-size: var(--t-micro); max-inline-size: 100%; }
+.nxq-scope-t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.nxq-box-row { display: flex; align-items: end; gap: var(--sp-2); padding: var(--sp-2); }
+
+.nxq-field {
+  flex: 1 1 auto; min-inline-size: 0;
+  resize: none; border: 0; outline: none; background: transparent;
+  padding: 0.55rem 0.5rem;
+  max-block-size: 11rem; min-block-size: 2.5rem;
+  font: inherit;
+  font-size: 0.9375rem; line-height: 1.6;
+  color: var(--ink-1);
+}
+.nxq-field::placeholder { color: var(--ink-3); }
+
+.nxq-send {
+  flex: none;
+  inline-size: 2.75rem; block-size: 2.75rem;
+  padding: 0; border-radius: var(--r-lg);
+}
+
+.nxq-hint {
+  margin: 0; padding-inline: var(--sp-2);
+  font-size: var(--t-micro); color: var(--ink-3);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* -------------------------------------------------------- 6. EMPTY STATE */
+
+.nxq-empty-state { display: grid; gap: var(--sp-4); justify-items: start; padding-block: var(--sp-4); }
+
+.nxq-empty-ico {
+  display: inline-flex; align-items: center; justify-content: center;
+  inline-size: 2.75rem; block-size: 2.75rem;
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--brand) 10%, transparent);
+  color: var(--brand);
+}
+.nxq-empty-h { margin: 0; font-size: var(--t-h2); font-weight: 800; color: var(--ink-1); }
+.nxq-empty-p { margin: 0; max-inline-size: 62ch; font-size: var(--t-sm); line-height: var(--lh-he); color: var(--ink-2); }
+
+.nxq-caps { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+
+.nxq-starters { display: grid; gap: var(--sp-2); inline-size: 100%; }
+.nxq-starters-t {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: var(--t-micro); font-weight: 700; color: var(--ink-3);
+}
+.nxq-starters-row {
+  display: grid; gap: var(--sp-2);
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+.nxq-starter { display: grid; gap: 2px; padding: var(--sp-3); }
+.nxq-starter-l { font-size: var(--t-xs); font-weight: 700; color: var(--ink-1); }
+.nxq-starter-p { font-size: var(--t-micro); line-height: 1.6; color: var(--ink-3); }
+
+/* ---------------------------------------------------------- 7. SCOPE SHEET */
+
+.nxq-sheet-wrap { position: fixed; inset: 0; z-index: 60; display: grid; }
+.nxq-sheet-veil { position: absolute; inset: 0; background: rgba(11, 12, 14, 0.44); }
+
+.nxq-sheet {
+  position: relative;
+  place-self: end center;
+  inline-size: min(34rem, 100%);
+  max-block-size: min(80dvh, 44rem);
+  display: grid; grid-template-rows: auto minmax(0, 1fr);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-start-start-radius: var(--r-2xl);
+  border-start-end-radius: var(--r-2xl);
+  box-shadow: var(--elev-3);
+  outline: none;
+}
+@media (min-width: 48rem) {
+  .nxq-sheet { place-self: center; border-radius: var(--r-2xl); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .nxq-sheet { animation: nxq-up var(--dur-panel) var(--ease-emphasis) both; }
+  .nxq-sheet-veil { animation: nxq-fade var(--dur-fast) linear both; }
+}
+@keyframes nxq-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes nxq-fade { from { opacity: 0; } to { opacity: 1; } }
+
+.nxq-sheet-head {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  border-block-end: 1px solid var(--hairline);
+}
+.nxq-sheet-t {
+  margin: 0; min-inline-size: 0; flex: 1 1 auto;
+  font-size: var(--t-sm); font-weight: 800; color: var(--ink-1);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.nxq-sheet-back { font-size: var(--t-micro); flex: none; }
+/* The chevron points back along the reading direction in both scripts. */
+.nxq-back-a { transform: scaleX(-1); }
+[dir="ltr"] .nxq-back-a { transform: none; }
+.nxq-sheet-x { flex: none; inline-size: 2.25rem; padding-inline: 0; }
+
+.nxq-sheet-body { overflow: auto; overscroll-behavior: contain; display: grid; gap: var(--sp-2); padding: var(--sp-3); align-content: start; }
+.nxq-sheet-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-2); }
+.nxq-sheet-note { margin: 0; padding: var(--sp-3); font-size: var(--t-xs); color: var(--ink-3); }
+
+.nxq-row {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px var(--sp-2);
+  padding: var(--sp-3);
+  min-block-size: 2.75rem;
+}
+.nxq-row-t { grid-column: 1; font-size: var(--t-xs); font-weight: 700; color: var(--ink-1); }
+.nxq-row-s { grid-column: 1; font-size: var(--t-micro); color: var(--ink-3); }
+.nxq-row-c { grid-column: 2; grid-row: 1 / span 2; align-self: center; color: var(--brand); }
+
+/* ------------------------------------------------------------ 8. RESPONSIVE */
+
+/* Phone. The shell already reserves a bottom nav row, so the composer sticks
+   above it; the only work here is measure, density and target size. */
+html[data-device="phone"] .nxq { --nxq-composer-h: 8.5rem; }
+html[data-device="phone"] .nxq-user-bubble { max-inline-size: 92%; }
+html[data-device="phone"] .nxq-answer { padding: var(--sp-3); border-radius: var(--r-lg); }
+html[data-device="phone"] .nxq-thread { gap: var(--sp-5); }
+html[data-device="phone"] .nxq-starters-row { grid-template-columns: 1fr; }
+html[data-device="phone"] .nxq-hint { white-space: normal; }
+
+@media (max-width: 30rem) {
+  .nxq-live-time { margin-inline-start: 0; }
+  .nxq-src-head { flex-wrap: wrap; }
+}
+
+/* Very wide screens get a little more room, but only a little — see the note
+   on .nxq. The column stays centred and the measure stays readable. */
+@media (min-width: 100rem) {
+  .nxq { max-inline-size: 62rem; }
+}
+
+/* ----------------------------------------------------- 9. REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  .nxq-turn, .nxq-sheet, .nxq-sheet-veil { animation: none; }
+  .nxq-live-dots span, .nxq-skel span, .nxq-caret-live { animation: none; }
+  /* The working indicator must still be visible without movement, so the dots
+     stay at full opacity rather than resting at the animation's low point. */
+  .nxq-live-dots span { opacity: 1; }
+  .nxq-caret { transition: none; }
+  .nxq-box { transition: none; }
+}

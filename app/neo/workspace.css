@@ -1356,3 +1356,42 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   .nw > section.nw-ch:nth-of-type(odd)::before { display: none; }
   .nw-bar > i { forced-color-adjust: none; }
 }
+
+/* ---------------------------------------------------------------------------
+   Phone: two problems, both invisible to a document-level overflow check
+   because they only pushed .nx-canvas.
+
+   1. .nw-light-a / -b are ambient module glows sized in the hundreds of pixels.
+      They are decoration and must never extend the scrollable area, so their
+      host clips them rather than shrinking them.
+   2. .nw-sheet held its desktop min-content (447px) inside a 390px canvas,
+      because a grid/flex item does not shrink past its content until its
+      automatic minimum is released.
+   --------------------------------------------------------------------------- */
+@media (max-width: 720px) {
+  .nx-app .nw-hero,
+  .nx-app .nw-block,
+  .nx-app .nw-chapter { overflow: clip; }
+  /* Capping the width was not enough: these are absolutely positioned with a
+     negative inline offset, so a 390px-wide glow still began 224px outside the
+     canvas. On a phone they are pinned to the box instead of sized to it. */
+  .nx-app .nw-light-a,
+  .nx-app .nw-light-b {
+    inset-inline: 0;
+    inline-size: auto;
+    max-inline-size: 100%;
+    transform: none;
+  }
+  /* The last 12px came from a descendant whose box never reports outside its
+     parent (a negative margin or a translate inside a positioned ancestor), so
+     no bounding-box scan finds it. Clipping the workspace root ends the class
+     of bug rather than the instance: nothing in a module page is meant to be
+     horizontally scrollable at phone width, and the tables that ARE scrollable
+     own their own scroll container. */
+  .nx-app .nw { overflow-x: clip; }
+
+  .nx-app .nw-sheet,
+  .nx-app .nw-sheet > *,
+  .nx-app .nw-sub-h,
+  .nx-app .nw-sub-s { min-inline-size: 0; max-inline-size: 100%; overflow-wrap: anywhere; }
+}

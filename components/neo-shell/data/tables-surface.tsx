@@ -25,16 +25,41 @@
 // surface. Status form (dot + word) is used once, for the S/4 disposition of a
 // table, which is a real state of the record.
 
-import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft, Boxes, Database, GitBranch, KeyRound, Layers, LayoutGrid,
   ListTree, Search, Sigma, Table as TableIcon, Terminal, X,
 } from "lucide-react";
+import {
+  OriginLink, SmartReturn, consumeReturn, restoreScroll, scrollOffset, useReturnPacket,
+} from "@/components/neo-shell/nav-context";
 import { MOD_HE, modVar } from "../mod-var";
 import type { NeoTableRow, NeoTablesData } from "./types";
 
 const nf = new Intl.NumberFormat("he-IL");
+
+/* --------------------------------------------------------------- returning
+
+   SMART RETURN, both halves (components/neo-shell/nav-context).
+
+   SENDING   every row records, at the moment it is clicked, which view the
+             reader is leaving — the tab, the sort, the query, the three facet
+             groups and where the canvas was scrolled — plus the table opened.
+   RECEIVING on the render after a return it takes that packet back and rebuilds
+             the same view, then puts the row they left back under the eye.
+
+   The state is read at CLICK time and not at render time: the scroll offset and
+   the live query are only true at the moment of leaving. */
+
+const SURFACE = "neo:tables";
+
+/** A type alias and not an interface: only an alias picks up the implicit index
+ *  signature that lets it satisfy the module's OriginState contract. */
+type TablesListState = {
+  view: string; sort: string; q: string;
+  mods: string[]; caps: string[]; zones: string[]; zonesOpen: boolean;
+  y: number; name: string;
+};
 
 type View = "list" | "topic" | "zone";
 type Sort = "name" | "fields" | "rels" | "tcodes";
@@ -76,15 +101,21 @@ const openContext = (name: string) =>
 
 /* -------------------------------------------------------------------- row */
 
-function Row({ r, q }: { r: NeoTableRow; q: string }) {
+/** What the parent hands each row: a function that builds the origin record for
+ *  THIS view, called at click time so the query and the scroll offset it closes
+ *  over are the ones that are true at the moment of leaving. */
+type MakeOrigin = (name: string) => {
+  href: string; label: string; detail: string; surface: string; state: TablesListState;
+};
+
+function Row({ r, q, makeOrigin }: { r: NeoTableRow; q: string; makeOrigin: MakeOrigin }) {
   const st = s4State(r);
-  return (
-    <li
-      className="nxd-item"
-      style={{ "--m": modVar(r.mods[0]), "--o": r.obj } as React.CSSProperties}
-    >
-      <Link href={r.href} className="nu-card nxd-row" prefetch={false}>
-        <span className="nxd-mark" aria-hidden="true" />
+
+  // The row's whole body. It is identical whether the row is a destination or a
+  // value, so the two cannot drift apart.
+  const body = (
+    <>
+      <span className="nxd-mark" aria-hidden="true" />
 
         <span className="nxd-id">
           <b className="nx-sap">{r.name}</b>
@@ -129,8 +160,38 @@ function Row({ r, q }: { r: NeoTableRow; q: string }) {
           </span>
         </span>
 
-        <span className="nxd-go" aria-hidden="true"><ArrowLeft size={15} strokeWidth={2} /></span>
-      </Link>
+      {/* The arrow is the "this leaves for another route" signal, so a row that
+          is only a value must not carry one. */}
+      {r.href ? <span className="nxd-go" aria-hidden="true"><ArrowLeft size={15} strokeWidth={2} /></span> : null}
+    </>
+  );
+
+  return (
+    <li
+      className="nxd-item"
+      data-name={r.name}
+      style={{ "--m": modVar(r.mods[0]), "--o": r.obj } as React.CSSProperties}
+    >
+      {r.href ? (
+        <OriginLink
+          href={r.href}
+          className="nu-card nxd-row"
+          // Record the view being left, at the moment it is left. `to` is this
+          // one page, so the return the detail screen shows is this exact view
+          // and not "the tables directory" in general.
+          origin={() => makeOrigin(r.name)}
+        >
+          {body}
+        </OriginLink>
+      ) : (
+        // No page was generated for this table, so the row is a RECORD: same
+        // information, no anchor, no pointer, no hover lift, not in the tab
+        // order. This is the shape that keeps the dead-link crawler green.
+        <div className="nu-card nxd-row is-flat">
+          {body}
+          <span className="nxd-s4-t nxd-noent">אין עמוד פרטים לטבלה הזאת במאגר</span>
+        </div>
+      )}
 
       <button
         type="button"
@@ -206,6 +267,71 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
     return [...map.entries()].sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0], "he"));
   }, [rows, view]);
 
+  /* ------------------------------------------------------- smart return */
+
+  // Rebuilt every render on purpose, and deliberately NOT memoised: it has to
+  // close over the values that are true right now. <OriginLink/> calls it at
+  // CLICK time, so the scroll offset it reads is the one at the moment of
+  // leaving and not the one at the last render.
+  const makeOrigin: MakeOrigin = (name) => {
+    // What to CALL this view in Hebrew. Only narrowings that are really applied
+    // are named; an unfiltered list says nothing extra rather than inventing a
+    // description of itself.
+    const parts = [
+      mods.join(" · "),
+      zones.map((z) => data.zones.find((x) => x.id === z)?.he || "").filter(Boolean).join(" · "),
+      caps.map((c) => CAPS.find((x) => x.id === c)?.he || "").filter(Boolean).join(" · "),
+      q.trim() ? `חיפוש «${q.trim()}»` : "",
+      view === "list" ? "" : VIEWS.find((v) => v.v === view)?.he || "",
+    ].filter(Boolean);
+    return {
+      href: "/neo/tables/",
+      label: "טבלאות",
+      detail: parts.join(" · "),
+      surface: SURFACE,
+      state: {
+        view, sort, q, mods, caps, zones, zonesOpen,
+        y: scrollOffset(),
+        name,
+      },
+    };
+  };
+
+  // The other half. The packet arrives on the first client render after a
+  // return and is applied DURING that render — adjusting state to a changed
+  // external value, which is the one place React sanctions a set during render.
+  // An effect instead would be a cascading render on a prerendered page, and
+  // the list would visibly rebuild itself in front of the reader. `seededAt` is
+  // state and not a ref, because the guard is part of what this component
+  // renders and a ref read during render is not.
+  const packet = useReturnPacket(SURFACE);
+  const [seededAt, setSeededAt] = useState(0);
+  const [back, setBack] = useState<TablesListState | null>(null);
+  if (packet && packet.at !== seededAt) {
+    setSeededAt(packet.at);
+    const s = packet.state as TablesListState;
+    setBack(s);
+    setView((VIEWS.some((v) => v.v === s.view) ? s.view : "list") as View);
+    setSort((SORTS.some((x) => x.s === s.sort) ? s.sort : "name") as Sort);
+    setQ(s.q || "");
+    setMods(Array.isArray(s.mods) ? s.mods : []);
+    setCaps((Array.isArray(s.caps) ? s.caps : []) as Cap[]);
+    setZones(Array.isArray(s.zones) ? s.zones : []);
+    setZonesOpen(!!s.zonesOpen);
+  }
+  // Spend the packet. A write to an external store and nothing else.
+  useEffect(() => { if (packet) consumeReturn(SURFACE); }, [packet]);
+
+  // Restoring the viewport is a second step on purpose: the row can only be
+  // scrolled to once the restored filters have actually rendered it. The ROW
+  // wins over the raw offset — a list is not a canvas, and "where I was" means
+  // the record, not the pixel. `back` is set exactly once per return, so this
+  // runs exactly once and needs no guard flag.
+  useEffect(() => {
+    if (!back) return;
+    return restoreScroll(Number(back.y) || 0, back.name ? `.nxd-item[data-name="${CSS.escape(back.name)}"]` : undefined);
+  }, [back]);
+
   const dirty = !!q || mods.length > 0 || caps.length > 0 || zones.length > 0;
   const reset = () => { setQ(""); setMods([]); setCaps([]); setZones([]); };
 
@@ -221,14 +347,22 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
       data-surface="tables"
       style={surfaceMod ? ({ "--m": modVar(surfaceMod) } as React.CSSProperties) : undefined}
     >
+      {/* Where the reader came from, when the session knows — the rail, a module
+          workspace, the ERD, a search. With no memory it falls back to the NEO
+          home, which is this page's real parent. Never dead, never blank. */}
+      <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
+
       <header className="nxd-head">
         {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
         <span className="nx-eyebrow">עיון · Reference</span>
         <h1 className="nx-h1">טבלאות המילון</h1>
         <p className="nx-lede">
           {nf.format(t.tables)} טבלאות מתוך שני קובצי המקור — PM ו-PP-PI — עם {nf.format(t.fields)} שדות מתועדים,
-          {" "}{nf.format(t.rels)} קשרי ER ו-{nf.format(t.tcodes)} טרנזקציות. כל שורה נפתחת לעמוד האובייקט המלא
-          שלה: שדות, מפתחות, מפת קשרים והקשר המודול.
+          {" "}{nf.format(t.rels)} קשרי ER ו-{nf.format(t.tcodes)} טרנזקציות.
+          {" "}
+          {t.linked === t.tables
+            ? <>לכל אחת מ-{nf.format(t.linked)} השורות יש עמוד טבלה משלה: שדות ומפתחות, קשרים ו-JOIN, טרנזקציות, CDS והמעבר ל-S/4HANA.</>
+            : <>ל-{nf.format(t.linked)} מהן יש עמוד טבלה משלהן — שדות ומפתחות, קשרים ו-JOIN, טרנזקציות, CDS והמעבר ל-S/4HANA. השאר מוצגות כרשומה בלבד.</>}
         </p>
       </header>
 
@@ -379,14 +513,14 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
                 <em>{nf.format(list.length)}</em>
               </h2>
               <ul className="nxd-list">
-                {list.map((r) => <Row key={r.name} r={r} q={q} />)}
+                {list.map((r) => <Row key={r.name} r={r} q={q} makeOrigin={makeOrigin} />)}
               </ul>
             </section>
           ))}
         </div>
       ) : (
         <ul className="nxd-list">
-          {rows.map((r) => <Row key={r.name} r={r} q={q} />)}
+          {rows.map((r) => <Row key={r.name} r={r} q={q} makeOrigin={makeOrigin} />)}
         </ul>
       )}
 

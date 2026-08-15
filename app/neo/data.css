@@ -234,6 +234,24 @@
   grid-template-areas: "mark id body nums go";
 }
 
+/* A dictionary row the detail route generated no page for. Same information,
+   deliberately inert: no anchor, no pointer, no hover lift, no focus ring and
+   no leaving-arrow. The form itself says "this is a value, not a destination" —
+   which is also what keeps scripts/crawl-dead-links.mjs green, because a value
+   has no href to be dead. */
+.nx-app .nxd-row.is-flat {
+  cursor: default;
+  background: var(--surface-2);
+  border: 1px dashed var(--hairline);
+}
+.nx-app .nxd-row.is-flat:hover { transform: none; box-shadow: none; border-color: var(--hairline); }
+.nx-app .nxd-noent {
+  grid-column: 1 / -1;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  font-style: italic;
+}
+
 /* MODULE AS EDGE — the spine the row grows out of, full bleed on the inline
    start. The one strongest identity signal, and it is never a dot. */
 .nx-app .nxd-mark {
@@ -432,9 +450,46 @@
   .nx-app .nxd-sort { justify-content: space-between; }
   .nx-app .nxd-sort select { flex: 1 1 auto; min-block-size: var(--c-tap); }
   .nx-app .nxd-facet-l { min-inline-size: 100%; }
-  .nx-app .nxd-facet .nu-filter { min-block-size: var(--c-tap); }
+  /* Every control in the facet bar, not only the filters: the object-class
+     expander is a .nu-btn2 and was the one target on this surface that came in
+     under 44px on a phone. */
+  .nx-app .nxd-facet .nu-filter,
+  .nx-app .nxd-more { min-block-size: var(--c-tap); }
   .nx-app .nxd-he { -webkit-line-clamp: 3; }
   .nx-app .nxd-row, .nx-app .nxd-row--tx { padding: var(--sp-3); padding-block-end: 3.5rem; }
+
+  /* The row kept its six-track desktop grid at phone width, and a grid item's
+     automatic minimum is its content — so `minmax(7rem, auto)` plus the 6.5rem
+     end padding floored the whole surface at 520px min-content inside a 390px
+     canvas. The DOCUMENT did not overflow, which is why a document-level check
+     reported clean while .nx-canvas scrolled sideways by 162px. Recomposed into
+     stacked areas, and the padding that reserved room for the desktop-only
+     second action is released. */
+  .nx-app .nxd-row,
+  .nx-app .nxd-row--tx {
+    grid-template-columns: 3px minmax(0, 1fr);
+    grid-template-areas:
+      "mark id"
+      "mark body"
+      "mark nums"
+      "mark s4"
+      "mark go";
+    padding-inline-end: var(--sp-3);
+    row-gap: var(--sp-2);
+  }
+  .nx-app .nxd-row--tx {
+    grid-template-areas:
+      "mark id"
+      "mark body"
+      "mark nums"
+      "mark go";
+  }
+  /* Releasing the automatic minimum. Without this the tracks above are still
+     floored by the widest SAP identifier in the row. */
+  .nx-app .nxd,
+  .nx-app .nxd > *,
+  .nx-app .nxd-row > *,
+  .nx-app .nxd-row--tx > * { min-inline-size: 0; }
 }
 
 /* Ultrawide: the list gets a second column rather than 3000px-long rows. */
@@ -818,3 +873,672 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   border-radius: 1rem;
 }
 .nxt-tbl-r.is-flat:hover { transform: none; box-shadow: none; border-color: var(--hairline); }
+
+/* ============================================================================
+   13. THE TABLE DETAIL SCREEN — /neo/tables/<NAME>/
+   ----------------------------------------------------------------------------
+   Section 1 answers "which table". Section 12 answers "what is this T-Code".
+   This answers "what is THIS table, what is inside it, what does it join to,
+   and what happens to it in S/4HANA". It shares this sheet because it shares
+   the composition language of both — the module edge, the object-class marker,
+   the .nu-* control vocabulary — but it is its own shape: a numbered spine of
+   sections, each one a named question.
+
+   THE HIERARCHY, MADE VISIBLE
+     page        .nxb-name     display size, monospace — the table name itself
+     key line    .nxb-keyline  the compound key, directly under the name
+     section     .nxb-h2       numbered, with a module-tinted icon ring
+     subsection  .nxb-h3       icon + word, no number, no rule
+     data label  .nxb-kv dt    micro, tracked, ink-3 — metadata, never content
+     value       .nxb-kv dd    body, ink-1 — content, never metadata
+
+   COLOUR, PER THE FORM RULE ABOVE --mod-pm IN globals.css
+     MODULE  the header bar, a section marker, a row edge, a chip ring, a tint.
+             Never a small standalone dot.
+     STATUS  every .nu-status — S/4 risk and verification trust. Dot plus word.
+     OBJECT  --obj-* is the table's class marker (.nxb-cls, .nxb-rel-cls), which
+             globals.css sanctions on a data surface.
+     RELATION --rel-* is cardinality and nothing else.
+     ACCENT  brand red appears on exactly one condition: [data-s4="1"], i.e. the
+             project resolves a material S/4HANA change for this table.
+
+   A LINK IS A LINK AND A VALUE IS A VALUE. Where no page exists for a related
+   table or a transaction code, the screen renders a .nu-chip — which ui.css
+   already gives `cursor: default` and no hover. Nothing here re-styles a .nu-*
+   control; this sheet only ever places them.
+   ========================================================================== */
+
+.nx-app .nxb {
+  display: grid;
+  gap: var(--sp-6);
+  align-content: start;
+  max-inline-size: 78rem;
+  --m: var(--ink-3);
+  --o: var(--obj-text);
+}
+
+/* --------------------------------------------------------- 13.1 IDENTITY */
+
+.nx-app .nxb-head { display: grid; gap: var(--sp-3); }
+.nx-app .nxb-eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); font-weight: 700; }
+.nx-app .nxb-eyebrow > i {
+  inline-size: 3px; block-size: 3px; border-radius: 50%;
+  background: var(--ink-3); opacity: .6; flex: none;
+}
+
+.nx-app .nxb-title {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--sp-3) var(--sp-5);
+}
+.nx-app .nxb-name {
+  display: inline-flex; align-items: center; gap: var(--sp-3);
+  font-family: var(--font-mono);
+  font-size: var(--t-display);
+  line-height: var(--t-display-lh);
+  letter-spacing: var(--t-display-tr);
+  font-weight: 700;
+  color: var(--ink-1);
+  direction: ltr;
+  unicode-bidi: isolate;
+  margin: 0;
+}
+/* The object class, as a short bar. A bar is a shape module identity is allowed
+   to take and status is not, so it cannot be misread as a state. */
+.nx-app .nxb-cls {
+  inline-size: 4px; block-size: 1.6rem; border-radius: 2px; flex: none;
+  background: var(--o);
+}
+.nx-app .nxb-names { display: grid; gap: 2px; min-inline-size: 0; }
+.nx-app .nxb-he { font-size: var(--t-h2); font-weight: 650; color: var(--ink-1); line-height: var(--lh-he); }
+.nx-app .nxb-en {
+  font-size: var(--t-sm); color: var(--ink-3);
+  direction: ltr; unicode-bidi: isolate; text-align: start;
+}
+
+/* --- module ownership: bar + ring + tint, never a dot --------------------- */
+.nx-app .nxb-mods {
+  display: flex; flex-wrap: wrap; gap: var(--sp-2);
+  list-style: none; margin: 0; padding: 0;
+}
+.nx-app .nxb-mods > li {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-md);
+  border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
+  background: color-mix(in srgb, var(--m) 6%, var(--surface));
+  font-size: var(--t-xs);
+  min-block-size: 2.25rem;
+}
+.nx-app .nxb-mod-bar {
+  inline-size: 3px; block-size: 1rem; border-radius: 2px; flex: none;
+  background: var(--m);
+}
+.nx-app .nxb-mods b { color: var(--ink-1); font-weight: 750; }
+.nx-app .nxb-mods em { color: var(--ink-2); font-style: normal; }
+.nx-app .nxb-mod-n { color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nx-app .nxb-mods-cls {
+  border-color: color-mix(in srgb, var(--o) 30%, var(--hairline));
+  background: color-mix(in srgb, var(--o) 6%, var(--surface));
+  color: var(--ink-2);
+}
+.nx-app .nxb-mods-cls > i {
+  inline-size: 3px; block-size: 1rem; border-radius: 2px; flex: none;
+  background: var(--o);
+}
+
+.nx-app .nxb-shared {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he);
+  max-inline-size: 74ch;
+}
+.nx-app .nxb-shared > svg { flex: none; margin-block-start: 2px; color: var(--ink-3); }
+
+/* --- THE KEY LINE. PK and FK, before anything else on the page ------------ */
+.nx-app .nxb-keyline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: var(--sp-3);
+  margin: 0;
+  padding: var(--sp-4);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+.nx-app .nxb-keyline > div {
+  display: grid; gap: var(--sp-2);
+  padding-inline-start: var(--sp-3);
+  border-inline-start: 3px solid var(--k, var(--ink-3));
+}
+.nx-app .nxb-keyline > div[data-k="PK"] { --k: var(--obj-master); }
+.nx-app .nxb-keyline > div[data-k="FK"] { --k: var(--rel-n-1); }
+.nx-app .nxb-keyline dt {
+  font-size: var(--t-micro); letter-spacing: .06em; font-weight: 750;
+  color: var(--ink-3);
+}
+.nx-app .nxb-keyline dd {
+  margin: 0; display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center;
+}
+.nx-app .nxb-keyline dd > span {
+  font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate;
+  font-size: var(--t-sm); font-weight: 700; color: var(--ink-1);
+  padding: 2px var(--sp-2);
+  border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--k) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--k) 30%, transparent);
+}
+.nx-app .nxb-keyline dd > em { font-style: normal; font-size: var(--t-xs); color: var(--ink-3); }
+
+/* --- the S/4 badge: the page's one accent -------------------------------- */
+.nx-app .nxb-s4flag {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-lg);
+  border: 1px solid color-mix(in srgb, var(--brand) 34%, var(--hairline));
+  background: linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 8%, transparent), transparent 55%), var(--surface);
+  font-size: var(--t-sm);
+  line-height: var(--lh-he);
+}
+.nx-app .nxb-s4flag b { color: var(--ink-1); font-weight: 750; }
+.nx-app .nxb-s4flag > span:not(.nu-status) { color: var(--ink-2); min-inline-size: 0; }
+.nx-app .nxb-s4flag .nu-link { --m: var(--brand); margin-inline-start: auto; }
+
+/* --- derived numbers ------------------------------------------------------ */
+.nx-app .nxb-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+.nx-app .nxb-stat { display: grid; gap: 2px; }
+.nx-app .nxb-stat b {
+  font-size: var(--t-h1); font-weight: 750; color: var(--ink-1);
+  font-variant-numeric: tabular-nums; line-height: 1.1;
+}
+.nx-app .nxb-stat em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+
+.nx-app .nxb-cta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
+.nx-app .nxb-rank { font-size: var(--t-xs); color: var(--ink-3); line-height: var(--lh-he); }
+.nx-app .nxb-rank b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
+
+/* --- jump nav ------------------------------------------------------------- */
+.nx-app .nxb-jump {
+  display: flex; flex-wrap: wrap; gap: var(--sp-1);
+  padding-block-start: var(--sp-2);
+  border-block-start: 1px solid var(--hairline);
+}
+.nx-app .nxb-jump .nu-ghost { font-size: var(--t-micro); gap: var(--sp-2); }
+.nx-app .nxb-jump em {
+  font-style: normal; font-variant-numeric: tabular-nums;
+  color: var(--ink-3); font-weight: 700;
+}
+
+/* ---------------------------------------------------------- 13.2 SECTIONS */
+
+.nx-app .nxb-sec {
+  display: grid; gap: var(--sp-4);
+  padding-block-start: var(--sp-5);
+  border-block-start: 1px solid var(--hairline);
+  scroll-margin-block-start: var(--sp-5);
+}
+.nx-app .nxb-sec-h {
+  display: grid; gap: var(--sp-2);
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+}
+.nx-app .nxb-sec-n {
+  grid-row: span 3;
+  font-family: var(--font-mono); font-size: var(--t-h2); font-weight: 750;
+  color: color-mix(in srgb, var(--m) 70%, var(--ink-3));
+  font-variant-numeric: tabular-nums;
+  padding-inline-end: var(--sp-3);
+  border-inline-end: 2px solid color-mix(in srgb, var(--m) 30%, var(--hairline));
+  align-self: stretch;
+}
+.nx-app .nxb-sec-k {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--t-micro); letter-spacing: .06em; font-weight: 750;
+  color: var(--ink-3);
+}
+.nx-app .nxb-sec-i {
+  display: inline-flex; align-items: center; justify-content: center;
+  inline-size: 1.75rem; block-size: 1.75rem; border-radius: var(--r-md);
+  color: var(--m);
+  background: color-mix(in srgb, var(--m) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m) 22%, transparent);
+  flex: none;
+}
+.nx-app .nxb-h2 {
+  font-size: var(--t-h1); font-weight: 750; color: var(--ink-1);
+  line-height: 1.25; letter-spacing: -.012em; margin: 0;
+}
+.nx-app .nxb-sec-s { font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 78ch; }
+.nx-app .nxb-sec-s b { color: var(--ink-1); }
+.nx-app .nxb-sec-b { display: grid; gap: var(--sp-4); }
+
+.nx-app .nxb-h3 {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--t-sm); font-weight: 750; color: var(--ink-1); margin: 0;
+}
+.nx-app .nxb-h3 > svg { color: var(--ink-3); flex: none; }
+
+.nx-app .nxb-note,
+.nx-app .nxb-dim { font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he); }
+.nx-app .nxb-none { font-size: var(--t-micro); color: var(--ink-3); font-style: italic; }
+
+/* --- the one empty state -------------------------------------------------- */
+.nx-app .nxb-missing {
+  display: grid; gap: var(--sp-1);
+  padding: var(--sp-4);
+  border: 1px dashed var(--hairline);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+}
+.nx-app .nxb-missing b { font-size: var(--t-sm); font-weight: 750; color: var(--ink-2); }
+.nx-app .nxb-missing span { font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he); }
+
+.nx-app .nxb-warn {
+  display: flex; align-items: flex-start; gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  border: 1px solid color-mix(in srgb, var(--status-in-analysis) 30%, var(--hairline));
+  background: color-mix(in srgb, var(--status-in-analysis) 6%, var(--surface));
+  font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he);
+}
+.nx-app .nxb-warn > svg { flex: none; margin-block-start: 2px; color: var(--status-in-analysis); }
+
+/* --- key/value pairs, used by several sections ---------------------------- */
+.nx-app .nxb-kv {
+  display: grid; gap: var(--sp-3);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  margin: 0;
+}
+.nx-app .nxb-kv > div { display: grid; gap: 2px; min-inline-size: 0; }
+.nx-app .nxb-kv dt { font-size: var(--t-micro); letter-spacing: .05em; color: var(--ink-3); font-weight: 700; }
+.nx-app .nxb-kv dd {
+  margin: 0; font-size: var(--t-sm); color: var(--ink-1); line-height: var(--lh-he);
+  display: flex; flex-wrap: wrap; gap: var(--sp-1); align-items: center;
+  overflow-wrap: anywhere;
+}
+
+/* --- a module tag, wherever a row needs to say who documented it ---------- */
+.nx-app .nxb-modtag { display: inline-flex; flex-wrap: wrap; gap: var(--sp-1); }
+.nx-app .nxb-modtag b {
+  font-size: var(--t-micro); font-weight: 750; color: var(--m);
+  padding: 1px var(--sp-2);
+  border-radius: var(--r-sm);
+  border: 1px solid color-mix(in srgb, var(--m) 30%, transparent);
+  background: color-mix(in srgb, var(--m) 8%, transparent);
+  direction: ltr; unicode-bidi: isolate;
+}
+
+/* -------------------------------------------------------- 13.3 THE S/4 PLATE */
+
+.nx-app .nxb-stand {
+  display: grid; gap: var(--sp-3);
+  padding: var(--sp-5);
+  border-radius: var(--r-xl);
+  border: 1px solid var(--hairline);
+  background: var(--surface-2);
+}
+.nx-app .nxb-stand[data-impact="1"] {
+  border-color: color-mix(in srgb, var(--brand) 32%, var(--hairline));
+  background:
+    linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 7%, transparent), transparent 48%),
+    var(--surface-2);
+}
+.nx-app .nxb-stand-h { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); }
+.nx-app .nxb-stand-w {
+  font-size: var(--t-h2); font-weight: 650; color: var(--ink-1);
+  line-height: var(--lh-he); max-inline-size: 70ch;
+}
+.nx-app .nxb-stand-none { font-weight: 600; color: var(--ink-2); }
+.nx-app .nxb-stand-y { font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 74ch; }
+.nx-app .nxb-stand-t {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--t-micro); color: var(--ink-3);
+  padding-block-start: var(--sp-2);
+  border-block-start: 1px solid var(--hairline);
+}
+.nx-app .nxb-stand-t > svg { flex: none; }
+
+.nx-app .nxb-s4rows,
+.nx-app .nxb-rows { display: grid; gap: var(--sp-3); grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+.nx-app .nxb-s4rows > article,
+.nx-app .nxb-row {
+  display: grid; gap: var(--sp-3);
+  padding: var(--sp-4);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+.nx-app .nxb-s4rows > article > header,
+.nx-app .nxb-row > header {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2);
+  font-size: var(--t-xs);
+}
+.nx-app .nxb-row-bar { inline-size: 3px; block-size: 1rem; border-radius: 2px; background: var(--m); flex: none; }
+.nx-app .nxb-s4rows b, .nx-app .nxb-row b { color: var(--ink-1); font-weight: 750; }
+.nx-app .nxb-s4rows em, .nx-app .nxb-row em { font-style: normal; color: var(--ink-3); }
+.nx-app .nxb-quote {
+  font-size: var(--t-sm); color: var(--ink-1); line-height: var(--lh-he);
+  padding-inline-start: var(--sp-3);
+  border-inline-start: 2px solid color-mix(in srgb, var(--m) 40%, var(--hairline));
+}
+.nx-app .nxb-sum {
+  display: flex; gap: var(--sp-2); align-items: baseline;
+  font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he);
+}
+.nx-app .nxb-sum b {
+  font-family: var(--font-mono); font-size: var(--t-micro);
+  color: var(--ink-3); flex: none;
+}
+.nx-app .nxb-guide { font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he); }
+
+/* ----------------------------------------------------------- 13.4 FIELDS */
+
+.nx-app .nxb-legend {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2);
+  font-size: var(--t-micro); color: var(--ink-3);
+}
+.nx-app .nxb-kbadge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-inline-size: 2.9rem; padding: 2px var(--sp-2);
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono); font-size: var(--t-micro); font-weight: 750;
+  direction: ltr; unicode-bidi: isolate;
+  border: 1px solid color-mix(in srgb, var(--k, var(--ink-3)) 32%, transparent);
+  background: color-mix(in srgb, var(--k, var(--ink-3)) 12%, transparent);
+  color: color-mix(in srgb, var(--k, var(--ink-3)) 82%, var(--ink-1));
+}
+.nx-app .nxb-kbadge[data-k="pk"] { --k: var(--obj-master); }
+.nx-app .nxb-kbadge[data-k="fk"] { --k: var(--rel-n-1); }
+.nx-app .nxb-kbadge[data-k="both"] { --k: var(--obj-structure); }
+.nx-app .nxb-kbadge[data-k="none"] { --k: var(--ink-3); opacity: .6; }
+
+/* The table scrolls INSIDE its own box rather than pushing the page wide —
+   the one place a horizontal scroller is right, because a dictionary row is
+   genuinely wide and truncating a technical field name loses the fact. */
+.nx-app .nxb-tw {
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+.nx-app .nxb-tbl { inline-size: 100%; border-collapse: collapse; font-size: var(--t-xs); }
+.nx-app .nxb-tbl thead th {
+  position: sticky; inset-block-start: 0; z-index: 1;
+  text-align: start; font-size: var(--t-micro); letter-spacing: .05em;
+  color: var(--ink-3); font-weight: 750;
+  padding: var(--sp-3);
+  background: var(--surface-2);
+  border-block-end: 1px solid var(--hairline);
+  white-space: nowrap;
+}
+.nx-app .nxb-tbl tbody tr { border-block-end: 1px solid var(--hairline); }
+.nx-app .nxb-tbl tbody tr:last-child { border-block-end: 0; }
+/* A key row carries a leading edge in its own key colour, so PK and FK are
+   readable down the column without reading a single word. */
+.nx-app .nxb-tbl tbody tr[data-k="pk"] { --k: var(--obj-master); }
+.nx-app .nxb-tbl tbody tr[data-k="fk"] { --k: var(--rel-n-1); }
+.nx-app .nxb-tbl tbody tr[data-k="both"] { --k: var(--obj-structure); }
+.nx-app .nxb-tbl tbody tr[data-k]:not([data-k="none"]) {
+  background: color-mix(in srgb, var(--k) 4%, transparent);
+  box-shadow: inset 2px 0 0 0 var(--k);
+}
+[dir="rtl"] .nx-app .nxb-tbl tbody tr[data-k]:not([data-k="none"]) {
+  box-shadow: inset -2px 0 0 0 var(--k);
+}
+.nx-app .nxb-tbl td, .nx-app .nxb-tbl tbody th {
+  padding: var(--sp-3); vertical-align: top; text-align: start;
+  color: var(--ink-2); font-weight: 400;
+}
+.nx-app .nxb-ftech {
+  font-weight: 750; color: var(--ink-1); white-space: nowrap;
+  direction: ltr; unicode-bidi: isolate;
+}
+.nx-app .nxb-fen { display: block; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+
+/* -------------------------------------------------------- 13.5 RELATIONS */
+
+.nx-app .nxb-rels, .nx-app .nxb-dangle-l {
+  display: grid; gap: var(--sp-2); list-style: none; margin: 0; padding: 0;
+}
+.nx-app .nxb-rel, .nx-app .nxb-dangle-l > li {
+  display: grid;
+  grid-template-columns: auto minmax(10rem, 1.2fr) auto auto minmax(0, 2fr);
+  align-items: center;
+  gap: var(--sp-2) var(--sp-3);
+  padding: var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+.nx-app .nxb-rel-dir {
+  font-size: var(--t-micro); font-weight: 750;
+  padding: 2px var(--sp-2); border-radius: var(--r-sm);
+  border: 1px solid color-mix(in srgb, var(--r) 34%, transparent);
+  background: color-mix(in srgb, var(--r) 12%, transparent);
+  color: var(--ink-1);
+  white-space: nowrap;
+}
+.nx-app .nxb-rel-dir[data-ct="1"]::after { content: " ⚖"; color: var(--ink-3); }
+.nx-app .nxb-rel-name { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); min-inline-size: 0; }
+.nx-app .nxb-rel-cls { inline-size: 3px; block-size: 1rem; border-radius: 2px; background: var(--o); flex: none; }
+.nx-app .nxb-rel-a { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; }
+.nx-app .nxb-rel-name em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); min-inline-size: 0; }
+.nx-app .nxb-rel-card {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--t-micro); color: var(--ink-2); white-space: nowrap;
+}
+.nx-app .nxb-rel-card > i { inline-size: 14px; block-size: 2px; border-radius: 1px; background: var(--r); flex: none; }
+.nx-app .nxb-rel-joins { display: grid; gap: var(--sp-1); min-inline-size: 0; }
+.nx-app .nxb-join {
+  font-family: var(--font-mono); font-size: var(--t-micro);
+  color: var(--ink-2); background: var(--surface-2);
+  border: 1px solid var(--hairline); border-radius: var(--r-sm);
+  padding: 2px var(--sp-2);
+  overflow-wrap: anywhere;
+}
+.nx-app .nxb-dangle { display: grid; gap: var(--sp-2); }
+.nx-app .nxb-dangle-l > li { grid-template-columns: auto auto minmax(0, 1fr); }
+.nx-app .nxb-dangle-l em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+.nx-app .nxb-links { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-4); }
+
+/* ----------------------------------------------- 13.6 TRANSACTIONS + LISTS */
+
+.nx-app .nxb-tx {
+  display: grid; gap: var(--sp-2);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+  list-style: none; margin: 0; padding: 0;
+}
+.nx-app .nxb-txcard, .nx-app .nxb-txflat {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding: var(--sp-3);
+  min-block-size: var(--c-tap);
+  border-radius: var(--r-md);
+}
+.nx-app .nxb-txcard b { font-family: var(--font-mono); font-weight: 750; color: var(--ink-1); direction: ltr; unicode-bidi: isolate; }
+.nx-app .nxb-txarw { margin-inline-start: auto; color: var(--ink-3); flex: none; }
+/* A code with no page in the registry: same information, deliberately inert. */
+.nx-app .nxb-txflat {
+  border: 1px dashed var(--hairline);
+  background: var(--surface-2);
+  cursor: default;
+}
+.nx-app .nxb-txflat em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); margin-inline-start: auto; }
+
+.nx-app .nxb-cds, .nx-app .nxb-funcs {
+  display: grid; gap: var(--sp-2); list-style: none; margin: 0; padding: 0;
+}
+.nx-app .nxb-cds > li, .nx-app .nxb-funcs > li {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
+  align-items: center; gap: var(--sp-2) var(--sp-3);
+  padding: var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  font-size: var(--t-xs);
+}
+.nx-app .nxb-cds b, .nx-app .nxb-funcs b { color: var(--ink-1); font-weight: 750; overflow-wrap: anywhere; }
+.nx-app .nxb-cds em, .nx-app .nxb-funcs em { font-style: normal; color: var(--ink-2); min-inline-size: 0; }
+.nx-app .nxb-cds > li > span { font-size: var(--t-micro); color: var(--ink-3); }
+
+/* ------------------------------------------------- 13.7 SIBLINGS + BOOKS */
+
+.nx-app .nxb-sibs, .nx-app .nxb-books {
+  display: grid; gap: var(--sp-2);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  list-style: none; margin: 0; padding: 0;
+}
+.nx-app .nxb-sibcard, .nx-app .nxb-sibflat {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2);
+  padding: var(--sp-3);
+  min-block-size: var(--c-tap);
+  border-radius: var(--r-md);
+  font-size: var(--t-xs);
+}
+.nx-app .nxb-sibflat { border: 1px dashed var(--hairline); background: var(--surface-2); cursor: default; }
+.nx-app .nxb-sibcard b { font-family: var(--font-mono); color: var(--ink-1); font-weight: 750; direction: ltr; unicode-bidi: isolate; }
+.nx-app .nxb-sibcard em, .nx-app .nxb-sibflat em { font-style: normal; color: var(--ink-2); min-inline-size: 0; }
+.nx-app .nxb-sibcard span, .nx-app .nxb-sibflat span:not(.nu-chip) { font-size: var(--t-micro); color: var(--ink-3); }
+
+.nx-app .nxb-bookcard, .nx-app .nxb-bookflat {
+  display: grid; gap: 2px;
+  padding: var(--sp-4);
+  border-radius: var(--r-lg);
+  position: relative;
+}
+.nx-app .nxb-bookflat { border: 1px dashed var(--hairline); background: var(--surface-2); }
+.nx-app .nxb-bookcard b, .nx-app .nxb-bookflat b { font-size: var(--t-sm); font-weight: 750; color: var(--ink-1); }
+.nx-app .nxb-bookcard em, .nx-app .nxb-bookflat em {
+  font-style: normal; font-size: var(--t-micro); color: var(--ink-2);
+  direction: ltr; unicode-bidi: isolate; text-align: start;
+}
+.nx-app .nxb-bookcard .nxb-txarw { position: absolute; inset-block-start: var(--sp-3); inset-inline-start: var(--sp-3); margin: 0; }
+
+/* --------------------------------------------------------------- 13.8 FOOT */
+
+.nx-app .nxb-foot {
+  display: grid; gap: var(--sp-2);
+  padding-block-start: var(--sp-4);
+  border-block-start: 1px solid var(--hairline);
+  font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he);
+}
+.nx-app .nxb-foot p { display: flex; align-items: flex-start; gap: var(--sp-2); }
+.nx-app .nxb-foot svg { flex: none; margin-block-start: 2px; }
+.nx-app .nxb-credit { color: var(--ink-2); font-weight: 650; }
+
+/* --------------------------------------------------- 13.9 RESPONSIVE 390→ */
+
+@media (max-width: 1100px) {
+  .nx-app .nxb-rel {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "dir name card" "mods mods mods" "join join join";
+  }
+  .nx-app .nxb-rel > .nxb-rel-dir { grid-area: dir; }
+  .nx-app .nxb-rel > .nxb-rel-name { grid-area: name; }
+  .nx-app .nxb-rel > .nxb-rel-card { grid-area: card; }
+  .nx-app .nxb-rel > .nxb-modtag { grid-area: mods; }
+  .nx-app .nxb-rel > .nxb-rel-joins { grid-area: join; }
+  .nx-app .nxb-dangle-l > li { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .nx-app .nxb { gap: var(--sp-5); }
+  .nx-app .nxb-title { grid-template-columns: minmax(0, 1fr); }
+  .nx-app .nxb-sec-h { grid-template-columns: minmax(0, 1fr); }
+  .nx-app .nxb-sec-n {
+    grid-row: auto; border-inline-end: 0; padding-inline-end: 0;
+    border-block-end: 2px solid color-mix(in srgb, var(--m) 30%, var(--hairline));
+    justify-self: start; padding-block-end: 2px;
+  }
+  .nx-app .nxb-cds > li, .nx-app .nxb-funcs > li {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+@media (max-width: 720px) {
+  .nx-app .nxb-name { font-size: var(--t-h1); }
+  .nx-app .nxb-he { font-size: var(--t-body); }
+  .nx-app .nxb-h2 { font-size: var(--t-h2); }
+  .nx-app .nxb-stand-w { font-size: var(--t-body); }
+  .nx-app .nxb-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: var(--sp-4); }
+  .nx-app .nxb-stat b { font-size: var(--t-h2); }
+  .nx-app .nxb-cta > .nu-btn,
+  .nx-app .nxb-cta > .nu-btn2 { flex: 1 1 14rem; min-block-size: var(--c-tap); }
+  .nx-app .nxb-jump { gap: var(--sp-1) var(--sp-2); }
+  .nx-app .nxb-jump .nu-ghost { min-block-size: var(--c-tap); }
+  .nx-app .nxb-s4flag .nu-link { margin-inline-start: 0; }
+  .nx-app .nxb-mods > li { min-block-size: var(--c-tap); }
+
+  /* The field table becomes a stack of records. Each cell carries its own
+     label from data-l, so no header row has to be remembered while scrolling. */
+  .nx-app .nxb-tw { overflow-x: visible; border: 0; background: transparent; }
+  .nx-app .nxb-tbl thead { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); }
+  .nx-app .nxb-tbl, .nx-app .nxb-tbl tbody, .nx-app .nxb-tbl tr,
+  .nx-app .nxb-tbl td, .nx-app .nxb-tbl tbody th { display: block; }
+  .nx-app .nxb-tbl tbody tr {
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-md);
+    background: var(--surface);
+    padding: var(--sp-3);
+    margin-block-end: var(--sp-2);
+  }
+  .nx-app .nxb-tbl td, .nx-app .nxb-tbl tbody th { padding: 2px 0; }
+  .nx-app .nxb-tbl td[data-l]::before {
+    content: attr(data-l) " · ";
+    font-size: var(--t-micro); color: var(--ink-3); font-weight: 700;
+  }
+  .nx-app .nxb-ftech { font-size: var(--t-sm); white-space: normal; overflow-wrap: anywhere; }
+}
+
+@media (min-width: 2200px) {
+  .nx-app .nxb { max-inline-size: 104rem; }
+  .nx-app .nxb-stats { grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); }
+}
+
+/* ------------------------------------------------------------- 13.10 DARK */
+
+html[data-theme="dark"] .nx-app .nxb-keyline,
+html[data-theme="dark"] .nx-app .nxb-stand,
+html[data-theme="dark"] .nx-app .nxb-missing,
+html[data-theme="dark"] .nx-app .nxb-txflat,
+html[data-theme="dark"] .nx-app .nxb-sibflat,
+html[data-theme="dark"] .nx-app .nxb-bookflat { background: color-mix(in srgb, var(--ink-1) 5%, var(--surface)); }
+html[data-theme="dark"] .nx-app .nxb-tbl thead th { background: color-mix(in srgb, var(--ink-1) 7%, var(--surface)); }
+html[data-theme="dark"] .nx-app .nxb-join { background: color-mix(in srgb, var(--ink-1) 6%, var(--surface)); }
+html[data-theme="dark"] .nx-app .nxb-stand[data-impact="1"] {
+  background:
+    linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 12%, transparent), transparent 45%),
+    color-mix(in srgb, var(--ink-1) 5%, var(--surface));
+}
+html[data-theme="dark"] .nx-app .nxb-s4flag {
+  background: linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 12%, transparent), transparent 55%), var(--surface-2);
+}
+html[data-theme="dark"] .nx-app .nxb-mods > li { background: color-mix(in srgb, var(--m) 12%, transparent); }
+
+/* ---------------------------------------------------- 13.11 REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  .nx-app .nxb-txcard, .nx-app .nxb-sibcard, .nx-app .nxb-bookcard { transition: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   Phone: the search field is an <input>, and a replaced element carries an
+   intrinsic default width (~20 characters) that ignores its flex/grid parent.
+   It measured 471px inside a 390px canvas and dragged the surface sideways.
+   The tab strip already scrolls, but its buttons inherited the same floor.
+   --------------------------------------------------------------------------- */
+@media (max-width: 720px) {
+  .nx-app .nxd input,
+  .nx-app .nxd-field input,
+  .nx-app .nxd-field { inline-size: 100%; min-inline-size: 0; max-inline-size: 100%; }
+  .nx-app .nxd-tabs { max-inline-size: 100%; }
+}

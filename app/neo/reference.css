@@ -1,0 +1,249 @@
+/* ============================================================================
+   PROJECT NEO · THE REFERENCE DIRECTORIES
+   /neo/bapi · /neo/cds · /neo/idoc · /neo/fiori-apps · /neo/enhancements
+   ----------------------------------------------------------------------------
+   This sheet is deliberately SMALL. The five directories are the same
+   composition as /neo/tables and /neo/transactions, so they are built on
+   app/neo/ui.css (controls) and app/neo/data.css (the list, the row, the record
+   screen) and this file adds only what those two do not already own:
+
+     · the record-class chip that sits beside the module chip on a row;
+     · the brand accent on a row whose data says it changes in S/4HANA;
+     · the two forms a SAP identifier can take inside a fact — a .nu-link
+       destination and a .nu-chip value — placed, never restyled;
+     · the preformatted ABAP/SELECT block;
+     · the IDoc reference block, which only this namespace has.
+
+   WHAT THIS FILE IS ALLOWED TO DO — the same contract data.css signs:
+     · It never redeclares a token. Everything reads --mod-* / --status-* /
+       --surface / --ink-* / --sp-* / --r-* / --dur-* / --c-* from globals.css.
+     · It never restyles a .nu-* control's states. ui.css owns hover, active,
+       focus-visible and disabled; this sheet only ever PLACES them.
+     · transform and opacity are the only animated properties.
+     · Logical properties only, so RTL and LTR both come out right.
+
+   COLOUR, per the form rule above --mod-pm in globals.css
+     MODULE  edge, ring, tint, line. Never a small standalone dot.
+     STATUS  only .nu-status — dot plus word.
+     ACCENT  brand red marks exactly one thing here: [data-impacted="1"] /
+             [data-tone="changed"], i.e. the project data states the record
+             materially changes in S/4HANA.
+   ========================================================================== */
+
+/* ------------------------------------------------------------- 1. THE ROW */
+
+/* The record's own class, next to the module chips. A value: ui.css already
+   gives .nu-chip no pointer and no hover, so this is placement only. */
+.nx-app .nxr-kind {
+  color: var(--ink-3);
+  background: transparent;
+  border-style: dashed;
+}
+
+/* ACCENT — a row whose data says it changes in S/4HANA. An inset edge on the
+   inline start, which is the one form brand red takes on a list. It is NOT a
+   module colour and NOT a status colour, which is what lets it be the loudest
+   thing in the list without breaking the form rule. */
+.nx-app .nxr-row[data-impacted="1"] {
+  border-color: color-mix(in srgb, var(--brand) 30%, var(--hairline));
+  box-shadow: inset 3px 0 0 0 var(--brand);
+}
+[dir="ltr"] .nx-app .nxr-row[data-impacted="1"] {
+  box-shadow: inset -3px 0 0 0 var(--brand);
+}
+.nx-app .nxr-row[data-impacted="1"]:hover {
+  border-color: color-mix(in srgb, var(--brand) 55%, var(--hairline));
+}
+html[data-theme="dark"] .nx-app .nxr-row[data-impacted="1"] {
+  background: linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 7%, transparent), transparent 38%), var(--surface);
+}
+
+/* The directory rows carry no object-class hue — that encoding belongs to the
+   dictionary. Reset the gradient data.css applies on [data-surface="tables"] so
+   the edge here is one clean module line. */
+.nx-app .nxr-dir .nxd-mark { background: var(--m); }
+
+/* --------------------------------------------------------- 2. THE RECORD */
+
+.nx-app .nxr-rec .nxt-title { grid-template-columns: auto minmax(0, 1fr); }
+
+/* Prose inside a fact. .nxt-v is the container; this is the paragraph itself, so
+   a fact that carries prose AND a list keeps them apart. */
+.nx-app .nxr-text {
+  display: block;
+  font-size: var(--t-body);
+  line-height: var(--lh-he);
+  color: var(--ink-1);
+}
+.nx-app .nxr-ref > .nxt-sec > .nxr-text { max-inline-size: 78ch; }
+
+/* Two forms for a SAP identifier, and the difference is the whole point:
+     .nu-link + arrow  →  opens a generated page
+     .nu-chip          →  a value the project has no page for
+   Neither is restyled; both are only placed into a wrapping list. */
+.nx-app .nxr-codes { align-items: center; gap: var(--sp-1) var(--sp-3); }
+.nx-app .nxr-codelink {
+  font-size: var(--t-xs);
+  gap: 0.3rem;
+  padding-block: 0.25rem;
+}
+.nx-app .nxr-codelink .nx-sap { font-size: var(--t-xs); font-weight: 700; }
+
+/* A preformatted ABAP / SELECT block. Always LTR, always scrollable rather than
+   forcing the page wide. */
+.nx-app .nxr-pre {
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--c-hair);
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  line-height: 1.7;
+  color: var(--ink-1);
+  white-space: pre;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+html[data-theme="dark"] .nx-app .nxr-pre {
+  background: color-mix(in srgb, var(--ink-1) 5%, var(--surface));
+}
+
+/* A related record the project has no page for. Same information as a linked
+   card, deliberately inert: no pointer, no lift, no focus ring. */
+.nx-app .nxr-flat {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  border: 1px dashed var(--c-hair);
+  block-size: 100%;
+  cursor: default;
+}
+
+/* The classic-table standing list inside the S/4 plate. */
+.nx-app .nxr-stand { display: grid; gap: var(--sp-2); }
+
+/* The plate's tones. `changed` already gets the brand treatment from data.css's
+   [data-impacted="1"]; the other three get a module-toned plate, because a
+   record that IS the S/4 artefact is not an alarm. */
+.nx-app .nxt-s4[data-tone="unknown"] { border-style: dashed; }
+
+/* ------------------------------------------------- 3. THE IDoc REFERENCE */
+
+.nx-app .nxr-ref {
+  display: grid;
+  gap: var(--sp-6);
+  padding-block-start: var(--sp-4);
+  border-block-start: 1px solid var(--c-hair);
+}
+
+.nx-app .nxr-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  list-style: none;
+  padding: 0;
+}
+.nx-app .nxr-flow > li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--r-pill, 999px);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--c-hair);
+  font-size: var(--t-micro);
+  color: var(--ink-2);
+}
+.nx-app .nxr-flow-n {
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--m) 14%, transparent);
+  color: var(--m);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.nx-app .nxr-st { display: grid; gap: var(--sp-2); }
+.nx-app .nxr-st-i {
+  display: grid;
+  grid-template-columns: 3rem auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "code dir he  fix"
+    "code .   cau cau";
+  align-items: center;
+  gap: 4px var(--sp-3);
+  padding: var(--sp-3);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+}
+html[data-theme="dark"] .nx-app .nxr-st-i {
+  background: color-mix(in srgb, var(--ink-1) 5%, var(--surface));
+}
+.nx-app .nxr-st-c {
+  grid-area: code;
+  font-family: var(--font-mono);
+  font-size: var(--t-h2);
+  font-weight: 700;
+  color: var(--ink-1);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.nx-app .nxr-st-d { grid-area: dir; }
+.nx-app .nxr-st-he { grid-area: he; font-size: var(--t-sm); color: var(--ink-1); line-height: var(--lh-he); }
+.nx-app .nxr-st-cause { grid-area: cau; font-size: var(--t-micro); color: var(--ink-3); line-height: 1.6; }
+.nx-app .nxr-st-fix { grid-area: fix; display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+
+.nx-app .nxr-mon { display: grid; gap: var(--sp-2); }
+.nx-app .nxr-mon-i {
+  display: grid;
+  grid-template-columns: minmax(9rem, auto) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--sp-3);
+  min-block-size: var(--c-tap);
+  padding-inline: var(--sp-2);
+  border-block-end: 1px solid var(--c-hair);
+}
+.nx-app .nxr-mon-w { font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he); }
+
+/* ------------------------------------------------- 4. RESPONSIVE 390 → */
+
+@media (max-width: 900px) {
+  .nx-app .nxr-st-i {
+    grid-template-columns: 3rem minmax(0, 1fr);
+    grid-template-areas: "code he" "code dir" ".    cau" "fix  fix";
+    row-gap: var(--sp-2);
+  }
+  .nx-app .nxr-st-d { justify-self: start; }
+  .nx-app .nxr-mon-i {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    padding-block: var(--sp-2);
+  }
+}
+
+@media (max-width: 720px) {
+  .nx-app .nxr-ref { gap: var(--sp-5); }
+  .nx-app .nxr-flow > li { min-block-size: 2rem; }
+  .nx-app .nxr-codelink { min-block-size: var(--c-tap); }
+  .nx-app .nxr-pre { font-size: 10px; }
+}
+
+@media (min-width: 2200px) {
+  .nx-app .nxr-ref { max-inline-size: 104rem; }
+}
+
+/* ------------------------------------------------------ 5. REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+  .nx-app .nxr-codelink .nu-arw { transition: none; transform: none; }
+}

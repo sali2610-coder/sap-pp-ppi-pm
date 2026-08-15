@@ -53,8 +53,18 @@ export interface NeoTableRow {
   s4Tcode: string;
   /** SUM conversion note (PM blueprint only), or "". */
   sum: string;
-  /** The object page this row opens. Always a generated route. */
-  href: string;
+  /** The table's own detail page — /neo/tables/<NAME>/ — or null when
+   *  app/neo/tables/[name] does not generate one for this row.
+   *
+   *  A NULL IS NOT AN OVERSIGHT, IT IS THE CONTRACT. scripts/crawl-dead-links
+   *  .mjs exits 1 on the first internal href in out/ with no page behind it, so
+   *  a row the route did not generate must render as a VALUE and not as a link,
+   *  and the surface does exactly that. The two lists agree today — the detail
+   *  route generates from the same dictionary this builder reads — and this
+   *  type is what keeps them agreeing if either ever narrows. */
+  href: string | null;
+  /** The deep object screen for the same table, on the same rule. */
+  objHref: string | null;
   /** Lowercased haystack, built once at build time so the client never rebuilds
    *  it per keystroke. */
   hay: string;
@@ -76,6 +86,9 @@ export interface NeoTablesData {
   topics: NeoFacet[];
   totals: {
     tables: number;
+    /** Rows that really have a generated detail page. Derived, never asserted:
+     *  the surface prints this number rather than claiming "every row opens". */
+    linked: number;
     fields: number;
     keys: number;
     rels: number;

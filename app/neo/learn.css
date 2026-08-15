@@ -1,0 +1,932 @@
+/* ============================================================================
+   PROJECT NEO · THE LEARNING SURFACES
+   /neo/academy · /neo/knowledge · /neo/incidents · /neo/certification
+   ----------------------------------------------------------------------------
+   Four destinations, one composition, because they answer the same shape of
+   question: a finite set of real project records, each with an identity, a
+   module, a handful of measured facts and — where the dataset supports one —
+   exactly one real destination.
+
+   WHAT THIS FILE IS ALLOWED TO DO
+     · It never redeclares a token. Everything reads --mod-* / --status-* /
+       --surface / --ink-* / --sp-* / --r-* / --elev-* / --dur-* / --t-* / --c-*
+       from app/globals.css.
+     · It never restyles a .nu-* control. app/neo/ui.css owns every interactive
+       control's hover / active / focus / disabled states; this sheet only ever
+       PLACES them and adds the modifiers ui.css deliberately leaves open.
+     · transform and opacity are the only animated properties.
+     · Logical properties only. There is no direction-specific rule here except
+       the two that genuinely mirror (the row arrow, the accent inset).
+
+   COLOUR, PER THE FORM RULE ABOVE --mod-pm IN app/globals.css
+     MODULE  arrives as a LINE (the plate's top rule, a section's leading mark),
+             an EDGE (the row's spine), a RING and a TINT (a module value inside
+             a .nu-chip, a pressed .nu-filter). Never a small standalone dot.
+     STATUS  arrives only as .nu-status — a small dot plus its word. On these
+             surfaces it says exactly three things, all of them real states of a
+             record: whether a lesson is complete, how a concept's own S/4 line
+             is worded, and how blocking an incident's own impact tag is.
+     ACCENT  brand red appears on one condition only: [data-s4="1"], i.e. the
+             record's verified data states an S/4HANA change. It is not a module
+             colour and not a status colour, which is what lets it be the
+             loudest thing on the page without breaking the form rule.
+
+   HIERARCHY, MADE VISIBLE
+     page        .nx-h1 (from globals) — the surface's own name
+     headline    .nxv-s4-h — the S/4 verdict, second largest thing on a detail
+     section     .nxv-sec-h — .nx-h2 plus a module-coloured leading plate
+     subsection  .nxv-sub — small, heavy, ink-2, no line
+     data label  .nxv-l — micro, tracked, ink-3. Metadata, never content.
+     value       .nxv-v — body, ink-1. Content, never metadata.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. THE DIRECTORY SHELL
+   ========================================================================== */
+
+.nx-app .nxl {
+  display: grid;
+  gap: var(--sp-5);
+  align-content: start;
+  /* .nx-canvas is a grid with ONE auto track and `overflow: auto`, so the track
+     sizes to this element's MIN-CONTENT and anything unbreakable inside pushes
+     the whole canvas into a horizontal scroll. Declaring the surface shrinkable
+     is what makes 390px behave: the surface itself never exceeds the canvas, and
+     the two strips that genuinely cannot wrap (the tab rail) scroll inside their
+     own box instead of dragging the page sideways. The pair is deliberate:
+     `min-inline-size: 0` lets the surface shrink, `max-inline-size: 100%` stops
+     the canvas's own auto track from resolving to max-content and scrolling. */
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  /* No module owns a directory by default, and a surface with no owning module
+     is drawn in neutral ink rather than borrowing a colour it has no claim to. */
+  --m: var(--ink-3);
+}
+.nx-app .nxl-tools,
+.nx-app .nxl-facets,
+.nx-app .nxl-facet,
+.nx-app .nxl-tabs,
+.nx-app .nxl-list,
+.nx-app .nxl-courses,
+.nx-app .nxl-stats { min-inline-size: 0; }
+
+.nx-app .nxl-head { display: grid; gap: var(--sp-2); }
+.nx-app .nxl-head .nx-lede { max-inline-size: 68ch; }
+.nx-app .nxl .nx-sap, .nx-app .nxv .nx-sap { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; }
+
+/* Text that exists for a screen reader and for nobody else. A count chip reads
+   "12" on screen and "דוגמאות 12" aloud, which is the only way a bare number
+   is honest to both. Defined here because the namespace has no such utility. */
+.nx-app .nxl-sr {
+  position: absolute;
+  inline-size: 1px; block-size: 1px;
+  margin: -1px; padding: 0; border: 0;
+  overflow: hidden; white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+/* ---------------------------------------------------------------- 2. STATS
+   Information, not a control: no hover, no pointer, no lift. Every number is
+   a real total counted by the builder, so it is allowed to be the largest type
+   on the surface. */
+
+.nx-app .nxl-stats {
+  display: grid;
+  gap: var(--sp-4) var(--sp-5);
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  padding: var(--sp-5);
+  position: relative;
+  overflow: hidden;
+}
+/* MODULE AS LINE — the top edge of the plate. */
+.nx-app .nxl-stats::before {
+  content: '';
+  position: absolute; inset-block-start: 0; inset-inline: 0;
+  block-size: 2px;
+  background: linear-gradient(to inline-end, var(--m), color-mix(in srgb, var(--m) 12%, transparent));
+}
+.nx-app .nxl-stat {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: "i v" "i l";
+  align-items: center;
+  gap: 0 var(--sp-3);
+}
+.nx-app .nxl-stat-i {
+  grid-area: i;
+  inline-size: 2.25rem; block-size: 2.25rem;
+  display: inline-grid; place-items: center;
+  border-radius: var(--r-sm);
+  color: var(--m);
+  background: color-mix(in srgb, var(--m) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 20%, transparent);
+}
+.nx-app .nxl-stat b {
+  grid-area: v;
+  font-family: var(--font-mono); font-size: var(--t-h1);
+  line-height: 1.15; letter-spacing: -.02em;
+  direction: ltr; unicode-bidi: isolate;
+  font-variant-numeric: tabular-nums; color: var(--ink-1);
+}
+.nx-app .nxl-stat > span:last-child {
+  grid-area: l; font-size: var(--t-micro); color: var(--ink-3); line-height: 1.35;
+}
+/* A stat whose VALUE is Hebrew, not a bare number — "6 שע׳ 40 דק׳". The
+   numeric face forces `direction: ltr`, which reorders the Hebrew units and
+   prints them backwards. A value with words in it therefore opts out of the
+   numeric face and stays in the document's own direction. */
+.nx-app .nxl-stat b[data-text="1"],
+.nx-app .nxl-num b[data-text="1"] {
+  direction: rtl;
+  font-family: inherit;
+  font-size: var(--t-h2);
+  font-weight: 700;
+  letter-spacing: var(--t-h2-tr);
+}
+
+/* -------------------------------------------------------------- 3. TOOLBAR */
+
+.nx-app .nxl-tools {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: var(--sp-3) var(--sp-4);
+}
+.nx-app .nxl-field {
+  display: flex; align-items: center; gap: var(--sp-2);
+  /* min-inline-size:0 on BOTH the field and its input. An <input> carries an
+     intrinsic ~20-character width, and without this the field refuses to shrink
+     below it and drags the whole canvas into a sideways scroll at 390. */
+  flex: 1 1 18rem; min-inline-size: 0;
+  min-block-size: var(--c-tap);
+  padding-inline: var(--sp-3);
+  border: 1px solid color-mix(in srgb, var(--m) 22%, var(--c-hair));
+  border-radius: var(--r-md);
+  background: var(--surface);
+  transition: border-color var(--dur-fast) linear, box-shadow var(--dur-fast) linear;
+}
+.nx-app .nxl-field > svg { color: var(--m); flex: none; }
+.nx-app .nxl-field:focus-within {
+  border-color: var(--m);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--m) 14%, transparent);
+}
+.nx-app .nxl-field input {
+  flex: 1 1 auto; min-inline-size: 0;
+  /* Stretched, not centred: the field is the 44px target, and a 23px input
+     floating inside it means the top and bottom 10px of the control do not
+     focus anything. */
+  align-self: stretch;
+  background: transparent; border: 0; outline: none;
+  font: inherit; font-size: var(--t-sm); color: var(--ink-1);
+}
+.nx-app .nxl-field input::placeholder { color: var(--ink-3); }
+.nx-app .nxl-field input::-webkit-search-cancel-button { display: none; }
+.nx-app .nxl-clear { min-block-size: 1.9rem; padding-inline: var(--sp-2); flex: none; }
+
+.nx-app .nxl-tabs {
+  display: flex; align-items: center; flex-wrap: wrap;
+  border-block-end: 1px solid var(--c-hair);
+}
+.nx-app .nxl-tabs .nu-tab b {
+  font-family: var(--font-mono); font-size: 10px; direction: ltr;
+  unicode-bidi: isolate; color: var(--ink-3); padding-inline-start: 4px;
+}
+
+/* --------------------------------------------------------------- 4. FACETS */
+
+.nx-app .nxl-facets { display: grid; gap: var(--sp-2); }
+.nx-app .nxl-facet { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.nx-app .nxl-facet-l {
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
+  color: var(--ink-3); min-inline-size: 4.75rem;
+}
+/* The count a filter carries is a value: numeric face, never competing with
+   the label for weight. */
+.nx-app .nxl-facet .nu-filter b {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+  direction: ltr; unicode-bidi: isolate;
+  color: var(--ink-3); padding-inline-start: 5px;
+}
+.nx-app .nxl-facet .nu-filter[aria-pressed="true"] b { color: var(--ink-2); }
+
+/* --------------------------------------------------------- 5. COUNT + FOOT */
+
+.nx-app .nxl-count {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2);
+  font-size: var(--t-xs); color: var(--ink-3);
+  margin-block-end: calc(var(--sp-3) * -1);
+}
+.nx-app .nxl-count b {
+  font-family: var(--font-mono); font-size: var(--t-sm); color: var(--ink-1);
+  direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums;
+}
+.nx-app .nxl-count .nu-ghost { min-block-size: 1.9rem; font-size: var(--t-micro); }
+
+.nx-app .nxl-foot {
+  display: grid; gap: var(--sp-2);
+  font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he);
+  padding-block-start: var(--sp-3);
+  border-block-start: 1px solid var(--c-hair);
+}
+.nx-app .nxl-foot .nx-sap { color: var(--ink-2); }
+
+/* ---------------------------------------------------------- 6. EMPTY STATE */
+
+.nx-app .nxl-none {
+  display: grid; gap: var(--sp-3);
+  padding: var(--sp-6) var(--sp-5);
+  border-style: dashed;
+}
+.nx-app .nxl-none b { color: var(--ink-1); font-size: var(--t-sm); }
+.nx-app .nxl-none-a { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+
+/* An honest absence, inline. Used wherever the dataset simply has nothing and
+   the surface refuses to fill the hole with a plausible sentence. */
+.nx-app .nxl-absent,
+.nx-app .nxv-absent {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  font-size: var(--t-xs); color: var(--ink-3); line-height: var(--lh-he);
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px dashed var(--c-hair);
+  border-radius: var(--r-sm);
+}
+.nx-app .nxl-absent > svg, .nx-app .nxv-absent > svg { flex: none; opacity: .7; }
+
+/* ==========================================================================
+   7. THE RECORD ROW — knowledge and incidents
+   One row, two surfaces. It is a .nu-card, so ui.css already owns its hover,
+   active and focus states; everything here is geometry plus module identity.
+   ========================================================================== */
+
+.nx-app .nxl-list { display: grid; gap: var(--sp-2); }
+.nx-app .nxl-item { position: relative; display: grid; }
+
+.nx-app .nxl-row {
+  display: grid;
+  align-items: start;
+  gap: var(--sp-2) var(--sp-3);
+  grid-template-columns: 3px minmax(0, 1fr) minmax(0, 18rem) auto;
+  grid-template-areas: "mark body side go";
+  padding: var(--sp-4) var(--sp-3);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+/* MODULE AS EDGE — the spine the row grows out of, full bleed on the inline
+   start. The strongest identity signal on the row, and never a dot. */
+.nx-app .nxl-mark {
+  grid-area: mark;
+  align-self: stretch;
+  inline-size: 3px;
+  margin-inline-start: calc(var(--sp-3) * -1);
+  margin-block: calc(var(--sp-4) * -1);
+  background: var(--m);
+  opacity: .85;
+}
+.nx-app .nxl-row:hover { border-color: color-mix(in srgb, var(--m) 45%, var(--c-hair)); }
+.nx-app .nxl-row:hover .nxl-go { opacity: 1; transform: none; }
+
+.nx-app .nxl-body { grid-area: body; display: grid; gap: var(--sp-2); min-inline-size: 0; }
+.nx-app .nxl-t1 { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2); }
+.nx-app .nxl-t1 > b {
+  font-size: var(--t-h2); line-height: 1.35; font-weight: 700; color: var(--ink-1);
+  letter-spacing: var(--t-h2-tr);
+}
+.nx-app .nxl-t1 > em {
+  font-style: normal; font-size: var(--t-xs); color: var(--ink-3);
+  direction: ltr; unicode-bidi: isolate;
+}
+.nx-app .nxl-desc {
+  font-size: var(--t-sm); color: var(--ink-2); line-height: var(--lh-he);
+  overflow: hidden; text-overflow: ellipsis;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+}
+.nx-app .nxl-meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 4px var(--sp-2);
+}
+
+.nx-app .nxl-side {
+  grid-area: side;
+  display: grid; gap: 4px; align-content: start;
+  padding-inline-start: var(--sp-4);
+  border-inline-start: 1px solid var(--c-hair);
+}
+.nx-app .nxl-side-l {
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em; color: var(--ink-3);
+}
+.nx-app .nxl-side-v {
+  font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he);
+  overflow: hidden; text-overflow: ellipsis;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+}
+/* ACCENT — the record's own data states an S/4HANA change. Nothing else on the
+   list is allowed to take brand red. */
+.nx-app .nxl-side[data-s4="1"] {
+  border-inline-start-color: color-mix(in srgb, var(--brand) 55%, var(--c-hair));
+  border-inline-start-width: 2px;
+}
+.nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(--brand-dark); }
+html[data-theme="dark"] .nx-app .nxl-side[data-s4="1"] .nxl-side-l { color: var(--brand); }
+
+.nx-app .nxl-go {
+  grid-area: go;
+  align-self: center;
+  color: var(--m); flex: none;
+  opacity: .45; transform: translateX(4px);
+  transition: transform var(--dur-fast) var(--ease-out-expo), opacity var(--dur-fast) linear;
+}
+[dir="ltr"] .nx-app .nxl-go { transform: translateX(-4px); }
+
+/* A module VALUE inside a chip: ring + tint + leading line. */
+.nx-app .nxl-mod, .nx-app .nxv-mod {
+  color: var(--m);
+  background: color-mix(in srgb, var(--m) 10%, transparent);
+  border-color: color-mix(in srgb, var(--m) 26%, transparent);
+}
+.nx-app .nxl-mod > i, .nx-app .nxv-mod > i {
+  inline-size: 2px; block-size: .7rem; border-radius: 1px; flex: none;
+  background: var(--m);
+}
+.nx-app .nxl-mod em, .nx-app .nxv-mod em {
+  font-style: normal; font-weight: 600; color: var(--ink-3);
+  padding-inline-start: 3px;
+}
+
+.nx-app .nxl-page { display: flex; justify-content: center; }
+.nx-app .nxl-page-n {
+  font-family: var(--font-mono); font-size: 10px; direction: ltr;
+  unicode-bidi: isolate; color: var(--ink-3); padding-inline-start: 5px;
+}
+
+/* ==========================================================================
+   8. THE COURSE CARD — /neo/academy
+   A course is not a row: it is a whole selectable region with its own
+   structure, so it gets a card grid rather than the list geometry above.
+   ========================================================================== */
+
+.nx-app .nxl-courses {
+  display: grid; gap: var(--sp-4);
+  grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+}
+.nx-app .nxl-course {
+  position: relative; overflow: hidden;
+  display: grid; gap: var(--sp-3); align-content: start;
+  padding: var(--sp-5);
+  block-size: 100%;
+}
+/* MODULE AS LINE — the card's top rule. */
+.nx-app .nxl-course::before {
+  content: '';
+  position: absolute; inset-block-start: 0; inset-inline: 0;
+  block-size: 3px;
+  background: linear-gradient(to inline-end, var(--m), color-mix(in srgb, var(--m) 10%, transparent));
+}
+.nx-app .nxl-course-h { display: grid; gap: var(--sp-2); }
+.nx-app .nxl-course-k {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2);
+}
+.nx-app .nxl-course-t {
+  font-size: var(--t-h2); line-height: var(--t-h2-lh); letter-spacing: var(--t-h2-tr);
+  font-weight: 700; color: var(--ink-1); margin: 0;
+}
+.nx-app .nxl-course-en {
+  font-size: var(--t-micro); color: var(--ink-3);
+  direction: ltr; unicode-bidi: isolate;
+}
+.nx-app .nxl-course-n {
+  display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-5);
+  padding-block-start: var(--sp-1);
+}
+.nx-app .nxl-num { display: grid; gap: 1px; }
+.nx-app .nxl-num b {
+  font-family: var(--font-mono); font-size: var(--t-h2); color: var(--ink-1);
+  direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+.nx-app .nxl-num span { font-size: var(--t-micro); color: var(--ink-3); }
+
+/* PROGRESS — drawn only from the real store. A course with no recorded
+   progress renders no bar at all; see .nxl-course-idle. */
+.nx-app .nxl-bar { display: grid; gap: 5px; }
+.nx-app .nxl-bar-h {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: var(--t-micro); color: var(--ink-3);
+}
+.nx-app .nxl-bar-h b {
+  font-family: var(--font-mono); color: var(--ink-2);
+  direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums;
+}
+.nx-app .nxl-bar-t {
+  block-size: 6px; border-radius: var(--r-pill);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--c-hair);
+  overflow: hidden;
+}
+/* MODULE AS LINE — the fill is a bar, which is a form module identity may take. */
+.nx-app .nxl-bar-f {
+  display: block; block-size: 100%; border-radius: var(--r-pill);
+  background: var(--m);
+  transform-origin: right center;
+  transform: scaleX(var(--p, 0));
+  transition: transform var(--dur-slow) var(--ease-out-expo);
+}
+[dir="ltr"] .nx-app .nxl-bar-f { transform-origin: left center; }
+.nx-app .nxl-course-idle {
+  font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he);
+}
+.nx-app .nxl-course-a { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-block-start: auto; }
+/* A signpost, not a control: the whole card is already the link, so this row
+   carries the module hue and the arrow and nothing that looks pressable. */
+.nx-app .nxl-course-go {
+  align-items: center;
+  font-size: var(--t-xs); font-weight: 650; color: var(--m);
+  padding-block-start: var(--sp-2);
+}
+.nx-app .nxl-course-go > svg {
+  transform: translateX(4px); opacity: .6;
+  transition: transform var(--dur-fast) var(--ease-out-expo), opacity var(--dur-fast) linear;
+}
+[dir="ltr"] .nx-app .nxl-course-go > svg { transform: translateX(-4px); }
+.nx-app .nxl-course:hover .nxl-course-go > svg { transform: none; opacity: 1; }
+
+/* ==========================================================================
+   9. THE CHAPTER / LESSON LIST — /neo/academy/<course>
+   ========================================================================== */
+
+.nx-app .nxc-chapters { display: grid; gap: var(--sp-5); }
+.nx-app .nxc-ch { display: grid; gap: var(--sp-2); }
+.nx-app .nxc-ch-h {
+  display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap;
+  padding: var(--sp-3);
+  border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--ink-3) 7%, var(--surface));
+  box-shadow: inset 0 0 0 1px var(--c-hair);
+}
+/* MODULE AS LINE — the chapter marker is a line, never a dot. */
+.nx-app .nxc-ch-h > i {
+  inline-size: 3px; block-size: 1.15rem; border-radius: 2px; flex: none;
+  background: var(--m);
+}
+.nx-app .nxc-ch-n {
+  font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-3);
+  direction: ltr; unicode-bidi: isolate;
+}
+.nx-app .nxc-ch-t {
+  font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); margin: 0;
+  min-inline-size: 0;
+}
+.nx-app .nxc-ch-m { margin-inline-start: auto; display: flex; align-items: center; gap: var(--sp-3); }
+
+.nx-app .nxc-lessons { display: grid; gap: var(--sp-1); }
+.nx-app .nxc-l {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr) auto auto;
+  grid-template-areas: "n t s go";
+  align-items: center;
+  gap: var(--sp-2) var(--sp-3);
+  padding: var(--sp-3);
+  min-block-size: var(--c-tap);
+  border-radius: var(--r-md);
+}
+.nx-app .nxc-l-n {
+  grid-area: n;
+  font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-3);
+  direction: ltr; unicode-bidi: isolate; text-align: center;
+}
+.nx-app .nxc-l-t { grid-area: t; font-size: var(--t-sm); color: var(--ink-1); line-height: 1.45; min-inline-size: 0; }
+.nx-app .nxc-l-s { grid-area: s; display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.nx-app .nxc-l-go {
+  grid-area: go; color: var(--m); flex: none;
+  opacity: .4; transform: translateX(4px);
+  transition: transform var(--dur-fast) var(--ease-out-expo), opacity var(--dur-fast) linear;
+}
+[dir="ltr"] .nx-app .nxc-l-go { transform: translateX(-4px); }
+.nx-app .nxc-l:hover .nxc-l-go { opacity: 1; transform: none; }
+/* A lesson with no authored body. Deliberately inert: no pointer, no hover
+   lift, no focus ring — the form itself says "this is a value, not a
+   destination". */
+.nx-app .nxc-l.is-flat {
+  cursor: default;
+  background: var(--surface-2);
+  border-style: dashed;
+}
+.nx-app .nxc-l.is-flat:hover { transform: none; box-shadow: none; border-color: var(--c-hair); }
+
+/* ==========================================================================
+   10. THE DETAIL SCREEN — concept / incident
+   ========================================================================== */
+
+.nx-app .nxv {
+  display: grid;
+  gap: var(--sp-6);
+  align-content: start;
+  /* Same pair as .nxl above, with the detail screen's reading measure folded in
+     so the two constraints cannot fight. */
+  max-inline-size: min(78rem, 100%);
+  min-inline-size: 0;
+  --m: var(--ink-3);
+}
+.nx-app .nxv-sec,
+.nx-app .nxv-grid,
+.nx-app .nxv-refs,
+.nx-app .nxv-chips,
+.nx-app .nxc-chapters,
+.nx-app .nxc-lessons,
+.nx-app .nxb-banks,
+.nx-app .nxb-two { min-inline-size: 0; }
+
+/* -------------------------------------------------------- 10.1 IDENTITY */
+
+.nx-app .nxv-head { display: grid; gap: var(--sp-2); }
+.nx-app .nxv-title {
+  display: grid; gap: var(--sp-2);
+  padding-block-start: var(--sp-1);
+}
+.nx-app .nxv-h1 {
+  font-size: var(--t-display); line-height: var(--t-display-lh);
+  letter-spacing: var(--t-display-tr); font-weight: 750; color: var(--ink-1);
+  margin: 0;
+}
+.nx-app .nxv-en {
+  font-size: var(--t-sm); color: var(--ink-3);
+  direction: ltr; unicode-bidi: isolate; text-align: start;
+}
+.nx-app .nxv-meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3);
+  padding-block-start: var(--sp-1);
+}
+.nx-app .nxv-lede { font-size: var(--t-body); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 72ch; }
+
+/* ------------------------------------------------------- 10.2 THE S/4 PLATE
+   S/4HANA is the primary world, so where the verified record says something
+   about it, that is the most noticeable block on the page: full width, above
+   every other section, verdict set at h1 scale. When the record states a real
+   change it takes the brand accent on its inline-start edge plus a wash. */
+
+.nx-app .nxv-s4 {
+  display: grid; gap: var(--sp-4);
+  padding: var(--sp-6);
+  border: 1px solid var(--c-hair);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  position: relative; overflow: hidden;
+  box-shadow: var(--elev-1);
+}
+/* MODULE AS LINE — the plate's top rule. */
+.nx-app .nxv-s4::before {
+  content: '';
+  position: absolute; inset-block-start: 0; inset-inline: 0;
+  block-size: 3px;
+  background: linear-gradient(to inline-end, var(--m), color-mix(in srgb, var(--m) 10%, transparent));
+}
+/* ACCENT — reserved for "this changes in S/4HANA", and for nothing else. */
+.nx-app .nxv-s4[data-s4="1"] {
+  border-color: color-mix(in srgb, var(--brand) 34%, var(--c-hair));
+  background:
+    linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 5%, transparent), transparent 42%),
+    var(--surface);
+  box-shadow: var(--elev-2), inset 4px 0 0 0 var(--brand);
+}
+[dir="ltr"] .nx-app .nxv-s4[data-s4="1"] { box-shadow: var(--elev-2), inset -4px 0 0 0 var(--brand); }
+
+.nx-app .nxv-s4-top { display: grid; gap: var(--sp-2); }
+.nx-app .nxv-s4-h {
+  font-size: var(--t-h1); line-height: var(--t-h1-lh); letter-spacing: var(--t-h1-tr);
+  font-weight: 750; color: var(--ink-1); margin: 0;
+}
+.nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--brand-dark); }
+html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--ink-1); }
+.nx-app .nxv-s4-two { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.nx-app .nxv-s4-c {
+  display: grid; gap: var(--sp-2); align-content: start;
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+}
+.nx-app .nxv-s4-c > p { margin: 0; font-size: var(--t-sm); color: var(--ink-1); line-height: var(--lh-he); }
+
+/* ------------------------------------------------------- 10.3 SECTIONS */
+
+.nx-app .nxv-sec { display: grid; gap: var(--sp-3); }
+.nx-app .nxv-sec-h {
+  display: flex; align-items: center; gap: var(--sp-2);
+  color: var(--ink-1);
+  padding-block-end: var(--sp-2);
+  border-block-end: 1px solid var(--c-hair);
+}
+.nx-app .nxv-sec-i {
+  inline-size: 1.75rem; block-size: 1.75rem; flex: none;
+  display: inline-grid; place-items: center;
+  border-radius: var(--r-sm);
+  color: var(--m);
+  background: color-mix(in srgb, var(--m) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 20%, transparent);
+}
+.nx-app .nxv-sec-n {
+  margin-inline-start: auto;
+  font-style: normal; font-family: var(--font-mono); font-size: var(--t-micro);
+  font-weight: 500; color: var(--ink-3);
+  direction: ltr; unicode-bidi: isolate;
+}
+.nx-app .nxv-sub {
+  font-size: var(--t-xs); font-weight: 700; color: var(--ink-2);
+  letter-spacing: .02em;
+  padding-block-start: var(--sp-2);
+}
+
+/* ---------------------------------------------------- 10.4 NAMED FACTS */
+
+.nx-app .nxv-grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.nx-app .nxv-fact { display: grid; gap: var(--sp-2); align-content: start; min-inline-size: 0; }
+.nx-app .nxv-l {
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
+  color: var(--ink-3); line-height: 1.4;
+}
+.nx-app .nxv-v {
+  font-size: var(--t-body); color: var(--ink-1); line-height: var(--lh-he);
+  margin: 0; min-inline-size: 0;
+}
+.nx-app .nxv-ul, .nx-app .nxv-ol {
+  display: grid; gap: var(--sp-2);
+  font-size: var(--t-sm); color: var(--ink-2); line-height: var(--lh-he);
+  padding-inline-start: var(--sp-4);
+  margin: 0;
+}
+.nx-app .nxv-ul { list-style: disc; }
+.nx-app .nxv-ol { list-style: decimal; }
+.nx-app .nxv-ol li::marker { font-family: var(--font-mono); color: var(--m); font-weight: 700; }
+.nx-app .nxv-ul li::marker { color: var(--ink-3); }
+.nx-app .nxv-chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.nx-app .nxv-code {
+  display: block;
+  font-family: var(--font-mono); font-size: var(--t-xs);
+  direction: ltr; unicode-bidi: isolate; text-align: start;
+  color: var(--ink-1);
+  padding: var(--sp-3);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--c-hair);
+  overflow-wrap: anywhere;
+}
+.nx-app .nxv-quote {
+  font-size: var(--t-sm); color: var(--ink-2); line-height: var(--lh-he);
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  margin: 0;
+}
+/* A cross-reference that resolves to a real generated page. */
+.nx-app .nxv-ref {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  min-block-size: var(--c-tap);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm);
+}
+.nx-app .nxv-ref > b {
+  font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 700; color: var(--ink-1);
+  direction: ltr; unicode-bidi: isolate;
+}
+.nx-app .nxv-ref > span { font-size: var(--t-xs); color: var(--ink-3); }
+.nx-app .nxv-refs {
+  display: grid; gap: var(--sp-2);
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+}
+
+.nx-app .nxv-foot {
+  display: grid; gap: var(--sp-2);
+  font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he);
+  padding-block-start: var(--sp-4);
+  border-block-start: 1px solid var(--c-hair);
+}
+.nx-app .nxv-src { display: flex; align-items: flex-start; gap: var(--sp-2); }
+.nx-app .nxv-src > svg { flex: none; margin-block-start: 2px; }
+
+/* ==========================================================================
+   11. THE CERTIFICATION SURFACE
+   Its own small composition, because it is not a directory of records: it is
+   one honest statement about what the project does and does not hold.
+   ========================================================================== */
+
+.nx-app .nxb-claim {
+  display: grid; gap: var(--sp-3);
+  padding: var(--sp-6);
+  border: 1px solid var(--c-hair);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  position: relative; overflow: hidden;
+  box-shadow: var(--elev-1);
+}
+.nx-app .nxb-claim::before {
+  content: '';
+  position: absolute; inset-block-start: 0; inset-inline: 0;
+  block-size: 3px;
+  background: linear-gradient(to inline-end, var(--m), color-mix(in srgb, var(--m) 10%, transparent));
+}
+.nx-app .nxb-claim h2 {
+  font-size: var(--t-h1); line-height: var(--t-h1-lh); letter-spacing: var(--t-h1-tr);
+  font-weight: 750; color: var(--ink-1); margin: 0;
+}
+.nx-app .nxb-claim p { margin: 0; font-size: var(--t-body); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 74ch; }
+.nx-app .nxb-two { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.nx-app .nxb-yes, .nx-app .nxb-no {
+  display: grid; gap: var(--sp-2); align-content: start;
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+}
+.nx-app .nxb-no { border: 1px dashed var(--c-hair); background: transparent; }
+.nx-app .nxb-yes h3, .nx-app .nxb-no h3 {
+  margin: 0; font-size: var(--t-xs); font-weight: 700; color: var(--ink-2); letter-spacing: .02em;
+}
+.nx-app .nxb-yes ul, .nx-app .nxb-no ul {
+  display: grid; gap: var(--sp-2); margin: 0;
+  padding-inline-start: var(--sp-4); list-style: disc;
+  font-size: var(--t-sm); color: var(--ink-2); line-height: var(--lh-he);
+}
+.nx-app .nxb-no li::marker { color: var(--ink-3); }
+
+/* The one real action on a surface that has NO owning module. ui.css resolves a
+   primary button's fill from --m, and this surface's --m is neutral ink, which
+   paints a solid grey button that reads as disabled. Brand red is the product's
+   global accent and is explicitly never a module colour, so the single primary
+   action takes it. Nothing else on this surface does. */
+.nx-app .nxl .nu-btn.nxl-primary { --_m: var(--brand); }
+
+.nx-app .nxb-banks { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr)); }
+.nx-app .nxb-bank {
+  position: relative; overflow: hidden;
+  display: grid; gap: var(--sp-3); align-content: start;
+  padding: var(--sp-5);
+  block-size: 100%;
+}
+.nx-app .nxb-bank::before {
+  content: '';
+  position: absolute; inset-block-start: 0; inset-inline: 0;
+  block-size: 3px;
+  background: linear-gradient(to inline-end, var(--m), color-mix(in srgb, var(--m) 10%, transparent));
+}
+.nx-app .nxb-bank-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2); }
+.nx-app .nxb-bank-h > b {
+  font-family: var(--font-mono); font-size: var(--t-h2); font-weight: 700; color: var(--ink-1);
+  direction: ltr; unicode-bidi: isolate;
+}
+.nx-app .nxb-bank-h > span { font-size: var(--t-sm); color: var(--ink-2); }
+.nx-app .nxb-kv { display: grid; gap: var(--sp-2); }
+.nx-app .nxb-kv > div {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline; gap: var(--sp-3);
+  font-size: var(--t-xs); color: var(--ink-3);
+}
+.nx-app .nxb-kv b {
+  font-family: var(--font-mono); font-size: var(--t-sm); color: var(--ink-1);
+  direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums;
+}
+.nx-app .nxb-dist { display: grid; gap: 5px; }
+.nx-app .nxb-dist-r {
+  display: grid; grid-template-columns: minmax(6.5rem, auto) minmax(0, 1fr) 2.75rem;
+  align-items: center; gap: var(--sp-3);
+  font-size: var(--t-micro); color: var(--ink-2);
+}
+.nx-app .nxb-dist-t {
+  block-size: 5px; border-radius: var(--r-pill);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--c-hair);
+  overflow: hidden;
+}
+.nx-app .nxb-dist-f {
+  display: block; block-size: 100%; border-radius: var(--r-pill);
+  background: var(--m);
+  transform-origin: right center;
+  transform: scaleX(var(--p, 0));
+}
+[dir="ltr"] .nx-app .nxb-dist-f { transform-origin: left center; }
+.nx-app .nxb-dist-n {
+  font-family: var(--font-mono); color: var(--ink-3); text-align: end;
+  direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   12. RESPONSIVE 390 → 3840
+   ========================================================================== */
+
+/* Laptop: the row's side column stops being a column and slides under the
+   body, so a row never has to scroll sideways. */
+@media (max-width: 1180px) {
+  .nx-app .nxl-row {
+    grid-template-columns: 3px minmax(0, 1fr) auto;
+    grid-template-areas: "mark body go" "mark side side";
+  }
+  .nx-app .nxl-side {
+    padding-inline-start: 0;
+    padding-block-start: var(--sp-3);
+    border-inline-start: 0;
+    border-block-start: 1px solid var(--c-hair);
+  }
+  .nx-app .nxl-side[data-s4="1"] {
+    border-inline-start-width: 0;
+    border-block-start-color: color-mix(in srgb, var(--brand) 55%, var(--c-hair));
+    border-block-start-width: 2px;
+  }
+  .nx-app .nxl-side-v { -webkit-line-clamp: 2; }
+}
+
+/* Phone: its own composition. One column everywhere, every target at least
+   44px, the stats plate two columns rather than a squeezed six. */
+@media (max-width: 720px) {
+  .nx-app .nxl, .nx-app .nxv { gap: var(--sp-4); }
+  .nx-app .nxl-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: var(--sp-4); gap: var(--sp-3); }
+  .nx-app .nxl-stat-i { inline-size: 2rem; block-size: 2rem; }
+  .nx-app .nxl-stat b { font-size: var(--t-h2); }
+  .nx-app .nxl-tools { flex-direction: column; align-items: stretch; gap: var(--sp-2); }
+  /* `flex: none` here would hand the field back its intrinsic input width and
+     re-open the sideways scroll. It stays flexible and simply fills the column. */
+  .nx-app .nxl-field { flex: 1 1 auto; inline-size: 100%; min-block-size: var(--c-tap); }
+  /* The tab rail is the one strip that must NOT wrap — five Hebrew labels on
+     three lines is unreadable — so it scrolls inside its own box. `inline-size`
+     is stated rather than left to flex stretch: measured at 390 the strip took
+     its max-content (410px) instead of the column's 358px and pushed the whole
+     canvas into a sideways scroll. */
+  .nx-app .nxl-tabs {
+    flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    inline-size: 100%; max-inline-size: 100%;
+  }
+  .nx-app .nxl-tabs::-webkit-scrollbar { block-size: 0; }
+  /* ui.css already gives every control 44px under `pointer: coarse`, but the
+     spec's floor is the VIEWPORT, not the input device — a 390px window on a
+     trackpad has to clear it too. These three restate it unconditionally at
+     phone width rather than trusting the pointer media query to be true. */
+  .nx-app .nxl-tabs .nu-tab { flex: none; min-block-size: var(--c-tap); }
+  .nx-app .nxl-facet-l { min-inline-size: 100%; }
+  .nx-app .nxl-facet .nu-filter { min-block-size: var(--c-tap); }
+  .nx-app .nxl-clear { min-block-size: var(--c-tap); min-inline-size: var(--c-tap); }
+  .nx-app .nxl-count .nu-ghost { min-block-size: var(--c-tap); }
+
+  .nx-app .nxl-row {
+    grid-template-columns: 3px minmax(0, 1fr);
+    grid-template-areas: "mark body" "mark side";
+    padding: var(--sp-4) var(--sp-3);
+  }
+  .nx-app .nxl-go { display: none; }
+  .nx-app .nxl-t1 > b { font-size: var(--t-body); }
+  .nx-app .nxl-desc { -webkit-line-clamp: 4; }
+
+  .nx-app .nxl-courses { grid-template-columns: minmax(0, 1fr); }
+  .nx-app .nxl-course { padding: var(--sp-4); }
+  .nx-app .nxl-course-a .nu-btn, .nx-app .nxl-course-a .nu-btn2 { flex: 1 1 10rem; }
+
+  .nx-app .nxc-l {
+    grid-template-columns: 2rem minmax(0, 1fr);
+    grid-template-areas: "n t" ". s";
+    padding-block: var(--sp-3);
+  }
+  .nx-app .nxc-l-go { display: none; }
+  .nx-app .nxc-ch-m { margin-inline-start: 0; inline-size: 100%; }
+
+  .nx-app .nxv-h1 { font-size: var(--t-h1); }
+  .nx-app .nxv-s4 { padding: var(--sp-4); }
+  .nx-app .nxv-s4-h { font-size: var(--t-h2); }
+  .nx-app .nxb-claim { padding: var(--sp-4); }
+  .nx-app .nxb-claim h2 { font-size: var(--t-h2); }
+  .nx-app .nxb-dist-r { grid-template-columns: minmax(0, 1fr) 2.5rem; }
+  .nx-app .nxb-dist-t { grid-column: 1 / -1; }
+  .nx-app .nxv-refs { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Ultrawide: a second and then a third column, rather than 3000px-long rows. */
+@media (min-width: 2200px) {
+  .nx-app .nxl-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nx-app .nxl-stats { grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); }
+  .nx-app .nxv { max-inline-size: min(104rem, 100%); }
+}
+@media (min-width: 3200px) {
+  .nx-app .nxl-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* ==========================================================================
+   13. DARK
+   ========================================================================== */
+
+html[data-theme="dark"] .nx-app .nxl-field { background: var(--surface-2); }
+html[data-theme="dark"] .nx-app .nxl-stat-i { background: color-mix(in srgb, var(--m) 15%, transparent); }
+html[data-theme="dark"] .nx-app .nxl-mod,
+html[data-theme="dark"] .nx-app .nxv-mod { background: color-mix(in srgb, var(--m) 14%, transparent); }
+html[data-theme="dark"] .nx-app .nxl-mark { opacity: 1; }
+html[data-theme="dark"] .nx-app .nxc-ch-h { background: color-mix(in srgb, var(--ink-1) 6%, var(--surface)); }
+html[data-theme="dark"] .nx-app .nxv-s4 { background: var(--surface-2); }
+html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] {
+  background:
+    linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 12%, transparent), transparent 42%),
+    var(--surface-2);
+}
+html[data-theme="dark"] .nx-app .nxv-s4-c,
+html[data-theme="dark"] .nx-app .nxv-quote,
+html[data-theme="dark"] .nx-app .nxv-code,
+html[data-theme="dark"] .nx-app .nxb-yes { background: color-mix(in srgb, var(--ink-1) 6%, var(--surface)); }
+
+/* ==========================================================================
+   14. REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .nx-app .nxl-go, .nx-app .nxc-l-go { transition: none; opacity: 1; transform: none; }
+  .nx-app .nxl-field { transition: none; }
+  .nx-app .nxl-bar-f { transition: none; }
+}

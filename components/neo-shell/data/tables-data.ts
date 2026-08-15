@@ -23,6 +23,7 @@ import { ALL_TABLES } from "@/data/sapData";
 import { cdsForTable } from "@/data/cds-map";
 import { ZONES, zoneOf } from "@/lib/studio-graph";
 import { objVarFor } from "../nav-data";
+import { tableDetailNames, tableHref } from "./tables-detail";
 import type { NeoFacet, NeoRelRef, NeoTableRow, NeoTablesData } from "./types";
 
 /** The transaction split rule the module portal uses. Restated because that one
@@ -47,6 +48,15 @@ export function tablesData(): NeoTablesData {
   // when it is one of these, so the surface never offers a link to a table the
   // dictionary does not hold.
   const known = new Set(ALL_TABLES.map((t) => t.tableName));
+
+  // THE ROW'S OWN DESTINATION IS GATED THE SAME WAY. `generated` is the exact
+  // list app/neo/tables/[name]/generateStaticParams builds from, so a row can
+  // only become a LINK when a page for it really exists; anything else is
+  // rendered by the surface as a value. The two sets are equal today (both are
+  // the dictionary), and this is what keeps the directory honest if either ever
+  // narrows — scripts/crawl-dead-links.mjs fails the build on the first row
+  // that opens nothing.
+  const generated = new Set(tableDetailNames());
 
   const byName = new Map<string, NeoTableRow>();
   // A shared table is documented in BOTH blueprints, and the two definitions do
@@ -102,7 +112,8 @@ export function tablesData(): NeoTablesData {
         s4Alt: t.s4AltTable || "",
         s4Tcode: t.s4AltTcode || "",
         sum: t.sumNote || "",
-        href: `/neo/object/${encodeURIComponent(t.tableName)}/`,
+        href: generated.has(t.tableName) ? tableHref(t.tableName) : null,
+        objHref: generated.has(t.tableName) ? `/neo/object/${encodeURIComponent(t.tableName)}/` : null,
         hay: "",
       });
       continue;
@@ -160,6 +171,7 @@ export function tablesData(): NeoTablesData {
     topics,
     totals: {
       tables: rows.length,
+      linked: count((r) => !!r.href),
       fields: rows.reduce((a, r) => a + r.fields, 0),
       keys: rows.reduce((a, r) => a + r.keys, 0),
       rels: rows.reduce((a, r) => a + r.rels.length, 0),
