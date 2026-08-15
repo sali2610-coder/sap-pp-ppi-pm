@@ -94,6 +94,8 @@ const booksFor = (mod: ModuleKey) =>
 
 type Seed = {
   id: string;
+  /** Optional route override. Only `domain-model` uses it — see navGroups(). */
+  href?: string;
   label: string;
   icon: string;
   count: number | null;
@@ -115,7 +117,7 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
       items: [
         { id: "pm", label: "אחזקה · PM", icon: "Wrench", count: pm.tables, countLabel: "טבלאות", mod: "PM" },
         { id: "pp-pi", label: "ייצור · PP-PI", icon: "FlaskConical", count: pp.tables, countLabel: "טבלאות", mod: "PP-PI" },
-        { id: "domain-model", label: "מודל נתונים", icon: "GitBranch", count: DOMAINS.length, countLabel: "תחומים" },
+        { id: "domain-model", href: "/neo/erd/", label: "מודל נתונים", icon: "GitBranch", count: DOMAINS.length, countLabel: "תחומים" },
       ],
     },
     {
@@ -171,7 +173,12 @@ function navGroups(): NavGroup[] {
     label: g.label,
     items: g.items.map((it) => ({
       id: it.id,
-      href: `/neo/${it.id}/`,
+      // Usually the id IS the route. `domain-model` is the exception: it is a
+      // hub id, so `app/neo/[hub]` already claims /neo/domain-model/ and a
+      // static page there would make the export fail with conflicting paths.
+      // The real data model lives at /neo/erd/, so the item points there rather
+      // than at the Stage-1 placeholder the hub route would otherwise serve.
+      href: it.href ?? `/neo/${it.id}/`,
       label: it.label,
       icon: it.icon,
       count: it.count,

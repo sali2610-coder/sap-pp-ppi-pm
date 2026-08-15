@@ -171,11 +171,18 @@ html .nx-app .nx-canvas:has(> .nh) {
 
    Sharing two of them between formations is the continuity device: a fixed
    reference survives the change, so the eye reads one dataset re-forming rather
-   than a new drawing. The percentages mirror COV_BASE / SPINE_Y / PLINTH_Y in
-   components/neo-shell/home/formations.ts. Opacity only — no layout, no paint. */
+   than a new drawing.
+
+   The four offsets are NOT percentages here any more. home-scene.tsx writes
+   them, in px, from formations.RULE and from the same usable height the dots
+   are placed in — so the hairline and the row of dots standing on it are one
+   number, at every breakpoint. The fallbacks are only what a document that
+   never runs the script would show. Opacity only — no layout, no paint. */
 .nh-rule {
   position: absolute;
-  inset-inline: 4%;
+  inset-inline-start: 4%;
+  /* Clear of the two module cards, exactly as the formations are. */
+  inset-inline-end: calc(4% + var(--nh-far, 0px));
   block-size: 1px;
   background: linear-gradient(to left,
     transparent,
@@ -185,10 +192,10 @@ html .nx-app .nx-canvas:has(> .nh) {
   opacity: 0;
   transition: opacity 620ms var(--ease-out-expo);
 }
-.nh-rule--spine { inset-block-start: 26%; }
-.nh-rule--rail { inset-block-start: 72%; }
-.nh-rule--base { inset-block-start: 80%; }
-.nh-rule--plinth { inset-block-start: 94%; }
+.nh-rule--spine { inset-block-start: var(--nh-spine, 26%); }
+.nh-rule--rail { inset-block-start: var(--nh-rail, 72%); }
+.nh-rule--base { inset-block-start: var(--nh-base, 80%); }
+.nh-rule--plinth { inset-block-start: var(--nh-plinth, 94%); }
 .nh[data-sec="1"] .nh-rule--base,
 .nh[data-sec="2"] .nh-rule--spine,
 .nh[data-sec="2"] .nh-rule--plinth,
@@ -1458,7 +1465,11 @@ html[data-theme="dark"] .nh-read { background: color-mix(in srgb, var(--surface-
    scale-from-zero bars, and the sticky field's blur.
    ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
-  .nh { --nh-mx: 0 !important; --nh-my: 0 !important; --nh-sy: 0 !important; }
+  /* .nh-grid carries its own --nh-sy (the scene writes the scroll drift on the
+     one element that reads it, not on the root, so a scroll frame cannot
+     invalidate 105 dots). An important declaration is therefore needed HERE as
+     well: it is what outranks that inline write. */
+  .nh, .nh-grid { --nh-mx: 0 !important; --nh-my: 0 !important; --nh-sy: 0 !important; }
   .nh-plane { filter: none !important; }
   .nh-lens, .nh-read { display: none; }
   .nh-cov-bar i, .nh-impcol-bar i { transform: none !important; }

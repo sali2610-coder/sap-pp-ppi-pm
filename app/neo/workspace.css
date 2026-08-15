@@ -10,17 +10,37 @@
    Where a .nu-* class appears below it is only ever given a LAYOUT — its
    states, its focus ring and its disabled language stay in ui.css.
 
-   THE COMPLAINT THIS FILE ANSWERS, verbatim: "below the hero area the screens
-   become too dense. There are too many small boxes. Too many similar cards.
-   Too many narrow sections." So the page is now SIX regions, in the same order
-   in both modules:
+   THE COMPLAINT THIS FILE ANSWERS, verbatim: "Below the hero they are too
+   dense. Controls are too small. Rows are too tight. Hierarchy is weak. Too
+   many equal-weight elements. The page feels compressed. The user cannot
+   clearly understand the next action."
 
-     1  .nw-hero .................. identity · lede · three routes · the counts
-     2  .nw-block (map) ........... topics | process | object classes, tabbed
-     3  .nw-block--work ........... the working table, full width
-     4  .nw-block--split (context)  transactions | relationships + data model
-     5  .nw-block (S/4HANA) ....... verdict split + what needs attention
-     6  .nw-block--split (learn) .. books / academy | recent activity
+   Four of those five are hierarchy, not spacing, so the answer is a TYPE RAMP
+   with real distance between its steps rather than a slightly airier grid:
+
+     page title    .nw-title    clamp(2rem → 4.25rem)   700
+     chapter no.   .nw-ch-n     clamp(2.5rem → 4rem)    700, module tint
+     chapter       .nw-ch-t     clamp(1.5rem → 2.5rem)  700   ← the level that
+                                                              was missing
+     sub-block     .nw-sub-h    1.0625rem               700
+     data label    .nw-fk / dt  var(--t-micro)          650, uppercase, ink-3
+     metadata      .nw-fine     var(--t-micro)          400, ink-3
+
+   Only .nw-ch-t and .nw-sub-h are bold at heading size. Everything that used to
+   be a small bold caption is now either a data label or plain text, which is
+   what makes the ramp readable instead of five near-identical bold things.
+
+   THE PAGE, in the same order in both modules:
+
+     .nw-hero .............. identity · lede · three routes · the counts
+     .nw-idx ............... the chapter index — every chapter, count, route
+     .nw-ch ................ ONE shape for every chapter below the hero
+     .nw-ch--wide .......... the working-table chapter, which takes the gutters
+
+   CONTROL SIZE. Every control on this page comes from app/neo/ui.css and is at
+   least --c-tap (44px) tall there; the rules below only ever give one a layout.
+   The two places this file sets a floor of its own (--nw-row on a row, and the
+   expander) use the same token, so nothing on the page is under 44px on touch.
 
    Rules of the house, kept:
      · logical properties everywhere; not one physical inset in the layout
@@ -231,26 +251,76 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-fig em { font-style: normal; font-size: 10px; color: var(--ink-3); }
 
 /* ==========================================================================
-   THE BLOCK — the single container the whole page below the hero is built
-   from. Four of them replace eleven boxes. Each one has a module top edge, an
-   eyebrow with a module icon, one heading, one sentence of orientation, and
-   then its content. Nothing inside a block gets its own card frame unless it
-   is genuinely selectable, in which case it is a .nu-card and says so.
+   THE CHAPTER INDEX — the first thing under the hero, and the page's answer to
+   "the user cannot clearly understand the next action". One tile per chapter,
+   each carrying that chapter's real count, each a route to it.
    ========================================================================== */
-.nw-block {
-  position: relative;
+.nw-idx {
   display: grid;
-  gap: var(--sp-5);
-  align-content: start;
-  padding: var(--sp-8) var(--nw-gut);
+  gap: var(--sp-4);
+  padding: var(--sp-7) var(--nw-gut) var(--sp-8);
   border-block-start: 1px solid color-mix(in srgb, var(--m) 22%, var(--hairline));
 }
-.nw-block > * { min-inline-size: 0; }
+.nw-idx-h { display: grid; gap: var(--sp-2); max-inline-size: 72ch; }
+.nw-idx-k {
+  font-size: var(--t-micro);
+  font-weight: 650;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.nw-idx-s { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.7; }
+.nw-idx-l {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+  gap: var(--sp-3);
+  counter-reset: none;
+}
+.nw-idx-i {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2px var(--sp-3);
+  min-block-size: 4.25rem;
+  padding: var(--sp-3) var(--sp-4);
+}
+.nw-idx-n {
+  grid-row: 1 / span 2;
+  font-size: 1.375rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.04em;
+  font-variant-numeric: tabular-nums;
+  /* MODULE as a tint on a numeral — a surface value, never a dot. */
+  color: color-mix(in srgb, var(--m) 78%, var(--ink-3));
+}
+.nw-idx-t { font-size: var(--t-sm); font-weight: 650; color: var(--ink-1); line-height: 1.35; }
+.nw-idx-c { display: flex; align-items: baseline; gap: 5px; }
+.nw-idx-c b { font-size: var(--t-xs); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.nw-idx-c em { font-style: normal; font-size: 10px; color: var(--ink-3); }
 
-/* SECTION LIGHTING. Alternate blocks carry a whisper of module tint, so the
+/* ==========================================================================
+   THE CHAPTER — the single container the whole page below the hero is built
+   from. One shape, eight instances, and inside it exactly two heading levels.
+   Nothing inside a chapter gets its own card frame unless it is genuinely
+   selectable, in which case it is a .nu-card and says so.
+   ========================================================================== */
+.nw-ch {
+  position: relative;
+  display: grid;
+  gap: var(--sp-6);
+  align-content: start;
+  padding: var(--sp-10) var(--nw-gut) var(--sp-12);
+  border-block-start: 1px solid color-mix(in srgb, var(--m) 22%, var(--hairline));
+  /* The index jumps here; the shell's top bar must not cover the heading. */
+  scroll-margin-block-start: calc(var(--c-top-h) + var(--sp-4));
+}
+.nw-ch > * { min-inline-size: 0; }
+
+/* SECTION LIGHTING. Alternate chapters carry a whisper of module tint, so the
    page has a beat instead of one flat sheet. The working table deliberately
    sits on the plain ground: it is the brightest surface on the page. */
-.nw > section.nw-block:nth-of-type(odd)::before {
+.nw > section.nw-ch:nth-of-type(odd)::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -261,21 +331,51 @@ html .nx-app .nx-canvas:has(> .nw) {
     transparent);
   pointer-events: none;
 }
-.nw > section.nw-block--work::before { display: none; }
+.nw > section.nw-ch--wide::before { display: none; }
 
-.nw-block-h { display: grid; gap: var(--sp-2); max-inline-size: 78ch; }
-.nw-block-k {
+/* --- the chapter head. The number is the visual anchor -------------------- */
+.nw-ch-h {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--sp-2) var(--sp-5);
+  max-inline-size: 82ch;
+}
+.nw-ch-n {
+  grid-row: 1 / span 4;
+  align-self: start;
+  font-size: clamp(2.5rem, 5cqi, 4rem);
+  font-weight: 700;
+  line-height: .8;
+  letter-spacing: -.05em;
+  font-variant-numeric: tabular-nums;
+  /* MODULE as a tint. A numeral is a surface, not a dot. */
+  color: color-mix(in srgb, var(--m) 26%, transparent);
+  padding-block-start: .1em;
+}
+.nw-ch-k {
   display: flex;
   align-items: center;
   gap: var(--sp-2);
   font-size: var(--t-micro);
   font-weight: 650;
-  letter-spacing: .12em;
+  letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--ink-3);
 }
-.nw-block-k svg { color: var(--m); flex: none; }
-.nw-block-k::after {
+.nw-ch-ico {
+  display: grid;
+  place-items: center;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
+  border-radius: var(--r-sm);
+  color: var(--m);
+  /* MODULE as a surface tint + ring. */
+  background: color-mix(in srgb, var(--m) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--m) 24%, var(--hairline));
+  flex: none;
+}
+.nw-ch-k::after {
   content: '';
   flex: 0 0 2.5rem;
   block-size: 2px;
@@ -283,15 +383,24 @@ html .nx-app .nx-canvas:has(> .nw) {
   /* MODULE as a section marker. */
   background: color-mix(in srgb, var(--m) 55%, transparent);
 }
-.nw-block-t {
-  font-size: clamp(1.25rem, 2.2cqi, 1.75rem);
+.nw-ch-t {
+  font-size: clamp(1.5rem, 3cqi, 2.5rem);
   font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -.02em;
+  line-height: 1.14;
+  letter-spacing: -.025em;
   color: var(--ink-1);
   text-wrap: balance;
 }
-.nw-block-s { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.7; max-inline-size: 72ch; }
+.nw-ch-s {
+  font-size: 1rem;
+  color: var(--ink-2);
+  line-height: 1.72;
+  max-inline-size: 68ch;
+}
+.nw-ch-s b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
+.nw-ch-go { display: flex; gap: var(--sp-4); flex-wrap: wrap; margin-block-start: var(--sp-2); }
+.nw-ch-body { display: grid; gap: var(--sp-7); align-content: start; }
+.nw-ch-body > * { min-inline-size: 0; }
 
 /* --- the view switch. .nu-tab owns every state; this only places it -------- */
 .nw-tabs {
@@ -299,36 +408,39 @@ html .nx-app .nx-canvas:has(> .nw) {
   align-items: center;
   gap: 0;
   flex-wrap: wrap;
-  margin-block-start: var(--sp-2);
   border-block-end: 1px solid color-mix(in srgb, var(--m) 20%, var(--hairline));
 }
+.nw-tabs .nu-tab { font-size: var(--t-sm); padding-block: .8rem; }
 .nw-tabs .nu-tab em {
   font-style: normal;
-  font-size: 10px;
+  font-size: 11px;
   color: var(--ink-3);
-  margin-inline-start: 5px;
+  margin-inline-start: 6px;
   font-variant-numeric: tabular-nums;
 }
-.nw-view { display: grid; gap: var(--sp-3); }
+.nw-view { display: grid; gap: var(--sp-4); }
 
-/* --- two columns inside one block, never two blocks ----------------------- */
+/* --- two columns inside one chapter, never two chapters ------------------- */
 .nw-cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-7); }
 .nw-sub { display: grid; gap: var(--sp-3); align-content: start; min-inline-size: 0; }
+/* The SUB-BLOCK heading. Deliberately sentence case at a real size: the old
+   micro uppercase caption read as a data label and was the reason the page had
+   no level between "chapter" and "row". */
 .nw-sub-h {
   display: flex;
   align-items: center;
   gap: var(--sp-2);
-  font-size: var(--t-micro);
+  font-size: 1.0625rem;
   font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-  padding-block-end: var(--sp-2);
-  border-block-end: 1px solid var(--hairline);
+  letter-spacing: -.012em;
+  color: var(--ink-1);
+  padding-block-end: var(--sp-3);
+  border-block-end: 1px solid color-mix(in srgb, var(--m) 18%, var(--hairline));
 }
-.nw-sub-h svg { color: var(--m); flex: none; }
-.nw-sub-h--2 { margin-block-start: var(--sp-3); }
-.nw-links { display: flex; gap: var(--sp-5); flex-wrap: wrap; }
+.nw-sub-ico { display: inline-grid; place-items: center; color: var(--m); flex: none; }
+.nw-sub-h--2 { margin-block-start: var(--sp-5); }
+.nw-sub-s { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.7; max-inline-size: 78ch; }
+.nw-links { display: flex; gap: var(--sp-5); flex-wrap: wrap; align-items: center; }
 
 /* ==========================================================================
    THE RANK LIST — one shape for every "N things, ordered, with a proportion".
@@ -450,9 +562,10 @@ html .nx-app .nx-canvas:has(> .nw) {
    container is clamped to its own GRID AREA, which for the rail is exactly its
    own height — i.e. zero travel. On a block container the rail's containing
    block is the whole section, so it can ride the full length of the table. */
-.nw-block--work { display: block; padding-inline: 0; }
-.nw-block--work > .nw-block-h { padding-inline: var(--nw-gut); margin-block-end: var(--sp-5); }
-.nw-block--work > .nw-rail { margin-block-end: var(--sp-4); }
+.nw-ch--wide { display: block; padding-inline: 0; }
+.nw-ch--wide > .nw-ch-h { padding-inline: var(--nw-gut); margin-block-end: var(--sp-7); }
+.nw-ch--wide > .nw-ch-body { display: block; }
+.nw-ch--wide .nw-rail { margin-block-end: var(--sp-4); }
 
 /* --- the rail. THREE controls, not twenty ---------------------------------
    Sticky, so the scope of what is on screen is never more than a glance away.
@@ -743,14 +856,17 @@ html .nx-app .nx-canvas:has(> .nw) {
 /* ==========================================================================
    4 · CONTEXT — transactions · relationships · the data model
    ========================================================================== */
+/* "Rows are too tight" — every row on the page now clears --nw-row (44px),
+   whether or not it is interactive, so the rhythm does not change when a list
+   happens to be a record rather than a control. */
 .nw-tcrow {
   display: grid;
   grid-template-columns: 6rem minmax(3rem, 1fr) auto;
   align-items: center;
   gap: var(--sp-3);
-  min-block-size: 1.875rem;
+  min-block-size: var(--nw-row);
   padding-inline: var(--sp-3);
-  font-size: var(--t-xs);
+  font-size: var(--t-sm);
 }
 .nw-tcrow b { color: var(--ink-1); }
 .nw-tcrow em { font-style: normal; font-size: var(--t-xs); color: var(--ink-1); font-variant-numeric: tabular-nums; }
@@ -765,8 +881,126 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-relline b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
 
 /* ==========================================================================
-   5 · ECC → S/4HANA
+   ECC → S/4HANA — the forward context, and the loudest chapter on the page
+   after the hero.
+
+   COLOUR: a risk level is a STATE, so RISK_COLOR may only ever be the dot of a
+   .nu-status followed by its word. It never becomes a border, a fill or text
+   colour here. The callout gets its weight from SIZE, TYPE and a MODULE edge —
+   all three sanctioned forms — which is why a high-risk table reads as loud
+   without a red rectangle anywhere on the page.
    ========================================================================== */
+.nw-s4top {
+  display: grid;
+  gap: var(--sp-5);
+  padding: var(--sp-6);
+  border-radius: var(--r-lg);
+  /* MODULE as a surface tint + ring. */
+  background: color-mix(in srgb, var(--m) 6%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
+}
+.nw-s4big { display: grid; gap: 2px; }
+.nw-s4big b {
+  font-size: clamp(2.75rem, 6cqi, 4.5rem);
+  font-weight: 700;
+  line-height: .95;
+  letter-spacing: -.045em;
+  color: var(--ink-1);
+  font-variant-numeric: tabular-nums;
+}
+.nw-s4big span { font-size: 1.0625rem; font-weight: 650; color: var(--ink-1); }
+.nw-s4big em { font-style: normal; font-size: var(--t-sm); color: var(--ink-2); }
+
+.nw-s4mix { display: grid; gap: var(--sp-3); max-inline-size: 40rem; }
+.nw-s4mix li {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(3rem, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-3);
+  min-block-size: 1.75rem;
+}
+.nw-s4mix .nu-status { font-size: var(--t-xs); }
+.nw-s4mix b { font-size: var(--t-sm); color: var(--ink-1); font-variant-numeric: tabular-nums; }
+
+.nw-s4trust {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: var(--t-xs);
+  color: var(--ink-2);
+  padding-block-start: var(--sp-3);
+  border-block-start: 1px solid color-mix(in srgb, var(--m) 20%, var(--hairline));
+}
+.nw-s4trust svg { color: var(--m); flex: none; }
+.nw-s4trust b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
+
+/* --- one table that materially moves. A callout, not a cell ---------------- */
+.nw-moves { display: grid; gap: var(--sp-5); }
+.nw-move {
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-5) var(--sp-5) var(--sp-5) var(--sp-5);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  /* MODULE as the leading edge. Thicker for a high-risk row: WEIGHT carries the
+     severity, because the hue may not. */
+  border-inline-start: 3px solid color-mix(in srgb, var(--m) 45%, var(--hairline));
+}
+.nw-move[data-risk="high"] {
+  border-inline-start-width: 6px;
+  border-inline-start-color: var(--m);
+  background: color-mix(in srgb, var(--m) 4%, var(--surface));
+  box-shadow: var(--elev-2);
+}
+.nw-move[data-risk="medium"] { border-inline-start-width: 4px; }
+.nw-move-h { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.nw-move-h .nu-status { font-size: var(--t-xs); font-weight: 700; }
+.nw-move-n { padding-block: 0; }
+.nw-move-n b { font-size: 1.125rem; letter-spacing: -.01em; }
+.nw-move-he { font-size: var(--t-sm); color: var(--ink-2); }
+/* The one sentence the chapter exists for. */
+.nw-move-w {
+  font-size: 1.0625rem;
+  line-height: 1.62;
+  color: var(--ink-1);
+  font-weight: 600;
+  max-inline-size: 74ch;
+}
+.nw-move-y { font-size: var(--t-sm); line-height: 1.7; color: var(--ink-2); max-inline-size: 76ch; }
+.nw-move-kv { display: grid; gap: var(--sp-2); }
+.nw-move-kv > div {
+  display: grid;
+  grid-template-columns: 10rem minmax(0, 1fr);
+  gap: var(--sp-2) var(--sp-3);
+  align-items: baseline;
+}
+.nw-move-kv dt {
+  font-size: var(--t-micro);
+  font-weight: 650;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+/* SAP identifiers carry no natural break opportunity — an underscore is not
+   one — so every cell that can hold a long one gets an explicit last resort.
+   Without it a 40-character view name becomes a horizontal scrollbar at 390px. */
+.nw-move-kv dd { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.65; overflow-wrap: anywhere; }
+.nw-move-kv dd .nu-chip { margin-inline-end: 4px; }
+.nw-move-t {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  padding-block-start: var(--sp-2);
+  border-block-start: 1px solid var(--hairline);
+}
+.nw-move-t svg { flex: none; }
+
+.nw-notes { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+
 .nw-verdicts { display: grid; gap: var(--sp-3); max-inline-size: 46rem; }
 .nw-verdicts li {
   display: grid;
@@ -775,36 +1009,115 @@ html .nx-app .nx-canvas:has(> .nw) {
   gap: var(--sp-3);
   min-block-size: 2rem;
 }
+.nw-verdicts .nu-status { font-size: var(--t-xs); }
 .nw-verdicts b { font-size: var(--t-sm); color: var(--ink-1); font-variant-numeric: tabular-nums; }
 .nw-verdicts em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
 
-.nw-issues { display: grid; gap: var(--sp-4); }
-.nw-issues > li {
+/* ==========================================================================
+   THE VERBATIM SHEET — the blueprint's own aux worksheets, kept as records.
+   ========================================================================== */
+.nw-sheet { display: grid; gap: var(--sp-4); justify-items: start; }
+.nw-sheet-l { display: grid; gap: var(--sp-3); inline-size: 100%; }
+.nw-sheet-r {
   display: grid;
-  gap: var(--sp-2);
-  padding-inline-start: var(--sp-4);
-  /* MODULE as an edge. One line per entry, instead of one card per entry. */
-  border-inline-start: 2px solid color-mix(in srgb, var(--m) 38%, var(--hairline));
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  /* MODULE as an edge — the record is of this module's blueprint. */
+  border-inline-start: 3px solid color-mix(in srgb, var(--m) 38%, var(--hairline));
 }
-.nw-issue-h { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
-.nw-issue-h .nu-link { padding-block: 0; }
-.nw-issue-h b { font-size: var(--t-sm); }
-.nw-issue-he { font-size: var(--t-xs); color: var(--ink-2); }
-.nw-issue-n { font-size: var(--t-xs); color: var(--ink-2); line-height: 1.7; max-inline-size: 76ch; }
+.nw-sheet-h {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.45;
+  color: var(--ink-1);
+  overflow-wrap: anywhere;
+}
+.nw-sheet-i { font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; flex: none; }
+.nw-sheet-kv { display: grid; gap: var(--sp-2); }
+.nw-sheet-kv > div {
+  display: grid;
+  grid-template-columns: 12rem minmax(0, 1fr);
+  gap: var(--sp-2) var(--sp-3);
+  align-items: baseline;
+}
+.nw-sheet-kv dt {
+  font-size: var(--t-micro);
+  font-weight: 650;
+  letter-spacing: .05em;
+  color: var(--ink-3);
+}
+.nw-sheet-kv dd {
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  line-height: 1.72;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+/* ==========================================================================
+   INTERFACES · CDS · FIORI
+   ========================================================================== */
+.nw-fnlist, .nw-cdslist, .nw-applist { display: grid; gap: var(--sp-2); }
+.nw-fnlist li {
+  display: grid;
+  grid-template-columns: 3rem 14rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-3);
+  min-block-size: var(--nw-row);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+}
+.nw-fnlist b, .nw-cdslist b, .nw-applist b { font-size: var(--t-sm); color: var(--ink-1); overflow-wrap: anywhere; }
+.nw-fn-he { font-size: var(--t-xs); color: var(--ink-2); line-height: 1.6; }
+.nw-fnlist em, .nw-cdslist em { font-style: normal; font-size: var(--t-xs); color: var(--ink-1); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.nw-fnlist em span { font-size: 10px; color: var(--ink-3); margin-inline-start: 4px; }
+
+.nw-cdslist li, .nw-applist li {
+  display: grid;
+  grid-template-columns: 16rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-3);
+  min-block-size: var(--nw-row);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--r-sm);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+}
+.nw-applist li { grid-template-columns: minmax(0, 1fr) auto; }
+.nw-cds-t { display: flex; flex-wrap: wrap; gap: 4px; }
+.nw-cdslist li .nw-fn-he { grid-column: 2; }
+.nw-cdslist li .nw-cds-t { grid-column: 2; }
 
 /* ==========================================================================
    6 · BOOKS / ACADEMY · RECENT ACTIVITY
    ========================================================================== */
-.nw-books { display: grid; gap: var(--sp-3); }
-.nw-books li {
+/* A book row. A .nu-card when the spine exists and the row is a route; the same
+   layout without the frame when it does not, so a record never looks clickable. */
+.nw-bookrow {
   display: grid;
-  gap: 2px;
-  padding-inline-start: var(--sp-3);
-  border-inline-start: 2px solid color-mix(in srgb, var(--m) 45%, transparent);
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 2px var(--sp-3);
+  inline-size: 100%;
+  min-block-size: var(--nw-row);
+  padding: var(--sp-2) var(--sp-3);
 }
-.nw-books b { font-size: var(--t-xs); color: var(--ink-1); line-height: 1.5; }
-.nw-books span { font-size: 10px; color: var(--ink-3); }
-.nw-books em { font-style: normal; font-size: 10px; color: var(--ink-3); }
+.nw-bookrow b { font-size: var(--t-sm); color: var(--ink-1); line-height: 1.45; }
+.nw-bookrow > span { grid-column: 1; font-size: var(--t-micro); color: var(--ink-3); }
+.nw-bookrow em { grid-column: 1; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+.nw-bookrow--flat {
+  border-inline-start: 2px solid color-mix(in srgb, var(--m) 40%, transparent);
+  border-radius: 0;
+}
+.nw-bookrow .nw-steparw { grid-column: 2; grid-row: 1; align-self: center; }
 
 .nw-courserow { grid-template-columns: minmax(0, 1fr) auto auto; }
 .nw-courserow b { font-size: var(--t-xs); color: var(--ink-1); line-height: 1.5; }
@@ -844,7 +1157,7 @@ html[data-theme="dark"] .nw-rail { background: color-mix(in srgb, var(--m) 8%, v
 html[data-theme="dark"] .nw-tbl thead th { background: var(--background); }
 html[data-theme="dark"] .nw-det { background: color-mix(in srgb, var(--m) 8%, transparent); }
 html[data-theme="dark"] :is(.nw-kb, .nw-kind) { background: color-mix(in srgb, var(--ink-3) 16%, transparent); }
-html[data-theme="dark"] .nw > section.nw-block:nth-of-type(odd)::before {
+html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   background: linear-gradient(to bottom,
     color-mix(in srgb, var(--m) 8%, transparent),
     color-mix(in srgb, var(--m) 3%, transparent) 60%,
@@ -868,9 +1181,40 @@ html[data-theme="dark"] .nw > section.nw-block:nth-of-type(odd)::before {
   .nw-go > .nu-btn, .nw-go > .nu-btn2 { flex: 1 1 100%; }
   .nw-go-why { flex: 1 1 100%; }
 
-  .nw-block { padding-block: var(--sp-6); gap: var(--sp-4); }
+  /* A phone still gets the chapter hierarchy — it is the thing that makes the
+     page navigable at this width — but the number moves above the kicker
+     instead of beside it, so the title keeps the whole column. */
+  .nw-ch { padding-block: var(--sp-7) var(--sp-8); gap: var(--sp-5); }
+  .nw-ch-body { gap: var(--sp-6); }
+  .nw-ch-h { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
+  .nw-ch-n { grid-row: auto; font-size: 2rem; }
+  .nw-ch-s { font-size: var(--t-body); }
+  .nw-ch-go { flex-direction: column; align-items: stretch; gap: var(--sp-2); }
+  .nw-ch-go > .nu-btn, .nw-ch-go > .nu-btn2 { inline-size: 100%; }
+
+  .nw-idx { padding-block: var(--sp-6); }
+  .nw-idx-l { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
+  .nw-idx-i { min-block-size: var(--c-tap); }
+
   .nw-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; }
   .nw-tabs .nu-tab { flex: none; }
+
+  /* Every key/value grid collapses to stacked pairs: a 10rem label column on a
+     390px canvas leaves nothing for the value. */
+  .nw-move-kv > div, .nw-sheet-kv > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .nw-move { padding: var(--sp-4); }
+  .nw-move-w { font-size: 1rem; }
+  .nw-s4top { padding: var(--sp-4); }
+  .nw-s4mix li { grid-template-columns: minmax(0, 1fr) auto; }
+  .nw-s4mix .nw-bar { display: none; }
+  .nw-sheet-r { padding: var(--sp-3); }
+
+  .nw-fnlist li { grid-template-columns: 3rem minmax(0, 1fr); }
+  .nw-fnlist .nw-fn-he, .nw-fnlist em { grid-column: 2; }
+  .nw-cdslist li, .nw-applist li { grid-template-columns: minmax(0, 1fr); }
+  .nw-cdslist li .nw-fn-he, .nw-cdslist li .nw-cds-t { grid-column: 1; }
+  .nw-bookrow { grid-template-columns: minmax(0, 1fr); }
+  .nw-bookrow .nw-steparw { display: none; }
 
   /* Rank rows drop the proportion bar: at this width it is four pixels of
      nothing. The number it encoded is already spelled out beside it. */
@@ -947,7 +1291,7 @@ html[data-theme="dark"] .nw > section.nw-block:nth-of-type(odd)::before {
 /* --- laptop: the block splits get their second column --------------------- */
 @container nw (min-width: 900px) {
   .nw-cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--sp-9); }
-  .nw-block--split .nw-cols > .nw-sub:first-child {
+  .nw-ch .nw-cols > .nw-sub:first-child {
     padding-inline-end: var(--sp-9);
     margin-inline-end: calc(-1 * var(--sp-9));
     border-inline-end: 1px solid var(--hairline);
@@ -960,7 +1304,7 @@ html[data-theme="dark"] .nw > section.nw-block:nth-of-type(odd)::before {
 /* --- desktop: more gutter ------------------------------------------------- */
 @container nw (min-width: 1200px) {
   .nw { --nw-gut: var(--sp-10); }
-  .nw-block { padding-block: var(--sp-9); }
+  .nw-ch { padding-block: var(--sp-12) var(--sp-16); }
 }
 
 /* --- wide: the extra width becomes information, not margin ---------------- */
@@ -983,7 +1327,7 @@ html[data-theme="dark"] .nw > section.nw-block:nth-of-type(odd)::before {
   .nw { --nw-gut: 6rem; }
   .nw-mark { -webkit-text-stroke-width: 2.5px; }
   .nw-hero { padding-block: var(--sp-10) var(--sp-9); }
-  .nw-block--split .nw-cols { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+  .nw-ch .nw-cols { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
 }
 
 @container nw (min-width: 3000px) {
@@ -1009,6 +1353,6 @@ html[data-theme="dark"] .nw > section.nw-block:nth-of-type(odd)::before {
 @media (forced-colors: active) {
   .nw-light { display: none; }
   .nw-rail { backdrop-filter: none; }
-  .nw > section.nw-block:nth-of-type(odd)::before { display: none; }
+  .nw > section.nw-ch:nth-of-type(odd)::before { display: none; }
   .nw-bar > i { forced-color-adjust: none; }
 }

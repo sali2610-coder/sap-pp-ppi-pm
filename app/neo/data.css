@@ -467,3 +467,354 @@ html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
   .nx-app .nxd-go { transition: none; opacity: 1; transform: none; }
   .nx-app .nxd-field { transition: none; }
 }
+
+/* ============================================================================
+   12. THE TRANSACTION DETAIL SCREEN — /neo/transactions/<CODE>/
+   ----------------------------------------------------------------------------
+   The list above answers "which one". This answers "what is it, and does it
+   survive S/4HANA". They share this sheet because they share the composition
+   language, but the detail screen is a different shape: one column of named
+   answers, with ONE block deliberately louder than everything else.
+
+   THE HIERARCHY, MADE VISIBLE (§T)
+     page        .nxt-code    display size, monospace, the T-Code itself
+     headline    .nxt-s4-h    the S/4 verdict — second largest thing on screen
+     section     .nxt-sec-h   .nx-h2 plus a module-coloured leading line
+     subsection  .nxt-sub     small caps-ish label, ink-2, no line
+     data label  .nxt-l       micro, tracked, ink-3 — metadata, never content
+     value       .nxt-v       body, ink-1 — content, never metadata
+   Five steps, each different in at least two of size / weight / colour, so the
+   level is readable without reading the words.
+
+   COLOUR
+     MODULE  the header bar, each plate's top rule, the module chip's ring, the
+             leading edge of a neighbour card. Line / edge / ring / tint only.
+     STATUS  every .nu-status — S/4 risk, trust, registry depth, and a table's
+             own S/4 disposition. Dot plus word, nothing else.
+     ACCENT  brand red appears on exactly one condition: [data-impacted="1"],
+             i.e. the transaction materially changes in S/4HANA. It is not a
+             module colour and not a status colour, which is what allows it to
+             be the loudest thing on the page without breaking the form rule.
+   ========================================================================== */
+
+.nx-app .nxt {
+  display: grid;
+  gap: var(--sp-6);
+  align-content: start;
+  max-inline-size: 78rem;
+  --m: var(--ink-3);
+}
+
+/* --------------------------------------------------------- 12.1 IDENTITY */
+
+.nx-app .nxt-head { display: grid; gap: var(--sp-2); }
+.nx-app .nxt-eyebrow { font-weight: 700; }
+
+.nx-app .nxt-title {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-3) var(--sp-4);
+  padding-block-start: var(--sp-1);
+}
+.nx-app .nxt-code {
+  font-family: var(--font-mono);
+  font-size: var(--t-display);
+  line-height: var(--t-display-lh);
+  letter-spacing: var(--t-display-tr);
+  font-weight: 700;
+  color: var(--ink-1);
+  direction: ltr;
+  unicode-bidi: isolate;
+  margin: 0;
+}
+.nx-app .nxt-names { display: grid; gap: 2px; min-inline-size: 0; }
+.nx-app .nxt-he { font-size: var(--t-h2); font-weight: 650; color: var(--ink-1); line-height: 1.4; }
+.nx-app .nxt-en {
+  font-size: var(--t-sm); color: var(--ink-3);
+  direction: ltr; unicode-bidi: isolate; text-align: start;
+}
+.nx-app .nxt-fav { flex: none; }
+
+.nx-app .nxt-meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3);
+  padding-block-start: var(--sp-1);
+}
+.nx-app .nxt-known {
+  font-family: var(--font-mono); font-size: var(--t-micro); color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+/* A module VALUE inside a chip: ring + tint + leading line, same as the list. */
+.nx-app .nxt-mod {
+  color: var(--m);
+  background: color-mix(in srgb, var(--m) 10%, transparent);
+  border-color: color-mix(in srgb, var(--m) 26%, transparent);
+}
+.nx-app .nxt-mod > i {
+  inline-size: 2px; block-size: .7rem; border-radius: 1px; flex: none;
+  background: var(--m);
+}
+
+/* ------------------------------------------------- 12.2 THE S/4HANA PLATE
+   §I, taken literally: where a transaction materially changes in S/4, that is
+   the most noticeable thing on the page. It is full width, it sits above every
+   other section, its verdict is set at h1 scale, and when it is impacted it
+   carries the brand accent on its inline-start edge plus a wash. */
+
+.nx-app .nxt-s4 {
+  display: grid;
+  gap: var(--sp-4);
+  padding: var(--sp-6);
+  border: 1px solid var(--c-hair);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--elev-1);
+}
+/* MODULE AS LINE — the plate's top rule. */
+.nx-app .nxt-s4::before {
+  content: '';
+  position: absolute; inset-block-start: 0; inset-inline: 0;
+  block-size: 3px;
+  background: linear-gradient(to inline-end, var(--m), color-mix(in srgb, var(--m) 10%, transparent));
+}
+/* ACCENT — reserved for "this changes in S/4HANA", and for nothing else. */
+.nx-app .nxt-s4[data-impacted="1"] {
+  border-color: color-mix(in srgb, var(--brand) 34%, var(--c-hair));
+  background:
+    linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 5%, transparent), transparent 42%),
+    var(--surface);
+  box-shadow: var(--elev-2), inset 4px 0 0 0 var(--brand);
+}
+[dir="ltr"] .nx-app .nxt-s4[data-impacted="1"] { box-shadow: var(--elev-2), inset -4px 0 0 0 var(--brand); }
+
+.nx-app .nxt-s4-top { display: grid; gap: var(--sp-2); }
+.nx-app .nxt-s4-h {
+  font-size: var(--t-h1); line-height: var(--t-h1-lh); letter-spacing: var(--t-h1-tr);
+  font-weight: 750; color: var(--ink-1); margin: 0;
+}
+.nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: var(--brand-dark); }
+html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: var(--ink-1); }
+.nx-app .nxt-s4-st { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4); }
+.nx-app .nxt-s4-st .nu-status { font-size: var(--t-xs); }
+
+.nx-app .nxt-s4-succ {
+  display: grid; gap: var(--sp-2); justify-items: start;
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+}
+.nx-app .nxt-succ-list { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.nx-app .nxt-succ { font-family: var(--font-mono); font-size: var(--t-sm); }
+.nx-app .nxt-s4-why { font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he); }
+.nx-app .nxt-s4-why .nx-sap { font-family: var(--font-mono); }
+
+.nx-app .nxt-s4-facts { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+.nx-app .nxt-s4-warn {
+  font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-sm);
+  border: 1px dashed var(--c-hair);
+}
+.nx-app .nxt-fiori { display: inline-flex; align-items: center; gap: var(--sp-2); }
+.nx-app .nxt-fiori > svg { color: var(--ink-3); flex: none; }
+
+/* -------------------------------------------------------- 12.3 SECTIONS */
+
+.nx-app .nxt-sec { display: grid; gap: var(--sp-3); }
+.nx-app .nxt-sec-h {
+  display: flex; align-items: center; gap: var(--sp-2);
+  color: var(--ink-1);
+  padding-block-end: var(--sp-2);
+  border-block-end: 1px solid var(--c-hair);
+}
+.nx-app .nxt-sec-i {
+  inline-size: 1.75rem; block-size: 1.75rem; flex: none;
+  display: inline-grid; place-items: center;
+  border-radius: var(--r-sm);
+  color: var(--m);
+  background: color-mix(in srgb, var(--m) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 20%, transparent);
+}
+.nx-app .nxt-sec-n {
+  margin-inline-start: auto;
+  font-style: normal; font-family: var(--font-mono); font-size: var(--t-micro);
+  font-weight: 500; color: var(--ink-3);
+  direction: ltr; unicode-bidi: isolate;
+}
+.nx-app .nxt-sub {
+  font-size: var(--t-xs); font-weight: 700; color: var(--ink-2);
+  letter-spacing: .02em;
+  padding-block-start: var(--sp-2);
+}
+.nx-app .nxt-block { display: grid; gap: var(--sp-2); }
+
+/* ----------------------------------------------------- 12.4 NAMED FACTS */
+
+.nx-app .nxt-grid { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.nx-app .nxt-fact { display: grid; gap: 4px; align-content: start; min-inline-size: 0; }
+.nx-app .nxt-l {
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
+  color: var(--ink-3); line-height: 1.4;
+}
+.nx-app .nxt-v {
+  font-size: var(--t-body); color: var(--ink-1); line-height: var(--lh-he);
+  margin: 0; min-inline-size: 0;
+}
+.nx-app .nxt-absent { font-size: var(--t-xs); color: var(--ink-3); line-height: var(--lh-he); }
+
+.nx-app .nxt-ul, .nx-app .nxt-ol {
+  display: grid; gap: 4px;
+  font-size: var(--t-sm); color: var(--ink-2); line-height: var(--lh-he);
+  padding-inline-start: var(--sp-4);
+}
+.nx-app .nxt-ul { list-style: disc; }
+.nx-app .nxt-ol { list-style: decimal; }
+.nx-app .nxt-ol li::marker { font-family: var(--font-mono); color: var(--ink-3); }
+
+.nx-app .nxt-codes { display: flex; flex-wrap: wrap; gap: 4px; }
+.nx-app .nxt-inline-i { color: var(--ink-3); }
+.nx-app .nxt-two { display: grid; gap: var(--sp-5); grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+
+/* --------------------------------------------------- 12.5 TABLE RESULTS */
+
+.nx-app .nxt-tbl { display: grid; gap: var(--sp-2); }
+.nx-app .nxt-tbl-r {
+  display: grid;
+  grid-template-columns: minmax(6rem, auto) minmax(0, 1fr) auto;
+  grid-template-areas: "n he s" "note note note";
+  align-items: center;
+  gap: 4px var(--sp-3);
+  padding: var(--sp-3);
+  border-radius: var(--r-md);
+}
+.nx-app .nxt-tbl-n {
+  grid-area: n;
+  font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 700;
+  color: var(--ink-1); direction: ltr; unicode-bidi: isolate;
+}
+.nx-app .nxt-tbl-he {
+  grid-area: he; font-size: var(--t-xs); color: var(--ink-2);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.nx-app .nxt-tbl-s { grid-area: s; }
+.nx-app .nxt-tbl-note {
+  grid-area: note; font-size: var(--t-micro); color: var(--ink-3); line-height: 1.5;
+  overflow: hidden; text-overflow: ellipsis;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+
+/* ------------------------------------------------------ 12.6 NEIGHBOURS */
+
+.nx-app .nxt-near {
+  display: grid; gap: var(--sp-2);
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}
+.nx-app .nxt-near-c {
+  position: relative; overflow: hidden;
+  display: grid; gap: 4px; align-content: start;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  block-size: 100%;
+}
+/* MODULE AS EDGE — the spine of the card, never a dot. */
+.nx-app .nxt-near-e {
+  position: absolute; inset-block: 0; inset-inline-start: 0;
+  inline-size: 3px; background: var(--m); opacity: .85;
+}
+.nx-app .nxt-near-c1 { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
+.nx-app .nxt-near-c1 > b {
+  font-family: var(--font-mono); font-size: var(--t-sm); font-weight: 700; color: var(--ink-1);
+  direction: ltr; unicode-bidi: isolate;
+}
+.nx-app .nxt-near-he {
+  font-size: var(--t-xs); color: var(--ink-2); line-height: 1.45;
+  overflow: hidden; text-overflow: ellipsis;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+}
+.nx-app .nxt-near-r { font-size: var(--t-micro); color: var(--ink-3); }
+
+/* ---------------------------------------------------------- 12.7 ISSUES */
+
+.nx-app .nxt-iss { display: grid; gap: var(--sp-2); }
+.nx-app .nxt-iss-i {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  grid-template-areas: "k t" ". d";
+  gap: 2px var(--sp-3);
+  padding: var(--sp-3);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+}
+.nx-app .nxt-iss-k {
+  grid-area: k; font-size: var(--t-micro); font-weight: 700; color: var(--ink-3);
+}
+.nx-app .nxt-iss-t { grid-area: t; font-size: var(--t-sm); color: var(--ink-1); line-height: var(--lh-he); }
+.nx-app .nxt-iss-d { grid-area: d; font-size: var(--t-xs); color: var(--ink-3); line-height: var(--lh-he); }
+
+/* ----------------------------------------------------------- 12.8 FOOTER */
+
+.nx-app .nxt-foot {
+  display: grid; gap: var(--sp-2);
+  font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he);
+  padding-block-start: var(--sp-4);
+  border-block-start: 1px solid var(--c-hair);
+}
+.nx-app .nxt-src { display: flex; align-items: flex-start; gap: var(--sp-2); }
+.nx-app .nxt-src > svg { flex: none; margin-block-start: 2px; }
+
+/* ------------------------------------------------- 12.9 RESPONSIVE 390→ */
+
+@media (max-width: 900px) {
+  .nx-app .nxt { gap: var(--sp-5); }
+  .nx-app .nxt-title { grid-template-columns: minmax(0, 1fr); }
+  .nx-app .nxt-fav { justify-self: start; }
+  .nx-app .nxt-s4 { padding: var(--sp-4); }
+  .nx-app .nxt-tbl-r {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "n s" "he he" "note note";
+  }
+  .nx-app .nxt-tbl-he { white-space: normal; }
+  .nx-app .nxt-iss-i { grid-template-columns: minmax(0, 1fr); grid-template-areas: "k" "t" "d"; }
+}
+
+@media (max-width: 720px) {
+  .nx-app .nxt-code { font-size: var(--t-h1); }
+  .nx-app .nxt-he { font-size: var(--t-body); }
+  .nx-app .nxt-s4-h { font-size: var(--t-h2); }
+  .nx-app .nxt-fav { min-block-size: var(--c-tap); inline-size: 100%; }
+  .nx-app .nxt-near { grid-template-columns: minmax(0, 1fr); }
+  .nx-app .nxt-near-c { min-block-size: var(--c-tap); }
+  .nx-app .nxt-tbl-r { min-block-size: var(--c-tap); }
+}
+
+@media (min-width: 2200px) {
+  .nx-app .nxt { max-inline-size: 104rem; }
+  .nx-app .nxt-near { grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); }
+}
+
+/* --------------------------------------------------------------- 12.10 DARK */
+
+html[data-theme="dark"] .nx-app .nxt-s4 { background: var(--surface-2); }
+html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] {
+  background:
+    linear-gradient(to inline-start, color-mix(in srgb, var(--brand) 12%, transparent), transparent 42%),
+    var(--surface-2);
+}
+html[data-theme="dark"] .nx-app .nxt-s4-succ { background: color-mix(in srgb, var(--ink-1) 6%, var(--surface)); }
+html[data-theme="dark"] .nx-app .nxt-iss-i { background: color-mix(in srgb, var(--ink-1) 5%, var(--surface)); }
+html[data-theme="dark"] .nx-app .nxt-mod { background: color-mix(in srgb, var(--m) 14%, transparent); }
+html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
+
+/* A related table with no generated object page. Same information as the linked
+   row, but deliberately inert: no pointer, no hover lift, no focus ring — the
+   form itself says "this is a value, not a destination". */
+.nxd .nxt-tbl-r.is-flat,
+.nxt-tbl-r.is-flat {
+  cursor: default;
+  background: var(--surface-2);
+  border: 1px dashed var(--hairline);
+  border-radius: 1rem;
+}
+.nxt-tbl-r.is-flat:hover { transform: none; box-shadow: none; border-color: var(--hairline); }

@@ -1,0 +1,72 @@
+/* ============================================================================
+   PROJECT NEO · SMART RETURN — presentation.
+   ----------------------------------------------------------------------------
+   Lives beside the component and is imported BY the component, so any surface
+   that adopts <SmartReturn/> gets the styling with it and none has to remember
+   to add a stylesheet. It is anchored on .nx-app like every other NEO rule, so
+   it can never leak into the production pages outside the shell.
+
+   It does not restyle a .nu-* control. app/neo/ui.css owns .nu-link's four
+   states, its colour and its focus ring; everything below is placement plus one
+   thing ui.css deliberately has no opinion about — an arrow that points BACK
+   instead of forward, which is why it is a private element (.nxr-a) and not
+   ui.css's own .nu-arw.
+   ========================================================================== */
+
+.nx-app .nxr {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  min-inline-size: 0;
+}
+
+/* The link itself is a .nu-link. Only its inner geometry is set here. */
+.nx-app .nxr-link {
+  max-inline-size: 100%;
+  min-inline-size: 0;
+  justify-content: flex-start;
+  text-align: start;
+}
+
+/* BACK, not forward. In RTL the earlier page lies toward the inline END, so the
+   arrow points that way and travels that way on hover. The mirrored rule for
+   LTR is one of the two places direction genuinely reverses. */
+.nx-app .nxr-a {
+  flex: none;
+  transform: translateX(0);
+  transition: transform var(--dur-fast) var(--ease-out-expo);
+}
+.nx-app .nxr-link:hover .nxr-a { transform: translateX(3px); }
+[dir="ltr"] .nx-app .nxr-link:hover .nxr-a { transform: translateX(-3px); }
+
+/* The words. The label can be long ("PM · פקודות אחזקה"), so it truncates
+   rather than pushing the rest of the header off screen — and the full text
+   stays available as the accessible name. */
+.nx-app .nxr-t {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-inline-size: 0;
+}
+
+/* A quiet note that the return is a guess, not a memory. Rendered only when
+   there is no origin AND the caller asked for it. */
+.nx-app .nxr-hint {
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  /* Phone: the return is the first thing under the header and gets a full-width
+     target of its own rather than sharing a line with anything else. */
+  .nx-app .nxr { inline-size: 100%; }
+  .nx-app .nxr-link { min-block-size: var(--c-tap); }
+  .nx-app .nxr-hint { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nx-app .nxr-a { transition: none; }
+  .nx-app .nxr-link:hover .nxr-a,
+  [dir="ltr"] .nx-app .nxr-link:hover .nxr-a { transform: none; }
+}

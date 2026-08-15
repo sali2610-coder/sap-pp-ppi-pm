@@ -5,18 +5,21 @@
 // controls unstyled.
 import "@/app/neo/ui.css";
 import "@/app/neo/erd.css";
-import { erdPayload } from "@/components/neo-shell/erd/erd-data";
+import { erdCatalog } from "@/components/neo-shell/erd/erd-catalog";
 import { ErdWorkspace } from "@/components/neo-shell/erd/erd-workspace";
 
 export const metadata = {
   title: "מודל הנתונים · Project NEO",
-  description: "תרשים ER אינטראקטיבי של מילון הטבלאות — PM ו־PP-PI, קשרים אמיתיים וניסוחי JOIN מקוריים.",
+  description:
+    "תרשים ER אינטראקטיבי של מודל הנתונים הארגוני — 13 מודולי SAP, קשרים אמיתיים, עוצמות מקוריות וניסוחי JOIN מהמילון.",
   robots: { index: false, follow: false },
 };
 
-// Server component. erdPayload() reads the SAP datasets and solves the dagre
-// layout at BUILD time; the workspace receives finished coordinates and owns
-// interaction only. Static export — no server runtime, no client layout engine.
+// Server component. erdCatalog() reads public/sap-infrastructure/dataset.json
+// plus the curated ERD membership in app/sap-infrastructure/meta.ts (read-only)
+// and solves every dagre layout at BUILD time; the workspace receives finished
+// coordinates and owns interaction only. Static export — no server runtime, no
+// client layout engine.
 export default function NeoErd() {
-  return <ErdWorkspace data={erdPayload()} />;
+  return <ErdWorkspace data={erdCatalog()} />;
 }

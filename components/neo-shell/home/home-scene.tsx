@@ -28,7 +28,10 @@
 //      slots, so a line is always a short run between two named things.
 //   5. STRUCTURAL RULES PERSIST. The spine and the plinth (.nh-rule) are shared
 //      by two formations each, so the eye keeps a fixed reference across the
-//      change instead of re-reading a fresh composition.
+//      change instead of re-reading a fresh composition. Their offsets are
+//      written here in px from formations.RULE and from the same usable height
+//      the dots are placed in, so the hairline and the row standing on it are
+//      one number rather than two that hope to agree.
 //   6. HANDOFF: where a section renders the very tables the field is holding,
 //      the dots fly to those elements, light them, and fade into them. When the
 //      next section starts, those dots are snapped back onto the (re-measured)
@@ -52,7 +55,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef } from "react";
 import { ArrowUpLeft } from "lucide-react";
 import {
-  DOCK, HANDOFF, LENS_GROW, LENS_PUSH, LENS_R,
+  DOCK, HANDOFF, LENS_GROW, LENS_PUSH, LENS_R, RULE,
   captions, edgeVisible, place, prepare, tally, topicSlots, wave,
   type Env, type Prep,
 } from "./formations";
@@ -116,6 +119,7 @@ export function HomeScene({
     const el = root.current;
     if (!el) return;
     const field = el.querySelector<HTMLElement>("[data-nh-field]");
+    const grid = el.querySelector<HTMLElement>(".nh-grid");
     const lens = el.querySelector<HTMLElement>("[data-nh-lens]");
     const readEl = read.current;
     if (!field) return;
@@ -145,6 +149,11 @@ export function HomeScene({
     // instead of measuring, so a pointer move never touches layout.
     const pos: { x: number; y: number; s: number }[] = nodes.map(() => ({ x: 0, y: 0, s: 1 }));
     let W = 0; let H = 0; let sec = -1;
+    /** Canvas the two module cards have taken away from the field, on the
+     *  inline-end and block-end edges. Measured from the cards themselves
+     *  before a single dot is placed, so no formation can end up half-hidden
+     *  behind them at any breakpoint. */
+    let far = 0; let foot = 0;
     let lensed = new Set<number>();
     /** element index -> the table name it was handed to, and in which section. */
     let handed = new Map<number, string>();
@@ -156,7 +165,7 @@ export function HomeScene({
     const tx = (x: number) => (rtl ? -x : x);
 
     const env = (): Env => ({
-      W, H, maxF: data.maxFields, maxCov, maxTopic,
+      W, H, far, foot, maxF: data.maxFields, maxCov, maxTopic,
       all: preps, topics, counts,
     });
 
@@ -187,9 +196,99 @@ export function HomeScene({
       }
     };
 
-    const paint = (k: number, instant: boolean) => {
-      const e = env();
+    /* ---- the two module bodies ---------------------------------------------
+       Laid out FIRST, and their footprint handed to the formations as far/foot.
+       The pair is the one thing on this page that is present in every section,
+       so it is the pair that defines how much canvas a formation actually has;
+       doing it the other way round is what let a family head disappear behind a
+       card. Returns nothing — it writes `far` and `foot` for env(). */
+    const layoutBodies = (k: number, instant: boolean) => {
       const dock = W < DOCK;
+      const reg = REGISTER[Math.min(Math.max(k, 0), REGISTER.length - 1)];
+      // Register M and D both live in the CONTEXT GUTTER the sections reserve on
+      // the far edge, so the pair never lands on top of the content it is meant
+      // to accompany. The two registers differ in mass and in what they say,
+      // not in where they are — that is what makes the transformation legible.
+      const sizes = bodies.map((b, i) => {
+        const mass = 0.9 + data.modules[i].share * 0.34;
+        return { w: b.offsetWidth, h: b.offsetHeight, mass };
+      });
+      let gutterY = H * (reg === "m" ? 0.14 : 0.12);
+      // Register L is a STACK on the far edge, fitted to the canvas: the two
+      // hero cards can therefore never overlap each other or the field, and the
+      // corridor formations.corridor() reserves for the membership blocks is the
+      // same corridor the cards leave free. One geometry, two files.
+      const stackH = sizes.reduce((a, z) => a + z.h * z.mass, 0) + 16;
+      const stackW = Math.max(...sizes.map((z) => z.w * z.mass));
+      const lk = Math.min(1.02, (H * 0.88) / stackH, (W * 0.28) / stackW);
+      let heroY = Math.max(10, (H - stackH * lk) / 2);
+      // Narrow canvases have no gutter, so the pair becomes a small dock in the
+      // block-end / inline-end corner: the reading edge (inline start, the right
+      // in Hebrew) is the one thing it must never sit on.
+      const dockS = (i: number) => sizes[i].mass * (reg === "l" || reg === "m" ? 0.34 : 0.26);
+      const dockW = sizes.reduce((a, z, i) => a + z.w * dockS(i), 0) + 10;
+      let minX = W; let minY = H;
+      bodies.forEach((b, i) => {
+        const r = reg === "l" && dock ? "m" : reg;
+        b.dataset.r = r;
+        // Mass is real: PP-PI documents more tables than PM, so its body is
+        // bigger. The number on the card and the size of the card agree.
+        const { w: bw0, h: bh0, mass } = sizes[i];
+        let x: number; let y: number; let s: number;
+        if (r === "l") {
+          s = mass * lk;
+          x = W - bw0 * s - Math.max(12, W * 0.018);
+          y = heroY;
+          heroY += bh0 * s + 16;
+        } else if (dock) {
+          s = dockS(i);
+          x = W - dockW - 12 + (i === 0 ? 0 : sizes[0].w * dockS(0) + 10);
+          y = H - bh0 * s - 12;
+        } else {
+          s = mass * (r === "m" ? 0.55 : 0.34);
+          x = W - bw0 * s - 16;
+          y = gutterY;
+          gutterY += bh0 * s + 14;
+        }
+        // Clamped inside the canvas, so no register at any breakpoint can push
+        // the page into a horizontal scroll — the one failure mode a free
+        // floating layer invites.
+        const bw = bw0 * s; const bh = bh0 * s;
+        x = Math.min(Math.max(x, 8), Math.max(8, W - bw - 8));
+        y = Math.min(Math.max(y, 8), Math.max(8, H - bh - 8));
+        minX = Math.min(minX, x);
+        minY = Math.min(minY, y);
+        if (instant) b.style.transitionDuration = "0ms";
+        b.style.setProperty("translate", `${tx(x).toFixed(1)}px ${y.toFixed(1)}px`);
+        b.style.setProperty("scale", s.toFixed(3));
+      });
+      if (instant) {
+        requestAnimationFrame(() => bodies.forEach((b) => { b.style.transitionDuration = ""; }));
+      }
+      // A gutter pair takes width off the inline end; a corner dock takes height
+      // off the block end. Both are capped, so a very small canvas can never
+      // squeeze the field out of existence — it just gets tighter.
+      if (dock && reg !== "l") {
+        far = 0;
+        foot = Math.min(H - minY + 10, H * 0.24);
+      } else {
+        far = Math.min(W - minX + 10, W * 0.32);
+        foot = 0;
+      }
+      // The structural rules are the lines the formations literally stand on, so
+      // they are written from the SAME numbers rather than from a percentage in
+      // the stylesheet that could drift away from them.
+      const v = H - foot;
+      el.style.setProperty("--nh-far", `${Math.round(far)}px`);
+      el.style.setProperty("--nh-spine", `${Math.round(v * RULE.spine)}px`);
+      el.style.setProperty("--nh-rail", `${Math.round(v * RULE.rail)}px`);
+      el.style.setProperty("--nh-base", `${Math.round(v * RULE.base)}px`);
+      el.style.setProperty("--nh-plinth", `${Math.round(v * RULE.plinth)}px`);
+    };
+
+    const paint = (k: number, instant: boolean) => {
+      layoutBodies(k, instant);
+      const e = env();
 
       /* FLIP · the dots this page handed to the previous section's content are
          invisible and parked at a stale position. Snap them back onto the very
@@ -277,65 +376,6 @@ export function HomeScene({
         if (em.textContent !== c.s) em.textContent = c.s;
       }
 
-      const reg = REGISTER[Math.min(Math.max(k, 0), REGISTER.length - 1)];
-      // Register M and D both live in the CONTEXT GUTTER the sections reserve on
-      // the far edge, so the pair never lands on top of the content it is meant
-      // to accompany. The two registers differ in mass and in what they say,
-      // not in where they are — that is what makes the transformation legible.
-      const sizes = bodies.map((b, i) => {
-        const mass = 0.9 + data.modules[i].share * 0.34;
-        return { w: b.offsetWidth, h: b.offsetHeight, mass };
-      });
-      let gutterY = H * (reg === "m" ? 0.14 : 0.12);
-      // Register L is a STACK on the far edge, fitted to the canvas: the two
-      // hero cards can therefore never overlap each other or the field, and the
-      // corridor formations.corridor() reserves for the membership blocks is the
-      // same corridor the cards leave free. One geometry, two files.
-      const stackH = sizes.reduce((a, z) => a + z.h * z.mass, 0) + 16;
-      const stackW = Math.max(...sizes.map((z) => z.w * z.mass));
-      const lk = Math.min(1.02, (H * 0.88) / stackH, (W * 0.28) / stackW);
-      let heroY = Math.max(10, (H - stackH * lk) / 2);
-      // Narrow canvases have no gutter, so the pair becomes a small dock in the
-      // block-end / inline-end corner: the reading edge (inline start, the right
-      // in Hebrew) is the one thing it must never sit on.
-      const dockS = (i: number) => sizes[i].mass * (reg === "l" || reg === "m" ? 0.34 : 0.26);
-      const dockW = sizes.reduce((a, z, i) => a + z.w * dockS(i), 0) + 10;
-      bodies.forEach((b, i) => {
-        const r = reg === "l" && dock ? "m" : reg;
-        b.dataset.r = r;
-        // Mass is real: PP-PI documents more tables than PM, so its body is
-        // bigger. The number on the card and the size of the card agree.
-        const { w: bw0, h: bh0, mass } = sizes[i];
-        let x: number; let y: number; let s: number;
-        if (r === "l") {
-          s = mass * lk;
-          x = W - bw0 * s - Math.max(12, W * 0.018);
-          y = heroY;
-          heroY += bh0 * s + 16;
-        } else if (dock) {
-          s = dockS(i);
-          x = W - dockW - 12 + (i === 0 ? 0 : sizes[0].w * dockS(0) + 10);
-          y = H - bh0 * s - 12;
-        } else {
-          s = mass * (r === "m" ? 0.55 : 0.34);
-          x = W - bw0 * s - 16;
-          y = gutterY;
-          gutterY += bh0 * s + 14;
-        }
-        // Clamped inside the canvas, so no register at any breakpoint can push
-        // the page into a horizontal scroll — the one failure mode a free
-        // floating layer invites.
-        const bw = bw0 * s; const bh = bh0 * s;
-        x = Math.min(Math.max(x, 8), Math.max(8, W - bw - 8));
-        y = Math.min(Math.max(y, 8), Math.max(8, H - bh - 8));
-        if (instant) b.style.transitionDuration = "0ms";
-        b.style.setProperty("translate", `${tx(x).toFixed(1)}px ${y.toFixed(1)}px`);
-        b.style.setProperty("scale", s.toFixed(3));
-      });
-      if (instant) {
-        requestAnimationFrame(() => bodies.forEach((b) => { b.style.transitionDuration = ""; }));
-      }
-
       /* HANDOFF · where this section renders the very tables the field is
          holding, the dots go and sit on them, light them, and fade into them.
          This is the beat the whole page is built around: a group of data
@@ -375,12 +415,20 @@ export function HomeScene({
 
     // The sticky layers are sized from the SCROLLER, not from themselves: their
     // own height is driven by --nh-vh, so measuring them would be circular.
+    /** Where each section starts. Cached, because reading offsetTop from the
+     *  scroll handler is a forced layout on every single scroll frame — the one
+     *  thing a scroll-reading page must never do. Refreshed only when the
+     *  geometry can actually have changed. */
+    let tops = secEls.map(() => 0);
+    const remeasureTops = () => { tops = secEls.map((s) => s.offsetTop); };
+
     const measure = (force: boolean) => {
       const w = scroller.clientWidth; const h = scroller.clientHeight;
       if (!w || !h) return;
       el.style.setProperty("--nh-vh", `${h}px`);
       if (!force && w === W && h === H) return;
       W = w; H = h;
+      remeasureTops();
       paint(Math.max(0, sec), true);
     };
 
@@ -388,10 +436,14 @@ export function HomeScene({
     let queued = false;
     const sync = () => {
       queued = false;
-      const probe = scroller.scrollTop + scroller.clientHeight * 0.42;
+      const top = scroller.scrollTop;
+      const probe = top + H * 0.42;
       let k = 0;
-      secEls.forEach((s, i) => { if (probe >= s.offsetTop) k = i; });
-      el.style.setProperty("--nh-sy", String(Math.round(scroller.scrollTop)));
+      for (let i = 0; i < tops.length; i += 1) if (probe >= tops[i]) k = i;
+      // The scroll drift is written on the ONE element that reads it. Written on
+      // .nh it would invalidate the custom properties of the whole subtree —
+      // 105 dots included — on every frame of every scroll.
+      if (grid && !calm.matches) grid.style.setProperty("--nh-sy", String(Math.round(top)));
       if (k === sec) return;
       sec = k;
       el.dataset.sec = String(k);
@@ -412,6 +464,9 @@ export function HomeScene({
       secEls.forEach((s) => { s.dataset.pre = "1"; });
       io = new IntersectionObserver((entries) => {
         for (const e of entries) if (e.isIntersecting) (e.target as HTMLElement).dataset.in = "1";
+        // The observer only ever fires when layout has settled, which makes it
+        // the one free place to keep the cached section offsets honest.
+        remeasureTops();
       }, { root: scroller === document.documentElement ? null : scroller, rootMargin: "0px 0px -14% 0px", threshold: 0.06 });
       secEls.forEach((s) => io!.observe(s));
     }
@@ -563,6 +618,7 @@ export function HomeScene({
       W = scroller.clientWidth; H = scroller.clientHeight;
       if (!W || !H) { measure(true); sync(); el.dataset.ready = "1"; return; }
       el.style.setProperty("--nh-vh", `${H}px`);
+      remeasureTops();
       paint(-1, true);
       requestAnimationFrame(() => {
         el.dataset.ready = "1";

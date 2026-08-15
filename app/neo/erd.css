@@ -49,9 +49,45 @@ html .nx-app .nx-canvas:has(> .ne) {
   min-block-size: 0;
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr) auto;
+  /* minmax(0, 1fr), never a bare implicit column. The module strip is a
+     nowrap flex row of 14 chips; an `auto` grid column takes its min-content
+     and the whole workspace inherits ~1400px of intrinsic width, which is
+     exactly how an instrument like this blows a 390px screen apart. */
+  grid-template-columns: minmax(0, 1fr);
   container-type: inline-size;
   container-name: ne;
   background: var(--background);
+
+  /* --- THE EIGHT MISSING MODULE TOKENS ------------------------------------
+     app/globals.css declares ten --mod-* values, five of which this route uses
+     (pm · pppi · pp · mm · qm). The real data model has thirteen business
+     modules, so the remaining eight are declared HERE, scoped to .ne, and
+     globals is not touched. Same discipline as the tokens above them: a module
+     hue is never brand red, never a status hue's form, and every value clears
+     4.5:1 against --surface in this theme. Hues are spread around the wheel so
+     that no two modules that share a picture sit within 15 degrees. */
+  --mod-sd: #c2410c;      /* orange 21°  */
+  --mod-batch: #a16207;   /* yellow 41°  */
+  --mod-cs: #15803d;      /* green 142°  */
+  --mod-class: #0369a1;   /* sky 202°    */
+  --mod-pipo: #4338ca;    /* indigo 244° */
+  --mod-fi: #6d28d9;      /* violet 263° */
+  --mod-co: #86198f;      /* fuchsia 295°*/
+  --mod-idoc: #52525b;    /* neutral — the integration layer carries no hue    */
+}
+
+/* Dark is not the light ramp lightened: on a near-black ground a mid-tone hue
+   goes muddy, so each rises to its bright end. All >= 10:1 against --surface,
+   and none collides with the dark values globals gives pm/pppi/pp/mm/qm. */
+html[data-theme="dark"] .ne {
+  --mod-sd: #fdba74;
+  --mod-batch: #fcd34d;
+  --mod-cs: #86efac;
+  --mod-class: #38bdf8;
+  --mod-pipo: #a5b4fc;
+  --mod-fi: #d8b4fe;
+  --mod-co: #f5d0fe;
+  --mod-idoc: #d4d4d8;
 }
 
 /* ==========================================================================
@@ -182,17 +218,52 @@ html .nx-app .nx-canvas:has(> .ne) {
   background: repeating-linear-gradient(to right, var(--ink-3) 0 4px, transparent 4px 8px);
 }
 
+/* --- the ladder ----------------------------------------------------------
+   סקירה › מודול › נושא/אובייקט › טבלה. The crumb is the only place the level
+   is named, so the reader always knows which of the four pictures they are in
+   and can step back to any of them in one click. */
+.ne-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; font-size: var(--t-micro); color: var(--ink-3); }
+.ne-crumbs > span { display: inline-flex; align-items: center; gap: 4px; }
+.ne-crumbs svg { color: var(--ink-3); flex: none; }
+.ne-crumb {
+  min-block-size: 1.5rem !important;
+  padding-inline: 5px !important;
+  font-size: var(--t-micro);
+  border-radius: var(--r-xs);
+}
+.ne-crumbs b { font-weight: 600; color: var(--ink-2); }
+.ne-crumbs .ne-crumb-now { color: var(--ink-1); font-weight: 700; }
+
+/* The module strip is long by design — 13 modules — so it scrolls on its own
+   axis instead of pushing the rest of the bar off screen. */
+.ne-fmods, .ne-fgroups {
+  flex: 1 1 22rem;
+  min-inline-size: 0;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+  padding-block-end: 2px;
+}
+.ne-fmods > *, .ne-fgroups > * { flex: none; }
+.ne-ftopic { max-inline-size: 15rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ne-fhint { font-size: var(--t-xs); color: var(--ink-3); line-height: var(--lh-he); }
+
 /* ==========================================================================
    BODY · STAGE + INSPECTOR
    ========================================================================== */
 
 .ne-body {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 23rem;
+  /* 26rem, not 23. A selected table's panel carries verbatim SAP prose, a field
+     table and a JOIN clause; at 23rem those were being shrunk to fit, which is
+     exactly what the brief forbids. */
+  grid-template-columns: minmax(0, 1fr) 26rem;
   min-block-size: 0;
 }
 .ne[data-insp="0"] .ne-body { grid-template-columns: minmax(0, 1fr); }
-@media (min-width: 2560px) { .ne-body { grid-template-columns: minmax(0, 1fr) 28rem; } }
+@media (min-width: 2000px) { .ne-body { grid-template-columns: minmax(0, 1fr) 30rem; } }
+@media (min-width: 2560px) { .ne-body { grid-template-columns: minmax(0, 1fr) 34rem; } }
 
 .ne-stage {
   position: relative;
@@ -300,31 +371,73 @@ html .nx-app .nx-canvas:has(> .ne) {
     stroke-width var(--dur-base) var(--ease-out-expo),
     fill var(--dur-base) var(--ease-out-expo);
 }
+/* OBJECT class marker. MODULE line on the inline-start edge — a line, per the
+   form rule, never a dot. */
 .ne-node-cls { fill: var(--o); }
+.ne-node-mb { fill: var(--m); }
 .ne-node-n {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
   fill: var(--ink-1);
   direction: ltr;
   dominant-baseline: middle;
 }
+.ne-node-he {
+  font-size: 11.5px;
+  fill: var(--ink-2);
+  dominant-baseline: middle;
+}
+.ne-node-mod {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  fill: color-mix(in srgb, var(--m) 72%, var(--ink-2));
+  direction: ltr;
+  dominant-baseline: middle;
+}
+.ne-node-z {
+  font-size: 10px;
+  fill: var(--ink-3);
+  dominant-baseline: middle;
+}
 .ne-node-k, .ne-node-fk {
   font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-size: 10.5px;
   fill: var(--ink-3);
   direction: ltr;
   dominant-baseline: middle;
 }
 .ne-node-k { fill: color-mix(in srgb, var(--ms) 62%, var(--ink-3)); font-weight: 600; }
-.ne-node-d {
+/* Documented by more than one module's ERD. A small marker, and it is NOT a
+   status: it sits on the card's own object-class colour, not a status hue. */
+.ne-node-sh { fill: var(--o); opacity: .8; }
+
+/* --- the module map node -------------------------------------------------- */
+.ne-mod-c {
   font-family: var(--font-mono);
-  font-size: 11px;
+  /* Sized for the ~65% the module map fits at, not for 100%: at 0.65 this is
+     21px on screen, which is where a module code stops being a rectangle. */
+  font-size: 32px;
   font-weight: 700;
-  fill: var(--ink-3);
+  fill: var(--ink-1);
   direction: ltr;
   dominant-baseline: middle;
 }
+.ne-mod-he { font-size: 16px; font-weight: 600; fill: var(--ink-1); dominant-baseline: middle; }
+.ne-mod-en { font-size: 12px; fill: var(--ink-3); direction: ltr; dominant-baseline: middle; }
+.ne-mod-n {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  fill: color-mix(in srgb, var(--m) 70%, var(--ink-1));
+  direction: ltr;
+  dominant-baseline: middle;
+}
+.ne-mod-l { font-size: 11.5px; fill: var(--ink-3); dominant-baseline: middle; }
+.ne-mod .ne-node-r { stroke-width: 2; }
+.ne-mod:hover .ne-node-r { stroke-width: 3.4; }
+.ne-mod:hover .ne-node-h { opacity: 1; }
 
 /* Open the real object page. Present only on the table you are looking at, so
    the map stays a map. */
@@ -345,7 +458,9 @@ html .nx-app .nx-canvas:has(> .ne) {
   fill: color-mix(in srgb, var(--ms) 17%, var(--surface));
   stroke-width: 3.6;
 }
-.ne-node[data-lvl="0"] .ne-node-n { font-size: 14px; }
+/* The selected table reads LARGER, not smaller. This rule was written when
+   the base name was 13px; the card now sets 16px, so it rises to 18. */
+.ne-node[data-lvl="0"] .ne-node-n { font-size: 18px; }
 .ne-node[data-lvl="1"] .ne-node-r { fill: color-mix(in srgb, var(--ms) 12%, var(--surface)); stroke-width: 2.8; }
 .ne-node[data-lvl="2"] { opacity: .82; }
 .ne-node[data-lvl="2"] .ne-node-r { stroke-width: 2; }
@@ -357,15 +472,15 @@ html .nx-app .nx-canvas:has(> .ne) {
 .ne[data-focus="1"] .ne-node[data-off="1"],
 .ne[data-focus="1"] .ne-node[data-lvl="x"] { opacity: 0; pointer-events: none; }
 
-/* "Start here": the busiest documented table, marked only while nothing is
-   selected. A ring, per the form rule — never a badge dot. */
-.ne-node[data-start="1"] .ne-node-h {
-  fill: none;
-  stroke: var(--ms);
-  stroke-width: 1.4;
-  stroke-dasharray: 5 6;
-  opacity: .75;
-}
+/* Outside the chosen topic or business object. Quieter than a filter, louder
+   than gone: it stays clickable, so narrowing never traps the reader. */
+.ne[data-group="1"] .ne-node[data-out="1"] { opacity: .26; }
+.ne[data-group="1"] .ne-edge[data-out="1"] { opacity: .12; }
+
+/* A change of PICTURE — a module opened, the scope widened — is a different set
+   of nodes, so it crossfades rather than pretending to be a move. */
+@keyframes ne-enter { from { opacity: 0; } to { opacity: 1; } }
+.ne-world { animation: ne-enter var(--dur-panel) var(--ease-out-expo) both; }
 
 /* ==========================================================================
    MINIMAP + HINT
@@ -424,12 +539,14 @@ html .nx-app .nx-canvas:has(> .ne) {
 .ne-insp {
   display: grid;
   grid-template-rows: minmax(0, 17rem) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  min-inline-size: 0;
   min-block-size: 0;
   border-inline-start: 1px solid var(--hairline);
   background: var(--surface);
 }
 
-.ne-find { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: var(--sp-2); padding: var(--sp-3); min-block-size: 0; }
+.ne-find { display: grid; grid-template-rows: auto minmax(0, 1fr); grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); padding: var(--sp-3); min-inline-size: 0; min-block-size: 0; }
 .ne-find-n { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); font-size: var(--t-micro); color: var(--ink-3); }
 .ne-find-n .nu-ghost { min-block-size: 1.75rem; font-size: var(--t-micro); }
 
@@ -471,6 +588,8 @@ html .nx-app .nx-canvas:has(> .ne) {
   overflow-y: auto;
   overscroll-behavior: contain;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-inline-size: 0;
   align-content: start;
   gap: var(--sp-4);
   padding: var(--sp-4);
@@ -677,12 +796,146 @@ html .nx-app .nx-canvas:has(> .ne) {
 .ne-lg-fk { border-inline-end: 2px solid var(--ink-3); border-block-end: 2px solid var(--ink-3); }
 
 /* ==========================================================================
+   PANEL DEPTH — the parts the 13-module model added
+   ========================================================================== */
+
+.ne-det-h small { grid-column: 1 / -1; font-size: var(--t-micro); color: var(--ink-3); direction: ltr; }
+.ne-det-modgo {
+  min-block-size: 1.6rem !important;
+  padding-inline: 4px !important;
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: var(--t-xs);
+  font-weight: 700;
+  color: var(--ink-1) !important;
+  justify-self: start;
+}
+
+/* A field list is reference material: it is set at --t-xs and never smaller,
+   and the moment it needs more room it hands off to the full card. */
+.ne-fields { inline-size: 100%; border-collapse: collapse; font-size: var(--t-xs); }
+.ne-fields th {
+  text-align: start;
+  font-size: var(--t-micro);
+  font-weight: 600;
+  color: var(--ink-3);
+  padding: 4px var(--sp-2);
+  border-block-end: 1px solid var(--hairline);
+}
+.ne-fields td {
+  padding: 5px var(--sp-2);
+  border-block-end: 1px solid var(--hairline);
+  color: var(--ink-2);
+  vertical-align: top;
+}
+.ne-fields tr:last-child td { border-block-end: 0; }
+.ne-fields td:first-child {
+  font-family: var(--font-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
+  color: var(--ink-1);
+  font-weight: 650;
+  white-space: nowrap;
+}
+.ne-fields td:last-child { inline-size: 1%; white-space: nowrap; }
+.ne-fields tr[data-k="PK"] td:first-child { color: var(--ink-1); }
+.ne-fields em { display: block; font-style: normal; font-size: var(--t-micro); color: var(--ink-3); direction: ltr; }
+.ne-fields .nu-chip[data-k="PK"] {
+  border-color: var(--o);
+  background: color-mix(in srgb, var(--o) 14%, var(--surface-2));
+  font-weight: 750;
+}
+.ne-fields .nu-chip[data-k="FK"] { border-style: dashed; }
+.ne-more { min-block-size: 2rem !important; font-size: var(--t-micro); justify-self: start; }
+
+.ne-s4 { font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he); }
+.ne-s4-alt { font-size: var(--t-micro); color: var(--ink-3); margin-block-start: 4px; }
+.ne-s4-alt b { font-family: var(--font-mono); direction: ltr; color: var(--ink-2); }
+
+.ne-flow { display: grid; gap: 4px; counter-reset: nef; }
+.ne-flow li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: var(--sp-2);
+  padding: 5px var(--sp-2);
+  border-radius: var(--r-xs);
+  background: var(--surface-2);
+  font-size: var(--t-xs);
+}
+.ne-flow li b { color: var(--ink-1); font-weight: 650; }
+.ne-flow li em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); direction: ltr; }
+
+.ne-modlist { display: grid; gap: 1px; }
+
+/* ==========================================================================
+   THE FULL TABLE CARD — "הרחב לקריאה", and the destination for a table with
+   no generated object page. Body-size type, three columns, one scroll.
+   ========================================================================== */
+
+.ne-card2 {
+  inline-size: min(72rem, 100%);
+  max-block-size: 88svh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  padding: 0;
+  overflow: hidden;
+  box-shadow: var(--elev-4);
+}
+.ne-c2-h { position: relative; display: grid; gap: 6px; padding: var(--sp-5) var(--sp-6); border-block-end: 1px solid var(--hairline); }
+.ne-c2-bar {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: 4px;
+  background: var(--m);
+}
+.ne-c2-id { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.ne-c2-id b { font-family: var(--font-mono); direction: ltr; font-size: var(--t-h1); font-weight: 700; color: var(--ink-1); }
+.ne-c2-h > p { font-size: var(--t-body); line-height: var(--lh-he); color: var(--ink-2); }
+.ne-c2-h > small { font-size: var(--t-xs); color: var(--ink-3); direction: ltr; }
+.ne-c2-act { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin-block-start: var(--sp-2); }
+.ne-c2-nopage { font-size: var(--t-xs); color: var(--ink-3); }
+.ne-c2-x { margin-inline-start: auto; inline-size: var(--c-tap, 2.75rem); min-block-size: var(--c-tap, 2.75rem); padding-inline: 0 !important; }
+
+.ne-c2-body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-5) var(--sp-6);
+  padding: var(--sp-5) var(--sp-6);
+  align-content: start;
+}
+.ne-c2-body > section { display: grid; gap: var(--sp-2); align-content: start; min-inline-size: 0; }
+.ne-c2-body h3 {
+  font-size: var(--t-micro);
+  font-weight: 600;
+  color: var(--ink-3);
+  margin-block-start: var(--sp-2);
+}
+.ne-c2-body > section > h3:first-child { margin-block-start: 0; }
+.ne-fields-big { font-size: var(--t-sm); }
+.ne-fields-big td { padding: 6px var(--sp-2); }
+
+@container ne (max-width: 900px) {
+  .ne-c2-body { grid-template-columns: 1fr; }
+  .ne-card2 { inline-size: 100%; max-block-size: 92svh; }
+}
+@media (max-width: 900px) {
+  .ne-c2-body { grid-template-columns: 1fr; }
+  .ne-card2 { inline-size: 100%; max-block-size: 92svh; }
+}
+
+/* ==========================================================================
    NARROW · the workspace becomes a scrolling page with a bounded stage
    ========================================================================== */
 
 @container ne (max-width: 900px) {
-  .ne { grid-template-rows: auto auto auto auto; block-size: auto; }
-  .ne-body { grid-template-columns: 1fr; }
+  /* NOTE: a container query cannot style its own container, so the .ne rules
+     that used to sit here never applied. They are in the viewport media query
+     below instead, which is the only place that can reach .ne itself. */
+  .ne-body { grid-template-columns: minmax(0, 1fr); }
   .ne-stage { block-size: 58svh; min-block-size: 20rem; }
   .ne-insp {
     grid-template-rows: auto auto;
@@ -698,6 +951,12 @@ html .nx-app .nx-canvas:has(> .ne) {
   .ne-bar-id { flex-basis: 100%; margin-inline-end: 0; }
   .ne-find-top { inline-size: 100%; }
   .ne-hint { display: none; }
+  /* The module strip is the primary control on a phone, so it gets the full
+     row rather than competing with the scope and relation groups. */
+  .ne-fmods, .ne-fgroups { flex-basis: 100%; }
+  .ne-filters { gap: var(--sp-2) var(--sp-3); }
+  /* 44px stays 44px whether or not the browser reports a coarse pointer. */
+  .ne-group .nu-ghost { inline-size: var(--c-tap, 2.75rem); min-block-size: var(--c-tap, 2.75rem); }
 }
 
 /* The canvas must scroll again once the workspace is a page rather than an
@@ -705,6 +964,10 @@ html .nx-app .nx-canvas:has(> .ne) {
    a container query cannot style an ancestor. */
 @media (max-width: 1100px) {
   html .nx-app .nx-canvas:has(> .ne) { overflow: auto; }
+  /* The container query above cannot reach .ne itself — these two declarations
+     are the ones it was trying to make, at the viewport equivalent of its
+     900px breakpoint plus the shell's rail. */
+  .ne { grid-template-rows: auto auto auto auto; block-size: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -13,9 +13,12 @@
 //   lib/tx-prefs         the product's real favourites and recently-viewed
 //                        lists — the same localStorage keys the live centre and
 //                        every /tcode page already read and write.
-//   /tcode/<CODE>/       the destination. Every row opens the real transaction
-//                        page: the full intelligence page when the code is
-//                        authored, the verified-breadth page otherwise.
+//   nav-context          the smart-return module. This surface both WRITES an
+//                        origin (on every row click) and READS one back (to
+//                        rebuild the exact view on return).
+// /neo/transactions/<CODE>/ is the destination — the NEO detail screen, one
+// generated page per code in the registry above. The production /tcode/ pages
+// are untouched and still serve the live Transaction Center.
 // This file imports those on the CLIENT, exactly as components/transaction-
 // workspace.tsx does, so the two centres share one chunk instead of shipping a
 // second copy of the registry inside an RSC payload.
@@ -26,13 +29,14 @@
 //   .nu-chip    a value — module, area, Fiori successor. Never clickable.
 //   .nu-status  dot + word. Used for one thing only: how deeply the registry
 //               documents the code, which is a real state of the record.
-//   .nu-card    the row, which opens /tcode/<CODE>/.
+//   .nu-card    the row, which opens /neo/transactions/<CODE>/.
+//   .nu-link    the contextual return at the top of the surface.
 //   .nu-ghost   the row's second action: favourite / unfavourite.
 //   .nu-btn2    show more results — a real action, replacing the dead
 //               "showing the first 300" note.
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   AppWindow, ArrowLeft, Clock, Flame, Layers, Search, SlidersHorizontal,
   Star, Terminal, X,
@@ -42,10 +46,40 @@ import { txPopularity, txMostPopular } from "@/lib/tx-intel";
 import { registryStats, txRegistry, type RegistryTx } from "@/lib/tx-registry";
 import { facetsOf, presentFacets } from "@/lib/tx-facets";
 import { toggleTxFavorite, useRecentTx, useTxFavorites } from "@/lib/tx-prefs";
+import { SmartReturn, consumeReturn, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
 import { MOD_HE, modVar } from "../mod-var";
 
 const nf = new Intl.NumberFormat("he-IL");
 const PAGE = 120;
+
+/* ------------------------------------------------------------ smart return
+   This surface is one of the two the smart-return module is wired into. It
+   plays both parts:
+
+   SENDING   every row records, at the moment it is clicked, which view the user
+             is leaving — the tab, the query, the three facets, how far they had
+             paged, where the canvas was scrolled and which code they opened.
+   RECEIVING on the render after a return it takes that packet back and rebuilds
+             the same list: same filters, same page depth, same row under the
+             cursor. Not "the transactions page" — THE view they left.
+
+   The state is read at CLICK time, not at render time, because the scroll
+   offset and the live query are only true at the moment of leaving. */
+
+const SURFACE = "neo:transactions";
+const txHref = (code: string) => `/neo/transactions/${encodeURIComponent(code)}/`;
+
+/** The NEO canvas is the scroller, not the window (see .nx-canvas in
+ *  app/globals.css), so a restored scroll offset has to be read from it. */
+const canvas = (): HTMLElement | null =>
+  typeof document === "undefined" ? null : document.getElementById("main");
+
+/** A type alias rather than an interface: only an alias picks up the implicit
+ *  index signature that lets it satisfy the module's OriginState contract. */
+type TxListState = {
+  view: string; q: string; mod: string; topic: string; obj: string;
+  fiori: boolean; more: boolean; limit: number; y: number; code: string;
+};
 
 type View = "all" | "popular" | "deep" | "fav" | "recent";
 
@@ -83,15 +117,23 @@ function fuzzyScore(hay: string, query: string): number {
 
 /* -------------------------------------------------------------------- row */
 
-function Row({ t, fav }: { t: RegistryTx; fav: boolean }) {
+function Row({ t, fav, onOpen }: { t: RegistryTx; fav: boolean; onOpen: (code: string) => void }) {
   const deep = t.depth === "deep";
   const intel = TX_INTEL[t.code];
   const fiori = intel?.fiori?.trim() || "";
   const pop = txPopularity(t.code);
   const f = facetsOf(t.code);
   return (
-    <li className="nxd-item" style={{ "--m": modVar(t.module) } as React.CSSProperties}>
-      <Link href={t.href} className="nu-card nxd-row nxd-row--tx" prefetch={false}>
+    <li className="nxd-item" data-code={t.code} style={{ "--m": modVar(t.module) } as React.CSSProperties}>
+      {/* The destination moved from the production /tcode/ page to the NEO
+          detail screen this change adds. Both exist; this surface belongs to
+          the NEO namespace and now stays inside it. */}
+      <Link
+        href={txHref(t.code)}
+        className="nu-card nxd-row nxd-row--tx"
+        prefetch={false}
+        onClick={() => onOpen(t.code)}
+      >
         <span className="nxd-mark" aria-hidden="true" />
 
         <span className="nxd-id">
@@ -201,6 +243,83 @@ export function TransactionsSurface() {
   const reset = () => { setQ(""); setMod(""); setTopic(""); setObj(""); setFiori(false); setLimit(PAGE); };
   const onView = (v: View) => { setView(v); setLimit(PAGE); };
 
+  /* ------------------------------------------------------- smart return */
+
+  // Recreated every render on purpose, and deliberately NOT memoised: it has to
+  // close over the values that are true right now, because "the view I left" is
+  // only knowable at the moment of leaving. One function per render, shared by
+  // every row, so there is nothing to save by freezing it.
+  const onOpen = (code: string) => {
+    // What to CALL this view in Hebrew. Only real, currently-applied narrowings
+    // are named — an unfiltered list says nothing extra rather than inventing a
+    // description of itself.
+    const parts = [
+      mod,
+      topic,
+      obj,
+      fiori ? "יש יורש Fiori" : "",
+      q.trim() ? `חיפוש «${q.trim()}»` : "",
+      view === "all" ? "" : VIEWS.find((v) => v.v === view)?.he || "",
+    ].filter(Boolean);
+    const state: TxListState = {
+      view, q, mod, topic, obj, fiori, more, limit,
+      y: canvas()?.scrollTop ?? 0,
+      code,
+    };
+    rememberOrigin({
+      to: txHref(code),
+      href: "/neo/transactions/",
+      label: "טרנזקציות",
+      detail: parts.join(" · "),
+      surface: SURFACE,
+      state,
+    });
+  };
+
+  // The other half. The packet arrives on the first client render after a
+  // return and is applied DURING that render — adjusting state to a changed
+  // external value, which is the one place React sanctions a set during render.
+  // Doing it in an effect instead would be a cascading render on a prerendered
+  // page, and the list would visibly rebuild itself in front of the reader.
+  // `seededAt` is state and not a ref, because the guard is part of what this
+  // component renders and a ref read during render is not.
+  const packet = useReturnPacket(SURFACE);
+  const [seededAt, setSeededAt] = useState(0);
+  const [back, setBack] = useState<TxListState | null>(null);
+  if (packet && packet.at !== seededAt) {
+    setSeededAt(packet.at);
+    const s = packet.state as TxListState;
+    setBack(s);
+    setView((VIEWS.some((v) => v.v === s.view) ? s.view : "all") as View);
+    setQ(s.q || "");
+    setMod(s.mod || "");
+    setTopic(s.topic || "");
+    setObj(s.obj || "");
+    setFiori(!!s.fiori);
+    setMore(!!s.more);
+    setLimit(Math.max(PAGE, Number(s.limit) || PAGE));
+  }
+  // Spend the packet. A write to an external store and nothing else.
+  useEffect(() => { if (packet) consumeReturn(SURFACE); }, [packet]);
+
+  // Restoring the viewport is a second step on purpose: the row can only be
+  // scrolled to once the restored `limit` has actually rendered it. The row
+  // wins over the raw offset — a list is not a canvas, and "where I was" means
+  // the record, not the pixel.
+  // `back` is set exactly once per return, so this effect runs exactly once —
+  // no guard flag is needed and none is kept.
+  useEffect(() => {
+    if (!back) return;
+    const id = requestAnimationFrame(() => {
+      const el = back.code
+        ? document.querySelector<HTMLElement>(`.nxd-item[data-code="${CSS.escape(back.code)}"]`)
+        : null;
+      if (el) el.scrollIntoView({ block: "center", behavior: "auto" });
+      else canvas()?.scrollTo({ top: Number(back.y) || 0, behavior: "auto" });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [back]);
+
   const surfaceMod = mod || undefined;
 
   const emptyCopy: Record<View, { t: string; h: string }> = {
@@ -208,7 +327,7 @@ export function TransactionsSurface() {
     popular: { t: "אין התאמה בין הנפוצות", h: "«נפוצות» נגזר מספירת ההפניות בתוך המאגר עצמו, לא מהערכה." },
     deep: { t: "אין התאמה בין המתועדות לעומק", h: `${nf.format(stats.deep)} קודים מתועדים לעומק כעמודי Wiki מלאים.` },
     fav: { t: "אין מועדפים עדיין", h: "סמן «מועדף» על שורה כאן או בעמוד הטרנזקציה — הרשימה נשמרת במכשיר." },
-    recent: { t: "לא נצפו טרנזקציות עדיין", h: "כל טרנזקציה שתפתח תופיע כאן, באותה רשימה שעמודי /tcode כותבים אליה." },
+    recent: { t: "לא נצפו טרנזקציות עדיין", h: "כל טרנזקציה שתפתח תופיע כאן, באותה רשימה שעמודי הטרנזקציה עצמם כותבים אליה." },
   };
 
   return (
@@ -217,14 +336,19 @@ export function TransactionsSurface() {
       data-surface="transactions"
       style={surfaceMod ? ({ "--m": modVar(surfaceMod) } as React.CSSProperties) : undefined}
     >
+      {/* Where the user came from, when the session knows — the rail, the PM
+          workspace, a search. With no memory it falls back to the NEO home,
+          which is this page's real parent and a real page. Never dead. */}
+      <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
+
       <header className="nxd-head">
         {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
         <span className="nx-eyebrow">עיון · Reference</span>
         <h1 className="nx-h1">טרנזקציות</h1>
         <p className="nx-lede">
           רישום קנוני אחד — {nf.format(stats.total)} טרנזקציות SAP מאומתות מ-{nf.format(modules.length)} מודולים,
-          {" "}מתוכן {nf.format(stats.deep)} מתועדות לעומק. כל שורה נפתחת לעמוד הטרנזקציה האמיתי שלה
-          {" "}ב-<span className="nx-sap">/tcode/</span>.
+          {" "}מתוכן {nf.format(stats.deep)} מתועדות לעומק. כל שורה נפתחת לעמוד הטרנזקציה המלא שלה
+          {" "}ב-<span className="nx-sap">/neo/transactions/</span>.
         </p>
       </header>
 
@@ -375,7 +499,7 @@ export function TransactionsSurface() {
       ) : (
         <>
           <ul className="nxd-list">
-            {shown.map((t) => <Row key={t.code} t={t} fav={favs.includes(t.code)} />)}
+            {shown.map((t) => <Row key={t.code} t={t} fav={favs.includes(t.code)} onOpen={onOpen} />)}
           </ul>
           {list.length > shown.length ? (
             <div className="nxd-page">

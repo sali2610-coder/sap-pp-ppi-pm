@@ -18,6 +18,8 @@
 import { INCIDENTS, type Incident } from "@/data/troubleshooting";
 import { LIBRARY } from "@/data/library";
 import { processSteps } from "@/lib/module-portal";
+import { RISK_HE, TRUST_HE, s4For } from "@/lib/s4";
+import { BOOK_IDENTITY } from "@/lib/book-identity";
 import { PM_DATA, PPPI_DATA } from "@/data/sapData";
 import type { SAPModuleData } from "@/lib/types";
 import type { ModuleKey } from "../types";
@@ -72,6 +74,29 @@ export interface BookRef {
   module: string;
   chapters: number;
   pages: number;
+  /** `/neo/books/<bookId>/` when lib/book-identity maps this shelf entry onto a
+   *  spine app/neo/books/[bookId] actually generates, else null. */
+  href: string | null;
+}
+
+/** The object's S/4HANA standing, resolved by lib/s4.ts — the project's own
+ *  resolver, which prefers curated Simplification-List knowledge, falls back to
+ *  a derivation from the blueprint's own S/4 column, and returns nothing at all
+ *  rather than a guess. `trust` says which of the three happened. */
+export interface S4Standing {
+  /** true when the resolver rates the move high or medium risk. */
+  impacted: boolean;
+  risk: "high" | "medium" | "low" | "none";
+  riskHe: string;
+  trust: "verified" | "partial" | "needs";
+  trustHe: string;
+  /** What changes / why it matters, from the resolver. "" when it holds none. */
+  changed: string;
+  why: string;
+  /** SAP Note / Simplification id, ONLY from the curated entry. */
+  note: string;
+  tcodes: string[];
+  cds: string[];
 }
 
 export interface IncidentRef {
@@ -117,6 +142,9 @@ export interface ObjectView {
   /** Books are indexed at MODULE level in data/library.ts — there is no
    *  table-to-chapter map in the project, and one is not invented here. */
   books: BookRef[];
+  /** S/4HANA standing. Never null: when the project holds nothing the object
+   *  comes back with trust "needs", which the page prints as a stated gap. */
+  s4: S4Standing;
   /** Rank of this table by modelled degree, and the total, so the page can say
    *  how central it actually is instead of asserting importance. */
   rank: number;
@@ -148,7 +176,38 @@ function booksFor(mods: ModuleKey[]): BookRef[] {
     module: b.module,
     chapters: b.chapters.length,
     pages: b.pages,
+    href: SPINE_OF_SHELF[b.id] ? `/neo/books/${SPINE_OF_SHELF[b.id]}/` : null,
   }));
+}
+
+/** Shelf id -> spine id, inverted from lib/book-identity's own table. The hub
+ *  route generates from the spines on disk, so a shelf entry with no spine gets
+ *  no link rather than a broken one. */
+const SPINE_OF_SHELF: Record<string, string> = Object.fromEntries(
+  Object.values(BOOK_IDENTITY)
+    .filter((b) => b.shelfId)
+    .map((b) => [b.shelfId as string, b.bookId]),
+);
+
+/** The object's S/4HANA standing. The blueprint columns are read across every
+ *  dictionary row of the table and the FIRST non-empty one wins — a table
+ *  documented twice is one physical table, and the resolver takes one note. */
+function standingOf(rows: ModuleRow[], name: string): S4Standing {
+  const note = rows.map((r) => (r.s4Note || "").trim()).find(Boolean) || "";
+  const alt = rows.map((r) => (r.s4AltTable || "").trim()).find(Boolean) || "";
+  const st = s4For(name, note, alt);
+  return {
+    impacted: st.impacted,
+    risk: st.risk,
+    riskHe: RISK_HE[st.risk] || "",
+    trust: st.trust,
+    trustHe: TRUST_HE[st.trust] || "",
+    changed: (st.impact?.changed || "").trim(),
+    why: (st.impact?.why || "").trim(),
+    note: (st.impact?.note || "").trim(),
+    tcodes: uniq(st.impact?.tcodes || []),
+    cds: uniq(st.impact?.cds || []),
+  };
 }
 
 const incRef = (i: Incident): IncidentRef => ({
@@ -278,6 +337,7 @@ export function objectView(raw: string): ObjectView | null {
     cds: cdsFor(name),
     incidents: INCIDENTS.filter((i) => (i.tables || []).some((t) => t.toUpperCase() === name)).map(incRef),
     books: booksFor(node.mods),
+    s4: standingOf(rows, name),
     rank: degreeRank().get(name) || 0,
     total: ns.size,
     deg: node.deg,

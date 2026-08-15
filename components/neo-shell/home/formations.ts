@@ -29,8 +29,9 @@
 //   0 membership  three blocks: PM only · both · PP-PI only. Proves that the
 //                 dictionary's two module lists overlap, and by how much.
 //   1 coverage    one column per documentation score, columns bottom-aligned on
-//                 one baseline. Proves how deep the documentation actually goes,
-//                 including the low columns that stay empty.
+//                 one baseline. Proves how deep the documentation actually goes.
+//                 All seven lanes carry a label, the three empty ones included:
+//                 `0 טבלאות` turns a gap on the canvas into the finding it is.
 //   2 families    the shared tables become a row of heads; everything the ER map
 //                 hangs off one of them stacks underneath it. Proves which
 //                 shared tables carry dependents, and how many.
@@ -48,6 +49,18 @@
 // line for two different reasons, which is what makes the change read as one
 // dataset re-forming instead of a new drawing.
 //
+// EVERY LATTICE IS LAID OUT IN U × V, NOT W × H. The two module cards are the
+// one thing present in all six sections, so the scene measures their footprint
+// first and hands it here as Env.far / Env.foot; a formation therefore composes
+// inside the canvas that is actually free. Nothing can end up half-hidden behind
+// a card, which is the difference between "legible frozen" and nearly so.
+//
+// A LINE IS ONLY DRAWN INSIDE THE STRUCTURE IT EXPLAINS. edgeVisible() requires
+// BOTH endpoints to be members of the formation on screen — head to head, or a
+// head to a dependent in that very head's column. The relations to tables parked
+// in the reservoir are just as real, but drawn they would be long diagonals
+// across the whole canvas explaining nothing.
+//
 // Pure functions, no DOM, no React, no Math.random.
 
 import type { DensityTopic, HomeDot, HomeEdge } from "./home-data";
@@ -61,6 +74,13 @@ export const DOCK = 1050;
 /** The two lines the formations share. Held here so 2 and 4 cannot drift. */
 const SPINE_Y = 0.26;
 const PLINTH_Y = 0.94;
+
+/** The four structural rules the field draws, as a fraction of the usable
+ *  height. Exported because home-scene.tsx writes them to CSS custom properties:
+ *  the hairline you see and the row of dots standing on it are then the same
+ *  number, at every breakpoint, instead of a percentage in a stylesheet hoping
+ *  to agree with a formula in this file. */
+export const RULE = { spine: SPINE_Y, rail: 0.72, base: 0.80, plinth: PLINTH_Y };
 
 /** A dot with every index the formations need, resolved once. Every field is an
  *  INDEX INTO REAL DATA — there is no decorative member on this record. */
@@ -143,6 +163,14 @@ export interface Counts {
 export interface Env {
   W: number;
   H: number;
+  /** Pixels the two module cards occupy on the INLINE-END edge, measured by the
+   *  scene before it places anything. A formation that ran under those cards
+   *  would be half unreadable, and a formation you cannot read frozen is the one
+   *  thing this file is not allowed to produce. */
+  far: number;
+  /** Same, on the BLOCK-END edge, for the breakpoints where the pair becomes a
+   *  corner dock instead of a side gutter. */
+  foot: number;
   maxF: number;
   maxCov: number;
   maxTopic: number;
@@ -151,6 +179,13 @@ export interface Env {
   topics: TopicSlot[];
   counts: Counts;
 }
+
+/* The canvas a formation may actually use. Every lattice below is laid out in
+   U × V, never in W × H, which is what keeps the composition clear of the two
+   persistent module cards at every breakpoint. */
+const U = (e: Env) => e.W - e.far;
+const V = (e: Env) => e.H - e.foot;
+const M = (e: Env) => Math.min(U(e), V(e));
 
 export function prepare(dots: HomeDot[], chains: string[][], edges: HomeEdge[]): Prep[] {
   const bandN: Record<number, number> = {};
@@ -287,23 +322,22 @@ const slot = (k: number, b: Block) => ({
  *  own the far edge, so the three blocks take the corridor between them. Below
  *  the dock breakpoint the cards become a corner dock and the corridor opens. */
 function corridor(env: Env): [number, number] {
-  return env.W >= DOCK ? [0.47, 0.70] : [0.08, 0.92];
+  return env.W >= DOCK ? [0.44, 0.72] : [0.08, 0.92];
 }
 
 const BAND_Y = [0.21, 0.50, 0.79];
 const BAND_Y_TIGHT = [0.28, 0.52, 0.76];
 
 function memberBlock(band: number, env: Env): Block {
-  const { W, H } = env;
-  const m = Math.min(W, H);
+  const m = M(env);
   const [a, b] = corridor(env);
-  const bw = (b - a) * W;
+  const bw = (b - a) * U(env);
   const n = Math.max(1, env.counts.band[band] || 1);
   const cols = Math.max(3, Math.round(Math.sqrt(n * 2.6)));
-  const ys = W >= DOCK ? BAND_Y : BAND_Y_TIGHT;
+  const ys = env.W >= DOCK ? BAND_Y : BAND_Y_TIGHT;
   return {
-    cx: ((a + b) / 2) * W,
-    cy: ys[band] * H,
+    cx: ((a + b) / 2) * U(env),
+    cy: ys[band] * V(env),
     cols,
     rows: Math.ceil(n / cols),
     pitch: Math.min(m * 0.040, bw / cols),
@@ -312,17 +346,16 @@ function memberBlock(band: number, env: Env): Block {
 
 /** Formation 1. One column per score, all of them standing on ONE baseline, so
  *  column height is directly comparable across the whole row. */
-const COV_BASE = 0.80;
+const COV_BASE = RULE.base;
 
 function covColumn(score: number, env: Env): Block {
-  const { W, H, maxCov } = env;
-  const m = Math.min(W, H);
+  const m = M(env);
   const n = Math.max(1, env.counts.cov[score] || 1);
-  const lane = (W * 0.74) / (maxCov + 1);
+  const lane = (U(env) * 0.80) / (env.maxCov + 1);
   const cols = n > 26 ? 5 : n > 12 ? 4 : 3;
   return {
-    cx: (0.13 + (score / maxCov) * 0.74) * W,
-    cy: H * COV_BASE,
+    cx: (0.10 + (score / env.maxCov) * 0.80) * U(env),
+    cy: V(env) * COV_BASE,
     cols,
     rows: Math.ceil(n / cols),
     pitch: Math.min(m * 0.030, (lane * 0.86) / cols),
@@ -332,69 +365,67 @@ function covColumn(score: number, env: Env): Block {
 /** Formation 2. The shared tables become a row of family heads on the spine. */
 function headX(j: number, env: Env): number {
   const n = Math.max(1, env.counts.band[1]);
-  return (0.07 + (0.86 * (j + 0.5)) / n) * env.W;
+  return (0.07 + (0.86 * (j + 0.5)) / n) * U(env);
 }
 
 /** The reservoir both 2 and 4 park their "outside this claim" group in: a tidy
  *  plinth on the block-end edge, filled from the bottom row upward. Dim, never
  *  gone — a table that is not part of the current claim is still in the set. */
 function reservoir(n: number, env: Env): Block {
-  const { W, H } = env;
-  const m = Math.min(W, H);
+  const m = M(env);
   const cols = Math.max(8, Math.min(26, Math.round(Math.sqrt(Math.max(1, n) * 6))));
   return {
-    cx: W * 0.5,
-    cy: H * PLINTH_Y,
+    cx: U(env) * 0.5,
+    cy: V(env) * PLINTH_Y,
     cols,
     rows: Math.ceil(Math.max(1, n) / cols),
-    pitch: Math.min((W * 0.84) / cols, m * 0.026),
+    pitch: Math.min((U(env) * 0.84) / cols, m * 0.026),
   };
 }
 
 function topicBlock(t: TopicSlot, env: Env): Block {
-  const { W, H } = env;
-  const m = Math.min(W, H);
-  const cw = (W * 0.94) / t.cols;
-  const chh = (H * 0.34) / t.rows;
+  const m = M(env);
+  const cw = (U(env) * 0.94) / t.cols;
+  const chh = (V(env) * 0.36) / t.rows;
   const n = Math.max(1, t.n);
   const cols = Math.max(1, Math.round(Math.sqrt(n * 1.4)));
   const rows = Math.ceil(n / cols);
   return {
-    cx: W * 0.03 + cw * (t.col + 0.5),
-    cy: H * (t.m === 0 ? 0.10 : 0.56) + chh * (t.row + 0.5),
+    cx: U(env) * 0.03 + cw * (t.col + 0.5),
+    cy: V(env) * (t.m === 0 ? 0.11 : 0.55) + chh * (t.row + 0.5),
     cols,
     rows,
-    pitch: Math.min(m * 0.026, (cw * 0.62) / cols, (chh * 0.56) / rows),
+    pitch: Math.min(m * 0.026, (cw * 0.62) / cols, (chh * 0.46) / rows),
   };
 }
 
 /** Formation 4. Rail 0 sits on the SAME spine formation 2's head row used. */
-const railY = (chain: number, H: number) => H * (chain === 0 ? SPINE_Y : 0.72);
+const railY = (chain: number, env: Env) => V(env) * (chain === 0 ? SPINE_Y : RULE.rail);
 
 function stepPos(q: Prep, env: Env) {
   const t = q.chainN > 1 ? q.flow / (q.chainN - 1) : 0.5;
-  return { x: env.W * 0.10 + t * env.W * 0.80, y: railY(q.chain, env.H) };
+  return { x: U(env) * 0.10 + t * U(env) * 0.80, y: railY(q.chain, env) };
 }
 
 /** Formation 5. The kept tables resolve into the same even lattice the
  *  workspace grid is built on; the replaced ones are lifted out of it. */
 function keptLattice(env: Env): Block {
-  const { W, H } = env;
-  const m = Math.min(W, H);
+  const m = M(env);
   const n = Math.max(1, env.counts.s4[0]);
   const cols = Math.max(6, Math.min(16, Math.round(Math.sqrt(n * 2.2))));
   return {
-    cx: W * 0.64,
-    cy: H * 0.50,
+    cx: U(env) * 0.64,
+    cy: V(env) * 0.50,
     cols,
     rows: Math.ceil(n / cols),
-    pitch: Math.min((W * 0.56) / cols, m * 0.052),
+    pitch: Math.min((U(env) * 0.56) / cols, m * 0.052),
   };
 }
 
-const EXTRACT_X = 0.26;
+const EXTRACT_X = 0.24;
+const extractX = (env: Env) => U(env) * EXTRACT_X;
 const extractY = (cls: number, k: number, env: Env) =>
-  env.H * (cls === 1 ? 0.28 : 0.66) + k * Math.min(env.H * 0.075, Math.min(env.W, env.H) * 0.062);
+  V(env) * (cls === 1 ? 0.28 : 0.66) + k * Math.min(V(env) * 0.075, M(env) * 0.062);
 
 /* ------------------------------------------------------------------ placing */
 
@@ -403,8 +434,8 @@ const extractY = (cls: number, k: number, env: Env) =>
 const depth = (f: number, maxF: number) => 0.62 + (f / maxF) * 0.92;
 
 export function place(sec: number, p: Prep, env: Env): Placed {
-  const { W, H, maxF, maxCov } = env;
-  const m = Math.min(W, H);
+  const { maxF, maxCov } = env;
+  const m = M(env);
   const base = depth(p.d.f, maxF);
 
   switch (sec) {
@@ -450,16 +481,16 @@ export function place(sec: number, p: Prep, env: Env): Placed {
        height of a column is literally how many dependents that table carries. */
     case 2: {
       if (p.d.b === 1) {
-        return { x: headX(p.j, env), y: H * SPINE_Y, s: base * 1.45, o: 1 };
+        return { x: headX(p.j, env), y: V(env) * SPINE_Y, s: base * 1.45, o: 1 };
       }
       if (p.sAttr >= 0) {
-        const lane = (W * 0.86) / Math.max(1, env.counts.band[1]);
+        const lane = (U(env) * 0.86) / Math.max(1, env.counts.band[1]);
         const cols = p.famN > 7 ? 2 : 1;
         const px = Math.min(lane * 0.42, m * 0.024);
-        const py = Math.min(m * 0.028, H * 0.036);
+        const py = Math.min(m * 0.028, V(env) * 0.036);
         return {
           x: headX(env.all[p.sAttr].j, env) + ((p.fam % cols) - (cols - 1) / 2) * px,
-          y: H * SPINE_Y + m * 0.058 + Math.floor(p.fam / cols) * py,
+          y: V(env) * SPINE_Y + m * 0.058 + Math.floor(p.fam / cols) * py,
           s: 0.62 + base * 0.26,
           o: 0.82,
         };
@@ -474,13 +505,13 @@ export function place(sec: number, p: Prep, env: Env): Placed {
        tables the topic documents, so no two blocks are the same size. */
     case 3: {
       const t = env.topics[p.d.tp];
-      if (!t) return { x: W * 0.5, y: H * 0.5, s: 0.5, o: 0.34 };
+      if (!t) return { x: U(env) * 0.5, y: V(env) * 0.5, s: 0.5, o: 0.34 };
       const b = topicBlock(t, env);
       const q = slot(p.tc, b);
       return {
         x: b.cx + q.dx,
         y: b.cy + q.dy - ((b.rows - 1) * b.pitch) / 2,
-        s: 0.58 + base * 0.34,
+        s: 0.80 + base * 0.42,
         o: 0.56 + 0.44 * (t.tables / env.maxTopic),
       };
     }
@@ -497,8 +528,8 @@ export function place(sec: number, p: Prep, env: Env): Placed {
         const host = env.all[p.fAttr];
         const q = stepPos(host, env);
         const cols = p.depN > 6 ? 2 : 1;
-        const px = Math.min(m * 0.022, ((W * 0.80) / Math.max(2, host.chainN)) * 0.40);
-        const py = Math.min(m * 0.026, H * 0.032);
+        const px = Math.min(m * 0.022, ((U(env) * 0.80) / Math.max(2, host.chainN)) * 0.40);
+        const py = Math.min(m * 0.026, V(env) * 0.032);
         // Rail 0 grows down, rail 1 grows up: the two stacks meet in the middle
         // of the canvas instead of running off it.
         const dir = host.chain === 1 ? -1 : 1;
@@ -520,7 +551,7 @@ export function place(sec: number, p: Prep, env: Env): Placed {
        marks nothing removed, and section 06 says so out loud. */
     default: {
       if (p.d.s > 0) {
-        return { x: W * EXTRACT_X, y: extractY(p.d.s, p.s, env), s: 2.0, o: 1 };
+        return { x: extractX(env), y: extractY(p.d.s, p.s, env), s: 2.0, o: 1 };
       }
       const b = keptLattice(env);
       const q = slot(p.s, b);
@@ -555,9 +586,43 @@ export interface Caption {
   lead?: boolean;
 }
 
+/** Half-widths of the two label boxes, matched to .nh-cap in app/neo/home.css.
+ *  A label that runs off the canvas is a label nobody can read, and this page's
+ *  whole argument is that the field is readable frozen. */
+const CAP_HALF = 62;
+const LEAD_HALF = 130;
+const CAP_PAD = 8;
+
+/** Is there room to stand two group labels this far apart without them
+ *  overlapping? Where there is not, the formation prints its lead line only and
+ *  folds the group counts into it — a legible sentence beats a pile of chips. */
+const roomy = (spacing: number) => spacing >= CAP_HALF * 2 - 6;
+
+/** Clearance between a label and the thing it names. Proportional to the canvas,
+ *  but never smaller than the label box itself — on a phone-width canvas a
+ *  percentage alone puts the chip straight on top of its own cluster. */
+const clear = (m: number, k: number, floor: number) => Math.max(m * k, floor);
+
+/** Keep a label wholly inside the canvas — and, on the inline-end side, clear of
+ *  the two module cards as well, so it is never printed over one of them. */
+function fitCap(c: Caption, env: Env): Caption {
+  const h = c.lead ? LEAD_HALF : CAP_HALF;
+  const lo = h + CAP_PAD;
+  const hi = Math.max(lo, env.W - env.far - h - CAP_PAD);
+  return {
+    ...c,
+    x: Math.min(Math.max(c.x, lo), hi),
+    y: Math.min(Math.max(c.y, 14), Math.max(14, env.H - 34)),
+  };
+}
+
 export function captions(sec: number, env: Env, live: number[]): Caption[] {
-  const { W, H, all, topics, counts } = env;
-  const m = Math.min(W, H);
+  return rawCaptions(sec, env, live).map((c) => fitCap(c, env));
+}
+
+function rawCaptions(sec: number, env: Env, live: number[]): Caption[] {
+  const { all, topics, counts } = env;
+  const m = M(env);
   const nf = new Intl.NumberFormat("he-IL");
   const total = all.length;
 
@@ -566,11 +631,11 @@ export function captions(sec: number, env: Env, live: number[]): Caption[] {
       const b0 = memberBlock(0, env);
       const b1 = memberBlock(1, env);
       const b2 = memberBlock(2, env);
-      const over = (b: Block) => b.cy - ((b.rows - 1) * b.pitch) / 2 - m * 0.045;
+      const over = (b: Block) => b.cy - ((b.rows - 1) * b.pitch) / 2 - clear(m, 0.078, 44);
       return [
         {
           id: "lead", lead: true, tone: "ink",
-          x: b0.cx, y: over(b0) - m * 0.052,
+          x: b0.cx, y: over(b0) - clear(m, 0.062, 40),
           t: "שלוש קבוצות שיוך", s: `${nf.format(total)} טבלאות מאוחדות`,
         },
         { id: "b0", x: b0.cx, y: over(b0), t: `${counts.band[0]}`, s: "PM בלבד", tone: "pm" },
@@ -582,18 +647,30 @@ export function captions(sec: number, env: Env, live: number[]): Caption[] {
     case 1: {
       const out: Caption[] = [{
         id: "lead", lead: true, tone: "ink",
-        x: W * 0.5, y: H * (COV_BASE + 0.115),
+        x: U(env) * 0.5, y: V(env) * (COV_BASE + 0.115),
         t: "עומק תיעוד", s: `עמודה לכל ציון · מתוך ${env.maxCov} צירים`,
       }];
-      counts.cov.forEach((n, score) => {
-        if (!n) return;
+      // EVERY lane is labelled, including the ones that stand empty. Three of
+      // the seven scores hold nothing, and an unexplained gap on the canvas is
+      // exactly the "why is this here" the review named: labelled `0 טבלאות`,
+      // the gap stops being empty space and becomes the finding — no table in
+      // the dictionary satisfies fewer than three of the six axes.
+      if (!roomy((U(env) * 0.80) / env.maxCov)) {
+        // No room for seven labels side by side. Rather than print them on top
+        // of one another, the lead line carries the same two facts in words.
+        const low = counts.cov.findIndex((n) => n > 0);
+        out[0].s = `${counts.cov[env.maxCov] || 0} טבלאות ב-${env.maxCov}/${env.maxCov} · אין טבלה מתחת ל-${low}/${env.maxCov}`;
+        return out;
+      }
+      for (let score = 0; score <= env.maxCov; score += 1) {
+        const n = counts.cov[score] || 0;
         const b = covColumn(score, env);
         out.push({
           id: `cov-${score}`, tone: "ink",
-          x: b.cx, y: H * (COV_BASE + 0.045),
+          x: b.cx, y: V(env) * (COV_BASE + 0.045),
           t: `${score}/${env.maxCov}`, s: `${n} טבלאות`,
         });
-      });
+      }
       return out;
     }
 
@@ -602,17 +679,13 @@ export function captions(sec: number, env: Env, live: number[]): Caption[] {
       return [
         {
           id: "lead", lead: true, tone: "ink",
-          x: W * 0.5, y: H * SPINE_Y - m * 0.135,
-          t: "משפחות טבלאות", s: `${counts.band[1]} ראשים · ${counts.pulled} תלויות`,
-        },
-        {
-          id: "er", tone: "ink",
-          x: W * 0.86, y: H * SPINE_Y - m * 0.062,
-          t: `${live[0]}`, s: "קשרי ER מצוירים",
+          x: U(env) * 0.5, y: V(env) * SPINE_Y - m * 0.135,
+          t: "משפחות טבלאות",
+          s: `${counts.band[1]} ראשים · ${counts.pulled} תלויות · ${live[0]} קשרי ER`,
         },
         {
           id: "loose", tone: "ink",
-          x: W * 0.5, y: res.cy - (res.rows - 1) * res.pitch - m * 0.042,
+          x: U(env) * 0.5, y: res.cy - (res.rows - 1) * res.pitch - clear(m, 0.058, 40),
           t: `${counts.loose}`, s: "ללא קשר לאף משותפת",
         },
       ];
@@ -621,15 +694,16 @@ export function captions(sec: number, env: Env, live: number[]): Caption[] {
     case 3: {
       const out: Caption[] = [{
         id: "lead", lead: true, tone: "ink",
-        x: W * 0.5, y: H * 0.035,
+        x: U(env) * 0.5, y: V(env) * 0.035,
         t: "גושי נושא", s: `${topics.length} נושאים · הגודל הוא מספר הטבלאות`,
       }];
       topics.forEach((t, i) => {
+        if (!roomy((U(env) * 0.94) / t.cols)) return;
         const b = topicBlock(t, env);
         out.push({
           id: `tp-${i}`,
           x: b.cx,
-          y: b.cy - ((b.rows - 1) * b.pitch) / 2 - m * 0.034,
+          y: b.cy - ((b.rows - 1) * b.pitch) / 2 - clear(m, 0.058, 40),
           t: `${t.tables}`,
           s: `נושא ${String(t.idx).padStart(2, "0")}`,
           tone: t.m === 0 ? "pm" : "pp",
@@ -644,8 +718,10 @@ export function captions(sec: number, env: Env, live: number[]): Caption[] {
         const linked = all.filter((p) => p.fAttr >= 0 && all[p.fAttr].chain === chain).length;
         return {
           id: `flow-${chain}`,
-          x: W * 0.11,
-          y: railY(chain, H) - m * 0.070,
+          x: U(env) * 0.08,
+          // Rail 0's dependents hang below it and rail 1's stack above it, so
+          // each rail's label goes to the side its own column is NOT on.
+          y: railY(chain, env) + (chain === 1 ? clear(m, 0.075, 44) : -clear(m, 0.105, 56)),
           t: `${counts.chain[chain] || 0} שלבים`,
           s: `${label} · ${linked} תלויות`,
           tone,
@@ -654,14 +730,14 @@ export function captions(sec: number, env: Env, live: number[]): Caption[] {
       return [
         {
           id: "lead", lead: true, tone: "ink",
-          x: W * 0.5, y: H * 0.035,
+          x: U(env) * 0.5, y: V(env) * 0.035,
           t: "שתי שרשראות תהליך", s: `${counts.dep} טבלאות תלויות בשלב אמיתי`,
         },
         rail(0, "pm", "PM"),
         rail(1, "pp", "PP-PI"),
         {
           id: "loose4", tone: "ink",
-          x: W * 0.5, y: res.cy - (res.rows - 1) * res.pitch - m * 0.042,
+          x: U(env) * 0.5, y: res.cy - (res.rows - 1) * res.pitch - clear(m, 0.058, 40),
           t: `${counts.loose4}`, s: "מחוץ לציר התהליך",
         },
       ];
@@ -672,21 +748,21 @@ export function captions(sec: number, env: Env, live: number[]): Caption[] {
       const out: Caption[] = [
         {
           id: "lead", lead: true, tone: "ink",
-          x: b.cx, y: b.cy - ((b.rows - 1) * b.pitch) / 2 - m * 0.075,
+          x: b.cx, y: b.cy - ((b.rows - 1) * b.pitch) / 2 - clear(m, 0.098, 56),
           t: "סריג המעבר", s: `${nf.format(counts.s4[0])} נשמרות כפי שהן`,
         },
       ];
       if (counts.s4[1] > 0) {
         out.push({
           id: "rep", tone: "ink",
-          x: W * EXTRACT_X, y: extractY(1, 0, env) - m * 0.062,
+          x: extractX(env), y: extractY(1, 0, env) - clear(m, 0.078, 46),
           t: `${counts.s4[1]}`, s: "מוחלפות · נשלפות מהסריג",
         });
       }
       if (counts.s4[2] > 0) {
         out.push({
           id: "rem", tone: "ink",
-          x: W * EXTRACT_X, y: extractY(2, 0, env) - m * 0.062,
+          x: extractX(env), y: extractY(2, 0, env) - clear(m, 0.078, 46),
           t: `${counts.s4[2]}`, s: "מוסרות",
         });
       }
@@ -725,8 +801,23 @@ export const HANDOFF = new Set([2, 4, 5]);
  *  every one of those formations the endpoints are lattice slots, so a line is
  *  always a short, legible run between two named things. */
 export function edgeVisible(sec: number, a: Prep, b: Prep): boolean {
-  if (sec === 2) return a.d.b === 1 || b.d.b === 1;
-  if (sec === 4) return a.flow >= 0 || b.flow >= 0;
+  // A line is only drawn where BOTH of its endpoints are structural members of
+  // the formation being shown — head to head, or a head to a dependent that is
+  // in that very head's column. A relation from a head to a table parked in the
+  // reservoir is real, but drawn here it would be a long diagonal across the
+  // whole canvas explaining nothing, which is the noise the review named.
+  if (sec === 2) {
+    if (a.d.b === 1 && b.d.b === 1) return true;
+    if (a.d.b === 1) return b.sAttr === a.i;
+    if (b.d.b === 1) return a.sAttr === b.i;
+    return false;
+  }
+  if (sec === 4) {
+    if (a.flow >= 0 && b.flow >= 0) return true;
+    if (a.flow >= 0) return b.fAttr === a.i;
+    if (b.flow >= 0) return a.fAttr === b.i;
+    return false;
+  }
   if (sec === 0) return a.d.b === 1 && b.d.b === 1;
   return false;
 }

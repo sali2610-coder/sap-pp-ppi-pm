@@ -166,8 +166,9 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
             <button
               key={id}
               type="button"
-              className="no-seg-b"
+              className="nu-filter"
               aria-pressed={dir === id}
+              data-on={dir === id ? "1" : undefined}
               onClick={() => setDir(id)}
             >
               {label}
@@ -177,19 +178,28 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
 
         {mods.length > 1 ? (
           <div className="no-seg" role="group" aria-label="סינון לפי מודול">
-            <button type="button" className="no-seg-b" aria-pressed={mod === "all"} onClick={() => setMod("all")}>
+            <button
+              type="button"
+              className="nu-filter"
+              aria-pressed={mod === "all"}
+              data-on={mod === "all" ? "1" : undefined}
+              onClick={() => setMod("all")}
+            >
               שני המודולים
             </button>
             {mods.map((m) => (
+              // .nu-filter already draws its pressed state as a short MODULE
+              // BAR (::before in ui.css), which is why this button hands it the
+              // module hue and does not draw a marker of its own.
               <button
                 key={m}
                 type="button"
-                className="no-seg-b no-seg-b--mod"
+                className="nu-filter"
                 style={{ "--m": MOD_VAR[m] } as React.CSSProperties}
                 aria-pressed={mod === m}
+                data-on={mod === m ? "1" : undefined}
                 onClick={() => setMod(m)}
               >
-                <i aria-hidden="true" />
                 {m}
               </button>
             ))}
@@ -280,9 +290,12 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
                 }
               >
                 <foreignObject x={-NW / 2} y={-NH / 2} width={NW} height={NH}>
+                  {/* .nu-card supplies the frame, the hover, the pressed ring
+                      and the focus language; .no-sat-b only lays it out inside
+                      the foreignObject, which needs a fixed 100%/100% box. */}
                   <button
                     type="button"
-                    className="no-sat-b"
+                    className="nu-card no-sat-b"
                     aria-pressed={sel === k.name}
                     onClick={() => setSel(sel === k.name ? null : k.name)}
                     onMouseEnter={() => setSel(k.name)}
@@ -344,7 +357,7 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
                 <i aria-hidden="true" />
                 {active.card || REL_HE[active.kind]}
               </span>
-              <Link className="no-read-go" href={`/neo/object/${active.name}/`} prefetch={false}>
+              <Link className="nu-btn2 no-read-go" href={`/neo/object/${active.name}/`} prefetch={false}>
                 פתח את {active.name}
                 <ArrowUpLeft size={13} strokeWidth={1.75} aria-hidden="true" />
               </Link>

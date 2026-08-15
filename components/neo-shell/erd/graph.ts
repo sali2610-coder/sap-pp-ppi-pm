@@ -18,7 +18,19 @@
 //   produces the same picture, so nothing re-shuffles when you hover, filter or
 //   pan. There is no physics, no randomness, no simulation tick.
 
-import type { ErdPayloadEdge, ErdPayloadNode } from "./erd-data";
+/** The only shapes this file needs. Declared structurally rather than imported
+ *  from ./erd-types so the geometry layer stays free of the payload: it answers
+ *  questions about ids and points, and nothing about SAP. */
+export interface GEdge {
+  i: string;
+  p: string;
+  c: string;
+}
+export interface GPos {
+  n: string;
+  x: number;
+  y: number;
+}
 
 export interface Pt {
   x: number;
@@ -41,7 +53,7 @@ export type GeomMap = Map<string, EdgeGeom>;
 /* ------------------------------------------------------------ neighbourhood */
 
 /** Undirected adjacency over the modelled relation set. */
-export function adjacency(edges: ErdPayloadEdge[]): Map<string, Set<string>> {
+export function adjacency(edges: GEdge[]): Map<string, Set<string>> {
   const adj = new Map<string, Set<string>>();
   const add = (a: string, b: string) => {
     const s = adj.get(a) || new Set<string>();
@@ -92,13 +104,8 @@ export function border(ax: number, ay: number, bx: number, by: number, w: number
 }
 
 /** The canonical build-time positions, as a map. */
-export function mapPositions(nodes: ErdPayloadNode[]): PosMap {
+export function mapPositions(nodes: GPos[]): PosMap {
   return new Map(nodes.map((n) => [n.n, { x: n.x, y: n.y }]));
-}
-
-/** The canonical build-time edge geometry, as a map. */
-export function mapGeom(edges: ErdPayloadEdge[]): GeomMap {
-  return new Map(edges.map((e) => [e.i, { x1: e.x1, y1: e.y1, cx: e.cx, cy: e.cy, x2: e.x2, y2: e.y2 }]));
 }
 
 /** Chord + gentle bow for one pair of positions. `bow` separates edges that
@@ -176,7 +183,7 @@ export function egoPositions(
 
 /** Edge geometry for an arbitrary position map. Parallel edges between the same
  *  neighbourhood get the alternating bow so they stay individually readable. */
-export function computeGeom(pos: PosMap, size: Map<string, { w: number; h: number }>, edges: ErdPayloadEdge[]): GeomMap {
+export function computeGeom(pos: PosMap, size: Map<string, { w: number; h: number }>, edges: GEdge[]): GeomMap {
   const seen = new Map<string, number>();
   const out: GeomMap = new Map();
   for (const e of edges) {

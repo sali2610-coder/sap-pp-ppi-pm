@@ -108,7 +108,7 @@ export default function NeoHome() {
               <Search size={15} strokeWidth={1.75} aria-hidden="true" />
               פתח את מילון הטבלאות
             </Link>
-            <Link className="nu-btn2" href="/neo/domain-model/" prefetch={false}>
+            <Link className="nu-btn2" href="/neo/erd/" prefetch={false}>
               <GitBranch size={15} strokeWidth={1.75} aria-hidden="true" />
               מודל הנתונים
             </Link>

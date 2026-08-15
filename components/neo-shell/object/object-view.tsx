@@ -18,9 +18,12 @@
 
 import Link from "next/link";
 import {
-  AlertTriangle, ArrowUpLeft, BookOpen, Boxes, Cable, Columns3, GitBranch,
-  Layers, Library, Route, Sigma, Table2, Terminal, TriangleAlert, Workflow,
+  AlertTriangle, ArrowLeft, ArrowUpLeft, BadgeCheck, BookOpen, Boxes, Cable,
+  Columns3, GitBranch, Layers, Library, Route, Sigma, Table2, Terminal,
+  TriangleAlert, Workflow,
 } from "lucide-react";
+import { RISK_COLOR } from "@/lib/s4";
+import { ObjectFields } from "./object-fields";
 import { ObjectOrbit } from "./object-orbit";
 import { objectSummary, relVar, type ObjectView } from "./object-data";
 
@@ -30,23 +33,50 @@ const MOD_VAR: Record<string, string> = { PM: "var(--mod-pm)", "PP-PI": "var(--m
 const MOD_HE: Record<string, string> = { PM: "אחזקת מפעל · PM", "PP-PI": "ייצור תהליכי · PP-PI" };
 const REL_HE: Record<string, string> = { "1-1": "1:1", "n-1": "N:1", unstated: "לא מצוין" };
 
+const TRUST_WHY: Record<string, string> = {
+  verified: "ידע Simplification List מתוחזק בפרויקט",
+  partial: "נגזר מעמודת ה-S/4 של המילון — מומלץ אימות מול SAP",
+  needs: "הפרויקט אינו מחזיק הכרעה לטבלה הזאת",
+};
+
 /** The one empty state on the page. It names the dataset that is silent instead
  *  of apologising, so the absence is auditable. */
 function Silent({ what }: { what: string }) {
   return <p className="no-silent">המילון של Project NEO אינו מחזיק {what} עבור האובייקט הזה.</p>;
 }
 
+/** A SECTION of the object page.
+ *
+ *  The client kept the page's structure and asked for its hierarchy: "Each major
+ *  section needs stronger visual separation… a stronger heading, larger type,
+ *  intentional accent, icon where useful, clear spacing." So a section is now
+ *  numbered, its icon carries the module accent as a tinted ring, the h2 is the
+ *  largest type on the page after the object's own name, and one sentence of
+ *  orientation sits under it. The number comes from the page, which also builds
+ *  the jump nav from the same list — so the nav and the sections cannot drift. */
 function Sec({
-  id, icon, eyebrow, title, children,
-}: { id: string; icon: React.ReactNode; eyebrow: string; title: string; children: React.ReactNode }) {
+  id, n, icon, eyebrow, title, lede, children,
+}: {
+  id: string;
+  n: number;
+  icon: React.ReactNode;
+  eyebrow: string;
+  title: string;
+  lede?: React.ReactNode;
+  children: React.ReactNode;
+}) {
   return (
     <section className="no-sec" id={id} aria-labelledby={`${id}-h`}>
       <header className="no-sec-h">
-        <span className="no-sec-ico" aria-hidden="true">{icon}</span>
-        <span className="no-eye">{eyebrow}</span>
+        <span className="no-sec-n" aria-hidden="true">{String(n).padStart(2, "0")}</span>
+        <p className="no-sec-k">
+          <span className="no-sec-ico" aria-hidden="true">{icon}</span>
+          {eyebrow}
+        </p>
         <h2 className="no-h2" id={`${id}-h`}>{title}</h2>
+        {lede ? <p className="no-sec-s">{lede}</p> : null}
       </header>
-      {children}
+      <div className="no-sec-b">{children}</div>
     </section>
   );
 }
@@ -65,17 +95,26 @@ export function ObjectPage({ v }: { v: ObjectView }) {
     [nf.format(v.cds.length), "תצוגות CDS"],
   ];
 
+  // ONE list drives the numbering and the jump nav, so a section can never be
+  // numbered 06 in the page and 05 in the nav. The order and the wording are
+  // the client's own: מפת קשרים · שדות · טרנזקציות · היכן האובייקט יושב
+  // בשרשרת · מה התכנון אומר על המעבר · תצוגות CDS · BAPI/FM/IDoc · תקלות ·
+  // ספרים המכסים את המודול — with the dictionary record first, because it is
+  // the thing every other section is about.
   const nav: [string, string][] = [
+    ["no-rows", v.rows.length > 1 ? "רשומות המילון" : "רשומת המילון"],
     ["no-map", "מפת קשרים"],
     ["no-rel", "קשרים ו־JOIN"],
     ["no-fields", "שדות"],
     ["no-tx", "טרנזקציות"],
-    ["no-flow", "תהליך"],
-    ["no-s4", "ECC ➔ S/4HANA"],
-    ["no-if", "ממשקים"],
+    ["no-flow", "בשרשרת התהליך"],
+    ["no-s4", "המעבר ל-S/4HANA"],
+    ["no-cds", "תצוגות CDS"],
+    ["no-if", "BAPI · FM · IDoc"],
     ["no-trb", "תקלות"],
-    ["no-books", "ספרייה"],
+    ["no-books", "ספרים"],
   ];
+  const num = Object.fromEntries(nav.map(([id], i) => [id, i + 1])) as Record<string, number>;
 
   return (
     <div className="no" style={{ "--o": v.obj } as React.CSSProperties}>
@@ -122,6 +161,51 @@ export function ObjectPage({ v }: { v: ObjectView }) {
             </p>
           ) : null}
 
+          {/* THE KEY LINE. The brief: "Primary Key must be obvious. Foreign Key
+              must be obvious." So the compound key is spelled out in the
+              identity band, before anything else on the page — it is what the
+              object IS. Both lists are the blueprint's own `key` column; a
+              blank one is stated as blank and never inferred from a name. */}
+          <p className="no-keyline">
+            <span className="no-keyline-g" data-k="PK">
+              <b>PK</b>
+              {v.pk.length ? (
+                v.pk.map((f) => (
+                  <span key={f} className="nx-sap">{f}</span>
+                ))
+              ) : (
+                <em>המילון אינו מסמן מפתח ראשי</em>
+              )}
+            </span>
+            <span className="no-keyline-g" data-k="FK">
+              <b>FK</b>
+              {v.fk.length ? (
+                v.fk.map((f) => (
+                  <span key={f} className="nx-sap">{f}</span>
+                ))
+              ) : (
+                <em>המילון אינו מסמן מפתח זר</em>
+              )}
+            </span>
+          </p>
+
+          {/* S/4HANA, in the identity band and not in a footnote — the brief
+              makes it the primary forward context. It appears only when the
+              project actually resolves a material change for this table. */}
+          {v.s4.impacted ? (
+            <p className="no-s4flag">
+              <span className="nu-status" style={{ "--s": RISK_COLOR[v.s4.risk] } as React.CSSProperties}>
+                {v.s4.riskHe}
+              </span>
+              <b>הטבלה משתנה מהותית ב-S/4HANA</b>
+              <span>{v.s4.changed}</span>
+              <a className="nu-link" href="#no-s4">
+                מה בדיוק משתנה
+                <ArrowLeft className="nu-arw" size={13} strokeWidth={2} aria-hidden="true" />
+              </a>
+            </p>
+          ) : null}
+
           <div className="no-stats">
             {stats.map(([n, l]) => (
               <span className="no-stat" key={l}>
@@ -132,20 +216,35 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           </div>
 
           <div className="no-cta">
-            <Link className="no-btn no-btn--brand" href={`/neo/erd/#${v.name}`} prefetch={false}>
+            <Link className="nu-btn" href={`/neo/erd/#${v.name}`} prefetch={false}>
               <GitBranch size={15} strokeWidth={1.75} aria-hidden="true" />
               הצג במודל הנתונים המלא
+              <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
             </Link>
-            <Link className="no-btn" href="/neo/tables/" prefetch={false}>
+            <Link className="nu-btn2" href="/neo/tables/" prefetch={false}>
               <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
               מילון הטבלאות
             </Link>
+            {v.mods.map((m) => (
+              <Link
+                key={m}
+                className="nu-link"
+                href={m === "PM" ? "/neo/pm/" : "/neo/pp-pi/"}
+                prefetch={false}
+              >
+                סביבת העבודה של {m}
+                <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
+              </Link>
+            ))}
           </div>
         </div>
 
         <nav className="no-jump" aria-label="ניווט בעמוד">
-          {nav.map(([id, label]) => (
-            <a key={id} href={`#${id}`}>{label}</a>
+          {nav.map(([id, label], i) => (
+            <a key={id} className="nu-ghost" href={`#${id}`}>
+              <em className="nx-sap" aria-hidden="true">{String(i + 1).padStart(2, "0")}</em>
+              {label}
+            </a>
           ))}
         </nav>
       </header>
@@ -153,16 +252,16 @@ export function ObjectPage({ v }: { v: ObjectView }) {
       {/* ============================================ DUAL IDENTITY / ROWS */}
       <Sec
         id="no-rows"
+        n={num["no-rows"]}
         icon={<Boxes size={16} strokeWidth={1.75} />}
         eyebrow={v.rows.length > 1 ? "זהות כפולה" : "רשומת המילון"}
         title={v.rows.length > 1 ? `${v.rows.length} רשומות מילון לאותה טבלה` : "ההקשר העסקי"}
+        lede={
+          v.rows.length > 1
+            ? "אותה טבלה פיזית, מתועדת יותר מפעם אחת. כל כרטיס הוא שורה אחת בתכנון המקורי, עם הנושא, הטרנזקציות וההערות שלה — כפי שנכתבו, בלי מיזוג."
+            : "השורה שהתכנון של המודול כתב על הטבלה הזאת: הנושא שאליו היא משויכת, הטרנזקציות שנרשמו לה וההערות שנלוו אליה."
+        }
       >
-        {v.rows.length > 1 ? (
-          <p className="no-note">
-            אותה טבלה פיזית, מתועדת יותר מפעם אחת. כל כרטיס הוא שורה אחת בתכנון המקורי,
-            עם הנושא, הטרנזקציות וההערות שלה — כפי שנכתבו, בלי מיזוג.
-          </p>
-        ) : null}
         <div className="no-rows">
           {v.rows.map((r, i) => (
             <article className="no-row" key={`${r.mod}-${r.topicIdx}-${i}`} style={{ "--m": MOD_VAR[r.mod] } as React.CSSProperties}>
@@ -202,9 +301,18 @@ export function ObjectPage({ v }: { v: ObjectView }) {
       {/* ==================================================== THE ORBIT */}
       <Sec
         id="no-map"
+        n={num["no-map"]}
         icon={<Workflow size={16} strokeWidth={1.75} />}
         eyebrow="מפת קשרים"
         title="האובייקט במרכז, והקשרים שסביבו"
+        lede={
+          v.neighbours.length ? (
+            <>
+              {v.name} מדורגת <b>{nf.format(v.rank)}</b> מתוך {nf.format(v.total)} טבלאות לפי מספר
+              הקשרים הממודלים. בחירה במפה מציגה את ניסוח ה-JOIN המדויק כפי שהמילון מחזיק אותו.
+            </>
+          ) : undefined
+        }
       >
         {v.neighbours.length ? (
           <ObjectOrbit
@@ -224,17 +332,21 @@ export function ObjectPage({ v }: { v: ObjectView }) {
       {/* ============================================== RELATIONS + JOINS */}
       <Sec
         id="no-rel"
+        n={num["no-rel"]}
         icon={<GitBranch size={16} strokeWidth={1.75} />}
-        eyebrow="קשרים"
+        eyebrow="קשרים ו־JOIN"
         title={`${s.neighbours} קשרים ממודלים · ${s.joins} ניסוחי JOIN`}
+        lede={
+          v.neighbours.length ? (
+            <>
+              כיוון הקשר נקרא מתוך המילון: <b>בן</b> הוא טבלה שנושאת מפתח זר אל {v.name}, ו<b>אב</b> הוא
+              טבלה ש־{v.name} מפנה אליה. עוצמת הקשר מוצגת כפי שנכתבה — וכאשר לא נכתבה, כתוב שלא נכתבה.
+            </>
+          ) : undefined
+        }
       >
         {v.neighbours.length ? (
           <>
-            <p className="no-note">
-              כיוון הקשר נקרא מתוך המילון: <b>בן</b> הוא טבלה שנושאת מפתח זר אל {v.name},
-              ו<b>אב</b> הוא טבלה ש־{v.name} מפנה אליה. עוצמת הקשר מוצגת כפי שנכתבה —
-              וכאשר לא נכתבה, כתוב שלא נכתבה.
-            </p>
             {s.contested ? (
               <p className="no-warn">
                 <TriangleAlert size={14} strokeWidth={1.75} aria-hidden="true" />
@@ -262,7 +374,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
                     <i aria-hidden="true" />
                     {n.card || REL_HE[n.kind]}
                   </span>
-                  <span className="no-rel-mods">
+                  <span className="no-modtag">
                     {n.edgeMods.map((m) => (
                       <b key={m} style={{ "--m": MOD_VAR[m] } as React.CSSProperties}>{m}</b>
                     ))}
@@ -314,66 +426,23 @@ export function ObjectPage({ v }: { v: ObjectView }) {
       {/* ======================================================== FIELDS */}
       <Sec
         id="no-fields"
+        n={num["no-fields"]}
         icon={<Columns3 size={16} strokeWidth={1.75} />}
         eyebrow="שדות"
         title={`${v.fields.length} שדות · ${v.pk.length} מפתח ראשי · ${v.fk.length} מפתח זר`}
+        lede="המפתחות נקראים ראשונים, כי הם מה שהאובייקט הוא. הטבלה שמתחתיהם מציגה את איחוד השדות שכל תכנון מתעד, בסדר שנכתב, וניתן לצמצם אותה לשדות המפתח בלבד."
       >
-        {v.fields.length ? (
-          <div className="no-tw">
-            <table className="no-table">
-              <caption className="no-cap">
-                איחוד השדות שכל תכנון מתעד לטבלה. עמודת המודול מראה מי תיעד את השדה —
-                שדה שתועד במודול אחד בלבד נשמר ומסומן ככזה.
-              </caption>
-              <thead>
-                <tr>
-                  <th scope="col">שדה</th>
-                  <th scope="col">תיאור</th>
-                  <th scope="col">EN</th>
-                  <th scope="col">טיפוס</th>
-                  <th scope="col">אורך</th>
-                  <th scope="col">מפתח</th>
-                  <th scope="col">מודול</th>
-                </tr>
-              </thead>
-              <tbody>
-                {v.fields.map((f) => (
-                  <tr key={f.tech} data-key={f.key === "PK" || f.key === "FK" ? f.key : ""}>
-                    <th scope="row" className="nx-sap">{f.tech}</th>
-                    <td>{f.he || "—"}</td>
-                    <td className="nx-sap no-dim">{f.en || "—"}</td>
-                    <td className="nx-sap">{f.dt || "—"}</td>
-                    <td className="nx-sap">{f.len || "—"}</td>
-                    <td>
-                      {f.key === "PK" || f.key === "FK" ? (
-                        <span className="no-key" data-k={f.key}>{f.key}</span>
-                      ) : (
-                        <span className="no-dim">—</span>
-                      )}
-                    </td>
-                    <td>
-                      <span className="no-rel-mods">
-                        {f.mods.map((m) => (
-                          <b key={m} style={{ "--m": MOD_VAR[m] } as React.CSSProperties}>{m}</b>
-                        ))}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <Silent what="שדות" />
-        )}
+        {v.fields.length ? <ObjectFields fields={v.fields} name={v.name} /> : <Silent what="שדות" />}
       </Sec>
 
       {/* ================================================== TRANSACTIONS */}
       <Sec
         id="no-tx"
+        n={num["no-tx"]}
         icon={<Terminal size={16} strokeWidth={1.75} />}
         eyebrow="טרנזקציות"
         title="הטרנזקציות שהמילון קושר לטבלה"
+        lede="הקודים מוצגים לפי הרשומה שכתבה אותם, ולצידם המחרוזת המקורית מילה במילה — כדי שניתן יהיה לראות מה פוצל ומה נכתב במקור."
       >
         {v.tcodes.some((t) => t.codes.length) ? (
           <div className="no-tx">
@@ -402,9 +471,11 @@ export function ObjectPage({ v }: { v: ObjectView }) {
       {/* ========================================================= FLOW */}
       <Sec
         id="no-flow"
+        n={num["no-flow"]}
         icon={<Route size={16} strokeWidth={1.75} />}
         eyebrow="תהליך עסקי"
         title="היכן האובייקט יושב בשרשרת"
+        lede="שרשרת התהליך מגיעה ממפת התהליכים של הפרויקט — אותה שרשרת שסביבת העבודה של המודול מציירת. שלב שאין לו טבלה במילון מסומן ככזה ולא מושלם."
       >
         {v.flow.some((f) => f.idx >= 0) ? (
           v.flow.map((f) => (
@@ -434,13 +505,67 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         )}
       </Sec>
 
-      {/* ================================================ ECC ➔ S/4HANA */}
+      {/* ================================================ ECC ➔ S/4HANA
+          The brief promotes this from a comparison footnote to the primary
+          forward context, so the section opens with a STANDING block — risk,
+          what changes, why it matters, the SAP Note the project holds — before
+          the blueprint's own per-row wording. The risk hue lands only on a
+          .nu-status dot; the block's weight comes from size, type and the
+          module edge, which is what the form rule allows. */}
       <Sec
         id="no-s4"
-        icon={<Sigma size={16} strokeWidth={1.75} />}
+        n={num["no-s4"]}
+        icon={<TriangleAlert size={16} strokeWidth={1.75} />}
         eyebrow="ECC ➔ S/4HANA"
         title="מה התכנון אומר על המעבר"
+        lede="קודם ההכרעה של הפרויקט על הטבלה הזאת ומאיפה היא מגיעה, ואחריה מה שכל תכנון כתב בעצמו — מילה במילה."
       >
+        <div className="no-stand" data-risk={v.s4.risk} data-impact={v.s4.impacted ? "1" : "0"}>
+          <p className="no-stand-h">
+            <span className="nu-status" style={{ "--s": RISK_COLOR[v.s4.risk] } as React.CSSProperties}>
+              {v.s4.riskHe}
+            </span>
+            {v.s4.note ? <span className="nu-chip is-sap">{v.s4.note}</span> : null}
+          </p>
+          <p className="no-stand-w">
+            {v.s4.changed ||
+              "הפרויקט אינו מחזיק ניסוח מפורש למה שמשתנה בטבלה הזאת ב-S/4HANA. מה שהתכנון כתב מופיע מתחת, כלשונו."}
+          </p>
+          {v.s4.why ? <p className="no-stand-y">{v.s4.why}</p> : null}
+          {v.s4.tcodes.length || v.s4.cds.length ? (
+            <dl className="no-kv">
+              {v.s4.tcodes.length ? (
+                <div>
+                  <dt>טרנזקציות לבדיקה</dt>
+                  <dd>
+                    {v.s4.tcodes.map((c) => (
+                      <span key={c} className="nu-chip is-sap">{c}</span>
+                    ))}
+                  </dd>
+                </div>
+              ) : null}
+              {v.s4.cds.length ? (
+                <div>
+                  <dt>תצוגות תאימות</dt>
+                  <dd>
+                    {v.s4.cds.map((c) => (
+                      <span key={c} className="nu-chip is-sap">{c}</span>
+                    ))}
+                  </dd>
+                </div>
+              ) : null}
+            </dl>
+          ) : null}
+          <p className="no-stand-t">
+            <BadgeCheck size={12} strokeWidth={1.75} aria-hidden="true" />
+            {v.s4.trustHe} · {TRUST_WHY[v.s4.trust]}
+          </p>
+        </div>
+
+        <h3 className="no-h3">
+          <Sigma size={14} strokeWidth={1.75} aria-hidden="true" />
+          מה שהתכנון כתב, מילה במילה
+        </h3>
         {v.rows.some((r) => r.s4Note || r.s4AltTable || r.s4AltTcode || r.sumNote) ? (
           <div className="no-s4">
             {v.rows.map((r, i) =>
@@ -479,11 +604,17 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         ) : (
           <Silent what="הערת מעבר ל־S/4HANA" />
         )}
+      </Sec>
 
-        <h3 className="no-h3">
-          <Sigma size={14} strokeWidth={1.75} aria-hidden="true" />
-          תצוגות CDS מעל הטבלה
-        </h3>
+      {/* ========================================================== CDS */}
+      <Sec
+        id="no-cds"
+        n={num["no-cds"]}
+        icon={<Sigma size={16} strokeWidth={1.75} />}
+        eyebrow="תצוגות CDS"
+        title="מה קורא את הטבלה ב-S/4HANA"
+        lede="מיפוי מתוחזק של טבלה קלאסית לתצוגת CDS משוחררת. תצוגה מופיעה כאן רק כשהטבלה הזאת נמצאת בה, ולצידה שאר הטבלאות שהיא קוראת."
+      >
         {v.cds.length ? (
           <ul className="no-cds">
             {v.cds.map((c) => (
@@ -497,14 +628,20 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         ) : (
           <Silent what="תצוגות CDS" />
         )}
+        <Link className="nu-link" href="/neo/cds/" prefetch={false}>
+          מרשם ה-CDS של הפרויקט
+          <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
+        </Link>
       </Sec>
 
       {/* =================================================== INTERFACES */}
       <Sec
         id="no-if"
+        n={num["no-if"]}
         icon={<Cable size={16} strokeWidth={1.75} />}
         eyebrow="ממשקים"
         title={`${v.funcs.length} BAPI · FM · IDoc · ${v.progs.length} תוכניות`}
+        lede="השם והתיאור הם של המילון, כולל ממשקי Zetes ו-Daymax שהתכנון רשם. עמודת המודול מראה איזה תכנון רשם את האובייקט."
       >
         {v.funcs.length ? (
           <ul className="no-funcs">
@@ -512,7 +649,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
               <li key={f.name}>
                 <b className="nx-sap">{f.name}</b>
                 <em>{f.he || "—"}</em>
-                <span className="no-rel-mods">
+                <span className="no-modtag">
                   {f.mods.map((m) => (
                     <b key={m} style={{ "--m": MOD_VAR[m] } as React.CSSProperties}>{m}</b>
                   ))}
@@ -534,7 +671,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
               <li key={p.name}>
                 <b className="nx-sap">{p.name}</b>
                 <em>{p.he || "—"}</em>
-                <span className="no-rel-mods">
+                <span className="no-modtag">
                   {p.mods.map((m) => (
                     <b key={m} style={{ "--m": MOD_VAR[m] } as React.CSSProperties}>{m}</b>
                   ))}
@@ -545,21 +682,35 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         ) : (
           <Silent what="תוכניות ודוחות" />
         )}
+        <p className="no-links">
+          <Link className="nu-link" href="/neo/bapi/" prefetch={false}>
+            מרשם ה-BAPI וה-FM
+            <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
+          </Link>
+          <Link className="nu-link" href="/neo/idoc/" prefetch={false}>
+            מרשם ה-IDoc
+            <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
+          </Link>
+        </p>
       </Sec>
 
       {/* ================================================ TROUBLESHOOTING */}
       <Sec
         id="no-trb"
+        n={num["no-trb"]}
         icon={<AlertTriangle size={16} strokeWidth={1.75} />}
         eyebrow="תקלות"
         title={`${v.incidents.length} תקלות שמפנות לטבלה הזו`}
+        lede={
+          <>
+            מתוך קטלוג התקלות של הפרויקט — נכללות רק תקלות שרושמות במפורש את{" "}
+            <span className="nx-sap">{v.name}</span> ברשימת הטבלאות לבדיקה. זו אינה תור תמיכה ואינה
+            מערכת חיה.
+          </>
+        }
       >
         {v.incidents.length ? (
           <>
-            <p className="no-note">
-              מתוך קטלוג התקלות של הפרויקט — נכללות רק תקלות שרושמות במפורש את{" "}
-              <span className="nx-sap">{v.name}</span> ברשימת הטבלאות לבדיקה.
-            </p>
             <ul className="no-inc">
               {v.incidents.map((i) => (
                 <li key={i.slug}>
@@ -602,35 +753,57 @@ export function ObjectPage({ v }: { v: ObjectView }) {
       {/* ======================================================== BOOKS */}
       <Sec
         id="no-books"
+        n={num["no-books"]}
         icon={<Library size={16} strokeWidth={1.75} />}
         eyebrow="ספרייה"
         title="ספרים המכסים את המודול"
+        lede={
+          <>
+            הקישור כאן הוא <b>ברמת המודול</b>. אינדקס הספרייה בפרויקט הוא ברמת פרק, ואין בו מיפוי של
+            טבלה לפרק — לכן לא נטען שספר מסוים מכסה את <span className="nx-sap">{v.name}</span> עצמה.
+          </>
+        }
       >
-        <p className="no-note">
-          <BookOpen size={13} strokeWidth={1.75} aria-hidden="true" />
-          הקישור כאן הוא <b>ברמת המודול</b>. אינדקס הספרייה בפרויקט הוא ברמת פרק, ואין בו
-          מיפוי של טבלה לפרק — לכן לא נטען שספר מסוים מכסה את {v.name} עצמה.
-        </p>
         {v.books.length ? (
           <ul className="no-books">
-            {v.books.map((b) => (
-              <li key={b.id}>
-                <b>{b.titleHe}</b>
-                <em className="nx-sap">{b.title}</em>
-                <span className="no-dim">
-                  {b.module} · {nf.format(b.chapters)} פרקים · {nf.format(b.pages)} עמודים
-                </span>
-              </li>
-            ))}
+            {v.books.map((b) =>
+              b.href ? (
+                <li key={b.id}>
+                  <Link className="nu-card no-bookcard" href={b.href} prefetch={false}>
+                    <b>{b.titleHe}</b>
+                    <em className="nx-sap">{b.title}</em>
+                    <span className="no-dim">
+                      {b.module} · {nf.format(b.chapters)} פרקים · {nf.format(b.pages)} עמודים
+                    </span>
+                    <ArrowUpLeft className="no-bookarw" size={14} strokeWidth={1.75} aria-hidden="true" />
+                  </Link>
+                </li>
+              ) : (
+                // No spine on disk for this shelf entry, so no page was
+                // generated for it and it is a record, not a link.
+                <li key={b.id} className="no-bookflat">
+                  <b>{b.titleHe}</b>
+                  <em className="nx-sap">{b.title}</em>
+                  <span className="no-dim">
+                    {b.module} · {nf.format(b.chapters)} פרקים · {nf.format(b.pages)} עמודים
+                  </span>
+                </li>
+              ),
+            )}
           </ul>
         ) : (
           <Silent what="ספרים" />
         )}
-        <Link className="no-btn" href="/neo/library/" prefetch={false}>
-          <Library size={15} strokeWidth={1.75} aria-hidden="true" />
-          הספרייה הדיגיטלית
-          <ArrowUpLeft size={13} strokeWidth={1.75} aria-hidden="true" />
-        </Link>
+        <p className="no-links">
+          <Link className="nu-btn2" href="/neo/library/" prefetch={false}>
+            <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
+            הספרייה הדיגיטלית
+          </Link>
+          <Link className="nu-link" href="/neo/books/" prefetch={false}>
+            מדף הספרים של NEO
+            <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
+          </Link>
+        </p>
       </Sec>
 
       <p className="no-credit">Project NEO · CBC Israel — פותח על ידי סאלי חליף · Web Coding</p>

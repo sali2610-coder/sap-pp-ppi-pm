@@ -19,9 +19,10 @@
 
 import { useId, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Layers } from "lucide-react";
+import { ArrowLeft, Compass, GitBranch } from "lucide-react";
 import type { Zone } from "@/lib/studio-graph";
 import type { WsData } from "./workspace-data";
+import { Chapter, type ChapterMeta } from "./workspace-chapter";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -35,12 +36,14 @@ const VIEWS: { k: View; he: string }[] = [
 
 export function WorkspaceMap({
   d,
+  meta,
   topic,
   zone,
   onTopic,
   onZone,
 }: {
   d: WsData;
+  meta: ChapterMeta;
   topic: number | null;
   zone: Zone | null;
   onTopic: (idx: number) => void;
@@ -58,34 +61,38 @@ export function WorkspaceMap({
   };
 
   return (
-    <section className="nw-block" aria-labelledby={`${uid}-h`}>
-      <div className="nw-block-h">
-        <p className="nw-block-k">
-          <Layers size={14} strokeWidth={1.75} aria-hidden="true" />
-          מפת המודול
-        </p>
-        <h2 className="nw-block-t" id={`${uid}-h`}>שלוש דרכים להיכנס לאותו מילון</h2>
-        <p className="nw-block-s">
-          לפי נושא, לפי שלב בתהליך, או לפי מחלקת אובייקט. בחירה כאן מצמצמת את טבלת העבודה שמתחת — ולא פותחת
-          מסך נוסף.
-        </p>
-        <div className="nw-tabs" role="tablist" aria-label="תצוגת מפת המודול">
-          {VIEWS.map((v) => (
-            <button
-              key={v.k}
-              type="button"
-              role="tab"
-              id={`${uid}-t-${v.k}`}
-              className="nu-tab"
-              aria-selected={view === v.k}
-              aria-controls={`${uid}-p-${v.k}`}
-              onClick={() => setView(v.k)}
-            >
-              {v.he}
-              <em className="nw-sap">{nf.format(count[v.k])}</em>
-            </button>
-          ))}
-        </div>
+    <Chapter
+      meta={meta}
+      icon={<Compass size={17} strokeWidth={1.75} />}
+      lede={
+        <>
+          לפי נושא, לפי שלב בתהליך, או לפי מחלקת אובייקט — שלוש קריאות של אותו מילון. בחירה כאן מצמצמת
+          את טבלת העבודה בפרק הבא, ולא פותחת מסך נוסף.
+        </>
+      }
+      lead={
+        <Link className="nu-link" href="/neo/erd/" prefetch={false}>
+          תרשים ה-ER המלא של הפרויקט
+          <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
+        </Link>
+      }
+    >
+      <div className="nw-tabs" role="tablist" aria-label="תצוגת מפת המודול">
+        {VIEWS.map((v) => (
+          <button
+            key={v.k}
+            type="button"
+            role="tab"
+            id={`${uid}-t-${v.k}`}
+            className="nu-tab"
+            aria-selected={view === v.k}
+            aria-controls={`${uid}-p-${v.k}`}
+            onClick={() => setView(v.k)}
+          >
+            {v.he}
+            <em className="nw-sap">{nf.format(count[v.k])}</em>
+          </button>
+        ))}
       </div>
 
       {/* ------------------------------------------------------------ topics */}
@@ -194,6 +201,18 @@ export function WorkspaceMap({
           </p>
         </div>
       ) : null}
-    </section>
+
+      <p className="nw-links">
+        <Link className="nu-link" href="/neo/erd/" prefetch={false}>
+          מודל התחומים
+          <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
+        </Link>
+        <Link className="nu-link" href="/neo/tables/" prefetch={false}>
+          <GitBranch size={13} strokeWidth={1.75} aria-hidden="true" />
+          מילון הטבלאות של הפרויקט
+          <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
+        </Link>
+      </p>
+    </Chapter>
   );
 }

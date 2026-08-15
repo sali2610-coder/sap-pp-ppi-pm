@@ -37,10 +37,12 @@ import {
 } from "@/lib/module-portal";
 import { cdsForTable } from "@/data/cds-map";
 import { classifyFunc, cleanFunc } from "@/lib/object-intel";
+import { RISK_HE, TRUST_HE, s4For } from "@/lib/s4";
+import { BOOK_IDENTITY } from "@/lib/book-identity";
 import { FLOWS, ZONES, zoneOf, type Zone } from "@/lib/studio-graph";
 import { LIBRARY } from "@/data/library";
 import { BOOKS } from "@/data/library/academy-index";
-import type { SAPModuleData, SAPTable } from "@/lib/types";
+import type { SAPModuleData, SAPSheet, SAPTable } from "@/lib/types";
 import type { ModuleKey } from "../types";
 
 /* ------------------------------------------------------------------ types */
@@ -153,6 +155,67 @@ export interface WsBook {
   publisher: string;
   pages: number;
   chapters: number;
+  /** `/neo/books/<bookId>/` when lib/book-identity maps this shelf entry onto a
+   *  spine that data/books actually holds, else null. A null renders as a plain
+   *  record — the shelf link below it still leads somewhere real. */
+  href: string | null;
+}
+
+/** One aux sheet of the blueprint, kept VERBATIM. The extractor already stores
+ *  these as header + rows (lib/types SAPSheet) and nothing is reshaped here:
+ *  the workspace renders the columns the blueprint wrote, in its order. */
+export interface WsSheet {
+  /** Stable key so the surface can pick an icon and a sentence without reading
+   *  the Hebrew title. */
+  key: "simplification" | "config" | "customCode" | "tcodesDir" | "tools" | "ppvs";
+  /** The blueprint's own sheet title. */
+  title: string;
+  headers: string[];
+  rows: string[][];
+  /** Column index that carries the row's identity (the one drawn as its
+   *  heading). Derived from the header shape, never guessed per row. */
+  keyCol: number;
+}
+
+/** A table the dictionary says materially changes in S/4HANA. Everything here
+ *  is either verbatim from the blueprint or resolved by lib/s4.ts — which is
+ *  itself either curated Simplification-List knowledge or a derivation from the
+ *  blueprint's own S/4 column, and says which. */
+export interface WsS4Row {
+  n: string;
+  he: string;
+  href: string;
+  obj: string;
+  /** Verdict class, the same bucketing the working table shows. */
+  s4: S4Class;
+  risk: "high" | "medium" | "low" | "none";
+  riskHe: string;
+  trust: "verified" | "partial" | "needs";
+  trustHe: string;
+  /** lib/s4 `changed` — what changes. "" when the resolver holds nothing. */
+  changed: string;
+  /** lib/s4 `why` — why it matters. "" when the resolver holds nothing. */
+  why: string;
+  /** SAP Note / Simplification reference, only from the curated entry. Never
+   *  synthesised: a note number the project does not hold is not printed. */
+  note: string;
+  /** Verbatim blueprint columns. */
+  s4Note: string;
+  s4Alt: string;
+  sum: string;
+  fiori: string;
+  /** Transactions and CDS views the curated entry names, when it names any. */
+  tcodes: string[];
+  cds: string[];
+}
+
+/** One interface object of the module, and how far it reaches into it. */
+export interface WsIface {
+  n: string;
+  k: string;
+  he: string;
+  /** Distinct module tables whose dictionary row names this object. */
+  tables: number;
 }
 
 export interface WsCourse {
@@ -210,6 +273,33 @@ export interface WsData {
 
   zones: { id: Zone; he: string; n: number; obj: string }[];
   s4: { kept: number; replaced: number; removed: number };
+
+  /* --- S/4HANA, as the forward context of the whole page ------------------ */
+  s4x: {
+    /** Risk mix over the DISTINCT tables, resolved by lib/s4.ts. */
+    risk: { high: number; medium: number; low: number; none: number };
+    /** How the resolver knows: curated · derived from the blueprint · unknown. */
+    trust: { verified: number; partial: number; needs: number };
+    /** Tables whose risk is high or medium — the ones that actually move. */
+    changed: WsS4Row[];
+    /** Distinct SAP Note / Simplification references the project holds for this
+     *  module's tables. Empty when the project holds none. */
+    notes: string[];
+    /** Blueprint columns present at all, so the surface can say which of them
+     *  this module's blueprint filled in and which it left empty. */
+    has: { alt: number; sum: number; fiori: number; note: number };
+  };
+
+  /** Aux blueprint sheets this module actually carries. PM and PP-PI carry
+   *  DIFFERENT ones, and the page renders what exists rather than a fixed set. */
+  sheets: WsSheet[];
+
+  /** Interface objects, ranked by reach, plus the kind split. */
+  ifaces: WsIface[];
+  /** CDS views mapped onto this module's tables. */
+  cds: { view: string; he: string; tables: string[] }[];
+  /** Fiori apps the blueprint names, and the tables that name them. */
+  fiori: { app: string; tables: string[] }[];
 
   rel: {
     edges: number;
@@ -305,6 +395,43 @@ function s4Of(t: SAPTable): S4Class {
  *  booksFor() does — the two are one shelf in this product, not two. */
 const bookMatch = (k: ModuleKey, mod: string) =>
   k === "PP-PI" ? mod === "PP-PI" || mod === "PP" : mod === k;
+
+/** Shelf id -> spine id, inverted from lib/book-identity's own table. The book
+ *  hub route (app/neo/books/[bookId]) generates from the spines on disk, so a
+ *  shelf entry that has no spine gets no link rather than a broken one. */
+const SPINE_OF_SHELF: Record<string, string> = Object.fromEntries(
+  Object.values(BOOK_IDENTITY)
+    .filter((b) => b.shelfId)
+    .map((b) => [b.shelfId as string, b.bookId]),
+);
+
+/** The aux sheets, in reading order, with the column that carries each row's
+ *  identity. Both indices are read off the blueprint's own header row — never a
+ *  fixed position — so a re-extraction that adds a column cannot silently make
+ *  the surface point at the wrong cell. */
+const SHEET_ORDER: WsSheet["key"][] = ["simplification", "tcodesDir", "tools", "ppvs", "config", "customCode"];
+
+/** The header the sheet's identity column is written under, per sheet. Matched
+ *  case-insensitively against the blueprint's own header text; if none of them
+ *  is found the first non-ordinal column wins. */
+const SHEET_KEYCOL: Record<WsSheet["key"], RegExp> = {
+  simplification: /Simplification Item/i,
+  config: /אובייקט קונפיגורציה/,
+  customCode: /קוד \/ שם טכני/,
+  tcodesDir: /T-Code/i,
+  tools: /כלי/,
+  ppvs: /היבט/,
+};
+
+function sheetOf(m: SAPModuleData, key: WsSheet["key"]): WsSheet | null {
+  const s: SAPSheet | undefined = m[key];
+  if (!s || !s.rows.length) return null;
+  const want = SHEET_KEYCOL[key];
+  let keyCol = s.headers.findIndex((h) => want.test(h || ""));
+  // Fallback: the first column that is not the blueprint's ordinal counter.
+  if (keyCol < 0) keyCol = Math.max(0, s.headers.findIndex((h) => !/^מס'/.test((h || "").trim())));
+  return { key, title: clean(s.title), headers: s.headers.map(clean), rows: s.rows, keyCol };
+}
 
 /** Academy courses. The course registry uses its own module vocabulary
  *  ("PM-User", "PP/DS"), so the match is stated explicitly rather than guessed
@@ -480,6 +607,99 @@ export function workspaceData(key: ModuleKey): WsData {
     if ((t.fioriApp || "").trim()) fioriSet.add(t.fioriApp!.trim());
   }
 
+  /* --- S/4HANA as the forward context -------------------------------------
+     lib/s4.ts is the project's own resolver: a curated Simplification-List
+     entry wins, then a verified-stable flag, then a derivation from the
+     blueprint's own S/4 column (marked "partial"), then nothing. Every table
+     below therefore says HOW it is known, not only what it says. */
+  const risk = { high: 0, medium: 0, low: 0, none: 0 };
+  const trust = { verified: 0, partial: 0, needs: 0 };
+  const has = { alt: 0, sum: 0, fiori: 0, note: 0 };
+  const noteSet = new Set<string>();
+  const changed: WsS4Row[] = [];
+  const rowByName = new Map<string, WsRow>();
+  for (const r of wsRows) if (!rowByName.has(r.n)) rowByName.set(r.n, r);
+
+  for (const t of distinct) {
+    const st = s4For(t.tableName, t.s4Note, t.s4AltTable);
+    risk[st.risk]++;
+    trust[st.trust]++;
+    if (clean(t.s4Note || "")) has.note++;
+    if (clean([t.s4AltTable, t.s4AltTcode].filter(Boolean).join(" "))) has.alt++;
+    if (clean(t.sumNote || "")) has.sum++;
+    if (clean(t.fioriApp || "")) has.fiori++;
+    if (st.impact?.note) noteSet.add(st.impact.note);
+    if (!st.impacted) continue;
+    const row = rowByName.get(t.tableName);
+    changed.push({
+      n: t.tableName,
+      he: t.descriptionHe || t.descriptionEn || "",
+      href: `/neo/object/${t.tableName}/`,
+      obj: objVar(zoneOf(t.tableName)),
+      s4: s4Of(t),
+      risk: st.risk,
+      riskHe: RISK_HE[st.risk] || "",
+      trust: st.trust,
+      trustHe: TRUST_HE[st.trust] || "",
+      changed: clean(st.impact?.changed || ""),
+      why: clean(st.impact?.why || ""),
+      note: clean(st.impact?.note || ""),
+      s4Note: clean(t.s4Note || ""),
+      s4Alt: row?.s4Alt || clean([t.s4AltTable, t.s4AltTcode].filter(Boolean).join(" · ")),
+      sum: clean(t.sumNote || ""),
+      fiori: clean(t.fioriApp || ""),
+      tcodes: uniq(st.impact?.tcodes || []),
+      cds: uniq(st.impact?.cds || []),
+    });
+  }
+  // High risk first, then medium, then by name. Not an editorial ranking: it is
+  // the resolver's own verdict, ordered.
+  const RANK: Record<string, number> = { high: 0, medium: 1, low: 2, none: 3 };
+  changed.sort((a, b) => RANK[a.risk] - RANK[b.risk] || a.n.localeCompare(b.n));
+
+  /* --- interfaces, ranked by how far into the module they reach -----------
+     Iterated over ROWS, not distinct tables, so this list holds exactly the
+     same objects the header's normalised count reports. A table documented
+     under two topics contributes its name once, because reach is a Set of
+     table names — the count is deduped, the source rows are not. */
+  const ifaceReach = new Map<string, { k: string; he: string; tables: Set<string> }>();
+  for (const t of rows) {
+    for (const [raw, he] of t.funcs || []) {
+      const c = cleanFunc((raw || "").trim());
+      if (!c) continue;
+      const cur = ifaceReach.get(c) || { k: classifyFunc(c), he: "", tables: new Set<string>() };
+      if (!cur.he) cur.he = clean(he);
+      cur.tables.add(t.tableName);
+      ifaceReach.set(c, cur);
+    }
+  }
+  const ifaces: WsIface[] = [...ifaceReach.entries()]
+    .map(([n, v]) => ({ n, k: v.k, he: v.he, tables: v.tables.size }))
+    .sort((a, b) => b.tables - a.tables || a.n.localeCompare(b.n));
+
+  /* --- CDS views over this module's tables, deduped ----------------------- */
+  const cdsMap = new Map<string, { view: string; he: string; tables: string[] }>();
+  for (const t of distinct) {
+    for (const v of cdsForTable(t.tableName)) {
+      if (!cdsMap.has(v.view)) cdsMap.set(v.view, { view: v.view, he: v.he, tables: [] });
+      cdsMap.get(v.view)!.tables.push(t.tableName);
+    }
+  }
+  const cdsList = [...cdsMap.values()]
+    .map((v) => ({ ...v, tables: uniq(v.tables).sort() }))
+    .sort((a, b) => b.tables.length - a.tables.length || a.view.localeCompare(b.view));
+
+  /* --- Fiori apps, exactly as the blueprint names them -------------------- */
+  const fioriMap = new Map<string, string[]>();
+  for (const t of distinct) {
+    const app = clean(t.fioriApp || "");
+    if (!app) continue;
+    fioriMap.set(app, [...(fioriMap.get(app) || []), t.tableName]);
+  }
+  const fioriList = [...fioriMap.entries()]
+    .map(([app, tables]) => ({ app, tables: uniq(tables).sort() }))
+    .sort((a, b) => b.tables.length - a.tables.length || a.app.localeCompare(b.app));
+
   const out: WsData = {
     key,
     code: key,
@@ -523,6 +743,14 @@ export function workspaceData(key: ModuleKey): WsData {
 
     s4: { kept: s4.kept.length, replaced: s4.replaced.length, removed: s4.removed.length },
 
+    s4x: { risk, trust, changed, notes: [...noteSet].sort(), has },
+
+    sheets: SHEET_ORDER.map((k) => sheetOf(m, k)).filter((s): s is WsSheet => !!s),
+
+    ifaces,
+    cds: cdsList,
+    fiori: fioriList,
+
     rel: {
       edges: edges.length,
       inside: edges.filter((e) => e.toExists).length,
@@ -558,6 +786,7 @@ export function workspaceData(key: ModuleKey): WsData {
       publisher: b.publisher,
       pages: b.pages,
       chapters: b.chapters.length,
+      href: SPINE_OF_SHELF[b.id] ? `/neo/books/${SPINE_OF_SHELF[b.id]}/` : null,
     })),
 
     courses: BOOKS.filter((b) => COURSE_MODULES[key].includes(b.module)).map((b) => ({

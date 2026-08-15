@@ -9,10 +9,42 @@
    THE FORM RULE (app/globals.css, above --mod-pm) IS THE LAW HERE:
      · MODULE  --mod-*   surface tint, ring, line, edge, section marker.
                          Never a small standalone dot.
-     · STATUS  --status-* does not appear on this page at all.
-     · OBJECT  --obj-*   the data's own class. Chips and markers ON the object.
+     · STATUS  --status-* / RISK_COLOR: only ever a .nu-status — a small filled
+                         dot immediately followed by its word. It appears in
+                         exactly two places on this page (the S/4HANA flag in
+                         the identity band, and the standing block) and takes no
+                         other form in either. A high-risk callout gets its
+                         weight from SIZE, TYPE and a MODULE edge instead.
+     · OBJECT  --obj-*   the data's own class. Chips and markers ON the object,
+                         and the PRIMARY KEY badge, which the object palette is
+                         allowed to fill.
      · RELATION --rel-*  cardinality only, on lines and cardinality pills.
-     · BRAND   --brand   one accent, one button. Never a data category.
+     · BRAND   --brand   one accent. Never a data category.
+
+   THE INTERACTION SYSTEM. This page predates app/neo/ui.css and used to define
+   its own buttons (.no-btn), its own jump pills and its own segmented control
+   (.no-seg-b) — a fourth dialect of "clickable" in a product whose whole
+   complaint was that clickability was unreadable. Every control on it is now a
+   ui.css class:
+     .nu-btn    the one primary route out of the identity band
+     .nu-btn2   secondary routes, and the orbit's "open this table"
+     .nu-ghost  the jump nav — an action that stays on this page
+     .nu-filter the orbit's direction / module scopes, and the field scopes
+     .nu-link   anything that leaves for another route
+     .nu-chip   a value with no destination (a SAP Note id, a T-Code)
+     .nu-status a state (S/4HANA risk), dot + word
+     .nu-card   a whole selectable region (an orbit satellite, a book)
+   The rules below only ever give one of them a LAYOUT.
+
+   HIERARCHY, which is what the client asked for here: "Keep its clean
+   structure… but improve hierarchy. Each major section needs stronger visual
+   separation." The ramp:
+     object name   .no-mega    clamp(1.9rem → 3.4rem)   700
+     section       .no-h2      clamp(1.35rem → 1.9rem)  700  ← was flat --t-h2
+     sub-block     .no-h3      1.0625rem                700
+     data label    dt / th     var(--t-micro)           650
+   plus a numbered .no-sec-n in module tint, so the page can be counted, and a
+   real gap between sections rather than a hairline.
 
    MOTION: only transform and opacity are animated, everywhere, without
    exception. Nothing on the page needs to move for the page to be understood.
@@ -20,11 +52,13 @@
 
 .no {
   display: grid;
-  gap: var(--sp-8);
+  /* The client's one instruction about spacing on this page: "clear spacing"
+     between major sections. --sp-8 read as a list; --sp-12 reads as chapters. */
+  gap: var(--sp-12);
   align-content: start;
   container-type: inline-size;
   container-name: no;
-  padding-block-end: var(--sp-8);
+  padding-block-end: var(--sp-10);
 }
 
 /* ==========================================================================
@@ -177,46 +211,97 @@
 }
 .no-stat em { font-size: var(--t-micro); color: var(--ink-3); font-style: normal; }
 
-.no-cta { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
-.no-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-2);
-  min-block-size: 2.5rem;
-  padding-inline: var(--sp-4);
+/* ==========================================================================
+   THE KEY LINE — "Primary Key must be obvious. Foreign Key must be obvious."
+   It sits in the identity band, above the numbers, because the compound key is
+   what the object IS. PK is filled in the OBJECT hue (the object palette is the
+   one palette allowed a solid form); FK is the same badge, outlined and dashed,
+   which is the same distinction the fields table draws — one language, twice.
+   ========================================================================== */
+.no-keyline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-5);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
   border: 1px solid var(--hairline);
-  border-radius: var(--r-sm);
-  background: var(--surface);
-  color: var(--ink-1);
-  font-size: var(--t-xs);
-  font-weight: 600;
-  transition: transform var(--dur-fast) var(--ease-out-expo), opacity var(--dur-fast);
 }
-.no-btn:hover { transform: translateY(-1px); }
-.no-btn:active { transform: translateY(0); }
-.no-btn--brand { background: var(--brand); border-color: var(--brand); color: var(--brand-foreground); }
-.no-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.no-keyline-g { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); min-inline-size: 0; }
+.no-keyline-g > b {
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  padding: 3px 7px;
+  border-radius: var(--r-xs);
+  flex: none;
+}
+.no-keyline-g[data-k="PK"] > b {
+  background: var(--o);
+  color: var(--surface);
+  border: 1px solid var(--o);
+}
+html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0b0e11; }
+.no-keyline-g[data-k="FK"] > b {
+  background: transparent;
+  color: var(--ink-2);
+  border: 1px dashed color-mix(in srgb, var(--o) 60%, var(--ink-3));
+}
+.no-keyline-g > span {
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-size: var(--t-sm);
+  font-weight: 700;
+  color: var(--ink-1);
+}
+.no-keyline-g[data-k="FK"] > span { font-weight: 600; color: var(--ink-2); }
+.no-keyline-g > em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+
+/* --- the S/4HANA flag. Loud by size and placement, never by a coloured box - */
+.no-s4flag {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-3);
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+  /* MODULE-neutral: the object's own class carries the edge here, thick, so it
+     reads as an alert without a status hue ever becoming a line. */
+  border-inline-start: 5px solid var(--o);
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  line-height: 1.65;
+  max-inline-size: 82ch;
+}
+.no-s4flag .nu-status { font-size: var(--t-xs); font-weight: 700; flex: none; }
+.no-s4flag > b { font-size: 1rem; color: var(--ink-1); flex: none; }
+.no-s4flag > span { flex: 1 1 20rem; min-inline-size: 0; }
+.no-s4flag .nu-link { flex: none; }
+
+.no-cta { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
 
 .no-jump {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sp-1) var(--sp-2);
-  padding-block-start: var(--sp-3);
+  gap: var(--sp-1);
+  padding-block-start: var(--sp-4);
   border-block-start: 1px solid var(--hairline);
 }
-.no-jump a {
-  display: inline-flex;
-  align-items: center;
-  min-block-size: 2rem;
-  padding-inline: var(--sp-3);
-  border-radius: var(--r-pill);
-  background: var(--surface-2);
-  font-size: var(--t-micro);
-  color: var(--ink-2);
-  transition: transform var(--dur-fast) var(--ease-out-expo);
+/* .nu-ghost owns every state; this only sets the density and the ordinal. */
+.no-jump a { font-size: var(--t-xs); padding-inline: var(--sp-3); }
+.no-jump a em {
+  font-style: normal;
+  font-size: 10px;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+  margin-inline-end: 5px;
 }
-.no-jump a:hover { transform: translateY(-1px); color: var(--ink-1); }
-.no-jump a:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
 /* ==========================================================================
    SECTIONS
@@ -224,42 +309,97 @@
 
 .no-sec {
   display: grid;
-  gap: var(--sp-4);
-  padding: var(--sp-5);
+  gap: var(--sp-6);
+  padding: var(--sp-7);
   border: 1px solid var(--hairline);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-xl);
   background: var(--surface);
   scroll-margin-block-start: calc(var(--c-top-h) + var(--sp-4));
 }
-.no-sec-h { display: grid; grid-template-columns: auto 1fr; gap: var(--sp-1) var(--sp-3); align-items: center; }
+
+/* --- the section head. The number is the anchor the eye counts by ---------- */
+.no-sec-h {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--sp-2) var(--sp-5);
+  align-items: start;
+  padding-block-end: var(--sp-4);
+  /* MODULE as the section rule. A line — the sanctioned form. */
+  border-block-end: 1px solid color-mix(in srgb, var(--o) 20%, var(--hairline));
+}
+.no-sec-n {
+  grid-row: 1 / span 3;
+  align-self: start;
+  font-size: clamp(2.25rem, 5cqi, 3.25rem);
+  font-weight: 700;
+  line-height: .8;
+  letter-spacing: -.05em;
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+  /* OBJECT hue as a tint on a numeral. A numeral is a surface, not a dot. */
+  color: color-mix(in srgb, var(--o) 30%, transparent);
+  padding-block-start: .1em;
+}
+.no-sec-k {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--t-micro);
+  font-weight: 650;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
 .no-sec-ico {
-  grid-row: 1 / span 2;
   display: grid;
   place-items: center;
-  inline-size: 2.25rem;
-  block-size: 2.25rem;
+  inline-size: 1.75rem;
+  block-size: 1.75rem;
   border-radius: var(--r-sm);
-  background: var(--surface-2);
-  color: var(--ink-2);
+  /* OBJECT hue as a tinted ring — the section belongs to this object's class. */
+  background: color-mix(in srgb, var(--o) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--o) 26%, var(--hairline));
+  color: var(--o);
+  flex: none;
+}
+.no-sec-k::after {
+  content: '';
+  flex: 0 0 2rem;
+  block-size: 2px;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--o) 45%, transparent);
 }
 .no-h2 {
-  font-size: var(--t-h2);
-  line-height: var(--t-h2-lh);
-  letter-spacing: var(--t-h2-tr);
+  font-size: clamp(1.35rem, 2.8cqi, 1.9rem);
+  line-height: 1.18;
+  letter-spacing: -.022em;
   font-weight: 700;
   color: var(--ink-1);
+  text-wrap: balance;
 }
+.no-sec-s {
+  font-size: var(--t-body);
+  line-height: 1.72;
+  color: var(--ink-2);
+  max-inline-size: 74ch;
+}
+.no-sec-s b { color: var(--ink-1); font-weight: 650; }
+.no-sec-b { display: grid; gap: var(--sp-5); align-content: start; }
+.no-sec-b > * { min-inline-size: 0; }
+
 .no-h3 {
   display: flex;
   align-items: center;
   gap: var(--sp-2);
-  font-size: var(--t-sm);
+  font-size: 1.0625rem;
   font-weight: 700;
+  letter-spacing: -.012em;
   color: var(--ink-1);
-  padding-block-start: var(--sp-2);
+  padding-block-start: var(--sp-4);
   border-block-start: 1px solid var(--hairline);
 }
-.no-h3 svg { color: var(--ink-3); }
+.no-h3 svg { color: var(--o); flex: none; }
+.no-links { display: flex; gap: var(--sp-4); flex-wrap: wrap; align-items: center; }
 
 .no-note {
   display: flex;
@@ -410,8 +550,8 @@
 }
 /* RELATION strength as a short segment — the relation palette is a line palette. */
 .no-rel-card i { inline-size: 12px; block-size: 2px; border-radius: 2px; background: var(--r); }
-.no-rel-mods { display: inline-flex; gap: 4px; }
-.no-rel-mods b {
+.no-modtag { display: inline-flex; gap: 4px; }
+.no-modtag b {
   font-size: 10px;
   font-weight: 600;
   padding: 2px 6px;
@@ -457,6 +597,71 @@
    FIELDS
    ========================================================================== */
 
+.no-fields { display: grid; gap: var(--sp-5); }
+
+/* --- 1 · the keys, read before the table --------------------------------- */
+.no-keys { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr)); gap: var(--sp-4); }
+.no-keyg {
+  display: grid;
+  gap: var(--sp-3);
+  align-content: start;
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+}
+/* The primary-key panel carries the OBJECT hue as a solid leading edge; the
+   foreign-key panel carries the same edge dashed. Same distinction as the
+   badges, at panel scale. */
+.no-keyg[data-k="PK"] { border-inline-start: 4px solid var(--o); }
+.no-keyg[data-k="FK"] { border-inline-start: 4px dashed color-mix(in srgb, var(--o) 55%, var(--ink-3)); }
+.no-keyg h4 {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -.012em;
+  color: var(--ink-1);
+}
+.no-keyg h4 svg { color: var(--o); flex: none; }
+.no-keyg h4 em {
+  margin-inline-start: auto;
+  font-style: normal;
+  font-size: var(--t-sm);
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.no-keyl { display: grid; gap: var(--sp-2); }
+.no-keyl li {
+  display: grid;
+  grid-template-columns: 1.25rem 9rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: var(--sp-2) var(--sp-3);
+  padding-block: 2px;
+}
+.no-keyn { font-size: 10px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.no-keyl b { font-family: var(--font-mono); direction: ltr; font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); overflow-wrap: anywhere; }
+.no-keyl span { font-size: var(--t-xs); color: var(--ink-2); }
+.no-keyl em {
+  font-style: normal;
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+
+/* --- 2 · the scope. .nu-filter owns every state --------------------------- */
+.no-scope { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.no-scope .nu-filter em {
+  font-style: normal;
+  font-size: 10px;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- 3 · the table -------------------------------------------------------- */
 .no-tw { overflow-x: auto; border: 1px solid var(--hairline); border-radius: var(--r-md); }
 .no-table { inline-size: 100%; border-collapse: collapse; font-size: var(--t-xs); min-inline-size: 44rem; }
 .no-cap {
@@ -483,20 +688,38 @@
 .no-table tbody tr:last-child { border-block-end: 0; }
 .no-table tbody th { font-family: var(--font-mono); direction: ltr; font-weight: 700; color: var(--ink-1); }
 .no-table td.nx-sap { font-family: var(--font-mono); direction: ltr; }
-.no-table tr[data-key="PK"] { background: color-mix(in srgb, var(--o) 5%, transparent); }
+.no-c-k { inline-size: 4.5rem; }
+/* A key row is scannable at a glance: a leading EDGE in the object's own hue,
+   solid for a primary key and dashed for a foreign one. That is what makes the
+   two findable in a forty-row table without reading a single cell. */
+.no-table tr[data-key="PK"] > :first-child {
+  box-shadow: inset 3px 0 0 0 var(--o);
+}
+[dir="ltr"] .no-table tr[data-key="PK"] > :first-child { box-shadow: inset -3px 0 0 0 var(--o); }
+.no-table tr[data-key="PK"] { background: color-mix(in srgb, var(--o) 7%, transparent); }
+.no-table tr[data-key="PK"] tbody th, .no-table tr[data-key="PK"] th[scope="row"] { color: var(--ink-1); }
+.no-table tr[data-key="FK"] { background: color-mix(in srgb, var(--o) 3%, transparent); }
 .no-key {
   display: inline-block;
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 700;
-  padding: 2px 6px;
+  letter-spacing: .04em;
+  padding: 3px 7px;
   border-radius: var(--r-xs);
   direction: ltr;
   border: 1px solid var(--ink-3);
   color: var(--ink-1);
 }
-.no-key[data-k="PK"] { border-color: var(--o); background: color-mix(in srgb, var(--o) 16%, transparent); }
-.no-key[data-k="FK"] { border-style: dashed; color: var(--ink-2); }
+/* OBJECT hue may be solid — it is the data's own palette. */
+.no-key[data-k="PK"] { border-color: var(--o); background: var(--o); color: var(--surface); }
+html[data-theme="dark"] .no-key[data-k="PK"] { color: #0b0e11; }
+.no-key[data-k="FK"] {
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--o) 60%, var(--ink-3));
+  color: var(--ink-2);
+  background: transparent;
+}
 
 /* ==========================================================================
    TRANSACTIONS · FLOW · S/4
@@ -543,6 +766,50 @@
   transform: translateY(-2px);
 }
 
+/* --- the S/4HANA standing block. The brief: "make it one of the most visually
+   noticeable things on the page — badge, callout, accent border, status block.
+   Do NOT hide this inside a small paragraph." So: a real callout, a real status
+   block, a thick accent edge — and the accent is the OBJECT hue, because a risk
+   hue may only ever be a .nu-status dot. ------------------------------------ */
+.no-stand {
+  display: grid;
+  gap: var(--sp-3);
+  padding: var(--sp-5);
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--o) 5%, var(--surface-2));
+  border: 1px solid color-mix(in srgb, var(--o) 24%, var(--hairline));
+  border-inline-start: 4px solid color-mix(in srgb, var(--o) 55%, var(--hairline));
+}
+/* A table the project rates high or medium gets the heavy edge and a lift, so
+   it is the first thing the eye lands on inside the section. */
+.no-stand[data-impact="1"] {
+  border-inline-start-width: 7px;
+  border-inline-start-color: var(--o);
+  box-shadow: var(--elev-2);
+}
+.no-stand-h { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.no-stand-h .nu-status { font-size: var(--t-xs); font-weight: 700; }
+.no-stand-w {
+  font-size: 1.0625rem;
+  line-height: 1.62;
+  font-weight: 600;
+  color: var(--ink-1);
+  max-inline-size: 76ch;
+}
+.no-stand[data-impact="1"] .no-stand-w { font-size: 1.1875rem; }
+.no-stand-y { font-size: var(--t-sm); line-height: 1.72; color: var(--ink-2); max-inline-size: 78ch; }
+.no-stand-t {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  padding-block-start: var(--sp-2);
+  border-block-start: 1px solid var(--hairline);
+}
+.no-stand-t svg { flex: none; }
+.no-stand .no-kv dd .nu-chip { margin-inline-end: 4px; }
+
 .no-s4 { display: grid; gap: var(--sp-3); }
 .no-s4 article {
   display: grid;
@@ -572,20 +839,26 @@
   border-radius: var(--r-sm);
   font-size: var(--t-xs);
 }
-.no-cds li b, .no-funcs li b { font-family: var(--font-mono); direction: ltr; color: var(--ink-1); }
+.no-cds li b, .no-funcs li b { font-family: var(--font-mono); direction: ltr; color: var(--ink-1); overflow-wrap: anywhere; }
 .no-cds li em, .no-funcs li em { color: var(--ink-2); font-style: normal; }
 .no-cds li span { font-size: var(--t-micro); direction: ltr; }
-.no-books li {
+/* A book row is a route when the reader actually holds that spine; a record
+   when it does not. .nu-card supplies the frame and every state for the first
+   case, .no-bookflat draws the second with no hover and no pointer. */
+.no-bookcard, .no-bookflat {
   display: grid;
-  gap: 3px;
-  padding: var(--sp-3);
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-sm);
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 3px var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
   font-size: var(--t-xs);
+  min-block-size: var(--c-tap);
+  align-content: center;
 }
-.no-books li b { color: var(--ink-1); }
-.no-books li em { font-style: normal; direction: ltr; unicode-bidi: isolate; color: var(--ink-2); font-size: var(--t-micro); }
-.no-books li span { font-size: var(--t-micro); }
+.no-bookflat { border: 1px dashed var(--hairline); border-radius: var(--r-md); }
+.no-books li b { grid-column: 1; font-size: var(--t-sm); color: var(--ink-1); line-height: 1.45; }
+.no-books li em { grid-column: 1; font-style: normal; direction: ltr; unicode-bidi: isolate; color: var(--ink-2); font-size: var(--t-micro); }
+.no-books li span { grid-column: 1; font-size: var(--t-micro); }
+.no-bookarw { grid-column: 2; grid-row: 1 / span 3; align-self: center; color: var(--o); }
 
 /* ==========================================================================
    TROUBLESHOOTING
@@ -651,36 +924,9 @@
 .no-orbit-title svg { color: var(--ink-3); }
 .no-orbit-note { display: inline-flex; align-items: center; gap: 5px; margin-inline-start: auto; font-size: var(--t-micro); color: var(--ink-3); }
 
-.no-seg {
-  display: inline-flex;
-  gap: 2px;
-  padding: 2px;
-  border: 1px solid var(--hairline);
-  border-radius: var(--r-sm);
-  background: var(--surface-2);
-}
-.no-seg-b {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  min-block-size: 2rem;
-  padding-inline: var(--sp-3);
-  border-radius: var(--r-xs);
-  font-size: var(--t-micro);
-  color: var(--ink-2);
-  background: transparent;
-  transition: opacity var(--dur-fast), transform var(--dur-fast) var(--ease-out-expo);
-}
-.no-seg-b:hover { color: var(--ink-1); }
-.no-seg-b:active { transform: scale(.97); }
-.no-seg-b[aria-pressed="true"] { background: var(--surface); color: var(--ink-1); font-weight: 600; box-shadow: var(--elev-1); }
-.no-seg-b:focus-visible { outline: none; box-shadow: var(--focus-ring); }
-/* MODULE identity on the filter — a line, never a dot. */
-.no-seg-b--mod i { inline-size: 3px; block-size: 12px; border-radius: 2px; background: var(--m); }
-@media (pointer: coarse) {
-  .no-seg-b { min-block-size: var(--c-tap, 2.75rem); padding-inline: var(--sp-4); }
-  .no-jump a { min-block-size: var(--c-tap, 2.75rem); }
-}
+/* A group of scopes. .nu-filter owns the pill, the pressed state (a short
+   MODULE bar, drawn by ui.css) and the focus ring; this only groups them. */
+.no-seg { display: inline-flex; flex-wrap: wrap; gap: var(--sp-2); }
 
 .no-orbit-scroll {
   overflow-x: auto;
@@ -729,6 +975,8 @@
 /* --- satellites ----------------------------------------------------------- */
 .no-sat { transition: opacity var(--dur-base) var(--ease-out-expo); }
 .no-sat[data-dim="1"] { opacity: .34; }
+/* .nu-card supplies the frame, hover, active and focus language. This is layout
+   only: a foreignObject child has to fill its box exactly. */
 .no-sat-b {
   display: grid;
   grid-template-columns: 8px 1fr;
@@ -738,14 +986,10 @@
   block-size: 100%;
   padding-inline: 8px;
   text-align: start;
-  border: 1px solid color-mix(in srgb, var(--m) 40%, var(--hairline));
   border-radius: var(--r-sm);
-  background: var(--surface);
+  border-color: color-mix(in srgb, var(--m) 40%, var(--hairline));
   box-shadow: var(--elev-1);
-  transition: transform var(--dur-base) var(--ease-out-expo), box-shadow var(--dur-base) var(--ease-out-expo);
 }
-.no-sat-b:hover { transform: translateY(-2px); box-shadow: var(--elev-3); }
-.no-sat-b:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 .no-sat[data-on="1"] .no-sat-b { border-color: var(--m); box-shadow: var(--elev-3); transform: translateY(-2px); }
 .no-sat-cls { grid-row: 1 / span 2; inline-size: 8px; block-size: 8px; border-radius: 50%; background: var(--o); }
 .no-sat-b b { font-family: var(--font-mono); direction: ltr; font-size: 12px; font-weight: 700; color: var(--ink-1); }
@@ -809,22 +1053,8 @@
   color: var(--ink-1);
 }
 .no-rel i { inline-size: 14px; block-size: 2px; border-radius: 2px; background: var(--r); }
-.no-read-go {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  margin-inline-start: auto;
-  min-block-size: 2rem;
-  padding-inline: var(--sp-3);
-  border-radius: var(--r-sm);
-  border: 1px solid var(--hairline);
-  font-size: var(--t-micro);
-  font-weight: 600;
-  color: var(--ink-1);
-  transition: transform var(--dur-fast) var(--ease-out-expo);
-}
-.no-read-go:hover { transform: translateY(-1px); }
-.no-read-go:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+/* .nu-btn2 owns the states; this only pins it to the end of the readout head. */
+.no-read-go { margin-inline-start: auto; }
 .no-read-he { font-size: var(--t-xs); color: var(--ink-2); }
 .no-read-joins { display: grid; gap: var(--sp-2); }
 .no-read-joins li {
@@ -853,13 +1083,56 @@
    ========================================================================== */
 
 @container no (max-width: 760px) {
-  .no { gap: var(--sp-5); }
+  .no { gap: var(--sp-8); }
   .no-hero, .no-sec { padding: var(--sp-4); }
+  /* The section number moves above the kicker so the title keeps the column. */
+  .no-sec-h { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
+  .no-sec-n { grid-row: auto; font-size: 2rem; }
+  .no-sec-b { gap: var(--sp-4); }
   .no-rel-row { grid-template-columns: 3.2rem 1fr; }
-  .no-rel-joins, .no-rel-mods { grid-column: 1 / -1; }
+  .no-rel-joins, .no-modtag { grid-column: 1 / -1; }
   .no-kv > div { grid-template-columns: 1fr; gap: 2px; }
   .no-cds li, .no-funcs li { grid-template-columns: 1fr; gap: 3px; }
   .no-orbit-note { margin-inline-start: 0; }
+  .no-read-go { margin-inline-start: 0; }
+  .no-keyl li { grid-template-columns: 1.25rem minmax(0, 1fr); }
+  .no-keyl li span, .no-keyl li em { grid-column: 2; }
+  .no-cta > .nu-btn, .no-cta > .nu-btn2 { inline-size: 100%; }
+  .no-s4flag { flex-direction: column; align-items: start; }
+
+  /* The fields table becomes labelled cards, not a smaller table: the column
+     head travels in data-l, so a number never loses its meaning. */
+  .no-fields .no-tw { overflow-x: visible; border: 0; border-radius: 0; }
+  .no-fields .no-table { min-inline-size: 0; }
+  .no-fields .no-table thead { display: none; }
+  .no-fields .no-table, .no-fields .no-table tbody,
+  .no-fields .no-table tr, .no-fields .no-table td,
+  .no-fields .no-table th[scope="row"] { display: block; }
+  .no-fields .no-table tbody tr {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: baseline;
+    gap: 2px var(--sp-2);
+    padding: var(--sp-3);
+    margin-block-end: var(--sp-2);
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-md);
+  }
+  .no-fields .no-table tbody tr > .no-c-k { grid-column: 1; grid-row: 1; }
+  .no-fields .no-table tbody tr > th[scope="row"] { grid-column: 2; grid-row: 1; font-size: var(--t-sm); }
+  .no-fields .no-table tbody tr > td:not(.no-c-k) { grid-column: 1 / -1; }
+  .no-fields .no-table tbody tr > td:not(.no-c-k)::before {
+    content: attr(data-l) " · ";
+    font-size: 9px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .no-fields .no-table tr[data-key="PK"] > :first-child { box-shadow: none; }
+  .no-fields .no-table tr[data-key="PK"] { border-inline-start: 3px solid var(--o); }
+  .no-fields .no-table tr[data-key="FK"] {
+    border-inline-start: 3px dashed color-mix(in srgb, var(--o) 55%, var(--ink-3));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -7,35 +7,58 @@
 // object or a sum taken over it in front of the user (the scope readout).
 // Nothing here is authored, and nothing is fetched.
 //
-// THE SHAPE OF THE PAGE, and it is the same shape in both modules so that
-// switching between them feels like the same room with different light:
+// THE SHAPE OF THE PAGE. The hero is the approved part and is untouched;
+// everything below it was rebuilt as numbered CHAPTERS, because the client's
+// objection — "hierarchy is weak, too many equal-weight elements, the page feels
+// compressed, the user cannot clearly understand the next action" — is a
+// hierarchy problem and not a spacing one. A chapter is a dominant unit: a
+// number, a kicker, the biggest title below the hero, one sentence and one lead
+// route. Nothing else on the page competes at that weight.
 //
-//   1  HERO ............... identity, the lede, the counts, and three routes
-//   2  מפת המודול ......... key topics · business process · core objects,
-//                           as three views of ONE block
-//   3  טבלאות הליבה ....... the working table — the centre of gravity
-//   4  מהמודול החוצה ...... transactions · relationships · the data model
-//   5  מעבר ל-S/4HANA ..... the verdict split and what needs attention
-//   6  ידע ופעילות ........ books / academy · recent activity
+//   HERO .................. identity, lede, counts, three routes  (approved)
+//   INDEX ................. every chapter, with its real count, as a route
+//   01  מפת המודול ........ topics · process · object classes, tabbed
+//   02  המעבר ל-S/4HANA ... risk mix · what moves · the blueprint's verdict ·
+//                           the Simplification list · the SAP references
+//   03  מילון הנתונים ..... the working table
+//   04  טרנזקציות ודוחות .. ranked codes + the blueprint's own directory
+//   05  קשרים ומודל נתונים  cardinality mix + the busiest tables
+//   06  ממשקים · CDS · Fiori every interface object, view and app, by name
+//   07  קונפיגורציה וכלים . the remaining verbatim blueprint sheets
+//   08  ידע ופעילות ....... books · academy · recent activity
 //
-// The previous version put four instruments and a three-card context column
-// between the hero and the table. That is the density the client rejected.
-// Everything is still here — it is grouped, and the detail opens on demand.
+// S/4HANA MOVED UP. It used to sit fifth, below the table, as a comparison
+// footnote. The brief makes it the primary forward context, so it is now the
+// chapter directly under the map — read before the dictionary, not after it.
 //
-// THE CONTROL SURFACE. The rail above the table used to carry roughly twenty
-// controls at once: search, six sort chips, one chip per object class, three
-// verdict chips and a shared toggle. It now carries three things — search, one
-// filter disclosure, one clear — because the two BIG scopes (topic and object
-// class) are now driven from the map block, where they are legible.
+// COMPLETENESS. Chapters 04, 06 and 07 are new surfaces for data the blueprints
+// always carried and the workspace never showed: the transaction and report
+// directory, the implementer toolkit, the PP-vs-PP-PI comparison, the SPRO
+// configuration guide, the 46-row custom-code check, and every interface object,
+// CDS view and Fiori app by name. The rail correctly stopped carrying the
+// module's sub-tree; this is where that completeness lives instead.
+//
+// A CHAPTER WITH NO DATA IS NOT RENDERED and does not consume a number. PM and
+// PP-PI therefore get different chapter counts, because their blueprints are
+// different documents — which is the honest outcome, not a defect.
+//
+// THE CONTROL SURFACE. The rail above the table carries three things — search,
+// one filter disclosure, one clear — because the two BIG scopes (topic and
+// object class) are driven from the map chapter, where they are legible.
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Search, SlidersHorizontal, Table2, X } from "lucide-react";
 import type { Zone } from "@/lib/studio-graph";
 import type { S4Class, WsData, WsRow } from "./workspace-data";
+import { Chapter, type ChapterMeta } from "./workspace-chapter";
+import { BUILD_KEYS, WorkspaceBuild } from "./workspace-build";
 import { WorkspaceContext } from "./workspace-context";
 import { WorkspaceHero } from "./workspace-header";
+import { WorkspaceIface } from "./workspace-iface";
+import { WorkspaceIndex } from "./workspace-index";
 import { WorkspaceLearn } from "./workspace-learn";
 import { WorkspaceMap } from "./workspace-map";
+import { WorkspaceOps } from "./workspace-ops";
 import { WorkspaceS4 } from "./workspace-s4";
 import { WorkspaceTable, S4_HE, s4Dot, type SortKey } from "./workspace-table";
 
@@ -141,6 +164,34 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
     setSharedOnly(false);
   };
 
+  // THE CHAPTER PLAN. Built here, once, from the server object — so the index
+  // band, the anchors and the numbering can never drift from what is actually
+  // rendered. A chapter with nothing behind it is not planned, does not get a
+  // number and does not appear in the index; the numbers stay contiguous
+  // because they are assigned after the empty ones are dropped.
+  const { chapters, ch } = useMemo(() => {
+    const buildRows = data.sheets
+      .filter((s) => BUILD_KEYS.includes(s.key))
+      .reduce((a, s) => a + s.rows.length, 0);
+
+    const plan: (Omit<ChapterMeta, "n"> & { key: string })[] = [
+      { key: "map", id: "nw-map", kicker: "מפת המודול", title: "שלוש דרכים להיכנס לאותו מילון", count: data.counts.topics, countLabel: "נושאים" },
+      { key: "s4", id: "nw-s4", kicker: "המעבר ל-S/4HANA", title: "מה משתנה במודול במעבר ל-S/4HANA", count: data.s4x.changed.length, countLabel: "טבלאות משתנות" },
+      { key: "tbl", id: "nw-tbl", kicker: "מילון הנתונים", title: "טבלאות הליבה של המודול", count: data.counts.rows, countLabel: "שורות מילון" },
+      { key: "ops", id: "nw-ops", kicker: "טרנזקציות ודוחות", title: "איך עובדים במודול בפועל", count: data.counts.tcodes, countLabel: "טרנזקציות" },
+      { key: "rel", id: "nw-rel", kicker: "קשרים ומודל הנתונים", title: "איפה המודול נוגע בשאר המערכת", count: data.rel.edges, countLabel: "קשרים ממודלים" },
+      { key: "iface", id: "nw-if", kicker: "ממשקים · CDS · Fiori", title: "מה מדבר עם המודול", count: data.counts.funcEntries, countLabel: "רשומות ממשק" },
+      ...(buildRows
+        ? [{ key: "build", id: "nw-build", kicker: "קונפיגורציה וכלים", title: "מה המיישם נוגע בו", count: buildRows, countLabel: "רשומות בגיליונות" }]
+        : []),
+      { key: "learn", id: "nw-learn", kicker: "ידע ופעילות", title: "מה ללמוד הלאה, ואיפה הייתם", count: data.books.length + data.courses.length, countLabel: "ספרים וקורסים" },
+    ];
+
+    const numbered: ChapterMeta[] = plan.map((p, i) => ({ ...p, n: i + 1 }));
+    const by = Object.fromEntries(plan.map((p, i) => [p.key, numbered[i]])) as Record<string, ChapterMeta>;
+    return { chapters: numbered, ch: by };
+  }, [data]);
+
   // Two sticky layers, one edge. The rail sticks to the top of the scroller and
   // the table head has to stick UNDER it, so the rail's real height is
   // published as a custom property instead of being guessed per breakpoint —
@@ -168,28 +219,32 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
 
       <WorkspaceHero d={data} />
 
+      <WorkspaceIndex chapters={chapters} />
+
       <WorkspaceMap
         d={data}
+        meta={ch.map}
         topic={topic}
         zone={zone}
         onTopic={(t) => setTopic((cur) => (cur === t ? null : t))}
         onZone={(z) => setZone((cur) => (cur === z ? null : z))}
       />
 
-      {/* ============================================== 3 · the working table */}
-      <section className="nw-block nw-block--work" aria-labelledby="nw-tbl-h">
-        <div className="nw-block-h">
-          <p className="nw-block-k">
-            <Table2 size={14} strokeWidth={1.75} aria-hidden="true" />
-            טבלאות הליבה
-          </p>
-          <h2 className="nw-block-t" id="nw-tbl-h">מילון הנתונים של המודול</h2>
-          <p className="nw-block-s">
-            {nf.format(data.counts.rows)} שורות מילון על {nf.format(data.counts.tables)} טבלאות ייחודיות. שם של
-            טבלה פותח את עמוד האובייקט המלא שלה; החץ בסוף השורה פותח את התיעוד שלה כאן, בלי לעזוב את העמוד.
-          </p>
-        </div>
+      <WorkspaceS4 d={data} meta={ch.s4} />
 
+      {/* ================================================= the working table */}
+      <Chapter
+        meta={ch.tbl}
+        wide
+        icon={<Table2 size={17} strokeWidth={1.75} />}
+        lede={
+          <>
+            {nf.format(data.counts.rows)} שורות מילון על {nf.format(data.counts.tables)} טבלאות ייחודיות,{" "}
+            {nf.format(data.counts.fields)} שדות מתועדים. שם של טבלה פותח את עמוד האובייקט המלא שלה; החץ
+            בסוף השורה פותח את התיעוד שלה כאן, בלי לעזוב את העמוד.
+          </>
+        }
+      >
         <div className="nw-rail" ref={rail}>
           <div className="nw-railtop">
             <label className="nw-find">
@@ -317,11 +372,13 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
           dir={dir}
           onSort={pickSort}
         />
-      </section>
+      </Chapter>
 
-      <WorkspaceContext d={data} />
-      <WorkspaceS4 d={data} />
-      <WorkspaceLearn d={data} />
+      <WorkspaceOps d={data} meta={ch.ops} />
+      <WorkspaceContext d={data} meta={ch.rel} />
+      <WorkspaceIface d={data} meta={ch.iface} />
+      {ch.build ? <WorkspaceBuild d={data} meta={ch.build} /> : null}
+      <WorkspaceLearn d={data} meta={ch.learn} />
 
       <p className="nw-credit">Project NEO · CBC Israel — פותח על ידי סאלי חליף · Web Coding</p>
     </div>

@@ -32,7 +32,9 @@ export function WorkspaceRecent({ names, rows }: { names: Set<string>; rows: WsR
   return (
     <section className="nw-sub" aria-labelledby="nw-recent-h">
       <h3 className="nw-sub-h" id="nw-recent-h">
-        <History size={13} strokeWidth={1.75} aria-hidden="true" />
+        <span className="nw-sub-ico" aria-hidden="true">
+          <History size={13} strokeWidth={1.75} />
+        </span>
         אובייקטים אחרונים במודול
       </h3>
       {list.length ? (

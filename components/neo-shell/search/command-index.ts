@@ -194,7 +194,7 @@ function flows(): CmdExtraRecord[] {
     k: "flow" as const,
     t: d.he,
     s: clip(d.summary, 96),
-    href: "/neo/domain-model/",
+    href: "/neo/erd/",
     mod: d.module,
     rel: `${d.flow.length} שלבים · ${d.tables.length} טבלאות · ${d.tcodes.length} טרנזקציות`,
   }));
