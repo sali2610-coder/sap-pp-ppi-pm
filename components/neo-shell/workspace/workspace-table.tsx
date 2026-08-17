@@ -20,10 +20,11 @@
 // Nothing else in a row is clickable, which is the whole point.
 
 import { Fragment, useState } from "react";
-import Link from "next/link";
 import { ArrowLeft, ChevronDown } from "lucide-react";
+import { OriginLink } from "@/components/neo-shell/nav-context";
 import { pushRecentObject } from "../store";
 import type { S4Class, WsRow, WsTopic } from "./workspace-data";
+import { useWsOrigin } from "./workspace-origin";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -64,6 +65,8 @@ export function WorkspaceTable({
 }) {
   const [open, setOpen] = useState<string | null>(null);
   const title = new Map(topics.map((t) => [t.idx, t.title]));
+  // Where this table is leaving FROM, built at click time by the workspace.
+  const origin = useWsOrigin();
 
   if (!rows.length) {
     return (
@@ -124,21 +127,24 @@ export function WorkspaceTable({
               <Fragment key={id}>
                 <tr
                   className="nw-row"
+                  // The record a return scrolls back to. A row that re-rendered
+                  // at a different density has moved every pixel; this has not.
+                  data-name={r.n}
                   data-open={isOpen ? "1" : undefined}
                   style={{ "--o": r.obj } as React.CSSProperties}
                 >
                   <td className="nw-c-n" data-l="טבלה">
-                    <Link
+                    <OriginLink
                       className="nu-link nw-name"
                       href={r.href}
-                      prefetch={false}
+                      origin={() => origin(r.n)}
                       onClick={() => pushRecentObject(r.n)}
                     >
                       {/* OBJECT-class hue — the data's own encoding, never the module hue. */}
                       <i className="nw-cls" aria-hidden="true" />
                       <b className="nw-sap">{r.n}</b>
                       <ArrowLeft className="nu-arw" size={13} strokeWidth={2} aria-hidden="true" />
-                    </Link>
+                    </OriginLink>
                     {r.shared ? <span className="nu-chip">משותפת</span> : null}
                   </td>
 
@@ -245,15 +251,15 @@ export function WorkspaceTable({
                                   {/* A link only when the far end is a table the
                                       dictionary documents; otherwise plain text. */}
                                   {rel.href ? (
-                                    <Link
+                                    <OriginLink
                                       className="nu-link"
                                       href={rel.href}
-                                      prefetch={false}
+                                      origin={() => origin(rel.table)}
                                       onClick={() => pushRecentObject(rel.table)}
                                     >
                                       <b className="nw-sap">{rel.table}</b>
                                       <ArrowLeft className="nu-arw" size={12} strokeWidth={2} aria-hidden="true" />
-                                    </Link>
+                                    </OriginLink>
                                   ) : (
                                     <b className="nw-sap">{rel.table}</b>
                                   )}
@@ -308,15 +314,15 @@ export function WorkspaceTable({
                               Fiori: <span className="nw-sap">{r.fiori}</span>
                             </p>
                           ) : null}
-                          <Link
+                          <OriginLink
                             className="nu-btn2 nw-detgo"
                             href={r.href}
-                            prefetch={false}
+                            origin={() => origin(r.n)}
                             onClick={() => pushRecentObject(r.n)}
                           >
                             עמוד האובייקט המלא של <span className="nw-sap">{r.n}</span>
                             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
-                          </Link>
+                          </OriginLink>
                         </section>
                       </div>
                     </td>

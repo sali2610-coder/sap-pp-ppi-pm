@@ -9,7 +9,7 @@
 
 import type { BookCard } from "./books-data";
 import type { BookReading } from "./reading-state";
-import { resumeHref, isExactSection } from "./links";
+import { resumeHref, neoResumeHref, isExactSection } from "./links";
 
 export interface Resume {
   /** The chapter, when it is genuinely in this book. */
@@ -18,10 +18,18 @@ export interface Resume {
   /** The subchapter, when it is genuinely in that chapter. */
   section: string | null;
   sectionTitle: string | null;
-  /** Where "continue" goes. Always a real reader URL. */
+  /** Where "continue" goes in the CANONICAL reader. Always a real URL. */
   href: string;
-  /** The link lands on the subchapter itself, not just its chapter. */
+  /** The canonical reader's link lands on the subchapter itself, not just its
+   *  chapter. False for a book whose section ids it cannot address. */
   exact: boolean;
+  /** Where "continue" goes in NEO's own reader — the destination every NEO
+   *  surface uses. */
+  neoHref: string;
+  /** The NEO reader lands on the subchapter itself. True whenever a subchapter
+   *  is known, because the NEO reader resolves the id against the book's real
+   *  sections rather than against a number format. */
+  neoExact: boolean;
   /** Chapters marked read by the canonical reader, clamped to this book. */
   read: number;
   /** read / chapters, 0..1. */
@@ -62,6 +70,8 @@ export function resolveResume(b: BookCard, r: BookReading | undefined): Resume {
     sectionTitle,
     href: resumeHref(b.href, owner?.n ?? null, section),
     exact: section ? isExactSection(section) : false,
+    neoHref: neoResumeHref(b.id, owner?.n ?? null, section),
+    neoExact: Boolean(section),
     read,
     progress: b.chapters ? read / b.chapters : 0,
     fresh: !r?.opened,

@@ -13,7 +13,7 @@
 // Everything below is verbatim dataset content. Where the dataset is silent the
 // card says "לא קיים מידע מאומת" rather than filling the gap.
 
-import Link from "next/link";
+import { OriginLink, type OriginArg } from "@/components/neo-shell/nav-context";
 import { ArrowUpLeft, X } from "lucide-react";
 import {
   REL_HE, ZONE_HE, modVar,
@@ -28,12 +28,15 @@ export function ErdSheet({
   tByName,
   onClose,
   onGo,
+  origin,
 }: {
   t: ErdTable;
   edges: ErdEdgeOut[];
   tByName: Map<string, ErdTable>;
   onClose: () => void;
   onGo: (n: string) => void;
+  /** Builds the origin for the link out of the card, at click time. */
+  origin: (name: string) => OriginArg;
 }) {
   const parents = edges.filter((e) => e.c === t.n);
   const children = edges.filter((e) => e.p === t.n);
@@ -57,10 +60,10 @@ export function ErdSheet({
           {t.he && t.en ? <small>{t.en}</small> : null}
           <div className="ne-c2-act">
             {t.pg ? (
-              <Link className="nu-btn" href={`/neo/object/${t.n}/`} prefetch={false}>
+              <OriginLink className="nu-btn" href={`/neo/object/${t.n}/`} origin={() => origin(t.n)}>
                 עמוד האובייקט המלא
                 <ArrowUpLeft size={14} strokeWidth={1.9} aria-hidden="true" className="nu-arw" />
-              </Link>
+              </OriginLink>
             ) : (
               <span className="ne-c2-nopage">אין לטבלה הזו עמוד אובייקט — הכרטיס הזה הוא הרשומה המלאה</span>
             )}

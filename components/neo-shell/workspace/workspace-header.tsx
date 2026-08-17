@@ -19,11 +19,15 @@
 
 import Link from "next/link";
 import { ArrowLeft, FlaskConical, GitBranch, Wrench } from "lucide-react";
+import { OriginLink } from "@/components/neo-shell/nav-context";
 import type { WsData } from "./workspace-data";
+import { useWsOrigin } from "./workspace-origin";
 
 const nf = new Intl.NumberFormat("he-IL");
 
 export function WorkspaceHero({ d }: { d: WsData }) {
+  const origin = useWsOrigin();
+
   // Every figure is read straight off the server-built object. The four
   // "second numbers" sit next to their headline rather than instead of it,
   // because the dictionary genuinely holds two different counts.
@@ -84,11 +88,11 @@ export function WorkspaceHero({ d }: { d: WsData }) {
           models the most neighbours for, and it says so. */}
       <nav className="nw-go" aria-label="מאיפה מתחילים">
         {d.entry ? (
-          <Link className="nu-btn" href={d.entry.href} prefetch={false}>
+          <OriginLink className="nu-btn" href={d.entry.href} origin={() => origin(d.entry!.n)}>
             <i className="nw-cls" style={{ "--o": d.entry.obj } as React.CSSProperties} aria-hidden="true" />
             התחילו מ־<span className="nw-sap">{d.entry.n}</span>
             <ArrowLeft className="nu-arw" size={15} strokeWidth={2} aria-hidden="true" />
-          </Link>
+          </OriginLink>
         ) : null}
         <Link className="nu-btn2" href="/neo/erd/" prefetch={false}>
           <GitBranch size={15} strokeWidth={1.75} aria-hidden="true" />

@@ -13,12 +13,16 @@
 // renders, flown between the two rects with a measured FLIP on transform alone.
 // Under prefers-reduced-motion the flight is not slowed, it is skipped.
 //
-// Every outbound link is the existing /library/<id>/ URL. This file renders no
-// prose, fetches nothing, and wraps no part of the canonical reader.
+// Every reading link leaves for NEO's own reader at /neo/read/<id>/ and every
+// one of them records that it left from the SHELF, so the reader's return
+// control comes back here rather than to a computed parent. This file renders
+// no prose, fetches nothing, and wraps no reader.
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowUpLeft, BookOpen, Bookmark, Layers, LayoutList, PlayCircle, Table2, X } from "lucide-react";
+import { OriginLink, type OriginArg } from "@/components/neo-shell/nav-context";
+import { neoReadHref } from "./links";
 import { SPRING, reducedMotion } from "../flip";
 import { BookCover } from "./book-cover";
 import { BookToc } from "./book-toc";
@@ -35,11 +39,16 @@ export function BookQuickView({
   b,
   reading,
   triggerRef,
+  origin,
   onClose,
 }: {
   b: BookCard;
   reading: BookReading | undefined;
   triggerRef: React.RefObject<HTMLButtonElement | null>;
+  /** The shelf's own "where I was", built by the shelf at the moment of the
+   *  click. The panel is a modal ON the shelf and cannot be reopened by a URL,
+   *  so the honest origin for everything in it is the shelf itself. */
+  origin: (detail?: string) => OriginArg;
   onClose: () => void;
 }) {
   const coverRef = useRef<HTMLDivElement>(null);
@@ -261,25 +270,24 @@ export function BookQuickView({
                 המשך מהמקום האחרון
               </p>
               <p className="nb-resume-l">{line}</p>
-              <Link
+              <OriginLink
                 className="nu-btn"
-                href={r.href}
-                prefetch={false}
+                href={r.neoHref}
+                origin={() => origin(t)}
                 onClick={() => noteHandoff(b.id, r.chapter, r.section)}
               >
                 <PlayCircle size={15} strokeWidth={1.75} aria-hidden="true" />
-                {r.exact ? "חזרה לתת-הפרק" : "חזרה לפרק"}
-              </Link>
+                {r.neoExact ? "חזרה לתת-הפרק" : "חזרה לפרק"}
+              </OriginLink>
               <p className="nb-fine">
-                {r.section && r.exact
-                  ? "המיקום נשמר עד רמת תת-הפרק, והקישור נוחת עליו בקורא."
-                  : r.section
-                    ? "נשמר תת-פרק, אך הקישור העמוק של הקורא בספר הזה נוחת ברמת הפרק."
-                    : "נשמר פרק בלבד. תת-פרק נשמר רק כשהקריאה בפועל הגיעה לאחד."}
-                {/* §6 — the offset is REPORTED and never resumed from: the deep
-                    links the reader accepts address a chapter or a section, so
-                    the landing is at that grain and the sentence says so. */}
-                {resumeScrollLine(r) && <> {resumeScrollLine(r)} הנחיתה עצמה היא ברמת הפרק או תת-הפרק.</>}
+                {r.section
+                  ? "המיקום נשמר עד רמת תת-הפרק, והקורא של NEO נוחת עליו."
+                  : "נשמר פרק בלבד. תת-פרק נשמר רק כשהקריאה בפועל הגיעה לאחד."}
+                {/* §6 — the offset is REPORTED and never resumed from: the
+                    locations a reader can be sent to are a chapter and a
+                    subchapter, so the landing is at that grain and the sentence
+                    says so rather than implying a pixel. */}
+                {resumeScrollLine(r) && <> {resumeScrollLine(r)} הנחיתה עצמה היא ברמת תת-הפרק.</>}
               </p>
             </div>
           ) : (
@@ -288,7 +296,12 @@ export function BookQuickView({
             </p>
           )}
 
-          <BookToc b={b} reading={reading} resumeSection={r.section} />
+          <BookToc
+            b={b}
+            reading={reading}
+            resumeSection={r.section}
+            origin={() => origin(t)}
+          />
 
           <section className="nb-link" aria-label="החיבור למילון NEO">
             <h3 className="nb-h3">החיבור ל-Project NEO</h3>
@@ -320,23 +333,27 @@ export function BookQuickView({
           </section>
 
           <div className="nb-sheet-cta">
-            <Link
+            <OriginLink
               className="nu-btn"
-              href={b.href}
-              prefetch={false}
+              href={neoReadHref(b.id)}
+              origin={() => origin(t)}
               onClick={() => noteHandoff(b.id, null, null)}
             >
               <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
               פתח את הספר בקורא
-            </Link>
-            <Link className="nu-btn2" href={b.hubHref} prefetch={false}>
+            </OriginLink>
+            <OriginLink className="nu-btn2" href={b.hubHref} origin={() => origin(t)}>
               <LayoutList size={15} strokeWidth={1.75} aria-hidden="true" />
               מרכז הספר
-            </Link>
+            </OriginLink>
           </div>
           <p className="nb-fine">
-            הקורא הוא מסך קיים ב-Project NEO בכתובת <span className="nb-sap">{b.href}</span>.
-            העמוד הזה הוא הכניסה אליו בלבד ואינו עוטף אותו.
+            הקריאה נפתחת בקורא של Project NEO בכתובת <span className="nb-sap">{neoReadHref(b.id)}</span>.
+            הקורא הקנוני של הפרויקט,{" "}
+            <Link className="nu-link" href={b.href} prefetch={false}>
+              <span className="nb-sap">{b.href}</span>
+            </Link>
+            , ממשיך לפעול ללא שינוי — העמוד הזה אינו עוטף אף אחד מהשניים.
           </p>
         </div>
       </div>

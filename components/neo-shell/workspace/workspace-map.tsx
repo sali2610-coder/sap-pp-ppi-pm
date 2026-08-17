@@ -17,16 +17,22 @@
 // bar fill. OBJECT arrives as --o and is the data's own encoding — class dots
 // and process markers. STATUS does not appear here.
 
-import { useId, useState } from "react";
+import { useId } from "react";
 import Link from "next/link";
 import { ArrowLeft, Compass, GitBranch } from "lucide-react";
+import { OriginLink } from "@/components/neo-shell/nav-context";
 import type { Zone } from "@/lib/studio-graph";
 import type { WsData } from "./workspace-data";
 import { Chapter, type ChapterMeta } from "./workspace-chapter";
+import { useWsOrigin } from "./workspace-origin";
 
 const nf = new Intl.NumberFormat("he-IL");
 
-type View = "topics" | "flow" | "classes";
+/** Which reading of the map is open. Owned by ModuleWorkspace rather than by
+ *  this block, because it is part of "the view I was in" and a return has to be
+ *  able to put the reader back into the one they were reading. */
+export type MapView = "topics" | "flow" | "classes";
+type View = MapView;
 
 const VIEWS: { k: View; he: string }[] = [
   { k: "topics", he: "נושאים" },
@@ -39,6 +45,8 @@ export function WorkspaceMap({
   meta,
   topic,
   zone,
+  view,
+  onView,
   onTopic,
   onZone,
 }: {
@@ -46,11 +54,13 @@ export function WorkspaceMap({
   meta: ChapterMeta;
   topic: number | null;
   zone: Zone | null;
+  view: View;
+  onView: (v: View) => void;
   onTopic: (idx: number) => void;
   onZone: (z: Zone) => void;
 }) {
-  const [view, setView] = useState<View>("topics");
   const uid = useId();
+  const origin = useWsOrigin();
 
   const flowGaps = d.flow.filter((s) => !s.exists).length;
   const maxZone = Math.max(1, ...d.zones.map((z) => z.n));
@@ -87,7 +97,7 @@ export function WorkspaceMap({
             className="nu-tab"
             aria-selected={view === v.k}
             aria-controls={`${uid}-p-${v.k}`}
-            onClick={() => setView(v.k)}
+            onClick={() => onView(v.k)}
           >
             {v.he}
             <em className="nw-sap">{nf.format(count[v.k])}</em>
@@ -136,7 +146,11 @@ export function WorkspaceMap({
             {d.flow.map((s) => (
               <li key={s.code} style={{ "--o": s.obj } as React.CSSProperties}>
                 {s.href ? (
-                  <Link className="nu-card nw-steprow" href={s.href} prefetch={false}>
+                  <OriginLink
+                    className="nu-card nw-steprow"
+                    href={s.href}
+                    origin={() => origin(s.code)}
+                  >
                     <i className="nw-cls" aria-hidden="true" />
                     <b className="nw-sap">{s.code}</b>
                     <span className="nw-step-he">{s.label}</span>
@@ -144,7 +158,7 @@ export function WorkspaceMap({
                       {nf.format(s.f ?? 0)} שדות · {nf.format(s.rel)} קשרים
                     </em>
                     <ArrowLeft className="nu-arw nw-steparw" size={14} strokeWidth={2} aria-hidden="true" />
-                  </Link>
+                  </OriginLink>
                 ) : (
                   // A real process step the module's dictionary does not
                   // document. It is drawn as a gap, never as a node with

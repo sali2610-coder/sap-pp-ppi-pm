@@ -39,6 +39,14 @@ const MOD_VAR: Record<string, string> = {
  *  this product assigns a colour to — never brand red. */
 export const learnModVar = (m?: string): string => (m && MOD_VAR[m]) || "var(--ink-3)";
 
+/** The name the course screen answers to when a lesson hands its state back.
+ *  One constant, so the sender and the receiver cannot drift apart. */
+export const COURSE_SURFACE = "neo:course";
+
+/** What a lesson hands the course screen on the way back. A `type` and not an
+ *  `interface`, because the origin store's state is an index signature. */
+export type CourseReturn = { id: string; y: number };
+
 /** Hebrew module names, as they are already written across the product. */
 export const LEARN_MOD_HE: Record<string, string> = {
   PM: "אחזקה",

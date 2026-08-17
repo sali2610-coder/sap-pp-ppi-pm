@@ -29,8 +29,9 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowLeft, BookOpen, Blocks, Clock, GraduationCap, Layers, Play, Search, X } from "lucide-react";
-import { SmartReturn, rememberOrigin } from "@/components/neo-shell/nav-context";
+import { OriginLink, SmartReturn, rememberOrigin } from "@/components/neo-shell/nav-context";
 import { useContinueCourse, useModuleProgress } from "@/lib/academy/store";
+import { neoLessonHref } from "./lesson-links";
 import { learnModVar } from "./mod";
 import type { AcademyCourseRow, AcademyData } from "./academy-data";
 
@@ -182,10 +183,17 @@ export function AcademySurface({ data }: { data: AcademyData }) {
             </div>
           </div>
           <div className="nxl-course-a">
-            <Link href={`/academy/lesson/${cont.resumeSlug}/`} className="nu-btn" prefetch={false}>
+            {/* The resume opens the lesson INSIDE NEO. Its return control has to
+                say something true even though the reader never passed through
+                the course screen, so the origin names the academy itself. */}
+            <OriginLink
+              href={neoLessonHref(cont.moduleId, cont.resumeSlug)}
+              className="nu-btn"
+              origin={() => ({ href: "/neo/academy/", label: "האקדמיה" })}
+            >
               <Play size={14} strokeWidth={2} aria-hidden="true" />
               המשך את השיעור
-            </Link>
+            </OriginLink>
             <Link href={`/neo/academy/${cont.moduleId}/`} className="nu-btn2" prefetch={false}>
               כל הקורס
               <ArrowLeft size={14} strokeWidth={2} className="nu-arw" aria-hidden="true" />

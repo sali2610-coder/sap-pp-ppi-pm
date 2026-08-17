@@ -8,27 +8,54 @@
 //   continue reading      → a stored location, resolved against this book's own
 //                           chapters (./resume.ts). Absent when nothing is stored.
 //   table of contents     → the real chapters and subchapters (./book-toc.tsx)
-//   chapter selection     → /library/<id>/#ch-<n>, which chapter-reader expands
-//   subchapter selection  → /library/<id>/?s=<id>, which book-reader lands on
+//   chapter selection     → /neo/read/<id>/?c=<n>, opened on that chapter
+//   subchapter selection  → /neo/read/<id>/?s=<id>, landed on that subchapter
 //   search inside book    → over the TABLE OF CONTENTS, and labelled as such.
 //                           The prose lives in per-chapter shards the reader
 //                           fetches; this surface has none of it and says so.
-//   open canonical reader → /library/<id>/, unchanged
+//   open the reader       → /neo/read/<id>/, NEO's own reading surface
+//   canonical reader      → /library/<id>/, unchanged, named as itself
+//
+// THE HUB IS BOTH A DESTINATION AND A SENDER.
+//   As a destination it renders <SmartReturn/>, so arriving from the shelf
+//   returns to the shelf with the shelf's own filter and scroll.
+//   As a sender every control that leaves for the reader is an <OriginLink/>
+//   carrying this hub's identity and viewport, so the reader's return control
+//   comes back to THIS book rather than to a computed parent.
 //
 // Things deliberately absent because the project does not have them here:
 // no notes, no highlights, no export, no per-subchapter progress, no rating, no
 // "time left", no author (the metadata has a publisher and no author field).
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import Link from "next/link";
 import { ArrowUpLeft, BookOpen, Bookmark, ChevronRight, Layers, PlayCircle, Table2 } from "lucide-react";
+import {
+  OriginLink, SmartReturn, restoreScroll, scrollOffset, useReturnState,
+  type OriginArg,
+} from "@/components/neo-shell/nav-context";
 import { BookCover } from "./book-cover";
 import { BookToc } from "./book-toc";
 import { noteHandoff, useReading } from "./reading-state";
 import { resolveResume, resumeLine, resumeScrollLine } from "./resume";
+import { neoReadHref } from "./links";
 import type { BookHubData } from "./books-data";
 
 const nf = new Intl.NumberFormat("he-IL");
+
+/** What the hub hands the reader so the reader can hand it back.
+ *
+ *  A `type` and not an `interface`, because the store's OriginState is an index
+ *  signature and only a type alias gets the implicit one that satisfies it. The
+ *  open chapters travel as STRINGS for the same reason: OriginStateValue admits
+ *  `string[]` and not `number[]`, and the constraint is the store's, not this
+ *  surface's, so the surface converts rather than widening the contract. */
+type HubReturn = { id: string; y: number; open: string[] };
+
+/** The surface name the reader addresses its return packet to. One name for the
+ *  whole family; `id` inside the packet says WHICH book it was, so a packet left
+ *  by book3 cannot rebuild book7's table of contents. */
+const HUB_SURFACE = "neo:book";
 
 export function BookHub({ d }: { d: BookHubData }) {
   const b = d.book;
@@ -37,14 +64,49 @@ export function BookHub({ d }: { d: BookHubData }) {
   const r = resolveResume(b, reading.map[b.id]);
   const line = resumeLine(r);
   const done = b.chapters > 0 && r.read >= b.chapters;
+  const title = b.titleHe || b.titleEn;
+
+  /* THE WAY BACK IN. Non-null exactly once, on the render after a return from
+     the reader — and only when the packet was left by THIS book's hub. */
+  const back = useReturnState<HubReturn>(HUB_SURFACE);
+  const mine = back && back.id === b.id ? back : null;
+
+  /* TWO FRAMES, NOT ONE. `restoreScroll` waits a frame of its own; this waits
+     the frame before it, because the App Router resets the canvas to 0 as PART
+     of the client-side navigation and does so after the first one. It is the
+     same two-frame wait the shelf's own scroll memory is written against — see
+     the long note in useShelfScroll (./book-shelf.tsx), which is where that was
+     first diagnosed. The hub also grows after its first paint (the table of
+     contents reopens the chapters the reader left open), so the second frame is
+     earning its keep twice over. */
+  useEffect(() => {
+    if (!mine || typeof mine.y !== "number" || mine.y <= 0) return;
+    let cancel = () => {};
+    const id = requestAnimationFrame(() => { cancel = restoreScroll(mine.y); });
+    return () => { cancelAnimationFrame(id); cancel(); };
+  }, [mine]);
+
+  /* WHERE THE READER IS BEING OPENED FROM. Built at the click and not at render:
+     the canvas offset and the open chapters are only true at that instant. */
+  const leaving = (open: number[] = []): OriginArg => ({
+    to: neoReadHref(b.id),
+    href: b.hubHref,
+    label: "ספר",
+    detail: title,
+    surface: HUB_SURFACE,
+    state: { id: b.id, y: scrollOffset(), open: open.map(String) } satisfies HubReturn,
+  });
+
+  /** The chapters to reopen, back as numbers and filtered to this book. */
+  const reopen = useMemo(
+    () => (mine ? mine.open.map(Number).filter((n) => Number.isFinite(n)) : undefined),
+    [mine],
+  );
 
   return (
     <div className="nb nb-hub" style={{ "--m": b.mod } as React.CSSProperties}>
       <nav className="nb-crumb" aria-label="מיקום">
-        <Link className="nu-link" href="/neo/books/" prefetch={false}>
-          <ChevronRight className="nu-arw" size={14} strokeWidth={1.75} aria-hidden="true" />
-          מדף הספרים
-        </Link>
+        <SmartReturn fallback={{ href: "/neo/books/", label: "מדף הספרים" }} className="nb-crumb-back" />
         <span className="nu-chip is-sap">{b.module}</span>
         <span className="nu-chip">{b.moduleHe}</span>
       </nav>
@@ -114,25 +176,25 @@ export function BookHub({ d }: { d: BookHubData }) {
             </span>
           )}
 
-          {/* §7 — THE TWO WAYS IN, named as two ways in.
+          {/* §7 — THE TWO WAYS IN, named as two ways in. Both open the SAME
+              surface — /neo/read/<id>/ — and differ only in where they land.
               A · המשך קריאה — the stored location, and only when one resolves.
-              B · תפריט הספר — the canonical reader at /library/<id>/, which is
-                  where the focus mode, the chapter selector, the reading modes,
-                  the scope control and the tools already live. Neither is
-                  reimplemented here and neither is removed. */}
+              B · פתיחת הספר — the reader from the top of the book.
+              The canonical reader at /library/<id>/ is neither removed nor
+              reimplemented; it is named as itself, below. */}
           <div className="nb-modes" aria-label="דרכי הכניסה לספר">
             {line && (
               <div className="nb-mode">
                 <p className="nb-mode-k">א · המשך קריאה</p>
-                <Link
+                <OriginLink
                   className="nu-btn"
-                  href={r.href}
-                  prefetch={false}
+                  href={r.neoHref}
+                  origin={() => leaving()}
                   onClick={() => noteHandoff(b.id, r.chapter, r.section)}
                 >
                   <PlayCircle size={15} strokeWidth={1.75} aria-hidden="true" />
-                  {r.exact ? "המשך מתת-הפרק האחרון" : "המשך מהפרק האחרון"}
-                </Link>
+                  {r.neoExact ? "המשך מתת-הפרק האחרון" : "המשך מהפרק האחרון"}
+                </OriginLink>
                 <p className="nb-hub-res">
                   <Bookmark size={13} strokeWidth={2} aria-hidden="true" />
                   {line}
@@ -141,31 +203,56 @@ export function BookHub({ d }: { d: BookHubData }) {
               </div>
             )}
             <div className="nb-mode">
-              <p className="nb-mode-k">{line ? "ב · תפריט הספר" : "תפריט הספר"}</p>
-              <Link
+              <p className="nb-mode-k">{line ? "ב · פתיחת הספר" : "פתיחת הספר"}</p>
+              <OriginLink
                 className={line ? "nu-btn2" : "nu-btn"}
-                href={b.href}
-                prefetch={false}
+                href={neoReadHref(b.id)}
+                origin={() => leaving()}
                 onClick={() => noteHandoff(b.id, null, null)}
               >
                 <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
-                פתח בקורא
-              </Link>
+                פתח בקורא של NEO
+              </OriginLink>
               <p className="nb-fine">
-                הממשק המלא של הספר: מצב מיקוד, בורר הפרקים, מצבי הקריאה, טווח התצוגה והכלים.
+                משטח הקריאה של Project NEO: תוכן העניינים, מפת ההתקדמות, מצב מיקוד, גודל הטקסט ורוחב הטור.
+                {b.chapters > 0
+                  ? ` הפתיחה היא בפרק ${b.chapterRows[0]?.n ?? 1}, אלא אם נשמר מיקום קודם.`
+                  : " לספר הזה אין פרקים במאגר, והקורא יאמר זאת במפורש."}
               </p>
             </div>
           </div>
 
           {!line && (
             <p className="nb-fine">
-              אין מיקום קריאה שמור לספר הזה. המיקום נשמר על ידי הקורא עצמו ברגע שקוראים בו.
+              אין מיקום קריאה שמור לספר הזה. המיקום נשמר ברגע שקוראים בו בפועל.
             </p>
           )}
+
+          {/* THE CANONICAL READER, named as itself and not as a second "open".
+              It is a different surface with its own tools, it is unchanged by
+              this stage, and its own deep-link limitation belongs to it — which
+              is why b.exactNote is printed HERE and not over the table of
+              contents, whose rows no longer go there. */}
+          <p className="nb-fine nb-hub-alt">
+            <Link className="nu-link" href={b.href} prefetch={false}>
+              <ChevronRight className="nu-arw" size={13} strokeWidth={1.75} aria-hidden="true" />
+              הקורא הקנוני של הפרויקט
+            </Link>
+            {" "}
+            <span className="nb-sap">{b.href}</span> — ממשיך לפעול ללא שינוי.
+            {!b.exact && b.exactNote ? ` ${b.exactNote}` : ""}
+          </p>
         </div>
       </header>
 
-      <BookToc b={b} reading={reading.map[b.id]} resumeSection={r.section} variant="hub" />
+      <BookToc
+        b={b}
+        reading={reading.map[b.id]}
+        resumeSection={r.section}
+        variant="hub"
+        restoreOpen={reopen}
+        origin={({ open }) => leaving(open)}
+      />
 
       <section className="nb-link" aria-label="החיבור למילון NEO">
         <h2 className="nb-h3">החיבור ל-Project NEO</h2>
@@ -206,10 +293,17 @@ export function BookHub({ d }: { d: BookHubData }) {
           </h2>
           <div className="nb-hub-sib">
             {d.shelf.map((s) => (
-              <Link className="nu-card nb-sib" key={s.id} href={s.hubHref} prefetch={false}>
+              // A sibling hub is a hub too, so it renders the same return
+              // control — and this is what gives it something true to say.
+              <OriginLink
+                className="nu-card nb-sib"
+                key={s.id}
+                href={s.hubHref}
+                origin={() => ({ href: b.hubHref, label: "ספר", detail: title })}
+              >
                 <span className="nb-sib-id nb-sap">{s.id}</span>
                 <span className="nb-sib-t">{s.title}</span>
-              </Link>
+              </OriginLink>
             ))}
           </div>
         </section>

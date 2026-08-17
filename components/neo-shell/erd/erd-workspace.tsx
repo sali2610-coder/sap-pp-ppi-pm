@@ -56,6 +56,9 @@ import {
   LEVEL_HE, MODULE_ORDER, REL_HE, REL_ORDER, ZONE_HE, modVar,
   type ErdCatalog, type ErdEdgeOut, type ErdTable, type Level, type ModCode, type RelKind,
 } from "./erd-types";
+import {
+  SmartReturn, consumeReturn, rememberOrigin, useReturnPacket,
+} from "@/components/neo-shell/nav-context";
 import { ErdInspector } from "./erd-inspector";
 import { ErdSheet } from "./erd-sheet";
 import {
@@ -78,6 +81,38 @@ export interface GroupRef {
   k: "topic" | "object";
   v: string;
 }
+
+/* --------------------------------------------------------------- returning
+
+   SMART RETURN, both halves (components/neo-shell/nav-context).
+
+   SENDING    opening a table — from a node, from the inspector, from the card,
+              from the keyboard — records the CAMERA as well as the selection.
+              A graph is not a list: "where I was" is the table in focus, the
+              zoom it was read at and the point the canvas was panned to, and
+              restoring only the selection would drop the reader onto the same
+              table in a different picture.
+   RECEIVING  on the render after a return the module, the focus and every
+              filter are put back, and the framing pass that normally fits the
+              new picture defers to the camera that was stored instead.
+
+   localStorage (SKEY) still owns the reader's LAST view across sessions. The
+   return packet is about ONE journey and outranks it for that one render. */
+
+const SURFACE = "neo:erd";
+
+/** A type alias and not an interface: only an alias picks up the implicit index
+ *  signature that lets it satisfy the module's OriginState contract. */
+type ErdBack = {
+  /** The table in focus — the graph's own idea of "where I was". */
+  focus: string | null;
+  zoom: number;
+  x: number;
+  y: number;
+  module: string | null;
+  /** Every narrowing that was applied, as flat tokens. */
+  filters: string[];
+};
 
 interface Saved {
   mod?: ModCode | null;
@@ -104,6 +139,12 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
    *  The studio's pushCam/popCam, same 24-deep cap. */
   const camHist = useRef<View[]>([]);
   const moving = useRef(false);
+  /** A camera a RETURN asked for. The framing pass below honours it instead of
+   *  fitting the picture, once, and then forgets it. */
+  const camWanted = useRef<View | null>(null);
+  /** True from the first render of a returning visit. It stops the saved-view
+   *  restore from overwriting the view the reader is actually coming back to. */
+  const returning = useRef(false);
 
   const [zoomPct, setZoomPct] = useState(100);
   const [mod, setMod] = useState<ModCode | null>(null);
@@ -121,6 +162,53 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   const [insp, setInsp] = useState(true);
   const [sheet, setSheet] = useState<string | null>(null);
   const [keys, setKeys] = useState(false);
+
+  /* ---------------------------------------------------- returning with state
+
+     Applied DURING the render the packet arrives on — adjusting state to a
+     changed external value, which is the one place React sanctions a set during
+     render. An effect instead would let the saved-view restore land first and
+     the reader would watch the graph rebuild itself out of the wrong picture. */
+  const packet = useReturnPacket(SURFACE);
+  const [seededAt, setSeededAt] = useState(0);
+  const [back, setBack] = useState<ErdBack | null>(null);
+  if (packet && packet.at !== seededAt) {
+    setSeededAt(packet.at);
+    const b = packet.state as ErdBack;
+    setBack(b);
+    const f = new Set(Array.isArray(b.filters) ? b.filters : []);
+    const kinds = REL_ORDER.filter((k) => f.has(`rel:${k}`));
+    setMod(b.module && (MODULE_ORDER as string[]).includes(b.module) ? (b.module as ModCode) : null);
+    setSel(typeof b.focus === "string" ? b.focus : null);
+    setShowAll(f.has("all"));
+    setStrong(f.has("strong"));
+    setSharedOnly(f.has("shared"));
+    setIso(f.has("iso"));
+    setDepth(f.has("depth:2") ? 2 : 1);
+    // An empty set would hide every edge in the graph. A packet that names no
+    // relation kind is a packet from a stale shape, and the full set is the
+    // honest reading of it.
+    setRel(new Set(kinds.length ? kinds : REL_ORDER));
+  }
+  // Spend the packet. A write to an external store and nothing else.
+  useEffect(() => {
+    if (packet) consumeReturn(SURFACE);
+  }, [packet]);
+
+  /** The two things the restore hands to code that runs LATER — the saved-view
+   *  loader below, which must stand down, and the framing pass, which must fly
+   *  to this camera instead of fitting the picture. Both are refs and both are
+   *  written here, in an effect, and never during a render. This effect is
+   *  declared above them, so on a returning mount they are already set by the
+   *  time either one runs. */
+  useEffect(() => {
+    if (!back) return;
+    returning.current = true;
+    camWanted.current =
+      Number.isFinite(back.zoom) && Number.isFinite(back.x) && Number.isFinite(back.y)
+        ? { x: Number(back.x), y: Number(back.y), k: Number(back.zoom) }
+        : null;
+  }, [back]);
 
   /* ------------------------------------------------------------ base index */
 
@@ -517,16 +605,49 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     [centre, pushCam],
   );
 
+  /** The view being left, built at CALL time: the camera lives in a ref and is
+   *  moved by every wheel, drag and glide, so a record assembled during render
+   *  would describe a view the reader has already left. */
+  const makeOrigin = useCallback(
+    (name: string) => ({
+      to: `/neo/object/${name}/`,
+      href: "/neo/erd/",
+      label: "מודל הנתונים",
+      surface: SURFACE,
+      state: {
+        focus: sel,
+        zoom: view.current.k,
+        x: view.current.x,
+        y: view.current.y,
+        module: mod,
+        filters: [
+          ...[...rel].map((k) => `rel:${k}`),
+          `depth:${depth}`,
+          ...(showAll ? ["all"] : []),
+          ...(strong ? ["strong"] : []),
+          ...(sharedOnly ? ["shared"] : []),
+          ...(iso ? ["iso"] : []),
+        ],
+      },
+    }),
+    [sel, mod, rel, depth, showAll, strong, sharedOnly, iso],
+  );
+
   /** The real object route where it exists — 105 of the documented tables have a
    *  generated page — and the in-page sheet where it does not. A node never
-   *  points at a URL that was not built. */
+   *  points at a URL that was not built.
+   *
+   *  This is a router.push and not a link, so the origin is recorded by hand: a
+   *  canvas hit-test has no anchor to hang <OriginLink/> on. */
   const openTable = useCallback(
     (name: string) => {
       const t = tByName.get(name);
-      if (t?.pg === 1) router.push(`/neo/object/${name}/`);
-      else setSheet(name);
+      if (t?.pg === 1) {
+        rememberOrigin(makeOrigin(name));
+        router.push(`/neo/object/${name}/`);
+      } else setSheet(name);
     },
-    [tByName, router],
+    [tByName, router, makeOrigin],
   );
 
   const reset = useCallback(() => {
@@ -549,6 +670,9 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
 
   useEffect(() => {
     const id = requestAnimationFrame(() => {
+      // A return already said where the reader was. The last SESSION's view is
+      // the older answer to the same question and must not overwrite it.
+      if (returning.current) return;
       try {
         const s = JSON.parse(localStorage.getItem(SKEY) || "null") as Saved | null;
         if (!s) return;
@@ -595,6 +719,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     // location.hash is an external system, the server rendered the overview,
     // and resolving it inline would be a synchronous cascading render.
     const raf = requestAnimationFrame(() => {
+      if (returning.current) return;
       const want = decodeURIComponent((window.location.hash || "").slice(1)).toUpperCase();
       const t = want ? data.tables.find((x) => x.n === want) : undefined;
       if (!t) return;
@@ -626,10 +751,21 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     // left the map at 100% on a graph three screens wide.
     const id = window.setTimeout(() => {
       camHist.current = [];
+      const want = camWanted.current;
+      if (want) {
+        // A RETURN wins over the fit: the reader is coming back to a zoom and a
+        // pan they chose, and re-fitting the picture would throw both away.
+        camWanted.current = null;
+        const st = stage.current;
+        view.current = clampView(want, bboxRef.current, st?.clientWidth || 800, st?.clientHeight || 560);
+        paint();
+        setZoomPct(Math.round(view.current.k * 100));
+        return;
+      }
       fit();
     }, 60);
     return () => window.clearTimeout(id);
-  }, [pictureKey, fit]);
+  }, [pictureKey, fit, paint]);
 
   /** Entering focus mode frames the neighbourhood. Leaving it deliberately does
    *  NOT move the camera: you land back on the map where you were reading. */
@@ -896,6 +1032,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     >
       <header className="ne-bar">
         <div className="ne-bar-id">
+          {/* Where the reader came from, when the session knows: a module
+              workspace, an object page, a search. With no memory it falls back
+              to the NEO home, which is this page's real parent. */}
+          <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
+
           <nav className="ne-crumbs" aria-label="מסלול הניווט בתרשים">
             {crumbs.map((c, i) => (
               <span key={`${c.he}-${i}`}>
@@ -1487,6 +1628,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             onPick={pick}
             onCentre={centre}
             onOpen={openTable}
+            origin={makeOrigin}
             onExpand={(n) => setSheet(n)}
             onModule={openModule}
             selected={sel}
@@ -1501,6 +1643,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
           t={tByName.get(sheet)!}
           edges={data.edges.filter((e) => e.p === sheet || e.c === sheet)}
           tByName={tByName}
+          origin={makeOrigin}
           onClose={() => setSheet(null)}
           onGo={(n) => {
             setSheet(null);

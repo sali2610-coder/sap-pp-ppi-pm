@@ -1,6 +1,23 @@
-// The one place that knows how to point at a location INSIDE the canonical
-// reader. Nothing here invents a URL scheme — both forms below already exist in
-// the reader and are used by it today:
+// The one place that knows how to point at a location INSIDE a reader.
+//
+// THERE ARE TWO READERS AND THEY ARE NOT THE SAME SHAPE.
+//
+//   /neo/read/<id>/    NEO's own reading surface. Its opening resolver
+//                      (components/neo-shell/reader/neo-reader.ts, resolveOpening)
+//                      reads `?c=<n>` and `?s=<sectionId>` and matches the id
+//                      against THIS BOOK'S REAL SECTIONS — so any id in the book
+//                      lands on the subchapter itself, including book7's Fiori
+//                      app ids (F1393), which are not dotted numbers.
+//
+//   /library/<id>/     the canonical production reader, untouched. Its deep link
+//                      is narrower; see the note under DOTTED below.
+//
+// NEO surfaces link at the NEO reader. The canonical reader keeps its own links
+// and is still reachable, named as itself, from the hub and from the reader's
+// own footer.
+//
+// Nothing here invents a URL scheme — every form below already exists in the
+// reader that receives it and is used by it today:
 //
 //   ?s=<sectionId>   components/book-reader.tsx reads it through
 //                    lib/library/deep-link.ts (readDeepLink), expands the owning
@@ -40,4 +57,34 @@ export function resumeHref(bookHref: string, chapter: number | null, section: st
   if (section) return sectionHref(bookHref, section);
   if (chapter && chapter > 0) return chapterHref(bookHref, chapter);
   return bookHref;
+}
+
+/* ------------------------------------------------------- the NEO reader ---
+   /neo/read/<id>/ is generated for every id in the registry's own list
+   (app/neo/read/[bookId]/generateStaticParams over readerBookIds()), which is
+   the SAME list the shelf and the hubs are built from. A NEO surface therefore
+   cannot link at a reader page that was not exported.
+
+   The query string carries the location. `output: 'export'` serves the same
+   pre-rendered HTML for every query, and the reader reads the query on the
+   client — so this adds no route, no variant and no server. */
+
+/** NEO's own reading surface for a book. */
+export const neoReadHref = (bookId: string): string => `/neo/read/${bookId}/`;
+
+/** NEO's reader, opened on a chapter. */
+export const neoChapterHref = (bookId: string, n: number): string =>
+  `/neo/read/${bookId}/?c=${n}`;
+
+/** NEO's reader, landed on the subchapter itself. Unlike the canonical reader's
+ *  `?s=`, this one is resolved against the book's real section ids rather than
+ *  against a number format, so every row in every book lands. */
+export const neoSectionHref = (bookId: string, id: string): string =>
+  `/neo/read/${bookId}/?s=${encodeURIComponent(id)}`;
+
+/** Where "continue reading" points inside the NEO reader. */
+export function neoResumeHref(bookId: string, chapter: number | null, section: string | null): string {
+  if (section) return neoSectionHref(bookId, section);
+  if (chapter && chapter > 0) return neoChapterHref(bookId, chapter);
+  return neoReadHref(bookId);
 }

@@ -17,7 +17,7 @@
 // Every control is a class from app/neo/ui.css. There is no button chrome
 // defined for this panel.
 
-import Link from "next/link";
+import { OriginLink, type OriginArg } from "@/components/neo-shell/nav-context";
 import {
   ArrowUpLeft, Crosshair, Expand, Focus, GitBranch, KeyRound, Link2, Terminal,
 } from "lucide-react";
@@ -44,6 +44,9 @@ export interface InspectorProps {
   onPick: (name: string) => void;
   onCentre: (name: string) => void;
   onOpen: (name: string) => void;
+  /** Builds the origin for a link leaving the graph, at click time — the camera
+   *  it reads is the one the reader is actually looking at. */
+  origin: (name: string) => OriginArg;
   onExpand: (name: string) => void;
   onModule: (code: ModCode) => void;
   selected: string | null;
@@ -51,7 +54,7 @@ export interface InspectorProps {
 
 export function ErdInspector({
   data, module: M, active, peek, activeEdges, l1, l2, hits, q, degOf,
-  onClearQ, onPick, onCentre, onOpen, onExpand, onModule, selected,
+  onClearQ, onPick, onCentre, onOpen, origin, onExpand, onModule, selected,
 }: InspectorProps) {
   return (
     <aside className="ne-insp" aria-label="פרטים">
@@ -99,15 +102,15 @@ export function ErdInspector({
 
             <div className="ne-det-act">
               {active.pg ? (
-                <Link
+                <OriginLink
                   className="nu-btn"
                   href={`/neo/object/${active.n}/`}
-                  prefetch={false}
+                  origin={() => origin(active.n)}
                   style={{ "--m": modVar(active.m) } as React.CSSProperties}
                 >
                   עמוד האובייקט
                   <ArrowUpLeft size={14} strokeWidth={1.9} aria-hidden="true" className="nu-arw" />
-                </Link>
+                </OriginLink>
               ) : (
                 <button
                   type="button"

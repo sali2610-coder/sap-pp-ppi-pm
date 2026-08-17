@@ -37,10 +37,12 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, BadgeCheck, FileText, Layers, TriangleAlert } from "lucide-react";
+import { OriginLink } from "@/components/neo-shell/nav-context";
 import { RISK_COLOR } from "@/lib/s4";
 import { pushRecentObject } from "../store";
 import type { S4Class, WsData, WsS4Row } from "./workspace-data";
 import { Chapter, Sub, type ChapterMeta } from "./workspace-chapter";
+import { useWsOrigin } from "./workspace-origin";
 import { WorkspaceSheet } from "./workspace-sheet";
 import { S4_HE, s4Dot } from "./workspace-table";
 
@@ -245,21 +247,22 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
 /** One table that materially moves. Deliberately the heaviest unit on the page
  *  after the hero: the brief asks for a callout, not a cell. */
 function Move({ r }: { r: WsS4Row }) {
+  const origin = useWsOrigin();
   return (
     <li className="nw-move" data-risk={r.risk}>
       <div className="nw-move-h">
         <span className="nu-status" style={{ "--s": RISK_COLOR[r.risk] } as React.CSSProperties}>
           {r.riskHe}
         </span>
-        <Link
+        <OriginLink
           className="nu-link nw-move-n"
           href={r.href}
-          prefetch={false}
+          origin={() => origin(r.n)}
           onClick={() => pushRecentObject(r.n)}
         >
           <b className="nw-sap">{r.n}</b>
           <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
-        </Link>
+        </OriginLink>
         <span className="nu-status" style={{ "--s": s4Dot(r.s4) } as React.CSSProperties}>
           {S4_HE[r.s4]}
         </span>

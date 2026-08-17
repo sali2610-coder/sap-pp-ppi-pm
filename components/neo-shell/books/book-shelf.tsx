@@ -19,17 +19,34 @@
 // from) and it is never rendered on a guess: no evidence, no bookmark.
 //
 // What this surface still does NOT do: it never renders a chapter, never
-// fetches prose, never wraps the reader. The way into a book is a plain <Link>
-// to the existing /library/<id>/ page, untouched.
+// fetches prose, never wraps the reader. The way into a book is a link — to the
+// book's hub, or straight into NEO's reading surface at /neo/read/<id>/.
+//
+// EVERY OUTBOUND LINK IS AN <OriginLink/>. The shelf is where a reading session
+// starts, so it is the surface with the most to say about "where I was": which
+// module filter was on, and where the canvas stood. Both travel with the click
+// (components/neo-shell/nav-context), and the shelf takes the filter back on
+// the render after a return.
 
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
-import Link from "next/link";
 import { ArrowLeft, BookOpen, Bookmark, PlayCircle } from "lucide-react";
+import { OriginLink, useReturnState, type OriginArg } from "@/components/neo-shell/nav-context";
 import { BookCover } from "./book-cover";
 import { BookQuickView } from "./quick-view";
 import { noteHandoff, useReading } from "./reading-state";
 import { resolveResume, resumeLine } from "./resume";
+import { neoReadHref } from "./links";
 import type { BooksData } from "./books-data";
+
+/** The shelf's own reproducible view. The scroll offset is NOT in here: the
+ *  shelf already keeps its own (see useShelfScroll below), and it keeps it for
+ *  every way back rather than only for a SmartReturn.
+ *
+ *  A `type` and not an `interface` — the store's OriginState is an index
+ *  signature, and only a type alias gets the implicit one that satisfies it. */
+type ShelfReturn = { mod: string | null };
+
+const SHELF_SURFACE = "neo:books";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -144,6 +161,22 @@ export function BookShelf({ data }: { data: BooksData }) {
   const armed = useTiltArmed();
   useShelfScroll();
 
+  /* THE FILTER, COMING BACK. Non-null exactly once, on the render after a
+     return. It arrives after hydration — the store's server snapshot is null so
+     the exported HTML and the first client render agree — which is why it is
+     applied in an effect and latched rather than seeded into useState. */
+  const back = useReturnState<ShelfReturn>(SHELF_SURFACE);
+  const restored = useRef(false);
+  /* A filter is only restored when the shelf still HAS that module. Anything
+     else means the data moved under a stored view, and the honest answer is the
+     unfiltered shelf rather than an empty one. */
+  const restoredMod = back && back.mod && data.groups.some((g) => g.module === back.mod) ? back.mod : null;
+  useEffect(() => {
+    if (restored.current || !back) return;
+    restored.current = true;
+    setMod(restoredMod);
+  }, [back, restoredMod]);
+
   const ids = useMemo(() => data.books.map((b) => b.id), [data.books]);
   const reading = useReading(ids);
 
@@ -197,6 +230,20 @@ export function BookShelf({ data }: { data: BooksData }) {
 
   const active = open ? byId.get(open) ?? null : null;
 
+  /* WHERE THE SHELF IS BEING LEFT FROM. One builder, used by every outbound
+     control, so the reader and the hub always hear the same sentence. Built at
+     the click: `mod` is live state and the shelf is a filterable list. */
+  const leaving = useCallback(
+    (detail?: string): OriginArg => ({
+      href: "/neo/books/",
+      label: "מדף הספרים",
+      detail,
+      surface: SHELF_SURFACE,
+      state: { mod } satisfies ShelfReturn,
+    }),
+    [mod],
+  );
+
   return (
     <>
       {/* CONTINUE READING, at the head of the shelf. Present only when a stored
@@ -210,15 +257,15 @@ export function BookShelf({ data }: { data: BooksData }) {
           <p className="nb-cont-t">{selected.titleHe || selected.titleEn}</p>
           <p className="nb-cont-l">{selectedLine}</p>
           <div className="nb-cont-a">
-            <Link
+            <OriginLink
               className="nu-btn"
-              href={selectedResume.href}
-              prefetch={false}
+              href={selectedResume.neoHref}
+              origin={() => leaving(selected.titleHe || selected.titleEn)}
               onClick={() => noteHandoff(selected.id, selectedResume.chapter, selectedResume.section)}
             >
               <PlayCircle size={15} strokeWidth={1.75} aria-hidden="true" />
-              {selectedResume.exact ? "חזרה לתת-הפרק" : "חזרה לפרק"}
-            </Link>
+              {selectedResume.neoExact ? "חזרה לתת-הפרק" : "חזרה לפרק"}
+            </OriginLink>
             <button
               type="button"
               className="nu-btn2"
@@ -226,10 +273,14 @@ export function BookShelf({ data }: { data: BooksData }) {
             >
               כרטיס הספר
             </button>
-            <Link className="nu-link" href={selected.hubHref} prefetch={false}>
+            <OriginLink
+              className="nu-link"
+              href={selected.hubHref}
+              origin={() => leaving(selected.titleHe || selected.titleEn)}
+            >
               מרכז הספר
               <ArrowLeft className="nu-arw" size={14} strokeWidth={1.75} aria-hidden="true" />
-            </Link>
+            </OriginLink>
           </div>
         </section>
       )}
@@ -327,16 +378,16 @@ export function BookShelf({ data }: { data: BooksData }) {
                             keyboard. Hover or focus opens its label; on touch
                             the same sentence is printed under the cover. */}
                         {line && (
-                          <Link
+                          <OriginLink
                             className="nb-mark"
-                            href={r.href}
-                            prefetch={false}
+                            href={r.neoHref}
+                            origin={() => leaving(b.titleHe || b.titleEn)}
                             onClick={() => noteHandoff(b.id, r.chapter, r.section)}
                             aria-label={`המשך קריאה ב${b.titleHe || b.titleEn} — ${line}`}
                           >
                             <Bookmark size={14} strokeWidth={2} aria-hidden="true" />
                             <span className="nb-mark-t">{line}</span>
-                          </Link>
+                          </OriginLink>
                         )}
 
                         {/* §2 — the contextual line. Two facts that are real
@@ -375,15 +426,19 @@ export function BookShelf({ data }: { data: BooksData }) {
                         )}
                       </div>
 
-                      <Link
+                      {/* The card's own way in. It opens NEO's reader without a
+                          location in the URL, so the reader resolves the stored
+                          one for itself — which is why the handoff below still
+                          carries the chapter and subchapter this card knows. */}
+                      <OriginLink
                         className="nu-btn2 nb-go"
-                        href={b.href}
-                        prefetch={false}
+                        href={neoReadHref(b.id)}
+                        origin={() => leaving(b.titleHe || b.titleEn)}
                         onClick={() => noteHandoff(b.id, r.chapter, r.section)}
                       >
                         <BookOpen size={14} strokeWidth={1.75} aria-hidden="true" />
                         פתח בקורא
-                      </Link>
+                      </OriginLink>
                     </li>
                   );
                 })}
@@ -398,6 +453,7 @@ export function BookShelf({ data }: { data: BooksData }) {
           b={active}
           reading={reading.map[active.id]}
           triggerRef={trigger}
+          origin={leaving}
           onClose={close}
         />
       )}

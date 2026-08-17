@@ -18,14 +18,17 @@
 
 import Link from "next/link";
 import { ArrowLeft, GitBranch, Network, Share2 } from "lucide-react";
+import { OriginLink } from "@/components/neo-shell/nav-context";
 import { pushRecentObject } from "../store";
 import type { WsData } from "./workspace-data";
 import { Chapter, Sub, type ChapterMeta } from "./workspace-chapter";
+import { useWsOrigin } from "./workspace-origin";
 
 const nf = new Intl.NumberFormat("he-IL");
 
 export function WorkspaceContext({ d, meta }: { d: WsData; meta: ChapterMeta }) {
   const maxDeg = Math.max(1, ...d.rel.hubs.map((h) => h.deg));
+  const origin = useWsOrigin();
 
   return (
     <Chapter
@@ -80,10 +83,10 @@ export function WorkspaceContext({ d, meta }: { d: WsData; meta: ChapterMeta }) 
         <ul className="nw-rank nw-rank--tight">
           {d.rel.hubs.map((h) => (
             <li key={h.n} style={{ "--o": h.obj } as React.CSSProperties}>
-              <Link
+              <OriginLink
                 className="nu-card nw-hubrow"
                 href={h.href}
-                prefetch={false}
+                origin={() => origin(h.n)}
                 onClick={() => pushRecentObject(h.n)}
               >
                 <i className="nw-cls" aria-hidden="true" />
@@ -96,7 +99,7 @@ export function WorkspaceContext({ d, meta }: { d: WsData; meta: ChapterMeta }) 
                   <span>שכנים</span>
                 </em>
                 <ArrowLeft className="nu-arw nw-steparw" size={13} strokeWidth={2} aria-hidden="true" />
-              </Link>
+              </OriginLink>
             </li>
           ))}
         </ul>

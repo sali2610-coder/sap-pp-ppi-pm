@@ -48,8 +48,12 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Search, SlidersHorizontal, Table2, X } from "lucide-react";
+import {
+  SmartReturn, consumeReturn, restoreScroll, scrollOffset, useReturnPacket,
+} from "@/components/neo-shell/nav-context";
 import type { Zone } from "@/lib/studio-graph";
 import type { S4Class, WsData, WsRow } from "./workspace-data";
+import { WorkspaceOriginProvider, type WsOrigin } from "./workspace-origin";
 import { Chapter, type ChapterMeta } from "./workspace-chapter";
 import { BUILD_KEYS, WorkspaceBuild } from "./workspace-build";
 import { WorkspaceContext } from "./workspace-context";
@@ -57,12 +61,48 @@ import { WorkspaceHero } from "./workspace-header";
 import { WorkspaceIface } from "./workspace-iface";
 import { WorkspaceIndex } from "./workspace-index";
 import { WorkspaceLearn } from "./workspace-learn";
-import { WorkspaceMap } from "./workspace-map";
+import { WorkspaceMap, type MapView } from "./workspace-map";
 import { WorkspaceOps } from "./workspace-ops";
 import { WorkspaceS4 } from "./workspace-s4";
 import { WorkspaceTable, S4_HE, s4Dot, type SortKey } from "./workspace-table";
 
 const nf = new Intl.NumberFormat("he-IL");
+
+/* --------------------------------------------------------------- returning
+
+   SMART RETURN, both halves (components/neo-shell/nav-context).
+
+   SENDING    every link that leaves the workspace for an object page records,
+              at the moment it is clicked, the view being left: which reading of
+              the map was open, which topic was scoping the working table, what
+              was typed into it, where the canvas was scrolled and which table
+              was opened. The record is built by ONE function published through
+              workspace-origin.tsx, so the hero, the process chain, the table,
+              the S/4 callouts, the hub list and the recent list cannot describe
+              the same view differently.
+   RECEIVING  on the render after a return the packet is taken back and the same
+              view is rebuilt — tab, topic, query — and then the row the reader
+              left is put back under the eye.
+
+   Everything live is read at CLICK time and not at render time: a scroll offset
+   captured during render is the offset before the reader scrolled. */
+
+const SURFACE = "neo:workspace";
+
+/** A type alias and not an interface: only an alias picks up the implicit index
+ *  signature that lets it satisfy the module's OriginState contract. */
+type WsBack = {
+  tab: string;
+  /** The topic INDEX that was scoping the table, or null for the whole module. */
+  topic: number | null;
+  q: string;
+  y: number;
+  /** The table that was opened — the record the return scrolls back to. */
+  name: string;
+};
+
+/** The workspace route per module. Both are real generated pages. */
+const HOME: Record<string, string> = { PM: "/neo/pm/", "PP-PI": "/neo/pp-pi/" };
 
 const SORTS: { k: SortKey; he: string }[] = [
   { k: "f", he: "שדות" },
@@ -82,6 +122,10 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
   const [sort, setSort] = useState<SortKey>("f");
   const [dir, setDir] = useState<1 | -1>(-1);
   const [panel, setPanel] = useState(false);
+  // The map's reading (topics · process · object classes) lives here rather
+  // than inside WorkspaceMap, because it is part of "the view I was in" and a
+  // return has to be able to put it back.
+  const [tab, setTab] = useState<MapView>("topics");
 
   const rows = useMemo(() => {
     const needle = q.trim().toUpperCase();
@@ -164,6 +208,60 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
     setSharedOnly(false);
   };
 
+  /* ------------------------------------------------------- smart return */
+
+  // Rebuilt every render on purpose, and deliberately NOT memoised: it has to
+  // close over the values that are true right now. <OriginLink/> calls it at
+  // CLICK time, so the query, the tab and the scroll offset it reads are the
+  // ones at the moment of leaving.
+  const makeOrigin: WsOrigin = (name) => ({
+    href: HOME[data.key] || "/neo/",
+    label: data.key,
+    // The scope the reader chose when there is one; otherwise the topic the
+    // blueprint documents the opened table under. Both are titles the source
+    // workbook wrote — nothing here is a description of the page invented on
+    // its behalf.
+    detail:
+      topicTitle ||
+      data.topics.find((t) => t.idx === data.rows.find((r) => r.n === name)?.tp)?.title ||
+      "",
+    surface: SURFACE,
+    state: { tab, topic, q, y: scrollOffset(), name },
+  });
+
+  // The other half. The packet arrives on the first client render after a
+  // return and is applied DURING that render — adjusting state to a changed
+  // external value, which is the one place React sanctions a set during render.
+  // An effect instead would be a cascading render, and the reader would watch
+  // the workspace rebuild itself out of the wrong view first.
+  const packet = useReturnPacket(SURFACE);
+  const [seededAt, setSeededAt] = useState(0);
+  const [back, setBack] = useState<WsBack | null>(null);
+  if (packet && packet.at !== seededAt) {
+    setSeededAt(packet.at);
+    const s = packet.state as WsBack;
+    setBack(s);
+    setTab(s.tab === "flow" || s.tab === "classes" ? s.tab : "topics");
+    setTopic(typeof s.topic === "number" ? s.topic : null);
+    setQ(typeof s.q === "string" ? s.q : "");
+  }
+  // Spend the packet. A write to an external store and nothing else.
+  useEffect(() => {
+    if (packet) consumeReturn(SURFACE);
+  }, [packet]);
+
+  // The viewport is a second step on purpose: the row can only be scrolled to
+  // once the restored topic and query have actually rendered it. The ROW wins
+  // over the raw offset — a table that re-rendered at a different density has
+  // moved every pixel, but the row the reader opened is still that row.
+  useEffect(() => {
+    if (!back) return;
+    return restoreScroll(
+      Number(back.y) || 0,
+      back.name ? `.nw-row[data-name="${CSS.escape(back.name)}"]` : undefined,
+    );
+  }, [back]);
+
   // THE CHAPTER PLAN. Built here, once, from the server object — so the index
   // band, the anchors and the numbering can never drift from what is actually
   // rendered. A chapter with nothing behind it is not planned, does not get a
@@ -210,12 +308,20 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
     return () => ro.disconnect();
   }, []);
 
-  return (
+  // The page itself, unchanged. It is handed to the origin provider below
+  // rather than being wrapped in place, so adopting Smart Return costs the
+  // workspace's markup no indentation and no restructuring.
+  const body = (
     <div className="nw" data-mod={data.key} ref={root} style={{ "--m": data.m } as React.CSSProperties}>
       <div className="nw-light" aria-hidden="true">
         <i className="nw-light-a" />
         <i className="nw-light-b" />
       </div>
+
+      {/* Where the reader came from, when the session knows — the rail, the
+          ERD, a search, an object page. With no memory it falls back to the NEO
+          home, which is this page's real parent. Never dead, never blank. */}
+      <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
 
       <WorkspaceHero d={data} />
 
@@ -226,6 +332,8 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
         meta={ch.map}
         topic={topic}
         zone={zone}
+        view={tab}
+        onView={setTab}
         onTopic={(t) => setTopic((cur) => (cur === t ? null : t))}
         onZone={(z) => setZone((cur) => (cur === z ? null : z))}
       />
@@ -383,4 +491,6 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
       <p className="nw-credit">Project NEO · CBC Israel — פותח על ידי סאלי חליף · Web Coding</p>
     </div>
   );
+
+  return <WorkspaceOriginProvider value={makeOrigin}>{body}</WorkspaceOriginProvider>;
 }

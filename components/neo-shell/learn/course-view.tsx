@@ -20,18 +20,28 @@
    subscription, so a 121-lesson course does not open 121 subscriptions to
    answer the same question 121 times.
 
-   LESSONS OPEN THE PAGE THAT ALREADY RENDERS THEM — /academy/lesson/<slug>/,
-   generated from the same authored lesson set this model resolves against. A
-   lesson with no authored body is drawn as an inert value, and its form says
-   so: no pointer, no hover lift, no focus ring.
+   LESSONS OPEN INSIDE PROJECT NEO — /neo/academy/<courseId>/<slug>/, which
+   renders the SAME authored lesson through the SAME block engine and writes to
+   the SAME progress store; see components/neo-shell/learn/lesson-view.tsx. The
+   pre-NEO route /academy/lesson/<slug>/ is unchanged and still serves /academy/.
+   A lesson with no authored body is drawn as an inert value on both, and its
+   form says so: no pointer, no hover lift, no focus ring.
+
+   Every lesson row is an <OriginLink/>, so the lesson's return control names
+   THIS course — with the reader's own scroll position — instead of resolving a
+   parent from the route.
    ========================================================================== */
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, BookOpen, Blocks, Clock, Info, Layers, Play } from "lucide-react";
-import { SmartReturn } from "@/components/neo-shell/nav-context";
+import {
+  OriginLink, SmartReturn, restoreScroll, scrollOffset, useReturnState, type OriginArg,
+} from "@/components/neo-shell/nav-context";
 import { firstIncomplete } from "@/lib/academy/model";
 import { useIsDone, useModuleProgress } from "@/lib/academy/store";
-import { learnModVar, LEARN_MOD_HE } from "./mod";
+import { COURSE_SURFACE, learnModVar, LEARN_MOD_HE, type CourseReturn } from "./mod";
+import { neoLessonHref } from "./lesson-links";
 import type { AcademyCourseRow } from "./academy-data";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -49,6 +59,32 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
   const started = p.completedLessons > 0 || p.blocksDone > 0;
   const finished = p.totalLessons > 0 && p.completedLessons >= p.totalLessons;
   const next = firstIncomplete(c.id, isDone);
+
+  /* Coming back from a lesson. Non-null exactly once, and only for a packet
+     this course left — a course is a long page and returning to the top of it
+     after four lessons would be its own small punishment. */
+  const back = useReturnState<CourseReturn>(COURSE_SURFACE);
+  const mine = back && back.id === c.id ? back : null;
+  /* TWO FRAMES, NOT ONE. `restoreScroll` waits a frame of its own; this waits
+     the frame before it, because the App Router resets the canvas to 0 as PART
+     of the navigation and does so after the first one. Landing on the chapter
+     the reader was in beats landing at the top of a 22-lesson course. */
+  useEffect(() => {
+    if (!mine || typeof mine.y !== "number" || mine.y <= 0) return;
+    let cancel = () => {};
+    const id = requestAnimationFrame(() => { cancel = restoreScroll(mine.y); });
+    return () => { cancelAnimationFrame(id); cancel(); };
+  }, [mine]);
+
+  /* Where a lesson is being opened FROM. Built at the click: the scroll offset
+     is the one part of "where I was" that is only true at that instant. */
+  const leaving = (): OriginArg => ({
+    href: c.href,
+    label: "קורס",
+    detail: c.title,
+    surface: COURSE_SURFACE,
+    state: { id: c.id, y: scrollOffset() } satisfies CourseReturn,
+  });
 
   return (
     <div
@@ -112,10 +148,10 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
 
         {next ? (
           <div className="nxl-course-a">
-            <Link href={`/academy/lesson/${next.slug}/`} className="nu-btn" prefetch={false}>
+            <OriginLink href={neoLessonHref(c.id, next.slug)} className="nu-btn" origin={leaving}>
               <Play size={14} strokeWidth={2} aria-hidden="true" />
               {started ? "המשך מהשיעור הבא" : "התחל מהשיעור הראשון"} · {next.title}
-            </Link>
+            </OriginLink>
           </div>
         ) : null}
       </section>
@@ -171,15 +207,21 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
                             </span>
                           ) : null}
                         </span>
-                        {l.href ? (
+                        {l.hasLesson ? (
                           <span className="nxc-l-go" aria-hidden="true"><ArrowLeft size={14} strokeWidth={2} /></span>
                         ) : null}
                       </>
                     );
                     return (
                       <li key={l.slug}>
-                        {l.href ? (
-                          <Link href={l.href} className="nu-card nxc-l" prefetch={false}>{inner}</Link>
+                        {l.hasLesson ? (
+                          <OriginLink
+                            href={neoLessonHref(c.id, l.slug)}
+                            className="nu-card nxc-l"
+                            origin={leaving}
+                          >
+                            {inner}
+                          </OriginLink>
                         ) : (
                           <div className="nu-card nxc-l is-flat">{inner}</div>
                         )}
@@ -204,6 +246,14 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
         <p>
           שיעור נחשב מושלם כשמספר יחידות התוכן שנצפו בו מגיע למספר שהשיעור דורש — אותה מדידה שהקורא רואה
           {" "}בתוך השיעור עצמו. ההתקדמות נשמרת ב-<span className="nx-sap">neo:academy:v2</span> על המכשיר, ואינה מסונכרנת.
+        </p>
+        <p>
+          שיעור נפתח כאן בתוך Project NEO (<span className="nx-sap">/neo/academy/{c.id}/…</span>) —
+          {" "}אותו שיעור, אותו מנוע בלוקים ואותה מדידה. מסך האקדמיה הקיים,{" "}
+          <Link className="nu-link" href="/academy/" prefetch={false}>
+            <span className="nx-sap">/academy/</span>
+          </Link>
+          , ממשיך לפעול ללא שינוי וקורא את אותה התקדמות.
         </p>
       </div>
     </div>

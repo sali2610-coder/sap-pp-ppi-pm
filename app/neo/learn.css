@@ -803,6 +803,212 @@ html[data-theme="dark"] .nx-app .nxv-s4[data-s4="1"] .nxv-s4-h { color: var(--in
 }
 
 /* ==========================================================================
+   11.5 THE LESSON — /neo/academy/<course>/<slug>
+   --------------------------------------------------------------------------
+   §4. The academy's block engine keeps its own route; this is what makes that
+   route read like Project NEO and not like a second product.
+
+   It reuses the detail screen's own composition — .nxv head, .nxv-s4 progress
+   plate, .nxv-sec section head with its module-coloured plate, .nxv-foot — and
+   adds only what a LESSON has and a record does not: a reading column with a
+   measure, four block bodies (prose, list, flow, table), a reference grid and a
+   quiz. It redeclares no token and restyles no .nu-* control.
+   ========================================================================== */
+
+/* The reading column. One measure for the whole document, in ch, so the line
+   length is a property of the text and not of the viewport. */
+.nx-app .nxs-flow-doc {
+  display: grid;
+  gap: var(--sp-8);
+  max-inline-size: 78ch;
+}
+.nx-app .nxs-sec { display: grid; gap: var(--sp-3); scroll-margin-block-start: 5rem; }
+.nx-app .nxs-sec-h {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2);
+  padding-block-end: var(--sp-2);
+  border-block-end: 1px solid var(--c-hair);
+}
+.nx-app .nxs-sec-i {
+  inline-size: 1.75rem; block-size: 1.75rem; flex: none;
+  display: inline-grid; place-items: center;
+  border-radius: var(--r-sm);
+  color: var(--m);
+  background: color-mix(in srgb, var(--m) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 20%, transparent);
+}
+.nx-app .nxs-sec-t { flex: 1 1 12rem; min-inline-size: 0; }
+/* Verification first, then whether it has been read. Both are .nu-status —
+   a dot and a word — because both are real states of the record. */
+.nx-app .nxs-trust, .nx-app .nxs-read { flex: none; }
+.nx-app .nxs-sec-b { display: grid; gap: var(--sp-3); }
+
+/* ---- prose ---------------------------------------------------------- */
+.nx-app .nxs-p {
+  margin: 0;
+  font-size: var(--t-body);
+  color: var(--ink-1);
+  line-height: var(--lh-he);
+}
+/* The objective opens the lesson and is allowed to be the largest thing in it
+   after the title. Nothing else on this surface steps up. */
+.nx-app .nxs-p--lead { font-size: var(--t-h2); line-height: 1.7; font-weight: 500; }
+.nx-app .nxs-p b { font-weight: 700; }
+.nx-app .nxs-fig { margin: 0; display: grid; gap: var(--sp-2); }
+.nx-app .nxs-fig figcaption { font-size: var(--t-xs); }
+.nx-app .nxs-note { font-size: var(--t-xs); }
+
+/* ---- lists ---------------------------------------------------------- */
+.nx-app .nxs-l { display: grid; gap: var(--sp-2); margin: 0; padding: 0; list-style: none; }
+.nx-app .nxs-l > li {
+  position: relative;
+  padding-inline-start: var(--sp-4);
+  font-size: var(--t-sm);
+  color: var(--ink-1);
+  line-height: var(--lh-he);
+}
+.nx-app .nxs-l > li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: .62em;
+  inline-size: 5px; block-size: 5px;
+  border-radius: 50%;
+  background: var(--m);
+}
+/* A warning list and a good-practice list are the same list with a different
+   edge. The edge is a --status-* hue, which is the one thing on these surfaces
+   that is allowed to mean "how it went". */
+.nx-app .nxs-l--note {
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--surface-2);
+  border-inline-start: 2px solid var(--nxs-tone, var(--c-hair));
+}
+.nx-app .nxs-l--note[data-tone="warn"] { --nxs-tone: var(--status-in-conversion); }
+.nx-app .nxs-l--note[data-tone="good"] { --nxs-tone: var(--status-done); }
+.nx-app .nxs-l--note > li::before { background: var(--nxs-tone, var(--m)); }
+
+/* ---- flow ----------------------------------------------------------- */
+.nx-app .nxs-flow {
+  display: flex; flex-wrap: wrap; gap: var(--sp-2);
+  margin: 0; padding: 0; list-style: none;
+}
+.nx-app .nxs-flow > li {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  padding: 6px var(--sp-3);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--c-hair);
+  font-size: var(--t-xs);
+  color: var(--ink-1);
+}
+.nx-app .nxs-flow > li[data-on="1"] {
+  background: color-mix(in srgb, var(--m) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 40%, transparent);
+}
+.nx-app .nxs-flow-n {
+  font-size: var(--t-micro); color: var(--ink-3);
+  direction: ltr; unicode-bidi: isolate; font-variant-numeric: tabular-nums;
+}
+
+/* ---- table ---------------------------------------------------------- */
+.nx-app .nxs-tbl-w {
+  overflow-x: auto;
+  border-radius: var(--r-md);
+  box-shadow: inset 0 0 0 1px var(--c-hair);
+}
+.nx-app .nxs-tbl { inline-size: 100%; border-collapse: collapse; font-size: var(--t-xs); }
+.nx-app .nxs-tbl th {
+  text-align: start;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--surface-2);
+  color: var(--ink-2);
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: .05em;
+}
+.nx-app .nxs-tbl td {
+  padding: var(--sp-2) var(--sp-3);
+  border-block-start: 1px solid var(--c-hair);
+  color: var(--ink-1);
+  vertical-align: top;
+}
+
+/* ---- references ------------------------------------------------------ */
+.nx-app .nxs-refs { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.nx-app .nxs-ref {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  padding: 8px var(--sp-3);
+  font-size: var(--t-xs);
+  color: var(--ink-1);
+}
+.nx-app .nxs-ref.is-flat { color: var(--ink-2); }
+.nx-app .nxs-ref-l { color: var(--ink-3); }
+
+/* ---- quiz ------------------------------------------------------------ */
+.nx-app .nxs-quizzes { display: grid; gap: var(--sp-4); }
+.nx-app .nxs-quiz { display: grid; gap: var(--sp-2); }
+.nx-app .nxs-quiz-q { margin: 0; font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); }
+.nx-app .nxs-quiz-o { display: grid; gap: var(--sp-1); }
+.nx-app .nxs-opt {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  text-align: start;
+  font-size: var(--t-xs);
+  color: var(--ink-1);
+}
+/* The answer is revealed by a --status-* edge and a check, never by colour
+   alone: the right option carries the glyph and the word does the rest. */
+.nx-app .nxs-opt[data-state="right"] {
+  box-shadow: inset 0 0 0 1px var(--status-done);
+  background: color-mix(in srgb, var(--status-done) 8%, transparent);
+}
+.nx-app .nxs-opt[data-state="wrong"] { box-shadow: inset 0 0 0 1px var(--brand); }
+.nx-app .nxs-opt[data-state="off"] { color: var(--ink-3); }
+.nx-app .nxs-quiz-e { font-size: var(--t-xs); }
+.nx-app .nxs-none { max-inline-size: 68ch; }
+
+/* A reference chip and a quiz option are .nu-card, which ui.css does not put in
+   its coarse-pointer group (a card is usually a block and already tall). Both
+   of these are small and both are tapped, so they take the 44px here. */
+@media (pointer: coarse) {
+  .nx-app .nxs-ref, .nx-app .nxs-opt { min-block-size: var(--c-tap); }
+}
+
+/* ---- stepping between lessons ---------------------------------------- */
+.nx-app .nxs-steps {
+  display: grid;
+  gap: var(--sp-3);
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: stretch;
+  padding-block-start: var(--sp-6);
+  border-block-start: 1px solid var(--c-hair);
+}
+.nx-app .nxs-step {
+  display: flex; align-items: center; gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  min-block-size: var(--c-tap);
+  color: var(--ink-1);
+}
+.nx-app .nxs-step[data-dir="next"] { justify-content: flex-end; text-align: end; }
+.nx-app .nxs-step > svg { flex: none; color: var(--ink-3); }
+.nx-app .nxs-step-t { display: grid; gap: 2px; min-inline-size: 0; }
+.nx-app .nxs-step-t b { font-size: var(--t-sm); font-weight: 700; }
+.nx-app .nxs-step.is-none {
+  display: grid; place-items: center;
+  font-size: var(--t-xs); color: var(--ink-3);
+  border: 1px dashed var(--c-hair);
+  border-radius: var(--r-md);
+  background: none;
+}
+.nx-app .nxs-up { align-self: center; justify-self: center; text-align: center; }
+
+@media (max-width: 900px) {
+  .nx-app .nxs-steps { grid-template-columns: minmax(0, 1fr); }
+  /* On one column the anchor leads: it is the way out, and the two neighbours
+     are the way on. */
+  .nx-app .nxs-up { order: -1; justify-self: stretch; }
+}
+
+/* ==========================================================================
    12. RESPONSIVE 390 → 3840
    ========================================================================== */
 

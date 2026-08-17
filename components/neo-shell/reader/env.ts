@@ -37,15 +37,28 @@ export function useReducedMotion(): boolean {
  * The NEO shell is a 100dvh grid whose canvas (`.nx-canvas`, app/globals.css)
  * carries `overflow: auto` — so the window does NOT scroll on /neo, and a
  * reader that listened to `window` would compute a progress of zero forever.
- * This walks up from the reader root to the nearest ancestor that genuinely
- * scrolls, and falls back to the document element for any surface that is not
- * inside the shell.
+ * This walks up from the reader root to the nearest ancestor DECLARED as a
+ * scroll container, and falls back to the document element for any surface that
+ * is not inside the shell.
+ *
+ * IT ASKS WHAT THE ELEMENT IS, NOT WHAT IT CURRENTLY MEASURES. An earlier
+ * version also required `scrollHeight > clientHeight`, i.e. that the container
+ * were ALREADY overflowing at the moment the reader mounted. On a client-side
+ * navigation into /neo/read/<id>/ it never is: the chapter's prose arrives from
+ * /books/<id>/ch<n>.json after mount, so at mount the canvas is exactly as tall
+ * as its content, the test failed, and the reader silently bound itself to the
+ * document — which does not scroll inside the shell. Every consequence followed
+ * from that one line: a `?s=` deep link landed nowhere, the progress rail stayed
+ * at 0% and the breadcrumb kept naming the first subchapter of the chapter.
+ *
+ * An element that declares `overflow-y: auto` and does not happen to overflow is
+ * still the scroller; scrolling it is simply a no-op, and reading its scrollTop
+ * gives 0, which is the true answer.
  */
 export function scrollHost(from: HTMLElement | null): HTMLElement {
   let el: HTMLElement | null = from?.parentElement ?? null;
   while (el && el !== document.body) {
-    const s = getComputedStyle(el);
-    if (/(auto|scroll|overlay)/.test(s.overflowY) && el.scrollHeight > el.clientHeight + 1) return el;
+    if (/(auto|scroll|overlay)/.test(getComputedStyle(el).overflowY)) return el;
     el = el.parentElement;
   }
   return document.scrollingElement instanceof HTMLElement

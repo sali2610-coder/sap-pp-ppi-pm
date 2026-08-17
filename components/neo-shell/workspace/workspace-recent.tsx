@@ -15,13 +15,15 @@
 //   · a row is a LINK to the object page it names — the same destination the
 //     working table sends you to, so "recent" and "open" mean one thing.
 
-import Link from "next/link";
 import { ArrowLeft, History } from "lucide-react";
+import { OriginLink } from "@/components/neo-shell/nav-context";
 import { relTime, useRecent } from "../store";
 import type { WsRow } from "./workspace-data";
+import { useWsOrigin } from "./workspace-origin";
 
 export function WorkspaceRecent({ names, rows }: { names: Set<string>; rows: WsRow[] }) {
   const { names: recent, seen } = useRecent();
+  const origin = useWsOrigin();
 
   // First occurrence wins: a table documented under two topics is one object.
   const byName = new Map<string, WsRow>();
@@ -44,13 +46,13 @@ export function WorkspaceRecent({ names, rows }: { names: Set<string>; rows: WsR
             const ts = seen[n];
             return (
               <li key={n} style={{ "--o": r.obj } as React.CSSProperties}>
-                <Link className="nu-card nw-rcrow" href={r.href} prefetch={false}>
+                <OriginLink className="nu-card nw-rcrow" href={r.href} origin={() => origin(n)}>
                   <i className="nw-cls" aria-hidden="true" />
                   <b className="nw-sap">{n}</b>
                   <span className="nw-rc-he">{r.he}</span>
                   {ts ? <em>{relTime(ts)}</em> : null}
                   <ArrowLeft className="nu-arw nw-steparw" size={13} strokeWidth={2} aria-hidden="true" />
-                </Link>
+                </OriginLink>
               </li>
             );
           })}

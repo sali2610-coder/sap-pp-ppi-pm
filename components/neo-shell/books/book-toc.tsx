@@ -10,21 +10,25 @@
 //
 // The two things this component is NOT:
 //   · it is not a reader — it renders no prose and fetches no chapter shard
-//   · it is not a second navigation model — every row is a plain <Link> to the
-//     existing /library/<id>/ URL, in the deep-link form the reader itself
-//     supports (see ./links.ts for which form and why)
+//   · it is not a second navigation model — every row is a link into the ONE
+//     reading surface NEO owns, /neo/read/<id>/, in the location form that
+//     reader's own opening resolver accepts (see ./links.ts)
 //
-// Search is over THIS list only, and is labelled as such. The canonical reader
-// has its own in-book search over the prose; this one cannot see prose and does
-// not pretend to.
+// EVERY ROW IS A DESTINATION. A chapter opens the chapter; a subchapter lands on
+// the subchapter itself. Both record where they were opened FROM (<OriginLink>,
+// components/neo-shell/nav-context), so the reader's return control names the
+// surface the reader actually came from instead of guessing a parent.
+//
+// Search is over THIS list only, and is labelled as such. The reader has its own
+// prose; this list cannot see prose and does not pretend to.
 
-import { useMemo, useState, useId } from "react";
-import Link from "next/link";
+import { useEffect, useMemo, useRef, useState, useId } from "react";
 import { BookOpen, ChevronLeft, Search, X } from "lucide-react";
+import { OriginLink, type OriginArg } from "@/components/neo-shell/nav-context";
 import type { BookCard, SectionRow } from "./books-data";
 import type { BookReading } from "./reading-state";
 import { noteHandoff } from "./reading-state";
-import { chapterHref, sectionHref } from "./links";
+import { neoChapterHref, neoSectionHref } from "./links";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -46,16 +50,40 @@ export function BookToc({
   reading,
   resumeSection,
   variant = "panel",
+  restoreOpen,
+  origin,
 }: {
   b: BookCard;
   reading: BookReading | undefined;
   /** The subchapter the reader was last on, highlighted in place. */
   resumeSection: string | null;
   variant?: "panel" | "hub";
+  /** Chapters to reopen after a return, so coming back from the reader finds
+   *  the list the way it was left.
+   *
+   *  It arrives LATE and not as an initial value, on purpose: the packet lives
+   *  in sessionStorage and `useSyncExternalStore` renders the server snapshot
+   *  (null) first so hydration matches, then re-renders with the real one. A
+   *  `useState` initialiser would therefore always see `undefined`. */
+  restoreOpen?: number[];
+  /** Where this list is being read FROM, built at the moment a row is clicked.
+   *  The function form is mandatory here: the open chapters and the canvas
+   *  offset are only true at that instant. */
+  origin: (live: { open: number[] }) => OriginArg;
 }) {
   const [open, setOpen] = useState<number[]>([]);
   const [q, setQ] = useState("");
   const uid = useId();
+
+  /* One shot. The packet is consumed by its owner on the render after a return,
+     so `restoreOpen` goes back to undefined immediately — the latch is what
+     stops that from closing the chapters again. */
+  const restored = useRef(false);
+  useEffect(() => {
+    if (restored.current || !restoreOpen || restoreOpen.length === 0) return;
+    restored.current = true;
+    setOpen(restoreOpen.filter((n) => b.chapterRows.some((c) => c.n === n)));
+  }, [restoreOpen, b.chapterRows]);
 
   const query = q.trim().toLowerCase();
   const read = useMemo(() => new Set(reading?.read ?? []), [reading]);
@@ -143,16 +171,16 @@ export function BookToc({
                   </span>
                 )}
 
-                <Link
+                <OriginLink
                   className="nu-ghost nb-ch-open"
-                  href={chapterHref(b.href, m.n)}
-                  prefetch={false}
+                  href={neoChapterHref(b.id, m.n)}
+                  origin={() => origin({ open })}
                   onClick={() => noteHandoff(b.id, m.n, null)}
                   aria-label={`פתיחת פרק ${m.n} — ${m.title} — בקורא`}
                 >
                   <BookOpen size={14} strokeWidth={1.75} aria-hidden="true" />
                   <span className="nb-ch-open-t">פרק בקורא</span>
-                </Link>
+                </OriginLink>
               </div>
 
               {isOpen && (
@@ -163,16 +191,16 @@ export function BookToc({
                     <ul className="nb-sec-l">
                       {m.rows.map(([id, title]) => (
                         <li key={id}>
-                          <Link
+                          <OriginLink
                             className="nb-sec"
-                            href={sectionHref(b.href, id)}
-                            prefetch={false}
+                            href={neoSectionHref(b.id, id)}
+                            origin={() => origin({ open })}
                             aria-current={resumeSection === id ? "true" : undefined}
                             onClick={() => noteHandoff(b.id, m.n, id)}
                           >
                             <span className="nb-sec-id nb-sap">{id}</span>
                             <span className="nb-sec-t">{title}</span>
-                          </Link>
+                          </OriginLink>
                         </li>
                       ))}
                     </ul>
@@ -184,7 +212,16 @@ export function BookToc({
         })}
       </ol>
 
-      {!b.exact && b.exactNote && <p className="nb-warn nb-toc-note">{b.exactNote}</p>}
+      {/* The old caveat here belonged to the canonical reader's `?s=` lander,
+          which accepts dotted numbers only and therefore could not address
+          book7's Fiori app ids. These rows open NEO's reader, whose opening
+          resolver matches the id against the book's real sections — so the
+          landing is exact for every book and the caveat no longer applies.
+          `b.exactNote` still describes /library/ accurately and is still
+          printed there, by the hub, beside the canonical reader's own link. */}
+      <p className="nb-fine nb-toc-note">
+        כל שורה כאן נפתחת בקורא של Project NEO במיקום עצמו — פרק על הפרק, תת-פרק על תת-הפרק.
+      </p>
     </section>
   );
 }

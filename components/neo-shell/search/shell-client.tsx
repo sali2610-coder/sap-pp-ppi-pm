@@ -37,6 +37,7 @@ import {
   useCallback, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState,
 } from "react";
 import { mark } from "@/components/defer-mount";
+import { consumeReturn, rememberOrigin, useReturnPacket } from "@/components/neo-shell/nav-context";
 import { Ico } from "../icon";
 import {
   GROUP_MS, RAIL_MS, measure, play, playEnter, playScaleX, raf, raf2, reducedMotion,
@@ -53,6 +54,25 @@ import type { CmdKind, CmdRecord, CommandExtra } from "./types";
 
 const nf = new Intl.NumberFormat("he-IL");
 const PREVIEW_DELAY = 260;
+
+/* --------------------------------------------------------------- returning
+
+   SMART RETURN, the search half (components/neo-shell/nav-context).
+
+   A search result is the one origin in the product that is not a PAGE: the
+   reader was on some route, opened the surface over it and left from there. So
+   the record points `href` at that route and carries the query as its detail,
+   which is what makes the destination's control read "חזרה לתוצאות החיפוש ·
+   EQUI" instead of naming a page the reader never looked at.
+
+   Returning re-opens the surface with the same query and the same facets, so
+   the answer they were reading is on screen again rather than an empty field. */
+
+const SEARCH_SURFACE = "neo:search";
+
+/** A type alias and not an interface: only an alias picks up the implicit index
+ *  signature that lets it satisfy the module's OriginState contract. */
+type SearchBack = { q: string; only: string | null; mod: string | null };
 
 /** Prefix match, but only on a full path segment: "/neo/pm/" must not be
  *  activated by "/neo/pm-something/". */
@@ -450,10 +470,43 @@ export function NeoShellClient({
   const goResult = useCallback((r: CmdRecord) => {
     if (r.ctx) openObject(r.ctx);
     if (r.href) {
+      // Activating a result is a router.push and not a link, so the origin is
+      // recorded by hand. The query is read here, at the moment of leaving.
+      rememberOrigin({
+        to: r.href,
+        href: path,
+        label: "תוצאות החיפוש",
+        detail: query.trim(),
+        surface: SEARCH_SURFACE,
+        state: { q: query, only, mod: modOnly },
+      });
       router.push(r.href);
       closeSearch();
     }
-  }, [openObject, router, closeSearch]);
+  }, [openObject, router, closeSearch, path, query, only, modOnly]);
+
+  /* ------------------------------------------------- returning to the search
+
+     Applied DURING the render the packet arrives on, then the surface is
+     re-opened in an effect — changeMode measures the DOM and animates it, which
+     is not something a render may do. */
+  const backPacket = useReturnPacket(SEARCH_SURFACE);
+  const [searchSeed, setSearchSeed] = useState(0);
+  if (backPacket && backPacket.at !== searchSeed) {
+    setSearchSeed(backPacket.at);
+    const b = backPacket.state as SearchBack;
+    setQuery(typeof b.q === "string" ? b.q : "");
+    setOnly(KINDS.some((k) => k.k === b.only) ? (b.only as CmdKind) : null);
+    setModOnly(typeof b.mod === "string" && b.mod ? b.mod : null);
+    setCursor(0);
+  }
+  // Spend the packet. A write to an external store and nothing else.
+  useEffect(() => { if (backPacket) consumeReturn(SEARCH_SURFACE); }, [backPacket]);
+  // Keyed on the packet's own timestamp, which changes exactly once per return.
+  // `changeMode` is deliberately NOT a dependency: its identity tracks the rail
+  // mode, so re-running on it would re-open a surface the reader just closed.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { if (searchSeed) changeMode("search"); }, [searchSeed]);
 
   const fromSearch = useCallback((name: string) => {
     openObject(name);

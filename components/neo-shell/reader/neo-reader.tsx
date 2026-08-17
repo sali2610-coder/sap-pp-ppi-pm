@@ -101,9 +101,26 @@ interface Pack {
 
 const NO_BODIES: Record<string, SectionBody> = {};
 const NO_FIGS: ViewerFigure[] = [];
-/** A store that never changes: the URL snapshot is frozen on first read. */
-const NEVER = () => () => {};
-const EMPTY_URL = () => "";
+/** Not "no query" — "the query is not knowable yet". See readUrl below. */
+const NO_URL = () => null;
+
+/** The address becomes readable one frame after the page mounts.
+ *
+ *  The App Router renders a client-side navigation BEFORE it commits the new
+ *  URL, so during the reader's first render `window.location` can still be the
+ *  page the reader was opened FROM. A store with no subscription would simply
+ *  keep whatever it read then. This subscribes for exactly one frame, which is
+ *  the moment the address is authoritative — after that nothing external ever
+ *  changes it for this surface, so the store goes quiet again. */
+function subscribeUrl(onChange: () => void): () => void {
+  // A frame AND a task. The frame is the precise moment on a visible page; the
+  // task is what still happens on a page the browser is not painting, where
+  // requestAnimationFrame does not run at all. Reading the address is not a
+  // paint concern, so it must not depend on one.
+  const frame = requestAnimationFrame(() => onChange());
+  const task = window.setTimeout(() => onChange(), 0);
+  return () => { cancelAnimationFrame(frame); window.clearTimeout(task); };
+}
 
 interface Opening {
   chapter: number | null;
@@ -122,10 +139,10 @@ interface Opening {
  */
 function resolveOpening(
   book: NRBook,
-  url: string,
+  url: string | null,
   stored: { chapter: number | null; section: string | null } | null,
 ): Opening {
-  const [search, hash = ""] = url.split("#");
+  const [search, hash = ""] = (url ?? "").split("#");
   const p = new URLSearchParams(search);
   const askedSection = p.get("s") || (hash.startsWith("sec-") ? hash.slice(4) : "");
   const askedChapter = Number(p.get("c") || (hash.startsWith("ch-") ? hash.slice(3) : ""));
@@ -176,13 +193,31 @@ export function NeoReader({ book }: { book: NRBook }) {
      arrive through the store protocol rather than through an effect that sets
      state: the URL is frozen the first time it is read (this surface REWRITES
      the query as you read, and the opening must not chase its own writes), and
-     the stored location is latched on the first render that carries any. */
+     the stored location is latched on the first render that carries any.
+
+     THE PATHNAME GUARD IS NOT DEFENSIVE PROGRAMMING, IT IS THE WHOLE THING.
+     On a client-side navigation the App Router renders the destination BEFORE
+     it commits the new URL, so on the reader's first render window.location can
+     still describe the page the reader came FROM — the book hub, which has no
+     query. Freezing that gave the reader an empty query, which made a
+     deliberate "open subchapter 5.4" arrive as a plain visit; the stored
+     location then took over and the reader, correctly for a stored location,
+     offered the resume banner instead of landing. The section was never wrong;
+     the reader simply never heard the URL.
+
+     So the snapshot stays UNKNOWN (null, not "") until window.location really
+     describes this reader, and everything downstream waits for it. A render
+     always follows — the chapter shard arrives, the scroll spy reports — so the
+     wait is one frame, not a poll. */
   const urlRef = useRef<string | null>(null);
-  const readUrl = useCallback(() => {
-    if (urlRef.current === null) urlRef.current = window.location.search + window.location.hash;
+  const readUrl = useCallback((): string | null => {
+    if (urlRef.current === null) {
+      if (!window.location.pathname.startsWith(`/neo/read/${book.id}`)) return null;
+      urlRef.current = window.location.search + window.location.hash;
+    }
     return urlRef.current;
-  }, []);
-  const url = useSyncExternalStore(NEVER, readUrl, EMPTY_URL);
+  }, [book.id]);
+  const url = useSyncExternalStore(subscribeUrl, readUrl, NO_URL);
 
   /* HAS THE READER DONE ANYTHING YET.
      This is what keeps the opening decision stable without latching it behind a
@@ -442,12 +477,15 @@ export function NeoReader({ book }: { book: NRBook }) {
      dropped mid-chapter without being asked is disorienting. */
   const landed = useRef(false);
   useEffect(() => {
-    if (landed.current || load === "loading") return;
+    // `url === null` means the router has not committed the address yet. The
+    // decision is not "no deep link", it is "not yet knowable" — so the landing
+    // is not spent on it.
+    if (landed.current || load === "loading" || url === null) return;
     if (opening.source !== "url" || !opening.section) { landed.current = true; return; }
     landed.current = true;
     const t = window.setTimeout(() => { measure(); goTo(chapterN, opening.section, false); schedule(); }, 60);
     return () => window.clearTimeout(t);
-  }, [load, opening, chapterN, goTo, measure, schedule]);
+  }, [load, url, opening, chapterN, goTo, measure, schedule]);
 
   /* -------------------------------------------------------------- memory */
 
@@ -465,8 +503,13 @@ export function NeoReader({ book }: { book: NRBook }) {
 
   // The URL follows the reading position, so a link can be copied at any time.
   // history.state is preserved: the App Router keeps its own record in there.
+  //
+  // NOT UNTIL THE ADDRESS HAS BEEN READ. This effect rewrites the very query
+  // the opening resolver is still waiting to read; running it first would let
+  // the reader overwrite the instruction it was given and then obey its own
+  // rewrite. `url === null` means "not read yet", so it waits.
   useEffect(() => {
-    if (!chapter) return;
+    if (!chapter || url === null) return;
     const t = window.setTimeout(() => {
       const next = new URL(window.location.href);
       next.searchParams.set("c", String(chapter.n));
@@ -476,7 +519,7 @@ export function NeoReader({ book }: { book: NRBook }) {
       window.history.replaceState(window.history.state, "", next.toString());
     }, 700);
     return () => window.clearTimeout(t);
-  }, [chapter, activeSection]);
+  }, [chapter, activeSection, url]);
 
   /* ------------------------------------------------------------ stepping */
 

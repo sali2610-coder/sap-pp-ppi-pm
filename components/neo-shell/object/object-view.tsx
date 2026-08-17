@@ -23,7 +23,9 @@ import {
   TriangleAlert, Workflow,
 } from "lucide-react";
 import { RISK_COLOR } from "@/lib/s4";
+import { OriginLink } from "@/components/neo-shell/nav-context";
 import { ObjectFields } from "./object-fields";
+import { ObjectReturn } from "./object-return";
 import { ObjectOrbit } from "./object-orbit";
 import { objectSummary, relVar, type ObjectView } from "./object-data";
 
@@ -83,6 +85,10 @@ function Sec({
 
 export function ObjectPage({ v }: { v: ObjectView }) {
   const s = objectSummary(v);
+  // Where a reader who leaves this page is leaving FROM. Nothing on the object
+  // page is live — no query, no filter, no camera — so the record is a plain
+  // object and can be built on the server. The name is the dictionary's own.
+  const from = { href: `/neo/object/${v.name}/`, label: "אובייקט", detail: v.name };
   const rowsPerMod = new Map<string, number>();
   for (const r of v.rows) rowsPerMod.set(r.mod, (rowsPerMod.get(r.mod) || 0) + 1);
 
@@ -118,11 +124,16 @@ export function ObjectPage({ v }: { v: ObjectView }) {
 
   return (
     <div className="no" style={{ "--o": v.obj } as React.CSSProperties}>
+      {/* Where the reader came from, when the session knows: a module
+          workspace with its topic, the ERD with its focus, the search with its
+          query. With no memory it falls back to the table dictionary. */}
+      <ObjectReturn />
+
       {/* ==================================================== IDENTITY */}
       <header className="no-hero">
         <div className="no-hero-copy">
           <p className="no-eye">
-            <Link href="/neo/erd/" prefetch={false}>מודל הנתונים</Link>
+            <OriginLink href="/neo/erd/" origin={from}>מודל הנתונים</OriginLink>
             <i aria-hidden="true" />
             {v.zoneHe}
             <i aria-hidden="true" />
@@ -216,25 +227,25 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           </div>
 
           <div className="no-cta">
-            <Link className="nu-btn" href={`/neo/erd/#${v.name}`} prefetch={false}>
+            <OriginLink className="nu-btn" href={`/neo/erd/#${v.name}`} origin={from}>
               <GitBranch size={15} strokeWidth={1.75} aria-hidden="true" />
               הצג במודל הנתונים המלא
               <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
-            </Link>
-            <Link className="nu-btn2" href="/neo/tables/" prefetch={false}>
+            </OriginLink>
+            <OriginLink className="nu-btn2" href="/neo/tables/" origin={from}>
               <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
               מילון הטבלאות
-            </Link>
+            </OriginLink>
             {v.mods.map((m) => (
-              <Link
+              <OriginLink
                 key={m}
                 className="nu-link"
                 href={m === "PM" ? "/neo/pm/" : "/neo/pp-pi/"}
-                prefetch={false}
+                origin={from}
               >
                 סביבת העבודה של {m}
                 <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
-              </Link>
+              </OriginLink>
             ))}
           </div>
         </div>
@@ -367,7 +378,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
                   </span>
                   <span className="no-rel-name">
                     <i className="no-rel-cls" aria-hidden="true" />
-                    <Link className="nx-sap" href={`/neo/object/${n.name}/`} prefetch={false}>{n.name}</Link>
+                    <OriginLink className="nx-sap" href={`/neo/object/${n.name}/`} origin={from}>{n.name}</OriginLink>
                     <em>{n.he || "—"}</em>
                   </span>
                   <span className="no-rel-card">
@@ -628,10 +639,10 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         ) : (
           <Silent what="תצוגות CDS" />
         )}
-        <Link className="nu-link" href="/neo/cds/" prefetch={false}>
+        <OriginLink className="nu-link" href="/neo/cds/" origin={from}>
           מרשם ה-CDS של הפרויקט
           <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
-        </Link>
+        </OriginLink>
       </Sec>
 
       {/* =================================================== INTERFACES */}
@@ -683,14 +694,14 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           <Silent what="תוכניות ודוחות" />
         )}
         <p className="no-links">
-          <Link className="nu-link" href="/neo/bapi/" prefetch={false}>
+          <OriginLink className="nu-link" href="/neo/bapi/" origin={from}>
             מרשם ה-BAPI וה-FM
             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
-          </Link>
-          <Link className="nu-link" href="/neo/idoc/" prefetch={false}>
+          </OriginLink>
+          <OriginLink className="nu-link" href="/neo/idoc/" origin={from}>
             מרשם ה-IDoc
             <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
-          </Link>
+          </OriginLink>
         </p>
       </Sec>
 

@@ -1235,6 +1235,13 @@ html .nx-app .nx-canvas:has(> .nb) {
 .nb-hub { gap: var(--sp-6); padding-block-start: var(--sp-10); }
 .nb-crumb { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
 
+/* The contextual return leads the crumb. It is a .nu-link with its own arrow
+   (components/neo-shell/nav-context), so nothing about the control is styled
+   here — only how much of the row it is allowed to take before it truncates,
+   which is what keeps the module chips beside it on a narrow canvas. */
+.nb-crumb-back { max-inline-size: min(28rem, 100%); }
+@media (max-width: 720px) { .nb-crumb-back { max-inline-size: 100%; } }
+
 .nb-hub-top {
   display: grid;
   grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
@@ -1320,6 +1327,12 @@ html[data-theme="dark"] [dir="ltr"] .nb-hub-id {
   font-size: var(--t-xs); line-height: 1.55; color: var(--ink-2);
 }
 .nb-hub-res svg { flex: none; color: var(--m); margin-block-start: 3px; }
+
+/* The canonical reader, named as itself under the two NEO entries. It is a
+   sentence and not a third button on purpose: it goes somewhere else, and a
+   control that looks like the other two would say it goes to the same place. */
+.nb-hub-alt { max-inline-size: 72ch; }
+.nb-hub-alt .nu-link { display: inline-flex; }
 
 .nb-hub-sib { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(16rem, 100%), 1fr)); gap: var(--sp-2); }
 .nb-sib {
