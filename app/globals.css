@@ -110,8 +110,15 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  /* Dynamic font scaling — scales the whole app via rem */
-  font-size: calc(100% * var(--font-scale));
+  /* Dynamic font scaling: scales the whole app via rem.
+     Two independent factors, multiplied rather than overriding each other.
+     --font-scale is the presentation ramp and belongs to the viewport (it steps
+     up at 2560/3200/3840 so an 85-inch display stays readable).
+     --nx-type-scale is the reader's own choice from the NEO font control. It
+     defaults to 1 and is set only while a NEO route is mounted, so picking a
+     larger size never silently resizes the production routes, and a large
+     display never cancels a user's preference. */
+  font-size: calc(100% * var(--font-scale) * var(--nx-type-scale, 1));
   scroll-behavior: smooth;
   /* Mobile safety net: never let a stray wide child create page-level
      horizontal scroll. Real wide content (graphs/tables) uses its own

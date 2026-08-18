@@ -73,7 +73,7 @@ export function WorkspaceTable({
       <div className="nw-empty">
         <p>אף שורה במילון של המודול אינה עונה על הסינון הנוכחי.</p>
         <p className="nw-fine">
-          המילון מחזיק {nf.format(total)} שורות. הסינון מצמצם — הוא לא מסתיר חוסר בנתונים.
+          המילון מחזיק {nf.format(total)} שורות. הסינון מצמצם; הוא אינו מסתיר חוסר בנתונים.
         </p>
         <button type="button" className="nu-btn2" onClick={onClear}>
           נקה סינון
@@ -86,7 +86,7 @@ export function WorkspaceTable({
     <div className="nw-tblwrap">
       <table className="nw-tbl">
         <caption className="nw-sr">
-          טבלת העבודה של המודול — {nf.format(rows.length)} שורות מתוך {nf.format(total)}
+          טבלת העבודה של המודול · {nf.format(rows.length)} שורות מתוך {nf.format(total)}
         </caption>
         <thead>
           <tr>
@@ -149,7 +149,7 @@ export function WorkspaceTable({
                   </td>
 
                   <td className="nw-c-he" data-l="תיאור">
-                    <span>{r.he || "—"}</span>
+                    <span>{r.he || "–"}</span>
                   </td>
 
                   <td className="nw-c-tp" data-l="נושא">
@@ -177,21 +177,21 @@ export function WorkspaceTable({
                         {r.tc.length > 2 ? <em className="nw-sap">+{r.tc.length - 2}</em> : null}
                       </>
                     ) : (
-                      <span className="nw-none">—</span>
+                      <span className="nw-none">–</span>
                     )}
                   </td>
 
                   <td className="nw-c-fn" data-l="ממשקים">
-                    {r.fnEntries ? <b className="nw-sap">{r.fnEntries}</b> : <span className="nw-none">—</span>}
+                    {r.fnEntries ? <b className="nw-sap">{r.fnEntries}</b> : <span className="nw-none">–</span>}
                   </td>
 
                   <td className="nw-c-rel" data-l="קשרים">
-                    {r.rel ? <b className="nw-sap">{r.rel}</b> : <span className="nw-none">—</span>}
+                    {r.rel ? <b className="nw-sap">{r.rel}</b> : <span className="nw-none">–</span>}
                   </td>
 
                   <td className="nw-c-cv" data-l="CDS · Fiori">
-                    <span className="nw-sap">{r.cds || "—"}</span>
-                    <em>{r.fiori ? "Fiori" : "—"}</em>
+                    <span className="nw-sap">{r.cds || "–"}</span>
+                    <em>{r.fiori ? "Fiori" : "–"}</em>
                   </td>
 
                   <td className="nw-c-s4" data-l="S/4HANA">

@@ -39,6 +39,7 @@ import {
   MOD_REPORTS,
   OBJECTS,
 } from "@/app/sap-infrastructure/meta";
+import { s4For } from "@/lib/s4";
 import { edges as dictEdges, tableNames } from "./model";
 import {
   MODULE_ORDER,
@@ -46,6 +47,7 @@ import {
   type ErdCatalog,
   type ErdEdgeOut,
   type ErdModuleOut,
+  type ErdS4,
   type ErdTable,
   type ModCode,
   type RelKind,
@@ -124,6 +126,27 @@ const ZONE_OBJ: Record<string, string> = {
 };
 
 const clean = (s?: string) => (s || "").replace(/\s+/g, " ").trim();
+
+/** The project's S/4HANA standing for one table, resolved by the SAME function
+ *  the production Architecture Explorer calls (lib/s4.ts → data/s4-impact.ts +
+ *  the dictionary's own S/4 column). Called here, at build time, so the browser
+ *  receives a finished record and never imports the impact dataset.
+ *
+ *  Returns null where the project holds no decision at all. That null is the
+ *  point: the workspace renders it as "לא קיים מידע מאומת בפרויקט" and never
+ *  fills the gap with an inference. */
+function s4Standing(name: string, s4?: string, s4alt?: string): ErdS4 | null {
+  const st = s4For(name, s4, s4alt);
+  if (!st.impact) return null;
+  return {
+    r: st.impact.risk,
+    t: st.impact.trust,
+    ch: clean(st.impact.changed),
+    wy: clean(st.impact.why),
+    nt: clean(st.impact.note),
+    fl: (st.impact.fields || []).map((f) => clean(f.field)).filter(Boolean),
+  };
+}
 
 const kindOf = (card?: string): RelKind => {
   const c = clean(card).toUpperCase().replace(/\s/g, "");
@@ -368,6 +391,7 @@ export function erdCatalog(): ErdCatalog {
       g: clean(t.guideHe),
       pg: pages.has(n) ? 1 : 0,
       r: t.real ? 1 : 0,
+      s4v: s4Standing(n, clean(t.s4), clean(t.s4alt)),
     };
   });
 
@@ -534,6 +558,8 @@ export function erdCatalog(): ErdCatalog {
       isolated: outTables.filter((t) => t.d === 0).length,
       withJoin: outEdges.filter((e) => e.j.some((s) => s.j)).length,
       pages: outTables.filter((t) => t.pg === 1).length,
+      s4known: outTables.filter((t) => t.s4v).length,
+      s4verified: outTables.filter((t) => t.s4v?.t === "verified").length,
     },
   };
   return _out;

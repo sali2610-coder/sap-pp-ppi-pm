@@ -32,7 +32,6 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import {
   AArrowDown,
   AArrowUp,
@@ -44,6 +43,7 @@ import {
   ChevronRight,
   Focus,
   Images,
+  Languages,
   ListTree,
   Loader2,
   Minus,
@@ -68,8 +68,9 @@ import { computeProgress, n, pct, stepSection, stepView, type NRProgress } from 
 import { ProgressRail, ProgressStrip } from "./progress-rail";
 import { ReaderPanel } from "./reader-panel";
 import { ReadingLens } from "./lens";
-import { SectionBlock } from "./section-body";
-import { canStep, LEAD_HE, MEASURE_HE, SIZE_HE, useReaderPrefs } from "./prefs";
+import { FigureTail, SectionBlock } from "./section-body";
+import { planFigures, type PlacedFigure } from "./figures";
+import { canStep, LANG_HE, LANG_NOTE, LANGS, LEAD_HE, MEASURE_HE, SIZE_HE, useReaderPrefs } from "./prefs";
 import { scrollHost, useReducedMotion } from "./env";
 
 /* --------------------------------------------------------------- scrolling */
@@ -109,6 +110,9 @@ interface Pack {
 
 const NO_BODIES: Record<string, SectionBody> = {};
 const NO_FIGS: ViewerFigure[] = [];
+/** One shared empty list, so a subchapter with no scan does not get a fresh
+ *  array on every render and re-run the section's memoisation for nothing. */
+const NO_PLACED: PlacedFigure[] = [];
 /** Not "no query" — "the query is not knowable yet". See readUrl below. */
 const NO_URL = () => null;
 
@@ -559,6 +563,20 @@ export function NeoReader({ book }: { book: NRBook }) {
   const prevAt = chapter ? stepView(book, chapter.n, prev) : null;
   const nextAt = chapter ? stepView(book, chapter.n, next) : null;
 
+  /* ------------------------------------------------------------- figures */
+
+  /* WHERE THE SCANS GO. Not a strip above the chapter, which takes every figure
+     out of the passage it illustrates: each scan is placed after the subchapter
+     whose share of the chapter's page band contains its source page — the same
+     rule components/chapter-reader.tsx has used in production since the library
+     shipped. Whatever cannot be placed falls to the chapter's tail and is still
+     rendered, so no scan is ever lost to a tidier screen. */
+  const plan = useMemo(
+    () => planFigures(figs, chapter?.sections.length ?? 0),
+    [figs, chapter?.sections.length],
+  );
+  const openFig = useCallback((i: number) => setFigAt(i), []);
+
   const chapterIdx = chapter ? book.chapters.findIndex((c) => c.n === chapter.n) : -1;
   const prevCh = chapterIdx > 0 ? book.chapters[chapterIdx - 1] : null;
   const nextCh = chapterIdx >= 0 && chapterIdx < book.chapters.length - 1 ? book.chapters[chapterIdx + 1] : null;
@@ -591,6 +609,7 @@ export function NeoReader({ book }: { book: NRBook }) {
       data-size={prefs.size}
       data-lead={prefs.lead}
       data-measure={prefs.measure}
+      data-lang={prefs.lang}
       style={{ "--m": book.mod } as React.CSSProperties}
     >
       {/* ------------------------------------------------------------ head */}
@@ -660,6 +679,28 @@ export function NeoReader({ book }: { book: NRBook }) {
                 <span className="nr-mark-n" aria-hidden="true">{n(bookmarks.length)}</span>
               )}
             </button>
+            {/* THE LANGUAGE SPREAD. First among the reading controls, because it
+                decides what is on the page rather than how it looks. Three real
+                states and no hidden fourth: the text that is not chosen stays in
+                the document inside a disclosure, so nothing is deleted to make a
+                screen tidier. */}
+            <span className="nr-langs" role="group" aria-label="שפת הקריאה">
+              <Languages size={14} strokeWidth={1.9} aria-hidden="true" />
+              {LANGS.map((l) => (
+                <button
+                  key={l}
+                  type="button"
+                  className="nu-ghost nr-lang"
+                  data-on={prefs.lang === l ? "1" : undefined}
+                  aria-pressed={prefs.lang === l}
+                  onClick={() => set("lang", l)}
+                  title={LANG_NOTE[l]}
+                  lang={l === "en" ? "en" : "he"}
+                >
+                  {LANG_HE[l]}
+                </button>
+              ))}
+            </span>
             <button
               type="button"
               className="nu-filter"
@@ -827,27 +868,22 @@ export function NeoReader({ book }: { book: NRBook }) {
               </p>
             </header>
 
-            {figs.length > 0 && (
-              <section className="nr-figs" aria-label="איורים בפרק">
-                <h2 className="nr-figs-h">
-                  <Images size={14} strokeWidth={1.9} aria-hidden="true" />
-                  {n(figs.length)} איורים סרוקים בפרק
-                </h2>
-                <ul className="nr-figs-l">
-                  {figs.map((f, i) => (
-                    <li key={f.file}>
-                      <button
-                        type="button"
-                        onClick={() => setFigAt(i)}
-                        aria-label={`הגדל איור מעמוד ${f.page}`}
-                        className="nr-fig"
-                      >
-                        <Image src={f.file} alt="" width={160} height={112} unoptimized />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </section>
+            {/* The strip that used to stand here has become a SENTENCE. The
+                scans themselves are now inside the subchapters they belong to,
+                which is where an illustration is worth anything; this line only
+                says how many there are and offers the whole set at once for a
+                reader who wants to flip through them. */}
+            {plan.ordered.length > 0 && (
+              <p className="nr-figline">
+                <Images size={14} strokeWidth={1.9} aria-hidden="true" />
+                <span>
+                  {n(plan.ordered.length)} איורים סרוקים בפרק, משובצים בגוף הטקסט לפי עמוד המקור שלהם
+                  {plan.tail.length > 0 && ` · ${n(plan.tail.length)} מהם בסוף הפרק, בלי שיבוץ`}
+                </span>
+                <button type="button" className="nu-ghost nr-figline-b" onClick={() => setFigAt(0)}>
+                  פתח את כל האיורים
+                </button>
+              </p>
             )}
 
             {load === "loading" && (
@@ -882,9 +918,14 @@ export function NeoReader({ book }: { book: NRBook }) {
                   index={i}
                   count={chapter.sections.length}
                   active={i === index}
+                  lang={prefs.lang}
+                  figures={plan.bySection.get(i) ?? NO_PLACED}
+                  onFigure={openFig}
                 />
               ))
             )}
+
+            <FigureTail figures={plan.tail} onOpen={openFig} />
 
             <nav className="nr-ends" aria-label="מעבר בין פרקים">
               {prevCh ? (
@@ -923,6 +964,8 @@ export function NeoReader({ book }: { book: NRBook }) {
           read={evidence?.read ?? []}
           bookmarks={bookmarks}
           onChapter={(x) => goTo(x, null)}
+          activeSection={activeSection}
+          onGo={goTo}
         />
       </div>
 
@@ -1001,9 +1044,12 @@ export function NeoReader({ book }: { book: NRBook }) {
         />
       )}
 
+      {/* The viewer is handed the PLAN's ordered list, not the raw fetch order:
+          every index the page hands back — an inline figure, the tail, the
+          "open all" control — is an index into that list. */}
       <FigureViewer
         open={figAt !== null}
-        figs={figs}
+        figs={plan.ordered}
         index={figAt ?? 0}
         onIndex={setFigAt}
         onClose={() => setFigAt(null)}

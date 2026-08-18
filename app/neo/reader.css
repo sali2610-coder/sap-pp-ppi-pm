@@ -201,6 +201,33 @@ html[data-theme="dark"] .nr[data-paper="1"] {
 }
 .nr-steps .nu-ghost { padding-inline: 0.45rem; min-block-size: 2.25rem; }
 
+/* --- the language spread control ------------------------------------------
+   A segmented control, not a toggle: there are three real states and a toggle
+   would have to hide one of them. It keeps its words at every width — an icon
+   alone cannot say "דו-לשוני" — and is the one tool that survives focus mode,
+   because it decides WHAT is on the page rather than how it looks. */
+.nr-langs {
+  display: inline-flex; align-items: center; gap: 2px;
+  padding: 2px 2px 2px var(--sp-2);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+}
+.nr-langs > svg { flex: none; color: var(--ink-3); margin-inline-end: 2px; }
+.nr-lang {
+  min-block-size: 2rem;
+  padding-inline: 0.55rem;
+  border-radius: var(--r-pill);
+  font-size: 0.6875rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.nr-lang[data-on="1"] {
+  background: color-mix(in srgb, var(--m) 16%, transparent);
+  color: var(--ink-1);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m) 46%, transparent);
+}
+
 /* --- the bookmark control ------------------------------------------------- */
 /* The count is not a notification badge: it does not float over the corner and
    it never appears at zero. It is a second, quieter figure inside the control,
@@ -325,7 +352,8 @@ html[dir="ltr"] .nr { --nr-origin: left; }
      belongs in an RTL document. */
   .nr-body { grid-template-columns: minmax(0, 1fr) var(--nr-rail-w); }
 }
-@media (min-width: 1800px) { .nr { --nr-rail-w: 6.5rem; } }
+/* The rail's own widths live with the rail, further down: it is a 5.5rem meter
+   below 1280px and a full navigator above it. */
 
 .nr-col { min-inline-size: 0; display: grid; grid-template-columns: minmax(0, 1fr); }
 
@@ -341,8 +369,20 @@ html[dir="ltr"] .nr { --nr-origin: left; }
   color: var(--nr-ink);
   box-shadow: var(--elev-1);
   position: relative;
+  /* THE SHEET IS THE QUERY CONTAINER FOR THE BILINGUAL SPREAD.
+     Whether two columns fit is a question about the SHEET, not about the window:
+     the same 1280px window gives the sheet 667px with the rail open and far more
+     without it, and a viewport media query cannot tell those apart. So the
+     spread asks its own container. `inline-size` containment only — the sheet's
+     width already comes from its grid track, never from its content, so nothing
+     it holds is resized by asking. */
+  container-type: inline-size;
+  container-name: nrsheet;
 }
 @media (min-width: 900px) { .nr-sheet { padding: var(--sp-8) var(--sp-8) var(--sp-10); } }
+/* A spread needs a sheet a spread fits on. `inline-size: 100%` still caps it, so
+   this only ever GIVES room on a wide canvas and changes nothing on a phone. */
+.nr[data-lang="both"] .nr-sheet { max-inline-size: calc(var(--nr-measure) * 2 + 11rem); }
 
 /* SUBTLE PHYSICALITY. Two hairlines stepped off the trailing edge read as the
    leaves under the page you are on. It is one static box-shadow, it never
@@ -405,23 +445,71 @@ html[dir="ltr"] .nr { --nr-origin: left; }
 }
 .nr-ch-m { font-size: 0.75rem; color: var(--ink-3); line-height: 1.7; }
 
-/* --- figures -------------------------------------------------------------- */
-.nr-figs { margin-block-end: var(--sp-6); }
+/* --- figures --------------------------------------------------------------
+   THE STRIP IS GONE AND THE SCANS ARE IN THE TEXT.
+   What stood here was a horizontal gallery at the top of the chapter: every
+   figure in the chapter, none of them beside the passage it illustrates. The
+   scans now render inside the subchapter their source page falls in (see
+   components/neo-shell/reader/figures.ts) and only a one-line summary is left at
+   the head of the chapter. Nothing was dropped — a scan that cannot be placed is
+   printed at the chapter's tail, and the whole set is still one click away. */
 .nr-figs-h {
   display: flex; align-items: center; gap: var(--sp-2);
   font-size: 0.75rem; font-weight: 700; color: var(--ink-2);
   margin-block-end: var(--sp-2);
 }
-.nr-figs-l { display: flex; gap: var(--sp-2); overflow-x: auto; padding-block-end: var(--sp-2); }
-.nr-figs-l li { flex: none; }
-.nr-fig {
-  display: block; padding: 0; border: 1px solid var(--hairline); border-radius: var(--r-md);
-  background: var(--surface-2); overflow: hidden; cursor: pointer;
-  transition: transform var(--dur-fast) var(--ease-out-expo);
+.nr-figline {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-1) var(--sp-2);
+  margin-block-end: var(--sp-5);
+  padding: var(--sp-2) var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--m) 4%, transparent);
+  font-size: 0.75rem; line-height: 1.6; color: var(--ink-2);
 }
-.nr-fig img { display: block; block-size: 5.5rem; inline-size: auto; max-inline-size: 11rem; object-fit: contain; }
-.nr-fig:hover { transform: translateY(-2px); border-color: var(--m); }
-.nr-fig:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--nr-paper), 0 0 0 4px var(--brand); }
+.nr-figline > svg { flex: none; color: var(--m); }
+.nr-figline > span { flex: 1 1 14rem; min-inline-size: 0; }
+.nr-figline-b { flex: none; font-size: 0.6875rem; font-weight: 650; }
+
+/* One scan, where the text it belongs to is. Sized against the reading column,
+   never wider than the source itself — an upscaled 500px scan is a blur. */
+/* A figure is bound to the READING measure, not to the sheet. In the bilingual
+   spread the sheet is two columns wide, and a scan stretched across both would
+   be the widest thing on the page and would break the column rhythm the spread
+   exists to create. */
+.nr-infigs {
+  display: grid;
+  gap: var(--sp-4);
+  margin-block-start: var(--sp-5);
+  max-inline-size: var(--nr-measure);
+}
+.nr-infig { margin: 0; display: grid; gap: var(--sp-2); justify-items: start; }
+.nr-infig-b {
+  display: block; inline-size: 100%; padding: 0; cursor: pointer;
+  border: 1px solid var(--hairline); border-radius: var(--r-md);
+  background: #fff; overflow: hidden;
+  transition: transform var(--dur-fast) var(--ease-out-expo), border-color var(--dur-fast) var(--ease-out-expo);
+}
+.nr-infig-b img { display: block; inline-size: 100%; block-size: auto; }
+.nr-infig-b:hover { transform: translateY(-2px); border-color: var(--m); }
+.nr-infig-b:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--nr-paper), 0 0 0 4px var(--brand); }
+.nr-infig-c {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2);
+  font-size: 0.6875rem; line-height: 1.6; color: var(--ink-3);
+}
+.nr-infig-n {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-weight: 700; color: var(--ink-2);
+}
+.nr-infig-note { flex: 1 1 16rem; min-inline-size: 0; }
+.nr-tailfigs {
+  margin-block-start: var(--sp-6);
+  padding-block-start: var(--sp-5);
+  border-block-start: 1px solid var(--hairline);
+}
+/* A placed figure is bounded by the reading column; the tail is not inside one,
+   so it takes the measure explicitly. */
+.nr-tailfigs .nr-infigs { max-inline-size: var(--nr-measure); }
 
 /* --- one subchapter ------------------------------------------------------- */
 .nr-sec {
@@ -528,6 +616,107 @@ html[dir="ltr"] .nr { --nr-origin: left; }
 }
 .nr-orig-b .nr-p { font-size: calc(var(--nr-fs) * 0.92); color: var(--ink-3); }
 
+/* ==========================================================================
+   THE BILINGUAL SPREAD
+   --------------------------------------------------------------------------
+   Two real texts, level with each other. The Hebrew translation takes the inline
+   START (the right of an RTL page, where a Hebrew reader's eye already is) and
+   the publisher's English original takes the inline END, with one hairline
+   between them. Each column carries its OWN direction: `dir` is set on the cell
+   in section-body.tsx, so an English paragraph is genuinely left-to-right inside
+   a right-to-left page and its punctuation lands where English punctuation
+   lands.
+
+   THE SWITCH IS A CONTAINER QUERY ON THE SHEET, NOT A VIEWPORT BREAKPOINT.
+   What decides whether two columns are readable is how wide the READING SHEET
+   is, and that is not a function of the window: the rail, the shell navigation
+   and the reader's own measure setting all take a share first. So the spread
+   asks the sheet. Under 42rem of sheet the same pairs STACK — Hebrew, then its
+   English, then the next pair — which keeps the facing-paragraph relationship
+   intact on a 390px phone instead of squeezing two columns into 170px each.
+   There is no third layout, and no language is dropped at any width.
+
+   MEASURE. A spread is two columns of the reader's chosen measure, not one
+   measure split in half: `--nr-measure` still governs each column, and the block
+   is allowed twice it plus the gutter.
+   ========================================================================== */
+.nr-prose[data-bi="1"] {
+  max-inline-size: min(100%, calc(var(--nr-measure) * 2 + var(--sp-8)));
+}
+.nr-bi { display: grid; gap: var(--sp-5); }
+.nr-bi-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-3);
+}
+.nr-bi-cell { min-inline-size: 0; }
+/* The language tag. On a stacked layout it is the thing that tells you which
+   text you are in, so it is printed on every cell; on the spread the columns are
+   self-evident after the first pair and the rest of the tags stand down. */
+.nr-bi-tag {
+  display: inline-block;
+  margin-block-end: var(--sp-1);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--ink-3);
+}
+.nr-bi-cell[data-l="he"] .nr-bi-tag { color: color-mix(in srgb, var(--m) 76%, var(--ink-3)); }
+.nr-bi-cell[data-l="en"] .nr-p {
+  font-size: calc(var(--nr-fs) * 0.94);
+  color: var(--nr-ink-2);
+  /* English hyphenates, and a narrow column of unhyphenated English opens the
+     same rivers Hebrew justification would. */
+  hyphens: auto;
+}
+
+/* STACKED IS THE BASE, not the fallback. The English sits UNDER its own Hebrew
+   with a quiet module-coloured indent, so a pair reads as a pair and not as two
+   paragraphs that happen to follow each other. */
+.nr-bi[data-paired="1"] .nr-bi-row {
+  gap: var(--sp-2);
+  padding-block-end: var(--sp-3);
+  border-block-end: 1px dashed color-mix(in srgb, var(--hairline) 80%, transparent);
+}
+.nr-bi[data-paired="1"] .nr-bi-row:last-child { border-block-end: 0; padding-block-end: 0; }
+.nr-bi-cell[data-l="en"] {
+  padding-inline-start: var(--sp-3);
+  border-inline-start: 2px solid color-mix(in srgb, var(--m) 30%, var(--hairline));
+}
+
+@container nrsheet (min-width: 42rem) {
+  .nr-bi-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--sp-8);
+    align-items: start;
+  }
+  /* Same specificity as the stacked base above, so it genuinely overrides it:
+     a container query adds no weight of its own. */
+  .nr-bi[data-paired="1"] .nr-bi-row { padding-block-end: 0; border-block-end: 0; }
+  /* The gutter rule. On the English cell's inline START, which in an RTL page is
+     the edge that faces the Hebrew — one hairline, not a coloured bar and not a
+     box. */
+  .nr-bi-cell[data-l="en"] {
+    padding-inline-start: var(--sp-6);
+    border-inline-start: 1px solid var(--hairline);
+  }
+  /* After the first pair the columns speak for themselves. */
+  .nr-bi[data-paired="1"] .nr-bi-row:not(:first-child) .nr-bi-tag { display: none; }
+}
+
+/* Single-language modes. The text that is NOT chosen stays in the page inside
+   `.nr-orig` above; this is only the chosen one. */
+.nr-en-only { max-inline-size: var(--nr-measure); }
+.nr-en-only .nr-p { hyphens: auto; }
+
+/* Said in words when a subchapter genuinely holds only one of the two texts. */
+.nr-langnote {
+  margin-block-start: var(--sp-3);
+  font-size: 0.6875rem;
+  line-height: 1.7;
+  color: var(--ink-3);
+}
+
 /* --- states --------------------------------------------------------------- */
 .nr-load {
   display: flex; align-items: center; gap: var(--sp-2);
@@ -600,6 +789,196 @@ html[dir="ltr"] .nr { --nr-origin: left; }
   box-shadow: var(--elev-1);
 }
 @media (min-width: 1100px) { .nr-rail { display: grid; } }
+
+/* THE RAIL IS A NAVIGATOR WHENEVER IT EXISTS AT ALL.
+   The rail appears at 1100px and from that same width it carries the book's real
+   structure: the track keeps its full height on the outside, the chapters and
+   their subchapters scroll beside it, and the meters run along the foot. Nothing
+   that was in the narrow rail was traded away for the tree — the percentage, the
+   track, the ticks, the three meters and the bookmark count are all still there.
+   Below 1100px there is no rail and the same table of contents is one tap away
+   in the panel, which is the only place a phone can honestly put it. */
+.nr-rtoc { display: none; }
+@media (min-width: 1100px) {
+  /* Wide enough for two lines of a real chapter title, narrow enough that the
+     reading sheet still clears the 42rem the bilingual spread needs at 1280px. */
+  .nr {
+    --nr-rail-w: 14.5rem;
+  }
+  .nr-rail {
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    block-size: min(46rem, calc(100dvh - var(--nr-headh) - 7rem));
+    padding: var(--sp-3);
+    column-gap: var(--sp-3);
+  }
+  .nr-rail-head { grid-column: 1 / -1; grid-row: 1; }
+  .nr-track { grid-column: 1; grid-row: 2; }
+  .nr-rtoc { display: block; grid-column: 2; grid-row: 2; }
+  .nr-meters { grid-column: 1 / -1; grid-row: 3; }
+  .nr-rail-bm { grid-column: 1 / -1; grid-row: 4; }
+  /* Three meters in a 16rem rail read better as rows than as a stack of
+     centred blocks: label, bar, number, on one line each. */
+  .nr-meter {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--sp-2);
+    justify-items: stretch;
+  }
+  .nr-meter-t { justify-self: start; }
+  .nr-meter-n { justify-self: end; }
+}
+@media (min-width: 1800px) { .nr { --nr-rail-w: 17rem; } }
+
+/* --- the rail's table of contents ---------------------------------------- */
+.nr-rtoc {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  min-block-size: 0;
+  padding-inline-end: 2px;
+}
+.nr-rtoc-l, .nr-rtoc-s { list-style: none; margin: 0; padding: 0; }
+.nr-rtoc-ch { padding-block: 1px; }
+.nr-rtoc-hd { display: flex; align-items: stretch; gap: 2px; }
+.nr-rtoc-fold {
+  flex: none;
+  inline-size: 1.5rem;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: none;
+  color: var(--ink-3);
+  cursor: pointer;
+  border-radius: var(--r-xs);
+}
+.nr-rtoc-fold svg { transition: transform var(--dur-fast) var(--ease-out-expo); }
+.nr-rtoc-fold[aria-expanded="false"] svg { transform: rotate(90deg); }
+[dir="ltr"] .nr-rtoc-fold[aria-expanded="false"] svg { transform: rotate(-90deg); }
+.nr-rtoc-fold:disabled { opacity: .3; cursor: default; }
+.nr-rtoc-fold:hover:not(:disabled) { color: var(--ink-1); background: var(--surface-2); }
+
+.nr-rtoc-t, .nr-rtoc-sec {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  inline-size: 100%;
+  padding: 0.3rem var(--sp-2);
+  border: 0;
+  background: none;
+  border-radius: var(--r-sm);
+  text-align: start;
+  cursor: pointer;
+  color: var(--ink-2);
+  transition: background-color var(--dur-fast) var(--ease-out-expo), color var(--dur-fast) var(--ease-out-expo);
+}
+.nr-rtoc-t { font-size: 0.75rem; font-weight: 650; }
+.nr-rtoc-t:hover, .nr-rtoc-sec:hover { background: var(--surface-2); color: var(--ink-1); }
+.nr-rtoc-t:focus-visible, .nr-rtoc-sec:focus-visible, .nr-rtoc-fold:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand);
+}
+.nr-rtoc-n {
+  flex: none;
+  min-inline-size: 1.35rem;
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+/* TWO LINES, NOT ONE ELLIPSIS. A chapter title clipped to "…zational
+   Structures" is a row you have to hover to read; two lines fit the great
+   majority of this corpus's titles whole, and the `title` attribute still
+   carries the rest. §30: disclose progressively, do not amputate. */
+.nr-rtoc-tt {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  line-height: 1.4;
+}
+.nr-rtoc-i { flex: none; color: var(--m); }
+.nr-rtoc-i--read { color: var(--ink-3); }
+
+/* The chapter you are IN. A module-coloured edge, which is a form module colour
+   is allowed to take, plus the live fill under the row. */
+.nr-rtoc-ch[data-on="1"] > .nr-rtoc-hd .nr-rtoc-t {
+  color: var(--ink-1);
+  background: color-mix(in srgb, var(--m) 10%, transparent);
+}
+.nr-rtoc-ch[data-on="1"] > .nr-rtoc-hd .nr-rtoc-n { color: var(--m); }
+.nr-rtoc-bar {
+  display: block;
+  block-size: 2px;
+  margin-block: 2px var(--sp-1);
+  margin-inline: calc(1.5rem + 2px) var(--sp-2);
+  border-radius: 1px;
+  background: var(--hairline);
+  overflow: hidden;
+}
+.nr-rtoc-bar i {
+  display: block;
+  block-size: 100%;
+  border-radius: inherit;
+  background: var(--m);
+  transform-origin: var(--nr-origin, right) center;
+  transform: scaleX(var(--v, 0));
+  transition: transform 160ms linear;
+}
+
+.nr-rtoc-s { margin-inline-start: calc(1.5rem + 2px); }
+.nr-rtoc-sec { font-size: 0.6875rem; font-weight: 500; }
+.nr-rtoc-sid {
+  flex: none;
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: 0.5625rem;
+  color: var(--ink-3);
+  max-inline-size: 4.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nr-rtoc-st {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  line-height: 1.4;
+}
+/* THE POSITION MARKER. The row being read carries the module edge and a solid
+   tint, so the rail answers "where am I" without the reader counting rows. */
+.nr-rtoc-sec[data-now="1"], .nr-rtoc-t[data-now="1"] {
+  color: var(--ink-1);
+  font-weight: 700;
+  background: color-mix(in srgb, var(--m) 16%, transparent);
+  box-shadow: inset 3px 0 0 0 var(--m);
+}
+[dir="ltr"] .nr-rtoc-sec[data-now="1"],
+[dir="ltr"] .nr-rtoc-t[data-now="1"] { box-shadow: inset -3px 0 0 0 var(--m); }
+.nr-rtoc-none {
+  margin-inline-start: calc(1.5rem + 2px);
+  padding: 2px var(--sp-2) var(--sp-1);
+  font-size: 0.625rem;
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+/* A rail on a touch screen still has to be tappable. */
+@media (pointer: coarse) {
+  .nr-rtoc-t, .nr-rtoc-sec, .nr-rtoc-fold { min-block-size: 2.75rem; }
+  .nr-rtoc-fold { min-inline-size: 2.75rem; }
+  .nr-rtoc-s, .nr-rtoc-none, .nr-rtoc-bar { margin-inline-start: var(--sp-3); }
+}
 
 .nr-rail-head { display: grid; justify-items: center; gap: 2px; }
 .nr-rail-pct {
@@ -1086,7 +1465,11 @@ html[data-theme="dark"] .nr-tip { box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .7
   .nr-meter-bar i,
   .nr-track-fill,
   .nr-tick::before,
-  .nr-fig { transition: none; }
-  .nr-fig:hover { transform: none; }
+  .nr-rtoc-bar i,
+  .nr-rtoc-fold svg,
+  .nr-rtoc-t,
+  .nr-rtoc-sec,
+  .nr-infig-b { transition: none; }
+  .nr-infig-b:hover { transform: none; }
   .nr-load svg { animation: none; }
 }

@@ -25,6 +25,15 @@ export interface Turn {
   stopped?: boolean;
   /** Real wall clock from send to the first token, when one arrived. */
   firstTokenMs?: number | null;
+  /**
+   * Real wall clock across the whole request, measured in the browser.
+   *
+   * Not the same number as `Answer.ms`, which the stream reports on its `done`
+   * event and therefore only exists for a request that finished. This one is
+   * recorded for every outcome — answered, failed or stopped — because "how
+   * long did I wait" is a fair question to ask of a failure too.
+   */
+  elapsedMs?: number | null;
   /** Passages the backend reported serving, from the `meta` event. */
   passages?: number | null;
   /** The task profile used, so Retry reproduces the same request. */

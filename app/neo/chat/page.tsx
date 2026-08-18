@@ -1,25 +1,29 @@
-// Project NEO · /neo/chat/ — the SAP assistant conversation.
+// Project NEO · /neo/chat/ — the general SAP assistant.
 //
-// Same surface, different contract. lib/ai/modes defines the two and the server
-// pins the task per endpoint: "library" answers ONLY from the books and refuses
-// when they do not cover the question; "consult" may answer from general SAP
-// knowledge and says so on the page. Rendering one component in two modes is
-// what keeps them from drifting into two half-maintained chats — the difference
-// is the engine's, not the CSS's.
+// NOT the same screen as /neo/ai/. The two used to be one component rendered in
+// two modes, and the result was that nobody could tell them apart. They are now
+// two surfaces with two identities: components/neo-shell/chat/library-chat.tsx
+// answers from the project's books and states which book, chapter and section
+// it read; this one is the general assistant and states, in a standing panel,
+// exactly what it does not have access to.
+//
+// What did NOT change is the engine. lib/ai/modes still defines the contract
+// and the server still pins the task per endpoint: "library" answers only from
+// the books, "consult" is the general surface. The split here is in the UI.
 //
 // Route precedence: see the note in app/neo/ai/page.tsx. `chat` is a hub id, so
 // this static route takes over /neo/chat/ from app/neo/[hub] exactly as
 // /neo/tables/ does, and components/neo-shell/nav-data.ts is untouched.
 import "@/app/neo/ui.css";
 import "@/app/neo/chat.css";
-import { NeoChat } from "@/components/neo-shell/chat/neo-chat";
+import { GeneralChat } from "@/components/neo-shell/chat/general-chat";
 
 export const metadata = {
-  title: "צ'אט AI · Project NEO",
-  description: "עוזר SAP בשיחה — ארכיטקטורה, יישום, אינטגרציה ואבחון, עם אמירה מפורשת מה דורש אימות מול המערכת.",
+  title: "צ'אט NEO · Project NEO",
+  description: "עוזר SAP כללי בשיחה: ארכיטקטורה, יישום, אינטגרציה ואבחון, עם אמירה מפורשת מה דורש אימות מול המערכת.",
   robots: { index: false, follow: false },
 };
 
 export default function NeoChatPage() {
-  return <NeoChat mode="consult" />;
+  return <GeneralChat />;
 }

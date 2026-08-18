@@ -65,6 +65,7 @@ import { WorkspaceMap, type MapView } from "./workspace-map";
 import { WorkspaceOps } from "./workspace-ops";
 import { WorkspaceS4 } from "./workspace-s4";
 import { WorkspaceTable, S4_HE, s4Dot, type SortKey } from "./workspace-table";
+import { SectionNav } from "./section-nav";
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -327,6 +328,15 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
 
       <WorkspaceIndex chapters={chapters} />
 
+      {/* The running index. The band above is the full picture, read once; this
+          is the same list kept under the eye, so moving from chapter 02 to
+          chapter 03 never costs a trip back to the top of the page. Both are
+          built from `chapters`, so neither can drift from what is rendered. */}
+      <SectionNav
+        label="פרקי המודול"
+        sections={chapters.map((c) => ({ id: c.id, label: c.kicker }))}
+      />
+
       <WorkspaceMap
         d={data}
         meta={ch.map}
@@ -401,7 +411,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
                 </span>
               ))
             ) : (
-              <span className="nw-scope-all">ללא סינון — כל המילון של המודול</span>
+              <span className="nw-scope-all">ללא סינון: כל המילון של המודול</span>
             )}
           </p>
 
@@ -488,7 +498,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
       {ch.build ? <WorkspaceBuild d={data} meta={ch.build} /> : null}
       <WorkspaceLearn d={data} meta={ch.learn} />
 
-      <p className="nw-credit">Project NEO · CBC Israel — פותח על ידי סאלי חליף · Web Coding</p>
+      <p className="nw-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
     </div>
   );
 

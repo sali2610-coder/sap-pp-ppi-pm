@@ -88,6 +88,46 @@ export function neighbourLevels(sel: string | null, adj: Map<string, Set<string>
   return { l1, l2 };
 }
 
+/* ------------------------------------------------------ directed reachability
+
+   PORTED from the production Architecture Explorer's `trace` helper
+   (app/sap-infrastructure/page.tsx, read-only), which is the engine behind its
+   Dependency / Lineage / Impact modes.
+
+   The direction is NOT an inference. Every edge is already stored as
+   parent → child because the dataset wrote the relation with a `role`, so
+   "upstream" is that same arrow followed backwards and "downstream" is it
+   followed forwards. Iterative rather than recursive: a dictionary with a
+   relation cycle in it must not blow the stack, and this graph has cycles. */
+
+export type Dir = "up" | "down" | "both";
+
+export function reach(sel: string, edges: GEdge[], dir: Dir): Set<string> {
+  const up = new Map<string, string[]>();
+  const down = new Map<string, string[]>();
+  for (const e of edges) {
+    (down.get(e.p) ?? down.set(e.p, []).get(e.p)!).push(e.c);
+    (up.get(e.c) ?? up.set(e.c, []).get(e.c)!).push(e.p);
+  }
+  const out = new Set<string>([sel]);
+  const walk = (m: Map<string, string[]>) => {
+    const stack = [sel];
+    const seen = new Set<string>([sel]);
+    while (stack.length) {
+      const n = stack.pop()!;
+      for (const nx of m.get(n) || []) {
+        if (seen.has(nx)) continue;
+        seen.add(nx);
+        out.add(nx);
+        stack.push(nx);
+      }
+    }
+  };
+  if (dir !== "down") walk(up);
+  if (dir !== "up") walk(down);
+  return out;
+}
+
 /* ---------------------------------------------------------------- geometry */
 
 /** Intersection of the A->B segment with the axis-aligned box centred on A.
@@ -155,6 +195,10 @@ export function egoPositions(
   l2: Set<string>,
   depth: 1 | 2,
   base: PosMap,
+  /** Extra clearance for a centre that is currently OPEN and therefore much
+   *  taller than a collapsed card. Without it the first ring would be drawn
+   *  underneath the card the reader just opened. */
+  gap = 0,
 ): PosMap {
   const out = new Map(base);
   const centre = base.get(sel);
@@ -162,7 +206,7 @@ export function egoPositions(
   out.set(sel, { ...centre });
 
   const ring1 = [...l1].sort((a, b) => a.localeCompare(b));
-  const r1 = Math.min(430, Math.max(210, 150 + ring1.length * 13));
+  const r1 = Math.min(430, Math.max(210, 150 + ring1.length * 13)) + gap;
   ring1.forEach((n, i) => {
     const a = (-Math.PI / 2) + (i * 2 * Math.PI) / Math.max(1, ring1.length);
     out.set(n, { x: Math.round(centre.x + Math.cos(a) * r1 * 1.35), y: Math.round(centre.y + Math.sin(a) * r1) });
@@ -254,7 +298,19 @@ export function clampView(
   return { k, x: Number.isFinite(x) ? x : 0, y: Number.isFinite(y) ? y : 0 };
 }
 
-/** Cubic ease-out. One easing for every camera move and every layout tween. */
-export const ease = (p: number) => 1 - Math.pow(1 - p, 3);
+/** Cubic ease-out. One easing for every camera move and every layout tween.
+ *
+ *  The clamp is not decoration. A requestAnimationFrame callback is handed the
+ *  timestamp of the frame it belongs to, and that frame can have STARTED before
+ *  the performance.now() the tween recorded a moment earlier — so the first
+ *  step routinely arrives with a slightly negative progress. Cubed, a small
+ *  negative p becomes a large negative multiplier, the interpolated zoom goes
+ *  negative for one frame, and the browser logs "attribute width: A negative
+ *  value is not valid" from the minimap. Clamping p at the source fixes every
+ *  caller at once. */
+export const ease = (p: number) => {
+  const t = p < 0 ? 0 : p > 1 ? 1 : p;
+  return 1 - Math.pow(1 - t, 3);
+};
 
 export const lerp = (a: number, b: number, t: number) => a + (b - a) * t;

@@ -89,8 +89,8 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
                 <li key={f.tech}>
                   <span className="no-keyn nx-sap" aria-hidden="true">{i + 1}</span>
                   <b className="nx-sap">{f.tech}</b>
-                  <span>{f.he || f.en || "—"}</span>
-                  <em className="nx-sap">{[f.dt, f.len].filter(Boolean).join(" ") || "—"}</em>
+                  <span>{f.he || f.en || "–"}</span>
+                  <em className="nx-sap">{[f.dt, f.len].filter(Boolean).join(" ") || "–"}</em>
                 </li>
               ))}
             </ol>
@@ -113,8 +113,8 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
                 <li key={f.tech}>
                   <span className="no-keyn nx-sap" aria-hidden="true">{i + 1}</span>
                   <b className="nx-sap">{f.tech}</b>
-                  <span>{f.he || f.en || "—"}</span>
-                  <em className="nx-sap">{[f.dt, f.len].filter(Boolean).join(" ") || "—"}</em>
+                  <span>{f.he || f.en || "–"}</span>
+                  <em className="nx-sap">{[f.dt, f.len].filter(Boolean).join(" ") || "–"}</em>
                 </li>
               ))}
             </ol>
@@ -146,7 +146,7 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
       <div className="no-tw">
         <table className="no-table">
           <caption className="no-cap">
-            איחוד השדות שכל תכנון מתעד לטבלה, בסדר שנכתב. עמודת המודול מראה מי תיעד את השדה — שדה שתועד
+            איחוד השדות שכל תכנון מתעד לטבלה, בסדר שנכתב. עמודת המודול מראה מי תיעד את השדה. שדה שתועד
             במודול אחד בלבד נשמר ומסומן ככזה. מוצגים {nf.format(rows.length)} מתוך {nf.format(fields.length)}.
           </caption>
           <thead>
@@ -167,14 +167,14 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
                   {isPk(f) || isFk(f) ? (
                     <span className="no-key" data-k={f.key}>{f.key}</span>
                   ) : (
-                    <span className="no-dim">—</span>
+                    <span className="no-dim">–</span>
                   )}
                 </td>
                 <th scope="row" className="nx-sap" data-l="שדה">{f.tech}</th>
-                <td data-l="תיאור">{f.he || "—"}</td>
-                <td className="nx-sap no-dim" data-l="EN">{f.en || "—"}</td>
-                <td className="nx-sap" data-l="טיפוס">{f.dt || "—"}</td>
-                <td className="nx-sap" data-l="אורך">{f.len || "—"}</td>
+                <td data-l="תיאור">{f.he || "–"}</td>
+                <td className="nx-sap no-dim" data-l="EN">{f.en || "–"}</td>
+                <td className="nx-sap" data-l="טיפוס">{f.dt || "–"}</td>
+                <td className="nx-sap" data-l="אורך">{f.len || "–"}</td>
                 <td data-l="מודול">
                   <span className="no-modtag">
                     {f.mods.map((m) => (

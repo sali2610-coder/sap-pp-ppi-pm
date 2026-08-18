@@ -97,6 +97,105 @@ export const LEVEL_HE: Record<Level, string> = {
   table: "טבלה",
 };
 
+/* ------------------------------------------------------- analysis lenses
+
+   PORTED, in behaviour, from the production Architecture Explorer's MODES
+   strip (app/sap-infrastructure/page.tsx, read-only). The five questions are
+   the same five questions; the wording and the surface are NEO's.
+
+   Each lens is answered from the SAME modelled relation set the graph already
+   draws. Nothing here invents a direction: an edge is parent→child because the
+   dataset wrote it with a `role`, and "upstream" is simply that arrow read
+   backwards. Where a lens has no evidence to work from the strip disables it
+   and says so, rather than drawing an empty or a guessed picture. */
+
+export type Analysis = "focus" | "dep" | "lineage" | "impact" | "flow";
+
+export interface AnalysisDef {
+  id: Analysis;
+  he: string;
+  en: string;
+  /** What the lens answers, in one sentence, in the reader's language. */
+  d: string;
+  /** false only for the business-flow lens, which reads the module's own
+   *  ordered object chain and therefore needs no table selected. */
+  needsSel: boolean;
+}
+
+export const ANALYSIS: AnalysisDef[] = [
+  {
+    id: "focus",
+    he: "מיקוד",
+    en: "Focus",
+    d: "מדגיש את הטבלה שנבחרה ואת שכנותיה הישירות (אב + צאצא) ומעמעם את השאר. הגרף אף פעם לא נעלם.",
+    needsSel: true,
+  },
+  {
+    id: "dep",
+    he: "תלויות",
+    en: "Dependencies",
+    d: "כל שרשרת התלויות של הטבלה, מעלה ומטה, לאורך המודל כולו, לפי הקשרים שהמילון מתעד.",
+    needsSel: true,
+  },
+  {
+    id: "lineage",
+    he: "שושלת",
+    en: "Lineage",
+    d: "מאיפה הנתונים מגיעים: כל הטבלאות שנמצאות במעלה הזרם ומחזיקות את המפתח הראשי.",
+    needsSel: true,
+  },
+  {
+    id: "impact",
+    he: "השפעה",
+    en: "Impact",
+    d: "מה יושפע משינוי בטבלה: כל מה שנמצא במורד הזרם ומחזיק אליה מפתח זר. הכרעות S/4HANA מסומנות היכן שהפרויקט מחזיק אותן.",
+    needsSel: true,
+  },
+  {
+    id: "flow",
+    he: "זרימה עסקית",
+    en: "Business Flow",
+    d: "כיוון הזרימה לאורך שרשרת האובייקטים העסקיים של המודול, כפי שהיא רשומה בפרויקט. פעיל גם ללא בחירת טבלה.",
+    needsSel: false,
+  },
+];
+
+/* ------------------------------------------------------------ S/4 standing
+
+   Resolved at BUILD time by lib/s4.ts (the same resolver the production
+   Architecture Explorer calls) and shipped as a flat record, so the browser
+   never pulls data/s4-impact into its bundle. `t` is the trust the project
+   itself declares: verified = the maintained Simplification-List knowledge,
+   partial = derived from the dictionary's own S/4 column, and a table with no
+   standing at all carries NO record here — the UI then says
+   "לא קיים מידע מאומת בפרויקט" instead of guessing. */
+
+export interface ErdS4 {
+  /** Risk, verbatim from the resolver. */
+  r: "high" | "medium" | "low";
+  t: "verified" | "partial" | "needs";
+  /** What changed, verbatim. */
+  ch: string;
+  /** Why it matters, verbatim. "" when the record does not say. */
+  wy: string;
+  /** SAP Note / Simplification reference, verbatim. "" when absent. */
+  nt: string;
+  /** Field names the record marks as affected. */
+  fl: string[];
+}
+
+export const S4_RISK_HE: Record<ErdS4["r"], string> = {
+  high: "סיכון גבוה",
+  medium: "סיכון בינוני",
+  low: "יציב",
+};
+
+export const S4_TRUST_HE: Record<ErdS4["t"], string> = {
+  verified: "מאומת בפרויקט",
+  partial: "חלקי · נדרש אימות SAP",
+  needs: "נדרש אימות SAP",
+};
+
 /* --------------------------------------------------------------- the shape */
 
 export interface ErdTable {
@@ -122,6 +221,10 @@ export interface ErdTable {
   g: string;
   pg: 0 | 1;
   r: 0 | 1;
+  /** The project's S/4HANA standing for this table, or null where it holds
+   *  none. Never a placeholder — null is the honest answer and the UI prints
+   *  it as one. */
+  s4v: ErdS4 | null;
 }
 
 export interface ErdEdgeOut {
@@ -188,5 +291,9 @@ export interface ErdCatalog {
     isolated: number;
     withJoin: number;
     pages: number;
+    /** Tables the project holds an S/4HANA standing for, and of those, the
+     *  subset it marks as verified rather than derived. */
+    s4known: number;
+    s4verified: number;
   };
 }

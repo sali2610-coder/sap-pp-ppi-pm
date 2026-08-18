@@ -55,7 +55,7 @@ export function WorkspaceSheet({ sheet, lede }: { sheet: WsSheet; lede: string }
                 <span className="nw-sheet-i nw-sap" aria-hidden="true">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <span className={isCode(head) ? "nw-sap" : undefined}>{head || "—"}</span>
+                <span className={isCode(head) ? "nw-sap" : undefined}>{head || "–"}</span>
               </p>
               <dl className="nw-sheet-kv">
                 {sheet.headers.map((h, c) => {

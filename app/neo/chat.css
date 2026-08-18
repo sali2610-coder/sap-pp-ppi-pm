@@ -50,13 +50,153 @@
   max-inline-size: 56rem;
   margin-inline: auto;
   /* The composer is sticky against the shell's scrollport, so the thread needs
-     room to scroll its last answer clear of it. */
-  --nxq-composer-h: 7.5rem;
+     room to scroll its last answer clear of it. Measured, not guessed: the box
+     with its scope row, the field at one line, and the hint under it come to
+     163px on a desktop and 167px on a phone, so the reserve is set above both.
+     Under-reserving does not clip anything, it does something worse — the last
+     follow-up button ends up permanently under the composer, unreachable at
+     full scroll. */
+  --nxq-composer-h: 11rem;
 }
+
+/* ------------------------------------------------------------- 0. THE MARKS
+
+   The two identities, from components/neo-shell/chat/marks.tsx. One block
+   drives both because the STRUCTURE is shared — a square box, a stroke weight
+   that scales with it, a state attribute — while the geometry inside differs.
+
+   Stroke width is expressed against the 48-unit viewBox, so a 30px avatar and a
+   76px hero mark have optically the same weight instead of the small one
+   turning into a smudge. Every animation moves transform or opacity only, and
+   the reduced-motion block at the end of the file switches all of them off
+   without changing what is visible. */
+
+.nxm {
+  --nxm-size: 48px;
+  display: inline-flex;
+  flex: none;
+  inline-size: var(--nxm-size);
+  block-size: var(--nxm-size);
+  color: var(--ink-3);
+}
+.nxm svg { inline-size: 100%; block-size: 100%; overflow: visible; }
+.nxm path, .nxm circle {
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  /* Every rotating group turns about the art's own centre, not the union of its
+     path's bounding box, which for a 90-degree arc is nowhere near the middle. */
+  transform-box: view-box;
+  transform-origin: 24px 24px;
+}
+
+/* --- the librarian: orbits in ink, the book in brand ---------------------- */
+
+.nxm[data-mark="librarian"] .nxm-orbit path { opacity: 0.42; stroke-width: 1.3; }
+.nxm[data-mark="librarian"] .nxm-node { fill: currentColor; stroke: none; opacity: 0.7; }
+.nxm[data-mark="librarian"] .nxm-book path { stroke: var(--brand); stroke-width: 1.7; }
+.nxm[data-mark="librarian"] .nxm-spine { opacity: 0.55; }
+
+.nxm[data-mark="librarian"] .nxm-o1 { transform-box: view-box; transform-origin: 24px 24px; }
+.nxm[data-mark="librarian"] .nxm-o2 { transform-box: view-box; transform-origin: 24px 24px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Idle is not still. It is one slow counter-rotation, slow enough that the
+     mark reads as alive without ever pulling the eye off the conversation. */
+  .nxm[data-mark="librarian"] .nxm-o1 { animation: nxm-spin 26s linear infinite; }
+  .nxm[data-mark="librarian"] .nxm-o2 { animation: nxm-spin-r 34s linear infinite; }
+
+  /* Thinking: the same motion, faster, plus a breath on the book. This is the
+     state before the first token — nothing is being written yet, so nothing
+     here imitates writing. */
+  .nxm[data-state="thinking"][data-mark="librarian"] .nxm-o1 { animation-duration: 3.4s; }
+  .nxm[data-state="thinking"][data-mark="librarian"] .nxm-o2 { animation-duration: 4.6s; }
+  .nxm[data-state="thinking"] .nxm-book { animation: nxm-breathe 1.7s ease-in-out infinite; }
+
+  /* Writing: the orbits settle and the brand core pulses, matching the caret
+     in the draft below it. */
+  .nxm[data-state="writing"][data-mark="librarian"] .nxm-o1 { animation-duration: 9s; }
+  .nxm[data-state="writing"][data-mark="librarian"] .nxm-o2 { animation-duration: 12s; }
+  .nxm[data-state="writing"] .nxm-book { animation: nxm-beat 1.05s ease-in-out infinite; }
+}
+
+/* --- the general assistant: a lattice, never a book ----------------------- */
+
+.nxm[data-mark="neo"] .nxm-hex path { opacity: 0.5; stroke-width: 1.4; }
+.nxm[data-mark="neo"] .nxm-spokes path { opacity: 0.3; stroke-width: 1.2; }
+.nxm[data-mark="neo"] .nxm-vtx circle { fill: currentColor; stroke: none; opacity: 0.55; }
+.nxm[data-mark="neo"] .nxm-core { fill: var(--brand); stroke: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .nxm[data-mark="neo"] .nxm-hex { animation: nxm-spin 44s linear infinite; }
+  .nxm[data-state="thinking"][data-mark="neo"] .nxm-hex { animation-duration: 6s; }
+  /* The spokes light in sequence, so "thinking" on this surface looks like a
+     signal crossing a network rather than like a book being read. */
+  .nxm[data-state="thinking"][data-mark="neo"] .nxm-spokes path { animation: nxm-relay 1.8s ease-in-out infinite; }
+  .nxm[data-state="thinking"][data-mark="neo"] .nxm-s2 { animation-delay: 0.15s; }
+  .nxm[data-state="thinking"][data-mark="neo"] .nxm-s3 { animation-delay: 0.3s; }
+  .nxm[data-state="thinking"][data-mark="neo"] .nxm-s4 { animation-delay: 0.45s; }
+  .nxm[data-state="thinking"][data-mark="neo"] .nxm-s5 { animation-delay: 0.6s; }
+  .nxm[data-state="thinking"][data-mark="neo"] .nxm-s6 { animation-delay: 0.75s; }
+  .nxm[data-state="writing"][data-mark="neo"] .nxm-core { animation: nxm-beat 1.05s ease-in-out infinite; }
+}
+
+/* Failure is drawn as an absence of colour and of motion, which is what it is.
+   Nothing red, nothing alarmed: the error message beside it carries the word. */
+.nxm[data-state="error"] { color: var(--ink-3); }
+.nxm[data-state="error"] .nxm-book path,
+.nxm[data-state="error"] .nxm-core { stroke: var(--ink-3); fill: none; opacity: 0.55; }
+.nxm[data-state="error"] .nxm-core { fill: var(--ink-3); }
+.nxm[data-state="error"] * { animation: none !important; }
+
+@keyframes nxm-spin   { to { transform: rotate(360deg); } }
+@keyframes nxm-spin-r { to { transform: rotate(-360deg); } }
+@keyframes nxm-breathe { 0%, 100% { opacity: 0.75; } 50% { opacity: 1; } }
+@keyframes nxm-beat { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+@keyframes nxm-relay { 0%, 100% { opacity: 0.18; } 40% { opacity: 0.85; } }
 
 /* --------------------------------------------------------------- 1. HEADER */
 
-.nxq-head { display: grid; gap: var(--sp-2); justify-items: start; }
+/* The library surface leads with its identity: the mark at hero size, the
+   corpus it actually indexes, and the two conversation actions. This is the
+   answer to "the screen is empty and boring" — not more chrome, but a screen
+   that says who is about to answer and what they have read. */
+.nxq-hero {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--sp-2) var(--sp-4);
+  align-items: center;
+}
+
+.nxq-hero-mark {
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  inline-size: 4.75rem; block-size: 4.75rem;
+  border-radius: var(--r-xl);
+  border: 1px solid var(--hairline);
+  background:
+    radial-gradient(70% 70% at 50% 40%, color-mix(in srgb, var(--brand) 9%, transparent), transparent 70%),
+    var(--surface);
+  box-shadow: var(--elev-1);
+}
+
+.nxq-hero-text { display: grid; gap: var(--sp-2); justify-items: start; min-inline-size: 0; }
+
+.nxq-corpus {
+  margin: 0;
+  font-size: var(--t-micro); color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.nxq-corpus b { font-weight: 750; color: var(--ink-2); }
+
+.nxq-hero-acts {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap;
+}
+.nxq-hero-count { font-size: var(--t-micro); color: var(--ink-3); margin-inline-end: auto; }
+.nxq-hero-b { font-size: var(--t-micro); }
 
 .nxq-eyebrow {
   display: inline-flex; align-items: center; gap: 0.4rem;
@@ -74,16 +214,6 @@
   margin: 0; max-inline-size: 60ch;
   font-size: var(--t-sm); line-height: var(--lh-he); color: var(--ink-2);
 }
-
-.nxq-disclaimer {
-  display: flex; align-items: start; gap: 0.45rem;
-  margin: 0; max-inline-size: 68ch;
-  font-size: var(--t-xs); line-height: 1.7; color: var(--ink-3);
-}
-.nxq-disclaimer svg { flex: none; margin-block-start: 0.2em; }
-
-.nxq-head-acts { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
-.nxq-head-count { font-size: var(--t-micro); color: var(--ink-3); }
 
 /* ------------------------------------------------- 1b. THE CONTEXT BAR
 
@@ -269,7 +399,55 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 
 /* ---- the answer ---------------------------------------------------------- */
 
-.nxq-assistant { display: grid; gap: var(--sp-3); min-inline-size: 0; }
+/* The answering side gets a gutter with the surface's mark in it, and the
+   answer itself gets a name above it. That is the whole difference between "a
+   box of text appeared" and "someone answered": the reader can see who is
+   speaking, and can see the two surfaces are not the same speaker.
+
+   auto + minmax(0, 1fr) — the second track's floor is zero on purpose, for the
+   same reason it is on .nxq-answer: a wide markdown table inside must scroll in
+   its own overflow wrapper, not widen the grid. */
+.nxq-assistant {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--sp-3);
+  align-items: start;
+  min-inline-size: 0;
+}
+
+.nxq-gutter { display: flex; padding-block-start: 0.15rem; }
+
+.nxq-avatar {
+  border-radius: 50%;
+  padding: 3px;
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  box-sizing: content-box;
+}
+
+.nxq-said { display: grid; gap: var(--sp-3); min-inline-size: 0; }
+.nxq-said > * { min-inline-size: 0; }
+
+.nxq-who {
+  margin: 0;
+  display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap;
+  min-block-size: 1.35rem;
+}
+.nxq-who-n {
+  font-size: var(--t-micro); font-weight: 750; letter-spacing: 0.04em;
+  color: var(--ink-2);
+}
+
+/* The response timer. Wall clock this browser measured, shown for every
+   outcome — answered, failed or stopped. tabular-nums so the live counter does
+   not shuffle the line sideways ten times a second. */
+.nxq-elapsed {
+  display: inline-flex; align-items: center; gap: 0.25rem;
+  font-size: var(--t-micro); color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+.nxq-elapsed svg { flex: none; }
+.nxq-elapsed-live { color: var(--brand); font-weight: 650; }
 
 .nxq-answer {
   display: grid; gap: var(--sp-4);
@@ -320,9 +498,42 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 .nxq-note svg { flex: none; margin-block-start: 0.15em; }
 .nxq-note-warn { border-color: color-mix(in srgb, var(--mod-ppds) 40%, var(--hairline)); }
 .nxq-note-warn svg { color: var(--mod-ppds); }
-.nxq-note-bad { border-color: color-mix(in srgb, var(--brand) 40%, var(--hairline)); }
-.nxq-note-bad svg { color: var(--brand); }
 .nxq-note-plain svg { color: var(--ink-3); }
+
+/* ---- the failure state ---------------------------------------------------
+
+   When the engine fails there is no answer, so this is what the turn IS, not a
+   footnote under something else. It gets the answer's own footprint and the
+   answer's own brand edge, and it carries three things and no more: that no
+   answer arrived, the engine's own Hebrew sentence verbatim, and which stage of
+   the request had completed when it broke.
+
+   What it must never do is offer a substitute. There is no cached answer here,
+   no "meanwhile, here is what I know", no partial text salvaged from a draft
+   the grounding gate never approved. The only way forward is the retry button
+   under it. */
+.nxq-fail {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  border-radius: var(--r-xl);
+  border: 1px solid color-mix(in srgb, var(--brand) 30%, var(--hairline));
+  border-inline-start: 3px solid var(--brand);
+  background: var(--surface);
+  box-shadow: var(--elev-1);
+}
+.nxq-fail-i {
+  display: inline-flex; align-items: center; justify-content: center;
+  inline-size: 2rem; block-size: 2rem;
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--brand) 11%, transparent);
+  color: var(--brand);
+}
+.nxq-fail-body { display: grid; gap: 0.3rem; min-inline-size: 0; }
+.nxq-fail-t { font-size: var(--t-sm); font-weight: 750; color: var(--ink-1); }
+.nxq-fail-m { font-size: var(--t-xs); line-height: var(--lh-he); color: var(--ink-2); }
+.nxq-fail-s { font-size: var(--t-micro); line-height: 1.7; color: var(--ink-3); }
 
 /* ---- follow-up actions --------------------------------------------------- */
 
@@ -413,10 +624,32 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 }
 .nxq-live-label { font-size: var(--t-xs); font-weight: 650; color: var(--ink-2); }
 .nxq-live-chip { font-variant-numeric: tabular-nums; }
-.nxq-live-time {
-  margin-inline-start: auto;
-  font-size: var(--t-micro); color: var(--ink-3);
-  font-variant-numeric: tabular-nums;
+
+/* THINKING and TYPING are two states and are drawn as two shapes.
+
+   Thinking is a sweep: a bar travelling along a track, which is what "searching
+   and preparing" looks like and what a row of typing dots does not. Typing is
+   the three dots, and they appear only once real `delta` text is arriving. The
+   switch between them is an event from the backend, never a timeout. */
+.nxq-live-scan {
+  position: relative; flex: none;
+  inline-size: 2.25rem; block-size: 3px;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--ink-3) 22%, transparent);
+  overflow: hidden;
+}
+.nxq-live-scan span {
+  position: absolute; inset-block: 0; inset-inline-start: 0;
+  inline-size: 45%;
+  border-radius: var(--r-pill);
+  background: var(--brand);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .nxq-live-scan span { animation: nxq-scan 1.5s var(--ease-emphasis) infinite; }
+}
+@keyframes nxq-scan {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(220%); }
 }
 
 .nxq-live-dots { display: inline-flex; gap: 3px; flex: none; }
@@ -535,19 +768,90 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 
-/* -------------------------------------------------------- 6. EMPTY STATE */
+/* -------------------------------------------------------- 6. EMPTY STATE
 
-.nxq-empty-state { display: grid; gap: var(--sp-4); justify-items: start; padding-block: var(--sp-4); }
+   Not an empty state so much as an introduction. Before the first question the
+   surface has to answer three questions of its own — who answers here, how the
+   answer is produced, and what do I press first — and it answers them with real
+   values: the corpus is counted from the shipped index, the capability chips
+   and the starters are lib/ai/modes' own. */
 
-.nxq-empty-ico {
-  display: inline-flex; align-items: center; justify-content: center;
-  inline-size: 2.75rem; block-size: 2.75rem;
-  border-radius: var(--r-lg);
-  background: color-mix(in srgb, var(--brand) 10%, transparent);
-  color: var(--brand);
+.nxq-welcome {
+  display: grid; gap: var(--sp-5);
+  padding: var(--sp-5);
+  border-radius: var(--r-2xl);
+  border: 1px solid var(--hairline);
+  background:
+    radial-gradient(120% 90% at 88% 0%, color-mix(in srgb, var(--brand) 6%, transparent), transparent 62%),
+    var(--surface);
+  box-shadow: var(--elev-1);
 }
-.nxq-empty-h { margin: 0; font-size: var(--t-h2); font-weight: 800; color: var(--ink-1); }
-.nxq-empty-p { margin: 0; max-inline-size: 62ch; font-size: var(--t-sm); line-height: var(--lh-he); color: var(--ink-2); }
+
+.nxq-welcome-top {
+  display: grid; grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--sp-4); align-items: start;
+}
+.nxq-welcome-mark { color: var(--ink-2); }
+.nxq-welcome-say { display: grid; gap: var(--sp-3); justify-items: start; min-inline-size: 0; }
+.nxq-welcome-h { margin: 0; font-size: var(--t-h2); font-weight: 800; color: var(--ink-1); }
+.nxq-welcome-p {
+  margin: 0; max-inline-size: 62ch;
+  font-size: var(--t-sm); line-height: var(--lh-he); color: var(--ink-2);
+}
+
+/* The three steps. A numbered list because the order matters: the scope is
+   chosen before the question, and that is the one thing new readers get wrong. */
+.nxq-steps {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; gap: var(--sp-2);
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+}
+.nxq-step {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  gap: 0.25rem var(--sp-2);
+  align-items: center;
+  padding: var(--sp-3);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--hairline);
+  background: var(--surface-2);
+}
+.nxq-step-n {
+  display: inline-flex; align-items: center; justify-content: center;
+  inline-size: 1.35rem; block-size: 1.35rem;
+  border-radius: var(--r-xs);
+  background: color-mix(in srgb, var(--brand) 12%, transparent);
+  color: var(--brand);
+  font-size: var(--t-micro); font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.nxq-step-i { display: inline-flex; color: var(--ink-3); }
+.nxq-step-t { font-size: var(--t-xs); font-weight: 750; color: var(--ink-1); }
+.nxq-step-d {
+  grid-column: 1 / -1;
+  font-size: var(--t-micro); line-height: 1.65; color: var(--ink-3);
+}
+
+/* The scope call to action. States the premise in words and offers the one
+   control that changes it, so the narrowest scope the engine supports is one
+   press away from the empty screen instead of hidden behind the composer. */
+.nxq-scope-cta {
+  display: flex; align-items: center; gap: var(--sp-2) var(--sp-3); flex-wrap: wrap;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-lg);
+  border: 1px dashed color-mix(in srgb, var(--brand) 32%, var(--hairline));
+  background: var(--surface);
+}
+.nxq-scope-cta-l {
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+.nxq-scope-cta-v {
+  min-inline-size: 0; flex: 1 1 10rem;
+  font-size: var(--t-xs); font-weight: 750; color: var(--ink-1);
+  overflow-wrap: anywhere;
+}
+.nxq-scope-cta-b { flex: none; font-size: var(--t-micro); }
 
 .nxq-caps { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 
@@ -556,13 +860,137 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   display: inline-flex; align-items: center; gap: 0.35rem;
   font-size: var(--t-micro); font-weight: 700; color: var(--ink-3);
 }
+/* Two columns, not auto-fit. Both surfaces offer exactly four starters, and
+   auto-fit resolved to three at this measure, which left one card orphaned on
+   its own row. A 2×2 block is the shape of the content. */
 .nxq-starters-row {
   display: grid; gap: var(--sp-2);
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 42rem) {
+  .nxq-starters-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 .nxq-starter { display: grid; gap: 2px; padding: var(--sp-3); }
 .nxq-starter-l { font-size: var(--t-xs); font-weight: 700; color: var(--ink-1); }
 .nxq-starter-p { font-size: var(--t-micro); line-height: 1.6; color: var(--ink-3); }
+
+/* ------------------------------------------------- 6b. THE GENERAL SURFACE
+
+   /neo/chat/ is not "שאל את הספרייה" and must not be mistakable for it. The
+   conversation machinery is shared, so the separation has to be carried by the
+   chrome — and it is carried by real, visible differences rather than by a
+   different heading:
+
+     the mark      a lattice, not a book (see §0)
+     the header    a rule-bounded console strip, not a hero tile
+     the user's    outlined and neutral, not filled with brand red. The two
+     bubble        threads read differently from across the room.
+     the answer    no brand edge on the inline start; that edge is the library's
+                   signature for "this came out of the books", and this surface
+                   does not make that claim.
+     the empty     a does / does not table, because a surface that cannot yet do
+     state         much owes the reader an exact list of what it cannot do.
+
+   Everything here is an override on the shared block above it, so a fix to the
+   conversation lands on both screens and a change of identity lands on one. */
+
+.nxg-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--sp-2) var(--sp-3);
+  align-items: center;
+  padding-block-end: var(--sp-4);
+  border-block-end: 1px solid var(--hairline);
+}
+
+.nxg-head-mark {
+  display: inline-flex; align-items: center; justify-content: center;
+  inline-size: 3.25rem; block-size: 3.25rem;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--hairline);
+  background: var(--surface-2);
+}
+
+.nxg-head-text { display: grid; gap: var(--sp-2); justify-items: start; min-inline-size: 0; }
+.nxg-head-acts {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap;
+}
+
+/* The standing limits line. Quiet, permanent, and never dismissible: it is the
+   difference between "I know this" and "I checked this". */
+.nxg-note {
+  display: flex; align-items: start; gap: 0.5rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--r-md);
+  border: 1px solid var(--hairline);
+  background: var(--surface-2);
+  font-size: var(--t-micro); line-height: 1.75; color: var(--ink-3);
+}
+.nxg-note svg { flex: none; margin-block-start: 0.25em; color: var(--ink-3); }
+
+/* Neutral, outlined, on the inline-end edge. The library's bubble is a filled
+   brand slab; these two threads cannot be confused in a screenshot. */
+.nxg .nxq-user-bubble {
+  background: var(--surface-2);
+  color: var(--ink-1);
+  border: 1px solid var(--hairline);
+  border-start-end-radius: var(--r-xs);
+  font-weight: 600;
+  box-shadow: none;
+}
+
+/* No brand edge: that mark belongs to answers drawn from the books. */
+.nxg .nxq-answer {
+  border-inline-start: 1px solid var(--hairline);
+  border-block-start: 2px solid color-mix(in srgb, var(--ink-3) 34%, transparent);
+}
+
+.nxg-intro {
+  display: grid; gap: var(--sp-5);
+  padding: var(--sp-5);
+  border-radius: var(--r-2xl);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+}
+.nxg-intro-top {
+  display: grid; grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--sp-4); align-items: start;
+}
+.nxg-intro-mark { color: var(--ink-2); }
+.nxg-intro-h { margin: 0 0 var(--sp-2); font-size: var(--t-h2); font-weight: 800; color: var(--ink-1); }
+.nxg-intro-p {
+  margin: 0; max-inline-size: 64ch;
+  font-size: var(--t-sm); line-height: var(--lh-he); color: var(--ink-2);
+}
+
+.nxg-cols {
+  display: grid; gap: var(--sp-3);
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+}
+.nxg-col {
+  display: grid; gap: var(--sp-2); align-content: start;
+  padding: var(--sp-4);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--hairline);
+  background: var(--surface-2);
+}
+.nxg-col[data-tone="not"] { border-style: dashed; }
+.nxg-col-h {
+  margin: 0;
+  font-size: var(--t-micro); font-weight: 800; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+.nxg-col-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
+.nxg-col-i {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.45rem;
+  align-items: start;
+  font-size: var(--t-xs); line-height: 1.7; color: var(--ink-2);
+}
+.nxg-col-i svg { margin-block-start: 0.28em; }
+.nxg-col[data-tone="does"] .nxg-col-i svg { color: var(--brand); }
+.nxg-col[data-tone="not"] .nxg-col-i svg { color: var(--ink-3); }
+.nxg-col[data-tone="not"] .nxg-col-i { color: var(--ink-3); }
 
 /* ---------------------------------------------------------- 7. SCOPE SHEET */
 
@@ -608,15 +1036,39 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 [dir="ltr"] .nxq-back-a { transform: none; }
 .nxq-sheet-x { flex: none; inline-size: 2.25rem; padding-inline: 0; }
 
-.nxq-sheet-body { overflow: auto; overscroll-behavior: contain; display: grid; gap: var(--sp-2); padding: var(--sp-3); align-content: start; }
+/* Flex column, not grid, and that is not a style preference.
+
+   The two standing rows ("כל הספרייה", "הספר כולו", "הפרק כולו") are direct
+   children here, while every other row sits inside an <li>. As a GRID ITEM the
+   <button> resolved to its min-block-size of 44px and stopped there, ignoring
+   its own two lines of content — so those three rows, and only those three,
+   printed their subtitle below their own border. In a flex column the button is
+   sized by its content on the block axis and stretched on the inline axis, which
+   is what the rows inside the list already got for free from their <li>. */
+.nxq-sheet-body {
+  overflow: auto; overscroll-behavior: contain;
+  display: flex; flex-direction: column; align-items: stretch;
+  gap: var(--sp-2); padding: var(--sp-3);
+}
+.nxq-sheet-body > * { flex: none; }
 .nxq-sheet-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-2); }
 .nxq-sheet-note { margin: 0; padding: var(--sp-3); font-size: var(--t-xs); color: var(--ink-3); }
 
+/* inline-size: 100% is load-bearing. A <button> is shrink-to-fit even after
+   display:grid — the UA sizes form controls from their content — so every row
+   in this sheet was as wide as its own title and no wider. Eleven books gave
+   eleven different widths down a ragged column, and because the grid's column
+   was narrower than the text it had to lay out, the subtitle line rendered
+   OUTSIDE the button's border. Stretching the row to its list item fixes the
+   ragged column and the escaping text in one declaration. */
 .nxq-row {
   display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px var(--sp-2);
+  inline-size: 100%;
+  min-inline-size: 0;
   padding: var(--sp-3);
   min-block-size: 2.75rem;
 }
+.nxq-row-t, .nxq-row-s { min-inline-size: 0; overflow-wrap: anywhere; }
 .nxq-row-t { grid-column: 1; font-size: var(--t-xs); font-weight: 700; color: var(--ink-1); }
 .nxq-row-s { grid-column: 1; font-size: var(--t-micro); color: var(--ink-3); }
 .nxq-row-c { grid-column: 2; grid-row: 1 / span 2; align-self: center; color: var(--brand); }
@@ -625,15 +1077,48 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 
 /* Phone. The shell already reserves a bottom nav row, so the composer sticks
    above it; the only work here is measure, density and target size. */
-html[data-device="phone"] .nxq { --nxq-composer-h: 8.5rem; }
+html[data-device="phone"] .nxq { --nxq-composer-h: 12rem; }
 html[data-device="phone"] .nxq-user-bubble { max-inline-size: 92%; }
 html[data-device="phone"] .nxq-answer { padding: var(--sp-3); border-radius: var(--r-lg); }
 html[data-device="phone"] .nxq-thread { gap: var(--sp-5); }
 html[data-device="phone"] .nxq-starters-row { grid-template-columns: 1fr; }
 html[data-device="phone"] .nxq-hint { white-space: normal; }
 
-@media (max-width: 30rem) {
-  .nxq-live-time { margin-inline-start: 0; }
+/* The phone breakpoint is expressed on the width, not only on the device
+   attribute, so a narrow desktop window gets the same treatment: the shell only
+   sets data-device from a user-agent hint, and a 390px browser window on a
+   laptop is still 390px of measure. */
+@media (max-width: 34rem) {
+  /* The gutter costs ~42px of a 390px screen. On a phone the mark moves up
+     beside the speaker's name, where it still identifies the voice and costs
+     the answer nothing. */
+  .nxq-assistant { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
+  .nxq-gutter { display: none; }
+  .nxq-who::before {
+    content: "";
+    inline-size: 0.5rem; block-size: 0.5rem; border-radius: 50%;
+    background: var(--brand); flex: none;
+  }
+  .nxg .nxq-who::before { background: color-mix(in srgb, var(--ink-3) 60%, transparent); }
+
+  .nxq-hero { grid-template-columns: auto minmax(0, 1fr); gap: var(--sp-3); }
+  .nxq-hero-mark { inline-size: 3.5rem; block-size: 3.5rem; }
+  .nxq-hero-mark .nxm { --nxm-size: 40px; }
+  .nxq-hero-acts { gap: var(--sp-2); }
+  .nxq-hero-count { flex-basis: 100%; margin-inline-end: 0; }
+  .nxq-hero-b, .nxq-scope-cta-b { flex: 1 1 auto; }
+
+  .nxq-welcome, .nxg-intro { padding: var(--sp-4); gap: var(--sp-4); border-radius: var(--r-xl); }
+  .nxq-welcome-top, .nxg-intro-top { grid-template-columns: minmax(0, 1fr); gap: var(--sp-3); }
+  .nxq-welcome-mark { --nxm-size: 52px; }
+  .nxg-intro-mark { --nxm-size: 48px; }
+  .nxq-steps { grid-template-columns: minmax(0, 1fr); }
+  .nxq-fail { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); padding: var(--sp-3); }
+
+  .nxg-head { grid-template-columns: auto minmax(0, 1fr); }
+  .nxg-head-mark { inline-size: 2.75rem; block-size: 2.75rem; }
+  .nxg-head-mark .nxm { --nxm-size: 32px; }
+
   .nxq-src-head { flex-wrap: wrap; }
 }
 
@@ -653,4 +1138,18 @@ html[data-device="phone"] .nxq-hint { white-space: normal; }
   .nxq-live-dots span { opacity: 1; }
   .nxq-caret { transition: none; }
   .nxq-box { transition: none; }
+
+  /* The marks stop moving and stay fully legible. The idle rotation, the
+     thinking sweep and the writing pulse all resolve to the same drawing,
+     which is the one the mark is designed around. */
+  .nxm *, .nxq-live-scan span { animation: none; }
+  .nxm[data-state="thinking"] .nxm-book,
+  .nxm[data-state="writing"] .nxm-book,
+  .nxm[data-state="writing"] .nxm-core { opacity: 1; }
+  .nxm[data-mark="neo"] .nxm-spokes path { opacity: 0.4; }
+
+  /* Without the sweep the track alone would read as an empty progress bar, so
+     the bar sits filled and static: still a visible "working" mark, no motion.
+     The phase word and the live timer beside it carry the actual state. */
+  .nxq-live-scan span { inline-size: 100%; }
 }

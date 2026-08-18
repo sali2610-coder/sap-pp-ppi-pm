@@ -552,13 +552,18 @@ html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
              be the loudest thing on the page without breaking the form rule.
    ========================================================================== */
 
+/* BLOCK FLOW, NOT GRID — same reason as .nxb above: a sticky grid item is
+   clamped to its own grid area and the running section bar would not travel.
+   min-inline-size: 0 for the same reason as .nxb: it is what stops the canvas
+   from scrolling sideways on a phone. */
 .nx-app .nxt {
-  display: grid;
-  gap: var(--sp-6);
-  align-content: start;
+  display: block;
+  min-inline-size: 0;
   max-inline-size: 78rem;
   --m: var(--ink-3);
 }
+.nx-app .nxt > * + * { margin-block-start: var(--sp-6); }
+.nx-app .nxt > .nxs { margin-block-start: var(--sp-4); }
 
 /* --------------------------------------------------------- 12.1 IDENTITY */
 
@@ -677,6 +682,10 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 
 /* -------------------------------------------------------- 12.3 SECTIONS */
 
+/* --nxs-h is the running section bar's measured height, published to .nxt by
+   section-nav.tsx, so a jump lands the heading under the bar and not beneath. */
+.nx-app .nxt-sec,
+.nx-app .nxt-s4 { scroll-margin-block-start: calc(var(--nxs-h, 0px) + var(--sp-4)); }
 .nx-app .nxt-sec { display: grid; gap: var(--sp-3); }
 .nx-app .nxt-sec-h {
   display: flex; align-items: center; gap: var(--sp-2);
@@ -908,14 +917,31 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
    control; this sheet only ever places them.
    ========================================================================== */
 
+/* BLOCK FLOW, NOT GRID. A position:sticky GRID ITEM is clamped to its own grid
+   area, which for the running section bar is exactly the bar's own height —
+   i.e. zero travel. In block flow the bar's containing block is the whole page
+   and it can ride the full length of it. The rhythm is unchanged: the same
+   --sp-6 between blocks, spent as a sibling margin instead of a grid gap.
+   Tailwind's preflight zeroes every element margin, so nothing collapses.
+
+   min-inline-size: 0 IS LORE, NOT TIDYING. This page is a GRID ITEM of
+   .nx-canvas, whose single column is an `auto` track. A grid item's automatic
+   minimum size is its min-content width, so one long unbreakable run anywhere
+   inside — a key line, a JOIN clause, a Fiori id — pushed the whole track past
+   the canvas and every block on the page inherited that width: measured at
+   1226px inside a 390px canvas, i.e. 868px of sideways scroll on a phone.
+   Zeroing the minimum lets the track resolve to the canvas again. Nothing was
+   made narrower by it; the wide runs were never using the width. */
 .nx-app .nxb {
-  display: grid;
-  gap: var(--sp-6);
-  align-content: start;
+  display: block;
+  min-inline-size: 0;
   max-inline-size: 78rem;
   --m: var(--ink-3);
   --o: var(--obj-text);
 }
+.nx-app .nxb > * + * { margin-block-start: var(--sp-6); }
+/* The bar is chrome for the section under it, not a block of its own. */
+.nx-app .nxb > .nxs { margin-block-start: var(--sp-4); }
 
 /* --------------------------------------------------------- 13.1 IDENTITY */
 
@@ -1065,17 +1091,12 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 .nx-app .nxb-rank { font-size: var(--t-xs); color: var(--ink-3); line-height: var(--lh-he); }
 .nx-app .nxb-rank b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
 
-/* --- jump nav ------------------------------------------------------------- */
-.nx-app .nxb-jump {
-  display: flex; flex-wrap: wrap; gap: var(--sp-1);
-  padding-block-start: var(--sp-2);
-  border-block-start: 1px solid var(--hairline);
-}
-.nx-app .nxb-jump .nu-ghost { font-size: var(--t-micro); gap: var(--sp-2); }
-.nx-app .nxb-jump em {
-  font-style: normal; font-variant-numeric: tabular-nums;
-  color: var(--ink-3); font-weight: 700;
-}
+/* --- jump nav -------------------------------------------------------------
+   The in-header jump list that used to live here (.nxb-jump) is gone. It named
+   the same nine sections as the running section bar
+   (components/neo-shell/workspace/section-nav.css) but scrolled away with the
+   header, which is the behaviour the client objected to. Nothing was dropped:
+   the bar IS that list, kept on screen and marking where the reader is. */
 
 /* ---------------------------------------------------------- 13.2 SECTIONS */
 
@@ -1083,7 +1104,10 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   display: grid; gap: var(--sp-4);
   padding-block-start: var(--sp-5);
   border-block-start: 1px solid var(--hairline);
-  scroll-margin-block-start: var(--sp-5);
+  /* --nxs-h is the running bar's MEASURED height, published to .nxb by
+     section-nav.tsx, so a jump lands the heading under the bar and not
+     beneath it. 0 when the bar is not on the page. */
+  scroll-margin-block-start: calc(var(--nxs-h, 0px) + var(--sp-4));
 }
 .nx-app .nxb-sec-h {
   display: grid; gap: var(--sp-2);
@@ -1473,8 +1497,6 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   .nx-app .nxb-stat b { font-size: var(--t-h2); }
   .nx-app .nxb-cta > .nu-btn,
   .nx-app .nxb-cta > .nu-btn2 { flex: 1 1 14rem; min-block-size: var(--c-tap); }
-  .nx-app .nxb-jump { gap: var(--sp-1) var(--sp-2); }
-  .nx-app .nxb-jump .nu-ghost { min-block-size: var(--c-tap); }
   .nx-app .nxb-s4flag .nu-link { margin-inline-start: 0; }
   .nx-app .nxb-mods > li { min-block-size: var(--c-tap); }
 

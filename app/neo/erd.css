@@ -74,6 +74,24 @@ html .nx-app .nx-canvas:has(> .ne) {
   --mod-fi: #6d28d9;      /* violet 263° */
   --mod-co: #86198f;      /* fuchsia 295°*/
   --mod-idoc: #52525b;    /* neutral — the integration layer carries no hue    */
+
+  /* --- KEY ROLE ------------------------------------------------------------
+     The brief asks in as many words for the primary and the foreign key to be
+     CLEARLY COLOURED on an opened table. That is a third vocabulary beside
+     module and object class, so it gets exactly two tokens, it appears on
+     nothing but a key marker, and it is declared here rather than borrowed
+     from a status hue — a key is a role, not a state. Both clear 4.5:1 on
+     --surface. */
+  --ne-pk: #a16207;
+  --ne-fk: #1d4ed8;
+
+  /* --- S/4 RISK ------------------------------------------------------------
+     The project's own three grades, on the open card's bottom strip and
+     nowhere else. A table with no standing gets no colour at all — it gets a
+     sentence. */
+  --ne-r-high: #b91c1c;
+  --ne-r-medium: #b45309;
+  --ne-r-low: #15803d;
 }
 
 /* Dark is not the light ramp lightened: on a near-black ground a mid-tone hue
@@ -88,6 +106,11 @@ html[data-theme="dark"] .ne {
   --mod-fi: #d8b4fe;
   --mod-co: #f5d0fe;
   --mod-idoc: #d4d4d8;
+  --ne-pk: #fcd34d;
+  --ne-fk: #93c5fd;
+  --ne-r-high: #fca5a5;
+  --ne-r-medium: #fcd34d;
+  --ne-r-low: #86efac;
 }
 
 /* ==========================================================================
@@ -334,8 +357,12 @@ html[data-theme="dark"] .ne {
    selection unless focus mode is on. */
 .ne-edge[data-lvl="x"] { opacity: .16; }
 .ne-edge[data-off="1"] { opacity: .05; pointer-events: none; }
-.ne[data-focus="1"] .ne-edge[data-off="1"],
-.ne[data-focus="1"] .ne-edge[data-lvl="x"] { opacity: 0; }
+/* THE GRAPH NEVER GOES BLANK. Focus mode used to take the unrelated edges to
+   opacity 0, which is the one thing the brief rules out: the rest of the model
+   DIMS, it does not vanish, so the reader can always see what they stepped out
+   of. Same for the nodes further down. */
+.ne[data-focus="1"] .ne-edge[data-off="1"] { opacity: .04; }
+.ne[data-focus="1"] .ne-edge[data-lvl="x"] { opacity: .09; }
 
 .ne-pulse { fill: var(--e); }
 @keyframes ne-flow {
@@ -345,6 +372,43 @@ html[data-theme="dark"] .ne {
   100% { transform: translate(var(--dx), var(--dy)); opacity: 0; }
 }
 .ne-pulse { animation: ne-flow 2100ms var(--ease-out-expo) infinite; }
+/* A lens that reads a CHAIN wants the travel to feel like travel: the same
+   pulse, slower and steadier, so a long dependency run scans as one movement
+   rather than a row of blinking dots. */
+.ne[data-mode="dep"] .ne-pulse,
+.ne[data-mode="lineage"] .ne-pulse,
+.ne[data-mode="impact"] .ne-pulse,
+.ne[data-mode="flow"] .ne-pulse { animation-duration: 2800ms; animation-timing-function: linear; }
+
+/* ---- THE CARDINALITY BADGE ------------------------------------------------
+   Verbatim, from the dataset: 1:1 · 1:N · N:1 · N:N. A dash on a dashed
+   outline is the fourth case and it means the dataset wrote no strength — it
+   is a gap drawn as a gap. Hidden until the edge matters, so 300 relations do
+   not become 300 labels. */
+.ne-badge {
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out-expo);
+  pointer-events: none;
+}
+.ne-badge rect {
+  fill: var(--surface);
+  stroke: var(--e);
+  stroke-width: 1.2;
+}
+.ne-badge text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  direction: ltr;
+  fill: var(--ink-1);
+}
+.ne-badge[data-blank="1"] rect { stroke: var(--ink-3); stroke-dasharray: 3 3; }
+.ne-badge[data-blank="1"] text { fill: var(--ink-3); }
+.ne-edge[data-lvl="1"] .ne-badge,
+.ne-edge[data-lvl="2"] .ne-badge { opacity: 1; }
+.ne-edge:hover .ne-badge { opacity: 1; }
+/* On the module map the number on the link is a measurement and is always on. */
+.ne-edge[data-kind="map"] .ne-badge { opacity: .9; }
 
 /* ==========================================================================
    NODES — module tint + module ring, object class as the marker bar
@@ -469,13 +533,190 @@ html[data-theme="dark"] .ne {
 .ne-node[data-lvl="x"] { opacity: .34; }
 .ne-node[data-off="1"] { opacity: .12; pointer-events: none; }
 .ne[data-q="1"] .ne-node[data-hit="0"][data-lvl=""] { opacity: .3; }
-.ne[data-focus="1"] .ne-node[data-off="1"],
-.ne[data-focus="1"] .ne-node[data-lvl="x"] { opacity: 0; pointer-events: none; }
+.ne[data-focus="1"] .ne-node[data-off="1"] { opacity: .08; pointer-events: none; }
+.ne[data-focus="1"] .ne-node[data-lvl="x"] { opacity: .16; pointer-events: none; }
 
 /* Outside the chosen topic or business object. Quieter than a filter, louder
    than gone: it stays clickable, so narrowing never traps the reader. */
 .ne[data-group="1"] .ne-node[data-out="1"] { opacity: .26; }
 .ne[data-group="1"] .ne-edge[data-out="1"] { opacity: .12; }
+
+/* ==========================================================================
+   THE OPEN CARD — one click unfolds the node
+   --------------------------------------------------------------------------
+   The production Architecture Explorer's collapsed-then-revealed node, rebuilt
+   as a real node on the canvas: the relations stay attached to it while it is
+   being read, which is the whole reason it is not a floating panel. Only
+   opacity is animated — the geometry itself is tweened in JS because the edge
+   routing has to agree with it frame by frame.
+   ========================================================================== */
+
+.ne-node[data-card="open"] { cursor: zoom-out; }
+.ne-node[data-card="open"] .ne-node-r {
+  fill: var(--surface);
+  stroke: var(--ms);
+  stroke-width: 2.6;
+  filter: drop-shadow(0 10px 24px rgb(0 0 0 / 0.16));
+}
+.ne-node[data-card="open"] .ne-node-h { opacity: 1; }
+
+@keyframes ne-unfold { from { opacity: 0; } to { opacity: 1; } }
+.ne-open { animation: ne-unfold var(--dur-base) var(--ease-out-expo) both; }
+
+.ne-open-rule { stroke: var(--hairline); stroke-width: 1; }
+.ne-open-cap { font-size: 10.5px; fill: var(--ink-3); dominant-baseline: middle; }
+.ne-open-cap.nx-sap { font-family: var(--font-mono); direction: ltr; }
+
+.ne-open-f {
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: 12.5px;
+  font-weight: 650;
+  fill: var(--ink-1);
+  dominant-baseline: middle;
+}
+.ne-open-t {
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: 10.5px;
+  fill: var(--ink-3);
+  dominant-baseline: middle;
+}
+.ne-open-chip { fill: var(--surface-2); stroke: var(--hairline); stroke-width: 1; }
+.ne-open-chip-t {
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: 8.5px;
+  font-weight: 800;
+  fill: var(--ink-3);
+  dominant-baseline: middle;
+}
+/* PK and FK, clearly coloured — the one place --ne-pk / --ne-fk are used. */
+.ne-open-row[data-k="PK"] .ne-open-chip {
+  fill: color-mix(in srgb, var(--ne-pk) 20%, var(--surface));
+  stroke: var(--ne-pk);
+}
+.ne-open-row[data-k="PK"] .ne-open-chip-t { fill: var(--ne-pk); }
+.ne-open-row[data-k="PK"] .ne-open-f { fill: var(--ne-pk); font-weight: 750; }
+.ne-open-row[data-k="FK"] .ne-open-chip {
+  fill: color-mix(in srgb, var(--ne-fk) 18%, var(--surface));
+  stroke: var(--ne-fk);
+  stroke-dasharray: 3 2;
+}
+.ne-open-row[data-k="FK"] .ne-open-chip-t { fill: var(--ne-fk); }
+.ne-open-row[data-k="FK"] .ne-open-f { fill: var(--ne-fk); font-weight: 700; }
+
+.ne-open-none {
+  font-size: 10.5px;
+  fill: var(--ink-3);
+  font-style: italic;
+  dominant-baseline: middle;
+}
+
+.ne-open-s4-d { fill: var(--ink-3); }
+.ne-open-s4[data-risk="high"] .ne-open-s4-d { fill: var(--ne-r-high); }
+.ne-open-s4[data-risk="medium"] .ne-open-s4-d { fill: var(--ne-r-medium); }
+.ne-open-s4[data-risk="low"] .ne-open-s4-d { fill: var(--ne-r-low); }
+.ne-open-s4-h { font-size: 10.5px; font-weight: 700; fill: var(--ink-2); dominant-baseline: middle; }
+.ne-open-s4-b { font-size: 10.5px; fill: var(--ink-3); dominant-baseline: middle; }
+/* A derived standing is not a verified one, and it does not get to look like
+   one. Dotted underline, same words, visibly softer. */
+.ne-open-s4[data-trust="partial"] .ne-open-s4-h,
+.ne-open-s4[data-trust="needs"] .ne-open-s4-h {
+  fill: var(--ink-3);
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
+/* ==========================================================================
+   THE OPEN BAR — the always-reachable way back
+   ========================================================================== */
+
+.ne-openbar {
+  position: absolute;
+  z-index: 3;
+  inset-block-start: var(--sp-3);
+  inset-inline: var(--sp-3);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 6px var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--elev-2);
+  animation: ne-unfold var(--dur-base) var(--ease-out-expo) both;
+}
+.ne-openbar-id { display: inline-flex; align-items: baseline; gap: var(--sp-2); min-inline-size: 0; }
+.ne-openbar-id b { font-family: var(--font-mono); direction: ltr; font-size: var(--t-sm); font-weight: 700; color: var(--ink-1); }
+.ne-openbar-id em {
+  font-style: normal;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-inline-size: 18rem;
+}
+.ne-openbar-lens {
+  font-size: var(--t-micro);
+  font-weight: 600;
+  color: var(--ink-2);
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  background: var(--surface-2);
+  border: 1px solid var(--hairline);
+}
+.ne-openbar .nu-ghost { inline-size: 2.25rem; min-block-size: 2.25rem; padding-inline: 0 !important; }
+.ne-openbar-back { margin-inline-start: auto; }
+@media (pointer: coarse) {
+  .ne-openbar .nu-ghost { inline-size: var(--c-tap, 2.75rem); min-block-size: var(--c-tap, 2.75rem); }
+  .ne-openbar-back { min-block-size: var(--c-tap, 2.75rem); }
+}
+
+/* ==========================================================================
+   THE LENS STRIP + ITS ONE-LINE EXPLAINER
+   ========================================================================== */
+
+.ne-flens { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-inline-size: 100%; }
+.ne-flens::-webkit-scrollbar { display: none; }
+.ne-flens > * { flex: none; }
+
+.ne-lens-say {
+  flex-basis: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 6px var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-sm);
+  background: var(--surface-2);
+  font-size: var(--t-xs);
+  color: var(--ink-2);
+  line-height: var(--lh-he);
+  animation: ne-unfold var(--dur-fast) var(--ease-out-expo) both;
+}
+.ne-lens-say > i {
+  flex: none;
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 50%;
+  background: var(--brand);
+}
+.ne-lens-say > span { min-inline-size: 0; }
+.ne-lens-say > b {
+  flex: none;
+  font-size: var(--t-micro);
+  font-weight: 700;
+  color: var(--ink-1);
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+}
+.ne-lens-say > .ne-x { margin-inline-start: auto; flex: none; }
 
 /* A change of PICTURE — a module opened, the scope widened — is a different set
    of nodes, so it crossfades rather than pretending to be a move. */
@@ -792,6 +1033,19 @@ html[data-theme="dark"] .ne {
 .ne-legend li[data-kind="unstated"] i { background: repeating-linear-gradient(to right, var(--e) 0 5px, transparent 5px 10px); }
 .ne-legend li.ne-lg-both i { background: linear-gradient(to left, var(--mod-pm), var(--mod-pppi)); }
 .ne-lg-pk, .ne-lg-fk { inline-size: 22px; block-size: 9px; flex: none; }
+.ne-lg-card {
+  flex: none;
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--hairline);
+  background: var(--surface);
+  color: var(--ink-1);
+}
+.ne-legend li.ne-legend-k { align-items: flex-start; line-height: var(--lh-he); }
 .ne-lg-pk { background: var(--ink-3); border-radius: 2px; }
 .ne-lg-fk { border-inline-end: 2px solid var(--ink-3); border-block-end: 2px solid var(--ink-3); }
 
@@ -957,6 +1211,45 @@ html[data-theme="dark"] .ne {
   .ne-filters { gap: var(--sp-2) var(--sp-3); }
   /* 44px stays 44px whether or not the browser reports a coarse pointer. */
   .ne-group .nu-ghost { inline-size: var(--c-tap, 2.75rem); min-block-size: var(--c-tap, 2.75rem); }
+  .ne-flens { flex-basis: 100%; }
+}
+
+/* ==========================================================================
+   PHONE · the open card is the surface, and getting back out is one tap
+   ========================================================================== */
+
+@media (max-width: 640px) {
+  /* The stage grows: an opened table is a card with a field list in it, and it
+     has to be read without pinching. */
+  .ne-stage { block-size: 66svh; min-block-size: 24rem; }
+  /* The minimap and the open bar cannot share the same corner on a 390px
+     screen, and the open card is the thing being read. */
+  .ne[data-opencard="1"] .ne-mini { display: none; }
+  .ne-mini { inline-size: 7.5rem; }
+  .ne-openbar {
+    inset-inline: 6px;
+    padding: 6px 8px;
+    border-radius: var(--r-md);
+    gap: 6px;
+  }
+  .ne-openbar-id em { max-inline-size: 8rem; }
+  .ne-openbar-lens { display: none; }
+  .ne-openbar-back {
+    inline-size: 100%;
+    margin-inline-start: 0;
+    justify-content: center;
+    /* 44px, unconditionally. The pointer:coarse query is not reliable in every
+       emulation and this is the one control that has to be hittable. */
+    min-block-size: var(--c-tap, 2.75rem);
+  }
+  .ne-openbar .nu-ghost { inline-size: var(--c-tap, 2.75rem); min-block-size: var(--c-tap, 2.75rem); }
+  .ne-hint { display: none; }
+  /* The control block is a stack of eight groups on a 390px screen and it was
+     pushing the canvas below the fold. Tighter rhythm, same controls, nothing
+     removed. */
+  .ne-filters { gap: 6px 8px; padding-block: 8px; }
+  .ne-bar { padding-block: 8px; }
+  .ne-fgrp { gap: 6px; }
 }
 
 /* The canvas must scroll again once the workspace is a page rather than an

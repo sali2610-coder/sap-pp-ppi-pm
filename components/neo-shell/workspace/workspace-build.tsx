@@ -33,7 +33,7 @@ const nf = new Intl.NumberFormat("he-IL");
 const ABOUT: Record<WsSheet["key"], { icon: React.ReactNode; lede: string }> = {
   config: {
     icon: <Settings2 size={13} strokeWidth={1.75} />,
-    lede: "לכל אובייקט קונפיגורציה: הטרנזקציה, נתיב ה-SPRO, ההסבר הפונקציונלי ומילון המונחים — כפי שנכתבו בגיליון.",
+    lede: "לכל אובייקט קונפיגורציה: הטרנזקציה, נתיב ה-SPRO, ההסבר הפונקציונלי ומילון המונחים, כפי שנכתבו בגיליון.",
   },
   customCode: {
     icon: <Blocks size={13} strokeWidth={1.75} />,
@@ -45,7 +45,7 @@ const ABOUT: Record<WsSheet["key"], { icon: React.ReactNode; lede: string }> = {
   },
   ppvs: {
     icon: <GitCompareArrows size={13} strokeWidth={1.75} />,
-    lede: "ההשוואה שהתכנון עצמו ערך בין ייצור בדיד לייצור תהליכי — הרשומה שמסבירה למה המודול הזה הוא PP-PI.",
+    lede: "ההשוואה שהתכנון עצמו ערך בין ייצור בדיד לייצור תהליכי. הרשומה שמסבירה למה המודול הזה הוא PP-PI.",
   },
   simplification: { icon: null, lede: "" },
   tcodesDir: { icon: null, lede: "" },
@@ -66,7 +66,7 @@ export function WorkspaceBuild({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       icon={<Settings2 size={17} strokeWidth={1.75} />}
       lede={
         <>
-          מעבר למילון הטבלאות, התכנון של המודול מחזיק{" "}
+          מעבר לטבלאות SAP, התכנון של המודול מחזיק{" "}
           <b className="nw-sap">{nf.format(sheets.length)}</b> גיליונות עבודה נוספים ובהם{" "}
           <b className="nw-sap">{nf.format(rows)}</b> רשומות. הם מוצגים כאן מילה במילה, בלי סיכום ובלי
           פרשנות.

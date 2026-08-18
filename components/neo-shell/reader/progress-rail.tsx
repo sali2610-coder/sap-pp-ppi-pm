@@ -27,8 +27,8 @@
    am I". Nothing is animated except transform and opacity.
    ========================================================================== */
 
-import { useCallback, useMemo, useRef, useState } from "react";
-import { Bookmark, BookOpen, Layers, Rows3 } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Bookmark, BookOpen, Check, ChevronDown, Layers, Rows3 } from "lucide-react";
 import { bookmarkedChapters, type NeoBookmark } from "@/components/neo-shell/books/reading-state";
 import type { NRBook, NRChapter } from "./types";
 import { chapterAt, chapterSpan, n, pct, type NRProgress } from "./progress";
@@ -42,11 +42,173 @@ interface RailProps {
   /** Subchapter bookmarks placed in this reader. */
   bookmarks: NeoBookmark[];
   onChapter: (n: number) => void;
+  /** The subchapter in view, so the tree can mark it. */
+  activeSection: string | null;
+  /** Navigation to a real row of this book. */
+  onGo: (chapter: number, sectionId: string | null) => void;
+}
+
+/* ---------------------------------------------------------- the rail tree */
+
+/**
+ * CHAPTERS AND SUBCHAPTERS, IN THE RAIL ITSELF.
+ *
+ * The panel behind "תוכן" already holds the whole table of contents, but a
+ * navigator you have to open is a navigator you stop using. This is the same
+ * real structure, permanently beside the text: every chapter of the book, every
+ * subchapter of the chapter you have expanded, the row you are reading marked,
+ * and a live fill on the chapter you are in.
+ *
+ * TWO CONTROLS PER CHAPTER, ON PURPOSE. The title goes to the chapter; the
+ * chevron only folds it. One control that did both would mean you could not look
+ * ahead at a chapter's contents without leaving the page you are on.
+ *
+ * NOTHING HERE IS INVENTED. The rows are data/books/<id>.json's own chapters and
+ * sections; the read ticks are the canonical reader's record; the bookmark marks
+ * are this reader's. A chapter with no subchapters says so instead of showing an
+ * empty list.
+ */
+function RailTree({
+  book,
+  chapter,
+  progress,
+  read,
+  marked,
+  activeSection,
+  onGo,
+}: {
+  book: NRBook;
+  chapter: NRChapter;
+  progress: NRProgress;
+  read: number[];
+  marked: Set<number>;
+  activeSection: string | null;
+  onGo: (chapter: number, sectionId: string | null) => void;
+}) {
+  /* Folded state, per chapter. Seeded empty and read through a fallback rather
+     than pre-filled: the chapter you are IN is open unless you folded it
+     yourself, so arriving at a new chapter never needs an effect to open it. */
+  const [folded, setFolded] = useState<Record<number, boolean>>({});
+  const [peeked, setPeeked] = useState<Record<number, boolean>>({});
+  const isOpen = useCallback(
+    (c: NRChapter) => (c.n === chapter.n ? !folded[c.n] : Boolean(peeked[c.n])),
+    [chapter.n, folded, peeked],
+  );
+
+  /* The row being read, brought into the rail's own scroll box. `nearest` so a
+     row already in view does not jump, and `block` only — the rail is a column
+     and a horizontal correction here would fight the page. */
+  const listRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const box = listRef.current;
+    if (!box) return;
+    const el = box.querySelector<HTMLElement>('[data-now="1"]');
+    if (!el) return;
+    const b = box.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    if (r.top >= b.top && r.bottom <= b.bottom) return;
+    box.scrollTop += r.top - b.top - b.height / 2 + r.height / 2;
+  }, [chapter.n, activeSection]);
+
+  return (
+    <div className="nr-rtoc" ref={listRef}>
+      <ol className="nr-rtoc-l">
+        {book.chapters.map((c) => {
+          const here = c.n === chapter.n;
+          const open = isOpen(c);
+          const done = read.includes(c.n);
+          return (
+            <li key={c.n} className="nr-rtoc-ch" data-on={here ? "1" : undefined}>
+              <div className="nr-rtoc-hd">
+                <button
+                  type="button"
+                  className="nr-rtoc-fold"
+                  aria-expanded={open}
+                  aria-label={`${open ? "קפל" : "פרוש"} את תת-הפרקים של פרק ${c.n}`}
+                  onClick={() =>
+                    here
+                      ? setFolded((s) => ({ ...s, [c.n]: !s[c.n] }))
+                      : setPeeked((s) => ({ ...s, [c.n]: !s[c.n] }))
+                  }
+                  disabled={c.sections.length === 0}
+                  title={c.sections.length === 0 ? "לפרק זה אין תת-פרקים בנתוני הספר" : undefined}
+                >
+                  <ChevronDown size={13} strokeWidth={2.2} aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  className="nr-rtoc-t"
+                  data-now={here && !activeSection ? "1" : undefined}
+                  aria-current={here ? "true" : undefined}
+                  onClick={() => onGo(c.n, null)}
+                  title={`פרק ${c.n} · ${c.title}`}
+                >
+                  <span className="nr-rtoc-n">{c.n}</span>
+                  <span className="nr-rtoc-tt">{c.title}</span>
+                  {marked.has(c.n) && (
+                    <Bookmark className="nr-rtoc-i" size={11} strokeWidth={2.4} aria-hidden="true" />
+                  )}
+                  {done && (
+                    <Check className="nr-rtoc-i nr-rtoc-i--read" size={11} strokeWidth={2.6} aria-hidden="true" />
+                  )}
+                </button>
+              </div>
+              {/* The live fill, on the chapter that is open. Every other chapter
+                  gets no bar at all rather than a guessed one: the reader knows
+                  how far it is through the chapter it is IN, and knows which
+                  chapters the canonical reader recorded as read. It does not know
+                  how much of chapter 7 you happened to see last March. */}
+              {here && (
+                <span className="nr-rtoc-bar" aria-hidden="true">
+                  <i style={{ "--v": progress.chapter } as React.CSSProperties} />
+                </span>
+              )}
+              {open && (
+                c.sections.length ? (
+                  <ol className="nr-rtoc-s">
+                    {c.sections.map((s) => {
+                      const now = here && s.id === activeSection;
+                      return (
+                        <li key={s.id}>
+                          <button
+                            type="button"
+                            className="nr-rtoc-sec"
+                            data-now={now ? "1" : undefined}
+                            aria-current={now ? "true" : undefined}
+                            onClick={() => onGo(c.n, s.id)}
+                            title={`${s.id} · ${s.title}`}
+                          >
+                            <span className="nr-rtoc-sid">{s.id}</span>
+                            <span className="nr-rtoc-st">{s.title}</span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                ) : (
+                  <p className="nr-rtoc-none">אין תת-פרקים בנתוני הספר לפרק הזה.</p>
+                )
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  );
 }
 
 /* ------------------------------------------------------------ desktop rail */
 
-export function ProgressRail({ book, chapter, progress, read, bookmarks, onChapter }: RailProps) {
+export function ProgressRail({
+  book,
+  chapter,
+  progress,
+  read,
+  bookmarks,
+  onChapter,
+  activeSection,
+  onGo,
+}: RailProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [hover, setHover] = useState<{ y: number; ch: NRChapter } | null>(null);
   const marked = useMemo(() => bookmarkedChapters(bookmarks), [bookmarks]);
@@ -147,6 +309,16 @@ export function ProgressRail({ book, chapter, progress, read, bookmarks, onChapt
           </span>
         )}
       </div>
+
+      <RailTree
+        book={book}
+        chapter={chapter}
+        progress={progress}
+        read={read}
+        marked={marked}
+        activeSection={activeSection}
+        onGo={onGo}
+      />
 
       <div className="nr-meters">
         <Meter

@@ -72,7 +72,7 @@ export function WorkspaceIface({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         id={`${meta.id}-fn`}
         icon={<Cable size={13} strokeWidth={1.75} />}
         title="BAPI · FM · IDoc"
-        note={`מדורג לפי כמה מטבלאות המודול רושמות את האובייקט. הפילוח לסוגים: ${nf.format(d.counts.bapis)} BAPI · ${nf.format(d.counts.fms)} FM · ${nf.format(d.counts.idocs)} IDoc — סיווג שנגזר משם האובייקט, ולא נכתב במקור.`}
+        note={`מדורג לפי כמה מטבלאות המודול רושמות את האובייקט. הפילוח לסוגים: ${nf.format(d.counts.bapis)} BAPI · ${nf.format(d.counts.fms)} FM · ${nf.format(d.counts.idocs)} IDoc. הסיווג נגזר משם האובייקט ולא נכתב במקור.`}
       >
         {d.ifaces.length ? (
           <>

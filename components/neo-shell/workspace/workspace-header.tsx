@@ -104,7 +104,7 @@ export function WorkspaceHero({ d }: { d: WsData }) {
         </Link>
         {d.entry ? (
           <span className="nw-go-why">
-            הטבלה הכי מקושרת במודול — <span className="nw-sap">{nf.format(d.entry.deg)}</span> שכנים ישירים במילון.
+            הטבלה המקושרת ביותר במודול, עם <span className="nw-sap">{nf.format(d.entry.deg)}</span> שכנים ישירים במילון.
           </span>
         ) : null}
       </nav>

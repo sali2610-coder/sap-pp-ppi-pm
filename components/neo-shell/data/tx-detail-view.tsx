@@ -31,6 +31,7 @@ import {
   Plug, ShieldCheck, Terminal, Workflow,
 } from "lucide-react";
 import { OriginLink, SmartReturn } from "@/components/neo-shell/nav-context";
+import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { RISK_COLOR, RISK_HE, TRUST_HE } from "@/lib/s4";
 import { MOD_HE, modVar } from "../mod-var";
 import type { TxDetail } from "./tx-detail";
@@ -42,12 +43,16 @@ const NONE = "לא קיים מידע מאומת";
 
 /* ------------------------------------------------------------ primitives */
 
+/** The id lands on the SECTION and not on the heading, because the running
+ *  section bar observes the section BOX to decide which chip is active and a
+ *  heading is one line tall. The heading keeps its own `${id}-h`, so the section
+ *  is still named by it for a screen reader. */
 function Section({ id, icon, title, note, children }: {
   id: string; icon: React.ReactNode; title: string; note?: string; children: React.ReactNode;
 }) {
   return (
-    <section className="nxt-sec" aria-labelledby={id}>
-      <h2 className="nx-h2 nxt-sec-h" id={id}>
+    <section className="nxt-sec" id={id} aria-labelledby={`${id}-h`}>
+      <h2 className="nx-h2 nxt-sec-h" id={`${id}-h`}>
         <span className="nxt-sec-i" aria-hidden="true">{icon}</span>
         {title}
         {note ? <em className="nxt-sec-n">{note}</em> : null}
@@ -98,6 +103,24 @@ export function TxDetailView({ t }: { t: TxDetail }) {
   const authored = t.tables.filter((x) => x.from === "authored");
   const blueprint = t.tables.filter((x) => x.from === "blueprint");
 
+  // A block whose question the dataset does not answer is not rendered, so the
+  // running section bar is built from the SAME conditions the page renders on.
+  // A chip can therefore never point at a section that is not on the screen.
+  const has = {
+    what: !!(t.purpose || t.process || t.whenUse || t.whenNot || t.tech),
+    flow: !!(t.flow.length || t.selection.length),
+    int: !!(t.bapis.length || t.exits.length || t.badis.length || t.enhancements.length || t.auth.length),
+  };
+  const nav: { id: string; label: string }[] = [
+    { id: "nxt-s4", label: "המעבר ל-S/4HANA" },
+    ...(has.what ? [{ id: "sec-what", label: "מה הטרנזקציה עושה" }] : []),
+    ...(has.flow ? [{ id: "sec-flow", label: "מסך והרצה" }] : []),
+    { id: "sec-obj", label: "אובייקטים וטבלאות" },
+    ...(has.int ? [{ id: "sec-int", label: "ממשקים והרחבות" }] : []),
+    { id: "sec-near", label: "טרנזקציות שכנות" },
+    { id: "sec-iss", label: "תקלות ידועות" },
+  ];
+
   return (
     <article className="nxt" data-surface="transaction" style={{ "--m": m } as React.CSSProperties}>
       <SmartReturn
@@ -142,12 +165,18 @@ export function TxDetailView({ t }: { t: TxDetail }) {
         </div>
       </header>
 
+      {/* The page's own index, kept on screen. The transaction page had no jump
+          nav at all, so moving from "מה הטרנזקציה עושה" to "תקלות ידועות" meant
+          scrolling the whole screen twice. */}
+      <SectionNav sections={nav} />
+
       {/* ------------------------------------------------ 2. S/4HANA — §I
           The loudest block on the screen, and the only one that is rendered
           even when the dataset is silent: "we do not know" is a decision-
           relevant answer for a migration, and hiding it would be the lie. */}
       <section
         className="nxt-s4"
+        id="nxt-s4"
         data-disp={t.s4.disposition}
         data-impacted={impacted ? "1" : undefined}
         aria-labelledby="s4-h"
@@ -204,13 +233,13 @@ export function TxDetailView({ t }: { t: TxDetail }) {
 
         {t.s4.disposition === "unknown" ? (
           <p className="nxt-s4-warn">
-            למאגר אין אמירה על מצב הטרנזקציה ב-S/4HANA. הפריט דורש אימות במערכת SAP לפני החלטת מיגרציה — ולא הושלם כאן בהשערה.
+            למאגר אין אמירה על מצב הטרנזקציה ב-S/4HANA. הפריט דורש אימות במערכת SAP לפני החלטת מיגרציה, ולא הושלם כאן בהשערה.
           </p>
         ) : null}
       </section>
 
       {/* --------------------------------------------------- 3. WHAT IT DOES */}
-      {(t.purpose || t.process || t.whenUse || t.whenNot || t.tech) ? (
+      {has.what ? (
         <Section id="sec-what" icon={<Terminal size={15} strokeWidth={1.75} />} title="מה הטרנזקציה עושה">
           <dl className="nxt-grid">
             {t.purpose ? <Fact label="מטרה עסקית">{t.purpose}</Fact> : null}
@@ -225,7 +254,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
       ) : null}
 
       {/* ------------------------------------------------------- 4. THE FLOW */}
-      {(t.flow.length || t.selection.length) ? (
+      {has.flow ? (
         <Section id="sec-flow" icon={<Workflow size={15} strokeWidth={1.75} />} title="מסך והרצה">
           <div className="nxt-two">
             {t.flow.length ? (
@@ -282,7 +311,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
       </Section>
 
       {/* --------------------------------------------------- 6. INTEGRATION */}
-      {(t.bapis.length || t.exits.length || t.badis.length || t.enhancements.length || t.auth.length) ? (
+      {has.int ? (
         <Section id="sec-int" icon={<Plug size={15} strokeWidth={1.75} />} title="ממשקים והרחבות">
           <dl className="nxt-grid">
             {t.bapis.length ? <Fact label="BAPI / FM"><Codes items={t.bapis} label="BAPI ו-FM" /></Fact> : null}
@@ -368,7 +397,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
         ) : null}
         <p>
           כל שדה בעמוד הזה נלקח מהמאגר המאומת של הפרויקט. שדה שהמאגר שותק לגביו אינו מוצג, או מסומן במפורש
-          {" "}«{NONE}» — ולא הושלם מזיכרון. מספר ה-SAP Note לא נכתב כאן אלא אם הוא קיים ברשומה עצמה.
+          {" "}«{NONE}», ולא הושלם מזיכרון. מספר ה-SAP Note לא נכתב כאן אלא אם הוא קיים ברשומה עצמה.
         </p>
       </footer>
     </article>
@@ -405,7 +434,7 @@ function TableList({ rows, origin }: {
             {r.href ? (
               <OriginLink href={r.href} origin={origin} className="nu-card nxt-tbl-r">{inner}</OriginLink>
             ) : (
-              <div className="nxt-tbl-r is-flat" aria-label={`${r.name} — אין עמוד אובייקט במילון`}>{inner}</div>
+              <div className="nxt-tbl-r is-flat" aria-label={`${r.name}: אין עמוד אובייקט במילון`}>{inner}</div>
             )}
           </li>
         );

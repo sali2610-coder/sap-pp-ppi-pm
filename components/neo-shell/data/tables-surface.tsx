@@ -355,18 +355,18 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
       <header className="nxd-head">
         {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
         <span className="nx-eyebrow">עיון · Reference</span>
-        <h1 className="nx-h1">טבלאות המילון</h1>
+        <h1 className="nx-h1">טבלאות SAP</h1>
         <p className="nx-lede">
-          {nf.format(t.tables)} טבלאות מתוך שני קובצי המקור — PM ו-PP-PI — עם {nf.format(t.fields)} שדות מתועדים,
+          {nf.format(t.tables)} טבלאות משני קובצי המקור, PM ו-PP-PI, עם {nf.format(t.fields)} שדות מתועדים,
           {" "}{nf.format(t.rels)} קשרי ER ו-{nf.format(t.tcodes)} טרנזקציות.
           {" "}
           {t.linked === t.tables
             ? <>לכל אחת מ-{nf.format(t.linked)} השורות יש עמוד טבלה משלה: שדות ומפתחות, קשרים ו-JOIN, טרנזקציות, CDS והמעבר ל-S/4HANA.</>
-            : <>ל-{nf.format(t.linked)} מהן יש עמוד טבלה משלהן — שדות ומפתחות, קשרים ו-JOIN, טרנזקציות, CDS והמעבר ל-S/4HANA. השאר מוצגות כרשומה בלבד.</>}
+            : <>ל-{nf.format(t.linked)} מהן יש עמוד טבלה משלהן: שדות ומפתחות, קשרים ו-JOIN, טרנזקציות, CDS והמעבר ל-S/4HANA. השאר מוצגות כרשומה בלבד.</>}
         </p>
       </header>
 
-      <section className="nx-card nxd-stats" aria-label="מספרי המילון">
+      <section className="nx-card nxd-stats" aria-label="מספרי מאגר הטבלאות">
         {[
           { v: t.tables, l: "טבלאות", i: <TableIcon size={14} strokeWidth={1.75} /> },
           { v: t.fields, l: "שדות", i: <Database size={14} strokeWidth={1.75} /> },
@@ -393,7 +393,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="שם טבלה · תיאור · נושא · טרנזקציה · CDS"
-            aria-label="חיפוש בטבלאות המילון"
+            aria-label="חיפוש בטבלאות SAP"
           />
           {q ? (
             <button type="button" className="nu-ghost nxd-clear" onClick={() => setQ("")} aria-label="נקה חיפוש">
@@ -493,9 +493,9 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
 
       {rows.length === 0 ? (
         <div className="nx-card nxd-none">
-          <p><b>אין טבלה במילון שעונה על הסינון הזה.</b></p>
+          <p><b>אין טבלת SAP שעונה על הסינון הזה.</b></p>
           <p className="nx-muted">
-            החיפוש עובר על {nf.format(t.tables)} טבלאות אמיתיות מקובצי המקור — שם, תיאור, נושא, טרנזקציה ו-CDS.
+            החיפוש עובר על {nf.format(t.tables)} טבלאות אמיתיות מקובצי המקור: שם, תיאור, נושא, טרנזקציה ו-CDS.
             הוא אינו מנחש ואינו משלים טקסט חופשי.
           </p>
           <div className="nxd-none-a">

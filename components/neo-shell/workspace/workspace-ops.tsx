@@ -39,7 +39,7 @@ export function WorkspaceOps({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       lede={
         <>
           המילון של המודול מחזיק <b className="nw-sap">{nf.format(d.counts.tcodes)}</b> קודי טרנזקציה.
-          כאן הם מדורגים לפי כמה טבלאות מצביעות על כל אחד — וזו מידת תיעוד, לא מידת שימוש בפועל.
+          כאן הם מדורגים לפי כמה טבלאות מצביעות על כל אחד. זו מידת תיעוד, לא מידת שימוש בפועל.
         </>
       }
       lead={
@@ -78,7 +78,7 @@ export function WorkspaceOps({ d, meta }: { d: WsData; meta: ChapterMeta }) {
           id={`${meta.id}-dir`}
           icon={<ScrollText size={13} strokeWidth={1.75} />}
           title={dir.title}
-          note={`${nf.format(dir.rows.length)} רשומות מהתכנון של המודול — לכל קוד ההסבר הפונקציונלי, השינוי המבני ב-S/4HANA והיורש ב-Fiori.`}
+          note={`${nf.format(dir.rows.length)} רשומות מהתכנון של המודול. לכל קוד ההסבר הפונקציונלי, השינוי המבני ב-S/4HANA והיורש ב-Fiori.`}
         >
           <WorkspaceSheet
             sheet={dir}

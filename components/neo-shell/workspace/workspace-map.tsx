@@ -76,7 +76,7 @@ export function WorkspaceMap({
       icon={<Compass size={17} strokeWidth={1.75} />}
       lede={
         <>
-          לפי נושא, לפי שלב בתהליך, או לפי מחלקת אובייקט — שלוש קריאות של אותו מילון. בחירה כאן מצמצמת
+          לפי נושא, לפי שלב בתהליך או לפי מחלקת אובייקט: שלוש קריאות של אותו מילון. בחירה כאן מצמצמת
           את טבלת העבודה בפרק הבא, ולא פותחת מסך נוסף.
         </>
       }
@@ -223,7 +223,7 @@ export function WorkspaceMap({
         </Link>
         <Link className="nu-link" href="/neo/tables/" prefetch={false}>
           <GitBranch size={13} strokeWidth={1.75} aria-hidden="true" />
-          מילון הטבלאות של הפרויקט
+          טבלאות SAP של הפרויקט
           <ArrowLeft className="nu-arw" size={14} strokeWidth={2} aria-hidden="true" />
         </Link>
       </p>

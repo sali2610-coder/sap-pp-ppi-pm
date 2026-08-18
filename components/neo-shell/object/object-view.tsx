@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { RISK_COLOR } from "@/lib/s4";
 import { OriginLink } from "@/components/neo-shell/nav-context";
+import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { ObjectFields } from "./object-fields";
 import { ObjectReturn } from "./object-return";
 import { ObjectOrbit } from "./object-orbit";
@@ -37,7 +38,7 @@ const REL_HE: Record<string, string> = { "1-1": "1:1", "n-1": "N:1", unstated: "
 
 const TRUST_WHY: Record<string, string> = {
   verified: "ידע Simplification List מתוחזק בפרויקט",
-  partial: "נגזר מעמודת ה-S/4 של המילון — מומלץ אימות מול SAP",
+  partial: "נגזר מעמודת ה-S/4 של המילון. מומלץ אימות מול SAP",
   needs: "הפרויקט אינו מחזיק הכרעה לטבלה הזאת",
 };
 
@@ -167,7 +168,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           {v.shared ? (
             <p className="no-shared">
               <Layers size={14} strokeWidth={1.75} aria-hidden="true" />
-              אחת מ־19 הטבלאות ששני התכנונים מתעדים — לכל מודול נושא, טרנזקציות ושדות משלו.
+              אחת מ־19 הטבלאות ששני התכנונים מתעדים; לכל מודול נושא, טרנזקציות ושדות משלו.
               שני הפרצופים מוצגים כאן זה לצד זה, בלי לאחד אותם לאחד.
             </p>
           ) : null}
@@ -234,7 +235,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
             </OriginLink>
             <OriginLink className="nu-btn2" href="/neo/tables/" origin={from}>
               <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
-              מילון הטבלאות
+              טבלאות SAP
             </OriginLink>
             {v.mods.map((m) => (
               <OriginLink
@@ -250,15 +251,13 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           </div>
         </div>
 
-        <nav className="no-jump" aria-label="ניווט בעמוד">
-          {nav.map(([id, label], i) => (
-            <a key={id} className="nu-ghost" href={`#${id}`}>
-              <em className="nx-sap" aria-hidden="true">{String(i + 1).padStart(2, "0")}</em>
-              {label}
-            </a>
-          ))}
-        </nav>
       </header>
+
+      {/* The same eleven destinations that used to sit inside the hero, kept on
+          screen instead of scrolling away with it, and marking which section the
+          reader is currently in. Built from the SAME `nav` array as the section
+          numbers below, so the two can never disagree. */}
+      <SectionNav sections={nav.map(([id, label]) => ({ id, label }))} />
 
       {/* ============================================ DUAL IDENTITY / ROWS */}
       <Sec
@@ -269,7 +268,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         title={v.rows.length > 1 ? `${v.rows.length} רשומות מילון לאותה טבלה` : "ההקשר העסקי"}
         lede={
           v.rows.length > 1
-            ? "אותה טבלה פיזית, מתועדת יותר מפעם אחת. כל כרטיס הוא שורה אחת בתכנון המקורי, עם הנושא, הטרנזקציות וההערות שלה — כפי שנכתבו, בלי מיזוג."
+            ? "אותה טבלה פיזית, מתועדת יותר מפעם אחת. כל כרטיס הוא שורה אחת בתכנון המקורי, עם הנושא, הטרנזקציות וההערות שלה, כפי שנכתבו, בלי מיזוג."
             : "השורה שהתכנון של המודול כתב על הטבלה הזאת: הנושא שאליו היא משויכת, הטרנזקציות שנרשמו לה וההערות שנלוו אליה."
         }
       >
@@ -284,7 +283,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
               <dl className="no-kv">
                 <div>
                   <dt>טרנזקציות</dt>
-                  <dd className="nx-sap">{r.tcodesRaw || "—"}</dd>
+                  <dd className="nx-sap">{r.tcodesRaw || "–"}</dd>
                 </div>
                 <div>
                   <dt>שדות ברשומה</dt>
@@ -351,7 +350,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           v.neighbours.length ? (
             <>
               כיוון הקשר נקרא מתוך המילון: <b>בן</b> הוא טבלה שנושאת מפתח זר אל {v.name}, ו<b>אב</b> הוא
-              טבלה ש־{v.name} מפנה אליה. עוצמת הקשר מוצגת כפי שנכתבה — וכאשר לא נכתבה, כתוב שלא נכתבה.
+              טבלה ש־{v.name} מפנה אליה. עוצמת הקשר מוצגת כפי שנכתבה, וכאשר לא נכתבה, כתוב שלא נכתבה.
             </>
           ) : undefined
         }
@@ -363,7 +362,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
                 <TriangleAlert size={14} strokeWidth={1.75} aria-hidden="true" />
                 {s.contested === 1 ? "טבלה אחת מופיעה" : `${s.contested} טבלאות מופיעות`} כאן פעמיים,
                 כבן וכאב. זו אינה כפילות: שני התכנונים רושמים את אותו קשר בכיוונים הפוכים, וכל אחד
-                מציב צד אחר כבעל המפתח הראשי. שתי הרשומות נשמרות — הכרעה ביניהן תהיה המצאה.
+                מציב צד אחר כבעל המפתח הראשי. שתי הרשומות נשמרות; הכרעה ביניהן תהיה המצאה.
               </p>
             ) : null}
             <ul className="no-rels">
@@ -379,7 +378,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
                   <span className="no-rel-name">
                     <i className="no-rel-cls" aria-hidden="true" />
                     <OriginLink className="nx-sap" href={`/neo/object/${n.name}/`} origin={from}>{n.name}</OriginLink>
-                    <em>{n.he || "—"}</em>
+                    <em>{n.he || "–"}</em>
                   </span>
                   <span className="no-rel-card">
                     <i aria-hidden="true" />
@@ -415,7 +414,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
             </h3>
             <p className="no-note">
               התכנון המקורי רושם את הקשרים האלה, אך את הטבלה שבצד השני הוא אינו מתעד.
-              הם מופיעים כאן כרשומה, ולא מצוירים במפה — קצה שלא נבדק לא יצויר כאילו נבדק.
+              הם מופיעים כאן כרשומה, ולא מצוירים במפה. קצה שלא נבדק לא יצויר כאילו נבדק.
             </p>
             <ul className="no-dangle-l">
               {v.dangling.map((d, i) => (
@@ -453,7 +452,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         icon={<Terminal size={16} strokeWidth={1.75} />}
         eyebrow="טרנזקציות"
         title="הטרנזקציות שהמילון קושר לטבלה"
-        lede="הקודים מוצגים לפי הרשומה שכתבה אותם, ולצידם המחרוזת המקורית מילה במילה — כדי שניתן יהיה לראות מה פוצל ומה נכתב במקור."
+        lede="הקודים מוצגים לפי הרשומה שכתבה אותם, ולצידם המחרוזת המקורית מילה במילה, כדי שניתן יהיה לראות מה פוצל ומה נכתב במקור."
       >
         {v.tcodes.some((t) => t.codes.length) ? (
           <div className="no-tx">
@@ -486,7 +485,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         icon={<Route size={16} strokeWidth={1.75} />}
         eyebrow="תהליך עסקי"
         title="היכן האובייקט יושב בשרשרת"
-        lede="שרשרת התהליך מגיעה ממפת התהליכים של הפרויקט — אותה שרשרת שסביבת העבודה של המודול מציירת. שלב שאין לו טבלה במילון מסומן ככזה ולא מושלם."
+        lede="שרשרת התהליך מגיעה ממפת התהליכים של הפרויקט, אותה שרשרת שסביבת העבודה של המודול מציירת. שלב שאין לו טבלה במילון מסומן ככזה ולא מושלם."
       >
         {v.flow.some((f) => f.idx >= 0) ? (
           v.flow.map((f) => (
@@ -529,7 +528,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         icon={<TriangleAlert size={16} strokeWidth={1.75} />}
         eyebrow="ECC ➔ S/4HANA"
         title="מה התכנון אומר על המעבר"
-        lede="קודם ההכרעה של הפרויקט על הטבלה הזאת ומאיפה היא מגיעה, ואחריה מה שכל תכנון כתב בעצמו — מילה במילה."
+        lede="קודם ההכרעה של הפרויקט על הטבלה הזאת ומאיפה היא מגיעה, ואחריה מה שכל תכנון כתב בעצמו, מילה במילה."
       >
         <div className="no-stand" data-risk={v.s4.risk} data-impact={v.s4.impacted ? "1" : "0"}>
           <p className="no-stand-h">
@@ -659,7 +658,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
             {v.funcs.map((f) => (
               <li key={f.name}>
                 <b className="nx-sap">{f.name}</b>
-                <em>{f.he || "—"}</em>
+                <em>{f.he || "–"}</em>
                 <span className="no-modtag">
                   {f.mods.map((m) => (
                     <b key={m} style={{ "--m": MOD_VAR[m] } as React.CSSProperties}>{m}</b>
@@ -681,7 +680,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
             {v.progs.map((p) => (
               <li key={p.name}>
                 <b className="nx-sap">{p.name}</b>
-                <em>{p.he || "—"}</em>
+                <em>{p.he || "–"}</em>
                 <span className="no-modtag">
                   {p.mods.map((m) => (
                     <b key={m} style={{ "--m": MOD_VAR[m] } as React.CSSProperties}>{m}</b>
@@ -714,7 +713,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         title={`${v.incidents.length} תקלות שמפנות לטבלה הזו`}
         lede={
           <>
-            מתוך קטלוג התקלות של הפרויקט — נכללות רק תקלות שרושמות במפורש את{" "}
+            מתוך קטלוג התקלות של הפרויקט. נכללות רק תקלות שרושמות במפורש את{" "}
             <span className="nx-sap">{v.name}</span> ברשימת הטבלאות לבדיקה. זו אינה תור תמיכה ואינה
             מערכת חיה.
           </>
@@ -771,7 +770,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         lede={
           <>
             הקישור כאן הוא <b>ברמת המודול</b>. אינדקס הספרייה בפרויקט הוא ברמת פרק, ואין בו מיפוי של
-            טבלה לפרק — לכן לא נטען שספר מסוים מכסה את <span className="nx-sap">{v.name}</span> עצמה.
+            טבלה לפרק, ולכן לא נטען שספר מסוים מכסה את <span className="nx-sap">{v.name}</span> עצמה.
           </>
         }
       >
@@ -817,7 +816,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         </p>
       </Sec>
 
-      <p className="no-credit">Project NEO · CBC Israel — פותח על ידי סאלי חליף · Web Coding</p>
+      <p className="no-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
     </div>
   );
 }

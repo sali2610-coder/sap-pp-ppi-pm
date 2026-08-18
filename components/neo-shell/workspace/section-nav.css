@@ -1,0 +1,146 @@
+/* ============================================================================
+   PROJECT NEO · THE SECTION NAV — the one stylesheet, shared by five screens.
+   ----------------------------------------------------------------------------
+   Imported by section-nav.tsx rather than by any of the three route sheets, so
+   the PM workspace, the object page, the table page and the transaction page
+   cannot end up with three drifting copies of the same bar.
+
+   FORM RULE (app/globals.css, above --mod-pm). The bar is CHROME and not data,
+   so its one accent is brand red — the single global accent — and never a
+   module, status or object hue. A surface that wants its own colour on the
+   active chip sets --nxs-on; nothing else in here is overridable.
+
+   MOTION. Only opacity is transitioned. The bar's shadow and hairline live on a
+   pseudo-element that fades in when the bar reaches the top of the canvas,
+   because transitioning box-shadow or border-color would be transitioning paint
+   properties, which this project does not do.
+   ========================================================================== */
+
+/* --nxs-pad MIRRORS THE CANVAS PADDING, and it is not decoration.
+   `inset-block-start: 0` on a sticky child of .nx-canvas parks the bar at the
+   canvas CONTENT box, i.e. one padding below the top of the scrollport — and
+   the page keeps scrolling through that strip, so a line of text was visible
+   ABOVE the bar at every scroll position. Measured at 1440: 32px of live
+   content over the top of the bar. Pulling the bar up by the padding, and
+   bleeding its background out by the same amount, is what makes it the top of
+   the canvas rather than a floating strip inside it.
+   The three values below are app/globals.css's own .nx-canvas paddings, in the
+   same order and with the same precedence; the last rule is the workspace,
+   which takes the canvas over and removes the padding entirely. */
+.nx-app .nxs { --nxs-pad: var(--sp-6); }
+@media (min-width: 1440px) { .nx-app .nxs { --nxs-pad: var(--sp-8); } }
+html[data-device="phone"] .nx-app .nxs { --nxs-pad: var(--sp-4); }
+html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
+
+.nx-app .nxs {
+  position: sticky;
+  inset-block-start: calc(-1 * var(--nxs-pad));
+  /* Above the workspace's own filter rail (3) and its sticky table head (2).
+     Below the shell's rail (20) and the command surface, which are not this
+     page's chrome. */
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  min-block-size: var(--c-tap);
+  padding-block: var(--sp-2);
+  margin-inline: calc(-1 * var(--nxs-pad));
+  padding-inline: calc(var(--nxs-gut, 0px) + var(--nxs-pad));
+  /* Deliberately not opaque. Every page that hosts this bar has ambient light
+     or a tinted hero travelling under it, and a flat panel would cut that in
+     half at exactly the moment the reader starts scrolling. */
+  background: color-mix(in srgb, var(--background) 84%, transparent);
+  backdrop-filter: blur(12px);
+  --nxs-on: var(--brand);
+}
+
+/* The bar's edge. Present only once the bar is actually holding the top of the
+   canvas — before that it is part of the page and needs no separation. */
+.nx-app .nxs::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-block-end: 1px solid var(--hairline);
+  box-shadow: 0 8px 20px -16px rgb(0 0 0 / .55);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out-expo);
+}
+.nx-app .nxs[data-stuck="1"]::after { opacity: 1; }
+
+/* The reel. Horizontal and scrollable rather than wrapping: a bar that grows to
+   three lines on a phone stops being subtle and starts being a second header,
+   and the component scrolls the active chip back into view on its own. */
+.nx-app .nxs-reel {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* Room for the focus ring, which is drawn outside the chip. */
+  padding-block: 3px;
+}
+.nx-app .nxs-reel::-webkit-scrollbar { block-size: 0; inline-size: 0; }
+
+.nx-app .nxs-i {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: none;
+  min-block-size: 2rem;
+  padding-inline: var(--sp-3);
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  scroll-snap-align: center;
+  font-size: var(--t-sm);
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: var(--ink-3);
+  text-decoration: none;
+  transition: opacity var(--dur-fast) var(--ease-out-expo);
+}
+.nx-app .nxs-i:hover { color: var(--ink-1); background: var(--surface-2); }
+.nx-app .nxs-i:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+
+/* THE ACTIVE SECTION. Filled, ringed and inked — three signals rather than one,
+   so it survives a dark theme, a bright room and a colour-vision difference. */
+.nx-app .nxs-i[aria-current="true"] {
+  color: var(--ink-1);
+  background: color-mix(in srgb, var(--nxs-on) 12%, var(--surface));
+  border-color: color-mix(in srgb, var(--nxs-on) 45%, transparent);
+}
+
+.nx-app .nxs-n {
+  font-family: var(--font-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-style: normal;
+  font-size: var(--t-micro);
+  font-weight: 700;
+  color: var(--ink-3);
+}
+.nx-app .nxs-i[aria-current="true"] .nxs-n { color: var(--nxs-on); }
+
+/* A real --c-tap (44px) target the moment there is no mouse to be precise with.
+   The bar grows with it rather than the chip being clipped: a 44px row inside a
+   38px bar is a 38px target with a lie written on it. */
+@media (pointer: coarse) {
+  .nx-app .nxs-i { min-block-size: var(--c-tap); padding-inline: var(--sp-4); }
+}
+
+/* A reader who asked for less motion gets a bar that changes state instantly:
+   the fade is decoration, the position is the information. */
+@media (prefers-reduced-motion: reduce) {
+  .nx-app .nxs::after,
+  .nx-app .nxs-i { transition: none; }
+}
+
+@media (min-width: 1440px) {
+  .nx-app .nxs { padding-block: var(--sp-2); }
+}

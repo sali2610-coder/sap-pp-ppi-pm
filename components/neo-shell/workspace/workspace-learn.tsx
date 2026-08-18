@@ -33,7 +33,7 @@ export function WorkspaceLearn({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         <>
           <b className="nw-sap">{nf.format(d.books.length)}</b> ספרים ו-
           <b className="nw-sap">{nf.format(d.courses.length)}</b> ספרי לימוד שהספרייה משייכת למודול הזה
-          {pages ? <>, יחד {nf.format(pages)} עמודים</> : null}. השיוך הוא ברמת המודול — לפרויקט אין
+          {pages ? <>, יחד {nf.format(pages)} עמודים</> : null}. השיוך הוא ברמת המודול. לפרויקט אין
           מיפוי של טבלה לפרק, ולכן לא נטען שספר מסוים מכסה טבלה מסוימת.
         </>
       }

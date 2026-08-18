@@ -50,16 +50,33 @@
    exception. Nothing on the page needs to move for the page to be understood.
    ========================================================================== */
 
+/* BLOCK FLOW, NOT GRID, and deliberately so. A position:sticky GRID ITEM is
+   clamped to its own grid area — for the running section bar that area is
+   exactly the bar's own height, i.e. zero travel — so the bar would appear to
+   do nothing. In block flow its containing block is the whole page and it can
+   ride the full length of it. The rhythm the client asked for is unchanged:
+   the same --sp-12 between major sections, spent as a sibling margin instead of
+   a grid gap. Tailwind's preflight zeroes every element margin, so there is no
+   margin here to collapse with. */
 .no {
-  display: grid;
-  /* The client's one instruction about spacing on this page: "clear spacing"
-     between major sections. --sp-8 read as a list; --sp-12 reads as chapters. */
-  gap: var(--sp-12);
-  align-content: start;
+  display: block;
+  /* The page is a GRID ITEM of .nx-canvas, whose column is an `auto` track, and
+     a grid item's automatic minimum size is its min-content width. One long
+     unbreakable run inside — a field name, a JOIN clause — would otherwise push
+     the track past the canvas and scroll the whole shell sideways on a phone.
+     Nothing is made narrower by this; the wide runs were never using it. */
+  min-inline-size: 0;
   container-type: inline-size;
   container-name: no;
   padding-block-end: var(--sp-10);
 }
+/* "clear spacing" between major sections: --sp-8 reads as a list, --sp-12 reads
+   as chapters. */
+.no > * + * { margin-block-start: var(--sp-12); }
+/* The bar is chrome for the section under it, not a section of its own, so it
+   sits close to the hero and the first section keeps its full gap. */
+.no > .nxs + * { margin-block-start: var(--sp-8); }
+.no > .nxs { margin-block-start: var(--sp-6); }
 
 /* ==========================================================================
    IDENTITY
@@ -286,22 +303,11 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0b0e11; }
 
 .no-cta { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
 
-.no-jump {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-1);
-  padding-block-start: var(--sp-4);
-  border-block-start: 1px solid var(--hairline);
-}
-/* .nu-ghost owns every state; this only sets the density and the ordinal. */
-.no-jump a { font-size: var(--t-xs); padding-inline: var(--sp-3); }
-.no-jump a em {
-  font-style: normal;
-  font-size: 10px;
-  color: var(--ink-3);
-  font-variant-numeric: tabular-nums;
-  margin-inline-end: 5px;
-}
+/* The in-hero jump list that used to live here (.no-jump) is gone. It carried
+   exactly the same eleven destinations as the running section bar
+   (components/neo-shell/workspace/section-nav.css) but scrolled away with the
+   hero, which is the behaviour the client objected to. Nothing was dropped:
+   the bar is that list, kept on screen and marking where the reader is. */
 
 /* ==========================================================================
    SECTIONS
@@ -314,7 +320,10 @@ html[data-theme="dark"] .no-keyline-g[data-k="PK"] > b { color: #0b0e11; }
   border: 1px solid var(--hairline);
   border-radius: var(--r-xl);
   background: var(--surface);
-  scroll-margin-block-start: calc(var(--c-top-h) + var(--sp-4));
+  /* The running section bar holds the top of the canvas; --nxs-h is its measured
+     height, published to .no by section-nav.tsx. A jump therefore lands the
+     section head just below the bar and never underneath it. */
+  scroll-margin-block-start: calc(var(--nxs-h, 0px) + var(--sp-4));
 }
 
 /* --- the section head. The number is the anchor the eye counts by ---------- */

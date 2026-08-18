@@ -66,7 +66,12 @@ export function BookCover({
       data-size={size}
       data-fit={b.fit}
       data-open={open ? "1" : undefined}
-      style={{ "--thick": b.thick } as React.CSSProperties}
+      /* Two variables, two different jobs. `--cloth` is what this book is BOUND
+         in and is the book's own; `--m`, inherited from the card, is the module
+         and stays the colour of everything printed ON the binding. Separating
+         them is what turns four PM books from four identical objects into four
+         books that still say PM. */
+      style={{ "--thick": b.thick, "--cloth": b.cloth } as React.CSSProperties}
       aria-hidden="true"
     >
       <span className="nb-cov-3d">

@@ -55,7 +55,7 @@ const FIRST = 4;
  *  provenance of the sentence next to it. */
 const TRUST_WHY: Record<string, string> = {
   verified: "ידע Simplification List מתוחזק בפרויקט",
-  partial: "נגזר מעמודת ה-S/4 של המילון — מומלץ אימות מול SAP",
+  partial: "נגזר מעמודת ה-S/4 של המילון. מומלץ אימות מול SAP",
   needs: "הפרויקט אינו מחזיק הכרעה לטבלה הזאת",
 };
 
@@ -102,14 +102,14 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         <>
           S/4HANA היא ההקשר הקדימה של המודול, ולא הערת שוליים להשוואה. מתוך{" "}
           <b className="nw-sap">{nf.format(d.counts.tables)}</b> הטבלאות הייחודיות של המודול,{" "}
-          <b className="nw-sap">{nf.format(changed.length)}</b> מסומנות כמשתנות מהותית — וכל אחת מהן
+          <b className="nw-sap">{nf.format(changed.length)}</b> מסומנות כמשתנות מהותית, וכל אחת מהן
           מופיעה כאן במלואה, עם המקור שממנו ההכרעה מגיעה.
         </>
       }
       lead={
         <Link className="nu-btn2" href="/neo/tables/" prefetch={false}>
           <Layers size={15} strokeWidth={1.75} aria-hidden="true" />
-          מילון הטבלאות המלא של הפרויקט
+          כל טבלאות SAP של הפרויקט
         </Link>
       }
     >
@@ -119,7 +119,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
           <b className="nw-sap">{nf.format(changed.length)}</b>
           <span>טבלאות משתנות מהותית</span>
           <em>
-            מתוך {nf.format(d.counts.tables)} — {nf.format(d.s4x.risk.high)} בסיכון גבוה,{" "}
+            מתוך {nf.format(d.counts.tables)}: {nf.format(d.s4x.risk.high)} בסיכון גבוה,{" "}
             {nf.format(d.s4x.risk.medium)} בסיכון בינוני
           </em>
         </p>
@@ -153,7 +153,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         id={`${meta.id}-moves`}
         icon={<TriangleAlert size={13} strokeWidth={1.75} />}
         title="הטבלאות שמשתנות מהותית"
-        note="כל שורה כאן היא טבלה שהפרויקט מסמן כבעלת סיכון גבוה או בינוני במעבר. הניסוח הוא של המקור — לא נוסח מחדש, ולא הושלם היכן שהמקור שותק."
+        note="כל שורה כאן היא טבלה שהפרויקט מסמן כבעלת סיכון גבוה או בינוני במעבר. הניסוח הוא של המקור: לא נוסח מחדש ולא הושלם היכן שהמקור שותק."
       >
         {changed.length ? (
           <>
@@ -183,7 +183,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         >
           <WorkspaceSheet
             sheet={sic}
-            lede="כל פריט כאן נכתב בגיליון המקורי של הפרויקט. הקטגוריה, ה-Note וההמלצה הם של המקור — לא נוסחו מחדש ולא הושלמו."
+            lede="כל פריט כאן נכתב בגיליון המקורי של הפרויקט. הקטגוריה, ה-Note וההמלצה הם של המקור: לא נוסחו מחדש ולא הושלמו."
           />
         </Sub>
       ) : null}
@@ -193,7 +193,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         id={`${meta.id}-verdict`}
         icon={<Layers size={13} strokeWidth={1.75} />}
         title="ההכרעה של התכנון עצמו"
-        note={`חלוקת עמודת ה-S/4HANA של המילון על ${nf.format(d.counts.tables)} הטבלאות הייחודיות. זו קריאה שנייה של אותה עמודה — היא נשמרת לצד פילוח הסיכון, ולא ממוזגת אליו.`}
+        note={`חלוקת עמודת ה-S/4HANA של המילון על ${nf.format(d.counts.tables)} הטבלאות הייחודיות. זו קריאה שנייה של אותה עמודה, והיא נשמרת לצד פילוח הסיכון ולא ממוזגת אליו.`}
       >
         <ul className="nw-verdicts">
           {split.map((s) => (

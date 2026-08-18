@@ -13,7 +13,7 @@
 // own rules and the layout-only overrides in chat.css apply after it.
 import "@/app/neo/ui.css";
 import "@/app/neo/chat.css";
-import { NeoChat } from "@/components/neo-shell/chat/neo-chat";
+import { LibraryChat } from "@/components/neo-shell/chat/library-chat";
 
 // noindex, like every page in the namespace: scripts/gen-sitemap.mjs derives
 // the sitemap from out/ and its only exclusion mechanism is a page declaring
@@ -21,10 +21,10 @@ import { NeoChat } from "@/components/neo-shell/chat/neo-chat";
 // indexable page missing from the sitemap.
 export const metadata = {
   title: "שאל את הספרייה · Project NEO",
-  description: "שיחה עם הספרייה הדיגיטלית של NEO — תשובות מבוססות על הספרים בלבד, עם הפניה לפרק ולסעיף.",
+  description: "שיחה עם הספרייה הדיגיטלית של NEO. תשובות מבוססות על הספרים בלבד, עם הפניה לפרק ולסעיף.",
   robots: { index: false, follow: false },
 };
 
 export default function NeoAskLibrary() {
-  return <NeoChat mode="library" />;
+  return <LibraryChat />;
 }

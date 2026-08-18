@@ -474,10 +474,19 @@ html .nx-app .nx-canvas:has(> .nb) {
      `.nb-cov`'s own rect, so the FLIP measurement is untouched. */
   margin-block-end: calc(var(--d) * 0.5);
 
-  /* The binding ramp. Mixed toward ink rather than pure black so a light-theme
-     module hue that is already dark does not collapse to a black rectangle. */
-  --m-deep: color-mix(in srgb, var(--m) 84%, #0d1117);
-  --m-mid: color-mix(in srgb, var(--m) 58%, #0d1117);
+  /* THE BINDING RAMP, AND THE ONE DISTINCTION THIS SURFACE TURNS ON.
+     `--cloth` is what the BOOK is bound in and is set per book by
+     book-cover.tsx from books-data.ts's CLOTH scheme; `--m` is the MODULE and is
+     inherited from the card. Boards, spine and blocks are cloth — that is the
+     object. Everything PRINTED on it (the module code, the foil rule, the spine
+     band, the selection ring, the endpaper tint) stays module, because those are
+     the marks that carry meaning. A shelf of eleven books therefore reads as
+     eleven bindings that all still say which module they belong to.
+     Mixed toward ink rather than pure black, so a cloth that is already dark
+     does not collapse into a black rectangle. */
+  --cloth: var(--m);
+  --m-deep: color-mix(in srgb, var(--cloth) 86%, #0d1117);
+  --m-mid: color-mix(in srgb, var(--cloth) 62%, #0d1117);
   --m-lift: color-mix(in srgb, var(--m) 96%, #ffffff);
   --paper: #efe9dd;
   --paper-2: #cfc6b6;
@@ -1372,8 +1381,13 @@ html[data-theme="dark"] [dir="ltr"] .nb-hub-id {
    what keeps the object legible as an object once the ambient light is gone.
    ========================================================================== */
 html[data-theme="dark"] .nb-cov {
-  --m-deep: color-mix(in srgb, var(--m) 42%, #090d12);
-  --m-mid: color-mix(in srgb, var(--m) 26%, #090d12);
+  /* The BOOK's own cloth, dimmed for the room — not the module's hue, which is
+     what this used to be and which made three books on one shelf into three
+     identical objects in the dark. Held higher than a naive dim (58/40 rather
+     than 42/26) because at 42% of a near-black ground eleven different bindings
+     converge on the same charcoal and the whole scheme is lost after sunset. */
+  --m-deep: color-mix(in srgb, var(--cloth) 58%, #090d12);
+  --m-mid: color-mix(in srgb, var(--cloth) 40%, #090d12);
   --m-lift: color-mix(in srgb, var(--m) 92%, #ffffff);
   --paper: #b9b2a4;
   --paper-2: #8c8577;

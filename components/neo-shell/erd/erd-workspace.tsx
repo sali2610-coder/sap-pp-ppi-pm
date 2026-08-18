@@ -50,11 +50,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowRight, Boxes, Crosshair, Filter, Keyboard, Layers, Link2, Maximize2, Minus,
-  PanelRightClose, PanelRightOpen, Plus, RotateCcw, Scan, Search, Share2, Target, X,
+  PanelRightClose, PanelRightOpen, Plus, RotateCcw, Scan, Search, Share2, Target, Workflow, X,
 } from "lucide-react";
 import {
-  LEVEL_HE, MODULE_ORDER, REL_HE, REL_ORDER, ZONE_HE, modVar,
-  type ErdCatalog, type ErdEdgeOut, type ErdTable, type Level, type ModCode, type RelKind,
+  ANALYSIS, LEVEL_HE, MODULE_ORDER, REL_HE, REL_ORDER, S4_RISK_HE, S4_TRUST_HE, ZONE_HE, modVar,
+  type Analysis, type ErdCatalog, type ErdEdgeOut, type ErdTable, type Level, type ModCode,
+  type RelKind,
 } from "./erd-types";
 import {
   SmartReturn, consumeReturn, rememberOrigin, useReturnPacket,
@@ -63,13 +64,49 @@ import { ErdInspector } from "./erd-inspector";
 import { ErdSheet } from "./erd-sheet";
 import {
   adjacency, bboxOf, capTransform, clampK, clampView, computeGeom, ease, egoPositions,
-  lerp, mapPositions, neighbourLevels, pathD,
+  lerp, mapPositions, neighbourLevels, pathD, reach,
   type EdgeGeom, type GEdge, type GeomMap, type PosMap, type View,
 } from "./graph";
 
-const SKEY = "neo:erd:v2";
+const SKEY = "neo:erd:v3";
 const TWEEN = 460;
 const PAD = 52;
+
+/* ------------------------------------------------------------- the open card
+
+   PORTED, in behaviour, from the production Architecture Explorer's node:
+   collapsed it is a title, and the FIRST click reveals the key fields with the
+   primary and foreign keys called out and the S/4HANA standing on the bottom
+   edge (app/sap-infrastructure/page.tsx, read-only). What is NEO's is that the
+   opened card is a real node on the canvas rather than a floating panel, so
+   the relations stay attached to it while it is being read.
+
+   The geometry is computed here rather than measured, because the edge routing
+   needs the card's box BEFORE the browser has drawn it. */
+
+const OPEN_W = 276;
+/** Head block: module + zone, table code, Hebrew name. */
+const O_HEAD = 74;
+/** The "key fields" caption. */
+const O_CAP = 18;
+const O_ROW = 20;
+/** The S/4HANA strip — present whether or not the project holds a standing,
+ *  because "no verified record" is itself the answer and it is printed. */
+const O_S4 = 42;
+const O_PAD = 12;
+const O_MAX_ROWS = 6;
+
+/** Primary keys first, then foreign keys, then the rest — the production
+ *  explorer's `orderFields`, same order, capped so the card stays a card. */
+function keyFields(t: ErdTable): [string, string, string, string][] {
+  const pk = t.f.filter((f) => f[3] === "PK");
+  const fk = t.f.filter((f) => f[3] === "FK");
+  const rest = t.f.filter((f) => f[3] !== "PK" && f[3] !== "FK");
+  return [...pk, ...fk, ...rest].slice(0, O_MAX_ROWS);
+}
+
+const openHeight = (t: ErdTable) =>
+  O_HEAD + O_CAP + keyFields(t).length * O_ROW + O_S4 + O_PAD;
 
 const nf = new Intl.NumberFormat("he-IL");
 
@@ -124,6 +161,7 @@ interface Saved {
   depth?: 1 | 2;
   insp?: boolean;
   sel?: string | null;
+  mode?: Analysis;
 }
 
 export function ErdWorkspace({ data }: { data: ErdCatalog }) {
@@ -145,6 +183,12 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   /** True from the first render of a returning visit. It stops the saved-view
    *  restore from overwriting the view the reader is actually coming back to. */
   const returning = useRef(false);
+  /** THE ROUND TRIP. The exact camera the reader was reading the map at when a
+   *  table was opened. Closing the table glides back to these three numbers —
+   *  not to a fit, not to a reset, not to a re-solved layout. Opening a SECOND
+   *  table while one is already open deliberately does not overwrite it: the
+   *  journey started on the map, and that is where "back" means. */
+  const openCam = useRef<View | null>(null);
 
   const [zoomPct, setZoomPct] = useState(100);
   const [mod, setMod] = useState<ModCode | null>(null);
@@ -162,6 +206,17 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   const [insp, setInsp] = useState(true);
   const [sheet, setSheet] = useState<string | null>(null);
   const [keys, setKeys] = useState(false);
+  /** The analysis lens the reader asked for. The lens actually IN FORCE is
+   *  derived below — a module with no recorded object chain cannot answer the
+   *  business-flow question, and falling back is a reading of the data, not a
+   *  state change to be pushed through an effect. */
+  const [modeWanted, setMode] = useState<Analysis>("focus");
+  /** The lens explainer, shown for a few seconds after a lens is chosen. */
+  const [modeInfo, setModeInfo] = useState<Analysis | null>(null);
+  /** The OPENED table — the node that has unfolded into a readable card. Kept
+   *  apart from `sel` on purpose: a selection is a highlight and survives a
+   *  filter change, an open card is a reading posture with a camera attached. */
+  const [open, setOpen] = useState<string | null>(null);
 
   /* ---------------------------------------------------- returning with state
 
@@ -185,6 +240,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     setSharedOnly(f.has("shared"));
     setIso(f.has("iso"));
     setDepth(f.has("depth:2") ? 2 : 1);
+    const lens = ANALYSIS.find((a) => f.has(`mode:${a.id}`));
+    if (lens) setMode(lens.id);
     // An empty set would hide every edge in the graph. A packet that names no
     // relation kind is a packet from a stale shape, and the full set is the
     // honest reading of it.
@@ -251,11 +308,19 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     };
   }, [M, showAll, data, eById]);
 
+  /** The opened table, only when it is actually part of the current picture. */
+  const openT = open && !isMap ? tByName.get(open) ?? null : null;
+  const openBox = openT ? { w: OPEN_W, h: openHeight(openT) } : null;
+
+  /** Box per node. The opened card is bigger than its neighbours, and the edge
+   *  routing has to know that BEFORE it draws — a line that ends where the
+   *  collapsed card used to be would run under the open one. */
   const sizeMap = useMemo(() => {
     const m = new Map<string, { w: number; h: number }>();
     for (const n of picture.names) m.set(n, { w: picture.nw, h: picture.nh });
+    if (openBox && m.has(open!)) m.set(open!, openBox);
     return m;
-  }, [picture]);
+  }, [picture, open, openBox?.w, openBox?.h]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const inPicture = useMemo(() => new Set(picture.names), [picture.names]);
 
@@ -336,6 +401,47 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     [activeName, liveEdges, eById],
   );
 
+  /* ------------------------------------------------------- analysis lenses
+
+     Five readings of ONE relation set. Focus is the neighbourhood; Dependencies,
+     Lineage and Impact are the parent→child arrow followed both ways, backwards
+     and forwards; Business Flow is the module's own ordered chain of business
+     objects. Nothing below adds an edge, a direction or a stage the project
+     does not already record. */
+
+  /** Position of a table in the module's business-object chain, read verbatim
+   *  from the ordered OBJECTS list the project maintains. -1 = the chain does
+   *  not place this table, and the UI says so rather than inventing a stage. */
+  const stageOf = useMemo(() => {
+    const m = new Map<string, number>();
+    if (!M) return m;
+    M.objects.forEach((o, i) => {
+      for (const n of o.t) if (!m.has(n)) m.set(n, i);
+    });
+    return m;
+  }, [M]);
+
+  /** Business Flow needs at least two stages to be a flow at all. */
+  const flowReady = !!M && M.objects.length > 1 && stageOf.size > 1;
+
+  /** The lens in force. */
+  const mode: Analysis = modeWanted === "flow" && !flowReady ? "focus" : modeWanted;
+  const lens = useMemo(() => ANALYSIS.find((a) => a.id === mode) ?? ANALYSIS[0], [mode]);
+
+  /** The set the current lens puts in play, or null when the lens has nothing
+   *  to work from yet (no table chosen, or no chain recorded). */
+  const lensSet = useMemo(() => {
+    if (isMap) return null;
+    if (mode === "flow") return flowReady ? new Set(stageOf.keys()) : null;
+    if (!activeName) return null;
+    if (mode === "focus") {
+      const s = new Set<string>([activeName, ...levels.l1]);
+      if (depth === 2) for (const n of levels.l2) s.add(n);
+      return s;
+    }
+    return reach(activeName, liveEdges as GEdge[], mode === "lineage" ? "up" : mode === "impact" ? "down" : "both");
+  }, [isMap, mode, flowReady, stageOf, activeName, levels, depth, liveEdges]);
+
   const query = q.trim().toLowerCase();
   const hits = useMemo(() => {
     if (isMap) return [] as ErdTable[];
@@ -368,9 +474,13 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     if (!f) return { pos: picture.pos, geom: baseGeom, ego: null as Set<string> | null };
     const ego = new Set<string>([f, ...levels.l1]);
     if (depth === 2) for (const n of levels.l2) ego.add(n);
-    const pos = egoPositions(f, levels.l1, levels.l2, depth, picture.pos);
+    const gap = openBox && open === f ? Math.max(0, openBox.h - picture.nh) / 2 + 30 : 0;
+    const pos = egoPositions(f, levels.l1, levels.l2, depth, picture.pos, gap);
     return { pos, geom: computeGeom(pos, sizeMap, picture.edges as GEdge[]), ego };
-  }, [isMap, focus, sel, inPicture, levels, depth, picture, baseGeom, sizeMap]);
+    // openBox is derived from `open`; listing its identity would re-solve the
+    // ego layout on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMap, focus, sel, inPicture, levels, depth, picture, baseGeom, sizeMap, open]);
 
   const [live, setLive] = useState<{ pos: PosMap; geom: GeomMap; ego: Set<string> | null }>(() => ({
     pos: picture.pos,
@@ -457,8 +567,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     if (st && mv) {
       mv.setAttribute("x", String(-x / k));
       mv.setAttribute("y", String(-y / k));
-      mv.setAttribute("width", String(st.clientWidth / k));
-      mv.setAttribute("height", String(st.clientHeight / k));
+      // Guarded at the point of writing as well as at the source of the
+      // easing: an SVG rect rejects a negative width, and one bad frame is a
+      // console error the reader never asked for.
+      mv.setAttribute("width", String(Math.max(0, st.clientWidth / k)));
+      mv.setAttribute("height", String(Math.max(0, st.clientHeight / k)));
     }
   }, []);
 
@@ -544,6 +657,65 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     [centre, pushCam],
   );
 
+  /* ------------------------------------------------------ the open/close cycle
+
+     FIRST CLICK  the card unfolds and the camera glides so the open card sits
+                  in the middle at a zoom that makes its field list legible —
+                  computed from the stage, so a 390px phone lands at a
+                  different, still-readable, number than a 1440px desktop.
+     SECOND CLICK the card folds and the camera glides back to the EXACT three
+                  numbers it left. Not a fit, not a reset, not a reload. */
+
+  /** A zoom at which the open card is readable and still inside the stage. */
+  const openZoom = useCallback((h: number) => {
+    const st = stage.current;
+    if (!st) return 1;
+    const kw = (st.clientWidth * 0.78) / OPEN_W;
+    const kh = (st.clientHeight * 0.78) / h;
+    return clampK(Math.min(1.55, Math.max(0.8, Math.min(kw, kh))));
+  }, []);
+
+  const openNode = useCallback(
+    (name: string) => {
+      const t = tByName.get(name);
+      if (!t) return;
+      // Only the FIRST open records the map camera; opening a neighbour while
+      // reading keeps "back" pointing at where the journey actually started.
+      if (!openCam.current) openCam.current = { ...view.current };
+      pushCam();
+      setSel(name);
+      setOpen(name);
+      setHover(null);
+      // On a phone the workspace is a SCROLLING PAGE with a bounded stage, and
+      // the stage can easily be below the fold when a table is opened from the
+      // list or the search. Opening something the reader cannot see is not
+      // opening it, so the canvas is brought into view first — and with it the
+      // bar that takes them back out.
+      const st = stage.current;
+      if (st) {
+        const r = st.getBoundingClientRect();
+        if (r.top < 0 || r.bottom > (window.innerHeight || 0)) {
+          st.scrollIntoView({ block: "center", behavior: "smooth" });
+        }
+      }
+      // Deferred one frame: the card's box has to be in `live` before the
+      // camera is told where its middle is.
+      window.setTimeout(() => centre(name, openZoom(openHeight(t))), 40);
+    },
+    [tByName, pushCam, centre, openZoom],
+  );
+
+  const closeNode = useCallback(
+    (keepSelection = false) => {
+      setOpen(null);
+      if (!keepSelection) setSel(null);
+      const back = openCam.current;
+      openCam.current = null;
+      if (back) glide(back);
+    },
+    [glide],
+  );
+
   /** Frame the selection AND its direct neighbours — "fit selection", not "fit
    *  one box", because a relation you cannot see is not a relation. */
   const fitSelection = useCallback(() => {
@@ -577,10 +749,14 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   // Neither of these touches the camera history: a change of picture clears it
   // in the framing effect below, so these stay pure state setters and can be
   // handed straight to the breadcrumb without reading a ref during render.
+  // Neither clears `openCam` by hand: the framing effect below drops it when
+  // the picture changes, which is the same place the camera history is dropped
+  // and the only place that knows a picture has actually been replaced.
   const openModule = useCallback((code: ModCode) => {
     setMod(code);
     setGroup(null);
     setSel(null);
+    setOpen(null);
     setHover(null);
     setFocus(false);
     setQ("");
@@ -590,20 +766,15 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     setMod(null);
     setGroup(null);
     setSel(null);
+    setOpen(null);
     setHover(null);
     setFocus(false);
     setQ("");
   }, []);
 
-  const pick = useCallback(
-    (name: string) => {
-      pushCam();
-      setSel(name);
-      setHover(null);
-      window.setTimeout(() => centre(name), 30);
-    },
-    [centre, pushCam],
-  );
+  /** Choosing a table anywhere off the canvas — a search hit, the inspector
+   *  list, a JOIN chip — is the same act as clicking its node. */
+  const pick = useCallback((name: string) => openNode(name), [openNode]);
 
   /** The view being left, built at CALL time: the camera lives in a ref and is
    *  moved by every wheel, drag and glide, so a record assembled during render
@@ -623,6 +794,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         filters: [
           ...[...rel].map((k) => `rel:${k}`),
           `depth:${depth}`,
+          `mode:${mode}`,
           ...(showAll ? ["all"] : []),
           ...(strong ? ["strong"] : []),
           ...(sharedOnly ? ["shared"] : []),
@@ -630,7 +802,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         ],
       },
     }),
-    [sel, mod, rel, depth, showAll, strong, sharedOnly, iso],
+    [sel, mod, rel, depth, mode, showAll, strong, sharedOnly, iso],
   );
 
   /** The real object route where it exists — 105 of the documented tables have a
@@ -652,6 +824,8 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
 
   const reset = useCallback(() => {
     setSel(null);
+    setOpen(null);
+    openCam.current = null;
     setHover(null);
     setQ("");
     setGroup(null);
@@ -662,9 +836,19 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     setIso(true);
     setDepth(1);
     setFocus(false);
+    setMode("focus");
     camHist.current = [];
     window.setTimeout(fit, 40);
   }, [fit]);
+
+  /** The lens explainer is a nudge, not a dialog: it says what the lens does
+   *  and then gets out of the way. */
+  useEffect(() => {
+    if (!modeInfo) return;
+    const id = window.setTimeout(() => setModeInfo(null), 6500);
+    return () => window.clearTimeout(id);
+  }, [modeInfo]);
+
 
   /* ------------------------------------------------- restore + persist state */
 
@@ -684,6 +868,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         if (typeof s.iso === "boolean") setIso(s.iso);
         if (s.depth) setDepth(s.depth);
         if (typeof s.insp === "boolean") setInsp(s.insp);
+        if (s.mode && ANALYSIS.some((a) => a.id === s.mode)) setMode(s.mode);
         // Focus mode is NOT restored: it is a transient reading posture, and
         // reopening the page inside a collapsed ego view hides the map.
         if (s.sel && s.mod) setSel(s.sel);
@@ -700,14 +885,14 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     saveT.current = setTimeout(() => {
       try {
         const s: Saved = {
-          mod, all: showAll, rel: [...rel], strong, shared: sharedOnly, iso, depth, insp, sel,
+          mod, all: showAll, rel: [...rel], strong, shared: sharedOnly, iso, depth, insp, sel, mode,
         };
         localStorage.setItem(SKEY, JSON.stringify(s));
       } catch {
         /* noop */
       }
     }, 450);
-  }, [mod, showAll, rel, strong, sharedOnly, iso, depth, insp, sel]);
+  }, [mod, showAll, rel, strong, sharedOnly, iso, depth, insp, sel, mode]);
 
   /* ------------------------------------------------------- initial framing */
 
@@ -751,6 +936,9 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     // left the map at 100% on a graph three screens wide.
     const id = window.setTimeout(() => {
       camHist.current = [];
+      // A new picture invalidates the camera the open card promised to return
+      // to: that view described a graph that is no longer on screen.
+      openCam.current = null;
       const want = camWanted.current;
       if (want) {
         // A RETURN wins over the fit: the reader is coming back to a zoom and a
@@ -816,23 +1004,22 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
 
   /* ----------------------------------------------------- pointer: pan/pinch */
 
+  /** ONE gesture, two halves. A click on a closed table opens it; a click on
+   *  the table that is already open closes it and puts the camera back. */
   const onNode = useCallback(
     (name: string) => {
       if (isMap) {
         openModule(name as ModCode);
         return;
       }
-      pushCam();
-      setSel((s) => {
-        if (s !== name) return name;
-        // Deselecting also leaves focus mode: a focused view with nothing
-        // focused would be an empty stage.
+      if (open === name) {
         setFocus(false);
-        return null;
-      });
-      window.setTimeout(() => centre(name), 30);
+        closeNode();
+        return;
+      }
+      openNode(name);
     },
-    [isMap, openModule, pushCam, centre],
+    [isMap, openModule, open, openNode, closeNode],
   );
 
   // The pointer listeners below are native and are attached once, so they read
@@ -841,6 +1028,24 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   useEffect(() => {
     onNodeRef.current = onNode;
   }, [onNode]);
+
+  /** `openTable` records the LIVE camera when it hands a journey to the object
+   *  page, which means it reads a ref. Reached through a ref of its own so the
+   *  handlers created during render never appear to touch one. */
+  const openTableRef = useRef(openTable);
+  useEffect(() => {
+    openTableRef.current = openTable;
+  }, [openTable]);
+
+  const onEmpty = useCallback(() => {
+    setFocus(false);
+    if (open) closeNode();
+    else setSel(null);
+  }, [open, closeNode]);
+  const emptyRef = useRef(onEmpty);
+  useEffect(() => {
+    emptyRef.current = onEmpty;
+  }, [onEmpty]);
 
   useEffect(() => {
     const st = stage.current;
@@ -906,30 +1111,63 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       // A drag is not a click. Only a still pointer selects.
       if (moved >= 6) return;
       const t = e.target as Element | null;
-      if (t?.closest?.("[data-open]")) return; // the open affordance owns its click
       const name = t?.closest?.("[data-node]")?.getAttribute("data-node");
+      // The small "open the page" affordance sits inside the node and wins the
+      // click: a plain click opens the card in place, this one leaves for the
+      // object page.
+      if (t?.closest?.("[data-open]")) {
+        if (name) openTableRef.current(name);
+        return;
+      }
       if (name) onNodeRef.current(name);
       else if (e.target === st || (e.target as Element)?.tagName === "svg") {
-        setSel(null);
-        setFocus(false);
+        // Empty canvas is the other obvious back action.
+        emptyRef.current();
       }
+    };
+
+    // A double click leaves the graph for the object page. Native, like the
+    // rest of the canvas gestures, so the handler reads the current callback
+    // through a ref instead of re-binding on every render.
+    const dbl = (e: MouseEvent) => {
+      const name = (e.target as Element | null)?.closest?.("[data-node]")?.getAttribute("data-node");
+      if (name) openTableRef.current(name);
+    };
+
+    // Enter / Space on the focused affordance is the keyboard half of the same
+    // act.
+    const key = (e: KeyboardEvent) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const el = (e.target as Element | null)?.closest?.("[data-open]");
+      if (!el) return;
+      const name = el.closest("[data-node]")?.getAttribute("data-node");
+      if (!name) return;
+      e.preventDefault();
+      openTableRef.current(name);
     };
 
     st.addEventListener("pointerdown", down);
     st.addEventListener("pointermove", move);
     st.addEventListener("pointerup", up);
     st.addEventListener("pointercancel", up);
+    st.addEventListener("dblclick", dbl);
+    st.addEventListener("keydown", key);
     return () => {
       st.removeEventListener("pointerdown", down);
       st.removeEventListener("pointermove", move);
       st.removeEventListener("pointerup", up);
       st.removeEventListener("pointercancel", up);
+      st.removeEventListener("dblclick", dbl);
+      st.removeEventListener("keydown", key);
     };
   }, [clamp, paint, zoomAt]);
 
   /* ------------------------------------------------------------- keyboard */
 
   const onKey = (e: React.KeyboardEvent) => {
+    // The node's own "open the page" affordance answers Enter and Space
+    // natively. Without this guard the same key would be handled twice.
+    if ((e.target as Element | null)?.closest?.("[data-open]")) return;
     const step = 90;
     if (e.key === "+" || e.key === "=") {
       e.preventDefault();
@@ -946,9 +1184,23 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     } else if (e.key === "Enter" && sel) {
       e.preventDefault();
       openTable(sel);
+    } else if (!isMap && "fdlib".includes(e.key.toLowerCase()) && e.key.length === 1) {
+      // The production explorer's lens shortcuts, one letter each.
+      const id = ({ f: "focus", d: "dep", l: "lineage", i: "impact", b: "flow" } as const)[
+        e.key.toLowerCase() as "f" | "d" | "l" | "i" | "b"
+      ];
+      if (id === "flow" && !flowReady) return;
+      e.preventDefault();
+      setMode(id);
+      setModeInfo(id);
     } else if (e.key === "Escape") {
-      // Rewind before deselect, deselect before stepping back up the ladder.
-      if (focus) setFocus(false);
+      // Close the open card FIRST — that is the move with a camera attached,
+      // and it is what "back" means while a table is being read. Then rewind,
+      // then deselect, then step back up the ladder.
+      if (open) {
+        setFocus(false);
+        closeNode();
+      } else if (focus) setFocus(false);
       else if (camHist.current.length) glide(camHist.current.pop()!);
       else if (sel) setSel(null);
       else if (group) setGroup(null);
@@ -983,23 +1235,54 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
 
   /* --------------------------------------------------------- level helpers */
 
+  /* The emphasis ladder, now answered by the LENS rather than by one hard-coded
+     reading. "0" is the subject, "1" is what the lens puts one step away, "2"
+     is the rest of what the lens found, "x" is everything else — dimmed, and
+     never removed. */
+
   const nodeLvl = (n: string): string => {
+    if (mode === "flow" && lensSet) {
+      if (n === activeName) return "0";
+      return stageOf.has(n) ? "1" : "x";
+    }
     if (!activeName) return "";
     if (n === activeName) return "0";
+    if (!lensSet) return "x";
     if (levels.l1.has(n)) return "1";
-    if (depth === 2 && levels.l2.has(n)) return "2";
+    if (lensSet.has(n)) return "2";
     return "x";
   };
 
   const edgeLvl = (e: { p: string; c: string }): string => {
-    if (!activeName) return "";
-    if (e.p === activeName || e.c === activeName) return "1";
-    if (depth === 2 && (levels.l1.has(e.p) || levels.l1.has(e.c))) {
-      const far = levels.l1.has(e.p) ? e.c : e.p;
-      if (levels.l2.has(far) || levels.l1.has(far)) return "2";
+    if (mode === "flow" && lensSet) {
+      const a = stageOf.get(e.p);
+      const b = stageOf.get(e.c);
+      if (a === undefined || b === undefined) return "x";
+      // A relation that runs FORWARD along the recorded object chain is the
+      // flow. One that runs backwards is a real relation too, so it is kept and
+      // simply not emphasised.
+      return b > a ? "1" : "x";
     }
+    if (!activeName || !lensSet) return "";
+    if (e.p === activeName || e.c === activeName) return "1";
+    if (lensSet.has(e.p) && lensSet.has(e.c)) return "2";
     return "x";
   };
+
+  /** Which edges get a travelling pulse. Capped: forty reads as a diagram that
+   *  is alive, four hundred reads as a screensaver. */
+  const pulseSet = useMemo(() => {
+    const out = new Set<string>();
+    if (isMap) return out;
+    for (const e of liveEdges) {
+      if (out.size >= 40) break;
+      const l = edgeLvl(e);
+      if (l === "1" || (l === "2" && mode !== "focus")) out.add(e.i);
+    }
+    return out;
+    // edgeLvl is derived from the same inputs listed here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMap, liveEdges, activeName, lensSet, levels, mode, stageOf]);
 
   const shown = (name: string) => !live.ego || live.ego.has(name);
   const inGroup = (name: string) => !groupRing || groupRing.has(name);
@@ -1029,6 +1312,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       data-focus={focus && sel && !isMap ? "1" : "0"}
       data-insp={insp ? "1" : "0"}
       data-group={groupRing ? "1" : "0"}
+      // Deliberately not `data-open`: the node's "open the page" affordance
+      // owns that attribute name and the pointer handler finds it with
+      // closest(), so a second one here would swallow every canvas click.
+      data-opencard={openT ? "1" : "0"}
+      data-mode={isMap ? "" : mode}
     >
       <header className="ne-bar">
         <div className="ne-bar-id">
@@ -1301,12 +1589,54 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               </button>
             </div>
 
+            {/* THE ANALYSIS LENSES — the production explorer's five questions,
+                in NEO's language. Each one is answered from the modelled
+                relation set already on screen; none of them adds a relation. */}
+            <div className="ne-fgrp ne-flens" role="group" aria-label="עדשת ניתוח">
+              <span className="ne-flabel">
+                <Workflow size={12} strokeWidth={1.9} aria-hidden="true" />
+                ניתוח
+              </span>
+              {ANALYSIS.map((a) => (
+                <button
+                  key={a.id}
+                  type="button"
+                  className="nu-filter"
+                  aria-pressed={mode === a.id}
+                  disabled={a.id === "flow" && !flowReady}
+                  title={
+                    a.id === "flow" && !flowReady
+                      ? "לא קיים מידע מאומת בפרויקט. המודול הזה אינו מחזיק שרשרת אובייקטים עסקיים."
+                      : `${a.en} — ${a.d}`
+                  }
+                  onClick={() => {
+                    setMode(a.id);
+                    setModeInfo(modeInfo === a.id ? null : a.id);
+                  }}
+                >
+                  {a.he}
+                </button>
+              ))}
+            </div>
+
             <div className="ne-fgrp" role="group" aria-label="הדגשה">
               <span className="ne-flabel">הדגשה</span>
-              <button type="button" className="nu-filter" aria-pressed={depth === 1} onClick={() => setDepth(1)}>
+              <button
+                type="button"
+                className="nu-filter"
+                aria-pressed={depth === 1}
+                disabled={mode !== "focus"}
+                onClick={() => setDepth(1)}
+              >
                 ישירים
               </button>
-              <button type="button" className="nu-filter" aria-pressed={depth === 2} onClick={() => setDepth(2)}>
+              <button
+                type="button"
+                className="nu-filter"
+                aria-pressed={depth === 2}
+                disabled={mode !== "focus"}
+                onClick={() => setDepth(2)}
+              >
                 רמה שנייה
               </button>
               <button
@@ -1314,10 +1644,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 className="nu-filter"
                 aria-pressed={focus}
                 disabled={!sel}
+                title="מסדר את השכנות סביב הטבלה הנבחרת. שאר המודל נשאר על המפה, מעומעם."
                 onClick={() => setFocus((v) => !v)}
               >
                 <Target size={12} strokeWidth={2} aria-hidden="true" />
-                מצב מיקוד
+                סידור סביב הנבחרת
               </button>
             </div>
           </>
@@ -1327,6 +1658,21 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             שני המודולים — לא דירוג.
           </p>
         )}
+
+        {/* The lens explainer. A row of the control bar rather than a band of
+            its own, so appearing and disappearing never re-flows the stage. */}
+        {M && modeInfo ? (
+          <p className="ne-lens-say" role="status">
+            <i aria-hidden="true" />
+            <span>{(ANALYSIS.find((a) => a.id === modeInfo) ?? lens).d}</span>
+            {(ANALYSIS.find((a) => a.id === modeInfo) ?? lens).needsSel && !sel ? (
+              <b>בחר טבלה כדי להפעיל את העדשה</b>
+            ) : null}
+            <button type="button" className="nu-ghost ne-x" onClick={() => setModeInfo(null)} aria-label="סגור הסבר">
+              <X size={13} strokeWidth={2.2} aria-hidden="true" />
+            </button>
+          </p>
+        ) : null}
       </div>
 
       <div className="ne-body">
@@ -1339,6 +1685,39 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
           role="application"
           aria-label="קנבס מודל הנתונים. גרירה להזזה, Ctrl וגלגלת לזום, מקשים + − 0, חצים להזזה, Enter לפתיחת הפריט הנבחר"
         >
+          {/* THE WAY BACK. While a table is open this bar is the one thing on
+              the canvas that is always reachable, and it does exactly what a
+              second click on the card does: folds it and glides the camera back
+              to the three numbers it left. */}
+          {openT ? (
+            <div className="ne-openbar" role="group" aria-label="הטבלה הפתוחה">
+              <span className="ne-openbar-id">
+                <b className="nx-sap">{openT.n}</b>
+                <em>{openT.he || openT.en || "—"}</em>
+              </span>
+              <span className="ne-openbar-lens">{lens.he}</span>
+              <button
+                type="button"
+                className="nu-ghost"
+                onClick={fitSelection}
+                aria-label="התאם לטבלה ולשכניה"
+                title="התאם לטבלה ולשכניה"
+              >
+                <Crosshair size={15} strokeWidth={1.8} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                className="nu-btn2 ne-openbar-back"
+                onClick={() => {
+                  setFocus(false);
+                  closeNode();
+                }}
+              >
+                <ArrowRight size={14} strokeWidth={2} aria-hidden="true" />
+                חזרה לתצוגה הקודמת
+              </button>
+            </div>
+          ) : null}
           <svg
             className="ne-canvas"
             role="img"
@@ -1363,9 +1742,12 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                     : rec?.x
                       ? "var(--ink-3)"
                       : modVar(tByName.get(e.p)?.m);
-                  const lab = isMap
-                    ? `${e.n} קשרים`
-                    : rec?.cd || REL_HE[(rec?.k ?? "unstated") as RelKind];
+                  // THE BADGE IS VERBATIM. The dataset writes 1:1, 1:N, N:1 or
+                  // N:N and that exact string is what the badge shows. Where it
+                  // wrote nothing the badge is a dash on a dashed outline — a
+                  // gap drawn as a gap, never rounded up to a cardinality.
+                  const lab = isMap ? `${e.n}` : rec?.cd || "–";
+                  const bw = Math.max(22, lab.length * 7.2 + 12);
                   return (
                     <g
                       key={e.i}
@@ -1404,7 +1786,9 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                           </g>
                         </>
                       ) : null}
-                      {lvl === "1" ? (
+                      {/* Direction, alive. The pulse always travels parent →
+                          child, which is the direction the record states. */}
+                      {pulseSet.has(e.i) ? (
                         <circle
                           className="ne-pulse"
                           cx={g.x1}
@@ -1413,9 +1797,12 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                           style={{ "--dx": `${g.x2 - g.x1}px`, "--dy": `${g.y2 - g.y1}px` } as React.CSSProperties}
                         />
                       ) : null}
-                      <text className="ne-edge-t" x={g.cx} y={g.cy - 8} textAnchor="middle">
-                        {lab}
-                      </text>
+                      <g className="ne-badge" data-blank={!isMap && !rec?.cd ? "1" : "0"}>
+                        <rect x={g.cx - bw / 2} y={g.cy - 17} width={bw} height={16} rx={8} />
+                        <text x={g.cx} y={g.cy - 5.5} textAnchor="middle">
+                          {lab}
+                        </text>
+                      </g>
                     </g>
                   );
                 })}
@@ -1471,7 +1858,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                         </g>
                       );
                     })
-                  : picture.names.map((name) => {
+                  : // SVG has no z-index: paint order IS stacking order. The
+                    // opened card is the tallest thing on the canvas, so it is
+                    // moved to the end of the list and can never be overdrawn
+                    // by a neighbour that happens to sort after it.
+                    [...picture.names.filter((n) => n !== open), ...picture.names.filter((n) => n === open)].map((name) => {
                       const t = tByName.get(name);
                       const p = live.pos.get(name);
                       if (!t || !p) return null;
@@ -1480,6 +1871,18 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                       const hit = query ? hitSet.has(name) : false;
                       const out = !inGroup(name);
                       const dg = degOf(name);
+                      const isOpen = open === name;
+                      // THE OPEN CARD. Same node, unfolded. Its box was already
+                      // handed to the edge router through sizeMap, so the
+                      // relations stay attached while it is read.
+                      const rows = isOpen ? keyFields(t) : [];
+                      const oh = isOpen ? openHeight(t) : H;
+                      const ow = isOpen ? OPEN_W : W;
+                      const oy = -oh / 2;
+                      const px = ow / 2 - 18;
+                      const rowTop = oy + O_HEAD + O_CAP + 14;
+                      const ruleY = oy + O_HEAD + O_CAP + rows.length * O_ROW + 4;
+                      const s4 = t.s4v;
                       return (
                         <g
                           key={name}
@@ -1490,72 +1893,119 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                           data-out={out ? "1" : "0"}
                           data-hit={hit ? "1" : "0"}
                           data-shared={t.ms.length > 1 ? "1" : "0"}
+                          data-card={isOpen ? "open" : "shut"}
                           transform={`translate(${p.x} ${p.y})`}
                           onMouseEnter={() => !moving.current && setHover(name)}
                           onMouseLeave={() => setHover((h) => (h === name ? null : h))}
-                          onDoubleClick={() => openTable(name)}
                           style={{ "--m": modVar(t.m), "--ms": modVar(t.m), "--o": t.o } as React.CSSProperties}
                         >
                           <title>{`${t.n} — ${t.he || t.en}. ${ZONE_HE[t.z] || t.z}. ${dg} קשרים`}</title>
-                          <rect className="ne-node-h" x={-W / 2 - 5} y={-H / 2 - 5} width={W + 10} height={H + 10} rx={14} />
-                          <rect className="ne-node-r" x={-W / 2} y={-H / 2} width={W} height={H} rx={10} />
+                          <rect className="ne-node-h" x={-ow / 2 - 5} y={oy - 5} width={ow + 10} height={oh + 10} rx={14} />
+                          <rect className="ne-node-r" x={-ow / 2} y={oy} width={ow} height={oh} rx={isOpen ? 14 : 10} />
                           {/* MODULE identity is a line on the inline-start edge.
                               OBJECT class is the small marker beneath it. */}
-                          <rect className="ne-node-mb" x={W / 2 - 10} y={-H / 2 + 9} width={4} height={H - 18} rx={2} />
-                          <rect className="ne-node-cls" x={-W / 2 + 10} y={-H / 2 + 12} width={4} height={14} rx={2} />
+                          <rect className="ne-node-mb" x={ow / 2 - 10} y={oy + 9} width={4} height={(isOpen ? O_HEAD : oh) - 18} rx={2} />
+                          <rect className="ne-node-cls" x={-ow / 2 + 10} y={oy + 12} width={4} height={14} rx={2} />
                           {/* See the note on the module card: `end` is the LEFT
                               edge for an inherited-RTL text run, so Hebrew uses
                               `start` and the direction:ltr mono runs use `end`
                               to land on the same inline-start side. */}
-                          <text className="ne-node-mod nx-sap" x={-W / 2 + 20} y={-H / 2 + 22} textAnchor="start">
+                          <text className="ne-node-mod nx-sap" x={-ow / 2 + 20} y={oy + 22} textAnchor="start">
                             {t.m}
                           </text>
-                          <text className="ne-node-z" x={W / 2 - 20} y={-H / 2 + 22} textAnchor="start">
+                          <text className="ne-node-z" x={px} y={oy + 22} textAnchor="start">
                             {cut(ZONE_HE[t.z] || t.z, 14)}
                           </text>
-                          <text className="ne-node-n nx-sap" x={W / 2 - 20} y={-H / 2 + 46} textAnchor="end">
+                          <text className="ne-node-n nx-sap" x={px} y={oy + 46} textAnchor="end">
                             {t.n}
                           </text>
-                          <text className="ne-node-he" x={W / 2 - 20} y={-H / 2 + 65} textAnchor="start">
-                            {cut(t.he || t.en || "—", 25)}
+                          <text className="ne-node-he" x={px} y={oy + 65} textAnchor="start">
+                            {cut(t.he || t.en || "—", isOpen ? 30 : 25)}
                           </text>
-                          <text className="ne-node-k nx-sap" x={W / 2 - 20} y={H / 2 - 12} textAnchor="end">
-                            {t.pk.length
-                              ? `PK ${t.pk[0]}${t.pk.length > 1 ? ` +${t.pk.length - 1}` : ""}`
-                              : `${t.fn} שדות`}
-                          </text>
-                          <text className="ne-node-fk nx-sap" x={-W / 2 + 20} y={H / 2 - 12} textAnchor="start">
-                            {t.fk.length ? `FK ${t.fk.length} · ${dg}` : `${dg}`}
-                          </text>
-                          {t.ms.length > 1 ? (
-                            <circle className="ne-node-sh" cx={W / 2 - 20} cy={-H / 2 + 36} r={3} />
-                          ) : null}
+                          {!isOpen ? (
+                            <>
+                              <text className="ne-node-k nx-sap" x={W / 2 - 20} y={H / 2 - 12} textAnchor="end">
+                                {t.pk.length
+                                  ? `PK ${t.pk[0]}${t.pk.length > 1 ? ` +${t.pk.length - 1}` : ""}`
+                                  : `${t.fn} שדות`}
+                              </text>
+                              <text className="ne-node-fk nx-sap" x={-W / 2 + 20} y={H / 2 - 12} textAnchor="start">
+                                {t.fk.length ? `FK ${t.fk.length} · ${dg}` : `${dg}`}
+                              </text>
+                            </>
+                          ) : (
+                            <g className="ne-open">
+                              <line className="ne-open-rule" x1={-ow / 2 + 12} x2={ow / 2 - 12} y1={oy + O_HEAD} y2={oy + O_HEAD} />
+                              <text className="ne-open-cap" x={px} y={oy + O_HEAD + 15} textAnchor="start">
+                                שדות מפתח · {rows.length} מתוך {t.fn}
+                              </text>
+                              <text className="ne-open-cap nx-sap" x={-ow / 2 + 18} y={oy + O_HEAD + 15} textAnchor="start">
+                                {t.pk.length} PK · {t.fk.length} FK · {dg}
+                              </text>
+                              {rows.length ? (
+                                rows.map((f, i) => {
+                                  const yr = rowTop + i * O_ROW;
+                                  const k = f[3] === "PK" || f[3] === "FK" ? f[3] : "";
+                                  return (
+                                    <g key={f[0]} className="ne-open-row" data-k={k || "-"}>
+                                      <rect className="ne-open-chip" x={px - 25} y={yr - 10} width={25} height={13} rx={3.5} />
+                                      <text className="ne-open-chip-t nx-sap" x={px - 12.5} y={yr} textAnchor="middle">
+                                        {k || "·"}
+                                      </text>
+                                      <text className="ne-open-f nx-sap" x={px - 31} y={yr} textAnchor="end">
+                                        {cut(f[0], 18)}
+                                      </text>
+                                      <text className="ne-open-t nx-sap" x={-ow / 2 + 18} y={yr} textAnchor="start">
+                                        {cut(f[1] || "—", 12)}
+                                      </text>
+                                    </g>
+                                  );
+                                })
+                              ) : (
+                                <text className="ne-open-none" x={px} y={rowTop} textAnchor="start">
+                                  לא קיים מידע מאומת בפרויקט על שדות הטבלה
+                                </text>
+                              )}
+                              <line className="ne-open-rule" x1={-ow / 2 + 12} x2={ow / 2 - 12} y1={ruleY} y2={ruleY} />
+                              {/* S/4HANA. Shown when the project holds a
+                                  standing, and stated as absent when it does
+                                  not — never inferred from the table name. */}
+                              {s4 ? (
+                                <g className="ne-open-s4" data-risk={s4.r} data-trust={s4.t}>
+                                  <circle className="ne-open-s4-d" cx={px - 4} cy={ruleY + 12} r={4} />
+                                  <text className="ne-open-s4-h" x={px - 14} y={ruleY + 16} textAnchor="start">
+                                    S/4HANA · {S4_RISK_HE[s4.r]} · {S4_TRUST_HE[s4.t]}
+                                  </text>
+                                  <text className="ne-open-s4-b" x={px} y={ruleY + 32} textAnchor="start">
+                                    {cut(s4.ch, 40)}
+                                  </text>
+                                </g>
+                              ) : (
+                                <text className="ne-open-none" x={px} y={ruleY + 20} textAnchor="start">
+                                  S/4HANA · לא קיים מידע מאומת בפרויקט
+                                </text>
+                              )}
+                            </g>
+                          )}
+                          {t.ms.length > 1 ? <circle className="ne-node-sh" cx={px} cy={oy + 36} r={3} /> : null}
                           {/* A separate affordance so a plain click can still
-                              select without navigating away. Where no object
-                              page was generated it opens the in-page sheet. */}
+                              open the card in place without navigating away.
+                              Where no object page was generated it opens the
+                              in-page sheet. */}
+                          {/* The affordance carries no handler of its own: the
+                              stage's native listeners recognise it by
+                              [data-open] and call the CURRENT openTable through
+                              a ref, so nothing created during a render ever
+                              touches one. */}
                           <g
                             className="ne-node-go"
                             data-open="1"
                             role="button"
                             tabIndex={0}
                             aria-label={t.pg ? `פתח את עמוד האובייקט ${t.n}` : `פתח את כרטיס הטבלה ${t.n}`}
-                            onClick={(ev) => {
-                              ev.preventDefault();
-                              ev.stopPropagation();
-                              openTable(t.n);
-                            }}
-                            onKeyDown={(ev) => {
-                              if (ev.key === "Enter" || ev.key === " ") {
-                                ev.preventDefault();
-                                openTable(t.n);
-                              }
-                            }}
                           >
-                            <rect x={-W / 2 + 8} y={-H / 2 + 32} width={30} height={22} rx={6} />
-                            <path
-                              d="M0 0 L-6 -6 M0 0 L0 -5 M0 0 L-5 0"
-                              transform={`translate(${-W / 2 + 26} ${-H / 2 + 46})`}
-                            />
+                            <rect x={-ow / 2 + 8} y={oy + 32} width={30} height={22} rx={6} />
+                            <path d="M0 0 L-6 -6 M0 0 L0 -5 M0 0 L-5 0" transform={`translate(${-ow / 2 + 26} ${oy + 46})`} />
                           </g>
                         </g>
                       );
@@ -1607,7 +2057,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
 
           <p className="ne-hint">
             <kbd>Ctrl</kbd> + גלגלת לזום · גרירה להזזה · <kbd>+</kbd> <kbd>−</kbd> <kbd>0</kbd> ·
-            {isMap ? " לחיצה על מודול פותחת את מודל הנתונים שלו" : " לחיצה כפולה פותחת את הטבלה"}
+            {isMap
+              ? " לחיצה על מודול פותחת את מודל הנתונים שלו"
+              : open
+                ? " לחיצה נוספת על הכרטיס מחזירה בדיוק לתצוגה הקודמת"
+                : " לחיצה על טבלה פותחת אותה בגרף"}
           </p>
         </div>
 
@@ -1674,15 +2128,17 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             </header>
             <dl className="ne-sheet-k">
               {[
-                ["לחיצה", "בחירה + מיקוד המצלמה · במפה: פתיחת המודול"],
-                ["לחיצה כפולה", "פתיחת הטבלה — עמוד אובייקט או כרטיס בעמוד"],
+                ["לחיצה", "פתיחת הטבלה בגרף: שדות מפתח, PK/FK והכרעת S/4 · במפה: פתיחת המודול"],
+                ["לחיצה שנייה", "סגירת הכרטיס וחזרה בדיוק לתצוגה הקודמת"],
+                ["לחיצה כפולה", "מעבר לעמוד האובייקט המלא"],
                 ["רווח", "מרכוז הפריט הנבחר"],
-                ["Enter", "פתיחת הפריט הנבחר"],
-                ["Esc", "חזרה לתצוגה קודמת · ביטול בחירה · שלב אחורה בסולם"],
+                ["Enter", "פתיחת עמוד האובייקט הנבחר"],
+                ["Esc", "סגירת הכרטיס · חזרה לתצוגה קודמת · שלב אחורה בסולם"],
+                ["F / D / L / I / B", "עדשות: מיקוד · תלויות · שושלת · השפעה · זרימה עסקית"],
                 ["+ / −", "זום פנימה / החוצה"],
                 ["0", "התאמת הכול למסך"],
                 ["חצים", "הזזת הקנבס"],
-                ["Ctrl + גלגלת", "זום אל הסמן"],
+                ["Ctrl + גלגלת", "זום אל הסמן · גלילה רגילה תמיד נשארת של העמוד"],
               ].map(([k, v]) => (
                 <div key={k}>
                   <dt>{v}</dt>
@@ -1710,6 +2166,13 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               <li className="ne-legend-k">
                 <span className="ne-lg-fk" aria-hidden="true" />
                 כף עורב — צד ה-N · שני פסים — צד ה-1
+              </li>
+              <li className="ne-legend-k">
+                <span className="ne-lg-card" aria-hidden="true">
+                  N:1
+                </span>
+                תג העוצמה על הקו הוא הניסוח המילולי של מערך הנתונים: 1:1 · 1:N · N:1 · N:N. מקף על
+                מסגרת מקווקוות פירושו שהמערך לא רשם עוצמה, ולא הושלמה כזאת.
               </li>
             </ul>
             <p className="ne-note">

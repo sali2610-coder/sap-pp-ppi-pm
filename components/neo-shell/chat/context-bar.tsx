@@ -20,9 +20,13 @@
      the change   opens the same sheet the composer opens. One control, one
                   destination, two places it can be reached from.
 
-   THE CONSULTANT SURFACE IS NOT GIVEN A FAKE LADDER. It does not retrieve from
-   the books at all, so it states that in one line instead of rendering an empty
-   breadcrumb that implies a book could be chosen.
+   THE GENERAL SURFACE IS NOT GIVEN A FAKE LADDER. It takes no scope, so it
+   states that in one line instead of rendering an empty breadcrumb that implies
+   a book could be chosen. What that line must NOT do is over-claim in the other
+   direction: the consult stream does emit a `meta` event with a passage count,
+   so "it never reads the books" is not something this file can assert. It says
+   the checkable thing instead — no book is chosen here, and grounding is
+   reported per answer by ./message.Grounding.
    ========================================================================== */
 
 import { BookOpen, ChevronLeft, Layers, Sparkles } from "lucide-react";
@@ -39,9 +43,8 @@ export function ContextBar({ scope, mode, onOpenScope }: {
 }) {
   const ctx = useScopeContext(scope);
 
-  // The consultant endpoint takes no scope. Saying so is the honest form of
-  // this bar; drawing a book ladder there would imply a control that does not
-  // exist and a grounding that never happens.
+  // The general endpoint takes no scope. Saying so is the honest form of this
+  // bar; drawing a book ladder there would imply a control that does not exist.
   if (mode === "consult") {
     return (
       <div className="nxq-ctx" data-kind="consult">
@@ -50,7 +53,7 @@ export function ContextBar({ scope, mode, onOpenScope }: {
         </span>
         <p className="nxq-ctx-line">
           <b>ידע כללי על SAP</b>
-          <span>המשטח הזה אינו קורא מהספרים ואינו מצטט מהם.</span>
+          <span>לא נבחרים כאן ספר, פרק או סעיף. רמת הביסוס מצוינת בכל תשובה בנפרד.</span>
         </p>
       </div>
     );

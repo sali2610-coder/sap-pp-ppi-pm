@@ -59,6 +59,46 @@ const MOD_HE: Record<string, string> = {
  *  page is an entry into NEO, so the books that connect to it lead. */
 const MOD_ORDER = ["PM", "PP", "PP/DS", "QM", "MM", "EWM", "S&OP", "Fiori", "S/4HANA"];
 
+/* ------------------------------------------------------------------- cloth */
+
+/**
+ * BINDING CLOTH — one colour per BOOK, not one colour per module.
+ *
+ * The shelf used to dress every book in its module's hue, which meant the four
+ * PM books were four identical objects and a shelf of eleven books wore six
+ * colours. A real library does not look like that: a publisher binds each title
+ * in its own cloth, and that is most of what lets you find a book you have seen
+ * before without reading a single spine.
+ *
+ * WHAT IS COLOUR AND WHAT IS DATA. This is presentation and nothing else — no
+ * SAP fact, no book metadata and no claim about the book is encoded in it. The
+ * MODULE keeps every mark that carries meaning: the code stamped on the cover
+ * and down the spine, the foil rule, the shelf edge, the selected ring, the
+ * grouping itself. All of those still read `--m`. The cloth is the object; the
+ * module hue is what is printed on it.
+ *
+ * THE SCHEME. Twelve bindings from one family: deep, low-chroma, dark enough
+ * that foil-white type sits on them at contrast in both themes, and ordered so
+ * that neighbours on the shelf never land on the same family. Assigned by the
+ * book's position in the shelf's own sorted order, so it is stable across
+ * builds, identical on the shelf, the hub, the quick view and the reader, and a
+ * twelfth book gets the twelfth binding rather than falling off the end.
+ */
+const CLOTH = [
+  "#7c2230", // oxblood
+  "#1f3a5f", // navy
+  "#2f5d4e", // forest
+  "#6b4a23", // russet leather
+  "#3d3b56", // slate violet
+  "#14524f", // teal
+  "#7a4a12", // ochre
+  "#4a2c5a", // plum
+  "#24384a", // steel
+  "#5a2030", // claret
+  "#2d4a2c", // olive
+  "#343b45", // graphite
+];
+
 /** How the book is built, in the reader's words. `structure` is a real field on
  *  the book metadata and is what explains book7's 1,689 sections. */
 const STRUCTURE_HE: Record<string, string> = {
@@ -134,6 +174,9 @@ export interface BookCard {
   near: { href: string; label: string; n: number } | null;
   /** Titles too long to sit at the cover's largest size get a smaller step. */
   fit: "s" | "m" | "l";
+  /** This book's binding cloth. Presentation only — see CLOTH above. Module
+   *  identity is carried by `mod`, which every printed mark still uses. */
+  cloth: string;
   /** 0..1 — how thick the book's 3D block is drawn.
    *
    *  A real book's thickness IS its page count, so this is the book's own
@@ -256,7 +299,9 @@ export function booksData(): BooksData {
           ? { href: "/neo/fiori-apps/", label: "מרשם ה-Fiori של NEO", n: FIORI_APPS.length }
           : null,
       fit: shown.length <= 34 ? "s" : shown.length <= 54 ? "m" : "l",
-      // Filled by the pass below, which needs the whole shelf to exist first.
+      // Both filled by the passes below, which need the whole shelf first: the
+      // cloth by shelf position, the thickness by the shelf's own page range.
+      cloth: CLOTH[0],
       thick: 0.5,
       thickFrom: "neutral",
     });
@@ -284,6 +329,11 @@ export function booksData(): BooksData {
     return i < 0 ? MOD_ORDER.length : i;
   };
   books.sort((a, b) => order(a.module) - order(b.module) || a.id.localeCompare(b.id, "en", { numeric: true }));
+
+  /* THE BINDINGS, handed out AFTER the sort so a book's cloth is its position on
+     the shelf and not the order the registry happened to return. Deterministic,
+     so every surface that draws this book draws the same object. */
+  books.forEach((b, i) => { b.cloth = CLOTH[i % CLOTH.length]; });
 
   const groups: BooksData["groups"] = [];
   for (const bk of books) {

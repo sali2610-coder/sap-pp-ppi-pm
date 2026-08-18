@@ -43,6 +43,7 @@ import {
 } from "lucide-react";
 import { RISK_COLOR } from "@/lib/s4";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
+import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { MOD_HE, REL_HE, relVar, tableSummary, type TableDetail } from "./tables-detail";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -51,7 +52,7 @@ const MOD_VAR: Record<string, string> = { PM: "var(--mod-pm)", "PP-PI": "var(--m
 
 const TRUST_WHY: Record<string, string> = {
   verified: "ידע Simplification List מתוחזק בפרויקט",
-  partial: "נגזר מעמודת ה-S/4 של המילון — מומלץ אימות מול SAP",
+  partial: "נגזר מעמודת ה-S/4 של המילון. מומלץ אימות מול SAP",
   needs: "המאגר אינו מחזיק הכרעה לטבלה הזאת",
 };
 
@@ -157,7 +158,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             {t.name}
           </h1>
           <div className="nxb-names">
-            <p className="nxb-he">{t.he || "אין מידע מאומת במאגר — המילון אינו מחזיק תיאור עברי לטבלה הזאת."}</p>
+            <p className="nxb-he">{t.he || "אין מידע מאומת במאגר. המילון אינו מחזיק תיאור עברי לטבלה הזאת."}</p>
             {t.en ? <p className="nxb-en nx-sap">{t.en}</p> : null}
           </div>
         </div>
@@ -184,7 +185,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         {t.shared ? (
           <p className="nxb-shared">
             <Layers size={14} strokeWidth={1.75} aria-hidden="true" />
-            שני התכנונים מתעדים את הטבלה הזאת. לכל מודול נושא, טרנזקציות ושדות משלו — שתי הרשומות מוצגות
+            שני התכנונים מתעדים את הטבלה הזאת. לכל מודול נושא, טרנזקציות ושדות משלו; שתי הרשומות מוצגות
             זו לצד זו ולא מאוחדות לאחת.
           </p>
         ) : null}
@@ -199,7 +200,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             <dd>
               {t.pk.length
                 ? t.pk.map((f) => <span key={f} className="nx-sap">{f}</span>)
-                : <em>אין מידע מאומת במאגר — המילון אינו מסמן מפתח ראשי</em>}
+                : <em>אין מידע מאומת במאגר. המילון אינו מסמן מפתח ראשי</em>}
             </dd>
           </div>
           <div data-k="FK">
@@ -207,7 +208,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             <dd>
               {t.fk.length
                 ? t.fk.map((f) => <span key={f} className="nx-sap">{f}</span>)
-                : <em>אין מידע מאומת במאגר — המילון אינו מסמן מפתח זר</em>}
+                : <em>אין מידע מאומת במאגר. המילון אינו מסמן מפתח זר</em>}
             </dd>
           </div>
         </dl>
@@ -258,7 +259,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
           </Link>
           <Link className="nu-btn2" href="/neo/tables/" prefetch={false}>
             <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
-            מילון הטבלאות
+            טבלאות SAP
           </Link>
           {t.mods.map((mod) => (
             <Link
@@ -279,15 +280,13 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             : <>המאגר אינו רושם אף קשר ER לטבלה הזאת, מתוך {nf.format(t.total)} טבלאות מתועדות.</>}
         </p>
 
-        <nav className="nxb-jump" aria-label="ניווט בעמוד">
-          {nav.map(([id, label], i) => (
-            <a key={id} className="nu-ghost" href={`#${id}`}>
-              <em className="nx-sap" aria-hidden="true">{String(i + 1).padStart(2, "0")}</em>
-              {label}
-            </a>
-          ))}
-        </nav>
       </header>
+
+      {/* The same nine destinations that used to sit inside the header, kept on
+          screen instead of scrolling away with it, and marking which section the
+          reader is currently in. Built from the SAME `nav` array as the section
+          numbers below. */}
+      <SectionNav sections={nav.map(([id, label]) => ({ id, label }))} />
 
       {/* ================================================= 2. S/4HANA */}
       <Sec
@@ -296,7 +295,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         icon={<TriangleAlert size={16} strokeWidth={1.75} />}
         eyebrow="ECC ➔ S/4HANA"
         title="מה קורה לטבלה במעבר"
-        lede="קודם ההכרעה של הפרויקט ומאיפה היא מגיעה, ואחריה מה שכל תכנון כתב בעצמו — מילה במילה. הכרעה שאין לפרויקט, כתוב שאין."
+        lede="קודם ההכרעה של הפרויקט ומאיפה היא מגיעה, ואחריה מה שכל תכנון כתב בעצמו, מילה במילה. הכרעה שאין לפרויקט, כתוב שאין."
       >
         <div className="nxb-stand" data-risk={t.s4.risk} data-impact={t.s4.impacted ? "1" : "0"}>
           <p className="nxb-stand-h">
@@ -375,7 +374,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             ? `${nf.format(t.rows.length)} רשומות מילון לאותה טבלה`
             : "השורה שהתכנון כתב על הטבלה"
         }
-        lede="הנושא שאליו הטבלה משויכת, הטרנזקציות שנרשמו לה והמקור שממנו התיעוד נלקח — כפי שנכתבו, בלי מיזוג בין המודולים."
+        lede="הנושא שאליו הטבלה משויכת, הטרנזקציות שנרשמו לה והמקור שממנו התיעוד נלקח. הכול כפי שנכתב, בלי מיזוג בין המודולים."
       >
         <div className="nxb-rows">
           {t.rows.map((r, i) => (
@@ -412,7 +411,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         title={`${nf.format(s.fields)} שדות · ${nf.format(s.pk)} מפתח ראשי · ${nf.format(s.fk)} מפתח זר`}
         lede={
           <>
-            עמודת המפתח היא של המילון עצמו, על ארבעת ערכיה — <b>PK</b>, <b>FK</b>, <b>PK/FK</b> ו-<b>-</b>.
+            עמודת המפתח היא של המילון עצמו, על ארבעת ערכיה: <b>PK</b>, <b>FK</b>, <b>PK/FK</b> ו-<b>-</b>.
             שדה שמסומן <b>PK/FK</b> הוא גם ראשי וגם זר, וכך הוא מסומן כאן. סדר השורות הוא סדר התכנון.
           </>
         }
@@ -444,7 +443,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                       <tr key={f.tech} data-k={k}>
                         <td data-l="מפתח">
                           {k === "none"
-                            ? <span className="nxb-kbadge" data-k="none" aria-label="לא מפתח">—</span>
+                            ? <span className="nxb-kbadge" data-k="none" aria-label="לא מפתח">–</span>
                             : <span className="nxb-kbadge" data-k={k}>{f.key}</span>}
                         </td>
                         <th scope="row" className="nx-sap nxb-ftech">{f.tech}</th>
@@ -452,8 +451,8 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                           {f.he || f.en || <span className="nxb-none">אין מידע מאומת במאגר</span>}
                           {f.he && f.en ? <em className="nxb-fen nx-sap">{f.en}</em> : null}
                         </td>
-                        <td data-l="סוג" className="nx-sap">{f.dt || "—"}</td>
-                        <td data-l="אורך" className="nx-sap">{f.len || "—"}</td>
+                        <td data-l="סוג" className="nx-sap">{f.dt || "–"}</td>
+                        <td data-l="אורך" className="nx-sap">{f.len || "–"}</td>
                         <td data-l="מודול"><ModTag mods={f.mods} /></td>
                       </tr>
                     );
@@ -477,7 +476,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         lede={
           <>
             כיוון הקשר נקרא מתוך המילון: <b>בן</b> הוא טבלה שנושאת מפתח זר אל {t.name}, ו<b>אב</b> הוא
-            טבלה ש-{t.name} מפנה אליה. עוצמת הקשר מוצגת כפי שנכתבה, וכאשר לא נכתבה — כתוב שלא נכתבה.
+            טבלה ש-{t.name} מפנה אליה. עוצמת הקשר מוצגת כפי שנכתבה, וכאשר לא נכתבה, כתוב שלא נכתבה.
           </>
         }
       >
@@ -488,7 +487,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
                 <TriangleAlert size={14} strokeWidth={1.75} aria-hidden="true" />
                 {s.contested === 1 ? "טבלה אחת מופיעה" : `${nf.format(s.contested)} טבלאות מופיעות`} כאן
                 פעמיים, כבן וכאב. זו אינה כפילות: שני התכנונים רושמים את אותו קשר בכיוונים הפוכים. שתי
-                הרשומות נשמרות — הכרעה ביניהן תהיה המצאה.
+                הרשומות נשמרות; הכרעה ביניהן תהיה המצאה.
               </p>
             ) : null}
             <ul className="nxb-rels">
@@ -543,7 +542,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
             </h3>
             <p className="nxb-note">
               התכנון רושם את הקשרים האלה, אך את הטבלה שבצד השני הוא אינו מתעד. הם מופיעים כרשומה ולא
-              כקישור — קצה שלא נבדק לא ייפתח כאילו נבדק.
+              כקישור. קצה שלא נבדק לא ייפתח כאילו נבדק.
             </p>
             <ul className="nxb-dangle-l">
               {t.dangling.map((d, i) => (
@@ -581,7 +580,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
           s.tx ? (
             <>
               {nf.format(s.txLinked)} מהן מתועדות במרשם הטרנזקציות ונפתחות לעמוד מלא. השאר מוצגות
-              כערך — הקוד נרשם בתכנון, ואין לו עמוד במרשם.
+              כערך: הקוד נרשם בתכנון, ואין לו עמוד במרשם.
             </>
           ) : undefined
         }
@@ -729,7 +728,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         icon={<Workflow size={16} strokeWidth={1.75} />}
         eyebrow="אובייקטים קשורים"
         title={`${nf.format(s.siblings)} טבלאות תחת אותו נושא במאגר`}
-        lede="הקיבוץ הוא של התכנון עצמו — אלה הטבלאות שנכתבו תחת אותו נושא, ולא הערכה של דמיון ביניהן."
+        lede="הקיבוץ הוא של התכנון עצמו: אלה הטבלאות שנכתבו תחת אותו נושא, ולא הערכה של דמיון ביניהן."
       >
         {t.siblings.length ? (
           <ul className="nxb-sibs">
@@ -827,7 +826,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         </p>
         <p className="nxb-credit">
           <KeyRound size={13} strokeWidth={1.75} aria-hidden="true" />
-          Project NEO · CBC Israel — פותח על ידי סאלי חליף · Web Coding
+          Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding
         </p>
       </footer>
     </article>

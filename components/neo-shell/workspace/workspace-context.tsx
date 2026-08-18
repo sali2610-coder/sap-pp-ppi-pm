@@ -38,7 +38,7 @@ export function WorkspaceContext({ d, meta }: { d: WsData; meta: ChapterMeta }) 
         <>
           <b className="nw-sap">{nf.format(d.rel.edges)}</b> קשרים ממודלים במילון של המודול,{" "}
           <b className="nw-sap">{nf.format(d.rel.inside)}</b> מהם אל טבלה שהמודול עצמו מתעד. השאר יוצאים
-          החוצה — וזה בדיוק המקום שבו המודול נוגע בשאר המערכת.
+          החוצה, וזה בדיוק המקום שבו המודול נוגע בשאר המערכת.
         </>
       }
       lead={
@@ -68,7 +68,7 @@ export function WorkspaceContext({ d, meta }: { d: WsData; meta: ChapterMeta }) 
           ) : (
             <>
               המילון של המודול אינו מציין קרדינליות לאף אחד מ-{nf.format(d.rel.edges)} הקשרים. הקשר נרשם,
-              העוצמה שלו לא — וזה מוצג כך ולא מושלם בניחוש.
+              העוצמה שלו לא, וכך זה מוצג כאן, בלי להשלים בניחוש.
             </>
           )}
         </p>

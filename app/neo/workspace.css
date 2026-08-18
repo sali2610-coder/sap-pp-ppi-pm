@@ -255,6 +255,13 @@ html .nx-app .nx-canvas:has(> .nw) {
    "the user cannot clearly understand the next action". One tile per chapter,
    each carrying that chapter's real count, each a route to it.
    ========================================================================== */
+/* The running section bar (components/neo-shell/workspace/section-nav.css) takes
+   the page's own gutter, so its first chip lines up with every chapter title
+   beneath it. Its active mark is the MODULE hue and not brand red: on this page
+   the module colour is a real, saturated identity and the bar is part of the
+   module's own chrome. */
+.nw .nxs { --nxs-gut: var(--nw-gut); --nxs-on: var(--m); }
+
 .nw-idx {
   display: grid;
   gap: var(--sp-4);
@@ -312,8 +319,12 @@ html .nx-app .nx-canvas:has(> .nw) {
   align-content: start;
   padding: var(--sp-10) var(--nw-gut) var(--sp-12);
   border-block-start: 1px solid color-mix(in srgb, var(--m) 22%, var(--hairline));
-  /* The index jumps here; the shell's top bar must not cover the heading. */
-  scroll-margin-block-start: calc(var(--c-top-h) + var(--sp-4));
+  /* Both indexes jump here, and the running one is a sticky bar sitting at the
+     top of the canvas. --nxs-h is its MEASURED height, published to .nw by
+     section-nav.tsx, because the bar wraps to a different size at every canvas
+     width — a per-breakpoint guess would leave the chapter number under it at
+     most of them. Falls back to 0 if the bar is not on the page. */
+  scroll-margin-block-start: calc(var(--nxs-h, 0px) + var(--sp-4));
 }
 .nw-ch > * { min-inline-size: 0; }
 
@@ -573,7 +584,9 @@ html .nx-app .nx-canvas:has(> .nw) {
    chosen up in the map block, against their own numbers. */
 .nw-rail {
   position: sticky;
-  inset-block-start: 0;
+  /* UNDER the running section bar, which owns the top of the canvas on this
+     page. Its measured height arrives as --nxs-h. */
+  inset-block-start: var(--nxs-h, 0px);
   z-index: 3;
   display: grid;
   gap: var(--sp-3);
@@ -675,7 +688,7 @@ html .nx-app .nx-canvas:has(> .nw) {
      to a different number of lines at every canvas width and grows when the
      filter panel opens — a per-breakpoint guess would leave a gap or an
      overlap at most of them. */
-  inset-block-start: var(--nw-railh, 0px);
+  inset-block-start: calc(var(--nxs-h, 0px) + var(--nw-railh, 0px));
   z-index: 2;
   padding: var(--sp-2);
   text-align: start;
