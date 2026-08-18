@@ -147,7 +147,13 @@ export function BookHub({ d }: { d: BookHubData }) {
         <span className="nu-chip">{b.moduleHe}</span>
       </nav>
 
-      <header className="nb-hub-top">
+      {/* THE TABLE THE BOOK IS OPENED ON.
+          `cream` is ground.css's reading ground — "warm raised calm" — and the
+          hub is the one screen that is literally a book lying open. Putting the
+          hero on it gives the endpaper column (`.nb-hub-id`, which paints on
+          `--surface`) a ground to be raised OFF, which on the plain canvas it
+          never had: paper on paper reads flat however it is shadowed. */}
+      <header className="nb-hub-top nb-scene nm-scene" data-scene="cream">
         <div className="nb-hub-cov">
           {/* §4 — the hub IS the book, opened. The cover is hinged back on its
               binding and the column beside it is the endpaper, which is why the
@@ -290,7 +296,7 @@ export function BookHub({ d }: { d: BookHubData }) {
         origin={({ open }) => leaving(open)}
       />
 
-      <section className="nb-link" aria-label="החיבור למילון NEO">
+      <section className="nb-link nm-rise nm-once" aria-label="החיבור למילון NEO">
         <h2 className="nb-h3">החיבור ל-Project NEO</h2>
         {b.dict ? (
           <>
@@ -320,20 +326,21 @@ export function BookHub({ d }: { d: BookHubData }) {
       </section>
 
       {d.shelf.length > 0 && (
-        <section className="nb-link" aria-label="ספרים נוספים במדף">
+        <section className="nb-link nm-rise nm-once" aria-label="ספרים נוספים במדף">
           <h2 className="nb-h3">
             על אותו מדף
             <span>
               <span className="nb-sap">{d.module.code}</span> · {d.module.he}
             </span>
           </h2>
-          <div className="nb-hub-sib">
-            {d.shelf.map((s) => (
+          <div className="nb-hub-sib nm-seq">
+            {d.shelf.map((s, i) => (
               // A sibling hub is a hub too, so it renders the same return
               // control — and this is what gives it something true to say.
               <OriginLink
-                className="nu-card nb-sib"
+                className="nu-card nb-sib nm-fade"
                 key={s.id}
+                style={{ "--nm-i": i } as React.CSSProperties}
                 href={s.hubHref}
                 origin={() => ({ href: b.hubHref, label: "ספר", detail: title })}
               >

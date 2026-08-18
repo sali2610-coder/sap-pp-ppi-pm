@@ -79,7 +79,12 @@ function Sec({ id, n, icon, eyebrow, title, lede, children }: {
   children: React.ReactNode;
 }) {
   return (
-    <section className="nxb-sec" id={id} aria-labelledby={`${id}-h`}>
+    // nm-rise + nm-once, from app/neo/motion.css. /neo/tables/<NAME>/ resolves
+    // to [data-motion="2"]: 8px, scrubbed on .nx-canvas's view timeline and
+    // finished while the section is still entering, so scrolling back up a
+    // twelve-section page never replays it. Applied to the ONE wrapper every
+    // section already goes through, so none can be missed.
+    <section className="nxb-sec nm-rise nm-once" id={id} aria-labelledby={`${id}-h`}>
       <header className="nxb-sec-h">
         <span className="nxb-sec-n" aria-hidden="true">{String(n).padStart(2, "0")}</span>
         <p className="nxb-sec-k">
@@ -141,7 +146,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
       />
 
       {/* ==================================================== 1. IDENTITY */}
-      <header className="nxb-head">
+      <header className="nxb-head nm-rise nm-once">
         <span className="nx-modbar" aria-hidden="true" />
 
         <p className="nx-eyebrow nxb-eyebrow">

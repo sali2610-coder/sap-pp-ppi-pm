@@ -73,7 +73,16 @@ html .nx-app .nx-canvas:has(> .ne) {
   --mod-pipo: #4338ca;    /* indigo 244° */
   --mod-fi: #6d28d9;      /* violet 263° */
   --mod-co: #86198f;      /* fuchsia 295°*/
-  --mod-idoc: #52525b;    /* neutral — the integration layer carries no hue    */
+  /* Neutral — the integration layer carries no hue. It was zinc-600 (#52525b),
+     a BLUE-leaning grey picked against the old neutral canvas; beside twelve
+     saturated hues on the warm #F7F5F2 ground that grey is the one value that
+     reads as cold, which makes IDoc look like a different product. Stone-600 is
+     the same value on the warm axis — computed 7.51:1 on --surface against the
+     7.60:1 it replaces — so it is still the quietest hue in the ramp, still
+     clears AA by a wide margin, and is now the same temperature as the ground
+     under it. Its dark twin below moves zinc-300 to stone-300 for the same
+     reason and measures 12.5:1, which keeps the >= 10:1 the ramp promises. */
+  --mod-idoc: #57534e;
 
   /* --- KEY ROLE ------------------------------------------------------------
      The brief asks in as many words for the primary and the foreign key to be
@@ -92,6 +101,30 @@ html .nx-app .nx-canvas:has(> .ne) {
   --ne-r-high: #b91c1c;
   --ne-r-medium: #b45309;
   --ne-r-low: #15803d;
+
+  /* --- THE STAGE ------------------------------------------------------------
+     The canvas the graph is drawn ON, named once so the three things that have
+     to agree about it cannot drift: the stage fill, the grid ruling, and the
+     halo the edge labels are painted over to stay readable where a line crosses
+     them. Before this they were --surface-2, --hairline and --surface-2 written
+     out separately, and the halo silently stopped matching the moment the stage
+     moved.
+
+     WHY THE TWO THEMES TAKE DIFFERENT TOKENS, MEASURED.
+     A node fill is `--ms 7% + --surface`, so on the warm ground it computes to
+     rgb(243,244,234) in light and rgb(35,34,19) in dark. Against --surface-2
+     that is +14 in light (a card, correctly raised off its board) but only +3
+     in dark — the node and the board were the same colour and the whole graph
+     was being held up by its 1.6px ring alone. Dark therefore drops the stage
+     to --background (15,11,8), which puts the node ~20 above its board again
+     and restores the raised reading in both themes. */
+  --ne-stage: var(--surface-2);
+  /* The ruling is a measurement aid and must stay under the data. The warm
+     hairline is a much stronger value against its own ground than the neutral
+     one it replaced (#dacebf on #f1ece5, against #eaecef on #fcfcfd before), so
+     drawn at full strength every 68px in both axes it became the loudest thing
+     on an empty canvas. Held back to just over half. */
+  --ne-grid: color-mix(in oklab, var(--hairline) 52%, var(--ne-stage));
 }
 
 /* Dark is not the light ramp lightened: on a near-black ground a mid-tone hue
@@ -105,12 +138,13 @@ html[data-theme="dark"] .ne {
   --mod-pipo: #a5b4fc;
   --mod-fi: #d8b4fe;
   --mod-co: #f5d0fe;
-  --mod-idoc: #d4d4d8;
+  --mod-idoc: #d6d3d1;   /* stone-300 — the warm twin of zinc-300 above */
   --ne-pk: #fcd34d;
   --ne-fk: #93c5fd;
   --ne-r-high: #fca5a5;
   --ne-r-medium: #fcd34d;
   --ne-r-low: #86efac;
+  --ne-stage: var(--background);
 }
 
 /* ==========================================================================
@@ -298,10 +332,10 @@ html[data-theme="dark"] .ne {
      box and the page scrolls everywhere around it. Wheel without Ctrl/Cmd is
      never intercepted at all — see the listener in erd-workspace.tsx. */
   touch-action: none;
-  background-color: var(--surface-2);
+  background-color: var(--ne-stage);
   background-image:
-    repeating-linear-gradient(to right, var(--hairline) 0 1px, transparent 1px 68px),
-    repeating-linear-gradient(to bottom, var(--hairline) 0 1px, transparent 1px 68px);
+    repeating-linear-gradient(to right, var(--ne-grid) 0 1px, transparent 1px 68px),
+    repeating-linear-gradient(to bottom, var(--ne-grid) 0 1px, transparent 1px 68px);
 }
 .ne-stage[data-drag="1"] { cursor: grabbing; }
 .ne-stage:focus-visible { outline: none; box-shadow: inset var(--focus-ring); }
@@ -341,7 +375,10 @@ html[data-theme="dark"] .ne {
   transition: opacity var(--dur-base) var(--ease-out-expo);
   pointer-events: none;
   paint-order: stroke;
-  stroke: var(--surface-2);
+  /* The halo has to BE the stage, or a JOIN label crossing an edge is legible
+     against a colour that is nowhere else on the canvas. It follows --ne-stage
+     so the two can never disagree again. */
+  stroke: var(--ne-stage);
   stroke-width: 3.5;
   stroke-linejoin: round;
 }
@@ -552,11 +589,23 @@ html[data-theme="dark"] .ne {
    ========================================================================== */
 
 .ne-node[data-card="open"] { cursor: zoom-out; }
+/* The open card's shadow is re-tinted to the ground, for the same reason the
+   --elev-* ramp in app/neo/ground.css is: a neutral-black shadow on a warm
+   paper reads as dirt rather than as less light. */
 .ne-node[data-card="open"] .ne-node-r {
   fill: var(--surface);
   stroke: var(--ms);
   stroke-width: 2.6;
-  filter: drop-shadow(0 10px 24px rgb(0 0 0 / 0.16));
+  filter: drop-shadow(0 10px 24px rgba(60, 42, 28, .22));
+}
+/* Dark inverts the physics: a shadow cannot be seen on a near-black stage, so
+   the card is lifted by a warm light rim instead — the same move ground.css
+   makes for --elev-*, expressed as a filter because an SVG shape has no
+   box-shadow. */
+html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
+  filter:
+    drop-shadow(0 -1px 0 rgba(255, 240, 220, .18))
+    drop-shadow(0 12px 28px rgba(0, 0, 0, .6));
 }
 .ne-node[data-card="open"] .ne-node-h { opacity: 1; }
 

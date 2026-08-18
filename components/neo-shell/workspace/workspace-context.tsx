@@ -91,7 +91,7 @@ export function WorkspaceContext({ d, meta }: { d: WsData; meta: ChapterMeta }) 
               >
                 <i className="nw-cls" aria-hidden="true" />
                 <b className="nw-sap">{h.n}</b>
-                <span className="nw-bar nw-bar--obj" aria-hidden="true">
+                <span className="nw-bar nw-bar--obj nm-grow" aria-hidden="true">
                   <i style={{ "--p": h.deg / maxDeg } as React.CSSProperties} />
                 </span>
                 <em className="nw-sap">

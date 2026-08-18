@@ -69,7 +69,12 @@ function Sec({
   children: React.ReactNode;
 }) {
   return (
-    <section className="no-sec" id={id} aria-labelledby={`${id}-h`}>
+    // nm-rise + nm-once, from app/neo/motion.css. /neo/object/<NAME>/ resolves
+    // to [data-motion="2"]: an 8px rise scrubbed on .nx-canvas's own view
+    // timeline, complete while the section is still entering so it never
+    // replays on the way back up. One class, on the single wrapper all eleven
+    // sections already share.
+    <section className="no-sec nm-rise nm-once" id={id} aria-labelledby={`${id}-h`}>
       <header className="no-sec-h">
         <span className="no-sec-n" aria-hidden="true">{String(n).padStart(2, "0")}</span>
         <p className="no-sec-k">
@@ -131,7 +136,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
       <ObjectReturn />
 
       {/* ==================================================== IDENTITY */}
-      <header className="no-hero">
+      <header className="no-hero nm-rise nm-once">
         <div className="no-hero-copy">
           <p className="no-eye">
             <OriginLink href="/neo/erd/" origin={from}>מודל הנתונים</OriginLink>
@@ -816,7 +821,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         </p>
       </Sec>
 
-      <p className="no-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
+      <p className="no-credit nm-fade nm-once">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
     </div>
   );
 }

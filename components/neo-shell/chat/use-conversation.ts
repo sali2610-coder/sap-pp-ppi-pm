@@ -110,13 +110,35 @@ export function useConversation(mode: AiMode): Conversation {
     return () => target.removeEventListener("scroll", onScroll);
   }, []);
 
+  /**
+   * Follow the conversation down.
+   *
+   * TWO RULES, AND BOTH OF THEM ARE SCAR TISSUE.
+   *
+   * 1. IT SCROLLS THE PANE, NOT THE ELEMENT. `scrollIntoView` on the trailing
+   *    anchor was what opened this screen at 43,465px on mount: it walks every
+   *    scrollable ancestor and will happily move the shell, the document and
+   *    anything else with an overflow, and on a route that renders its thread
+   *    after hydration the anchor's position at that instant is meaningless.
+   *    Setting the log pane's own `scrollTop` can only ever move the log pane.
+   *
+   * 2. IT DOES NOT RUN ON AN EMPTY THREAD. With nothing to follow there is
+   *    nothing below the fold, so "follow the conversation" means "scroll past
+   *    the introduction the reader has not read yet". The empty state is the
+   *    first thing this surface says; scrolling it away is worse than useless.
+   */
   const toEnd = useCallback((smooth: boolean) => {
     if (!stick.current) return;
+    const el = endRef.current?.closest<HTMLElement>(".nx-canvas");
+    if (!el) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    endRef.current?.scrollIntoView({ behavior: smooth && !reduce ? "smooth" : "auto", block: "end" });
+    el.scrollTo({ top: el.scrollHeight, behavior: smooth && !reduce ? "smooth" : "auto" });
   }, []);
 
-  useEffect(() => { toEnd(true); }, [turns.length, toEnd]);
+  useEffect(() => {
+    if (!turns.length) return;
+    toEnd(true);
+  }, [turns.length, toEnd]);
   useEffect(() => { if (live?.preview) toEnd(false); }, [live?.preview, toEnd]);
 
   /* ------------------------------------------------------------------- ask */

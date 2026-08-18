@@ -8,11 +8,27 @@
    it scrolled away with the hero, so moving between sections meant a round trip
    to the top of the page. This is the same list, kept on screen.
 
+   WHAT THE BAR HAS TO ANSWER, AND WHERE EACH ANSWER LIVES
+
+     איפה אני          the active chip, and the counter that reads "03 / 08"
+     מה פעיל           .nm-sel + data-on="1" — ground, ink, edge and weight at
+                       once. Never a hairline underline; see below.
+     כמה נשאר          the progress line along the bottom edge of the bar
+     מה הבא            a named control at the end of the bar that carries the
+                       NEXT section's own label, and turns into "back to the top"
+                       once there is nothing after the current section — so it is
+                       never a dead control and never a guess
+     איך קופצים        every chip is a real <a href="#id">, enhanced into a
+                       smooth canvas scroll
+     איך חוזרים        the same control, at the end of the page
+
    WHERE IT LIVES. It is imported by the workspace family (PM · PP-PI) and by
    the object / table / transaction detail family, so it is written ONCE. It
    sits in workspace/ because that folder already owns the two primitives it is
    kin to — workspace-chapter.tsx (the section shape) and workspace-index.tsx
-   (the page's table of contents). Nothing in it is workspace-specific.
+   (the page's table of contents). Nothing in it is workspace-specific: the only
+   surface-shaped thing a caller can hand it is `feature`, which marks the one
+   section that page most wants read, and every caller may leave it unset.
 
    HOW IT STICKS
      · `position: sticky` against .nx-canvas — the NEO shell scrolls its CANVAS
@@ -50,11 +66,20 @@
      listener, it costs nothing, and it makes the last chip light up where the
      reader can see the page has ended.
 
+   HOW PROGRESS IS DRAWN — a scroll-driven animation, never a scroll handler.
+     The line under the bar is scaled by `animation-timeline: scroll()`, which
+     runs on the compositor and cannot produce a long task. Where that is not
+     available the same line falls back to the SECTION count, published as
+     --nxs-p, so the reader still gets a truthful "how far in am I" without one
+     frame of JavaScript being spent on it. This is the same rule the rest of
+     the product is held to: no rAF loop, no scroll listener, ever.
+
    REDUCED MOTION. A click jumps instead of animating, both for the canvas and
    for the bar's own horizontal reel.
    ========================================================================== */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { neoScroller } from "@/components/neo-shell/nav-context";
 import "./section-nav.css";
 
@@ -64,6 +89,10 @@ export interface NeoSection {
   /** Short Hebrew label. The chip is one line and never wraps, so this is the
    *  section's kicker, not its full heading. */
   label: string;
+  /** The one section this page most wants read. Drawn as a short accent bar on
+   *  the chip — a LINE, because a small standalone dot is the shape the form
+   *  rule reserves for status. Optional, and no surface has to use it. */
+  feature?: boolean;
 }
 
 /** Read at the moment of acting rather than at mount: the setting can change
@@ -79,9 +108,12 @@ function jumps(): boolean {
 export function SectionNav({
   sections,
   label = "ניווט בעמוד",
+  topLabel = "חזרה לראש העמוד",
 }: {
   sections: NeoSection[];
   label?: string;
+  /** What the end-of-page control says once there is no next section. */
+  topLabel?: string;
 }) {
   const nav = useRef<HTMLElement>(null);
   const reel = useRef<HTMLDivElement>(null);
@@ -96,6 +128,15 @@ export function SectionNav({
    *  inside — which is exactly wrong when the target is the last section and the
    *  page cannot scroll far enough to bring it to the top. */
   const held = useRef(0);
+  /** WHERE THE CLICK WAS AIMED. The hold is released the moment the observer
+   *  agrees the reader has arrived, rather than after a fixed wait — a module
+   *  page is 16,000px tall and Chrome's smooth scroll from the top to chapter 07
+   *  takes about two seconds, so a timer long enough for that jump would be
+   *  absurdly long for a hop between neighbours. Measured, not guessed.
+   *
+   *  The timer stays as the upper bound and nothing else: a reader who grabs the
+   *  scrollbar mid-flight never arrives, and the bar has to hand control back. */
+  const want = useRef("");
 
   // The identity of the section list, flattened to a primitive, so the observer
   // is rebuilt when the page's sections actually change and not on every render
@@ -154,20 +195,29 @@ export function SectionNav({
     let io: IntersectionObserver | null = null;
     let tail: IntersectionObserver | null = null;
 
-    const pick = () => {
-      // A click owns the chip until its scroll has settled. See `held`.
-      if (Date.now() < held.current) return;
+    /** The section the geometry says the reader is inside, right now. */
+    const read = () => {
       // The end of the scroll wins. A short last section never reaches the
       // reading line, so on a page that ends in one the geometry would keep the
       // second-to-last chip lit while the reader is plainly looking at the last
       // section. Measured this way round: the bottom edge of the page is the
       // fact, the line is only an approximation of where the eye is.
       if (ended || root.scrollHeight - root.clientHeight - root.scrollTop <= 8) {
-        setActive(order[order.length - 1]);
-        return;
+        return order[order.length - 1];
       }
       let cur = order[0];
       for (const id of order) if (passed.get(id)) cur = id;
+      return cur;
+    };
+
+    const pick = () => {
+      const cur = read();
+      // A click owns the chip until its scroll has ARRIVED. See `want` / `held`.
+      if (Date.now() < held.current) {
+        if (!want.current || cur !== want.current) return;
+        want.current = "";
+        held.current = 0;
+      }
       setActive(cur);
     };
 
@@ -245,45 +295,119 @@ export function SectionNav({
     });
   }, [active]);
 
-  /* --------------------------------------------------------------- the click */
-  const go = useCallback((e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
-    // A modified click is the reader asking for a new tab. Leave it alone.
-    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+  /* --------------------------------------------------------------- the move
+
+     One movement function for the chips, for the "next" control and for the
+     return to the top, so the three can never disagree about where a section
+     starts or about how long the chip stays held. */
+  const move = useCallback((top: number, id: string) => {
     const root = neoScroller();
-    const el = document.getElementById(id);
-    // With no scroller and no target the plain <a href="#id"> is still correct,
-    // so this is never a dead control — it just stops being enhanced.
-    if (!root || !el) return;
-    e.preventDefault();
+    if (!root) return false;
     const jump = jumps();
-    const bar = nav.current?.offsetHeight ?? 0;
-    const top =
-      root.scrollTop + el.getBoundingClientRect().top - root.getBoundingClientRect().top - bar - 12;
     // A jump is over by the next frame; a smooth scroll of a long page is not.
-    held.current = Date.now() + (jump ? 120 : 900);
+    // The ceiling is generous because it is only a ceiling — arriving releases
+    // the hold, and on these pages arriving is what usually happens first.
+    want.current = jump ? "" : id;
+    held.current = Date.now() + (jump ? 120 : 2600);
     setActive(id);
     root.scrollTo({ top: Math.max(0, top), behavior: jump ? "auto" : "smooth" });
+    return true;
   }, []);
+
+  const goSection = useCallback(
+    (id: string) => {
+      const root = neoScroller();
+      const el = document.getElementById(id);
+      if (!root || !el) return false;
+      const bar = nav.current?.offsetHeight ?? 0;
+      const top =
+        root.scrollTop + el.getBoundingClientRect().top - root.getBoundingClientRect().top - bar - 12;
+      return move(top, id);
+    },
+    [move],
+  );
+
+  const goTop = useCallback(() => {
+    if (order.length) move(0, order[0]);
+  }, [move, order]);
+
+  /* --------------------------------------------------------------- the click */
+  const onChip = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+      // A modified click is the reader asking for a new tab. Leave it alone.
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      // With no scroller and no target the plain <a href="#id"> is still correct,
+      // so this is never a dead control — it just stops being enhanced.
+      if (goSection(id)) e.preventDefault();
+    },
+    [goSection],
+  );
 
   if (sections.length < 2) return null;
 
+  const at = Math.max(0, sections.findIndex((s) => s.id === active));
+  const next = sections[at + 1] ?? null;
+  const two = (n: number) => String(n).padStart(2, "0");
+
   return (
-    <nav ref={nav} className="nxs" aria-label={label} data-stuck={stuck ? "1" : undefined}>
+    <nav
+      ref={nav}
+      className="nxs"
+      aria-label={label}
+      data-stuck={stuck ? "1" : undefined}
+      style={{ "--nxs-p": (at + 1) / sections.length } as React.CSSProperties}
+    >
+      {/* WHERE AM I, as a number. Small, monospaced, and never the only signal:
+          the lit chip beside it says the same thing in words. */}
+      <p className="nxs-at">
+        <span className="nxs-sr">מיקום בעמוד: </span>
+        <b>{two(at + 1)}</b>
+        <span aria-hidden="true">/</span>
+        <span>{two(sections.length)}</span>
+      </p>
+
       <div className="nxs-reel" ref={reel}>
         {sections.map((s, i) => (
           <a
             key={s.id}
-            className="nxs-i"
+            className="nxs-i nm-sel"
             data-sec={s.id}
+            data-on={s.id === active ? "1" : undefined}
+            data-key={s.feature ? "1" : undefined}
             href={`#${s.id}`}
             aria-current={s.id === active ? "true" : undefined}
-            onClick={(e) => go(e, s.id)}
+            onClick={(e) => onChip(e, s.id)}
           >
-            <em className="nxs-n" aria-hidden="true">{String(i + 1).padStart(2, "0")}</em>
+            <em className="nxs-n" aria-hidden="true">{two(i + 1)}</em>
             <span className="nxs-t">{s.label}</span>
           </a>
         ))}
       </div>
+
+      {/* WHAT COMES NEXT — by name, not as an arrow into nothing. At the end of
+          the page the same control is the way back to the top, so the reader
+          never has to reach for the scrollbar to start over. */}
+      {next ? (
+        <button
+          type="button"
+          className="nxs-next"
+          onClick={() => goSection(next.id)}
+          aria-label={`לפרק הבא: ${next.label}`}
+        >
+          <span className="nxs-next-k" aria-hidden="true">הבא</span>
+          <span className="nxs-next-t" aria-hidden="true">{next.label}</span>
+          <ChevronDown size={15} strokeWidth={2} aria-hidden="true" />
+        </button>
+      ) : (
+        <button type="button" className="nxs-next" onClick={goTop} aria-label={topLabel}>
+          <span className="nxs-next-t" aria-hidden="true">{topLabel}</span>
+          <ChevronUp size={15} strokeWidth={2} aria-hidden="true" />
+        </button>
+      )}
+
+      {/* HOW FAR IN. Scrubbed by the canvas itself where the platform can do it
+          on the compositor, and by the section count where it cannot. */}
+      <span className="nxs-track" aria-hidden="true"><i /></span>
     </nav>
   );
 }

@@ -8,12 +8,25 @@
    FORM RULE (app/globals.css, above --mod-pm). The bar is CHROME and not data,
    so its one accent is brand red — the single global accent — and never a
    module, status or object hue. A surface that wants its own colour on the
-   active chip sets --nxs-on; nothing else in here is overridable.
+   active chip sets --nxs-on; nothing else in here is overridable. That accent
+   is re-published as --scene-accent for the bar's subtree, because that is the
+   token app/neo/motion.css's .nm-sel reads, and the selected chip is drawn by
+   .nm-sel rather than by a private copy of it.
 
-   MOTION. Only opacity is transitioned. The bar's shadow and hairline live on a
-   pseudo-element that fades in when the bar reaches the top of the canvas,
-   because transitioning box-shadow or border-color would be transitioning paint
-   properties, which this project does not do.
+   THE SELECTED CHIP, and why it is not an underline. The brief: "Selected state
+   must be visually obvious. Do not rely only on a thin underline. Use color,
+   surface, motion and hierarchy." So the active chip carries FOUR signals at
+   once — a filled ground, ink lifted to --ink-1, a solid accent edge along its
+   leading side, and a heavier weight — and the accent-inked number is a fifth.
+   Every one of them survives a dark theme, a bright room and a colour-vision
+   difference; none of them is a 1px line.
+
+   MOTION. Only opacity and transform are transitioned. The bar's shadow and
+   hairline live on a pseudo-element that fades in when the bar reaches the top
+   of the canvas, because transitioning box-shadow or border-color would be
+   transitioning paint properties, which this project does not do. The progress
+   line is scrubbed by a scroll-driven animation on the compositor; there is no
+   scroll listener anywhere in this component.
    ========================================================================== */
 
 /* --nxs-pad MIRRORS THE CANVAS PADDING, and it is not decoration.
@@ -41,6 +54,7 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
   z-index: 6;
   display: flex;
   align-items: center;
+  gap: var(--sp-3);
   min-block-size: var(--c-tap);
   padding-block: var(--sp-2);
   margin-inline: calc(-1 * var(--nxs-pad));
@@ -51,6 +65,9 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
   background: color-mix(in srgb, var(--background) 84%, transparent);
   backdrop-filter: blur(12px);
   --nxs-on: var(--brand);
+  /* The one line that hands the bar's accent to the shared selection primitive
+     in app/neo/motion.css. Scoped to the bar, so nothing outside it changes. */
+  --scene-accent: var(--nxs-on);
 }
 
 /* The bar's edge. Present only once the bar is actually holding the top of the
@@ -67,9 +84,36 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
 }
 .nx-app .nxs[data-stuck="1"]::after { opacity: 1; }
 
-/* The reel. Horizontal and scrollable rather than wrapping: a bar that grows to
+.nxs-sr {
+  position: absolute; inline-size: 1px; block-size: 1px;
+  margin: -1px; padding: 0; overflow: hidden; white-space: nowrap;
+  clip-path: inset(50%); border: 0;
+}
+
+/* --------------------------------------------------------------------------
+   WHERE AM I — "03 / 08". A number, not a label: it is read at a glance beside
+   a chip that already spells the section out in words.
+   -------------------------------------------------------------------------- */
+.nx-app .nxs-at {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  flex: none;
+  font-family: var(--font-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-size: var(--t-micro);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.nx-app .nxs-at b { font-size: var(--t-xs); font-weight: 700; color: var(--ink-1); }
+
+/* --------------------------------------------------------------------------
+   THE REEL. Horizontal and scrollable rather than wrapping: a bar that grows to
    three lines on a phone stops being subtle and starts being a second header,
-   and the component scrolls the active chip back into view on its own. */
+   and the component scrolls the active chip back into view on its own.
+   -------------------------------------------------------------------------- */
 .nx-app .nxs-reel {
   display: flex;
   align-items: center;
@@ -95,7 +139,10 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
   min-block-size: 2rem;
   padding-inline: var(--sp-3);
   border: 1px solid transparent;
-  border-radius: var(--r-pill);
+  /* A rounded rect rather than a pill: the selected chip carries a solid edge
+     along its leading side, and a full pill curls that edge away from the eye
+     exactly where it is supposed to be read. */
+  border-radius: var(--r-md);
   scroll-snap-align: center;
   font-size: var(--t-sm);
   font-weight: 600;
@@ -103,17 +150,21 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
   white-space: nowrap;
   color: var(--ink-3);
   text-decoration: none;
-  transition: opacity var(--dur-fast) var(--ease-out-expo);
 }
 .nx-app .nxs-i:hover { color: var(--ink-1); background: var(--surface-2); }
 .nx-app .nxs-i:focus-visible { outline: none; box-shadow: var(--focus-ring); }
 
-/* THE ACTIVE SECTION. Filled, ringed and inked — three signals rather than one,
-   so it survives a dark theme, a bright room and a colour-vision difference. */
-.nx-app .nxs-i[aria-current="true"] {
+/* THE ACTIVE SECTION. .nm-sel[data-on="1"] (app/neo/motion.css) already carries
+   the ground, the accent edge, the ink and the weight; this only states the two
+   things that are specific to a chip — the extra room the edge needs, and the
+   number taking the accent — and it is written at (0,3,0) so the base rule
+   above can never win the tie against the primitive. */
+.nx-app .nxs-i[data-on="1"] {
+  padding-inline-start: calc(var(--sp-3) + 4px);
   color: var(--ink-1);
-  background: color-mix(in srgb, var(--nxs-on) 12%, var(--surface));
-  border-color: color-mix(in srgb, var(--nxs-on) 45%, transparent);
+  font-weight: 700;
+  background-color: color-mix(in oklab, var(--nxs-on) 12%, var(--surface));
+  border-color: color-mix(in oklab, var(--nxs-on) 46%, var(--hairline));
 }
 
 .nx-app .nxs-n {
@@ -125,22 +176,142 @@ html .nx-app .nx-canvas:has(> .nw) .nxs { --nxs-pad: 0px; }
   font-weight: 700;
   color: var(--ink-3);
 }
-.nx-app .nxs-i[aria-current="true"] .nxs-n { color: var(--nxs-on); }
+.nx-app .nxs-i[data-on="1"] .nxs-n { color: var(--nxs-on); }
+
+/* THE SECTION THIS PAGE MOST WANTS READ. A short accent BAR before the number
+   and the number itself in the accent — a line and an ink, both forms module and
+   brand identity are allowed to take. It is deliberately not a small filled
+   circle: that shape belongs to status, and to status only.
+   :not([data-on]) so that reaching the section never makes it quieter than the
+   other chips: once it is active it is drawn like any other active chip. */
+.nx-app .nxs-i[data-key="1"]:not([data-on="1"]) { color: var(--ink-2); }
+.nx-app .nxs-i[data-key="1"]:not([data-on="1"]) .nxs-n {
+  color: color-mix(in srgb, var(--nxs-on) 80%, var(--ink-3));
+}
+.nx-app .nxs-i[data-key="1"] .nxs-n::before {
+  content: "";
+  display: inline-block;
+  inline-size: 2px;
+  block-size: .8em;
+  margin-inline-end: 5px;
+  border-radius: 1px;
+  vertical-align: -1px;
+  background: var(--nxs-on);
+}
+
+/* --------------------------------------------------------------------------
+   WHAT COMES NEXT. Named, so it is a destination and not an arrow. At the end
+   of the page the same control becomes the way back to the top.
+   -------------------------------------------------------------------------- */
+.nx-app .nxs-next {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: none;
+  max-inline-size: 14rem;
+  min-block-size: 2rem;
+  padding-inline: var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--ink-2);
+  font: inherit;
+  font-size: var(--t-xs);
+  font-weight: 650;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--dur-fast) linear, border-color var(--dur-fast) linear;
+}
+.nx-app .nxs-next:hover { color: var(--ink-1); border-color: color-mix(in srgb, var(--nxs-on) 45%, var(--hairline)); }
+.nx-app .nxs-next:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.nx-app .nxs-next svg { flex: none; color: var(--nxs-on); }
+.nx-app .nxs-next-k {
+  font-size: var(--t-micro);
+  font-weight: 650;
+  letter-spacing: .1em;
+  color: var(--ink-3);
+}
+.nx-app .nxs-next-t { overflow: hidden; text-overflow: ellipsis; }
+
+/* --------------------------------------------------------------------------
+   HOW FAR IN. The line rides the bottom edge of the bar, full bleed, so it
+   reads as the page's own progress and not as a widget inside the bar.
+   -------------------------------------------------------------------------- */
+.nx-app .nxs-track {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: 2px;
+  overflow: hidden;
+  pointer-events: none;
+  background: color-mix(in srgb, var(--nxs-on) 14%, transparent);
+}
+.nx-app .nxs-track > i {
+  display: block;
+  block-size: 100%;
+  background: var(--nxs-on);
+  /* The app is RTL, so progress grows from the inline start, which is the right
+     edge. transform-origin takes no logical keyword, so both directions are
+     stated rather than assumed. */
+  transform-origin: 100% 50%;
+  transform: scaleX(var(--nxs-p, 0));
+  transition: transform var(--dur-base) var(--ease-out-expo);
+}
+[dir="ltr"] .nx-app .nxs-track > i { transform-origin: 0 50%; }
+
+/* The truthful version, where the platform can scrub it on the compositor: the
+   line follows the CANVAS, not the section count. No scroll listener, no frame
+   loop — this is the same engine app/neo/motion.css runs on. */
+@supports (animation-timeline: scroll()) {
+  @keyframes nxs-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .nx-app .nxs-track > i {
+    animation: nxs-progress linear both;
+    animation-timeline: scroll(nearest block);
+    transition: none;
+  }
+}
 
 /* A real --c-tap (44px) target the moment there is no mouse to be precise with.
    The bar grows with it rather than the chip being clipped: a 44px row inside a
    38px bar is a 38px target with a lie written on it. */
 @media (pointer: coarse) {
-  .nx-app .nxs-i { min-block-size: var(--c-tap); padding-inline: var(--sp-4); }
+  .nx-app .nxs-i,
+  .nx-app .nxs-next { min-block-size: var(--c-tap); }
+  .nx-app .nxs-i { padding-inline: var(--sp-4); }
+  .nx-app .nxs-i[data-on="1"] { padding-inline-start: calc(var(--sp-4) + 4px); }
+}
+
+/* PHONE. The bar keeps every one of its jobs and gives up only WORDS: the
+   counter and the lit chip still say where the reader is, the reel still says
+   what the page holds, and the next control is still a 44px target — it just
+   carries its label in aria-label instead of in 9rem of type it does not have.
+   This is the difference between a phone bar and a squeezed desktop rail. */
+@media (max-width: 720px) {
+  .nx-app .nxs { gap: var(--sp-2); }
+  .nx-app .nxs-next { max-inline-size: none; padding-inline: 0; inline-size: var(--c-tap); justify-content: center; }
+  .nx-app .nxs-next-k,
+  .nx-app .nxs-next-t { display: none; }
 }
 
 /* A reader who asked for less motion gets a bar that changes state instantly:
-   the fade is decoration, the position is the information. */
+   the fade is decoration, the position is the information. The progress line
+   keeps working — it is a position readout, the same class of thing as a
+   scrollbar, and removing it would remove information rather than movement. */
 @media (prefers-reduced-motion: reduce) {
   .nx-app .nxs::after,
-  .nx-app .nxs-i { transition: none; }
+  .nx-app .nxs-next,
+  .nx-app .nxs-track > i { transition: none; }
 }
 
 @media (min-width: 1440px) {
   .nx-app .nxs { padding-block: var(--sp-2); }
+}
+
+/* Forced colours: the ground of a selected chip is a colour-mix the user's
+   palette will replace anyway, so the chip falls back to the one signal that
+   always survives — a real border on the active item. */
+@media (forced-colors: active) {
+  .nx-app .nxs-i[data-on="1"] { border-color: Highlight; border-inline-start-width: 3px; }
+  .nx-app .nxs-track { display: none; }
 }

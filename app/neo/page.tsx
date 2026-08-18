@@ -1,13 +1,13 @@
 import Link from "next/link";
 import {
-  ArrowDown, ArrowUpLeft, Award, GitBranch, LayoutGrid, MousePointer2,
+  ArrowDown, ArrowUpLeft, Award, GitBranch, LayoutGrid,
   Search, Table, Terminal, Waypoints,
 } from "lucide-react";
 // The interaction system first, the page's own sheet second: Home never invents
 // a control style, it consumes .nu-* and only overrides layout around them.
 import "./ui.css";
 import "./home.css";
-import { homeData, zoneVar } from "@/components/neo-shell/home/home-data";
+import { homeData, zoneVar, type HomeData } from "@/components/neo-shell/home/home-data";
 import { HomeScene, type SceneSection } from "@/components/neo-shell/home/home-scene";
 
 export const metadata = {
@@ -18,44 +18,226 @@ export const metadata = {
 const nf = new Intl.NumberFormat("he-IL");
 const pct = (a: number, b: number) => Math.round((a / b) * 100);
 
-// STAGE 2B. The signature Home — an experience surface (L3), not a dashboard.
+// THE SIGNATURE HOME — an entrance, not a dashboard.
 //
 // Everything on this page is rendered on the SERVER from the project dataset via
-// components/neo-shell/home/home-data.ts. The client scene receives one plain
-// object and owns nothing but motion. Not a single count, name, note or JOIN
+// components/neo-shell/home/home-data.ts. Not a single count, name, note or JOIN
 // below is authored here: where the dictionary holds nothing, the page says so.
 //
-// Three kinds of hook are handed to the scene, and they are the whole reason the
-// background field is not a decoration:
-//   data-nh-anchor  this element IS a table the field is holding. The dot flies
-//                   onto it, lights it, and fades into it.
-//   data-nh-axis    this row is one of the six coverage axes; hovering it makes
-//                   the field show exactly the tables that satisfy it.
-//   data-nh-topic   this row is one real topic; hovering it lights its tables.
-/** The transition ledge. Every section but the last ends with one of these,
- *  naming what the field is about to do next in the counts that move is made
- *  of. The page states its choreography in motion AND in words, and the two
- *  are generated from the same numbers, so they cannot drift apart. */
-function Hand({ to, children }: { to: string; children: React.ReactNode }) {
+// THE COMPOSITION, AND WHY IT IS BUILT THIS WAY
+//
+//   The previous Home made an animated dot field the meaning of the hero, and
+//   ran it from a scroll listener. Both are gone. What carries the page now is
+//   the GROUND: six chapters, each wearing one of the five scenes declared in
+//   app/neo/ground.css, descending from a warm dark opening into two working
+//   module grounds and closing dark again.
+//
+//     01  deep   the gate. Warm dark in both themes, the one cinematic moment.
+//     02  base   the working ground. Coverage, measured honestly.
+//     03  cream  paper. A pinned map holds while three panels pass it.
+//     04  pm     PM identity carried by the ground itself.
+//     05  pppi   PP-PI identity carried by the ground itself.
+//     06  deep   the close, bookending the gate.
+//
+//   The dictionary is still the texture of the hero, but it is now the TABLE
+//   NAMES themselves — three parallax columns holding all 105 real merged table
+//   names. It is unreadable as prose and completely legible as a claim: this is
+//   what the product knows. The dots survive as one honest diagram in 03, where
+//   they are a lattice of three membership bands rather than a decoration.
+//
+//   Every reveal, parallax, pin, stagger and bar growth below is a class from
+//   app/neo/motion.css and therefore a CSS scroll-driven animation on the
+//   compositor. There is no scroll handler anywhere on this page.
+
+/** The chapter ledge. Every section but the last ends with one, naming the
+ *  scene the reader is about to descend into, in the counts that change is made
+ *  of. The page states its choreography in motion AND in words, and both are
+ *  generated from the same numbers, so they cannot drift apart. */
+function Ledge({ to, children }: { to: string; children: React.ReactNode }) {
   return (
-    <p className="nh-hand" data-nh-solid>
+    <p className="nh-next nm-fade">
       <ArrowDown size={14} strokeWidth={1.75} aria-hidden="true" />
-      <span className="nh-hand-to">{to}</span>
-      <span className="nh-hand-t">{children}</span>
+      <span className="nh-next-to">{to}</span>
+      <span className="nh-next-t">{children}</span>
     </p>
   );
 }
+
+/** Split a list into n roughly equal slices, in order. Used only for the three
+ *  parallax columns of the name wall, so the wall is deterministic and the same
+ *  table never appears twice. */
+function slices<T>(list: T[], n: number): T[][] {
+  const size = Math.ceil(list.length / n);
+  return Array.from({ length: n }, (_, i) => list.slice(i * size, (i + 1) * size));
+}
+
+/* -------------------------------------------------------------------------- */
+/*  04 / 05 — the two module chapters. One component, two scenes: the ONLY      */
+/*  difference between them is the ground and the data, which is exactly what   */
+/*  "module identity is carried by the ground" has to mean to be true.          */
+/* -------------------------------------------------------------------------- */
+
+function ModuleChapter({
+  d, i, scene, id, next, ledge,
+}: {
+  d: HomeData;
+  i: 0 | 1;
+  scene: "pm" | "pppi";
+  id: string;
+  next: string;
+  ledge: React.ReactNode;
+}) {
+  const mo = d.modules[i];
+  const flow = d.flows.find((f) => f.key === mo.key)!;
+  const topics = d.density
+    .map((t, gi) => [t, gi] as const)
+    .filter(([t]) => t.key === mo.key);
+  const maxT = Math.max(...topics.map(([t]) => t.tables));
+  const live = flow.steps.filter((s) => s.exists).length;
+
+  return (
+    <section
+      className="nh-sec"
+      data-scene={scene}
+      id={id}
+      data-hsec
+      aria-labelledby={`${id}-h`}
+      style={{ "--m": mo.m } as React.CSSProperties}
+    >
+     <div className="nh-body nm-scene">
+      <div className="nh-in">
+        <div className="nh-head">
+          <p className="nh-eye nm-fade">
+            <span className="nh-sap">{mo.code}</span>
+            <i aria-hidden="true" />
+            {mo.he}
+          </p>
+          <h2 className="nh-h2 nm-kin" id={`${id}-h`}>
+            <span><span>{mo.en}</span></span>
+            <span><span className="nh-dim">{nf.format(mo.tables)} טבלאות · {nf.format(mo.fields)} שדות</span></span>
+          </h2>
+          <p className="nh-lede nm-rise">
+            {mo.topics} נושאים במילון של המודול הזה, {nf.format(mo.tcodes)} טרנזקציות,{" "}
+            {nf.format(mo.funcs)} פונקציות BAPI · FM · IDoc ו־{nf.format(mo.cds)} תצוגות CDS.
+            המודול נוגע ב־{pct(mo.tables, d.tables)}% מ־{nf.format(d.tables)} הטבלאות המאוחדות.
+          </p>
+        </div>
+
+        <Link
+          href={mo.href}
+          prefetch={false}
+          className="nh-mod nm-rise nm-lift"
+          aria-label={`כניסה לסביבת ${mo.code} · ${mo.he}`}
+        >
+          <span className="nh-mod-top">
+            <b className="nh-sap">{mo.code}</b>
+            <span className="nh-mod-he">{mo.he}</span>
+            <ArrowUpLeft size={17} strokeWidth={1.75} aria-hidden="true" />
+          </span>
+          <span className="nh-mod-nums">
+            <span><b className="nh-sap">{nf.format(mo.tables)}</b><em>טבלאות</em></span>
+            <span><b className="nh-sap">{nf.format(mo.fields)}</b><em>שדות</em></span>
+            <span><b className="nh-sap">{mo.topics}</b><em>נושאים</em></span>
+            <span><b className="nh-sap">{nf.format(mo.tcodes)}</b><em>טרנזקציות</em></span>
+            <span><b className="nh-sap">{nf.format(mo.funcs)}</b><em>פונקציות</em></span>
+            <span><b className="nh-sap">{nf.format(mo.fiori)}</b><em>אפליקציות Fiori</em></span>
+          </span>
+          <span className="nh-mod-share">
+            <span className="nh-bar" aria-hidden="true">
+              <i className="nm-grow" style={{ "--p": mo.share } as React.CSSProperties} />
+            </span>
+            <em className="nh-sap">{pct(mo.tables, d.tables)}%</em>
+            <span>מתוך {nf.format(d.tables)} הטבלאות המאוחדות</span>
+          </span>
+        </Link>
+
+        <div className="nh-two">
+          <div className="nh-blk nm-rise">
+            <h3 className="nh-h3">
+              צפיפות לפי נושא
+              <em>{mo.topics} נושאים · הסולם הוא {d.maxTopicTables} טבלאות, הנושא העמוס ביותר במילון</em>
+            </h3>
+            <ul className="nh-topics nm-seq">
+              {topics.map(([t]) => (
+                <li key={`${t.key}-${t.idx}`} className="nm-rise">
+                  <span className="nh-topics-i nh-sap">{String(t.idx).padStart(2, "0")}</span>
+                  <span className="nh-topics-t">{t.title}</span>
+                  <span className="nh-bar" aria-hidden="true">
+                    <i className="nm-grow" style={{ "--p": t.tables / d.maxTopicTables } as React.CSSProperties} />
+                  </span>
+                  <span className="nh-topics-n nh-sap">{t.tables}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="nh-note">
+              הנושא הגדול כאן מחזיק {maxT} טבלאות. אין נירמול שמשטח את ההבדל בין נושא לנושא.
+            </p>
+          </div>
+
+          <div className="nh-blk nm-rise">
+            <h3 className="nh-h3">
+              השרשרת כפי שהיא יושבת במסד הנתונים
+              <em>
+                {flow.direct} מעברים ישירים · {flow.via} דרך טבלת ביניים ·{" "}
+                {flow.hops - flow.direct - flow.via} גבולות תהליך שאינם ממודלים
+              </em>
+            </h3>
+            <ol className="nh-chain nm-seq">
+              {flow.steps.map((s, k) => (
+                <li key={s.code} className="nm-rise">
+                  <div
+                    className="nh-node"
+                    data-missing={s.exists ? undefined : "1"}
+                    style={{ "--o": zoneVar(s.z) } as React.CSSProperties}
+                  >
+                    <i className="nh-cls" aria-hidden="true" />
+                    <b className="nh-sap">{s.code}</b>
+                    <span className="nh-node-he">{s.label}</span>
+                    <span className="nh-node-n">
+                      {s.exists ? `${s.f} שדות · ${s.rels} קשרים` : "לא במילון של המודול"}
+                    </span>
+                  </div>
+                  {k < flow.steps.length - 1 && (
+                    <div className="nh-link" data-kind={s.link ? (s.link.via ? "via" : "direct") : "gap"}>
+                      <span className="nh-link-line" aria-hidden="true" />
+                      <span className="nh-link-t">
+                        {s.link
+                          ? (s.link.via ? <>דרך <span className="nh-sap">{s.link.via}</span></> : "JOIN ישיר")
+                          : "גבול תהליך · לא ממודל"}
+                      </span>
+                      {s.link && <code className="nh-sap">{s.link.join}</code>}
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ol>
+            <p className="nh-note">
+              {live} מתוך {flow.steps.length} שלבי התהליך יושבים על טבלה שהמילון של{" "}
+              <span className="nh-sap">{mo.code}</span> מתעד. במקום שבו אין קשר שמור, לא מצויר חץ
+              ולא מומצא מפתח.
+            </p>
+          </div>
+        </div>
+
+        <Ledge to={next}>{ledge}</Ledge>
+      </div>
+     </div>
+    </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
 
 export default function NeoHome() {
   const d = homeData();
 
   const sections: SceneSection[] = [
-    { id: "nh-1", label: "מפת הידע", field: "שיוך למודול" },
-    { id: "nh-2", label: "כיסוי", field: "עומק תיעוד" },
-    { id: "nh-3", label: "משותפות", field: `${d.shared} משפחות` },
-    { id: "nh-4", label: "צפיפות", field: `${d.topics} גושי נושא` },
-    { id: "nh-5", label: "התהליך", field: "שרשרת אמיתית" },
-    { id: "nh-6", label: "S/4HANA", field: "השפעת מעבר" },
+    { id: "nh-1", label: "הפתיחה", field: "רקע כהה" },
+    { id: "nh-2", label: "כיסוי", field: "רקע עבודה" },
+    { id: "nh-3", label: "המפה", field: "נייר" },
+    { id: "nh-4", label: "PM", field: "גוון המודול" },
+    { id: "nh-5", label: "PP-PI", field: "גוון המודול" },
+    { id: "nh-6", label: "S/4HANA", field: "רקע כהה" },
   ];
 
   const stats: [number, string][] = [
@@ -74,30 +256,72 @@ export default function NeoHome() {
     { he: "הוסר", n: d.migration.removed, k: "removed" },
   ];
 
-  const steps = (k: "PM" | "PP-PI") =>
-    d.flows.find((f) => f.key === k)!.steps.filter((s) => s.exists).length;
+  // The three membership bands of the lattice in 03. Real counts, and they add
+  // up to the 105 by construction rather than by assertion.
+  const bands = ([0, 1, 2] as const).map((b) => ({
+    b,
+    dots: d.dots.filter((x) => x.b === b),
+  }));
+  const bandCopy = [
+    { t: `${pm.code} בלבד`, s: "טבלאות שרק מילון אחזקת המפעל מתעד" },
+    { t: "בשני המודולים", s: "אותה טבלה, שני הקשרים, שורה אחת במיזוג" },
+    { t: `${pp.code} בלבד`, s: "טבלאות שרק מילון הייצור התהליכי מתעד" },
+  ];
 
   return (
-    <HomeScene data={d} sections={sections}>
-      {/* ============================================================ 01 */}
-      <section className="nh-sec nh-sec--open" id="nh-1" data-hsec aria-labelledby="nh-1-h">
-        <span className="nh-ix" aria-hidden="true">01</span>
-        <div className="nh-copy" data-nh-solid>
-          <p className="nh-eye">
-            CBC ISRAEL · PROJECT NEO<i aria-hidden="true" />מפת הידע
+    <HomeScene sections={sections}>
+      {/* ============================================================ 01 · deep
+          THE GATE. The one cinematic moment the ground system allows, and it is
+          spent on arrival. Behind the headline stand all 105 real merged table
+          names in three parallax columns: the texture of this page is the
+          dictionary itself, at last. */}
+      <section
+        className="nh-sec"
+        data-scene="deep"
+        id="nh-1"
+        data-hsec
+        aria-labelledby="nh-1-h"
+      >
+       {/* SCENE ON AN INNER ELEMENT, ON PURPOSE.
+           ground.css declares base/pm/pppi as `--scene-raised: var(--surface)`
+           while .nm-scene declares `--surface: var(--scene-raised)`. Put both on
+           ONE element and the two custom properties reference each other, the
+           cycle makes them invalid at computed-value time, and every raised
+           surface and hairline inside that scene silently loses its colour.
+           Splitting them — the section names the scene, the child wears it —
+           breaks the cycle: the section resolves --scene-* against the shell's
+           tokens, and the child rebinds the product tokens from those. Same
+           system, same five scenes, one element apart. */}
+       <div className="nh-body nh-gate nm-scene">
+        <div className="nh-wall" aria-hidden="true">
+          {slices(d.dots, 3).map((col, ci) => (
+            <span className={`nh-wall-c ${ci === 1 ? "nm-par-slow" : "nm-par"}`} key={ci} data-c={ci}>
+              {col.map((x) => (
+                <i key={x.n}>{x.n}</i>
+              ))}
+            </span>
+          ))}
+        </div>
+        <span className="nh-glow" aria-hidden="true" />
+
+        <div className="nh-in nh-gate-in">
+          <p className="nh-eye nh-eye--gate">
+            CBC ISRAEL · PROJECT NEO
+            <i aria-hidden="true" />
+            מפת הידע
           </p>
-          <h1 className="nh-mega" id="nh-1-h">
-            מילון SAP אחד
-            <span className="nh-mega-2">לכל מסע ה־<span className="nh-sap">S/4HANA</span></span>
+          <h1 className="nh-mega nm-kin" id="nh-1-h">
+            <span><span>מילון SAP אחד</span></span>
+            <span><span>לכל מסע ה־<span className="nh-sap">S/4HANA</span></span></span>
           </h1>
-          <p className="nh-lede">
+          <p className="nh-lede nh-lede--gate">
             {nf.format(d.tables)} טבלאות אמיתיות, {nf.format(d.fields)} שדות מתועדים,{" "}
-            {nf.format(d.tcodes)} טרנזקציות ו־{nf.format(d.relations)} קשרי ER — הכול במקום אחד
-            שעובד גם בלי רשת. כל נקודה ברקע היא טבלה אחת מהמילון, ולא קישוט.
+            {nf.format(d.tcodes)} טרנזקציות ו־{nf.format(d.relations)} קשרי ER. הכול במקום אחד
+            שעובד גם בלי רשת. כל שם שברקע הוא טבלה אחת מתוך המילון, ולא קישוט.
           </p>
-          <div className="nh-stats">
-            {stats.map(([n, l], i) => (
-              <span className="nh-stat" key={l} style={{ "--d": `${i * 55}ms` } as React.CSSProperties}>
+          <div className="nh-stats nm-seq">
+            {stats.map(([n, l]) => (
+              <span className="nh-stat nm-rise" key={l}>
                 <b className="nh-sap">{nf.format(n)}</b>
                 <em>{l}</em>
               </span>
@@ -117,7 +341,7 @@ export default function NeoHome() {
               מרשם הטרנזקציות
             </Link>
           </div>
-          <ul className="nh-legend" aria-label="מקרא צבע — מחלקת אובייקט">
+          <ul className="nh-legend" aria-label="מקרא צבע · מחלקת אובייקט">
             {d.zones.map((z) => (
               <li key={z.id} style={{ "--o": zoneVar(z.id) } as React.CSSProperties}>
                 <i aria-hidden="true" />
@@ -126,337 +350,320 @@ export default function NeoHome() {
               </li>
             ))}
           </ul>
-          <p className="nh-note">
-            השדה שברקע מסודר בשלושה גושי שיוך: <span className="nh-sap">PM</span> בלבד,
-            {" "}{d.shared} טבלאות שנמצאות בשני המודולים, ו־<span className="nh-sap">PP-PI</span> בלבד.
-            שטח הגוש הוא מספר הטבלאות שבו. צבע הנקודה הוא מחלקת האובייקט, טבעת הנקודה היא
-            המודול, והגודל הוא עומק התיעוד בפועל — מספר השדות שהמילון מחזיק לאותה טבלה.
-          </p>
         </div>
-        <Hand to="כיסוי">
-          שלושת הגושים נפרקים לעמודות: אותן {nf.format(d.tables)} נקודות עומדות על קו בסיס
-          אחד, עמודה לכל מספר צירי תיעוד שהטבלה עומדת בהם.
-        </Hand>
+
+        <Ledge to="כיסוי">
+          הרקע מתבהר. אותן {nf.format(d.tables)} טבלאות נמדדות מול שישה צירי תיעוד,
+          כולל השניים שיוצאים נמוך.
+        </Ledge>
+       </div>
       </section>
 
-      {/* ============================================================ 02 */}
-      <section className="nh-sec" id="nh-2" data-hsec aria-labelledby="nh-2-h">
-        <span className="nh-ix" aria-hidden="true">02</span>
-        <div className="nh-copy" data-nh-solid>
-          <p className="nh-eye">כיסוי<i aria-hidden="true" />מה באמת מתועד</p>
-          <h2 className="nh-h2" id="nh-2-h">
-            {nf.format(d.tables)} טבלאות.<br />
-            <span className="nh-dim">לא כולן מתועדות באותו עומק.</span>
-          </h2>
-          <p className="nh-lede">
-            שישה צירי תיעוד, נמדדים על אותן {nf.format(d.tables)} טבלאות מאוחדות.
-            שניים מהם יוצאים נמוך, וזה בדיוק העניין: המספר מוצג כפי שהוא, ולא נבחרים
-            הצירים המחמיאים.
-          </p>
-        </div>
-        <ul className="nh-cov" data-nh-solid>
-          {d.coverage.map((c, i) => (
-            <li
-              key={c.he}
-              data-nh-axis={i}
-              style={{ "--p": pct(c.n, d.tables) / 100, "--d": `${i * 70}ms` } as React.CSSProperties}
-            >
-              <span className="nh-cov-l">{c.he}</span>
-              <span className="nh-cov-bar" aria-hidden="true"><i /></span>
-              <span className="nh-cov-n nh-sap">{c.n}<em>/{d.tables}</em></span>
-              <span className="nh-cov-s">{c.note}</span>
-            </li>
-          ))}
-        </ul>
-        <p className="nh-hint" data-nh-solid>
-          <MousePointer2 size={13} strokeWidth={1.75} aria-hidden="true" />
-          העבר את הסמן על ציר — השדה שברקע ישאיר מוארות רק את הטבלאות שעומדות בו.
-        </p>
-        <p className="nh-note" data-nh-solid>
-          הרקע מסודר עכשיו בעמודות לפי מספר הצירים שכל טבלה עומדת בהם. העמודות הנמוכות
-          ריקות כי אין טבלה שעומדת בפחות משלושה.
-        </p>
-        <Hand to="משותפות">
-          העמודות נשכבות לשורה אחת: {d.shared} הטבלאות המשותפות נעשות ראשי משפחה, וכל
-          טבלה שהמילון קושר אליהן נערמת בטור שמתחת לראש שלה.
-        </Hand>
-      </section>
+      {/* =========================================================== 02 · base
+          The focus shift out of the dark: the working ground, and the first
+          thing the product does on it is admit what it does not have. */}
+      <section
+        className="nh-sec"
+        data-scene="base"
+        id="nh-2"
+        data-hsec
+        aria-labelledby="nh-2-h"
+      >
+       <div className="nh-body nm-scene">
+        <div className="nh-in">
+          <div className="nh-head">
+            <p className="nh-eye nm-fade">כיסוי<i aria-hidden="true" />מה באמת מתועד</p>
+            <h2 className="nh-h2 nm-kin" id="nh-2-h">
+              <span><span>{nf.format(d.tables)} טבלאות.</span></span>
+              <span><span className="nh-dim">לא כולן מתועדות באותו עומק.</span></span>
+            </h2>
+            <p className="nh-lede nm-rise">
+              שישה צירי תיעוד, נמדדים על אותן {nf.format(d.tables)} טבלאות מאוחדות.
+              שניים מהם יוצאים נמוך, וזה בדיוק העניין: המספר מוצג כפי שהוא, ולא נבחרים
+              הצירים המחמיאים.
+            </p>
+          </div>
 
-      {/* ============================================================ 03 */}
-      <section className="nh-sec" id="nh-3" data-hsec aria-labelledby="nh-3-h">
-        <span className="nh-ix" aria-hidden="true">03</span>
-        <div className="nh-copy" data-nh-solid>
-          <p className="nh-eye">חפיפה<i aria-hidden="true" />המפגש בין המודולים</p>
-          <h2 className="nh-h2" id="nh-3-h">
-            <span className="nh-accent">{d.shared} טבלאות</span> חיות בשני העולמות
-          </h2>
-          <p className="nh-lede">
-            <span className="nh-sap">PM</span> מתעד {nf.format(pm.tables)} טבלאות,{" "}
-            <span className="nh-sap">PP-PI</span> מתעד {nf.format(pp.tables)}.
-            יחד זה {nf.format(pm.tables + pp.tables)} שורות — אבל רק {nf.format(d.tables)} טבלאות,
-            כי {d.shared} מהן מתועדות פעמיים. אלה הן, עם הנושא שממנו כל מודול מגיע אליהן.
-          </p>
-        </div>
-        <div className="nh-shared" data-nh-solid>
-          {d.sharedRows.map((r, i) => (
-            <article
-              key={r.n}
-              className="nh-scard"
-              data-nh-anchor={r.n}
-              style={{ "--o": zoneVar(r.z), "--d": `${i * 26}ms` } as React.CSSProperties}
-            >
-              <header>
-                <i className="nh-cls" aria-hidden="true" />
-                <b className="nh-sap">{r.n}</b>
-                <span className="nh-scard-f nh-sap">{r.f}</span>
-              </header>
-              <p className="nh-scard-he">{r.he}</p>
-              <dl className="nh-scard-ctx">
-                <div style={{ "--m": pm.m } as React.CSSProperties}>
-                  <dt className="nh-sap">PM</dt><dd>{r.pm || "—"}</dd>
-                </div>
-                <div style={{ "--m": pp.m } as React.CSSProperties}>
-                  <dt className="nh-sap">PP-PI</dt><dd>{r.pp || "—"}</dd>
-                </div>
-              </dl>
-            </article>
-          ))}
-        </div>
-        <p className="nh-note" data-nh-solid>
-          ברקע כל אחת מ־{d.shared} המשותפות היא ראש טור, וגובה הטור הוא מספר הטבלאות
-          שהמילון תולה בו. הקווים הם קשרי ER אמיתיים מתוך מפת הקשרים, ולא קווי קישוט:
-          קו נמתח רק בין שתי טבלאות שהבלופרינט באמת קושר ביניהן. הטבלאות שאינן קשורות
-          לאף משותפת יושבות ברצועה התחתונה — מעומעמות, אבל לא נעלמות. כשהשורה נוחתת,
-          כל ראש עובר אל הכרטיס שלו כאן ונכבה לתוכו.
-        </p>
-        <Hand to="צפיפות">
-          הטורים מתקפלים ל־{d.topics} גושי נושא — גוש לכל נושא במילון, בשטח של מספר
-          הטבלאות שהוא מתעד.
-        </Hand>
-      </section>
-
-      {/* ============================================================ 04 */}
-      <section className="nh-sec" id="nh-4" data-hsec aria-labelledby="nh-4-h">
-        <span className="nh-ix" aria-hidden="true">04</span>
-        <div className="nh-copy" data-nh-solid>
-          <p className="nh-eye">צפיפות<i aria-hidden="true" />מודל הנתונים לפי נושא</p>
-          <h2 className="nh-h2" id="nh-4-h">
-            {d.topics} נושאים,<br />
-            <span className="nh-dim">לא אחד מהם באותו משקל</span>
-          </h2>
-          <p className="nh-lede">
-            הסולם המלא הוא {d.maxTopicTables} טבלאות — הנושא העמוס ביותר במילון.
-            כל שאר הנושאים נמדדים מולו, בלי נירמול שמשטח את ההבדל. ברקע כל נושא הוא
-            גוש אחד, והגודל שלו הוא אותו מספר.
-          </p>
-        </div>
-        <div className="nh-dens" data-nh-solid>
-          {d.modules.map((mo) => (
-            <div className="nh-dcol" key={mo.key} style={{ "--m": mo.m } as React.CSSProperties}>
-              <h3>
-                <i aria-hidden="true" />
-                <b className="nh-sap">{mo.code}</b>
-                <span>{mo.topics} נושאים · {nf.format(mo.tables)} טבלאות · {nf.format(mo.fields)} שדות</span>
-              </h3>
-              <ul>
-                {d.density.map((t, gi) => [t, gi] as const)
-                  .filter(([t]) => t.key === mo.key)
-                  .map(([t, gi]) => (
-                    <li key={`${t.key}-${t.idx}`} data-nh-topic={gi}>
-                      <span className="nh-drow-i nh-sap">{String(t.idx).padStart(2, "0")}</span>
-                      <span className="nh-drow-t">{t.title}</span>
-                      <span className="nh-drow-k" aria-hidden="true">
-                        {Array.from({ length: d.maxTopicTables }, (_, k) => (
-                          <i key={k} className={k < t.tables ? "" : "off"} />
-                        ))}
-                      </span>
-                      <span className="nh-drow-n nh-sap">{t.tables}</span>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <p className="nh-hint" data-nh-solid>
-          <MousePointer2 size={13} strokeWidth={1.75} aria-hidden="true" />
-          העבר את הסמן על נושא — הגוש שלו ברקע יישאר מואר, וכל השאר יעומעם.
-        </p>
-        <Hand to="התהליך">
-          גושי הנושא נפרשים לשתי מסילות תהליך: {steps("PM")} שלבים ב־<span className="nh-sap">PM</span>{" "}
-          ו־{steps("PP-PI")} ב־<span className="nh-sap">PP-PI</span>, לפי הסדר שהמילון מחזיק. המסילה
-          העליונה חוזרת בדיוק לקו שעליו ישבו המשותפות.
-        </Hand>
-      </section>
-
-      {/* ============================================================ 05 */}
-      <section className="nh-sec" id="nh-5" data-hsec aria-labelledby="nh-5-h">
-        <span className="nh-ix" aria-hidden="true">05</span>
-        <div className="nh-copy" data-nh-solid>
-          <p className="nh-eye">התהליך<i aria-hidden="true" />כפי שהוא יושב במסד הנתונים</p>
-          <h2 className="nh-h2" id="nh-5-h">
-            השרשרת האמיתית,<br />
-            <span className="nh-dim">כולל המקומות שבהם היא נקטעת</span>
-          </h2>
-          <p className="nh-lede">
-            כל מעבר נבדק מול הקשרים שהמילון באמת מחזיק: קשר ישיר, קשר דרך טבלת ביניים אחת,
-            או גבול תהליך שהמילון אינו ממדל. במקרה השלישי לא מצויר חץ ולא מומצא מפתח.
-          </p>
-        </div>
-        <div className="nh-flows" data-nh-solid>
-          {d.flows.map((f) => (
-            <section className="nh-chain" key={f.key} style={{ "--m": f.m } as React.CSSProperties} aria-label={`שרשרת ${f.key}`}>
-              <header>
-                <i aria-hidden="true" />
-                <b className="nh-sap">{f.key}</b>
-                <span>{f.he}</span>
-                <span className="nh-chain-n">
-                  {f.direct} ישירים · {f.via} דרך טבלת ביניים · {f.hops - f.direct - f.via} גבולות
+          <ul className="nh-cov nm-seq">
+            {d.coverage.map((c) => (
+              // The two axes the lede admits come out low are marked so the eye
+              // finds them first. The cut is presentational emphasis, not a
+              // claim: the number beside it is always the raw count.
+              <li key={c.he} className="nm-rise" data-low={c.n / d.tables < 0.75 ? "1" : undefined}>
+                <span className="nh-cov-l">{c.he}</span>
+                <span className="nh-bar" aria-hidden="true">
+                  <i className="nm-grow" style={{ "--p": c.n / d.tables } as React.CSSProperties} />
                 </span>
-              </header>
-              <ol className="nh-steps">
-                {f.steps.map((s, i) => (
-                  <li key={s.code}>
-                    <div
-                      className="nh-node"
-                      data-missing={s.exists ? undefined : "1"}
-                      data-nh-anchor={s.exists ? s.code : undefined}
-                      style={{ "--o": zoneVar(s.z) } as React.CSSProperties}
-                    >
-                      <i className="nh-cls" aria-hidden="true" />
-                      <b className="nh-sap">{s.code}</b>
-                      <span className="nh-node-he">{s.label}</span>
-                      <span className="nh-node-n">
-                        {s.exists ? `${s.f} שדות · ${s.rels} קשרים` : "לא במילון של המודול"}
-                      </span>
-                    </div>
-                    {i < f.steps.length - 1 && (
-                      <div className="nh-link" data-kind={s.link ? (s.link.via ? "via" : "direct") : "gap"}>
-                        <span className="nh-link-line" aria-hidden="true" />
-                        <span className="nh-link-t">
-                          {s.link
-                            ? (s.link.via ? <>דרך <span className="nh-sap">{s.link.via}</span></> : "JOIN ישיר")
-                            : "גבול תהליך · לא ממודל"}
-                        </span>
-                        {s.link && <code className="nh-sap">{s.link.join}</code>}
-                      </div>
-                    )}
-                  </li>
-                ))}
-              </ol>
-            </section>
-          ))}
-        </div>
-        <p className="nh-note" data-nh-solid>
-          המילון מחזיק {nf.format(d.relations)} קשרי ER בסך הכול. חלקם פשוט לא יושבים על ציר
-          התהליך הזה — וזה נאמר כאן במפורש במקום להיסגר בחץ.
-        </p>
-        <Hand to="S/4HANA">
-          המסילות נסגרות לסריג אחד, ו־{d.migration.replaced} הטבלאות שהמילון מסמן
-          כמוחלפות נשלפות ממנו החוצה אל השורות שלהן.
-        </Hand>
-      </section>
-
-      {/* ============================================================ 06 */}
-      <section className="nh-sec nh-sec--close" id="nh-6" data-hsec aria-labelledby="nh-6-h">
-        <span className="nh-ix" aria-hidden="true">06</span>
-        <div className="nh-copy" data-nh-solid>
-          <p className="nh-eye"><span className="nh-sap">ECC → S/4HANA</span><i aria-hidden="true" />תמונת המעבר</p>
-          <h2 className="nh-h2" id="nh-6-h">
-            {nf.format(d.tables)} טבלאות,<br />
-            <span className="nh-accent">{d.migration.replaced} מהן לא יעברו בשקט</span>
-          </h2>
-          <p className="nh-lede">
-            הסיווג מגיע מאותה פונקציה שממנה נבנה עמוד ה־ECC ↔ S/4HANA של כל מודול.
-            כל {nf.format(d.dictRows)} שורות המילון נושאות הערת S/4HANA; רק{" "}
-            {d.migration.replaced} מהטבלאות מסומנות כמוחלפות.
-          </p>
-        </div>
-        <div className="nh-imp" data-nh-solid>
-          {impact.map((im, i) => (
-            <div
-              className="nh-impcol"
-              key={im.k}
-              data-k={im.k}
-              data-empty={im.n === 0 ? "1" : undefined}
-              style={{ "--p": pct(im.n, d.tables) / 100, "--d": `${i * 90}ms` } as React.CSSProperties}
-            >
-              {/* STATUS colour appears here in the one form the design system
-                  allows it: a small filled dot immediately followed by its word.
-                  The card itself, its rule and its bar stay neutral. */}
-              <span className="nh-impcol-k"><i aria-hidden="true" />{im.he}</span>
-              <b className="nh-sap">{im.n}</b>
-              <span className="nh-impcol-bar" aria-hidden="true"><i /></span>
-              <span className="nh-impcol-p nh-sap">{pct(im.n, d.tables)}%</span>
-            </div>
-          ))}
-        </div>
-        {d.migrationRows.length > 0 ? (
-          <ul className="nh-hot" data-nh-solid>
-            {d.migrationRows.map((r, i) => (
-              <li
-                key={r.n}
-                data-nh-anchor={r.n}
-                style={{ "--o": zoneVar(r.z), "--d": `${i * 60}ms` } as React.CSSProperties}
-              >
-                <i className="nh-cls" aria-hidden="true" />
-                <span className="nh-hot-k" data-k={r.s === 2 ? "removed" : "replaced"}>
-                  <i aria-hidden="true" />
-                  {r.s === 2 ? "הוסר" : "הוחלף"}
-                </span>
-                <b className="nh-sap">{r.n}</b>
-                <span className="nh-hot-he">{r.he}</span>
-                <span className="nh-hot-note">{r.note}</span>
-                <span className="nh-hot-alt">
-                  {r.alt ? <span className="nh-sap">{r.alt}</span> : <em>אין חלופה במילון</em>}
-                </span>
-                <span className="nh-hot-mods">
-                  {r.mods.map((m) => (
-                    <em key={m} className="nh-sap" style={{ "--m": m === "PM" ? pm.m : pp.m } as React.CSSProperties}>{m}</em>
-                  ))}
-                </span>
+                <span className="nh-cov-n nh-sap">{c.n}<em>/{d.tables}</em></span>
+                <span className="nh-cov-s">{c.note}</span>
               </li>
             ))}
           </ul>
-        ) : (
-          <p className="nh-note" data-nh-solid>אין במילון שורה המסומנת כמוחלפת או כמוסרת.</p>
-        )}
-        <p className="nh-note" data-nh-solid>
-          {d.migration.removed === 0
-            ? "אף טבלה במילון אינה מסומנת כמוסרת ב-S/4HANA. הרצועה הזאת ריקה במכוון — היא לא הוסתרה."
-            : `${d.migration.removed} טבלאות מסומנות כמוסרות.`}
-        </p>
-        <div className="nh-out" data-nh-solid>
-          <p className="nh-out-t">
-            הסריג שנשאר ברקע הוא {nf.format(d.migration.kept)} הטבלאות שנשמרות כפי שהן.
-            מכאן הן מפסיקות להיות רקע: אלה הדלתות אל אותו מידע בדיוק, בסביבת העבודה.
+
+          <p className="nh-note nm-fade">
+            המילון מחזיק {nf.format(d.dictRows)} שורות על פני {nf.format(d.tables)} טבלאות
+            ייחודיות. ההפרש איננו טעות: {d.shared} טבלאות מתועדות פעמיים, כי הן באמת חיות
+            בשני המודולים.
           </p>
-          <div className="nh-cta">
-            <Link className="nu-btn2" href="/neo/pm/" prefetch={false} style={{ "--m": pm.m } as React.CSSProperties}>
-              <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
-              סביבת <span className="nh-sap">PM</span>
-            </Link>
-            <Link className="nu-btn2" href="/neo/pp-pi/" prefetch={false} style={{ "--m": pp.m } as React.CSSProperties}>
-              <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
-              סביבת <span className="nh-sap">PP-PI</span>
-            </Link>
-            <Link className="nu-btn" href="/neo/tables/" prefetch={false}>
-              <Table size={15} strokeWidth={1.75} aria-hidden="true" />
-              מילון הטבלאות
-            </Link>
-            <Link className="nu-btn2" href="/neo/library/" prefetch={false}>
-              <LayoutGrid size={15} strokeWidth={1.75} aria-hidden="true" />
-              ספרייה · {nf.format(d.books)} ספרים
-            </Link>
-            <Link className="nu-btn2" href="/neo/academy/" prefetch={false}>
-              <Award size={15} strokeWidth={1.75} aria-hidden="true" />
-              אקדמיה
-              <ArrowUpLeft size={14} strokeWidth={1.75} aria-hidden="true" />
-            </Link>
+
+          <Ledge to="המפה">
+            הרקע נעשה נייר. {nf.format(d.tables)} הטבלאות נפרשות למפה אחת שנעצרת במקום,
+            בזמן שהקריאה עוברת עליה.
+          </Ledge>
+        </div>
+       </div>
+      </section>
+
+      {/* ========================================================== 03 · cream
+          THE PINNED MAP. The lattice holds still while three panels pass it, so
+          the reader studies one object through three claims instead of three
+          drawings. Every dot is one real merged table: its colour is the object
+          class, its size is the number of fields the dictionary holds for it. */}
+      <section
+        className="nh-sec"
+        data-scene="cream"
+        id="nh-3"
+        data-hsec
+        aria-labelledby="nh-3-h"
+      >
+       <div className="nh-body nm-scene">
+        <div className="nh-in">
+          <div className="nh-head">
+            <p className="nh-eye nm-fade">המפה<i aria-hidden="true" />איפה נפגשים שני העולמות</p>
+            <h2 className="nh-h2 nm-kin" id="nh-3-h">
+              <span><span><span className="nh-accent">{d.shared} טבלאות</span> חיות</span></span>
+              <span><span>בשני העולמות בבת אחת</span></span>
+            </h2>
           </div>
         </div>
-        <p className="nh-credit" data-nh-solid>
-          Project NEO · CBC Israel — פותח על ידי סאלי חליף · Web Coding
-        </p>
+
+        <div className="nh-stage">
+          <div className="nh-hold nm-pin">
+            <div className="nh-lat" aria-hidden="true">
+              {bands.map(({ b, dots }) => (
+                <div className="nh-lat-b" data-b={b} key={b}>
+                  <span className="nh-lat-hi" />
+                  <span className="nh-lat-d">
+                    {dots.map((x) => (
+                      <i
+                        key={x.n}
+                        style={{
+                          "--o": zoneVar(x.z),
+                          "--z": (0.42 + 0.58 * (x.f / d.maxFields)).toFixed(3),
+                        } as React.CSSProperties}
+                      />
+                    ))}
+                  </span>
+                  <span className="nh-lat-t">
+                    <b className="nh-sap">{dots.length}</b>
+                    {bandCopy[b].t}
+                  </span>
+                </div>
+              ))}
+            </div>
+            <p className="nh-lat-k">
+              נקודה אחת לכל טבלה מאוחדת. הצבע הוא מחלקת האובייקט, הגודל הוא מספר השדות
+              שהמילון מחזיק לאותה טבלה, והסולם המלא הוא {d.maxFields} שדות.
+            </p>
+          </div>
+
+          <div className="nh-panels">
+            {bands.map(({ b, dots }) => (
+              <article className="nh-panel" key={b}>
+                <div className="nm-rise">
+                  <b className="nh-panel-n nh-sap">{dots.length}</b>
+                  <h3 className="nh-panel-t">{bandCopy[b].t}</h3>
+                  <p className="nh-panel-s">{bandCopy[b].s}</p>
+                  {/* A sum of per-table relation counts would count the same ER
+                      edge twice whenever both of its ends sit in this band, so
+                      the group is described with two figures that cannot be
+                      double-counted: total documented fields, and how many of
+                      its tables carry a modelled relation at all. */}
+                  <p className="nh-panel-x">
+                    {b === 1
+                      ? `${nf.format(pm.tables)} + ${nf.format(pp.tables)} = ${nf.format(pm.tables + pp.tables)} שורות מודול, אבל רק ${nf.format(d.tables)} טבלאות, כי ${d.shared} מהן נספרות פעמיים.`
+                      : `${nf.format(dots.reduce((a, x) => a + x.f, 0))} שדות מתועדים בקבוצה הזאת. ${dots.filter((x) => x.r > 0).length} מהטבלאות נושאות קשר ER ממודל.`}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className="nh-in">
+          <h3 className="nh-h3 nm-rise">
+            {d.shared} המשותפות, עם הנושא שממנו כל מודול מגיע אליהן
+            <em>ממוינות לפי עומק התיעוד, מהעמוקה ביותר</em>
+          </h3>
+          <div className="nh-shared nm-seq">
+            {d.sharedRows.map((r) => (
+              <article
+                key={r.n}
+                className="nh-scard nm-rise nm-lift"
+                style={{ "--o": zoneVar(r.z) } as React.CSSProperties}
+              >
+                <header>
+                  <i className="nh-cls" aria-hidden="true" />
+                  <b className="nh-sap">{r.n}</b>
+                  <span className="nh-scard-f nh-sap">{r.f}</span>
+                </header>
+                <p className="nh-scard-he">{r.he}</p>
+                <dl className="nh-scard-ctx">
+                  <div style={{ "--m": pm.m } as React.CSSProperties}>
+                    <dt className="nh-sap">PM</dt><dd>{r.pm || "אין נושא רשום"}</dd>
+                  </div>
+                  <div style={{ "--m": pp.m } as React.CSSProperties}>
+                    <dt className="nh-sap">PP-PI</dt><dd>{r.pp || "אין נושא רשום"}</dd>
+                  </div>
+                </dl>
+              </article>
+            ))}
+          </div>
+
+          <Ledge to={pm.code}>
+            הרקע מקבל את גוון המודול. מכאן ואילך הקרקע עצמה אומרת באיזה עולם אתם עומדים.
+          </Ledge>
+        </div>
+       </div>
+      </section>
+
+      {/* ============================================================= 04 · pm */}
+      <ModuleChapter
+        d={d}
+        i={0}
+        scene="pm"
+        id="nh-4"
+        next={pp.code}
+        ledge={<>הקרקע מחליפה גוון. אותו מבנה בדיוק, {nf.format(pp.tables)} טבלאות ו־{pp.topics} נושאים.</>}
+      />
+
+      {/* =========================================================== 05 · pppi */}
+      <ModuleChapter
+        d={d}
+        i={1}
+        scene="pppi"
+        id="nh-5"
+        next="S/4HANA"
+        ledge={<>הרקע חוזר להיות כהה. {d.migration.replaced} הטבלאות שהמילון מסמן כמוחלפות נשלפות החוצה.</>}
+      />
+
+      {/* =========================================================== 06 · deep
+          The close bookends the gate: the page ends on the same warm dark it
+          opened on, so the descent reads as one journey with a floor. */}
+      <section
+        className="nh-sec"
+        data-scene="deep"
+        id="nh-6"
+        data-hsec
+        aria-labelledby="nh-6-h"
+      >
+       <div className="nh-body nh-close nm-scene">
+        <span className="nh-glow" aria-hidden="true" />
+        <div className="nh-in">
+          <div className="nh-head">
+            <p className="nh-eye nm-fade">
+              <span className="nh-sap">ECC → S/4HANA</span><i aria-hidden="true" />תמונת המעבר
+            </p>
+            <h2 className="nh-h2 nm-kin" id="nh-6-h">
+              <span><span>{nf.format(d.tables)} טבלאות,</span></span>
+              <span><span className="nh-accent">{d.migration.replaced} מהן לא יעברו בשקט</span></span>
+            </h2>
+            <p className="nh-lede nm-rise">
+              הסיווג מגיע מאותה פונקציה שממנה נבנה עמוד ה־ECC ↔ S/4HANA של כל מודול.
+              כל {nf.format(d.dictRows)} שורות המילון נושאות הערת S/4HANA; רק{" "}
+              {d.migration.replaced} מהטבלאות מסומנות כמוחלפות.
+            </p>
+          </div>
+
+          <div className="nh-imp nm-seq">
+            {impact.map((im) => (
+              <div
+                className="nh-impcol nm-rise"
+                key={im.k}
+                data-k={im.k}
+                data-empty={im.n === 0 ? "1" : undefined}
+              >
+                {/* STATUS colour appears here in the one form the design system
+                    allows it: a small filled dot immediately followed by its
+                    word. The card itself and its bar stay neutral. */}
+                <span className="nh-impcol-k"><i aria-hidden="true" />{im.he}</span>
+                <b className="nh-sap">{im.n}</b>
+                <span className="nh-bar" aria-hidden="true">
+                  <i className="nm-grow" style={{ "--p": im.n / d.tables } as React.CSSProperties} />
+                </span>
+                <span className="nh-impcol-p nh-sap">{pct(im.n, d.tables)}%</span>
+              </div>
+            ))}
+          </div>
+
+          {d.migrationRows.length > 0 ? (
+            <ul className="nh-hot nm-seq">
+              {d.migrationRows.map((r) => (
+                <li key={r.n} className="nm-rise" style={{ "--o": zoneVar(r.z) } as React.CSSProperties}>
+                  <i className="nh-cls" aria-hidden="true" />
+                  <span className="nh-hot-k" data-k={r.s === 2 ? "removed" : "replaced"}>
+                    <i aria-hidden="true" />
+                    {r.s === 2 ? "הוסר" : "הוחלף"}
+                  </span>
+                  <b className="nh-sap">{r.n}</b>
+                  <span className="nh-hot-he">{r.he}</span>
+                  <span className="nh-hot-note">{r.note}</span>
+                  <span className="nh-hot-alt">
+                    {r.alt ? <span className="nh-sap">{r.alt}</span> : <em>אין חלופה במילון</em>}
+                  </span>
+                  <span className="nh-hot-mods">
+                    {r.mods.map((m) => (
+                      <em key={m} className="nh-sap" style={{ "--m": m === "PM" ? pm.m : pp.m } as React.CSSProperties}>{m}</em>
+                    ))}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="nh-note nm-fade">אין במילון שורה המסומנת כמוחלפת או כמוסרת.</p>
+          )}
+
+          <p className="nh-note nm-fade">
+            {d.migration.removed === 0
+              ? "אף טבלה במילון אינה מסומנת כמוסרת ב-S/4HANA. הרצועה הזאת ריקה במכוון, והיא לא הוסתרה."
+              : `${d.migration.removed} טבלאות מסומנות כמוסרות.`}
+          </p>
+
+          <div className="nh-out nm-rise">
+            <p className="nh-out-t">
+              {nf.format(d.migration.kept)} הטבלאות שנשמרות כפי שהן מפסיקות כאן להיות רקע.
+              אלה הדלתות אל אותו מידע בדיוק, בסביבת העבודה.
+            </p>
+            <div className="nh-cta">
+              <Link className="nu-btn2" href="/neo/pm/" prefetch={false} style={{ "--m": pm.m } as React.CSSProperties}>
+                <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
+                סביבת <span className="nh-sap">PM</span>
+              </Link>
+              <Link className="nu-btn2" href="/neo/pp-pi/" prefetch={false} style={{ "--m": pp.m } as React.CSSProperties}>
+                <Waypoints size={15} strokeWidth={1.75} aria-hidden="true" />
+                סביבת <span className="nh-sap">PP-PI</span>
+              </Link>
+              <Link className="nu-btn" href="/neo/tables/" prefetch={false}>
+                <Table size={15} strokeWidth={1.75} aria-hidden="true" />
+                מילון הטבלאות
+              </Link>
+              <Link className="nu-btn2" href="/neo/library/" prefetch={false}>
+                <LayoutGrid size={15} strokeWidth={1.75} aria-hidden="true" />
+                ספרייה · {nf.format(d.books)} ספרים
+              </Link>
+              <Link className="nu-btn2" href="/neo/academy/" prefetch={false}>
+                <Award size={15} strokeWidth={1.75} aria-hidden="true" />
+                אקדמיה
+                <ArrowUpLeft size={14} strokeWidth={1.75} aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+
+          <p className="nh-credit">
+            Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding
+          </p>
+        </div>
+       </div>
       </section>
     </HomeScene>
   );

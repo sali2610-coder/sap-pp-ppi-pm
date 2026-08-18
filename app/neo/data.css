@@ -29,6 +29,29 @@
              which globals.css sanctions on a visualisation surface.
    ========================================================================== */
 
+/* --------------------------------------------------------------- 0. THE HAIR
+   A COLD RULE BESIDE A WARM ONE — MEASURED, NOT SUSPECTED.
+
+   app/globals.css declares `--c-hair: var(--hairline)` on :root. A custom
+   property's value is SUBSTITUTED where it is declared, so that alias resolved
+   once, on :root, against the NEUTRAL globals hairline, and every descendant
+   inherited the already-resolved colour. app/neo/ground.css then re-grounds the
+   NEO shell warm by redeclaring --hairline on .nx-app — which --c-hair, being
+   already substituted, never hears about.
+
+   Measured on /neo/tables in this shell:
+     light   --hairline #dacebf   but  --c-hair #eaecef   (a cool grey)
+     dark    --hairline #3a3027   but  --c-hair #262b33   (a blue-grey)
+
+   So .nxd-row drew a warm border while .nxd-tabs drew a cool one, two
+   centimetres apart on the same card. Re-deriving the alias HERE recomputes it
+   against this element's warm --hairline. It changes nothing outside these
+   three surfaces, and it is why the eleven --c-hair rules below are left
+   exactly as they were written. */
+.nx-app .nxd,
+.nx-app .nxt,
+.nx-app .nxb { --c-hair: var(--hairline); }
+
 .nx-app .nxd {
   display: grid;
   gap: var(--sp-5);
@@ -1563,4 +1586,81 @@ html[data-theme="dark"] .nx-app .nxb-mods > li { background: color-mix(in srgb, 
   .nx-app .nxd-field input,
   .nx-app .nxd-field { inline-size: 100%; min-inline-size: 0; max-inline-size: 100%; }
   .nx-app .nxd-tabs { max-inline-size: 100%; }
+}
+
+/* ============================================================================
+   14. L2 · FUNCTIONAL MOTION
+   ----------------------------------------------------------------------------
+   These four surfaces sit at [data-motion="2"], where app/neo/motion.css
+   resolves --nm-rise to 8px and --nm-par to 0. Every reveal on them is a CSS
+   scroll-driven animation from that file — no scroll listener, no rAF, nothing
+   on the main thread. This section adds only the two things motion.css cannot
+   know about, and one correction it could not have anticipated.
+
+   MOTION HERE IS NOT DECORATION. It answers one question the client raised:
+   after opening a table and coming back, WHICH of the hundred identical rows
+   was the one I left? SmartReturn already scrolls it under the eye; it had no
+   way to say "this one".
+   ========================================================================== */
+
+/* THE WILL-CHANGE CORRECTION.
+   motion.css sets `will-change: opacity` on .nm-rise, which is right for the
+   half-dozen hero blocks it was written for and wrong for a list: /neo/tables
+   renders 105 rows and /neo/transactions 120, and will-change forces a
+   compositing layer per element whether or not the element is anywhere near
+   the viewport. A row is ~1100x70 CSS px, so the hint alone would reserve tens
+   of megabytes of layer memory to save nothing — Chrome already promotes a
+   running scroll-driven opacity/transform animation on its own, lazily, and
+   only near the scrollport. So the hint is withdrawn for list rows and kept
+   everywhere else. The animation, its range and its reduced-motion behaviour
+   all still come from motion.css, untouched. */
+.nx-app .nxd-list > .nxd-item.nm-rise,
+.nx-app .nxd-list > .nxd-item.nm-fade { will-change: auto; }
+
+/* SMART RETURN — the row you left, marked when you land on it.
+   Drawn on .nxd-item and not on .nxd-row, because the row sets overflow:hidden
+   to clip its module edge and would clip this too. Opacity only, one iteration,
+   forwards-filled: the attribute can stay on the element for the rest of the
+   session and the mark still leaves on its own. Module hue, in ring form —
+   which the form rule allows module identity to take. */
+@keyframes nxd-land {
+  0%   { opacity: 0; }
+  10%  { opacity: 1; }
+  58%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+.nx-app .nxd-item[data-back="1"]::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--sp-2) * -1);
+  border-radius: var(--r-lg);
+  box-shadow:
+    0 0 0 2px var(--m),
+    0 0 0 6px color-mix(in srgb, var(--m) 20%, transparent);
+  pointer-events: none;
+  opacity: 0;
+  animation: nxd-land 1700ms var(--ease-out-expo) both;
+}
+
+/* THE FIELD TABLE'S KEY ROWS — a status change the reader causes.
+   Scoping the field list to keys only is the one filter on the detail screen
+   that removes rows rather than reordering them, so the rows that survive it
+   should confirm they were chosen. Colour and weight, no travel: a table row
+   that moves is a table row you lose your place in. */
+.nx-app .nxb-tbl tbody tr[data-k]:not([data-k="none"]) {
+  transition: background-color var(--dur-base) var(--ease-out-expo);
+}
+
+/* LOCAL NAVIGATION — the leaving arrow on a row.
+   ui.css owns the row's four states; this is the one signal it has no opinion
+   about, because the arrow is a data.css element. It already slides in on
+   hover (section 7); at L2 it also answers the KEYBOARD, which it did not,
+   so a row reached by Tab reads exactly like a row reached by pointer. */
+.nx-app .nxd-row:focus-visible .nxd-go { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* A fade is a courtesy rather than travel, so the landing mark survives —
+     but it is cut to the shortest length that still registers. */
+  .nx-app .nxd-item[data-back="1"]::after { animation-duration: 900ms; }
+  .nx-app .nxb-tbl tbody tr[data-k]:not([data-k="none"]) { transition: none; }
 }

@@ -42,7 +42,18 @@
    The two places this file sets a floor of its own (--nw-row on a row, and the
    expander) use the same token, so nothing on the page is under 44px on touch.
 
+   THE SPACING SCALE HAS HOLES IN IT. app/globals.css defines --sp-1..6, 8, 10,
+   12 and 16 — there is no --sp-7, no --sp-9, no --sp-11. A var() that resolves
+   to nothing makes its whole shorthand invalid at computed-value time, so
+   `padding: var(--sp-7) var(--nw-gut) var(--sp-8)` on the chapter index was not
+   "slightly tight", it computed to padding: 0, and `gap: var(--sp-7)` on every
+   chapter body computed to gap: normal. Both were measured, not guessed. Every
+   reference to a step that does not exist has been moved to the nearest one
+   that does.
+
    Rules of the house, kept:
+     · only tokens app/globals.css actually defines. A missing step is a
+       silently deleted declaration, not a rounding error.
      · logical properties everywhere; not one physical inset in the layout
      · only transform / opacity (and one filter on a decorative layer) animate
      · nothing is required to be in motion for the page to be understood
@@ -86,6 +97,29 @@ html .nx-app .nx-canvas:has(> .nw) {
   container-type: inline-size;
   container-name: nw;
   padding-block-end: var(--sp-10);
+
+  /* THE GROUND CARRIES THE MODULE.
+     module-workspace.tsx puts data-scene="pm" / "pppi" on this node, and
+     app/neo/ground.css answers with a ground washed by that module's hue. This
+     is the Partake lesson taken literally: the SECTION owns the colour, so
+     entering PM is a different PLACE from entering PP-PI rather than the same
+     place wearing a different chip. The wash is 6% of the module hue — enough
+     to be recognisable beside its sibling, never enough to read as a status.
+
+     The paint is here and not on .nm-scene deliberately. .nm-scene rebinds
+     --surface to --scene-raised, and the pm/pppi scenes define --scene-raised
+     AS --surface, so wearing both on one element is a custom-property cycle:
+     both compute to guaranteed-invalid and every card under it loses its
+     surface. Measured in Chrome, not assumed. A scene that rebinds tokens must
+     therefore sit on a DIFFERENT element from its data-scene, which is exactly
+     what the S/4HANA band below does. Painting a ground needs neither.
+
+     Selection follows the ground. .nm-sel reads --scene-accent, and on a module
+     page the module hue is the real accent — the same decision, and the same
+     reason, as --nxs-on on the running section bar a few rules down. */
+  background-color: var(--scene-ground);
+  --scene-accent: var(--m);
+  transition: background-color 700ms var(--ease-out-expo);
 }
 
 .nw-sap { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; }
@@ -237,7 +271,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-go-why { font-size: var(--t-micro); color: var(--ink-3); flex: 1 1 14rem; }
 
 /* --- the counts. A rail of figures, not a grid of cards ------------------- */
-.nw-figs { display: flex; flex-wrap: wrap; gap: var(--sp-4) var(--sp-7); margin-block-start: var(--sp-2); }
+.nw-figs { display: flex; flex-wrap: wrap; gap: var(--sp-4) var(--sp-8); margin-block-start: var(--sp-2); }
 .nw-fig { display: grid; gap: 2px; }
 .nw-fig dt { font-size: var(--t-micro); color: var(--ink-3); order: 2; }
 .nw-fig dd { display: flex; align-items: baseline; gap: var(--sp-2); flex-wrap: wrap; }
@@ -260,12 +294,19 @@ html .nx-app .nx-canvas:has(> .nw) {
    beneath it. Its active mark is the MODULE hue and not brand red: on this page
    the module colour is a real, saturated identity and the bar is part of the
    module's own chrome. */
-.nw .nxs { --nxs-gut: var(--nw-gut); --nxs-on: var(--m); }
+.nw .nxs {
+  --nxs-gut: var(--nw-gut);
+  --nxs-on: var(--m);
+  /* The bar is translucent so the ambient light keeps travelling under it, so
+     what it is translucent OVER has to be this page's ground and not the shell's
+     — otherwise the strip reads a shade cooler than everything beneath it. */
+  background: color-mix(in srgb, var(--scene-ground) 84%, transparent);
+}
 
 .nw-idx {
   display: grid;
   gap: var(--sp-4);
-  padding: var(--sp-7) var(--nw-gut) var(--sp-8);
+  padding: var(--sp-8) var(--nw-gut) var(--sp-8);
   border-block-start: 1px solid color-mix(in srgb, var(--m) 22%, var(--hairline));
 }
 .nw-idx-h { display: grid; gap: var(--sp-2); max-inline-size: 72ch; }
@@ -302,6 +343,18 @@ html .nx-app .nx-canvas:has(> .nw) {
   color: color-mix(in srgb, var(--m) 78%, var(--ink-3));
 }
 .nw-idx-t { font-size: var(--t-sm); font-weight: 650; color: var(--ink-1); line-height: 1.35; }
+/* THE CHAPTER THIS PAGE IS FOR. The index is a flat list of eight equal tiles,
+   which is honest about the structure and silent about the priority — so the one
+   chapter the product exists to deliver takes a module EDGE, a tint and a
+   heavier title here, the same three signals the running bar draws. All three
+   are sanctioned module forms; none of them is a coloured dot. */
+.nw-idx-i[data-key="1"] {
+  border-inline-start-width: 3px;
+  border-inline-start-color: var(--m);
+  background: color-mix(in srgb, var(--m) 7%, var(--surface));
+}
+.nw-idx-i[data-key="1"] .nw-idx-t { font-weight: 750; }
+.nw-idx-i[data-key="1"] .nw-idx-n { color: var(--m); }
 .nw-idx-c { display: flex; align-items: baseline; gap: 5px; }
 .nw-idx-c b { font-size: var(--t-xs); color: var(--ink-2); font-variant-numeric: tabular-nums; }
 .nw-idx-c em { font-style: normal; font-size: 10px; color: var(--ink-3); }
@@ -410,7 +463,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 }
 .nw-ch-s b { color: var(--ink-1); font-variant-numeric: tabular-nums; }
 .nw-ch-go { display: flex; gap: var(--sp-4); flex-wrap: wrap; margin-block-start: var(--sp-2); }
-.nw-ch-body { display: grid; gap: var(--sp-7); align-content: start; }
+.nw-ch-body { display: grid; gap: var(--sp-8); align-content: start; }
 .nw-ch-body > * { min-inline-size: 0; }
 
 /* --- the view switch. .nu-tab owns every state; this only places it -------- */
@@ -432,7 +485,7 @@ html .nx-app .nx-canvas:has(> .nw) {
 .nw-view { display: grid; gap: var(--sp-4); }
 
 /* --- two columns inside one chapter, never two chapters ------------------- */
-.nw-cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-7); }
+.nw-cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-8); }
 .nw-sub { display: grid; gap: var(--sp-3); align-content: start; min-inline-size: 0; }
 /* The SUB-BLOCK heading. Deliberately sentence case at a real size: the old
    micro uppercase caption read as a data label and was the reason the page had
@@ -519,6 +572,21 @@ html .nx-app .nx-canvas:has(> .nw) {
   transition: transform 620ms var(--ease-emphasis);
 }
 [dir="ltr"] .nw-bar > i { transform-origin: 0 50%; }
+
+/* THE BAR DRAWS ITSELF IN. .nm-grow (app/neo/motion.css) scrubs the TRACK from
+   scaleX(0) against its own passage through the scrollport, so the fill inside
+   keeps its measured proportion and the whole metric arrives with the scroll
+   instead of being there before the reader is. Only a transform animates.
+   The origin is restated because transform-origin takes no logical keyword —
+   `inline-start` is not a value it accepts, so it has to be spelled per
+   direction or the bar would grow outward from its middle. */
+.nw-bar.nm-grow { transform-origin: 100% 50%; }
+[dir="ltr"] .nw-bar.nm-grow { transform-origin: 0 50%; }
+
+/* The selected row's leading edge, pulled inside the card's own 1rem radius so
+   it reads as an edge of the card rather than a mark beside it. */
+.nw-rank .nu-card.nm-sel[data-on="1"]::before,
+.nw-frow.nm-sel[data-on="1"]::before { inset-inline-start: 2px; inset-block: 22%; }
 /* Object-class proportion: the data's own hue, not the module's. */
 .nw-bar--obj > i { background: color-mix(in srgb, var(--o, var(--ink-3)) 74%, transparent); }
 /* A verdict proportion is NEVER a status hue — a bar is a surface, and status
@@ -574,7 +642,7 @@ html .nx-app .nx-canvas:has(> .nw) {
    own height — i.e. zero travel. On a block container the rail's containing
    block is the whole section, so it can ride the full length of the table. */
 .nw-ch--wide { display: block; padding-inline: 0; }
-.nw-ch--wide > .nw-ch-h { padding-inline: var(--nw-gut); margin-block-end: var(--sp-7); }
+.nw-ch--wide > .nw-ch-h { padding-inline: var(--nw-gut); margin-block-end: var(--sp-8); }
 .nw-ch--wide > .nw-ch-body { display: block; }
 .nw-ch--wide .nw-rail { margin-block-end: var(--sp-4); }
 
@@ -593,7 +661,7 @@ html .nx-app .nx-canvas:has(> .nw) {
   padding: var(--sp-3) var(--nw-gut);
   /* Deliberately not opaque: the ambient module light has to keep travelling
      under the rail, so the blur has something to do. */
-  background: color-mix(in srgb, var(--m) 5%, color-mix(in srgb, var(--background) 88%, transparent));
+  background: color-mix(in srgb, var(--m) 5%, color-mix(in srgb, var(--scene-ground) 88%, transparent));
   border-block: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
   backdrop-filter: blur(10px);
 }
@@ -697,7 +765,9 @@ html .nx-app .nx-canvas:has(> .nw) {
   letter-spacing: .06em;
   text-transform: uppercase;
   color: var(--ink-3);
-  background: var(--background);
+  /* Opaque, and opaque in the PAGE's ground: rows scroll under this head, so it
+     has to hide them completely and still be the same colour as the page. */
+  background: var(--scene-ground);
   /* TABLE IDENTITY: the head is underlined in the module's own colour, so the
      working table of PM never reads as the working table of PP-PI. */
   border-block-end: 2px solid color-mix(in srgb, var(--m) 42%, var(--hairline));
@@ -903,6 +973,32 @@ html .nx-app .nx-canvas:has(> .nw) {
    all three sanctioned forms — which is why a high-risk table reads as loud
    without a red rectangle anywhere on the page.
    ========================================================================== */
+/* THE STAGE — the one ground change on a module page.
+   app/neo/ground.css keeps the `deep` scene for "a moment that is meant to feel
+   like a held breath", and this is the sentence the whole product is written to
+   deliver: how much of the module actually moves. It is a FULL-BLEED band, out
+   past the chapter's gutters to the canvas edge, because a colour block that
+   stops at a margin is a card and a card is not a change of place.
+
+   It is the band and not the chapter. Everything below it is reference material
+   somebody has to sit and read, and a study surface does not belong inside a
+   dark tunnel — which is also the level-3 instruction for these two routes.
+
+   .nm-scene and data-scene are on the SAME element here, and that is safe only
+   because `deep` states its raised tone as a literal colour. The pm/pppi scenes
+   state theirs as var(--surface), which is the property .nm-scene rebinds, and
+   pairing those two on one node is a custom-property cycle. See the note on .nw. */
+.nw-s4stage {
+  margin-inline: calc(-1 * var(--nw-gut));
+  padding: var(--sp-10) var(--nw-gut);
+}
+/* The scene's own seam feather is a 5rem gradient hung ABOVE the element, and a
+   positioned pseudo-element paints over in-flow text — here, the chapter lede
+   sitting right above the band. The band is colour blocking rather than a scene
+   transition, so it takes a crisp edge instead, which is what Partake actually
+   does: sections meet, they do not dissolve. */
+.nw-s4stage::before { display: none; }
+
 .nw-s4top {
   display: grid;
   gap: var(--sp-5);
@@ -912,7 +1008,29 @@ html .nx-app .nx-canvas:has(> .nw) {
   background: color-mix(in srgb, var(--m) 6%, var(--surface));
   border: 1px solid color-mix(in srgb, var(--m) 26%, var(--hairline));
 }
-.nw-s4big { display: grid; gap: 2px; }
+/* On the stage the ground IS the card, so the panel gives its frame back. */
+.nw-s4stage .nw-s4top {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+/* Priority as SIZE. On the stage the headline number is the largest figure below
+   the hero — larger than any chapter numeral — so the count of what moves is the
+   first thing read on the page after the module's own name. */
+.nw-s4stage .nw-s4big b { font-size: clamp(3rem, 7.5cqi, 5.5rem); }
+.nw-s4stage .nw-s4big span { font-size: 1.25rem; }
+.nw-s4stage .nw-s4mix { max-inline-size: none; }
+/* The trust line is the band's footer: it says where every number above it came
+   from, so it sits under both columns and is separated by the scene's own
+   hairline rather than by a module one. */
+.nw-s4stage .nw-s4trust { border-block-start-color: var(--hairline); }
+.nw-s4big { display: grid; gap: 2px; justify-items: start; }
+/* The figure is .nw-sap, i.e. an LTR-isolated run, and a blockified grid item
+   with direction:ltr aligns its text to the LEFT — which in this RTL page threw
+   the loudest number on the screen to the far side of the band, away from the
+   words it belongs to. justify-self is resolved in the CONTAINER's direction, so
+   this is the one property that puts it back at the inline start. */
 .nw-s4big b {
   font-size: clamp(2.75rem, 6cqi, 4.5rem);
   font-weight: 700;
@@ -1166,8 +1284,8 @@ html[data-theme="dark"] :is(.nw-find, .nw-panel) {
   background: color-mix(in srgb, var(--surface-2) 74%, transparent);
   border-color: color-mix(in srgb, var(--ink-3) 24%, transparent);
 }
-html[data-theme="dark"] .nw-rail { background: color-mix(in srgb, var(--m) 8%, var(--background)); }
-html[data-theme="dark"] .nw-tbl thead th { background: var(--background); }
+html[data-theme="dark"] .nw-rail { background: color-mix(in srgb, var(--m) 8%, var(--scene-ground)); }
+html[data-theme="dark"] .nw-tbl thead th { background: var(--scene-ground); }
 html[data-theme="dark"] .nw-det { background: color-mix(in srgb, var(--m) 8%, transparent); }
 html[data-theme="dark"] :is(.nw-kb, .nw-kind) { background: color-mix(in srgb, var(--ink-3) 16%, transparent); }
 html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
@@ -1197,7 +1315,7 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   /* A phone still gets the chapter hierarchy — it is the thing that makes the
      page navigable at this width — but the number moves above the kicker
      instead of beside it, so the title keeps the whole column. */
-  .nw-ch { padding-block: var(--sp-7) var(--sp-8); gap: var(--sp-5); }
+  .nw-ch { padding-block: var(--sp-8) var(--sp-8); gap: var(--sp-5); }
   .nw-ch-body { gap: var(--sp-6); }
   .nw-ch-h { grid-template-columns: minmax(0, 1fr); gap: var(--sp-2); }
   .nw-ch-n { grid-row: auto; font-size: 2rem; }
@@ -1218,6 +1336,8 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   .nw-move { padding: var(--sp-4); }
   .nw-move-w { font-size: 1rem; }
   .nw-s4top { padding: var(--sp-4); }
+  .nw-s4stage { padding-block: var(--sp-6); }
+  .nw-s4stage .nw-s4big span { font-size: 1.0625rem; }
   .nw-s4mix li { grid-template-columns: minmax(0, 1fr) auto; }
   .nw-s4mix .nw-bar { display: none; }
   .nw-sheet-r { padding: var(--sp-3); }
@@ -1303,15 +1423,26 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
 
 /* --- laptop: the block splits get their second column --------------------- */
 @container nw (min-width: 900px) {
-  .nw-cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--sp-9); }
+  .nw-cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--sp-10); }
   .nw-ch .nw-cols > .nw-sub:first-child {
-    padding-inline-end: var(--sp-9);
-    margin-inline-end: calc(-1 * var(--sp-9));
+    padding-inline-end: var(--sp-10);
+    margin-inline-end: calc(-1 * var(--sp-10));
     border-inline-end: 1px solid var(--hairline);
   }
   /* The topic list gets two columns of rows before it gets a longer scroll. */
   .nw-view .nw-rank { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .nw-view .nw-chain { grid-template-columns: minmax(0, 1fr); }
+
+  /* THE STAGE, COMPOSED. A full-bleed band whose content huddles in one column
+     is a wide empty rectangle with a paragraph in it. The verdict figure and the
+     risk mix are the same statement read two ways, so on a laptop canvas they
+     stand side by side and the band is filled by what it is about. */
+  .nw-s4stage .nw-s4top {
+    grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--sp-12);
+  }
+  .nw-s4stage .nw-s4trust { grid-column: 1 / -1; }
 }
 
 /* --- desktop: more gutter ------------------------------------------------- */
@@ -1339,7 +1470,7 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
 @container nw (min-width: 2200px) {
   .nw { --nw-gut: 6rem; }
   .nw-mark { -webkit-text-stroke-width: 2.5px; }
-  .nw-hero { padding-block: var(--sp-10) var(--sp-9); }
+  .nw-hero { padding-block: var(--sp-10) var(--sp-10); }
   .nw-ch .nw-cols { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
 }
 
@@ -1358,6 +1489,9 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
 @media (prefers-reduced-motion: reduce) {
   .nw-bar > i { transition: none; }
   .nw-steparw, .nw-name .nu-arw { transition: none; }
+  /* The ground still CHANGES between PM, PP-PI and the S/4HANA band — colour is
+     information here, not movement — it simply stops drifting into place. */
+  .nw { transition: none; }
 }
 
 /* Forced colours: the ambient light and the section lighting are decoration and

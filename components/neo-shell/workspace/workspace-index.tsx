@@ -29,10 +29,14 @@ export function WorkspaceIndex({ chapters }: { chapters: ChapterMeta[] }) {
           לא מופיע כאן.
         </span>
       </p>
-      <ol className="nw-idx-l">
+      <ol className="nw-idx-l nm-seq">
         {chapters.map((c) => (
-          <li key={c.id}>
-            <a className="nu-card nw-idx-i" href={`#${c.id}`}>
+          <li key={c.id} className="nm-rise">
+            {/* The featured chapter is the one the page is really for. It takes
+                a module EDGE and a heavier title here, which is the same signal
+                the running bar draws — never a coloured dot, which is the shape
+                the form rule reserves for status. */}
+            <a className="nu-card nw-idx-i" href={`#${c.id}`} data-key={c.feature ? "1" : undefined}>
               <span className="nw-idx-n nw-sap" aria-hidden="true">{String(c.n).padStart(2, "0")}</span>
               <span className="nw-idx-t">{c.title}</span>
               <span className="nw-idx-c">

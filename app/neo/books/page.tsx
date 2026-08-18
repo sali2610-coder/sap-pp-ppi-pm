@@ -30,15 +30,28 @@ export default function NeoBooks() {
 
   return (
     <div className="nb">
-      <header className="nb-mast">
+      {/* THE OPENING, ON ITS OWN GROUND.
+          app/neo/ground.css reserves `deep` for "a moment that is meant to feel
+          like a held breath — a hero, an opening, a statement", and it is the
+          one scene that is the same warm dark in both themes. Arriving at the
+          shelf is that moment. The shelves themselves then move to `cream`
+          (see components/neo-shell/books/book-shelf.tsx), which is the reading
+          ground — so the page reads as walking out of a dark hall and up to a
+          lit shelf, using two of the five scenes that already exist rather than
+          inventing a sixth. */}
+      <div className="nb-open nb-scene nm-scene" data-scene="deep">
+      <header className="nb-mast nm-rise nm-once">
         <p className="nb-eye">
           CBC ISRAEL · PROJECT NEO
           <i aria-hidden="true" />
           מדף הספרים
         </p>
-        <h1 className="nb-mega">
-          {d.totals.books} ספרים.
-          <span className="nb-mega-2">לא רשימה — מדף.</span>
+        {/* Kinetic type, per motion.css: the outer span is the mask, the inner
+            span is what rises out of it. The structure is the primitive's
+            contract and cannot be flattened. */}
+        <h1 className="nb-mega nm-kin">
+          <span><span>{d.totals.books} ספרים.</span></span>
+          <span><span className="nb-mega-2">לא רשימה — מדף.</span></span>
         </h1>
         <p className="nb-lede">
           {nf.format(d.totals.chapters)} פרקים ו־{nf.format(d.totals.sections)} תת-פרקים,
@@ -49,15 +62,15 @@ export default function NeoBooks() {
           לקורא הקיים של Project NEO.
         </p>
 
-        <div className="nb-stats">
+        <div className="nb-stats nm-seq">
           {([
             [nf.format(d.totals.books), "ספרים"],
             [nf.format(d.totals.chapters), "פרקים"],
             [nf.format(d.totals.sections), "תת-פרקים"],
             [nf.format(d.totals.pages), "עמודים מתועדים"],
             [nf.format(d.totals.modules), "מודולים"],
-          ] as [string, string][]).map(([n, l]) => (
-            <span className="nb-stat" key={l}>
+          ] as [string, string][]).map(([n, l], i) => (
+            <span className="nb-stat nm-fade" key={l} style={{ "--nm-i": i } as React.CSSProperties}>
               <b className="nb-sap">{n}</b>
               <em>{l}</em>
             </span>
@@ -73,7 +86,7 @@ export default function NeoBooks() {
         )}
       </header>
 
-      <section className="nb-dictbar" aria-label="כיסוי המילון הטכני">
+      <section className="nb-dictbar nm-rise nm-once" aria-label="כיסוי המילון הטכני">
         <p className="nb-dictbar-t">
           <Table2 size={15} strokeWidth={1.75} aria-hidden="true" />
           המילון הטכני של NEO מתעד שני מודולים מתוך {d.totals.modules}
@@ -98,12 +111,13 @@ export default function NeoBooks() {
           בכרטיס של כל ספר אחר כתוב במפורש שאין לו כיסוי במילון, במקום קישור שרומז אחרת.
         </p>
       </section>
+      </div>
 
       <BookShelf data={d} />
 
-      {d.twinNote && <p className="nb-note nb-note--wide">{d.twinNote}</p>}
+      {d.twinNote && <p className="nb-note nb-note--wide nm-fade">{d.twinNote}</p>}
 
-      <footer className="nb-foot">
+      <footer className="nb-foot nm-fade">
         <Link className="nu-btn2" href="/neo/library/" prefetch={false}>
           <Library size={15} strokeWidth={1.75} aria-hidden="true" />
           הספרייה הדיגיטלית

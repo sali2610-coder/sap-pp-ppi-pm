@@ -108,7 +108,7 @@ type MakeOrigin = (name: string) => {
   href: string; label: string; detail: string; surface: string; state: TablesListState;
 };
 
-function Row({ r, q, makeOrigin }: { r: NeoTableRow; q: string; makeOrigin: MakeOrigin }) {
+function Row({ r, q, makeOrigin, landed }: { r: NeoTableRow; q: string; makeOrigin: MakeOrigin; landed?: boolean }) {
   const st = s4State(r);
 
   // The row's whole body. It is identical whether the row is a destination or a
@@ -168,8 +168,17 @@ function Row({ r, q, makeOrigin }: { r: NeoTableRow; q: string; makeOrigin: Make
 
   return (
     <li
-      className="nxd-item"
+      // nm-rise + nm-once are app/neo/motion.css primitives. This route resolves
+      // to [data-motion="2"], where the rise is 8px and the whole thing is a CSS
+      // scroll-driven animation on .nx-canvas's own view timeline — no listener,
+      // no rAF, nothing on the main thread. nm-once finishes the reveal while
+      // the row is still ENTERING, so scrolling back up never replays it.
+      className="nxd-item nm-rise nm-once"
       data-name={r.name}
+      // SmartReturn landed on this row. data.css draws a module-hued ring that
+      // fades itself out, so the reader is told WHICH of a hundred rows they
+      // left instead of only being scrolled near it.
+      data-back={landed ? "1" : undefined}
       style={{ "--m": modVar(r.mods[0]), "--o": r.obj } as React.CSSProperties}
     >
       {r.href ? (
@@ -352,7 +361,12 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
           home, which is this page's real parent. Never dead, never blank. */}
       <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
 
-      <header className="nxd-head">
+      {/* THE REVEAL LADDER, at L2.
+          Only the blocks that carry information rise (8px, scrubbed against
+          their own passage through the canvas). The two CONTROL bands fade
+          without travelling: a filter that slides while you are reaching for it
+          is a filter you miss, and this surface is a tool before it is a page. */}
+      <header className="nxd-head nm-rise nm-once">
         {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
         <span className="nx-eyebrow">עיון · Reference</span>
         <h1 className="nx-h1">טבלאות SAP</h1>
@@ -366,7 +380,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
         </p>
       </header>
 
-      <section className="nx-card nxd-stats" aria-label="מספרי מאגר הטבלאות">
+      <section className="nx-card nxd-stats nm-rise nm-once" aria-label="מספרי מאגר הטבלאות">
         {[
           { v: t.tables, l: "טבלאות", i: <TableIcon size={14} strokeWidth={1.75} /> },
           { v: t.fields, l: "שדות", i: <Database size={14} strokeWidth={1.75} /> },
@@ -385,7 +399,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
         ))}
       </section>
 
-      <div className="nxd-tools">
+      <div className="nxd-tools nm-fade nm-once">
         <div className="nxd-field">
           <Search size={15} strokeWidth={1.75} aria-hidden="true" />
           <input
@@ -426,7 +440,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
         </label>
       </div>
 
-      <div className="nxd-facets">
+      <div className="nxd-facets nm-fade nm-once">
         <div className="nxd-facet" role="group" aria-label="סינון לפי מודול">
           <span className="nxd-facet-l">מודול</span>
           {data.mods.map((m) => (
@@ -486,13 +500,13 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
         ) : null}
       </div>
 
-      <p className="nxd-count" aria-live="polite">
+      <p className="nxd-count nm-fade nm-once" aria-live="polite">
         <b>{nf.format(rows.length)}</b> מתוך {nf.format(t.tables)} טבלאות
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>נקה סינון</button></> : null}
       </p>
 
       {rows.length === 0 ? (
-        <div className="nx-card nxd-none">
+        <div className="nx-card nxd-none nm-rise nm-once">
           <p><b>אין טבלת SAP שעונה על הסינון הזה.</b></p>
           <p className="nx-muted">
             החיפוש עובר על {nf.format(t.tables)} טבלאות אמיתיות מקובצי המקור: שם, תיאור, נושא, טרנזקציה ו-CDS.
@@ -513,18 +527,18 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
                 <em>{nf.format(list.length)}</em>
               </h2>
               <ul className="nxd-list">
-                {list.map((r) => <Row key={r.name} r={r} q={q} makeOrigin={makeOrigin} />)}
+                {list.map((r) => <Row key={r.name} r={r} q={q} makeOrigin={makeOrigin} landed={r.name === back?.name} />)}
               </ul>
             </section>
           ))}
         </div>
       ) : (
         <ul className="nxd-list">
-          {rows.map((r) => <Row key={r.name} r={r} q={q} makeOrigin={makeOrigin} />)}
+          {rows.map((r) => <Row key={r.name} r={r} q={q} makeOrigin={makeOrigin} landed={r.name === back?.name} />)}
         </ul>
       )}
 
-      <p className="nxd-foot">
+      <p className="nxd-foot nm-fade nm-once">
         המקור הוא שני קובצי המקור של הפרויקט. שדה שקובץ המקור שותק לגביו מוצג כ«לא צוין» ולא מולא בערך סביר.
       </p>
     </div>

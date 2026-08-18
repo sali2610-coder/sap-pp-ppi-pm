@@ -85,7 +85,7 @@ export function GeneralChat() {
         <span className="nxg-head-mark">
           <NeoMark size={44} state={markState} />
         </span>
-        <div className="nxg-head-text">
+        <div className="nxg-head-text nm-rise nm-once">
           <span className="nxq-eyebrow">
             <Terminal size={13} strokeWidth={2} aria-hidden="true" />
             עוזר כללי · אינו משטח הספרייה
@@ -184,8 +184,8 @@ function Intro({ onPick }: { onPick: (q: string) => void }) {
         </div>
       </div>
 
-      <div className="nxg-cols">
-        <div className="nxg-col" data-tone="does">
+      <div className="nxg-cols nm-seq">
+        <div className="nxg-col nm-rise nm-once" data-tone="does">
           <h3 className="nxg-col-h">מה יש כאן היום</h3>
           <ul className="nxg-col-list">
             {DOES.map((d) => (
@@ -196,7 +196,7 @@ function Intro({ onPick }: { onPick: (q: string) => void }) {
             ))}
           </ul>
         </div>
-        <div className="nxg-col" data-tone="not">
+        <div className="nxg-col nm-rise nm-once" data-tone="not" style={{ "--nm-i": 1 } as React.CSSProperties}>
           <h3 className="nxg-col-h">מה אין כאן</h3>
           <ul className="nxg-col-list">
             {DOES_NOT.map((d) => (
@@ -214,9 +214,15 @@ function Intro({ onPick }: { onPick: (q: string) => void }) {
           <Sparkles size={13} strokeWidth={2} aria-hidden="true" />
           אפשר להתחיל מ
         </span>
-        <div className="nxq-starters-row">
-          {M.starters.map((s) => (
-            <button key={s.label} type="button" className="nu-card nxq-starter" onClick={() => onPick(s.prompt)}>
+        <div className="nxq-starters-row nm-seq">
+          {M.starters.map((s, i) => (
+            <button
+              key={s.label}
+              type="button"
+              className="nu-card nxq-starter nm-rise nm-once"
+              style={{ "--nm-i": i } as React.CSSProperties}
+              onClick={() => onPick(s.prompt)}
+            >
               <span className="nxq-starter-l">{s.label}</span>
               <span className="nxq-starter-p">{s.prompt}</span>
             </button>

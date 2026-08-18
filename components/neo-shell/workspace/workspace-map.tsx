@@ -113,7 +113,7 @@ export function WorkspaceMap({
               <li key={t.idx}>
                 <button
                   type="button"
-                  className="nu-card nw-rankrow"
+                  className="nu-card nw-rankrow nm-sel"
                   data-on={topic === t.idx ? "1" : undefined}
                   aria-pressed={topic === t.idx}
                   onClick={() => onTopic(t.idx)}
@@ -122,7 +122,7 @@ export function WorkspaceMap({
                   <span className="nw-rank-t">{t.title}</span>
                   {/* MODULE as a bar fill — a line/surface, never a dot. Its
                       length is the topic's tables against the largest topic. */}
-                  <span className="nw-bar" aria-hidden="true">
+                  <span className="nw-bar nm-grow" aria-hidden="true">
                     <i style={{ "--p": t.tables / d.maxTopicTables } as React.CSSProperties} />
                   </span>
                   <span className="nw-rank-n nw-sap">
@@ -191,14 +191,14 @@ export function WorkspaceMap({
               <li key={z.id} style={{ "--o": z.obj } as React.CSSProperties}>
                 <button
                   type="button"
-                  className="nu-card nw-rankrow nw-rankrow--obj"
+                  className="nu-card nw-rankrow nw-rankrow--obj nm-sel"
                   data-on={zone === z.id ? "1" : undefined}
                   aria-pressed={zone === z.id}
                   onClick={() => onZone(z.id)}
                 >
                   <i className="nw-cls" aria-hidden="true" />
                   <span className="nw-rank-t">{z.he}</span>
-                  <span className="nw-bar nw-bar--obj" aria-hidden="true">
+                  <span className="nw-bar nw-bar--obj nm-grow" aria-hidden="true">
                     <i style={{ "--p": z.n / maxZone } as React.CSSProperties} />
                   </span>
                   <span className="nw-rank-n nw-sap">

@@ -113,39 +113,54 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
         </Link>
       }
     >
-      {/* ============================================== 1 · the headline band */}
-      <div className="nw-s4top">
-        <p className="nw-s4big">
-          <b className="nw-sap">{nf.format(changed.length)}</b>
-          <span>טבלאות משתנות מהותית</span>
-          <em>
-            מתוך {nf.format(d.counts.tables)}: {nf.format(d.s4x.risk.high)} בסיכון גבוה,{" "}
-            {nf.format(d.s4x.risk.medium)} בסיכון בינוני
-          </em>
-        </p>
+      {/* ============================================== 1 · the headline band
 
-        <ul className="nw-s4mix" aria-label="פילוח הסיכון">
-          {riskRows.map((r) => (
-            <li key={r.k}>
-              {/* STATUS form: a small filled dot, immediately followed by its
-                  word. RISK_COLOR appears here and nowhere else on the page. */}
-              <span className="nu-status" style={{ "--s": RISK_COLOR[r.k] } as React.CSSProperties}>
-                {r.he}
-              </span>
-              <span className="nw-bar nw-bar--ink" aria-hidden="true">
-                <i style={{ "--p": r.n / (d.counts.tables || 1) } as React.CSSProperties} />
-              </span>
-              <b className="nw-sap">{nf.format(r.n)}</b>
-            </li>
-          ))}
-        </ul>
+          THE ONE PLACE ON A MODULE PAGE THAT CHANGES GROUND. app/neo/ground.css
+          reserves the `deep` scene for "a moment that is meant to feel like a
+          held breath", and this is that moment: the single sentence the whole
+          product exists to deliver, on a full-bleed warm-dark band that reads
+          identically in both themes. It is the BAND and not the chapter, because
+          everything under it is reference material somebody has to study, and a
+          study surface does not belong in a dark tunnel.
 
-        <p className="nw-s4trust">
-          <BadgeCheck size={13} strokeWidth={1.75} aria-hidden="true" />
-          מקור ההכרעה: <b className="nw-sap">{nf.format(d.s4x.trust.verified)}</b> מאומת ·{" "}
-          <b className="nw-sap">{nf.format(d.s4x.trust.partial)}</b> נגזר מהמילון ·{" "}
-          <b className="nw-sap">{nf.format(d.s4x.trust.needs)}</b> נדרש אימות SAP
-        </p>
+          The scene rebinds --surface / --ink-* / --hairline locally, so every
+          component inside keeps its own code and simply comes out legible. */}
+      <div className="nw-s4stage nm-scene" data-scene="deep">
+        <div className="nw-s4top">
+          <p className="nw-s4big nm-rise">
+            <b className="nw-sap">{nf.format(changed.length)}</b>
+            <span>טבלאות משתנות מהותית</span>
+            <em>
+              מתוך {nf.format(d.counts.tables)}: {nf.format(d.s4x.risk.high)} בסיכון גבוה,{" "}
+              {nf.format(d.s4x.risk.medium)} בסיכון בינוני
+            </em>
+          </p>
+
+          <ul className="nw-s4mix nm-seq" aria-label="פילוח הסיכון">
+            {riskRows.map((r) => (
+              <li key={r.k} className="nm-fade">
+                {/* STATUS form: a small filled dot, immediately followed by its
+                    word. RISK_COLOR appears here and nowhere else on the page. */}
+                <span className="nu-status" style={{ "--s": RISK_COLOR[r.k] } as React.CSSProperties}>
+                  {r.he}
+                </span>
+                {/* The bar draws itself in against the scroll (.nm-grow, scaleX
+                    only — width is a layout property and is never animated). */}
+                <span className="nw-bar nw-bar--ink nm-grow" aria-hidden="true">
+                  <i style={{ "--p": r.n / (d.counts.tables || 1) } as React.CSSProperties} />
+                </span>
+                <b className="nw-sap">{nf.format(r.n)}</b>
+              </li>
+            ))}
+          </ul>
+
+          <p className="nw-s4trust">
+            <BadgeCheck size={13} strokeWidth={1.75} aria-hidden="true" />
+            מקור ההכרעה: <b className="nw-sap">{nf.format(d.s4x.trust.verified)}</b> מאומת ·{" "}
+            <b className="nw-sap">{nf.format(d.s4x.trust.partial)}</b> נגזר מהמילון ·{" "}
+            <b className="nw-sap">{nf.format(d.s4x.trust.needs)}</b> נדרש אימות SAP
+          </p>
+        </div>
       </div>
 
       {/* ============================================ 2 · what actually moves */}
@@ -157,7 +172,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
       >
         {changed.length ? (
           <>
-            <ul className="nw-moves">
+            <ul className="nw-moves nm-seq">
               {shown.map((r) => (
                 <Move key={r.n} r={r} />
               ))}
@@ -201,7 +216,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
               <span className="nu-status" style={{ "--s": s4Dot(s.k) } as React.CSSProperties}>
                 {S4_HE[s.k]}
               </span>
-              <span className="nw-bar nw-bar--ink" aria-hidden="true">
+              <span className="nw-bar nw-bar--ink nm-grow" aria-hidden="true">
                 <i style={{ "--p": s.n / total } as React.CSSProperties} />
               </span>
               <b className="nw-sap">{nf.format(s.n)}</b>
@@ -249,7 +264,7 @@ export function WorkspaceS4({ d, meta }: { d: WsData; meta: ChapterMeta }) {
 function Move({ r }: { r: WsS4Row }) {
   const origin = useWsOrigin();
   return (
-    <li className="nw-move" data-risk={r.risk}>
+    <li className="nw-move nm-rise nm-lift" data-risk={r.risk}>
       <div className="nw-move-h">
         <span className="nu-status" style={{ "--s": RISK_COLOR[r.risk] } as React.CSSProperties}>
           {r.riskHe}

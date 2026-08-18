@@ -60,7 +60,7 @@ export function WorkspaceOps({ d, meta }: { d: WsData; meta: ChapterMeta }) {
             <li key={t.code}>
               <span className="nw-tcrow">
                 <b className="nw-sap">{t.code}</b>
-                <span className="nw-bar" aria-hidden="true">
+                <span className="nw-bar nm-grow" aria-hidden="true">
                   <i style={{ "--p": t.n / maxTc } as React.CSSProperties} />
                 </span>
                 <em className="nw-sap">

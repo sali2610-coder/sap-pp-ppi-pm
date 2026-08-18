@@ -365,13 +365,38 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
    turns. */
 .nxq-turn { display: grid; gap: var(--sp-3); min-inline-size: 0; }
 
+/* A TURN ARRIVES AS A CONVERSATION, IN THE ORDER A CONVERSATION HAPPENS.
+   The turn used to rise as one block, which is the one thing a conversation
+   never does: the question is already there when the answer starts, and drawing
+   them as a single object says the opposite. So the two halves are animated
+   separately and the answer is held back by one beat — long enough to read as
+   a reply, short enough that nobody waits for it.
+
+   Both halves move transform and opacity only, both are inside the motion-safe
+   guard, and both are switched off entirely at the end of this file. */
 @media (prefers-reduced-motion: no-preference) {
-  .nxq-turn { animation: nxq-in var(--dur-base) var(--ease-out-expo) both; }
+  .nxq-turn > .nxq-user { animation: nxq-said var(--dur-base) var(--ease-out-expo) both; }
+  .nxq-turn > .nxq-assistant { animation: nxq-in var(--dur-base) var(--ease-out-expo) 110ms both; }
+  /* The mark lands last and lands with a little weight — it is the thing that
+     says somebody is answering, so it is the one element allowed to overshoot. */
+  .nxq-turn > .nxq-assistant .nxq-gutter { animation: nxq-pop 460ms var(--ease-emphasis) 170ms both; }
 }
 @keyframes nxq-in {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: none; }
 }
+/* The question comes from the reader's side of the thread — the inline end,
+   which is the left in Hebrew and the right in English out of one declaration. */
+@keyframes nxq-said {
+  from { opacity: 0; transform: translateX(calc(14px * var(--nxq-dir, -1))); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes nxq-pop {
+  from { opacity: 0; transform: scale(.72); }
+  60%  { opacity: 1; transform: scale(1.06); }
+  to   { opacity: 1; transform: none; }
+}
+[dir="ltr"] .nxq { --nxq-dir: 1; }
 
 /* ---- the reader's turn --------------------------------------------------- */
 
@@ -418,12 +443,68 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 .nxq-gutter { display: flex; padding-block-start: 0.15rem; }
 
 .nxq-avatar {
+  position: relative;
   border-radius: 50%;
   padding: 3px;
   border: 1px solid var(--hairline);
   background: var(--surface);
   box-sizing: content-box;
 }
+
+/* THE MARK IS LISTENING.
+   --------------------------------------------------------------------------
+   Before the first token there is nothing to read and nothing to write, and
+   the surface has ~20-60 seconds to fill without inventing a single word about
+   what the model is "thinking". The honest answer is a rhythm rather than a
+   narration: one ring leaving the mark, over and over, which says the thing is
+   alive and says nothing else.
+
+   It is drawn on the AVATAR and not on the mark's own art, so it costs the SVG
+   nothing and can be switched off with one selector. `data-state` is written by
+   components/neo-shell/chat/marks.tsx from the phase the engine reported, so
+   this can only ever appear while a request really is in flight. */
+.nxq-avatar::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--brand) 42%, transparent);
+  opacity: 0;
+  transform: scale(.74);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .nxq-avatar[data-state="thinking"]::before { animation: nxq-listen 2.1s var(--ease-out-expo) infinite; }
+  /* Once text is arriving the ring stops: the caret in the draft below is now
+     carrying the "it is working" signal, and two of them at once is noise. */
+}
+@keyframes nxq-listen {
+  0%   { opacity: .6; transform: scale(.74); }
+  70%  { opacity: 0;  transform: scale(1.3); }
+  100% { opacity: 0;  transform: scale(1.3); }
+}
+
+/* The hero mark gets the same signal at hero scale — a slow warm bloom behind
+   the tile rather than a ring, because at 4.75rem a travelling ring reads as a
+   loading spinner and this is not a progress indicator. */
+.nxq-hero-mark { position: relative; isolation: isolate; }
+.nxq-hero-mark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(70% 70% at 50% 45%, color-mix(in srgb, var(--brand) 26%, transparent), transparent 72%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms var(--ease-out-expo);
+}
+.nxq-hero-mark:has(.nxm[data-state="thinking"])::after,
+.nxq-hero-mark:has(.nxm[data-state="writing"])::after { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .nxq-hero-mark:has(.nxm[data-state="thinking"])::after { animation: nxq-bloom 2.6s ease-in-out infinite; }
+}
+@keyframes nxq-bloom { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
 
 .nxq-said { display: grid; gap: var(--sp-3); min-inline-size: 0; }
 .nxq-said > * { min-inline-size: 0; }
@@ -566,26 +647,77 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   inline-size: 100%;
 }
 
+/* A CITATION IS A PAGE OUT OF A BOOK, SO IT IS DRAWN AS ONE.
+   --------------------------------------------------------------------------
+   These cards were flat panels, and a flat panel is what every list item on
+   every screen looks like — which made the one thing that separates this
+   product from a search engine look like the least important thing on the
+   answer. The card is now a leaf: paper, a page block down its bound edge, and
+   enough elevation to be picked up.
+
+   The bound edge is the SAME repeating gradient the book covers use for their
+   fore-edge (app/neo/books.css, `.nb-f-fore`). That is deliberate and it is the
+   only place these two surfaces touch: the answer's source and the object it
+   came off the shelf from are made of the same paper. */
 .nxq-src {
+  position: relative;
   display: grid; gap: var(--sp-2);
   padding: var(--sp-3);
+  padding-inline-start: calc(var(--sp-3) + 7px);
   border: 1px solid var(--hairline);
   border-radius: var(--r-md);
-  background: var(--surface-2);
+  background: var(--surface);
+  box-shadow: var(--elev-1);
   min-inline-size: 0;
+  overflow: hidden;
+  transition: transform var(--dur-base) var(--ease-out-expo),
+              box-shadow var(--dur-base) var(--ease-out-expo);
+}
+/* The page block. Five leaves' worth of edge down the bound side, plus the
+   shadow the block casts into the gutter. */
+.nxq-src::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: 7px;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(0,0,0,.16), transparent 14%, transparent 86%, rgba(0,0,0,.18)),
+    repeating-linear-gradient(90deg,
+      color-mix(in srgb, var(--ink-1) 4%, var(--surface)) 0 1px,
+      color-mix(in srgb, var(--ink-1) 16%, var(--surface)) 1px 2px);
+}
+/* The brand hairline where the leaf is bound in. It is the mark that says this
+   card is a SOURCE and not another note, and it is an edge — never a dot. */
+.nxq-src::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 7px;
+  inline-size: 1px;
+  background: color-mix(in srgb, var(--brand) 45%, transparent);
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .nxq-src:hover { transform: translateY(-2px); box-shadow: var(--elev-3); }
 }
 
 .nxq-src-head { display: flex; align-items: start; gap: var(--sp-2); }
 
+/* Solid, not a tint. The number ties this card to the numbered chip inside the
+   prose, and a 12%-opacity badge is not something the eye can match across
+   half a screen of text. */
 .nxq-src-n {
   flex: none;
   display: inline-flex; align-items: center; justify-content: center;
-  inline-size: 1.35rem; block-size: 1.35rem;
+  inline-size: 1.5rem; block-size: 1.5rem;
   border-radius: var(--r-xs);
-  background: color-mix(in srgb, var(--brand) 12%, transparent);
-  color: var(--brand);
+  background: var(--brand);
+  color: var(--brand-foreground);
   font-size: var(--t-micro); font-weight: 800;
   font-variant-numeric: tabular-nums;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--brand) 34%, transparent);
 }
 
 .nxq-src-id { display: grid; gap: 2px; min-inline-size: 0; flex: 1 1 auto; }
@@ -604,7 +736,9 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   padding: var(--sp-3);
   border-radius: var(--r-sm);
   border-inline-start: 2px solid color-mix(in srgb, var(--brand) 45%, var(--hairline));
-  background: var(--surface);
+  /* The card became paper, so the quote has to recede rather than match it —
+     they were both `--surface` and the blockquote vanished into its own card. */
+  background: var(--surface-2);
   color: var(--ink-2);
   font-size: var(--t-xs); line-height: 1.8;
   /* The quotes are English sentences lifted from the books; isolating them
@@ -616,11 +750,42 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
 /* ------------------------------------------------------- 4. LIVE / WORKING */
 
 .nxq-live {
+  position: relative;
+  overflow: hidden;
   display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3);
   padding: 0.55rem 0.8rem;
   border-radius: var(--r-lg);
   border: 1px solid var(--hairline);
   background: var(--surface);
+}
+/* One slow pass of light across the working row. It is the same idea as the
+   scan bar beside it, at the scale of the whole row, and it exists because a
+   45-second wait on a completely static box reads as a frozen page. It carries
+   NO information — the phase word and the live clock carry all of that — so it
+   is deliberately weak enough to be felt rather than watched.
+
+   Removed the moment text starts arriving: from that point the caret in the
+   draft is the thing that is alive, and two competing rhythms in one column is
+   the sort of noise this whole surface is written against. */
+.nxq-live::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  inline-size: 45%;
+  background: linear-gradient(to right, transparent,
+    color-mix(in srgb, var(--brand) 9%, transparent), transparent);
+  transform: translateX(-140%);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .nxq-live[data-phase="sending"]::after,
+  .nxq-live[data-phase="retrieved"]::after,
+  .nxq-live[data-phase="finishing"]::after { animation: nxq-pass 2.6s var(--ease-emphasis) infinite; }
+}
+@keyframes nxq-pass {
+  0%   { transform: translateX(-140%); }
+  100% { transform: translateX(320%); }
 }
 .nxq-live-label { font-size: var(--t-xs); font-weight: 650; color: var(--ink-2); }
 .nxq-live-chip { font-variant-numeric: tabular-nums; }
@@ -722,18 +887,75 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   background: linear-gradient(to top, var(--background) 62%, transparent);
 }
 
+/* THE COMPOSER ANSWERS BACK.
+   --------------------------------------------------------------------------
+   An input that only changes its border colour on focus is an input that does
+   not know you are there. Three things move here, and every one of them is a
+   transform or an opacity:
+
+     the box       rises by a hair and takes a deeper elevation, so the field
+                   comes forward off the thread rather than lighting up in place
+     the rail      a brand line under the field grows from the inline start.
+                   scaleX, never width — width is a layout property and the
+                   thread above it is streaming text while this happens
+     the send      wakes up when there is actually something to send
+
+   The rail is also the surface's one honest busy signal at the input: while an
+   answer is being written the send button has already become the stop button,
+   and the rail travels rather than resting. */
 .nxq-box {
+  position: relative;
   display: grid;
   border: 1px solid var(--hairline);
   border-radius: var(--r-xl);
   background: var(--surface);
   box-shadow: var(--elev-2);
-  transition: border-color var(--dur-fast) linear, box-shadow var(--dur-base) var(--ease-out-expo);
+  transition:
+    border-color var(--dur-fast) linear,
+    transform var(--dur-base) var(--ease-out-expo),
+    box-shadow var(--dur-base) var(--ease-out-expo);
 }
 .nxq-box:focus-within {
   border-color: color-mix(in srgb, var(--brand) 45%, var(--hairline));
   box-shadow: var(--elev-3);
+  transform: translateY(-2px);
 }
+
+.nxq-box::after {
+  content: "";
+  position: absolute;
+  inset-inline: 12px;
+  inset-block-end: -1px;
+  block-size: 2px;
+  border-radius: var(--r-pill);
+  background: var(--brand);
+  /* transform-origin has no logical keyword, so the physical value carries an
+     explicit LTR twin and the rail always grows from the inline start. */
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform var(--dur-base) var(--ease-emphasis);
+  pointer-events: none;
+}
+[dir="ltr"] .nxq-box::after { transform-origin: 0 50%; }
+.nxq-box:focus-within::after { transform: scaleX(1); }
+
+/* Busy is not focus. While an answer is being written the rail is present
+   whether or not the field is focused, because the state belongs to the
+   request and not to the caret. */
+.nxq-box[data-busy="1"]::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: no-preference) {
+  .nxq-box[data-busy="1"]::after { animation: nxq-rail 1.9s ease-in-out infinite; }
+}
+@keyframes nxq-rail {
+  0%, 100% { opacity: .35; }
+  50%      { opacity: 1; }
+}
+
+/* The send button is dead weight until there is a question in the field, and
+   then it is the loudest control on the screen. */
+.nxq-send { transition: transform var(--dur-fast) var(--ease-out-expo), opacity var(--dur-fast) linear; }
+.nxq-send:not([disabled]):hover { transform: translateY(-1px) scale(1.04); }
+.nxq-send:not([disabled]):active { transform: scale(.94); }
 
 .nxq-box-top {
   display: flex; align-items: center; gap: var(--sp-2);
@@ -945,6 +1167,16 @@ html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
   border-inline-start: 1px solid var(--hairline);
   border-block-start: 2px solid color-mix(in srgb, var(--ink-3) 34%, transparent);
 }
+/* Same rule, one level down. A source card on this surface is still a real
+   citation and still gets its page block, but the brand hairline down the bound
+   edge is the library's signature for "this came out of the books", and this
+   surface does not make that claim. */
+.nxg .nxq-src::after { background: color-mix(in srgb, var(--ink-3) 40%, transparent); }
+.nxg .nxq-src-n {
+  background: color-mix(in srgb, var(--ink-3) 26%, var(--surface-2));
+  color: var(--ink-1);
+  box-shadow: none;
+}
 
 .nxg-intro {
   display: grid; gap: var(--sp-5);
@@ -1132,7 +1364,31 @@ html[data-device="phone"] .nxq-hint { white-space: normal; }
 
 @media (prefers-reduced-motion: reduce) {
   .nxq-turn, .nxq-sheet, .nxq-sheet-veil { animation: none; }
+  /* The turn's two halves arrive with no travel at all, and the mark does not
+     overshoot. Under reduced motion an entrance is a removal, not a slowdown. */
+  .nxq-turn > .nxq-user,
+  .nxq-turn > .nxq-assistant,
+  .nxq-turn > .nxq-assistant .nxq-gutter { animation: none; opacity: 1; transform: none; }
   .nxq-live-dots span, .nxq-skel span, .nxq-caret-live { animation: none; }
+
+  /* The working signals stop travelling and stay VISIBLE. The listening ring
+     resolves to a static ring, the hero bloom to a static bloom, and the pass
+     of light across the working row is removed outright — it carried no
+     information, so nothing is lost by taking it away. */
+  .nxq-avatar[data-state="thinking"]::before { animation: none; opacity: .5; transform: scale(1); }
+  .nxq-hero-mark::after { transition: none; }
+  .nxq-hero-mark:has(.nxm[data-state="thinking"])::after { animation: none; opacity: 1; }
+  .nxq-live::after { display: none; }
+
+  /* The composer stops rising and the rail stops breathing; both states are
+     still fully readable, because both were carried by presence, not motion. */
+  .nxq-box:focus-within { transform: none; }
+  .nxq-box::after { transition: none; }
+  .nxq-box[data-busy="1"]::after { animation: none; opacity: 1; }
+  .nxq-send { transition: none; }
+  .nxq-send:not([disabled]):hover, .nxq-send:not([disabled]):active { transform: none; }
+  .nxq-src { transition: none; }
+  .nxq-src:hover { transform: none; }
   /* The working indicator must still be visible without movement, so the dots
      stay at full opacity rather than resting at the animation's low point. */
   .nxq-live-dots span { opacity: 1; }

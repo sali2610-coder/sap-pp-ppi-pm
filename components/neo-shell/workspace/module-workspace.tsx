@@ -105,6 +105,12 @@ type WsBack = {
 /** The workspace route per module. Both are real generated pages. */
 const HOME: Record<string, string> = { PM: "/neo/pm/", "PP-PI": "/neo/pp-pi/" };
 
+/** THE GROUND CARRIES THE MODULE. app/neo/ground.css defines exactly five
+ *  scenes, two of which exist for precisely this: entering PM must not look
+ *  like entering PP-PI, and the thing that says so is the ground the whole page
+ *  stands on rather than a small coloured chip somewhere in the chrome. */
+const SCENE: Record<string, "pm" | "pppi"> = { PM: "pm", "PP-PI": "pppi" };
+
 const SORTS: { k: SortKey; he: string }[] = [
   { k: "f", he: "שדות" },
   { k: "rel", he: "קשרים" },
@@ -275,7 +281,10 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
 
     const plan: (Omit<ChapterMeta, "n"> & { key: string })[] = [
       { key: "map", id: "nw-map", kicker: "מפת המודול", title: "שלוש דרכים להיכנס לאותו מילון", count: data.counts.topics, countLabel: "נושאים" },
-      { key: "s4", id: "nw-s4", kicker: "המעבר ל-S/4HANA", title: "מה משתנה במודול במעבר ל-S/4HANA", count: data.s4x.changed.length, countLabel: "טבלאות משתנות" },
+      // The one chapter the page is really for. It is marked here, once, and the
+      // running bar reads the flag — nothing about S/4HANA is hard-coded into a
+      // component that five other screens also use.
+      { key: "s4", id: "nw-s4", kicker: "המעבר ל-S/4HANA", title: "מה משתנה במודול במעבר ל-S/4HANA", count: data.s4x.changed.length, countLabel: "טבלאות משתנות", feature: true },
       { key: "tbl", id: "nw-tbl", kicker: "מילון הנתונים", title: "טבלאות הליבה של המודול", count: data.counts.rows, countLabel: "שורות מילון" },
       { key: "ops", id: "nw-ops", kicker: "טרנזקציות ודוחות", title: "איך עובדים במודול בפועל", count: data.counts.tcodes, countLabel: "טרנזקציות" },
       { key: "rel", id: "nw-rel", kicker: "קשרים ומודל הנתונים", title: "איפה המודול נוגע בשאר המערכת", count: data.rel.edges, countLabel: "קשרים ממודלים" },
@@ -286,7 +295,10 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
       { key: "learn", id: "nw-learn", kicker: "ידע ופעילות", title: "מה ללמוד הלאה, ואיפה הייתם", count: data.books.length + data.courses.length, countLabel: "ספרים וקורסים" },
     ];
 
-    const numbered: ChapterMeta[] = plan.map((p, i) => ({ ...p, n: i + 1 }));
+    // Every chapter stands on the module's own scene. It costs nothing visually
+    // — the page root already wears that ground — and it is what lets the shell
+    // observer hand the ground BACK after the S/4HANA band has taken `deep`.
+    const numbered: ChapterMeta[] = plan.map((p, i) => ({ ...p, n: i + 1, scene: SCENE[data.key] }));
     const by = Object.fromEntries(plan.map((p, i) => [p.key, numbered[i]])) as Record<string, ChapterMeta>;
     return { chapters: numbered, ch: by };
   }, [data]);
@@ -313,8 +325,17 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
   // rather than being wrapped in place, so adopting Smart Return costs the
   // workspace's markup no indentation and no restructuring.
   const body = (
-    <div className="nw" data-mod={data.key} ref={root} style={{ "--m": data.m } as React.CSSProperties}>
-      <div className="nw-light" aria-hidden="true">
+    <div
+      className="nw"
+      data-mod={data.key}
+      // MODULE IDENTITY IS THE GROUND. Everything under this node inherits the
+      // scene's ink, hairline and accent, so entering PM and entering PP-PI are
+      // two different places rather than the same place with a different badge.
+      data-scene={SCENE[data.key]}
+      ref={root}
+      style={{ "--m": data.m } as React.CSSProperties}
+    >
+      <div className="nw-light nm-par" aria-hidden="true">
         <i className="nw-light-a" />
         <i className="nw-light-b" />
       </div>
@@ -334,7 +355,8 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
           built from `chapters`, so neither can drift from what is rendered. */}
       <SectionNav
         label="פרקי המודול"
-        sections={chapters.map((c) => ({ id: c.id, label: c.kicker }))}
+        topLabel="חזרה לראש המודול"
+        sections={chapters.map((c) => ({ id: c.id, label: c.kicker, feature: c.feature }))}
       />
 
       <WorkspaceMap
@@ -425,7 +447,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
                     <button
                       key={k}
                       type="button"
-                      className="nu-card nw-frow"
+                      className="nu-card nw-frow nm-sel"
                       data-on={s4 === k ? "1" : undefined}
                       aria-pressed={s4 === k}
                       disabled={n === 0}
@@ -442,7 +464,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
                 })}
                 <button
                   type="button"
-                  className="nu-card nw-frow"
+                  className="nu-card nw-frow nm-sel"
                   data-on={sharedOnly ? "1" : undefined}
                   aria-pressed={sharedOnly}
                   onClick={() => setSharedOnly((v) => !v)}

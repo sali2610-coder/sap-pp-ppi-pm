@@ -63,9 +63,67 @@ html .nx-app .nx-canvas:has(> .nb) {
 .nb-sap { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; }
 
 /* ==========================================================================
+   THE TWO GROUNDS THIS PAGE STANDS ON
+   --------------------------------------------------------------------------
+   app/neo/ground.css defines exactly five scenes and forbids a sixth. Two of
+   them are what a bookshelf is:
+
+     deep    the opening. "Reserved for a moment that is meant to feel like a
+             held breath — a hero, an opening, a statement." Arriving at eleven
+             books is that moment, and it is the same warm dark in both themes,
+             so the arrival is designed once rather than twice.
+     cream   the run of shelves. "Warm raised calm. Reading and long prose." A
+             library is read in, and the books have to stand on paper rather
+             than float on the working canvas.
+
+   A scene has to be FULL BLEED or it is a card with a coloured background, so
+   both pull back through `.nb`'s own gutter and re-pad themselves. The gutter is
+   a variable that changes at five container widths, so this is written against
+   the variable and not against any one of its values.
+
+   The seam between the two is feathered by `.nm-scene::before` from ground.css;
+   nothing here has to draw it. */
+.nb-scene {
+  position: relative;
+  margin-inline: calc(var(--nb-gut) * -1);
+  padding-inline: var(--nb-gut);
+}
+.nb-open {
+  display: grid;
+  gap: var(--sp-8);
+  padding-block: var(--sp-16) var(--sp-12);
+}
+/* The opening has to start at the very top of the canvas or it is a dark band
+   with a light strip above it. `.nb`'s own top padding is handed to the scene,
+   which then owns the whole distance. Written at two-class specificity on
+   purpose: `.nb`'s padding is re-set at five container widths, and this has to
+   out-rank every one of them. */
+.nb:has(> .nb-open) { padding-block-start: 0; }
+/* The shelves keep the vertical rhythm they had as loose children of `.nb`,
+   because wrapping them in a scene must change the ground and nothing else. */
+.nb-run {
+  display: grid;
+  gap: var(--sp-8);
+  align-content: start;
+  padding-block: var(--sp-10) var(--sp-12);
+}
+.nb-run > * { min-inline-size: 0; }
+
+/* On the deep ground the masthead's own ambient wash is redundant — the scene
+   IS the light — and doubling them turned the two module hues into a smear. */
+.nb-open .nb-dictbar { background: color-mix(in srgb, var(--surface) 62%, transparent); }
+
+/* ==========================================================================
    MASTHEAD
    ========================================================================== */
 .nb-mast { display: grid; gap: var(--sp-4); max-inline-size: 62rem; }
+
+/* The headline arrives as language, line by line — motion.css's `.nm-kin`. Its
+   default mask leaves .08em under the baseline, which is tuned for ordinary
+   copy; this headline runs at line-height .96 and carries Hebrew descenders
+   (ק, ך, ן) at up to 7cqi, so the mask is opened up to match. Without this the
+   tails of the letters are shaved off by the very clip that makes the effect. */
+.nb-mega.nm-kin > span { padding-block-end: .18em; margin-block-end: -.18em; }
 
 .nb-eye {
   display: flex;
@@ -209,6 +267,49 @@ html .nx-app .nx-canvas:has(> .nb) {
 .nb-shelf:first-child { border-block-start: 0; }
 .nb-shelf:last-child { border-block-end: 1px solid var(--hairline); }
 
+/* THE BOARD.
+   --------------------------------------------------------------------------
+   The hairline between two shelves was a divider. A run of shelves in a real
+   library is not divided by lines, it is BUILT out of boards, and the whole run
+   reads as one piece of furniture because each board has a top face, a front
+   edge and a thickness. That is three colour stops and one pseudo-element, and
+   it is what turns nine sections into a bookcase.
+
+   It is drawn per SHELF rather than per grid row on purpose: `.nb-grid` wraps,
+   and CSS gives a wrapping grid no row box to hang a board on. Per shelf is the
+   version that survives a book moving from the end of one line to the next.
+
+   The board carries the module hue at 10% so a shelf is identifiably ITS
+   shelf — module identity as an edge, which the design system allows, and never
+   as a filled panel or a dot. */
+.nb-shelf::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: 6px;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--m) 10%, color-mix(in srgb, var(--ink-1) 15%, var(--background))) 0 1px,
+    color-mix(in srgb, var(--ink-1) 5%, var(--background)) 1px 55%,
+    color-mix(in srgb, var(--ink-1) 17%, var(--background)) 55% 100%);
+  /* The lit lip along the front edge. It is the cue that gives the board a
+     THICKNESS instead of leaving it a printed stripe. */
+  box-shadow: 0 1px 0 color-mix(in srgb, #fffaf2 70%, var(--background));
+}
+html[data-theme="dark"] .nb-shelf::after {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--m) 26%, color-mix(in srgb, #ffefd8 12%, var(--background))) 0 1px,
+    color-mix(in srgb, #ffefd8 4%, var(--background)) 1px 55%,
+    color-mix(in srgb, #000 42%, var(--background)) 55% 100%);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .55);
+}
+/* The last shelf already carries a closing hairline; the board replaces it, or
+   the run ends on a board with a stray line under it. */
+.nb-shelf:last-child { border-block-end: 0; }
+
 /* The shelf's spine colour: a hairline-thin module edge that fades at both
    ends, so the run of shelves reads as one object with coloured joints. */
 .nb-shelf-edge {
@@ -255,19 +356,27 @@ html .nx-app .nx-canvas:has(> .nb) {
   gap: var(--sp-4);
   align-content: start;
   min-inline-size: 0;
-  transition: transform 380ms var(--ease-out-expo);
+  transition: translate 380ms var(--ease-out-expo);
 }
 /* §2 — THE NEIGHBOURS MAKE ROOM.
    Deliberately the IMMEDIATE siblings only. A grid that wraps has no notion of
    a row in CSS, so a `~` rule would also nudge books on the line below; `+` and
    `:has(+ …)` touch at most one book on each side, which is the amount of
    movement the effect actually needs and the amount a wrapping grid can afford.
-   translateX is physical, so the LTR twin is explicit — in RTL the earlier
-   sibling sits to the RIGHT and therefore makes room by moving further right. */
-.nb-card:has(+ .nb-card:hover) { transform: translateX(7px); }
-.nb-card:hover + .nb-card { transform: translateX(-7px); }
-[dir="ltr"] .nb-card:has(+ .nb-card:hover) { transform: translateX(-7px); }
-[dir="ltr"] .nb-card:hover + .nb-card { transform: translateX(7px); }
+   The shift is physical, so the LTR twin is explicit — in RTL the earlier
+   sibling sits to the RIGHT and therefore makes room by moving further right.
+
+   WHY `translate` AND NOT `transform`. The card also carries `.nm-rise`, whose
+   scroll-driven keyframes animate `transform` and hold it with `fill: both`.
+   An animated property beats every ordinary declaration in the cascade, so a
+   `transform: translateX(7px)` written here would be silently discarded the
+   moment the reveal finished and the shelf would stop breathing. `translate` is
+   an INDEPENDENT transform property: it composes with the animated `transform`
+   instead of competing with it, so both effects survive each other. */
+.nb-card:has(+ .nb-card:hover) { translate: 7px; }
+.nb-card:hover + .nb-card { translate: -7px; }
+[dir="ltr"] .nb-card:has(+ .nb-card:hover) { translate: -7px; }
+[dir="ltr"] .nb-card:hover + .nb-card { translate: 7px; }
 
 /* §2 — the contextual line. Real metadata that the resting, turned cover
    foreshortens: how the book is built, and its shelf plate. It appears only
@@ -282,7 +391,10 @@ html .nx-app .nx-canvas:has(> .nb) {
      surface has one vocabulary for "a label that opens on hover". */
   position: absolute;
   inset-inline: 0;
-  inset-block-start: calc(100% + 6px);
+  /* Clear of the ledge, which now occupies the strip immediately under the
+     book. A label that opens on top of the shelf board reads as a label stuck
+     to the shelf rather than as a card floating over it. */
+  inset-block-start: calc(100% + 12px);
   z-index: 3;
   display: flex;
   align-items: center;
@@ -326,6 +438,53 @@ html .nx-app .nx-canvas:has(> .nb) {
   position: relative;
   container-type: inline-size;
   container-name: nbslot;
+}
+
+/* THE AMBIENT POOL — the second half of a grounding shadow.
+   --------------------------------------------------------------------------
+   `.nb-cov-cast` is the CONTACT: tight, dark, and directly under the foot of
+   the block. On its own it is not enough, because a real object interrupts the
+   ambient light of the whole room around it, not only where it touches. That
+   second, much wider and much weaker pool is what tells the eye an object has
+   VOLUME rather than merely an outline — and it is the single cheapest thing
+   that separates "a rectangle with a drop shadow" from "a solid standing there".
+
+   It is drawn on the slot rather than on the cover because it belongs to the
+   shelf, not to the book: it must not turn when the book turns. `container-type`
+   on `.nb-slot` already applies layout containment, which makes the slot a
+   stacking context, so the negative index is trapped here and cannot slide out
+   behind the shelf's own ground. */
+.nb-slot::after {
+  content: "";
+  position: absolute;
+  /* Flush with the slot, not wider than it. An overhang would read better on a
+     single book and it cost 8px of horizontal overflow on a 390px canvas:
+     `container-type` applies LAYOUT containment, which does not clip paint, so
+     the pool on the last column in each row escaped the scroller. The spread is
+     carried by the gradient's own falloff instead, which paints inside the box
+     and cannot overflow anything. */
+  inset-inline: 0;
+  inset-block-start: 58%;
+  block-size: 66%;
+  z-index: -1;
+  background: radial-gradient(72% 62% at 50% 62%,
+    color-mix(in srgb, var(--ink-1) 22%, transparent),
+    transparent 74%);
+  pointer-events: none;
+  opacity: .7;
+  transition: opacity 420ms var(--ease-out-expo);
+}
+/* Lifting the book off the shelf spreads and weakens the pool, exactly as it
+   does the contact shadow above it — the two have to move together or the
+   lighting contradicts itself mid-gesture. */
+.nb-slot:has(.nb-slab:hover)::after,
+.nb-slot:has(.nb-slab:focus-visible)::after { opacity: .42; }
+/* In a dark room there is no ambient light left to interrupt, so the pool is
+   nearly nothing and the object is carried by the lit edges instead (see the
+   DARK section at the end of this file). */
+html[data-theme="dark"] .nb-slot::after {
+  background: radial-gradient(58% 62% at 50% 62%, rgba(0, 0, 0, .55), transparent 72%);
+  opacity: .5;
 }
 
 /* The slab is only the hit target and the hover source. It deliberately carries
@@ -491,8 +650,18 @@ html .nx-app .nx-canvas:has(> .nb) {
   --paper: #efe9dd;
   --paper-2: #cfc6b6;
   --paper-3: #dcd4c5;
+
+  /* WHERE THE LAMP IS. One light for the whole shelf, standing above the
+     BINDING edge — the edge the resting turn brings toward the reader, and
+     therefore the only edge a raking highlight can honestly sit on. The gloss
+     reads it, the contact shadow is offset away from it, and the pointer
+     overwrites it while the pointer is actually on the book (book-shelf.tsx).
+     A percentage across the cover is physical, so RTL binds right and LTR
+     binds left; the LTR twin is one line below. */
+  --gx: 72%;
+  --gy: 8%;
 }
-[dir="ltr"] .nb-cov { --side: -1; --org-s: 0%; --org-e: 100%; }
+[dir="ltr"] .nb-cov { --side: -1; --org-s: 0%; --org-e: 100%; --gx: 28%; }
 
 /* THE STAGE. Everything the object does, it does here — so `.nb-cov` above
    stays a clean rect for the FLIP to measure. `--ry` / `--rx` are the pointer's
@@ -626,9 +795,21 @@ html .nx-app .nx-canvas:has(> .nb) {
      different plane catching different light, and if it tones the same as the
      cover the geometry is wasted. The first gradient is the fold shading, the
      second is the ramp along the height of the spine. */
+  /* THE ROUND BACK. A case-bound spine is not a flat plane, it is a cylinder,
+     and the eye reads that entirely from where the highlight sits. So the fold
+     shading is no longer a simple dark-to-dark ramp: it carries a warm specular
+     ridge just off centre — the light in this room comes from the upper
+     inline-start — with the two shoulders falling into the joints on either
+     side. That single band is the difference between "a dark stripe" and "the
+     rounded back of a bound book". */
   background:
     linear-gradient(to var(--leaf-dir, left),
-      rgba(0,0,0,.62) 0%, rgba(0,0,0,.22) 22%, rgba(0,0,0,.34) 70%, rgba(0,0,0,.66) 100%),
+      rgba(0,0,0,.66) 0%,
+      rgba(0,0,0,.20) 20%,
+      rgba(255,244,228,.16) 40%,
+      rgba(0,0,0,.16) 58%,
+      rgba(0,0,0,.44) 82%,
+      rgba(0,0,0,.70) 100%),
     linear-gradient(180deg, var(--m-mid), var(--m-deep) 55%, color-mix(in srgb, var(--m-deep) 62%, #000));
   display: flex;
   flex-direction: column;
@@ -639,6 +820,24 @@ html .nx-app .nx-canvas:has(> .nb) {
   border-radius: 0;
   color: #fff;
 }
+/* THE HEADBAND AND THE TAIL. The strip of woven cloth at the head and foot of a
+   sewn spine. It is a two-pixel detail and it is the single most bookbinding
+   thing on the object: nothing that is not a bound book has one. Drawn as two
+   inset bands rather than as elements, so the spine keeps its three real
+   children and the flex column is untouched. */
+.nb-f-spine::before,
+.nb-f-spine::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  block-size: clamp(2px, 1.4cqi, 4px);
+  background: linear-gradient(to var(--leaf-dir, left),
+    rgba(0,0,0,.5), color-mix(in srgb, var(--m-lift) 62%, #fff) 45%, rgba(0,0,0,.55));
+  opacity: .72;
+  pointer-events: none;
+}
+.nb-f-spine::before { inset-block-start: 0; }
+.nb-f-spine::after { inset-block-end: 0; }
 .nb-sp-head { flex: none; }
 .nb-sp-mod {
   font-family: var(--font-mono);
@@ -692,9 +891,18 @@ html .nx-app .nx-canvas:has(> .nb) {
   border-start-end-radius: var(--r-md);
   border-end-end-radius: var(--r-md);
   background: linear-gradient(152deg, var(--m-deep) 0%, var(--m-mid) 58%, var(--m-deep) 100%);
+  /* THE BEVEL. A case-bound board is cut and its edge catches light all the way
+     round; without that the board is a filled rectangle with a shadow under it.
+     Three inset rings, weakest to strongest: the warm room light on the outer
+     millimetre, the cloth's own colour just inside it, and the seat of the
+     board in the shadow it casts. The outer light is WARM (#fff6ea, not #fff)
+     because the product is grounded on warm paper and a neutral white edge on a
+     warm ground reads as a printing error. */
   box-shadow:
     var(--elev-3),
-    0 0 0 1px color-mix(in srgb, var(--m) 30%, transparent) inset;
+    0 0 0 1px color-mix(in srgb, var(--m) 30%, transparent) inset,
+    0 1px 0 rgba(255, 246, 234, .17) inset,
+    0 -1px 0 rgba(0, 0, 0, .3) inset;
   transition: box-shadow 340ms var(--ease-out-expo);
 }
 /* THE JOINT. One lit hairline where the cover board folds onto the binding —
@@ -738,10 +946,19 @@ html .nx-app .nx-canvas:has(> .nb) {
   border-start-end-radius: var(--r-md);
   border-end-end-radius: var(--r-md);
   overflow: hidden;
+  /* BOOK CLOTH IS A WEAVE, AND A WEAVE HAS TWO THREADS.
+     Warp and weft, at right angles, each one a lit thread and a shadowed gap.
+     The highlight thread is warm (255,247,236) rather than pure white for the
+     same reason the board's bevel is: the whole product sits on warm paper now,
+     and a neutral white grating over a coloured cloth greys it out. A third,
+     much coarser grating runs across both at a low angle — that is the SLUB,
+     the irregularity that stops a woven surface reading as graph paper. Three
+     gradients, no asset, one composited layer. */
   background-image:
-    repeating-linear-gradient(118deg, rgba(255,255,255,.055) 0 1px, transparent 1px 4px),
-    repeating-linear-gradient(28deg, rgba(0,0,0,.05) 0 1px, transparent 1px 5px);
-  opacity: .9;
+    repeating-linear-gradient(90deg, rgba(255,247,236,.045) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(118deg, rgba(255,247,236,.03) 0 1px, transparent 1px 11px);
+  opacity: .95;
   pointer-events: none;
 }
 
@@ -837,9 +1054,14 @@ html .nx-app .nx-canvas:has(> .nb) {
   border-end-start-radius: 2px;
   border-start-end-radius: var(--r-md);
   border-end-end-radius: var(--r-md);
+  /* The room's light is WARM now, so the specular is warm. A pure #fff highlight
+     on a warm ground reads as a blown-out photograph; #fff6e8 reads as a lamp.
+     The second stop is the falloff, and the third is where the cloth stops
+     catching anything at all — a real raking highlight ends, it does not fade
+     to the edge of the board. */
   background: radial-gradient(120% 90% at var(--gx, 22%) var(--gy, 6%),
-    rgba(255,255,255,.24) 0%,
-    rgba(255,255,255,.07) 32%,
+    rgba(255,246,232,.26) 0%,
+    rgba(255,246,232,.08) 32%,
     transparent 62%);
   pointer-events: none;
   transition: opacity 300ms var(--ease-out-expo);
@@ -853,13 +1075,32 @@ html .nx-app .nx-canvas:has(> .nb) {
    spreads as the object lifts, which is what a real one does. */
 .nb-cov-cast {
   position: absolute;
-  inset-inline: 4%;
-  inset-block-start: 100%;
-  block-size: 12px;
-  margin-block-start: 4px;
+  /* Off centre, and deliberately so. ONE LAMP LIGHTS THIS WHOLE SURFACE and it
+     stands above the BINDING edge — the near edge, the one the resting turn
+     brings toward the reader, which is the only edge a raking highlight can
+     honestly sit on. A shadow cast by that lamp falls away from it, toward the
+     fore-edge, so it is offset and its densest point is off centre too. A
+     symmetric ellipse under a book lit from one side is the tell that the
+     lighting was never thought about.
+     The offset is physical, so the LTR twin is explicit — see the house rule at
+     the top of this file. */
+  inset-inline-start: 8%;
+  inset-inline-end: 0%;
+  /* PAST THE FOOT, NOT UNDER THE BOX. `.nb-cov` is the flat layout rect, but the
+     object inside it is turned and pitched and its silhouette runs BELOW that
+     rect by roughly half its own thickness. A shadow anchored at 100% therefore
+     landed partway up the book's own bottom board and was invisible on every
+     book thick enough to matter. Offsetting by the same fraction of `--d` that
+     the cover already reserves as clearance puts the shadow where the object
+     actually meets the shelf, at every thickness on the shelf. */
+  inset-block-start: calc(100% + var(--d) * .38);
+  block-size: 13px;
+  margin-block-start: 2px;
   border-radius: 50%;
-  background: radial-gradient(58% 100% at 50% 0%, color-mix(in srgb, var(--ink-1) 26%, transparent), transparent 74%);
-  opacity: .5;
+  /* Warm-brown, not grey. --ink-1 is #171310 on the new ground, so the shadow
+     is already a darker version of the paper it falls on rather than soot. */
+  background: radial-gradient(62% 100% at 40% 0%, color-mix(in srgb, var(--ink-1) 52%, transparent), transparent 78%);
+  opacity: .62;
   /* The blur is STATIC. Softening it on hover would read well but `filter` is a
      paint property, and this sheet animates transform and opacity only — the
      shadow spreads and fades instead, which is what the eye reads anyway. */
@@ -869,8 +1110,15 @@ html .nx-app .nx-canvas:has(> .nb) {
   pointer-events: none;
   transition: opacity 420ms var(--ease-out-expo), transform 420ms var(--ease-out-expo);
 }
+[dir="ltr"] .nb-cov-cast {
+  background: radial-gradient(62% 100% at 60% 0%, color-mix(in srgb, var(--ink-1) 52%, transparent), transparent 78%);
+}
+/* A LIFTED BOOK STILL CASTS. The shadow spreads and softens as the object comes
+   off the shelf, which is what a real one does — but it does not disappear, and
+   at the old .3 it effectively did: the one moment the reader is looking hardest
+   at a single book was the one moment it stopped being grounded. */
 .nb-slab:hover .nb-cov-cast,
-.nb-slab:focus-visible .nb-cov-cast { opacity: .3; transform: scaleX(1.14) scaleY(1.3); }
+.nb-slab:focus-visible .nb-cov-cast { opacity: .44; transform: scaleX(1.16) scaleY(1.4); }
 
 /* ---- the states the object can be in ------------------------------------ */
 
@@ -902,6 +1150,78 @@ html .nx-app .nx-canvas:has(> .nb) {
   perspective-origin: 50% 44%;
 }
 .nb-cov[data-size="entry"][data-open="1"] { --open: 24deg; }
+
+/* ==========================================================================
+   THE OPENING MOMENT — arriving at a book's hub
+   --------------------------------------------------------------------------
+   The quick view already had one: the cover flies out of its slot on a measured
+   FLIP and the board hinges once the flight has landed (quick-view.tsx). The
+   HUB had none. You pressed a book and the next screen simply existed, with an
+   already-open book sitting on it, and the single best moment this surface owns
+   — a book being opened — was thrown away on every navigation.
+
+   So the hub plays that moment on arrival, in the same two beats and the same
+   order as the panel, because they are the same event seen from two routes:
+
+     beat 1   the book ARRIVES. Turned, closed, a little below and a little
+              away, and it settles square to the reader.
+     beat 2   once it has settled, the front board HINGES OPEN. Never during the
+              travel: a cover that opens while the object is still moving reads
+              as a glitch, one that opens after it has stopped reads as a book.
+
+   TWO THINGS MAKE THIS SAFE TO RUN ON EVERY PAINT.
+
+   It animates `transform` and `opacity` and nothing else, so it stays on the
+   compositor and never touches layout.
+
+   And the fill mode is `backwards`, not `both` — which is load-bearing rather
+   than tidy. `both` would freeze the final keyframe onto the element forever,
+   and `.nb-cov-3d`'s transform is composed live from --turn/--pitch/--out/
+   --lift; a frozen transform would out-rank every one of them and the object
+   could never be moved again. `backwards` supplies the from-state during the
+   delay and then hands the property back, and the last keyframe is written to
+   equal the resting transform exactly, so the handover is invisible. */
+
+@keyframes nb-arrive {
+  from {
+    opacity: 0;
+    transform:
+      translateY(18px)
+      translateZ(calc(0px - var(--d) * 1.4))
+      rotateY(calc(15deg * var(--side) * -1))
+      rotateX(5deg);
+  }
+  to {
+    opacity: 1;
+    /* Identical to the resting transform on .nb-cov-3d. */
+    transform:
+      translateY(var(--lift))
+      translateZ(calc(var(--out) - var(--d) / 2))
+      rotateY(calc(var(--turn) * var(--side) * -1 + var(--ry, 0deg)))
+      rotateX(calc(var(--pitch) + var(--rx, 0deg)));
+  }
+}
+@keyframes nb-hinge {
+  /* The board starts SHUT — 0deg — and swings to whatever --open resolves to on
+     this element, so one keyframe serves the 24° hub and any future value. */
+  from { transform: translateZ(var(--d)) rotateY(0deg); }
+  to   { transform: translateZ(var(--d)) rotateY(calc(var(--open) * var(--side))); }
+}
+
+.nb-cov[data-size="entry"] .nb-cov-3d {
+  animation: nb-arrive 760ms var(--ease-out-expo) backwards;
+}
+.nb-cov[data-size="entry"][data-open="1"] .nb-f-front {
+  /* The delay is the first beat's length minus its long settle tail: the board
+     starts to move as the object stops rather than after a visible pause. */
+  animation: nb-hinge 620ms var(--ease-out-expo) 520ms backwards;
+}
+
+/* The quick view runs its OWN flight, timed in JavaScript against a measured
+   FLIP, and it sets `data-open` only once that flight has landed. Playing this
+   arrival there as well would be two openings on top of each other. */
+.nb-sheet-cov .nb-cov[data-size="entry"] .nb-cov-3d,
+.nb-sheet-cov .nb-cov[data-size="entry"] .nb-f-front { animation: none; }
 
 /* ==========================================================================
    CARD META + THE DIRECT LINK INTO THE READER
@@ -1541,6 +1861,10 @@ html[data-theme="dark"] .nb-cov-cast {
   }
   .nb-cov-3d { transform: none !important; transition: none; }
   .nb-f-front { transform: none !important; transition: none; }
+  /* The arrival is a REMOVAL, not a slowdown: the book is simply already there,
+     square and open, which is the state it was travelling to anyway. */
+  .nb-cov[data-size="entry"] .nb-cov-3d,
+  .nb-cov[data-size="entry"] .nb-f-front { animation: none !important; }
   .nb-cov-cast, .nb-cov-board, .nb-cov-gloss, .nb-cov-t { transition: none; }
   .nb-slab:hover .nb-cov-cast, .nb-slab:focus-visible .nb-cov-cast { transform: none; }
   /* Neighbours stop making room, because nothing is moving toward them. */
@@ -1563,6 +1887,11 @@ html[data-theme="dark"] .nb-cov-cast {
   .nb-f-back, .nb-f-leaf, .nb-f-top, .nb-f-fore, .nb-f-spine,
   .nb-cov-board, .nb-cov-cloth, .nb-cov-gloss, .nb-cov-inner,
   .nb-cov-cast, .nb-shelf-edge { display: none; }
+  /* The ledge is a drawn surface like the rest of them, and forced colours
+     leave one framed plate rather than a book on a board. */
+  .nb-slot::after { display: none; }
+  /* A scene is a painted ground; forced colours substitute the system's own. */
+  .nb-scene { background: Canvas; }
   .nb-f-front { transform: none; }
   .nb-cov { border: 1px solid CanvasText; }
   .nb-cov-face { color: CanvasText; }

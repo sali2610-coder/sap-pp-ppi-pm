@@ -1,20 +1,55 @@
 /* ============================================================================
-   PROJECT NEO · STAGE 2A — THE SIGNATURE HOME
+   PROJECT NEO · THE SIGNATURE HOME
    ----------------------------------------------------------------------------
    Imported by app/neo/page.tsx only. Every selector is anchored on .nh, which
    exists on that one page, so nothing here can reach another route and not one
-   token in app/globals.css is redeclared — this file only CONSUMES them.
+   token in app/globals.css is redeclared: this file only CONSUMES them.
 
-   Rules of the house, kept:
-     · logical properties throughout; the direction flip for the field lives in
-       home-scene.tsx, once, not as a mirrored stylesheet
-     · only transform / translate / scale / opacity / filter are animated
-     · `translate` + `scale` carry the FORMATION (slow), `transform` carries the
-       POINTER LENS (fast) — two independent compositor channels on one element
-     · module hue = identity (auras, rings, bodies, section markers, selected)
-       object hue = the data itself (dot cores, class chips, chain nodes)
-       brand red  = the single global accent, never a module, never a category
-     · nothing is required to be in motion for the page to be understood
+   WHAT CHANGED, AND WHY
+
+     The previous Home made an animated 105-dot field the meaning of its hero
+     and drove it from a scroll listener plus two rAF loops. Both are gone.
+
+     The hero's meaning is now TYPE ON A GROUND. Behind the headline stands the
+     dictionary itself: all 105 real merged SAP table names, set in mono, in
+     three columns drifting at two different parallax depths. It is not readable
+     as prose and it is completely legible as a claim.
+
+     The page's progress is carried by the GROUND, not by a colour that walks a
+     variable. Six chapters, five scenes, declared in app/neo/ground.css:
+
+       01  deep    the gate. Warm dark in both themes, the one cinematic moment.
+       02  base    the working ground. Coverage, measured honestly.
+       03  cream   paper. A pinned map holds while three panels pass it.
+       04  pm      PM identity, carried by the ground.
+       05  pppi    PP-PI identity, carried by the ground.
+       06  deep    the close, bookending the gate.
+
+   THE ENGINEERING RULE THIS FILE OBEYS
+
+     Nothing here reads the scroll position. Every scrub, parallax, pin, stagger
+     and bar growth on this page is a class from app/neo/motion.css, i.e. a CSS
+     scroll-driven animation on the compositor:
+
+       .nm-rise .nm-fade     scrubbed reveal, tied to the element's own passage
+       .nm-seq               a list arrives as a cascade
+       .nm-par .nm-par-slow  two parallax depths
+       .nm-pin               the sticky map in 03
+       .nm-kin               kinetic headlines
+       .nm-grow              every metric bar
+       .nm-lift              pointer response, desktop only
+
+     This file adds ONE thing the engine cannot provide: a TIME-based entrance
+     for the gate. A scroll timeline has nothing to scrub at scroll position 0,
+     so an above-the-fold headline tied to view() is simply already finished.
+     The gate therefore runs its own load cascade, which is a page entrance
+     rather than a scroll animation and costs one compositor pass.
+
+   COLOUR FORM, per app/globals.css, unchanged:
+     MODULE  surface tint · ring · line · edge · section marker.  Never a dot.
+     STATUS  a small filled dot immediately followed by its word.  Nothing else.
+     OBJECT  the data itself — lattice dots, class markers, chain nodes.
+     BRAND   one global accent. Never a module, never a data category.
    ========================================================================== */
 
 /* The shell's canvas is a padded, gapped grid for ordinary pages. Home is a
@@ -34,535 +69,79 @@ html .nx-app .nx-canvas:has(> .nh) {
   .nx-canvas:has(> .nh) { scroll-behavior: auto; }
 }
 
+/* --------------------------------------------------------------------------
+   1. THE PAGE
+   Every breakpoint below is a CONTAINER query on this element, not a viewport
+   media query. The rail owns up to 22rem of the window, so a 768px window can
+   leave a 488px canvas: sizing the composition on the window would lay out a
+   desktop page inside a tablet-width column. The container is the truth.
+   -------------------------------------------------------------------------- */
+
 .nh {
   position: relative;
   isolation: isolate;
   display: block;
-  /* Pointer parallax and scroll drift. Written from rAF, read only by CSS. */
-  --nh-mx: 0;
-  --nh-my: 0;
-  --nh-sy: 0;
-  /* Sticky-layer height. JS keeps it equal to the scroller; the fallback keeps
-     the layout sane before hydration and in a document that never runs it. */
-  --nh-vh: calc(100dvh - var(--c-top-h));
-  /* The two ends of the ambient light, and where between them we are. */
-  --nh-a: var(--mod-pm);
-  --nh-b: var(--mod-pppi);
-  --nh-bal: .12;
-  --nh-gut: var(--sp-8);
-  /* Every breakpoint below is a CONTAINER query on this element, not a viewport
-     media query. The rail owns up to 22rem of the window, so a 768px window can
-     leave a 488px canvas: sizing the composition on the window would lay out a
-     desktop page inside a tablet-width column. The container is the truth. */
   container-type: inline-size;
   container-name: nh;
+  --nh-gut: clamp(1.25rem, 5cqi, 5rem);
+  --nh-max: 74rem;
 }
-/* AMBIENT LIGHT, NOT A CLAIM.
-   The two module hues are both present for the whole page, and --nh-bal walks
-   the mix from one to the other as you descend. That is a compositional choice
-   about LIGHT and it is stated as one; the places where module colour makes a
-   CLAIM (the two module panels in 04, the two chains in 05, the module chips in
-   06, the two bodies) each take their own --m and never this mix.
 
-   Colour form, per app/globals.css:
-     MODULE  surface tint · ring · line · edge · section marker.  Never a dot.
-     STATUS  a small filled dot immediately followed by its word.  Nothing else.
-     OBJECT  the visualisation itself — dot cores, class markers, chain nodes.
-     BRAND   one global accent. Never a module, never a data category. */
-.nh,
-.nh-sec {
-  --nh-tint: color-mix(in oklab, var(--nh-b) calc(var(--nh-bal) * 100%), var(--nh-a));
-}
-/* A very low module wash under the whole document, so the page is never plain
-   white behind the sections' own lighting. Two fixed pools, one per module —
-   this is LIGHT, not a claim, which is why both hues are present at once. */
-.nh {
-  background:
-    radial-gradient(120% 70% at 88% -6%, color-mix(in srgb, var(--mod-pm) 7%, transparent), transparent 62%),
-    radial-gradient(110% 65% at 6% 104%, color-mix(in srgb, var(--mod-pppi) 6%, transparent), transparent 62%);
-}
-.nh[data-sec="0"] { --nh-bal: .12; }
-.nh[data-sec="1"] { --nh-bal: .30; }
-.nh[data-sec="2"] { --nh-bal: .50; }
-.nh[data-sec="3"] { --nh-bal: .68; }
-.nh[data-sec="4"] { --nh-bal: .84; }
-.nh[data-sec="5"] { --nh-bal: 1; }
-/* The sections carry their own balance as well, so the light is a real gradient
-   down the document and not a value that snaps when the observer fires. */
-#nh-1 { --nh-bal: .12; }
-#nh-2 { --nh-bal: .30; }
-#nh-3 { --nh-bal: .50; }
-#nh-4 { --nh-bal: .68; }
-#nh-5 { --nh-bal: .84; }
-#nh-6 { --nh-bal: 1; }
+/* --------------------------------------------------------------------------
+   2. SCROLL PROGRESS
+   `scroll()` resolves against the nearest scrollport, which on this shell is
+   .nx-canvas and never the window. Zero JS: this rail is the only thing on the
+   page that knows how far down you are, and it learns it from the compositor.
+   -------------------------------------------------------------------------- */
 
-/* ==========================================================================
-   LAYER 0 · THE FIELD — 105 real merged tables
-   ========================================================================== */
-.nh-field {
+.nh-prog {
   position: sticky;
   inset-block-start: 0;
-  z-index: 0;
-  block-size: var(--nh-vh);
-  margin-block-end: calc(-1 * var(--nh-vh));
-  overflow: hidden;
-  pointer-events: none;
-  contain: layout paint style;
-}
-
-/* A hairline lattice. It is the only thing on the page that admits it is a
-   grid, and it drifts on the pointer so the field reads as a volume. */
-.nh-grid {
-  position: absolute;
-  inset: -12%;
-  background-image:
-    repeating-linear-gradient(to right, var(--hairline) 0 1px, transparent 1px 92px),
-    repeating-linear-gradient(to bottom, var(--hairline) 0 1px, transparent 1px 92px);
-  opacity: .55;
-  transform: translate3d(calc(var(--nh-mx) * 10px), calc(var(--nh-my) * 10px + var(--nh-sy) * -0.018px), 0);
-  transition: opacity 800ms var(--ease-out-expo);
-}
-.nh[data-sec="3"] .nh-grid,
-.nh[data-sec="4"] .nh-grid { opacity: .2; }
-
-/* Module colour as AMBIENT LIGHT — the largest and softest use of hue on the
-   page, and the reason the surface never reads as plain white. */
-.nh-aura {
-  position: absolute;
-  inline-size: 52rem;
-  block-size: 52rem;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%,
-    color-mix(in srgb, var(--m) 30%, transparent) 0%,
-    color-mix(in srgb, var(--m) 11%, transparent) 42%,
-    transparent 70%);
-  transition: transform 1000ms var(--ease-emphasis), opacity 800ms var(--ease-out-expo);
-  will-change: transform;
-}
-.nh-aura--pm {
-  inset-block-start: -14rem;
-  inset-inline-start: -10rem;
-  transform: translate3d(calc(var(--nh-mx) * -24px), calc(var(--nh-my) * -18px), 0);
-}
-.nh-aura--pp {
-  inset-block-end: -18rem;
-  inset-inline-end: -14rem;
-  transform: translate3d(calc(var(--nh-mx) * 20px), calc(var(--nh-my) * 16px), 0);
-}
-.nh[data-sec="1"] .nh-aura--pm { transform: translate3d(calc(var(--nh-mx) * -24px), 6rem, 0) scale(.72); }
-.nh[data-sec="1"] .nh-aura--pp { transform: translate3d(calc(var(--nh-mx) * 20px), -6rem, 0) scale(.72); }
-.nh[data-sec="2"] .nh-aura { opacity: .8; }
-.nh[data-sec="3"] .nh-aura,
-.nh[data-sec="4"] .nh-aura { opacity: .55; }
-.nh[data-sec="5"] .nh-aura { opacity: .42; }
-
-/* --- the field's structural rules ----------------------------------------
-   STAGE 2C. The single decorative circle that used to appear here is gone: a
-   ring that encloses nothing is exactly the "meaningless circle" the review
-   named. What replaces it is four hairlines, and every one of them is a line a
-   formation actually stands on:
-
-     --base    the one baseline all six coverage columns rise from (02)
-     --spine   the line the shared family heads sit on (03) AND the first
-               process rail (05). Two formations, one line, on purpose.
-     --rail    the second process rail (05)
-     --plinth  the reservoir shelf that holds the tables outside the current
-               claim, in BOTH 03 and 05
-
-   Sharing two of them between formations is the continuity device: a fixed
-   reference survives the change, so the eye reads one dataset re-forming rather
-   than a new drawing.
-
-   The four offsets are NOT percentages here any more. home-scene.tsx writes
-   them, in px, from formations.RULE and from the same usable height the dots
-   are placed in — so the hairline and the row of dots standing on it are one
-   number, at every breakpoint. The fallbacks are only what a document that
-   never runs the script would show. Opacity only — no layout, no paint. */
-.nh-rule {
-  position: absolute;
-  inset-inline-start: 4%;
-  /* Clear of the two module cards, exactly as the formations are. */
-  inset-inline-end: calc(4% + var(--nh-far, 0px));
-  block-size: 1px;
-  background: linear-gradient(to left,
-    transparent,
-    color-mix(in srgb, var(--nh-tint) 40%, transparent) 12%,
-    color-mix(in srgb, var(--nh-tint) 40%, transparent) 88%,
-    transparent);
-  opacity: 0;
-  transition: opacity 620ms var(--ease-out-expo);
-}
-.nh-rule--spine { inset-block-start: var(--nh-spine, 26%); }
-.nh-rule--rail { inset-block-start: var(--nh-rail, 72%); }
-.nh-rule--base { inset-block-start: var(--nh-base, 80%); }
-.nh-rule--plinth { inset-block-start: var(--nh-plinth, 94%); }
-.nh[data-sec="1"] .nh-rule--base,
-.nh[data-sec="2"] .nh-rule--spine,
-.nh[data-sec="2"] .nh-rule--plinth,
-.nh[data-sec="4"] .nh-rule--spine,
-.nh[data-sec="4"] .nh-rule--rail,
-.nh[data-sec="4"] .nh-rule--plinth { opacity: 1; }
-
-/* --- the relationship layer ----------------------------------------------
-   One element per REAL ER relation between two of the 105 merged tables, taken
-   from the blueprint's parent-child map. A line is never drawn between two
-   tables the dictionary does not link, and it is only ever shown in the
-   formations that are about relationships (gravity, shared, process).
-
-   Geometry, so it stays on the compositor: a 1x1 box translated to the first
-   endpoint, rotated toward the second, scaled along x to the distance between
-   them. Three independent transform properties, zero layout, zero paint.
-   --------------------------------------------------------------------------- */
-.nh-edges { position: absolute; inset: 0; }
-.nh-edge {
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline-start: 0;
-  inline-size: 1px;
-  block-size: 1px;
-  transform-origin: 0 50%;
-  background: var(--rel-n-1);
-  opacity: 0;
-  transition:
-    translate 820ms var(--ease-emphasis),
-    rotate 820ms var(--ease-emphasis),
-    scale 820ms var(--ease-emphasis),
-    opacity 520ms var(--ease-out-expo);
-}
-/* The cardinality the dictionary states, in the same two colours the process
-   connectors in section 05 use. One relation language for the whole page. */
-.nh-edge[data-k="0"] { background: var(--rel-1-1); }
-
-/* --- the field's own captions --------------------------------------------
-   The note the client raised was that the formation felt disconnected from the
-   information. A group with no name is a shape; a group with its own real count
-   attached is data. Every string here is written at paint time from
-   formations.captions(), which reads the same numbers the sections print. */
-.nh-caps { position: absolute; inset: 0; }
-.nh-cap {
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline-start: 0;
-  display: grid;
-  justify-items: center;
-  gap: 1px;
-  margin-inline-start: -3.75rem;
-  inline-size: 7.5rem;
-  padding: 3px 6px 4px;
-  border-radius: var(--r-xs);
-  /* A label has to survive being read with the page frozen, which means it has
-     to survive the dots behind it. A thin wash of the canvas colour does that
-     without becoming a chip — the label still belongs to the field. */
-  background: color-mix(in srgb, var(--background) 66%, transparent);
-  /* MODULE as an EDGE — the one form the rule allows for a label like this. */
-  border-block-end: 2px solid color-mix(in srgb, var(--nh-tint) 52%, transparent);
-  font-weight: 600;
-  text-align: center;
-  opacity: 0;
-  transition:
-    translate 820ms var(--ease-emphasis),
-    opacity 460ms var(--ease-out-expo);
-}
-.nh-cap[data-on="1"] { opacity: 1; }
-.nh-cap[data-tone="pm"] { border-block-end-color: color-mix(in srgb, var(--mod-pm) 72%, transparent); }
-.nh-cap[data-tone="pp"] { border-block-end-color: color-mix(in srgb, var(--mod-pppi) 72%, transparent); }
-.nh-cap > b {
-  font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate;
-  font-variant-numeric: tabular-nums;
-  font-size: var(--t-sm);
-  color: var(--ink-1);
-}
-.nh-cap > em { font-style: normal; font-size: 10px; color: var(--ink-2); line-height: 1.35; }
-
-/* THE LEAD LABEL · one per formation, and it is the sentence the formation
-   exists to prove. If a formation could not be given one of these it would not
-   be in formations.place() at all — that is the rule the review asked for,
-   enforced in the only place it can be enforced. */
-.nh-cap[data-lead="1"] {
-  margin-inline-start: -8rem;
-  inline-size: 16rem;
-  padding: 5px var(--sp-3) 6px;
-  border-block-end-width: 3px;
-  background: color-mix(in srgb, var(--background) 84%, transparent);
-  box-shadow: var(--elev-1);
-}
-.nh-cap[data-lead="1"] > b {
-  /* Hebrew, so the mono LTR isolate the count labels need is undone here. */
-  font-family: inherit;
-  direction: rtl;
-  font-size: var(--t-sm);
-  font-weight: 700;
-  letter-spacing: -.01em;
-}
-.nh-cap[data-lead="1"] > em {
-  font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
-  font-size: var(--t-micro);
-  color: var(--ink-3);
-}
-
-/* --- the three depth planes ----------------------------------------------
-   Depth is not decoration: a dot's plane is its real documentation-coverage
-   score, so the sharp, close plane is the part of the dictionary we actually
-   know. Blur is applied ONCE per plane (three filtered surfaces), never per
-   dot — 105 individually filtered elements would cost three orders of
-   magnitude more and buy nothing. */
-.nh-plane {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 700ms var(--ease-out-expo);
-  will-change: transform;
-}
-.nh[data-ready="1"] .nh-plane { opacity: 1; }
-.nh-plane[data-z="0"] { transform: translate3d(calc(var(--nh-mx) * 16px), calc(var(--nh-my) * 13px), 0); }
-.nh-plane[data-z="1"] { transform: translate3d(calc(var(--nh-mx) * 9px), calc(var(--nh-my) * 7px), 0); filter: blur(.6px); }
-.nh-plane[data-z="2"] { transform: translate3d(calc(var(--nh-mx) * 4px), calc(var(--nh-my) * 3px), 0); filter: blur(1.9px); opacity: 0; }
-.nh[data-ready="1"] .nh-plane[data-z="2"] { opacity: .82; }
-
-.nh-dot {
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline-start: 0;
-  inline-size: 10px;
-  block-size: 10px;
-  margin: -5px;
-  border-radius: 50%;
-  background: var(--o);
-  opacity: 0;
-  transition:
-    translate 820ms var(--ease-emphasis),
-    scale 820ms var(--ease-emphasis),
-    opacity 620ms var(--ease-out-expo),
-    transform 240ms var(--ease-out-expo),
-    box-shadow 240ms var(--ease-out-expo);
-}
-/* MODULE identity, as a ring around an OBJECT-class core. The two encodings
-   never sit on the same pixel, which is the rule the design system asks for:
-   the core says what kind of object it is, the ring says whose it is. */
-.nh-dot[data-b="0"] { box-shadow: 0 0 0 2.5px color-mix(in srgb, var(--mod-pm) 66%, transparent); }
-.nh-dot[data-b="2"] { box-shadow: 0 0 0 2.5px color-mix(in srgb, var(--mod-pppi) 66%, transparent); }
-/* The 19 that live in both carry both rings, one inside the other. */
-.nh-dot[data-b="1"] {
-  box-shadow:
-    0 0 0 2.5px color-mix(in srgb, var(--mod-pm) 88%, transparent),
-    0 0 0 5px color-mix(in srgb, var(--mod-pppi) 76%, transparent);
-}
-.nh-dot[data-near="1"] {
-  box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--o) 70%, transparent),
-    0 0 14px 2px color-mix(in srgb, var(--o) 45%, transparent);
-}
-/* Tables the dictionary marks as replaced keep a small permanent tell. */
-.nh-dot[data-s="1"]::after {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--o) 55%, transparent);
-}
-
-/* THE HANDOFF · the dot is on its way onto the element that renders the same
-   table. Faster than a formation move, because it is a single object crossing a
-   short distance rather than a hundred re-forming. */
-.nh-dot[data-fly="1"] {
-  z-index: 2;
-  transition:
-    translate 620ms var(--ease-emphasis),
-    scale 620ms var(--ease-emphasis),
-    opacity 300ms linear;
-}
-
-/* THE FIELD ANSWERS THE CONTENT · hovering a coverage axis or a topic in the
-   copy mutes every table that is not part of the answer. Opacity is written
-   inline by the scene, so the answer has to out-rank it. */
-.nh[data-ask="1"] .nh-dot[data-mute="1"] { opacity: .06 !important; }
-.nh[data-ask="1"] .nh-dot[data-hi="1"] {
-  opacity: 1 !important;
-  box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--o) 78%, transparent),
-    0 0 18px 3px color-mix(in srgb, var(--o) 48%, transparent);
-}
-.nh[data-ask="1"] .nh-edge,
-.nh[data-ask="1"] .nh-cap { opacity: .12 !important; }
-
-/* The lens itself — a soft disc of the current section's module light. */
-.nh-lens {
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline-start: 0;
-  inline-size: 20rem;
-  block-size: 20rem;
-  margin: -10rem;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%,
-    color-mix(in srgb, var(--nh-tint) 16%, transparent) 0%, transparent 68%);
-  opacity: 0;
-  transition: opacity 260ms var(--ease-out-expo);
-}
-.nh-lens[data-on="1"] { opacity: 1; }
-
-/* The readout layer. Same geometry as the field, one step above the bodies. */
-.nh-hud {
-  position: sticky;
-  inset-block-start: 0;
-  z-index: 5;
-  block-size: var(--nh-vh);
-  margin-block-end: calc(-1 * var(--nh-vh));
-  overflow: hidden;
+  z-index: 8;
+  block-size: 2px;
+  margin-block-end: -2px;
+  background: color-mix(in oklab, var(--ink-1) 8%, transparent);
   pointer-events: none;
 }
-
-/* The field is not abstract: the nearest dot names itself. */
-.nh-read {
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline-start: 0;
-  display: grid;
-  gap: 1px;
-  min-inline-size: 11rem;
-  max-inline-size: 17rem;
-  margin-block-start: 14px;
-  margin-inline-start: 14px;
-  padding: var(--sp-2) var(--sp-3);
-  border: 1px solid color-mix(in srgb, var(--o) 40%, var(--hairline));
-  border-radius: var(--r-sm);
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
-  backdrop-filter: blur(10px) saturate(1.2);
-  box-shadow: var(--elev-3);
-  opacity: 0;
-  transform: scale(.94);
-  transition: opacity 180ms var(--ease-out-expo), transform 260ms var(--c-spring);
+.nh-prog > i {
+  display: block;
+  block-size: 100%;
+  background: linear-gradient(to left, var(--mod-pm), var(--mod-pppi));
+  transform: scaleX(0);
+  transform-origin: inline-start center;
 }
-.nh-read[data-on="1"] { opacity: 1; transform: none; }
-.nh-read b { font-size: var(--t-sm); color: var(--o); }
-.nh-read span { font-size: var(--t-micro); color: var(--ink-2); }
-.nh-read em { font-style: normal; font-size: 10px; color: var(--ink-3); }
-
-.nh-vig {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(132% 100% at 50% 40%, transparent 62%,
-    color-mix(in srgb, var(--background) 72%, transparent) 100%);
+@keyframes nh-prog { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@supports (animation-timeline: scroll()) {
+  .nh-prog > i {
+    animation: nh-prog linear both;
+    animation-timeline: scroll(nearest block);
+  }
+}
+@supports not (animation-timeline: scroll()) {
+  /* No timeline means no honest progress, and a rail frozen at 0 is a lie. It
+     becomes a static seam instead. */
+  .nh-prog > i { transform: scaleX(1); opacity: .35; }
 }
 
-/* ==========================================================================
-   LAYER 2 · THE TWO MODULE BODIES — the same elements for the whole page
-   ========================================================================== */
-.nh-bodies {
-  position: sticky;
-  inset-block-start: 0;
-  z-index: 3;
-  block-size: var(--nh-vh);
-  margin-block-end: calc(-1 * var(--nh-vh));
-  pointer-events: none;
-  transform: translate3d(calc(var(--nh-mx) * -6px), calc(var(--nh-my) * -5px), 0);
-}
-.nh-body {
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline-start: 0;
-  inline-size: 20rem;
-  block-size: 21.5rem;
-  /* Grown from its own inline-start/top corner, which is where the JS anchor
-     is, so scaling never drags the card across the canvas. */
-  transform-origin: 100% 0;
-  pointer-events: auto;
-  text-align: start;
-  display: grid;
-  border: 1px solid color-mix(in srgb, var(--m) 32%, var(--hairline));
-  border-radius: var(--r-2xl);
-  background: color-mix(in srgb, var(--surface) 84%, transparent);
-  backdrop-filter: blur(16px) saturate(1.3);
-  box-shadow: var(--elev-3);
-  opacity: 0;
-  transition:
-    translate 760ms var(--ease-emphasis),
-    scale 760ms var(--ease-emphasis),
-    opacity 500ms var(--ease-out-expo),
-    border-color 260ms, box-shadow 260ms;
-}
-.nh[data-ready="1"] .nh-body { opacity: 1; }
-.nh-body:hover { border-color: var(--m); box-shadow: var(--elev-4); }
-.nh-body:focus-visible { box-shadow: var(--focus-ring), var(--elev-4); }
-.nh-body-glow {
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: radial-gradient(120% 90% at 20% 0%,
-    color-mix(in srgb, var(--m) 16%, transparent), transparent 62%);
-  transition: opacity 300ms var(--ease-out-expo);
-}
-.nh-body:hover .nh-body-glow { opacity: .7; }
+/* --------------------------------------------------------------------------
+   3. THE CHAPTER INDEX
+   A sticky layer declared before the sections, because a sticky element sticks
+   from its own place in the flow. Selection is loud on purpose — ground, ink
+   and edge together — and never a hairline.
+   -------------------------------------------------------------------------- */
 
-/* Three registers cross-fade INSIDE one box, so the body morphs on transform
-   alone and its text never reflows mid-flight. */
-.nh-body-r {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  align-content: start;
-  gap: var(--sp-2);
-  padding: var(--sp-5);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 380ms var(--ease-out-expo);
-}
-.nh-body[data-r="l"] .nh-body-r--l,
-.nh-body[data-r="m"] .nh-body-r--m,
-.nh-body[data-r="d"] .nh-body-r--d { opacity: 1; }
-.nh-body-code { font-size: 1.375rem; font-weight: 700; color: var(--m); letter-spacing: .01em; }
-.nh-body-he { font-size: 2.125rem; font-weight: 700; letter-spacing: -.03em; line-height: 1.04; }
-.nh-body-en { font-size: var(--t-micro); color: var(--ink-3); }
-.nh-body-nums { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-2) var(--sp-4); margin-block-start: var(--sp-2); }
-.nh-body-nums span { display: flex; align-items: baseline; gap: 5px; }
-.nh-body-nums b {
-  font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate;
-  font-variant-numeric: tabular-nums; font-size: 1.5rem; letter-spacing: -.03em;
-}
-.nh-body-nums em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
-.nh-body-bar { display: flex; gap: 3px; align-items: flex-end; margin-block-start: var(--sp-1); }
-.nh-body-bar i { inline-size: 4px; block-size: 16px; border-radius: 2px; background: var(--m); }
-.nh-body-bar i.off { block-size: 7px; background: var(--hairline); }
-.nh-body-go {
-  display: flex; align-items: center; gap: 6px;
-  margin-block-start: auto; align-self: end;
-  font-size: var(--t-micro); color: var(--ink-3);
-}
-.nh-body-go svg { transition: transform 260ms var(--c-spring); }
-.nh-body:hover .nh-body-go svg { transform: translate(-3px, -3px); }
-.nh-body-mn { font-size: var(--t-sm); color: var(--ink-3); font-variant-numeric: tabular-nums; }
-
-.nh-body-r--m { padding: var(--sp-6); gap: var(--sp-3); }
-.nh-body-r--m .nh-body-code { font-size: 2.5rem; }
-.nh-body-r--m .nh-body-he { font-size: 3.75rem; }
-.nh-body-r--m .nh-body-mn { font-size: 1.5rem; }
-
-.nh-body-r--d { padding: var(--sp-6); gap: var(--sp-3); align-content: center; }
-.nh-body-r--d .nh-body-code { font-size: 3.75rem; }
-.nh-body-r--d .nh-body-mn { font-size: 2rem; color: var(--ink-2); }
-.nh-body[data-r="d"] {
-  background: color-mix(in srgb, var(--m) 7%, var(--surface));
-  border-color: color-mix(in srgb, var(--m) 26%, var(--hairline));
-  box-shadow: var(--elev-2);
-}
-.nh-body[data-r="m"] { background: color-mix(in srgb, var(--surface) 92%, transparent); }
-
-/* ==========================================================================
-   LAYER 3 · THE SECTION INDEX — a persistent sense of place
-   ========================================================================== */
 .nh-index {
   position: sticky;
   inset-block-start: 0;
-  z-index: 4;
-  block-size: var(--nh-vh);
-  margin-block-end: calc(-1 * var(--nh-vh));
+  z-index: 7;
+  block-size: 0;
   pointer-events: none;
 }
 .nh-index > div {
   position: absolute;
-  inset-block-end: var(--sp-6);
-  inset-inline-end: var(--sp-4);
+  inset-block-start: 50svh;
+  inset-inline-end: clamp(.5rem, 1.6cqi, 1.5rem);
+  transform: translateY(-50%);
   display: grid;
   gap: 2px;
   pointer-events: auto;
@@ -571,931 +150,881 @@ html .nx-app .nx-canvas:has(> .nh) {
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
-  gap: 2px var(--sp-2);
-  min-block-size: 2.25rem;
-  padding: 4px var(--sp-2);
-  border-radius: var(--r-sm);
+  column-gap: .5rem;
+  padding: .34rem .5rem;
   border: 1px solid transparent;
-  font-size: var(--t-micro);
-  color: var(--ink-3);
-  transition: transform 220ms var(--ease-out-expo), border-color 200ms, background-color 200ms, color 200ms;
+  border-radius: .5rem;
+  color: var(--scene-ink-3, var(--ink-3));
+  text-decoration: none;
+  font-size: .72rem;
+  line-height: 1.2;
+  transition: color 200ms var(--ease-out-expo), background-color 200ms var(--ease-out-expo),
+              border-color 200ms var(--ease-out-expo);
 }
-.nh-index a:hover { color: var(--ink-1); background: color-mix(in srgb, var(--surface) 82%, transparent); transform: translateY(-1px); }
+.nh-index-n { font-size: .68rem; opacity: .8; }
+.nh-index-l { font-weight: 650; white-space: nowrap; }
+.nh-index-f {
+  grid-column: 2;
+  font-size: .62rem;
+  opacity: 0;
+  block-size: 0;
+  overflow: clip;
+  white-space: nowrap;
+  transition: opacity 200ms var(--ease-out-expo);
+}
+@media (hover: hover) and (pointer: fine) {
+  .nh-index a:hover { color: var(--scene-ink, var(--ink-1)); }
+}
 .nh-index a[aria-current="true"] {
-  color: var(--ink-1);
-  background: color-mix(in srgb, var(--nh-tint) 14%, var(--surface));
-  border-color: color-mix(in srgb, var(--nh-tint) 52%, transparent);
+  color: var(--scene-ink, var(--ink-1));
+  background: color-mix(in oklab, var(--scene-ink, var(--ink-1)) 9%, transparent);
+  border-color: color-mix(in oklab, var(--scene-ink, var(--ink-1)) 18%, transparent);
+  font-weight: 750;
 }
-.nh-index-n { grid-row: span 2; font-size: 10px; opacity: .75; }
-.nh-index a[aria-current="true"] .nh-index-n { color: var(--nh-tint); opacity: 1; }
-.nh-index-l { font-weight: 600; }
-.nh-index-f { font-size: 10px; color: var(--ink-3); }
+.nh-index a[aria-current="true"] .nh-index-f { opacity: .7; block-size: auto; }
+.nh-index a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 
-/* ==========================================================================
-   LAYER 1 · THE SECTIONS
-   ========================================================================== */
-.nh-sec {
+/* --------------------------------------------------------------------------
+   4. SECTION SHELL
+   -------------------------------------------------------------------------- */
+
+/* A chapter is TWO elements, and it has to be.
+   ground.css declares base/pm/pppi as `--scene-raised: var(--surface)` while
+   .nm-scene declares `--surface: var(--scene-raised)`. On one element those two
+   custom properties reference each other; the cycle makes both invalid at
+   computed-value time and every raised surface and hairline inside that scene
+   silently loses its colour. So the SECTION names the scene (and is what the
+   scene observer in motion-provider.tsx watches) and its only child WEARS it.
+   The section resolves --scene-* against the shell tokens, the child rebinds
+   the product tokens from those, and the cycle cannot form. */
+.nh-sec { position: relative; }
+.nh-body {
+  position: relative;
+  padding-block: clamp(3.5rem, 7cqi, 6.5rem);
+  padding-inline: var(--nh-gut);
+}
+.nh-in {
   position: relative;
   z-index: 1;
-  /* THREE background layers, not one wash. A section is meant to read as a
-     place with its own light: a module tint that enters from the block start,
-     a second, cooler pool at the far corner that gives the surface depth, and
-     a low neutral floor so the type never sits on colour alone. The percentages
-     are deliberately well above the 1.5% Stage 2A used — the client's note was
-     that everything stayed white and grey, and it did. */
-  background:
-    linear-gradient(to bottom,
-      color-mix(in srgb, var(--nh-tint) 14%, transparent) 0,
-      color-mix(in srgb, var(--nh-tint) 4.5%, transparent) 30%,
-      transparent 68%),
-    radial-gradient(90% 60% at 8% 100%,
-      color-mix(in srgb, var(--nh-tint) 9%, transparent), transparent 70%),
-    linear-gradient(to bottom, transparent 55%,
-      color-mix(in srgb, var(--surface) 55%, transparent));
-  transition: background-color 420ms var(--ease-out-expo);
-  display: grid;
-  align-content: start;
-  gap: var(--sp-6);
-  padding: var(--sp-16) var(--nh-gut);
-  /* Room for the docked bodies and the index, which live on the far edge. */
-  padding-inline-end: calc(var(--nh-gut) + 8rem);
-  /* The copy scrim below deliberately bleeds past its own box. `clip` (not
-     `hidden`) keeps that bleed from ever becoming scrollable overflow without
-     turning the section into a scroll container. */
-  overflow: clip;
+  inline-size: min(100%, var(--nh-max));
+  margin-inline: auto;
 }
-/* A grid item's default min-size is auto, which lets one wide table quietly
-   widen the whole section past the canvas. Nothing on this page is allowed to
-   set its own floor. */
-.nh-sec > *,
-.nh-cov li,
-.nh-hot li,
-.nh-scard,
-.nh-dcol li { min-inline-size: 0; }
-/* SECTION MARKER · module colour in edge form. A hairline rule enters from the
-   reading edge and fades out, so every section starts with a visible statement
-   of which light it is in, and two adjacent sections never abut on nothing. */
-.nh-sec::before {
-  content: '';
-  position: absolute;
-  inset-block-start: 0;
-  inset-inline: 0;
-  block-size: 2px;
-  background: linear-gradient(to left,
-    color-mix(in srgb, var(--nh-tint) 68%, transparent),
-    color-mix(in srgb, var(--nh-tint) 18%, transparent) 42%,
-    transparent 78%);
-  pointer-events: none;
-}
-[dir="ltr"] .nh-sec::before { background: linear-gradient(to right,
-  color-mix(in srgb, var(--nh-tint) 68%, transparent),
-  color-mix(in srgb, var(--nh-tint) 18%, transparent) 42%,
-  transparent 78%); }
-.nh-sec--open::before { opacity: 0; }
+.nh-head { margin-block-end: clamp(2rem, 4cqi, 3.25rem); }
 
-/* SECTION LIGHTING · the section you are actually in is lit. One attribute,
-   written once per section change by home-scene.tsx, and the module light on
-   the surface, on the marker rule and on the outline numeral all step up
-   together. This is the "make it more alive" note spent where it means
-   something: on WHERE YOU ARE, never as decoration everywhere at once. */
-.nh-sec[data-active="1"] {
-  background:
-    linear-gradient(to bottom,
-      color-mix(in srgb, var(--nh-tint) 20%, transparent) 0,
-      color-mix(in srgb, var(--nh-tint) 6.5%, transparent) 32%,
-      transparent 70%),
-    radial-gradient(90% 60% at 8% 100%,
-      color-mix(in srgb, var(--nh-tint) 13%, transparent), transparent 70%),
-    linear-gradient(to bottom, transparent 55%,
-      color-mix(in srgb, var(--surface) 55%, transparent));
-}
-.nh-sec[data-active="1"]::before { block-size: 3px; }
-.nh-sec[data-active="1"] .nh-ix {
-  -webkit-text-stroke-color: color-mix(in srgb, var(--nh-tint) 66%, var(--hairline));
-}
+/* --------------------------------------------------------------------------
+   5. TYPOGRAPHY AND SMALL PARTS
+   -------------------------------------------------------------------------- */
 
-.nh-sec--open {
-  min-block-size: var(--nh-vh);
-  align-content: center;
-  padding-block: var(--sp-12);
-}
-.nh-sec--close { padding-block-end: var(--sp-16); }
-
-/* Reveal is a TRANSITION gated by an attribute, never an entry animation.
-   Without JS there is no [data-pre], so the content is simply there. */
-.nh-sec[data-pre="1"] > *:not(.nh-ix) {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 560ms var(--ease-out-expo), transform 680ms var(--ease-emphasis);
-}
-.nh-sec[data-pre="1"][data-in="1"] > *:not(.nh-ix) { opacity: 1; transform: none; }
-.nh-sec[data-pre="1"] > *:nth-child(3) { transition-delay: 70ms; }
-.nh-sec[data-pre="1"] > *:nth-child(n+4) { transition-delay: 130ms; }
-.nh-sec[data-pre="1"] :is(.nh-stat, .nh-cov li, .nh-scard, .nh-impcol, .nh-hot li) {
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 460ms var(--ease-out-expo) var(--d, 0ms),
-    transform 620ms var(--ease-emphasis) var(--d, 0ms);
-}
-.nh-sec[data-pre="1"][data-in="1"] :is(.nh-stat, .nh-cov li, .nh-scard, .nh-impcol, .nh-hot li) {
-  opacity: 1;
-  transform: none;
-}
-
-/* Section marker — an outlined numeral in the section's own module light. */
-.nh-ix {
-  position: absolute;
-  inset-block-start: var(--sp-6);
-  inset-inline-end: var(--sp-6);
+/* A SAP identifier is Latin inside a Hebrew sentence and must never be
+   reordered by the bidi algorithm. */
+.nh-sap {
   font-family: var(--font-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
   font-variant-numeric: tabular-nums;
-  font-size: 8rem;
-  line-height: .8;
-  font-weight: 700;
-  letter-spacing: -.05em;
-  color: transparent;
-  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--nh-tint) 42%, var(--hairline));
-  pointer-events: none;
 }
-
-.nh-copy { position: relative; display: grid; gap: var(--sp-4); max-inline-size: 46rem; }
-/* Masking, not hiding: a soft wash of the canvas colour under the editorial
-   column so the field can stay dense without ever costing the copy contrast. */
-.nh-copy::before {
-  content: '';
-  position: absolute;
-  inset: -2.5rem -3.5rem;
-  z-index: -1;
-  background: radial-gradient(115% 100% at 100% 45%,
-    color-mix(in srgb, var(--background) 88%, transparent) 0 42%, transparent 82%);
-  pointer-events: none;
-}
-[dir="ltr"] .nh-copy::before { background: radial-gradient(115% 100% at 0% 45%,
-  color-mix(in srgb, var(--background) 88%, transparent) 0 42%, transparent 82%); }
-.nh-sec--open .nh-copy { max-inline-size: 40rem; }
 
 .nh-eye {
   display: flex;
   align-items: center;
-  gap: var(--sp-2);
-  font-size: var(--t-micro);
-  letter-spacing: .16em;
-  color: var(--ink-3);
+  gap: .55rem;
+  margin: 0 0 1rem;
+  font-size: .74rem;
+  font-weight: 700;
+  letter-spacing: .1em;
   text-transform: uppercase;
+  color: var(--scene-ink-3, var(--ink-3));
 }
-.nh-eye i { inline-size: 20px; block-size: 1px; background: var(--nh-tint); opacity: .8; }
+.nh-eye > i {
+  inline-size: 1.75rem;
+  block-size: 1px;
+  background: currentColor;
+  opacity: .5;
+  flex: none;
+}
+.nh-eye--gate { color: color-mix(in oklab, var(--scene-accent) 62%, var(--scene-ink-2)); }
 
 .nh-mega {
-  /* cqi, not vw: the headline is sized by the canvas it lives in. Caps at
-     144px, which is the top of the display register this page is allowed. */
-  font-size: clamp(2.5rem, 8cqi, 9rem);
-  font-weight: 700;
-  line-height: .94;
-  letter-spacing: -.03em;
-  display: grid;
+  margin: 0 0 1.5rem;
+  font-size: clamp(2.5rem, 8cqi, 6rem);
+  line-height: 1.02;
+  letter-spacing: -.025em;
+  font-weight: 800;
+  color: var(--scene-ink, var(--ink-1));
   text-wrap: balance;
 }
-.nh-mega-2 { font-size: .56em; color: var(--ink-2); letter-spacing: -.028em; }
-/* The one accent-coloured phrase on the page. Brand red is a global accent —
-   it is never a module colour and never a data category. */
-.nh-mega-2 .nh-sap,
-.nh-accent { color: var(--brand); }
+.nh-mega .nh-sap { font-size: .86em; letter-spacing: -.01em; }
 
 .nh-h2 {
-  font-size: clamp(1.75rem, 4.2cqi, 4rem);
-  font-weight: 700;
-  line-height: 1.04;
-  letter-spacing: -.03em;
-  max-inline-size: 20ch;
+  margin: 0 0 1.1rem;
+  font-size: clamp(1.75rem, 4.4cqi, 3.1rem);
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  font-weight: 780;
+  color: var(--scene-ink, var(--ink-1));
   text-wrap: balance;
 }
-.nh-dim { color: var(--ink-3); }
-.nh-lede { font-size: 1.0625rem; color: var(--ink-2); line-height: 1.62; max-inline-size: 62ch; }
-.nh-note { font-size: var(--t-xs); color: var(--ink-3); max-inline-size: 78ch; line-height: 1.7; }
-.nh-sap { font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate; }
-
-/* --- 01 · stats, calls to action, class legend ---------------------------- */
-.nh-stats { display: flex; flex-wrap: wrap; gap: var(--sp-5) var(--sp-8); }
-.nh-stat { display: grid; gap: 2px; }
-.nh-stat b {
-  font-variant-numeric: tabular-nums;
-  font-size: clamp(1.5rem, 2.6cqi, 2.25rem);
-  letter-spacing: -.03em;
-  line-height: 1;
-}
-.nh-stat em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
-
-/* CONTROLS · this page owns no button style. Every action here is a .nu-* from
-   app/neo/ui.css, which is what makes "is this clickable?" answerable across
-   the whole product instead of per screen. Home only says how the row of them
-   is laid out, and passes --m where a control carries a module identity. */
-.nh-cta { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3); align-items: center; }
-
-.nh-legend { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4); font-size: var(--t-micro); color: var(--ink-3); }
-.nh-legend li { display: inline-flex; align-items: center; gap: 6px; }
-.nh-legend i {
-  inline-size: 9px; block-size: 9px; border-radius: 50%; background: var(--o);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--o) 22%, transparent);
-}
-.nh-legend em { font-style: normal; font-variant-numeric: tabular-nums; color: var(--ink-2); }
-
-/* --- 02 · coverage -------------------------------------------------------- */
-.nh-cov { display: grid; gap: var(--sp-2); max-inline-size: 58rem; }
-.nh-cov li {
-  position: relative;
+.nh-h3 {
   display: grid;
-  grid-template-columns: 11rem minmax(6rem, 1fr) auto 5rem;
-  align-items: center;
-  gap: var(--sp-3);
-  padding: var(--sp-3);
-  border-radius: var(--r-sm);
-  /* MODULE as surface tint + ring. Strong enough to be a material. */
-  background: color-mix(in srgb, var(--nh-tint) 10%, color-mix(in srgb, var(--surface) 86%, transparent));
-  border: 1px solid color-mix(in srgb, var(--nh-tint) 36%, var(--hairline));
-  box-shadow: var(--elev-1);
-  font-size: var(--t-sm);
-  cursor: default;
-  transition:
-    transform 260ms var(--ease-out-expo),
-    background-color 220ms, border-color 220ms, box-shadow 220ms;
+  gap: .3rem;
+  margin: 0 0 1.1rem;
+  font-size: 1.05rem;
+  font-weight: 750;
+  color: var(--scene-ink, var(--ink-1));
 }
-/* Hovering a row asks the field a question; the row has to look like it did the
-   asking. It rises, its ring closes, and a module edge appears on the reading
-   side — the same edge language the section marker uses. */
-.nh-cov li::before {
-  content: '';
-  position: absolute;
-  inset-block: 6px;
-  inset-inline-start: 0;
-  inline-size: 3px;
-  border-start-start-radius: var(--r-sm);
-  border-end-start-radius: var(--r-sm);
-  background: var(--nh-tint);
-  opacity: 0;
-  transition: opacity 200ms var(--ease-out-expo);
+.nh-h3 > em {
+  font-style: normal;
+  font-size: .8rem;
+  font-weight: 500;
+  color: var(--scene-ink-3, var(--ink-3));
 }
-.nh-cov li:hover {
-  transform: translateY(-2px);
-  background: color-mix(in srgb, var(--nh-tint) 13%, var(--surface));
-  border-color: color-mix(in srgb, var(--nh-tint) 46%, transparent);
-  box-shadow: var(--elev-3);
+.nh-dim { color: var(--scene-ink-3, var(--ink-3)); }
+.nh-accent { color: var(--scene-accent, var(--brand)); }
+
+.nh-lede {
+  margin: 0;
+  max-inline-size: 46rem;
+  font-size: clamp(.95rem, 1.5cqi, 1.15rem);
+  line-height: 1.72;
+  color: var(--scene-ink-2, var(--ink-2));
 }
-.nh-cov li:hover::before { opacity: 1; }
-.nh-cov-l { color: var(--ink-1); font-weight: 600; }
-.nh-cov-bar { display: block; block-size: 8px; border-radius: var(--r-pill); background: var(--surface-2); overflow: hidden; }
-.nh-cov-bar i {
+.nh-lede--gate { font-size: clamp(1rem, 1.7cqi, 1.25rem); }
+
+.nh-note {
+  margin: 1.4rem 0 0;
+  max-inline-size: 46rem;
+  font-size: .82rem;
+  line-height: 1.75;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+
+/* The metric bar. Width states the value; .nm-grow scrubs it open with scaleX
+   only, because width is a layout property and animating it would reflow. */
+.nh-bar {
+  display: block;
+  block-size: 6px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--scene-ink, var(--ink-1)) 9%, transparent);
+  overflow: clip;
+}
+/* The fill takes the MODULE hue wherever a module owns the row (--m is set on
+   the two module chapters) and stays neutral ink everywhere else. Brand red is
+   the single global accent and is spent on exactly one thing on this page: the
+   two coverage axes the dataset does badly on. */
+.nh-bar > i {
   display: block;
   block-size: 100%;
+  inline-size: calc(var(--p, 0) * 100%);
+  min-inline-size: 2px;
   border-radius: inherit;
-  background: linear-gradient(to left,
-    var(--nh-tint),
-    color-mix(in srgb, var(--nh-tint) 46%, transparent));
-  transform: scaleX(var(--p, 0));
-  /* transform-origin has no logical keyword, so the one physical value on this
-     page is stated per direction rather than hidden behind an invalid one. */
-  transform-origin: 100% 50%;
-  transition: transform 900ms var(--ease-emphasis) var(--d, 0ms);
+  background: var(--m, color-mix(in oklab, var(--scene-ink, var(--ink-1)) 52%, transparent));
 }
-[dir="ltr"] .nh-cov-bar i { transform-origin: 0 50%; }
-.nh-sec[data-pre="1"]:not([data-in="1"]) .nh-cov-bar i { transform: scaleX(0); }
-.nh-cov-n { font-variant-numeric: tabular-nums; font-size: var(--t-h2); }
-.nh-cov-n em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
-.nh-cov-s { font-size: var(--t-micro); color: var(--ink-3); text-align: end; }
 
-/* --- the two connective devices sections 02-06 share -----------------------
-   nh-hint  tells you the field is answerable, right where it is answerable.
-   nh-hand  is the transition ledge. Every section but the last ends with one
-            line naming what the field is about to do next, in the counts that
-            move is made of. This is the page's own answer to "a transition has
-            to explain where the information came from and where it is going":
-            it is said in motion AND in words, and the two agree. */
-.nh-hint {
-  display: inline-flex;
+/* The object-class marker. Object hue is the DATA, so it appears as a solid
+   marker on the thing it classifies and never as a status. */
+.nh-cls {
+  inline-size: .5rem;
+  block-size: .5rem;
+  border-radius: 2px;
+  background: var(--o, var(--ink-3));
+  flex: none;
+}
+
+/* The chapter ledge — what the ground is about to do, in real counts. */
+.nh-next {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
   align-items: center;
-  gap: 6px;
-  font-size: var(--t-micro);
-  color: var(--ink-3);
-  justify-self: start;
+  gap: .5rem .7rem;
+  margin: clamp(2.5rem, 5cqi, 4.5rem) auto 0;
+  inline-size: min(100%, var(--nh-max));
+  padding-block-start: 1.1rem;
+  border-block-start: 1px solid var(--scene-hair, var(--hairline));
+  font-size: .82rem;
+  line-height: 1.65;
+  color: var(--scene-ink-3, var(--ink-3));
 }
-.nh-hint svg { color: var(--nh-tint); flex: none; }
+.nh-next > svg { color: var(--scene-accent, var(--brand)); flex: none; }
+.nh-next-to {
+  font-size: .7rem;
+  font-weight: 750;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--scene-ink-2, var(--ink-2));
+}
+.nh-next-t { min-inline-size: 0; }
 
-.nh-hand {
+/* --------------------------------------------------------------------------
+   6. CHAPTER 01 · THE GATE
+   -------------------------------------------------------------------------- */
+
+.nh-gate {
+  display: grid;
+  align-content: center;
+  min-block-size: min(92svh, 58rem);
+  overflow: clip;
+  padding-block: clamp(4.5rem, 10cqi, 9rem);
+}
+
+/* THE WALL. 105 real merged table names, in three columns at two parallax
+   depths. This is the dictionary used as texture, which is the only kind of
+   texture this product is allowed to have. */
+.nh-wall {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 3cqi, 3rem);
+  padding-inline: var(--nh-gut);
+  align-items: start;
+  pointer-events: none;
+  overflow: clip;
+  /* The wall must never compete with the headline: it fades out toward the
+     reading edge and toward both block edges, so the type sits in clear air. */
+  mask-image:
+    linear-gradient(to bottom, transparent, #000 18%, #000 76%, transparent),
+    linear-gradient(to left, transparent, #000 42%);
+  mask-composite: intersect;
+  -webkit-mask-image:
+    linear-gradient(to bottom, transparent, #000 18%, #000 76%, transparent),
+    linear-gradient(to left, transparent, #000 42%);
+  -webkit-mask-composite: source-in;
+}
+.nh-wall-c {
+  display: grid;
+  gap: .28rem;
+  font-family: var(--font-mono);
+  direction: ltr;
+  font-size: clamp(.58rem, 1.05cqi, .82rem);
+  line-height: 1.5;
+  letter-spacing: .04em;
+  color: var(--scene-ink, var(--ink-1));
+  opacity: .12;
+  white-space: nowrap;
+  overflow: clip;
+}
+.nh-wall-c[data-c="1"] { opacity: .085; margin-block-start: -2.5rem; }
+.nh-wall-c[data-c="2"] { opacity: .06; margin-block-start: 1.5rem; }
+.nh-wall-c > i { font-style: normal; }
+
+/* One warm pool of light. Cheap — two radial gradients, no blur filter — and it
+   is what stops the deep scene reading as a flat black rectangle. */
+.nh-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(80% 60% at 82% 8%, color-mix(in srgb, var(--mod-pm) 16%, transparent), transparent 62%),
+    radial-gradient(72% 58% at 8% 96%, color-mix(in srgb, var(--mod-pppi) 14%, transparent), transparent 62%);
+}
+
+.nh-gate-in { max-inline-size: min(100%, var(--nh-max)); }
+
+.nh-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: 1px;
+  margin-block: clamp(2rem, 4cqi, 3rem) clamp(1.75rem, 3cqi, 2.5rem);
+  background: var(--scene-hair, var(--hairline));
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: .75rem;
+  overflow: clip;
+}
+.nh-stat {
+  display: grid;
+  gap: .25rem;
+  padding: .9rem 1rem;
+  background: color-mix(in oklab, var(--scene-raised) 62%, transparent);
+  min-inline-size: 0;
+}
+.nh-stat > b {
+  font-size: clamp(1.15rem, 2.4cqi, 1.7rem);
+  font-weight: 780;
+  color: var(--scene-ink, var(--ink-1));
+  line-height: 1.1;
+}
+.nh-stat > em {
+  font-style: normal;
+  font-size: .72rem;
+  color: var(--scene-ink-3, var(--ink-3));
+  overflow-wrap: anywhere;
+}
+
+.nh-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin-block-end: 1.6rem;
+}
+
+.nh-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem .95rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: .74rem;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+.nh-legend > li { display: flex; align-items: center; gap: .38rem; }
+.nh-legend > li > i {
+  inline-size: .5rem;
+  block-size: .5rem;
+  border-radius: 2px;
+  background: var(--o);
+  flex: none;
+}
+.nh-legend em { font-style: normal; opacity: .72; }
+
+/* THE GATE'S OWN ENTRANCE.
+   A view() timeline has nothing to scrub at scroll 0, so an above-the-fold
+   headline tied to one is simply already finished. The gate therefore runs a
+   TIME-based cascade: a page entrance, not a scroll animation. The selectors
+   are deliberately more specific than motion.css's so they win the cascade
+   regardless of stylesheet order, and reduced motion still wins over both
+   because motion.css declares its zeroing with !important. */
+@keyframes nh-gate-line { from { opacity: 0; transform: translate3d(0, 108%, 0); } to { opacity: 1; transform: none; } }
+@keyframes nh-gate-up   { from { opacity: 0; transform: translate3d(0, 16px, 0); } to { opacity: 1; transform: none; } }
+
+.nh-gate h1.nm-kin > span > span {
+  animation: nh-gate-line 900ms cubic-bezier(.16, 1, .3, 1) both;
+  animation-timeline: auto;
+}
+.nh-gate h1.nm-kin > span:nth-child(1) > span { animation-delay: 90ms; }
+.nh-gate h1.nm-kin > span:nth-child(2) > span { animation-delay: 210ms; }
+
+.nh-gate .nh-eye,
+.nh-gate .nh-lede,
+.nh-gate .nh-cta,
+.nh-gate .nh-legend,
+.nh-gate .nh-stats > .nm-rise {
+  animation: nh-gate-up 700ms cubic-bezier(.16, 1, .3, 1) both;
+  animation-timeline: auto;
+}
+.nh-gate .nh-eye { animation-delay: 40ms; }
+.nh-gate .nh-lede { animation-delay: 360ms; }
+.nh-gate .nh-stats > .nm-rise:nth-child(1) { animation-delay: 430ms; }
+.nh-gate .nh-stats > .nm-rise:nth-child(2) { animation-delay: 470ms; }
+.nh-gate .nh-stats > .nm-rise:nth-child(3) { animation-delay: 510ms; }
+.nh-gate .nh-stats > .nm-rise:nth-child(4) { animation-delay: 550ms; }
+.nh-gate .nh-stats > .nm-rise:nth-child(5) { animation-delay: 590ms; }
+.nh-gate .nh-stats > .nm-rise:nth-child(6) { animation-delay: 630ms; }
+.nh-gate .nh-cta { animation-delay: 690ms; }
+.nh-gate .nh-legend { animation-delay: 780ms; }
+
+/* --------------------------------------------------------------------------
+   7. CHAPTER 02 · COVERAGE
+   -------------------------------------------------------------------------- */
+
+.nh-cov {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--scene-hair, var(--hairline));
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: .85rem;
+  overflow: clip;
+}
+.nh-cov > li {
+  display: grid;
+  grid-template-columns: minmax(7rem, 12rem) minmax(4rem, 1fr) auto;
+  align-items: center;
+  gap: .5rem 1rem;
+  padding: .95rem 1.1rem;
+  background: var(--scene-raised, var(--surface));
+  min-inline-size: 0;
+}
+.nh-cov-l { font-weight: 650; color: var(--scene-ink, var(--ink-1)); font-size: .92rem; }
+.nh-cov-n { font-size: .92rem; font-weight: 750; color: var(--scene-ink, var(--ink-1)); white-space: nowrap; }
+.nh-cov-n > em { font-style: normal; font-weight: 500; opacity: .55; }
+.nh-cov-s {
+  grid-column: 1 / -1;
+  font-size: .76rem;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+/* An axis the dataset does badly on is not hidden and not coloured as an error.
+   It is stated in the accent, so the eye finds it first. */
+.nh-cov > li[data-low="1"] .nh-bar > i { background: var(--scene-accent, var(--brand)); }
+.nh-cov > li[data-low="1"] .nh-cov-s { color: var(--scene-accent, var(--brand)); }
+
+/* --------------------------------------------------------------------------
+   8. CHAPTER 03 · THE PINNED MAP
+   The lattice holds still while three panels pass it, so the reader studies one
+   object through three claims instead of three drawings.
+   -------------------------------------------------------------------------- */
+
+.nh-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4cqi, 4rem);
+  inline-size: min(100%, var(--nh-max));
+  margin-inline: auto;
+  margin-block: clamp(1.5rem, 4cqi, 3rem);
+}
+
+/* .nm-pin supplies the sticky; this only says where in the grid row it holds.
+   Without align-self the item would stretch to the full 3-panel height and a
+   sticky element as tall as its container never moves. */
+.nh-stage .nh-hold {
+  align-self: start;
+  gap: 1rem;
+  padding-block: 2rem;
+}
+
+.nh-lat { display: grid; gap: .6rem; }
+.nh-lat-b {
+  position: relative;
+  display: grid;
+  gap: .55rem;
+  padding: .85rem .95rem;
+  border-radius: .8rem;
+  /* Module colour as SURFACE TINT and EDGE, never as a dot. The shared band
+     takes a real mix of the two hues, which is exactly what it means. */
+  background: color-mix(in oklab, var(--bm) 7%, transparent);
+  border: 1px solid color-mix(in oklab, var(--bm) 26%, var(--scene-hair, var(--hairline)));
+}
+.nh-lat-b[data-b="0"] { --bm: var(--mod-pm); }
+.nh-lat-b[data-b="1"] { --bm: color-mix(in oklab, var(--mod-pm), var(--mod-pppi)); }
+.nh-lat-b[data-b="2"] { --bm: var(--mod-pppi); }
+
+.nh-lat-d {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  min-inline-size: 0;
+}
+.nh-lat-d > i {
+  inline-size: calc(5px + var(--z, .5) * 9px);
+  block-size: calc(5px + var(--z, .5) * 9px);
+  border-radius: 50%;
+  background: var(--o, var(--ink-3));
+  opacity: .9;
+  flex: none;
+}
+.nh-lat-t {
+  display: flex;
+  align-items: baseline;
+  gap: .45rem;
+  font-size: .76rem;
+  color: var(--scene-ink-2, var(--ink-2));
+}
+.nh-lat-t > b { font-size: 1.05rem; font-weight: 780; color: var(--scene-ink, var(--ink-1)); }
+.nh-lat-k {
+  margin: 0;
+  font-size: .76rem;
+  line-height: 1.7;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+
+/* The band the reader's panel is currently about lights up. A pure CSS
+   cross-element timeline: the panel names a view-timeline, the stage scopes it,
+   and the band's highlight overlay animates along it. Where scroll-driven
+   animation is unavailable the overlay stays at opacity 0 and the map is a
+   static, complete diagram — nothing is ever hidden behind this. */
+.nh-lat-hi {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  background: color-mix(in oklab, var(--bm) 12%, transparent);
+  box-shadow: inset 0 0 0 2px color-mix(in oklab, var(--bm) 55%, transparent);
+}
+@keyframes nh-hi { 0% { opacity: 0; } 34% { opacity: 1; } 66% { opacity: 1; } 100% { opacity: 0; } }
+
+@supports (animation-timeline: view()) and (timeline-scope: --nh-p0) {
+  .nh-stage { timeline-scope: --nh-p0, --nh-p1, --nh-p2; }
+  .nh-panel:nth-child(1) { view-timeline-name: --nh-p0; }
+  .nh-panel:nth-child(2) { view-timeline-name: --nh-p1; }
+  .nh-panel:nth-child(3) { view-timeline-name: --nh-p2; }
+  .nh-lat-b .nh-lat-hi { animation: nh-hi linear both; animation-range: cover 0% cover 100%; }
+  .nh-lat-b[data-b="0"] .nh-lat-hi { animation-timeline: --nh-p0; }
+  .nh-lat-b[data-b="1"] .nh-lat-hi { animation-timeline: --nh-p1; }
+  .nh-lat-b[data-b="2"] .nh-lat-hi { animation-timeline: --nh-p2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nh-lat-hi { animation: none !important; opacity: 0 !important; }
+}
+
+.nh-panels { display: grid; }
+.nh-panel {
+  display: grid;
+  align-content: center;
+  min-block-size: 82svh;
+  padding-block: 2rem;
+}
+.nh-panel-n {
+  display: block;
+  font-size: clamp(2.4rem, 6cqi, 4.5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.03em;
+  color: var(--scene-ink, var(--ink-1));
+}
+.nh-panel-t {
+  margin: .5rem 0 .4rem;
+  font-size: 1.15rem;
+  font-weight: 750;
+  color: var(--scene-ink, var(--ink-1));
+}
+.nh-panel-s { margin: 0 0 .8rem; font-size: .92rem; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-panel-x {
+  margin: 0;
+  padding-inline-start: .8rem;
+  border-inline-start: 2px solid var(--scene-hair, var(--hairline));
+  font-size: .82rem;
+  line-height: 1.75;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+
+/* The 19, as cards. */
+.nh-shared {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: .7rem;
+  margin-block-end: 1rem;
+}
+.nh-scard {
+  display: grid;
+  gap: .5rem;
+  padding: .85rem .95rem;
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: .75rem;
+  background: var(--scene-raised, var(--surface));
+  min-inline-size: 0;
+}
+.nh-scard > header { display: flex; align-items: center; gap: .45rem; min-inline-size: 0; }
+.nh-scard > header > b {
+  font-size: .95rem;
+  font-weight: 750;
+  color: var(--scene-ink, var(--ink-1));
+  overflow-wrap: anywhere;
+}
+.nh-scard-f {
+  margin-inline-start: auto;
+  font-size: .72rem;
+  color: var(--scene-ink-3, var(--ink-3));
+  flex: none;
+}
+.nh-scard-he {
+  margin: 0;
+  font-size: .8rem;
+  line-height: 1.55;
+  color: var(--scene-ink-2, var(--ink-2));
+  overflow-wrap: anywhere;
+}
+.nh-scard-ctx { display: grid; gap: .3rem; margin: 0; }
+.nh-scard-ctx > div {
+  display: grid;
+  grid-template-columns: 3.4rem minmax(0, 1fr);
+  gap: .45rem;
+  align-items: baseline;
+  padding-inline-start: .45rem;
+  border-inline-start: 2px solid var(--m);
+  font-size: .72rem;
+}
+.nh-scard-ctx dt { color: var(--scene-ink-3, var(--ink-3)); font-weight: 700; }
+.nh-scard-ctx dd { margin: 0; color: var(--scene-ink-2, var(--ink-2)); overflow-wrap: anywhere; }
+
+/* --------------------------------------------------------------------------
+   9. CHAPTERS 04 / 05 · THE TWO MODULES
+   The ONLY difference between them is the ground and the data. That is what
+   "module identity is carried by the ground" has to mean to be true.
+   -------------------------------------------------------------------------- */
+
+.nh-mod {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1rem, 2.4cqi, 1.6rem);
+  border: 1px solid color-mix(in oklab, var(--m) 34%, var(--scene-hair, var(--hairline)));
+  border-radius: 1rem;
+  background: color-mix(in oklab, var(--m) 6%, var(--scene-raised, var(--surface)));
+  color: inherit;
+  text-decoration: none;
+  margin-block-end: clamp(1.5rem, 3cqi, 2.5rem);
+}
+.nh-mod:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+.nh-mod-top { display: flex; align-items: center; gap: .65rem; }
+.nh-mod-top > b {
+  font-size: clamp(1.5rem, 3.4cqi, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--scene-ink, var(--ink-1));
+}
+.nh-mod-he { font-size: .95rem; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-mod-top > svg { margin-inline-start: auto; color: var(--m); flex: none; }
+.nh-mod-nums {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: .75rem 1rem;
+}
+.nh-mod-nums > span { display: grid; gap: .1rem; min-inline-size: 0; }
+.nh-mod-nums b { font-size: 1.15rem; font-weight: 780; color: var(--scene-ink, var(--ink-1)); }
+.nh-mod-nums em {
+  font-style: normal;
+  font-size: .72rem;
+  color: var(--scene-ink-3, var(--ink-3));
+  overflow-wrap: anywhere;
+}
+.nh-mod-share {
+  display: grid;
+  grid-template-columns: minmax(4rem, 1fr) auto auto;
+  align-items: center;
+  gap: .6rem;
+  font-size: .76rem;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+.nh-mod-share > em { font-style: normal; font-weight: 750; color: var(--scene-ink, var(--ink-1)); }
+
+.nh-two {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: clamp(1.5rem, 3.5cqi, 3rem);
+  align-items: start;
+}
+.nh-blk { min-inline-size: 0; }
+
+.nh-topics {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--scene-hair, var(--hairline));
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: .75rem;
+  overflow: clip;
+}
+.nh-topics > li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(3rem, 6rem) auto;
+  align-items: center;
+  gap: .6rem;
+  padding: .6rem .8rem;
+  background: var(--scene-raised, var(--surface));
+  font-size: .82rem;
+}
+.nh-topics-i { color: var(--scene-ink-3, var(--ink-3)); font-size: .72rem; }
+.nh-topics-t {
+  color: var(--scene-ink, var(--ink-1));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nh-topics-n { font-weight: 750; color: var(--scene-ink, var(--ink-1)); }
+.nh-topics .nh-bar { block-size: 5px; }
+
+.nh-chain { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.nh-node {
+  position: relative;
   display: grid;
   grid-template-columns: auto auto minmax(0, 1fr);
   align-items: center;
-  gap: var(--sp-2) var(--sp-3);
-  margin-block-start: var(--sp-4);
-  padding: var(--sp-3) var(--sp-4);
-  border-radius: var(--r-md);
-  /* MODULE as surface tint + a leading edge, never as a dot. */
-  border: 1px solid color-mix(in srgb, var(--nh-tint) 32%, var(--hairline));
-  border-inline-start: 4px solid color-mix(in srgb, var(--nh-tint) 82%, transparent);
-  background: linear-gradient(to left,
-    color-mix(in srgb, var(--nh-tint) 9%, transparent),
-    transparent 62%),
-    color-mix(in srgb, var(--surface) 72%, transparent);
-  font-size: var(--t-xs);
-  color: var(--ink-2);
-  line-height: 1.65;
-  max-inline-size: 72ch;
+  gap: .5rem;
+  padding: .6rem .8rem;
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: .6rem;
+  background: var(--scene-raised, var(--surface));
 }
-[dir="ltr"] .nh-hand { background: linear-gradient(to right,
-  color-mix(in srgb, var(--nh-tint) 9%, transparent), transparent 62%),
-  color-mix(in srgb, var(--surface) 72%, transparent); }
-.nh-hand svg { color: var(--nh-tint); }
-.nh-hand-to {
-  font-size: var(--t-micro);
-  font-weight: 700;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--ink-1);
-  padding-inline-end: var(--sp-3);
-  border-inline-end: 1px solid color-mix(in srgb, var(--nh-tint) 30%, var(--hairline));
-}
-.nh-hand-t { min-inline-size: 0; }
-
-/* WHERE A DOT LANDS · the element that a field dot was handed to. The marker it
-   lands on is the same object-class colour the dot was, which is the whole
-   point of the handoff: one object, two places, no reset. */
-@keyframes nh-land {
-  0% { transform: scale(1); }
-  38% { transform: scale(2.4); }
-  100% { transform: scale(1); }
-}
-[data-nh-lit="1"] .nh-cls { animation: nh-land 560ms var(--ease-out-expo); }
-
-/* --- 03 · the real 19 ----------------------------------------------------- */
-.nh-shared {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr));
-  gap: var(--sp-3);
-}
-.nh-scard {
-  position: relative;
-  display: grid;
-  gap: var(--sp-2);
-  padding: var(--sp-3);
-  border-radius: var(--r-md);
-  /* OBJECT class as the ring and as a top light — this card IS the dot that
-     flew onto it, so it wears the dot's colour and nothing else's. */
-  border: 1px solid color-mix(in srgb, var(--o) 34%, var(--hairline));
-  background:
-    radial-gradient(120% 80% at 100% 0%,
-      color-mix(in srgb, var(--o) 16%, transparent), transparent 62%),
-    color-mix(in srgb, var(--surface) 90%, transparent);
-  backdrop-filter: blur(8px);
-  box-shadow: var(--elev-1);
-  transition:
-    transform 260ms var(--ease-out-expo),
-    border-color 220ms, box-shadow 260ms, background-color 220ms;
-}
-[dir="ltr"] .nh-scard { background:
-  radial-gradient(120% 80% at 0% 0%, color-mix(in srgb, var(--o) 12%, transparent), transparent 62%),
-  color-mix(in srgb, var(--surface) 90%, transparent); }
-.nh-scard:hover {
-  transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--o) 58%, var(--hairline));
-  box-shadow: var(--elev-4), 0 0 0 4px color-mix(in srgb, var(--o) 9%, transparent);
-}
-/* The frame it wears for the moment a dot arrives on it. */
-.nh-scard[data-nh-lit="1"] {
-  border-color: color-mix(in srgb, var(--o) 52%, var(--hairline));
-  box-shadow: var(--elev-3), 0 0 0 3px color-mix(in srgb, var(--o) 12%, transparent);
-}
-.nh-scard header { display: flex; align-items: center; gap: var(--sp-2); }
-.nh-scard header b { font-size: var(--t-h2); color: var(--ink-1); }
-.nh-cls {
-  inline-size: 9px; block-size: 9px; border-radius: 50%; background: var(--o); flex: none;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--o) 18%, transparent);
-}
-.nh-scard-f {
-  margin-inline-start: auto; font-variant-numeric: tabular-nums;
-  font-size: var(--t-xs); color: var(--ink-3);
-}
-.nh-scard-he { font-size: var(--t-xs); color: var(--ink-2); }
-.nh-scard-ctx { display: grid; gap: 4px; }
-.nh-scard-ctx > div {
-  display: grid;
-  grid-template-columns: 3.5rem 1fr;
-  gap: var(--sp-2);
-  padding-inline-start: var(--sp-2);
-  border-inline-start: 2px solid color-mix(in srgb, var(--m) 60%, transparent);
-  font-size: var(--t-micro);
-}
-.nh-scard-ctx dt { color: var(--m); font-weight: 600; }
-.nh-scard-ctx dd { color: var(--ink-3); }
-
-/* --- 04 · density --------------------------------------------------------- */
-.nh-dens { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(24rem, 100%), 1fr)); gap: var(--sp-6); }
-/* Each module gets a real PANEL, not a bare list. This is the one place on the
-   page where module colour is a CLAIM rather than light: the teal panel is PM's
-   and the blue panel is PP-PI's, in surface + edge form. */
-.nh-dcol {
-  display: grid;
-  gap: var(--sp-2);
-  align-content: start;
-  padding: var(--sp-4);
-  border-radius: var(--r-lg);
-  border: 1px solid color-mix(in srgb, var(--m) 38%, var(--hairline));
-  border-block-start: 4px solid color-mix(in srgb, var(--m) 88%, transparent);
-  background:
-    linear-gradient(to bottom,
-      color-mix(in srgb, var(--m) 13%, transparent),
-      transparent 34%),
-    color-mix(in srgb, var(--surface) 80%, transparent);
-  box-shadow: var(--elev-1);
-  transition: box-shadow 260ms, border-color 220ms;
-}
-.nh-dcol:hover { box-shadow: var(--elev-2); }
-.nh-dcol h3 {
-  display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap;
-  padding-block-end: var(--sp-2);
-  border-block-end: 1px solid color-mix(in srgb, var(--m) 30%, var(--hairline));
-}
-.nh-dcol h3 i { inline-size: 3px; block-size: 18px; border-radius: 2px; background: var(--m); }
-.nh-dcol h3 b { font-size: var(--t-h2); color: var(--m); }
-.nh-dcol h3 span { font-size: var(--t-micro); color: var(--ink-3); }
-.nh-dcol ul { display: grid; }
-.nh-dcol li {
-  display: grid;
-  grid-template-columns: 1.75rem 1fr auto 2rem;
-  align-items: center;
-  gap: var(--sp-2);
-  min-block-size: 2.25rem;
-  padding-inline: var(--sp-2);
-  border-radius: var(--r-xs);
-  font-size: var(--t-xs);
-  cursor: default;
-  transition: background-color 200ms, box-shadow 200ms, transform 200ms var(--ease-out-expo), color 200ms;
-}
-.nh-dcol li:hover {
-  background: color-mix(in srgb, var(--m) 14%, transparent);
-  box-shadow: inset 2px 0 0 0 color-mix(in srgb, var(--m) 70%, transparent);
-  transform: translateX(-3px);
-}
-[dir="ltr"] .nh-dcol li:hover {
-  transform: translateX(3px);
-  box-shadow: inset -2px 0 0 0 color-mix(in srgb, var(--m) 70%, transparent);
-}
-.nh-dcol li:hover .nh-drow-t { color: var(--ink-1); }
-.nh-drow-i { font-size: 10px; color: var(--ink-3); }
-.nh-drow-t { color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.nh-drow-k { display: flex; gap: 2px; align-items: center; }
-.nh-drow-k i { inline-size: 3px; block-size: 12px; border-radius: 1px; background: var(--m); }
-.nh-drow-k i.off { block-size: 4px; background: var(--hairline); }
-.nh-drow-n { font-variant-numeric: tabular-nums; color: var(--ink-1); text-align: end; }
-
-/* --- 05 · the process chains ---------------------------------------------- */
-.nh-flows { display: grid; gap: var(--sp-6); }
-.nh-chain {
-  display: grid; gap: var(--sp-3);
-  padding: var(--sp-5);
-  border-radius: var(--r-lg);
-  border: 1px solid color-mix(in srgb, var(--m) 38%, var(--hairline));
-  /* The chain's own module, as edge + surface. Same claim as the 04 panels. */
-  border-inline-start: 4px solid color-mix(in srgb, var(--m) 88%, transparent);
-  background:
-    radial-gradient(80% 50% at 100% 0%, color-mix(in srgb, var(--m) 11%, transparent), transparent 66%),
-    color-mix(in srgb, var(--surface) 82%, transparent);
-  box-shadow: var(--elev-1);
-}
-[dir="ltr"] .nh-chain { background:
-  radial-gradient(80% 50% at 0% 0%, color-mix(in srgb, var(--m) 11%, transparent), transparent 66%),
-  color-mix(in srgb, var(--surface) 82%, transparent); }
-.nh-chain header { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
-.nh-chain header i { inline-size: 3px; block-size: 18px; border-radius: 2px; background: var(--m); }
-.nh-chain header b { font-size: var(--t-h2); color: var(--m); }
-.nh-chain header span { font-size: var(--t-xs); color: var(--ink-2); }
-.nh-chain-n { margin-inline-start: auto; font-size: var(--t-micro) !important; color: var(--ink-3) !important; font-variant-numeric: tabular-nums; }
-
-/* A vertical chain, not a wrapped row. A horizontal chain of nine nodes has to
-   wrap on any real canvas, and a wrapped chain stops reading as a sequence —
-   the links end up pointing at nothing. Down the page it always reads, and the
-   JOIN key finally has room to be shown in full rather than truncated. */
-.nh-steps { display: grid; }
-.nh-steps > li {
-  display: grid;
-  grid-template-columns: minmax(10rem, 17rem) minmax(0, 1fr);
-  column-gap: var(--sp-4);
-  align-items: center;
-}
-.nh-node {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 2px var(--sp-2);
-  padding: var(--sp-2) var(--sp-3);
-  border-radius: var(--r-sm);
-  border: 1px solid color-mix(in srgb, var(--o) 46%, var(--hairline));
-  background: color-mix(in srgb, var(--o) 7%, var(--surface));
-  box-shadow: var(--elev-1);
-  transition: transform 220ms var(--ease-out-expo), box-shadow 200ms;
-}
-.nh-node:hover {
-  transform: translateX(-4px);
-  border-color: color-mix(in srgb, var(--o) 60%, var(--hairline));
-  box-shadow: var(--elev-3), 0 0 0 3px color-mix(in srgb, var(--o) 10%, transparent);
-}
-[dir="ltr"] .nh-node:hover { transform: translateX(4px); }
-.nh-node[data-nh-lit="1"] {
-  border-color: color-mix(in srgb, var(--o) 55%, var(--hairline));
-  box-shadow: var(--elev-2), 0 0 0 3px color-mix(in srgb, var(--o) 12%, transparent);
-}
-.nh-node .nh-cls { inline-size: 8px; block-size: 8px; grid-row: span 2; }
-.nh-node b { font-size: var(--t-sm); color: var(--ink-1); }
-.nh-node-he { font-size: var(--t-micro); color: var(--ink-2); grid-column: 2; }
-.nh-node-n { font-size: 10px; color: var(--ink-3); font-variant-numeric: tabular-nums; grid-column: 3; grid-row: span 2; text-align: end; }
-.nh-node[data-missing="1"] {
-  border-style: dashed;
-  background: transparent;
-  box-shadow: none;
-  opacity: .74;
-}
-
-/* The connector: a short vertical rule under the node, with what the dictionary
-   actually says about the crossing beside it. */
-.nh-link {
+.nh-node > b { font-size: .88rem; font-weight: 750; color: var(--scene-ink, var(--ink-1)); }
+.nh-node-he { font-size: .8rem; color: var(--scene-ink-2, var(--ink-2)); overflow-wrap: anywhere; }
+.nh-node-n {
   grid-column: 1 / -1;
+  font-size: .7rem;
+  color: var(--scene-ink-3, var(--ink-3));
+}
+.nh-node[data-missing="1"] { border-style: dashed; background: transparent; }
+.nh-node[data-missing="1"] > b,
+.nh-node[data-missing="1"] .nh-node-he { color: var(--scene-ink-3, var(--ink-3)); }
+
+.nh-link {
   display: grid;
-  grid-template-columns: 2px minmax(0, 1fr);
+  grid-template-columns: auto auto minmax(0, 1fr);
   align-items: center;
-  column-gap: var(--sp-3);
-  padding-block: 4px;
-  margin-inline-start: 1.75rem;
+  gap: .45rem;
+  padding-block: .35rem;
+  margin-inline-start: 1.1rem;
+  font-size: .7rem;
+  color: var(--scene-ink-3, var(--ink-3));
 }
 .nh-link-line {
-  inline-size: 2px; block-size: 100%; min-block-size: 30px; border-radius: 2px;
-  background: var(--rel-n-1);
+  inline-size: 2px;
+  block-size: 1.5rem;
+  border-radius: 999px;
+  background: var(--scene-hair, var(--hairline));
 }
-.nh-link[data-kind="direct"] .nh-link-line { background: var(--rel-1-1); }
+.nh-link[data-kind="direct"] .nh-link-line { background: var(--m); }
 .nh-link[data-kind="via"] .nh-link-line {
-  background: repeating-linear-gradient(to bottom, var(--rel-n-1) 0 6px, transparent 6px 10px);
+  background: repeating-linear-gradient(to bottom, var(--m) 0 3px, transparent 3px 6px);
 }
 .nh-link[data-kind="gap"] .nh-link-line {
-  background: repeating-linear-gradient(to bottom, var(--rel-inferred) 0 3px, transparent 3px 8px);
+  background: repeating-linear-gradient(to bottom, var(--scene-ink-3, var(--ink-3)) 0 2px, transparent 2px 6px);
+  opacity: .6;
 }
-.nh-link-t { font-size: var(--t-micro); color: var(--ink-3); grid-column: 2; }
-/* A process boundary is stated by the dashed inferred rule and by the words.
-   It is NOT stated in a --status-* colour: status only ever takes the form of a
-   small filled dot followed by its label, and this is neither. */
-.nh-link[data-kind="gap"] .nh-link-t { color: var(--ink-2); font-weight: 600; }
-.nh-link code {
-  grid-column: 2;
-  font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate;
-  font-size: 10px; color: var(--ink-3);
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+.nh-link[data-kind="gap"] .nh-link-t { color: var(--scene-accent, var(--brand)); }
+.nh-link > code {
+  font-size: .66rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: .8;
 }
 
-/* --- 06 · migration ------------------------------------------------------- */
-.nh-imp { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr)); gap: var(--sp-3); max-inline-size: 58rem; }
-/* STAGE 2B CORRECTION. These three cards used to take their border, their
-   surface and their bar from a --status-* value. Under the form rule that is
-   exactly what status may never be. The card is now neutral, the emphasis on
-   the one number that matters is BRAND (the page's single accent), and the
-   status hue survives in the only shape it is allowed: a small filled dot
-   immediately followed by its word. */
+/* --------------------------------------------------------------------------
+   10. CHAPTER 06 · THE CLOSE
+   -------------------------------------------------------------------------- */
+
+.nh-close { overflow: clip; }
+
+.nh-imp {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: .75rem;
+  margin-block: clamp(1.5rem, 3cqi, 2.5rem);
+}
 .nh-impcol {
-  position: relative;
   display: grid;
-  gap: var(--sp-1);
-  align-content: start;
-  padding: var(--sp-5);
-  border-radius: var(--r-md);
-  border: 1px solid var(--hairline);
-  background:
-    linear-gradient(to bottom,
-      color-mix(in srgb, var(--ink-1) 4%, transparent), transparent 46%),
-    color-mix(in srgb, var(--surface) 90%, transparent);
-  box-shadow: var(--elev-1);
-  --k: var(--status-done);
-  --bar: color-mix(in srgb, var(--ink-1) 42%, transparent);
-  transition: transform 260ms var(--ease-out-expo), box-shadow 260ms, border-color 220ms;
+  gap: .45rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: .85rem;
+  background: color-mix(in oklab, var(--scene-raised) 70%, transparent);
 }
-.nh-impcol:hover { transform: translateY(-2px); box-shadow: var(--elev-3); }
-.nh-impcol[data-k="replaced"] {
-  --k: var(--status-in-conversion);
-  --bar: var(--brand);
-  border-color: color-mix(in srgb, var(--brand) 34%, var(--hairline));
-  background:
-    linear-gradient(to bottom, color-mix(in srgb, var(--brand) 8%, transparent), transparent 52%),
-    color-mix(in srgb, var(--surface) 92%, transparent);
-}
-.nh-impcol[data-k="replaced"] > b { color: var(--brand); }
-.nh-impcol[data-k="removed"] { --k: var(--status-not-started); }
-.nh-impcol[data-empty="1"] { border-style: dashed; background: transparent; box-shadow: none; }
-.nh-impcol > b { font-size: clamp(2.25rem, 4.4cqi, 3.5rem); line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
-.nh-impcol[data-empty="1"] > b { color: var(--ink-3); }
-/* The one legal appearance of a --status-* value: dot, then word, adjacent. */
-.nh-impcol-k { display: inline-flex; align-items: center; gap: 6px; font-size: var(--t-sm); color: var(--ink-2); }
-.nh-impcol-k i { inline-size: 8px; block-size: 8px; border-radius: 50%; background: var(--k); flex: none; }
-.nh-impcol-bar { display: block; block-size: 6px; border-radius: var(--r-pill); background: var(--surface-2); overflow: hidden; margin-block-start: var(--sp-2); }
-.nh-impcol-bar i {
-  display: block; block-size: 100%; border-radius: inherit; background: var(--bar);
-  transform: scaleX(var(--p, 0)); transform-origin: 100% 50%;
-  transition: transform 900ms var(--ease-emphasis) var(--d, 0ms);
-}
-[dir="ltr"] .nh-impcol-bar i { transform-origin: 0 50%; }
-.nh-sec[data-pre="1"]:not([data-in="1"]) .nh-impcol-bar i { transform: scaleX(0); }
-.nh-impcol-p { font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nh-impcol[data-empty="1"] { opacity: .62; }
+/* STATUS colour, in the one form the design system allows: a small filled dot
+   immediately followed by its word. The card, its edge and its bar stay
+   neutral. */
+.nh-impcol-k { display: flex; align-items: center; gap: .4rem; font-size: .82rem; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-impcol-k > i { inline-size: .5rem; block-size: .5rem; border-radius: 50%; flex: none; }
+.nh-impcol[data-k="kept"] .nh-impcol-k > i { background: var(--status-done); }
+.nh-impcol[data-k="replaced"] .nh-impcol-k > i { background: var(--status-in-conversion); }
+.nh-impcol[data-k="removed"] .nh-impcol-k > i { background: var(--status-not-started); }
+.nh-impcol > b { font-size: clamp(1.6rem, 3.2cqi, 2.4rem); font-weight: 800; line-height: 1; color: var(--scene-ink, var(--ink-1)); }
+.nh-impcol-p { font-size: .76rem; color: var(--scene-ink-3, var(--ink-3)); }
 
-.nh-hot { display: grid; gap: 2px; }
-.nh-hot li {
+.nh-hot { display: grid; gap: .5rem; margin: 0 0 1.4rem; padding: 0; list-style: none; }
+.nh-hot > li {
   display: grid;
-  grid-template-columns: 10px 6.5rem 6rem minmax(8rem, 1fr) minmax(11rem, 1.6fr) minmax(9rem, 1fr) auto;
+  grid-template-columns: auto auto auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: var(--sp-3);
-  min-block-size: var(--c-tap);
-  padding: var(--sp-2) var(--sp-3);
-  border-radius: var(--r-sm);
-  /* OBJECT class ring, because a dot from the field lands on this row. */
-  border: 1px solid color-mix(in srgb, var(--o) 32%, var(--hairline));
-  background: color-mix(in srgb, var(--o) 7%, color-mix(in srgb, var(--surface) 88%, transparent));
-  font-size: var(--t-xs);
-  transition: transform 220ms var(--ease-out-expo), border-color 200ms, box-shadow 220ms;
+  gap: .45rem .6rem;
+  padding: .75rem .9rem;
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: .7rem;
+  background: color-mix(in oklab, var(--scene-raised) 70%, transparent);
+  font-size: .82rem;
 }
-.nh-hot li:hover {
-  transform: translateX(-3px);
-  border-color: color-mix(in srgb, var(--o) 52%, var(--hairline));
-  box-shadow: var(--elev-2);
+.nh-hot > li > b { font-weight: 750; color: var(--scene-ink, var(--ink-1)); }
+.nh-hot-k { display: flex; align-items: center; gap: .35rem; font-size: .7rem; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-hot-k > i { inline-size: .45rem; block-size: .45rem; border-radius: 50%; flex: none; }
+.nh-hot-k[data-k="replaced"] > i { background: var(--status-in-conversion); }
+.nh-hot-k[data-k="removed"] > i { background: var(--status-not-started); }
+.nh-hot-he { color: var(--scene-ink-2, var(--ink-2)); overflow-wrap: anywhere; }
+.nh-hot-note {
+  grid-column: 1 / -1;
+  font-size: .76rem;
+  line-height: 1.6;
+  color: var(--scene-ink-3, var(--ink-3));
 }
-[dir="ltr"] .nh-hot li:hover { transform: translateX(3px); }
-.nh-hot li[data-nh-lit="1"] {
-  border-color: color-mix(in srgb, var(--o) 50%, var(--hairline));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--o) 11%, transparent);
-}
-.nh-hot-k { display: inline-flex; align-items: center; gap: 5px; font-size: var(--t-micro); color: var(--ink-3); }
-.nh-hot-k i { inline-size: 7px; block-size: 7px; border-radius: 50%; background: var(--status-in-conversion); flex: none; }
-.nh-hot-k[data-k="removed"] i { background: var(--status-not-started); }
-.nh-hot li > b { font-size: var(--t-sm); color: var(--ink-1); }
-.nh-hot-he { color: var(--ink-2); }
-.nh-hot-note { color: var(--ink-2); }
-.nh-hot-alt { color: var(--ink-3); }
-.nh-hot-alt em { font-style: normal; opacity: .8; }
-.nh-hot-mods { display: inline-flex; gap: 4px; }
-.nh-hot-mods em {
-  font-style: normal; font-size: 10px; color: var(--m);
-  padding: 2px var(--sp-2); border-radius: var(--r-pill);
-  border: 1px solid color-mix(in srgb, var(--m) 30%, transparent);
-  background: color-mix(in srgb, var(--m) 9%, transparent);
+.nh-hot-alt { grid-column: 1 / -1; font-size: .74rem; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-hot-alt > em { font-style: normal; color: var(--scene-ink-3, var(--ink-3)); }
+.nh-hot-mods { display: flex; gap: .3rem; }
+.nh-hot-mods > em {
+  font-style: normal;
+  font-size: .66rem;
+  padding: .1rem .4rem;
+  border-radius: .3rem;
+  border: 1px solid color-mix(in oklab, var(--m) 45%, transparent);
+  background: color-mix(in oklab, var(--m) 12%, transparent);
+  color: var(--scene-ink-2, var(--ink-2));
 }
 
-/* THE LAST BEAT · the lattice the field resolves into stops being background
-   and becomes the doors. The block is a real panel so the page lands on an
-   object rather than trailing off into a row of loose pills. */
 .nh-out {
   display: grid;
-  gap: var(--sp-4);
-  padding: var(--sp-6);
-  border-radius: var(--r-lg);
-  border: 1px solid color-mix(in srgb, var(--nh-tint) 34%, var(--hairline));
-  border-block-start: 4px solid color-mix(in srgb, var(--nh-tint) 82%, transparent);
-  background:
-    radial-gradient(90% 70% at 100% 0%, color-mix(in srgb, var(--nh-tint) 10%, transparent), transparent 68%),
-    color-mix(in srgb, var(--surface) 84%, transparent);
-  box-shadow: var(--elev-2);
+  gap: 1.1rem;
+  padding: clamp(1.1rem, 2.6cqi, 1.8rem);
+  border: 1px solid var(--scene-hair, var(--hairline));
+  border-radius: 1rem;
+  background: color-mix(in oklab, var(--scene-raised) 62%, transparent);
+  margin-block-start: 1.5rem;
 }
-[dir="ltr"] .nh-out { background:
-  radial-gradient(90% 70% at 0% 0%, color-mix(in srgb, var(--nh-tint) 10%, transparent), transparent 68%),
-  color-mix(in srgb, var(--surface) 84%, transparent); }
-.nh-out-t { font-size: var(--t-sm); color: var(--ink-2); line-height: 1.7; max-inline-size: 68ch; }
+.nh-out-t { margin: 0; font-size: 1rem; line-height: 1.7; color: var(--scene-ink-2, var(--ink-2)); }
+.nh-out .nh-cta { margin-block-end: 0; }
 
-/* The two module doors are .nu-btn2 carrying --m, so the module arrives on the
-   EDGE of the control exactly as the form rule requires — nothing to add here. */
-
-.nh-credit { font-size: var(--t-micro); color: var(--ink-3); padding-block-start: var(--sp-4); border-block-start: 1px solid var(--hairline); }
-
-/* ==========================================================================
-   DARK — layered, not inverted
-   --------------------------------------------------------------------------
-   Deep near-black planes, one step of elevation per layer, module light kept
-   as light (a glow) rather than as a wash, and a visibly different selected
-   state. Nothing here is a colour flip of the light theme.
-   ========================================================================== */
-html[data-theme="dark"] .nh {
-  background:
-    radial-gradient(120% 80% at 80% -10%, color-mix(in srgb, var(--mod-pm) 9%, transparent), transparent 60%),
-    radial-gradient(110% 70% at 10% 110%, color-mix(in srgb, var(--mod-pppi) 8%, transparent), transparent 60%);
-}
-html[data-theme="dark"] .nh-grid { opacity: .3; }
-html[data-theme="dark"] .nh-aura {
-  background: radial-gradient(circle at 50% 50%,
-    color-mix(in srgb, var(--m) 22%, transparent) 0%,
-    color-mix(in srgb, var(--m) 8%, transparent) 44%,
-    transparent 70%);
-}
-html[data-theme="dark"] .nh-vig {
-  background: radial-gradient(128% 98% at 50% 40%, transparent 44%,
-    color-mix(in srgb, #000 62%, transparent) 100%);
-}
-html[data-theme="dark"] .nh-dot { box-shadow: 0 0 10px 0 color-mix(in srgb, var(--o) 30%, transparent); }
-html[data-theme="dark"] .nh-dot[data-b="0"] {
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--mod-pm) 40%, transparent), 0 0 10px 0 color-mix(in srgb, var(--o) 34%, transparent);
-}
-html[data-theme="dark"] .nh-dot[data-b="2"] {
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--mod-pppi) 40%, transparent), 0 0 10px 0 color-mix(in srgb, var(--o) 34%, transparent);
-}
-html[data-theme="dark"] .nh-dot[data-b="1"] {
-  box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--mod-pm) 62%, transparent),
-    0 0 0 4px color-mix(in srgb, var(--mod-pppi) 50%, transparent),
-    0 0 12px 1px color-mix(in srgb, var(--o) 40%, transparent);
-}
-html[data-theme="dark"] .nh-body {
-  background: color-mix(in srgb, var(--surface-2) 76%, transparent);
-  border-color: color-mix(in srgb, var(--m) 26%, var(--hairline));
-  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, .85), 0 2px 0 0 color-mix(in srgb, var(--m) 16%, transparent) inset;
-}
-html[data-theme="dark"] .nh-body[data-r="d"] { background: color-mix(in srgb, var(--m) 10%, var(--surface-2)); }
-/* Dark keeps module colour as LIGHT rather than as paint: the tint sits on the
-   elevated plane at a higher percentage than in light, because a near-black
-   ground eats chroma, and the ring carries most of the identity. */
-html[data-theme="dark"] :is(.nh-cov li, .nh-scard, .nh-impcol, .nh-hot li) {
-  background: color-mix(in srgb, var(--surface-2) 66%, transparent);
-  border-color: color-mix(in srgb, var(--ink-3) 22%, transparent);
-}
-html[data-theme="dark"] .nh-cov li {
-  background: color-mix(in srgb, var(--nh-tint) 10%, var(--surface-2));
-  border-color: color-mix(in srgb, var(--nh-tint) 30%, transparent);
-}
-html[data-theme="dark"] .nh-cov li:hover {
-  background: color-mix(in srgb, var(--nh-tint) 18%, var(--surface-2));
-  border-color: color-mix(in srgb, var(--nh-tint) 52%, transparent);
-}
-html[data-theme="dark"] .nh-scard {
-  background:
-    radial-gradient(120% 80% at 100% 0%, color-mix(in srgb, var(--o) 18%, transparent), transparent 62%),
-    color-mix(in srgb, var(--surface-2) 74%, transparent);
-  border-color: color-mix(in srgb, var(--o) 28%, transparent);
-}
-html[data-theme="dark"] .nh-hot li {
-  background: color-mix(in srgb, var(--o) 9%, var(--surface-2));
-  border-color: color-mix(in srgb, var(--o) 26%, transparent);
-}
-html[data-theme="dark"] :is(.nh-chain, .nh-dcol) {
-  background:
-    linear-gradient(to bottom, color-mix(in srgb, var(--m) 14%, transparent), transparent 40%),
-    color-mix(in srgb, var(--surface-2) 70%, transparent);
-  border-color: color-mix(in srgb, var(--m) 30%, transparent);
-}
-html[data-theme="dark"] .nh-out,
-html[data-theme="dark"] .nh-hand {
-  background:
-    linear-gradient(to bottom, color-mix(in srgb, var(--nh-tint) 13%, transparent), transparent 55%),
-    color-mix(in srgb, var(--surface-2) 72%, transparent);
-  border-color: color-mix(in srgb, var(--nh-tint) 30%, transparent);
-}
-html[data-theme="dark"] .nh-impcol[data-k="replaced"] {
-  background: color-mix(in srgb, var(--brand) 12%, var(--surface-2));
-  border-color: color-mix(in srgb, var(--brand) 40%, transparent);
-}
-html[data-theme="dark"] .nh-edge { opacity: 0; mix-blend-mode: screen; }
-html[data-theme="dark"] .nh-sec {
-  background:
-    linear-gradient(to bottom,
-      color-mix(in srgb, var(--nh-tint) 8%, transparent) 0,
-      color-mix(in srgb, var(--nh-tint) 2.5%, transparent) 30%,
-      transparent 66%),
-    radial-gradient(90% 60% at 8% 100%, color-mix(in srgb, var(--nh-tint) 6%, transparent), transparent 70%);
-}
-html[data-theme="dark"] .nh-node { background: var(--surface-2); }
-html[data-theme="dark"] .nh-cap { background: color-mix(in srgb, var(--surface-2) 80%, transparent); }
-html[data-theme="dark"] .nh-cap[data-lead="1"] { background: color-mix(in srgb, var(--surface-2) 92%, transparent); }
-html[data-theme="dark"] .nh-rule { opacity: 0; }
-html[data-theme="dark"] .nh[data-sec="1"] .nh-rule--base,
-html[data-theme="dark"] .nh[data-sec="2"] .nh-rule--spine,
-html[data-theme="dark"] .nh[data-sec="2"] .nh-rule--plinth,
-html[data-theme="dark"] .nh[data-sec="4"] .nh-rule--spine,
-html[data-theme="dark"] .nh[data-sec="4"] .nh-rule--rail,
-html[data-theme="dark"] .nh[data-sec="4"] .nh-rule--plinth { opacity: .8; }
-html[data-theme="dark"] .nh-index a[aria-current="true"] {
-  background: color-mix(in srgb, var(--nh-tint) 16%, var(--surface-2));
-  border-color: color-mix(in srgb, var(--nh-tint) 46%, transparent);
-}
-html[data-theme="dark"] .nh-read { background: color-mix(in srgb, var(--surface-2) 88%, transparent); }
-
-[dir="ltr"] .nh-body { transform-origin: 0 0; }
-
-/* ==========================================================================
-   RESPONSIVE — every step RECOMPOSES; none of them is the same layout wider.
-   All widths below are CANVAS widths (@container), never window widths.
-   ========================================================================== */
-
-/* Compact canvas: the field stays — it is the identity of the page — but loses
-   its blur planes, the bodies stop docking to the far edge, the index collapses
-   to numerals and every data row becomes a stack. */
-@container nh (max-width: 699px) {
-  .nh-sec { --nh-gut: var(--sp-4); padding-block: var(--sp-12); padding-inline-end: var(--nh-gut); }
-  .nh-sec--open { padding-block: var(--sp-10) var(--sp-12); }
-  .nh-plane[data-z="1"], .nh-plane[data-z="2"] { filter: none; }
-  .nh-ix { font-size: 4.5rem; inset-block-start: var(--sp-3); }
-  .nh-body { inline-size: 15rem; block-size: 16rem; }
-  .nh-body-r { padding: var(--sp-4); }
-  .nh-index > div { inset-block-end: var(--sp-3); inset-inline-end: var(--sp-2); gap: 1px; }
-  .nh-index-l, .nh-index-f { display: none; }
-  .nh-index a { grid-template-columns: auto; min-block-size: 1.75rem; padding: 2px 6px; }
-  .nh-cov li { grid-template-columns: 1fr auto; }
-  .nh-cov-bar { grid-column: 1 / -1; }
-  .nh-cov-s { text-align: start; }
-  .nh-hot li { grid-template-columns: 10px 1fr; gap: 4px var(--sp-2); padding-block: var(--sp-3); }
-  .nh-hot li > *:not(.nh-cls) { grid-column: 2; }
-  .nh-dcol { padding: var(--sp-3); }
-  .nh-hand { grid-template-columns: auto minmax(0, 1fr); padding: var(--sp-3); }
-  .nh-hand-to { border-inline-end: 0; padding-inline-end: 0; }
-  .nh-hand-t { grid-column: 1 / -1; }
-  .nh-out { padding: var(--sp-4); }
-  .nh-cov li { padding: var(--sp-2); }
-  .nh-link { min-inline-size: 4rem; }
-  .nh-link code { display: none; }
-  .nh-dcol li { grid-template-columns: 1.5rem 1fr 2rem; }
-  .nh-drow-k { display: none; }
-  .nh-steps > li { flex: 1 1 100%; }
+.nh-credit {
+  margin: clamp(2rem, 4cqi, 3rem) 0 0;
+  padding-block-start: 1.2rem;
+  border-block-start: 1px solid var(--scene-hair, var(--hairline));
+  font-size: .76rem;
+  color: var(--scene-ink-3, var(--ink-3));
 }
 
-/* Mid canvas: two-up data, but the far-edge gutter is not worth the column. */
-@container nh (min-width: 700px) and (max-width: 1049px) {
-  .nh-sec { padding-inline-end: calc(var(--nh-gut) + 4rem); }
-  .nh-sec--open { align-content: start; padding-block-start: var(--sp-12); }
-  .nh-hot li { grid-template-columns: 10px 6rem 6rem 1fr; row-gap: 4px; padding-block: var(--sp-2); }
-  .nh-hot-note, .nh-hot-alt, .nh-hot-mods { grid-column: 3 / -1; }
-  .nh-link code { max-inline-size: 9rem; }
+/* --------------------------------------------------------------------------
+   11. NARROW CANVASES
+   The container, not the window: the rail can take 22rem off a 768px screen,
+   and a composition sized on the window would lay out a desktop page inside a
+   tablet-width column.
+   -------------------------------------------------------------------------- */
+
+/* Wherever the index is on screen it is a COLUMN of the page, not an overlay
+   floating on top of the reading. The chapters give it its width back on the
+   inline end, so no headline, bar or card can ever pass underneath it. */
+@container nh (min-width: 62.01rem) {
+  .nh-body { padding-inline-end: max(var(--nh-gut), 10.5rem); }
 }
 
-/* Full desktop: the far edge becomes a real context gutter — the two docked
-   module bodies live there, and the section index under them. */
-@container nh (min-width: 1050px) {
-  .nh-sec { --nh-gut: var(--sp-12); padding-inline-end: calc(var(--nh-gut) + 13rem); }
+@container nh (max-width: 62rem) {
+  /* The index becomes noise long before it becomes useless; the progress rail
+     keeps answering "how far in am I" on its own. */
+  .nh-index { display: none; }
+
+  .nh-stage { grid-template-columns: minmax(0, 1fr); }
+  /* A pinned scene on a narrow screen traps the reader in something they cannot
+     scroll past comfortably. Below this width the map is simply the first thing
+     in the chapter and the panels follow it. */
+  .nh-stage .nh-hold { position: static; min-block-size: 0; }
+  .nh-panel { min-block-size: 0; padding-block: 1.5rem; }
+  .nh-panel + .nh-panel { border-block-start: 1px solid var(--scene-hair, var(--hairline)); }
 }
 
-/* Wide: the copy column stops growing and the data grids gain columns, so the
-   extra width becomes more information rather than more margin. */
-@container nh (min-width: 1500px) {
-  .nh-sec { --nh-gut: 5rem; gap: var(--sp-8); padding-block: 8rem; }
-  .nh-copy { max-inline-size: 52rem; }
-  .nh-shared { grid-template-columns: repeat(auto-fill, minmax(min(17rem, 100%), 1fr)); }
-  .nh-body { inline-size: 22rem; block-size: 23rem; }
+@container nh (max-width: 42rem) {
+  .nh-wall { grid-template-columns: repeat(2, 1fr); }
+  .nh-wall-c[data-c="2"] { display: none; }
+  .nh-gate { min-block-size: 0; }
+  .nh-cov > li { grid-template-columns: minmax(0, 1fr) auto; }
+  .nh-cov > li .nh-bar { grid-column: 1 / -1; }
+  .nh-topics > li { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .nh-topics > li .nh-bar { grid-column: 1 / -1; }
+  .nh-hot > li { grid-template-columns: auto auto minmax(0, 1fr); }
+  .nh-hot-mods { grid-column: 1 / -1; }
+  .nh-mod-share { grid-template-columns: minmax(0, 1fr) auto; }
+  .nh-mod-share > span:last-child { grid-column: 1 / -1; }
+  .nh-scard-ctx > div { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* Ultrawide: the editorial column and the data become two real columns instead
-   of one very long measure. This is the recomposition, not a bigger margin. */
-@container nh (min-width: 2000px) {
-  .nh-sec { --nh-gut: 8rem; padding-block: 10rem; padding-inline-end: calc(var(--nh-gut) + 14rem); }
-  .nh-sec:not(.nh-sec--open) {
-    grid-template-columns: minmax(26rem, 32rem) minmax(0, 1fr);
-    align-items: start;
-    column-gap: var(--sp-16);
-  }
-  .nh-sec:not(.nh-sec--open) > .nh-copy { grid-column: 1; grid-row: 1; }
-  .nh-sec:not(.nh-sec--open) > *:not(.nh-copy):not(.nh-ix) { grid-column: 2; }
-  .nh-cov, .nh-imp { max-inline-size: none; }
-  .nh-body { inline-size: 25rem; block-size: 25rem; }
-  .nh-ix { font-size: 11rem; }
-}
+/* --------------------------------------------------------------------------
+   12. REDUCED MOTION
+   motion.css already zeroes every amplitude and detaches every timeline. The
+   only thing left for this file is its own gate cascade, which is a load
+   animation the engine cannot see.
+   -------------------------------------------------------------------------- */
 
-@container nh (min-width: 2800px) {
-  .nh-sec { --nh-gut: 12rem; }
-  .nh-shared { grid-template-columns: repeat(auto-fill, minmax(min(19rem, 100%), 1fr)); }
-  .nh-lede { font-size: 1.25rem; }
-}
-
-/* ==========================================================================
-   REDUCED MOTION — the page must be fully understandable without a single
-   moving pixel. globals.css already zeroes durations inside .nx-app; these
-   rules remove the things a zero duration cannot: the parallax offsets, the
-   scale-from-zero bars, and the sticky field's blur.
-   ========================================================================== */
 @media (prefers-reduced-motion: reduce) {
-  /* .nh-grid carries its own --nh-sy (the scene writes the scroll drift on the
-     one element that reads it, not on the root, so a scroll frame cannot
-     invalidate 105 dots). An important declaration is therefore needed HERE as
-     well: it is what outranks that inline write. */
-  .nh, .nh-grid { --nh-mx: 0 !important; --nh-my: 0 !important; --nh-sy: 0 !important; }
-  .nh-plane { filter: none !important; }
-  .nh-lens, .nh-read { display: none; }
-  .nh-cov-bar i, .nh-impcol-bar i { transform: none !important; }
-  /* The structural rules and the formation labels are STATE, not motion: they
-     stay, they simply stop fading in and out. */
-  .nh-rule, .nh-cap { transition: none !important; }
-  /* The handoff never runs under reduced motion (the scene skips it), so this
-     only guards a landing animation that could survive a zeroed duration. */
-  [data-nh-lit="1"] .nh-cls { animation: none !important; }
-  .nh-sec[data-pre="1"] > *:not(.nh-ix),
-  .nh-sec[data-pre="1"] :is(.nh-stat, .nh-cov li, .nh-scard, .nh-impcol, .nh-hot li) {
+  .nh-gate h1.nm-kin > span > span,
+  .nh-gate .nh-eye,
+  .nh-gate .nh-lede,
+  .nh-gate .nh-cta,
+  .nh-gate .nh-legend,
+  .nh-gate .nh-stats > .nm-rise {
+    animation: none !important;
     opacity: 1 !important;
     transform: none !important;
   }
-}
-
-/* Forced colours: the field is decoration and must not fight the user's own
-   palette; the content is plain semantic markup and survives on its own. */
-@media (forced-colors: active) {
-  /* The field and its labels are a visualisation, not content: in a forced
-     palette they can only fight the user's own colours, and every fact they
-     carry is also printed in the sections. */
-  .nh-field, .nh-lens, .nh-read { display: none; }
-  .nh-body { backdrop-filter: none; }
-  /* Every decorative edge below is colour-only; in a forced palette it either
-     disappears or fights the user's own choice, so it is stated as a border. */
-  .nh-sec::before, .nh-cov li::before { display: none; }
-  :is(.nh-hand, .nh-out, .nh-dcol, .nh-chain, .nh-impcol) { border: 1px solid CanvasText; }
 }

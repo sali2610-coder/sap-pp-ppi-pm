@@ -25,6 +25,24 @@
 // is only ever a tint, a ring, a line, an edge or a section marker — here the
 // number's tint, the kicker's rule and the chapter's top edge. STATUS never
 // appears in this file. OBJECT hue is the data's own and is set by the caller.
+//
+// MOTION (app/neo/motion.css, level 3 on these two routes — "medium; must stay
+// easy to study"). The head is the only part of a chapter that moves, and it
+// moves once, on the way in:
+//   · the NUMBER drifts against the scroll (.nm-par-slow). At L3 that is 14px
+//     over a whole viewport pass and 0 on a touch canvas — a depth cue, not an
+//     effect, and it is applied to the one element on the page that carries no
+//     information a reader has to track.
+//   · the TITLE arrives as language (.nm-kin), which is why it is wrapped in the
+//     span/span the primitive requires: the outer span is the mask, the inner
+//     one is what rises out of it.
+//   · the kicker fades and the lede rises, both scrubbed by their own passage.
+// Nothing below the head animates: the reader is studying it.
+//
+// THE GROUND. A chapter may wear one of ground.css's five scenes through
+// meta.scene. The attribute alone re-points the scene tokens; painting is the
+// stylesheet's job. This is also what lets the shell's scene observer hand the
+// ground back after a section has taken a different one.
 
 import type { ReactNode } from "react";
 
@@ -40,6 +58,12 @@ export interface ChapterMeta {
    *  the dataset; the label says what it counts. */
   count: number;
   countLabel: string;
+  /** Which of ground.css's five scenes this chapter stands on. There are exactly
+   *  five and a chapter may not invent a sixth. */
+  scene?: "base" | "deep" | "cream" | "pm" | "pppi";
+  /** The one chapter this page most wants read. The running section bar marks
+   *  it; nothing else about the chapter changes. */
+  feature?: boolean;
 }
 
 export function Chapter({
@@ -65,16 +89,19 @@ export function Chapter({
       id={meta.id}
       aria-labelledby={`${meta.id}-h`}
       data-ch={meta.n}
+      data-scene={meta.scene}
     >
       <header className="nw-ch-h">
-        <span className="nw-ch-n" aria-hidden="true">{String(meta.n).padStart(2, "0")}</span>
-        <p className="nw-ch-k">
+        <span className="nw-ch-n nm-par-slow" aria-hidden="true">{String(meta.n).padStart(2, "0")}</span>
+        <p className="nw-ch-k nm-fade">
           <span className="nw-ch-ico" aria-hidden="true">{icon}</span>
           {meta.kicker}
         </p>
-        <h2 className="nw-ch-t" id={`${meta.id}-h`}>{meta.title}</h2>
-        <p className="nw-ch-s">{lede}</p>
-        {lead ? <p className="nw-ch-go">{lead}</p> : null}
+        {/* The span/span is the shape .nm-kin requires and not decoration: the
+            outer one is the mask the line rises out of. */}
+        <h2 className="nw-ch-t nm-kin" id={`${meta.id}-h`}><span><span>{meta.title}</span></span></h2>
+        <p className="nw-ch-s nm-rise">{lede}</p>
+        {lead ? <p className="nw-ch-go nm-rise">{lead}</p> : null}
       </header>
       <div className="nw-ch-body">{children}</div>
     </section>

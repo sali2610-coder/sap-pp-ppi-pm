@@ -117,14 +117,25 @@ function fuzzyScore(hay: string, query: string): number {
 
 /* -------------------------------------------------------------------- row */
 
-function Row({ t, fav, onOpen }: { t: RegistryTx; fav: boolean; onOpen: (code: string) => void }) {
+function Row({ t, fav, onOpen, landed }: { t: RegistryTx; fav: boolean; onOpen: (code: string) => void; landed?: boolean }) {
   const deep = t.depth === "deep";
   const intel = TX_INTEL[t.code];
   const fiori = intel?.fiori?.trim() || "";
   const pop = txPopularity(t.code);
   const f = facetsOf(t.code);
   return (
-    <li className="nxd-item" data-code={t.code} style={{ "--m": modVar(t.module) } as React.CSSProperties}>
+    <li
+      // nm-rise + nm-once come from app/neo/motion.css. This route resolves to
+      // [data-motion="2"] — an 8px rise, scrubbed on .nx-canvas's own view
+      // timeline, finished while the row is still entering so scrolling back up
+      // never replays it. No scroll listener and no rAF anywhere in the path.
+      className="nxd-item nm-rise nm-once"
+      data-code={t.code}
+      // SmartReturn landed here. data.css draws a module-hued ring that fades
+      // itself out, so returning from a T-Code says which row it was.
+      data-back={landed ? "1" : undefined}
+      style={{ "--m": modVar(t.module) } as React.CSSProperties}
+    >
       {/* The destination moved from the production /tcode/ page to the NEO
           detail screen this change adds. Both exist; this surface belongs to
           the NEO namespace and now stays inside it. */}
@@ -341,7 +352,10 @@ export function TransactionsSurface() {
           which is this page's real parent and a real page. Never dead. */}
       <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
 
-      <header className="nxd-head">
+      {/* THE REVEAL LADDER, at L2. Information blocks rise 8px; the two control
+          bands only fade, because a filter that slides while you are reaching
+          for it is a filter you miss. */}
+      <header className="nxd-head nm-rise nm-once">
         {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
         <span className="nx-eyebrow">עיון · Reference</span>
         <h1 className="nx-h1">טרנזקציות</h1>
@@ -352,7 +366,7 @@ export function TransactionsSurface() {
         </p>
       </header>
 
-      <section className="nx-card nxd-stats" aria-label="מספרי המאגר">
+      <section className="nx-card nxd-stats nm-rise nm-once" aria-label="מספרי המאגר">
         {[
           { v: stats.total, l: "טרנזקציות במאגר", i: <Terminal size={14} strokeWidth={1.75} /> },
           { v: stats.deep, l: "מתועדות לעומק", i: <Layers size={14} strokeWidth={1.75} /> },
@@ -369,7 +383,7 @@ export function TransactionsSurface() {
         ))}
       </section>
 
-      <div className="nxd-tools">
+      <div className="nxd-tools nm-fade nm-once">
         <div className="nxd-field">
           <Search size={15} strokeWidth={1.75} aria-hidden="true" />
           <input
@@ -409,7 +423,7 @@ export function TransactionsSurface() {
         </div>
       </div>
 
-      <div className="nxd-facets">
+      <div className="nxd-facets nm-fade nm-once">
         <div className="nxd-facet" role="group" aria-label="סינון לפי מודול">
           <span className="nxd-facet-l">מודול</span>
           {modules.slice(0, more ? modules.length : 8).map((m) => (
@@ -481,14 +495,14 @@ export function TransactionsSurface() {
         ) : null}
       </div>
 
-      <p className="nxd-count" aria-live="polite">
+      <p className="nxd-count nm-fade nm-once" aria-live="polite">
         <b>{nf.format(list.length)}</b> תוצאות
         {view === "all" && !dirty ? <> מתוך {nf.format(stats.total)}</> : null}
         {dirty ? <> · <button type="button" className="nu-ghost" onClick={reset}>נקה סינון</button></> : null}
       </p>
 
       {list.length === 0 ? (
-        <div className="nx-card nxd-none">
+        <div className="nx-card nxd-none nm-rise nm-once">
           <p><b>{emptyCopy[view].t}</b></p>
           <p className="nx-muted">{emptyCopy[view].h}</p>
           <div className="nxd-none-a">
@@ -499,7 +513,7 @@ export function TransactionsSurface() {
       ) : (
         <>
           <ul className="nxd-list">
-            {shown.map((t) => <Row key={t.code} t={t} fav={favs.includes(t.code)} onOpen={onOpen} />)}
+            {shown.map((t) => <Row key={t.code} t={t} fav={favs.includes(t.code)} onOpen={onOpen} landed={t.code === back?.code} />)}
           </ul>
           {list.length > shown.length ? (
             <div className="nxd-page">
@@ -512,7 +526,7 @@ export function TransactionsSurface() {
         </>
       )}
 
-      <p className="nxd-foot">
+      <p className="nxd-foot nm-fade nm-once">
         המאגר מאחד ארבעה מקורות מאומתים לרישום אחד, ללא כפילויות. קוד ללא כותרת אנגלית מוצג בלעדיה
         {" "}מפני שהיא אינה קיימת במקור, ולא הומצאה כאן.
       </p>

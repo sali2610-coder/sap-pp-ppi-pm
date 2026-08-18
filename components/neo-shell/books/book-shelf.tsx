@@ -253,10 +253,19 @@ export function BookShelf({ data }: { data: BooksData }) {
 
   return (
     <>
+      {/* THE SHELVES STAND ON PAPER.
+          app/neo/ground.css's `cream` is "warm raised calm — reading and long
+          prose", and it is the honest ground for a bookshelf: the masthead above
+          this is the `deep` scene, so arriving at the page reads as coming out
+          of a dark hall and up to a lit shelf. Two of the five existing scenes,
+          no sixth invented. The wrapper also has to restate `.nb`'s own row gap,
+          because putting a container between the page grid and these sections
+          would otherwise collapse the rhythm they were spaced on. */}
+      <div className="nb-run nb-scene nm-scene" data-scene="cream">
       {/* CONTINUE READING, at the head of the shelf. Present only when a stored
           location resolves against the book data that is actually on disk. */}
       {selected && selectedResume && selectedLine && (
-        <section className="nb-cont" style={{ "--m": selected.mod } as React.CSSProperties} aria-label="המשך קריאה">
+        <section className="nb-cont nm-rise nm-once" style={{ "--m": selected.mod } as React.CSSProperties} aria-label="המשך קריאה">
           <p className="nb-cont-e">
             <Bookmark size={14} strokeWidth={1.75} aria-hidden="true" />
             המשך מהמקום האחרון
@@ -336,7 +345,7 @@ export function BookShelf({ data }: { data: BooksData }) {
             >
               <span className="nb-shelf-edge" aria-hidden="true" />
 
-              <header className="nb-shelf-h">
+              <header className="nb-shelf-h nm-fade nm-once">
                 <h2 className="nb-shelf-t" id={`nb-s-${key}`}>
                   <span className="nb-sap nb-shelf-code">{g.module}</span>
                   <span className="nb-shelf-he">{g.moduleHe}</span>
@@ -351,17 +360,23 @@ export function BookShelf({ data }: { data: BooksData }) {
                 </p>
               </header>
 
-              <ul className="nb-grid">
-                {g.ids.map((id) => {
+              {/* A SHELF POPULATES AS A SEQUENCE, NOT AS A WALL.
+                  `.nm-seq` is motion.css's stagger, and on the scroll-driven
+                  path it expresses the cascade as a staggered RANGE rather than
+                  a delay — there is no time axis on a scroll timeline to delay
+                  along. So the books arrive one after another as the shelf
+                  passes, with no timers and nothing on the main thread. */}
+              <ul className="nb-grid nm-seq">
+                {g.ids.map((id, i) => {
                   const b = byId.get(id);
                   if (!b) return null;
                   const r = resolveResume(b, reading.map[id]);
                   const line = resumeLine(r);
                   return (
                     <li
-                      className="nb-card"
+                      className="nb-card nm-rise nm-once"
                       key={id}
-                      style={{ "--m": b.mod } as React.CSSProperties}
+                      style={{ "--m": b.mod, "--nm-i": i } as React.CSSProperties}
                       data-sel={selectedId === id ? "1" : undefined}
                     >
                       <div className="nb-slot">
@@ -453,6 +468,7 @@ export function BookShelf({ data }: { data: BooksData }) {
             </section>
           );
         })}
+      </div>
       </div>
 
       {active && (

@@ -78,7 +78,7 @@ export function LibraryChat() {
           <LibrarianMark size={64} state={markState} />
         </span>
 
-        <div className="nxq-hero-text">
+        <div className="nxq-hero-text nm-rise nm-once">
           <span className="nxq-eyebrow">
             <BookOpen size={13} strokeWidth={2} aria-hidden="true" />
             ספרייה · תשובות מבוססות מקור
@@ -224,7 +224,10 @@ function Welcome({ scope, onPick, onOpenScope }: {
         </div>
       </div>
 
-      <ol className="nxq-steps">
+      {/* The three steps arrive as a sequence, which is also the order they have
+          to be read in — motion.css's `.nm-seq` on the scroll-driven path
+          expresses the stagger as a staggered RANGE, so there are no timers. */}
+      <ol className="nxq-steps nm-seq">
         <Step
           n={1}
           icon={<Layers size={15} strokeWidth={2} aria-hidden="true" />}
@@ -262,9 +265,15 @@ function Welcome({ scope, onPick, onOpenScope }: {
           <Sparkles size={13} strokeWidth={2} aria-hidden="true" />
           אפשר להתחיל מ
         </span>
-        <div className="nxq-starters-row">
-          {M.starters.map((s) => (
-            <button key={s.label} type="button" className="nu-card nxq-starter" onClick={() => onPick(s.prompt)}>
+        <div className="nxq-starters-row nm-seq">
+          {M.starters.map((s, i) => (
+            <button
+              key={s.label}
+              type="button"
+              className="nu-card nxq-starter nm-rise nm-once"
+              style={{ "--nm-i": i } as React.CSSProperties}
+              onClick={() => onPick(s.prompt)}
+            >
               <span className="nxq-starter-l">{s.label}</span>
               <span className="nxq-starter-p">{s.prompt}</span>
             </button>
@@ -277,7 +286,7 @@ function Welcome({ scope, onPick, onOpenScope }: {
 
 function Step({ n, icon, t, d }: { n: number; icon: React.ReactNode; t: string; d: string }) {
   return (
-    <li className="nxq-step">
+    <li className="nxq-step nm-rise nm-once" style={{ "--nm-i": n - 1 } as React.CSSProperties}>
       <span className="nxq-step-n" aria-hidden="true">{n}</span>
       <span className="nxq-step-i" aria-hidden="true">{icon}</span>
       <b className="nxq-step-t">{t}</b>

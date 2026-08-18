@@ -51,7 +51,13 @@ function Section({ id, icon, title, note, children }: {
   id: string; icon: React.ReactNode; title: string; note?: string; children: React.ReactNode;
 }) {
   return (
-    <section className="nxt-sec" id={id} aria-labelledby={`${id}-h`}>
+    // nm-rise + nm-once, from app/neo/motion.css. /neo/transactions/<CODE>/
+    // resolves to [data-motion="2"]: an 8px rise scrubbed on .nx-canvas's view
+    // timeline, complete while the section is still entering, so a reader
+    // scrolling back up over a nine-section page never sees it replay. One
+    // class on the ONE wrapper every section already goes through, which is
+    // also why no section can be forgotten.
+    <section className="nxt-sec nm-rise nm-once" id={id} aria-labelledby={`${id}-h`}>
       <h2 className="nx-h2 nxt-sec-h" id={`${id}-h`}>
         <span className="nxt-sec-i" aria-hidden="true">{icon}</span>
         {title}
@@ -129,7 +135,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
       />
 
       {/* ------------------------------------------------------ 1. IDENTITY */}
-      <header className="nxt-head">
+      <header className="nxt-head nm-rise nm-once">
         <span className="nx-modbar" aria-hidden="true" />
         <p className="nx-eyebrow nxt-eyebrow">
           טרנזקציה · {t.module}{modHe ? ` · ${modHe}` : ""}
@@ -175,7 +181,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
           even when the dataset is silent: "we do not know" is a decision-
           relevant answer for a migration, and hiding it would be the lie. */}
       <section
-        className="nxt-s4"
+        className="nxt-s4 nm-rise nm-once"
         id="nxt-s4"
         data-disp={t.s4.disposition}
         data-impacted={impacted ? "1" : undefined}
@@ -388,7 +394,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
       </Section>
 
       {/* ------------------------------------------------------- 9. HONESTY */}
-      <footer className="nxt-foot">
+      <footer className="nxt-foot nm-fade nm-once">
         {t.sources.length ? (
           <p className="nxt-src">
             <ShieldCheck size={13} strokeWidth={1.75} aria-hidden="true" />

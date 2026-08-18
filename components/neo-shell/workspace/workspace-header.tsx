@@ -60,14 +60,17 @@ export function WorkspaceHero({ d }: { d: WsData }) {
 
   return (
     <header className="nw-hero">
-      <p className="nw-eye">
+      <p className="nw-eye nm-fade">
         CBC ISRAEL · PROJECT NEO
         <i aria-hidden="true" />
         סביבת עבודה · מודול
       </p>
 
       <div className="nw-id">
-        <span className="nw-mark nw-sap" aria-hidden="true">{d.code}</span>
+        {/* The outlined module code is the one thing in the hero carrying no
+            information the reader has to hold, so it is the one thing allowed to
+            drift against the scroll. At L3 that is 6px and 0 on touch. */}
+        <span className="nw-mark nw-sap nm-par-slow" aria-hidden="true">{d.code}</span>
         <div className="nw-idtext">
           <h1 className="nw-title">
             {d.he}
@@ -80,13 +83,13 @@ export function WorkspaceHero({ d }: { d: WsData }) {
         </span>
       </div>
 
-      <p className="nw-lede">{d.lede}</p>
+      <p className="nw-lede nm-rise">{d.lede}</p>
 
       {/* ---------------------------------------------------- where to start.
           Three destinations, ranked, all of them real generated routes. The
           primary one is not an editorial pick: it is the table the dictionary
           models the most neighbours for, and it says so. */}
-      <nav className="nw-go" aria-label="מאיפה מתחילים">
+      <nav className="nw-go nm-rise" aria-label="מאיפה מתחילים">
         {d.entry ? (
           <OriginLink className="nu-btn" href={d.entry.href} origin={() => origin(d.entry!.n)}>
             <i className="nw-cls" style={{ "--o": d.entry.obj } as React.CSSProperties} aria-hidden="true" />
@@ -109,9 +112,11 @@ export function WorkspaceHero({ d }: { d: WsData }) {
         ) : null}
       </nav>
 
-      <dl className="nw-figs">
+      {/* The counts arrive as a sequence rather than as a wall. .nm-seq spends
+          the stagger as a staggered scroll RANGE, so there is no timer. */}
+      <dl className="nw-figs nm-seq">
         {stats.map((s) => (
-          <div key={s.l} className="nw-fig">
+          <div key={s.l} className="nw-fig nm-rise">
             <dt>{s.l}</dt>
             <dd>
               <b className="nw-sap">{nf.format(s.n)}</b>
