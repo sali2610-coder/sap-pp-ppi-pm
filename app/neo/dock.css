@@ -14,10 +14,15 @@
 
 /* --- the two buttons ------------------------------------------------------ */
 
+/* SIDE: the dock lives on the INLINE END.
+   It started on the inline start and moved here on request. The move also
+   resolves a collision that was already latent: .nr-unfocus (the reader's
+   "leave focus mode" button) is pinned to the inline start of the same bottom
+   edge, so in focus mode the two were stacking in one corner. */
 .nxk {
   position: fixed;
   inset-block-end: max(0.75rem, env(safe-area-inset-bottom));
-  inset-inline-start: 0.75rem;
+  inset-inline-end: 0.75rem;
   z-index: 64;                /* under the rail overlay (70), over the canvas */
   display: flex;
   gap: 0.4rem;
@@ -80,11 +85,13 @@ html[data-theme="dark"] .nxk-scrim { background: color-mix(in srgb, var(--backgr
 @media (min-width: 861px) {
   .nxk-p {
     inset-block: 0;
-    inset-inline-start: 0;
+    inset-inline-end: 0;
     inline-size: min(26rem, 92vw);
     padding: var(--sp-6);
     border-block: 0;
-    border-inline-start: 0;
+    /* The border is dropped on the edge that meets the viewport, which is now
+       the inline END, so the panel reads as attached rather than floating. */
+    border-inline-end: 0;
     animation: nxk-slide var(--dur-panel) var(--ease-emphasis) both;
   }
 }
@@ -111,7 +118,15 @@ html[data-theme="dark"] .nxk-scrim { background: color-mix(in srgb, var(--backgr
 }
 
 @keyframes nxk-fade { from { opacity: 0 } to { opacity: 1 } }
-@keyframes nxk-slide { from { opacity: 0; transform: translateX(-16px) } to { opacity: 1; transform: none } }
+
+/* The panel must enter FROM the edge it is attached to, and that edge is
+   physically different per direction: the panel sits on the inline end, which
+   is the left of the screen in RTL and the right of it in LTR. translateX is a
+   physical axis with no logical twin, so the offset is carried in a variable
+   and flipped once, here, rather than by mirroring the whole animation. */
+.nxk-p { --nxk-in: -16px; }
+[dir="ltr"] .nxk-p { --nxk-in: 16px; }
+@keyframes nxk-slide { from { opacity: 0; transform: translateX(var(--nxk-in, -16px)) } to { opacity: 1; transform: none } }
 @keyframes nxk-rise  { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: none } }
 
 .nxk-p-h { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); }

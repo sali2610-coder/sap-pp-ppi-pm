@@ -49,8 +49,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  ArrowRight, Boxes, Crosshair, Filter, Keyboard, Layers, Link2, Maximize2, Minus,
-  PanelRightClose, PanelRightOpen, Plus, RotateCcw, Scan, Search, Share2, Target, Workflow, X,
+  ArrowRight, Boxes, ChevronDown, Crosshair, Filter, Keyboard, Layers, Link2, Map as MapIcon,
+  Maximize, Maximize2, Minimize, Minus, PanelRightClose, PanelRightOpen, Plus, RotateCcw, Scan,
+  Search, Share2, SlidersHorizontal, Target, Workflow, X,
 } from "lucide-react";
 import {
   ANALYSIS, LEVEL_HE, MODULE_ORDER, REL_HE, REL_ORDER, S4_RISK_HE, S4_TRUST_HE, ZONE_HE, modVar,
@@ -160,6 +161,7 @@ interface Saved {
   iso?: boolean;
   depth?: 1 | 2;
   insp?: boolean;
+  mini?: boolean;
   sel?: string | null;
   mode?: Analysis;
 }
@@ -167,6 +169,9 @@ interface Saved {
 export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   const router = useRouter();
 
+  /** The workspace root. It is what goes fullscreen — toolbar, stage and panel
+   *  together, because a diagram with no controls is a picture, not a tool. */
+  const root = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const world = useRef<SVGGElement>(null);
   const miniBox = useRef<SVGRectElement>(null);
@@ -206,6 +211,17 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   const [insp, setInsp] = useState(true);
   const [sheet, setSheet] = useState<string | null>(null);
   const [keys, setKeys] = useState(false);
+  /** The minimap is an OVERLAY on the stage: helpful, and while it is on screen
+   *  it owns the pointer over its own corner. It therefore gets a switch, so a
+   *  node underneath it is never unreachable. */
+  const [mini, setMini] = useState(true);
+  /** Which disclosure is open. One at a time — two open popovers over a canvas
+   *  is two things covering the picture. */
+  const [pop, setPop] = useState<"mod" | "filters" | null>(null);
+  /** Mirrors document.fullscreenElement. Driven ONLY by the fullscreenchange
+   *  event, never by the click, so the button can never desync from the browser
+   *  when the user leaves fullscreen with Escape or with the system control. */
+  const [full, setFull] = useState(false);
   /** The analysis lens the reader asked for. The lens actually IN FORCE is
    *  derived below — a module with no recorded object chain cannot answer the
    *  business-flow question, and falling back is a reading of the data, not a
@@ -597,6 +613,12 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         setZoomPct(Math.round(end.k * 100));
         return;
       }
+      // The readout is a statement of the camera the workspace is committed to,
+      // and that number is already decided here. Publishing it once at the top
+      // of the tween — rather than only at the bottom — is what makes a click
+      // that zooms LOOK like a click that zoomed, instead of a control that
+      // sits still for half a second and then jumps.
+      setZoomPct(Math.round(end.k * 100));
       const t0 = performance.now();
       const step = (t: number) => {
         const e = ease(Math.min(1, (t - t0) / TWEEN));
@@ -822,6 +844,36 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     [tByName, router, makeOrigin],
   );
 
+  /* ------------------------------------------------------- narrowing, counted
+
+     What the filter disclosure holds is exactly what is NOT on the bar, so the
+     bar has to say how much is hidden behind it. This is the count, and the
+     same list is what "נקה מסננים" puts back — a disclosure whose trigger can
+     read "0" while something is quietly filtering the picture is worse than no
+     disclosure at all.
+
+     `depth` and `showAll` are deliberately absent: neither removes anything
+     from the picture, they widen it. */
+  const narrowings = useMemo(() => {
+    const out: { id: string; he: string; off: () => void }[] = [];
+    if (group) out.push({ id: "group", he: group.v, off: () => setGroup(null) });
+    if (rel.size < REL_ORDER.length) {
+      out.push({ id: "rel", he: `סוגי קשר · ${rel.size} מתוך ${REL_ORDER.length}`, off: () => setRel(new Set(REL_ORDER)) });
+    }
+    if (strong) out.push({ id: "strong", he: "קשרים חזקים", off: () => setStrong(false) });
+    if (sharedOnly) out.push({ id: "shared", he: "טבלאות משותפות", off: () => setSharedOnly(false) });
+    if (!iso) out.push({ id: "iso", he: "בלי טבלאות ללא קשר", off: () => setIso(true) });
+    return out;
+  }, [group, rel, strong, sharedOnly, iso]);
+
+  const clearFilters = useCallback(() => {
+    setGroup(null);
+    setRel(new Set(REL_ORDER));
+    setStrong(false);
+    setSharedOnly(false);
+    setIso(true);
+  }, []);
+
   const reset = useCallback(() => {
     setSel(null);
     setOpen(null);
@@ -837,9 +889,81 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     setDepth(1);
     setFocus(false);
     setMode("focus");
+    setPop(null);
+    setMini(true);
     camHist.current = [];
     window.setTimeout(fit, 40);
   }, [fit]);
+
+  /* ------------------------------------------------------------ fullscreen
+
+     THE REAL API, not a CSS impersonation of one. `.ne` is the element that is
+     promoted, so the toolbar, the stage and the panel all come along — a
+     fullscreen diagram you cannot filter is a screenshot.
+
+     The button NEVER writes its own state. `fullscreenchange` is the single
+     source of truth, so leaving with Escape, with F11, or with the system
+     control can not leave the control claiming the opposite of what is on
+     screen. Safari's element/document methods are still prefixed, so both are
+     feature-detected rather than assumed. */
+
+  type FsEl = HTMLElement & { webkitRequestFullscreen?: () => Promise<void> | void };
+  type FsDoc = Document & {
+    webkitFullscreenElement?: Element | null;
+    webkitExitFullscreen?: () => Promise<void> | void;
+    webkitFullscreenEnabled?: boolean;
+  };
+
+  const fsNow = useCallback(() => {
+    const d = document as FsDoc;
+    return document.fullscreenElement ?? d.webkitFullscreenElement ?? null;
+  }, []);
+
+  /** Whether the browser offers fullscreen at all. Resolved after mount so the
+   *  server and the first client render agree, and the control is simply not
+   *  drawn where the API does not exist. */
+  const [fsOk, setFsOk] = useState(false);
+  useEffect(() => {
+    const d = document as FsDoc;
+    const el = root.current as FsEl | null;
+    setFsOk(!!(d.fullscreenEnabled || d.webkitFullscreenEnabled) && !!(el?.requestFullscreen || el?.webkitRequestFullscreen));
+  }, []);
+
+  useEffect(() => {
+    const sync = () => setFull(!!fsNow());
+    document.addEventListener("fullscreenchange", sync);
+    document.addEventListener("webkitfullscreenchange", sync);
+    sync();
+    return () => {
+      document.removeEventListener("fullscreenchange", sync);
+      document.removeEventListener("webkitfullscreenchange", sync);
+    };
+  }, [fsNow]);
+
+  const toggleFull = useCallback(() => {
+    const d = document as FsDoc;
+    const el = root.current as FsEl | null;
+    if (!el) return;
+    // A rejected promise here is a policy decision by the browser, not a bug,
+    // and it must not reach the console as an unhandled rejection.
+    const done = (p: Promise<void> | void) => {
+      if (p && typeof (p as Promise<void>).catch === "function") (p as Promise<void>).catch(() => {});
+    };
+    if (fsNow()) done((document.exitFullscreen ?? d.webkitExitFullscreen)?.call(document));
+    else done((el.requestFullscreen ?? el.webkitRequestFullscreen)?.call(el));
+  }, [fsNow]);
+
+  /** Entering or leaving fullscreen is an explicit act with a much larger or
+   *  much smaller stage on the other side of it, so the picture is re-framed
+   *  once — the same rule every other change of picture follows. The stage's
+   *  own ResizeObserver has already re-clamped by the time this runs. */
+  const fullWas = useRef(full);
+  useEffect(() => {
+    if (fullWas.current === full) return;
+    fullWas.current = full;
+    const id = window.setTimeout(fit, 120);
+    return () => window.clearTimeout(id);
+  }, [full, fit]);
 
   /** The lens explainer is a nudge, not a dialog: it says what the lens does
    *  and then gets out of the way. */
@@ -868,6 +992,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         if (typeof s.iso === "boolean") setIso(s.iso);
         if (s.depth) setDepth(s.depth);
         if (typeof s.insp === "boolean") setInsp(s.insp);
+        if (typeof s.mini === "boolean") setMini(s.mini);
         if (s.mode && ANALYSIS.some((a) => a.id === s.mode)) setMode(s.mode);
         // Focus mode is NOT restored: it is a transient reading posture, and
         // reopening the page inside a collapsed ego view hides the map.
@@ -885,14 +1010,14 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     saveT.current = setTimeout(() => {
       try {
         const s: Saved = {
-          mod, all: showAll, rel: [...rel], strong, shared: sharedOnly, iso, depth, insp, sel, mode,
+          mod, all: showAll, rel: [...rel], strong, shared: sharedOnly, iso, depth, insp, mini, sel, mode,
         };
         localStorage.setItem(SKEY, JSON.stringify(s));
       } catch {
         /* noop */
       }
     }, 450);
-  }, [mod, showAll, rel, strong, sharedOnly, iso, depth, insp, sel, mode]);
+  }, [mod, showAll, rel, strong, sharedOnly, iso, depth, insp, mini, sel, mode]);
 
   /* ------------------------------------------------------- initial framing */
 
@@ -1054,10 +1179,45 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     let pinch = 0;
     let moved = 0;
 
+    /* THE CLICK BUG, AND WHY IT LOOKED LIKE A DEAD CANVAS.
+       `setPointerCapture` below is what makes a drag survive the pointer
+       leaving the stage — and it is also what broke every node click on this
+       page. Once a pointer is captured, the spec RE-TARGETS every later event
+       for that pointer at the capture element, so `pointerup` (and the `click`
+       the browser synthesises from it) arrived with `target === .ne-stage`,
+       never the node. `closest("[data-node]")` therefore always returned null,
+       every click fell through to the empty-canvas branch, and the canvas
+       answered a click on a table by CLEARING the selection.
+
+       The hit test now happens at `pointerdown`, which is the one event capture
+       cannot re-target because capture is set inside its own handler. What the
+       pointer went down on is remembered, and the pointer-up simply spends it. */
+    let hitNode: string | null = null;
+    let hitGo = false;
+    let hitEmpty = false;
+
+    const readHit = (e: PointerEvent) => {
+      const t = e.target as Element | null;
+      hitNode = t?.closest?.("[data-node]")?.getAttribute("data-node") ?? null;
+      hitGo = !!t?.closest?.("[data-open]");
+      // Only the bare canvas deselects. An edge, a badge or a cardinality cap
+      // is part of the drawing and answering it with "clear everything" is the
+      // opposite of what the reader asked for.
+      hitEmpty = !hitNode && (t === st || t?.tagName === "svg" || !!t?.classList?.contains("ne-world"));
+    };
+    const clearHit = () => {
+      hitNode = null;
+      hitGo = false;
+      hitEmpty = false;
+    };
+
     const down = (e: PointerEvent) => {
       if (moving.current) return;
       pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
-      if (pts.size === 1) moved = 0;
+      if (pts.size === 1) {
+        moved = 0;
+        readHit(e);
+      }
       if (pts.size === 2) {
         const [a, b] = [...pts.values()];
         pinch = Math.hypot(a.x - b.x, a.y - b.y);
@@ -1108,29 +1268,44 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         /* nothing to release */
       }
       st.dataset.drag = "0";
+      // A second finger is still down: this is half of a pinch, not a click.
+      if (pts.size) return;
+      const name = hitNode;
+      const go = hitGo;
+      const empty = hitEmpty;
+      clearHit();
       // A drag is not a click. Only a still pointer selects.
       if (moved >= 6) return;
-      const t = e.target as Element | null;
-      const name = t?.closest?.("[data-node]")?.getAttribute("data-node");
       // The small "open the page" affordance sits inside the node and wins the
       // click: a plain click opens the card in place, this one leaves for the
       // object page.
-      if (t?.closest?.("[data-open]")) {
+      if (go) {
         if (name) openTableRef.current(name);
         return;
       }
       if (name) onNodeRef.current(name);
-      else if (e.target === st || (e.target as Element)?.tagName === "svg") {
-        // Empty canvas is the other obvious back action.
-        emptyRef.current();
-      }
+      // Empty canvas is the other obvious back action.
+      else if (empty) emptyRef.current();
     };
 
-    // A double click leaves the graph for the object page. Native, like the
-    // rest of the canvas gestures, so the handler reads the current callback
-    // through a ref instead of re-binding on every render.
+    const cancel = (e: PointerEvent) => {
+      clearHit();
+      up(e);
+    };
+
+    // A double click leaves the graph for the object page. The browser
+    // synthesises it from the same captured pointer, so its target is the stage
+    // as well — it reads the remembered hit rather than its own target, and the
+    // hit is read here too because pointerup has already spent the last one.
+    let lastNode: string | null = null;
+    const remember = (e: PointerEvent) => {
+      if (moving.current) return;
+      const t = e.target as Element | null;
+      lastNode = t?.closest?.("[data-node]")?.getAttribute("data-node") ?? null;
+    };
     const dbl = (e: MouseEvent) => {
-      const name = (e.target as Element | null)?.closest?.("[data-node]")?.getAttribute("data-node");
+      const t = e.target as Element | null;
+      const name = t?.closest?.("[data-node]")?.getAttribute("data-node") ?? lastNode;
       if (name) openTableRef.current(name);
     };
 
@@ -1146,17 +1321,19 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       openTableRef.current(name);
     };
 
+    st.addEventListener("pointerdown", remember, true);
     st.addEventListener("pointerdown", down);
     st.addEventListener("pointermove", move);
     st.addEventListener("pointerup", up);
-    st.addEventListener("pointercancel", up);
+    st.addEventListener("pointercancel", cancel);
     st.addEventListener("dblclick", dbl);
     st.addEventListener("keydown", key);
     return () => {
+      st.removeEventListener("pointerdown", remember, true);
       st.removeEventListener("pointerdown", down);
       st.removeEventListener("pointermove", move);
       st.removeEventListener("pointerup", up);
-      st.removeEventListener("pointercancel", up);
+      st.removeEventListener("pointercancel", cancel);
       st.removeEventListener("dblclick", dbl);
       st.removeEventListener("keydown", key);
     };
@@ -1194,6 +1371,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       setMode(id);
       setModeInfo(id);
     } else if (e.key === "Escape") {
+      // FULLSCREEN OWNS ESCAPE. The browser exits fullscreen on Escape natively
+      // and it does it whatever this page thinks; answering the same key here
+      // as well would fold the open card in the same keystroke that shrank the
+      // window, which reads as two things breaking at once. One key, one act.
+      if (fsNow()) return;
       // Close the open card FIRST — that is the move with a camera attached,
       // and it is what "back" means while a table is being read. Then rewind,
       // then deselect, then step back up the ladder.
@@ -1306,6 +1488,9 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   return (
     <div
       className="ne"
+      ref={root}
+      data-full={full ? "1" : "0"}
+      data-mini={mini ? "1" : "0"}
       data-level={level}
       data-sel={sel ? "1" : "0"}
       data-q={query ? "1" : "0"}
@@ -1319,32 +1504,42 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       data-mode={isMap ? "" : mode}
     >
       <header className="ne-bar">
+        {/* IDENTITY IN TWO LINES, NOT FOUR. The return, the ladder, the title
+            and the count used to be four stacked rows and they alone took
+            130px off a 940px screen before a single table was drawn. The return
+            and the ladder answer the same question ("where am I") and sit on
+            one line; the title and its count answer the second one and sit on
+            the next. Nothing was removed. */}
         <div className="ne-bar-id">
-          {/* Where the reader came from, when the session knows: a module
-              workspace, an object page, a search. With no memory it falls back
-              to the NEO home, which is this page's real parent. */}
-          <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
+          <div className="ne-bar-nav">
+            {/* Where the reader came from, when the session knows: a module
+                workspace, an object page, a search. With no memory it falls back
+                to the NEO home, which is this page's real parent. */}
+            <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
 
-          <nav className="ne-crumbs" aria-label="מסלול הניווט בתרשים">
-            {crumbs.map((c, i) => (
-              <span key={`${c.he}-${i}`}>
-                {i ? <ArrowRight size={12} strokeWidth={2.2} aria-hidden="true" /> : null}
-                {c.go ? (
-                  <button type="button" className="nu-ghost ne-crumb" onClick={c.go}>
-                    {c.he}
-                  </button>
-                ) : (
-                  <b className={i === crumbs.length - 1 ? "ne-crumb-now" : undefined}>{c.he}</b>
-                )}
-              </span>
-            ))}
-          </nav>
-          <h1 className="ne-h1">{M ? `${M.code} · ${M.he}` : "מודל הנתונים · כל המודולים"}</h1>
-          <p className="ne-sub">
-            {M
-              ? `${nf.format(scopeCount)} טבלאות · ${nf.format(edgeCount)} קשרים${M.purpose ? ` · ${M.purpose}` : ""}`
-              : `${nf.format(data.stats.modules)} מודולים · ${nf.format(data.stats.memberships)} שיוכי טבלה · ${nf.format(data.stats.tables)} טבלאות · ${nf.format(data.stats.edges)} קשרים`}
-          </p>
+            <nav className="ne-crumbs" aria-label="מסלול הניווט בתרשים">
+              {crumbs.map((c, i) => (
+                <span key={`${c.he}-${i}`}>
+                  {i ? <ArrowRight size={12} strokeWidth={2.2} aria-hidden="true" /> : null}
+                  {c.go ? (
+                    <button type="button" className="nu-ghost ne-crumb" onClick={c.go}>
+                      {c.he}
+                    </button>
+                  ) : (
+                    <b className={i === crumbs.length - 1 ? "ne-crumb-now" : undefined}>{c.he}</b>
+                  )}
+                </span>
+              ))}
+            </nav>
+          </div>
+          <div className="ne-bar-t">
+            <h1 className="ne-h1">{M ? `${M.code} · ${M.he}` : "מודל הנתונים · כל המודולים"}</h1>
+            <p className="ne-sub">
+              {M
+                ? `${nf.format(scopeCount)} טבלאות · ${nf.format(edgeCount)} קשרים${M.purpose ? ` · ${M.purpose}` : ""}`
+                : `${nf.format(data.stats.modules)} מודולים · ${nf.format(data.stats.memberships)} שיוכי טבלה · ${nf.format(data.stats.tables)} טבלאות · ${nf.format(data.stats.edges)} קשרים`}
+            </p>
+          </div>
         </div>
 
         {!isMap ? (
@@ -1434,6 +1629,36 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             </button>
           </div>
           <div className="ne-group">
+            {/* FULLSCREEN. The real API on the workspace root, so the controls
+                come with the picture. Its pressed state is read from the
+                browser, never from this click. */}
+            {fsOk ? (
+              <button
+                type="button"
+                className="nu-ghost"
+                data-fs={full ? "1" : "0"}
+                onClick={toggleFull}
+                aria-pressed={full}
+                aria-label={full ? "צא ממסך מלא" : "מסך מלא"}
+                title={full ? "צא ממסך מלא · Esc" : "מסך מלא"}
+              >
+                {full ? (
+                  <Minimize size={15} strokeWidth={1.8} aria-hidden="true" />
+                ) : (
+                  <Maximize size={15} strokeWidth={1.8} aria-hidden="true" />
+                )}
+              </button>
+            ) : null}
+            <button
+              type="button"
+              className="nu-ghost"
+              onClick={() => setMini((v) => !v)}
+              aria-pressed={mini}
+              aria-label={mini ? "הסתר את המפה המוקטנת" : "הצג את המפה המוקטנת"}
+              title={mini ? "הסתר את המפה המוקטנת" : "הצג את המפה המוקטנת"}
+            >
+              <MapIcon size={15} strokeWidth={1.8} aria-hidden="true" />
+            </button>
             <button
               type="button"
               className="nu-ghost"
@@ -1454,144 +1679,118 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         </div>
       </header>
 
-      {/* ------------------------------------------------------- CONTROL BAR */}
+      {/* ------------------------------------------------------- CONTROL BAR
+
+          SEVEN GROUPS AND FIFTY-ONE CHIPS, REDUCED TO FIVE CONTROLS.
+
+          Measured at 1500x940 inside PP-PI before this pass: the module group
+          held 14 chips and hid 965px of them behind an overflow with no
+          affordance; the topic group held 20 and hid 2,930px the same way; the
+          two bars together took 298px off a 940px screen and left the diagram
+          554px. A chip nobody can see is not a filter, it is a defect with a
+          scrollbar.
+
+          WHAT STAYS ON THE BAR is what a reader touches WHILE reading: which
+          module they are in, how wide the scope is, which analysis lens is
+          answering, and whether the neighbourhood is arranged around the
+          selection. WHAT MOVES INTO A DISCLOSURE is what they set once and
+          forget: topic or business object, relation kind, table narrowing,
+          emphasis depth.
+
+          NOTHING IS HIDDEN SILENTLY. The disclosure trigger carries the number
+          of narrowings in force, and every one of them is ALSO drawn beside it
+          as its own pill that switches itself off. */}
       <div className="ne-filters">
-        <div className="ne-fgrp ne-fmods" role="group" aria-label="מודול">
-          <span className="ne-flabel">מודול</span>
-          <button type="button" className="nu-filter" aria-pressed={!M} onClick={toOverview}>
-            <Boxes size={12} strokeWidth={1.9} aria-hidden="true" />
-            סקירה · {data.stats.modules}
-          </button>
-          {data.modules.map((m) => (
-            <button
-              key={m.code}
-              type="button"
-              className="nu-filter"
-              style={{ "--m": modVar(m.code) } as React.CSSProperties}
-              aria-pressed={mod === m.code}
-              title={`${m.he}${m.purpose ? ` — ${m.purpose}` : ""}`}
-              onClick={() => (mod === m.code ? toOverview() : openModule(m.code))}
-            >
-              <i aria-hidden="true" />
-              {m.code} · {m.core.length}
-            </button>
-          ))}
-        </div>
+        <ErdPop
+          open={pop === "mod"}
+          onToggle={() => setPop((p) => (p === "mod" ? null : "mod"))}
+          onClose={() => setPop(null)}
+          name="מודול והיקף"
+          on={!!M}
+          style={M ? ({ "--m": modVar(M.code) } as React.CSSProperties) : undefined}
+          label={
+            <>
+              <Boxes size={12} strokeWidth={1.9} aria-hidden="true" />
+              {/* The trigger names the picture, not the module's full title —
+                  the h1 one row above already carries that, and repeating it
+                  here is what pushed the control bar onto a second line. */}
+              {M ? `${M.code} · ${nf.format(scopeCount)} טבלאות` : `סקירה · ${data.stats.modules} מודולים`}
+            </>
+          }
+        >
+          {/* SCOPE LIVES WITH THE MODULE, because it IS the module: "the
+              curated ERD" and "everything the dictionary holds" are two
+              pictures of one thing, and the trigger above already counts
+              whichever one is in force. On the bar they were a third group
+              that cost 265px and pushed the filter disclosure onto a second
+              row. */}
+          {M ? (
+            <section className="ne-pop-sc">
+              <p className="ne-pop-h">היקף התרשים</p>
+              <div className="ne-pop-w">
+                <button type="button" className="nu-filter" aria-pressed={!showAll} onClick={() => setShowAll(false)}>
+                  ERD מרכזי · {M.core.length}
+                </button>
+                <button
+                  type="button"
+                  className="nu-filter"
+                  aria-pressed={showAll}
+                  disabled={!M.more.length}
+                  onClick={() => setShowAll(true)}
+                  title={M.more.length ? "כל טבלאות המודול במילון" : "אין למודול טבלאות נוספות במילון"}
+                >
+                  כל המודול · {M.core.length + M.more.length}
+                </button>
+              </div>
+            </section>
+          ) : null}
+          <p className="ne-pop-h">מודול</p>
+          <ul className="ne-pop-l">
+            <li>
+              <button
+                type="button"
+                className="nu-ghost ne-row"
+                aria-pressed={!M}
+                style={{ "--ms": "var(--ink-3)" } as React.CSSProperties}
+                onClick={() => {
+                  toOverview();
+                  setPop(null);
+                }}
+              >
+                <i className="ne-row-bar" aria-hidden="true" />
+                <b>סקירה</b>
+                <em>מפת כל המודולים והקשרים ביניהם</em>
+                <span className="nx-sap">{data.stats.modules}</span>
+              </button>
+            </li>
+            {data.modules.map((m) => (
+              <li key={m.code} style={{ "--ms": modVar(m.code) } as React.CSSProperties}>
+                <button
+                  type="button"
+                  className="nu-ghost ne-row"
+                  aria-pressed={mod === m.code}
+                  title={m.purpose || undefined}
+                  onClick={() => {
+                    openModule(m.code);
+                    setPop(null);
+                  }}
+                >
+                  <i className="ne-row-bar" aria-hidden="true" />
+                  <b className="nx-sap">{m.code}</b>
+                  <em>{m.he}</em>
+                  <span className="nx-sap">{m.core.length}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </ErdPop>
 
         {M ? (
           <>
-            <div className="ne-fgrp" role="group" aria-label="היקף">
-              <span className="ne-flabel">היקף</span>
-              <button type="button" className="nu-filter" aria-pressed={!showAll} onClick={() => setShowAll(false)}>
-                ERD מרכזי · {M.core.length}
-              </button>
-              <button
-                type="button"
-                className="nu-filter"
-                aria-pressed={showAll}
-                disabled={!M.more.length}
-                onClick={() => setShowAll(true)}
-                title={M.more.length ? "כל טבלאות המודול במילון" : "אין למודול טבלאות נוספות במילון"}
-              >
-                כל המודול · {M.core.length + M.more.length}
-              </button>
-            </div>
-
-            {M.objects.length || M.topics.length ? (
-              <div className="ne-fgrp ne-fgroups" role="group" aria-label="נושא או אובייקט עסקי">
-                <span className="ne-flabel">
-                  <Layers size={12} strokeWidth={1.9} aria-hidden="true" />
-                  נושא
-                </span>
-                <button type="button" className="nu-filter" aria-pressed={!group} onClick={() => setGroup(null)}>
-                  הכול
-                </button>
-                {M.objects.map((o) => (
-                  <button
-                    key={`o-${o.he}`}
-                    type="button"
-                    className="nu-filter"
-                    aria-pressed={group?.k === "object" && group.v === o.he}
-                    title={`${o.en} · ${o.t.length} טבלאות`}
-                    onClick={() =>
-                      setGroup((g) => (g?.k === "object" && g.v === o.he ? null : { k: "object", v: o.he }))
-                    }
-                  >
-                    {o.he} · {o.t.length}
-                  </button>
-                ))}
-                {M.topics.map((t) => (
-                  <button
-                    key={`t-${t.t}`}
-                    type="button"
-                    className="nu-filter ne-ftopic"
-                    aria-pressed={group?.k === "topic" && group.v === t.t}
-                    onClick={() => setGroup((g) => (g?.k === "topic" && g.v === t.t ? null : { k: "topic", v: t.t }))}
-                  >
-                    {t.t} · {t.ta.length}
-                  </button>
-                ))}
-              </div>
-            ) : null}
-
-            <div className="ne-fgrp" role="group" aria-label="סינון לפי סוג קשר">
-              <span className="ne-flabel">
-                <Link2 size={12} strokeWidth={1.9} aria-hidden="true" />
-                קשר
-              </span>
-              {REL_ORDER.map((k) => (
-                <button
-                  key={k}
-                  type="button"
-                  className="nu-filter ne-rel"
-                  data-kind={k}
-                  aria-pressed={rel.has(k)}
-                  onClick={() =>
-                    setRel((s) => {
-                      const n = new Set(s);
-                      if (n.has(k)) {
-                        if (n.size > 1) n.delete(k);
-                      } else n.add(k);
-                      return n;
-                    })
-                  }
-                >
-                  <i aria-hidden="true" />
-                  {REL_HE[k]}
-                </button>
-              ))}
-              <button
-                type="button"
-                className="nu-filter"
-                aria-pressed={strong}
-                onClick={() => setStrong((v) => !v)}
-                title="רק קשרים שמילון ה-PM/PP-PI מתעד להם ניסוח JOIN מלא"
-              >
-                <Filter size={12} strokeWidth={1.9} aria-hidden="true" />
-                קשרים חזקים
-              </button>
-            </div>
-
-            <div className="ne-fgrp" role="group" aria-label="טבלאות">
-              <span className="ne-flabel">טבלאות</span>
-              <button
-                type="button"
-                className="nu-filter"
-                aria-pressed={sharedOnly}
-                onClick={() => setSharedOnly((v) => !v)}
-                title="טבלאות שיותר ממודול אחד מחזיק ב-ERD שלו"
-              >
-                <Share2 size={12} strokeWidth={1.9} aria-hidden="true" />
-                משותפות
-              </button>
-              <button type="button" className="nu-filter" aria-pressed={iso} onClick={() => setIso((v) => !v)}>
-                ללא קשר
-              </button>
-            </div>
-
             {/* THE ANALYSIS LENSES — the production explorer's five questions,
                 in NEO's language. Each one is answered from the modelled
-                relation set already on screen; none of them adds a relation. */}
+                relation set already on screen; none of them adds a relation.
+                They stay on the bar because they are the reading itself. */}
             <div className="ne-fgrp ne-flens" role="group" aria-label="עדשת ניתוח">
               <span className="ne-flabel">
                 <Workflow size={12} strokeWidth={1.9} aria-hidden="true" />
@@ -1617,28 +1816,6 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                   {a.he}
                 </button>
               ))}
-            </div>
-
-            <div className="ne-fgrp" role="group" aria-label="הדגשה">
-              <span className="ne-flabel">הדגשה</span>
-              <button
-                type="button"
-                className="nu-filter"
-                aria-pressed={depth === 1}
-                disabled={mode !== "focus"}
-                onClick={() => setDepth(1)}
-              >
-                ישירים
-              </button>
-              <button
-                type="button"
-                className="nu-filter"
-                aria-pressed={depth === 2}
-                disabled={mode !== "focus"}
-                onClick={() => setDepth(2)}
-              >
-                רמה שנייה
-              </button>
               <button
                 type="button"
                 className="nu-filter"
@@ -1651,6 +1828,182 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                 סידור סביב הנבחרת
               </button>
             </div>
+
+            {/* THE DISCLOSURE. Everything a reader sets once, in one place, with
+                the count of what is in force printed on the way in. */}
+            <ErdPop
+              open={pop === "filters"}
+              onToggle={() => setPop((p) => (p === "filters" ? null : "filters"))}
+              onClose={() => setPop(null)}
+              name="מסננים מתקדמים"
+              wide
+              on={narrowings.length > 0}
+              label={
+                <>
+                  <SlidersHorizontal size={12} strokeWidth={1.9} aria-hidden="true" />
+                  מסננים
+                  {narrowings.length ? <b className="ne-pop-n">{narrowings.length}</b> : null}
+                </>
+              }
+            >
+              <div className="ne-pop-s">
+                {M.objects.length || M.topics.length ? (
+                  <section>
+                    <p className="ne-pop-h">
+                      <Layers size={12} strokeWidth={1.9} aria-hidden="true" />
+                      נושא או אובייקט עסקי
+                    </p>
+                    <div className="ne-pop-w">
+                      <button type="button" className="nu-filter" aria-pressed={!group} onClick={() => setGroup(null)}>
+                        הכול
+                      </button>
+                      {M.objects.map((o) => (
+                        <button
+                          key={`o-${o.he}`}
+                          type="button"
+                          className="nu-filter"
+                          aria-pressed={group?.k === "object" && group.v === o.he}
+                          title={`${o.en} · ${o.t.length} טבלאות`}
+                          onClick={() =>
+                            setGroup((g) => (g?.k === "object" && g.v === o.he ? null : { k: "object", v: o.he }))
+                          }
+                        >
+                          {o.he} · {o.t.length}
+                        </button>
+                      ))}
+                      {M.topics.map((t) => (
+                        <button
+                          key={`t-${t.t}`}
+                          type="button"
+                          className="nu-filter ne-ftopic"
+                          aria-pressed={group?.k === "topic" && group.v === t.t}
+                          title={`${t.t} · ${t.ta.length} טבלאות`}
+                          onClick={() => setGroup((g) => (g?.k === "topic" && g.v === t.t ? null : { k: "topic", v: t.t }))}
+                        >
+                          {t.t} · {t.ta.length}
+                        </button>
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
+
+                <section>
+                  <p className="ne-pop-h">
+                    <Link2 size={12} strokeWidth={1.9} aria-hidden="true" />
+                    סוג הקשר
+                  </p>
+                  <div className="ne-pop-w">
+                    {REL_ORDER.map((k) => (
+                      <button
+                        key={k}
+                        type="button"
+                        className="nu-filter ne-rel"
+                        data-kind={k}
+                        aria-pressed={rel.has(k)}
+                        onClick={() =>
+                          setRel((s) => {
+                            const n = new Set(s);
+                            if (n.has(k)) {
+                              if (n.size > 1) n.delete(k);
+                            } else n.add(k);
+                            return n;
+                          })
+                        }
+                      >
+                        <i aria-hidden="true" />
+                        {REL_HE[k]}
+                      </button>
+                    ))}
+                    <button
+                      type="button"
+                      className="nu-filter"
+                      aria-pressed={strong}
+                      onClick={() => setStrong((v) => !v)}
+                      title="רק קשרים שמילון ה-PM/PP-PI מתעד להם ניסוח JOIN מלא"
+                    >
+                      <Filter size={12} strokeWidth={1.9} aria-hidden="true" />
+                      קשרים חזקים
+                    </button>
+                  </div>
+                </section>
+
+                <section>
+                  <p className="ne-pop-h">טבלאות</p>
+                  <div className="ne-pop-w">
+                    <button
+                      type="button"
+                      className="nu-filter"
+                      aria-pressed={sharedOnly}
+                      onClick={() => setSharedOnly((v) => !v)}
+                      title="טבלאות שיותר ממודול אחד מחזיק ב-ERD שלו"
+                    >
+                      <Share2 size={12} strokeWidth={1.9} aria-hidden="true" />
+                      משותפות
+                    </button>
+                    <button type="button" className="nu-filter" aria-pressed={iso} onClick={() => setIso((v) => !v)}>
+                      ללא קשר
+                    </button>
+                  </div>
+                </section>
+
+                <section>
+                  <p className="ne-pop-h">עומק ההדגשה</p>
+                  <div className="ne-pop-w">
+                    <button
+                      type="button"
+                      className="nu-filter"
+                      aria-pressed={depth === 1}
+                      disabled={mode !== "focus"}
+                      onClick={() => setDepth(1)}
+                    >
+                      ישירים
+                    </button>
+                    <button
+                      type="button"
+                      className="nu-filter"
+                      aria-pressed={depth === 2}
+                      disabled={mode !== "focus"}
+                      onClick={() => setDepth(2)}
+                    >
+                      רמה שנייה
+                    </button>
+                  </div>
+                  {mode !== "focus" ? (
+                    <p className="ne-pop-say">עומק ההדגשה שייך לעדשת המיקוד. שאר העדשות קובעות את ההיקף שלהן מהקשרים עצמם.</p>
+                  ) : null}
+                </section>
+
+                <footer className="ne-pop-f">
+                  <button type="button" className="nu-btn2" onClick={clearFilters} disabled={!narrowings.length}>
+                    נקה מסננים
+                  </button>
+                  <button type="button" className="nu-ghost" onClick={() => setPop(null)}>
+                    סגור
+                  </button>
+                </footer>
+              </div>
+            </ErdPop>
+
+            {/* Every narrowing behind the disclosure, said out loud and
+                switchable off from here. This is the affordance that makes the
+                disclosure legitimate. */}
+            {narrowings.length ? (
+              <div className="ne-fnow" role="group" aria-label="מסננים פעילים">
+                {narrowings.map((n) => (
+                  <button
+                    key={n.id}
+                    type="button"
+                    className="nu-filter ne-fnow-x"
+                    aria-pressed
+                    title={`בטל · ${n.he}`}
+                    onClick={n.off}
+                  >
+                    {n.he}
+                    <X size={12} strokeWidth={2.2} aria-hidden="true" />
+                  </button>
+                ))}
+              </div>
+            ) : null}
           </>
         ) : (
           <p className="ne-fhint">
@@ -2014,7 +2367,10 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             </g>
           </svg>
 
-          {/* MINIMAP */}
+          {/* MINIMAP. An overlay, and therefore switchable: while it is on
+              screen it owns the pointer over its own corner of the stage, and a
+              table underneath it would be unreachable. */}
+          {mini ? (
           <div className="ne-mini">
             <svg
               viewBox={`0 0 ${picture.w} ${picture.h}`}
@@ -2054,6 +2410,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               <rect ref={miniBox} className="ne-mini-v" x={0} y={0} width={10} height={10} />
             </svg>
           </div>
+          ) : null}
 
           <p className="ne-hint">
             <kbd>Ctrl</kbd> + גלגלת לזום · גרירה להזזה · <kbd>+</kbd> <kbd>−</kbd> <kbd>0</kbd> ·
@@ -2183,6 +2540,79 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               סגור
             </button>
           </div>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------- a disclosure
+
+   The control that made a 51-chip toolbar reachable. Deliberately small: a
+   trigger that says what is behind it, a panel that is a real dialog to a
+   screen reader, and three ways out — the trigger again, Escape, and a pointer
+   anywhere else.
+
+   WHY THE LISTENERS ARE ON THE CAPTURE PHASE. This panel floats over a canvas
+   that binds its own native pointerdown, and over a stage that answers Escape
+   with "close the open card". Capturing at the document means the dismissal
+   happens BEFORE either of them sees the event, so closing a popover can never
+   also deselect a table or fold a card the reader is still reading. */
+function ErdPop({
+  open, onToggle, onClose, name, label, children, wide, on, style,
+}: {
+  open: boolean;
+  onToggle: () => void;
+  onClose: () => void;
+  /** The accessible name of the panel, and the trigger's title. */
+  name: string;
+  label: React.ReactNode;
+  children: React.ReactNode;
+  wide?: boolean;
+  /** True when the trigger should read as carrying a chosen value. */
+  on?: boolean;
+  style?: React.CSSProperties;
+}) {
+  const box = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const away = (e: PointerEvent) => {
+      if (!box.current?.contains(e.target as Node)) onClose();
+    };
+    const esc = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      e.stopPropagation();
+      onClose();
+      // Focus returns to the trigger, or the reader is left standing on an
+      // element that no longer exists.
+      box.current?.querySelector<HTMLButtonElement>("button")?.focus();
+    };
+    document.addEventListener("pointerdown", away, true);
+    document.addEventListener("keydown", esc, true);
+    return () => {
+      document.removeEventListener("pointerdown", away, true);
+      document.removeEventListener("keydown", esc, true);
+    };
+  }, [open, onClose]);
+
+  return (
+    <div className="ne-pop" ref={box} data-open={open ? "1" : "0"}>
+      <button
+        type="button"
+        className="nu-filter ne-pop-t"
+        style={style}
+        data-on={on ? "1" : "0"}
+        aria-expanded={open}
+        aria-haspopup="dialog"
+        title={name}
+        onClick={onToggle}
+      >
+        {label}
+        <ChevronDown size={13} strokeWidth={2} aria-hidden="true" className="ne-pop-c" />
+      </button>
+      {open ? (
+        <div className="ne-pop-p" role="dialog" aria-label={name} data-wide={wide ? "1" : "0"}>
+          {children}
         </div>
       ) : null}
     </div>

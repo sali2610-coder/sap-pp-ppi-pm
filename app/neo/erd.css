@@ -127,6 +127,45 @@ html .nx-app .nx-canvas:has(> .ne) {
   --ne-grid: color-mix(in oklab, var(--hairline) 52%, var(--ne-stage));
 }
 
+/* ==========================================================================
+   FULLSCREEN
+   --------------------------------------------------------------------------
+   `.ne` itself is the promoted element, so the toolbar, the diagram and the
+   detail panel all come with it — a fullscreen diagram you cannot filter is a
+   screenshot. Two things have to be restated inside :fullscreen:
+
+   1. The narrow rule at the bottom of this file relaxes `.ne` to `block-size:
+      auto` with four `auto` rows, because below 1100px the workspace is a
+      SCROLLING PAGE. A fullscreen element is a viewport-sized box and must go
+      back to being an instrument, whatever the viewport measures.
+   2. A fullscreen element gets a UA background of its own (usually black).
+      The workspace paints its own warm ground, in both themes.
+
+   :fullscreen and :-webkit-full-screen are written as SEPARATE rules on
+   purpose: one unrecognised selector invalidates a whole selector list, and a
+   browser that knows only the prefixed form would drop both.
+   ========================================================================== */
+html .ne:fullscreen {
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  background: var(--background);
+}
+html .ne:-webkit-full-screen {
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  background: var(--background);
+}
+/* Narrow: the workspace is a scrolling page, and a fullscreen element has no
+   ancestor left to do its scrolling for it. It scrolls itself. */
+@media (max-width: 1100px) {
+  html .ne:fullscreen { block-size: 100%; overflow-y: auto; grid-template-rows: auto auto auto auto; }
+  html .ne:-webkit-full-screen { block-size: 100%; overflow-y: auto; grid-template-rows: auto auto auto auto; }
+}
+
 /* Dark is not the light ramp lightened: on a near-black ground a mid-tone hue
    goes muddy, so each rises to its bright end. All >= 10:1 against --surface,
    and none collides with the dark values globals gives pm/pppi/pp/mm/qm. */
@@ -155,17 +194,55 @@ html[data-theme="dark"] .ne {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--sp-3);
-  padding: var(--sp-3) var(--sp-5);
+  gap: var(--sp-2) var(--sp-3);
+  padding: var(--sp-2) var(--sp-5);
   border-block-end: 1px solid var(--hairline);
   background: var(--surface);
 }
-.ne-bar-id { display: grid; gap: 2px; margin-inline-end: auto; }
-.ne-h1 { font-size: var(--t-h2); font-weight: 700; letter-spacing: var(--t-h2-tr); color: var(--ink-1); }
-.ne-sub { font-size: var(--t-micro); color: var(--ink-3); }
+/* IDENTITY IN TWO ROWS, NOT FOUR.
+   Return + ladder answer "where am I"; title + count answer "what am I looking
+   at". Stacked as four separate rows this block measured 129.8px at 1500x940 —
+   more than a fifth of the screen spent on saying where you are. Paired, it is
+   about 52px and says exactly the same four things. */
+.ne-bar-id { display: grid; gap: 2px; margin-inline-end: auto; flex: 1 1 15rem; min-inline-size: 0; }
+.ne-bar-nav { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); min-inline-size: 0; }
+/* LAYOUT ONLY, in the spirit of .ne-crumb below it: the return link keeps every
+   colour, hover, focus ring and underline ui.css gives it and simply stops
+   reserving a 40px tap row inside a 2-line identity block on a mouse-driven
+   screen. Coarse pointers are untouched — ui.css's own 2.75rem rule is scoped
+   to (pointer: coarse) and still wins there. */
+.ne-bar-nav .nxr-link { min-block-size: 1.75rem; }
+/* nowrap on purpose: the count is the line that has to give, and .ne-sub
+   ellipsises. Wrapping put the title block on three rows at 1440. */
+.ne-bar-t { display: flex; flex-wrap: nowrap; align-items: baseline; gap: var(--sp-2); min-inline-size: 0; }
+.ne-h1 {
+  font-size: var(--t-h2);
+  font-weight: 700;
+  letter-spacing: var(--t-h2-tr);
+  color: var(--ink-1);
+  /* One line. The title wrapping inside a 346px identity block was the last
+     row of chrome left, and a heading that reflows as the panel resizes is
+     also the thing that makes a toolbar feel unstable. */
+  flex: 0 1 auto;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* The count gives way first — it is the one line whose content is also printed
+   in the module control and in the panel. */
+.ne-sub {
+  flex: 1 1 0;
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 /* --- search + suggestions ------------------------------------------------- */
-.ne-find-top { position: relative; inline-size: min(22rem, 100%); }
+.ne-find-top { position: relative; inline-size: min(17rem, 100%); flex: 0 1 auto; }
 .ne-search {
   display: flex;
   align-items: center;
@@ -217,15 +294,19 @@ html[data-theme="dark"] .ne {
   border-radius: var(--r-sm);
   background: var(--surface-2);
 }
-/* Layout only: ui.css owns the colour, hover, focus and disabled language. */
+/* Layout only: ui.css owns the colour, hover, focus and disabled language.
+   2.25rem square rather than 2.5x2.25: eleven view controls now share this bar
+   with the identity block and the search, and 0.25rem each is the difference
+   between one toolbar row and two. Coarse pointers still get the full 44px
+   below. */
 .ne-group .nu-ghost {
-  inline-size: 2.5rem;
+  inline-size: 2.25rem;
   min-block-size: 2.25rem;
   padding-inline: 0;
   border-radius: var(--r-xs);
 }
 .ne-pct {
-  inline-size: 3.5rem !important;
+  inline-size: 3.25rem !important;
   font-family: var(--font-mono);
   font-size: var(--t-micro) !important;
   font-variant-numeric: tabular-nums;
@@ -241,10 +322,11 @@ html[data-theme="dark"] .ne {
    ========================================================================== */
 
 .ne-filters {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--sp-2) var(--sp-5);
+  gap: var(--sp-2) var(--sp-4);
   padding: var(--sp-2) var(--sp-5);
   border-block-end: 1px solid var(--hairline);
   background: var(--surface);
@@ -266,6 +348,7 @@ html[data-theme="dark"] .ne {
   flex: none;
 }
 .ne-rel > i {
+  flex: none;
   inline-size: 18px !important;
   block-size: 2px !important;
   border-radius: 2px;
@@ -291,20 +374,111 @@ html[data-theme="dark"] .ne {
 .ne-crumbs b { font-weight: 600; color: var(--ink-2); }
 .ne-crumbs .ne-crumb-now { color: var(--ink-1); font-weight: 700; }
 
-/* The module strip is long by design — 13 modules — so it scrolls on its own
-   axis instead of pushing the rest of the bar off screen. */
-.ne-fmods, .ne-fgroups {
-  flex: 1 1 22rem;
-  min-inline-size: 0;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-  scrollbar-width: thin;
-  padding-block-end: 2px;
-}
-.ne-fmods > *, .ne-fgroups > * { flex: none; }
 .ne-ftopic { max-inline-size: 15rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ne-fhint { font-size: var(--t-xs); color: var(--ink-3); line-height: var(--lh-he); }
+
+/* ==========================================================================
+   THE DISCLOSURES — how 51 chips became reachable
+   --------------------------------------------------------------------------
+   The module group and the topic group used to be `flex-wrap: nowrap;
+   overflow-x: auto` strips. Measured at 1500x940 that hid 965px and 2,930px of
+   chips respectively, with no scrollbar visible and no other affordance — the
+   filters were not merely cramped, they were unreachable. Both are now panels
+   behind a trigger that states what it holds, and the trigger for the filter
+   panel also states HOW MANY narrowings are in force so the bar can never lie
+   about the picture.
+
+   No new control language: the trigger is a .nu-filter (a toggle that narrows
+   what is on screen, which is exactly what it is) and every row inside is a
+   .nu-ghost or a .nu-filter from ui.css.
+   ========================================================================== */
+
+/* THE PANEL IS ANCHORED TO THE BAR, NOT TO ITS TRIGGER. A panel positioned on
+   the trigger is free to run past the edge of a workspace whose canvas is
+   `overflow: hidden` — which would clip a filter panel, the precise defect this
+   whole section exists to remove. Anchored to .ne-filters and capped at the
+   container's own inline size, it cannot leave the workspace at any width. */
+.ne-pop { position: static; display: inline-flex; }
+.ne-pop-t {
+  max-inline-size: 15rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ne-pop-c { flex: none; opacity: .6; transition: transform var(--dur-fast) var(--ease-out-expo); }
+.ne-pop[data-open="1"] .ne-pop-c { transform: rotate(180deg); }
+/* The count of what is behind the trigger. Not a status dot — a number in a
+   pill, which is what it is. */
+.ne-pop-n {
+  flex: none;
+  min-inline-size: 1.15rem;
+  padding-inline: 4px;
+  border-radius: var(--r-pill);
+  background: var(--ink-1);
+  color: var(--surface);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+  direction: ltr;
+}
+
+.ne-pop-p {
+  position: absolute;
+  z-index: 40;
+  inset-block-start: calc(100% - 4px);
+  inset-inline-start: var(--sp-5);
+  inline-size: min(23rem, calc(100cqi - 2 * var(--sp-5)));
+  max-block-size: min(30rem, 62svh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: grid;
+  gap: var(--sp-2);
+  align-content: start;
+  padding: var(--sp-3);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--elev-3);
+  animation: ne-unfold var(--dur-fast) var(--ease-out-expo) both;
+}
+/* The filter panel is the wide one and its trigger sits further along the bar,
+   so it hangs from the bar's inline-END instead. Same guarantee, other side. */
+.ne-pop-p[data-wide="1"] {
+  inline-size: min(34rem, calc(100cqi - 2 * var(--sp-5)));
+  inset-inline-start: auto;
+  inset-inline-end: var(--sp-5);
+}
+
+.ne-pop-h {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--t-micro);
+  font-weight: 600;
+  color: var(--ink-3);
+}
+.ne-pop-l { display: grid; gap: 1px; }
+.ne-pop-sc { display: grid; gap: var(--sp-2); padding-block-end: var(--sp-3); border-block-end: 1px solid var(--hairline); }
+.ne-pop-s { display: grid; gap: var(--sp-4); }
+.ne-pop-s > section { display: grid; gap: var(--sp-2); }
+.ne-pop-w { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.ne-pop-say { font-size: var(--t-micro); color: var(--ink-3); line-height: var(--lh-he); font-style: italic; }
+.ne-pop-f {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding-block-start: var(--sp-2);
+  border-block-start: 1px solid var(--hairline);
+}
+.ne-pop-f > .nu-btn2 { flex: 1 1 auto; justify-content: center; }
+
+/* The narrowings in force, said out loud on the bar itself. Each one switches
+   itself off, so the disclosure never becomes a place things go missing. */
+.ne-fnow { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); min-inline-size: 0; }
+.ne-fnow-x { max-inline-size: 16rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ne-fnow-x svg { flex: none; opacity: .7; }
+.ne-fnow-x:hover svg { opacity: 1; }
 
 /* ==========================================================================
    BODY · STAGE + INSPECTOR
@@ -391,15 +565,16 @@ html[data-theme="dark"] .ne {
 .ne-edge[data-lvl="2"] .ne-edge-p { opacity: .8; stroke-width: 2.2; }
 .ne-edge[data-lvl="2"] .ne-cap { opacity: .9; }
 /* Unrelated: quiet, but still there. The map never goes blank around a
-   selection unless focus mode is on. */
-.ne-edge[data-lvl="x"] { opacity: .16; }
-.ne-edge[data-off="1"] { opacity: .05; pointer-events: none; }
+   selection unless focus mode is on. Raised with the node floors below — .05 is
+   not a dim line, it is an absent one. */
+.ne-edge[data-lvl="x"] { opacity: .26; }
+.ne-edge[data-off="1"] { opacity: .12; pointer-events: none; }
 /* THE GRAPH NEVER GOES BLANK. Focus mode used to take the unrelated edges to
    opacity 0, which is the one thing the brief rules out: the rest of the model
    DIMS, it does not vanish, so the reader can always see what they stepped out
    of. Same for the nodes further down. */
-.ne[data-focus="1"] .ne-edge[data-off="1"] { opacity: .04; }
-.ne[data-focus="1"] .ne-edge[data-lvl="x"] { opacity: .09; }
+.ne[data-focus="1"] .ne-edge[data-off="1"] { opacity: .1; }
+.ne[data-focus="1"] .ne-edge[data-lvl="x"] { opacity: .16; }
 
 .ne-pulse { fill: var(--e); }
 @keyframes ne-flow {
@@ -554,7 +729,15 @@ html[data-theme="dark"] .ne {
 .ne-node:hover .ne-node-r { stroke-width: 2.6; }
 .ne-node[data-hit="1"] .ne-node-r { stroke-width: 3; }
 
-.ne-node[data-lvl="0"] .ne-node-h { opacity: 1; }
+/* THE SELECTED TABLE, LOUD. Four signals at once and none of them is hue
+   alone: the largest shape on the canvas (the halo), a ring around that halo so
+   it reads as a deliberate mark rather than a blur, the heaviest border in the
+   picture, and the only 18px name. */
+.ne-node[data-lvl="0"] .ne-node-h {
+  opacity: 1;
+  stroke: color-mix(in srgb, var(--ms) 62%, transparent);
+  stroke-width: 1.5;
+}
 .ne-node[data-lvl="0"] .ne-node-r {
   fill: color-mix(in srgb, var(--ms) 17%, var(--surface));
   stroke-width: 3.6;
@@ -565,13 +748,23 @@ html[data-theme="dark"] .ne {
 .ne-node[data-lvl="1"] .ne-node-r { fill: color-mix(in srgb, var(--ms) 12%, var(--surface)); stroke-width: 2.8; }
 .ne-node[data-lvl="2"] { opacity: .82; }
 .ne-node[data-lvl="2"] .ne-node-r { stroke-width: 2; }
-/* Faded, NOT gone. Everything stays legible so the reader keeps their bearings
-   in the whole model — until they deliberately turn focus mode on. */
-.ne-node[data-lvl="x"] { opacity: .34; }
-.ne-node[data-off="1"] { opacity: .12; pointer-events: none; }
-.ne[data-q="1"] .ne-node[data-hit="0"][data-lvl=""] { opacity: .3; }
-.ne[data-focus="1"] .ne-node[data-off="1"] { opacity: .08; pointer-events: none; }
-.ne[data-focus="1"] .ne-node[data-lvl="x"] { opacity: .16; pointer-events: none; }
+/* DIMMED, NEVER ERASED — and the floor is measured, not felt.
+   The brief is explicit: unrelated tables may fade SLIGHTLY and must stay
+   visible. The old floors were .12 for a filtered-out node and .08 in focus
+   mode, which on a warm near-black ground is a table you cannot read, cannot
+   point at and cannot get back to. Every floor is now at or above .22, and the
+   emphasis ladder does its work through ring weight and surface tint on top of
+   opacity rather than through opacity alone. */
+.ne-node[data-lvl="x"] { opacity: .42; }
+.ne-node[data-off="1"] { opacity: .22; pointer-events: none; }
+.ne[data-q="1"] .ne-node[data-hit="0"][data-lvl=""] { opacity: .34; }
+.ne[data-focus="1"] .ne-node[data-off="1"] { opacity: .22; pointer-events: none; }
+.ne[data-focus="1"] .ne-node[data-lvl="x"] { opacity: .26; pointer-events: none; }
+/* A dimmed table is still a table you may want to read. Hovering restores it
+   almost fully, so exploring away from the selection is never blocked. Opacity
+   only — a node that MOVES under the pointer cannot be clicked reliably, which
+   is why .nm-lift does not translate at motion level 1 either. */
+.ne-node[data-lvl="x"]:hover { opacity: .95; }
 
 /* Outside the chosen topic or business object. Quieter than a filter, louder
    than gone: it stays clickable, so narrowing never traps the reader. */
@@ -729,9 +922,12 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
    THE LENS STRIP + ITS ONE-LINE EXPLAINER
    ========================================================================== */
 
-.ne-flens { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; max-inline-size: 100%; }
-.ne-flens::-webkit-scrollbar { display: none; }
-.ne-flens > * { flex: none; }
+/* The lens strip used to be `nowrap` over a scrollbar-free `overflow-x: auto`,
+   which is the same trick that hid the module and topic chips: at 390px it
+   simply swallowed the last lenses. It wraps now. Six controls on two rows are
+   six controls; six controls on one row with two of them past the edge are
+   four. */
+.ne-flens { flex-wrap: wrap; max-inline-size: 100%; }
 
 .ne-lens-say {
   flex-basis: 100%;
@@ -1254,10 +1450,13 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
   .ne-bar-id { flex-basis: 100%; margin-inline-end: 0; }
   .ne-find-top { inline-size: 100%; }
   .ne-hint { display: none; }
-  /* The module strip is the primary control on a phone, so it gets the full
-     row rather than competing with the scope and relation groups. */
-  .ne-fmods, .ne-fgroups { flex-basis: 100%; }
   .ne-filters { gap: var(--sp-2) var(--sp-3); }
+  /* The disclosure panels take the whole bar width once the bar is narrower
+     than a comfortable panel. */
+  .ne-pop-p, .ne-pop-p[data-wide="1"] {
+    inline-size: calc(100cqi - 2 * var(--sp-3));
+    inset-inline: var(--sp-3) auto;
+  }
   /* 44px stays 44px whether or not the browser reports a coarse pointer. */
   .ne-group .nu-ghost { inline-size: var(--c-tap, 2.75rem); min-block-size: var(--c-tap, 2.75rem); }
   .ne-flens { flex-basis: 100%; }
