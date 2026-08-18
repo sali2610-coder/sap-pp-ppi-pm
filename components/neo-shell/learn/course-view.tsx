@@ -200,7 +200,7 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
                           {l.level ? <span className="nu-chip">{l.level}</span> : null}
                           {l.minutes ? <span className="nu-chip">{nf.format(l.minutes)} דק׳</span> : null}
                           {/* An unauthored lesson says so where its status would be. */}
-                          {!l.hasLesson ? <span className="nu-chip">אין מידע מאומת במאגר</span> : null}
+                          {!l.hasLesson ? <span className="nu-chip">לא קיים מידע מאומת במאגר</span> : null}
                           {done ? (
                             <span className="nu-status" style={{ "--s": "var(--status-done)" } as React.CSSProperties}>
                               הושלם

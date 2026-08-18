@@ -29,6 +29,15 @@ export interface Turn {
   passages?: number | null;
   /** The task profile used, so Retry reproduces the same request. */
   task?: string;
+  /**
+   * The scope this turn was ACTUALLY sent with.
+   *
+   * Not a copy of the current selection: scope can change between questions,
+   * and an answer stays the answer to the scope it was asked in. Storing it per
+   * turn is what lets the thread attribute each answer to its own premise
+   * instead of to whatever is selected now.
+   */
+  scope?: Scope;
 }
 
 interface Persisted {

@@ -9,8 +9,9 @@
             exists in data/books/<id>.json, in the book's own order, searchable
             by title and by subchapter id. Nothing is grouped, renamed or
             summarised, and no row is shown that the book does not have.
-     מפה    the position overview: where the reader is on all three scales, plus
-            the chapters the canonical reader recorded as read.
+     מפה    the position overview: where the reader is on all three scales, the
+            chapters the canonical reader recorded as read, and every bookmark
+            this reader has placed — each one a way back to the place it marks.
 
    The search runs over TITLES ONLY and says so. Prose lives in per-chapter
    shards the reader fetches one at a time; this panel has none of it, so it
@@ -18,7 +19,8 @@
    ========================================================================== */
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { Check, ListTree, Map as MapIcon, Search, X } from "lucide-react";
+import { Bookmark, BookmarkX, Check, ListTree, Map as MapIcon, Search, X } from "lucide-react";
+import { bookmarkedChapters, type NeoBookmark } from "@/components/neo-shell/books/reading-state";
 import type { NRBook, NRChapter } from "./types";
 import { n, pct, positionLine, type NRProgress } from "./progress";
 
@@ -32,20 +34,25 @@ export function ReaderPanel({
   progress,
   activeSection,
   read,
+  bookmarks,
   tab,
   onTab,
   onClose,
   onGo,
+  onUnmark,
 }: {
   book: NRBook;
   chapter: NRChapter;
   progress: NRProgress;
   activeSection: string | null;
   read: number[];
+  /** Subchapter bookmarks placed in this reader, newest first. */
+  bookmarks: NeoBookmark[];
   tab: Tab;
   onTab: (t: Tab) => void;
   onClose: () => void;
   onGo: (chapter: number, sectionId: string | null) => void;
+  onUnmark: (chapter: number, sectionId: string | null) => void;
 }) {
   const [q, setQ] = useState("");
   // Seeded from the chapter that is open. The panel is mounted only while it is
@@ -78,6 +85,23 @@ export function ReaderPanel({
     }
     return rows;
   }, [book.chapters, needle]);
+
+  const marked = useMemo(() => bookmarkedChapters(bookmarks), [bookmarks]);
+
+  /* Bookmarks resolved against the book as it is NOW. A mark whose chapter or
+     subchapter is no longer in the data is dropped rather than rendered as a
+     row that cannot be opened — the same rule the opening resolver follows. */
+  const marks = useMemo(
+    () =>
+      bookmarks.flatMap((m) => {
+        const c = book.chapters.find((x) => x.n === m.chapter);
+        if (!c) return [];
+        const s = m.section ? c.sections.find((x) => x.id === m.section) : undefined;
+        if (m.section && !s) return [];
+        return [{ mark: m, chapter: c, title: s ? s.title : c.title, id: s ? s.id : null }];
+      }),
+    [bookmarks, book.chapters],
+  );
 
   return (
     <div className="nr-panel-wrap">
@@ -181,6 +205,11 @@ export function ReaderPanel({
                       >
                         <span className="nr-toc-id">{c.n}</span>
                         <span className="nr-toc-t">{c.title}</span>
+                        {marked.has(c.n) && (
+                          <span className="nr-toc-mark" title="בפרק הזה מונחת סימנייה">
+                            <Bookmark size={12} strokeWidth={2.4} aria-hidden="true" />
+                          </span>
+                        )}
                         {read.includes(c.n) && (
                           <span className="nr-toc-read" title="סומן כנקרא בקורא של הפרויקט">
                             <Check size={12} strokeWidth={2.4} aria-hidden="true" />
@@ -246,6 +275,17 @@ export function ReaderPanel({
                 </dd>
               </div>
               <div>
+                <dt>סימניות</dt>
+                <dd>
+                  <b>{n(marks.length)}</b>
+                  <span className="nu-status" style={{ "--s": marks.length ? "var(--status-tested)" : "var(--status-not-started)" } as React.CSSProperties}>
+                    {marks.length
+                      ? `${n(marks.length)} מיקומים מסומנים בקורא של NEO`
+                      : "לא הונחה סימנייה בספר הזה"}
+                  </span>
+                </dd>
+              </div>
+              <div>
                 <dt>סומנו כנקראו</dt>
                 <dd>
                   <b>{n(read.length)}</b>
@@ -257,6 +297,37 @@ export function ReaderPanel({
                 </dd>
               </div>
             </dl>
+            {marks.length > 0 && (
+              <>
+                <h3 className="nr-panel-h">הסימניות שלי בספר הזה</h3>
+                <ul className="nr-bml">
+                  {marks.map((m) => (
+                    <li key={`${m.mark.chapter}|${m.mark.section ?? ""}`}>
+                      <button
+                        type="button"
+                        className="nr-bm"
+                        onClick={() => { onGo(m.chapter.n, m.id); onClose(); }}
+                      >
+                        <Bookmark size={13} strokeWidth={2} aria-hidden="true" />
+                        <span className="nr-bm-id">{m.id ?? `פרק ${m.chapter.n}`}</span>
+                        <span className="nr-bm-t">{m.title}</span>
+                        <span className="nr-bm-in">פרק {m.chapter.n}</span>
+                      </button>
+                      <button
+                        type="button"
+                        className="nu-ghost nr-bm-x"
+                        onClick={() => onUnmark(m.mark.chapter, m.mark.section)}
+                        aria-label={`הסר את הסימנייה מ${m.title}`}
+                        title="הסר סימנייה"
+                      >
+                        <BookmarkX size={14} strokeWidth={1.9} aria-hidden="true" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+
             <p className="nr-note">{positionLine(book, progress, chapter)}</p>
             <p className="nr-note">
               המדידה נשענת על ספירת תת-הפרקים האמיתית של הספר. אין בנתונים זמן קריאה משוער או ספירת מילים,
@@ -271,6 +342,7 @@ export function ReaderPanel({
                     className="nr-chmap-row"
                     data-on={c.n === chapter.n ? "1" : undefined}
                     data-read={read.includes(c.n) ? "1" : undefined}
+                    data-mark={marked.has(c.n) ? "1" : undefined}
                     onClick={() => { onGo(c.n, null); onClose(); }}
                   >
                     <span className="nr-chmap-n">{c.n}</span>

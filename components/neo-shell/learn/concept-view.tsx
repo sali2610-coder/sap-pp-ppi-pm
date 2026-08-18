@@ -16,7 +16,7 @@
      value    .nxv-v      body, ink-1 — content, never metadata
 
    ABSENCE IS RENDERED, NOT HIDDEN. A concept whose source leaves a field blank
-   gets "אין מידע מאומת במאגר" in that field's own place, so the reader can tell
+   gets "לא קיים מידע מאומת במאגר" in that field's own place, so the reader can tell
    the difference between "the project checked and there is nothing" and "the
    page forgot to show it".
    ========================================================================== */
@@ -26,7 +26,7 @@ import { ArrowLeft, BookOpen, Info, Lightbulb, Link2, Sparkles, Terminal, Table 
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import type { ConceptRef, ConceptRow } from "./knowledge-data";
 
-const ABSENT = "אין מידע מאומת במאגר";
+const ABSENT = "לא קיים מידע מאומת במאגר";
 
 function Absent({ what }: { what: string }) {
   return (

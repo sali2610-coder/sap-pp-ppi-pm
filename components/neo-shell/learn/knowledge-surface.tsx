@@ -60,7 +60,7 @@ function Row({ c, onOpen }: { c: ConceptRow; onOpen: (slug: string) => void }) {
             <b>{c.he}</b>
             <em>{c.title}</em>
           </span>
-          <span className="nxl-desc">{c.biz || "אין מידע מאומת במאגר"}</span>
+          <span className="nxl-desc">{c.biz || "לא קיים מידע מאומת במאגר"}</span>
           <span className="nxl-meta">
             <span className="nu-chip">{c.groupHe}</span>
             {c.examples.length ? (
@@ -82,7 +82,7 @@ function Row({ c, onOpen }: { c: ConceptRow; onOpen: (slug: string) => void }) {
 
         <span className="nxl-side" data-s4={c.s4Changed ? "1" : "0"}>
           <span className="nxl-side-l">S/4HANA</span>
-          <span className="nxl-side-v">{c.s4 || "אין מידע מאומת במאגר"}</span>
+          <span className="nxl-side-v">{c.s4 || "לא קיים מידע מאומת במאגר"}</span>
           <span
             className="nu-status"
             style={{ "--s": c.s4Changed ? "var(--status-in-conversion)" : "var(--status-done)" } as React.CSSProperties}

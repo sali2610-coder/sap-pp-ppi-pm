@@ -16,6 +16,9 @@
    ========================================================================== */
 
 import { useEffect, useState } from "react";
+import type { AiMode } from "@/lib/ai/modes";
+import type { Scope } from "@/lib/ai/types";
+import { TurnScope } from "./context-bar";
 import { type LiveState, phaseLabel, secs } from "./engine";
 
 /** Citation markers are meaningless until the citation list exists; a raw
@@ -23,7 +26,14 @@ import { type LiveState, phaseLabel, secs } from "./engine";
  *  draft exactly as the shipped surface hides it. */
 const stripMarkers = (s: string) => s.replace(/\s*\[\[[^\]]{1,120}\]\]/g, "");
 
-export function Live({ live, question }: { live: LiveState; question: string }) {
+export function Live({ live, question, askedIn, scope, mode }: {
+  live: LiveState;
+  question: string;
+  /** Scope frozen at send — the request in flight cannot change scope. */
+  askedIn?: Scope;
+  scope: Scope;
+  mode: AiMode;
+}) {
   const [now, setNow] = useState(() => performance.now());
 
   // One second, not 100ms: this is a readable elapsed time, not a stopwatch,
@@ -40,6 +50,7 @@ export function Live({ live, question }: { live: LiveState; question: string }) 
     <article className="nxq-turn">
       <div className="nxq-user">
         <p className="nxq-user-bubble">{question}</p>
+        {mode === "library" ? <TurnScope scope={askedIn} current={scope} /> : null}
       </div>
 
       <div className="nxq-assistant">

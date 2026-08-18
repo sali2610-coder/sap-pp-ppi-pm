@@ -85,6 +85,138 @@
 .nxq-head-acts { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
 .nxq-head-count { font-size: var(--t-micro); color: var(--ink-3); }
 
+/* ------------------------------------------------- 1b. THE CONTEXT BAR
+
+   The standing statement of what the answers below are drawn from. It is
+   sticky because it is a PREMISE, not a heading: scrolling into the middle of a
+   long answer must never separate it from the book, chapter and subchapter it
+   came from.
+
+   It is deliberately quiet — a tinted rail, not a card. It sits between the
+   page title and the conversation and must not compete with either; the one
+   piece of colour it carries is the brand edge on the inline start, the same
+   edge .nxq-answer uses, so the bar reads as belonging to the answers rather
+   than to the header.
+
+   inset-block-start is the logical form of a sticky offset and is what is used
+   here; it resolves to the top edge of the shell's own scrollport. */
+
+.nxq-ctx {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  min-inline-size: 0;
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--hairline);
+  border-inline-start: 3px solid color-mix(in srgb, var(--brand) 55%, var(--hairline));
+  /* Opaque, not translucent: the thread scrolls underneath it. A backdrop
+     filter here would blur an answer's text into an unreadable smear behind
+     the one element that must stay legible. */
+  background: var(--surface);
+  box-shadow: var(--elev-1);
+}
+
+.nxq-ctx[data-kind="wide"] { border-inline-start-color: var(--hairline); }
+
+.nxq-ctx-i { display: inline-flex; flex: none; color: var(--ink-3); }
+.nxq-ctx[data-kind="scoped"] .nxq-ctx-i { color: var(--brand); }
+
+.nxq-ctx-main { display: grid; gap: 0.15rem; min-inline-size: 0; flex: 1 1 14rem; }
+
+.nxq-ctx-l {
+  font-size: var(--t-micro); font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--ink-3);
+}
+
+.nxq-ctx-line {
+  margin: 0; display: flex; align-items: baseline; gap: 0.4rem; flex-wrap: wrap;
+  font-size: var(--t-xs); line-height: 1.6;
+}
+.nxq-ctx-line b { font-weight: 700; color: var(--ink-1); }
+.nxq-ctx-line span { color: var(--ink-3); }
+
+/* The ladder: ספר → פרק → סעיף. A list, because it is one, and it wraps
+   rather than truncating — the subchapter is the most specific and therefore
+   the most important level, so it must never be the part that is clipped. */
+.nxq-ctx-lad {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: 0.2rem 0.35rem;
+  min-inline-size: 0;
+}
+
+.nxq-ctx-lv {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  min-inline-size: 0;
+  font-size: var(--t-xs); line-height: 1.5;
+}
+
+/* The chevron points along the reading direction. In RTL that is leftward,
+   which is what lucide's ChevronLeft already draws, so it is not flipped. */
+.nxq-ctx-sep { flex: none; color: var(--ink-3); opacity: 0.65; }
+
+.nxq-ctx-k { flex: none; font-size: var(--t-micro); font-weight: 650; color: var(--ink-3); }
+
+.nxq-ctx-v {
+  font-weight: 700; color: var(--ink-1);
+  min-inline-size: 0;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  max-inline-size: 22rem;
+}
+
+.nxq-ctx-id { flex: none; font-size: var(--t-micro); color: var(--ink-3); }
+
+/* On a phone the bar has ~300px of usable measure and the book titles are long
+   English sentences, so truncating one costs the reader the book's name. Two
+   wrapped lines are cheaper than a lost title: the clamp keeps the bar from
+   growing without bound while still showing enough to identify the book. */
+html[data-device="phone"] .nxq-ctx-v {
+  white-space: normal;
+  max-inline-size: none;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+html[data-device="phone"] .nxq-ctx { padding: 0.55rem 0.7rem; gap: var(--sp-2); }
+html[data-device="phone"] .nxq-ctx-x { inline-size: 100%; }
+
+/* Breadth. lib/ai/tree.scopeBreadth's own word, set as a chip rather than a
+   meter — a progress bar would imply a measured percentage of the corpus, and
+   the value is a band, not a measurement. */
+.nxq-ctx-b {
+  flex: none;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--hairline);
+  font-size: var(--t-micro); font-weight: 650; color: var(--ink-2);
+}
+.nxq-ctx-b[data-w="tight"] {
+  color: var(--brand);
+  border-color: color-mix(in srgb, var(--brand) 40%, var(--hairline));
+}
+
+.nxq-ctx-x { flex: none; font-size: var(--t-micro); min-block-size: 2.75rem; }
+
+/* The per-turn premise. Appears only when the scope has moved on since the
+   turn was asked, so it is an exception marker and is styled as one: quiet,
+   and aligned with the bubble it belongs to. */
+.nxq-turn-scope {
+  margin: 0;
+  display: inline-flex; align-items: center; gap: 0.3rem; flex-wrap: wrap;
+  font-size: var(--t-micro); line-height: 1.5; color: var(--ink-3);
+}
+.nxq-turn-scope b { font-weight: 650; color: var(--ink-2); }
+.nxq-turn-scope svg { flex: none; }
+
+/* The drill affordance on a scope row. */
+.nxq-row-m { color: var(--ink-3); }
+
 /* --------------------------------------------------------------- 2. THREAD */
 
 .nxq-thread {
@@ -113,7 +245,10 @@
 
 /* ---- the reader's turn --------------------------------------------------- */
 
-.nxq-user { display: flex; }
+/* The bubble is pushed to the inline-end edge, so the per-turn scope note has
+   to follow it there instead of sitting under the far side of the thread. */
+.nxq-user { display: flex; flex-wrap: wrap; justify-content: end; row-gap: 0.3rem; }
+.nxq-user .nxq-turn-scope { flex-basis: 100%; justify-content: end; }
 
 .nxq-user-bubble {
   margin: 0;

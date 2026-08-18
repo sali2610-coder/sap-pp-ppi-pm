@@ -65,7 +65,26 @@ html[data-theme="dark"] .nx-app .nxr-row[data-impacted="1"] {
 
 /* --------------------------------------------------------- 2. THE RECORD */
 
+/* Identity: the technical name, and the Hebrew/English names beside it. `auto`
+   lets the code column take its own width, which is what a wide screen wants —
+   a 24-character BAPI name and its Hebrew title read well side by side. */
 .nx-app .nxr-rec .nxt-title { grid-template-columns: auto minmax(0, 1fr); }
+
+/* …but ONLY on a wide screen. data.css §12.9 already stacks .nxt-title to one
+   column under 900px; this rule carries three classes to that rule's two, so it
+   outranked it and the two-column layout survived down to 390px. There, the
+   `auto` column is the full BAPI identifier (333px of the 348px available) and
+   the names column collapsed to 15px — the Hebrew name of the object then
+   overflowed 214px into .nx-app's `overflow-x: hidden` and was silently clipped
+   off the side of the screen. Measured on /neo/bapi/BAPI_ALM_ORDER_MAINTAIN/ at
+   390: `.nxt-names` clientWidth 15, scrollWidth 255.
+
+   Restated at the same breakpoint rather than made conditional above, so the
+   two declarations sit together and the override cannot be reintroduced without
+   seeing why it is bounded. */
+@media (max-width: 900px) {
+  .nx-app .nxr-rec .nxt-title { grid-template-columns: minmax(0, 1fr); }
+}
 
 /* Prose inside a fact. .nxt-v is the container; this is the paragraph itself, so
    a fact that carries prose AND a list keeps them apart. */

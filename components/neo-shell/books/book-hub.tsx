@@ -27,7 +27,7 @@
 // no notes, no highlights, no export, no per-subchapter progress, no rating, no
 // "time left", no author (the metadata has a publisher and no author field).
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowUpLeft, BookOpen, Bookmark, ChevronRight, Layers, PlayCircle, Table2 } from "lucide-react";
 import {
@@ -71,20 +71,56 @@ export function BookHub({ d }: { d: BookHubData }) {
   const back = useReturnState<HubReturn>(HUB_SURFACE);
   const mine = back && back.id === b.id ? back : null;
 
-  /* TWO FRAMES, NOT ONE. `restoreScroll` waits a frame of its own; this waits
-     the frame before it, because the App Router resets the canvas to 0 as PART
-     of the client-side navigation and does so after the first one. It is the
-     same two-frame wait the shelf's own scroll memory is written against — see
-     the long note in useShelfScroll (./book-shelf.tsx), which is where that was
-     first diagnosed. The hub also grows after its first paint (the table of
-     contents reopens the chapters the reader left open), so the second frame is
-     earning its keep twice over. */
+  /* THE OFFSET IS LATCHED, AND THAT IS THE WHOLE FIX.
+     `useReturnState` CONSUMES the packet in an effect of its own, so `mine` is
+     non-null for exactly one render and null on the very next one. An effect
+     keyed on `mine` therefore ran, and was then torn down one render later by
+     its own cleanup — which cancelled the restore that was still in flight. The
+     hub landed at the top of the page every time, and it looked like the scroll
+     memory had never been written, when in truth it had been written, read,
+     scheduled and then revoked. The open chapters survived only because
+     BookToc latches ITS half of the same packet (see `restored` there).
+
+     So the offset is LATCHED the first time it appears, and the restore is keyed
+     on the latched number rather than on the packet. A number cannot be
+     withdrawn, so the effect that performs the restore is never torn down by the
+     packet's disappearance — it settles once and stays settled.
+
+     TWO WAITS, NOT ONE. `restoreScroll` waits once on its own; this waits the
+     turn before it, because the App Router resets the canvas to 0 as PART of the
+     client-side navigation and does so after the first frame. The hub also grows
+     after its first paint, so the outer wait earns its keep twice over.
+
+     A FRAME AND A TASK, FIRST WINS ONCE — the same guard `restoreScroll` itself
+     carries, repeated HERE because it has to be. requestAnimationFrame does not
+     fire while the document is hidden, so an outer raw frame would never call
+     restoreScroll at all and the guard inside it would never get the chance to
+     run. A fix in the callee cannot rescue a caller that never calls it. */
+  const [restoreY, setRestoreY] = useState(0);
+  const offered = mine && typeof mine.y === "number" && mine.y > 0 ? mine.y : 0;
+  // Adjusted DURING render, not in an effect: React's own documented pattern for
+  // a value that has to be captured the moment it appears. It cannot loop — the
+  // condition is false forever after the first time — and it costs no extra
+  // paint, because React re-runs this render before touching the DOM.
+  if (offered > 0 && restoreY === 0) setRestoreY(offered);
+
   useEffect(() => {
-    if (!mine || typeof mine.y !== "number" || mine.y <= 0) return;
+    if (restoreY <= 0) return;
     let cancel = () => {};
-    const id = requestAnimationFrame(() => { cancel = restoreScroll(mine.y); });
-    return () => { cancelAnimationFrame(id); cancel(); };
-  }, [mine]);
+    let ran = false;
+    const start = () => {
+      if (ran) return;
+      ran = true;
+      cancel = restoreScroll(restoreY);
+    };
+    const frame = requestAnimationFrame(start);
+    const task = window.setTimeout(start, 0);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.clearTimeout(task);
+      cancel();
+    };
+  }, [restoreY]);
 
   /* WHERE THE READER IS BEING OPENED FROM. Built at the click and not at render:
      the canvas offset and the open chapters are only true at that instant. */

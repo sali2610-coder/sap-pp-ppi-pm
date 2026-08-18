@@ -124,12 +124,19 @@ function useShelfScroll() {
       /* Two frames: the shelf is eleven covers and a table of contents, so the
          first frame after mount is not yet tall enough to scroll to. */
       if (Number.isFinite(y) && y > 0) {
-        raf = requestAnimationFrame(() => {
-          raf = requestAnimationFrame(() => {
-            canvas.scrollTop = y;
-            lastY = canvas.scrollTop;
-          });
-        });
+        // Frames do not fire while the document is hidden, and this waited on
+        // two of them — so a shelf restored in a background tab opened at the
+        // top and stayed there. A timer runs alongside as the fallback and
+        // whichever lands first does the work, once.
+        let placed = false;
+        const put = () => {
+          if (placed) return;
+          placed = true;
+          canvas.scrollTop = y;
+          lastY = canvas.scrollTop;
+        };
+        raf = requestAnimationFrame(() => { raf = requestAnimationFrame(put); });
+        window.setTimeout(put, 0);
       }
     } catch { /* storage disabled — the shelf simply opens at the top */ }
 

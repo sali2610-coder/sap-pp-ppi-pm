@@ -78,12 +78,33 @@ export function scrollOffset(): number {
  *  caller can hand it straight back out of `useEffect`. */
 export function restoreScroll(y: number, selector?: string): () => void {
   if (typeof window === "undefined") return () => {};
-  const id = requestAnimationFrame(() => {
+
+  const apply = () => {
     const el = selector ? document.querySelector<HTMLElement>(selector) : null;
     if (el) el.scrollIntoView({ block: "center", behavior: "auto" });
     else neoScroller()?.scrollTo({ top: Number(y) || 0, behavior: "auto" });
-  });
-  return () => cancelAnimationFrame(id);
+  };
+
+  // requestAnimationFrame does not fire while the document is hidden — a
+  // background tab, a restored session, a prerender, a headless check. The frame
+  // was only ever wanted so the restored filters could render before the row
+  // they produce is looked up, and a macrotask satisfies that just as well.
+  // Waiting on the frame ALONE meant the position silently never came back, and
+  // the return then looked like it had simply forgotten where the user was.
+  //
+  // Both are scheduled; whichever lands first wins, so the restore never
+  // depends on visibility and never runs twice.
+  let done = false;
+  const once = () => { if (!done) { done = true; apply(); } };
+
+  const raf = typeof requestAnimationFrame === "function" ? requestAnimationFrame(once) : 0;
+  const timer = window.setTimeout(once, 0);
+
+  return () => {
+    done = true;
+    if (raf) cancelAnimationFrame(raf);
+    window.clearTimeout(timer);
+  };
 }
 
 /* ------------------------------------------------------------- storage */

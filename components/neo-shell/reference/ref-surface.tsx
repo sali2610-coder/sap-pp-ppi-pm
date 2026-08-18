@@ -122,7 +122,7 @@ function Row({ r, onOpen }: { r: RefRow; onOpen: (id: string) => void }) {
         </span>
 
         <span className="nxd-body">
-          <span className="nxd-he">{r.he || "אין מידע מאומת במאגר"}</span>
+          <span className="nxd-he">{r.he || "לא קיים מידע מאומת במאגר"}</span>
           <span className="nxd-sub">
             {r.en ? <span className="nxd-en" dir="ltr">{r.en}</span> : null}
             {r.en && r.group ? <span className="nxd-dot" aria-hidden="true">·</span> : null}

@@ -12,7 +12,7 @@
    concrete breakpoints, prevention steps, a worked scenario or a separate
    ECC / S/4HANA behaviour. A section with nothing behind it is not drawn, and
    the two places where absence is itself the answer — the S/4HANA standing and
-   the SAP Note trail — say "אין מידע מאומת במאגר" out loud instead.
+   the SAP Note trail — say "לא קיים מידע מאומת במאגר" out loud instead.
 
    SECTION NUMBERING is computed from the sections that actually render, so the
    sequence never has a hole where a field was missing.
@@ -27,7 +27,7 @@ import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { learnModVar } from "./mod";
 import type { CodeRef, IncidentRow } from "./incidents-data";
 
-const ABSENT = "אין מידע מאומת במאגר";
+const ABSENT = "לא קיים מידע מאומת במאגר";
 
 const IMPACT_HE: Record<string, string> = {
   BLOCKING: "חוסם עבודה",

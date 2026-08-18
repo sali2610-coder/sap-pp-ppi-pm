@@ -117,6 +117,36 @@ export function stepSection(book: NRBook, chapterN: number, index: number, dir: 
   return { chapter: nc.n, sectionId: target ? target.id : null };
 }
 
+/** What a step actually points at, named from the book's own rows. */
+export interface NRStepView {
+  /** The subchapter title, or the chapter title when the step is chapter-level. */
+  title: string;
+  /** The subchapter id, when the step has one. */
+  id: string | null;
+  /** The step leaves the chapter that is open. Said out loud rather than
+   *  discovered by the reader when the whole page changes underneath them. */
+  crosses: boolean;
+  chapter: number;
+}
+
+/**
+ * Resolves a step into words. Returns null for a step that does not exist,
+ * which is the same signal `stepSection` gives, so a caller can pass one
+ * straight into the other.
+ */
+export function stepView(book: NRBook, from: number, step: NRStep | null): NRStepView | null {
+  if (!step) return null;
+  const ch = book.chapters.find((c) => c.n === step.chapter);
+  if (!ch) return null;
+  const sec = step.sectionId ? ch.sections.find((s) => s.id === step.sectionId) : undefined;
+  return {
+    title: sec ? sec.title : ch.title,
+    id: sec ? sec.id : null,
+    crosses: step.chapter !== from,
+    chapter: step.chapter,
+  };
+}
+
 /* ----------------------------------------------------------------- words */
 
 const nf = new Intl.NumberFormat("he-IL");

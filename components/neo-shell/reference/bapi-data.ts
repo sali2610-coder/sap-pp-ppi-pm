@@ -9,7 +9,7 @@
    NOTHING IS INVENTED. Every sentence on the screen is a field of one of those
    two files. Where a field is missing the builder omits the fact, and where the
    silence is itself decision-relevant it emits `absent` so the screen can say
-   `אין מידע מאומת במאגר` in words.
+   `לא קיים מידע מאומת במאגר` in words.
 
    IDoc-classified objects (MATMAS, LOIPRO) live in the registry too, because the
    blueprint lists them next to the BAPIs on the same tables. They are excluded
@@ -133,7 +133,7 @@ function s4Of(o: SapFuncObject) {
         ? `אחת מטבלאות הליבה שהאובייקט קורא — ${critical.map((t) => t.name).join(", ")} — משתנה מהותית ב-S/4HANA.`
         : o.s4OnPremSupport === "yes"
           ? "לפי הרשומה במאגר האובייקט זמין ב-S/4HANA On-Premise."
-          : "אין מידע מאומת במאגר על מעמד האובייקט ב-S/4HANA.");
+          : "לא קיים מידע מאומת במאגר על מעמד האובייקט ב-S/4HANA.");
 
   return { tone, headline, tables, critical, intel };
 }
@@ -425,7 +425,7 @@ export function bapiDetail(id: string): RefDetail | null {
     title: "אובייקטים קשורים",
     note: cards.length ? `${nf.format(cards.length)} רשומות` : undefined,
     cards,
-    empty: "אין מידע מאומת במאגר על אובייקטים קשורים לרשומה הזו.",
+    empty: "לא קיים מידע מאומת במאגר על אובייקטים קשורים לרשומה הזו.",
   });
 
   /* reading */
@@ -500,6 +500,6 @@ export function bapiDetail(id: string): RefDetail | null {
     sources: uniq([o.verificationSource, o.lastVerified ? `נבדק לאחרונה ${o.lastVerified}` : ""]),
     foot:
       "כל שדה בעמוד הזה נלקח מהרישום הקנוני של הפרויקט ומשכבת ההעשרה המאומתת שלו. שדה שהמאגר שותק לגביו אינו " +
-      "מוצג, או מסומן במפורש «אין מידע מאומת במאגר». מספר SAP Note אינו נכתב כאן אלא אם הוא קיים ברשומה עצמה.",
+      "מוצג, או מסומן במפורש «לא קיים מידע מאומת במאגר». מספר SAP Note אינו נכתב כאן אלא אם הוא קיים ברשומה עצמה.",
   };
 }

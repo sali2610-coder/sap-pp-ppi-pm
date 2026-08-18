@@ -16,6 +16,10 @@
                     chapter. There are no invented divisions between them.
      a read mark    a chapter the CANONICAL reader recorded as read
                     (neo:reader:<id>). Read-only evidence, never written here.
+     a bookmark     a chapter holding at least one subchapter bookmark placed in
+                    THIS reader (neo:books:v1). It rides the tick instead of
+                    adding a second row of marks: it is a fact ABOUT a chapter,
+                    and the tick already is the chapter.
      the head       the exact position, as a line across the track.
 
    Below the track, two compact meters give the two smaller scales their own
@@ -23,8 +27,9 @@
    am I". Nothing is animated except transform and opacity.
    ========================================================================== */
 
-import { useCallback, useRef, useState } from "react";
-import { BookOpen, Layers, Rows3 } from "lucide-react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { Bookmark, BookOpen, Layers, Rows3 } from "lucide-react";
+import { bookmarkedChapters, type NeoBookmark } from "@/components/neo-shell/books/reading-state";
 import type { NRBook, NRChapter } from "./types";
 import { chapterAt, chapterSpan, n, pct, type NRProgress } from "./progress";
 
@@ -34,14 +39,17 @@ interface RailProps {
   progress: NRProgress;
   /** Chapter numbers the canonical reader marked as read. Evidence, not ours. */
   read: number[];
+  /** Subchapter bookmarks placed in this reader. */
+  bookmarks: NeoBookmark[];
   onChapter: (n: number) => void;
 }
 
 /* ------------------------------------------------------------ desktop rail */
 
-export function ProgressRail({ book, chapter, progress, read, onChapter }: RailProps) {
+export function ProgressRail({ book, chapter, progress, read, bookmarks, onChapter }: RailProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [hover, setHover] = useState<{ y: number; ch: NRChapter } | null>(null);
+  const marked = useMemo(() => bookmarkedChapters(bookmarks), [bookmarks]);
 
   const chapterAtRatio = useCallback(
     (r: number): NRChapter => {
@@ -105,6 +113,7 @@ export function ProgressRail({ book, chapter, progress, read, onChapter }: RailP
 
         {book.chapters.map((c) => {
           const on = c.n === chapter.n;
+          const bm = marked.has(c.n);
           return (
             <button
               type="button"
@@ -112,12 +121,15 @@ export function ProgressRail({ book, chapter, progress, read, onChapter }: RailP
               className="nr-tick"
               data-on={on ? "1" : undefined}
               data-read={read.includes(c.n) ? "1" : undefined}
+              data-mark={bm ? "1" : undefined}
               style={{ "--at": chapterAt(book, c) } as React.CSSProperties}
               aria-current={on ? "true" : undefined}
               onClick={(e) => { e.stopPropagation(); onChapter(c.n); }}
-              title={`פרק ${c.n} · ${c.title}`}
+              title={`פרק ${c.n} · ${c.title}${bm ? " · סימנייה" : ""}`}
             >
-              <span className="nr-sr">{`פרק ${c.n} · ${c.title}`}</span>
+              <span className="nr-sr">
+                {`פרק ${c.n} · ${c.title}${bm ? " · מכיל סימנייה" : ""}`}
+              </span>
             </button>
           );
         })}
@@ -156,6 +168,15 @@ export function ProgressRail({ book, chapter, progress, read, onChapter }: RailP
           note={book.totalSections ? `${n(progress.ordinal)}/${n(book.totalSections)}` : "—"}
         />
       </div>
+
+      {/* Only when there are any. An empty count is not a state worth a row. */}
+      {bookmarks.length > 0 && (
+        <p className="nr-rail-bm">
+          <Bookmark size={12} strokeWidth={2} aria-hidden="true" />
+          {n(bookmarks.length)}
+          <span className="nr-sr"> סימניות בספר הזה</span>
+        </p>
+      )}
     </aside>
   );
 }
@@ -186,7 +207,7 @@ function Meter({ icon, label, value, note }: { icon: React.ReactNode; label: str
  * sticky header rather than becoming a floating bar, so it can never sit on top
  * of the shell's own bottom navigation.
  */
-export function ProgressStrip({ chapter, progress }: Omit<RailProps, "onChapter" | "read" | "book">) {
+export function ProgressStrip({ chapter, progress }: Pick<RailProps, "chapter" | "progress">) {
   const inChapter = chapter.sections.length
     ? `${n(Math.min(progress.ordinal - chapter.before, chapter.sections.length))}/${n(chapter.sections.length)}`
     : "—";

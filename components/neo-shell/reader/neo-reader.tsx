@@ -37,6 +37,8 @@ import {
   AArrowDown,
   AArrowUp,
   AlignJustify,
+  Bookmark,
+  BookmarkCheck,
   BookOpen,
   ChevronLeft,
   ChevronRight,
@@ -53,10 +55,16 @@ import {
 import type { SectionBody } from "@/lib/library/book";
 import { loadChapterBodies } from "@/lib/library/book";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
-import { noteHandoff, useReading } from "@/components/neo-shell/books/reading-state";
+import {
+  isBookmarked,
+  noteHandoff,
+  toggleBookmark,
+  useReading,
+  type NeoBookmark,
+} from "@/components/neo-shell/books/reading-state";
 import { FigureViewer, type ViewerFigure } from "@/components/figure-viewer";
 import type { NRBook, NRChapter } from "./types";
-import { computeProgress, n, pct, stepSection, type NRProgress } from "./progress";
+import { computeProgress, n, pct, stepSection, stepView, type NRProgress } from "./progress";
 import { ProgressRail, ProgressStrip } from "./progress-rail";
 import { ReaderPanel } from "./reader-panel";
 import { ReadingLens } from "./lens";
@@ -487,6 +495,26 @@ export function NeoReader({ book }: { book: NRBook }) {
     return () => window.clearTimeout(t);
   }, [load, url, opening, chapterN, goTo, measure, schedule]);
 
+  /* ------------------------------------------------------------ bookmark */
+
+  /* A BOOKMARK IS NOT A READING POSITION, AND THE READER KEEPS THEM APART.
+     The position is written continuously and silently as you read; a bookmark
+     is placed deliberately, survives reading past it, and there can be many.
+     Both live under NEO's own key (neo:books:v1) and NEITHER touches the
+     canonical reader's stores — /library's own chapter bookmarks are read here
+     and shown as its evidence, never overwritten.
+
+     The mark names the subchapter in view. A chapter the book gives no
+     subchapters is bookmarked at chapter level, because that is the finest
+     location the data actually has. */
+  const bookmarks: NeoBookmark[] = useMemo(() => evidence?.bookmarks ?? [], [evidence?.bookmarks]);
+  const marked = chapter ? isBookmarked(bookmarks, chapter.n, activeSection) : false;
+  const mark = useCallback(() => {
+    if (!chapter) return;
+    markMoved();
+    toggleBookmark(book.id, chapter.n, activeSection);
+  }, [book.id, chapter, activeSection, markMoved]);
+
   /* -------------------------------------------------------------- memory */
 
   // Written through NEO's OWN key only (neo:books:v1, via the existing
@@ -525,6 +553,11 @@ export function NeoReader({ book }: { book: NRBook }) {
 
   const prev = chapter ? stepSection(book, chapter.n, index, -1) : null;
   const next = chapter ? stepSection(book, chapter.n, index, 1) : null;
+  /* The step's destination, named. `stepSection` already crosses a chapter
+     boundary when it has to; this is what lets the CONTROL say so, instead of
+     the reader finding out only after the whole page has changed. */
+  const prevAt = chapter ? stepView(book, chapter.n, prev) : null;
+  const nextAt = chapter ? stepView(book, chapter.n, next) : null;
 
   const chapterIdx = chapter ? book.chapters.findIndex((c) => c.n === chapter.n) : -1;
   const prevCh = chapterIdx > 0 ? book.chapters[chapterIdx - 1] : null;
@@ -598,6 +631,34 @@ export function NeoReader({ book }: { book: NRBook }) {
             >
               <ListTree size={15} strokeWidth={1.9} aria-hidden="true" />
               <span className="nr-tool-l">תוכן</span>
+            </button>
+            {/* THE BOOKMARK. One control, both states, and its own place in the
+                order: it belongs to the LOCATION, so it sits beside the table of
+                contents rather than among the type controls. It is never
+                disabled — a chapter without subchapters is bookmarked at
+                chapter level, which is the finest location its data has. */}
+            <button
+              type="button"
+              className="nu-filter nr-mark"
+              data-on={marked ? "1" : undefined}
+              aria-pressed={marked}
+              aria-label={marked ? "הסר סימנייה מהמיקום הזה" : "סמן את המיקום הזה בסימנייה"}
+              onClick={mark}
+              title={
+                marked
+                  ? `סימנייה מונחת כאן${secTitle ? ` — ${secTitle}` : ""}. לחיצה מסירה אותה.`
+                  : chapter.sections.length
+                    ? "הנח סימנייה על תת-הפרק הנוכחי"
+                    : "הנח סימנייה על הפרק — לפרק זה אין תת-פרקים בנתוני הספר"
+              }
+            >
+              {marked
+                ? <BookmarkCheck size={14} strokeWidth={1.9} aria-hidden="true" />
+                : <Bookmark size={14} strokeWidth={1.9} aria-hidden="true" />}
+              <span className="nr-tool-l">{marked ? "מסומן" : "סימנייה"}</span>
+              {bookmarks.length > 0 && (
+                <span className="nr-mark-n" aria-hidden="true">{n(bookmarks.length)}</span>
+              )}
             </button>
             <button
               type="button"
@@ -860,20 +921,36 @@ export function NeoReader({ book }: { book: NRBook }) {
           chapter={chapter}
           progress={progress}
           read={evidence?.read ?? []}
+          bookmarks={bookmarks}
           onChapter={(x) => goTo(x, null)}
         />
       </div>
 
       {/* --------------------------------------------------------- section */}
+      {/* THE LOGICAL STEP. Not "next page" — the next SUBCHAPTER in the book's
+          own order, which crosses into the next chapter when this one runs out.
+          The control names its destination and says when it leaves the chapter,
+          so the crossing is a decision and not a surprise. At the two ends of
+          the book the control is disabled and says why, rather than wrapping
+          round to the beginning. */}
       <div className="nr-dock">
         <button
           type="button"
           className="nu-btn2 nr-dock-b"
           onClick={() => prev && goTo(prev.chapter, prev.sectionId)}
           disabled={!prev}
+          aria-label={prevAt
+            ? `לתת-הפרק הקודם — ${prevAt.title}${prevAt.crosses ? ` (פרק ${prevAt.chapter})` : ""}`
+            : "זוהי תחילת הספר"}
+          title={prevAt
+            ? `${prevAt.crosses ? `פרק ${prevAt.chapter} · ` : ""}${prevAt.title}`
+            : "זוהי תחילת הספר"}
         >
           <ChevronRight size={15} strokeWidth={2} aria-hidden="true" />
-          הקודם
+          <span className="nr-dock-s">
+            <span className="nr-dock-k">{prevAt?.crosses ? "הפרק הקודם" : "הקודם"}</span>
+            <span className="nr-dock-t">{prevAt ? prevAt.title : "תחילת הספר"}</span>
+          </span>
         </button>
         <button type="button" className="nu-ghost nr-dock-c" onClick={() => setPanel("map")}>
           <BookOpen size={14} strokeWidth={1.9} aria-hidden="true" />
@@ -881,11 +958,20 @@ export function NeoReader({ book }: { book: NRBook }) {
         </button>
         <button
           type="button"
-          className="nu-btn2 nr-dock-b"
+          className="nu-btn2 nr-dock-b nr-dock-b--next"
           onClick={() => next && goTo(next.chapter, next.sectionId)}
           disabled={!next}
+          aria-label={nextAt
+            ? `לתת-הפרק הבא — ${nextAt.title}${nextAt.crosses ? ` (פרק ${nextAt.chapter})` : ""}`
+            : "זהו סוף הספר"}
+          title={nextAt
+            ? `${nextAt.crosses ? `פרק ${nextAt.chapter} · ` : ""}${nextAt.title}`
+            : "זהו סוף הספר"}
         >
-          הבא
+          <span className="nr-dock-s">
+            <span className="nr-dock-k">{nextAt?.crosses ? "הפרק הבא" : "הבא"}</span>
+            <span className="nr-dock-t">{nextAt ? nextAt.title : "סוף הספר"}</span>
+          </span>
           <ChevronLeft size={15} strokeWidth={2} aria-hidden="true" />
         </button>
       </div>
@@ -906,10 +992,12 @@ export function NeoReader({ book }: { book: NRBook }) {
           progress={progress}
           activeSection={activeSection}
           read={evidence?.read ?? []}
+          bookmarks={bookmarks}
           tab={panel}
           onTab={setPanel}
           onClose={() => setPanel(null)}
           onGo={goTo}
+          onUnmark={(c, s) => toggleBookmark(book.id, c, s)}
         />
       )}
 

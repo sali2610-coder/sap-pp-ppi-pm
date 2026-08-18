@@ -14,7 +14,7 @@
      · then answers to named questions, in blocks that can be scanned. A block
        whose question the dataset does not answer is not rendered at all; where
        silence is itself the answer, it is written out as
-       `אין מידע מאומת במאגר` rather than filled with something plausible.
+       `לא קיים מידע מאומת במאגר` rather than filled with something plausible.
 
    TYPOGRAPHY — five steps, each different in at least two of size / weight /
    colour, so the level is readable without reading the words:
@@ -39,7 +39,7 @@ import { MOD_HE, modVar } from "../mod-var";
 import { Glyph } from "./icons";
 import type { RefDetail, RefFact, RefSection, RefStatus } from "./types";
 
-const NONE = "אין מידע מאומת במאגר";
+const NONE = "לא קיים מידע מאומת במאגר";
 
 const DIR_HE: Record<string, string> = {
   bapi: "BAPIs / FMs",

@@ -19,13 +19,24 @@
 // a second book, the first one's section is gone from continuity forever. That
 // gap — and only that gap — is what NEO fills, under its own key:
 //
-//   neo:books:v1          { v, last, books: { <id>: { c, s, at } } }
+//   neo:books:v1          { v, last, books: { <id>: { c, s, at, bm: [...] } } }
 //
 // It records the location this surface handed off to, so a book you left three
 // books ago still remembers its chapter and subchapter. It never replaces the
 // canonical stores: when continuity still points at a book, continuity wins,
 // because that value was written by the reader itself while reading and is
 // therefore newer and more precise than the handoff NEO recorded on the way in.
+//
+// BOOKMARKS ARE TWO DIFFERENT THINGS, SO THEY ARE KEPT AS TWO.
+//   `marks`      neo:reader:<id>.bm — CHAPTER bookmarks placed in the canonical
+//                reader. Read here, never written, so /library keeps its own.
+//   `bookmarks`  neo:books:v1 → books[<id>].bm — SUBCHAPTER bookmarks placed in
+//                NEO's own reader. A chapter bookmark cannot say "this
+//                subchapter", and writing a subchapter into the canonical
+//                number array would corrupt a store this surface does not own.
+//                So NEO keeps its own list, at its own precision, under its own
+//                key, and a surface that asks "is anything bookmarked in
+//                chapter 3" simply reads both.
 
 import { useCallback, useSyncExternalStore } from "react";
 
@@ -36,6 +47,20 @@ interface ReaderRaw { read?: unknown; bm?: unknown; last?: unknown }
 /** Mirror of lib/continuity-store.ts's Continuity. Read-only here. */
 interface ContinuityRaw { bookId?: unknown; chapter?: unknown; sectionId?: unknown; scrollRatio?: unknown; updatedAt?: unknown }
 
+/**
+ * One subchapter bookmark, placed by NEO's own reader.
+ *
+ * `section` is null for a bookmark dropped in a chapter the book gives no
+ * subchapters — a real state in this corpus, and the reason this is a record
+ * rather than a bare id.
+ */
+export interface NeoBookmark {
+  chapter: number;
+  section: string | null;
+  /** Epoch ms it was placed. Newest first when the list is read. */
+  at: number;
+}
+
 export interface BookReading {
   /** The book has been opened at least once, by any surface. */
   opened: boolean;
@@ -43,6 +68,8 @@ export interface BookReading {
   read: number[];
   /** Chapter bookmarks set in the canonical reader. */
   marks: number[];
+  /** Subchapter bookmarks placed in NEO's reader. Newest first. */
+  bookmarks: NeoBookmark[];
   /** Last chapter, best source first. */
   chapter: number | null;
   /** Last section id, when one is known for THIS book. */
@@ -82,7 +109,7 @@ const EMPTY: ReadingSnapshot = { map: {}, currentBook: null, lastBook: null, any
 
 /* ------------------------------------------------------------------- store */
 
-interface NeoEntry { c?: unknown; s?: unknown; at?: unknown }
+interface NeoEntry { c?: unknown; s?: unknown; at?: unknown; bm?: unknown }
 interface NeoRaw { last?: unknown; books?: Record<string, NeoEntry> }
 
 function parse<T>(raw: string | null): T | null {
@@ -94,6 +121,25 @@ function parse<T>(raw: string | null): T | null {
 const num = (v: unknown): number | null => (typeof v === "number" && Number.isFinite(v) && v > 0 ? v : null);
 const str = (v: unknown): string | null => (typeof v === "string" && v.trim() ? v.trim() : null);
 const nums = (v: unknown): number[] => (Array.isArray(v) ? v.filter((x): x is number => typeof x === "number") : []);
+
+/** Parses the stored bookmark list defensively — a store written by an older
+ *  version, or by hand, must not be able to throw inside a snapshot. */
+function marksOf(v: unknown): NeoBookmark[] {
+  if (!Array.isArray(v)) return [];
+  const out: NeoBookmark[] = [];
+  for (const raw of v) {
+    if (!raw || typeof raw !== "object") continue;
+    const r = raw as { c?: unknown; s?: unknown; at?: unknown };
+    const c = num(r.c);
+    if (c === null) continue;
+    out.push({ chapter: c, section: str(r.s), at: num(r.at) ?? 0 });
+  }
+  return out.sort((a, b) => b.at - a.at);
+}
+
+/** One bookmark's identity. Chapter + subchapter, and nothing else — placing the
+ *  same subchapter twice is the same bookmark, not two. */
+const bmKey = (chapter: number, section: string | null): string => `${chapter}|${section ?? ""}`;
 
 function readNeo(): NeoRaw {
   if (typeof window === "undefined") return {};
@@ -119,6 +165,7 @@ function build(ids: string[]): ReadingSnapshot {
     const marks = nums(reader?.bm);
     const lastCh = num(reader?.last);
     const mine = neoBooks[id];
+    const bookmarks = marksOf(mine?.bm);
 
     // The reader's own live pointer beats NEO's handoff note: it was written
     // while reading, the handoff was written before it.
@@ -149,9 +196,11 @@ function build(ids: string[]): ReadingSnapshot {
       from = "chapter";
     }
 
-    const opened = Boolean(chapter || section || read.length || marks.length || currentBook === id);
+    const opened = Boolean(
+      chapter || section || read.length || marks.length || bookmarks.length || currentBook === id,
+    );
     if (opened) any = true;
-    map[id] = { opened, read, marks, chapter, section, at, scroll, current: currentBook === id, from };
+    map[id] = { opened, read, marks, bookmarks, chapter, section, at, scroll, current: currentBook === id, from };
   }
 
   return { map, currentBook, lastBook: str(neo.last), any };
@@ -239,13 +288,57 @@ export function noteHandoff(bookId: string, chapter: number | null, section: str
   try {
     const prev = readNeo();
     const books = (prev.books && typeof prev.books === "object" ? { ...(prev.books as Record<string, NeoEntry>) } : {});
-    books[bookId] = { c: chapter ?? undefined, s: section ?? undefined, at: Date.now() };
+    // MERGE, not replace. The entry now carries a second, independent fact —
+    // the bookmark list — and moving the reading position must not erase it.
+    books[bookId] = { ...books[bookId], c: chapter ?? undefined, s: section ?? undefined, at: Date.now() };
     localStorage.setItem(NEO_KEY, JSON.stringify({ v: 1, last: bookId, books }));
   } catch {
     /* private mode, quota, disabled storage — the surface simply forgets */
   }
   invalidate();
 }
+
+/**
+ * Places or removes a SUBCHAPTER bookmark for this book. NEO's key only.
+ *
+ * Toggling is by chapter+subchapter identity, so the same place cannot be
+ * bookmarked twice, and removing is the same gesture as placing — which is what
+ * lets one control carry both states.
+ *
+ * @returns true when the location is bookmarked after the call.
+ */
+export function toggleBookmark(bookId: string, chapter: number, section: string | null): boolean {
+  if (typeof window === "undefined") return false;
+  const key = bmKey(chapter, section);
+  let on = false;
+  try {
+    const prev = readNeo();
+    const books = (prev.books && typeof prev.books === "object" ? { ...(prev.books as Record<string, NeoEntry>) } : {});
+    const entry = books[bookId] ?? {};
+    const list = marksOf(entry.bm);
+    const without = list.filter((m) => bmKey(m.chapter, m.section) !== key);
+    const next = without.length === list.length
+      ? [{ c: chapter, s: section ?? undefined, at: Date.now() }, ...without.map((m) => ({ c: m.chapter, s: m.section ?? undefined, at: m.at }))]
+      : without.map((m) => ({ c: m.chapter, s: m.section ?? undefined, at: m.at }));
+    on = without.length === list.length;
+    books[bookId] = { ...entry, bm: next };
+    localStorage.setItem(NEO_KEY, JSON.stringify({ v: 1, last: str(prev.last) ?? bookId, books }));
+  } catch {
+    /* private mode, quota, disabled storage — the surface simply forgets */
+    return false;
+  }
+  invalidate();
+  return on;
+}
+
+/** True when this exact location carries a NEO bookmark. */
+export const isBookmarked = (list: NeoBookmark[], chapter: number, section: string | null): boolean =>
+  list.some((m) => bmKey(m.chapter, m.section) === bmKey(chapter, section));
+
+/** Chapters that hold at least one NEO bookmark. Lets a chapter row say so
+ *  without the caller re-deriving the same set on every render. */
+export const bookmarkedChapters = (list: NeoBookmark[]): Set<number> =>
+  new Set(list.map((m) => m.chapter));
 
 /** Marks a book as the one this surface is on, without claiming a location. */
 export function noteSelection(bookId: string): void {

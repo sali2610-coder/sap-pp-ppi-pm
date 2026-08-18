@@ -61,7 +61,7 @@ function rowOf(r: IdocRecordData): RefRow {
     : r.intel?.s4 && r.intel?.ecc ? "compare" : "unknown";
   const text = critical.length
     ? `סוג ההודעה נשען על ${critical.map((t) => t.name).join(", ")} — טבלה שמשתנה מהותית ב-S/4HANA.`
-    : clean(r.intel?.s4) || "אין מידע מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA.";
+    : clean(r.intel?.s4) || "לא קיים מידע מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA.";
 
   const caps: string[] = [];
   if (r.intel) caps.push("deep");
@@ -190,7 +190,7 @@ export function idocDetail(name: string): RefDetail | null {
 
   const headline = critical.length
     ? `סוג ההודעה נשען על ${critical.map((t) => t.name).join(", ")} — טבלה שמשתנה מהותית ב-S/4HANA.`
-    : clean(intel?.s4) || "אין מידע מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA.";
+    : clean(intel?.s4) || "לא קיים מידע מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA.";
 
   const s4Facts: RefFact[] = [
     { label: "מה כתוב על S/4HANA", text: clean(intel?.s4), absent: "המאגר אינו מציין אמירת S/4 לסוג ההודעה הזה." },

@@ -201,13 +201,45 @@ html[data-theme="dark"] .nr[data-paper="1"] {
 }
 .nr-steps .nu-ghost { padding-inline: 0.45rem; min-block-size: 2.25rem; }
 
+/* --- the bookmark control ------------------------------------------------- */
+/* The count is not a notification badge: it does not float over the corner and
+   it never appears at zero. It is a second, quieter figure inside the control,
+   answering "how many marks are in this book" while the icon answers "is THIS
+   place one of them". */
+.nr-mark-n {
+  margin-inline-start: 3px;
+  padding-inline: 4px;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--m) 16%, transparent);
+  color: var(--ink-2);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.nr-mark[data-on="1"] .nr-mark-n { background: color-mix(in srgb, var(--m) 26%, transparent); }
+
 /* 44px targets. ui.css already does this for `pointer: coarse`, but the mobile
    COMPOSITION of this surface starts at a width, not at an input type — a
-   narrow desktop window gets the same layout and deserves the same targets. */
+   narrow desktop window gets the same layout and deserves the same targets.
+   BOTH AXES. Height alone left the icon-only controls 32-43px wide, which is a
+   44px rule honoured in one direction only. */
 @media (pointer: coarse), (max-width: 1099px) {
   .nr .nu-btn, .nr .nu-btn2, .nr .nu-ghost, .nr .nu-filter,
   .nr .nu-link, .nr .nr-steps .nu-ghost { min-block-size: 2.75rem; }
   .nr .nr-toc-row, .nr .nr-chmap-row { min-block-size: 2.75rem; }
+  .nr .nu-ghost, .nr .nu-filter, .nr .nr-steps .nu-ghost { min-inline-size: 2.75rem; }
+  /* The crumb's legs are lines of TEXT and were 27px tall, so the whole
+     breadcrumb — the chapter selector included — missed the target rule.
+     They are given the box and not the type: min-block-size only, which a
+     <button>/<a> centres its own text inside, so the crumb reads identically
+     and is 44px to a thumb.
+
+     A hit area drawn as a pseudo-element was tried first and is wrong here:
+     both the crumb and each leg clip their overflow (that is what keeps a long
+     chapter title from spilling sideways), so a 44px ::after is clipped back to
+     27px along with everything else. */
+  .nr .nr-crumb-b,
+  .nr .nr-crumb-l { min-block-size: 2.75rem; }
 }
 .nr-steps--wide { display: none; }
 @media (min-width: 1100px) { .nr-steps--wide { display: inline-flex; } }
@@ -667,6 +699,31 @@ html[dir="ltr"] .nr { --nr-origin: left; }
 .nr-tick[data-on="1"]::before { background: var(--m); block-size: 3px; }
 .nr-tick:focus-visible { outline: none; border-radius: var(--r-xs); box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand); }
 
+/* A chapter holding a bookmark carries a second, SHORTER stroke beside the
+   tick. Not a colour and not a longer line: read and current already own those
+   two, and a third meaning has to be legible when all three land on one tick. */
+.nr-tick[data-mark="1"]::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: 3px;
+  inset-block-start: 2px;
+  inline-size: 3px;
+  block-size: 10px;
+  border-radius: 1px;
+  background: var(--m);
+}
+html[dir="ltr"] .nr-tick[data-mark="1"]::after { inset-inline-end: auto; inset-inline-start: 3px; }
+
+.nr-rail-bm {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.625rem;
+  font-weight: 650;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
 /* --- tooltip -------------------------------------------------------------- */
 .nr-tip {
   position: absolute;
@@ -730,8 +787,33 @@ html[dir="ltr"] .nr { --nr-origin: left; }
 .nr-dock-c { flex: none; font-variant-numeric: tabular-nums; }
 @media (min-width: 1100px) {
   .nr-dock { justify-content: center; }
-  .nr-dock-b { flex: 0 0 auto; min-inline-size: 9rem; }
+  .nr-dock-b { flex: 0 0 auto; min-inline-size: 9rem; max-inline-size: 20rem; }
 }
+
+/* The step control names where it goes. Two lines: what the step IS, and the
+   title it lands on — truncated rather than wrapped, so the dock keeps one
+   height whatever the book calls its subchapters. */
+.nr-dock-s {
+  display: grid;
+  gap: 1px;
+  min-inline-size: 0;
+  text-align: start;
+}
+.nr-dock-b--next .nr-dock-s { text-align: end; }
+.nr-dock-k { font-size: 0.6875rem; font-weight: 700; }
+.nr-dock-t {
+  font-size: 0.625rem;
+  font-weight: 550;
+  color: var(--ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nr-dock-b:disabled .nr-dock-t { color: var(--ink-3); }
+/* Below 460px the title would be three characters and an ellipsis, which says
+   less than nothing. The keyword stays; the accessible name still carries the
+   destination in full. */
+@media (max-width: 459px) { .nr-dock-t { display: none; } }
 
 /* ========================================================== 6. FOCUS MODE */
 
@@ -742,6 +824,10 @@ html[dir="ltr"] .nr { --nr-origin: left; }
 .nr[data-focus="1"] .nr-eye,
 .nr[data-focus="1"] .nr-foot,
 .nr[data-focus="1"] .nr-back { display: none; }
+/* The bookmark is an ACTION on the text, not chrome around it — marking a place
+   is exactly the thing a reader does while concentrating, so it survives focus
+   mode while the presentation toggles beside it step back. */
+.nr[data-focus="1"] .nr-tools .nu-filter.nr-mark { display: inline-flex; }
 .nr[data-focus="1"] .nr-head { box-shadow: 0 -2.5rem 0 0 var(--background); }
 .nr[data-focus="1"] .nr-sheet { border-color: transparent; box-shadow: none; }
 .nr[data-focus="1"] .nr-sheet::after { box-shadow: none; }
@@ -894,7 +980,38 @@ html[dir="ltr"] .nr-toc-row[data-on="1"] { box-shadow: inset -2px 0 0 0 var(--m)
 .nr-toc-t { flex: 1 1 auto; min-inline-size: 0; line-height: 1.45; overflow-wrap: break-word; }
 .nr-toc-n, .nr-toc-in { flex: none; font-size: 0.625rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .nr-toc-read { flex: none; display: inline-grid; place-items: center; color: var(--ink-2); }
+/* Bookmarked wears the module hue; read wears ink. Two signs, two meanings, and
+   a row that is both stays readable because they never share a colour. */
+.nr-toc-mark { flex: none; display: inline-grid; place-items: center; color: var(--m); }
 .nr-toc-row--sub { font-size: 0.78125rem; }
+
+/* --- the bookmark list ---------------------------------------------------- */
+.nr-panel-h {
+  margin-block-start: var(--sp-4);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+.nr-bml { display: grid; gap: 2px; margin-block-start: var(--sp-2); }
+.nr-bml li { display: flex; align-items: center; gap: var(--sp-1); }
+.nr-bm {
+  display: flex; align-items: center; gap: var(--sp-2);
+  flex: 1 1 auto; min-inline-size: 0; min-block-size: 2.75rem;
+  padding: var(--sp-2) var(--sp-3);
+  border: 0; border-radius: var(--r-md); background: none;
+  font: inherit; font-size: 0.78125rem; color: var(--ink-2); text-align: start; cursor: pointer;
+}
+.nr-bm:hover { background: var(--surface-2); color: var(--ink-1); }
+.nr-bm:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--brand); }
+.nr-bm > svg { flex: none; color: var(--m); }
+.nr-bm-id {
+  flex: none; min-inline-size: 2.25rem;
+  font-family: var(--font-mono); direction: ltr; unicode-bidi: isolate;
+  font-size: 0.625rem; font-weight: 650; color: var(--ink-3);
+}
+.nr-bm-t { flex: 1 1 auto; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nr-bm-in { flex: none; font-size: 0.625rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.nr-bm-x { flex: none; min-inline-size: 2.75rem; min-block-size: 2.75rem; }
 
 .nr-map { display: grid; gap: var(--sp-2); }
 .nr-map > div {
@@ -930,6 +1047,16 @@ html[dir="ltr"] .nr-toc-row[data-on="1"] { box-shadow: inset -2px 0 0 0 var(--m)
   transform: scaleX(var(--v, 0)); transform-origin: var(--nr-origin, right);
 }
 .nr-chmap-row[data-read="1"] .nr-chmap-b i { background: color-mix(in srgb, var(--ink-1) 45%, transparent); }
+.nr-chmap-row[data-mark="1"] .nr-chmap-n::after {
+  content: "";
+  display: inline-block;
+  inline-size: 4px;
+  block-size: 4px;
+  margin-inline-start: 3px;
+  border-radius: 50%;
+  background: var(--m);
+  vertical-align: 2px;
+}
 .nr-chmap-c { flex: none; font-variant-numeric: tabular-nums; color: var(--ink-3); }
 
 /* ========================================================== 9. DARK THEME */

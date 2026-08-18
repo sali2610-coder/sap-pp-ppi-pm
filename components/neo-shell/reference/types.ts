@@ -20,7 +20,7 @@
 
    HONESTY. Every optional string is "" and every list is empty when the project
    dataset is silent. Nothing is ever filled with a plausible value so a column
-   can look complete — the surface prints `אין מידע מאומת במאגר` instead.
+   can look complete — the surface prints `לא קיים מידע מאומת במאגר` instead.
    ========================================================================== */
 
 /** The lucide glyphs the directories are allowed to use. A string key rather

@@ -19,7 +19,8 @@ import { AlertTriangle, CircleSlash, RotateCcw, Sparkles } from "lucide-react";
 import { AnswerBody } from "@/components/ai/answer-body";
 import { ANSWER_ACTIONS, type AnswerAction } from "@/lib/ai/prompts";
 import type { AiMode } from "@/lib/ai/modes";
-import type { Answer } from "@/lib/ai/types";
+import type { Answer, Scope } from "@/lib/ai/types";
+import { TurnScope } from "./context-bar";
 import { secs } from "./engine";
 import { Sources } from "./sources";
 
@@ -43,6 +44,10 @@ export interface MessageProps {
   stopped?: boolean;
   firstTokenMs?: number | null;
   passages?: number | null;
+  /** The scope this turn was sent with, from ./store.Turn. */
+  askedIn?: Scope;
+  /** The scope in force now, so the turn only speaks up when they differ. */
+  scope: Scope;
   mode: AiMode;
   busy: boolean;
   isLast: boolean;
@@ -52,7 +57,7 @@ export interface MessageProps {
 }
 
 export function Message({
-  q, a, stopped, firstTokenMs, passages, mode, busy, isLast, onRetry, onAsk, onOpenSource,
+  q, a, stopped, firstTokenMs, passages, askedIn, scope, mode, busy, isLast, onRetry, onAsk, onOpenSource,
 }: MessageProps) {
   // AnswerBody numbers the inline chips by this array's order; the source cards
   // below use the same array, so the numbers agree by construction.
@@ -66,6 +71,8 @@ export function Message({
     <article className="nxq-turn">
       <div className="nxq-user">
         <p className="nxq-user-bubble">{q}</p>
+        {/* Silent unless the scope has moved on since this turn — see TurnScope. */}
+        {mode === "library" ? <TurnScope scope={askedIn} current={scope} /> : null}
       </div>
 
       {stopped ? (

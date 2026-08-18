@@ -76,7 +76,7 @@ function Row({ r, impactHe, onOpen }: { r: IncidentRow; impactHe: string; onOpen
           <span className="nxl-t1">
             <b>{r.he}</b>
           </span>
-          <span className="nxl-desc">{r.symptom || "אין מידע מאומת במאגר"}</span>
+          <span className="nxl-desc">{r.symptom || "לא קיים מידע מאומת במאגר"}</span>
           <span className="nxl-meta">
             <span className="nu-chip nxl-mod">
               <i aria-hidden="true" />
@@ -138,7 +138,7 @@ function Row({ r, impactHe, onOpen }: { r: IncidentRow; impactHe: string; onOpen
           ) : (
             <>
               <span className="nxl-side-l">הודעת השגיאה</span>
-              <span className="nxl-side-v">אין מידע מאומת במאגר</span>
+              <span className="nxl-side-v">לא קיים מידע מאומת במאגר</span>
             </>
           )}
         </span>

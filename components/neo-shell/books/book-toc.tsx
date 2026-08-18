@@ -23,11 +23,11 @@
 // prose; this list cannot see prose and does not pretend to.
 
 import { useEffect, useMemo, useRef, useState, useId } from "react";
-import { BookOpen, ChevronLeft, Search, X } from "lucide-react";
+import { Bookmark, BookOpen, ChevronLeft, Search, X } from "lucide-react";
 import { OriginLink, type OriginArg } from "@/components/neo-shell/nav-context";
 import type { BookCard, SectionRow } from "./books-data";
 import type { BookReading } from "./reading-state";
-import { noteHandoff } from "./reading-state";
+import { bookmarkedChapters, noteHandoff } from "./reading-state";
 import { neoChapterHref, neoSectionHref } from "./links";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -88,6 +88,16 @@ export function BookToc({
   const query = q.trim().toLowerCase();
   const read = useMemo(() => new Set(reading?.read ?? []), [reading]);
   const marks = useMemo(() => new Set(reading?.marks ?? []), [reading]);
+  /* Two independent sources of "bookmarked", kept apart everywhere except here,
+     where the question is only "does this row carry one". `marks` is the
+     canonical reader's chapter bookmark; `bm` is a subchapter bookmark placed
+     in NEO's reader, and the SET of exact locations is what puts the sign on
+     the subchapter row rather than only on the chapter. */
+  const bmChapters = useMemo(() => bookmarkedChapters(reading?.bookmarks ?? []), [reading]);
+  const bmSections = useMemo(
+    () => new Set((reading?.bookmarks ?? []).map((m) => m.section).filter((s): s is string => Boolean(s))),
+    [reading],
+  );
 
   const matches = useMemo<Match[]>(() => {
     if (!query) {
@@ -165,7 +175,7 @@ export function BookToc({
                   <span className="nb-ch-count nb-sap">{nf.format(m.total)}</span>
                 </button>
 
-                {(done || marks.has(m.n)) && (
+                {(done || marks.has(m.n) || bmChapters.has(m.n)) && (
                   <span className="nu-status nb-ch-state" style={{ "--s": done ? "var(--status-done)" : "var(--status-tested)" } as React.CSSProperties}>
                     {done ? "נקרא" : "סימנייה"}
                   </span>
@@ -196,10 +206,17 @@ export function BookToc({
                             href={neoSectionHref(b.id, id)}
                             origin={() => origin({ open })}
                             aria-current={resumeSection === id ? "true" : undefined}
+                            data-mark={bmSections.has(id) ? "1" : undefined}
                             onClick={() => noteHandoff(b.id, m.n, id)}
                           >
                             <span className="nb-sec-id nb-sap">{id}</span>
                             <span className="nb-sec-t">{title}</span>
+                            {bmSections.has(id) && (
+                              <span className="nb-sec-bm" title="סימנייה שהונחה בקורא של NEO">
+                                <Bookmark size={12} strokeWidth={2.2} aria-hidden="true" />
+                                <span className="nb-sr">סימנייה</span>
+                              </span>
+                            )}
                           </OriginLink>
                         </li>
                       ))}

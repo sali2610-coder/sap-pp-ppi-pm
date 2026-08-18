@@ -26,6 +26,7 @@ import { CONSULT_DISCLAIMER, MODES, type AiMode } from "@/lib/ai/modes";
 import { scopeLabel } from "@/lib/ai/tree";
 import type { Answer, Scope } from "@/lib/ai/types";
 import { Composer } from "./composer";
+import { ContextBar } from "./context-bar";
 import { type LiveState, ask } from "./engine";
 import { Live } from "./live";
 import { Message } from "./message";
@@ -115,7 +116,10 @@ export function NeoChat({ mode }: { mode: AiMode }) {
 
     const id = `q${Date.now()}`;
     const startedAt = performance.now();
-    setPending({ id, q, a: null, task });
+    // Frozen at send. The reader may open the sheet and change scope while the
+    // answer is being written; this turn was still asked in the old one.
+    const asked: Scope = { ...scope };
+    setPending({ id, q, a: null, task, scope: asked });
     setLive({ startedAt, passages: null, preview: "", firstTokenMs: null, stage: null });
 
     let firstTokenMs: number | null = null;
@@ -147,8 +151,8 @@ export function NeoChat({ mode }: { mode: AiMode }) {
     setTurns((prev) => [
       ...prev,
       outcome.kind === "aborted"
-        ? { id, q, a: null, stopped: true, task }
-        : { id, q, a: outcome.answer, firstTokenMs, passages, task },
+        ? { id, q, a: null, stopped: true, task, scope: asked }
+        : { id, q, a: outcome.answer, firstTokenMs, passages, task, scope: asked },
     ]);
   }, [mode, scope]);
 
@@ -215,6 +219,14 @@ export function NeoChat({ mode }: { mode: AiMode }) {
         ) : null}
       </header>
 
+      {/* The standing premise of everything below it. Sticky, so scrolling a
+          long answer never separates it from the context it was drawn from. */}
+      <ContextBar
+        scope={scope}
+        mode={mode}
+        onOpenScope={mode === "library" ? () => setSheet(true) : undefined}
+      />
+
       <div className="nxq-thread">
         {!turns.length && !pending ? (
           <Empty
@@ -232,6 +244,8 @@ export function NeoChat({ mode }: { mode: AiMode }) {
             stopped={t.stopped}
             firstTokenMs={t.firstTokenMs}
             passages={t.passages}
+            askedIn={t.scope}
+            scope={scope}
             mode={mode}
             busy={busy}
             isLast={i === turns.length - 1}
@@ -241,7 +255,9 @@ export function NeoChat({ mode }: { mode: AiMode }) {
           />
         ))}
 
-        {pending && live ? <Live live={live} question={pending.q} /> : null}
+        {pending && live ? (
+          <Live live={live} question={pending.q} askedIn={pending.scope} scope={scope} mode={mode} />
+        ) : null}
 
         <div ref={endRef} className="nxq-end" aria-hidden="true" />
       </div>
