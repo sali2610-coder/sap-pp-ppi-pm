@@ -244,7 +244,7 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
         <span className="nx-eyebrow">ידע ולמידה</span>
         <h1 className="nx-h1">קטלוג התקלות</h1>
         <p className="nx-lede">
-          {nf.format(totals.incidents)} תקלות מתועדות ב-{nf.format(totals.modules)} מודולים — סימפטום,
+          {nf.format(totals.incidents)} תקלות מתועדות ב-{nf.format(totals.modules)} מודולים: סימפטום,
           {" "}סיבות שורש, טרנזקציות לאבחון, טבלאות לבדיקה וצעדי תיקון. כל שורה נפתחת לרשומה המלאה שלה.
         </p>
       </header>
@@ -347,7 +347,7 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
           <p><b>אין תקלה בקטלוג שעונה על הסינון</b></p>
           <p className="nx-muted">
             החיפוש עובר על הכותרת, הסימפטום, הודעת השגיאה, סיבות השורש, צעדי התיקון והמניעה, ועל קודי
-            {" "}הטרנזקציות והטבלאות שהרשומה מונה — ולא על טקסט חופשי.
+            {" "}הטרנזקציות והטבלאות שהרשומה מונה: ולא על טקסט חופשי.
           </p>
           <div className="nxl-none-a">
             {dirty ? <button type="button" className="nu-btn" onClick={reset}>נקה את הסינון</button> : null}
@@ -374,12 +374,12 @@ export function IncidentsSurface({ data }: { data: IncidentsData }) {
 
       <div className="nxl-foot">
         <p>
-          תווית ההשפעה היא התג שהרשומה עצמה נושאת — היא לא חושבה כאן ולא דורגה מחדש.
+          תווית ההשפעה היא התג שהרשומה עצמה נושאת: היא לא חושבה כאן ולא דורגה מחדש.
           {" "}{nf.format(totals.incidents - rows.filter((r) => r.impactKind).length)} רשומות אינן נושאות תג, והן מסומנות «לא תויג במקור».
         </p>
         <p>
-          מקור: <span className="nx-sap">data/troubleshooting.ts</span> — ידע תמיכה כתוב. אינו תור תמיכה חי,
-          {" "}אינו מחובר למערכת SAP, ואינו כולל מספרי SAP Note — רק מילות חיפוש לאיתורם.
+          מקור: <span className="nx-sap">data/troubleshooting.ts</span>: ידע תמיכה כתוב. אינו תור תמיכה חי,
+          {" "}אינו מחובר למערכת SAP, ואינו כולל מספרי SAP Note: רק מילות חיפוש לאיתורם.
         </p>
       </div>
     </div>

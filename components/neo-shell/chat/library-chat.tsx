@@ -1,7 +1,7 @@
 "use client";
 
 /* ============================================================================
-   PROJECT NEO · "שאל את הספרייה" — the book specialist.
+   PROJECT NEO · "שאל את הספרייה": the book specialist.
    ----------------------------------------------------------------------------
    THE COMPLAINT THIS ANSWERS. The screen was an empty box with a title over it.
    Nothing on it said who was about to answer, what it had read, or why its

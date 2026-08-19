@@ -242,7 +242,7 @@ export function ProgressRail({
         className="nr-track"
         ref={trackRef}
         role="group"
-        aria-label={`מסלול הספר — ${book.chapters.length} פרקים`}
+        aria-label={`מסלול הספר: ${book.chapters.length} פרקים`}
         onPointerMove={(e) => {
           if (book.totalSections === 0) return;
           const r = ratioOf(e.clientY);

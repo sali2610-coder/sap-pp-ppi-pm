@@ -11,7 +11,7 @@ import { enhDir } from "@/components/neo-shell/reference/enh-data";
 export const metadata = {
   title: "טכניקות הרחבה · Project NEO",
   description:
-    "טכניקות ההרחבה של SAP במעטפת NEO — מה כל אחת הייתה ב-ECC, מה מעמדה ב-S/4HANA, ואילו הרחבות בשם מקטלוג הפרויקט משתמשות בה.",
+    "טכניקות ההרחבה של SAP במעטפת NEO: מה כל אחת הייתה ב-ECC, מה מעמדה ב-S/4HANA, ואילו הרחבות בשם מקטלוג הפרויקט משתמשות בה.",
   robots: { index: false, follow: false },
 };
 

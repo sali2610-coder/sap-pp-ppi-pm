@@ -373,7 +373,7 @@ export function CommandSurface({
               </div>
             ) : (
               <p className="nxc-scope-hint">
-                כל התוצאות נקראות מנתוני הפרויקט — טבלאות, טרנזקציות, אובייקטי פונקציה, ספרים ותהליכים.
+                כל התוצאות נקראות מנתוני הפרויקט: טבלאות, טרנזקציות, אובייקטי פונקציה, ספרים ותהליכים.
               </p>
             )}
 
@@ -417,7 +417,7 @@ export function CommandSurface({
           >
             {!live ? (
               <div className="nxc-idle">
-                <p className="nxc-idle-h">מה יש באינדקס — בחר משפחה כדי לעיין בה</p>
+                <p className="nxc-idle-h">מה יש באינדקס: בחר משפחה כדי לעיין בה</p>
                 <ul className="nxc-idle-grid">
                   {idle.map((x) => (
                     <li key={x.k}>
@@ -436,14 +436,14 @@ export function CommandSurface({
                   ))}
                 </ul>
                 <p className="nxc-idle-f">
-                  {nf.format(indexTotal)} רשומות — כולן מנתוני הפרויקט. אין כאן טקסט חופשי ואין השלמות שהומצאו.
+                  {nf.format(indexTotal)} רשומות: כולן מנתוני הפרויקט. אין כאן טקסט חופשי ואין השלמות שהומצאו.
                 </p>
               </div>
             ) : result.sections.length === 0 ? (
               <p className="nxc-none">
                 אין רשומה בנתוני הפרויקט עבור «{q}»
                 {modOnly ? ` במודול ${modLabel(modOnly)}` : ""}. החיפוש עובר על כל האינדקס —{" "}
-                {nf.format(indexTotal)} רשומות אמיתיות — ולא על טקסט חופשי.
+                {nf.format(indexTotal)} רשומות אמיתיות: ולא על טקסט חופשי.
               </p>
             ) : (
               result.sections.map((sec, si) => {

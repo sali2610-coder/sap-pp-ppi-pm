@@ -58,7 +58,7 @@ const DIFF_HE: Record<string, string> = {
 };
 
 const STABILITY_HE: Record<string, string> = {
-  Released: "Released — ממשק משוחרר",
+  Released: "Released: ממשק משוחרר",
   "SAP-Recommended": "מומלץ ע\"י SAP",
   Internal: "פנימי",
   "Use-With-Caution": "לשימוש בזהירות",
@@ -70,7 +70,7 @@ const VERIF: Record<string, RefStatus> = {
   "verified-docs": { he: "אומת מול תיעוד SAP", color: "var(--status-done)" },
   "requires-verification": { he: "דורש אימות במערכת SAP", color: "var(--status-not-started)" },
   "version-dependent": { he: "תלוי גרסה", color: "var(--status-in-analysis)" },
-  "internal-unsupported": { he: "FM פנימי — לא ממשק נתמך", color: "var(--status-in-analysis)" },
+  "internal-unsupported": { he: "FM פנימי: לא ממשק נתמך", color: "var(--status-in-analysis)" },
   "invalid-name": { he: "השם אינו אובייקט SAP תקני", color: "var(--status-in-conversion)" },
   deprecated: { he: "הוצא משימוש", color: "var(--status-in-conversion)" },
 };
@@ -130,7 +130,7 @@ function s4Of(o: SapFuncObject) {
     (structuralChange
       ? "הרשומה מסמנת את האובייקט כלא-נתמך או כמוצא משימוש ב-S/4HANA."
       : critical.length
-        ? `אחת מטבלאות הליבה שהאובייקט קורא — ${critical.map((t) => t.name).join(", ")} — משתנה מהותית ב-S/4HANA.`
+        ? `אחת מטבלאות הליבה שהאובייקט קורא, ${critical.map((t) => t.name).join(", ")}, משתנה מהותית ב-S/4HANA.`
         : o.s4OnPremSupport === "yes"
           ? "לפי הרשומה במאגר האובייקט זמין ב-S/4HANA On-Premise."
           : "לא קיים מידע מאומת במאגר על מעמד האובייקט ב-S/4HANA.");
@@ -205,7 +205,7 @@ export function bapiDir(): RefDir {
     title: "BAPIs ו-Function Modules",
     icon: "plug",
     lede:
-      `${nf.format(all.length)} אובייקטי פונקציה מהרישום הקנוני של הפרויקט — כל אחד מהם מוזכר בפועל על טבלה ` +
+      `${nf.format(all.length)} אובייקטי פונקציה מהרישום הקנוני של הפרויקט: כל אחד מהם מוזכר בפועל על טבלה ` +
       `מתועדת ב-PM או ב-PP-PI, או נוסף כרשומה מאומתת. הרשימה מציגה את מה שהמאגר יודע: מודול, משמעות, ` +
       `הטבלאות והטרנזקציות שהאובייקט נוגע בהן, ומה נאמר עליו לגבי S/4HANA.`,
     stats: [
@@ -304,7 +304,7 @@ export function bapiDetail(id: string): RefDetail | null {
   if (intel?.inputs.length) {
     contract.push({
       label: "פרמטרים נכנסים",
-      bullets: intel.inputs.map((p) => `${p.name}${p.req ? " (חובה)" : ""} — ${p.he}`),
+      bullets: intel.inputs.map((p) => `${p.name}${p.req ? " (חובה)" : ""}: ${p.he}`),
     });
   }
   if (intel?.outputs.length) {
@@ -318,7 +318,7 @@ export function bapiDetail(id: string): RefDetail | null {
     label: "COMMIT",
     text: ci.value === "unknown"
       ? "לא צוין במאגר"
-      : `${TRI_HE[ci.value]}${ci.derived ? " — נגזר מסוג הפעולה, לא מרשומה מפורשת" : ""}`,
+      : `${TRI_HE[ci.value]}${ci.derived ? ": נגזר מסוג הפעולה, לא מרשומה מפורשת" : ""}`,
   });
   if (o.requiresSave && o.requiresSave !== "unknown") {
     contract.push({ label: "נדרשת קריאת SAVE", text: TRI_HE[o.requiresSave] });
@@ -397,7 +397,7 @@ export function bapiDetail(id: string): RefDetail | null {
         { label: "מדוע", bullets: o.complexity.reasons },
         {
           label: "זמן לימוד מוערך",
-          text: `${o.complexity.learnMinutes[0]}–${o.complexity.learnMinutes[1]} דקות — נגזר ממודל המורכבות המתועד של הפרויקט, לא ממדידה.`,
+          text: `${o.complexity.learnMinutes[0]}–${o.complexity.learnMinutes[1]} דקות: נגזר ממודל המורכבות המתועד של הפרויקט, לא ממדידה.`,
         },
       ],
     });
@@ -493,7 +493,7 @@ export function bapiDetail(id: string): RefDetail | null {
       facts: s4Facts,
       tables: s4.tables.length ? s4.tables : undefined,
       warn: s4.tone === "unknown"
-        ? "למאגר אין אמירה על מעמד האובייקט ב-S/4HANA. הפריט דורש אימות מול SE37 / BAPI Explorer או מול תיעוד SAP לפני החלטת מיגרציה — ולא הושלם כאן בהשערה."
+        ? "למאגר אין אמירה על מעמד האובייקט ב-S/4HANA. הפריט דורש אימות מול SE37 / BAPI Explorer או מול תיעוד SAP לפני החלטת מיגרציה: ולא הושלם כאן בהשערה."
         : undefined,
     },
     sections,

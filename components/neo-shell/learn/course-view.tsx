@@ -141,7 +141,7 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
           </div>
         ) : (
           <p className="nx-muted">
-            התקדמות נרשמת רק כשקוראים שיעור בפועל, ונשמרת מקומית במכשיר. עד אז אין מה להציג —
+            התקדמות נרשמת רק כשקוראים שיעור בפועל, ונשמרת מקומית במכשיר. עד אז אין מה להציג,
             {" "}ולכן לא מוצג סרגל ריק שמתחזה למדידה.
           </p>
         )}
@@ -244,11 +244,11 @@ export function CourseView({ c }: { c: AcademyCourseRow }) {
           </span>
         </p>
         <p>
-          שיעור נחשב מושלם כשמספר יחידות התוכן שנצפו בו מגיע למספר שהשיעור דורש — אותה מדידה שהקורא רואה
+          שיעור נחשב מושלם כשמספר יחידות התוכן שנצפו בו מגיע למספר שהשיעור דורש: אותה מדידה שהקורא רואה
           {" "}בתוך השיעור עצמו. ההתקדמות נשמרת ב-<span className="nx-sap">neo:academy:v2</span> על המכשיר, ואינה מסונכרנת.
         </p>
         <p>
-          שיעור נפתח כאן בתוך Project NEO (<span className="nx-sap">/neo/academy/{c.id}/…</span>) —
+          שיעור נפתח כאן בתוך Project NEO (<span className="nx-sap">/neo/academy/{c.id}/…</span>),
           {" "}אותו שיעור, אותו מנוע בלוקים ואותה מדידה. מסך האקדמיה הקיים,{" "}
           <Link className="nu-link" href="/academy/" prefetch={false}>
             <span className="nx-sap">/academy/</span>

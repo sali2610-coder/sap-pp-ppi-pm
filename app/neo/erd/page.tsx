@@ -11,7 +11,7 @@ import { ErdWorkspace } from "@/components/neo-shell/erd/erd-workspace";
 export const metadata = {
   title: "מודל הנתונים · Project NEO",
   description:
-    "תרשים ER אינטראקטיבי של מודל הנתונים הארגוני — 13 מודולי SAP, קשרים אמיתיים, עוצמות מקוריות וניסוחי JOIN מהמילון.",
+    "תרשים ER אינטראקטיבי של מודל הנתונים הארגוני: 13 מודולי SAP, קשרים אמיתיים, עוצמות מקוריות וניסוחי JOIN מהמילון.",
   robots: { index: false, follow: false },
 };
 

@@ -63,7 +63,7 @@ export function RecentPane({
   if (!rows.length) {
     return (
       <p className="nx-empty">
-        עדיין לא נפתח אובייקט. פתיחת טבלה מהעמוד או מהחיפוש תוסיף אותה לכאן —
+        עדיין לא נפתח אובייקט. פתיחת טבלה מהעמוד או מהחיפוש תוסיף אותה לכאן,
         זו אותה רשימה שהמוצר כבר שומר, לא רשימה נפרדת.
       </p>
     );
@@ -143,7 +143,7 @@ export function ContextPane({ ctx, onOpen }: { ctx: ObjectContext | null; onOpen
       {ctx.shared ? (
         <p className="nx-ctx-shared">
           <Ico name="GitBranch" size={12} />
-          טבלה משותפת ל-PM ול-PP-PI, ולכן שני ההקשרים מוצגים — אין כאן בחירה שרירותית של מודול.
+          טבלה משותפת ל-PM ול-PP-PI, ולכן שני ההקשרים מוצגים: אין כאן בחירה שרירותית של מודול.
         </p>
       ) : null}
 

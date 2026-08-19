@@ -13,7 +13,7 @@ import { cdsDir } from "@/components/neo-shell/reference/cds-data";
 export const metadata = {
   title: "תצוגות CDS · Project NEO",
   description:
-    "תצוגות ה-CDS של S/4HANA במעטפת NEO — הטבלאות הקלאסיות שכל תצוגה מכסה, שכבת ה-Consumption, אפליקציית ה-Fiori ומעמד הטבלה במעבר.",
+    "תצוגות ה-CDS של S/4HANA במעטפת NEO: הטבלאות הקלאסיות שכל תצוגה מכסה, שכבת ה-Consumption, אפליקציית ה-Fiori ומעמד הטבלה במעבר.",
   robots: { index: false, follow: false },
 };
 

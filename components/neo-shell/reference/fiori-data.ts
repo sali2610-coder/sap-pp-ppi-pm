@@ -51,7 +51,7 @@ function s4Of(a: FioriApp) {
   const critical = tables.filter((t) => t.critical);
   const tone: RefRow["s4"]["tone"] = critical.length ? "changed" : "replacement";
   const headline = critical.length
-    ? `האפליקציה יושבת מעל ${critical.map((t) => t.name).join(", ")} — טבלה שמשתנה מהותית ב-S/4HANA.`
+    ? `האפליקציה יושבת מעל ${critical.map((t) => t.name).join(", ")}: טבלה שמשתנה מהותית ב-S/4HANA.`
     : a.guiTx.length
       ? `החוויה של S/4HANA במקום ${a.guiTx.join(" · ")} ב-SAP GUI.`
       : "אפליקציית S/4HANA. המאגר אינו מציין טרנזקציית GUI מקבילה.";
@@ -117,7 +117,7 @@ export function fioriDir(): RefDir {
     title: "אפליקציות Fiori",
     icon: "layoutGrid",
     lede:
-      `${nf.format(FIORI_APPS.length)} אפליקציות Fiori שהפרויקט תיעד במלואן — מזהה אמיתי, תפקיד עסקי, קטלוג, ` +
+      `${nf.format(FIORI_APPS.length)} אפליקציות Fiori שהפרויקט תיעד במלואן: מזהה אמיתי, תפקיד עסקי, קטלוג, ` +
       `שירות OData ותצוגת CDS, ובעיקר: איזו טרנזקציית SAP GUI כל אחת מהן מחליפה. זהו הצד של S/4HANA מול ` +
       `מסכי ה-ECC שהמילון מתעד.`,
     stats: [
@@ -150,7 +150,7 @@ export function fioriDir(): RefDir {
       "מזהי האפליקציות, התפקידים והקטלוגים נלקחו מקובץ ה-Fiori המתוחזק של הפרויקט, שמציין לכל רשומה את מקורה " +
       "ואת תאריך הסקירה האחרון. לא נכתב כאן מספר SAP Note שאינו קיים ברשומה.",
     emptyNote:
-      "החיפוש עובר על המזהה, השם בעברית ובאנגלית, התפקיד, הקטלוג, שירות ה-OData והטרנזקציות המוחלפות — כולם " +
+      "החיפוש עובר על המזהה, השם בעברית ובאנגלית, התפקיד, הקטלוג, שירות ה-OData והטרנזקציות המוחלפות: כולם " +
       "ערכים אמיתיים מהקובץ.",
   };
 }
@@ -175,7 +175,7 @@ export function fioriDetail(slug: string): RefDetail | null {
       bullets: [
         `S/4HANA On-Premise — ${TRI_HE[a.s4OnPrem]}`,
         `S/4HANA Cloud — ${TRI_HE[a.cloud]}`,
-        a.releaseInfo ? `גרסה — ${a.releaseInfo}` : "גרסה — לא צוין במאגר",
+        a.releaseInfo ? `גרסה, ${a.releaseInfo}` : "גרסה, לא צוין במאגר",
       ],
     },
   ];

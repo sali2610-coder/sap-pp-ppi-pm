@@ -21,7 +21,7 @@ import "./motion.css";
 // the sitemap, so the two have to agree.
 export const metadata: Metadata = {
   title: "Project NEO · שלב עיצוב",
-  description: "מעטפת האפליקציה והניווט של Project NEO — שלב 1.",
+  description: "מעטפת האפליקציה והניווט של Project NEO: שלב 1.",
   robots: { index: false, follow: false },
 };
 

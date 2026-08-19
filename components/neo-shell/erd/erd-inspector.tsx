@@ -218,7 +218,7 @@ export function ErdInspector({
                 </table>
                 {active.fn > 8 ? (
                   <button type="button" className="nu-ghost ne-more" onClick={() => onExpand(active.n)}>
-                    עוד {nf.format(active.fn - 8)} שדות — פתח את הכרטיס המלא
+                    עוד {nf.format(active.fn - 8)} שדות: פתח את הכרטיס המלא
                   </button>
                 ) : null}
               </div>
@@ -383,7 +383,7 @@ export function ErdInspector({
             <p>
               {nf.format(data.stats.modules)} מודולים עסקיים, {nf.format(data.stats.memberships)} שיוכי
               טבלה ל-ERD ו-{nf.format(data.stats.tables)} טבלאות מובחנות. בחר מודול כדי לפתוח את מודל
-              הנתונים שלו — ומשם נושא, אובייקט וטבלה.
+              הנתונים שלו: ומשם נושא, אובייקט וטבלה.
             </p>
             <ul className="ne-modlist">
               {MODULE_ORDER.map((code) => {
@@ -433,7 +433,7 @@ export function ErdInspector({
             </dl>
             <p className="ne-note">
               {nf.format(data.stats.unstated)} מתוך {nf.format(data.stats.edges)} הקשרים נרשמו במערך
-              בלי עוצמה. הם מצוירים מקווקו ומסומנים ככאלה — לא הושלמה להם עוצמה שלא נכתבה.
+              בלי עוצמה. הם מצוירים מקווקו ומסומנים ככאלה: לא הושלמה להם עוצמה שלא נכתבה.
             </p>
           </div>
         )}

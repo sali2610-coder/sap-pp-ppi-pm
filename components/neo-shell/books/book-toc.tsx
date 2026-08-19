@@ -186,7 +186,7 @@ export function BookToc({
                   href={neoChapterHref(b.id, m.n)}
                   origin={() => origin({ open })}
                   onClick={() => noteHandoff(b.id, m.n, null)}
-                  aria-label={`פתיחת פרק ${m.n} — ${m.title} — בקורא`}
+                  aria-label={`פתיחת פרק ${m.n}, ${m.title}, בקורא`}
                 >
                   <BookOpen size={14} strokeWidth={1.75} aria-hidden="true" />
                   <span className="nb-ch-open-t">פרק בקורא</span>
@@ -237,7 +237,7 @@ export function BookToc({
           `b.exactNote` still describes /library/ accurately and is still
           printed there, by the hub, beside the canonical reader's own link. */}
       <p className="nb-fine nb-toc-note">
-        כל שורה כאן נפתחת בקורא של Project NEO במיקום עצמו — פרק על הפרק, תת-פרק על תת-הפרק.
+        כל שורה כאן נפתחת בקורא של Project NEO במיקום עצמו: פרק על הפרק, תת-פרק על תת-הפרק.
       </p>
     </section>
   );

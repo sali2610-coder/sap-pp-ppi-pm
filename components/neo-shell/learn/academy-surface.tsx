@@ -96,7 +96,7 @@ function CourseCard({ c, onOpen }: { c: AcademyCourseRow; onOpen: (id: string) =
           </span>
         ) : (
           <span className="nxl-course-idle">
-            עדיין לא נפתח במכשיר הזה — אין התקדמות להציג, ולא מוצג סרגל ריק במקומה.
+            עדיין לא נפתח במכשיר הזה: אין התקדמות להציג, ולא מוצג סרגל ריק במקומה.
           </span>
         )}
 
@@ -266,7 +266,7 @@ export function AcademySurface({ data }: { data: AcademyData }) {
         <div className="nx-card nxl-none">
           <p><b>אין קורס שעונה על הסינון</b></p>
           <p className="nx-muted">
-            החיפוש עובר על שמות הקורסים, הפרקים והשיעורים בלבד — הוא אינו מחפש בתוך גוף השיעור.
+            החיפוש עובר על שמות הקורסים, הפרקים והשיעורים בלבד: הוא אינו מחפש בתוך גוף השיעור.
           </p>
           <div className="nxl-none-a">
             <button type="button" className="nu-btn" onClick={reset}>נקה את הסינון</button>
@@ -281,7 +281,7 @@ export function AcademySurface({ data }: { data: AcademyData }) {
       <div className="nxl-foot">
         <p>
           «אורך מוצהר» ו«רמה» הם השדות שהקורס עצמו כותב לכל שיעור, לא הערכה שנעשתה כאן.
-          {" "}«יחידות תוכן» היא ספירת הבלוקים שהשיעור דורש להשלמה — אותה ספירה שלפיה נקבע ששיעור הושלם.
+          {" "}«יחידות תוכן» היא ספירת הבלוקים שהשיעור דורש להשלמה: אותה ספירה שלפיה נקבע ששיעור הושלם.
         </p>
         <p>
           התקדמות נשמרת מקומית במכשיר (<span className="nx-sap">neo:academy:v2</span>) ואינה מסונכרנת לשום שרת.

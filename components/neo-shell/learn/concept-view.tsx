@@ -139,8 +139,8 @@ export function ConceptView({ c }: { c: ConceptRow }) {
         {c.examples.length ? (
           <>
             <p className="nx-muted">
-              דוגמה שמזוהה כטבלה במילון או כטרנזקציה במרשם נפתחת לעמוד שלה. דוגמה שאינה אחת מהשתיים —
-              {" "}אלמנט נתונים, שם מודול פונקציה, תבנית — מוצגת כערך ולא כקישור.
+              דוגמה שמזוהה כטבלה במילון או כטרנזקציה במרשם נפתחת לעמוד שלה. דוגמה שאינה אחת מהשתיים,
+              {" "}אלמנט נתונים, שם מודול פונקציה, תבנית: מוצגת כערך ולא כקישור.
             </p>
             <div className="nxv-refs">
               {c.examples.map((r) => <Ref key={`${r.kind}-${r.label}`} r={r} />)}
@@ -171,7 +171,7 @@ export function ConceptView({ c }: { c: ConceptRow }) {
         <p className="nxv-src">
           <Info size={13} strokeWidth={1.75} aria-hidden="true" />
           <span>
-            מקור: <span className="nx-sap">data/concepts.ts</span> — ידע SAP כתוב. אינו נגזר ממערכת חיה
+            מקור: <span className="nx-sap">data/concepts.ts</span>: ידע SAP כתוב. אינו נגזר ממערכת חיה
             {" "}ואינו תחליף לאימות מול המערכת לפני יישום.
           </span>
         </p>

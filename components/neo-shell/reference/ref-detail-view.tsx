@@ -147,7 +147,7 @@ function Section({ s }: { s: RefSection }) {
                 {c.href ? (
                   <Link href={c.href} prefetch={false} className="nu-card nxt-near-c" style={style}>{inner}</Link>
                 ) : (
-                  <div className="nxt-near-c nxr-flat" style={style} aria-label={`${c.code} — אין עמוד ייעודי במאגר`}>{inner}</div>
+                  <div className="nxt-near-c nxr-flat" style={style} aria-label={`${c.code}: אין עמוד ייעודי במאגר`}>{inner}</div>
                 )}
               </li>
             );
@@ -243,7 +243,7 @@ export function RefDetailView({ d }: { d: RefDetail }) {
                     {t.href ? (
                       <Link href={t.href} prefetch={false} className="nu-card nxt-tbl-r">{inner}</Link>
                     ) : (
-                      <div className="nxt-tbl-r is-flat" aria-label={`${t.name} — אין עמוד אובייקט במילון`}>{inner}</div>
+                      <div className="nxt-tbl-r is-flat" aria-label={`${t.name}: אין עמוד אובייקט במילון`}>{inner}</div>
                     )}
                   </li>
                 );

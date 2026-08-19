@@ -4,7 +4,7 @@
    PROJECT NEO · THE DOCK (§22 + §23)
    ----------------------------------------------------------------------------
    Two small controls at the bottom of every NEO page: גופן and שאל את NEO.
-   "לא גדולים. לא מסתירים תוכן." — so they sit in the corner, at chip size, and
+   "לא גדולים. לא מסתירים תוכן.": so they sit in the corner, at chip size, and
    the page reserves room for them rather than having them float over the last
    line of text.
 

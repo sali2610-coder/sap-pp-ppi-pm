@@ -1,7 +1,7 @@
 "use client";
 
 /* ============================================================================
-   PROJECT NEO · /neo/chat/ — the general assistant. NOT "שאל את הספרייה".
+   PROJECT NEO · /neo/chat/: the general assistant. NOT "שאל את הספרייה".
    ----------------------------------------------------------------------------
    These two screens used to be one component rendered twice, which is why
    nobody could tell them apart: they were the same screen with a different

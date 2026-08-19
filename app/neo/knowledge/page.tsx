@@ -21,7 +21,7 @@ import { KnowledgeSurface } from "@/components/neo-shell/learn/knowledge-surface
 // hard-fails on any indexable page missing from the sitemap.
 export const metadata = {
   title: "מרכז המושגים · Project NEO",
-  description: "מושגי SAP כתובים — הסבר עסקי, הסבר טכני, ההתנהגות ב-ECC וההתנהגות ב-S/4HANA.",
+  description: "מושגי SAP כתובים: הסבר עסקי, הסבר טכני, ההתנהגות ב-ECC וההתנהגות ב-S/4HANA.",
   robots: { index: false, follow: false },
 };
 

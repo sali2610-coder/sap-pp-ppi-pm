@@ -133,7 +133,7 @@ export function standingOf(name: string): TableStanding {
     name,
     he: tableHe(name),
     href: objectHref(name),
-    note: s.impact?.changed || "המילון אינו מציין הערת S/4 לטבלה זו — נדרש אימות במערכת SAP.",
+    note: s.impact?.changed || "המילון אינו מציין הערת S/4 לטבלה זו: נדרש אימות במערכת SAP.",
     status: {
       he: s.trust === "needs" ? TRUST_HE.needs : RISK_HE[s.risk],
       color: RISK_COLOR[s.risk] || RISK_COLOR.none,

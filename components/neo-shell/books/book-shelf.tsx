@@ -389,7 +389,7 @@ export function BookShelf({ data }: { data: BooksData }) {
                           onPointerLeave={armed ? untilt : undefined}
                           onClick={(e) => { trigger.current = e.currentTarget; returnTo.current = e.currentTarget; setOpen(id); }}
                           aria-haspopup="dialog"
-                          aria-label={`${b.titleHe || b.titleEn} — ${b.chapters} פרקים, ${nf.format(b.sections)} תת-פרקים. פתיחת כרטיס הספר`}
+                          aria-label={`${b.titleHe || b.titleEn}: ${b.chapters} פרקים, ${nf.format(b.sections)} תת-פרקים. פתיחת כרטיס הספר`}
                         >
                           <BookCover b={b} />
                         </button>
@@ -405,7 +405,7 @@ export function BookShelf({ data }: { data: BooksData }) {
                             href={r.neoHref}
                             origin={() => leaving(b.titleHe || b.titleEn)}
                             onClick={() => noteHandoff(b.id, r.chapter, r.section)}
-                            aria-label={`המשך קריאה ב${b.titleHe || b.titleEn} — ${line}`}
+                            aria-label={`המשך קריאה ב${b.titleHe || b.titleEn}: ${line}`}
                           >
                             <Bookmark size={14} strokeWidth={2} aria-hidden="true" />
                             <span className="nb-mark-t">{line}</span>

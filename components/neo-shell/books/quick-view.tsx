@@ -353,7 +353,7 @@ export function BookQuickView({
             <Link className="nu-link" href={b.href} prefetch={false}>
               <span className="nb-sap">{b.href}</span>
             </Link>
-            , ממשיך לפעול ללא שינוי — העמוד הזה אינו עוטף אף אחד מהשניים.
+            , ממשיך לפעול ללא שינוי: העמוד הזה אינו עוטף אף אחד מהשניים.
           </p>
         </div>
       </div>

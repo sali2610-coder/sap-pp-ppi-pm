@@ -12,7 +12,7 @@ import { TablesSurface } from "@/components/neo-shell/data/tables-surface";
 // hard-fails on any indexable page missing from the sitemap.
 export const metadata = {
   title: "טבלאות המילון · Project NEO",
-  description: "מילון הטבלאות של PM ו-PP-PI במעטפת NEO — שדות, מפתחות, קשרי ER, טרנזקציות ומעבר ECC↔S/4.",
+  description: "מילון הטבלאות של PM ו-PP-PI במעטפת NEO: שדות, מפתחות, קשרי ER, טרנזקציות ומעבר ECC↔S/4.",
   robots: { index: false, follow: false },
 };
 

@@ -15,7 +15,7 @@ import { CertSurface } from "@/components/neo-shell/learn/cert-surface";
 
 export const metadata = {
   title: "הסמכה · Project NEO",
-  description: "מנגנון ההערכה העצמית של הפרויקט — מה נמדד, מה לא, ומה הוא אינו מתיימר להיות.",
+  description: "מנגנון ההערכה העצמית של הפרויקט: מה נמדד, מה לא, ומה הוא אינו מתיימר להיות.",
   robots: { index: false, follow: false },
 };
 

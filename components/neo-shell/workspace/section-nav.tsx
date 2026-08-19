@@ -11,7 +11,7 @@
    WHAT THE BAR HAS TO ANSWER, AND WHERE EACH ANSWER LIVES
 
      איפה אני          the active chip, and the counter that reads "03 / 08"
-     מה פעיל           .nm-sel + data-on="1" — ground, ink, edge and weight at
+     מה פעיל           .nm-sel + data-on="1": ground, ink, edge and weight at
                        once. Never a hairline underline; see below.
      כמה נשאר          the progress line along the bottom edge of the bar
      מה הבא            a named control at the end of the bar that carries the

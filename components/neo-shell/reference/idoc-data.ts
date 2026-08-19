@@ -60,7 +60,7 @@ function rowOf(r: IdocRecordData): RefRow {
     ? "changed"
     : r.intel?.s4 && r.intel?.ecc ? "compare" : "unknown";
   const text = critical.length
-    ? `סוג ההודעה נשען על ${critical.map((t) => t.name).join(", ")} — טבלה שמשתנה מהותית ב-S/4HANA.`
+    ? `סוג ההודעה נשען על ${critical.map((t) => t.name).join(", ")}: טבלה שמשתנה מהותית ב-S/4HANA.`
     : clean(r.intel?.s4) || "לא קיים מידע מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA.";
 
   const caps: string[] = [];
@@ -113,9 +113,9 @@ export function idocDir(): RefDir {
     title: "IDocs",
     icon: "cable",
     lede:
-      `הפרויקט מתעד ${nf.format(rows.length)} סוגי הודעת IDoc — בדיוק אלה שמופיעים בפועל על טבלה מתועדת ` +
+      `הפרויקט מתעד ${nf.format(rows.length)} סוגי הודעת IDoc: בדיוק אלה שמופיעים בפועל על טבלה מתועדת ` +
       `ב-PM או ב-PP-PI. הרשימה קצרה בכוונה: סוג הודעה שאינו מופיע במאגר אינו נוסף כאן כדי להאריך אותה. ` +
-      `מתחת לרשימה נמצא מה שהמאגר כן יודע לעומק על IDoc — האנטומיה של ההודעה ומדריך הסטטוסים.`,
+      `מתחת לרשימה נמצא מה שהמאגר כן יודע לעומק על IDoc: האנטומיה של ההודעה ומדריך הסטטוסים.`,
     stats: [
       { v: rows.length, l: "סוגי הודעה במאגר", i: "cable" },
       { v: IDOC_RECORDS.length, l: "רשומות פיזיות", i: "database" },
@@ -189,7 +189,7 @@ export function idocDetail(name: string): RefDetail | null {
     : intel?.s4 && intel?.ecc ? "compare" : "unknown";
 
   const headline = critical.length
-    ? `סוג ההודעה נשען על ${critical.map((t) => t.name).join(", ")} — טבלה שמשתנה מהותית ב-S/4HANA.`
+    ? `סוג ההודעה נשען על ${critical.map((t) => t.name).join(", ")}: טבלה שמשתנה מהותית ב-S/4HANA.`
     : clean(intel?.s4) || "לא קיים מידע מאומת במאגר על מעמד סוג ההודעה ב-S/4HANA.";
 
   const s4Facts: RefFact[] = [
@@ -309,7 +309,7 @@ export function idocDetail(name: string): RefDetail | null {
       ? { he: "מתועד לעומק", color: "var(--status-done)" }
       : { he: "רשומת קישור בלבד", color: "var(--status-not-started)" },
   ];
-  if (intel?.inferred) statuses.push({ he: "תלוי גרסה — נדרש אימות", color: "var(--status-in-analysis)" });
+  if (intel?.inferred) statuses.push({ he: "תלוי גרסה: נדרש אימות", color: "var(--status-in-analysis)" });
 
   return {
     kind: "idoc",
@@ -343,6 +343,6 @@ export function idocDetail(name: string): RefDetail | null {
     sources: [],
     foot:
       "הרשומה נבנתה מתוך המידע המאומת של הפרויקט על ממשקי פונקציה ו-IDoc. מדריך הסטטוסים והאנטומיה של ההודעה " +
-      "אינם משוכפלים לכאן — הם משותפים לכל סוגי ההודעה ומוצגים פעם אחת, בעמוד הרשימה.",
+      "אינם משוכפלים לכאן: הם משותפים לכל סוגי ההודעה ומוצגים פעם אחת, בעמוד הרשימה.",
   };
 }

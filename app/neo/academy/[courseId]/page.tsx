@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ courseId:
   if (!c) return { title: "קורס · Project NEO", robots: { index: false, follow: false } };
   return {
     title: `${c.title} · ${c.module} · Project NEO`,
-    description: `${c.title} — ${c.totals.chapters} פרקים, ${c.totals.lessons} שיעורים.`,
+    description: `${c.title}: ${c.totals.chapters} פרקים, ${c.totals.lessons} שיעורים.`,
     robots: { index: false, follow: false },
   };
 }

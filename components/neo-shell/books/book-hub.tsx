@@ -220,8 +220,8 @@ export function BookHub({ d }: { d: BookHubData }) {
 
           {/* §7 — THE TWO WAYS IN, named as two ways in. Both open the SAME
               surface — /neo/read/<id>/ — and differ only in where they land.
-              A · המשך קריאה — the stored location, and only when one resolves.
-              B · פתיחת הספר — the reader from the top of the book.
+              A · המשך קריאה: the stored location, and only when one resolves.
+              B · פתיחת הספר: the reader from the top of the book.
               The canonical reader at /library/<id>/ is neither removed nor
               reimplemented; it is named as itself, below. */}
           <div className="nb-modes" aria-label="דרכי הכניסה לספר">
@@ -281,7 +281,7 @@ export function BookHub({ d }: { d: BookHubData }) {
               הקורא הקנוני של הפרויקט
             </Link>
             {" "}
-            <span className="nb-sap">{b.href}</span> — ממשיך לפעול ללא שינוי.
+            <span className="nb-sap">{b.href}</span>: ממשיך לפעול ללא שינוי.
             {!b.exact && b.exactNote ? ` ${b.exactNote}` : ""}
           </p>
         </div>
@@ -357,7 +357,7 @@ export function BookHub({ d }: { d: BookHubData }) {
           <ChevronRight size={15} strokeWidth={1.75} aria-hidden="true" />
           חזרה למדף
         </Link>
-        <p className="nb-credit">Project NEO · CBC Israel — פותח על ידי סאלי חליף · Web Coding</p>
+        <p className="nb-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
       </footer>
     </div>
   );

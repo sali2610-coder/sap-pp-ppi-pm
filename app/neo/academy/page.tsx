@@ -14,7 +14,7 @@ import { AcademySurface } from "@/components/neo-shell/learn/academy-surface";
 
 export const metadata = {
   title: "האקדמיה · Project NEO",
-  description: "מסלולי הלמידה הכתובים של האקדמיה — פרקים, שיעורים, רמה ואורך מוצהר.",
+  description: "מסלולי הלמידה הכתובים של האקדמיה: פרקים, שיעורים, רמה ואורך מוצהר.",
   robots: { index: false, follow: false },
 };
 

@@ -53,7 +53,7 @@ export function IdocReferenceBlock({ r }: { r: IdocReference }) {
                 {rec.href ? (
                   <Link href={rec.href} prefetch={false} className="nu-card nxt-tbl-r">{inner}</Link>
                 ) : (
-                  <div className="nxt-tbl-r is-flat" aria-label={`${rec.table} — אין עמוד אובייקט במילון`}>{inner}</div>
+                  <div className="nxt-tbl-r is-flat" aria-label={`${rec.table}: אין עמוד אובייקט במילון`}>{inner}</div>
                 )}
               </li>
             );

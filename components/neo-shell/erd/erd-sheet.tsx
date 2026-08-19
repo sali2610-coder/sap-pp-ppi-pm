@@ -65,7 +65,7 @@ export function ErdSheet({
                 <ArrowUpLeft size={14} strokeWidth={1.9} aria-hidden="true" className="nu-arw" />
               </OriginLink>
             ) : (
-              <span className="ne-c2-nopage">אין לטבלה הזו עמוד אובייקט — הכרטיס הזה הוא הרשומה המלאה</span>
+              <span className="ne-c2-nopage">אין לטבלה הזו עמוד אובייקט: הכרטיס הזה הוא הרשומה המלאה</span>
             )}
             <button type="button" className="nu-ghost ne-c2-x" onClick={onClose} aria-label="סגור">
               <X size={17} strokeWidth={2} aria-hidden="true" />

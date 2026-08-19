@@ -385,8 +385,8 @@ export function hubContent(id: string): HubContent {
       ...base,
       lede:
         meta.mod === "PM"
-          ? "אחזקת מפעל — ציוד, מיקומים פונקציונליים, הודעות ופקודות אחזקה. כל מספר בעמוד נגזר ממילון הנתונים של הפרויקט."
-          : "ייצור תהליכי — מתכונים, משאבים, פקודות תהליך ואישורים. כל מספר בעמוד נגזר ממילון הנתונים של הפרויקט.",
+          ? "אחזקת מפעל: ציוד, מיקומים פונקציונליים, הודעות ופקודות אחזקה. כל מספר בעמוד נגזר ממילון הנתונים של הפרויקט."
+          : "ייצור תהליכי: מתכונים, משאבים, פקודות תהליך ואישורים. כל מספר בעמוד נגזר ממילון הנתונים של הפרויקט.",
       stats: [
         { value: st.tables, label: "טבלאות ייחודיות" },
         { value: st.fields, label: "שדות מתועדים" },
@@ -428,7 +428,7 @@ export function hubContent(id: string): HubContent {
       const s = registryStats();
       return {
         ...base,
-        lede: "מרשם הטרנזקציות של הפרויקט. הפירוט לעומק קיים לחלק מהן; השאר נשמרות כרשומות קלות — ההבחנה מוצגת ולא מטושטשת.",
+        lede: "מרשם הטרנזקציות של הפרויקט. הפירוט לעומק קיים לחלק מהן; השאר נשמרות כרשומות קלות: ההבחנה מוצגת ולא מטושטשת.",
         stats: [
           { value: s.total, label: "סה״כ" },
           { value: s.deep, label: "מתועדות לעומק" },
@@ -445,7 +445,7 @@ export function hubContent(id: string): HubContent {
       const r = funcRegistry();
       return {
         ...base,
-        lede: "אובייקטי פונקציה — BAPIs ו-Function Modules — כפי שהם רשומים במרשם הפרויקט.",
+        lede: "אובייקטי פונקציה, BAPIs ו-Function Modules, כפי שהם רשומים במרשם הפרויקט.",
         stats: [{ value: r.length, label: "אובייקטים" }],
         tables: [],
         listTitle: "מדגם מהמרשם",
@@ -456,7 +456,7 @@ export function hubContent(id: string): HubContent {
       const types = idocMessageTypes();
       return {
         ...base,
-        lede: "סוגי ההודעה של IDoc שקיימים בפועל בנתוני PM / PP-PI. שניים בלבד — המספר מוצג כפי שהוא ולא מנופח.",
+        lede: "סוגי ההודעה של IDoc שקיימים בפועל בנתוני PM / PP-PI. שניים בלבד: המספר מוצג כפי שהוא ולא מנופח.",
         stats: [{ value: types.length, label: "סוגי הודעה" }],
         tables: [],
         listTitle: "סוגי הודעה",
@@ -484,7 +484,7 @@ export function hubContent(id: string): HubContent {
     case "enhancements":
       return {
         ...base,
-        lede: "טכניקות ההרחבה של SAP — מ-User Exit ועד BAdI ו-Extension Points.",
+        lede: "טכניקות ההרחבה של SAP: מ-User Exit ועד BAdI ו-Extension Points.",
         stats: [{ value: ENHANCEMENTS.length, label: "טכניקות" }],
         tables: [],
         listTitle: "טכניקות",
@@ -493,7 +493,7 @@ export function hubContent(id: string): HubContent {
     case "library":
       return {
         ...base,
-        lede: "הספרייה הדיגיטלית — אינדקס מבני של המדריכים הרשמיים.",
+        lede: "הספרייה הדיגיטלית: אינדקס מבני של המדריכים הרשמיים.",
         stats: [
           { value: LIBRARY_STATS.books, label: "ספרים" },
           { value: LIBRARY_STATS.chapters, label: "פרקים" },
@@ -506,7 +506,7 @@ export function hubContent(id: string): HubContent {
     case "knowledge":
       return {
         ...base,
-        lede: "מרכז המושגים — הסבר עסקי וטכני לכל מונח, כולל ההבדל בין ECC ל-S/4HANA.",
+        lede: "מרכז המושגים: הסבר עסקי וטכני לכל מונח, כולל ההבדל בין ECC ל-S/4HANA.",
         stats: [{ value: CONCEPTS.length, label: "מושגים" }],
         tables: [],
         listTitle: "מושגים",
@@ -515,7 +515,7 @@ export function hubContent(id: string): HubContent {
     case "academy":
       return {
         ...base,
-        lede: "ספרי הלימוד של האקדמיה — כל אחד עם אינדקס טרנזקציות, טבלאות ומונחים משלו.",
+        lede: "ספרי הלימוד של האקדמיה: כל אחד עם אינדקס טרנזקציות, טבלאות ומונחים משלו.",
         stats: [{ value: BOOKS.length, label: "ספרי לימוד" }],
         tables: [],
         listTitle: "ספרים",
@@ -524,7 +524,7 @@ export function hubContent(id: string): HubContent {
     case "incidents":
       return {
         ...base,
-        lede: "קטלוג התקלות — סימפטום, שורש, טרנזקציות אבחון וצעדי תיקון.",
+        lede: "קטלוג התקלות: סימפטום, שורש, טרנזקציות אבחון וצעדי תיקון.",
         stats: [{ value: INCIDENTS.length, label: "תקלות" }],
         tables: [],
         listTitle: "תקלות",
@@ -533,7 +533,7 @@ export function hubContent(id: string): HubContent {
     case "domain-model":
       return {
         ...base,
-        lede: "התחומים הפונקציונליים של PM ו-PP-PI — הזרימה העסקית, הטבלאות והטרנזקציות של כל תחום.",
+        lede: "התחומים הפונקציונליים של PM ו-PP-PI: הזרימה העסקית, הטבלאות והטרנזקציות של כל תחום.",
         stats: [
           { value: DOMAINS.length, label: "תחומים" },
           { value: DOMAINS.filter((d) => d.module === "PM").length, label: "PM" },
@@ -548,7 +548,7 @@ export function hubContent(id: string): HubContent {
       // with no dataset-backed count. Stage 1 says so instead of inventing one.
       return {
         ...base,
-        lede: "היעד קיים במוצר, ואין לו ספירה מגובה בנתוני הפרויקט. שלב 1 של העיצוב מציג את מסגרת הניווט בלבד — התוכן המלא נבנה בשלב הבא.",
+        lede: "היעד קיים במוצר, ואין לו ספירה מגובה בנתוני הפרויקט. שלב 1 של העיצוב מציג את מסגרת הניווט בלבד: התוכן המלא נבנה בשלב הבא.",
         stats: [],
         tables: [],
         listTitle: "",

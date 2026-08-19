@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: { params: Promise<{ courseId:
   if (!d) return { title: "שיעור · Project NEO", robots: { index: false, follow: false } };
   return {
     title: `${d.lesson.title} · ${d.course.title} · Project NEO`,
-    description: `${d.lesson.title} — פרק ${d.place.chapterIndex}, ${d.place.chapterTitle}.`,
+    description: `${d.lesson.title}: פרק ${d.place.chapterIndex}, ${d.place.chapterTitle}.`,
     robots: { index: false, follow: false },
   };
 }

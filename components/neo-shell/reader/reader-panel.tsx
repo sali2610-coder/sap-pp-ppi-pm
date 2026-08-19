@@ -158,7 +158,7 @@ export function ReaderPanel({
               />
             </label>
             <p className="nr-note">
-              החיפוש עובר על כותרות ומזהים בלבד — גוף הטקסט נטען פרק-פרק ואינו נמצא כאן.
+              החיפוש עובר על כותרות ומזהים בלבד: גוף הטקסט נטען פרק-פרק ואינו נמצא כאן.
             </p>
 
             {hits ? (
@@ -291,7 +291,7 @@ export function ReaderPanel({
                   <b>{n(read.length)}</b>
                   <span className="nu-status" style={{ "--s": read.length ? "var(--status-done)" : "var(--status-not-started)" } as React.CSSProperties}>
                     {read.length
-                      ? `${n(read.length)} מתוך ${n(book.chapters.length)} פרקים — נרשם בקורא הקנוני`
+                      ? `${n(read.length)} מתוך ${n(book.chapters.length)} פרקים: נרשם בקורא הקנוני`
                       : "עדיין לא סומן פרק כנקרא"}
                   </span>
                 </dd>

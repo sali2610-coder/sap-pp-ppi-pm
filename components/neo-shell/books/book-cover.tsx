@@ -37,8 +37,30 @@
 // midpoint and prints that its pages are undocumented.
 
 import type { BookCard } from "./books-data";
+import { coverTitle } from "./cover-title";
 
 const nf = new Intl.NumberFormat("he-IL");
+
+/** The subject's size tier. A cover is set from the SUBJECT, not from the whole
+ *  title, which is what lets a two-word subject be large. Two things can force
+ *  it down: too many words, or one word too long to fit the printable measure —
+ *  "Sales and Operations Planning" and "Prerequisites" fail for opposite
+ *  reasons, so both are tested. */
+function subjectTier(subject: string): "xl" | "lg" | "md" | "sm" {
+  const words = subject.split(/\s+/).filter(Boolean);
+  const longest = words.reduce((m, w) => Math.max(m, w.length), 0);
+
+  // Two independent limits, because a subject can fail to fit in two unrelated
+  // ways. "Prerequisites" is ONE word that is too wide for the measure;
+  // "Sales and Operations Planning" is four short words that are too tall.
+  // Sizing on word count alone set "Plant Maintenance" at the largest tier and
+  // split it across a line break as "Maintenan / ce", so the longest WORD has
+  // to be tested too, and the stricter of the two limits wins.
+  const byWord = longest <= 6 ? 0 : longest <= 9 ? 1 : longest <= 13 ? 2 : 3;
+  const byCount = words.length <= 2 ? 0 : words.length === 3 ? 1 : words.length === 4 ? 2 : 3;
+
+  return (["xl", "lg", "md", "sm"] as const)[Math.max(byWord, byCount)];
+}
 
 /** `book7` -> `07`. The id itself, not a position on the shelf. */
 const plate = (id: string) => {
@@ -59,6 +81,8 @@ export function BookCover({
 }) {
   const main = b.titleHe || b.titleEn;
   const under = b.titleHe ? b.titleEn : null;
+  const r = coverTitle(main);
+  const tier = subjectTier(r.subject);
 
   return (
     <span
@@ -102,13 +126,49 @@ export function BookCover({
         <span className="nb-f nb-f-front">
           <span className="nb-cov-board" />
           <span className="nb-cov-cloth" />
-          <span className="nb-cov-face">
+
+          {/* THE JACKET.
+              Four zones, composed like a real technical jacket rather than a
+              paragraph of title text:
+
+                head    module plate, hairline, volume numeral
+                field   the module code blind-stamped into the cloth. This is
+                        the cover's graphic, and it is real metadata rather
+                        than ornament, which is why it is allowed to be huge.
+                type    seated LOW: foil rule, kicker, subject, platform,
+                        subtitle. Seating it low moves the empty space above
+                        the type, where it reads as margin instead of as an
+                        unfinished cover.
+                foot    publisher and extent, letterspaced.
+
+              Every string here is the book's own metadata. Nothing is invented:
+              coverTitle() only RANKS the real title and refuses its own output
+              if a token would be lost. */}
+          <span className="nb-cov-face" data-tier={tier}>
+            <span className="nb-cov-frame" aria-hidden="true" />
+
             <span className="nb-cov-top">
               <span className="nb-cov-mod">{b.module}</span>
-              <span className="nb-cov-foil" />
+              <span className="nb-cov-vol">{plate(b.id)}</span>
             </span>
-            <span className="nb-cov-t" lang={b.titleHe ? "he" : "en"}>{main}</span>
-            {under && <span className="nb-cov-t2" lang="en">{under}</span>}
+
+            <span className="nb-cov-stamp" aria-hidden="true">{b.module}</span>
+
+            <span className="nb-cov-type">
+              <span className="nb-cov-foil" />
+              {r.kicker && <span className="nb-cov-kick" lang="en">{r.kicker}</span>}
+              <span className="nb-cov-subj" lang={b.titleHe ? "he" : "en"}>{r.subject}</span>
+              {r.platform && (
+                <span className="nb-cov-plat" lang={b.titleHe ? "he" : "en"}>{r.platform}</span>
+              )}
+              {r.subtitle && (
+                <span className="nb-cov-sub" lang={b.titleHe ? "he" : "en"}>{r.subtitle}</span>
+              )}
+              {/* The English title under a Hebrew one. It is a second real
+                  title, not a translation we produced, so it stays. */}
+              {under && <span className="nb-cov-alt" lang="en">{under}</span>}
+            </span>
+
             <span className="nb-cov-rule" />
             <span className="nb-cov-pub">
               <span>{b.publisher ?? "ללא מוציא לאור במטא-דאטה"}</span>
@@ -117,7 +177,13 @@ export function BookCover({
               </span>
             </span>
           </span>
+
           <span className="nb-cov-gloss" />
+          {/* THE BOARD'S OWN THICKNESS. A cover is not a plane, and this is the
+              face that says so: it hangs off the fore-edge of the front board
+              and hinges WITH it, so the thickness swings as the book opens
+              instead of sitting there as a painted line. */}
+          <span className="nb-cov-edge" aria-hidden="true" />
           {/* The inside of the front board. Only ever seen while the cover is
               open, and only from behind — hence its own face. */}
           <span className="nb-cov-inner" />

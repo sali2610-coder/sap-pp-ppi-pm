@@ -65,7 +65,7 @@ function s4Of(v: CdsView) {
   const impacted = tables.filter((t) => t.impacted);
   const tone: RefRow["s4"]["tone"] = critical.length ? "changed" : "replacement";
   const headline = critical.length
-    ? `התצוגה יושבת מעל ${critical.map((t) => t.name).join(", ")} — טבלה שמשתנה מהותית ב-S/4HANA.`
+    ? `התצוגה יושבת מעל ${critical.map((t) => t.name).join(", ")}: טבלה שמשתנה מהותית ב-S/4HANA.`
     : `שכבת ה-VDM של S/4HANA מעל ${v.tables.join(", ")}.`;
   return { tables, critical, impacted, tone, headline };
 }
@@ -129,7 +129,7 @@ export function cdsDir(): RefDir {
     lede:
       `${nf.format(CDS_VIEWS.length)} תצוגות CDS משוחררות שהפרויקט מיפה אל הטבלאות הקלאסיות שהן מחליפות. ` +
       `זהו הצד של S/4HANA במילון: כל שורה אומרת איזו טבלת ECC היא מכסה, איזו שכבת Consumption יושבת מעליה ` +
-      `ואיזו אפליקציית Fiori צורכת אותה — ומה מעמד הטבלה הקלאסית עצמה במעבר.`,
+      `ואיזו אפליקציית Fiori צורכת אותה: ומה מעמד הטבלה הקלאסית עצמה במעבר.`,
     stats: [
       { v: CDS_VIEWS.length, l: "תצוגות CDS", i: "sigma" },
       { v: uniq(CDS_VIEWS.flatMap((v) => v.tables)).length, l: "טבלאות קלאסיות מכוסות", i: "table" },
@@ -159,7 +159,7 @@ export function cdsDir(): RefDir {
       "המיפוי בין תצוגה לטבלאות קלאסיות הוא מיפוי מאומת ידנית בקובצי הפרויקט, לא תוצר של גזירה אוטומטית. " +
       "מחרוזות annotation שאינן ודאיות מתוארות ברמת המושג ולא נכתבות כטקסט מדויק.",
     emptyNote:
-      "החיפוש עובר על שם התצוגה, המשמעות, הטבלאות הקלאסיות, שכבת ה-Consumption ואפליקציית ה-Fiori — כולם ערכים " +
+      "החיפוש עובר על שם התצוגה, המשמעות, הטבלאות הקלאסיות, שכבת ה-Consumption ואפליקציית ה-Fiori: כולם ערכים " +
       "אמיתיים מקובצי הפרויקט.",
   };
 }
@@ -261,7 +261,7 @@ export function cdsDetail(name: string): RefDetail | null {
       ? { he: "רשומה מאומתת", color: "var(--status-done)" }
       : e
         ? { he: "דורש אימות", color: "var(--status-not-started)" }
-        : { he: "מיפוי בלבד — ללא רשומת העשרה", color: "var(--status-in-analysis)" },
+        : { he: "מיפוי בלבד: ללא רשומת העשרה", color: "var(--status-in-analysis)" },
   ];
 
   return {

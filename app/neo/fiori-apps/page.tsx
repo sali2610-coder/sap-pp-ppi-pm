@@ -11,7 +11,7 @@ import { fioriDir } from "@/components/neo-shell/reference/fiori-data";
 export const metadata = {
   title: "אפליקציות Fiori · Project NEO",
   description:
-    "האפליקציות שהפרויקט תיעד במלואן — מזהה, תפקיד עסקי, קטלוג, OData ו-CDS, ואיזו טרנזקציית SAP GUI כל אחת מחליפה.",
+    "האפליקציות שהפרויקט תיעד במלואן: מזהה, תפקיד עסקי, קטלוג, OData ו-CDS, ואיזו טרנזקציית SAP GUI כל אחת מחליפה.",
   robots: { index: false, follow: false },
 };
 

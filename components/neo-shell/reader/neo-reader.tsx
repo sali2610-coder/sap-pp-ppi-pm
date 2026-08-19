@@ -665,10 +665,10 @@ export function NeoReader({ book }: { book: NRBook }) {
               onClick={mark}
               title={
                 marked
-                  ? `סימנייה מונחת כאן${secTitle ? ` — ${secTitle}` : ""}. לחיצה מסירה אותה.`
+                  ? `סימנייה מונחת כאן${secTitle ? `: ${secTitle}` : ""}. לחיצה מסירה אותה.`
                   : chapter.sections.length
                     ? "הנח סימנייה על תת-הפרק הנוכחי"
-                    : "הנח סימנייה על הפרק — לפרק זה אין תת-פרקים בנתוני הספר"
+                    : "הנח סימנייה על הפרק: לפרק זה אין תת-פרקים בנתוני הספר"
               }
             >
               {marked
@@ -708,7 +708,7 @@ export function NeoReader({ book }: { book: NRBook }) {
               aria-pressed={prefs.focus}
               aria-label="מצב מיקוד"
               onClick={() => set("focus", !prefs.focus)}
-              title="מצב מיקוד — פחות סביבה, אותו טקסט"
+              title="מצב מיקוד: פחות סביבה, אותו טקסט"
             >
               <Focus size={14} strokeWidth={1.9} aria-hidden="true" />
               <span className="nr-tool-l">מיקוד</span>
@@ -723,7 +723,7 @@ export function NeoReader({ book }: { book: NRBook }) {
               onClick={() => set("lens", !prefs.lens)}
               title={reduced
                 ? "עדשת הקריאה מושבתת כי המערכת מבקשת פחות תנועה"
-                : "עדשת קריאה — מבודדת חלון קריאה קצר; להגדלה השתמש בגודל הטקסט"}
+                : "עדשת קריאה: מבודדת חלון קריאה קצר; להגדלה השתמש בגודל הטקסט"}
             >
               <ScanLine size={14} strokeWidth={1.9} aria-hidden="true" />
               <span className="nr-tool-l">עדשה</span>
@@ -735,7 +735,7 @@ export function NeoReader({ book }: { book: NRBook }) {
                 onClick={() => step("size", -1)}
                 disabled={!canStep(prefs, "size", -1)}
                 aria-label="הקטן טקסט"
-                title={`גודל טקסט — ${SIZE_HE[prefs.size]}`}
+                title={`גודל טקסט: ${SIZE_HE[prefs.size]}`}
               >
                 <AArrowDown size={16} strokeWidth={1.9} aria-hidden="true" />
               </button>
@@ -745,7 +745,7 @@ export function NeoReader({ book }: { book: NRBook }) {
                 onClick={() => step("size", 1)}
                 disabled={!canStep(prefs, "size", 1)}
                 aria-label="הגדל טקסט"
-                title={`גודל טקסט — ${SIZE_HE[prefs.size]}`}
+                title={`גודל טקסט: ${SIZE_HE[prefs.size]}`}
               >
                 <AArrowUp size={16} strokeWidth={1.9} aria-hidden="true" />
               </button>
@@ -757,7 +757,7 @@ export function NeoReader({ book }: { book: NRBook }) {
                 onClick={() => step("measure", -1)}
                 disabled={!canStep(prefs, "measure", -1)}
                 aria-label="הצר את הטור"
-                title={`רוחב הטור — ${MEASURE_HE[prefs.measure]}`}
+                title={`רוחב הטור: ${MEASURE_HE[prefs.measure]}`}
               >
                 <Minus size={15} strokeWidth={2} aria-hidden="true" />
               </button>
@@ -768,7 +768,7 @@ export function NeoReader({ book }: { book: NRBook }) {
                 onClick={() => step("measure", 1)}
                 disabled={!canStep(prefs, "measure", 1)}
                 aria-label="הרחב את הטור"
-                title={`רוחב הטור — ${MEASURE_HE[prefs.measure]}`}
+                title={`רוחב הטור: ${MEASURE_HE[prefs.measure]}`}
               >
                 <Plus size={15} strokeWidth={2} aria-hidden="true" />
               </button>
@@ -780,7 +780,7 @@ export function NeoReader({ book }: { book: NRBook }) {
               aria-pressed={prefs.lead === "air"}
               aria-label="רווח שורות מוגדל"
               onClick={() => set("lead", prefs.lead === "air" ? "normal" : "air")}
-              title={`רווח שורות — ${LEAD_HE[prefs.lead]}`}
+              title={`רווח שורות: ${LEAD_HE[prefs.lead]}`}
             >
               <AlignJustify size={14} strokeWidth={1.9} aria-hidden="true" />
               <span className="nr-tool-l">רווח</span>
@@ -792,7 +792,7 @@ export function NeoReader({ book }: { book: NRBook }) {
               aria-pressed={prefs.paper}
               aria-label="גוון נייר"
               onClick={() => set("paper", !prefs.paper)}
-              title="גוון נייר — חם יותר, רק על משטח הקריאה"
+              title="גוון נייר: חם יותר, רק על משטח הקריאה"
             >
               <Sun size={14} strokeWidth={1.9} aria-hidden="true" />
               <span className="nr-tool-l">נייר</span>
@@ -835,7 +835,7 @@ export function NeoReader({ book }: { book: NRBook }) {
             </button>
           </span>
           <span className="nr-resume-n">
-            הפרק כבר פתוח; הכפתור מדלג אל תת-הפרק עצמו. המיקום נשמר ברמת פרק ותת-פרק בלבד — אין כאן שחזור מדויק של
+            הפרק כבר פתוח; הכפתור מדלג אל תת-הפרק עצמו. המיקום נשמר ברמת פרק ותת-פרק בלבד: אין כאן שחזור מדויק של
             מיקום גלילה, והקורא לא יבטיח מה שאינו יכול לקיים.
           </span>
         </div>
@@ -907,7 +907,7 @@ export function NeoReader({ book }: { book: NRBook }) {
 
             {chapter.sections.length === 0 ? (
               <p className="nr-none">
-                בנתוני הספר אין תת-פרקים לפרק הזה. זהו מצב אמיתי במאגר, לא תקלה — ולכן לא הומצאו כאן סעיפים.
+                בנתוני הספר אין תת-פרקים לפרק הזה. זהו מצב אמיתי במאגר, לא תקלה: ולכן לא הומצאו כאן סעיפים.
               </p>
             ) : (
               chapter.sections.map((s, i) => (
@@ -983,7 +983,7 @@ export function NeoReader({ book }: { book: NRBook }) {
           onClick={() => prev && goTo(prev.chapter, prev.sectionId)}
           disabled={!prev}
           aria-label={prevAt
-            ? `לתת-הפרק הקודם — ${prevAt.title}${prevAt.crosses ? ` (פרק ${prevAt.chapter})` : ""}`
+            ? `לתת-הפרק הקודם: ${prevAt.title}${prevAt.crosses ? ` (פרק ${prevAt.chapter})` : ""}`
             : "זוהי תחילת הספר"}
           title={prevAt
             ? `${prevAt.crosses ? `פרק ${prevAt.chapter} · ` : ""}${prevAt.title}`
@@ -1005,7 +1005,7 @@ export function NeoReader({ book }: { book: NRBook }) {
           onClick={() => next && goTo(next.chapter, next.sectionId)}
           disabled={!next}
           aria-label={nextAt
-            ? `לתת-הפרק הבא — ${nextAt.title}${nextAt.crosses ? ` (פרק ${nextAt.chapter})` : ""}`
+            ? `לתת-הפרק הבא: ${nextAt.title}${nextAt.crosses ? ` (פרק ${nextAt.chapter})` : ""}`
             : "זהו סוף הספר"}
           title={nextAt
             ? `${nextAt.crosses ? `פרק ${nextAt.chapter} · ` : ""}${nextAt.title}`

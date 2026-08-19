@@ -12,7 +12,7 @@
    concrete breakpoints, prevention steps, a worked scenario or a separate
    ECC / S/4HANA behaviour. A section with nothing behind it is not drawn, and
    the two places where absence is itself the answer — the S/4HANA standing and
-   the SAP Note trail — say "לא קיים מידע מאומת במאגר" out loud instead.
+   the SAP Note trail: say "לא קיים מידע מאומת במאגר" out loud instead.
 
    SECTION NUMBERING is computed from the sections that actually render, so the
    sequence never has a hole where a field was missing.
@@ -155,7 +155,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
           </div>
           <Absent what="הפרדה בין התנהגות ב-ECC לבין S/4HANA ברשומה הזו" />
           <p className="nx-muted">
-            הרשומה נכתבה בלי להפריד בין הגרסאות. אין להסיק מכך שההתנהגות זהה — יש לאמת מול המערכת.
+            הרשומה נכתבה בלי להפריד בין הגרסאות. אין להסיק מכך שההתנהגות זהה: יש לאמת מול המערכת.
           </p>
         </section>
       )}
@@ -316,7 +316,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
         {r.notes.length || r.oss.length ? (
           <>
             <p className="nx-muted">
-              מילות חיפוש בלבד. הפרויקט אינו שומר מספרי SAP Note ואינו ממציא אותם — יש לחפש איתן ב-SAP for Me
+              מילות חיפוש בלבד. הפרויקט אינו שומר מספרי SAP Note ואינו ממציא אותם: יש לחפש איתן ב-SAP for Me
               {" "}ולאמת את המספר שמתקבל.
             </p>
             <div className="nxv-chips">
@@ -332,7 +332,7 @@ export function IncidentView({ r }: { r: IncidentRow }) {
         <p className="nxv-src">
           <Info size={13} strokeWidth={1.75} aria-hidden="true" />
           <span>
-            מקור: <span className="nx-sap">data/troubleshooting.ts</span> — ידע תמיכה כתוב, לא בדיקה חיה
+            מקור: <span className="nx-sap">data/troubleshooting.ts</span>: ידע תמיכה כתוב, לא בדיקה חיה
             {" "}במערכת SAP ולא תור תמיכה. כל צעד טעון אימות בסביבה לפני ביצוע בייצור.
           </span>
         </p>

@@ -848,7 +848,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
 
      What the filter disclosure holds is exactly what is NOT on the bar, so the
      bar has to say how much is hidden behind it. This is the count, and the
-     same list is what "נקה מסננים" puts back — a disclosure whose trigger can
+     same list is what "נקה מסננים" puts back: a disclosure whose trigger can
      read "0" while something is quietly filtering the picture is worse than no
      disclosure at all.
 
@@ -2008,7 +2008,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         ) : (
           <p className="ne-fhint">
             בחר מודול כדי לפתוח את מודל הנתונים שלו. כל קו במפה הוא מספר קשרי הטבלאות שנמדדו בין
-            שני המודולים — לא דירוג.
+            שני המודולים: לא דירוג.
           </p>
         )}
 
@@ -2076,7 +2076,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             role="img"
             aria-label={
               M
-                ? `תרשים ER של מודול ${M.code} — ${scopeCount} טבלאות`
+                ? `תרשים ER של מודול ${M.code}: ${scopeCount} טבלאות`
                 : `מפת ${data.stats.modules} מודולי SAP`
             }
           >
@@ -2114,7 +2114,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                     >
                       <title>
                         {isMap
-                          ? `${e.p} ↔ ${e.c} — ${e.n} קשרי טבלאות`
+                          ? `${e.p} ↔ ${e.c}: ${e.n} קשרי טבלאות`
                           : `${e.p} → ${e.c} · ${rec?.cd || REL_HE[(rec?.k ?? "unstated") as RelKind]}${rec?.ds ? ` — ${rec.ds}` : ""}`}
                       </title>
                       <path className="ne-edge-p" data-edge={e.i} d={pathD(g)} />
@@ -2252,7 +2252,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                           onMouseLeave={() => setHover((h) => (h === name ? null : h))}
                           style={{ "--m": modVar(t.m), "--ms": modVar(t.m), "--o": t.o } as React.CSSProperties}
                         >
-                          <title>{`${t.n} — ${t.he || t.en}. ${ZONE_HE[t.z] || t.z}. ${dg} קשרים`}</title>
+                          <title>{`${t.n}: ${t.he || t.en}. ${ZONE_HE[t.z] || t.z}. ${dg} קשרים`}</title>
                           <rect className="ne-node-h" x={-ow / 2 - 5} y={oy - 5} width={ow + 10} height={oh + 10} rx={14} />
                           <rect className="ne-node-r" x={-ow / 2} y={oy} width={ow} height={oh} rx={isOpen ? 14 : 10} />
                           {/* MODULE identity is a line on the inline-start edge.
@@ -2447,7 +2447,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         ) : null}
       </div>
 
-      <p className="ne-credit">Project NEO · CBC Israel — פותח על ידי סאלי חליף · Web Coding</p>
+      <p className="ne-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
 
       {sheet && tByName.get(sheet) ? (
         <ErdSheet
@@ -2514,15 +2514,15 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               ))}
               <li data-kind="unstated" style={{ "--e": "var(--ink-3)" } as React.CSSProperties}>
                 <i aria-hidden="true" />
-                קשר שהמילון רשם בלי עוצמה — מקווקו
+                קשר שהמילון רשם בלי עוצמה: מקווקו
               </li>
               <li className="ne-legend-k">
                 <span className="ne-lg-pk" aria-hidden="true" />
-                נקודה מלאה ופס — צד המפתח הראשי
+                נקודה מלאה ופס: צד המפתח הראשי
               </li>
               <li className="ne-legend-k">
                 <span className="ne-lg-fk" aria-hidden="true" />
-                כף עורב — צד ה-N · שני פסים — צד ה-1
+                כף עורב, צד ה-N · שני פסים, צד ה-1
               </li>
               <li className="ne-legend-k">
                 <span className="ne-lg-card" aria-hidden="true">

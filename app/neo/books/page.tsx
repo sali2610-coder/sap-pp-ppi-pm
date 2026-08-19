@@ -9,7 +9,7 @@ import { BookShelf } from "@/components/neo-shell/books/book-shelf";
 
 export const metadata = {
   title: "ספרים · Project NEO",
-  description: "מדף הספרים של Project NEO — אחד עשר ספרי SAP כאובייקטים, והדרך מהם אל המילון הטכני.",
+  description: "מדף הספרים של Project NEO: אחד עשר ספרי SAP כאובייקטים, והדרך מהם אל המילון הטכני.",
   robots: { index: false, follow: false },
 };
 
@@ -51,12 +51,12 @@ export default function NeoBooks() {
             contract and cannot be flattened. */}
         <h1 className="nb-mega nm-kin">
           <span><span>{d.totals.books} ספרים.</span></span>
-          <span><span className="nb-mega-2">לא רשימה — מדף.</span></span>
+          <span><span className="nb-mega-2">לא רשימה, אלא מדף.</span></span>
         </h1>
         <p className="nb-lede">
           {nf.format(d.totals.chapters)} פרקים ו־{nf.format(d.totals.sections)} תת-פרקים,
           פרושים על {d.totals.modules} מודולים של SAP. כל כריכה כאן משורטטת מהמטא-דאטה של
-          הספר עצמו — המודול הוא צבע הכריכה, הכותרת היא הכותרת האמיתית, ומספר העמודים הוא
+          הספר עצמו: המודול הוא צבע הכריכה, הכותרת היא הכותרת האמיתית, ומספר העמודים הוא
           זה שמופיע במאגר. אין תמונות עטיפה בפרויקט, ולכן גם לא הומצאה אחת.
           כרטיס הספר פותח את תוכן העניינים האמיתי עד רמת תת-הפרק, וכל שורה בו נכנסת
           לקורא הקיים של Project NEO.
@@ -122,7 +122,7 @@ export default function NeoBooks() {
           <Library size={15} strokeWidth={1.75} aria-hidden="true" />
           הספרייה הדיגיטלית
         </Link>
-        <p className="nb-credit">Project NEO · CBC Israel — פותח על ידי סאלי חליף · Web Coding</p>
+        <p className="nb-credit">Project NEO · CBC Israel · פותח על ידי סאלי חליף · Web Coding</p>
       </footer>
     </div>
   );

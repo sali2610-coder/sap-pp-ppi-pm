@@ -21,7 +21,7 @@ import { bapiDir } from "@/components/neo-shell/reference/bapi-data";
 export const metadata = {
   title: "BAPIs ו-Function Modules · Project NEO",
   description:
-    "הרישום הקנוני של אובייקטי הפונקציה במעטפת NEO — מודול, משמעות, טבלאות וטרנזקציות מקושרות ומעמד ב-S/4HANA.",
+    "הרישום הקנוני של אובייקטי הפונקציה במעטפת NEO: מודול, משמעות, טבלאות וטרנזקציות מקושרות ומעמד ב-S/4HANA.",
   robots: { index: false, follow: false },
 };
 

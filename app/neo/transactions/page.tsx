@@ -7,7 +7,7 @@ import { TransactionsSurface } from "@/components/neo-shell/data/transactions-su
 
 export const metadata = {
   title: "טרנזקציות · Project NEO",
-  description: "הרישום הקנוני של טרנזקציות SAP במעטפת NEO — מודול, נושא, אובייקט עסקי, יורש Fiori ועומק תיעוד.",
+  description: "הרישום הקנוני של טרנזקציות SAP במעטפת NEO: מודול, נושא, אובייקט עסקי, יורש Fiori ועומק תיעוד.",
   robots: { index: false, follow: false },
 };
 

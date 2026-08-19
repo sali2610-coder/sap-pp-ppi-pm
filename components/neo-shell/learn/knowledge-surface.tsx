@@ -181,7 +181,7 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
         <span className="nx-eyebrow">ידע ולמידה</span>
         <h1 className="nx-h1">מרכז המושגים</h1>
         <p className="nx-lede">
-          {nf.format(totals.concepts)} מושגי SAP כתובים — לכל אחד הסבר עסקי, הסבר טכני, ההתנהגות ב-ECC
+          {nf.format(totals.concepts)} מושגי SAP כתובים: לכל אחד הסבר עסקי, הסבר טכני, ההתנהגות ב-ECC
           {" "}וההתנהגות ב-S/4HANA. אין כאן מושג שלא נכתב במאגר, ואין שדה שהושלם בניחוש.
         </p>
       </header>
@@ -264,7 +264,7 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
         <div className="nx-card nxl-none">
           <p><b>אין מושג במאגר שעונה על הסינון</b></p>
           <p className="nx-muted">
-            החיפוש עובר על השם העברי, המונח האנגלי, ההסבר העסקי והטכני, שורות ה-ECC וה-S/4 והדוגמאות — ולא על טקסט חופשי.
+            החיפוש עובר על השם העברי, המונח האנגלי, ההסבר העסקי והטכני, שורות ה-ECC וה-S/4 והדוגמאות: ולא על טקסט חופשי.
           </p>
           <div className="nxl-none-a">
             {dirty ? <button type="button" className="nu-btn" onClick={reset}>נקה את הסינון</button> : null}
@@ -280,10 +280,10 @@ export function KnowledgeSurface({ data }: { data: KnowledgeData }) {
       <div className="nxl-foot">
         <p>
           החלוקה בין «משתנים ב-S/4HANA» ל«ללא שינוי מהותי» נגזרת מהניסוח של המושג עצמו: מושג ששורת ה-S/4 שלו
-          {" "}נפתחת במילים «ללא שינוי» נספר כלא-משתנה, וכל השאר מוצגים כפי שנכתבו — בלי לקבוע עבורם מה בדיוק השתנה.
+          {" "}נפתחת במילים «ללא שינוי» נספר כלא-משתנה, וכל השאר מוצגים כפי שנכתבו: בלי לקבוע עבורם מה בדיוק השתנה.
         </p>
         <p>
-          מקור: <span className="nx-sap">data/concepts.ts</span> — ידע SAP כתוב, לא נגזר ממערכת חיה. נדרש אימות מול המערכת לפני יישום.
+          מקור: <span className="nx-sap">data/concepts.ts</span>: ידע SAP כתוב, לא נגזר ממערכת חיה. נדרש אימות מול המערכת לפני יישום.
         </p>
       </div>
     </div>

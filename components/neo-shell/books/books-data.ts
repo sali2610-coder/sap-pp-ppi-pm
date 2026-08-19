@@ -102,8 +102,8 @@ const CLOTH = [
 /** How the book is built, in the reader's words. `structure` is a real field on
  *  the book metadata and is what explains book7's 1,689 sections. */
 const STRUCTURE_HE: Record<string, string> = {
-  narrative: "ספר קריאה — פרקים רציפים",
-  catalogue: "קטלוג — ערך לכל אפליקציה",
+  narrative: "ספר קריאה: פרקים רציפים",
+  catalogue: "קטלוג: ערך לכל אפליקציה",
   reference: "מדריך עיון",
 };
 
@@ -310,7 +310,7 @@ export function booksData(): BooksData {
   /* THICKNESS. Measured across the shelf that actually loaded, so the thinnest
      real book is the thinnest block and the thickest real book is the thickest
      one. A book without a page count is left at the midpoint it was seeded with
-     and keeps `thickFrom: "neutral"` — the cover then prints "עמודים לא
+     and keeps `thickFrom: "neutral"`: the cover then prints "עמודים לא
      מתועדים" instead of a figure, and the block claims no size it cannot back. */
   const counted = books.map((b) => b.pages).filter((p): p is number => p !== null);
   if (counted.length > 1) {
