@@ -368,7 +368,7 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
           is a filter you miss, and this surface is a tool before it is a page. */}
       <header className="nxd-head nm-rise nm-once">
         {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
-        <span className="nx-eyebrow">עיון · Reference</span>
+        <span className="nx-eyebrow">מילון נתונים · Data Dictionary</span>
         <h1 className="nx-h1">טבלאות SAP</h1>
         <p className="nx-lede">
           {nf.format(t.tables)} טבלאות משני קובצי המקור, PM ו-PP-PI, עם {nf.format(t.fields)} שדות מתועדים,

@@ -285,7 +285,7 @@ export function ModuleWorkspace({ data }: { data: WsData }) {
       // running bar reads the flag — nothing about S/4HANA is hard-coded into a
       // component that five other screens also use.
       { key: "s4", id: "nw-s4", kicker: "המעבר ל-S/4HANA", title: "מה משתנה במודול במעבר ל-S/4HANA", count: data.s4x.changed.length, countLabel: "טבלאות משתנות", feature: true },
-      { key: "tbl", id: "nw-tbl", kicker: "מילון הנתונים", title: "טבלאות הליבה של המודול", count: data.counts.rows, countLabel: "שורות מילון" },
+      { key: "tbl", id: "nw-tbl", kicker: "מילון הנתונים", title: "מילון הטבלאות של המודול", count: data.counts.rows, countLabel: "שורות מילון" },
       { key: "ops", id: "nw-ops", kicker: "טרנזקציות ודוחות", title: "איך עובדים במודול בפועל", count: data.counts.tcodes, countLabel: "טרנזקציות" },
       { key: "rel", id: "nw-rel", kicker: "קשרים ומודל הנתונים", title: "איפה המודול נוגע בשאר המערכת", count: data.rel.edges, countLabel: "קשרים ממודלים" },
       { key: "iface", id: "nw-if", kicker: "ממשקים · CDS · Fiori", title: "מה מדבר עם המודול", count: data.counts.funcEntries, countLabel: "רשומות ממשק" },

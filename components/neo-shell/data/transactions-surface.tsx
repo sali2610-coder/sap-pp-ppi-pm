@@ -357,7 +357,7 @@ export function TransactionsSurface() {
           for it is a filter you miss. */}
       <header className="nxd-head nm-rise nm-once">
         {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
-        <span className="nx-eyebrow">עיון · Reference</span>
+        <span className="nx-eyebrow">מרשם טרנזקציות · Transaction Registry</span>
         <h1 className="nx-h1">טרנזקציות</h1>
         <p className="nx-lede">
           רישום קנוני אחד: {nf.format(stats.total)} טרנזקציות SAP מאומתות מ-{nf.format(modules.length)} מודולים,

@@ -413,7 +413,7 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         n={num["nxb-fields"]}
         icon={<Columns3 size={16} strokeWidth={1.75} />}
         eyebrow="שדות"
-        title={`${nf.format(s.fields)} שדות · ${nf.format(s.pk)} מפתח ראשי · ${nf.format(s.fk)} מפתח זר`}
+        title={`${nf.format(s.fields)} שדות · ${nf.format(s.pk)} שדות PK · ${nf.format(s.fk)} שדות FK`}
         lede={
           <>
             עמודת המפתח היא של המילון עצמו, על ארבעת ערכיה: <b>PK</b>, <b>FK</b>, <b>PK/FK</b> ו-<b>-</b>.

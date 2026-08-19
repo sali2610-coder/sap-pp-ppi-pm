@@ -310,7 +310,7 @@ export function TxDetailView({ t }: { t: TxDetail }) {
           <>
             {authored.length ? <h3 className="nxt-sub">טבלאות שהרשומה מצהירה עליהן</h3> : null}
             {authored.length ? <TableList rows={authored} origin={origin} /> : null}
-            {blueprint.length ? <h3 className="nxt-sub">טבלאות שהבלוּפרינט מקשר לקוד הזה</h3> : null}
+            {blueprint.length ? <h3 className="nxt-sub">טבלאות שקובץ התכנון מקשר לקוד הזה</h3> : null}
             {blueprint.length ? <TableList rows={blueprint} origin={origin} /> : null}
           </>
         )}
