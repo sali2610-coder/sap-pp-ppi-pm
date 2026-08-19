@@ -68,6 +68,10 @@
 /* --------------------------------------------------------------- 1. HEADER */
 
 .nx-app .nxd-head { display: grid; gap: var(--sp-2); }
+.nx-app .nxd-head .nx-h1 {
+  font-size: clamp(1.9rem, 1.2rem + 2.1vw, 2.75rem);
+  line-height: 1.14; letter-spacing: -.022em; text-wrap: balance;
+}
 .nx-app .nxd-head .nx-lede { max-inline-size: 68ch; }
 .nx-app .nxd .nx-sap { unicode-bidi: isolate; direction: ltr; }
 
@@ -602,7 +606,7 @@ html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
 }
 .nx-app .nxt-code {
   font-family: var(--font-mono);
-  font-size: var(--t-display);
+  font-size: clamp(var(--t-display), 1.4rem + 2vw, 3rem);
   line-height: var(--t-display-lh);
   letter-spacing: var(--t-display-tr);
   font-weight: 700;
@@ -674,7 +678,7 @@ html[data-theme="dark"] .nx-app .nxd-mark { opacity: 1; }
 
 .nx-app .nxt-s4-top { display: grid; gap: var(--sp-2); }
 .nx-app .nxt-s4-h {
-  font-size: var(--t-h1); line-height: var(--t-h1-lh); letter-spacing: var(--t-h1-tr);
+  font-size: clamp(1.6rem, 1.25rem + 1.15vw, 2.2rem); line-height: var(--t-h1-lh); letter-spacing: var(--t-h1-tr);
   font-weight: 750; color: var(--ink-1); margin: 0;
 }
 .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: var(--brand-dark); }
@@ -712,6 +716,8 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 .nx-app .nxt-sec { display: grid; gap: var(--sp-3); }
 .nx-app .nxt-sec-h {
   display: flex; align-items: center; gap: var(--sp-2);
+  font-size: clamp(1.25rem, 1.08rem + .65vw, 1.6rem);
+  font-weight: 750; line-height: 1.25; letter-spacing: -.012em;
   color: var(--ink-1);
   padding-block-end: var(--sp-2);
   border-block-end: 1px solid var(--c-hair);
@@ -867,9 +873,12 @@ html[data-theme="dark"] .nx-app .nxt-s4[data-impacted="1"] .nxt-s4-h { color: va
 }
 
 @media (max-width: 720px) {
-  .nx-app .nxt-code { font-size: var(--t-h1); }
+  /* The phone floor, not a reset: dropping straight back to --t-h1 flattened
+     the ramp again at 390px, where a page title needs to outrank its own
+     section headings just as clearly as it does on a desktop. */
+  .nx-app .nxt-code { font-size: 1.9rem; }
   .nx-app .nxt-he { font-size: var(--t-body); }
-  .nx-app .nxt-s4-h { font-size: var(--t-h2); }
+  .nx-app .nxt-s4-h { font-size: 1.5rem; }
   .nx-app .nxt-fav { min-block-size: var(--c-tap); inline-size: 100%; }
   .nx-app .nxt-near { grid-template-columns: minmax(0, 1fr); }
   .nx-app .nxt-near-c { min-block-size: var(--c-tap); }
@@ -981,10 +990,17 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   align-items: center;
   gap: var(--sp-3) var(--sp-5);
 }
+/* THE RAMP WAS INVERTED, AND THIS BLOCK IS THE FIX.
+   --t-display is a FLAT 2.125rem and --t-h1 a flat 1.5rem, so a table detail
+   page opened at 34px and a directory at 24px while the module hero next door
+   ran to 68px. The page you land ON was quieter than the page you came FROM,
+   which is precisely why the titles read as skipped. The three title ranks
+   below now scale with the viewport the way the module pages already do, with
+   the old flat token kept as the floor so nothing ends up smaller than before. */
 .nx-app .nxb-name {
   display: inline-flex; align-items: center; gap: var(--sp-3);
   font-family: var(--font-mono);
-  font-size: var(--t-display);
+  font-size: clamp(var(--t-display), 1.4rem + 2vw, 3rem);
   line-height: var(--t-display-lh);
   letter-spacing: var(--t-display-tr);
   font-weight: 700;
@@ -1160,10 +1176,10 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
   flex: none;
 }
 .nx-app .nxb-h2 {
-  font-size: var(--t-h1); font-weight: 750; color: var(--ink-1);
+  font-size: clamp(1.35rem, 1.15rem + .75vw, 1.75rem); font-weight: 750; color: var(--ink-1);
   line-height: 1.25; letter-spacing: -.012em; margin: 0;
 }
-.nx-app .nxb-sec-s { font-size: var(--t-xs); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 78ch; }
+.nx-app .nxb-sec-s { font-size: var(--t-sm); color: var(--ink-2); line-height: var(--lh-he); max-inline-size: 78ch; }
 .nx-app .nxb-sec-s b { color: var(--ink-1); }
 .nx-app .nxb-sec-b { display: grid; gap: var(--sp-4); }
 
@@ -1512,9 +1528,9 @@ html[data-theme="dark"] .nx-app .nxt-near-e { opacity: 1; }
 }
 
 @media (max-width: 720px) {
-  .nx-app .nxb-name { font-size: var(--t-h1); }
+  .nx-app .nxb-name { font-size: 1.9rem; }
   .nx-app .nxb-he { font-size: var(--t-body); }
-  .nx-app .nxb-h2 { font-size: var(--t-h2); }
+  .nx-app .nxb-h2 { font-size: 1.3rem; }
   .nx-app .nxb-stand-w { font-size: var(--t-body); }
   .nx-app .nxb-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: var(--sp-4); }
   .nx-app .nxb-stat b { font-size: var(--t-h2); }
