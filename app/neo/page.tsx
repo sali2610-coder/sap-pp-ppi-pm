@@ -765,19 +765,27 @@ export default function NeoHome() {
           <div className="nh-head">
             <p className="nh-eye nm-fade">הספרייה<i aria-hidden="true" />SAP PRESS</p>
             <h2 className="nh-h2 nm-kin" id="nh-7-h">
-              <span><span>{nf.format(d.books)} ספרים טכניים</span></span>
+              <span><span>{nf.format(bookCards.length)} ספרים טכניים</span></span>
               <span><span className="nh-dim">{nf.format(d.bookPages)} עמודים, {nf.format(d.bookChapters)} פרקים</span></span>
             </h2>
             <p className="nh-lede nm-rise">
-              המילון עונה מה קיים במערכת. הספרייה עונה למה. אותם {nf.format(d.books)} ספרים
+              המילון עונה מה קיים במערכת. הספרייה עונה למה. אותם {nf.format(bookCards.length)} ספרים
               נקראים במעטפת NEO עצמה, עם ניווט פרקים ותצוגה דו-לשונית, והם גם מקור התשובות
               של מומחה הספרים.
             </p>
           </div>
+          {/* "אל הספרייה" pointed at /neo/books/ — the shelf this scene is
+              already showing. The Digital Library is a different surface at
+              /neo/library/, and it was reachable from the sidebar and from
+              nowhere else. Two destinations, two labels. */}
           <div className="nh-cta nm-rise">
-            <Link className="nu-btn" href="/neo/books/" prefetch={false}>
+            <Link className="nu-btn" href="/neo/library/" prefetch={false}>
               <LayoutGrid size={15} strokeWidth={1.75} aria-hidden="true" />
-              אל הספרייה
+              אל הספרייה הדיגיטלית
+            </Link>
+            <Link className="nu-btn2" href="/neo/books/" prefetch={false}>
+              המדף
+              <ArrowUpLeft size={14} strokeWidth={1.75} aria-hidden="true" />
             </Link>
             <Link className="nu-btn2" href="/neo/ai/" prefetch={false}>
               <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
@@ -832,7 +840,7 @@ export default function NeoHome() {
               section states. */}
           <ul className="nh-corpus nm-seq" aria-label="המקורות שמהם NEO עונה">
             {[
-              { n: d.books, he: "ספרים", en: "SAP PRESS", k: "b" },
+              { n: bookCards.length, he: "ספרים", en: "SAP PRESS", k: "b" },
               { n: d.tables, he: "טבלאות", en: "Dictionary", k: "t" },
               { n: d.tcodes, he: "טרנזקציות", en: "Transactions", k: "x" },
               { n: d.funcs, he: "BAPI · FM · IDoc", en: "Interfaces", k: "f" },
