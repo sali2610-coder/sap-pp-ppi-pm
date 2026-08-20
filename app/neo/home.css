@@ -1284,3 +1284,42 @@ html .nx-app .nx-canvas:has(> .nh) {
   color: var(--scene-ink-3, var(--ink-3));
   max-inline-size: 44ch;
 }
+
+/* THE SHELF, AS SPINES.
+   One spine per real book, coloured by the cloth it is bound in on the shelf,
+   so the Home scene and /neo/books/ are recognisably the same library. It is a
+   count made physical rather than a number in a box. */
+.nh-spines {
+  display: flex; align-items: flex-end; gap: clamp(4px, 1cqi, 10px);
+  block-size: clamp(9rem, 20cqi, 15rem);
+  list-style: none; padding: 0; margin: 0;
+  perspective: 700px;
+}
+.nh-spines li {
+  --h: calc(74% + (var(--i) % 4) * 7%);
+  flex: 1 1 0; min-inline-size: 0;
+  block-size: var(--h);
+  border-radius: 3px 3px 1px 1px;
+  background:
+    linear-gradient(100deg, rgba(255,246,232,.16), transparent 26%),
+    var(--sp-c, #4c2d20);
+  box-shadow: inset -1px 0 0 rgba(0,0,0,.34), 0 6px 14px -8px rgba(0,0,0,.5);
+  transform-origin: bottom center;
+  transition: transform 240ms var(--ease-out-expo);
+}
+/* The eleven cloths from the shelf, in shelf order. */
+.nh-spines li:nth-child(1)  { --sp-c: #7c2230; }
+.nh-spines li:nth-child(2)  { --sp-c: #1f3a5f; }
+.nh-spines li:nth-child(3)  { --sp-c: #2f5d4e; }
+.nh-spines li:nth-child(4)  { --sp-c: #6b4a23; }
+.nh-spines li:nth-child(5)  { --sp-c: #3d3b56; }
+.nh-spines li:nth-child(6)  { --sp-c: #14524f; }
+.nh-spines li:nth-child(7)  { --sp-c: #7a4a12; }
+.nh-spines li:nth-child(8)  { --sp-c: #4a2c5a; }
+.nh-spines li:nth-child(9)  { --sp-c: #24384a; }
+.nh-spines li:nth-child(10) { --sp-c: #5a2030; }
+.nh-spines li:nth-child(11) { --sp-c: #2d4a2c; }
+@media (hover: hover) and (pointer: fine) {
+  .nh-spines li:hover { transform: translateY(-8px) rotateX(4deg); }
+}
+@media (prefers-reduced-motion: reduce) { .nh-spines li { transition: none; } }

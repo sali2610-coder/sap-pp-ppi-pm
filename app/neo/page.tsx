@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {
-  ArrowDown, ArrowUpLeft, Award, GitBranch, LayoutGrid,
+  ArrowDown, ArrowUpLeft, Award, BookOpen, GitBranch, LayoutGrid,
   Search, Table, Terminal, Waypoints,
 } from "lucide-react";
 // The interaction system first, the page's own sheet second: Home never invents
@@ -270,6 +270,8 @@ export default function NeoHome() {
     { id: "nh-4", label: "PM", field: "גוון המודול" },
     { id: "nh-5", label: "PP-PI", field: "גוון המודול" },
     { id: "nh-6", label: "S/4HANA", field: "רקע כהה" },
+    { id: "nh-7", label: "הספרייה", field: "עור חם" },
+    { id: "nh-8", label: "NEO AI", field: "אינדיגו" },
   ];
 
   const stats: [number, string][] = [
@@ -730,6 +732,89 @@ export default function NeoHome() {
                 <ArrowUpLeft size={14} strokeWidth={1.75} aria-hidden="true" />
               </Link>
             </div>
+          </div>
+
+        </div>
+       </div>
+      </section>
+
+      {/* ============================================================ 07 · books
+          THE LIBRARY. A warm editorial breath after the S/4HANA statement, and
+          the only scene on the page whose subject is not a table. The shelf is
+          the product's other half, so the narrative has to stop here before it
+          can end at NEO. */}
+      <section className="nh-sec" data-scene="books" id="nh-7" data-hsec aria-labelledby="nh-7-h">
+       <div className="nh-body nm-scene">
+        <div className="nh-in nh-split">
+         <div className="nh-split-t">
+          <div className="nh-head">
+            <p className="nh-eye nm-fade">הספרייה<i aria-hidden="true" />SAP PRESS</p>
+            <h2 className="nh-h2 nm-kin" id="nh-7-h">
+              <span><span>{nf.format(d.books)} ספרים טכניים</span></span>
+              <span><span className="nh-dim">{nf.format(d.bookPages)} עמודים, {nf.format(d.bookChapters)} פרקים</span></span>
+            </h2>
+            <p className="nh-lede nm-rise">
+              המילון עונה מה קיים במערכת. הספרייה עונה למה. אותם {nf.format(d.books)} ספרים
+              נקראים במעטפת NEO עצמה, עם ניווט פרקים ותצוגה דו-לשונית, והם גם מקור התשובות
+              של מומחה הספרים.
+            </p>
+          </div>
+          <div className="nh-cta nm-rise">
+            <Link className="nu-btn" href="/neo/books/" prefetch={false}>
+              <LayoutGrid size={15} strokeWidth={1.75} aria-hidden="true" />
+              אל הספרייה
+            </Link>
+            <Link className="nu-btn2" href="/neo/ai/" prefetch={false}>
+              <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
+              שאל את הספרייה
+              <ArrowUpLeft size={14} strokeWidth={1.75} aria-hidden="true" />
+            </Link>
+          </div>
+         </div>
+         <div className="nh-split-v nm-rise">
+           <ul className="nh-spines" aria-hidden="true">
+             {Array.from({ length: d.books }).map((_, k) => (
+               <li key={k} style={{ "--i": k } as React.CSSProperties} />
+             ))}
+           </ul>
+           <p className="nh-split-cap">
+             שדרה אחת לכל ספר בספרייה. הצבע הוא הבד שבו הספר כרוך במדף.
+           </p>
+         </div>
+        </div>
+       </div>
+      </section>
+
+      {/* ============================================================== 08 · ai
+          THE CLOSE. Everything above converges here: the dictionary, the two
+          modules, the migration and the shelf are all things NEO answers from.
+          It returns to dark, as the brief asks, but to the assistant's own
+          indigo rather than to the gate's brown, so the page ends somewhere
+          rather than looping. */}
+      <section className="nh-sec" data-scene="ai" id="nh-8" data-hsec aria-labelledby="nh-8-h">
+       <div className="nh-body nm-scene">
+        <div className="nh-in">
+          <div className="nh-head">
+            <p className="nh-eye nm-fade">NEO AI<i aria-hidden="true" />שתי סביבות מענה</p>
+            <h2 className="nh-h2 nm-kin" id="nh-8-h">
+              <span><span>כל מה שלמעלה,</span></span>
+              <span><span className="nh-accent">נשאל בשאלה אחת</span></span>
+            </h2>
+            <p className="nh-lede nm-rise">
+              מומחה הספרים עונה מתוך {nf.format(d.books)} הספרים ומצרף מקורות. צ׳אט NEO הכללי
+              עונה על SAP רחב יותר, ומצהיר במפורש כשאין לו מקור בפרויקט. שתי הסביבות לא
+              ממציאות תשובה כשאין להן מקור.
+            </p>
+          </div>
+          <div className="nh-cta nm-rise">
+            <Link className="nu-btn" href="/neo/ai/" prefetch={false}>
+              <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
+              שאל את הספרייה
+            </Link>
+            <Link className="nu-btn2" href="/neo/chat/" prefetch={false}>
+              צ׳אט NEO כללי
+              <ArrowUpLeft size={14} strokeWidth={1.75} aria-hidden="true" />
+            </Link>
           </div>
 
           <p className="nh-credit">
