@@ -62,24 +62,41 @@ const REL_HE: Record<string, string> = { "1-1": "1:1", "n-1": "N:1", unstated: "
 
 /* ------------------------------------------------------------- geometry */
 
+/* DENSITY. Measured against the old Studio, which the review is right about:
+   it showed more structure in less space. The band ARCHITECTURE here was
+   already correct (upstream above, object centred, downstream below, each band
+   captioned), so nothing about the information architecture changed. What was
+   wrong was the scale of everything in it.
+
+   Before: node 140x46, centre 226x92 — a centre 3.2x the area of a node — and
+   only 18.8% of the canvas carrying any node at all on EQUI. The graph read as
+   a presentation slide because it was mostly empty.
+
+   The centre still has to be obviously the subject, but it earns that by being
+   the only card with a description, a class marker and a ring; it does not need
+   to be three times the size. Dropping it to 176x66 leaves it 2.2x a node's
+   area, which is dominance without bulk.
+
+   Six columns rather than five, at a tighter gutter, is what puts more of the
+   relationships on one screen — the specific thing the review asked for. */
 const VW = 880;
 const CX = VW / 2;
-const CW = 226;
-const CH = 92;
-const NW = 140;
-const NH = 46;
+const CW = 176;
+const CH = 66;
+const NW = 126;
+const NH = 38;
 
 /** The band grid. Cards are laid in rows away from the centre rather than on an
  *  arc: an arc puts its extremes level with the middle card, which is exactly
  *  where the centre card is widest, and the two collide. Rows cannot collide.
- *  Five columns is what 880 holds at 140 + 20. */
-const COLS = 5;
-const GAP_X = 20;
-const ROW_H = NH + 22;
+ *  Six columns is what 880 holds at 126 + 14. */
+const COLS = 6;
+const GAP_X = 14;
+const ROW_H = NH + 14;
 /** Clearance between the centre card and the first row of a band. */
-const CLEAR = 58;
+const CLEAR = 38;
 /** Room reserved beyond the last row for the band caption. */
-const BAND = 34;
+const BAND = 30;
 
 /** Border point of an axis-aligned box centred on (cx,cy), along the direction
  *  of (tx,ty). Keeps every line ending on an edge, never under a card. */
