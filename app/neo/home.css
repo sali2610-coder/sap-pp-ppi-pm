@@ -158,11 +158,53 @@ html .nx-app .nx-canvas:has(> .nh) {
   text-decoration: none;
   font-size: .72rem;
   line-height: 1.2;
-  transition: color 200ms var(--ease-out-expo), background-color 200ms var(--ease-out-expo),
-              border-color 200ms var(--ease-out-expo);
+  transition: color 220ms var(--ease-out-expo), background-color 220ms var(--ease-out-expo),
+              border-color 220ms var(--ease-out-expo);
 }
-.nh-index-n { font-size: .68rem; opacity: .8; }
-.nh-index-l { font-weight: 650; white-space: nowrap; }
+.nh-index-n { font-size: .68rem; opacity: .8; font-variant-numeric: tabular-nums; }
+
+/* IDLE, THEN PRESENT — the Driftime behaviour.
+   At rest the rail is a column of numerals and a tick: enough to say where you
+   are, quiet enough never to compete with the scene it sits on top of. The
+   labels collapse to zero width rather than disappearing, so the reveal is a
+   width transition on the compositor and the link keeps its accessible name at
+   every moment.
+
+   It gains presence when the reader engages with it — pointer over the rail, or
+   keyboard focus anywhere inside it. The ACTIVE label stays readable regardless,
+   because the one thing the rail must always answer is "where am I". */
+.nh-index-l {
+  font-weight: 650;
+  white-space: nowrap;
+  max-inline-size: 0;
+  opacity: 0;
+  overflow: clip;
+  transition: max-inline-size 300ms var(--ease-out-expo), opacity 220ms var(--ease-out-expo);
+}
+.nh-index > div:hover .nh-index-l,
+.nh-index > div:focus-within .nh-index-l,
+.nh-index a[aria-current="true"] .nh-index-l {
+  max-inline-size: 12rem;
+  opacity: 1;
+}
+
+/* The tick: the rail's resting state carries a mark whose length says whether
+   this scene is the current one. It is the only thing visible when idle
+   besides the numeral. */
+.nh-index a::after {
+  content: "";
+  grid-column: 1 / -1;
+  block-size: 2px;
+  border-radius: 1px;
+  inline-size: .7rem;
+  justify-self: end;
+  background: currentColor;
+  opacity: .35;
+  transition: inline-size 300ms var(--ease-out-expo), opacity 220ms var(--ease-out-expo);
+}
+.nh-index a[aria-current="true"]::after { inline-size: 1.6rem; opacity: 1; }
+
+/* The field note is detail: it belongs to the engaged state only. */
 .nh-index-f {
   grid-column: 2;
   font-size: .62rem;
@@ -170,7 +212,7 @@ html .nx-app .nx-canvas:has(> .nh) {
   block-size: 0;
   overflow: clip;
   white-space: nowrap;
-  transition: opacity 200ms var(--ease-out-expo);
+  transition: opacity 220ms var(--ease-out-expo);
 }
 @media (hover: hover) and (pointer: fine) {
   .nh-index a:hover { color: var(--scene-ink, var(--ink-1)); }
@@ -181,7 +223,8 @@ html .nx-app .nx-canvas:has(> .nh) {
   border-color: color-mix(in oklab, var(--scene-ink, var(--ink-1)) 18%, transparent);
   font-weight: 750;
 }
-.nh-index a[aria-current="true"] .nh-index-f { opacity: .7; block-size: auto; }
+.nh-index > div:hover a[aria-current="true"] .nh-index-f,
+.nh-index > div:focus-within a[aria-current="true"] .nh-index-f { opacity: .7; block-size: auto; }
 .nh-index a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 
 /* --------------------------------------------------------------------------
@@ -1323,3 +1366,10 @@ html .nx-app .nx-canvas:has(> .nh) {
   .nh-spines li:hover { transform: translateY(-8px) rotateX(4deg); }
 }
 @media (prefers-reduced-motion: reduce) { .nh-spines li { transition: none; } }
+
+/* Motion off: the rail states everything at once rather than animating into it. */
+@media (prefers-reduced-motion: reduce) {
+  .nh-index-l { max-inline-size: 12rem; opacity: 1; transition: none; }
+  .nh-index a::after { transition: none; }
+  .nh-index a { transition: none; }
+}
