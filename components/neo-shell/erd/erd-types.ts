@@ -46,20 +46,34 @@ export const MODULE_ORDER: ModCode[] = [
   "PIPO",
 ];
 
+/* MODULE COLOUR IS THE OLD ERD'S, NOT A NEW ONE.
+   The graph used to map modules onto the product's --mod-* tokens, which the
+   NEO palette had already re-tuned for its own surfaces: PM resolved to teal
+   #0f766e and PP-PI to blue #1d4ed8. The old production ERD paints PM ORANGE
+   and PP-PI VIOLET, so a reader who knows the old graph could no longer
+   recognise a module before reading its label — which is the whole job of
+   module colour on a technical graph.
+
+   These are the exact values out of public/sap-infrastructure/dataset.json,
+   the palette the old ERD itself reads. They are NOT guessed and NOT re-derived.
+   Scoped to the ERD via --erd-mod-* so Home and the module workspaces keep
+   their own art direction; erd.css declares the literals. */
 export const MOD_VAR: Record<string, string> = {
-  PP: "var(--mod-pp)",
-  "PP-PI": "var(--mod-pppi)",
-  PM: "var(--mod-pm)",
-  MM: "var(--mod-mm)",
-  SD: "var(--mod-sd)",
-  QM: "var(--mod-qm)",
-  FI: "var(--mod-fi)",
-  CO: "var(--mod-co)",
-  CS: "var(--mod-cs)",
-  BATCH: "var(--mod-batch)",
-  CLASS: "var(--mod-class)",
-  IDOC: "var(--mod-idoc)",
-  PIPO: "var(--mod-pipo)",
+  PP: "var(--erd-mod-pp)",
+  "PP-PI": "var(--erd-mod-pppi)",
+  PM: "var(--erd-mod-pm)",
+  MM: "var(--erd-mod-mm)",
+  SD: "var(--erd-mod-sd)",
+  QM: "var(--erd-mod-qm)",
+  FI: "var(--erd-mod-fi)",
+  CO: "var(--erd-mod-co)",
+  CS: "var(--erd-mod-cs)",
+  BATCH: "var(--erd-mod-batch)",
+  CLASS: "var(--erd-mod-class)",
+  IDOC: "var(--erd-mod-idoc)",
+  PIPO: "var(--erd-mod-pipo)",
+  HR: "var(--erd-mod-hr)",
+  BW: "var(--erd-mod-bw)",
 };
 
 /** Module hue as a CSS var reference. Falls back to neutral ink — never to

@@ -1521,3 +1521,40 @@ html[data-theme="dark"] .ne-node[data-card="open"] .ne-node-r {
   }
   .ne-pulse { display: none; }
 }
+
+/* ==========================================================================
+   MODULE PALETTE — THE OLD ERD'S, VERBATIM
+   --------------------------------------------------------------------------
+   Read out of public/sap-infrastructure/dataset.json, which is the palette the
+   production Architecture Studio itself consumes. Not guessed, not re-derived,
+   not "inspired by". A reader who knows the old graph recognises PM as orange
+   and PP-PI as violet, and that recognition is the entire purpose of module
+   colour on a technical graph.
+
+   Scoped to the ERD. Home and the module workspaces keep the art-directed
+   --mod-* palette; only this surface reverts to production identity.
+   ========================================================================== */
+.ne {
+  --erd-mod-mm:    #2f81f7;
+  --erd-mod-pp:    #9b5de5;
+  --erd-mod-pppi:  #6d28d9;
+  --erd-mod-pm:    #f97316;
+  --erd-mod-cs:    #14b8a6;
+  --erd-mod-sd:    #22c55e;
+  --erd-mod-fi:    #ef4444;
+  --erd-mod-co:    #991b1b;
+  --erd-mod-qm:    #eab308;
+  --erd-mod-idoc:  #94a3b8;
+  --erd-mod-batch: #a16207;
+  --erd-mod-class: #0891b2;
+  --erd-mod-pipo:  #7dd3fc;
+  --erd-mod-hr:    #0d9488;
+  --erd-mod-bw:    #4f46e5;
+}
+/* On the warm dark ground the production hues are tuned for white; lift the
+   darkest two so CO and FI keep their identity instead of going to mud. */
+html[data-theme="dark"] .ne {
+  --erd-mod-co: #dc4c4c;
+  --erd-mod-fi: #f87171;
+  --erd-mod-batch: #d09a3c;
+}
