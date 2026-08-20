@@ -306,6 +306,33 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   );
   const multi = mods.size >= 2;
 
+  /** THE OWNER OF A TABLE, ported from the production explorer.
+   *
+   *      owner[n] = selMods.has(t.mod) ? t.mod
+   *               : the selected lane that includes it            (page.tsx:712)
+   *
+   *  This is the difference between the old graph's clean single-colour flow
+   *  and the "orange noise" the new one had. AUFK, AFKO, AFPO, RESB and the
+   *  rest of the order core are classified in the dictionary under PM, and
+   *  they are ALSO members of the PP and PP-PI lanes. Colouring them by their
+   *  own module meant a PP-PI process flow arrived carrying orange PM badges,
+   *  which reads as a classification claim the scene is not making.
+   *
+   *  Production answers it by ATTRIBUTION, not by reclassification: while you
+   *  are looking at PP-PI and PM is not on screen, a shared table is shown as
+   *  part of the lane you are reading. Nothing in the dataset moves — AUFK is
+   *  still a PM table, and says so the moment PM is one of the selected
+   *  modules, or in the module map, or on its own page. */
+  const ownerOf = useCallback(
+    (t: ErdTable): ModCode => {
+      if (!mods.size) return t.m as ModCode;
+      if (mods.has(t.m as ModCode)) return t.m as ModCode;
+      return (t.ms.find((m) => mods.has(m as ModCode)) as ModCode) ?? (mod as ModCode) ?? (t.m as ModCode);
+    },
+    [mods, mod],
+  );
+
+
   /* ----------------------------------------------------- the current picture
      Positions are BUILD-TIME output; the browser never solves a layout. There
      are exactly four pictures: the module map, a module's curated ERD, the same
@@ -1804,7 +1831,26 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               whichever one is in force. On the bar they were a third group
               that cost 265px and pushed the filter disclosure onto a second
               row. */}
-          {M ? (
+          {/* SCOPE IS A SINGLE-MODULE QUESTION.
+              "curated ERD or the whole module" has no answer once several
+              modules are on screen, and leaving the control there left it
+              showing one module's counts while a different picture was drawn —
+              a button that reads as live and does nothing. It is replaced by
+              the reason, and the way back. */}
+          {multi ? (
+            <section className="ne-pop-sc">
+              <p className="ne-pop-h">היקף התרשים</p>
+              <p className="ne-pop-say">
+                בהשוואה בין מודולים ההיקף נקבע לפי ה-ERD המרכזי של כל מודול. כדי לבחור היקף,
+                חזרו למודול אחד.
+              </p>
+              <div className="ne-pop-w">
+                <button type="button" className="nu-filter" onClick={() => setExtra(new Set())}>
+                  חזרה ל-{mod} בלבד
+                </button>
+              </div>
+            </section>
+          ) : M ? (
             <section className="ne-pop-sc">
               <p className="ne-pop-h">היקף התרשים</p>
               <div className="ne-pop-w">
@@ -2357,7 +2403,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                           transform={`translate(${p.x} ${p.y})`}
                           onMouseEnter={() => !moving.current && setHover(name)}
                           onMouseLeave={() => setHover((h) => (h === name ? null : h))}
-                          style={{ "--m": modVar(t.m), "--ms": modVar(t.m), "--o": t.o } as React.CSSProperties}
+                          style={{ "--m": modVar(ownerOf(t)), "--ms": modVar(ownerOf(t)), "--o": t.o } as React.CSSProperties}
                         >
                           <title>{`${t.n}: ${t.he || t.en}. ${ZONE_HE[t.z] || t.z}. ${dg} קשרים`}</title>
                           <rect className="ne-node-h" x={-ow / 2 - 5} y={oy - 5} width={ow + 10} height={oh + 10} rx={14} />
