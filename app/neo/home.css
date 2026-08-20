@@ -1373,3 +1373,134 @@ html .nx-app .nx-canvas:has(> .nh) {
   .nh-index a::after { transition: none; }
   .nh-index a { transition: none; }
 }
+
+/* ==========================================================================
+   THE THREE POPULATIONS, AS TABLES  (components/neo-shell/home/home-zones)
+
+   Replaces the 105-circle field. The rule taken from Partake is that colour
+   and object must occupy real screen area: a card here is a solid surface with
+   its own edge sitting ON the scene's field, never a tinted rectangle a few
+   percent away from the ground it stands on. That "faded card on a faded
+   background" is exactly what made the previous pass read as washed out.
+   ========================================================================== */
+
+.nz {
+  display: grid;
+  gap: var(--sp-4);
+  /* Three populations, three columns, one row. auto-fit dropped PP-PI onto a
+     second line, which broke the only comparison the scene exists to make. */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  inline-size: 100%;
+}
+@media (max-width: 900px) { .nz { grid-template-columns: 1fr; } }
+
+.nz-zone {
+  display: grid;
+  align-content: start;
+  gap: var(--sp-3);
+  padding: var(--sp-5);
+  border-radius: 1.25rem;
+  /* THE ZONE IS A FIELD. Each population gets its OWN hue, so "PM / shared /
+     PP-PI" is answered by colour before a single word is read — module teal,
+     brand red for the core that belongs to both, module indigo. A neutral tint
+     here is what made the previous attempt read as cream on cream. */
+  background: color-mix(in oklab, var(--zc) 14%, var(--scene-ground));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--zc) 34%, transparent);
+}
+.nz-zone[data-band="0"] { --zc: var(--mod-pm, #0d7a6b); }
+.nz-zone[data-band="1"] { --zc: var(--brand, #c8102e); }
+.nz-zone[data-band="2"] { --zc: var(--mod-pppi, #3b3fb6); }
+/* The count wears its zone's hue, so the three numbers are three colours. */
+.nz-zone .nz-count { color: color-mix(in oklab, var(--zc) 72%, var(--scene-ink)); }
+.nz-head { border-block-end-color: color-mix(in oklab, var(--zc) 30%, transparent); }
+
+.nz-head {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--sp-3);
+  padding-block-end: var(--sp-3);
+  border-block-end: 1px solid color-mix(in oklab, var(--scene-ink) 18%, transparent);
+}
+/* The count is the headline of its own zone. A reader learns "37" by READING
+   it, which is the whole point of the redraw. */
+.nz-count {
+  font-size: clamp(2.4rem, 4.4vw, 3.6rem);
+  font-weight: 800;
+  line-height: .9;
+  letter-spacing: -.03em;
+  color: var(--scene-ink);
+  font-variant-numeric: tabular-nums;
+}
+.nz-lbl { display: grid; gap: 2px; min-inline-size: 0; }
+.nz-lbl b { font-size: var(--t-body); font-weight: 700; color: var(--scene-ink); line-height: 1.2; }
+.nz-lbl em { font-size: var(--t-micro); font-style: normal; color: var(--scene-ink-3); }
+
+.nz-list { display: grid; gap: var(--sp-2); }
+
+.nz-card {
+  display: grid;
+  grid-template-columns: 3px minmax(0, auto) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: .6rem;
+  /* A real surface. On a light field it lifts toward white, on a dark field it
+     lifts toward light — either way it is a distinct object, not a tint. */
+  background: color-mix(in oklab, var(--scene-ground) 22%, #fff 78%);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--scene-ink) 12%, transparent),
+    0 1px 2px color-mix(in oklab, var(--scene-ink) 10%, transparent);
+  transition: transform var(--dur-base) var(--ease-out-expo),
+              box-shadow var(--dur-base) var(--ease-out-expo);
+}
+html[data-theme="dark"] .nz-card,
+[data-scene="s4"] .nz-card,
+[data-scene="books"] .nz-card,
+[data-scene="ai"] .nz-card {
+  background: color-mix(in oklab, var(--scene-raised) 78%, #fff 22%);
+}
+.nz-card:hover { transform: translateY(-1px); }
+.nz-card[data-dim="1"] { opacity: .5; }
+
+/* The object class, as a colour — the same five-zone vocabulary the ERD uses. */
+.nz-card-z { inline-size: 3px; block-size: 1.05rem; border-radius: 2px; background: var(--z, var(--scene-accent)); }
+.nz-card-n { font-size: var(--t-micro); font-weight: 700; color: var(--scene-ink); letter-spacing: .02em; }
+.nz-card-he {
+  font-size: var(--t-micro);
+  font-style: normal;
+  color: var(--scene-ink-3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-inline-size: 0;
+}
+.nz-card-f {
+  font-size: var(--t-micro);
+  font-weight: 700;
+  color: var(--scene-ink-2);
+  font-variant-numeric: tabular-nums;
+  opacity: .8;
+}
+
+/* What is NOT shown, said out loud. */
+.nz-rest { font-size: var(--t-micro); color: var(--scene-ink-3); margin: 0; }
+.nz-rest .nx-sap { font-weight: 700; color: var(--scene-ink-2); }
+
+@media (max-width: 640px) {
+  .nz { gap: var(--sp-4); }
+  .nz-zone { padding: var(--sp-4); }
+  .nz-card-he { display: none; }
+}
+
+/* The membership scene's subject is the three zones, so they take the stage's
+   full width. Constraining them to a column left half the scene as empty
+   cream, which is exactly the "mostly empty beige with some data" the scene
+   test rejects. */
+.nh-mem { inline-size: 100%; max-inline-size: none; }
+.nh-lat-wide { max-inline-size: 62ch; }
+/* The stage is a two-column grid because most scenes put a visual beside a
+   panel. The membership scene no longer has that panel — its subject IS the
+   three zones — so the stage collapses to one column and the zones get the
+   whole width instead of 522px of a 1071px stage. */
+[data-scene="shared"] .nh-stage { grid-template-columns: minmax(0, 1fr); }

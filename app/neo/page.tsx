@@ -9,6 +9,7 @@ import "./ui.css";
 import "./home.css";
 import { homeData, zoneVar, type HomeData } from "@/components/neo-shell/home/home-data";
 import { HomeScene, type SceneSection } from "@/components/neo-shell/home/home-scene";
+import { HomeZones } from "@/components/neo-shell/home/home-zones";
 import { HomeNet } from "@/components/neo-shell/home/home-net";
 
 export const metadata = {
@@ -474,7 +475,7 @@ export default function NeoHome() {
           class, its size is the number of fields the dictionary holds for it. */}
       <section
         className="nh-sec"
-        data-scene="cream"
+        data-scene="shared"
         id="nh-3"
         data-hsec
         aria-labelledby="nh-3-h"
@@ -522,47 +523,37 @@ export default function NeoHome() {
                 its documented field count, colour = its band, line = one
                 modelled pair. The counts stay, underneath, as a legend rather
                 than as the picture. */}
+            {/* THE THREE POPULATIONS, AS NAMED TABLES.
+                The dot field is gone. It was honest and unreadable: learning
+                "37" meant counting circles, and the strongest impression the
+                page gave was that the product is about dots.
+
+                Same partition, same numbers, drawn as the objects a consultant
+                recognises — real table names, the dictionary's own Hebrew, the
+                documented field count, the functional class as a colour. The
+                count is now TYPE, so it is read rather than tallied, and the
+                tables that do not fit are counted out loud instead of being
+                quietly dropped. */}
             <div className="nh-mem" role="group" aria-label={memLabel}>
-              <HomeNet dots={d.dots} edges={d.edges} labels={9} />
-              <ul className="nhn-key">
-                {bands.map(({ b, dots }) => (
-                  <li key={b} style={{ "--c": ["var(--mod-pm)", "var(--nh-shared, var(--brand))", "var(--mod-pppi)"][b] } as React.CSSProperties}>
-                    <i aria-hidden="true" />
-                    <b className="nh-sap">{dots.length}</b>
-                    <span>{bandCopy[b].t}</span>
-                    <em>{bandCopy[b].s}</em>
-                  </li>
-                ))}
-              </ul>
+              <HomeZones dots={d.dots} show={7} />
             </div>
             <p className="nh-lat-k">
-              כל נקודה היא טבלה אחת מהמילון, וגודלה הוא מספר השדות המתועדים לה. הקווים הם
-              {" "}{nf.format(d.relations)} קשרי ה-ER שהמילון מחזיק, והקווים הבולטים הם אלה
-              שחוצים בין שני המודולים.
+              כל כרטיס הוא טבלה מהמילון: השם כפי שהוא ב-SAP, התיאור כפי שהמילון מנסח אותו,
+              ומספר השדות המתועדים לה. הצבע הוא מחלקת האובייקט. המילון מחזיק
+              {" "}{nf.format(d.relations)} קשרי ER בין הטבלאות האלה.
             </p>
           </div>
 
-          <div className="nh-panels">
-            {bands.map(({ b, dots }) => (
-              <article className="nh-panel" key={b}>
-                <div className="nm-rise">
-                  <b className="nh-panel-n nh-sap">{dots.length}</b>
-                  <h3 className="nh-panel-t">{bandCopy[b].t}</h3>
-                  <p className="nh-panel-s">{bandCopy[b].s}</p>
-                  {/* A sum of per-table relation counts would count the same ER
-                      edge twice whenever both of its ends sit in this band, so
-                      the group is described with two figures that cannot be
-                      double-counted: total documented fields, and how many of
-                      its tables carry a modelled relation at all. */}
-                  <p className="nh-panel-x">
-                    {b === 1
-                      ? `${nf.format(pm.tables)} + ${nf.format(pp.tables)} = ${nf.format(pm.tables + pp.tables)} שורות מודול, אבל רק ${nf.format(d.tables)} טבלאות, כי ${d.shared} מהן נספרות פעמיים.`
-                      : `${nf.format(dots.reduce((a, x) => a + x.f, 0))} שדות מתועדים בקבוצה הזאת. ${dots.filter((x) => x.r > 0).length} מהטבלאות נושאות קשר ER ממודל.`}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </div>
+          {/* The per-band panels that used to sit here printed 37 / 19 / 49 and
+              their descriptions a second time. Now that each zone states its
+              own count, name, sample and remainder, repeating it was just
+              filling the scene twice. The one fact the panels carried that the
+              zones do not — why 56 + 68 is not 105 — moves to the line below,
+              where it belongs. */}
+          <p className="nh-lat-k nh-lat-wide">
+            {nf.format(pm.tables)} + {nf.format(pp.tables)} = {nf.format(pm.tables + pp.tables)} שורות מודול,
+            אבל רק {nf.format(d.tables)} טבלאות, כי {d.shared} מהן נספרות פעמיים.
+          </p>
         </div>
 
         <div className="nh-in">

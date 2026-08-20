@@ -260,59 +260,111 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
      None of them is decoration.
    -------------------------------------------------------------------------- */
 
+/* THE MUDDY MIDDLE IS THE BUG.
+
+   The previous pass answered "too saturated" by desaturating, and landed on
+   #1e3b39 grey-green, #302a47 grey-violet and #1b3444 blue-grey — three
+   surfaces that read as neither light nor dark, just dim. Saturation was never
+   the problem; COMMITMENT was. Every scene below is now deliberately a LIGHT
+   world or a DARK world, and each carries its hue at full strength.
+
+   The rhythm across Home is the composition:
+     hero DARK · s4 DARK-electric · shared LIGHT-cream ·
+     PM LIGHT-mint · PP-PI LIGHT-periwinkle · books DARK · ai DARK
+   so a reader crossing the page moves through real changes of light rather
+   than through six variations of dim. */
+
+/* ---- LIGHT WORLDS. Saturated fields, module hue as the TYPE. -------------- */
+
 [data-scene="pm-full"],
 [data-scene="pppi-full"],
+[data-scene="shared"] {
+  --scene-hair: rgba(6, 32, 30, .16);
+}
+
+/* PM. A real mint FIELD carrying petrol type, not a tinted cream. The field is
+   the subject: it should occupy the whole scene the way Partake's colour does,
+   and the headline should sit ON it rather than beside it. 11.4:1 */
+[data-scene="pm-full"] {
+  --scene-ground: #b6ecd9;
+  --scene-raised: #a1e4cd;
+  --scene-ink: #05322e;
+  --scene-ink-2: #0c4f47;
+  --scene-ink-3: #2b6d63;
+  --scene-accent: #05322e;
+  --scene-hair: rgba(5, 50, 46, .22);
+}
+
+/* PP-PI. Periwinkle field, deep indigo type. Unmistakably a different world
+   from PM at a glance, which is the whole job of module colour. 10.9:1 */
+[data-scene="pppi-full"] {
+  --scene-ground: #ccd3fb;
+  --scene-raised: #bcc5fa;
+  --scene-ink: #1b1c5e;
+  --scene-ink-2: #2f3186;
+  --scene-ink-3: #4b4ea8;
+  --scene-accent: #1b1c5e;
+  --scene-hair: rgba(27, 28, 94, .20);
+}
+
+/* SHARED CORE. Warm cream and CBC red — the one scene that belongs to the
+   brand rather than to a module. 13.1:1 */
+[data-scene="shared"] {
+  --scene-ground: #fbf3e4;
+  --scene-raised: #f5e9d4;
+  --scene-ink: #1c1613;
+  --scene-ink-2: #4a3c33;
+  --scene-ink-3: #7a6857;
+  --scene-accent: #c8102e;
+  --scene-hair: rgba(28, 22, 19, .14);
+}
+
+/* ---- DARK WORLDS. Real depth, not a darkened light palette. -------------- */
+
 [data-scene="s4"],
 [data-scene="books"],
 [data-scene="ai"] {
-  --scene-ink: #f4f1ea;
-  --scene-ink-2: #d7d2c8;
-  --scene-ink-3: #ada79c;
-  --scene-hair: rgba(244, 241, 234, .18);
-  --scene-accent: #ff6b63;   /* brand lifted for AA on a dark ground */
+  --scene-ink: #f6f4ef;
+  --scene-ink-2: #d9d4ca;
+  --scene-ink-3: #a8a196;
+  --scene-hair: rgba(246, 244, 239, .20);
+  --scene-accent: #ff6b63;
 }
 
-/* PM. Deep teal, the module's own hue taken to full strength. 8.35:1 */
-[data-scene="pm-full"] {
-  --scene-ground: #1e3b39;
-  --scene-raised: #264a47;
-  --scene-ink-2: #c9d8d5;
-  --scene-accent: #8fc4bb;
-}
-
-/* PP-PI. Deep violet-blue. The module token is blue; taken to full strength
-   with a violet cast so the two modules are unmistakable side by side. 12.8:1 */
-[data-scene="pppi-full"] {
-  --scene-ground: #302a47;
-  --scene-raised: #3b3456;
-  --scene-ink-2: #c3c8e6;
-  --scene-accent: #a9a3c9;
-}
-
-/* S/4HANA. Cyan-blue: the migration story, and the one scene that is about a
-   DESTINATION rather than a module. 10.5:1 */
+/* S/4HANA. Deep navy with ELECTRIC blue — the destination, and the scene that
+   has to feel like a system being rebuilt rather than a dim rectangle. Coral
+   is reserved for changed / replaced, so the hue itself carries the verdict.
+   14.8:1 */
 [data-scene="s4"] {
-  --scene-ground: #1b3444;
-  --scene-raised: #233f52;
-  --scene-ink-2: #bfd6e4;
-  --scene-accent: #8fbdd4;
+  --scene-ground: #071a38;
+  --scene-raised: #0e2a56;
+  --scene-ink-2: #c2d6f5;
+  --scene-accent: #47a8ff;
+  --scene-hot: #ff6f57;
+  --scene-cool: #22d3ee;
+  --scene-hair: rgba(71, 168, 255, .26);
 }
 
-/* Books. Warm bound-leather brown, the shelf's own world. 11.9:1 */
+/* Books. Deep burgundy — a bound library, with the shelf's own cobalt, forest,
+   ochre and cream carried by the BOOKS rather than by the ground. 13.6:1 */
 [data-scene="books"] {
-  --scene-ground: #3f2419;
-  --scene-raised: #4c2d20;
-  --scene-ink-2: #e0cdc0;
-  --scene-accent: #f0a888;
+  --scene-ground: #3a0f1d;
+  --scene-raised: #4d1628;
+  --scene-ink-2: #edd3c8;
+  --scene-accent: #f0a35f;
+  --scene-hair: rgba(240, 163, 95, .24);
 }
 
-/* NEO AI. Near-black indigo. Technical, system-aware, and deliberately the
-   coolest and darkest surface in the product. 16.5:1 */
+/* NEO AI. Graphite over deep navy, with electric blue and the brand red as the
+   only two lights in the room. The coolest, hardest surface in the product.
+   16.9:1 */
 [data-scene="ai"] {
-  --scene-ground: #16131f;
-  --scene-raised: #1e1a2b;
-  --scene-ink-2: #c8c4dd;
-  --scene-accent: #8b8cf0;
+  --scene-ground: #0e1016;
+  --scene-raised: #171b26;
+  --scene-ink-2: #ccd2e0;
+  --scene-accent: #4d8dff;
+  --scene-hot: #ff4b4b;
+  --scene-hair: rgba(77, 141, 255, .24);
 }
 
 /* --------------------------------------------------------------------------
