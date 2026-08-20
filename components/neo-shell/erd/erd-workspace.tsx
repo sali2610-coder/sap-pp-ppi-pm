@@ -641,11 +641,20 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     if (camHist.current.length > 24) camHist.current.shift();
   }, []);
 
+  /** The zoom below which a node stops being a table and becomes a rectangle.
+   *  The card sets its name at 15px, so under roughly 0.72 it renders below
+   *  11px and the graph is no longer readable without zooming — which is the
+   *  specific complaint. Entering a module used to land at 0.47. */
+  const LEGIBLE_K = 0.72;
+
   const fitTo = useCallback(
-    (b: { x: number; y: number; w: number; h: number }) => {
+    (b: { x: number; y: number; w: number; h: number }, floor = 0) => {
       const st = stage.current;
       if (!st) return;
-      const k = clampK(Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2) / b.h));
+      const raw = Math.min((st.clientWidth - PAD * 2) / b.w, (st.clientHeight - PAD * 2) / b.h);
+      // A floor is applied on ENTRY, never to the explicit fit control: if the
+      // reader asks to see everything, they get everything, however small.
+      const k = clampK(floor ? Math.max(raw, floor) : raw);
       glide({
         k,
         x: (st.clientWidth - b.w * k) / 2 - b.x * k,
@@ -655,7 +664,18 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     [glide],
   );
 
+  /** The toolbar's fit: a true fit, no floor. */
   const fit = useCallback(() => fitTo(bboxRef.current), [fitTo]);
+
+  /** ARRIVAL. Fit the graph, but never below legibility.
+   *
+   *  A pure fit-to-bbox is right for a control the reader pressed and wrong for
+   *  a view they were handed: with seventeen nodes it resolves to 47% and every
+   *  table title lands at about 7px. So entry keeps the fit's framing and
+   *  refuses to go under LEGIBLE_K; where the whole graph cannot be shown at a
+   *  readable size the canvas stays pannable and the minimap carries the rest,
+   *  which is how the old graph behaves. */
+  const fitOnEnter = useCallback(() => fitTo(bboxRef.current, LEGIBLE_K), [fitTo]);
 
   /** Soft camera — centre plus a gentle zoom toward the table. The studio's
    *  focusOn, same numbers. */
@@ -1075,7 +1095,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
         setZoomPct(Math.round(view.current.k * 100));
         return;
       }
-      fit();
+      fitOnEnter();
     }, 60);
     return () => window.clearTimeout(id);
   }, [pictureKey, fit, paint]);
@@ -1086,7 +1106,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   useEffect(() => {
     if (live.ego === egoWas.current) return;
     egoWas.current = live.ego;
-    if (live.ego) fit();
+    if (live.ego) fitOnEnter();
   }, [live.ego, fit]);
 
   /** Narrowing to a topic or an object frames that neighbourhood once. */
