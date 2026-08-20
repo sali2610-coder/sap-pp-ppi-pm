@@ -56,6 +56,35 @@ import {
 export { MODULE_ORDER, ZONE_HE };
 export type { ErdCatalog, ModCode, RelKind };
 
+/* ------------------------------------------------- the HR and BW membership
+
+   HR and BW were the ERD's two real gaps: the dataset carries HR and BW tables
+   and the NEO graph offered neither, so the old surface showed 15 module chips
+   and NEO showed 13.
+
+   These two lists live HERE and not in app/sap-infrastructure/meta.ts on
+   purpose. Production's page.tsx has HR and BW in its UNIVERSE and reaches them
+   through erdMembers(), which falls back to "this module's tables by degree,
+   top 16" whenever ERD_MODULES has no key. Adding the keys upstream would have
+   silently replaced that fallback and changed what the frozen production ERD
+   draws. Keeping them NEO-local leaves production on exactly the render it had.
+
+   The membership is data-driven, not editorial. Each list is the module's own
+   tables ranked by how many relations they hold WITHIN the module, then cut at
+   the size the other lanes use. Every entry was checked to connect to at least
+   one other entry, so neither lane opens as a field of isolated boxes:
+   HR 16/16 connected, BW 14/14 connected. No table, relation or classification
+   is invented — dataset.json's own `mod` and `rel` decide both lists. */
+const NEO_ONLY_MODULES: Record<string, string[]> = {
+  HR: ["PA0001", "HRP1000", "EC_JobInformation", "PA0007", "PA0008", "PA2001", "HRP1007", "T528B", "EC_EmployeeProfile", "EC_Position", "FO_Department", "FO_Division", "LMS_LearningItem", "PM_Goal", "PM_PerformanceForm", "RCM_JobRequisition"],
+  BW: ["ADSO", "RSTRAN", "ROOSOURCE", "RSDS", "RSDIOBJ", "CompositeProvider", "RSBKDTP", "RSPCCHAIN", "RSRREPDIR", "RSZCOMPDIR", "RSZELTDIR", "SAC_Story", "CDS_AnalyticalView", "ROOSFIELD"],
+};
+
+/** ERD_MODULES as NEO reads it: production's record, plus the two lanes
+ *  production reaches by fallback instead of by key. Production itself is
+ *  untouched and keeps its own behaviour. */
+const NEO_MODULES: Record<string, string[]> = { ...ERD_MODULES, ...NEO_ONLY_MODULES };
+
 /* ------------------------------------------------------------- raw dataset */
 
 interface RawRel {
@@ -206,7 +235,7 @@ function catalog(): Catalog {
   // Plus the curated ERD membership, which is deliberately cross-module: MARA
   // belongs to the PP, PP-PI, MM, SD, QM, BATCH, CLASS, IDOC and PIPO pictures.
   for (const m of MODULE_ORDER) {
-    for (const name of ERD_MODULES[m] || []) {
+    for (const name of NEO_MODULES[m] || []) {
       if (!tables.has(name)) continue;
       scope.add(name);
       add(name, m);
@@ -420,7 +449,7 @@ export function erdCatalog(): ErdCatalog {
   const enOf = (code: string) => clean(d.modules.find((x) => x.code === code)?.name) || code;
 
   const outModules: ErdModuleOut[] = MODULE_ORDER.map((code) => {
-    const core = (ERD_MODULES[code] || []).filter((n) => scope.has(n));
+    const core = (NEO_MODULES[code] || []).filter((n) => scope.has(n));
     const coreSet = new Set(core);
     const more = names.filter((n) => tables.get(n)?.mod === code && !coreSet.has(n));
     const all = [...core, ...more];
@@ -529,7 +558,7 @@ export function erdCatalog(): ErdCatalog {
     h: OV_M * 2 + ovRows * MOD_H + (ovRows - 1) * OV_GY,
   };
 
-  const memberships = MODULE_ORDER.reduce((s, m) => s + (ERD_MODULES[m] || []).length, 0);
+  const memberships = MODULE_ORDER.reduce((s, m) => s + (NEO_MODULES[m] || []).length, 0);
 
   _out = {
     tables: outTables,
