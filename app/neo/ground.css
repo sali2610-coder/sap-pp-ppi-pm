@@ -274,34 +274,34 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
 
 /* PM. Deep teal, the module's own hue taken to full strength. 8.35:1 */
 [data-scene="pm-full"] {
-  --scene-ground: #0b4f49;
-  --scene-raised: #0f5d56;
+  --scene-ground: #1e3b39;
+  --scene-raised: #264a47;
   --scene-ink-2: #c9d8d5;
-  --scene-accent: #7fe3d4;
+  --scene-accent: #8fc4bb;
 }
 
 /* PP-PI. Deep violet-blue. The module token is blue; taken to full strength
    with a violet cast so the two modules are unmistakable side by side. 12.8:1 */
 [data-scene="pppi-full"] {
-  --scene-ground: #241c6b;
-  --scene-raised: #2d2480;
+  --scene-ground: #302a47;
+  --scene-raised: #3b3456;
   --scene-ink-2: #c3c8e6;
-  --scene-accent: #9db4ff;
+  --scene-accent: #a9a3c9;
 }
 
 /* S/4HANA. Cyan-blue: the migration story, and the one scene that is about a
    DESTINATION rather than a module. 10.5:1 */
 [data-scene="s4"] {
-  --scene-ground: #0b3b54;
-  --scene-raised: #0f4a68;
+  --scene-ground: #1b3444;
+  --scene-raised: #233f52;
   --scene-ink-2: #bfd6e4;
-  --scene-accent: #6fd2f5;
+  --scene-accent: #8fbdd4;
 }
 
 /* Books. Warm bound-leather brown, the shelf's own world. 11.9:1 */
 [data-scene="books"] {
-  --scene-ground: #4a2418;
-  --scene-raised: #5a2d1e;
+  --scene-ground: #3f2419;
+  --scene-raised: #4c2d20;
   --scene-ink-2: #e0cdc0;
   --scene-accent: #f0a888;
 }
@@ -309,8 +309,8 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
 /* NEO AI. Near-black indigo. Technical, system-aware, and deliberately the
    coolest and darkest surface in the product. 16.5:1 */
 [data-scene="ai"] {
-  --scene-ground: #141024;
-  --scene-raised: #1c1733;
+  --scene-ground: #16131f;
+  --scene-raised: #1e1a2b;
   --scene-ink-2: #c8c4dd;
   --scene-accent: #8b8cf0;
 }
