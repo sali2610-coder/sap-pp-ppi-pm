@@ -25,7 +25,9 @@ export type ModCode =
   | "BATCH"
   | "CLASS"
   | "IDOC"
-  | "PIPO";
+  | "PIPO"
+  | "HR"
+  | "BW";
 
 /** Reading order: logistics, then finance, then cross-application, then
  *  integration. The ORDER is presentation. The MEMBERSHIP behind each code is
@@ -44,6 +46,10 @@ export const MODULE_ORDER: ModCode[] = [
   "CLASS",
   "IDOC",
   "PIPO",
+  // Cross-application, read last: they consume the logistics modules above
+  // rather than sitting inside a business process.
+  "HR",
+  "BW",
 ];
 
 /* MODULE COLOUR IS THE OLD ERD'S, NOT A NEW ONE.

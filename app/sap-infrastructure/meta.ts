@@ -250,6 +250,18 @@ export const OBJECTS: Record<string, { he: string; en: string; tables: string[] 
 // Curated "major tables" per module for the ERD / Table layer (cross-module + shared allowed).
 // These names are resolved against the global table set (which already holds rich PM/PP-PI data).
 export const ERD_MODULES: Record<string, string[]> = {
+  // HR and BW were the ERD's two real gaps: the dataset carries 40 HR tables and
+  // 25 BW tables and the graph offered neither, so the old surface showed 15
+  // module chips and NEO showed 13.
+  //
+  // The membership is data-driven, not editorial. Each list is the module's own
+  // tables ranked by how many relations they hold WITHIN the module, then cut at
+  // the size the other lanes use. Every entry was checked to connect to at least
+  // one other entry, so neither lane opens as a field of isolated boxes:
+  // HR 16/16 connected, BW 14/14 connected. No table, relation or classification
+  // is invented — dataset.json's own `mod` and `rel` decide both lists.
+  HR: ["PA0001", "HRP1000", "EC_JobInformation", "PA0007", "PA0008", "PA2001", "HRP1007", "T528B", "EC_EmployeeProfile", "EC_Position", "FO_Department", "FO_Division", "LMS_LearningItem", "PM_Goal", "PM_PerformanceForm", "RCM_JobRequisition"],
+  BW: ["ADSO", "RSTRAN", "ROOSOURCE", "RSDS", "RSDIOBJ", "CompositeProvider", "RSBKDTP", "RSPCCHAIN", "RSRREPDIR", "RSZCOMPDIR", "RSZELTDIR", "SAC_Story", "CDS_AnalyticalView", "ROOSFIELD"],
   PP: ["MARA", "MARC", "MAKT", "MBEW", "STKO", "STPO", "MAST", "MAPL", "PLKO", "PLPO", "CRHD", "CRCA", "AFKO", "AFPO", "AFVC", "AFRU", "AUFK", "RESB", "JEST", "JSTO"],
   "PP-PI": ["MARA", "MARC", "MAPL", "PLKO", "PLPO", "AFKO", "AFPO", "AFVC", "AFRU", "AUFK", "CRHD", "RESB", "MCH1", "JEST", "JSTO"],
   PM: ["EQUI", "IFLOT", "AFIH", "AUFK", "AFKO", "AFPO", "AFVC", "AFRU", "QMEL", "QMFE", "STKO", "PLKO", "PLPO", "CRHD", "JEST", "JSTO", "OBJNR"],
