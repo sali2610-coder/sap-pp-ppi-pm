@@ -289,11 +289,34 @@ export interface ErdOverviewOut {
   links: { a: ModCode; b: ModCode; n: number }[];
 }
 
+/** THE UNION PICTURE — one dagre solve over every table in scope.
+ *
+ *  A reader who selects PP and PM wants the two lanes AND the tables they
+ *  share, which is a picture no per-module layout holds. Production answers
+ *  that by shipping dagre to the browser and re-solving on every selection
+ *  change; NEO does not ship a layout engine, so the answer is precomputed
+ *  here instead: solve the whole scope ONCE at build time, then a multi-module
+ *  view is that solution filtered to the selected memberships.
+ *
+ *  This is not only cheaper, it is steadier. Because every table keeps its one
+ *  global position, adding a module SLIDES tables into view instead of
+ *  reshuffling the ones already on screen — the same "reorganises around where
+ *  you already were" rule the focus view follows. Production re-solves, so its
+ *  nodes jump on every toggle. */
+export interface ErdUnionOut {
+  pos: { n: string; x: number; y: number }[];
+  w: number;
+  h: number;
+  /** Every edge id whose two ends are both in scope. */
+  es: string[];
+}
+
 export interface ErdCatalog {
   tables: ErdTable[];
   edges: ErdEdgeOut[];
   modules: ErdModuleOut[];
   overview: ErdOverviewOut;
+  union: ErdUnionOut;
   shared: string[];
   nw: number;
   nh: number;

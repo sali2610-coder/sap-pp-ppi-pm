@@ -569,7 +569,22 @@ export function erdCatalog(): ErdCatalog {
 
   const memberships = MODULE_ORDER.reduce((s, m) => s + (NEO_MODULES[m] || []).length, 0);
 
+  // THE UNION PICTURE. One solve over the whole scope, so a multi-module view
+  // is a FILTER of a single stable layout rather than a fresh layout per
+  // combination. Solved with the same function, the same ranker and the same
+  // separations as every other picture, so a table's neighbourhood reads the
+  // same whichever picture it is seen in.
+  const unionNames = [...scope].sort((a, b) => a.localeCompare(b));
+  const unionLay = layout(unionNames, es, NODE_W, NODE_H);
+  const inScope = (n: string) => scope.has(n);
+
   _out = {
+    union: {
+      pos: unionNames.map((n) => ({ n, ...(unionLay.pos.get(n) || { x: 0, y: 0 }) })),
+      w: unionLay.w,
+      h: unionLay.h,
+      es: outEdges.filter((e) => inScope(e.p) && inScope(e.c)).map((e) => e.i),
+    },
     tables: outTables,
     edges: outEdges,
     modules: outModules,

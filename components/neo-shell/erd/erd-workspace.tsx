@@ -65,7 +65,7 @@ import { ErdInspector } from "./erd-inspector";
 import { ErdSheet } from "./erd-sheet";
 import {
   adjacency, bboxOf, capTransform, clampK, clampView, computeGeom, ease, egoPositions,
-  lerp, mapPositions, neighbourLevels, pathD, reach,
+  compact, lerp, mapPositions, neighbourLevels, pathD, reach,
   type EdgeGeom, type GEdge, type GeomMap, type PosMap, type View,
 } from "./graph";
 
@@ -197,6 +197,12 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
 
   const [zoomPct, setZoomPct] = useState(100);
   const [mod, setMod] = useState<ModCode | null>(null);
+  /** Modules added ALONGSIDE `mod`. Kept as a separate set rather than folding
+   *  `mod` into one selection so the single-module path — every picture, camera
+   *  and act already verified against the production graph — is byte-for-byte
+   *  what it was. Multi-module is strictly additive: empty here means nothing
+   *  about the old behaviour changes. */
+  const [extra, setExtra] = useState<Set<ModCode>>(() => new Set());
   const [showAll, setShowAll] = useState(false);
   const [group, setGroup] = useState<GroupRef | null>(null);
   const [sel, setSel] = useState<string | null>(null);
@@ -293,13 +299,60 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   const level: Level = !M ? "overview" : sel ? "table" : group ? "group" : "module";
   const isMap = level === "overview";
 
+  /** The modules on screen. One unless the reader has added more. */
+  const mods = useMemo(
+    () => (mod ? new Set<ModCode>([mod, ...extra]) : new Set<ModCode>()),
+    [mod, extra],
+  );
+  const multi = mods.size >= 2;
+
   /* ----------------------------------------------------- the current picture
      Positions are BUILD-TIME output; the browser never solves a layout. There
-     are exactly three pictures: the module map, a module's curated ERD, and the
-     same module with every one of its tables. Changing picture is an explicit
-     act, so nothing ever re-shuffles underneath a hover or a filter. */
+     are exactly four pictures: the module map, a module's curated ERD, the same
+     module with every one of its tables, and the union of several modules.
+     Changing picture is an explicit act, so nothing ever re-shuffles underneath
+     a hover or a filter. */
 
   const picture = useMemo(() => {
+    // SEVERAL MODULES — the union solve, filtered to the selected memberships.
+    // Filtered, never re-solved: a table holds its one global position, so
+    // adding a module slides its lane into an unchanged picture instead of
+    // dealing the whole board again.
+    if (multi) {
+      // The CURATED lane of each selected module, which is the same population
+      // the single-module picture opens with. Using `t.ms` here instead would
+      // quietly switch the reader to the "whole module" scope the moment they
+      // added a second one — PM + PP would jump from 17 + 20 to 64 tables,
+      // which is a different question than the one they asked.
+      const on = new Set<string>();
+      for (const m of data.modules) if (mods.has(m.code)) for (const n of m.core) on.add(n);
+      const names = data.union.pos.map((p) => p.n).filter((n) => on.has(n));
+      // Filtered, then squeezed. The union canvas is the whole scope; keeping
+      // two lanes out of it leaves them marooned at opposite ends of eleven
+      // thousand pixels, which fits to 14% and shows nothing. compact() drops
+      // the empty ranks and rows and keeps the ordering dagre actually solved.
+      const packed = compact(
+        data.union.pos.filter((p) => on.has(p.n)),
+        data.nw,
+        data.nh,
+        170,
+        34,
+      );
+      return {
+        names,
+        pos: mapPositions(packed.pos),
+        w: packed.w,
+        h: packed.h,
+        nw: data.nw,
+        nh: data.nh,
+        edges: data.union.es
+          .filter((i) => {
+            const e = eById.get(i);
+            return !!e && on.has(e.p) && on.has(e.c);
+          })
+          .map((i) => ({ i, p: eById.get(i)!.p, c: eById.get(i)!.c, n: 0 })),
+      };
+    }
     if (!M) {
       return {
         names: MODULE_ORDER as string[],
@@ -322,7 +375,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
       nh: data.nh,
       edges: ids.map((i) => ({ i, p: eById.get(i)!.p, c: eById.get(i)!.c, n: 0 })),
     };
-  }, [M, showAll, data, eById]);
+  }, [M, showAll, data, eById, multi, mods]);
 
   /** The opened table, only when it is actually part of the current picture. */
   const openT = open && !isMap ? tByName.get(open) ?? null : null;
@@ -796,6 +849,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   // and the only place that knows a picture has actually been replaced.
   const openModule = useCallback((code: ModCode) => {
     setMod(code);
+    setExtra(new Set());
     setGroup(null);
     setSel(null);
     setOpen(null);
@@ -806,6 +860,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
 
   const toOverview = useCallback(() => {
     setMod(null);
+    setExtra(new Set());
     setGroup(null);
     setSel(null);
     setOpen(null);
@@ -902,6 +957,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
     setQ("");
     setGroup(null);
     setShowAll(false);
+    setExtra(new Set());
     setRel(new Set(REL_ORDER));
     setStrong(false);
     setSharedOnly(false);
@@ -1072,7 +1128,7 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
   /** Every change of PICTURE re-frames, once, after its commit. Filters and
    *  selection never move the camera on their own — the view you set is the
    *  view you keep. */
-  const pictureKey = `${mod ?? "*"}|${showAll ? 1 : 0}`;
+  const pictureKey = `${mod ?? "*"}|${[...extra].sort().join("+")}|${showAll ? 1 : 0}`;
   useEffect(() => {
     // Keyed on the picture and nothing else — `fit` is a stable callback, so
     // this fires exactly once per picture. Deliberately NOT guarded by a ref:
@@ -1734,7 +1790,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
               {/* The trigger names the picture, not the module's full title —
                   the h1 one row above already carries that, and repeating it
                   here is what pushed the control bar onto a second line. */}
-              {M ? `${M.code} · ${nf.format(scopeCount)} טבלאות` : `סקירה · ${data.stats.modules} מודולים`}
+              {multi
+                ? `${[...mods].join(" + ")} · ${nf.format(picture.names.length)} טבלאות`
+                : M
+                  ? `${M.code} · ${nf.format(scopeCount)} טבלאות`
+                  : `סקירה · ${data.stats.modules} מודולים`}
             </>
           }
         >
@@ -1800,6 +1860,33 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                   <em>{m.he}</em>
                   <span className="nx-sap">{m.core.length}</span>
                 </button>
+                {/* ADD TO THE COMPARISON. Separate from the row itself so the
+                    ordinary act — open this module — keeps one unambiguous
+                    target, and comparing stays a deliberate second gesture.
+                    Hidden on the module already open: a module cannot be
+                    compared with itself. */}
+                {M && mod !== m.code ? (
+                  <button
+                    type="button"
+                    className="nu-ghost ne-row-add"
+                    aria-pressed={extra.has(m.code)}
+                    aria-label={
+                      extra.has(m.code)
+                        ? `הסר את ${m.code} מההשוואה`
+                        : `הוסף את ${m.code} להשוואה עם ${mod}`
+                    }
+                    onClick={() =>
+                      setExtra((prev) => {
+                        const n = new Set(prev);
+                        if (n.has(m.code)) n.delete(m.code);
+                        else n.add(m.code);
+                        return n;
+                      })
+                    }
+                  >
+                    {extra.has(m.code) ? "✓" : "+"}
+                  </button>
+                ) : null}
               </li>
             ))}
           </ul>

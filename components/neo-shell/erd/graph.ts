@@ -143,6 +143,67 @@ export function border(ax: number, ay: number, bx: number, by: number, w: number
   return { x: ax + dx * s, y: ay + dy * s };
 }
 
+/** SQUEEZE A FILTERED LAYOUT BACK TOGETHER.
+ *
+ *  The union solve places every table in scope, so a picture that keeps only
+ *  two modules' worth of it inherits the whole canvas — roughly eleven thousand
+ *  pixels of mostly empty space, which fits to about 14% and is unreadable.
+ *
+ *  So the filtered set is re-packed. Both axes are rewritten by ORDER, not by
+ *  distance: the distinct x values become successive ranks and the distinct y
+ *  values successive rows. That throws away the empty gaps while keeping the
+ *  only two things the layout was actually asserting — which table is
+ *  downstream of which (left to right, from dagre's ranking) and the vertical
+ *  order inside a rank. Deterministic, no layout engine, same answer every
+ *  render.
+ *
+ *  In rankdir "LR" dagre gives every node on one rank the SAME x, so the x
+ *  buckets are real ranks rather than an artefact of rounding. */
+export function compact(
+  pts: { n: string; x: number; y: number }[],
+  nw: number,
+  nh: number,
+  gapX: number,
+  gapY: number,
+): { pos: { n: string; x: number; y: number }[]; w: number; h: number } {
+  if (!pts.length) return { pos: [], w: 1200, h: 720 };
+  const M = 70;
+  const stepX = nw + gapX;
+  const stepY = nh + gapY;
+  const xs = [...new Set(pts.map((p) => p.x))].sort((a, b) => a - b);
+  const xi = new Map(xs.map((v, i) => [v, i]));
+
+  // The row index is counted WITHIN a rank, not across the whole picture.
+  // Counting globally gives every table its own row — 26 tables become a
+  // 26-row ribbon that fits to about 21% on a wide screen. Counted per rank,
+  // the height is the busiest column instead of the total, which is the shape
+  // dagre itself produces and what makes the picture land near 16:9.
+  const byRank = new Map<number, { n: string; y: number }[]>();
+  for (const p of pts) {
+    const k = xi.get(p.x) ?? 0;
+    (byRank.get(k) ?? byRank.set(k, []).get(k)!).push({ n: p.n, y: p.y });
+  }
+  const row = new Map<string, number>();
+  let tallest = 1;
+  for (const [, list] of byRank) {
+    // Sorted by the solved y, so the crossing-minimised order dagre found
+    // inside the rank survives the squeeze. Name breaks ties so the result is
+    // identical on the server and the client.
+    list.sort((a, b) => a.y - b.y || a.n.localeCompare(b.n));
+    list.forEach((it, i) => row.set(it.n, i));
+    tallest = Math.max(tallest, list.length);
+  }
+  return {
+    pos: pts.map((p) => ({
+      n: p.n,
+      x: M + (xi.get(p.x) ?? 0) * stepX,
+      y: M + (row.get(p.n) ?? 0) * stepY,
+    })),
+    w: M * 2 + Math.max(0, xs.length - 1) * stepX + nw,
+    h: M * 2 + Math.max(0, tallest - 1) * stepY + nh,
+  };
+}
+
 /** The canonical build-time positions, as a map. */
 export function mapPositions(nodes: GPos[]): PosMap {
   return new Map(nodes.map((n) => [n.n, { x: n.x, y: n.y }]));
