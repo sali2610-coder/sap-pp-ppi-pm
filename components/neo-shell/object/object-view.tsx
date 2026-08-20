@@ -444,7 +444,10 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         n={num["no-fields"]}
         icon={<Columns3 size={16} strokeWidth={1.75} />}
         eyebrow="שדות"
-        title={`${v.fields.length} שדות · ${v.pk.length} מפתח ראשי · ${v.fk.length} מפתח זר`}
+        /* "12 מפתח ראשי" does not agree in Hebrew: a count needs a plural
+           noun. PK/FK is this page's own vocabulary and is spelled out in the
+           legend directly below, so it stays correct at every count. */
+        title={`${v.fields.length} שדות · ${v.pk.length} שדות PK · ${v.fk.length} שדות FK`}
         lede="המפתחות נקראים ראשונים, כי הם מה שהאובייקט הוא. הטבלה שמתחתיהם מציגה את איחוד השדות שכל תכנון מתעד, בסדר שנכתב, וניתן לצמצם אותה לשדות המפתח בלבד."
       >
         {v.fields.length ? <ObjectFields fields={v.fields} name={v.name} /> : <Silent what="שדות" />}
