@@ -287,7 +287,9 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
    and the headline should sit ON it rather than beside it. 11.4:1 */
 [data-scene="pm-full"] {
   --scene-ground: #b6ecd9;
-  --scene-raised: #a1e4cd;
+  /* Raised moves toward WHITE. A deeper mint read as the same surface and the
+     card vanished into the field. */
+  --scene-raised: #f3fdf9;
   --scene-ink: #05322e;
   --scene-ink-2: #0c4f47;
   --scene-ink-3: #2b6d63;
@@ -299,7 +301,7 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
    from PM at a glance, which is the whole job of module colour. 10.9:1 */
 [data-scene="pppi-full"] {
   --scene-ground: #ccd3fb;
-  --scene-raised: #bcc5fa;
+  --scene-raised: #f4f6ff;
   --scene-ink: #1b1c5e;
   --scene-ink-2: #2f3186;
   --scene-ink-3: #4b4ea8;
@@ -311,7 +313,7 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
    brand rather than to a module. 13.1:1 */
 [data-scene="shared"] {
   --scene-ground: #fbf3e4;
-  --scene-raised: #f5e9d4;
+  --scene-raised: #fffdf9;
   --scene-ink: #1c1613;
   --scene-ink-2: #4a3c33;
   --scene-ink-3: #7a6857;

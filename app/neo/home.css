@@ -1504,3 +1504,98 @@ html[data-theme="dark"] .nz-card,
    three zones — so the stage collapses to one column and the zones get the
    whole width instead of 522px of a 1071px stage. */
 [data-scene="shared"] .nh-stage { grid-template-columns: minmax(0, 1fr); }
+
+/* ==========================================================================
+   THE MIGRATION VERDICT, AS COLOUR
+
+   §14: colour is structure, not decoration. "Is this table safe, does it
+   change, is it gone" is the single question this scene answers, so the answer
+   is the surface — not a dot beside a neutral card. Coral is reserved for the
+   tables that actually move, which is what makes five of them findable among a
+   hundred and five.
+   ========================================================================== */
+
+[data-scene="s4"] .nh-impcol {
+  padding: var(--sp-4) var(--sp-5);
+  border-radius: 1rem;
+  background: color-mix(in oklab, var(--vc) 18%, var(--scene-ground));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--vc) 42%, transparent);
+}
+[data-scene="s4"] .nh-impcol[data-k="kept"]     { --vc: var(--scene-cool, #22d3ee); }
+[data-scene="s4"] .nh-impcol[data-k="replaced"] { --vc: var(--scene-hot, #ff6f57); }
+[data-scene="s4"] .nh-impcol[data-k="removed"]  { --vc: var(--scene-ink-3); }
+/* A zero band is drawn as a real zero rather than hidden — the dictionary
+   marks nothing as removed, and that is a finding, not a gap. */
+[data-scene="s4"] .nh-impcol[data-empty="1"] { opacity: .55; }
+[data-scene="s4"] .nh-impcol .nh-sap {
+  color: color-mix(in oklab, var(--vc) 62%, var(--scene-ink));
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  line-height: 1;
+}
+[data-scene="s4"] .nh-impcol-k i { background: var(--vc); }
+[data-scene="s4"] .nh-bar i { background: var(--vc); }
+
+/* The five that move. Each row is a findable object, not another dark bar. */
+[data-scene="s4"] .nh-hot > li {
+  background: color-mix(in oklab, var(--scene-hot, #ff6f57) 12%, var(--scene-raised));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--scene-hot, #ff6f57) 34%, transparent);
+  border-radius: .8rem;
+}
+[data-scene="s4"] .nh-hot-k[data-k="replaced"] { color: var(--scene-hot, #ff6f57); }
+[data-scene="s4"] .nh-hot-k[data-k="replaced"] i { background: var(--scene-hot, #ff6f57); }
+[data-scene="s4"] .nh-hot .nh-sap { color: var(--scene-ink); }
+
+/* ------------------------------------------------------ the library on Home
+   A shelf, not a swatch. The books are the subject of this scene, so they get
+   real size and real depth against the burgundy rather than sitting as small
+   chips in a corner. */
+.nhb-shelf {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  align-items: end;
+  gap: var(--sp-3);
+  padding: var(--sp-4) 0;
+  margin: 0;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+.nhb-book { min-inline-size: 5.5rem; }
+.nhb-link {
+  display: grid;
+  gap: var(--sp-2);
+  justify-items: center;
+  text-decoration: none;
+  color: inherit;
+  border-radius: .5rem;
+  transition: transform var(--dur-base) var(--ease-out-expo);
+}
+/* The shelf lifts one book at a time. Motion stays on transform, and the
+   existing reduced-motion rules zero it with everything else. */
+.nhb-link:hover { transform: translateY(-6px); }
+.nhb-link:focus-visible { outline: 2px solid var(--scene-accent); outline-offset: 3px; }
+.nhb-meta { display: grid; gap: 1px; justify-items: center; text-align: center; }
+.nhb-meta b {
+  font-size: var(--t-micro);
+  font-weight: 700;
+  color: color-mix(in oklab, var(--m, var(--scene-accent)) 55%, var(--scene-ink));
+}
+.nhb-meta em { font-style: normal; font-size: var(--t-micro); color: var(--scene-ink-3); }
+
+@media (max-width: 900px) {
+  .nhb-shelf { grid-auto-columns: 6rem; }
+}
+
+/* The Books scene stacks instead of splitting. Ten bound books squeezed into a
+   40% column render at thumbnail size, which is how the scene ended up looking
+   like a swatch of a library rather than a library. Text above, shelf across
+   the full width, books at a size where a spine can actually be read. */
+@container nh (min-width: 60rem) {
+  [data-scene="books"] .nh-split { grid-template-columns: minmax(0, 1fr); align-items: start; }
+}
+[data-scene="books"] .nhb-shelf { grid-auto-columns: minmax(7rem, 1fr); gap: var(--sp-4); }
+[data-scene="books"] .nhb-book { min-inline-size: 7rem; }
+/* The cover slab itself scales with the scene rather than with the shelf page. */
+[data-scene="books"] .nb-cov { --cov-w: clamp(6.5rem, 8.5cqi, 10rem); }

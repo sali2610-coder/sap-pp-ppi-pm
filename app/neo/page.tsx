@@ -7,8 +7,14 @@ import {
 // a control style, it consumes .nu-* and only overrides layout around them.
 import "./ui.css";
 import "./home.css";
+// The Books scene renders the real BookCover, whose binding, spine, page block
+// and depth all live in books.css. Home has to carry that stylesheet or the
+// shelf degrades to flat text — which is exactly how it first rendered.
+import "./books.css";
 import { homeData, zoneVar, type HomeData } from "@/components/neo-shell/home/home-data";
 import { HomeScene, type SceneSection } from "@/components/neo-shell/home/home-scene";
+import { HomeShelf } from "@/components/neo-shell/home/home-shelf";
+import { booksData } from "@/components/neo-shell/books/books-data";
 import { HomeZones } from "@/components/neo-shell/home/home-zones";
 import { HomeNet } from "@/components/neo-shell/home/home-net";
 
@@ -142,15 +148,21 @@ function ModuleChapter({
 
        </div>
 
+       {/* THE MODULE'S OWN TABLES.
+           This was the dot field again, dimmed to the module's two bands. A
+           reader could see that "some of the dots belong to me" and learn
+           nothing else. The module scene now shows the module's actual
+           population: the tables only it documents, and the core it shares
+           with the other one. Named, described, counted. */}
        <div className="nh-split-v nm-rise">
-         <HomeNet
+         <HomeZones
            dots={d.dots}
-           edges={d.edges}
-           focus={i === 0 ? ([0, 1] as const) : ([1, 2] as const)}
+           show={6}
+           bands={i === 0 ? ([0, 1] as const) : ([1, 2] as const)}
          />
          <p className="nh-split-cap">
-           {nf.format(mo.tables)} מתוך {nf.format(d.tables)} הטבלאות המאוחדות, מוארות בשדה
-           המלא. הטבלאות הכהות הן אלה שהמודול השני מתעד.
+           {nf.format(mo.tables)} מתוך {nf.format(d.tables)} הטבלאות המאוחדות שייכות למודול הזה,
+           כולל הליבה שהוא חולק עם המודול השני.
          </p>
        </div>
       </div>
@@ -263,6 +275,9 @@ function ModuleChapter({
 
 export default function NeoHome() {
   const d = homeData();
+  // The shelf's own cards, read at build time from the same registry the
+  // library reads. Home shows the books it actually has, in their real order.
+  const bookCards = booksData().books;
 
   const sections: SceneSection[] = [
     { id: "nh-1", label: "הפתיחה", field: "רקע כהה" },
@@ -613,12 +628,21 @@ export default function NeoHome() {
         ledge={<>הרקע חוזר להיות כהה. {d.migration.replaced} הטבלאות שהמילון מסמן כמוחלפות נשלפות החוצה.</>}
       />
 
-      {/* =========================================================== 06 · deep
-          The close bookends the gate: the page ends on the same warm dark it
-          opened on, so the descent reads as one journey with a floor. */}
+      {/* ============================================================= 06 · s4
+          THE MIGRATION SCENE.
+          This used to sit on the warm dark "deep" ground with its three
+          verdicts drawn as neutral cards carrying a small status dot. The
+          result was a dark rectangle with small cards — the exact thing the
+          scene test rejects — on the subject that is arguably Project NEO's
+          reason to exist.
+
+          It now owns the S/4 world: deep navy, electric blue, and coral held
+          back for the tables that actually change. The verdict is carried by
+          the WHOLE card rather than by a 6px dot, so "kept / replaced /
+          removed" is answered by colour before the number is read. */}
       <section
         className="nh-sec"
-        data-scene="deep"
+        data-scene="s4"
         id="nh-6"
         data-hsec
         aria-labelledby="nh-6-h"
@@ -762,14 +786,16 @@ export default function NeoHome() {
             </Link>
           </div>
          </div>
+         {/* THE ACTUAL LIBRARY.
+             This was ten abstract bars marked aria-hidden — a decoration
+             standing in for the subject, on the one scene whose subject is
+             physical objects. It is now the real shelf, drawn with the same
+             BookCover the library itself uses, so a spine cannot be one colour
+             here and another one screen later. */}
          <div className="nh-split-v nm-rise">
-           <ul className="nh-spines" aria-hidden="true">
-             {Array.from({ length: d.books }).map((_, k) => (
-               <li key={k} style={{ "--i": k } as React.CSSProperties} />
-             ))}
-           </ul>
+           <HomeShelf books={bookCards} />
            <p className="nh-split-cap">
-             שדרה אחת לכל ספר בספרייה. הצבע הוא הבד שבו הספר כרוך במדף.
+             עשרת הספרים כפי שהם כרוכים בספרייה. הצבע הוא הבד של הכריכה, והסימון הוא המודול.
            </p>
          </div>
         </div>
