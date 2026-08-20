@@ -2255,6 +2255,26 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                           <title>{`${t.n}: ${t.he || t.en}. ${ZONE_HE[t.z] || t.z}. ${dg} קשרים`}</title>
                           <rect className="ne-node-h" x={-ow / 2 - 5} y={oy - 5} width={ow + 10} height={oh + 10} rx={14} />
                           <rect className="ne-node-r" x={-ow / 2} y={oy} width={ow} height={oh} rx={isOpen ? 14 : 10} />
+                          {/* THE TOP ACCENT, restored from the production ERD.
+                              The module used to be a 4px line on one edge, which
+                              is easy to miss on a node seen at 40% zoom. The old
+                              graph runs the module colour the full width of the
+                              card's head, and that is what lets a reader name a
+                              module before reading its label. Drawn as a path
+                              because an SVG rect cannot round only two corners. */}
+                          {(() => {
+                            const r = isOpen ? 14 : 10;
+                            const x0 = -ow / 2;
+                            const x1 = ow / 2;
+                            const t0 = oy;
+                            const b0 = oy + 5;
+                            return (
+                              <path
+                                className="ne-node-top"
+                                d={`M${x0},${t0 + r} A${r},${r} 0 0 1 ${x0 + r},${t0} L${x1 - r},${t0} A${r},${r} 0 0 1 ${x1},${t0 + r} L${x1},${b0} L${x0},${b0} Z`}
+                              />
+                            );
+                          })()}
                           {/* MODULE identity is a line on the inline-start edge.
                               OBJECT class is the small marker beneath it. */}
                           <rect className="ne-node-mb" x={ow / 2 - 10} y={oy + 9} width={4} height={(isOpen ? O_HEAD : oh) - 18} rx={2} />
@@ -2284,6 +2304,33 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
                               </text>
                               <text className="ne-node-fk nx-sap" x={-W / 2 + 20} y={H / 2 - 12} textAnchor="start">
                                 {t.fk.length ? `FK ${t.fk.length} · ${dg}` : `${dg}`}
+                              </text>
+                              {/* S/4HANA — IMPACT, not merely "has a statement".
+                                  My first cut badged any table whose s4 string
+                                  was non-empty, and 217 of the 220 tables carry
+                                  one: most of them read "ללא שינוי (תואם)".
+                                  That badged 17 PM tables as affected when the
+                                  dataset explicitly calls them compatible, which
+                                  is a false SAP claim on a consultant's screen.
+
+                                  The old graph uses s4For().impacted, i.e. risk
+                                  high or medium. The catalog already resolves
+                                  the same thing into s4v, so the badge is that
+                                  and nothing else, and it carries the risk
+                                  colour rather than one flat amber. */}
+                              {t.s4v && (t.s4v.r === "high" || t.s4v.r === "medium") ? (
+                                <g
+                                  className="ne-node-s4"
+                                  data-risk={t.s4v.r}
+                                  transform={`translate(${ow / 2 - 34} ${oy + 12})`}
+                                >
+                                  <rect width={26} height={13} rx={3} />
+                                  <text x={13} y={10} textAnchor="middle">S/4</text>
+                                </g>
+                              ) : null}
+                              {/* The affordance the old node shows on hover. */}
+                              <text className="ne-node-hint" x={px} y={oh + oy - 10} textAnchor="start">
+                                לחץ ↡
                               </text>
                             </>
                           ) : (

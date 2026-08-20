@@ -1558,3 +1558,36 @@ html[data-theme="dark"] .ne {
   --erd-mod-fi: #f87171;
   --erd-mod-batch: #d09a3c;
 }
+
+/* THE TOP ACCENT — the production ERD's module band.
+   Module identity used to be a 4px line on one edge of the card, which
+   disappears at the zoom levels this graph is actually read at. The old graph
+   runs the module colour across the whole head of the node, and that is what
+   lets a reader name the module before reading its label. */
+.ne-node-top { fill: var(--ms); }
+.ne-node[data-off="1"] .ne-node-top,
+.ne-node[data-lvl="x"] .ne-node-top { fill-opacity: .55; }
+
+/* S/4HANA badge. Only drawn where the dataset holds a statement. */
+/* Risk carries the colour, matching RISK_COLOR in lib/s4.ts. A badge that is
+   one flat amber whether the table is high or medium risk is a badge that has
+   stopped saying anything. */
+.ne-node-s4 rect { fill: #d97706; }
+.ne-node-s4[data-risk="high"] rect { fill: #dc2626; }
+.ne-node-s4 text {
+  font-family: var(--font-mono);
+  font-size: 8px; font-weight: 800;
+  fill: #451a03;
+}
+
+/* The click affordance, quiet until the pointer is on the node. */
+.ne-node-hint {
+  font-size: 9px; font-weight: 700;
+  fill: var(--ink-3);
+  opacity: 0;
+  transition: opacity 160ms var(--ease-out-expo);
+}
+@media (hover: hover) and (pointer: fine) {
+  .ne-node:hover .ne-node-hint { opacity: .85; }
+}
+@media (prefers-reduced-motion: reduce) { .ne-node-hint { transition: none; } }
