@@ -1599,3 +1599,39 @@ html[data-theme="dark"] .nz-card,
 [data-scene="books"] .nhb-book { min-inline-size: 7rem; }
 /* The cover slab itself scales with the scene rather than with the shelf page. */
 [data-scene="books"] .nb-cov { --cov-w: clamp(6.5rem, 8.5cqi, 10rem); }
+
+/* ------------------------------------------------------- the corpus, on AI
+   Five bodies NEO reads, each a real count. Electric blue and the brand red
+   are the only two lights in this room, so the row carries them alternately
+   rather than tinting every card the same. */
+.nh-corpus {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: var(--sp-3);
+  margin: var(--sp-6) 0 var(--sp-5);
+  padding: 0;
+  list-style: none;
+}
+.nh-corpus-i {
+  display: grid;
+  gap: 2px;
+  padding: var(--sp-4);
+  border-radius: .9rem;
+  background: color-mix(in oklab, var(--cc) 14%, var(--scene-raised));
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--cc) 38%, transparent);
+}
+.nh-corpus-i[data-k="b"] { --cc: var(--scene-hot, #ff4b4b); }
+.nh-corpus-i[data-k="t"] { --cc: var(--scene-accent, #4d8dff); }
+.nh-corpus-i[data-k="x"] { --cc: var(--scene-accent, #4d8dff); }
+.nh-corpus-i[data-k="f"] { --cc: var(--scene-hot, #ff4b4b); }
+.nh-corpus-i[data-k="r"] { --cc: var(--scene-accent, #4d8dff); }
+.nh-corpus-i b {
+  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.02em;
+  color: color-mix(in oklab, var(--cc) 58%, var(--scene-ink));
+  font-variant-numeric: tabular-nums;
+}
+.nh-corpus-i span { font-size: var(--t-micro); font-weight: 600; color: var(--scene-ink-2); }
+.nh-corpus-i em { font-style: normal; font-size: var(--t-micro); color: var(--scene-ink-3); letter-spacing: .04em; }

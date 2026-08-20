@@ -823,6 +823,29 @@ export default function NeoHome() {
               ממציאות תשובה כשאין להן מקור.
             </p>
           </div>
+          {/* WHAT IT ANSWERS FROM.
+              The scene claimed the assistant answers from everything above and
+              then showed two buttons on an empty graphite field. The corpus is
+              the subject: these are the five bodies NEO actually reads, with
+              their real counts, so "grounded in the project" is a picture
+              rather than a promise. Every figure is the same one its own
+              section states. */}
+          <ul className="nh-corpus nm-seq" aria-label="המקורות שמהם NEO עונה">
+            {[
+              { n: d.books, he: "ספרים", en: "SAP PRESS", k: "b" },
+              { n: d.tables, he: "טבלאות", en: "Dictionary", k: "t" },
+              { n: d.tcodes, he: "טרנזקציות", en: "Transactions", k: "x" },
+              { n: d.funcs, he: "BAPI · FM · IDoc", en: "Interfaces", k: "f" },
+              { n: d.relations, he: "קשרי ER", en: "Relations", k: "r" },
+            ].map((c) => (
+              <li className="nh-corpus-i nm-rise" key={c.k} data-k={c.k}>
+                <b className="nh-sap">{nf.format(c.n)}</b>
+                <span>{c.he}</span>
+                <em className="nh-sap">{c.en}</em>
+              </li>
+            ))}
+          </ul>
+
           <div className="nh-cta nm-rise">
             <Link className="nu-btn" href="/neo/ai/" prefetch={false}>
               <BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />
