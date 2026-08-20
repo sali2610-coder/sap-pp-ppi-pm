@@ -1206,11 +1206,40 @@ html[data-theme="dark"] .no-core-r {
   fill: var(--ink-3);
 }
 
-/* THE ALIVE QUALITY. The old graph's marching dashes, ported exactly: 6/5 dash,
-   offset 0 to -110, three seconds, forever. It is the single thing that made
-   the old diagram feel live rather than printed. */
+/* THE ALIVE QUALITY, NOW SPENT ON PURPOSE.
+   The old graph's marching dash (6/5, offset 0 to -110) is what made it feel
+   live rather than printed, and it is ported exactly. What changed is WHEN:
+   running it on every edge at once means fourteen competing animations on a
+   busy object, which is noise, not precision. It now runs only on the paths
+   connected to whatever the reader is pointing at or has selected. */
 @keyframes nol-flow { to { stroke-dashoffset: -110; } }
-.nol-flow { animation: nol-flow 3s linear infinite; }
+.nol-flow { animation: nol-flow 1.6s linear infinite; }
+
+/* Hover elevation. transform on a <g> is composited, so this is free. */
+.nol-n { transition: opacity 200ms var(--ease-out-expo), transform 200ms var(--ease-out-expo); }
+.nol-n[data-on="1"] { transform-box: fill-box; }
+.nol-card { transition: stroke-width 180ms var(--ease-out-expo), filter 180ms var(--ease-out-expo); }
+.nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4px 10px rgb(60 42 28 / .18)); }
+html[data-theme="dark"] .nol-n[data-on="1"] .nol-card { filter: drop-shadow(0 4px 12px rgb(0 0 0 / .55)); }
+
+/* THE CONTEXT STRIP — validated fields only, never generated prose. */
+.nol-ctx {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2) var(--sp-4);
+  min-block-size: 2.5rem;
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-lg);
+  background: var(--surface-2);
+  transition: border-color 200ms var(--ease-out-expo), background-color 200ms var(--ease-out-expo);
+}
+.nol-ctx[data-on="1"] { border-color: color-mix(in oklab, var(--brand) 34%, var(--hairline)); }
+.nol-ctx-path { font-size: var(--t-sm); font-weight: 800; color: var(--ink-1); }
+.nol-ctx-f { display: inline-flex; align-items: baseline; gap: .4rem; }
+.nol-ctx-f em { font-style: normal; font-size: var(--t-micro); color: var(--ink-3); }
+.nol-ctx-f b { font-size: var(--t-xs); font-weight: 750; color: var(--ink-1); }
+.nol-ctx-d { flex: 1 1 16rem; font-size: var(--t-xs); color: var(--ink-2); line-height: 1.6; }
+.nol-ctx-idle { font-size: var(--t-xs); color: var(--ink-3); }
+.nol-open { font-size: var(--t-micro); padding: .3rem .7rem; margin-inline-start: auto; }
 
 .nol-n rect:first-of-type { transition: stroke-width 160ms var(--ease-out-expo); }
 .nol-n, .nol-e { transition: opacity 200ms var(--ease-out-expo); }
