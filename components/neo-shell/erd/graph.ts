@@ -152,31 +152,64 @@ export function mapPositions(nodes: GPos[]): PosMap {
  *  would otherwise overprint; it alternates side and grows in steps, exactly as
  *  the build-time layout does. */
 export function chord(a: Pt, b: Pt, aw: number, ah: number, bw: number, bh: number, bow: number): EdgeGeom {
-  const p1 = border(a.x, a.y, b.x, b.y, aw, ah);
-  const p2 = border(b.x, b.y, a.x, a.y, bw, bh);
-  const dx = p2.x - p1.x;
-  const dy = p2.y - p1.y;
-  const len = Math.hypot(dx, dy) || 1;
+  // Manhattan routing, ported from the production Architecture Studio. The
+  // layout is rankdir "LR", so an edge leaves the SIDE of its parent and
+  // arrives at the SIDE of its child, and the vertical travel happens in the
+  // gap between two ranks where no node column sits.
+  //
+  // Leaving from the side rather than from the chord's intersection with the
+  // rectangle is the whole reason the old graph reads as a schematic: every
+  // line starts and ends horizontally, so the eye follows a rail instead of a
+  // spray of diagonals leaving a box at arbitrary angles.
+  const fwd = a.x <= b.x;
+  const x1 = fwd ? a.x + aw / 2 : a.x - aw / 2;
+  const x2 = fwd ? b.x - bw / 2 : b.x + bw / 2;
+  // `bow` keeps its old job — separating edges that would otherwise print on
+  // top of each other — but it now displaces the VERTICAL RUN sideways instead
+  // of bending a curve, which is what keeps parallel rails apart.
   return {
-    x1: Math.round(p1.x),
-    y1: Math.round(p1.y),
-    x2: Math.round(p2.x),
-    y2: Math.round(p2.y),
-    cx: Math.round((p1.x + p2.x) / 2 + (-dy / len) * bow),
-    cy: Math.round((p1.y + p2.y) / 2 + (dx / len) * bow),
+    x1: Math.round(x1),
+    y1: Math.round(a.y),
+    x2: Math.round(x2),
+    y2: Math.round(b.y),
+    cx: Math.round((x1 + x2) / 2 + bow),
+    cy: Math.round((a.y + b.y) / 2),
   };
 }
 
-export const pathD = (g: EdgeGeom) => `M${g.x1} ${g.y1} Q${g.cx} ${g.cy} ${g.x2} ${g.y2}`;
+/** The elbow. `cx` is the x of the vertical run, `cy` the midpoint the
+ *  cardinality chip hangs on. Corner radius follows production's 12, clamped to
+ *  the space actually available: without the clamp a short vertical hop, or a
+ *  vertical run sitting close to a node, makes the two arcs overshoot each
+ *  other and the elbow renders as a kink. */
+export const pathD = (g: EdgeGeom) => {
+  if (Math.abs(g.y1 - g.y2) < 2) return `M${g.x1} ${g.y1} L${g.x2} ${g.y2}`;
+  const r = Math.max(
+    0,
+    Math.min(12, Math.abs(g.y2 - g.y1) / 2, Math.abs(g.cx - g.x1), Math.abs(g.x2 - g.cx)),
+  );
+  const hOut = g.cx > g.x1 ? 1 : -1;
+  const hIn = g.x2 > g.cx ? 1 : -1;
+  const vd = g.y2 > g.y1 ? 1 : -1;
+  return (
+    `M${g.x1} ${g.y1} L${g.cx - r * hOut} ${g.y1}` +
+    ` Q${g.cx} ${g.y1} ${g.cx} ${g.y1 + r * vd}` +
+    ` L${g.cx} ${g.y2 - r * vd}` +
+    ` Q${g.cx} ${g.y2} ${g.cx + r * hIn} ${g.y2}` +
+    ` L${g.x2} ${g.y2}`
+  );
+};
 
 /** Placement for the crow's-foot / key marker at one end of an edge. Local +x
  *  points from the node border INTO the edge, so a marker drawn once in local
- *  space is correct at both ends of every edge. */
+ *  space is correct at both ends of every edge.
+ *
+ *  With Manhattan routing both ends are horizontal, so the marker is flat: it
+ *  faces the vertical run and never an arbitrary diagonal. */
 export function capTransform(g: EdgeGeom, end: "p" | "c"): string {
   const x = end === "p" ? g.x1 : g.x2;
   const y = end === "p" ? g.y1 : g.y2;
-  const a = (Math.atan2(g.cy - y, g.cx - x) * 180) / Math.PI;
-  return `translate(${x} ${y}) rotate(${a.toFixed(2)})`;
+  return `translate(${x} ${y}) rotate(${g.cx > x ? 0 : 180})`;
 }
 
 /* ------------------------------------------------------------ focus layout */
