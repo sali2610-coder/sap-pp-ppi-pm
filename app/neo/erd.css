@@ -534,7 +534,43 @@ html[data-theme="dark"] .ne {
   opacity: .62;
   transition: opacity var(--dur-base) var(--ease-out-expo), stroke-width var(--dur-base) var(--ease-out-expo);
 }
-.ne-edge[data-kind="unstated"] .ne-edge-p { stroke-dasharray: 6 5; opacity: .42; }
+.ne-edge[data-kind="unstated"] .ne-edge-p { opacity: .42; }
+
+/* THE DASH MARCH — the production ERD's signature, restored.
+   The old graph gives every relationship `stroke-dasharray: 7 6` and marches
+   the offset to -200 over three seconds. That single detail is most of why the
+   old diagram feels like live connections rather than printed strokes, and NEO
+   had replaced it with a travelling dot, which reads as one particle rather
+   than as flow.
+
+   Every edge marches, as it does in production, but slowly and at low contrast
+   so it stays precision motion rather than decoration. A focused edge switches
+   to the old graph's `fast` variant, which is what makes the relationship you
+   are actually asking about pull ahead of the rest. */
+.ne-edge-p {
+  stroke-dasharray: 7 6;
+  animation: ne-march 3s linear infinite;
+}
+.ne-edge[data-lvl="1"] .ne-edge-p,
+.ne-edge[data-lvl="2"] .ne-edge-p { animation-duration: 1s; }
+/* Dimmed and off-focus edges hold still: motion is for what is in play. */
+.ne-edge[data-lvl="x"] .ne-edge-p,
+.ne-edge[data-off="1"] .ne-edge-p { animation: none; }
+
+@keyframes ne-march { to { stroke-dashoffset: -200; } }
+
+/* A moving dash on every edge is exactly what a vestibular user cannot have,
+   and the graph loses nothing by being still. */
+@media (prefers-reduced-motion: reduce) {
+  .ne-edge-p { animation: none !important; }
+}
+/* Above the presentation breakpoint the same rule as everywhere else applies:
+   a 4K canvas repainting dozens of dashed strokes every frame costs more than
+   the effect is worth. */
+@media (min-width: 1600px) {
+  .ne-edge-p { animation-duration: 5s; }
+  .ne-edge[data-lvl="x"] .ne-edge-p { animation: none; }
+}
 
 .ne-cap { transition: opacity var(--dur-base) var(--ease-out-expo); opacity: .8; }
 .ne-cap-d { fill: var(--e); }
