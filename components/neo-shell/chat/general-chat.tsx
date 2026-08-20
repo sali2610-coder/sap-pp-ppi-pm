@@ -75,8 +75,15 @@ export function GeneralChat() {
   const idle = !turns.length && !pending;
   const markState = pending ? (live?.preview ? "writing" : "thinking") : "idle";
 
+  /* NEO'S OWN GROUND. See the note in library-chat: the two assistants used to
+     share one canvas and were distinguishable only by their h1.
+
+     This is the site-wide, system-aware one, so it takes the ai scene:
+     near-black indigo, the coolest and darkest surface in the product, and
+     deliberately the opposite end of the palette from the library's warm
+     leather. Technical rather than editorial. */
   return (
-    <div className="nxq nxg" data-surface="general">
+    <div className="nxq nxg nm-scene" data-surface="general" data-scene="ai">
       <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
 
       {/* A console strip, not the library's hero. The two screens are meant to

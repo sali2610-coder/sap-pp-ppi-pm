@@ -329,6 +329,13 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
   /* Locally rebind the product tokens, so a card, a chip or a table dropped
      into a scene inherits scene-correct colour without knowing scenes exist. */
   --surface: var(--scene-raised);
+  /* --surface-2 has to be rebound as well, and forgetting it was a real bug:
+     any component reaching for the RECESSED tone (.nxg-col on the NEO AI
+     surface, for one) kept the shell's warm cream and rendered as a light card
+     pasted onto a dark scene — measured at luminance 0.93 on a 0.07 ground.
+     Derived from the scene rather than fixed, so it sits correctly between the
+     ground and the raised tone for every scene, light or dark. */
+  --surface-2: color-mix(in oklab, var(--scene-raised) 68%, var(--scene-ground));
   --ink-1: var(--scene-ink);
   --ink-2: var(--scene-ink-2);
   --ink-3: var(--scene-ink-3);

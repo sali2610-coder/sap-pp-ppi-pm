@@ -68,8 +68,17 @@ export function LibraryChat() {
   const idle = !turns.length && !pending;
   const markState = pending ? (live?.preview ? "writing" : "thinking") : "idle";
 
+  /* THE LIBRARY'S OWN GROUND.
+     This assistant and the general one used to render on the identical
+     warm-light canvas, so with the titles covered the only thing telling a
+     reader which of the two they were in was the h1 — the "identical chatbot
+     screens" the review rejected.
+
+     Ask the Library is grounded in the BOOKS, so it takes the books scene:
+     warm bound leather, editorial, the same world as the shelf. Its sibling
+     takes the near-black indigo of a system tool. */
   return (
-    <div className="nxq" data-surface="library">
+    <div className="nxq nm-scene" data-surface="library" data-scene="books">
       <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
 
       {/* ---------------------------------------------------------- identity */}
