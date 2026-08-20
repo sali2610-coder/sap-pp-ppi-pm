@@ -442,8 +442,8 @@ export function CommandSurface({
             ) : result.sections.length === 0 ? (
               <p className="nxc-none">
                 אין רשומה בנתוני הפרויקט עבור «{q}»
-                {modOnly ? ` במודול ${modLabel(modOnly)}` : ""}. החיפוש עובר על כל האינדקס —{" "}
-                {nf.format(indexTotal)} רשומות אמיתיות: ולא על טקסט חופשי.
+                {modOnly ? ` במודול ${modLabel(modOnly)}` : ""}. החיפוש עובר על כל האינדקס,{" "}
+                {nf.format(indexTotal)} רשומות אמיתיות, ולא על טקסט חופשי.
               </p>
             ) : (
               result.sections.map((sec, si) => {

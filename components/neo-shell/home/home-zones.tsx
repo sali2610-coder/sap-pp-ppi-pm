@@ -29,7 +29,7 @@
    ========================================================================== */
 
 import type { HomeDot } from "./home-data";
-import { zoneVar } from "./home-data";
+import { ZONE_HE, zoneVar } from "./home-data";
 
 const BAND_LABEL: Record<0 | 1 | 2, { he: string; sub: string }> = {
   0: { he: "PM בלבד", sub: "אחזקת מפעל" },
@@ -37,10 +37,26 @@ const BAND_LABEL: Record<0 | 1 | 2, { he: string; sub: string }> = {
   2: { he: "PP-PI בלבד", sub: "ייצור תהליכי" },
 };
 
-/** One table, as an object a consultant recognises. */
+/** One table, as an object a consultant recognises.
+ *
+ *  HOVER SAYS WHAT THE MARK IS. The field count and the class colour are
+ *  legible but not self-explaining — "6" and a teal bar do not announce
+ *  themselves. The title carries the full reading in the dictionary's own
+ *  terms, so the card can stay compact without becoming a puzzle. Native
+ *  `title` rather than a custom tooltip on purpose: it works on keyboard
+ *  focus, it works for assistive tech, and it costs no JavaScript on the
+ *  product's heaviest page. */
 function TableCard({ d, dim = false }: { d: HomeDot; dim?: boolean }) {
+  const zone = ZONE_HE[d.z] || d.z;
+  const rel = d.r === 0 ? "אין קשר ER ממודל" : `${d.r} קשרי ER`;
+  const tc = d.t === 0 ? "ללא טרנזקציה ממופה" : `${d.t} טרנזקציות`;
   return (
-    <li className="nz-card" data-dim={dim ? "1" : "0"} style={{ "--z": zoneVar(d.z) } as React.CSSProperties}>
+    <li
+      className="nz-card"
+      data-dim={dim ? "1" : "0"}
+      style={{ "--z": zoneVar(d.z) } as React.CSSProperties}
+      title={`${d.n}${d.he ? ` · ${d.he}` : ""}\n${zone} · ${d.f} שדות מתועדים · ${rel} · ${tc}`}
+    >
       <i className="nz-card-z" aria-hidden="true" />
       <b className="nz-card-n nx-sap" dir="ltr">{d.n}</b>
       {d.he ? <em className="nz-card-he">{d.he}</em> : null}
