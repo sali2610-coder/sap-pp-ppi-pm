@@ -110,7 +110,18 @@ function ModuleChapter({
       style={{ "--m": mo.m } as React.CSSProperties}
     >
      <div className="nh-body nm-scene">
-      <div className="nh-in">
+      {/* SPLIT EDITORIAL, not another centred stack.
+          Every scene on this page was head + paragraph + one wide metrics box,
+          which is the formula the review rejected. The module scenes are a two
+          column composition instead: the editorial column reads, and beside it
+          the module's OWN tables are lit inside the whole 105-table field.
+
+          That makes the lede's closing claim — "this module touches N% of the
+          merged tables" — something you can see rather than something you are
+          told. The tables it does not document stay drawn and recede, because
+          they are the context that gives the percentage meaning. */}
+      <div className="nh-in nh-split">
+       <div className="nh-split-t">
         <div className="nh-head">
           <p className="nh-eye nm-fade">
             <span className="nh-sap">{mo.code}</span>
@@ -128,6 +139,22 @@ function ModuleChapter({
           </p>
         </div>
 
+       </div>
+
+       <div className="nh-split-v nm-rise">
+         <HomeNet
+           dots={d.dots}
+           edges={d.edges}
+           focus={i === 0 ? ([0, 1] as const) : ([1, 2] as const)}
+         />
+         <p className="nh-split-cap">
+           {nf.format(mo.tables)} מתוך {nf.format(d.tables)} הטבלאות המאוחדות, מוארות בשדה
+           המלא. הטבלאות הכהות הן אלה שהמודול השני מתעד.
+         </p>
+       </div>
+      </div>
+
+      <div className="nh-in">
         <Link
           href={mo.href}
           prefetch={false}

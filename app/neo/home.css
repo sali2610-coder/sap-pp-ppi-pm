@@ -1258,3 +1258,29 @@ html .nx-app .nx-canvas:has(> .nh) {
 }
 .nh-mid .nhn { min-block-size: 0; }
 @media (max-width: 640px) { .nh-mid { display: none; } }
+
+/* A module scene lights its OWN bands and lets the rest of the dictionary
+   recede without vanishing. The tables it does not document are still context:
+   that is the difference between "PM has 56 tables" and seeing where those 56
+   sit inside the 105. */
+.nhn-n[data-off="1"] .nhn-dot { fill-opacity: .13; }
+.nhn-e[data-off="1"] { stroke-opacity: .05; }
+.nhn-e[data-cross="1"][data-off="1"] { stroke-opacity: .07; }
+
+/* THE SPLIT MODULE SCENE.
+   Two columns on a wide container, stacked below it. A container query, not a
+   media query: the rail can take 22rem of the window, so a 1024px window may
+   only leave a 780px canvas and the composition has to answer to the CANVAS. */
+.nh-split { display: grid; gap: var(--sp-6); align-items: start; }
+@container nh (min-width: 60rem) {
+  .nh-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: var(--sp-8); align-items: center; }
+}
+.nh-split-t { min-inline-size: 0; }
+.nh-split-v { min-inline-size: 0; display: grid; gap: var(--sp-3); }
+.nh-split-v .nhn { min-block-size: clamp(15rem, 26cqi, 24rem); }
+.nh-split-cap {
+  font-size: var(--t-xs);
+  line-height: 1.6;
+  color: var(--scene-ink-3, var(--ink-3));
+  max-inline-size: 44ch;
+}

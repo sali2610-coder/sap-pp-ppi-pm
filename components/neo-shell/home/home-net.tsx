@@ -101,7 +101,7 @@ export function layout(dots: HomeDot[]): NetPoint[] {
 const BAND_VAR = ["var(--mod-pm)", "var(--nh-shared, var(--brand))", "var(--mod-pppi)"] as const;
 
 export function HomeNet({
-  dots, edges, labels = 0, className = "", faint = false,
+  dots, edges, labels = 0, className = "", faint = false, focus,
 }: {
   dots: HomeDot[];
   edges: HomeEdge[];
@@ -110,6 +110,12 @@ export function HomeNet({
   className?: string;
   /** Background-layer mode: thinner, quieter, no labels, no interaction. */
   faint?: boolean;
+  /** Bands to LIGHT. Everything else stays drawn but recedes, so a module
+   *  scene shows its own tables inside the whole dictionary rather than in
+   *  isolation — which is what makes "this module touches N% of the 105"
+   *  a picture instead of a sentence. Filtering the array instead would
+   *  break HomeEdge's indices into it. */
+  focus?: readonly (0 | 1 | 2)[];
 }) {
   const pts = layout(dots);
   const idx = new Map(pts.map((p, i) => [i, p]));
@@ -148,6 +154,7 @@ export function HomeNet({
               className="nhn-e"
               data-cross={cross ? "1" : "0"}
               data-k={e.k}
+              data-off={focus && !(focus.includes(a.b) && focus.includes(b.b)) ? "1" : "0"}
             />
           );
         })}
@@ -155,9 +162,15 @@ export function HomeNet({
 
       <g className="nhn-nodes">
         {pts.map((p) => (
-          <g key={p.n} className="nhn-n" data-b={p.b} style={{ "--c": BAND_VAR[p.b] } as React.CSSProperties}>
+          <g
+            key={p.n}
+            className="nhn-n"
+            data-b={p.b}
+            data-off={focus && !focus.includes(p.b) ? "1" : "0"}
+            style={{ "--c": BAND_VAR[p.b] } as React.CSSProperties}
+          >
             <circle cx={p.x} cy={p.y} r={p.r} className="nhn-dot" />
-            {!faint && named.has(p.n) ? (
+            {!faint && named.has(p.n) && (!focus || focus.includes(p.b)) ? (
               <text x={p.x} y={p.y - p.r - 5} textAnchor="middle" className="nhn-t">{p.n}</text>
             ) : null}
           </g>
