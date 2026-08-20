@@ -312,6 +312,20 @@ export default function NeoHome() {
             </span>
           ))}
         </div>
+        {/* THE MIDDLE PLANE.
+            The gate had two planes: the name wall behind, the type in front.
+            Two planes is a backdrop; three is depth. This is the same
+            architecture field the map scene draws, at the same coordinates,
+            run in faint mode and drifting at its own rate — so between the
+            names and the headline there are now actual SAP objects and the
+            relationships between them.
+
+            The ORYZO lesson taken literally: the ground stays one constant
+            warm dark, and depth comes from content sitting at different
+            distances rather than from painting sections different colours. */}
+        <div className="nh-mid nm-par" aria-hidden="true">
+          <HomeNet dots={d.dots} edges={d.edges} faint />
+        </div>
         <span className="nh-glow" aria-hidden="true" />
 
         <div className="nh-in nh-gate-in">

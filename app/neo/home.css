@@ -1237,3 +1237,24 @@ html .nx-app .nx-canvas:has(> .nh) {
   display: block; margin-block-start: .2rem; font-style: normal;
   font-size: var(--t-xs); color: var(--scene-ink-3, var(--ink-3)); line-height: 1.55;
 }
+
+/* THE GATE'S MIDDLE PLANE.
+   Between the name wall and the headline. It is the same architecture field the
+   map scene draws, at the same coordinates, so the two are literally the same
+   picture seen at two distances — which is what makes the page feel like one
+   space rather than a stack of screens. */
+.nh-mid {
+  position: absolute;
+  inset-block: 8%;
+  inset-inline: -6%;
+  z-index: 1;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  /* Sits behind the type but in front of the names, and is masked at the
+     reading edge so it never competes with the headline it stands behind. */
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 50%, #000 38%, transparent 88%);
+          mask-image: radial-gradient(120% 90% at 50% 50%, #000 38%, transparent 88%);
+}
+.nh-mid .nhn { min-block-size: 0; }
+@media (max-width: 640px) { .nh-mid { display: none; } }
