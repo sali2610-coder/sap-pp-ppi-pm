@@ -9,6 +9,7 @@ import "./ui.css";
 import "./home.css";
 import { homeData, zoneVar, type HomeData } from "@/components/neo-shell/home/home-data";
 import { HomeScene, type SceneSection } from "@/components/neo-shell/home/home-scene";
+import { HomeNet } from "@/components/neo-shell/home/home-net";
 
 export const metadata = {
   title: "Project NEO · מפת הידע של SAP",
@@ -467,18 +468,22 @@ export default function NeoHome() {
                 It is not a Venn, deliberately. A Venn would imply an
                 intersection area the data does not measure. A partitioned axis
                 claims only what is true — 37 + 19 + 49 = 105. */}
-            <div className="nh-mem">
-              <div className="nh-mem-axis" role="img" aria-label={memLabel}>
+            {/* THE ARCHITECTURE FIELD.
+                This was three proportional bars. The counts were honest, but a
+                bar chart is not architecture, and this is the most important
+                visual on the product's most important page.
+
+                It is drawn now as what it is: two fields of real tables with
+                the shared core standing between them, and the dictionary's own
+                ER relationships running through it. Node = one table, radius =
+                its documented field count, colour = its band, line = one
+                modelled pair. The counts stay, underneath, as a legend rather
+                than as the picture. */}
+            <div className="nh-mem" role="group" aria-label={memLabel}>
+              <HomeNet dots={d.dots} edges={d.edges} labels={9} />
+              <ul className="nhn-key">
                 {bands.map(({ b, dots }) => (
-                  <div className="nh-mem-seg" data-b={b} key={b} style={{ flexGrow: dots.length }}>
-                    <span className="nh-mem-fill" />
-                    <b className="nh-sap nh-mem-n">{dots.length}</b>
-                  </div>
-                ))}
-              </div>
-              <ul className="nh-mem-key">
-                {bands.map(({ b, dots }) => (
-                  <li className="nh-mem-k" data-b={b} key={b}>
+                  <li key={b} style={{ "--c": ["var(--mod-pm)", "var(--nh-shared, var(--brand))", "var(--mod-pppi)"][b] } as React.CSSProperties}>
                     <i aria-hidden="true" />
                     <b className="nh-sap">{dots.length}</b>
                     <span>{bandCopy[b].t}</span>
@@ -488,8 +493,9 @@ export default function NeoHome() {
               </ul>
             </div>
             <p className="nh-lat-k">
-              הציר מתאר את {nf.format(d.tables)} הטבלאות המאוחדות כחלוקה אחת. רוחב כל מקטע
-              הוא מספר הטבלאות בו, והמקטע האמצעי הוא ליבת הטבלאות ששני המילונים מתעדים.
+              כל נקודה היא טבלה אחת מהמילון, וגודלה הוא מספר השדות המתועדים לה. הקווים הם
+              {" "}{nf.format(d.relations)} קשרי ה-ER שהמילון מחזיק, והקווים הבולטים הם אלה
+              שחוצים בין שני המודולים.
             </p>
           </div>
 

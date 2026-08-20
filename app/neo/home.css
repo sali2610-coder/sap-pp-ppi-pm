@@ -1118,3 +1118,122 @@ html .nx-app .nx-canvas:has(> .nh) {
     transform: none !important;
   }
 }
+
+/* ==========================================================================
+   THE ARCHITECTURE FIELD
+   --------------------------------------------------------------------------
+   Two fields of real tables with a shared core between them, and the real ER
+   relationships running through it. Replaces the three proportional bars: the
+   counts were honest but a bar chart is not architecture, and this is the most
+   important visual on the product's most important page.
+
+   Every mark is a fact — node = one table, radius = its documented field count,
+   colour = its band, line = one modelled ER pair. Nothing is decorative.
+   ========================================================================== */
+
+.nhn {
+  inline-size: 100%;
+  /* A 1200x640 viewBox squeezed into a wide column renders barely 240px tall,
+     which turns a field into a stripe. A min height gives it back its air. */
+  block-size: auto;
+  min-block-size: clamp(20rem, 34cqi, 30rem);
+  display: block;
+  overflow: visible;
+}
+
+/* RELATIONSHIPS. Quiet by default: at 126 edges a loud line weight turns the
+   field into a hatch. The pairs that CROSS between modules are the interesting
+   ones, so those alone are allowed to be seen. */
+.nhn-e {
+  fill: none;
+  stroke: var(--scene-ink-3, var(--ink-3));
+  stroke-width: .6;
+  stroke-opacity: .16;
+}
+.nhn-e[data-cross="1"] {
+  stroke: var(--nh-shared, var(--brand));
+  stroke-width: .8;
+  stroke-opacity: .24;
+}
+/* A 1:1 pair is the strongest statement the dictionary makes about two tables,
+   so it is the only relation drawn solid. */
+.nhn-e[data-k="0"] { stroke-opacity: .34; }
+
+.nhn-dot {
+  fill: var(--c);
+  fill-opacity: .82;
+  stroke: var(--scene-ground, var(--background));
+  stroke-width: 1.1;
+}
+.nhn-n[data-b="1"] .nhn-dot { fill-opacity: 1; stroke-width: 1.6; }
+
+.nhn-t {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  fill: var(--scene-ink-2, var(--ink-2));
+  paint-order: stroke;
+  stroke: var(--scene-ground, var(--background));
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+
+/* BACKGROUND MODE. The same field, pushed behind the typography as a depth
+   layer: this is the ORYZO lesson that the ground stays constant and the DEPTH
+   comes from content sitting at different distances. */
+.nhn[data-faint="1"] { opacity: .3; }
+.nhn[data-faint="1"] .nhn-e { stroke-opacity: .1; }
+.nhn[data-faint="1"] .nhn-e[data-cross="1"] { stroke-opacity: .2; }
+.nhn[data-faint="1"] .nhn-dot { fill-opacity: .5; stroke-width: 0; }
+
+/* The field draws itself in as it arrives: relationships fade up, then the
+   tables settle. Scrubbed on the scroller's own view timeline, so it costs no
+   main thread and it plays once. */
+@supports (animation-timeline: view()) {
+  .nhn-edges { animation: nhn-lines linear both; animation-timeline: view(); animation-range: entry 6% cover 34%; }
+  .nhn-nodes { animation: nhn-dots  linear both; animation-timeline: view(); animation-range: entry 12% cover 42%; }
+}
+@keyframes nhn-lines { from { opacity: 0 } to { opacity: 1 } }
+@keyframes nhn-dots  { from { opacity: 0; transform: translateY(10px) } to { opacity: 1; transform: none } }
+
+@media (prefers-reduced-motion: reduce) {
+  .nhn-edges, .nhn-nodes { animation: none !important; opacity: 1 !important; transform: none !important; }
+}
+
+/* THE FIELD'S LEGEND. Three counts, stated as facts under the drawing rather
+   than as the drawing itself. */
+.nhn-key {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--sp-5);
+  margin-block-start: var(--sp-6);
+  list-style: none; padding: 0;
+}
+/* Each entry is a plain block under its own rule. The earlier two-column grid
+   forced the Hebrew label into a narrow track and wrapped "PP-PI בלבד" onto
+   three lines. A count is a headline; it does not need a column. */
+.nhn-key li {
+  display: block;
+  padding-block-start: var(--sp-3);
+  border-block-start: 2px solid var(--c);
+}
+.nhn-key li > i {
+  display: inline-block; vertical-align: middle;
+  inline-size: 10px; block-size: 10px; border-radius: 50%;
+  background: var(--c);
+  margin-inline-end: .5rem;
+}
+.nhn-key b {
+  display: inline-block; vertical-align: middle;
+  font-size: clamp(1.6rem, 3.4cqi, 2.4rem); font-weight: 800;
+  color: var(--scene-ink, var(--ink-1)); letter-spacing: -.03em; line-height: 1;
+}
+.nhn-key span {
+  display: block; margin-block-start: .35rem;
+  font-size: var(--t-sm); font-weight: 700; color: var(--scene-ink, var(--ink-1));
+}
+.nhn-key em {
+  display: block; margin-block-start: .2rem; font-style: normal;
+  font-size: var(--t-xs); color: var(--scene-ink-3, var(--ink-3)); line-height: 1.55;
+}
