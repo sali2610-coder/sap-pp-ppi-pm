@@ -131,89 +131,90 @@ html .nx-app .nx-canvas:has(> .nh) {
    -------------------------------------------------------------------------- */
 
 .nh-index {
+  /* WAS A VERTICAL NUMBERED RAIL pinned to the side at 50svh. It read as a
+     developer's section list, ate horizontal space beside the content, and
+     made the reader decode "03" to find the map.
+
+     It is now a sticky horizontal navigator directly under the app header:
+     names first, section colour as the active state, the number kept only as
+     a quiet secondary mark. Sticky rather than fixed, so it never covers the
+     content it is navigating. */
   position: sticky;
   inset-block-start: 0;
   z-index: 7;
-  block-size: 0;
   pointer-events: none;
+  container-type: inline-size;
 }
 .nh-index > div {
-  position: absolute;
-  inset-block-start: 50svh;
-  inset-inline-end: clamp(.5rem, 1.6cqi, 1.5rem);
-  transform: translateY(-50%);
-  display: grid;
-  gap: 2px;
   pointer-events: auto;
-}
-.nh-index a {
-  display: grid;
-  grid-template-columns: auto 1fr;
+  display: flex;
+  gap: var(--sp-1);
   align-items: center;
-  column-gap: .5rem;
-  padding: .34rem .5rem;
-  border: 1px solid transparent;
-  border-radius: .5rem;
-  color: var(--scene-ink-3, var(--ink-3));
+  padding: var(--sp-2) clamp(.5rem, 2cqi, 1.25rem);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  /* The bar belongs to the scene it is sitting over, so it tints with the
+     scene's own ground instead of staying one grey strip across eight
+     different colour worlds. */
+  background: color-mix(in oklab, var(--scene-ground, var(--background)) 82%, transparent);
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  border-block-end: 1px solid color-mix(in oklab, var(--scene-ink, var(--ink-1)) 12%, transparent);
+  transition: background var(--dur-slow) var(--ease-out-expo);
+}
+.nh-index > div::-webkit-scrollbar { display: none; }
+
+.nh-index a {
+  --sc: var(--brand);
+  display: inline-grid;
+  grid-auto-flow: column;
+  align-items: baseline;
+  gap: var(--sp-2);
+  flex: 0 0 auto;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 999px;
   text-decoration: none;
-  font-size: .72rem;
-  line-height: 1.2;
-  transition: color 220ms var(--ease-out-expo), background-color 220ms var(--ease-out-expo),
-              border-color 220ms var(--ease-out-expo);
-}
-.nh-index-n { font-size: .68rem; opacity: .8; font-variant-numeric: tabular-nums; }
-
-/* IDLE, THEN PRESENT — the Driftime behaviour.
-   At rest the rail is a column of numerals and a tick: enough to say where you
-   are, quiet enough never to compete with the scene it sits on top of. The
-   labels collapse to zero width rather than disappearing, so the reveal is a
-   width transition on the compositor and the link keeps its accessible name at
-   every moment.
-
-   It gains presence when the reader engages with it — pointer over the rail, or
-   keyboard focus anywhere inside it. The ACTIVE label stays readable regardless,
-   because the one thing the rail must always answer is "where am I". */
-.nh-index-l {
-  font-weight: 650;
+  color: var(--scene-ink-2, var(--ink-2));
+  font-size: var(--t-micro);
+  font-weight: 600;
   white-space: nowrap;
-  max-inline-size: 0;
-  opacity: 0;
-  overflow: clip;
-  transition: max-inline-size 300ms var(--ease-out-expo), opacity 220ms var(--ease-out-expo);
+  transition:
+    background var(--dur-base) var(--ease-out-expo),
+    color var(--dur-base) var(--ease-out-expo),
+    box-shadow var(--dur-base) var(--ease-out-expo);
 }
-.nh-index > div:hover .nh-index-l,
-.nh-index > div:focus-within .nh-index-l,
-.nh-index a[aria-current="true"] .nh-index-l {
-  max-inline-size: 12rem;
-  opacity: 1;
+.nh-index-l { font-weight: 700; }
+/* The number is secondary now, and it says so. */
+.nh-index-n { opacity: .5; font-size: .72em; font-variant-numeric: tabular-nums; }
+/* The subject line only has room on a wide bar. */
+.nh-index-f { display: none; }
+@container (min-width: 62rem) {
+  .nh-index-f {
+    display: inline;
+    opacity: .62;
+    font-weight: 500;
+    font-size: .82em;
+  }
 }
 
-/* The tick: the rail's resting state carries a mark whose length says whether
-   this scene is the current one. It is the only thing visible when idle
-   besides the numeral. */
-.nh-index a::after {
-  content: "";
-  grid-column: 1 / -1;
-  block-size: 2px;
-  border-radius: 1px;
-  inline-size: .7rem;
-  justify-self: end;
-  background: currentColor;
-  opacity: .35;
-  transition: inline-size 300ms var(--ease-out-expo), opacity 220ms var(--ease-out-expo);
-}
-.nh-index a[aria-current="true"]::after { inline-size: 1.6rem; opacity: 1; }
+.nh-index a:hover { background: color-mix(in oklab, var(--sc) 14%, transparent); color: var(--scene-ink, var(--ink-1)); }
+.nh-index a:focus-visible { outline: 2px solid var(--sc); outline-offset: 2px; }
 
-/* The field note is detail: it belongs to the engaged state only. */
-.nh-index-f {
-  grid-column: 2;
-  font-size: .62rem;
-  opacity: 0;
-  block-size: 0;
-  overflow: clip;
-  white-space: nowrap;
-  transition: opacity 220ms var(--ease-out-expo);
+/* ACTIVE. A filled surface in the section's own colour, not a hairline —
+   §2 of the brief: the current section has to be unmistakable. */
+.nh-index a[aria-current="true"] {
+  background: color-mix(in oklab, var(--sc) 88%, var(--scene-ground, #000));
+  color: #fff;
+  box-shadow: 0 1px 2px color-mix(in oklab, var(--sc) 40%, transparent);
 }
+.nh-index a[aria-current="true"] .nh-index-n,
+.nh-index a[aria-current="true"] .nh-index-f { opacity: .78; color: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nh-index a, .nh-index > div { transition: none; }
+}
+
 @media (hover: hover) and (pointer: fine) {
   .nh-index a:hover { color: var(--scene-ink, var(--ink-1)); }
 }

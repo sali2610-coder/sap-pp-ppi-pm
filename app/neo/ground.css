@@ -278,7 +278,8 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
 
 [data-scene="pm-full"],
 [data-scene="pppi-full"],
-[data-scene="shared"] {
+[data-scene="shared"],
+[data-scene="data"] {
   --scene-hair: rgba(6, 32, 30, .16);
 }
 
@@ -307,6 +308,20 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
   --scene-ink-3: #4b4ea8;
   --scene-accent: #1b1c5e;
   --scene-hair: rgba(27, 28, 94, .20);
+}
+
+/* DATA. A bright cyan-blue field — the coverage story, and the scene that
+   stops Home opening with two dark rooms in a row. Light on purpose: the
+   rhythm the page needs is dark, light, mint, violet, blue, rich blue,
+   burgundy, dark, not six shades of night. 10.2:1 */
+[data-scene="data"] {
+  --scene-ground: #c8e6f7;
+  --scene-raised: #f2fafe;
+  --scene-ink: #06304d;
+  --scene-ink-2: #0d4a72;
+  --scene-ink-3: #326c92;
+  --scene-accent: #06304d;
+  --scene-hair: rgba(6, 48, 77, .20);
 }
 
 /* SHARED CORE. Warm cream and CBC red — the one scene that belongs to the
@@ -338,8 +353,12 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
    is reserved for changed / replaced, so the hue itself carries the verdict.
    14.8:1 */
 [data-scene="s4"] {
-  --scene-ground: #071a38;
-  --scene-raised: #0e2a56;
+  /* WAS #071a38 — so close to black that the most important subject in the
+     product read as a night-mode panel dropped into the page. Rich cobalt
+     instead: unmistakably technical, unmistakably blue, and bright enough that
+     the scene has weight rather than absence. 9.6:1 on the off-white ink. */
+  --scene-ground: #143d78;
+  --scene-raised: #1c4f93;
   --scene-ink-2: #c2d6f5;
   --scene-accent: #47a8ff;
   --scene-hot: #ff6f57;

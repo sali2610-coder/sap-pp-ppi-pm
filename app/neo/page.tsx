@@ -279,15 +279,18 @@ export default function NeoHome() {
   // library reads. Home shows the books it actually has, in their real order.
   const bookCards = booksData().books;
 
+  // The navigator's labels and tones. `field` used to describe the old palette
+  // ("עור חם", "אינדיגו") and had drifted from what the scenes actually paint;
+  // it now names the SUBJECT, which is what a reader is choosing between.
   const sections: SceneSection[] = [
-    { id: "nh-1", label: "הפתיחה", field: "רקע כהה" },
-    { id: "nh-2", label: "כיסוי", field: "רקע עבודה" },
-    { id: "nh-3", label: "המפה", field: "נייר" },
-    { id: "nh-4", label: "PM", field: "גוון המודול" },
-    { id: "nh-5", label: "PP-PI", field: "גוון המודול" },
-    { id: "nh-6", label: "S/4HANA", field: "רקע כהה" },
-    { id: "nh-7", label: "הספרייה", field: "עור חם" },
-    { id: "nh-8", label: "NEO AI", field: "אינדיגו" },
+    { id: "nh-1", label: "הפתיחה",   field: "המילון כולו",        tone: "#c8102e" },
+    { id: "nh-2", label: "כיסוי",     field: "עומק התיעוד",        tone: "#47a8ff" },
+    { id: "nh-3", label: "המפה",      field: "חפיפת המודולים",     tone: "#c8102e" },
+    { id: "nh-4", label: "PM",        field: "אחזקת מפעל",         tone: "var(--mod-pm)" },
+    { id: "nh-5", label: "PP-PI",     field: "ייצור תהליכי",       tone: "var(--mod-pppi)" },
+    { id: "nh-6", label: "S/4HANA",   field: "תמונת המעבר",        tone: "#47a8ff" },
+    { id: "nh-7", label: "הספרייה",   field: "עשרה ספרים",         tone: "#f0a35f" },
+    { id: "nh-8", label: "NEO AI",    field: "שתי סביבות מענה",    tone: "#4d8dff" },
   ];
 
   const stats: [number, string][] = [
@@ -433,7 +436,7 @@ export default function NeoHome() {
           thing the product does on it is admit what it does not have. */}
       <section
         className="nh-sec"
-        data-scene="s4"
+        data-scene="data"
         id="nh-2"
         data-hsec
         aria-labelledby="nh-2-h"

@@ -39,6 +39,9 @@ export interface SceneSection {
   label: string;
   /** What the ground is doing in this chapter — the index states the scene. */
   field: string;
+  /** The scene's own hue, so the navigator carries module identity rather than
+   *  eight identical grey pills. Any CSS colour or var(). */
+  tone?: string;
 }
 
 export function HomeScene({
@@ -101,10 +104,13 @@ export function HomeScene({
               href={`#${s.id}`}
               data-nh-jump={i}
               aria-current={i === 0 ? "true" : "false"}
+              style={s.tone ? ({ "--sc": s.tone } as React.CSSProperties) : undefined}
             >
-              <span className="nh-index-n nh-sap">{String(i + 1).padStart(2, "0")}</span>
+              {/* NAME FIRST. The rail led with "01".."08" and made the reader
+                  decode a number to find a section. The number survives as a
+                  secondary mark; the label is the control. */}
               <span className="nh-index-l">{s.label}</span>
-              <span className="nh-index-f">{s.field}</span>
+              <span className="nh-index-n nh-sap">{String(i + 1).padStart(2, "0")}</span>
             </a>
           ))}
         </div>
