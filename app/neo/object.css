@@ -1172,3 +1172,63 @@ html[data-theme="dark"] .no-core-r {
   }
   .no-edge-p { display: none; }
 }
+
+/* ==========================================================================
+   OBJECT RELATIONSHIP LANES — the ported Architecture Studio graph
+   --------------------------------------------------------------------------
+   The composition, geometry and edge language come from the old Studio (see
+   the header of components/neo-shell/object/object-lanes.tsx). What lives here
+   is only what the old graph hard-coded as literals and NEO has to express as
+   tokens: the card ground, the ink, the ruling, and the dotted field.
+   ========================================================================== */
+
+.nol { display: grid; gap: var(--sp-3); }
+
+/* The dotted field the old graph sits on. It was #e2e8f0 on white; here it is
+   derived from the hairline so it survives the warm dark ground. */
+.nol-stage {
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-xl, 1rem);
+  background-color: var(--surface-2);
+  background-image: radial-gradient(circle at 1px 1px,
+    color-mix(in oklab, var(--hairline) 82%, transparent) 1px, transparent 0);
+  background-size: 20px 20px;
+  padding: var(--sp-2);
+  /* Mobile keeps a PANNABLE canvas rather than a squashed graph, so no node
+     becomes unreachable. */
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.nol-lane {
+  font: 700 10px sans-serif;
+  letter-spacing: 1.5px;
+  fill: var(--ink-3);
+}
+
+/* THE ALIVE QUALITY. The old graph's marching dashes, ported exactly: 6/5 dash,
+   offset 0 to -110, three seconds, forever. It is the single thing that made
+   the old diagram feel live rather than printed. */
+@keyframes nol-flow { to { stroke-dashoffset: -110; } }
+.nol-flow { animation: nol-flow 3s linear infinite; }
+
+.nol-n rect:first-of-type { transition: stroke-width 160ms var(--ease-out-expo); }
+.nol-n, .nol-e { transition: opacity 200ms var(--ease-out-expo); }
+.nol-n:focus-visible { outline: none; }
+.nol-n:focus-visible rect:first-of-type { stroke: var(--brand); stroke-width: 2.6; }
+
+.nol-foot {
+  display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: var(--sp-2);
+  padding-inline: var(--sp-2);
+}
+.nol-blast { font-size: var(--t-xs); font-weight: 650; color: var(--ink-3); }
+.nol-blast b { color: var(--ink-1); }
+.nol-more { font-size: var(--t-micro); padding: .3rem .7rem; }
+
+/* Motion off: the graph is a measurement instrument first. The dashes stop and
+   the strokes hold still; nothing about the composition depends on them. */
+@media (prefers-reduced-motion: reduce) {
+  .nol-flow { animation: none; }
+  .nol-n, .nol-e, .nol-n rect:first-of-type { transition: none; }
+}

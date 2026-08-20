@@ -27,7 +27,7 @@ import { OriginLink } from "@/components/neo-shell/nav-context";
 import { SectionNav } from "@/components/neo-shell/workspace/section-nav";
 import { ObjectFields } from "./object-fields";
 import { ObjectReturn } from "./object-return";
-import { ObjectOrbit } from "./object-orbit";
+import { ObjectLanes } from "./object-lanes";
 import { objectSummary, relVar, type ObjectView } from "./object-data";
 
 const nf = new Intl.NumberFormat("he-IL");
@@ -329,16 +329,12 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           ) : undefined
         }
       >
+        {/* The relationship map is the OLD Architecture Studio graph, ported.
+            Only this visualisation changed; the section, its heading, its lede
+            and the whole page around it are the new NEO Object Detail and stay
+            exactly as they are. */}
         {v.neighbours.length ? (
-          <ObjectOrbit
-            name={v.name}
-            he={v.he}
-            obj={v.obj}
-            mods={v.mods}
-            neighbours={v.neighbours}
-            total={v.total}
-            rank={v.rank}
-          />
+          <ObjectLanes name={v.name} />
         ) : (
           <Silent what="קשרי ER ממודלים" />
         )}
