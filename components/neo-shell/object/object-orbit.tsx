@@ -98,6 +98,39 @@ const CLEAR = 38;
 /** Room reserved beyond the last row for the band caption. */
 const BAND = 30;
 
+/* CONNECTIONS ARE CURVES, NOT CHORDS.
+   Straight lines between a wide centre card and a grid of satellites all
+   converge on the same few pixels and cross each other at hard angles, which
+   is what made the graph read as a wiring diagram. A cubic that leaves the
+   centre vertically and arrives at the node vertically keeps the bundle
+   parallel where it is densest, so the eye can follow one relationship out of
+   a fan of fourteen.
+
+   The control points are pulled along the BLOCK axis only, because the layout
+   is banded (upstream above, downstream below): bending on that axis follows
+   the direction the data already flows and never introduces a new crossing. */
+type Pt = { x: number; y: number };
+
+const CURVE = 0.45;
+
+function curve(a: Pt, b: Pt): string {
+  const dy = (b.y - a.y) * CURVE;
+  return `M${a.x},${a.y} C${a.x},${a.y + dy} ${b.x},${b.y - dy} ${b.x},${b.y}`;
+}
+
+/** The same cubic, evaluated, so a label can sit ON the line it belongs to. */
+function curvePoint(a: Pt, b: Pt, t: number): Pt {
+  const dy = (b.y - a.y) * CURVE;
+  const c1 = { x: a.x, y: a.y + dy };
+  const c2 = { x: b.x, y: b.y - dy };
+  const u = 1 - t;
+  const w0 = u * u * u, w1 = 3 * u * u * t, w2 = 3 * u * t * t, w3 = t * t * t;
+  return {
+    x: w0 * a.x + w1 * c1.x + w2 * c2.x + w3 * b.x,
+    y: w0 * a.y + w1 * c1.y + w2 * c2.y + w3 * b.y,
+  };
+}
+
 /** Border point of an axis-aligned box centred on (cx,cy), along the direction
  *  of (tx,ty). Keeps every line ending on an edge, never under a card. */
 function edgePoint(cx: number, cy: number, tx: number, ty: number, w: number, h: number) {
@@ -385,8 +418,11 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
               // object card is the widest thing on the canvas and a midpoint
               // badge on a near-horizontal chord lands underneath it.
               const t = Math.min(0.82, 0.62 + row * 0.14);
-              const mx = a.x + (b.x - a.x) * t;
-              const my = a.y + (b.y - a.y) * t;
+              // The badge has to ride the CURVE, not the straight chord it
+              // replaced, or it drifts off its own line on the longer spans.
+              const mid = curvePoint(a, b, t);
+              const mx = mid.x;
+              const my = mid.y;
               return (
                 <g
                   key={k.name}
@@ -404,7 +440,7 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
                       k.card ? ` · ${k.card}` : " · המילון לא רשם עוצמה לקשר הזה"
                     }`}
                   </title>
-                  <line className="no-edge-l" x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
+                  <path className="no-edge-l" d={curve(a, b)} />
                   {/* Alive by default. The stagger is a pure function of the
                       card's index, so the server and the client agree. */}
                   <circle

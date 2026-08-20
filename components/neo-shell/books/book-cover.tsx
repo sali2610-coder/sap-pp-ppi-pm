@@ -152,7 +152,13 @@ export function BookCover({
               <span className="nb-cov-vol">{plate(b.id)}</span>
             </span>
 
-            <span className="nb-cov-stamp" aria-hidden="true">{b.module}</span>
+            {/* The monogram is sized by its own LENGTH. "PM" is two glyphs and
+                can be enormous; "S/4HANA" is seven and at the same size it
+                spans the whole board and crowds the title underneath it. The
+                stamp is the cover's graphic, never competition for the name. */}
+            <span className="nb-cov-stamp" aria-hidden="true" data-len={b.module.length > 5 ? "long" : b.module.length > 3 ? "mid" : "short"}>
+              {b.module}
+            </span>
 
             <span className="nb-cov-type">
               <span className="nb-cov-foil" />

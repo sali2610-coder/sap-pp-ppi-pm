@@ -960,6 +960,7 @@ html[data-theme="dark"] .no-key[data-k="PK"] { color: #0f0b08; }
   stroke-width: 1.4;
   opacity: .7;
   transition: opacity var(--dur-base) var(--ease-out-expo);
+  fill: none;
 }
 .no-edge[data-kind="unstated"] .no-edge-l { stroke-dasharray: 4 4; opacity: .55; }
 .no-edge-t {
