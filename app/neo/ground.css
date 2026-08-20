@@ -233,6 +233,89 @@ html[data-theme="dark"] [data-scene="pm"]   { --scene-ground: color-mix(in oklab
 html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab, var(--mod-pppi) 5%, var(--g-ground)); }
 
 /* --------------------------------------------------------------------------
+   2b. THE STATEMENT SCENES
+   ----------------------------------------------------------------------------
+   WHY THESE EXIST SEPARATELY FROM pm / pppi
+
+     The soft 6% module tints above are correct for the STUDY pages: PM and
+     PP-PI are read for a long time, and a saturated ground there would fight
+     the content. But on Home that restraint read as "beige and almost
+     colourless", which is the opposite of the Partake lesson. Partake lets a
+     large share of the viewport commit to one colour; the confidence IS the
+     design.
+
+     So the statement scenes are separate, deliberately saturated, and used only
+     where a surface is making a statement rather than being worked in.
+
+   WHY LITERAL COLOURS RATHER THAN color-mix
+
+     A mix against the ground changes with the theme, and these have to be
+     identical in light and dark — a statement that softens when you flip the
+     theme is only half-designed. The literals are also what makes the contrast
+     deterministic: every ink below was WCAG-checked against its own ground and
+     the weakest pair measures 8.35:1.
+
+     Each hue still answers a question, per the colour rule: which module am I
+     in, is this the S/4HANA story, am I in the library, am I talking to NEO.
+     None of them is decoration.
+   -------------------------------------------------------------------------- */
+
+[data-scene="pm-full"],
+[data-scene="pppi-full"],
+[data-scene="s4"],
+[data-scene="books"],
+[data-scene="ai"] {
+  --scene-ink: #f4f1ea;
+  --scene-ink-2: #d7d2c8;
+  --scene-ink-3: #ada79c;
+  --scene-hair: rgba(244, 241, 234, .18);
+  --scene-accent: #ff6b63;   /* brand lifted for AA on a dark ground */
+}
+
+/* PM. Deep teal, the module's own hue taken to full strength. 8.35:1 */
+[data-scene="pm-full"] {
+  --scene-ground: #0b4f49;
+  --scene-raised: #0f5d56;
+  --scene-ink-2: #c9d8d5;
+  --scene-accent: #7fe3d4;
+}
+
+/* PP-PI. Deep violet-blue. The module token is blue; taken to full strength
+   with a violet cast so the two modules are unmistakable side by side. 12.8:1 */
+[data-scene="pppi-full"] {
+  --scene-ground: #241c6b;
+  --scene-raised: #2d2480;
+  --scene-ink-2: #c3c8e6;
+  --scene-accent: #9db4ff;
+}
+
+/* S/4HANA. Cyan-blue: the migration story, and the one scene that is about a
+   DESTINATION rather than a module. 10.5:1 */
+[data-scene="s4"] {
+  --scene-ground: #0b3b54;
+  --scene-raised: #0f4a68;
+  --scene-ink-2: #bfd6e4;
+  --scene-accent: #6fd2f5;
+}
+
+/* Books. Warm bound-leather brown, the shelf's own world. 11.9:1 */
+[data-scene="books"] {
+  --scene-ground: #4a2418;
+  --scene-raised: #5a2d1e;
+  --scene-ink-2: #e0cdc0;
+  --scene-accent: #f0a888;
+}
+
+/* NEO AI. Near-black indigo. Technical, system-aware, and deliberately the
+   coolest and darkest surface in the product. 16.5:1 */
+[data-scene="ai"] {
+  --scene-ground: #141024;
+  --scene-raised: #1c1733;
+  --scene-ink-2: #c8c4dd;
+  --scene-accent: #8b8cf0;
+}
+
+/* --------------------------------------------------------------------------
    3. WEARING A SCENE
    .nm-scene paints its own ground edge to edge and re-points the local ink
    tokens, so ordinary components inside it stay legible with no scene-aware

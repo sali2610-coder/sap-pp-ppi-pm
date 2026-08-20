@@ -82,7 +82,11 @@ function ModuleChapter({
 }: {
   d: HomeData;
   i: 0 | 1;
-  scene: "pm" | "pppi";
+  /* The soft tints are what /neo/pm/ and /neo/pp-pi/ wear: those pages are
+     STUDIED, and a saturated ground would fight the content. Home is looked at
+     rather than worked in, so it takes the full-strength variants. Both are
+     allowed here so one component serves both jobs. */
+  scene: "pm" | "pppi" | "pm-full" | "pppi-full";
   id: string;
   next: string;
   ledge: React.ReactNode;
@@ -364,7 +368,7 @@ export default function NeoHome() {
           thing the product does on it is admit what it does not have. */}
       <section
         className="nh-sec"
-        data-scene="base"
+        data-scene="s4"
         id="nh-2"
         data-hsec
         aria-labelledby="nh-2-h"
@@ -531,7 +535,7 @@ export default function NeoHome() {
       <ModuleChapter
         d={d}
         i={0}
-        scene="pm"
+        scene="pm-full"
         id="nh-4"
         next={pp.code}
         ledge={<>הקרקע מחליפה גוון. אותו מבנה בדיוק, {nf.format(pp.tables)} טבלאות ו־{pp.topics} נושאים.</>}
@@ -541,7 +545,7 @@ export default function NeoHome() {
       <ModuleChapter
         d={d}
         i={1}
-        scene="pppi"
+        scene="pppi-full"
         id="nh-5"
         next="S/4HANA"
         ledge={<>הרקע חוזר להיות כהה. {d.migration.replaced} הטבלאות שהמילון מסמן כמוחלפות נשלפות החוצה.</>}

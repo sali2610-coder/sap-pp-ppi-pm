@@ -607,6 +607,17 @@ html[data-theme="dark"] .nb-slot::after {
      container (see `.nb-slot`), so it is a true percentage of this book's own
      width and stays in proportion from a 9.5rem phone cover to a 4K one. ---- */
   --d: clamp(9px, calc((6 + 8 * var(--thick, 0.5)) * 1cqi), 54px);
+  /* ---- board thickness. One value, two consumers, and they MUST agree: it is
+     both the depth of the front board's visible edge face (.nb-cov-edge) and
+     the distance the page block is set back behind that board (.nb-f-leaf).
+     A board cannot be 5px thick on its edge and 1px thick in its setback.
+
+     The 1px setback this replaces is why every cover read as a blank cream
+     rectangle: at 1px the page block and the cover board are effectively
+     coplanar, the two planes z-fight, and the paper won across the whole face —
+     leaving only a thin rim of cloth visible at the boards' overhang. The
+     jacket underneath was always rendering. ---- */
+  --bdt: clamp(2px, 1.15cqi, 6px);
   /* The cover sizes its own print. A cover is 9.5rem wide on a phone and 19rem
      on a 4K canvas, so every type size below is in cqi against THIS box — the
      same component is then legible at both ends without a second sheet.
@@ -732,7 +743,7 @@ html[data-theme="dark"] .nb-slot::after {
      binding edge is left flush: the pages meet the spine there. */
   inset-block: 1.4%;
   inset-inline-end: 1.8%;
-  transform: translateZ(calc(var(--d) - 1px));
+  transform: translateZ(calc(var(--d) - var(--bdt)));
   background:
     linear-gradient(to var(--leaf-dir, left),
       color-mix(in srgb, var(--paper) 82%, #8a8272) 0%,
@@ -969,6 +980,15 @@ html[data-theme="dark"] .nb-slot::after {
   position: absolute;
   inset: 0;
   transform: translateZ(-0.4px) rotateY(180deg);
+  /* THE BUG THAT MADE EVERY COVER READ AS A BLANK RECTANGLE.
+     This face is turned to point AWAY from the reader, so it must only be
+     visible from behind — but it was the one face in the whole book that never
+     opted out of drawing its backface. Every book on the shelf is turned ~21deg
+     toward the viewer, and at that angle the cream pastedown painted straight
+     through the front board and covered the jacket: the cloth, the stamped
+     monogram and the title were all rendering correctly and all sitting behind
+     it. Hiding the backface is the entire fix; the artwork was never missing. */
+  backface-visibility: hidden;
   border-radius: inherit;
   background:
     linear-gradient(140deg, color-mix(in srgb, var(--m) 16%, var(--paper)), var(--paper) 62%),
@@ -1161,7 +1181,7 @@ html[data-theme="dark"] .nb-slot::after {
    swing the other way — hence the negated angle. --org-e is the fore edge in
    both directions (100% LTR / 0% RTL), which is why no [dir] twin is needed. */
 .nb-cov-edge {
-  --bd: clamp(2px, 1.15cqi, 6px);
+  --bd: var(--bdt);
   position: absolute;
   inset-block: 0;
   inset-inline-end: 0;
