@@ -268,9 +268,14 @@ export default function NeoHome() {
   }));
   const bandCopy = [
     { t: `${pm.code} בלבד`, s: "טבלאות שרק מילון אחזקת המפעל מתעד" },
-    { t: "בשני המודולים", s: "אותה טבלה, שני הקשרים, שורה אחת במיזוג" },
+    { t: "ליבה משותפת", s: "אותה טבלה, שני הקשרים, שורה אחת במיזוג" },
     { t: `${pp.code} בלבד`, s: "טבלאות שרק מילון הייצור התהליכי מתעד" },
   ];
+  /* The axis is one image to a screen reader, so it states the whole partition
+     rather than leaving three unlabelled segments. */
+  const memLabel =
+    `חלוקת ${nf.format(d.tables)} הטבלאות המאוחדות: ` +
+    bands.map(({ b, dots }) => `${dots.length} ${bandCopy[b].t}`).join(", ");
 
   return (
     <HomeScene sections={sections}>
@@ -433,41 +438,58 @@ export default function NeoHome() {
        <div className="nh-body nm-scene">
         <div className="nh-in">
           <div className="nh-head">
-            <p className="nh-eye nm-fade">המפה<i aria-hidden="true" />איפה נפגשים שני העולמות</p>
+            <p className="nh-eye nm-fade">מפת המודולים<i aria-hidden="true" />חפיפה בין שני המילונים</p>
+            {/* Was "19 טבלאות חיות בשני העולמות בבת אחת". Tables do not live in
+                worlds; they are documented by two dictionaries. Same fact, said
+                the way an SAP platform says it. */}
             <h2 className="nh-h2 nm-kin" id="nh-3-h">
-              <span><span><span className="nh-accent">{d.shared} טבלאות</span> חיות</span></span>
-              <span><span>בשני העולמות בבת אחת</span></span>
+              <span><span><span className="nh-accent">{d.shared} טבלאות ליבה</span></span></span>
+              <span><span>משותפות ל-{pm.code} ול-{pp.code}</span></span>
             </h2>
           </div>
         </div>
 
         <div className="nh-stage">
           <div className="nh-hold nm-pin">
-            <div className="nh-lat" aria-hidden="true">
-              {bands.map(({ b, dots }) => (
-                <div className="nh-lat-b" data-b={b} key={b}>
-                  <span className="nh-lat-hi" />
-                  <span className="nh-lat-d">
-                    {dots.map((x) => (
-                      <i
-                        key={x.n}
-                        style={{
-                          "--o": zoneVar(x.z),
-                          "--z": (0.42 + 0.58 * (x.f / d.maxFields)).toFixed(3),
-                        } as React.CSSProperties}
-                      />
-                    ))}
-                  </span>
-                  <span className="nh-lat-t">
+            {/* THE MEMBERSHIP AXIS.
+                This used to be 105 coloured dots, and the review is right that
+                rows of circles are not the identity of an SAP platform. The
+                COUNTS are the useful part, so they stay exactly as they are and
+                are read from the same data as before.
+
+                What changed is the form. The 105 merged tables are a partition,
+                so they are drawn as one continuous axis cut into three real
+                segments whose widths ARE the counts. The middle segment is the
+                shared core, and it is styled as a bridge carrying both module
+                hues at once, because that is literally what it is: the tables
+                both dictionaries document.
+
+                It is not a Venn, deliberately. A Venn would imply an
+                intersection area the data does not measure. A partitioned axis
+                claims only what is true — 37 + 19 + 49 = 105. */}
+            <div className="nh-mem">
+              <div className="nh-mem-axis" role="img" aria-label={memLabel}>
+                {bands.map(({ b, dots }) => (
+                  <div className="nh-mem-seg" data-b={b} key={b} style={{ flexGrow: dots.length }}>
+                    <span className="nh-mem-fill" />
+                    <b className="nh-sap nh-mem-n">{dots.length}</b>
+                  </div>
+                ))}
+              </div>
+              <ul className="nh-mem-key">
+                {bands.map(({ b, dots }) => (
+                  <li className="nh-mem-k" data-b={b} key={b}>
+                    <i aria-hidden="true" />
                     <b className="nh-sap">{dots.length}</b>
-                    {bandCopy[b].t}
-                  </span>
-                </div>
-              ))}
+                    <span>{bandCopy[b].t}</span>
+                    <em>{bandCopy[b].s}</em>
+                  </li>
+                ))}
+              </ul>
             </div>
             <p className="nh-lat-k">
-              נקודה אחת לכל טבלה מאוחדת. הצבע הוא מחלקת האובייקט, הגודל הוא מספר השדות
-              שהמילון מחזיק לאותה טבלה, והסולם המלא הוא {d.maxFields} שדות.
+              הציר מתאר את {nf.format(d.tables)} הטבלאות המאוחדות כחלוקה אחת. רוחב כל מקטע
+              הוא מספר הטבלאות בו, והמקטע האמצעי הוא ליבת הטבלאות ששני המילונים מתעדים.
             </p>
           </div>
 

@@ -577,6 +577,96 @@ html .nx-app .nx-canvas:has(> .nh) {
   padding-block: 2rem;
 }
 
+/* ------------------------------------------------------- THE MEMBERSHIP AXIS
+   105 merged tables drawn as ONE partition rather than 105 circles. Segment
+   width is flex-grow: the real count, so the picture cannot disagree with the
+   number printed on it — the geometry IS the data.
+
+   Deliberately not a Venn: a Venn would claim an intersection AREA the dataset
+   never measures. A partitioned axis claims only 37 + 19 + 49 = 105.
+
+   Module colour stays surface tint and edge, per the form rule, and the shared
+   segment carries a real mix of the two hues because that is what it means. */
+.nh-mem { display: grid; gap: var(--sp-4); }
+
+.nh-mem-axis {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  inline-size: 100%;
+  min-block-size: clamp(4.5rem, 9cqi, 7rem);
+  border-radius: .85rem;
+  overflow: hidden;
+}
+.nh-mem-seg {
+  position: relative;
+  flex: 1 1 0;
+  min-inline-size: 0;
+  display: grid;
+  place-items: center;
+  border-radius: .6rem;
+  background: color-mix(in oklab, var(--bm) 16%, transparent);
+  border: 1px solid color-mix(in oklab, var(--bm) 40%, var(--scene-hair, var(--hairline)));
+  transition: background-color 260ms var(--ease-out-expo);
+}
+.nh-mem-seg[data-b="0"] { --bm: var(--mod-pm); }
+.nh-mem-seg[data-b="1"] { --bm: color-mix(in oklab, var(--mod-pm), var(--mod-pppi)); }
+.nh-mem-seg[data-b="2"] { --bm: var(--mod-pppi); }
+
+/* The shared core reads as a BRIDGE: denser than its neighbours and ruled on
+   both sides, so the eye sees a span between the two modules rather than a
+   third unrelated block. */
+.nh-mem-seg[data-b="1"] {
+  background: color-mix(in oklab, var(--bm) 28%, transparent);
+  border-inline-width: 3px;
+  border-inline-color: color-mix(in oklab, var(--bm) 66%, transparent);
+}
+
+/* Grows from the leading edge as the axis arrives — the partition assembling
+   itself. transform only, and the engine zeroes it under reduced motion. */
+.nh-mem-fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: color-mix(in oklab, var(--bm) 14%, transparent);
+  transform-origin: inline-start center;
+}
+.nh-mem-n {
+  position: relative;
+  font-size: clamp(1.1rem, 3.1cqi, 2rem);
+  font-weight: 800;
+  color: var(--scene-ink, var(--ink-1));
+  letter-spacing: -.02em;
+}
+
+.nh-mem-key { display: grid; gap: var(--sp-2); list-style: none; padding: 0; margin: 0; }
+.nh-mem-k {
+  display: grid;
+  grid-template-columns: 10px auto 1fr;
+  align-items: baseline;
+  column-gap: var(--sp-3);
+  row-gap: 2px;
+}
+.nh-mem-k > i {
+  inline-size: 10px; block-size: 10px; border-radius: 3px;
+  background: color-mix(in oklab, var(--bm) 62%, transparent);
+  border: 1px solid color-mix(in oklab, var(--bm) 80%, transparent);
+  align-self: center;
+}
+.nh-mem-k[data-b="0"] { --bm: var(--mod-pm); }
+.nh-mem-k[data-b="1"] { --bm: color-mix(in oklab, var(--mod-pm), var(--mod-pppi)); }
+.nh-mem-k[data-b="2"] { --bm: var(--mod-pppi); }
+.nh-mem-k > b { font-size: var(--t-body); font-weight: 800; color: var(--scene-ink, var(--ink-1)); }
+.nh-mem-k > span { font-size: var(--t-sm); font-weight: 650; color: var(--scene-ink, var(--ink-1)); }
+.nh-mem-k > em {
+  grid-column: 3; font-style: normal; font-size: var(--t-xs);
+  color: var(--scene-ink-3, var(--ink-3)); line-height: 1.5;
+}
+@media (max-width: 640px) {
+  .nh-mem-axis { min-block-size: 3.5rem; }
+  .nh-mem-k { grid-template-columns: 10px auto 1fr; }
+}
+
 .nh-lat { display: grid; gap: .6rem; }
 .nh-lat-b {
   position: relative;
