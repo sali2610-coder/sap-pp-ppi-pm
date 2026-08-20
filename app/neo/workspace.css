@@ -218,15 +218,33 @@ html .nx-app .nx-canvas:has(> .nw) {
 
 .nw-id { display: flex; align-items: center; gap: var(--sp-4); flex-wrap: wrap; }
 
-/* The identity mark: the module code as an outlined section marker, in module
-   colour. A marker, not a dot — the form rule holds. */
+/* THE MODULE EMBLEM. A marker, not a dot — the form rule holds.
+
+   It used to be bare outlined text at a single font-size, which meant its
+   stature tracked the LENGTH OF THE CODE: measured 88px wide on PM against
+   220px on PP-PI. One component cannot give one module two and a half times
+   the presence of its sibling; that is not identity, it is an accident of
+   spelling.
+
+   So it is a plate. The plate is a fixed square carrying the module tint, its
+   ring and its ink, and the code is set at a size that fits the longest code in
+   the product, so every module gets an identical emblem footprint. The "large"
+   the brief asks for is the plate; the glyphs only have to be legible in it. */
 .nw-mark {
-  font-size: clamp(3.5rem, 7cqi, 6.5rem);
-  line-height: .78;
-  font-weight: 700;
-  letter-spacing: -.05em;
-  color: transparent;
-  -webkit-text-stroke: 2px color-mix(in srgb, var(--m) 58%, transparent);
+  inline-size: clamp(4rem, 8.5cqi, 6.5rem);
+  block-size: clamp(4rem, 8.5cqi, 6.5rem);
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-lg);
+  border: 2px solid color-mix(in srgb, var(--m) 46%, transparent);
+  background: color-mix(in srgb, var(--m) 12%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18);
+  font-size: clamp(1rem, 2.2cqi, 1.65rem);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: color-mix(in srgb, var(--m) 78%, var(--ink-1));
+  -webkit-text-stroke: 0;
   flex: none;
 }
 .nw-idtext { display: grid; gap: 2px; min-inline-size: 0; }
@@ -1304,7 +1322,7 @@ html[data-theme="dark"] .nw > section.nw-ch:nth-of-type(odd)::before {
   .nw { --nw-gut: var(--sp-4); }
 
   .nw-hero { padding: var(--sp-6) var(--nw-gut); }
-  .nw-mark { font-size: 3.25rem; -webkit-text-stroke-width: 1.5px; }
+  .nw-mark { inline-size: 3.5rem; block-size: 3.5rem; font-size: .95rem; }
   .nw-lede { font-size: var(--t-body); }
   .nw-figs { gap: var(--sp-3) var(--sp-5); }
   /* On a phone the primary route is a full-width target, not a pill in a row. */
