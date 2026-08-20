@@ -72,12 +72,21 @@ export type { ErdCatalog, ModCode, RelKind };
    The membership is data-driven, not editorial. Each list is the module's own
    tables ranked by how many relations they hold WITHIN the module, then cut at
    the size the other lanes use. Every entry was checked to connect to at least
-   one other entry, so neither lane opens as a field of isolated boxes:
-   HR 16/16 connected, BW 14/14 connected. No table, relation or classification
-   is invented — dataset.json's own `mod` and `rel` decide both lists. */
+   one other entry, so neither lane opens as a field of isolated boxes: both are
+   16 tables with 0 isolated nodes. BW resolves to a single connected component.
+   HR resolves to TWO, and that is the dataset telling the truth rather than a
+   gap in the list: the on-prem PA*/HRP*/T528B cluster and the SuccessFactors
+   EC_/FO_/LMS_/PM_/RCM_ cluster hold no relation to each other in the record,
+   so the lane is drawn as the two families it actually is. No table, relation
+   or classification is invented — dataset.json's own `mod` and `rel` decide
+   both lists.
+
+   Both lists are 16, which is exactly what production's erdMembers() fallback
+   yields for these two codes, so NEO and the frozen production ERD show the
+   same HR and BW population rather than two different ones. */
 const NEO_ONLY_MODULES: Record<string, string[]> = {
   HR: ["PA0001", "HRP1000", "EC_JobInformation", "PA0007", "PA0008", "PA2001", "HRP1007", "T528B", "EC_EmployeeProfile", "EC_Position", "FO_Department", "FO_Division", "LMS_LearningItem", "PM_Goal", "PM_PerformanceForm", "RCM_JobRequisition"],
-  BW: ["ADSO", "RSTRAN", "ROOSOURCE", "RSDS", "RSDIOBJ", "CompositeProvider", "RSBKDTP", "RSPCCHAIN", "RSRREPDIR", "RSZCOMPDIR", "RSZELTDIR", "SAC_Story", "CDS_AnalyticalView", "ROOSFIELD"],
+  BW: ["ADSO", "RSTRAN", "ROOSOURCE", "RSDS", "RSDIOBJ", "CompositeProvider", "RSBKDTP", "RSPCCHAIN", "RSRREPDIR", "RSZCOMPDIR", "RSZELTDIR", "SAC_Story", "CDS_AnalyticalView", "ROOSFIELD", "ODP_Queue", "RSDIOBJT"],
 };
 
 /** ERD_MODULES as NEO reads it: production's record, plus the two lanes
