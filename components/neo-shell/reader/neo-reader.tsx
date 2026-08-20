@@ -271,6 +271,9 @@ export function NeoReader({ book }: { book: NRBook }) {
 
   const [index, setIndex] = useState(0);
   const [within, setWithin] = useState(0);
+  /** The subchapter the reader explicitly asked for, held against the
+   *  scroll-spy until the spy agrees. See the note in spy(). */
+  const want = useRef<{ index: number; until: number } | null>(null);
   const activeSection = chapter && chapter.sections.length
     ? chapter.sections[Math.min(index, chapter.sections.length - 1)]?.id ?? null
     : null;
@@ -334,6 +337,23 @@ export function NeoReader({ book }: { book: NRBook }) {
     }
     const row = list[found];
     const span = Math.max(1, row.bottom - row.top);
+
+    /* INTENT BEATS THE SPY, BRIEFLY.
+       goTo lands a target at headH + 12, but the reading line sits at
+       headH + 18% of the viewport — roughly 130px lower. So for the frames
+       while a smooth scroll is still travelling, the target's top is still
+       below the line and the PREVIOUS section keeps winning the binary search.
+       That is why clicking 1.2 used to leave 1.1.2 marked in the rail.
+
+       The hold releases the instant the observer agrees, so ordinary reading is
+       never overridden. The ceiling exists only so a jump that never lands
+       cannot freeze the rail. */
+    const w = want.current;
+    if (w) {
+      if (row.index === w.index || Date.now() > w.until) want.current = null;
+      else { setIndex(w.index); return; }
+    }
+
     setIndex(row.index);
     setWithin(Math.min(1, Math.max(0, (line - row.top) / span)));
   }, []);
@@ -464,6 +484,10 @@ export function NeoReader({ book }: { book: NRBook }) {
     const el = document.getElementById(`nr-sec-${sectionId}`);
     const h = host.current;
     if (!el || !h) return;
+    // State the intent before moving, so the spy cannot mark the section above
+    // the target while the smooth scroll is still travelling.
+    const wantIdx = target.sections.findIndex((s) => s.id === sectionId);
+    if (wantIdx >= 0) want.current = { index: wantIdx, until: Date.now() + 2600 };
     const headH = headRef.current?.getBoundingClientRect().height ?? 0;
     const hostTop = isDocHost(h) ? 0 : h.getBoundingClientRect().top;
     scrollHostTo(h, el.getBoundingClientRect().top - hostTop + hostScrollTop(h) - headH - 12, smooth && !reduced);
