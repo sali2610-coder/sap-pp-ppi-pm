@@ -75,7 +75,7 @@ export type { ErdCatalog, ModCode, RelKind };
    one other entry, so neither lane opens as a field of isolated boxes: both are
    16 tables with 0 isolated nodes. BW resolves to a single connected component.
    HR resolves to TWO, and that is the dataset telling the truth rather than a
-   gap in the list: the on-prem PA*/HRP*/T528B cluster and the SuccessFactors
+   gap in the list: the on-prem PA / HRP / T528B cluster and the SuccessFactors
    EC_/FO_/LMS_/PM_/RCM_ cluster hold no relation to each other in the record,
    so the lane is drawn as the two families it actually is. No table, relation
    or classification is invented — dataset.json's own `mod` and `rel` decide
