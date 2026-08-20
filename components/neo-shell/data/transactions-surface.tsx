@@ -358,11 +358,15 @@ export function TransactionsSurface() {
       <header className="nxd-head nm-rise nm-once">
         {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
         <span className="nx-eyebrow">מרשם טרנזקציות · Transaction Registry</span>
-        <h1 className="nx-h1">טרנזקציות</h1>
+        {/* Was the bare word "טרנזקציות", which is the category and not this
+            surface. The eyebrow already calls it a registry; the title agrees. */}
+        <h1 className="nx-h1">מרשם הטרנזקציות</h1>
         <p className="nx-lede">
           רישום קנוני אחד: {nf.format(stats.total)} טרנזקציות SAP מאומתות מ-{nf.format(modules.length)} מודולים,
-          {" "}מתוכן {nf.format(stats.deep)} מתועדות לעומק. כל שורה נפתחת לעמוד הטרנזקציה המלא שלה
-          {" "}ב-<span className="nx-sap">/neo/transactions/</span>.
+          {/* The lede used to end by printing the raw route /neo/transactions/
+              at the reader. A URL is plumbing, not product copy, and the reader
+              is already standing on it. The sentence now ends where it means. */}
+          {" "}מתוכן {nf.format(stats.deep)} מתועדות לעומק. כל שורה נפתחת לעמוד הטרנזקציה המלא שלה.
         </p>
       </header>
 

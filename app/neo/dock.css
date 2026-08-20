@@ -159,6 +159,24 @@ html[data-theme="dark"] .nxk-scrim { background: color-mix(in srgb, var(--backgr
 
 /* --- assistant panel ------------------------------------------------------ */
 
+/* NEO'S PANEL WEARS NEO'S GROUND.
+   It carries data-scene="ai" but deliberately NOT .nm-scene, because that
+   helper sets position:relative in order to paint its own ground and would
+   override this panel's position:fixed — which threw the drawer to the opposite
+   edge of the screen. The attribute still resolves every scene token, so the
+   painting is done here instead and the fixed positioning survives. */
+.nxk-p--ask {
+  background: var(--scene-ground);
+  color: var(--scene-ink);
+  --surface: var(--scene-raised);
+  --surface-2: color-mix(in oklab, var(--scene-raised) 68%, var(--scene-ground));
+  --ink-1: var(--scene-ink);
+  --ink-2: var(--scene-ink-2);
+  --ink-3: var(--scene-ink-3);
+  --hairline: var(--scene-hair);
+  border-color: var(--scene-hair);
+}
+
 .nxk-ctx {
   display: grid; gap: 0.3rem;
   padding: var(--sp-4);

@@ -369,7 +369,11 @@ export function TablesSurface({ data }: { data: NeoTablesData }) {
       <header className="nxd-head nm-rise nm-once">
         {surfaceMod ? <span className="nx-modbar" aria-hidden="true" /> : null}
         <span className="nx-eyebrow">מילון נתונים · Data Dictionary</span>
-        <h1 className="nx-h1">טבלאות SAP</h1>
+        {/* "טבלאות SAP" named a category rather than this surface — every SAP
+            screen in the product is about SAP tables. The eyebrow above already
+            says מילון נתונים and the route's own metadata calls it the table
+            dictionary, so the title now agrees with both. */}
+        <h1 className="nx-h1">מילון הטבלאות</h1>
         <p className="nx-lede">
           {nf.format(t.tables)} טבלאות משני קובצי המקור, PM ו-PP-PI, עם {nf.format(t.fields)} שדות מתועדים,
           {" "}{nf.format(t.rels)} קשרי ER ו-{nf.format(t.tcodes)} טרנזקציות.

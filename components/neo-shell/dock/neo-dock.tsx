@@ -172,8 +172,24 @@ export function NeoDock() {
         </section>
       )}
 
+      {/* The assistant panel wears NEO'S OWN GROUND — the same near-black indigo
+          as /neo/chat/. It was a plain light sheet, which read as a generic form
+          rather than as the site assistant: opening it should feel like NEO
+          arriving, and should be recognisably the same thing the full chat
+          surface is. The font panel deliberately takes NO scene — that one is a
+          settings sheet and belongs to the page it adjusts, not to NEO. */}
       {panel === "ask" && (
-        <section className="nxk-p nxk-p--ask" role="dialog" aria-modal="false" aria-label="שאל את NEO">
+        <section
+          /* data-scene alone, NOT .nm-scene: that helper sets position:relative
+             to paint its own ground, which overrode this panel's position:fixed
+             and threw it to the wrong edge of the screen. The attribute still
+             supplies every scene token; dock.css does the painting. */
+          className="nxk-p nxk-p--ask"
+          data-scene="ai"
+          role="dialog"
+          aria-modal="false"
+          aria-label="שאל את NEO"
+        >
           <header className="nxk-p-h">
             <h2>שאל את NEO</h2>
             <button ref={closer} type="button" className="nu-ghost nxk-x" aria-label="סגור" onClick={() => setPanel("none")}>
