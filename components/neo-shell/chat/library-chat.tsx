@@ -30,18 +30,55 @@
    ========================================================================== */
 
 import { useState } from "react";
-import { BookOpen, Eraser, Layers, MessageSquarePlus, Search, Sparkles } from "lucide-react";
+import {
+  BookOpen, CheckSquare, ChevronDown, Eraser, GitCompare, Layers,
+  ListTree, MessageSquarePlus, Share2, Sparkles, WandSparkles,
+} from "lucide-react";
 import { SmartReturn } from "@/components/neo-shell/nav-context";
 import { MODES } from "@/lib/ai/modes";
+import { ANSWER_ACTIONS } from "@/lib/ai/prompts";
 import { BOOKS, scopeLabel } from "@/lib/ai/tree";
 import type { Scope } from "@/lib/ai/types";
 import { Composer } from "./composer";
 import { ContextBar } from "./context-bar";
 import { Live } from "./live";
 import { LibrarianMark } from "./marks";
+import { NeoLibrarian } from "./neo-librarian";
 import { Message } from "./message";
 import { ScopeSheet } from "./scope-sheet";
 import { useConversation } from "./use-conversation";
+
+/* THE SIX ACTIONS, AND WHY THEY ARE NOT NEW PROMPTS.
+   ---------------------------------------------------------------------------
+   lib/ai/prompts.ANSWER_ACTIONS already carries every one of these, each with
+   the backend `task` profile that actually selects the model and the quality
+   floor server-side. Writing fresh prompt strings here would have produced six
+   buttons that LOOK like the real actions and route to the default profile —
+   the same words, a weaker answer, and no way to see the difference.
+
+   So the quick actions are LOOKED UP by id and fail loudly if an id ever stops
+   existing. What this file owns is the icon and the ordering; the label, the
+   prompt and the task stay with the engine.
+
+   The technical task names (STUDENT_SUMMARY, COMPARE_ECC_S4, QUIZ …) are never
+   printed. The reader sees "הסבר בפשטות"; the router sees the profile. */
+const PRIMARY_IDS = ["simple", "summary", "review", "checklist", "diagram", "ecc"] as const;
+const MORE_IDS = ["expand", "example", "onepage", "deck"] as const;
+
+const QA_ICON: Record<string, React.ReactNode> = {
+  simple: <WandSparkles size={15} strokeWidth={1.9} aria-hidden="true" />,
+  summary: <ListTree size={15} strokeWidth={1.9} aria-hidden="true" />,
+  review: <Sparkles size={15} strokeWidth={1.9} aria-hidden="true" />,
+  checklist: <CheckSquare size={15} strokeWidth={1.9} aria-hidden="true" />,
+  diagram: <Share2 size={15} strokeWidth={1.9} aria-hidden="true" />,
+  ecc: <GitCompare size={15} strokeWidth={1.9} aria-hidden="true" />,
+};
+
+const pick = (ids: readonly string[]) =>
+  ids.map((id) => ANSWER_ACTIONS.find((a) => a.id === id)).filter(Boolean) as typeof ANSWER_ACTIONS;
+
+const PRIMARY = pick(PRIMARY_IDS);
+const MORE = pick(MORE_IDS);
 
 const M = MODES.library;
 
@@ -78,11 +115,11 @@ export function LibraryChat() {
      warm bound leather, editorial, the same world as the shelf. Its sibling
      takes the near-black indigo of a system tool. */
   return (
-    <div className="nxq nm-scene" data-surface="library" data-scene="books">
+    <div className="nxq nm-scene" data-surface="library" data-scene="library" data-idle={idle ? "1" : undefined}>
       <SmartReturn fallback={{ href: "/neo/", label: "מסך הבית" }} />
 
       {/* ---------------------------------------------------------- identity */}
-      <header className="nxq-hero">
+      <header className="nxq-hero" data-idle={idle ? "1" : undefined}>
         <span className="nxq-hero-mark">
           <LibrarianMark size={64} state={markState} />
         </span>
@@ -140,6 +177,7 @@ export function LibraryChat() {
           <Welcome
             scope={scope}
             onPick={(q) => { setDraft(q); focusComposer(); }}
+            onAction={runAction}
             onOpenScope={() => setSheet(true)}
           />
         ) : null}
@@ -209,20 +247,35 @@ export function LibraryChat() {
  * capability band and the starters are lib/ai/modes' own, so nothing here can
  * promise a behaviour the endpoint does not have.
  */
-function Welcome({ scope, onPick, onOpenScope }: {
+function Welcome({ scope, onPick, onAction, onOpenScope }: {
   scope: Scope;
   onPick: (q: string) => void;
+  onAction: (prompt: string, task?: string) => void;
   onOpenScope: () => void;
 }) {
+  const [more, setMore] = useState(false);
+
+  /* The scope line, said in words rather than in filter syntax. When a book is
+     chosen it names the book; when it is not, "כל הספרייה" is itself a choice
+     and the corpus counts are the honest description of it. Both come from the
+     shipped index — a zero would be printed as "אין מידע", never as a
+     confident number. */
+  const scoped = Boolean(scope.bookId);
+
   return (
-    <section className="nxq-welcome" aria-label="על המשטח הזה">
-      <div className="nxq-welcome-top">
-        <LibrarianMark size={76} className="nxq-welcome-mark" />
-        <div className="nxq-welcome-say">
-          <h2 className="nxq-welcome-h">{WHO}</h2>
-          <p className="nxq-welcome-p">
+    <section className="nxq-welcome" aria-label="פתיחה">
+      {/* --------------------------------------------------- the greeting */}
+      <div className="nxq-w-top">
+        <NeoLibrarian size={138} className="nxq-w-neo nm-rise nm-once" />
+        <div className="nxq-w-say">
+          <span className="nxq-eyebrow">
+            <BookOpen size={13} strokeWidth={2} aria-hidden="true" />
+            ספריית SAP המקצועית
+          </span>
+          <h2 className="nxq-w-h">שאל את NEO על הספרייה</h2>
+          <p className="nxq-w-p">
             {CORPUS.books > 0
-              ? `אני עונה אך ורק מתוך ${CORPUS.books} הספרים שבפרויקט. לכל טענה מצורפת הפניה לספר, לפרק ולסעיף. אם החומר שנבחר לא מכסה את השאלה, אומַר זאת במקום לנחש.`
+              ? "אני קורא את ספרי ה-SAP שבספרייה ויכול להסביר, לסכם, להשוות, לבנות תרשים ולכוון אותך למקור."
               : "לא קיים מידע מאומת בפרויקט. עד שהאינדקס ייטען אין ממה לענות."}
           </p>
           <ul className="nxq-caps">
@@ -233,42 +286,67 @@ function Welcome({ scope, onPick, onOpenScope }: {
         </div>
       </div>
 
-      {/* The three steps arrive as a sequence, which is also the order they have
-          to be read in — motion.css's `.nm-seq` on the scroll-driven path
-          expresses the stagger as a staggered RANGE, so there are no timers. */}
-      <ol className="nxq-steps nm-seq">
-        <Step
-          n={1}
-          icon={<Layers size={15} strokeWidth={2} aria-hidden="true" />}
-          t="בוחרים היקף"
-          d="כל הספרייה, ספר, פרק או סעיף. ההיקף קובע ממה מותר לקרוא."
-        />
-        <Step
-          n={2}
-          icon={<Search size={15} strokeWidth={2} aria-hidden="true" />}
-          t="שואלים בעברית"
-          d="שאלה חופשית. אפשר לבקש הסבר, השוואה, דוגמה או תרשים."
-        />
-        <Step
-          n={3}
-          icon={<BookOpen size={15} strokeWidth={2} aria-hidden="true" />}
-          t="מקבלים תשובה עם מקור"
-          d="לצד התשובה מוצגים הקטעים ששימשו אותה, ועמוד כשהוא קיים ברשומה."
-        />
-      </ol>
-
-      {/* The scope call to action states the current premise and offers the one
-          control that changes it. It is shown in both states because "כל
-          הספרייה" is itself a choice, not an absence of one. */}
-      <div className="nxq-scope-cta">
-        <span className="nxq-scope-cta-l">ההיקף הנוכחי</span>
-        <b className="nxq-scope-cta-v">{scopeLabel(scope)}</b>
-        <button type="button" className="nu-btn2 nxq-scope-cta-b" onClick={onOpenScope}>
+      {/* ------------------------------------------------- current context */}
+      <button type="button" className="nxq-w-scope" onClick={onOpenScope}>
+        <span className="nxq-w-scope-l">
           <Layers size={14} strokeWidth={2} aria-hidden="true" />
-          {scope.bookId ? "שנה היקף" : "בחר ספר, פרק או סעיף"}
-        </button>
+          שואל מתוך
+        </span>
+        <b className="nxq-w-scope-v">{scopeLabel(scope)}</b>
+        <span className="nxq-w-scope-m">
+          {scoped
+            ? "לחיצה תחליף ספר, פרק או סעיף"
+            : CORPUS.books > 0
+              ? `${CORPUS.books} ספרים · ${CORPUS.chapters.toLocaleString("he-IL")} פרקים · ${CORPUS.sections.toLocaleString("he-IL")} סעיפים`
+              : "האינדקס ריק"}
+        </span>
+        <ChevronDown size={16} strokeWidth={2} aria-hidden="true" className="nxq-w-scope-c" />
+      </button>
+
+      {/* --------------------------------------------------- quick actions */}
+      <div className="nxq-qa">
+        <span className="nxq-qa-t">מה לעשות עם החומר</span>
+        <div className="nxq-qa-row">
+          {PRIMARY.map((a, i) => (
+            <button
+              key={a.id}
+              type="button"
+              className="nxq-qa-b nm-rise nm-once"
+              style={{ "--nm-i": i } as React.CSSProperties}
+              onClick={() => onAction(a.prompt, a.task)}
+            >
+              <span className="nxq-qa-i" aria-hidden="true">{QA_ICON[a.id]}</span>
+              {a.label}
+            </button>
+          ))}
+          <button
+            type="button"
+            className="nxq-qa-more"
+            aria-expanded={more}
+            onClick={() => setMore((v) => !v)}
+          >
+            עוד פעולות
+            <ChevronDown size={14} strokeWidth={2} aria-hidden="true" />
+          </button>
+        </div>
+        {more ? (
+          <div className="nxq-qa-row nxq-qa-row2 nm-seq">
+            {MORE.map((a, i) => (
+              <button
+                key={a.id}
+                type="button"
+                className="nxq-qa-b nxq-qa-b2 nm-rise nm-once"
+                style={{ "--nm-i": i } as React.CSSProperties}
+                onClick={() => onAction(a.prompt, a.task)}
+              >
+                {a.label}
+              </button>
+            ))}
+          </div>
+        ) : null}
       </div>
 
+      {/* ------------------------------------------------------- starters */}
       <div className="nxq-starters">
         <span className="nxq-starters-t">
           <Sparkles size={13} strokeWidth={2} aria-hidden="true" />
@@ -290,16 +368,5 @@ function Welcome({ scope, onPick, onOpenScope }: {
         </div>
       </div>
     </section>
-  );
-}
-
-function Step({ n, icon, t, d }: { n: number; icon: React.ReactNode; t: string; d: string }) {
-  return (
-    <li className="nxq-step nm-rise nm-once" style={{ "--nm-i": n - 1 } as React.CSSProperties}>
-      <span className="nxq-step-n" aria-hidden="true">{n}</span>
-      <span className="nxq-step-i" aria-hidden="true">{icon}</span>
-      <b className="nxq-step-t">{t}</b>
-      <span className="nxq-step-d">{d}</span>
-    </li>
   );
 }

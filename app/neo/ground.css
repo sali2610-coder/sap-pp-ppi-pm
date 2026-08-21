@@ -366,6 +366,43 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
   --scene-hair: rgba(71, 168, 255, .26);
 }
 
+/* ASK THE LIBRARY. A reading room, not a bookbinding.
+   ---------------------------------------------------------------------------
+   This surface used to wear `data-scene="books"`, so it inherited the shelf's
+   #3a0f1d burgundy ground — and then painted its cards, its context bar, its
+   quick actions and its composer in tints of the same burgundy. The result was
+   one dark colour doing every job at once, which is why the screen read as an
+   enterprise panel rather than as a conversation.
+
+   The canvas is now warm parchment and the surfaces are near-white, so the
+   CONVERSATION is the brightest thing on screen. Burgundy stays — it is the
+   library's identity — but as an accent carried by the assistant mark, the
+   scope chip and the source cards, never as the room itself. 14.9:1. */
+[data-scene="library"] {
+  --scene-ground: #f6f1e9;
+  --scene-raised: #fffdf9;
+  --scene-ink: #22201d;
+  --scene-ink-2: #4c4741;
+  --scene-ink-3: #7c746a;
+  --scene-accent: #7a1533;          /* the shelf's burgundy, as an accent */
+  --scene-cool: #0f766e;            /* the second library voice */
+  --scene-hot: var(--brand);        /* CBC red: send, primary, active */
+  --scene-hair: rgba(34, 32, 29, .14);
+}
+html[data-theme="dark"] [data-scene="library"] {
+  /* Dark mode keeps the same ROLES — canvas recedes, conversation lifts — it
+     just inverts which end of the range they sit at. */
+  --scene-ground: #171310;
+  --scene-raised: #221c18;
+  --scene-ink: #f6f1ea;
+  --scene-ink-2: #d3cabf;
+  --scene-ink-3: #9d9287;
+  --scene-accent: #e0819b;
+  --scene-cool: #5eead4;
+  --scene-hot: #ff6b63;
+  --scene-hair: rgba(246, 241, 234, .16);
+}
+
 /* Books. Deep burgundy — a bound library, with the shelf's own cobalt, forest,
    ochre and cream carried by the BOOKS rather than by the ground. 13.6:1 */
 [data-scene="books"] {

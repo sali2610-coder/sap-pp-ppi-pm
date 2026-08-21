@@ -1409,3 +1409,369 @@ html[data-device="phone"] .nxq-hint { white-space: normal; }
      The phase word and the live timer beside it carry the actual state. */
   .nxq-live-scan span { inline-size: 100%; }
 }
+
+/* ============================================================================
+   ASK THE LIBRARY · THE READING-ROOM PASS
+   ----------------------------------------------------------------------------
+   WHAT WAS ACTUALLY WRONG, MEASURED
+
+     The surface wore data-scene="books" — the SHELF's scene, a #3a0f1d
+     burgundy ground — and then tinted its cards, its context bar, its quick
+     actions and its composer from that same burgundy. Instrumented, 95% of the
+     painted surfaces on the page sat within 10% of the ground colour. One
+     colour was doing every job at once, which is precisely why the screen read
+     as an enterprise panel instead of as a conversation.
+
+     Moving to data-scene="library" fixed the ground but not the hierarchy:
+     light mode then measured 50% same-tone — cream on cream, the opposite
+     failure, and the one the earlier art-direction brief named out loud
+     ("do not interpret professional as almost colorless").
+
+   THE RULE THIS BLOCK ENFORCES
+
+     THE CONVERSATION IS THE BRIGHTEST THING ON THE SCREEN.
+
+     ground     warm parchment. It is a room, and rooms recede.
+     surface    near-white, genuinely lifted off the ground by tone AND by a
+                warm-tinted shadow. Answers, starters, the composer.
+     burgundy   ACCENT ONLY — the assistant's mark, the scope value, the source
+                cards, the rule under a title. Never a page background again.
+     teal       the second voice: the quiet metadata line, hover states, the
+                figure's attention band. Present so burgundy is not carrying
+                both "identity" and "secondary" at once.
+     CBC red    exactly one job per screen: send, and the live writing line.
+
+   Everything is scoped to [data-surface="library"] so the sibling NEO chat,
+   which is deliberately a different world, is untouched.
+   ========================================================================== */
+
+.nxq[data-surface="library"] {
+  --nql-accent: var(--scene-accent);
+  --nql-cool: var(--scene-cool);
+  --nql-hot: var(--scene-hot);
+  --nql-paper: var(--scene-raised);
+  --nql-paper-2: color-mix(in oklab, var(--scene-raised) 74%, var(--scene-ground));
+  --nql-ink: var(--scene-ink);
+  --nql-visor: color-mix(in oklab, var(--scene-ink) 88%, transparent);
+  /* One step DOWN from the card the figure sits on, so paper-white pages have
+     an edge. Derived, not fixed, so it stays correct in either theme. */
+  --nql-plinth: color-mix(in oklab, var(--scene-ground) 82%, var(--scene-ink) 6%);
+
+  /* The lift. A neutral-grey shadow on a warm parchment ground reads as dirt,
+     so elevation is a DARKER VERSION OF THE GROUND, exactly as ground.css
+     argues for the shell. */
+  --nq-lift: 0 1px 2px -1px rgba(74, 52, 34, .10), 0 8px 22px -12px rgba(74, 52, 34, .16);
+  --nq-lift-2: 0 2px 4px -2px rgba(74, 52, 34, .13), 0 18px 40px -18px rgba(74, 52, 34, .22);
+}
+html[data-theme="dark"] .nxq[data-surface="library"] {
+  /* THE FIGURE IS A FILL, NOT A LABEL — SO IT DOES NOT TAKE THE TEXT ACCENT.
+     --scene-accent is #e0819b in dark because it has to clear contrast as TEXT
+     on a near-black ground. Poured into a 100-unit silhouette that same value
+     reads as bubblegum pink, which is not the library's identity by any
+     reading. So the character takes its own burgundy: dark enough to still be
+     burgundy, light enough to separate from the #171310 room. Measured 3.1:1
+     against the ground, which is above the 3:1 floor for a large graphic. */
+  --nql-accent: #a03352;
+  --nql-plinth: color-mix(in oklab, var(--scene-ground) 82%, var(--scene-ink) 9%);
+
+  /* On a dark ground a shadow cannot be seen at all, so the SAME token becomes
+     a hairline of warm light along the top edge. Same role, different physics. */
+  --nq-lift: 0 1px 0 0 rgba(255, 240, 220, .06), 0 10px 26px -14px rgba(0, 0, 0, .6);
+  --nq-lift-2: 0 1px 0 0 rgba(255, 240, 220, .08), 0 22px 46px -18px rgba(0, 0, 0, .7);
+}
+
+/* -------------------------------------------------------- 1. THE GREETING */
+
+/* Once the welcome composition exists, the hero repeating the same title above
+   it is not a second read, it is noise. While idle the hero steps back to a
+   return link and nothing else; the moment a conversation starts it comes back
+   as the compact identity strip that carries the session actions. */
+.nxq[data-surface="library"] .nxq-hero[data-idle="1"] { display: none; }
+
+.nxq[data-surface="library"] .nxq-w-top {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: center;
+  padding: clamp(1.25rem, 3vw, 2.25rem) clamp(1rem, 3vw, 2rem);
+  border-radius: 1.5rem;
+  background:
+    radial-gradient(120% 130% at 88% 8%,
+      color-mix(in oklab, var(--scene-cool) 12%, transparent), transparent 60%),
+    linear-gradient(160deg,
+      var(--scene-raised),
+      color-mix(in oklab, var(--scene-raised) 82%, var(--scene-ground)));
+  border: 1px solid var(--scene-hair);
+  box-shadow: var(--nq-lift-2);
+}
+
+.nxq[data-surface="library"] .nxq-w-h {
+  margin: .45rem 0 .5rem;
+  font-size: clamp(1.6rem, 3.4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: -.022em;
+  color: var(--scene-ink);
+  text-wrap: balance;
+}
+.nxq[data-surface="library"] .nxq-w-p {
+  margin: 0 0 .8rem;
+  max-width: 54ch;
+  font-size: .95rem;
+  line-height: 1.62;
+  color: var(--scene-ink-2);
+}
+.nxq[data-surface="library"] .nxq-eyebrow {
+  color: var(--scene-accent);
+  letter-spacing: .08em;
+}
+
+/* ---------------------------------------------------- 2. THE SCOPE, IN WORDS */
+
+/* Not a filter control. It is the sentence the whole screen is standing on, so
+   it is a full-width statement with the value as the loudest thing in it, and
+   the entire strip is the target rather than a small chevron at the end. */
+.nxq[data-surface="library"] .nxq-w-scope {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  width: 100%;
+  margin: 1rem 0 0;
+  padding: .8rem 1rem;
+  border-radius: 1rem;
+  text-align: start;
+  font: inherit;
+  cursor: pointer;
+  color: var(--scene-ink);
+  background: var(--scene-raised);
+  border: 1px solid var(--scene-hair);
+  /* The accent enters as an EDGE, which is the form rule the shell already
+     uses for module colour: tint, ring, line, edge — never a fill. */
+  border-inline-start: 3px solid var(--scene-accent);
+  box-shadow: var(--nq-lift);
+  transition: box-shadow .18s ease, border-color .18s ease, transform .18s ease;
+}
+.nxq[data-surface="library"] .nxq-w-scope:hover {
+  border-color: color-mix(in oklab, var(--scene-cool) 55%, var(--scene-hair));
+  box-shadow: var(--nq-lift-2);
+}
+.nxq[data-surface="library"] .nxq-w-scope:active { transform: translateY(1px); }
+.nxq[data-surface="library"] .nxq-w-scope-l {
+  display: inline-flex; align-items: center; gap: .35rem;
+  font-size: .78rem; font-weight: 600; color: var(--scene-ink-3);
+  white-space: nowrap;
+}
+.nxq[data-surface="library"] .nxq-w-scope-v {
+  font-size: .98rem; font-weight: 700; color: var(--scene-accent);
+  unicode-bidi: isolate;              /* book titles are English inside RTL */
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.nxq[data-surface="library"] .nxq-w-scope-m {
+  margin-inline-start: auto;
+  font-size: .78rem; color: var(--scene-ink-3);
+  unicode-bidi: isolate;
+}
+.nxq[data-surface="library"] .nxq-w-scope-c { color: var(--scene-ink-3); flex: none; }
+
+/* ------------------------------------------------------ 3. QUICK ACTIONS */
+
+/* The brief is explicit that these must NOT be six large dashboard cards. They
+   are conversational actions, so they are pill-height, they wrap, and they are
+   sized by their label rather than by a grid track. */
+.nxq[data-surface="library"] .nxq-qa { margin-top: 1.15rem; }
+.nxq[data-surface="library"] .nxq-qa-t {
+  display: block; margin-bottom: .55rem;
+  font-size: .78rem; font-weight: 600; letter-spacing: .04em;
+  color: var(--scene-ink-3);
+}
+.nxq[data-surface="library"] .nxq-qa-row {
+  display: flex; flex-wrap: wrap; gap: .5rem;
+}
+.nxq[data-surface="library"] .nxq-qa-b {
+  display: inline-flex; align-items: center; gap: .45rem;
+  min-height: 44px;                   /* touch target, coarse pointers too */
+  padding: .5rem .9rem;
+  border-radius: 999px;
+  font: inherit; font-size: .875rem; font-weight: 600;
+  cursor: pointer;
+  color: var(--scene-ink);
+  background: var(--scene-raised);
+  border: 1px solid var(--scene-hair);
+  box-shadow: var(--nq-lift);
+  transition: transform .16s ease, box-shadow .16s ease,
+              border-color .16s ease, color .16s ease;
+}
+.nxq[data-surface="library"] .nxq-qa-i {
+  display: inline-flex; color: var(--scene-cool);
+  transition: color .16s ease;
+}
+.nxq[data-surface="library"] .nxq-qa-b:hover {
+  color: var(--scene-accent);
+  border-color: color-mix(in oklab, var(--scene-accent) 45%, var(--scene-hair));
+  box-shadow: var(--nq-lift-2);
+  transform: translateY(-1px);
+}
+.nxq[data-surface="library"] .nxq-qa-b:active { transform: translateY(0); }
+.nxq[data-surface="library"] .nxq-qa-b2 {
+  font-weight: 500; box-shadow: none;
+  background: color-mix(in oklab, var(--scene-raised) 55%, var(--scene-ground));
+}
+.nxq[data-surface="library"] .nxq-qa-row2 { margin-top: .5rem; }
+.nxq[data-surface="library"] .nxq-qa-more {
+  display: inline-flex; align-items: center; gap: .35rem;
+  min-height: 44px; padding: .5rem .85rem;
+  border-radius: 999px; font: inherit; font-size: .85rem; font-weight: 600;
+  cursor: pointer; color: var(--scene-ink-3);
+  background: transparent; border: 1px dashed var(--scene-hair);
+  transition: color .16s ease, border-color .16s ease;
+}
+.nxq[data-surface="library"] .nxq-qa-more:hover {
+  color: var(--scene-cool);
+  border-color: color-mix(in oklab, var(--scene-cool) 55%, var(--scene-hair));
+}
+.nxq[data-surface="library"] .nxq-qa-more[aria-expanded="true"] svg { transform: rotate(180deg); }
+.nxq[data-surface="library"] .nxq-qa-more svg { transition: transform .18s ease; }
+
+/* ------------------------------------------- 4. THE CONVERSATION SURFACES */
+
+/* Starters, answers and the composer all become PAPER: near-white, lifted, on
+   the parchment room. This is the single change that breaks the same-tone
+   reading, because it puts real tonal distance between ground and content. */
+.nxq[data-surface="library"] .nxq-starter,
+.nxq[data-surface="library"] .nxq-box {
+  background: var(--scene-raised);
+  border: 1px solid var(--scene-hair);
+  box-shadow: var(--nq-lift);
+}
+.nxq[data-surface="library"] .nxq-starter:hover {
+  border-color: color-mix(in oklab, var(--scene-accent) 40%, var(--scene-hair));
+  box-shadow: var(--nq-lift-2);
+}
+
+/* The composer was the heaviest object on the screen. It becomes a light,
+   floating sheet: paper, one ring, and the send button as the only saturated
+   thing in view. */
+.nxq[data-surface="library"] .nxq-box {
+  border-radius: 1.15rem;
+  box-shadow: var(--nq-lift-2);
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+.nxq[data-surface="library"] .nxq-box:focus-within {
+  border-color: color-mix(in oklab, var(--scene-accent) 50%, var(--scene-hair));
+  box-shadow: var(--nq-lift-2),
+              0 0 0 3px color-mix(in oklab, var(--scene-accent) 16%, transparent);
+}
+.nxq[data-surface="library"] .nxq-send {
+  background: var(--scene-hot);
+  border-color: transparent;
+  color: #fff;
+}
+
+/* The user's own words, kept compact and clearly theirs. */
+.nxq[data-surface="library"] .nxq-user-bubble {
+  background: color-mix(in oklab, var(--scene-accent) 92%, black);
+  color: #fff7f2;
+  border: none;
+}
+
+/* ------------------------------------------------------ 5. THE CHARACTER */
+
+.nql { display: inline-flex; line-height: 0; }
+.nql svg { display: block; width: var(--nql-size, 132px); height: auto; }
+.nql-halo { opacity: .55; transform-origin: 60px 62px; }
+.nql-write { opacity: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Idle is a breath, not a bounce: 1.5% over four seconds, which is at the
+     edge of perceptible and never pulls the eye off the text beside it. */
+  .nql[data-state="idle"] .nql-body { animation: nql-breathe 4.4s ease-in-out infinite; }
+  .nql[data-state="thinking"] .nql-halo { animation: nql-halo 1.6s ease-in-out infinite; }
+  .nql[data-state="thinking"] .nql-leaf-r { animation: nql-riffle 1.1s ease-in-out infinite; }
+  .nql[data-state="writing"] .nql-write { animation: nql-write 1.5s ease-in-out infinite; }
+  .nql[data-state="error"] .nql-eye { opacity: .35; }
+}
+.nql-body { transform-origin: 60px 110px; }
+.nql-leaf-r { transform-origin: 60px 96px; }
+
+@keyframes nql-breathe {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-1.2px) scale(1.015); }
+}
+@keyframes nql-halo {
+  0%, 100% { opacity: .40; transform: scale(.94); }
+  50%      { opacity: .85; transform: scale(1.06); }
+}
+@keyframes nql-riffle {
+  0%, 100% { transform: rotate(0deg); }
+  50%      { transform: rotate(-4.5deg); }
+}
+@keyframes nql-write {
+  0%   { opacity: 0; stroke-dasharray: 0 20; }
+  30%  { opacity: 1; }
+  100% { opacity: 0; stroke-dasharray: 20 0; }
+}
+
+/* --------------------------------------------------------------- 6. MOBILE */
+
+@media (max-width: 720px) {
+  /* The figure yields to the words: it drops to a small mark above the title
+     rather than competing with it for a 390px line. */
+  .nxq[data-surface="library"] .nxq-w-top {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    gap: .5rem;
+    padding: 1.1rem .9rem;
+  }
+  .nxq[data-surface="library"] .nxq-w-neo svg { width: 92px; }
+  .nxq[data-surface="library"] .nxq-w-p { margin-inline: auto; }
+  .nxq[data-surface="library"] .nxq-caps { justify-content: center; }
+
+  /* Scope becomes two lines rather than one crushed one. */
+  .nxq[data-surface="library"] .nxq-w-scope { flex-wrap: wrap; gap: .35rem .6rem; }
+  .nxq[data-surface="library"] .nxq-w-scope-m {
+    margin-inline-start: 0; flex-basis: 100%;
+  }
+
+  /* THE COMPOSER MUST NOT SIT ON TOP OF THE EMPTY STATE.
+     Measured at 390x844: the composer box occupied y613-731 while the welcome
+     ran to roughly y900, so the scope strip, all six quick actions and every
+     starter lived UNDERNEATH it. elementFromPoint on the scope returned
+     `nxq-field` — the composer's own textarea — which means those controls were
+     not merely dimmed, they were unTAPPABLE.
+
+     Sticky is right once a conversation exists: the input has to stay with the
+     reader while answers scroll past. It is wrong when there is nothing to
+     scroll, because then it is just a lid over the only content on the screen.
+     So while idle the composer sits in flow, and the moment the first turn
+     lands it goes back to being sticky. */
+  .nxq[data-surface="library"][data-idle="1"] .nxq-composer {
+    position: static;
+    background: none;
+  }
+  /* With the composer in flow there is nothing below to clear. */
+  .nxq[data-surface="library"][data-idle="1"] .nxq-thread { padding-block-end: var(--sp-4); }
+
+  /* Actions scroll sideways instead of stacking into a wall of pills.
+     min-width:0 IS LOAD-BEARING. Without it the row is a flex/grid item whose
+     automatic minimum size is its CONTENT size, so `overflow-x:auto` never
+     gets a chance to scroll — the item simply grows and the whole document
+     scrolls sideways instead. Measured: 355px of horizontal overflow at 390px
+     before this line existed. */
+  .nxq[data-surface="library"] .nxq-qa { min-width: 0; }
+  .nxq[data-surface="library"] .nxq-qa-row {
+    min-width: 0;
+    max-width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: .3rem;
+    scroll-snap-type: x proximity;
+    /* Bleed to the screen edge so the row reads as scrollable, then pad back. */
+    margin-inline: -1rem;
+    padding-inline: 1rem;
+  }
+  .nxq[data-surface="library"] .nxq-qa-row::-webkit-scrollbar { display: none; }
+  .nxq[data-surface="library"] .nxq-qa-b { flex: none; scroll-snap-align: start; }
+  .nxq[data-surface="library"] .nxq-qa-row2 { flex-wrap: wrap; overflow: visible; }
+}
