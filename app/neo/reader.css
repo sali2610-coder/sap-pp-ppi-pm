@@ -1492,3 +1492,35 @@ html[data-theme="dark"] .nr-tip { box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .7
   .nr-infig-b:hover { transform: none; }
   .nr-load svg { animation: none; }
 }
+
+/* ---- the chapter's opening passage ---------------------------------------
+   Set as an opening, not as another paragraph: it is the author speaking about
+   the chapter rather than inside it. A quiet rule on the inline start and a
+   slightly larger, lighter measure separate it from body prose without turning
+   it into a card — the page still has to read like a book.
+
+   It is English-only by construction, so it spans the sheet rather than
+   pretending to be half of a bilingual pair. Filling a Hebrew column with
+   nothing would look like a translation that failed. */
+.nr-intro {
+  margin-block: var(--sp-3) var(--sp-6);
+  padding-inline-start: var(--sp-4);
+  border-inline-start: 2px solid color-mix(in oklab, var(--m, var(--brand)) 42%, transparent);
+  max-inline-size: calc(var(--nr-measure) * 1.35);
+}
+.nr-intro-l {
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: color-mix(in oklab, var(--m, var(--brand)) 70%, var(--nr-ink-2));
+  margin-block-end: var(--sp-2);
+}
+.nr-intro-t {
+  font-size: calc(var(--nr-fs) * 1.04);
+  line-height: calc(var(--nr-lh) * 1.02);
+  color: var(--nr-ink-2);
+  text-align: start;
+  overflow-wrap: break-word;
+  margin: 0;
+}
+@media (max-width: 640px) { .nr-intro { max-inline-size: none; } }

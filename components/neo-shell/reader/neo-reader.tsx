@@ -929,6 +929,22 @@ export function NeoReader({ book }: { book: NRBook }) {
               </div>
             )}
 
+            {/* THE CHAPTER'S OWN OPENING.
+                The author's passage before the first numbered section. It sits
+                where the book puts it — above section 1, below the chapter
+                heading — and it is NOT a section: it has no id, it is not in
+                the table of contents, and it does not move any section count
+                or progress figure.
+
+                English-only, because that is what the source holds. The Hebrew
+                side is deliberately not filled with anything. */}
+            {chapter.intro?.en ? (
+              <div className="nr-intro" role="note" aria-label="פתיח הפרק">
+                <p className="nr-intro-l">פתיח הפרק · מהמקור</p>
+                <p className="nr-intro-t" dir="ltr" lang="en">{chapter.intro.en}</p>
+              </div>
+            ) : null}
+
             {chapter.sections.length === 0 ? (
               <p className="nr-none">
                 בנתוני הספר אין תת-פרקים לפרק הזה. זהו מצב אמיתי במאגר, לא תקלה: ולכן לא הומצאו כאן סעיפים.

@@ -231,11 +231,74 @@ for (let i = 1; i <= 11; i++) {
     }
   }
 
+  /* ---- CHAPTER INTRODUCTIONS -------------------------------------------
+     Every SAP PRESS chapter opens with the author telling you what it covers,
+     before the first numbered section. The extractor starts AT that first
+     heading, and everything downstream is keyed by section id, so this passage
+     had no id and never reached the reader — 185,233 characters across 100
+     chapters in 9 books.
+
+     It is carried as a CHAPTER-LEVEL field, never as a section. Inventing an
+     id like "9.0" would add 100 headings the books do not have and would move
+     every section count, progress percentage and parity number in the product.
+
+     THE BOUNDARY IS NOT A GUESS. The intro is the text before the FIRST
+     line-start occurrence of the first section's id. Later occurrences are
+     running page headers and cross-references, and they all sit AFTER the
+     intro has ended, so they cannot move it.
+
+     The one real risk is a chapter that opens with its own inline contents
+     list — then the first occurrence is a list entry, not the heading. That is
+     detected (almost no prose between the first two occurrences) and those
+     chapters are SKIPPED rather than guessed. Same for book7's catalogue and
+     book11, whose first section ids never appear at line start.
+
+     Nothing is summarised, reworded or translated. Page furniture is stripped
+     the way it is stripped nowhere else in this file — only bare page numbers,
+     "Chapter N" lines and the chapter title line, which are the three things
+     that are provably not prose. */
+  const readRaw = (bid, n) => {
+    const f = path.join(LIB, bid, "raw", `ch${n}.json`);
+    return existsSync(f) ? JSON.parse(readFileSync(f, "utf8")) : null;
+  };
+  const introOf = (n) => {
+    const raw = readRaw(id, n);
+    const text = String(raw?.text ?? "");
+    const secs = byChapter.get(n) ?? [];
+    if (!text.trim() || !secs.length) return null;
+    const sid = String(secs[0].id);
+    const re = new RegExp(`^\\s*${sid.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\s|$)`, "gm");
+    const hits = [...text.matchAll(re)];
+    if (!hits.length) return null;
+    if (hits.length > 1) {
+      const between = text.slice(hits[0].index + hits[0][0].length, hits[1].index).split(/\s+/).filter(Boolean).join(" ");
+      if (between.length < 400) return null;      // inline contents list — skip
+    }
+    const title = String(raw.title ?? "").trim();
+    const prose = text
+      .slice(0, hits[0].index)
+      .split("\n")
+      .filter((l) => l.trim())
+      .filter((l) => !/^\s*\d{1,4}\s*$/.test(l))
+      .filter((l) => !/^\s*Chapter \d+\s*$/.test(l))
+      .filter((l) => l.trim() !== title)
+      .join(" ")
+      .split(/\s+/).filter(Boolean).join(" ");
+    if (prose.length < 80) return null;
+    // rule 7: never duplicate something the chapter body already contains.
+    const body = secs.map((x) => String(x.body?.en ?? "")).join(" ");
+    if (prose.slice(0, 120) && body.includes(prose.slice(0, 120))) return null;
+    return prose;
+  };
+
   const chapterList = [...byChapter.entries()]
     .sort((a, b) => a[0] - b[0])
     .map(([n, secs]) => ({
       n,
       title: { en: chapterTitle.get(n)?.en || "", he: chapterTitle.get(n)?.he || "" },
+      // English-only: none of the 100 has a Hebrew translation in the source,
+      // and none is invented here.
+      ...(introOf(n) ? { intro: { en: introOf(n), he: "" } } : {}),
       ...(chapterSections.get(n)?.[0]?.page != null ? { startPage: Number(chapterSections.get(n)[0].page) } : {}),
       sections: secs,
     }));

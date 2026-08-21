@@ -24,6 +24,10 @@ export interface NRChapter {
   n: number;
   title: string;
   startPage: number | null;
+  /** The author's opening passage, before the first numbered section.
+   *  English-only: none of the 100 carries a Hebrew translation in the source,
+   *  and none is invented. Absent on chapters that have none. */
+  intro?: { en: string; he: string } | null;
   sections: NRSection[];
   /**
    * How many subchapters the book holds BEFORE this chapter starts.

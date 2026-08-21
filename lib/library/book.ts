@@ -50,6 +50,10 @@ export interface BookChapter {
   n: number;
   title: { en: string; he?: string };
   startPage?: number;
+  /** The chapter's opening passage, before its first numbered section.
+   *  Written by scripts/migrate-books.mjs only where the boundary is provable;
+   *  absent where it is not. */
+  intro?: { en: string; he: string };
   sections: BookSection[];
 }
 

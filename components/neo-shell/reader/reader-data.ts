@@ -79,6 +79,7 @@ export function readerData(id: string): NRBook | null {
     const row: NRChapter = {
       n: c.n,
       title: chapterTitle(c),
+      intro: c.intro ?? null,
       startPage: typeof c.startPage === "number" ? c.startPage : null,
       sections,
       before,
