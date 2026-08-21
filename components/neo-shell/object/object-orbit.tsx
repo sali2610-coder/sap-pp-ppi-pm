@@ -437,7 +437,7 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
                       mismatch and then throws the subtree away. */}
                   <title>
                     {`${k.name} ${k.dir === "parent" ? "נמצאת במעלה הזרם של" : "נמצאת במורד הזרם של"} ${name}${
-                      k.card ? ` · ${k.card}` : " · המילון לא רשם עוצמה לקשר הזה"
+                      k.card ? ` · ${k.card}` : " · התיעוד לא רשם עוצמה לקשר הזה"
                     }`}
                   </title>
                   <path className="no-edge-l" d={curve(a, b)} />
@@ -607,7 +607,7 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
                   {j.join ? (
                     <code className="no-join">{j.join}</code>
                   ) : (
-                    <span className="no-none">המילון אינו מחזיק ניסוח JOIN לקשר הזה</span>
+                    <span className="no-none">התיעוד אינו מחזיק ניסוח JOIN לקשר הזה</span>
                   )}
                   {j.desc ? <span className="no-read-desc">{j.desc}</span> : null}
                   {j.pk || j.fk ? (
@@ -630,7 +630,7 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
           </>
         ) : (
           <p className="no-read-idle">
-            בחר טבלה במפה כדי לראות את ניסוח ה־JOIN המדויק כפי שהמילון מחזיק אותו.
+            בחר טבלה במפה כדי לראות את ניסוח ה־JOIN המדויק כפי שהתיעוד מחזיק אותו.
             {name} מדורגת {rank} מתוך {total} טבלאות לפי מספר הקשרים הממודלים.
           </p>
         )}
@@ -640,10 +640,10 @@ export function ObjectOrbit({ name, he, obj, mods, neighbours, total, rank }: Or
         {(["1-1", "n-1", "unstated"] as const).map((k) => (
           <li key={k} style={{ "--r": REL_VAR[k] } as React.CSSProperties} data-kind={k}>
             <i aria-hidden="true" />
-            {k === "unstated" ? "קשר ללא עוצמה מצוינת במילון" : REL_HE[k]}
+            {k === "unstated" ? "קשר ללא עוצמה מצוינת בתיעוד" : REL_HE[k]}
           </li>
         ))}
-        <li>התג על הקו הוא הניסוח המילולי של המילון. מקף על מסגרת מקווקוות פירושו שלא נרשמה עוצמה.</li>
+        <li>התג על הקו הוא הניסוח המילולי של התיעוד. מקף על מסגרת מקווקוות פירושו שלא נרשמה עוצמה.</li>
       </ul>
     </div>
   );

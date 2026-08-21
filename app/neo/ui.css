@@ -238,14 +238,15 @@ a.nu-card:active, button.nu-card:active { transform: translateY(0); box-shadow: 
   .nu-btn[data-busy="1"] .nu-arw { animation: none; }
 }
 
-/* THE WORKSPACE EYEBROW.
+/* THE ERD EYEBROW.
    --------------------------------------------------------------------------
-   Module, ERD and table-detail pages each opened directly onto an h1, so the
-   screen named its SUBJECT ("MARA", "אחזקת מפעל PM") without ever naming
-   itself. One shared treatment so the three read as the same class of
-   workspace: small, uppercase-ish, quiet, with a hairline separator between
-   the Hebrew role and its SAP term. */
-.nw-eye, .ne-eye, .nxb-eye {
+   Only the ERD needed one. PM/PP-PI and table-detail already carried their own
+   eyebrow a level above the h1 — a probe that read h1.previousElementSibling
+   and never walked up reported them as missing, and adding a second label to
+   each was the actual bug. `.nw-eye` in particular is a PRE-EXISTING class, so
+   naming it in this selector silently restyled a control this pass had no
+   business touching. Scoped to the one genuinely new class. */
+.ne-eye {
   display: flex;
   align-items: center;
   gap: .5rem;
@@ -256,11 +257,11 @@ a.nu-card:active, button.nu-card:active { transform: translateY(0); box-shadow: 
   color: var(--ink-3);
   text-transform: uppercase;
 }
-.nw-eye i, .ne-eye i, .nxb-eye i {
+.ne-eye i {
   width: 14px; height: 1px; flex: none;
   background: currentColor; opacity: .5;
 }
-.nw-eye .nw-sap, .ne-eye .nx-sap, .nxb-eye .nx-sap {
+.ne-eye .nx-sap {
   color: var(--ink-2);
   unicode-bidi: isolate;   /* "ECC → S/4HANA" is LTR inside RTL chrome */
 }

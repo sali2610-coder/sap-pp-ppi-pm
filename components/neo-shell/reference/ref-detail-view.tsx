@@ -233,7 +233,7 @@ export function RefDetailView({ d }: { d: RefDetail }) {
                 const inner = (
                   <>
                     <span className="nxt-tbl-n nx-sap">{t.name}</span>
-                    <span className="nxt-tbl-he">{t.he || "אין תיאור במילון"}</span>
+                    <span className="nxt-tbl-he">{t.he || "אין תיאור בתיעוד"}</span>
                     <span className="nxt-tbl-s"><Status s={t.status} /></span>
                     {t.note ? <span className="nxt-tbl-note">{t.note}</span> : null}
                   </>
@@ -243,7 +243,7 @@ export function RefDetailView({ d }: { d: RefDetail }) {
                     {t.href ? (
                       <Link href={t.href} prefetch={false} className="nu-card nxt-tbl-r">{inner}</Link>
                     ) : (
-                      <div className="nxt-tbl-r is-flat" aria-label={`${t.name}: אין עמוד אובייקט במילון`}>{inner}</div>
+                      <div className="nxt-tbl-r is-flat" aria-label={`${t.name}: אין עמוד אובייקט בתיעוד`}>{inner}</div>
                     )}
                   </li>
                 );

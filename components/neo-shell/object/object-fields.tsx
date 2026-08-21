@@ -96,7 +96,7 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
             </ol>
           ) : (
             <p className="no-none">
-              המילון אינו מסמן שדה מפתח ראשי ל־{name}. זה מצב של המקור, ולא נגזר משם השדה.
+              התיעוד אינו מסמן שדה מפתח ראשי ל־{name}. זה מצב של המקור, ולא נגזר משם השדה.
             </p>
           )}
         </section>
@@ -119,7 +119,7 @@ export function ObjectFields({ fields, name }: { fields: FieldRow[]; name: strin
               ))}
             </ol>
           ) : (
-            <p className="no-none">המילון אינו מסמן שדה מפתח זר לטבלה הזאת.</p>
+            <p className="no-none">התיעוד אינו מסמן שדה מפתח זר לטבלה הזאת.</p>
           )}
         </section>
       </div>

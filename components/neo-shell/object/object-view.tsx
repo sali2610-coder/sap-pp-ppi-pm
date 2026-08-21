@@ -38,14 +38,14 @@ const REL_HE: Record<string, string> = { "1-1": "1:1", "n-1": "N:1", unstated: "
 
 const TRUST_WHY: Record<string, string> = {
   verified: "ידע Simplification List מתוחזק בפרויקט",
-  partial: "נגזר מעמודת ה-S/4 של המילון. מומלץ אימות מול SAP",
+  partial: "נגזר מעמודת ה-S/4 של התיעוד. מומלץ אימות מול SAP",
   needs: "הפרויקט אינו מחזיק הכרעה לטבלה הזאת",
 };
 
 /** The one empty state on the page. It names the dataset that is silent instead
  *  of apologising, so the absence is auditable. */
 function Silent({ what }: { what: string }) {
-  return <p className="no-silent">המילון של Project NEO אינו מחזיק {what} עבור האובייקט הזה.</p>;
+  return <p className="no-silent">התיעוד של Project NEO אינו מחזיק {what} עבור האובייקט הזה.</p>;
 }
 
 /** A SECTION of the object page.
@@ -114,7 +114,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
   // ספרים המכסים את המודול — with the dictionary record first, because it is
   // the thing every other section is about.
   const nav: [string, string][] = [
-    ["no-rows", v.rows.length > 1 ? "רשומות המילון" : "רשומת המילון"],
+    ["no-rows", v.rows.length > 1 ? "רשומות התיעוד" : "רשומת התיעוד"],
     ["no-map", "מפת קשרים"],
     ["no-rel", "קשרים ו־JOIN"],
     ["no-fields", "שדות"],
@@ -151,7 +151,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
             <span className="nx-sap">{v.name}</span>
           </h1>
 
-          <p className="no-lede">{v.he || "המילון אינו מחזיק תיאור עברי לטבלה הזו."}</p>
+          <p className="no-lede">{v.he || "התיעוד אינו מחזיק תיאור עברי לטבלה הזו."}</p>
           {v.en ? <p className="no-en nx-sap">{v.en}</p> : null}
 
           <ul className="no-mods" aria-label="שיוך למודול">
@@ -160,7 +160,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
                 <span className="no-mod-bar" aria-hidden="true" />
                 <b>{MOD_HE[m]}</b>
                 <em>
-                  {rowsPerMod.get(m)} {rowsPerMod.get(m) === 1 ? "רשומת מילון" : "רשומות מילון"}
+                  {rowsPerMod.get(m)} {rowsPerMod.get(m) === 1 ? "רשומת תיעוד" : "רשומות תיעוד"}
                 </em>
               </li>
             ))}
@@ -191,7 +191,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
                   <span key={f} className="nx-sap">{f}</span>
                 ))
               ) : (
-                <em>המילון אינו מסמן מפתח ראשי</em>
+                <em>התיעוד אינו מסמן מפתח ראשי</em>
               )}
             </span>
             <span className="no-keyline-g" data-k="FK">
@@ -201,7 +201,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
                   <span key={f} className="nx-sap">{f}</span>
                 ))
               ) : (
-                <em>המילון אינו מסמן מפתח זר</em>
+                <em>התיעוד אינו מסמן מפתח זר</em>
               )}
             </span>
           </p>
@@ -269,8 +269,8 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         id="no-rows"
         n={num["no-rows"]}
         icon={<Boxes size={16} strokeWidth={1.75} />}
-        eyebrow={v.rows.length > 1 ? "זהות כפולה" : "רשומת המילון"}
-        title={v.rows.length > 1 ? `${v.rows.length} רשומות מילון לאותה טבלה` : "ההקשר העסקי"}
+        eyebrow={v.rows.length > 1 ? "זהות כפולה" : "רשומת התיעוד"}
+        title={v.rows.length > 1 ? `${v.rows.length} רשומות תיעוד לאותה טבלה` : "ההקשר העסקי"}
         lede={
           v.rows.length > 1
             ? "אותה טבלה פיזית, מתועדת יותר מפעם אחת. כל כרטיס הוא שורה אחת בתכנון המקורי, עם הנושא, הטרנזקציות וההערות שלה, כפי שנכתבו, בלי מיזוג."
@@ -324,7 +324,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           v.neighbours.length ? (
             <>
               {v.name} מדורגת <b>{nf.format(v.rank)}</b> מתוך {nf.format(v.total)} טבלאות לפי מספר
-              הקשרים הממודלים. בחירה במפה מציגה את ניסוח ה-JOIN המדויק כפי שהמילון מחזיק אותו.
+              הקשרים הממודלים. בחירה במפה מציגה את ניסוח ה-JOIN המדויק כפי שהתיעוד מחזיק אותו.
             </>
           ) : undefined
         }
@@ -350,7 +350,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         lede={
           v.neighbours.length ? (
             <>
-              כיוון הקשר נקרא מתוך המילון: <b>בן</b> הוא טבלה שנושאת מפתח זר אל {v.name}, ו<b>אב</b> הוא
+              כיוון הקשר נקרא מתוך התיעוד: <b>בן</b> הוא טבלה שנושאת מפתח זר אל {v.name}, ו<b>אב</b> הוא
               טבלה ש־{v.name} מפנה אליה. עוצמת הקשר מוצגת כפי שנכתבה, וכאשר לא נכתבה, כתוב שלא נכתבה.
             </>
           ) : undefined
@@ -395,7 +395,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
                       j.join ? (
                         <code className="no-join" key={i}>{j.join}</code>
                       ) : (
-                        <span className="no-none" key={i}>{j.mod}: אין ניסוח JOIN במילון</span>
+                        <span className="no-none" key={i}>{j.mod}: אין ניסוח JOIN בתיעוד</span>
                       ),
                     )}
                   </span>
@@ -411,7 +411,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
           <div className="no-dangle">
             <h3 className="no-h3">
               <TriangleAlert size={14} strokeWidth={1.75} aria-hidden="true" />
-              {v.dangling.length} קשרים אל טבלאות שאינן במילון
+              {v.dangling.length} קשרים אל טבלאות שאינן בתיעוד
             </h3>
             <p className="no-note">
               התכנון המקורי רושם את הקשרים האלה, אך את הטבלה שבצד השני הוא אינו מתעד.
@@ -455,7 +455,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         n={num["no-tx"]}
         icon={<Terminal size={16} strokeWidth={1.75} />}
         eyebrow="טרנזקציות"
-        title="הטרנזקציות שהמילון קושר לטבלה"
+        title="הטרנזקציות שהתיעוד קושר לטבלה"
         lede="הקודים מוצגים לפי הרשומה שכתבה אותם, ולצידם המחרוזת המקורית מילה במילה, כדי שניתן יהיה לראות מה פוצל ומה נכתב במקור."
       >
         {v.tcodes.some((t) => t.codes.length) ? (
@@ -489,7 +489,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         icon={<Route size={16} strokeWidth={1.75} />}
         eyebrow="תהליך עסקי"
         title="היכן האובייקט יושב בשרשרת"
-        lede="שרשרת התהליך מגיעה ממפת התהליכים של הפרויקט, אותה שרשרת שסביבת העבודה של המודול מציירת. שלב שאין לו טבלה במילון מסומן ככזה ולא מושלם."
+        lede="שרשרת התהליך מגיעה ממפת התהליכים של הפרויקט, אותה שרשרת שסביבת העבודה של המודול מציירת. שלב שאין לו טבלה בתיעוד מסומן ככזה ולא מושלם."
       >
         {v.flow.some((f) => f.idx >= 0) ? (
           v.flow.map((f) => (
@@ -508,7 +508,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
                   <li key={st.code} data-here={st.here ? "1" : "0"} data-miss={st.exists ? "0" : "1"}>
                     <b className="nx-sap">{st.code}</b>
                     <em>{st.label}</em>
-                    {!st.exists ? <span className="no-none">מחוץ למילון של המודול</span> : null}
+                    {!st.exists ? <span className="no-none">מחוץ לתיעוד של המודול</span> : null}
                   </li>
                 ))}
               </ol>
@@ -655,7 +655,7 @@ export function ObjectPage({ v }: { v: ObjectView }) {
         icon={<Cable size={16} strokeWidth={1.75} />}
         eyebrow="ממשקים"
         title={`${v.funcs.length} BAPI · FM · IDoc · ${v.progs.length} תוכניות`}
-        lede="השם והתיאור הם של המילון, כולל ממשקי Zetes ו-Daymax שהתכנון רשם. עמודת המודול מראה איזה תכנון רשם את האובייקט."
+        lede="השם והתיאור הם של התיעוד, כולל ממשקי Zetes ו-Daymax שהתכנון רשם. עמודת המודול מראה איזה תכנון רשם את האובייקט."
       >
         {v.funcs.length ? (
           <ul className="no-funcs">

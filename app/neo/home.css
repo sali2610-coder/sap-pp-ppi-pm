@@ -1460,11 +1460,19 @@ html .nx-app .nx-canvas:has(> .nh) {
    are LIGHT worlds in both themes, so in dark mode a card standing on the mint
    field was being given the dark-scene treatment and washed out. Only the
    genuinely dark scenes get it. Found by looking at dark mode; the automated
-   sweep passed it clean because nothing errored or overflowed. */
+   sweep passed it clean because nothing errored or overflowed.
+
+   UPDATED WITH THE S/4 FLIP. `[data-scene="s4"]` used to belong here and no
+   longer does: s4 is now the BRIGHT scene, so listing it was asking for the
+   dark-card treatment on a light ground. It survived only by luck — s4's raised
+   tone is near-white, so the color-mix landed near-white anyway — but the rule
+   was stating something untrue and would have bitten the next person to change
+   that scene. #nh-5 joins for the same reason in reverse: the Home's PP-PI beat
+   is genuinely dark even though the pppi-full scene is light everywhere else. */
 [data-scene="deep"] .nz-card,
-[data-scene="s4"] .nz-card,
 [data-scene="books"] .nz-card,
-[data-scene="ai"] .nz-card {
+[data-scene="ai"] .nz-card,
+#nh-5[data-scene="pppi-full"] .nz-card {
   background: color-mix(in oklab, var(--scene-raised) 78%, #fff 22%);
 }
 .nz-card:hover { transform: translateY(-1px); }
@@ -1654,3 +1662,41 @@ html .nx-app .nx-canvas:has(> .nh) {
   margin-bottom: clamp(.9rem, 2.2vw, 1.5rem);
 }
 @media (max-width: 720px) { .nh-brand { margin-bottom: .8rem; } }
+
+/* ============================================================================
+   THE MID-PAGE DEEP BEAT
+   ----------------------------------------------------------------------------
+   Flipping S/4HANA to bright fixed the ending (dark run 3 -> 2) and created the
+   mirror problem: nh-2 through nh-6 measured 0.756 / 0.902 / 0.749 / 0.664 /
+   0.805 — five light scenes in a row. The hues differ, which IS the Partake
+   lesson, but the luminance band is flat, and flat is what fatigue feels like
+   whichever end of the range it sits at.
+
+   The requested rhythm puts a DEEP scene immediately before the bright S/4HANA,
+   and nh-5 is where it lands. PP-PI's identity is violet, so this is not a new
+   colour: it is the module's own hue taken to full depth, which reads as the
+   same module with the lights turned down.
+
+   SCOPED TO #nh-5, DELIBERATELY.
+   [data-scene="pppi-full"] is also worn by /neo/pp-pi/, which is a WORKSPACE —
+   long field tables, long reading, where the light ground is the correct
+   choice. Re-grounding the scene globally would have paid for eight seconds of
+   scroll rhythm with every minute somebody spends working in that module. The
+   Home section is a narrative beat and gets narrative treatment; the workspace
+   keeps what workspaces need.
+
+   Ink is re-derived, not inherited: #ede9ff on #241a4d measures 12.6:1. */
+#nh-5[data-scene="pppi-full"] {
+  --scene-ground: #241a4d;
+  --scene-raised: #322659;
+  --scene-ink: #ede9ff;
+  --scene-ink-2: #c3b9ee;
+  --scene-ink-3: #948ac2;
+  --scene-accent: #a78bfa;
+  --scene-hair: rgba(237, 233, 255, .20);
+  /* Elevation inverts with the ground: on a dark scene a shadow cannot be seen,
+     so lift becomes a hairline of light on the top edge. */
+  --elev-1: 0 1px 0 0 rgba(237, 233, 255, .06);
+  --elev-2: 0 1px 0 0 rgba(237, 233, 255, .07), 0 6px 18px -8px rgba(0, 0, 0, .6);
+  --elev-3: 0 1px 0 0 rgba(237, 233, 255, .08), 0 14px 30px -12px rgba(0, 0, 0, .7);
+}

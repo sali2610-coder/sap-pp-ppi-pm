@@ -244,7 +244,7 @@ export function ObjectLanes({ name }: { name: string }) {
             <span className="nol-ctx-path nx-sap">
               {fUp ? `${focus} ← ${g.center.tableName}` : `${g.center.tableName} → ${focus}`}
             </span>
-            <span className="nol-ctx-f"><em>יחס</em><b className="nx-sap">{fEdge?.card || "לא מצוין במילון"}</b></span>
+            <span className="nol-ctx-f"><em>יחס</em><b className="nx-sap">{fEdge?.card || "לא מצוין בתיעוד"}</b></span>
             <span className="nol-ctx-f"><em>מודול</em><b>{tableByName(focus)?.module || "לא ידוע"}</b></span>
             {fEdge?.desc ? <span className="nol-ctx-d">{fEdge.desc}</span> : null}
             {sel ? (
@@ -255,7 +255,7 @@ export function ObjectLanes({ name }: { name: string }) {
           </>
         ) : (
           <span className="nol-ctx-idle">
-            בחרו טבלה בתרשים כדי לראות את הקשר שלה אל {g.center.tableName} כפי שהמילון מתעד אותו.
+            בחרו טבלה בתרשים כדי לראות את הקשר שלה אל {g.center.tableName} כפי שהתיעוד מתעד אותו.
           </span>
         )}
       </div>

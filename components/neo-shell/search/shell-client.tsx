@@ -661,7 +661,7 @@ export function NeoShellClient({
         <div className="nx-rail-cmd" ref={cmdRef}>
           <button type="button" className="nx-railq" onClick={() => changeMode("search")}>
             <span className="nx-railq-i"><Ico name="Search" size={15} /></span>
-            <span className="nx-railq-l">חפש בניווט ובמילון</span>
+            <span className="nx-railq-l">חפש בניווט ובתיעוד</span>
             <kbd>⌘K</kbd>
           </button>
           <div className="nx-railsrch" aria-hidden={!searching}>

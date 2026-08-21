@@ -426,7 +426,7 @@ function TableList({ rows, origin }: {
         const inner = (
           <>
             <span className="nxt-tbl-n nx-sap">{r.name}</span>
-            <span className="nxt-tbl-he">{r.he || "אין תיאור במילון"}</span>
+            <span className="nxt-tbl-he">{r.he || "אין תיאור בתיעוד"}</span>
             <span className="nxt-tbl-s">
               <span className="nu-status" style={{ "--s": RISK_COLOR[r.risk] } as React.CSSProperties}>
                 {r.trust === "needs" ? TRUST_HE.needs : RISK_HE[r.risk]}
@@ -440,7 +440,7 @@ function TableList({ rows, origin }: {
             {r.href ? (
               <OriginLink href={r.href} origin={origin} className="nu-card nxt-tbl-r">{inner}</OriginLink>
             ) : (
-              <div className="nxt-tbl-r is-flat" aria-label={`${r.name}: אין עמוד אובייקט במילון`}>{inner}</div>
+              <div className="nxt-tbl-r is-flat" aria-label={`${r.name}: אין עמוד אובייקט בתיעוד`}>{inner}</div>
             )}
           </li>
         );
