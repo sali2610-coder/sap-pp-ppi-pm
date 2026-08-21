@@ -1524,3 +1524,20 @@ html[data-theme="dark"] .nr-tip { box-shadow: 0 10px 30px -12px rgba(0, 0, 0, .7
   margin: 0;
 }
 @media (max-width: 640px) { .nr-intro { max-inline-size: none; } }
+
+/* ---- LTR titles inside RTL chrome ----------------------------------------
+   A chapter or book title is English; the chrome around it is Hebrew. With
+   `text-overflow: ellipsis` on an RTL box, the browser trims the LOGICAL end,
+   which for an embedded Latin run lands on its FRONT — the breadcrumb read
+   "...uring the Structure of Technical Systems" and the reader lost the very
+   words that identify the chapter.
+
+   `unicode-bidi: isolate` makes each title its own directional run, so the
+   trim happens at its tail where it belongs. One line of chrome, still one
+   line — only the end that gets cut changes. */
+.nr-crumb-l,
+.nr-crumb-b,
+.nr-crumb-now,
+.nr-dock-t,
+.nr-rail-t,
+.nr-nav-t { unicode-bidi: isolate; }

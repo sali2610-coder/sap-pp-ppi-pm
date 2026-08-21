@@ -1630,14 +1630,30 @@ html[data-theme="dark"] .nb-slot::after {
 .nb-ch[data-open="1"] .nb-ch-chev { transform: rotate(-90deg); }
 [dir="ltr"] .nb-ch[data-open="1"] .nb-ch-chev { transform: rotate(90deg); }
 .nb-ch-num { font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+/* THE CHAPTER NAME IS CONTENT, NOT A LAYOUT PROBLEM.
+   This was `white-space: nowrap` + `text-overflow: ellipsis` inside an RTL
+   container. An English chapter title is LTR, so the ellipsis landed on the
+   WRONG END and the tile read "...anizational Structures" — the part a reader
+   needs to recognise the chapter was the exact part being thrown away.
+
+   It wraps now, to at most two lines, and the full title is always on the
+   element for hover and assistive tech. If two lines still cannot hold it the
+   clamp trims the TAIL, because the isolate below fixes the direction. */
 .nb-ch-name {
   font-size: var(--t-xs);
   font-weight: 600;
   color: var(--ink-1);
-  line-height: 1.4;
+  line-height: 1.35;
+  /* unicode-bidi isolation: the title is its own directional run, so it can no
+     longer be reordered or clipped by the RTL paragraph around it. */
+  unicode-bidi: isolate;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
 }
 .nb-ch-count { font-size: var(--t-micro); color: var(--ink-3); font-variant-numeric: tabular-nums; }
 .nb-ch-state { white-space: nowrap; }

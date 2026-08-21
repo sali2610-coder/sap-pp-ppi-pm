@@ -171,7 +171,9 @@ export function BookToc({
                 >
                   <ChevronLeft className="nb-ch-chev" size={15} strokeWidth={1.75} aria-hidden="true" />
                   <span className="nb-ch-num nb-sap">{String(m.n).padStart(2, "0")}</span>
-                  <span className="nb-ch-name">{m.title}</span>
+                  {/* The full title stays on the element, so a two-line clamp
+                      never hides a chapter name from hover or a screen reader. */}
+                  <span className="nb-ch-name" title={m.title}>{m.title}</span>
                   <span className="nb-ch-count nb-sap">{nf.format(m.total)}</span>
                 </button>
 
