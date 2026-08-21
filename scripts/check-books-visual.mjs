@@ -91,14 +91,20 @@ for (const mode of modes) {
     viewport: { width: mode.w, height: mode.h, deviceScaleFactor: 1, isMobile: mode.mob, hasTouch: mode.mob },
     userAgent: mode.mob ? IPH : undefined,
   });
+  // THE THEME COMES FROM localStorage, NOT FROM THE ATTRIBUTE.
+  // app/layout.tsx runs a pre-paint boot script that reads neo:theme and WRITES
+  // data-theme itself. Setting the attribute here was overwritten on every
+  // load, so an earlier version of this harness rendered light twice and
+  // reported "dark PASS" for a page that was never dark.
   await page.evaluateOnNewDocument((dark) => {
     try {
       localStorage.clear();
       sessionStorage.clear();
       localStorage.setItem("neo:onboarded", "1");
-      if (dark) document.documentElement.setAttribute("data-theme", "dark");
+      localStorage.setItem("neo:theme", dark ? "dark" : "light");
     } catch {}
   }, mode.dark);
+  if (mode.dark) await page.emulateMediaFeatures([{ name: "prefers-color-scheme", value: "dark" }]);
 
   for (const bk of plan) {
     for (const pt of bk.points) {
@@ -155,6 +161,8 @@ for (const mode of modes) {
           (s) => (s.innerText || "").trim().length === 0,
         ).length;
         return {
+          theme: document.documentElement.getAttribute("data-theme"),
+          paper: getComputedStyle(document.querySelector(".nr-sheet") ?? document.body).backgroundColor,
           title: document.title.slice(0, 70),
           textLen: txt.length,
           heb, lat, figs, imgs, inline, blanks, captioned, galleryLike,
@@ -169,7 +177,9 @@ for (const mode of modes) {
         };
       }, pt);
 
+      const themeOk = mode.dark ? d.theme === "dark" : d.theme === "light";
       const ok =
+        themeOk &&
         r.status() < 400 &&
         d.textLen > 300 &&
         d.ovf <= 2 &&
@@ -182,7 +192,7 @@ for (const mode of modes) {
         http: r.status(), ok,
         heb: d.heb, lat: d.lat, figs: d.figs, imgs: d.imgs, inline: d.inline,
         ovf: d.ovf, toc: d.hasToc, prevNext: d.prevNext, blanks: d.blanks,
-        captioned: d.captioned, galleryLike: d.galleryLike,
+        captioned: d.captioned, galleryLike: d.galleryLike, theme: d.theme, paper: d.paper,
         errs: errs.length, hyd: hyd.length,
         why: !ok
           ? [
@@ -192,6 +202,7 @@ for (const mode of modes) {
               errs.length && `console ${errs.length}: ${errs[0].slice(0, 60)}`,
               hyd.length && `hydration ${hyd.length}`,
               d.blanks && `blank ${d.blanks}`,
+              !themeOk && `theme is ${d.theme}, expected ${mode.dark ? "dark" : "light"}`,
             ].filter(Boolean).join("; ")
           : "",
       });

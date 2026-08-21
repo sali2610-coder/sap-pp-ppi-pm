@@ -29,9 +29,28 @@
 
   /* Type scale for the reading column. Hebrew at a given pixel size reads
      smaller than Latin, so every step sits above the app's --t-body. */
-  --nr-fs: 1.0625rem;
-  --nr-lh: 1.9;
-  --nr-measure: 62ch;
+  /* 15px, not 17px. The canonical /library/ reader sets this book at 14px on a
+     ~490px column — about 70 characters, which is what technical publishing
+     actually sets. At 17px the same column held 52, so a sentence broke every
+     few words and the spread read as two magazine strips.
+     15px is the closest step that keeps this shell's Hebrew ramp (Hebrew reads
+     smaller than Latin at the same px). The size control still reaches 14px
+     through `sm` and 21px through `xxl`, so nobody is locked to this. */
+  --nr-fs: 0.9375rem;
+  /* READING RHYTHM, MATCHED TO THE CANONICAL READER.
+     The old /library/ reader sets a technical book at 14px / 1.625 on a 672px
+     measure. This surface kept 17px / 1.9 on a 62ch measure, which at two
+     columns gave 445px of text per side — about 45 characters. That is a
+     magazine column, not a book page, and it is why a paragraph broke every
+     few words and the spread read as "two website columns".
+
+     Leading comes down to 1.72 and the measure opens to 70ch, which lands
+     around 70 characters per line — the range technical publishing actually
+     sets. Size is left at 17px rather than dropped to the old 14px: the old
+     value predates this shell's Hebrew type ramp, and the reader already
+     ships a size control, so a reader who wants the tighter setting has one. */
+  --nr-lh: 1.72;
+  --nr-measure: 70ch;
 
   /* The reading sheet's own surface, so the paper tint can move one variable
      instead of every rule that paints. */
@@ -63,18 +82,18 @@
 }
 
 /* --- type steps ----------------------------------------------------------- */
-.nr[data-size="sm"]  { --nr-fs: 0.9375rem; }
-.nr[data-size="md"]  { --nr-fs: 1.0625rem; }
-.nr[data-size="lg"]  { --nr-fs: 1.1875rem; }
-.nr[data-size="xl"]  { --nr-fs: 1.3125rem; }
-.nr[data-size="xxl"] { --nr-fs: 1.5rem; }
+.nr[data-size="sm"]  { --nr-fs: 0.875rem; }   /* the canonical reader's own 14px */
+.nr[data-size="md"]  { --nr-fs: 0.9375rem; }
+.nr[data-size="lg"]  { --nr-fs: 1.0625rem; }
+.nr[data-size="xl"]  { --nr-fs: 1.1875rem; }
+.nr[data-size="xxl"] { --nr-fs: 1.3125rem; }
 
-.nr[data-lead="snug"]   { --nr-lh: 1.66; }
-.nr[data-lead="normal"] { --nr-lh: 1.9; }
-.nr[data-lead="air"]    { --nr-lh: 2.15; }
+.nr[data-lead="snug"]   { --nr-lh: 1.58; }
+.nr[data-lead="normal"] { --nr-lh: 1.72; }
+.nr[data-lead="air"]    { --nr-lh: 1.98; }
 
 .nr[data-measure="narrow"] { --nr-measure: 46ch; }
-.nr[data-measure="normal"] { --nr-measure: 62ch; }
+.nr[data-measure="normal"] { --nr-measure: 70ch; }
 .nr[data-measure="wide"]   { --nr-measure: 76ch; }
 
 /* --- paper: a warm sheet, scoped to the reading surface and nothing else --- */
