@@ -1636,6 +1636,11 @@ export function ErdWorkspace({ data }: { data: ErdCatalog }) {
             </nav>
           </div>
           <div className="ne-bar-t">
+            <p className="ne-eye">
+              מודל נתונים
+              <i aria-hidden="true" />
+              <span className="nx-sap">ENTITY RELATIONSHIP</span>
+            </p>
             <h1 className="ne-h1">{M ? `${M.code} · ${M.he}` : "מודל הנתונים · כל המודולים"}</h1>
             <p className="ne-sub">
               {M

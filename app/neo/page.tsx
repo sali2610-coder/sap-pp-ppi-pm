@@ -11,6 +11,7 @@ import "./home.css";
 // and depth all live in books.css. Home has to carry that stylesheet or the
 // shelf degrades to flat text — which is exactly how it first rendered.
 import "./books.css";
+import { SiteLogo } from "@/components/site-logo";
 import { homeData, zoneVar, type HomeData } from "@/components/neo-shell/home/home-data";
 import { HomeScene, type SceneSection } from "@/components/neo-shell/home/home-scene";
 import { HomeShelf } from "@/components/neo-shell/home/home-shelf";
@@ -140,7 +141,7 @@ function ModuleChapter({
             <span><span className="nh-dim">{nf.format(mo.tables)} טבלאות · {nf.format(mo.fields)} שדות</span></span>
           </h2>
           <p className="nh-lede nm-rise">
-            {mo.topics} נושאים במילון של המודול הזה, {nf.format(mo.tcodes)} טרנזקציות,{" "}
+            {mo.topics} נושאים מתועדים במודול הזה, {nf.format(mo.tcodes)} טרנזקציות,{" "}
             {nf.format(mo.funcs)} פונקציות BAPI · FM · IDoc ו־{nf.format(mo.cds)} תצוגות CDS.
             המודול נוגע ב־{pct(mo.tables, d.tables)}% מ־{nf.format(d.tables)} הטבלאות המאוחדות.
           </p>
@@ -200,7 +201,7 @@ function ModuleChapter({
           <div className="nh-blk nm-rise">
             <h3 className="nh-h3">
               צפיפות לפי נושא
-              <em>{mo.topics} נושאים · הסולם הוא {d.maxTopicTables} טבלאות, הנושא העמוס ביותר במילון</em>
+              <em>{mo.topics} נושאים · הסולם הוא {d.maxTopicTables} טבלאות, הנושא העמוס ביותר בתיעוד</em>
             </h3>
             <ul className="nh-topics nm-seq">
               {topics.map(([t]) => (
@@ -239,7 +240,7 @@ function ModuleChapter({
                     <b className="nh-sap">{s.code}</b>
                     <span className="nh-node-he">{s.label}</span>
                     <span className="nh-node-n">
-                      {s.exists ? `${s.f} שדות · ${s.rels} קשרים` : "לא במילון של המודול"}
+                      {s.exists ? `${s.f} שדות · ${s.rels} קשרים` : "לא מתועד במודול הזה"}
                     </span>
                   </div>
                   {k < flow.steps.length - 1 && (
@@ -257,7 +258,7 @@ function ModuleChapter({
               ))}
             </ol>
             <p className="nh-note">
-              {live} מתוך {flow.steps.length} שלבי התהליך יושבים על טבלה שהמילון של{" "}
+              {live} מתוך {flow.steps.length} שלבי התהליך יושבים על טבלה שהתיעוד של{" "}
               <span className="nh-sap">{mo.code}</span> מתעד. במקום שבו אין קשר שמור, לא מצויר חץ
               ולא מומצא מפתח.
             </p>
@@ -277,24 +278,38 @@ export default function NeoHome() {
   const d = homeData();
   // The shelf's own cards, read at build time from the same registry the
   // library reads. Home shows the books it actually has, in their real order.
-  const bookCards = booksData().books;
+  /* ONE LIBRARY, ONE SET OF NUMBERS.
+     d.bookChapters/d.bookPages came from data/library.ts (LIBRARY_STATS), which
+     is the registry the FROZEN production /library/ route reads and which still
+     describes 105 chapters. The NEO shelf reads data/books/** and measures 135.
+     So the Home said "105 פרקים" while /neo/books/ two clicks away said 135 —
+     the same product stating two library sizes.
+
+     data/library.ts is load-bearing for frozen production and is not touched.
+     The Home simply reads the same source the NEO shelf reads, so every NEO
+     surface now quotes one measured number. */
+  const books = booksData();
+  const bookCards = books.books;
 
   // The navigator's labels and tones. `field` used to describe the old palette
   // ("עור חם", "אינדיגו") and had drifted from what the scenes actually paint;
   // it now names the SUBJECT, which is what a reader is choosing between.
   const sections: SceneSection[] = [
-    { id: "nh-1", label: "הפתיחה",   field: "המילון כולו",        tone: "#c8102e" },
+    { id: "nh-1", label: "הפתיחה",   field: "כל התיעוד",        tone: "#c8102e" },
     { id: "nh-2", label: "כיסוי",     field: "עומק התיעוד",        tone: "#47a8ff" },
     { id: "nh-3", label: "המפה",      field: "חפיפת המודולים",     tone: "#c8102e" },
     { id: "nh-4", label: "PM",        field: "אחזקת מפעל",         tone: "var(--mod-pm)" },
     { id: "nh-5", label: "PP-PI",     field: "ייצור תהליכי",       tone: "var(--mod-pppi)" },
     { id: "nh-6", label: "S/4HANA",   field: "תמונת המעבר",        tone: "#47a8ff" },
-    { id: "nh-7", label: "הספרייה",   field: "עשרה ספרים",         tone: "#f0a35f" },
+    // COUNTED, NOT TYPED. This read "עשרה ספרים" while the section directly
+    // below it derived bookCards.length and printed 11 — the same page stating
+    // two different library sizes. A number in a label is a number that drifts.
+    { id: "nh-7", label: "הספרייה",   field: `${bookCards.length} ספרים`, tone: "#f0a35f" },
     { id: "nh-8", label: "NEO AI",    field: "שתי סביבות מענה",    tone: "#4d8dff" },
   ];
 
   const stats: [number, string][] = [
-    [d.dictRows, "שורות מילון"],
+    [d.dictRows, "שורות תיעוד"],
     [d.tables, "טבלאות ייחודיות"],
     [d.fields, "שדות מתועדים"],
     [d.tcodes, "טרנזקציות"],
@@ -316,9 +331,9 @@ export default function NeoHome() {
     dots: d.dots.filter((x) => x.b === b),
   }));
   const bandCopy = [
-    { t: `${pm.code} בלבד`, s: "טבלאות שרק מילון אחזקת המפעל מתעד" },
+    { t: `${pm.code} בלבד`, s: "טבלאות שרק אחזקת המפעל מתעדת" },
     { t: "ליבה משותפת", s: "אותה טבלה, שני הקשרים, שורה אחת במיזוג" },
-    { t: `${pp.code} בלבד`, s: "טבלאות שרק מילון הייצור התהליכי מתעד" },
+    { t: `${pp.code} בלבד`, s: "טבלאות שרק הייצור התהליכי מתעד" },
   ];
   /* The axis is one image to a screen reader, so it states the whole partition
      rather than leaving three unlabelled segments. */
@@ -377,19 +392,34 @@ export default function NeoHome() {
         <span className="nh-glow" aria-hidden="true" />
 
         <div className="nh-in nh-gate-in">
+          {/* THE PLATFORM SIGNS ITS OWN FRONT DOOR.
+              The opening carried "CBC ISRAEL · PROJECT NEO" as a text eyebrow
+              and no mark at all, so the product's actual identity — the one
+              already shipped in components/site-logo and in the favicon — was
+              the one thing missing from the one screen that should carry it.
+              Real lockup, at lg: present and deliberate, not decorative. */}
+          <SiteLogo tone="dark" size="lg" className="nh-brand nm-rise nm-once" />
+
           <p className="nh-eye nh-eye--gate">
-            CBC ISRAEL · PROJECT NEO
+            SAP KNOWLEDGE PLATFORM
             <i aria-hidden="true" />
-            מפת הידע
+            CBC Israel
           </p>
+
+          {/* WHY THIS IS NOT "מילון SAP אחד" ANY MORE.
+              A dictionary is one of the things in here. Calling the whole
+              platform a dictionary shrinks it below what it actually holds:
+              architecture, ER relationships, CDS, BAPIs, IDocs, Fiori, the
+              ECC-to-S/4HANA transition, the book library and the assistants.
+              The positioning has to name the scope, not the smallest part. */}
           <h1 className="nh-mega nm-kin" id="nh-1-h">
-            <span><span>מילון SAP אחד</span></span>
-            <span><span>לכל מסע ה־<span className="nh-sap">S/4HANA</span></span></span>
+            <span><span>כל עולם <span className="nh-sap">SAP</span></span></span>
+            <span><span>במקום אחד.</span></span>
           </h1>
           <p className="nh-lede nh-lede--gate">
-            {nf.format(d.tables)} טבלאות אמיתיות, {nf.format(d.fields)} שדות מתועדים,{" "}
-            {nf.format(d.tcodes)} טרנזקציות ו־{nf.format(d.relations)} קשרי ER. הכול במקום אחד
-            שעובד גם בלי רשת. כל שם שברקע הוא טבלה אחת מתוך המילון, ולא קישוט.
+            פורטל ידע לארכיטקטורת SAP: {nf.format(d.tables)} טבלאות, {nf.format(d.fields)} שדות,{" "}
+            {nf.format(d.tcodes)} טרנזקציות ו־{nf.format(d.relations)} קשרי ER, עם ההקשרים
+            ביניהם ועם המעבר מ־ECC ל־<span className="nh-sap">S/4HANA</span>. עובד גם בלי רשת.
           </p>
           <div className="nh-stats nm-seq">
             {stats.map(([n, l]) => (
@@ -402,7 +432,7 @@ export default function NeoHome() {
           <div className="nh-cta">
             <Link className="nu-btn" href="/neo/tables/" prefetch={false}>
               <Search size={15} strokeWidth={1.75} aria-hidden="true" />
-              פתח את מילון הטבלאות
+              טבלאות SAP
             </Link>
             <Link className="nu-btn2" href="/neo/erd/" prefetch={false}>
               <GitBranch size={15} strokeWidth={1.75} aria-hidden="true" />
@@ -473,7 +503,7 @@ export default function NeoHome() {
           </ul>
 
           <p className="nh-note nm-fade">
-            המילון מחזיק {nf.format(d.dictRows)} שורות על פני {nf.format(d.tables)} טבלאות
+            התיעוד מחזיק {nf.format(d.dictRows)} שורות על פני {nf.format(d.tables)} טבלאות
             ייחודיות. ההפרש איננו טעות: {d.shared} טבלאות מתועדות פעמיים, כי הן באמת חיות
             בשני המודולים.
           </p>
@@ -556,8 +586,8 @@ export default function NeoHome() {
               <HomeZones dots={d.dots} show={7} />
             </div>
             <p className="nh-lat-k">
-              כל כרטיס הוא טבלה מהמילון: השם כפי שהוא ב-SAP, התיאור כפי שהמילון מנסח אותו,
-              ומספר השדות המתועדים לה. הצבע הוא מחלקת האובייקט. המילון מחזיק
+              כל כרטיס הוא טבלה מהתיעוד: השם כפי שהוא ב-SAP, התיאור כפי שהתיעוד מנסח אותו,
+              ומספר השדות המתועדים לה. הצבע הוא מחלקת האובייקט. התיעוד מחזיק
               {" "}{nf.format(d.relations)} קשרי ER בין הטבלאות האלה.
             </p>
           </div>
@@ -628,7 +658,7 @@ export default function NeoHome() {
         scene="pppi-full"
         id="nh-5"
         next="S/4HANA"
-        ledge={<>הרקע חוזר להיות כהה. {d.migration.replaced} הטבלאות שהמילון מסמן כמוחלפות נשלפות החוצה.</>}
+        ledge={<>הרקע חוזר להיות כהה. {d.migration.replaced} הטבלאות המסומנות כמוחלפות נשלפות החוצה.</>}
       />
 
       {/* ============================================================= 06 · s4
@@ -659,11 +689,15 @@ export default function NeoHome() {
             </p>
             <h2 className="nh-h2 nm-kin" id="nh-6-h">
               <span><span>{nf.format(d.tables)} טבלאות,</span></span>
-              <span><span className="nh-accent">{d.migration.replaced} מהן לא יעברו בשקט</span></span>
+              {/* WAS "לא יעברו בשקט". Same number, same source, but a
+                  migration verdict is not a dramatic claim — d.migration
+                  .replaced counts the tables the documentation marks as
+                  REPLACED, so the headline says replaced. */}
+              <span><span className="nh-accent">{d.migration.replaced} מהן מוחלפות ב־S/4HANA</span></span>
             </h2>
             <p className="nh-lede nm-rise">
               הסיווג מגיע מאותה פונקציה שממנה נבנה עמוד ה־ECC ↔ S/4HANA של כל מודול.
-              כל {nf.format(d.dictRows)} שורות המילון נושאות הערת S/4HANA; רק{" "}
+              כל {nf.format(d.dictRows)} שורות התיעוד נושאות הערת S/4HANA; רק{" "}
               {d.migration.replaced} מהטבלאות מסומנות כמוחלפות.
             </p>
           </div>
@@ -702,7 +736,7 @@ export default function NeoHome() {
                   <span className="nh-hot-he">{r.he}</span>
                   <span className="nh-hot-note">{r.note}</span>
                   <span className="nh-hot-alt">
-                    {r.alt ? <span className="nh-sap">{r.alt}</span> : <em>אין חלופה במילון</em>}
+                    {r.alt ? <span className="nh-sap">{r.alt}</span> : <em>לא תועדה חלופה</em>}
                   </span>
                   <span className="nh-hot-mods">
                     {r.mods.map((m) => (
@@ -713,12 +747,12 @@ export default function NeoHome() {
               ))}
             </ul>
           ) : (
-            <p className="nh-note nm-fade">אין במילון שורה המסומנת כמוחלפת או כמוסרת.</p>
+            <p className="nh-note nm-fade">אין שורה מתועדת המסומנת כמוחלפת או כמוסרת.</p>
           )}
 
           <p className="nh-note nm-fade">
             {d.migration.removed === 0
-              ? "אף טבלה במילון אינה מסומנת כמוסרת ב-S/4HANA. הרצועה הזאת ריקה במכוון, והיא לא הוסתרה."
+              ? "אף טבלה מתועדת אינה מסומנת כמוסרת ב-S/4HANA. הרצועה הזאת ריקה במכוון, והיא לא הוסתרה."
               : `${d.migration.removed} טבלאות מסומנות כמוסרות.`}
           </p>
 
@@ -738,7 +772,7 @@ export default function NeoHome() {
               </Link>
               <Link className="nu-btn" href="/neo/tables/" prefetch={false}>
                 <Table size={15} strokeWidth={1.75} aria-hidden="true" />
-                מילון הטבלאות
+                טבלאות SAP
               </Link>
               <Link className="nu-btn2" href="/neo/library/" prefetch={false}>
                 <LayoutGrid size={15} strokeWidth={1.75} aria-hidden="true" />
@@ -769,10 +803,10 @@ export default function NeoHome() {
             <p className="nh-eye nm-fade">הספרייה<i aria-hidden="true" />SAP PRESS</p>
             <h2 className="nh-h2 nm-kin" id="nh-7-h">
               <span><span>{nf.format(bookCards.length)} ספרים טכניים</span></span>
-              <span><span className="nh-dim">{nf.format(d.bookPages)} עמודים, {nf.format(d.bookChapters)} פרקים</span></span>
+              <span><span className="nh-dim">{nf.format(books.totals.pages)} עמודים, {nf.format(books.totals.chapters)} פרקים</span></span>
             </h2>
             <p className="nh-lede nm-rise">
-              המילון עונה מה קיים במערכת. הספרייה עונה למה. אותם {nf.format(bookCards.length)} ספרים
+              התיעוד עונה מה קיים במערכת. הספרייה עונה למה. אותם {nf.format(bookCards.length)} ספרים
               נקראים במעטפת NEO עצמה, עם ניווט פרקים ותצוגה דו-לשונית, והם גם מקור התשובות
               של מומחה הספרים.
             </p>

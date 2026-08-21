@@ -50,8 +50,8 @@ export default function NeoBooks() {
             span is what rises out of it. The structure is the primitive's
             contract and cannot be flattened. */}
         <h1 className="nb-mega nm-kin">
-          <span><span>{d.totals.books} ספרים.</span></span>
-          <span><span className="nb-mega-2">לא רשימה, אלא מדף.</span></span>
+          <span><span>{d.totals.books} ספרי SAP</span></span>
+          <span><span className="nb-mega-2">מקצועיים.</span></span>
         </h1>
         <p className="nb-lede">
           {nf.format(d.totals.chapters)} פרקים ו־{nf.format(d.totals.sections)} תת-פרקים,

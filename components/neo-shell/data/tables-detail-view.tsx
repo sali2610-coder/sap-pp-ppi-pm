@@ -158,6 +158,11 @@ export function TableDetailView({ t }: { t: TableDetail }) {
         </p>
 
         <div className="nxb-title">
+          <p className="nxb-eye">
+            טבלה
+            <i aria-hidden="true" />
+            <span className="nx-sap">TABLE</span>
+          </p>
           <h1 className="nxb-name nx-sap">
             <span className="nxb-cls" aria-hidden="true" />
             {t.name}

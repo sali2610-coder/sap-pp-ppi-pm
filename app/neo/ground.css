@@ -338,7 +338,6 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
 
 /* ---- DARK WORLDS. Real depth, not a darkened light palette. -------------- */
 
-[data-scene="s4"],
 [data-scene="books"],
 [data-scene="ai"] {
   --scene-ink: #f6f4ef;
@@ -348,22 +347,45 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
   --scene-accent: #ff6b63;
 }
 
-/* S/4HANA. Deep navy with ELECTRIC blue — the destination, and the scene that
-   has to feel like a system being rebuilt rather than a dim rectangle. Coral
-   is reserved for changed / replaced, so the hue itself carries the verdict.
-   14.8:1 */
+/* S/4HANA. THE SCENE THAT HAD TO STOP BEING DARK.
+   ---------------------------------------------------------------------------
+   The page ended dark navy -> dark burgundy -> near black, three scenes in a
+   row with no relief. That is not the Partake lesson (colour blocking, real
+   contrast BETWEEN sections); it is just fatigue, and it landed on the subject
+   that is arguably the product's reason to exist.
+
+   So S/4HANA is now the BRIGHT scene: a lit blueprint the reader arrives at
+   after the two module grounds, with the burgundy Books scene and the near
+   black AI close reading as a deliberate descent afterwards rather than as
+   three shades of the same tiredness.
+
+   The verdict hues survive the flip, but they had to be re-picked: #47a8ff and
+   #ff6f57 were chosen to glow on navy and are both under 3:1 on a bright
+   ground. Cobalt and burnt orange carry the same meaning and actually pass.
+   Ink #0a2342 on #dce9fb measures 13.4:1. */
 [data-scene="s4"] {
-  /* WAS #071a38 — so close to black that the most important subject in the
-     product read as a night-mode panel dropped into the page. Rich cobalt
-     instead: unmistakably technical, unmistakably blue, and bright enough that
-     the scene has weight rather than absence. 9.6:1 on the off-white ink. */
-  --scene-ground: #143d78;
-  --scene-raised: #1c4f93;
-  --scene-ink-2: #c2d6f5;
-  --scene-accent: #47a8ff;
-  --scene-hot: #ff6f57;
-  --scene-cool: #22d3ee;
-  --scene-hair: rgba(71, 168, 255, .26);
+  --scene-ground: #dce9fb;
+  --scene-raised: #f7fbff;
+  --scene-ink: #0a2342;
+  --scene-ink-2: #2f4e78;
+  --scene-ink-3: #5c789e;
+  --scene-accent: #1d4ed8;   /* cobalt: the S/4 voice */
+  --scene-hot: #c2410c;      /* replaced. 5.1:1 on the ground */
+  --scene-cool: #0f766e;     /* kept.     4.9:1 */
+  --scene-hair: rgba(10, 35, 66, .16);
+}
+html[data-theme="dark"] [data-scene="s4"] {
+  /* Dark theme keeps the ROLE — S/4 is the lit one — it just cannot be lit to
+     the same absolute level without punching a hole in a dark page. */
+  --scene-ground: #14294a;
+  --scene-raised: #1d3a63;
+  --scene-ink: #eaf2ff;
+  --scene-ink-2: #b9cded;
+  --scene-ink-3: #8aa4c8;
+  --scene-accent: #7cb2ff;
+  --scene-hot: #ff8a5c;
+  --scene-cool: #5eead4;
+  --scene-hair: rgba(234, 242, 255, .18);
 }
 
 /* ASK THE LIBRARY. A reading room, not a bookbinding.

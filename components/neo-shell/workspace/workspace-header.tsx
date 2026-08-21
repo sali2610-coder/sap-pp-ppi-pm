@@ -72,6 +72,16 @@ export function WorkspaceHero({ d }: { d: WsData }) {
             drift against the scroll. At L3 that is 6px and 0 on touch. */}
         <span className="nw-mark nw-sap nm-par-slow" aria-hidden="true">{d.code}</span>
         <div className="nw-idtext">
+          {/* CONTEXT BEFORE NAME. The module workspaces opened straight onto an
+              h1 with nothing above it, so the page announced "אחזקת מפעל PM"
+              without ever saying what KIND of screen this is. The eyebrow names
+              the workspace and carries the migration axis, which is one of the
+              two things every module page here is actually about. */}
+          <p className="nw-eye">
+            מודול SAP
+            <i aria-hidden="true" />
+            <span className="nw-sap">ECC → S/4HANA</span>
+          </p>
           <h1 className="nw-title">
             {d.he}
             <span className="nw-code nw-sap">{d.code}</span>

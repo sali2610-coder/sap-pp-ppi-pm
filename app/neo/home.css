@@ -1642,3 +1642,15 @@ html .nx-app .nx-canvas:has(> .nh) {
 }
 .nh-corpus-i span { font-size: var(--t-micro); font-weight: 600; color: var(--scene-ink-2); }
 .nh-corpus-i em { font-style: normal; font-size: var(--t-micro); color: var(--scene-ink-3); letter-spacing: .04em; }
+
+/* THE IDENTITY ON THE FRONT DOOR.
+   --------------------------------------------------------------------------
+   The lockup is shipped by components/site-logo and is already correct; all
+   this does is seat it in the hero's rhythm. Deliberately NOT oversized — the
+   brief asked for the identity of a platform, not a splash screen, so it sits
+   at lg above the eyebrow and lets the headline stay the loudest thing. */
+.nh-brand {
+  display: inline-flex;
+  margin-bottom: clamp(.9rem, 2.2vw, 1.5rem);
+}
+@media (max-width: 720px) { .nh-brand { margin-bottom: .8rem; } }
