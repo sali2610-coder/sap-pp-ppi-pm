@@ -1471,10 +1471,14 @@ html .nx-app .nx-canvas:has(> .nh) {
    is genuinely dark even though the pppi-full scene is light everywhere else. */
 [data-scene="deep"] .nz-card,
 [data-scene="books"] .nz-card,
-[data-scene="ai"] .nz-card,
-#nh-5[data-scene="pppi-full"] .nz-card {
+[data-scene="ai"] .nz-card {
   background: color-mix(in oklab, var(--scene-raised) 78%, #fff 22%);
 }
+/* The deep beat takes the raised tone STRAIGHT. Mixing 22% white in lifted the
+   card to luminance 0.104 and dropped the description tier to 2.28:1 — the
+   white that makes a card read on the near-black scenes is the same white that
+   destroys it on a mid-dark violet one. */
+#nh-5[data-scene="pppi-full"] .nz-card { background: var(--scene-raised); }
 .nz-card:hover { transform: translateY(-1px); }
 .nz-card[data-dim="1"] { opacity: .5; }
 
@@ -1690,10 +1694,14 @@ html .nx-app .nx-canvas:has(> .nh) {
   --scene-ground: #241a4d;
   --scene-raised: #322659;
   --scene-ink: #ede9ff;
-  --scene-ink-2: #c3b9ee;
-  --scene-ink-3: #948ac2;
-  --scene-accent: #a78bfa;
-  --scene-hair: rgba(237, 233, 255, .20);
+  --scene-ink-2: #d5cdf5;
+  /* ink-3 measured 2.28:1 on the card and 4.29:1 on the ground at #948ac2.
+     Both are AA failures for 11-12px text, and they are exactly the tier the
+     zone cards use for their Hebrew descriptions — the densest text in the
+     section. Lightened until the WORST pair clears 4.5, not the best one. */
+  --scene-ink-3: #b3a9de;
+  --scene-accent: #b79dff;
+  --scene-hair: rgba(237, 233, 255, .22);
   /* Elevation inverts with the ground: on a dark scene a shadow cannot be seen,
      so lift becomes a hairline of light on the top edge. */
   --elev-1: 0 1px 0 0 rgba(237, 233, 255, .06);

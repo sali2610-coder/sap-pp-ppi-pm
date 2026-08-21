@@ -265,3 +265,27 @@ a.nu-card:active, button.nu-card:active { transform: translateY(0); box-shadow: 
   color: var(--ink-2);
   unicode-bidi: isolate;   /* "ECC → S/4HANA" is LTR inside RTL chrome */
 }
+
+/* THE PRIMARY BUTTON ON A DARK SCENE.
+   --------------------------------------------------------------------------
+   `.nu-btn { color: var(--surface) }` is right on a light ground and wrong on a
+   dark one. .nm-scene rebinds --surface to the SCENE's raised tone, so on the
+   deep / books / ai grounds the primary CTA was painting the scene's near-black
+   (#1c1610) onto CBC red: measured 3.47:1 on the Home hero's own call to
+   action, the loudest control on the first screen.
+
+   A filled button's label has to contrast with its FILL, not with the room it
+   is standing in. White on #d62027 measures 5.13:1 and is the same answer in
+   both themes, which is why this is keyed on the scene rather than the theme. */
+[data-scene="deep"] .nu-btn,
+[data-scene="books"] .nu-btn,
+[data-scene="ai"] .nu-btn,
+#nh-5[data-scene="pppi-full"] .nu-btn { color: #fff; }
+
+/* DARK THEME IS ALREADY CORRECT AND MUST NOT BE INCLUDED.
+   The first version of this rule also listed html[data-theme="dark"] variants
+   and made things worse: in dark theme --brand is the LIFTED brand, a light
+   red, so the pre-existing `html[data-theme="dark"] .nu-btn { color: #0b0e11 }`
+   is the right answer there (6.9:1) and forcing white dropped it to 3.05:1.
+   Same control, opposite correction — which is exactly why this is measured per
+   theme instead of reasoned about once. */

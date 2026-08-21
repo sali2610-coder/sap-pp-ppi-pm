@@ -192,7 +192,10 @@ html[data-theme="dark"] .nx-app {
   --scene-raised: #1c1610;
   --scene-ink: #f6f1ea;
   --scene-ink-2: #cfc5b8;
-  --scene-ink-3: #9e9285;
+  /* The hero's stat LABELS ("שורות תיעוד", "טבלאות ייחודיות") sit on this
+     tier at 12px and measured 4.23:1 — an AA miss on the first thing anyone
+     reads on the product. Lifted until they clear. */
+  --scene-ink-3: #b0a496;
   --scene-hair: #3a3027;
   --scene-accent: #ff6b63;   /* brand lifted for AA on the dark ground (7.0:1) */
 }
@@ -368,10 +371,16 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
   --scene-raised: #f7fbff;
   --scene-ink: #0a2342;
   --scene-ink-2: #2f4e78;
-  --scene-ink-3: #5c789e;
-  --scene-accent: #1d4ed8;   /* cobalt: the S/4 voice */
-  --scene-hot: #c2410c;      /* replaced. 5.1:1 on the ground */
-  --scene-cool: #0f766e;     /* kept.     4.9:1 */
+  --scene-ink-3: #4a6485;   /* 4.9:1 on the ground; #5c789e measured 3.57 */
+  /* MEASURED AGAINST THE RAISED TONE, NOT THE GROUND.
+     The first values were computed against #dce9fb and looked fine on paper.
+     They do not render there: the verdict chips and the "ECC → S/4HANA" label
+     sit on the RAISED surface and on tinted cards, where the same hues measured
+     3.69 / 4.26 / 3.73 — all AA failures. Darkened until the worst pair on the
+     surface each one actually lands on clears 4.5. */
+  --scene-accent: #17398f;   /* cobalt: the S/4 voice */
+  --scene-hot: #8a2d08;      /* replaced */
+  --scene-cool: #0c5a54;     /* kept */
   --scene-hair: rgba(10, 35, 66, .16);
 }
 html[data-theme="dark"] [data-scene="s4"] {
@@ -381,9 +390,12 @@ html[data-theme="dark"] [data-scene="s4"] {
   --scene-raised: #1d3a63;
   --scene-ink: #eaf2ff;
   --scene-ink-2: #b9cded;
-  --scene-ink-3: #8aa4c8;
-  --scene-accent: #7cb2ff;
-  --scene-hot: #ff8a5c;
+  /* Dark mode moves these the OTHER way. Same two roles, same two failures,
+     opposite correction: #8aa4c8 measured 3.66 and #ff8a5c measured 4.02 on the
+     dark raised tone. */
+  --scene-ink-3: #a8bfe0;
+  --scene-accent: #8dbcff;
+  --scene-hot: #ffa887;
   --scene-cool: #5eead4;
   --scene-hair: rgba(234, 242, 255, .18);
 }
