@@ -1955,3 +1955,74 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   }
 }
 @keyframes nx-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ============================================================================
+   SECTION IDENTITY — every major NEO surface gets a contextual hue
+   ----------------------------------------------------------------------------
+   WHY THE PRODUCT LOOKED HALF-FINISHED
+
+     components/neo-shell/search/shell-client.tsx resolved the rail's tint as
+
+         rail.style.setProperty("--railtint", m ? modVar(m) : "var(--ink-3)")
+
+     — a hue ONLY when a MODULE was active. PM and PP-PI are modules, so they
+     had identity. Tables, Transactions, BAPIs, IDocs, CDS, Fiori,
+     Enhancements, Knowledge, Academy, Incidents, Studio and the AI surfaces
+     are not, so all of them fell through to neutral ink and rendered as the
+     same grey. That single ternary is the whole reason the sidebar read as
+     "PM/PP-PI finished, everything else migrated from an older enterprise UI".
+
+   HOW THIS IS NOT A RAINBOW
+
+     CBC red stays the master brand and is never reassigned: it belongs to the
+     product, to primary actions and to NEO AI, which IS the product speaking.
+     Section hues are CONTEXT, not decoration — the rail already spends
+     --railtint on wash, glow, hairline, hover, focus, active marker and
+     scrollbar, so defining the token lights all of those at once without a
+     single new rule.
+
+     Every value is mid-saturation on purpose. These are read at 11px behind
+     text and as 8-18% washes; a saturated hue at that size reads as an alert.
+
+   The form rule from globals.css still holds everywhere: a section hue is a
+   surface tint, a ring, a line, an edge or a marker. It is never a status dot
+   and never the value of a metric. */
+.nx-app {
+  --sec-pm: var(--mod-pm);
+  --sec-pppi: var(--mod-pppi);
+  --sec-erd: #5b3fd6;          /* data model · violet */
+  --sec-tables: #a8651c;       /* warm copper — data at rest */
+  --sec-transactions: #1d5fd0; /* cobalt — the executable surface */
+  --sec-bapi: #7231c9;         /* deep violet — interfaces */
+  --sec-idoc: #b95c0a;         /* warm technical orange — messages */
+  --sec-cds: #0e7f8c;          /* turquoise — views */
+  --sec-fiori: #4a5fd4;        /* blue-violet — SAP's own Fiori family */
+  --sec-enh: #2f7a3e;          /* deep green — extension points */
+  --sec-library: #8f2140;      /* burgundy — the shelf */
+  --sec-ask: #a03352;          /* the reading room's own burgundy */
+  --sec-knowledge: #1c6bb5;    /* information blue */
+  --sec-academy: #4b3fb0;      /* indigo — learning */
+  --sec-incidents: #c2410c;    /* controlled orange-red, never full alarm red */
+  --sec-cert: #92701a;         /* ochre */
+  --sec-studio: #1f5f8a;       /* navy-cyan — the expert instrument */
+  --sec-neo: var(--brand);     /* NEO AI is the product speaking: CBC red */
+}
+html[data-theme="dark"] .nx-app {
+  /* Lifted for a dark ground. Same hue families, same roles — a tint that
+     works on #f7f5f2 disappears on #0f0b08. */
+  --sec-erd: #a48dff;
+  --sec-tables: #e0a55c;
+  --sec-transactions: #6da3ff;
+  --sec-bapi: #b98cf5;
+  --sec-idoc: #f0a05a;
+  --sec-cds: #4ecfd8;
+  --sec-fiori: #8fa0ff;
+  --sec-enh: #6dc47f;
+  --sec-library: #e0819b;
+  --sec-ask: #e0819b;
+  --sec-knowledge: #6fb4f5;
+  --sec-academy: #9d90f5;
+  --sec-incidents: #ff8a5c;
+  --sec-cert: #d7b45c;
+  --sec-studio: #6fb0d8;
+}

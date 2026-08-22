@@ -42,7 +42,7 @@ import { Ico } from "../icon";
 import {
   GROUP_MS, RAIL_MS, measure, play, playEnter, playScaleX, raf, raf2, reducedMotion,
 } from "../flip";
-import { modVar } from "../mod-var";
+import { modVar, secVar } from "../mod-var";
 import { PreviewPanel } from "../preview";
 import { ContextPane, PinnedPane, RecentPane, ShelfTabs } from "../shelf";
 import { MobileSheet, MobileTabs } from "../mobile-nav";
@@ -282,10 +282,27 @@ export function NeoShellClient({
   useLayoutEffect(() => {
     const rail = railRef.current;
     if (!rail) return;
-    const m = hoverMod ?? searchMod ?? activeMod;
-    rail.style.setProperty("--railtint", m ? modVar(m) : "var(--ink-3)");
-    rail.dataset.tinted = m ? "1" : "0";
-  }, [hoverMod, searchMod, activeMod]);
+    /* SECTION HUE, NOT JUST MODULE HUE.
+       This used to be `m ? modVar(m) : "var(--ink-3)"` — a colour only when a
+       MODULE was active. PM and PP-PI are modules; Tables, Transactions,
+       BAPIs, IDocs, CDS, Fiori, Enhancements, Knowledge, Academy, Incidents,
+       Studio and the two AI surfaces are not, so every one of them fell to
+       neutral ink. That single ternary is why the product looked finished in
+       two places and migrated-from-an-older-UI everywhere else.
+
+       Resolution order is hover, then search, then the active route, and at
+       each step a module hue wins over a section hue because a module IS the
+       more specific context. Ink remains the honest fallback for an id that
+       has no hue assigned. */
+    const hue = (mod: string | undefined, id: string | undefined) =>
+      (mod ? modVar(mod) : "") || secVar(id);
+    const tint =
+      hue(hoverMod, pvId ?? undefined) ||
+      hue(searchMod, undefined) ||
+      hue(activeMod, active?.id);
+    rail.style.setProperty("--railtint", tint || "var(--ink-3)");
+    rail.dataset.tinted = tint ? "1" : "0";
+  }, [hoverMod, searchMod, activeMod, pvId, active?.id]);
 
   /* -------------------------------------------------- shelf underline */
   useLayoutEffect(() => {

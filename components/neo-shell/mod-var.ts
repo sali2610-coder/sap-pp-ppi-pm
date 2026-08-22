@@ -30,3 +30,34 @@ export const MOD_HE: Record<string, string> = {
   "PP-PI": "ייצור תהליכי",
   PP: "ייצור",
 };
+
+/* SECTION HUE — the same idea as modVar, widened past modules.
+   ---------------------------------------------------------------------------
+   The rail used to receive a tint only when a MODULE was active, so every
+   non-module destination in the product rendered neutral grey. Keyed by the
+   nav item id from nav-data's seeds(), so a new sidebar entry either gets a
+   hue here or falls back to ink — it can never pick one up by accident. */
+const SEC_VAR: Record<string, string> = {
+  pm: "var(--sec-pm)",
+  "pp-pi": "var(--sec-pppi)",
+  "domain-model": "var(--sec-erd)",
+  tables: "var(--sec-tables)",
+  transactions: "var(--sec-transactions)",
+  bapi: "var(--sec-bapi)",
+  idoc: "var(--sec-idoc)",
+  cds: "var(--sec-cds)",
+  "fiori-apps": "var(--sec-fiori)",
+  enhancements: "var(--sec-enh)",
+  library: "var(--sec-library)",
+  ai: "var(--sec-ask)",
+  knowledge: "var(--sec-knowledge)",
+  academy: "var(--sec-academy)",
+  incidents: "var(--sec-incidents)",
+  certification: "var(--sec-cert)",
+  studio: "var(--sec-studio)",
+  chat: "var(--sec-neo)",
+};
+
+/** Section hue as a CSS var reference, by nav item id. Neutral ink when the id
+ *  is unknown — never brand red, which belongs to the product and to NEO AI. */
+export const secVar = (id?: string): string => (id && SEC_VAR[id]) || "";

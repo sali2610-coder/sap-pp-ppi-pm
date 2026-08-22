@@ -230,29 +230,38 @@
 .nx-app .nx-navitem[aria-current] { color: var(--ink-1); font-weight: 700; }
 .nx-app .nx-navitem[aria-current] .nx-navitem-i::before {
   opacity: 1; transform: scale(1);
-  background: color-mix(in srgb, var(--m, var(--ink-2)) var(--nxr-chip-on), transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--m, var(--ink-2)) var(--nxr-ring), transparent);
+  background: color-mix(in srgb, var(--railtint) var(--nxr-chip-on), transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--railtint) var(--nxr-ring), transparent);
 }
 .nx-app .nx-navitem[aria-current] .nx-navitem-n {
-  color: var(--m, var(--ink-1));
-  background: color-mix(in srgb, var(--m, var(--ink-3)) 12%, transparent);
+  color: var(--railtint);
+  background: color-mix(in srgb, var(--railtint) 14%, transparent);
 }
 
 /* ----------------------------------------------- 5. THE TRAVELLING SIGNAL */
 
+/* THE ACTIVE PILL TAKES THE SECTION HUE, NOT BRAND RED.
+   `var(--m, var(--brand))` meant: the module colour if this is a module,
+   otherwise CBC red. So every non-module destination — Tables, Transactions,
+   BAPIs, IDocs, CDS, Fiori, Enhancements, Knowledge, Academy, Incidents,
+   Studio, the shelf — showed the SAME pink pill, which is why "selected" never
+   told you WHERE you were, only THAT something was selected. --railtint now
+   resolves a hue for every section, and equals the module hue on a module, so
+   one substitution gives the pill contextual meaning everywhere. Brand red
+   still appears here — on NEO AI, whose section hue IS the brand. */
 .nx-app .nx-ind {
   background: linear-gradient(
     to bottom,
-    color-mix(in srgb, var(--m, var(--brand)) 18%, transparent),
-    color-mix(in srgb, var(--m, var(--brand)) 8%, transparent)
+    color-mix(in srgb, var(--railtint) 20%, transparent),
+    color-mix(in srgb, var(--railtint) 9%, transparent)
   );
   box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--m, var(--brand)) 20%, transparent),
-    0 8px 20px -14px color-mix(in srgb, var(--m, var(--brand)) 85%, transparent);
+    inset 0 0 0 1px color-mix(in srgb, var(--railtint) 26%, transparent),
+    0 8px 20px -14px color-mix(in srgb, var(--railtint) 85%, transparent);
 }
 .nx-app .nx-ind::before {
   inline-size: 3px; inset-block: 16%;
-  box-shadow: 0 0 12px color-mix(in srgb, var(--m, var(--brand)) 60%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--railtint) 60%, transparent);
 }
 /* The trail. It is drawn on the side the pill travelled FROM, for the 130ms the
    squash lasts, so a long trip reads as movement instead of as a blink. */

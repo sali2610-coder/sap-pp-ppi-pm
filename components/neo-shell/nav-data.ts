@@ -146,7 +146,12 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
            touched; the count is taken from the same registry the shelf counts.
            allBookIds() is used rather than booksData(): books-data.ts imports
            this file, so calling it here would close an import cycle. */
-        { id: "library", label: "ספרייה דיגיטלית", icon: "Library", count: allBookIds().length, countLabel: "ספרים" },
+        /* POINTS AT THE REAL SHELF, exactly as domain-model points at /neo/erd/.
+           Without an explicit href this fell back to /neo/${id}/ = /neo/library/,
+           the Stage-1 hub placeholder — so the sidebar's library link bypassed
+           the built shelf, and on /neo/books/ NOTHING in the nav matched, which
+           left the surface with no active state and no section hue. */
+        { id: "library", href: "/neo/books/", label: "ספרייה דיגיטלית", icon: "Library", count: allBookIds().length, countLabel: "ספרים" },
         { id: "ai", label: "שאל את הספרייה", icon: "Sparkles", count: null, countLabel: "" },
       ],
     },
