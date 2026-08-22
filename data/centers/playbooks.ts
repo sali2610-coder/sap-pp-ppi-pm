@@ -15,14 +15,14 @@ const mk = (slug: string, module: string, he: string, title: string, sub: string
 
 export const PLAYBOOKS: CenterItem[] = [
   mk("batch-management", "PP-PI", "יישום ניהול אצוות", "Batch Management Implementation", "Playbook להטמעת ניהול אצוות עם מעקב ו-FEFO.",
-    "מעקב מלא (Traceability) אחר מנות ייצור, קביעת אצווה אוטומטית (FEFO), חסימת QM ויכולת Recall — קריטי למזון/משקאות.",
-    ["קבע רמת אצווה (לקוח/מפעל/חומר) — החלטה ארכיטקטונית מוקדמת (T130*)", "הגדר פרופיל מספור אצווה (אוטומטי)", "הגדר מחלקת אצווה 023 + מאפיינים (SLED/יצרן)", "הגדר אסטרטגיית קביעה + מיון FEFO (CU70)", "הפעל Batch Where-Used (CHVW) למעקב"],
+    "מעקב מלא (Traceability) אחר מנות ייצור, קביעת אצווה אוטומטית (FEFO), חסימת QM ויכולת Recall: קריטי למזון/משקאות.",
+    ["קבע רמת אצווה (לקוח/מפעל/חומר): החלטה ארכיטקטונית מוקדמת (T130*)", "הגדר פרופיל מספור אצווה (אוטומטי)", "הגדר מחלקת אצווה 023 + מאפיינים (SLED/יצרן)", "הגדר אסטרטגיית קביעה + מיון FEFO (CU70)", "הפעל Batch Where-Used (CHVW) למעקב"],
     ["סימון 'ניהול אצוות' באב חומר (MM02)", "מחלקת אצווה + מאפייני אצווה (CT04)", "תאריך ייצור/תפוגה (SLED) לכל אצווה"],
     ["Positive: GR יוצר אצווה עם SLED", "Integration: קביעת FEFO בצריכה/מכירה", "Negative: מאפיין חובה ריק → חסימה", "Regression: Where-Used (MB56) ל-Recall"],
-    ["רמת אצווה שגויה — קשה מאוד לשינוי אחרי נתונים", "פרופיל מספור לא הוגדר → אצוות לא נוצרות", "Batch Where-Used לא הופעל → אין מעקב Recall"],
+    ["רמת אצווה שגויה: קשה מאוד לשינוי אחרי נתונים", "פרופיל מספור לא הוגדר → אצוות לא נוצרות", "Batch Where-Used לא הופעל → אין מעקב Recall"],
     { unchanged: "מודל אצווה זהה.", changed: "Fiori 'Manage Batches' + BIC.", fiori: "Manage Batches / Batch Information Cockpit", migration: "QA: רמת אצווה + מספור + FEFO + Where-Used." }),
   mk("qm-inspection", "QM", "יישום בדיקת איכות", "QM Inspection Implementation", "Playbook להטמעת בדיקות איכות ב-GR ובייצור.",
-    "אבטחת איכות — מנת בדיקה אוטומטית, רישום תוצאות מול מפרט, החלטת שימוש וחסימת מלאי פסול.",
+    "אבטחת איכות: מנת בדיקה אוטומטית, רישום תוצאות מול מפרט, החלטת שימוש וחסימת מלאי פסול.",
     ["הפעל סוגי בדיקה (01 GR / 04 ייצור) ב-QM-View", "הגדר Inspection setup לחומר/מפעל", "צור תכניות בדיקה + מאפיינים (QP01/PLMK)", "הגדר Sampling procedures (QDV1)", "הגדר Catalogs לקודי פגם (QS41) + follow-up ב-UD"],
     ["QM-View באב חומר + סוגי בדיקה", "תכנית בדיקה עם מאפיינים ומפרט (CABN limits)", "Certificate profile (אם נדרש COA)"],
     ["Positive: GR יוצר lot; תוצאות→UD תקין", "Negative: תוצאה מחוץ ל-spec → דחייה + חסימת אצווה", "Integration: UD משחרר/חוסם מלאי", "Boundary: ערכים בגבול ה-spec"],

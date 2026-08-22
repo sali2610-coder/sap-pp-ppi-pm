@@ -2,9 +2,9 @@ import type { CenterItem } from "@/components/topic-center";
 
 const A = "#0369a1";
 export const BLUEPRINTS: CenterItem[] = [
-  { slug: "pm-corrective", module: "PM", eyebrow: "Business Blueprint · PM", he: "אחזקה מתקנת", title: "Corrective Maintenance", sub: "בלופרינט תהליך אחזקת שבר/מתקנת — מתקלה ועד התחשבנות.", accent: A, tag: "PM",
+  { slug: "pm-corrective", module: "PM", eyebrow: "Business Blueprint · PM", he: "אחזקה מתקנת", title: "Corrective Maintenance", sub: "בלופרינט תהליך אחזקת שבר/מתקנת: מתקלה ועד התחשבנות.", accent: A, tag: "PM",
     sections: [
-      { title: "Scope (היקף)", type: "text", tone: A, text: "טיפול בתקלות בלתי-מתוכננות באובייקטים טכניים — מהודעת תקלה דרך פקודת אחזקה, ביצוע, אישור, סגירה טכנית והתחשבנות. כולל מדידת זמינות (MTTR/MTBF)." },
+      { title: "Scope (היקף)", type: "text", tone: A, text: "טיפול בתקלות בלתי-מתוכננות באובייקטים טכניים: מהודעת תקלה דרך פקודת אחזקה, ביצוע, אישור, סגירה טכנית והתחשבנות. כולל מדידת זמינות (MTTR/MTBF)." },
       { title: "Actors (גורמים)", type: "bullets", tone: A, items: ["מפעיל/דווחן תקלה", "רכז אחזקה (מתכנן)", "טכנאי ביצוע", "מנהל אחזקה (אישור)", "בקר עלויות (התחשבנות)"] },
       { title: "Inputs / Outputs", type: "bullets", tone: A, items: ["Input: תקלה, אובייקט ייחוס, קוד פגם, חלפים", "Output: הודעה (QMEL), פקודה (AUFK/AFIH), אישורים (AFRU), עלות (ACDOCA), מדדי אמינות"] },
       { title: "Dependencies (תלויות)", type: "bullets", tone: A, items: ["אובייקט טכני קיים (ציוד/מיקום)", "סוג פקודה+הודעה מוגדרים", "מרכז עבודה+מרכז עלות", "פרופיל קטלוג"] },
@@ -17,7 +17,7 @@ export const BLUEPRINTS: CenterItem[] = [
     eccS4: { unchanged: "מחזור הודעה→פקודה→אישור→התחשבנות זהה.", changed: "UX ל-Fiori; עלויות ל-ACDOCA; מדדי אמינות ב-Embedded Analytics.", fiori: "Manage Maintenance Orders / Confirm Jobs", simplification: "Universal Journal.", migration: "QA: מחזור מלא + התחשבנות ל-ACDOCA." } },
   { slug: "pm-preventive", module: "PM", eyebrow: "Business Blueprint · PM", he: "אחזקה מונעת", title: "Preventive Maintenance", sub: "בלופרינט אחזקה מונעת מבוססת-זמן/ביצועים עם תכניות ותזמון אוטומטי.", accent: A, tag: "PM",
     sections: [
-      { title: "Scope", type: "text", tone: A, text: "תכנון וביצוע אחזקה מונעת מתוזמנת — אסטרטגיות, תכניות אחזקה, רשימות פעולות, וניטור מועדים אוטומטי (IP30) ליצירת פקודות במועד." },
+      { title: "Scope", type: "text", tone: A, text: "תכנון וביצוע אחזקה מונעת מתוזמנת: אסטרטגיות, תכניות אחזקה, רשימות פעולות, וניטור מועדים אוטומטי (IP30) ליצירת פקודות במועד." },
       { title: "Actors", type: "bullets", tone: A, items: ["מהנדס אמינות (אסטרטגיה)", "מתכנן אחזקה", "טכנאי ביצוע", "Basis (Job IP30)"] },
       { title: "Inputs / Outputs", type: "bullets", tone: A, items: ["Input: אסטרטגיה, מחזורים, רשימת פעולות, אובייקט", "Output: תכנית (MPLA), קריאות (MHIS), פקודות מונעות"] },
       { title: "Dependencies", type: "bullets", tone: A, items: ["רשימת פעולות תקפה", "אסטרטגיה/חבילות מחזור", "נקודות מדידה (מבוסס-ביצועים)", "Job IP30 מתוזמן"] },
@@ -28,7 +28,7 @@ export const BLUEPRINTS: CenterItem[] = [
       { title: "QA Validation", type: "bullets", tone: "#be185d", items: ["Positive: תזמון → IP30 → פקודה במועד", "Regression: ריצת IP30 חוזרת לא מכפילה", "Integration: קריאת מונה מתזמנת תכנית"] },
     ],
     eccS4: { unchanged: "מודל תכנון/תזמון זהה.", changed: "לוח תזמון גרפי ב-Fiori.", fiori: "Schedule Maintenance Plans", migration: "QA: תזמון + IP30 → פקודות במועד." } },
-  { slug: "pppi-production", module: "PP-PI", eyebrow: "Business Blueprint · PP-PI", he: "ייצור תהליכי", title: "Process Manufacturing", sub: "בלופרינט ייצור תהליכי למלאי — מתכנון ועד GR והתחשבנות, כולל MES.", accent: A, tag: "PP-PI",
+  { slug: "pppi-production", module: "PP-PI", eyebrow: "Business Blueprint · PP-PI", he: "ייצור תהליכי", title: "Process Manufacturing", sub: "בלופרינט ייצור תהליכי למלאי: מתכנון ועד GR והתחשבנות, כולל MES.", accent: A, tag: "PP-PI",
     sections: [
       { title: "Scope", type: "text", tone: A, text: "ייצור תהליכי מבוסס-מתכון: תחזית→MRP→פקודת תהליך→שחרור+מרשם בקרה→ייצור/אישור→GR לאצווה→התחשבנות. כולל אינטגרציית MES והוראות תהליך." },
       { title: "Actors", type: "bullets", tone: A, items: ["מתכנן ביקוש", "מתכנן ייצור", "מפעיל קו/MES", "בקר עלויות", "QA אצוות"] },
@@ -41,7 +41,7 @@ export const BLUEPRINTS: CenterItem[] = [
       { title: "QA Validation", type: "bullets", tone: "#be185d", items: ["Positive: מחזור MRP→GR→התחשבנות", "Integration: aATP בשחרור + הוראות ל-MES", "Regression: ביטול אישור מהפך Backflush+GR"] },
     ],
     eccS4: { unchanged: "מחזור ייצור תהליכי זהה.", changed: "MRP Live; aATP; OData/Fiori; ACDOCA+ML.", fiori: "Manage Process Orders", simplification: "MRP Live + Material Ledger + MATDOC.", migration: "QA: מחזור מלא + מרשם בקרה + התחשבנות." } },
-  { slug: "pppi-batch-trace", module: "PP-PI", eyebrow: "Business Blueprint · PP-PI", he: "מעקב אצוות", title: "Batch Traceability", sub: "בלופרינט ניהול ומעקב אצוות מקצה-לקצה — קריטי למזון/משקאות (Recall).", accent: A, tag: "PP-PI",
+  { slug: "pppi-batch-trace", module: "PP-PI", eyebrow: "Business Blueprint · PP-PI", he: "מעקב אצוות", title: "Batch Traceability", sub: "בלופרינט ניהול ומעקב אצוות מקצה-לקצה: קריטי למזון/משקאות (Recall).", accent: A, tag: "PP-PI",
     sections: [
       { title: "Scope", type: "text", tone: A, text: "ניהול אצווה לאורך הייצור והשרשרת: יצירה ב-GR עם מאפיינים ותוקף, קביעה אוטומטית (FEFO), חסימת QM, ומעקב מלא קדימה/אחורה ל-Recall." },
       { title: "Actors", type: "bullets", tone: A, items: ["מפעיל ייצור (GR)", "QA (שחרור/חסימת אצווה)", "מתכנן מכירות (FEFO)", "מנהל בטיחות מזון (Recall)"] },
@@ -54,7 +54,7 @@ export const BLUEPRINTS: CenterItem[] = [
       { title: "QA Validation", type: "bullets", tone: "#be185d", items: ["Positive: GR יוצר אצווה עם SLED", "Integration: FEFO + חסימת QM", "Regression: Where-Used קדימה/אחורה ל-Recall"] },
     ],
     eccS4: { unchanged: "מודל אצווה+סיווג+קביעה זהה.", changed: "UX ל-Fiori; BIC משופר.", fiori: "Manage Batches / Batch Information Cockpit", cds: "I_Batch", migration: "QA: יצירה+סיווג+FEFO+Where-Used." } },
-  { slug: "pp-discrete", module: "PP", eyebrow: "Business Blueprint · PP", he: "ייצור בדיד", title: "Discrete Manufacturing", sub: "בלופרינט ייצור בדיד — MRP→פקודת ייצור→אישור→GR→התחשבנות.", accent: A, tag: "PP",
+  { slug: "pp-discrete", module: "PP", eyebrow: "Business Blueprint · PP", he: "ייצור בדיד", title: "Discrete Manufacturing", sub: "בלופרינט ייצור בדיד: MRP→פקודת ייצור→אישור→GR→התחשבנות.", accent: A, tag: "PP",
     sections: [
       { title: "Scope", type: "text", tone: A, text: "ייצור בדיד מבוסס-מסלול: תכנון→פקודת ייצור→שחרור→אישור (CO11N)→GR→התחשבנות. מתאים להרכבה/אריזה משנית." },
       { title: "Actors", type: "bullets", tone: A, items: ["מתכנן ייצור", "רכז ייצור", "מפעיל", "בקר עלויות"] },
