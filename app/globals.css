@@ -2004,6 +2004,7 @@ html[data-device="phone"] .nx-canvas { padding: var(--sp-4); gap: var(--sp-4); }
   --sec-academy: #4b3fb0;      /* indigo — learning */
   --sec-incidents: #c2410c;    /* controlled orange-red, never full alarm red */
   --sec-cert: #92701a;         /* ochre */
+  --sec-centers: #1c6bb5;   /* centers share the knowledge blue */
   --sec-studio: #1f5f8a;       /* navy-cyan — the expert instrument */
   --sec-neo: var(--brand);     /* NEO AI is the product speaking: CBC red */
 }
@@ -2024,5 +2025,6 @@ html[data-theme="dark"] .nx-app {
   --sec-academy: #9d90f5;
   --sec-incidents: #ff8a5c;
   --sec-cert: #d7b45c;
+  --sec-centers: #6fb4f5;
   --sec-studio: #6fb0d8;
 }

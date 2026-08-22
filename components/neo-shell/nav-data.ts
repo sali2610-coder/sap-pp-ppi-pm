@@ -29,6 +29,7 @@ import { ENHANCEMENTS } from "@/data/enhancements";
 import { INCIDENTS } from "@/data/troubleshooting";
 import { LIBRARY, LIBRARY_STATS } from "@/data/library";
 import { allBookIds } from "@/lib/library/registry";
+import { centerTotals } from "@/components/neo-shell/centers/centers-data";
 import { BOOKS } from "@/data/library/academy-index";
 import { CONCEPTS } from "@/data/concepts";
 import { DOMAINS } from "@/data/domains";
@@ -165,7 +166,14 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
         { id: "certification", label: "הסמכה", icon: "Award", count: null, countLabel: "" },
       ],
     },
-    { id: "tools", label: "כלים", items: [{ id: "studio", label: "Architecture Studio", icon: "Compass", count: null, countLabel: "" }] },
+    { id: "tools", label: "כלים", items: [
+      /* Eleven legacy routes (manufacturing, authorizations, toolkit, playbooks,
+         migration, integration, config, debugging, abap, blueprints, fiori) all
+         rendered the same two components over a different dataset. They are one
+         NEO surface now, and this is how it becomes reachable. */
+      { id: "centers", href: "/neo/centers/", label: "מרכזי ידע", icon: "Layers", count: centerTotals().items, countLabel: "נושאים" },
+      { id: "studio", label: "Architecture Studio", icon: "Compass", count: null, countLabel: "" },
+    ] },
     { id: "assistant", label: "עוזר SAP", items: [{ id: "chat", label: "צ'אט AI", icon: "MessageSquare", count: null, countLabel: "" }] },
   ];
 }

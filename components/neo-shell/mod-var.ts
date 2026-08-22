@@ -54,6 +54,7 @@ const SEC_VAR: Record<string, string> = {
   academy: "var(--sec-academy)",
   incidents: "var(--sec-incidents)",
   certification: "var(--sec-cert)",
+  centers: "var(--sec-knowledge)",
   studio: "var(--sec-studio)",
   chat: "var(--sec-neo)",
 };
