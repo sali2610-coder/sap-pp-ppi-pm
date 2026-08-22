@@ -1,0 +1,209 @@
+/* ============================================================================
+   PROJECT NEO · ASSESSMENT RUNNER
+   ----------------------------------------------------------------------------
+   Certification is an EXPERIENTIAL surface, so it carries more motion than
+   Tables or Transactions. It still obeys the product's rules: the accent is
+   CBC red, module colour is never a status dot, and every state that means
+   something is carried by fill and contrast rather than by a 1px ring.
+
+   Success green and error red here are STATE, not decoration — they only ever
+   appear on a locked answer, where the meaning is unambiguous.
+   ========================================================================== */
+
+.nce {
+  --ok: #1a7f4f;
+  --no: #c2410c;
+  --gold: #a97e17;
+  max-inline-size: 56rem;
+  margin-inline: auto;
+  padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2rem) 6rem;
+}
+html[data-theme="dark"] .nce { --ok: #4ec98a; --no: #ff8a5c; --gold: #e0bd5c; }
+
+.nce-eye {
+  display: flex; align-items: center; gap: .45rem;
+  margin: 0 0 .5rem; font-size: .74rem; font-weight: 700;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--ink-3);
+}
+.nce-h1 { margin: 0; font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 700; letter-spacing: -.025em; line-height: 1.1; }
+.nce-h2 { margin: 0 0 .7rem; font-size: 1rem; font-weight: 700; }
+.nce-lede { margin: .7rem 0 0; max-inline-size: 58ch; font-size: .95rem; line-height: 1.68; color: var(--ink-2); }
+.nce-hero { margin-bottom: 1.8rem; }
+
+/* --------------------------------------------------------------- setup */
+
+.nce-pick { margin-bottom: 1.15rem; }
+.nce-pick-h { margin: 0 0 .5rem; font-size: .78rem; font-weight: 700; color: var(--ink-3); letter-spacing: .04em; }
+.nce-pick-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+.nce-opt {
+  display: inline-flex; align-items: baseline; gap: .45rem;
+  min-block-size: 46px; padding: .5rem .9rem;
+  border-radius: .8rem; cursor: pointer;
+  font: inherit; color: var(--ink-2);
+  background: var(--surface); border: 1px solid var(--hairline);
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, color .16s ease;
+}
+.nce-opt b { font-size: .98rem; font-weight: 700; color: var(--ink-1); }
+.nce-opt span { font-size: .8rem; }
+.nce-opt:hover { transform: translateY(-1px); box-shadow: var(--elev-2); }
+/* Selected is a FILL, per the product's selection language. */
+.nce-opt[data-on="1"] {
+  color: #fff; border-color: transparent;
+  background: var(--brand);
+  box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--brand) 70%, transparent);
+}
+.nce-opt[data-on="1"] b { color: #fff; }
+
+.nce-go { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-top: 1.6rem; }
+.nce-start { font-size: .95rem; }
+
+/* ----------------------------------------------------------------- run */
+
+.nce-bar {
+  position: sticky; inset-block-start: 0; z-index: 4;
+  display: flex; align-items: center; gap: .8rem;
+  padding-block: .7rem; margin-bottom: 1.1rem;
+  background: linear-gradient(to bottom, var(--background) 72%, transparent);
+}
+.nce-count b { font-size: 1.15rem; font-weight: 700; }
+.nce-count i { font-style: normal; color: var(--ink-3); font-size: .85rem; }
+.nce-prog {
+  flex: 1 1 auto; block-size: 6px; border-radius: 999px;
+  background: var(--surface-2); overflow: hidden;
+}
+.nce-prog i { display: block; block-size: 100%; background: var(--brand); transition: width .45s cubic-bezier(.16,1,.3,1); }
+.nce-live { display: flex; gap: .35rem; }
+.nce-t { display: inline-flex; align-items: center; gap: .25rem; font-size: .78rem; font-weight: 700; padding: .12rem .45rem; border-radius: 6px; }
+.nce-t--ok { color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, transparent); }
+.nce-t--no { color: var(--no); background: color-mix(in srgb, var(--no) 12%, transparent); }
+
+.nce-q-meta { display: flex; flex-wrap: wrap; gap: .35rem; margin: 0 0 .8rem; }
+.nce-chip {
+  font-size: .7rem; font-weight: 700; padding: .16rem .5rem; border-radius: 6px;
+  color: var(--ink-2); background: var(--surface-2); border: 1px solid var(--hairline);
+  unicode-bidi: isolate;
+}
+.nce-chip--lvl { color: var(--brand); border-color: color-mix(in srgb, var(--brand) 32%, transparent); }
+
+.nce-stem { margin: 0 0 .7rem; font-size: clamp(1.1rem, 2.4vw, 1.5rem); font-weight: 700; line-height: 1.4; letter-spacing: -.01em; }
+.nce-ctx { margin: 0 0 .8rem; font-size: .89rem; line-height: 1.62; color: var(--ink-2); }
+.nce-code {
+  margin: 0 0 1rem; padding: .8rem .9rem; border-radius: .7rem; overflow-x: auto;
+  font-size: .8rem; line-height: 1.55;
+  background: var(--surface-2); border: 1px solid var(--hairline); color: var(--ink-1);
+}
+
+.nce-choices { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.nce-choice {
+  inline-size: 100%; display: flex; align-items: center; gap: .7rem;
+  min-block-size: 52px; padding: .7rem .9rem;
+  border-radius: .85rem; text-align: start; cursor: pointer;
+  font: inherit; font-size: .93rem; color: var(--ink-1);
+  background: var(--surface); border: 1px solid var(--hairline);
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease, background .2s ease;
+}
+.nce-choice:hover:not(:disabled) { transform: translateY(-1px); box-shadow: var(--elev-2); border-color: color-mix(in srgb, var(--brand) 34%, var(--hairline)); }
+.nce-choice:disabled { cursor: default; }
+.nce-choice:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.nce-key {
+  flex: none; inline-size: 1.6rem; block-size: 1.6rem; border-radius: .5rem;
+  display: grid; place-items: center; font-size: .72rem; font-weight: 700;
+  color: var(--ink-3); background: var(--surface-2);
+}
+.nce-choice-t { flex: 1 1 auto; }
+
+/* Locked states. Fill carries the verdict; the icon repeats it for anyone who
+   does not read colour. */
+.nce-choice[data-state="right"] {
+  color: var(--ok); border-color: color-mix(in srgb, var(--ok) 46%, transparent);
+  background: color-mix(in srgb, var(--ok) 10%, var(--surface));
+}
+.nce-choice[data-state="right"] .nce-key { color: var(--ok); background: color-mix(in srgb, var(--ok) 18%, transparent); }
+.nce-choice[data-state="wrong"] {
+  color: var(--no); border-color: color-mix(in srgb, var(--no) 46%, transparent);
+  background: color-mix(in srgb, var(--no) 9%, var(--surface));
+}
+.nce-choice[data-state="muted"] { opacity: .55; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .nce-choice[data-state="right"] { animation: nce-pop .42s cubic-bezier(.16,1,.3,1); }
+  .nce-q { animation: nce-in .34s cubic-bezier(.16,1,.3,1); }
+}
+@keyframes nce-pop { 0% { transform: scale(1); } 45% { transform: scale(1.018); } 100% { transform: scale(1); } }
+@keyframes nce-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.nce-why {
+  margin-top: .9rem; padding: .85rem 1rem; border-radius: .85rem;
+  background: var(--surface-2); border: 1px solid var(--hairline);
+  border-inline-start: 3px solid var(--ok);
+  font-size: .89rem; line-height: 1.66; color: var(--ink-2);
+}
+.nce-why[data-ok="0"] { border-inline-start-color: var(--no); }
+.nce-why b { display: block; margin-bottom: .3rem; color: var(--ink-1); font-size: .82rem; }
+.nce-why p { margin: 0; }
+.nce-why-2 { margin-top: .45rem !important; color: var(--ink-3); }
+.nce-rel { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .6rem !important; }
+
+.nce-nav { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: 1.5rem; }
+
+/* Visually hidden, still announced. */
+.nce-sr { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* -------------------------------------------------------------- result */
+
+.nce-result {
+  text-align: center; padding: 2rem 1.25rem 1.6rem; border-radius: 1.3rem;
+  background:
+    radial-gradient(80% 70% at 50% 0%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 70%),
+    var(--surface);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--elev-3);
+}
+.nce-result[data-pass="0"] { --gold: var(--ink-3); }
+.nce-trophy { display: inline-grid; place-items: center; inline-size: 68px; block-size: 68px; border-radius: 50%;
+  color: var(--gold); background: color-mix(in srgb, var(--gold) 14%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 34%, transparent); }
+.nce-result .nce-eye { justify-content: center; margin-top: .8rem; }
+
+/* Score ring. conic-gradient so no SVG and no layout work per frame. */
+.nce-ring {
+  inline-size: 148px; block-size: 148px; margin: .4rem auto .2rem;
+  border-radius: 50%; display: grid; place-items: center;
+  background: conic-gradient(var(--gold) calc(var(--p) * 1%), var(--surface-2) 0);
+  position: relative;
+}
+.nce-ring::after {
+  content: ""; position: absolute; inset: 11px; border-radius: 50%; background: var(--surface);
+}
+.nce-ring b { position: relative; z-index: 1; font-size: 2.5rem; font-weight: 700; letter-spacing: -.03em; }
+.nce-ring i { font-style: normal; font-size: 1.1rem; color: var(--ink-3); }
+@media (prefers-reduced-motion: no-preference) {
+  .nce-ring { animation: nce-ring .9s cubic-bezier(.16,1,.3,1); }
+  .nce-trophy { animation: nce-tro .7s cubic-bezier(.16,1,.3,1); }
+}
+@keyframes nce-ring { from { --p: 0; opacity: .4; } }
+@keyframes nce-tro { from { transform: scale(.7) rotate(-8deg); opacity: 0; } }
+
+.nce-score-a11y { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); }
+.nce-verdict { margin: .3rem 0 0; font-size: 1.05rem; font-weight: 700; }
+.nce-note { margin: .45rem auto 0; max-inline-size: 44ch; font-size: .78rem; color: var(--ink-3); line-height: 1.55; }
+.nce-tally { display: flex; justify-content: center; gap: .5rem; margin-top: .9rem; }
+
+.nce-topics { margin-top: 1.4rem; }
+.nce-topics ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
+.nce-topics li { display: flex; align-items: center; gap: .6rem; font-size: .85rem; }
+.nce-topic-n { inline-size: 8.5rem; flex: none; color: var(--ink-2); }
+.nce-bar { flex: 1 1 auto; block-size: 7px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+.nce-bar i { display: block; block-size: 100%; background: var(--ok); transition: width .5s cubic-bezier(.16,1,.3,1); }
+.nce-topic-v { flex: none; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+
+/* -------------------------------------------------------------- mobile */
+
+@media (max-width: 640px) {
+  .nce { padding-inline: .9rem; }
+  .nce-topic-n { inline-size: 6rem; font-size: .78rem; }
+  .nce-nav > * { flex: 1 1 auto; justify-content: center; }
+  .nce-ring { inline-size: 124px; block-size: 124px; }
+  .nce-ring b { font-size: 2.1rem; }
+}

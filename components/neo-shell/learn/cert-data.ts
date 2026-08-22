@@ -112,7 +112,9 @@ export function certData(): CertData {
       tables: allTables.size,
     },
     passPct: 80,
-    examHref: "/certification/",
+    /* The runner now lives INSIDE NEO. This used to hand the reader to the
+     legacy assessment centre, which was the only reason to leave the shell. */
+    examHref: "/neo/certification/exam/",
   };
   return cached;
 }
