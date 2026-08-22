@@ -28,6 +28,7 @@ import { FIORI_APPS } from "@/data/fiori/apps";
 import { ENHANCEMENTS } from "@/data/enhancements";
 import { INCIDENTS } from "@/data/troubleshooting";
 import { LIBRARY, LIBRARY_STATS } from "@/data/library";
+import { allBookIds } from "@/lib/library/registry";
 import { BOOKS } from "@/data/library/academy-index";
 import { CONCEPTS } from "@/data/concepts";
 import { DOMAINS } from "@/data/domains";
@@ -137,7 +138,15 @@ function seeds(): { id: string; label: string; items: Seed[] }[] {
       id: "library",
       label: "ספרייה",
       items: [
-        { id: "library", label: "ספרייה דיגיטלית", icon: "Library", count: LIBRARY_STATS.books, countLabel: "ספרים" },
+        /* COUNTED FROM THE SHELF NEO ACTUALLY SHOWS.
+           LIBRARY_STATS comes from data/library.ts, the registry the FROZEN
+           production /library/ route reads, and it still describes 10 books.
+           The NEO shelf reads data/books/** and renders 11 — so the sidebar said
+           10 while /neo/books/ one click away said 11. data/library.ts is not
+           touched; the count is taken from the same registry the shelf counts.
+           allBookIds() is used rather than booksData(): books-data.ts imports
+           this file, so calling it here would close an import cycle. */
+        { id: "library", label: "ספרייה דיגיטלית", icon: "Library", count: allBookIds().length, countLabel: "ספרים" },
         { id: "ai", label: "שאל את הספרייה", icon: "Sparkles", count: null, countLabel: "" },
       ],
     },
