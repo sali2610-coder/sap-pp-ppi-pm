@@ -857,7 +857,7 @@ html[data-theme="dark"] .nb-slot::after {
   font-size: clamp(5px, 1.9cqi, 9px);
   font-weight: 700;
   letter-spacing: .04em;
-  color: color-mix(in srgb, var(--m-lift) 86%, #fff);
+  color: color-mix(in srgb, var(--m-lift) 68%, #fff);   /* 86% measured 4.26:1 at 9px */
   writing-mode: vertical-rl;
   text-orientation: mixed;
 }
@@ -1019,7 +1019,7 @@ html[data-theme="dark"] .nb-slot::after {
   font-size: clamp(9px, 4cqi, 13px);
   font-weight: 700;
   letter-spacing: .08em;
-  color: color-mix(in srgb, var(--m-lift) 88%, #fff);
+  color: color-mix(in srgb, var(--m-lift) 70%, #fff);   /* 88% measured 4.09:1 at 9px */
 }
 .nb-cov-foil { flex: 1; block-size: 2px; background: linear-gradient(to left, color-mix(in srgb, var(--m-lift) 70%, #fff), transparent); border-radius: 1px; }
 [dir="ltr"] .nb-cov-foil { background: linear-gradient(to right, color-mix(in srgb, var(--m-lift) 70%, #fff), transparent); }

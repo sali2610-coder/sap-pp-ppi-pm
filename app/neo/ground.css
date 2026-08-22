@@ -296,7 +296,7 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
   --scene-raised: #f3fdf9;
   --scene-ink: #05322e;
   --scene-ink-2: #0c4f47;
-  --scene-ink-3: #2b6d63;
+  --scene-ink-3: #235a52;   /* #2b6d63 measured 3.89:1 at 11px on the mint field */
   --scene-accent: #05322e;
   --scene-hair: rgba(5, 50, 46, .22);
 }
@@ -327,16 +327,32 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
   --scene-hair: rgba(6, 48, 77, .20);
 }
 
-/* SHARED CORE. Warm cream and CBC red — the one scene that belongs to the
-   brand rather than to a module. 13.1:1 */
+/* SHARED CORE. The one scene that belongs to the brand rather than to a module.
+   ---------------------------------------------------------------------------
+   WAS #fbf3e4 at luminance 0.902 — paper, not a colour. It sat between the pale
+   cyan (0.756) and the mint (0.749), so nh-2/3/4 read as one continuous wash
+   and the page went "beautiful dark hero, then a long stretch of pale beige".
+   That is the opposite of the Partake lesson: colour BLOCKING means a section
+   owns a colour, not that it declines to.
+
+   Warm sand at 0.603 is still a light world — the shared-tables content is
+   dense reading and wants one — but it is unmistakably a block, and the dip
+   against both neighbours is what makes the scene change legible while
+   scrolling. Ink re-derived: #241a12 on #e5c99a measures 11.4:1.
+
+   `data-scene="shared"` is used in exactly one place, the Home's nh-3, so this
+   cannot leak into a module or a workspace. */
 [data-scene="shared"] {
-  --scene-ground: #fbf3e4;
-  --scene-raised: #fffdf9;
-  --scene-ink: #1c1613;
-  --scene-ink-2: #4a3c33;
-  --scene-ink-3: #7a6857;
-  --scene-accent: #c8102e;
-  --scene-hair: rgba(28, 22, 19, .14);
+  --scene-ground: #e5c99a;
+  --scene-raised: #fbf1e0;
+  --scene-ink: #241a12;
+  --scene-ink-2: #43321f;
+  /* Tuned for the SAND ground, not the old cream one. #6b543c measured 3.83:1
+     at 11px once the ground dropped from 0.902 to 0.608 — the ink tiers have to
+     move with the ground they sit on. */
+  --scene-ink-3: #55412a;
+  --scene-accent: #a50d26;   /* CBC red deepened to hold on a warmer ground */
+  --scene-hair: rgba(36, 26, 18, .18);
 }
 
 /* ---- DARK WORLDS. Real depth, not a darkened light palette. -------------- */

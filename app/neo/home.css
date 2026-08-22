@@ -1412,8 +1412,10 @@ html .nx-app .nx-canvas:has(> .nh) {
 .nz-zone[data-band="1"] { --zc: var(--brand, #c8102e); }
 .nz-zone[data-band="2"] { --zc: var(--mod-pppi, #3b3fb6); }
 /* The count wears its zone's hue, so the three numbers are three colours. */
-.nz-zone .nz-count { color: color-mix(in oklab, var(--zc) 72%, var(--scene-ink)); }
-.nz-head { border-block-end-color: color-mix(in oklab, var(--zc) 30%, transparent); }
+/* The zone total takes SCENE INK, not the zone hue. A 72% mix of --zc measured
+   1.75:1 at 58px in dark; the hue keeps the card edge, which is where the
+   reader already reads it. See the note further down this file. */
+.nz-zone .nz-head { border-block-end-color: color-mix(in oklab, var(--zc) 30%, transparent); }
 
 .nz-head {
   display: grid;
@@ -1708,3 +1710,21 @@ html .nx-app .nx-canvas:has(> .nh) {
   --elev-2: 0 1px 0 0 rgba(237, 233, 255, .07), 0 6px 18px -8px rgba(0, 0, 0, .6);
   --elev-3: 0 1px 0 0 rgba(237, 233, 255, .08), 0 14px 30px -12px rgba(0, 0, 0, .7);
 }
+
+/* THE ZONE COUNT IS A NUMBER, NOT A MODULE MARKER.
+   --------------------------------------------------------------------------
+   .nz-count paints the 58px zone totals (37 / 19 / 49) in the module hue. On
+   the shared scene that measured 2.47:1 in dark on the old cream ground and
+   1.75:1 on the sand one — a pre-existing failure that the warmer ground made
+   more visible rather than caused.
+
+   The fix is the form rule this product already follows everywhere else:
+   module colour is a surface tint, a ring, a line, an edge or a marker, and is
+   never the value itself. The hue stays on .nz-zone's edge, which is where the
+   reader is already reading it; the number takes scene ink and becomes legible.
+   Applied to every scene, not just the shared one. The first cut scoped it to
+   `shared` on the reasoning that a module scene's hue IS its subject — but the
+   module scenes fail it too (1.94:1 on the mint field in dark), and a 58px
+   number nobody can read is not carrying identity anywhere. The hue keeps the
+   card edge on every scene; only the value changes. */
+.nz-count { color: var(--scene-ink); }
