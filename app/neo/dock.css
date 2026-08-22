@@ -209,3 +209,94 @@ html[data-theme="dark"] .nxk-scrim { background: color-mix(in srgb, var(--backgr
 /* The dock is fixed, so the canvas has to reserve its height or the last line
    of every page sits underneath it. */
 .nx-app .nx-canvas { padding-block-end: calc(var(--sp-8) + var(--nxk-h)); }
+
+/* ============================================================================
+   APPEARANCE CONTROL — יום / אוטומטי / לילה
+   ----------------------------------------------------------------------------
+   The requirement is that the ACTIVE mode is unmistakable without opening
+   anything, which rules out a toggle button and rules out a thin ring. The
+   selected segment gets a filled surface, a lifted shadow and full-strength
+   ink; the other two sit flat with muted ink. Read at a glance, in both themes.
+
+   Home now has deliberate DARK SCENES IN LIGHT MODE, so the page itself is no
+   longer evidence of which theme is on. That is exactly why this control has to
+   state its own answer rather than let the background imply one.
+   ========================================================================== */
+
+.nxk-theme {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--hairline);
+}
+/* Before the stored value is read the control must not claim a mode. */
+.nxk-theme[data-ready="0"] { opacity: .55; }
+
+.nxk-theme-b {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  min-block-size: 30px;
+  padding: 0 .55rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-3);
+  font: inherit;
+  font-size: .76rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+}
+.nxk-theme-b:hover { color: var(--ink-1); }
+.nxk-theme-b .ico { flex: none; }
+
+/* THE SELECTED STATE. Filled, lifted, full-strength — not a border. */
+.nxk-theme-b[data-on="1"] {
+  color: var(--ink-1);
+  background: var(--surface);
+  box-shadow:
+    0 1px 2px -1px rgba(60, 42, 28, .18),
+    inset 0 0 0 1px color-mix(in srgb, var(--brand) 26%, var(--hairline));
+}
+.nxk-theme-b[data-on="1"] .ico { color: var(--brand); }
+html[data-theme="dark"] .nxk-theme-b[data-on="1"] {
+  background: color-mix(in oklab, var(--surface) 82%, #fff 18%);
+  box-shadow:
+    0 1px 0 0 rgba(255, 240, 220, .10),
+    inset 0 0 0 1px color-mix(in srgb, var(--brand) 34%, var(--hairline));
+}
+
+.nxk-theme-b:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 1px;
+}
+
+/* What Auto currently resolves to. Auto that does not say where it landed is
+   only marginally better than no control. */
+.nxk-theme-now {
+  padding-inline: .4rem .1rem;
+  font-size: .68rem;
+  font-weight: 600;
+  color: var(--ink-3);
+}
+
+.nxk-sep {
+  inline-size: 1px;
+  block-size: 20px;
+  margin-inline: .3rem;
+  background: var(--hairline);
+  flex: none;
+}
+
+/* On a phone the labels are the first thing to go — the icons plus the filled
+   state still answer the question, and the row has to fit one thumb's reach. */
+@media (max-width: 560px) {
+  .nxk-theme-t { display: none; }
+  .nxk-theme-now { display: none; }
+  .nxk-theme-b { padding-inline: .5rem; }
+}

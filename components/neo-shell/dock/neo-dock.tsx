@@ -24,6 +24,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Type, Sparkles, X, BookOpen, MessageSquare, Check } from "lucide-react";
+import { ThemeSwitch } from "./theme-switch";
 import {
   contextFromPath, contextLine, NEO_CTX_EVENT,
   type NeoContext, type NeoContextPatch,
@@ -89,6 +90,11 @@ export function NeoDock() {
   return (
     <>
       <div className="nxk" data-open={open ? "1" : "0"}>
+        {/* Appearance sits FIRST and is always expanded. גופן and שאל את NEO
+            open panels; this one has to answer "which mode am I in" from across
+            the room, so it is the one control that shows its state inline. */}
+        <ThemeSwitch />
+        <span className="nxk-sep" aria-hidden="true" />
         <button
           type="button"
           className="nxk-b"
