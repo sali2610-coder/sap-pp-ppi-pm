@@ -1692,7 +1692,23 @@ html .nx-app .nx-canvas:has(> .nh) {
    keeps what workspaces need.
 
    Ink is re-derived, not inherited: #ede9ff on #241a4d measures 12.6:1. */
+/* DAY: soft lavender with deep indigo type. Night keeps the violet field.
+   The deep beat was added to break a run of pale scenes, and it did — but it
+   applied in BOTH themes, so in Day Mode it became one of four dark full
+   viewports. A mid-page beat can be a COLOUR change rather than a darkness
+   change: that is the Partake lesson rather than the ORYZO one. */
 #nh-5[data-scene="pppi-full"] {
+  --scene-ground: #e5e2f7;
+  --scene-raised: #fbfaff;
+  --scene-ink: #1e1a44;
+  --scene-ink-2: #3d3672;
+  --scene-ink-3: #4a4380;   /* #5d5596 measured 4.27:1 at 11px on the lavender */
+  --scene-accent: #4c31c4;
+  --scene-hair: rgba(30, 26, 68, .16);
+}
+
+/* Night keeps every value the beat had, elevation inversion included. */
+html[data-theme="dark"] #nh-5[data-scene="pppi-full"] {
   --scene-ground: #241a4d;
   --scene-raised: #322659;
   --scene-ink: #ede9ff;

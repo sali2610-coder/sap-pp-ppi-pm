@@ -184,20 +184,40 @@ html[data-theme="dark"] .nx-app {
   --scene-hair: var(--g-hair);
 }
 
-/* deep — the held breath. Warm dark in BOTH themes: this scene is the one
-   place the product is allowed to be cinematic, and it must feel the same
-   whichever theme the reader chose, or the moment is only half-designed. */
+/* deep — the opening. TWO ART DIRECTIONS, NOT ONE.
+   ---------------------------------------------------------------------------
+   This scene used to be warm dark in BOTH themes, on the argument that the
+   cinematic moment should feel the same whichever theme the reader chose. Seen
+   on the real page that argument is wrong: in Day Mode it produced a near-black
+   full viewport under light chrome, and with books/ai/pppi doing the same the
+   page read as "Dark Mode with a white navigation bar".
+
+   Day and Night are now two designed versions of the same scene. Light is warm
+   paper with very dark type and CBC red as the one emphasis — dramatic through
+   contrast and scale rather than through darkness. Night keeps the exact values
+   it had.
+   -------------------------------------------------------------------------- */
 [data-scene="deep"] {
+  --scene-ground: #efe7da;
+  --scene-raised: #fffdf9;
+  --scene-ink: #171310;
+  --scene-ink-2: #463e38;
+  --scene-ink-3: #554b41;   /* #665c52 measured 4.09:1 at 12px on the Day ground */
+  --scene-hair: #d8cbba;
+  --scene-accent: var(--brand);
+}
+
+/* Night keeps every value this scene had before it gained a Day palette. */
+html[data-theme="dark"] [data-scene="deep"] {
   --scene-ground: #0f0b08;
   --scene-raised: #1c1610;
   --scene-ink: #f6f1ea;
   --scene-ink-2: #cfc5b8;
-  /* The hero's stat LABELS ("שורות תיעוד", "טבלאות ייחודיות") sit on this
-     tier at 12px and measured 4.23:1 — an AA miss on the first thing anyone
-     reads on the product. Lifted until they clear. */
+  /* The hero's stat LABELS sit on this tier at 12px and measured 4.23:1 —
+     an AA miss on the first thing anyone reads. Lifted until they clear. */
   --scene-ink-3: #b0a496;
   --scene-hair: #3a3027;
-  --scene-accent: #ff6b63;   /* brand lifted for AA on the dark ground (7.0:1) */
+  --scene-accent: #ff6b63;   /* brand lifted for AA on the dark ground */
 }
 
 /* cream — calm. Reading, prose, anything that wants to be paper. */
@@ -355,10 +375,13 @@ html[data-theme="dark"] [data-scene="pppi"] { --scene-ground: color-mix(in oklab
   --scene-hair: rgba(36, 26, 18, .18);
 }
 
-/* ---- DARK WORLDS. Real depth, not a darkened light palette. -------------- */
+/* ---- THE NIGHT WORLDS. Real depth, not a darkened light palette.
+   These inks are for DARK MODE ONLY. Applied unconditionally they painted
+   near-white type onto the Day palettes further down and made both scenes
+   unreadable in Light Mode. -------------------------------------------------- */
 
-[data-scene="books"],
-[data-scene="ai"] {
+html[data-theme="dark"] [data-scene="books"],
+html[data-theme="dark"] [data-scene="ai"] {
   --scene-ink: #f6f4ef;
   --scene-ink-2: #d9d4ca;
   --scene-ink-3: #a8a196;
@@ -455,7 +478,19 @@ html[data-theme="dark"] [data-scene="library"] {
 
 /* Books. Deep burgundy — a bound library, with the shelf's own cobalt, forest,
    ochre and cream carried by the BOOKS rather than by the ground. 13.6:1 */
+/* Books, Day: warm ivory. The covers are the colour on this scene — cobalt,
+   forest, ochre, burgundy — so the GROUND must get out of their way. A dark
+   burgundy field in Light Mode drowned the objects it was meant to present. */
 [data-scene="books"] {
+  --scene-ground: #f5eade;
+  --scene-raised: #fffaf3;
+  --scene-ink: #2b1a12;
+  --scene-ink-2: #58402f;
+  --scene-ink-3: #7d6350;
+  --scene-accent: #8f2140;   /* burgundy as an ACCENT, not as the room */
+  --scene-hair: rgba(43, 26, 18, .16);
+}
+html[data-theme="dark"] [data-scene="books"] {
   --scene-ground: #3a0f1d;
   --scene-raised: #4d1628;
   --scene-ink-2: #edd3c8;
@@ -466,7 +501,20 @@ html[data-theme="dark"] [data-scene="library"] {
 /* NEO AI. Graphite over deep navy, with electric blue and the brand red as the
    only two lights in the room. The coolest, hardest surface in the product.
    16.9:1 */
+/* NEO AI, Day: a cool technical field. Still the hardest, coolest surface in
+   the product — that character now comes from the blue and the graphite type
+   rather than from the absence of light. */
 [data-scene="ai"] {
+  --scene-ground: #e7ecf6;
+  --scene-raised: #fbfcff;
+  --scene-ink: #10131c;
+  --scene-ink-2: #363e4f;
+  --scene-ink-3: #5b6475;
+  --scene-accent: #1d4ed8;
+  --scene-hot: var(--brand);
+  --scene-hair: rgba(16, 19, 28, .14);
+}
+html[data-theme="dark"] [data-scene="ai"] {
   --scene-ground: #0e1016;
   --scene-raised: #171b26;
   --scene-ink-2: #ccd2e0;
